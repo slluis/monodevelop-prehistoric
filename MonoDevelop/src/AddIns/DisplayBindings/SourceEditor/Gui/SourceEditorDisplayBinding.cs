@@ -98,8 +98,7 @@ namespace MonoDevelop.SourceEditor.Gui {
 			TextIter itr = se.Buffer.GetIterAtLine (line);
 			itr.LineOffset = column;
 			
-			se.Buffer.MoveMark (se.Buffer.InsertMark,     itr);
-			se.Buffer.MoveMark (se.Buffer.SelectionBound, itr);
+			se.Buffer.PlaceCursor (itr);
 			
 			se.View.ScrollMarkOnscreen (se.Buffer.InsertMark);
 		}
@@ -126,6 +125,7 @@ namespace MonoDevelop.SourceEditor.Gui {
 		public override void Save (string fileName)
 		{
 			se.Buffer.Save (fileName);
+			ContentName = fileName;
 		}
 		
 		public override void Load (string fileName)

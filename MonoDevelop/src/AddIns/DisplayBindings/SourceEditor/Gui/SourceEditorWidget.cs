@@ -1,5 +1,6 @@
 using Gtk;
 using GtkSharp;
+using Gdk;
 
 using System;
 using System.IO;
@@ -9,18 +10,15 @@ namespace MonoDevelop.SourceEditor.Gui {
 	public class SourceEditor : ScrolledWindow {
 		
 		public readonly SourceEditorBuffer Buffer;
-		public readonly SourceView View;
+		public readonly SourceEditorView View;
 		
 		public SourceEditor ()
 		{
 			Buffer = new SourceEditorBuffer ();
 			
-			View = new SourceView (Buffer);
+			View = new SourceEditorView (Buffer);
 			
-			View.AutoIndent = true;
-			View.SmartHomeEnd = true;
-			View.ShowLineNumbers = true;
-			View.ShowLineMarkers = true;
+
 			Buffer.Highlight = true;
 			
 			View.SetMarkerPixbuf ("SourceEditorBookmark", new Gdk.Pixbuf (drag_icon_xpm));
@@ -32,6 +30,8 @@ namespace MonoDevelop.SourceEditor.Gui {
 			get { return Buffer.Text; }
 			set { Buffer.Text = value; }
 		}
+		
+
 		
 		private static readonly string [] drag_icon_xpm = new string [] {
 			"36 48 9 1",

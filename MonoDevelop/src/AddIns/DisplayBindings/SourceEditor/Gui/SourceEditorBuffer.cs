@@ -15,24 +15,40 @@ using System.IO;
 using System.Runtime.InteropServices;
 	
 namespace MonoDevelop.SourceEditor.Gui {
-	public class SourceEditorBuffer : SourceBuffer, IClipboardHandler {
+	
+	// This gives us a nice way to avoid the try/finally
+	// which is really long.
+	struct NoUndo : IDisposable {
+		SourceEditorBuffer b;
 		
-		// This gives us a nice way to avoid the try/finally
-		// which is really long.
-		struct NoUndo : IDisposable {
-			SourceEditorBuffer b;
-			
-			public NoUndo (SourceEditorBuffer b) {
-				this.b = b;
-				b.BeginNotUndoableAction ();
-			}
-			
-			public void Dispose ()
-			{
-				b.EndNotUndoableAction ();
-			}
+		public NoUndo (SourceEditorBuffer b) {
+			this.b = b;
+			b.BeginNotUndoableAction ();
 		}
-			
+		
+		public void Dispose ()
+		{
+			b.EndNotUndoableAction ();
+		}
+	}
+	
+	// This gives us a nice way to avoid the try/finally
+	// which is really long.
+	struct AtomicUndo : IDisposable {
+		SourceEditorBuffer b;
+		
+		public AtomicUndo (SourceEditorBuffer b) {
+			this.b = b;
+			b.BeginUserAction ();
+		}
+		
+		public void Dispose ()
+		{
+			b.EndUserAction ();
+		}
+	}
+	
+	public class SourceEditorBuffer : SourceBuffer, IClipboardHandler {
 		
 		SourceLanguagesManager slm = new SourceLanguagesManager ();
 		
@@ -325,5 +341,6 @@ namespace MonoDevelop.SourceEditor.Gui {
 				g_slist_free (lst);
 		}
 #endregion
+
 	}
 }
