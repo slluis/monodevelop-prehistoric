@@ -535,8 +535,7 @@ namespace MonoDevelop.Gui.Pads.ProjectBrowser
 			string newrelativename = fileUtilityService.AbsoluteToRelativePath(baseDirectory, newfilename);
 
 			AbstractBrowserNode oldparent = DefaultDotNetNodeBuilder.GetPath(oldrelativename, GetRootProjectNode(node), false);          // TODO : change this for more projects
-			AbstractBrowserNode newparent = DefaultDotNetNodeBuilder.GetPath(newrelativename, GetRootProjectNode(node), alreadyInPlace);
-
+			AbstractBrowserNode newparent = node;
 			AbstractBrowserNode oldnode   = null; // if oldnode is == null the old file doesn't exist in current tree
 
 			if (oldparent != null) {
