@@ -1,7 +1,9 @@
 2004-04-25  John Luke  <jluke@cfl.rr.com>
 	
 	* Gui/Dialogs/WordCountDialog.cs: use ShadowType.in
-	* Gui/Pads/ClassScout.cs: implement redraw so its updated
+	* Gui/Pads/ClassScout/ClassScout.cs:
+	* Gui/Pads/ProjectBrowser/ProjectBrowserView.cs:
+	implement PopupMenu to show ContextMenus
 
 2004-04-25  Pawel Rozanski  <tokugawa@afn.no-ip.org>
 	

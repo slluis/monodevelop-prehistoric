@@ -19,9 +19,7 @@ using System.Text;
 
 using MonoDevelop.Core.AddIns;
 using MonoDevelop.Core.Properties;
-
 using MonoDevelop.Internal.Project;
-
 using MonoDevelop.Core.Services;
 using MonoDevelop.Services;
 using MonoDevelop.Gui.Widgets;
@@ -122,6 +120,7 @@ namespace MonoDevelop.Gui.Pads
 			ambienceService.AmbienceChanged += new EventHandler(AmbienceChangedEvent);
 
 			RowActivated += new Gtk.RowActivatedHandler(OnNodeActivated);
+			PopupMenu += OnPopupMenu;
 			contentPanel.ButtonReleaseEvent += new Gtk.ButtonReleaseEventHandler(OnButtonRelease);
 		}
 
@@ -134,7 +133,7 @@ namespace MonoDevelop.Gui.Pads
 
 		public void RedrawContent()
 		{
-			this.QueueDraw ();
+			Console.WriteLine ("redraw");
 		}
 
 		void OnCombineOpen(object sender, CombineEventArgs e)
@@ -216,16 +215,25 @@ namespace MonoDevelop.Gui.Pads
 */
 		private void OnButtonRelease(object sender, Gtk.ButtonReleaseEventArgs args)
 		{
-			//if (e.Button == MouseButtons.Right && SelectedNode != null && SelectedNode is AbstractClassScoutNode) {
 			if (args.Event.Button == 3 && SelectedNode != null && SelectedNode is AbstractClassScoutNode) {
-				AbstractClassScoutNode selectedBrowserNode = (AbstractClassScoutNode)SelectedNode;
-				if (selectedBrowserNode.ContextmenuAddinTreePath != null && selectedBrowserNode.ContextmenuAddinTreePath.Length > 0) {
-					MenuService menuService = (MenuService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(MenuService));
-					menuService.ShowContextMenu(this, selectedBrowserNode.ContextmenuAddinTreePath, this);
-				}
+				ShowPopup ();
 			}
+		}
 
-			//base.OnMouseUp(e);
+		void OnPopupMenu (object o, Gtk.PopupMenuArgs args)
+		{
+			if (SelectedNode != null && SelectedNode is AbstractClassScoutNode) {
+				ShowPopup ();
+			}
+		}
+
+		void ShowPopup ()
+		{
+			AbstractClassScoutNode selectedBrowserNode = (AbstractClassScoutNode) SelectedNode;
+			if (selectedBrowserNode.ContextmenuAddinTreePath != null && selectedBrowserNode.ContextmenuAddinTreePath.Length > 0) {
+			MenuService menuService = (MenuService) MonoDevelop.Core.Services.ServiceManager.Services.GetService (typeof (MenuService));
+			menuService.ShowContextMenu(this, selectedBrowserNode.ContextmenuAddinTreePath, this);
+			}
 		}
 
 		protected virtual void OnTitleChanged(EventArgs e)
@@ -387,3 +395,4 @@ namespace MonoDevelop.Gui.Pads
 		}
 	}
 }
+

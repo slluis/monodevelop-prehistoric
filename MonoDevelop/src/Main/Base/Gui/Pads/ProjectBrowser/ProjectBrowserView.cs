@@ -81,6 +81,7 @@ namespace MonoDevelop.Gui.Pads.ProjectBrowser
 			//projectBrowserImageList = new ImageList();
 			//projectBrowserImageList.ColorDepth = ColorDepth.Depth32Bit;
 		}
+
 		public ProjectBrowserView() : base (true, TreeNodeComparer.GtkProjectNode)
 		{
 			//LabelEdit     = true;
@@ -110,6 +111,7 @@ namespace MonoDevelop.Gui.Pads.ProjectBrowser
 			contentPanel.Add(sw);
 			RowActivated += new Gtk.RowActivatedHandler(OnNodeActivated);
 			contentPanel.ButtonReleaseEvent += new Gtk.ButtonReleaseEventHandler(OnButtonRelease);
+			contentPanel.PopupMenu += OnPopupMenu;
 		}
 		
 		void TrackPropertyChange (object o, MonoDevelop.Core.Properties.PropertyEventArgs e)
@@ -336,21 +338,28 @@ namespace MonoDevelop.Gui.Pads.ProjectBrowser
 			return true;
 		}
 */
-		private void OnButtonRelease(object sender, Gtk.ButtonReleaseEventArgs args)
+		void ShowPopup ()
 		{
-			if (args.Event.Button != 3 || SelectedNode == null) {
-				return;
-			}
 			AbstractBrowserNode node = (AbstractBrowserNode) SelectedNode;
-
 			IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
-
 			projectService.CurrentSelectedProject = node.Project;
 			projectService.CurrentSelectedCombine = node.Combine;
-			//PropertyPad.SetDesignableObject(node.UserData);
-			
 			MenuService menuService = (MenuService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(MenuService));
 			menuService.ShowContextMenu(this, node.ContextmenuAddinTreePath, this);
+
+		}
+
+		void OnPopupMenu (object o, Gtk.PopupMenuArgs args)
+		{
+			if (SelectedNode != null)
+				ShowPopup ();
+		}
+
+		private void OnButtonRelease(object sender, Gtk.ButtonReleaseEventArgs args)
+		{
+			if (args.Event.Button == 3 && SelectedNode != null) {
+				ShowPopup ();
+			}
 		}
 /*		
 		protected override void OnAfterSelect(TreeViewEventArgs e)
