@@ -25,6 +25,7 @@ using ICSharpCode.SharpDevelop.Internal.Project;
 using ICSharpCode.Core.Services;
 using ICSharpCode.SharpDevelop.Services;
 using MonoDevelop.Gui.Widgets;
+using Stock = MonoDevelop.Gui.Stock;
 
 namespace ICSharpCode.SharpDevelop.Gui.Pads
 {
@@ -59,7 +60,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads
 	{
 		//Panel contentPanel = new Panel();
 		Gtk.Frame contentPanel;
-		int imageIndexOffset = -1;
+
 		ResourceService resourceService = (ResourceService)ServiceManager.Services.GetService(typeof(IResourceService));
 		ParseInformationEventHandler addParseInformationHandler = null;
 		ParseInformationEventHandler removeParseInformationHandler = null;
@@ -103,22 +104,9 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads
 			addParseInformationHandler = new ParseInformationEventHandler(OnParseInformationAdded);
 			removeParseInformationHandler = new ParseInformationEventHandler(OnParseInformationRemoved);
 			
-			ClassBrowserIconsService classBrowserIconService = (ClassBrowserIconsService)ServiceManager.Services.GetService(typeof(ClassBrowserIconsService));
-
-			this.ImageList  = classBrowserIconService.ImageList;
-
-			imageIndexOffset                      = ImageList.Count;
 			FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.Services.GetService(typeof(FileUtilityService));
-			IconService iconService = (IconService)ServiceManager.Services.GetService(typeof(IconService));
-			foreach (Gdk.Pixbuf img in iconService.ImageList) {
-				ImageList.Add(img);
-			}
 
 			LabelEdit     = false;
-			//HotTracking   = false;
-			//AllowDrop     = true;
-			//HideSelection = false;
-			//Dock          = DockStyle.Fill;
 
 			IProjectService projectService = (IProjectService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
 
@@ -313,7 +301,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads
 			ClassBrowserIconsService classBrowserIconService = (ClassBrowserIconsService)ServiceManager.Services.GetService(typeof(ClassBrowserIconsService));
 			TreeNode combineNode = new TreeNode(combine.Name);
 			//combineNode.SelectedImageIndex = combineNode.ImageIndex = classBrowserIconService.CombineIndex;
-			combineNode.Image = classBrowserIconService.ImageList[classBrowserIconService.CombineIndex];
+			combineNode.Image = Stock.CombineIcon;
 			
 			foreach (CombineEntry entry in combine.Entries) {
 				if (entry is ProjectCombineEntry) {
@@ -332,7 +320,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads
 			bool builderFound = false;
 			foreach (IClassScoutNodeBuilder classBrowserNodeBuilder in classBrowserNodeBuilders) {
 				if (classBrowserNodeBuilder.CanBuildClassTree(p)) {
-					TreeNode prjNode = classBrowserNodeBuilder.BuildClassTreeNode(p, imageIndexOffset);
+					TreeNode prjNode = classBrowserNodeBuilder.BuildClassTreeNode(p);
 					nodes.Add(prjNode);
 					prjNode.Tag = p;
 					builderFound = true;

@@ -98,18 +98,6 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads.ProjectBrowser
 			
 		}
 #endregion
-
-		/// <summary>
-		/// This property gets/sets the current image of this tree node.
-		/// </summary>
-		public Gdk.Pixbuf IconImage {
-			get {
-				return Image;
-			}
-			set {
-				Image = value;
-			}
-		}
 				
 		/// <summary>
 		/// Generates a Drag & Drop data object. If this property returns null

@@ -23,7 +23,7 @@ namespace MonoDevelop.SourceEditor.CodeCompletion {
 		static IParserService           parserService           = (IParserService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(IParserService));
 		static AmbienceService          ambienceService = (AmbienceService)ServiceManager.Services.GetService(typeof(AmbienceService));
 		
-		int      imageIndex;
+		string   image;
 		int      overloads;
 		string   text;
 		string   description;
@@ -50,12 +50,12 @@ namespace MonoDevelop.SourceEditor.CodeCompletion {
 			}
 		}
 		
-		public int ImageIndex {
+		public string Image {
 			get {
-				return imageIndex;
+				return image;
 			}
 			set {
-				imageIndex = value;
+				image = value;
 			}
 		}
 		
@@ -143,19 +143,19 @@ namespace MonoDevelop.SourceEditor.CodeCompletion {
 			}
 		}
 		
-		public CodeCompletionData(string s, int imageIndex)
+		public CodeCompletionData(string s, string image)
 		{
 			description = pango_description = documentation = String.Empty;
 			text = s;
 			completionString = s;
-			this.imageIndex = imageIndex;
+			this.image = image;
 		}
 		
 		public CodeCompletionData(IClass c)
 		{
 			// save class (for the delegate description shortcut
 			this.c = c;
-			imageIndex = classBrowserIconService.GetIcon(c);
+			image = classBrowserIconService.GetIcon(c);
 			text = c.Name;
 			completionString = c.Name;
 			description = ambienceService.CurrentAmbience.Convert(c);
@@ -165,7 +165,7 @@ namespace MonoDevelop.SourceEditor.CodeCompletion {
 		
 		public CodeCompletionData(IMethod method)
 		{
-			imageIndex  = classBrowserIconService.GetIcon(method);
+			image  = classBrowserIconService.GetIcon(method);
 			text        = method.Name;
 			description = ambienceService.CurrentAmbience.Convert(method);
 			pango_description  = PangoAmbience.Convert (method);
@@ -175,7 +175,7 @@ namespace MonoDevelop.SourceEditor.CodeCompletion {
 		
 		public CodeCompletionData(IField field)
 		{
-			imageIndex  = classBrowserIconService.GetIcon(field);
+			image  = classBrowserIconService.GetIcon(field);
 			text        = field.Name;
 			description = ambienceService.CurrentAmbience.Convert(field);
 			pango_description  = PangoAmbience.Convert (field);
@@ -185,7 +185,7 @@ namespace MonoDevelop.SourceEditor.CodeCompletion {
 		
 		public CodeCompletionData(IProperty property)
 		{
-			imageIndex  = classBrowserIconService.GetIcon(property);
+			image  = classBrowserIconService.GetIcon(property);
 			text        = property.Name;
 			description = ambienceService.CurrentAmbience.Convert(property);
 			pango_description  = PangoAmbience.Convert (property);
@@ -195,7 +195,7 @@ namespace MonoDevelop.SourceEditor.CodeCompletion {
 		
 		public CodeCompletionData(IEvent e)
 		{
-			imageIndex  = classBrowserIconService.GetIcon(e);
+			image  = classBrowserIconService.GetIcon(e);
 			text        = e.Name;
 			description = ambienceService.CurrentAmbience.Convert(e);
 			pango_description  = PangoAmbience.Convert (e);

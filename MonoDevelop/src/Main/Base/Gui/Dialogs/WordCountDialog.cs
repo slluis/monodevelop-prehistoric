@@ -319,8 +319,8 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 			store.AppendValues ("", "", "", "");
 			resultListView.Model = store;
 			
-			IconService iconService = (IconService)ICSharpCode.Core.Services.ServiceManager.Services.GetService (typeof(IconService));
-			this.Icon  = iconService.GetIcon ("Icons.16x16.FindIcon");
+			ResourceService resourceService = (ResourceService) ServiceManager.Services.GetService(typeof(IResourceService));
+			this.Icon = resourceService.GetIcon ("Icons.16x16.FindIcon");
 			this.TransientFor = (Window) WorkbenchSingleton.Workbench;
 			
 			HBox hbox = new HBox (false, 0);

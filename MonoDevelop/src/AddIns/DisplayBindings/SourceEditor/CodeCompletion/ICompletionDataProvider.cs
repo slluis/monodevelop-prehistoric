@@ -16,10 +16,6 @@ using MonoDevelop.SourceEditor.Gui;
 
 namespace MonoDevelop.SourceEditor.CodeCompletion {
 	public interface ICompletionDataProvider {
-		Pixbuf[] ImageList {
-			get;
-		}
-		
 		ICompletionData[] GenerateCompletionData(string fileName, SourceEditorView textArea, char charTyped);
 	}
 }

@@ -31,7 +31,6 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs {
 	public class NewProjectDialog {
 		ArrayList alltemplates = new ArrayList();
 		ArrayList categories   = new ArrayList();
-		Hashtable icons        = new Hashtable();
 		
 		IconView TemplateView;
 		FolderEntry entry_location;
@@ -55,7 +54,6 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs {
 		FileUtilityService  fileUtilityService = (FileUtilityService)ServiceManager.Services.GetService(typeof(FileUtilityService));
 		StringParserService stringParserService = (StringParserService)ServiceManager.Services.GetService(typeof(StringParserService));
 		PropertyService     propertyService = (PropertyService)ServiceManager.Services.GetService(typeof(PropertyService));
-		IconService         iconService = (IconService)ServiceManager.Services.GetService(typeof(IconService));
 		MessageService      messageService = (MessageService)ServiceManager.Services.GetService(typeof(MessageService));
 		bool openCombine;
 		
@@ -78,35 +76,6 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs {
 		
 		void InitializeView()
 		{
-			PixbufList imglist = new PixbufList();
-			
-			imglist.Add(resourceService.GetBitmap("Icons.32x32.EmptyProjectIcon"));
-			
-			// load the icons and set their index from the image list in the hashtable
-			int i = 0;
-			Hashtable tmp = new Hashtable(icons);
-			
-			foreach (DictionaryEntry entry in icons) {
-				Gdk.Pixbuf bitmap = iconService.GetBitmap(entry.Key.ToString());
-				if (bitmap != null) {
-					imglist.Add(bitmap);
-					tmp[entry.Key] = ++i;
-				} else {
-					Console.WriteLine("can't load bitmap " + entry.Key.ToString() + " using default");
-				}
-			}
-		
-			// set the correct imageindex for all templates
-			icons = tmp;
-			foreach (TemplateItem item in alltemplates) {
-				if (item.Template.Icon == null) {
-				//	item.ImageIndex = 0;
-				} else {
-				//	item.ImageIndex = (int)icons[item.Template.Icon];
-				}
-			}
-			
-			
 			InsertCategories (TreeIter.Zero, categories);
 			/*for (int j = 0; j < categories.Count; ++j) {
 				if (((Category)categories[j]).Name == propertyService.GetProperty("Dialogs.NewProjectDialog.LastSelectedCategory", "C#")) {
@@ -145,8 +114,6 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs {
 		{
 			foreach (ProjectTemplate template in ProjectTemplate.ProjectTemplates) {
 				TemplateItem titem = new TemplateItem(template);
-				if (titem.Template.Icon != null)
-					icons[titem.Template.Icon] = 0; // "create template icon"
 				Category cat = GetCategory(titem.Template.Category);
 				cat.Templates.Add(titem);
 				//if (cat.Templates.Count == 1)
@@ -162,8 +129,9 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs {
 			if (lst_template_types.Selection.GetSelected (out mdl, out iter)) {
 				TemplateView.Clear ();
 				foreach (TemplateItem item in ((Category)catStore.GetValue (iter, 1)).Templates) {
-					TemplateView.AddIcon (new Gtk.Image (iconService.GetBitmap (item.Template.Icon)), item.Name, item.Template);
+					TemplateView.AddIcon (new Gtk.Image (item.Template.Icon, Gtk.IconSize.Button), item.Name, item.Template);
 				}
+				
 				btn_new.Sensitive = false;
 			}
 		}

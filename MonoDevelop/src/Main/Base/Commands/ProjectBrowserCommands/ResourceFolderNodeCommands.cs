@@ -28,6 +28,7 @@ using ICSharpCode.SharpDevelop.Gui.Dialogs;
 using ICSharpCode.SharpDevelop.Gui.Pads.ProjectBrowser;
 
 using Gtk;
+using Stock = MonoDevelop.Gui.Stock;
 
 namespace ICSharpCode.SharpDevelop.Commands.ProjectBrowser
 {
@@ -70,8 +71,8 @@ namespace ICSharpCode.SharpDevelop.Commands.ProjectBrowser
 					ProjectFile fileInformation = projectService.AddFileToProject(project, fileName, BuildAction.EmbedAsResource);
 					
 					AbstractBrowserNode newResNode = new FileNode(fileInformation);
-					newResNode.IconImage = resourceService.GetBitmap ("Icons.16x16.ResourceFileIcon");
-					node.Nodes.Add(newResNode);
+					newResNode.Image = Stock.ResourceFileIcon;
+					node.Nodes.Add (newResNode);
 				}
 				node.Expand();
 				projectService.SaveCombine();

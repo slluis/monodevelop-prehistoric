@@ -16,7 +16,7 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 {
 	public interface ICompletionData
 	{
-		int ImageIndex {
+		string Image {
 			get;
 		}
 		

@@ -18,6 +18,7 @@ using ICSharpCode.SharpDevelop.Services;
 
 using SharpDevelop.Internal.Parser;
 using MonoDevelop.SourceEditor.Gui;
+using Stock = MonoDevelop.Gui.Stock;
 
 namespace MonoDevelop.SourceEditor.CodeCompletion {
 	/// <summary>
@@ -52,13 +53,6 @@ namespace MonoDevelop.SourceEditor.CodeCompletion {
 			new string[] {"value", "A description of a property"}
 		};
 		
-		public Gdk.Pixbuf[] ImageList {
-			get {
-				PixbufList list = classBrowserIconService.ImageList;
-				return (Gdk.Pixbuf[])list.ToArray (typeof (Gdk.Pixbuf));
-			}
-		}
-		
 		/// <remarks>
 		/// Returns true, if the given coordinates (row, column) are in the region.
 		/// </remarks>
@@ -89,9 +83,9 @@ namespace MonoDevelop.SourceEditor.CodeCompletion {
 			string text;
 			string description;
 			
-			public int ImageIndex {
+			public string Image {
 				get {
-					return classBrowserIconService.MethodIndex;
+					return Stock.Method;
 				}
 			}
 			

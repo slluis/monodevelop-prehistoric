@@ -7,24 +7,26 @@ namespace MonoDevelop.Gui.Widgets {
 		internal TreeNode parent = null;
 		private TreeNodeCollection nodes;
 		private string text;
-		private Gdk.Pixbuf image, opened_image, closed_image;
+		private string image, opened_image, closed_image;
 		private object tag;
 		
 		internal Gtk.TreeRowReference row;
 		
-		public TreeNode() {
+		public TreeNode ()
+		{
 			nodes = new TreeNodeCollection();
 			nodes.TreeNodeCollectionChanged += new TreeNodeCollectionChangedHandler(OnNodesChanged);
 			nodes.NodeInserted += new NodeInsertedHandler(OnNodeInserted);
 			nodes.NodeRemoved += new NodeRemovedHandler(OnNodeRemoved);		
 		}
 				
-		public TreeNode(string text, Gdk.Pixbuf image): this() {
+		public TreeNode(string text, string image) : this()
+		{
 			this.text = text;
 			this.image = image;
 		}
 		
-		public TreeNode(string text): this(text, null) {}
+		public TreeNode (string text): this (text, null) {}
 		
 		public string Text {
 			get {
@@ -36,7 +38,7 @@ namespace MonoDevelop.Gui.Widgets {
 			}
 		}
 		
-		public Gdk.Pixbuf Image {
+		public string Image {
 			get {
 				if (image == null)
 					return closed_image;
@@ -48,9 +50,9 @@ namespace MonoDevelop.Gui.Widgets {
 			}
 		}
 		
-		public Gdk.Pixbuf OpenedImage {
+		public string OpenedImage {
 			get {
-				return opened_image != null ? opened_image : image;
+				return opened_image;
 			}
 			set {
 				opened_image = value;
@@ -58,9 +60,9 @@ namespace MonoDevelop.Gui.Widgets {
 			}
 		}
 		
-		public Gdk.Pixbuf ClosedImage {
+		public string ClosedImage {
 			get {
-				return closed_image != null ? closed_image : image;
+				return closed_image;
 			}
 			set {
 				closed_image = value;
@@ -94,8 +96,8 @@ namespace MonoDevelop.Gui.Widgets {
 			
 			TreeView.Model.SetValue (TreeIter, 0, text);
 			if (image != null)        TreeView.Model.SetValue (TreeIter, 1, image);
-			if (opened_image != null) TreeView.Model.SetValue (TreeIter, 3, opened_image);
-			if (closed_image != null) TreeView.Model.SetValue (TreeIter, 4, closed_image);
+			if (opened_image != null) TreeView.Model.SetValue (TreeIter, 3, TreeView.RenderIcon (opened_image));
+			if (closed_image != null) TreeView.Model.SetValue (TreeIter, 4, TreeView.RenderIcon (closed_image));
 		}
 		
 		public TreeNodeCollection Nodes {
@@ -128,38 +130,45 @@ namespace MonoDevelop.Gui.Widgets {
 			}
 		}
 		
-		public void Expand() {
+		public void Expand ()
+		{
 			if (TreeView != null)
 				TreeView.ExpandToPath (TreePath);
 		}
 		
-		public void EnsureVisible() {
-			Expand(); // TODO
+		public void EnsureVisible ()
+		{
+			Expand (); // TODO
 		}
 		
-		public void Remove() {
+		public void Remove ()
+		{
 			if (parent != null)
 				parent.Nodes.Remove(this);
 		}
 
-		internal void SetTreeView(TreeView t) {
+		internal void SetTreeView (TreeView t)
+		{
 			this.treeView = t;
 		}
 		
-		private void OnNodeInserted(TreeNode node) {
+		private void OnNodeInserted (TreeNode node)
+		{
 			node.parent = this;
 			if (TreeView != null)
-				TreeView.AddNode(this, node);
+				TreeView.AddNode (this, node);
 		}
 
-		private void OnNodeRemoved(TreeNode node) {
+		private void OnNodeRemoved(TreeNode node)
+		{
 			if (TreeView != null) 
 				TreeView.RemoveNode(node);
 			
 			node.parent = null;
 		}
 		
-		private void OnNodesChanged() {
+		private void OnNodesChanged ()
+		{
 			if (TreeView != null)
 				TreeView.OnTreeChanged();
 		}
@@ -197,6 +206,7 @@ namespace MonoDevelop.Gui.Widgets {
 		{
 			Nodes.Sort ();
 		}
+		
 		public void Sort (IComparer c)
 		{
 			Nodes.Sort (c);

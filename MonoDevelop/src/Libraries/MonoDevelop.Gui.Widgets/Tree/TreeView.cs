@@ -25,7 +25,7 @@ namespace MonoDevelop.Gui.Widgets {
 			3 -- Expanded Icon
 			4 -- Unexpanded Icon
 			*/
-			store = new Gtk.TreeStore (typeof (string), typeof (Gdk.Pixbuf), typeof (TreeNode), typeof (Gdk.Pixbuf), typeof (Gdk.Pixbuf));
+			store = new Gtk.TreeStore (typeof (string), typeof (string), typeof (TreeNode), typeof (Gdk.Pixbuf), typeof (Gdk.Pixbuf));
 			this.Model = store;
 			this.canEdit = canEdit;
 
@@ -37,7 +37,9 @@ namespace MonoDevelop.Gui.Widgets {
 
 			Gtk.CellRendererPixbuf pix_render = new Gtk.CellRendererPixbuf ();
 			complete_column.PackStart (pix_render, false);
-			complete_column.AddAttribute (pix_render, "pixbuf", 1);
+			complete_column.AddAttribute (pix_render, "stock_id", 1);
+			pix_render.StockSize = Gtk.IconSize.Button;
+			// Sadly, gtk+ does not have support for stock being here :-(
 			complete_column.AddAttribute (pix_render, "pixbuf-expander-open", 3);
 			complete_column.AddAttribute (pix_render, "pixbuf-expander-closed", 4);
 			
@@ -159,8 +161,8 @@ namespace MonoDevelop.Gui.Widgets {
 			
 			if (new_child.Text != null)        store.SetValue (it, 0, new_child.Text);
 			if (new_child.Image != null)       store.SetValue (it, 1, new_child.Image);
-			if (new_child.OpenedImage != null) store.SetValue (it, 3, new_child.OpenedImage);
-			if (new_child.ClosedImage != null) store.SetValue (it, 4, new_child.ClosedImage);
+			if (new_child.OpenedImage != null) store.SetValue (it, 3, RenderIcon (new_child.OpenedImage));
+			if (new_child.ClosedImage != null) store.SetValue (it, 4, RenderIcon (new_child.ClosedImage));
 			
 			new_child.row = new Gtk.TreeRowReference (store, store.GetPath (it));
 			
@@ -184,8 +186,8 @@ namespace MonoDevelop.Gui.Widgets {
 			
 			if (new_child.Text != null)        store.SetValue (it, 0, new_child.Text);
 			if (new_child.Image != null)       store.SetValue (it, 1, new_child.Image);
-			if (new_child.OpenedImage != null) store.SetValue (it, 3, new_child.OpenedImage);
-			if (new_child.ClosedImage != null) store.SetValue (it, 4, new_child.ClosedImage);
+			if (new_child.OpenedImage != null) store.SetValue (it, 3, RenderIcon (new_child.OpenedImage));
+			if (new_child.ClosedImage != null) store.SetValue (it, 4, RenderIcon (new_child.ClosedImage));
 			
 			new_child.row = new Gtk.TreeRowReference (store, store.GetPath (it));
 			
@@ -226,7 +228,7 @@ namespace MonoDevelop.Gui.Widgets {
 
 			
 			Gtk.TreeIter i = Append (node);
-			AddNodesRecursively(store, i, node);
+			AddNodesRecursively (store, i, node);
 		}
 
 		private void OnNodeRemoved (TreeNode node)
@@ -242,7 +244,7 @@ namespace MonoDevelop.Gui.Widgets {
 		
 		private TreeNode GetNodeByIter (Gtk.TreeIter iter)
 		{
-			TreeNode ret = (TreeNode)store.GetValue(iter, 2);
+			TreeNode ret = (TreeNode) store.GetValue(iter, 2);
 			return ret;
 		}
 		
@@ -258,6 +260,11 @@ namespace MonoDevelop.Gui.Widgets {
 		protected virtual void OnBeforeExpand (TreeViewCancelEventArgs e)
 		{
 			// Nothing
+		}
+		
+		internal Gdk.Pixbuf RenderIcon (string stock_id)
+		{
+			return RenderIcon (stock_id, Gtk.IconSize.Button, "");
 		}
 	}
 	

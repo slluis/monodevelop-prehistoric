@@ -65,7 +65,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads.ProjectBrowser
 		protected virtual void SetNodeIcon()
 		{
 			IconService iconService = (IconService)ServiceManager.Services.GetService(typeof(IconService));
-			IconImage = iconService.GetImageForFile(((ProjectFile)userData).Name);
+			Image = iconService.GetImageForFile(((ProjectFile)userData).Name);
 		}
 		
 		protected virtual void SetNodeLabel()

@@ -18,6 +18,7 @@ using ICSharpCode.Core.Services;
 using ICSharpCode.SharpDevelop.Services;
 using ICSharpCode.SharpDevelop.Internal.Project;
 using ICSharpCode.SharpDevelop.Gui.Components;
+using Stock = MonoDevelop.Gui.Stock;
 
 namespace ICSharpCode.SharpDevelop.Gui.Pads.ProjectBrowser
 {
@@ -49,9 +50,9 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads.ProjectBrowser
 			this.folderName = folderName;
 			canLabelEdited  = true;
 			contextmenuAddinTreePath = defaultContextMenuPath;
-			ResourceService resourceService = (ResourceService)ServiceManager.Services.GetService(typeof(IResourceService));
-			OpenedImage = resourceService.GetBitmap("Icons.16x16.OpenFolderBitmap");
-			ClosedImage = resourceService.GetBitmap("Icons.16x16.ClosedFolderBitmap");
+			
+			OpenedImage = Stock.OpenFolderBitmap;
+			ClosedImage = Stock.ClosedFolderBitmap;
 		}
 		
 /*

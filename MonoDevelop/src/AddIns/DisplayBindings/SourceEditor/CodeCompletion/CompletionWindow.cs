@@ -144,7 +144,7 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 			SkipTaskbarHint = true;
 			TypeHint = Gdk.WindowTypeHint.Dialog;
 			
-			store = new Gtk.TreeStore (typeof (string), typeof (Gdk.Pixbuf), typeof(ICompletionData));
+			store = new Gtk.TreeStore (typeof (string), typeof (string), typeof(ICompletionData));
 			listView = new Gtk.TreeView (store);
 
 			listView.HeadersVisible = false;
@@ -153,8 +153,9 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 			complete_column.Title = "completion";
 
 			Gtk.CellRendererPixbuf pix_render = new Gtk.CellRendererPixbuf ();
+			pix_render.StockSize = Gtk.IconSize.Button;
 			complete_column.PackStart (pix_render, false);
-			complete_column.AddAttribute (pix_render, "pixbuf", 1);
+			complete_column.AddAttribute (pix_render, "stock-id", 1);
 			
 			Gtk.CellRendererText text_render = new Gtk.CellRendererText ();
 			complete_column.PackStart (text_render, true);
@@ -169,8 +170,7 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 			Gtk.Frame frame = new Gtk.Frame ();
 			frame.Add (scroller);
 			this.Add(frame);
-
-			imgList = completionDataProvider.ImageList;
+			
 			listView.KeyPressEvent += new KeyPressEventHandler(ListKeypressEvent);
 			listView.KeyReleaseEvent += new KeyReleaseEventHandler(ListKeyreleaseEvent);
 			listView.FocusOutEvent += new FocusOutEventHandler(LostFocusListView);
@@ -265,7 +265,7 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 			}
 
 			foreach (ICompletionData data in completionData) {
-				store.AppendValues (data.Text[0], imgList[data.ImageIndex], data);
+				store.AppendValues (data.Text[0], data.Image, data);
 			}
 			// sort here
 			store.SetSortColumnId (0, SortType.Ascending);

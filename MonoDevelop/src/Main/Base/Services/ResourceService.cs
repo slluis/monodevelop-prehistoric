@@ -364,7 +364,14 @@ namespace ICSharpCode.Core.Services
 
 		public static string GetStockId (string filename)
 		{
-			return (string) stockMappings [filename];
+			string s = (string) stockMappings [filename];
+			
+			if (s != null)
+				return s;
+			
+			Console.WriteLine ("WARNING Could not find stock {0}", filename);
+			
+			return filename;
 		}
 	}
 }

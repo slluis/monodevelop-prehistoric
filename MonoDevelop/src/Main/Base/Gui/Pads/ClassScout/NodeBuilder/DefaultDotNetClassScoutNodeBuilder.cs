@@ -22,11 +22,12 @@ using ICSharpCode.Core.Services;
 using ICSharpCode.SharpDevelop.Services;
 using MonoDevelop.Gui.Widgets;
 
+using Stock = MonoDevelop.Gui.Stock;
+
 namespace ICSharpCode.SharpDevelop.Gui.Pads
 {
 	public class DefaultDotNetClassScoutNodeBuilder : IClassScoutNodeBuilder
 	{
-		int imageIndexOffset;
 		IAmbience languageConversion;
 
 		public DefaultDotNetClassScoutNodeBuilder()
@@ -74,23 +75,21 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads
 		
 		public void UpdateClassTree(TreeNode projectNode)
 		{
-			TreeNode newNode = BuildClassTreeNode((IProject)projectNode.Tag, imageIndexOffset);
+			TreeNode newNode = BuildClassTreeNode((IProject)projectNode.Tag);
 			projectNode.Nodes.Clear();
 			foreach (TreeNode node in newNode.Nodes)
 				projectNode.Nodes.Add(node);
 		}
 
-		public TreeNode BuildClassTreeNode(IProject p, int imageIndexOffset)
+		public TreeNode BuildClassTreeNode(IProject p)
 		{
 			Type fus = typeof (FileUtilityService);
 			FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.Services.GetService(fus);
 			Type iconserv = typeof (IconService);
 			IconService iconService = (IconService)ServiceManager.Services.GetService(iconserv);
-			this.imageIndexOffset = imageIndexOffset;
 			GetCurrentAmbience();
 
 			TreeNode prjNode = new AbstractClassScoutNode(p.Name);
-			//prjNode.SelectedImageIndex = prjNode.ImageIndex = imageIndexOffset + iconService.GetImageIndexForProjectType(p.ProjectType);
 			prjNode.Image = iconService.GetImageForProjectType(p.ProjectType);
  			foreach (ProjectFile finfo in p.ProjectFiles) {
 				if (finfo.BuildAction == BuildAction.Compile) {
@@ -151,8 +150,8 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads
 			ClassBrowserIconsService classBrowserIconService = (ClassBrowserIconsService)ServiceManager.Services.GetService(typeof(ClassBrowserIconsService));
 
 			AbstractClassScoutNode classNode = new AbstractClassScoutNode(c.Name);
-			//classNode.SelectedImageIndex = classNode.ImageIndex = classBrowserIconService.GetIcon(c);
-			classNode.Image = classBrowserIconService.ImageList[classBrowserIconService.GetIcon(c)];
+			
+			classNode.Image = classBrowserIconService.GetIcon (c);
 			classNode.ContextmenuAddinTreePath = "/SharpDevelop/Views/ClassScout/ContextMenu/ClassNode";
 			classNode.Tag = new ClassScoutTag(c.Region.BeginLine, filename);
 
@@ -166,7 +165,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads
 					TreeNode innerClassNode = new AbstractClassScoutNode(languageConversion.Convert(innerClass));
 					innerClassNode.Tag = new ClassScoutTag(innerClass.Region.BeginLine, filename);
 					//innerClassNode.SelectedImageIndex = innerClassNode.ImageIndex = classBrowserIconService.GetIcon(innerClass);
-					innerClassNode.Image = classBrowserIconService.ImageList[classBrowserIconService.GetIcon(innerClass)];
+					innerClassNode.Image = classBrowserIconService.GetIcon(innerClass);
 					classNode.Nodes.Add(innerClassNode);
 				} else {
 					TreeNode n = BuildClassNode(filename, innerClass);
@@ -180,7 +179,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads
 				TreeNode methodNode = new AbstractClassScoutNode(languageConversion.Convert(method));
 				methodNode.Tag = new ClassScoutTag(method.Region.BeginLine, filename);
 				//methodNode.SelectedImageIndex = methodNode.ImageIndex = classBrowserIconService.GetIcon(method);
-				methodNode.Image = classBrowserIconService.ImageList[classBrowserIconService.GetIcon(method)];
+				methodNode.Image = classBrowserIconService.GetIcon(method);
 				classNode.Nodes.Add(methodNode);
 			}
 			
@@ -188,7 +187,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads
 				TreeNode propertyNode = new AbstractClassScoutNode(languageConversion.Convert(property));
 				propertyNode.Tag = new ClassScoutTag(property.Region.BeginLine, filename);
 				//propertyNode.SelectedImageIndex = propertyNode.ImageIndex = classBrowserIconService.GetIcon(property);
-				propertyNode.Image = classBrowserIconService.ImageList[classBrowserIconService.GetIcon(property)];
+				propertyNode.Image = classBrowserIconService.GetIcon(property);
 				classNode.Nodes.Add(propertyNode);
 			}
 			
@@ -196,7 +195,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads
 				TreeNode fieldNode = new AbstractClassScoutNode(languageConversion.Convert(field));
 				fieldNode.Tag = new ClassScoutTag(field.Region.BeginLine, filename);
 				//fieldNode.SelectedImageIndex = fieldNode.ImageIndex = classBrowserIconService.GetIcon(field);
-				fieldNode.Image = classBrowserIconService.ImageList[classBrowserIconService.GetIcon(field)];
+				fieldNode.Image = classBrowserIconService.GetIcon(field);
 				classNode.Nodes.Add(fieldNode);
 			}
 			
@@ -204,7 +203,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads
 				TreeNode eventNode = new AbstractClassScoutNode(languageConversion.Convert(e));
 				eventNode.Tag = new ClassScoutTag(e.Region.BeginLine, filename);
 				//eventNode.SelectedImageIndex = eventNode.ImageIndex = classBrowserIconService.GetIcon(e);
-				eventNode.Image = classBrowserIconService.ImageList[classBrowserIconService.GetIcon(e)];
+				eventNode.Image = classBrowserIconService.GetIcon(e);
 				classNode.Nodes.Add(eventNode);
 			}
 			
@@ -228,7 +227,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads
 					if (create) {
 						TreeNode newnode = new AbstractClassScoutNode(path);
 						//newnode.ImageIndex = newnode.SelectedImageIndex = classBrowserIconService.NamespaceIndex;
-						newnode.Image = classBrowserIconService.ImageList[classBrowserIconService.NamespaceIndex];
+						newnode.Image = Stock.NameSpace;
 
 						curcollection.Add (newnode);
 						curnode = newnode;

@@ -20,344 +20,144 @@ using ICSharpCode.Core.AddIns;
 using ICSharpCode.Core.Properties;
 
 using ICSharpCode.Core.Services;
+using Stock = MonoDevelop.Gui.Stock;
 
-namespace ICSharpCode.SharpDevelop.Services
-{
-	public class ClassBrowserIconsService : AbstractService
-	{
-		const int namespaceIndex = 3;
-		const int combineIndex   = 46;
-		const int literalIndex   = 47;
-		
-		const int classIndex     = 14;
-		const int structIndex    = classIndex + 1 * 4;
-		const int interfaceIndex = classIndex + 2 * 4;
-		const int enumIndex      = classIndex + 3 * 4;
-		const int methodIndex    = classIndex + 4 * 4;
-		const int propertyIndex  = classIndex + 5 * 4;
-		const int fieldIndex     = classIndex + 6 * 4;
-		const int delegateIndex  = classIndex + 7 * 4;
-		const int eventIndex     = classIndex + 8 * 4 + 2;
-		
-		const int internalModifierOffset  = 1;
-		const int protectedModifierOffset = 2;
-		const int privateModifierOffset   = 3;
-		
-		ResourceService resourceService = (ResourceService)ServiceManager.Services.GetService(typeof(IResourceService));
-		
-		PixbufList imglist = null;
-		
-		public PixbufList ImageList {
-			get {
-				if (imglist == null) {
-					LoadImageList();
-				}
-				return imglist;
-			}
-		}
-		
-		public int CombineIndex {
-			get {
-				return combineIndex;
-			}
-		}
-		
-		public int NamespaceIndex {
-			get {
-				return namespaceIndex;
-			}
-		}
-		
-		public int LiteralIndex {
-			get {
-				return literalIndex;
-			}
-		}
-		
-		public int ClassIndex {
-			get {
-				return classIndex;
-			}
-		}
+namespace ICSharpCode.SharpDevelop.Services {
+	public class ClassBrowserIconsService : AbstractService	{
 
-		public int StructIndex {
-			get {
-				return structIndex;
-			}
-		}
-
-		public int InterfaceIndex {
-			get {
-				return interfaceIndex;
-			}
-		}
-
-		public int EnumIndex {
-			get {
-				return enumIndex;
-			}
-		}
-
-		public int MethodIndex {
-			get {
-				return methodIndex;
-			}
-		}
-		
-		public int PropertyIndex {
-			get {
-				return propertyIndex;
-			}
-		}
-
-		public int FieldIndex {
-			get {
-				return fieldIndex;
-			}
-		}
-
-		public int DelegateIndex {
-			get {
-				return delegateIndex;
-			}
-		}
-
-		public int EventIndex {
-			get {
-				return eventIndex;
-			}
-		}
-
-		public int InternalModifierOffset {
-			get {
-				return internalModifierOffset;
-			}
-		}
-
-		public int ProtectedModifierOffset {
-			get {
-				return protectedModifierOffset;
-			}
-		}
-
-		public int PrivateModifierOffset {
-			get {
-				return privateModifierOffset;
-			}
-		}
-		
-		int GetModifierOffset(ModifierEnum modifier)
+		string GetWithModifiers (ModifierEnum modifier, string mod_public, string mod_protected, string mod_internal, string mod_private)
 		{
-			if ((modifier & ModifierEnum.Public) == ModifierEnum.Public) {
-				return 0;
-			}
-			if ((modifier & ModifierEnum.Protected) == ModifierEnum.Protected) {
-				return protectedModifierOffset;
-			}
-			if ((modifier & ModifierEnum.Internal) == ModifierEnum.Internal) {
-				return internalModifierOffset;
-			}
-			return privateModifierOffset;
+			if ((modifier & ModifierEnum.Public) == ModifierEnum.Public)
+				return mod_public;
+			
+			if ((modifier & ModifierEnum.Protected) == ModifierEnum.Protected)
+				return mod_protected;
+
+			if ((modifier & ModifierEnum.Internal) == ModifierEnum.Internal)
+				return mod_internal;
+			
+			return mod_private;
 		}
 		
-		public int GetIcon(IMethod method)
+		public string GetIcon (IMethod method)
 		{
-			return methodIndex + GetModifierOffset(method.Modifiers);
+			return GetWithModifiers (method.Modifiers, Stock.Method, Stock.ProtectedMethod, Stock.InternalMethod, Stock.PrivateMethod);
 		}
 		
-		public int GetIcon(IProperty method)
+		public string GetIcon (IProperty method)
 		{
-			return propertyIndex + GetModifierOffset(method.Modifiers);
+			return GetWithModifiers (method.Modifiers, Stock.Property, Stock.ProtectedProperty, Stock.InternalProperty, Stock.PrivateProperty);
 		}
 		
-		public int GetIcon(IField field)
+		public string GetIcon (IField field)
 		{
-			if (field.IsLiteral) {
-				return literalIndex;
-			}
-			return fieldIndex + GetModifierOffset(field.Modifiers);
+			if (field.IsLiteral)
+				return Stock.Literal;
+			
+			return GetWithModifiers (field.Modifiers, Stock.Field, Stock.ProtectedField, Stock.InternalField, Stock.PrivateField);
 		}
 		
-		public int GetIcon(IEvent evt)
+		public string GetIcon (IEvent evt)
 		{
-			return eventIndex + GetModifierOffset(evt.Modifiers);
+			return GetWithModifiers (evt.Modifiers, Stock.Event, Stock.ProtectedEvent, Stock.InternalEvent, Stock.PrivateEvent);
 		}
 		
-		public int GetIcon(IClass c)
+		public string GetIcon (IClass c)
 		{
-			int imageIndex = classIndex;
 			switch (c.ClassType) {
-				case ClassType.Delegate:
-					imageIndex = delegateIndex;
-					break;
-				case ClassType.Enum:
-					imageIndex = enumIndex;
-					break;
-				case ClassType.Struct:
-					imageIndex = structIndex;
-					break;
-				case ClassType.Interface:
-					imageIndex = interfaceIndex;
-					break;
+			case ClassType.Delegate:
+				return GetWithModifiers (c.Modifiers, Stock.Delegate, Stock.ProtectedDelegate, Stock.InternalDelegate, Stock.PrivateDelegate);
+			case ClassType.Enum:
+				return GetWithModifiers (c.Modifiers, Stock.Enum, Stock.ProtectedEnum, Stock.InternalEnum, Stock.PrivateEnum);
+			case ClassType.Struct:
+				return GetWithModifiers (c.Modifiers, Stock.Struct, Stock.ProtectedStruct, Stock.InternalStruct, Stock.PrivateStruct);
+			case ClassType.Interface:
+				return GetWithModifiers (c.Modifiers, Stock.Interface, Stock.ProtectedInterface, Stock.InternalInterface, Stock.PrivateInterface);
+			default:
+				return GetWithModifiers (c.Modifiers, Stock.Class, Stock.ProtectedClass, Stock.InternalClass, Stock.PrivateClass);
 			}
-			return imageIndex + GetModifierOffset(c.Modifiers);
 		}
 		
-		
-		public int GetIcon(MethodBase methodinfo)
+		string GetWithModifiers (MethodBase mb, string mod_public, string mod_protected, string mod_internal, string mod_private)
 		{
-			if (methodinfo.IsAssembly) {
-				return methodIndex + internalModifierOffset;
-			}
-			if (methodinfo.IsPrivate) {
-				return methodIndex + privateModifierOffset; 
-			}
-			if (!(methodinfo.IsPrivate || methodinfo.IsPublic)) { 
-				return methodIndex + protectedModifierOffset;
-			}
+			if (mb.IsAssembly)
+				return mod_internal;
 			
-			return methodIndex;
+			if (mb.IsPrivate)
+				return mod_private;
+			
+			if (!(mb.IsPrivate || mb.IsPublic))
+				return mod_protected;
+			
+			return mod_public;
 		}
 		
-		public int GetIcon(PropertyInfo propertyinfo)
+		public string GetIcon (MethodBase m)
 		{
-			if (propertyinfo.CanRead && propertyinfo.GetGetMethod(true) != null) {
-				return propertyIndex + GetIcon(propertyinfo.GetGetMethod(true)) - methodIndex;
-			}
-			if (propertyinfo.CanWrite && propertyinfo.GetSetMethod(true) != null) {
-				return propertyIndex + GetIcon(propertyinfo.GetSetMethod(true)) - methodIndex;
-			}
-			return propertyIndex;
+			return GetWithModifiers (m, Stock.Method, Stock.ProtectedMethod, Stock.InternalMethod, Stock.PrivateMethod);
 		}
 		
-		public int GetIcon(FieldInfo fieldinfo)
+		public string GetIcon (PropertyInfo propertyinfo)
 		{
-			if (fieldinfo.IsLiteral) {
-				return 13;
-			}
+			MethodBase m;
+			if ((propertyinfo.CanRead  && (m = propertyinfo.GetGetMethod (true)) != null) || 
+			    (propertyinfo.CanWrite && (m = propertyinfo.GetSetMethod (true)) != null))
+				return GetWithModifiers (m, Stock.Property, Stock.ProtectedProperty, Stock.InternalProperty, Stock.PrivateProperty);
 			
-			if (fieldinfo.IsAssembly) {
-				return fieldIndex + internalModifierOffset;
-			}
+			return Stock.Property;
+		}
+		
+		public string GetIcon (FieldInfo fieldinfo)
+		{
+			if (fieldinfo.IsLiteral)
+				return Stock.Literal;
 			
-			if (fieldinfo.IsPrivate) {
-				return fieldIndex + privateModifierOffset;
-			}
+			if (fieldinfo.IsAssembly)
+				return Stock.InternalField;
 			
-			if (!(fieldinfo.IsPrivate || fieldinfo.IsPublic)) {
-				return fieldIndex + protectedModifierOffset;
-			}
+			if (fieldinfo.IsPrivate)
+				return Stock.PrivateField;
 			
-			return fieldIndex;
+			if (!(fieldinfo.IsPrivate || fieldinfo.IsPublic))
+				return Stock.ProtectedField;
+			
+			return Stock.Field;
 		}
 				
-		public int GetIcon(EventInfo eventinfo)
+		public string GetIcon(EventInfo eventinfo)
 		{
-			if (eventinfo.GetAddMethod(true) != null) {
-				return eventIndex + GetIcon(eventinfo.GetAddMethod(true)) - methodIndex;
-			}
-			return eventIndex;
+			if (eventinfo.GetAddMethod (true) != null)
+				return GetWithModifiers (eventinfo.GetAddMethod (true), Stock.Event, Stock.ProtectedEvent, Stock.InternalEvent, Stock.PrivateEvent);
+			
+			return Stock.Event;
 		}
 		
-		public int GetIcon(System.Type type)
+		public string GetIcon(System.Type type)
 		{
-			int BASE = classIndex;
+			ModifierEnum mod;
 			
-			if (type.IsValueType) {
-				BASE = structIndex;
-			}
-			if (type.IsEnum) {
-				BASE = enumIndex;
-			}
-			if (type.IsInterface) {
-				BASE = interfaceIndex;
-			}
-			if (type.IsSubclassOf(typeof(System.Delegate))) {
-				BASE = delegateIndex;
-			}
+			if (type.IsNestedPrivate)
+				mod = ModifierEnum.Private;
+			else if (type.IsNotPublic || type.IsNestedAssembly)
+				mod = ModifierEnum.Internal;
+			else if (type.IsNestedFamily)
+				mod = ModifierEnum.Protected;
+			else
+				mod = ModifierEnum.Public;
 			
-			if (type.IsNestedPrivate) {
-				return BASE + 3;
-			} 
+			if (type.IsValueType)
+				return GetWithModifiers (mod, Stock.Struct, Stock.ProtectedStruct, Stock.InternalStruct, Stock.PrivateStruct);
 			
-			if (type.IsNotPublic || type.IsNestedAssembly) {
-				return BASE + 1;
-			} 
+			if (type.IsEnum)
+				return GetWithModifiers (mod, Stock.Enum, Stock.ProtectedEnum, Stock.InternalEnum, Stock.PrivateEnum);
 			
-			if (type.IsNestedFamily) {
-				return BASE + 2;
-			}
-			return BASE;
-		}
-		
-		void LoadImageList()
-		{
-			imglist = new PixbufList();
-			imglist.Add(resourceService.GetBitmap("Icons.16x16.Assembly"));
-			imglist.Add(resourceService.GetBitmap("Icons.16x16.OpenAssembly"));
+			if (type.IsInterface)
+				return GetWithModifiers (mod, Stock.Interface, Stock.ProtectedInterface, Stock.InternalInterface, Stock.PrivateInterface);
 			
-			imglist.Add(resourceService.GetBitmap("Icons.16x16.Library"));
-			imglist.Add(resourceService.GetBitmap("Icons.16x16.NameSpace"));
-			imglist.Add(resourceService.GetBitmap("Icons.16x16.SubTypes"));
-			imglist.Add(resourceService.GetBitmap("Icons.16x16.SuperTypes"));
+			if (type.IsSubclassOf (typeof (System.Delegate)))
+				return GetWithModifiers (mod, Stock.Delegate, Stock.ProtectedDelegate, Stock.InternalDelegate, Stock.PrivateDelegate);
 			
-			imglist.Add(resourceService.GetBitmap("Icons.16x16.ClosedFolderBitmap"));
-			imglist.Add(resourceService.GetBitmap("Icons.16x16.OpenFolderBitmap"));
-			
-			imglist.Add(resourceService.GetBitmap("Icons.16x16.Reference"));
-			imglist.Add(resourceService.GetBitmap("Icons.16x16.ClosedReferenceFolder"));
-			imglist.Add(resourceService.GetBitmap("Icons.16x16.OpenReferenceFolder"));
-			
-			imglist.Add(resourceService.GetBitmap("Icons.16x16.ResourceFileIcon"));
-			imglist.Add(resourceService.GetBitmap("Icons.16x16.Event"));
-			imglist.Add(resourceService.GetBitmap("Icons.16x16.Literal"));
-			
-			imglist.Add(resourceService.GetBitmap("Icons.16x16.Class")); //14
-			imglist.Add(resourceService.GetBitmap("Icons.16x16.InternalClass"));
-			imglist.Add(resourceService.GetBitmap("Icons.16x16.ProtectedClass"));
-			imglist.Add(resourceService.GetBitmap("Icons.16x16.PrivateClass"));
-			
-			imglist.Add(resourceService.GetBitmap("Icons.16x16.Struct")); 
-			imglist.Add(resourceService.GetBitmap("Icons.16x16.InternalStruct"));
-			imglist.Add(resourceService.GetBitmap("Icons.16x16.ProtectedStruct"));
-			imglist.Add(resourceService.GetBitmap("Icons.16x16.PrivateStruct"));
-			
-			imglist.Add(resourceService.GetBitmap("Icons.16x16.Interface")); 
-			imglist.Add(resourceService.GetBitmap("Icons.16x16.InternalInterface"));
-			imglist.Add(resourceService.GetBitmap("Icons.16x16.ProtectedInterface"));
-			imglist.Add(resourceService.GetBitmap("Icons.16x16.PrivateInterface"));
-			
-			imglist.Add(resourceService.GetBitmap("Icons.16x16.Enum"));   
-			imglist.Add(resourceService.GetBitmap("Icons.16x16.InternalEnum"));
-			imglist.Add(resourceService.GetBitmap("Icons.16x16.ProtectedEnum"));
-			imglist.Add(resourceService.GetBitmap("Icons.16x16.PrivateEnum"));
-			
-			imglist.Add(resourceService.GetBitmap("Icons.16x16.Method"));
-			imglist.Add(resourceService.GetBitmap("Icons.16x16.InternalMethod"));
-			imglist.Add(resourceService.GetBitmap("Icons.16x16.ProtectedMethod"));
-			imglist.Add(resourceService.GetBitmap("Icons.16x16.PrivateMethod"));
-			
-			imglist.Add(resourceService.GetBitmap("Icons.16x16.Property"));
-			imglist.Add(resourceService.GetBitmap("Icons.16x16.InternalProperty"));
-			imglist.Add(resourceService.GetBitmap("Icons.16x16.ProtectedProperty"));
-			imglist.Add(resourceService.GetBitmap("Icons.16x16.PrivateProperty"));
-			
-			imglist.Add(resourceService.GetBitmap("Icons.16x16.Field"));
-			imglist.Add(resourceService.GetBitmap("Icons.16x16.InternalField"));
-			imglist.Add(resourceService.GetBitmap("Icons.16x16.ProtectedField"));
-			imglist.Add(resourceService.GetBitmap("Icons.16x16.PrivateField"));
-			imglist.Add(resourceService.GetBitmap("Icons.16x16.Delegate"));
-			imglist.Add(resourceService.GetBitmap("Icons.16x16.InternalDelegate"));
-			imglist.Add(resourceService.GetBitmap("Icons.16x16.ProtectedDelegate"));
-			imglist.Add(resourceService.GetBitmap("Icons.16x16.PrivateDelegate"));
-			
-			imglist.Add(resourceService.GetBitmap("Icons.16x16.CombineIcon")); // 46
-			imglist.Add(resourceService.GetBitmap("Icons.16x16.Literal")); // 47
-			
-			imglist.Add(resourceService.GetBitmap("Icons.16x16.Event"));
-			imglist.Add(resourceService.GetBitmap("Icons.16x16.InternalEvent"));
-			imglist.Add(resourceService.GetBitmap("Icons.16x16.ProtectedEvent"));
-			imglist.Add(resourceService.GetBitmap("Icons.16x16.PrivateEvent"));
+			return GetWithModifiers (mod, Stock.Class, Stock.ProtectedClass, Stock.InternalClass, Stock.PrivateClass);
 		}
 	}
 }

@@ -21,6 +21,7 @@ using ICSharpCode.SharpDevelop.Services;
 using SharpDevelop.Internal.Parser;
 
 using MonoDevelop.SourceEditor.Gui;
+using Stock = MonoDevelop.Gui.Stock;
 
 namespace MonoDevelop.SourceEditor.CodeCompletion
 {
@@ -34,13 +35,6 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 		Hashtable insertedElements           = new Hashtable();
 		Hashtable insertedPropertiesElements = new Hashtable();
 		Hashtable insertedEventElements      = new Hashtable();
-		
-		public Gdk.Pixbuf[] ImageList {
-			get {
-				PixbufList list = classBrowserIconService.ImageList;
-				return (Gdk.Pixbuf[])list.ToArray (typeof(Gdk.Pixbuf));
-			}
-		}
 		
 		int caretLineNumber;
 		int caretColumn;
@@ -117,7 +111,7 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 				
 				if (results.Namespaces != null && results.Namespaces.Count > 0) {
 					foreach (string s in results.Namespaces) {
-						completionData.Add(new CodeCompletionData(s, classBrowserIconService.NamespaceIndex));
+						completionData.Add(new CodeCompletionData(s, Stock.NameSpace));
 					}
 				}
 				if (results.Members != null && results.Members.Count > 0) {

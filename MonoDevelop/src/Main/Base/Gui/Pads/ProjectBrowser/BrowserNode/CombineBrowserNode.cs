@@ -17,6 +17,7 @@ using ICSharpCode.Core.Properties;
 using ICSharpCode.Core.Services;
 using ICSharpCode.SharpDevelop.Internal.Project;
 using ICSharpCode.SharpDevelop.Gui.Components;
+using Stock = MonoDevelop.Gui.Stock;
 
 namespace ICSharpCode.SharpDevelop.Gui.Pads.ProjectBrowser
 {
@@ -40,7 +41,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads.ProjectBrowser
 			UserData     = combine;
 			this.combine = combine;
 			UpdateNaming();
-			IconImage    = resourceService.GetBitmap("Icons.16x16.CombineIcon");
+			Image = Stock.CombineIcon;
 			
 			contextmenuAddinTreePath = defaultContextMenuPath;
 			combine.NameChanged += new EventHandler(UpdateCombineName);

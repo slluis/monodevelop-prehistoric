@@ -20,6 +20,7 @@ using ICSharpCode.Core.Properties;
 using ICSharpCode.Core.Services;
 using ICSharpCode.SharpDevelop.Internal.Project;
 using MonoDevelop.Gui.Widgets;
+using Stock = MonoDevelop.Gui.Stock;
 
 namespace ICSharpCode.SharpDevelop.Gui.Pads.ProjectBrowser
 {
@@ -51,19 +52,19 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads.ProjectBrowser
 			IconService iconService = (IconService)ServiceManager.Services.GetService(typeof(IconService));
 			ProjectBrowserNode projectNode = new ProjectBrowserNode(project);
 
-			projectNode.IconImage = iconService.GetImageForProjectType(project.ProjectType);
+			projectNode.Image = iconService.GetImageForProjectType (project.ProjectType);
 
 			FolderNode resourceNode = new NamedFolderNode("ProjectComponent.ResourceFilesString", 0);
 			resourceNode.ContextmenuAddinTreePath = "/SharpDevelop/Views/ProjectBrowser/ContextMenu/ResourceFolderNode";
-			resourceNode.OpenedImage = resourceService.GetBitmap("Icons.16x16.OpenResourceFolder");
-			resourceNode.ClosedImage = resourceService.GetBitmap("Icons.16x16.ClosedResourceFolder");
-			projectNode.Nodes.Add(resourceNode);
+			resourceNode.OpenedImage = Stock.OpenResourceFolder;
+			resourceNode.ClosedImage = Stock.ClosedResourceFolder;
+			projectNode.Nodes.Add (resourceNode);
 
 			FolderNode referenceNode = new NamedFolderNode("ProjectComponent.ReferencesString", 1);
 			referenceNode.ContextmenuAddinTreePath = "/SharpDevelop/Views/ProjectBrowser/ContextMenu/ReferenceFolderNode";
-			referenceNode.OpenedImage = resourceService.GetBitmap("Icons.16x16.OpenReferenceFolder");
-			referenceNode.ClosedImage = resourceService.GetBitmap("Icons.16x16.ClosedReferenceFolder");
-			projectNode.Nodes.Add(referenceNode);
+			referenceNode.OpenedImage = Stock.OpenReferenceFolder;
+			referenceNode.ClosedImage = Stock.ClosedReferenceFolder;
+			projectNode.Nodes.Add (referenceNode);
 
 			// build a hash of projectFile items
 			System.Collections.Hashtable fileHash = new Hashtable();
@@ -240,7 +241,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads.ProjectBrowser
 
 						default:
 							AbstractBrowserNode currentPathNode1;
-							currentPathNode1 = GetPath(relativeFile, parentNode, true);
+							currentPathNode1 = GetPath (relativeFile, parentNode, true);
 
 							AbstractBrowserNode newNode = new FileNode(projectFile);
 							newNode.ContextmenuAddinTreePath = FileNode.ProjectFileContextMenuPath;
@@ -253,7 +254,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads.ProjectBrowser
 				case Subtype.Directory:
 					{
 						// add a directory
-						string directoryName   = relativeFile;
+						string directoryName = relativeFile;
 
 						// if directoryname starts with ./ oder .\ //
 						if (directoryName.StartsWith(".")) {
@@ -268,17 +269,18 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads.ProjectBrowser
 						if(currentPathNode == null) {
 							currentPathNode = parentNode;
 							DirectoryNode newFolderNode  = new DirectoryNode(projectFile.Name);
-							if(IsWebReference(currentPathNode)) {
-								newFolderNode.OpenedImage = resourceService.GetBitmap("Icons.16x16.OpenWebReferenceFolder");
-								newFolderNode.ClosedImage = resourceService.GetBitmap("Icons.16x16.ClosedWebReferenceFolder");
-							} else {
-								newFolderNode.OpenedImage = resourceService.GetBitmap("Icons.16x16.OpenFolderBitmap");
-								newFolderNode.ClosedImage = resourceService.GetBitmap("Icons.16x16.ClosedFolderBitmap");
-							}
+							//if(IsWebReference(currentPathNode)) {
+							//	newFolderNode.OpenedImage = Stock.OpenWebReferenceFolder;
+							//	newFolderNode.ClosedImage = Stock.ClosedWebReferenceFolder;
+							//} else {
+								newFolderNode.OpenedImage = Stock.OpenFolderBitmap;
+								newFolderNode.ClosedImage = Stock.ClosedFolderBitmap;
+							//}
 							currentPathNode.Nodes.Add(newFolderNode);
 						}
 					}
 					break;
+#if NOT_DONE
 				case Subtype.WebReferences:
 					{
 						// add a web directory
@@ -289,13 +291,14 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads.ProjectBrowser
 						}
 
 						DirectoryNode newFolderNode  = new DirectoryNode(projectFile.Name);
-						newFolderNode.OpenedImage = resourceService.GetBitmap("Icons.16x16.OpenWebReferenceFolder");
-						newFolderNode.ClosedImage = resourceService.GetBitmap("Icons.16x16.ClosedWebReferenceFolder");
-
+						newFolderNode.OpenedImage = Stock.OpenWebReferenceFolder;
+						newFolderNode.ClosedImage = Stock.ClosedWebReferenceFolder;
+						
 						string parentDirectory = Path.GetFileName(directoryName);
 						projectNode.Nodes.Add (newFolderNode);
 					}
 					break;
+
 				case Subtype.WebForm:
 					{
 						// add the source file with the cool icon
@@ -304,7 +307,8 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads.ProjectBrowser
 						currentPathNode1 = GetPath(relativeFile, parentNode, true);
 
 						AbstractBrowserNode newNode = new FileNode(projectFile);
-						newNode.IconImage = resourceService.GetBitmap("Icons.16x16.WebForm");
+						// Dont have this
+						//newNode.IconImage = Stock.WebForm;
 						newNode.ContextmenuAddinTreePath = FileNode.ProjectFileContextMenuPath;
 						//parentNode.Nodes.Add(newNode);
 						
@@ -313,7 +317,6 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads.ProjectBrowser
 					}
 
 					break;
-
 				case Subtype.WinForm:
 					{
 						// add the source file with the cool icon
@@ -321,8 +324,8 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads.ProjectBrowser
 						AbstractBrowserNode currentPathNode1;
 						currentPathNode1 = GetPath(relativeFile, parentNode, true);
 
-						AbstractBrowserNode newNode = new FileNode(projectFile);
-						newNode.IconImage = resourceService.GetBitmap("Icons.16x16.WinForm");
+						AbstractBrowserNode newNode = new FileNode (projectFile);
+						newNode.IconImage = Stock.WinForm;
 						newNode.ContextmenuAddinTreePath = FileNode.ProjectFileContextMenuPath;
 						//parentNode.Nodes.Add(newNode);
 						
@@ -339,12 +342,14 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads.ProjectBrowser
 				case Subtype.WebService:
 					// not supported yet
 					break;
+#endif
 				default:
+					Console.WriteLine ("UNHANDLED TYPE {0}, DefaultDotNetNodeBuilder.cs", projectFile.Subtype);
 					// unknown file type
 					break;
 			}
-			if(projectNode.TreeView != null)
-				projectNode.TreeView.EndUpdate();
+			if (projectNode.TreeView != null)
+				projectNode.TreeView.EndUpdate ();
 		}
 
 		public static AbstractBrowserNode GetProjectNode(AbstractBrowserNode childNode) {
@@ -444,11 +449,11 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads.ProjectBrowser
 						throw new NotImplementedException("reference type : " + referenceInformation.ReferenceType);
 				}
 
-				AbstractBrowserNode newReferenceNode = new ReferenceNode(referenceInformation);
-				ResourceService resourceService = (ResourceService)ServiceManager.Services.GetService(typeof(IResourceService));
-				newReferenceNode.IconImage = resourceService.GetBitmap("Icons.16x16.Reference");
+				AbstractBrowserNode newReferenceNode = new ReferenceNode (referenceInformation);
+				
+				newReferenceNode.Image = Stock.Reference;
 
-				parentNode.Nodes.Add(newReferenceNode);
+				parentNode.Nodes.Add (newReferenceNode);
 			}
 		}
 		

@@ -14,6 +14,7 @@ using ICSharpCode.Core.Properties;
 using ICSharpCode.SharpDevelop.Internal.Templates;
 
 using MonoDevelop.SourceEditor.Gui;
+using Stock = MonoDevelop.Gui.Stock;
 
 namespace MonoDevelop.SourceEditor.CodeCompletion {
 	public class TemplateCompletionDataProvider : ICompletionDataProvider {
@@ -41,9 +42,9 @@ namespace MonoDevelop.SourceEditor.CodeCompletion {
 		{
 			CodeTemplate template;
 			
-			public int ImageIndex {
+			public string Image {
 				get {
-					return 0;
+					return Stock.Method;
 				}
 			}
 			

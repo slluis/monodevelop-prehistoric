@@ -22,7 +22,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads
 	public interface IClassScoutNodeBuilder
 	{
 		bool     CanBuildClassTree(IProject project);
-		TreeNode BuildClassTreeNode(IProject project, int fileUtilityImageListOffset);
+		TreeNode BuildClassTreeNode(IProject project);
 
 		void     AddToClassTree(TreeNode projectNode, ParseInformationEventArgs e);
 		void     RemoveFromClassTree(TreeNode parentNode, ParseInformationEventArgs e);
