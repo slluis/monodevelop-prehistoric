@@ -82,7 +82,7 @@ print
 
 using System;
 using System.Collections;
-using RS = ICSharpCode.Core.Services.ResourceService;
+using RS = MonoDevelop.Core.Services.ResourceService;
 
 namespace MonoDevelop.Gui {
 	public class Stock {
