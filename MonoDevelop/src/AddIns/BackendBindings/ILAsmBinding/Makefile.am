@@ -26,7 +26,7 @@ assembly_DATA = $(ASSEMBLY)
 all: $(ASSEMBLY)
 
 $(ASSEMBLY): $(build_sources)
-	$(CSC) $(FILES) $(DLLS) /out:$(ASSEMBLY) /target:library \
+	$(CSC) $(build_sources) $(DLLS) /out:$(ASSEMBLY) /target:library \
 	&& cp $(ASSEMBLY) ../../../../build/AddIns/AddIns/BackendBindings/.
 
 CLEANFILES = $(ASSEMBLY)
