@@ -222,7 +222,7 @@
         
         <Extension path = "/SharpDevelop/Views/ProjectBrowser/ContextMenu/ProjectBrowserNode">
                 <MenuItem id = "BuildProject"
-                          _label = "Buil&d Project" 
+                          _label = "Buil_d Project" 
 		          icon  = "Icons.16x16.BuildCurrentSelectedProject"
                           class = "MonoDevelop.Commands.BuildCurrentProject"/>
                 <MenuItem id = "RebuildProject"
