@@ -12,6 +12,7 @@ using MonoDevelop.Internal.Parser;
 
 using System;
 using System.IO;
+using System.Collections;
 using System.Runtime.InteropServices;
 	
 namespace MonoDevelop.SourceEditor.Gui
@@ -101,8 +102,8 @@ namespace MonoDevelop.SourceEditor.Gui
 			complete_end = CreateMark (null, StartIter, true);
 			//ps.ParseInformationChanged += new ParseInformationEventHandler (parseChanged);
 		}
-			int[] point = new int [2];
-			
+
+			ArrayList points = new ArrayList ();
 		public void parseChanged (object o, ParseInformationEventArgs e)
 		{
 			if (view != null) {
@@ -113,10 +114,12 @@ namespace MonoDevelop.SourceEditor.Gui
 							string[] pieces = error.Split (' ');
 							if (pieces.Length == 1) continue;
 							Console.WriteLine ("line: {0} col: {1}", pieces[2], pieces[4]);
+							int[] point = new int[2];
 							point[0] = Convert.ToInt32 (pieces[2]) - 1;
 							point[1] = Convert.ToInt32 (pieces[4]);
-							GLib.Idle.Add (new GLib.IdleHandler (addMarkup));
+							points.Add (point);
 						}
+						GLib.Idle.Add (new GLib.IdleHandler (addMarkup));
 					}
 					else {
 						//Clear errors
@@ -127,18 +130,17 @@ namespace MonoDevelop.SourceEditor.Gui
 
 		bool addMarkup ()
 		{
-			if (point[0] == 0 && point[1] == 0)
-				return false;
-
-			Console.WriteLine ("line: {0} col: {1}", point[0], point[1]);
-			TextIter start = GetIterAtLine (point[0]);
-			start.LineOffset = point[1];
-			Console.WriteLine (start.Char);
-			TextIter end = start;
-			end.ForwardToLineEnd ();
-			ApplyTag (compilation_error, start, end);
-			point[0] = 0;
-			point[1] = 0;
+			foreach (int[] point in points) {
+				Console.WriteLine ("line: {0} col: {1}", point[0], point[1]);
+				TextIter start = GetIterAtLine (point[0]);
+				Console.WriteLine (start.Line);
+				//start.LineOffset = point[1] - 1;
+				Console.WriteLine (start.Line);
+				TextIter end = start;
+				end.ForwardToLineEnd ();
+				ApplyTag (compilation_error, start, end);
+			}
+			points.Clear ();
 			return false;
 		}		
 		
