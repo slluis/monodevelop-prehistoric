@@ -171,8 +171,8 @@ namespace Gdl
 				mayDock = true;
 
 				/* these are for calculating the extra docking parameter */
-				Requisition other = DockItem.PreferredSize ((DockItem)request.Applicant);
-				Requisition my = DockItem.PreferredSize (this);
+				Requisition other = ((DockItem)request.Applicant).PreferredSize;
+				Requisition my = PreferredSize;
 				
 				/* Set docking indicator rectangle to the Dock size. */
 				request.X = alloc.X + bw;

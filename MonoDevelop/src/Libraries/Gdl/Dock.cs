@@ -13,8 +13,8 @@ namespace Gdl
 		private bool floating;
 		private Widget window;
 		private bool autoTitle;
-		private int float_x;
-		private int float_y;
+		private int floatX;
+		private int floatY;
 		private int width = -1;
 		private int height = -1;
 		private Gdk.GC xorGC;
@@ -26,45 +26,62 @@ namespace Gdl
 		{
 		}
 
-		public Dock (Dock original, bool _float) : this (original, _float, 0, 0, -1, -1)
+		public Dock (Dock original, bool floating)
+			: this (original, floating, 0, 0, -1, -1)
 		{
 		}
 
-		public Dock (Dock original, bool _float, int x, int y, int _width, int _height)
+		public Dock (Dock original, bool floating, int x, int y, int width, int height)
 		{
-			float_x = x;
-			float_y = y;
-			width = _width;
-			height = _height;
+			floatX = x;
+			floatY = y;
+			this.width = width;
+			this.height = height;
+			this.floating = floating;
+			
 			SetFlag (WidgetFlags.NoWindow);
-			if (original != null) {
+			if (original != null)
 				Bind (original.Master);
-			}
-			this.floating = _float;
+
+			/* create a master for the dock if none was provided */
 			if (Master == null) {
 				DockObjectFlags &= ~(DockObjectFlags.Automatic);
 				Bind (new DockMaster ());
 			}
+
 			if (floating) {
+				/* create floating window for this dock */
 				window = new Window (WindowType.Toplevel);
-				((Gtk.Window)window).WindowPosition = WindowPosition.Mouse;
-				((Gtk.Window)window).SetDefaultSize (width, height);
-				((Gtk.Window)window).TypeHint = Gdk.WindowTypeHint.Normal;
-				((Gtk.Window)window).Move (float_x, float_y);
-				window.ConfigureEvent += new ConfigureEventHandler (floatingConfigure);
+				Window wnd = window as Window;
+
+				/* set position and default size */
+				wnd.WindowPosition = WindowPosition.Mouse;
+				wnd.SetDefaultSize (width, height);
+				wnd.TypeHint = Gdk.WindowTypeHint.Normal;
+				
+				/* metacity ignores this */
+				wnd.Move (floatX, floatY);
+
+				/* connect to the configure event so we can track down window geometry */
+				wnd.ConfigureEvent += new ConfigureEventHandler (OnFloatingConfigure);
+				
+				/* set the title */
 				SetWindowTitle ();
-				//TODO: connect to long name notify
+
+				/* set transient for the first dock if that is a non-floating dock */
 				DockObject controller = Master.Controller;
 				if (controller != null && controller is Dock) {
 					if (!((Dock)controller).Floating) {
-						if (controller.Toplevel != null && controller.Toplevel is Gtk.Window) {
-							((Gtk.Window)window).TransientFor = (Gtk.Window)controller.Toplevel;
+						if (controller.Toplevel != null && controller.Toplevel is Window) {
+							wnd.TransientFor = (Window)controller.Toplevel;
 						}
 					}
 				}
-				((Gtk.Window)window).Add (this);
-				((Gtk.Window)window).DeleteEvent += new DeleteEventHandler (floatingDelete);
+				
+				wnd.Add (this);
+				wnd.DeleteEvent += new DeleteEventHandler (OnFloatingDelete);
 			}
+
 			DockObjectFlags |= DockObjectFlags.Attached;
 		}
 		
@@ -79,10 +96,10 @@ namespace Gdl
 		
 		public int FloatX {
 			get {
-				return float_x;
+				return floatX;
 			}
 			set {
-				float_x = value;
+				floatX = value;
 				if (floating && window != null && window is Window)
 					((Window)window).Resize (width, height);
 			}
@@ -90,10 +107,10 @@ namespace Gdl
 		
 		public int FloatY {
 			get {
-				return float_y;
+				return floatY;
 			}
 			set {
-				float_y = value;
+				floatY = value;
 				if (floating && window != null && window is Window)
 					((Window)window).Resize (width, height);
 			}
@@ -233,7 +250,7 @@ namespace Gdl
 			}
 		}
 
-		/*protected override void OnDestroyed ()
+		protected override void OnDestroyed ()
 		{
 			if (window != null) {
 				window.Destroy ();
@@ -243,7 +260,7 @@ namespace Gdl
 			if (xorGC != null)
 				xorGC = null;
 			base.OnDestroyed ();
-		}*/
+		}
 		
 		protected override void OnAdded (Widget widget)
 		{
@@ -363,8 +380,6 @@ namespace Gdl
 				return;
 
 			if (position == DockPlacement.Floating) {
-				Console.WriteLine ("Adding a floating dockitem");
-				DockItem item = requestor as DockItem;
 				int x = 0, y = 0, width = -1, height = -1;
 				if (data != null && data is Gdk.Rectangle) {
 					Gdk.Rectangle rect = (Gdk.Rectangle)data;
@@ -373,7 +388,8 @@ namespace Gdl
 					width = rect.Width;
 					height = rect.Height;
 				}
-				AddFloatingItem (item, x, y, width, height);
+				
+				AddFloatingItem ((DockItem)requestor, x, y, width, height);
 			} else if (root != null) {
 				/* This is somewhat a special case since we know
 				   which item to pass the request on because we only
@@ -409,8 +425,7 @@ namespace Gdl
 		public override bool OnReorder (DockObject requestor, DockPlacement position, object data)
 		{
 			if (Floating && position == DockPlacement.Floating && root == requestor) {
-				if (window != null && window is Window &&
-				    data != null && data is Gdk.Rectangle) {
+				if (window != null && data != null && data is Gdk.Rectangle) {
 					Gdk.Rectangle rect = (Gdk.Rectangle)data;
 					((Window)window).Move (rect.X, rect.Y);
 					return true;
@@ -451,10 +466,8 @@ namespace Gdl
 		
 		public void AddFloatingItem (DockItem item, int x, int y, int width, int height)
 		{
-			if (this.Master == null) {
-				Console.WriteLine ("something is seriously fucked here");
-			}
-			Gdl.Dock dock = new Dock (this, true, x, y, width, height);
+			Dock dock = new Dock (this, true, x, y, width, height);
+			
 			if (Visible) {
 				dock.Show ();
 				if (IsMapped)
@@ -492,7 +505,7 @@ namespace Gdl
 		public static Dock GetTopLevel (DockObject obj)
 		{
 			DockObject parent = obj;
-			while (parent != null && !(parent is Gdl.Dock))
+			while (parent != null && !(parent is Dock))
 				parent = parent.ParentObject;
 
 			return parent != null ? (Dock)parent : null;
@@ -551,19 +564,23 @@ namespace Gdl
 		}
 
 		[GLib.ConnectBefore]
-		private void floatingConfigure (object o, ConfigureEventArgs e)
+		private void OnFloatingConfigure (object o, ConfigureEventArgs e)
 		{
-			float_x = e.Event.X;
-			float_y = e.Event.Y;
+			floatX = e.Event.X;
+			floatY = e.Event.Y;
 			width = e.Event.Width;
 			height = e.Event.Height;
+
 			e.RetVal = false;
 		}
 
-		private void floatingDelete (object o, DeleteEventArgs e)
+		private void OnFloatingDelete (object o, DeleteEventArgs e)
 		{
 			if (root != null)
+				/* this will call reduce on ourselves, hiding
+				   the window if appropiate */
 				((DockItem)root).HideItem ();
+
 			e.RetVal = true;
 		}
 	}

@@ -204,6 +204,15 @@ namespace Gdl
 			}
 		}
 		
+		public Requisition PreferredSize {
+			get {
+				Requisition req = new Requisition ();
+				req.Width = Math.Max (preferredWidth, Allocation.Width);
+				req.Height = Math.Max (preferredHeight, Allocation.Height);
+				return req;
+			}
+		}
+		
 		public bool Resize {
 			get {
 				return resize;
@@ -575,8 +584,8 @@ namespace Gdl
 				int divider = -1;
 
 				/* these are for calculating the extra docking parameter */
-				Requisition other = DockItem.PreferredSize ((DockItem)request.Applicant);
-				Requisition my = DockItem.PreferredSize (this);
+				Requisition other = ((DockItem)request.Applicant).PreferredSize;
+				Requisition my = PreferredSize;
 				
 				/* Calculate location in terms of the available space (0-100%). */
 				float rx = (float) relX / alloc.Width;
@@ -913,14 +922,6 @@ namespace Gdl
 			}
 		}
 
-		public static Requisition PreferredSize (DockItem item)
-		{
-			Requisition req;
-			req.Width = Math.Max (item.preferredWidth, item.Allocation.Width);
-			req.Height = Math.Max (item.preferredHeight, item.Allocation.Height);
-			return req;
-		}
-		
 		private bool EventInGripWindow (Gdk.Event evnt)
 		{
 			if (grip != null && grip.TitleWindow == evnt.Window)

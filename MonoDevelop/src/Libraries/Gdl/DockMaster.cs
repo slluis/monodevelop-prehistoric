@@ -255,8 +255,6 @@ namespace Gdl
 		
 		private void OnDragBegin (DockItem item)
 		{
-			Console.WriteLine ("DockMaster.OnDragBegin");
-		
 			/* Set the target to itself so it won't go floating with just a click. */
 			request = new DockRequest ();
 			request.Applicant = item;
@@ -360,8 +358,9 @@ namespace Gdl
 				
 				myRequest.Target = Dock.GetTopLevel (item);
 				myRequest.Position = DockPlacement.Floating;
-				myRequest.Width = item.PreferredWidth;
-				myRequest.Height = item.PreferredHeight;
+				Requisition preferredSize = item.PreferredSize;
+				myRequest.Width = preferredSize.Width;
+				myRequest.Height = preferredSize.Height;
 				myRequest.X = rootX - item.DragOffX;
 				myRequest.Y = rootY - item.DragOffY;
 			}
