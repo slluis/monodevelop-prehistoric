@@ -37,7 +37,7 @@ $(ASSEMBLY): $(build_sources) generated-stamp
 	@BASE_DEPENDENCIES_LIBS@ \
 	$(build_sources) generated/*.cs /out:$(ASSEMBLY) \
 	&& cp -p $(ASSEMBLY) ../../build/bin/. \
-	&& cp -p $(srcdir)/$(ASSEMBLY).config ../../build/bin/.
+	&& cp -p $(ASSEMBLY).config ../../build/bin/.
 
 gdldocklibdir = $(libdir)/monodevelop/bin
 gdldocklib_DATA = $(ASSEMBLY) $(ASSEMBLY).config

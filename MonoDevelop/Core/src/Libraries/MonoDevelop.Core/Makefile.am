@@ -57,7 +57,7 @@ FILES= \
 ./AddIns/AddInCollection.cs \
 ./AddIns/AddInSignatureException.cs
 
-build_sources = $(addprefix $(srcdir)/, $(FILES))
+build_sources = $(addprefix $(srcdir)/, $(FILES)) Services/GettextCatalog.cs
 
 RESOURCES = \
 ./../../../data/resources/AddIn.xsd
@@ -73,13 +73,14 @@ REFS = /r:System.Drawing.dll \
 
 all: $(DLL)
 
-Services/GettextCatalog.cs: Services/GettextCatalog.cs.in
+Services/GettextCatalog.cs: $(srcdir)/Services/GettextCatalog.cs.in
+	mkdir -p Services
 	sed -e 's,@''prefix@,$(prefix),g' $(srcdir)/$@.in > $@.tmp
 	mv $@.tmp $@
 
-$(DLL): $(build_sources) $(build_resources) Services/GettextCatalog.cs
+$(DLL): $(build_sources) $(build_resources)
 	mcs /debug /out:$(DLL) /target:library $(REFS) /define:LINUX $(COMPILE_RESOURCES) \
-	$(build_sources) Services/GettextCatalog.cs && cp $(DLL) ../../../build/bin/.
+	$(build_sources) && cp $(DLL) ../../../build/bin/.
 
 assemblydir = $(libdir)/monodevelop/bin
 assembly_DATA = $(DLL)

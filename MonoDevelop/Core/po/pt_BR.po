@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: MonoDevelop 0.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-06-23 15:45-0300\n"
+"POT-Creation-Date: 2004-07-05 17:07-0400\n"
 "PO-Revision-Date: 2004-06-24 15:46-0300\n"
 "Last-Translator: Maurício de Lemos Rodrigues Collares Neto <mauricioc@gmail."
 "com>\n"
@@ -68,94 +68,82 @@ msgid "${res:OpenFileTabEventHandler.CopyPathName}"
 msgstr "${res:OpenFileTabEventHandler.CopyPathName}"
 
 #: build/AddIns/SharpDevelopCore.addin.xml.h:13
-msgid "${res:ProjectComponent.ContextMenu.AddMenu}"
-msgstr "${res:ProjectComponent.ContextMenu.AddMenu}"
-
-#: build/AddIns/SharpDevelopCore.addin.xml.h:14
 msgid "${res:ProjectComponent.ContextMenu.Deploy}"
 msgstr "${res:ProjectComponent.ContextMenu.Deploy}"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:15
+#: build/AddIns/SharpDevelopCore.addin.xml.h:14
 msgid "${res:ProjectComponent.ContextMenu.GenerateDocumentation}"
 msgstr "${res:ProjectComponent.ContextMenu.GenerateDocumentation}"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:16
-msgid "${res:ProjectComponent.ContextMenu.IncludeMenu}"
-msgstr "${res:ProjectComponent.ContextMenu.IncludeMenu}"
-
-#: build/AddIns/SharpDevelopCore.addin.xml.h:17
-msgid "${res:ProjectComponent.ContextMenu.Rename}"
-msgstr "${res:ProjectComponent.ContextMenu.Rename}"
-
-#: build/AddIns/SharpDevelopCore.addin.xml.h:18
+#: build/AddIns/SharpDevelopCore.addin.xml.h:15
 msgid "${res:ProjectComponent.ContextMenu.RunTests}"
 msgstr "${res:ProjectComponent.ContextMenu.RunTests}"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:19
+#: build/AddIns/SharpDevelopCore.addin.xml.h:16
 msgid "${res:ProjectComponent.ContextMenu.ViewDocumentation}"
 msgstr "${res:ProjectComponent.ContextMenu.ViewDocumentation}"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:20
+#: build/AddIns/SharpDevelopCore.addin.xml.h:17
 msgid "${res:XML.MainMenu.FileMenu.PrintPreview}"
 msgstr "${res:XML.MainMenu.FileMenu.PrintPreview}"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:21
+#: build/AddIns/SharpDevelopCore.addin.xml.h:18
 msgid "${res:XML.MainMenu.FileMenu.Print}"
 msgstr "${res:XML.MainMenu.FileMenu.Print}"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:22
+#: build/AddIns/SharpDevelopCore.addin.xml.h:19
 msgid "${res:XML.MainMenu.HelpMenu.GPL}"
 msgstr "${res:XML.MainMenu.HelpMenu.GPL}"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:23
+#: build/AddIns/SharpDevelopCore.addin.xml.h:20
 msgid "${res:XML.MainMenu.HelpMenu.ReadMe}"
 msgstr "${res:XML.MainMenu.HelpMenu.ReadMe}"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:24
+#: build/AddIns/SharpDevelopCore.addin.xml.h:21
 msgid "${res:XML.MainMenu.HelpMenu.StyleGuide}"
 msgstr "${res:XML.MainMenu.HelpMenu.StyleGuide}"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:25
+#: build/AddIns/SharpDevelopCore.addin.xml.h:22
 msgid "${res:XML.MainMenu.PluginMenu.Manager}"
 msgstr "${res:XML.MainMenu.PluginMenu.Manager}"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:26
+#: build/AddIns/SharpDevelopCore.addin.xml.h:23
 msgid "${res:XML.MainMenu.PluginMenu}"
 msgstr "${res:XML.MainMenu.PluginMenu}"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:27
+#: build/AddIns/SharpDevelopCore.addin.xml.h:24
 msgid "${res:XML.MainMenu.ProjectMenu.Deploy}"
 msgstr "${res:XML.MainMenu.ProjectMenu.Deploy}"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:28
+#: build/AddIns/SharpDevelopCore.addin.xml.h:25
 msgid "${res:XML.MainMenu.ProjectMenu.Options}"
 msgstr "${res:XML.MainMenu.ProjectMenu.Options}"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:29
+#: build/AddIns/SharpDevelopCore.addin.xml.h:26
 msgid "${res:XML.MainMenu.ProjectMenu.RunTests}"
 msgstr "${res:XML.MainMenu.ProjectMenu.RunTests}"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:30
+#: build/AddIns/SharpDevelopCore.addin.xml.h:27
 msgid "${res:XML.MainMenu.ProjectMenu}"
 msgstr "${res:XML.MainMenu.ProjectMenu}"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:31
+#: build/AddIns/SharpDevelopCore.addin.xml.h:28
 msgid "${res:XML.MainMenu.RunMenu.BuildProject}"
 msgstr "${res:XML.MainMenu.RunMenu.BuildProject}"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:32
+#: build/AddIns/SharpDevelopCore.addin.xml.h:29
 msgid "${res:XML.MainMenu.RunMenu.RebuildProject}"
 msgstr "${res:XML.MainMenu.RunMenu.RebuildProject}"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:33
+#: build/AddIns/SharpDevelopCore.addin.xml.h:30
 msgid "${res:XML.MainMenu.ToolMenu.ConvertBufferToVBNET}"
 msgstr "${res:XML.MainMenu.ToolMenu.ConvertBufferToVBNET}"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:34
+#: build/AddIns/SharpDevelopCore.addin.xml.h:31
 msgid "&AlphaSierraPapa"
 msgstr "&AlphaSierraPapa"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:35
+#: build/AddIns/SharpDevelopCore.addin.xml.h:32
 #: build/AddIns/MonoDevelopNewEditor.addin.xml.h:25
 #: build/AddIns/AddIns/Misc/StartPage/StartPage.addin.xml.h:2
 #: src/AddIns/DebuggerAddIn/MonoDevelopDebugger.addin.xml.h:1
@@ -163,481 +151,537 @@ msgstr "&AlphaSierraPapa"
 msgid "-"
 msgstr "-"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:36
+#: build/AddIns/SharpDevelopCore.addin.xml.h:33
 msgid "Add"
 msgstr "Adicionar"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:37
+#: build/AddIns/SharpDevelopCore.addin.xml.h:34
 msgid "Add Files"
 msgstr "Adicionar arquivos"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:38
+#: build/AddIns/SharpDevelopCore.addin.xml.h:35
 msgid "Add New File"
 msgstr "Adicionar novo arquivo"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:39
+#: build/AddIns/SharpDevelopCore.addin.xml.h:36
 msgid "Add New Folder"
 msgstr "Adicionar nova pasta"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:40
+#: build/AddIns/SharpDevelopCore.addin.xml.h:37
 msgid "Add New Project..."
 msgstr "Adicionar novo projeto..."
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:41
+#: build/AddIns/SharpDevelopCore.addin.xml.h:38
 msgid "Add New Solution..."
 msgstr "Adicionar nova solução..."
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:42
+#: build/AddIns/SharpDevelopCore.addin.xml.h:39
 msgid "Add Resource"
 msgstr "Adicionar recurso"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:43
+#: build/AddIns/SharpDevelopCore.addin.xml.h:40
 msgid "Add Tab"
 msgstr "Adicionar aba"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:44
+#: build/AddIns/SharpDevelopCore.addin.xml.h:41
 msgid "Add Web Reference"
 msgstr "Adicionar referência web"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:45
+#: build/AddIns/SharpDevelopCore.addin.xml.h:42
 msgid "Add existing Solution"
 msgstr "Adicionar solução existente"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:46
+#: build/AddIns/SharpDevelopCore.addin.xml.h:43
 msgid "Add existing _Project"
 msgstr "Adicionar _projeto existente"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:47
+#: build/AddIns/SharpDevelopCore.addin.xml.h:44
 msgid "Announcement List"
 msgstr "Lista de discussão para notificação de novas versões"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:48
+#: build/AddIns/SharpDevelopCore.addin.xml.h:45
 msgid "Buil_d Project"
 msgstr "Construir _projeto"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:49
+#: build/AddIns/SharpDevelopCore.addin.xml.h:46
 msgid "Build"
 msgstr "Construir"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:50
+#: build/AddIns/SharpDevelopCore.addin.xml.h:47
+#, fuzzy
+msgid "Build Project"
+msgstr "Construir _projeto"
+
+#: build/AddIns/SharpDevelopCore.addin.xml.h:48
 msgid "Build Properties"
 msgstr "Propriedades de construção"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:51
+#: build/AddIns/SharpDevelopCore.addin.xml.h:49
 msgid "C#"
 msgstr "C#"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:52
+#: build/AddIns/SharpDevelopCore.addin.xml.h:50
 msgid "C# Corner"
 msgstr "C# Corner"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:53
+#: build/AddIns/SharpDevelopCore.addin.xml.h:51
 msgid "C# Help"
 msgstr "C# Help"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:54
+#: build/AddIns/SharpDevelopCore.addin.xml.h:52
 msgid "Choose Location"
 msgstr "Escolher localização"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:55
+#: build/AddIns/SharpDevelopCore.addin.xml.h:53
 msgid "Close Sol_ution"
 msgstr "Fechar sol_ução"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:56
-#: build/AddIns/AddIns/BackendBindings/BackendBindings.addin.xml.h:4
+#: build/AddIns/SharpDevelopCore.addin.xml.h:54
+#: build/AddIns/AddIns/BackendBindings/BackendBindings.addin.xml.h:1
 msgid "Code Generation"
 msgstr "Geração de código"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:57
+#: build/AddIns/SharpDevelopCore.addin.xml.h:55
 msgid "Coding"
 msgstr "Programando"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:58
+#: build/AddIns/SharpDevelopCore.addin.xml.h:56
 msgid "Common"
 msgstr "Geral"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:59
+#: build/AddIns/SharpDevelopCore.addin.xml.h:57
 msgid "Community Forums"
 msgstr "Fóruns comunitários"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:60
-#: src/Main/Base/Commands/MenuItemBuilders.cs:300
+#: build/AddIns/SharpDevelopCore.addin.xml.h:58
+#: src/Main/Base/Commands/MenuItemBuilders.cs:296
 msgid "Compile"
 msgstr "Compilar"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:61
+#: build/AddIns/SharpDevelopCore.addin.xml.h:59
 msgid "Compile _All"
 msgstr "Compil_ar tudo"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:62
+#: build/AddIns/SharpDevelopCore.addin.xml.h:60
 msgid "Convert C# Project to VB.NET"
 msgstr "Converter projeto C# para VB.NET"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:63
+#: build/AddIns/SharpDevelopCore.addin.xml.h:61
+#: build/AddIns/MonoDevelopNewEditor.addin.xml.h:32
+msgid "Copy"
+msgstr "Copiar"
+
+#: build/AddIns/SharpDevelopCore.addin.xml.h:62
 msgid "Create Database"
 msgstr "Criar banco de dados"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:64
+#: build/AddIns/SharpDevelopCore.addin.xml.h:63
 msgid "Cu_t"
 msgstr "Recor_tar"
 
+#: build/AddIns/SharpDevelopCore.addin.xml.h:64
+#: build/AddIns/MonoDevelopNewEditor.addin.xml.h:33
+msgid "Cut"
+msgstr "Recortar"
+
 #: build/AddIns/SharpDevelopCore.addin.xml.h:65
+#: build/AddIns/MonoDevelopNewEditor.addin.xml.h:34
+#: src/Libraries/MonoDevelop.Gui.Widgets/FileBrowser/FileBrowser.cs:262
+msgid "Delete"
+msgstr "Apagar"
+
+#: build/AddIns/SharpDevelopCore.addin.xml.h:66
 msgid "Delete Tab"
 msgstr "Apagar aba"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:66
+#: build/AddIns/SharpDevelopCore.addin.xml.h:67
 msgid "Downloads"
 msgstr "Downloads"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:67
+#: build/AddIns/SharpDevelopCore.addin.xml.h:68
 msgid "Edit References"
 msgstr "Adicionar referências"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:68
+#: build/AddIns/SharpDevelopCore.addin.xml.h:69
 msgid "ExportSignature"
 msgstr "Exportar assinatura"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:69
+#: build/AddIns/SharpDevelopCore.addin.xml.h:70
 msgid "External Tools"
 msgstr "Ferramentas externas"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:70
+#: build/AddIns/SharpDevelopCore.addin.xml.h:71
 msgid "File..."
 msgstr "Arquivo..."
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:71
+#: build/AddIns/SharpDevelopCore.addin.xml.h:72
 msgid "Finished"
 msgstr "Concluído"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:72
-#: build/AddIns/MonoDevelopNewEditor.addin.xml.h:36
+#: build/AddIns/SharpDevelopCore.addin.xml.h:73
+#: build/AddIns/MonoDevelopNewEditor.addin.xml.h:39
 msgid "General"
 msgstr "Geral"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:73
+#: build/AddIns/SharpDevelopCore.addin.xml.h:74
 msgid "Generate Makefiles"
 msgstr "Gerar Makefiles"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:74
+#: build/AddIns/SharpDevelopCore.addin.xml.h:75
 msgid "GotDotNet"
 msgstr "GotDotNet"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:75
+#: build/AddIns/SharpDevelopCore.addin.xml.h:76
+#, fuzzy
+msgid "Include"
+msgstr "<b>Incluir</b>"
+
+#: build/AddIns/SharpDevelopCore.addin.xml.h:77
 msgid "Integrated Projects"
 msgstr "Projetos integrados"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:76
+#: build/AddIns/SharpDevelopCore.addin.xml.h:78
 msgid "Load/Save"
 msgstr "Carregar/Salvar"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:77
+#: build/AddIns/SharpDevelopCore.addin.xml.h:79
 msgid "Magic Library"
 msgstr "Biblioteca mágica"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:78
+#: build/AddIns/SharpDevelopCore.addin.xml.h:80
 msgid "Mono Project"
 msgstr "Mono Project"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:79
+#: build/AddIns/SharpDevelopCore.addin.xml.h:81
 msgid "MonoDevelop"
 msgstr "MonoDevelop"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:80
+#: build/AddIns/SharpDevelopCore.addin.xml.h:82
 msgid "MonoDevelop Options"
 msgstr "Opções do MonoDevelop"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:81
+#: build/AddIns/SharpDevelopCore.addin.xml.h:83
 msgid "Move Item Down"
 msgstr "Mover item para baixo"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:82
+#: build/AddIns/SharpDevelopCore.addin.xml.h:84
 msgid "Move Item up"
 msgstr "Mover item para cima"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:83
+#: build/AddIns/SharpDevelopCore.addin.xml.h:85
 msgid "Move Tab Down"
 msgstr "Mover aba para baixo"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:84
+#: build/AddIns/SharpDevelopCore.addin.xml.h:86
 msgid "Move Tab Up"
 msgstr "Mover aba para cima"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:85
+#: build/AddIns/SharpDevelopCore.addin.xml.h:87
 msgid "NAnt"
 msgstr "NAnt"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:86
+#: build/AddIns/SharpDevelopCore.addin.xml.h:88
 msgid "NDoc"
 msgstr "NDoc"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:87
+#: build/AddIns/SharpDevelopCore.addin.xml.h:89
 msgid "N_ew Solution/Project..."
 msgstr "Nova solução/proj_eto..."
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:88
-#: src/Main/Base/Commands/ProjectBrowserCommands/FolderNodeCommands.cs:191
+#: build/AddIns/SharpDevelopCore.addin.xml.h:90
+#, fuzzy
+msgid "New File"
+msgstr "Novos arquivos"
+
+#: build/AddIns/SharpDevelopCore.addin.xml.h:91
+#: src/Main/Base/Commands/ProjectBrowserCommands/FolderNodeCommands.cs:197
 msgid "New Folder"
 msgstr "Nova pasta"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:89
+#: build/AddIns/SharpDevelopCore.addin.xml.h:92
 msgid "New _File"
 msgstr "Novo _arquivo"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:90
+#: build/AddIns/SharpDevelopCore.addin.xml.h:93
 msgid "O_pen"
 msgstr "A_brir"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:91
+#: build/AddIns/SharpDevelopCore.addin.xml.h:94
+#, fuzzy
+msgid "Open FIle"
+msgstr "Todos os arquivos abertos"
+
+#: build/AddIns/SharpDevelopCore.addin.xml.h:95
+#: build/AddIns/MonoDevelopNewEditor.addin.xml.h:46
+msgid "Paste"
+msgstr "Colar"
+
+#: build/AddIns/SharpDevelopCore.addin.xml.h:96
 msgid "Project _Options"
 msgstr "_Opções do projeto"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:92
+#: build/AddIns/SharpDevelopCore.addin.xml.h:97
 msgid "Project options"
 msgstr "Opções do Projeto"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:93
+#: build/AddIns/SharpDevelopCore.addin.xml.h:98
 msgid "Re_name"
 msgstr "Re_nomear"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:94
+#: build/AddIns/SharpDevelopCore.addin.xml.h:99
 msgid "Rebuild Project"
 msgstr "Reconstruir projeto"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:95
+#: build/AddIns/SharpDevelopCore.addin.xml.h:100
 msgid "Rebuild _Solution"
 msgstr "Reconstruir _solução"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:96
+#: build/AddIns/SharpDevelopCore.addin.xml.h:101
 msgid "Recent Solu_tions"
 msgstr "Soluções recen_tes"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:97
+#: build/AddIns/SharpDevelopCore.addin.xml.h:102
 msgid "Recent _Files"
 msgstr "A_rquivos recentes"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:98
+#: build/AddIns/SharpDevelopCore.addin.xml.h:103
 msgid "Refresh"
 msgstr "Atualizar"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:99
+#: build/AddIns/SharpDevelopCore.addin.xml.h:104
 msgid "Remove"
 msgstr "Remover"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:100
+#: build/AddIns/SharpDevelopCore.addin.xml.h:105
 #: src/Libraries/MonoDevelop.Gui.Widgets/FileBrowser/FileBrowser.cs:259
 msgid "Rename"
 msgstr "Renomear"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:101
+#: build/AddIns/SharpDevelopCore.addin.xml.h:106
 msgid "Rename Tab"
 msgstr "Renomear abas"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:102
+#: build/AddIns/SharpDevelopCore.addin.xml.h:107
 msgid "Reset Property"
 msgstr "Redefinir propriedade"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:103
+#: build/AddIns/SharpDevelopCore.addin.xml.h:108
+#, fuzzy
+msgid "Run"
+msgstr "E_xecutar"
+
+#: build/AddIns/SharpDevelopCore.addin.xml.h:109
+#: build/AddIns/MonoDevelopNewEditor.addin.xml.h:50
+msgid "Save"
+msgstr "Salvar"
+
+#: build/AddIns/SharpDevelopCore.addin.xml.h:110
 msgid "Save A_ll"
 msgstr "Sa_lvar tudo"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:104
+#: build/AddIns/SharpDevelopCore.addin.xml.h:111
+#, fuzzy
+msgid "Save All"
+msgstr "Sa_lvar tudo"
+
+#: build/AddIns/SharpDevelopCore.addin.xml.h:112
 msgid "Save _As..."
 msgstr "Salv_ar como..."
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:105
+#: build/AddIns/SharpDevelopCore.addin.xml.h:113
 msgid "Select _All"
 msgstr "Selecion_ar tudo"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:106
+#: build/AddIns/SharpDevelopCore.addin.xml.h:114
 msgid "Send Us a Mail"
 msgstr "Envie-nos um email"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:107
+#: build/AddIns/SharpDevelopCore.addin.xml.h:115
 msgid "Set As Startup Project"
 msgstr "Definir como projeto inicial"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:108
+#: build/AddIns/SharpDevelopCore.addin.xml.h:116
 msgid "Set as active"
 msgstr "Definir como ativo"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:109
+#: build/AddIns/SharpDevelopCore.addin.xml.h:117
 msgid "Setup"
 msgstr "Configuração"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:110
+#: build/AddIns/SharpDevelopCore.addin.xml.h:118
 msgid "SharpDevelop"
 msgstr "SharpDevelop"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:111
+#: build/AddIns/SharpDevelopCore.addin.xml.h:119
 msgid "Show Description"
 msgstr "Mostrar descrição"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:112
+#: build/AddIns/SharpDevelopCore.addin.xml.h:120
 msgid "Solution Options"
 msgstr "Opções de Solução"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:113
+#: build/AddIns/SharpDevelopCore.addin.xml.h:121
 msgid "Solution/Project..."
 msgstr "Solução/projeto..."
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:114
+#: build/AddIns/SharpDevelopCore.addin.xml.h:122
 msgid "Startup Properties"
 msgstr "Propriedades de inicialização"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:115
+#: build/AddIns/SharpDevelopCore.addin.xml.h:123
 msgid "Tools"
 msgstr "Ferramentas"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:116
+#: build/AddIns/SharpDevelopCore.addin.xml.h:124
 msgid "Use Existing File"
 msgstr "Usar arquivo existente"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:117
+#: build/AddIns/SharpDevelopCore.addin.xml.h:125
 msgid "Visual style"
 msgstr "Estilo visual"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:118
+#: build/AddIns/SharpDevelopCore.addin.xml.h:126
 msgid "_About"
 msgstr "_Sobre"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:119
+#: build/AddIns/SharpDevelopCore.addin.xml.h:127
 msgid "_Clear Recent Files"
 msgstr "Limpar arquivos re_centes"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:120
+#: build/AddIns/SharpDevelopCore.addin.xml.h:128
 msgid "_Clear Recent Solutions"
 msgstr "Limpar soluções re_centes"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:121
+#: build/AddIns/SharpDevelopCore.addin.xml.h:129
 msgid "_Close All"
 msgstr "Fe_char todos"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:122
+#: build/AddIns/SharpDevelopCore.addin.xml.h:130
 msgid "_Close File"
 msgstr "Fe_char arquivo"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:123
+#: build/AddIns/SharpDevelopCore.addin.xml.h:131
 msgid "_Compile"
 msgstr "_Compilar"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:124
+#: build/AddIns/SharpDevelopCore.addin.xml.h:132
 msgid "_Copy"
 msgstr "_Copiar"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:125
+#: build/AddIns/SharpDevelopCore.addin.xml.h:133
 msgid "_Delete"
 msgstr "_Apagar"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:126
+#: build/AddIns/SharpDevelopCore.addin.xml.h:134
 msgid "_Edit"
 msgstr "_Editar"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:127
+#: build/AddIns/SharpDevelopCore.addin.xml.h:135
 msgid "_File"
 msgstr "_Arquivo"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:128
+#: build/AddIns/SharpDevelopCore.addin.xml.h:136
 msgid "_Full Screen"
 msgstr "_Tela cheia"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:129
+#: build/AddIns/SharpDevelopCore.addin.xml.h:137
 msgid "_Help"
 msgstr "_Ajuda"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:130
+#: build/AddIns/SharpDevelopCore.addin.xml.h:138
 msgid "_Help..."
 msgstr "A_juda..."
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:131
+#: build/AddIns/SharpDevelopCore.addin.xml.h:139
 msgid "_Layouts"
 msgstr "_Layouts"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:132
+#: build/AddIns/SharpDevelopCore.addin.xml.h:140
 msgid "_New"
 msgstr "_Novo"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:133
+#: build/AddIns/SharpDevelopCore.addin.xml.h:141
 msgid "_New File..."
 msgstr "_Novo arquivo..."
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:134
+#: build/AddIns/SharpDevelopCore.addin.xml.h:142
 msgid "_Next Window"
 msgstr "Próxima ja_nela"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:135
+#: build/AddIns/SharpDevelopCore.addin.xml.h:143
 msgid "_Open"
 msgstr "A_brir"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:136
+#: build/AddIns/SharpDevelopCore.addin.xml.h:144
 msgid "_Open..."
 msgstr "A_brir..."
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:137
+#: build/AddIns/SharpDevelopCore.addin.xml.h:145
 msgid "_Paste"
 msgstr "Co_lar"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:138
+#: build/AddIns/SharpDevelopCore.addin.xml.h:146
 msgid "_Preferences"
 msgstr "_Preferências"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:139
+#: build/AddIns/SharpDevelopCore.addin.xml.h:147
 msgid "_Previous Window"
 msgstr "_Janela anterior"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:140
+#: build/AddIns/SharpDevelopCore.addin.xml.h:148
 msgid "_Quit"
 msgstr "_Sair"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:141
+#: build/AddIns/SharpDevelopCore.addin.xml.h:149
 msgid "_Redo"
 msgstr "_Refazer"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:142
+#: build/AddIns/SharpDevelopCore.addin.xml.h:150
 msgid "_Reload File"
 msgstr "_Recarregar arquivo"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:143
+#: build/AddIns/SharpDevelopCore.addin.xml.h:151
 msgid "_Remove"
 msgstr "_Remover"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:144
+#: build/AddIns/SharpDevelopCore.addin.xml.h:152
 msgid "_Run"
 msgstr "E_xecutar"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:145
+#: build/AddIns/SharpDevelopCore.addin.xml.h:153
 msgid "_Save"
 msgstr "_Salvar"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:146
+#: build/AddIns/SharpDevelopCore.addin.xml.h:154
 msgid "_Tip of the Day..."
 msgstr "_Dica do dia..."
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:147
+#: build/AddIns/SharpDevelopCore.addin.xml.h:155
 msgid "_Undo"
 msgstr "_Desfazer"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:148
+#: build/AddIns/SharpDevelopCore.addin.xml.h:156
 msgid "_View"
 msgstr "E_xibir"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:149
+#: build/AddIns/SharpDevelopCore.addin.xml.h:157
 msgid "_Web"
 msgstr "_Web"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:150
+#: build/AddIns/SharpDevelopCore.addin.xml.h:158
 msgid "_Window"
 msgstr "_Janela"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:151
+#: build/AddIns/SharpDevelopCore.addin.xml.h:159
 msgid "_Word Count..."
 msgstr "Contador de _palavras..."
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:152
-#: build/AddIns/MonoDevelopNewEditor.addin.xml.h:58
+#: build/AddIns/SharpDevelopCore.addin.xml.h:160
+#: build/AddIns/MonoDevelopNewEditor.addin.xml.h:65
 msgid "bogus_label"
 msgstr "bogus_label"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:153
+#: build/AddIns/SharpDevelopCore.addin.xml.h:161
 msgid "cshrp.net"
 msgstr "cshrp.net"
 
@@ -750,146 +794,136 @@ msgid "Buffer Options"
 msgstr "Opções do buffer"
 
 #: build/AddIns/MonoDevelopNewEditor.addin.xml.h:29
+#, fuzzy
+msgid "Clear Bookmarks"
+msgstr "_Limpar favoritos"
+
+#: build/AddIns/MonoDevelopNewEditor.addin.xml.h:30
 msgid "Close"
 msgstr "Fechar"
 
-#: build/AddIns/MonoDevelopNewEditor.addin.xml.h:30
+#: build/AddIns/MonoDevelopNewEditor.addin.xml.h:31
 msgid "Code Templates"
 msgstr "Modelos de código"
 
-#: build/AddIns/MonoDevelopNewEditor.addin.xml.h:31
-msgid "Copy"
-msgstr "Copiar"
-
-#: build/AddIns/MonoDevelopNewEditor.addin.xml.h:32
-msgid "Cut"
-msgstr "Recortar"
-
-#: build/AddIns/MonoDevelopNewEditor.addin.xml.h:33
-#: src/Libraries/MonoDevelop.Gui.Widgets/FileBrowser/FileBrowser.cs:262
-msgid "Delete"
-msgstr "Apagar"
-
-#: build/AddIns/MonoDevelopNewEditor.addin.xml.h:34
+#: build/AddIns/MonoDevelopNewEditor.addin.xml.h:35
 msgid "F_ind In Files..."
 msgstr "Local_izar nos arquivos..."
 
-#: build/AddIns/MonoDevelopNewEditor.addin.xml.h:35
+#: build/AddIns/MonoDevelopNewEditor.addin.xml.h:36
+#: src/AddIns/DisplayBindings/SourceEditor/Gui/Dialogs/ReplaceDialog.cs:194
+msgid "Find"
+msgstr "Localizar"
+
+#: build/AddIns/MonoDevelopNewEditor.addin.xml.h:37
+#, fuzzy
+msgid "Find Next"
+msgstr "Localizar _próxima"
+
+#: build/AddIns/MonoDevelopNewEditor.addin.xml.h:38
 msgid "Find _Next"
 msgstr "Localizar _próxima"
 
-#: build/AddIns/MonoDevelopNewEditor.addin.xml.h:37
+#: build/AddIns/MonoDevelopNewEditor.addin.xml.h:40
 msgid "Goto Matching _Brace"
 msgstr "Ir para _colchete correspondente"
 
-#: build/AddIns/MonoDevelopNewEditor.addin.xml.h:38
+#: build/AddIns/MonoDevelopNewEditor.addin.xml.h:41
 msgid "Highlighting Mode"
 msgstr "Modo de destaque"
 
-#: build/AddIns/MonoDevelopNewEditor.addin.xml.h:39
+#: build/AddIns/MonoDevelopNewEditor.addin.xml.h:42
 msgid "Indent Selection"
 msgstr "Indentar seleção"
 
-#: build/AddIns/MonoDevelopNewEditor.addin.xml.h:40
+#: build/AddIns/MonoDevelopNewEditor.addin.xml.h:43
 msgid "Markers And Rulers"
 msgstr "Marcadores e réguas"
 
-#: build/AddIns/MonoDevelopNewEditor.addin.xml.h:41
+#: build/AddIns/MonoDevelopNewEditor.addin.xml.h:44
 msgid "Markers and Rulers"
 msgstr "Marcadores e réguas"
 
-#: build/AddIns/MonoDevelopNewEditor.addin.xml.h:42
-msgid "Paste"
-msgstr "Colar"
+#: build/AddIns/MonoDevelopNewEditor.addin.xml.h:45
+#, fuzzy
+msgid "Next Bookmark"
+msgstr "_Próximo marcador"
 
-#: build/AddIns/MonoDevelopNewEditor.addin.xml.h:43
+#: build/AddIns/MonoDevelopNewEditor.addin.xml.h:47
+#, fuzzy
+msgid "Previous Bookmark"
+msgstr "_Marcador anterior"
+
+#: build/AddIns/MonoDevelopNewEditor.addin.xml.h:48
 msgid "R_eplace In Files..."
 msgstr "Substitui_r nos arquivos..."
 
-#: build/AddIns/MonoDevelopNewEditor.addin.xml.h:44
-msgid "Save"
-msgstr "Salvar"
+#: build/AddIns/MonoDevelopNewEditor.addin.xml.h:49
+#: src/AddIns/DisplayBindings/SourceEditor/Gui/Dialogs/ReplaceDialog.cs:189
+msgid "Replace"
+msgstr "Substituir"
 
-#: build/AddIns/MonoDevelopNewEditor.addin.xml.h:45
+#: build/AddIns/MonoDevelopNewEditor.addin.xml.h:51
 msgid "Save As"
 msgstr "Salvar Como"
 
-#: build/AddIns/MonoDevelopNewEditor.addin.xml.h:46
+#: build/AddIns/MonoDevelopNewEditor.addin.xml.h:52
 msgid "Text Editor"
 msgstr "Editor de texto"
 
-#: build/AddIns/MonoDevelopNewEditor.addin.xml.h:47
+#: build/AddIns/MonoDevelopNewEditor.addin.xml.h:53
+#, fuzzy
+msgid "Toggle Bookmark"
+msgstr "_Ligar/desligar favoritos"
+
+#: build/AddIns/MonoDevelopNewEditor.addin.xml.h:54
 msgid "Toggle Comments"
 msgstr "Ligar/desligar comentários"
 
-#: build/AddIns/MonoDevelopNewEditor.addin.xml.h:48
+#: build/AddIns/MonoDevelopNewEditor.addin.xml.h:55
 msgid "[!] Any one character not in the set"
 msgstr "[!] Qualquer caractere que não esteja no conjunto"
 
-#: build/AddIns/MonoDevelopNewEditor.addin.xml.h:49
+#: build/AddIns/MonoDevelopNewEditor.addin.xml.h:56
 msgid "[] Any one character in the set"
 msgstr "[] Qualquer caractere que esteja no conjunto"
 
-#: build/AddIns/MonoDevelopNewEditor.addin.xml.h:50
+#: build/AddIns/MonoDevelopNewEditor.addin.xml.h:57
 msgid "_Clear Bookmarks"
 msgstr "_Limpar favoritos"
 
-#: build/AddIns/MonoDevelopNewEditor.addin.xml.h:51
+#: build/AddIns/MonoDevelopNewEditor.addin.xml.h:58
 msgid "_Find..."
 msgstr "_Localizar..."
 
-#: build/AddIns/MonoDevelopNewEditor.addin.xml.h:52
+#: build/AddIns/MonoDevelopNewEditor.addin.xml.h:59
 msgid "_Goto Line..."
 msgstr "_Ir para linha..."
 
-#: build/AddIns/MonoDevelopNewEditor.addin.xml.h:53
+#: build/AddIns/MonoDevelopNewEditor.addin.xml.h:60
 msgid "_Next Bookmark"
 msgstr "_Próximo marcador"
 
-#: build/AddIns/MonoDevelopNewEditor.addin.xml.h:54
+#: build/AddIns/MonoDevelopNewEditor.addin.xml.h:61
 msgid "_Previous Bookmark"
 msgstr "_Marcador anterior"
 
-#: build/AddIns/MonoDevelopNewEditor.addin.xml.h:55
+#: build/AddIns/MonoDevelopNewEditor.addin.xml.h:62
 msgid "_Replace..."
 msgstr "_Substituir..."
 
-#: build/AddIns/MonoDevelopNewEditor.addin.xml.h:56
+#: build/AddIns/MonoDevelopNewEditor.addin.xml.h:63
 msgid "_Search"
 msgstr "_Procurar"
 
-#: build/AddIns/MonoDevelopNewEditor.addin.xml.h:57
+#: build/AddIns/MonoDevelopNewEditor.addin.xml.h:64
 msgid "_Toggle Bookmark"
 msgstr "_Ligar/desligar favoritos"
 
-#: build/AddIns/AddIns/BackendBindings/BackendBindings.addin.xml.h:1
-msgid "${res:Dialog.Options.IDEOptions.TextEditor.VB.PanelName}"
-msgstr "${res:Dialog.Options.IDEOptions.TextEditor.VB.PanelName}"
-
 #: build/AddIns/AddIns/BackendBindings/BackendBindings.addin.xml.h:2
-msgid "${res:Dialog.Options.PrjOptions.CodeGenerationPanel.PanelName}"
-msgstr "${res:Dialog.Options.PrjOptions.CodeGenerationPanel.PanelName}"
-
-#: build/AddIns/AddIns/BackendBindings/BackendBindings.addin.xml.h:3
-msgid "${res:Dialog.Options.PrjOptions.OutputOptionsPanel.PanelName}"
-msgstr "${res:Dialog.Options.PrjOptions.OutputOptionsPanel.PanelName}"
-
-#: build/AddIns/AddIns/BackendBindings/BackendBindings.addin.xml.h:5
-msgid "Compiler"
-msgstr "Compilador"
-
-#: build/AddIns/AddIns/BackendBindings/BackendBindings.addin.xml.h:6
-#: src/AddIns/DisplayBindings/SourceEditor/Gui/Pads/CompilerMessageView.cs:45
+#: src/AddIns/DisplayBindings/SourceEditor/Gui/Pads/CompilerMessageView.cs:44
 msgid "Output"
 msgstr "Saida"
-
-#: build/AddIns/AddIns/BackendBindings/BackendBindings.addin.xml.h:7
-msgid "Runtime/Compiler"
-msgstr "Tempo de execução/Compilador"
-
-#: build/AddIns/AddIns/BackendBindings/BackendBindings.addin.xml.h:8
-msgid "VB.DOC"
-msgstr "VB.DOC"
 
 #: build/AddIns/AddIns/Misc/StartPage/StartPage.addin.xml.h:1
 msgid "${res:XML.MainMenu.ViewMenu.ShowStartPage}"
@@ -1207,6 +1241,7 @@ msgstr "Alvo de _distribuição:"
 
 #: data/resources/glade/Base.glade.h:71
 #: src/Main/Base/Gui/Dialogs/OptionPanels/EditTemplateDialog.cs:64
+#: src/Main/Base/Internal/Templates/FileTemplate.cs:128
 msgid "_Description"
 msgstr "_Descrição"
 
@@ -1239,6 +1274,7 @@ msgid "_Multiple Startup Project"
 msgstr "Projeto inicial _múltiplo"
 
 #: data/resources/glade/Base.glade.h:79
+#: src/Main/Base/Internal/Templates/FileTemplate.cs:123
 msgid "_Name"
 msgstr "_Nome"
 
@@ -1653,25 +1689,25 @@ msgstr "searchPatternEntry"
 #: src/Main/Base/Gui/Dialogs/CommonAboutDialog.cs:56
 msgid "translator-credits"
 msgstr ""
-"Andre Filipe de Assuncao e Brito <decko@noisemakers.org>"
-"Maurício de Lemos Rodrigues Collares Neto <mauricioc@gmail.com>"
+"Andre Filipe de Assuncao e Brito <decko@noisemakers.org>Maurício de Lemos "
+"Rodrigues Collares Neto <mauricioc@gmail.com>"
 
 #: src/Main/Base/Gui/Dialogs/CommonAboutDialog.cs:141
-#: src/Main/Base/Gui/Dialogs/CommonAboutDialog.cs:155
+#: src/Main/Base/Gui/Dialogs/CommonAboutDialog.cs:154
 msgid "About MonoDevelop"
 msgstr "Sobre o MonoDevelop"
 
 #. nb.AppendPage (aatp, new Label ("Authors"));
 #. nb.AppendPage (changelog, new Label ("ChangeLog"));
-#: src/Main/Base/Gui/Dialogs/CommonAboutDialog.cs:159
+#: src/Main/Base/Gui/Dialogs/CommonAboutDialog.cs:158
 msgid "Version Info"
 msgstr "Informações da Versão"
 
-#: src/Main/Base/Gui/Dialogs/NewProjectDialog.cs:163
+#: src/Main/Base/Gui/Dialogs/NewProjectDialog.cs:159
 msgid "Project will be saved at"
 msgstr "O Projeto será salvo em"
 
-#: src/Main/Base/Gui/Dialogs/NewProjectDialog.cs:208
+#: src/Main/Base/Gui/Dialogs/NewProjectDialog.cs:204
 msgid ""
 "Illegal project name. \n"
 "Only use letters, digits, space, '.' or '_'."
@@ -1679,7 +1715,7 @@ msgstr ""
 "Nome do projeto ilegal. \n"
 "Use apenas letras, dígitos, espaço, '.' ou '_'."
 
-#: src/Main/Base/Gui/Dialogs/NewProjectDialog.cs:218
+#: src/Main/Base/Gui/Dialogs/NewProjectDialog.cs:214
 msgid ""
 "Illegal project name.\n"
 "Only use letters, digits, space, '.' or '_'."
@@ -1687,41 +1723,16 @@ msgstr ""
 "Nome do projeto ilegal.\n"
 "Use apenas letras, dígitos, espaço, '.' ou '_'."
 
-#: src/Main/Base/Gui/Dialogs/NewProjectDialog.cs:223
+#: src/Main/Base/Gui/Dialogs/NewProjectDialog.cs:219
 msgid "A Project with that name is already in your Project Space"
 msgstr "Um projeto com esse nome já existe no seu espaço de projetos"
 
-#: src/Main/Base/Gui/Dialogs/NewProjectDialog.cs:242
+#: src/Main/Base/Gui/Dialogs/NewProjectDialog.cs:238
 #, csharp-format
 msgid "You do not have permission to create to {0}"
 msgstr "Você não tem permissão para criar em {0}"
 
-#: src/Main/Base/Gui/Dialogs/NewProjectDialog.cs:287
-#, csharp-format
-msgid ""
-"Combine file {0} already exists, do you want to overwrite\n"
-"the existing file ?"
-msgstr ""
-"O arquivo do combinado {0} já existe. Deseja substituir\n"
-" o arquivo existente?"
-
-#: src/Main/Base/Gui/Dialogs/NewProjectDialog.cs:287
-#: src/Main/Base/Internal/Templates/ProjectTemplates/ProjectDescriptor.cs:113
-#: src/Main/Base/Internal/Templates/ProjectTemplates/ProjectDescriptor.cs:139
-#: src/Main/Base/Internal/Templates/ProjectTemplates/ProjectDescriptor.cs:162
-msgid "File already exists"
-msgstr "O arquivo já existe"
-
-#: src/Main/Base/Gui/Dialogs/NewProjectDialog.cs:299
-msgid "The project or source entry is empty, can't create project."
-msgstr ""
-"A caixa do projeto ou da fonte está vazia, não foi possível criar projeto."
-
-#: src/Main/Base/Gui/Dialogs/NewProjectDialog.cs:299
-msgid "Warning"
-msgstr "Aviso"
-
-#: src/Main/Base/Gui/Dialogs/NewProjectDialog.cs:357
+#: src/Main/Base/Gui/Dialogs/NewProjectDialog.cs:316
 msgid "Combine Location"
 msgstr "Localização do combinado"
 
@@ -1808,9 +1819,39 @@ msgstr "Diretório inicial do MonoDevelop"
 msgid "_Tools"
 msgstr "Ferramen_tas"
 
+#. string[] fileFilters  = (string[])(AddInTreeSingleton.AddInTree.GetTreeNode("/SharpDevelop/Workbench/FileFilter").BuildChildItems(this)).ToArray(typeof(string));
+#. bool foundFilter      = false;
+#. search filter like in the current selected project
+#.
+#. IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IProjectService));
+#.
+#. if (projectService.CurrentSelectedProject != null) {
+#. LanguageBindingService languageBindingService = (LanguageBindingService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(LanguageBindingService));
+#.
+#. LanguageBindingCodon languageCodon = languageBindingService.GetCodonPerLanguageName(projectService.CurrentSelectedProject.ProjectType);
+#. for (int i = 0; !foundFilter && i < fileFilters.Length; ++i) {
+#. for (int j = 0; !foundFilter && j < languageCodon.Supportedextensions.Length; ++j) {
+#. if (fileFilters[i].IndexOf(languageCodon.Supportedextensions[j]) >= 0) {
+#. break;
+#. }
+#. }
+#. }
+#. }
+#.
+#. // search filter like in the current open file
+#. if (!foundFilter) {
+#. IWorkbenchWindow window = WorkbenchSingleton.Workbench.ActiveWorkbenchWindow;
+#. if (window != null) {
+#. for (int i = 0; i < fileFilters.Length; ++i) {
+#. if (fileFilters[i].IndexOf(Path.GetExtension(window.ViewContent.ContentName == null ? window.ViewContent.UntitledName : window.ViewContent.ContentName)) >= 0) {
+#. break;
+#. }
+#. }
+#. }
+#. }
 #: src/Main/Base/Gui/Dialogs/OptionPanels/ExternalToolPanel.cs:162
-#: src/Main/Base/Commands/FileCommands.cs:230
-#: src/Main/Base/Commands/FileCommands.cs:297
+#: src/Main/Base/Commands/FileCommands.cs:227
+#: src/Main/Base/Commands/FileCommands.cs:292
 #: src/Main/Base/Commands/ProjectBrowserCommands/ResourceFolderNodeCommands.cs:48
 msgid "File to Open"
 msgstr "Arquivo a abrir"
@@ -1834,28 +1875,28 @@ msgstr "O comando da ferramenta \"{0}\" é inválido."
 msgid "The working directory of tool \"{0}\" is invalid."
 msgstr "O diretório de trabalho da ferramenta \"{0}\" é inválido."
 
-#: src/Main/Base/Gui/Dialogs/OptionPanels/ProjectOptions/CompileFileProjectOptions.cs:99
+#: src/Main/Base/Gui/Dialogs/OptionPanels/ProjectOptions/CompileFileProjectOptions.cs:100
 #, csharp-format
 msgid "File {0} not found in {1}."
 msgstr "Arquivo {0} não encontrado em {1}."
 
-#: src/Main/Base/Gui/Dialogs/OptionPanels/ProjectOptions/DeployFileOptions.cs:99
+#: src/Main/Base/Gui/Dialogs/OptionPanels/ProjectOptions/DeployFileOptions.cs:92
 msgid "Select your File"
 msgstr "Selecione seu arquivo"
 
-#: src/Main/Base/Gui/Dialogs/OptionPanels/ProjectOptions/DeployFileOptions.cs:110
+#: src/Main/Base/Gui/Dialogs/OptionPanels/ProjectOptions/DeployFileOptions.cs:103
 msgid "Select the target directory"
 msgstr "Selecione o diretório do alvo"
 
-#: src/Main/Base/Gui/Dialogs/OptionPanels/ProjectOptions/DeployFileOptions.cs:144
+#: src/Main/Base/Gui/Dialogs/OptionPanels/ProjectOptions/DeployFileOptions.cs:133
 msgid "Invalid deploy target specified"
 msgstr "O alvo de distribuição especificado é inválido"
 
-#: src/Main/Base/Gui/Dialogs/OptionPanels/ProjectOptions/DeployFileOptions.cs:158
+#: src/Main/Base/Gui/Dialogs/OptionPanels/ProjectOptions/DeployFileOptions.cs:140
 msgid "Invalid deploy script specified"
 msgstr "O script de distribuição especificado é inválido"
 
-#: src/Main/Base/Gui/Dialogs/OptionPanels/ProjectOptions/DeployFileOptions.cs:171
+#: src/Main/Base/Gui/Dialogs/OptionPanels/ProjectOptions/DeployFileOptions.cs:146
 msgid "Deploy script doesn't exists"
 msgstr "O script de distribuição não existe"
 
@@ -1873,34 +1914,34 @@ msgstr "Configurações"
 msgid "(Active)"
 msgstr "(Ativa)"
 
-#: src/Main/Base/Gui/Dialogs/ReferenceDialog/AssemblyReferencePanel.cs:38
+#: src/Main/Base/Gui/Dialogs/ReferenceDialog/AssemblyReferencePanel.cs:37
 msgid "Find .Net Assembly"
 msgstr "Localizar assembly do .net"
 
 #. FIXME: il8n this
-#: src/Main/Base/Gui/Dialogs/ReferenceDialog/AssemblyReferencePanel.cs:63
+#: src/Main/Base/Gui/Dialogs/ReferenceDialog/AssemblyReferencePanel.cs:62
 #, csharp-format
 msgid "File {0} is not a valid .Net Assembly"
 msgstr "O arquivo {0} não é uma assembly do .net válida"
 
-#: src/Main/Base/Gui/Dialogs/ReferenceDialog/GacReferencePanel.cs:41
-#: src/Main/Base/Gui/Dialogs/ReferenceDialog/SelectReferenceDialog.cs:76
+#: src/Main/Base/Gui/Dialogs/ReferenceDialog/GacReferencePanel.cs:40
+#: src/Main/Base/Gui/Dialogs/ReferenceDialog/SelectReferenceDialog.cs:75
 msgid "Reference Name"
 msgstr "Nome da referência"
 
-#: src/Main/Base/Gui/Dialogs/ReferenceDialog/GacReferencePanel.cs:52
+#: src/Main/Base/Gui/Dialogs/ReferenceDialog/GacReferencePanel.cs:51
 #: src/Main/Base/Gui/Dialogs/SharpDevelopAboutPanels.cs:44
-#: src/Main/Base/Gui/Dialogs/SharpDevelopAboutPanels.cs:169
+#: src/Main/Base/Gui/Dialogs/SharpDevelopAboutPanels.cs:161
 msgid "Version"
 msgstr "Versão"
 
-#: src/Main/Base/Gui/Dialogs/ReferenceDialog/GacReferencePanel.cs:53
-#: src/Main/Base/Gui/Dialogs/SharpDevelopAboutPanels.cs:170
-#: src/Main/Base/Gui/Pads/OpenTaskView.cs:153
+#: src/Main/Base/Gui/Dialogs/ReferenceDialog/GacReferencePanel.cs:52
+#: src/Main/Base/Gui/Dialogs/SharpDevelopAboutPanels.cs:162
+#: src/Main/Base/Gui/Pads/OpenTaskView.cs:152
 msgid "Path"
 msgstr "Caminho"
 
-#: src/Main/Base/Gui/Dialogs/ReferenceDialog/GacReferencePanel.cs:123
+#: src/Main/Base/Gui/Dialogs/ReferenceDialog/GacReferencePanel.cs:122
 msgid ""
 "ERROR: non-mono runtime detected, please use the mono runtime for this piece "
 "of MonoDevelop for the time being"
@@ -1909,45 +1950,45 @@ msgstr ""
 "ambiente de tempo de execução do Mono para rodar esta parte do MonoDevelop "
 "atualmente"
 
-#: src/Main/Base/Gui/Dialogs/ReferenceDialog/ProjectReferencePanel.cs:33
+#: src/Main/Base/Gui/Dialogs/ReferenceDialog/ProjectReferencePanel.cs:32
 msgid "Project Name"
 msgstr "Nome do projeto"
 
-#: src/Main/Base/Gui/Dialogs/ReferenceDialog/ProjectReferencePanel.cs:34
+#: src/Main/Base/Gui/Dialogs/ReferenceDialog/ProjectReferencePanel.cs:33
 msgid "Project Directory"
 msgstr "Diretório do projeto"
 
-#: src/Main/Base/Gui/Dialogs/ReferenceDialog/SelectReferenceDialog.cs:77
+#: src/Main/Base/Gui/Dialogs/ReferenceDialog/SelectReferenceDialog.cs:76
 msgid "Type"
 msgstr "Tipo"
 
-#: src/Main/Base/Gui/Dialogs/ReferenceDialog/SelectReferenceDialog.cs:78
+#: src/Main/Base/Gui/Dialogs/ReferenceDialog/SelectReferenceDialog.cs:77
 #: src/Libraries/MonoDevelop.Gui.Widgets/FileBrowser/FileBrowser.cs:81
 msgid "Location"
 msgstr "Localização"
 
-#: src/Main/Base/Gui/Dialogs/ReferenceDialog/SelectReferenceDialog.cs:94
+#: src/Main/Base/Gui/Dialogs/ReferenceDialog/SelectReferenceDialog.cs:93
 msgid "Global Assembly Cache"
 msgstr "Cache Global de Assemblies (GAC)"
 
-#: src/Main/Base/Gui/Dialogs/ReferenceDialog/SelectReferenceDialog.cs:95
+#: src/Main/Base/Gui/Dialogs/ReferenceDialog/SelectReferenceDialog.cs:94
 msgid "Projects"
 msgstr "Projetos"
 
-#: src/Main/Base/Gui/Dialogs/ReferenceDialog/SelectReferenceDialog.cs:96
+#: src/Main/Base/Gui/Dialogs/ReferenceDialog/SelectReferenceDialog.cs:95
 msgid ".Net Assembly"
 msgstr "Assembly do .net"
 
-#: src/Main/Base/Gui/Dialogs/SharpDevelopAboutPanels.cs:50
+#: src/Main/Base/Gui/Dialogs/SharpDevelopAboutPanels.cs:49
 msgid "Released under the GNU General Public license."
 msgstr "Lançado sob a Licença Pública Geral GNU"
 
-#: src/Main/Base/Gui/Dialogs/SharpDevelopAboutPanels.cs:168
+#: src/Main/Base/Gui/Dialogs/SharpDevelopAboutPanels.cs:160
 msgid "Name"
 msgstr "Nome"
 
-#: src/Main/Base/Gui/Dialogs/SharpDevelopAboutPanels.cs:200
-#: src/Main/Base/Gui/Dialogs/SharpDevelopAboutPanels.cs:221
+#: src/Main/Base/Gui/Dialogs/SharpDevelopAboutPanels.cs:192
+#: src/Main/Base/Gui/Dialogs/SharpDevelopAboutPanels.cs:213
 msgid "dynamic"
 msgstr "dinâmico"
 
@@ -1955,64 +1996,64 @@ msgstr "dinâmico"
 msgid "MonoDevelop options"
 msgstr "Opções do MonoDevelop"
 
-#: src/Main/Base/Gui/Dialogs/WordCountDialog.cs:58
-#: src/Main/Base/Gui/Dialogs/WordCountDialog.cs:114
-#: src/Main/Base/Gui/Dialogs/WordCountDialog.cs:148
+#: src/Main/Base/Gui/Dialogs/WordCountDialog.cs:57
+#: src/Main/Base/Gui/Dialogs/WordCountDialog.cs:113
+#: src/Main/Base/Gui/Dialogs/WordCountDialog.cs:147
 msgid "total"
 msgstr "total"
 
-#: src/Main/Base/Gui/Dialogs/WordCountDialog.cs:100
-#: src/Main/Base/Gui/Dialogs/WordCountDialog.cs:117
+#: src/Main/Base/Gui/Dialogs/WordCountDialog.cs:99
+#: src/Main/Base/Gui/Dialogs/WordCountDialog.cs:116
 msgid "You must save the file"
 msgstr "Você precisa salvar o arquivo"
 
-#: src/Main/Base/Gui/Dialogs/WordCountDialog.cs:132
+#: src/Main/Base/Gui/Dialogs/WordCountDialog.cs:131
 msgid "Unsaved changed to open files were not included in counting"
 msgstr "Mudanças não salvas em arquivos abertos não foram contadas"
 
-#: src/Main/Base/Gui/Dialogs/WordCountDialog.cs:145
+#: src/Main/Base/Gui/Dialogs/WordCountDialog.cs:144
 msgid "You must be in project mode"
 msgstr "Você precisa estar no modo projeto"
 
-#: src/Main/Base/Gui/Dialogs/WordCountDialog.cs:253
-#: src/Main/Base/Gui/Dialogs/WordCountDialog.cs:309
-#: src/Main/Base/Gui/Pads/OpenTaskView.cs:154
+#: src/Main/Base/Gui/Dialogs/WordCountDialog.cs:252
+#: src/Main/Base/Gui/Dialogs/WordCountDialog.cs:308
+#: src/Main/Base/Gui/Pads/OpenTaskView.cs:153
 msgid "File"
 msgstr "Arquivo"
 
-#: src/Main/Base/Gui/Dialogs/WordCountDialog.cs:254
-#: src/Main/Base/Gui/Dialogs/WordCountDialog.cs:313
+#: src/Main/Base/Gui/Dialogs/WordCountDialog.cs:253
+#: src/Main/Base/Gui/Dialogs/WordCountDialog.cs:312
 msgid "Chars"
 msgstr "Caracteres"
 
-#: src/Main/Base/Gui/Dialogs/WordCountDialog.cs:255
-#: src/Main/Base/Gui/Dialogs/WordCountDialog.cs:317
+#: src/Main/Base/Gui/Dialogs/WordCountDialog.cs:254
+#: src/Main/Base/Gui/Dialogs/WordCountDialog.cs:316
 msgid "Words"
 msgstr "Palavras"
 
-#: src/Main/Base/Gui/Dialogs/WordCountDialog.cs:256
-#: src/Main/Base/Gui/Dialogs/WordCountDialog.cs:321
+#: src/Main/Base/Gui/Dialogs/WordCountDialog.cs:255
+#: src/Main/Base/Gui/Dialogs/WordCountDialog.cs:320
 msgid "Lines"
 msgstr "Linhas"
 
-#: src/Main/Base/Gui/Dialogs/WordCountDialog.cs:292
+#: src/Main/Base/Gui/Dialogs/WordCountDialog.cs:291
 msgid "Word Count"
 msgstr "Contagem de palavras"
 
-#: src/Main/Base/Gui/Dialogs/WordCountDialog.cs:334
+#: src/Main/Base/Gui/Dialogs/WordCountDialog.cs:333
 msgid "_Count where"
 msgstr "_Contar onde"
 
-#: src/Main/Base/Gui/Dialogs/WordCountDialog.cs:340
+#: src/Main/Base/Gui/Dialogs/WordCountDialog.cs:339
 msgid "Current file"
 msgstr "Arquivo atual"
 
-#: src/Main/Base/Gui/Dialogs/WordCountDialog.cs:341
-#: src/AddIns/DisplayBindings/SourceEditor/Gui/Dialogs/ReplaceInFilesDialog.cs:197
+#: src/Main/Base/Gui/Dialogs/WordCountDialog.cs:340
+#: src/AddIns/DisplayBindings/SourceEditor/Gui/Dialogs/ReplaceInFilesDialog.cs:196
 msgid "All open files"
 msgstr "Todos os arquivos abertos"
 
-#: src/Main/Base/Gui/Dialogs/WordCountDialog.cs:342
+#: src/Main/Base/Gui/Dialogs/WordCountDialog.cs:341
 msgid "Whole solution"
 msgstr "Toda a solução"
 
@@ -2029,173 +2070,13 @@ msgid "Web Browser"
 msgstr "Navegador da Web"
 
 #: src/Main/Base/Gui/BrowserDisplayBinding/HtmlViewPane.cs:209
-#: src/Main/Base/Gui/Pads/ClassScout/ClassScout.cs:139
+#: src/Main/Base/Gui/Pads/ClassScout/ClassScout.cs:138
 msgid "Loading..."
 msgstr "Carregando..."
 
 #: src/Main/Base/Gui/BrowserDisplayBinding/HtmlViewPane.cs:222
 msgid "Done."
 msgstr "Pronto."
-
-#: src/Main/Base/Gui/CompletionDatabaseWizard/DownloadGenerator.cs:27
-msgid "Extracted more of the archive"
-msgstr "Extraído mais do arquivo"
-
-#: src/Main/Base/Gui/CompletionDatabaseWizard/DownloadGenerator.cs:59
-msgid "Downloading database"
-msgstr "Fazendo download do banco de dados"
-
-#: src/Main/Base/Gui/CompletionDatabaseWizard/DownloadGenerator.cs:99
-#, csharp-format
-msgid "Downloaded more of {0}"
-msgstr "Baixado mais de {0}"
-
-#: src/Main/Base/Gui/CompletionDatabaseWizard/druid.cs:16
-msgid "Generation Method"
-msgstr "Método de geração"
-
-#: src/Main/Base/Gui/CompletionDatabaseWizard/druid.cs:17
-msgid "Generate a code completion database"
-msgstr "Gerar um banco de dados de completamento de código"
-
-#: src/Main/Base/Gui/CompletionDatabaseWizard/druid.cs:18
-msgid "Use a code completion database already on this computer"
-msgstr ""
-"Usar um banco de dados de completamento de código já existente neste "
-"computador"
-
-#: src/Main/Base/Gui/CompletionDatabaseWizard/druid.cs:19
-msgid "Download a code completion database"
-msgstr "Fazer o download de um banco de dados de completamento de código"
-
-#: src/Main/Base/Gui/CompletionDatabaseWizard/druid.cs:33
-msgid "Select Generation Style"
-msgstr "Selecionar o estilo de geração"
-
-#: src/Main/Base/Gui/CompletionDatabaseWizard/druid.cs:34
-msgid "Heavy process"
-msgstr "Processo pesado"
-
-#: src/Main/Base/Gui/CompletionDatabaseWizard/druid.cs:35
-msgid "Light process"
-msgstr "Processo leve"
-
-#: src/Main/Base/Gui/CompletionDatabaseWizard/druid.cs:37
-msgid ""
-"This process is slower and more memory-intensive than the light process, but "
-"will enable faster code completion"
-msgstr ""
-"Este processo é mais lento e consome mais memória do que o processo leve, "
-"mas possibilita um completamento de código mais rápido"
-
-#: src/Main/Base/Gui/CompletionDatabaseWizard/druid.cs:38
-msgid ""
-"This process will take less time and memory to produce the code completion "
-"database, but code completion will be slower"
-msgstr ""
-"Este processo levará menos tempo e memória para produzir o banco de dados de "
-"completamento de código, mas o completamento de código será mais lento"
-
-#: src/Main/Base/Gui/CompletionDatabaseWizard/druid.cs:46
-msgid "Existing Database Location"
-msgstr "Localização do banco de dados existente"
-
-#: src/Main/Base/Gui/CompletionDatabaseWizard/druid.cs:47
-msgid "Select code completion database"
-msgstr "Selecione o banco de dados de completamento de código"
-
-#: src/Main/Base/Gui/CompletionDatabaseWizard/druid.cs:49
-msgid "Where is the code completion database you would like to copy"
-msgstr ""
-"Onde está o banco de dados de completamento de código que você gostaria de "
-"copiar"
-
-#: src/Main/Base/Gui/CompletionDatabaseWizard/druid.cs:58
-msgid "Download Database"
-msgstr "Fazer download de banco de dados"
-
-#: src/Main/Base/Gui/CompletionDatabaseWizard/druid.cs:60
-msgid "Where would you like to download the code completion database from?"
-msgstr ""
-"De onde você gostaria de fazer download do banco de dados de completamento "
-"de código?"
-
-#: src/Main/Base/Gui/CompletionDatabaseWizard/druid.cs:68
-#, csharp-format
-msgid "That Uri is invalid: {0}"
-msgstr "Este endereço é inválido: {0} "
-
-#: src/Main/Base/Gui/CompletionDatabaseWizard/druid.cs:74
-msgid "That Uri appears not to refer to a file with a known compression type"
-msgstr ""
-"Este endereço não parece se referir a um arquivo com um tipo de compressão "
-"conhecido"
-
-#: src/Main/Base/Gui/CompletionDatabaseWizard/druid.cs:162
-msgid ""
-"This druid will guide you through the process of creating a code completion "
-"database"
-msgstr ""
-"Este druida te guiará pelo processo de criação de um banco de dados de "
-"completamento de código"
-
-#: src/Main/Base/Gui/CompletionDatabaseWizard/druid.cs:169
-msgid "Click Apply to start the database creation process"
-msgstr "Clique em Aplicar para iniciar o processo de criação do banco de dados"
-
-#: src/Main/Base/Gui/CompletionDatabaseWizard/druid.cs:224
-msgid ""
-"Are you sure you want to skip database creation? You will not have code "
-"completion functionality."
-msgstr ""
-"Você tem certeza de que deseja pular a criação do banco de dados? Você não "
-"terá a funcionalidade do completamento de código."
-
-#: src/Main/Base/Gui/CompletionDatabaseWizard/druid.cs:224
-msgid "Are you sure?"
-msgstr "Tem certeza?"
-
-#: src/Main/Base/Gui/CompletionDatabaseWizard/GenerateDatabase.cs:44
-msgid "Code completion database generator"
-msgstr "Gerador do banco de dados de completamento de código"
-
-#: src/Main/Base/Gui/CompletionDatabaseWizard/GenerateDatabase.cs:52
-msgid "Creating database..."
-msgstr "Criando banco de dados..."
-
-#: src/Main/Base/Gui/CompletionDatabaseWizard/GenerateDatabase.cs:57
-msgid "Cancel"
-msgstr "Cancelar"
-
-#: src/Main/Base/Gui/CompletionDatabaseWizard/GenerateDatabase.cs:62
-msgid "Cancelling not available"
-msgstr "Cancelamento indisponível"
-
-#: src/Main/Base/Gui/CompletionDatabaseWizard/GenerateDatabase.cs:63
-msgid "This type of code completion database generator can not be canceled"
-msgstr ""
-"Este tipo de geração de banco de dados de completamento de código não pode "
-"ser cancelado"
-
-#: src/Main/Base/Gui/CompletionDatabaseWizard/GenerateDatabase.cs:89
-msgid "Code completion database druid"
-msgstr "Druida do banco de dados de completamento de código"
-
-#: src/Main/Base/Gui/CompletionDatabaseWizard/GenerateDatabase.cs:119
-msgid ""
-"Attempting to restart MonoDevelop, if you get any exceptions, restart "
-"manually"
-msgstr ""
-"Tentando reiniciar o MonoDevelop, se você receber alguma exceção, reinicie "
-"manualmente"
-
-#: src/Main/Base/Gui/CompletionDatabaseWizard/UseExistingGenerator.cs:21
-msgid "Referencing existing database"
-msgstr "Referenciando um banco de dados já existente"
-
-#: src/Main/Base/Gui/CompletionDatabaseWizard/UseExistingGenerator.cs:34
-msgid "Referenced existing database"
-msgstr "Banco de dados já existente referenciado"
 
 #: src/Main/Base/Gui/Components/StatusBar/SdStatusBar.cs:76
 #: src/Main/Base/Gui/Components/StatusBar/SdStatusBar.cs:81
@@ -2253,11 +2134,11 @@ msgstr ""
 "\n"
 "{2}"
 
-#: src/Main/Base/Gui/Pads/ClassScout/ClassScout.cs:79
+#: src/Main/Base/Gui/Pads/ClassScout/ClassScout.cs:78
 msgid "Classes"
 msgstr "Classes"
 
-#: src/Main/Base/Gui/Pads/ClassScout/ClassScout.cs:353
+#: src/Main/Base/Gui/Pads/ClassScout/ClassScout.cs:352
 msgid "No class builder found"
 msgstr "Nenhum construtor de classes encontrado"
 
@@ -2269,52 +2150,54 @@ msgstr "Ajuda"
 msgid "Mono Documentation"
 msgstr "Documentação do Mono"
 
-#: src/Main/Base/Gui/Pads/OpenTaskView.cs:40
+#: src/Main/Base/Gui/Pads/OpenTaskView.cs:38
 msgid "Task List"
 msgstr "Lista de tarefas"
 
-#: src/Main/Base/Gui/Pads/OpenTaskView.cs:151
+#: src/Main/Base/Gui/Pads/OpenTaskView.cs:150
 msgid "Line"
 msgstr "Linha"
 
-#: src/Main/Base/Gui/Pads/OpenTaskView.cs:152
+#: src/Main/Base/Gui/Pads/OpenTaskView.cs:151
 #: src/AddIns/DisplayBindings/SourceEditor/Gui/OptionPanels/CodeTemplatePanel.cs:117
 msgid "Description"
 msgstr "Descrição"
 
-#: src/Main/Base/Gui/Pads/ProjectBrowser/BrowserNode/CombineBrowserNode.cs:67
+#: src/Main/Base/Gui/Pads/ProjectBrowser/BrowserNode/CombineBrowserNode.cs:66
 #, csharp-format
 msgid "Solution name may not contain any of the following characters: {0}"
 msgstr "O nome da solução não pode conter nenhum dos seguintes caracteres: {0}"
 
-#: src/Main/Base/Gui/Pads/ProjectBrowser/BrowserNode/CombineBrowserNode.cs:84
+#: src/Main/Base/Gui/Pads/ProjectBrowser/BrowserNode/CombineBrowserNode.cs:82
 #, csharp-format
 msgid "Solution {0}"
 msgstr "Solução {0}"
 
-#: src/Main/Base/Gui/Pads/ProjectBrowser/BrowserNode/CombineBrowserNode.cs:87
+#: src/Main/Base/Gui/Pads/ProjectBrowser/BrowserNode/CombineBrowserNode.cs:85
 #, csharp-format
 msgid "Solution {0} (1 entry)"
 msgstr "Solução {0} (1 entrada)"
 
-#: src/Main/Base/Gui/Pads/ProjectBrowser/BrowserNode/CombineBrowserNode.cs:90
+#: src/Main/Base/Gui/Pads/ProjectBrowser/BrowserNode/CombineBrowserNode.cs:88
 #, csharp-format
 msgid "Solution {0} ({1} entries)"
 msgstr "Solução {0} ({1} entradas)"
 
-#: src/Main/Base/Gui/Pads/ProjectBrowser/BrowserNode/CombineBrowserNode.cs:109
+#: src/Main/Base/Gui/Pads/ProjectBrowser/BrowserNode/CombineBrowserNode.cs:107
 #, csharp-format
 msgid "Do you really want to remove solution {0} from solution {1}?"
 msgstr "Você realmente deseja remover a solução {0} da solução {1}?"
 
-#: src/Main/Base/Gui/Pads/ProjectBrowser/BrowserNode/DirectoryNode.cs:110
-#: src/Main/Base/Gui/Pads/ProjectBrowser/BrowserNode/FileNode.cs:128
+#. assume duplicate file
+#: src/Main/Base/Gui/Pads/ProjectBrowser/BrowserNode/DirectoryNode.cs:107
+#: src/Main/Base/Gui/Pads/ProjectBrowser/BrowserNode/FileNode.cs:121
 msgid "File or directory name is already in use, choose a different one."
 msgstr ""
 "Nome do arquivo ou diretório já está em uso, escolha um nome diferente."
 
-#: src/Main/Base/Gui/Pads/ProjectBrowser/BrowserNode/DirectoryNode.cs:113
-#: src/Main/Base/Gui/Pads/ProjectBrowser/BrowserNode/FileNode.cs:131
+#. new file name with wildcard (*, ?) characters in it
+#: src/Main/Base/Gui/Pads/ProjectBrowser/BrowserNode/DirectoryNode.cs:110
+#: src/Main/Base/Gui/Pads/ProjectBrowser/BrowserNode/FileNode.cs:123
 msgid ""
 "The file name you have chosen contains illegal characters. Please choose a "
 "different file name."
@@ -2322,48 +2205,48 @@ msgstr ""
 "O nome de arquivo que você escolheu contém caracteres ilegais. Por favor "
 "escolha um nome de arquivo diferente."
 
-#: src/Main/Base/Gui/Pads/ProjectBrowser/BrowserNode/DirectoryNode.cs:131
+#: src/Main/Base/Gui/Pads/ProjectBrowser/BrowserNode/DirectoryNode.cs:127
 #, csharp-format
 msgid "Do you want to remove folder {0} from project {1}?"
 msgstr "Você deseja remover a pasta {0} do projeto {1}?"
 
-#: src/Main/Base/Gui/Pads/ProjectBrowser/BrowserNode/FileNode.cs:146
+#: src/Main/Base/Gui/Pads/ProjectBrowser/BrowserNode/FileNode.cs:136
 #, csharp-format
 msgid "Are you sure you want to remove file {0} from project {1}?"
 msgstr "Você tem certeza de que deseja remover o arquivo {0} do projeto {1}?"
 
-#: src/Main/Base/Gui/Pads/ProjectBrowser/BrowserNode/ProjectBrowserNode.cs:110
+#: src/Main/Base/Gui/Pads/ProjectBrowser/BrowserNode/ProjectBrowserNode.cs:109
 #, csharp-format
 msgid "Do you really want to remove project {0} from solution {1}"
 msgstr "Você tem certeza de que deseja remover o projeto {0} da solução {1}?"
 
-#: src/Main/Base/Gui/Pads/ProjectBrowser/NodeBuilder/DefaultDotNetNodeBuilder.cs:43
+#: src/Main/Base/Gui/Pads/ProjectBrowser/NodeBuilder/DefaultDotNetNodeBuilder.cs:39
 msgid "Web References"
 msgstr "Referências web"
 
-#: src/Main/Base/Gui/Pads/ProjectBrowser/NodeBuilder/DefaultDotNetNodeBuilder.cs:59
+#: src/Main/Base/Gui/Pads/ProjectBrowser/NodeBuilder/DefaultDotNetNodeBuilder.cs:54
 msgid "Resource Files"
 msgstr "Arquivos de recursos"
 
-#: src/Main/Base/Gui/Pads/ProjectBrowser/NodeBuilder/DefaultDotNetNodeBuilder.cs:65
+#: src/Main/Base/Gui/Pads/ProjectBrowser/NodeBuilder/DefaultDotNetNodeBuilder.cs:60
 msgid "References"
 msgstr "Referências"
 
-#: src/Main/Base/Gui/Pads/ProjectBrowser/ProjectBrowserView.cs:59
+#: src/Main/Base/Gui/Pads/ProjectBrowser/ProjectBrowserView.cs:58
 msgid "Solution"
 msgstr "Solução"
 
-#: src/Main/Base/Gui/Workbench/DefaultWorkbench.cs:593
-#: src/Main/Base/Commands/RunCommands.cs:242
+#: src/Main/Base/Gui/Workbench/DefaultWorkbench.cs:537
+#: src/Main/Base/Commands/RunCommands.cs:240
 #: src/Main/Base/Services/Project/DefaultProjectService.cs:155
 msgid "Ready"
 msgstr "Pronto"
 
-#: src/Main/Base/Gui/Workbench/Layouts/SdiWorkspaceWindow.cs:221
+#: src/Main/Base/Gui/Workbench/Layouts/SdiWorkspaceWindow.cs:220
 msgid "Do you want to save the current changes"
 msgstr "Você deseja salvar as mudanças atuais?"
 
-#: src/Main/Base/Gui/Workbench/Layouts/SdiWorkspaceWindow.cs:229
+#: src/Main/Base/Gui/Workbench/Layouts/SdiWorkspaceWindow.cs:228
 msgid "Do you really want to discard your changes ?"
 msgstr "Você realmente deseja descartar suas mudanças?"
 
@@ -2371,7 +2254,7 @@ msgstr "Você realmente deseja descartar suas mudanças?"
 msgid "Not implemented"
 msgstr "Não implementado"
 
-#: src/Main/Base/Commands/FileCommands.cs:104
+#: src/Main/Base/Commands/FileCommands.cs:101
 msgid "Are you sure that you want to reload the file?"
 msgstr "Você tem certeza de que deseja recarregar o arquivo?"
 
@@ -2388,41 +2271,41 @@ msgstr "Você tem certeza de que deseja recarregar o arquivo?"
 #. break;
 #. }
 #. }
-#: src/Main/Base/Commands/FileCommands.cs:149
+#: src/Main/Base/Commands/FileCommands.cs:146
 msgid "Save as..."
 msgstr "Salvar como..."
 
-#: src/Main/Base/Commands/FileCommands.cs:161
+#: src/Main/Base/Commands/FileCommands.cs:158
 #, csharp-format
 msgid "File name {0} is invalid"
 msgstr "O nome de arquivo {0} é inválido"
 
-#: src/Main/Base/Commands/FileCommands.cs:193
+#: src/Main/Base/Commands/FileCommands.cs:190
 msgid "Save File As..."
 msgstr "Salvar arquivo como..."
 
-#: src/Main/Base/Commands/FileCommands.cs:209
+#: src/Main/Base/Commands/FileCommands.cs:206
 msgid "File saved"
 msgstr "Arquivo salvo"
 
-#: src/Main/Base/Commands/FileCommands.cs:251
+#: src/Main/Base/Commands/FileCommands.cs:248
 #, csharp-format
 msgid "Can't open file {0} as project"
 msgstr "Não foi possível abrir o arquivo {0} como um projeto"
 
-#: src/Main/Base/Commands/FileCommands.cs:404
+#: src/Main/Base/Commands/FileCommands.cs:398
 msgid "Are you sure you want to clear recent files list?"
 msgstr "Você tem certeza de que deseja limpar a lista de arquivos recentes?"
 
-#: src/Main/Base/Commands/FileCommands.cs:404
+#: src/Main/Base/Commands/FileCommands.cs:398
 msgid "Clear recent files"
 msgstr "Limpar arquivos recentes"
 
-#: src/Main/Base/Commands/FileCommands.cs:420
+#: src/Main/Base/Commands/FileCommands.cs:414
 msgid "Are you sure you want to clear recent projects list?"
 msgstr "Você tem certeza de que deseja limpar a lista de projetos recentes?"
 
-#: src/Main/Base/Commands/FileCommands.cs:420
+#: src/Main/Base/Commands/FileCommands.cs:414
 msgid "Clear recent projects"
 msgstr "Limpar projetos recentes"
 
@@ -2435,40 +2318,36 @@ msgstr ""
 "Não foi possível executar ou visualizar{0}\n"
 " Por favor verifique se o arquivo existe e se você pode abrir este arquivo."
 
-#: src/Main/Base/Commands/MenuItemBuilders.cs:63
-msgid "Dialog.Componnents.RichMenuItem.LoadFileDescription"
-msgstr "Dialog.Componnents.RichMenuItem.LoadFileDescription"
-
-#: src/Main/Base/Commands/MenuItemBuilders.cs:69
+#: src/Main/Base/Commands/MenuItemBuilders.cs:66
 msgid "recent files"
 msgstr "arquivos recentes"
 
-#: src/Main/Base/Commands/MenuItemBuilders.cs:106
+#: src/Main/Base/Commands/MenuItemBuilders.cs:102
 #, csharp-format
 msgid "load solution {0}"
 msgstr "carregar solução {0}"
 
-#: src/Main/Base/Commands/MenuItemBuilders.cs:111
+#: src/Main/Base/Commands/MenuItemBuilders.cs:107
 msgid "recent solutions"
 msgstr "soluções recentes"
 
-#: src/Main/Base/Commands/MenuItemBuilders.cs:146
+#: src/Main/Base/Commands/MenuItemBuilders.cs:142
 msgid "Start tool"
 msgstr "Iniciar ferramenta"
 
-#: src/Main/Base/Commands/MenuItemBuilders.cs:170
+#: src/Main/Base/Commands/MenuItemBuilders.cs:166
 #, csharp-format
 msgid "Enter any arguments you want to use while launching tool, {0}:"
 msgstr ""
 "Digite quaisquer argumentos que voc6e deseja usar para iniciar a "
 "ferrameenta, {0}:"
 
-#: src/Main/Base/Commands/MenuItemBuilders.cs:170
+#: src/Main/Base/Commands/MenuItemBuilders.cs:166
 #, csharp-format
 msgid "Command Arguments for {0}"
 msgstr "Argumentos de comando para {0}"
 
-#: src/Main/Base/Commands/MenuItemBuilders.cs:197
+#: src/Main/Base/Commands/MenuItemBuilders.cs:193
 #, csharp-format
 msgid ""
 "External program execution failed.\n"
@@ -2479,29 +2358,29 @@ msgstr ""
 "Erro ao iniciar:\n"
 " '{0} {1}'"
 
-#: src/Main/Base/Commands/MenuItemBuilders.cs:239
+#: src/Main/Base/Commands/MenuItemBuilders.cs:235
 msgid "Activate this window"
 msgstr "Ativar esta janela"
 
-#: src/Main/Base/Commands/MenuItemBuilders.cs:301
+#: src/Main/Base/Commands/MenuItemBuilders.cs:297
 msgid "Deploy"
 msgstr "Distribuir"
 
-#: src/Main/Base/Commands/ProjectBrowserCommands/CombineNodeCommands.cs:53
-#: src/Main/Base/Commands/ProjectBrowserCommands/CombineNodeCommands.cs:121
+#: src/Main/Base/Commands/ProjectBrowserCommands/CombineNodeCommands.cs:63
+#: src/Main/Base/Commands/ProjectBrowserCommands/CombineNodeCommands.cs:139
 msgid "Invalid Project File"
 msgstr "Arquivo de projeto inválido"
 
-#: src/Main/Base/Commands/ProjectBrowserCommands/CombineNodeCommands.cs:83
-#: src/Main/Base/Commands/ProjectBrowserCommands/CombineNodeCommands.cs:163
+#: src/Main/Base/Commands/ProjectBrowserCommands/CombineNodeCommands.cs:102
+#: src/Main/Base/Commands/ProjectBrowserCommands/CombineNodeCommands.cs:181
 msgid "Invalid Solution File"
 msgstr "Arquivo de solução inválido"
 
-#: src/Main/Base/Commands/ProjectBrowserCommands/CombineNodeCommands.cs:100
+#: src/Main/Base/Commands/ProjectBrowserCommands/CombineNodeCommands.cs:118
 msgid "Add a Project"
 msgstr "Adicionar um projeto"
 
-#: src/Main/Base/Commands/ProjectBrowserCommands/CombineNodeCommands.cs:141
+#: src/Main/Base/Commands/ProjectBrowserCommands/CombineNodeCommands.cs:159
 msgid "Add a Combine"
 msgstr "Adicionar um combinado"
 
@@ -2544,23 +2423,23 @@ msgstr "Sucesso"
 msgid "{0} errors, {1} warnings"
 msgstr "{0} erros, {1} avisos"
 
-#: src/Main/Base/Commands/RunCommands.cs:75
-#: src/Main/Base/Commands/RunCommands.cs:150
+#: src/Main/Base/Commands/RunCommands.cs:74
+#: src/Main/Base/Commands/RunCommands.cs:148
 #, csharp-format
 msgid "Language binding {0} can't compile {1}"
 msgstr "O binding da linguagem {0} não pode compilar {1}"
 
-#: src/Main/Base/Commands/RunCommands.cs:89
-#: src/Main/Base/Commands/RunCommands.cs:164
+#: src/Main/Base/Commands/RunCommands.cs:88
+#: src/Main/Base/Commands/RunCommands.cs:162
 msgid "No source file for compilation found. Please save unsaved files"
 msgstr ""
 "Nenhum arquivo fonte para compilação encontrado. Por favor salve os arquivos "
 "não salvos."
 
-#: src/Main/Base/Commands/RunCommands.cs:93
-#: src/Main/Base/Commands/RunCommands.cs:168
-#: src/Main/Base/Commands/RunCommands.cs:282
-#: src/Main/Base/Commands/RunCommands.cs:316
+#: src/Main/Base/Commands/RunCommands.cs:92
+#: src/Main/Base/Commands/RunCommands.cs:166
+#: src/Main/Base/Commands/RunCommands.cs:278
+#: src/Main/Base/Commands/RunCommands.cs:310
 #, csharp-format
 msgid ""
 "---------------------- Done ----------------------\n"
@@ -2571,16 +2450,16 @@ msgstr ""
 "\n"
 "Compilação: {0} bem-sucedidas, {1} falharam\n"
 
-#: src/Main/Base/Commands/RunCommands.cs:97
-#: src/Main/Base/Commands/RunCommands.cs:172
+#: src/Main/Base/Commands/RunCommands.cs:96
+#: src/Main/Base/Commands/RunCommands.cs:170
 msgid "Error while compiling"
 msgstr "Erro ao compilar"
 
-#: src/Main/Base/Commands/RunCommands.cs:207
+#: src/Main/Base/Commands/RunCommands.cs:205
 msgid "Executing"
 msgstr "Executando"
 
-#: src/Main/Base/Commands/RunCommands.cs:220
+#: src/Main/Base/Commands/RunCommands.cs:218
 msgid ""
 "Cannot execute Run command, cannot find startup project.\n"
 "Please define a startup project for the combine in the combine properties."
@@ -2590,33 +2469,33 @@ msgstr ""
 "Por favor defina um projeto inicial para o combinado nas propriedades do "
 "mesmo."
 
-#: src/Main/Base/Commands/RunCommands.cs:233
+#: src/Main/Base/Commands/RunCommands.cs:231
 msgid "No runnable executable found."
 msgstr "Nenhum executável encontrado."
 
-#: src/Main/Base/Commands/RunCommands.cs:240
+#: src/Main/Base/Commands/RunCommands.cs:238
 msgid "Error while running"
 msgstr "Erro ao rodar"
 
-#: src/Main/Base/Commands/RunCommands.cs:285
-#: src/Main/Base/Commands/RunCommands.cs:319
+#: src/Main/Base/Commands/RunCommands.cs:281
+#: src/Main/Base/Commands/RunCommands.cs:313
 #, csharp-format
 msgid "Error while compiling project {0}"
 msgstr "Erro ao compilar projeto {0}"
 
-#: src/Main/Base/Internal/ExternalTool/ToolLoader.cs:90
+#: src/Main/Base/Internal/ExternalTool/ToolLoader.cs:89
 msgid "Can't load external tools configuration file"
 msgstr ""
 "Não foi possível carregar o arquivo de configuração de ferramentas externas"
 
-#: src/Main/Base/Internal/Project/Combine/Combine.cs:201
+#: src/Main/Base/Internal/Project/Combine/Combine.cs:203
 #, csharp-format
 msgid "Can't find language binding for {0}"
 msgstr "Não foi possível carregar binding de linguagem para {0}"
 
-#: src/Main/Base/Internal/Project/Combine/Combine.cs:353
-#: src/Main/Base/Internal/Project/Combine/Combine.cs:364
-#: src/Main/Base/Internal/Project/Project/AbstractProject.cs:512
+#: src/Main/Base/Internal/Project/Combine/Combine.cs:355
+#: src/Main/Base/Internal/Project/Combine/Combine.cs:366
+#: src/Main/Base/Internal/Project/Project/AbstractProject.cs:511
 msgid ""
 "Can't save solution\n"
 "Please check your file and directory permissions."
@@ -2624,15 +2503,15 @@ msgstr ""
 "Não foi possível salvar solução\n"
 "Por favor verifique as permissões de seus arquivos e diretórios."
 
-#: src/Main/Base/Internal/Project/Combine/Combine.cs:371
+#: src/Main/Base/Internal/Project/Combine/Combine.cs:373
 msgid "Save Combine As..."
 msgstr "Salvar combinado como..."
 
-#: src/Main/Base/Internal/Project/Combine/Combine.cs:377
+#: src/Main/Base/Internal/Project/Combine/Combine.cs:379
 msgid "Combine saved"
 msgstr "Combinado salvo"
 
-#: src/Main/Base/Internal/Project/Combine/Combine.cs:619
+#: src/Main/Base/Internal/Project/Combine/Combine.cs:625
 msgid ""
 "Cyclic dependencies can not be built with this version.\n"
 "But we are working on it."
@@ -2640,12 +2519,12 @@ msgstr ""
 "Dependências cíclicas não podem ser feitas com esta versão.\n"
 "Mas estamos trabalhando nisso."
 
-#: src/Main/Base/Internal/Project/Combine/CombineEntry.cs:116
+#: src/Main/Base/Internal/Project/Combine/CombineEntry.cs:115
 #, csharp-format
 msgid "Compiling: {0}"
 msgstr "Compilando: {0}"
 
-#: src/Main/Base/Internal/Project/Combine/CombineEntry.cs:134
+#: src/Main/Base/Internal/Project/Combine/CombineEntry.cs:133
 #, csharp-format
 msgid ""
 "------ Build started: Project: {0} Configuration: {1} ------\n"
@@ -2656,13 +2535,13 @@ msgstr ""
 "\n"
 "Fazendo a compilação principal...\n"
 
-#: src/Main/Base/Internal/Project/Combine/CombineEntry.cs:137
-#: src/Main/Base/Internal/Project/Combine/CombineEntry.cs:151
+#: src/Main/Base/Internal/Project/Combine/CombineEntry.cs:136
+#: src/Main/Base/Internal/Project/Combine/CombineEntry.cs:150
 #, csharp-format
 msgid "Execute : {0}"
 msgstr "Executar : {0}"
 
-#: src/Main/Base/Internal/Project/Combine/CombineEntry.cs:176
+#: src/Main/Base/Internal/Project/Combine/CombineEntry.cs:173
 #, csharp-format
 msgid ""
 "Build complete -- {0} errors, {1} warnings\n"
@@ -2693,29 +2572,30 @@ msgstr ""
 " Um proxy não persistente será criado mas mudanças não serão salvas.\n"
 "É melhor fechar o MonoDevelop e corrigir o problema."
 
-#: src/Main/Base/Internal/Project/Project/AbstractProject.cs:527
+#: src/Main/Base/Internal/Project/Project/AbstractProject.cs:526
 msgid "Save Project As..."
 msgstr "Salvar projeto como..."
 
-#: src/Main/Base/Internal/Project/Project/AbstractProject.cs:535
+#: src/Main/Base/Internal/Project/Project/AbstractProject.cs:533
 msgid "Project saved"
 msgstr "Projeto salvo"
 
-#: src/Main/Base/Internal/Project/Project/Deployment/AssemblyDeploy.cs:29
+#: src/Main/Base/Internal/Project/Project/Deployment/AssemblyDeploy.cs:28
 msgid "Can't deploy: no deployment target set"
 msgstr "Impossível distribuir: Nenhum alvo de distribuição definido"
 
-#: src/Main/Base/Internal/Project/Project/Deployment/FileDeploy.cs:24
-#: src/Main/Base/Internal/Project/Project/Deployment/ScriptDeploy.cs:24
+#: src/Main/Base/Internal/Project/Project/Deployment/FileDeploy.cs:23
+#: src/Main/Base/Internal/Project/Project/Deployment/ScriptDeploy.cs:23
 msgid "Can't deploy: you forgot to specify a deployment script"
 msgstr ""
 "Impossível distribuir: Você esqueceu de especificar um script de distribuição"
 
-#: src/Main/Base/Internal/Project/Project/Deployment/ScriptDeploy.cs:36
+#: src/Main/Base/Internal/Project/Project/Deployment/ScriptDeploy.cs:35
 msgid "Error while executing deploy script"
 msgstr "Erro ao executar o script de distribuição"
 
-#: src/Main/Base/Internal/Project/Project/IncludeFilesDialog.cs:56
+#. set up dialog title
+#: src/Main/Base/Internal/Project/Project/IncludeFilesDialog.cs:51
 #, csharp-format
 msgid "Found new files in {0}"
 msgstr "Encontrado novos arquivos em {0}"
@@ -2724,7 +2604,7 @@ msgstr "Encontrado novos arquivos em {0}"
 msgid "Can't load templates configuration file"
 msgstr "Não foi possível carregar o arquivo de configuração de modelos"
 
-#: src/Main/Base/Internal/Templates/FileTemplate.cs:165
+#: src/Main/Base/Internal/Templates/FileTemplate.cs:170
 #, csharp-format
 msgid "Error loading template file {0}"
 msgstr "Erro ao carregar arquivo de modelos {0}"
@@ -2753,6 +2633,12 @@ msgstr ""
 "O arquivo {0} já existe, você deseja sobrescrever\n"
 "o arquivo existente?"
 
+#: src/Main/Base/Internal/Templates/ProjectTemplates/ProjectDescriptor.cs:113
+#: src/Main/Base/Internal/Templates/ProjectTemplates/ProjectDescriptor.cs:139
+#: src/Main/Base/Internal/Templates/ProjectTemplates/ProjectDescriptor.cs:162
+msgid "File already exists"
+msgstr "O arquivo já existe"
+
 #: src/Main/Base/Internal/Templates/ProjectTemplates/ProjectDescriptor.cs:127
 #: src/Main/Base/Internal/Templates/ProjectTemplates/ProjectDescriptor.cs:153
 #, csharp-format
@@ -2773,27 +2659,27 @@ msgstr ""
 msgid "Didnt match on mimetype: {0}, trying filename"
 msgstr "O mimetype não confere: {0}, tentando nome de arquivo"
 
-#: src/Main/Base/Services/File/DefaultFileService.cs:248
+#: src/Main/Base/Services/File/DefaultFileService.cs:233
 #, csharp-format
 msgid "Can't remove directory {0}"
 msgstr "Não foi possível remover o diretório {0}"
 
-#: src/Main/Base/Services/File/DefaultFileService.cs:257
+#: src/Main/Base/Services/File/DefaultFileService.cs:242
 #, csharp-format
 msgid "Can't remove file {0}"
 msgstr "Não foi possível remover o arquivo {0}"
 
-#: src/Main/Base/Services/File/DefaultFileService.cs:272
+#: src/Main/Base/Services/File/DefaultFileService.cs:257
 #, csharp-format
 msgid "Can't rename directory {0}"
 msgstr "Não foi possível renomear o diretório {0}"
 
-#: src/Main/Base/Services/File/DefaultFileService.cs:281
+#: src/Main/Base/Services/File/DefaultFileService.cs:266
 #, csharp-format
 msgid "Can't rename file {0}"
 msgstr "Não foi possível renomear o arquivo {0}"
 
-#: src/Main/Base/Services/MessageService.cs:100
+#: src/Main/Base/Services/MessageService.cs:133
 msgid "Question"
 msgstr "Questão"
 
@@ -2809,12 +2695,12 @@ msgstr "Escrevendo classe"
 msgid "Opening Combine..."
 msgstr "Abrindo combinado..."
 
-#: src/Main/Base/Services/Project/DefaultProjectService.cs:280
+#: src/Main/Base/Services/Project/DefaultProjectService.cs:286
 #, csharp-format
 msgid "Compiling {0}"
 msgstr "Compilando {0}"
 
-#: src/Main/Base/Services/Project/DefaultProjectService.cs:338
+#: src/Main/Base/Services/Project/DefaultProjectService.cs:344
 msgid "Save changed files?"
 msgstr "Salvar arquivos alterados?"
 
@@ -2912,35 +2798,27 @@ msgstr "Tentativa de remover um não-nó da árvoce"
 msgid "Insert a color hex string"
 msgstr "Insira o código hexadecimal da cor"
 
-#: src/AddIns/DisplayBindings/SourceEditor/Gui/Dialogs/ReplaceDialog.cs:142
-#: src/AddIns/DisplayBindings/SourceEditor/Gui/Dialogs/ReplaceInFilesDialog.cs:177
+#: src/AddIns/DisplayBindings/SourceEditor/Gui/Dialogs/ReplaceDialog.cs:141
+#: src/AddIns/DisplayBindings/SourceEditor/Gui/Dialogs/ReplaceInFilesDialog.cs:176
 msgid "Wildcards"
 msgstr "Caracteres-curinga"
 
-#: src/AddIns/DisplayBindings/SourceEditor/Gui/Dialogs/ReplaceDialog.cs:145
-#: src/AddIns/DisplayBindings/SourceEditor/Gui/Dialogs/ReplaceInFilesDialog.cs:179
+#: src/AddIns/DisplayBindings/SourceEditor/Gui/Dialogs/ReplaceDialog.cs:144
+#: src/AddIns/DisplayBindings/SourceEditor/Gui/Dialogs/ReplaceInFilesDialog.cs:178
 msgid "Regular Expressions"
 msgstr "Expressões regulares"
 
-#: src/AddIns/DisplayBindings/SourceEditor/Gui/Dialogs/ReplaceDialog.cs:161
+#: src/AddIns/DisplayBindings/SourceEditor/Gui/Dialogs/ReplaceDialog.cs:160
 msgid "Current File"
 msgstr "Arquivo atual"
 
-#: src/AddIns/DisplayBindings/SourceEditor/Gui/Dialogs/ReplaceDialog.cs:163
+#: src/AddIns/DisplayBindings/SourceEditor/Gui/Dialogs/ReplaceDialog.cs:162
 msgid "All Open Files"
 msgstr "Todos os arquivos abertos"
 
-#: src/AddIns/DisplayBindings/SourceEditor/Gui/Dialogs/ReplaceDialog.cs:165
+#: src/AddIns/DisplayBindings/SourceEditor/Gui/Dialogs/ReplaceDialog.cs:164
 msgid "Entire Project"
 msgstr "Todo o projeto"
-
-#: src/AddIns/DisplayBindings/SourceEditor/Gui/Dialogs/ReplaceDialog.cs:190
-msgid "Replace"
-msgstr "Substituir"
-
-#: src/AddIns/DisplayBindings/SourceEditor/Gui/Dialogs/ReplaceDialog.cs:195
-msgid "Find"
-msgstr "Localizar"
 
 #. FIXME: make this a resource in the resource file
 #: src/AddIns/DisplayBindings/SourceEditor/Gui/Dialogs/EditTemplateGroupDialog.cs:61
@@ -2949,29 +2827,29 @@ msgid "{0} Code Group"
 msgstr "Grupo de código {0}"
 
 #. set the label properties
-#: src/AddIns/DisplayBindings/SourceEditor/Gui/Dialogs/ReplaceInFilesDialog.cs:99
+#: src/AddIns/DisplayBindings/SourceEditor/Gui/Dialogs/ReplaceInFilesDialog.cs:98
 msgid "Replace in Files"
 msgstr "Substituir nos arquivos"
 
-#: src/AddIns/DisplayBindings/SourceEditor/Gui/Dialogs/ReplaceInFilesDialog.cs:195
+#: src/AddIns/DisplayBindings/SourceEditor/Gui/Dialogs/ReplaceInFilesDialog.cs:194
 msgid "Directories"
 msgstr "Diretórios"
 
-#: src/AddIns/DisplayBindings/SourceEditor/Gui/Dialogs/ReplaceInFilesDialog.cs:199
+#: src/AddIns/DisplayBindings/SourceEditor/Gui/Dialogs/ReplaceInFilesDialog.cs:198
 msgid "Whole project"
 msgstr "Todo o projeto"
 
-#: src/AddIns/DisplayBindings/SourceEditor/Gui/Dialogs/ReplaceInFilesDialog.cs:258
+#: src/AddIns/DisplayBindings/SourceEditor/Gui/Dialogs/ReplaceInFilesDialog.cs:257
 msgid "Select directory"
 msgstr "Selecionar diretório"
 
-#: src/AddIns/DisplayBindings/SourceEditor/Gui/Dialogs/ReplaceInFilesDialog.cs:309
-#: src/AddIns/DisplayBindings/SourceEditor/Gui/Dialogs/ReplaceInFilesDialog.cs:314
+#: src/AddIns/DisplayBindings/SourceEditor/Gui/Dialogs/ReplaceInFilesDialog.cs:308
+#: src/AddIns/DisplayBindings/SourceEditor/Gui/Dialogs/ReplaceInFilesDialog.cs:313
 #, csharp-format
 msgid "Invalid directory name: {0}"
 msgstr "Nome de diretório inválido: {0}"
 
-#: src/AddIns/DisplayBindings/SourceEditor/Gui/Dialogs/ReplaceInFilesDialog.cs:319
+#: src/AddIns/DisplayBindings/SourceEditor/Gui/Dialogs/ReplaceInFilesDialog.cs:318
 #, csharp-format
 msgid "Invalid file mask: {0}"
 msgstr "Máscara de arquivo inválida: {0}"
@@ -2989,25 +2867,52 @@ msgstr "Novo "
 msgid "Edit "
 msgstr "Editar "
 
-#: src/AddIns/DisplayBindings/SourceEditor/Gui/SourceEditorDisplayBinding.cs:114
+#: src/AddIns/DisplayBindings/SourceEditor/Gui/SourceEditorDisplayBinding.cs:151
 msgid "Source Editor"
 msgstr "Editor de fonte"
 
-#: src/AddIns/DisplayBindings/SourceEditor/Search/SearchReplaceInFilesManager.cs:117
-msgid "Search completed"
+#: src/AddIns/DisplayBindings/SourceEditor/Search/SearchReplaceInFilesManager.cs:81
+#, csharp-format
+msgid "Match at offset {0}"
+msgstr ""
+
+#: src/AddIns/DisplayBindings/SourceEditor/Search/SearchReplaceInFilesManager.cs:124
+#, fuzzy
+msgid "Search cancelled."
 msgstr "Busca completa"
 
+#: src/AddIns/DisplayBindings/SourceEditor/Search/SearchReplaceInFilesManager.cs:125
+#, csharp-format
+msgid "Search completed. {0} matches found in {1} files."
+msgstr ""
+
+#: src/AddIns/DisplayBindings/SourceEditor/Search/SearchReplaceInFilesManager.cs:147
+#: src/AddIns/DisplayBindings/SourceEditor/Search/SearchReplaceInFilesManager.cs:188
+msgid "There is a search already in progress. Do you want to cancel it?"
+msgstr ""
+
+#: src/AddIns/DisplayBindings/SourceEditor/Search/SearchReplaceInFilesManager.cs:157
+#, csharp-format
+msgid "Replacing '{0}' in {1}."
+msgstr ""
+
+#: src/AddIns/DisplayBindings/SourceEditor/Search/SearchReplaceInFilesManager.cs:198
+#, csharp-format
+msgid "Looking for '{0}' in {1}."
+msgstr ""
+
 #. MessageBox.Show((Form)WorkbenchSingleton.Workbench, "Mark all done", "Finished");
-#: src/AddIns/DisplayBindings/SourceEditor/Search/SearchReplaceManager.cs:105
+#: src/AddIns/DisplayBindings/SourceEditor/Search/SearchReplaceManager.cs:104
 msgid "Mark all completed"
 msgstr "'Marcar todos' completado"
 
 #. MessageBox.Show((Form)WorkbenchSingleton.Workbench, "Replace all done", "Finished");
-#: src/AddIns/DisplayBindings/SourceEditor/Search/SearchReplaceManager.cs:138
-msgid "Replace all finished"
+#: src/AddIns/DisplayBindings/SourceEditor/Search/SearchReplaceManager.cs:137
+#, fuzzy, csharp-format
+msgid "Replace all finished. {0} matches found."
 msgstr "'Substituir todos' completado"
 
-#: src/AddIns/DisplayBindings/SourceEditor/Search/SearchReplaceManager.cs:167
+#: src/AddIns/DisplayBindings/SourceEditor/Search/SearchReplaceManager.cs:176
 msgid "Not Found"
 msgstr "Não encontrado"
 
@@ -3019,10 +2924,478 @@ msgstr "Executável"
 msgid "Library"
 msgstr "Biblioteca"
 
-#: src/AddIns/BackendBindings/CSharpBinding/Gui/OutputOptionsPanel.cs:101
+#: src/AddIns/BackendBindings/CSharpBinding/Gui/OutputOptionsPanel.cs:75
+#, fuzzy
+msgid "Invalid assembly name specified"
+msgstr "O alvo de distribuição especificado é inválido"
+
+#: src/AddIns/BackendBindings/CSharpBinding/Gui/OutputOptionsPanel.cs:80
+#, fuzzy
+msgid "Invalid output directory specified"
+msgstr "O alvo de distribuição especificado é inválido"
+
+#: src/AddIns/BackendBindings/CSharpBinding/Gui/OutputOptionsPanel.cs:97
 msgid "Select the directory in which the assembly will be created"
 msgstr "Selecione o diretório onde o assembly será criado"
 
 #: src/AddIns/prj2make-sharp-lib/prj2make-sharp-lib.addin.xml.h:2
 msgid "_Import VS Project"
 msgstr "_Importar projeto do Visual Studio"
+
+#: build/AddIns/AddIns/BackendBindings/templates/BlankCombine.xpt.xml.h:1
+#, fuzzy
+msgid "A blank solution"
+msgstr "carregar solução {0}"
+
+#: build/AddIns/AddIns/BackendBindings/templates/BlankCombine.xpt.xml.h:2
+#, fuzzy
+msgid "Blank Solution"
+msgstr "Solução"
+
+#: build/AddIns/AddIns/BackendBindings/templates/ConsoleProject.xpt.xml.h:1
+#, fuzzy
+msgid "Console Project"
+msgstr "Mono Project"
+
+#: build/AddIns/AddIns/BackendBindings/templates/ConsoleProject.xpt.xml.h:2
+#, fuzzy
+msgid "Creates a new console project."
+msgstr "Criar um novo projeto C#"
+
+#: build/AddIns/AddIns/BackendBindings/templates/CSharpSessionStateWebService.xft.xml.h:1
+msgid "Creates a secure C# Web Service, using SessionState"
+msgstr ""
+
+#: build/AddIns/AddIns/BackendBindings/templates/CSharpSessionStateWebService.xft.xml.h:2
+msgid "Secure C# Web Service"
+msgstr ""
+
+#: build/AddIns/AddIns/BackendBindings/templates/CSharpWebService.xft.xml.h:1
+msgid "C# Web Service"
+msgstr ""
+
+#: build/AddIns/AddIns/BackendBindings/templates/CSharpWebService.xft.xml.h:2
+#, fuzzy
+msgid "Creates a C# Web Service."
+msgstr "Criar um novo projeto C#"
+
+#: build/AddIns/AddIns/BackendBindings/templates/EmptyCSharpFile.xft.xml.h:1
+#, fuzzy
+msgid "Creates an empty C# file."
+msgstr "Criar um novo projeto C#"
+
+#: build/AddIns/AddIns/BackendBindings/templates/EmptyCSharpFile.xft.xml.h:2
+msgid "Empty File"
+msgstr ""
+
+#: build/AddIns/AddIns/BackendBindings/templates/EmptyHTMLFile.xft.xml.h:1
+msgid "Creates an empty HTML file."
+msgstr ""
+
+#: build/AddIns/AddIns/BackendBindings/templates/EmptyHTMLFile.xft.xml.h:2
+msgid "Empty HTML File"
+msgstr ""
+
+#: build/AddIns/AddIns/BackendBindings/templates/EmptyJavaFile.xft.xml.h:1
+msgid "Creates an empty Java file."
+msgstr ""
+
+#: build/AddIns/AddIns/BackendBindings/templates/EmptyJavaFile.xft.xml.h:2
+msgid "Empty Java File"
+msgstr ""
+
+#: build/AddIns/AddIns/BackendBindings/templates/EmptyJavaProject.xpt.xml.h:1
+msgid "Creates an empty Java solution."
+msgstr ""
+
+#: build/AddIns/AddIns/BackendBindings/templates/EmptyJavaProject.xpt.xml.h:2
+#, fuzzy
+msgid "Empty Java Project"
+msgstr "_Importar projeto do Visual Studio"
+
+#: build/AddIns/AddIns/BackendBindings/templates/EmptyNemerleFile.xft.xml.h:1
+msgid "Empty Nemerle file"
+msgstr ""
+
+#: build/AddIns/AddIns/BackendBindings/templates/EmptyProject.xpt.xml.h:1
+#, fuzzy
+msgid "Creates an empty C# project."
+msgstr "Criar um novo projeto C#"
+
+#: build/AddIns/AddIns/BackendBindings/templates/EmptyProject.xpt.xml.h:2
+#, fuzzy
+msgid "Empty Project"
+msgstr "Todo o projeto"
+
+#: build/AddIns/AddIns/BackendBindings/templates/EmptyResourceFile.xft.xml.h:1
+msgid "Creates an empty resource file."
+msgstr ""
+
+#: build/AddIns/AddIns/BackendBindings/templates/EmptyResourceFile.xft.xml.h:2
+#, fuzzy
+msgid "Empty Resource File"
+msgstr "Arquivos de recursos"
+
+#: build/AddIns/AddIns/BackendBindings/templates/EmptyTextFile.xft.xml.h:1
+msgid "Creates an empty text file."
+msgstr ""
+
+#: build/AddIns/AddIns/BackendBindings/templates/EmptyTextFile.xft.xml.h:2
+msgid "Empty Text File"
+msgstr ""
+
+#: build/AddIns/AddIns/BackendBindings/templates/EmptyXMLFile.xft.xml.h:1
+#, fuzzy
+msgid "Creates an empty XML file."
+msgstr "Criar nova pasta"
+
+#: build/AddIns/AddIns/BackendBindings/templates/EmptyXMLFile.xft.xml.h:2
+msgid "Empty XML File"
+msgstr ""
+
+#: build/AddIns/AddIns/BackendBindings/templates/GladeSharpProject.xpt.xml.h:1
+#, fuzzy
+msgid "Glade# Project"
+msgstr "Construir _projeto"
+
+#: build/AddIns/AddIns/BackendBindings/templates/GladeSharpProject.xpt.xml.h:2
+msgid "a Glade# project with one window and button"
+msgstr ""
+
+#: build/AddIns/AddIns/BackendBindings/templates/GnomeSharpProgram.xft.xml.h:1
+#, fuzzy
+msgid "Creates a Gnome# program."
+msgstr "Criar um novo projeto C#"
+
+#: build/AddIns/AddIns/BackendBindings/templates/GnomeSharpProgram.xft.xml.h:2
+msgid "Gnome# Program"
+msgstr ""
+
+#: build/AddIns/AddIns/BackendBindings/templates/GnomeSharpProject.xpt.xml.h:1
+#, fuzzy
+msgid "Creates a Gnome# project"
+msgstr "Criar um novo projeto C#"
+
+#: build/AddIns/AddIns/BackendBindings/templates/GnomeSharpProject.xpt.xml.h:2
+#, fuzzy
+msgid "Gnome# Project"
+msgstr "Mono Project"
+
+#: build/AddIns/AddIns/BackendBindings/templates/GtkSharpProject.xpt.xml.h:1
+#, fuzzy
+msgid "Creates a Gtk# project."
+msgstr "Criar um novo projeto C#"
+
+#: build/AddIns/AddIns/BackendBindings/templates/GtkSharpProject.xpt.xml.h:2
+#, fuzzy
+msgid "Gtk# Project"
+msgstr "Projetos"
+
+#: build/AddIns/AddIns/BackendBindings/templates/GtkSharpWindow.xft.xml.h:1
+msgid "Creates a top-level Gtk# window."
+msgstr ""
+
+#: build/AddIns/AddIns/BackendBindings/templates/GtkSharpWindow.xft.xml.h:2
+#, fuzzy
+msgid "Gtk# Window"
+msgstr "Próxima ja_nela"
+
+#: build/AddIns/AddIns/BackendBindings/templates/IkvmConsoleApplicationProject.xpt.xml.h:1
+#, fuzzy
+msgid "Create a console Java project with IKVM"
+msgstr "Criar um novo projeto C#"
+
+#: build/AddIns/AddIns/BackendBindings/templates/IkvmConsoleApplicationProject.xpt.xml.h:2
+#, fuzzy
+msgid "IKVM Console Project"
+msgstr "Mono Project"
+
+#: build/AddIns/AddIns/BackendBindings/templates/IkvmGladeApplicationProject.xpt.xml.h:1
+msgid "Create a Glade# Java project with IKVM"
+msgstr ""
+
+#: build/AddIns/AddIns/BackendBindings/templates/IkvmGladeApplicationProject.xpt.xml.h:2
+#, fuzzy
+msgid "IKVM Glade# Project"
+msgstr "Adicionar um projeto"
+
+#: build/AddIns/AddIns/BackendBindings/templates/IkvmGnomeApplicationProject.xpt.xml.h:1
+#, fuzzy
+msgid "Create a Gnome# Java project with IKVM"
+msgstr "Criar um novo projeto C#"
+
+#: build/AddIns/AddIns/BackendBindings/templates/IkvmGnomeApplicationProject.xpt.xml.h:2
+#, fuzzy
+msgid "IKVM Gnome# Project"
+msgstr "Mono Project"
+
+#: build/AddIns/AddIns/BackendBindings/templates/IkvmGtkApplicationProject.xpt.xml.h:1
+msgid "Create a Gtk# Java project with IKVM"
+msgstr ""
+
+#: build/AddIns/AddIns/BackendBindings/templates/IkvmGtkApplicationProject.xpt.xml.h:2
+#, fuzzy
+msgid "IKVM Gtk# Project"
+msgstr "Mono Project"
+
+#: build/AddIns/AddIns/BackendBindings/templates/ILAsmConsoleProject.xpt.xml.h:1
+#, fuzzy
+msgid "ILAsm Console Project"
+msgstr "Mono Project"
+
+#: build/AddIns/AddIns/BackendBindings/templates/JavaApplet.xft.xml.h:1
+#, fuzzy
+msgid "Creates an AWT Applet"
+msgstr "Criar um novo projeto C#"
+
+#: build/AddIns/AddIns/BackendBindings/templates/JavaApplet.xft.xml.h:2
+msgid "Java AWT Applet"
+msgstr ""
+
+#: build/AddIns/AddIns/BackendBindings/templates/JavaApplicationProject.xpt.xml.h:1
+#, fuzzy
+msgid "Creates an AWT project."
+msgstr "Criar um novo projeto C#"
+
+#: build/AddIns/AddIns/BackendBindings/templates/JavaApplicationProject.xpt.xml.h:2
+#, fuzzy
+msgid "Java AWT Project"
+msgstr "Adicionar um projeto"
+
+#: build/AddIns/AddIns/BackendBindings/templates/JavaApplication.xft.xml.h:1
+msgid "Creates an AWT application."
+msgstr ""
+
+#: build/AddIns/AddIns/BackendBindings/templates/JavaApplication.xft.xml.h:2
+#, fuzzy
+msgid "Java AWT Application"
+msgstr "Terminar aplicação"
+
+#: build/AddIns/AddIns/BackendBindings/templates/JavaConsoleApplicationProject.xpt.xml.h:1
+#, fuzzy
+msgid "Create a console Java project"
+msgstr "Criar um novo projeto C#"
+
+#: build/AddIns/AddIns/BackendBindings/templates/JavaConsoleApplicationProject.xpt.xml.h:2
+#, fuzzy
+msgid "Java Console Project"
+msgstr "Mono Project"
+
+#: build/AddIns/AddIns/BackendBindings/templates/JavaDialog.xft.xml.h:1
+msgid "Creates an AWT dialog."
+msgstr ""
+
+#: build/AddIns/AddIns/BackendBindings/templates/JavaDialog.xft.xml.h:2
+msgid "Java AWT Dialog"
+msgstr ""
+
+#: build/AddIns/AddIns/BackendBindings/templates/JavaFrame.xft.xml.h:1
+#, fuzzy
+msgid "Creates an AWT Frame"
+msgstr "Criar um novo projeto C#"
+
+#: build/AddIns/AddIns/BackendBindings/templates/JavaFrame.xft.xml.h:2
+msgid "Java AWT Frame"
+msgstr ""
+
+#: build/AddIns/AddIns/BackendBindings/templates/JavaOKDialog.xft.xml.h:1
+msgid "Creates an AWT OK Dialog."
+msgstr ""
+
+#: build/AddIns/AddIns/BackendBindings/templates/JavaOKDialog.xft.xml.h:2
+msgid "Java AWT OK Dialog"
+msgstr ""
+
+#: build/AddIns/AddIns/BackendBindings/templates/JavaPanel.xft.xml.h:1
+msgid "Creates an AWT panel."
+msgstr ""
+
+#: build/AddIns/AddIns/BackendBindings/templates/JavaPanel.xft.xml.h:2
+msgid "Java AWT Panel"
+msgstr ""
+
+#: build/AddIns/AddIns/BackendBindings/templates/Library.xpt.xml.h:1
+#, fuzzy
+msgid "C# Library"
+msgstr "Biblioteca"
+
+#: build/AddIns/AddIns/BackendBindings/templates/Library.xpt.xml.h:2
+msgid "Creates an empty C# class library"
+msgstr ""
+
+#: build/AddIns/AddIns/BackendBindings/templates/NemerleEmptyProject.xpt.xml.h:1
+#, fuzzy
+msgid "Empty Nemerle project"
+msgstr "Todo o projeto"
+
+#~ msgid "${res:ProjectComponent.ContextMenu.AddMenu}"
+#~ msgstr "${res:ProjectComponent.ContextMenu.AddMenu}"
+
+#~ msgid "${res:ProjectComponent.ContextMenu.IncludeMenu}"
+#~ msgstr "${res:ProjectComponent.ContextMenu.IncludeMenu}"
+
+#~ msgid "${res:ProjectComponent.ContextMenu.Rename}"
+#~ msgstr "${res:ProjectComponent.ContextMenu.Rename}"
+
+#~ msgid "${res:Dialog.Options.IDEOptions.TextEditor.VB.PanelName}"
+#~ msgstr "${res:Dialog.Options.IDEOptions.TextEditor.VB.PanelName}"
+
+#~ msgid "${res:Dialog.Options.PrjOptions.CodeGenerationPanel.PanelName}"
+#~ msgstr "${res:Dialog.Options.PrjOptions.CodeGenerationPanel.PanelName}"
+
+#~ msgid "${res:Dialog.Options.PrjOptions.OutputOptionsPanel.PanelName}"
+#~ msgstr "${res:Dialog.Options.PrjOptions.OutputOptionsPanel.PanelName}"
+
+#~ msgid "Compiler"
+#~ msgstr "Compilador"
+
+#~ msgid "Runtime/Compiler"
+#~ msgstr "Tempo de execução/Compilador"
+
+#~ msgid "VB.DOC"
+#~ msgstr "VB.DOC"
+
+#~ msgid ""
+#~ "Combine file {0} already exists, do you want to overwrite\n"
+#~ "the existing file ?"
+#~ msgstr ""
+#~ "O arquivo do combinado {0} já existe. Deseja substituir\n"
+#~ " o arquivo existente?"
+
+#~ msgid "The project or source entry is empty, can't create project."
+#~ msgstr ""
+#~ "A caixa do projeto ou da fonte está vazia, não foi possível criar projeto."
+
+#~ msgid "Warning"
+#~ msgstr "Aviso"
+
+#~ msgid "Extracted more of the archive"
+#~ msgstr "Extraído mais do arquivo"
+
+#~ msgid "Downloading database"
+#~ msgstr "Fazendo download do banco de dados"
+
+#~ msgid "Downloaded more of {0}"
+#~ msgstr "Baixado mais de {0}"
+
+#~ msgid "Generation Method"
+#~ msgstr "Método de geração"
+
+#~ msgid "Generate a code completion database"
+#~ msgstr "Gerar um banco de dados de completamento de código"
+
+#~ msgid "Use a code completion database already on this computer"
+#~ msgstr ""
+#~ "Usar um banco de dados de completamento de código já existente neste "
+#~ "computador"
+
+#~ msgid "Download a code completion database"
+#~ msgstr "Fazer o download de um banco de dados de completamento de código"
+
+#~ msgid "Select Generation Style"
+#~ msgstr "Selecionar o estilo de geração"
+
+#~ msgid "Heavy process"
+#~ msgstr "Processo pesado"
+
+#~ msgid "Light process"
+#~ msgstr "Processo leve"
+
+#~ msgid ""
+#~ "This process is slower and more memory-intensive than the light process, "
+#~ "but will enable faster code completion"
+#~ msgstr ""
+#~ "Este processo é mais lento e consome mais memória do que o processo leve, "
+#~ "mas possibilita um completamento de código mais rápido"
+
+#~ msgid ""
+#~ "This process will take less time and memory to produce the code "
+#~ "completion database, but code completion will be slower"
+#~ msgstr ""
+#~ "Este processo levará menos tempo e memória para produzir o banco de dados "
+#~ "de completamento de código, mas o completamento de código será mais lento"
+
+#~ msgid "Existing Database Location"
+#~ msgstr "Localização do banco de dados existente"
+
+#~ msgid "Select code completion database"
+#~ msgstr "Selecione o banco de dados de completamento de código"
+
+#~ msgid "Where is the code completion database you would like to copy"
+#~ msgstr ""
+#~ "Onde está o banco de dados de completamento de código que você gostaria "
+#~ "de copiar"
+
+#~ msgid "Download Database"
+#~ msgstr "Fazer download de banco de dados"
+
+#~ msgid "Where would you like to download the code completion database from?"
+#~ msgstr ""
+#~ "De onde você gostaria de fazer download do banco de dados de "
+#~ "completamento de código?"
+
+#~ msgid "That Uri is invalid: {0}"
+#~ msgstr "Este endereço é inválido: {0} "
+
+#~ msgid ""
+#~ "That Uri appears not to refer to a file with a known compression type"
+#~ msgstr ""
+#~ "Este endereço não parece se referir a um arquivo com um tipo de "
+#~ "compressão conhecido"
+
+#~ msgid ""
+#~ "This druid will guide you through the process of creating a code "
+#~ "completion database"
+#~ msgstr ""
+#~ "Este druida te guiará pelo processo de criação de um banco de dados de "
+#~ "completamento de código"
+
+#~ msgid "Click Apply to start the database creation process"
+#~ msgstr ""
+#~ "Clique em Aplicar para iniciar o processo de criação do banco de dados"
+
+#~ msgid ""
+#~ "Are you sure you want to skip database creation? You will not have code "
+#~ "completion functionality."
+#~ msgstr ""
+#~ "Você tem certeza de que deseja pular a criação do banco de dados? Você "
+#~ "não terá a funcionalidade do completamento de código."
+
+#~ msgid "Are you sure?"
+#~ msgstr "Tem certeza?"
+
+#~ msgid "Code completion database generator"
+#~ msgstr "Gerador do banco de dados de completamento de código"
+
+#~ msgid "Creating database..."
+#~ msgstr "Criando banco de dados..."
+
+#~ msgid "Cancel"
+#~ msgstr "Cancelar"
+
+#~ msgid "Cancelling not available"
+#~ msgstr "Cancelamento indisponível"
+
+#~ msgid "This type of code completion database generator can not be canceled"
+#~ msgstr ""
+#~ "Este tipo de geração de banco de dados de completamento de código não "
+#~ "pode ser cancelado"
+
+#~ msgid "Code completion database druid"
+#~ msgstr "Druida do banco de dados de completamento de código"
+
+#~ msgid ""
+#~ "Attempting to restart MonoDevelop, if you get any exceptions, restart "
+#~ "manually"
+#~ msgstr ""
+#~ "Tentando reiniciar o MonoDevelop, se você receber alguma exceção, "
+#~ "reinicie manualmente"
+
+#~ msgid "Referencing existing database"
+#~ msgstr "Referenciando um banco de dados já existente"
+
+#~ msgid "Referenced existing database"
+#~ msgstr "Banco de dados já existente referenciado"
+
+#~ msgid "Dialog.Componnents.RichMenuItem.LoadFileDescription"
+#~ msgstr "Dialog.Componnents.RichMenuItem.LoadFileDescription"

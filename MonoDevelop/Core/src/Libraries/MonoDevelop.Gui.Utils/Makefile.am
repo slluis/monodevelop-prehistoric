@@ -21,7 +21,7 @@ all: $(DLL)
 
 $(DLL): $(build_sources)
 	mcs /debug /out:$(DLL) /target:library $(REFERENCES) $(build_sources) \
-	&& cp $(DLL) ../../../build/bin/. && cp $(srcdir)/$(DLL).config ../../../build/bin
+	&& cp $(DLL) ../../../build/bin/. && cp $(DLL).config ../../../build/bin
 
 assemblydir = $(libdir)/monodevelop/bin
 assembly_DATA = $(DLL) $(DLL).config
