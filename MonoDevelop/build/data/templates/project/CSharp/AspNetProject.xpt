@@ -45,7 +45,7 @@
 		<meta name="CODE_LANGUAGE" Content="C#">
 		<meta name=vs_defaultClientScript content="JavaScript">
 	</head>
-	<body MS_POSITIONING="GridLayout"> 
+	<body> 
  
 	<form id="Form1" method="post" runat="server">
     
@@ -62,8 +62,8 @@ using System.Drawing;
 using System.Web;
 using System.Web.SessionState;
 using System.Web.UI;
-using System.Web.WebControls;
-using System.Web.HtmlControls;
+using System.Web.UI.WebControls;
+using System.Web.UI.HtmlControls;
 
 namespace WebApplication1
 {
@@ -71,7 +71,7 @@ namespace WebApplication1
 	{
 		private void Page_Load(object sender, System.EventArgs e)
 		{
-			// Put user code to initialize the page here
+			// Put code to initialize the page here
 		}
 
 		override protected void OnInit(EventArgs e)
@@ -150,93 +150,54 @@ namespace WebApplication1
 		}
 	}
 }]]></File>
-			<File name="Web.config"><![CDATA[<?xml version="1.0" encoding="utf-8" ?>
+			<File name="Web.config"><![CDATA[<?xml version="1.0" encoding="utf-8"?>
 <configuration>
-    
-  <system.web>
-
-    <!--  DYNAMIC DEBUG COMPILATION
-          debug="true" enables ASPX debugging and inserts debugging symbols into the 
-          compiled page. This increases file size and degrades performance.
-          debug="false" should be always be used when not debugging
-    -->
-    <compilation 
-         defaultLanguage="c#"
-         debug="true"
-    />
-
-    <!--  CUSTOM ERROR MESSAGES
-          Set customErrors mode="On" or "RemoteOnly" to enable custom error messages, "Off" to disable. 
-          Add <error> tags for each of the errors you want to handle.
-
-          "On" Always display custom (friendly) messages.
-          "Off" Always display detailed ASP.NET error information.
-          "RemoteOnly" Display custom (friendly) messages only to users not running 
-           on the local Web server. This setting is recommended for security purposes, so 
-           that you do not display application detail information to remote clients.
-    -->
-    <customErrors 
-    mode="RemoteOnly" 
-    /> 
-
-    <!--  AUTHENTICATION 
-          This section sets the authentication policies of the application. Possible modes are "Windows", 
-          "Forms", "Passport" and "None"
-
-          "None" No authentication is performed. 
-          "Forms" You provide a custom form (Web page) for users to enter their credentials, and then 
-           you authenticate them in your application. A user credential token is stored in a cookie.
-    -->
-    <authentication mode="None" /> 
-
-	<!--  AUTHORIZATION 
-          This section sets the authorization policies of the application. You can allow or deny access
-          to application resources by user or role. Wildcards: "*" mean everyone, "?" means anonymous 
-          (unauthenticated) users.
-    -->
-
-    <authorization>
-        <allow users="*" /> <!-- Allow all users -->
-            <!--  <allow     users="[comma separated list of users]"
-                             roles="[comma separated list of roles]"/>
-                  <deny      users="[comma separated list of users]"
-                             roles="[comma separated list of roles]"/>
-            -->
-    </authorization>
-
-    <!--  APPLICATION-LEVEL TRACE LOGGING
-          Enables trace log output for every page 
-          Set trace enabled="true" to enable it
-    -->
-    <trace
-        enabled="false"
-        requestLimit="10"
-        pageOutput="false"
-        traceMode="SortByTime"
-		localOnly="true"
-    />
-
-    <!--  SESSION STATE SETTINGS
-          By default ASP.NET uses cookies for sessions
-		  To disable cookies, set sessionState cookieless="true".
-    -->
-    <sessionState 
-            mode="InProc"
-            stateConnectionString="tcpip=127.0.0.1:42424"
-            sqlConnectionString="data source=127.0.0.1;Trusted_Connection=yes"
-            cookieless="false" 
-            timeout="20" 
-    />
-
-    <!--  GLOBALIZATION
-    -->
-    <globalization 
-            requestEncoding="utf-8" 
-            responseEncoding="utf-8" 
-   />
-   
- </system.web>
-
+    <configSections>
+            <sectionGroup name="mono.aspnet">
+                <section name="acceptEncoding" type="Mono.Http.Configuration.AcceptEncodingSectionHandler, Mono.Http"/>
+            </sectionGroup>
+    </configSections>
+ 
+    <system.web>
+        <customErrors mode="Off"/>
+        <webServices>
+                <soapExtensionTypes>
+                        <!-- <add type="DumpExtension, extensions" priority="0" group="0" /> -->
+                        <!-- <add type="EncryptExtension, extensions" priority="1" group="0" /> -->
+                </soapExtensionTypes>
+        </webServices>
+        <authentication mode= "Forms">
+        </authentication>
+        <httpModules>
+            <!-- <add name="AcceptEncodingModule" type="Mono.Http.Modules.AcceptEncodingModule, Mono.Http"/> -->
+            <!--<add name="BasicAuthenticationModule"
+                 type="Mono.Http.Modules.BasicAuthenticationModule, Mono.Http"/>-->
+            <!--<add name="DigestAuthenticationModule"
+                 type="Mono.Http.Modules.DigestAuthenticationModule, Mono.Http"/>-->
+        </httpModules>
+    </system.web>
+ 
+    <mono.aspnet>
+        <acceptEncoding>
+            <!-- Change disabled to 'no' to enable gzip content encoding -->
+            <!-- <add encoding="gzip" type="Mono.Http.GZipWriteFilter, Mono.Http" disabled="no" /> -->
+        </acceptEncoding>
+    </mono.aspnet>
+ 
+    <appSettings>
+        <add key="MonoServerDefaultIndexFiles"
+             value="index.aspx, Default.aspx, default.aspx, index.html, index.htm" />
+        <add key="DBProviderAssembly"
+             value="Mono.Data.PostgreSqlClient"/>
+        <add key="DBConnectionType"
+             value="Mono.Data.PostgreSqlClient.PgSqlConnection"/>
+        <add key="DBConnectionString"
+             value="hostaddr=127.0.0.1;user=monotest;password=monotest;dbname=monotest"/>
+        <!--<add key="Authentication" value="Basic" />
+        <add key="Basic.Users" value="basic-auth.txt" />-->
+        <!--<add key="Authentication" value="Digest" />
+        <add key="Digest.Users" value="basic-auth.txt" />-->
+    </appSettings>
 </configuration>]]></File>
 			<File name="AssemblyInfo.cs"><![CDATA[using System.Reflection;
 using System.Runtime.CompilerServices;
