@@ -176,8 +176,6 @@ Core/src/AddIns/BackendBindings/VBNetBinding/SharpRefactoryVB/Makefile
 Core/src/AddIns/DisplayBindings/Makefile
 Core/src/AddIns/DisplayBindings/SourceEditor/Makefile
 Core/src/AddIns/DisplayBindings/SourceEditor/MonoDevelop.SourceEditor.dll.config
-Core/src/AddIns/Misc/Makefile
-Core/src/AddIns/Misc/StartPage/Makefile
 Core/src/AddIns/DebuggerAddIn/Makefile
 Core/src/MonoDevelop.Base/Makefile
 Core/src/MonoDevelop.Base/MonoDevelop.Base.dll.config
@@ -200,7 +198,6 @@ build/data/resources/icons/Makefile
 build/doc/Makefile
 Core/src/AddIns/DebuggerAddIn/AssemblyInfo.cs
 Core/src/AddIns/DisplayBindings/SourceEditor/AssemblyInfo.cs
-Core/src/AddIns/Misc/StartPage/AssemblyInfo.cs
 Core/src/MonoDevelop.Startup/AssemblyInfo.cs
 Core/src/MonoDevelop.Base/AssemblyInfo.cs
 Core/src/MonoDevelop.Gui.Widgets/AssemblyInfo.cs

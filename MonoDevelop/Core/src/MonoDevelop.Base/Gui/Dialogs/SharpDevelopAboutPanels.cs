@@ -40,7 +40,7 @@ namespace MonoDevelop.Gui.Dialogs
 
 
 			HBox hboxCopyright = new HBox ();
-			copyrightLabel.Markup = "<b>Copyright</b>\n    (c) 2000-2003 by icsharpcode.net\n    (c) 2004 by MonoDevelop contributors";
+			copyrightLabel.Markup = "<b>Copyright</b>\n    (c) 2000-2003 by icsharpcode.net\n    (c) 2004-2005 by MonoDevelop contributors";
 			hboxCopyright.PackStart (copyrightLabel, false, false, 5);
 
 			this.PackStart (hboxVersion, false, true, 0);
@@ -49,72 +49,6 @@ namespace MonoDevelop.Gui.Dialogs
 			this.ShowAll ();
 		}
 	}
-	
-	public class AuthorAboutTabPage : MonoDevelop.Gui.HtmlControl.MozillaControl
-	{
-		public AuthorAboutTabPage()
-		{
-			try {
-				string html = ConvertXml.ConvertToString (Runtime.FileUtilityService.SharpDevelopRootPath +
-				                   System.IO.Path.DirectorySeparatorChar + "doc" +
-				                   System.IO.Path.DirectorySeparatorChar + "AUTHORS.xml",
-				                   
-				                   Runtime.Properties.DataDirectory +
-				                   System.IO.Path.DirectorySeparatorChar + "ConversionStyleSheets" + 
-				                   System.IO.Path.DirectorySeparatorChar + "ShowAuthors.xsl");
-				
-				
-				base.Css = Runtime.Properties.DataDirectory + System.IO.Path.DirectorySeparatorChar +
-				                           "resources" + System.IO.Path.DirectorySeparatorChar +
-				                           "css" + System.IO.Path.DirectorySeparatorChar +
-				                           "SharpDevelopStandard.css";
-				base.Html = html;
-			} catch (Exception e) {
-				Runtime.MessageService.ShowError(e);
-			}
-		}
-	}
-	
-	public class ChangeLogTabPage : MonoDevelop.Gui.HtmlControl.MozillaControl
-	{
-		public ChangeLogTabPage()
-		{
-			try {
-				string html = ConvertXml.ConvertToString (Runtime.FileUtilityService.SharpDevelopRootPath +
-				                   System.IO.Path.DirectorySeparatorChar + "doc" +
-				                   System.IO.Path.DirectorySeparatorChar + "ChangeLog.xml",
-				                   
-				                   Runtime.Properties.DataDirectory +
-				                   System.IO.Path.DirectorySeparatorChar + "ConversionStyleSheets" + 
-				                   System.IO.Path.DirectorySeparatorChar + "ShowChangeLog.xsl");
-				
-				base.Css = Runtime.Properties.DataDirectory + System.IO.Path.DirectorySeparatorChar +
-				                           "resources" + System.IO.Path.DirectorySeparatorChar +
-				                           "css" + System.IO.Path.DirectorySeparatorChar +
-				                           "SharpDevelopStandard.css";
-				//base.Html = html;
-				
-				// feel free to add your name and email here
-				// if you contributed to the port
-				// FIXME: make real port credits
-				/*base.Html = "<html><body><h3>MonoDevelop port</h3>"
-				+ "<p>This is a port of SharpDevelop 0.98 to Gtk#.</p>"
-				+ "<p>by:"
-				+ "<ul><li>Todd Berman</li>"
-				+ "<li>Pedro Abelleira Seco</li>"
-				+ "<li>John Luke</li>"
-				+ "<li>dkor</li>"
-				+ "<li>orph</li>"
-				+ "<li>nricciar</li>"
-				+ "<li>jba</li>"
-				+ "</ul></body></html>";*/
-				
-			} catch (Exception e) {
-				Runtime.MessageService.ShowError (e);
-			}
-		}
-	}
-	
 	
 	public class VersionInformationTabPage : VBox
 	{
