@@ -65,7 +65,9 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 			get {
 				ArrayList referenceInformations = new ArrayList();
 				Gtk.TreeIter looping_iter;
-				refTreeStore.GetIterFirst (out looping_iter);
+				if (refTreeStore.GetIterFirst (out looping_iter) == false) {
+					return referenceInformations;
+				}
 				do {
 					//Debug.Assert(item.Tag != null);
 					referenceInformations.Add(refTreeStore.GetValue(looping_iter, 3));
