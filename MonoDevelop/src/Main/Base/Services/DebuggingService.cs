@@ -72,11 +72,6 @@ namespace MonoDevelop.Services
 			return point;
 		}
 
-		public void StepOver ()
-		{
-
-		}
-
 		public bool AddBreakpoint (string filename, int linenum)
 		{
 			string key = filename + ":" + linenum;
@@ -141,8 +136,6 @@ namespace MonoDevelop.Services
 
 		private void target_event (object sender, TargetEventArgs args)
 		{
-			Console.WriteLine ("TARGET EVENT: {0}", args);
-
 			switch (args.Type) {
 			case TargetEventType.TargetExited:
 			case TargetEventType.TargetSignaled:
@@ -174,10 +167,6 @@ namespace MonoDevelop.Services
 				}
 			} else if (PausedEvent != null) {
 				PausedEvent (this, new EventArgs ());
-				Console.WriteLine ("file:line is " + CurrentFilename + ":" + CurrentLineNumber);
-				Console.WriteLine ("trace:");
-				foreach (string s in Backtrace)
-					Console.WriteLine (s);
 			}
 			return false;
 		}
@@ -235,15 +224,35 @@ namespace MonoDevelop.Services
 			backend = null;
 		}
 
+		public void StepInto ()
+		{
+			if (!Debugging)
+				throw new Exception ("Can't step without running debugger.");
+
+			if (IsRunning)
+				throw new Exception ("Can't step unless paused.");
+
+			proc.StepLine (false);
+		}
+
+		public void StepOver ()
+		{
+			if (!Debugging)
+				throw new Exception ("Can't step without running debugger.");
+
+			if (IsRunning)
+				throw new Exception ("Can't step unless paused.");
+
+			proc.NextLine (false);
+		}
+
 		public string[] Backtrace {
 			get {
 				Backtrace trace = proc.GetBacktrace ();
 				string[] result = new string [trace.Length];
 				int i = 0;
-				foreach (StackFrame frame in trace.Frames) {
+				foreach (StackFrame frame in trace.Frames)
 					result [i++] = frame.SourceAddress.Name;
-					Console.WriteLine (result [i-1]);
-				}
 
 				return result;
 			}
@@ -253,7 +262,7 @@ namespace MonoDevelop.Services
 			get {
 				if (IsRunning)
 					return null;
-				return proc.GetBacktrace ().Frames[0];
+				return proc.CurrentFrame;
 			}
 		}
 
@@ -262,10 +271,10 @@ namespace MonoDevelop.Services
 				if (IsRunning)
 					return String.Empty;
 
-				if (proc.GetBacktrace ().Frames [0].SourceAddress.MethodSource.IsDynamic)
+				if (proc.CurrentFrame.SourceAddress.MethodSource.IsDynamic)
 					return String.Empty;
 
-				return proc.GetBacktrace ().Frames [0].SourceAddress.MethodSource.SourceFile.FileName;
+				return proc.CurrentFrame.SourceAddress.MethodSource.SourceFile.FileName;
 			}
 		}
 
@@ -274,7 +283,7 @@ namespace MonoDevelop.Services
 				if (IsRunning)
 					return -1;
 
-				return proc.GetBacktrace ().Frames [0].SourceAddress.Row;
+				return proc.CurrentFrame.SourceAddress.Row;
 			}
 		}
 

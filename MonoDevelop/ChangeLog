@@ -1,3 +1,8 @@
+2004-03-05  Mike Kestner  <mkestner@ximian.com>
+
+	* Main/Base/Services/DebuggingService.cs : add StepInto and
+	implement StepOver.  Use proc.CurrentFrame where possible.
+
 2004-03-05  John BouAntoun  <jba-mono@optusnet.com.au>
 
 	* src/Main/Base/Gui/Dialogs/ProjectOptionsDialog.cs : added configuration renaming
