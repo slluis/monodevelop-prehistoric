@@ -11,7 +11,6 @@ DLLS = /r:System.Drawing.dll \
 
 FILES = \
 Gui/ChooseRuntimePanel.cs \
-Gui/OutputOptionsPanel.cs \
 Gui/CodeGenerationPanel.cs \
 Parser/SharpDevelopTree/Event.cs \
 Parser/SharpDevelopTree/Indexer.cs \
@@ -30,7 +29,6 @@ Parser/Resolver.cs \
 Parser/Parser.cs \
 Parser/ExpressionFinder.cs \
 CSharpAmbience.cs \
-Project/CSharpProject.cs \
 Project/CSharpCompilerParameters.cs \
 CSharpLanguageBinding.cs \
 FormattingStrategy/CSharpFormattingStrategy.cs \
@@ -55,7 +53,7 @@ templates/GtkSharpProject.xpt.xml \
 templates/GtkSharpWindow.xft.xml \
 templates/Library.xpt.xml
 
-build_sources = $(addprefix $(srcdir)/, $(FILES)) CSharpBindingExecutionManager.cs
+build_sources = $(addprefix $(srcdir)/, $(FILES))
 
 ADDIN = CSharpBinding.addin.xml
 
@@ -94,7 +92,5 @@ templates_DATA = $(TEMPLATES)
 
 CLEANFILES = $(ASSEMBLY) $(ASSEMBLY).mdb
 
-DISTCLEANFILES = CSharpBindingExecutionManager.cs
-
-EXTRA_DIST = $(FILES) CSharpBindingExecutionManager.cs.in CSharp.glade $(ADDIN) $(TEMPLATES)
+EXTRA_DIST = $(FILES) CSharp.glade $(ADDIN) $(TEMPLATES)
 

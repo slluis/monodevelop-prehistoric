@@ -29,145 +29,46 @@ namespace CSharpBinding
 	{	
 		FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.GetService(typeof(FileUtilityService));
 		
-		public string GetCompiledOutputName(string fileName)
-		{
-			return Path.ChangeExtension(fileName, ".exe");
-		}
-		
-		public string GetCompiledOutputName(IProject project)
-		{
-			CSharpProject p = (CSharpProject)project;
-			CSharpCompilerParameters compilerparameters = (CSharpCompilerParameters)p.ActiveConfiguration;
-			string exe  = fileUtilityService.GetDirectoryNameWithSeparator(compilerparameters.OutputDirectory) + compilerparameters.OutputAssembly + (compilerparameters.CompileTarget == CompileTarget.Library ? ".dll" : ".exe");
-			return exe;
-		}
-		
 		public bool CanCompile(string fileName)
 		{
 			return Path.GetExtension(fileName).ToUpper() == ".CS";
 		}
-		
-		public ICompilerResult CompileFile(string filename, CSharpCompilerParameters compilerparameters)
-		{
-			string output = "";
-			string error  = "";
-			string exe = Path.ChangeExtension(filename, ".exe");
-			if (compilerparameters.OutputAssembly != null && compilerparameters.OutputAssembly.Length > 0) {
-				exe = compilerparameters.OutputAssembly;
-			}
-			string responseFileName = Path.GetTempFileName();
-			
-			StreamWriter writer = new StreamWriter(responseFileName);
 
-			writer.WriteLine("\"/out:" + exe + '"');
-			
-			writer.WriteLine("/nologo");
-			writer.WriteLine("/utf8output");
-			writer.WriteLine("/w:" + compilerparameters.WarningLevel);
-			
-			if (compilerparameters.Debugmode) {
-				writer.WriteLine("/debug:+");
-				writer.WriteLine("/debug:full");
-				writer.WriteLine("/d:DEBUG");
-			}
-			
-			if (!compilerparameters.RunWithWarnings) {
-				writer.WriteLine("/warnaserror+");
-			}
-			
-			if (compilerparameters.Optimize) {
-				writer.WriteLine("/o");
-			}
-			
-			if (compilerparameters.UnsafeCode) {
-				writer.WriteLine("/unsafe");
-			}
-			
-			if (compilerparameters.DefineSymbols.Length > 0) {
-				writer.WriteLine("/define:" + '"' + compilerparameters.DefineSymbols + '"');
-			}
-			
-			switch (compilerparameters.CompileTarget) {
-				case CompileTarget.Exe:
-					writer.WriteLine("/target:exe");
-					break;
-				case CompileTarget.WinExe:
-					writer.WriteLine("/target:winexe");
-					break;
-				case CompileTarget.Library:
-					writer.WriteLine("/target:library");
-					break;
-				case CompileTarget.Module:
-					writer.WriteLine("/target:module");
-					break;
-			}
-			
-			writer.WriteLine('"' + filename + '"');
-			
-			TempFileCollection  tf = new TempFileCollection ();
-			
-			if (compilerparameters.GenerateXmlDocumentation) {
-				writer.WriteLine("\"/doc:" + Path.ChangeExtension(exe, ".xml") + '"');
-			}	
-			
-			writer.Close();
-			
-			// add " to the responseFileName when they aren't there
-			if (!responseFileName.StartsWith("\"") && !responseFileName.EndsWith("\"")) {
-				responseFileName = String.Concat("\"", responseFileName, "\"");
-			}
-			
-			string compilerName = compilerparameters.CsharpCompiler == CsharpCompiler.Csc ? GetCompilerName() : "mcs";
-			string outstr =  compilerName + " @" +responseFileName;
-			Executor.ExecWaitWithCapture(outstr, tf, ref output, ref error);
-			
-			ICompilerResult result = ParseOutput(tf, output, error);
-			
-			File.Delete(responseFileName);
-			File.Delete(output);
-			File.Delete(error);
-			return result;
-		}
-		
-		public ICompilerResult CompileProject(IProject project)
+		public ICompilerResult Compile (ProjectFileCollection projectFiles, ProjectReferenceCollection references, DotNetProjectConfiguration configuration)
 		{
-			CSharpProject p = (CSharpProject)project;
-			CSharpCompilerParameters compilerparameters = (CSharpCompilerParameters)p.ActiveConfiguration;
+			CSharpCompilerParameters compilerparameters = (CSharpCompilerParameters) configuration.CompilationParameters;
+			if (compilerparameters == null) compilerparameters = new CSharpCompilerParameters ();
 			
-			string exe              = fileUtilityService.GetDirectoryNameWithSeparator(compilerparameters.OutputDirectory) + compilerparameters.OutputAssembly + (compilerparameters.CompileTarget == CompileTarget.Library ? ".dll" : ".exe");
+			string exe = configuration.CompiledOutputName;
 			string responseFileName = Path.GetTempFileName();
 			StreamWriter writer = new StreamWriter(responseFileName);
-			
-			string optionString = compilerparameters.CsharpCompiler == CsharpCompiler.Csc ? "/" : "-";
 			
 			if (compilerparameters.CsharpCompiler == CsharpCompiler.Csc) {
 				writer.WriteLine("\"/out:" + exe + '"');
 				
 				IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IProjectService));
-				ArrayList allProjects = Combine.GetAllProjects(projectService.CurrentOpenCombine);
-				SystemAssemblyService sas = (SystemAssemblyService)ServiceManager.GetService (typeof (SystemAssemblyService));
 				ArrayList pkg_references = new ArrayList ();
-				foreach (ProjectReference lib in project.ProjectReferences) {
-					switch (lib.ReferenceType) {
-					case ReferenceType.Gac:
-						string pkg = sas.GetPackageFromFullName (lib.Reference);
-						if (pkg.Trim () == String.Empty)
-							continue;
-						if (pkg == "MONO-SYSTEM") {
-							writer.WriteLine ("\"/r:" + Path.GetFileName (lib.GetReferencedFileName (project)) + "\"");
-						} else if (!pkg_references.Contains (pkg)) {
-							pkg_references.Add (pkg);
-							writer.WriteLine ("\"-pkg:" + pkg + "\"");
+				
+				if (references != null) {
+					foreach (ProjectReference lib in references) {
+						string fileName = lib.GetReferencedFileName ();
+						switch (lib.ReferenceType) {
+						case ReferenceType.Gac:
+							string pkg = Runtime.SystemAssemblyService.GetPackageFromFullName (lib.Reference);
+							if (pkg.Trim () == String.Empty)
+								continue;
+							if (pkg == "MONO-SYSTEM") {
+								writer.WriteLine ("\"/r:" + Path.GetFileName (fileName) + "\"");
+							} else if (!pkg_references.Contains (pkg)) {
+								pkg_references.Add (pkg);
+								writer.WriteLine ("\"-pkg:" + pkg + "\"");
+							}
+							break;
+						case ReferenceType.Assembly:
+						case ReferenceType.Project:
+							writer.WriteLine ("\"/r:" + fileName + "\"");
+							break;
 						}
-						break;
-					case ReferenceType.Assembly:
-						string assembly_fileName = lib.GetReferencedFileName (project);
-						writer.WriteLine ("\"/r:" + assembly_fileName + "\"");
-						break;
-					case ReferenceType.Project:
-						string project_fileName = lib.GetReferencedFileName (project);
-						writer.WriteLine ("\"/r:" + project_fileName + "\"");
-						break;
 					}
 				}
 				
@@ -176,7 +77,7 @@ namespace CSharpBinding
 //				writer.WriteLine("/utf8output");
 //				writer.WriteLine("/w:" + compilerparameters.WarningLevel);;
 				
-				if (compilerparameters.Debugmode) {
+				if (configuration.DebugMode) {
 					writer.WriteLine("/debug:+");
 					writer.WriteLine("/debug:full");
 					writer.WriteLine("/d:DEBUG");
@@ -186,7 +87,7 @@ namespace CSharpBinding
 //					writer.WriteLine("/o");
 //				}
 				
-				if (compilerparameters.Win32Icon != null && compilerparameters.Win32Icon.Length > 0 && File.Exists(compilerparameters.Win32Icon)) {
+				if (compilerparameters.Win32Icon != null && compilerparameters.Win32Icon.Length > 0 && File.Exists (compilerparameters.Win32Icon)) {
 					writer.WriteLine("\"/win32icon:" + compilerparameters.Win32Icon + "\"");
 				}
 				
@@ -202,7 +103,7 @@ namespace CSharpBinding
 					writer.WriteLine("/main:" + compilerparameters.MainClass);
 				}
 				
-				switch (compilerparameters.CompileTarget) {
+				switch (configuration.CompileTarget) {
 					case CompileTarget.Exe:
 						writer.WriteLine("/t:exe");
 						break;
@@ -214,7 +115,7 @@ namespace CSharpBinding
 						break;
 				}
 				
-				foreach (ProjectFile finfo in p.ProjectFiles) {
+				foreach (ProjectFile finfo in projectFiles) {
 					if (finfo.Subtype != Subtype.Directory) {
 						switch (finfo.BuildAction) {
 							case BuildAction.Compile:
@@ -227,11 +128,6 @@ namespace CSharpBinding
 								break;
 						}
 					}
-					
-					// Treat app.config in the project root directory as the application config
-					if(Path.GetFileName(finfo.Name).ToUpper()=="app.config".ToUpper() &&
-						Path.GetDirectoryName(finfo.Name)==p.BaseDirectory)
-						File.Copy(finfo.Name,exe+".config",true);
 				}
 				if (compilerparameters.GenerateXmlDocumentation) {
 					writer.WriteLine("\"/doc:" + Path.ChangeExtension(exe, ".xml") + '"');
@@ -246,14 +142,15 @@ namespace CSharpBinding
 				
 				writer.WriteLine("--wlevel " + compilerparameters.WarningLevel);
 				IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IProjectService));
-				ArrayList allProjects = Combine.GetAllProjects(projectService.CurrentOpenCombine);
-				
-				foreach (ProjectReference lib in p.ProjectReferences) {
-					string fileName = lib.GetReferencedFileName(p);
-					writer.WriteLine("-r:" + fileName );
+		
+				if (references != null) {		
+					foreach (ProjectReference lib in references) {
+						string fileName = lib.GetReferencedFileName ();
+						writer.WriteLine("-r:" + fileName );
+					}
 				}
 				
-				switch (compilerparameters.CompileTarget) {
+				switch (configuration.CompileTarget) {
 					case CompileTarget.Exe:
 						writer.WriteLine("--target exe");
 						break;
@@ -264,7 +161,7 @@ namespace CSharpBinding
 						writer.WriteLine("--target library");
 						break;
 				}
-				foreach (ProjectFile finfo in p.ProjectFiles) {
+				foreach (ProjectFile finfo in projectFiles) {
 					if (finfo.Subtype != Subtype.Directory) {
 						switch (finfo.BuildAction) {
 							case BuildAction.Compile:
@@ -294,26 +191,25 @@ namespace CSharpBinding
 			DoCompilation(outstr, tf, ref output, ref error);
 			
 			ICompilerResult result = ParseOutput(tf, output, error);
-			project.CopyReferencesToOutputPath(false);
 			File.Delete(responseFileName);
 			File.Delete(output);
 			File.Delete(error);
 			return result;
 		}
-
-		public void GenerateMakefile (IProject project, Combine parentCombine)
+		
+		public void GenerateMakefile (Project project, Combine parentCombine)
 		{
 			StreamWriter stream = new StreamWriter (Path.Combine (project.BaseDirectory, "Makefile." + project.Name.Replace (" ", "")));
 
-			CSharpProject p = (CSharpProject)project;
-			CSharpCompilerParameters compilerparameters = (CSharpCompilerParameters)p.ActiveConfiguration;
+			DotNetProjectConfiguration conf = (DotNetProjectConfiguration) project.ActiveConfiguration;
+			CSharpCompilerParameters compilerparameters = (CSharpCompilerParameters) conf.CompilationParameters;
 			
-			string outputName = compilerparameters.OutputAssembly + (compilerparameters.CompileTarget == CompileTarget.Library ? ".dll" : ".exe");
+			string outputName = conf.CompiledOutputName;
 
 			string target = "";
 			string relativeOutputDir = fileUtilityService.AbsoluteToRelativePath (project.BaseDirectory, parentCombine.OutputDirectory);
 
-			switch (compilerparameters.CompileTarget) {
+			switch (conf.CompileTarget) {
 			case CompileTarget.Exe:
 				target = "exe";
 				break;
@@ -349,34 +245,33 @@ namespace CSharpBinding
 				}
 			}
 
-			SystemAssemblyService sas = (SystemAssemblyService)ServiceManager.GetService (typeof (SystemAssemblyService));
 			foreach (ProjectReference lib in project.ProjectReferences) {
 				switch (lib.ReferenceType) {
 				case ReferenceType.Gac:
-					string pkg = sas.GetPackageFromFullName (lib.Reference);
+					string pkg = Runtime.SystemAssemblyService.GetPackageFromFullName (lib.Reference);
 					if (pkg.Trim () == String.Empty)
 						continue;
 					if (pkg == "MONO-SYSTEM") {
-						system_references.Add (Path.GetFileName (lib.GetReferencedFileName (project)));
+						system_references.Add (Path.GetFileName (lib.GetReferencedFileName ()));
 					} else if (!pkg_references.Contains (pkg)) {
 						pkg_references.Add (pkg);
 					}
 					break;
 				case ReferenceType.Assembly:
-					string assembly_fileName = lib.GetReferencedFileName (project);
+					string assembly_fileName = lib.GetReferencedFileName ();
 					string rel_path_to = fileUtilityService.AbsoluteToRelativePath (project.BaseDirectory, Path.GetDirectoryName (assembly_fileName));
 					assembly_references.Add (Path.Combine (rel_path_to, Path.GetFileName (assembly_fileName)));
 					break;
 				case ReferenceType.Project:
-					string project_fileName = lib.GetReferencedFileName (project);
+					string project_fileName = lib.GetReferencedFileName ();
 					IProjectService prjService = (IProjectService)ServiceManager.GetService (typeof (IProjectService));
-					ArrayList allProjects = Combine.GetAllProjects(prjService.CurrentOpenCombine);
+					CombineEntryCollection allProjects = prjService.CurrentOpenCombine.GetAllProjects();
 					
-					foreach (ProjectCombineEntry projectEntry in allProjects) {
-						if (projectEntry.Project.Name == lib.Reference) {
-							string project_base_dir = fileUtilityService.AbsoluteToRelativePath (project.BaseDirectory, projectEntry.Project.BaseDirectory);
+					foreach (Project projectEntry in allProjects) {
+						if (projectEntry.Name == lib.Reference) {
+							string project_base_dir = fileUtilityService.AbsoluteToRelativePath (project.BaseDirectory, projectEntry.BaseDirectory);
 							
-							string project_output_fileName = prjService.GetOutputAssemblyName (projectEntry.Project);
+							string project_output_fileName = projectEntry.GetOutputFileName ();
 							project_references.Add (Path.Combine (project_base_dir, Path.GetFileName (project_output_fileName)));
 						}
 					}
@@ -576,7 +471,6 @@ namespace CSharpBinding
 				ret = ret + "bin/mcs";
 			}
 			return ret;
-			
 		}
 		
 		ICompilerResult ParseOutput(TempFileCollection tf, string stdout, string stderr)
@@ -647,13 +541,13 @@ namespace CSharpBinding
 
 		bool done ()
 		{
-			((SdStatusBar)Runtime.Gui.StatusBar.Control).Done ();
+			Runtime.Gui.StatusBar.ProgressMonitor.Done ();
 			return false;
 		}
 
 		bool pulse () 
 		{
-			((SdStatusBar)Runtime.Gui.StatusBar.Control).Pulse ();
+			Runtime.Gui.StatusBar.ProgressMonitor.Pulse ();
 			while (Gtk.Application.EventsPending ())
 				Gtk.Application.RunIteration ();
 			return false;

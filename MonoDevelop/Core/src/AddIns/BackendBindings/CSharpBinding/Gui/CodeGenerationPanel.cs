@@ -50,12 +50,15 @@ namespace CSharpBinding
 			StringParserService StringParserService = (StringParserService)ServiceManager.GetService (
 				typeof (StringParserService));
 
+			DotNetProjectConfiguration configuration;
 			CSharpCompilerParameters compilerParameters = null;
 
  			public  CodeGenerationPanelWidget(IProperties CustomizationObject) : base ("CSharp.glade", "CodeGenerationPanel")
  			{	
-				this.compilerParameters = (CSharpCompilerParameters)((IProperties)CustomizationObject).GetProperty("Config");
-
+				configuration = (DotNetProjectConfiguration)((IProperties)CustomizationObject).GetProperty("Config");
+				
+				compilerParameters = (CSharpCompilerParameters) configuration.CompilationParameters;
+				
 				// FIXME: Enable when mcs has this feature
 				generateXmlOutputCheckButton.Sensitive = false;
 
@@ -69,18 +72,18 @@ namespace CSharpBinding
 // 									 "${res:Dialog.Options.PrjOptions.Configuration.CompileTarget.Module}")));
 
 				CompileTargetOptionMenu.Menu = CompileTargetMenu;
-				CompileTargetOptionMenu.SetHistory ( (uint) compilerParameters.CompileTarget);
+				CompileTargetOptionMenu.SetHistory ( (uint) configuration.CompileTarget);
 
 
 				symbolsEntry.Text = compilerParameters.DefineSymbols;
 				mainClassEntry.Text = compilerParameters.MainClass;
 
-				generateDebugInformationCheckButton.Active = compilerParameters.Debugmode;
+				generateDebugInformationCheckButton.Active = configuration.DebugMode;
 				generateXmlOutputCheckButton.Active        = compilerParameters.GenerateXmlDocumentation;
 				enableOptimizationCheckButton.Active       = compilerParameters.Optimize;
 				allowUnsafeCodeCheckButton.Active          = compilerParameters.UnsafeCode;
 				generateOverflowChecksCheckButton.Active   = compilerParameters.GenerateOverflowChecks;
-				warningsAsErrorsCheckButton.Active         = ! compilerParameters.RunWithWarnings;
+				warningsAsErrorsCheckButton.Active         = ! configuration.RunWithWarnings;
 				warningLevelSpinButton.Value               = compilerParameters.WarningLevel;				
  			}
 
@@ -89,16 +92,16 @@ namespace CSharpBinding
 				if (compilerParameters == null) {
 					return true;
 				}
-				compilerParameters.CompileTarget =  (CompileTarget)  CompileTargetOptionMenu.History;
+				configuration.CompileTarget =  (CompileTarget)  CompileTargetOptionMenu.History;
 				compilerParameters.DefineSymbols =  symbolsEntry.Text;
 				compilerParameters.MainClass     =  mainClassEntry.Text;
 
-				compilerParameters.Debugmode                = generateDebugInformationCheckButton.Active;
+				configuration.DebugMode                = generateDebugInformationCheckButton.Active;
 				compilerParameters.GenerateXmlDocumentation = generateXmlOutputCheckButton.Active;
 				compilerParameters.Optimize                 = enableOptimizationCheckButton.Active;
 				compilerParameters.UnsafeCode               = allowUnsafeCodeCheckButton.Active;
 				compilerParameters.GenerateOverflowChecks   = generateOverflowChecksCheckButton.Active;
-				compilerParameters.RunWithWarnings          = ! warningsAsErrorsCheckButton.Active;
+				configuration.RunWithWarnings          = ! warningsAsErrorsCheckButton.Active;
 
 				compilerParameters.WarningLevel = warningLevelSpinButton.ValueAsInt;
 

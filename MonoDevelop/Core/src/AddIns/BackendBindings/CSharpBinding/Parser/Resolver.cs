@@ -24,9 +24,9 @@ namespace CSharpBinding.Parser
 		ICompilationUnit cu;
 		IClass callingClass;
 		LookupTableVisitor lookupTableVisitor;
-		IProject project;
+		Project project;
 		
-		public Resolver (IProject project)
+		public Resolver (Project project)
 		{
 			this.project = project;
 		}

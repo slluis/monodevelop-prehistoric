@@ -1,3 +1,24 @@
+2005-01-11  Lluis Sanchez Gual  <lluis@novell.com>
+
+	* CSharpLanguageBinding.cs: 
+	* Gui/ChooseRuntimePanel.cs:
+	* Gui/CodeGenerationPanel.cs:
+	* CSharpBindingCompilerManager.cs:
+	* CSharpBinding.addin.xml:
+	* Parser/Parser.cs:
+	* Parser/Resolver.cs: Follow architecture changes.
+	
+	* Project/CSharpCompilerParameters.cs: Moved some parameters and enum
+	definitions to DotNetProjectConfiguration.
+	
+	* CSharp.glade:
+	* Gui/OutputOptionsPanel.cs: Removed dialog now implemented in Monodevelop.Base.
+
+	* Project/CSharpProject.cs:
+	* CSharpBindingExecutionManager.cs.in: Removed. Not needed any more.
+	
+	* Makefile.am: Updated.
+
 2004-12-13  Lluis Sanchez Gual  <lluis@novell.com>
 
 	* CSharpBindingCompilerManager.cs: StatusBarService.ProgressMonitor is

@@ -18,6 +18,7 @@ using System.Threading;
 using MonoDevelop.Internal.Project;
 using MonoDevelop.Internal.Templates;
 using MonoDevelop.Gui;
+using MonoDevelop.Services;
 
 namespace CSharpBinding
 {
@@ -26,41 +27,16 @@ namespace CSharpBinding
 		public const string LanguageName = "C#";
 		
 		CSharpBindingCompilerManager   compilerManager  = new CSharpBindingCompilerManager();
-		CSharpBindingExecutionManager  executionManager = new CSharpBindingExecutionManager();
+		
+		public CSharpLanguageBinding ()
+		{
+			Runtime.ProjectService.DataContext.IncludeType (typeof(CSharpCompilerParameters));
+		}
 		
 		public string Language {
 			get {
 				return LanguageName;
 			}
-		}
-		
-		public void Execute(string filename)
-		{
-			Debug.Assert(executionManager != null);
-			executionManager.Execute(filename);
-		}
-		
-		public void Execute(IProject project)
-		{
-			Debug.Assert(executionManager != null);
-			executionManager.Execute(project);
-		}
-
-		public void DebugProject (IProject project)
-		{
-			executionManager.Debug (project);
-		}
-		
-		public string GetCompiledOutputName(string fileName)
-		{
-			Debug.Assert(compilerManager != null);
-			return compilerManager.GetCompiledOutputName(fileName);
-		}
-		
-		public string GetCompiledOutputName(IProject project)
-		{
-			Debug.Assert(compilerManager != null);
-			return compilerManager.GetCompiledOutputName(project);
 		}
 		
 		public bool CanCompile(string fileName)
@@ -69,33 +45,20 @@ namespace CSharpBinding
 			return compilerManager.CanCompile(fileName);
 		}
 		
-		public ICompilerResult CompileFile(string fileName)
+		public ICompilerResult Compile (ProjectFileCollection projectFiles, ProjectReferenceCollection references, DotNetProjectConfiguration configuration)
 		{
 			Debug.Assert(compilerManager != null);
-			CSharpCompilerParameters param = new CSharpCompilerParameters();
-			param.OutputAssembly = Path.ChangeExtension(fileName, ".exe");
-			return compilerManager.CompileFile(fileName, param);
+			return compilerManager.Compile (projectFiles, references, configuration);
 		}
 		
-		public ICompilerResult CompileProject(IProject project)
-		{
-			Debug.Assert(compilerManager != null);
-			return compilerManager.CompileProject(project);
-		}
-		
-		public ICompilerResult RecompileProject(IProject project)
-		{
-			return CompileProject(project);
-		}
-		
-		public IProject CreateProject(ProjectCreateInformation info, XmlElement projectOptions)
-		{
-			return new CSharpProject(info, projectOptions);
-		}
-
-		public void GenerateMakefile (IProject project, Combine parentCombine)
+		public void GenerateMakefile (Project project, Combine parentCombine)
 		{
 			compilerManager.GenerateMakefile (project, parentCombine);
+		}
+		
+		public object CreateCompilationParameters (XmlElement projectOptions)
+		{
+			return new CSharpCompilerParameters();
 		}
 		
 		public string CommentTag

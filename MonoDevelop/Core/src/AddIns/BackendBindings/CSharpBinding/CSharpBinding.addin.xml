@@ -85,13 +85,13 @@
 	</Extension>
 	
 	<Extension path = "/SharpDevelop/Workbench/ProjectOptions/ConfigurationProperties">
-		<Conditional activeproject="C#">
+		<Conditional activelanguage="C#">
 			<DialogPanel id = "CSharpCodeGenerationPanel"
 			             _label = "Code Generation"
 			             class = "CSharpBinding.CodeGenerationPanel"/>
 			<DialogPanel id = "CSharpOutputOptionsPanel"
 			             _label = "Output"
-			             class = "CSharpBinding.OutputOptionsPanel"/>
+			             class = "MonoDevelop.Gui.Dialogs.OptionPanels.OutputOptionsPanel"/>
 		</Conditional>
 	</Extension>
 		

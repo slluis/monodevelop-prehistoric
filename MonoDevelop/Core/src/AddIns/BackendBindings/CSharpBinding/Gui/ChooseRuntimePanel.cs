@@ -21,7 +21,9 @@ namespace CSharpBinding
 {
 	public class ChooseRuntimePanel : AbstractOptionPanel
 	{
-		CSharpCompilerParameters config = null;
+		CSharpCompilerParameters parameters;
+		DotNetProjectConfiguration config;
+
 		// FIXME: set the right rb groups
 		RadioButton msnetRadioButton = new RadioButton ("Msnet");
 		RadioButton monoRadioButton = new RadioButton ("Mono");
@@ -31,14 +33,15 @@ namespace CSharpBinding
 		
 		public override void LoadPanelContents()
 		{
-			this.config = (CSharpCompilerParameters)((IProperties)CustomizationObject).GetProperty("Config");
+			config = (DotNetProjectConfiguration)((IProperties)CustomizationObject).GetProperty("Config");
+			parameters = (CSharpCompilerParameters) config.CompilationParameters;
 			
 			msnetRadioButton.Active = config.NetRuntime == NetRuntime.MsNet;
 			monoRadioButton.Active  = config.NetRuntime == NetRuntime.Mono;
 			mintRadioButton.Active  = config.NetRuntime == NetRuntime.MonoInterpreter;
 			
-			cscRadioButton.Active = config.CsharpCompiler == CsharpCompiler.Csc;
-			mcsRadioButton.Active = config.CsharpCompiler == CsharpCompiler.Mcs;
+			cscRadioButton.Active = parameters.CsharpCompiler == CsharpCompiler.Csc;
+			mcsRadioButton.Active = parameters.CsharpCompiler == CsharpCompiler.Mcs;
 		}
 		
 		public override bool StorePanelContents()
@@ -50,7 +53,7 @@ namespace CSharpBinding
 			} else {
 				config.NetRuntime =  NetRuntime.MonoInterpreter;
 			}
-			config.CsharpCompiler = cscRadioButton.Active ? CsharpCompiler.Csc : CsharpCompiler.Mcs;
+			parameters.CsharpCompiler = cscRadioButton.Active ? CsharpCompiler.Csc : CsharpCompiler.Mcs;
 			
 			return true;
 		}
