@@ -277,7 +277,7 @@ namespace CSharpBinding.FormattingStrategy {
 						}
 					}
 					
-					string  lineAboveText = d.GetLineAsString (lineNr - 1);
+					//string  lineAboveText = d.GetLineAsString (lineNr - 1);
 					
 
 #if NON_PORTABLE_CODE

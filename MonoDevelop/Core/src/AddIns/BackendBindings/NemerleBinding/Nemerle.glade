@@ -112,39 +112,17 @@
 		  </child>
 
 		  <child>
-		    <widget class="GtkOptionMenu" id="target">
+		    <widget class="GtkComboBox" id="target">
 		      <property name="visible">True</property>
-		      <property name="can_focus">True</property>
-		      <property name="history">0</property>
-
-		      <child>
-			<widget class="GtkMenu" id="menu1">
-
-			  <child>
-			    <widget class="GtkMenuItem" id="Executable">
-			      <property name="visible">True</property>
-			      <property name="label" translatable="yes">Executable</property>
-			      <property name="use_underline">True</property>
-			    </widget>
-			  </child>
-
-			  <child>
-			    <widget class="GtkMenuItem" id="Library">
-			      <property name="visible">True</property>
-			      <property name="label" translatable="yes">Library</property>
-			      <property name="use_underline">True</property>
-			    </widget>
-			  </child>
-			</widget>
-		      </child>
+		      <property name="items" translatable="yes">Executable
+Library</property>
 		    </widget>
 		    <packing>
 		      <property name="left_attach">1</property>
 		      <property name="right_attach">2</property>
 		      <property name="top_attach">0</property>
 		      <property name="bottom_attach">1</property>
-		      <property name="x_options">fill</property>
-		      <property name="y_options"></property>
+		      <property name="y_options">fill</property>
 		    </packing>
 		  </child>
 		</widget>

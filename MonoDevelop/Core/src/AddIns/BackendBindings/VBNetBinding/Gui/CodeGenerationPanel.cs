@@ -111,7 +111,7 @@ namespace VBBinding
 			//
  			[Glade.Widget] Entry symbolsEntry;
  			[Glade.Widget] Entry mainClassEntry;
-			[Glade.Widget] OptionMenu CompileTargetOptionMenu;
+			[Glade.Widget] ComboBox compileTargetCombo;
  			[Glade.Widget] CheckButton generateOverflowChecksCheckButton;
 			[Glade.Widget] CheckButton allowUnsafeCodeCheckButton;
  			[Glade.Widget] CheckButton enableOptimizationCheckButton;
@@ -146,22 +146,17 @@ namespace VBBinding
 				// FIXME: Enable when mbas has this feature
 				generateXmlOutputCheckButton.Sensitive = false;
 				
+				ListStore store = new ListStore (typeof (string));
+				store.AppendValues (GettextCatalog.GetString ("Executable"));
+				store.AppendValues (GettextCatalog.GetString ("WinEXE"));
+				store.AppendValues (GettextCatalog.GetString ("Library"));
+				store.AppendValues (GettextCatalog.GetString ("Module")); 
 
-				//string[] compileTargets=new string[]{GettextCatalog.GetString ("Executable"),GettextCatalog.GetString("WinEXE"),	GettextCatalog.GetString ("Library"),GettextCatalog.GetString ("Module")};
-
-				Menu CompileTargetMenu = new Menu ();
-				CompileTargetMenu.Add(new MenuItem(GettextCatalog.GetString ("Executable")));
-				CompileTargetMenu.Add(new MenuItem(GettextCatalog.GetString("WinEXE")));
-				CompileTargetMenu.Add(new MenuItem(GettextCatalog.GetString ("Library")));
-				CompileTargetMenu.Add(new MenuItem(GettextCatalog.GetString ("Module"))); 
-				// FIXME commented until the Module capability is ported
-// 				CompileTargetMenu.Append(new MenuItem(
-// 								 StringParserService.Parse(
-// 									 "${res:Dialog.Options.PrjOptions.Configuration.CompileTarget.Module}")));
-
-				CompileTargetOptionMenu.Menu=CompileTargetMenu;
-				CompileTargetOptionMenu.SetHistory ( (uint) configuration.CompileTarget);
-				//CompileTargetOptionMenu.Active=(int)compilerParameters.CompileTarget;
+				compileTargetCombo.Model = store;
+				CellRendererText cr = new CellRendererText ();
+				compileTargetCombo.PackStart (cr, true);
+				compileTargetCombo.AddAttribute (cr, "text", 0);
+				compileTargetCombo.Active = (int) configuration.CompileTarget;
 
 				symbolsEntry.Text = compilerParameters.DefineSymbols;
 				mainClassEntry.Text = compilerParameters.MainClass;
@@ -182,8 +177,8 @@ namespace VBBinding
 					System.Console.WriteLine("NULL compiler parameters for VBNet!");
 					return true;
 				}
-				//compilerParameters.CompileTarget =  (CompileTarget)  CompileTargetOptionMenu.History;
-				configuration.CompileTarget=(CompileTarget)CompileTargetOptionMenu.History;
+				//compilerParameters.CompileTarget =  (CompileTarget)  compileTargetCombo.Active;
+				configuration.CompileTarget = (CompileTarget) compileTargetCombo.Active;
 				compilerParameters.DefineSymbols =  symbolsEntry.Text;
 				compilerParameters.MainClass     =  mainClassEntry.Text;
 

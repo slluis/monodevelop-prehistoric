@@ -129,10 +129,6 @@ namespace ILAsmBinding
 			
 			CompilerResults cr = new CompilerResults(tf);
 			
-			// we have 2 formats for the error output the csc gives :
-			Regex normalError  = new Regex(@"(?<file>.*)\((?<line>\d+),(?<column>\d+)\):\s+(?<error>\w+)\s+(?<number>[\d\w]+):\s+(?<message>.*)", RegexOptions.Compiled);
-			Regex generalError = new Regex(@"(?<error>.+)\s+(?<number>[\d\w]+):\s+(?<message>.*)", RegexOptions.Compiled);
-			
 			while (true) {
 				string curLine = sr.ReadLine();
 				compilerOutput.Append(curLine);

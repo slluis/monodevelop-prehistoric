@@ -1,3 +1,10 @@
+2005-01-27  John Luke  <john.luke@gmail.com>
+
+	* Nemerle.glade:
+	* Gui/CodeGenerationPanel.cs:
+	* NemerleBindingCompilerServices.cs: fix some warnings,
+	use ComboBox instead of OptionMenu
+
 2005-01-24  Lluis Sanchez Gual  <lluis@novell.com>
 
 	* NemerleBindingCompilerServices.cs: 

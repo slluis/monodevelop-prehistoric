@@ -125,7 +125,7 @@ namespace VBBinding {
 			
 			string exe = configuration.CompiledOutputName;
 			string responseFileName = Path.GetTempFileName();
-			string stdResponseFileName = String.Concat(propertyService.DataDirectory, Path.DirectorySeparatorChar, "vb.rsp");
+			//string stdResponseFileName = String.Concat(propertyService.DataDirectory, Path.DirectorySeparatorChar, "vb.rsp");
 			StreamWriter writer = new StreamWriter(responseFileName);
 			
 			//Console.WriteLine(GenerateOptions(compilerparameters,exe));	
@@ -292,8 +292,8 @@ namespace VBBinding {
 			CompilerResults cr = new CompilerResults(tf);
 			
 			// we have 2 formats for the error output the csc gives :
-			Regex normalError  = new Regex(@"(?<file>.*)\((?<line>\d+),(?<column>\d+)\):\s+(?<error>\w+)\s+(?<number>[\d\w]+):\s+(?<message>.*)", RegexOptions.Compiled);
-			Regex generalError = new Regex(@"(?<error>.+)\s+(?<number>[\d\w]+):\s+(?<message>.*)", RegexOptions.Compiled);
+			//Regex normalError  = new Regex(@"(?<file>.*)\((?<line>\d+),(?<column>\d+)\):\s+(?<error>\w+)\s+(?<number>[\d\w]+):\s+(?<message>.*)", RegexOptions.Compiled);
+			//Regex generalError = new Regex(@"(?<error>.+)\s+(?<number>[\d\w]+):\s+(?<message>.*)", RegexOptions.Compiled);
 			
 			while (true) {
 				string curLine = sr.ReadLine();
@@ -412,7 +412,6 @@ namespace VBBinding {
 					assembly_references.Add (Path.Combine (rel_path_to, Path.GetFileName (assembly_fileName)));
 					break;
 				case ReferenceType.Project:
-					string project_fileName = lib.GetReferencedFileName ();
 					IProjectService prjService = (IProjectService)ServiceManager.GetService (typeof (IProjectService));
 					CombineEntryCollection allProjects = prjService.CurrentOpenCombine.GetAllProjects();
 					

@@ -230,7 +230,6 @@ namespace NemerleBinding
 					assembly_references.Add (Path.Combine (rel_path_to, Path.GetFileName (assembly_fileName)));
 					break;
 				case ReferenceType.Project:
-					string project_fileName = lib.GetReferencedFileName ();
 					IProjectService prjService = (IProjectService)ServiceManager.GetService (typeof (IProjectService));
 					CombineEntryCollection allProjects = prjService.CurrentOpenCombine.GetAllProjects();
 					

@@ -53,16 +53,16 @@ namespace VBBinding.Parser
 		AttributeSectionCollection VisitAttributes(ArrayList attributes)
 		{
 			// TODO Expressions???
-			AttributeSectionCollection result = new AttributeSectionCollection();
+			//AttributeSectionCollection result = new AttributeSectionCollection();
 			foreach (AST.AttributeSection section in attributes) {
-				AttributeCollection resultAttributes = new AttributeCollection();
+				//AttributeCollection resultAttributes = new AttributeCollection();
 				foreach (AST.Attribute attribute in section.Attributes) {
 					IAttribute a = new ASTAttribute(attribute.Name, new ArrayList(attribute.PositionalArguments), new SortedList());
 					foreach (AST.NamedArgumentExpression n in attribute.NamedArguments) {
 						a.NamedArguments[n.Parametername] = n.Expression;
 					}
 				}
-				IAttributeSection s = new AttributeSection((AttributeTarget)Enum.Parse(typeof (AttributeTarget), section.AttributeTarget), resultAttributes);
+				//IAttributeSection s = new AttributeSection((AttributeTarget)Enum.Parse(typeof (AttributeTarget), section.AttributeTarget), resultAttributes);
 			}
 			return null;
 		}

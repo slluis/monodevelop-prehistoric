@@ -693,7 +693,7 @@ namespace VBBinding.Parser
 		
 		ArrayList SearchMethod(ArrayList methods, IClass curType, string memberName)
 		{
-			bool isClassInInheritanceTree = IsClassInInheritanceTree(curType, callingClass);
+			//bool isClassInInheritanceTree = IsClassInInheritanceTree(curType, callingClass);
 			
 			foreach (IMethod m in curType.Methods) {
 				if (m.Name.ToLower() == memberName.ToLower() &&
@@ -721,7 +721,7 @@ namespace VBBinding.Parser
 		
 		public ArrayList SearchIndexer(ArrayList indexer, IClass curType)
 		{
-			bool isClassInInheritanceTree =IsClassInInheritanceTree(curType, callingClass);
+			//bool isClassInInheritanceTree =IsClassInInheritanceTree(curType, callingClass);
 			foreach (IIndexer i in curType.Indexer) {
 				if (MustBeShown(curType, i) /* , callingClass, showStatic, isClassInInheritanceTree) */ 
 				&& !((i.Modifiers & ModifierEnum.Override) == ModifierEnum.Override)) {
@@ -744,7 +744,7 @@ namespace VBBinding.Parser
 			}
 //			Console.WriteLine("searching member {0} in {1}", memberName, type.Name);
 			IClass curType = SearchType(type.FullyQualifiedName, callingClass, cu);
-			bool isClassInInheritanceTree =IsClassInInheritanceTree(curType, callingClass);
+			//bool isClassInInheritanceTree =IsClassInInheritanceTree(curType, callingClass);
 			
 			if (curType == null) {
 //				Console.WriteLine("Type not found in SearchMember");

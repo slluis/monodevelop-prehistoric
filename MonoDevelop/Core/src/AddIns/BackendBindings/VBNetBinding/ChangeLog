@@ -2,6 +2,13 @@
 
 	* VB.glade: update to new glade format
 
+	* VB.glade:
+	* Gui/CodeGenerationPanel.cs:
+	* Parser/VBNetVisitor.cs:
+	* Parser/Resolver.cs:
+	* VBBindingCompilerServices.cs: fix some warnings,
+	use ComboBox instead of OptionMenu
+
 2005-01-24  Lluis Sanchez Gual  <lluis@novell.com>
 
 	* VBBindingCompilerServices.cs: 

@@ -18,7 +18,7 @@ namespace NemerleBinding
 	{
 		class CodeGenerationPanelWidget : GladeWidgetExtract 
 		{
- 			[Glade.Widget] OptionMenu target;
+ 			[Glade.Widget] ComboBox target;
  			[Glade.Widget] CheckButton nostdmacros;
 			[Glade.Widget] CheckButton nostdlib;
 			[Glade.Widget] CheckButton ignorewarnings;
@@ -35,7 +35,7 @@ namespace NemerleBinding
 				configuration = (DotNetProjectConfiguration) ((IProperties)CustomizationObject).GetProperty("Config");
 				compilerParameters = (NemerleParameters) configuration.CompilationParameters;
 				
-				target.SetHistory ( (uint) configuration.CompileTarget);
+				target.Active = (int) configuration.CompileTarget;
 				
 				nostdmacros.Active = compilerParameters.Nostdmacros;
 				nostdlib.Active    = compilerParameters.Nostdlib;
@@ -48,7 +48,7 @@ namespace NemerleBinding
 
 			public bool Store ()
 			{	
-				configuration.CompileTarget = (CompileTarget)target.History;
+				configuration.CompileTarget = (CompileTarget) target.Active;
 				compilerParameters.Nostdmacros = nostdmacros.Active;
 				compilerParameters.Nostdlib = nostdlib.Active;
 				configuration.RunWithWarnings = ignorewarnings.Active;

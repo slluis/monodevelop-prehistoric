@@ -617,7 +617,6 @@ namespace CSharpBinding.Parser
 //			Console.WriteLine("No static member found");
 			
 			// try if there exists a static member in outer classes named typeName
-			ClassCollection classes = GetOuterClasses();
 			foreach (IClass c in GetOuterClasses()) {
 				t = SearchMember(callingClass == null ? null : new ReturnType(c.FullyQualifiedName), typeName);
 				if (t != null) {

@@ -183,7 +183,7 @@ namespace CSharpBinding
 			TempFileCollection tf = new TempFileCollection();
 			
 			
-			StreamReader t = File.OpenText(responseFileName);
+			//StreamReader t = File.OpenText(responseFileName);
 			
 			//Executor.ExecWaitWithCapture(outstr,  tf, ref output, ref error);
 			DoCompilation(outstr, tf, ref output, ref error);
@@ -264,7 +264,7 @@ namespace CSharpBinding
 					assembly_references.Add (Path.Combine (rel_path_to, Path.GetFileName (assembly_fileName)));
 					break;
 				case ReferenceType.Project:
-					string project_fileName = lib.GetReferencedFileName ();
+					//string project_fileName = lib.GetReferencedFileName ();
 					IProjectService prjService = (IProjectService)ServiceManager.GetService (typeof (IProjectService));
 					CombineEntryCollection allProjects = prjService.CurrentOpenCombine.GetAllProjects();
 					
@@ -481,8 +481,8 @@ namespace CSharpBinding
 			CompilerResults cr = new CompilerResults(tf);
 			
 			// we have 2 formats for the error output the csc gives :
-			Regex normalError  = new Regex(@"(?<file>.*)\((?<line>\d+),(?<column>\d+)\):\s+(?<error>\w+)\s+(?<number>[\d\w]+):\s+(?<message>.*)", RegexOptions.Compiled);
-			Regex generalError = new Regex(@"(?<error>.+)\s+(?<number>[\d\w]+):\s+(?<message>.*)", RegexOptions.Compiled);
+			//Regex normalError  = new Regex(@"(?<file>.*)\((?<line>\d+),(?<column>\d+)\):\s+(?<error>\w+)\s+(?<number>[\d\w]+):\s+(?<message>.*)", RegexOptions.Compiled);
+			//Regex generalError = new Regex(@"(?<error>.+)\s+(?<number>[\d\w]+):\s+(?<message>.*)", RegexOptions.Compiled);
 			
 			foreach (string s in new string[] { stdout, stderr }) {
 				StreamReader sr = File.OpenText (s);
