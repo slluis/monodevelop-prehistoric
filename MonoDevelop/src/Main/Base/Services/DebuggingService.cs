@@ -103,17 +103,25 @@ namespace MonoDevelop.Services
 				return;
 
 			backend = new DebuggerBackend ();
-			foreach (string key in breakpoints.Keys) {
+			proc = backend.Run (ProcessStart.Create (null, argv));
+			string[] keys = new string [breakpoints.Keys.Count];
+			breakpoints.Keys.CopyTo (keys, 0);
+			foreach (string key in keys) {
 				Breakpoint point = CreateBreakpoint (key);
 				string[] toks = point.Name.Split (':');
 				string filename = toks [0];
 				int linenumber = Int32.Parse (toks [1]);
+				Console.WriteLine ("Looking up " + filename + " " + linenumber);
 				SourceLocation loc = backend.FindLocation(filename, linenumber);
-				if (loc == null)
+				if (loc == null) {
+					Console.WriteLine ("Couldn't find breakpoint location " + key);
 					return;
+				}
 				breakpoints [key] = loc.InsertBreakpoint (proc, point);
+				if (breakpoints [key] == null)
+					Console.WriteLine ("Couldn't insert breakpoint " + key);
 			}
-			proc = backend.Run (ProcessStart.Create (null, argv));
+			proc.Continue (false);
 		}
 
 		public void Stop ()
@@ -136,7 +144,8 @@ namespace MonoDevelop.Services
 			int linenumber = Int32.Parse (toks [1]);
 
 			BreakpointHitArgs args = new BreakpointHitArgs (filename, linenumber);
-			this.BreakpointHit (this, args);
+			BreakpointHit (this, args);
+			Console.WriteLine ("hit breakpoint " + point.Name);
 		}
 
 		public event DebuggingService.BreakpointHitHandler BreakpointHit;
