@@ -13,7 +13,7 @@ SOURCES= \
 ./Gui/Pads/ProjectBrowser/BrowserNode/NamedFolderNode.cs \
 ./Gui/Pads/OpenTaskView.cs \
 ./Gui/Pads/TreeViewMemento.cs \
-./Gui/Pads/UnixFileScout.cs \
+./Gui/Pads/FileScout.cs \
 ./Gui/Pads/PropertyPad/PropertyPadCommands.cs \
 ./Gui/Pads/PropertyPad/PropertyPad.cs \
 ./Gui/Pads/ClassScout/ClassScout.cs \
