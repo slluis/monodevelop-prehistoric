@@ -1,3 +1,8 @@
+2004-10-29  Todd Berman  <tberman@off.net>
+
+	* Commands/FileCommands.cs: Patch from Valters Svabe
+	<valters@inbox.lv> to close bug #62300
+
 2004-10-28  Todd Berman  <tberman@off.net>
 
 	* Services/File/RecentFiles.cs: Remove C.WL

@@ -88,6 +88,17 @@ namespace MonoDevelop.Commands
 				}
 			}
 		}
+		
+		public override bool IsEnabled {
+			get {
+				IWorkbenchWindow window   = WorkbenchSingleton.Workbench.ActiveWorkbenchWindow;
+				IViewContent content = window != null ? window.ActiveViewContent as IViewContent : null;
+				if (content != null) {
+					return content.IsDirty;
+				}
+				return false;
+			}
+		}
 	} 
 
 	public class ReloadFile : AbstractMenuCommand
