@@ -46,19 +46,16 @@ namespace ICSharpCode.SharpDevelop.DefaultEditor.Gui.OptionPanels
 			Frame encOptions = new Frame ("File encoding");
 			
 			VBox genVBox = new VBox (true, 0);
-			enableCodeCompletionCheckBox = new CheckButton ();
-			enableCodeCompletionCheckBox.Label = "Enable Code Completion";
+			enableCodeCompletionCheckBox = new CheckButton ("Enable code _completion");
 			enableCodeCompletionCheckBox.Active = ((IProperties)CustomizationObject).GetProperty("EnableCodeCompletion", true);
 			genVBox.PackStart (enableCodeCompletionCheckBox);
 			
-			enableFoldingCheckBox = new CheckButton ();
-			enableFoldingCheckBox.Label = "Enable Code Folding";
+			enableFoldingCheckBox = new CheckButton ("Enable code _folding");
 			enableFoldingCheckBox.Active = ((IProperties)CustomizationObject).GetProperty("EnableFolding", true);
 			genVBox.PackStart (enableFoldingCheckBox);
 			genOptions.Add (genVBox);
 			
-			enableDoublebufferingCheckBox = new CheckButton ();
-			enableDoublebufferingCheckBox.Label = "Enable Double Buffering";
+			enableDoublebufferingCheckBox = new CheckButton ("Enable double _buffering");
 			enableDoublebufferingCheckBox.Active = ((IProperties)CustomizationObject).GetProperty("DoubleBuffer", true);
 			genVBox.PackStart (enableDoublebufferingCheckBox);
 			
@@ -75,8 +72,7 @@ namespace ICSharpCode.SharpDevelop.DefaultEditor.Gui.OptionPanels
 			hb.PackStart (browseButton);
 			fontVBox.PackStart (hb);
 			
-			enableAAFontRenderingCheckBox = new CheckButton ();
-			enableAAFontRenderingCheckBox.Label = "_Render font aliased";
+			enableAAFontRenderingCheckBox = new CheckButton ("_Render font aliased");
 			enableAAFontRenderingCheckBox.Active = ((IProperties)CustomizationObject).GetProperty("UseAntiAliasFont", false);
 			fontVBox.PackStart (enableAAFontRenderingCheckBox);
 			fontOptions.Add (fontVBox);
