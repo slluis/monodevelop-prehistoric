@@ -5,6 +5,8 @@ using Gdk;
 using GtkSharp;
 using GdkSharp;
 
+using MonoDevelop.Services;
+
 namespace MonoDevelop.Gui.Widgets {
 	public abstract class BaseFileEntry : Gtk.HBox {
 		
@@ -19,7 +21,7 @@ namespace MonoDevelop.Gui.Widgets {
 		{
 			this.name = name;
 			text = new Entry ();
-			browse = Button.NewWithMnemonic ("_Browse...");
+			browse = Button.NewWithMnemonic (GettextCatalog.GetString ("_Browse..."));
 			
 			text.Changed += new EventHandler (OnTextChanged);
 			browse.Clicked += new EventHandler (OnButtonClicked);

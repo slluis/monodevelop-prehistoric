@@ -15,6 +15,7 @@ using Gtk;
 using MonoDevelop.Core.Properties;
 using MonoDevelop.Core.Services;
 using MonoDevelop.Gui.Utils;
+using MonoDevelop.Services;
 
 namespace MonoDevelop.Gui.Widgets
 {
@@ -249,19 +250,19 @@ namespace MonoDevelop.Gui.Widgets
 		private void ShowPopup ()
 		{
 			Menu menu = new Menu ();
-			MenuItem openfilebrowser = new MenuItem ("Open with file browser");
+			MenuItem openfilebrowser = new MenuItem (GettextCatalog.GetString ("Open with file browser"));
 			openfilebrowser.Activated += new EventHandler (OpenFileBrowser);
 
-			MenuItem openterminal = new MenuItem ("Open with terminal");
+			MenuItem openterminal = new MenuItem (GettextCatalog.GetString ("Open with terminal"));
 			openterminal.Activated += new EventHandler (OpenTerminal);
 
-			MenuItem rename = new MenuItem ("Rename");
+			MenuItem rename = new MenuItem (GettextCatalog.GetString ("Rename"));
 			rename.Activated += new EventHandler (OnDirRename);
 
-			MenuItem delete = new MenuItem ("Delete");
+			MenuItem delete = new MenuItem (GettextCatalog.GetString ("Delete"));
 			delete.Activated += new EventHandler (OnDirDelete);
 
-			MenuItem newfolder = new MenuItem ("Create new folder");
+			MenuItem newfolder = new MenuItem (GettextCatalog.GetString ("Create new folder"));
 			newfolder.Activated += new EventHandler (OnNewDir);
 
 			menu.Append (newfolder);
@@ -324,7 +325,7 @@ namespace MonoDevelop.Gui.Widgets
 				CurrentDir = entry.Text;
 			else
 			{
-    			messageService.ShowError (null, "Cannot enter '" + entry.Text + "' folder");
+    			messageService.ShowError (null, String.Format (GettextCatalog.GetString ("Cannot enter '{0}' folder"), entry.Text));
 			}
 		}
 
@@ -360,7 +361,7 @@ namespace MonoDevelop.Gui.Widgets
     					}
     					catch (Exception ex)
     					{
-    						messageService.ShowError (ex, "Could not rename folder '" + oldpath + "' to '" + args.NewText + "'");
+    						messageService.ShowError (ex, String.Format (GettextCatalog.GetString ("Could not rename folder '{0}' to '{1}'"), oldpath, args.NewText));
     					}
     					finally
     					{
@@ -378,7 +379,7 @@ namespace MonoDevelop.Gui.Widgets
 					}
 					catch (Exception ex)
 					{
-    					messageService.ShowError (ex, "Could not create new folder '" + args.NewText + "'");
+    					messageService.ShowError (ex, String.Format (GettextCatalog.GetString ("Could not create new folder '{0}'"), args.NewText));
 					}
 					finally
 					{
@@ -400,7 +401,7 @@ namespace MonoDevelop.Gui.Widgets
 			TreeIter iter;
 			TreeModel model;
 
-			if (messageService.AskQuestion ("Are you sure you want to delete this folder?", "Delete folder"))
+			if (messageService.AskQuestion (GettextCatalog.GetString ("Are you sure you want to delete this folder?"), GettextCatalog.GetString ("Delete folder")))
 			{
 				if (tv.Selection.GetSelected (out model, out iter))
 				{
@@ -410,7 +411,7 @@ namespace MonoDevelop.Gui.Widgets
 					}
 					catch (Exception ex)
 					{
-						messageService.ShowError (ex, "Could not delete folder '" + System.IO.Path.Combine (CurrentDir, (string) store.GetValue (iter, 1)) + "'");
+						messageService.ShowError (ex, String.Format (GettextCatalog.GetString ("Could not delete folder '{0}'"), System.IO.Path.Combine (CurrentDir, (string) store.GetValue (iter, 1))));
 					}
 					finally
 					{

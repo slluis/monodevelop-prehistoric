@@ -56,7 +56,8 @@ FILES= \
 ./AddIns/TypeNotFoundException.cs \
 ./AddIns/AddInInitializeException.cs \
 ./AddIns/AddInCollection.cs \
-./AddIns/AddInSignatureException.cs
+./AddIns/AddInSignatureException.cs \
+./Services/GettextCatalog.cs
 
 build_sources = $(addprefix $(srcdir)/, $(FILES))
 

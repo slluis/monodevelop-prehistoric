@@ -1,6 +1,8 @@
 using System;
 using System.Collections;
 
+using MonoDevelop.Services;
+
 namespace MonoDevelop.Gui.Widgets {
     public class TreeNodeCollection: IList {
 		private ArrayList list;
@@ -166,7 +168,7 @@ namespace MonoDevelop.Gui.Widgets {
 
 		void IList.Remove(object value){
 			if (value is TreeNode == false) {
-				throw new Exception ("Attempt to remove a non node from the tree");
+				throw new Exception (GettextCatalog.GetString ("Attempt to remove a non node from the tree"));
 			}
 			Remove((TreeNode)value);
 		}

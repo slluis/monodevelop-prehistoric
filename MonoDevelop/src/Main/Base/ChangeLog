@@ -1,3 +1,8 @@
+2004-04-03  Todd Berman  <tberman@sevenl.net>
+
+	* Services/GettextCatalog.cs: moved to .Core.
+	* Makefile.am: reflect above change.
+
 2004-04-02  Todd Berman  <tberman@sevenl.net>
 
 	* Services/File/DefaultFileService.cs:

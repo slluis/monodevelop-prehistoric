@@ -81,3 +81,6 @@ src/Main/Base/Services/ParserService/DefaultParserService.cs
 src/Main/Base/Services/Project/DefaultProjectService.cs
 src/Main/Base/Services/StatusBar/DefaultStatusBarService.cs
 src/Main/Base/Services/ResourceNotFoundException.cs
+src/Libraries/MonoDevelop.Gui.Widgets/FileBrowser/FileBrowser.cs
+src/Libraries/MonoDevelop.Gui.Widgets/FolderDialog/BaseFileEntry.cs
+src/Libraries/MonoDevelop.Gui.Widgets/Tree/TreeNodeCollection.cs
