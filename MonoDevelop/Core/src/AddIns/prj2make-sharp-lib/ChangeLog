@@ -1,3 +1,12 @@
+2005-03-18  Francisco "Paco" Martinez <paco@mfcon.com>
+	* MsPrjHelpe.cs: 
+	Mono 2.0 has been commented out until further notice.
+	Gtk# 2.0 is searched first for a match otherwise it goes to Gtk# 1.0
+	Added Gecko# 2.0 (0.7) is searched first for a match otherwise it goes to Gecko# 1.0 (0.6)
+	
+	* MsPrjHelper.cs and MdPrjHelper.cs:
+	I also included the changes inside the patch in http://bugzilla.ximian.com/show_bug.cgi?id=73705.
+
 2004-08-07  Todd Berman  <tberman@off.net>
 
 	* AssemblyInfo.cs.in: Use new ASSEMBLY_VERSION variable.
