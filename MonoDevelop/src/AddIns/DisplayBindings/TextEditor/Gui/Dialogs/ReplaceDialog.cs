@@ -9,6 +9,7 @@ using System;
 using System.IO;
 using System.Drawing;
 using System.ComponentModel;
+using System.Collections.Specialized;
 
 using ICSharpCode.SharpDevelop.Gui;
 using ICSharpCode.SharpDevelop.DefaultEditor.Gui.Editor;
@@ -24,18 +25,24 @@ using ICSharpCode.TextEditor;
 using Gtk;
 using Glade;
 
-using Assembly = System.Reflection.Assembly;
-
 namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 {
 	public class ReplaceDialog
 	{
+		private const int HISTORY_LIMIT = 20;
+		private const char HISTORY_SEPARATOR_CHAR = (char) 10;
+		// regular members
 		public bool replaceMode;
+		StringCollection findHistory = new StringCollection();
+		StringCollection replaceHistory = new StringCollection();
+		
+		// services
 		ResourceService resourceService = (ResourceService)ServiceManager.Services.GetService(typeof(IResourceService));
 		static PropertyService propertyService = (PropertyService)ServiceManager.Services.GetService(typeof(PropertyService));
 		static FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.Services.GetService(typeof(FileUtilityService));
 		StringParserService stringParserService = (StringParserService)ServiceManager.Services.GetService (typeof (StringParserService));
 		
+		// gtk widgets
 		[Glade.Widget] Gtk.Combo searchPatternComboBox;
 		[Glade.Widget] Gtk.Combo replacePatternComboBox;
 		[Glade.Widget] Gtk.Button findHelpButton;
@@ -115,10 +122,12 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 			}
 		}
 		
-		public ReplaceDialog(bool replaceMode)// : base ("Find")
+		public ReplaceDialog(bool replaceMode)
 		{
+			// some members needed to initialise this dialog based on replace mode
 			this.replaceMode = replaceMode;
 			string dialogName = (replaceMode) ? "ReplaceDialogWidget" : "FindDialogWidget";
+			
 			// we must do it from *here* otherwise, we get this assembly, not the caller
 			Glade.XML glade = new XML (null, "texteditoraddin.glade", dialogName, null);
 			glade.Autoconnect (this);
@@ -134,6 +143,8 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 			
 			//AcceptButton = (Button)ControlDictionary["findButton"];
 			//CancelButton = (Button)ControlDictionary["closeButton"];
+			
+			LoadHistoryValues();
 			
 			ignoreCaseCheckBox.Active = !SearchReplaceManager.SearchOptions.IgnoreCase;
 			searchWholeWordOnlyCheckBox.Active = SearchReplaceManager.SearchOptions.SearchWholeWordOnly;
@@ -185,6 +196,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 			// insert event handlers
 			findButton.Clicked  += new EventHandler(FindNextEvent);
 			closeButton.Clicked += new EventHandler(CloseDialogEvent);
+			ReplaceDialogPointer.Close += new EventHandler(CloseDialogEvent);
 			ReplaceDialogPointer.DeleteEvent += new GtkSharp.DeleteEventHandler (OnDeleted);
 			
 			if (replaceMode) {
@@ -208,13 +220,16 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 			SearchReplaceManager.ReplaceDialog     = this;
 		}
 		
-		protected void OnClosed(EventArgs e)
+		protected void OnClosed()
 		{
-			SearchReplaceManager.ReplaceDialog     = null;
+			SaveHistoryValues();
+			
 		}
 		
 		void OnDeleted (object o, GtkSharp.DeleteEventArgs args)
 		{
+			// perform the standard closing windows event
+			OnClosed();
 			SearchReplaceManager.ReplaceDialog = null;
 		}
 
@@ -274,6 +289,8 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 			finally {
 				//Cursor = Cursors.Default;
 			}
+			
+			AddSearchHistoryItem(findHistory, searchPatternComboBox.Entry.Text);
 		}
 		
 		void ReplaceEvent(object sender, EventArgs e)
@@ -291,6 +308,8 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 			finally {
 				//Cursor = Cursors.Default;
 			}
+			
+			AddSearchHistoryItem(replaceHistory, replacePatternComboBox.Entry.Text);
 		}
 		
 		void ReplaceAllEvent(object sender, EventArgs e)
@@ -307,6 +326,8 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 			} finally {
 				//Cursor = Cursors.Default;
 			}
+			
+			AddSearchHistoryItem(replaceHistory, replacePatternComboBox.Entry.Text);
 		}
 		
 		void MarkAllEvent(object sender, EventArgs e)
@@ -323,18 +344,85 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 			} finally {
 				//Cursor = Cursors.Default;
 			}
+			
+			AddSearchHistoryItem(findHistory, searchPatternComboBox.Entry.Text);
 		}
 		
 		void CloseDialogEvent(object sender, EventArgs e)
 		{
 			ReplaceDialogPointer.Hide();
-			OnClosed (null);
+			OnClosed ();
 		}
 		
 		void SpecialSearchStrategyCheckBoxChangedEvent(object sender, EventArgs e)
 		{
 			if (useSpecialSearchStrategyCheckBox != null) {
 				specialSearchStrategyComboBox.Sensitive = useSpecialSearchStrategyCheckBox.Active;
+			}
+		}
+		
+		// generic method to add a string to a history item
+		private void AddSearchHistoryItem(StringCollection history, string toAdd)
+		{
+			// add the item to the find history
+			if (history.Contains(toAdd)) {
+				// remove it so it gets added at the top
+				history.Remove(toAdd);
+			}
+			// make sure there is only 20
+			if (history.Count == HISTORY_LIMIT) {
+				history.RemoveAt(HISTORY_LIMIT - 1);
+			}
+			history.Insert(0, toAdd);
+			
+			// update the drop down for the combobox
+			string[] stringArray = new string[history.Count];
+			history.CopyTo(stringArray, 0);
+			if (history == findHistory) {
+				searchPatternComboBox.SetPopdownStrings(stringArray);
+			} else if( history == replaceHistory) {
+				replacePatternComboBox.SetPopdownStrings(stringArray);
+			}
+		}
+		
+		// loads the history arrays from the property service
+		// NOTE: this dialog uses a newline character to separate search history strings in the properties file 
+		private void LoadHistoryValues()
+		{
+			object stringArray;
+			// set the history in properties
+			stringArray = propertyService.GetProperty("MonoDevelop.FindReplaceDialogs.FindHistory");
+		
+			if(stringArray != null) {
+				findHistory.AddRange(stringArray.ToString().Split(HISTORY_SEPARATOR_CHAR));
+				searchPatternComboBox.SetPopdownStrings(stringArray.ToString().Split(HISTORY_SEPARATOR_CHAR));
+			}
+			
+			// now do the replace history
+			if(replaceMode)	{					
+				stringArray = propertyService.GetProperty("MonoDevelop.FindReplaceDialogs.ReplaceHistory");
+				if(stringArray != null) {
+					replaceHistory.AddRange(stringArray.ToString().Split(HISTORY_SEPARATOR_CHAR));
+					replacePatternComboBox.SetPopdownStrings(stringArray.ToString().Split(HISTORY_SEPARATOR_CHAR));
+				}
+			}
+		}
+		
+		// saves the history arrays to the property service
+		// NOTE: this dialog uses a newline character to separate search history strings in the properties file
+		private void SaveHistoryValues()
+		{
+			string[] stringArray;
+			// set the history in properties
+			stringArray = new string[findHistory.Count];
+			findHistory.CopyTo(stringArray, 0);			
+			propertyService.SetProperty("MonoDevelop.FindReplaceDialogs.FindHistory", string.Join(HISTORY_SEPARATOR_CHAR.ToString(), stringArray));
+			
+			// now do the replace history
+			if(replaceMode)	{
+				stringArray = new string[replaceHistory.Count];
+				replaceHistory.CopyTo(stringArray, 0);				
+				propertyService.SetProperty("MonoDevelop.FindReplaceDialogs.ReplaceHistory", string.Join(HISTORY_SEPARATOR_CHAR.ToString(), stringArray));
 			}
 		}
 		
@@ -346,6 +434,8 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 		
 		public void Destroy()
 		{
+			// save the search and replace history to properties
+			OnClosed ();
 			ReplaceDialogPointer.Destroy();
 		}
 		
