@@ -17,6 +17,9 @@ using ICSharpCode.SharpDevelop.Gui.Components;
 using ICSharpCode.Core.Services;
 using ICSharpCode.Core.AddIns;
 
+using Gtk;
+using MonoDevelop.Gui;
+
 namespace ICSharpCode.SharpDevelop.Gui.Dialogs.OptionPanels
 {
 	public class SelectStylePanel : AbstractOptionPanel
@@ -30,31 +33,30 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs.OptionPanels
 
 		PropertyService PropertyService = (PropertyService)ServiceManager.Services.GetService (typeof (PropertyService));
 
-		Gtk.Menu ambienceMenu;
-		Gtk.CheckButton extensionButton;
-		Gtk.OptionMenu option;
-		
+
+		class SelectStylePanelWidget : GladeWidgetExtract {
+			public Gtk.Menu ambienceMenu;
+			[Glade.Widget] public Gtk.CheckButton extensionButton;
+			[Glade.Widget] public Gtk.OptionMenu option;
+					
+			public SelectStylePanelWidget () : base ("Base.glade", "SelectStylePanel")
+			{
+				ambienceMenu = new Gtk.Menu ();
+				option.Menu = ambienceMenu;
+			}
+		}
+
 		public SelectStylePanel () : base ()
 		{
-			extensionButton = Gtk.CheckButton.NewWithLabel ("Show Extensions in project scout");
-			ambienceMenu = new Gtk.Menu ();
-
-			option = new Gtk.OptionMenu ();
-			option.Menu = ambienceMenu;
-
-			Gtk.VBox mainbox = new Gtk.VBox (false, 2);
-
-			mainbox.PackStart (extensionButton, false, false, 2);
-			mainbox.PackStart (option, false, false, 2);
-
-			this.Add (mainbox);
-			
 		}
+
+		SelectStylePanelWidget widget;
 		
 		public override void LoadPanelContents()
 		{
-			
-			extensionButton.Active  = PropertyService.GetProperty("ICSharpCode.SharpDevelop.Gui.ProjectBrowser.ShowExtensions", true);
+			Add (widget = new SelectStylePanelWidget ());
+
+			widget.extensionButton.Active  = PropertyService.GetProperty("ICSharpCode.SharpDevelop.Gui.ProjectBrowser.ShowExtensions", true);
 			
 			IAddInTreeNode treeNode = AddInTreeSingleton.AddInTree.GetTreeNode("/SharpDevelop/Workbench/Ambiences");
 			string active = PropertyService.GetProperty ("SharpDevelop.UI.CurrentAmbience", "CSharp");
@@ -63,10 +65,10 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs.OptionPanels
 			uint im = 0;
 			foreach (IAddInTreeNode childNode in treeNode.ChildNodes.Values) {
 				Gtk.MenuItem i = Gtk.MenuItem.NewWithLabel (childNode.Codon.ID);
-				ambienceMenu.Append(i);
+				widget.ambienceMenu.Append(i);
 				MenuToValue[i] = childNode.Codon.ID;
 				if (childNode.Codon.ID == active) {
-					option.SetHistory (im);
+					widget.option.SetHistory (im);
 				}
 				im++;
 			}			
@@ -75,8 +77,8 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs.OptionPanels
 		
 		public override bool StorePanelContents()
 		{
-			PropertyService.SetProperty("ICSharpCode.SharpDevelop.Gui.ProjectBrowser.ShowExtensions", extensionButton.Active);
-			PropertyService.SetProperty("SharpDevelop.UI.CurrentAmbience", (string)MenuToValue[ambienceMenu.Active]);
+			PropertyService.SetProperty("ICSharpCode.SharpDevelop.Gui.ProjectBrowser.ShowExtensions", widget.extensionButton.Active);
+			PropertyService.SetProperty("SharpDevelop.UI.CurrentAmbience", (string)MenuToValue[widget.ambienceMenu.Active]);
 			return true;
 		}
 	}
