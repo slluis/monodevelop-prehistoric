@@ -11,7 +11,7 @@ namespace Gdl
 
 		public DockPaned (Gtk.Orientation orientation)
 		{
-			//JUST A STUB need porting
+			CreateChild (orientation);
 		}
 		
 		public override bool HasGrip {
@@ -90,6 +90,46 @@ namespace Gdl
 			}
 		}
 		
-		
+		public override void Docking (DockObject requestor, DockPlacement position, object other_data)
+		{
+			if (this.Child == null)
+				return;
+			Gtk.Paned paned = (Gtk.Paned)this.Child;
+			bool hresize = false;
+			bool wresize = false;
+			bool done = false;
+			
+			if (requestor is DockItem) {
+				hresize = ((DockItem)requestor).PreferredHeight == -2 ? true : false;
+				wresize = ((DockItem)requestor).PreferredWidth == -2 ? true : false;
+			}
+			
+			switch (this.Orientation) {
+			case Gtk.Orientation.Horizontal:
+				if (paned.Child1 == null && position == DockPlacement.Left) {
+					paned.Pack1 (requestor, wresize, false);
+					done = true;
+				} else if (paned.Child2 == null && position == DockPlacement.Right) {
+					paned.Pack2 (requestor, wresize, false);
+					done = true;
+				}
+				break;
+			case Gtk.Orientation.Vertical:
+				if (paned.Child1 == null && position == DockPlacement.Top) {
+					paned.Pack1 (requestor, hresize, false);
+					done = true;
+				} else if (paned.Child2 == null && position == DockPlacement.Bottom) {
+					paned.Pack2 (requestor, hresize, false);
+					done = true;
+				}
+				break;
+			}
+			if (!done) {
+				base.Docking (requestor, position, other_data);
+			} else {
+				((DockItem)requestor).ShowGrip ();
+				requestor.DockObjectFlags |= DockObjectFlags.Attached;
+			}
+		}
 	}
 }
