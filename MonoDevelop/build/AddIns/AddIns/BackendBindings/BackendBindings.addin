@@ -109,10 +109,10 @@
 	
 
 	<Extension path = "/SharpDevelop/Dialogs/OptionsDialog/TextEditorOptions">
-		<DialogPanel id = "VBSpecificOptions"
+<!--		<DialogPanel id = "VBSpecificOptions"
 		             label = "${res:Dialog.Options.IDEOptions.TextEditor.VB.PanelName}"
 			     	 insertafter = "Behavior"
-		             class = "VBBinding.TextEditorOptionsPanel"/>
+		             class = "VBBinding.TextEditorOptionsPanel"/>-->
 	</Extension>
 		
 	<Extension path = "/AddIns/DefaultTextEditor/Formater">
