@@ -1,1 +1,1 @@
-SUBDIRS = resources options
+SUBDIRS = resources options templates

@@ -1,1 +1,1 @@
-SUBDIRS = icons
+SUBDIRS = css icons languages

@@ -23,4 +23,4 @@ run-profile: $(PROGRAM)
 profile-pad: $(MONOPAD)
 	cd build/bin && mono -O=inline --profile MonoPad.exe
 
-EXTRA_DIST = $(bin_SCRIPTS) $(desktop_DATA)
+EXTRA_DIST = $(bin_SCRIPTS) $(desktop_DATA) KNOWN_ISSUES
