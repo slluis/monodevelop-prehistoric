@@ -7,21 +7,11 @@
 
 using System;
 using System.IO;
-using System.Threading;
-using System.Drawing;
-using System.Drawing.Printing;
-using System.Collections;
-using System.ComponentModel;
-using System.Diagnostics;
 using System.Text;
-using System.Xml;
-using System.Xml.Xsl;
 
 using ICSharpCode.Core.AddIns;
-
 using ICSharpCode.Core.Properties;
 using ICSharpCode.Core.AddIns.Codons;
-
 using ICSharpCode.SharpDevelop.Gui.Dialogs;
 using ICSharpCode.TextEditor;
 using ICSharpCode.SharpDevelop.Gui;
@@ -36,10 +26,11 @@ namespace ICSharpCode.SharpDevelop.DefaultEditor.Commands
 {
 	public class ColorDialog : ColorSelectionDialog
 	{
-		public ColorDialog () : base ("DON'T use this dialog it DOESN'T work correctly")
+		public ColorDialog () : base ("WARNING BROKEN: Insert a color")
 		{
 			this.ColorSelection.HasPalette = true;
 			this.ColorSelection.HasOpacityControl = false;		
+			this.TransientFor = (Window) WorkbenchSingleton.Workbench;
 		}
 		
 		public string ColorStr ()
@@ -50,7 +41,7 @@ namespace ICSharpCode.SharpDevelop.DefaultEditor.Commands
 			// debug line
 			// Console.WriteLine("r {0}, b {1}, g{2}", color.red, color.green, color.blue );
 			char[] hexchars = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'};
-			s.Append ("#FF");
+			s.Append ("#");
 			foreach (ushort val in vals) {
 				/* Convert to a range of 0-255, then lookup the
 				 * digit for each half-byte */
@@ -77,12 +68,14 @@ namespace ICSharpCode.SharpDevelop.DefaultEditor.Commands
 			//FIXME:  
 			// - The return sting value is not the same choosen in the Dialog
                         // - Return color name (not color value) if it IsKnownColor but it's still not implemented for System.Drawing.Color
-			using (ColorDialog dialog = new ColorDialog ()) {
-				if (dialog.Run () != (int) ResponseType.Ok)
-					return;
-				
+			ColorDialog dialog = new ColorDialog ();
+			if (dialog.Run () == (int) ResponseType.Ok)
+			{
 				w.InsertAtCursor (dialog.ColorStr ());
 			}
+
+			dialog.Hide ();
+			dialog.Dispose ();
 		}
 	}
 	
