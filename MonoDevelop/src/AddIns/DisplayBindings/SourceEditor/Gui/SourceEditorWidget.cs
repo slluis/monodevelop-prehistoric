@@ -32,8 +32,11 @@ namespace MonoDevelop.SourceEditor.Gui {
 			get { return Buffer.Text; }
 			set { Buffer.Text = value; }
 		}
-		
 
+		public void Replace (int offset, int length, string pattern)
+		{
+			Buffer.Replace (offset, length, pattern);
+		}
 		
 		private static readonly string [] drag_icon_xpm = new string [] {
 			"36 48 9 1",

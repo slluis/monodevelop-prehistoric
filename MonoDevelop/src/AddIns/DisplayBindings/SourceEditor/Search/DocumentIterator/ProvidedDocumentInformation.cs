@@ -64,11 +64,11 @@ namespace ICSharpCode.TextEditor.Document
 		
 		public void Replace(int offset, int length, string pattern)
 		{
-			//if (document != null) {
-			//	document.Replace(offset, length, pattern);
-			//} else {
-			//	textBuffer.Replace(offset, length, pattern);
-			//}
+			if (document != null) {
+				document.Replace(offset, length, pattern);
+			} else {
+				textBuffer.Replace(offset, length, pattern);
+			}
 			
 			if (offset <= CurrentOffset) {
 				CurrentOffset = CurrentOffset - length + pattern.Length;

@@ -106,6 +106,16 @@ namespace MonoDevelop.SourceEditor.Gui {
 				return GetSelectionBounds (out dummy, out dummy2);
 			}
 		}
+
+		public string GetSelectedText () {
+			if (HasSelection)
+			{
+				TextIter select1, select2;
+				GetSelectionBounds (out select1, out select2);
+				return GetText (select1, select2, true);
+			}
+			return String.Empty;
+		}
 		
 		bool IClipboardHandler.EnableCut {
 			get { return true; }
@@ -406,6 +416,8 @@ namespace MonoDevelop.SourceEditor.Gui {
 
 		public char GetCharAt (int offset)
 		{
+			if (offset < 0)
+				offset = 0;
 			Console.WriteLine ("[GetCharAt] ({0})", offset);
 			return Text[offset];
 		}
@@ -414,6 +426,37 @@ namespace MonoDevelop.SourceEditor.Gui {
 		{
 			Console.WriteLine ("[GetText] ({0}) -- ({1})", start, length);
 			return Text.Substring (start, length);
+		}
+
+		public void Insert (int offset, string text)
+		{
+			TextIter put = GetIterAtOffset (offset);
+			Insert (put, text);
+		}
+
+		public int GetLowerSelectionBounds ()
+		{
+			if (HasSelection)
+			{
+				TextIter select1, select2;
+				GetSelectionBounds (out select1, out select2);
+				return select1.Offset > select2.Offset ? select2.Offset : select1.Offset;
+			}
+			return 0;
+		}
+
+		public void Delete (int offset, int length)
+		{
+			TextIter start = GetIterAtOffset (offset);
+			TextIter end = GetIterAtOffset (offset + length);
+
+			Delete (start, end);
+		}
+
+		public void Replace (int offset, int length, string pattern)
+		{
+			Delete (offset, length);
+			Insert (offset, pattern);
 		}
 
 		public static SourceEditorBuffer CreateTextBufferFromFile (string filename)

@@ -72,17 +72,16 @@ namespace ICSharpCode.TextEditor.Document
 		public static void Replace()
 		{
 			if (WorkbenchSingleton.Workbench.ActiveWorkbenchWindow != null) {
-				/*TextEditorControl textarea = ((ITextEditorControlProvider)WorkbenchSingleton.Workbench.ActiveWorkbenchWindow.ViewContent).TextEditorControl;
-				string text = textarea.ActiveTextAreaControl.TextArea.SelectionManager.SelectedText;
+				SourceEditor textarea = (SourceEditor) ((SourceEditorDisplayBindingWrapper)WorkbenchSingleton.Workbench.ActiveWorkbenchWindow.ViewContent).Control;
+				string text = textarea.Buffer.GetSelectedText ();
 				if (text == SearchOptions.SearchPattern) {
-					int offset = textarea.ActiveTextAreaControl.TextArea.SelectionManager.SelectionCollection[0].Offset;
+					int offset = textarea.Buffer.GetLowerSelectionBounds ();
 					
-					textarea.BeginUpdate();
-					textarea.ActiveTextAreaControl.TextArea.SelectionManager.RemoveSelectedText();
-					textarea.Document.Insert(offset, SearchOptions.ReplacePattern);
-					textarea.ActiveTextAreaControl.Caret.Position = textarea.Document.OffsetToPosition(offset +  SearchOptions.ReplacePattern.Length);
-					textarea.EndUpdate();
-				}*/
+					((IClipboardHandler)textarea.Buffer).Delete (null, null);
+					
+					textarea.Buffer.Insert(offset, SearchOptions.ReplacePattern);
+					textarea.Buffer.PlaceCursor (textarea.Buffer.GetIterAtOffset (offset + SearchOptions.ReplacePattern.Length));
+				}
 			}
 			FindNext();
 		}
@@ -120,11 +119,11 @@ namespace ICSharpCode.TextEditor.Document
 		
 		public static void ReplaceAll()
 		{
-			//TextEditorControl textArea = null;
-			/*if (WorkbenchSingleton.Workbench.ActiveWorkbenchWindow != null) {
-				textArea = ((ITextEditorControlProvider)WorkbenchSingleton.Workbench.ActiveWorkbenchWindow.ViewContent).TextEditorControl;
-				textArea.ActiveTextAreaControl.TextArea.SelectionManager.ClearSelection();
-			}*/
+			SourceEditor textArea = null;
+			if (WorkbenchSingleton.Workbench.ActiveWorkbenchWindow != null) {
+				textArea = (SourceEditor) ((SourceEditorDisplayBindingWrapper)WorkbenchSingleton.Workbench.ActiveWorkbenchWindow.ViewContent).Control;
+				textArea.Buffer.PlaceCursor (textArea.Buffer.GetIterAtMark (textArea.Buffer.InsertMark));
+			}
 			find.Reset();
 			find.SearchStrategy.CompilePattern(searchOptions);
 			
@@ -136,17 +135,13 @@ namespace ICSharpCode.TextEditor.Document
 					find.Reset();
 					return;
 				} else {
-					/*textArea = OpenTextArea(result.FileName); 
-					
-					textArea.BeginUpdate();
-					textArea.ActiveTextAreaControl.TextArea.SelectionManager.SelectionCollection.Clear();
+					textArea = OpenTextArea(result.FileName); 
+					textArea.Buffer.PlaceCursor (textArea.Buffer.GetIterAtMark (textArea.Buffer.InsertMark));
 					
 					string transformedPattern = result.TransformReplacePattern(SearchOptions.ReplacePattern);
 					find.Replace(result.Offset,
 					             result.Length, 
 					             transformedPattern);
-					textArea.EndUpdate();
-					textArea.Refresh();*/
 				}
 			}
 		}
