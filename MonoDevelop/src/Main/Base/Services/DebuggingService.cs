@@ -27,6 +27,7 @@ namespace MonoDevelop.Services
 		Process proc;
 		Hashtable breakpoints = new Hashtable ();
 		DebuggerBackend backend;
+		Breakpoint point;
 
 		public DebuggingService()
 		{
@@ -149,11 +150,14 @@ namespace MonoDevelop.Services
 			backend = null;
 		}
 
-		private void OnBreakpointHit (Breakpoint point)
+		private void OnBreakpointHit (Breakpoint pointFromDbg)
 		{
-			if (this.BreakpointHit == null) 
-				return;
+			point = pointFromDbg;
+			Gtk.Timeout.Add (1, new Gtk.Function (MainThreadNotify));
+		}
 
+		bool MainThreadNotify ()
+		{
 			string[] toks = point.Name.Split (':');
 			string filename = toks [0];
 			int linenumber = Int32.Parse (toks [1]);
@@ -161,14 +165,17 @@ namespace MonoDevelop.Services
 			IFileService fs = (IFileService)ServiceManager.Services.GetService (typeof (IFileService));
 			fs.OpenFile (filename);
 
-			if (WorkbenchSingleton.Workbench.ActiveWorkbenchWindow is IDebuggableEditor)
+			if (WorkbenchSingleton.Workbench.ActiveWorkbenchWindow.ViewContent is IDebuggableEditor)
 			{
-				((IDebuggableEditor)WorkbenchSingleton.Workbench.ActiveWorkbenchWindow).ExecutingAt (linenumber);
+				((IDebuggableEditor)WorkbenchSingleton.Workbench.ActiveWorkbenchWindow.ViewContent).ExecutingAt (linenumber - 1);
 			}	
 
+			if (this.BreakpointHit == null)
+				return false;
+			
 			BreakpointHitArgs args = new BreakpointHitArgs (filename, linenumber);
 			BreakpointHit (this, args);
-			Console.WriteLine ("hit breakpoint " + point.Name);
+			return false;
 		}
 
 		public event DebuggingService.BreakpointHitHandler BreakpointHit;

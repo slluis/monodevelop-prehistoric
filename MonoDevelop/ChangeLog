@@ -3,6 +3,13 @@
 
 2004-03-03  Todd Berman  <tberman@sevenl.net>
 
+	* src/AddIns/DisplayBindings/Gui/SourceEditorWidget.cs:
+		Fix ExecutingAt.
+	* src/Main/Base/Services/DebuggingService.cs:
+		Threading issue fixed.
+
+2004-03-03  Todd Berman  <tberman@sevenl.net>
+
 	* src/AddIns/DisplayBindings/Gui/SourceEditor*:
 		Add ExecutingAt code.
 	* src/Main/Base/Services/DebuggingService.cs:

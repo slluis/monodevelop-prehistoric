@@ -33,6 +33,7 @@ namespace MonoDevelop.SourceEditor.Gui {
 
 		public void ExecutingAt (int linenumber)
 		{
+			Console.WriteLine ("Inside mainwidget");
 			View.ExecutingAt (linenumber);
 		}		
 
