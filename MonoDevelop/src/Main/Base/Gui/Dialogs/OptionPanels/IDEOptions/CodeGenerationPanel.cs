@@ -24,6 +24,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs.OptionPanels {
 	public class CodeGenerationPanel : AbstractOptionPanel {
 		
 		class CodeGenerationPanelWidget : GladeWidgetExtract {
+			PropertyService p = (PropertyService)ServiceManager.Services.GetService (typeof (PropertyService));
 			StringParserService StringParserService = (StringParserService)ServiceManager.Services.GetService (typeof (StringParserService));
 			
 			[Glade.Widget] Label hdr_code_generation_options;
@@ -40,7 +41,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs.OptionPanels {
 				chk_doc_comments,
 				chk_other_comments;
 			
-			public CodeGenerationPanelWidget (IProperties p) : base ("Base.glade", "CodeGenerationOptionsPanel")
+			public CodeGenerationPanelWidget () : base ("Base.glade", "CodeGenerationOptionsPanel")
 			{
 				i18nizeHeader (hdr_code_generation_options, "${res:Dialog.Options.IDEOptions.CodeGenerationOptionsPanel.CodeGenerationOptionsGroupBox}");
 				i18nizeHeader (hdr_comment_generation_options, "${res:Dialog.Options.IDEOptions.CodeGenerationOptionsPanel.CommentGenerationOptionsGroupBox}");
@@ -62,7 +63,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs.OptionPanels {
 				chk_other_comments.Active     = p.GetProperty("GenerateAdditionalComments", true);
 			}
 			
-			public void Store (IProperties p)
+			public void Store ()
 			{
 				p.SetProperty ("StartBlockOnSameLine",       chk_blk_on_same_line.Active);
 				p.SetProperty ("ElseOnClosing",              chk_else_on_same_line.Active);
@@ -94,17 +95,12 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs.OptionPanels {
 		
 		public override void LoadPanelContents ()
 		{
-			IProperties p = (IProperties) PropertyService.GetProperty (codeGenerationProperty, new DefaultProperties ());
-			Add (widget = new CodeGenerationPanelWidget (p));
+			Add (widget = new CodeGenerationPanelWidget ());
 		}
 		
 		public override bool StorePanelContents ()
 		{
-			IProperties p = (IProperties) PropertyService.GetProperty (codeGenerationProperty, new DefaultProperties ());
-			
-			widget.Store (p);
-			
-			PropertyService.SetProperty(codeGenerationProperty, p);
+			widget.Store ();
 			return true;
 		}
 	}

@@ -33,7 +33,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs.OptionPanels
 		
 		// Services
 		StringParserService StringParserService = (StringParserService)ServiceManager.Services.GetService (typeof (StringParserService));
-		PropertyService PropertyService = (PropertyService)ServiceManager.Services.GetService (typeof (PropertyService));
+		PropertyService p = (PropertyService)ServiceManager.Services.GetService (typeof (PropertyService));
 		static readonly string codeGenerationProperty = "SharpDevelop.UI.CodeGenerationOptions";
 		
 		public override void LoadPanelContents()
@@ -41,7 +41,6 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs.OptionPanels
 			// set up the form controls instance
 			SetupPanelInstance();
 			
-			IProperties p = (IProperties)PropertyService.GetProperty(codeGenerationProperty, new DefaultProperties());
 			
 			generateAdditonalCommentsCheckBox.Active = p.GetProperty("GenerateAdditionalComments", true);
 			generateDocCommentsCheckBox.Active       = p.GetProperty("GenerateDocumentComments", true);
@@ -54,14 +53,12 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs.OptionPanels
 		
 		public override bool StorePanelContents()
 		{
-			IProperties p = (IProperties)PropertyService.GetProperty(codeGenerationProperty, new DefaultProperties());
 			p.SetProperty("GenerateAdditionalComments", generateAdditonalCommentsCheckBox.Active);
 			p.SetProperty("GenerateDocumentComments",   generateDocCommentsCheckBox.Active);
 			p.SetProperty("UseFullyQualifiedNames",     useFullTypeNamesCheckBox.Active);
 			p.SetProperty("BlankLinesBetweenMembers",   blankLinesBetweenMemberCheckBox.Active);
 			p.SetProperty("ElseOnClosing",              elseOnClosingCheckBox.Active);
 			p.SetProperty("StartBlockOnSameLine",       startBlockOnTheSameLineCheckBox.Active);
-			PropertyService.SetProperty(codeGenerationProperty, p);
 			return true;
 		}
 		

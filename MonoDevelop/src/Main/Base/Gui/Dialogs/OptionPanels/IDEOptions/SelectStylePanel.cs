@@ -28,21 +28,19 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs.OptionPanels
 
 		public override void LoadPanelContents()
 		{
-			IProperties p = (IProperties) PropertyService.GetProperty (selectStyleProperty, new DefaultProperties ());
-			Add (widget = new SelectStylePanelWidget (p));
+			Add (widget = new SelectStylePanelWidget ());
 		}
 		
 		public override bool StorePanelContents()
 		{
-			IProperties p = (IProperties) PropertyService.GetProperty (selectStyleProperty, new DefaultProperties ());
-			widget.Store (p);
-			PropertyService.SetProperty(selectStyleProperty, p);
+			widget.Store ();
 			return true;
 		}
 
 		class SelectStylePanelWidget : GladeWidgetExtract 
 		{
 
+			PropertyService p = (PropertyService)ServiceManager.Services.GetService (typeof (PropertyService));
 			//FIXME: Hashtables are wrong here.
 			//FIXME: Yes, this is a dirty hack.
 			//FIXME: Lets use something else.
@@ -53,7 +51,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs.OptionPanels
 			[Glade.Widget] public Gtk.CheckButton hiddenButton;
 			[Glade.Widget] public Gtk.OptionMenu option;
 					
-			public SelectStylePanelWidget (IProperties p) : base ("Base.glade", "SelectStylePanel")
+			public SelectStylePanelWidget () : base ("Base.glade", "SelectStylePanel")
 			{
 				ambienceMenu = new Gtk.Menu ();
 				option.Menu = ambienceMenu;
@@ -67,17 +65,17 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs.OptionPanels
 				foreach (IAddInTreeNode childNode in treeNode.ChildNodes.Values) 
 				{
 					Gtk.MenuItem i = Gtk.MenuItem.NewWithLabel (childNode.Codon.ID);
-				ambienceMenu.Append(i);
-				MenuToValue[i] = childNode.Codon.ID;
-				if (childNode.Codon.ID == active) {
-					option.SetHistory (im);
-				}
-				im++;
+					ambienceMenu.Append(i);
+					MenuToValue[i] = childNode.Codon.ID;
+					if (childNode.Codon.ID == active) {
+						option.SetHistory (im);
+					}
+					im++;
 				}
 				
 			}
 			
-			public void Store(IProperties p)
+			public void Store()
 			{
 				p.SetProperty("ICSharpCode.SharpDevelop.Gui.ProjectBrowser.ShowExtensions", extensionButton.Active);
 				p.SetProperty("ICSharpCode.SharpDevelop.Gui.FileScout.ShowHidden", hiddenButton.Active);

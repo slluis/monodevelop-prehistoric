@@ -515,9 +515,9 @@ namespace ICSharpCode.SharpDevelop.Gui
 			UpdateMenu(null, null);
 			ResourceService resourceService = (ResourceService)ServiceManager.Services.GetService(typeof(IResourceService));
 			if (e.Project != null) {
-				Title = String.Concat(e.Project.Name, " - ", resourceService.GetString("MainWindow.DialogName"));
+				Title = String.Concat(e.Project.Name, " - ", "MonoDevelop");
 			} else {
-				Title = resourceService.GetString("MainWindow.DialogName");
+				Title = "MonoDevelop";
 			}
 		}
 		
