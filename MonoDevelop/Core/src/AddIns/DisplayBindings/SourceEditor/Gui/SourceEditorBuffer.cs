@@ -249,7 +249,7 @@ namespace MonoDevelop.SourceEditor.Gui
 			PlaceCursor (StartIter);
 			if (View != null) {
 				View.ScrollMarkOnscreen (InsertMark);
-				GLib.Timeout.Add (20, changeFocus);
+				GLib.Timeout.Add (20, new TimeoutHandler (changeFocus));
 			}
 		}
 
