@@ -187,7 +187,7 @@ namespace NemerleBinding
 			while ((!p.HasExited) && p.HasNoOut())
 //			while ((!p.HasExited) && (p.StandardOutput.Peek() == -1)) // this could eliminate VProcess outgrowth
 			{
-				((SdStatusBar)sbs.ProgressMonitor).Pulse();
+				((SdStatusBar)sbs.Control).Pulse();
 				while (Gtk.Application.EventsPending ())
 					Gtk.Application.RunIteration ();
 				System.Threading.Thread.Sleep (100);
@@ -196,12 +196,12 @@ namespace NemerleBinding
 			CompilerResultsParser cr = new CompilerResultsParser();	
 			while ((l = p.StandardOutput.ReadLine()) != null)
 			{
-				((SdStatusBar)sbs.ProgressMonitor).Pulse();
+				((SdStatusBar)sbs.Control).Pulse();
 				while (Gtk.Application.EventsPending ())
 					Gtk.Application.RunIteration ();
 				cr.Parse(l);
 			}
-			((SdStatusBar)sbs.ProgressMonitor).Done();
+			((SdStatusBar)sbs.Control).Done();
 			
 			if  ((l = p.StandardError.ReadLine()) != null)
 			{
