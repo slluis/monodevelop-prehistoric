@@ -42,7 +42,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads
 			RulesHint = true;
 
 			Gtk.TreeViewColumn name_column = new Gtk.TreeViewColumn ();
-			name_column.Title = "File";
+			name_column.Title = "Files";
 			
 			Gtk.TreeViewColumn size_column = new Gtk.TreeViewColumn ();
 			size_column.Title = "Size";
@@ -326,7 +326,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads
 			this.Pack1 (treef, true, true);
 			this.Pack2 (listsw, true, true);
 
-			fb.TreeView.Selection.SelectPath (new Gtk.TreePath ("0"));
+			fb.SelectFirst ();
 			
 			OnDirChanged (fb.CurrentDir);
 			this.ShowAll ();

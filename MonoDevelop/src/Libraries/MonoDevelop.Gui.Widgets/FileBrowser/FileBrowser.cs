@@ -7,7 +7,6 @@ using System;
 using System.Diagnostics;
 using System.IO;
 using Gtk;
-using GtkSharp;
 
 using ICSharpCode.Core.Properties;
 using ICSharpCode.Core.Services;
@@ -22,10 +21,8 @@ namespace MonoDevelop.Gui.Widgets
 		public DirectoryChangedEventHandler DirectoryChangedEvent;
 		private static GLib.GType gtype;
 		private Gtk.TreeView tv;
-		private Gtk.ScrolledWindow scrolledwindow;
-		private Gtk.HBox buttonbox;
-		private Gtk.Button upbutton, homebutton;
-		private Gtk.Entry entry;
+		private Button upbutton;
+		private Entry entry;
 		private ListStore store;
 		private string currentDir;
 		private bool ignoreHidden = true;
@@ -39,27 +36,27 @@ namespace MonoDevelop.Gui.Widgets
 				Vfs.Init();
 			}
 
-			scrolledwindow = new ScrolledWindow();
+			ScrolledWindow scrolledwindow = new ScrolledWindow ();
 			scrolledwindow.VscrollbarPolicy = PolicyType.Automatic;
 			scrolledwindow.HscrollbarPolicy = PolicyType.Automatic;
 
-			homebutton = new Gtk.Button ();
-			homebutton.Add (new Gtk.Image (Stock.Home, Gtk.IconSize.SmallToolbar));
-			homebutton.Relief = Gtk.ReliefStyle.None;
+			Button homebutton = new Button ();
+			homebutton.Add (new Image (Stock.Home, IconSize.SmallToolbar));
+			homebutton.Relief = ReliefStyle.None;
 			homebutton.Clicked += new EventHandler (OnHomeClicked);
 
-			upbutton = new Gtk.Button ();
-			upbutton.Add (new Gtk.Image (Stock.GoUp, Gtk.IconSize.SmallToolbar));
-			upbutton.Relief = Gtk.ReliefStyle.None;
+			upbutton = new Button ();
+			upbutton.Add (new Image (Stock.GoUp, IconSize.SmallToolbar));
+			upbutton.Relief = ReliefStyle.None;
 			upbutton.Clicked += new EventHandler (OnUpClicked);
 
-			entry = new Gtk.Entry();
+			entry = new Entry ();
 			entry.Activated += new EventHandler (OnEntryActivated);
 
-			buttonbox = new HBox (false, 0);
-			buttonbox.PackStart(upbutton, false, false, 0);
-			buttonbox.PackStart(homebutton, false, false, 0);
-			buttonbox.PackStart(entry, true, true, 0);
+			HBox buttonbox = new HBox (false, 0);
+			buttonbox.PackStart (upbutton, false, false, 0);
+			buttonbox.PackStart (homebutton, false, false, 0);
+			buttonbox.PackStart (entry, true, true, 0);
 
 			IProperties p = (IProperties) PropertyService.GetProperty ("SharpDevelop.UI.SelectStyleOptions", new DefaultProperties ());
 			ignoreHidden = !p.GetProperty ("ICSharpCode.SharpDevelop.Gui.FileScout.ShowHidden", false);
@@ -67,20 +64,20 @@ namespace MonoDevelop.Gui.Widgets
 			tv = new Gtk.TreeView ();
 			tv.RulesHint = true;
 
-			TreeViewColumn directorycolumn = new TreeViewColumn();
+			TreeViewColumn directorycolumn = new TreeViewColumn ();
 			directorycolumn.Title = "Directories";
 			
-			Gtk.CellRendererPixbuf pix_render = new Gtk.CellRendererPixbuf ();
+			CellRendererPixbuf pix_render = new CellRendererPixbuf ();
 			directorycolumn.PackStart (pix_render, false);
 			directorycolumn.AddAttribute (pix_render, "pixbuf", 0);
 
-			Gtk.CellRendererText text_render = new Gtk.CellRendererText();
+			CellRendererText text_render = new CellRendererText ();
 			directorycolumn.PackStart (text_render, false);
 			directorycolumn.AddAttribute (text_render, "text", 1);
 			
 			tv.AppendColumn (directorycolumn);
 
-			store = new ListStore (typeof(Gdk.Pixbuf), typeof (string));
+			store = new ListStore (typeof (Gdk.Pixbuf), typeof (string));
 			CurrentDir = Environment.GetEnvironmentVariable ("HOME");
 			tv.Model = store;
 
@@ -115,17 +112,13 @@ namespace MonoDevelop.Gui.Widgets
 			}
 		}
 
-		public Gtk.TreeView TreeView
-		{
-			get { return tv; }
-		}
-
 		public string CurrentDir
 		{
 			get { return System.IO.Path.GetFullPath (currentDir); }
 			set { 
 					currentDir = System.IO.Path.GetFullPath (value);
 					Populate ();
+
 					if (DirectoryChangedEvent != null) {
 						DirectoryChangedEvent(CurrentDir);
 					}
@@ -134,10 +127,10 @@ namespace MonoDevelop.Gui.Widgets
 
 		public string[] Files
 		{
-			get {
-				if (files == null) {
+			get
+			{
+				if (files == null)
 					return new string [0];
-				}
 				return files; 
 			}
 		}
@@ -148,9 +141,13 @@ namespace MonoDevelop.Gui.Widgets
 			{
 				if (gtype == GLib.GType.Invalid)
 					gtype = RegisterGType (typeof (FileBrowser));
-
 				return gtype;
 			}
+		}
+
+		public void SelectFirst ()
+		{
+			tv.Selection.SelectPath (new TreePath ("0"));
 		}
 
 		void Populate ()
@@ -178,11 +175,11 @@ namespace MonoDevelop.Gui.Widgets
 					store.AppendValues (FileIconLoader.GetPixbufForFile (System.IO.Path.Combine (CurrentDir, d.Name), 24, 24), d.Name);
 				}
 			}
+
 			if (init == true)
 				tv.Selection.SelectPath (new Gtk.TreePath ("0"));
 
 			entry.Text = CurrentDir;
-			//Console.WriteLine(CurrentDir);
 			files = Directory.GetFiles (CurrentDir);
 		}
 
@@ -203,10 +200,10 @@ namespace MonoDevelop.Gui.Widgets
 			store.GetIter (out iter, args.Path);
 			string file = (string) store.GetValue (iter, 1);
 			string newDir = System.IO.Path.Combine (currentDir, file);
+
 			if (Directory.Exists (newDir))
 			{
 				CurrentDir = newDir;
-				// Populate ();
 			}
 		}
 		
@@ -243,6 +240,7 @@ namespace MonoDevelop.Gui.Widgets
 			TreeIter iter;
 			TreeModel model;
 			// FIXME: look in GConf for the settings
+			// but strangely there is not one
 			string commandline = "nautilus \"";
 
 			if (tv.Selection.GetSelected (out model, out iter))
@@ -258,6 +256,8 @@ namespace MonoDevelop.Gui.Widgets
 			TreeIter iter;
 			TreeModel model;
 			// FIXME: look in GConf for the settings
+			// but the args will be terminal dependent
+			// leaving as hardcoded for now
 			string commandline = "gnome-terminal --working-directory=\"";
 			if (tv.Selection.GetSelected (out model, out iter))
 			{
@@ -271,8 +271,6 @@ namespace MonoDevelop.Gui.Widgets
 		{
 			if (System.IO.Path.GetPathRoot (CurrentDir) != CurrentDir)
 				CurrentDir = System.IO.Path.Combine (CurrentDir, "..");
-			else
-				Console.WriteLine ("at root");
 		}
 		
 		private void OnHomeClicked (object o, EventArgs args)
@@ -280,7 +278,7 @@ namespace MonoDevelop.Gui.Widgets
 			CurrentDir = Environment.GetEnvironmentVariable ("HOME");
 		}
 
-		void OnEntryActivated (object sender, EventArgs args)
+		private void OnEntryActivated (object sender, EventArgs args)
 		{
 			if (Directory.Exists (entry.Text.Trim ()))
 				CurrentDir = entry.Text;
