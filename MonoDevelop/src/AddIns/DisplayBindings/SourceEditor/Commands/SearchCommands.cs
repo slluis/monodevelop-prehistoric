@@ -144,11 +144,8 @@ namespace ICSharpCode.SharpDevelop.DefaultEditor.Commands
 		public override void Run()
 		{
 			FindInFiles.SetSearchPattern();
-			
-			//using (ReplaceInFilesDialog rd = new ReplaceInFilesDialog(true)) {
-			//	rd.Owner = (Form)WorkbenchSingleton.Workbench;
-			//	rd.ShowDialog();
-			//}
+			ReplaceInFilesDialog rd = new ReplaceInFilesDialog (true);
+			rd.ShowAll ();
 		}
 	}
 	
