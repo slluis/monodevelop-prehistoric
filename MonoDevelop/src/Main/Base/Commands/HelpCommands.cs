@@ -78,7 +78,7 @@ namespace MonoDevelop.Commands
 				Process.Start(file);
 			} catch (Exception) {
 				IMessageService messageService =(IMessageService)ServiceManager.Services.GetService(typeof(IMessageService));
-				messageService.ShowError("Can't execute/view " + file + "\n Please check that the file exists and that you can open this file.");
+				messageService.ShowError(String.Format (GettextCatalog.GetString ("Can't execute/view {0}\n Please check that the file exists and that you can open this file."), file));
 			}
 		}
 	}

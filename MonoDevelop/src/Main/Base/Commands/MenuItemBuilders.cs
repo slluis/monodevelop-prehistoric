@@ -52,7 +52,7 @@ namespace MonoDevelop.Commands
 				return items;
 			}
 			
-			SdMenuCommand defaultMenu = new SdMenuCommand(null, null, resourceService.GetString("Dialog.Componnents.RichMenuItem.NoRecentFilesString"));
+			SdMenuCommand defaultMenu = new SdMenuCommand(null, null, GettextCatalog.GetString("recent files"));
 			defaultMenu.Sensitive = false;
 			
 			return new SdMenuCommand[] { defaultMenu };
@@ -82,13 +82,12 @@ namespace MonoDevelop.Commands
 					string accelaratorKeyPrefix = i < 10 ? "&" + ((i + 1) % 10).ToString() + " " : "";
 					items[i] = new SdMenuCommand(null, null, accelaratorKeyPrefix + recentOpen.RecentProject[i].ToString(), new EventHandler(LoadRecentProject));
 					items[i].Tag = recentOpen.RecentProject[i].ToString();
-					items[i].Description = stringParserService.Parse(resourceService.GetString("Dialog.Componnents.RichMenuItem.LoadProjectDescription"),
-					                                         new string[,] { {"PROJECT", recentOpen.RecentProject[i].ToString()} });
+					items[i].Description = String.Format (GettextCatalog.GetString ("load solution {0}"), recentOpen.RecentProject[i].ToString ());
 				}
 				return items;
 			}
 			
-			SdMenuCommand defaultMenu = new SdMenuCommand(null, null, resourceService.GetString("Dialog.Componnents.RichMenuItem.NoRecentProjectsString"));
+			SdMenuCommand defaultMenu = new SdMenuCommand(null, null, GettextCatalog.GetString ("recent solutions"));
 			defaultMenu.Sensitive = false;
 			
 			return new SdMenuCommand[] { defaultMenu };
@@ -118,7 +117,7 @@ namespace MonoDevelop.Commands
 			SdMenuCommand[] items = new SdMenuCommand[ToolLoader.Tool.Count];
 			for (int i = 0; i < ToolLoader.Tool.Count; ++i) {
 				SdMenuCommand item = new SdMenuCommand(null, null, ToolLoader.Tool[i].ToString(), new EventHandler(ToolEvt));
-				item.Description = "Start tool " + String.Join(String.Empty, ToolLoader.Tool[i].ToString().Split('&'));
+				item.Description = GettextCatalog.GetString ("Start tool") + " " + String.Join(String.Empty, ToolLoader.Tool[i].ToString().Split('&'));
 				items[i] = item;
 			}
 			return items;
@@ -142,10 +141,7 @@ namespace MonoDevelop.Commands
 					string args = stringParserService.Parse(tool.Arguments);
 					// prompt for args if needed
 					if (tool.PromptForArguments) {
-						args = messageService.GetTextResponse(
-							"Enter any arguments you want to use while launching tool, " + tool.MenuCommand + ":",
-							"Command Arguments for " + tool.MenuCommand,
-							args);
+						args = messageService.GetTextResponse(String.Format (GettextCatalog.GetString ("Enter any arguments you want to use while launching tool, {0}:"), tool.MenuCommand), String.Format (GettextCatalog.GetString ("Command Arguments for {0}"), tool.MenuCommand), args);
 							
 						// if user selected cancel string will be null
 						if (args == null) {
@@ -172,8 +168,7 @@ namespace MonoDevelop.Commands
 						// FIXME: need to find a way to wire the console output into the output window if specified
 						Process.Start(startinfo);
 						
-					} catch (Exception ex) {						
-						messageService.ShowError(ex, "External program execution failed.\nError while starting:\n '" + command + " " + args + "'");
+					} catch (Exception ex) {								messageService.ShowError(ex, String.Format (GettextCatalog.GetString ("External program execution failed.\nError while starting:\n '{0} {1}'"), command, args));
 					}
 						break;
 					}
@@ -216,7 +211,7 @@ namespace MonoDevelop.Commands
 				} else {
 					item.Active = false;
 				}
-				item.Description = "Activate this window ";
+				item.Description = GettextCatalog.GetString ("Activate this window");
 				if (i + 1 <= 9) {
 					string accel_path = "<MonoDevelop>/MainWindow/" + content.WorkbenchWindow.Title + (i + 1).ToString ();
 					if (!Gtk.Accel.MapLookupEntry (accel_path, new Gtk.AccelKey ())) {
@@ -278,8 +273,8 @@ namespace MonoDevelop.Commands
 		public Gtk.MenuItem[] BuildSubmenu(ConditionCollection conditionCollection, object owner)
 		{
 			browser = (ProjectBrowserView)owner;
-			includeInCompileItem = new MyMenuItem(this, "${res:ProjectComponent.ContextMenu.IncludeMenu.InCompile}", new EventHandler(ChangeCompileInclude));
-			includeInDeployItem  = new MyMenuItem(this, "${res:ProjectComponent.ContextMenu.IncludeMenu.InDeploy}",  new EventHandler(ChangeDeployInclude));
+			includeInCompileItem = new MyMenuItem(this, GettextCatalog.GetString ("Compile"), new EventHandler(ChangeCompileInclude));
+			includeInDeployItem  = new MyMenuItem(this, GettextCatalog.GetString ("Deploy"), new EventHandler(ChangeDeployInclude));
 			
 			return new Gtk.MenuItem[] {
 				includeInCompileItem,

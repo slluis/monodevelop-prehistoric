@@ -41,7 +41,7 @@ namespace MonoDevelop.Commands.ClassScoutCommands
 			
 			if (node != null) {
 				IMessageService messageService =(IMessageService)ServiceManager.Services.GetService(typeof(IMessageService));
-				messageService.ShowWarning("Not implemented");
+				messageService.ShowWarning(GettextCatalog.GetString ("Not implemented"));
 			}
 		}
 	}

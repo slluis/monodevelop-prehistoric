@@ -40,7 +40,7 @@ namespace MonoDevelop.Commands.ProjectBrowser
 			
 			AbstractBrowserNode node = (AbstractBrowserNode)browser.SelectedNode;
 			
-			using (FileSelection fdiag  = new FileSelection ("Add a file")) {
+			using (FileSelection fdiag  = new FileSelection (GettextCatalog.GetString ("Add a file"))) {
 			fdiag.SelectMultiple = true;
 			string defaultPath = Path.Combine (Environment.GetEnvironmentVariable ("HOME"), "MonoDevelopProjects");
 			fdiag.Complete (defaultPath);
@@ -58,9 +58,9 @@ namespace MonoDevelop.Commands.ProjectBrowser
 							(Window) WorkbenchSingleton.Workbench,
 							DialogFlags.Modal | DialogFlags.DestroyWithParent,
 							MessageType.Question, ButtonsType.None,
-							"The file is outside the project directory, what should I do?")) {
+							GettextCatalog.GetString ("The file is outside the project directory, what should I do?"))) {
 							md.AddButton (Gtk.Stock.Copy, 1);
-							md.AddButton ("_Move", 2);
+							md.AddButton (GettextCatalog.GetString ("_Move"), 2);
 							md.AddButton (Gtk.Stock.Cancel, ResponseType.Cancel);
 						
 							int ret = md.Run ();
@@ -175,7 +175,7 @@ namespace MonoDevelop.Commands.ProjectBrowser
 				FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.Services.GetService(typeof(FileUtilityService));
 				ResourceService resourceService = (ResourceService)ServiceManager.Services.GetService(typeof(IResourceService));
 				
-				string directoryName = fileUtilityService.GetDirectoryNameWithSeparator(baseFolderPath) + resourceService.GetString("ProjectComponent.NewFolderString");
+				string directoryName = fileUtilityService.GetDirectoryNameWithSeparator(baseFolderPath) + GettextCatalog.GetString("New Folder");
 				int    index         = -1;
 				
 				if (Directory.Exists(directoryName)) {

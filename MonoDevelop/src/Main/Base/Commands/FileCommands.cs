@@ -101,7 +101,7 @@ namespace MonoDevelop.Commands
 			
 			if (window != null && window.ViewContent.ContentName != null && !window.ViewContent.IsViewOnly) {
 				IMessageService messageService =(IMessageService)ServiceManager.Services.GetService(typeof(IMessageService));
-				if (messageService.AskQuestion("${res:ICSharpCode.SharpDevelop.Commands.ReloadFile.ReloadFileQuestion}")) {
+				if (messageService.AskQuestion(GettextCatalog.GetString ("Are you sure that you want to reload the file?")) {
 					IXmlConvertable memento = null;
 					if (window.ViewContent is IMementoCapable) {
 						memento = ((IMementoCapable)window.ViewContent).CreateMemento();
@@ -146,7 +146,7 @@ namespace MonoDevelop.Commands
 						}
 					}*/
 					
-					using (Gtk.FileSelection fdiag = new Gtk.FileSelection ("Save as...")) {
+					using (Gtk.FileSelection fdiag = new Gtk.FileSelection (GettextCatalog.GetString ("Save as..."))) {
 						fdiag.Filename = window.ViewContent.ContentName;
 						int response = fdiag.Run ();
 						string filename = fdiag.Filename;
@@ -158,7 +158,7 @@ namespace MonoDevelop.Commands
 							FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.Services.GetService(typeof(FileUtilityService));
 							if (!fileUtilityService.IsValidFileName(filename)) {
 								IMessageService messageService =(IMessageService)ServiceManager.Services.GetService(typeof(IMessageService));
-								messageService.ShowMessage("File name " + filename +" is invalid");
+								messageService.ShowMessage(String.Format (GettextCatalog.GetString ("File name {0} is invalid"), filename));
 								return;
 							}
 
@@ -190,7 +190,7 @@ namespace MonoDevelop.Commands
 				
 				if (content.ContentName == null)
 				{
-					using (Gtk.FileSelection fdiag = new Gtk.FileSelection ("Save File As..."))
+					using (Gtk.FileSelection fdiag = new Gtk.FileSelection (GettextCatalog.GetString ("Save File As...")))
 					{
 						fdiag.Filename = System.Environment.GetEnvironmentVariable ("HOME");
 						if (fdiag.Run () == (int) Gtk.ResponseType.Ok)
@@ -206,7 +206,7 @@ namespace MonoDevelop.Commands
 							if (fileUtilityService.ObservedSave(new NamedFileOperationDelegate(content.Save), fileName) == FileOperationResult.OK)
 							{
 								IMessageService messageService =(IMessageService)ServiceManager.Services.GetService(typeof(IMessageService));
-								messageService.ShowMessage(fileName, "File saved");
+								messageService.ShowMessage(fileName, GettextCatalog.GetString ("File saved"));
 							}
 						}
 					
@@ -227,7 +227,7 @@ namespace MonoDevelop.Commands
 		
 		public override void Run()
 		{
-			using (Gtk.FileSelection fs = new Gtk.FileSelection ("File to Open")) {
+			using (Gtk.FileSelection fs = new Gtk.FileSelection (GettextCatalog.GetString ("File to Open"))) {
 				string defaultFolder = PropertyService.GetProperty(
 						"MonoDevelop.Gui.Dialogs.NewProjectDialog.DefaultPath", 
 					System.IO.Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal),
@@ -251,7 +251,7 @@ namespace MonoDevelop.Commands
 							break;
 						default:
 							IMessageService messageService =(IMessageService)ServiceManager.Services.GetService(typeof(IMessageService));
-							messageService.ShowError("Can't open file " + name + "as project");
+							messageService.ShowError(String.Format (GettextCatalog.GetString ("Can't open file {0} as project"), name));
 							break;
 					}
 				}
@@ -297,7 +297,7 @@ namespace MonoDevelop.Commands
 					}
 				}
 
-				using (Gtk.FileSelection fs = new Gtk.FileSelection ("File to Open")) {
+				using (Gtk.FileSelection fs = new Gtk.FileSelection (GettextCatalog.GetString ("File to Open"))) {
 					string defaultFolder = PropertyService.GetProperty(
 						"MonoDevelop.Gui.Dialogs.NewProjectDialog.DefaultPath", 
 						System.IO.Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal),
@@ -400,7 +400,7 @@ namespace MonoDevelop.Commands
 				IFileService fileService = (IFileService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IFileService));
 				IMessageService messageService = (IMessageService) MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IMessageService));
 				
-				if (fileService.RecentOpen.RecentFile != null && fileService.RecentOpen.RecentFile.Count > 0 && messageService.AskQuestion("Are you sure you want to clear recent files list?", "Clear recent files"))
+				if (fileService.RecentOpen.RecentFile != null && fileService.RecentOpen.RecentFile.Count > 0 && messageService.AskQuestion(GettextCatalog.GetString ("Are you sure you want to clear recent files list?"), GettextCatalog.GetString ("Clear recent files")))
 				{
 					fileService.RecentOpen.ClearRecentFiles();
 				}
@@ -416,7 +416,7 @@ namespace MonoDevelop.Commands
 				IFileService fileService = (IFileService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IFileService));
 				IMessageService messageService = (IMessageService) MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IMessageService));
 				
-				if (fileService.RecentOpen.RecentProject != null && fileService.RecentOpen.RecentProject.Count > 0 && messageService.AskQuestion("Are you sure you want to clear recent projects list?", "Clear recent projects"))
+				if (fileService.RecentOpen.RecentProject != null && fileService.RecentOpen.RecentProject.Count > 0 && messageService.AskQuestion(GettextCatalog.GetString ("Are you sure you want to clear recent projects list?"), GettextCatalog.GetString ("Clear recent projects")))
 				{
 					fileService.RecentOpen.ClearRecentProjects();
 				}

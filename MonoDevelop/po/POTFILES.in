@@ -38,3 +38,12 @@ src/Main/Base/Gui/Pads/ProjectBrowser/NodeBuilder/DefaultDotNetNodeBuilder.cs
 src/Main/Base/Gui/Pads/ProjectBrowser/ProjectBrowserView.cs
 src/Main/Base/Gui/Workbench/DefaultWorkbench.cs
 src/Main/Base/Gui/Workbench/Layouts/SdiWorkspaceWindow.cs
+src/Main/Base/Commands/ClassBrowserCommands/ClassBrowserCommands.cs
+src/Main/Base/Commands/FileCommands.cs
+src/Main/Base/Commands/HelpCommands.cs
+src/Main/Base/Commands/MenuItemBuilders.cs
+src/Main/Base/Commands/ProjectBrowserCommands/CombineNodeCommands.cs
+src/Main/Base/Commands/ProjectBrowserCommands/FolderNodeCommands.cs
+src/Main/Base/Commands/ProjectBrowserCommands/ResourceFolderNodeCommands.cs
+src/Main/Base/Commands/ProjectCommands.cs
+src/Main/Base/Commands/RunCommands.cs

@@ -34,7 +34,7 @@ namespace MonoDevelop.Commands
 				
 				if (!File.Exists(assembly)) {
 					IMessageService messageService =(IMessageService)ServiceManager.Services.GetService(typeof(IMessageService));
-					messageService.ShowError("Assembly not Found (Compile the project first)");
+					messageService.ShowError(GettextCatalog.GetString ("Assembly not Found (Compile the project first)"));
 				} else {
 					FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.Services.GetService(typeof(FileUtilityService));
 					string command = fileUtilityService.SharpDevelopRootPath + 

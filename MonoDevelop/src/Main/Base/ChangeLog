@@ -1,5 +1,19 @@
 2004-04-02  Todd Berman  <tberman@sevenl.net>
 
+	* Commands/MenuItemBuilders.cs:
+	* Commands/RunCommands.cs:
+	* Commands/ClassBrowserCommands/ClassBrowserCommands.cs:
+	* Commands/ProjectCommands.cs:
+	* Commands/ProjectBrowserCommands/ResourceFolderNodeCommands.cs:
+	* Commands/ProjectBrowserCommands/FolderNodeCommands.cs:
+	* Commands/ProjectBrowserCommands/CombineNodeCommands.cs:
+	* Commands/FileCommands.cs:
+	* Commands/HelpCommands.cs:
+	gettextify all of the in-use Commands/
+
+
+2004-04-02  Todd Berman  <tberman@sevenl.net>
+
 	* Gui/Dialogs/SharpDevelopAboutPanels.cs:
 	* Gui/Dialogs/ProjectOptionsDialog.cs:
 	* Gui/Dialogs/WordCountDialog.cs:

@@ -80,7 +80,7 @@ namespace MonoDevelop.Commands.ProjectBrowser
 			PropertyService propertyService = (PropertyService)ServiceManager.Services.GetService (typeof (PropertyService));
 			
 			if (node != null) {
-				using (Gtk.FileSelection fdiag = new Gtk.FileSelection ("Add a Project")) {
+				using (Gtk.FileSelection fdiag = new Gtk.FileSelection (GettextCatalog.GetString ("Add a Project"))) {
 					StringParserService stringParserService = (StringParserService)ServiceManager.Services.GetService(typeof(StringParserService));
 					string defaultFolder = propertyService.GetProperty(
 						"MonoDevelop.Gui.Dialogs.NewProjectDialog.DefaultPath", 
@@ -121,7 +121,7 @@ namespace MonoDevelop.Commands.ProjectBrowser
 			PropertyService propertyService = (PropertyService)ServiceManager.Services.GetService (typeof (PropertyService));
 			
 			if (node != null) {
-				using (Gtk.FileSelection fdiag = new Gtk.FileSelection ("Add a Combine")) {
+				using (Gtk.FileSelection fdiag = new Gtk.FileSelection (GettextCatalog.GetString ("Add a Combine"))) {
 					StringParserService stringParserService = (StringParserService)ServiceManager.Services.GetService(typeof(StringParserService));
 				
 					string defaultFolder = propertyService.GetProperty(

@@ -44,7 +44,7 @@ namespace MonoDevelop.Commands.ProjectBrowser
 				
 				show_dialog:
 									
-				using (Gtk.FileSelection fs = new Gtk.FileSelection ("File to Open")) {
+				using (Gtk.FileSelection fs = new Gtk.FileSelection (GettextCatalog.GetString ("File to Open"))) {
 					fs.SelectMultiple = true;
 					fs.Filename = project.BaseDirectory;
 					int response = fs.Run ();
@@ -57,7 +57,7 @@ namespace MonoDevelop.Commands.ProjectBrowser
 					foreach (string file in files) {
 						if (! File.Exists (file)) {
 							IMessageService messageService = (IMessageService) ServiceManager.Services.GetService (typeof (IMessageService));
-							messageService.ShowError (String.Format ("Resource file `{0}' does not exist", file));
+							messageService.ShowError (String.Format (GettextCatalog.GetString ("Resource file '{0}' does not exist"), file));
 							goto show_dialog;
 						}
 					}
