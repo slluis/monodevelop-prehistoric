@@ -1,5 +1,11 @@
 2004-03-20  Gustavo Giráldez  <gustavo.giraldez@gmx.net>
 
+	* gdldock/gdl/Makefile.am: Make the generated source files depend
+	on the custom files too.
+	* gdldock/gdl/DockLayout.custom: Fix list elements leak.
+
+2004-03-20  Gustavo Giráldez  <gustavo.giraldez@gmx.net>
+
 	* gdldock/gdl/Makefile.am: 
 	* gdldock/gdl/Gdl.metadata: 
 	* gdldock/gdl/DockLayout.custom: Provide a customized GetLayouts

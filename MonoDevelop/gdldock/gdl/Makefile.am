@@ -7,6 +7,9 @@ INCLUDE_APIS = \
 	@gtksharp_prefix@/share/gapi/gtk-api.xml \
 	@gtksharp_prefix@/share/gapi/atk-api.xml
 
+CUSTOM_FILES = DockItemFlags.cs DockParamFlags.cs DockLayout.custom
+custom_files_build = $(addprefix $(srcdir)/, $(CUSTOM_FILES))
+
 all: $(ASSEMBLY)
 
 gdl-api.xml: $(srcdir)/gdl-api.raw $(srcdir)/Gdl.metadata
@@ -14,7 +17,7 @@ gdl-api.xml: $(srcdir)/gdl-api.raw $(srcdir)/Gdl.metadata
 	chmod u+w gdl-api.xml
 	gapi-fixup --api=gdl-api.xml --metadata=$(srcdir)/Gdl.metadata
 
-generated-stamp: gdl-api.xml
+generated-stamp: gdl-api.xml $(custom_files_build)
 	gapi-codegen --generate gdl-api.xml --include $(INCLUDE_APIS) --outdir=generated --customdir=$(srcdir) --assembly-name=gdl-sharp && touch generated-stamp
 
 $(ASSEMBLY): generated-stamp ../../build/bin
@@ -36,5 +39,5 @@ clean:
 
 CLEANFILES=$(ASSEMBLY) generated-stamp generated/* gdl-api.xml
 
-EXTRA_DIST = gdl-api.raw Gdl.metadata DockItemFlags.cs DockParamFlags.cs DockLayout.custom
+EXTRA_DIST = gdl-api.raw Gdl.metadata $(CUSTOM_FILES)
 
