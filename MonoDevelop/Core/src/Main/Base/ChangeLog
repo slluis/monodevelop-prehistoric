@@ -1,3 +1,15 @@
+2004-10-27  John Luke  <john.luke@gmail.com>
+
+	* Internal/Parser/SharpAssemblyLayer/SharpAssemblyParameter.cs
+	* Internal/Parser/SharpAssemblyLayer/SharpAssemblyMethod.cs
+	* Internal/Parser/SharpAssemblyLayer/SharpAssemblyReturnType.cs
+	* Internal/Parser/SharpAssemblyLayer/SharpAssemblyEvent.cs
+	* Internal/Parser/SharpAssemblyLayer/SharpAssemblyAttribute.cs
+	* Internal/Parser/SharpAssemblyLayer/SharpAssemblyField.cs
+	* Internal/Parser/SharpAssemblyLayer/SharpAssemblyProperty.cs:
+	Add a using alias for SharpAssembly so we can compile with mcs HEAD
+	we were taking advantage of a mcs bug it seems
+
 2004-10-27  Levi Bard <taktaktaktaktaktaktaktaktaktak@gmail.com>
 
 	* Services/ParserService/DefaultParserService.cs: comment out code
