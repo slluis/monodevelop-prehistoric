@@ -21,20 +21,7 @@ namespace MyProgram
 {
 	public class CreatedProgram : Program
 	{
-		static GLib.GType gtype;
-		
-		public static new GLib.GType GType
-		{
-			get
-			{
-				if (gtype == GLib.GType.Invalid)
-					type = RegisterGType (typeof (CreatedProgram));
-				return gtype;
-			}
-		}
-
-
-		public CreatedProgram () : base (GType)
+		public CreatedProgram () : base ("ChangeMe", "0.1", Gnome.Modules.Info, new string[0])
 		{
 		}
 	}
