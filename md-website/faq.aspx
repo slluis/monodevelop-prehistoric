@@ -17,7 +17,9 @@
 <p>First you copy monodevelop.xml to $(gnome_prefix)/share/mime/packages. Then you run update-mime-database $(gnome_prefix)/share/mime. On fedora, and many other distros $gnome_prefix is /usr, so you do:</p>
 <pre class="code">cp monodevelop.xml /usr/share/mime/packages
 update-mime-database /usr/share/mime</pre>
-<p>You might have to do these operations as the root user.</p>
+<p>You might have to do these operations as the root user. If for some reason this still doesnt solve the problem, you can attempt to:</p>
+<pre class="code">find /usr/share/mime -type f -exec chmod 644 {} \;</pre>
+<p>With a user who has permissions to do so.</p>
 <br/>
 <p>Where do I get gecko-sharp.pc?</p>
 
@@ -57,66 +59,10 @@ upon release.
 </li><li>The toolbar sometimes exhibit interesting behaviour including but not
   limited to looking disabled and working, looking enabled and not working
   and others.
-</li><li>Lingering code completion issues
 </li><li>When you click on  File-&gt;Recent Projects-&gt;clear recent project
   list or File-&gt;Recent Files-&gt;clear recent files list you need a
   confimartion dialog in order to avoid clearing accidentaly.</li></ul>
 
-<div class="headlinebar">Readme</div>
-
-<p>This is MonoDevelop which is intended to be a full-featured
-integrated development environment (IDE) for mono and Gtk#.
-It was originally a port of SharpDevelop 0.98.</p>
-       
-<b>Compiling for users</b><br />
-
-<pre class="code">
-./configure
-make
-make install
-</pre><br />
-        
-<b>Compiling for developers</b>
-
-<p>To compile run the following command:</p>
- 
-<pre class="code">
-./autogen.sh
-make
-</pre>
-	  
-<p>To run MonoDevelop:</p>
-<pre class="code">make run</pre>
-	   
-<p>Example:
-<pre class="code">make clean &amp;&amp; make &amp;&amp; make
-run</pre></p><br />
-	    
-<b>Installing</b>
-
-<p>Installing is currently optional.
-(Use make run to use MonoDevelop without installing.)</p>
-	     
-<pre class="code">make install</pre>
-	      
-<p><b>Dependencies</b></p>
-
-<ul>
-<li>Mono &gt;= 0.30 with ICU enabled</li>
-<li>Gtk# cvs</li>
-<li>ORBit2 &gt;= 2.8.3</li> 
-<li>gnome-vfs &gt;= 2.0</li>
-<li>gtksourceview &gt;= 0.7*</li>
-<li>gtksourceview-sharp &gt;= 0.1</li>
-</ul>
-
-<p>*gtksourceview is available on <a
-href="http://www.ximian.com/red_carpet/">Red Carpet</a>, on many of the <a href="http://www.opencarpet.org/">OpenCarpet</a> channels.</p>
-
-<p>See <a
-href="http://lists.ximian.com/archives/public/monodevelop-list/2004-January/000129.html">http://lists.ximian.com/archives/public/monodevelop-list/2004-January/000129.html</a>
-for more information about the GtkSourceView dependency.</p>
-	        
 <b>References</b>
 
 <ul>
