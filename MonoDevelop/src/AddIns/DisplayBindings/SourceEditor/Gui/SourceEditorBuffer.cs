@@ -363,5 +363,32 @@ namespace MonoDevelop.SourceEditor.Gui {
 		}
 #endregion
 
+#region ITextBufferStrategy compat interface, this should be removed ASAP
+
+		public int Length
+		{
+			get { return Text.Length; }
+		}
+
+		public char GetCharAt (int offset)
+		{
+			Console.WriteLine ("[GetCharAt] ({0})", offset);
+			return Text[offset];
+		}
+
+		public string GetText (int start, int length)
+		{
+			Console.WriteLine ("[GetText] ({0}) -- ({1})", start, length);
+			return Text.Substring (start, length);
+		}
+
+		public static SourceEditorBuffer CreateTextBufferFromFile (string filename)
+		{
+			SourceEditorBuffer buff = new SourceEditorBuffer ();
+			buff.LoadFile (filename);
+			return buff;
+		}
+
+#endregion
 	}
 }

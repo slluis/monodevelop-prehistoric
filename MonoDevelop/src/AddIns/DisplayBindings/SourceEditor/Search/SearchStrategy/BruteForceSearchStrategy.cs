@@ -10,6 +10,8 @@ using System;
 using ICSharpCode.Core.Properties;
 using ICSharpCode.SharpDevelop.Internal.Undo;
 
+using MonoDevelop.SourceEditor.Gui;
+
 namespace ICSharpCode.TextEditor.Document
 {
 	/// <summary>
@@ -19,7 +21,7 @@ namespace ICSharpCode.TextEditor.Document
 	{
 		string searchPattern;
 		
-		bool MatchCaseSensitive(ITextBufferStrategy document, int offset, string pattern)
+		bool MatchCaseSensitive(SourceEditorBuffer document, int offset, string pattern)
 		{
 			for (int i = 0; i < pattern.Length; ++i) {
 				if (offset + i >= document.Length || document.GetCharAt(offset + i) != pattern[i]) {
@@ -29,7 +31,7 @@ namespace ICSharpCode.TextEditor.Document
 			return true;
 		}
 		
-		bool MatchCaseInsensitive(ITextBufferStrategy document, int offset, string pattern)
+		bool MatchCaseInsensitive(SourceEditorBuffer document, int offset, string pattern)
 		{
 			for (int i = 0; i < pattern.Length; ++i) {
 				if (offset + i >= document.Length || Char.ToUpper(document.GetCharAt(offset + i)) != pattern[i]) {
@@ -39,7 +41,7 @@ namespace ICSharpCode.TextEditor.Document
 			return true;
 		}
 		
-		bool IsWholeWordAt(ITextBufferStrategy document, int offset, int length)
+		bool IsWholeWordAt(SourceEditorBuffer document, int offset, int length)
 		{
 			return (offset - 1 < 0 || Char.IsWhiteSpace(document.GetCharAt(offset - 1))) &&
 			       (offset + length + 1 >= document.Length || Char.IsWhiteSpace(document.GetCharAt(offset + length)));

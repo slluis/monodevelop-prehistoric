@@ -11,12 +11,14 @@ using System.Collections;
 using ICSharpCode.SharpDevelop.Gui;
 using ICSharpCode.TextEditor;
 
+using MonoDevelop.SourceEditor.Gui;
+
 namespace ICSharpCode.TextEditor.Document
 {
 	public class CurrentDocumentIterator : IDocumentIterator
 	{
-		bool      didRead = false;
-		//IDocument curDocument = null;
+		bool         didRead = false;
+		SourceEditor curDocument = null;
 		
 		public CurrentDocumentIterator() 
 		{
@@ -40,10 +42,8 @@ namespace ICSharpCode.TextEditor.Document
 				if (!SearchReplaceUtilities.IsTextAreaSelected) {
 					return null;
 				}
-				//curDocument = (((ITextEditorControlProvider)WorkbenchSingleton.Workbench.ActiveWorkbenchWindow.ViewContent).TextEditorControl).Document;
-				//return new ProvidedDocumentInformation(curDocument,
-				//                                     CurrentFileName);
-				return null;
+				curDocument = ((SourceEditor) ((SourceEditorDisplayBindingWrapper)WorkbenchSingleton.Workbench.ActiveWorkbenchWindow.ViewContent).Control);
+				return new ProvidedDocumentInformation(curDocument, CurrentFileName);
 			}
 		}
 			

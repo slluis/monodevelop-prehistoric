@@ -11,22 +11,22 @@ using System.Collections;
 using ICSharpCode.SharpDevelop.Gui;
 using ICSharpCode.TextEditor;
 
+using MonoDevelop.SourceEditor.Gui;
+
 namespace ICSharpCode.TextEditor.Document
 {
 	public sealed class SearchReplaceUtilities
 	{
 		public static bool IsTextAreaSelected {
 			get {
-				/*
-				return WorkbenchSingleton.Workbench.ActiveWorkbenchWindow != null &&
-					   WorkbenchSingleton.Workbench.ActiveWorkbenchWindow.ViewContent is ITextEditorControlProvider;
-				*/
-				return false;
+				
+				return WorkbenchSingleton.Workbench.ActiveWorkbenchWindow != null && WorkbenchSingleton.Workbench.ActiveWorkbenchWindow.ViewContent is SourceEditorDisplayBindingWrapper;
+				
 			}
 		}
 		
 		
-		public static bool IsWholeWordAt(ITextBufferStrategy document, int offset, int length)
+		public static bool IsWholeWordAt(SourceEditorBuffer document, int offset, int length)
 		{
 			return (offset - 1 < 0 || Char.IsWhiteSpace(document.GetCharAt(offset - 1))) &&
 			       (offset + length + 1 >= document.Length || Char.IsWhiteSpace(document.GetCharAt(offset + length)));

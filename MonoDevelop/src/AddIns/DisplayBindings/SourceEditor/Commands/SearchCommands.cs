@@ -68,8 +68,7 @@ namespace ICSharpCode.SharpDevelop.DefaultEditor.Commands
 		
 		public override void Run()
 		{
-			Console.WriteLine ("Not implemented in the new editor");
-			/*
+			
 			SetSearchPattern();
 			if (SearchReplaceManager.ReplaceDialog != null) {
 				if (SearchReplaceManager.ReplaceDialog.replaceMode == false) {
@@ -83,7 +82,7 @@ namespace ICSharpCode.SharpDevelop.DefaultEditor.Commands
 			} else {
 				ReplaceDialog rd = new ReplaceDialog(false);
 				rd.ShowAll();
-			}*/
+			}
 		}
 	}
 	
@@ -91,7 +90,7 @@ namespace ICSharpCode.SharpDevelop.DefaultEditor.Commands
 	{
 		public override void Run()
 		{
-			//SearchReplaceManager.FindNext();
+			SearchReplaceManager.FindNext();
 		}
 	}
 	
@@ -99,10 +98,9 @@ namespace ICSharpCode.SharpDevelop.DefaultEditor.Commands
 	{
 		public override void Run()
 		{ 
-			Console.WriteLine ("Not implemented in the new editor");
-			//Find.SetSearchPattern();
+			Find.SetSearchPattern();
 			
-			/*if (SearchReplaceManager.ReplaceDialog != null) {
+			if (SearchReplaceManager.ReplaceDialog != null) {
 				if (SearchReplaceManager.ReplaceDialog.replaceMode == true) {
 					SearchReplaceManager.ReplaceDialog.SetSearchPattern(SearchReplaceManager.SearchOptions.SearchPattern);
 					SearchReplaceManager.ReplaceDialog.Present ();
@@ -114,7 +112,7 @@ namespace ICSharpCode.SharpDevelop.DefaultEditor.Commands
 			} else {
 				ReplaceDialog rd = new ReplaceDialog(true);
 				rd.ShowAll();
-			}*/
+			}
 		}
 	}
 	

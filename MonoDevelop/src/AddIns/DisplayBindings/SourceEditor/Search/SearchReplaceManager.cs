@@ -16,6 +16,8 @@ using ICSharpCode.SharpDevelop.Services;
 using ICSharpCode.SharpDevelop.Gui.Dialogs;
 using ICSharpCode.TextEditor;
 
+using MonoDevelop.SourceEditor.Gui;
+
 namespace ICSharpCode.TextEditor.Document
 {
 	public enum DocumentIteratorType {
@@ -161,6 +163,8 @@ namespace ICSharpCode.TextEditor.Document
 				
 			if (result == null) {
 				ResourceService resourceService = (ResourceService)ServiceManager.Services.GetService(typeof(IResourceService));
+				//FIXME: This needs to be a msg or whatever
+				Console.WriteLine ("Not Found");
 				/*MessageBox.Show((Form)WorkbenchSingleton.Workbench,
 				                resourceService.GetString("Dialog.NewProject.SearchReplace.SearchStringNotFound"),
 				                "Not Found", 
@@ -168,33 +172,29 @@ namespace ICSharpCode.TextEditor.Document
 				                MessageBoxIcon.Information);*/
 				find.Reset();
 			} else {
-				/*TextEditorControl textArea = OpenTextArea(result.FileName);
+				SourceEditor textArea = OpenTextArea(result.FileName);
 				
-				if (lastResult != null  && lastResult.FileName == result.FileName && 
-				    textArea.ActiveTextAreaControl.Caret.Offset != lastResult.Offset + lastResult.Length) {
+				if (lastResult != null  && lastResult.FileName == result.FileName && textArea.Buffer.GetIterAtMark (textArea.Buffer.InsertMark).Offset != lastResult.Offset + lastResult.Length) {
 					find.Reset();
 				}
-				int startPos = Math.Min(textArea.Document.TextLength, Math.Max(0, result.Offset));
-				int endPos   = Math.Min(textArea.Document.TextLength, startPos + result.Length);
+				int startPos = Math.Min(textArea.Buffer.Text.Length, Math.Max(0, result.Offset));
+				int endPos   = Math.Min(textArea.Buffer.Text.Length, startPos + result.Length);
 				
-				textArea.ActiveTextAreaControl.Caret.Position = textArea.Document.OffsetToPosition(endPos);
-				textArea.ActiveTextAreaControl.TextArea.SelectionManager.ClearSelection();
-				textArea.ActiveTextAreaControl.TextArea.SelectionManager.SetSelection(new DefaultSelection(textArea.Document, textArea.Document.OffsetToPosition(startPos),
-				                                                                                           textArea.Document.OffsetToPosition(endPos)));
-				textArea.Refresh();*/
+														textArea.Buffer.MoveMark ("insert", textArea.Buffer.GetIterAtOffset (startPos));
+				textArea.Buffer.MoveMark ("selection_bound", textArea.Buffer.GetIterAtOffset (endPos));
 			}
 			
 			lastResult = result;
 		}
 		
-		/*static TextEditorControl OpenTextArea(string fileName) 
+		static SourceEditor OpenTextArea(string fileName) 
 		{
 			if (fileName != null) {
 				IFileService fileService = (IFileService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(IFileService));
 				fileService.OpenFile(fileName);
 			}
 			
-			return ((ITextEditorControlProvider)WorkbenchSingleton.Workbench.ActiveWorkbenchWindow.ViewContent).TextEditorControl;
-		}*/
+			return (SourceEditor) ((SourceEditorDisplayBindingWrapper)WorkbenchSingleton.Workbench.ActiveWorkbenchWindow.ViewContent).Control;
+		}
 	}	
 }

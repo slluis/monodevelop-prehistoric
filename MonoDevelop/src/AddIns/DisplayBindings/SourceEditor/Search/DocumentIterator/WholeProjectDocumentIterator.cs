@@ -15,6 +15,8 @@ using ICSharpCode.Core.Services;
 using ICSharpCode.SharpDevelop.Services;
 using ICSharpCode.TextEditor;
 
+using MonoDevelop.SourceEditor.Gui;
+
 namespace ICSharpCode.TextEditor.Document
 {
 	public class WholeProjectDocumentIterator : IDocumentIterator
@@ -46,20 +48,20 @@ namespace ICSharpCode.TextEditor.Document
 					++curIndex;
 					return Current;
 				}
-				//IDocument document;
+				SourceEditor document;
 				string fileName = files[curIndex].ToString();
-				/*foreach (IViewContent content in WorkbenchSingleton.Workbench.ViewContentCollection) {
+				foreach (IViewContent content in WorkbenchSingleton.Workbench.ViewContentCollection) {
 					// WINDOWS DEPENDENCY : ToUpper
 					if (content.ContentName != null &&
 						content.ContentName.ToUpper() == fileName.ToUpper()) {
-						document = (((ITextEditorControlProvider)content).TextEditorControl).Document;
+						document = (SourceEditor) (((SourceEditorDisplayBindingWrapper)content).Control);
 						return new ProvidedDocumentInformation(document,
 						                                       fileName);
 					}
-				}*/
-				ITextBufferStrategy strategy = null;
+				}
+				SourceEditorBuffer strategy = null;
 				try {
-					//strategy = StringTextBufferStrategy.CreateTextBufferFromFile(fileName);
+					strategy = SourceEditorBuffer.CreateTextBufferFromFile (fileName);
 				} catch (Exception) {
 					TaskService taskService = (TaskService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(TaskService));
 					taskService.Tasks.Add(new Task(String.Empty, "can't access " + fileName, -1, -1));

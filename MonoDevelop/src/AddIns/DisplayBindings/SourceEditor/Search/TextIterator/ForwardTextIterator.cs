@@ -9,6 +9,8 @@ using System;
 using System.Diagnostics;
 using System.Collections;
 
+using MonoDevelop.SourceEditor.Gui;
+
 namespace ICSharpCode.TextEditor.Document
 {
 	public class ForwardTextIterator : ITextIterator
@@ -21,12 +23,12 @@ namespace ICSharpCode.TextEditor.Document
 		
 		TextIteratorState state;
 		
-		ITextBufferStrategy textBuffer;
+		SourceEditorBuffer  textBuffer;
 		int                 currentOffset;
 		int                 endOffset;
 		int                 oldOffset = -1;
 		
-		public ITextBufferStrategy TextBuffer {
+		public SourceEditorBuffer TextBuffer {
 			get {
 				return textBuffer;
 			}
@@ -57,7 +59,7 @@ namespace ICSharpCode.TextEditor.Document
 		}
 		
 		
-		public ForwardTextIterator(ITextBufferStrategy textBuffer, int endOffset)
+		public ForwardTextIterator(SourceEditorBuffer textBuffer, int endOffset)
 		{
 			Debug.Assert(textBuffer != null);
 			Debug.Assert(endOffset >= 0 && endOffset < textBuffer.Length);

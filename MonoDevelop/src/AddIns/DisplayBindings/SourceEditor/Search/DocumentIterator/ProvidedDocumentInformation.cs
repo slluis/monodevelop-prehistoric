@@ -11,16 +11,18 @@ using System.Collections;
 
 using ICSharpCode.SharpDevelop.Gui;
 
+using MonoDevelop.SourceEditor.Gui;
+
 namespace ICSharpCode.TextEditor.Document
 {
 	public class ProvidedDocumentInformation
 	{
-		//IDocument document;
-		ITextBufferStrategy textBuffer;
+		SourceEditor        document;
+		SourceEditorBuffer  textBuffer;
 		string              fileName;
 		int                 currentOffset;
 		
-		public ITextBufferStrategy TextBuffer {
+		public SourceEditorBuffer TextBuffer {
 			get {
 				return textBuffer;
 			}
@@ -92,15 +94,15 @@ namespace ICSharpCode.TextEditor.Document
 			return new DocumentFactory().CreateFromFile(fileName);
 		}*/		
 		
-		/*public ProvidedDocumentInformation(IDocument document, string fileName)
+		public ProvidedDocumentInformation (SourceEditor document, string fileName)
 		{
 			this.document   = document;
-			this.textBuffer = document.TextBufferStrategy;
+			this.textBuffer = document.Buffer;
 			this.fileName   = fileName;
 //			this.currentOffset = document.Caret.Offset;
-		}*/
+		}
 		
-		public ProvidedDocumentInformation(ITextBufferStrategy textBuffer, string fileName, int currentOffset)
+		public ProvidedDocumentInformation(SourceEditorBuffer textBuffer, string fileName, int currentOffset)
 		{
 			this.textBuffer    = textBuffer;
 			this.fileName      = fileName;

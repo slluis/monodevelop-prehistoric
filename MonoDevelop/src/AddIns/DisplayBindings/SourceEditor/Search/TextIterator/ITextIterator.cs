@@ -8,6 +8,8 @@
 using System;
 using System.Collections;
 
+using MonoDevelop.SourceEditor.Gui;
+
 namespace ICSharpCode.TextEditor.Document
 {
 	/// <summary>
@@ -18,7 +20,7 @@ namespace ICSharpCode.TextEditor.Document
 		/// <value>
 		/// The text buffer strategy
 		/// </value>
-		ITextBufferStrategy TextBuffer {
+		SourceEditorBuffer TextBuffer {
 			get;
 		}
 		
