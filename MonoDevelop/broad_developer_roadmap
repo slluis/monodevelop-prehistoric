@@ -3,6 +3,10 @@
 
 ** Short term (next 4 months) goals
 
+	*** Complete the porting of #D to MonoDevelop
+
+	*** Merge changes to the #D codebase to MonoDevelop (always ongoing)
+
 	*** Move to a new build system, this one wont properly support
 	    everything we need (easy .desktop integration, etc).
 
