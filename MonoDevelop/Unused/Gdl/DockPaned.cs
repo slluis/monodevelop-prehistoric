@@ -62,7 +62,7 @@ namespace Gdl
 			else
 				Child = new VPaned ();
 			
-			// FIXME: Register signal handlers.						
+			// FIXME: track position to emit layout changed
 												
 			Child.Parent = this;
 			Child.Show ();

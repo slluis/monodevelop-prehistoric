@@ -134,16 +134,13 @@ namespace Gdl
 				s.Close ();
 				// minimum validation: test root element
 				if (this.RootNode != null) {
-					// FIXME: I cheated here
 					foreach (XmlNode n in this.RootNode.ChildNodes)
 					{
 						if (n.Name == "layout")
 							layouts.Add (n.Attributes["name"].Value);
 					}
 					UpdateLayoutsModel ();
-					// FIXME: for testing load the default
-					return LoadLayout (null);
-					// return true;
+					return true;
 				}
 				else {
 					doc = null;	
@@ -411,14 +408,12 @@ namespace Gdl
 		DockObject SetupObject (XmlNode node)
 		{
 			DockObject obj = null;
-			// FIXME: notebooks don't get names ...
 			if (node.Name == "notebook") {
 				DockNotebook dn = new DockNotebook ();
 				dn.Bind (master);
 				dn.FromXml (node);
 				return dn;
 			}
-			// FIXME: paned don't get names ...
 			if (node.Name == "paned") {
 				DockPaned dp = new DockPaned ();
 				dp.Bind (master);
@@ -435,7 +430,6 @@ namespace Gdl
 				Console.WriteLine ("While loading layout: don't know how to create a dock object whose nick is '{0}'", name);
 			}
 
-			// FIXME: all sorts of unserialization stuff
 			if (obj != null)
 				obj.FromXml (node);
 
@@ -468,8 +462,7 @@ namespace Gdl
 					if (obj is DockPlaceholder)
 						obj.Detach (false);
 
-					// apply "after" parameters
-					// FIXME:
+					// FIXME: apply "after" parameters
 
 					// add the object to the parent
 					if (parent != null) {
@@ -587,8 +580,7 @@ namespace Gdl
 		void AddPlaceholder (DockObject obj, Hashtable placeholders)
 		{
 			if (obj is DockPlaceholder) {
-				// FIXME:
-				// add the current placeholder to the list of placeholders for that host
+				// FIXME: add the current placeholder to the list of placeholders for that host
 			}
 		}
 

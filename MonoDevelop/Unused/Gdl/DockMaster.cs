@@ -161,7 +161,6 @@ namespace Gdl
 				/* post a layout_changed emission if the item is not automatic
 				 * (since it should be added to the items model) */
 				if (!item.IsAutomatic) {
-					// FIXME: Emit a LayoutChanged event?
 					EmitLayoutChangedEvent ();
 				}
 			}
