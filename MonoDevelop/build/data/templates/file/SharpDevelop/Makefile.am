@@ -4,7 +4,6 @@ mdtemplatedir = $(monodevelopdir)/data/templates/file/SharpDevelop
 
 mdtemplate_DATA = ExampleMenuCommand.xft \
 	ExamplePad.xft \
-	ExampleOptionPanel.xft \
 	ExampleView.xft \
 	SimpleCommand.xft
 

@@ -2,9 +2,9 @@
 <Template Originator="Mike Krueger" Language="C#" Created="09/04/2003" LastModified="09/04/2003">
 	
 	<TemplateConfiguration>
-		<Name>Simple #Develop view</Name>
+		<Name>Simple MonoDevelop view</Name>
 		<Icon>C#.File.FullFile</Icon>
-		<Category>SharpDevelop</Category>
+		<Category>MonoDevelop</Category>
 		<LanguageName>C#</LanguageName>
 		<Description>Creates a #Develop view content (for example text editor or resource editor)</Description>
 	</TemplateConfiguration>
@@ -12,8 +12,8 @@
 	<TemplateFiles>
 		<File DefaultExtension=".cs" DefaultName="EmptyC#file">
 			<![CDATA[using System;
-using System.Windows.Forms;
-using ICSharpCode.SharpDevelop.Gui;
+using Gtk;
+using MonoDevelop.Gui;
 
 namespace MyView
 {
@@ -24,9 +24,9 @@ namespace MyView
 	{
 #region AbstractViewContent requirements
 		/// <summary>
-		/// The <see cref="System.Windows.Forms.Control"/> representing the view
+		/// The <see cref="Gtk.Widget"/> representing the view
 		/// </summary>
-		public override Control Control {
+		public override Widget Control {
 			get {
 				//
 				// TODO : Give back a working Windows.Forms Control

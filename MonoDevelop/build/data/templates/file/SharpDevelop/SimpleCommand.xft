@@ -2,9 +2,9 @@
 <Template Originator="Mike Krueger" Language="C#" Created="09/04/2003" LastModified="09/04/2003">
 	
 	<TemplateConfiguration>
-		<Name>Simple #Develop command</Name>
+		<Name>Simple MonoDevelop command</Name>
 		<Icon>C#.File.FullFile</Icon>
-		<Category>SharpDevelop</Category>
+		<Category>MonoDevelop</Category>
 		<LanguageName>C#</LanguageName>
 		<Description>Creates a command which is usable for many circumstances</Description>
 	</TemplateConfiguration>
@@ -12,9 +12,7 @@
 	<TemplateFiles>
 		<File DefaultExtension=".cs" DefaultName="EmptyC#file">
 			<![CDATA[using System;
-using System.Windows.Forms;
-
-using ICSharpCode.Core.AddIns.Codons;
+using MonoDevelop.Core.AddIns.Codons;
 
 namespace MyCommand
 {
