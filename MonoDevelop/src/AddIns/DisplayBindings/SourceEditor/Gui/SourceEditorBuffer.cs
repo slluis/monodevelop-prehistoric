@@ -14,8 +14,24 @@ using System.IO;
 using System.Runtime.InteropServices;
 	
 namespace MonoDevelop.SourceEditor.Gui {
-	public class SourceEditorBuffer : SourceBuffer,
-		IClipboardHandler {
+	public class SourceEditorBuffer : SourceBuffer, IClipboardHandler {
+		
+		// This gives us a nice way to avoid the try/finally
+		// which is really long.
+		struct NoUndo : IDisposable {
+			SourceEditorBuffer b;
+			
+			public NoUndo (SourceEditorBuffer b) {
+				this.b = b;
+				b.BeginNotUndoableAction ();
+			}
+			
+			public void Dispose ()
+			{
+				b.EndNotUndoableAction ();
+			}
+		}
+			
 		
 		SourceLanguagesManager slm = new SourceLanguagesManager ();
 		
@@ -25,26 +41,33 @@ namespace MonoDevelop.SourceEditor.Gui {
 		
 		public void LoadFile (string file, string mime)
 		{
-			LoadText (File.OpenText (file).ReadToEnd (), mime);
+			LoadText (File.OpenText (file).ReadToEnd (), mime);		
 			Modified = false;
 		}
 		
 		public void LoadFile (string file)
 		{
-			Text = File.OpenText (file).ReadToEnd ();
+			using (NoUndo n = new NoUndo (this))
+				Text = File.OpenText (file).ReadToEnd ();
+			
 			Modified = false;
 		}
 		
 		public void LoadText (string text, string mime)
 		{
-			Text = text;
 			Language = slm.GetLanguageFromMimeType (mime);
+			
+			using (NoUndo n = new NoUndo (this))
+				Text = text;
+			
 			Modified = false;
 		}
 		
 		public void LoadText (string text)
 		{
-			Text = text;
+			using (NoUndo n = new NoUndo (this))
+				Text = text;
+			
 			Modified = false;
 		}
 		

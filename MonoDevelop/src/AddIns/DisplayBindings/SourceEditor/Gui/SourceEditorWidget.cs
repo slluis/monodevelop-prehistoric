@@ -9,21 +9,21 @@ namespace MonoDevelop.SourceEditor.Gui {
 	public class SourceEditor : ScrolledWindow {
 		
 		public readonly SourceEditorBuffer Buffer;
-		SourceView sv;
+		public readonly SourceView View;
 		
 		public SourceEditor ()
 		{
 			Buffer = new SourceEditorBuffer ();
 			
-			sv = new SourceView (Buffer);
+			View = new SourceView (Buffer);
 			
-			sv.AutoIndent = true;
-			sv.SmartHomeEnd = true;
-			sv.ShowLineNumbers = true;
-			sv.ShowLineMarkers = true;
+			View.AutoIndent = true;
+			View.SmartHomeEnd = true;
+			View.ShowLineNumbers = true;
+			View.ShowLineMarkers = true;
 			Buffer.Highlight = true;
 			
-			Add (sv);
+			Add (View);
 		}
 		
 		public string Text {
