@@ -94,12 +94,31 @@ AC_SUBST(GETTEXT_PACKAGE)
 AC_DEFINE_UNQUOTED(GETTEXT_PACKAGE,"$GETTEXT_PACKAGE", [Gettext package])
 AM_GLIB_GNU_GETTEXT
 
+dnl Plateform test and LIBEXT settings
+case "x${host_os}" in
+  x)
+    LIB_PREFIX=
+    LIB_SUFFIX=
+    ;;
+  xlinux*)
+    LIB_PREFIX=.so
+    LIB_SUFFIX=
+    ;;
+  x*darwin*)
+    LIB_SUFFIX=.dylib
+    LIB_PREFIX=
+    ;;
+esac
+AC_SUBST(LIB_SUFFIX)
+AC_SUBST(LIB_PREFIX)
+
 AC_OUTPUT([
 Makefile
 gdldock/Makefile
 gdldock/gdl/Makefile
 gdldock/sources/Makefile
 gdldock/sources/gdl/Makefile
+gdldock/gdl/gdl-sharp.dll.config
 libmonodevelop/Makefile
 src/Makefile
 src/AddIns/Makefile
@@ -110,16 +129,19 @@ src/AddIns/BackendBindings/ILAsmBinding/Makefile
 src/AddIns/BackendBindings/NemerleBinding/Makefile
 src/AddIns/DisplayBindings/Makefile
 src/AddIns/DisplayBindings/SourceEditor/Makefile
+src/AddIns/DisplayBindings/SourceEditor/MonoDevelop.SourceEditor.dll.config
 src/AddIns/Misc/Makefile
 src/AddIns/Misc/StartPage/Makefile
 src/AddIns/Misc/Sonata/Makefile
 src/AddIns/DebuggerAddIn/Makefile
 src/Main/Makefile
 src/Main/Base/Makefile
+src/Main/Base/MonoDevelop.Base.dll.config
 src/Main/StartUp/Makefile
 src/Libraries/Makefile
 src/Libraries/MonoDevelop.Core/Makefile
 src/Libraries/MonoDevelop.Gui.Utils/Makefile
+src/Libraries/MonoDevelop.Gui.Utils/MonoDevelop.Gui.Utils.dll.config
 src/Libraries/MonoDevelop.Gui.Widgets/Makefile
 src/Libraries/SharpAssembly/Makefile
 src/Libraries/SharpRefactory/Makefile

@@ -381,7 +381,8 @@ $(ASSEMBLY): $(build_sources) ../../../data/resources/glade/Base.glade
 		/resource:$(srcdir)/../../../data/resources/glade/Base.glade,Base.glade \
 		$(monodoc_libflags) \
 		$(build_sources) \
-	&& cp $(ASSEMBLY) ../../../build/bin/.
+	&& cp $(ASSEMBLY) ../../../build/bin/. \
+	&& cp $(ASSEMBLY).config ../../../build/bin/.
 
 Services/StockIcons.cs : ./Services/process-icons.pl ../../../build/data/resources/icons
 	perl  -x$(srcdir)/../../../build/data/resources/icons -w $(srcdir)/./Services/process-icons.pl > $(srcdir)/Services/StockIcons.cs
@@ -389,7 +390,7 @@ Services/StockIcons.cs : ./Services/process-icons.pl ../../../build/data/resourc
 assemblydir = $(libdir)/monodevelop/bin
 assembly_DATA = $(ASSEMBLY)
 
-CLEANFILES = $(ASSEMBLY)
+CLEANFILES = $(ASSEMBLY) $(ASSEMBLY).config
 
-EXTRA_DIST = $(FILES) ./Services/process-icons.pl
+EXTRA_DIST = $(FILES) ./Services/process-icons.pl $(ASSEMBLY).config.in
 

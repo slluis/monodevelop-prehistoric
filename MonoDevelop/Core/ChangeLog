@@ -1,3 +1,7 @@
+2004-07-04  Todd Berman  <tberman@off.net>
+
+	* *: Fixup to work on macosx OOB, at least a bit better.
+
 2004-07-03  John Luke  <jluke@cfl.rr.com>
 
 	* README: update dependency versions

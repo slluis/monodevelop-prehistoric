@@ -101,7 +101,7 @@ build/AddIns/AddIns/BackendBindings/templates/EmptyNemerleFile.xft.xml
 build/AddIns/AddIns/BackendBindings/templates/EmptyProject.xpt.xml
 build/AddIns/AddIns/BackendBindings/templates/EmptyResourceFile.xft.xml
 build/AddIns/AddIns/BackendBindings/templates/EmptyTextFile.xft.xml
-build/AddIns/AddIns/BackendBindings/templates/EmptyXMLFile.xft
+build/AddIns/AddIns/BackendBindings/templates/EmptyXMLFile.xft.xml
 build/AddIns/AddIns/BackendBindings/templates/GladeSharpProject.xpt.xml
 build/AddIns/AddIns/BackendBindings/templates/GnomeSharpProgram.xft.xml
 build/AddIns/AddIns/BackendBindings/templates/GnomeSharpProject.xpt.xml

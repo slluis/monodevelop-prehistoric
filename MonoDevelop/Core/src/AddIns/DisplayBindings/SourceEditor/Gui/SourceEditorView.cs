@@ -459,7 +459,7 @@ namespace MonoDevelop.SourceEditor.Gui
 		}
 		
 		// WORKAROUND until we get this method returning char in gtk#
-		[DllImport("libgtk-x11-2.0.so.0")]
+		[DllImport("libgtk-win32-2.0-0.dll")]
 		static extern char gtk_text_iter_get_char (ref Gtk.TextIter raw);
 		
 		void UnIndentLines (int y0, int y1)
