@@ -49,3 +49,5 @@ pad: $(MONOPAD)
 runpad: $(MONOPAD)
 	cd build/bin && mono MonoPad.exe
 
+run-profile:
+	cd build/bin && mono --profile SharpDevelop.exe
