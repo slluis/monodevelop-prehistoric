@@ -6,7 +6,7 @@
       <div class="title">Installation Tutorial</div>
 
       <p>Before reading any further, please consider installing MonoDevelop
-      from binary pacakges. This is most likely far easier for you in the
+      from binary packages. This is most likely far easier for you in the
       short term, and better for you in the long term. MonoDevelop packages
       are available from the redcarpet mono channel, or from
       <a href="http://www.go-mono.com/download.html">go-mono.com</a>.</p>
