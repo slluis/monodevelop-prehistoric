@@ -71,4 +71,54 @@ namespace MonoDevelop.Gui.Utils
 			get { return gnome_vfs_init (); }
 		}
 	}
+
+	public class MimeApplication {
+		[Flags]
+		public enum ArgumentType {
+			URIS,
+			PATHS,
+			URIS_FOR_NON_FILES,
+		}
+		[StructLayout(LayoutKind.Sequential)]
+		public class Info {
+			public string id;
+			public string name;
+			public string command;
+			public bool can_open_multiple_files;
+			public ArgumentType expects_uris;
+			public IntPtr supported_uri_schemes;
+			public bool requires_terminal;
+
+			public IntPtr reserved1;
+			public IntPtr reserved2;
+		}
+
+		[DllImport ("libgnomevfs-2")]
+			extern static Info gnome_vfs_mime_get_default_application ( string mime_type );
+		[DllImport ("libgnomevfs-2")]
+			extern static void gnome_vfs_mime_application_free ( Info info );
+
+		public static void Exec (string mime_type, string uri)
+		{
+			Info info;
+			info = gnome_vfs_mime_get_default_application (mime_type);
+			if (info == null)
+			{
+				// Can we please stop hard coding Nautilus!?
+				System.Diagnostics.ProcessStartInfo psi = new System.Diagnostics.ProcessStartInfo ("nautilus", "\"" + uri + "\"");
+				psi.UseShellExecute = false;
+				
+				System.Diagnostics.Process.Start (psi);
+			} else {
+				System.Diagnostics.ProcessStartInfo psi = new System.Diagnostics.ProcessStartInfo (info.command, "\"" + uri + "\"");
+				psi.UseShellExecute = false;
+				System.Diagnostics.Process.Start (psi);
+			}
+//FIXME:  Memory leak, causes crashes, dunno why...needs fixed
+//			gnome_vfs_mime_application_free (info);
+		}
+
+	}
+
+
 }

@@ -19,6 +19,8 @@ using MonoDevelop.Internal.Project;
 using MonoDevelop.Gui;
 using MonoDevelop.Core.AddIns.Codons;
 
+using MonoDevelop.Gui.Utils;
+
 namespace MonoDevelop.Services
 {
 	public class DefaultFileService : AbstractService, IFileService
@@ -136,7 +138,13 @@ namespace MonoDevelop.Services
 				}
 			} else {
 				try {
-					Gnome.Url.Show ("file://" + fileName);
+					string mimetype = Vfs.GetMimeType (fileName);
+					Console.WriteLine ("About to MimeApp.Exec on mimetype: " + mimetype);
+					if (mimetype != null) {
+						MimeApplication.Exec (mimetype, fileName);
+					} else {
+						Gnome.Url.Show ("file://" + fileName);
+					}
 				} catch {
 					if (fileUtilityService.ObservedLoad(new NamedFileOperationDelegate (new LoadFileWrapper (displayBindingService.LastBinding, null, null).Invoke), fileName) == FileOperationResult.OK) {
 						fileService.RecentOpen.AddLastFile (fileName);
