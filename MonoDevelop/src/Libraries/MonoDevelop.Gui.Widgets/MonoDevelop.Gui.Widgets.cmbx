@@ -1,0 +1,16 @@
+<Combine fileversion="1.0" name="MonoDevelop.Gui.Widgets" description="">
+  <StartMode startupentry="MonoDevelop.Gui.Widgets" single="True">
+    <Execute entry="MonoDevelop.Gui.Widgets" type="None" />
+  </StartMode>
+  <Entries>
+    <Entry filename="./MonoDevelop.Gui.Widgets.prjx" />
+  </Entries>
+  <Configurations active="Debug">
+    <Configuration name="Release">
+      <Entry name="MonoDevelop.Gui.Widgets" configurationname="Debug" build="False" />
+    </Configuration>
+    <Configuration name="Debug">
+      <Entry name="MonoDevelop.Gui.Widgets" configurationname="Debug" build="False" />
+    </Configuration>
+  </Configurations>
+</Combine>

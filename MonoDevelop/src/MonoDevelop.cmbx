@@ -1,0 +1,68 @@
+<Combine fileversion="1.0" name="MonoDevelop" description="">
+  <StartMode startupentry="MonoDevelop" single="True">
+    <Execute entry="SharpAssembly" type="None" />
+    <Execute entry="SharpRefactory" type="None" />
+    <Execute entry="MonoDevelop.Core" type="None" />
+    <Execute entry="MonoDevelop.Gui.Utils" type="None" />
+    <Execute entry="MonoDevelop.Gui.Widgets" type="None" />
+    <Execute entry="MonoDevelop.Base" type="None" />
+    <Execute entry="MonoDevelop" type="None" />
+    <Execute entry="SourceEditor" type="None" />
+    <Execute entry="CSharpBinding" type="None" />
+    <Execute entry="JavaBinding" type="None" />
+    <Execute entry="NemerleBinding" type="None" />
+    <Execute entry="ILAsmBinding" type="None" />
+    <Execute entry="StartPage" type="None" />
+    <Execute entry="Prj2MakeSharp" type="None" />
+  </StartMode>
+  <Entries>
+    <Entry filename="./Libraries/SharpAssembly/SharpAssembly.prjx" />
+    <Entry filename="./Libraries/SharpRefactory/SharpRefactory.prjx" />
+    <Entry filename="./Libraries/MonoDevelop.Core/MonoDevelop.Core.prjx" />
+    <Entry filename="./Libraries/MonoDevelop.Gui.Utils/MonoDevelop.Gui.Utils.prjx" />
+    <Entry filename="./Libraries/MonoDevelop.Gui.Widgets/MonoDevelop.Gui.Widgets.prjx" />
+    <Entry filename="./Main/Base/MonoDevelop.Base.prjx" />
+    <Entry filename="./Main/StartUp/MonoDevelop.prjx" />
+    <Entry filename="./AddIns/DisplayBindings/SourceEditor/SourceEditor.prjx" />
+    <Entry filename="./AddIns/BackendBindings/CSharpBinding/CSharpBinding.prjx" />
+    <Entry filename="./AddIns/BackendBindings/JavaBinding/JavaBinding.prjx" />
+    <Entry filename="./AddIns/BackendBindings/NemerleBinding/NemerleBinding.prjx" />
+    <Entry filename="./AddIns/BackendBindings/ILAsmBinding/ILAsmBinding.prjx" />
+    <Entry filename="./AddIns/Misc/StartPage/StartPage.prjx" />
+    <Entry filename="./AddIns/prj2make-sharp-lib/Prj2MakeSharp.prjx" />
+  </Entries>
+  <Configurations active="Debug">
+    <Configuration name="Release">
+      <Entry name="SharpAssembly" configurationname="Debug" build="False" />
+      <Entry name="SharpRefactory" configurationname="Debug" build="False" />
+      <Entry name="MonoDevelop.Core" configurationname="Debug" build="False" />
+      <Entry name="MonoDevelop.Gui.Utils" configurationname="Debug" build="False" />
+      <Entry name="MonoDevelop.Gui.Widgets" configurationname="Debug" build="False" />
+      <Entry name="MonoDevelop.Base" configurationname="Debug" build="False" />
+      <Entry name="MonoDevelop" configurationname="Debug" build="False" />
+      <Entry name="SourceEditor" configurationname="Debug" build="False" />
+      <Entry name="CSharpBinding" configurationname="Debug" build="False" />
+      <Entry name="JavaBinding" configurationname="Debug" build="False" />
+      <Entry name="NemerleBinding" configurationname="Debug" build="False" />
+      <Entry name="ILAsmBinding" configurationname="Debug" build="False" />
+      <Entry name="StartPage" configurationname="Debug" build="False" />
+      <Entry name="Prj2MakeSharp" configurationname="Debug" build="False" />
+    </Configuration>
+    <Configuration name="Debug">
+      <Entry name="SharpAssembly" configurationname="Debug" build="False" />
+      <Entry name="SharpRefactory" configurationname="Debug" build="False" />
+      <Entry name="MonoDevelop.Core" configurationname="Debug" build="False" />
+      <Entry name="MonoDevelop.Gui.Utils" configurationname="Debug" build="False" />
+      <Entry name="MonoDevelop.Gui.Widgets" configurationname="Debug" build="False" />
+      <Entry name="MonoDevelop.Base" configurationname="Debug" build="False" />
+      <Entry name="MonoDevelop" configurationname="Debug" build="False" />
+      <Entry name="SourceEditor" configurationname="Debug" build="False" />
+      <Entry name="CSharpBinding" configurationname="Debug" build="False" />
+      <Entry name="JavaBinding" configurationname="Debug" build="False" />
+      <Entry name="NemerleBinding" configurationname="Debug" build="False" />
+      <Entry name="ILAsmBinding" configurationname="Debug" build="False" />
+      <Entry name="StartPage" configurationname="Debug" build="False" />
+      <Entry name="Prj2MakeSharp" configurationname="Debug" build="False" />
+    </Configuration>
+  </Configurations>
+</Combine>

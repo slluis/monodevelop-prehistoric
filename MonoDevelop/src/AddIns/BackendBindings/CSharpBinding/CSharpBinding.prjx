@@ -1,0 +1,58 @@
+<Project name="CSharpBinding" description="" newfilesearch="None" enableviewstate="True" version="1.1" projecttype="C#">
+  <Contents>
+    <File name="./CSharpAmbience.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name="./CSharpBindingCompilerManager.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name="./CSharpBindingExecutionManager.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name="./CSharpLanguageBinding.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name="./ChangeLog" subtype="Code" buildaction="Exclude" dependson="" data="" />
+    <File name="./FormattingStrategy/CSharpFormattingStrategy.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name="./Gui/ChooseRuntimePanel.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name="./Gui/CodeGenerationPanel.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name="./Gui/OutputOptionsPanel.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name="./Parser/CSharpVisitor.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name="./Parser/ExpressionFinder.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name="./Parser/Parser.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name="./Parser/Resolver.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name="./Parser/TypeVisitor.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name="./Parser/SharpDevelopTree/AttributeSection.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name="./Parser/SharpDevelopTree/Class.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name="./Parser/SharpDevelopTree/CompilationUnit.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name="./Parser/SharpDevelopTree/Constructor.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name="./Parser/SharpDevelopTree/Event.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name="./Parser/SharpDevelopTree/Field.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name="./Parser/SharpDevelopTree/Indexer.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name="./Parser/SharpDevelopTree/Method.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name="./Parser/SharpDevelopTree/Parameter.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name="./Parser/SharpDevelopTree/Property.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name="./Parser/SharpDevelopTree/ReturnType.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name="./Project/CSharpCompilerParameters.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name="./Project/CSharpProject.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+  </Contents>
+  <References>
+    <Reference type="Gac" refto="System.Drawing, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" localcopy="True" />
+    <Reference type="Project" refto="MonoDevelop.Core" localcopy="True" />
+    <Reference type="Project" refto="SourceEditor" localcopy="True" />
+    <Reference type="Project" refto="MonoDevelop.Base" localcopy="True" />
+    <Reference type="Project" refto="SharpRefactory" localcopy="True" />
+    <Reference type="Project" refto="MonoDevelop.Gui.Widgets" localcopy="True" />
+    <Reference type="Gac" refto="gtk-sharp, Version=1.0.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" localcopy="True" />
+  </References>
+  <DeploymentInformation target="" script="" strategy="File" />
+  <Configuration runwithwarnings="False" name="Debug">
+    <CodeGeneration runtime="MsNet" compiler="Csc" warninglevel="4" nowarn="" includedebuginformation="True" optimize="True" unsafecodeallowed="False" generateoverflowchecks="True" mainclass="" target="Library" definesymbols="" generatexmldocumentation="False" win32Icon="" />
+    <Execution commandlineparameters="" consolepause="True" />
+    <Output directory="./bin/Debug" assembly="CSharpBinding" executeScript="" executeBeforeBuild="" executeAfterBuild="" />
+  </Configuration>
+  <Configurations active="Debug">
+    <Configuration runwithwarnings="False" name="Debug">
+      <CodeGeneration runtime="MsNet" compiler="Csc" warninglevel="4" nowarn="" includedebuginformation="True" optimize="True" unsafecodeallowed="False" generateoverflowchecks="True" mainclass="" target="Library" definesymbols="" generatexmldocumentation="False" win32Icon="" />
+      <Execution commandlineparameters="" consolepause="True" />
+      <Output directory="./bin/Debug" assembly="CSharpBinding" executeScript="" executeBeforeBuild="" executeAfterBuild="" />
+    </Configuration>
+    <Configuration runwithwarnings="False" name="Release">
+      <CodeGeneration runtime="MsNet" compiler="Csc" warninglevel="4" nowarn="" includedebuginformation="True" optimize="True" unsafecodeallowed="False" generateoverflowchecks="True" mainclass="" target="Exe" definesymbols="" generatexmldocumentation="False" win32Icon="" />
+      <Execution commandlineparameters="" consolepause="True" />
+      <Output directory="./bin/Release" assembly="CSharpBinding" executeScript="" executeBeforeBuild="" executeAfterBuild="" />
+    </Configuration>
+  </Configurations>
+</Project>

@@ -1,0 +1,16 @@
+<Combine fileversion="1.0" name="JavaBinding" description="">
+  <StartMode startupentry="JavaBinding" single="True">
+    <Execute entry="JavaBinding" type="None" />
+  </StartMode>
+  <Entries>
+    <Entry filename="./JavaBinding.prjx" />
+  </Entries>
+  <Configurations active="Debug">
+    <Configuration name="Release">
+      <Entry name="JavaBinding" configurationname="Debug" build="False" />
+    </Configuration>
+    <Configuration name="Debug">
+      <Entry name="JavaBinding" configurationname="Debug" build="False" />
+    </Configuration>
+  </Configurations>
+</Combine>

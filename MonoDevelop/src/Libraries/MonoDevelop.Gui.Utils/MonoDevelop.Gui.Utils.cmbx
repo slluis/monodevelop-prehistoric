@@ -1,0 +1,16 @@
+<Combine fileversion="1.0" name="MonoDevelop.Gui.Utils" description="">
+  <StartMode startupentry="MonoDevelop.Gui.Utils" single="True">
+    <Execute entry="MonoDevelop.Gui.Utils" type="None" />
+  </StartMode>
+  <Entries>
+    <Entry filename="./MonoDevelop.Gui.Utils.prjx" />
+  </Entries>
+  <Configurations active="Debug">
+    <Configuration name="Release">
+      <Entry name="MonoDevelop.Gui.Utils" configurationname="Debug" build="False" />
+    </Configuration>
+    <Configuration name="Debug">
+      <Entry name="MonoDevelop.Gui.Utils" configurationname="Debug" build="False" />
+    </Configuration>
+  </Configurations>
+</Combine>
