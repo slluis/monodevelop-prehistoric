@@ -62,7 +62,7 @@ class HtmlTest
 		html.CascadingStyleSheet = "";
 		
 		html.Show ();
-		vbox.PackStart (html, true, true, 0);
+		vbox.PackStart (html.Control, true, true, 0);
 
 		Statusbar status = new Statusbar ();
 		vbox.PackStart (status, false, true, 0);

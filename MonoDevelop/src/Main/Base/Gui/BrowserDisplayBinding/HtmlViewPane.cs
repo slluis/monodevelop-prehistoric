@@ -140,18 +140,6 @@ namespace ICSharpCode.SharpDevelop.BrowserDisplayBinding
 			htmlControl = new HtmlControl ();
 			htmlControl.Control.Show ();
 
-//			if (showNavigation) {
-//				int height = 48;
-//				axWebBrowser.Location = new Point(0, height);
-//				axWebBrowser.Size     = new Size(Width, Height - height); 
-//				axWebBrowser.Anchor   = AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Bottom | AnchorStyles.Top;
-//				axWebBrowser.Dock     = DockStyle.Fill;
-//			} else {
-				//axWebBrowser.Dock = DockStyle.Fill;
-//			}
-			//axWebBrowser.HandleCreated += new EventHandler(this.CreatedWebBrowserHandle);
-			//axWebBrowser.TitleChange   += new DWebBrowserEvents2_TitleChangeEventHandler(TitleChange);
-			
 			mainbox.PackStart (htmlControl.Control);
 			
 			this.Add (mainbox);
@@ -180,26 +168,27 @@ namespace ICSharpCode.SharpDevelop.BrowserDisplayBinding
 		{
 			urlTextBox.Text = name;
 			htmlControl.Url = name;
+			htmlControl.Show ();
 		}
 		
 		private void OnBackClicked (object o, EventArgs args)
 		{
-			//htmlControl.GoBack ();
+			htmlControl.GoBack ();
 		}
 		
 		private void OnForwardClicked (object o, EventArgs args)
 		{
-			//htmlControl.GoForward ();
+			htmlControl.GoForward ();
 		}
 		
 		private void OnStopClicked (object o, EventArgs args)
 		{
-			//htmlControl.Stop ();
+			htmlControl.Stop ();
 		}
 		
 		private void OnRefreshClicked (object o, EventArgs args)
 		{
-			//htmlControl.Refresh ();
+			htmlControl.Refresh ();
 		}
 	}
 }

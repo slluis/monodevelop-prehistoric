@@ -64,18 +64,27 @@ namespace ICSharpCode.SharpDevelop.Gui.HtmlControl
 		}
 		
 		public string Url {
+			get {
+				return this.url;
+			}
 			set {
 				this.url = value;
+				Console.WriteLine ("setting html url");
 				if (control_type == ControlType.GtkMozilla)
 					((MozillaControl) control).LoadUrl (value);
+				else
+					Console.WriteLine ("unable to load url");
 			}
 		}
 		
 		public string Html {
+			get {
+				return this.html;
+			}
 			set {
 				this.html = value;
-				if (control_type == ControlType.IE)
-					ApplyBody(html);
+				Console.WriteLine ("setting html content");
+				ApplyBody(html);
 			}
 		}
 		
@@ -106,7 +115,7 @@ namespace ICSharpCode.SharpDevelop.Gui.HtmlControl
 					this.control = new MozillaControl ();
 					//Console.WriteLine ("new MozillaControl");
 					((MozillaControl) this.control).Show ();
-					this.Add ((MozillaControl) this.control);
+					//this.Add ((MozillaControl) this.control);
 					break;
 				default:
 					throw new NotImplementedException (control_type.ToString ());
@@ -163,6 +172,10 @@ namespace ICSharpCode.SharpDevelop.Gui.HtmlControl
 					{
 						((MozillaControl) control).RenderData (val, "file://", "text/html");
 						return;
+					}
+					else
+					{
+						Console.WriteLine ("not rendering with mozilla");
 					}
 					
 					IHTMLElement el    = null;
