@@ -151,21 +151,36 @@ namespace MonoDevelop.Gui.Pads
 			Nodes.Clear();
 		}
 
+		ParseInformationEventArgs add_e = null;
 		void OnParseInformationAdded(object sender, ParseInformationEventArgs e)
 		{
-			//Invoke(new MyParseEventD(AddParseInformation), new object[] { Nodes, e });
-			Gdk.Threads.Enter();
-			AddParseInformation(Nodes, e);
-			Gdk.Threads.Leave();
-			
+			add_e = e;
+			GLib.Idle.Add (new GLib.IdleHandler (addParseInfo));
+		}
+
+		bool addParseInfo ()
+		{
+			if (add_e != null) {
+				AddParseInformation (Nodes, add_e);
+				add_e = null;
+			}
+			return false;
 		}
 		
+		ParseInformationEventArgs remove_e;
 		void OnParseInformationRemoved(object sender, ParseInformationEventArgs e)
 		{
-			//Invoke(new MyParseEventD(RemoveParseInformation), new object[] { Nodes, e });
-			Gdk.Threads.Enter();
-			RemoveParseInformation(Nodes, e);
-			Gdk.Threads.Leave();
+			remove_e = e;
+			GLib.Idle.Add (new GLib.IdleHandler (removeParseInfo));
+		}
+
+		bool removeParseInfo ()
+		{
+			if (remove_e != null) {
+				RemoveParseInformation (Nodes, remove_e);
+				remove_e = null;
+			}
+			return false;
 		}
 
 		private void OnNodeActivated(object sender, Gtk.RowActivatedArgs args)
