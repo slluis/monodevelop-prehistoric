@@ -270,7 +270,11 @@ namespace MonoDevelop.EditorBindings.Properties {
 				
 				switch (s) {
 				case "__default_monospace":
-					return FontDescription.FromString ((string) new GConf.Client ().Get ("/desktop/gnome/interface/monospace_font_name"));
+					try {
+						return FontDescription.FromString ((string) new GConf.Client ().Get ("/desktop/gnome/interface/monospace_font_name"));
+					} catch {
+						goto case "__default_sans";
+					}
 				case "__default_sans":
 					return new Gtk.Label ("").Style.FontDescription;
 				default:
