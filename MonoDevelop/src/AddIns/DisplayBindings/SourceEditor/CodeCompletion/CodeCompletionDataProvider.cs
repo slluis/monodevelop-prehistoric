@@ -59,40 +59,21 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 			
 			caretLineNumber      = insertIter.Line + 1;
 			caretColumn          = insertIter.LineOffset + 1;
-			string expression    = TextUtilities.GetExpressionBeforeOffset (textArea, insertIter.Offset);
+			//string expression    = TextUtilities.GetExpressionBeforeOffset (textArea, insertIter.Offset);
 			ResolveResult results;
 			
-			if (expression.Length == 0) {
-				return null;
-			}
-			
-			IParserService           parserService           = (IParserService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IParserService));
+			IParserService parserService = (IParserService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IParserService));
+			IExpressionFinder expressionFinder = parserService.GetExpressionFinder(fileName);
+			string expression    = expressionFinder == null ? TextUtilities.GetExpressionBeforeOffset(textArea, insertIter.Offset) : expressionFinder.FindExpression(textArea.Buffer.GetText(textArea.Buffer.StartIter, insertIter, true), insertIter.Offset - 2);
+			Console.WriteLine ("Expression: >{0}<", expression);
 			if (charTyped == ' ') {
 				if (expression == "using" || expression.EndsWith(" using") || expression.EndsWith("\tusing")|| expression.EndsWith("\nusing")|| expression.EndsWith("\rusing")) {
 					string[] namespaces = parserService.GetNamespaceList("");
-//					AddResolveResults(new ResolveResult(namespaces, ShowMembers.Public));
 					AddResolveResults(new ResolveResult(namespaces));
-//					IParseInformation info = parserService.GetParseInformation(fileName);
-//					ICompilationUnit unit = info.BestCompilationUnit as ICompilationUnit;
-//					if (unit != null) {
-//						foreach (IUsing u in unit.Usings) {
-//							if (u.Region.IsInside(caretLineNumber, caretColumn)) {
-//								foreach (string usingStr in u.Usings) {
-//									results = parserService.Resolve(usingStr, caretLineNumber, caretColumn, fileName);
-//									AddResolveResults(results);
-//								}
-//								if (u.Aliases[""] != null) {
-//									results = parserService.Resolve(u.Aliases[""].ToString(), caretLineNumber, caretColumn, fileName);
-//									AddResolveResults(results);
-//								}
-//							}
-//						}
-//					}
 				}
 			} else {
 				//FIXME: I added the null check, #D doesnt need it, why do we?
 				if (fileName != null) {
-					//Console.WriteLine ("resolve " + lang);
 					results = parserService.Resolve(expression, 
 				                                caretLineNumber,
 				                                caretColumn,
