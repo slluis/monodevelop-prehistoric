@@ -550,6 +550,8 @@ namespace MonoDevelop.Internal.Project
 					try {
 						if (destinationFileName != referenceFileName) {
 							File.Copy(referenceFileName, destinationFileName, true);
+							if (File.Exists (referenceFileName + ".mdb"))
+								File.Copy (referenceFileName + ".mdb", destinationFileName + ".mdb", true);
 						}
 					} catch (Exception e) {
 						Console.WriteLine("Can't copy reference file from {0} to {1} reason {2}", referenceFileName, destinationFileName, e);

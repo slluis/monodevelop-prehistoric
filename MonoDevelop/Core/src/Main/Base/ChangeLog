@@ -1,5 +1,12 @@
 2004-10-07  Todd Berman  <tberman@off.net>
 
+	* Internal/Project/Project/AbstractProject.cs: Make sure to copy the
+	.mdb file if it exists when pushing the new dll into the AppBase of
+	the executing assembly. This gives debug info for supporting dlls
+	under 1.1.x and HEAD when you click 'Run'.
+
+2004-10-07  Todd Berman  <tberman@off.net>
+
 	* Servers/MessageService.cs: Fix a little (but important) bug with
 	ShowMessage not properly working. Now you can actually *close* the
 	window. Pretty good.
