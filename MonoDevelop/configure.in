@@ -145,7 +145,6 @@ build/data/templates/file/Makefile
 build/data/templates/file/CSharp/Makefile
 build/data/templates/file/SharpDevelop/Makefile
 build/data/templates/file/Nemerle/Makefile
-build/data/templates/file/VBNet/Makefile
 build/data/templates/project/Makefile
 build/data/templates/project/CSharp/Makefile
 build/data/templates/project/Java/Makefile
