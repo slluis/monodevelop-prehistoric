@@ -17,13 +17,12 @@ make install
 </pre>
       </p>
       
-
+      <br /><br />
       <div class="headlinebar">Getting Started: Preliminaries</div>
       <p>There are some packages which are required before installing MonoDevelop. The following 
       instructions guide you through installing them.
       </p>
 
-      <br /><br />
       <b>1. ORBit2 2.8.3</b>
       <p>Although newer versions of ORBit <i>may</i> work, they have been known to produce non-fatal crashes when MonoDevelop exits. If in doubt, <a href="http://ftp.gnome.org/pub/GNOME/sources/ORBit2/2.8/ORBit2-2.8.3.tar.gz">download ORBit 2.8.3</a>.</p>
 
@@ -105,6 +104,5 @@ all the bugs you find.</p>
 and is licensed under the Creative Commons License. If this document contains errors or could 
 be improved, please let me know.</p>
       
-      <br /><br />
 
 <ccms:PageFooter runat="server"/>
