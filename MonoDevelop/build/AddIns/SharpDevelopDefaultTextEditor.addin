@@ -6,8 +6,8 @@
        version     = "1.0.0">
 	
 	<Runtime>
-		<Import assembly="../bin/ICSharpCode.TextEditor.dll"/>
-		<Import assembly="../bin/SharpDevelop.DefaultTexteditor.dll"/>
+		<Import assembly="../bin/MonoDevelop.TextEditor.dll"/>
+		<Import assembly="../bin/MonoDevelop.DefaultTexteditor.dll"/>
 	</Runtime>
 	
 	<Extension path = "/SharpDevelop/Dialogs/OptionsDialog/CodingOptions">

@@ -8,7 +8,7 @@ using System.Runtime.CompilerServices;
 // you compile.
 
 [assembly: AssemblyTitle("StartPage")]
-[assembly: AssemblyDescription("VS style Start Page for #develop")]
+[assembly: AssemblyDescription("VS style Start Page for MonoDevelop")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Georg Brandl")]
 [assembly: AssemblyProduct("")]
@@ -23,7 +23,7 @@ using System.Runtime.CompilerServices;
 // You can specify all values by your own or you can build default build and revision
 // numbers with the '*' character (the default):
 
-[assembly: AssemblyVersion("1.0.*")]
+[assembly: AssemblyVersion("0.1.0.0")]
 
 // The following attributes specify the key for the sign of your assembly. See the
 // .NET Framework documentation for more information about signing.

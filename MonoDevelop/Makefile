@@ -1,9 +1,9 @@
-PROGRAM=build/bin/SharpDevelop.exe
+PROGRAM=build/bin/MonoDevelop.exe
 MONOPAD=build/bin/MonoPad.exe
 GTKMOZEMBED=build/bin/gtkmozembed-sharp.dll
 QMAKE=@ $(MAKE)
 
-$(PROGRAM): $(GTKMOZEMBED) SharpDevelop.Base SharpDevelop.DefaultTexteditor CSharpBinding StartPage
+$(PROGRAM): $(GTKMOZEMBED) MonoDevelop.Base MonoDevelop.DefaultTexteditor CSharpBinding StartPage
 	@ echo Building $@
 	$(QMAKE) -C src/Main/StartUp
 
@@ -11,7 +11,7 @@ $(GTKMOZEMBED):
 	@ echo Building $@
 	$(QMAKE) -C gtkmozembed-sharp
 
-$(MONOPAD): ICSharpCode.TextEditor
+$(MONOPAD): MonoDevelop.TextEditor
 	@ echo Building $@
 	$(QMAKE) -C samples/MonoPad
 
@@ -27,19 +27,19 @@ CSharpBinding:
 	@ echo Building $@
 	$(QMAKE) -C src/AddIns/BackendBindings/CSharpBinding
 
-SharpDevelop.DefaultTexteditor: ICSharpCode.TextEditor
+MonoDevelop.DefaultTexteditor: MonoDevelop.TextEditor
 	@ echo Building $@
 	$(QMAKE) -C src/AddIns/DisplayBindings/TextEditor
 
-SharpDevelop.Base: ICSharpCode.Core ICSharpCode.SharpRefactory ICSharpCode.SharpAssembly MonoDevelop.Gui
+MonoDevelop.Base: MonoDevelop.Core ICSharpCode.SharpRefactory ICSharpCode.SharpAssembly MonoDevelop.Gui
 	@ echo Building $@
 	$(QMAKE) -C src/Main/Base
 
-ICSharpCode.Core:
+MonoDevelop.Core:
 	@ echo Building $@
 	$(QMAKE) -C src/Main/Core
 
-ICSharpCode.TextEditor:
+MonoDevelop.TextEditor:
 	@ echo Building $@
 	$(QMAKE) -C src/Libraries/ICSharpCode.TextEditor 
 
@@ -56,9 +56,9 @@ clean:
 	find ./build/ -name '*.exe' | xargs rm -f
 
 # Should change when IDE starts working
-run: runsd
+run: runmd
 
-runsd: $(PROGRAM)
+runmd: $(PROGRAM)
 	./monodevelop
 
 pad: $(MONOPAD)
@@ -67,7 +67,7 @@ runpad: $(MONOPAD)
 	cd build/bin && mono MonoPad.exe
 
 run-profile: $(PROGRAM)
-	cd build/bin && mono -O=inline --profile SharpDevelop.exe
+	cd build/bin && mono -O=inline --profile MonoDevelop.exe
 
 profile-pad: $(MONOPAD)
 	cd build/bin && mono -O=inline --profile MonoPad.exe

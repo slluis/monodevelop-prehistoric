@@ -30,14 +30,14 @@ RESOURCES= \
 /resource:$(BASEDIR)/data/resources/StringResources.br.resources \
 /resource:$(BASEDIR)/data/resources/SplashScreen.png,SplashScreen.png
 
-DLL=../../../build/bin/SharpDevelop.exe
+DLL=../../../build/bin/MonoDevelop.exe
 
 all: $(DLL)
 
 $(DLL): $(SOURCES)
 	@ mcs /debug /out:$(DLL) /r:System.Drawing.dll \
-		/r:../../../build/bin/ICSharpCode.Core.dll \
-		/r:../../../build/bin/SharpDevelop.Base.dll \
+		/r:../../../build/bin/MonoDevelop.Core.dll \
+		/r:../../../build/bin/MonoDevelop.Base.dll \
 		/r:glib-sharp.dll \
 		/define:GTK /r:gtk-sharp.dll /r:gdk-sharp.dll \
 		/r:gnome-sharp.dll \

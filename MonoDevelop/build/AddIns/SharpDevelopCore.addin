@@ -6,7 +6,7 @@
        version     = "1.0.0">
 
 	<Runtime>
-		<Import assembly="../bin/SharpDevelop.Base.dll"/>
+		<Import assembly="../bin/MonoDevelop.Base.dll"/>
 	</Runtime>
 
 	<Extension path = "/SharpDevelop/Workbench/Ambiences">

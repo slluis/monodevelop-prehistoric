@@ -98,7 +98,7 @@ SOURCES= \
 ./src/Document/FoldingStrategy/IndentFoldingStrategy.cs \
 ./src/Document/DocumentFactory.cs \
 
-DLL=../../../build/bin/ICSharpCode.TextEditor.dll
+DLL=../../../build/bin/MonoDevelop.TextEditor.dll
 
 all: $(DLL)
 

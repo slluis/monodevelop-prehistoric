@@ -7,16 +7,15 @@
 using System.Reflection;
 using System.Runtime.CompilerServices;
 
-[assembly: AssemblyTitle("ICSharpCode.TextEditor")]
+[assembly: AssemblyTitle("MonoDevelop.TextEditor")]
 [assembly: AssemblyDescription("A .NET text editor control")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("ICSharpCode.net")]
-[assembly: AssemblyProduct("ICSharpCode.TextEditor")]
+[assembly: AssemblyProduct("MonoDevelop.TextEditor")]
 [assembly: AssemblyCopyright("ICSharpCode")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
-[assembly: AssemblyVersion("2.0.0.0")]
+[assembly: AssemblyVersion("0.1.0.0")]
 
 [assembly: AssemblyDelaySign(false)]
 //[assembly: AssemblyKeyFile("../../data/ICSharpCode.TextEditor.key")]

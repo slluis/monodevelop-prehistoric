@@ -8,16 +8,16 @@
 using System.Reflection;
 using System.Runtime.CompilerServices;
 
-[assembly: AssemblyTitle("SharpDevelopDefaultEditor")]
-[assembly: AssemblyDescription("Default texteditor add-in of SharpDevelop")]
+[assembly: AssemblyTitle("MonoDevelopDefaultEditor")]
+[assembly: AssemblyDescription("Default texteditor add-in of MonoDevelop")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("SharpDevelop")]
+[assembly: AssemblyProduct("MonoDevelop")]
 [assembly: AssemblyCopyright("Mike Krueger 2000")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
-[assembly: AssemblyVersion("0.96.1.1")]
+[assembly: AssemblyVersion("0.1.0.0")]
 
 [assembly: AssemblyDelaySign(false)]
 [assembly: AssemblyKeyFile("")]

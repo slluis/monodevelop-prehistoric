@@ -26,4 +26,4 @@ MOZILLA_FIVE_HOME=$MOZILLA_HOME
 export MOZILLA_FIVE_HOME
 
 cd build/bin
-mono --debug ./SharpDevelop.exe $@
+mono --debug ./MonoDevelop.exe $@

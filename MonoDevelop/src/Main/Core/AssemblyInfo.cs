@@ -8,16 +8,16 @@
 using System.Reflection;
 using System.Runtime.CompilerServices;
 
-[assembly: AssemblyTitle("ICSharpCode.Core")]
-[assembly: AssemblyDescription("The ICSharpCode Core containing the AddInTree and service Subsystem")]
+[assembly: AssemblyTitle("MonoDevelop.Core")]
+[assembly: AssemblyDescription("The MonoDevelop Core containing the AddInTree and service Subsystem")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("ICSharpCode.Core")]
+[assembly: AssemblyProduct("MonoDevelop.Core")]
 [assembly: AssemblyCopyright("Mike Krueger 2000-2003")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
-[assembly: AssemblyVersion("1.0.4.2")]
+[assembly: AssemblyVersion("0.1.0.0")]
 
 [assembly: AssemblyDelaySign(false)]
 //[assembly: AssemblyKeyFile("..\\src\\Main\\Core\\CoreKey.key")]

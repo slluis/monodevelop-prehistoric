@@ -31,9 +31,9 @@ all: $(DLL)
 
 $(DLL): $(SOURCES)
 	@ mcs /debug /out:$(DLL) /target:library /r:System.Drawing.dll \
-		/r:../../../../build/bin/ICSharpCode.Core.dll \
-		/r:../../../../build/bin/ICSharpCode.TextEditor.dll \
-		/r:../../../../build/bin/SharpDevelop.Base.dll \
+		/r:../../../../build/bin/MonoDevelop.Core.dll \
+		/r:../../../../build/bin/MonoDevelop.TextEditor.dll \
+		/r:../../../../build/bin/MonoDevelop.Base.dll \
 		/r:../../../../build/bin/ICSharpCode.SharpRefactory.dll \
 		/r:gtk-sharp.dll \
 		$(SOURCES)

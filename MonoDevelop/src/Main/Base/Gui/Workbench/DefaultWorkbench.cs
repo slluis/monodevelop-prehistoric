@@ -136,7 +136,8 @@ namespace ICSharpCode.SharpDevelop.Gui
 		public DefaultWorkbench() : base ("MonoDevelop")
 		{
 			ResourceService resourceService = (ResourceService)ServiceManager.Services.GetService(typeof(IResourceService));
-			Title = resourceService.GetString("MainWindow.DialogName");
+			// FIXME: edit the name in the resource
+			//Title = resourceService.GetString("MainWindow.DialogName");
 		
 			windowChangeEventHandler = new EventHandler(OnActiveWindowChanged);
 

@@ -62,15 +62,15 @@ SOURCES = \
 ./AssemblyInfo.cs \
 ./XmlFormattingStrategy.cs
 
-DLL=../../../../build/bin/SharpDevelop.DefaultTexteditor.dll
+DLL=../../../../build/bin/MonoDevelop.DefaultTexteditor.dll
 
 all: $(DLL)
 
 $(DLL): $(SOURCES) ../../../../data/resources/glade/texteditoraddin.glade
 	@ mcs /debug /out:$(DLL) /target:library /r:System.Drawing.dll \
-		/r:../../../../build/bin/ICSharpCode.Core.dll \
-		/r:../../../../build/bin/ICSharpCode.TextEditor.dll \
-		/r:../../../../build/bin/SharpDevelop.Base.dll \
+		/r:../../../../build/bin/MonoDevelop.Core.dll \
+		/r:../../../../build/bin/MonoDevelop.TextEditor.dll \
+		/r:../../../../build/bin/MonoDevelop.Base.dll \
 		/r:System.DirectoryServices.dll /r:pango-sharp.dll /r:glade-sharp.dll \
 		/r:MonoDevelop.Gui /r:glib-sharp.dll \
 		/resource:../../../../data/resources/glade/texteditoraddin.glade,texteditoraddin.glade \

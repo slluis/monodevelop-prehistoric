@@ -6,7 +6,7 @@
        version     = "1.0.0">
 	
 	<Runtime>
-		<Import assembly="ICSharpCode.StartPage.dll"/>
+		<Import assembly="MonoDevelop.StartPage.dll"/>
 	</Runtime>
 
 	<Extension path = "/SharpDevelop/Workbench/MainMenu/View">

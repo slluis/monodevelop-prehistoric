@@ -58,7 +58,7 @@ SOURCES= \
 ./AddIns/AddInCollection.cs \
 ./AddIns/AddInSignatureException.cs
 
-DLL=../../../build/bin/ICSharpCode.Core.dll
+DLL=../../../build/bin/MonoDevelop.Core.dll
 
 RESOURCES= \
 /resource:../../../data/resources/AddIn.xsd,AddIn.xsd \
