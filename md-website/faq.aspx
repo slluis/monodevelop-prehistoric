@@ -12,6 +12,11 @@
 
       <div class="headlinebar">FAQ</div>
 
+<p>Where do I get gecko-sharp.pc?</p>
+
+<p>gecko-sharp.pc can be found in the gtkmozembed-sharp CVS module in the Mono
+CVS repository.</p>
+
 <p>Why aren't my C# files syntax highlighted?</p>
        
 <p>GNOME doesn't recognize *.cs files as the text/x-csharp
