@@ -12,12 +12,12 @@ using System.IO;
 using ICSharpCode.Core.AddIns;
 using ICSharpCode.Core.Properties;
 using ICSharpCode.Core.Services;
+
 using ICSharpCode.SharpDevelop.Services;
 using ICSharpCode.SharpDevelop.Gui;
 using ICSharpCode.SharpDevelop.Internal.Project;
 using ICSharpCode.SharpDevelop.Internal.Templates;
 using ICSharpCode.SharpDevelop.Gui.XmlForms;
-
 using MonoDevelop.Gui;
 using Gtk;
 using GladeSharp;
@@ -34,6 +34,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs {
 		Hashtable icons        = new Hashtable();
 		
 		IconView TemplateView;
+		FolderEntry entry_location;
 		TreeStore catStore;
 		
 		[Glade.Widget ("NewProjectDialog")] Dialog dialog;
@@ -46,7 +47,6 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs {
 		
 		[Glade.Widget] Gtk.Entry txt_name, txt_subdirectory;
 		[Glade.Widget] CheckButton chk_combine_directory;
-		[Glade.Widget] Gnome.FileEntry entry_location;
 		
 		[Glade.Widget] Gtk.TreeView lst_template_types;
 		[Glade.Widget] HBox hbox_template, hbox_for_browser;
@@ -181,9 +181,9 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs {
 		string ProjectLocation {
 			get {
 				if (chk_combine_directory.Active)
-					return System.IO.Path.Combine (entry_location.GtkEntry.Text, txt_name.Text);
+					return Path.Combine (entry_location.Path, txt_name.Text);
 				
-				return entry_location.GtkEntry.Text;
+				return entry_location.Path;
 			}
 		}
 		
@@ -228,8 +228,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs {
 			FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.Services.GetService(typeof(FileUtilityService));
 			string solution = txt_subdirectory.Text;
 			string name     = txt_name.Text;
-			string location = entry_location.GtkEntry.Text;
-			
+			string location = entry_location.Path;
 			if ((solution != null && solution.Trim () != "" 
 				&& (!fileUtilityService.IsValidFileName (solution) || solution.IndexOf(System.IO.Path.DirectorySeparatorChar) >= 0)) ||
 			    !fileUtilityService.IsValidFileName(name)     || name.IndexOf(System.IO.Path.DirectorySeparatorChar) >= 0 ||
@@ -363,16 +362,17 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs {
 			//label = stringParserService.Parse ("${res:Dialog.NewProject.NameLabelText}");
 			//label = stringParserService.Parse ("${res:Dialog.NewProject.checkBox1Text}");
 			//label = stringParserService.Parse ("${res:Dialog.NewProject.autoCreateSubDirCheckBox}");
+			entry_location = new FolderEntry ("Combine Location");
+			hbox_for_browser.PackStart (entry_location, true, true, 0);
 			
 			
 			entry_location.DefaultPath = propertyService.GetProperty ("ICSharpCode.SharpDevelop.Gui.Dialogs.NewProjectDialog.DefaultPath", fileUtilityService.GetDirectoryNameWithSeparator (Environment.GetFolderPath (Environment.SpecialFolder.Personal)) + "MonoDevelopProjects").ToString ();
-			entry_location.GtkEntry.Text = entry_location.DefaultPath;
 			
 			PathChanged (null, null);
 			
 			TemplateView.IconSelected += new EventHandler(SelectedIndexChange);
 			TemplateView.IconDoubleClicked += new EventHandler(OpenEvent);
-			entry_location.Changed += new EventHandler (PathChanged);
+			entry_location.PathChanged += new EventHandler (PathChanged);
 		}
 		
 		/// <summary>
