@@ -1,7 +1,7 @@
 
 CSC = mcs /debug
 ASSEMBLY = MonoDevelop.Nunit.dll
-ADDIN = $(srcdir)/MonoDevelopNunit.addin
+ADDIN = $(srcdir)/MonoDevelopNunit.addin.xml
 
 DLLS = /r:NUnit.Framework.dll \
 	/r:gtk-sharp.dll /r:glib-sharp.dll /r:gdk-sharp.dll \

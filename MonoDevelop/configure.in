@@ -148,7 +148,6 @@ src/Libraries/MonoDevelop.Core/Makefile
 src/Libraries/MonoDevelop.Gui.Utils/Makefile
 src/Libraries/MonoDevelop.Gui.Widgets/Makefile
 src/Libraries/SharpAssembly/Makefile
-src/Libraries/CsVbRefactory/Makefile
 src/Libraries/SharpRefactory/Makefile
 src/Tools/Makefile
 src/Tools/SharpCoco/Makefile
