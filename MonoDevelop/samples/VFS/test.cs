@@ -16,6 +16,10 @@ class T
 			string icon = Vfs.GetIcon (mt);
 			Console.WriteLine (mt);
 			Console.WriteLine (icon);
+
+			string data = "<html></html>";
+			mt = Vfs.GetMimeTypeFromData (data);
+			Console.WriteLine (mt);
 		}
 		else
 		{
