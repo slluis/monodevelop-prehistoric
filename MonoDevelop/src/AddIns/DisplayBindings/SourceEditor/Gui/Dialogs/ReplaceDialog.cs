@@ -41,8 +41,8 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 		StringParserService stringParserService = (StringParserService)ServiceManager.Services.GetService (typeof (StringParserService));
 		
 		// gtk widgets
-		[Glade.Widget] Gtk.Combo searchPatternComboBox;
-		[Glade.Widget] Gtk.Combo replacePatternComboBox;
+		[Glade.Widget] Gnome.Entry searchPatternEntry;
+		[Glade.Widget] Gnome.Entry replacePatternEntry;
 		[Glade.Widget] Gtk.Button findHelpButton;
 		[Glade.Widget] Gtk.Button findButton;
 		[Glade.Widget] Gtk.Button markAllButton;
@@ -56,8 +56,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 		[Glade.Widget] Gtk.OptionMenu specialSearchStrategyComboBox;
 		[Glade.Widget] Gtk.OptionMenu searchLocationComboBox;
 		[Glade.Widget] Gtk.Label label1;
-		[Glade.Widget] Gtk.Label label2;
-		[Glade.Widget] Gtk.Entry combo_entry1;
+		[Glade.Widget] Gtk.Label label2;		
 		[Glade.Widget] Gtk.Label searchLocationLabel;
 		[Glade.Widget] Gtk.Dialog FindDialogWidget;
 		[Glade.Widget] Gtk.Dialog ReplaceDialogWidget;
@@ -83,7 +82,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 			SizeGroup helpButtons = new SizeGroup(SizeGroupMode.Horizontal);
 			SizeGroup checkButtons = new SizeGroup(SizeGroupMode.Horizontal);
 			labels.AddWidget(label1);			
-			combos.AddWidget(searchPatternComboBox);
+			combos.AddWidget(searchPatternEntry);
 			helpButtons.AddWidget(findHelpButton);
 			checkButtons.AddWidget(ignoreCaseCheckBox);
 			checkButtons.AddWidget(searchWholeWordOnlyCheckBox);
@@ -108,7 +107,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 				
 				// set te size groups to include the replace dialog
 				labels.AddWidget(label2);
-				combos.AddWidget(replacePatternComboBox);
+				combos.AddWidget(replacePatternEntry);
 				helpButtons.AddWidget(replaceHelpButton);
 				
 				replaceHelpButton.Sensitive = false;
@@ -191,7 +190,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 			}
 			searchLocationComboBox.SetHistory (index);
 			
-			searchPatternComboBox.Entry.Text  = SearchReplaceManager.SearchOptions.SearchPattern;
+			searchPatternEntry.GtkEntry.Text  = SearchReplaceManager.SearchOptions.SearchPattern;
 			
 			// insert event handlers
 			findButton.Clicked  += new EventHandler(FindNextEvent);
@@ -203,14 +202,14 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 				ReplaceDialogPointer.Title = resourceService.GetString("Dialog.NewProject.SearchReplace.ReplaceDialogName");
 				replaceButton.Clicked    += new EventHandler(ReplaceEvent);
 				replaceAllButton.Clicked += new EventHandler(ReplaceAllEvent);
-				replacePatternComboBox.Entry.Text = SearchReplaceManager.SearchOptions.ReplacePattern;
+				replacePatternEntry.GtkEntry.Text = SearchReplaceManager.SearchOptions.ReplacePattern;
 			} else {
 				ReplaceDialogPointer.Title = resourceService.GetString("Dialog.NewProject.SearchReplace.FindDialogName");
 				markAllButton.Clicked    += new EventHandler(MarkAllEvent);
 			}
-			combo_entry1.SelectRegion(0, 999);
+			searchPatternEntry.GtkEntry.SelectRegion(0, searchPatternEntry.GtkEntry.Text.Length);
 			
-				//ControlDictionary["replacePatternComboBox"].Visible = false;
+				//ControlDictionary["replacePatternEntry"].Visible = false;
 				//ControlDictionary["replaceAllButton"].Visible       = false;
 				//ControlDictionary["replacePatternLabel"].Visible    = false;
 				//ControlDictionary["replacePatternButton"].Visible   = false;
@@ -236,14 +235,14 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 
 		public void SetSearchPattern(string pattern)
 		{
-			searchPatternComboBox.Entry.Text  = pattern;
+			searchPatternEntry.GtkEntry.Text  = pattern;
 		}
 		
 		void SetupSearchReplaceManager()
 		{
-			SearchReplaceManager.SearchOptions.SearchPattern  = searchPatternComboBox.Entry.Text;
+			SearchReplaceManager.SearchOptions.SearchPattern  = searchPatternEntry.GtkEntry.Text;
 			if (replaceMode) {
-				SearchReplaceManager.SearchOptions.ReplacePattern = replacePatternComboBox.Entry.Text;
+				SearchReplaceManager.SearchOptions.ReplacePattern = replacePatternEntry.GtkEntry.Text;
 			}
 			
 			SearchReplaceManager.SearchOptions.IgnoreCase          = !ignoreCaseCheckBox.Active;
@@ -277,7 +276,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 		
 		void FindNextEvent(object sender, EventArgs e)
 		{
-			if (searchPatternComboBox.Entry.Text.Length == 0) {
+			if (searchPatternEntry.GtkEntry.Text.Length == 0) {
 				return;
 			}
 			
@@ -291,12 +290,12 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 				//Cursor = Cursors.Default;
 			}
 			
-			AddSearchHistoryItem(findHistory, searchPatternComboBox.Entry.Text);
+			AddSearchHistoryItem(findHistory, searchPatternEntry.GtkEntry.Text);
 		}
 		
 		void ReplaceEvent(object sender, EventArgs e)
 		{
-			if (searchPatternComboBox.Entry.Text.Length == 0) {
+			if (searchPatternEntry.GtkEntry.Text.Length == 0) {
 				return;
 			}
 			
@@ -310,12 +309,12 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 				//Cursor = Cursors.Default;
 			}
 			
-			AddSearchHistoryItem(replaceHistory, replacePatternComboBox.Entry.Text);
+			AddSearchHistoryItem(replaceHistory, replacePatternEntry.GtkEntry.Text);
 		}
 		
 		void ReplaceAllEvent(object sender, EventArgs e)
 		{
-			if (searchPatternComboBox.Entry.Text.Length == 0) {
+			if (searchPatternEntry.GtkEntry.Text.Length == 0) {
 				return;
 			}
 			
@@ -328,12 +327,12 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 				//Cursor = Cursors.Default;
 			}
 			
-			AddSearchHistoryItem(replaceHistory, replacePatternComboBox.Entry.Text);
+			AddSearchHistoryItem(replaceHistory, replacePatternEntry.GtkEntry.Text);
 		}
 		
 		void MarkAllEvent(object sender, EventArgs e)
 		{
-			if (searchPatternComboBox.Entry.Text.Length == 0) {
+			if (searchPatternEntry.GtkEntry.Text.Length == 0) {
 				return;
 			}
 			
@@ -346,7 +345,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 				//Cursor = Cursors.Default;
 			}
 			
-			AddSearchHistoryItem(findHistory, searchPatternComboBox.Entry.Text);
+			AddSearchHistoryItem(findHistory, searchPatternEntry.GtkEntry.Text);
 		}
 		
 		void CloseDialogEvent(object sender, EventArgs e)
@@ -380,9 +379,9 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 			string[] stringArray = new string[history.Count];
 			history.CopyTo(stringArray, 0);
 			if (history == findHistory) {
-				searchPatternComboBox.PopdownStrings = stringArray;
+				searchPatternEntry.PopdownStrings = stringArray;
 			} else if( history == replaceHistory) {
-				replacePatternComboBox.PopdownStrings = stringArray;
+				replacePatternEntry.PopdownStrings = stringArray;
 			}
 		}
 		
@@ -396,7 +395,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 		
 			if(stringArray != null) {
 				findHistory.AddRange(stringArray.ToString().Split(HISTORY_SEPARATOR_CHAR));
-				searchPatternComboBox.PopdownStrings = stringArray.ToString().Split(HISTORY_SEPARATOR_CHAR);
+				searchPatternEntry.PopdownStrings = stringArray.ToString().Split(HISTORY_SEPARATOR_CHAR);
 			}
 			
 			// now do the replace history
@@ -404,7 +403,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 				stringArray = propertyService.GetProperty("MonoDevelop.FindReplaceDialogs.ReplaceHistory");
 				if(stringArray != null) {
 					replaceHistory.AddRange(stringArray.ToString().Split(HISTORY_SEPARATOR_CHAR));
-					replacePatternComboBox.PopdownStrings = stringArray.ToString().Split(HISTORY_SEPARATOR_CHAR);
+					replacePatternEntry.PopdownStrings = stringArray.ToString().Split(HISTORY_SEPARATOR_CHAR);
 				}
 			}
 		}
@@ -443,7 +442,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 		public void ShowAll()
 		{
 			ReplaceDialogPointer.ShowAll();
-			searchPatternComboBox.Entry.SelectRegion (0, searchPatternComboBox.Entry.Text.Length);
+			searchPatternEntry.GtkEntry.SelectRegion (0, searchPatternEntry.GtkEntry.Text.Length);
 		}
 		#endregion
 	}

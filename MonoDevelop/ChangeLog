@@ -1,3 +1,12 @@
+2004-03-05  John BouAntoun  <jba-mono@optusnet.com.au>
+	
+	* src/AddIns/DisplayBindings/SourceEditor/Gui/Dialogs/ReplaceDialog.cs : 
+	changed Gtk.Combo's to Gnome.Entry's to fix bug where MD would lock up with 
+	hidden "Not Found" Dialog popping up under the find dialog
+	* src/AddIns/DisplayBindings/SourceEditor/Gui/Dialogs/ReplaceInFilesDialog.cs: 
+	as above
+	* data/resources/glade/texteditoraddin.glade : as above
+
 2004-03-05  John Luke  <jluke@cfl.rr.com>
 	
 	* src/Main/Base/Gui/Dialogs/ReferenceDialog/AssemblyReferencePanel.cs:
@@ -11,8 +20,10 @@
 
 2004-03-05  John BouAntoun  <jba-mono@optusnet.com.au>
 
-	* src/Main/Base/Gui/Dialogs/ProjectOptionsDialog.cs : added configuration renaming
-	* src/Main/Base/Gui/Dialogs/TreeViewOptions.cs : made InitializeComponent virtual so ProjectOptionDialog could override (see above)
+	* src/Main/Base/Gui/Dialogs/ProjectOptionsDialog.cs : added configuration 
+	renaming
+	* src/Main/Base/Gui/Dialogs/TreeViewOptions.cs : made InitializeComponent 
+	virtual so ProjectOptionDialog could override (see above)
 
 2004-03-04  Mike Kestner  <mkestner@ximian.com>
 

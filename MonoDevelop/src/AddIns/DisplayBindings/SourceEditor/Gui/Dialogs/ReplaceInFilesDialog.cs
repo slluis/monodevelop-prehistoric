@@ -1,7 +1,7 @@
 // <file>
 //     <copyright see="prj:///doc/copyright.txt"/>
 //     <license see="prj:///doc/license.txt"/>
-//     <owner name="Mike Krüger" email="mike@icsharpcode.net"/>
+//     <owner name="Mike Krï¿½ger" email="mike@icsharpcode.net"/>
 //     <version value="$version"/>
 // </file>
 
@@ -33,8 +33,8 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 		static PropertyService propertyService = (PropertyService)ServiceManager.Services.GetService(typeof(PropertyService));
 		public bool replaceMode;
 
-		[Glade.Widget] Gtk.Combo searchPatternComboBox;
-		[Glade.Widget] Gtk.Combo replacePatternComboBox;
+		[Glade.Widget] Gnome.Entry searchPatternEntry;
+		[Glade.Widget] Gnome.Entry replacePatternEntry;
 		[Glade.Widget] Gtk.Button findHelpButton;
 		[Glade.Widget] Gtk.Button findButton;
 		[Glade.Widget] Gtk.Button markAllButton;
@@ -87,7 +87,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 			labels.AddWidget(label1);
 			labels.AddWidget(label6);
 			labels.AddWidget(label7);
-			combos.AddWidget(searchPatternComboBox);
+			combos.AddWidget(searchPatternEntry);
 			combos.AddWidget(directoryTextBox);
 			combos.AddWidget(fileMaskTextBox);
 			helpButtons.AddWidget(findHelpButton);
@@ -114,7 +114,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 				
 				// set te size groups to include the replace dialog
 				labels.AddWidget(label2);
-				combos.AddWidget(replacePatternComboBox);
+				combos.AddWidget(replacePatternEntry);
 				helpButtons.AddWidget(replaceHelpButton);
 				
 				replaceHelpButton.Sensitive = false;
@@ -158,7 +158,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 		{
 			ReplaceDialogPointer.ShowAll ();
 			SearchReplaceInFilesManager.ReplaceDialog = this;
-			searchPatternComboBox.Entry.SelectRegion (0, searchPatternComboBox.Entry.Text.Length);
+			searchPatternEntry.GtkEntry.SelectRegion (0, searchPatternEntry.GtkEntry.Text.Length);
 		}
 
 		public ReplaceInFilesDialog(bool replaceMode)
@@ -172,14 +172,14 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 			/*
 			if (replaceMode) {
 				this.SetupFromXml(propertyService.DataDirectory + @"\resources\dialogs\ReplaceInFilesDialog.xfrm");
-				ControlDictionary["replacePatternComboBox"].Text = SearchReplaceInFilesManager.SearchOptions.ReplacePattern;
+				ControlDictionary["replacePatternEntry"].Text = SearchReplaceInFilesManager.SearchOptions.ReplacePattern;
 				ControlDictionary["replaceHelpButton"].Enabled = false;
 			} else {
 				this.SetupFromXml(propertyService.DataDirectory + @"\resources\dialogs\FindInFilesDialog.xfrm");
 			}*/
 			
 			//ControlDictionary["findHelpButton"].Enabled = false;
-			//ControlDictionary["searchPatternComboBox"].Text = SearchReplaceInFilesManager.SearchOptions.SearchPattern;
+			//ControlDictionary["searchPatternEntry"].Text = SearchReplaceInFilesManager.SearchOptions.SearchPattern;
 			
 			//AcceptButton = (Button)ControlDictionary["findButton"];
 			//CancelButton = (Button)ControlDictionary["closeButton"];
@@ -234,11 +234,11 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 			browseButton.Clicked += new EventHandler(BrowseDirectoryEvent);
 			findButton.Clicked += new EventHandler(FindEvent);
 			
-			searchPatternComboBox.Entry.Text = SearchReplaceInFilesManager.SearchOptions.SearchPattern;
+			searchPatternEntry.GtkEntry.Text = SearchReplaceInFilesManager.SearchOptions.SearchPattern;
 			
 			if (replaceMode) {
 				replaceAllButton.Clicked += new EventHandler(ReplaceEvent);
-				replacePatternComboBox.Entry.Text = SearchReplaceInFilesManager.SearchOptions.ReplacePattern;
+				replacePatternEntry.GtkEntry.Text = SearchReplaceInFilesManager.SearchOptions.ReplacePattern;
 			}
 			
 			ReplaceDialogPointer.Close += new EventHandler (CloseDialogEvent);
@@ -325,9 +325,9 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 			SearchReplaceInFilesManager.SearchOptions.SearchDirectory = directoryName;
 			SearchReplaceInFilesManager.SearchOptions.SearchSubdirectories = includeSubdirectoriesCheckBox.Active;
 			
-			SearchReplaceInFilesManager.SearchOptions.SearchPattern  = searchPatternComboBox.Entry.Text;
+			SearchReplaceInFilesManager.SearchOptions.SearchPattern  = searchPatternEntry.GtkEntry.Text;
 			if (replaceMode) {
-				SearchReplaceInFilesManager.SearchOptions.ReplacePattern = replacePatternComboBox.Entry.Text;
+				SearchReplaceInFilesManager.SearchOptions.ReplacePattern = replacePatternEntry.GtkEntry.Text;
 			}
 			
 			SearchReplaceInFilesManager.SearchOptions.IgnoreCase          = !ignoreCaseCheckBox.Active;

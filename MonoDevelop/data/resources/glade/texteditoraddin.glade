@@ -2,6 +2,7 @@
 <!DOCTYPE glade-interface SYSTEM "http://glade.gnome.org/glade-2.0.dtd">
 
 <glade-interface>
+<requires lib="gnome"/>
 
 <widget class="GtkDialog" id="GotoLineDialog">
   <property name="visible">True</property>
@@ -392,18 +393,15 @@
 	      </child>
 
 	      <child>
-		<widget class="GtkCombo" id="searchPatternComboBox">
+		<widget class="GnomeEntry" id="searchPatternEntry">
 		  <property name="visible">True</property>
-		  <property name="value_in_list">False</property>
-		  <property name="allow_empty">True</property>
-		  <property name="case_sensitive">False</property>
-		  <property name="enable_arrow_keys">True</property>
-		  <property name="enable_arrows_always">False</property>
+		  <property name="max_saved">20</property>
 
 		  <child internal-child="entry">
-		    <widget class="GtkEntry" id="combo_entry1">
+		    <widget class="GtkEntry" id="entry7">
 		      <property name="visible">True</property>
 		      <property name="can_focus">True</property>
+		      <property name="has_focus">True</property>
 		      <property name="editable">True</property>
 		      <property name="visibility">True</property>
 		      <property name="max_length">0</property>
@@ -411,13 +409,6 @@
 		      <property name="has_frame">True</property>
 		      <property name="invisible_char" translatable="yes">*</property>
 		      <property name="activates_default">True</property>
-		    </widget>
-		  </child>
-
-		  <child internal-child="list">
-		    <widget class="GtkList" id="combo-list1">
-		      <property name="visible">True</property>
-		      <property name="selection_mode">GTK_SELECTION_SINGLE</property>
 		    </widget>
 		  </child>
 		</widget>
@@ -478,16 +469,12 @@
 	      </child>
 
 	      <child>
-		<widget class="GtkCombo" id="replacePatternComboBox">
+		<widget class="GnomeEntry" id="replacePatternEntry">
 		  <property name="visible">True</property>
-		  <property name="value_in_list">False</property>
-		  <property name="allow_empty">True</property>
-		  <property name="case_sensitive">False</property>
-		  <property name="enable_arrow_keys">True</property>
-		  <property name="enable_arrows_always">False</property>
+		  <property name="max_saved">20</property>
 
 		  <child internal-child="entry">
-		    <widget class="GtkEntry" id="combo-entry2">
+		    <widget class="GtkEntry" id="entry9">
 		      <property name="visible">True</property>
 		      <property name="can_focus">True</property>
 		      <property name="editable">True</property>
@@ -496,14 +483,7 @@
 		      <property name="text" translatable="yes"></property>
 		      <property name="has_frame">True</property>
 		      <property name="invisible_char" translatable="yes">*</property>
-		      <property name="activates_default">True</property>
-		    </widget>
-		  </child>
-
-		  <child internal-child="list">
-		    <widget class="GtkList" id="combo-list2">
-		      <property name="visible">True</property>
-		      <property name="selection_mode">GTK_SELECTION_SINGLE</property>
+		      <property name="activates_default">False</property>
 		    </widget>
 		  </child>
 		</widget>
@@ -762,18 +742,15 @@
 	      </child>
 
 	      <child>
-		<widget class="GtkCombo" id="searchPatternComboBox">
+		<widget class="GnomeEntry" id="searchPatternEntry">
 		  <property name="visible">True</property>
-		  <property name="value_in_list">False</property>
-		  <property name="allow_empty">True</property>
-		  <property name="case_sensitive">False</property>
-		  <property name="enable_arrow_keys">True</property>
-		  <property name="enable_arrows_always">False</property>
+		  <property name="max_saved">20</property>
 
 		  <child internal-child="entry">
-		    <widget class="GtkEntry" id="combo-entry1">
+		    <widget class="GtkEntry" id="entry11">
 		      <property name="visible">True</property>
 		      <property name="can_focus">True</property>
+		      <property name="has_focus">True</property>
 		      <property name="editable">True</property>
 		      <property name="visibility">True</property>
 		      <property name="max_length">0</property>
@@ -781,13 +758,6 @@
 		      <property name="has_frame">True</property>
 		      <property name="invisible_char" translatable="yes">*</property>
 		      <property name="activates_default">True</property>
-		    </widget>
-		  </child>
-
-		  <child internal-child="list">
-		    <widget class="GtkList" id="combo-list1">
-		      <property name="visible">True</property>
-		      <property name="selection_mode">GTK_SELECTION_SINGLE</property>
 		    </widget>
 		  </child>
 		</widget>
@@ -835,7 +805,7 @@
 		  <property name="justify">GTK_JUSTIFY_LEFT</property>
 		  <property name="wrap">False</property>
 		  <property name="selectable">False</property>
-		  <property name="xalign">0.5</property>
+		  <property name="xalign">0</property>
 		  <property name="yalign">0.5</property>
 		  <property name="xpad">0</property>
 		  <property name="ypad">0</property>
@@ -888,7 +858,7 @@
 		  <property name="justify">GTK_JUSTIFY_LEFT</property>
 		  <property name="wrap">False</property>
 		  <property name="selectable">False</property>
-		  <property name="xalign">0.5</property>
+		  <property name="xalign">0</property>
 		  <property name="yalign">0.5</property>
 		  <property name="xpad">0</property>
 		  <property name="ypad">0</property>
@@ -1251,18 +1221,15 @@
 	      </child>
 
 	      <child>
-		<widget class="GtkCombo" id="searchPatternComboBox">
+		<widget class="GnomeEntry" id="searchPatternEntry">
 		  <property name="visible">True</property>
-		  <property name="value_in_list">False</property>
-		  <property name="allow_empty">True</property>
-		  <property name="case_sensitive">False</property>
-		  <property name="enable_arrow_keys">True</property>
-		  <property name="enable_arrows_always">False</property>
+		  <property name="max_saved">20</property>
 
 		  <child internal-child="entry">
-		    <widget class="GtkEntry" id="combo-entry1">
+		    <widget class="GtkEntry" id="entry3">
 		      <property name="visible">True</property>
 		      <property name="can_focus">True</property>
+		      <property name="has_focus">True</property>
 		      <property name="editable">True</property>
 		      <property name="visibility">True</property>
 		      <property name="max_length">0</property>
@@ -1270,13 +1237,6 @@
 		      <property name="has_frame">True</property>
 		      <property name="invisible_char" translatable="yes">*</property>
 		      <property name="activates_default">True</property>
-		    </widget>
-		  </child>
-
-		  <child internal-child="list">
-		    <widget class="GtkList" id="combo-list1">
-		      <property name="visible">True</property>
-		      <property name="selection_mode">GTK_SELECTION_SINGLE</property>
 		    </widget>
 		  </child>
 		</widget>
@@ -1337,16 +1297,12 @@
 	      </child>
 
 	      <child>
-		<widget class="GtkCombo" id="replacePatternComboBox">
+		<widget class="GnomeEntry" id="replacePatternEntry">
 		  <property name="visible">True</property>
-		  <property name="value_in_list">False</property>
-		  <property name="allow_empty">True</property>
-		  <property name="case_sensitive">False</property>
-		  <property name="enable_arrow_keys">True</property>
-		  <property name="enable_arrows_always">False</property>
+		  <property name="max_saved">20</property>
 
 		  <child internal-child="entry">
-		    <widget class="GtkEntry" id="combo-entry2">
+		    <widget class="GtkEntry" id="entry5">
 		      <property name="visible">True</property>
 		      <property name="can_focus">True</property>
 		      <property name="editable">True</property>
@@ -1355,14 +1311,7 @@
 		      <property name="text" translatable="yes"></property>
 		      <property name="has_frame">True</property>
 		      <property name="invisible_char" translatable="yes">*</property>
-		      <property name="activates_default">True</property>
-		    </widget>
-		  </child>
-
-		  <child internal-child="list">
-		    <widget class="GtkList" id="combo-list2">
-		      <property name="visible">True</property>
-		      <property name="selection_mode">GTK_SELECTION_SINGLE</property>
+		      <property name="activates_default">False</property>
 		    </widget>
 		  </child>
 		</widget>
@@ -1410,7 +1359,7 @@
 		  <property name="justify">GTK_JUSTIFY_LEFT</property>
 		  <property name="wrap">False</property>
 		  <property name="selectable">False</property>
-		  <property name="xalign">0.5</property>
+		  <property name="xalign">0</property>
 		  <property name="yalign">0.5</property>
 		  <property name="xpad">0</property>
 		  <property name="ypad">0</property>
@@ -1463,7 +1412,7 @@
 		  <property name="justify">GTK_JUSTIFY_LEFT</property>
 		  <property name="wrap">False</property>
 		  <property name="selectable">False</property>
-		  <property name="xalign">0.5</property>
+		  <property name="xalign">0</property>
 		  <property name="yalign">0.5</property>
 		  <property name="xpad">0</property>
 		  <property name="ypad">0</property>
@@ -1838,18 +1787,18 @@
 	      </child>
 
 	      <child>
-		<widget class="GtkCombo" id="searchPatternComboBox">
+		<widget class="GnomeEntry" id="searchPatternEntry">
 		  <property name="visible">True</property>
-		  <property name="value_in_list">False</property>
-		  <property name="allow_empty">True</property>
-		  <property name="case_sensitive">False</property>
-		  <property name="enable_arrow_keys">True</property>
-		  <property name="enable_arrows_always">False</property>
+		  <property name="max_saved">20</property>
+		  <accessibility>
+		    <atkproperty name="AtkObject::accessible_name" translatable="yes">searchPatternEntry</atkproperty>
+		  </accessibility>
 
 		  <child internal-child="entry">
-		    <widget class="GtkEntry" id="combo_entry1">
+		    <widget class="GtkEntry" id="combo-entry3">
 		      <property name="visible">True</property>
 		      <property name="can_focus">True</property>
+		      <property name="has_focus">True</property>
 		      <property name="editable">True</property>
 		      <property name="visibility">True</property>
 		      <property name="max_length">0</property>
@@ -1857,13 +1806,6 @@
 		      <property name="has_frame">True</property>
 		      <property name="invisible_char" translatable="yes">*</property>
 		      <property name="activates_default">True</property>
-		    </widget>
-		  </child>
-
-		  <child internal-child="list">
-		    <widget class="GtkList" id="combo-list1">
-		      <property name="visible">True</property>
-		      <property name="selection_mode">GTK_SELECTION_SINGLE</property>
 		    </widget>
 		  </child>
 		</widget>
