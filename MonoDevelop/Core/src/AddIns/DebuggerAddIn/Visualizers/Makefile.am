@@ -1,11 +1,12 @@
 
-ASSEMBLY = $(ADDIN_BUILD)/MonoDevelop.Visualizers.dll
+ASSEMBLY = MonoDevelop.Visualizers.dll
 
 DLLS = $(GTK_SHARP_LIBS) \
 	$(MONO_DEBUGGER_LIBS) \
 	/r:$(top_builddir)/build/bin/MonoDevelop.Base.dll \
 	/r:$(top_builddir)/build/bin/MonoDevelop.Core.dll \
         /r:$(top_builddir)/build/bin/ICSharpCode.SharpRefactory.dll \
+	/r:$(top_builddir)/build/AddIns/DebuggerAddIn/MonoDevelop.Debugger.dll \
 	/pkg:gtk-sharp
 
 
@@ -27,7 +28,7 @@ all: $(ASSEMBLY)
 build_sources = $(addprefix $(srcdir)/, $(FILES))
 
 $(ASSEMBLY): $(build_sources)
-	$(CSC) -define:NET_2_0 -define:WITH_GTK -out:$@ -target:library \
+	$(CSC) -g -define:NET_2_0 -define:WITH_GTK -out:$@ -target:library \
 	$(build_sources) $(DLLS)
 
 CLEANFILES = $(ASSEMBLY) $(ASSEMBLY).mdb

@@ -1,3 +1,34 @@
+2005-04-05  Chris Toshok  <toshok@ximian.com>
+
+	* Visualizers/Makefile.am (DLLS): add MonoDevelop.Debugger.dll.
+	(ASSEMBLY): remove $(ADDIN_BUILD)/ from the assembly path/name.
+	(build): add -g so we can get methods from the visualizer dll for
+	calling in the debugger addin.
+
+	* Visualizers/VisualizerObjectSource.cs
+	(VisualizerObjectSource..ctor): remove the
+	NotImplementedException.
+	(VisualizerObjectSource.CreateReplacementObject): implement by
+	deserializing the incoming stream.
+	(VisualizerObjectSource.Deserialize): implement with a binary
+	formatter.
+	(VisualizerObjectSource.GetData): implement using
+	VisualizerObjectSource.Serialize.
+	(VisualizerObjectSource.Serialize): implement with a binary
+	formatter.
+
+	* Visualizers/TargetObjectProvider.cs
+	(TargetObjectProvider.CreateVisualizerObjectSource): method used
+	to create an instance of the visualizer's object source in the
+	debugee process.
+	(TargetObjectProvider.get_IsObjectReplaceable): return true.
+	(TargetObjectProvider.GetObject): implement by using GetData and a
+	binary formatter to deserialize the object.
+	(TargetObjectProvider.ReplaceObject): implement using ReplaceData
+	and serialization.
+	(TargetObjectProvider.TransferObject): implement using
+	TransferData and serialization.
+
 2005-04-06  Alp Toker  <alp@atoker.com>
 
 	* Gui/LocalsPad.cs: comment out 'using MonoDevelop.DebuggerVisualizers'
