@@ -8,6 +8,7 @@ AM_PROG_LIBTOOL
 
 AC_PATH_PROG(MONO, mono)
 AC_PATH_PROG(MCS, mcs)
+AC_PATH_PROG(XDGMIME, update-mime-database, no)
 if test "x$MONO" = "x" ; then
   AC_MSG_ERROR([Can't find "mono" in your PATH])
 fi
@@ -94,6 +95,7 @@ gnome_prefix="`$PKG_CONFIG --variable=prefix libgnome-2.0`"
 AC_SUBST(gnome_prefix)
 
 AM_CONDITIONAL(ENABLE_DEBUGGER, test "x$enable_debugger" = "xyes")
+AM_CONDITIONAL(ENABLE_XDGMIME, test "x$XDGMIME")
 
 AC_OUTPUT([
 Makefile

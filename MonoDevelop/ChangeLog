@@ -2,6 +2,9 @@
 
 	* docs/WritingAddins.html: initial addin quick guide
 	* configure.in: Gtk# 0.18 is actually required
+	* Makefile.am: support GNOME2.6 and fd.o way of mimetypes
+	and make it conditional on if update-mime-databade is installed
+	* monodevelop.xml: new mime file
 
 2004-03-21	John BouAntoun  <jba-mono@optusnet.com.au>
 

@@ -14,11 +14,27 @@ desktop_DATA = monodevelop.desktop
 pixmapdir = $(gnome_data)/pixmaps
 pixmap_DATA = monodevelop.png
 
+if ENABLE_XDGMIME
+
+# need to respect $XDG_DATA_DIR probably
+xdgmimedir = $(gnome_data)/mime/packages
+xdgmime_DATA = monodevelop.xml
+
+install-data-hook:
+	update-mime-database $(gnome_data)/mime
+
+uninstall-hook:
+	update-mime-database $(gnome_data)/mime
+
+else
+
 mimeinfodir = $(gnome_data)/mime-info
 mimeinfo_DATA = monodevelop.mime monodevelop.keys
 
 applicationdir = $(gnome_data)/application-registry
 application_DATA = monodevelop.applications
+
+endif
 
 run: runmd
 
@@ -37,5 +53,5 @@ profile-pad: $(MONOPAD)
 	cd build/bin && mono -O=inline --profile MonoPad.exe
 
 EXTRA_DIST = $(bin_SCRIPTS) $(desktop_DATA) \
-	$(mimeinfo_DATA) $(pixmap_DATA) $(application_DATA) KNOWN_ISSUES
+	$(mimeinfo_DATA) $(pixmap_DATA) $(application_DATA) $(xdgmime_DATA)
 
