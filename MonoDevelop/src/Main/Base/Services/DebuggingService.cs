@@ -34,14 +34,19 @@ namespace MonoDevelop.Services
 			DebuggerBackend.Initialize ();
 		}
 		
+		void Cleanup ()
+		{
+			if (!Debugging)
+				return;
+
+			backend.Dispose ();
+			backend = null;
+			proc = null;
+		}
+
 		public override void UnloadService ()
 		{
-			if (Debugging) {
-				backend.Dispose ();
-				backend = null;
-				proc = null;
-			}
-
+			Cleanup ();
 			base.UnloadService ();
 		}
 
@@ -51,7 +56,7 @@ namespace MonoDevelop.Services
 			}
 		}
 
-		private bool IsRunning {
+		public bool IsRunning {
 			get {
 				return Debugging && !proc.IsStopped;
 			}
@@ -103,17 +108,6 @@ namespace MonoDevelop.Services
 			return true;
 		}
 
-		public void ToggleRunning ()
-		{
-			if (!Debugging)
-				return;
-
-			if (proc.IsStopped)
-				proc.Continue (false);
-			else
-				proc.Stop ();
-		}
-
 		private void initialized_event (ThreadManager manager, Process process)
 		{
 			this.proc = process;
@@ -125,15 +119,14 @@ namespace MonoDevelop.Services
 				string[] toks = point.Name.Split (':');
 				string filename = toks [0];
 				int linenumber = Int32.Parse (toks [1]);
-				Console.WriteLine ("Looking up " + filename + " " + linenumber);
 				SourceLocation loc = backend.FindLocation(filename, linenumber);
 				if (loc == null) {
-					Console.WriteLine ("Couldn't find breakpoint location " + key);
+					Console.WriteLine ("Couldn't find breakpoint location " + key + " " + backend.Modules.Length);
 					return;
 				}
 				breakpoints [key] = loc.InsertBreakpoint (proc, point);
 				if (breakpoints [key] == null)
-					Console.WriteLine ("Couldn't insert breakpoint " + key);
+					throw new Exception ("Couldn't insert breakpoint " + key);
 			}
 
 			proc.TargetEvent += new TargetEventHandler (target_event);
@@ -155,8 +148,30 @@ namespace MonoDevelop.Services
 
 		bool KillApplication ()
 		{
-			UnloadService ();
+			Cleanup ();
 			return false;
+		}
+
+		public void Pause ()
+		{
+			if (!Debugging)
+				throw new Exception ("Debugger not running.");
+
+			if (proc.IsStopped)
+				return;
+
+			proc.Stop ();
+		}
+
+		public void Resume ()
+		{
+			if (!Debugging)
+				throw new Exception ("Debugger not running.");
+
+			if (!proc.IsStopped)
+				return;
+
+			proc.Continue (false);
 		}
 
 		public void Run (string[] argv)
@@ -177,6 +192,25 @@ namespace MonoDevelop.Services
 			proc.Kill ();
 			proc = null;
 			backend = null;
+		}
+
+		public string[] Backtrace {
+			get {
+				Backtrace trace = proc.GetBacktrace ();
+				string[] result = new string [trace.Length];
+				int i = 0;
+				foreach (StackFrame frame in trace.Frames) {
+					result [i++] = frame.TargetAddress.ToString ();
+					Console.WriteLine (result [i-1]);
+				}
+
+				return result;
+			}
+		}
+
+		public string LookupValue (string expr)
+		{
+			return "";
 		}
 
 		private void OnBreakpointHit (Breakpoint pointFromDbg, StackFrame frame)
