@@ -10,7 +10,7 @@ DLLS = /r:../../Core/build/bin/MonoDevelop.Core.dll \
 	/r:../../Core/build/bin/MonoDevelop.Base.dll \
 	/r:../../Core/build/bin/MonoDevelop.SourceEditor.dll \
 	/r:../../Core/build/bin/MonoDevelop.Gui.Widgets.dll \
-	-pkg:gtk-sharp
+	-pkg:gtk-sharp-2.0
 
 #	$(BASE_DEPENDENCIES_LIBS)
 

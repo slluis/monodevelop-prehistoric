@@ -109,5 +109,9 @@ namespace PythonBinding
 			throw new NotImplementedException ();
 		}
 		
+		public string CommentTag
+		{
+			get { return "#"; }
+		}
 	}
 }

@@ -47,20 +47,24 @@ namespace PythonBinding
 		void SetupUI ()
 		{
 			VBox vbox = new VBox (false, 6);
+
 			Label outputLabel = new Label ();
 			outputLabel.Markup = String.Format ("<b>{0}</b>", GettextCatalog.GetString ("Output path"));
 			vbox.PackStart (outputLabel, false, true, 0);
 			vbox.PackStart (outputPath, false, true, 0);
+
 			Label assemblyLabel = new Label ();
 			assemblyLabel.Markup = String.Format ("<b>{0}</b>", GettextCatalog.GetString ("Assembly name"));
 			vbox.PackStart (assemblyLabel, false, true, 0);
 			vbox.PackStart (assemblyName, false, true, 0);
+
 			Label targetLabel = new Label ();
 			targetLabel.Markup = String.Format ("<b>{0}</b>", GettextCatalog.GetString ("Target options"));
 			vbox.PackStart (targetLabel, false, true, 0);
 			vbox.PackStart (exeTarget, false, true, 0);
 			vbox.PackStart (dllTarget, false, true, 0);
 			vbox.PackStart (debug, false, true, 0);
+
 			this.Add (vbox);
 		}
 
