@@ -15,6 +15,8 @@ using MonoDevelop.Internal.Templates;
 using MonoDevelop.Core.Properties;
 using MonoDevelop.Core.Services;
 
+using MonoDevelop.Services;
+
 namespace MonoDevelop.Internal.Templates
 {
 	/// <summary>
@@ -103,7 +105,7 @@ namespace MonoDevelop.Internal.Templates
 				                             Path.DirectorySeparatorChar   + "options" +
 				                             Path.DirectorySeparatorChar   + TemplateFileName)) {
 					IMessageService messageService = (IMessageService)ServiceManager.Services.GetService(typeof(IMessageService));
-					messageService.ShowWarning("${res:Internal.Templates.CodeTemplateLoader.CantLoadTemplatesWarning}");
+					messageService.ShowWarning(GettextCatalog.GetString ("Can't load templates configuration file"));
 				}
 			}
 		}

@@ -12,6 +12,7 @@ using System.ComponentModel;
 using MonoDevelop.Core.Properties;
 
 using MonoDevelop.Core.Services;
+using MonoDevelop.Services;
 
 using MonoDevelop.Gui;
 using MonoDevelop.Internal.Project;
@@ -49,13 +50,10 @@ namespace MonoDevelop.Internal.Project
 			// we must do it from *here* otherwise, we get this assembly, not the caller
 			Glade.XML glade = new Glade.XML (null, "Base.glade", "IncludeFilesDialogWidget", null);
 			glade.Autoconnect (this);
-			InitDialog ();
 			
 			// set up dialog title
 			StringParserService stringParserService = (StringParserService)ServiceManager.Services.GetService(typeof(StringParserService));
-			this.IncludeFilesDialogWidget.Title = 
-				stringParserService.Parse(resourceService.GetString("Dialog.IncludeFilesDialog.DialogName"), 
-			    new string[,] {{ "PROJECT",  project.Name}});
+			this.IncludeFilesDialogWidget.Title = String.Format (GettextCatalog.GetString ("Found new files in {0}"), project.Name); 
 			
 			newFilesOnlyRadioButton.Active = true;
 			this.newFiles = newFiles;
@@ -162,17 +160,6 @@ namespace MonoDevelop.Internal.Project
 				
 				store.IterNext(out current);
 			}
-		}
-		
-		private void InitDialog()
-		{
-			// setup all the strings
-			this.deselectAllButton.Label = resourceService.GetString("Dialog.IncludeFilesDialog.DeselectAllButton");
-			this.newFilesOnlyRadioButton.Label = resourceService.GetString("Dialog.IncludeFilesDialog.NewFilesRadioButton");
-			this.allFilesRadioButton.Label = resourceService.GetString("Dialog.IncludeFilesDialog.AllFilesRadioButton");
-			this.newFilesInProjectLabel.Text = resourceService.GetString("Dialog.IncludeFilesDialog.IncludeFilesLabel");
-			this.selectAllButton.Label = resourceService.GetString("Dialog.IncludeFilesDialog.SelectAllButton");
-			this.viewLabel.Markup = "<b>" + resourceService.GetString("Dialog.IncludeFilesDialog.ViewGroupBoxText") + "</b>";
 		}
 		
 		public void ShowDialog()

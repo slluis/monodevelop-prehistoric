@@ -111,7 +111,7 @@ namespace MonoDevelop.Internal.Project
 				TaskService       taskService      = (TaskService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(TaskService));
 				IResourceService resourceService   = (IResourceService)ServiceManager.Services.GetService(typeof(IResourceService));
 				
-				statusBarService.SetMessage("${res:MainWindow.StatusBar.CompilingMessage}");
+				statusBarService.SetMessage(String.Format (GettextCatalog.GetString ("Compiling: {0}"), Project.Name));
 				LanguageBindingService languageBindingService = (LanguageBindingService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(LanguageBindingService));
 				
 				// create output directory, if not exists
@@ -128,11 +128,11 @@ namespace MonoDevelop.Internal.Project
 				ILanguageBinding csc = languageBindingService.GetBindingPerLanguageName(project.ProjectType);
 				
 				AbstractProjectConfiguration conf = project.ActiveConfiguration as AbstractProjectConfiguration;
-				taskService.CompilerOutput += stringParserService.Parse("${res:MainWindow.CompilerMessages.BuildStartedOutput}", new string[,] { {"PROJECT", Project.Name}, {"CONFIG", Project.ActiveConfiguration.Name} }) + "\n";
-				taskService.CompilerOutput += resourceService.GetString("MainWindow.CompilerMessages.PerformingMainCompilationOutput") + "\n";
+
+				taskService.CompilerOutput += String.Format (GettextCatalog.GetString ("------ Build started: Project: ${Project} Configuration: ${Config} ------\n\nPerforming main compilation...\n"), Project.Name, Project.ActiveConfiguration.Name);
 				
 				if (conf != null && File.Exists(conf.ExecuteBeforeBuild)) {
-					taskService.CompilerOutput += "Execute : " + conf.ExecuteBeforeBuild;
+					taskService.CompilerOutput += String.Format (GettextCatalog.GetString ("Execute : {0}"), conf.ExecuteBeforeBuild);
 					ProcessStartInfo ps = new ProcessStartInfo(conf.ExecuteBeforeBuild);
 					ps.UseShellExecute = false;
 					ps.RedirectStandardOutput = true;
@@ -146,7 +146,7 @@ namespace MonoDevelop.Internal.Project
 				ICompilerResult res = csc.CompileProject(project);
 				
 				if (conf != null && File.Exists(conf.ExecuteAfterBuild)) {
-					taskService.CompilerOutput += "Execute : " + conf.ExecuteAfterBuild;
+					taskService.CompilerOutput += String.Format (GettextCatalog.GetString ("Execute : {0}"), conf.ExecuteAfterBuild);
 					ProcessStartInfo ps = new ProcessStartInfo(conf.ExecuteAfterBuild);
 					ps.UseShellExecute = false;
 					ps.RedirectStandardOutput = true;
@@ -171,7 +171,7 @@ namespace MonoDevelop.Internal.Project
 					++BuildProjects;
 				}
 				
-				taskService.CompilerOutput += res.CompilerOutput + stringParserService.Parse("${res:MainWindow.CompilerMessages.ProjectStatsOutput}", new string[,] { {"ERRORS", taskService.Errors.ToString()}, {"WARNINGS", taskService.Warnings.ToString()} }) + "\n\n";
+				taskService.CompilerOutput += String.Format (GettextCatalog.GetString ("Build complete -- ${0} errors, ${1} warnings\n\n"), taskService.Errors.ToString (), taskService.Warnings.ToString ());
 			}
 		}
 		

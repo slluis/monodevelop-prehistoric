@@ -84,7 +84,7 @@ namespace MonoDevelop.Internal.Templates
 			
 			if (languageinfo == null) {
 				IMessageService messageService =(IMessageService)ServiceManager.Services.GetService(typeof(IMessageService));
-				messageService.ShowError("Can't create project with type :" + language);
+				messageService.ShowError(String.Format (GettextCatalog.GetString ("Can't create project with type : {0}"), language));
 				return String.Empty;
 			}
 			
@@ -110,7 +110,7 @@ namespace MonoDevelop.Internal.Templates
 				
 				if (File.Exists(fileName)) {
 					IMessageService messageService =(IMessageService)ServiceManager.Services.GetService(typeof(IMessageService));
-					if (!messageService.AskQuestion("File " + fileName + " already exists, do you want to overwrite\nthe existing file ?", "File already exists")) {
+					if (!messageService.AskQuestion(String.Format (GettextCatalog.GetString ("File {0} already exists, do you want to overwrite\nthe existing file ?"), fileName), GettextCatalog.GetString ("File already exists"))) {
 						continue;
 					}
 				}
@@ -124,7 +124,7 @@ namespace MonoDevelop.Internal.Templates
 					sr.Close();
 				} catch (Exception ex) {
 					IMessageService messageService =(IMessageService)ServiceManager.Services.GetService(typeof(IMessageService));
-					messageService.ShowError(ex, "File " + fileName + " could not be written.");
+					messageService.ShowError(ex, String.Format (GettextCatalog.GetString ("File {0} could not be written."), fileName));
 				}
 			}
 	
@@ -136,7 +136,7 @@ namespace MonoDevelop.Internal.Templates
 				
 				if (File.Exists(fileName)) {
 					IMessageService messageService =(IMessageService)ServiceManager.Services.GetService(typeof(IMessageService));
-					if (!messageService.AskQuestion("File " + fileName + " already exists, do you want to overwrite\nthe existing file ?", "File already exists")) {
+					if (!messageService.AskQuestion(String.Format (GettextCatalog.GetString ("File {0} already exists, do you want to overwrite\nthe existing file ?"), fileName), GettextCatalog.GetString ("File already exists"))) {
 						continue;
 					}
 				}
@@ -150,7 +150,7 @@ namespace MonoDevelop.Internal.Templates
 					sr.Close();
 				} catch (Exception ex) {
 					IMessageService messageService =(IMessageService)ServiceManager.Services.GetService(typeof(IMessageService));
-					messageService.ShowError(ex, "File " + fileName + " could not be written.");
+					messageService.ShowError(ex, String.Format (GettextCatalog.GetString ("File {0} could not be written."), fileName));
 				}
 			}
 			
@@ -159,7 +159,7 @@ namespace MonoDevelop.Internal.Templates
 			
 			if (File.Exists(projectLocation)) {
 				IMessageService messageService =(IMessageService)ServiceManager.Services.GetService(typeof(IMessageService));
-				if (messageService.AskQuestion("Project file " + projectLocation + " already exists, do you want to overwrite\nthe existing file ?", "File already exists")) {
+				if (messageService.AskQuestion(String.Format (GettextCatalog.GetString ("Project file {0} already exists, do you want to overwrite\nthe existing file ?"), projectLocation),  GettextCatalog.GetString ("File already exists"))) {
 					project.SaveProject(projectLocation);
 				}
 			} else {

@@ -1,5 +1,25 @@
 2004-04-02  Todd Berman  <tberman@sevenl.net>
 
+	* Commands/RunCommands.cs:
+	* Commands/FileCommands.cs:
+	* Gui/Pads/ProjectBrowser/NodeBuilder/DefaultDotNetNodeBuilder.cs:
+	* Internal/ExternalTool/ExternalTool.cs:
+	* Internal/ExternalTool/ToolLoader.cs:
+	* Internal/Project/Project/Deployment/FileDeploy.cs:
+	* Internal/Project/Project/Deployment/AssemblyDeploy.cs:
+	* Internal/Project/Project/Deployment/ScriptDeploy.cs:
+	* Internal/Project/Project/IncludeFilesDialog.cs:
+	* Internal/Project/Project/AbstractProject.cs:
+	* Internal/Project/Combine/Combine.cs:
+	* Internal/Project/Combine/CombineEntry.cs:
+	* Internal/Templates/FileTemplate.cs:
+	* Internal/Templates/CodeTemplateLoader.cs:
+	* Internal/Templates/ProjectTemplates/CombineDescriptor.cs:
+	* Internal/Templates/ProjectTemplates/ProjectDescriptor.cs:
+	gettextify, and actually COMPILE it before checking in this time...
+
+2004-04-02  Todd Berman  <tberman@sevenl.net>
+
 	* Commands/MenuItemBuilders.cs:
 	* Commands/RunCommands.cs:
 	* Commands/ClassBrowserCommands/ClassBrowserCommands.cs:

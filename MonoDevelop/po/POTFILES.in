@@ -47,3 +47,15 @@ src/Main/Base/Commands/ProjectBrowserCommands/FolderNodeCommands.cs
 src/Main/Base/Commands/ProjectBrowserCommands/ResourceFolderNodeCommands.cs
 src/Main/Base/Commands/ProjectCommands.cs
 src/Main/Base/Commands/RunCommands.cs
+src/Main/Base/Internal/ExternalTool/ToolLoader.cs
+src/Main/Base/Internal/Project/Combine/Combine.cs
+src/Main/Base/Internal/Project/Combine/CombineEntry.cs
+src/Main/Base/Internal/Project/Project/AbstractProject.cs
+src/Main/Base/Internal/Project/Project/Deployment/AssemblyDeploy.cs
+src/Main/Base/Internal/Project/Project/Deployment/FileDeploy.cs
+src/Main/Base/Internal/Project/Project/Deployment/ScriptDeploy.cs
+src/Main/Base/Internal/Project/Project/IncludeFilesDialog.cs
+src/Main/Base/Internal/Templates/CodeTemplateLoader.cs
+src/Main/Base/Internal/Templates/FileTemplate.cs
+src/Main/Base/Internal/Templates/ProjectTemplates/CombineDescriptor.cs
+src/Main/Base/Internal/Templates/ProjectTemplates/ProjectDescriptor.cs

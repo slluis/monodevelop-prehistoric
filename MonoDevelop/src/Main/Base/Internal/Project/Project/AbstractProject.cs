@@ -255,8 +255,7 @@ namespace MonoDevelop.Internal.Project
 			if (version == "1.0") {
 				string tempFile = Path.GetTempFileName();
 				IMessageService messageService =(IMessageService)ServiceManager.Services.GetService(typeof(IMessageService));
-				messageService.ShowMessage("Old project file format found.\n It will be automatically converted to " + currentProjectFileVersion,
-				                           "Information");
+				messageService.ShowMessage(String.Format (GettextCatalog.GetString ("Old project file format found.\n It will be automatically converted to {0} information"), currentProjectFileVersion));
 				PropertyService propertyService = (PropertyService)ServiceManager.Services.GetService(typeof(PropertyService));
 				
 				ConvertXml.Convert(fileName,
@@ -271,7 +270,7 @@ namespace MonoDevelop.Internal.Project
 					File.Delete(tempFile);
 					return;
 				} catch (Exception) {
-					messageService.ShowError("Error writing the old project file.\nCheck if you have write permission on the project file (.prjx).\n A non persistent proxy project will be created but no changes will be saved.\nIt is better if you close SharpDevelop and correct the problem.");
+					messageService.ShowError(GettextCatalog.GetString ("Error writing the old project file.\nCheck if you have write permission on the project file (.prjx).\n A non persistent proxy project will be created but no changes will be saved.\nIt is better if you close SharpDevelop and correct the problem."));
 					if (File.Exists(tempFile)) {
 						doc.Load(tempFile);
 						File.Delete(tempFile);
@@ -495,8 +494,8 @@ namespace MonoDevelop.Internal.Project
 			IResourceService resourceService = (IResourceService)ServiceManager.Services.GetService(typeof(IResourceService));
 			fileUtilityService.ObservedSave(new NamedFileOperationDelegate(doc.Save), 
 			                                fileName, 
-			                                resourceService.GetString("Internal.Project.Project.CantSaveProjectErrorText"),
-			                                FileErrorPolicy.ProvideAlternative);
+                                                        GettextCatalog.GetString ("Can't save solution\nPlease check your file and directory permissions."), 
+							FileErrorPolicy.ProvideAlternative);
 		}
 		
 		public virtual string GetParseableFileContent(string fileName)
@@ -510,7 +509,7 @@ namespace MonoDevelop.Internal.Project
 		
 		public void SaveProjectAs()
 		{
-			using (Gtk.FileSelection fdiag = new Gtk.FileSelection ("Save Project As...")) {
+			using (Gtk.FileSelection fdiag = new Gtk.FileSelection (GettextCatalog.GetString ("Save Project As..."))) {
 				fdiag.Filename = System.Environment.GetEnvironmentVariable ("HOME");
 
 				if (fdiag.Run() == (int)Gtk.ResponseType.Ok) {
@@ -518,7 +517,7 @@ namespace MonoDevelop.Internal.Project
 					SaveProject(filename);
 					IResourceService resourceService = (IResourceService)ServiceManager.Services.GetService(typeof(IResourceService));
 					IMessageService messageService =(IMessageService)ServiceManager.Services.GetService(typeof(IMessageService));
-					messageService.ShowMessage(filename, resourceService.GetString("Internal.Project.DefaultProject.ProjectSavedMessage"));
+					messageService.ShowMessage(filename, GettextCatalog.GetString ("Project saved"));
 				}
 				
 				fdiag.Hide ();

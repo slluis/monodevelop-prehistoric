@@ -9,6 +9,8 @@ using System;
 using System.Diagnostics;
 using System.Xml;
 
+using MonoDevelop.Services;
+
 namespace MonoDevelop.Internal.ExternalTool
 {
 	/// <summary>
@@ -17,7 +19,7 @@ namespace MonoDevelop.Internal.ExternalTool
 	/// </summary>
 	public class ExternalTool
 	{
-		string menuCommand       = "New Tool";
+		string menuCommand       = GettextCatalog.GetString ("New Tool");
 		string command           = "";
 		string arguments         = "";
 		string initialDirectory  = "";

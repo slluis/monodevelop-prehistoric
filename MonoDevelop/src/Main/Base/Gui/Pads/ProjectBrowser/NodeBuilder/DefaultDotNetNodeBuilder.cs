@@ -22,6 +22,8 @@ using MonoDevelop.Internal.Project;
 using MonoDevelop.Gui.Widgets;
 using Stock = MonoDevelop.Gui.Stock;
 
+using MonoDevelop.Services;
+
 namespace MonoDevelop.Gui.Pads.ProjectBrowser
 {
 	public class DefaultDotNetNodeBuilder : IProjectNodeBuilder

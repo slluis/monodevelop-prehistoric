@@ -162,7 +162,7 @@ namespace MonoDevelop.Internal.Templates
 				try {
 					LoadFileTemplate(file);
 				} catch(Exception e) {
-					messageService.ShowError(e, "Error loading template file " + file + ".");
+					messageService.ShowError(e, String.Format (GettextCatalog.GetString ("Error loading template file {0}"), file));
 				}
 			}
 		}

@@ -10,6 +10,7 @@ using System.IO;
 using System.Diagnostics;
 
 using MonoDevelop.Core.Services;
+using MonoDevelop.Services;
 
 namespace MonoDevelop.Internal.Project
 {
@@ -20,7 +21,7 @@ namespace MonoDevelop.Internal.Project
 			IResourceService resourceService = (IResourceService)ServiceManager.Services.GetService(typeof(IResourceService));
 			if (project.DeployInformation.DeployScript.Length == 0) {
 				IMessageService messageService =(IMessageService)ServiceManager.Services.GetService(typeof(IMessageService));
-				messageService.ShowError(resourceService.GetString("Internal.Project.Deploy.ScriptDeploy.DeployWithoutScriptError"));
+				messageService.ShowError(GettextCatalog.GetString ("Can't deply: you forgot to specify a deployment script"));
 				return;
 			}
 			try {
@@ -32,7 +33,7 @@ namespace MonoDevelop.Internal.Project
 				}
 			} catch (Exception e) {
 				IMessageService messageService =(IMessageService)ServiceManager.Services.GetService(typeof(IMessageService));
-				messageService.ShowError(e, resourceService.GetString("Internal.Project.Deploy.ScriptDeploy.ErrorWhileExecuteScript"));
+				messageService.ShowError(e, GettextCatalog.GetString ("Error while executing deploy script"));
 			}
 		}
 	}

@@ -165,7 +165,7 @@ namespace MonoDevelop.Internal.Project
 			ILanguageBinding binding = languageBindingService.GetBindingPerProjectFile(filename);
 			if (binding == null) {
 				IMessageService messageService =(IMessageService)ServiceManager.Services.GetService(typeof(IMessageService));
-				messageService.ShowError(stringParserService.Parse("Can't find language binding for ${FILENAME} ", new string[,] {{"FILENAME", filename}}));
+				messageService.ShowError(String.Format (GettextCatalog.GetString ("Can't find language binding for {0}"), filename));
 				return null;
 			}
 			
@@ -298,19 +298,19 @@ namespace MonoDevelop.Internal.Project
 			
 			fileUtilityService.ObservedSave(new NamedFileOperationDelegate(doc.Save),
 			                                filename,
-			                                resourceService.GetString("Internal.Project.Combine.CantSaveCombineErrorText"),
-			                                FileErrorPolicy.ProvideAlternative);
+			                                GettextCatalog.GetString ("Can't save solution\nPlease check your file and directory permissions."),
+							FileErrorPolicy.ProvideAlternative);
 		}
 		
 		public void SaveCombineAs()
 		{
-			using (Gtk.FileSelection fdiag = new Gtk.FileSelection ("Save Combine As...")) {
+			using (Gtk.FileSelection fdiag = new Gtk.FileSelection (GettextCatalog.GetString ("Save Combine As..."))) {
 				fdiag.Filename = System.Environment.GetEnvironmentVariable ("HOME");
 				if (fdiag.Run() == (int)Gtk.ResponseType.Ok) {
 					string filename = fdiag.Filename;
 					SaveCombine(filename);
 					IMessageService messageService =(IMessageService)ServiceManager.Services.GetService(typeof(IMessageService));
-					messageService.ShowMessage(filename, resourceService.GetString("Internal.Project.Combine.CombineSavedMessage"));
+					messageService.ShowMessage(filename, GettextCatalog.GetString ("Combine saved"));
 				}
 				
 				fdiag.Hide ();
@@ -513,7 +513,7 @@ namespace MonoDevelop.Internal.Project
 				allProjects = TopologicalSort(allProjects);
 			} catch (CyclicBuildOrderException) {
 				IMessageService messageService =(IMessageService)ServiceManager.Services.GetService(typeof(IMessageService));
-				messageService.ShowError("Cyclic dependencies can not be build with this version.\nBut we are working on it.");
+				messageService.ShowError(GettextCatalog.GetString ("Cyclic dependencies can not be build with this version.\nBut we are working on it."));
 				return;
 			}
 			TaskService taskService = (TaskService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(TaskService));

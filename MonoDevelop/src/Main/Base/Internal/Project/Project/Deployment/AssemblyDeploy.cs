@@ -9,6 +9,7 @@ using System;
 using System.IO;
 
 using MonoDevelop.Core.Services;
+using MonoDevelop.Services;
 
 namespace MonoDevelop.Internal.Project
 {
@@ -25,7 +26,7 @@ namespace MonoDevelop.Internal.Project
 			IResourceService resourceService = (IResourceService)ServiceManager.Services.GetService(typeof(IResourceService));
 			if (project.DeployInformation.DeployTarget.Length == 0) {
 				IMessageService messageService =(IMessageService)ServiceManager.Services.GetService(typeof(IMessageService));
-				messageService.ShowError(resourceService.GetString("Internal.Project.Deploy.AssemblyDeploy.DeployTargetNotSet"));
+				messageService.ShowError(GettextCatalog.GetString ("Can't deploy: no deployment target set"));
 				return;
 			}
 			try {

@@ -14,6 +14,8 @@ using System.Xml;
 using MonoDevelop.Core.Properties;
 using MonoDevelop.Core.Services;
 
+using MonoDevelop.Services;
+
 namespace MonoDevelop.Internal.ExternalTool
 {
 	/// <summary>
@@ -85,7 +87,7 @@ namespace MonoDevelop.Internal.ExternalTool
 				                         Path.DirectorySeparatorChar + TOOLFILE)) {
 					IResourceService resourceService = (IResourceService)ServiceManager.Services.GetService(typeof(IResourceService));
                 	IMessageService messageService = (IMessageService)ServiceManager.Services.GetService(typeof(IMessageService));
-					messageService.ShowWarning(resourceService.GetString("Internal.ExternalTool.CantLoadToolConfigWarining"));
+					messageService.ShowWarning(GettextCatalog.GetString ("Can't load external tools configuration file"));
 				}
 			}
 		}

@@ -46,7 +46,7 @@ namespace MonoDevelop.Commands
 				statusBarService.SetMessage(GettextCatalog.GetString ("Successful"));
 			} else {
 				StringParserService stringParserService = (StringParserService)ServiceManager.Services.GetService(typeof(StringParserService));
-				statusBarService.SetMessage(String.Format (GettextCatalog.GetString ("{0} errors, {1} warnings"), taskService.Errors.ToString (); taskService.Warnings.ToString ());
+				statusBarService.SetMessage(String.Format (GettextCatalog.GetString ("{0} errors, {1} warnings"), taskService.Errors.ToString (), taskService.Warnings.ToString ()));
 			}
 		}
 		

@@ -16,6 +16,8 @@ using System.Reflection;
 using MonoDevelop.Core.Services;
 using MonoDevelop.Internal.Project;
 
+using MonoDevelop.Services;
+
 namespace MonoDevelop.Internal.Templates
 {
 	public class CombineDescriptor
@@ -94,7 +96,7 @@ namespace MonoDevelop.Internal.Templates
 			string combineLocation = fileUtilityService.GetDirectoryNameWithSeparator(projectCreateInformation.CombinePath) + newCombineName + ".cmbx";
 			if (File.Exists(combineLocation)) {
 				IMessageService messageService =(IMessageService)ServiceManager.Services.GetService(typeof(IMessageService));
-				if (messageService.AskQuestion("Combine file " + combineLocation + " already exists, do you want to overwrite\nthe existing file ?")) {
+				if (messageService.AskQuestion(String.Format (GettextCatalog.GetString ("Solution file {0} already exists, do you want to overwrite\nthe existing file ?"), combineLocation))) {
 					newCombine.SaveCombine(combineLocation);
 				}
 			} else {
