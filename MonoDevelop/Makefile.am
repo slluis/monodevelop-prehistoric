@@ -1,5 +1,7 @@
 SUBDIRS=gdldock gtkmozembed-sharp src
 
+#bin_SCRIPTS=monodevelop
+
 all:
 	chmod +x ./monodevelop
 

@@ -4,10 +4,10 @@ Compiling and running
 ---------------------
 To compile run the following command:
 
+./autogen.sh --prefix=/usr/local
 make
 
-If you do not have pkg-config set up right, you will need to
-set PREFIX to the prefix that Gtk# is installed in.
+(you need to pass the prefix where gtk# is located)
 
 To run MonoDevelop:
 ./monodevelop
