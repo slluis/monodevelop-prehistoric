@@ -91,7 +91,7 @@ for RedHat, Fedora, Suse, and Debian. They are also available through Ximian's
       <br /><br /><br />
       <div class="headlinebar">Installing MonoDevelop</div>      
       <p>The final step in this process is to build MonoDevelop itself. Download the 
-<a href="http://www.go-mono.com/archive/1.0/monodevelop-0.5.1.tar.gz">MonoDevelop 0.5</a> package.</p>
+<a href="http://www.go-mono.com/archive/1.0.2/monodevelop-0.5.1.tar.gz">MonoDevelop 0.5</a> package.</p>
 
 <pre class="code">
 export PKG_CONFIG_PATH="/usr/lib/pkgconfig"
