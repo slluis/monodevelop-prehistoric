@@ -101,12 +101,6 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 					convertedDocumentation = true;
 					try {
 						documentation = GetDocumentation(documentation);
-						// new (by G.B.)
-						// XmlDocument doc = new XmlDocument();
-						// doc.LoadXml("<doc>" + documentation + "</doc>");
-						// XmlNode root      = doc.DocumentElement;
-						// XmlNode paramDocu = root.SelectSingleNode("summary");
-						// documentation = paramDocu.InnerXml;
 					} catch (Exception e) {
 						Console.WriteLine(e.ToString());
 					}
@@ -129,12 +123,6 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 					convertedDocumentation = true;
 					try {
 						documentation = GetDocumentation(documentation);
-						// new (by G.B.)
-						// XmlDocument doc = new XmlDocument();
-						// doc.LoadXml("<doc>" + documentation + "</doc>");
-						// XmlNode root      = doc.DocumentElement;
-						// XmlNode paramDocu = root.SelectSingleNode("summary");
-						// documentation = paramDocu.InnerXml;
 					} catch (Exception e) {
 						Console.WriteLine(e.ToString());
 					}

@@ -117,8 +117,8 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 					return KeyAction.Ignore;
 					
 				case Gdk.Key.Left:
-					if (curPos == 0) return KeyAction.CloseWindow | KeyAction.Process;
-					curPos--;
+					//if (curPos == 0) return KeyAction.CloseWindow | KeyAction.Process;
+					//curPos--;
 					return KeyAction.Process;
 					
 				case Gdk.Key.BackSpace:
@@ -129,8 +129,8 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 					return KeyAction.Process;
 					
 				case Gdk.Key.Right:
-					if (curPos == word.Length) return KeyAction.CloseWindow | KeyAction.Process;
-					curPos++;
+					//if (curPos == word.Length) return KeyAction.CloseWindow | KeyAction.Process;
+					//curPos++;
 					return KeyAction.Process;
 					
 				case Gdk.Key.Tab:

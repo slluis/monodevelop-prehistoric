@@ -122,7 +122,17 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 			
 			if ((ka & ListWindow.KeyAction.Ignore) != 0)
 				return true;
-				
+
+			if ((ka & ListWindow.KeyAction.Process) != 0) {
+				if (e.Key == Gdk.Key.Left) {
+					wnd.declarationviewwindow.OverloadLeft ();
+					return true;
+				} else if (e.Key == Gdk.Key.Right) {
+					wnd.declarationviewwindow.OverloadRight ();
+					return true;
+				}
+			}
+
 			return false;
 		}
 		
@@ -157,6 +167,7 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 			ICompletionData data = completionData[List.Selection];
 			
 			declarationviewwindow.Hide ();
+			declarationviewwindow.Clear ();
 			
 			// FIXME: This code is buggy, and generates a bad placement sometimes when you jump a lot.
 			// but it is better than 0,0
@@ -176,35 +187,35 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 			} else if (vert < listpos_y) {
 				vert = listpos_y;
 			}
-			// FIXME: This is a bad calc, its always on the right,
-			// it needs to test if thats too big, and if so, place on the left;
 			int horiz = listpos_x + lvWidth + 2;
 
 			ICompletionDataWithMarkup datawMarkup = data as ICompletionDataWithMarkup;
 
-			string descMarkup;
+			string descMarkup = String.Empty;
 
 			if (datawMarkup != null)
 				descMarkup = datawMarkup.DescriptionPango;
 			else
 				descMarkup = declarationviewwindow.DescriptionMarkup = data.Description;
 
+			declarationviewwindow.Realize ();
+
+			declarationviewwindow.AddOverload (descMarkup);
+
 			CodeCompletionData ccdata = (CodeCompletionData) data;
 
 			foreach (CodeCompletionData odata in ccdata.GetOverloads ()) {
 				ICompletionDataWithMarkup odatawMarkup = odata as ICompletionDataWithMarkup;
-				descMarkup += "\n\n" + (odatawMarkup == null ? odata.Description : odatawMarkup.DescriptionPango);
+				declarationviewwindow.AddOverload (odatawMarkup == null ? odata.Description : odatawMarkup.DescriptionPango);
 			}
-
-			declarationviewwindow.DescriptionMarkup = descMarkup;
 
 			if (declarationviewwindow.DescriptionMarkup.Length == 0)
 				return;
 
-			declarationviewwindow.Multiple = (ccdata.Overloads != 0);
 			int dvwWidth, dvwHeight;
-			declarationviewwindow.Move (this.Screen.Width+1, vert);
 
+			declarationviewwindow.Move (this.Screen.Width+1, vert);
+			
 			declarationviewwindow.ReshowWithInitialSize ();
 			declarationviewwindow.ShowAll ();
 			declarationviewwindow.Multiple = (ccdata.Overloads != 0);

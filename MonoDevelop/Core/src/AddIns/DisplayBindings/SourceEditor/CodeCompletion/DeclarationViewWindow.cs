@@ -19,6 +19,9 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 		static char[] newline = {'\n'};
 		static char[] whitespace = {' '};
 
+		ArrayList overloads;
+		int current_overload;
+
 		Label headlabel, bodylabel, helplabel;
 		Arrow left, right;
 		VBox helpbox;
@@ -66,8 +69,50 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 			}
 		}
 
+		public void AddOverload (string desc)
+		{
+			overloads.Add (desc);
+			if (overloads.Count == 2) {
+				Multiple = true;
+			}
+			ShowOverload ();
+		}
+
+		void ShowOverload ()
+		{
+			DescriptionMarkup = (string)overloads[current_overload];
+			helplabel.Markup = String.Format ("<small>{0} of {1} overloads</small>", current_overload + 1, overloads.Count);
+		}
+
+		public void OverloadLeft ()
+		{
+			if (current_overload == 0)
+				current_overload = overloads.Count - 1;
+			else
+				current_overload--;
+			ShowOverload ();
+		}
+
+		public void OverloadRight ()
+		{
+			if (current_overload == overloads.Count - 1)
+				current_overload = 0;
+			else
+				current_overload++;
+			ShowOverload ();
+		}
+
+		public void Clear ()
+		{
+			overloads.Clear ();
+			Multiple = false;
+			DescriptionMarkup = String.Empty;
+			current_overload = 0;
+		}
+
 		public DeclarationViewWindow () : base (WindowType.Popup)
 		{
+			overloads = new ArrayList ();
 			this.AllowShrink = false;
 			this.AllowGrow = false;
 
@@ -97,7 +142,7 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 			helplabel.Ypad = 2;
 			helplabel.Xalign = 1;
 			helplabel.UseMarkup = true;
-			helplabel.Markup = "<small>i of n overloads</small>";
+			helplabel.Markup = "";
 			
 			helpbox = new VBox (false, 0);
 			helpbox.PackStart (new HSeparator (), false, true, 0);

@@ -1,3 +1,11 @@
+2005-01-26  Todd Berman  <tberman@off.net>
+
+	* CodeCompletion/CompletionListWindow.cs:
+	* CodeCompletion/CodeCompletionData.cs:
+	* CodeCompletion/ListWindow.cs:
+	* CodeCompletion/DeclarationViewWindow.cs: A bit of a nicer overload
+	dialog.
+
 2005-01-26  Alexandre Gomes  <alexmipego@gmail.com>
 
 	* CodeCompletion/CompletationListWindow.cs: Fixed completion
