@@ -183,6 +183,7 @@ namespace ICSharpCode.SharpDevelop.Commands
 			}
 			
 			foreach (string file in SplashScreenForm.GetRequestedFileList()) {
+				//FIXME: use mimetypes
 				switch (System.IO.Path.GetExtension(file).ToUpper()) {
 					case ".CMBX":
 					case ".PRJX":
