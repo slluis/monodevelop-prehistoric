@@ -3,13 +3,13 @@ ASSEMBLY = VBNetBinding.dll
 SUBDIRS = SharpRefactoryVB
 
 DLLS = /r:System.Drawing.dll \
-	/r:../../../../../build/bin/MonoDevelop.Core.dll \
-	/r:../../../../../build/bin/MonoDevelop.SourceEditor.dll \
-	/r:../../../../../build/bin/MonoDevelop.Base.dll \
-	/r:../../../../../build/bin/ICSharpCode.SharpRefactory.dll \
-	/r:../../../../../build/bin/ICSharpCode.SharpRefactory.VB.dll \
-	/r:../../../../../build/bin/ICSharpCode.SharpAssembly.dll \
-	/r:../../../../../build/bin/MonoDevelop.Gui.Widgets.dll \
+	/r:$(top_builddir)/build/bin/MonoDevelop.Core.dll \
+	/r:$(top_builddir)/build/bin/MonoDevelop.SourceEditor.dll \
+	/r:$(top_builddir)/build/bin/MonoDevelop.Base.dll \
+	/r:$(top_builddir)/build/bin/ICSharpCode.SharpRefactory.dll \
+	/r:$(top_builddir)/build/bin/ICSharpCode.SharpRefactory.VB.dll \
+	/r:$(top_builddir)/build/bin/ICSharpCode.SharpAssembly.dll \
+	/r:$(top_builddir)/build/bin/MonoDevelop.Gui.Widgets.dll \
 	$(GTK_SHARP_LIBS) \
 	$(GLADE_SHARP_LIBS)
 
@@ -49,7 +49,7 @@ $(ASSEMBLY): $(build_sources) $(srcdir)/VB.glade
 	$(CSC) /out:$(ASSEMBLY) /target:library $(DLLS) \
 		/resource:$(srcdir)/VB.glade,VB.glade \
 		$(build_sources) \
-	&& cp $(ASSEMBLY) ../../../../../build/AddIns/AddIns/BackendBindings/.
+	&& cp $(ASSEMBLY) $(top_builddir)/build/AddIns/AddIns/BackendBindings/.
 
 vbnetbindinglibdir = $(libdir)/monodevelop/AddIns/AddIns/BackendBindings
 vbnetbindinglib_DATA = $(ASSEMBLY)

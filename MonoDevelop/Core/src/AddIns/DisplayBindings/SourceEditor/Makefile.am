@@ -78,10 +78,10 @@ Search/ITextBufferStrategy.cs
 build_sources = $(addprefix $(srcdir)/, $(FILES))
 
 REFS = /r:System.Drawing.dll \
-	/r:../../../../../build/bin/MonoDevelop.Core.dll \
-	/r:../../../../../build/bin/MonoDevelop.Base.dll \
-	/r:../../../../../build/bin/MonoDevelop.Gui.Utils.dll \
-	/r:../../../../../build/bin/MonoDevelop.Gui.Widgets.dll \
+	/r:$(top_builddir)/build/bin/MonoDevelop.Core.dll \
+	/r:$(top_builddir)/build/bin/MonoDevelop.Base.dll \
+	/r:$(top_builddir)/build/bin/MonoDevelop.Gui.Utils.dll \
+	/r:$(top_builddir)/build/bin/MonoDevelop.Gui.Widgets.dll \
 	$(GTK_SHARP_LIBS) \
 	$(GLADE_SHARP_LIBS) \
 	$(GCONF_SHARP_LIBS) \
@@ -93,7 +93,7 @@ $(DLL) : $(build_sources) $(srcdir)/EditorBindings.glade $(srcdir)/texteditoradd
 	$(CSC) $(build_sources) /debug /out:$(DLL) /t:library $(REFS) \
 	/resource:$(srcdir)/EditorBindings.glade,EditorBindings.glade \
 	/resource:$(srcdir)/texteditoraddin.glade,texteditoraddin.glade \
-	&& cp $(DLL) ../../../../../build/bin/. && cp $(DLL).config ../../../../../build/bin/.
+	&& cp $(DLL) $(top_builddir)/build/bin/. && cp $(DLL).config $(top_builddir)/build/bin/.
 
 assemblydir = $(libdir)/monodevelop/bin
 assembly_DATA = $(DLL) $(DLL).config

@@ -11,8 +11,8 @@ DLL = MonoDevelop.exe
 all: $(DLL)
 
 REFS = /r:System.Drawing \
-	/r:../../../build/bin/MonoDevelop.Core.dll \
-	/r:../../../build/bin/MonoDevelop.Base.dll \
+	/r:$(top_builddir)/build/bin/MonoDevelop.Core.dll \
+	/r:$(top_builddir)/build/bin/MonoDevelop.Base.dll \
 	/r:Mono.Posix.dll \
 	/r:Mono.GetOptions.dll \
 	$(GTK_SHARP_LIBS) \
@@ -23,7 +23,7 @@ $(DLL): $(build_sources)
 		/define:GTK $(REFS) \
 		$(build_sources) \
 		/resource:SplashScreen.png,SplashScreen.png \
-	&& cp $(DLL) ../../../build/bin/.
+	&& cp $(DLL) $(top_builddir)/build/bin/.
 
 assemblydir = $(libdir)/monodevelop/bin
 assembly_DATA = $(DLL)           

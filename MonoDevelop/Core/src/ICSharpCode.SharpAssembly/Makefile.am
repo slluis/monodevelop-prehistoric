@@ -74,7 +74,7 @@ all: $(DLL)
 
 $(DLL): $(build_sources)
 	$(CSC) /out:$(DLL) /target:library $(build_sources) \
-	&& cp $(DLL) ../../../build/bin/.
+	&& cp $(DLL) $(top_builddir)/build/bin/.
 
 assemblydir = $(libdir)/monodevelop/bin
 assembly_DATA = $(DLL)

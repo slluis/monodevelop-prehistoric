@@ -1,12 +1,12 @@
 
 DLLS = /r:System.Drawing /r:ICSharpCode.SharpZipLib.dll \
-	/r:../../../build/bin/ICSharpCode.SharpRefactory.dll \
-	/r:../../../build/bin/MonoDevelop.Core.dll \
-	/r:../../../build/bin/ICSharpCode.SharpAssembly.dll \
-	/r:../../../build/bin/MonoDevelop.Gui.Utils.dll \
-	/r:../../../build/bin/MonoDevelop.Gui.Widgets.dll \
+	/r:$(top_builddir)/build/bin/ICSharpCode.SharpRefactory.dll \
+	/r:$(top_builddir)/build/bin/MonoDevelop.Core.dll \
+	/r:$(top_builddir)/build/bin/ICSharpCode.SharpAssembly.dll \
+	/r:$(top_builddir)/build/bin/MonoDevelop.Gui.Utils.dll \
+	/r:$(top_builddir)/build/bin/MonoDevelop.Gui.Widgets.dll \
 	/r:System.Data.dll /r:System.Web.Services.dll \
-	/r:../../../build/bin/gdl-sharp.dll \
+	/r:$(top_builddir)/build/bin/gdl-sharp.dll \
 	/r:Mono.Posix.dll \
 	$(GTK_SHARP_LIBS) \
 	$(GNOME_SHARP_LIBS) \
@@ -396,8 +396,8 @@ $(ASSEMBLY): $(build_sources) $(srcdir)/Base.glade
 		/resource:$(srcdir)/Base.glade,Base.glade \
 		$(monodoc_libflags) \
 		$(build_sources) \
-	&& cp $(ASSEMBLY) ../../../build/bin/. \
-	&& cp $(ASSEMBLY).config ../../../build/bin/.
+	&& cp $(ASSEMBLY) $(top_builddir)/build/bin/. \
+	&& cp $(ASSEMBLY).config $(top_builddir)/build/bin/.
 
 Services/StockIcons.cs : ./Services/process-icons.pl ../../../build/data/resources/icons
 	perl  -x$(srcdir)/../../../build/data/resources/icons -w $(srcdir)/./Services/process-icons.pl > $(srcdir)/Services/StockIcons.cs

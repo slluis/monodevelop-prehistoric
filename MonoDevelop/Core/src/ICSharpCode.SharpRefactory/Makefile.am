@@ -117,7 +117,7 @@ all: $(DLL)
 
 $(DLL): $(FILES)
 	@ $(CSC) /out:$(DLL) /target:library $(REFS) $(build_sources) \
-	&& cp $(DLL) ../../../build/bin/.
+	&& cp $(DLL) $(top_builddir)/build/bin/.
 
 test-parser.exe : $(DLL) src/Main.cs
 	@ $(CSC) /out:$@ /r:$(DLL) src/Main.cs

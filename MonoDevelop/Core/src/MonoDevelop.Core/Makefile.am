@@ -80,7 +80,7 @@ Services/GettextCatalog.cs: $(srcdir)/Services/GettextCatalog.cs.in
 
 $(DLL): $(build_sources) $(build_resources)
 	$(CSC) /out:$(DLL) /target:library $(REFS) /define:LINUX $(COMPILE_RESOURCES) \
-	$(build_sources) && cp $(DLL) ../../../build/bin/.
+	$(build_sources) && cp $(DLL) $(top_builddir)/build/bin/.
 
 assemblydir = $(libdir)/monodevelop/bin
 assembly_DATA = $(DLL)

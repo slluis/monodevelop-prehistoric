@@ -2,8 +2,8 @@
 DLL = MonoDevelop.Gui.Widgets.dll
 
 REFERENCES = /r:System.Drawing \
-	/r:../../../build/bin/MonoDevelop.Core.dll \
-	/r:../../../build/bin/MonoDevelop.Gui.Utils.dll \
+	/r:$(top_builddir)/build/bin/MonoDevelop.Core.dll \
+	/r:$(top_builddir)/build/bin/MonoDevelop.Gui.Utils.dll \
 	$(GTK_SHARP_LIBS) \
 	$(GLADE_SHARP_LIBS) \
 	$(GNOME_SHARP_LIBS)
@@ -34,7 +34,7 @@ all: $(DLL)
 
 $(DLL): $(build_sources)
 	$(CSC) /debug /out:$(DLL) /target:library $(REFERENCES) $(build_sources) \
-	&& cp $(DLL) ../../../build/bin/.
+	&& cp $(DLL) $(top_builddir)/build/bin/.
 
 assemblydir = $(libdir)/monodevelop/bin
 assembly_DATA = $(DLL)
