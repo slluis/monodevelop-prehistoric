@@ -1,4 +1,5 @@
 load assembly/run context menus
+proper threading
 
 viewing results
 save the results to xml

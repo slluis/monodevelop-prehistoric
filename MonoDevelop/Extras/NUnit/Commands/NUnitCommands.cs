@@ -11,10 +11,10 @@ namespace MonoDevelop.Commands
 {
 	public class NUnitLoadAssembly : AbstractMenuCommand
 	{
+		NUnitService nunitService = (NUnitService) ServiceManager.GetService (typeof (NUnitService));
+
 		public override void Run ()
 		{
-			NUnitService nunitService = (NUnitService) ServiceManager.GetService (typeof (NUnitService));
-
 			using (FileSelector fs = new FileSelector ("Load test assembly")) {
 				//fs.DefaultPath = Path.Combine (Environment.GetEnvironmentVariable ("HOME"), "Projects");
 
@@ -30,9 +30,11 @@ namespace MonoDevelop.Commands
 
 	public class NUnitRunTests : AbstractMenuCommand
 	{
+		NUnitService nunitService = (NUnitService) ServiceManager.GetService (typeof (NUnitService));
+
 		public override void Run ()
 		{
-			Console.WriteLine ("Not implemented");
+			nunitService.RunTests ();
 		}
 	}
 }

@@ -12,6 +12,7 @@ namespace MonoDevelop.Services
 	{
 		Assembly asm;
 		bool running = false;
+		TestSuite rootTestSuite;
 
 		public event EventHandler AssemblyLoaded;
 		public event FixtureLoadedErrorEventHandler FixtureLoadError;
@@ -22,6 +23,10 @@ namespace MonoDevelop.Services
 
 		public NUnitService ()
 		{
+		}
+
+		public bool Running {
+			get { return running; }
 		}
 
 		public Assembly TestAssembly {
@@ -44,6 +49,7 @@ namespace MonoDevelop.Services
 			finally {
 				AppDomain.CurrentDomain.AssemblyResolve -= reh;
 			}
+			rootTestSuite = suite;
 			return suite;
 		}
 
@@ -80,6 +86,12 @@ namespace MonoDevelop.Services
 			running = true;
 			test.Run (this);
 			running = false;
+		}
+
+		public void RunTests ()
+		{
+			if (rootTestSuite != null)
+				RunTest (rootTestSuite);
 		}
 
 		public void SuiteFinished (TestSuiteResult result)
