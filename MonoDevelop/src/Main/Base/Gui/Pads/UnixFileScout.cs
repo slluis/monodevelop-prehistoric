@@ -640,6 +640,9 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads
 					try {
 						string dir = System.IO.Path.GetFileName(fulldir);
 						
+						if (dir == null || dir.Length == 0 || dir[0] == '.') {
+							continue;
+						}
 						FileAttributes attr = File.GetAttributes(fulldir);
 						if ((attr & FileAttributes.Hidden) == 0) {
 							TreeNode node   = curNode.Nodes.Add(dir);
