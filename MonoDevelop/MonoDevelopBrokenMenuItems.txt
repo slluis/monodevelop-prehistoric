@@ -1,5 +1,6 @@
+also see bugzilla for more information
+
 File
-	(should wait for decision on text editor)
 	Print				
 	PrintPreview
 Edit
@@ -10,24 +11,18 @@ Edit
 		Show definitions only	
 
 View
-	//FIXME: this menu will wait until we have the new docker stuff
 	Project
 	Output
 	Classes
 	Files
 	Show start page
 
+// New Editor?
 Search
 	Find in Files
 	Replace in Files
 	
 Tools
-	// The tools dont work if you replace them
-	// with linuxish tools
-	NotePad
-	NProf
-	IL Dasm
-	Insert Color //FIXME: Half implemented, seems to be broken inside Gtk#
 	AutoCode Generations
 	Quick XML doc
 
@@ -40,7 +35,7 @@ Help
 	Web (this actually works, but there is a bug
 		in showing it sometimes)
 
-
+// New Editor?
 Right click Pop Up menu
 
       File Mode			Crashes
