@@ -250,21 +250,21 @@
 	                  label    = "${res:ProjectComponent.ContextMenu.Rename}" 
 	                  shortcut = "F2"
 	                  class    = "ICSharpCode.SharpDevelop.Commands.ProjectBrowser.RenameEntryEvent"/>
-		<MenuItem id = "RemoveRenameSeparator" label = "-" />
-		<MenuItem id = "RunTests"
+		<!-- <MenuItem id = "RemoveRenameSeparator" label = "-" /> -->
+		<!-- <MenuItem id = "RunTests"
 	                  label = "${res:ProjectComponent.ContextMenu.RunTests}" 
 	                  class = "ICSharpCode.SharpDevelop.Commands.RunTestsInProject"/>
 		<MenuItem id = "Deploy"
 	                  label = "${res:ProjectComponent.ContextMenu.Deploy}" />
-		<MenuItem id = "TestsDeploySeparator" label = "-" />
+		<MenuItem id = "TestsDeploySeparator" label = "-" /> -->
 
 <!-- 	      	<MenuItem id = "ViewDocumentation"
 	                  label = "${res:ProjectComponent.ContextMenu.ViewDocumentation}" 
 	                  class = "ICSharpCode.SharpDevelop.Commands.ViewProjectDocumentation"/> -->
 		
-		<MenuItem id = "GenerateDocumentation"
+		<!-- <MenuItem id = "GenerateDocumentation"
 	                  label = "${res:ProjectComponent.ContextMenu.GenerateDocumentation}" 
-	                  class = "ICSharpCode.SharpDevelop.Commands.GenerateProjectDocumentation"/>
+	                  class = "ICSharpCode.SharpDevelop.Commands.GenerateProjectDocumentation"/> -->
 		
 		<MenuItem id = "SetAsStartupProjectSeparator" label = "-" />
 		<MenuItem id = "SetAsStartupProject"
