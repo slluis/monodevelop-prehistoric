@@ -8,3 +8,6 @@ upon release.
   limited to looking disabled and working, looking enabled and not working
   and others.
 * Lingering code completion issues
+* When you click on  File->Recent Projects->clear recent project list or
+  File->Recent Files->clear recent files list you need a confimartion dialog
+  in order to avoid clearing accidentaly.
