@@ -2,7 +2,7 @@
 
 	* Internal/Project/Project/DotNetProject.cs: pass fileName
 	to the LangaugeBinding to determine if it is compilable
-	fixes bug# 71964
+	fixes bug# 71694
 
 2005-01-28  John Luke  <john.luke@gmail.com>
 
