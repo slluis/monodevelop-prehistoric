@@ -58,8 +58,8 @@ namespace Gdl
 		[Export]
 		public DockPlacement NextPlacement {
 			get {
-				if (placementStack != null && placementStack.Count != 0)
-					return (DockPlacement)placementStack.Pop ();
+				if (placementStack != null && placementStack.Count > 0)
+					return (DockPlacement) placementStack.Pop ();
 				return DockPlacement.Center;
 			}
 			set { 
@@ -91,12 +91,7 @@ namespace Gdl
 			if (!(widget is DockItem))
 				return;
 
-			// default position
-			DockPlacement position = DockPlacement.Center;
-			if (placementStack != null && placementStack.Count > 0)
-				position = (DockPlacement) placementStack.Pop ();
-
-			Dock ((DockItem)widget, position, null);
+			Dock ((DockItem)widget, NextPlacement, null);
 		}
 		
 		public override void OnDetached (bool recursive)
@@ -231,7 +226,7 @@ namespace Gdl
 
 				// get a placement hint from the new host
 				if (newHost.ChildPlacement (host, ref pos))
-					placementStack.Push (pos);
+					NextPlacement = pos;
 				else
 					Console.WriteLine ("Something weird happened while getting the child placement for {0} from parent {1}", host, newHost);
 
@@ -249,22 +244,39 @@ namespace Gdl
 			// controller with an initial placement of floating
 			if (newHost == null) {
 				newHost = this.Master.Controller;
-				placementStack.Push (DockPlacement.Floating);
+				NextPlacement = DockPlacement.Floating;
 			}
 
 			if (newHost != null)
 				ConnectHost (newHost);
+
+			#if DEBUG
+			PrintPlacementStack ();
+			#endif
 		}
 
 		void OnHostDocked (object sender, DockedArgs a)
 		{
 			DockObject obj = sender as DockObject;
 			// see if the given position is compatible for the stack's top element
-			if (sticky && placementStack != null) {
-				DockPlacement pos = (DockPlacement) placementStack.Pop ();
+			if (!sticky && placementStack != null) {
+				DockPlacement pos = NextPlacement;
 				if (obj.ChildPlacement (a.Requestor, ref pos))
 					DoExcursion ();
 			}
+
+			#if DEBUG
+			PrintPlacementStack ();
+			#endif
 		}
+
+		#if DEBUG
+		void PrintPlacementStack ()
+		{
+			Console.WriteLine ("-- {0} count {1}", host.Name, placementStack.Count);
+			foreach (object o in placementStack.ToArray ())
+				Console.WriteLine (o);
+		}
+		#endif
 	}
 }
