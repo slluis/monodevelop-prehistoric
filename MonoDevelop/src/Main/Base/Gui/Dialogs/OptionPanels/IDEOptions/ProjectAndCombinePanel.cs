@@ -52,11 +52,6 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs.OptionPanels
 			
 			BeforeCompileAction action = (BeforeCompileAction)PropertyService.GetProperty("SharpDevelop.Services.DefaultParserService.BeforeCompileAction", BeforeCompileAction.SaveAllFiles);
 			
-			System.Console.WriteLine("action is " + action.ToString());
-			System.Console.WriteLine("Comparison 1 is " + ((int)BeforeCompileAction.SaveAllFiles));
-			System.Console.WriteLine("Comparison 2 is " + ((int)BeforeCompileAction.PromptForSave));
-			System.Console.WriteLine("Comparison 3 is " + ((int)BeforeCompileAction.Nothing));
-			
 			saveChangesRadioButton.Active = action.Equals(BeforeCompileAction.SaveAllFiles);
 			promptChangesRadioButton.Active = action.Equals(BeforeCompileAction.PromptForSave);
 			noSaveRadioButton.Active = action.Equals(BeforeCompileAction.Nothing);

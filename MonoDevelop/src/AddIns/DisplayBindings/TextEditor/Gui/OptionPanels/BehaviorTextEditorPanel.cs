@@ -120,7 +120,7 @@ namespace ICSharpCode.SharpDevelop.DefaultEditor.Gui.OptionPanels
 			indentStyleComboBoxMenu = new Menu();
 			indentStyleComboBox = new OptionMenu();
 			indentStyleComboBox.Menu = indentStyleComboBoxMenu;
-			convertTabsToSpacesCheckBox = CheckButton.NewWithLabel(StringParserService.Parse("${res:Dialog.Options.IDEOptions.TextEditor.Behaviour.ConvertTabsToSpacesCheckBox}"));
+			convertTabsToSpacesCheckBox = new CheckButton(StringParserService.Parse("${res:Dialog.Options.IDEOptions.TextEditor.Behaviour.ConvertTabsToSpacesCheckBox}"));
 				// table to pack the tab settings options 
 				Table table1 = new Table(4, 2, false);
 				//pack the table
@@ -144,10 +144,10 @@ namespace ICSharpCode.SharpDevelop.DefaultEditor.Gui.OptionPanels
 			Gtk.VBox vBox2 = new Gtk.VBox(false, 2);
 			
 			
-			autoinsertCurlyBraceCheckBox = CheckButton.NewWithLabel(StringParserService.Parse("${res:Dialog.Options.IDEOptions.TextEditor.Behaviour.CurlyBracketCheckBox}"));
-			hideMouseCursorCheckBox  = CheckButton.NewWithLabel(StringParserService.Parse("${res:Dialog.Options.IDEOptions.TextEditor.Behaviour.HideMouseCheckBox}"));
-			caretBehindEOLCheckBox  = CheckButton.NewWithLabel(StringParserService.Parse("${res:Dialog.Options.IDEOptions.TextEditor.Behaviour.BehindEOLCheckBox}"));
-			auotInsertTemplatesCheckBox  = CheckButton.NewWithLabel(StringParserService.Parse("${res:Dialog.Options.IDEOptions.TextEditor.Behaviour.TemplateInsertCheckBox}"));			
+			autoinsertCurlyBraceCheckBox = new CheckButton(StringParserService.Parse("${res:Dialog.Options.IDEOptions.TextEditor.Behaviour.CurlyBracketCheckBox}"));
+			hideMouseCursorCheckBox  = new CheckButton(StringParserService.Parse("${res:Dialog.Options.IDEOptions.TextEditor.Behaviour.HideMouseCheckBox}"));
+			caretBehindEOLCheckBox  = new CheckButton(StringParserService.Parse("${res:Dialog.Options.IDEOptions.TextEditor.Behaviour.BehindEOLCheckBox}"));
+			auotInsertTemplatesCheckBox  = new CheckButton(StringParserService.Parse("${res:Dialog.Options.IDEOptions.TextEditor.Behaviour.TemplateInsertCheckBox}"));			
 			Label label4 = new Gtk.Label(StringParserService.Parse("${res:Dialog.Options.IDEOptions.TextEditor.Behaviour.MouseWhellGroupBox}"));
 			mouseWhellDirectionComboBoxMenu = new Menu();
 			mouseWhellDirectionComboBox = new OptionMenu();

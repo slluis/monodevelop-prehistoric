@@ -96,7 +96,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs.OptionPanels
 			// set up the load options
 			//
 			Gtk.Frame loadContainer = new Gtk.Frame(StringParserService.Parse("${res:Dialog.Options.IDEOptions.LoadSaveOptions.LoadLabel}"));
-			loadUserDataCheckBox = Gtk.CheckButton.NewWithLabel (StringParserService.Parse("${res:Dialog.Options.IDEOptions.LoadSaveOptions.LoadUserDataCheckBox}"));
+			loadUserDataCheckBox = new Gtk.CheckButton (StringParserService.Parse("${res:Dialog.Options.IDEOptions.LoadSaveOptions.LoadUserDataCheckBox}"));
 			loadContainer.Add(loadUserDataCheckBox);
 			
 			//
@@ -106,7 +106,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs.OptionPanels
 			Gtk.VBox saveVBox = new Gtk.VBox(false, 2);
 			
 			// the backup checkbox
-			createBackupCopyCheckBox = Gtk.CheckButton.NewWithLabel (StringParserService.Parse("${res:Dialog.Options.IDEOptions.LoadSaveOptions.CreateBackupCopyCheckBox}"));
+			createBackupCopyCheckBox = new Gtk.CheckButton (StringParserService.Parse("${res:Dialog.Options.IDEOptions.LoadSaveOptions.CreateBackupCopyCheckBox}"));
 			saveVBox.PackStart(createBackupCopyCheckBox, false, false, 2);
 			
 			// the terminator label 
