@@ -1,3 +1,8 @@
+2004-09-20  Valters Svabe  <valters@inbox.lv>
+
+	* CSharpBindingExecutionManager.cs.in: Respect PauseConsoleOutput
+	option.
+
 2004-07-07  Lluis Sanchez Gual  <lluis@novell.com>
 
 	* Parser/Resolver.cs: When locating the inner or outer classes, get the 
