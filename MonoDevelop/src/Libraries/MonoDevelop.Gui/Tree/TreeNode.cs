@@ -107,8 +107,8 @@ namespace MonoDevelop.Gui {
 		}
 		
 		public void Remove() {
-			if (TreeView != null) {
-				TreeView.RemoveNode(this);
+			if (parent != null) {
+				parent.Nodes.Remove(this);
 			}
 		}
 
@@ -152,7 +152,7 @@ namespace MonoDevelop.Gui {
 			get {
 				Gtk.TreeIter iter;
 				if (TreeView.Model.GetIterFromString(out iter, TreePath) == false) {
-					throw new Exception("Error calculating iter");
+					throw new Exception("Error calculating iter for path " + TreePath);
 				}
 				return iter;
 			}

@@ -19,6 +19,8 @@ namespace MonoDevelop.Gui {
 			this.canEdit = canEdit;
 
 			HeadersVisible = false;
+			SearchColumn = 0;
+			EnableSearch = true;
 			Gtk.TreeViewColumn complete_column = new Gtk.TreeViewColumn ();
 			complete_column.Title = "column";
 
