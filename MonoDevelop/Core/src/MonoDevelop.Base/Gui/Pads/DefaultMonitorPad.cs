@@ -27,6 +27,10 @@ namespace MonoDevelop.EditorBindings.Gui.Pads
 		Gtk.TextBuffer buffer;
 		Gtk.TextView textEditorControl;
 		Gtk.ScrolledWindow scroller;
+		Gtk.HBox hbox;
+		ToolButton buttonStop;
+
+		private static Gtk.Tooltips tips = new Gtk.Tooltips ();
 		
 		TextTag tag;
 		TextTag bold;
@@ -37,7 +41,9 @@ namespace MonoDevelop.EditorBindings.Gui.Pads
 		string title;
 		string icon;
 		string id;
-		
+
+		private IAsyncOperation asyncOperation;
+
 		public DefaultMonitorPad (string title, string icon)
 		{
 			buffer = new Gtk.TextBuffer (new Gtk.TextTagTable ());
@@ -46,6 +52,25 @@ namespace MonoDevelop.EditorBindings.Gui.Pads
 			scroller = new Gtk.ScrolledWindow ();
 			scroller.ShadowType = ShadowType.In;
 			scroller.Add (textEditorControl);
+
+			Toolbar toolbar = new Toolbar ();
+			toolbar.IconSize = IconSize.SmallToolbar;
+			toolbar.Orientation = Orientation.Vertical;
+			toolbar.ToolbarStyle = ToolbarStyle.Icons;
+
+			buttonStop = new ToolButton ("gtk-stop");
+			buttonStop.Clicked += new EventHandler (OnButtonStopClick);
+			buttonStop.SetTooltip (tips, "Stop", "Stop");
+			toolbar.Insert (buttonStop, -1);
+
+			ToolButton buttonClear = new ToolButton ("gtk-clear");
+			buttonClear.Clicked += new EventHandler (OnButtonClearClick);
+			buttonClear.SetTooltip (tips, "Clear console", "Clear console");
+			toolbar.Insert (buttonClear, -1);
+
+			hbox = new HBox (false, 5);
+			hbox.PackStart (scroller, true, true, 0);
+			hbox.PackEnd (toolbar, false, false, 0);
 			
 			bold = new TextTag ("bold");
 			bold.Weight = Pango.Weight.Bold;
@@ -55,12 +80,29 @@ namespace MonoDevelop.EditorBindings.Gui.Pads
 			tag.Indent = 10;
 			buffer.TagTable.Add (tag);
 			tags.Add (tag);
-			
+
 			this.title = title;
 			this.icon = icon;
 			this.markupTitle = title;
 		}
-		
+
+		public IAsyncOperation AsyncOperation {
+			get {
+				return asyncOperation;
+			}
+			set {
+				asyncOperation = value;
+			}
+		}
+
+		void OnButtonClearClick (object sender, EventArgs e) {
+			buffer.Clear();
+		}
+
+		void OnButtonStopClick (object sender, EventArgs e) {
+			asyncOperation.Cancel ();
+		}
+
 		public void BeginProgress (string title)
 		{
 			this.title = title;
@@ -68,6 +110,7 @@ namespace MonoDevelop.EditorBindings.Gui.Pads
 			
 			buffer.Clear ();
 			OnTitleChanged (null);
+			buttonStop.Sensitive = true;
 		}
 		
 		public void BeginTask (string name, int totalWork)
@@ -91,8 +134,8 @@ namespace MonoDevelop.EditorBindings.Gui.Pads
 				textEditorControl.ScrollMarkOnscreen (buffer.InsertMark);
 		}
 		
-		public Gtk.Widget Control {
-			get { return scroller; }
+		public virtual Gtk.Widget Control {
+			get { return hbox; }
 		}
 		
 		public string Title {
@@ -117,6 +160,7 @@ namespace MonoDevelop.EditorBindings.Gui.Pads
 		{
 			markupTitle = title;
 			OnTitleChanged (null);
+			buttonStop.Sensitive = false;
 		}
 		
 		void AddText (string s)

@@ -89,19 +89,29 @@ namespace MonoDevelop.Services
 			} else {
 				// This should create an vte pad instead, but an output panel will be enough until we can do it
 				IProgressMonitor monitor = Runtime.TaskService.GetOutputProgressMonitor ("Application Output", MonoDevelop.Gui.Stock.RunProgramIcon, true, true);
+
 				ProcessMonitor pm = new ProcessMonitor ();
 				pm.Exited = exited;
 				pm.Monitor = monitor;
-				return StartProcess (command, arguments, workingDirectory, monitor.Log, monitor.Log, new EventHandler (pm.OnExited));
+				pm.CancelHandler = new MonitorHandler(pm.OnCancelRequest);
+
+				monitor.CancelRequested += pm.CancelHandler;
+
+				ProcessWrapper pw = StartProcess (command, arguments, workingDirectory, monitor.Log, monitor.Log, new EventHandler (pm.OnExited));
+				pm.ProcessWrapper = pw;
+
+				return pw;
 			}
 		}
-		
 	}
 	
 	class ProcessMonitor
 	{
 		public IProgressMonitor Monitor;
 		public EventHandler Exited;
+
+		public ProcessWrapper ProcessWrapper;
+		public MonitorHandler CancelHandler;
 		
 		public void OnExited (object sender, EventArgs args)
 		{
@@ -113,6 +123,17 @@ namespace MonoDevelop.Services
 			} finally {
 				Monitor.Dispose ();
 			}
+		}
+
+		public void OnCancelRequest (IProgressMonitor monitor) {
+			if (ProcessWrapper != null) {
+				if (!ProcessWrapper.HasExited) {
+					ProcessWrapper.Kill();
+					monitor.Log.WriteLine("Application stopped by user.");
+				}
+			}
+			//remove the cancel handler, it will be attached again when StartConsoleProcess is called
+			monitor.CancelRequested -= CancelHandler;
 		}
 	}
 	

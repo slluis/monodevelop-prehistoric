@@ -1,3 +1,17 @@
+2005-02-11  Lluis Sanchez Gual  <lluis@novell.com>
+
+	* Services/Project/ProjectService.cs: Fix default file formats.
+
+2005-02-11  Ben Motmans <ben.motmans@gmail.com>
+
+	* Internal/ProgressMonitoring/BaseProgressMonitor.cs:
+	moved cancelRequestedEvent inside MbrWrapper
+	* Services/Tasks/TaskService.cs
+	* Services/Tasks/OutputProgressMonitor
+	* Services/ProcessService/ProcessService.cs
+	* Gui/Pads/DefaultMonitorPad.cs:
+	Added kill and clear button
+
 2005-02-10  Todd Berman  <tberman@off.net>
 
 	* Internal/Project/Combine/Combine.cs: Don't generate makefiles on

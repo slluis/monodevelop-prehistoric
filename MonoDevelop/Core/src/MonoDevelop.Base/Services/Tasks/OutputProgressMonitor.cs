@@ -28,6 +28,7 @@ namespace MonoDevelop.EditorBindings.Gui.Pads
 		
 		public OutputProgressMonitor (DefaultMonitorPad pad, string title, string icon)
 		{
+			pad.AsyncOperation = this.AsyncOperation;
 			outputPad = pad;
 			outputPad.BeginProgress (title);
 		}

@@ -44,8 +44,8 @@ namespace MonoDevelop.Services
 		IAsyncOperation currentRunOperation;
 		
 		FileFormatManager formatManager = new FileFormatManager ();
-		IFileFormat defaultProjectFormat = new MdsFileFormat ();
-		IFileFormat defaultCombineFormat = new MdpFileFormat ();
+		IFileFormat defaultProjectFormat = new MdpFileFormat ();
+		IFileFormat defaultCombineFormat = new MdsFileFormat ();
 		
 		ICompilerResult lastResult = new DefaultCompilerResult ();
 			

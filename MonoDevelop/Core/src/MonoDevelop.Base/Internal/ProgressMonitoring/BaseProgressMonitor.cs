@@ -38,6 +38,15 @@ namespace MonoDevelop.Services
 	{
 		class MbrWrapper {
 			public ManualResetEvent waitEvent;
+
+			//workaround for "** ERROR **: file icall.c: line 2419 (ves_icall_InternalExecute): assertion failed" bug when
+			//handling the CancelRequested event
+			public event MonitorHandler cancelRequestedEvent;
+
+			public void RaiseEvent (IProgressMonitor monitor) {
+				if (cancelRequestedEvent != null)
+					cancelRequestedEvent (monitor);
+			}
 		}
 		
 		MbrWrapper c = new MbrWrapper ();
@@ -46,7 +55,6 @@ namespace MonoDevelop.Services
 		bool canceled;
 		
 		event OperationHandler completedEvent;
-		event MonitorHandler cancelRequestedEvent;
 		
 		StringCollection errorsMessages = new StringCollection ();
 		StringCollection successMessages = new StringCollection ();
@@ -186,14 +194,14 @@ namespace MonoDevelop.Services
 			add {
 				bool alreadyCanceled = false;
 				lock (progressTracker) {
-					cancelRequestedEvent += value;
+					c.cancelRequestedEvent += value;
 					alreadyCanceled = canceled;
 				}
 				if (alreadyCanceled) value (this);
 			}
 			remove {
 				lock (progressTracker) {
-					cancelRequestedEvent -= value;
+					c.cancelRequestedEvent -= value;
 				}
 			}
 		}		
@@ -231,17 +239,16 @@ namespace MonoDevelop.Services
 			if (completedEvent != null)
 				completedEvent (AsyncOperation);
 		}
-				
+
 		protected virtual void OnCancelRequested ()
 		{
 			lock (progressTracker) {
 				canceled = true;
 			}
 
-			if (cancelRequestedEvent != null)
-				cancelRequestedEvent (this);
+			c.RaiseEvent(this);
 		}
-		
+
 		[AsyncDispatch]
 		void WriteLogInternal (string text)
 		{
