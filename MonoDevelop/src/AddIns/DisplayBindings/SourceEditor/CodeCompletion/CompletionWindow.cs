@@ -108,9 +108,11 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 			int capitalizationIndex = -1;
 			
 			string typedString = GetTypedString ();
+			Console.WriteLine (typedString);
 			TreeIter iter;
 			int i = 0;
-			for (store.GetIterFirst (out iter); store.IterNext (out iter) == true; i++) {
+			store.GetIterFirst (out iter);
+			do {
 				string text = (string) store.GetValue (iter, 0);
 				
 				if (text.ToUpper ().StartsWith (typedString.ToUpper ())) {
@@ -126,11 +128,12 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 						capitalizationIndex = currentCapitalizationIndex;
 					}
 				}
-			}
-			
+				i++;
+			} while (store.IterNext (out iter) == true);
+
 			if (lastSelected != -1) {
 				listView.Selection.UnselectAll ();
-				TreePath path = new TreePath ("" + (lastSelected + 1));
+				TreePath path = new TreePath ("" + (lastSelected));
 				listView.Selection.SelectPath (path);
 				listView.SetCursor (path, complete_column, false);
 				listView.ScrollToCell (path, null, false, 0, 0);

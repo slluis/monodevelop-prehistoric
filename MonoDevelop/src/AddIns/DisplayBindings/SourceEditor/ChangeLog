@@ -1,5 +1,10 @@
 2004-03-25  Todd Berman  <tberman@sevenl.net>
 
+	* CodeCompletion/CompletionWindow.cs: fix bug where the first item
+	in the list was never being touched due to a for loop miscue.
+
+2004-03-25  Todd Berman  <tberman@sevenl.net>
+
 	* Gui/SourceEditorView.cs: insert the character, *then* start the code
 	completion window, this results in the code completion window showing
 	up in the correct place (under the cursor, not under the previous char)
