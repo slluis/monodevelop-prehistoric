@@ -599,6 +599,7 @@
 		                          description = "${res:XML.MainMenu.FileMenu.SaveAll.Description}"
 		                          class = "ICSharpCode.SharpDevelop.Commands.SaveAllFiles"/>
 			</Conditional>
+			<!--
 			<MenuItem id = "PrintSeparator" label = "-" />
 	                <Conditional activewindow="*" action="Disable">
 		                <MenuItem id = "Print"
@@ -613,6 +614,7 @@
 		                          description = "${res:XML.MainMenu.FileMenu.PrintPreview.Description}"
 		                          class = "ICSharpCode.SharpDevelop.Commands.PrintPreview"/>
 	                </Conditional>
+			-->
 	                <MenuItem id = "RecentSeparator"  label = "-" />
 	                <MenuItem id = "RecentFiles"    attribute = "RecentFiles" label = "${res:XML.MainMenu.FileMenu.RecentFiles}">
 	                	<MenuItem id = "RecentFilesBuilder" label = "boguslabel" class = "ICSharpCode.SharpDevelop.Commands.RecentFilesMenuBuilder" />
