@@ -76,7 +76,10 @@ namespace ICSharpCode.SharpDevelop.Services
 			"gtk-sharp",
 			"glib-sharp",
 			"gdk-sharp",
-			"pango-sharp"
+			"pango-sharp",
+			"gnome-sharp",
+			"glade-sharp",
+			"gconf-sharp"
 		};
 		
 		public DefaultParserService()
