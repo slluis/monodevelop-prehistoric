@@ -25,19 +25,19 @@ class T
 		Dock dock = new Dock ();
 		DockLayout layout = new DockLayout (dock);
 		
-		DockItem di = new DockItem ("item1", "Item #1", DockItemBehavior.Locked);
+		DockItem di = new DockItem ("item1", "Item #1", DockItemBehavior.Normal);
 		di.Add (new Label ("test"));
 		dock.AddItem (di, DockPlacement.Right);
 		
-		DockItem di2 = new DockItem ("item2", "Item #2", DockItemBehavior.Locked);
+		DockItem di2 = new DockItem ("item2", "Item #2", DockItemBehavior.Normal);
 		di2.Add (new Label ("test2"));
-		dock.AddItem (di2, DockPlacement.Bottom);
+		dock.AddItem (di2, DockPlacement.Right);
 		
-		DockItem di3 = new DockItem ("item3", "Item #3", DockItemBehavior.Locked);
+		DockItem di3 = new DockItem ("item3", "Item #3", DockItemBehavior.Normal);
 		di3.Add (new Label ("test3"));
-		dock.AddItem (di3, DockPlacement.Left);
+		dock.AddItem (di3, DockPlacement.Right);
 		
-		DockItem di4 = new DockItem ("item4", "Item #4", DockItemBehavior.Locked);
+		DockItem di4 = new DockItem ("item4", "Item #4", DockItemBehavior.Normal);
 		di4.Add (new Label ("test4"));
 		dock.AddItem (di4, DockPlacement.Top);
 		
