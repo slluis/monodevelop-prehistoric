@@ -1,5 +1,9 @@
 2004-10-20  John Luke  <john.luke@gmail.com>
 
+	* Services/File/RecentFiles.cs: fix a bunch of bugs
+
+2004-10-20  John Luke  <john.luke@gmail.com>
+
 	* Makefile.am: remove RingBuffer, add RecentFiles (not used yet)
 	* Services/File/FdoRecentFiles.cs
 	* Services/File/RecentItem.cs

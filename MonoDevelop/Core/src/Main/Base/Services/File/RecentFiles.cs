@@ -32,9 +32,8 @@ using System.Xml.Serialization;
 
 namespace Freedesktop.RecentFiles
 {
-	// FIXME: make sure locking is ok
-	// ex. should we survive ctl-c in middle of read/write
-	// do we fail gracefully if someone else has a lock
+	// Currently using XmlSerializer to read/write the recent files list
+	// other methods may be faster.
     public class RecentFiles
 	{
 		private static XmlSerializer serializer;
@@ -60,7 +59,7 @@ namespace Freedesktop.RecentFiles
         [XmlElement ("RecentItem")]
         public RecentItem[] RecentItems;
 
-		// FIXME: maybe not write until Save at the End
+		// FIXME: maybe not write until Save () is called manually
 		public void AddItem (RecentItem item)
 		{
 			if (RecentItems == null)
@@ -72,66 +71,66 @@ namespace Freedesktop.RecentFiles
 
 			// check for already existing URI
 			// if it does update timestamp and return unchanged;
-			// FIXME: but, what about new Groups? private changing?
 			foreach (RecentItem ri in RecentItems)
 			{
-				if (item.Uri == ri.Uri)
+				if (ri.Uri == item.Uri)
 				{
 					ri.Timestamp = item.Timestamp;
+					if (item.Groups != null)
+						ri.AddGroups (item.Groups);
 					Save ();
 					return;
 				}
 			}
 
-			int count = RecentItems.Length;
-			RecentItem[] newItems;
-			if (count < 500)
+			while (RecentItems.Length > 499)
 			{
-				newItems = new RecentItem[count + 1];
-				RecentItems.CopyTo (newItems, 0);
-				newItems[count + 1] = item;
-			}
-			else
-			{
-				// FIXME: crashes
-				newItems = new RecentItem[500];
-				// here we chop off the beginning (oldest)
-				Array.Copy (RecentItems, count - 500, newItems, 0, 499);
-				newItems[500] = item;
+				RemoveItem (OldestItem);
 			}
 
+			int length = RecentItems.Length;
+			RecentItem[] newItems = new RecentItem[length + 1];
+			RecentItems.CopyTo (newItems, 0);
+			newItems[length] = item;
 			RecentItems = newItems;
 			Save ();
 		}
 
 		public void Clear ()
 		{
-			RecentItems = new RecentItem [0];
+			RecentItems = null;
 			Save ();
 		}
 
 		public void ClearGroup (string group)
 		{
-			if (this.RecentItems == null)
+			if (RecentItems == null)
 				return;
 
 			ArrayList list = new ArrayList ();
 			foreach (RecentItem ri in RecentItems)
 			{
-				// FIXME: needs to Handle 2 groups becoming 1 group
-				foreach (string g in ri.Groups)
+				if (Array.IndexOf (ri.Groups, group) == -1)
 				{
-					if (g != group)
+					list.Add (ri);
+				}
+				else
+				{
+					ri.RemoveGroup (group);
+
+					// it has other groups so dont delete it
+					if (ri.Groups.Length > 0)
 						list.Add (ri);
 				}
 			}
 
 			RecentItem[] items = new RecentItem [list.Count];
-			list.CopyTo (items);
+			list.CopyTo (items, 0);
 			RecentItems = items;
 			Save ();
 		}
 
+/*
 		private void ClearMissing ()
 		{
 			ArrayList list = new ArrayList ();
@@ -149,6 +148,7 @@ namespace Freedesktop.RecentFiles
 			RecentItems = items;
 			Save ();
 		}
+*/
 
 		private void EmitChangedEvent ()
 		{
@@ -183,46 +183,93 @@ namespace Freedesktop.RecentFiles
 			if (RecentItems == null)
 				return null;
 
-			ArrayList list = new ArrayList ();
 			// disable for now
-			//ClearMissing ();
+			// ClearMissing ();
 
-			foreach (RecentItem ri in RecentItems)
-			{
-				foreach (string g in ri.Groups)
-				{
-					if (g == group)
-						list.Add (ri);
-				}
-			}
-
-			RecentItem[] items = new RecentItem [list.Count];
-			list.CopyTo (items);
-			return items;
-		}
-
-		public void RemoveItem (string uri)
-		{
 			ArrayList list = new ArrayList ();
 			foreach (RecentItem ri in RecentItems)
 			{
-				if (ri.Uri != uri)
+				if (ri.Groups == null)
+					continue;
+
+				if (Array.IndexOf (ri.Groups, group) != -1)
 					list.Add (ri);
 			}
 
 			RecentItem[] items = new RecentItem [list.Count];
-			list.CopyTo (items);
+			list.CopyTo (items, 0);
+			return items;
+		}
+
+		public RecentItem OldestItem
+		{
+			get {
+				RecentItem item = RecentItems[0];
+				for (int i = 1; i < RecentItems.Length; i ++)
+				{
+					// the lowest number is the oldest
+					if (RecentItems[i].Timestamp < item.Timestamp)
+						item = RecentItems[i];
+				}
+				return item;
+			}
+		}
+
+		public void RemoveItem (RecentItem item)
+		{
+			if (RecentItems == null)
+				return;
+
+			ArrayList l = new ArrayList ();
+			foreach (RecentItem ri in RecentItems)
+			{
+				if (ri == item)
+				{
+					// remove the whole thing
+				}
+				else if (ri.Uri == item.Uri)
+				{
+					// remove the groups
+					foreach (string g in item.Groups)
+						ri.RemoveGroup (g);
+					l.Add (ri);
+				}
+				else
+				{
+					// keep it
+					l.Add (ri);
+				}
+			}
+
+			RecentItem[] items = new RecentItem [l.Count];
+			l.CopyTo (items, 0);
 			RecentItems = items;
 			Save ();
 		}
 
-		public void RenameItem (string oldUri, string newUri)
+		public void RemoveItem (Uri uri)
 		{
+			if (RecentItems == null)
+				return;
+
 			foreach (RecentItem ri in RecentItems)
 			{
-				if (ri.Uri == oldUri)
+				if (ri.Uri == uri.ToString ())
+					RemoveItem (ri);
+			}
+		}
+
+		public void RenameItem (Uri oldUri, Uri newUri)
+		{
+			// FIXME: throw exception, cant rename non-existant item
+			if (RecentItems == null)
+				return;
+
+			foreach (RecentItem ri in RecentItems)
+			{
+				if (ri.Uri == oldUri.ToString ())
 				{
-					ri.Uri = newUri;
+					ri.Uri = newUri.ToString ();
 					ri.Timestamp = RecentItem.NewTimestamp;
 					Save ();
 					return;
@@ -244,7 +291,7 @@ namespace Freedesktop.RecentFiles
 
 		public override string ToString ()
 		{
-			if (this.RecentItems == null)
+			if (RecentItems == null)
 				return "0 recent files";
 
 			StringBuilder sb = new StringBuilder ();
@@ -271,7 +318,7 @@ namespace Freedesktop.RecentFiles
         [XmlElement ("Mime-Type")]
         public string MimeType;
 
-        public string Timestamp;
+        public int Timestamp;
 
         public string Private;
 
@@ -283,13 +330,13 @@ namespace Freedesktop.RecentFiles
 		{
 		}
 
-		public RecentItem (string uri, string mimetype) : this (uri, mimetype, null)
+		public RecentItem (Uri uri, string mimetype) : this (uri, mimetype, null)
 		{
 		}
 
-		public RecentItem (string uri, string mimetype, string group)
+		public RecentItem (Uri uri, string mimetype, string group)
 		{
-			Uri = uri;
+			Uri = uri.ToString ();
 			MimeType = mimetype;
 			Timestamp = NewTimestamp;
 
@@ -299,8 +346,9 @@ namespace Freedesktop.RecentFiles
 			}
 		}
 
-		public void AddGroup (string group)
+		private void AddGroup (string group)
 		{
+			Console.WriteLine ("add group");
 			if (this.Groups == null)
 			{
 				Groups = new string[] {group};
@@ -314,31 +362,50 @@ namespace Freedesktop.RecentFiles
 					return;
 			}
 
-			int length = this.Groups.Length + 1;
-			string[] groups = new string [length];
+			int length = this.Groups.Length;
+			string[] groups = new string [length + 1];
 			this.Groups.CopyTo (groups, 0);
 			groups[length] = group;
+			this.Groups = groups;
 		}
 
-		public static string NewTimestamp
+		public void AddGroups (string[] groups)
+		{
+			if (this.Groups == null)
+			{
+				Groups = groups;
+				return;
+			}
+
+			foreach (string s in groups)
+				AddGroup (s);
+		}
+
+		public static int NewTimestamp
 		{
 			get {
 				// from the unix epoch
-				return ((int) (DateTime.UtcNow - new DateTime (1970, 1, 1, 0, 0, 0, 0)).TotalSeconds).ToString ();
+				return ((int) (DateTime.UtcNow - new DateTime (1970, 1, 1, 0, 0, 0, 0)).TotalSeconds);
 			}
 		}
 
-		// FIXME
 		public void RemoveGroup (string group)
 		{
-			if (this.Groups == null)
+			if (Groups == null)
 				return;
 
 			ArrayList groups = new ArrayList ();
-			foreach (string g in Groups)
+			if (Array.IndexOf (Groups, group) == -1)
 			{
-				if (g != group)
-					groups.Add (g);
+				return; // doesnt have it
+			}
+			else
+			{
+				foreach (string g in Groups)
+				{
+					if (g != group)
+						groups.Add (g);
+				}
 			}
 
 			string[] newGroups = new string [groups.Count];
