@@ -29,7 +29,7 @@ PKG_CHECK_MODULES(BASE_DEPENDENCIES, mono >= $MONO_REQUIRED_VERSION, enable_mono
 dnl Find gtk-sharp
 GTKSHARP_REQUIRED_VERSION=0.17
 
-PKG_CHECK_MODULES(BASE_DEPENDENCIES, gtk-sharp >= $GTKSHARP_REQUIRED_VERSION) 
+PKG_CHECK_MODULES(BASE_DEPENDENCIES, gtk-sharp >= $GTKSHARP_REQUIRED_VERSION, enable_gtksharp=yes, enable_gtksharp=no) 
 gtksharp_prefix=`pkg-config --variable=prefix gtk-sharp`
 AC_SUBST(gtksharp_prefix)
 
@@ -58,13 +58,13 @@ PKG_CHECK_MODULES(BASE_DEPENDENCIES, mozilla-gtkmozembed >= $MOZGTK_REQUIRED_VER
 
 dnl find mono debugger
 MONO_DEBUGGER_REQUIRED_VERSION=0.6
-PKG_CHECK_MODULES(MONO_DEBUGGER, mono-debugger >= $MONO_DEBUGGER_REQUIRED_VERSION)
+PKG_CHECK_MODULES(MONO_DEBUGGER, mono-debugger >= $MONO_DEBUGGER_REQUIRED_VERSION, enable_debugger=yes, enable_debugger=no)
 debugger_prefix=`pkg-config --variable=prefix mono-debugger`
 AC_SUBST(debugger_prefix)
 
 dnl find monodoc
 MONODOC_REQUIRED_VERSION=0.12
-PKG_CHECK_MODULES(MONODOC, monodoc >= $MONODOC_REQUIRED_VERSION)
+PKG_CHECK_MODULES(MONODOC, monodoc >= $MONODOC_REQUIRED_VERSION, enable_monodoc=yes, enable_monodoc=no)
 monodoc_libflags=`pkg-config --libs monodoc`
 AC_SUBST(monodoc_libflags)
 
@@ -134,11 +134,14 @@ echo ""
 echo "   * Installation prefix = $prefix"
 echo "   * GNOME prefix = $gnome_prefix"
 echo ""
+echo "   * Gtk# $GTKSHARP_REQUIRED_VERSION: $enable_gtksharp"
 echo "   * gnomevfs $GNOMEVFS_REQUIRED_VERSION: $enable_gnomevfs"
 echo "   * gtkmozembed $MOZGTK_REQUIRED_VERSION: $enable_gtkmoz"
 echo "   * gtksourceview $GTKSOURCEVIEW_REQUIRED_VERSION: $enable_gtksourceview"
 echo "   * gtksourceview-sharp $GTKSOURCEVIEWSHARP_REQUIRED_VERSION: $enable_gtksourceviewsharp"
 echo "   * mono $MONO_REQUIRED_VERSION: $enable_mono"
+echo "   * monodoc $MONODOC_REQUIRED_VERSION: $enable_monodoc"
+echo "   * mono debugger $MONO_DEBUGGER_REQUIRED_VERSION: $enable_debugger"
 echo ""
 echo "   NOTE: if any of the above say 'no' you may install the"
 echo "         corresponding development packages for them, and"
