@@ -15,6 +15,7 @@ PrjHelper.cs \
 MdPrjHelper.cs \
 CsprojInfo.cs \
 PrjxInfo.cs \
+pkgconfiginvoker.cs \
 sharp_d_cmbx.cs \
 sharp_d_prjx.cs \
 csproj_ver2003.cs \

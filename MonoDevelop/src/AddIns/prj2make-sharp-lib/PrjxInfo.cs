@@ -18,7 +18,8 @@ namespace MonoDevelop.Prj2Make
     	public string assembly_name;
     	public string res;
     	public string src;
-    	private MonoDevelop.Prj2Make.Schema.Prjx.Project m_projObject;
+	private bool m_bAllowUnsafeCode;
+   	private MonoDevelop.Prj2Make.Schema.Prjx.Project m_projObject;
     
     	public string ext_refs = "";
     	public string switches = "";
@@ -27,6 +28,11 @@ namespace MonoDevelop.Prj2Make
     		get { return m_projObject; }
     	}
     
+	public bool AllowUnsafeCode
+	{
+		get { return m_bAllowUnsafeCode; }
+	}
+    	
     	// Project desirialization
 		protected MonoDevelop.Prj2Make.Schema.Prjx.Project LoadPrjFromFile (string strIn)
 		{
@@ -42,11 +48,14 @@ namespace MonoDevelop.Prj2Make
 
 		public PrjxInfo(bool isUnixMode, bool isMcsMode, string csprojpath)
 	   	{
+		MonoDevelop.Prj2Make.Schema.Prjx.Configuration activeConf = null;
     		this.csprojpath = csprojpath;
     		
     		// convert backslashes to slashes    		
     		csprojpath = csprojpath.Replace("\\", "/");
     
+		m_bAllowUnsafeCode = false;
+
     		// loads the file in order to deserialize and
     		// build the object graph
     		try {
@@ -66,6 +75,24 @@ namespace MonoDevelop.Prj2Make
     		makename = name.Replace('.','_').ToUpper();
     		makename_ext = makename + "_EXT";
     
+			// Get the configuration to be used and
+			// copy it to a local configuration object
+			foreach(MonoDevelop.Prj2Make.Schema.Prjx.Configuration cnfObj in m_projObject.Configurations.Configuration)
+			{
+				if(cnfObj.name.CompareTo(m_projObject.Configurations.active) == 0)
+				{
+					// Assign the active configuration
+					activeConf = cnfObj;
+					break;
+				}
+			}
+
+			// Establish if the allow unsafe code flag is true
+			if(activeConf.CodeGeneration.unsafecodeallowed == MonoDevelop.Prj2Make.Schema.Prjx.CodeGenerationUnsafecodeallowed.True)
+			{
+				m_bAllowUnsafeCode = true;
+			}
+			
     		switch (m_projObject.Configuration.CodeGeneration.target)
     		{
     			case "Library":

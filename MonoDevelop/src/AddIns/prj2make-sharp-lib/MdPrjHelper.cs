@@ -17,6 +17,16 @@ namespace MonoDevelop.Prj2Make
 		private MonoDevelop.Prj2Make.Schema.Cmbx.Combine m_cmbObject;
 		private bool m_bIsUnix;
 		private bool m_bIsMcs;
+		private bool m_bIsUsingLib;
+ 
+		// Flag use to determine if the LIB variable will be used in
+		// the Makefile that prj2make generates
+		public bool IsUsingLib
+		{
+			get{ return m_bIsUsingLib; }
+			set{ m_bIsUsingLib = value; }
+		}
+
 
 		// Determines if the makefile is intended for nmake or gmake for urposes of path separator character
 		public bool IsUnix
@@ -40,6 +50,7 @@ namespace MonoDevelop.Prj2Make
 		{
 			m_bIsUnix = false;
 			m_bIsMcs = false;
+			m_bIsUsingLib = false;
 		}
     
 		// Combine desirialization 
@@ -105,10 +116,17 @@ namespace MonoDevelop.Prj2Make
     		bool noProjectTargets = false;
     		bool noFlags = false;
     		StringBuilder MakefileBuilder = new StringBuilder();
+		int nPos = -1;
 
-			m_bIsUnix = isUnixMode;
-			m_bIsMcs =  isMcsMode;
+		m_bIsUnix = isUnixMode;
+		m_bIsMcs =  isMcsMode;
+
+		if(m_bIsUnix == true && m_bIsMcs == true)
+		{
+			m_bIsUsingLib = true;
+		}
     
+
     		if (m_bIsUnix)
     		{
     			slash = "/";
@@ -162,6 +180,20 @@ namespace MonoDevelop.Prj2Make
         					MakefileBuilder.Append("ifndef (RELEASE)\n");
         					MakefileBuilder.Append("\tMCSFLAGS=-debug --stacktrace\n");
         					MakefileBuilder.Append("endif\n");
+						// Define and add the information used in the -lib: arguments passed to the
+						// compiler to assist in finding non-fullyqualified assembly references.
+						if(m_bIsUsingLib == true)
+						{
+							string strlibDir = PkgConfigInvoker.GetPkgVariableValue("mono", "libdir");
+
+							if (strlibDir != null)
+							{
+			    					MakefileBuilder.AppendFormat("\nLIBS=-lib:{0} -lib:{1}\n\n", 
+									Path.Combine(strlibDir.TrimEnd(), "mono/1.0"),
+									Path.Combine(strlibDir.TrimEnd(), "mono/gtk-sharp")
+								);
+							}							
+						}
         				}        		
             		}
             		else // nmake
@@ -227,11 +259,25 @@ namespace MonoDevelop.Prj2Make
    							assemblyName = "System.Xml";
    						}
    						
-   						if (System.IO.Path.GetExtension(assemblyName).ToUpper().CompareTo(".DLL") == 0) {
-   							refs += "-r:" + assemblyName;
-   						} else {
-   							refs += "-r:" + assemblyName + ".dll";
-   						}
+						// Check to see if there is a coma in the
+						// reference. This could indicate a GAC
+						// style reference
+						nPos = assemblyName.IndexOf(',');
+						if(nPos == -1)
+						{
+							if (System.IO.Path.GetExtension(assemblyName).ToUpper().CompareTo(".DLL") == 0) 
+							{
+								refs += "-r:" + assemblyName;
+							} 
+							else 
+							{
+								refs += "-r:" + assemblyName + ".dll";
+							}
+						}
+						else
+						{
+							refs += "-r:" + assemblyName.Substring(0, nPos) + ".dll";
+						}
     				}
     
     				MakefileBuilder.AppendFormat("$({0}): $({1}_SRC) {2}\n", pi.makename_ext, pi.makename, deps);
@@ -245,8 +291,22 @@ namespace MonoDevelop.Prj2Make
     					MakefileBuilder.Append("\t-md $(TARGET)\n");
             		}
             		
-    				MakefileBuilder.AppendFormat("\t$(MCS) $(MCSFLAGS) {2}{3} -out:$({0}) $({1}_RES) $({1}_SRC)\n", pi.makename_ext, pi.makename, refs, pi.switches);
-    				MakefileBuilder.Append("\n");
+					MakefileBuilder.Append("\t$(MCS) $(MCSFLAGS)");
+
+					// Test to see if any configuratino has the Allow unsafe blocks on
+					if(pi.AllowUnsafeCode == true ) {
+						MakefileBuilder.Append(" -unsafe");
+					}
+
+					// Test for LIBS usage
+					if(m_bIsUsingLib == true) {
+	    				MakefileBuilder.Append(" $(LIBS)");
+					}
+
+					MakefileBuilder.AppendFormat(" {2}{3} -out:$({0}) $({1}_RES) $({1}_SRC)\n", 
+							pi.makename_ext, pi.makename, refs, pi.switches);
+            								
+					MakefileBuilder.Append("\n");
     			}
     
     			if (!noCommonTargets)
