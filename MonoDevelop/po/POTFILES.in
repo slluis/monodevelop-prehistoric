@@ -54,7 +54,7 @@ Core/src/MonoDevelop.Base/Commands/RunCommands.cs
 Core/src/MonoDevelop.Base/Internal/ExternalTool/ToolLoader.cs
 Core/src/MonoDevelop.Base/Internal/Project/Combine/Combine.cs
 Core/src/MonoDevelop.Base/Internal/Project/Combine/CombineEntry.cs
-Core/src/MonoDevelop.Base/Internal/Project/Project/AbstractProject.cs
+Core/src/MonoDevelop.Base/Internal/Project/Project/Project.cs
 Core/src/MonoDevelop.Base/Internal/Project/Project/Deployment/AssemblyDeploy.cs
 Core/src/MonoDevelop.Base/Internal/Project/Project/Deployment/FileDeploy.cs
 Core/src/MonoDevelop.Base/Internal/Project/Project/Deployment/ScriptDeploy.cs
