@@ -283,6 +283,15 @@ namespace ICSharpCode.SharpDevelop.Services
 			}
 		}
 		
+		public override void UnloadService()
+		{
+			base.UnloadService ();
+			if (worker != null && worker.IsAlive) {
+				worker.Abort ();
+				worker = null;
+			}
+		}
+		
 		public override void InitializeService()
 		{
 			parser = (IParser[])(AddInTreeSingleton.AddInTree.GetTreeNode("/Workspace/Parser").BuildChildItems(this)).ToArray(typeof(IParser));
@@ -364,12 +373,13 @@ namespace ICSharpCode.SharpDevelop.Services
 			}
 		}
 		
+		Thread worker;
 		public void StartParserThread()
 		{
-			Thread t = new Thread(new ThreadStart(ParserUpdateThread));
-			t.IsBackground  = true;
-			t.Priority  = ThreadPriority.Lowest;
-			t.Start();
+			worker = new Thread(new ThreadStart(ParserUpdateThread));
+			worker.IsBackground  = true;
+			worker.Priority  = ThreadPriority.Lowest;
+			worker.Start();
 		}
 
 		void ParserUpdateThread()
