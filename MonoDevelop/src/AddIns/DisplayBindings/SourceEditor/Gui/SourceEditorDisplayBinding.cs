@@ -164,7 +164,10 @@ namespace MonoDevelop.SourceEditor.Gui {
 		}
 		
 		public bool EnablePaste {
-			get { return true; }
+			get {
+				// TODO: how do i know if there is data?
+				return true;
+			}
 		}
 		
 		public bool EnableDelete {
@@ -177,14 +180,17 @@ namespace MonoDevelop.SourceEditor.Gui {
 		
 		public void Cut (object sender, EventArgs e)
 		{
+			se.buffer.CutClipboard (clipboard, true);
 		}
 		
 		public void Copy (object sender, EventArgs e)
 		{
+			se.buffer.CopyClipboard (clipboard);
 		}
 		
 		public void Paste (object sender, EventArgs e)
 		{
+			se.buffer.PasteClipboard (clipboard);
 		}
 		
 		public void Delete (object sender, EventArgs e)
@@ -195,6 +201,8 @@ namespace MonoDevelop.SourceEditor.Gui {
 		public void SelectAll (object sender, EventArgs e)
 		{
 		}
+		
+		Gtk.Clipboard clipboard = Gtk.Clipboard.Get (Gdk.Atom.Intern("CLIPBOARD", false));
 #endregion
 	}
 }
