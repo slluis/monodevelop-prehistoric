@@ -7,24 +7,94 @@
     <h3>Introduction</h3>
 	<p>Sometimes it can be hard to find your way around the MonoDevelop
 	source tree.  This is intended as a brief description on where and
-	what things are, and a couple tips to find things.</p>
-    <h3>Terms</h3>
-	<p>AddIn - similar to a plugin<br />
-	Service - provides widgets, events, etc. to the various other parts<br />
-	Codon -<br />
-	Command -<br />
-	Pads -<br />
-	Wizard -<br />
-	OptionPanel -<br /> 
-	View -<br /> 
+	what things are, and a couple tips to find things. Beware that MonoDevelop is in heavy active development and things can and do change rapidly.</p>
+
+	<!-- fix this to be a tables with: name, location, description
+	and possibly even dependencies, shared with SD -->
+    <h3>Assemblies</h3>
+	<p>
+	Name: MonoDevelop.Core<br />
+	Location: <code>src/Libraries/MonoDevelop.Core/</code><br />
+	Description: contains the bare necessities for the IDE.<br />
+	Depends: none
 	</p>
-    <h3>Map</h3>
-	<p>MonoDevelop.Core - contains the bare necessities for the IDE.  It
-	has no external dependencies and is located at <code>src/Libraries/MonoDevelop.Core/</code></p>
-	<p>MonoDevelop.Base - contains the base of the IDE.  It begins to
-	depend on Gtk/GNOME at this point and is located at <code>src/Main/Base/</code></p>
-	<p>AddIns - various plugins that add to the IDE's functionality are
-	located at <code>src/AddIns/</code> See also the AddIns guide.</p>
+	<p>
+	Name: MonoDevelop.Base<br />
+	Location: <code>src/Main/Base/</code><br />
+	Description: contains the base of the IDE.<br />
+	Depends: MonoDevelop.Core Gtk#/GNOME
+	<p>
+	Name: gdl-sharp<br />
+	Location: gdldock/<br />
+	Description: Binding of the gdl dock C library.<br />
+	Depends: Gtk#
+	</p>
+	<p>
+	Name: ICSharpCode.SharpAssembly<br />
+	Location: <code>src/Libraries/SharpAssembly</code><br />
+	Description: Assembly reading library.<br />
+	Depends: none
+	</p>
+	<p>
+	Name: ICSharpCode.SharpRefactory<br />
+	Location: <code>src/Libraries/SharpRefactory</code<br />
+	Description: C# parser library.<br />
+	Depends: none
+	</p>
+	<p>
+	Name: MonoDevelop.SourceEditor<br />
+	Location: <code>src/AddIns/DisplayBindings/SourceEditor</code><br />
+	Description: Default editor for MonoDevelop.<br />
+	Depends: Gtk# gtksourceview-sharp MonoDevelop.Core MonoDevelop.Base MonoDevelop.Gui.Widgets MonoDevelop.Gui.Utils
+	</p>
+	<p>
+	Name: MonoDevelop.Gui.Utils<br />
+	Location: <code>src/Libraries/MonoDevelop.Gui.Utils</code><br />
+	Description: extra miscellaneous functions.<br />
+	Depends: Gtk#/GNOME
+	</p>
+	<p>
+	Name: MonoDevelop.Gui.Widgets<br />
+	Location: <code>src/Libraries/MonoDevelop.Gui.Widgets/</code><br />
+	Description: extra Gtk# specific widgets.<br />
+	Depends: Gtk#/GNOME MonoDevelop.Core MonoDevelop.Gui.Utils
+	</p>
+	<p>
+	Name: MonoDevelop.Debugger<br />
+	Location: <code>src/AddIns/DebuggerAddIn/</code><br />
+	Description: debugging support library<br />
+	Depends: Gtk# Mono.Debugger MonoDevelop.Base MonoDevelop.Core
+	<p>
+	<p>
+	Name: MonoDevelop.StartPage<br />
+	Location: <code>src/AddIns/Misc/StartPage</code><br />
+	Description: IDE start page<br />
+	Depends: gecko-sharp Gtk# MonoDevelop.Core MonoDevelop.Base
+	<p>
+	<p>
+	Name: CSharpBinding<br />
+	Location: <code>src/AddIns/BackendBindings/CSharpBinding/</code><br />
+	Description: backend for C# langauge support<br />
+	Depends: MonoDevelop.Core MonoDevelop.Base MonoDevelop.SourceEditor ICSharpCode.SharpRefactory MonoDevelop.Gui.Widgets
+	<p>
+	<p>
+	Name: JavaBinding<br />
+	Location: <code>src/AddIns/BackendBindings/JavaBinding/</code><br />
+	Description: backend for Java Langauge<br />
+	Depends: external java runtime and compiler
+	<p>
+	Name: StartUp<br />
+	Location: <code>src/Main/StartUp/</code><br />
+	Description: Parses commandline and invokes the rest.<br />
+	Depends: MonoDevelop.Core MonoDevelop.Base MonoDevelop.SourceEditor ICSharpCode.SharpRefactory MonoDevelop.Gui.Widgets
+	</p>
+
+	<h3>Others</h3>
+	<p>addin files - <code>build/AddIns</code></p>
+	<p>resources - <code>build/data/resources</code> and <code>data/resources</code></p>
+	<p>templates - <code>build/data/templates</code></p>
+	<p>glade - data/resources/glade</p>
+
 	<h3>Last resort</h3>
 	<p>Sometimes its still can be confusing so running something like
 	the two below commands can be used as a last resort to find things.
@@ -33,6 +103,7 @@
 	</p><p>
 	<code>find . -name '*.cs' | xargs grep TypeName</code>
 	</p>
+
     <h3>Credits and Errata</h3>
     <p>Send comments to <a href="mailto:jluke@cfl.rr.com">jluke@cfl.rr.com</a> or the <a href="mailto:monodevelop-list@lists.ximian.com">monodevelop mailing list</a>.</p>
 	<p>Last updated March 24, 2004</p>
