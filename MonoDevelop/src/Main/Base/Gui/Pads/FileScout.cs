@@ -22,6 +22,7 @@ using ICSharpCode.Core.Services;
 
 using ICSharpCode.SharpDevelop.Services;
 using MonoDevelop.Gui.Widgets;
+using MonoDevelop.Gui.Utils;
 
 namespace ICSharpCode.SharpDevelop.Gui.Pads
 {
@@ -322,14 +323,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads
 				this.lastModified = lastModified;
 				//FIXME: This is because //home/blah is not the same as /home/blah according to Icon.LookupSync, if we get weird behaviours, lets look at this again, see if we still need it.
 				FullName = fullname.Substring (1);
-				//FIXME: This code needs to be abstracted out to a MonoDevelop.Gui class and made to be performant and not sucky, ill do it later --Todd
-				Gnome.IconLookupResultFlags result;
-				string icon = Gnome.Icon.LookupSync (theme, tFactory, FullName, "", Gnome.IconLookupFlags.None, out result);
-				int i;
-				string p_filename = theme.LookupIcon (icon, 24, new Gnome.IconData (), out i);
-				Gdk.Pixbuf big_pixbuf = new Gdk.Pixbuf (p_filename);
-				this.icon = big_pixbuf.ScaleSimple (24, 24, Gdk.InterpType.Bilinear);
-	
+				icon = FileIconLoader.GetPixbufForFile (FullName, 24, 24);
 			}
 		}
 		
