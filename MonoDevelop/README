@@ -1,6 +1,5 @@
 This is a port of SharpDevelop to Gtk# and Mono.
 
-
 Compiling and running
 ---------------------
 To compile run the following command:
@@ -18,13 +17,13 @@ make clean && make && ./monodevelop
 
 Dependencies
 ------------
-You need Mono >=0.30 and Gtk# cvs, and ORBit2-2.8.3 or newer
-
-Mono must be installed with ICU enabled.
-
-You need GtkSourceView >= .7, and the C# bindings which are in
-Mono's CVS. GtkSourceView is available on Red Carpet, on many 
-of the OpenCarpet channels.
+Mono >= 0.30 with ICU enabled
+Gtk# cvs
+ORBit2 >= 2.8.3
+gtksourceview >= 0.7
+gtksourceview-sharp from mono's cvs
+(gtksourceview is available on Red Carpet,
+on many of the OpenCarpet channels.)
 
 See http://lists.ximian.com/archives/public/monodevelop-list/2004-January/000129.html.
 

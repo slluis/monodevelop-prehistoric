@@ -2,14 +2,13 @@ Editor
 ------
 - Get code-folding working (not implemented in #d).
 - printing support
-- parser segfaults of complex files
+- parser segfaults on complex files
 - cut/copy is slow
 
 CodeCompletion
 --------------
-- Is enabled and it shouldnt be until the file is saved so we have an extension.
+- should not be enabled unless known mimetype
 - Backspace is caught by KeyReleaseEvent instead of KeyPressEvent
-- what to do in unsaved files
 - Add option for autopopup on/off and a ctrl+space keybinding
 
 Dock
@@ -27,7 +26,6 @@ Projects
 
 Pads
 ----
-- Allow show hidden (.*) files/directories in the file browser.
 
 AddIns
 ------
