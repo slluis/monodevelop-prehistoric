@@ -66,7 +66,7 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 			}
 		}
 
-		protected override bool OnKeyPressEvent (ref Gdk.EventKey e)
+		protected override bool OnKeyPressEvent (Gdk.EventKey e)
 		{
 			switch ((char)e.Key) {
 			case '.':
@@ -78,7 +78,7 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 				LostFocusListView (null, null);
 				return true;
 			}
-			return base.OnKeyPressEvent (ref e);
+			return base.OnKeyPressEvent (e);
 		}
 		
 		void ListKeypressEvent(object sender, KeyPressEventArgs ex)

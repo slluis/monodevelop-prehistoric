@@ -169,14 +169,14 @@ namespace MonoDevelop.SourceEditor.InsightWindow
 			return false;
 		}
 		
-		protected override bool OnKeyPressEvent (ref Gdk.EventKey e)
+		protected override bool OnKeyPressEvent (Gdk.EventKey e)
 		{
 			bool rval;
 			if (ProcessTextAreaKey (e.Key) == false) {
 				control.SimulateKeyPress (ref e);
 				rval = true;
 			} else {
-				rval = base.OnKeyPressEvent (ref e);
+				rval = base.OnKeyPressEvent (e);
 			}
 			if (DataProvider != null && DataProvider.CharTyped ()) {
 				CloseCurrentDataProvider ();

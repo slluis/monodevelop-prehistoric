@@ -19,12 +19,14 @@ using ICSharpCode.Core.AddIns;
 
 using ICSharpCode.Core.Properties;
 using ICSharpCode.Core.AddIns.Codons;
+
 using ICSharpCode.TextEditor;
 using ICSharpCode.TextEditor.Actions;
+using ICSharpCode.TextEditor.Document;
 
 using ICSharpCode.SharpDevelop.Gui.Dialogs;
-using ICSharpCode.TextEditor.Document;
 using ICSharpCode.SharpDevelop.Gui;
+using MonoDevelop.SourceEditor.Gui;
 
 namespace ICSharpCode.SharpDevelop.DefaultEditor.Commands
 {
@@ -164,14 +166,16 @@ namespace ICSharpCode.SharpDevelop.DefaultEditor.Commands
 		}
 	}
 	
-	public class GotoMatchingBrace : AbstractEditActionMenuCommand
+	public class GotoMatchingBrace : AbstractMenuCommand
 	{
-		public override IEditAction EditAction {
-			get {
-				Console.WriteLine ("Not implemented in New Editor");
-				return null;
-				//return new ICSharpCode.TextEditor.Actions.GotoMatchingBrace();
-			}
+		public override void Run ()
+		{
+			IWorkbenchWindow wnd = WorkbenchSingleton.Workbench.ActiveWorkbenchWindow;
+			if (wnd == null) return;
+			SourceEditorDisplayBindingWrapper o = wnd.ViewContent as SourceEditorDisplayBindingWrapper;
+			if (o == null) return;
+
+			o.GotoMatchingBrace ();
 		}
 	}
 }

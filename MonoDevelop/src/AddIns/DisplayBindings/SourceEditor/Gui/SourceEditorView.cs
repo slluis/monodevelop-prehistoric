@@ -65,10 +65,10 @@ namespace MonoDevelop.SourceEditor.Gui {
 			Glue.SimulateKeyPress (Handle, ref evnt);
 		}
 		
-		protected override bool OnKeyPressEvent (ref Gdk.EventKey evnt)
+		protected override bool OnKeyPressEvent (Gdk.EventKey evnt)
 		{
 			Gdk.Key key = evnt.Key;
-			uint state = evnt.State;
+			uint state = (uint)evnt.State;
 			state &= 1101u;
 			const uint Normal = 0, Shift = 1, Control = 4, ShiftControl = 5, Alt = 8;
 			
@@ -137,7 +137,7 @@ namespace MonoDevelop.SourceEditor.Gui {
 					break;
 			}
 		
-			return base.OnKeyPressEvent (ref evnt);
+			return base.OnKeyPressEvent (evnt);
 		}
 
 		public int FindPrevWordStart (string doc, int offset)
