@@ -35,6 +35,7 @@
 			<xs:element ref="EditAction"/>
 			<xs:element ref="DialogPanel"/>
 			<xs:element ref="LanguageBinding"/>
+			<xs:element ref="ProjectBinding"/>
 			<xs:element ref="Class"/>
 			<xs:element ref="MenuItem"/>
 			<xs:element ref="FileTemplate"/>
@@ -49,6 +50,7 @@
 		<xs:attribute name="openwindow" type="xs:string" use="optional"/>
 		<xs:attribute name="iscombineopen" type="xs:string" use="optional"/>
 		<xs:attribute name="activeproject" type="xs:string" use="optional"/>
+		<xs:attribute name="activelanguage" type="xs:string" use="optional"/>
 		<xs:attribute name="openproject" type="xs:string" use="optional"/>
 		<xs:attribute name="textcontent" type="xs:string" use="optional"/>
 		<xs:attribute name="ownerstate" type="xs:string" use="optional"/>
@@ -79,6 +81,7 @@
 					<xs:element ref="DialogPanel"/>
 					<xs:element ref="DisplayBinding"/>
 					<xs:element ref="LanguageBinding"/>
+					<xs:element ref="ProjectBinding"/>
 					<xs:element ref="MenuItem"/>
 					<xs:element ref="ToolbarItem"/>
 				</xs:choice>
@@ -190,6 +193,12 @@
 		</xs:complexContent>
 	</xs:complexType>
 	<xs:element name="LanguageBinding" type="LanguageBinding"/>
+	<xs:complexType name="ProjectBinding">
+		<xs:complexContent>
+			<xs:extension base="AbstractCodon" />
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="ProjectBinding" type="ProjectBinding"/>
 	<xs:complexType name="MenuItem">
 		<xs:complexContent>
 			<xs:extension base="AbstractCodon">

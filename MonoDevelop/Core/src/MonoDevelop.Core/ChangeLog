@@ -1,3 +1,7 @@
+2005-01-11  Lluis Sanchez Gual  <lluis@novell.com>
+
+	* AddIn.xsd: Added new codon type, and new condition.
+
 2004-08-07  Todd Berman  <tberman@off.net>
 
 	* AssemblyInfo.cs.in: Use new ASSEMBLY_VERSION variable.
