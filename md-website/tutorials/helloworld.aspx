@@ -15,6 +15,7 @@
 	 <li>Modify `MyWindow.cs' to look like the following file:<br />
 
 <pre class="code">
+using System;
 using Gtk;
 using GtkSharp;
 
