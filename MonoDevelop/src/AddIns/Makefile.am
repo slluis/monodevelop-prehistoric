@@ -1,1 +1,1 @@
-SUBDIRS=DisplayBindings BackendBindings Misc DebuggerAddIn
+SUBDIRS = DisplayBindings BackendBindings Misc DebuggerAddIn Nunit

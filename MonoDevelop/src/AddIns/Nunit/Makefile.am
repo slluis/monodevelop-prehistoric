@@ -1,7 +1,7 @@
 
 CSC = mcs /debug
 ASSEMBLY = MonoDevelop.Nunit.dll
-ADDIN = MonoDevelopNunit.addin
+ADDIN = $(srcdir)/MonoDevelopNunit.addin
 
 DLLS = /r:NUnit.Framework.dll \
 	/r:gtk-sharp.dll /r:glib-sharp.dll /r:gdk-sharp.dll \
@@ -26,17 +26,17 @@ FILES = AssemblyInfo.cs \
 ./Services/QueuedTestFinish.cs \
 ./Services/QueuedTestStart.cs
 
+build_sources = $(addprefix $(srcdir)/, $(FILES))
+
 all: $(ASSEMBLY)
 
-../../../build/AddIns/$(ADDIN): $(ADDIN)
-	cp $(ADDIN) ../../../build/AddIns/$(ADDIN)
-
 $(ASSEMBLY): ../../../build/AddIns/$(ADDIN) $(FILES)
-	$(CSC) $(DLLS) $(FILES) /out:$(ASSEMBLY) /target:library \
+	$(CSC) $(DLLS) $(build_sources) /out:$(ASSEMBLY) /target:library \
 	&& cp $(ASSEMBLY) ../../../build/AddIns/.
 
-addindir = $(libdir)/monodevelop/AddIns
-addin_DATA = $(ASSEMBLY) $(ADDIN)
+# not ready to be installed yet
+#addindir = $(libdir)/monodevelop/AddIns
+#addin_DATA = $(ASSEMBLY) $(ADDIN)
 
 CLEANFILES = $(ASSEMBLY)
 

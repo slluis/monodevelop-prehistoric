@@ -127,6 +127,7 @@ src/AddIns/DisplayBindings/SourceEditor/Makefile
 src/AddIns/Misc/Makefile
 src/AddIns/Misc/StartPage/Makefile
 src/AddIns/DebuggerAddIn/Makefile
+src/AddIns/Nunit/Makefile
 src/Main/Makefile
 src/Main/Base/Makefile
 src/Main/StartUp/Makefile
@@ -166,7 +167,6 @@ data/resources/glade/Makefile
 src/AddIns/DebuggerAddIn/AssemblyInfo.cs
 src/AddIns/DisplayBindings/SourceEditor/AssemblyInfo.cs
 src/AddIns/Misc/StartPage/AssemblyInfo.cs
-src/AddIns/Nunit/Makefile
 src/Main/StartUp/AssemblyInfo.cs
 src/Main/Base/AssemblyInfo.cs
 src/Libraries/MonoDevelop.Gui.Widgets/AssemblyInfo.cs
