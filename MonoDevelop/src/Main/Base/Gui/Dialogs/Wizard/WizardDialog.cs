@@ -16,7 +16,7 @@ using ICSharpCode.Core.AddIns;
 
 using ICSharpCode.Core.Properties;
 using ICSharpCode.Core.AddIns.Codons;
-using Gtk;
+using Gtk;
 namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 {
 	/// <summary>
@@ -264,8 +264,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 				}
 			}
 			DialogMessage = DialogMessage.OK;
-			//ShowMustRestart ();
-			//Application.Quit ();
+			this.Respond ((int) ResponseType.Close);
 		}
 		
 		void CancelEvent(object sender, EventArgs e)
@@ -276,8 +275,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 				}
 			}
 			DialogMessage = DialogMessage.Cancel;
-			//ShowMustRestart ();
-			//Application.Quit ();
+			this.Respond ((int) ResponseType.Cancel);
 		}
 		
 		void HelpEvent(object sender, EventArgs e)
@@ -298,26 +296,22 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 			this.WindowPosition = WindowPosition.Center;
 			this.SetDefaultSize (640, 440);
 		
-			//backButton = new Gtk.Button (resourceService.GetString ("Global.BackButtonText"));
 			backButton = new ImageButton(Gtk.Stock.GoBack,resourceService.GetString ("Global.BackButtonText"));
 			backButton.Clicked   += new EventHandler(ShowPrevPanelEvent);
 			
-			//nextButton = new Gtk.Button (resourceService.GetString("Global.NextButtonText"));
 			nextButton = new ImageButton(Gtk.Stock.GoForward,resourceService.GetString("Global.NextButtonText"));
 			nextButton.Clicked   += new EventHandler(ShowNextPanelEvent);
 			
-			//finishButton = new Gtk.Button (resourceService.GetString("Dialog.WizardDialog.FinishButton"));
 			finishButton = new ImageButton(Gtk.Stock.Apply,resourceService.GetString("Dialog.WizardDialog.FinishButton"));
 			finishButton.Clicked   += new EventHandler(FinishEvent);
+
+			cancelButton = new Button (Stock.Cancel);
+			cancelButton.Clicked += new EventHandler(CancelEvent);
 			
-			//cancelButton = new Gtk.Button (resourceService.GetString("Global.CancelButtonText"));
-			cancelButton = new ImageButton(Gtk.Stock.Cancel,resourceService.GetString("Global.CancelButtonText"));
-			cancelButton.Clicked   += new EventHandler(CancelEvent);
-		
-			this.ActionArea.PackStart (backButton);
-			this.ActionArea.PackStart (nextButton);
-			this.ActionArea.PackStart (finishButton);
-			this.ActionArea.PackStart (cancelButton);
+			this.AddActionWidget (backButton, 1);
+			this.AddActionWidget (nextButton, 2);
+			this.AddActionWidget (finishButton, 3);
+			this.AddActionWidget (cancelButton, (int) ResponseType.Cancel);
 			
 //			helpButton.Text = resourceService.GetString("Global.HelpButtonText");
 //			helpButton.Clicked += new EventHandler (HelpEvent);

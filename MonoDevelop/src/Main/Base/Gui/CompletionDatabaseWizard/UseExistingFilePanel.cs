@@ -13,7 +13,7 @@ using ICSharpCode.SharpDevelop.Internal.Project;
 using ICSharpCode.Core.Properties;
 using ICSharpCode.Core.Services;
 
-using MonoDevelop.Gui;
+using MonoDevelop.Gui;
 using ICSharpCode.Core.AddIns.Codons;
 
 namespace ICSharpCode.SharpDevelop.Gui.Dialogs.OptionPanels.CompletionDatabaseWizard
@@ -74,19 +74,24 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs.OptionPanels.CompletionDatabaseWi
 			
 			VBox mainVBox  = new VBox (false, 0);
 			
-			//textBox.Lines = resourceService.GetString ("Dialog.Wizards.CodeCompletionDatabaseWizard.UseExistingFilePanel.PanelDescription").Split('\n');
+			TextView textBox = new TextView ();
+			textBox.WrapMode = WrapMode.Word;
+			textBox.Buffer.Text = resourceService.GetString ("Dialog.Wizards.CodeCompletionDatabaseWizard.UseExistingFilePanel.PanelDescription");
+			mainVBox.PackStart (textBox, false, true, 0);
+			mainVBox.PackStart (new Label ("Specify location of existing code completion database."));
 			
 			locationTextBox = new Entry ();
+			locationTextBox.WidthChars = 50;
 			locationTextBox.Changed += new EventHandler(SetFinishedState);
 			Button browseButton = new Button ("...");
 			browseButton.Clicked += new EventHandler(BrowseLocationEvent);
 			HBox hbox = new HBox (false, 0);
 			hbox.PackStart (locationTextBox, false, true, 0);
-			hbox.PackStart (browseButton, false, true, 0);
+			hbox.PackStart (browseButton, false, true, 0);
 			SetFinishedState(this, EventArgs.Empty);
 			CustomizationObjectChanged += new EventHandler(SetValues);
 			
-			mainVBox.PackStart (hbox, false, true, 0);
+			mainVBox.PackStart (hbox, false, true, 6);
 			this.Add (mainVBox);
 		}
 	}

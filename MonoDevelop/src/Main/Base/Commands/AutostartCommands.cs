@@ -78,7 +78,10 @@ namespace ICSharpCode.SharpDevelop.Commands
 			
 			WizardDialog wizard = new WizardDialog("Initialize Code Completion Database", customizer, "/SharpDevelop/CompletionDatabaseWizard");
 			propertyService.SetProperty("SharpDevelop.CodeCompletion.DataDirectory", customizer.GetProperty("SharpDevelop.CodeCompletion.DataDirectory", String.Empty));
-			wizard.ShowAll ();
+			int response = wizard.Run ();
+			if (response == (int) Gtk.ResponseType.Cancel || response == (int) Gtk.ResponseType.Close)
+				wizard.Hide ();
+
 			Gtk.Application.Run ();
 			// restart  & exit 
 			Console.WriteLine ("generated, exiting");
