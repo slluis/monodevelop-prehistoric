@@ -52,7 +52,7 @@ namespace MonoDevelop.EditorBindings.Gui.OptionPanels
 			[Glade.Widget] CheckButton enableCodeCompletionCheckBox, 
 					enableFoldingCheckBox, enableDoublebufferingCheckBox;
 // 			[Glade.Widget] ComboBox textEncodingComboBox;
-			[Glade.Widget] FontPicker fontNameDisplayTextBox;
+			[Glade.Widget] FontButton fontNameDisplayTextBox;
 			[Glade.Widget] VBox encodingBox;
 			[Glade.Widget] RadioButton use_monospace, use_sans, use_cust;
 			
