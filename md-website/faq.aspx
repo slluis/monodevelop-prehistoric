@@ -99,7 +99,7 @@ run</pre></p><br />
 <li>ORBit2 &gt;= 2.8.3</li> 
 <li>gnome-vfs &gt;= 2.0</li>
 <li>gtksourceview &gt;= 0.7*</li>
-<li>gtksourceview-sharp from mono's cvs</li>
+<li>gtksourceview-sharp &gt;= 0.1</li>
 </ul>
 
 <p>*gtksourceview is available on <a
