@@ -78,7 +78,7 @@ PKG_CHECK_MODULES(EXTRA_CRAP, gtksourceview-sharp >= $GTKSOURCEVIEWSHARP_REQUIRE
 BASE_DEPENDENCIES_LIBS=${BASE_DEPENDENCIES_LIBS}${EXTRA_CRAP_LIBS}	
 AC_SUBST(BASE_DEPENDENCIES_LIBS)
 
-gtksharp_prefix=`pkg-config --variable=prefix gtk-sharp-2.0`
+gtksharp_prefix="`$PKG_CONFIG --variable=prefix gtk-sharp-2.0`"
 AC_SUBST(gtksharp_prefix)
 
 dnl GdlDock requirements and configuration
@@ -114,8 +114,6 @@ if test "x$gnome_prefix" = "x"; then
 fi
 
 AC_SUBST(gnome_prefix)
-
-gtksharp_prefix="`$PKG_CONFIG --variable=prefix gtk-sharp`"
 
 if test "x$XDGMIME" = "xno" ; then
 enable_xdgmime="no"
