@@ -181,10 +181,11 @@ namespace Gdl
 			case "LongName":
 				Title = item.LongName;
 				break;
+			case "Locked":
 			case "Behavior":
 				bool cursor = false;
 
-				if (item.CantClose) {
+				if (item.CantClose || item.Locked) {
 					closeButton.Hide ();
 				}
 				else {
@@ -192,7 +193,7 @@ namespace Gdl
 					cursor = true;
 				}
 
-				if (item.CantIconify) {
+				if (item.CantIconify || item.Locked) {
 					iconifyButton.Hide ();
 				}
 				else {
