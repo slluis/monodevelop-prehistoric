@@ -1,4 +1,4 @@
-SUBDIRS = data doc
+SUBDIRS = data
 
 all:
 

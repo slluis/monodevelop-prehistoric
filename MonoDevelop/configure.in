@@ -195,7 +195,6 @@ build/data/resources/Makefile
 build/data/options/Makefile
 build/data/resources/css/Makefile
 build/data/resources/icons/Makefile
-build/doc/Makefile
 Core/src/AddIns/DebuggerAddIn/AssemblyInfo.cs
 Core/src/AddIns/DisplayBindings/SourceEditor/AssemblyInfo.cs
 Core/src/MonoDevelop.Startup/AssemblyInfo.cs
