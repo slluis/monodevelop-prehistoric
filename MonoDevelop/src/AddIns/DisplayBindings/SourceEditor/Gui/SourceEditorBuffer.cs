@@ -14,6 +14,8 @@ using System;
 using System.IO;
 using System.Collections;
 using System.Runtime.InteropServices;
+
+using GtkSourceView;
 	
 namespace MonoDevelop.SourceEditor.Gui
 {

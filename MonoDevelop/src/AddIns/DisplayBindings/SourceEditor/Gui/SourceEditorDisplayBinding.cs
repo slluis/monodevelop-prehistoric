@@ -14,6 +14,7 @@ using MonoDevelop.EditorBindings.FormattingStrategy;
 using MonoDevelop.Services;
 
 using Gtk;
+using GtkSourceView;
 
 namespace MonoDevelop.SourceEditor.Gui
 {
@@ -23,7 +24,7 @@ namespace MonoDevelop.SourceEditor.Gui
 		
 		static SourceEditorDisplayBinding ()
 		{
-			GtkSourceView.Init ();
+			GtkSourceViewManager.Init ();
 		}
 
 		public virtual bool CanCreateContentForFile (string fileName)

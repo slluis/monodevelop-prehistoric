@@ -17,6 +17,8 @@ using MonoDevelop.EditorBindings.FormattingStrategy;
 using MonoDevelop.Gui.Utils;
 using MonoDevelop.Services;
 
+using GtkSourceView;
+
 namespace MonoDevelop.SourceEditor.Gui
 {
 	public class SourceEditorView : SourceView, IFormattableDocument

@@ -1,3 +1,10 @@
+2004-04-27  Todd Berman  <tberman@sevenl.net>
+
+	* Gui/SourceEditorBuffer.cs:
+	* Gui/SourceEditorView.cs:
+	* Gui/SourceEditorDisplayBinding.cs: update to match gsv-sharp from
+	cvs.
+
 2004-04-26  John Luke  <jluke@cfl.rr.com>
 
 	* Gui/SourceEditorDisplayBinding.cs: add python mimetype to
