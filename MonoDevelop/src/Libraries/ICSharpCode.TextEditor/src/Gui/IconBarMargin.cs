@@ -72,6 +72,8 @@ namespace ICSharpCode.TextEditor
 			int delta = textArea.TextView.FontHeight / 8;
 			Rectangle rect = new Rectangle( 1, y + delta, base.drawingPosition.Width - 4, textArea.TextView.FontHeight - delta * 2);
 			wnd.DrawRectangle (gc, true, rect);
+			gc.RgbFgColor = new Gdk.Color (Color.Black);
+			wnd.DrawRectangle (gc, false, rect);
 			//FillRoundRect(g, Brushes.Cyan, rect);
 			//DrawRoundRect(g, Pens.Black, rect);
 		}
