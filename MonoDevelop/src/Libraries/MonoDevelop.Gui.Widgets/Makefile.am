@@ -3,7 +3,7 @@ MCS = mcs -debug
 
 DLL = ../../../build/bin/MonoDevelop.Gui.Widgets.dll
 
-REFERENCES = /r:System.Drawing.dll /r:gtk-sharp.dll /r:gdk-sharp.dll /r:pango-sharp.dll /r:gnome-sharp.dll /r:glib-sharp.dll /r:glade-sharp.dll /r:../../../build/bin/MonoDevelop.Core.dll
+REFERENCES = /r:System.Drawing.dll /r:gtk-sharp.dll /r:gdk-sharp.dll /r:pango-sharp.dll /r:gnome-sharp.dll /r:glib-sharp.dll /r:glade-sharp.dll /r:../../../build/bin/MonoDevelop.Core.dll /r:../../../build/bin/MonoDevelop.Gui.Utils.dll
 
 FILES = ./Tree/TreeView.cs \
 ./Tree/TreeNodeCollection.cs \

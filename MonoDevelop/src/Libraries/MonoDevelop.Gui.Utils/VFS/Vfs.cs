@@ -6,7 +6,7 @@
 using System;
 using System.Runtime.InteropServices;
 
-namespace MonoDevelop.GuiUtils
+namespace MonoDevelop.Gui.Utils
 {
 	public class Vfs
 	{

@@ -50,7 +50,7 @@ namespace ICSharpCode.SharpDevelop.Services
 		
 		public DisplayBindingCodon GetCodonPerFileName(string filename)
 		{
-			string mimetype = MonoDevelop.GuiUtils.Vfs.GetMimeType (filename);
+			string mimetype = MonoDevelop.Gui.Utils.Vfs.GetMimeType (filename);
 			if (!filename.StartsWith ("http")) {
 				foreach (DisplayBindingCodon binding in bindings) {
 					if (binding.DisplayBinding != null && binding.DisplayBinding.CanCreateContentForMimeType (mimetype)) {

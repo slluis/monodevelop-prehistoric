@@ -310,16 +310,17 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads
 		
 		FileList   filelister = new FileList();
 		FileBrowser fb = new FileBrowser ();
-		Gtk.Entry pathEntry;
+		// Gtk.Entry pathEntry;
 		PropertyService PropertyService = (PropertyService) ServiceManager.Services.GetService (typeof (PropertyService));
 
 		public FileScout()
 		{
-			fb.TreeView.Selection.Changed += new EventHandler (OnDirChanged);
+			// fb.TreeView.Selection.Changed += new EventHandler (OnDirChanged);
+			fb.DirectoryChangedEvent += new DirectoryChangedEventHandler (OnDirChanged);
 			filelister.RowActivated += new Gtk.RowActivatedHandler(FileSelected);
 
 			Gtk.Frame treef  = new Gtk.Frame();
-			Gtk.VBox utilVBox = new Gtk.VBox (false, 0);
+			/*Gtk.VBox utilVBox = new Gtk.VBox (false, 0);
 			Gtk.HBox hbox = new Gtk.HBox (false, 6);
 			pathEntry = new Gtk.Entry (fb.CurrentDir);
 			pathEntry.Activated += new EventHandler (OnPathEntryActivated);
@@ -331,38 +332,28 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads
 			homeButton.Clicked += new EventHandler (OnHomeClicked);
 			hbox.PackStart (homeButton, false, false, 0);
 			utilVBox.PackStart (hbox, false, true, 0);
-			utilVBox.PackStart (fb);
-			treef.Add(utilVBox);
+			utilVBox.PackStart (pathEntry, false, true, 0);
+			utilVBox.PackStart (fb);*/
+			treef.Add(fb);
 			
 			Gtk.ScrolledWindow listsw = new Gtk.ScrolledWindow ();
 			listsw.Add(filelister);
-			Gtk.Frame listf  = new Gtk.Frame();
-			listf.Add(listsw);
+			/*Gtk.Frame listf  = new Gtk.Frame();
+			listf.Add(listsw);*/
 			
 			Pack1(treef, true, true);
-			Pack2(listf, true, true);
+			Pack2(listsw, true, true);
 
 			fb.TreeView.Selection.SelectPath (new Gtk.TreePath ("0"));
+			
+			OnDirChanged(fb.CurrentDir);
 		}
 
-		void OnHomeClicked (object sender, EventArgs args)
-		{
-			fb.CurrentDir = Environment.GetEnvironmentVariable ("HOME");
-			OnDirChanged (sender, args);
-		}
-
-		void OnPathEntryActivated (object sender, EventArgs args)
-		{
-			if (Directory.Exists (pathEntry.Text.Trim ()))
-			{
-				fb.CurrentDir = pathEntry.Text;
-				OnDirChanged (sender, args);
-			}
-		}
 		
-		void OnDirChanged(object sender, EventArgs args) 
+		// void OnDirChanged(object sender, EventArgs args)
+		void OnDirChanged (string path) 
 		{
-			pathEntry.Text = fb.CurrentDir;
+			// pathEntry.Text = fb.CurrentDir;
 			filelister.Clear ();
 
 			PropertyService p = (PropertyService)ServiceManager.Services.GetService(typeof(PropertyService));

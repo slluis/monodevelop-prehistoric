@@ -13,7 +13,7 @@ using System.Runtime.InteropServices;
 using Gtk;
 using GtkSharp;
 
-using MonoDevelop.GuiUtils;
+using MonoDevelop.Gui.Utils;
 using MonoDevelop.EditorBindings.Properties;
 using MonoDevelop.EditorBindings.FormattingStrategy;
 

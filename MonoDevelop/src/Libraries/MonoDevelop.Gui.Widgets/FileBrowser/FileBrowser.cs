@@ -4,19 +4,28 @@
 //
 
 using System;
+using System.Diagnostics;
 using System.IO;
 using Gtk;
 using GtkSharp;
 
 using ICSharpCode.Core.Properties;
 using ICSharpCode.Core.Services;
+using MonoDevelop.Gui.Utils;
 
 namespace MonoDevelop.Gui.Widgets
 {
-	public class FileBrowser : ScrolledWindow
+	public delegate void DirectoryChangedEventHandler (string path);
+
+	public class FileBrowser : VBox
 	{
+		public DirectoryChangedEventHandler DirectoryChangedEvent;
 		private static GLib.GType gtype;
 		private Gtk.TreeView tv;
+		private Gtk.ScrolledWindow scrolledwindow;
+		private Gtk.HBox buttonbox;
+		private Gtk.Button upbutton, homebutton;
+		private Gtk.Entry entry;
 		private ListStore store;
 		private string currentDir;
 		private bool ignoreHidden = true;
@@ -26,24 +35,63 @@ namespace MonoDevelop.Gui.Widgets
 
 		public FileBrowser () : base (GType)
 		{
-			this.VscrollbarPolicy = PolicyType.Automatic;
-			this.HscrollbarPolicy = PolicyType.Automatic;
+			if (!Vfs.Initialized) {
+				Vfs.Init();
+			}
+
+			scrolledwindow = new ScrolledWindow();
+			scrolledwindow.VscrollbarPolicy = PolicyType.Automatic;
+			scrolledwindow.HscrollbarPolicy = PolicyType.Automatic;
+
+			homebutton = new Gtk.Button ();
+			homebutton.Add (new Gtk.Image (Stock.Home, Gtk.IconSize.SmallToolbar));
+			// homebuttonpix.ScaleSimple (20, 20, Gdk.InterpType.Bilinear)));
+			homebutton.Relief = Gtk.ReliefStyle.None;
+			homebutton.Clicked += new EventHandler (OnHomeClicked);
+
+			upbutton = new Gtk.Button ();
+			upbutton.Add (new Gtk.Image (Stock.GoUp, Gtk.IconSize.SmallToolbar));
+			upbutton.Relief = Gtk.ReliefStyle.None;
+			upbutton.Clicked += new EventHandler (OnUpClicked);
+
+			entry = new Gtk.Entry();
+			entry.Activated += new EventHandler (OnEntryActivated);
+
+			buttonbox = new HBox (false, 0);
+			buttonbox.PackStart(upbutton, false, false, 0);
+			buttonbox.PackStart(homebutton, false, false, 0);
+			buttonbox.PackStart(entry, true, true, 0);
 
 			IProperties p = (IProperties) PropertyService.GetProperty ("SharpDevelop.UI.SelectStyleOptions", new DefaultProperties ());
 			ignoreHidden = !p.GetProperty ("ICSharpCode.SharpDevelop.Gui.FileScout.ShowHidden", false);
 
 			tv = new Gtk.TreeView ();
 			tv.RulesHint = true;
-			tv.AppendColumn ("Directories", new CellRendererText (), "text", 0);
-			store = new ListStore (typeof (string));
-			currentDir = Environment.GetEnvironmentVariable ("HOME");
-			Populate ();
+
+			TreeViewColumn directorycolumn = new TreeViewColumn();
+			directorycolumn.Title = "Directories";
+			
+			Gtk.CellRendererPixbuf pix_render = new Gtk.CellRendererPixbuf ();
+			directorycolumn.PackStart (pix_render, false);
+			directorycolumn.AddAttribute (pix_render, "pixbuf", 0);
+
+			Gtk.CellRendererText text_render = new Gtk.CellRendererText();
+			directorycolumn.PackStart (text_render, false);
+			directorycolumn.AddAttribute (text_render, "text", 1);
+			
+			tv.AppendColumn (directorycolumn);
+
+			store = new ListStore (typeof(Gdk.Pixbuf), typeof (string));
+			CurrentDir = Environment.GetEnvironmentVariable ("HOME");
 			tv.Model = store;
 
 			tv.RowActivated += new RowActivatedHandler (OnRowActivated);
-			tv.Selection.Changed += new EventHandler (OnSelectionChanged);
+			tv.ButtonReleaseEvent += new ButtonReleaseEventHandler (OnButtonReleaseEvent);
 
-			this.Add (tv);
+			scrolledwindow.Add (tv);
+			this.Homogeneous = false;
+			this.PackStart (buttonbox, false, false, 0);
+			this.PackStart (scrolledwindow);
 			this.ShowAll ();
 			init = true;
 		}
@@ -75,8 +123,13 @@ namespace MonoDevelop.Gui.Widgets
 		public string CurrentDir
 		{
 			get { return System.IO.Path.GetFullPath (currentDir); }
-			set { currentDir = value;
-				  Populate (); }
+			set { 
+					currentDir = System.IO.Path.GetFullPath (value);
+					Populate ();
+					if (DirectoryChangedEvent != null) {
+						DirectoryChangedEvent(CurrentDir);
+					}
+				}
 		}
 
 		public string[] Files
@@ -103,29 +156,33 @@ namespace MonoDevelop.Gui.Widgets
 		void Populate ()
 		{
 			store.Clear ();
-			// seems unnecessary
-			store.AppendValues (".");
 
-			if (currentDir != "/")
-				store.AppendValues ("..");
+			if (System.IO.Path.GetPathRoot(CurrentDir) == CurrentDir)
+				upbutton.State = StateType.Insensitive;
+			else if (upbutton.State == StateType.Insensitive)
+				upbutton.State = StateType.Normal;
 
-			DirectoryInfo di = new DirectoryInfo (currentDir);
+			DirectoryInfo di = new DirectoryInfo (CurrentDir);
 			DirectoryInfo[] dirs = di.GetDirectories ();
-	
+			
 			foreach (DirectoryInfo d in dirs)
 			{
 				if (ignoreHidden)
 				{
 					if (!d.Name.StartsWith ("."))
-						store.AppendValues (d.Name);
+						store.AppendValues (FileIconLoader.GetPixbufForFile (System.IO.Path.Combine (CurrentDir, d.Name), 24, 24), d.Name);
 				}
 				else
 				{
-					store.AppendValues (d.Name);
+					store.AppendValues (FileIconLoader.GetPixbufForFile (System.IO.Path.Combine (CurrentDir, d.Name), 24, 24), d.Name);
 				}
 			}
 			if (init == true)
 				tv.Selection.SelectPath (new Gtk.TreePath ("0"));
+
+			entry.Text = CurrentDir;
+			//Console.WriteLine(CurrentDir);
+			files = Directory.GetFiles (CurrentDir);
 		}
 
 		private void OnSelectionChanged (object o, EventArgs args)
@@ -134,7 +191,7 @@ namespace MonoDevelop.Gui.Widgets
 			TreeModel model;
 			if (tv.Selection.GetSelected (out model, out iter))
 			{
-				string selection = (string) store.GetValue (iter, 0);
+				string selection = (string) store.GetValue (iter, 1);
 				files = Directory.GetFiles (System.IO.Path.Combine (currentDir, selection));
 			}
 		}
@@ -143,13 +200,79 @@ namespace MonoDevelop.Gui.Widgets
 		{
 			TreeIter iter;
 			store.GetIter (out iter, args.Path);
-			string file = (string) store.GetValue (iter, 0);
+			string file = (string) store.GetValue (iter, 1);
 			string newDir = System.IO.Path.Combine (currentDir, file);
 			if (Directory.Exists (newDir))
 			{
-				currentDir = newDir;
-				Populate ();
+				CurrentDir = newDir;
+				// Populate ();
 			}
+		}
+		
+		private void OnButtonReleaseEvent (object o, ButtonReleaseEventArgs args)
+		{
+ 			if (args.Event.Button == 3)
+			{
+				 Gtk.Menu menu = new Menu ();
+				 Gtk.MenuItem openfilebrowser = new MenuItem ("Open with file browser");
+				 openfilebrowser.Activated += new EventHandler (OpenFileBrowser);
+
+				 Gtk.MenuItem openterminal = new MenuItem ("Open with terminal");
+				 openterminal.Activated += new EventHandler (OpenTerminal);
+
+				 menu.Append (openterminal);
+				 menu.Append (openfilebrowser);
+				 menu.Popup (null, null, null, IntPtr.Zero, 3, Global.CurrentEventTime);
+				 menu.ShowAll ();
+			}
+		}
+		
+		private void OpenFileBrowser (object o, EventArgs args)
+		{
+			TreeIter iter;
+			TreeModel model;
+			// FIXME: look in GConf for the settings
+			string commandline = "nautilus \"";
+
+			if (tv.Selection.GetSelected (out model, out iter))
+			{
+				string selection = (string) store.GetValue (iter, 1);
+				commandline += System.IO.Path.Combine (currentDir, selection) + "\"";
+				Process.Start (commandline);
+			}
+		}
+		
+		private void OpenTerminal(object o, EventArgs args)
+		{
+			TreeIter iter;
+			TreeModel model;
+			// FIXME: look in GConf for the settings
+			string commandline = "gnome-terminal --working-directory=\"";
+			if (tv.Selection.GetSelected (out model, out iter))
+			{
+				string selection = (string) store.GetValue (iter, 1);
+				commandline += System.IO.Path.Combine (currentDir, selection) + "\"";
+				Process.Start (commandline);
+			}
+		}
+		
+		private void OnUpClicked (object o, EventArgs args)
+		{
+			if (System.IO.Path.GetPathRoot (CurrentDir) != CurrentDir)
+				CurrentDir = System.IO.Path.Combine (CurrentDir, "..");
+			else
+				Console.WriteLine ("at root");
+		}
+		
+		private void OnHomeClicked (object o, EventArgs args)
+		{
+			CurrentDir = Environment.GetEnvironmentVariable ("HOME");
+		}
+
+		void OnEntryActivated (object sender, EventArgs args)
+		{
+			if (Directory.Exists (entry.Text.Trim ()))
+				CurrentDir = entry.Text;
 		}
 	}
 }
