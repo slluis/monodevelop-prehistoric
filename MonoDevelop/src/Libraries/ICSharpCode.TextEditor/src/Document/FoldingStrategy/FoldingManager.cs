@@ -54,7 +54,9 @@ namespace ICSharpCode.TextEditor.Document
 		{
 			ArrayList foldings = new ArrayList();
 			
-			foreach (FoldMarker fm in foldMarker) {
+			int c = foldMarker.Count;
+			for (int i = 0; i < c; i ++) {
+				FoldMarker fm = (FoldMarker)(foldMarker [i]);
 				if (fm.StartLine == lineNumber) {
 					foldings.Add(fm);
 				}
@@ -66,7 +68,9 @@ namespace ICSharpCode.TextEditor.Document
 		{
 			ArrayList foldings = new ArrayList();
 			
-			foreach (FoldMarker fm in foldMarker) {
+			int c = foldMarker.Count;
+			for (int i = 0; i < c; i ++) {
+				FoldMarker fm = (FoldMarker)(foldMarker [i]);
 				if (fm.EndLine == lineNumber) {
 					foldings.Add(fm);
 				}
@@ -76,7 +80,9 @@ namespace ICSharpCode.TextEditor.Document
 
 		public bool IsFoldStart(int lineNumber)
 		{
-			foreach (FoldMarker fm in foldMarker) {
+			int c = foldMarker.Count;
+			for (int i = 0; i < c; i ++) {
+				FoldMarker fm = (FoldMarker)(foldMarker [i]);
 				if (fm.StartLine == lineNumber) {
 					return true;
 				}
@@ -86,7 +92,9 @@ namespace ICSharpCode.TextEditor.Document
 		
 		public bool IsFoldEnd(int lineNumber)
 		{
-			foreach (FoldMarker fm in foldMarker) {
+			int c = foldMarker.Count;
+			for (int i = 0; i < c; i ++) {
+				FoldMarker fm = (FoldMarker)(foldMarker [i]);
 				if (fm.EndLine == lineNumber) {
 					return true;
 				}
@@ -96,7 +104,9 @@ namespace ICSharpCode.TextEditor.Document
 		
 		public bool IsBetweenFolding(int lineNumber)
 		{
-			foreach (FoldMarker fm in foldMarker) {
+			int c = foldMarker.Count;
+			for (int i = 0; i < c; i ++) {
+				FoldMarker fm = (FoldMarker)(foldMarker [i]);
 				if (fm.StartLine < lineNumber && lineNumber < fm.EndLine) {
 					return true;
 				}
@@ -106,7 +116,9 @@ namespace ICSharpCode.TextEditor.Document
 		
 		public bool IsLineVisible(int lineNumber)
 		{
-			foreach (FoldMarker fm in foldMarker) {
+			int c = foldMarker.Count;
+			for (int i = 0; i < c; i ++) {
+				FoldMarker fm = (FoldMarker)(foldMarker [i]);
 				if (fm.IsFolded && fm.StartLine < lineNumber && lineNumber <= fm.EndLine) {
 					return false;
 				}
@@ -117,7 +129,9 @@ namespace ICSharpCode.TextEditor.Document
 		ArrayList GetTopLevelFoldedFoldings()
 		{
 			ArrayList foldings = new ArrayList();
-			foreach (FoldMarker fm in foldMarker) {
+			int c = foldMarker.Count;
+			for (int i = 0; i < c; i ++) {
+				FoldMarker fm = (FoldMarker)(foldMarker [i]);
 				if (fm.IsFolded) {
 					foldings.Add(fm);
 				}
