@@ -13,7 +13,7 @@ using ICSharpCode.SharpDevelop.Gui.ErrorHandlers;
 using ICSharpCode.SharpDevelop.Gui.HtmlControl;
 using ICSharpCode.Core.Services;
 
-using GtkMozEmbedSharp;
+using GtkMozEmbed;
 
 namespace ICSharpCode.StartPage 
 {

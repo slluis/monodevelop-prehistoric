@@ -43,7 +43,7 @@ namespace MonoDevelop.Gui.Widgets {
 			
 			text_render = new Gtk.CellRendererText ();
 			if (canEdit)
-				text_render.Edited += new GtkSharp.EditedHandler (HandleOnEdit);
+				text_render.Edited += new Gtk.EditedHandler (HandleOnEdit);
 			
 			complete_column.PackStart (text_render, true);
 			complete_column.AddAttribute (text_render, "text", 0);
@@ -55,7 +55,7 @@ namespace MonoDevelop.Gui.Widgets {
 			nodes.NodeInserted += new NodeInsertedHandler (OnNodeInserted);
 			nodes.NodeRemoved += new NodeRemovedHandler (OnNodeRemoved);
 			
-			TestExpandRow += new GtkSharp.TestExpandRowHandler (OnTestExpandRow);
+			TestExpandRow += new Gtk.TestExpandRowHandler (OnTestExpandRow);
 		}
 		
 		public TreeView (bool edit, Gtk.TreeIterCompareFunc cb_compare) : this (edit)
@@ -64,7 +64,7 @@ namespace MonoDevelop.Gui.Widgets {
 			store.SetSortColumnId (/* GTK_TREE_SORTABLE_DEFAULT_SORT_COLUMN_ID */ -1, Gtk.SortType.Ascending);
 		}
 
-		void HandleOnEdit (object o, GtkSharp.EditedArgs e)
+		void HandleOnEdit (object o, Gtk.EditedArgs e)
 		{
 			text_render.Editable = false;
 			Gtk.TreeIter iter;
@@ -246,7 +246,7 @@ namespace MonoDevelop.Gui.Widgets {
 			return ret;
 		}
 		
-		private void OnTestExpandRow (object sender, GtkSharp.TestExpandRowArgs args)
+		private void OnTestExpandRow (object sender, Gtk.TestExpandRowArgs args)
 		{
 			TreeNode node = GetNodeByIter (args.Iter);
 			TreeViewCancelEventArgs e = new TreeViewCancelEventArgs (node);

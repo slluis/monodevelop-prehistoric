@@ -89,7 +89,7 @@ namespace MonoDevelop.EditorBindings.Gui.OptionPanels
 				addGroupButton.Clicked    += new System.EventHandler(AddGroupEvent);
 				editGroupButton.Clicked += new System.EventHandler(EditGroupEvent);
 				removeGroupButton.Clicked += new System.EventHandler(RemoveGroupEvent);
-				templateListView.RowActivated		+= new GtkSharp.RowActivatedHandler(RowActivatedEvent);
+				templateListView.RowActivated		+= new Gtk.RowActivatedHandler(RowActivatedEvent);
 				templateListView.Selection.Changed 	+= new EventHandler(IndexChange);
 				templateTextBuffer.Changed += new EventHandler(TextChange);
 				
@@ -310,7 +310,7 @@ namespace MonoDevelop.EditorBindings.Gui.OptionPanels
 			}
 			
 			// raised when a treeview row is double clicked on
-			void RowActivatedEvent(object sender, GtkSharp.RowActivatedArgs ra)
+			void RowActivatedEvent(object sender, Gtk.RowActivatedArgs ra)
 			{
 				EditEvent(sender, System.EventArgs.Empty);
 			}

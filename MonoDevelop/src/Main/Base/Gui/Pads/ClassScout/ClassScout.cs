@@ -133,8 +133,8 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads
 			AmbienceService ambienceService = (AmbienceService)ServiceManager.Services.GetService(typeof(AmbienceService));
 			ambienceService.AmbienceChanged += new EventHandler(AmbienceChangedEvent);
 
-			RowActivated += new GtkSharp.RowActivatedHandler(OnNodeActivated);
-			contentPanel.ButtonReleaseEvent += new GtkSharp.ButtonReleaseEventHandler(OnButtonRelease);
+			RowActivated += new Gtk.RowActivatedHandler(OnNodeActivated);
+			contentPanel.ButtonReleaseEvent += new Gtk.ButtonReleaseEventHandler(OnButtonRelease);
 		}
 
 		void AmbienceChangedEvent(object sender, EventArgs e)
@@ -183,7 +183,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads
 #if !GTK
 		protected override void OnDoubleClick(EventArgs e)
 #else
-		private void OnNodeActivated(object sender, GtkSharp.RowActivatedArgs args)
+		private void OnNodeActivated(object sender, Gtk.RowActivatedArgs args)
 #endif
 		{
 			//base.OnDoubleClick(e);
@@ -216,7 +216,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads
 		}
 */
 #if GTK
-		private void OnButtonRelease(object sender, GtkSharp.ButtonReleaseEventArgs args)
+		private void OnButtonRelease(object sender, Gtk.ButtonReleaseEventArgs args)
 #else
 		protected override void OnMouseUp(MouseEventArgs e)
 #endif

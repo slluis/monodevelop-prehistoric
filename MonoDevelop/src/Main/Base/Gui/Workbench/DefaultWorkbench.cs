@@ -145,7 +145,7 @@ namespace ICSharpCode.SharpDevelop.Gui
 			DefaultWidth = normalBounds.Width;
 			DefaultHeight = normalBounds.Height;
 
-			DeleteEvent += new GtkSharp.DeleteEventHandler (OnClosing);
+			DeleteEvent += new Gtk.DeleteEventHandler (OnClosing);
 			this.Icon = resourceService.GetBitmap ("Icons.SharpDevelopIcon");
 			this.WindowPosition = Gtk.WindowPosition.None;
 		}
@@ -455,7 +455,7 @@ namespace ICSharpCode.SharpDevelop.Gui
 //			SetStandardStatusBar(null, null);
 //		}
 		
-		protected /*override*/ void OnClosing(object o, GtkSharp.DeleteEventArgs e)
+		protected /*override*/ void OnClosing(object o, Gtk.DeleteEventArgs e)
 		{
 			if (Close()) {
 				Gtk.Application.Quit ();

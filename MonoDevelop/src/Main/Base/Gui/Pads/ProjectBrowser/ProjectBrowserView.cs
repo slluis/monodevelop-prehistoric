@@ -111,8 +111,8 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads.ProjectBrowser
 			sw.Add(this);
 			contentPanel = new Gtk.Frame();
 			contentPanel.Add(sw);
-			RowActivated += new GtkSharp.RowActivatedHandler(OnNodeActivated);
-			contentPanel.ButtonReleaseEvent += new GtkSharp.ButtonReleaseEventHandler(OnButtonRelease);
+			RowActivated += new Gtk.RowActivatedHandler(OnNodeActivated);
+			contentPanel.ButtonReleaseEvent += new Gtk.ButtonReleaseEventHandler(OnButtonRelease);
 		}
 		
 		void TrackPropertyChange (object o, ICSharpCode.Core.Properties.PropertyEventArgs e)
@@ -333,7 +333,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads.ProjectBrowser
 			return true;
 		}
 */
-		private void OnButtonRelease(object sender, GtkSharp.ButtonReleaseEventArgs args)
+		private void OnButtonRelease(object sender, Gtk.ButtonReleaseEventArgs args)
 		{
 			if (args.Event.Button != 3 || SelectedNode == null) {
 				return;
@@ -386,7 +386,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads.ProjectBrowser
 #if !GTK
 		protected override void OnDoubleClick(EventArgs e)
 #else
-		private void OnNodeActivated(object sender, GtkSharp.RowActivatedArgs args)
+		private void OnNodeActivated(object sender, Gtk.RowActivatedArgs args)
 #endif
 		{
 			if (SelectedNode != null && SelectedNode is AbstractBrowserNode) {

@@ -316,7 +316,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads
 		public FileScout()
 		{
 			fb.TreeView.Selection.Changed += new EventHandler (OnDirChanged);
-			filelister.RowActivated += new GtkSharp.RowActivatedHandler(FileSelected);
+			filelister.RowActivated += new Gtk.RowActivatedHandler(FileSelected);
 
 			Gtk.Frame treef  = new Gtk.Frame();
 			Gtk.VBox utilVBox = new Gtk.VBox (false, 0);
@@ -387,7 +387,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads
 			}
 		}
 
-		void FileSelected(object sender, GtkSharp.RowActivatedArgs e)
+		void FileSelected(object sender, Gtk.RowActivatedArgs e)
 		{
 			IProjectService projectService = (IProjectService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
 			IFileService    fileService    = (IFileService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(IFileService));

@@ -37,7 +37,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 			TreeViewColumn firstColumn = new TreeViewColumn ();
 			firstColumn.Title = resourceService.GetString ("Dialog.SelectReferenceDialog.GacReferencePanel.ReferenceHeader");
 			CellRendererToggle tog_render = new CellRendererToggle ();
-			tog_render.Toggled += new GtkSharp.ToggledHandler (AddReference);
+			tog_render.Toggled += new Gtk.ToggledHandler (AddReference);
 			firstColumn.PackStart (tog_render, false);
 			firstColumn.AddAttribute (tog_render, "active", 3);
 
@@ -58,7 +58,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 			ShowAll ();
 		}
 		
-		public void AddReference(object sender, GtkSharp.ToggledArgs e)
+		public void AddReference(object sender, Gtk.ToggledArgs e)
 		{
 			//foreach (ListViewItem item in SelectedItems) {
 			Gtk.TreeIter iter;

@@ -49,7 +49,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 			bitmap = resourceService.GetBitmap ("GeneralWizardBackground");
 
 			AddEvents ((int) (Gdk.EventMask.ExposureMask));
-			ExposeEvent += new GtkSharp.ExposeEventHandler (OnPaint);
+			ExposeEvent += new Gtk.ExposeEventHandler (OnPaint);
 			Realized += new EventHandler (OnRealized);
 		}
 
@@ -59,7 +59,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 			ly = new Pango.Layout(PangoContext);
 		}
 		
-		protected void OnPaint(object o, GtkSharp.ExposeEventArgs e)
+		protected void OnPaint(object o, Gtk.ExposeEventArgs e)
 		{
 			GdkWindow.BeginPaintRect (e.Event.Area);
 				GdkWindow.DrawPixbuf (gc, bitmap, 0, 0, 0, 0, -1, -1, Gdk.RgbDither.None, 0, 0);

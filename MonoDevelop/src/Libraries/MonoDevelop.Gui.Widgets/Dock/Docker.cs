@@ -8,10 +8,10 @@ namespace MonoDevelop.Gui.Widgets
 
 		public Docker () : base ()
 		{
-			this.ExposeEvent += new GtkSharp.ExposeEventHandler (OnExpose);
+			this.ExposeEvent += new ExposeEventHandler (OnExpose);
 		}
 
-		void OnExpose (object o, GtkSharp.ExposeEventArgs e)
+		void OnExpose (object o, ExposeEventArgs e)
 		{
 
 		}
