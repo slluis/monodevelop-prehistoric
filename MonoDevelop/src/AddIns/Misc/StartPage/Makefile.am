@@ -14,7 +14,7 @@ $(DLL): $(build_sources)
 	@ mcs /debug /out:$(DLL) /target:library /r:System.Drawing \
 		/r:../../../../build/bin/MonoDevelop.Core.dll \
 		/r:../../../../build/bin/MonoDevelop.Base.dll \
-		$(GECKO_SHARP) \
+		@GECKO_SHARP@ \
 		/r:gtk-sharp \
 		$(build_sources) \
 	&& cp $(DLL) ../../../../build/AddIns/AddIns/Misc/StartPage/.
