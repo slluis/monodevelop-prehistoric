@@ -101,7 +101,8 @@ namespace MonoDevelop.SourceEditor.Gui {
 		public void ExecutingAt (int linenumber)
 		{
 			buf.ClearMarks (SourceMarkerType.ExecutionMark);
-			buf.ToggleMark (linenumber, SourceMarkerType.ExecutionMark);	
+			buf.ToggleMark (linenumber, SourceMarkerType.ExecutionMark);
+			buf.MarkupLine (linenumber);	
 		}
 
 		public void SimulateKeyPress (ref Gdk.EventKey evnt)

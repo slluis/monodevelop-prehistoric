@@ -57,11 +57,23 @@ namespace MonoDevelop.SourceEditor.Gui {
 	public class SourceEditorBuffer : SourceBuffer, IClipboardHandler {
 		
 		SourceLanguagesManager slm = new SourceLanguagesManager ();
+		TextTag markup;
 		
 		public SourceEditorBuffer () : base (new SourceTagTable ())
 		{
+			markup = new TextTag ("breakpoint");
+			markup.Background = "red";
+			TagTable.Add (markup);
 		}
 		
+		public void MarkupLine (int linenumber)
+		{
+			TextIter begin_line = GetIterAtLine (linenumber);
+			TextIter end_line = begin_line;
+			begin_line.LineOffset = 0;
+			end_line.ForwardToLineEnd ();
+			ApplyTag (markup, begin_line, end_line);
+		}
 		public void LoadFile (string file, string mime)
 		{
 			LoadText (File.OpenText (file).ReadToEnd (), mime);		
