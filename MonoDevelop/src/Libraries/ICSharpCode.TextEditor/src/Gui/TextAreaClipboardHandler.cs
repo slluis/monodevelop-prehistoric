@@ -48,8 +48,7 @@ namespace ICSharpCode.TextEditor
 				//FIXME: This should make sure pastable data is somewhere on the clipboard.
 				// Clipboard.GetDataObject may throw an exception...
 				try {
-					//IDataObject data = Clipboard.GetDataObject();
-					//return data != null && data.GetDataPresent(DataFormats.Text);
+					return clipboard.WaitIsTextAvailable ();
 				} catch (Exception e) {
 					Console.WriteLine("Got exception while enablepaste : " + e);
 					return false;
