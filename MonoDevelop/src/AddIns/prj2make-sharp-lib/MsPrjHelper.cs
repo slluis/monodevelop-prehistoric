@@ -19,6 +19,8 @@ namespace MonoDevelop.Prj2Make
 		private bool m_bIsMcs;
 		private string prjxFileName;
 		private string cmbxFileName;
+		private string m_strSlnVer;
+		private string m_strCsprojVer;
 
 		// Determines if the makefile is intended for nmake or gmake for urposes of path separator character
 		public bool IsUnix
@@ -34,12 +36,18 @@ namespace MonoDevelop.Prj2Make
 			set{ m_bIsMcs = value; }
 		}
 
-		public SlnMaker()
+		public string SlnVersion
 		{
-			m_bIsUnix = false;
-			m_bIsMcs = false;
+			get { return m_strSlnVer; }
+			set { m_strSlnVer = value; }
 		}
-		
+
+		public string CsprojVersion
+		{
+			get { return m_strCsprojVer; }
+			set { m_strCsprojVer = value; }
+		}
+
 		// Shuld contain the file name 
 		// of the most resent prjx generation
 		public string PrjxFileName {
@@ -52,6 +60,52 @@ namespace MonoDevelop.Prj2Make
 			get { return cmbxFileName; }
 		}
 
+
+		// Default constructor
+		public SlnMaker()
+		{
+			m_bIsUnix = false;
+			m_bIsMcs = false;
+		}
+		
+		// Utility function to determine the sln file version
+		protected string GetSlnFileVersion(string strInSlnFile)
+		{
+			string strVersion = null;
+			string strInput = null;
+			Match match;
+			FileStream fis = new FileStream(strInSlnFile, FileMode.Open, FileAccess.Read, FileShare.Read);
+			StreamReader reader = new StreamReader(fis);
+			Regex regex = new Regex(@"Microsoft Visual Studio Solution File, Format Version (\d.\d\d)");
+			
+			strInput = reader.ReadLine();
+
+			match = regex.Match(strInput);
+			if (match.Success)
+			{
+				strVersion = match.Groups[1].Value;
+			}
+			
+			// Close the stream
+			reader.Close();
+
+			// Close the File Stream
+			fis.Close();
+    
+			return strVersion;
+		}
+    	
+		// Utility function to determine the csproj file version
+		protected string GetCsprojFileVersion(string strInCsprojFile)
+		{
+			string strRetVal = null;
+			XmlDocument xmlDoc = new XmlDocument();
+
+			xmlDoc.Load(strInCsprojFile);
+			strRetVal = xmlDoc.SelectSingleNode("/VisualStudioProject/CSHARP/@ProductVersion").Value;
+
+			return strRetVal;
+		}
 
 		protected void ParseMsCsProj(string fname)
 		{
@@ -126,12 +180,18 @@ namespace MonoDevelop.Prj2Make
 
 				if (isSln == true) 
 				{
+					// Get the sln file version
+					m_strSlnVer = GetSlnFileVersion(slnFile);
+
 					// We invoke the ParseSolution 
 					// by passing the file obtained
 					ParseSolution (slnFile);
 				} 
 				else 
 				{
+					// Get the Csproj version
+					m_strCsprojVer = GetCsprojFileVersion(slnFile);
+
 					// We invoke the ParseMsCsProj 
 					// by passing the file obtained 
 					ParseMsCsProj (slnFile);
@@ -606,6 +666,9 @@ namespace MonoDevelop.Prj2Make
 				{
 					case MonoDevelop.Prj2Make.Schema.Csproj.FileBuildAction.Compile:
 						flOut.buildaction = MonoDevelop.Prj2Make.Schema.Prjx.FileBuildaction.Compile;
+						break;
+					case MonoDevelop.Prj2Make.Schema.Csproj.FileBuildAction.Content:
+						flOut.buildaction = MonoDevelop.Prj2Make.Schema.Prjx.FileBuildaction.Exclude;
 						break;
 					case MonoDevelop.Prj2Make.Schema.Csproj.FileBuildAction.EmbeddedResource:
 						flOut.buildaction = MonoDevelop.Prj2Make.Schema.Prjx.FileBuildaction.EmbedAsResource;
