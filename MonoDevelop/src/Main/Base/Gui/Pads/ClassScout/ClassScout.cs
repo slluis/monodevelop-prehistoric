@@ -19,13 +19,12 @@ using System.Text;
 
 using ICSharpCode.Core.AddIns;
 using ICSharpCode.Core.Properties;
-//using Reflector.UserInterface;
 
 using ICSharpCode.SharpDevelop.Internal.Project;
 
 using ICSharpCode.Core.Services;
 using ICSharpCode.SharpDevelop.Services;
-using MonoDevelop.Gui;
+using MonoDevelop.GuiUtils;
 
 namespace ICSharpCode.SharpDevelop.Gui.Pads
 {

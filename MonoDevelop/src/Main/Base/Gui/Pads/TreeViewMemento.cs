@@ -15,7 +15,6 @@ using System.Collections;
 using System.Xml;
 using System.Resources;
 
-
 using ICSharpCode.Core.Properties;
 using ICSharpCode.Core.AddIns;
 using ICSharpCode.Core.AddIns.Codons;
@@ -24,7 +23,7 @@ using ICSharpCode.SharpDevelop.Internal.Project;
 using ICSharpCode.SharpDevelop.Gui.Dialogs;
 
 using ICSharpCode.SharpDevelop.Services;
-using MonoDevelop.Gui;
+using MonoDevelop.GuiUtils;
 
 namespace ICSharpCode.SharpDevelop.Gui
 {

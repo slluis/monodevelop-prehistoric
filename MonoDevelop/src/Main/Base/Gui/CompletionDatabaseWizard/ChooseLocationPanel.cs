@@ -8,7 +8,7 @@
 using System;
 using System.IO;
 using Gtk;
-using MonoDevelop.Gui;
+using MonoDevelop.GuiUtils;
 
 using ICSharpCode.SharpDevelop.Internal.Project;
 using ICSharpCode.Core.Properties;

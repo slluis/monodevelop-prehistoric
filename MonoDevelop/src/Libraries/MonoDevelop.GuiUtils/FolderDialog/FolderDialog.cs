@@ -2,7 +2,7 @@ using System;
 using Gtk;
 using GtkSharp;
 
-namespace MonoDevelop.Gui
+namespace MonoDevelop.GuiUtils
 {
 	public class FolderDialog : FileSelection
 	{

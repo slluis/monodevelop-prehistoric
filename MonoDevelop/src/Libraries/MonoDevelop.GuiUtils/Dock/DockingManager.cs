@@ -9,7 +9,7 @@ using System;
 using System.Collections;
 using Gtk;
 
-namespace MonoDevelop.Gui
+namespace MonoDevelop.GuiUtils
 {	
 	/// <summary>
 	/// DockingManager replacement

@@ -7,7 +7,6 @@
 
 using System;
 using System.IO;
-//using System.Windows.Forms;
 using System.Diagnostics;
 using System.Drawing;
 using System.Collections.Specialized;
@@ -17,7 +16,7 @@ using ICSharpCode.Core.Properties;
 
 using ICSharpCode.SharpDevelop.Internal.Project;
 using ICSharpCode.SharpDevelop.Gui.Components;
-using MonoDevelop.Gui;
+using MonoDevelop.GuiUtils;
 
 namespace ICSharpCode.SharpDevelop.Gui.Pads.ProjectBrowser
 {

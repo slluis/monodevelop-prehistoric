@@ -21,7 +21,7 @@ using ICSharpCode.TextEditor.Document;
 using ICSharpCode.SharpDevelop.Gui.Dialogs;
 
 using Gtk;
-using MonoDevelop.Gui;
+using MonoDevelop.GuiUtils;
 
 namespace ICSharpCode.SharpDevelop.Gui.Dialogs.OptionPanels 
 {

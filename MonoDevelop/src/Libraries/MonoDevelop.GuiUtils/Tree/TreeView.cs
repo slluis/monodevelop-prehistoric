@@ -1,7 +1,7 @@
 using System;
 using System.Collections;
 
-namespace MonoDevelop.Gui {
+namespace MonoDevelop.GuiUtils {
 	public class TreeView: Gtk.TreeView {
 		Gtk.TreeView view;
 		Gtk.TreeStore store;

@@ -6,7 +6,7 @@ using GtkSharp;
 using Gnome;
 using GnomeSharp;
 
-namespace MonoDevelop.Gui {
+namespace MonoDevelop.GuiUtils {
 	public class IconView : ScrolledWindow {
 		IconList iconList;
 		

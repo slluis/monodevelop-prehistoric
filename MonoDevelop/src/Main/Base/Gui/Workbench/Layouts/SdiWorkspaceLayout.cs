@@ -18,9 +18,9 @@ using ICSharpCode.Core.Services;
 using ICSharpCode.SharpDevelop.Services;
 
 using Gtk;
-using MonoDevelop.Gui;
-using ICSharpCode.SharpDevelop.Gui.Pads.ProjectBrowser; // FIXME REMOVE PEDRO
-using ICSharpCode.SharpDevelop.Gui.Pads;				//
+using MonoDevelop.GuiUtils;
+//using ICSharpCode.SharpDevelop.Gui.Pads.ProjectBrowser; // FIXME REMOVE PEDRO
+//using ICSharpCode.SharpDevelop.Gui.Pads;				//
 
 namespace ICSharpCode.SharpDevelop.Gui
 {	

@@ -2,7 +2,7 @@
 using System;
 using System.Collections;
 using ICSharpCode.SharpDevelop.Gui.Pads.ProjectBrowser;
-using MonoDevelop.Gui;
+using MonoDevelop.GuiUtils;
 
 namespace System {
 	[Serializable]

@@ -13,7 +13,7 @@ using GladeSharp;
 
 using Assembly = System.Reflection.Assembly;
 
-namespace MonoDevelop.Gui {
+namespace MonoDevelop.GuiUtils {
 	public abstract class GladeWidgetExtract : HBox {
 		
 		Glade.XML glade;

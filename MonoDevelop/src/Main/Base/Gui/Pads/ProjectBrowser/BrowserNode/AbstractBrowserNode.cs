@@ -17,7 +17,7 @@ using ICSharpCode.Core.Services;
 using ICSharpCode.Core.AddIns;
 
 using ICSharpCode.SharpDevelop.Internal.Project;
-using MonoDevelop.Gui;
+using MonoDevelop.GuiUtils;
 
 namespace ICSharpCode.SharpDevelop.Gui.Pads.ProjectBrowser
 {

@@ -13,7 +13,7 @@ using ICSharpCode.SharpDevelop.Internal.Project;
 using ICSharpCode.Core.Properties;
 using ICSharpCode.Core.Services;
 
-using MonoDevelop.Gui;
+using MonoDevelop.GuiUtils;
 using ICSharpCode.Core.AddIns.Codons;
 
 namespace ICSharpCode.SharpDevelop.Gui.Dialogs.OptionPanels.CompletionDatabaseWizard

@@ -21,7 +21,7 @@ using ICSharpCode.Core.Properties;
 using ICSharpCode.Core.Services;
 
 using ICSharpCode.SharpDevelop.Services;
-using MonoDevelop.Gui;
+using MonoDevelop.GuiUtils;
 
 namespace ICSharpCode.SharpDevelop.Gui.Pads
 {
