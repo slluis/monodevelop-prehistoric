@@ -2958,9 +2958,9 @@
 	  <property name="spacing">6</property>
 
 	  <child>
-	    <widget class="GtkLabel" id="label56">
+	    <widget class="GtkLabel" id="informationHeaderLabel">
 	      <property name="visible">True</property>
-	      <property name="label" translatable="yes">&lt;b&gt;Project Information&lt;/b&gt;</property>
+	      <property name="label" translatable="yes">&lt;b&gt;Project Information-&lt;/b&gt;</property>
 	      <property name="use_underline">True</property>
 	      <property name="use_markup">True</property>
 	      <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -3024,9 +3024,9 @@
 			  <property name="spacing">6</property>
 
 			  <child>
-			    <widget class="GtkLabel" id="label53">
+			    <widget class="GtkLabel" id="nameLabel">
 			      <property name="visible">True</property>
-			      <property name="label" translatable="yes">_Name</property>
+			      <property name="label" translatable="yes">_Name-</property>
 			      <property name="use_underline">True</property>
 			      <property name="use_markup">False</property>
 			      <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -3072,7 +3072,7 @@
 			      </child>
 
 			      <child>
-				<widget class="GtkEntry" id="ProjectNameEntry">
+				<widget class="GtkEntry" id="projectNameEntry">
 				  <property name="visible">True</property>
 				  <property name="can_focus">True</property>
 				  <property name="editable">True</property>
@@ -3118,9 +3118,9 @@
 		      <property name="spacing">0</property>
 
 		      <child>
-			<widget class="GtkLabel" id="label44">
+			<widget class="GtkLabel" id="descriptionLabel">
 			  <property name="visible">True</property>
-			  <property name="label" translatable="yes">_Description</property>
+			  <property name="label" translatable="yes">_Description-</property>
 			  <property name="use_underline">True</property>
 			  <property name="use_markup">False</property>
 			  <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -3177,7 +3177,7 @@
 			      <property name="window_placement">GTK_CORNER_TOP_LEFT</property>
 
 			      <child>
-				<widget class="GtkTextView" id="ProjectDescriptionTextView">
+				<widget class="GtkTextView" id="projectDescriptionTextView">
 				  <property name="visible">True</property>
 				  <property name="can_focus">True</property>
 				  <property name="editable">True</property>
@@ -3216,10 +3216,10 @@
 		  </child>
 
 		  <child>
-		    <widget class="GtkCheckButton" id="EnableViewStateCheckButton">
+		    <widget class="GtkCheckButton" id="enableViewStateCheckButton">
 		      <property name="visible">True</property>
 		      <property name="can_focus">True</property>
-		      <property name="label" translatable="yes">Enable _viewstate</property>
+		      <property name="label" translatable="yes">Enable _viewstate-</property>
 		      <property name="use_underline">True</property>
 		      <property name="relief">GTK_RELIEF_NORMAL</property>
 		      <property name="active">False</property>
@@ -3261,9 +3261,9 @@
 	  <property name="spacing">6</property>
 
 	  <child>
-	    <widget class="GtkLabel" id="label52">
+	    <widget class="GtkLabel" id="onProjectLoadHeaderLabel">
 	      <property name="visible">True</property>
-	      <property name="label" translatable="yes">&lt;b&gt;On Project Load &lt;/b&gt;</property>
+	      <property name="label" translatable="yes">&lt;b&gt;On Project Load- &lt;/b&gt;</property>
 	      <property name="use_underline">True</property>
 	      <property name="use_markup">True</property>
 	      <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -3309,10 +3309,10 @@
 	      </child>
 
 	      <child>
-		<widget class="GtkCheckButton" id="NewFilesOnLoadCheckButton">
+		<widget class="GtkCheckButton" id="newFilesOnLoadCheckButton">
 		  <property name="visible">True</property>
 		  <property name="can_focus">True</property>
-		  <property name="label" translatable="yes">Search for new _files on load</property>
+		  <property name="label" translatable="yes">Search for new _files on load-</property>
 		  <property name="use_underline">True</property>
 		  <property name="relief">GTK_RELIEF_NORMAL</property>
 		  <property name="active">False</property>
@@ -3382,10 +3382,10 @@
 	      </child>
 
 	      <child>
-		<widget class="GtkCheckButton" id="AutoInsertNewFilesCheckButton">
+		<widget class="GtkCheckButton" id="autoInsertNewFilesCheckButton">
 		  <property name="visible">True</property>
 		  <property name="can_focus">True</property>
-		  <property name="label" translatable="yes">Automaticly _include found files</property>
+		  <property name="label" translatable="yes">Automaticly _include found files-</property>
 		  <property name="use_underline">True</property>
 		  <property name="relief">GTK_RELIEF_NORMAL</property>
 		  <property name="active">False</property>
