@@ -24,62 +24,64 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs.OptionPanels
 {
 	public class SelectStylePanel : AbstractOptionPanel
 	{
-		
-		//FIXME: Hashtables are wrong here.
-		//FIXME: Yes, this is a dirty hack.
-		//FIXME: Lets use something else.
-		Hashtable MenuToValue = new Hashtable ();
-		Hashtable ValueToMenu = new Hashtable ();
-
 		PropertyService PropertyService = (PropertyService)ServiceManager.Services.GetService (typeof (PropertyService));
-
-
-		class SelectStylePanelWidget : GladeWidgetExtract {
-			public Gtk.Menu ambienceMenu;
-			[Glade.Widget] public Gtk.CheckButton extensionButton;
-			[Glade.Widget] public Gtk.OptionMenu option;
-					
-			public SelectStylePanelWidget () : base ("Base.glade", "SelectStylePanel")
-			{
-				ambienceMenu = new Gtk.Menu ();
-				option.Menu = ambienceMenu;
-			}
-		}
-
-		public SelectStylePanel () : base ()
-		{
-		}
-
 		SelectStylePanelWidget widget;
-		
+		const string selectStyleProperty = "SharpDevelop.UI.SelectStyleOptions";
+
 		public override void LoadPanelContents()
 		{
-			Add (widget = new SelectStylePanelWidget ());
-
-			widget.extensionButton.Active  = PropertyService.GetProperty("ICSharpCode.SharpDevelop.Gui.ProjectBrowser.ShowExtensions", true);
-			
-			IAddInTreeNode treeNode = AddInTreeSingleton.AddInTree.GetTreeNode("/SharpDevelop/Workbench/Ambiences");
-			string active = PropertyService.GetProperty ("SharpDevelop.UI.CurrentAmbience", "CSharp");
-
-			//FIXME: Yes, I know for is better here
-			uint im = 0;
-			foreach (IAddInTreeNode childNode in treeNode.ChildNodes.Values) {
-				Gtk.MenuItem i = Gtk.MenuItem.NewWithLabel (childNode.Codon.ID);
-				widget.ambienceMenu.Append(i);
-				MenuToValue[i] = childNode.Codon.ID;
-				if (childNode.Codon.ID == active) {
-					widget.option.SetHistory (im);
-				}
-				im++;
-			}			
-			
+			IProperties p = (IProperties) PropertyService.GetProperty (selectStyleProperty, new DefaultProperties ());
+			Add (widget = new SelectStylePanelWidget (p));
 		}
 		
 		public override bool StorePanelContents()
 		{
-			PropertyService.SetProperty("ICSharpCode.SharpDevelop.Gui.ProjectBrowser.ShowExtensions", widget.extensionButton.Active);
-			PropertyService.SetProperty("SharpDevelop.UI.CurrentAmbience", (string)MenuToValue[widget.ambienceMenu.Active]);
+			IProperties p = (IProperties) PropertyService.GetProperty (selectStyleProperty, new DefaultProperties ());
+			widget.Store (p);
+			PropertyService.SetProperty(selectStyleProperty, p);
 			return true;
+		}
+
+		class SelectStylePanelWidget : GladeWidgetExtract 
+		{
+
+			//FIXME: Hashtables are wrong here.
+			//FIXME: Yes, this is a dirty hack.
+			//FIXME: Lets use something else.
+			Hashtable MenuToValue = new Hashtable ();
+			Hashtable ValueToMenu = new Hashtable ();
+			public Gtk.Menu ambienceMenu;
+			[Glade.Widget] public Gtk.CheckButton extensionButton;
+			[Glade.Widget] public Gtk.OptionMenu option;
+					
+			public SelectStylePanelWidget (IProperties p) : base ("Base.glade", "SelectStylePanel")
+			{
+				ambienceMenu = new Gtk.Menu ();
+				option.Menu = ambienceMenu;
+				extensionButton.Active  = p.GetProperty("ICSharpCode.SharpDevelop.Gui.ProjectBrowser.ShowExtensions", true);
+				IAddInTreeNode treeNode = AddInTreeSingleton.AddInTree.GetTreeNode("/SharpDevelop/Workbench/Ambiences");
+				string active = p.GetProperty ("SharpDevelop.UI.CurrentAmbience", "CSharp");
+				
+				//FIXME: Yes, I know for is better here
+				uint im = 0;
+				foreach (IAddInTreeNode childNode in treeNode.ChildNodes.Values) 
+				{
+					Gtk.MenuItem i = Gtk.MenuItem.NewWithLabel (childNode.Codon.ID);
+				ambienceMenu.Append(i);
+				MenuToValue[i] = childNode.Codon.ID;
+				if (childNode.Codon.ID == active) {
+					option.SetHistory (im);
+				}
+				im++;
+				}
+				
+			}
+			
+			public void Store(IProperties p)
+			{
+				p.SetProperty("ICSharpCode.SharpDevelop.Gui.ProjectBrowser.ShowExtensions", extensionButton.Active);
+				p.SetProperty("SharpDevelop.UI.CurrentAmbience", (string)MenuToValue[ambienceMenu.Active]);
+			}
 		}
 	}
 }
