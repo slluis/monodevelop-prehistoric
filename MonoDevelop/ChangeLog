@@ -1,3 +1,10 @@
+2004-03-17	John BouAntoun  <jba-mono@optusnet.com.au>
+	
+	* src/Main/Base/Commands/MenuItemBuilders.cs:
+	fixed external tool launching in correct WorkingDirectory
+	and also made it not parse the tool command (bug 53311).
+	Still need to fix prompt for arguments issue.
+
 2004-03-15  John Luke  <jluke@cfl.rr.com>
 	
 	* monodevelop.in: fix LD_LIBRARY_PATH
@@ -33,7 +40,7 @@
 	* configure.in: Add GDLDOCK_{CFLAGS,LIBS} variables for building
 	GdlDock.
 
-2004-03-05  John BouAntoun  <jba-mono@optusnet.com.au>
+2004-03-11  John BouAntoun  <jba-mono@optusnet.com.au>
 	
 	* src/Main/Base/Commands/ProjectBrowserCommands/CombineNodeCommands.cs:
 	Made it so adding any new nodes to projectbrowserview 

@@ -134,7 +134,7 @@ namespace MonoDevelop.Commands
 			for (int i = 0; i < ToolLoader.Tool.Count; ++i) {
 				if (item.Text == ToolLoader.Tool[i].ToString()) {
 					ExternalTool tool = (ExternalTool)ToolLoader.Tool[i];
-					string command = stringParserService.Parse(tool.Command);
+					string command = tool.Command;
 					string args    = stringParserService.Parse(tool.Arguments);
 					Console.WriteLine("command : " + command);
 					Console.WriteLine("args    : " + args);
@@ -146,8 +146,12 @@ namespace MonoDevelop.Commands
 							startinfo = new ProcessStartInfo(command, args);
 						}
 						
-						startinfo.WorkingDirectory = tool.InitialDirectory;
+						startinfo.WorkingDirectory = stringParserService.Parse(tool.InitialDirectory);
+						
+						// FIXME: need to find a way to prompt for the user arguments						
+						// FIXME: need to find a way to wire the console output into the output window if specified
 						Process.Start(startinfo);
+						
 					} catch (Exception ex) {
 						IMessageService messageService =(IMessageService)ServiceManager.Services.GetService(typeof(IMessageService));
 						messageService.ShowError(ex, "External program execution failed.\nError while starting:\n '" + command + " " + args + "'");
