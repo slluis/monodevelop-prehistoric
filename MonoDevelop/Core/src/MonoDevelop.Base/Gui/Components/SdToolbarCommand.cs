@@ -6,20 +6,17 @@
 // </file>
 
 using System;
-using System.Drawing;
-using System.Diagnostics;
-using System.Drawing.Text;
-using System.Drawing.Imaging;
+using Gtk;
+
 using MonoDevelop.Core.AddIns.Conditions;
 using MonoDevelop.Core.AddIns.Codons;
-using MonoDevelop.Core.Services;
-
-//using Reflector.UserInterface;
+using MonoDevelop.Services;
 
 namespace MonoDevelop.Gui.Components
 {
-	public class SdToolbarCommand : Gtk.Button, IStatusUpdate
+	public class SdToolbarCommand : Gtk.ToolButton, IStatusUpdate
 	{
+		static Tooltips tips = new Tooltips ();
 		object caller;
 		ConditionCollection conditionCollection;
 		string description   = String.Empty;
@@ -27,82 +24,46 @@ namespace MonoDevelop.Gui.Components
 		ICommand menuCommand = null;
 		
 		public ICommand Command {
-			get {
-				return menuCommand;
-			}
+			get { return menuCommand; }
 			set {
 				menuCommand = value;
 				UpdateStatus();
 			}
 		}
 		
-		public string Description {
-			get {
-				return description;
-			}
-			set {
-				description = value;
-			}
-		}
-
 		public string Text {
-			get {
-				return localizedText;
-			}
+			get { return localizedText; }
 		}
 		
-		public SdToolbarCommand (string text) : base ()
+		public SdToolbarCommand (ToolbarItemCodon codon, object caller) : base (null, "")
 		{
-			localizedText = text;
+			this.caller = caller;
+			this.IconWidget = Runtime.Gui.Resources.GetImage (codon.Icon, Gtk.IconSize.LargeToolbar);
+			this.conditionCollection = codon.Conditions;
+			this.localizedText = codon.ToolTip;
+			this.Label = this.Text;
+			if (codon.Class != null)
+				this.Command = (ICommand) codon.AddIn.CreateObject (codon.Class);
 
-			Clicked += new EventHandler (ToolbarClicked);
+			this.SetTooltip (tips, Text, Text);
+			this.Clicked += new EventHandler (ToolbarClicked);
+			this.ShowAll ();
 		}
 		
-		public SdToolbarCommand(ConditionCollection conditionCollection, object caller, string label) : this(label)
-		{
-			this.caller              = caller;
-			this.conditionCollection = conditionCollection;
-			UpdateStatus();
-		}
-		
-		public SdToolbarCommand(ConditionCollection conditionCollection, object caller, string label, ICommand menuCommand) : this(label)
-		{
-			this.caller = caller;
-			this.conditionCollection = conditionCollection;
-			this.menuCommand = menuCommand;
-			UpdateStatus();
-		}
-		
-		public SdToolbarCommand(ConditionCollection conditionCollection, object caller, string label, EventHandler handler) : this(label)
-		{
-			this.caller = caller;
-			this.conditionCollection = conditionCollection;
-			UpdateStatus();
-		}
-		
-		public SdToolbarCommand(object caller, string label, EventHandler handler) : this(label)
-		{
-			this.caller = caller;
-			UpdateStatus();
-		}
-		
-		// To be called from ToolbarService
-		public void ToolbarClicked(object o, EventArgs e) {
-			if (menuCommand != null) {
-				menuCommand.Run();
-			}
+		void ToolbarClicked (object o, EventArgs e) {
+			if (menuCommand != null)
+				menuCommand.Run ();
 		}
 
-		public virtual void UpdateStatus()
+		public virtual void UpdateStatus ()
 		{
 			if (conditionCollection != null) {
-				ConditionFailedAction failedAction = conditionCollection.GetCurrentConditionFailedAction(caller);
+				ConditionFailedAction failedAction = conditionCollection.GetCurrentConditionFailedAction (caller);
 				this.Sensitive = failedAction != ConditionFailedAction.Disable;
 				this.Visible = failedAction != ConditionFailedAction.Exclude;
 			}
-			if (menuCommand != null && menuCommand is IMenuCommand) {
-				Sensitive = ((IMenuCommand)menuCommand).IsEnabled;
-			}
+			if (menuCommand != null && menuCommand is IMenuCommand)
+				this.Sensitive = ((IMenuCommand) menuCommand).IsEnabled;
 		}
 	}
 }

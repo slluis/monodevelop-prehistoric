@@ -16,7 +16,6 @@ using MonoDevelop.Gui.Components;
 using MonoDevelop.Internal.Project;
 using MonoDevelop.Core.AddIns.Codons;
 using MonoDevelop.Core.AddIns;
-
 using MonoDevelop.Core.Services;
 using MonoDevelop.Services;
 
@@ -46,43 +45,22 @@ namespace MonoDevelop.Services
 			return toolBars;
 		}
 		
-		public Gtk.Toolbar CreateToolBarFromCodon(object owner, ToolbarItemCodon codon)
+		public Gtk.Toolbar CreateToolBarFromCodon (object owner, ToolbarItemCodon codon)
 		{
-			Gtk.Toolbar bar = new Gtk.Toolbar();
+			Gtk.Toolbar bar = new Gtk.Toolbar ();
 			bar.ToolbarStyle = Gtk.ToolbarStyle.Icons;
 			
-			foreach (ToolbarItemCodon childCodon in codon.SubItems) {
-				SdToolbarCommand item = null;
-				
+			foreach (ToolbarItemCodon childCodon in codon.SubItems)
+			{
 				if (childCodon.ToolTip != null) {
-					if (childCodon.ToolTip == "-") {
-						//bar.Insert (new SeparatorToolItem (), -1);
-						bar.AppendSpace ();
-						continue;
-					} else {
-						item = new SdToolbarCommand(childCodon.Conditions, owner, GettextCatalog.GetString (childCodon.ToolTip));
-						Gtk.Image img = Runtime.Gui.Resources.GetImage(childCodon.Icon, Gtk.IconSize.LargeToolbar);
-						item.Add (img);
-						item.Relief = ReliefStyle.None;
-						
-						//if (img.StorageType == Gtk.ImageType.Stock) {
-						//	item.Stock = img.Stock;
-						//	item.IconSize = (int)Gtk.IconSize.SmallToolbar;
-						//} else {
-						//	item.Pixbuf = img.Pixbuf;
-						//}
-						item.ShowAll();
-					}
-				} else {
-					Console.WriteLine ("Tooltip was null");
-					continue;
+					if (childCodon.ToolTip == "-")
+						bar.Insert (new SeparatorToolItem (), -1);
+					else
+						bar.Insert (new SdToolbarCommand (childCodon, owner), -1);
 				}
-				if (childCodon.Class != null) {
-					((SdToolbarCommand)item).Command = (ICommand)childCodon.AddIn.CreateObject(childCodon.Class);
-				}
-				bar.AppendWidget (item, item.Text, item.Text);
 			}
 			return bar;
 		}
 	}
 }
+
