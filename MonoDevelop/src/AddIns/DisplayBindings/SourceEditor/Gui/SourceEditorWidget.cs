@@ -29,6 +29,7 @@ namespace MonoDevelop.SourceEditor.Gui
 			Buffer = new SourceEditorBuffer ();	
 			View = new SourceEditorView (Buffer, this);
 			Buffer.Highlight = true;
+			Buffer.View = View;
 			
 			View.SetMarkerPixbuf ("SourceEditorBookmark", new Gdk.Pixbuf (drag_icon_xpm));
 			View.SetMarkerPixbuf ("ExecutionMark", new Gdk.Pixbuf ("../data/resources/icons/ExecutionMarker.png"));

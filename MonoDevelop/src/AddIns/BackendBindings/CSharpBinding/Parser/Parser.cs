@@ -84,6 +84,7 @@ namespace CSharpBinding.Parser
 			visitor.Visit(p.compilationUnit, null);
 			visitor.Cu.ErrorsDuringCompile = p.Errors.count > 0;
 			visitor.Cu.Tag = p.compilationUnit;
+			visitor.Cu.ErrorOutput = p.Errors.ErrorOutput;
 			RetrieveRegions(visitor.Cu, lexer.SpecialTracker);
 			return visitor.Cu;
 		}

@@ -34,13 +34,13 @@ namespace ICSharpCode.SharpRefactory.Parser
 	
 		void DefaultCodeError (int line, int col, int n)
 		{
-			errorText.Append(String.Format("-- line {0} col {1}: error {2}", line, col, n));
+			errorText.Append(String.Format("-- line {0} col {1} : error {2}", line, col, n));
 			errorText.Append("\n");
 			count++;
 		}
 	
 		void DefaultMsgError (int line, int col, string s) {
-			errorText.Append(String.Format("-- line {0} col {1}: {2}", line, col, s));
+			errorText.Append(String.Format("-- line {0} col {1} : {2}", line, col, s));
 			errorText.Append("\n");
 			count++;
 		}

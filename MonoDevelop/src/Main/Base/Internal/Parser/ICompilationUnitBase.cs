@@ -16,6 +16,11 @@ namespace MonoDevelop.Internal.Parser
 			get;
 			set;
 		}
+
+		string ErrorOutput {
+			get;
+			set;
+		}
 		
 		object Tag {
 			get;

@@ -8,6 +8,7 @@ using MonoDevelop.Core.AddIns;
 using MonoDevelop.Core.Services;
 using MonoDevelop.Services;
 using MonoDevelop.Core.AddIns.Codons;
+using MonoDevelop.Internal.Parser;
 
 using System;
 using System.IO;
@@ -63,8 +64,28 @@ namespace MonoDevelop.SourceEditor.Gui
 		SourceLanguagesManager slm = new SourceLanguagesManager ();
 		TextTag markup;
 		TextTag complete_ahead;
+		TextTag compilation_error;
 		TextMark complete_end;
 		AtomicUndo atomic_undo;
+		SourceEditorView view;
+
+		public SourceEditorView View
+		{
+			get {
+				return view;
+			}
+			set {
+				view = value;
+			}
+		}
+		
+		
+		IParserService ps = (IParserService)ServiceManager.Services.GetService (typeof (IParserService));
+
+		public SourceEditorBuffer (SourceEditorView view) : this ()
+		{
+			this.view = view;
+		}
 		
 		public SourceEditorBuffer () : base (new SourceTagTable ())
 		{
@@ -74,8 +95,52 @@ namespace MonoDevelop.SourceEditor.Gui
 			complete_ahead = new TextTag ("complete_ahead");
 			complete_ahead.Foreground = "grey";
 			TagTable.Add (complete_ahead);
+			compilation_error = new TextTag ("compilation_error");
+			compilation_error.Underline = Pango.Underline.Single;
+			TagTable.Add (compilation_error);
 			complete_end = CreateMark (null, StartIter, true);
+			//ps.ParseInformationChanged += new ParseInformationEventHandler (parseChanged);
 		}
+			int[] point = new int [2];
+			
+		public void parseChanged (object o, ParseInformationEventArgs e)
+		{
+			if (view != null) {
+				if (view.ParentEditor.DisplayBinding.ContentName == e.FileName){
+					if (e.ParseInformation.MostRecentCompilationUnit.ErrorsDuringCompile) {
+						string[] errors = e.ParseInformation.MostRecentCompilationUnit.ErrorOutput.Split ('\n');
+						foreach (string error in errors) {
+							string[] pieces = error.Split (' ');
+							if (pieces.Length == 1) continue;
+							Console.WriteLine ("line: {0} col: {1}", pieces[2], pieces[4]);
+							point[0] = Convert.ToInt32 (pieces[2]) - 1;
+							point[1] = Convert.ToInt32 (pieces[4]);
+							GLib.Idle.Add (new GLib.IdleHandler (addMarkup));
+						}
+					}
+					else {
+						//Clear errors
+					}
+				}
+			}
+		}
+
+		bool addMarkup ()
+		{
+			if (point[0] == 0 && point[1] == 0)
+				return false;
+
+			Console.WriteLine ("line: {0} col: {1}", point[0], point[1]);
+			TextIter start = GetIterAtLine (point[0]);
+			start.LineOffset = point[1];
+			Console.WriteLine (start.Char);
+			TextIter end = start;
+			end.ForwardToLineEnd ();
+			ApplyTag (compilation_error, start, end);
+			point[0] = 0;
+			point[1] = 0;
+			return false;
+		}		
 		
 		public void MarkupLine (int linenumber)
 		{
@@ -85,13 +150,13 @@ namespace MonoDevelop.SourceEditor.Gui
 			end_line.ForwardToLineEnd ();
 			ApplyTag (markup, begin_line, end_line);
 		}
-
+		
 		public void UnMarkupLine (int line)
 		{
 			ClearMarks (SourceMarkerType.ExecutionMark);
 			RemoveTag (markup, StartIter, EndIter);
 		}
-
+		
 		public void DropCompleteAhead ()
 		{
 			if (GetIterAtMark (complete_end).Offset == 0)
@@ -516,15 +581,21 @@ namespace MonoDevelop.SourceEditor.Gui
 
 		public char GetCharAt (int offset)
 		{
+			/*if (offset < 0)
+			  offset = 0;
+			  TextIter begin_iter = GetIterAtOffset (offset);
+			  TextIter next_iter = begin_iter;
+			  next_iter.ForwardChar ();
+			  string text = GetText (begin_iter, next_iter, true);
+			  if (text != null && text.Length >= 1)
+			  return text[0];*/
+			//New test implementation
 			if (offset < 0)
 				offset = 0;
-			TextIter begin_iter = GetIterAtOffset (offset);
-			TextIter next_iter = begin_iter;
-			next_iter.ForwardChar ();
-			string text = GetText (begin_iter, next_iter, true);
-			if (text != null && text.Length >= 1)
-				return text[0];
-			return ' ';
+			TextIter iter = GetIterAtOffset (offset);
+			if (iter.Equals (TextIter.Zero))
+				return ' ';
+			return iter.Char[0];
 		}
 
 		public string GetText (int start, int length)

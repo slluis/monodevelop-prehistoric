@@ -43,6 +43,7 @@ namespace MonoDevelop.Internal.Parser
 		protected bool errorsDuringCompile = false;
 		protected object tag               = null;
 		protected ArrayList foldingRegions = new ArrayList();
+		protected string erroroutput = String.Empty;
 		
 		public bool ErrorsDuringCompile {
 			get {
@@ -50,6 +51,15 @@ namespace MonoDevelop.Internal.Parser
 			}
 			set {
 				errorsDuringCompile = value;
+			}
+		}
+
+		public string ErrorOutput {
+			get {
+				return erroroutput;
+			}
+			set {
+				erroroutput = value;
 			}
 		}
 		
