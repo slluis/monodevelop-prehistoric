@@ -488,7 +488,7 @@ namespace CSharpBinding
 				stream.Write (" $(SYSTEM_REFERENCES_BUILD)");
 			}
 			stream.WriteLine (" $(SOURCES) \\");
-			stream.WriteLine ("\t&& cp \"{0}\" {1}", outputName, relativeOutputDir);
+			stream.WriteLine ("\t&& cp \"{0}\" {1}/.", outputName, relativeOutputDir);
 			
 			stream.WriteLine ();
 			stream.WriteLine ("clean:");

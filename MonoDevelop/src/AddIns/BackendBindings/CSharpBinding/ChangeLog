@@ -1,3 +1,8 @@
+2004-06-22  John Luke <jluke@cfl.rr.com>
+
+	* CSharpBindingCompilerManager.cs: be explicit when copying the
+	assembly to avoid silent failures (use build/bin/. not build/bin)
+
 2004-06-17  John Luke  <jluke@cfl.rr.com>
 
 	* Gui/OutputOptionsPanel.cs: Use MonoDevelop.Gui.Widgets.FileSelector
