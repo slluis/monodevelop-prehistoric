@@ -1,0 +1,569 @@
+<?xml version="1.0"?>
+<api><!--
+
+        This file was automatically generated.
+        Please DO NOT MODIFY THIS FILE, modify .metadata files instead.
+
+-->
+  <namespace name="Gdl" library="gdl-1">
+    <enum name="DockItemBehavior" cname="GdlDockItemBehavior" type="flags">
+      <member cname="GDL_DOCK_ITEM_BEH_NORMAL" name="Normal" />
+      <member cname="GDL_DOCK_ITEM_BEH_NEVER_FLOATING" name="NeverFloating" value="1 &lt;&lt; 0" />
+      <member cname="GDL_DOCK_ITEM_BEH_NEVER_VERTICAL" name="NeverVertical" value="1 &lt;&lt; 1" />
+      <member cname="GDL_DOCK_ITEM_BEH_NEVER_HORIZONTAL" name="NeverHorizontal" value="1 &lt;&lt; 2" />
+      <member cname="GDL_DOCK_ITEM_BEH_LOCKED" name="Locked" value="1 &lt;&lt; 3" />
+      <member cname="GDL_DOCK_ITEM_BEH_CANT_DOCK_TOP" name="CantDockTop" value="1 &lt;&lt; 4" />
+      <member cname="GDL_DOCK_ITEM_BEH_CANT_DOCK_BOTTOM" name="CantDockBottom" value="1 &lt;&lt; 5" />
+      <member cname="GDL_DOCK_ITEM_BEH_CANT_DOCK_LEFT" name="CantDockLeft" value="1 &lt;&lt; 6" />
+      <member cname="GDL_DOCK_ITEM_BEH_CANT_DOCK_RIGHT" name="CantDockRight" value="1 &lt;&lt; 7" />
+      <member cname="GDL_DOCK_ITEM_BEH_CANT_DOCK_CENTER" name="CantDockCenter" value="1 &lt;&lt; 8" />
+    </enum>
+    <enum name="DockItemFlags" cname="GdlDockItemFlags" type="enum" hidden="1">
+      <member cname="GDL_DOCK_IN_DRAG" name="InDrag" value="1 &lt;&lt; GDL_DOCK_OBJECT_FLAGS_SHIFT" />
+      <member cname="GDL_DOCK_IN_PREDRAG" name="InPredrag" value="1 &lt;&lt; (GDL_DOCK_OBJECT_FLAGS_SHIFT + 1)" />
+      <member cname="GDL_DOCK_USER_ACTION" name="UserAction" value="1 &lt;&lt; (GDL_DOCK_OBJECT_FLAGS_SHIFT + 2)" />
+    </enum>
+    <enum name="DockObjectFlags" cname="GdlDockObjectFlags" type="flags">
+      <member cname="GDL_DOCK_AUTOMATIC" name="Automatic" value="1 &lt;&lt; 0" />
+      <member cname="GDL_DOCK_ATTACHED" name="Attached" value="1 &lt;&lt; 1" />
+      <member cname="GDL_DOCK_IN_REFLOW" name="InReflow" value="1 &lt;&lt; 2" />
+      <member cname="GDL_DOCK_IN_DETACH" name="InDetach" value="1 &lt;&lt; 3" />
+    </enum>
+    <enum name="DockParamFlags" cname="GdlDockParamFlags" type="enum" hidden="1">
+      <member cname="GDL_DOCK_PARAM_EXPORT" name="Export" value="1 &lt;&lt; G_PARAM_USER_SHIFT" />
+      <member cname="GDL_DOCK_PARAM_AFTER" name="After" value="1 &lt;&lt; (G_PARAM_USER_SHIFT + 1)" />
+    </enum>
+    <enum name="DockPlacement" cname="GdlDockPlacement" type="enum">
+      <member cname="GDL_DOCK_NONE" name="None" />
+      <member cname="GDL_DOCK_TOP" name="Top" />
+      <member cname="GDL_DOCK_BOTTOM" name="Bottom" />
+      <member cname="GDL_DOCK_RIGHT" name="Right" />
+      <member cname="GDL_DOCK_LEFT" name="Left" />
+      <member cname="GDL_DOCK_CENTER" name="Center" />
+      <member cname="GDL_DOCK_FLOATING" name="Floating" />
+    </enum>
+    <object name="Dock" cname="GdlDock" parent="GdlDockObject">
+      <field cname="root" type="GdlDockObject*" />
+      <field cname="_priv" type="GdlDockPrivate*" />
+      <property name="Floating" cname="floating" type="gboolean" readable="true" writeable="true" construct-only="true" />
+      <property name="DefaultTitle" cname="default_title" type="gchar*" readable="true" writeable="true" />
+      <property name="Width" cname="width" type="gint" readable="true" writeable="true" construct-only="true" />
+      <property name="Height" cname="height" type="gint" readable="true" writeable="true" construct-only="true" />
+      <property name="Floatx" cname="floatx" type="gint" readable="true" writeable="true" construct-only="true" />
+      <property name="Floaty" cname="floaty" type="gint" readable="true" writeable="true" construct-only="true" />
+      <signal name="LayoutChanged" cname="layout_changed" when="LAST">
+        <return-type type="void" />
+        <parameters>
+          <parameter type="GdlDock*" name="dock" />
+        </parameters>
+      </signal>
+      <method name="AddFloatingItem" cname="gdl_dock_add_floating_item">
+        <return-type type="void" />
+        <parameters>
+          <parameter type="GdlDockItem*" name="item" />
+          <parameter type="gint" name="x" />
+          <parameter type="gint" name="y" />
+          <parameter type="gint" name="width" />
+          <parameter type="gint" name="height" />
+        </parameters>
+      </method>
+      <method name="AddItem" cname="gdl_dock_add_item">
+        <return-type type="void" />
+        <parameters>
+          <parameter type="GdlDockItem*" name="item" />
+          <parameter type="GdlDockPlacement" name="place" />
+        </parameters>
+      </method>
+      <method name="GetItemByName" cname="gdl_dock_get_item_by_name">
+        <return-type type="GdlDockItem*" />
+        <parameters>
+          <parameter type="const-gchar*" name="name" />
+        </parameters>
+      </method>
+      <method name="GetNamedItems" cname="gdl_dock_get_named_items">
+        <return-type type="GList*" />
+      </method>
+      <method name="GetPlaceholderByName" cname="gdl_dock_get_placeholder_by_name">
+        <return-type type="GdlDockPlaceholder*" />
+        <parameters>
+          <parameter type="const-gchar*" name="name" />
+        </parameters>
+      </method>
+      <method name="GetType" cname="gdl_dock_get_type" shared="true">
+        <return-type type="GType" />
+      </method>
+      <constructor cname="gdl_dock_new" />
+      <constructor cname="gdl_dock_new_from">
+        <parameters>
+          <parameter type="GdlDock*" name="original" />
+          <parameter type="gboolean" name="floating" />
+        </parameters>
+      </constructor>
+      <method name="ParamGetType" cname="gdl_dock_param_get_type" shared="true">
+        <return-type type="GType" />
+      </method>
+      <method name="XorRect" cname="gdl_dock_xor_rect">
+        <return-type type="void" />
+        <parameters>
+          <parameter type="GdkRectangle*" name="rect" />
+        </parameters>
+      </method>
+    </object>
+    <object name="DockItem" cname="GdlDockItem" parent="GdlDockObject">
+      <field cname="child" type="GtkWidget*" />
+      <field cname="behavior" type="GdlDockItemBehavior" />
+      <field cname="orientation" type="GtkOrientation" />
+      <field cname="resize" bits="1" type="guint" />
+      <field cname="dragoff_x" type="gint" />
+      <field cname="dragoff_y" type="gint" />
+      <field cname="fromoutside* /GdlDockItemPrivate* _priv" type="accesible" />
+      <property name="Orientation" cname="orientation" type="GtkOrientation" readable="true" writeable="true" construct-only="true" />
+      <property name="Resize" cname="resize" type="gboolean" readable="true" writeable="true" />
+      <property name="Behavior" cname="behavior" type="GdlDockItemBehavior" readable="true" writeable="true" />
+      <property name="GripSize" cname="grip_size" type="guint" readable="true" writeable="true" />
+      <property name="Locked" cname="locked" type="gboolean" readable="true" writeable="true" />
+      <property name="PreferredWidth" cname="preferred_width" type="gint" readable="true" writeable="true" />
+      <property name="PreferredHeight" cname="preferred_height" type="gint" readable="true" writeable="true" />
+      <signal name="DockDragBegin" cname="dock_drag_begin" when="FIRST">
+        <return-type type="void" />
+        <parameters>
+          <parameter type="GdlDockItem*" name="item" />
+        </parameters>
+      </signal>
+      <signal name="DockDragMotion" cname="dock_drag_motion" when="FIRST">
+        <return-type type="void" />
+        <parameters>
+          <parameter type="GdlDockItem*" name="item" />
+          <parameter type="gint" name="x" />
+          <parameter type="gint" name="y" />
+        </parameters>
+      </signal>
+      <signal name="DockDragEnd" cname="dock_drag_end" when="FIRST">
+        <return-type type="void" />
+        <parameters>
+          <parameter type="GdlDockItem*" name="item" />
+          <parameter type="gboolean" name="cancelled" />
+        </parameters>
+      </signal>
+      <method name="Bind" cname="gdl_dock_item_bind">
+        <return-type type="void" />
+        <parameters>
+          <parameter type="GtkWidget*" name="dock" />
+        </parameters>
+      </method>
+      <method name="DockTo" cname="gdl_dock_item_dock_to">
+        <return-type type="void" />
+        <parameters>
+          <parameter type="GdlDockItem*" name="target" />
+          <parameter type="GdlDockPlacement" name="position" />
+          <parameter type="gint" name="docking_param" />
+        </parameters>
+      </method>
+      <method name="GetTablabel" cname="gdl_dock_item_get_tablabel">
+        <return-type type="GtkWidget*" />
+      </method>
+      <method name="GetType" cname="gdl_dock_item_get_type" shared="true">
+        <return-type type="GType" />
+      </method>
+      <method name="HideGrip" cname="gdl_dock_item_hide_grip">
+        <return-type type="void" />
+      </method>
+      <method name="HideItem" cname="gdl_dock_item_hide_item">
+        <return-type type="void" />
+      </method>
+      <method name="Lock" cname="gdl_dock_item_lock">
+        <return-type type="void" />
+      </method>
+      <constructor cname="gdl_dock_item_new">
+        <parameters>
+          <parameter type="const-gchar*" name="name" />
+          <parameter type="const-gchar*" name="long_name" />
+          <parameter type="GdlDockItemBehavior" name="behavior" />
+        </parameters>
+      </constructor>
+      <method name="PreferredSize" cname="gdl_dock_item_preferred_size">
+        <return-type type="void" />
+        <parameters>
+          <parameter type="GtkRequisition*" name="req" />
+        </parameters>
+      </method>
+      <method name="SetDefaultPosition" cname="gdl_dock_item_set_default_position">
+        <return-type type="void" />
+        <parameters>
+          <parameter type="GdlDockObject*" name="reference" />
+        </parameters>
+      </method>
+      <method name="SetOrientation" cname="gdl_dock_item_set_orientation">
+        <return-type type="void" />
+        <parameters>
+          <parameter type="GtkOrientation" name="orientation" />
+        </parameters>
+      </method>
+      <method name="SetTablabel" cname="gdl_dock_item_set_tablabel">
+        <return-type type="void" />
+        <parameters>
+          <parameter type="GtkWidget*" name="tablabel" />
+        </parameters>
+      </method>
+      <method name="ShowGrip" cname="gdl_dock_item_show_grip">
+        <return-type type="void" />
+      </method>
+      <method name="ShowItem" cname="gdl_dock_item_show_item">
+        <return-type type="void" />
+      </method>
+      <method name="Unbind" cname="gdl_dock_item_unbind">
+        <return-type type="void" />
+      </method>
+      <method name="Unlock" cname="gdl_dock_item_unlock">
+        <return-type type="void" />
+      </method>
+    </object>
+    <object name="DockItemGrip" cname="GdlDockItemGrip" parent="GtkWidget">
+      <field cname="item" type="GdlDockItem*" />
+      <signal name="Activate" cname="activate" when="LAST">
+        <return-type type="GCclosureMarshalVoid_Void" />
+      </signal>
+      <method name="GetType" cname="gdl_dock_item_grip_get_type" shared="true">
+        <return-type type="GType" />
+      </method>
+      <constructor cname="gdl_dock_item_grip_new">
+        <parameters>
+          <parameter type="GdlDockItem*" name="item" />
+        </parameters>
+      </constructor>
+    </object>
+    <object name="DockLayout" cname="GdlDockLayout" parent="GObject">
+      <field cname="dirty" type="gboolean" />
+      <field cname="master" type="GdlDockMaster*" />
+      <field cname="_priv" type="GdlDockLayoutPrivate*" />
+      <property name="Master" cname="master" type="GdlDockMaster" readable="true" writeable="true" />
+      <property name="Dirty" cname="dirty" type="gboolean" readable="true" />
+      <method name="Attach" cname="gdl_dock_layout_attach">
+        <return-type type="void" />
+        <parameters>
+          <parameter type="GdlDockMaster*" name="master" />
+        </parameters>
+      </method>
+      <method name="DeleteLayout" cname="gdl_dock_layout_delete_layout">
+        <return-type type="void" />
+        <parameters>
+          <parameter type="const-gchar*" name="name" />
+        </parameters>
+      </method>
+      <method name="GetItemsUi" cname="gdl_dock_layout_get_items_ui">
+        <return-type type="GtkWidget*" />
+      </method>
+      <method name="GetLayouts" cname="gdl_dock_layout_get_layouts">
+        <return-type type="GList*" />
+        <parameters>
+          <parameter type="gboolean" name="include_default" />
+        </parameters>
+      </method>
+      <method name="GetLayoutsUi" cname="gdl_dock_layout_get_layouts_ui">
+        <return-type type="GtkWidget*" />
+      </method>
+      <method name="GetType" cname="gdl_dock_layout_get_type" shared="true">
+        <return-type type="GType" />
+      </method>
+      <method name="GetUi" cname="gdl_dock_layout_get_ui">
+        <return-type type="GtkWidget*" />
+      </method>
+      <method name="IsDirty" cname="gdl_dock_layout_is_dirty">
+        <return-type type="gboolean" />
+      </method>
+      <method name="LoadFromFile" cname="gdl_dock_layout_load_from_file">
+        <return-type type="gboolean" />
+        <parameters>
+          <parameter type="const-gchar*" name="filename" />
+        </parameters>
+      </method>
+      <method name="LoadLayout" cname="gdl_dock_layout_load_layout">
+        <return-type type="gboolean" />
+        <parameters>
+          <parameter type="const-gchar*" name="name" />
+        </parameters>
+      </method>
+      <constructor cname="gdl_dock_layout_new">
+        <parameters>
+          <parameter type="GdlDock*" name="dock" />
+        </parameters>
+      </constructor>
+      <method name="RunManager" cname="gdl_dock_layout_run_manager">
+        <return-type type="void" />
+      </method>
+      <method name="SaveLayout" cname="gdl_dock_layout_save_layout">
+        <return-type type="void" />
+        <parameters>
+          <parameter type="const-gchar*" name="name" />
+        </parameters>
+      </method>
+      <method name="SaveToFile" cname="gdl_dock_layout_save_to_file">
+        <return-type type="gboolean" />
+        <parameters>
+          <parameter type="const-gchar*" name="filename" />
+        </parameters>
+      </method>
+    </object>
+    <object name="DockMaster" cname="GdlDockMaster" parent="GObject">
+      <field cname="dock_objects" type="GHashTable*" />
+      <field cname="toplevel_docks" type="GList*" />
+      <field cname="controller" type="GdlDockObject*" />
+      <field cname="dock_number" type="gint" />
+      <field cname="_priv" type="GdlDockMasterPrivate*" />
+      <property name="DefaultTitle" cname="default_title" type="gchar*" readable="true" writeable="true" />
+      <property name="Locked" cname="locked" type="gint" readable="true" writeable="true" />
+      <signal name="LayoutChanged" cname="layout_changed" when="LAST">
+        <return-type type="void" />
+        <parameters>
+          <parameter type="GdlDockMaster*" name="master" />
+        </parameters>
+      </signal>
+      <method name="Add" cname="gdl_dock_master_add">
+        <return-type type="void" />
+        <parameters>
+          <parameter type="GdlDockObject*" name="object" />
+        </parameters>
+      </method>
+      <method name="Foreach" cname="gdl_dock_master_foreach">
+        <return-type type="void" />
+        <parameters>
+          <parameter type="GFunc" name="function" />
+          <parameter type="gpointer" name="user_data" />
+        </parameters>
+      </method>
+      <method name="ForeachToplevel" cname="gdl_dock_master_foreach_toplevel">
+        <return-type type="void" />
+        <parameters>
+          <parameter type="gboolean" name="include_controller" />
+          <parameter type="GFunc" name="function" />
+          <parameter type="gpointer" name="user_data" />
+        </parameters>
+      </method>
+      <method name="GetController" cname="gdl_dock_master_get_controller">
+        <return-type type="GdlDockObject*" />
+      </method>
+      <method name="GetObject" cname="gdl_dock_master_get_object">
+        <return-type type="GdlDockObject*" />
+        <parameters>
+          <parameter type="const-gchar*" name="nick_name" />
+        </parameters>
+      </method>
+      <method name="GetType" cname="gdl_dock_master_get_type" shared="true">
+        <return-type type="GType" />
+      </method>
+      <method name="Remove" cname="gdl_dock_master_remove">
+        <return-type type="void" />
+        <parameters>
+          <parameter type="GdlDockObject*" name="object" />
+        </parameters>
+      </method>
+      <method name="SetController" cname="gdl_dock_master_set_controller">
+        <return-type type="void" />
+        <parameters>
+          <parameter type="GdlDockObject*" name="new_controller" />
+        </parameters>
+      </method>
+    </object>
+    <object name="DockNotebook" cname="GdlDockNotebook" parent="GdlDockItem">
+      <property name="Page" cname="page" type="gint" readable="true" writeable="true" />
+      <method name="GetType" cname="gdl_dock_notebook_get_type" shared="true">
+        <return-type type="GType" />
+      </method>
+      <constructor cname="gdl_dock_notebook_new" />
+    </object>
+    <object name="DockObject" cname="GdlDockObject" parent="GtkContainer">
+      <field cname="flags" type="GdlDockObjectFlags" />
+      <field cname="freeze_count" type="gint" />
+      <field cname="master" type="GObject*" />
+      <field cname="name" type="gchar*" />
+      <field cname="long_name" type="gchar*" />
+      <field cname="reduce_pending" type="gboolean" />
+      <property name="Name" cname="name" type="gchar*" readable="true" writeable="true" construct-only="true" />
+      <property name="LongName" cname="long_name" type="gchar*" readable="true" writeable="true" />
+      <property name="Master" cname="master" type="GdlDockMaster" readable="true" writeable="true" construct-only="true" />
+      <signal cname="detach" when="LAST" name="Detached">
+        <return-type type="void" />
+        <parameters>
+          <parameter type="GdlDockObject*" name="object" />
+          <parameter type="gboolean" name="recursive" />
+        </parameters>
+      </signal>
+      <signal cname="dock" when="FIRST" name="Docked">
+        <return-type type="void" />
+        <parameters>
+          <parameter type="GdlDockObject*" name="object" />
+          <parameter type="GdlDockObject*" name="requestor" />
+          <parameter type="GdlDockPlacement" name="position" />
+          <parameter type="GValue*" name="other_data" />
+        </parameters>
+      </signal>
+      <method name="Bind" cname="gdl_dock_object_bind">
+        <return-type type="void" />
+        <parameters>
+          <parameter type="GObject*" name="master" />
+        </parameters>
+      </method>
+      <method name="ChildPlacement" cname="gdl_dock_object_child_placement">
+        <return-type type="gboolean" />
+        <parameters>
+          <parameter type="GdlDockObject*" name="child" />
+          <parameter type="GdlDockPlacement*" name="placement" />
+        </parameters>
+      </method>
+      <method name="Detach" cname="gdl_dock_object_detach">
+        <return-type type="void" />
+        <parameters>
+          <parameter type="gboolean" name="recursive" />
+        </parameters>
+      </method>
+      <method name="Dock" cname="gdl_dock_object_dock">
+        <return-type type="void" />
+        <parameters>
+          <parameter type="GdlDockObject*" name="requestor" />
+          <parameter type="GdlDockPlacement" name="position" />
+          <parameter type="GValue*" name="other_data" />
+        </parameters>
+      </method>
+      <method name="DockRequest" cname="gdl_dock_object_dock_request">
+        <return-type type="gboolean" />
+        <parameters>
+          <parameter type="gint" name="x" />
+          <parameter type="gint" name="y" />
+          <parameter type="GdlDockRequest*" name="request" />
+        </parameters>
+      </method>
+      <method name="Freeze" cname="gdl_dock_object_freeze">
+        <return-type type="void" />
+      </method>
+      <method name="GetParentObject" cname="gdl_dock_object_get_parent_object">
+        <return-type type="GdlDockObject*" />
+      </method>
+      <method name="GetToplevel" cname="gdl_dock_object_get_toplevel">
+        <return-type type="GdlDock*" />
+      </method>
+      <method name="GetType" cname="gdl_dock_object_get_type" shared="true">
+        <return-type type="GType" />
+      </method>
+      <method name="IsBound" cname="gdl_dock_object_is_bound">
+        <return-type type="gboolean" />
+      </method>
+      <method name="IsCompound" cname="gdl_dock_object_is_compound">
+        <return-type type="gboolean" />
+      </method>
+      <method name="NickFromType" cname="gdl_dock_object_nick_from_type" shared="true">
+        <return-type type="const-gchar*" />
+        <parameters>
+          <parameter type="GType" name="type" />
+        </parameters>
+      </method>
+      <method name="Present" cname="gdl_dock_object_present">
+        <return-type type="void" />
+        <parameters>
+          <parameter type="GdlDockObject*" name="child" />
+        </parameters>
+      </method>
+      <method name="Reduce" cname="gdl_dock_object_reduce">
+        <return-type type="void" />
+      </method>
+      <method name="Reorder" cname="gdl_dock_object_reorder">
+        <return-type type="gboolean" />
+        <parameters>
+          <parameter type="GdlDockObject*" name="child" />
+          <parameter type="GdlDockPlacement" name="new_position" />
+          <parameter type="GValue*" name="other_data" />
+        </parameters>
+      </method>
+      <method name="SetTypeForNick" cname="gdl_dock_object_set_type_for_nick" shared="true">
+        <return-type type="GType" />
+        <parameters>
+          <parameter type="const-gchar*" name="nick" />
+          <parameter type="GType" name="type" />
+        </parameters>
+      </method>
+      <method name="Thaw" cname="gdl_dock_object_thaw">
+        <return-type type="void" />
+      </method>
+      <method name="TypeFromNick" cname="gdl_dock_object_type_from_nick" shared="true">
+        <return-type type="GType" />
+        <parameters>
+          <parameter type="const-gchar*" name="nick" />
+        </parameters>
+      </method>
+      <method name="Unbind" cname="gdl_dock_object_unbind">
+        <return-type type="void" />
+      </method>
+    </object>
+    <object name="DockPaned" cname="GdlDockPaned" parent="GdlDockItem">
+      <field cname="position_changed" type="gboolean" />
+      <property name="Position" cname="position" type="guint" readable="true" writeable="true" />
+      <method name="GetType" cname="gdl_dock_paned_get_type" shared="true">
+        <return-type type="GType" />
+      </method>
+      <constructor cname="gdl_dock_paned_new">
+        <parameters>
+          <parameter type="GtkOrientation" name="orientation" />
+        </parameters>
+      </constructor>
+    </object>
+    <object name="DockPlaceholder" cname="GdlDockPlaceholder" parent="GdlDockObject">
+      <field cname="_priv" type="GdlDockPlaceholderPrivate*" />
+      <property name="Sticky" cname="sticky" type="gboolean" readable="true" writeable="true" construct-only="true" />
+      <property name="Host" cname="host" type="GdlDockObject" readable="true" writeable="true" />
+      <property name="NextPlacement" cname="next_placement" type="GdlDockPlacement" readable="true" writeable="true" />
+      <method name="Attach" cname="gdl_dock_placeholder_attach">
+        <return-type type="void" />
+        <parameters>
+          <parameter type="GdlDockObject*" name="object" />
+        </parameters>
+      </method>
+      <method name="GetType" cname="gdl_dock_placeholder_get_type" shared="true">
+        <return-type type="GType" />
+      </method>
+      <constructor cname="gdl_dock_placeholder_new">
+        <parameters>
+          <parameter type="gchar*" name="name" />
+          <parameter type="GdlDockObject*" name="object" />
+          <parameter type="GdlDockPlacement" name="position" />
+          <parameter type="gboolean" name="sticky" />
+        </parameters>
+      </constructor>
+    </object>
+    <object name="DockTablabel" cname="GdlDockTablabel" parent="GtkBin">
+      <field cname="drag_handle_size" type="guint" />
+      <field cname="item" type="GtkWidget*" />
+      <field cname="event_window" type="GdkWindow*" />
+      <field cname="active" type="gboolean" />
+      <field cname="drag_start_event" type="GdkEventButton" />
+      <field cname="pre_drag" type="gboolean" />
+      <property name="Item" cname="item" type="GdlDockItem" readable="true" writeable="true" />
+      <signal name="ButtonPressedHandle" cname="button_pressed_handle" when="LAST">
+        <return-type type="void" />
+        <parameters>
+          <parameter type="GdlDockTablabel*" name="tablabel" />
+          <parameter type="GdkEventButton*" name="event" />
+        </parameters>
+      </signal>
+      <method name="Activate" cname="gdl_dock_tablabel_activate">
+        <return-type type="void" />
+      </method>
+      <method name="Deactivate" cname="gdl_dock_tablabel_deactivate">
+        <return-type type="void" />
+      </method>
+      <method name="GetType" cname="gdl_dock_tablabel_get_type" shared="true">
+        <return-type type="GType" />
+      </method>
+      <constructor cname="gdl_dock_tablabel_new">
+        <parameters>
+          <parameter type="GdlDockItem*" name="item" />
+        </parameters>
+      </constructor>
+    </object>
+    <struct name="DockRequest" cname="GdlDockRequest">
+      <field cname="applicant" type="GdlDockObject*" />
+      <field cname="target" type="GdlDockObject*" />
+      <field cname="position" type="GdlDockPlacement" />
+      <field cname="rect" type="GdkRectangle" />
+      <field cname="extra" type="GValue" />
+    </struct>
+  </namespace>
+</api>
