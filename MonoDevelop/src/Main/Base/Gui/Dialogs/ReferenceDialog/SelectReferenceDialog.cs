@@ -92,7 +92,7 @@ namespace MonoDevelop.Gui.Dialogs
 				}
 			}
 			mainBook.RemovePage (mainBook.CurrentPage);
-			mainBook.AppendPage (gacRefPanel, new Gtk.Label (resourceService.GetString("Dialog.SelectReferenceDialog.GacTabPage")));
+			mainBook.AppendPage (gacRefPanel, new Gtk.Label ("System Assemblies"));
 			mainBook.AppendPage (new ProjectReferencePanel (this), new Gtk.Label (resourceService.GetString("Dialog.SelectReferenceDialog.ProjectTabPage")));			
 			// FIXME il8n the assembly tab name			
 			mainBook.AppendPage (new AssemblyReferencePanel (this), new Gtk.Label (".Net Assembly"));
