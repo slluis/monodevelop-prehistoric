@@ -279,7 +279,7 @@ namespace Gdl
 			return mayDock;
 		}
 
-		void OnNotifyPosition (object sender, EventArgs a)
+		void OnNotifyPosition (object sender, GLib.NotifyArgs a)
 		{
 			Master.EmitLayoutChangedEvent ();
 		}

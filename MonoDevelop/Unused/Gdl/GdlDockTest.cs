@@ -26,7 +26,7 @@ class T
 		Dock dock = new Dock ();		
 		layout = new DockLayout (dock);
 		layout.LoadFromFile ("layout.xml");
-		DockBar dockbar = dock.Master.DockBar;
+		DockBar dockbar = new DockBar (dock);
 		
 		Box box = new HBox (false, 5);
 		box.PackStart (dockbar, false, false, 0);

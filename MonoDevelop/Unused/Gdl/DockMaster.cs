@@ -11,7 +11,6 @@ namespace Gdl
 		private Hashtable dockObjects = new Hashtable ();
 		private ArrayList toplevelDocks = new ArrayList ();
 		private DockObject controller = null;
-		private DockBar dockBar;
 		private int dockNumber = 1;
 		private int number = 1;
 		private string defaultTitle;
@@ -71,19 +70,6 @@ namespace Gdl
 			}
 		}
 
-		public DockBar DockBar {
-			get {
-				if (dockBar == null) {
-					dockBar = new DockBar ();
-					dockBar.Attach (this);
-				}
-				return dockBar;
-			}
-			set {
-				dockBar = value;
-			}
-		}
-		
 		protected void ForeachLockUnlock (DockItem item, bool locked)
 		{
 			item.Locked = locked;

@@ -9,70 +9,96 @@ namespace Gdl
 	public class DockBar : VBox
 	{
 		DockMaster master;
-		Tooltips tooltips = new Tooltips ();
+		ArrayList items;
+		Tooltips tooltips;
 		
-		public DockBar ()
+		public DockBar (Dock dock)
 		{
+			items = new ArrayList ();
+			tooltips = new Tooltips ();
+			Master = dock.Master;
 		}
 		
 		public DockMaster Master {
-			get {
-				return master;
-			}
-			set {
-				master = value;
-			}
+			get { return master; }
+			set { this.Attach (value); }
 		}
 		
 		public void AddItem (DockItem item)
 		{
-			DockBarButton button = new DockBarButton (item);
-			button.DockButtonClicked += OnDockButtonClicked;
 			// check if already there
-			foreach (DockBarButton dbb in this.Children) {
-				if (item == dbb.DockItem) {
-					return;
-				}
+			if (items.Contains (item)) {
+				Console.WriteLine ("WARNING: Item has already been added to the dockbar");
+				return;
 			}
+
+			items.Add (item);
+
+			// create a button for the item
+			DockBarButton button = new DockBarButton (item);
+			this.PackStart (button, false, false, 0);
 			tooltips.SetTip (button, item.Name, item.Name);
 			item.DockBar = this;
 			item.DockBarButton = button;
-			this.PackStart (button, false, false, 0);
+			button.DockButtonClicked += OnDockButtonClicked;
 			this.ShowAll ();
 		}
 		
 		public void Attach (DockMaster master)
 		{
-			if (this.master != null)
-				master.LayoutChanged -= OnLayoutChanged;
+			if (master == null)
+				return;
+
+			master.LayoutChanged -= OnLayoutChanged;
 
 			this.master = master;
 			master.LayoutChanged += OnLayoutChanged;
+		}
+
+		public override void Destroy ()
+		{
+			if (master != null) {
+				master.LayoutChanged -= OnLayoutChanged;
+				master = null;
+			}
+
+			if (tooltips != null) {
+				tooltips = null;
+			}
+
+			base.Destroy ();
 		}
 		
 		public void RemoveItem (DockItem item)
 		{
 			// we can only remove if it is there
-			foreach (DockBarButton dbb in this.Children) {
-				if (dbb == item.DockBarButton) {
-					this.Remove (item.DockBarButton);
-					return;
-				}
+			if (items.Contains (item)) {
+				items.Remove (item);
+				this.Remove (item.DockBarButton);
+				// item.DockBarButton = null;
+			}
+			else {
+				Console.WriteLine ("WARNING: Item has not been added to the dockbar");
 			}
 		}
 		
 		void UpdateDockItems ()
 		{
+			if (master == null)
+				return;
+
 			foreach (object o in master.DockObjects)
 			{
 				DockItem item = o as DockItem;
 				if (item == null)
 					continue;
 
-				if (item.Iconified)
-					this.AddItem (item);
-				else
+				// in items but shouldn't be, remove it
+				if (items.Contains (item) && !item.Iconified)
 					this.RemoveItem (item);
+				// not in items but should be, add it
+				else if (!items.Contains (item) && item.Iconified)
+					this.AddItem (item);
 			}
 		}
 		
