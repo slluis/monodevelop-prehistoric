@@ -53,11 +53,11 @@ namespace MonoDevelop.Gui.Dialogs
 			
 			ResourceService resourceService = (ResourceService)ServiceManager.Services.GetService(typeof(IResourceService));
 			image = resourceService.GetBitmap ("Icons.AboutImage");
-			string trans = GettextCatalog.GetString ("translator_credits");
+			string trans = GettextCatalog.GetString ("translator-credits");
 			
 			text = "<b>Ported and developed by:</b>\nTodd Berman\nPedro Abelleira Seco\nJohn Luke\nDaniel Kornhauser\nAlex Graveley\nnricciar\nJohn Bou Antoun\nBen Maurer\nJeroen Zwartepoorte\nGustavo Giráldez\nMiguel de Icaza\nInigo Illan\nIain McCoy\nNick Drochak\nPaweł Różański\nRichard Torkar\nErik Dasque\nPaco Martinez\nLluis Sanchez Gual";
 
-			if (trans != "translator_credits") {
+			if (trans != "translator-credits") {
 				text += "\n\n<b>Translated by:</b>\n" + trans + "  ";
 			} else {
 				text += " ";
