@@ -40,8 +40,6 @@ namespace ICSharpCode.SharpDevelop.Gui
 		DockLayout dockLayout;
 		Notebook tabControl;
 
-		//ICSharpCode.SharpDevelop.Gui.Components.OpenFileTab tabControl = new ICSharpCode.SharpDevelop.Gui.Components.OpenFileTab();
-
 		ArrayList _windows = new ArrayList ();
 
 		public IWorkbenchWindow ActiveWorkbenchwindow {
@@ -53,26 +51,9 @@ namespace ICSharpCode.SharpDevelop.Gui
 			}
 		}
 		
-//		void LeftSelectionChanged(object sender, EventArgs e)
-//		{
-//			if (tabControlLeft.SelectedTab == null) {
-//				return;
-//			}
-//			leftContent.Title = tabControlLeft.SelectedTab.Title;
-//		}
-//		
-//		void BottomSelectionChanged(object sender, EventArgs e)
-//		{
-//			if (tabControlBottom.SelectedTab == null) {
-//				return;
-//			}
-//			bottomContent.Title = tabControlBottom.SelectedTab.Title;
-//		}
-		
-		public void Attach(IWorkbench wb)
+		public void Attach (IWorkbench wb)
 		{
 			DefaultWorkbench workbench = (DefaultWorkbench) wb;
-			//Console.WriteLine("Call to SdiWorkSpaceLayout.Attach");
 
 			this.workbench = workbench;
 			wbWindow = (Window) workbench;
@@ -109,42 +90,14 @@ namespace ICSharpCode.SharpDevelop.Gui
 
 			workbench.Add (vbox);
 			
-/*
-			wbForm = (Form)workbench;
-			wbForm.Controls.Clear();
-
-			tabControl.Dock = DockStyle.Fill;
-			tabControl.ShrinkPagesToFit = true;
-			tabControl.Appearance = Crownwood.Magic.Controls.TabControl.VisualAppearance.MultiDocument;
-			wbForm.Controls.Add(tabControl);
-
-			dockManager = new DockingManager(wbForm, Crownwood.Magic.Common.VisualStyle.IDE);
-			
-			
-//			Control firstControl = null;
-*/
-			IStatusBarService statusBarService = (IStatusBarService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(IStatusBarService));
+			IStatusBarService statusBarService = (IStatusBarService) ServiceManager.Services.GetService (typeof (IStatusBarService));
 			vbox.PackEnd (statusBarService.Control, false, true, 0);
-/*			
-			wbForm.Add (statusBarService.Control);
-			((DefaultWorkbench)workbench).commandBarManager.CommandBars.Add(((DefaultWorkbench)workbench).TopMenu);
-			foreach (CommandBar toolBar in ((DefaultWorkbench)workbench).ToolBars) {
-				((DefaultWorkbench)workbench).commandBarManager.CommandBars.Add(toolBar);
-			}
-			wbForm.Controls.Add(((DefaultWorkbench)workbench).commandBarManager);
 			
-			wbForm.Menu = null;
-			dockManager.InnerControl = tabControl;
-			dockManager.OuterControl = statusBarService.Control;
-*/
+			foreach (IViewContent content in workbench.ViewContentCollection)
+				ShowView (content);
 			
-			foreach (IViewContent content in workbench.ViewContentCollection) {
-				ShowView(content);
-			}
-			
-			foreach (IPadContent content in workbench.PadContentCollection) {
-				ShowPad(content);
-			}
+			foreach (IPadContent content in workbench.PadContentCollection)
+				ShowPad (content);
 
 			// FIXME: GTKize
 			//tabControl.SwitchPage += new EventHandler(ActiveMdiChanged);
@@ -242,36 +195,12 @@ namespace ICSharpCode.SharpDevelop.Gui
 			}
 			rootWidget.Remove(toolbarContainer);
 			wbWindow.Remove(rootWidget);
-
-/*			try {
-				if (dockManager != null) {
-					dockManager.SaveConfigToFile(configFile);
-				}
-				
-				foreach (Crownwood.Magic.Controls.TabPage page in tabControl.TabPages) {
-					SdiWorkspaceWindow f = (SdiWorkspaceWindow)page.Tag;
-					f.DetachContent();
-					f.ViewContent = null;
-				}
-				
-				tabControl.TabPages.Clear();
-				tabControl.Controls.Clear();
-				
-				if (dockManager != null) {
-					dockManager.Contents.Clear();
-				}
-				
-				wbForm.Controls.Clear();
-			} catch (Exception) {}
-*/
 		}
-		
-//		WindowContent leftContent = null;
-//		WindowContent bottomContent = null;
+
 		Hashtable contentHash = new Hashtable();
 		
 	
-		public void ShowPad(IPadContent content)
+		public void ShowPad (IPadContent content)
 		{
 			Console.WriteLine ("ShowPad {0}", content.Title);
 			if (contentHash[content] == null) {
@@ -382,16 +311,18 @@ namespace ICSharpCode.SharpDevelop.Gui
 				title = Path.GetFileName (content.ContentName);
 			}
 			
-			Label label = new Label(title);
-			HBox hbox = new HBox (false, 0);
-			hbox.PackStart (label, false, false, 0);
+			HBox hbox = new HBox (false, 3);
+			
 			Button btn = new Button ();
 			btn.Child = new Gtk.Image (Gtk.Stock.Close, Gtk.IconSize.Menu);
 			btn.Relief = ReliefStyle.None;
 			btn.RequestSize = new Size (16, 16);
 			btn.Clicked += new EventHandler (closeClicked);
 			
-			hbox.PackStart (btn, false, false, 0);
+			Label label = new Label (title);
+			hbox.PackStart (label, false, false, 0);
+			hbox.PackEnd (btn, false, false, 0);
+		
 			hbox.ShowAll ();
 			tabControl.AppendPage (content.Control, hbox);
 
