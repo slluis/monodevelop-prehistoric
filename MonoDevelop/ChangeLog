@@ -1,3 +1,8 @@
+2005-02-10  Christian Hergert <christian.hergert@gmail.com>
+
+	* configure.in: Gecko# updated their pkg-config settings. We now check
+	for gecko-sharp-2.0.
+
 2005-02-10  Todd Berman  <tberman@off.net>
 
 	* Makefile.am: add --debug to make run.
