@@ -94,11 +94,13 @@ namespace MonoDevelop.SourceEditor.Gui
 		public void breakpointToggled (object o, EventArgs e)
 		{
 			if (lineToMark == -1) return;
-			DebuggingService dbgr = (DebuggingService)ServiceManager.Services.GetService (typeof (DebuggingService));
-			bool canToggle = dbgr.ToggleBreakpoint (ParentEditor.DisplayBinding.ContentName, lineToMark + 1);
-			if (canToggle)
-				buf.ToggleMark (lineToMark, SourceMarkerType.BreakpointMark);
-			lineToMark = -1;
+			IDebuggingService dbgr = (IDebuggingService)ServiceManager.Services.GetService (typeof (IDebuggingService));
+			if (dbgr != null) {
+				bool canToggle = dbgr.ToggleBreakpoint (ParentEditor.DisplayBinding.ContentName, lineToMark + 1);
+				if (canToggle)
+					buf.ToggleMark (lineToMark, SourceMarkerType.BreakpointMark);
+				lineToMark = -1;
+			}
 		}
 
 		public void ExecutingAt (int linenumber)

@@ -120,7 +120,7 @@ namespace MonoDevelop.Gui.Dialogs.OptionPanels.CompletionDatabaseWizard
 			Console.WriteLine ("Attempting to restart MonoDevelop, if you get any exceptions, restart manually");
 			Console.WriteLine ("******************************************************************************");
 			// not everyone can run .exe's directly
-			System.Diagnostics.ProcessStartInfo psi = new System.Diagnostics.ProcessStartInfo ("mono", "./MonoDevelop.exe");
+			System.Diagnostics.ProcessStartInfo psi = new System.Diagnostics.ProcessStartInfo ("mono", "MonoDevelop.exe");
 			System.Diagnostics.Process.Start (psi);
 			Gtk.Application.Quit ();
 

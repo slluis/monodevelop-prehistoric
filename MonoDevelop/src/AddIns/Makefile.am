@@ -1,1 +1,1 @@
-SUBDIRS=DisplayBindings BackendBindings Misc
+SUBDIRS=DisplayBindings BackendBindings Misc DebuggerAddIn

@@ -135,11 +135,13 @@ namespace MonoDevelop.Gui
 			this.Icon = resourceService.GetBitmap ("Icons.SharpDevelopIcon");
 			this.WindowPosition = Gtk.WindowPosition.None;
 
-			DebuggingService dbgr = (DebuggingService)ServiceManager.Services.GetService (typeof (DebuggingService));
-			dbgr.StartedEvent += new EventHandler (onDebuggerStarted);
-			dbgr.PausedEvent += new EventHandler (onDebuggerPaused);
-			dbgr.ResumedEvent += new EventHandler (onDebuggerResumed);		
-			dbgr.StoppedEvent += new EventHandler (onDebuggerStopped);		
+			IDebuggingService dbgr = (IDebuggingService)ServiceManager.Services.GetService (typeof (IDebuggingService));
+			if (dbgr != null) {
+				dbgr.StartedEvent += new EventHandler (onDebuggerStarted);
+				dbgr.PausedEvent += new EventHandler (onDebuggerPaused);
+				dbgr.ResumedEvent += new EventHandler (onDebuggerResumed);		
+				dbgr.StoppedEvent += new EventHandler (onDebuggerStopped);
+			}
 		}
 
 		void onDebuggerStarted (object o, EventArgs e)
@@ -150,14 +152,16 @@ namespace MonoDevelop.Gui
 		
 		void onDebuggerPaused (object o, EventArgs e)
 		{
-			DebuggingService dbgr = (DebuggingService)ServiceManager.Services.GetService (typeof (DebuggingService));
-			cur_dbgFilename = dbgr.CurrentFilename;
-			cur_dbgLineNumber = dbgr.CurrentLineNumber - 1;
+			IDebuggingService dbgr = (IDebuggingService)ServiceManager.Services.GetService (typeof (IDebuggingService));
+			if (dbgr != null) {
+				cur_dbgFilename = dbgr.CurrentFilename;
+				cur_dbgLineNumber = dbgr.CurrentLineNumber - 1;
 
-			IFileService fs = (IFileService)ServiceManager.Services.GetService (typeof (IFileService));
-			fs.OpenFile (cur_dbgFilename);
-			if (ActiveWorkbenchWindow.ViewContent is IDebuggableEditor) 
-				((IDebuggableEditor)ActiveWorkbenchWindow.ViewContent).ExecutingAt (cur_dbgLineNumber);
+				IFileService fs = (IFileService)ServiceManager.Services.GetService (typeof (IFileService));
+				fs.OpenFile (cur_dbgFilename);
+				if (ActiveWorkbenchWindow.ViewContent is IDebuggableEditor) 
+					((IDebuggableEditor)ActiveWorkbenchWindow.ViewContent).ExecutingAt (cur_dbgLineNumber);
+			}
 		}
 
 		void onDebuggerResumed (object o, EventArgs e)

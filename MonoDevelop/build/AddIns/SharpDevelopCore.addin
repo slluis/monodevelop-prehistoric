@@ -30,8 +30,6 @@
 	</Extension>
 	
 	<Extension path = "/Workspace/Services">
-		<Class id    = "DebuggingService"
-		       class = "MonoDevelop.Services.DebuggingService"/>
 		<Class id    = "MonodocService"
 		       class = "MonoDevelop.Services.MonodocService"/>
 		<Class id    = "ProjectService"
@@ -796,38 +794,8 @@
 		                          shortcut = "F5"
 		                          class = "MonoDevelop.Commands.RunCommand"/>
 
-				<MenuItem id = "DebugProject"
-		                          label = "Debug Project"
-				          shortcut = "Control|F5"
-			                  class = "MonoDevelop.Commands.DebugProject"/>
 			</Conditional> 
 	        </MenuItem>
-
-		<MenuItem id = "DebugMenu"
-			  label = "Debug">
-
-			<MenuItem id = "ToggleRunning"
-				  label = "Pause/Resume"
-			          shortcut = "Control|F8"
-				  class = "MonoDevelop.Commands.ToggleRunning"/>
-
-			<MenuItem id = "DebugKillApplication"
-				  label = "Kill Application"
-				  class = "MonoDevelop.Commands.KillApplication"/>
-
-			<MenuItem id = "DebugSep1" label = "-" />
-
-			<MenuItem id = "DebugStepOver"
-				  label = "Step Over"
-			          shortcut = "F11"
-				  class = "MonoDevelop.Commands.StepOver"/>
-
-			<MenuItem id = "DebugStepInto"
-			          label = "Step Into"
-			          shortcut = "Control|F11"
-			          class = "MonoDevelop.Commands.StepInto"/>
-		
-		</MenuItem>
         
 	        <MenuItem id = "Tools" 
 	                  label = "${res:XML.MainMenu.ToolMenu}">

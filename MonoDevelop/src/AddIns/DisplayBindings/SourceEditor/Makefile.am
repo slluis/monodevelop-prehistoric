@@ -15,8 +15,6 @@ FILES = ./AssemblyInfo.cs \
 ./Gui/SourceEditorView.cs \
 ./Gui/SourceEditorDisplayBinding.cs \
 ./Gui/Pads/CompilerMessageView.cs \
-./Gui/Pads/DebuggerVariablePad.cs \
-./Gui/Pads/DebuggerLocalsPad.cs \
 ./Gui/OptionPanels/BehaviorTextEditorPanel.cs \
 ./Gui/OptionPanels/MarkersTextEditorPanel.cs \
 ./Gui/OptionPanels/CodeTemplatePanel.cs \
@@ -88,7 +86,6 @@ $(DLL) : $(build_sources)
 		/r:pango-sharp /r:gnome-sharp /r:glade-sharp \
 		/r:gconf-sharp \
 		/r:System.Drawing \
-		/r:Mono.Debugger \
 	&& cp $(DLL) ../../../../build/bin/.
 
 assemblydir = $(libdir)/monodevelop/bin

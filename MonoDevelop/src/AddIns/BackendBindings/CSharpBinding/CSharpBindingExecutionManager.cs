@@ -33,8 +33,9 @@ namespace CSharpBinding
 			string directory = fileUtilityService.GetDirectoryNameWithSeparator(((CSharpCompilerParameters)project.ActiveConfiguration).OutputDirectory);
 			string exe = ((CSharpCompilerParameters)project.ActiveConfiguration).OutputAssembly + ".exe";
 
-			DebuggingService dbgr = (DebuggingService) ServiceManager.Services.GetService (typeof (DebuggingService));
-			dbgr.Run (new string[] { Path.Combine (directory, exe) } );
+			IDebuggingService dbgr = (IDebuggingService) ServiceManager.Services.GetService (typeof (IDebuggingService));
+			if (dbgr != null)
+				dbgr.Run (new string[] { Path.Combine (directory, exe) } );
 		}
 
 		public void Execute(string filename)

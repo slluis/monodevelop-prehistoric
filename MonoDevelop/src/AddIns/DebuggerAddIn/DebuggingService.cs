@@ -23,12 +23,7 @@ using Mono.Debugger;
 namespace MonoDevelop.Services
 {
 
-	public interface IDebuggableEditor {
-		void ExecutingAt (int lineNumber);
-		void ClearExecutingAt (int lineNumber);
-	}
-
-	public class DebuggingService : AbstractService
+	public class DebuggingService : AbstractService, IDebuggingService
 	{
 		Process proc;
 		Hashtable breakpoints = new Hashtable ();
@@ -270,7 +265,7 @@ namespace MonoDevelop.Services
 			}
 		}
 
-		public StackFrame CurrentFrame {
+		public object CurrentFrame {
 			get {
 				if (IsRunning)
 					return null;

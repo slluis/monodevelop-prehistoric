@@ -93,6 +93,8 @@ AC_SUBST(MOZILLA_HOME)
 gnome_prefix="`$PKG_CONFIG --variable=prefix libgnome-2.0`"
 AC_SUBST(gnome_prefix)
 
+AM_CONDITIONAL(ENABLE_DEBUGGER, test "x$enable_debugger" = "xyes")
+
 AC_OUTPUT([
 Makefile
 gdldock/Makefile
@@ -108,6 +110,7 @@ src/AddIns/DisplayBindings/Makefile
 src/AddIns/DisplayBindings/SourceEditor/Makefile
 src/AddIns/Misc/Makefile
 src/AddIns/Misc/StartPage/Makefile
+src/AddIns/DebuggerAddIn/Makefile
 src/Main/Makefile
 src/Main/Base/Makefile
 src/Main/StartUp/Makefile

@@ -280,7 +280,7 @@ namespace MonoDevelop.SourceEditor.Gui
 		protected void OnPausedEvent (object o, EventArgs args)
 		{
 			DebuggingService dbgr = (DebuggingService)ServiceManager.Services.GetService (typeof (DebuggingService));
-			current_frame = dbgr.CurrentFrame;
+			current_frame = (StackFrame)dbgr.CurrentFrame;
 			UpdateDisplay ();
 		}
 	}

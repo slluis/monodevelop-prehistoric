@@ -11,8 +11,7 @@ DLLS = /r:System.Drawing /r:ICSharpCode.SharpZipLib.dll \
 	/r:gtk-sharp /r:gdk-sharp /r:glib-sharp /r:pango-sharp \
 	/r:../../../build/bin/gtkmozembed-sharp.dll \
 	/r:../../../build/bin/gdl-sharp.dll \
-	/r:glade-sharp /r:gnome-sharp /r:gtkhtml-sharp \
-	/r:$(debugger_prefix)/lib/Mono.Debugger.dll
+	/r:glade-sharp /r:gnome-sharp /r:gtkhtml-sharp
 
 FILES= \
 ./Gui/Pads/ProjectBrowser/ProjectBrowserView.cs \
@@ -175,7 +174,6 @@ FILES= \
 ./Commands/AutostartCommands.cs \
 ./Commands/ToolsCommands.cs \
 ./Commands/MenuItemBuilders.cs \
-./Commands/DebuggerCommands.cs \
 ./Services/File/IFileService.cs \
 ./Services/File/DefaultFileService.cs \
 ./Services/File/FileEventArgs.cs \
@@ -192,7 +190,6 @@ FILES= \
 ./Services/AmbienceService/CodeDOMGeneratorUtility.cs \
 ./Services/AmbienceService/NetAmbience.cs \
 ./Services/AmbienceService/IAmbience.cs \
-./Services/DebuggingService.cs \
 ./Services/Project/ProjectEventArgs.cs \
 ./Services/Project/IProjectService.cs \
 ./Services/Project/ProjectRenameEventArgs.cs \
@@ -217,6 +214,7 @@ FILES= \
 ./Services/MessageService.cs \
 ./Services/Toolbar/ToolbarService.cs \
 ./Services/MonodocService.cs \
+./Services/IDebuggerService.cs \
 ./Internal/Undo/IUndoableOperation.cs \
 ./Internal/Undo/UndoStack.cs \
 ./Internal/Undo/UndoQueue.cs \
