@@ -26,5 +26,8 @@
           Experimental support for the Nemerle language
         </div>
       </div>
+
+      <br /><br />
+      <p>Unedited user-submitted screenshots are <a href="user-screenshots.aspx">also available here</a>.</p>
       
 <ccms:PageFooter runat="server"/>
