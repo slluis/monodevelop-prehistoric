@@ -29,7 +29,7 @@ MONO_REQUIRED_VERSION=0.30
 PKG_CHECK_MODULES(BASE_DEPENDENCIES, mono >= $MONO_REQUIRED_VERSION, enable_mono=yes, enable_mono=no)
 
 dnl Find gtk-sharp
-GTKSHARP_REQUIRED_VERSION=0.17
+GTKSHARP_REQUIRED_VERSION=0.18
 
 PKG_CHECK_MODULES(BASE_DEPENDENCIES, gtk-sharp >= $GTKSHARP_REQUIRED_VERSION, enable_gtksharp=yes, enable_gtksharp=no) 
 gtksharp_prefix=`pkg-config --variable=prefix gtk-sharp`
@@ -111,6 +111,7 @@ src/AddIns/DisplayBindings/SourceEditor/Makefile
 src/AddIns/Misc/Makefile
 src/AddIns/Misc/StartPage/Makefile
 src/AddIns/DebuggerAddIn/Makefile
+src/AddIns/Nunit/Makefile
 src/Main/Makefile
 src/Main/Base/Makefile
 src/Main/StartUp/Makefile

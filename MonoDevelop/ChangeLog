@@ -1,6 +1,7 @@
 2004-03-21  John Luke  <jluke@cfl.rr.com>
 
 	* docs/WritingAddins.html: initial addin quick guide
+	* configure.in: Gtk# 0.18 is actually required
 
 2004-03-21	John BouAntoun  <jba-mono@optusnet.com.au>
 
