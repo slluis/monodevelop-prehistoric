@@ -106,6 +106,32 @@ namespace System.Collections.Specialized
 		
 		public static IComparer Default    = new TreeNodeComparer();
 		public static IComparer ProjectNode = new ProjectNodeComparer();
+		public static Gtk.TreeIterCompareFunc GtkProjectNode = new Gtk.TreeIterCompareFunc (GtkProjectNodeComparer);
+			
+		static int GtkProjectNodeComparer (Gtk.TreeModel model, Gtk.TreeIter a, Gtk.TreeIter b)
+		{
+			Gtk.TreeStore ts = (Gtk.TreeStore) model;
+			TreeNode x = (TreeNode) ts.GetValue (a, 2);
+			TreeNode y = (TreeNode) ts.GetValue (b, 2);
+			
+			if (x.GetType () == y.GetType ()) {
+				if (x is NamedFolderNode) {
+					return ((NamedFolderNode)x).SortPriority - ((NamedFolderNode)y).SortPriority;
+				}
+				return x.Text.CompareTo(y.Text);
+			}
+			if (x is FileNode) {
+				return 1;
+			} else if (y is FileNode) {
+				return -1;
+			}
+			if (x is DirectoryNode) {
+				return 1;
+			} else if (y is DirectoryNode) {
+				return -1;
+			}
+			return x.Text.CompareTo(y.Text);
+		}
 		
 		protected TreeNodeComparer() {}
 		

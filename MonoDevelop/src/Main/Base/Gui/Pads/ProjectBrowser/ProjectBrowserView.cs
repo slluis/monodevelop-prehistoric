@@ -86,7 +86,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads.ProjectBrowser
 			//projectBrowserImageList = new ImageList();
 			//projectBrowserImageList.ColorDepth = ColorDepth.Depth32Bit;
 		}
-		public ProjectBrowserView() : base (true)
+		public ProjectBrowserView() : base (true, TreeNodeComparer.GtkProjectNode)
 		{
 			//LabelEdit     = true;
 			//AllowDrop     = true;
@@ -129,7 +129,8 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads.ProjectBrowser
 			DisposeProjectNodes();
 			Nodes.Clear();
 			TreeNode treeNode = BuildCombineTreeNode(combine);
-			SortUtility.SortedInsert(treeNode, Nodes, TreeNodeComparer.ProjectNode);
+			Nodes.Add (treeNode);
+			
 			combine.StartupPropertyChanged += new EventHandler(StartupPropertyChanged);
 			StartupPropertyChanged(null, null);
 			// .NET bugfix : have to expand the node to ensure the refresh
@@ -188,11 +189,6 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads.ProjectBrowser
 		{
 			// we set the label ourself
 			((AbstractBrowserNode) node).AfterLabelEdit (new_text);
-			
-			if (node.Parent != null)
-				node.Parent.Sort (TreeNodeComparer.ProjectNode);
-			
-			node.EnsureVisible();
 			
 			// save changes
 			IProjectService projectService = (IProjectService) ServiceManager.Services.GetService (typeof(IProjectService));
@@ -321,10 +317,8 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads.ProjectBrowser
 				} else {
 					node = BuildCombineTreeNode((Combine)entry.Entry);
 				}
-				combineNode.Nodes.Add(node);
+				combineNode.Nodes.Add (node);
 			}
-			
-			combineNode.Sort (TreeNodeComparer.ProjectNode);
 			
 			return combineNode;
 		}
@@ -614,7 +608,8 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads.ProjectBrowser
 			}
 
 			AbstractBrowserNode pbn = new FileNode(fInfo);
-			SortUtility.SortedInsert(pbn, newparent.Nodes, TreeNodeComparer.ProjectNode);
+			newparent.Nodes.Add (pbn);
+			
 			pbn.EnsureVisible();
 			projectService.SaveCombine();
 		}

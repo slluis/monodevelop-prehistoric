@@ -202,9 +202,6 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads.ProjectBrowser
 			*/
 
 			InitializeReferences(referenceNode, project);
-			SortUtility.QuickSort(referenceNode.Nodes, TreeNodeComparer.ProjectNode);
-			SortUtility.QuickSort(resourceNode.Nodes, TreeNodeComparer.ProjectNode);
-			SortUtility.QuickSort(projectNode.Nodes, TreeNodeComparer.ProjectNode);
 			return projectNode;
 		}
 
@@ -250,7 +247,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads.ProjectBrowser
 							newNode.ContextmenuAddinTreePath = FileNode.ProjectFileContextMenuPath;
 							//parentNode.Nodes.Add(newNode);
 							
-							SortUtility.SortedInsert(newNode, currentPathNode1.Nodes, TreeNodeComparer.ProjectNode);
+							currentPathNode1.Nodes.Add (newNode);
 							break;
 					}
 					break;
@@ -279,7 +276,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads.ProjectBrowser
 								newFolderNode.OpenedImage = resourceService.GetBitmap("Icons.16x16.OpenFolderBitmap");
 								newFolderNode.ClosedImage = resourceService.GetBitmap("Icons.16x16.ClosedFolderBitmap");
 							}
-							SortUtility.SortedInsert(newFolderNode, currentPathNode.Nodes, TreeNodeComparer.ProjectNode);
+							currentPathNode.Nodes.Add(newFolderNode);
 						}
 					}
 					break;
@@ -297,7 +294,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads.ProjectBrowser
 						newFolderNode.ClosedImage = resourceService.GetBitmap("Icons.16x16.ClosedWebReferenceFolder");
 
 						string parentDirectory = Path.GetFileName(directoryName);
-						projectNode.Nodes.Insert(2, newFolderNode);
+						projectNode.Nodes.Add (newFolderNode);
 					}
 					break;
 				case Subtype.WebForm:
@@ -312,7 +309,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads.ProjectBrowser
 						newNode.ContextmenuAddinTreePath = FileNode.ProjectFileContextMenuPath;
 						//parentNode.Nodes.Add(newNode);
 						
-						SortUtility.SortedInsert(newNode, currentPathNode1.Nodes, TreeNodeComparer.ProjectNode);
+						currentPathNode1.Nodes.Add (newNode);
 						// codeBehind?
 					}
 
@@ -330,7 +327,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads.ProjectBrowser
 						newNode.ContextmenuAddinTreePath = FileNode.ProjectFileContextMenuPath;
 						//parentNode.Nodes.Add(newNode);
 						
-						SortUtility.SortedInsert(newNode, currentPathNode1.Nodes, TreeNodeComparer.ProjectNode);
+						currentPathNode1.Nodes.Add (newNode);
 					}
 
 					break;
@@ -391,7 +388,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads.ProjectBrowser
 				if (node == null) {
 					if (create) {
 						DirectoryNode newFolderNode  = new DirectoryNode(fileUtilityService.GetDirectoryNameWithSeparator(ConstructFolderName(curpathnode)) + path);
-						SortUtility.SortedInsert(newFolderNode, curpathnode.Nodes, TreeNodeComparer.ProjectNode);
+						curpathnode.Nodes.Add (newFolderNode);
 						curpathnode = newFolderNode;
 						continue;
 					} else {
@@ -454,7 +451,6 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads.ProjectBrowser
 
 				parentNode.Nodes.Add(newReferenceNode);
 			}
-			parentNode.Sort (TreeNodeComparer.ProjectNode);
 		}
 		
 	}

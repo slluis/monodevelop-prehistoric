@@ -10,6 +10,8 @@ namespace MonoDevelop.Gui {
 		private Gdk.Pixbuf image, opened_image, closed_image;
 		private object tag;
 		
+		internal Gtk.TreeRowReference row;
+		
 		public TreeNode() {
 			nodes = new TreeNodeCollection();
 			nodes.TreeNodeCollectionChanged += new TreeNodeCollectionChangedHandler(OnNodesChanged);
@@ -77,16 +79,11 @@ namespace MonoDevelop.Gui {
 		
 		public bool IsExpanded {
 			get {
-				if (TreeView != null) {
-					return TreeView.GetRowExpanded(new Gtk.TreePath(TreePath));
-				} else {
-					return false;
-				}
+				return TreeView != null && TreeView.GetRowExpanded (TreePath);
 			}
 			set {
-				if (TreeView != null) {
-					TreeView.ExpandRow(new Gtk.TreePath(TreePath), value);
-				}
+				if (TreeView != null)
+					TreeView.ExpandRow (TreePath, value);
 			}
 		}
 		
@@ -115,12 +112,12 @@ namespace MonoDevelop.Gui {
 		
 		public TreeView TreeView {
 			get {
-				if (treeView != null) {
+				if (treeView != null)
 					return treeView;
-				}
-				if (parent == null) {
+				
+				if (parent == null)
 					return null;
-				}
+				
 				return parent.TreeView;
 			}
 		}
@@ -132,9 +129,8 @@ namespace MonoDevelop.Gui {
 		}
 		
 		public void Expand() {
-			if (TreeView != null) {
-				TreeView.ExpandToPath(new Gtk.TreePath(TreePath));
-			}
+			if (TreeView != null)
+				TreeView.ExpandToPath (TreePath);
 		}
 		
 		public void EnsureVisible() {
@@ -142,9 +138,8 @@ namespace MonoDevelop.Gui {
 		}
 		
 		public void Remove() {
-			if (parent != null) {
+			if (parent != null)
 				parent.Nodes.Remove(this);
-			}
 		}
 
 		internal void SetTreeView(TreeView t) {
@@ -153,50 +148,48 @@ namespace MonoDevelop.Gui {
 		
 		private void OnNodeInserted(TreeNode node) {
 			node.parent = this;
-			if (TreeView != null) {
+			if (TreeView != null)
 				TreeView.AddNode(this, node);
-			}
 		}
 
 		private void OnNodeRemoved(TreeNode node) {
-			if (TreeView != null) {
+			if (TreeView != null) 
 				TreeView.RemoveNode(node);
-			}
+			
 			node.parent = null;
 		}
 		
 		private void OnNodesChanged() {
-			if (TreeView != null) {
+			if (TreeView != null)
 				TreeView.OnTreeChanged();
-			}
-		}
-		
-		private string TreePath {
-			get {
-				if (parent == null) {
-					return "0";
-				}
-
-				string ret = parent.TreePath + ":";
-				ret += parent.Nodes.IndexOf(this);
-				return ret;
-			}
 		}
 		
 		internal Gtk.TreeIter TreeIter {
 			get {
 				Gtk.TreeIter iter;
-				if (TreeView.Model.GetIterFromString(out iter, TreePath) == false) {
-					throw new Exception("Error calculating iter for path " + TreePath);
-				}
+				if (! TreeView.Model.GetIter (out iter, TreePath))
+					throw new Exception("Error calculating iter for " + this.Text);
+				
 				return iter;
+			}
+		}
+		
+		internal Gtk.TreePath TreePath {
+			get {
+				if (TreeView == null)
+					return null;
+				
+				if (row == null || ! row.Valid ())
+					throw new Exception ("RowReference not valid " + this.Text);
+
+				return row.Path;
 			}
 		}
 		
 		public virtual void BeginEdit ()
 		{
 			TreeView.text_render.Editable = TreeView.canEdit;
-			TreeView.SetCursor (new Gtk.TreePath (TreePath), TreeView.complete_column, true);
+			TreeView.SetCursor (TreePath, TreeView.complete_column, true);
 			TreeView.GrabFocus ();
 		}
 		
