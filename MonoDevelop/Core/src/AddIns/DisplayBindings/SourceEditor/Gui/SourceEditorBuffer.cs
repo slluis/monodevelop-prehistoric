@@ -109,51 +109,63 @@ namespace MonoDevelop.SourceEditor.Gui
 			markup = new TextTag ("breakpoint");
 			markup.Background = "yellow";
 			TagTable.Add (markup);
+
 			complete_ahead = new TextTag ("complete_ahead");
 			complete_ahead.Foreground = "grey";
 			TagTable.Add (complete_ahead);
+
 			compilation_error = new TextTag ("compilation_error");
 			compilation_error.Underline = Pango.Underline.Error;
 			TagTable.Add (compilation_error);
+
 			complete_end = CreateMark (null, StartIter, true);
 			highlightLineTag = new TextTag ("highlightLine");
 			highlightLineTag.Background = "lightgrey";
 			TagTable.Add (highlightLineTag);
 		}
-		
+
 		void ParseChanged (object o, ParseInformationEventArgs e)
 		{
-			if (view != null) {
-				if (view.ParentEditor.DisplayBinding.ContentName == e.FileName) {
+			if (view != null && view.ParentEditor.DisplayBinding.ContentName == e.FileName)
+			{
+				RemoveTag (compilation_error, StartIter, EndIter);
 
-					RemoveTag (compilation_error, StartIter, EndIter);
-
-					if (e.ParseInformation.MostRecentCompilationUnit.ErrorsDuringCompile) {
-						ErrorInfo[] errors = e.ParseInformation.MostRecentCompilationUnit.ErrorInformation;
-						foreach (ErrorInfo error in errors) {
-							// adjust to 0 base
-							DrawError (error.Line - 1, error.Column - 1);
-						}
-					}
-				}
+				if (e.ParseInformation.MostRecentCompilationUnit.ErrorsDuringCompile)
+					DrawErrors (e.ParseInformation.MostRecentCompilationUnit.ErrorInformation);
 			}
 		}
 
+		void DrawErrors (ErrorInfo[] errors)
+		{
+			foreach (ErrorInfo error in errors)
+				DrawError (error.Line - 1, error.Column - 1);
+		}
+
 		// FIXME: underlines under keywords get ignored
+		// because we class with gtksourceview
 		void DrawError (int line, int column)
 		{
-			//Console.WriteLine ("error at: {0} {1}", line, column);
 			TextIter start = GetIterAtLine (line);
-			if (column < start.CharsInLine)
+
+			// FIXME: why is this necessary
+			if (column < start.CharsInLine) {
 				start.LineOffset = column;
+			}
+			else {
+				start.LineOffset = start.CharsInLine;
+			}
+
+			// FIXME: sometimes this is wrong
+			start.BackwardWordStart ();
 
 			TextIter end = start;
-			if (!end.EndsLine ())
-				end.ForwardToLineEnd ();
+			end.ForwardWordEnd ();
 
-			// FIXME: we can either skip or go backwards
-			if (GetText (start, end, false).Trim () != "")
+			//Console.WriteLine ("underline error: {0}", GetText (start, end, false));
+			//if (GetText (start, end, false).Trim () != "")
 				ApplyTag (compilation_error, start, end);
+			//else
+			//	Console.WriteLine ("something didn't work");
 		}		
 		
 		public void MarkupLine (int linenumber)
