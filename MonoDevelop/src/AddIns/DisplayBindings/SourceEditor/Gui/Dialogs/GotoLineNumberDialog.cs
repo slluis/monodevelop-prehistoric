@@ -9,22 +9,16 @@ using System;
 using System.IO;
 using System.Resources;
 
-using ICSharpCode.TextEditor.Document;
-using ICSharpCode.SharpDevelop.DefaultEditor.Gui.Editor;
 using ICSharpCode.Core.Properties;
 
 using ICSharpCode.Core.Services;
-using ICSharpCode.TextEditor;
 
 using Gtk;
 using Glade;
 
-// TODO: this dialog should be moved to the core, as it has no deps
-// on this binding.
-
 namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 {
-	public class GotoLineNumberDialog
+	public class GotoLineNumberDialog : IDisposable
 	{
 		public static bool IsVisible = false;
 	
@@ -34,18 +28,19 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 		public GotoLineNumberDialog ()
 		{
 			new Glade.XML (null, "texteditoraddin.glade", "GotoLineDialog", null).Autoconnect (this);
-			
-			GotoLineDialog.ShowAll ();
 		}
 		
 		public void Run ()
 		{
+			GotoLineDialog.ShowAll ();
+			IsVisible = true;
 			GotoLineDialog.Run ();
 		}
 		
 		public void Hide ()
 		{
 			GotoLineDialog.Hide ();
+			IsVisible = false;
 		}
 		
 		void on_btn_close_clicked (object sender, EventArgs e)
@@ -68,6 +63,16 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 				
 			} finally {
 				GotoLineDialog.Hide ();
+			}
+		}
+		
+		public void Dispose ()
+		{
+			if (GotoLineDialog != null) {
+				GotoLineDialog.Dispose ();
+				GotoLineDialog = null;
+				line_number_entry = null;
+				IsVisible = false;
 			}
 		}
 	}

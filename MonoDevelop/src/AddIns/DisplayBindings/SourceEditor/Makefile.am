@@ -5,6 +5,7 @@ all : $(DLL)
 $(DLL) : $(shell find . -name \*.cs)
 	mcs $(shell find . -name \*.cs) /out:$@ /t:library \
 	/resource:../../../../data/resources/glade/EditorBindings.glade,EditorBindings.glade \
+	/resource:../../../../data/resources/glade/texteditoraddin.glade,texteditoraddin.glade \
 	 /r:gtk-sharp /r:gdk-sharp $(GTKSOURCEVIEW_SHARP) /r:glib-sharp \
 		/r:../../../../build/bin/MonoDevelop.Core.dll \
 		/r:../../../../build/bin/MonoDevelop.Base.dll \

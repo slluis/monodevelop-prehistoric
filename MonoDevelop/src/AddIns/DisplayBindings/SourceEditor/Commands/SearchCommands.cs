@@ -158,12 +158,9 @@ namespace ICSharpCode.SharpDevelop.DefaultEditor.Commands
 	{
 		public override void Run()
 		{
-			Console.WriteLine ("Not implemented in the new editor");
-			/*if (!GotoLineNumberDialog.IsVisible) {
-				GotoLineNumberDialog gnd = new GotoLineNumberDialog();
-				gnd.Run ();
-				gnd.Hide ();
-			}*/
+			if (!GotoLineNumberDialog.IsVisible)
+				using (GotoLineNumberDialog gnd = new GotoLineNumberDialog ())
+					gnd.Run ();
 		}
 	}
 	
