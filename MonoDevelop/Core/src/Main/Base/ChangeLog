@@ -1,5 +1,10 @@
 2004-07-02  Todd Berman  <tberman@off.net>
 
+	* Services/MessageService.cs: Convert most of these to be threadsafe.
+	Need to do AskQuestion, but this fixes a bug, so I will commit now.
+
+2004-07-02  Todd Berman  <tberman@off.net>
+
 	* Commands/FileCommands.cs: Dont use the FileFilters, as there are
 	not functional at the moment.
 	* Services/File/DefaultFileService.cs: don't attempt to load a
