@@ -43,6 +43,7 @@ namespace MonoDevelop.AssemblyAnalyser.Rules
 }
 #region Unit Test
 #if TEST
+/*
 namespace MonoDevelop.AssemblyAnalyser.Rules
 {
 	using System.IO;
@@ -80,5 +81,6 @@ namespace MonoDevelop.AssemblyAnalyser.Rules
 		}
 	}
 }
+*/
 #endif
 #endregion

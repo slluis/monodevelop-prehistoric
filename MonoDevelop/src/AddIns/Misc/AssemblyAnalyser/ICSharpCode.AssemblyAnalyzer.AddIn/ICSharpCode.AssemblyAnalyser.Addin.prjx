@@ -1,41 +1,37 @@
-<Project name="ICSharpCode.AssemblyAnalyser.AddIn" standardNamespace="ICSharpCode.AssemblyAnalyser" description="" newfilesearch="None" enableviewstate="True" version="1.1" projecttype="C#">
+<Project name="ICSharpCode.AssemblyAnalyser.AddIn" description="" newfilesearch="None" enableviewstate="True" version="1.1" projecttype="C#">
   <Contents>
-    <File name=".\Commands.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
-    <File name=".\AssemblyInfo.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
-    <File name=".\Gui" subtype="Directory" buildaction="Compile" dependson="" data="" />
-    <File name=".\Gui\AssemblyAnalyserView.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
-    <File name=".\Gui\AssemblyAnalyserControl.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
-    <File name=".\Gui\Panels\AssemblyTreeControl.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
-    <File name=".\Gui\Panels\AssemblyRuleViewControl.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
-    <File name=".\Gui\Panels" subtype="Directory" buildaction="Compile" dependson="" data="" />
-    <File name=".\Gui\Panels\ResultListControl.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
-    <File name=".\Gui\Panels\ResultDetailsView.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
-    <File name=".\AssemblyAnalyser.addin" subtype="Code" buildaction="Nothing" dependson="" data="" />
-    <File name=".\ICSharpCode.AssemblyAnalyser.AssemblyAnalyserControl.resources" subtype="Code" buildaction="EmbedAsResource" dependson="" data="" />
-    <File name=".\ICSharpCode.AssemblyAnalyser.ResultListControl.resources" subtype="Code" buildaction="EmbedAsResource" dependson="" data="" />
+    <File name="./Commands.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name="./AssemblyInfo.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name="./Gui" subtype="Directory" buildaction="Compile" dependson="" data="" />
+    <File name="./Gui/AssemblyAnalyserView.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name="./Gui/AssemblyAnalyserControl.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name="./Gui/Panels/AssemblyTreeControl.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name="./Gui/Panels" subtype="Directory" buildaction="Compile" dependson="" data="" />
+    <File name="./Gui/Panels/ResultListControl.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name="./Gui/Panels/ResultDetailsView.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name="./AssemblyAnalyser.addin.xml" subtype="Code" buildaction="Nothing" dependson="" data="" />
+    <File name="./Gui/Panels/AssemblyRuleViewControl.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
   </Contents>
   <References>
-    <Reference type="Assembly" refto="..\..\..\..\..\bin\ICSharpCode.Core.dll" localcopy="False" />
-    <Reference type="Assembly" refto="..\..\..\..\..\bin\SharpDevelop.Base.dll" localcopy="False" />
-    <Reference type="Gac" refto="nunit.framework, Version=2.1.4.0, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77" localcopy="False" />
-    <Reference type="Project" refto="ICSharpCode.AssemblyAnalyser" localcopy="False" />
+    <Reference type="Assembly" refto="../../../../Libraries/MonoDevelop.Core/MonoDevelop.Core.dll" localcopy="True" />
+    <Reference type="Assembly" refto="../../../../Main/Base/MonoDevelop.Base.dll" localcopy="True" />
   </References>
   <DeploymentInformation target="" script="" strategy="File" />
   <Configuration runwithwarnings="True" name="Debug">
-    <CodeGeneration runtime="MsNet" compiler="Csc" compilerversion="" warninglevel="4" nowarn="" includedebuginformation="True" optimize="False" unsafecodeallowed="False" generateoverflowchecks="True" mainclass="" target="Library" definesymbols="TEST" generatexmldocumentation="False" win32Icon="" />
+    <CodeGeneration runtime="MsNet" compiler="Csc" warninglevel="4" nowarn="" includedebuginformation="True" optimize="False" unsafecodeallowed="False" generateoverflowchecks="True" mainclass="" target="Library" definesymbols="TEST" generatexmldocumentation="False" win32Icon="" />
     <Execution commandlineparameters="" consolepause="True" />
-    <Output directory="..\..\..\..\..\AddIns\AddIns\Misc\AssemblyAnalyser" assembly="ICSharpCode.AssemblyAnalyser.Addin" executeScript="..\..\..\..\..\bin\SharpDevelop.exe" executeBeforeBuild="" executeAfterBuild="" />
+    <Output directory="../../../../../AddIns/AddIns/Misc/AssemblyAnalyser" assembly="ICSharpCode.AssemblyAnalyser.Addin" executeScript="../../../../../bin/SharpDevelop.exe" executeBeforeBuild="" executeAfterBuild="" />
   </Configuration>
   <Configurations active="Debug">
     <Configuration runwithwarnings="True" name="Debug">
-      <CodeGeneration runtime="MsNet" compiler="Csc" compilerversion="" warninglevel="4" nowarn="" includedebuginformation="True" optimize="False" unsafecodeallowed="False" generateoverflowchecks="True" mainclass="" target="Library" definesymbols="TEST" generatexmldocumentation="False" win32Icon="" />
+      <CodeGeneration runtime="MsNet" compiler="Csc" warninglevel="4" nowarn="" includedebuginformation="True" optimize="False" unsafecodeallowed="False" generateoverflowchecks="True" mainclass="" target="Library" definesymbols="TEST" generatexmldocumentation="False" win32Icon="" />
       <Execution commandlineparameters="" consolepause="True" />
-      <Output directory="..\..\..\..\..\AddIns\AddIns\Misc\AssemblyAnalyser" assembly="ICSharpCode.AssemblyAnalyser.Addin" executeScript="..\..\..\..\..\bin\SharpDevelop.exe" executeBeforeBuild="" executeAfterBuild="" />
+      <Output directory="../../../../../AddIns/AddIns/Misc/AssemblyAnalyser" assembly="ICSharpCode.AssemblyAnalyser.Addin" executeScript="../../../../../bin/SharpDevelop.exe" executeBeforeBuild="" executeAfterBuild="" />
     </Configuration>
     <Configuration runwithwarnings="False" name="Release">
-      <CodeGeneration runtime="MsNet" compiler="Csc" compilerversion="" warninglevel="4" nowarn="" includedebuginformation="False" optimize="True" unsafecodeallowed="False" generateoverflowchecks="True" mainclass="" target="Library" definesymbols="" generatexmldocumentation="False" win32Icon="" />
+      <CodeGeneration runtime="MsNet" compiler="Csc" warninglevel="4" nowarn="" includedebuginformation="False" optimize="True" unsafecodeallowed="False" generateoverflowchecks="True" mainclass="" target="Library" definesymbols="" generatexmldocumentation="False" win32Icon="" />
       <Execution commandlineparameters="" consolepause="True" />
-      <Output directory="..\..\..\..\..\AddIns\AddIns\Misc\AssemblyAnalyser" assembly="ICSharpCode.AssemblyAnalyser.Addin" executeScript="..\..\..\..\..\bin\SharpDevelop.exe" executeBeforeBuild="" executeAfterBuild="" />
+      <Output directory="../../../../../AddIns/AddIns/Misc/AssemblyAnalyser" assembly="ICSharpCode.AssemblyAnalyser.Addin" executeScript="../../../../../bin/SharpDevelop.exe" executeBeforeBuild="" executeAfterBuild="" />
     </Configuration>
   </Configurations>
 </Project>

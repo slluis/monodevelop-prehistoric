@@ -45,6 +45,7 @@ namespace MonoDevelop.AssemblyAnalyser.Rules
 }
 #region Unit Test
 #if TEST
+/*
 namespace MonoDevelop.AssemblyAnalyser.Rules
 {
 	using NUnit.Framework;
@@ -94,5 +95,6 @@ namespace MonoDevelop.AssemblyAnalyser.Rules
 		}
 	}
 }
+*/
 #endif
 #endregion

@@ -21,14 +21,11 @@ using MonoDevelop.Internal.Project;
 
 namespace MonoDevelop.AssemblyAnalyser
 {
-	/// <summary>
-	/// Description of AssemblyAnalyserView.	
-	/// </summary>
 	public class AssemblyAnalyserView : AbstractViewContent
 	{
 		public static AssemblyAnalyserView AssemblyAnalyserViewInstance = null;
 		
-		AssemblyAnalyserControl assemblyAnalyserControl;
+		AssemblyTreeControl assemblyAnalyserControl;
 		
 		AppDomain        analyserDomain  = null;
 		AssemblyAnalyser currentAnalyser = null;
@@ -62,11 +59,11 @@ namespace MonoDevelop.AssemblyAnalyser
 		public AssemblyAnalyserView()
 		{
 			AssemblyAnalyserViewInstance = this;
-			assemblyAnalyserControl = new AssemblyAnalyserControl();
-			IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
-			projectService.StartBuild += new EventHandler(ProjectServiceStartBuild);
-			projectService.EndBuild   += new EventHandler(ProjectServiceEndBuild);
-			RefreshProjectAssemblies();
+			assemblyAnalyserControl = new AssemblyTreeControl ();
+			IProjectService projectService = (IProjectService) ServiceManager.GetService (typeof (IProjectService));
+			projectService.StartBuild += new EventHandler (ProjectServiceStartBuild);
+			projectService.EndBuild += new EventHandler (ProjectServiceEndBuild);
+			RefreshProjectAssemblies ();
 		}
 		
 		public void RefreshProjectAssemblies()
@@ -75,13 +72,13 @@ namespace MonoDevelop.AssemblyAnalyser
 				currentAnalyser = CreateRemoteAnalyser();
 			}
 
-			IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
+			IProjectService projectService = (IProjectService) ServiceManager.GetService (typeof (IProjectService));
 			ArrayList projectCombineEntries = Combine.GetAllProjects(projectService.CurrentOpenCombine);
-			assemblyAnalyserControl.ClearContents();
+			assemblyAnalyserControl.ClearContents ();
 
 			foreach (ProjectCombineEntry projectEntry in projectCombineEntries) {
-				string outputAssembly = projectService.GetOutputAssemblyName(projectEntry.Project);
-				assemblyAnalyserControl.AnalyzeAssembly(currentAnalyser, outputAssembly);
+				string outputAssembly = projectService.GetOutputAssemblyName (projectEntry.Project);
+				assemblyAnalyserControl.AnalyzeAssembly (currentAnalyser, outputAssembly);
 			}
 
 			assemblyAnalyserControl.PrintAllResolutions();
@@ -95,11 +92,11 @@ namespace MonoDevelop.AssemblyAnalyser
 		{
 			DisposeAnalyser();
 			
-			IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
-			projectService.StartBuild -= new EventHandler(ProjectServiceStartBuild);
-			projectService.EndBuild   -= new EventHandler(ProjectServiceEndBuild);
+			IProjectService projectService = (IProjectService) ServiceManager.GetService (typeof (IProjectService));
+			projectService.StartBuild -= new EventHandler (ProjectServiceStartBuild);
+			projectService.EndBuild   -= new EventHandler (ProjectServiceEndBuild);
 			
-			IStatusBarService statusBarService = (IStatusBarService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IStatusBarService));
+			IStatusBarService statusBarService = (IStatusBarService) ServiceManager.GetService (typeof (IStatusBarService));
 			
 			statusBarService.SetMessage(GettextCatalog.GetString ("Ready"));
 			AssemblyAnalyserViewInstance = null;

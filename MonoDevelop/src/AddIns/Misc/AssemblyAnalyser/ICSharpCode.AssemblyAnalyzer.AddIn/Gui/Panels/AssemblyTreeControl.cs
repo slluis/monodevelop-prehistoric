@@ -33,8 +33,8 @@ namespace MonoDevelop.AssemblyAnalyser
 		
 		public AssemblyTreeControl()
 		{
-			StringParserService stringParserService = (StringParserService)ServiceManager.Services.GetService(typeof(StringParserService));
-			ClassBrowserIconsService classBrowserIconService = (ClassBrowserIconsService)ServiceManager.Services.GetService(typeof(ClassBrowserIconsService));
+			StringParserService stringParserService = (StringParserService) ServiceManager.GetService (typeof (StringParserService));
+			ClassBrowserIconsService classBrowserIconService = (ClassBrowserIconsService) ServiceManager.GetService (typeof (ClassBrowserIconsService));
 			assembliesStore = new TreeStore (typeof (string));
 			//assemblyTreeView.ImageList = classBrowserIconService.ImageList;
 			
@@ -91,6 +91,10 @@ namespace MonoDevelop.AssemblyAnalyser
 		{
 			//Console.WriteLine("CLEAR CONTENTS");
 			assembliesStore.Clear ();
+		}
+		
+		public void AnalyzeAssembly (AssemblyAnalyser current, string output)
+		{
 		}
 		
 		public void AddAssembly (string assemblyFileName, ArrayList resolutions)

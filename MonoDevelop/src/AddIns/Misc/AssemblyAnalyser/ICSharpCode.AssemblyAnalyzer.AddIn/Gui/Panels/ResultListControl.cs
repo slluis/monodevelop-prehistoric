@@ -32,7 +32,7 @@ namespace MonoDevelop.AssemblyAnalyser
 		
 		public ResultListControl()
 		{
-			StringParserService stringParserService = (StringParserService)ServiceManager.Services.GetService(typeof(StringParserService));
+			StringParserService stringParserService = (StringParserService) ServiceManager.GetService(typeof(StringParserService));
 			store = new ListStore (typeof (string), typeof (string), typeof (string), typeof (string), typeof (string), typeof (Resolution));
 			this.AppendColumn ("Level", new CellRendererText (), "text", 0);
 			this.AppendColumn ("Certainty", new CellRendererText (), "text", 1);
@@ -51,7 +51,7 @@ namespace MonoDevelop.AssemblyAnalyser
 		{
 			try {
 				store.Clear();
-				StringParserService stringParserService = (StringParserService)ServiceManager.Services.GetService(typeof(StringParserService));
+				StringParserService stringParserService = (StringParserService) ServiceManager.GetService (typeof (StringParserService));
 				int cerr = 0, err = 0, cwar = 0, war = 0, inf = 0;
 				foreach (Resolution resolution in resolutions) {
 					string critical = String.Empty;
@@ -94,7 +94,7 @@ namespace MonoDevelop.AssemblyAnalyser
 					
 				}
 
-				IStatusBarService statusBarService = (IStatusBarService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IStatusBarService));
+				IStatusBarService statusBarService = (IStatusBarService) ServiceManager.GetService (typeof (IStatusBarService));
 				if (resolutions.Count == 0) {
 					statusBarService.SetMessage (GettextCatalog.GetString ("No defects found."));
 				} else {

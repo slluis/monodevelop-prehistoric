@@ -30,7 +30,7 @@ namespace MonoDevelop.AssemblyAnalyser
 
 		public ResultDetailsView()
 		{
-			PropertyService propertyService = (PropertyService)ServiceManager.Services.GetService(typeof(PropertyService));
+			PropertyService propertyService = (PropertyService) ServiceManager.GetService (typeof (PropertyService));
 			//htmlControl.CascadingStyleSheet = propertyService.DataDirectory + Path.DirectorySeparatorChar +
 			//                                  "resources" + Path.DirectorySeparatorChar +
 			//                                  "css" + Path.DirectorySeparatorChar +
@@ -60,7 +60,7 @@ namespace MonoDevelop.AssemblyAnalyser
 		
 		void GotoCurrentCause()
 		{
-			IParserService parserService = (IParserService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IParserService));
+			IParserService parserService = (IParserService) ServiceManager.GetService (typeof (IParserService));
 			//Position position = parserService.GetPosition(currentResolution.Item.Replace('+', '.'));
 			
 			//if (position != null && position.Cu != null) {
@@ -71,18 +71,18 @@ namespace MonoDevelop.AssemblyAnalyser
 		
 		bool CanGoto(Resolution res)
 		{
-			IParserService parserService = (IParserService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IParserService));
+			IParserService parserService = (IParserService) ServiceManager.GetService (typeof (IParserService));
 			//Position position = parserService.GetPosition(res.Item.Replace('+', '.'));
 			//return position != null && position.Cu != null;
 			return false; //FIXME
 		}
 		
-		public void ViewResolution(Resolution resolution)
+		public void ViewResolution (Resolution resolution)
 		{
 			this.currentResolution = resolution;
-			StringParserService stringParserService = (StringParserService)ServiceManager.Services.GetService(typeof(StringParserService));
+			StringParserService stringParserService = (StringParserService) ServiceManager.GetService (typeof (StringParserService));
 			
-			this.Html = @"<HTML><BODY ID='bodyID' CLASS='dtBODY'>
+			/*this.Html = @"<HTML><BODY ID='bodyID' CLASS='dtBODY'>
 			<DIV ID='nstext'>
 			<DL>" + stringParserService.Parse(resolution.FailedRule.Description)  + @"</DL>
 			<H4 CLASS='dtH4'>" + stringParserService.Parse("${res:MonoDevelop.AssemblyAnalyser.ResultDetailsView.DescriptionLabel}") + @"</H4>
@@ -91,6 +91,7 @@ namespace MonoDevelop.AssemblyAnalyser
 			<DL>" + stringParserService.Parse(resolution.Text, resolution.Variables) +  @"</DL>
 			" + (CanGoto(resolution) ? stringParserService.Parse("<A HREF=\"help://gotocause\">${res:MonoDevelop.AssemblyAnalyser.ResultDetailsView.JumpToSourceCodeLink}</A>") : "") + @"
 			</DIV></BODY></HTML>";
+			*/
 		}
 	}
 }

@@ -1,96 +1,96 @@
-<Project name="ICSharpCode.AssemblyAnalyser" standardNamespace="ICSharpCode.AssemblyAnalyser" description="" newfilesearch="None" enableviewstate="True" version="1.1" projecttype="C#">
+<Project name="ICSharpCode.AssemblyAnalyser" description="" newfilesearch="None" enableviewstate="True" version="1.1" projecttype="C#">
   <Contents>
-    <File name=".\AssemblyInfo.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
-    <File name=".\Rules" subtype="Directory" buildaction="Compile" dependson="" data="" />
-    <File name=".\Rules\IAssemblyRule.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
-    <File name=".\Rules\IConstructorRule.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
-    <File name=".\Rules\IEventRule.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
-    <File name=".\Rules\IFieldRule.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
-    <File name=".\Rules\IMemberRule.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
-    <File name=".\Rules\IMethodBaseRule.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
-    <File name=".\Rules\IMethodRule.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
-    <File name=".\Rules\IModuleRule.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
-    <File name=".\Rules\INamespaceRule.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
-    <File name=".\Rules\IParameterRule.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
-    <File name=".\Rules\IPropertyRule.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
-    <File name=".\Rules\IReflectionRule.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
-    <File name=".\Rules\IRule.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
-    <File name=".\Rules\ITypeRule.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
-    <File name=".\Rules\ProtectionLevels.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
-    <File name=".\Rules\PriorityLevel.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
-    <File name=".\Engine" subtype="Directory" buildaction="Compile" dependson="" data="" />
-    <File name=".\Engine\AssemblyAnalyser.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
-    <File name=".\Rules\AbstractRule.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
-    <File name=".\Rules\AbstractReflectionRule.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
-    <File name=".\Engine\Resolution.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
-    <File name=".\Rules\DesignRules\AssemblyStrongNameRule.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
-    <File name=".\Rules\DesignRules\AssemblyVersionNumberRule.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
-    <File name=".\Rules\DesignRules\InterfaceNotEmptyRule.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
-    <File name=".\Rules\DesignRules\AbstractTypesPublicConstructorsRule.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
-    <File name=".\Rules\NamingRules" subtype="Directory" buildaction="Compile" dependson="" data="" />
-    <File name=".\Rules\NamingRules\AttributeSuffixIsAttributeRule.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
-    <File name=".\Rules\NamingRules\CheckCollectionSuffix.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
-    <File name=".\Rules\NamingRules\DelegatesHaveNoDelegateSuffix.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
-    <File name=".\Rules\NamingRules\DictionaryTypeSuffixIsDictionary.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
-    <File name=".\Rules\NamingRules\EnumsHaveNoEnumSuffix.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
-    <File name=".\Rules\NamingRules\EventArgsSuffixIsEventArgsRule.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
-    <File name=".\Rules\NamingRules\EventFirstParameterNameIsSender.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
-    <File name=".\Rules\NamingRules\EventHandlerSuffixIsEventHandler.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
-    <File name=".\Rules\NamingRules\EventsDoNotHaveBeforeOrAfterPrefix.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
-    <File name=".\Rules\NamingRules\EventSecondParameterNameIsE.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
-    <File name=".\Rules\NamingRules\ExceptionSuffixIsExceptionRule.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
-    <File name=".\Rules\NamingRules\FlagEnumerationsArePlural.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
-    <File name=".\Rules\NamingRules\InterfacesPrefixIsI.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
-    <File name=".\Rules\NamingUtilities.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
-    <File name=".\Rules\NamingRules\MembersArePascalCased.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
-    <File name=".\Rules\NamingRules\OnlyAttributesSuffixAttributeRule.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
-    <File name=".\Rules\NamingRules\OnlyCollectionsSuffixCollectionRule.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
-    <File name=".\Rules\NamingRules\OnlyStreamsSuffixStreamRule.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
-    <File name=".\Rules\NamingRules\StreamSuffixIsStreamRule.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
-    <File name=".\Rules\NamingRules\TypeNamesDoNotContainUnderscores.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
-    <File name=".\TODO.txt" subtype="Code" buildaction="Nothing" dependson="" data="" />
-    <File name=".\Rules\NamingRules\TypesImplementingInterfacesHaveNoSuffixImplRule.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
-    <File name=".\Rules\NamingRules\OnlyEventArgsSuffixEventArgsRule.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
-    <File name=".\Rules\NamingRules\OnlyExceptionsSuffixExceptionRule.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
-    <File name=".\Rules\NamingRules\NamespacesArePascalCased.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
-    <File name=".\Rules\NamingRules\NamespacesDoNotContainUnderscores.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
-    <File name=".\Rules\NamingRules\MembershipConditionNamesSuffixIsMembershipCondition.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
-    <File name=".\Rules\NamingRules\PermissionSuffixIsPermissionRule.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
-    <File name=".\Rules\NamingRules\MembersDoNotContainUnderscores.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
-    <File name=".\Rules\NamingRules\OnlyEventHandlerSuffixIsEventHandlerRule.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
-    <File name=".\Rules\NamingRules\OnlyPermissionsSuffixPermissionRule.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
-    <File name=".\Rules\NamingRules\TypesArePascalCased.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
-    <File name=".\Rules\NamingRules\ParameterNamesDoNotHaveUnderscores.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
-    <File name=".\Rules\NamingRules\ParametersAreCamelCased.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
-    <File name=".\Rules\DesignRules\EventHandlersReturnVoidRule.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
-    <File name=".\Rules\DesignRules\EventFirstParameterIsObjectRule.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
-    <File name=".\Rules\DesignRules\EventSecondParameterIsEventArgsRule.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
-    <File name=".\Rules\DesignRules\EventsHaveTwoParametersRule.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
-    <File name=".\Rules\DesignRules\TypesShouldBeInNamespacesRule.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
-    <File name=".\Rules\DesignRules\AvoidNamespacesWithFewMembers.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
-    <File name=".\Rules\DesignRules\PropertiesShouldNotHaveSetOnly.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
-    <File name=".\Rules\DesignRules\TypesHaveNoPublicInstanceFields.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
-    <File name=".\Rules\DesignRules\AssemblyClsCompliantRule.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name="./AssemblyInfo.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name="./Rules" subtype="Directory" buildaction="Compile" dependson="" data="" />
+    <File name="./Rules/IAssemblyRule.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name="./Rules/IConstructorRule.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name="./Rules/IEventRule.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name="./Rules/IFieldRule.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name="./Rules/IMemberRule.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name="./Rules/IMethodBaseRule.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name="./Rules/IMethodRule.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name="./Rules/IModuleRule.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name="./Rules/INamespaceRule.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name="./Rules/IParameterRule.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name="./Rules/IPropertyRule.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name="./Rules/IReflectionRule.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name="./Rules/IRule.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name="./Rules/ITypeRule.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name="./Rules/ProtectionLevels.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name="./Rules/PriorityLevel.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name="./Engine" subtype="Directory" buildaction="Compile" dependson="" data="" />
+    <File name="./Engine/AssemblyAnalyser.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name="./Rules/AbstractRule.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name="./Rules/AbstractReflectionRule.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name="./Engine/Resolution.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name="./Rules/DesignRules/AssemblyStrongNameRule.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name="./Rules/DesignRules/AssemblyVersionNumberRule.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name="./Rules/DesignRules/InterfaceNotEmptyRule.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name="./Rules/DesignRules/AbstractTypesPublicConstructorsRule.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name="./Rules/NamingRules" subtype="Directory" buildaction="Compile" dependson="" data="" />
+    <File name="./Rules/NamingRules/AttributeSuffixIsAttributeRule.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name="./Rules/NamingRules/CheckCollectionSuffix.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name="./Rules/NamingRules/DelegatesHaveNoDelegateSuffix.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name="./Rules/NamingRules/DictionaryTypeSuffixIsDictionary.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name="./Rules/NamingRules/EnumsHaveNoEnumSuffix.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name="./Rules/NamingRules/EventArgsSuffixIsEventArgsRule.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name="./Rules/NamingRules/EventFirstParameterNameIsSender.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name="./Rules/NamingRules/EventHandlerSuffixIsEventHandler.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name="./Rules/NamingRules/EventsDoNotHaveBeforeOrAfterPrefix.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name="./Rules/NamingRules/EventSecondParameterNameIsE.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name="./Rules/NamingRules/ExceptionSuffixIsExceptionRule.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name="./Rules/NamingRules/FlagEnumerationsArePlural.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name="./Rules/NamingRules/InterfacesPrefixIsI.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name="./Rules/NamingUtilities.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name="./Rules/NamingRules/MembersArePascalCased.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name="./Rules/NamingRules/OnlyAttributesSuffixAttributeRule.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name="./Rules/NamingRules/OnlyCollectionsSuffixCollectionRule.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name="./Rules/NamingRules/OnlyStreamsSuffixStreamRule.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name="./Rules/NamingRules/StreamSuffixIsStreamRule.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name="./Rules/NamingRules/TypeNamesDoNotContainUnderscores.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name="./TODO.txt" subtype="Code" buildaction="Nothing" dependson="" data="" />
+    <File name="./Rules/NamingRules/TypesImplementingInterfacesHaveNoSuffixImplRule.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name="./Rules/NamingRules/OnlyEventArgsSuffixEventArgsRule.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name="./Rules/NamingRules/OnlyExceptionsSuffixExceptionRule.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name="./Rules/NamingRules/NamespacesArePascalCased.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name="./Rules/NamingRules/NamespacesDoNotContainUnderscores.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name="./Rules/NamingRules/MembershipConditionNamesSuffixIsMembershipCondition.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name="./Rules/NamingRules/PermissionSuffixIsPermissionRule.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name="./Rules/NamingRules/MembersDoNotContainUnderscores.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name="./Rules/NamingRules/OnlyEventHandlerSuffixIsEventHandlerRule.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name="./Rules/NamingRules/OnlyPermissionsSuffixPermissionRule.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name="./Rules/NamingRules/TypesArePascalCased.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name="./Rules/NamingRules/ParameterNamesDoNotHaveUnderscores.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name="./Rules/NamingRules/ParametersAreCamelCased.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name="./Rules/DesignRules/EventHandlersReturnVoidRule.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name="./Rules/DesignRules/EventFirstParameterIsObjectRule.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name="./Rules/DesignRules/EventSecondParameterIsEventArgsRule.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name="./Rules/DesignRules/EventsHaveTwoParametersRule.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name="./Rules/DesignRules/TypesShouldBeInNamespacesRule.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name="./Rules/DesignRules/AvoidNamespacesWithFewMembers.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name="./Rules/DesignRules/PropertiesShouldNotHaveSetOnly.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name="./Rules/DesignRules/TypesHaveNoPublicInstanceFields.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name="./Rules/DesignRules/AssemblyClsCompliantRule.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
   </Contents>
   <References>
     <Reference type="Gac" refto="nunit.framework, Version=2.1.4.0, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77" localcopy="False" />
   </References>
   <DeploymentInformation target="" script="" strategy="File" />
   <Configuration runwithwarnings="True" name="Debug">
-    <CodeGeneration runtime="MsNet" compiler="Csc" compilerversion="" warninglevel="4" nowarn="" includedebuginformation="True" optimize="False" unsafecodeallowed="False" generateoverflowchecks="True" mainclass="" target="Library" definesymbols="TEST" generatexmldocumentation="False" win32Icon="" />
+    <CodeGeneration runtime="MsNet" compiler="Csc" warninglevel="4" nowarn="" includedebuginformation="True" optimize="False" unsafecodeallowed="False" generateoverflowchecks="True" mainclass="" target="Library" definesymbols="TEST" generatexmldocumentation="False" win32Icon="" />
     <Execution commandlineparameters="" consolepause="True" />
-    <Output directory="..\..\..\..\..\bin" assembly="ICSharpCode.AssemblyAnalyser" executeScript="..\..\..\..\..\bin\SharpDevelop.exe" executeBeforeBuild="" executeAfterBuild="" />
+    <Output directory="../../../../../bin" assembly="ICSharpCode.AssemblyAnalyser" executeScript="../../../../../bin/SharpDevelop.exe" executeBeforeBuild="" executeAfterBuild="" />
   </Configuration>
   <Configurations active="Debug">
     <Configuration runwithwarnings="True" name="Debug">
-      <CodeGeneration runtime="MsNet" compiler="Csc" compilerversion="" warninglevel="4" nowarn="" includedebuginformation="True" optimize="False" unsafecodeallowed="False" generateoverflowchecks="True" mainclass="" target="Library" definesymbols="TEST" generatexmldocumentation="False" win32Icon="" />
+      <CodeGeneration runtime="MsNet" compiler="Csc" warninglevel="4" nowarn="" includedebuginformation="True" optimize="False" unsafecodeallowed="False" generateoverflowchecks="True" mainclass="" target="Library" definesymbols="TEST" generatexmldocumentation="False" win32Icon="" />
       <Execution commandlineparameters="" consolepause="True" />
-      <Output directory="..\..\..\..\..\bin" assembly="ICSharpCode.AssemblyAnalyser" executeScript="..\..\..\..\..\bin\SharpDevelop.exe" executeBeforeBuild="" executeAfterBuild="" />
+      <Output directory="../../../../../bin" assembly="ICSharpCode.AssemblyAnalyser" executeScript="../../../../../bin/SharpDevelop.exe" executeBeforeBuild="" executeAfterBuild="" />
     </Configuration>
     <Configuration runwithwarnings="False" name="Release">
-      <CodeGeneration runtime="MsNet" compiler="Csc" compilerversion="" warninglevel="4" nowarn="" includedebuginformation="False" optimize="True" unsafecodeallowed="False" generateoverflowchecks="True" mainclass="" target="Library" definesymbols="" generatexmldocumentation="False" win32Icon="" />
+      <CodeGeneration runtime="MsNet" compiler="Csc" warninglevel="4" nowarn="" includedebuginformation="False" optimize="True" unsafecodeallowed="False" generateoverflowchecks="True" mainclass="" target="Library" definesymbols="" generatexmldocumentation="False" win32Icon="" />
       <Execution commandlineparameters="" consolepause="True" />
-      <Output directory="..\..\..\..\..\bin" assembly="ICSharpCode.AssemblyAnalyser" executeScript="..\..\..\..\..\bin\SharpDevelop.exe" executeBeforeBuild="" executeAfterBuild="" />
+      <Output directory="../../../../../bin" assembly="ICSharpCode.AssemblyAnalyser" executeScript="../../../../../bin/SharpDevelop.exe" executeBeforeBuild="" executeAfterBuild="" />
     </Configuration>
   </Configurations>
 </Project>

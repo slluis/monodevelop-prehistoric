@@ -4,8 +4,8 @@
     <Execute entry="ICSharpCode.AssemblyAnalyser" type="None" />
   </StartMode>
   <Entries>
-    <Entry filename=".\ICSharpCode.AssemblyAnalyzer.AddIn\ICSharpCode.AssemblyAnalyser.Addin.prjx" />
-    <Entry filename=".\ICSharpCode.AssemblyAnalyzer\ICSharpCode.AssemblyAnalyser.prjx" />
+    <Entry filename="./ICSharpCode.AssemblyAnalyzer.AddIn/ICSharpCode.AssemblyAnalyser.Addin.prjx" />
+    <Entry filename="./ICSharpCode.AssemblyAnalyzer/ICSharpCode.AssemblyAnalyser.prjx" />
   </Entries>
   <Configurations active="Debug">
     <Configuration name="Release">

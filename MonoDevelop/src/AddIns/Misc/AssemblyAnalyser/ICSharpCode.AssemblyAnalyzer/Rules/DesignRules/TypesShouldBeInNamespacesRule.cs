@@ -39,6 +39,7 @@ namespace MonoDevelop.AssemblyAnalyser.Rules
 
 #region Unit Test
 #if TEST
+/*
 class OutsideNamespace
 {
 	
@@ -70,5 +71,6 @@ namespace MonoDevelop.AssemblyAnalyser.Rules
 		}
 	}
 }
+*/
 #endif
 #endregion
