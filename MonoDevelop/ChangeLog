@@ -1,5 +1,16 @@
 2004-03-12  Gustavo Giráldez  <gustavo.giraldez@gmx.net>
 
+	* gdldock/sources/gdl/gdl-dock-item-grip.c:
+	* gdldock/sources/gdl/gdl-dock-item-grip.h:
+	* gdldock/sources/gdl/gdl-dock-item.c:
+	* gdldock/sources/gdl/gdl-dock-object.c:
+	* gdldock/sources/gdl/gdl-dock-bar.c: 
+
+	Update GdlDock from Gnome's gdl module: ellipsizing labels for the
+	dock item grip and a couple of memory and object leaks.
+	
+2004-03-12  Gustavo Giráldez  <gustavo.giraldez@gmx.net>
+
 	* gdldock/sources/gdl/Makefile.am: Build libgdldock.so using
 	automake builtin rules for shared libraries instead of a hackish,
 	home made solution.
