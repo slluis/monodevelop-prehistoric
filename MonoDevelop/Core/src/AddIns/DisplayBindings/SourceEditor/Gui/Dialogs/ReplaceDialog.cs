@@ -342,24 +342,33 @@ namespace MonoDevelop.Gui.Dialogs
 		
 			if (stringArray != null) {
 				string[] items = stringArray.ToString ().Split (historySeparator);
-				findHistory.AddRange (items);
-
 				ListStore store = new ListStore (typeof (string));
-				foreach (string i in items)
-					store.AppendValues (i);
+
+				if(items != null) {
+					findHistory.AddRange (items);
+					foreach (string i in items) {
+						store.AppendValues (i);
+					}
+				}
+
 				searchPatternEntry.Completion.Model = store;
 			}
 			
 			// now do the replace history
+			stringArray = propertyService.GetProperty ("MonoDevelop.FindReplaceDialogs.ReplaceHistory");
+			
 			if (replaceMode) {
-				string[] items = stringArray.ToString ().Split (historySeparator);
-				stringArray = propertyService.GetProperty ("MonoDevelop.FindReplaceDialogs.ReplaceHistory");
-
 				if (stringArray != null) {
-					replaceHistory.AddRange (items);
+					string[] items = stringArray.ToString ().Split (historySeparator);
 					ListStore store = new ListStore (typeof (string));
-					foreach (string i in items)
-						store.AppendValues (i);
+					
+					if(items != null) {
+						replaceHistory.AddRange (items);
+						foreach (string i in items) {
+							store.AppendValues (i);
+						}
+					}
+					
 					replacePatternEntry.Completion.Model = store;
 				}
 			}
