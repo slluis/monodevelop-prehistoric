@@ -49,8 +49,14 @@ namespace ICSharpCode.SharpDevelop.DefaultEditor.Commands
 		{
 			SetSearchPattern();
 			if (SearchReplaceManager.ReplaceDialog != null) {
-				SearchReplaceManager.ReplaceDialog.SetSearchPattern(SearchReplaceManager.SearchOptions.SearchPattern);
-				SearchReplaceManager.ReplaceDialog.Present ();
+				if (SearchReplaceManager.ReplaceDialog.replaceMode == false) {
+					SearchReplaceManager.ReplaceDialog.SetSearchPattern(SearchReplaceManager.SearchOptions.SearchPattern);
+					SearchReplaceManager.ReplaceDialog.Present ();
+				} else {
+					SearchReplaceManager.ReplaceDialog.Destroy ();
+					ReplaceDialog rd = new ReplaceDialog (false);
+					rd.ShowAll ();
+				}
 			} else {
 				ReplaceDialog rd = new ReplaceDialog(false);
 				rd.ShowAll();
@@ -73,8 +79,14 @@ namespace ICSharpCode.SharpDevelop.DefaultEditor.Commands
 			Find.SetSearchPattern();
 			
 			if (SearchReplaceManager.ReplaceDialog != null) {
-				SearchReplaceManager.ReplaceDialog.SetSearchPattern(SearchReplaceManager.SearchOptions.SearchPattern);
-				SearchReplaceManager.ReplaceDialog.Present ();
+				if (SearchReplaceManager.ReplaceDialog.replaceMode == true) {
+					SearchReplaceManager.ReplaceDialog.SetSearchPattern(SearchReplaceManager.SearchOptions.SearchPattern);
+					SearchReplaceManager.ReplaceDialog.Present ();
+				} else {
+					SearchReplaceManager.ReplaceDialog.Destroy ();
+					ReplaceDialog rd = new ReplaceDialog (true);
+					rd.ShowAll ();
+				}
 			} else {
 				ReplaceDialog rd = new ReplaceDialog(true);
 				rd.ShowAll();

@@ -25,7 +25,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 {
 	public class ReplaceDialog : Gtk.Window
 	{
-		bool replaceMode;
+		public bool replaceMode;
 		ResourceService resourceService = (ResourceService)ServiceManager.Services.GetService(typeof(IResourceService));
 		static PropertyService propertyService = (PropertyService)ServiceManager.Services.GetService(typeof(PropertyService));
 		static FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.Services.GetService(typeof(FileUtilityService));
