@@ -42,7 +42,7 @@ namespace MonoDevelop.Commands.ProjectBrowser
 			
 			AbstractBrowserNode node = (AbstractBrowserNode)browser.SelectedNode;
 			
-			using (FileSelector fdiag  = new FileSelector (GettextCatalog.GetString ("Add a file"))) {
+			using (FileSelector fdiag  = new FileSelector (GettextCatalog.GetString ("Add files"))) {
 				fdiag.SelectMultiple = true;
 				
 				string defaultPath = node.Project.BaseDirectory;
@@ -62,7 +62,7 @@ namespace MonoDevelop.Commands.ProjectBrowser
 																		 (Window) WorkbenchSingleton.Workbench,
 																		 DialogFlags.Modal | DialogFlags.DestroyWithParent,
 																		 MessageType.Question, ButtonsType.None,
-																		 GettextCatalog.GetString ("The file is outside the project directory, what should I do?"))) {
+																		 String.Format (GettextCatalog.GetString ("{0} is outside the project directory, what should I do?"), file))) {
 								md.AddButton (Gtk.Stock.Copy, 1);
 								md.AddButton (GettextCatalog.GetString ("_Move"), 2);
 								md.AddButton (Gtk.Stock.Cancel, ResponseType.Cancel);

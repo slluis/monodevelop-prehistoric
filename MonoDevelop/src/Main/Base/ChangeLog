@@ -4,6 +4,11 @@
 	use the messageservice for a the error dialog
 	don't skip the first item when storing whether files should be	
 	included, fixes bug # 60363
+	* Commands/ProjectBrowserCommands/FolderNodeCommands.cs:
+	Change the title of Add Files to Add Files, so it will be clearer
+	you can select more than one file
+	put the name of the file in the Copy or Move dialog when adding
+	an external file, fixes bug # 59516
 
 2004-06-21  Todd Berman  <tberman@off.net>
 
