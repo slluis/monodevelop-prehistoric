@@ -54,7 +54,7 @@ namespace MonoDevelop.Gui.Dialogs
 			ResourceService resourceService = (ResourceService)ServiceManager.Services.GetService(typeof(IResourceService));
 			image = resourceService.GetBitmap ("Icons.AboutImage");
 			
-			text = "<b>Ported and developed by:</b>\nTodd Berman\nPedro Abelleira Seco\nJohn Luke\nDaniel Kornhauser\nAlex Graveley\nnricciar\nJohn Bou Antoun\nBen Maurer\nJeroen Zwartepoorte\nGustavo Giráldez\nMiguel de Icaza\nInigo Illan\nIain McCoy\nNick Drochak\nPavel Rosanski\nRichard Torkar\nErik Dasque ";
+			text = "<b>Ported and developed by:</b>\nTodd Berman\nPedro Abelleira Seco\nJohn Luke\nDaniel Kornhauser\nAlex Graveley\nnricciar\nJohn Bou Antoun\nBen Maurer\nJeroen Zwartepoorte\nGustavo Giráldez\nMiguel de Icaza\nInigo Illan\nIain McCoy\nNick Drochak\nPaweł Różański\nRichard Torkar\nErik Dasque ";
 			
 			//text = "\"The most successful method of programming is to begin a program as simply as possible, test it, and then add to the program until it performs the required job.\"\n    -- PDP8 handbook, Pg 9-64\n\n\n";
 			//text = "\"The primary purpose of the DATA statement is to give names to constants; instead of referring to pi as 3.141592653589793 at every\n appearance, the variable PI can be given that value with a DATA statement and used instead of the longer form of the constant. This also simplifies modifying the program, should the value of pi change.\"\n    -- FORTRAN manual for Xerox computers\n\n\n";
