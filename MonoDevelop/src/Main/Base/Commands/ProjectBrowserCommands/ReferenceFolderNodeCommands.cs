@@ -41,7 +41,8 @@ namespace ICSharpCode.SharpDevelop.Commands.ProjectBrowser
 				
 				SelectReferenceDialog selDialog = new SelectReferenceDialog(project);
 				if (selDialog.Run() == (int)Gtk.ResponseType.Ok) {
-						
+					
+					project.ProjectReferences.Clear ();
 					foreach (ProjectReference refInfo in selDialog.ReferenceInformations) {
 						project.ProjectReferences.Add(refInfo);
 						parserService.AddReferenceToCompletionLookup(project, refInfo);

@@ -20,7 +20,6 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 {
 	public interface IReferencePanel
 	{
-		void AddReference(object sender, GtkSharp.ToggledArgs e);
 	}
 	
 	/// <summary>
@@ -117,12 +116,15 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 		
 			mainBook.RemovePage (mainBook.CurrentPage);
 			mainBook.AppendPage (new GacReferencePanel (this), new Gtk.Label (resourceService.GetString("Dialog.SelectReferenceDialog.GacTabPage")));
+			mainBook.AppendPage (new ProjectReferencePanel (this), new Gtk.Label (resourceService.GetString("Dialog.SelectReferenceDialog.ProjectTabPage")));
+			mainBook.CurrentPage = 0;
 			//gacTabPage.Controls.Add(new GacReferencePanel(this));
 			//projectTabPage.Controls.Add(new ProjectReferencePanel(this));
 			//browserTabPage.Controls.Add(new AssemblyReferencePanel(this));
 			
 			//comTabPage.Controls.Add(new COMReferencePanel(this));
 			AddReferenceDialog.ShowAll ();
+			mainBook.CurrentPage = 0;
 		}
 		
 		public void RemoveReference (ReferenceType referenceType, string referenceName, string referenceLocation)
