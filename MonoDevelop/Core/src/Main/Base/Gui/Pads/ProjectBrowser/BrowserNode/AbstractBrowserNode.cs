@@ -13,9 +13,7 @@ using System.Collections.Specialized;
 
 using MonoDevelop.Core.Properties;
 using MonoDevelop.Core.Services;
-
 using MonoDevelop.Core.AddIns;
-
 using MonoDevelop.Internal.Project;
 using MonoDevelop.Gui.Widgets;
 

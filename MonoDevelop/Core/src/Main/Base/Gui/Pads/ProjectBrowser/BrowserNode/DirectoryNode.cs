@@ -12,9 +12,7 @@ using System.Drawing;
 using System.Collections.Specialized;
 
 using MonoDevelop.Core.Properties;
-
 using MonoDevelop.Core.Services;
-
 using MonoDevelop.Services;
 using MonoDevelop.Internal.Project;
 using MonoDevelop.Gui.Components;
@@ -124,17 +122,14 @@ namespace MonoDevelop.Gui.Pads.ProjectBrowser
 			if (FolderName != null && FolderName.Length == 0) {
 				return false;
 			}
-			StringParserService stringParserService = (StringParserService)ServiceManager.GetService(typeof(StringParserService));
 			
-			Gtk.MessageDialog dialog = new Gtk.MessageDialog ((Gtk.Window)WorkbenchSingleton.Workbench, Gtk.DialogFlags.DestroyWithParent, Gtk.MessageType.Question, Gtk.ButtonsType.OkCancel, String.Format (GettextCatalog.GetString ("Do you want to remove folder {0} from project {1}?"), Text, Project.Name));
+			IMessageService messageService = (IMessageService) ServiceManager.GetService (typeof (IMessageService));
+			bool yes = messageService.AskQuestion (String.Format (GettextCatalog.GetString ("Do you want to remove folder {0} from project {1}?"), Text, Project.Name));
 
-			if (dialog.Run() != (int)Gtk.ResponseType.Ok) {
-				dialog.Destroy ();
+			if (!yes)
 				return false;
-			}
-			dialog.Destroy ();
 			
-			IFileService fileService = (IFileService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IFileService));
+			//IFileService fileService = (IFileService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IFileService));
 			IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IProjectService));
 			//switch (ret) {
 				//case 0:

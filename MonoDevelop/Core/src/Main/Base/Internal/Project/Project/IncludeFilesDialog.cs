@@ -9,11 +9,10 @@ using System.Drawing;
 using System.Collections;
 using System.Collections.Specialized;
 using System.ComponentModel;
-using MonoDevelop.Core.Properties;
 
+using MonoDevelop.Core.Properties;
 using MonoDevelop.Core.Services;
 using MonoDevelop.Services;
-
 using MonoDevelop.Gui;
 using MonoDevelop.Internal.Project;
 
@@ -21,9 +20,6 @@ using Gtk;
 
 namespace MonoDevelop.Internal.Project
 {
-	/// <summary>
-	/// Summary description for Form1.
-	/// </summary>
 	public class IncludeFilesDialog
 	{
 		// gtk widgets
@@ -46,12 +42,12 @@ namespace MonoDevelop.Internal.Project
 		
 		public IncludeFilesDialog(IProject project, StringCollection newFiles)
 		{
+			Console.WriteLine ("*** Include files dialog ***");
 			// we must do it from *here* otherwise, we get this assembly, not the caller
 			Glade.XML glade = new Glade.XML (null, "Base.glade", "IncludeFilesDialogWidget", null);
 			glade.Autoconnect (this);
 			
 			// set up dialog title
-			StringParserService stringParserService = (StringParserService)ServiceManager.GetService(typeof(StringParserService));
 			this.IncludeFilesDialogWidget.Title = String.Format (GettextCatalog.GetString ("Found new files in {0}"), project.Name);
 			
 			newFilesOnlyRadioButton.Active = true;

@@ -10,10 +10,10 @@ using System.IO;
 using System.Diagnostics;
 using System.Drawing;
 using System.Collections.Specialized;
+
 using MonoDevelop.Core.Services;
 using MonoDevelop.Services;
 using MonoDevelop.Core.Properties;
-
 using MonoDevelop.Internal.Project;
 using MonoDevelop.Gui.Components;
 
@@ -84,16 +84,12 @@ namespace MonoDevelop.Gui.Pads.ProjectBrowser
 		/// <summary>
 		/// Removes a reference from a project
 		/// NOTE : This method assumes that its parent is 
-		/// from the type 'ProejctBrowserNode'.
+		/// from the type 'ProjectBrowserNode'.
 		/// </summary>
 		public override bool RemoveNode()
 		{
-			
-			// TODO: Should we place a dialog here. There was one, but that is excessive.
 			ProjectReference referenceInformation = (ProjectReference)UserData;
-		
 			Project.ProjectReferences.Remove(referenceInformation);
-			
 			return true;
 		}
 	}

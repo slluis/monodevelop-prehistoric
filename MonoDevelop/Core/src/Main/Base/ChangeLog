@@ -1,3 +1,16 @@
+2004-07-04  John Luke  <jluke@cfl.rr.com>
+
+	* Gui/Dialogs/OptionPanels/ProjectOptions/DeployFileOptions.cs:
+	* Gui/Pads/ProjectBrowser/ProjectBrowserView.cs:
+	* Gui/Pads/ProjectBrowser/BrowserNode/AbstractBrowserNode.cs:
+	* Gui/Pads/ProjectBrowser/BrowserNode/ReferenceNode.cs:
+	* Gui/Pads/ProjectBrowser/BrowserNode/FileNode.cs:
+	* Gui/Pads/ProjectBrowser/BrowserNode/CombineBrowserNode.cs:
+	* Gui/Pads/ProjectBrowser/BrowserNode/DirectoryNode.cs:   
+	* Gui/Pads/ProjectBrowser/NodeBuilder/DefaultDotNetNodeBuilder.cs:
+	* Internal/Project/Project/IncludeFilesDialog.cs:
+	Use the MessageService everywhere, and cleanup these files a bit
+
 2004-07-02  Todd Berman  <tberman@off.net>
 
 	* Services/MessageService.cs: Convert most of these to be threadsafe.

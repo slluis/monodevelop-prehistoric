@@ -13,7 +13,6 @@ using System.Collections;
 using System.Collections.Specialized;
 
 using MonoDevelop.Core.Properties;
-
 using MonoDevelop.Core.Services;
 using MonoDevelop.Services;
 using MonoDevelop.Internal.Project;
@@ -78,7 +77,6 @@ namespace MonoDevelop.Gui.Pads.ProjectBrowser
 		
 		public void UpdateCombineName(object sender, EventArgs e)
 		{
-			StringParserService stringParserService = (StringParserService)ServiceManager.GetService(typeof(StringParserService));
 			switch (combine.Entries.Count) {
 				case 0:
 					Text = String.Format (GettextCatalog.GetString ("Solution {0}"), combine.Name);
@@ -104,15 +102,12 @@ namespace MonoDevelop.Gui.Pads.ProjectBrowser
 			}
 			
 			CombineBrowserNode cmbNode = (CombineBrowserNode)Parent;
-			StringParserService stringParserService = (StringParserService)ServiceManager.GetService(typeof(StringParserService));
 			
-			Gtk.MessageDialog dialog = new Gtk.MessageDialog ((Gtk.Window)WorkbenchSingleton.Workbench, Gtk.DialogFlags.DestroyWithParent, Gtk.MessageType.Question, Gtk.ButtonsType.OkCancel, String.Format (GettextCatalog.GetString ("Do you really want to remove solution {0} from solution {1}?"), combine.Name, cmbNode.Combine.Name));
-			
-			if (dialog.Run() != (int)Gtk.ResponseType.Ok) {
-				dialog.Destroy ();
+			IMessageService messageService = (IMessageService) ServiceManager.GetService (typeof (IMessageService));
+			bool yes = messageService.AskQuestion (String.Format (GettextCatalog.GetString ("Do you really want to remove solution {0} from solution {1}?"), combine.Name, cmbNode.Combine.Name));
+
+			if (!yes)
 				return false;
-			}
-			dialog.Destroy ();
 			
 			CombineEntry removeEntry = null;
 			

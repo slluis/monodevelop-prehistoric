@@ -5,8 +5,6 @@
 //     <version value="$version"/>
 // </file>
 
-//FIXME: All the commented out GetBitmap's need to be changed to use Pixbuf's
-
 using System;
 using System.IO;
 using System.Diagnostics;
@@ -16,12 +14,10 @@ using System.Collections.Specialized;
 using System.Collections.Utility;
 
 using MonoDevelop.Core.Properties;
-
 using MonoDevelop.Core.Services;
 using MonoDevelop.Internal.Project;
 using MonoDevelop.Gui.Widgets;
 using Stock = MonoDevelop.Gui.Stock;
-
 using MonoDevelop.Services;
 
 namespace MonoDevelop.Gui.Pads.ProjectBrowser

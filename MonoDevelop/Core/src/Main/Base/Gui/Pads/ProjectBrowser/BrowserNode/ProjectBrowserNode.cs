@@ -11,10 +11,10 @@ using System.Collections;
 using System.Diagnostics;
 using System.Drawing;
 using System.Collections.Specialized;
+
 using MonoDevelop.Core.Services;
 using MonoDevelop.Services;
 using MonoDevelop.Core.Properties;
-
 using MonoDevelop.Internal.Project;
 using MonoDevelop.Gui.Components;
 
@@ -104,14 +104,12 @@ namespace MonoDevelop.Gui.Pads.ProjectBrowser
 			Combine  cmb = Combine;
 			IProject prj = project;
 			CombineEntry removeEntry = null;
-			StringParserService stringParserService = (StringParserService)ServiceManager.GetService(typeof(StringParserService));
 			
-			Gtk.MessageDialog dialog = new Gtk.MessageDialog ((Gtk.Window)WorkbenchSingleton.Workbench, Gtk.DialogFlags.DestroyWithParent, Gtk.MessageType.Question, Gtk.ButtonsType.OkCancel, String.Format (GettextCatalog.GetString ("Do you really want to remove project {0} from solution {1}"), project.Name, cmb.Name)); 
-													if (dialog.Run() != (int)Gtk.ResponseType.Ok) {
-				dialog.Destroy ();
+			IMessageService messageService = (IMessageService) ServiceManager.GetService (typeof (IMessageService));
+			bool yes = messageService.AskQuestion (String.Format (GettextCatalog.GetString ("Do you really want to remove project {0} from solution {1}"), project.Name, cmb.Name));
+
+			if (!yes)
 				return false;
-			}
-			dialog.Destroy ();
 			
 			// remove combineentry
 			foreach (CombineEntry entry in cmb.Entries) {

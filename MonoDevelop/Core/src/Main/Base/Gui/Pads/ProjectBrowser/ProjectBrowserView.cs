@@ -38,8 +38,8 @@ namespace MonoDevelop.Gui.Pads.ProjectBrowser
 
 		public static Font PlainFont = null;
 		Font               boldFont  = null;
-		//Panel contentPanel = new Panel();
 		Gtk.Frame contentPanel = new Gtk.Frame();
+
 		static FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.GetService(typeof(FileUtilityService));
 		static PropertyService propertyService = (PropertyService)ServiceManager.GetService(typeof(PropertyService));
 

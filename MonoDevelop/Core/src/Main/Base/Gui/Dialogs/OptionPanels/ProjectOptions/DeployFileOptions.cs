@@ -16,24 +16,15 @@ using MonoDevelop.Core.Properties;
 using MonoDevelop.Core.Services;
 using MonoDevelop.Core.AddIns.Codons;
 using MonoDevelop.Gui.Components;
-
 using MonoDevelop.Services;
+using MonoDevelop.Gui.Widgets;
 
 using Gtk;
-using MonoDevelop.Gui.Widgets;
 
 namespace MonoDevelop.Gui.Dialogs.OptionPanels
 {
-	/// <summary>
-	/// Summary description for Form3.
-	/// </summary>
 	public class DeployFileProjectOptions : AbstractOptionPanel
 	{
-
-		// FIXME 
-		// - internationalize 
-		// 	   SetupFromXml(Path.Combine(PropertyService.DataDirectory, 
-		// 			                          @"resources\panels\DeployFileOptions.xfrm"));
 
 		class DeployFileOptionsWidget : GladeWidgetExtract 
 		{
@@ -54,6 +45,8 @@ namespace MonoDevelop.Gui.Dialogs.OptionPanels
 			IProject project;
 			static FileUtilityService fileUtilityService = (FileUtilityService) ServiceManager.GetService(typeof(FileUtilityService));
 			StringParserService StringParserService = (StringParserService)ServiceManager.GetService (typeof (StringParserService));
+			MessageService messageService = (MessageService) ServiceManager.GetService (typeof (MessageService));
+
 			public DeployFileOptionsWidget (IProperties CustomizationObject) : 
 				base ("Base.glade", "DeployFileOptionsPanel")
 			{
@@ -137,41 +130,20 @@ namespace MonoDevelop.Gui.Dialogs.OptionPanels
 			{
 				if (deployTargetEntry.Text.Length > 0) {
 					if (!fileUtilityService.IsValidFileName(deployTargetEntry.Text)) {
-						MessageDialog dialog = new MessageDialog ((Window) WorkbenchSingleton.Workbench, 
-								DialogFlags.DestroyWithParent,
-								MessageType.Error, 
-								ButtonsType.Close, 
-								GettextCatalog.GetString ("Invalid deploy target specified"));
-						dialog.Run ();
-						dialog.Hide ();
-						dialog.Dispose ();
+						messageService.ShowError (GettextCatalog.GetString ("Invalid deploy target specified"));
 						return false;
 					}
 				}
 				
 				if (deployScriptEntry.Text.Length > 0) {
 					if (!fileUtilityService.IsValidFileName(deployScriptEntry.Text)) {
-						MessageDialog dialog = new MessageDialog ((Window) WorkbenchSingleton.Workbench, 
-								DialogFlags.DestroyWithParent,
-								MessageType.Error, 
-								ButtonsType.Close, 
-								GettextCatalog.GetString ("Invalid deploy script specified"));
-						dialog.Run ();
-						dialog.Hide ();
-						dialog.Dispose ();
+						messageService.ShowError (GettextCatalog.GetString ("Invalid deploy script specified"));
 						return false;				
 					}
 				}
 				
 				if (!System.IO.File.Exists(deployScriptEntry.Text)) {
-					MessageDialog dialog = new MessageDialog ((Window) WorkbenchSingleton.Workbench, 
-							DialogFlags.DestroyWithParent,
-							MessageType.Error, 
-							ButtonsType.Close, 
-							GettextCatalog.GetString ("Deploy script doesn't exists"));
-					dialog.Run ();
-					dialog.Hide ();
-					dialog.Dispose ();
+					messageService.ShowError (GettextCatalog.GetString ("Deploy script doesn't exists"));
 					return false;
  				}
 			
