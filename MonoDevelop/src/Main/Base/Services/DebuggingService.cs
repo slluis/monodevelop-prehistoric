@@ -171,8 +171,13 @@ namespace MonoDevelop.Services
 				if (ResumedEvent != null) {
 					ResumedEvent (this, new EventArgs ());
 				}
-			} else if (PausedEvent != null)
+			} else if (PausedEvent != null) {
 				PausedEvent (this, new EventArgs ());
+				Console.WriteLine ("file:line is " + CurrentFilename + ":" + CurrentLineNumber);
+				Console.WriteLine ("trace:");
+				foreach (string s in Backtrace)
+					Console.WriteLine (s);
+			}
 			return false;
 		}
 
@@ -235,7 +240,7 @@ namespace MonoDevelop.Services
 				string[] result = new string [trace.Length];
 				int i = 0;
 				foreach (StackFrame frame in trace.Frames) {
-					result [i++] = frame.TargetAddress.ToString ();
+					result [i++] = frame.SourceAddress.Name;
 					Console.WriteLine (result [i-1]);
 				}
 
@@ -248,6 +253,27 @@ namespace MonoDevelop.Services
 				if (IsRunning)
 					return null;
 				return proc.GetBacktrace ().Frames[0];
+			}
+		}
+
+		public string CurrentFilename {
+			get {
+				if (IsRunning)
+					return String.Empty;
+
+				if (proc.GetBacktrace ().Frames [0].SourceAddress.MethodSource.IsDynamic)
+					return String.Empty;
+
+				return proc.GetBacktrace ().Frames [0].SourceAddress.MethodSource.SourceFile.FileName;
+			}
+		}
+
+		public int CurrentLineNumber {
+			get {
+				if (IsRunning)
+					return -1;
+
+				return proc.GetBacktrace ().Frames [0].SourceAddress.Row;
 			}
 		}
 
@@ -267,14 +293,6 @@ namespace MonoDevelop.Services
 			string[] toks = point.Name.Split (':');
 			string filename = toks [0];
 			int linenumber = Int32.Parse (toks [1]);
-
-			IFileService fs = (IFileService)ServiceManager.Services.GetService (typeof (IFileService));
-			fs.OpenFile (filename);
-
-			if (WorkbenchSingleton.Workbench.ActiveWorkbenchWindow.ViewContent is IDebuggableEditor)
-			{
-				((IDebuggableEditor)WorkbenchSingleton.Workbench.ActiveWorkbenchWindow.ViewContent).ExecutingAt (linenumber - 1);
-			}	
 
 			if (this.BreakpointHit == null)
 				return false;
