@@ -116,15 +116,12 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs.OptionPanels.CompletionDatabaseWi
 			
 			ResourceService resourceService = (ResourceService)ServiceManager.Services.GetService(typeof(IResourceService));
 			
-			//RadioButton appDirRadioButton = new RadioButton ("Use current user's application directory");
-			RadioButton appDirRadioButton = RadioButton.NewWithLabel (null, "Use current user's application directory");
+			RadioButton appDirRadioButton = new RadioButton ("Use current user's application directory");
 			appDirRadioButton.Toggled += new EventHandler (SetEnableStatus);
-			sharpDevelopDirRadioButton = new RadioButton (appDirRadioButton);
+			sharpDevelopDirRadioButton = new RadioButton (appDirRadioButton, "Use SharpDevelop application directory");
 			sharpDevelopDirRadioButton.Active = true;
-			sharpDevelopDirRadioButton.Label = "Use SharpDevelop application directory";
 			sharpDevelopDirRadioButton.Toggled += new EventHandler (SetEnableStatus);
-			specifyLocationRadioButton = new RadioButton (appDirRadioButton);
-			specifyLocationRadioButton.Label = "Specify code completion database location";
+			specifyLocationRadioButton = new RadioButton (appDirRadioButton, "Specify code completion database location");
 			specifyLocationRadioButton.Toggled += new EventHandler (SetEnableStatus);
 
 			TextView t = new TextView ();

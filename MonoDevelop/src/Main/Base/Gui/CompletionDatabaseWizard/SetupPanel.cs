@@ -43,18 +43,14 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs.OptionPanels.CompletionDatabaseWi
 			string text = resourceService.GetString("Dialog.Wizards.CodeCompletionDatabaseWizard.SetupPanel.DescriptionText");
 			VBox mainVBox = new VBox (false, 0);
 
-			//useExistingRadioButton = new RadioButton ("Use existing code completion database");
-			useExistingRadioButton = RadioButton.NewWithLabel (null, "Use existing code completion database");
+			useExistingRadioButton = new RadioButton ("Use existing code completion database");
 			
-			createNewRadioButton = new RadioButton (useExistingRadioButton);
+			createNewRadioButton = new RadioButton (useExistingRadioButton, "Create new code completion database");
 			createNewRadioButton.Active = true;
-			createNewRadioButton.Label = "Create new code completion database";
 			
-			skipCreationRadioButton = new RadioButton (useExistingRadioButton);
-			skipCreationRadioButton.Label = "Do not create code completion database now";
+			skipCreationRadioButton = new RadioButton (useExistingRadioButton, "Do not create code completion database now");
 			TextView t = new TextView ();
-			t.Buffer.Text = "This dialog is a place holder for right now, it should ask to skip, create new, or use existing files...\n\n";
-			t.Buffer.Text += text;
+			t.Buffer.Text = text;
 
 			t.WrapMode = Gtk.WrapMode.Word;
 			t.Editable = false;
