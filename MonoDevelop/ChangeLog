@@ -3,6 +3,7 @@
 	* build/AddIns/AddIns/BackendBindings/Makefile.am:
 	* build/AddIns/AddIns/Misc/StartPage/Makefile.am:
 	remove dlls on make clean, bug #55386
+	* */AssemblyInfo.cs: bump to 0.2, add one for SourceEditor
 
 2004-03-07  John Luke  <jluke@cfl.rr.com>
 

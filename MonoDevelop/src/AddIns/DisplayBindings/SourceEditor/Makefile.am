@@ -1,6 +1,7 @@
 DLL = MonoDevelop.SourceEditor.dll
 
-FILES = ./CodeCompletion/CodeCompletionData.cs \
+FILES = ./AssemblyInfo.cs \
+./CodeCompletion/CodeCompletionData.cs \
 ./CodeCompletion/ICompletionData.cs \
 ./CodeCompletion/CompletionWindow.cs \
 ./CodeCompletion/TextUtilities.cs \
