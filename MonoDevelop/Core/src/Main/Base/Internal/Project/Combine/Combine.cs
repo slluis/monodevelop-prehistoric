@@ -45,6 +45,8 @@ namespace MonoDevelop.Internal.Project
 		
 		ProjectFileEventHandler fileAddedToProjectHandler;
 		ProjectFileEventHandler fileRemovedFromProjectHandler;
+		ProjectFileEventHandler fileChangedInProjectHandler;
+
 		ProjectReferenceEventHandler referenceAddedToProjectHandler;
 		ProjectReferenceEventHandler referenceRemovedFromProjectHandler;
 		
@@ -180,6 +182,7 @@ namespace MonoDevelop.Internal.Project
 		public Combine()
 		{
 			fileAddedToProjectHandler = new ProjectFileEventHandler (NotifyFileAddedToProject);
+			fileChangedInProjectHandler = new ProjectFileEventHandler (NotifyFileChangedInProject);
 			fileRemovedFromProjectHandler = new ProjectFileEventHandler (NotifyFileRemovedFromProject);
 			referenceAddedToProjectHandler = new ProjectReferenceEventHandler (NotifyReferenceAddedToProject);
 			referenceRemovedFromProjectHandler = new ProjectReferenceEventHandler (NotifyReferenceRemovedFromProject);
@@ -411,9 +414,10 @@ namespace MonoDevelop.Internal.Project
 				
 				newEntry.Project.FileRemovedFromProject += fileAddedToProjectHandler;
 				newEntry.Project.FileAddedToProject += fileRemovedFromProjectHandler;
+				newEntry.Project.FileChangedInProject += fileChangedInProjectHandler;
 				newEntry.Project.ReferenceRemovedFromProject += referenceAddedToProjectHandler;
 				newEntry.Project.ReferenceAddedToProject += referenceRemovedFromProjectHandler;
-				
+					
 				return project;
 			} else {
 				Combine combine = new Combine(filename);
@@ -441,6 +445,7 @@ namespace MonoDevelop.Internal.Project
 					
 				newEntry.Combine.FileRemovedFromProject += fileAddedToProjectHandler;
 				newEntry.Combine.FileAddedToProject += fileRemovedFromProjectHandler;
+				newEntry.Combine.FileChangedInProject += fileChangedInProjectHandler;
 				newEntry.Combine.ReferenceRemovedFromProject += referenceAddedToProjectHandler;
 				newEntry.Combine.ReferenceAddedToProject += referenceRemovedFromProjectHandler;
 				
@@ -454,6 +459,7 @@ namespace MonoDevelop.Internal.Project
 			if (pce != null) {
 				pce.Project.FileRemovedFromProject -= fileAddedToProjectHandler;
 				pce.Project.FileAddedToProject -= fileRemovedFromProjectHandler;
+				pce.Project.FileChangedInProject -= fileChangedInProjectHandler;
 				pce.Project.ReferenceRemovedFromProject -= referenceAddedToProjectHandler;
 				pce.Project.ReferenceAddedToProject -= referenceRemovedFromProjectHandler;
 			}
@@ -462,6 +468,7 @@ namespace MonoDevelop.Internal.Project
 				if (cce != null) {
 					cce.Combine.FileRemovedFromProject -= fileAddedToProjectHandler;
 					cce.Combine.FileAddedToProject -= fileRemovedFromProjectHandler;
+					cce.Combine.FileChangedInProject -= fileChangedInProjectHandler;
 					cce.Combine.ReferenceRemovedFromProject -= referenceAddedToProjectHandler;
 					cce.Combine.ReferenceAddedToProject -= referenceRemovedFromProjectHandler;
 				}
@@ -718,6 +725,11 @@ namespace MonoDevelop.Internal.Project
 		{
 			OnFileAddedToProject (e);
 		}
+
+		internal void NotifyFileChangedInProject (object sender, ProjectFileEventArgs e)
+		{
+			OnFileChangedInProject (e);
+		}
 		
 		internal void NotifyReferenceRemovedFromProject (object sender, ProjectReferenceEventArgs e)
 		{
@@ -764,6 +776,13 @@ namespace MonoDevelop.Internal.Project
 				FileRemovedFromProject (this, e);
 			}
 		}
+
+		protected virtual void OnFileChangedInProject (ProjectFileEventArgs e)
+		{
+			if (FileChangedInProject != null) {
+				FileChangedInProject (this, e);
+			}
+		}
 		
 		protected virtual void OnFileAddedToProject (ProjectFileEventArgs e)
 		{
@@ -792,6 +811,7 @@ namespace MonoDevelop.Internal.Project
 		public event CombineEntryEventHandler EntryRemoved;
 		public event ProjectFileEventHandler FileAddedToProject;
 		public event ProjectFileEventHandler FileRemovedFromProject;
+		public event ProjectFileEventHandler FileChangedInProject;
 		public event ProjectReferenceEventHandler ReferenceAddedToProject;
 		public event ProjectReferenceEventHandler ReferenceRemovedFromProject;
 	}

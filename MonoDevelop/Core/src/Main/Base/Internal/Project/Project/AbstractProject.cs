@@ -562,6 +562,9 @@ namespace MonoDevelop.Internal.Project
 		
 		public virtual void Dispose()
 		{
+			foreach (ProjectFile file in ProjectFiles) {
+				file.Dispose ();
+			}
 		}
 		
 		public abstract IConfiguration CreateConfiguration();
@@ -572,6 +575,11 @@ namespace MonoDevelop.Internal.Project
 			config.Name = name;
 			
 			return config;
+		}
+		
+ 		internal void NotifyFileChangedInProject (ProjectFile file)
+		{
+			OnFileChangedInProject (new ProjectFileEventArgs (this, file));
 		}
 		
 		internal void NotifyFileRemovedFromProject (ProjectFile file)
@@ -628,10 +636,19 @@ namespace MonoDevelop.Internal.Project
 				ReferenceAddedToProject (this, e);
 			}
 		}
+
+ 		protected virtual void OnFileChangedInProject (ProjectFileEventArgs e)
+		{
+			if (FileChangedInProject != null) {
+				FileChangedInProject (this, e);
+			}
+		}
 		
+				
 		public event EventHandler NameChanged;
 		public event ProjectFileEventHandler FileRemovedFromProject;
 		public event ProjectFileEventHandler FileAddedToProject;
+		public event ProjectFileEventHandler FileChangedInProject;
 		public event ProjectReferenceEventHandler ReferenceRemovedFromProject;
 		public event ProjectReferenceEventHandler ReferenceAddedToProject;
 	}

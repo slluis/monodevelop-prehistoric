@@ -1,3 +1,4 @@
+
 // <file>
 //     <copyright see="prj:///doc/copyright.txt"/>
 //     <license see="prj:///doc/license.txt"/>
@@ -6,6 +7,7 @@
 // </file>
 
 using System;
+using System.IO;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Xml;
@@ -58,9 +60,41 @@ namespace MonoDevelop.Internal.Project
 		[XmlAttribute(null)]
 		AbstractProject project;
 		
+		private FileSystemWatcher ProjectFileWatcher;
+		
+		private void AddFileWatch()
+		{
+			ProjectFileWatcher = new FileSystemWatcher();
+
+			ProjectFileWatcher.Changed += new FileSystemEventHandler(OnChanged);
+		
+			if (this.filename != null) 
+				UpdateFileWatch();
+				
+		}
+		
+		private void UpdateFileWatch()
+		{
+		
+			if ((this.filename == null) || (this.filename.Length == 0))
+				return;				
+					
+			ProjectFileWatcher.EnableRaisingEvents = false;
+			ProjectFileWatcher.Path = Path.GetDirectoryName(filename);
+			ProjectFileWatcher.Filter = Path.GetFileName(filename);
+			ProjectFileWatcher.EnableRaisingEvents = true;
+
+		}
+		
+		private void OnChanged(object source, FileSystemEventArgs e)
+		{
+			project.NotifyFileChangedInProject(this);
+		}
+
 		internal void SetProject (AbstractProject prj)
 		{
 			project = prj;
+			UpdateFileWatch();
 		}
 						
 		[LocalizedProperty("${res:MonoDevelop.Internal.Project.ProjectFile.Name}",
@@ -73,6 +107,7 @@ namespace MonoDevelop.Internal.Project
 			set {
 				project.NotifyFileRemovedFromProject (this);
 				filename = value;
+				UpdateFileWatch();
 				Debug.Assert(filename != null && filename.Length > 0, "name == null || name.Length == 0");
 				project.NotifyFileAddedToProject (this);
 			}
@@ -121,6 +156,7 @@ namespace MonoDevelop.Internal.Project
 		
 		public ProjectFile()
 		{
+			AddFileWatch();
 		}
 		
 		public ProjectFile(string filename)
@@ -128,6 +164,7 @@ namespace MonoDevelop.Internal.Project
 			this.filename = filename;
 			subtype       = Subtype.Code;
 			buildaction   = BuildAction.Compile;
+			AddFileWatch();
 		}
 		
 		public ProjectFile(string filename, BuildAction buildAction)
@@ -135,6 +172,7 @@ namespace MonoDevelop.Internal.Project
 			this.filename = filename;
 			subtype       = Subtype.Code;
 			buildaction   = buildAction;
+			AddFileWatch();
 		}
 		
 		public object Clone()
@@ -147,6 +185,9 @@ namespace MonoDevelop.Internal.Project
 			return "[ProjectFile: FileName=" + filename + ", Subtype=" + subtype + ", BuildAction=" + BuildAction + "]";
 		}
 										
-		
+		public virtual void Dispose ()
+		{
+			ProjectFileWatcher.Dispose ();
+		}
 	}
 }

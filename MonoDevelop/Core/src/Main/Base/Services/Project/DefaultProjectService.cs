@@ -179,9 +179,10 @@ namespace MonoDevelop.Services
 			OnCombineOpened(new CombineEventArgs(openCombine));
 			openCombine.FileAddedToProject += new ProjectFileEventHandler (NotifyFileAddedToProject);
 			openCombine.FileRemovedFromProject += new ProjectFileEventHandler (NotifyFileRemovedFromProject);
+			openCombine.FileChangedInProject += new ProjectFileEventHandler (NotifyFileChangedInProject);
 			openCombine.ReferenceAddedToProject += new ProjectReferenceEventHandler (NotifyReferenceAddedToProject);
 			openCombine.ReferenceRemovedFromProject += new ProjectReferenceEventHandler (NotifyReferenceRemovedFromProject);
-			
+	
 			RestoreCombinePreferences(CurrentOpenCombine, openCombineFileName);
 		}
 		
@@ -715,6 +716,11 @@ namespace MonoDevelop.Services
 		{
 			OnFileAddedToProject (e);
 		}
+
+		internal void NotifyFileChangedInProject (object sender, ProjectFileEventArgs e)
+		{
+				OnFileChangedInProject (e);
+		}		
 		
 		internal void NotifyReferenceAddedToProject (object sender, ProjectReferenceEventArgs e)
 		{
@@ -739,6 +745,13 @@ namespace MonoDevelop.Services
 			GenerateMakefiles ();
 			if (FileAddedToProject != null) {
 				FileAddedToProject (this, e);
+			}
+		}
+
+		protected virtual void OnFileChangedInProject (ProjectFileEventArgs e)
+		{
+			if (FileChangedInProject != null) {
+				FileChangedInProject (this, e);
 			}
 		}
 		
@@ -805,6 +818,8 @@ namespace MonoDevelop.Services
 		
 		public event ProjectFileEventHandler FileRemovedFromProject;
 		public event ProjectFileEventHandler FileAddedToProject;
+		public event ProjectFileEventHandler FileChangedInProject;
+		
 		public event EventHandler     StartBuild;
 		public event EventHandler     EndBuild;
 		public event EventHandler     BeforeStartProject;

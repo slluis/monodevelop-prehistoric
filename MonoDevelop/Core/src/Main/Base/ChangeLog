@@ -1,5 +1,17 @@
 2004-06-28  Todd Berman  <tberman@off.net>
 
+	* Services/Project/DefaultProjectService.cs:
+	* Services/Project/IProjectService.cs:
+	* Internal/Project/Project/IProject.cs:
+	* Internal/Project/Project/AbstractProject.cs:
+	* Internal/Project/Project/ProjectFile.cs:
+	* Internal/Project/Combine/Combine.cs:
+	Patch from Ray Molenkamp <ray@yarvje.dyndns.org> to add a FSW that
+	monitors for external changes to any file in a project and emits an
+	event on the project service for it.
+
+2004-06-28  Todd Berman  <tberman@off.net>
+
 	* Internal/Codons/Templates/FileTemplateCodon.cs: add new codon for
 	handling file templates.
 	* Internal/Templates/FileTemplate.cs: Use the new codon based system

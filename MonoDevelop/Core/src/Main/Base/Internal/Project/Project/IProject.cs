@@ -158,6 +158,7 @@ namespace MonoDevelop.Internal.Project
 		event EventHandler NameChanged;
 		event ProjectFileEventHandler FileRemovedFromProject;
 		event ProjectFileEventHandler FileAddedToProject;
+		event ProjectFileEventHandler FileChangedInProject;
 		event ProjectReferenceEventHandler ReferenceRemovedFromProject;
 		event ProjectReferenceEventHandler ReferenceAddedToProject;
 	}
