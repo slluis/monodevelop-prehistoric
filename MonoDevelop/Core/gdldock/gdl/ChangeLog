@@ -1,3 +1,7 @@
+2004-12-08  Todd Berman  <tberman@off.net>
+
+	* Makefile.am: Use -2.0 xml files, and gapi2-* stuff.
+
 2004-10-16  John Luke  <john.luke@gmail.com>
 
 	* Makefile.am: remove MCS and RUNTIME

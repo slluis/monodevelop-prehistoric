@@ -5,9 +5,9 @@ RAWAPI = gdl-api.raw
 METADATA = Gdl.metadata
 
 INCLUDE_APIS = \
-	@gtksharp_prefix@/share/gapi/gdk-api.xml \
-	@gtksharp_prefix@/share/gapi/gtk-api.xml \
-	@gtksharp_prefix@/share/gapi/atk-api.xml
+	@gtksharp_prefix@/share/gapi-2.0/gdk-api.xml \
+	@gtksharp_prefix@/share/gapi-2.0/gtk-api.xml \
+	@gtksharp_prefix@/share/gapi-2.0/atk-api.xml
 
 FILES = \
 	DockItemFlags.cs \
@@ -24,10 +24,10 @@ all: $(ASSEMBLY)
 $(API): $(srcdir)/$(RAWAPI) $(srcdir)/$(METADATA)
 	cp $(srcdir)/$(RAWAPI) $(API)
 	chmod u+w $(API)
-	gapi-fixup --api=$(API) --metadata=$(srcdir)/$(METADATA)
+	gapi2-fixup --api=$(API) --metadata=$(srcdir)/$(METADATA)
 
 generated-stamp: $(API) $(build_customs)
-	gapi-codegen --generate $(API) --include $(INCLUDE_APIS) --outdir=generated --customdir=$(srcdir) --assembly-name=gdl-sharp && touch generated-stamp
+	gapi2-codegen --generate $(API) --include $(INCLUDE_APIS) --outdir=generated --customdir=$(srcdir) --assembly-name=gdl-sharp && touch generated-stamp
 
 $(ASSEMBLY): $(build_sources) generated-stamp
 	mkdir -p ../../build/bin
