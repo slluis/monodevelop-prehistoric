@@ -207,7 +207,12 @@ namespace MonoDevelop.SourceEditor.Gui {
 		
 		public void ToggleBookmark ()
 		{
-			TextIter insert = GetIterAtMark (InsertMark);
+			ToggleBookmark (GetIterAtMark (InsertMark).Line);
+		}
+		
+		public void ToggleBookmark (int linenum)
+		{
+			TextIter insert = GetIterAtLine (linenum);
 			TextIter begin_line = insert, end_line = insert;
 			begin_line.LineOffset = 0;
 			

@@ -38,6 +38,24 @@ namespace MonoDevelop.SourceEditor.Gui {
 			SmartHomeEnd = true;
 			ShowLineNumbers = true;
 			ShowLineMarkers = true;
+			ButtonPressEvent += new ButtonPressEventHandler (buttonPress);
+		}
+
+		void buttonPress (object o, ButtonPressEventArgs e)
+		{
+			if (!ShowLineMarkers)
+				return;
+
+			if (e.Event.window == GetWindow (Gtk.TextWindowType.Left) && e.Event.Button == 1) {
+				int x, y;
+				WindowToBufferCoords (Gtk.TextWindowType.Left, (int)e.Event.X, (int)e.Event.Y, out x, out y);
+				TextIter line;
+				int top;
+
+				GetLineAtY (out line, y, out top);
+
+				buf.ToggleBookmark (line.Line);
+			}
 		}
 
 		public void SimulateKeyPress (ref Gdk.EventKey evnt)
