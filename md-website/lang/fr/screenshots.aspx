@@ -10,7 +10,7 @@
 					</a>
 				</div>
 				<div class="image_caption">
-					Code source dans MonoDevelop et l'explorateur de classes
+					Code source dans MonoDevelop et l&#39;explorateur de classes
 				</div>
 			</div>
 			<br />

@@ -6,7 +6,7 @@
 			<div class="title">News</div>
 			<div class="news_header">31 mars 2004: Publication de MonoDevelop 0.2</div>
 			<p>MonoDevelop 0.2 est sorti, r&eacute;chauffer votre <tt>mcs</tt>. 0.2 dispose de 
-				beaucoup de nouvelles fonctionnalit&eacute;s comme l’int&eacute;gration de 
+				beaucoup de nouvelles fonctionnalit&eacute;s comme l&#39;int&eacute;gration de 
 				MonoDoc et le support du d&eacute;bugger. Vous pouvez le 
 				t&eacute;l&eacute;charger sur <a href="/lang/fr/release.aspx">la page des releases</a>.</p>
 			<br />
@@ -18,16 +18,16 @@
 			<br />
 			<div class="news_header">4 mars 2004: Publication de MonoDevelop 0.1</div>
 			<p>Juste &agrave; temps pour le <a href="http://primates.ximian.com/~miguel/MonoMeet.html">
-					meeting &agrave; Cambridge</a>, notre release 0.1 est pr&ecirc;t. Il n’est 
-				actuellement disponible que sous la forme d’un tarball. Nous mettrons &agrave; 
-				disposition des paquetages binaires si quelqu’un trouve le temps d’en produire. 
+					meeting &agrave; Cambridge</a>, notre release 0.1 est pr&ecirc;t. Il n&#39;est 
+				actuellement disponible que sous la forme d&#39;un tarball. Nous mettrons &agrave; 
+				disposition des paquetages binaires si quelqu&#39;un trouve le temps d&#39;en produire. 
 				Vous trouverez ce release dans la <a href="http://monodevelop.com/download.aspx#package">
 					section des paquetages</a> sur la page des t&eacute;l&eacute;chargements.</p>
 			<br />
-			<div class="news_header">25 f&eacute;vrier 2004: MonoDevelop dispose d'un ensemble 
-				d'ic&ocirc;nes complet</div>
+			<div class="news_header">25 f&eacute;vrier 2004: MonoDevelop dispose d&#39;un ensemble 
+				d&#39;ic&ocirc;nes complet</div>
 			<p><a href="http://gnrfan.org" />Antonio Ognio</a> a achev&eacute; un ensemble 
-				d’ic&ocirc;nes gnomifi&eacute;es pour MonoDevelop 0.1 &agrave; para&icirc;tre 
+				d&#39;ic&ocirc;nes gnomifi&eacute;es pour MonoDevelop 0.1 &agrave; para&icirc;tre 
 				ce vendredi. Jetez un oeil <a href="http://gnrfan.org/MonoDevelop" />ici</a> 
 				pour un aper&ccedil;u de ces futures ic&ocirc;nes.</p>
 			<br />

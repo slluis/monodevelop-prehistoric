@@ -5,8 +5,8 @@
 
 			<div class="title">Paquetages de MonoDevelop</div>
 			<p>
-				Les releases de Milestone peuvent être trouvés ici sous la forme de tarballs. 
-				Nous mettrons également à dispositions des paquetages binaires soumis par des 
+				Les releases de Milestone peuvent &ecirc;tre trouv&eacute;s ici sous la forme de tarballs. 
+				Nous mettrons &eacute;galement &agrave; disposition des paquetages binaires soumis par des 
 				utilisateurs.
 			</p>
 			<br />

@@ -1,4 +1,4 @@
-<%@ Page language="c#" Codebehind="package_install.aspx.cs" AutoEventWireup="false" Inherits="MonoDevelop.tutorials.package_install" %>
+<%@ Page language="c#" Codebehind="package_install.aspx.cs" AutoEventWireup="false"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
     "http://www.w3c.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <HTML>
@@ -19,7 +19,7 @@
 				<LI>
 					<A href="/screenshots.aspx">Screenshots</A>
 				<LI>
-					<A href="/download.aspx">Télécharger</A>
+					<A href="/download.aspx">T&eacute;l&eacute;charger</A>
 				<LI>
 					<A href="/contribute.aspx">Contribuer</A>
 				<LI>
@@ -30,15 +30,15 @@
 			</UL>
 		</DIV>
 		<div id="content">
-			<div class="title">Didacticiel d'installation</div>
-			<p>Ce didacticiel est votre guide pour l'installation de MonoDevelop à l'aide d'un 
-				paquetage officiel. Si vous voulez savoir comment construire MonoDevelop à 
-				partir d'un snapshot, suivez les instructions du <a href="/tutorials/snapshot_install.aspx">
-					didacticiel d'installation à partir d'un snapshot</a>.
+			<div class="title">Didacticiel d&#39;installation</div>
+			<p>Ce didacticiel est votre guide pour l&#39;installation de MonoDevelop &agrave; l&#39;aide d&#39;un 
+				paquetage officiel. Si vous voulez savoir comment construire MonoDevelop &agrave; 
+				partir d&#39;un snapshot, suivez les instructions du <a href="/tutorials/snapshot_install.aspx">
+					didacticiel d&#39;installation &agrave; partir d&#39;un snapshot</a>.
 			</p>
 			<p>
 				Sauf indication contraire, construisez et installez tout tarball de cette 
-				manière:
+				mani&egrave;re:
 			</p>
 			<pre class="code">tar -xzf mypackage.tar.gz 
 cd mypackage
@@ -48,22 +48,22 @@ make install
 			</pre>
 			<br>
 			<br>
-			<div class="headlinebar">Mise en route: Préliminaires</div>
-			<p>Certains paquetages sont requis pour l'installation de MonoDevelop. Les 
-				instructions suivantes vont vous aider à les installer:
+			<div class="headlinebar">Mise en route: Pr&eacute;liminaires</div>
+			<p>Certains paquetages sont requis pour l&#39;installation de MonoDevelop. Les 
+				instructions suivantes vont vous aider &agrave; les installer:
 			</p>
 			<b>1. ORBit2 2.8.3</b>
-			<p>Bien que des versions plus récentes <i>peuvent</i> fonctionner, elles sont 
-				connues pour avoir provoqué des crashes lorsque MonoDevelop existe. En cas de 
-				doute, téléchargez <a href="http://ftp.gnome.org/pub/GNOME/sources/ORBit2/2.8/ORBit2-2.8.3.tar.gz">
+			<p>Bien que des versions plus r&eacute;centes <i>peuvent</i> fonctionner, elles sont 
+				connues pour avoir provoqu&eacute; des crashes lorsque MonoDevelop existe. En cas de 
+				doute, t&eacute;l&eacute;chargez <a href="http://ftp.gnome.org/pub/GNOME/sources/ORBit2/2.8/ORBit2-2.8.3.tar.gz">
 					ORBit 2.8.3</a>.</p>
 			<br>
 			<br>
 			<b>2. GtkSourceView 0.7+</b>
-			<p>Vous pouvez télécharger un paquetage binaire pour votre distribution si elle 
-				fournit la version 0.7 ou ultérieure. Si tel n'est pas le cas, téléchargez le <a href="http://ftp.acc.umu.se/pub/gnome/sources/gtksourceview/0.7/gtksourceview-0.7.0.tar.gz">
-					tarball officiel (0.7)</a>. Le script `<tt>./configure</tt>' est un peu 
-				plus complexe qu'à l'accoutumé. Aidez-vous de l'exemple suivant :
+			<p>Vous pouvez t&eacute;l&eacute;charger un paquetage binaire pour votre distribution si elle 
+				fournit la version 0.7 ou ult&eacute;rieure. Si tel n&#39;est pas le cas, t&eacute;l&eacute;chargez le <a href="http://ftp.acc.umu.se/pub/gnome/sources/gtksourceview/0.7/gtksourceview-0.7.0.tar.gz">
+					tarball officiel (0.7)</a>. Le script `<tt>./configure</tt>&#39; est un peu 
+				plus complexe qu&#39;&agrave; l&#39;accoutum&eacute;. Aidez-vous de l&#39;exemple suivant :
 			</p>
 			<pre class="code">
 tar -xzf gtksourceview-0.7.0.tar.gz
@@ -76,23 +76,23 @@ make install
 			<br>
 			<b>3. gtkmozembed</b>
 			<p><a href="http://www.mozilla.org/unix/gtk-embedding.html">gtkmozembed</a> peut 
-				généralement être trouvé dans le paquetage de développement Mozilla de votre 
+				g&eacute;n&eacute;ralement &ecirc;tre trouv&eacute; dans le paquetage de d&eacute;veloppement Mozilla de votre 
 				OS. Par exemple:
 			</p>
 			<ul>
 				<li>
-				Debian: `mozilla-dev'
+				Debian: `mozilla-dev&#39;
 				<li>
-				RedHat: `mozilla-devel'
+				RedHat: `mozilla-devel&#39;
 				<li>
-					FreeBSD: `mozilla-gtkmozembed'</li>
+					FreeBSD: `mozilla-gtkmozembed&#39;</li>
 			</ul>
-			Je n'ai pas pu trouver de tarball officiel pour gtkmozembed.
+			Je n&#39;ai pas pu trouver de tarball officiel pour gtkmozembed.
 			<br>
 			<br>
 			<b>4. Installer Mono 0.31</b><br>
-			<p>Pour faire fonctionner MonoDevelop, les paquetages mono suivants doivent être 
-				installés dans cet ordre:
+			<p>Pour faire fonctionner MonoDevelop, les paquetages mono suivants doivent &ecirc;tre 
+				install&eacute;s dans cet ordre:
 			</p>
 			<ul>
 				<li>
@@ -111,29 +111,29 @@ make install
 				<li>
 					<a href="http://www.go-mono.com/archive/mono-debugger-0.6.tar.gz">debugger</a></li>
 			</ul>
-			<p>Lors de la construction à partir des sources ci-dessus, toujours utiliser le 
-				préfixe `<tt>/usr</tt>'.</p>
+			<p>Lors de la construction &agrave; partir des sources ci-dessus, toujours utiliser le 
+				pr&eacute;fixe `<tt>/usr</tt>&#39;.</p>
 			<p>Certains paquetages sont aussi disponibles sous forme de paquetages binaires 
-				(RPMs and DEBs). Des paquetages binaires peuvent être trouvés sur la&nbsp; <a href="http://www.go-mono.com/download.html">
-					page des téléchargements de mono</a> pour RedHat, Fedora, Suse, et Debian. 
-				Ils sont également disponibles au travers de Ximian <a href="http://www.ximian.com/products/redcarpet/">
-					Red Carpet</a>, dans la chaîne 'mono'. Il n'existe actuellement des 
+				(RPMs and DEBs). Des paquetages binaires peuvent &ecirc;tre trouv&eacute;s sur la&nbsp; <a href="http://www.go-mono.com/download.html">
+					page des t&eacute;l&eacute;chargements de mono</a> pour RedHat, Fedora, Suse, et Debian. 
+				Ils sont &eacute;galement disponibles au travers de Ximian <a href="http://www.ximian.com/products/redcarpet/">
+					Red Carpet</a>, dans la cha&icirc;ne &#39;mono&#39;. Il n&#39;existe actuellement des 
 				paquetages binaires que pour:
 			</p>
 			<ul>
 				<li>
 				mono
 				<li>
-					ICU (`icu' and `libicu26')</li>
+					ICU (`icu&#39; and `libicu26&#39;)</li>
 			</ul>
-			D'autres paquetages sont en cours de développement et seront disponibles 
+			D&#39;autres paquetages sont en cours de d&eacute;veloppement et seront disponibles 
 			rapidement.
 			<br>
 			<br>
 			<br>
 			<div class="headlinebar">Installer MonoDevelop</div>
-			<p>La dernière étape du processus est de construire MonoDevelop lui-même. 
-				Téléchargez le paquetage <a href="http://www.go-mono.com/archive/monodevelop-0.2.tar.gz">
+			<p>La derni&egrave;re &eacute;tape du processus est de construire MonoDevelop lui-m&ecirc;me. 
+				T&eacute;l&eacute;chargez le paquetage <a href="http://www.go-mono.com/archive/monodevelop-0.2.tar.gz">
 					MonoDevelop 0.2</a>.</p>
 			<pre class="code">
 export PKG_CONFIG_PATH="/usr/lib/pkgconfig"
@@ -144,8 +144,8 @@ make
 make install
 </pre>
 			<br>
-			<p>Félicitations ! Vous avez maintenant installé la dernière copie de MonoDevelop. 
-				N'oubliez pas de signaler tous les bugs rencontrés.</p>
+			<p>F&eacute;licitations ! Vous avez maintenant install&eacute; la derni&egrave;re copie de MonoDevelop. 
+				N&#39;oubliez pas de signaler tous les bugs rencontr&eacute;s.</p>
 			<br>
 			<br>
 			<hr width="90%">

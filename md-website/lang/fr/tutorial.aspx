@@ -41,7 +41,7 @@
 			<p>Apprenez &agrave; utiliser MonoDevelop en lisant nos didacticiels.</p>
 			<ul>
 				<li>
-					<a href="tutorials/package_install.aspx">Installer MonoDevelop &agrave; partir d'un 
+					<a href="tutorials/package_install.aspx">Installer MonoDevelop &agrave; partir d&#39;un 
 						release officiel</a></li>
 				<li>
 					<a href="tutorials/helloworld.aspx">Ecrire une application "Hello World" en Gtk#</a></li>

@@ -19,7 +19,7 @@
 				<LI>
 					<A href="/screenshots.aspx">Screenshots</A>
 				<LI>
-					<A href="/download.aspx">Télécharger</A>
+					<A href="/download.aspx">T&eacute;l&eacute;charger</A>
 				<LI>
 					<A href="/contribute.aspx">Contribuer</A>
 				<LI>
@@ -34,41 +34,41 @@
 			<div class="headlinebar">Description de MonoDevelop</div>
 			<p>
 				MonoDevelop est un projet de portage de SharpDevelop en Gtk#. Nombreux sont les 
-				objectifs que MonoDevelop espère atteindre. Certains d’entre eux sont :
+				objectifs que MonoDevelop esp&egrave;re atteindre. Certains d&#39;entre eux sont :
 			</p>
 			<ul>
 				<li>
-				Créer le meilleur environnement de développement de son espèce pour les 
-				systèmes Unix pour C# et Mono.
+				Cr&eacute;er le meilleur environnement de d&eacute;veloppement de son esp&egrave;ce pour les 
+				syst&egrave;mes Unix pour C# et Mono.
 				<li>
-				Puisqu’il est écrit en Gtk#, que nous aimons Gtk# et que nous obtenons un bon 
-				support de Gtk#, il ajoutera très probablement des fonctionnalités destinées à 
-				améliorer l’aventure Gtk#.
+				Puisqu&#39;il est &eacute;crit en Gtk#, que nous aimons Gtk# et que nous obtenons un bon 
+				support de Gtk#, il ajoutera tr&egrave;s probablement des fonctionnalit&eacute;s destin&eacute;es &agrave; 
+				am&eacute;liorer l&#39;aventure Gtk#.
 				<li>
-				Pour dériver aussi peu que possible de SharpDevelop : nous aimerions idéalement 
+				Pour d&eacute;river aussi peu que possible de SharpDevelop : nous aimerions id&eacute;alement 
 				re-fusionner le code (au travers de ifdefs, compilations conditionnelles, 
 				interfaces, etc.) pour maximiser les contributions et la vitesse de 
-				développement.
+				d&eacute;veloppement.
 				<li>
-				Aujourd’hui l’IDE est un simple IDE et sur Unix, il ne permet pas le design GUI 
-				(qui est limité à SharpDevelop), mais nous souhaitons ajouter un tel designer 
+				Aujourd&#39;hui l&#39;IDE est un simple IDE et sur Unix, il ne permet pas le design GUI 
+				(qui est limit&eacute; &agrave; SharpDevelop), mais nous souhaitons ajouter un tel designer 
 				dans le futur.
 				<li>
-					Nous voulons intégrer les outils que nous avons construits jusqu’ici. Des 
+					Nous voulons int&eacute;grer les outils que nous avons construits jusqu&#39;ici. Des 
 					choses comme MonoDoc, NUnit-Gtk et le debugger devraient donc prendre 
 					MonoDevelop pour cible.</li>
 			</ul>
-			<p>Pour consulter la liste de certaines des fonctionnalités actuelles, visitez la <a href="/index.aspx">
-					page des fonctionnalités</a>.</p>
+			<p>Pour consulter la liste de certaines des fonctionnalit&eacute;s actuelles, visitez la <a href="/index.aspx">
+					page des fonctionnalit&eacute;s</a>.</p>
 			<div class="headlinebar">Information de License</div>
 			<p>
-				MonoDevelop est développé dans le cadre d’une licence
+				MonoDevelop est d&eacute;velopp&eacute; dans le cadre d&#39;une licence
 				<acronym title="General Public License">
 					GPL</acronym>
-				pouvant être consultée à l’adresse <a href="http://www.gnu.org/copyleft/gpl.html">www.gnu.org/copyleft/gpl.html</a>. 
-				Tout le code source est disponible sur le dépôt Subversion. Pour savoir comment 
-				télécharger les sources, visitez la <a href="/download.aspx">page de 
-					téléchargements</a>.
+				pouvant &ecirc;tre consult&eacute;e &agrave; l&#39;adresse <a href="http://www.gnu.org/copyleft/gpl.html">www.gnu.org/copyleft/gpl.html</a>. 
+				Tout le code source est disponible sur le d&eacute;p&ocirc;t Subversion. Pour savoir comment 
+				t&eacute;l&eacute;charger les sources, visitez la <a href="/download.aspx">page de 
+					t&eacute;l&eacute;chargements</a>.
 			</p>
 		</div>
 	</body>

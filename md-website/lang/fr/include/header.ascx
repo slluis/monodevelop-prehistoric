@@ -18,7 +18,7 @@
 				<LI>
 					<A href="/lang/fr/screenshots.aspx">Screenshots</A>
 				<LI>
-					<A href="/lang/fr/download.aspx">Télécharger</A>
+					<A href="/lang/fr/download.aspx">T&eacute;l&eacute;charger</A>
 				<LI>
 					<A href="/lang/fr/contribute.aspx">Contribuer</A>
 				<LI>

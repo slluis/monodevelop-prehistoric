@@ -29,17 +29,17 @@ update-mime-database /usr/share/mime
 			<br />
 			<p>Pourquoi la colorisation syntaxique ne fonctionne-t-elle pas sur mes fichiers 
 				C#?</p>
-			<p>GNOME ne reconnaît pas les fichiers *.cs comme des fichiers de type mime 
+			<p>GNOME ne reconnaÃ®t pas les fichiers *.cs comme des fichiers de type mime 
 				text/x-csharp. gtksourceview-sharp essaye de configurer cela automatiquement 
 				mais peut ne pas fonctionner dans tous les cas. Vous pouvez utiliser 
 				gnome-file-types-properties pour corriger le probl&egrave;me. Si vous 
 				ex&eacute;cutez Gnome 2.6, voir ci-dessus.</p>
 			<br />
-			<p>Que faire si le r&eacute;sum&eacute; de la configuration indique 'no' pour l'un 
+			<p>Que faire si le r&eacute;sum&eacute; de la configuration indique &#39;no&#39; pour l&#39;un 
 				des pr&eacute; requis?</p>
-			<p>Le script 'configure' utilise pkg-config pour v&eacute;rifier si vous disposez 
-				de tous les paquetages requis pour construire. S'il ne peut d&eacute;tecter 
-				l'un des paquetages que vous avez install&eacute; :
+			<p>Le script &#39;configure&#39; utilise pkg-config pour v&eacute;rifier si vous disposez 
+				de tous les paquetages requis pour construire. S&#39;il ne peut d&eacute;tecter 
+				l&#39;un des paquetages que vous avez install&eacute; :
 			</p>
 			<p>ajoutez le chemin vers le fichier &lt;paquetage&gt;.pc &agrave; PKG_CONFIG_PATH:</p>
 			<pre class="code">export PKG_CONFIG_PATH=/usr/local/lib/pkgconfig:$PKG_CONFIG_PATH</pre>
@@ -47,26 +47,26 @@ update-mime-database /usr/share/mime
 				paquetage et relancer le script ./configure.
 			</p>
 			<div class="headlinebar">Probl&egrave;mes connus</div>
-			<p>Cette liste &eacute;num&egrave;re les probl&egrave;mes connus dans l'espoir de 
-				pr&eacute;venir la dupplication du rapport d'un bug sur un m&ecirc;me release.
+			<p>Cette liste &eacute;num&egrave;re les probl&egrave;mes connus dans l&#39;espoir de 
+				pr&eacute;venir la dupplication du rapport d&#39;un bug sur un m&ecirc;me release.
 			</p>
 			<ul>
 				<li>
-					Lorsqu'on r&eacute;duit un &eacute;l&eacute;ment ancrable en ic&ocirc;ne, si l'on ferme MonoDevelop 
-					et le r&eacute;ouvre, l'&eacute;l&eacute;ment a disparu.
+					Lorsqu&#39;on r&eacute;duit un &eacute;l&eacute;ment ancrable en ic&ocirc;ne, si l&#39;on ferme MonoDevelop 
+					et le r&eacute;ouvre, l&#39;&eacute;l&eacute;ment a disparu.
 				</li>
 				<li>
-					Lorsqu'on agrandit MonoDevelop, les &eacute;l&eacute;ments ancrables ne se redimensionnent pas 
+					Lorsqu&#39;on agrandit MonoDevelop, les &eacute;l&eacute;ments ancrables ne se redimensionnent pas 
 					correctement.
 				</li>
 				<li>
-					La barre d'outils montre parfois un comportement intriguant comme par exemple, 
+					La barre d&#39;outils montre parfois un comportement intriguant comme par exemple, 
 					mais pas uniquement, sembler activ&eacute;e mais ne pas fonctionner, etc.
 				</li>
 				<li>
-					Lorsqu'on clique sur File-&gt;Recent Projects-&gt;clear recent project list ou 
-					File-&gt;Recent Files-&gt;clear recent files list, il faudrait une boîte de 
-					dialogue de confirmation afin d'&eacute;viter de vider accidentellement l'une 
+					Lorsqu&#39;on clique sur File-&gt;Recent Projects-&gt;clear recent project list ou 
+					File-&gt;Recent Files-&gt;clear recent files list, il faudrait une boÃ®te de 
+					dialogue de confirmation afin d&#39;&eacute;viter de vider accidentellement l&#39;une 
 					de ces listes.</li>
 			</ul>
 			<b>R&eacute;f&eacute;rences</b>

@@ -3,7 +3,7 @@
 
 <ccms:PageHeader runat="server"/>
 
-			<div class="title">Screenshots d'utilisateurs</div>
+			<div class="title">Screenshots d&#39;utilisateurs</div>
 			<p>
 				Cette page contient des screenshots envoy&eacute;s par des utilisateurs. Si un 
 				screenshot montre une fonctionnalit&eacute; de MonoDevelop, il peut &ecirc;tre 
@@ -19,7 +19,7 @@
 					</a>
 				</div>
 				<div class="image_caption">
-					Debugging d'une application GTK#, documentation int&eacute;gr&eacute;e
+					Debugging d&#39;une application GTK#, documentation int&eacute;gr&eacute;e
 				</div>
 			</div>
 			<br />
@@ -29,7 +29,7 @@
 					</a>
 				</div>
 				<div class="image_caption">
-					Navigation web à l'aide du composant Mozilla int&eacute;gr&eacute;
+					Navigation web &agrave; l&#39;aide du composant Mozilla int&eacute;gr&eacute;
 				</div>
 			</div>
 <ccms:PageFooter runat="server"/>

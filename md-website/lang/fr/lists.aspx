@@ -41,7 +41,7 @@
 			<div class="title">Mailing lists MonoDevelop</div>
 			<p>
 			Les mailing lists suivantes ont &eacute;t&eacute; cr&eacute;&eacute;es pour MonoDevelop. Toutes ces listes
-			fournissent l'inscription, la d&eacute;sinscription et des options d'archivage.
+			fournissent l&#39;inscription, la d&eacute;sinscription et des options d&#39;archivage.
 			</p>
 			<p>
 				<table border="1">

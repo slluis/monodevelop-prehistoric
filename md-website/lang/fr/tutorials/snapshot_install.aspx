@@ -3,7 +3,7 @@
     "http://www.w3c.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html>
 	<head>
-		<title>Installation de MonoDevelop au départ d'un snapshot</title>
+		<title>Installation de MonoDevelop au d&eacute;art d&#39;un snapshot</title>
 		<link rel="stylesheet" media="screen" href="/styles.css" type="text/css"></link>
 	</head>
 	<body>
@@ -39,7 +39,7 @@
 		<div id="content">
 			<div class="title">Installer un snapshot</div>
 			<br />
-			<p>Ce didacticiel n'est pas encore disponible.</p>
+			<p>Ce didacticiel n&#39;est pas encore disponible.</p>
 			<br />
 			<br />
 			<hr width="90%" />
