@@ -277,7 +277,7 @@ namespace MonoDevelop.Internal.Project
 					File.Delete(tempFile);
 					return;
 				} catch (Exception) {
-					messageService.ShowError(GettextCatalog.GetString ("Error writing the old project file.\nCheck if you have write permission on the project file (.prjx).\n A non persistent proxy project will be created but no changes will be saved.\nIt is better if you close SharpDevelop and correct the problem."));
+					messageService.ShowError(GettextCatalog.GetString ("Error writing the old project file.\nCheck if you have write permission on the project file (.prjx).\n A non persistent proxy project will be created but no changes will be saved.\nIt is better if you close MonoDevelop and correct the problem."));
 					if (File.Exists(tempFile)) {
 						doc.Load(tempFile);
 						File.Delete(tempFile);

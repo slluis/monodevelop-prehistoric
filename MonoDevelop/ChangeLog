@@ -1,3 +1,9 @@
+2004-05-27  Martin Willemoes Hansen  <mwh@sysrq.dk>
+
+	* po/da_DK.po: Additional translations and corrections
+	* src/Main/Base/Internal/Project/Project/AbstractProject.cs: Fixed error msg, 
+	SharpDevelop replaced with MonoDevelop
+
 2004-05-26  Martin Willemoes Hansen  <mwh@sysrq.dk>
 
 	* configure.in: Added da_DK
