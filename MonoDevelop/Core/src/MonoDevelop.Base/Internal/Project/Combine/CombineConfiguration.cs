@@ -40,7 +40,7 @@ namespace MonoDevelop.Internal.Project
 			
 			public CombineEntry entry;
 			
-			[ItemProperty ("configurationname")]
+			//[ItemProperty ("configurationname")]
 			public string ConfigurationName;
 			
 			[ItemProperty ("build")]
@@ -87,7 +87,7 @@ namespace MonoDevelop.Internal.Project
 			Config conf = new Config();
 			conf.Entry = combine;
 			conf.ConfigurationName = combine.ActiveConfiguration != null ? combine.ActiveConfiguration.Name : String.Empty;
-			conf.Build = false;
+			conf.Build = true;
 			configurations.Add(conf);
 		}
 		

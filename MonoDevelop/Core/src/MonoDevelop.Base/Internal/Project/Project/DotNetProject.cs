@@ -61,6 +61,7 @@ namespace MonoDevelop.Internal.Project
 			
 			configuration = CreateConfiguration ();
 			configuration.Name = "Release";
+			configuration.DebugMode = false;
 			configuration.CompilationParameters = languageBinding.CreateCompilationParameters (projectOptions);
 			Configurations.Add (configuration);
 			
