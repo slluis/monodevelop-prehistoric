@@ -331,6 +331,7 @@ namespace CSharpBinding
 			ProcessStartInfo si = new ProcessStartInfo("/bin/sh -c \"" + command + "\"");
 			si.RedirectStandardOutput = true;
 			si.RedirectStandardError = true;
+			si.UseShellExecute = false;
 			Process p = new Process();
 			p.StartInfo = si;
 			p.Start();

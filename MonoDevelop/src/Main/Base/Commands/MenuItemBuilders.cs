@@ -165,6 +165,7 @@ namespace MonoDevelop.Commands
 						} else {
 							startinfo = new ProcessStartInfo(command, args);
 						}
+						startinfo.UseShellExecute = false;
 						
 						startinfo.WorkingDirectory = stringParserService.Parse(tool.InitialDirectory);
 						

@@ -86,7 +86,6 @@ namespace MonoDevelop.Core.AddIns
 			
 			if (ignoreDefaultCoreDirectory == false) {
 				addInFiles = fileUtilityService.SearchDirectory(defaultCoreDirectory, "*.addin");
-				foreach (string i in addInFiles) { Console.WriteLine (i); }
 				retryList  = InsertAddIns(addInFiles);
 			}
 			else

@@ -66,6 +66,7 @@ namespace CSharpBinding
 			if (parameters.ExecuteScript != null && parameters.ExecuteScript.Length > 0) {
 				//Console.WriteLine("EXECUTE SCRIPT!!!!!!");
 				psi = new ProcessStartInfo("\"" + parameters.ExecuteScript + "\"");
+				psi.UseShellExecute = false;
 			} else {
 				string runtimeStarter = "mono ";
 				
@@ -83,8 +84,10 @@ namespace CSharpBinding
 						string.Format (
 						@"-x bash -c ""{0} '{1}{2}' {3} ; echo; read -p 'press any key to continue...' -n1""",
 						runtimeStarter, directory, exe, args));
+					psi.UseShellExecute = false;
 				} else {
 					psi = new ProcessStartInfo(runtimeStarter, "\"" + directory + exe + "\" " + args);
+					psi.UseShellExecute = false;
 				}
 			}
 			

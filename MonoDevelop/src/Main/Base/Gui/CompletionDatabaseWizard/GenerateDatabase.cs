@@ -121,6 +121,7 @@ namespace MonoDevelop.Gui.Dialogs.OptionPanels.CompletionDatabaseWizard
 			Console.WriteLine ("******************************************************************************");
 			// not everyone can run .exe's directly
 			System.Diagnostics.ProcessStartInfo psi = new System.Diagnostics.ProcessStartInfo ("mono", "MonoDevelop.exe");
+			psi.UseShellExecute = false;
 			System.Diagnostics.Process.Start (psi);
 			Gtk.Application.Quit ();
 
