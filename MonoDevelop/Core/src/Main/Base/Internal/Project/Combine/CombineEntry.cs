@@ -272,7 +272,6 @@ namespace MonoDevelop.Internal.Project
 	{
 		int Count { get; }
 		CombineEntry this [int n] { get; }
-		IEnumerator GetEnumerator ();
 	}
 	
 	public class CombineEntryCollection: ICombineEntryCollection

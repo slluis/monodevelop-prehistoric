@@ -151,6 +151,8 @@ namespace CSharpBinding
 					switch (lib.ReferenceType) {
 					case ReferenceType.Gac:
 						string pkg = sas.GetPackageFromFullName (lib.Reference);
+						if (pkg.Trim () == String.Empty)
+							continue;
 						if (pkg == "MONO-SYSTEM") {
 							writer.WriteLine ("\"/r:" + Path.GetFileName (lib.GetReferencedFileName (project)) + "\"");
 						} else if (!pkg_references.Contains (pkg)) {
@@ -352,6 +354,8 @@ namespace CSharpBinding
 				switch (lib.ReferenceType) {
 				case ReferenceType.Gac:
 					string pkg = sas.GetPackageFromFullName (lib.Reference);
+					if (pkg.Trim == String.Empty)
+						continue;
 					if (pkg == "MONO-SYSTEM") {
 						system_references.Add (Path.GetFileName (lib.GetReferencedFileName (project)));
 					} else if (!pkg_references.Contains (pkg)) {

@@ -60,6 +60,8 @@
 		       class = "MonoDevelop.Services.AmbienceService"/>
 		<Class id    = "MenuService"
 		       class = "MonoDevelop.Services.MenuService"/>
+		<Class id    = "ProcessService"
+		       class = "MonoDevelop.Services.ProcessService"/>
 	</Extension>
 
 	<Extension path = "/SharpDevelop/Workbench/DisplayBindings">

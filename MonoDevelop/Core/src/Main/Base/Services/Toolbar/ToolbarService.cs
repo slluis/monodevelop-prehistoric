@@ -56,7 +56,8 @@ namespace MonoDevelop.Services
 				
 				if (childCodon.ToolTip != null) {
 					if (childCodon.ToolTip == "-") {
-						bar.AppendSpace();
+						//bar.Insert (new SeparatorToolItem (), -1);
+						bar.AppendSpace ();
 						continue;
 					} else {
 						item = new SdToolbarCommand(childCodon.Conditions, owner, GettextCatalog.GetString (childCodon.ToolTip));

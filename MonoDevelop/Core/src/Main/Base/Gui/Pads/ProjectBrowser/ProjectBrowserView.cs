@@ -246,7 +246,7 @@ namespace MonoDevelop.Gui.Pads.ProjectBrowser
 
 		public void StealFocus ()
 		{
-			Gtk.Timeout.Add (20, new Gtk.Function (wantFocus));
+			GLib.Timeout.Add (20, new GLib.TimeoutHandler (wantFocus));
 		}
 		bool wantFocus ()
 		{

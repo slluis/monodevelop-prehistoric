@@ -6,6 +6,7 @@ namespace MonoDevelop.Services
 {
 	public class Runtime
 	{
+		static ProcessService processService;
 		static PropertyService propertyService;
 		static AmbienceService ambienceService;
 		static DispatchService dispatchService;
@@ -21,6 +22,14 @@ namespace MonoDevelop.Services
 		static LanguageBindingService languageBindingService;
 		static SystemAssemblyService systemAssemblyService;
 		static FileUtilityService fileUtilityService;
+
+		public static ProcessService ProcessService {
+			get {
+				if (processService == null)
+					processService = (ProcessService) ServiceManager.GetService (typeof(ProcessService));
+				return processService;
+			}
+		}
 	
 		public static PropertyService Properties {
 			get {

@@ -1,3 +1,23 @@
+2004-12-21  Todd Berman  <tberman@off.net>
+
+	* Services/Toolbar/ToolbarService.cs:
+	* Gui/Workbench/Layouts/SdiWorkspaceLayout.cs:
+	* Gui/Dialogs/CommonAboutDialog.cs:
+	* Gui/Pads/ProjectBrowser/ProjectBrowserView.cs:
+	* Gui/BrowserDisplayBinding/HtmlViewPane.cs:
+	* Internal/Project/Project/ConvertXml.cs:
+	* Internal/Project/Combine/CombineEntry.cs: Remove/Fix code causing
+	warnings.
+
+2004-12-21  Sander Rijken  <sr+ximianbugs@d-90.nl>
+
+	* Services/ProcessService/ProcessService.cs: 
+	* Services/ProcessService/ProcessWrapper.cs:
+	* Services/Runtime.cs: Add new ProcessService property.
+	* Makefile.am: Add new files.
+	* Commands/MenuItemBuilders.cs: Wire the console output of external
+	tools to the output pad.
+
 2004-12-21  Lluis Sanchez Gual  <lluis@novell.com>
 
 	* Services/DispatchService/DispatchService.cs: Removed unneded check

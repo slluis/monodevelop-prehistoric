@@ -55,7 +55,7 @@ namespace MonoDevelop.BrowserDisplayBinding
 					htmlViewPane.MozillaControl.OpenStream ("file://", "text/html");
 					htmlViewPane.MozillaControl.AppendData (((Gtk.TextView)((Gtk.ScrolledWindow)parent.Control).Children[0]).Buffer.Text);
 					htmlViewPane.MozillaControl.CloseStream ();
-					Gtk.Timeout.Add (50, new Gtk.Function (checkFocus));
+					GLib.Timeout.Add (50, new GLib.TimeoutHandler (checkFocus));
 					
 				} catch {
 					Console.WriteLine ("Gecko# tossed an exception");

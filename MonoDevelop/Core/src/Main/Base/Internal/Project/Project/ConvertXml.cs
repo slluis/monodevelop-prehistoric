@@ -114,17 +114,17 @@ namespace MonoDevelop.Internal.Project
 			
 			XPathDocument inputData = new XPathDocument(oXML);
 			
-			return xslt.Transform(inputData, xsltArgList);
+			return xslt.Transform(inputData, xsltArgList, new XmlSecureResolver (new XmlUrlResolver (), new PermissionSet (PermissionState.Unrestricted)));
 		}
 		
 		public static XmlReader TransformXmlToXml(XmlReader oXML, XmlReader XSLReader, XsltArgumentList xsltArgList)
 		{
 			XslTransform xslt = new XslTransform();
-			xslt.Load(XSLReader, new XmlUrlResolver());
+			xslt.Load(XSLReader, new XmlSecureResolver (new XmlUrlResolver (), new PermissionSet (PermissionState.Unrestricted)), null);
 			
 			XPathDocument inputData = new XPathDocument(oXML);
 			
-			return xslt.Transform(inputData, xsltArgList );
+			return xslt.Transform(inputData, xsltArgList, new XmlSecureResolver (new XmlUrlResolver (), new PermissionSet (PermissionState.Unrestricted)));
 		}
 		
 		/// <summary>

@@ -1,3 +1,8 @@
+2004-12-21  Sander Rijken  <sr+ximianbugs@d-90.nl>
+
+	* SharpDevelopCore.addin.xml: Add ProcessService to services that 
+	should be initialized.
+
 2004-12-11  Alexandre Gomes <alexmipego@hotmail.com>
 	
 	* SharpDevelopCode.addin.xml: Added menus entries for Indent and

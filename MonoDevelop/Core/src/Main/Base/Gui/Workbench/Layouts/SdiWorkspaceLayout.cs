@@ -411,7 +411,7 @@ namespace MonoDevelop.Gui
 			SdiWorkspaceWindow sdiWorkspaceWindow = new SdiWorkspaceWindow(content, tabControl, tabLabel);
 
 			sdiWorkspaceWindow.CloseEvent += new EventHandler(CloseWindowEvent);
-			tabControl.AppendPage (sdiWorkspaceWindow, tabLabel);
+			tabControl.InsertPage (sdiWorkspaceWindow, tabLabel, -1);
 		
 			tabControl.ShowAll();
 			return sdiWorkspaceWindow;

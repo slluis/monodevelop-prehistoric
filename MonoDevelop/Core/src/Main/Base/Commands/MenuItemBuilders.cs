@@ -169,25 +169,47 @@ namespace MonoDevelop.Commands
 					
 					// create the process
 					try {
-						ProcessStartInfo startinfo;
-						if (args == null || args.Length == 0) {
-							startinfo = new ProcessStartInfo(command);
-						} else {
-							startinfo = new ProcessStartInfo(command, args);
-						}
-						startinfo.UseShellExecute = false;
-						
-						startinfo.WorkingDirectory = stringParserService.Parse(tool.InitialDirectory);
-						
-						// FIXME: need to find a way to wire the console output into the output window if specified
-						Process.Start(startinfo);
-						
+						string workingDirectory = stringParserService.Parse(tool.InitialDirectory);
+						if (tool.UseOutputPad)
+							Runtime.ProcessService.StartProcess (command, args, workingDirectory, new ProcessEventHandler (OnStdOut), new ProcessEventHandler (OnStdErr), new EventHandler (OnExited));
+						else
+							Runtime.ProcessService.StartProcess (command, args, workingDirectory, new EventHandler (OnExited));
 					} catch (Exception ex) {
 						Runtime.MessageService.ShowError(ex, String.Format (GettextCatalog.GetString ("External program execution failed.\nError while starting:\n '{0} {1}'"), command, args));
 					}
 					break;
 				}
 			}
+		}
+		
+		private void OnStdOut (object sender, string s)
+		{
+			lock (Runtime.TaskService.CompilerOutput)
+			{
+				Runtime.TaskService.CompilerOutput += s + Environment.NewLine;
+			}
+		}
+		
+		private void OnStdErr (object sender, string s)
+		{
+			lock (Runtime.TaskService.CompilerOutput)
+			{
+				Runtime.TaskService.CompilerOutput += s + Environment.NewLine;
+			}
+		}
+		
+		private void OnExited (object sender, EventArgs e)
+		{
+			ProcessWrapper wrapper = (ProcessWrapper)sender;
+			
+			lock (Runtime.TaskService.CompilerOutput)
+			{ 
+				if (wrapper.ExitCode == 0) {
+					Runtime.TaskService.CompilerOutput += string.Format("{0}Process {1} has completed succesfully.{0}", Environment.NewLine, wrapper.ProcessName); 
+				} else {
+					Runtime.TaskService.CompilerOutput += string.Format("{0}Process {1} has exited with errorcode {2}.{0}", Environment.NewLine, wrapper.ProcessName, wrapper.ExitCode);
+				}
+			}		
 		}
 	}
 	

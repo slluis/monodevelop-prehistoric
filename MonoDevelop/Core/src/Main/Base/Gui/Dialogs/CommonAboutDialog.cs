@@ -12,10 +12,10 @@ using MonoDevelop.Gui;
 using MonoDevelop.Core.Properties;
 using MonoDevelop.Core.Services;
 using MonoDevelop.Services;
-//using MonoDevelop.Gui.HtmlControl;
 
 using Gdk;
 using Gtk;
+using GLib;
 using Pango;
 
 namespace MonoDevelop.Gui.Dialogs
@@ -24,12 +24,12 @@ namespace MonoDevelop.Gui.Dialogs
 	{
 		Pixbuf image;
 		int scroll = -220;
-		uint hndlr;
+		IdleHandler hndlr;
 		Pango.Font font;
 		bool initial = true;
 		Pango.Layout layout;
 		
-		internal uint Handler
+		internal IdleHandler Handler
 		{
 			get { return hndlr; }
 		}
@@ -65,8 +65,8 @@ namespace MonoDevelop.Gui.Dialogs
 			
 			image = Runtime.Gui.Resources.GetBitmap ("Icons.AboutImage");
 			
-			Gtk.Function ScrollHandler = new Gtk.Function (ScrollDown);
-			hndlr = Timeout.Add (30, ScrollHandler);
+			hndlr = new GLib.IdleHandler (ScrollDown);
+			GLib.Idle.Add (hndlr);
 		}
 
 		string CreditText {
@@ -121,7 +121,7 @@ namespace MonoDevelop.Gui.Dialogs
 		
 		protected void OnExposed (object o, ExposeEventArgs args)
 		{
-			this.DrawImage ();	
+			this.DrawImage ();
 			this.DrawText ();
 		}
 
@@ -174,20 +174,8 @@ namespace MonoDevelop.Gui.Dialogs
 		public new int Run ()
 		{
 			int tmp = base.Run ();
-			Timeout.Remove (aboutPictureScrollBox.Handler);
+			GLib.Idle.Remove (aboutPictureScrollBox.Handler);
 			return tmp;
 		}
-		
-		//private void OnPageChanged (object o, SwitchPageArgs args)
-		//{
-			//if (args.PageNum == 1)
-			//{
-			//	aatp.DelayedInitialize ();
-			//}
-			//else if (args.PageNum == 2)
-			//{
-			//	changelog.DelayedInitialize ();
-			//}
-		//}
 	}
 }

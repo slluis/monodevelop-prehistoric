@@ -183,6 +183,8 @@ Services/AmbienceService/AbstractAmbience.cs \
 Services/AmbienceService/CodeDOMGeneratorUtility.cs \
 Services/AmbienceService/NetAmbience.cs \
 Services/AmbienceService/IAmbience.cs \
+Services/ProcessService/ProcessService.cs \
+Services/ProcessService/ProcessWrapper.cs \
 Services/Project/ProjectEventArgs.cs \
 Services/Project/IProjectService.cs \
 Services/Project/ProjectRenameEventArgs.cs \
