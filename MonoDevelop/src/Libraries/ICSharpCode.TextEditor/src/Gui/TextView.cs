@@ -15,6 +15,7 @@ using System.Text;
 using ICSharpCode.TextEditor.Document;
 
 using Gdk;
+using Pango;
 
 namespace ICSharpCode.TextEditor
 {
@@ -24,10 +25,10 @@ namespace ICSharpCode.TextEditor
 	public class TextView : AbstractMargin
 	{
 		int          fontHeight;
-		Hashtable    charWitdh           = new Hashtable();
+		Hashtable    charWidth           = new Hashtable();
 		Highlight    highlight;
 	
-		Pango.Layout _layout; // Avoid building new layouts all the time
+		Layout _layout; // Avoid building new layouts all the time
 		
 		public Highlight Highlight {
 			get {
@@ -83,14 +84,14 @@ namespace ICSharpCode.TextEditor
 		
 		public TextView(TextArea textArea) : base(textArea)
 		{
-			_layout = new Pango.Layout(textArea.PangoContext);
+			_layout = new Layout(textArea.PangoContext);
 			OptionsChanged();
 		}
 		
 		public void OptionsChanged()
 		{
 			this.fontHeight = (int) Math.Ceiling(GetHeight(TextEditorProperties.Font));
-			this.charWitdh  = new Hashtable();
+			this.charWidth  = new Hashtable();
 		}
 		
 #region Paint functions
@@ -124,13 +125,12 @@ namespace ICSharpCode.TextEditor
 			HighlightBackground background = (HighlightBackground)textArea.Document.HighlightingStrategy.GetColorFor("DefaultColor");
 			//Brush               backgroundBrush = textArea.Sensitive ? new SolidBrush(background.BackgroundColor) : SystemBrushes.InactiveBorder;
 			
-			
 			if (textArea.Sensitive) {
 				backgroundGC.RgbFgColor = new Gdk.Color(background.BackgroundColor);
-//				backgroundGC.RgbBgColor = new Gdk.Color(background.Color);
 			} else {
-				backgroundGC.RgbFgColor = new Gdk.Color(background.BackgroundColor);
-//				backgroundGC.RgbBgColor = new Gdk.Color(background.Color); // TODO gray out
+				Gdk.Color grey = new Gdk.Color ();
+				Gdk.Color.Parse ("grey", ref grey);
+				backgroundGC.RgbFgColor = grey;
 			}
 			
 			if (lineNumber >= textArea.Document.TotalNumberOfLines) {
@@ -308,6 +308,7 @@ namespace ICSharpCode.TextEditor
 			}
 		}
 		
+		// FIXME: draw the whole line using Pango
 		float DrawDocumentWord(Gdk.Drawable g, string word, PointF position, Pango.FontDescription font, System.Drawing.Color foreColor, Gdk.GC gc)
 		{
 			if (word == null || word.Length == 0) {
@@ -331,7 +332,6 @@ namespace ICSharpCode.TextEditor
 		
 #region Conversion Functions
 		private float GetHeight(Pango.FontDescription font) {
-				//Pango.Layout ly = new Pango.Layout(TextArea.PangoContext);
 				Pango.Layout ly = _layout;
 				ly.FontDescription = font;
 				ly.SetText("Wwgq|$%?*_-");
@@ -348,14 +348,13 @@ namespace ICSharpCode.TextEditor
 			if (ch == ' ') {
 				return GetWidth(g, 'w'); // Hack! FIXME PEDRO
 			}		
-			object width = charWitdh[ch];
+			object width = charWidth[ch];
 			if (width == null) {
-				//Pango.Layout ly = new Pango.Layout(TextArea.PangoContext);
 				Pango.Layout ly = _layout;
 				ly.SetText(ch.ToString());
 				
-				charWitdh[ch] = (float) (ly.Size.Width/1024.0f - 1); // Hack! I don't know why it works substracting 1. FIXME PEDRO
-				return (float)charWitdh[ch];
+				charWidth[ch] = (float) (ly.Size.Width/1024.0f - 1); // Hack! I don't know why it works substracting 1. FIXME PEDRO
+				return (float)charWidth[ch];
 			}
 			return (float)width;
 		}
@@ -528,7 +527,6 @@ namespace ICSharpCode.TextEditor
 		
 		float DrawString(Gdk.Drawable g, Gdk.GC gc, Pango.FontDescription font, float x, float y, string s) 
 		{
-			//Pango.Layout ly = new Pango.Layout(TextArea.PangoContext);
 			Pango.Layout ly = _layout;
 			ly.FontDescription = font;
 			ly.SetText(s);
