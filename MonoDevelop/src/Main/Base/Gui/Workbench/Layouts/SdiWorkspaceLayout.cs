@@ -381,7 +381,11 @@ namespace ICSharpCode.SharpDevelop.Gui
 		void ActiveMdiChanged(object sender, SwitchPageArgs e)
 		{
 			try {
-				((Gtk.Window)WorkbenchSingleton.Workbench).Title = ActiveWorkbenchwindow.ViewContent.ContentName + " - MonoDevelop";
+				if (ActiveWorkbenchwindow.ViewContent.IsUntitled) {
+					((Gtk.Window)WorkbenchSingleton.Workbench).Title = "MonoDevelop";
+				} else {
+					((Gtk.Window)WorkbenchSingleton.Workbench).Title = ActiveWorkbenchwindow.ViewContent.ContentName + " - MonoDevelop";
+				}
 			} catch {
 				((Gtk.Window)WorkbenchSingleton.Workbench).Title = "MonoDevelop";
 			}
