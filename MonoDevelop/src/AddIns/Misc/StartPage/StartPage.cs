@@ -21,7 +21,7 @@ namespace ICSharpCode.StartPage
 	public class StartPageView : AbstractViewContent
 	{
 		// defining the control variables used
-		HtmlControl htmlControl;
+		MozillaControl htmlControl;
 		
 		// return the panel that contains all of our controls
 		public override Gtk.Widget Control {
@@ -70,17 +70,17 @@ namespace ICSharpCode.StartPage
 		// Default constructor: Initialize controls and display recent projects.
 		public StartPageView()
 		{
-			htmlControl = new HtmlControl();
+			htmlControl = new MozillaControl ();
 			PropertyService propertyService = (PropertyService)ServiceManager.Services.GetService(typeof(PropertyService));
-			htmlControl.CascadingStyleSheet = propertyService.DataDirectory + Path.DirectorySeparatorChar +
-			                                  "resources" + Path.DirectorySeparatorChar +
-			                                  "startpage" + Path.DirectorySeparatorChar +
-			                                  "Layout" + Path.DirectorySeparatorChar +
-			                                  "default.css";
+			//htmlControl.CascadingStyleSheet = propertyService.DataDirectory + Path.DirectorySeparatorChar +
+			//                                  "resources" + Path.DirectorySeparatorChar +
+			 //                                 "startpage" + Path.DirectorySeparatorChar +
+			  //                                "Layout" + Path.DirectorySeparatorChar +
+			    //                              "default.css";
 			
 			htmlControl.Html = page.Render(curSection);
 			htmlControl.ShowAll ();
-			htmlControl.BeforeNavigate += new BrowserNavigateEventHandler(HtmlControlBeforeNavigate);
+			//htmlControl.BeforeNavigate += new BrowserNavigateEventHandler(HtmlControlBeforeNavigate);
 			
 			StringParserService stringParserService = (StringParserService)ServiceManager.Services.GetService(typeof(StringParserService));
 			// Description of the tab shown in #develop
@@ -88,6 +88,11 @@ namespace ICSharpCode.StartPage
 			
 			IProjectService projectService = (IProjectService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
 			projectService.CombineOpened += new CombineEventHandler(HandleCombineOpened);
+		}
+		
+		public void DelayedInitialize ()
+		{
+			htmlControl.DelayedInitialize ();
 		}
 		
 		void HandleCombineOpened(object sender, CombineEventArgs e)

@@ -4,7 +4,6 @@ using System.Drawing;
 
 using ICSharpCode.Core.AddIns;
 using ICSharpCode.Core.AddIns.Codons;
-
 using ICSharpCode.SharpDevelop.Gui;
 
 namespace ICSharpCode.StartPage {
@@ -19,10 +18,12 @@ namespace ICSharpCode.StartPage {
 					return;
 				}
 			}
-//			if (SharpDevelopMain.CommandLineArgs != null) {
-				//FIXME: commenting out until this actually works
-				//WorkbenchSingleton.Workbench.ShowView(new StartPageView());
-//			}
+			//if (SharpDevelopMain.CommandLineArgs != null) {
+				StartPageView spv = new StartPageView ();
+				WorkbenchSingleton.Workbench.ShowView(spv);
+				spv.DelayedInitialize ();
+				
+			//}
 		}
 	}
 }
