@@ -1,0 +1,4 @@
+04-02-2004  John Luke  <jluke@cfl.rr.com>
+
+	* Makefile.am:  remove ununused CsVbRefactory from SUBDIRS
+
