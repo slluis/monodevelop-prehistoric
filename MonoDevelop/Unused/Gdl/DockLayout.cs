@@ -401,14 +401,14 @@ namespace Gdl
 			// FIXME: notebooks don't get names ...
 			if (node.Name == "notebook") {
 				DockNotebook dn = new DockNotebook ();
-				//dn.Master = master;
+				dn.Bind (master);
 				dn.FromXml (node);
 				return dn;
 			}
 			// FIXME: paned don't get names ...
 			if (node.Name == "paned") {
 				DockPaned dp = new DockPaned ();
-				//dp.Master = master;
+				dp.Bind (master);
 				dp.FromXml (node);
 				return dp;
 			}
