@@ -40,6 +40,7 @@ namespace Gdl
 			Child = new Notebook ();
 			Child.Parent = this;
 			((Notebook)Child).TabPos = PositionType.Bottom;
+			// FIXME: enable these if we do a DockTabLabel
 			//((Notebook)Child).SwitchPage += new SwitchPageHandler (SwitchPageCb);
 			//((Notebook)Child).ButtonPressEvent += new ButtonPressEvent (ButtonPressCb);
 			//((Notebook)Child).ButtonReleaseEvent += new ButtonReleaseEvent (ButtonReleaseCb);
@@ -50,12 +51,15 @@ namespace Gdl
 		
 		protected void SwitchPageHandler (object o, SwitchPageArgs e)
 		{
-			//Does this code need to be ported at all?
+			// FIXME: port this if we do a DockTabLabel
 		}
 
 		protected override void OnDestroyed ()
 		{
+			// this first
 			base.OnDestroyed ();
+
+			// after that we can remove the GtkNotebook
 			if (Child != null) {
 				Child.Unparent ();
 				Child = null;
