@@ -73,10 +73,4 @@
                      class = "JavaBinding.JavaLanguageBinding" />
   </Extension>
 
-  <Extension path = "/SharpDevelop/Views/ProjectBrowser/NodeBuilders">
-    <Class id = "JavaNodeBuilder"
-           insertbefore = "DefaultBuilder"
-           class = "JavaBinding.JavaNodeBuilder"/>
-  </Extension>
-
 </AddIn>

@@ -1,4 +1,4 @@
- - fix execution from MD
+ - fix regluar java templates
  - make classpath handling better
  - support turning a jar to a dll simply
  - support more java compilers (like ecj)

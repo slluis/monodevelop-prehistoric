@@ -13,8 +13,7 @@ Gui/ProjectConfigurationPropertyPanel.cs \
 Project/JavaCompilerParameters.cs \
 JavaBindingCompilerServices.cs \
 JavaCompiler.cs \
-JavaLanguageBinding.cs \
-ProjectTreeBuilder/JavaNodeBuilder.cs
+JavaLanguageBinding.cs
 
 TEMPLATES = \
 templates/EmptyJavaFile.xft.xml \

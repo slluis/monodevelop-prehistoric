@@ -1,3 +1,14 @@
+2005-02-05  John Luke  <john.luke@gmail.com>
+
+	* Makefile.am
+	* JavaBinding.addin.xml: remove custom node builder
+	* ProjectTreeBuilder/JavaNodeBuilder.cs: remove custom
+	node builder in favor of using the default so references
+	can be added (ikvm projects need IKVM.GNU.Classpath.dll and
+	IKVM.Runtime.dll)
+	* JavaBindingCompilerServices.cs: work like the C# bindings,
+	error parsing is broken but Im pretty sure it already was
+
 2005-01-24  Lluis Sanchez Gual  <lluis@novell.com>
 
 	* JavaBindingCompilerServices.cs: 
