@@ -26,7 +26,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 	public class WizardDialog : Dialog
 	{
 		StatusPanel       statusPanel  = null;
-		//CurrentPanelPanel curPanel     = null;
+		CurrentPanelPanel curPanel     = null;
 		
 		Gtk.Frame             dialogPanel  = new Gtk.Frame();
 
@@ -188,10 +188,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 				statusPanel.GdkWindow.InvalidateRect (new Rectangle (0, 0, 400, 400), true);
 				dialogPanel.Remove (dialogPanel.Child);
 			}
-			//curPanel.Refresh();
-			
 			//Control panelControl = CurrentWizardPane.Control;
-			//panelControl.Dock    = DockStyle.Fill;
 			dialogPanel.Add(CurrentWizardPane.Control);
 
 			this.ShowAll ();
@@ -224,10 +221,6 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 			panel.IsLastPanel = false;
 			ShowNextPanelEvent(sender, e);
 			panel.IsLastPanel = isLast;
-			this.Hide ();
-			//ShowMustRestart ();
-			//Application.Quit ();
-			
 		}
 		
 		void ShowNextPanelEvent(object sender, EventArgs e)
@@ -308,9 +301,10 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 			cancelButton = new Button (Stock.Cancel);
 			cancelButton.Clicked += new EventHandler(CancelEvent);
 			
-			this.AddActionWidget (backButton, 1);
-			this.AddActionWidget (nextButton, 2);
-			this.AddActionWidget (finishButton, 3);
+			// don't emit response for back and next
+			this.ActionArea.PackStart (backButton);
+			this.ActionArea.PackStart (nextButton);
+			this.AddActionWidget (finishButton, (int) ResponseType.Close);
 			this.AddActionWidget (cancelButton, (int) ResponseType.Cancel);
 			
 //			helpButton.Text = resourceService.GetString("Global.HelpButtonText");
@@ -323,13 +317,6 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 			topbox.PackStart (dialogPanel);
 
 			this.VBox.PackStart (topbox);
-		}
-		
-		private void ShowMustRestart ()
-		{
-			MessageDialog md = new MessageDialog (this, DialogFlags.Modal | DialogFlags.DestroyWithParent, MessageType.Info, ButtonsType.Ok, "You must restart MonoDevelop now.");
-			md.Run ();
-			md.Hide ();
 		}
 	}
 }
