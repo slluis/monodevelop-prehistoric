@@ -66,12 +66,12 @@ namespace ICSharpCode.SharpDevelop.Gui.Components
 		
 		public void OnDropDown(object ob, System.EventArgs e)
 		{
-			/*foreach (object o in ((Gtk.Menu)Submenu).Children) {
+			foreach (object o in ((Gtk.Menu)Submenu).Children) {
 			
 				if (o is IStatusUpdate) {
 					((IStatusUpdate)o).UpdateStatus();
 				}
-			}*/
+			}
 			UpdateStatus ();
 		}
 		
