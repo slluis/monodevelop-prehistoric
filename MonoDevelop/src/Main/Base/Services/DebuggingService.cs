@@ -179,7 +179,7 @@ namespace MonoDevelop.Services
 			backend = null;
 		}
 
-		private void OnBreakpointHit (Breakpoint pointFromDbg)
+		private void OnBreakpointHit (Breakpoint pointFromDbg, StackFrame frame)
 		{
 			point = pointFromDbg;
 			Gtk.Timeout.Add (1, new Gtk.Function (MainThreadNotify));
