@@ -1,0 +1,61 @@
+File
+	Print				
+	PrintPreview
+Edit
+	Format
+		Remove Leading Ws	
+		Remove Traling Ws	
+		SortLines		
+		Leading Tab to Spaces   
+		Leading Spaces to Tabs	
+	Folding
+		Toggle folds		
+		Toggle all folds	
+		Show definitions only	
+	Word Count			
+
+View
+	Project
+	Output
+	Classes
+	Files
+	Show start page
+
+Search
+	Find in Files
+	Replace in Files
+	Toogle Bookmark
+	Prev Bookmark
+	Next Bookmark
+	Clear All Bookmarks
+
+Run
+	Build Combine
+	Rebuild Combine
+	Build $ {Project Name}
+	Rebuild $ {Project Name}
+	Run
+
+Tools
+	NotePad
+	NProf
+	IL Dasm
+	Insert Color
+	AutoCode Generations
+	Quick XML doc
+
+Window
+	Next Window
+	Prev Window
+	Split
+Help
+	Help Topics
+	Readme
+	Coding Style Guide
+	Web
+
+
+Right click Pop Up menu
+
+      File Mode			Crashes
+      Buffer Options
