@@ -31,6 +31,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 				Glade.XML gplDialog = new Glade.XML (null, "Base.glade", "GPLDialog", null);
 				gplDialog.Autoconnect (this);
 				GPLDialog.DefaultResponse = (int) ResponseType.Close;
+				GPLDialog.TransientFor = (Gtk.Window) WorkbenchSingleton.Workbench;
  				StreamReader streamReader = new StreamReader (filename);
  				view.Buffer.Text = streamReader.ReadToEnd ();
 			}

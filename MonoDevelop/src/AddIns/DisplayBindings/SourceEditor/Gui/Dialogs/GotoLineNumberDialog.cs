@@ -10,7 +10,6 @@ using System.IO;
 using System.Resources;
 
 using ICSharpCode.Core.Properties;
-
 using ICSharpCode.Core.Services;
 
 using Gtk;
@@ -32,6 +31,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 		
 		public void Run ()
 		{
+			GotoLineDialog.TransientFor = (Gtk.Window) WorkbenchSingleton.Workbench;
 			GotoLineDialog.ShowAll ();
 			IsVisible = true;
 			GotoLineDialog.Run ();
