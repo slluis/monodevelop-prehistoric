@@ -127,5 +127,47 @@ namespace MonoDevelop.Core.Services
 				md.Hide ();
 			}
 		}
+		
+		// call this method to show a dialog and get a response value
+		// returns null if cancel is selected
+		public string GetTextResponse(string question, string caption, string initialValue)
+		{
+			string returnValue = null;
+			
+			using (Gtk.Dialog md = new Gtk.Dialog (caption, (Gtk.Window) WorkbenchSingleton.Workbench, Gtk.DialogFlags.Modal | Gtk.DialogFlags.DestroyWithParent)) {
+				// add a label with the question
+				Gtk.Label questionLabel = new Gtk.Label(question);
+				questionLabel.UseMarkup = true;
+				questionLabel.Xalign = 0.0F;
+				md.VBox.PackStart(questionLabel, true, false, 6);
+				
+				// add an entry with initialValue
+				Gtk.Entry responseEntry = (initialValue != null) ? new Gtk.Entry(initialValue) : new Gtk.Entry();
+				md.VBox.PackStart(responseEntry, false, true, 6);
+				
+				// add action widgets
+				md.AddActionWidget(new Gtk.Button(Gtk.Stock.Cancel), Gtk.ResponseType.Cancel);
+				md.AddActionWidget(new Gtk.Button(Gtk.Stock.Ok), Gtk.ResponseType.Ok);
+				
+				md.VBox.ShowAll();
+				md.ActionArea.ShowAll();
+				md.HasSeparator = false;
+				md.BorderWidth = 6;
+				
+				int response = md.Run ();
+				md.Hide ();
+				
+				if ((Gtk.ResponseType) response == Gtk.ResponseType.Ok) {
+					returnValue =  responseEntry.Text;
+				}
+			}
+			
+			return returnValue;
+		}
+		
+		public string GetTextResponse(string question, string caption)
+		{
+			return GetTextResponse(question, caption, string.Empty);
+		}
 	}
 }

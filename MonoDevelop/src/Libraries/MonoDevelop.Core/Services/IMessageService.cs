@@ -49,5 +49,9 @@ namespace MonoDevelop.Core.Services
 		bool AskQuestionFormatted(string formatstring, params string[] formatitems);
 		bool AskQuestion(string question, string caption);
 		bool AskQuestionFormatted(string caption, string formatstring, params string[] formatitems);
+		
+		// used to return text input from a user in response to a question
+		string GetTextResponse(string question, string caption, string initialValue);
+		string GetTextResponse(string question, string caption);
 	}
 }

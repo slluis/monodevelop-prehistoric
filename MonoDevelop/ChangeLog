@@ -1,3 +1,12 @@
+2004-03-20	John BouAntoun  <jba-mono@optusnet.com.au>
+
+	* src/Main/Base/Commands/MenuItemBuilders.cs : made it prompt 
+	user for launching exteranl tool if set in options
+	* src/Main/Base/Services/MessageService.cs: added generic 
+	text prompting dialog, GetTextResponse() for above change:
+	* src/Libraries/MonoDevelop.Core/Services/IMessageService.cs: 
+	added prototype for GetTextResponse() for above change:
+
 2004-03-19  John Luke  <jluke@cfl.rr.com>
 
 	* src/Main/Base/Gui/IProgressMonitor.cs:

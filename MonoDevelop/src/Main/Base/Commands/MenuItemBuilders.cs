@@ -130,14 +130,34 @@ namespace MonoDevelop.Commands
 			IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
 			StringParserService stringParserService = (StringParserService)ServiceManager.Services.GetService(typeof(StringParserService));
 			FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.Services.GetService(typeof(FileUtilityService));
+			MessageService messageService =(MessageService)ServiceManager.Services.GetService(typeof(MessageService));
 			
 			for (int i = 0; i < ToolLoader.Tool.Count; ++i) {
 				if (item.Text == ToolLoader.Tool[i].ToString()) {
+					
 					ExternalTool tool = (ExternalTool)ToolLoader.Tool[i];
+					// set the command
 					string command = tool.Command;
-					string args    = stringParserService.Parse(tool.Arguments);
+					// set the args
+					string args = stringParserService.Parse(tool.Arguments);
+					// prompt for args if needed
+					if (tool.PromptForArguments) {
+						args = messageService.GetTextResponse(
+							"Enter any arguments you want to use while launching tool, " + tool.MenuCommand + ":",
+							"Command Arguments for " + tool.MenuCommand,
+							args);
+							
+						// if user selected cancel string will be null
+						if (args == null) {
+							args = stringParserService.Parse(tool.Arguments);
+						}
+					}
+					
+					// debug command and args
 					Console.WriteLine("command : " + command);
 					Console.WriteLine("args    : " + args);
+					
+					// create the process
 					try {
 						ProcessStartInfo startinfo;
 						if (args == null || args.Length == 0) {
@@ -148,12 +168,10 @@ namespace MonoDevelop.Commands
 						
 						startinfo.WorkingDirectory = stringParserService.Parse(tool.InitialDirectory);
 						
-						// FIXME: need to find a way to prompt for the user arguments						
 						// FIXME: need to find a way to wire the console output into the output window if specified
 						Process.Start(startinfo);
 						
-					} catch (Exception ex) {
-						IMessageService messageService =(IMessageService)ServiceManager.Services.GetService(typeof(IMessageService));
+					} catch (Exception ex) {						
 						messageService.ShowError(ex, "External program execution failed.\nError while starting:\n '" + command + " " + args + "'");
 					}
 						break;
