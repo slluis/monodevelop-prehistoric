@@ -1,3 +1,9 @@
+2004-05-30  Todd Berman  <tberman@sevenl.net>
+
+	* Commands/AutostartCommands: Remove some dead code.
+	* Services/ParserService/DefaultParserService.cs: Properly setup
+	the pathing so it works without an existing setup.
+
 2004-05-30  Lluis Sanchez Gual  <lluis@ximian.com>
 
 	* Services/ParserService/DefaultParserService.cs: Don't use the "Gac:"

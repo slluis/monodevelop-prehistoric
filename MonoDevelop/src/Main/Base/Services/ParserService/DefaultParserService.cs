@@ -226,12 +226,17 @@ namespace MonoDevelop.Services
 		void SetDefaultCompletionFileLocation()
 		{
 			PropertyService propertyService = (PropertyService)ServiceManager.Services.GetService(typeof(PropertyService));
-			string path = (propertyService.GetProperty("SharpDevelop.CodeCompletion.DataDirectory", String.Empty).ToString());
-			FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.Services.GetService(typeof(FileUtilityService));
-			codeCompletionPath = fileUtilityService.GetDirectoryNameWithSeparator(path);
-			if (!Directory.Exists (codeCompletionPath)) {
-				Directory.CreateDirectory (codeCompletionPath);
+			FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.Services.GetService (typeof (FileUtilityService));
+			string path = propertyService.GetProperty("SharpDevelop.CodeCompletion.DataDirectory", String.Empty).ToString();
+			if (path == String.Empty) {
+                        	path = Path.Combine (fileUtilityService.GetDirectoryNameWithSeparator(propertyService.ConfigDirectory), "CodeCompletionData");
+				propertyService.SetProperty ("SharpDevelop.CodeCompletion.DataDirectory", path);
+				propertyService.SaveProperties ();
 			}
+                        if (!Directory.Exists (path))
+                                Directory.CreateDirectory (path);
+
+			codeCompletionPath = fileUtilityService.GetDirectoryNameWithSeparator(path);
 		}
 
 		public override void InitializeService()

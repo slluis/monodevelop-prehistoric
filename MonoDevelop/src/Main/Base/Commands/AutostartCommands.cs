@@ -38,7 +38,6 @@ namespace MonoDevelop.Commands
 			DefaultWorkbench w = new DefaultWorkbench();
 			WorkbenchSingleton.Workbench = w;
 			w.InitializeWorkspace();
-			PropertyService propertyService = (PropertyService)ServiceManager.Services.GetService(typeof(PropertyService));
 			w.UpdateViews(null, null);
 			WorkbenchSingleton.CreateWorkspace();
 			((Gtk.Window)w).Visible = false;
@@ -145,8 +144,6 @@ namespace MonoDevelop.Commands
 				return;
 			}
 		
-			ReflectionClass reflectionClass = new ReflectionClass(typeof(object));
-			
 			// register string tag provider (TODO: move to add-in tree :)
 			StringParserService stringParserService = (StringParserService)ServiceManager.Services.GetService(typeof(StringParserService));
 			stringParserService.RegisterStringTagProvider(new MonoDevelop.Commands.SharpDevelopStringTagProvider());
