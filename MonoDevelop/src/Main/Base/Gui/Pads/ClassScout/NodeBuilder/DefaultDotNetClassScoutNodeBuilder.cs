@@ -59,14 +59,14 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads
 			
 			ICompilationUnit unit = (ICompilationUnit)e.ParseInformation.MostRecentCompilationUnit;
 			foreach (IClass c in unit.Classes) {
-				classNode.Text = c.Name;
-				//classNode.SelectedImageIndex = classNode.ImageIndex = classBrowserIconService.GetIcon(c);
-				classNode.Image = classBrowserIconService.ImageList[classBrowserIconService.GetIcon(c)];
+				// TODO: Perf check
 				TreeNode node = GetNodeByPath(c.Namespace, parentNode.Nodes, false);
 				if (node != null) {
-					int oldIndex = SortUtility.BinarySearch(classNode, node.Nodes, TreeNodeComparer.Default);
-					if(oldIndex >= 0) {
-						node.Nodes[oldIndex].Remove();
+					foreach (TreeNode nd in node.Nodes) {
+						if (nd.Text == c.Name) {
+							nd.Remove ();
+							return;
+						}
 					}
 				}
 			}
@@ -76,10 +76,8 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads
 		{
 			TreeNode newNode = BuildClassTreeNode((IProject)projectNode.Tag, imageIndexOffset);
 			projectNode.Nodes.Clear();
-			foreach (TreeNode node in newNode.Nodes) {
+			foreach (TreeNode node in newNode.Nodes)
 				projectNode.Nodes.Add(node);
-			}
-			SortUtility.QuickSort(projectNode.Nodes, TreeNodeComparer.Default);
 		}
 
 		public TreeNode BuildClassTreeNode(IProject p, int imageIndexOffset)
@@ -139,7 +137,8 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads
 				
 				TreeNode classNode = BuildClassNode(filename, c);
 				if(classNode != null) {
-					SortUtility.SortedInsert(classNode, node.Nodes, TreeNodeComparer.Default);
+					node.Nodes.Add (classNode);
+					
 					if (wasExpanded) {
 						classNode.Expand();
 					}
@@ -209,7 +208,6 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads
 				classNode.Nodes.Add(eventNode);
 			}
 			
-			SortUtility.QuickSort(classNode.Nodes, TreeNodeComparer.Default);
 			return classNode;
 		}
 		
@@ -232,7 +230,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads
 						//newnode.ImageIndex = newnode.SelectedImageIndex = classBrowserIconService.NamespaceIndex;
 						newnode.Image = classBrowserIconService.ImageList[classBrowserIconService.NamespaceIndex];
 
-						SortUtility.SortedInsert(newnode, curcollection, TreeNodeComparer.Default);
+						curcollection.Add (newnode);
 						curnode = newnode;
 						curcollection = curnode.Nodes;
 						continue;

@@ -99,7 +99,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads
 			// TODO
 		}
 		
-		public ClassScout()
+		public ClassScout() : base (false, TreeNodeComparer.GtkDefault)
 		{
 			addParseInformationHandler = new ParseInformationEventHandler(OnParseInformationAdded);
 			removeParseInformationHandler = new ParseInformationEventHandler(OnParseInformationRemoved);
@@ -323,7 +323,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads
 					Populate(((CombineCombineEntry)entry).Combine, combineNode.Nodes);
 				}
 			}
-			SortUtility.QuickSort(combineNode.Nodes, TreeNodeComparer.Default);
+			
 			nodes.Add(combineNode);
 		}
 

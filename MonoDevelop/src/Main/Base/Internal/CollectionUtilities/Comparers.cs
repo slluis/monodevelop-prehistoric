@@ -107,6 +107,7 @@ namespace System.Collections.Specialized
 		public static IComparer Default    = new TreeNodeComparer();
 		public static IComparer ProjectNode = new ProjectNodeComparer();
 		public static Gtk.TreeIterCompareFunc GtkProjectNode = new Gtk.TreeIterCompareFunc (GtkProjectNodeComparer);
+		public static Gtk.TreeIterCompareFunc GtkDefault = new Gtk.TreeIterCompareFunc (GtkDefaultComparer);
 			
 		static int GtkProjectNodeComparer (Gtk.TreeModel model, Gtk.TreeIter a, Gtk.TreeIter b)
 		{
@@ -131,6 +132,15 @@ namespace System.Collections.Specialized
 				return -1;
 			}
 			return x.Text.CompareTo(y.Text);
+		}
+		
+		static int GtkDefaultComparer (Gtk.TreeModel model, Gtk.TreeIter a, Gtk.TreeIter b)
+		{
+			Gtk.TreeStore ts = (Gtk.TreeStore) model;
+			TreeNode x = (TreeNode) ts.GetValue (a, 2);
+			TreeNode y = (TreeNode) ts.GetValue (b, 2);
+			
+			return x.Text.CompareTo (y.Text);
 		}
 		
 		protected TreeNodeComparer() {}
