@@ -13,8 +13,9 @@ namespace MonoDevelop.SourceEditor.Gui {
 		public readonly SourceEditorView View;
 		public readonly SourceEditorDisplayBindingWrapper DisplayBinding;
 		
-		public SourceEditor (SourceEditorDisplayBindingWrapper bind)
+		public SourceEditor (SourceEditorDisplayBindingWrapper bind) : base ()
 		{
+			ShadowType = Gtk.ShadowType.In;
 			DisplayBinding = bind;
 			Buffer = new SourceEditorBuffer ();
 			

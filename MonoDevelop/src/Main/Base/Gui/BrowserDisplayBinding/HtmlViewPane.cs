@@ -162,7 +162,7 @@ namespace ICSharpCode.SharpDevelop.BrowserDisplayBinding
 		{
 			//RequestSize = new Size (500, 500);
 			
-			Shadow = Gtk.ShadowType.None;
+			Shadow = Gtk.ShadowType.In;
 			VBox mainbox = new VBox (false, 2);
 			
 			if (showNavigation) {
