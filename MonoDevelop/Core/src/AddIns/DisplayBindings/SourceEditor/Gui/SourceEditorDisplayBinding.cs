@@ -248,6 +248,7 @@ namespace MonoDevelop.SourceEditor.Gui
 			ContentNameChanged -= new EventHandler (UpdateFSW);
 			se.Dispose ();
 			fsw.Dispose ();
+			se = null;
 		}
 		
 		void OnModifiedChanged (object o, EventArgs e)
@@ -380,7 +381,7 @@ namespace MonoDevelop.SourceEditor.Gui
 		bool needsUpdate;
 		bool BounceAndGrab ()
 		{
-			if (needsUpdate) {
+			if (needsUpdate && se != null) {
 				cachedText = se.Buffer.Text;
 				needsUpdate = false;
 			}

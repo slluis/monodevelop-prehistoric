@@ -11,6 +11,10 @@ namespace MonoDevelop.SourceEditor.Gui
 		public SourceEditorView View;
 		public SourceEditorDisplayBindingWrapper DisplayBinding;
 		
+		protected SourceEditor (IntPtr ptr): base (ptr)
+		{
+		}
+		
 		public SourceEditor (SourceEditorDisplayBindingWrapper bind)
 		{
 			ShadowType = Gtk.ShadowType.In;
@@ -34,6 +38,7 @@ namespace MonoDevelop.SourceEditor.Gui
 			Remove (View);
 			View.Dispose ();
 			View = null;
+			DisplayBinding = null;
 			base.Dispose ();
 		}
 

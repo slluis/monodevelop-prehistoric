@@ -1,3 +1,9 @@
+2005-03-14  Lluis Sanchez Gual  <lluis@novell.com>
+
+	* Gui/SourceEditorWidget.cs: Added IntPtr constructor. Nullify
+	DisplayBinding field on dispose.
+	* Gui/SourceEditorDisplayBinding.cs: Set SourceEditor to null on dispose.
+
 2005-03-10  John Luke  <john.luke@gmail.com>
 
 	* Gui/SourceEditorView.cs:
