@@ -9,6 +9,10 @@
     <div id="header">
       <img src="/images/mono-develop.png" alt=""/>
     </div>
+    <div id="flags">
+      <a href="/"><img src="/images/flags/usa.png" /></a>
+      <a href="/lang/fr/"><img src="/images/flags/france.png" /></a>
+    </div>
     <div class="left-nav">
       <ul>
         <li><a href="/">Home</a></li>
@@ -20,9 +24,5 @@
 	<li><a href="/tutorial.aspx">Tutorials</a></li>
 	<li><a href="/faq.aspx">FAQ</a></li>
       </ul>
-    </div>
-    <div id="flags">
-      <a href="/"><img src="/images/flags/usa.png" /></a>
-      <a href="/lang/fr/"><img src="/images/flags/france.png" /></a>
     </div>
     <div id="content">
