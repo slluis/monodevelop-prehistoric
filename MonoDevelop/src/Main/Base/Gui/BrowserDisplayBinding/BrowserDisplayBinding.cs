@@ -41,5 +41,10 @@ namespace ICSharpCode.SharpDevelop.BrowserDisplayBinding
 		{
 			return null;
 		}
+		
+		public IViewContent CreateContentForLanguage(string languageName, string content, string new_file_name)
+		{
+			return null;
+		}
 	}
 }

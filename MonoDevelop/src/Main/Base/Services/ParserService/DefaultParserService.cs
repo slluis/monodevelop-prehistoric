@@ -540,10 +540,23 @@ namespace ICSharpCode.SharpDevelop.Services
 			return ParseFile(fileName, null);
 		}
 
-		public IParseInformation ParseFile(string fileName, string fileContent)
+		public IParseInformation ParseFile (string fileName, string fileContent)
 		{
-			IParser parser = GetParser(fileName);
+			return ParseFile (GetParser (fileName), fileName, fileContent);
+		}
+		
+		public IParseInformation ParseFile (string language, string fileName, string fileContent)
+		{
+			if (language == "C#" || language == "c#")
+				return ParseFile (parser[0], fileName, fileContent);
 			
+			return null;
+		}
+		
+				
+			
+		public IParseInformation ParseFile (IParser parser, string fileName, string fileContent)
+		{
 			if (parser == null) {
 				return null;
 			}
@@ -642,6 +655,18 @@ namespace ICSharpCode.SharpDevelop.Services
 			}
 			return (IParseInformation)cu;
 		}
+		public IParseInformation GetParseInformation(string fileName, string content)
+		{
+			if (fileName == null || fileName.Length == 0) {
+				return null;
+			}
+			object cu = parsings[fileName];
+			if (cu == null) {
+				return ParseFile(fileName, content);
+			}
+			return (IParseInformation)cu;
+		}
+		
 		
 		public virtual IParser GetParser(string fileName)
 		{
@@ -722,7 +747,27 @@ namespace ICSharpCode.SharpDevelop.Services
 //				return null;
 			//}
 		}
-
+		
+		public ResolveResult Resolve(string expression,
+		                             int caretLineNumber,
+		                             int caretColumn,
+		                             string fileName,
+		                             string fileContent,
+					     string language)
+		{
+			// added exception handling here to prevent silly parser exceptions from
+			// being thrown and corrupting the textarea control
+			//try {
+				IParser p = language == "c#" || language == "C#" ? parser[0] : null;
+				if (p != null) {
+					return p.Resolve(this, expression, caretLineNumber, caretColumn, fileName, fileContent);
+				}
+				return null;
+			//} catch {
+//				return null;
+			//}
+		}
+		
 		protected void OnParseInformationAdded(ParseInformationEventArgs e)
 		{
 			if (ParseInformationAdded != null) {

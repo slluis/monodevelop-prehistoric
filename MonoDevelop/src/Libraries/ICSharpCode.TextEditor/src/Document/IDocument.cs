@@ -71,6 +71,10 @@ namespace ICSharpCode.TextEditor.Document
 			get;
 		}
 		
+		string Language {
+			get; set;
+		}
+		
 //		/// <summary>
 //		/// The <see cref="SelectionManager"/> attached to the <see cref="IDocument"/> instance
 //		/// </summary>

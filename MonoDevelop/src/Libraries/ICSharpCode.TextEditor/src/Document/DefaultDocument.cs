@@ -195,6 +195,12 @@ namespace ICSharpCode.TextEditor.Document
 			}
 		}
 		
+		string language;
+		public string Language {
+			get { return language; }
+			set { language = value; }
+		}
+		
 		public string TextContent {
 			get {
 				return GetText(0, textBufferStrategy.Length);

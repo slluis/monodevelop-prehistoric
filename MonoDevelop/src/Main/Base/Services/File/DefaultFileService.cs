@@ -114,7 +114,7 @@ namespace ICSharpCode.SharpDevelop.Services
 			IDisplayBinding binding = displayBindingService.GetBindingPerLanguageName(language);
 			
 			if (binding != null) {
-				IViewContent newContent = binding.CreateContentForLanguage(language, content);
+				IViewContent newContent = binding.CreateContentForLanguage(language, content, defaultName);
 				if (newContent == null) {
 					throw new ApplicationException(String.Format("Created view content was null{3}DefaultName:{0}{3}Language:{1}{3}Content:{2}", defaultName, language, content, Environment.NewLine));
 				}

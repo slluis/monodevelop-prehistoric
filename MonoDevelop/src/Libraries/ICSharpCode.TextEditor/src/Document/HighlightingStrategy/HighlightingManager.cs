@@ -19,7 +19,7 @@ namespace ICSharpCode.TextEditor.Document
 		static HighlightingManager highlightingManager;
 		
 		Hashtable highlightingDefs = new Hashtable();
-		Hashtable extensionsToName = new Hashtable();
+		internal Hashtable extensionsToName = new Hashtable();
 		
 		public Hashtable HighlightingDefinitions {
 			get {

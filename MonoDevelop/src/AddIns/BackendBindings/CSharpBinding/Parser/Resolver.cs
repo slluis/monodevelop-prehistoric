@@ -94,7 +94,8 @@ namespace CSharpBinding.Parser
 			this.caretColumn   = caretColumn;
 			
 			this.parserService = parserService;
-			IParseInformation parseInfo = parserService.GetParseInformation(fileName);
+			IParseInformation parseInfo = parserService.GetParseInformation (fileName, fileContent);
+			
 			ICSharpCode.SharpRefactory.Parser.AST.CompilationUnit fileCompilationUnit = parseInfo.MostRecentCompilationUnit.Tag as ICSharpCode.SharpRefactory.Parser.AST.CompilationUnit;
 			if (fileCompilationUnit == null) {
 //				ICSharpCode.SharpRefactory.Parser.Parser fileParser = new ICSharpCode.SharpRefactory.Parser.Parser();

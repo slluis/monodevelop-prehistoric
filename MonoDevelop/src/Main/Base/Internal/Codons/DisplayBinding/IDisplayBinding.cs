@@ -58,5 +58,7 @@ namespace ICSharpCode.Core.AddIns.Codons
 		/// A newly created IViewContent object.
 		/// </returns>
 		IViewContent CreateContentForLanguage(string languageName, string content);
+		
+		IViewContent CreateContentForLanguage(string languageName, string content, string new_file_name);
 	}
 }

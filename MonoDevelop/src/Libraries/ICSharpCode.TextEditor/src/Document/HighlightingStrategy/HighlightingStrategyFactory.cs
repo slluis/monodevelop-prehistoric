@@ -42,5 +42,11 @@ namespace ICSharpCode.TextEditor.Document
 			}
 			return highlightingStrategy;
 		}
+		
+		// HACK: this shouldnt be here ;-)
+		public static string LanguageFromFile (string file)
+		{
+			return (string) HighlightingManager.Manager.extensionsToName [Path.GetExtension(file).ToUpper()];
+		}
 	}
 }

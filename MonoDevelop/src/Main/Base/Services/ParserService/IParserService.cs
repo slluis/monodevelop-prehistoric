@@ -43,6 +43,7 @@ namespace ICSharpCode.SharpDevelop.Services
 		IParseInformation ParseFile(string fileName, string fileContent);
 
 		IParseInformation GetParseInformation(string fileName);
+		IParseInformation GetParseInformation(string fileName, string fileContent);
 
 		IParser GetParser(string fileName);
 
@@ -62,6 +63,13 @@ namespace ICSharpCode.SharpDevelop.Services
 		                      int caretColumn,
 		                      string fileName,
 		                      string fileContent);
+				      
+		ResolveResult Resolve(string expression,
+		                      int caretLineNumber,
+		                      int caretColumn,
+		                      string fileName,
+		                      string fileContent,
+				      string language);
 
 		void AddReferenceToCompletionLookup(IProject project, ProjectReference reference);
 

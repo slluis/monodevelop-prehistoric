@@ -52,6 +52,8 @@ namespace ICSharpCode.SharpDevelop.DefaultEditor.Gui.Editor
 		public ICompletionData[] GenerateCompletionData(string fileName, TextArea textArea, char charTyped)
 		{
 			IDocument document =  textArea.Document;
+			Console.WriteLine ("resolve " + document.Language);
+			Console.WriteLine ("nm " + fileName);
 			completionData = new ArrayList();
 			this.fileName = fileName;
 			
@@ -90,11 +92,14 @@ namespace ICSharpCode.SharpDevelop.DefaultEditor.Gui.Editor
 			} else {
 				//FIXME: I added the null check, #D doesnt need it, why do we?
 				if (fileName != null) {
+					Console.WriteLine ("resolve " + document.Language);
+					Console.WriteLine ("resolve " + document.TextContent);
 					results = parserService.Resolve(expression, 
 				                                caretLineNumber,
 				                                caretColumn,
 				                                fileName,
-				                                document.TextContent);
+				                                document.TextContent,
+								document.Language);
 				
 					AddResolveResults(results);
 				}

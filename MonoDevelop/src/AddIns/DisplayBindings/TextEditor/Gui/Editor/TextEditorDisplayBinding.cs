@@ -61,6 +61,7 @@ namespace ICSharpCode.SharpDevelop.DefaultEditor.Gui.Editor
 #endif
 			b2.Load(fileName);
 			b2.textAreaControl.Document.HighlightingStrategy = HighlightingStrategyFactory.CreateHighlightingStrategyForFile(fileName);
+			b2.textAreaControl.Document.Language = HighlightingStrategyFactory.LanguageFromFile (fileName);
 			b2.textAreaControl.InitializeFormatter();
 			return b2;
 		}
@@ -71,9 +72,24 @@ namespace ICSharpCode.SharpDevelop.DefaultEditor.Gui.Editor
 			StringParserService stringParserService = (StringParserService)ServiceManager.Services.GetService(typeof(StringParserService));
 			b2.textAreaControl.Document.TextContent = stringParserService.Parse(content);
 			b2.textAreaControl.Document.HighlightingStrategy = HighlightingStrategyFactory.CreateHighlightingStrategy(language);
+			Console.WriteLine (language);
+			b2.textAreaControl.Document.Language = language;
 			b2.textAreaControl.InitializeFormatter();
 			return b2;
-		}		
+		}
+		
+		public virtual IViewContent CreateContentForLanguage(string language, string content, string new_file_name)
+		{
+			TextEditorDisplayBindingWrapper b2 = new TextEditorDisplayBindingWrapper();
+			StringParserService stringParserService = (StringParserService)ServiceManager.Services.GetService(typeof(StringParserService));
+			b2.textAreaControl.Document.TextContent = stringParserService.Parse(content);
+			b2.textAreaControl.Document.HighlightingStrategy = HighlightingStrategyFactory.CreateHighlightingStrategy(language);
+			Console.WriteLine (language);
+			b2.textAreaControl.Document.Language = language;
+			b2.textAreaControl.FileName = new_file_name;
+			b2.textAreaControl.InitializeFormatter();
+			return b2;
+		}	
 	}
 	
 	public class TextEditorDisplayBindingWrapper : AbstractViewContent, IMementoCapable, IPrintable, IEditable, IPositionable, ITextEditorControlProvider, IParseInformationListener, IClipboardHandler
