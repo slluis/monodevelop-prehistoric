@@ -13,20 +13,16 @@ using System.Globalization;
 using System.Text;
 using ICSharpCode.SharpRefactory.Parser;
 
-namespace ICSharpCode.SharpRefactory.Parser
-{
-	public class Token
-	{
-		public int kind;
+namespace ICSharpCode.SharpRefactory.Parser {
+	public struct Token {
+		public readonly int kind;
 		
-		public int col;
-		public int line;
+		public readonly int col;
+		public readonly int line;
 		
-		public object literalValue = null;
-		public string val;
-		public Token  next;
-//		public ArrayList specials;
-		
+		public readonly object literalValue;
+		public readonly string val;
+
 		public Point EndLocation {
 			get {
 				return new Point(col + val.Length, line);
@@ -38,21 +34,14 @@ namespace ICSharpCode.SharpRefactory.Parser
 			}
 		}
 		
-		public Token()
-		{
-		}
-		
 		public Token(int kind)
 		{
 			this.kind = kind;
+			this.col  = 0;
+			this.line = 0;
+			this.val  = null;
+			this.literalValue = null;
 		}
-		
-//		public Token(Tokens kind, int col, int line)
-//		{
-//			this.kind = kind;
-//			this.col  = col;
-//			this.line = line;
-//		}
 		
 		public Token(int kind, int col, int line, string val)
 		{
@@ -60,6 +49,7 @@ namespace ICSharpCode.SharpRefactory.Parser
 			this.col  = col;
 			this.line = line;
 			this.val  = val;
+			this.literalValue = null;
 		}
 		
 		public Token(int kind, int col, int line, string val, object literalValue)
@@ -72,6 +62,8 @@ namespace ICSharpCode.SharpRefactory.Parser
 		}
 	}
 	
+
+	
 	public class Lexer
 	{
 		IReader reader;
@@ -81,12 +73,19 @@ namespace ICSharpCode.SharpRefactory.Parser
 		int line = 1;
 		
 		Errors errors   = new Errors();
+		class TokenLink {
+			public Token t;
+			public TokenLink next;
+			
+			public TokenLink (Token t) { this.t = t; }
+		}
 		
 //		SpecialTracker specialTracker = new SpecialTracker();
 		
-		Token lastToken = null;
-		Token curToken  = null;
-		Token peekToken = null;
+		TokenLink lastToken = null;
+		TokenLink curToken  = null;
+		TokenLink peekToken = null;
+		TokenLink reuse;
 		
 		public Errors Errors {
 			get {
@@ -96,13 +95,13 @@ namespace ICSharpCode.SharpRefactory.Parser
 		
 		public Token Token {
 			get {
-				return lastToken;
+				return lastToken.t;
 			}
 		}
 		
 		public Token LookAhead {
 			get {
-				return curToken;
+				return curToken.t;
 			}
 		}
 		
@@ -114,48 +113,46 @@ namespace ICSharpCode.SharpRefactory.Parser
 		public Token Peek()
 		{
 			if (peekToken.next == null) {
-				peekToken.next = Next();
-//				peekToken.next.specials = this.specialTracker.RetrieveSpecials();
+				if (reuse != null) {
+					reuse.t = Next ();
+					peekToken.next = reuse;
+					reuse = null;
+				} else
+					peekToken.next = new TokenLink (Next());
 			}
+				
 			peekToken = peekToken.next;
-			return peekToken;
+			return peekToken.t;
 		}
 		
 		public Token NextToken()
 		{
 			if (curToken == null) {
-				curToken = Next();
-//				curToken.specials = this.specialTracker.RetrieveSpecials();
-				return curToken;
+				curToken = new TokenLink (Next());
+				return curToken.t;
 			}
 			
-//			if (lastToken != null && lastToken.specials != null) {
-//				curToken.specials.InsertRange(0, lastToken.specials);
-//			}
+			reuse = lastToken;
+			// make sure we dont keep a chain around
+			if (reuse != null)
+				reuse.next = null;
 			
 			lastToken = curToken;
 			
 			if (curToken.next == null) {
-				curToken.next = Next();
-//				curToken.next.specials = this.specialTracker.RetrieveSpecials();
+				
+				if (reuse != null) {
+					reuse.t = Next ();
+					curToken.next = reuse;
+					reuse = null;
+				} else
+					curToken.next = new TokenLink (Next());
 			}
 			
 			curToken  = curToken.next;
-			return curToken;
+			return curToken.t;
 		}
-		
-//		public ArrayList RetrieveSpecials()
-//		{
-//			if (lastToken == null) {
-//				return this.specialTracker.RetrieveSpecials();
-//			}
-//			
-//			Debug.Assert(lastToken.specials != null);
-//			
-//			ArrayList tmp = lastToken.specials;
-//			lastToken.specials = null;
-//			return tmp;
-//		}
+
 		
 		static string[] keywordStrings = {
 			"abstract",
@@ -320,7 +317,7 @@ namespace ICSharpCode.SharpRefactory.Parser
 				Token token = ReadOperator(ch);
 				
 				// try error recovery :)
-				if (token == null) {
+				if (token.kind == -1) {
 					return Next();
 				}
 				return token;
@@ -889,7 +886,7 @@ namespace ICSharpCode.SharpRefactory.Parser
 					return new Token(Tokens.OpenCurlyBrace, x, y, "{");
 				default:
 					--col;
-					return null;
+					return new Token (-1);
 			}
 		}
 		
