@@ -101,6 +101,7 @@ build/data/templates/project/CSharp/Makefile
 build/data/templates/project/Java/Makefile
 build/data/templates/project/Misc/Makefile
 build/data/templates/project/VBNet/Makefile
+build/doc/Makefile
 build/AddIns/Makefile
 build/AddIns/AddIns/Makefile
 build/AddIns/AddIns/BackendBindings/Makefile

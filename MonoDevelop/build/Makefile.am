@@ -1,3 +1,3 @@
-SUBDIRS = data AddIns
+SUBDIRS = data AddIns doc
 
 all:
