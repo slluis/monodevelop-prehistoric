@@ -1,5 +1,10 @@
 2004-06-25  Todd Berman  <tberman@off.net>
 
+	* Gui/Dialogs/SharpDevelopAboutPanels.cs: Removing ASP mention at
+	the request of Mike Krueger.
+
+2004-06-25  Todd Berman  <tberman@off.net>
+
 	* Gui/AbstractViewContent.cs: Make PathRelativeToProject not store in
 	a string, and always be correct, no matter if the file is new, or has
 	been moved since being loaded.

@@ -45,15 +45,10 @@ namespace MonoDevelop.Gui.Dialogs
 			HBox hboxVersion = new HBox ();
 			hboxVersion.PackStart (versionLabel, false, false, 5);
 			
-			//FIXME why do they align in the center always
 			HBox hboxLicense = new HBox ();
 			licenseLabel.Markup = String.Format ("<b>License</b>\n    {0}", GettextCatalog.GetString ("Released under the GNU General Public license."));
 			hboxLicense.PackStart (licenseLabel, false, false, 5);
 
-			// FIXME should this be translated
-			HBox hboxSponsor = new HBox ();
-			sponsorLabel.Markup = "<b>Sponsors</b>\n    SharpDevelop is sponsored by AlphaSierraPapa\n    <span foreground=\"blue\">http://www.AlphaSierraPapa.com</span>\n    <span foreground=\"blue\">http://icsharpcode.net/opensource/sd</span>";
-			hboxSponsor.PackStart (sponsorLabel, false, false, 5);
 
 			HBox hboxCopyright = new HBox ();
 			copyrightLabel.Markup = "<b>Copyright</b>\n    (c) 2000-2003 by icsharpcode.net\n    (c) 2004 by MonoDevelop contributors";
@@ -62,7 +57,6 @@ namespace MonoDevelop.Gui.Dialogs
 			this.PackStart (hboxVersion, false, true, 0);
 			this.PackStart (hboxLicense, false, true, 5);
 			this.PackStart (hboxCopyright, false, true, 5);
-			this.PackStart (hboxSponsor, false, true, 5);
 			this.ShowAll ();
 		}
 	}
