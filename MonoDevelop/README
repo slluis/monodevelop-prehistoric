@@ -31,15 +31,15 @@ make install
 
 Dependencies
 ------------
-Mono >= 0.30 with ICU enabled
-Gtk# cvs
+Mono >= 0.91 with ICU enabled
+Gtk# >= 0.91
 ORBit2 >= 2.8.3
 gnome-vfs >= 2.0
-monodoc >= 0.12
+monodoc >= 0.14
 mono debugger >= 0.6
 gtksourceview >= 0.7 (0.9.x is only for GNOME 2.6 users)
-gecko-sharp >= 0.1 (gtkmozembed-sharp in mono's cvs)
-gtksourceview-sharp from mono's cvs
+gecko-sharp >= 0.2 (gtkmozembed-sharp in mono's cvs)
+gtksourceview-sharp >= 0.1
 (gtksourceview is available on Red Carpet,
 on many of the OpenCarpet channels.)
 
