@@ -22,12 +22,12 @@ namespace Gdl
 		public DockItemGrip ()
 		{
 			this.Flags |= (int)Gtk.WidgetFlags.NoWindow;
-		
+			
 			Widget.PushCompositeChild ();
 			this.close_button = new Gtk.Button ();
 			Widget.PopCompositeChild ();
 			
-			this.close_button.Flags |= (int)Gtk.WidgetFlags.CanFocus;
+			this.close_button.Flags &= ~(int)Gtk.WidgetFlags.CanFocus;
 			this.close_button.Parent = this;
 			this.close_button.Relief = Gtk.ReliefStyle.None;
 			this.close_button.Show ();
@@ -42,7 +42,7 @@ namespace Gdl
 			this.iconify_button = new Gtk.Button ();
 			Widget.PopCompositeChild ();
 			
-			this.iconify_button.Flags |= (int)Gtk.WidgetFlags.CanFocus;
+			this.iconify_button.Flags &= ~(int)(Gtk.WidgetFlags.CanFocus);
 			this.iconify_button.Parent = this;
 			this.iconify_button.Relief = Gtk.ReliefStyle.None;
 			this.iconify_button.Show ();
@@ -218,7 +218,6 @@ namespace Gdl
 		protected override void OnMapped ()
 		{
 			base.OnMapped ();
-			Console.WriteLine ("Mapping the grip");
 			if (this.title_window != null) {
 				this.title_window.Show ();
 			}
@@ -333,9 +332,6 @@ namespace Gdl
 					area.Width -= this.icon_pixbuf.Width + 1;
 				}
 				this.EllipsizeLayout (area.Width);
-				Console.WriteLine ("Text: |" + this.title_layout.Text + "|");
-			} else {
-				Console.WriteLine ("title_window was null");
 			}
 		}
 		

@@ -272,6 +272,7 @@ namespace Gdl
 		protected override void OnSizeAllocated (Gdk.Rectangle allocation)
 		{
 			this.Allocation = allocation;
+			
 			if (this.IsRealized) {
 				this.GdkWindow.MoveResize (allocation.X, allocation.Y, allocation.Width, allocation.Height);
 			}
@@ -283,18 +284,17 @@ namespace Gdl
 				child_allocation.Width = allocation.Width - 2 * (border_width + this.Style.XThickness);
 				child_allocation.Height = allocation.Height - 2 * (border_width + this.Style.YThickness);
 				
-				Console.WriteLine (this.GripShown);
 				if (this.GripShown) {
 					Gdk.Rectangle grip_alloc = child_allocation;
 					Gtk.Requisition grip_req = this.grip.SizeRequest ();
 					if (this.Orientation == Gtk.Orientation.Horizontal) {
 						child_allocation.X += grip_req.Width;
 						child_allocation.Width -= grip_req.Width;
-						grip_alloc.Width = grip_req.Width;
+						//grip_alloc.Width = grip_req.Width;
 					} else {
 						child_allocation.Y += grip_req.Height;
 						child_allocation.Height -= grip_req.Height;
-						grip_alloc.Height = grip_req.Height;
+						//grip_alloc.Height = grip_req.Height;
 					}
 					if (this.grip != null) {
 						this.grip.SizeAllocate (grip_alloc);
