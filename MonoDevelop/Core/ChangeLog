@@ -1,3 +1,9 @@
+2004-09-20  Tim Gerla  <tim@gerla.net>
+
+	* configure.in:
+	* Makefile.am: add --disable-update-mimedb to disable calling
+		       update-mime-database on install. 
+
 2004-09-19  Enver ALTIN  <ealtin@parkyeri.com>
 
 	* configure.in: Added Turkish to ALL_LINGUAS.

@@ -21,11 +21,14 @@ xdgmimedir = $(gnome_data)/mime/packages
 xdgmime_DATA = monodevelop.xml
 
 install-data-hook:
+if ENABLE_UPDATE_MIMEDB
 	update-mime-database $(gnome_data)/mime
+endif
 
 uninstall-hook:
+if ENABLE_UPDATE_MIMEDB
 	update-mime-database $(gnome_data)/mime
-
+endif
 else
 
 install-data-hook:
