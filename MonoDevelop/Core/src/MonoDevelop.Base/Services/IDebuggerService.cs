@@ -36,10 +36,6 @@ namespace MonoDevelop.Services
 
 		string[] Backtrace { get; }
 
-		//FIXME: This is such a hack to workaround the fact that we
-		//cant use any debugger types. This returns a StackFrame
-		object CurrentFrame { get; }
-
 		string CurrentFilename { get; }
 		int CurrentLineNumber { get; }
 

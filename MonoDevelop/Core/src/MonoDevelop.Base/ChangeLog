@@ -1,3 +1,9 @@
+2005-04-06  Chris Toshok  <toshok@ximian.com>
+
+	* Services/IDebuggerService.cs: remove the CurrentFrame property,
+	as it's only used by the stuff inside the DebuggerAddIn anyway,
+	and the object typed property was bogus.
+
 2005-05-04	John Luke	<john.luke@gmail.com>
 
 	* Internal/Conditions/WorkbenchContextCondition.cs:
