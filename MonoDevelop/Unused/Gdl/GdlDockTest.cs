@@ -22,7 +22,7 @@ class T
 		
 		Dock dock = new Dock ();		
 		DockLayout layout = new DockLayout (dock);
-		DockBar dockbar = new DockBar (dock);
+		DockBar dockbar = dock.Master.DockBar;
 		
 		Box box = new HBox (false, 5);
 		box.PackStart (dockbar, false, false, 0);

@@ -11,9 +11,8 @@ namespace Gdl
 		DockMaster master;
 		Tooltips tooltips = new Tooltips ();
 		
-		public DockBar (Dock dock)
+		public DockBar ()
 		{
-			this.Attach (dock.Master);
 		}
 		
 		public DockMaster Master {
@@ -35,7 +34,7 @@ namespace Gdl
 			item.DockBar = this;
 			item.DockBarButton = button;
 			this.PackStart (button, false, false, 0);
-			button.ShowAll ();
+			this.ShowAll ();
 		}
 		
 		public void Attach (DockMaster master)
@@ -44,7 +43,6 @@ namespace Gdl
 				master.LayoutChanged -= OnLayoutChanged;
 
 			this.master = master;
-			master.DockBar = this;
 			master.LayoutChanged += OnLayoutChanged;
 		}
 		

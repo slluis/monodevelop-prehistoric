@@ -73,8 +73,12 @@ namespace Gdl
 			}
 		}
 
-		internal DockBar DockBar {
+		public DockBar DockBar {
 			get {
+				if (dockBar == null) {
+					dockBar = new DockBar ();
+					dockBar.Attach (this);
+				}
 				return dockBar;
 			}
 			set {
