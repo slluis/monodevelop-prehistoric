@@ -16,18 +16,15 @@ using MonoDevelop.Gui.Widgets;
 using MonoDevelop.Core.Services;
 using MonoDevelop.Core.Properties;
 using MonoDevelop.Core.AddIns.Codons;
-
 using MonoDevelop.Services;
 
 using Gtk;
 
 namespace CSharpBinding
 {
-	
-	//FIXME: i8n 
-
 	public class OutputOptionsPanel : AbstractOptionPanel
 	{
+		static MessageService messageService = (MessageService) ServiceManager.GetService (typeof (MessageService));
 
 		class OutputOptionsPanelWidget : GladeWidgetExtract 
 		{
@@ -72,14 +69,15 @@ namespace CSharpBinding
 					return true;
 				}
 				
-				FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.GetService(
-					typeof(FileUtilityService));
+				FileUtilityService fileUtilityService = (FileUtilityService) ServiceManager.GetService (typeof (FileUtilityService));
+
 				if (!fileUtilityService.IsValidFileName(assemblyNameEntry.Text)) {
-					//MessageService.ShowError("Invalid assembly name specified");
+					messageService.ShowError (GettextCatalog.GetString ("Invalid assembly name specified"));
 					return false;
 				}
+
 				if (!fileUtilityService.IsValidFileName (outputDirectoryEntry.Text)) {
-					//MessageService.ShowError("Invalid output directory specified");
+					messageService.ShowError (GettextCatalog.GetString ("Invalid output directory specified"));
 					return false;
 				}
 				
@@ -96,7 +94,6 @@ namespace CSharpBinding
 			
 			void SelectFolder(object sender, EventArgs e)
 			{
-				ResourceService res = (ResourceService)ServiceManager.GetService (typeof (ResourceService));
 				using (FileSelector fdiag = new FileSelector (GettextCatalog.GetString ("Select the directory in which the assembly will be created"))) {
 					if (fdiag.Run () == (int) ResponseType.Ok) {
 						outputDirectoryEntry.Text = fdiag.Filename;
