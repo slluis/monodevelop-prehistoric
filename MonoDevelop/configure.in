@@ -24,29 +24,33 @@ fi
 dnl Find mono
 MONO_REQUIRED_VERSION=0.30
 
-PKG_CHECK_MODULES(BASE_DEPENDENCIES, mono >= $MONO_REQUIRED_VERSION)
+PKG_CHECK_MODULES(BASE_DEPENDENCIES, mono >= $MONO_REQUIRED_VERSION, enable_mono=yes, enable_mono=no)
 
 dnl Find gtk-sharp
 GTKSHARP_REQUIRED_VERSION=0.17
 
-PKG_CHECK_MODULES(BASE_DEPENDENCIES, gtk-sharp >= $GTKSHARP_REQUIRED_VERSION) 
+PKG_CHECK_MODULES(BASE_DEPENDENCIES, gtk-sharp >= $GTKSHARP_REQUIRED_VERSION, enable_gtksharp=yes, enable_gtksharp=no) 
 
 GTKSOURCEVIEW_REQUIRED_VERSION=0.7
 
-PKG_CHECK_MODULES(BASE_DEPENDENCIES, gtksourceview-1.0 >= $GTKSOURCEVIEW_REQUIRED_VERSION)
-PKG_CHECK_MODULES(BASE_DEPENDENCIES, gtksourceview-sharp >= 0.1.0)
+PKG_CHECK_MODULES(BASE_DEPENDENCIES, gtksourceview-1.0 >= $GTKSOURCEVIEW_REQUIRED_VERSION, enable_gtksourceview=yes, enable_gtksourceview=no)
+PKG_CHECK_MODULES(BASE_DEPENDENCIES, gtksourceview-sharp >= 0.1.0, enable_gtksourceviewsharp=yes, enable_gtksourceviewsharp=no)
 GTKSOURCEVIEW_SHARP="`pkg-config --libs gtksourceview-sharp`"
 echo This is it: _ ${GTKSOURCEVIEW_SHARP} _
 AC_SUBST(GTKSOURCEVIEW_SHARP)
 
 dnl find gnome-vfs
 GNOMEVFS_REQUIRED_VERSION=2.0
-PKG_CHECK_MODULES(BASE_DEPENDENCIES, gnome-vfs-2.0 >= $GNOMEVFS_REQUIRED_VERSION)
+PKG_CHECK_MODULES(BASE_DEPENDENCIES, gnome-vfs-2.0 >= $GNOMEVFS_REQUIRED_VERSION, enable_gnomevfs=yes, enable_gnomevfs=no)
 
 dnl should this be a hard dep?
 dnl ORBIT2_REQUIRED_VERSION=2.8.3
 
 dnl PKG_CHECK_MODULES(BASE_DEPENDENCIES, ORBit-2.0 >= $ORBIT2_REQUIRED_VERSION)
+
+dnl find mozilla-gtkmozembed
+MOZGTK_REQUIRED_VERSION=1.2
+PKG_CHECK_MODULES(BASE_DEPENDENCIES, mozilla-gtkmozembed >= $MOZGTK_REQUIRED_VERSION, enable_gtkmoz=yes, enable_gtkmoz=no)
 
 MOZILLA_HOME="`$PKG_CONFIG --variable=libdir mozilla-gtkmozembed`"
 AC_SUBST(MOZILLA_HOME)
@@ -103,3 +107,21 @@ data/resources/Makefile
 data/resources/glade/Makefile
 monodevelop
 ])
+
+echo "---"
+echo "Configuration summary"
+echo ""
+echo "   * Installation prefix = $prefix"
+echo ""
+echo "      * gnomevfs: $enable_gnomevfs"
+echo "      * gtk-sharp: $enable_gtksharp"
+echo "      * gtkmozembed: $enable_gtkmoz"
+echo "      * gtksourceview: $enable_gtksourceview"
+echo "      * gtksourceview-sharp: $enable_gtksourceviewsharp"
+echo "      * mono: $enable_mono"
+echo ""
+echo "      NOTE: if any of the above say 'no' you may install the"
+echo "            corresponding development packages for them, and"
+echo "            rerun autogen.sh"
+echo ""
+echo "---"
