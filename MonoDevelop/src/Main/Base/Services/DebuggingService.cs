@@ -104,13 +104,10 @@ namespace MonoDevelop.Services
 				proc.Stop ();
 		}
 
-		public void Run (string[] argv)
+		private void initialized_event (ThreadManager manager, Process process)
 		{
-			if (Debugging)
-				return;
+			this.proc = process;
 
-			backend = new DebuggerBackend ();
-			proc = backend.Run (ProcessStart.Create (null, argv));
 			string[] keys = new string [breakpoints.Keys.Count];
 			breakpoints.Keys.CopyTo (keys, 0);
 			foreach (string key in keys) {
@@ -128,7 +125,18 @@ namespace MonoDevelop.Services
 				if (breakpoints [key] == null)
 					Console.WriteLine ("Couldn't insert breakpoint " + key);
 			}
+
 			proc.Continue (false);
+		}
+
+		public void Run (string[] argv)
+		{
+			if (Debugging)
+				return;
+
+			backend = new DebuggerBackend ();
+			backend.ThreadManager.InitializedEvent += new ThreadEventHandler (initialized_event);
+			backend.Run (ProcessStart.Create (null, argv));
 		}
 
 		public void Stop ()
