@@ -185,6 +185,7 @@ namespace ICSharpCode.TextEditor.Gui.CompletionWindow
 			listView.FocusOutEvent += new FocusOutEventHandler(LostFocusListView);
 			listView.RowActivated += new RowActivatedHandler(ActivateItem);
 			listView.AddEvents ((int) (Gdk.EventMask.KeyPressMask));
+			listView.Selection.Changed += new EventHandler (RowActivated);
 			//listView.SelectedIndexChanged += new EventHandler(SelectedIndexChanged);
 
 			/*
@@ -264,7 +265,7 @@ namespace ICSharpCode.TextEditor.Gui.CompletionWindow
 		void LostFocusListView(object sender, FocusOutEventArgs e)
 		{
 			control.HasFocus = true;
-			declarationviewwindow.Hide();
+			declarationviewwindow.HideAll ();
 			Hide();
 		}
 		
@@ -280,6 +281,19 @@ namespace ICSharpCode.TextEditor.Gui.CompletionWindow
 			}
 			// sort here
 			store.SetSortColumnId (0, SortType.Ascending);
+		}
+		
+		void RowActivated  (object sender, EventArgs a)
+		{
+			Gtk.TreeIter iter;
+			Gtk.TreeModel model;
+	
+			if (listView.Selection.GetSelected (out model, out iter)){
+				ICompletionData data = (ICompletionData) store.GetValue (iter, 2);
+				Console.WriteLine (data.Description);
+				declarationviewwindow.Description = data.Description;
+				declarationviewwindow.ShowAll ();
+			}
 		}
 	}
 }
