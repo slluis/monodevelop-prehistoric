@@ -44,6 +44,7 @@ namespace MonoDevelop.Services {
 		
 		byte[] GetBytes(string fileName)
 		{
+			Console.WriteLine (fileName);
 			FileStream fs = System.IO.File.OpenRead(fileName);
 			long size = fs.Length;
 			byte[] outArray = new byte[size];
@@ -89,8 +90,11 @@ namespace MonoDevelop.Services {
 					}
 				}
 			}
-			
-			System.Reflection.Assembly asm = nonLocking ? Assembly.Load(GetBytes(fileName)) : Assembly.LoadFrom(fileName);
+
+			//FIXME: Re-enable this code when the mono bug goes away, 0.32
+			//hopefully
+			//System.Reflection.Assembly asm = nonLocking ? Assembly.Load(GetBytes(fileName)) : Assembly.LoadFrom(fileName);
+			System.Reflection.Assembly asm = Assembly.LoadFrom (fileName);
 			foreach (Type type in asm.GetTypes()) {
 				if (!type.FullName.StartsWith("<") && !type.IsSpecialName && type.IsPublic) {
 					classes.Add(new ReflectionClass(type, docuNodes));

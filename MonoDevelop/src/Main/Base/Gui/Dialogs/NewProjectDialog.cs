@@ -158,7 +158,7 @@ namespace MonoDevelop.Gui.Dialogs {
 		void PathChanged (object sender, EventArgs e)
 		{
 			ActivateIfReady ();
-			lbl_will_save_in.Text = GettextCatalog.GetString("Dialog.NewProject.ProjectAtDescription") + " " + ProjectSolution;
+			lbl_will_save_in.Text = GettextCatalog.GetString("Project will be saved at") + " " + ProjectSolution;
 		}
 		
 		public bool IsFilenameAvailable(string fileName)

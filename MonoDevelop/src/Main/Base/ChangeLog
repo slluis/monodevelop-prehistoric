@@ -5,6 +5,12 @@
 
 2004-04-04  Todd Berman  <tberman@sevenl.net>
 
+	* Services/ParserService/AssemblyInformation.cs: workaround mono bug
+	with Assembly.Load (byte[]). (this fixes radek's bug)
+	* Gui/Dialogs/NewProjectDialog.cs: proper string
+
+2004-04-04  Todd Berman  <tberman@sevenl.net>
+
 	* Services/ParserService/DefaultParserService.cs: fix nullref
 
 2004-04-04  John Luke  <jluke@cfl.rr.com>
