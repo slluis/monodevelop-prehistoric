@@ -1,3 +1,7 @@
+2005-03-11  Lluis Sanchez Gual <lluis@novell.com>
+
+	* Internal/Project/Combine/Combine.cs: Fixed wrong event subscriptions.
+
 2005-03-11  Lluis Sanchez Gual  <lluis@novell.com>
 
 	* Services/Project/ProjectService.cs: Search for new files after the

@@ -186,8 +186,8 @@ namespace MonoDevelop.Internal.Project
 				project.FileAddedToProject += fileAddedToProjectHandler;
 				project.FileChangedInProject += fileChangedInProjectHandler;
 				project.FileRenamedInProject += fileRenamedInProjectHandler;
-				project.ReferenceRemovedFromProject += referenceAddedToProjectHandler;
-				project.ReferenceAddedToProject += referenceRemovedFromProjectHandler;
+				project.ReferenceRemovedFromProject += referenceRemovedFromProjectHandler;
+				project.ReferenceAddedToProject += referenceAddedToProjectHandler;
 			}
 			else if (entry is Combine)
 			{
@@ -196,8 +196,8 @@ namespace MonoDevelop.Internal.Project
 				combine.FileAddedToProject += fileAddedToProjectHandler;
 				combine.FileChangedInProject += fileChangedInProjectHandler;
 				combine.FileRenamedInProject += fileRenamedInProjectHandler;
-				combine.ReferenceRemovedFromProject += referenceAddedToProjectHandler;
-				combine.ReferenceAddedToProject += referenceRemovedFromProjectHandler;
+				combine.ReferenceRemovedFromProject += referenceRemovedFromProjectHandler;
+				combine.ReferenceAddedToProject += referenceAddedToProjectHandler;
 			}
 		}
 		
@@ -239,8 +239,8 @@ namespace MonoDevelop.Internal.Project
 				pce.FileAddedToProject -= fileRemovedFromProjectHandler;
 				pce.FileChangedInProject -= fileChangedInProjectHandler;
 				pce.FileRenamedInProject -= fileRenamedInProjectHandler;
-				pce.ReferenceRemovedFromProject -= referenceAddedToProjectHandler;
-				pce.ReferenceAddedToProject -= referenceRemovedFromProjectHandler;
+				pce.ReferenceRemovedFromProject -= referenceRemovedFromProjectHandler;
+				pce.ReferenceAddedToProject -= referenceAddedToProjectHandler;
 			}
 			else {
 				Combine cce = entry as Combine;
@@ -249,8 +249,8 @@ namespace MonoDevelop.Internal.Project
 					cce.FileAddedToProject -= fileRemovedFromProjectHandler;
 					cce.FileChangedInProject -= fileChangedInProjectHandler;
 					cce.FileRenamedInProject -= fileRenamedInProjectHandler;
-					cce.ReferenceRemovedFromProject -= referenceAddedToProjectHandler;
-					cce.ReferenceAddedToProject -= referenceRemovedFromProjectHandler;
+					cce.ReferenceRemovedFromProject -= referenceRemovedFromProjectHandler;
+					cce.ReferenceAddedToProject -= referenceAddedToProjectHandler;
 				}
 			}
 
