@@ -244,7 +244,11 @@ namespace ICSharpCode.SharpDevelop.DefaultEditor.Gui.Editor
 		
 		public FontDescription Font {
 			get {
-				return FontContainer.ParseFont(properties.GetProperty("DefaultFont", new System.Drawing.Font("Courier New", 10).ToString()));
+				string s = properties.GetProperty ("DefaultFont", "ack");
+				if (s == "ack") {
+					return new Gtk.Label ("").Style.FontDescription;
+				}
+				return FontContainer.ParseFont(s);
 			}
 			set {
 				properties.SetProperty("DefaultFont", value.ToString());
