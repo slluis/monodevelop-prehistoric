@@ -39,11 +39,13 @@ namespace ICSharpCode.SharpDevelop.Commands.ProjectBrowser
 			FolderNode         node    = browser.SelectedNode as FolderNode;
 			
 			if (node != null) {
+				IProject project = ((ProjectBrowserNode) node.Parent).Project;
 				
 			show_dialog:
 									
 				Gtk.FileSelection fs = new Gtk.FileSelection ("File to Open");
 				fs.SelectMultiple = true;
+				fs.Filename = project.BaseDirectory;
 				int response = fs.Run ();
 				string [] files = fs.Selections;
 				
@@ -60,7 +62,7 @@ namespace ICSharpCode.SharpDevelop.Commands.ProjectBrowser
 					}
 				}
 				
-				IProject project = ((ProjectBrowserNode) node.Parent).Project;
+				
 				IProjectService projectService = (IProjectService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
 				ResourceService resourceService = (ResourceService)ServiceManager.Services.GetService(typeof(IResourceService));
 				
