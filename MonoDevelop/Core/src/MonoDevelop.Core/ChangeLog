@@ -1,3 +1,9 @@
+2005-01-31  Todd Berman  <tberman@off.net>
+
+	* AddIns/AddIn.cs: Remove usage of AddIn.xsd, it is a bad solution.
+	* Makefile.am:
+	* AddIn.xsd: Remove AddIn.xsd
+
 2005-01-31  Lluis Sanchez Gual  <lluis@novell.com>
 
 	* AddIn.xsd: Defined new codon for project formats.

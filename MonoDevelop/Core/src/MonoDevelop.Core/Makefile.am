@@ -59,13 +59,6 @@ AddIns/AddInSignatureException.cs
 
 build_sources = $(addprefix $(srcdir)/, $(FILES)) Services/GettextCatalog.cs
 
-RESOURCES = \
-AddIn.xsd
-
-build_resources = $(addprefix $(srcdir)/, $(RESOURCES))
-
-COMPILE_RESOURCES = $(foreach res,$(build_resources), $(addprefix -resource:,$(res)),$(notdir $(res)))
-
 DLL = MonoDevelop.Core.dll
 
 REFS = /r:System.Drawing.dll \
@@ -79,7 +72,7 @@ Services/GettextCatalog.cs: $(srcdir)/Services/GettextCatalog.cs.in
 	mv $@.tmp $@
 
 $(DLL): $(build_sources) $(build_resources)
-	$(CSC) /out:$(DLL) /target:library $(REFS) /define:LINUX $(COMPILE_RESOURCES) \
+	$(CSC) /out:$(DLL) /target:library $(REFS) /define:LINUX \
 	$(build_sources) && cp $(DLL) $(top_builddir)/build/bin/.
 
 assemblydir = $(libdir)/monodevelop/bin
@@ -88,5 +81,5 @@ assembly_DATA = $(DLL)
 CLEANFILES = $(DLL) $(DLL).mdb
 DISTCLEANFILES = Services/GettextCatalog.cs
 
-EXTRA_DIST = $(FILES) Services/GettextCatalog.cs.in AddIn.xsd
+EXTRA_DIST = $(FILES) Services/GettextCatalog.cs.in
 
