@@ -45,7 +45,8 @@ gdldocklib_DATA = $(ASSEMBLY) $(ASSEMBLY).config
 clean-local:
 	rm -rf generated
 
-CLEANFILES = $(ASSEMBLY) generated-stamp $(API) $(ASSEMBLY).config
+CLEANFILES = $(ASSEMBLY) generated-stamp $(API)
+DISTCLEANFILES = $(ASSEMBLY).config
 
 EXTRA_DIST = $(RAWAPI) $(METADATA) $(FILES) $(CUSTOM_FILES) $(ASSEMBLY).config.in
 
