@@ -26,7 +26,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs {
 		protected ArrayList OptionPanels = new ArrayList ();
 		protected IProperties properties = null;
 
-		Gtk.TreeStore treeStore;
+		protected Gtk.TreeStore treeStore;
 		
 		[Glade.Widget] Gtk.TreeView  TreeView;
 		[Glade.Widget] Gtk.Label     optionTitle;

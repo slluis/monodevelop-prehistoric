@@ -1,3 +1,9 @@
+2004-03-03 John BouAntoun  <jba-mono@optusnet.com.au>
+	* src/Main/Base/Commands/ProjectOptionsCommands.cs : enabled all the projections command actions
+	* src/Main/Base/Gui/Dialogs/ProjectOptionsDialog.cs : added code to display the configuration options nodes
+	* src/Main/Base/Gui/Dialogs/TreeViewOptions.cs : made treeStore explicitely protected so ProjectOptionsDialogs could append configuration nodes
+
+
 2004-03-03  Todd Berman  <tberman@sevenl.net>
 
 	* bunch o' files: Added first pass debugger support.

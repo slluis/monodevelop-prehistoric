@@ -31,50 +31,47 @@ namespace ICSharpCode.SharpDevelop.Commands
 	{
 		public override void Run()
 		{
-/*			ProjectOptionsDialog optionsDialog = Owner as ProjectOptionsDialog;
+			ProjectOptionsDialog optionsDialog = Owner as ProjectOptionsDialog;
 			
 			if (optionsDialog != null) {
 				optionsDialog.AddProjectConfiguration();
 			}
-*/		}
+		}
 	}
 	
 	public class RenameProjectConfiguration : AbstractMenuCommand
 	{
 		public override void Run()
 		{
-/*			ProjectOptionsDialog optionsDialog = Owner as ProjectOptionsDialog;
+			ProjectOptionsDialog optionsDialog = Owner as ProjectOptionsDialog;
 			
 			if (optionsDialog != null) {
 				optionsDialog.RenameProjectConfiguration();
 			}
-*/		}
+		}
 	}
 	
 	public class RemoveProjectConfiguration : AbstractMenuCommand
 	{
 		public override void Run()
 		{
-/*			ProjectOptionsDialog optionsDialog = Owner as ProjectOptionsDialog;
+			ProjectOptionsDialog optionsDialog = Owner as ProjectOptionsDialog;
 			
 			if (optionsDialog != null) {
 				optionsDialog.RemoveProjectConfiguration();
 			}
-*/		}
+		}
 	}
 	
 	public class SetActiveProjectConfiguration : AbstractMenuCommand
 	{
 		public override void Run()
 		{
-/*			ProjectOptionsDialog optionsDialog = Owner as ProjectOptionsDialog;
+			ProjectOptionsDialog optionsDialog = Owner as ProjectOptionsDialog;
 			
 			if (optionsDialog != null) {
 				optionsDialog.SetSelectedConfigurationAsStartup();
 			}
-*/		}
+		}
 	}
-	
-	
-	
 }

@@ -25,7 +25,6 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs {
 	public class ProjectOptionsDialog : TreeViewOptions
 	{
 		IProject  project;
-		//TreeNode configurationTreeNode;
 		
 		IAddInTreeNode configurationNode;
 	
@@ -45,27 +44,36 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs {
 			properties = new DefaultProperties();
 			properties.SetProperty("Project", project);
 			
-			AddNodes(properties, Gtk.TreeIter.Zero, node.BuildChildItems(this));
+			AddNodes(properties, Gtk.TreeIter.Zero, node.BuildChildItems(this));			
 			
-			/*configurationTreeNode = new TreeNode(StringParserService.Parse("${res:Dialog.Options.ProjectOptions.ConfigurationsNodeName}"));
-			configurationTreeNode.NodeFont = plainFont;
+			//
+			// This code has to add treeview node items to the treeview. under a configuration node
+			//
+			AddConfigurationNodes();
+			
+			SelectFirstNode ();	
+		}
+		
+		void AddConfigurationNodes()
+		{
+			Gtk.TreeIter configurationTreeNode;
+			configurationTreeNode = treeStore.AppendValues (StringParserService.Parse("${res:Dialog.Options.ProjectOptions.ConfigurationsNodeName}"), null);
 			
 			foreach (IConfiguration config in project.Configurations) {
-				TreeNode newNode = new TreeNode(config.Name);
-				newNode.Tag = config;
+				Gtk.TreeIter newNode = treeStore.AppendValues (configurationTreeNode, config.Name, config);
+				// FIXME: how to set it bold in treeview ?
+				/*
 				if (config == project.ActiveConfiguration) {
 					newNode.NodeFont = boldFont;
 				} else {
 					newNode.NodeFont = plainFont;
 				}
+				*/
 				DefaultProperties configNodeProperties = new DefaultProperties();
 				configNodeProperties.SetProperty("Project", project);
 				configNodeProperties.SetProperty("Config", config);
-				AddNodes(configNodeProperties, newNode.Nodes, configurationNode.BuildChildItems(this));
-				configurationTreeNode.Nodes.Add(newNode);
-			} 
-			((TreeView)ControlDictionary["optionsTreeView"]).Nodes.Add(configurationTreeNode);*/
-			SelectFirstNode ();	
+				AddNodes(configNodeProperties, newNode, configurationNode.BuildChildItems(this));
+			}
 		}
 		
 		public void AddProjectConfiguration()
