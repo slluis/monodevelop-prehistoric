@@ -59,35 +59,30 @@ gdl_dock_item_grip_get_title_area (GdlDockItemGrip *grip,
     GtkWidget *widget = GTK_WIDGET (grip);
     gint       border = GTK_CONTAINER (grip)->border_width;
     gint       alloc_height;
-    gint       alloc_width;
 
-    pango_layout_get_pixel_size (grip->_priv->title_layout, &alloc_width, &alloc_height);
+    area->width = (widget->allocation.width - 2 * border);
+    
+    pango_layout_get_pixel_size (grip->_priv->title_layout, NULL, &alloc_height);
+    
     if (GTK_WIDGET_VISIBLE (grip->_priv->close_button)) {
         if (grip->_priv->close_button->allocation.height > alloc_height) {
             alloc_height = grip->_priv->close_button->allocation.height;
 	}
-	if (grip->_priv->close_button->allocation.width > alloc_width) {
-            alloc_width  = grip->_priv->close_button->allocation.width;
-	}
+        area->width -= grip->_priv->close_button->allocation.width;
     }
     if (GTK_WIDGET_VISIBLE (grip->_priv->iconify_button)) {
         if (grip->_priv->iconify_button->allocation.height > alloc_height) {
 	    alloc_height = grip->_priv->iconify_button->allocation.height;
 	}
-	if (grip->_priv->iconify_button->allocation.width > alloc_width) {
-	    alloc_width = grip->_priv->iconify_button->allocation.width;
-	}
+        area->width -= grip->_priv->iconify_button->allocation.width;
     }
 
     area->x      = widget->allocation.x + border;
     area->y      = widget->allocation.y + border;
-    area->width  = (widget->allocation.width -
-                    2 * border -
-                    2 * alloc_width);
     area->height = alloc_height;
 
     if (gtk_widget_get_direction (widget) == GTK_TEXT_DIR_RTL)
-        area->x += 2 * alloc_width;
+        area->x += (widget->allocation.width - 2 * border) - area->width;
 }
   
 static gint
@@ -385,7 +380,7 @@ gdl_dock_item_grip_item_notify (GObject    *master,
         grip->_priv->icon_pixbuf = NULL;
         g_free (stock_id);
     }
-    if (grip->_priv->close_button && grip->item) {
+    if (grip->_priv->close_button) {
         if (GDL_DOCK_ITEM_CANT_CLOSE (grip->item)) {
 	    gtk_widget_hide (GTK_WIDGET (grip->_priv->close_button));
 	} else {
@@ -759,7 +754,7 @@ gdl_dock_item_grip_size_allocate (GtkWidget     *widget,
     }
 
     if (GTK_WIDGET_VISIBLE (grip->_priv->iconify_button)) {
-        gtk_widget_size_request (grip->_priv->close_button, &button_requisition);
+        gtk_widget_size_request (grip->_priv->iconify_button, &button_requisition);
         if (gtk_widget_get_direction (widget) == GTK_TEXT_DIR_LTR)
             child_allocation.x = (allocation->width -
                                   container->border_width -
