@@ -36,7 +36,9 @@ AC_SUBST(gtksharp_prefix)
 GTKSOURCEVIEW_REQUIRED_VERSION=0.7
 
 PKG_CHECK_MODULES(BASE_DEPENDENCIES, gtksourceview-1.0 >= $GTKSOURCEVIEW_REQUIRED_VERSION, enable_gtksourceview=yes, enable_gtksourceview=no)
-PKG_CHECK_MODULES(BASE_DEPENDENCIES, gtksourceview-sharp >= 0.1.0, enable_gtksourceviewsharp=yes, enable_gtksourceviewsharp=no)
+
+GTKSOURCEVIEWSHARP_REQUIRED_VERSION=0.1
+PKG_CHECK_MODULES(BASE_DEPENDENCIES, gtksourceview-sharp >= $GTKSOURCEVIEWSHARP_REQUIRED_VERSION, enable_gtksourceviewsharp=yes, enable_gtksourceviewsharp=no)
 GTKSOURCEVIEW_SHARP="`pkg-config --libs gtksourceview-sharp`"
 echo This is it: _ ${GTKSOURCEVIEW_SHARP} _
 AC_SUBST(GTKSOURCEVIEW_SHARP)
@@ -115,15 +117,15 @@ echo "Configuration summary"
 echo ""
 echo "   * Installation prefix = $prefix"
 echo ""
-echo "      * gnomevfs: $enable_gnomevfs"
-echo "      * gtk-sharp: $enable_gtksharp"
-echo "      * gtkmozembed: $enable_gtkmoz"
-echo "      * gtksourceview: $enable_gtksourceview"
-echo "      * gtksourceview-sharp: $enable_gtksourceviewsharp"
-echo "      * mono: $enable_mono"
+echo "   * gnomevfs $GNOMEVFS_REQUIRED_VERSION: $enable_gnomevfs"
+echo "   * gtk-sharp $GTKSHARP_REQUIRED_VERSION: $enable_gtksharp"
+echo "   * gtkmozembed $MOZGTK_REQUIRED_VERSION: $enable_gtkmoz"
+echo "   * gtksourceview $GTKSOURCEVIEW_REQUIRED_VERSION: $enable_gtksourceview"
+echo "   * gtksourceview-sharp $GTKSOURCEVIEWSHARP_REQUIRED_VERSION: $enable_gtksourceviewsharp"
+echo "   * mono $MONO_REQUIRED_VERSION: $enable_mono"
 echo ""
-echo "      NOTE: if any of the above say 'no' you may install the"
-echo "            corresponding development packages for them, and"
-echo "            rerun autogen.sh"
+echo "   NOTE: if any of the above say 'no' you may install the"
+echo "         corresponding development packages for them, and"
+echo "         rerun autogen.sh"
 echo ""
 echo "---"
