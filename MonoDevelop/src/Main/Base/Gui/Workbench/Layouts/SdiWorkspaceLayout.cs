@@ -9,11 +9,8 @@ using System;
 using System.IO;
 using System.Collections;
 using System.Drawing;
-using System.Diagnostics;
-using System.CodeDom.Compiler;
 
 using ICSharpCode.Core.Properties;
-
 using ICSharpCode.Core.Services;
 using ICSharpCode.SharpDevelop.Services;
 
@@ -126,7 +123,7 @@ namespace ICSharpCode.SharpDevelop.Gui
 		
 		void CreateDefaultLayout()
 		{
-			Console.WriteLine("Creating Default Layout...");
+			//Console.WriteLine("Creating Default Layout...");
 			WindowContent leftContent   = null;
 			WindowContent rightContent  = null;
 			WindowContent bottomContent = null;
@@ -190,7 +187,7 @@ namespace ICSharpCode.SharpDevelop.Gui
 
 		public void Detach()
 		{
-			Console.WriteLine("Call to SdiWorkSpaceLayout.Detach");
+			//Console.WriteLine("Call to SdiWorkSpaceLayout.Detach");
 			dockLayout.SaveToFile (configFile);
 			rootWidget.Remove(((DefaultWorkbench)workbench).TopMenu);
 			foreach (Gtk.Widget w in toolbarContainer.Children) {
@@ -307,10 +304,6 @@ namespace ICSharpCode.SharpDevelop.Gui
 		
 		public IWorkbenchWindow ShowView(IViewContent content)
 		{	
-			//content.Control.Dock = DockStyle.None;
-			//content.Control.Visible = true;
-			
-
 			string title = "";
 			Gtk.Image mimeimage;
 			if (content.IsUntitled) {
@@ -321,24 +314,12 @@ namespace ICSharpCode.SharpDevelop.Gui
 				mimeimage = new Gtk.Image (FileIconLoader.GetPixbufForFile (content.ContentName, 16, 16));
 			}
 			
-			HBox hbox = new HBox (false, 3);
-			
-			Button btn = new Button ();
-			btn.Child = new Gtk.Image (Gtk.Stock.Close, Gtk.IconSize.Menu);
-			btn.Relief = ReliefStyle.None;
-			btn.RequestSize = new Size (16, 16);
-			btn.Clicked += new EventHandler (closeClicked);
-			btn.StateChanged += new StateChangedHandler (stateChanged);
-			
-			Label label = new Label (title);
-			hbox.PackStart (mimeimage);
-			hbox.PackStart (label, false, false, 0);
-			hbox.PackEnd (btn, false, false, 0);
-		
-			hbox.ShowAll ();
-			tabControl.AppendPage (content.Control, hbox);
+			TabLabel tabLabel = new TabLabel (new Label (), new Gtk.Image (""));
+			tabLabel.Button.Clicked += new EventHandler (closeClicked);
+			tabLabel.Button.StateChanged += new StateChangedHandler (stateChanged);
+			tabControl.AppendPage (content.Control, tabLabel);
 
-			SdiWorkspaceWindow sdiWorkspaceWindow = new SdiWorkspaceWindow(content, tabControl, label, mimeimage);
+			SdiWorkspaceWindow sdiWorkspaceWindow = new SdiWorkspaceWindow(content, tabControl, tabLabel);
 
 			sdiWorkspaceWindow.CloseEvent += new EventHandler(CloseWindowEvent);
 			sdiWorkspaceWindow.SwitchView(tabControl.Children.Length - 1);

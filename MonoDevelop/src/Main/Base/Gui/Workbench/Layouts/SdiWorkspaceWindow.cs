@@ -8,13 +8,13 @@
 using System;
 using System.Collections;
 using System.IO;
-using System.Threading;
 using Gtk;
 
 using ICSharpCode.Core.Services;
 using ICSharpCode.SharpDevelop.Services;
 
 using MonoDevelop.Gui.Utils;
+using MonoDevelop.Gui.Widgets;
 
 namespace ICSharpCode.SharpDevelop.Gui
 {
@@ -24,8 +24,7 @@ namespace ICSharpCode.SharpDevelop.Gui
 		IViewContent content;
 		ArrayList    subViewContents = null;
 		
-		Label     tabLabel;
-		Image     tabMimeType;
+		TabLabel tabLabel;
 		Widget    tabPage;
 		Notebook  tabControl;
 		
@@ -39,16 +38,6 @@ namespace ICSharpCode.SharpDevelop.Gui
 			}
 			set {
 				tabPage = value;
-#if GTK
-				// FIXME: GTKize
-#else
-				content.Control.Dock = DockStyle.Fill;
-				if (subViewContents == null) {
-					tabPage.Controls.Add(content.Control);
-				} else {
-					tabPage.Controls.Add(viewTabControl);
-				}
-#endif
 			}
 		}
 		
@@ -90,15 +79,6 @@ namespace ICSharpCode.SharpDevelop.Gui
 		
 		void ThreadSafeSelectWindow()
 		{
-#if GTK
-			// FIXME: GTKize
-#else
-			tabPage.Selected = true;
-// KSL, Start to fix the focus problem when changing tabs
-			content.Control.Focus();
-// KSL End
-#endif
-
 			foreach (IViewContent viewContent in WorkbenchSingleton.Workbench.ViewContentCollection) {
 				if (viewContent != this.content) {
 					viewContent.WorkbenchWindow.OnWindowDeselected(EventArgs.Empty);
@@ -120,24 +100,14 @@ namespace ICSharpCode.SharpDevelop.Gui
 			tabControl.CurrentPage = toSelect;
 		}
 		
-		public SdiWorkspaceWindow(IViewContent content, Notebook tabControl, Label label, Image type)
+		public SdiWorkspaceWindow(IViewContent content, Notebook tabControl, TabLabel tabLabel)
 		{
 			this.tabControl = tabControl;
 			this.content = content;
-			this.tabLabel = label;
-			this.tabMimeType = type;
+			this.tabLabel = tabLabel;
 			this.tabPage = content.Control;
 			
-			IconService iconService = (IconService)ServiceManager.Services.GetService(typeof(IconService));
 			content.WorkbenchWindow = this;
-
-#if GTK
-			// FIXME: GTKize
-#else
-			tabPage.Tag = this;
-			tabPage.ImageList = iconService.ImageList;
-			tabPage.TabIndexChanged += new EventHandler(LeaveTabPage);
-#endif
 			
 			content.ContentNameChanged += new EventHandler(SetTitleEvent);
 			content.DirtyChanged       += new EventHandler(SetTitleEvent);
@@ -213,9 +183,6 @@ namespace ICSharpCode.SharpDevelop.Gui
 		
 		public void DetachContent()
 		{
-#if !GTK
-			tabPage.Control = null;
-#endif
 			content.ContentNameChanged -= new EventHandler(SetTitleEvent);
 			content.DirtyChanged       -= new EventHandler(SetTitleEvent);
 			content.BeforeSave         -= new EventHandler(BeforeSave);
@@ -225,18 +192,15 @@ namespace ICSharpCode.SharpDevelop.Gui
 		{
 			if (!force && ViewContent != null && ViewContent.IsDirty) {
 				ResourceService resourceService = (ResourceService)ServiceManager.Services.GetService(typeof(IResourceService));
-				MessageDialog md = new MessageDialog ((Window) WorkbenchSingleton.Workbench, DialogFlags.Modal | DialogFlags.DestroyWithParent, MessageType.Question, ButtonsType.YesNo, resourceService.GetString ("MainWindow.SaveChangesMessage"));
-				int response = md.Run ();
-				md.Hide ();
-				md.Dispose ();
+				IMessageService messageService =(IMessageService)ServiceManager.Services.GetService(typeof(IMessageService));
+				bool response = messageService.AskQuestion (resourceService.GetString ("MainWindow.SaveChangesMessage"));
 				
-				switch ((ResponseType) response) {
-					case ResponseType.Yes:
+				switch (response) {
+					case true:
 						if (content.ContentName == null) {
 							while (true) {
 								new ICSharpCode.SharpDevelop.Commands.SaveFileAs().Run();
 								if (ViewContent.IsDirty) {
-									IMessageService messageService =(IMessageService)ServiceManager.Services.GetService(typeof(IMessageService));
 									if (messageService.AskQuestion("Do you really want to discard your changes ?")) {
 										break;
 									}
@@ -250,7 +214,7 @@ namespace ICSharpCode.SharpDevelop.Gui
 							fileUtilityService.ObservedSave(new FileOperationDelegate(ViewContent.Save), ViewContent.ContentName , FileErrorPolicy.ProvideAlternative);
 						}
 						break;
-					case ResponseType.No:
+					case false:
 						break;
 						
 					default:
@@ -258,7 +222,6 @@ namespace ICSharpCode.SharpDevelop.Gui
 						return;
 				}
 			}
-			//tabControl.RemovePage (tabControl.CurrentPage);
 			if (fromMenu == true) {
 				WorkbenchSingleton.Workbench.WorkbenchLayout.RemoveTab (tabControl.CurrentPage);
 			} else {
@@ -270,37 +233,7 @@ namespace ICSharpCode.SharpDevelop.Gui
 		
 		public void AttachSecondaryViewContent(ISecondaryViewContent subViewContent)
 		{
-#if GTK
-			// FIXME: GTKize
-#else
-			TabPage newPage;
-			
-			if (subViewContents == null) {
-				subViewContents = new ArrayList();
-				
-				viewTabControl      = new TabControl();
-				viewTabControl.Alignment = TabAlignment.Bottom;
-				viewTabControl.Dock = DockStyle.Fill;
-				viewTabControl.SelectedIndexChanged += new EventHandler(viewTabControlIndexChanged);
-				
-				tabPage.Controls.Clear();
-				tabPage.Controls.Add(viewTabControl);
-				
-				newPage = new TabPage(stringParserService.Parse(content.TabPageText));
-				newPage.Tag = content;
-				content.Control.Dock = DockStyle.Fill;
-				newPage.Controls.Add(content.Control);
-				viewTabControl.TabPages.Add(newPage);
-			}
-			subViewContent.WorkbenchWindow = this;
-			subViewContents.Add(subViewContent);
-			
-			newPage = new TabPage(stringParserService.Parse(subViewContent.TabPageText));
-			newPage.Tag = subViewContent;
-			subViewContent.Control.Dock = DockStyle.Fill;
-			newPage.Controls.Add(subViewContent.Control);
-			viewTabControl.TabPages.Add(newPage);
-#endif
+
 		}
 		
 		int oldIndex = -1;
@@ -324,13 +257,13 @@ namespace ICSharpCode.SharpDevelop.Gui
 		
 		protected virtual void OnTitleChanged(EventArgs e)
 		{
-			tabLabel.Text = Title;
+			tabLabel.Label.Text = Title;
 			try {
 				if (content.ContentName.IndexOfAny (new char[] { '*', '+'}) == -1) {
-					tabMimeType.Pixbuf = FileIconLoader.GetPixbufForFile (content.ContentName, 16, 16);
+					tabLabel.Icon.Pixbuf = FileIconLoader.GetPixbufForFile (content.ContentName, 16, 16);
 				}
 			} catch {
-				tabMimeType.Pixbuf = FileIconLoader.GetPixbufForType ("gnome-fs-regular").ScaleSimple (16, 16, Gdk.InterpType.Bilinear);
+				tabLabel.Icon.Pixbuf = FileIconLoader.GetPixbufForType ("gnome-fs-regular").ScaleSimple (16, 16, Gdk.InterpType.Bilinear);
 			}
 			if (TitleChanged != null) {
 				TitleChanged(this, e);

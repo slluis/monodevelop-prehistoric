@@ -287,6 +287,7 @@ JScript.Project.Library \
 JScript.Project.ServiceProject \
 JScript.Project.UserControl \
 JScript.Project.WebProject \
+MonoDevelop.Close.png \
 VB.File.EmptyFile \
 VB.File.Form \
 VB.File.FullFile \
