@@ -660,8 +660,16 @@ namespace MonoDevelop.Services
 		
 		public void RemoveFileFromProject(string fileName)
 		{
+			if (openCombine != null) {
+				if (Directory.Exists (fileName)) {
+					RemoveAllInDirectory(fileName);
+				} else {
+					RemoveFileFromAllProjects(fileName);
+				}
+				GenerateMakefiles ();
+			}
 		}
-			
+	
 		public void OnStartBuild()
 		{
 			if (StartBuild != null) {
