@@ -22,7 +22,7 @@ using MonoDevelop.Gui.Widgets;
 namespace CSharpBinding
 {
 
-	//FIXME  i8n 
+	//FIXME: i8n 
 
 	public class CodeGenerationPanel : AbstractOptionPanel
 	{
@@ -54,6 +54,9 @@ namespace CSharpBinding
  			public  CodeGenerationPanelWidget(IProperties CustomizationObject) : base ("CSharp.glade", "CodeGenerationPanel")
  			{	
 				this.compilerParameters = (CSharpCompilerParameters)((IProperties)CustomizationObject).GetProperty("Config");
+
+				// FIXME: Enable when mcs has this feature
+				generateXmlOutputCheckButton.Sensitive = false;
 
 				Menu CompileTargetMenu = new Menu ();
 				CompileTargetMenu.Append(new MenuItem(
