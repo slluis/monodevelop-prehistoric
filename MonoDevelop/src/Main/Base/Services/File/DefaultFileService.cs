@@ -103,7 +103,8 @@ namespace ICSharpCode.SharpDevelop.Services
 					fileService.RecentOpen.AddLastFile(fileName);
 				}
 			} else {
-				throw new ApplicationException("Can't open " + fileName + ", no display codon found.");
+				Gnome.Url.Show ("file://" + fileName);
+				//throw new ApplicationException("Can't open " + fileName + ", no display codon found.");
 			}
 		}
 		

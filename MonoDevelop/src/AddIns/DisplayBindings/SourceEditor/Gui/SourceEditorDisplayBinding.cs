@@ -22,7 +22,7 @@ namespace MonoDevelop.SourceEditor.Gui {
 		
 		public virtual bool CanCreateContentForFile (string fileName)
 		{
-			return true;
+			return false;
 		}
 
 		public virtual bool CanCreateContentForMimeType (string mimetype)
