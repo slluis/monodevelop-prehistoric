@@ -482,6 +482,9 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads
 	{
 		public string NodePath {
 			get {
+				if (SelectedNode == null) {
+					return "";
+				}
 				return (string)SelectedNode.Tag;
 			}
 			set {
