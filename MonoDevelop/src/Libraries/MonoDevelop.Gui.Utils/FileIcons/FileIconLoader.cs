@@ -27,7 +27,12 @@ namespace MonoDevelop.Gui.Utils
 		public static Gdk.Pixbuf GetPixbufForFile (string filename, int width, int height)
 		{
 			Gnome.IconLookupResultFlags result;
-			string icon = Gnome.Icon.LookupSync (iconTheme, thumbnailFactory, filename, "", Gnome.IconLookupFlags.None, out result);
+			string icon;
+			try {
+				icon = Gnome.Icon.LookupSync (iconTheme, thumbnailFactory, filename, "", Gnome.IconLookupFlags.None, out result);
+			} catch {
+				icon = "gnome-fs-regular";
+			}
 			Gdk.Pixbuf pix = GetPixbufForType (icon);
 			return pix.ScaleSimple (height, width, Gdk.InterpType.Bilinear);
 		}
