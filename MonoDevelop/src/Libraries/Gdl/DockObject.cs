@@ -128,26 +128,28 @@ namespace Gdl
 			}
 		}
 
-		private void ForeachDetach (Widget w)
-		{
-			if (w is DockObject)
-				((DockObject)w).Detach (true);
-		}
-
-		/*protected override void OnDestroyed ()
+		protected override void OnDestroyed ()
 		{
 			if (IsCompound) {
+				/* detach our dock object children if we have some, and even
+				   if we are not attached, so they can get notification */
 				Freeze ();
-				Foreach (new Gtk.Callback (ForeachDetach));
+				foreach (DockObject child in Children)
+					child.Detach (true);
 				reducePending = false;
 				Thaw ();
 			}
+
 			if (IsAttached)
+				/* detach ourselves */
 				Detach (false);
+
 			if (Master != null)
+				/* finally unbind us */
 				Unbind ();
+
 			base.OnDestroyed ();
-		}*/
+		}
 		
 		protected override void OnShown ()
 		{

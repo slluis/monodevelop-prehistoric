@@ -175,8 +175,8 @@ namespace Gdl
 				Requisition my = PreferredSize;
 				
 				/* Set docking indicator rectangle to the Dock size. */
-				request.X = alloc.X + bw;
-				request.Y = alloc.Y + bw;
+				request.X = bw;
+				request.Y = bw;
 				request.Width = alloc.Width - 2 * bw;
 				request.Height = alloc.Height - 2 * bw;
 				request.Target = this;
@@ -241,6 +241,9 @@ namespace Gdl
 						}
 					}
 				}
+				
+				if (divider >= 0 && request.Position != DockPlacement.Center)
+					request.Extra = divider;
 
 				if (mayDock) {				
 					/* adjust returned coordinates so they are

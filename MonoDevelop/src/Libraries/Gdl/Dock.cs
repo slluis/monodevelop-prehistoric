@@ -257,8 +257,10 @@ namespace Gdl
 				floating = false;
 				window = null;
 			}
+
 			if (xorGC != null)
 				xorGC = null;
+
 			base.OnDestroyed ();
 		}
 		

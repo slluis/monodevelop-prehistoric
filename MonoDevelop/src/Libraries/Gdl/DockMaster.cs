@@ -149,41 +149,40 @@ namespace Gdl
 		
 		public void Remove (DockObject obj)
 		{
-#if false
 			if (obj == null)
 				return;
 	
-			if (obj is DockItem && ((DockItem)obj).HasGrip) {
+			/*if (obj is DockItem && ((DockItem)obj).HasGrip) {
 				int locked = Locked;
 				if (lockedItems.Contains (obj)) {
 					lockedItems.Remove (obj);
 					if (Locked != locked) {
-						//g_object_notify (G_OBJECT (master /*this*/), "locked");
+						//g_object_notify (G_OBJECT (this), "locked");
 					}
 				}
 				if (unlockedItems.Contains (obj)) {
 					lockedItems.Remove (obj);
 					if (Locked != locked) {
-						//g_object_notify (G_OBJECT( master /*this*/), "locked");
+						//g_object_notify (G_OBJECT (this), "locked");
 					}
 				}
-			}
+			}*/
 			
 			if (obj is Dock) {
-				if (toplevelDocks.Contains (obj))
-					toplevelDocks.Remove (obj);
+				toplevelDocks.Remove (obj);
+
 				if (obj == controller) {
-					DockObject new_controller = null;
+					DockObject newController = null;
 					ArrayList reversed = toplevelDocks;
 					reversed.Reverse ();
 					foreach (DockObject item in reversed) {
 						if (!item.IsAutomatic) {
-							new_controller = item;
+							newController = item;
 							break;
 						}
 					}
-					if (new_controller != null) {
-						controller = new_controller;
+					if (newController != null) {
+						controller = newController;
 					} else {
 						controller = null;
 					}
@@ -191,27 +190,21 @@ namespace Gdl
 			}
 			
 			if (obj is DockItem) {
-				DockItem dock_item = obj as DockItem;
-				dock_item.DockItemDragBegin -= DragBegin;
-				dock_item.DockItemDragEnd -= DragEnd;
-				dock_item.DockItemMotion -= DragMotion;
+				DockItem item = obj as DockItem;
+				item.Detached -= OnItemDetached;
+				item.Docked -= OnItemDocked;
+				item.DockItemDragBegin -= OnDragBegin;
+				item.DockItemMotion -= OnDragMotion;
+				item.DockItemDragEnd -= OnDragEnd;
 			}
 			
-			/*PORT THIS:
-    g_signal_handlers_disconnect_matched (object, G_SIGNAL_MATCH_DATA, 
-                                          0, 0, NULL, NULL, master);*/
-			if (obj.Name != null) {
-				if (dockObjects.Contains (obj.Name)) {
-					dockObjects.Remove (obj.Name);
-				}
-			}
+			if (obj.Name != null && dockObjects.Contains (obj.Name))
+				dockObjects.Remove (obj.Name);
 			
-			if (!obj.IsAutomatic) {
-				if (idle_layout_changed_id == 0) {
-					idle_layout_changed_id = 0; //g_idle_add (idle_emit_layout_changed);
-				}
-			}
-#endif
+			/* post a layout_changed emission if the item is not automatic
+			 * (since it should be removed from the items model) */
+			if (!obj.IsAutomatic)
+				EmitLayoutChangedEvent ();
 		}
 		
 		public DockObject GetObject (string name)
@@ -260,6 +253,7 @@ namespace Gdl
 			request.Applicant = item;
 			request.Target = item;
 			request.Position = DockPlacement.Floating;
+			request.Extra = IntPtr.Zero;
 
 			rectDrawn = false;
 			rectOwner = null;
@@ -308,8 +302,8 @@ namespace Gdl
 				Widget widget = GLib.Object.GetObject (window.UserData, false) as Widget;
 				while (widget != null && (!(widget is Dock) ||
 				       (widget is DockObject && ((DockObject)widget).Master != this)))
-					widget = widget.Parent;
-
+						widget = widget.Parent;
+				
 				if (widget != null) {
 					int winW, winH, depth;
 					
