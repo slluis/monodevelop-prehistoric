@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 function reWrite {
     ret=""
@@ -50,19 +50,18 @@ cd $MD_BIN_PATH
 
 case x$1 in
 	x--profile)
-		@RUNTIME@ --profile ./MonoDevelop.exe $@
+		exec @RUNTIME@ --profile ./MonoDevelop.exe $@
 		exit 0
 		;;
 	x--debug)
-		@RUNTIME@ --debug ./MonoDevelop.exe $@
+		exec @RUNTIME@ --debug ./MonoDevelop.exe $@
 		exit 0
 		;;
 	x--trace)
-		@RUNTIME@ --trace ./MonoDevelop.exe $@
+		exec @RUNTIME@ --trace ./MonoDevelop.exe $@
 		exit 0;
 		;;
 esac
 
-# should not use --debug when we are more stable
-@RUNTIME@ ./MonoDevelop.exe $@
+exec @RUNTIME@ ./MonoDevelop.exe $@
 

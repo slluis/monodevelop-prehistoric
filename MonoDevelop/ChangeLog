@@ -1,3 +1,8 @@
+2005-02-28  John Luke  <john.luke@gmail.com>
+
+	* monodevelop.in: use /bin/sh and exec instead
+	of running from bash
+
 2005-02-24  John Luke  <john.luke@gmail.com>
 
 	* configure.in: move JavaBinding to Extras
