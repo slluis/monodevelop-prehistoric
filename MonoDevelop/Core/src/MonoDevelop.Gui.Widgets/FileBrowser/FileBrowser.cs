@@ -69,7 +69,7 @@ namespace MonoDevelop.Gui.Widgets
 
 			goUp = new ToolButton (Stock.GoUp);
 			goUp.Clicked += new EventHandler (OnGoUpClicked);
-			goUp.SetTooltip (tips, GettextCatalog.GetString ("Go up"), "Go up");
+			goUp.SetTooltip (tips, GettextCatalog.GetString ("Go up one level"), "Go up one level");
 			toolbar.Insert (goUp, -1);
 
 			goHome = new ToolButton (Stock.Home);
