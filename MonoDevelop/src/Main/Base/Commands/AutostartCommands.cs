@@ -210,10 +210,7 @@ namespace MonoDevelop.Commands
 			ShowTipOfTheDay (null, null);
 		
 			// finally run the workbench window ...
-			Gtk.Application.Run();
-			
-			// save the workbench memento in the ide properties
-			//propertyService.SetProperty(workbenchMemento, WorkbenchSingleton.Workbench.CreateMemento());
+			Gtk.Application.Run ();
 		}
 	}
 }

@@ -1,5 +1,5 @@
 //
-// MozillaControl - An Html widget that uses GtkMozEmbed#
+// MozillaControl - An Html widget that uses Gecko#
 //
 // Author: John Luke  <jluke@cfl.rr.com>
 //
@@ -94,7 +94,7 @@ namespace MonoDevelop.Gui.HtmlControl
 
 		public void InitializeWithBase (string base_uri)
 		{
-			Console.WriteLine (base_uri);
+			//Console.WriteLine (base_uri);
 			if (html.Length > 0)
 			{
 				this.RenderData (html, base_uri, "text/html");

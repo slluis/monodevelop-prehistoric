@@ -1,3 +1,9 @@
+2004-04-09  John Luke  <jluke@cfl.rr.com>
+
+	* Commands/AutostartCommands: remove dead code
+	* Gui/Pads/TerminalPad.cs: update and rename from 'Output' to 'Terminal'
+	* Gui/HtmlControl/MozillaControl.cs: remove CWL
+
 2004-04-09  Todd Berman  <tberman@sevenl.net>
 
 	* Gui/Dialogs/SharpDevelopAboutPanels.cs: closing per bug #55955.
