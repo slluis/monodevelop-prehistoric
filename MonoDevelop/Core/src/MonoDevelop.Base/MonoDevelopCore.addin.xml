@@ -69,6 +69,9 @@
 						class = "MonoDevelop.Internal.Project.DotNetProjectBinding" />
 	</Extension>
 	  
+	<Extension path = "/SharpDevelop/Workbench/ProjectFileFormats">
+	</Extension>
+	  
 	<Extension path = "/SharpDevelop/Workbench/DisplayBindings">
 		<DisplayBinding id    = "Browser"
 		                supportedformats = "Web Pages"

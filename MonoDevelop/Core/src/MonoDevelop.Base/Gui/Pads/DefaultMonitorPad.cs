@@ -87,7 +87,8 @@ namespace MonoDevelop.EditorBindings.Gui.Pads
 		{
 			AddText (text);
 //			buffer.MoveMark (buffer.InsertMark, buffer.EndIter);
-			textEditorControl.ScrollMarkOnscreen (buffer.InsertMark);
+			if (text.EndsWith ("\n"))
+				textEditorControl.ScrollMarkOnscreen (buffer.InsertMark);
 		}
 		
 		public Gtk.Widget Control {

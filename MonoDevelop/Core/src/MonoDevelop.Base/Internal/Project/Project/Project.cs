@@ -60,12 +60,18 @@ namespace MonoDevelop.Internal.Project
 		[ItemProperty ("DeploymentInformation")]
 		protected DeployInformation deployInformation = new DeployInformation();
 		
-		bool isDirty = true;
+		bool isDirty = false;
+		bool filesChecked;
+		
+		private FileSystemWatcher projectFileWatcher;
 		
 		public Project ()
 		{
 			Name = "New Project";
 			projectReferences.SetProject (this);
+			
+			projectFileWatcher = new FileSystemWatcher();
+			projectFileWatcher.Changed += new FileSystemEventHandler (OnFileChanged);
 		}
 		
 		[LocalizedProperty("${res:MonoDevelop.Internal.Project.ProjectClass.Description}",
@@ -135,13 +141,17 @@ namespace MonoDevelop.Internal.Project
 
 		public bool IsFileInProject(string filename)
 		{
-			if (filename == null) return false;
+			return GetProjectFile (filename) != null;
+		}
+		
+		public ProjectFile GetProjectFile (string fileName)
+		{
+			if (fileName == null) return null;
 			foreach (ProjectFile file in ProjectFiles) {
-				if (file.Name == filename) {
-					return true;
-				}
+				if (file.Name == fileName)
+					return file;
 			}
-			return false;
+			return null;
 		}
 
 		public virtual bool IsCompileable (string fileName)
@@ -263,6 +273,7 @@ namespace MonoDevelop.Internal.Project
 		public override void Dispose()
 		{
 			base.Dispose ();
+			projectFileWatcher.Dispose ();
 			foreach (ProjectFile file in ProjectFiles) {
 				file.Dispose ();
 			}
@@ -299,11 +310,14 @@ namespace MonoDevelop.Internal.Project
 		public override void Clean ()
 		{
 			isDirty = true;
+			string file = GetOutputFileName ();
+			if (file != null && File.Exists (file))
+				File.Delete (file);
 		}
 		
 		public override ICompilerResult Build (IProgressMonitor monitor)
 		{
-			if (!isDirty) return new DefaultCompilerResult (new CompilerResults (null), "");
+			if (!NeedsBuilding) return new DefaultCompilerResult (new CompilerResults (null), "");
 			
 			try {
 				monitor.BeginTask (String.Format (GettextCatalog.GetString ("Building Project: {0} Configuration: {1}"), Name, ActiveConfiguration.Name), 3);
@@ -400,18 +414,80 @@ namespace MonoDevelop.Internal.Project
 			}
 		}
 		
-		
 		protected virtual void DoExecute (IProgressMonitor monitor)
 		{
 		}
 		
+		public virtual string GetOutputFileName ()
+		{
+			return null;
+		}
+		
 		public override bool NeedsBuilding {
 			get {
+				if (!isDirty) CheckNeedsBuild ();
 				return isDirty;
 			}
 			set {
 				isDirty = value;
 			}
+		}
+		
+		public override string FileName {
+			get {
+				return base.FileName;
+			}
+			set {
+				base.FileName = value;
+				if (value != null)
+					UpdateFileWatch ();
+			}
+		}
+		
+		protected virtual void CheckNeedsBuild ()
+		{
+			DateTime tim = GetLastBuildTime ();
+			if (tim == DateTime.MinValue) {
+				isDirty = true;
+				return;
+			}
+			
+			if (filesChecked) return;
+			
+			foreach (ProjectFile file in ProjectFiles) {
+				if (file.BuildAction == BuildAction.Exclude) continue;
+				FileInfo finfo = new FileInfo (file.FilePath);
+				if (finfo.Exists && finfo.LastWriteTime > tim) {
+					isDirty = true;
+					return;
+				}
+			}
+			filesChecked = true;
+		}
+		
+		protected virtual DateTime GetLastBuildTime ()
+		{
+			string file = GetOutputFileName ();
+			FileInfo finfo = new FileInfo (file);
+			if (!finfo.Exists) return DateTime.MinValue;
+			else return finfo.LastWriteTime;
+		}
+		
+		private void UpdateFileWatch()
+		{
+			projectFileWatcher.EnableRaisingEvents = false;
+			projectFileWatcher.Path = BaseDirectory;
+			projectFileWatcher.EnableRaisingEvents = true;
+		}
+		
+		void OnFileChanged (object source, FileSystemEventArgs e)
+		{
+			ProjectFile file = GetProjectFile (e.FullPath);
+			if (file != null) {
+				isDirty = true;
+				NotifyFileChangedInProject (file);
+			}
+
 		}
 
  		internal void NotifyFileChangedInProject (ProjectFile file)

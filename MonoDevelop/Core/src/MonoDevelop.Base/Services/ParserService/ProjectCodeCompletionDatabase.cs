@@ -39,26 +39,67 @@ namespace MonoDevelop.Services
 	internal class ProjectCodeCompletionDatabase: CodeCompletionDatabase
 	{
 		Project project;
+		bool initialFileCheck;
 		
 		public ProjectCodeCompletionDatabase (Project project, DefaultParserService parserService)
 		: base (parserService)
 		{
+			initialFileCheck = true;
+			
 			SetLocation (project.BaseDirectory, project.Name);
 			
 			this.project = project;
 			Read ();
 			
 			UpdateFromProject ();
+			
+			project.FileChangedInProject += new ProjectFileEventHandler (OnFileChanged);
+			project.FileAddedToProject += new ProjectFileEventHandler (OnFileAdded);
+			project.FileRemovedFromProject += new ProjectFileEventHandler (OnFileRemoved);
 		}
 		
+		public override void Dispose ()
+		{
+			project.FileChangedInProject -= new ProjectFileEventHandler (OnFileChanged);
+			project.FileAddedToProject -= new ProjectFileEventHandler (OnFileAdded);
+			project.FileRemovedFromProject -= new ProjectFileEventHandler (OnFileRemoved);
+		}
+		
+		public override void CheckModifiedFiles ()
+		{
+			// Once the first modification check is done, change detection
+			// is done through project events
+			
+			if (initialFileCheck) {
+				base.CheckModifiedFiles ();
+				initialFileCheck = false;
+			}
+		}
+		
+		void OnFileChanged (object sender, ProjectFileEventArgs args)
+		{
+			FileEntry file = GetFile (args.ProjectFile.Name);
+			if (file != null) QueueParseJob (file);
+		}
+		
+		void OnFileAdded (object sender, ProjectFileEventArgs args)
+		{
+			if (args.ProjectFile.BuildAction == BuildAction.Compile)
+				AddFile (args.ProjectFile.Name);
+		}
+
+		void OnFileRemoved (object sender, ProjectFileEventArgs args)
+		{
+			RemoveFile (args.ProjectFile.Name);
+		}
+
 		public void UpdateFromProject ()
 		{
 			Hashtable fs = new Hashtable ();
 			foreach (ProjectFile file in project.ProjectFiles)
 			{
 				if (file.BuildAction != BuildAction.Compile) continue;
-				FileEntry fe = files[file.Name] as FileEntry;
-				if (fe == null) AddFile (file.Name);
+				if (GetFile (file.Name) == null) AddFile (file.Name);
 				fs [file.Name] = null;
 			}
 			
@@ -73,12 +114,7 @@ namespace MonoDevelop.Services
 			fs.Clear ();
 			foreach (ProjectReference pr in project.ProjectReferences)
 			{
-				string refId = pr.ReferenceType == ReferenceType.Project ? "Project" : "Assembly";
-				refId += ":" + pr.Reference;
-
-				if (pr.ReferenceType == ReferenceType.Gac && refId.ToLower().EndsWith (".dll"))
-					refId = refId.Substring (0, refId.Length - 4);
-
+				string refId = GetReferenceKey (pr);
 				fs[refId] = null;
 				if (!HasReference (refId))
 					AddReference (refId);
@@ -91,6 +127,16 @@ namespace MonoDevelop.Services
 				if (!fs.Contains (re.Uri))
 					RemoveReference (re.Uri);
 			}
+		}
+		
+		string GetReferenceKey (ProjectReference pr)
+		{
+			string refId = pr.ReferenceType == ReferenceType.Project ? "Project" : "Assembly";
+			refId += ":" + pr.Reference;
+
+			if (pr.ReferenceType == ReferenceType.Gac && refId.ToLower().EndsWith (".dll"))
+				refId = refId.Substring (0, refId.Length - 4);
+			return refId;
 		}
 		
 		protected override void ParseFile (string fileName, IProgressMonitor monitor)

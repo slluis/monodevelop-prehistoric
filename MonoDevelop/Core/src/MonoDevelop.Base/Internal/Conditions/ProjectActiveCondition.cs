@@ -37,7 +37,6 @@ namespace MonoDevelop.Core.AddIns
 		public override bool IsValid(object owner)
 		{
 			Project project = Runtime.ProjectService.CurrentSelectedProject;
-			
 			if (activeproject == "*") {
 				return project != null;
 			}

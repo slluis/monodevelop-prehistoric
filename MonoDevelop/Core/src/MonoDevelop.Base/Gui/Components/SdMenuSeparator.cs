@@ -23,12 +23,14 @@ namespace MonoDevelop.Gui.Components
 		
 		public SdMenuSeparator()
 		{
+			ShowAll ();
 		}
 		
 		public SdMenuSeparator(ConditionCollection conditionCollection, object caller)
 		{
 			this.caller              = caller;
 			this.conditionCollection = conditionCollection;
+			ShowAll ();
 		}
 		
 		public virtual void UpdateStatus()

@@ -1,8 +1,10 @@
 //
-// LogTextWriter.cs
+// FileFormatCodon.cs
 //
 // Author:
 //   Lluis Sanchez Gual
+//
+
 //
 // Copyright (C) 2005 Novell, Inc (http://www.novell.com)
 //
@@ -28,62 +30,26 @@
 
 
 using System;
-using System.IO;
-using System.Text;
 using System.Collections;
 
-namespace MonoDevelop.Services
+using MonoDevelop.Core.AddIns.Conditions;
+using MonoDevelop.Internal.Project;
+
+namespace MonoDevelop.Core.AddIns.Codons
 {
-	public delegate void LogTextEventHandler (string writtenText);
-	
-	public class LogTextWriter: TextWriter
+	[CodonNameAttribute ("FileFormat")]
+	public class FileFormatCodon : AbstractCodon
 	{
-		ArrayList chainedWriters;
+		IFileFormat fileFormat;
 		
-		public void ChainWriter (TextWriter writer)
+		public IFileFormat FileFormat {
+			get { return fileFormat; }
+		}
+		
+		public override object BuildItem (object owner, ArrayList subItems, ConditionCollection conditions)
 		{
-			if (chainedWriters == null) chainedWriters = new ArrayList ();
-			chainedWriters.Add (writer);
+			fileFormat = (IFileFormat) AddIn.CreateObject (Class);
+			return this;
 		}
-		
-		public void UnchainWriter (TextWriter writer)
-		{
-			if (chainedWriters != null) {
-				chainedWriters.Remove (writer);
-				if (chainedWriters.Count == 0)
-					chainedWriters = null;
-			}
-		}
-		
-		public override Encoding Encoding {
-			get { return Encoding.Default; }
-		}
-		
-		public override void Close ()
-		{
-			if (Closed != null)
-				Closed (this, null);
-		}
-		
-		public override void Write (char value)
-		{
-			if (TextWritten != null)
-				TextWritten (value.ToString ());
-			if (chainedWriters != null)
-				foreach (TextWriter cw in chainedWriters)
-					cw.Write (value);
-		}
-		
-		public override void Write (string value)
-		{
-			if (TextWritten != null)
-				TextWritten (value);
-			if (chainedWriters != null)
-				foreach (TextWriter cw in chainedWriters)
-					cw.Write (value);
-		}
-		
-		public event LogTextEventHandler TextWritten;
-		public event EventHandler Closed;
 	}
 }

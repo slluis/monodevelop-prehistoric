@@ -263,6 +263,11 @@ namespace MonoDevelop.Services
 		protected virtual void DeserializeData (Queue dataQueue)
 		{
 		}
+		
+		protected FileEntry GetFile (string name)
+		{
+			return files [name] as FileEntry;
+		}
 				
 		void Flush ()
 		{
@@ -370,7 +375,7 @@ namespace MonoDevelop.Services
 			return ce.Class;
 		}		
 		
-		public void CheckModifiedFiles ()
+		public virtual void CheckModifiedFiles ()
 		{
 			lock (rwlock)
 			{

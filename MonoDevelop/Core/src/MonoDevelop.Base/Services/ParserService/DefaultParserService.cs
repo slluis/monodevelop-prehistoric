@@ -255,8 +255,6 @@ namespace MonoDevelop.Services
 			IProjectService projectService = Runtime.ProjectService;
 			projectService.CombineOpened += new CombineEventHandler(OnCombineOpened);
 			projectService.CombineClosed += new CombineEventHandler(OnCombineClosed);
-			projectService.FileRemovedFromProject += new ProjectFileEventHandler (OnProjectFilesChanged);
-			projectService.FileAddedToProject += new ProjectFileEventHandler (OnProjectFilesChanged);
 			projectService.ReferenceAddedToProject += new ProjectReferenceEventHandler (OnProjectReferencesChanged);
 			projectService.ReferenceRemovedFromProject += new ProjectReferenceEventHandler (OnProjectReferencesChanged);
 		}
@@ -476,12 +474,6 @@ namespace MonoDevelop.Services
 			else if (args.CombineEntry is Combine)
 				UnloadCombineDatabases ((Combine) args.CombineEntry);
 			CleanUnusedDatabases ();
-		}
-		
-		void OnProjectFilesChanged (object sender, ProjectFileEventArgs args)
-		{
-			ProjectCodeCompletionDatabase db = GetProjectDatabase (args.Project);
-			if (db != null) db.UpdateFromProject ();
 		}
 		
 		void OnProjectReferencesChanged (object sender, ProjectReferenceEventArgs args)

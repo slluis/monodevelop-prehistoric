@@ -56,11 +56,8 @@ namespace MonoDevelop.Internal.Project
 		
 		Project project;
 		
-		private FileSystemWatcher ProjectFileWatcher;
-		
 		public ProjectFile()
 		{
-			AddFileWatch();
 		}
 		
 		public ProjectFile(string filename)
@@ -68,7 +65,6 @@ namespace MonoDevelop.Internal.Project
 			this.filename = filename;
 			subtype       = Subtype.Code;
 			buildaction   = BuildAction.Compile;
-			AddFileWatch();
 		}
 		
 		public ProjectFile(string filename, BuildAction buildAction)
@@ -76,47 +72,11 @@ namespace MonoDevelop.Internal.Project
 			this.filename = filename;
 			subtype       = Subtype.Code;
 			buildaction   = buildAction;
-			AddFileWatch();
 		}
 		
-		private void AddFileWatch()
-		{
-			ProjectFileWatcher = new FileSystemWatcher();
-
-			ProjectFileWatcher.Changed += new FileSystemEventHandler(OnChanged);
-		
-			if (this.filename != null) 
-				UpdateFileWatch();
-				
-		}
-		
-		private void UpdateFileWatch()
-		{
-		
-			if ((this.filename == null) || (this.filename.Length == 0))
-				return;				
-
-			try {
-				ProjectFileWatcher.EnableRaisingEvents = false;
-				ProjectFileWatcher.Path = Path.GetDirectoryName(filename);
-				ProjectFileWatcher.Filter = Path.GetFileName(filename);
-				ProjectFileWatcher.EnableRaisingEvents = true;
-			} catch {
-				Console.WriteLine ("NOT WATCHING " + filename);
-			}
-
-		}
-		
-		private void OnChanged(object source, FileSystemEventArgs e)
-		{
-			if (project != null)
-				project.NotifyFileChangedInProject(this);
-		}
-
 		internal void SetProject (Project prj)
 		{
 			project = prj;
-			UpdateFileWatch();
 		}
 						
 		[LocalizedProperty("${res:MonoDevelop.Internal.Project.ProjectFile.Name}",
@@ -130,7 +90,6 @@ namespace MonoDevelop.Internal.Project
 				Debug.Assert (value != null && value.Length > 0, "name == null || name.Length == 0");
 				if (project != null) project.NotifyFileRemovedFromProject (this);
 				filename = value;
-				UpdateFileWatch();
 				if (project != null) project.NotifyFileAddedToProject (this);
 			}
 		}
@@ -198,7 +157,6 @@ namespace MonoDevelop.Internal.Project
 										
 		public virtual void Dispose ()
 		{
-			ProjectFileWatcher.Dispose ();
 		}
 	}
 }

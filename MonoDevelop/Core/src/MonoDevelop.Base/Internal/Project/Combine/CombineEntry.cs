@@ -186,7 +186,6 @@ namespace MonoDevelop.Internal.Project
 		public abstract ICompilerResult Build (IProgressMonitor monitor);
 		public abstract void Execute (IProgressMonitor monitor);
 		public abstract void Debug (IProgressMonitor monitor);
-		public abstract string GetOutputFileName ();
 		public abstract bool NeedsBuilding { get; set; }
 		
 		public virtual void GenerateMakefiles (Combine parentCombine)

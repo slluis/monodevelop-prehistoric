@@ -266,6 +266,7 @@ Internal/Codons/Toolbars/ToolbarItemCodon.cs \
 Internal/Codons/IDialogPanel.cs \
 Internal/Codons/DialogPanelCodon.cs \
 Internal/Codons/IDialogPanelDescriptor.cs \
+Internal/Codons/FileFormatCodon.cs \
 Internal/Codons/MenuItems/AbstractCheckableMenuCommand.cs \
 Internal/Codons/MenuItems/ISubmenuBuilder.cs \
 Internal/Codons/MenuItems/IMenuCommand.cs \

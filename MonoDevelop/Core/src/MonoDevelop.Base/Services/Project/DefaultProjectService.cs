@@ -377,7 +377,7 @@ namespace MonoDevelop.Services
 	
 		public IAsyncOperation BuildActiveCombine ()
 		{
-			if (openCombine == null || !openCombine.NeedsBuilding) return NullAsyncOperation.Success;
+			if (openCombine == null) return NullAsyncOperation.Success;
 			if (currentBuildOperation != null && !currentBuildOperation.IsCompleted) return currentBuildOperation;
 			
 			DoBeforeCompileAction();
@@ -426,10 +426,8 @@ namespace MonoDevelop.Services
 		
 		public IAsyncOperation BuildProject (Project project)
 		{
-			if (!project.NeedsBuilding) return NullAsyncOperation.Success;
-
 			BeforeCompile (project);
-			IProgressMonitor monitor = new NullProgressMonitor ();
+			IProgressMonitor monitor = Runtime.TaskService.GetBuildProgressMonitor ();
 			Runtime.DispatchService.ThreadDispatch (new StatefulMessageHandler (BuildProjectAsync), new object[] {project, monitor});
 			return monitor.AsyncOperation;
 		}
@@ -632,6 +630,10 @@ namespace MonoDevelop.Services
 
 			formatManager.RegisterFileFormat (defaultProjectFormat);
 			formatManager.RegisterFileFormat (defaultCombineFormat);
+			
+			FileFormatCodon[] formatCodons = (FileFormatCodon[])(AddInTreeSingleton.AddInTree.GetTreeNode("/SharpDevelop/Workbench/ProjectFileFormats").BuildChildItems(null)).ToArray(typeof(FileFormatCodon));
+			foreach (FileFormatCodon codon in formatCodons)
+				formatManager.RegisterFileFormat (codon.FileFormat);
 			
 			DataContext.IncludeType (typeof(Combine));
 			DataContext.IncludeType (typeof(Project));

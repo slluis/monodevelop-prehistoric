@@ -401,11 +401,6 @@ namespace MonoDevelop.Internal.Project
 			}
 		}
 
-		public override string GetOutputFileName ()
-		{
-			return String.Empty;
-		}
-		
 		public void GenerateMakefiles ()
 		{
 			GenerateMakefiles (null);
@@ -476,7 +471,7 @@ namespace MonoDevelop.Internal.Project
 				stream.WriteLine ("\t@echo `run'ning multiple startup projects is not yet support");
 			} else {
 				if (SingleStartProjectName != null && Entries [SingleStartProjectName] != null)
-					stream.WriteLine ("\tcd $(OUTPUTDIR) && $(RUNTIME) {0}", Entries [SingleStartProjectName].GetOutputFileName ());
+					stream.WriteLine ("\tcd $(OUTPUTDIR) && $(RUNTIME) {0}", ((Project)Entries [SingleStartProjectName]).GetOutputFileName ());
 				else
 					stream.WriteLine ("\t@echo No startup project defined");
 			}

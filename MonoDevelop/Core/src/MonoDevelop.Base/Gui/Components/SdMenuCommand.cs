@@ -133,6 +133,7 @@ namespace MonoDevelop.Gui.Components
 				ConditionFailedAction failedAction = conditionCollection.GetCurrentConditionFailedAction(caller);
 				this.Sensitive = failedAction != ConditionFailedAction.Disable;
 				this.Visible = failedAction != ConditionFailedAction.Exclude;
+				if (!this.Visible) return;
 			}
 			if (menuCommand != null && menuCommand is IMenuCommand) {
 				Sensitive = ((IMenuCommand)menuCommand).IsEnabled;

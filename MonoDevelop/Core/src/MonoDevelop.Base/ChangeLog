@@ -1,3 +1,47 @@
+2005-01-31  Lluis Sanchez Gual  <lluis@novell.com>
+
+	* Services/Project/DefaultProjectService.cs: In BuildActiveCombine(),
+	show the output window even if compilation is not needed.
+	Register file formats defined in the configuration file.
+	
+	* Services/ParserService/CodeCompletionDatabase.cs:
+	* Services/ParserService/ProjectCodeCompletionDatabase.cs: Use project
+	events to detect when project files are modified/added/removed.
+	* Services/ParserService/DefaultParserService.cs: Remove subscription
+	to projectService.FileAddedToProject. This is now handled in the
+	ProjectCodeCompletionDatabase.
+	
+	* Gui/Components/SdMenuSeparator.cs: Separators are visible by default.
+	* Gui/Components/SdMenuCommand.cs: If the command is not visible,
+	avoid the ShowAll() call at the end.
+	* Services/MenuService/MenuService.cs: Don't use ShowAll() to show
+	the menu since it will also show hidden menu items.
+	
+	* Gui/Pads/OpenTaskView.cs: The Description, Path and File columns
+	are now resizable.
+	
+	* Gui/Pads/DefaultMonitorPad.cs: Only reposition the cursor when a line
+	of text is complete.
+	
+	* Makefile.am: Added new file format codon.
+	
+	* Internal/Project/Project/ProjectFile.cs: Removed the
+	FileSystemWatcher from ProjectFile. File changes are now detected at
+	project level. This saves lots of resources for big projects.
+	
+	* Internal/Project/Project/Project.cs: Properly detect when a project
+	needs to be built.
+	
+	* Internal/Project/Combine/CombineEntry.cs:
+	* Internal/Project/Combine/Combine.cs: Removed GetOutputFileName()
+	method. It does not make sense in Combine.
+	
+	* Internal/ProgressMonitoring/LogTextWriter.cs: Added method for
+	chaining several text writers.
+	
+	* MonoDevelopCore.addin.xml: Defined extension path for custom
+	file formats.
+
 2005-01-31  John Luke  <john.luke@gmail.com>
 
 	* Gui/Components/SdToolbarCommand.cs:

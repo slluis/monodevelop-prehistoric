@@ -52,7 +52,7 @@ namespace MonoDevelop.Services
 					//contextMenu.Items.AddRange(submenuBuilder.BuildSubmenu(null, owner));
 				}
 			}
-			contextMenu.ShowAll();
+			contextMenu.Show();
 			return contextMenu;
 		}
 		
