@@ -291,10 +291,9 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 			this.Title = "Word Count";
 			Button startButton = new Button (Stock.Execute);
 			startButton.Clicked += new EventHandler (startEvent);
-			this.AddButton (startButton, 7);
+			this.AddActionWidget (startButton, 7);
 			
-			Button cancelButton = new Button (Stock.Cancel);
-			this.AddButton (cancelButton, (int) ResponseType.Cancel);
+			this.AddButton (Stock.Cancel, (int) ResponseType.Cancel);
 			
 			resultListView = new TreeView ();
 			resultListView.RulesHint = true;

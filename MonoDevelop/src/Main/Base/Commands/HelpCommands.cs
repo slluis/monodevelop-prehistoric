@@ -9,21 +9,15 @@ using System;
 using System.Diagnostics;
 using System.IO;
 using System.Collections;
-//using System.Windows.Forms;
-using System.Drawing; // Added
-using System.ComponentModel; //Added
-using System.Resources; // Added
 using Gtk;
 using GtkSharp;
 
 using ICSharpCode.Core.AddIns.Codons;
-
 using ICSharpCode.Core.Properties;
 using ICSharpCode.Core.Services;
 using ICSharpCode.SharpDevelop.Services;
 using ICSharpCode.SharpDevelop.Gui;
 using ICSharpCode.SharpDevelop.Gui.Dialogs;
-using ICSharpCode.SharpDevelop.Gui.XmlForms; // Added
 
 namespace ICSharpCode.SharpDevelop.Commands
 {
@@ -68,6 +62,7 @@ namespace ICSharpCode.SharpDevelop.Commands
 		}
 	}
 	
+	// FIXME: dont use Process Start for HTML files
 	public class GotoLink : AbstractMenuCommand
 	{
 		string site;
@@ -94,10 +89,9 @@ namespace ICSharpCode.SharpDevelop.Commands
 	{
 		public override void Run()
 		{
-			//using (TipOfTheDayDialog totdd = new TipOfTheDayDialog()) {
-			//	totdd.Owner = (Gtk.Window)WorkbenchSingleton.Workbench;
-			//	totdd.ShowDialog();
-			//}
+			// TipOfTheDayDialog totdd = new TipOfTheDayDialog ();
+			// totdd.Run ();
+			// totdd.Hide ();
 		}
 	}
 	
@@ -105,7 +99,7 @@ namespace ICSharpCode.SharpDevelop.Commands
 	{
 		public override void Run()
 		{
-			CommonAboutDialog ad = new CommonAboutDialog("About SharpDevelop", (Window) WorkbenchSingleton.Workbench, DialogFlags.DestroyWithParent);
+			CommonAboutDialog ad = new CommonAboutDialog ();
 			ad.Run ();
 			ad.Hide ();
 		}

@@ -154,11 +154,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 			type = RegisterGType (typeof (CommonAboutDialog));
 		}
 		
-		public CommonAboutDialog() : base (type)
-		{
-		}
-		
-		public CommonAboutDialog(string title, Gtk.Window parent, DialogFlags flags) : base (title, parent, flags)
+		public CommonAboutDialog() : base ("About MonoDevelop", (Gtk.Window) WorkbenchSingleton.Workbench, DialogFlags.DestroyWithParent)
 		{
 			ResourceService resourceService = (ResourceService) ServiceManager.Services.GetService(typeof (IResourceService));
 			aboutPictureScrollBox = new ScrollBox ();
@@ -180,9 +176,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 			nb.AppendPage (changelog, new Label ("ChangeLog"));
 			nb.AppendPage (vinfo, new Label ("Version Info"));
 			this.VBox.PackStart (nb);
-			Button close = new Button (Stock.Close);
-			close.Show ();
-			this.AddButton (close, (int) ResponseType.Close);
+			this.AddButton (Stock.Close, (int) ResponseType.Close);
 			this.ShowAll ();
 		}
 		
