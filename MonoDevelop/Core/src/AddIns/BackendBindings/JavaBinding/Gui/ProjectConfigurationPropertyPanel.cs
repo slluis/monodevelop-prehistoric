@@ -47,6 +47,7 @@ namespace JavaBinding
 		private Entry mainClass = new Entry ();
 		
 		JavaCompilerParameters compilerParameters = null;
+		DotNetProjectConfiguration configuration;
 		
 		public override bool ReceiveDialogMessage(DialogMessage message)
 		{
@@ -61,10 +62,10 @@ namespace JavaBinding
 
 				compilerParameters.GenWarnings = checkWarnings.Active;			
 				compilerParameters.Deprecation = checkDeprecation.Active;			
-				compilerParameters.Debugmode = checkDebug.Active;			
+				configuration.DebugMode = checkDebug.Active;			
 				compilerParameters.Optimize = checkOptimize.Active;						
-				compilerParameters.OutputAssembly = outputAssembly.Text;
-				compilerParameters.OutputDirectory = outputDirectory.Text;
+				configuration.OutputAssembly = outputAssembly.Text;
+				configuration.OutputDirectory = outputDirectory.Text;
 				
 				compilerParameters.CompilerPath = compilerPath.Text;
 				compilerParameters.ClassPath = classPath.Text;
@@ -75,7 +76,8 @@ namespace JavaBinding
 		
 		void SetValues(object sender, EventArgs e)
 		{
-			this.compilerParameters = (JavaCompilerParameters)((IProperties)CustomizationObject).GetProperty("Config");
+			configuration = (DotNetProjectConfiguration)((IProperties)CustomizationObject).GetProperty("Config");
+			compilerParameters = (JavaCompilerParameters) configuration.CompilationParameters;
 			
 			if (compilerParameters.Compiler == JavaCompiler.Javac)
 				javac.Active = true;
@@ -83,11 +85,11 @@ namespace JavaBinding
 				gcj.Active = true;
 
 			checkOptimize.Active = compilerParameters.Optimize;
-			checkDebug.Active = compilerParameters.Debugmode;
+			checkDebug.Active = configuration.DebugMode;
 			checkDeprecation.Active = compilerParameters.Deprecation;
 			checkWarnings.Active = compilerParameters.GenWarnings;
-			outputAssembly.Text = compilerParameters.OutputAssembly;
-			outputDirectory.Text = compilerParameters.OutputDirectory;
+			outputAssembly.Text = configuration.OutputAssembly;
+			outputDirectory.Text = configuration.OutputDirectory;
 			
 			compilerPath.Text = compilerParameters.CompilerPath;
 			classPath.Text = compilerParameters.ClassPath;				

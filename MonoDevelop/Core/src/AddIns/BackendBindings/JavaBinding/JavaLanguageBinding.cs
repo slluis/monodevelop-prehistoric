@@ -16,6 +16,7 @@ using System.Xml;
 using MonoDevelop.Internal.Project;
 using MonoDevelop.Internal.Templates;
 using MonoDevelop.Gui;
+using MonoDevelop.Services;
 
 namespace JavaBinding
 {
@@ -27,36 +28,16 @@ namespace JavaBinding
 		public const string LanguageName = "Java";
 		
 		JavaBindingCompilerServices   compilerServices  = new JavaBindingCompilerServices();
-		JavaBindingExecutionServices  executionServices = new JavaBindingExecutionServices();
+		
+		public JavaLanguageBinding ()
+		{
+			Runtime.ProjectService.DataContext.IncludeType (typeof(JavaCompilerParameters));
+		}
 		
 		public string Language {
 			get {
 				return LanguageName;
 			}
-		}
-		
-		public void Execute (string filename)
-		{
-			Debug.Assert(executionServices != null);
-			executionServices.Execute(filename);
-		}
-		
-		public void Execute (IProject project)
-		{
-			Debug.Assert (executionServices != null);
-			executionServices.Execute (project);
-		}
-		
-		public string GetCompiledOutputName(string fileName)
-		{
-			Debug.Assert(compilerServices != null);
-			return compilerServices.GetCompiledOutputName(fileName);
-		}
-		
-		public string GetCompiledOutputName(IProject project)
-		{
-			Debug.Assert(compilerServices != null);
-			return compilerServices.GetCompiledOutputName(project);
 		}
 		
 		public bool CanCompile(string fileName)
@@ -65,36 +46,29 @@ namespace JavaBinding
 			return compilerServices.CanCompile(fileName);
 		}
 		
-		public ICompilerResult CompileFile(string fileName)
+		public ICompilerResult Compile (ProjectFileCollection projectFiles, ProjectReferenceCollection references, DotNetProjectConfiguration configuration)
 		{
 			Debug.Assert(compilerServices != null);
-			return compilerServices.CompileFile(fileName);
+			return compilerServices.Compile (projectFiles, references, configuration);
 		}
 		
-		public ICompilerResult CompileProject(IProject project)
-		{
-			Debug.Assert(compilerServices != null);
-			return compilerServices.CompileProject(project);
-		}
-		
-		public ICompilerResult RecompileProject(IProject project)
-		{
-			return CompileProject(project);
-		}
-		
-		public IProject CreateProject(ProjectCreateInformation info, XmlElement projectOptions)
-		{
-			return new JavaProject(info, projectOptions);
-		}
-
-		public void DebugProject (IProject project)
-		{
-			//executionManager.Debug (project);
-		}
-
-		public void GenerateMakefile (IProject project, Combine parentCombine)
+		public void GenerateMakefile (Project project, Combine parentCombine)
 		{
 			throw new NotImplementedException ();
+		}
+		
+		public object CreateCompilationParameters (XmlElement projectOptions)
+		{
+			JavaCompilerParameters parameters = new JavaCompilerParameters ();
+			if (projectOptions != null) {
+				if (projectOptions.Attributes["MainClass"] != null) {
+					parameters.MainClass = projectOptions.GetAttribute ("MainClass");
+				}
+				if (projectOptions.Attributes["ClassPath"] != null) {
+					parameters.ClassPath = projectOptions.GetAttribute ("ClassPath");
+				}
+			}
+			return parameters;
 		}
 		
 		// http://www.nbirn.net/Resources/Developers/Conventions/Commenting/Java_Comments.htm#CommentBlock

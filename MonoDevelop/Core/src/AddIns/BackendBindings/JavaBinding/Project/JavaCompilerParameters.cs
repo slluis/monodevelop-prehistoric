@@ -10,143 +10,100 @@ using System.Xml;
 using System.Diagnostics;
 
 using MonoDevelop.Internal.Project;
+using MonoDevelop.Internal.Serialization;
 
 namespace JavaBinding
 {
 	/// <summary>
 	/// This class handles project specific compiler parameters
 	/// </summary>
-	public class JavaCompilerParameters : AbstractProjectConfiguration
+	public class JavaCompilerParameters
 	{
-		[XmlNodeName("CodeGeneration")]
-		class CodeGeneration 
-		{
-			[XmlAttribute("includedebuginformation")]
-			public bool debugmode = true;
-			
-			[XmlAttribute("deprecation")]
-			public bool deprecation = true;
-			
-			[XmlAttribute("optimize")]
-			public bool optimize = true;
-			
-			[XmlAttribute("mainclass")]
-			public string  mainclass = null;
-			
-			[XmlAttribute("definesymbols")]
-			public string definesymbols = String.Empty;
-			
-			[XmlAttribute("classpath")]
-			public string classpath = String.Empty;
-			
-			[XmlAttribute ("compiler")]
-			public JavaCompiler compiler = JavaCompiler.Gcj;		
-			[XmlAttribute("compilerpath")]
-			public string compilerpath = "gcj";		
-			
-			[XmlAttribute("genwarnings")]
-			public bool genwarnings = false;
-		}
+		[ItemProperty("deprecation")]
+		bool deprecation = true;
 		
-		[XmlNodeName("Execution")]
-		class Execution
-		{
-			[XmlAttribute("consolepause")]
-			public bool pauseconsoleoutput = true;
-		}
+		[ItemProperty("optimize")]
+		bool optimize = true;
 		
-		CodeGeneration codeGeneration = new CodeGeneration ();
+		[ItemProperty("mainclass")]
+		string  mainclass = null;
 		
-		Execution execution = new Execution ();
+		[ItemProperty("definesymbols")]
+		string definesymbols = String.Empty;
+		
+		[ItemProperty("classpath")]
+		string classpath = String.Empty;
+		
+		[ItemProperty ("compiler")]
+		JavaCompiler compiler = JavaCompiler.Gcj;
 
+		[ItemProperty("compilerpath")]
+		string compilerpath = "gcj";		
+		
+		[ItemProperty("genwarnings")]
+		bool genwarnings = false;
+		
 		public bool GenWarnings {
 			get {
-				return codeGeneration.genwarnings;
+				return genwarnings;
 			}
 			set {
-				codeGeneration.genwarnings = value;
+				genwarnings = value;
 			}
 		}
 		
 		public string ClassPath {
 			get {
-				return codeGeneration.classpath;
+				return classpath;
 			}
 			set {
-				codeGeneration.classpath = value;
+				classpath = value;
 			}
 		}
 
 		public JavaCompiler Compiler {
 			get {
-				return codeGeneration.compiler;
+				return compiler;
 			}
 			set {
-				codeGeneration.compiler = value;
+				compiler = value;
 			}
 		}
 		
 		public string CompilerPath {
 			get {
-				return codeGeneration.compilerpath;
+				return compilerpath;
 			}
 			set {
-				codeGeneration.compilerpath = value;
-			}
-		}
-		
-		public bool Debugmode {
-			get {
-				return codeGeneration.debugmode;
-			}
-			set {
-				codeGeneration.debugmode = value;
+				compilerpath = value;
 			}
 		}
 		
 		public bool Deprecation {
 			get {
-				return codeGeneration.deprecation;
+				return deprecation;
 			}
 			set {
-				codeGeneration.deprecation = value;
+				deprecation = value;
 			}
 		}
 		
 		public bool Optimize {
 			get {
-				return codeGeneration.optimize;
+				return optimize;
 			}
 			set {
-				codeGeneration.optimize = value;
+				optimize = value;
 			}
 		}
 		
 		public string MainClass {
 			get {
-				return codeGeneration.mainclass;
+				return mainclass;
 			}
 			set {
-				codeGeneration.mainclass = value;
+				mainclass = value;
 			}
-		}
-		
-		public bool PauseConsoleOutput {
-			get {
-				return execution.pauseconsoleoutput;
-			}
-			set {
-				execution.pauseconsoleoutput = value;
-			}
-		}
-		
-		public JavaCompilerParameters()
-		{
-		}
-
-		public JavaCompilerParameters(string name)
-		{
-			this.name = name;
 		}
 	}
 }

@@ -51,7 +51,7 @@
   </Extension>
 
   <Extension path = "/SharpDevelop/Workbench/ProjectOptions/ConfigurationProperties">
-    <Conditional activeproject = "Java">
+    <Conditional activelanguage = "Java">
       <DialogPanel id = "JavaProjectPanel"
                    _label = "Code Generation"
                    class = "JavaBinding.ProjectConfigurationPropertyPanel"/>

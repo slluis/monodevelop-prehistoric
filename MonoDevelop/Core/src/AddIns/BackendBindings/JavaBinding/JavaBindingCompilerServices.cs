@@ -19,33 +19,12 @@ namespace JavaBinding
 {
 	public class JavaBindingCompilerServices
 	{
-		JavaProject project;
-			
 		public bool CanCompile (string fileName)
 		{
 			return Path.GetExtension(fileName) == ".java";
 		}
 		
-		public ICompilerResult CompileFile (string filename)
-		{
-			// we really dont support compiling single files
-			throw new NotImplementedException ();	
-		}
-		
-		public string GetCompiledOutputName (string fileName)
-		{
-			return Path.ChangeExtension (fileName, ".class");
-		}
-
 		FileUtilityService fileUtilityService = (FileUtilityService) ServiceManager.GetService(typeof(FileUtilityService));
-
-		public string GetCompiledOutputName (IProject project)
-		{
-			JavaProject p = (JavaProject) project;
-			JavaCompilerParameters compilerparameters = (JavaCompilerParameters) p.ActiveConfiguration;
-			
-			return fileUtilityService.GetDirectoryNameWithSeparator (compilerparameters.OutputDirectory) + compilerparameters.OutputAssembly + ".class";
-		}
 
 		string GetCompilerName (JavaCompilerParameters cp)
 		{
@@ -57,18 +36,18 @@ namespace JavaBinding
 			return "javac";
 		}
 		
-		public ICompilerResult CompileProject (IProject project)
+		public ICompilerResult Compile (ProjectFileCollection projectFiles, ProjectReferenceCollection references, DotNetProjectConfiguration configuration)
 		{
-			this.project = (JavaProject) project;
-			JavaCompilerParameters compilerparameters = (JavaCompilerParameters) project.ActiveConfiguration;
+			JavaCompilerParameters compilerparameters = (JavaCompilerParameters) configuration.CompilationParameters;
+			if (compilerparameters == null) compilerparameters = new JavaCompilerParameters ();
 			
-			string outdir = compilerparameters.OutputDirectory;
-			string exe = Path.Combine (outdir, compilerparameters.OutputAssembly + ".class");
+			string outdir = configuration.OutputDirectory;
+			string exe = Path.Combine (outdir, configuration.OutputAssembly + ".class");
 			string options = "";
 
 			string compiler = GetCompilerName (compilerparameters);
 			
-			if (compilerparameters.Debugmode) 
+			if (configuration.DebugMode) 
 				options += " -g ";
 			else
 				options += " -g:none ";
@@ -89,7 +68,7 @@ namespace JavaBinding
 			
 			string files  = "";
 			
-			foreach (ProjectFile finfo in project.ProjectFiles) {
+			foreach (ProjectFile finfo in projectFiles) {
 				if (finfo.Subtype != Subtype.Directory) {
 					switch (finfo.BuildAction) {
 						case BuildAction.Compile:
@@ -116,13 +95,13 @@ namespace JavaBinding
 
 			StreamReader output;
 			StreamReader error;
-			DoCompilation (compiler, args, tf, out output, out error);
+			DoCompilation (compiler, args, tf, configuration, compilerparameters, out output, out error);
 			ICompilerResult cr = ParseOutput (tf, error);			
 			
 			return cr;
 		}
 
-		private void DoCompilation (string compiler, string args, TempFileCollection tf, out StreamReader output, out StreamReader error)
+		private void DoCompilation (string compiler, string args, TempFileCollection tf, DotNetProjectConfiguration configuration, JavaCompilerParameters compilerparameters, out StreamReader output, out StreamReader error)
 		{
             ProcessStartInfo si = new ProcessStartInfo (compiler, args);
 			si.RedirectStandardOutput = true;
@@ -142,7 +121,7 @@ namespace JavaBinding
 				System.Threading.Thread.Sleep (100);
 			}
 			
-			CompileToAssembly ();
+			CompileToAssembly (configuration, compilerparameters);
 			((SdStatusBar) sbs.Control).Done ();
 		
 			// FIXME: avoid having a full buffer
@@ -152,11 +131,10 @@ namespace JavaBinding
 			error = p.StandardError;
         }
 
-		void CompileToAssembly ()
+		void CompileToAssembly (DotNetProjectConfiguration configuration, JavaCompilerParameters compilerparameters)
 		{
-			JavaCompilerParameters compilerparameters = (JavaCompilerParameters) project.ActiveConfiguration;
-			string outdir = compilerparameters.OutputDirectory;
-			string outclass = Path.Combine (outdir, compilerparameters.OutputAssembly + ".class");
+			string outdir = configuration.OutputDirectory;
+			string outclass = Path.Combine (outdir, configuration.OutputAssembly + ".class");
 			string asm = Path.GetFileNameWithoutExtension (outclass);
 		
 			// sadly I dont think we can specify the output .class name

@@ -11,12 +11,10 @@ DLLS = /r:System.Drawing.dll \
 FILES = \
 Gui/ProjectConfigurationPropertyPanel.cs \
 Project/JavaCompilerParameters.cs \
-Project/JavaProject.cs \
 JavaBindingCompilerServices.cs \
 JavaCompiler.cs \
 JavaLanguageBinding.cs \
 FormatingStrategy/JavaFormattingStrategy.cs \
-JavaBindingExecutionServices.cs \
 ProjectTreeBuilder/JavaNodeBuilder.cs
 
 TEMPLATES = \

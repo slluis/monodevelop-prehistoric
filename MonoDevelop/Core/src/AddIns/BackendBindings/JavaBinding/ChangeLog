@@ -1,3 +1,17 @@
+2005-01-11  Lluis Sanchez Gual  <lluis@novell.com>
+
+	* JavaBindingCompilerServices.cs:
+	* Gui/ProjectConfigurationPropertyPanel.cs:
+	* JavaLanguageBinding.cs:
+	* JavaBinding.addin.xml:
+	* ProjectTreeBuilder/JavaNodeBuilder.cs: Follow architecture changes.
+	
+	* JavaCompilerParameters.cs: Moved some parameters and enum
+	definitions to DotNetProjectConfiguration.
+	
+	* Project/JavaProject.cs: Removed. Not needed any more.
+	* Makefile.am: Updated.
+
 2004-12-13  Lluis Sanchez Gual  <lluis@novell.com>
 
 	* JavaBindingCompilerServices.cs: StatusBarService.ProgressMonitor is
