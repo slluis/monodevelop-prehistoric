@@ -1,3 +1,7 @@
+2004-06-13  Todd Berman  <tberman@sevenl.net>
+
+	* Internal/Project/Project/Deployment/ScriptDeploy.cs: string fix
+
 2004-06-11  Todd Berman  <tberman@sevenl.net>
 
 	* Services/SystemAssemblyService.cs: Dont scan the same path twice.

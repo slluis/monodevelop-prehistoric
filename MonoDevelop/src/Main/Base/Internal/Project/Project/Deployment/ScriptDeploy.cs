@@ -21,7 +21,7 @@ namespace MonoDevelop.Internal.Project
 			IResourceService resourceService = (IResourceService)ServiceManager.Services.GetService(typeof(IResourceService));
 			if (project.DeployInformation.DeployScript.Length == 0) {
 				IMessageService messageService =(IMessageService)ServiceManager.Services.GetService(typeof(IMessageService));
-				messageService.ShowError(GettextCatalog.GetString ("Can't deply: you forgot to specify a deployment script"));
+				messageService.ShowError(GettextCatalog.GetString ("Can't deploy: you forgot to specify a deployment script"));
 				return;
 			}
 			try {
