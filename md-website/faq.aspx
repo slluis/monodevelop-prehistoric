@@ -5,7 +5,7 @@
       
       <div class="title">FAQs &amp; General Help</div>
 
-      <p>Last updated: Apr 1, 2004.</p>
+      <p>$LastChangedDate$</p>
 
       <div class="headlinebar">FAQ</div>
 
