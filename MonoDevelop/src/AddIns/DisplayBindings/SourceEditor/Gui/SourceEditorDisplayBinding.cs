@@ -64,7 +64,7 @@ namespace MonoDevelop.SourceEditor.Gui {
 	}
 	
 	public class SourceEditorDisplayBindingWrapper : AbstractViewContent,
-		IEditable
+		IEditable, IPositionable
 	{
 		internal SourceEditor se;
 		
@@ -89,6 +89,17 @@ namespace MonoDevelop.SourceEditor.Gui {
 			se.View.ToggleOverwrite += new EventHandler (CaretModeChanged);
 			
 			CaretModeChanged (null, null);
+		}
+		
+		public void JumpTo (int line, int column)
+		{
+			// NOTE: 0 based!
+			
+			TextIter itr = se.Buffer.GetIterAtLine (line);
+			itr.LineOffset = column;
+			
+			se.Buffer.MoveMark (se.Buffer.InsertMark, itr);
+			se.View.ScrollMarkOnscreen (se.Buffer.InsertMark);
 		}
 		
 		public override void RedrawContent()
