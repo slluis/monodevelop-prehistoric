@@ -297,7 +297,7 @@ namespace CSharpBinding.Parser
 //			Console.WriteLine("ClassType = " + curType.ClassType);
 			if (curType.ClassType == ClassType.Interface && !showStatic) {
 				foreach (string s in curType.BaseTypes) {
-					IClass baseClass = SearchType(s, curType.CompilationUnit);
+					IClass baseClass = parserService.GetClass (project, s, true, true);
 					if (baseClass != null && baseClass.ClassType == ClassType.Interface) {
 						ListMembers(members, baseClass);
 					}
@@ -316,7 +316,7 @@ namespace CSharpBinding.Parser
 		public IClass BaseClass(IClass curClass)
 		{
 			foreach (string s in curClass.BaseTypes) {
-				IClass baseClass = SearchType(s, curClass.CompilationUnit);
+				IClass baseClass = parserService.GetClass (project, s, true, true);
 				if (baseClass != null && baseClass.ClassType != ClassType.Interface) {
 					return baseClass;
 				}
@@ -484,7 +484,7 @@ namespace CSharpBinding.Parser
 				}
 			}
 			foreach (string baseType in curType.BaseTypes) {
-				IClass c = SearchType(baseType, curType.CompilationUnit);
+				IClass c = parserService.GetClass (project, baseType, true, true);
 				if (c != null) {
 					IReturnType erg = SearchMember(new ReturnType(c.FullyQualifiedName), memberName);
 					if (erg != null) {
@@ -707,15 +707,15 @@ namespace CSharpBinding.Parser
 		/// </remarks>
 		public IClass SearchType(string name, ICompilationUnit unit)
 		{
-			Console.WriteLine("Searching Type " + name);
+//			Console.WriteLine("Searching Type " + name);
 			if (name == null || name == String.Empty) {
-				Console.WriteLine("No Name!");
+//				Console.WriteLine("No Name!");
 				return null;
 			}
 			IClass c;
 			c = parserService.GetClass(project, name);
 			if (c != null) {
-				Console.WriteLine("Found!");
+//				Console.WriteLine("Found!");
 				return c;
 			}
 			Console.WriteLine("No FullName");
@@ -723,10 +723,10 @@ namespace CSharpBinding.Parser
 				Console.WriteLine(unit.Usings.Count + " Usings");
 				foreach (IUsing u in unit.Usings) {
 					if (u != null && (u.Region == null || u.Region.IsInside(caretLine, caretColumn))) {
-						Console.WriteLine("In UsingRegion");
+//						Console.WriteLine("In UsingRegion");
 						c = parserService.SearchType(project, u, name);
 						if (c != null) {
-							Console.WriteLine("SearchType Successfull!!!");
+//							Console.WriteLine("SearchType Successfull!!!");
 							return c;
 						}
 					}
@@ -737,14 +737,19 @@ namespace CSharpBinding.Parser
 			}
 			string fullname = callingClass.FullyQualifiedName;
 			string[] namespaces = fullname.Split(new char[] {'.'});
-			string curnamespace = namespaces[0] + '.';
-			for (int i = 1; i < namespaces.Length; ++i) {
+			string curnamespace = "";
+			int i = 0;
+			
+			do {
+				curnamespace += namespaces[i] + '.';
 				c = parserService.GetClass(project, curnamespace + name);
 				if (c != null) {
 					return c;
 				}
-				curnamespace += namespaces[i] + '.';
+				i++;
 			}
+			while (i < namespaces.Length);
+			
 			return null;
 		}
 		
@@ -760,7 +765,8 @@ namespace CSharpBinding.Parser
 				return true;
 			}
 			foreach (string baseClass in c.BaseTypes) {
-				if (IsClassInInheritanceTree(possibleBaseClass, SearchType(baseClass, cu))) {
+				IClass bc = parserService.GetClass (project, baseClass, true, true);
+				if (IsClassInInheritanceTree(possibleBaseClass, bc)) {
 					return true;
 				}
 			}
@@ -882,7 +888,8 @@ namespace CSharpBinding.Parser
 			if (type.ArrayDimensions != null && type.ArrayDimensions.Length > 0)
 				type = new ReturnType ("System.Array");
 
-			IClass returnClass = parserService.SearchType (project, type.FullyQualifiedName, null, cu);
+			IClass returnClass = SearchType (type.FullyQualifiedName, cu);
+//			IClass returnClass = parserService.SearchType (project, type.FullyQualifiedName, null, cu);
 			if (returnClass == null)
 				return null;
 
