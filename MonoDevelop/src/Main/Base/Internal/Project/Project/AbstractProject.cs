@@ -207,19 +207,22 @@ namespace MonoDevelop.Internal.Project
 				string file = Path.GetFileName (sfile);
 
 				if (!IsFileInProject(sfile) &&
-				     extension != ".SCC" &&  // source safe control files -- Svante Lidmans
-				     extension != ".DLL" &&
-				     extension != ".PDB" &&
-				     extension != ".EXE" &&
-				     extension != ".CMBX" &&
-				     extension != ".PRJX" &&
-				     extension != ".SWP" &&
-				     !file.EndsWith ("~") &&
-				     !file.StartsWith (".") &&
-				     !Path.GetDirectoryName(file).EndsWith("CVS") &&
-				     !Path.GetDirectoryName(file).EndsWith(".svn") &&
-				     !file.StartsWith ("Makefile") &&
-				     !Path.GetDirectoryName(file).EndsWith("ProjectDocumentation")) {
+					extension != ".SCC" &&  // source safe control files -- Svante Lidmans
+					extension != ".DLL" &&
+					extension != ".PDB" &&
+					extension != ".EXE" &&
+					extension != ".CMBX" &&
+					extension != ".PRJX" &&
+					extension != ".SWP" &&
+					extension != ".MDSX" &&
+					extension != ".PIDB" &&
+					!file.EndsWith ("make.sh") &&
+					!file.EndsWith ("~") &&
+					!file.StartsWith (".") &&
+					!Path.GetDirectoryName(file).EndsWith("CVS") &&
+					!Path.GetDirectoryName(file).EndsWith(".svn") &&
+					!file.StartsWith ("Makefile") &&
+					!Path.GetDirectoryName(file).EndsWith("ProjectDocumentation")) {
 
 					newFiles.Add(sfile);
 				}

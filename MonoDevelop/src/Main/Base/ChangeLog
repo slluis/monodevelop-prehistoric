@@ -1,5 +1,10 @@
 2004-05-26  Todd Berman  <tberman@sevenl.net>
 
+	* Internal/Project/Project/AbstractProject.cs: ignore .pidb, .mdsx and
+	make.sh.
+
+2004-05-26  Todd Berman  <tberman@sevenl.net>
+
 	* Services/Project/DefaultProjectService.cs: auto-generate makefiles
 	on changes. I think i hit all the needed events, lets see.
 
