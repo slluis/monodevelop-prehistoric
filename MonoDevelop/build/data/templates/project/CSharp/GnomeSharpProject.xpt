@@ -7,7 +7,7 @@
 	<TemplateConfiguration>
 		<Name>GnomeSharp Project</Name>
 		<Category>C#</Category>
-		<Icon>C#.Project.DOSProject</Icon>
+		<Icon>C#.Project.Form</Icon>
 		<LanguageName>C#</LanguageName>
 		<Description>Gnome# project description</Description>
 	</TemplateConfiguration>

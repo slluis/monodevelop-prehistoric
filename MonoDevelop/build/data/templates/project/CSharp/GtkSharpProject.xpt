@@ -7,7 +7,7 @@
 	<TemplateConfiguration>
 		<Name>GtkSharp Project</Name>
 		<Category>C#</Category>
-		<Icon>C#.Project.DOSProject</Icon>
+		<Icon>C#.Project.Form</Icon>
 		<LanguageName>C#</LanguageName>
 		<Description>Gtk# project description</Description>
 	</TemplateConfiguration>
