@@ -196,6 +196,9 @@ namespace MonoDevelop.Services
 			string path = (propertyService.GetProperty("SharpDevelop.CodeCompletion.DataDirectory", String.Empty).ToString());
 			FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.Services.GetService(typeof(FileUtilityService));
 			codeCompletionPath = fileUtilityService.GetDirectoryNameWithSeparator(path);
+			if (!Directory.Exists (codeCompletionPath)) {
+				Directory.CreateDirectory (codeCompletionPath);
+			}
 		}
 
 		public override void InitializeService()
