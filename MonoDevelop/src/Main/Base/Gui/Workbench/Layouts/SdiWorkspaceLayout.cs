@@ -79,6 +79,7 @@ namespace ICSharpCode.SharpDevelop.Gui
 			
 			Gtk.VBox mainBox = new VBox (false, 2);
 			tabControl = new Notebook();
+			tabControl.Scrollable = true;
 			
 			Gtk.VBox vbox = new VBox (false, 0);
 			rootWidget = vbox;
@@ -369,7 +370,17 @@ namespace ICSharpCode.SharpDevelop.Gui
 			}
 			
 			Label label = new Label(title);
-			tabControl.AppendPage (content.Control, label);
+			HBox hbox = new HBox (false, 0);
+			hbox.PackStart (label, false, false, 0);
+			Button btn = new Button ();
+			btn.Child = new Gtk.Image (Gtk.Stock.Close, Gtk.IconSize.Menu);
+			btn.Relief = ReliefStyle.None;
+			btn.RequestSize = new Size (16, 16);
+			btn.Clicked += new EventHandler (closeClicked);
+			
+			hbox.PackStart (btn, false, false, 0);
+			hbox.ShowAll ();
+			tabControl.AppendPage (content.Control, hbox);
 
 			SdiWorkspaceWindow sdiWorkspaceWindow = new SdiWorkspaceWindow(content, tabControl, label);
 
@@ -379,6 +390,26 @@ namespace ICSharpCode.SharpDevelop.Gui
 			
 			tabControl.ShowAll();
 			return sdiWorkspaceWindow;
+		}
+
+		void closeClicked (object o, EventArgs e)
+		{
+			int pageNum = -1;
+			Widget parent = ((Widget)o).Parent;
+			foreach (Widget child in tabControl.Children) {
+				if (tabControl.GetTabLabel (child) == parent) {
+					pageNum = tabControl.PageNum (child);
+					break;
+				}
+			}
+			if (pageNum != -1) {
+				((SdiWorkspaceWindow)_windows [pageNum]).CloseWindow (false, false, pageNum);
+			}
+		}
+
+		public void RemoveTab (int pageNum) {
+			tabControl.RemovePage (pageNum);
+			_windows.RemoveAt (pageNum);
 		}
 		
 		void ActiveMdiChanged(object sender, EventArgs e)

@@ -236,7 +236,7 @@ namespace ICSharpCode.SharpDevelop.Gui
 				ViewContentCollection fullList = new ViewContentCollection(workbenchContentCollection);
 				foreach (IViewContent content in fullList) {
 					IWorkbenchWindow window = content.WorkbenchWindow;
-					window.CloseWindow(false);
+					window.CloseWindow(false, true, 0);
 				}
 			} finally {
 				closeAll = false;
@@ -406,7 +406,7 @@ namespace ICSharpCode.SharpDevelop.Gui
 			if (e.IsDirectory) {
 				foreach (IViewContent content in ViewContentCollection) {
 					if (content.ContentName.StartsWith(e.FileName)) {
-						content.WorkbenchWindow.CloseWindow(true);
+						content.WorkbenchWindow.CloseWindow(true, true, 0);
 					}
 				}
 			} else {
@@ -414,7 +414,7 @@ namespace ICSharpCode.SharpDevelop.Gui
 					// WINDOWS DEPENDENCY : ToUpper
 					if (content.ContentName != null &&
 					    content.ContentName.ToUpper() == e.FileName.ToUpper()) {
-						content.WorkbenchWindow.CloseWindow(true);
+						content.WorkbenchWindow.CloseWindow(true, true, 0);
 						return;
 					}
 				}
@@ -483,7 +483,7 @@ namespace ICSharpCode.SharpDevelop.Gui
 				while (WorkbenchSingleton.Workbench.ViewContentCollection.Count > 0) 
 				{
 					IViewContent content = WorkbenchSingleton.Workbench.ViewContentCollection[0];
-					content.WorkbenchWindow.CloseWindow(false);
+					content.WorkbenchWindow.CloseWindow(false, true, 0);
 					if (WorkbenchSingleton.Workbench.ViewContentCollection.Contains(content)) 
 					{
 						return false;

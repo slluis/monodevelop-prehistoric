@@ -99,7 +99,7 @@ namespace ICSharpCode.StartPage
 		
 		void HandleCombineOpened(object sender, CombineEventArgs e)
 		{
-			WorkbenchWindow.CloseWindow(true);
+			WorkbenchWindow.CloseWindow(true, false, 0);
 		}
 		
 		void HtmlControlBeforeNavigate (object sender, OpenUriArgs e)

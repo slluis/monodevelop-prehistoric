@@ -217,7 +217,7 @@ namespace ICSharpCode.SharpDevelop.Gui
 			content.BeforeSave         -= new EventHandler(BeforeSave);
 		}
 		
-		public void CloseWindow(bool force)
+		public void CloseWindow(bool force, bool fromMenu, int pageNum)
 		{
 			if (!force && ViewContent != null && ViewContent.IsDirty) {
 				ResourceService resourceService = (ResourceService)ServiceManager.Services.GetService(typeof(IResourceService));
@@ -254,7 +254,12 @@ namespace ICSharpCode.SharpDevelop.Gui
 						return;
 				}
 			}
-			tabControl.RemovePage (tabControl.CurrentPage);
+			//tabControl.RemovePage (tabControl.CurrentPage);
+			if (fromMenu == true) {
+				WorkbenchSingleton.Workbench.WorkbenchLayout.RemoveTab (tabControl.CurrentPage);
+			} else {
+				WorkbenchSingleton.Workbench.WorkbenchLayout.RemoveTab (pageNum);
+			}
 			OnWindowDeselected(EventArgs.Empty);
 			OnCloseEvent(null);
 		}

@@ -46,7 +46,7 @@ namespace ICSharpCode.SharpDevelop.Gui
 		/// Closes the window, if force == true it closes the window
 		/// without ask, even the content is dirty.
 		/// </summary>
-		void CloseWindow(bool force);
+		void CloseWindow(bool force, bool fromMenu, int pageNum);
 		
 		/// <summary>
 		/// Brings this window to front and sets the user focus to this

@@ -56,7 +56,7 @@ namespace ICSharpCode.SharpDevelop.Commands
 		public override void Run()
 		{
 			if (WorkbenchSingleton.Workbench.ActiveWorkbenchWindow != null) {
-				WorkbenchSingleton.Workbench.ActiveWorkbenchWindow.CloseWindow(false);
+				WorkbenchSingleton.Workbench.ActiveWorkbenchWindow.CloseWindow(false, true, 0);
 			}
 		}
 	}

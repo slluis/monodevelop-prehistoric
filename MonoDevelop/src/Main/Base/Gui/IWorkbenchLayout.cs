@@ -71,7 +71,9 @@ namespace ICSharpCode.SharpDevelop.Gui
 		/// Shows a new <see cref="IViewContent"/>.
 		/// </summary>
 		IWorkbenchWindow ShowView(IViewContent content);
-		
+
+		void RemoveTab (int pageNum);	
+
 		/// <summary>
 		/// Is called, when the workbench window which the user has into
 		/// the foreground (e.g. editable) changed to a new one.
