@@ -1,3 +1,19 @@
+2005-04-06  Chris Toshok  <toshok@ximian.com>
+
+	* Gui/LocalsPad.cs: (LocalsPad.OnStoppedEvent): the CurrentFrame
+	field is of type StackFrame now, so move the cast to the
+	DebuggingService instead of the stackframe.
+
+	* Gui/ThreadPad.cs (ThreadPad.UpdateThread): just set the values
+	on the row, don't both comparing to the current value.
+
+	* DebuggingService.cs (DebuggingService.target_output,
+	DebuggingService.debugger_output): add Console.WriteLines here
+	until I can get the debugger output pad to appear in the debug
+	context.
+	(DebuggingService.CurrentFrame): this property is now a
+	StackFrame, not an object.
+
 2005-04-05  Chris Toshok  <toshok@ximian.com>
 
 	* Visualizers/Makefile.am (DLLS): add MonoDevelop.Debugger.dll.

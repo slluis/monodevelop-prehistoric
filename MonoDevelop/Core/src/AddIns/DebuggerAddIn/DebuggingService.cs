@@ -176,16 +176,19 @@ namespace MonoDevelop.Debugger
 
 		void target_output (bool is_stderr, string line)
 		{
+			Console.WriteLine (line);
 			current_monitor.Log.Write (line);
 		}
 
 		void debugger_output (string line)
 		{
+			Console.WriteLine (line);
 			current_monitor.ReportWarning (line);
 		}
 
 		void debugger_error (object sender, string message, Exception e)
 		{
+		  Console.WriteLine (message);
 			current_monitor.ReportError (message, e);
 		}
 
@@ -362,7 +365,7 @@ namespace MonoDevelop.Debugger
 			}
 		}
 
-		public object CurrentFrame {
+		public StackFrame CurrentFrame {
 			get {
 				if (IsRunning)
 					return null;

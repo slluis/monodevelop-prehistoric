@@ -102,12 +102,9 @@ namespace MonoDevelop.Debugger
 			TreeIter iter;
 
 			if (row != null && store.GetIter (out iter, row.Path)) {
-				if (thread.ID != (int)store.GetValue (iter, 0))
-					store.SetValue (iter, 0, thread.ID);
-				if (thread.PID != (int)store.GetValue (iter, 1))
-					store.SetValue (iter, 1, thread.PID);
-				if (thread.State.ToString() != (string)store.GetValue (iter, 2))
-					store.SetValue (iter, 2, thread.State.ToString());
+				store.SetValue (iter, 0, thread.ID);
+				store.SetValue (iter, 1, thread.PID);
+				store.SetValue (iter, 2, thread.State.ToString());
 
 				string location;
 				if (thread.IsStopped)
@@ -115,8 +112,7 @@ namespace MonoDevelop.Debugger
 				else
 					location = "";
 
-				if (location != (string)store.GetValue (iter, 3))
-					store.SetValue (iter, 3, location);
+				store.SetValue (iter, 3, location);
 			}
 			else {
 				AddThread (thread);

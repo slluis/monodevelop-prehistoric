@@ -88,7 +88,8 @@ namespace MonoDevelop.Debugger
 
 		protected void OnPausedEvent (object o, EventArgs args)
 		{
-			current_frame = (StackFrame)Runtime.DebuggingService.CurrentFrame;
+			DebuggingService dbgr = (DebuggingService)Runtime.DebuggingService;
+			current_frame = dbgr.CurrentFrame;
 			UpdateDisplay ();
 		}
 

@@ -706,13 +706,15 @@ namespace MonoDevelop.Debugger
 
 		protected void OnStoppedEvent (object o, EventArgs args)
 		{
-			current_frame = (Mono.Debugger.StackFrame)Runtime.DebuggingService.CurrentFrame;
+			DebuggingService dbgr = (DebuggingService)Runtime.DebuggingService;
+			current_frame = dbgr.CurrentFrame;
 			UpdateDisplay ();
 		}
 
 		protected void OnPausedEvent (object o, EventArgs args)
 		{
-			current_frame = (Mono.Debugger.StackFrame)Runtime.DebuggingService.CurrentFrame;
+			DebuggingService dbgr = (DebuggingService)Runtime.DebuggingService;
+			current_frame = dbgr.CurrentFrame;
 			UpdateDisplay ();
 		}
 
