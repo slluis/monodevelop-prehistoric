@@ -59,6 +59,9 @@ PKG_CHECK_MODULES(BASE_DEPENDENCIES, mozilla-gtkmozembed >= $MOZGTK_REQUIRED_VER
 MOZILLA_HOME="`$PKG_CONFIG --variable=libdir mozilla-gtkmozembed`"
 AC_SUBST(MOZILLA_HOME)
 
+gnome_prefix="`$PKG_CONFIG --variable=prefix libgnome-2.0`"
+AC_SUBST(gnome_prefix)
+
 AC_OUTPUT([
 Makefile
 libmonodevelop/Makefile
@@ -117,6 +120,7 @@ echo "---"
 echo "Configuration summary"
 echo ""
 echo "   * Installation prefix = $prefix"
+echo "   * GNOME prefix = $gnome_prefix"
 echo ""
 echo "   * gnomevfs $GNOMEVFS_REQUIRED_VERSION: $enable_gnomevfs"
 echo "   * gtk-sharp $GTKSHARP_REQUIRED_VERSION: $enable_gtksharp"

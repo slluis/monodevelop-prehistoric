@@ -6,17 +6,18 @@ bin_SCRIPTS=monodevelop
 
 all:
 
-desktopdir = $(datadir)/applications
+gnome_data = @gnome_prefix@/share
+
+desktopdir = $(gnome_data)/applications
 desktop_DATA = monodevelop.desktop
 
-pixmapdir = $(datadir)/pixmaps
+pixmapdir = $(gnome_data)/pixmaps
 pixmap_DATA = monodevelop.png
 
-# FIXME install to gnome prefix
-mimeinfodir = $(datadir)/mime-info
+mimeinfodir = $(gnome_data)/mime-info
 mimeinfo_DATA = monodevelop.mime monodevelop.keys
 
-applicationdir = $(datadir)/application-registry
+applicationdir = $(gnome_data)/application-registry
 application_DATA = monodevelop.applications
 
 run: runmd
