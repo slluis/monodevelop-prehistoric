@@ -1,3 +1,16 @@
+2005-04-02  John Luke  <john.luke@gmail.com>
+
+	* EditorBindings.glade: add glade part of new Panel
+	* Services/SourceViewService.cs: new service to share
+	the SourceLanguagesManager info
+	* Gui/SourceEditorBuffer.cs: use service
+	* Gui/OptionPanels/SyntaxHighlightingPanel.cs: new panel
+	for controlling all things about syntax highlighting
+	* Gui/OptionPanels/GeneralTextEditorPanel.cs: move enable syntax
+	highlighting to its own panel
+	* Makefile.am: add new files
+	* MonoDevelopEditor.addin.xml: add service
+
 2005-03-14  Lluis Sanchez Gual  <lluis@novell.com>
 
 	* Gui/SourceEditorWidget.cs: Added IntPtr constructor. Nullify

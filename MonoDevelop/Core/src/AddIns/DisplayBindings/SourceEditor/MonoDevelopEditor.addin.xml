@@ -10,6 +10,10 @@
 		<!-- <Import assembly="../bin/MonoDevelop.TextEditor.dll"/> -->
 		<!-- <Import assembly="../bin/MonoDevelop.DefaultTexteditor.dll"/> -->
 	</Runtime>
+
+	<Extension path = "/Workspace/Services">
+		<Class id = "SourceViewService" class="MonoDevelop.Services.SourceViewService" />
+	</Extension>
 	
 	<Extension path = "/SharpDevelop/Dialogs/OptionsDialog/CodingOptions">
 		<DialogPanel id = "CodeTemplates"
@@ -342,6 +346,9 @@
 		<DialogPanel id = "Behavior"
 		             _label = "Behavior"
 		             class = "MonoDevelop.EditorBindings.Gui.OptionPanels.BehaviorTextEditorPanel"/>
+		<DialogPanel id = "SyntaxHighlighting"
+		             _label = "Syntax highlighting"
+		             class = "MonoDevelop.EditorBindings.Gui.OptionPanels.SyntaxHighlightingPanel"/>
 	</Extension>
 	
 	<Extension path = "/SharpDevelop/Dialogs/OptionsDialog">
@@ -358,6 +365,9 @@
 			<DialogPanel id = "Behavior"
 			             _label = "Behavior"
 			             class = "MonoDevelop.EditorBindings.Gui.OptionPanels.BehaviorTextEditorPanel"/>
+			<DialogPanel id = "SyntaxHighlighting"
+		             _label = "Syntax highlighting"
+		             class = "MonoDevelop.EditorBindings.Gui.OptionPanels.SyntaxHighlightingPanel"/>
 		</DialogPanel>
 	</Extension>
 

@@ -5,8 +5,8 @@ using MonoDevelop.Gui;
 using MonoDevelop.Internal.Project;
 using MonoDevelop.Core.Properties;
 using MonoDevelop.Core.AddIns;
-using MonoDevelop.Core.Services;
 using MonoDevelop.Services;
+using MonoDevelop.Core.Services;
 using MonoDevelop.Core.AddIns.Codons;
 using MonoDevelop.Internal.Parser;
 
@@ -65,7 +65,7 @@ namespace MonoDevelop.SourceEditor.Gui
 	
 	public class SourceEditorBuffer : SourceBuffer, IClipboardHandler
 	{	
-		SourceLanguagesManager slm = new SourceLanguagesManager ();
+		SourceViewService svs = ServiceManager.GetService (typeof (SourceViewService)) as SourceViewService;
 		TextTag markup;
 		TextTag complete_ahead;
 		TextTag compilation_error;
@@ -256,7 +256,7 @@ namespace MonoDevelop.SourceEditor.Gui
 		
 		public void LoadText (string text, string mime)
 		{
-			SourceLanguage lang = slm.GetLanguageFromMimeType (mime);
+			SourceLanguage lang = svs.GetLanguageFromMimeType (mime);
 			if (lang != null) 
 				Language = lang;
 

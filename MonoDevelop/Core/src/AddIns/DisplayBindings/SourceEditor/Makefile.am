@@ -23,6 +23,7 @@ Gui/OptionPanels/BehaviorTextEditorPanel.cs \
 Gui/OptionPanels/MarkersTextEditorPanel.cs \
 Gui/OptionPanels/CodeTemplatePanel.cs \
 Gui/OptionPanels/GeneralTextEditorPanel.cs \
+Gui/OptionPanels/SyntaxHighlightingPanel.cs \
 Gui/Dialogs/EditTemplateGroupDialog.cs \
 Gui/Dialogs/GotoLineNumberDialog.cs \
 Gui/Dialogs/ReplaceDialog.cs \
@@ -73,7 +74,8 @@ Search/TextIterator/ITextIterator.cs \
 Search/TextIterator/ForwardTextFileIterator.cs \
 Search/TextIterator/ForwardTextIterator.cs \
 Search/TextIterator/ExtendedStreamReader.cs \
-Search/ITextBufferStrategy.cs
+Search/ITextBufferStrategy.cs \
+Services/SourceViewService.cs
 
 build_sources = $(addprefix $(srcdir)/, $(FILES))
 
