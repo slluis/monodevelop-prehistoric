@@ -1,5 +1,10 @@
 2004-07-05  Todd Berman  <tberman@off.net>
 
+	* Commands/MenuItemBuilders.cs: properly escape filename with
+	underscores in them.
+
+2004-07-05  Todd Berman  <tberman@off.net>
+
 	* Gui/Pads/HelpBrowser/HelpViewer.cs: enable images in monodoc.
 
 2004-07-05  Todd Berman  <tberman@off.net>

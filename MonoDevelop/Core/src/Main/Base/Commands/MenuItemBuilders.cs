@@ -57,7 +57,7 @@ namespace MonoDevelop.Commands
 				
 				for (int i = 0; i < recentOpen.RecentFile.Count; ++i) {
 					string accelaratorKeyPrefix = i < 10 ? "&" + ((i + 1) % 10).ToString() + " " : "";
-					items[i] = new RFMItem(null, null, accelaratorKeyPrefix + recentOpen.RecentFile[i].ToString(), new EventHandler(LoadRecentFile));
+					items[i] = new RFMItem(null, null, accelaratorKeyPrefix + recentOpen.RecentFile[i].ToString().Replace ("_", "__"), new EventHandler(LoadRecentFile));
 					items[i].Tag = recentOpen.RecentFile[i].ToString();
 				}
 				return items;
@@ -97,7 +97,7 @@ namespace MonoDevelop.Commands
 				RPMItem[] items = new RPMItem[recentOpen.RecentProject.Count];
 				for (int i = 0; i < recentOpen.RecentProject.Count; ++i) {
 					string accelaratorKeyPrefix = i < 10 ? "&" + ((i + 1) % 10).ToString() + " " : "";
-					items[i] = new RPMItem(null, null, accelaratorKeyPrefix + recentOpen.RecentProject[i].ToString(), new EventHandler(LoadRecentProject));
+					items[i] = new RPMItem(null, null, accelaratorKeyPrefix + recentOpen.RecentProject[i].ToString().Replace ("_", "__"), new EventHandler(LoadRecentProject));
 					items[i].Tag = recentOpen.RecentProject[i].ToString();
 					items[i].Description = String.Format (GettextCatalog.GetString ("load solution {0}"), recentOpen.RecentProject[i].ToString ());
 				}
