@@ -109,6 +109,9 @@ namespace MonoDevelop.Gui.Components
 					}
 				}
 				ShowAll ();
+				if (((Gtk.Menu)Submenu).Children.Length == 0) {
+					Visible = false;
+				}
 			}
 		}
 		

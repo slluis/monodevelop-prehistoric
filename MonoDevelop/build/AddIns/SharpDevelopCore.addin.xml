@@ -706,6 +706,13 @@
 		                          description = "${res:XML.MainMenu.EditMenu.WordCount.Description}"
 		                          class = "MonoDevelop.Commands.WordCount"/>
 		        </Conditional>
+			<MenuItem id = "optionssep5" _label = "-" />
+                        <MenuItem id = "Options"
+                                  _label = "Preferences"
+                                  icon = "Icons.16x16.Options"
+                                  description = "${res:XML.MainMenu.ToolMenu.Options.Description}"
+                                  class = "MonoDevelop.Commands.OptionsCommand"/>
+
 	        </MenuItem>
 	        
 	        <MenuItem id = "View" _label = "View">
@@ -822,11 +829,6 @@
 
 	                <!-- <MenuItem id = "Separator5" _label = "-" /> -->
 	               
-			<MenuItem id = "Options"
-	                          _label = "Options" 
-	                          icon = "Icons.16x16.Options" 
-	                          description = "${res:XML.MainMenu.ToolMenu.Options.Description}"
-	                          class = "MonoDevelop.Commands.OptionsCommand"/>
 	        </MenuItem>
 	        
 <!-- ORIGINAL #D COMMENT	        <MenuItem id = "AddIns" _label = "${res:XML.MainMenu.PluginMenu}">

@@ -1,3 +1,8 @@
+2004-04-22  Todd Berman  <tberman@sevenl.net>
+
+	* SharpDevelopCore.addin.xml: moving Tools->Options to 
+	Edit->Preferences.
+
 2004-04-02  Todd Berman  <tberman@sevenl.net>
 
 	* SharpDevelopCore.addin: removing, moving to static methods.

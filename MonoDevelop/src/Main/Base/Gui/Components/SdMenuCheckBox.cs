@@ -42,9 +42,14 @@ namespace MonoDevelop.Gui.Components
 			}
 		}
 	
-		public SdMenuCheckBox (string label) : base (label)
+		public SdMenuCheckBox (string label) : base ()
 		{
 			Toggled += new EventHandler (OnClick);
+			Gtk.AccelLabel child = new Gtk.AccelLabel (label);
+			child.Xalign = 0;
+			child.UseUnderline = true;
+			Child = child;
+			child.AccelWidget = this;
 		}
 	
 		public SdMenuCheckBox(ConditionCollection conditionCollection, object caller, string label) : this(stringParserService.Parse(label))

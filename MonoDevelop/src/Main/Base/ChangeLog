@@ -1,3 +1,9 @@
+2004-04-22  Todd Berman  <tberman@sevenl.net>
+
+	* Gui/Components/SdMenu.cs: check for children, if none, hide menu.
+	* Gui/Components/SdMenuCheckBox.cs: small change for gtk-sharp from
+	future cvs, should work with current cvs though.
+
 2004-04-20  Todd Berman  <tberman@sevenl.net>
 
 	* Commands/AutostartCommands.cs: Move stuff around so workbench memento
