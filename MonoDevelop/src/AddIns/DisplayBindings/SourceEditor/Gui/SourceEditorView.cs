@@ -221,12 +221,12 @@ namespace MonoDevelop.SourceEditor.Gui
 			case ' ':
 				string word = GetWordBeforeCaret ();
 				if (word != null) {
-					//if (word.ToLower () == "new") {
-					//	if (EnableCodeCompletion) {
-					//		completionWindow = new CompletionWindow (this, ParentEditor.DisplayBinding.ContentName, new CodeCompletionDataProvider (true));
-					//		completionWindow.ShowCompletionWindow ((char)key, buf.GetIterAtMark (buf.InsertMark), false);
-					//	}
-					//}
+					/*if (word.ToLower () == "new") {
+						if (EnableCodeCompletion) {
+							completionWindow = new CompletionWindow (this, ParentEditor.DisplayBinding.ContentName, new CodeCompletionDataProvider (true));
+							completionWindow.ShowCompletionWindow ((char)key, buf.GetIterAtMark (buf.InsertMark), true);
+						}
+					}*/
 					CodeTemplateGroup templateGroup = CodeTemplateLoader.GetTemplateGroupPerFilename(ParentEditor.DisplayBinding.ContentName);
 					
 					if (templateGroup != null) {

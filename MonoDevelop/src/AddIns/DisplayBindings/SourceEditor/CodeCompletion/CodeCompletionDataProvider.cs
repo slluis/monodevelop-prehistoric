@@ -73,7 +73,7 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 			IExpressionFinder expressionFinder = parserService.GetExpressionFinder(fileName);
 			string expression    = expressionFinder == null ? TextUtilities.GetExpressionBeforeOffset(textArea, insertIter.Offset) : expressionFinder.FindExpression(textArea.Buffer.GetText(textArea.Buffer.StartIter, insertIter, true), insertIter.Offset - 2);
 			if (expression == null) return null;
-
+			//Console.WriteLine ("Expr: |{0}|", expression);
 			//FIXME: This chartyped check is a fucking *HACK*
 			if (ctrlspace && charTyped != '.') {
 				AddResolveResults (parserService.CtrlSpace (parserService, caretLineNumber, caretColumn, fileName));

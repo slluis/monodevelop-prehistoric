@@ -220,7 +220,7 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 			//listView.KeyReleaseEvent += new KeyReleaseEventHandler(ListKeyreleaseEvent);
 			listView.FocusOutEvent += new FocusOutEventHandler (LostFocusListView);
 			listView.RowActivated += new RowActivatedHandler (ActivateItem);
-			listView.AddEvents ((int) (Gdk.EventMask.KeyPressMask));
+			listView.AddEvents ((int) (Gdk.EventMask.KeyPressMask | Gdk.EventMask.LeaveNotifyMask));
 		}
 	
 		/// <remarks>
@@ -312,11 +312,11 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 		
 		void LostFocusListView (object sender, FocusOutEventArgs e)
 		{
+			control.buf.DropCompleteAhead ();
+			control.buf.EndAtomicUndo ();
 			control.HasFocus = true;
 			declarationviewwindow.HideAll ();
 			this.Hide ();
-			control.buf.DropCompleteAhead ();
-			control.buf.EndAtomicUndo ();
 		}
 		
 		void FillList (bool firstTime, char ch)
