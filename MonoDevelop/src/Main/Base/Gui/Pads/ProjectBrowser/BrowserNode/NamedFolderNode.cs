@@ -35,7 +35,7 @@ namespace MonoDevelop.Gui.Pads.ProjectBrowser
 		}
 		
 		
-		public NamedFolderNode(string resourceReference, int sortPriority) : base(((ResourceService)ServiceManager.Services.GetService(typeof(ResourceService))).GetString(resourceReference))
+		public NamedFolderNode(string resourceReference, int sortPriority) : base(resourceReference)
 		{
 			this.resourceReference = resourceReference;
 			this.sortPriority      = sortPriority;

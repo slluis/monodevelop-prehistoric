@@ -56,7 +56,7 @@ namespace MonoDevelop.Gui.Pads.ProjectBrowser
 		
 		public string Title {
 			get {
-				return "Combine";
+				return GettextCatalog.GetString ("Solution");
 			}
 		}
 

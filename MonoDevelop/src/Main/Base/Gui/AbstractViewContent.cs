@@ -7,6 +7,8 @@
 
 using System;
 
+using MonoDevelop.Services;
+
 namespace MonoDevelop.Gui
 {
 	public abstract class AbstractViewContent : AbstractBaseViewContent, IViewContent
@@ -21,7 +23,7 @@ namespace MonoDevelop.Gui
 		bool   hasproject = false;
 
 		public override string TabPageLabel {
-			get { return "Change me"; }
+			get { return GettextCatalog.GetString ("Change me"); }
 		}
 		
 		public virtual string UntitledName {

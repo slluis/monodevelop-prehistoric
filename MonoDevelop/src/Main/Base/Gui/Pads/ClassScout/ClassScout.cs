@@ -79,7 +79,7 @@ namespace MonoDevelop.Gui.Pads
 
 		public string Title {
 			get {
-				return resourceService.GetString("MainWindow.Windows.ClassScoutLabel");
+				return GettextCatalog.GetString("Classes");
 			}
 		}
 
@@ -139,7 +139,7 @@ namespace MonoDevelop.Gui.Pads
 		void OnCombineOpen(object sender, CombineEventArgs e)
 		{
 			Nodes.Clear();
-			Nodes.Add(new TreeNode("Loading..."));
+			Nodes.Add(new TreeNode(GettextCatalog.GetString ("Loading...")));
 			StartCombineparse(e.Combine);
 		}
 
@@ -341,7 +341,7 @@ namespace MonoDevelop.Gui.Pads
 				IconService iconService = (IconService)ServiceManager.Services.GetService(typeof(IconService));
 				//prjNode.SelectedImageIndex = prjNode.ImageIndex = imageIndexOffset + iconService.GetImageIndexForProjectType(p.ProjectType);
 				prjNode.Image = iconService.GetImageForProjectType(p.ProjectType);
-				prjNode.Nodes.Add(new TreeNode("No class builder found"));
+				prjNode.Nodes.Add(new TreeNode(GettextCatalog.GetString ("No class builder found")));
 				prjNode.Tag = p;
 				nodes.Add(prjNode);
 			}

@@ -27,7 +27,7 @@ namespace MonoDevelop.Gui
 		}
 
 		public override string ContentName {
-			get { return "Documentation"; }
+			get { return GettextCatalog.GetString ("Documentation"); }
 		}
 
 		public HelpViewer ()

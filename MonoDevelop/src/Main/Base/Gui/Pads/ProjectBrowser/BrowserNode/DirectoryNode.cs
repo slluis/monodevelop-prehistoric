@@ -107,10 +107,10 @@ namespace MonoDevelop.Gui.Pads.ProjectBrowser
 						}
 					} catch (System.IO.IOException) {   // assume duplicate file
 						IMessageService messageService =(IMessageService)ServiceManager.Services.GetService(typeof(IMessageService));
-						messageService.ShowError("${res:Gui.ProjectBrowser.FileInUseError}");
+						messageService.ShowError(GettextCatalog.GetString ("File or directory name is already in use, choose a different one."));
 					} catch (System.ArgumentException) { // new file name with wildcard (*, ?) characters in it
 						IMessageService messageService =(IMessageService)ServiceManager.Services.GetService(typeof(IMessageService));
-						messageService.ShowError("${res:Gui.ProjectBrowser.IllegalCharactersInFileNameError}");
+						messageService.ShowError(GettextCatalog.GetString ("The file name you have chosen contains illegal characters. Please choose a different file name."));
 					}
 				}
 			}
@@ -128,8 +128,8 @@ namespace MonoDevelop.Gui.Pads.ProjectBrowser
 			ResourceService resourceService = (ResourceService)ServiceManager.Services.GetService(typeof(IResourceService));
 			StringParserService stringParserService = (StringParserService)ServiceManager.Services.GetService(typeof(StringParserService));
 			
-			Gtk.MessageDialog dialog = new Gtk.MessageDialog ((Gtk.Window)WorkbenchSingleton.Workbench, Gtk.DialogFlags.DestroyWithParent, Gtk.MessageType.Question, Gtk.ButtonsType.OkCancel, stringParserService.Parse(resourceService.GetString("ProjectComponent.RemoveFolder.Question"), new string[,] { {"FOLDER", Text}, {"PROJECT", Project.Name}}));
-			
+			Gtk.MessageDialog dialog = new Gtk.MessageDialog ((Gtk.Window)WorkbenchSingleton.Workbench, Gtk.DialogFlags.DestroyWithParent, Gtk.MessageType.Question, Gtk.ButtonsType.OkCancel, String.Format (GettextCatalog.GetString ("Do you want to remove folder {0} from project {1}?"), Text, Project.Name));
+
 			if (dialog.Run() != (int)Gtk.ResponseType.Ok) {
 				dialog.Destroy ();
 				return false;

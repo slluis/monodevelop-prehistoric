@@ -23,8 +23,7 @@ namespace MonoDevelop.Gui
 		
 		public virtual string Title {
 			get {
-				StringParserService stringParserService = (StringParserService)ServiceManager.Services.GetService(typeof(StringParserService));
-				return stringParserService.Parse(title);
+				return title;
 			}
 		}
 		

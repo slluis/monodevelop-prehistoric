@@ -124,10 +124,10 @@ namespace MonoDevelop.Gui.Pads.ProjectBrowser
 						}
 					} catch (System.IO.IOException) {   // assume duplicate file
 						IMessageService messageService =(IMessageService)ServiceManager.Services.GetService(typeof(IMessageService));
-						messageService.ShowError("${res:Gui.ProjectBrowser.FileInUseError}");
+						messageService.ShowError(GettextCatalog.GetString ("File or directory name is already in use, choose a different one."));
 					} catch (System.ArgumentException) { // new file name with wildcard (*, ?) characters in it
 						IMessageService messageService =(IMessageService)ServiceManager.Services.GetService(typeof(IMessageService));
-						messageService.ShowError("${res:Gui.ProjectBrowser.IllegalCharactersInFileNameError}");
+						messageService.ShowError(GettextCatalog.GetString ("The file name you have chosen contains illegal characters. Please choose a different file name."));
 					}
 				}
 			}
@@ -142,9 +142,7 @@ namespace MonoDevelop.Gui.Pads.ProjectBrowser
 			ResourceService resourceService = (ResourceService)ServiceManager.Services.GetService(typeof(IResourceService));
 			StringParserService stringParserService = (StringParserService)ServiceManager.Services.GetService(typeof(StringParserService));
 			
-			//FIXME: bug #55185
-			//Gtk.MessageDialog dialog = new Gtk.MessageDialog ((Gtk.Window)WorkbenchSingleton.Workbench, Gtk.DialogFlags.DestroyWithParent, Gtk.MessageType.Question, Gtk.ButtonsType.OkCancel, stringParserService.Parse(resourceService.GetString("ProjectComponent.RemoveFile.Question"), new string[,] { {"FILE", Path.GetFileName (((ProjectFile)userData).Name)}, {"PROJECT", Project.Name}}));
-			using (MessageDialog dialog = new Gtk.MessageDialog ((Window) WorkbenchSingleton.Workbench, DialogFlags.DestroyWithParent, MessageType.Question, ButtonsType.YesNo, String.Format ("Are you sure you want to remove {0} from the {1}?", Path.GetFileName (((ProjectFile)userData).Name), Project.Name))) {
+			using (MessageDialog dialog = new Gtk.MessageDialog ((Window) WorkbenchSingleton.Workbench, DialogFlags.DestroyWithParent, MessageType.Question, ButtonsType.YesNo, String.Format (GettextCatalog.GetString ("Are you sure you want to remove file {0} from project {1}?"), Path.GetFileName (((ProjectFile)userData).Name), Project.Name))) {
 			
 				if (dialog.Run() != (int)Gtk.ResponseType.Yes) {
 					dialog.Hide ();

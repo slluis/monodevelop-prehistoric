@@ -70,19 +70,17 @@ namespace MonoDevelop.Gui.Components
 		
 		public void ShowErrorMessage(string message)
 		{
-			txtStatusBarPanel.Push (ctx, "Error : " + message);
+			txtStatusBarPanel.Push (ctx, String.Format (GettextCatalog.GetString ("Error : {0}"), message));
 		}
 		
 		public void ShowErrorMessage(Image image, string message)
 		{
-			txtStatusBarPanel.Push (ctx, "Error : " + message);
+			txtStatusBarPanel.Push (ctx, String.Format (GettextCatalog.GetString ("Error : {0}"), message));
 		}
 		
 		public void SetCursorPosition (int ln, int col, int ch)
 		{
-			// FIXME: I18N
-			// FIXME: Properly space, perhaps 3 seperate Labels
-			cursorStatusBarPanel.Push (ctx, String.Format ("ln {0} col {1} ch {2}", ln, col, ch));
+			cursorStatusBarPanel.Push (ctx, String.Format (GettextCatalog.GetString ("ln {0} col {1} ch {2}"), ln, col, ch));
 		}
 		
 		public void SetMessage (string message)

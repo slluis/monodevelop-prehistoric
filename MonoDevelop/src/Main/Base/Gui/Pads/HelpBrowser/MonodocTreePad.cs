@@ -27,7 +27,7 @@ namespace MonoDevelop.Gui.Pads
 		ScrolledWindow scroller;
 		TreeIter root_iter;
 	
-		public HelpTree () : base ("Help", Gtk.Stock.Help)
+		public HelpTree () : base (GettextCatalog.GetString ("Help"), Gtk.Stock.Help)
 		{
 			mds = (MonodocService)ServiceManager.Services.GetService (typeof (MonodocService));
 			tree_view = new TreeView ();
@@ -37,7 +37,7 @@ namespace MonoDevelop.Gui.Pads
         	        tree_view.Selection.Changed += new EventHandler (RowActivated);
 
 			store = new TreeStore (typeof (string), typeof (Node));
-			root_iter = store.AppendValues ("Mono Documentation", mds.HelpTree);
+			root_iter = store.AppendValues (GettextCatalog.GetString ("Mono Documentation"), mds.HelpTree);
 
 			PopulateNode (root_iter);
 
@@ -105,7 +105,7 @@ namespace MonoDevelop.Gui.Pads
 		void ShowDocs (string text, Node matched_node, string url)
 		{
 			foreach (IViewContent content in WorkbenchSingleton.Workbench.ViewContentCollection) {
-				if (content.ContentName == "Documentation") {
+				if (content.ContentName == GettextCatalog.GetString ("Documentation")) {
 					((HelpViewer)content).Render (text, matched_node, url);
 					return;
 				}

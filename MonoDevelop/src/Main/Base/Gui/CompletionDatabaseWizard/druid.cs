@@ -4,6 +4,7 @@ using Gnome;
 
 using MonoDevelop.Gui.Widgets;
 using MonoDevelop.Core.Services;
+using MonoDevelop.Services;
 
 namespace MonoDevelop.Gui.Dialogs.OptionPanels.CompletionDatabaseWizard {
 class MethodSelectionPage : DruidPageStandard {
@@ -12,10 +13,10 @@ class MethodSelectionPage : DruidPageStandard {
 	internal RadioButton download;
 	
 	internal MethodSelectionPage(CodeCompletionDruid druid) : base() {
-		Title = "Generation Method";
-		generateDatabase = new RadioButton("Generate a code completion database");
-		useExisting = new RadioButton(generateDatabase, "Use a code completion database already on this computer");
-		download = new RadioButton(generateDatabase, "Download a code completion database");
+		Title = GettextCatalog.GetString ("Generation Method");
+		generateDatabase = new RadioButton(GettextCatalog.GetString ("Generate a code completion database"));
+		useExisting = new RadioButton(generateDatabase, GettextCatalog.GetString ("Use a code completion database already on this computer"));
+		download = new RadioButton(generateDatabase, GettextCatalog.GetString ("Download a code completion database"));
 		this.NextClicked += new NextClickedHandler(druid.GoToMethodPage);
 		AppendItem("", generateDatabase, "");
 		AppendItem("", useExisting, "");
@@ -29,12 +30,12 @@ class GenerateDatabasePage : DetailsPageBase {
 	internal RadioButton light;
 	
 	internal GenerateDatabasePage(CodeCompletionDruid druid) : base(druid) {
-		Title = "Select Generation Style";
-		heavy = new RadioButton("Heavy process");
-		light = new RadioButton(heavy, "Light process");
+		Title = GettextCatalog.GetString ("Select Generation Style");
+		heavy = new RadioButton(GettextCatalog.GetString ("Heavy process"));
+		light = new RadioButton(heavy, GettextCatalog.GetString ("Light process"));
 
-		AppendItem("", heavy, "This process is slower and more memory-intensive than the light process, but will enable faster code completion");
-		AppendItem("", light, "This process will take less time and memory to produce the code completion database, but code completion will be slower");
+		AppendItem("", heavy, GettextCatalog.GetString ("This process is slower and more memory-intensive than the light process, but will enable faster code completion"));
+		AppendItem("", light, GettextCatalog.GetString ("This process will take less time and memory to produce the code completion database, but code completion will be slower"));
 	}
 }
 
@@ -42,10 +43,10 @@ class UseExistingPage : DetailsPageBase {
 	internal MonoDevelop.Gui.Widgets.FolderEntry filename;
 	
 	internal UseExistingPage(CodeCompletionDruid druid) : base(druid) {
-		Title = "Existing Database Location";
-		filename = new FolderEntry("Select code completion database");
+		Title = GettextCatalog.GetString ("Existing Database Location");
+		filename = new FolderEntry(GettextCatalog.GetString ("Select code completion database"));
 		filename.DefaultPath = System.IO.Directory.GetCurrentDirectory();
-		AppendItem("Where is the code completion database you would like to copy", filename, "");
+		AppendItem(GettextCatalog.GetString ("Where is the code completion database you would like to copy"), filename, "");
 	}
 }
 
@@ -54,9 +55,9 @@ class DownloadPage : DetailsPageBase {
 	
 	internal DownloadPage(CodeCompletionDruid druid) : base(druid) 
 	{
-		Title = "Download Database";
+		Title = GettextCatalog.GetString ("Download Database");
 		uri = new Gtk.Entry();
-		AppendItem("Where would you like to download the code completion database from?", uri, "");
+		AppendItem(GettextCatalog.GetString ("Where would you like to download the code completion database from?"), uri, "");
 	}
 	
 	protected override string GetError (object sender)
@@ -64,13 +65,13 @@ class DownloadPage : DetailsPageBase {
 		try {
 			Uri u = new Uri(this.uri.Text);
 		} catch (UriFormatException ex) {
-			return "That Uri is invalid: " + ex.Message;
+			return String.Format (GettextCatalog.GetString ("That Uri is invalid: {0}"), ex.Message);
 		}
 
 		int compressionType = (int)MonoDevelop.Gui.Utils.DirectoryArchive.Decompressor.GetTypeFromString(this.uri.Text, false);
 
 		if (compressionType == -1){
-			return "That Uri appears not to refer to a file with a known compression type";
+			return GettextCatalog.GetString ("That Uri appears not to refer to a file with a known compression type");
 		}
 		
 		return null;
@@ -158,14 +159,14 @@ class CodeCompletionDruid : Druid {
 	internal static DruidPageEdge GetStartPage()
 	{
 		DruidPageEdge page = new DruidPageEdge(EdgePosition.Start);
-		page.Text = "This druid will guide you through the process of creating a code completion database";
+		page.Text = GettextCatalog.GetString ("This druid will guide you through the process of creating a code completion database");
 		return page;
 	}
 
 	internal DruidPageEdge GetEndPage()
 	{
 		DruidPageEdge page = new DruidPageEdge(EdgePosition.Finish);
-		page.Text = "Click Apply to start the database creation process";
+		page.Text = GettextCatalog.GetString("Click Apply to start the database creation process");
 		page.BackClicked += new BackClickedHandler(GoToPrev);
 		page.FinishClicked += new FinishClickedHandler(EndOfWizard);
 		return page;
@@ -220,7 +221,7 @@ class CodeCompletionDruid : Druid {
 	internal void HandleCancel(object sender, EventArgs args)
 	{
 		MessageService messageService = (MessageService)ServiceManager.Services.GetService(typeof(MessageService));
-		bool really = messageService.AskQuestion("Are you sure you want to skip database creation? You will not have code completion functionality.", "Are you sure?");
+		bool really = messageService.AskQuestion(GettextCatalog.GetString ("Are you sure you want to skip database creation? You will not have code completion functionality."), GettextCatalog.GetString ("Are you sure?"));
 		if (really) {
 			this.Destroy();
 			this.Canceled(this);

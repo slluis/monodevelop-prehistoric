@@ -533,7 +533,7 @@ namespace MonoDevelop.Gui
 		void SetStandardStatusBar(object sender, EventArgs e)
 		{
 			IStatusBarService statusBarService = (IStatusBarService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IStatusBarService));
-			statusBarService.SetMessage("${res:MainWindow.StatusBar.ReadyMessage}");
+			statusBarService.SetMessage(GettextCatalog.GetString ("Ready"));
 		}
 		
 		void OnActiveWindowChanged(object sender, EventArgs e)

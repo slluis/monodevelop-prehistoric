@@ -8,6 +8,8 @@
 using System;
 //using System.Windows.Forms;
 
+using MonoDevelop.Services;
+
 namespace MonoDevelop.Gui
 {
 	public abstract class AbstractBaseViewContent : IBaseViewContent
@@ -30,7 +32,7 @@ namespace MonoDevelop.Gui
 		
 		public virtual string TabPageLabel {
 			get {
-				return "Abstract Content";
+				return GettextCatalog.GetString ("Abstract Content");
 			}
 		}
 		

@@ -1,5 +1,33 @@
 2004-04-02  Todd Berman  <tberman@sevenl.net>
 
+	* Gui/CompletionDatabaseWizard/DownloadGenerator.cs:
+	* Gui/CompletionDatabaseWizard/UseExistingGenerator.cs:
+	* Gui/CompletionDatabaseWizard/GenerateDatabase.cs:
+	* Gui/CompletionDatabaseWizard/druid.cs:
+	* Gui/Workbench/Layouts/SdiWorkspaceWindow.cs:
+	* Gui/Workbench/DefaultWorkbench.cs:
+	* Gui/Components/StatusBar/SdStatusBar.cs:
+	* Gui/AbstractPadContent.cs:
+	* Gui/Pads/FileScout.cs:
+	* Gui/Pads/ClassScout/ClassScout.cs:
+	* Gui/Pads/OpenTaskView.cs:
+	* Gui/Pads/ProjectBrowser/ProjectBrowserView.cs:
+	* Gui/Pads/ProjectBrowser/BrowserNode/ProjectBrowserNode.cs:
+	* Gui/Pads/ProjectBrowser/BrowserNode/FileNode.cs:
+	* Gui/Pads/ProjectBrowser/BrowserNode/CombineBrowserNode.cs:
+	* Gui/Pads/ProjectBrowser/BrowserNode/NamedFolderNode.cs:
+	* Gui/Pads/ProjectBrowser/BrowserNode/DirectoryNode.cs:
+	* Gui/Pads/ProjectBrowser/NodeBuilder/DefaultDotNetNodeBuilder.cs:
+	* Gui/Pads/HelpBrowser/MonodocTreePad.cs:
+	* Gui/Pads/HelpBrowser/HelpViewer.cs:
+	* Gui/AbstractBaseViewContent.cs:
+	* Gui/AbstractViewContent.cs:
+	* Gui/BrowserDisplayBinding/HtmlViewPane.cs:
+	* Gui/ErrorHandlers/CombineLoadError.cs:
+	gettextify
+
+2004-04-02  Todd Berman  <tberman@sevenl.net>
+
 	* configure.in: added po/Makefile.in.in, and other gettext related
 	stuff. added libmonodevelop/Makefile
 	* Makefile.am: added po and libmonodevelop to subdirs

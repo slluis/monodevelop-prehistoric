@@ -38,7 +38,7 @@ namespace MonoDevelop.Gui.Pads.ProjectBrowser
 			if (node != null) {
 				if (node is ProjectBrowserNode)
 					return false;
-				if (node.Text == "Web References")
+				if (node.Text == GettextCatalog.GetString ("Web References"))
 					return true;
 				return IsWebReference((AbstractBrowserNode)node.Parent);
 			}
@@ -54,13 +54,13 @@ namespace MonoDevelop.Gui.Pads.ProjectBrowser
 
 			projectNode.Image = iconService.GetImageForProjectType (project.ProjectType);
 
-			FolderNode resourceNode = new NamedFolderNode("ProjectComponent.ResourceFilesString", 0);
+			FolderNode resourceNode = new NamedFolderNode(GettextCatalog.GetString ("Resource Files (*.resources;*.resx)"), 0);
 			resourceNode.ContextmenuAddinTreePath = "/SharpDevelop/Views/ProjectBrowser/ContextMenu/ResourceFolderNode";
 			resourceNode.OpenedImage = Stock.OpenResourceFolder;
 			resourceNode.ClosedImage = Stock.ClosedResourceFolder;
 			projectNode.Nodes.Add (resourceNode);
 
-			FolderNode referenceNode = new NamedFolderNode("ProjectComponent.ReferencesString", 1);
+			FolderNode referenceNode = new NamedFolderNode(GettextCatalog.GetString ("References"), 1);
 			referenceNode.ContextmenuAddinTreePath = "/SharpDevelop/Views/ProjectBrowser/ContextMenu/ReferenceFolderNode";
 			referenceNode.OpenedImage = Stock.OpenReferenceFolder;
 			referenceNode.ClosedImage = Stock.ClosedReferenceFolder;

@@ -18,6 +18,7 @@ using MonoDevelop.Core.Services;
 using MonoDevelop.Core.AddIns.Codons;
 using MonoDevelop.Gui;
 using MonoDevelop.Gui.HtmlControl;
+using MonoDevelop.Services;
 
 namespace MonoDevelop.BrowserDisplayBinding
 {
@@ -42,7 +43,7 @@ namespace MonoDevelop.BrowserDisplayBinding
 		public override string TabPageLabel
 		{
 			get {
-				return "Web Browser";
+				return GettextCatalog.GetString ("Web Browser");
 			}
 		}
 		
@@ -99,7 +100,6 @@ namespace MonoDevelop.BrowserDisplayBinding
 
 		void onFocused (object o, EventArgs e)
 		{
-			Console.WriteLine ("aa");
 		}
 
 		public BrowserPane(bool showNavigation) //: base (type)
@@ -197,11 +197,11 @@ namespace MonoDevelop.BrowserDisplayBinding
 				
 				toolBar.ToolbarStyle = ToolbarStyle.Icons;
 				toolBar.IconSize = IconSize.SmallToolbar;
-				toolBar.AppendWidget (toolBarBack, "Go Back", "");
-				toolBar.AppendWidget (toolBarForward, "Go Forward", "");
-				toolBar.AppendWidget (toolBarStop, "Stop Loading", "");
-				toolBar.AppendWidget (toolBarRefresh, "Reload page", "");
-				toolBar.AppendWidget (urlTextBox, "Location", "");
+				toolBar.AppendWidget (toolBarBack, GettextCatalog.GetString ("Go Back"), "");
+				toolBar.AppendWidget (toolBarForward, GettextCatalog.GetString ("Go Forward"), "");
+				toolBar.AppendWidget (toolBarStop, GettextCatalog.GetString ("Stop Loading"), "");
+				toolBar.AppendWidget (toolBarRefresh, GettextCatalog.GetString ("Reload page"), "");
+				toolBar.AppendWidget (urlTextBox, GettextCatalog.GetString ("Location"), "");
 				
 				topPanel.PackStart (toolBar);
 				mainbox.PackStart (topPanel, false, false, 2);
@@ -250,12 +250,12 @@ namespace MonoDevelop.BrowserDisplayBinding
 
 		private void OnNetStart (object o, EventArgs args)
 		{
-			status.Push (1, "Loading...");
+			status.Push (1, GettextCatalog.GetString ("Loading..."));
 		}
 
 		private void OnNetStop (object o, EventArgs args)
 		{
-			status.Push (1, "Done.");
+			status.Push (1, GettextCatalog.GetString ("Done."));
 		}
 
 		private void OnBackClicked (object o, EventArgs args)

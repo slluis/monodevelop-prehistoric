@@ -35,7 +35,7 @@ namespace MonoDevelop.Gui.Pads {
 		
 		public string Title {
 			get {
-				return resourceService.GetString ("MainWindow.Windows.TaskList");
+				return GettextCatalog.GetString ("Task List");
 			}
 		}
 		
@@ -86,11 +86,6 @@ namespace MonoDevelop.Gui.Pads {
 			view.RowActivated            += new RowActivatedHandler (OnRowActivated);
 		}
 		
-		string res (string s)
-		{
-			return resourceService.GetString (s);
-		}
-		
 		void MarkupCol (Gtk.TreeViewColumn col)
 		{
 		}
@@ -108,10 +103,10 @@ namespace MonoDevelop.Gui.Pads {
 			
 			view.AppendColumn ("!"                                        , iconRender   , "stock-id", COL_TYPE);
 			view.AppendColumn (""                                         , toggleRender , "active"  , COL_MARKED, "activatable", COL_READ);
-			view.AppendColumn (res ("CompilerResultView.LineText")        , line         , "text"    , COL_LINE, "weight", COL_READ_WEIGHT);
-			view.AppendColumn (res ("CompilerResultView.DescriptionText") , desc         , "text"    , COL_DESC, "weight", COL_READ_WEIGHT, "strikethrough", COL_MARKED);
-			view.AppendColumn (res ("CompilerResultView.PathText")        , path         , "text"    , COL_PATH, "weight", COL_READ_WEIGHT);
-			view.AppendColumn (res ("CompilerResultView.FileText")        , file         , "text"    , COL_FILE, "weight", COL_READ_WEIGHT);
+			view.AppendColumn (GettextCatalog.GetString ("Line")        , line         , "text"    , COL_LINE, "weight", COL_READ_WEIGHT);
+			view.AppendColumn (GettextCatalog.GetString ("Description") , desc         , "text"    , COL_DESC, "weight", COL_READ_WEIGHT, "strikethrough", COL_MARKED);
+			view.AppendColumn (GettextCatalog.GetString ("Path")        , path         , "text"    , COL_PATH, "weight", COL_READ_WEIGHT);
+			view.AppendColumn (GettextCatalog.GetString ("File")        , file         , "text"    , COL_FILE, "weight", COL_READ_WEIGHT);
 		}
 		
 		void OnCombineOpen(object sender, CombineEventArgs e)
@@ -166,11 +161,21 @@ namespace MonoDevelop.Gui.Pads {
 			foreach (Task t in taskService.Tasks) {
 				string stock;
 				switch (t.TaskType) {
-					case TaskType.Warning      : stock = Gtk.Stock.DialogWarning  ; break;
-					case TaskType.Error        : stock = Gtk.Stock.DialogError    ; break;
-					case TaskType.Comment      : stock = Gtk.Stock.DialogInfo     ; break;
-					case TaskType.SearchResult : stock = Gtk.Stock.DialogQuestion ; break;
-					default                    : stock = null                     ; break;
+					case TaskType.Warning:
+						stock = Gtk.Stock.DialogWarning;
+						break;
+					case TaskType.Error:
+						stock = Gtk.Stock.DialogError;
+						break;
+					case TaskType.Comment:
+						stock = Gtk.Stock.DialogInfo;
+						break;
+					case TaskType.SearchResult:
+						stock = Gtk.Stock.DialogQuestion;
+						break;
+					default:
+						stock = null;
+						break;
 				}
 				
 				string tmpPath = t.FileName;

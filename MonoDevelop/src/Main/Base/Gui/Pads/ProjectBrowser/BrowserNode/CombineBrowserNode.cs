@@ -15,6 +15,7 @@ using System.Collections.Specialized;
 using MonoDevelop.Core.Properties;
 
 using MonoDevelop.Core.Services;
+using MonoDevelop.Services;
 using MonoDevelop.Internal.Project;
 using MonoDevelop.Gui.Components;
 using Stock = MonoDevelop.Gui.Stock;
@@ -70,13 +71,13 @@ namespace MonoDevelop.Gui.Pads.ProjectBrowser
 			StringParserService stringParserService = (StringParserService)ServiceManager.Services.GetService(typeof(StringParserService));
 			switch (combine.Entries.Count) {
 				case 0:
-					Text = stringParserService.Parse(resourceService.GetString("ProjectComponent.CombineNameStringNoEntry"), new string[,] { {"Combinename", combine.Name}, {"Entries", combine.Entries.Count.ToString()}});
+					Text = String.Format (GettextCatalog.GetString ("Solution {0}"), combine.Name);
 					break;
 				case 1:
-					Text = stringParserService.Parse(resourceService.GetString("ProjectComponent.CombineNameStringSingleEntry"), new string[,] { {"Combinename", combine.Name}, {"Entries", combine.Entries.Count.ToString()}});
+					Text = String.Format (GettextCatalog.GetString ("Solution {0} (1 entry)"), combine.Name);
 					break;
 				default:
-					Text = stringParserService.Parse(resourceService.GetString("ProjectComponent.CombineNameString"), new string[,] { {"Combinename", combine.Name}, {"Entries", combine.Entries.Count.ToString()}});
+					Text = String.Format (GettextCatalog.GetString ("Solution {0} ({1} entries)"), combine.Name, combine.Entries.Count.ToString ());
 					break;
 			}
 		}
@@ -95,7 +96,7 @@ namespace MonoDevelop.Gui.Pads.ProjectBrowser
 			CombineBrowserNode cmbNode = (CombineBrowserNode)Parent;
 			StringParserService stringParserService = (StringParserService)ServiceManager.Services.GetService(typeof(StringParserService));
 			
-			Gtk.MessageDialog dialog = new Gtk.MessageDialog ((Gtk.Window)WorkbenchSingleton.Workbench, Gtk.DialogFlags.DestroyWithParent, Gtk.MessageType.Question, Gtk.ButtonsType.OkCancel, stringParserService.Parse(resourceService.GetString("ProjectComponent.RemoveCombine.Question"), new string[,] { {"COMBINE", combine.Name}, {"PARENTCOMBINE", cmbNode.Combine.Name}}));
+			Gtk.MessageDialog dialog = new Gtk.MessageDialog ((Gtk.Window)WorkbenchSingleton.Workbench, Gtk.DialogFlags.DestroyWithParent, Gtk.MessageType.Question, Gtk.ButtonsType.OkCancel, String.Format (GettextCatalog.GetString ("Do you really want to remove solution {0} from solution {1}?"), combine.Name, cmbNode.Combine.Name));
 			
 			if (dialog.Run() != (int)Gtk.ResponseType.Ok) {
 				dialog.Destroy ();

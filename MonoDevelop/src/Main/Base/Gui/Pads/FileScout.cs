@@ -51,13 +51,13 @@ namespace MonoDevelop.Gui.Pads
 			RulesHint = true;
 
 			Gtk.TreeViewColumn name_column = new Gtk.TreeViewColumn ();
-			name_column.Title = "Files";
+			name_column.Title = GettextCatalog.GetString ("Files");
 			
 			Gtk.TreeViewColumn size_column = new Gtk.TreeViewColumn ();
-			size_column.Title = "Size";
+			size_column.Title = GettextCatalog.GetString ("Size");
 
 			Gtk.TreeViewColumn modi_column = new Gtk.TreeViewColumn ();
-			modi_column.Title = "Last modified";
+			modi_column.Title = GettextCatalog.GetString ("Last modified");
 
 			Gtk.CellRendererPixbuf pix_render = new Gtk.CellRendererPixbuf ();
 			name_column.PackStart (pix_render, false);
@@ -125,7 +125,6 @@ namespace MonoDevelop.Gui.Pads
 				if(fileItem.FullName.ToLower() == e.FullPath.ToLower()) {
 					
 					FileInfo info = new FileInfo(e.FullPath);
-					
 					fileItem.Size = Math.Round((double)info.Length / 1024).ToString() + " KB";
 					fileItem.LastModified = info.LastWriteTime.ToString();
 					break;
@@ -170,7 +169,7 @@ namespace MonoDevelop.Gui.Pads
 		{
 			IMessageService messageService =(IMessageService)ServiceManager.Services.GetService(typeof(IMessageService));
 			
-			if (messageService.AskQuestion("Are you sure you want to delete this file?", "Delete files"))
+			if (messageService.AskQuestion(GettextCatalog.GetString ("Are you sure you want to delete this file?"), GettextCatalog.GetString ("Delete files")))
 			{
 			/*	try
 				{
@@ -198,11 +197,11 @@ namespace MonoDevelop.Gui.Pads
 		{
 			Gtk.Menu menu = new Gtk.Menu ();
 
-			Gtk.MenuItem deleteFile = new Gtk.MenuItem ("Delete file");
+			Gtk.MenuItem deleteFile = new Gtk.MenuItem (GettextCatalog.GetString ("Delete file"));
 			deleteFile.Activated += new EventHandler (OnDeleteFiles);
 			deleteFile.Sensitive = false;
 
-			Gtk.MenuItem renameFile = new Gtk.MenuItem ("Rename file");
+			Gtk.MenuItem renameFile = new Gtk.MenuItem (GettextCatalog.GetString ("Rename file"));
 			renameFile.Activated += new EventHandler (OnRenameFile);
 			renameFile.Sensitive = false;
 			
@@ -329,7 +328,7 @@ namespace MonoDevelop.Gui.Pads
 		
 		public string Title {
 			get {
-				return resourceService.GetString ("MainWindow.Windows.FileScoutLabel");
+				return GettextCatalog.GetString ("Files");
 			}
 		}
 		

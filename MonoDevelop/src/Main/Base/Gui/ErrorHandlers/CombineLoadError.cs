@@ -8,6 +8,8 @@
 using System;
 using System.IO;
 
+using MonoDevelop.Services;
+
 namespace MonoDevelop.Gui.ErrorHandlers
 {
 	public class CombineLoadError
@@ -23,9 +25,9 @@ namespace MonoDevelop.Gui.ErrorHandlers
 				bool isProject = filename.ToLower().EndsWith(".prjx");
 				
 				string errorMessage = string.Format
-					("Could not load the {0} '{1}'.\n\n{2}",
+					(String.Format (GettextCatalog.GetString ("Could not load the {0} '{1}'.\n\n{2}"),
 					 isProject ? "project" : "combine",
-					 filename, e.Message);
+					 filename, e.Message));
 				
 				GenericError.DisplayError(errorMessage);
 			} else {

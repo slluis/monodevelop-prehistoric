@@ -41,7 +41,7 @@ namespace MonoDevelop.Gui.Dialogs.OptionPanels.CompletionDatabaseWizard
 		IDatabaseGenerator generator;
 		ProgressMonitorBar progress;
 		
-		public GeneratorProgress (IDatabaseGenerator generator) : base("Code completion database generator")
+		public GeneratorProgress (IDatabaseGenerator generator) : base(GettextCatalog.GetString ("Code completion database generator"))
 		{
 			try {
 				this.generator = generator;
@@ -49,18 +49,18 @@ namespace MonoDevelop.Gui.Dialogs.OptionPanels.CompletionDatabaseWizard
 				Gtk.VBox vb = new Gtk.VBox(false, 6);
 				this.Add(vb);
 				
-				vb.Add(new Gtk.Label("Creating database..."));
+				vb.Add(new Gtk.Label(GettextCatalog.GetString ("Creating database...")));
 
 				progress = new ProgressMonitorBar();
 				vb.Add(progress);
 
-				cancel = new Gtk.Button("Cancel");
+				cancel = new Gtk.Button(GettextCatalog.GetString ("Cancel"));
 				cancel.Clicked += new EventHandler(DoCancel);
 				if (!generator.Cancelable) {
 					cancel.Sensitive = false;
 					Tooltips t = new Tooltips();
-					t.SetTip(cancel, "Cancelling not available",
-							"This type of code completion database generator can not be canceled");
+					t.SetTip(cancel, GettextCatalog.GetString ("Cancelling not available"),
+							GettextCatalog.GetString ("This type of code completion database generator can not be canceled"));
 				}
 				vb.Add(cancel);
 				this.ShowAll();
@@ -86,7 +86,7 @@ namespace MonoDevelop.Gui.Dialogs.OptionPanels.CompletionDatabaseWizard
 		public void Start()
 		{
 			CodeCompletionDruid druid = new CodeCompletionDruid();
-			druidHost = new Gtk.Window("Code completion database druid");
+			druidHost = new Gtk.Window(GettextCatalog.GetString ("Code completion database druid"));
 			druidHost.Add(druid);
 			druid.Finished += new DruidFinished(GotDruidData);
 			druid.Canceled += new DruidCanceled(DruidCanceled);
@@ -115,9 +115,8 @@ namespace MonoDevelop.Gui.Dialogs.OptionPanels.CompletionDatabaseWizard
 			// restart  & exit 
 			ServiceManager.Services.UnloadAllServices();
 			// FIXME: handle this elegantly
-			// is it really necessary to restart here?
 			Console.WriteLine ("******************************************************************************");
-			Console.WriteLine ("Attempting to restart MonoDevelop, if you get any exceptions, restart manually");
+			Console.WriteLine (GettextCatalog.GetString ("Attempting to restart MonoDevelop, if you get any exceptions, restart manually"));
 			Console.WriteLine ("******************************************************************************");
 			// not everyone can run .exe's directly
 			System.Diagnostics.ProcessStartInfo psi = new System.Diagnostics.ProcessStartInfo ("mono", "MonoDevelop.exe");

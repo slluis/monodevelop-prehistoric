@@ -24,7 +24,7 @@ namespace MonoDevelop.Gui.Dialogs.OptionPanels.CompletionDatabaseWizard {
 		{
 			ProgressHolder holder = (ProgressHolder)arg;
 			holder.currentProgress = holder.startProgress + holder.s.Position;
-			holder.progressBar.Worked ((int)((double)holder.currentProgress/holder.maxAmount * int.MaxValue), "Extracted more of the archive");
+			holder.progressBar.Worked ((int)((double)holder.currentProgress/holder.maxAmount * int.MaxValue), GettextCatalog.GetString ("Extracted more of the archive"));
 
 			while (Gtk.Application.EventsPending ())
 				Gtk.Application.RunIteration ();
@@ -56,7 +56,7 @@ namespace MonoDevelop.Gui.Dialogs.OptionPanels.CompletionDatabaseWizard {
 				maxAmount = dataResp.ContentLength * 2;
  
  
-				progress.BeginTask("Downloading database", int.MaxValue); 
+				progress.BeginTask(GettextCatalog.GetString ("Downloading database"), int.MaxValue); 
 				DownloadFile (dataResp.GetResponseStream (), 
 						compressedFile, 
 						maxAmount, progress);
@@ -96,7 +96,7 @@ namespace MonoDevelop.Gui.Dialogs.OptionPanels.CompletionDatabaseWizard {
 				amountRead = s.Read(buffer, 0, buffer.Length);
 				amountDownloaded += amountRead;
 				outstream.Write(buffer, 0, amountRead);
-				progress.Worked ((int)((float)amountDownloaded/maxAmount * int.MaxValue), "Downloaded more of " + fileName);
+				progress.Worked ((int)((float)amountDownloaded/maxAmount * int.MaxValue), String.Format (GettextCatalog.GetString ("Downloaded more of {0}"), fileName));
 
 				// make sure we let the GTK events happen at least every second
 				long nowticks = DateTime.Now.Ticks;

@@ -107,7 +107,7 @@ namespace MonoDevelop.Gui.Pads.ProjectBrowser
 			CombineEntry removeEntry = null;
 			StringParserService stringParserService = (StringParserService)ServiceManager.Services.GetService(typeof(StringParserService));
 			
-			Gtk.MessageDialog dialog = new Gtk.MessageDialog ((Gtk.Window)WorkbenchSingleton.Workbench, Gtk.DialogFlags.DestroyWithParent, Gtk.MessageType.Question, Gtk.ButtonsType.OkCancel, stringParserService.Parse(resourceService.GetString("ProjectComponent.RemoveProject.Question"), new string[,] { {"COMBINE", cmb.Name}, {"PROJECT", project.Name}})); 
+			Gtk.MessageDialog dialog = new Gtk.MessageDialog ((Gtk.Window)WorkbenchSingleton.Workbench, Gtk.DialogFlags.DestroyWithParent, Gtk.MessageType.Question, Gtk.ButtonsType.OkCancel, String.Format (GettextCatalog.GetString ("Do you really want to remove project {0} from solution {1}"), project.Name, cmb.Name)); 
 													if (dialog.Run() != (int)Gtk.ResponseType.Ok) {
 				dialog.Destroy ();
 				return false;

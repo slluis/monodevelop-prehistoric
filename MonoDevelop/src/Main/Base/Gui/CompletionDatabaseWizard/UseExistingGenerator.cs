@@ -18,7 +18,7 @@ namespace MonoDevelop.Gui.Dialogs.OptionPanels.CompletionDatabaseWizard
 		// changed to work during GLib.Idle
 		public void Generate(IProgressMonitor progress)
 		{
-			progress.BeginTask("Referencing existing database", 2);
+			progress.BeginTask(GettextCatalog.GetString ("Referencing existing database"), 2);
 			FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.Services.GetService(typeof(FileUtilityService));
 
 			if (!fileUtilityService.IsValidFileName(Path))
@@ -31,7 +31,7 @@ namespace MonoDevelop.Gui.Dialogs.OptionPanels.CompletionDatabaseWizard
 			PropertyService propertyService = (PropertyService)ServiceManager.Services.GetService(typeof(PropertyService));
 			propertyService.SetProperty ("SharpDevelop.CodeCompletion.DataDirectory", Path);
 			propertyService.SaveProperties ();
-			progress.Worked(2, "Referenced existing database");
+			progress.Worked(2, GettextCatalog.GetString ("Referenced existing database"));
 		}
 	}
 }

@@ -217,7 +217,7 @@ namespace MonoDevelop.Gui
 			if (!force && ViewContent != null && ViewContent.IsDirty) {
 				ResourceService resourceService = (ResourceService)ServiceManager.Services.GetService(typeof(IResourceService));
 				IMessageService messageService =(IMessageService)ServiceManager.Services.GetService(typeof(IMessageService));
-				bool response = messageService.AskQuestion (resourceService.GetString ("MainWindow.SaveChangesMessage"));
+				bool response = messageService.AskQuestion (GettextCatalog.GetString ("Do you want to save the current changes"));
 				
 				switch (response) {
 					case true:
@@ -225,7 +225,7 @@ namespace MonoDevelop.Gui
 							while (true) {
 								new MonoDevelop.Commands.SaveFileAs().Run();
 								if (ViewContent.IsDirty) {
-									if (messageService.AskQuestion("Do you really want to discard your changes ?")) {
+									if (messageService.AskQuestion(GettextCatalog.GetString ("Do you really want to discard your changes ?"))) {
 										break;
 									}
 								} else {
