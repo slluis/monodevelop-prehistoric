@@ -232,7 +232,7 @@ namespace Gdl
 			}
 		}
 
-		protected override void OnDestroyed ()
+		/*protected override void OnDestroyed ()
 		{
 			if (window != null) {
 				window.Destroy ();
@@ -242,7 +242,7 @@ namespace Gdl
 			if (xorGC != null)
 				xorGC = null;
 			base.OnDestroyed ();
-		}
+		}*/
 		
 		protected override void OnAdded (Widget widget)
 		{

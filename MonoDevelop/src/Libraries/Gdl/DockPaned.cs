@@ -85,7 +85,16 @@ namespace Gdl
 		{
 			stored_invoker.Invoke (widget);
 		}
-		
+
+		/*protected override void OnDestroyed ()
+		{
+			base.OnDestroyed ();
+			if (Child != null) {
+				Child.Unparent ();
+				Child = null;
+			}
+		}*/	
+	
 		private CallbackInvoker stored_invoker;
 		protected override void ForAll (bool include_internals, CallbackInvoker invoker)
 		{

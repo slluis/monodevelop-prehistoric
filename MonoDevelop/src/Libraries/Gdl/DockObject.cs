@@ -118,6 +118,27 @@ namespace Gdl
 				stockid = value;
 			}
 		}
+
+		private void ForeachDetach (Widget w)
+		{
+			if (w is DockObject)
+				((DockObject)w).Detach (true);
+		}
+
+		/*protected override void OnDestroyed ()
+		{
+			if (IsCompound) {
+				Freeze ();
+				Foreach (new Gtk.Callback (ForeachDetach));
+				reducePending = false;
+				Thaw ();
+			}
+			if (IsAttached)
+				Detach (false);
+			if (Master != null)
+				Unbind ();
+			base.OnDestroyed ();
+		}*/
 		
 		protected override void OnShown ()
 		{

@@ -65,6 +65,13 @@ namespace Gdl
 				placement_stack.Insert (0, value);
 			}
 		}
+
+		/*protected override void OnDestroyed ()
+		{
+			if (host != null)
+				OnDetached (false);
+			base.OnDestroyed ();
+		}*/
 		
 		protected override void OnAdded (Widget widget)
 		{

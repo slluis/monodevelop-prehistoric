@@ -131,7 +131,22 @@ namespace Gdl
 				title_layout.SingleParagraphMode = true;
 			}
 		}
-		
+
+		/*protected override void OnDestroyed ()
+		{
+			if (title_layout != null)
+				title_layout = null;
+			if (icon_pixbuf != null)
+				icon_pixbuf = null;
+			if (tooltips != null)
+				tooltips = null;
+			if (item != null) {
+				//TODO: Disconnect future signal handlers for notify.
+			}
+			item = null;
+			base.OnDestroyed ();
+		}*/
+	
 		protected override bool OnExposeEvent (Gdk.EventExpose evnt)
 		{
 			Gdk.Rectangle title_area = GetTitleArea ();

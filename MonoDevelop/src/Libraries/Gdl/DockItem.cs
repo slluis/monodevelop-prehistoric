@@ -428,6 +428,24 @@ namespace Gdl
 					GdkWindow.Clear ();
 			}
 		}
+
+		/*protected override void OnDestroyed ()
+		{
+			if (tabLabel != null)
+				tabLabel = null;
+			if (menu != null) {
+				menu.Detach ();
+				menu = null;
+			}
+			if (grip != null) {
+				Remove (grip);
+				grip = null;
+			}
+			if (ph != null) {
+				ph = null;
+			}
+			base.OnDestroyed ();
+		}*/
 		
 		protected override bool OnExposeEvent (Gdk.EventExpose evnt)
 		{
@@ -831,18 +849,7 @@ namespace Gdl
 			if (!(widget is DockItem))
 				return;
 			DockItem item = widget as DockItem;
-			if (!(item.IsAttached))
-				return;
-			if (!(item.IsAutomatic))
-				item.ph = new DockPlaceholder (this, false);
-			
-			item.Freeze ();
-			if (item.IsCompound) {
-				item.Foreach (new Callback (HideItem));
-			}
-			
-			item.Detach (true);
-			item.Thaw ();
+			item.HideItem ();
 		}
 		
 		public void IconifyItem ()
