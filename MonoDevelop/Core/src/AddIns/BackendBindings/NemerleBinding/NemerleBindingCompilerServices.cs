@@ -106,7 +106,7 @@ namespace NemerleBinding
 			return Path.GetExtension(fileName) == ".n";
 		} 
 
-		public ICompilerResult Compile (ProjectFileCollection projectFiles, ProjectReferenceCollection projectReferences, DotNetProjectConfiguration configuration)
+		public ICompilerResult Compile (ProjectFileCollection projectFiles, ProjectReferenceCollection projectReferences, DotNetProjectConfiguration configuration, IProgressMonitor monitor)
 		{
 			NemerleParameters cp = (NemerleParameters) configuration.CompilationParameters;
 			if (cp == null) cp = new NemerleParameters ();
@@ -163,28 +163,18 @@ namespace NemerleBinding
 			p.StartInfo = si;
 			p.Start();
 
-			IStatusBarService sbs = (IStatusBarService)ServiceManager.GetService (typeof (IStatusBarService));
-			sbs.SetMessage ("Compiling...");
-			
 			p.OutWatch();
 			while ((!p.HasExited) && p.HasNoOut())
 //			while ((!p.HasExited) && (p.StandardOutput.Peek() == -1)) // this could eliminate VProcess outgrowth
 			{
-				((SdStatusBar)sbs.Control).Pulse();
-				while (Gtk.Application.EventsPending ())
-					Gtk.Application.RunIteration ();
 				System.Threading.Thread.Sleep (100);
 			}
 			
 			CompilerResultsParser cr = new CompilerResultsParser();	
 			while ((l = p.StandardOutput.ReadLine()) != null)
 			{
-				((SdStatusBar)sbs.Control).Pulse();
-				while (Gtk.Application.EventsPending ())
-					Gtk.Application.RunIteration ();
 				cr.Parse(l);
 			}
-			((SdStatusBar)sbs.Control).Done();
 			
 			if  ((l = p.StandardError.ReadLine()) != null)
 			{

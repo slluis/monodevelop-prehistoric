@@ -36,9 +36,9 @@ namespace NemerleBinding
 			return compilerServices.CanCompile(fileName);
 		}
 		
-		public ICompilerResult Compile (ProjectFileCollection projectFiles, ProjectReferenceCollection references, DotNetProjectConfiguration configuration)
+		public ICompilerResult Compile (ProjectFileCollection projectFiles, ProjectReferenceCollection references, DotNetProjectConfiguration configuration, IProgressMonitor monitor)
 		{
-			return compilerServices.Compile (projectFiles, references, configuration);
+			return compilerServices.Compile (projectFiles, references, configuration, monitor);
 		}
 		
 		public void GenerateMakefile (Project project, Combine parentCombine)
