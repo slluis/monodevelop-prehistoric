@@ -3,7 +3,6 @@ SUBDIRS=gdldock gtkmozembed-sharp src build
 bin_SCRIPTS=monodevelop
 
 all:
-	chmod +x ./monodevelop
 
 desktopdir = $(datadir)/applications
 desktop_DATA = monodevelop.desktop
