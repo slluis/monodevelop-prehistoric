@@ -8,7 +8,7 @@ namespace MonoDevelop.Gui.Widgets
 	public class FileBrowser : ScrolledWindow
 	{
 		private static GLib.GType gtype;
-		private TreeView tv;
+		private Gtk.TreeView tv;
 		private ListStore store;
 		private string currentDir;
 		private bool ignoreHidden;
@@ -20,7 +20,8 @@ namespace MonoDevelop.Gui.Widgets
 			this.HscrollbarPolicy = PolicyType.Automatic;
 			ignoreHidden = true;
 
-			tv = new TreeView ();
+			tv = new Gtk.TreeView ();
+			tv.RulesHint = true;
 			tv.AppendColumn ("Name", new CellRendererText (), "text", 0);
 			store = new ListStore (typeof (string));
 			currentDir = Environment.GetEnvironmentVariable ("HOME");
