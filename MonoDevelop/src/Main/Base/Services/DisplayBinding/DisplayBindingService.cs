@@ -29,6 +29,12 @@ namespace ICSharpCode.SharpDevelop.Services
 	{
 		readonly static string displayBindingPath = "/SharpDevelop/Workbench/DisplayBindings";
 		DisplayBindingCodon[] bindings = null;
+
+		public IDisplayBinding LastBinding {
+			get {
+				return bindings[0].DisplayBinding;
+			}
+		}
 		
 		public IDisplayBinding GetBindingPerFileName(string filename)
 		{

@@ -109,7 +109,11 @@ namespace ICSharpCode.SharpDevelop.Services
 			} else {
 				try {
 					Gnome.Url.Show ("file://" + fileName);
-				} catch { Console.WriteLine ("Unable to open " + fileName); }
+				} catch {
+					if (fileUtilityService.ObservedLoad(new NamedFileOperationDelegate (new LoadFileWrapper (displayBindingService.LastBinding).Invoke), fileName) == FileOperationResult.OK) {
+						fileService.RecentOpen.AddLastFile (fileName);
+					}
+				}
 			}
 		}
 		
