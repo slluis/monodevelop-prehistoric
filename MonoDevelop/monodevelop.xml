@@ -84,6 +84,10 @@
     <comment xml:lang="en">MonoDevelop solution</comment>
     <glob pattern="*.cmbx"/>
   </mime-type>
+  <mime-type type="application/x-mdsx">
+    <comment xml:lang="en">MonoDevelop solution</comment>
+    <glob pattern="*.mdsx"/>
+  </mime-type>
   <mime-type type="application/x-disco">
     <comment xml:lang="en">Static Discovery File</comment>
     <glob pattern="*.disco"/>
