@@ -104,7 +104,7 @@ namespace MonoDevelop.Services
 			}
 		}
 		
-		string LoadAssemblyFromGac (string name) {
+		public string LoadAssemblyFromGac (string name) {
 			MethodInfo gac_get = typeof (System.Environment).GetMethod ("internalGetGacPath", BindingFlags.Static|BindingFlags.NonPublic);
 			
 			if (gac_get == null)

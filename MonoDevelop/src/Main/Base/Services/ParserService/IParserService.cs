@@ -71,6 +71,7 @@ namespace MonoDevelop.Services
 		ArrayList IsAsResolve (string expression, int caretLineNumber, int caretColumn, string fileName, string fileContent);
 		ArrayList CtrlSpace(IParserService parserService, int caretLine, int caretColumn, string fileName);
 		void AddReferenceToCompletionLookup(IProject project, ProjectReference reference);
+		string LoadAssemblyFromGac (string name);
 
 		event ParseInformationEventHandler ParseInformationAdded;
 		event ParseInformationEventHandler ParseInformationRemoved;

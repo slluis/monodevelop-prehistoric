@@ -51,7 +51,8 @@ namespace MonoDevelop.Gui.Dialogs
 			treeView.AppendColumn (firstColumn);
 			treeView.AppendColumn (GettextCatalog.GetString ("Version"), new CellRendererText (), "text", 1);
 			treeView.AppendColumn (GettextCatalog.GetString ("Path"), new CellRendererText (), "text", 2);
-		
+
+			store.SetSortColumnId (0, SortType.Ascending);
 			
 			PrintCache();
 			ScrolledWindow sc = new ScrolledWindow ();

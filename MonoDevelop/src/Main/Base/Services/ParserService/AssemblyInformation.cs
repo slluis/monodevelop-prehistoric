@@ -17,6 +17,9 @@ using MonoDevelop.Internal.Parser;
 //using ICSharpCode.SharpAssembly.PE;
 //using ICSharpCode.SharpAssembly;
 using System.Reflection;
+using MonoDevelop.Services;
+using MonoDevelop.Core.Services;
+
 
 namespace MonoDevelop.Services {
 	
@@ -94,7 +97,7 @@ namespace MonoDevelop.Services {
 			//FIXME: Re-enable this code when the mono bug goes away, 0.32
 			//hopefully
 			//System.Reflection.Assembly asm = nonLocking ? Assembly.Load(GetBytes(fileName)) : Assembly.LoadFrom(fileName);
-			Assembly asm = null;
+			Assembly asm = null;		
 			try {
 				asm = Assembly.LoadFrom (fileName);
 				if (asm == null)

@@ -1,3 +1,14 @@
+2004-05-02  Todd Berman  <tberman@sevenl.net>
+
+	* Services/ParserService/DefaultParserService.cs: expose gac lib
+	location finder
+	* Services/ParserService/AssemblyInformation.cs: remove previous fix
+	* Services/ParserService/IParserService.cs: expose gac lib location
+	finder
+	* Gui/Dialogs/ReferenceDialog/GacReferencePanel.cs: sort properly
+	* Internal/Project/Project/ProjectReference.cs: Use parser method to
+	find gac lib location.
+
 2004-05-01  Todd Berman  <tberman@sevenl.net>
 
 	* Gui/Dialogs/TreeViewOptions.cs: notify main window that gui effecting

@@ -9,6 +9,7 @@ using System;
 using System.IO;
 using System.Diagnostics;
 using System.Xml;
+using MonoDevelop.Core.Services;
 using MonoDevelop.Services;
 using System.ComponentModel;
 using MonoDevelop.Gui.Components;
@@ -96,10 +97,9 @@ namespace MonoDevelop.Internal.Project
 				case ReferenceType.Assembly:
 					return reference;
 				
-				case ReferenceType.Gac: 
-					//return GetPathToGACAssembly(this);
-					// TODO: gac on linux
-					return reference;
+				case ReferenceType.Gac:
+					string file = ((IParserService)ServiceManager.Services.GetService (typeof (IParserService))).LoadAssemblyFromGac (reference);
+					return file == String.Empty ? reference : file;
 				case ReferenceType.Project:
 					IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
 					string projectOutputLocation   = projectService.GetOutputAssemblyName(reference);
