@@ -93,68 +93,75 @@ namespace MonoDevelop.Commands.ProjectBrowser
 	
 	public class AddNewFileEvent : AbstractMenuCommand
 	{
+		string baseFolderPath;
+		AbstractBrowserNode node;
+		ProjectBrowserView browser;
+
 		public override void Run()
 		{
-			ProjectBrowserView browser = (ProjectBrowserView)Owner;
+			browser = (ProjectBrowserView)Owner;
 			
 			if (browser == null || browser.SelectedNode == null) {
 				return;
 			}
 			
-			AbstractBrowserNode node = (AbstractBrowserNode)browser.SelectedNode;
-			string baseFolderPath = NewFolderEvent.SearchBasePath(node);
+			node = (AbstractBrowserNode)browser.SelectedNode;
+			baseFolderPath = NewFolderEvent.SearchBasePath(node);
 			
 			if (baseFolderPath == null || baseFolderPath.Length == 0) {
 				return;
 			}
 			
 			NewFileDialog nfd = new NewFileDialog ();
-			if (nfd.Run() == (int)Gtk.ResponseType.Ok) {
-				IWorkbenchWindow window = WorkbenchSingleton.Workbench.ActiveWorkbenchWindow;
-				int count = 1;
-					
-				string baseName  = Path.GetFileNameWithoutExtension(window.ViewContent.UntitledName);
-				string extension = Path.GetExtension(window.ViewContent.UntitledName);
-					
-				// first try the default untitled name of the viewcontent filename
-				FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.GetService(typeof(FileUtilityService));
-				string fileName = fileUtilityService.GetDirectoryNameWithSeparator(baseFolderPath) + baseName +  extension;
-					
-				// if it is already in the project, or it does exists we try to get a name that is
-				// untitledName + Numer + extension
-				while (node.Project.IsFileInProject(fileName) || System.IO.File.Exists(fileName)) {
-					fileName = fileUtilityService.GetDirectoryNameWithSeparator(baseFolderPath) + baseName + count.ToString() + extension;
-					++count;
-				}
-					
-				// now we have a valid filename which we could use
-				window.ViewContent.Save(fileName);
-					
-				ProjectFile newFileInformation = new ProjectFile(fileName, BuildAction.Compile);
-					
-				AbstractBrowserNode newNode = new FileNode(newFileInformation);
-				newNode.ContextmenuAddinTreePath = FileNode.ProjectFileContextMenuPath;
-					
-				// Assume that the parent node of a 'leaf' (e.g. file) is
-				// a folder or project
-				AbstractBrowserNode parentNode = node;
-				if (!(parentNode is ProjectBrowserNode || parentNode is DirectoryNode)) {
-					parentNode = (AbstractBrowserNode)node.Parent;
-				}
-					
-				parentNode.Nodes.Add(newNode);
-				parentNode.Project.ProjectFiles.Add(newFileInformation);
-				window.ViewContent.Project = parentNode.Project;
-					
-				newNode.EnsureVisible();
-				browser.StealFocus ();
-				Console.WriteLine (((Gtk.Window)WorkbenchSingleton.Workbench).Focus);
-				browser.SelectedNode = newNode;
-				browser.StartLabelEdit();
-					
-				IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IProjectService));
-				projectService.SaveCombine();
+			nfd.OnOked += new EventHandler (newfileOked);
+		}
+
+		void newfileOked (object o, EventArgs e)
+		{
+			IWorkbenchWindow window = WorkbenchSingleton.Workbench.ActiveWorkbenchWindow;
+			int count = 1;
+				
+			string baseName  = Path.GetFileNameWithoutExtension(window.ViewContent.UntitledName);
+			string extension = Path.GetExtension(window.ViewContent.UntitledName);
+				
+			// first try the default untitled name of the viewcontent filename
+			FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.GetService(typeof(FileUtilityService));
+			string fileName = fileUtilityService.GetDirectoryNameWithSeparator(baseFolderPath) + baseName +  extension;
+				
+			// if it is already in the project, or it does exists we try to get a name that is
+			// untitledName + Numer + extension
+			while (node.Project.IsFileInProject(fileName) || System.IO.File.Exists(fileName)) {
+				fileName = fileUtilityService.GetDirectoryNameWithSeparator(baseFolderPath) + baseName + count.ToString() + extension;
+				++count;
 			}
+				
+			// now we have a valid filename which we could use
+			window.ViewContent.Save(fileName);
+				
+			ProjectFile newFileInformation = new ProjectFile(fileName, BuildAction.Compile);
+				
+			AbstractBrowserNode newNode = new FileNode(newFileInformation);
+			newNode.ContextmenuAddinTreePath = FileNode.ProjectFileContextMenuPath;
+				
+			// Assume that the parent node of a 'leaf' (e.g. file) is
+			// a folder or project
+			AbstractBrowserNode parentNode = node;
+			if (!(parentNode is ProjectBrowserNode || parentNode is DirectoryNode)) {
+				parentNode = (AbstractBrowserNode)node.Parent;
+			}
+				
+			parentNode.Nodes.Add(newNode);
+			parentNode.Project.ProjectFiles.Add(newFileInformation);
+			window.ViewContent.Project = parentNode.Project;
+				
+			newNode.EnsureVisible();
+			browser.StealFocus ();
+			browser.SelectedNode = newNode;
+			browser.StartLabelEdit();
+				
+			IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IProjectService));
+			projectService.SaveCombine();
+			
 		}
 	}
 	

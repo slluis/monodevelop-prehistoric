@@ -1,5 +1,11 @@
 2004-06-23  Todd Berman  <tberman@off.net>
 
+	* Gui/Dialogs/NewFileDialog.cs: add an event for when Ok is pressed.
+	* Commands/ProjectBrowserCommands/FolderNodeCommands.cs: fix
+	new file dialog from here.
+
+2004-06-23  Todd Berman  <tberman@off.net>
+
 	* Gui/CompletionDatabaseWizard: removed directory, as its unused.
 	* Makefile.am: updated to reflect above.
 

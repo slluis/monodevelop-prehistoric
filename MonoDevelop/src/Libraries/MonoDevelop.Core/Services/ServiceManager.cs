@@ -29,6 +29,11 @@ namespace MonoDevelop.Core.Services
 		Hashtable servicesHashtable = new Hashtable();
 		
 		static ServiceManager defaultServiceManager = new ServiceManager();
+
+		protected ServiceManager ()
+		{
+		}
+		
 		public static IService GetService (Type serviceType) {
 			return defaultServiceManager.FetchService (serviceType);
 		}

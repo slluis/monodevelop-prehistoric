@@ -1,5 +1,9 @@
 2004-06-23  Todd Berman  <tberman@off.net>
 
+	* Services/ServiceManager.cs: protected ctor added.
+
+2004-06-23  Todd Berman  <tberman@off.net>
+
 	* Services/ServiceManager.cs: make GetService a static method, hide
 	the instance everywhere.
 

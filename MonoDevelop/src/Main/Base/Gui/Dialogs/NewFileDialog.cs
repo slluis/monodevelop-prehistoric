@@ -191,7 +191,9 @@ namespace MonoDevelop.Gui.Dialogs
 			IFileService fileService = (IFileService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IFileService));
 			fileService.NewFile(filename, languageName, content);
 		}
-		
+
+		public event EventHandler OnOked;	
+	
 		void OpenEvent(object sender, EventArgs e)
 		{
 			TreeModel mdl;
@@ -224,6 +226,8 @@ namespace MonoDevelop.Gui.Dialogs
 				if (WorkbenchSingleton.Workbench.ActiveWorkbenchWindow != null) {
 					WorkbenchSingleton.Workbench.ActiveWorkbenchWindow.SelectWindow();
 				}
+				if (OnOked != null)
+					OnOked (null, null);
 			}
 		}
 
