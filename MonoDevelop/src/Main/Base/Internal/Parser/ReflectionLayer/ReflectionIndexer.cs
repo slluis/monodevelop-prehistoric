@@ -29,7 +29,7 @@ namespace MonoDevelop.Internal.Parser
 			return propertyName.ToString();
 		}
 		
-		public ReflectionIndexer(PropertyInfo propertyInfo, Hashtable xmlComments)
+		public ReflectionIndexer(PropertyInfo propertyInfo, XmlDocument docs)
 		{
 			// indexers does have the same name as the object that declare the indexers
 			FullyQualifiedName = propertyInfo.DeclaringType.FullName;
@@ -46,12 +46,15 @@ namespace MonoDevelop.Internal.Parser
 			} else {
 				setterRegion = null;
 			}
-			
+
 			XmlNode node = null;
-			if (xmlComments != null) {
-				node = xmlComments["P:" + FullyQualifiedName] as XmlNode;
+			if (docs != null) {
+				node = docs.SelectSingleNode ("/Type/Members/Member[@MemberName='" + propertyInfo.Name + "']");
 				if (node != null) {
-					Documentation = node.InnerXml;
+					XmlNode docNode = node.SelectSingleNode ("Docs/summary");
+					if (docNode != null) {
+						Documentation = node.InnerXml;
+					}
 				}
 			}
 			

@@ -14,17 +14,17 @@ namespace MonoDevelop.Internal.Parser
 	[Serializable]
 	public class ReflectionEvent : AbstractEvent
 	{
-		public ReflectionEvent(EventInfo eventInfo, Hashtable xmlComments)
+		public ReflectionEvent(EventInfo eventInfo, XmlDocument docs)
 		{
 			FullyQualifiedName = String.Concat(eventInfo.DeclaringType.FullName, ".", eventInfo.Name);
-			
-			if (xmlComments != null) {
-				XmlNode node = xmlComments["E:" + FullyQualifiedName] as XmlNode;
+
+			if (docs != null) {
+				XmlNode node = docs.SelectSingleNode ("/Type/Members/Member[@MemberName='" + eventInfo.Name + "']/Docs/summary");
 				if (node != null) {
 					Documentation = node.InnerXml;
 				}
 			}
-			
+
 			// get modifiers
 			MethodInfo methodBase = null;
 			try {

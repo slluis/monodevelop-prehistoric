@@ -31,24 +31,58 @@ namespace MonoDevelop.Internal.Parser
 			propertyName.Append(')');
 			return propertyName.ToString();
 		}
+
+		XmlNode FindMatch (XmlNodeList nodes, MethodBase methodBase)
+		{
+			ParameterInfo[] p = methodBase.GetParameters ();
+			string s = "";
+			foreach (XmlNode node in nodes) {
+				XmlNodeList paramList = node.SelectNodes ("Parameters/*");
+				s += paramList.Count + " - " + p.Length + "\n";
+				if (p.Length == 0 && paramList.Count == 0) return node;
+				if (p.Length != paramList.Count) continue;
+				bool matched = true;
+				for (int i = 0; i < p.Length; i++) {
+					if (p[i].ParameterType.ToString () != paramList[i].Attributes["Type"].Value) {
+						matched = false;
+					}
+				}
+				if (matched)
+					return node;
+			}
+			Console.WriteLine ("Info:");
+			Console.WriteLine (s);
+			Console.WriteLine ("No match found - {2}.{0} {1}", methodBase.Name, GetParamList (methodBase), methodBase.DeclaringType.FullName);
+			return null;
+		}
 		
-		public ReflectionMethod(MethodBase methodBase, Hashtable xmlComments)
+		public ReflectionMethod(MethodBase methodBase, XmlDocument docs)
 		{
 			string name = methodBase.Name;
 			
 			if (methodBase is ConstructorInfo) {
-				name = "#ctor";
+				name = ".ctor";
 			}
 			FullyQualifiedName = String.Concat(methodBase.DeclaringType.FullName, ".", name);
 			
 			XmlNode node = null;
-			
-			if (xmlComments != null) {
-				node = xmlComments["M:" + FullyQualifiedName + GetParamList(methodBase)] as XmlNode;
-				if (node != null) {
-					Documentation = node.InnerXml;
+
+			if (docs != null) {
+				XmlNodeList nodes = docs.SelectNodes ("/Type/Members/Member[@MemberName='" + name + "']");
+				if (nodes != null && nodes.Count > 0) {
+					if (nodes.Count == 1) {
+						node = nodes[0];
+					} else {
+						node = FindMatch (nodes, methodBase);
+					}
+					if (node != null) {
+						XmlNode docNode = node.SelectSingleNode ("Docs/summary");
+						if (docNode != null) {
+							Documentation = docNode.InnerXml;
+						}
+					}
 				}
-			}
+			}	
 			
 			modifiers = ModifierEnum.None;
 			if (methodBase.IsStatic) {

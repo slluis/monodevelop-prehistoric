@@ -93,7 +93,7 @@ namespace MonoDevelop.Services
 		
 		public string Convert(Type type)
 		{
-			return conv.Convert(new ReflectionClass(type, null));
+			return conv.Convert(new ReflectionClass(type));
 		}
 		
 		public string Convert(FieldInfo field)

@@ -14,7 +14,7 @@ namespace MonoDevelop.Internal.Parser
 	[Serializable]
 	public class ReflectionProperty : AbstractProperty 
 	{
-		public ReflectionProperty(PropertyInfo propertyInfo, Hashtable xmlComments)
+		public ReflectionProperty(PropertyInfo propertyInfo, XmlDocument docs)
 		{
 			FullyQualifiedName = String.Concat(propertyInfo.DeclaringType.FullName, ".", propertyInfo.Name);
 			
@@ -30,14 +30,14 @@ namespace MonoDevelop.Internal.Parser
 			} else {
 				setterRegion = null;
 			}
-			
-			if (xmlComments != null) {
-				XmlNode node = xmlComments["P:" + FullyQualifiedName] as XmlNode;
+
+			if (docs != null) {
+				XmlNode node = docs.SelectSingleNode ("/Type/Members/Member[@MemberName='" + propertyInfo.Name + "']/Docs/summary");
 				if (node != null) {
 					Documentation = node.InnerXml;
 				}
 			}
-			
+
 			returnType = new ReflectionReturnType(propertyInfo.PropertyType);
 			
 			MethodInfo methodBase = null;

@@ -151,7 +151,7 @@ namespace MonoDevelop.Commands
 				return;
 			}
 		
-			ReflectionClass reflectionClass = new ReflectionClass(typeof(object), null);
+			ReflectionClass reflectionClass = new ReflectionClass(typeof(object));
 			
 			// register string tag provider (TODO: move to add-in tree :)
 			StringParserService stringParserService = (StringParserService)ServiceManager.Services.GetService(typeof(StringParserService));

@@ -15,17 +15,18 @@ namespace MonoDevelop.Internal.Parser
 	[Serializable]
 	public class ReflectionField : AbstractField
 	{
-		public ReflectionField(FieldInfo fieldInfo, Hashtable xmlComments)
+		public ReflectionField(FieldInfo fieldInfo, XmlDocument docs)
 		{
 			System.Diagnostics.Debug.Assert(fieldInfo != null);
 			FullyQualifiedName = String.Concat(fieldInfo.DeclaringType.FullName, ".", fieldInfo.Name);
-			
-			if (xmlComments != null) {
-				XmlNode node = xmlComments["F:" + FullyQualifiedName] as XmlNode;
+
+			if (docs != null) {
+				XmlNode node = docs.SelectSingleNode ("/Type/Members/Member[@MemberName='" + fieldInfo.Name + "']/Docs/summary");
 				if (node != null) {
 					Documentation = node.InnerXml;
 				}
 			}
+			
 			if (fieldInfo.IsInitOnly) {
 				modifiers |= ModifierEnum.Readonly;
 			}

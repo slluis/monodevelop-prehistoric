@@ -66,7 +66,7 @@ namespace MonoDevelop.Services {
 //			}
 			
 			// read xml documentation for the assembly
-			XmlDocument doc        = null;
+			/*XmlDocument doc        = null;
 			Hashtable   docuNodes  = new Hashtable();
 			string      xmlDocFile = System.IO.Path.ChangeExtension(fileName, ".xml");
 			
@@ -89,7 +89,7 @@ namespace MonoDevelop.Services {
 						}
 					}
 				}
-			}
+				}*/
 
 			//FIXME: Re-enable this code when the mono bug goes away, 0.32
 			//hopefully
@@ -97,7 +97,7 @@ namespace MonoDevelop.Services {
 			System.Reflection.Assembly asm = Assembly.LoadFrom (fileName);
 			foreach (Type type in asm.GetTypes()) {
 				if (!type.FullName.StartsWith("<") && !type.IsSpecialName && type.IsPublic) {
-					classes.Add(new ReflectionClass(type, docuNodes));
+					classes.Add(new ReflectionClass(type));
 				}
 			}
 		}

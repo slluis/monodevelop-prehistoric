@@ -1,5 +1,9 @@
 2004-04-19  Todd Berman  <tberman@sevenl.net>
 
+	* CodeCompletion/CodeCompletionDataProvider.cs: Wrap docs.
+
+2004-04-19  Todd Berman  <tberman@sevenl.net>
+
 	* Gui/SourceEditorView.cs: call the right resolver method.
 	* CodeCompletion/CodeCompletionDataProvider.cs: Add IParameter results.
 	* CodeCompletion/CodeCompletionData.cs: Add IParameter ctor.

@@ -33,7 +33,7 @@ namespace MonoDevelop.Internal.Parser
 			}
 			
 			if (methodNode != null) {
-				XmlNode paramDocu = methodNode.SelectSingleNode("member[@name='" + parameterInfo.Name + "']");
+				XmlNode paramDocu = methodNode.SelectSingleNode("Docs/param[@name='" + parameterInfo.Name + "']");
 				if (paramDocu != null) {
 					documentation = paramDocu.InnerXml;
 				}

@@ -22,8 +22,8 @@ namespace MonoDevelop.Services
 			get { return helpTree; }
 		}
 
-		//public XmlDocument GetHelpXml (string type) {
-		//	return helpTree.GetHelpXml ("T:" + type);
-		//}
+		public XmlDocument GetHelpXml (string type) {
+			return helpTree.GetHelpXml ("T:" + type);
+		}
 	}
 }

@@ -5,6 +5,9 @@
 //     <version value="$version"/>
 // </file>
 
+using MonoDevelop.Services;
+using MonoDevelop.Core.Services;
+
 using System;
 using System.Collections;
 using System.Xml;
@@ -37,11 +40,17 @@ namespace MonoDevelop.Internal.Parser
 			return type.IsSubclassOf(typeof(Delegate)) && type != typeof(MulticastDelegate);
 		}
 		
-		public ReflectionClass(Type type, Hashtable xmlComments)
+		public ReflectionClass(Type type)
 		{
+
+			//FIXME: remove after doc changes are complete.
+			Hashtable xmlComments = null;
+			
 			FullyQualifiedName = type.FullName;
-			if (xmlComments != null) {
-				XmlNode node = xmlComments["T:" + FullyQualifiedName] as XmlNode;
+
+			XmlDocument docs = ((MonodocService)ServiceManager.Services.GetService (typeof (MonodocService))).GetHelpXml (FullyQualifiedName);
+			if (docs != null) {
+				XmlNode node = docs.SelectSingleNode ("/Type/Docs/summary");
 				if (node != null) {
 					Documentation = node.InnerXml;
 				}
@@ -105,12 +114,12 @@ namespace MonoDevelop.Internal.Parser
 				}
 				
 				foreach (Type nestedType in type.GetNestedTypes(flags)) {
-					innerClasses.Add(new ReflectionClass(nestedType, xmlComments));
+					innerClasses.Add(new ReflectionClass(nestedType));
 				}
 				
 				foreach (FieldInfo field in type.GetFields(flags)) {
 //					if (!field.IsSpecialName) {
-					IField newField = new ReflectionField(field, xmlComments);
+					IField newField = new ReflectionField(field, docs);
 					if (!newField.IsInternal) {
 						fields.Add(newField);
 					}
@@ -126,12 +135,12 @@ namespace MonoDevelop.Internal.Parser
 						p = propertyInfo.GetIndexParameters();
 					} catch (Exception) {}
 					if (p == null || p.Length == 0) {
-						IProperty newProperty = new ReflectionProperty(propertyInfo, xmlComments);
+						IProperty newProperty = new ReflectionProperty(propertyInfo, docs);
 						if (!newProperty.IsInternal) {
 							properties.Add(newProperty);
 						}
 					} else {
-						IIndexer newIndexer = new ReflectionIndexer(propertyInfo, xmlComments);
+						IIndexer newIndexer = new ReflectionIndexer(propertyInfo, docs);
 						if (!newIndexer.IsInternal) {
 							indexer.Add(newIndexer);
 						}
@@ -141,7 +150,7 @@ namespace MonoDevelop.Internal.Parser
 				
 				foreach (MethodInfo methodInfo in type.GetMethods(flags)) {
 					if (!methodInfo.IsSpecialName) {
-						IMethod newMethod = new ReflectionMethod(methodInfo, xmlComments);
+						IMethod newMethod = new ReflectionMethod(methodInfo, docs);
 						
 						if (!newMethod.IsInternal) {
 							methods.Add(newMethod);
@@ -150,7 +159,7 @@ namespace MonoDevelop.Internal.Parser
 				}
 				
 				foreach (ConstructorInfo constructorInfo in type.GetConstructors(flags)) {
-					IMethod newMethod = new ReflectionMethod(constructorInfo, xmlComments);
+					IMethod newMethod = new ReflectionMethod(constructorInfo, docs);
 					if (!newMethod.IsInternal) {
 						methods.Add(newMethod);
 					}
@@ -158,7 +167,7 @@ namespace MonoDevelop.Internal.Parser
 				
 				foreach (EventInfo eventInfo in type.GetEvents(flags)) {
 //					if (!eventInfo.IsSpecialName) {
-					IEvent newEvent = new ReflectionEvent(eventInfo, xmlComments);
+					IEvent newEvent = new ReflectionEvent(eventInfo, docs);
 					
 					if (!newEvent.IsInternal) {
 						events.Add(newEvent);

@@ -1,3 +1,7 @@
+2004-04-19  Todd Berman  <tberman@sevenl.net>
+
+	* Makefile.am: only link the one .resources file we need.
+
 2004-04-07  John Luke  <jluke@cfl.rr.com>
 
 	* MonoDevelopMain.cs: use reflection for the name and version

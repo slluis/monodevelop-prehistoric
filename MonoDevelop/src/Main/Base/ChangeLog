@@ -1,3 +1,19 @@
+2004-04-19  Todd Berman  <tberman@sevenl.net>
+
+	* Commands/AutostartCommands.cs: Match new ReflectionLayer api.
+	* Services/MonodocService.cs: uncomment GetHelpXml
+	* Services/AmbienceService/AmbienceReflectionDecorator.cs: match api.
+	* Services/ParserService/AssemblyInformation.cs: match api.
+	* Internal/Parser/ReflectionLayer/Reflection*.cs:
+	Add the start of documentation integration into the actual IDE.
+	Now the docs show up on code completion tooltips, just the summary.
+	Potentially we should enable the entire doc for the class/method,
+	but I havnt seen how it looks yet, as it will most likely be large
+	for some methods/classes.
+
+	**NOTE: To get this documentation integration, you have to rebuild
+	your code completion database.
+
 2004-04-17  Todd Berman  <tberman@sevenl.net>
 
 	* Services/Toolbar/ToolbarService.cs:
