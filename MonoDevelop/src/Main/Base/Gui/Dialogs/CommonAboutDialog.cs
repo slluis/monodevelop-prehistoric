@@ -111,7 +111,7 @@ namespace MonoDevelop.Gui.Dialogs
 	
 	public class CommonAboutDialog : Dialog
 	{
-		static GLib.GType type;
+		static GLib.GType gtype;
 		static FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.Services.GetService(typeof(FileUtilityService));
 		
 		AuthorAboutTabPage aatp;
@@ -120,13 +120,19 @@ namespace MonoDevelop.Gui.Dialogs
 		
 		static PropertyService propertyService = (PropertyService)ServiceManager.Services.GetService(typeof(PropertyService));
 		
-		static CommonAboutDialog ()
+		public static new GLib.GType GType
 		{
-			type = RegisterGType (typeof (CommonAboutDialog));
+			get {
+				if (gtype == GLib.GType.Invalid)
+					gtype = RegisterGType (typeof (CommonAboutDialog));
+				return gtype;
+			}
 		}
 		
-		public CommonAboutDialog() : base (GettextCatalog.GetString ("About MonoDevelop"), (Gtk.Window) WorkbenchSingleton.Workbench, DialogFlags.DestroyWithParent)
+		public CommonAboutDialog () : base (GType)
 		{
+			this.Title = GettextCatalog.GetString ("About MonoDevelop");
+			this.TransientFor = (Gtk.Window) WorkbenchSingleton.Workbench;
 			ResourceService resourceService = (ResourceService) ServiceManager.Services.GetService(typeof (IResourceService));
 			aboutPictureScrollBox = new ScrollBox ();
 		

@@ -1,3 +1,8 @@
+2004-04-14  John Luke  <jluke@cfl.rr.com>
+
+	* Gui/Dialogs/CommonAboutDialog.cs: chain to base (GType)
+	so Gtk# cvs is happy
+
 2004-04-14  Nick Drochak  <ndrochak@gol.com>
 
 	* Gui/Pads/ProjectBrowser/ProjectBrowserView.cs: When file is added, put it
