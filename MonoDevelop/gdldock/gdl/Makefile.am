@@ -6,8 +6,8 @@ INCLUDE_APIS = \
 	@gtksharp_prefix@/share/gapi/gdk-api.xml \
 	@gtksharp_prefix@/share/gapi/gtk-api.xml \
 	@gtksharp_prefix@/share/gapi/atk-api.xml
-			
-all: generated-stamp $(ASSEMBLY)
+	
+all: $(ASSEMBLY)
 
 gdl-api.xml:
 	cp $(srcdir)/gdl-api.raw gdl-api.xml
