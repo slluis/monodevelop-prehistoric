@@ -381,7 +381,7 @@ $(DLL): $(build_sources) ../../../data/resources/glade/Base.glade
 	&& cp $(DLL) ../../../build/bin/.
 
 Services/StockIcons.cs : ./Services/process-icons.pl
-	perl  -x$(srcdir)../../../build/data/resources/icons -w $(srcdir)./Services/process-icons.pl > $@
+	perl  -x$(srcdir)/../../../build/data/resources/icons -w $(srcdir)/./Services/process-icons.pl > $@
 
 assemblydir = $(libdir)/monodevelop/bin
 assembly_DATA = $(DLL)
