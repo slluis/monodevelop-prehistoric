@@ -340,15 +340,22 @@ namespace ICSharpCode.SharpRefactory.Parser
 		public virtual object Visit(ForStatement forStatement, object data)
 		{
 			object ret = data;
-			foreach(INode n in forStatement.Initializers) {
-				n.AcceptVisitor(this, data);
+			if (forStatement.Initializers != null) { 
+				foreach(INode n in forStatement.Initializers) {
+					if (n != null) n.AcceptVisitor(this, data);
+				}
 			}
+			
 			if (forStatement.Condition != null) {
 				ret = forStatement.Condition.AcceptVisitor(this, data);
 			}
-			foreach(INode n in forStatement.Iterator) {
-				n.AcceptVisitor(this, data);
+			
+			if (forStatement.Iterator != null) {
+				foreach(INode n in forStatement.Iterator) {
+					if (n != null) n.AcceptVisitor(this, data);
+				}
 			}
+			
 			if (forStatement.EmbeddedStatement == null) {
 				return ret;
 			}
