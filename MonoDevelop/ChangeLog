@@ -1,4 +1,8 @@
 2004-03-04 John BouAntoun  <jba-mono@optusnet.com.au>
+	* src/Main/Base/Gui/Dialogs/ProjectOptionsDialog.cs: ported [Add/Remove/UpdateBold]Configuration functions. still no way to cool them, need context menu
+	* src/Main/Base/Gui/Dialogs/TreeViewOptions.cs : made TreeView explicitely protected, added SelectSpecificNode that does just that 
+
+2004-03-04 John BouAntoun  <jba-mono@optusnet.com.au>
 	* build/AddIns/AddIns/BackendBindings/BackendBindings.addin : commented ChoosRuntimePanel binding (we can't support any other runtimes)  
 
 2004-03-03  Todd Berman  <tberman@sevenl.net>

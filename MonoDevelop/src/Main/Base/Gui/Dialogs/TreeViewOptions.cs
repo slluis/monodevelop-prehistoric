@@ -28,7 +28,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs {
 
 		protected Gtk.TreeStore treeStore;
 		
-		[Glade.Widget] Gtk.TreeView  TreeView;
+		[Glade.Widget] protected Gtk.TreeView  TreeView;
 		[Glade.Widget] Gtk.Label     optionTitle;
 		[Glade.Widget] Gtk.Notebook  mainBook;
 		[Glade.Widget] Gtk.Image     panelImage;
@@ -122,6 +122,17 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs {
 				}
 			}
 		}
+		
+		// selects a specific node in the treeview options
+		protected void SelectSpecificNode(Gtk.TreeIter iter)
+		{
+			TreeView.GrabFocus();
+			Gtk.TreePath new_path = treeStore.GetPath (iter);
+			TreeView.ExpandToPath (new_path);
+			TreeView.Selection.SelectPath (new_path);
+			SetOptionPanelTo ((IDialogPanelDescriptor)treeStore.GetValue (iter, 1));
+		}
+		
 		public TreeViewOptions (IProperties properties, IAddInTreeNode node)
 		{
 			this.properties = properties;

@@ -27,6 +27,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs {
 		IProject  project;
 		
 		IAddInTreeNode configurationNode;
+		Gtk.TreeIter configurationTreeNode;
 	
 		StringParserService StringParserService = (StringParserService)ServiceManager.Services.GetService (typeof(StringParserService));
 		
@@ -56,19 +57,19 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs {
 		
 		void AddConfigurationNodes()
 		{
-			Gtk.TreeIter configurationTreeNode;
 			configurationTreeNode = treeStore.AppendValues (StringParserService.Parse("${res:Dialog.Options.ProjectOptions.ConfigurationsNodeName}"), null);
 			
 			foreach (IConfiguration config in project.Configurations) {
-				Gtk.TreeIter newNode = treeStore.AppendValues (configurationTreeNode, config.Name, config);
-				// FIXME: how to set it bold in treeview ?
-				/*
+				Gtk.TreeIter newNode ;
+				
 				if (config == project.ActiveConfiguration) {
-					newNode.NodeFont = boldFont;
+					newNode = treeStore.AppendValues (configurationTreeNode, config.Name + " (Active)", config);
+					//newNode.NodeFont = boldFont;
 				} else {
-					newNode.NodeFont = plainFont;
+					newNode = treeStore.AppendValues (configurationTreeNode, config.Name, config); 
+					//newNode.NodeFont = plainFont;
 				}
-				*/
+				
 				DefaultProperties configNodeProperties = new DefaultProperties();
 				configNodeProperties.SetProperty("Project", project);
 				configNodeProperties.SetProperty("Config", config);
@@ -77,15 +78,17 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs {
 		}
 		
 		public void AddProjectConfiguration()
-		{/*
+		{
 			int    number  = -1;
 			string name    = "New Configuration"; // don't localize this project configs should have per default an english name
-			string newName = name;
+			
+			// make sure you have unique configuration names
+			string newName = name;			
 			bool duplicateNumber;
 			do {
 				duplicateNumber = false;
 				foreach (IConfiguration config in project.Configurations) {
-					newName = number >= 0 ? name + number : name;
+					newName = (number >= 0) ? name + number : name;
 					if (newName == config.Name) {
 						++number;
 						duplicateNumber = true;
@@ -94,55 +97,81 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs {
 				}
 			} while (duplicateNumber);
 			
-			TreeNode newNode = new TreeNode(newName);
+			// append new configuration node to the configurationTreeNode
 			IConfiguration newConfig = (IConfiguration)project.ActiveConfiguration.Clone();
-			newConfig.Name = newName;
-			newNode.Tag  = newConfig;
-			newNode.NodeFont = plainFont;
+			newConfig.Name = newName;			
+			Gtk.TreeIter newNode = treeStore.AppendValues (configurationTreeNode, newConfig.Name , newConfig);
+			
+			// add the config to the project
 			project.Configurations.Add(newConfig);
 			properties.SetProperty("Config", newConfig);
-			AddNodes(properties, newNode.Nodes, configurationNode.BuildChildItems(newConfig));
-			configurationTreeNode.Nodes.Add(newNode);
+			
+			// add the child nodes to this new config
+			AddNodes(properties, newNode, configurationNode.BuildChildItems(newConfig));			
+			
+			SelectSpecificNode(newNode);
+			
+			// FIXME: how to set the new nodes Label as editable ?
+			/*
 			((TreeView)ControlDictionary["optionsTreeView"]).SelectedNode = newNode;
 			((TreeView)ControlDictionary["optionsTreeView"]).LabelEdit    = true;
-			newNode.BeginEdit();*/
+			*/
 		}
 		
 		public void RemoveProjectConfiguration()
-		{/*
-			IConfiguration config = (IConfiguration)((TreeView)ControlDictionary["optionsTreeView"]).SelectedNode.Tag;
-			if (project.Configurations.Count > 1) {
-				bool newActiveConfig = project.ActiveConfiguration == config;
-				project.Configurations.Remove(config);
-				project.ActiveConfiguration = (IConfiguration)project.Configurations[0];
-				((TreeView)ControlDictionary["optionsTreeView"]).Nodes.Remove(((TreeView)ControlDictionary["optionsTreeView"]).SelectedNode);
-				UpdateBoldConfigurationNode();
-				configurationTreeNode.Expand();
-			}*/
+		{	
+			Gtk.TreeModel mdl;
+			Gtk.TreeIter  iter;
+			if (TreeView.Selection.GetSelected (out mdl, out iter)) {					
+				IConfiguration config = (IConfiguration) mdl.GetValue(iter, 1);
+				if (project.Configurations.Count > 1) {
+					bool newActiveConfig = project.ActiveConfiguration == config;
+					project.Configurations.Remove(config);
+					project.ActiveConfiguration = (IConfiguration)project.Configurations[0];
+					
+					if (((Gtk.TreeStore)mdl).Remove(ref iter)) {
+						UpdateBoldConfigurationNode();
+						SelectSpecificNode(configurationTreeNode);						
+					}
+				}
+			}
 		}
 		
 		void UpdateBoldConfigurationNode()
-		{/*
-			foreach (TreeNode node in configurationTreeNode.Nodes) {
-				if (node == ((TreeView)ControlDictionary["optionsTreeView"]).SelectedNode) {
-					node.NodeFont = boldFont;
-				} else {
-					node.NodeFont = plainFont;
+		{
+			if (treeStore.IterHasChild(configurationTreeNode)) {
+				for(int i = 0; i < treeStore.IterNChildren(configurationTreeNode); i++) { 
+					Gtk.TreeIter node;
+					if (treeStore.IterNthChild(out node, configurationTreeNode, i)) {
+						
+						// determine if this is the active config
+						IConfiguration config = (IConfiguration) treeStore.GetValue(node, 1);
+						if (project.ActiveConfiguration == config) {
+							treeStore.SetValue(node, 0, config.Name + " (Active)");
+						} else {
+							treeStore.SetValue(node, 0, config.Name);
+						}
+					}
 				}
-			}*/
+			}
 		}
 		
 		public void SetSelectedConfigurationAsStartup()
-		{/*
-			IConfiguration config = ((TreeView)ControlDictionary["optionsTreeView"]).SelectedNode.Tag as IConfiguration;
-			if (config != null) {
-				project.ActiveConfiguration = config;
-				UpdateBoldConfigurationNode();
-			}*/
+		{
+			Gtk.TreeModel mdl;
+			Gtk.TreeIter  iter;
+			if (TreeView.Selection.GetSelected (out mdl, out iter)) {					
+				IConfiguration config = (IConfiguration) mdl.GetValue(iter, 1);	
+				if (config != null) {
+					project.ActiveConfiguration = config;
+					UpdateBoldConfigurationNode();
+				}
+			}
 		}
 		
 		public void RenameProjectConfiguration()
 		{
+			// FIXME: have no idea if this is possible
 			//((TreeView)ControlDictionary["optionsTreeView"]).LabelEdit    = true;
 			//((TreeView)ControlDictionary["optionsTreeView"]).SelectedNode.BeginEdit();
 		}
