@@ -128,8 +128,8 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 				}
 			}
 			
-			listView.Selection.UnselectAll ();
 			if (lastSelected != -1) {
+				listView.Selection.UnselectAll ();
 				TreePath path = new TreePath ("" + (lastSelected + 1));
 				listView.Selection.SelectPath (path);
 				listView.SetCursor (path, complete_column, false);

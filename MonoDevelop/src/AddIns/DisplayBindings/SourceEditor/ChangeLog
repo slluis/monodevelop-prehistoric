@@ -1,4 +1,9 @@
 2004-03-25  Todd Berman  <tberman@sevenl.net>
 
+	* CodeCompletion/CompletionWindow.cs: only UnselectAll when you have
+	a better option, otherwise stay where you are.
+
+2004-03-25  Todd Berman  <tberman@sevenl.net>
+
 	* CodeCompletion/CompletionWindow.cs: add proper checking on when
 	to close the window based on backspacing.
