@@ -1,6 +1,6 @@
 MCS = mcs
 RUNTIME = mono
-ASSEMBLY = ../../build/bin/gdl-sharp.dll
+ASSEMBLY = gdl-sharp.dll
 
 INCLUDE_APIS = \
 	@gtksharp_prefix@/share/gapi/gdk-api.xml \
@@ -16,7 +16,8 @@ generated-stamp: gdl-api.xml
 $(ASSEMBLY): generated-stamp ../../build/bin
 	$(MCS) --unsafe --target library \
 	-r glib-sharp.dll -r gtk-sharp.dll -r gdk-sharp.dll \
-	--recurse '*.cs' -o $(ASSEMBLY)
+	--recurse '*.cs' -o $(ASSEMBLY) \
+	&& cp $(ASSEMBLY) ../../build/bin/.
 
 ../../build/bin:
 	mkdir ../../build/bin

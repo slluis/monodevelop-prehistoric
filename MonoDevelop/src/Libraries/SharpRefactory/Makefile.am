@@ -106,12 +106,13 @@ FILES = \
 ./src/VBConverter/VBNetVisitor.cs \
 ./src/AssemblyInfo.cs
 
-DLL=../../../build/bin/ICSharpCode.SharpRefactory.dll
+DLL = ICSharpCode.SharpRefactory.dll
 
 all: $(DLL)
 
 $(DLL): $(FILES)
-	@ mcs /debug /out:$(DLL) /target:library /r:System.Drawing.dll $(FILES)
+	@ mcs /debug /out:$(DLL) /target:library /r:System.Drawing.dll $(FILES) \
+	&& cp $(DLL) ../../../build/bin/.
 
 test-parser.exe : $(DLL) src/Main.cs
 	@ mcs /debug /out:$@ /r:$(DLL) src/Main.cs
@@ -122,7 +123,7 @@ run : test-parser.exe
 assemblydir = $(libdir)/monodevelop/bin
 assembly_DATA = $(DLL)
 
-CLEANFILES=$(DLL)
+CLEANFILES = $(DLL)
 
 EXTRA_DIST = $(FILES)
 

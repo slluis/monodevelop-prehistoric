@@ -353,7 +353,7 @@ FILES= \
 ./Internal/ExternalTool/ExternalTool.cs \
 ./AssemblyInfo.cs
 
-DLL=../../../build/bin/MonoDevelop.Base.dll
+DLL = MonoDevelop.Base.dll
 
 all: $(DLL)
 
@@ -371,7 +371,8 @@ $(DLL): $(FILES) ../../../data/resources/glade/Base.glade
 		/r:../../../build/bin/gtkmozembed-sharp.dll \
 		/r:glade-sharp.dll \
 		/r:gnome-sharp.dll \
-		$(FILES)
+		$(FILES) \
+	&& cp $(DLL) ../../../build/bin/.
 
 Services/StockIcons.cs : ./Services/process-icons.pl
 	perl  -x../../../build/data/resources/icons -w ./Services/process-icons.pl > $@

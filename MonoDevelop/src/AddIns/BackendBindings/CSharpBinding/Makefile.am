@@ -25,7 +25,7 @@ FILES= \
 ./FormattingStrategy/CSharpFormattingStrategy.cs \
 ./CSharpBindingCompilerManager.cs
 
-DLL=../../../../build/AddIns/AddIns/BackendBindings/CSharpBinding.dll
+DLL = CSharpBinding.dll
 
 all: $(DLL)
 
@@ -36,12 +36,13 @@ $(DLL): $(FILES)
 		/r:../../../../build/bin/MonoDevelop.Base.dll \
 		/r:../../../../build/bin/ICSharpCode.SharpRefactory.dll \
 		/r:gtk-sharp.dll \
-		$(FILES)
+		$(FILES) \
+	&& cp $(DLL) ../../../../build/AddIns/AddIns/BackendBindings/.
 
 csharpbindinglibdir = $(libdir)/monodevelop/AddIns/AddIns/BackendBindings
 csharpbindinglib_DATA = $(DLL)
 
-CLEANFILES=$(DLL)
+CLEANFILES = $(DLL)
 
 EXTRA_DIST = $(FILES)
 

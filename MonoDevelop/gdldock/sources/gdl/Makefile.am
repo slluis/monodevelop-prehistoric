@@ -120,7 +120,7 @@ gdldocklib_DATA = libgdldock.so stock-close-12.png \
 clean:
 	rm -f libgdldock.so $(libgdldock_OBJECTS) $(GENERATED_SOURCE)
 
-CLEANFILES= ../../../build/bin/libgdldock.so ../../../build/bin/*.png
+CLEANFILES = libgdldock.so
 
 .PHONY: clean
 

@@ -1,4 +1,4 @@
-DLL=../../../../build/bin/MonoDevelop.SourceEditor.dll
+DLL = MonoDevelop.SourceEditor.dll
 
 FILES = ./CodeCompletion/CodeCompletionData.cs \
 ./CodeCompletion/ICompletionData.cs \
@@ -81,11 +81,12 @@ $(DLL) : $(FILES)
 		/r:../../../../build/bin/MonoDevelop.Gui.Widgets.dll \
 		/r:pango-sharp.dll /r:gnome-sharp.dll /r:glade-sharp.dll \
 		/r:gconf-sharp.dll \
-		/r:System.Drawing.dll
+		/r:System.Drawing.dll \
+	&& cp $(DLL) ../../../../build/bin/.
 
 assemblydir = $(libdir)/monodevelop/bin
 assembly_DATA = $(DLL)
 
-CLEANFILES=$(DLL)
+CLEANFILES = $(DLL)
 
 EXTRA_DIST = $(FILES)

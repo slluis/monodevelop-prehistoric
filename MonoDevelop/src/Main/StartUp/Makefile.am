@@ -30,7 +30,7 @@ RESOURCES= \
 /resource:$(BASEDIR)/data/resources/StringResources.br.resources \
 /resource:$(BASEDIR)/data/resources/SplashScreen.png,SplashScreen.png
 
-DLL=../../../build/bin/MonoDevelop.exe
+DLL = MonoDevelop.exe
 
 all: $(DLL)
 
@@ -41,7 +41,8 @@ $(DLL): $(FILES)
 		/r:glib-sharp.dll \
 		/define:GTK /r:gtk-sharp.dll /r:gdk-sharp.dll \
 		/r:gnome-sharp.dll \
-		$(RESOURCES) $(FILES)
+		$(RESOURCES) $(FILES) \
+	&& cp $(DLL) ../../../build/bin/.
 
 assemblydir = $(libdir)/monodevelop/bin
 assembly_DATA = $(DLL)           

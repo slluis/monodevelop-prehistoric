@@ -58,18 +58,18 @@ FILES= \
 ./AddIns/AddInCollection.cs \
 ./AddIns/AddInSignatureException.cs
 
-DLL=../../../build/bin/MonoDevelop.Core.dll
+DLL = MonoDevelop.Core.dll
 
 all: $(DLL)
 
 $(DLL): $(FILES)
 	@ mcs /debug /out:$(DLL) /target:library /r:System.Drawing.dll /define:LINUX /resource:../../../data/resources/AddIn.xsd,AddIn.xsd \
-	$(FILES)
+	$(FILES) && cp $(DLL) ../../../build/bin/.
 
 assemblydir = $(libdir)/monodevelop/bin
 assembly_DATA = $(DLL)
 
-CLEANFILES=$(DLL)
+CLEANFILES = $(DLL)
 
 EXTRA_DIST = $(FILES)
 

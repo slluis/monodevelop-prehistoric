@@ -66,17 +66,18 @@ FILES= \
 ./src/SharpAssembly/AssemblyInfo.cs \
 ./src/SharpAssembly/AssemblyNameNotFoundException.cs 
 
-DLL=../../../build/bin/ICSharpCode.SharpAssembly.dll
+DLL = ICSharpCode.SharpAssembly.dll
 
 all: $(DLL)
 
 $(DLL): $(FILES)
-	@ mcs /debug /out:$(DLL) /target:library $(FILES)
+	@ mcs /debug /out:$(DLL) /target:library $(FILES) \
+	&& cp $(DLL) ../../../build/bin/.
 
 assemblydir = $(libdir)/monodevelop/bin
 assembly_DATA = $(DLL)
   
-CLEANFILES=$(DLL)
+CLEANFILES = $(DLL)
 
 EXTRA_DIST = $(FILES)
 

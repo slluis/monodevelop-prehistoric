@@ -1,5 +1,5 @@
 MCS=mcs
-ASSEMBLY = ../build/bin/gtkmozembed-sharp.dll
+ASSEMBLY = gtkmozembed-sharp.dll
 
 INCLUDE_APIS = \
 	@gtksharp_prefix@/share/gapi/gdk-api.xml \
@@ -15,7 +15,8 @@ generated-stamp: gtkmozembed-api.xml
 $(ASSEMBLY): generated-stamp
 	$(MCS) --unsafe --target library \
 	-r glib-sharp.dll -r gtk-sharp.dll -r gdk-sharp.dll \
-	--recurse '*.cs' -o $(ASSEMBLY)
+	--recurse '*.cs' -o $(ASSEMBLY) \
+	&& cp $(ASSEMBLY) ../build/bin/.
 
 assemblydir = $(prefix)/lib/monodevelop/bin
 assembly_DATA = $(ASSEMBLY)
