@@ -1,5 +1,4 @@
 SUBDIRS = glade
 
 EXTRA_DIST = AddIn.xsd \
-SplashScreen.png \
-StringResources.resources
+SplashScreen.png

@@ -22,7 +22,6 @@ $(DLL): $(build_sources)
 	mcs /debug /out:$(DLL) \
 		/define:GTK $(REFS) \
 		$(build_sources) \
-		/resource:$(BASEDIR)/data/resources/StringResources.resources,StringResources.resources \
 		/resource:$(BASEDIR)/data/resources/SplashScreen.png,SplashScreen.png \
 	&& cp $(DLL) ../../../build/bin/.
 

@@ -37,18 +37,8 @@ namespace MonoDevelop.Core.Services
 	
 	public class ResourceService : AbstractService
 	{
-		readonly static string uiLanguageProperty = "CoreProperties.UILanguage";
-		
-		readonly static string stringResources  = "StringResources";
-		readonly static string imageResources   = "BitmapResources";
-		
-		static string resourceDirctory;
-		
 		static ResourceService()
 		{
-			PropertyService propertyService = (PropertyService)ServiceManager.GetService(typeof(PropertyService));
-			resourceDirctory = propertyService.DataDirectory + Path.DirectorySeparatorChar + "resources";
-
 			iconFactory = new Gtk.IconFactory ();
 
 			// FIXME: remove this when all MonoDevelop is using Gtk+
@@ -60,58 +50,6 @@ namespace MonoDevelop.Core.Services
 		
 		Hashtable userStrings = null;
 		Hashtable userIcons   = null;
-		
-		ResourceManager strings = null;
-		ResourceManager icon    = null;
-		
-		Hashtable localStrings = null;
-		Hashtable localIcons   = null;
-		
-		void ChangeProperty(object sender, PropertyEventArgs e)
-		{
-			if (e.Key == uiLanguageProperty && e.OldValue != e.NewValue) {
-				LoadLanguageResources();
-			} 
-		}
-		
-		void LoadLanguageResources()
-		{
-			PropertyService propertyService = (PropertyService)ServiceManager.GetService(typeof(PropertyService));
-			string language = propertyService.GetProperty(uiLanguageProperty, Thread.CurrentThread.CurrentUICulture.Name);
-			
-			localStrings = Load(stringResources, language);
-			if (localStrings == null && language.IndexOf('-') > 0) {
-				localStrings = Load(stringResources, language.Split(new char[] {'-'})[0]);
-			}
-			
-			localIcons = Load(imageResources, language);
-			if (localIcons == null && language.IndexOf('-') > 0) {
-				localIcons = Load(imageResources, language.Split(new char[] {'-'})[0]);
-			}
-		}
-		
-		public override void InitializeService()
-		{
-			base.InitializeService();
-			PropertyService propertyService = (PropertyService)ServiceManager.GetService(typeof(PropertyService));
-			propertyService.PropertyChanged += new PropertyEventHandler(ChangeProperty);
-			
-			LoadLanguageResources();
-		}
-		
-		// core service : Can't use Initialize, because all other stuff needs this service before initialize is called.
-		public ResourceService()
-		{
-			strings = new ResourceManager(stringResources, Assembly.GetCallingAssembly());
-			icon    = new ResourceManager(imageResources,  Assembly.GetCallingAssembly());
-			
-			if (System.Configuration.ConfigurationSettings.AppSettings["UserStrings"] != null) {
-				userStrings = Load(resourceDirctory +  Path.DirectorySeparatorChar + System.Configuration.ConfigurationSettings.AppSettings["UserStrings"]);
-			}
-			if (System.Configuration.ConfigurationSettings.AppSettings["UserIcons"] != null) {
-				userIcons   = Load(resourceDirctory +  Path.DirectorySeparatorChar + System.Configuration.ConfigurationSettings.AppSettings["UserIcons"]);
-			}
-		}
 		
 		/// <summary>
 		/// The LoadFont routines provide a safe way to load fonts.
@@ -178,25 +116,6 @@ namespace MonoDevelop.Core.Services
 			//} catch (Exception) {
 				//return new Gtk.Label ("-").Style.FontDescription;
 			//}
-		}
-		
-		Hashtable Load(string fileName)
-		{
-			if (File.Exists(fileName)) {
-				Hashtable resources = new Hashtable();
-				ResourceReader rr = new ResourceReader(fileName);
-				foreach (DictionaryEntry entry in rr) {
-					resources.Add(entry.Key, entry.Value);
-				}
-				rr.Close();
-				return resources;
-			}
-			return null;
-		}
-		Hashtable Load(string name, string language)
-		{
-			return Load(resourceDirctory + Path.DirectorySeparatorChar + name + "." + language + ".resources");
-			
 		}
 		
 		// use P/Invoke to be able to pass some NULL parameters

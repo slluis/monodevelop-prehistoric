@@ -1,3 +1,8 @@
+2004-07-01  Todd Berman  <tberman@off.net>
+
+	* Services/ResourceService.cs: Remove a lot of code associated with
+	loading resources at runtime, etc.
+
 2004-06-29  Todd Berman  <tberman@off.net>
 
 	* Internal/Codons/Templates/ProjectTemplateCodon.cs: new codon for
