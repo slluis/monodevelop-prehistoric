@@ -61,7 +61,7 @@ namespace Gdl
 			else
 				Child = new VPaned ();
 			
-			Child.AddNotification ("position", OnNotifyPosition);
+			Child.AddNotification ("position", new GLib.NotifyHandler (OnNotifyPosition));
 												
 			Child.Parent = this;
 			Child.Show ();
