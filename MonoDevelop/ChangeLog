@@ -1,3 +1,7 @@
+2005-04-03  John Luke  <john.luke@gmail.com>
+
+	* autogen.sh: add back aclocal
+
 2005-04-01	Christian Hergert	<christian.hergert@gmail.com>
 
 	* contrib/: Add folder for external libraries

@@ -32,6 +32,13 @@ test -z "$srcdir" && srcdir=.
   DIE=1
 }
 
+# if no automake, don't bother testing for aclocal
+test -n "$NO_AUTOMAKE" || (aclocal --version) < /dev/null > /dev/null 2>&1 || {
+  echo
+  echo "**Error**: Missing \`aclocal'."
+  DIE=1
+}
+
 if test "$DIE" -eq 1; then
   exit 1
 fi
@@ -55,6 +62,17 @@ glib-gettextize --force --copy ||
 echo "Running intltoolize ..."
 intltoolize --force --copy --automake ||
   { echo "**Error**: intltoolize failed."; exit 1; }
+
+echo "Running aclocal $ACLOCAL_FLAGS ..."
+aclocal $ACLOCAL_FLAGS || {
+  echo
+  echo "**Error**: aclocal failed. This may mean that you have not"
+  echo "installed all of the packages you need, or you may need to"
+  echo "set ACLOCAL_FLAGS to include \"-I \$prefix/share/aclocal\""
+  echo "for the prefix where you installed the packages whose"
+  echo "macros were not found"
+  exit 1
+}
 
 echo "Running automake --gnu $am_opt ..."
 automake --add-missing --gnu $am_opt ||
