@@ -18,15 +18,6 @@ SOURCES = \
 ./Gui/Dialogs/ReplaceDialog.cs \
 ./Gui/Dialogs/GotoLineNumberDialog.cs \
 ./Conditions/TextContentCondition.cs \
-./Codons/EditActionCodon.cs \
-./Commands/ToolCommands.cs \
-./Commands/TextAreaContextmenuCommands.cs \
-./Commands/FormatCommands.cs \
-./Commands/ProjectCommands.cs \
-./Commands/SearchCommands.cs \
-./Commands/FoldingCommands.cs \
-./Commands/CommentRegionCommand.cs \
-./Commands/CodeActions.cs \
 ./Actions.cs \
 ./Search/DocumentIterator/ProvidedDocumentInformation.cs \
 ./Search/DocumentIterator/DirectoryDocumentIterator.cs \

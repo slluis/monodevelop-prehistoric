@@ -115,7 +115,7 @@
 		             class = "VBBinding.TextEditorOptionsPanel"/>-->
 	</Extension>
 		
-	<Extension path = "/AddIns/DefaultTextEditor/Formater">
+<!--	<Extension path = "/AddIns/DefaultTextEditor/Formater">
 		<Conditional textcontent = "C#">
 			<Class id ="CSharpFormatter" insertbefore="DefaultFormatter" class = "CSharpBinding.FormattingStrategy.CSharpFormattingStrategy"/>
 		</Conditional>
@@ -125,7 +125,7 @@
 		<Conditional textcontent = "Java">
 			<Class id ="JavaFormatter" insertbefore="DefaultFormatter" class = "JavaBinding.FormattingStrategy.JavaFormattingStrategy"/>
 		</Conditional>
-	</Extension>
+	</Extension> -->
 	
 	<Extension path = "/Workspace/Icons">
 		<!-- C# -->

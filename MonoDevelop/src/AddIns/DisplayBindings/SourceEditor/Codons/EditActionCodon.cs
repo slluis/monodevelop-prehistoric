@@ -14,7 +14,6 @@ using ICSharpCode.Core.AddIns.Conditions;
 using ICSharpCode.Core.AddIns.Codons;
 
 using ICSharpCode.SharpDevelop.Gui.Components;
-using ICSharpCode.SharpDevelop.DefaultEditor.Actions;
 using ICSharpCode.TextEditor.Actions;
 
 namespace ICSharpCode.SharpDevelop.DefaultEditor.Codons
