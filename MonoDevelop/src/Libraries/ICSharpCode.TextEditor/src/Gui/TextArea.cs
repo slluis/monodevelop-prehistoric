@@ -169,7 +169,7 @@ namespace ICSharpCode.TextEditor
 			gutterMargin = new GutterMargin(this);
 			foldMargin   = new FoldMargin(this);
 			iconBarMargin = new IconBarMargin(this);
-			leftMargins.AddRange(new AbstractMargin[] { /*iconBarMargin,*/ gutterMargin, foldMargin });
+			leftMargins.AddRange(new AbstractMargin[] { iconBarMargin, gutterMargin, foldMargin });
 			OptionsChanged();
 			
 			new TextAreaMouseHandler(this).Attach();

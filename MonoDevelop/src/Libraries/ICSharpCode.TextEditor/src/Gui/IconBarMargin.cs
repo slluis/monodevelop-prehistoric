@@ -39,29 +39,41 @@ namespace ICSharpCode.TextEditor
 		}
 		
 		public override void Paint(Gdk.Drawable wnd, Rectangle rect)
-		{/*
-			// paint background
-			g.FillRectangle(SystemBrushes.Control, new Rectangle(drawingPosition.X, rect.Top, drawingPosition.Width - 1, rect.Height));
-			g.DrawLine(SystemPens.ControlDark, base.drawingPosition.Right - 1, rect.Top, base.drawingPosition.Right - 1, rect.Bottom);
+		{
+			HighlightColor lineNumberPainterColor = textArea.Document.HighlightingStrategy.GetColorFor("LineNumbers");
 			
-			// paint icons
-			foreach (int mark in textArea.Document.BookmarkManager.Marks) {
-				int lineNumber = textArea.Document.GetLogicalLine(mark);
-				int yPos = (int)(lineNumber * textArea.TextView.FontHeight) - textArea.VirtualTop.Y;
-//				if (yPos >= rect.Y && yPos <= rect.Bottom) {
-					DrawBookmark(g, yPos);
-//				}
+			Gdk.Color rect_fg = TextArea.Style.White;
+			Gdk.Color text_fg = new Gdk.Color (lineNumberPainterColor.Color);
+			Gdk.Color text_bg = new Gdk.Color (lineNumberPainterColor.BackgroundColor);
+			
+			using (Gdk.GC gc = new Gdk.GC (wnd)) {
+				gc.RgbFgColor = rect_fg;
+				wnd.DrawRectangle (gc, true, new System.Drawing.Rectangle (drawingPosition.X, rect.Top, drawingPosition.Width - 1, rect.Height));
+				
+				
+				//g.DrawLine(SystemPens.ControlDark, base.drawingPosition.Right - 1, rect.Top, base.drawingPosition.Right - 1, rect.Bottom);
+				
+				// paint icons
+				foreach (int mark in textArea.Document.BookmarkManager.Marks) {
+					int lineNumber = textArea.Document.GetLogicalLine(mark);
+					int yPos = (int)(lineNumber * textArea.TextView.FontHeight) - textArea.VirtualTop.Y;
+//					if (yPos >= rect.Y && yPos <= rect.Bottom) {
+						DrawBookmark(gc, wnd, yPos);
+//					}
+				}
 			}
-		*/
+		
 		}
 		
 #region Drawing functions
-		void DrawBookmark(Graphics g, int y)
+		void DrawBookmark(Gdk.GC gc, Gdk.Drawable wnd, int y)
 		{
+			gc.RgbFgColor = new Gdk.Color (Color.Cyan);
 			int delta = textArea.TextView.FontHeight / 8;
 			Rectangle rect = new Rectangle( 1, y + delta, base.drawingPosition.Width - 4, textArea.TextView.FontHeight - delta * 2);
-			FillRoundRect(g, Brushes.Cyan, rect);
-			DrawRoundRect(g, Pens.Black, rect);
+			wnd.DrawRectangle (gc, true, rect);
+			//FillRoundRect(g, Brushes.Cyan, rect);
+			//DrawRoundRect(g, Pens.Black, rect);
 		}
 		
 		GraphicsPath CreateRoundRectGraphicsPath(Rectangle r)
@@ -86,19 +98,19 @@ namespace ICSharpCode.TextEditor
 			return new GraphicsPath();
 		}
 		
-		void DrawRoundRect(Graphics g, Pen p , Rectangle r)
+		/*void DrawRoundRect(Gdk.GC gc, Gdk.Drawable wnd, Rectangle r)
 		{
 			GraphicsPath gp = CreateRoundRectGraphicsPath(r);
 			g.DrawPath(p, gp);
 			gp.Dispose();
 		}
 
-		void FillRoundRect(Graphics g, Brush b , Rectangle r)
+		void FillRoundRect(Gdk.GC gc, Gdk.Drawable wnd, Rectangle r)
 		{
 			GraphicsPath gp = CreateRoundRectGraphicsPath(r);
 			g.FillPath(b, gp);
 			gp.Dispose();
-		}
+		}*/
 #endregion
 	}
 }
