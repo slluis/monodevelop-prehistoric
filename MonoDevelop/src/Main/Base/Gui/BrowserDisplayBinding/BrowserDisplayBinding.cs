@@ -24,6 +24,16 @@ namespace ICSharpCode.SharpDevelop.BrowserDisplayBinding
 		{
 			return fileName.StartsWith("http") || fileName.StartsWith("ftp");
 		}
+
+		public bool CanCreateContentForMimeType (string mimetype)
+		{
+			switch (mimetype) {
+				case "text/html":
+					return true;
+				default:
+					return false;
+			}
+		}
 		
 		public bool CanCreateContentForLanguage(string language)
 		{

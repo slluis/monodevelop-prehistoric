@@ -44,6 +44,13 @@ namespace ICSharpCode.SharpDevelop.Services
 		
 		public DisplayBindingCodon GetCodonPerFileName(string filename)
 		{
+			string mimetype = MonoDevelop.GuiUtils.Vfs.GetMimeType (filename);
+			foreach (DisplayBindingCodon binding in bindings) {
+				if (binding.DisplayBinding != null && binding.DisplayBinding.CanCreateContentForMimeType (mimetype)) {
+					return binding;
+				}
+			}
+			Console.WriteLine ("Didnt match on mimetype, trying filename");
 			foreach (DisplayBindingCodon binding in bindings) {
 				if (binding.DisplayBinding != null && binding.DisplayBinding.CanCreateContentForFile(filename)) {
 					return binding;

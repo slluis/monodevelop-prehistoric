@@ -44,6 +44,12 @@ namespace ICSharpCode.SharpDevelop.DefaultEditor.Gui.Editor
 		{
 			return true;
 		}
+
+		public virtual bool CanCreateContentForMimeType (string mimetype)
+		{
+			if (mimetype.StartsWith ("text")) return true;
+			return false;
+		}
 		
 		public virtual bool CanCreateContentForLanguage(string language)
 		{

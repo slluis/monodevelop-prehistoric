@@ -31,6 +31,8 @@ namespace ICSharpCode.Core.AddIns.Codons
 		/// </returns>
 		bool CanCreateContentForFile(string fileName);
 		
+		bool CanCreateContentForMimeType (string mimetype);
+		
 		/// <remarks>
 		/// Creates a new IViewContent object for the file fileName
 		/// </remarks>
