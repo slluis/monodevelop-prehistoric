@@ -7,16 +7,15 @@ using System.IO;
 using System.Collections;
 using System.Globalization;
 using System.Text;
+using System.Reflection;
 using System.Runtime.InteropServices;
 using Mono.Debugger;
 using Mono.Debugger.Languages;
 
+using Stock = MonoDevelop.Gui.Stock;
 using MonoDevelop.Core.Services;
 using MonoDevelop.Internal.Parser;
 using MonoDevelop.Services;
-
-using RefParse = ICSharpCode.SharpRefactory.Parser;
-using AST = ICSharpCode.SharpRefactory.Parser.AST;
 
 namespace MonoDevelop.Debugger
 {
@@ -24,14 +23,18 @@ namespace MonoDevelop.Debugger
 	{
 		Mono.Debugger.StackFrame current_frame;
 
+		Hashtable variable_rows;
+		Hashtable iters;
+
 		Gtk.TreeView tree;
 		Gtk.TreeStore store;
 		bool is_locals_display;
 
-		const int NAME_COL = 0;
-		const int VALUE_COL = 1;
-		const int TYPE_COL = 2;
-		const int RAW_VIEW_COL = 3;
+		internal const int NAME_COL = 0;
+		internal const int VALUE_COL = 1;
+		internal const int TYPE_COL = 2;
+		internal const int RAW_VIEW_COL = 3;
+		internal const int PIXBUF_COL = 4;
 
 		public DebuggerVariablePad (bool is_locals_display)
 		{
@@ -39,10 +42,14 @@ namespace MonoDevelop.Debugger
 
 			this.is_locals_display = is_locals_display;
 
+			variable_rows = new Hashtable();
+			iters = new Hashtable();
+
 			store = new TreeStore (typeof (string),
 					       typeof (string),
 			                       typeof (string),
-					       typeof (bool));
+					       typeof (bool),
+					       typeof (Gdk.Pixbuf));
 
 			tree = new TreeView (store);
 			tree.RulesHint = true;
@@ -50,8 +57,11 @@ namespace MonoDevelop.Debugger
 
 			TreeViewColumn NameCol = new TreeViewColumn ();
 			CellRenderer NameRenderer = new CellRendererText ();
+			CellRenderer IconRenderer = new CellRendererPixbuf ();
 			NameCol.Title = "Name";
+			NameCol.PackStart (IconRenderer, false);
 			NameCol.PackStart (NameRenderer, true);
+			NameCol.AddAttribute (IconRenderer, "pixbuf", PIXBUF_COL);
 			NameCol.AddAttribute (NameRenderer, "text", NAME_COL);
 			NameCol.Resizable = true;
 			NameCol.Alignment = 0.0f;
@@ -75,47 +85,44 @@ namespace MonoDevelop.Debugger
 			NameCol.Alignment = 0.0f;
 			tree.AppendColumn (TypeCol);
 
-			tree.TestExpandRow += new TestExpandRowHandler (test_expand_row);
+			tree.TestExpandRow += new TestExpandRowHandler (TestExpandRow);
 
 			Add (tree);
 			ShowAll ();
 
 			DebuggingService dbgr = (DebuggingService)ServiceManager.GetService (typeof (DebuggingService));
 			dbgr.PausedEvent += new EventHandler (OnPausedEvent);
-			dbgr.ResumedEvent += new EventHandler (OnResumedEvent);
 			dbgr.StoppedEvent += new EventHandler (OnStoppedEvent);
 		}
 
-		bool add_array (TreeIter parent, ITargetArrayObject array)
+		bool InsertArrayChildren (TreeIter parent, ITargetArrayObject array)
 		{
 			bool inserted = false;
 
 			for (int i = array.LowerBound; i < array.UpperBound; i++) {
+
+				inserted = true;
+
 				ITargetObject elt = array [i];
 				if (elt == null)
 					continue;
 
 				TreeIter iter = store.Append (parent);
-				add_object (elt, i.ToString (), iter);
-				inserted = true;
+				AddObject (i.ToString (), "" /* XXX */, elt, iter);
 			}
 
 			return inserted;
 		}
 
-		bool add_member (TreeIter parent, ITargetStructObject sobj, ITargetMemberInfo member, bool is_field)
+		bool InsertStructMember (TreeIter parent, ITargetStructObject sobj, ITargetMemberInfo member, bool is_field)
 		{
 			bool inserted = false;
 
+			string icon_name = GetIcon (member);
+
 #if NET_2_0
 			DebuggerBrowsableAttribute battr = GetDebuggerBrowsableAttribute (member);
-			if (battr == null) {
-				TreeIter iter = store.Append (parent);
-				add_object (is_field ? sobj.GetField (member.Index) : sobj.GetProperty (member.Index),
-					    member.Name, iter);
-				inserted = true;
-			}
-			else {
+			if (battr != null) {
 				TreeIter iter;
 
 				switch (battr.State) {
@@ -125,15 +132,15 @@ namespace MonoDevelop.Debugger
 				case DebuggerBrowsableState.Collapsed:
 					// the default behavior for the debugger (c&p from above)
 					iter = store.Append (parent);
-					add_object (is_field ? sobj.GetField (member.Index) : sobj.GetProperty (member.Index),
-						    member.Name, iter);
+					AddObject (member.Name, icon_name, is_field ? sobj.GetField (member.Index) : sobj.GetProperty (member.Index),
+						   iter);
 					inserted = true;
 					break;
 				case DebuggerBrowsableState.Expanded:
 					// add it as in the Collapsed case...
 					iter = store.Append (parent);
-					add_object (is_field ? sobj.GetField (member.Index) : sobj.GetProperty (member.Index),
-						    member.Name, iter);
+					AddObject (member.Name, icon_name, is_field ? sobj.GetField (member.Index) : sobj.GetProperty (member.Index),
+						   iter);
 					inserted = true;
 					// then expand the row
 					tree.ExpandRow (store.GetPath (iter), false);
@@ -146,13 +153,12 @@ namespace MonoDevelop.Debugger
 						case TargetObjectKind.Array:
 							iter = store.Append (parent);
 							// handle arrays normally, should check how vs2005 does this.
-							add_object (member_obj, member.Name, iter);
+							AddObject (member.Name, icon_name, member_obj, iter);
 							inserted = true;
 							break;
 						case TargetObjectKind.Class:
 							try {
-								add_class (parent, (ITargetClassObject)member_obj, false);
-								inserted = true;
+								inserted = InsertClassChildren (parent, (ITargetClassObject)member_obj, false);
 							}
 							catch {
 								// what about this case?  where the member is possibly
@@ -161,8 +167,7 @@ namespace MonoDevelop.Debugger
 							break;
 						case TargetObjectKind.Struct:
 							try {
-								add_struct (parent, (ITargetStructObject)member_obj, false);
-								inserted = true;
+								inserted = InsertStructChildren (parent, (ITargetStructObject)member_obj, false);
 							}
 							catch {
 								// what about this case?  where the member is possibly
@@ -177,16 +182,71 @@ namespace MonoDevelop.Debugger
 					break;
 				}
 			}
-#else
-			TreeIter iter = store.Append (parent);
-			add_object (sobj.GetField (member.Index), member.Name, iter);
-			inserted = true;
+			else {
+#endif
+				TreeIter iter = store.Append (parent);
+				AddObject (member.Name, icon_name, is_field ? sobj.GetField (member.Index) : sobj.GetProperty (member.Index),
+					   iter);
+				inserted = true;
+#if NET_2_0
+			}
 #endif
 
 			return inserted;
 		}
 
-		bool add_struct (TreeIter parent, ITargetStructObject sobj, bool raw_view)
+#if NET_2_0
+		bool InsertProxyChildren (DebuggingService dbgr, DebuggerTypeProxyAttribute pattr, TreeIter parent, ITargetStructObject sobj)
+		{
+			Mono.Debugger.StackFrame frame = dbgr.MainThread.CurrentFrame;
+	 		ITargetStructType proxy_type = frame.Language.LookupType (frame, pattr.ProxyTypeName) as ITargetStructType;
+			if (proxy_type == null)
+				proxy_type = frame.Language.LookupType (frame,
+									sobj.Type.Name + "+" + pattr.ProxyTypeName) as ITargetStructType;
+			if (proxy_type != null) {
+				string name = String.Format (".ctor({0})", sobj.Type.Name);
+				ITargetMethodInfo method = null;
+
+				foreach (ITargetMethodInfo m in proxy_type.Constructors) {
+					if (m.FullName == name)
+						method = m;
+				}
+
+				if (method != null) {
+					ITargetFunctionObject ctor = proxy_type.GetConstructor (frame, method.Index);
+					ITargetObject[] args = new ITargetObject[1];
+					args[0] = sobj;
+
+					ITargetStructObject proxy_obj = ctor.Type.InvokeStatic (frame, args, false) as ITargetStructObject;
+
+					if (proxy_obj != null) {
+						ResourceService res = (ResourceService)ServiceManager.GetService (typeof (ResourceService));
+
+						foreach (ITargetPropertyInfo prop in proxy_obj.Type.Properties) {
+							InsertStructMember (parent, proxy_obj, prop, false);
+						}
+
+						TreeIter iter = store.Append (parent);
+						store.SetValue (iter, NAME_COL, "Raw View");
+						store.SetValue (iter, RAW_VIEW_COL, true);
+
+						Gdk.Pixbuf icon = res.GetIcon (Stock.Class, Gtk.IconSize.Menu);
+						if (icon != null)
+							store.SetValue (iter, PIXBUF_COL, icon);
+
+						iters.Remove (iter);
+						AddPlaceholder (sobj, iter);
+
+						return true;
+					}
+				}
+			}
+
+			return false;
+		}
+#endif
+
+		bool InsertStructChildren (TreeIter parent, ITargetStructObject sobj, bool raw_view)
 		{
 			bool inserted = false;
 
@@ -196,77 +256,42 @@ namespace MonoDevelop.Debugger
 				DebuggerTypeProxyAttribute pattr = GetDebuggerTypeProxyAttribute (dbgr, sobj);
 
 				if (pattr != null) {
-					Mono.Debugger.StackFrame frame = dbgr.MainThread.CurrentFrame;
-	 				ITargetStructType proxy_type = frame.Language.LookupType (frame, pattr.ProxyTypeName) as ITargetStructType;
-					if (proxy_type == null)
-						proxy_type = frame.Language.LookupType (frame,
-											sobj.Type.Name + "+" + pattr.ProxyTypeName) as ITargetStructType;
-					if (proxy_type != null) {
-						string name = String.Format (".ctor({0})", sobj.Type.Name);
-						ITargetMethodInfo method = null;
-
-						foreach (ITargetMethodInfo m in proxy_type.Constructors) {
-							Console.WriteLine ("   " + m.FullName);
-							if (m.FullName == name)
-								method = m;
-						}
-
-						if (method != null) {
-							ITargetFunctionObject ctor = proxy_type.GetConstructor (frame, method.Index);
-							ITargetObject[] args = new ITargetObject[1];
-							args[0] = sobj;
-
-							ITargetStructObject proxy_obj = ctor.Type.InvokeStatic (frame, args, false) as ITargetStructObject;
-
-							if (proxy_obj != null) {
-								foreach (ITargetPropertyInfo prop in proxy_obj.Type.Properties) {
-									if (add_member (parent, proxy_obj, prop, false))
-										inserted = true;
-								}
-
-								TreeIter iter = store.Append (parent);
-								store.SetValue (iter, NAME_COL, new GLib.Value ("Raw View"));
-								store.SetValue (iter, RAW_VIEW_COL, new GLib.Value (true));
-								add_data (sobj, iter);
-
-								return true;
-							}
-						}
-					}
+					if (InsertProxyChildren (dbgr, pattr, parent, sobj))
+						inserted = true;
 				}
 			}
 #endif
 
 			foreach (ITargetFieldInfo field in sobj.Type.Fields) {
-				if (add_member (parent, sobj, field, true))
+				if (InsertStructMember (parent, sobj, field, true))
 					inserted = true;
 			}
 
 			foreach (ITargetPropertyInfo prop in sobj.Type.Properties) {
-				if (add_member (parent, sobj, prop, false))
+				if (InsertStructMember (parent, sobj, prop, false))
 					inserted = true;
 			}
 
 			return inserted;
 		}
 
-		bool add_class (TreeIter parent, ITargetClassObject sobj, bool raw_view)
+		bool InsertClassChildren (TreeIter parent, ITargetClassObject sobj, bool raw_view)
 		{
 			bool inserted = false;
 
 			if (sobj.Type.HasParent) {
 				TreeIter iter = store.Append (parent);
-				add_object (sobj.Parent, "<parent>", iter);
+				AddObject ("<parent>", Stock.Class, sobj.Parent, iter);
 				inserted = true;
 			}
 
-			if (add_struct (parent, sobj, raw_view))
+			if (InsertStructChildren (parent, sobj, raw_view))
 				inserted = true;
 
 			return inserted;
 		}
 
-		void add_message (TreeIter parent, string message)
+		void InsertMessage (TreeIter parent, string message)
 		{
 			TreeIter child;
 			if (store.IterChildren (out child, parent)) {
@@ -275,10 +300,10 @@ namespace MonoDevelop.Debugger
 			}
 
 			TreeIter iter = store.Append (parent);
-			store.SetValue (iter, VALUE_COL, new GLib.Value (message));
+			store.SetValue (iter, VALUE_COL, message);
 		}
 
-		void test_expand_row (object o, TestExpandRowArgs args)
+		void TestExpandRow (object o, TestExpandRowArgs args)
 		{
 			bool inserted = false;
 
@@ -299,52 +324,310 @@ namespace MonoDevelop.Debugger
 			case TargetObjectKind.Array:
 				ITargetArrayObject array = (ITargetArrayObject) obj;
 				try {
-					inserted = add_array (args.Iter, array);
+					inserted = InsertArrayChildren (args.Iter, array);
 				} catch {
-					add_message (args.Iter, "<can't display array>");
+					InsertMessage (args.Iter, "<can't display array>");
 					inserted = true;
 				}
 				if (!inserted)
-					add_message (args.Iter, "<empty array>");
+					InsertMessage (args.Iter, "<empty array>");
 				break;
 
 			case TargetObjectKind.Class:
 				ITargetClassObject cobj = (ITargetClassObject) obj;
 				try {
 					bool raw_view = (bool)store.GetValue (args.Iter, RAW_VIEW_COL);
-					inserted = add_class (args.Iter, cobj, raw_view);
+					inserted = InsertClassChildren (args.Iter, cobj, raw_view);
 				} catch (Exception e) {
 				  Console.WriteLine (e);
-					add_message (args.Iter, "<can't display class>");
+					InsertMessage (args.Iter, "<can't display class>");
 					inserted = true;
 				}
 				if (!inserted)
-					add_message (args.Iter, "<empty class>");
+					InsertMessage (args.Iter, "<empty class>");
 				break;
 
 			case TargetObjectKind.Struct:
 				ITargetStructObject sobj = (ITargetStructObject) obj;
 				try {
 					bool raw_view = (bool)store.GetValue (args.Iter, RAW_VIEW_COL);
-					inserted = add_struct (args.Iter, sobj, raw_view);
+					inserted = InsertStructChildren (args.Iter, sobj, raw_view);
 				} catch {
-					add_message (args.Iter, "<can't display struct>");
+					InsertMessage (args.Iter, "<can't display struct>");
 					inserted = true;
 				}
 				if (!inserted)
-					add_message (args.Iter, "<empty struct>");
+					InsertMessage (args.Iter, "<empty struct>");
 				break;
 
 			default:
-				add_message (args.Iter, "<unknown object>");
+				InsertMessage (args.Iter, "<unknown object>");
 				break;
 			}
 		}
 
-		void add_data (ITargetObject obj, TreeIter parent)
+		void AddPlaceholder (ITargetObject obj, TreeIter parent)
 		{
-			/*TreeIter iter = */ store.Append (parent);
+			if (obj.TypeInfo.Type.Kind == TargetObjectKind.Array) {
+				ITargetArrayObject array = (ITargetArrayObject) obj;
+				if (array.LowerBound == array.UpperBound)
+					return;
+			}
+
+			store.Append (parent);
 			iters.Add (parent, obj);
+		}
+
+		string GetObjectValueString (ITargetObject obj)
+		{
+			if (obj == null) {
+				return "null";
+			}
+
+			switch (obj.TypeInfo.Type.Kind) {
+			case TargetObjectKind.Fundamental:
+				object contents = ((ITargetFundamentalObject) obj).Object;
+				return contents.ToString ();
+
+			case TargetObjectKind.Array:
+				ITargetArrayObject array = (ITargetArrayObject) obj;
+				if (array.LowerBound == array.UpperBound && array.LowerBound == 0)
+					return "[]";
+				else
+					return "";
+
+			case TargetObjectKind.Struct:
+			case TargetObjectKind.Class:
+				try {
+#if NET_2_0
+					DebuggingService dbgr = (DebuggingService)ServiceManager.GetService (typeof (DebuggingService));
+					DebuggerDisplayAttribute dattr = GetDebuggerDisplayAttribute (dbgr, obj);
+					if (dattr != null) {
+						return dbgr.AttributeHandler.EvaluateDebuggerDisplay (obj, dattr.Value);
+					}
+					else {
+#endif
+						// call the object's ToString() method.
+						return ((ITargetStructObject)obj).PrintObject();
+#if NET_2_0
+					}
+#endif
+				}
+				catch (Exception e) {
+				  //Console.WriteLine ("getting object value failed: {0}", e);
+					return "";
+				}
+			default:
+				return "";
+			}
+		}
+
+		void AddObject (string name, string icon_name, ITargetObject obj, TreeIter iter)
+		{
+			AmbienceService amb = (AmbienceService)ServiceManager.GetService (typeof (AmbienceService));
+			ResourceService res = (ResourceService)ServiceManager.GetService (typeof (ResourceService));
+
+			store.SetValue (iter, NAME_COL, name);
+			store.SetValue (iter, VALUE_COL, GetObjectValueString (obj));
+			store.SetValue (iter, TYPE_COL, obj == null ? "" : amb.CurrentAmbience.GetIntrinsicTypeName (obj.TypeInfo.Type.Name));
+			Gdk.Pixbuf icon = res.GetIcon (icon_name, Gtk.IconSize.Menu);
+			if (icon != null)
+				store.SetValue (iter, PIXBUF_COL, icon);
+			if (obj != null)
+				AddPlaceholder (obj, iter);
+		}
+
+		string GetIcon (ITargetObject obj)
+		{
+			IconService iconSrv = (IconService)ServiceManager.GetService (typeof (IconService));
+			string icon = "";
+
+			if (obj.TypeInfo.Type.TypeHandle is Type)
+				icon = iconSrv.GetIcon ((Type)obj.TypeInfo.Type.TypeHandle);
+
+			return icon;
+		}
+
+		string GetIcon (ITargetMemberInfo member)
+		{
+			IconService iconSrv = (IconService)ServiceManager.GetService (typeof (IconService));
+			string icon = "";
+
+			if (member.Handle is PropertyInfo)
+				icon = iconSrv.GetIcon ((PropertyInfo)member.Handle);
+			else if (member.Handle is FieldInfo)
+				icon = iconSrv.GetIcon ((FieldInfo)member.Handle);
+
+			return icon;
+		}
+
+		void UpdateVariableChildren (IVariable variable, ITargetObject obj, TreePath path, TreeIter iter)
+		{
+			bool expanded = tree.GetRowExpanded (path);
+			TreeIter citer;
+
+			if (!expanded) {
+
+				/* we aren't expanded, just remove all
+				 * children and add the object back
+				 * (since it might be a different
+				 * object now) */
+
+				if (store.IterChildren (out citer, iter))
+					while (store.Remove (ref citer)) ;
+				iters.Remove (iter);
+
+				AddPlaceholder (obj, iter);
+			}
+			else {
+				/* in a perfect world, we'd just iterate
+				 * over the stuff we're showing and update
+				 * it.  for now, just remove all rows and
+				 * re-add them. */
+
+				if (store.IterChildren (out citer, iter))
+					while (store.Remove (ref citer)) ;
+
+				iters.Remove (iter);
+
+				AddObject (variable.Name, GetIcon (obj), obj, iter);
+
+				tree.ExpandRow (path, false);
+			}
+		}
+
+		void UpdateVariable (IVariable variable)
+		{
+			TreeRowReference row = (TreeRowReference)variable_rows[variable];
+
+			if (row == null) {
+				/* the variable isn't presently displayed */
+
+				if (!variable.IsAlive (current_frame.TargetAddress))
+					/* it's not displayed and not alive, just return */
+					return;
+
+				AddVariable (variable);
+			}
+			else {
+				/* the variable is presently displayed */
+
+				// XXX we need a obj.IsValid check in this branch
+
+				if (!variable.IsAlive (current_frame.TargetAddress)) {
+					/* it's in the display but no longer alive.  remove it */
+					RemoveVariable (variable);
+					return;
+				}
+
+				/* it's still alive - make sure the display is up to date */
+				TreeIter iter;
+				if (store.GetIter (out iter, row.Path)) {
+					try {
+						ITargetObject obj = variable.GetObject (current_frame);
+
+						/* make sure the Value column is correct */
+						string current_value = (string)store.GetValue (iter, VALUE_COL);
+						string new_value = GetObjectValueString (obj);
+						if (current_value != new_value)
+							store.SetValue (iter, VALUE_COL, new_value);
+
+						/* update the children */
+						UpdateVariableChildren (variable, obj, row.Path, iter);
+
+					} catch (Exception e) {
+						Console.WriteLine ("can't update variable: {0} {1}", variable, e);
+						store.SetValue (iter, VALUE_COL, "");
+					}
+				}
+			}
+		}
+
+		void AddVariable (IVariable variable)
+		{
+			try {
+				/* it's alive, add it to the display */
+
+				ITargetObject obj = variable.GetObject (current_frame);
+				TreeIter iter;
+
+				if (!obj.IsValid)
+					return;
+
+				store.Append (out iter);
+
+				variable_rows.Add (variable, new TreeRowReference (store, store.GetPath (iter)));
+
+				AddObject (variable.Name, GetIcon (obj), obj, iter);
+			} catch (LocationInvalidException) {
+				// Do nothing
+			} catch (Exception e) {
+				Console.WriteLine ("can't add variable: {0} {1}", variable, e);
+			}
+		}
+
+		void RemoveVariable (IVariable variable)
+		{
+			TreeRowReference row = (TreeRowReference)variable_rows[variable];
+			TreeIter iter;
+
+			if (row != null && store.GetIter (out iter, row.Path)) {
+				iters.Remove (iter);
+				store.Remove (ref iter);
+			}
+
+			variable_rows.Remove (variable);
+		}
+
+		public void UpdateDisplay ()
+		{
+			if ((current_frame == null) || (current_frame.Method == null))
+				return;
+
+			try {
+				Hashtable vars_to_remove = new Hashtable();
+
+				foreach (IVariable var in variable_rows.Keys) {
+					vars_to_remove.Add (var, var);
+				}
+
+				if (is_locals_display) {
+					IVariable[] local_vars = current_frame.Method.Locals;
+					foreach (IVariable var in local_vars) {
+						UpdateVariable (var);
+						vars_to_remove.Remove (var);
+					}
+				} else {
+					IVariable[] param_vars = current_frame.Method.Parameters;
+					foreach (IVariable var in param_vars) {
+						UpdateVariable (var);
+						vars_to_remove.Remove (var);
+					}
+				}
+
+				foreach (IVariable var in vars_to_remove.Keys) {
+					RemoveVariable (var);
+				}
+
+			} catch (Exception e) {
+				Console.WriteLine ("CAN'T GET VARIABLES: {0}", e);
+				store.Clear ();
+				iters = new Hashtable ();
+			}
+		}
+
+		protected void OnStoppedEvent (object o, EventArgs args)
+		{
+			DebuggingService dbgr = (DebuggingService)ServiceManager.GetService (typeof (DebuggingService));
+			current_frame = (Mono.Debugger.StackFrame)dbgr.CurrentFrame;
+			UpdateDisplay ();
+		}
+
+		protected void OnPausedEvent (object o, EventArgs args)
+		{
+			DebuggingService dbgr = (DebuggingService)ServiceManager.GetService (typeof (DebuggingService));
+			current_frame = (Mono.Debugger.StackFrame)dbgr.CurrentFrame;
+			UpdateDisplay ();
 		}
 
 #if NET_2_0
@@ -376,202 +659,7 @@ namespace MonoDevelop.Debugger
 
 			return null;
 		}
-
-		string EvaluateDebuggerDisplay (ITargetObject obj, string display)
-		{
-			StringBuilder sb = new StringBuilder ("");
-			DebuggingService dbgr = (DebuggingService)ServiceManager.GetService (typeof (DebuggingService));
-			EvaluationContext ctx = new EvaluationContext (obj);
-
-			ctx.CurrentProcess = new ProcessHandle (dbgr.MainThread);
-
-			/* break up the string into runs of {...} and
-			 * normal text.  treat the {...} as C#
-			 * expressions, and evaluate them */
-			int start_idx = 0;
-
-			while (true) {
-				int left_idx;
-				int right_idx;
-				left_idx = display.IndexOf ('{', start_idx);
-
-				if (left_idx == -1) {
-					/* we're done. */
-					sb.Append (display.Substring (start_idx));
-					break;
-				}
-				if (left_idx != start_idx) {
-					sb.Append (display.Substring (start_idx, left_idx - start_idx));
-				}
-				right_idx = display.IndexOf ('}', left_idx + 1);
-				if (right_idx == -1) {
-					// '{...\0'.  ignore the '{', append the rest, and break out */
-					sb.Append (display.Substring (left_idx + 1));
-					break;
-				}
-
-				if (right_idx - left_idx > 1) {
-					/* there's enough space for an
-					 * expression.  parse it and see
-					 * what we get. */
-					RefParse.Parser parser;
-					AST.Expression ast_expr;
-					Expression dbgr_expr;
-					DebuggerASTVisitor visitor;
-					string snippet;
-					object retval;
-
-					/* parse the snippet to build up MD's AST */
-					parser = new RefParse.Parser();
-
-					snippet = display.Substring (left_idx + 1, right_idx - left_idx - 1);
-					ast_expr = parser.ParseExpression (new RefParse.Lexer (new RefParse.StringReader (snippet)));
-
-					/* use our visitor to convert from MD's AST to types that
-					 * facilitate evaluation by the debugger */
-					visitor = new DebuggerASTVisitor ();
-					dbgr_expr = (Expression)ast_expr.AcceptVisitor (visitor, null);
-
-					/* finally, resolve and evaluate the expression */
-					dbgr_expr = dbgr_expr.Resolve (ctx);
-					retval = dbgr_expr.Evaluate (ctx);
-
-#region "c&p'ed from debugger/frontend/Style.cs"
-					if (retval is long) {
-						sb.Append (String.Format ("0x{0:x}", (long) retval));
-					}
-					else if (retval is string) {
-						sb.Append ('"' + (string) retval + '"');
-					}
-					else if (retval is ITargetObject) {
-						ITargetObject tobj = (ITargetObject) retval;
-						sb.Append (tobj.Print ());
-					}
-					else {
-						sb.Append (retval.ToString ());
-					}
-#endregion
-				}
-
-				start_idx = right_idx + 1;
-			}
-
-			return sb.ToString ();
-		}
 #endif
 
-		void add_object (ITargetObject obj, string name, TreeIter iter)
-		{
-			AmbienceService amb = (AmbienceService)MonoDevelop.Core.Services.ServiceManager.GetService (typeof (AmbienceService));
-
-			store.SetValue (iter, NAME_COL, new GLib.Value (name));
-			if (obj == null) {
-				store.SetValue (iter, VALUE_COL, new GLib.Value ("null"));
-				return;
-			}
-			store.SetValue (iter, TYPE_COL, new GLib.Value (amb.CurrentAmbience.GetIntrinsicTypeName (obj.TypeInfo.Type.Name)));
-
-			switch (obj.TypeInfo.Type.Kind) {
-			case TargetObjectKind.Fundamental:
-				object contents = ((ITargetFundamentalObject) obj).Object;
-				store.SetValue (iter, VALUE_COL, new GLib.Value (contents.ToString ()));
-				break;
-			case TargetObjectKind.Array:
-				add_data (obj, iter);
-				break;
-			case TargetObjectKind.Struct:
-			case TargetObjectKind.Class:
-#if NET_2_0
-				try {
-					DebuggingService dbgr = (DebuggingService)ServiceManager.GetService (typeof (DebuggingService));
-					DebuggerDisplayAttribute dattr = GetDebuggerDisplayAttribute (dbgr, obj);
-					if (dattr != null) {
-						store.SetValue (iter, VALUE_COL,
-								new GLib.Value (EvaluateDebuggerDisplay (obj, dattr.Value)));
-					}
-					else {
-						// call the object's ToString() method and stuff that in the Value field
-						store.SetValue (iter, VALUE_COL,
-								new GLib.Value (((ITargetStructObject)obj).PrintObject()));
-					}
-				}
-				catch (Exception e) {
-					Console.WriteLine ("getting object value failed: {0}", e);
-
-					store.SetValue (iter, VALUE_COL,
-							new GLib.Value (""));
-				}
-#endif
-				add_data (obj, iter);
-				break;
-			}
-		}
-
-		void add_variable (IVariable variable)
-		{
-			if (!variable.IsAlive (current_frame.TargetAddress))
-				return;
-
-			TreeIter iter;
-			store.Append (out iter);
-
-			try {
-				ITargetObject obj = variable.GetObject (current_frame);
-				add_object (obj, variable.Name, iter);
-			} catch (LocationInvalidException) {
-				// Do nothing
-			} catch (Exception e) {
-				Console.WriteLine ("CAN'T ADD VARIABLE: {0} {1}", variable, e);
-			}
-		}
-
-		Hashtable iters = null;
-
-		public void CleanDisplay ()
-		{
-			store.Clear ();
-			iters = new Hashtable ();
-		}
-
-		public void UpdateDisplay ()
-		{
-			CleanDisplay ();
-
-			if ((current_frame == null) || (current_frame.Method == null))
-				return;
-
-			try {
-				if (is_locals_display) {
-					IVariable[] local_vars = current_frame.Method.Locals;
-					foreach (IVariable var in local_vars)
-						add_variable (var);
-				} else {
-					IVariable[] param_vars = current_frame.Method.Parameters;
-					foreach (IVariable var in param_vars)
-						add_variable (var);
-				}
-			} catch (Exception e) {
-				Console.WriteLine ("CAN'T GET VARIABLES: {0}", e);
-				store.Clear ();
-				iters = new Hashtable ();
-			}
-		}
-
-		protected void OnStoppedEvent (object o, EventArgs args)
-		{
-			CleanDisplay ();
-		}
-
-		protected void OnResumedEvent (object o, EventArgs args)
-		{
-			CleanDisplay ();
-		}
-
-		protected void OnPausedEvent (object o, EventArgs args)
-		{
-			DebuggingService dbgr = (DebuggingService)ServiceManager.GetService (typeof (DebuggingService));
-			current_frame = (Mono.Debugger.StackFrame)dbgr.CurrentFrame;
-			UpdateDisplay ();
-		}
 	}
 }

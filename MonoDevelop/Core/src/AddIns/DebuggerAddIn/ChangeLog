@@ -1,5 +1,22 @@
+2005-03-29  Chris Toshok  <toshok@ximian.com>
+
+	* Gui/DebuggerVariablePad.cs: make this a lot nicer.  we update
+	entries now instead of clearing/re-adding everything.  also,
+	display icons now.
+
+	* DebugAttributeHandler.cs (DebugAttributeHandler.Rescan):
+	actually add the attributes to our hashtables.
+	(DebugAttributeHandler.EvaluateDebuggerDisplay): move this here.
+
 2005-03-24  Chris Toshok  <toshok@ximian.com>
 
+	* Gui/DebuggerStackTracePad.cs
+	(DebuggerStackTracePad.UpdateDisplay): remove the
+	CleanDisplay() here.
+	(DebuggerStackTracePad.UpdateDisplay): and add one here.
+
+2005-03-24  Chris Toshok  <toshok@ximian.com>
+	
 	* Gui/DebuggerStackTracePad.cs, Gui/DebuggerLocalsPad.cs,
 	Gui/DebuggerThreadPad.cs, MonoDevelopDebugger.addin.xml: fix the
 	pad ids.

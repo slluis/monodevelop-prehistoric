@@ -5,6 +5,16 @@ using System.Collections;
 using System.Diagnostics;
 using System.IO;
 using System.Reflection;
+using System.Text;
+
+using MonoDevelop.Core.Services;
+using MonoDevelop.Services;
+
+using Mono.Debugger;
+using Mono.Debugger.Languages;
+
+using RefParse = ICSharpCode.SharpRefactory.Parser;
+using AST = ICSharpCode.SharpRefactory.Parser.AST;
 
 namespace MonoDevelop.Debugger {
 	public class DebugAttributeHandler
@@ -32,16 +42,98 @@ namespace MonoDevelop.Debugger {
 					if (display_by_type_name.ContainsKey (da.TargetTypeName))
 						continue;
 
-					Console.WriteLine ("found DisplayAttribute of value `{0}' for type `{1}'", da.Value, da.TargetTypeName);
+					display_by_type_name.Add (da.TargetTypeName, da);
 				}
 
 				foreach (DebuggerTypeProxyAttribute pa in proxy_attrs) {
 					if (proxy_by_type_name.ContainsKey (pa.TargetTypeName))
 						continue;
 
-					Console.WriteLine ("found ProxyTypeAttribute of type `{0}' for type `{1}'", pa.ProxyTypeName, pa.TargetTypeName);
+					proxy_by_type_name.Add (pa.TargetTypeName, pa);
 				}
 			}
+		}
+
+		public string EvaluateDebuggerDisplay (ITargetObject obj, string display)
+		{
+			StringBuilder sb = new StringBuilder ("");
+			DebuggingService dbgr = (DebuggingService)ServiceManager.GetService (typeof (DebuggingService));
+			EvaluationContext ctx = new EvaluationContext (obj);
+
+			ctx.CurrentProcess = new ProcessHandle (dbgr.MainThread);
+
+			/* break up the string into runs of {...} and
+			 * normal text.  treat the {...} as C#
+			 * expressions, and evaluate them */
+			int start_idx = 0;
+
+			while (true) {
+				int left_idx;
+				int right_idx;
+				left_idx = display.IndexOf ('{', start_idx);
+
+				if (left_idx == -1) {
+					/* we're done. */
+					sb.Append (display.Substring (start_idx));
+					break;
+				}
+				if (left_idx != start_idx) {
+					sb.Append (display.Substring (start_idx, left_idx - start_idx));
+				}
+				right_idx = display.IndexOf ('}', left_idx + 1);
+				if (right_idx == -1) {
+					// '{...\0'.  ignore the '{', append the rest, and break out */
+					sb.Append (display.Substring (left_idx + 1));
+					break;
+				}
+
+				if (right_idx - left_idx > 1) {
+					/* there's enough space for an
+					 * expression.  parse it and see
+					 * what we get. */
+					RefParse.Parser parser;
+					AST.Expression ast_expr;
+					Expression dbgr_expr;
+					DebuggerASTVisitor visitor;
+					string snippet;
+					object retval;
+
+					/* parse the snippet to build up MD's AST */
+					parser = new RefParse.Parser();
+
+					snippet = display.Substring (left_idx + 1, right_idx - left_idx - 1);
+					ast_expr = parser.ParseExpression (new RefParse.Lexer (new RefParse.StringReader (snippet)));
+
+					/* use our visitor to convert from MD's AST to types that
+					 * facilitate evaluation by the debugger */
+					visitor = new DebuggerASTVisitor ();
+					dbgr_expr = (Expression)ast_expr.AcceptVisitor (visitor, null);
+
+					/* finally, resolve and evaluate the expression */
+					dbgr_expr = dbgr_expr.Resolve (ctx);
+					retval = dbgr_expr.Evaluate (ctx);
+
+#region "c&p'ed from debugger/frontend/Style.cs"
+					if (retval is long) {
+						sb.Append (String.Format ("0x{0:x}", (long) retval));
+					}
+					else if (retval is string) {
+						sb.Append ('"' + (string) retval + '"');
+					}
+					else if (retval is ITargetObject) {
+						ITargetObject tobj = (ITargetObject) retval;
+						sb.Append (tobj.Print ());
+					}
+					else {
+						sb.Append (retval.ToString ());
+					}
+#endregion
+				}
+
+				start_idx = right_idx + 1;
+			}
+
+			return sb.ToString ();
 		}
 
 		public DebuggerTypeProxyAttribute GetDebuggerTypeProxyAttribute (Type t)
