@@ -269,7 +269,6 @@ namespace ICSharpCode.SharpDevelop.Gui
 		
 		public virtual void ShowPad(IPadContent content)
 		{
-			Console.WriteLine ("ShowPad : {0}", content);
 			PadContentCollection.Add(content);
 			
 			if (layout != null) {

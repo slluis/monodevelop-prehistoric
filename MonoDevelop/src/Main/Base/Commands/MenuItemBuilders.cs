@@ -313,9 +313,10 @@ namespace ICSharpCode.SharpDevelop.Commands
 			{
 				this.padContent = padContent;
 				Active = IsPadVisible;
+				Toggled += new EventHandler (OnClick);
 			}
 			
-			protected void OnClick(EventArgs e)
+			protected new void OnClick(object o, EventArgs e)
 			{
 				if (IsPadVisible) {
 					WorkbenchSingleton.Workbench.WorkbenchLayout.HidePad(padContent);
@@ -327,7 +328,6 @@ namespace ICSharpCode.SharpDevelop.Commands
 			public override  void UpdateStatus()
 			{
 				base.UpdateStatus();
-				Active = IsPadVisible;
 			}
 		}
 		

@@ -155,6 +155,8 @@ void           gdl_dock_object_detach            (GdlDockObject    *object,
 
 GdlDockObject *gdl_dock_object_get_parent_object (GdlDockObject    *object);
 
+gboolean       gdl_dock_object_is_attached       (GdlDockObject    *object);
+
 void           gdl_dock_object_freeze            (GdlDockObject    *object);
 void           gdl_dock_object_thaw              (GdlDockObject    *object);
 

@@ -476,6 +476,9 @@
       <method name="GetType" cname="gdl_dock_object_get_type" shared="true">
         <return-type type="GType" />
       </method>
+      <method name="IsAttached" cname="gdl_dock_object_is_attached">
+        <return-type type="gboolean" />
+      </method>
       <method name="IsBound" cname="gdl_dock_object_is_bound">
         <return-type type="gboolean" />
       </method>

@@ -146,7 +146,7 @@ namespace ICSharpCode.SharpDevelop.Gui
 			foreach (string typeName in leftContents) {
 				Content c = GetContent (typeName);
 				if (c != null) {
-					DockItem item = new DockItem (c.Title, c.Title, "gtk-execute",
+					DockItem item = new DockItem (typeName, c.Title, "gtk-execute",
 								      DockItemBehavior.Normal);
 					item.Add (c.Widget);
 					item.ShowAll ();
@@ -157,7 +157,7 @@ namespace ICSharpCode.SharpDevelop.Gui
 			foreach (string typeName in bottomContents) {
 				Content c = GetContent (typeName);
 				if (c != null) {
-					DockItem item = new DockItem (c.Title, c.Title, "gtk-execute",
+					DockItem item = new DockItem (typeName, c.Title, "gtk-execute",
 								      DockItemBehavior.Normal);
 					item.Add (c.Widget);
 					item.ShowAll ();
@@ -168,7 +168,7 @@ namespace ICSharpCode.SharpDevelop.Gui
 			foreach (string typeName in rightContents) {
 				Content c = GetContent (typeName);
 				if (c != null) {
-					DockItem item = new DockItem (c.Title, c.Title, "gtk-execute",
+					DockItem item = new DockItem (typeName, c.Title, "gtk-execute",
 								      DockItemBehavior.Normal);
 					item.Add (c.Widget);
 					item.ShowAll ();
@@ -202,7 +202,6 @@ namespace ICSharpCode.SharpDevelop.Gui
 	
 		public void ShowPad (IPadContent content)
 		{
-			Console.WriteLine ("ShowPad {0}", content.Title);
 			if (contentHash[content] == null) {
 				/*DockItem item = new DockItem (content.Title,
 							      content.Title,
@@ -228,7 +227,8 @@ namespace ICSharpCode.SharpDevelop.Gui
 			} else {
 				Content c = (Content)contentHash[content];
 				if (c != null) {
-					//dockManager.ShowContent(c);
+					DockItem item = dock.GetItemByName (content.ToString ());
+					item.ShowItem ();
 				}
 			}
 		}
@@ -238,7 +238,10 @@ namespace ICSharpCode.SharpDevelop.Gui
 			if (padContent != null) {
 				Content content = (Content)contentHash[padContent];
 				if (content != null) {
-					return content.Visible;
+					DockItem item = dock.GetItemByName (padContent.ToString ());
+					if (item != null) {
+						return item.IsAttached;
+					}
 				}
 			}
 
@@ -252,7 +255,8 @@ namespace ICSharpCode.SharpDevelop.Gui
 			if (padContent != null) {
 				Content content = (Content)contentHash[padContent];
 				if (content != null) {
-					//dockManager.HideContent(content);
+					DockItem item = dock.GetItemByName (padContent.ToString ());
+					item.HideItem ();
 				}
 			}
 

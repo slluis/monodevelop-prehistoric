@@ -443,6 +443,13 @@ gdl_dock_object_is_compound (GdlDockObject *object)
     return klass->is_compound;
 }
 
+gboolean
+gdl_dock_object_is_attached (GdlDockObject *object)
+{
+	g_return_val_if_fail (object != NULL, FALSE);
+	return GDL_DOCK_OBJECT_ATTACHED (object);
+}
+
 void
 gdl_dock_object_detach (GdlDockObject *object,
                         gboolean       recursive)
