@@ -100,6 +100,7 @@ namespace ICSharpCode.SharpDevelop.Gui
 
 			// Create the notebook for the various documents.
 			tabControl = new Notebook ();
+			tabControl.Scrollable = true;
 			DockItem item = new DockItem ("Documents", "Documents",
 						      DockItemBehavior.Locked);
 			item.Add (tabControl);
