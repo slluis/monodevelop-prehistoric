@@ -38,9 +38,9 @@ namespace ICSharpCode.TextEditor.Gui.CompletionWindow
 		
 		public DeclarationViewWindow () : base (WindowType.Popup)
 		{
-			BorderWidth = 4;
-			
-			Add (label = new Label (description));
+			Gtk.Frame frame = new Gtk.Frame ();
+			frame.Add (label = new Label (description));
+			Add (frame);
 		}
 	}
 }

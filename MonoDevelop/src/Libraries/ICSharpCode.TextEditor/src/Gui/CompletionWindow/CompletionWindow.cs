@@ -290,9 +290,21 @@ namespace ICSharpCode.TextEditor.Gui.CompletionWindow
 	
 			if (listView.Selection.GetSelected (out model, out iter)){
 				ICompletionData data = (ICompletionData) store.GetValue (iter, 2);
-				Console.WriteLine (data.Description);
+				
+				//FIXME: This code is buggy, and generates a bad placement sometimes when you jump a lot. but it is better than 0,0
+				
+				Gtk.TreePath path = store.GetPath (iter);
+				Gdk.Rectangle rect;
+				listView.GetCellArea (path, (Gtk.TreeViewColumn)listView.Columns[0], out rect);
+				int listpos_x, listpos_y;
+				listView.GdkWindow.GetOrigin (out listpos_x, out listpos_y);
+				int vert = listpos_y + rect.y;
+
+				//FIXME: This is a bad calc, its always on the right, it needs to test if thats too big, and if so, place on the left;
+				int horiz = listpos_x + listView.GdkWindow.Size.Width + 30;
 				declarationviewwindow.Description = data.Description;
 				declarationviewwindow.ShowAll ();
+				declarationviewwindow.Move (horiz, vert);
 			}
 		}
 	}
