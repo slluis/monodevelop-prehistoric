@@ -128,26 +128,24 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads.ProjectBrowser
 			ResourceService resourceService = (ResourceService)ServiceManager.Services.GetService(typeof(IResourceService));
 			StringParserService stringParserService = (StringParserService)ServiceManager.Services.GetService(typeof(StringParserService));
 			
-			/*int ret = new SharpMessageBox(resourceService.GetString("ProjectComponent.RemoveFolder.Title"),
-			                              stringParserService.Parse(resourceService.GetString("ProjectComponent.RemoveFolder.Question"), new string[,] { {"FOLDER", Text}, {"PROJECT", Project.Name}}), 
-			                              resourceService.GetString("Global.RemoveButtonText"),
-			                              resourceService.GetString("Global.DeleteButtonText"),
-			                              resourceService.GetString("Global.CancelButtonText")).ShowMessageBox();*/
-			Console.WriteLine ("unported dialog at DirectoryNode.cs");
-			int ret = -1;
+			Gtk.MessageDialog dialog = new Gtk.MessageDialog ((Gtk.Window)WorkbenchSingleton.Workbench, Gtk.DialogFlags.DestroyWithParent, Gtk.MessageType.Question, Gtk.ButtonsType.OkCancel, stringParserService.Parse(resourceService.GetString("ProjectComponent.RemoveFolder.Question"), new string[,] { {"FOLDER", Text}, {"PROJECT", Project.Name}}));
+			
+			if (dialog.Run() != (int)Gtk.ResponseType.Ok) {
+				dialog.Destroy ();
+				return false;
+			}
+			dialog.Destroy ();
+			
 			IFileService fileService = (IFileService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(IFileService));
 			IProjectService projectService = (IProjectService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
-			switch (ret) {
-				case -1:
-				case 2:
-					return false;
-				case 0:
+			//switch (ret) {
+				//case 0:
 					projectService.RemoveFileFromProject(FolderName);
-					break;
-				case 1:
-					fileService.RemoveFile(FolderName);
-					break;
-			}
+				//	break;
+				//case 1:
+				//	fileService.RemoveFile(FolderName);
+				//	break;
+			//}
 			return true;
 		}
 	}

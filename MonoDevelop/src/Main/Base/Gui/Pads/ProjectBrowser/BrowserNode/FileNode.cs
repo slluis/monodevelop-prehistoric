@@ -140,28 +140,28 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads.ProjectBrowser
 			DateTime old = DateTime.Now;
 			ResourceService resourceService = (ResourceService)ServiceManager.Services.GetService(typeof(IResourceService));
 			StringParserService stringParserService = (StringParserService)ServiceManager.Services.GetService(typeof(StringParserService));
-			Console.WriteLine ("Unported dialog in FileNode.cs");
 			
-			/*using (SharpMessageBox sharpMessageBox = new SharpMessageBox(resourceService.GetString("ProjectComponent.RemoveFile.Title"),
-			                                                             stringParserService.Parse(resourceService.GetString("ProjectComponent.RemoveFile.Question"), new string[,] { {"FILE", Path.GetFileName(((ProjectFile)userData).Name)}, {"PROJECT", Project.Name}}),
-			                                                             resourceService.GetString("Global.RemoveButtonText"),
-			                                                             resourceService.GetString("Global.DeleteButtonText"),
-			                                                             resourceService.GetString("Global.CancelButtonText"))) {
-				Console.WriteLine("Messagebox created at : " + (DateTime.Now - old).Milliseconds);
-				switch (sharpMessageBox.ShowMessageBox()) {
-					case -1:
-					case 2:
-						return false;
-					case 0:
-						IProjectService projectService = (IProjectService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
-						projectService.RemoveFileFromProject(((ProjectFile)userData).Name);
-						break;
-					case 1:
-						IFileService fileService = (IFileService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(IFileService));
-						fileService.RemoveFile(((ProjectFile)userData).Name);
-						break;
-				}
-			}*/
+			Gtk.MessageDialog dialog = new Gtk.MessageDialog ((Gtk.Window)WorkbenchSingleton.Workbench, Gtk.DialogFlags.DestroyWithParent, Gtk.MessageType.Question, Gtk.ButtonsType.OkCancel, stringParserService.Parse(resourceService.GetString("ProjectComponent.RemoveFile.Question"), new string[,] { {"FILE", Path.GetFileName (((ProjectFile)userData).Name)}, {"PROJECT", Project.Name}}));
+			
+			if (dialog.Run() != (int)Gtk.ResponseType.Ok) {
+				dialog.Destroy ();
+				return false;
+			}
+			
+			dialog.Destroy ();
+			//switch (sharpMessageBox.ShowMessageBox()) {
+			//	case -1:
+			//	case 2:
+			//		return false;
+			//	case 0:
+					IProjectService projectService = (IProjectService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
+					projectService.RemoveFileFromProject(((ProjectFile)userData).Name);
+			//		break;
+			//	case 1:
+			//		IFileService fileService = (IFileService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(IFileService));
+			//		fileService.RemoveFile(((ProjectFile)userData).Name);
+			//		break;
+			//}
 			return true;
 		}
 	}
