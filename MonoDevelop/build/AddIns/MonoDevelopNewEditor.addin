@@ -134,16 +134,16 @@
 			</Conditional>             
 			<ToolbarItem id = "SearchSeparator" tooltip = "-"/>
 			<Conditional activewindow="ICSharpCode.SharpDevelop.DefaultEditor.Gui.Editor.ITextEditorControlProvider" action="Disable">
-				<ToolbarItem id = "Comment"
+<!--				<ToolbarItem id = "Comment"
 				             icon = "Icons.16x16.CommentRegion" 
 				             tooltip = "${res:XML.TextAreaContextMenu.CommentUncommentSelection}"
-				             class = "ICSharpCode.SharpDevelop.DefaultEditor.Commands.CommentRegion"/>
+				             class = "ICSharpCode.SharpDevelop.DefaultEditor.Commands.CommentRegion"/> -->
 <!--				<ToolbarItem id = "Uncomment"
 				             icon = "Icons.16x16.UnCommentRegion"
 				             tooltip = "${res:XML.TextAreaContextMenu.UncommentSelection}"
 				             class = "ICSharpCode.SharpDevelop.DefaultEditor.Commands.UncommentRegion"/> -->
 			
-				<ToolbarItem id = "SearchSeparator2" tooltip = "-"/>
+<!--				<ToolbarItem id = "SearchSeparator2" tooltip = "-"/> -->
 				<ToolbarItem id = "ToggleBookmark"
 				             icon = "Icons.16x16.ToggleBookmark"
 				             tooltip = "${res:XML.MainMenu.SearchMenu.ToggleBookmark.Description}"
@@ -369,11 +369,11 @@
 	
 	<Extension path = "/SharpDevelop/Workbench/MainMenu/Tools">
 		<Conditional activewindow="ICSharpCode.SharpDevelop.DefaultEditor.Gui.Editor.ITextEditorControlProvider" action="Disable">
-			<MenuItem id = "InsertColor"
+			<!--<MenuItem id = "InsertColor"
 			          insertafter = "Separator1" insertbefore = "Separator2"
 			          label = "${res:XML.MainMenu.ToolMenu.InsColor}" 
 			          description = "${res:XML.MainMenu.ToolMenu.InsColor.Description}" 
-			          class = "ICSharpCode.SharpDevelop.DefaultEditor.Commands.ShowColorDialog"/> 
+			          class = "ICSharpCode.SharpDevelop.DefaultEditor.Commands.ShowColorDialog"/> -->
 			<MenuItem id = "Separator2" label = "-" />
 
 		<!--	<MenuItem id = "GenerateCodeAction"
