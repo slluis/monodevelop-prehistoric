@@ -6,6 +6,7 @@
 // </file>
 
 using System;
+using System.Collections;
 using System.Diagnostics;
 using System.IO;
 using System.Xml;
@@ -77,7 +78,7 @@ namespace MonoDevelop.Services
 			}
 		}
 		
-		public void OpenFileFromProject (string fileName, string projectname, string pathrelativetoproject)
+		public void OpenFile (string fileName)
 		{
 			if (fileName == null)
 				return;
@@ -116,8 +117,22 @@ namespace MonoDevelop.Services
 			IDisplayBinding binding = displayBindingService.GetBindingPerFileName(fileName);
 			
 			if (binding != null) {
-				if (fileUtilityService.ObservedLoad(new NamedFileOperationDelegate(new LoadFileWrapper(binding, projectname, pathrelativetoproject).Invoke), fileName) == FileOperationResult.OK) {
-					fileService.RecentOpen.AddLastFile(fileName);
+				IProject project = null;
+				Combine combine = null;
+				GetProjectAndCombineFromFile (fileName, out project, out combine);
+				string pathrelativetoproject = GetRelativePath (project, fileName);
+				
+				if (combine != null && project != null)
+				{
+					if (fileUtilityService.ObservedLoad(new NamedFileOperationDelegate(new LoadFileWrapper(binding, project.Name, pathrelativetoproject).Invoke), fileName) == FileOperationResult.OK) {
+						fileService.RecentOpen.AddLastFile(fileName);
+					}
+				}
+				else
+				{
+					if (fileUtilityService.ObservedLoad(new NamedFileOperationDelegate(new LoadFileWrapper(binding, null, null).Invoke), fileName) == FileOperationResult.OK) {
+						fileService.RecentOpen.AddLastFile(fileName);
+					}
 				}
 			} else {
 				try {
@@ -130,9 +145,45 @@ namespace MonoDevelop.Services
 			}
 		}
 		
-		public void OpenFile (string filename)
+		protected void GetProjectAndCombineFromFile (string fileName, out IProject project, out Combine combine)
 		{
-			this.OpenFileFromProject (filename, null, null);
+			IProjectService projectService = (IProjectService) ServiceManager.Services.GetService(typeof(IProjectService));
+			combine = projectService.CurrentOpenCombine;
+			project = null;
+			
+			if (combine != null)
+			{
+				ArrayList projectslist = Combine.GetAllProjects(combine);
+
+				foreach (ProjectCombineEntry projectaux in projectslist)
+				{
+					if (projectaux.Project.IsFileInProject (fileName))
+					{
+						project = projectaux.Project;
+					}
+				}
+			}
+		}
+		
+		protected string GetRelativePath (IProject project, string fileName)
+		{
+			string relativepath;
+	
+			if (project != null && fileName.IndexOf (project.BaseDirectory) == 0)
+			{
+				relativepath = fileName.Substring (project.BaseDirectory.Length);
+			
+				if (relativepath.StartsWith(System.IO.Path.DirectorySeparatorChar.ToString()))
+				{
+					relativepath = relativepath.Substring (1);
+				}
+			}
+			else
+			{
+				relativepath = System.IO.Path.GetFileName (fileName);
+			}
+			
+			return relativepath;
 		}
 		
 		public void NewFile(string defaultName, string language, string content)

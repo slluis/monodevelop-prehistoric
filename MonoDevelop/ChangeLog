@@ -1,3 +1,18 @@
+2004-03-22 Iñigo Illán <kodeport AT terra.es>
+
+	* Base/Gui/Pads/ProjectBrowser/BrowserNode/FileNode.cs:
+	* Base/Services/File/IFileService.cs:
+	* Base/Services/Project/DefaultProjectService.cs:
+	* Base/Services/File/DefaultFileService.cs:
+	Reject the operations made by me.
+
+	* Base/Services/File/DefaultFileService.cs:
+	Make OpenFile look if the file is a project file and make it
+	display correctly on the window manager.
+
+	* Base/Gui/Workbench/Layouts/SdiWorkspaceLayout.cs:
+	Make title be displayed correctly
+
 2004-03-21  Todd Berman <tberman@sevenl.net>
 
 	* monodevelop.xml: updated with a lot of mime-types, and submitted
