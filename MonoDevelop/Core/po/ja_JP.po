@@ -6,10 +6,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MonoDevelop 0.3\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-07-05 17:07-0400\n"
-"PO-Revision-Date: 2004-06-24 02:06+0900\n"
-"Last-Translator: Atsushi Enomoto <atsushi@ximian.com>\n"
+"POT-Creation-Date: 2004-07-12 02:42+0900\n"
+"PO-Revision-Date: 2004-07-12 10:51+0900\n"
+"Last-Translator: Atsushi Eno <atsushi@ximian.com>\n"
 "Language-Team: Atsushi Enomoto <atsushi@ximian.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -204,9 +203,8 @@ msgid "Build"
 msgstr "ビルド"
 
 #: build/AddIns/SharpDevelopCore.addin.xml.h:47
-#, fuzzy
 msgid "Build Project"
-msgstr "プロジェクトのビルド (_d)"
+msgstr "プロジェクトのビルド"
 
 #: build/AddIns/SharpDevelopCore.addin.xml.h:48
 msgid "Build Properties"
@@ -328,9 +326,8 @@ msgid "GotDotNet"
 msgstr "GotDotNet"
 
 #: build/AddIns/SharpDevelopCore.addin.xml.h:76
-#, fuzzy
 msgid "Include"
-msgstr "<b>取り込み</b>"
+msgstr "取り込み"
 
 #: build/AddIns/SharpDevelopCore.addin.xml.h:77
 msgid "Integrated Projects"
@@ -385,7 +382,6 @@ msgid "N_ew Solution/Project..."
 msgstr "新しいソリューション/プロジェクト... (_E)"
 
 #: build/AddIns/SharpDevelopCore.addin.xml.h:90
-#, fuzzy
 msgid "New File"
 msgstr "新しいファイル"
 
@@ -403,9 +399,8 @@ msgid "O_pen"
 msgstr "開く (_P)"
 
 #: build/AddIns/SharpDevelopCore.addin.xml.h:94
-#, fuzzy
 msgid "Open FIle"
-msgstr "全ての開いているファイル"
+msgstr "ファイルを開く"
 
 #: build/AddIns/SharpDevelopCore.addin.xml.h:95
 #: build/AddIns/MonoDevelopNewEditor.addin.xml.h:46
@@ -462,9 +457,8 @@ msgid "Reset Property"
 msgstr "プロパティをリセット"
 
 #: build/AddIns/SharpDevelopCore.addin.xml.h:108
-#, fuzzy
 msgid "Run"
-msgstr "実行 (_R)"
+msgstr "実行"
 
 #: build/AddIns/SharpDevelopCore.addin.xml.h:109
 #: build/AddIns/MonoDevelopNewEditor.addin.xml.h:50
@@ -476,9 +470,8 @@ msgid "Save A_ll"
 msgstr "全て保存 (_L)"
 
 #: build/AddIns/SharpDevelopCore.addin.xml.h:111
-#, fuzzy
 msgid "Save All"
-msgstr "全て保存 (_L)"
+msgstr "全て保存"
 
 #: build/AddIns/SharpDevelopCore.addin.xml.h:112
 msgid "Save _As..."
@@ -790,9 +783,8 @@ msgid "Buffer Options"
 msgstr "バッファ オプション"
 
 #: build/AddIns/MonoDevelopNewEditor.addin.xml.h:29
-#, fuzzy
 msgid "Clear Bookmarks"
-msgstr "ブックマークのクリア (_C)"
+msgstr "ブックマークのクリア"
 
 #: build/AddIns/MonoDevelopNewEditor.addin.xml.h:30
 msgid "Close"
@@ -812,9 +804,8 @@ msgid "Find"
 msgstr "検索"
 
 #: build/AddIns/MonoDevelopNewEditor.addin.xml.h:37
-#, fuzzy
 msgid "Find Next"
-msgstr "次を検索 (_N)"
+msgstr "次を検索"
 
 #: build/AddIns/MonoDevelopNewEditor.addin.xml.h:38
 msgid "Find _Next"
@@ -841,14 +832,12 @@ msgid "Markers and Rulers"
 msgstr "マーカーとルーラ"
 
 #: build/AddIns/MonoDevelopNewEditor.addin.xml.h:45
-#, fuzzy
 msgid "Next Bookmark"
-msgstr "次のブックマーク (_N)"
+msgstr "次のブックマーク"
 
 #: build/AddIns/MonoDevelopNewEditor.addin.xml.h:47
-#, fuzzy
 msgid "Previous Bookmark"
-msgstr "前のブックマーク (_P)"
+msgstr "前のブックマーク"
 
 #: build/AddIns/MonoDevelopNewEditor.addin.xml.h:48
 msgid "R_eplace In Files..."
@@ -868,9 +857,8 @@ msgid "Text Editor"
 msgstr "テキストエディタ"
 
 #: build/AddIns/MonoDevelopNewEditor.addin.xml.h:53
-#, fuzzy
 msgid "Toggle Bookmark"
-msgstr "ブックマークの切り替え (_T)"
+msgstr "ブックマークの切り替え"
 
 #: build/AddIns/MonoDevelopNewEditor.addin.xml.h:54
 msgid "Toggle Comments"
@@ -953,7 +941,8 @@ msgstr "ステップを次に進める"
 msgid "   "
 msgstr "   "
 
-#: data/resources/glade/Base.glade.h:2 data/resources/glade/CSharp.glade.h:1
+#: data/resources/glade/Base.glade.h:2
+#: data/resources/glade/CSharp.glade.h:1
 #: data/resources/glade/EditorBindings.glade.h:1
 msgid "    "
 msgstr "    "
@@ -962,12 +951,14 @@ msgstr "    "
 msgid " > "
 msgstr " > "
 
-#: data/resources/glade/Base.glade.h:4 data/resources/glade/CSharp.glade.h:2
+#: data/resources/glade/Base.glade.h:4
+#: data/resources/glade/CSharp.glade.h:2
 #: data/resources/glade/texteditoraddin.glade.h:1
 msgid "*"
 msgstr "*"
 
-#: data/resources/glade/Base.glade.h:5 data/resources/glade/CSharp.glade.h:3
+#: data/resources/glade/Base.glade.h:5
+#: data/resources/glade/CSharp.glade.h:3
 #: data/resources/glade/texteditoraddin.glade.h:2
 msgid "..."
 msgstr "..."
@@ -1697,8 +1688,8 @@ msgstr "MonoDevelopについて"
 #  nb.AppendPage (changelog, new Label ("ChangeLog"));
 #  nb.AppendPage (aatp, new Label ("Authors"));
 #  nb.AppendPage (changelog, new Label ("ChangeLog"));
-#. nb.AppendPage (aatp, new Label ("Authors"));
-#. nb.AppendPage (changelog, new Label ("ChangeLog"));
+#  nb.AppendPage (aatp, new Label ("Authors"));
+#  nb.AppendPage (changelog, new Label ("ChangeLog"));
 #: src/Main/Base/Gui/Dialogs/CommonAboutDialog.cs:158
 msgid "Version Info"
 msgstr "バージョン情報"
@@ -1944,12 +1935,8 @@ msgid "Path"
 msgstr "パス"
 
 #: src/Main/Base/Gui/Dialogs/ReferenceDialog/GacReferencePanel.cs:122
-msgid ""
-"ERROR: non-mono runtime detected, please use the mono runtime for this piece "
-"of MonoDevelop for the time being"
-msgstr ""
-"非monoランタイムが検出されました。現在のMonoDevelopにはmonoランタイムを使用し"
-"て下さい"
+msgid "ERROR: non-mono runtime detected, please use the mono runtime for this piece of MonoDevelop for the time being"
+msgstr "非monoランタイムが検出されました。現在のMonoDevelopにはmonoランタイムを使用して下さい"
 
 #: src/Main/Base/Gui/Dialogs/ReferenceDialog/ProjectReferencePanel.cs:32
 msgid "Project Name"
@@ -2192,18 +2179,13 @@ msgstr "本当にソリューション {0} を ソリューション {1} から�
 #: src/Main/Base/Gui/Pads/ProjectBrowser/BrowserNode/DirectoryNode.cs:107
 #: src/Main/Base/Gui/Pads/ProjectBrowser/BrowserNode/FileNode.cs:121
 msgid "File or directory name is already in use, choose a different one."
-msgstr ""
-"その名前のファイルまたはディレクトリは使用中です。別の名前を指定して下さい。"
+msgstr "その名前のファイルまたはディレクトリは使用中です。別の名前を指定して下さい。"
 
-#. new file name with wildcard (*, ?) characters in it
+#  new file name with wildcard (*, ?) characters in it
 #: src/Main/Base/Gui/Pads/ProjectBrowser/BrowserNode/DirectoryNode.cs:110
 #: src/Main/Base/Gui/Pads/ProjectBrowser/BrowserNode/FileNode.cs:123
-msgid ""
-"The file name you have chosen contains illegal characters. Please choose a "
-"different file name."
-msgstr ""
-"指定したファイル名には無効な文字が含まれています。別のファイル名を選択して下"
-"さい。"
+msgid "The file name you have chosen contains illegal characters. Please choose a different file name."
+msgstr "指定したファイル名には無効な文字が含まれています。別のファイル名を選択して下さい。"
 
 #: src/Main/Base/Gui/Pads/ProjectBrowser/BrowserNode/DirectoryNode.cs:127
 #, csharp-format
@@ -2280,19 +2262,17 @@ msgstr "本当にファイルを再ロードしますか?"
 #  break;
 #  }
 #  }
-#.
-#. using (SaveFileDialog fdiag = new SaveFileDialog()) {
-#. fdiag.OverwritePrompt = true;
-#. fdiag.AddExtension    = true;
-#.
-#. string[] fileFilters  = (string[])(AddInTreeSingleton.AddInTree.GetTreeNode("/SharpDevelop/Workbench/FileFilter").BuildChildItems(this)).ToArray(typeof(string));
-#. fdiag.Filter          = String.Join("|", fileFilters);
-#. for (int i = 0; i < fileFilters.Length; ++i) {
-#. if (fileFilters[i].IndexOf(Path.GetExtension(window.ViewContent.ContentName == null ? window.ViewContent.UntitledName : window.ViewContent.ContentName)) >= 0) {
-#. fdiag.FilterIndex = i + 1;
-#. break;
-#. }
-#. }
+#  using (SaveFileDialog fdiag = new SaveFileDialog()) {
+#  fdiag.OverwritePrompt = true;
+#  fdiag.AddExtension    = true;
+#  string[] fileFilters  = (string[])(AddInTreeSingleton.AddInTree.GetTreeNode("/SharpDevelop/Workbench/FileFilter").BuildChildItems(this)).ToArray(typeof(string));
+#  fdiag.Filter          = String.Join("|", fileFilters);
+#  for (int i = 0; i < fileFilters.Length; ++i) {
+#  if (fileFilters[i].IndexOf(Path.GetExtension(window.ViewContent.ContentName == null ? window.ViewContent.UntitledName : window.ViewContent.ContentName)) >= 0) {
+#  fdiag.FilterIndex = i + 1;
+#  break;
+#  }
+#  }
 #: src/Main/Base/Commands/FileCommands.cs:146
 msgid "Save as..."
 msgstr "別名で保存..."
@@ -2336,9 +2316,7 @@ msgstr "プロジェクトの履歴をクリア"
 msgid ""
 "Can not execute or view {0}\n"
 " Please check that the file exists and that you can open this file."
-msgstr ""
-"{0} を実行または表示できませんでした。このファイルが本当に存在し、かつ開くこ"
-"とができるものか確認してください。"
+msgstr "{0} を実行または表示できませんでした。このファイルが本当に存在し、かつ開くことができるものか確認してください。"
 
 #: src/Main/Base/Commands/MenuItemBuilders.cs:66
 msgid "recent files"
@@ -2418,12 +2396,8 @@ msgid "_Move"
 msgstr "移動 (_M)"
 
 #: src/Main/Base/Commands/ProjectBrowserCommands/FolderNodeCommands.cs:82
-msgid ""
-"An error occurred while attempt to move/copy that file. Please check your "
-"permissions."
-msgstr ""
-"ファイルの移動またはコピー中にエラーが発生しました。ファイルの許可属性を"
-"チェックして下さい。"
+msgid "An error occurred while attempt to move/copy that file. Please check your permissions."
+msgstr "ファイルの移動またはコピー中にエラーが発生しました。ファイルの許可属性をチェックして下さい。"
 
 #: src/Main/Base/Commands/ProjectBrowserCommands/ResourceFolderNodeCommands.cs:61
 #, csharp-format
@@ -2452,9 +2426,7 @@ msgstr "言語バインディング {0} では {1} がコンパイルできま�
 #: src/Main/Base/Commands/RunCommands.cs:88
 #: src/Main/Base/Commands/RunCommands.cs:162
 msgid "No source file for compilation found. Please save unsaved files"
-msgstr ""
-"コンパイルするソースファイルが見つかりません。未保存のファイルを保存してくだ"
-"さい。"
+msgstr "コンパイルするソースファイルが見つかりません。未保存のファイルを保存してください。"
 
 #: src/Main/Base/Commands/RunCommands.cs:92
 #: src/Main/Base/Commands/RunCommands.cs:166
@@ -2483,10 +2455,7 @@ msgstr "実行中"
 msgid ""
 "Cannot execute Run command, cannot find startup project.\n"
 "Please define a startup project for the combine in the combine properties."
-msgstr ""
-"「実行」コマンドは使えません。スタートアップ プロジェクトが見つかりません。コ"
-"ンバインのプロパティで、このコンバインのスタートアップ プロジェクトを設定して"
-"ください。"
+msgstr "「実行」コマンドは使えません。スタートアップ プロジェクトが見つかりません。コンバインのプロパティで、このコンバインのスタートアップ プロジェクトを設定してください。"
 
 #: src/Main/Base/Commands/RunCommands.cs:231
 msgid "No runnable executable found."
@@ -2581,8 +2550,7 @@ msgstr ""
 msgid ""
 "Error writing the old project file.\n"
 "Check if you have write permission on the project file (.prjx).\n"
-" A non persistent proxy project will be created but no changes will be "
-"saved.\n"
+" A non persistent proxy project will be created but no changes will be saved.\n"
 "It is better if you close MonoDevelop and correct the problem."
 msgstr ""
 "古いプロジェクトファイルへの書き込み時にエラーが発生しました。\n"
@@ -2611,7 +2579,7 @@ msgstr "デプロイできません。デプロイメント スクリプトが�
 msgid "Error while executing deploy script"
 msgstr "デプロイ スクリプトの実行中にエラーが発生しました"
 
-#. set up dialog title
+#  set up dialog title
 #: src/Main/Base/Internal/Project/Project/IncludeFilesDialog.cs:51
 #, csharp-format
 msgid "Found new files in {0}"
@@ -2811,7 +2779,7 @@ msgid "Attempt to remove a non node from the tree"
 msgstr "ツリーからノードでないものを削除しようとしました"
 
 #  FIXME: i18n
-#. FIXME: i18n
+#  FIXME: i18n
 #: src/AddIns/DisplayBindings/SourceEditor/Commands/ToolCommands.cs:30
 msgid "Insert a color hex string"
 msgstr "色を表す16進数を入力してください"
@@ -2894,32 +2862,31 @@ msgstr "ソースエディタ"
 #: src/AddIns/DisplayBindings/SourceEditor/Search/SearchReplaceInFilesManager.cs:81
 #, csharp-format
 msgid "Match at offset {0}"
-msgstr ""
+msgstr "オフセット {0} で該当"
 
 #: src/AddIns/DisplayBindings/SourceEditor/Search/SearchReplaceInFilesManager.cs:124
-#, fuzzy
 msgid "Search cancelled."
-msgstr "検索が完了しました"
+msgstr "検索を中断しました"
 
 #: src/AddIns/DisplayBindings/SourceEditor/Search/SearchReplaceInFilesManager.cs:125
 #, csharp-format
 msgid "Search completed. {0} matches found in {1} files."
-msgstr ""
+msgstr "検索完了。{1} ファイル中 {0} 件該当"
 
 #: src/AddIns/DisplayBindings/SourceEditor/Search/SearchReplaceInFilesManager.cs:147
 #: src/AddIns/DisplayBindings/SourceEditor/Search/SearchReplaceInFilesManager.cs:188
 msgid "There is a search already in progress. Do you want to cancel it?"
-msgstr ""
+msgstr "既に実行中の検索があります。中断しますか?"
 
 #: src/AddIns/DisplayBindings/SourceEditor/Search/SearchReplaceInFilesManager.cs:157
 #, csharp-format
 msgid "Replacing '{0}' in {1}."
-msgstr ""
+msgstr "{1} の中の {0} を置換しています"
 
 #: src/AddIns/DisplayBindings/SourceEditor/Search/SearchReplaceInFilesManager.cs:198
 #, csharp-format
 msgid "Looking for '{0}' in {1}."
-msgstr ""
+msgstr "{1} の中の {0} を検索しています"
 
 #  MessageBox.Show((Form)WorkbenchSingleton.Workbench, "Mark all done", "Finished");
 #  MessageBox.Show((Form)WorkbenchSingleton.Workbench, "Mark all done", "Finished");
@@ -2930,11 +2897,11 @@ msgstr "全てのマークが完了しました"
 
 #  MessageBox.Show((Form)WorkbenchSingleton.Workbench, "Replace all done", "Finished");
 #  MessageBox.Show((Form)WorkbenchSingleton.Workbench, "Replace all done", "Finished");
-#. MessageBox.Show((Form)WorkbenchSingleton.Workbench, "Replace all done", "Finished");
+#  MessageBox.Show((Form)WorkbenchSingleton.Workbench, "Replace all done", "Finished");
 #: src/AddIns/DisplayBindings/SourceEditor/Search/SearchReplaceManager.cs:137
-#, fuzzy, csharp-format
+#, csharp-format
 msgid "Replace all finished. {0} matches found."
-msgstr "全ての置換が完了しました"
+msgstr "全ての置換が完了しました。{0}件見つかりました。"
 
 #: src/AddIns/DisplayBindings/SourceEditor/Search/SearchReplaceManager.cs:176
 msgid "Not Found"
@@ -2949,14 +2916,12 @@ msgid "Library"
 msgstr "ライブラリ"
 
 #: src/AddIns/BackendBindings/CSharpBinding/Gui/OutputOptionsPanel.cs:75
-#, fuzzy
 msgid "Invalid assembly name specified"
-msgstr "無効なデプロイ ターゲットが指定されました"
+msgstr "無効なアセンブリ名が指定されました"
 
 #: src/AddIns/BackendBindings/CSharpBinding/Gui/OutputOptionsPanel.cs:80
-#, fuzzy
 msgid "Invalid output directory specified"
-msgstr "無効なデプロイ ターゲットが指定されました"
+msgstr "無効な出力ディレクトリが指定されました"
 
 #: src/AddIns/BackendBindings/CSharpBinding/Gui/OutputOptionsPanel.cs:97
 msgid "Select the directory in which the assembly will be created"
@@ -2967,429 +2932,259 @@ msgid "_Import VS Project"
 msgstr "VSプロジェクトのインポート (_I)"
 
 #: build/AddIns/AddIns/BackendBindings/templates/BlankCombine.xpt.xml.h:1
-#, fuzzy
 msgid "A blank solution"
-msgstr "ソリューション {0} をロードしました"
+msgstr "空のソリューション"
 
 #: build/AddIns/AddIns/BackendBindings/templates/BlankCombine.xpt.xml.h:2
-#, fuzzy
 msgid "Blank Solution"
-msgstr "ソリューション"
+msgstr "空のソリューション"
 
 #: build/AddIns/AddIns/BackendBindings/templates/ConsoleProject.xpt.xml.h:1
-#, fuzzy
 msgid "Console Project"
-msgstr "Monoプロジェクト"
+msgstr "コンソール プロジェクト"
 
 #: build/AddIns/AddIns/BackendBindings/templates/ConsoleProject.xpt.xml.h:2
-#, fuzzy
 msgid "Creates a new console project."
-msgstr "新しいC#プロジェクトの作成"
+msgstr "新しいコンソール プロジェクトを作成します"
 
 #: build/AddIns/AddIns/BackendBindings/templates/CSharpSessionStateWebService.xft.xml.h:1
 msgid "Creates a secure C# Web Service, using SessionState"
-msgstr ""
+msgstr "セッションステートを使用した安全なC# Webサービスを生成します"
 
 #: build/AddIns/AddIns/BackendBindings/templates/CSharpSessionStateWebService.xft.xml.h:2
 msgid "Secure C# Web Service"
-msgstr ""
+msgstr "安全な C# Webサービス"
 
 #: build/AddIns/AddIns/BackendBindings/templates/CSharpWebService.xft.xml.h:1
 msgid "C# Web Service"
-msgstr ""
+msgstr "C# Webサービス"
 
 #: build/AddIns/AddIns/BackendBindings/templates/CSharpWebService.xft.xml.h:2
-#, fuzzy
 msgid "Creates a C# Web Service."
-msgstr "新しいC#プロジェクトの作成"
+msgstr "新しいC# Webサービスを作成します"
 
 #: build/AddIns/AddIns/BackendBindings/templates/EmptyCSharpFile.xft.xml.h:1
-#, fuzzy
 msgid "Creates an empty C# file."
-msgstr "新しいC#プロジェクトの作成"
+msgstr "空のC#ファイルを作成します"
 
 #: build/AddIns/AddIns/BackendBindings/templates/EmptyCSharpFile.xft.xml.h:2
 msgid "Empty File"
-msgstr ""
+msgstr "空のファイル"
 
 #: build/AddIns/AddIns/BackendBindings/templates/EmptyHTMLFile.xft.xml.h:1
 msgid "Creates an empty HTML file."
-msgstr ""
+msgstr "空のHTMLファイルを作成します"
 
 #: build/AddIns/AddIns/BackendBindings/templates/EmptyHTMLFile.xft.xml.h:2
 msgid "Empty HTML File"
-msgstr ""
+msgstr "空のHTMLファイル"
 
 #: build/AddIns/AddIns/BackendBindings/templates/EmptyJavaFile.xft.xml.h:1
 msgid "Creates an empty Java file."
-msgstr ""
+msgstr "空のJavaファイルを作成します"
 
 #: build/AddIns/AddIns/BackendBindings/templates/EmptyJavaFile.xft.xml.h:2
 msgid "Empty Java File"
-msgstr ""
+msgstr "空のJavaファイル"
 
 #: build/AddIns/AddIns/BackendBindings/templates/EmptyJavaProject.xpt.xml.h:1
 msgid "Creates an empty Java solution."
-msgstr ""
+msgstr "空のJavaソリューションを作成します"
 
 #: build/AddIns/AddIns/BackendBindings/templates/EmptyJavaProject.xpt.xml.h:2
-#, fuzzy
 msgid "Empty Java Project"
-msgstr "VSプロジェクトのインポート (_I)"
+msgstr "空のJavaプロジェクトを作成します"
 
 #: build/AddIns/AddIns/BackendBindings/templates/EmptyNemerleFile.xft.xml.h:1
-msgid "Empty Nemerle file"
-msgstr ""
+msgid "Creates an empty Nemerle file"
+msgstr "空のNemerleファイルを作成します"
+
+#: build/AddIns/AddIns/BackendBindings/templates/EmptyNemerleFile.xft.xml.h:2
+msgid "Empty file"
+msgstr "空のファイル"
 
 #: build/AddIns/AddIns/BackendBindings/templates/EmptyProject.xpt.xml.h:1
-#, fuzzy
 msgid "Creates an empty C# project."
-msgstr "新しいC#プロジェクトの作成"
+msgstr "空のC#プロジェクトを作成します"
 
 #: build/AddIns/AddIns/BackendBindings/templates/EmptyProject.xpt.xml.h:2
-#, fuzzy
+#: build/AddIns/AddIns/BackendBindings/templates/NemerleEmptyProject.xpt.xml.h:2
 msgid "Empty Project"
-msgstr "プロジェクト全体"
+msgstr "空のプロジェクト"
 
 #: build/AddIns/AddIns/BackendBindings/templates/EmptyResourceFile.xft.xml.h:1
 msgid "Creates an empty resource file."
-msgstr ""
+msgstr "空のリソースファイルを作成します"
 
 #: build/AddIns/AddIns/BackendBindings/templates/EmptyResourceFile.xft.xml.h:2
-#, fuzzy
 msgid "Empty Resource File"
-msgstr "リソースファイル"
+msgstr "空のリソースファイル"
 
 #: build/AddIns/AddIns/BackendBindings/templates/EmptyTextFile.xft.xml.h:1
 msgid "Creates an empty text file."
-msgstr ""
+msgstr "空のテキストファイルを作成します"
 
 #: build/AddIns/AddIns/BackendBindings/templates/EmptyTextFile.xft.xml.h:2
 msgid "Empty Text File"
-msgstr ""
+msgstr "空のテキストファイル"
 
 #: build/AddIns/AddIns/BackendBindings/templates/EmptyXMLFile.xft.xml.h:1
-#, fuzzy
 msgid "Creates an empty XML file."
-msgstr "新しいフォルダの作成"
+msgstr "空のXMLファイルを作成します"
 
 #: build/AddIns/AddIns/BackendBindings/templates/EmptyXMLFile.xft.xml.h:2
 msgid "Empty XML File"
-msgstr ""
+msgstr "空のXMLファイル"
 
 #: build/AddIns/AddIns/BackendBindings/templates/GladeSharpProject.xpt.xml.h:1
-#, fuzzy
 msgid "Glade# Project"
-msgstr "プロジェクトのビルド (_d)"
+msgstr "Glade#プロジェクト"
 
 #: build/AddIns/AddIns/BackendBindings/templates/GladeSharpProject.xpt.xml.h:2
 msgid "a Glade# project with one window and button"
-msgstr ""
+msgstr "1つのウィンドウとボタンをもつGlade#プロジェクト"
 
 #: build/AddIns/AddIns/BackendBindings/templates/GnomeSharpProgram.xft.xml.h:1
-#, fuzzy
 msgid "Creates a Gnome# program."
-msgstr "新しいC#プロジェクトの作成"
+msgstr "Gnome#プログラムを作成します"
 
 #: build/AddIns/AddIns/BackendBindings/templates/GnomeSharpProgram.xft.xml.h:2
 msgid "Gnome# Program"
-msgstr ""
+msgstr "Gnome#プログラム"
 
 #: build/AddIns/AddIns/BackendBindings/templates/GnomeSharpProject.xpt.xml.h:1
-#, fuzzy
 msgid "Creates a Gnome# project"
-msgstr "新しいC#プロジェクトの作成"
+msgstr "Gnome#プロジェクトを作成します"
 
 #: build/AddIns/AddIns/BackendBindings/templates/GnomeSharpProject.xpt.xml.h:2
-#, fuzzy
 msgid "Gnome# Project"
-msgstr "Monoプロジェクト"
+msgstr "Gnome#プロジェクト"
 
 #: build/AddIns/AddIns/BackendBindings/templates/GtkSharpProject.xpt.xml.h:1
-#, fuzzy
 msgid "Creates a Gtk# project."
-msgstr "新しいC#プロジェクトの作成"
+msgstr "Gtk#プロジェクトを作成します"
 
 #: build/AddIns/AddIns/BackendBindings/templates/GtkSharpProject.xpt.xml.h:2
-#, fuzzy
 msgid "Gtk# Project"
-msgstr "プロジェクト"
+msgstr "Gtk#プロジェクト"
 
 #: build/AddIns/AddIns/BackendBindings/templates/GtkSharpWindow.xft.xml.h:1
 msgid "Creates a top-level Gtk# window."
-msgstr ""
+msgstr "トップレベルGtk#ウィンドウ"
 
 #: build/AddIns/AddIns/BackendBindings/templates/GtkSharpWindow.xft.xml.h:2
-#, fuzzy
 msgid "Gtk# Window"
-msgstr "次のウィンドウ (_N)"
+msgstr "Gtk#ウィンドウ"
 
 #: build/AddIns/AddIns/BackendBindings/templates/IkvmConsoleApplicationProject.xpt.xml.h:1
-#, fuzzy
 msgid "Create a console Java project with IKVM"
-msgstr "新しいC#プロジェクトの作成"
+msgstr "ILVMを使用するコンソールJavaプロジェクトを作成します"
 
 #: build/AddIns/AddIns/BackendBindings/templates/IkvmConsoleApplicationProject.xpt.xml.h:2
-#, fuzzy
 msgid "IKVM Console Project"
-msgstr "Monoプロジェクト"
+msgstr "IKVMコンソール プロジェクト"
 
 #: build/AddIns/AddIns/BackendBindings/templates/IkvmGladeApplicationProject.xpt.xml.h:1
 msgid "Create a Glade# Java project with IKVM"
-msgstr ""
+msgstr "IKVMを使用するGlade# Javaプロジェクト"
 
 #: build/AddIns/AddIns/BackendBindings/templates/IkvmGladeApplicationProject.xpt.xml.h:2
-#, fuzzy
 msgid "IKVM Glade# Project"
-msgstr "プロジェクトを追加"
+msgstr "IKVM Glade#プロジェクト"
 
 #: build/AddIns/AddIns/BackendBindings/templates/IkvmGnomeApplicationProject.xpt.xml.h:1
-#, fuzzy
 msgid "Create a Gnome# Java project with IKVM"
-msgstr "新しいC#プロジェクトの作成"
+msgstr "IKVMを使用するGnome# Javaプロジェクトを作成します"
 
 #: build/AddIns/AddIns/BackendBindings/templates/IkvmGnomeApplicationProject.xpt.xml.h:2
-#, fuzzy
 msgid "IKVM Gnome# Project"
-msgstr "Monoプロジェクト"
+msgstr "IKVM Gnome#プロジェクト"
 
 #: build/AddIns/AddIns/BackendBindings/templates/IkvmGtkApplicationProject.xpt.xml.h:1
 msgid "Create a Gtk# Java project with IKVM"
-msgstr ""
+msgstr "IKVMを使用するGtk# Javaプロジェクト"
 
 #: build/AddIns/AddIns/BackendBindings/templates/IkvmGtkApplicationProject.xpt.xml.h:2
-#, fuzzy
 msgid "IKVM Gtk# Project"
-msgstr "Monoプロジェクト"
+msgstr "IKVM Gtk#プロジェクト"
 
 #: build/AddIns/AddIns/BackendBindings/templates/ILAsmConsoleProject.xpt.xml.h:1
-#, fuzzy
 msgid "ILAsm Console Project"
-msgstr "Monoプロジェクト"
+msgstr "ILAsmコンソール プロジェクト"
 
 #: build/AddIns/AddIns/BackendBindings/templates/JavaApplet.xft.xml.h:1
-#, fuzzy
 msgid "Creates an AWT Applet"
-msgstr "新しいC#プロジェクトの作成"
+msgstr "AWTアプレットを作成します"
 
 #: build/AddIns/AddIns/BackendBindings/templates/JavaApplet.xft.xml.h:2
 msgid "Java AWT Applet"
-msgstr ""
+msgstr "Java AWT アプレット"
 
 #: build/AddIns/AddIns/BackendBindings/templates/JavaApplicationProject.xpt.xml.h:1
-#, fuzzy
 msgid "Creates an AWT project."
-msgstr "新しいC#プロジェクトの作成"
+msgstr "AWTプロジェクトを作成します"
 
 #: build/AddIns/AddIns/BackendBindings/templates/JavaApplicationProject.xpt.xml.h:2
-#, fuzzy
 msgid "Java AWT Project"
-msgstr "プロジェクトを追加"
+msgstr "Java AWTプロジェクト"
 
 #: build/AddIns/AddIns/BackendBindings/templates/JavaApplication.xft.xml.h:1
 msgid "Creates an AWT application."
-msgstr ""
+msgstr "AWTアプリケーションを作成します"
 
 #: build/AddIns/AddIns/BackendBindings/templates/JavaApplication.xft.xml.h:2
-#, fuzzy
 msgid "Java AWT Application"
-msgstr "アプリケーションのKill"
+msgstr "Java AWTアプリケーション"
 
 #: build/AddIns/AddIns/BackendBindings/templates/JavaConsoleApplicationProject.xpt.xml.h:1
-#, fuzzy
 msgid "Create a console Java project"
-msgstr "新しいC#プロジェクトの作成"
+msgstr "新しいコンソールJavaプロジェクトの作成"
 
 #: build/AddIns/AddIns/BackendBindings/templates/JavaConsoleApplicationProject.xpt.xml.h:2
-#, fuzzy
 msgid "Java Console Project"
-msgstr "Monoプロジェクト"
+msgstr "Java コンソール プロジェクト"
 
 #: build/AddIns/AddIns/BackendBindings/templates/JavaDialog.xft.xml.h:1
 msgid "Creates an AWT dialog."
-msgstr ""
+msgstr "AWTダイアログを作成します"
 
 #: build/AddIns/AddIns/BackendBindings/templates/JavaDialog.xft.xml.h:2
 msgid "Java AWT Dialog"
-msgstr ""
+msgstr "Java AWT ダイアログ"
 
 #: build/AddIns/AddIns/BackendBindings/templates/JavaFrame.xft.xml.h:1
-#, fuzzy
 msgid "Creates an AWT Frame"
-msgstr "新しいC#プロジェクトの作成"
+msgstr "AWTフレームを作成します"
 
 #: build/AddIns/AddIns/BackendBindings/templates/JavaFrame.xft.xml.h:2
 msgid "Java AWT Frame"
-msgstr ""
+msgstr "Java AWT フレーム"
 
 #: build/AddIns/AddIns/BackendBindings/templates/JavaOKDialog.xft.xml.h:1
 msgid "Creates an AWT OK Dialog."
-msgstr ""
+msgstr "AWT OKダイアログを作成します"
 
 #: build/AddIns/AddIns/BackendBindings/templates/JavaOKDialog.xft.xml.h:2
 msgid "Java AWT OK Dialog"
-msgstr ""
+msgstr "Java AWT OKダイアログ"
 
 #: build/AddIns/AddIns/BackendBindings/templates/JavaPanel.xft.xml.h:1
 msgid "Creates an AWT panel."
-msgstr ""
+msgstr "AWTパネルを作成します"
 
 #: build/AddIns/AddIns/BackendBindings/templates/JavaPanel.xft.xml.h:2
 msgid "Java AWT Panel"
-msgstr ""
+msgstr "Java AWT パネル"
 
 #: build/AddIns/AddIns/BackendBindings/templates/Library.xpt.xml.h:1
-#, fuzzy
 msgid "C# Library"
-msgstr "ライブラリ"
+msgstr "C#ライブラリ"
 
 #: build/AddIns/AddIns/BackendBindings/templates/Library.xpt.xml.h:2
 msgid "Creates an empty C# class library"
-msgstr ""
+msgstr "空のC#クラスライブラリを作成します"
 
 #: build/AddIns/AddIns/BackendBindings/templates/NemerleEmptyProject.xpt.xml.h:1
-#, fuzzy
-msgid "Empty Nemerle project"
-msgstr "プロジェクト全体"
+msgid "Creates an empty Nemerle project"
+msgstr "空のNemerleプロジェクトを作成します"
 
-#~ msgid "Compiler"
-#~ msgstr "コンパイラ"
-
-#~ msgid "Runtime/Compiler"
-#~ msgstr "ランタイム/コンパイラ"
-
-#~ msgid "VB.DOC"
-#~ msgstr "VB.DOC"
-
-#~ msgid ""
-#~ "Combine file {0} already exists, do you want to overwrite\n"
-#~ "the existing file ?"
-#~ msgstr ""
-#~ "コンバイン ファイル {0} は既に存在します。\n"
-#~ "既存のファイルを上書きしますか?"
-
-#~ msgid "The project or source entry is empty, can't create project."
-#~ msgstr ""
-#~ "プロジェクトあるいはソース エントリが空なので、プロジェクトを作成できませ"
-#~ "ん。"
-
-#~ msgid "Warning"
-#~ msgstr "警告"
-
-#~ msgid "Extracted more of the archive"
-#~ msgstr "アーカイブ展開モード"
-
-#~ msgid "Downloading database"
-#~ msgstr "データベースをダウンロード中"
-
-#~ msgid "Downloaded more of {0}"
-#~ msgstr "{0} をさらにダウンロード中"
-
-#~ msgid "Generation Method"
-#~ msgstr "生成方法"
-
-#~ msgid "Generate a code completion database"
-#~ msgstr "コード補完データベースを生成する"
-
-#~ msgid "Use a code completion database already on this computer"
-#~ msgstr "既にこのコンピュータにあるコード補完データベースを使用する"
-
-#~ msgid "Download a code completion database"
-#~ msgstr "コード補完データベースをダウンロードする"
-
-#~ msgid "Select Generation Style"
-#~ msgstr "生成方法を選択して下さい"
-
-#~ msgid "Heavy process"
-#~ msgstr "重い処理"
-
-#~ msgid "Light process"
-#~ msgstr "軽い処理"
-
-#~ msgid ""
-#~ "This process is slower and more memory-intensive than the light process, "
-#~ "but will enable faster code completion"
-#~ msgstr ""
-#~ "この処理は軽い処理よりも遅くメモリを圧迫しますが、より素早いコード補完が可"
-#~ "能になります"
-
-#~ msgid ""
-#~ "This process will take less time and memory to produce the code "
-#~ "completion database, but code completion will be slower"
-#~ msgstr ""
-#~ "この処理はコード補完データベースの生成に必要なメモリも時間もより少なくなり"
-#~ "ますが、コード補完は遅くなります"
-
-#~ msgid "Existing Database Location"
-#~ msgstr "既存のデータベースの場所"
-
-#~ msgid "Select code completion database"
-#~ msgstr "コード補完データベースを選択して下さい"
-
-#~ msgid "Where is the code completion database you would like to copy"
-#~ msgstr "コピーしたいコード補完データベースを選択して下さい"
-
-#~ msgid "Download Database"
-#~ msgstr "データベースをダウンロード"
-
-#~ msgid "Where would you like to download the code completion database from?"
-#~ msgstr "コード補完データベースをダウンロードする場所を選択して下さい"
-
-#~ msgid "That Uri is invalid: {0}"
-#~ msgstr "このURIは無効です: {0}"
-
-#~ msgid ""
-#~ "That Uri appears not to refer to a file with a known compression type"
-#~ msgstr "このURIは既知の圧縮タイプで参照できるファイルではありません"
-
-#~ msgid ""
-#~ "This druid will guide you through the process of creating a code "
-#~ "completion database"
-#~ msgstr "このdruidは、コード補完データベースを作成する作業を案内します。"
-
-#~ msgid "Click Apply to start the database creation process"
-#~ msgstr "データベース作成作業を開始するには [適用] をクリックして下さい"
-
-#~ msgid ""
-#~ "Are you sure you want to skip database creation? You will not have code "
-#~ "completion functionality."
-#~ msgstr ""
-#~ "データベース作成をスキップしますか? この場合、コード補完機能は動作しませ"
-#~ "ん。"
-
-#~ msgid "Are you sure?"
-#~ msgstr "本当ですか?"
-
-#~ msgid "Code completion database generator"
-#~ msgstr "コード補完データベース ジェネレータ"
-
-#~ msgid "Creating database..."
-#~ msgstr "データベースの作成中..."
-
-#~ msgid "Cancel"
-#~ msgstr "キャンセル"
-
-#~ msgid "Cancelling not available"
-#~ msgstr "キャンセルできません"
-
-#~ msgid "This type of code completion database generator can not be canceled"
-#~ msgstr "このタイプのコード補完データベース生成はキャンセルできません"
-
-#~ msgid "Code completion database druid"
-#~ msgstr "コード補完データベースdruid"
-
-#~ msgid ""
-#~ "Attempting to restart MonoDevelop, if you get any exceptions, restart "
-#~ "manually"
-#~ msgstr ""
-#~ "MonoDevelopを再起動しようとしています。もし何らかの例外が発生した場合に"
-#~ "は、手作業で再起動してください。"
-
-#~ msgid "Referencing existing database"
-#~ msgstr "既存のコード補完データベースを参照する"
-
-#~ msgid "Referenced existing database"
-#~ msgstr "既存のコード補完データベースを参照する"
-
-#~ msgid "Dialog.Componnents.RichMenuItem.LoadFileDescription"
-#~ msgstr "Dialog.Componnents.RichMenuItem.LoadFileDescription"
