@@ -52,7 +52,7 @@ namespace ICSharpCode.TextEditor.Document
 		
 		public bool HasDefaultColor {
 			get {
-				return  offset & ~(1 << 31) != 0;
+				return (offset & ~(1 << 31)) != 0;
 			}
 		}
 		
