@@ -7,6 +7,7 @@ using System.IO;
 using System.Runtime.InteropServices;
 
 using MonoDevelop.SourceEditor.CodeCompletion;
+using MonoDevelop.SourceEditor.InsightWindow;
 	
 namespace MonoDevelop.SourceEditor.Gui {
 	public class SourceEditorView : SourceView {
@@ -63,12 +64,31 @@ namespace MonoDevelop.SourceEditor.Gui {
 				//FIXME: ' ' needs to do extra parsing
 				case ' ':
 				case '.':
-					Console.WriteLine ("About to show completion Window");
 					completionWindow = new CompletionWindow (this, ParentEditor.DisplayBinding.ContentName, new CodeCompletionDataProvider ());
 					completionWindow.ShowCompletionWindow ((char)key);
 					break;
+				case '(':
+					try {
+						InsightWindow insightWindow = new InsightWindow(this, ParentEditor.DisplayBinding.ContentName);
+						
+						insightWindow.AddInsightDataProvider(new MethodInsightDataProvider());
+						insightWindow.ShowInsightWindow();
+					} catch (Exception e) {
+						Console.WriteLine("EXCEPTION: " + e);
+					}
+					break;
+				case '[':
+					try {
+						InsightWindow insightWindow = new InsightWindow(this, ParentEditor.DisplayBinding.ContentName);
+						
+						insightWindow.AddInsightDataProvider(new IndexerInsightDataProvider());
+						insightWindow.ShowInsightWindow();
+					} catch (Exception e) {
+						Console.WriteLine("EXCEPTION: " + e);
+					}
+					break;
 			}
-			
+		
 			return base.OnKeyPressEvent (ref evnt);
 		}
 		

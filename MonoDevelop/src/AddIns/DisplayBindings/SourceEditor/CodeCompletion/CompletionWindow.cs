@@ -71,7 +71,7 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 		{
 			Gdk.Key key = ex.Event.Key;
 			char val = (char) key;
-			Console.WriteLine("Got Press event ({0}). Key {1}", ex, key);
+			
 			switch (key) {
 				case Gdk.Key.Shift_L:
 				case Gdk.Key.Shift_R:
@@ -81,24 +81,11 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 					return;
 					
 				case Gdk.Key.Escape:
-					Console.WriteLine("Got Escape");
 					LostFocusListView(null, null);
 					ex.RetVal = true;
 					return;
 					
-				case Gdk.Key.BackSpace:
-					Console.WriteLine("Got BackSpace on key press");
-					//new ICSharpCode.TextEditor.Actions.Backspace().Execute(control.ActiveTextAreaControl.TextArea);
-					if (insertLength > 0) {
-						--insertLength;
-					} else {
-						// no need to delete here (insertLength <= 0)
-						LostFocusListView(null, null);
-					}
-					break;
-					
 				default:
-					Console.WriteLine("Got key: {0}", key);
 					if (val != '_' && !Char.IsLetterOrDigit(val)) {
 						if (listView.Selection.CountSelectedRows() > 0) {
 							ActivateItem(null, null);
@@ -106,7 +93,7 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 							LostFocusListView(null, null);
 						}
 						
-						control.Buffer.InsertAtCursor (val.ToString ());
+						//control.Buffer.InsertAtCursor (val.ToString ());
 						ex.RetVal = true;
 						return;
 					} else {
