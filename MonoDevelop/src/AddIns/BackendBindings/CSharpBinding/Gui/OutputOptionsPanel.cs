@@ -95,8 +95,7 @@ namespace CSharpBinding
 			void SelectFolder(object sender, EventArgs e)
 			{
 				ResourceService res = (ResourceService)ServiceManager.Services.GetService (typeof (ResourceService));
-				using (FileSelection fdiag = new FileSelection (
-					res.GetString ("${res:Dialog.Options.PrjOptions.Configuration.FolderBrowserDescription}"))) {
+				using (FileSelection fdiag = new FileSelection (GettextCatalog.GetString ("Select the directory in which the assembly will be created"))) {
 					if (fdiag.Run () == (int) ResponseType.Ok) {
 						outputDirectoryEntry.Text = fdiag.Filename;
 					}

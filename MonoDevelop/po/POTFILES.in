@@ -81,3 +81,5 @@ src/AddIns/DisplayBindings/SourceEditor/Gui/Pads/CompilerMessageView.cs
 src/AddIns/DisplayBindings/SourceEditor/Gui/SourceEditorDisplayBinding.cs
 src/AddIns/DisplayBindings/SourceEditor/Search/SearchReplaceInFilesManager.cs
 src/AddIns/DisplayBindings/SourceEditor/Search/SearchReplaceManager.cs
+src/AddIns/BackendBindings/CSharpBinding/Gui/CodeGenerationPanel.cs
+src/AddIns/BackendBindings/CSharpBinding/Gui/OutputOptionsPanel.cs

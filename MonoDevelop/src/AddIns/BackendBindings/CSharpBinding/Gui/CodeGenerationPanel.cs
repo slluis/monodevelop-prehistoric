@@ -59,13 +59,9 @@ namespace CSharpBinding
 				generateXmlOutputCheckButton.Sensitive = false;
 
 				Menu CompileTargetMenu = new Menu ();
-				CompileTargetMenu.Append(new MenuItem(
-								 StringParserService.Parse(
-									 "${res:Dialog.Options.PrjOptions.Configuration.CompileTarget.Exe}")));
+				CompileTargetMenu.Append(new MenuItem(GettextCatalog.GetString ("Executable")));
 
-				CompileTargetMenu.Append(new MenuItem(
-								 StringParserService.Parse(
-									 "${res:Dialog.Options.PrjOptions.Configuration.CompileTarget.Library}")));
+				CompileTargetMenu.Append(new MenuItem(GettextCatalog.GetString ("Library")));
 				// FIXME commented until the Module capability is ported
 // 				CompileTargetMenu.Append(new MenuItem(
 // 								 StringParserService.Parse(
