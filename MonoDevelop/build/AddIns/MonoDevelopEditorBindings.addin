@@ -56,7 +56,7 @@
 	
 	<Extension path = "/SharpDevelop/Workbench/Views">
 		<Class id    = "CompilerMessageView" 
-		       class = "ICSharpCode.SharpDevelop.Gui.Pads.CompilerMessageView"/>
+		       class = "MonoDevelop.EditorBindings.Gui.Pads.CompilerMessageView"/>
 	</Extension>
 
 	<Extension path = "/SharpDevelop/ViewContent/DefaultTextEditor/ContextMenu">

@@ -575,7 +575,6 @@ namespace ICSharpCode.SharpDevelop.Gui
 		
 		public void UpdateToolbars()
 		{
-#if GTK
 			foreach (Gtk.Toolbar toolbar in ToolBars) {
 				foreach (object item in toolbar.Children) {
 					if (item is IStatusUpdate) {
@@ -583,15 +582,6 @@ namespace ICSharpCode.SharpDevelop.Gui
 					}
 				}
 			}
-#else
-			foreach (CommandBar commandBar in ToolBars) {
-				foreach (object item in commandBar.Items) {
-					if (item is IStatusUpdate) {
-						((IStatusUpdate)item).UpdateStatus();
-					}
-				}
-			}
-#endif
 		}
 		
 		// this method simply copies over the enabled state of the toolbar,
@@ -601,19 +591,11 @@ namespace ICSharpCode.SharpDevelop.Gui
 		
 		void CreateToolBars()
 		{
-#if GTK
 			if (ToolBars == null) {
 				ToolbarService toolBarService = (ToolbarService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(ToolbarService));
 				Gtk.Toolbar[] toolBars = toolBarService.CreateToolbars();
 				ToolBars = toolBars;
 			}
-#else
-			if (ToolBars == null) {
-				ToolbarService toolBarService = (ToolbarService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(ToolbarService));
-				CommandBar[] toolBars = toolBarService.CreateToolbars();
-				ToolBars = toolBars;
-			}
-#endif
 		}
 		
 		public void UpdateViews(object sender, EventArgs e)

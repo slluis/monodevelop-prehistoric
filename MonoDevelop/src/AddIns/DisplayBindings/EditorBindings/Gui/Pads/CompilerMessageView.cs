@@ -6,7 +6,6 @@
 // </file>
 
 using System;
-using System.Drawing;
 using System.CodeDom.Compiler;
 using System.IO;
 using System.Diagnostics;
@@ -14,10 +13,9 @@ using ICSharpCode.SharpDevelop.Services;
 
 using ICSharpCode.Core.Properties;
 using ICSharpCode.Core.Services;
-using ICSharpCode.TextEditor;
-using ICSharpCode.TextEditor.Document;
+using ICSharpCode.SharpDevelop.Gui;
 
-namespace ICSharpCode.SharpDevelop.Gui.Pads
+namespace MonoDevelop.EditorBindings.Gui.Pads
 {
 	// Note: I moved the pads to this assembly, because I want no cyclic dll dependency
 	// on the ICSharpCode.TextEditor assembly.
@@ -28,13 +26,15 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads
 	/// </summary>
 	public class CompilerMessageView : IPadContent
 	{
-		TextEditorControl textEditorControl = new TextEditorControl();
+		Gtk.TextBuffer buffer;
+		Gtk.TextView textEditorControl;
+		Gtk.ScrolledWindow scroller;
 		//Panel       myPanel = new Panel();
 		ResourceService resourceService = (ResourceService)ServiceManager.Services.GetService(typeof(IResourceService));
 		
 		public Gtk.Widget Control {
 			get {
-				return textEditorControl;
+				return scroller;
 			}
 		}
 		
@@ -62,42 +62,26 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads
 		
 		public CompilerMessageView()
 		{
-			//textEditorControl.Dock     = DockStyle.Fill;
-			textEditorControl.Document.ReadOnly = true;
-			textEditorControl.ShowHRuler       = false;
-			textEditorControl.ShowVRuler       = false;
-			textEditorControl.ShowLineNumbers  = false;
-			textEditorControl.ShowInvalidLines = false;			
-			textEditorControl.ShowEOLMarkers   = false;
-			textEditorControl.EnableFolding    = false;
-			textEditorControl.IsIconBarVisible = false;
-//			textEditorControl.ScrollMarginHeight = 0;
-			
-			//textEditorControl.VisibleChanged += new EventHandler(ActivateTextBox);
+			buffer = new Gtk.TextBuffer (new Gtk.TextTagTable ());
+			textEditorControl = new Gtk.TextView (buffer);
+			textEditorControl.Editable = false;
+			scroller = new Gtk.ScrolledWindow ();
+			scroller.Add (textEditorControl);
 			ResourceService resourceService = (ResourceService)ServiceManager.Services.GetService(typeof(IResourceService));
-			//textEditorControl.Font = resourceService.LoadFont("Courier New", 10); //FIXME: Is this right?
-			//myPanel.Controls.Add(textEditorControl);
 			
 			TaskService     taskService    = (TaskService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(TaskService));
-			//IProjectService projectService = (IProjectService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
 			
 			taskService.CompilerOutputChanged += new EventHandler(SetOutput);
-			
-			//projectService.StartBuild    += new EventHandler(SelectMessageView);
-			//projectService.CombineOpened += new CombineEventHandler(OnCombineOpen);
-			//projectService.CombineClosed += new CombineEventHandler(OnCombineClosed);
 		}
 		
 		void OnCombineOpen(object sender, CombineEventArgs e)
 		{
-			textEditorControl.Document.TextContent = String.Empty;
-			textEditorControl.Refresh();
+			buffer.Text = String.Empty;
 		}
 		
 		void OnCombineClosed(object sender, CombineEventArgs e)
 		{
-			textEditorControl.Document.TextContent = String.Empty;
-			textEditorControl.Refresh();
+			buffer.Text = String.Empty;
 		}
 		
 		void SelectMessageView(object sender, EventArgs e)
@@ -115,12 +99,11 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads
 			
 		}
 		
-		//void SetOutput2(object sender, EventArgs e)
 		void SetOutput2()
 		{
 			TaskService taskService = (TaskService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(TaskService));
 			try {
-				textEditorControl.Document.TextContent = taskService.CompilerOutput;
+				buffer.Text = taskService.CompilerOutput;
 				UpdateTextArea();
 			} catch (Exception) {}
 			
@@ -129,12 +112,10 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads
 		
 		void UpdateTextArea()
 		{
-			//Console.WriteLine("Create CompilerMessage View Handle:" + textEditorControl.Handle);
-			
-			textEditorControl.ActiveTextAreaControl.Caret.Position = textEditorControl.Document.OffsetToPosition(textEditorControl.Document.TextLength);
-			textEditorControl.ActiveTextAreaControl.ScrollToCaret();
-			textEditorControl.Refresh();
+			buffer.MoveMark (buffer.InsertMark, buffer.EndIter);
+			textEditorControl.ScrollMarkOnscreen (buffer.InsertMark);
 		}
+		
 		string outputText = null;
 		void SetOutput(object sender, EventArgs e)
 		{
@@ -142,7 +123,6 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads
 			//throw new Exception("Trace me...");
 			if (WorkbenchSingleton.Workbench.WorkbenchLayout.IsVisible(this)) {
 				SetOutput2();
-				//textEditorControl.Invoke(new EventHandler(SetOutput2));
 				outputText = null;
 			} else {
 				TaskService taskService = (TaskService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(TaskService));
@@ -154,7 +134,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads
 		void ActivateTextBox(object sender, EventArgs e)
 		{
 			if (outputText != null && textEditorControl.Visible) {
-				textEditorControl.Document.TextContent = outputText;
+				buffer.Text = outputText;
 				UpdateTextArea();
 				outputText = null;
 			}

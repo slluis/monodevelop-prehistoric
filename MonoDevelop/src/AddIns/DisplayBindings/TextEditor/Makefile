@@ -1,6 +1,5 @@
 SDDIR=../../../SharpDevelop/src/Main/Core
 SOURCES = \
-./Gui/Pads/CompilerMessageView.cs \
 ./Gui/Editor/ParserFoldingStrategy.cs \
 ./Gui/Editor/SharpDevelopTextEditorProperties.cs \
 ./Gui/Editor/SharpDevelopTextAreaControl.cs \
