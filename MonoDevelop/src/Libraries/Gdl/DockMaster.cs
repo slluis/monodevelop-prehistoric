@@ -21,6 +21,8 @@ namespace Gdl
 		private uint idle_layout_changed_id;
 		private Hashtable lockedItems = new Hashtable ();
 		private Hashtable unlockedItems = new Hashtable ();
+		
+		public event EventHandler LayoutChanged;
 
 		public DockMaster () 
 		{

@@ -18,7 +18,9 @@ namespace Gdl
 		private int dragoffX = 0;
 		private int dragoffY = 0;
 		private Menu menu = null;
+		private DockBar dockBar;
 		private DockItemGrip grip;
+		private Button dockButton;
 		private uint gripSize;
 		private Widget tabLabel = null;
 		private int preferredWidth = -1;
@@ -100,6 +102,24 @@ namespace Gdl
 			}
 			set {
 				child = value;
+			}
+		}
+		
+		public DockBar DockBar {
+			get {
+				return dockBar;
+			}
+			set {
+				dockBar = value;	
+			}
+		}
+		
+		public Button DockBarButton {
+			get {
+				return dockButton;
+			}
+			set {
+				dockButton = value;	
 			}
 		}
 		

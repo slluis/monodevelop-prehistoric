@@ -9,13 +9,56 @@ namespace Gdl
 	// stub so I can compile in MD
 	public class DockLayout
 	{
+		DockMaster master;
+		Widget itemsui;
+		Widget layoutsui;
+		string[] layouts;
+		bool dirty;
+	
 		public DockLayout (Dock dock)
 		{
 		}
-	
-		public string[] GetLayouts (bool something)
+		
+		public DockMaster Master {
+			get {
+				return master;
+			}
+			set {
+				master = value;
+			}
+		}
+		
+		// generated had Dirty and IsDirty
+		public bool IsDirty {
+			get {
+				return dirty;
+			}
+		}
+		
+		public Widget ItemsUi { 
+			get {
+				return itemsui;
+			}
+		}
+		
+		public Widget LayoutsUi { 
+			get {
+				return layoutsui;
+			}
+		}
+		
+		public void Attach (DockMaster master)
 		{
-			return new string[] {""};
+			this.master = master;
+		}
+		
+		public void DeleteLayout (string name)
+		{
+		}
+	
+		public string[] GetLayouts (bool includeDefault)
+		{
+			return layouts;
 		}
 		
 		public void LoadLayout (string newLayout)
@@ -23,6 +66,10 @@ namespace Gdl
 		}
 		
 		public void LoadFromFile (string configFile)
+		{
+		}
+		
+		public void RunManager ()
 		{
 		}
 		
