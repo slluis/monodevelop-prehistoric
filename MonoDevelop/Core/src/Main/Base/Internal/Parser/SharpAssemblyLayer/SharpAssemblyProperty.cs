@@ -13,9 +13,9 @@ using System.Xml;
 using MonoDevelop.SharpAssembly.Metadata.Rows;
 using MonoDevelop.SharpAssembly.Metadata;
 using MonoDevelop.SharpAssembly.PE;
-using MonoDevelop.SharpAssembly.Assembly;
-
-using SharpAssembly = MonoDevelop.SharpAssembly.Assembly.SharpAssembly;
+using SharpAssembly=MonoDevelop.SharpAssembly.Assembly.SharpAssembly;
+using AssemblyReader=MonoDevelop.SharpAssembly.Assembly.AssemblyReader;
+using SharpCustomAttribute=MonoDevelop.SharpAssembly.Assembly.SharpCustomAttribute;
 
 namespace MonoDevelop.Internal.Parser {
 	

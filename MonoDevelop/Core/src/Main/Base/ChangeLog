@@ -1,3 +1,15 @@
+2004-11-01	Fawad Halim  <fawad@fawad.net>
+
+	* Internal/Parser/SharpAssemblyLayer/SharpAssemblyParameter.cs
+	* Internal/Parser/SharpAssemblyLayer/SharpAssemblyMethod.cs
+	* Internal/Parser/SharpAssemblyLayer/SharpAssemblyReturnType.cs
+	* Internal/Parser/SharpAssemblyLayer/SharpAssemblyEvent.cs
+	* Internal/Parser/SharpAssemblyLayer/SharpAssemblyAttribute.cs
+	* Internal/Parser/SharpAssemblyLayer/SharpAssemblyField.cs
+	* Internal/Parser/SharpAssemblyLayer/SharpAssemblyProperty.cs:
+	Added using aliases for AssemblyReader and SharpCustomAttribute
+	to allow compilation with mono HEAD
+
 2004-11-01  Todd Berman  <tberman@off.net>
 
 	* Commands/AutoStartCommands.cs: Open the real last project.
