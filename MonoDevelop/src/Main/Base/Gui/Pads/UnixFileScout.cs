@@ -83,7 +83,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads
 //			menu.MenuCommands.Add(new MagicMenus.MenuCommand("Rename", new EventHandler(renameFile)));
 			
 			try {
-				watcher = new FileSystemWatcher();
+				//watcher = new FileSystemWatcher();
 			} catch {}
 			
 			if(watcher != null) {
@@ -106,7 +106,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads
 		}
 		
 		void ItemAdded(FileListItem item) {
-			store.AppendValues(System.IO.Path.GetFileName(item.FullName), item.Size, item.LastModified, item);
+			store.AppendValues(item.Text, item.Size, item.LastModified, item);
 		}
 		
 		void ItemRemoved(FileListItem item) {
@@ -152,7 +152,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads
 				info.LastWriteTime.ToString())
 			);
 			
-			//Items.Add(fileItem);
+			Items.Add(fileItem);
 		}
 		
 		void fileRenamed(object sender, RenamedEventArgs e)
@@ -237,11 +237,9 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads
 			} catch (Exception) {
 				return;
 			}
-		
-			if (watcher != null) {
-				watcher.Path = path;
-				watcher.EnableRaisingEvents = true;
-			}
+			
+			//watcher.Path = path;
+			//watcher.EnableRaisingEvents = true;
 			
 			foreach (string file in files) {
 				string filename = System.IO.Path.GetFileName(file);
@@ -261,6 +259,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads
 		public class FileListItem
 		{
 			string fullname;
+			string text;
 			string size;
 			string lastModified;
 			
@@ -270,6 +269,13 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads
 				} 
 				set {
 					fullname = value;
+					text = System.IO.Path.GetFileName(fullname);
+				}
+			}
+			
+			public String Text {
+				get {
+					return text;
 				}
 			}
 			
@@ -293,9 +299,9 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads
 			
 			public FileListItem(string fullname, string size, string lastModified) 
 			{
-				this.fullname = fullname;
 				this.size = size;
 				this.lastModified = lastModified;
+				FullName = fullname;
 				//ImageIndex = IconManager.GetIndexForFile(fullname);
 			}
 		}
