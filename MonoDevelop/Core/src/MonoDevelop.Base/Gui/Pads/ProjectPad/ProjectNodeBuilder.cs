@@ -133,7 +133,12 @@ namespace MonoDevelop.Gui.Pads.ProjectPad
 		void OnRemoveFile (object sender, ProjectFileEventArgs e)
 		{
 			ITreeBuilder tb = Context.GetTreeBuilder (e.ProjectFile);
-			if (tb != null) tb.Remove ();
+			if (tb != null) {
+				if (tb.Options ["ShowAllFiles"] && File.Exists (e.ProjectFile.Name))
+					tb.UpdateAll ();
+				else
+					tb.Remove ();
+			}
 		}
 		
 		void OnRenameFile (object sender, ProjectFileRenamedEventArgs e)

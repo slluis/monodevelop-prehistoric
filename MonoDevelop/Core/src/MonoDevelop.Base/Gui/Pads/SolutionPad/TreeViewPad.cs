@@ -721,10 +721,8 @@ namespace MonoDevelop.Gui.Pads
 			if (dataObject != null) found = builder.MoveToObject (dataObject);
 			else found = builder.MoveToRoot ();
 			
-			if (found) {
-				builder.Update ();
-				builder.UpdateChildren ();
-			}
+			if (found)
+				builder.UpdateAll ();
 		}
 		
 		internal bool GetIterFromNamePath (string path, out Gtk.TreeIter iter)
@@ -841,8 +839,7 @@ namespace MonoDevelop.Gui.Pads
 
 			ClearOptions (iter);
 			TreeBuilder tb = new TreeBuilder (this, iter);
-			tb.Update ();
-			tb.UpdateChildren ();
+			tb.UpdateAll ();
 		}
 
 		void OnPopupMenu (object o, Gtk.PopupMenuArgs args)
@@ -1208,6 +1205,12 @@ namespace MonoDevelop.Gui.Pads
 				object dataObject = store.GetValue (currentIter, TreeViewPad.DataItemColumn);
 				CreateChildren (chain, dataObject);
 				return store.IterHasChild (currentIter);
+			}
+			
+			public void UpdateAll ()
+			{
+				Update ();
+				UpdateChildren ();
 			}
 			
 			public void Update ()

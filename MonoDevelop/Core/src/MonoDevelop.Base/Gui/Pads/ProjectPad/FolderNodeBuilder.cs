@@ -90,6 +90,8 @@ namespace MonoDevelop.Gui.Pads.ProjectPad
 			}
 			if (file.Subtype == Subtype.Directory)
 				builder.AddChild (new ProjectFolder (file.FilePath, project));
+			else if (builder.Options ["ShowAllFiles"])
+				builder.UpdateChildren ();
 			else
 				builder.AddChild (file);
 		}

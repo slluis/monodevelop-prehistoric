@@ -56,17 +56,6 @@ namespace MonoDevelop.Internal.Project
 			get {
 				return ((ProjectFile)(List[index]));
 			}
-			set {
-				if (project != null)
-					project.NotifyFileRemovedFromProject ((ProjectFile)List[index]);
-
-				List[index] = value;
-				
-				if (project != null) {
-					value.SetProject (project);
-					project.NotifyFileAddedToProject (value);
-				}
-			}
 		}
 		
 		/// <summary>
@@ -81,6 +70,8 @@ namespace MonoDevelop.Internal.Project
 		public int Add(ProjectFile value) {
 			int i = List.Add(value);
 			if (project != null) {
+				if (value.Project != null)
+					throw new InvalidOperationException ("ProjectFile already belongs to a project");
 				value.SetProject (project);
 				project.NotifyFileAddedToProject (value);
 			}
@@ -176,6 +167,8 @@ namespace MonoDevelop.Internal.Project
 		public void Insert(int index, ProjectFile value) {
 			List.Insert(index, value);
 			if (project != null) {
+				if (value.Project != null)
+					throw new InvalidOperationException ("ProjectFile already belongs to a project");
 				value.SetProject (project);
 				project.NotifyFileAddedToProject (value);
 			}
@@ -199,9 +192,11 @@ namespace MonoDevelop.Internal.Project
 		/// <returns><para>None.</para></returns>
 		/// <exception cref='System.ArgumentException'><paramref name='value'/> is not found in the Collection. </exception>
 		public void Remove(ProjectFile value) {
-			List.Remove(value);
-			if (project != null)
+			List.Remove (value);
+			if (project != null) {
+				value.SetProject (null);
 				project.NotifyFileRemovedFromProject (value);
+			}
 		}
 		
 		public class ProjectFileEnumerator : object, IEnumerator {
