@@ -91,15 +91,19 @@ namespace MonoDevelop.SourceEditor.Gui
 				} else if (e.Event.Button == 3) {
 					Gtk.Menu popup = new Gtk.Menu ();
 					Gtk.CheckMenuItem bookmarkItem = new Gtk.CheckMenuItem (GettextCatalog.GetString ("Bookmark"));
-					Gtk.CheckMenuItem breakpointItem = new Gtk.CheckMenuItem (GettextCatalog.GetString ("Breakpoint"));
-
 					bookmarkItem.Active = buf.IsBookmarked (line.Line);
-					breakpointItem.Active = buf.IsBreakpoint (line.Line);
-
 					bookmarkItem.Toggled += new EventHandler (bookmarkToggled);
-					breakpointItem.Toggled += new EventHandler (breakpointToggled);
 					popup.Append (bookmarkItem);
-					popup.Append (breakpointItem);
+
+					if (ServiceManager.GetService (typeof (IDebuggingService)) != null) {
+						Gtk.CheckMenuItem breakpointItem = new Gtk.CheckMenuItem (GettextCatalog.GetString ("Breakpoint"));
+	
+						breakpointItem.Active = buf.IsBreakpoint (line.Line);
+	
+						breakpointItem.Toggled += new EventHandler (breakpointToggled);
+						popup.Append (breakpointItem);
+					}
+
 					popup.ShowAll ();
 					lineToMark = line.Line;
 					popup.Popup (null, null, null, IntPtr.Zero, 3, e.Event.Time);

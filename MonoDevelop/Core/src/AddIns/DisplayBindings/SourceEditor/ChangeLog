@@ -1,3 +1,8 @@
+2005-01-29  Todd Berman  <tberman@off.net>
+
+	* Gui/SourceEditorView.cs: Only show "Breakpoint" if the
+	DebuggingService is available.
+
 2005-01-27  John Luke  <john.luke@gmail.com>
 
 	* EditorBindings.glade:
