@@ -26,7 +26,7 @@ namespace ICSharpCode.SharpDevelop.DefaultEditor.Commands
 {
 	public class ColorDialog : ColorSelectionDialog
 	{
-		public ColorDialog () : base ("WARNING BROKEN: Insert a color")
+		public ColorDialog () : base ("Insert a color hex string")
 		{
 			this.ColorSelection.HasPalette = true;
 			this.ColorSelection.HasOpacityControl = false;		
@@ -38,8 +38,6 @@ namespace ICSharpCode.SharpDevelop.DefaultEditor.Commands
 			Gdk.Color color = this.ColorSelection.CurrentColor;
 			StringBuilder s = new StringBuilder ();
 			ushort[] vals = { color.Red, color.Green, color.Blue };
-			// debug line
-			// Console.WriteLine("r {0}, b {1}, g{2}", color.red, color.green, color.blue );
 			char[] hexchars = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'};
 			s.Append ("#");
 			foreach (ushort val in vals) {
@@ -66,8 +64,8 @@ namespace ICSharpCode.SharpDevelop.DefaultEditor.Commands
 				return;
 
 			//FIXME:  
-			// - The return sting value is not the same choosen in the Dialog
-                        // - Return color name (not color value) if it IsKnownColor but it's still not implemented for System.Drawing.Color
+                        // - Return color name (not color value) if it IsKnownColor,
+			//   but it's still hasn't been implemented for System.Drawing.Color
 			ColorDialog dialog = new ColorDialog ();
 			if (dialog.Run () == (int) ResponseType.Ok)
 			{
