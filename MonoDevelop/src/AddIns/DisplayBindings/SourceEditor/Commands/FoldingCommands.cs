@@ -7,18 +7,11 @@
 
 using System;
 using System.IO;
-using System.Threading;
-using System.Drawing;
-using System.Drawing.Printing;
 using System.Collections;
-using System.ComponentModel;
 using System.Diagnostics;
 using System.Text;
-using System.Xml;
-using System.Xml.Xsl;
 
 using ICSharpCode.Core.AddIns;
-
 using ICSharpCode.Core.Properties;
 using ICSharpCode.Core.AddIns.Codons;
 

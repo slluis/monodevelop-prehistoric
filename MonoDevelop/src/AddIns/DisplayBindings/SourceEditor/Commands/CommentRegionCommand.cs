@@ -7,19 +7,12 @@
 
 using System;
 using System.IO;
-using System.Threading;
-using System.Drawing;
-using System.Drawing.Printing;
 using System.Collections;
-using System.ComponentModel;
-using System.Diagnostics;
 using System.Text;
 
 using ICSharpCode.Core.AddIns;
 using ICSharpCode.Core.AddIns.Codons;
-
 using ICSharpCode.Core.Properties;
-
 using ICSharpCode.SharpDevelop.Gui.Dialogs;
 using ICSharpCode.TextEditor.Document;
 using ICSharpCode.SharpDevelop.Gui;

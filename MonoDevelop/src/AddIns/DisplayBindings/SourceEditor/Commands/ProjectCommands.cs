@@ -7,20 +7,13 @@
 
 using System;
 using System.IO;
-using System.Threading;
-using System.Drawing;
-using System.Drawing.Printing;
 using System.Collections;
-using System.ComponentModel;
-using System.Diagnostics;
 using System.Text;
 
 using ICSharpCode.Core.AddIns;
-
 using ICSharpCode.Core.Properties;
 using ICSharpCode.Core.AddIns.Codons;
 using ICSharpCode.Core.Services;
-
 using ICSharpCode.SharpDevelop.Services;
 using ICSharpCode.SharpDevelop.Gui.Dialogs;
 using ICSharpCode.TextEditor.Document;
@@ -34,10 +27,12 @@ namespace ICSharpCode.SharpDevelop.DefaultEditor.Commands
 		{
 			IProjectService projectService = (IProjectService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
 			if (projectService.CurrentSelectedProject != null) {
-				//ExportProjectToHtmlDialog ephd = new ExportProjectToHtmlDialog(projectService.CurrentSelectedProject);
-				//ephd.Owner = (Form)WorkbenchSingleton.Workbench;
-				//ephd.ShowDialog();
-				//ephd.Dispose();
+			/*
+				ExportProjectToHtmlDialog ephd = new ExportProjectToHtmlDialog (projectService.CurrentSelectedProject);
+				ephd.TransientFor = (Gtk.Window) WorkbenchSingleton.Workbench;
+				ephd.Run ();
+				ephd.Hide ();
+				ephd.Dispose();*/
 			}
 		}
 	}
