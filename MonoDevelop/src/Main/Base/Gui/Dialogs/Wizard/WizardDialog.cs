@@ -13,10 +13,10 @@ using System.Xml;
 
 using ICSharpCode.Core.Services;
 using ICSharpCode.Core.AddIns;
-
 using ICSharpCode.Core.Properties;
 using ICSharpCode.Core.AddIns.Codons;
 using Gtk;
+
 namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 {
 	/// <summary>

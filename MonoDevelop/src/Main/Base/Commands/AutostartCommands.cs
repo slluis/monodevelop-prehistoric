@@ -78,16 +78,17 @@ namespace ICSharpCode.SharpDevelop.Commands
 			
 			WizardDialog wizard = new WizardDialog("Initialize Code Completion Database", customizer, "/SharpDevelop/CompletionDatabaseWizard");
 			propertyService.SetProperty("SharpDevelop.CodeCompletion.DataDirectory", customizer.GetProperty("SharpDevelop.CodeCompletion.DataDirectory", String.Empty));
-			//wizard.Run ();
-			Gtk.Application.Run ();
+			
+			wizard.Run ();
 			wizard.Hide ();
+			wizard.Destroy ();
 
 			// restart  & exit 
-			Console.WriteLine ("generated, exiting");
 			ServiceManager.Services.UnloadAllServices();
+			// FIXME: handle this elegantly
+			// is it really necessary to restart here?
 			//System.Diagnostics.Process.Start(Path.Combine (Application.StartupPath, "SharpDevelop.exe"));
-			System.Environment.Exit(0);
-			
+			Gtk.Application.Quit ();
 		}
 	}
 	

@@ -392,7 +392,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads
 			hbox.PackStart (pathEntry);
 			Gtk.Button homeButton = new Gtk.Button ();
 			Gdk.Pixbuf pix = FileIconLoader.GetPixbufForType ("gnome-home");
-			homeButton.Child = new Gtk.Image (pix.ScaleSimple (20, 20, Gdk.InterpType.Bilinear));
+			homeButton.Add (new Gtk.Image (pix.ScaleSimple (20, 20, Gdk.InterpType.Bilinear)));
 			homeButton.Relief = Gtk.ReliefStyle.None;
 			homeButton.Clicked += new EventHandler (OnHomeClicked);
 			hbox.PackStart (homeButton, false, false, 0);
@@ -407,6 +407,8 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads
 			
 			Pack1(treef, true, true);
 			Pack2(listf, true, true);
+
+			//OnDirChanged (fb, new EventArgs ());
 		}
 
 		void OnHomeClicked (object sender, EventArgs args)
@@ -417,7 +419,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads
 
 		void OnPathEntryActivated (object sender, EventArgs args)
 		{
-			if (Directory.Exists (pathEntry.Text))
+			if (Directory.Exists (pathEntry.Text.Trim ()))
 			{
 				fb.CurrentDir = pathEntry.Text;
 				OnDirChanged (sender, args);
