@@ -13,7 +13,10 @@ SOURCES = \
 ./DockMaster.cs \
 ./Dock.cs \
 ./DockItem.cs \
-./DockItemGrip.cs
+./DockItemGrip.cs \
+./DockPlaceholder.cs \
+./DockPaned.cs \
+./DockNotebook.cs
 
 PKG_REFERENCES = \
 gtk-sharp

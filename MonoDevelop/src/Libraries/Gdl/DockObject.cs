@@ -156,7 +156,7 @@ namespace Gdl
 			this.Show ();
 		}
 		
-		public abstract bool ChildPlacement (DockObject child, DockPlacement placement);
+		public abstract bool ChildPlacement (DockObject child, ref DockPlacement placement);
 		
 		public virtual bool IsCompound {
 			get {
@@ -183,6 +183,12 @@ namespace Gdl
 		public bool IsAutomatic {
 			get {
 				return ((this.flags & Gdl.DockObjectFlags.Automatic) != 0);
+			}
+		}
+		
+		public bool InReflow {
+			get {
+				return ((this.flags & Gdl.DockObjectFlags.InReflow) != 0);
 			}
 		}
 		

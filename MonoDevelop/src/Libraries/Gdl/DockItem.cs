@@ -61,6 +61,11 @@ namespace Gdl
 			this.StockId = stock_id;
 		}
 		
+		public Gtk.Widget TabLabel {
+			get { return this.tab_label; }
+			set { this.tab_label = value; }
+		}
+		
 		public virtual bool HasGrip {
 			get { return true; }
 		}
@@ -742,7 +747,7 @@ namespace Gdl
 			}
 		}
 		
-		public void SetDefaultPosition (DockObject reference)
+		public virtual void SetDefaultPosition (DockObject reference)
 		{
 			this.ph = null;
 			
