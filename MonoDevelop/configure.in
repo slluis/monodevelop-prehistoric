@@ -29,7 +29,7 @@ PKG_CHECK_MODULES(BASE_DEPENDENCIES, mono >= $MONO_REQUIRED_VERSION, enable_mono
 dnl Find gtk-sharp
 GTKSHARP_REQUIRED_VERSION=0.17
 
-PKG_CHECK_MODULES(BASE_DEPENDENCIES, gtk-sharp >= $GTKSHARP_REQUIRED_VERSION, enable_gtksharp=yes, enable_gtksharp=no) 
+PKG_CHECK_MODULES(BASE_DEPENDENCIES, gtk-sharp >= $GTKSHARP_REQUIRED_VERSION) 
 gtksharp_prefix=`pkg-config --variable=prefix gtk-sharp`
 AC_SUBST(gtksharp_prefix)
 
@@ -55,6 +55,10 @@ dnl PKG_CHECK_MODULES(BASE_DEPENDENCIES, ORBit-2.0 >= $ORBIT2_REQUIRED_VERSION)
 dnl find mozilla-gtkmozembed
 MOZGTK_REQUIRED_VERSION=1.2
 PKG_CHECK_MODULES(BASE_DEPENDENCIES, mozilla-gtkmozembed >= $MOZGTK_REQUIRED_VERSION, enable_gtkmoz=yes, enable_gtkmoz=no)
+
+dnl find mono debugger
+MONO_DEBUGGER_REQUIRED_VERSION=0.6
+PKG_CHECK_MODULES(MONO_DEBUGGER, mono-debugger >= $MONO_DEBUGGER_REQUIRED_VERSION)
 
 MOZILLA_HOME="`$PKG_CONFIG --variable=libdir mozilla-gtkmozembed`"
 AC_SUBST(MOZILLA_HOME)
@@ -123,7 +127,6 @@ echo "   * Installation prefix = $prefix"
 echo "   * GNOME prefix = $gnome_prefix"
 echo ""
 echo "   * gnomevfs $GNOMEVFS_REQUIRED_VERSION: $enable_gnomevfs"
-echo "   * gtk-sharp $GTKSHARP_REQUIRED_VERSION: $enable_gtksharp"
 echo "   * gtkmozembed $MOZGTK_REQUIRED_VERSION: $enable_gtkmoz"
 echo "   * gtksourceview $GTKSOURCEVIEW_REQUIRED_VERSION: $enable_gtksourceview"
 echo "   * gtksourceview-sharp $GTKSOURCEVIEWSHARP_REQUIRED_VERSION: $enable_gtksourceviewsharp"

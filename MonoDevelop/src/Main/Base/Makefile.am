@@ -179,6 +179,7 @@ FILES= \
 ./Services/AmbienceService/CodeDOMGeneratorUtility.cs \
 ./Services/AmbienceService/NetAmbience.cs \
 ./Services/AmbienceService/IAmbience.cs \
+./Services/DebuggingService.cs \
 ./Services/Project/ProjectEventArgs.cs \
 ./Services/Project/IProjectService.cs \
 ./Services/Project/ProjectRenameEventArgs.cs \
@@ -371,6 +372,7 @@ $(DLL): $(FILES) ../../../data/resources/glade/Base.glade
 		/r:../../../build/bin/gtkmozembed-sharp.dll \
 		/r:glade-sharp \
 		/r:gnome-sharp \
+		/r:Mono.Debugger \
 		$(FILES) \
 	&& cp $(DLL) ../../../build/bin/.
 

@@ -1,1 +1,7 @@
-==== 0.1 Released ====
+2004-03-02  Mike Kestner  <mkestner@ximian.com>
+
+	* configure.in : check for mono debugger
+	* Main/Base/Makefile.am : reference Mono.Debugger
+	* Main/Base/Services/DebuggingService.cs : new minimal debugging
+	service implementation.
+
