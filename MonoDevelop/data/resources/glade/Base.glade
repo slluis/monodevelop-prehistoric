@@ -1945,19 +1945,19 @@
   <property name="destroy_with_parent">False</property>
 
   <child>
-    <widget class="GtkVBox" id="vbox30">
+    <widget class="GtkVBox" id="vbox23">
       <property name="visible">True</property>
       <property name="homogeneous">False</property>
       <property name="spacing">6</property>
 
       <child>
-	<widget class="GtkVBox" id="vbox31">
+	<widget class="GtkVBox" id="vbox24">
 	  <property name="visible">True</property>
 	  <property name="homogeneous">False</property>
 	  <property name="spacing">6</property>
 
 	  <child>
-	    <widget class="GtkLabel" id="label32">
+	    <widget class="GtkLabel" id="settingsLabel">
 	      <property name="visible">True</property>
 	      <property name="label" translatable="yes">&lt;b&gt;Settings-&lt;/b&gt;</property>
 	      <property name="use_underline">False</property>
@@ -1978,13 +1978,13 @@
 	  </child>
 
 	  <child>
-	    <widget class="GtkHBox" id="hbox17">
+	    <widget class="GtkHBox" id="hbox15">
 	      <property name="visible">True</property>
 	      <property name="homogeneous">False</property>
 	      <property name="spacing">6</property>
 
 	      <child>
-		<widget class="GtkLabel" id="label33">
+		<widget class="GtkLabel" id="label26">
 		  <property name="visible">True</property>
 		  <property name="label" translatable="yes">    </property>
 		  <property name="use_underline">False</property>
@@ -2005,13 +2005,13 @@
 	      </child>
 
 	      <child>
-		<widget class="GtkVBox" id="vbox32">
+		<widget class="GtkVBox" id="vbox26">
 		  <property name="visible">True</property>
 		  <property name="homogeneous">False</property>
 		  <property name="spacing">6</property>
 
 		  <child>
-		    <widget class="GtkLabel" id="label34">
+		    <widget class="GtkLabel" id="locationLabel">
 		      <property name="visible">True</property>
 		      <property name="label" translatable="yes">Default _combine location-</property>
 		      <property name="use_underline">True</property>
@@ -2032,14 +2032,14 @@
 		  </child>
 
 		  <child>
-		    <widget class="GnomeFileEntry" id="fileentry1">
+		    <widget class="GnomeFileEntry" id="projectLocationTextBox">
 		      <property name="visible">True</property>
 		      <property name="max_saved">10</property>
 		      <property name="directory_entry">False</property>
 		      <property name="modal">False</property>
 
 		      <child internal-child="entry">
-			<widget class="GtkEntry" id="entry1">
+			<widget class="GtkEntry" id="combo-entry1">
 			  <property name="visible">True</property>
 			  <property name="can_focus">True</property>
 			  <property name="editable">True</property>
@@ -2060,7 +2060,7 @@
 		  </child>
 
 		  <child>
-		    <widget class="GtkCheckButton" id="checkbutton1">
+		    <widget class="GtkCheckButton" id="loadPrevProjectCheckBox">
 		      <property name="visible">True</property>
 		      <property name="can_focus">True</property>
 		      <property name="label" translatable="yes">_Load previous combine on startup-</property>
@@ -2099,13 +2099,13 @@
       </child>
 
       <child>
-	<widget class="GtkVBox" id="vbox33">
+	<widget class="GtkVBox" id="vbox25">
 	  <property name="visible">True</property>
 	  <property name="homogeneous">False</property>
 	  <property name="spacing">6</property>
 
 	  <child>
-	    <widget class="GtkLabel" id="label35">
+	    <widget class="GtkLabel" id="buildAndRunOptionsLabel">
 	      <property name="visible">True</property>
 	      <property name="label" translatable="yes">&lt;b&gt;Build And Run Options-&lt;/b&gt;</property>
 	      <property name="use_underline">False</property>
@@ -2126,13 +2126,13 @@
 	  </child>
 
 	  <child>
-	    <widget class="GtkHBox" id="hbox18">
+	    <widget class="GtkHBox" id="hbox16">
 	      <property name="visible">True</property>
 	      <property name="homogeneous">False</property>
 	      <property name="spacing">0</property>
 
 	      <child>
-		<widget class="GtkLabel" id="label36">
+		<widget class="GtkLabel" id="label28">
 		  <property name="visible">True</property>
 		  <property name="label" translatable="yes">    </property>
 		  <property name="use_underline">False</property>
@@ -2153,25 +2153,25 @@
 	      </child>
 
 	      <child>
-		<widget class="GtkVBox" id="vbox34">
+		<widget class="GtkVBox" id="vbox27">
 		  <property name="visible">True</property>
 		  <property name="homogeneous">False</property>
 		  <property name="spacing">6</property>
 
 		  <child>
-		    <widget class="GtkVBox" id="vbox35">
+		    <widget class="GtkVBox" id="vbox28">
 		      <property name="visible">True</property>
 		      <property name="homogeneous">False</property>
 		      <property name="spacing">6</property>
 
 		      <child>
-			<widget class="GtkHBox" id="hbox19">
+			<widget class="GtkHBox" id="hbox17">
 			  <property name="visible">True</property>
 			  <property name="homogeneous">False</property>
 			  <property name="spacing">6</property>
 
 			  <child>
-			    <widget class="GtkLabel" id="label37">
+			    <widget class="GtkLabel" id="label32">
 			      <property name="visible">True</property>
 			      <property name="label" translatable="yes">    </property>
 			      <property name="use_underline">False</property>
@@ -2192,13 +2192,13 @@
 			  </child>
 
 			  <child>
-			    <widget class="GtkVBox" id="vbox36">
+			    <widget class="GtkVBox" id="vbox29">
 			      <property name="visible">True</property>
 			      <property name="homogeneous">False</property>
 			      <property name="spacing">6</property>
 
 			      <child>
-				<widget class="GtkRadioButton" id="radiobutton1">
+				<widget class="GtkRadioButton" id="saveChangesRadioButton">
 				  <property name="visible">True</property>
 				  <property name="can_focus">True</property>
 				  <property name="label" translatable="yes">_Save Changes to open documents-</property>
@@ -2216,7 +2216,7 @@
 			      </child>
 
 			      <child>
-				<widget class="GtkRadioButton" id="radiobutton2">
+				<widget class="GtkRadioButton" id="promptChangesRadioButton">
 				  <property name="visible">True</property>
 				  <property name="can_focus">True</property>
 				  <property name="label" translatable="yes">_Prompt to save changes to open documents-</property>
@@ -2225,6 +2225,7 @@
 				  <property name="active">False</property>
 				  <property name="inconsistent">False</property>
 				  <property name="draw_indicator">True</property>
+				  <property name="group">saveChangesRadioButton</property>
 				</widget>
 				<packing>
 				  <property name="padding">0</property>
@@ -2234,7 +2235,7 @@
 			      </child>
 
 			      <child>
-				<widget class="GtkRadioButton" id="radiobutton3">
+				<widget class="GtkRadioButton" id="noSaveRadioButton">
 				  <property name="visible">True</property>
 				  <property name="can_focus">True</property>
 				  <property name="label" translatable="yes">_Don't save changes to open documents -</property>
@@ -2243,6 +2244,7 @@
 				  <property name="active">False</property>
 				  <property name="inconsistent">False</property>
 				  <property name="draw_indicator">True</property>
+				  <property name="group">saveChangesRadioButton</property>
 				</widget>
 				<packing>
 				  <property name="padding">0</property>
@@ -2273,7 +2275,7 @@
 		  </child>
 
 		  <child>
-		    <widget class="GtkCheckButton" id="checkbutton2">
+		    <widget class="GtkCheckButton" id="showOutputCheckBox">
 		      <property name="visible">True</property>
 		      <property name="can_focus">True</property>
 		      <property name="label" translatable="yes">Show _task list pad if build finished with errors-</property>
@@ -2291,7 +2293,7 @@
 		  </child>
 
 		  <child>
-		    <widget class="GtkCheckButton" id="checkbutton3">
+		    <widget class="GtkCheckButton" id="showTaskListCheckBox">
 		      <property name="visible">True</property>
 		      <property name="can_focus">True</property>
 		      <property name="label" translatable="yes">Show _output pad when build starts-</property>
