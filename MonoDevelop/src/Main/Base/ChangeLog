@@ -1,3 +1,10 @@
+2004-06-21  John Luke <jluke@cfl.rr.com>
+
+	* Gui/Dialogs/OptionPanels/ProjectOptions/CompileFileProjectOptions.cs:
+	use the messageservice for a the error dialog
+	don't skip the first item when storing whether files should be	
+	included, fixes bug # 60363
+
 2004-06-21  Todd Berman  <tberman@off.net>
 
 	* Commands/AutostartCommands.cs: workaround icewm issue, dont show

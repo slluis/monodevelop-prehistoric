@@ -12,23 +12,20 @@ using System.Collections;
 using System.ComponentModel;
 
 using MonoDevelop.Core.AddIns.Codons;
-
 using MonoDevelop.Internal.Project;
 using MonoDevelop.Core.Services;
 using MonoDevelop.Core.Properties;
 using MonoDevelop.Gui.Components;
 using MonoDevelop.Services;
+using MonoDevelop.Gui.Widgets;
 
 using Gtk;
-using MonoDevelop.Gui.Widgets;
 
 namespace MonoDevelop.Gui.Dialogs.OptionPanels
 {
-	/// <summary>
-	/// Summary description for Form1.
-	/// </summary>
 	public class CompileFileProjectOptions : AbstractOptionPanel
 	{
+		static MessageService messageService = (MessageService) ServiceManager.Services.GetService (typeof (MessageService));
 
 		class CompileFileOptionsWidget : GladeWidgetExtract 
 		{
@@ -38,10 +35,8 @@ namespace MonoDevelop.Gui.Dialogs.OptionPanels
 			public ListStore store;
 			
 			// Services
-			StringParserService StringParserService = (StringParserService)ServiceManager.Services.GetService (
-							typeof (StringParserService));
-			FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.Services.GetService(
-				typeof(FileUtilityService));
+			StringParserService StringParserService = (StringParserService) ServiceManager.Services.GetService (typeof (StringParserService));
+			FileUtilityService fileUtilityService = (FileUtilityService) ServiceManager.Services.GetService (typeof (FileUtilityService));
 
 			IProject project;
 
@@ -88,8 +83,10 @@ namespace MonoDevelop.Gui.Dialogs.OptionPanels
 				TreeIter first;	
 				store.GetIterFirst(out first);
 				TreeIter current = first;
+
 				for (int i = 0; i < store.IterNChildren() - 1 ; ++i) {
-					store.IterNext(ref current);
+					if (i != 0)
+						store.IterNext(ref current);
 					string name = fileUtilityService.RelativeToAbsolutePath(
 						project.BaseDirectory, "." + System.IO.Path.DirectorySeparatorChar + store.GetValue(current, 1));
 					int j = 0;
@@ -99,14 +96,7 @@ namespace MonoDevelop.Gui.Dialogs.OptionPanels
 					if (j < project.ProjectFiles.Count) {
 						project.ProjectFiles[j].BuildAction = (bool) store.GetValue(current, 0) ? BuildAction.Compile : BuildAction.Nothing;
 					} else {
-						MessageDialog dialog = new MessageDialog ((Window) WorkbenchSingleton.Workbench, 
-								DialogFlags.DestroyWithParent,
-								MessageType.Error, 
-								ButtonsType.Close, 
-								String.Format (GettextCatalog.GetString ("File {0} not found in {1}."), name, project.Name));
-						dialog.Run ();
-						dialog.Hide ();
-						dialog.Dispose ();
+						messageService.ShowError (String.Format (GettextCatalog.GetString ("File {0} not found in {1}."), name, project.Name));
 						success = false;
 					}
 				}
