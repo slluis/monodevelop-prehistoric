@@ -1,3 +1,14 @@
+2004-06-02  Todd Berman  <tberman@sevenl.net>
+
+	* MonoDevelop.Base.prjx: fixed ICSharpCode.SharpZipLib reference and
+	added new file.
+	* Gui/Dialogs/CombineConfiguration/CombineBuildOptions.cs: new dialog
+	for the .mdsx relative output build path.
+	* Makefile.am: add new file.
+	* Internal/Project/Combine/Combine.cs: Add BaseDirectory property.
+	* Makefile.MonoDevelop.Base: automagic updates to reflect new file
+	(This is good to see).
+
 2004-05-30  Todd Berman  <tberman@sevenl.net>
 
 	* Commands/AutostartCommands: Remove some dead code.

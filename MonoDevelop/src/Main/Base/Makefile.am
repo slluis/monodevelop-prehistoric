@@ -89,6 +89,7 @@ FILES= \
 ./Gui/Dialogs/CombineConfiguration/CombineConfigurationPanel.cs \
 ./Gui/Dialogs/CombineConfiguration/CombineDependencyPanel.cs \
 ./Gui/Dialogs/CombineConfiguration/CombineStartupPanel.cs \
+./Gui/Dialogs/CombineConfiguration/CombineBuildOptions.cs \
 ./Gui/Dialogs/CombineConfiguration/ConfigurationManager.cs \
 ./Gui/Dialogs/FusionNative.cs \
 ./Gui/Dialogs/NewProjectDialog.cs \

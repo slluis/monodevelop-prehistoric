@@ -372,7 +372,13 @@ SOURCES = \
 ./Services/StatusBar/IStatusBarService.cs \
 ./Services/Tasks/Task.cs \
 ./Services/Tasks/TaskService.cs \
-./Services/Toolbar/ToolbarService.cs
+./Services/Toolbar/ToolbarService.cs \
+./Gui/Dialogs/CombineConfiguration/CombineBuildOptions.cs
+
+RESOURCES = \
+../../../data/resources/glade/Base.glade
+
+RESOURCES_BUILD = $(foreach res,$(RESOURCES), $(addprefix -resource:,$(res)),$(notdir $(res)))
 
 PKG_REFERENCES = \
 gtk-sharp \
@@ -401,8 +407,8 @@ MCS_OPTIONS =
 
 all: MonoDevelop.Base.dll
 
-MonoDevelop.Base.dll: $(SOURCES)
-	mcs $(MCS_OPTIONS) -target:library -out:"MonoDevelop.Base.dll" $(PKG_REFERENCES_BUILD) $(SYSTEM_REFERENCES_BUILD) $(SOURCES) \
+MonoDevelop.Base.dll: $(SOURCES) $(RESOURCES)
+	mcs $(MCS_OPTIONS) -target:library -out:"MonoDevelop.Base.dll" $(RESOURCES_BUILD) $(PKG_REFERENCES_BUILD) $(SYSTEM_REFERENCES_BUILD) $(SOURCES) \
 	&& cp "MonoDevelop.Base.dll" ../../build/bin
 
 clean:

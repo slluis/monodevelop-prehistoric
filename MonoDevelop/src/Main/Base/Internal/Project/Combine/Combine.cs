@@ -119,6 +119,12 @@ namespace MonoDevelop.Internal.Project
 			}
 		}
 		
+		public string BaseDirectory {
+			get {
+				return path;
+			}
+		}
+		
 		[LocalizedProperty("${res:MonoDevelop.Internal.Project.Combine.Name}",
 		                   Description ="${res:MonoDevelop.Internal.Project.Combine.Name.Description}")]
 		public string Name {

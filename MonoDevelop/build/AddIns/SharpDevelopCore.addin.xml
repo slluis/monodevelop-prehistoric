@@ -325,6 +325,9 @@
 			<DialogPanel id = "Startup"
 			             _label = "Startup Properties"
 			             class = "MonoDevelop.Gui.Dialogs.OptionPanels.CombineStartupPanel"/>
+                       <DialogPanel id = "Build"
+                                     _label = "Build Properties"
+                                     class = "MonoDevelop.Gui.Dialogs.OptionPanels.CombineBuildOptions"/>
 
 <!-- 		<DialogPanel id = "Dependency"
 			             _label = "${res:Dialog.Options.CombineOptions.Dependencies.PanelName}"
