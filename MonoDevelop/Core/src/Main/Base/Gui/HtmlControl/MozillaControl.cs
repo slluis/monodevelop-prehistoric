@@ -17,18 +17,7 @@ namespace MonoDevelop.Gui.HtmlControl
 		private string html;
 		private string css;
 		
-		public static new GLib.GType GType
-		{
-			get
-			{
-				if (gtype == GLib.GType.Invalid)
-					gtype = RegisterGType (typeof (MozillaControl));
-				return gtype;
-			}
-		}
-		
-		//FIXME: pick a better path, one of the Environment dirs
-		public MozillaControl () : base (GType)
+		public MozillaControl ()
 		{
 			WebControl.SetProfilePath ("/tmp", "MonoDevelop");
 		}
