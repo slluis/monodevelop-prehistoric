@@ -26,10 +26,12 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs.OptionPanels
 {
 	public class ProjectAndCombinePanel : AbstractOptionPanel
 	{
+
 		// service instances needed
 		PropertyService PropertyService = (PropertyService)ServiceManager.Services.GetService (typeof (PropertyService));
 		FileUtilityService FileUtilityService = (FileUtilityService)ServiceManager.Services.GetService (typeof (FileUtilityService));
 		MessageService MessageService = (MessageService)ServiceManager.Services.GetService (typeof (MessageService));
+		
 		ProjectAndCombinePanelWidget widget;
 		const string projectAndCombineProperty = "SharpDevelop.UI.ProjectAndCombineOptions";
 
@@ -105,7 +107,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs.OptionPanels
 				projectLocationTextBox.GtkEntry.Text = p.GetProperty(
 					"ICSharpCode.SharpDevelop.Gui.Dialogs.NewProjectDialog.DefaultPath", 
 					System.IO.Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal),
-							"SharpDevelop Projects")).ToString();
+							"MonoDevelopProjects")).ToString();
 				BeforeCompileAction action = (BeforeCompileAction) p.GetProperty(
 					"SharpDevelop.Services.DefaultParserService.BeforeCompileAction", 
 					BeforeCompileAction.SaveAllFiles);

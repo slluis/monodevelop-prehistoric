@@ -119,7 +119,6 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs {
 					Gtk.TreeIter new_iter;
 					treeStore.IterChildren (out new_iter, iter);
 					Gtk.TreePath new_path = treeStore.GetPath (new_iter);
-					TreeView.CollapseAll ();
 					TreeView.ExpandToPath (new_path);
 					TreeView.Selection.SelectPath (new_path);
 				} else {
