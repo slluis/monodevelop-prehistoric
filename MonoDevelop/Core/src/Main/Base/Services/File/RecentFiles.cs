@@ -323,7 +323,8 @@ namespace Freedesktop.RecentFiles
 			// make sure we are in order
 			this.Sort ();
 			// but we need to write in oldest-to-newest order
-			Array.Reverse (RecentItems);
+			if (RecentItems != null)
+				Array.Reverse (RecentItems);
 
 			// if we specifically set Encoding UTF 8 here it writes the BOM
 			// which confuses others (egg-recent-files) I guess
