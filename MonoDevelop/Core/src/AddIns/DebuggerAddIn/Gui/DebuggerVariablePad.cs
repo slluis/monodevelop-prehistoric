@@ -592,6 +592,10 @@ namespace MonoDevelop.Debugger
 				}
 
 				if (is_locals_display) {
+					if (current_frame.Method.HasThis) {
+						UpdateVariable (current_frame.Method.This);
+						vars_to_remove.Remove (current_frame.Method.This);
+					}
 					IVariable[] local_vars = current_frame.Method.Locals;
 					foreach (IVariable var in local_vars) {
 						UpdateVariable (var);

@@ -50,43 +50,41 @@ namespace MonoDevelop.Debugger
 			dbgr.StoppedEvent += new EventHandler (OnStoppedEvent);
 		}
 
-		void add_frame (string frame)
-		{
-			TreeIter iter;
-			store.Append (out iter);
-			store.SetValue (iter, 0, new GLib.Value (frame));
-		}
-
-		Hashtable iters = null;
-
-		public void CleanDisplay ()
-		{
-			store.Clear ();
-			iters = new Hashtable ();
-		}
-
 		public void UpdateDisplay ()
 		{
-			CleanDisplay ();
-
 			if ((current_frame == null) || (current_frame.Method == null))
 				return;
 
 			DebuggingService dbgr = (DebuggingService)ServiceManager.GetService (typeof (DebuggingService));
 			string[] trace = dbgr.Backtrace;
 
-			foreach (string frame in trace)
-				add_frame (frame);
+			TreeIter it;
+			if (!store.GetIterFirst (out it)) {
+				foreach (string frame in trace) {
+					store.Append (out it);
+					store.SetValue (it, 0, frame);
+				}
+			}
+			else {
+				for (int i = 0; i < trace.Length; i ++) {
+					store.SetValue (it, 0, trace[i]);
+					if (i < trace.Length - 1 && !store.IterNext (ref it))
+						store.Append (out it);
+				}
+				/* clear any remaining rows */
+				if (store.IterNext (ref it))
+					do { } while (store.Remove (ref it));
+			}
 		}
 
 		protected void OnStoppedEvent (object o, EventArgs args)
 		{
-			CleanDisplay ();
+			UpdateDisplay ();
 		}
 
 		protected void OnResumedEvent (object o, EventArgs args)
 		{
-			CleanDisplay ();
+			UpdateDisplay ();
 		}
 
 		protected void OnPausedEvent (object o, EventArgs args)
@@ -95,8 +93,6 @@ namespace MonoDevelop.Debugger
 			current_frame = (StackFrame)dbgr.CurrentFrame;
 			UpdateDisplay ();
 		}
-
-
 
 		public Gtk.Widget Control {
 			get {

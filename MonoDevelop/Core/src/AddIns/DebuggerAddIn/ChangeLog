@@ -1,5 +1,14 @@
 2005-03-29  Chris Toshok  <toshok@ximian.com>
 
+	* Gui/DebuggerVariablePad.cs: display "this" if we're in a method
+	that has it.
+
+	* Gui/DebuggerStackTracePad.cs: update the currently displayed
+	rows instead of clearing the tree and adding every frame to cut
+	down on flashing.
+
+2005-03-29  Chris Toshok  <toshok@ximian.com>
+
 	* Gui/DebuggerVariablePad.cs: make this a lot nicer.  we update
 	entries now instead of clearing/re-adding everything.  also,
 	display icons now.
