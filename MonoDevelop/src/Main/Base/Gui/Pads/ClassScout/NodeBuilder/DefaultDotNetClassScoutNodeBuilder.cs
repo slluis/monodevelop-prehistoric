@@ -66,6 +66,8 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads
 					foreach (TreeNode nd in node.Nodes) {
 						if (nd.Text == c.Name) {
 							nd.Remove ();
+							if (node.Nodes.Count == 0 && c.Namespace.EndsWith (node.Text))
+								node.Remove ();
 							return;
 						}
 					}

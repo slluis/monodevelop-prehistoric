@@ -161,8 +161,9 @@ namespace MonoDevelop.Gui.Widgets {
 
 		private void OnNodeRemoved(TreeNode node)
 		{
-			if (TreeView != null) 
+			if (TreeView != null) {
 				TreeView.RemoveNode(node);
+			}
 			
 			node.parent = null;
 		}
