@@ -9,6 +9,18 @@ using ICSharpCode.Core.Services;
 namespace MonoDevelop.Commands
 {
 
+	public class ToggleRunning : AbstractMenuCommand
+	{
+		public override void Run ()
+		{
+			DebuggingService dbgr = (DebuggingService)ServiceManager.Services.GetService (typeof (DebuggingService));
+			if (dbgr.IsRunning)
+				dbgr.Pause ();
+			else
+				dbgr.Resume ();
+		}
+	}
+
 	public class StepOver : AbstractMenuCommand
 	{
 		public override void Run ()

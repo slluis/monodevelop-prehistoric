@@ -793,6 +793,10 @@
 		<MenuItem id = "DebugMenu"
 			  label = "Debug">
 
+			<MenuItem id = "ToggleRunning"
+				  label = "Pause/Resume"
+				  class = "MonoDevelop.Commands.ToggleRunning"/>
+
 			<MenuItem id = "DebugStepOver"
 				  label = "Step Over"
 				  class = "MonoDevelop.Commands.StepOver"/>
