@@ -6,7 +6,6 @@ Edit
 		Toggle folds		
 		Toggle all folds	
 		Show definitions only	
-	Word Count			
 
 View
 	//FIXME: this menu will wait until we have the new docker stuff
@@ -42,7 +41,8 @@ Help
 	Help Topics
 	Readme
 	Coding Style Guide
-	Web
+	Web (this actually works, but there is a bug
+		in showing it sometimes)
 
 
 Right click Pop Up menu
