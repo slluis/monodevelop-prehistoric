@@ -9,9 +9,9 @@
       <ul>
          <li>Run MonoDevelop from its svn directory using `<tt>make run &amp;</tt>'.</li>
 	 <li>Create a new Combine (project container) using <tt>File -&gt; New -&gt; Combine...</tt>. You should be presented with a dialog like this; fill the textboxes in a similar manner and choose "GtkSharp Project".<br />
-	 <div align="center"><a href="images/tutorial/tutorial1.png" target="_blank"><img src="images/tutorial/tutorial1sm.png" /></a></div><br/></li>
+	 <div align="center"><a href="/images/tutorial/tutorial1.png" target="_blank"><img src="images/tutorial/tutorial1sm.png" /></a></div><br/></li>
 	 <li>Open `Main.cs' and `MyWindow.cs' from the file browser on the left. If you do not see the appropriate list of files, click the `.' in the directory browser.<br />
-	 <div align="center"><a href="images/tutorial/tutorial2.png" target="_blank"><img src="images/tutorial/tutorial2sm.png" /></a></div><br /></li>
+	 <div align="center"><a href="/images/tutorial/tutorial2.png" target="_blank"><img src="images/tutorial/tutorial2sm.png" /></a></div><br /></li>
 	 <li>Modify `MyWindow.cs' to look like the following file:<br />
 
 <pre class="code">
@@ -58,9 +58,9 @@ public class MyWindow : Window {
 </pre>
       </li>
       <li>Compile the program from within MonoDevelop using the "build" icon (3rd button from the right) in the toolbar:
-      <div align="center"><img src="images/tutorial/tutorial3sm.png" /></div><br /></li>
+      <div align="center"><img src="/images/tutorial/tutorial3sm.png" /></div><br /></li>
       <li>Run the program using the "gear" icon (far right) in the toolbar. The resulting window should look something like this:
-      <div align="center"><img src="images/tutorial/tutorial4sm.png" /></div><br /></li>
+      <div align="center"><img src="/images/tutorial/tutorial4sm.png" /></div><br /></li>
       </ul>
       
       <p>Congratulations! You've successfully built a program using the latest copy of MonoDevelop. Please let us know of any bugs you find in <b>working</b> features.</p>
