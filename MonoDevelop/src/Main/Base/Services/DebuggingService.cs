@@ -25,6 +25,14 @@ namespace MonoDevelop.Services
 		{
 		}
 		
+		public override void UnloadService ()
+		{
+			if (Debugging)
+				proc.Kill ();
+
+			base.UnloadService ();
+		}
+
 		private bool Debugging {
 			get {
 				return backend != null && proc != null && proc.HasTarget;

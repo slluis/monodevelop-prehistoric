@@ -1,4 +1,9 @@
-2004-03-04  Mike Kestner  <mkestner@ximian.com>
+2004-03-03  Mike Kestner  <mkestner@ximian.com>
+
+	* Main/Base/Services/DebuggingService.cs (UnloadService): kill
+	running debugger instances on unload.
+
+2004-03-03  Mike Kestner  <mkestner@ximian.com>
 
 	* Main/Base/Services/DebuggingService.cs (Run): ignore if running
 
