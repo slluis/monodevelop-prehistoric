@@ -70,9 +70,8 @@ class HtmlTest
 		html.NetStart += new EventHandler (OnNetStart);
 		html.NetStop += new EventHandler (OnNetStop);
 		html.Title += new EventHandler (OnTitleChanged);
-		//html.Control.Title += new EventHandler (OnHtmlTitle);
-		// this loads html from a string
-		html.Html = "<html><body>testing</body></html>";
+		html.LinkMessage += new EventHandler (OnLinkMessage);
+		html.Html = "<html><head><link rel=\"stylesheet\" type=\"text/css\" href=\"test.css\" /></head><body>testing</body></html>";
 		
 		html.ShowAll ();
 		vbox.PackStart (html, true, true, 0);
@@ -82,7 +81,7 @@ class HtmlTest
 		
 		win.Add (vbox);
 		win.ShowAll ();
-		html.DelayedInitialize ();
+		html.InitializeWithBase ("file://");
 	}
 
 	void OnWinDelete (object o, DeleteEventArgs args)
@@ -90,6 +89,11 @@ class HtmlTest
 		Application.Quit ();
 	}
 
+	void OnLinkMessage (object o, EventArgs args)
+	{
+		status.Push (1, html.GeckoLinkMessage);
+	}
+	
 	void OnNetStart (object o, EventArgs args)
 	{
 		status.Push (1, "Loading ...");
@@ -117,7 +121,7 @@ class HtmlTest
 
 	void OnHtmlTitle (object o, EventArgs args)
 	{
-		//win.Title = "";
+		win.Title = html.GeckoTitle;
 	}
 
 	void OnBackClicked (object o, EventArgs args)

@@ -16,6 +16,7 @@ namespace ICSharpCode.SharpDevelop.Gui.HtmlControl
 	{
 		private static GLib.GType type;
 		private string html;
+		private string css;
 		
 		static MozillaControl ()
 		{
@@ -80,13 +81,25 @@ namespace ICSharpCode.SharpDevelop.Gui.HtmlControl
 			get { return html; }
 			set { html = value; }
 		}
-
-		public void DelayedInitialize ()
+		
+		public string Css
 		{
+			get { return css; }
+			set { css = value; }
+		}
+
+		public void InitializeWithBase (string base_uri)
+		{
+			Console.WriteLine (base_uri);
 			if (html.Length > 0)
 			{
-				this.RenderData (html, "file://", "text/html");
+				this.RenderData (html, base_uri, "text/html");
 			}
+		}
+		
+		public void DelayedInitialize ()
+		{
+			InitializeWithBase ("file://");
 		}
 	}
 }

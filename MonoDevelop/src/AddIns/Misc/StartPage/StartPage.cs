@@ -74,11 +74,11 @@ namespace ICSharpCode.StartPage
 		{
 			htmlControl = new MozillaControl ();
 			PropertyService propertyService = (PropertyService)ServiceManager.Services.GetService(typeof(PropertyService));
-			//htmlControl.CascadingStyleSheet = propertyService.DataDirectory + Path.DirectorySeparatorChar +
+			//htmlControl.Css = propertyService.DataDirectory + Path.DirectorySeparatorChar +
 			//                                  "resources" + Path.DirectorySeparatorChar +
-			 //                                 "startpage" + Path.DirectorySeparatorChar +
-			  //                                "Layout" + Path.DirectorySeparatorChar +
-			    //                              "default.css";
+			//                                  "startpage" + Path.DirectorySeparatorChar +
+			//                                  "Layout" + Path.DirectorySeparatorChar +
+			//                                  "default.css";
 			
 			htmlControl.Html = page.Render(curSection);
 			htmlControl.ShowAll ();
@@ -92,9 +92,9 @@ namespace ICSharpCode.StartPage
 			projectService.CombineOpened += new CombineEventHandler(HandleCombineOpened);
 		}
 		
-		public void DelayedInitialize ()
+		public void DelayedInitialize (string base_uri)
 		{
-			htmlControl.DelayedInitialize ();
+			htmlControl.InitializeWithBase (base_uri);
 		}
 		
 		void HandleCombineOpened(object sender, CombineEventArgs e)
@@ -102,8 +102,9 @@ namespace ICSharpCode.StartPage
 			WorkbenchWindow.CloseWindow(true);
 		}
 		
-		void HtmlControlBeforeNavigate(object sender, OpenUriArgs e)
+		void HtmlControlBeforeNavigate (object sender, OpenUriArgs e)
 		{
+			Console.WriteLine (e.AURI);
 			e.RetVal = true;
 			if (e.AURI.StartsWith("project://")) {
 				try {
@@ -115,7 +116,8 @@ namespace ICSharpCode.StartPage
 						IProjectService projectService = (IProjectService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
 						
 						string prjNumber = e.AURI.Substring("project://".Length);
-						prjNumber = prjNumber.Substring(0, prjNumber.Length - 1);
+						// wrong (jluke)
+						//prjNumber = prjNumber.Substring(0, prjNumber.Length - 1);
 			
 						string projectFile = page.projectFiles[int.Parse(prjNumber)];
 			
@@ -127,6 +129,7 @@ namespace ICSharpCode.StartPage
 					}
 				} catch (Exception ex) {
 					//MessageBox.Show("Could not access project service or load project:\n\n" + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				Console.WriteLine (ex.ToString ());
 				}
 			} else if (e.AURI.EndsWith("/opencombine")) {
 				OpenBtnClicked(this, EventArgs.Empty);
@@ -142,7 +145,7 @@ namespace ICSharpCode.StartPage
 					htmlControl.Html = page.Render(curSection);
 				}
 			} else {
-				System.Diagnostics.Process.Start(e.AURI);
+				//System.Diagnostics.Process.Start(e.AURI);
 			}
 		}
 		

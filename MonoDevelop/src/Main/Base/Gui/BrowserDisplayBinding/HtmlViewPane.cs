@@ -23,7 +23,8 @@ namespace ICSharpCode.SharpDevelop.BrowserDisplayBinding
 	public class BrowserPane : AbstractViewContent
 	{	
 		protected HtmlViewPane htmlViewPane;
-		
+		string title;
+
 		public override Widget Control {
 			get {
 				return htmlViewPane;
@@ -47,7 +48,7 @@ namespace ICSharpCode.SharpDevelop.BrowserDisplayBinding
 		protected BrowserPane(bool showNavigation) //: base (type)
 		{
 			htmlViewPane = new HtmlViewPane(showNavigation);
-			//htmlViewPane.HtmlControl.TitleChange += new DWebBrowserEvents2_TitleChangeEventHandler(TitleChange);
+			htmlViewPane.MozillaControl.Title += new EventHandler (OnTitleChanged);
 		}
 		
 		public BrowserPane() : this(true)
@@ -69,10 +70,10 @@ namespace ICSharpCode.SharpDevelop.BrowserDisplayBinding
 			Load(url);
 		}
 		
-		//void TitleChange(object sender, DWebBrowserEvents2_TitleChangeEvent e)
-		//{
-		//	ContentName = e.text;
-		//}
+		private void OnTitleChanged (object o, EventArgs args)
+		{
+			ContentName = htmlViewPane.MozillaControl.GeckoTitle; 
+		}
 	}
 	
 	public class HtmlViewPane : Gtk.Frame
@@ -151,7 +152,6 @@ namespace ICSharpCode.SharpDevelop.BrowserDisplayBinding
 			htmlControl = new MozillaControl ();
 			htmlControl.NetStart += new EventHandler (OnNetStart);
 			htmlControl.NetStop += new EventHandler (OnNetStop);
-			htmlControl.Title += new EventHandler (OnTitleChanged);
 			htmlControl.ShowAll ();
 
 			mainbox.PackStart (htmlControl);
@@ -197,11 +197,6 @@ namespace ICSharpCode.SharpDevelop.BrowserDisplayBinding
 			status.Push (1, "Done.");
 		}
 
-		private void OnTitleChanged (object o, EventArgs args)
-		{
-			Console.WriteLine ("title: " + htmlControl.GeckoTitle); 
-		}
-		
 		private void OnBackClicked (object o, EventArgs args)
 		{
 			htmlControl.GoBack ();
