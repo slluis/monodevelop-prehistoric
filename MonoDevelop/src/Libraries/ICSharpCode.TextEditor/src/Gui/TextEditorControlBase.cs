@@ -486,7 +486,7 @@ namespace ICSharpCode.TextEditor
 		internal IEditAction GetEditAction(Gdk.EventKey eventKey)
 		{
 			uint state = eventKey.state;
-			state &= 1111111101u; // Filter CapsLock key (bit 2)
+			state &= 1101u; // Filter all but shift, ctrl & alt
 			Hashtable h = (Hashtable)states[state];
 			if (h == null) {
 				return null;
