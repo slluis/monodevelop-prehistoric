@@ -53,7 +53,6 @@ namespace Gdl
 					}
 				}
 				((Gtk.Window)window).Add (this);
-				((Gtk.Window)window).ShowAll ();
 			}
 			DockObjectFlags |= DockObjectFlags.Attached;
 		}
