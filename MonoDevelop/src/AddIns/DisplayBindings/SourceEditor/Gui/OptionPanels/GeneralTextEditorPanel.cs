@@ -33,12 +33,12 @@ namespace MonoDevelop.EditorBindings.Gui.OptionPanels
 		
 		public override void LoadPanelContents()
 		{
-			Add (widget = new GeneralTextEditorPanelWidget ());
+			Add (widget = new GeneralTextEditorPanelWidget ((IProperties) CustomizationObject));
 		}
 		
 		public override bool StorePanelContents()
 		{
-			widget.Store ();
+			widget.Store ((IProperties) CustomizationObject);
 			return true;
 		}
 	
@@ -58,9 +58,7 @@ namespace MonoDevelop.EditorBindings.Gui.OptionPanels
 			[Glade.Widget] VBox encodingBox;
 			[Glade.Widget] RadioButton use_monospace, use_sans, use_cust;
 			
-			PropertyService CustomizationObject = (PropertyService)ServiceManager.Services.GetService (typeof (PropertyService));
-			
-			public GeneralTextEditorPanelWidget () :  base ("EditorBindings.glade", "GeneralTextEditorPanel")
+			public GeneralTextEditorPanelWidget (IProperties CustomizationObject) :  base ("EditorBindings.glade", "GeneralTextEditorPanel")
 			{
 				encodingBox.Destroy(); // this is a really dirty way of hiding encodingBox, but Hide() doesn't work
 				genOptions.Markup = "<b> " + StringParserService.Parse(
@@ -131,7 +129,7 @@ namespace MonoDevelop.EditorBindings.Gui.OptionPanels
 // 				textEncodingComboBox.Changed += new EventHandler (OnOptionChanged);
 			}
 
-			public void Store ()
+			public void Store (IProperties CustomizationObject)
 			{
 				((IProperties) CustomizationObject).SetProperty (
 					"DoubleBuffer", enableDoublebufferingCheckBox.Active);

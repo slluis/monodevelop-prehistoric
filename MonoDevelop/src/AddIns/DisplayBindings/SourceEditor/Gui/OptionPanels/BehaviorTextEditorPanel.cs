@@ -35,12 +35,12 @@ namespace MonoDevelop.EditorBindings.Gui.OptionPanels
 		
 		public override void LoadPanelContents()
 		{
-			Add (widget = new BehaviorTextEditorPanelWidget ());
+			Add (widget = new BehaviorTextEditorPanelWidget ((IProperties) CustomizationObject));
 		}
 		
 		public override bool StorePanelContents()
 		{
-			widget.Store ();
+			widget.Store ((IProperties) CustomizationObject);
 			return true;
 		}
 		
@@ -65,10 +65,8 @@ namespace MonoDevelop.EditorBindings.Gui.OptionPanels
 			[Glade.Widget] RadioButton              automaticIndentStyle;
 			[Glade.Widget] RadioButton              smartIndentStyle;
 			[Glade.Widget] SpinButton               indentAndTabSizeSpinButton;
-
-			PropertyService CustomizationObject = (PropertyService) ServiceManager.Services.GetService (typeof (PropertyService));
 			
-			public BehaviorTextEditorPanelWidget () :  
+			public BehaviorTextEditorPanelWidget (IProperties CustomizationObject) :  
 				base ("EditorBindings.glade", "BehaviorTextEditorPanel")
 			{
 				// Set up Text
@@ -135,7 +133,7 @@ namespace MonoDevelop.EditorBindings.Gui.OptionPanels
 				}
 			}
 
-			public void Store ()
+			public void Store (IProperties CustomizationObject)
 			{
 				((IProperties)CustomizationObject).SetProperty(
 					"TabsToSpaces",           convertTabsToSpacesCheckBox.Active);

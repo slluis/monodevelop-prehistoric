@@ -32,12 +32,12 @@ namespace MonoDevelop.EditorBindings.Gui.OptionPanels
 		public override void LoadPanelContents()
 		{
 			// set up the form controls instance
-			Add (widget = new MarkersTextEditorPanelWidget ());	
+			Add (widget = new MarkersTextEditorPanelWidget ((IProperties) CustomizationObject));	
 		}
 		
 		public override bool StorePanelContents()
 		{
-			widget.Store ();
+			widget.Store ((IProperties) CustomizationObject);
 			return true;
 		}
 
@@ -67,9 +67,7 @@ namespace MonoDevelop.EditorBindings.Gui.OptionPanels
 			[Glade.Widget] CheckButton showSpaceCharsCheckBox;
 			[Glade.Widget] SpinButton  vRulerRowTextBox;
 
-			PropertyService CustomizationObject = (PropertyService) ServiceManager.Services.GetService (typeof (PropertyService));
-			
-			public MarkersTextEditorPanelWidget () :  
+			public MarkersTextEditorPanelWidget (IProperties CustomizationObject) :  
 				base ("EditorBindings.glade", "MarkersTextEditorPanel")
 			{
 				// Load Text
@@ -125,7 +123,7 @@ namespace MonoDevelop.EditorBindings.Gui.OptionPanels
 
 			}
 
-			public void Store ()
+			public void Store (IProperties CustomizationObject)
 			{
 				((IProperties)CustomizationObject).SetProperty("ShowInvalidLines",     showInvalidLinesCheckBox.Active);
 				((IProperties)CustomizationObject).SetProperty("ShowLineNumbers",      showLineNumberCheckBox.Active);
