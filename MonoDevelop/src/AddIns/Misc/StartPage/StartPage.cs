@@ -26,7 +26,7 @@ namespace ICSharpCode.StartPage
 		// return the panel that contains all of our controls
 		public override Gtk.Widget Control {
 			get {
-				return htmlControl.Control;
+				return htmlControl;
 			}
 		}
 		
@@ -79,8 +79,7 @@ namespace ICSharpCode.StartPage
 			                                  "default.css";
 			
 			htmlControl.Html = page.Render(curSection);
-			htmlControl.Control.Show ();
-			htmlControl.DelayedInitialize ();
+			htmlControl.ShowAll ();
 			htmlControl.BeforeNavigate += new BrowserNavigateEventHandler(HtmlControlBeforeNavigate);
 			
 			StringParserService stringParserService = (StringParserService)ServiceManager.Services.GetService(typeof(StringParserService));

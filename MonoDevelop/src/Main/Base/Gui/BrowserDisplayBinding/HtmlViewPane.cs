@@ -124,23 +124,24 @@ namespace ICSharpCode.SharpDevelop.BrowserDisplayBinding
 			
 				toolBar.ToolbarStyle = ToolbarStyle.Icons;
 				toolBar.IconSize = IconSize.SmallToolbar;
-				toolBar.AppendWidget (toolBarBack, "", "");
-				toolBar.AppendWidget (toolBarForward, "", "");
-				toolBar.AppendWidget (toolBarStop, "", "");
-				toolBar.AppendWidget (toolBarRefresh, "", "");
+				toolBar.AppendWidget (toolBarBack, "Go Back", "");
+				toolBar.AppendWidget (toolBarForward, "Go Forward", "");
+				toolBar.AppendWidget (toolBarStop, "Stop Loading", "");
+				toolBar.AppendWidget (toolBarRefresh, "Refresh", "");
+				toolBar.AppendWidget (urlTextBox, "URL", "");
 				
 				topPanel.PackStart (toolBar);
 				
 				urlTextBox.Activated += new EventHandler (OnEntryActivated);
 				
-				topPanel.Add (urlTextBox);
+				//topPanel.Add (urlTextBox);
 				mainbox.PackStart (topPanel, false, false, 2);
 			} 
 			
 			htmlControl = new HtmlControl ();
-			htmlControl.Control.Show ();
+			htmlControl.ShowAll ();
 
-			mainbox.PackStart (htmlControl.Control);
+			mainbox.PackStart (htmlControl);
 			
 			this.Add (mainbox);
 			this.ShowAll ();
@@ -168,7 +169,6 @@ namespace ICSharpCode.SharpDevelop.BrowserDisplayBinding
 		{
 			urlTextBox.Text = name;
 			htmlControl.Url = name;
-			htmlControl.Show ();
 		}
 		
 		private void OnBackClicked (object o, EventArgs args)

@@ -28,30 +28,34 @@ class HtmlTest
 		Toolbar tbar = new Toolbar ();
 		tbar.ToolbarStyle = ToolbarStyle.Icons;
 		
-		Image back = new Image (Stock.GoBack, IconSize.SmallToolbar);
-		//tbar.AppendItem ("Back", "Go Back", "", back, OnBackClicked);
+		Button back = new Button (Stock.GoBack);
+		back.Clicked += new EventHandler (OnBackClicked);
+		tbar.AppendWidget (back, "Go Back", "");
+
 		Button forward = new Button (Stock.GoForward);
+		forward.Clicked += new EventHandler (OnForwardClicked);
 		tbar.AppendWidget (forward, "Go Forward", "");
+		
 		Button stop = new Button (Stock.Stop);
+		stop.Clicked += new EventHandler (OnStopClicked);
 		tbar.AppendWidget (stop, "Stop", "");
+
 		Button refresh = new Button (Stock.Refresh);
+		refresh.Clicked += new EventHandler (OnRefreshClicked);
 		tbar.AppendWidget (refresh, "Refresh", "");
 		
 		vbox.PackStart (tbar, false, true, 0);
 
-		HBox hbox = new HBox (false, 0);
-
 		url = new Entry ();
 		url.Activated += new EventHandler (OnUrlActivated);
-		hbox.PackStart (url, true, true, 0);		
+		tbar.AppendWidget (url, "Location", "");
 
 		go = new Button (Stock.Ok);
 		go.Clicked += new EventHandler (OnGoClicked);
-		hbox.PackStart (go, false, false, 0);
-		vbox.PackStart (hbox, false, false, 0);
+		tbar.AppendWidget (go, "Go", "");
 
 		html = new HtmlControl ();
-		//html.Title += new EventHandler (OnHtmlTitle);
+		//html.Control.Title += new EventHandler (OnHtmlTitle);
 		// this loads html from a string
 		html.Html = "<html><body>testing</body></html>";
 		
@@ -61,8 +65,8 @@ class HtmlTest
 		// set the stylesheet
 		html.CascadingStyleSheet = "";
 		
-		html.Show ();
-		vbox.PackStart (html.Control, true, true, 0);
+		html.ShowAll ();
+		vbox.PackStart (html, true, true, 0);
 
 		Statusbar status = new Statusbar ();
 		vbox.PackStart (status, false, true, 0);
@@ -95,5 +99,20 @@ class HtmlTest
 	void OnBackClicked (object o, EventArgs args)
 	{
 		html.GoBack ();
+	}
+	
+	void OnForwardClicked (object o, EventArgs args)
+	{
+		html.GoForward ();
+	}
+
+	void OnStopClicked (object o, EventArgs args)
+	{
+		html.Stop ();
+	}
+
+	void OnRefreshClicked (object o, EventArgs args)
+	{
+		html.Refresh ();
 	}
 }

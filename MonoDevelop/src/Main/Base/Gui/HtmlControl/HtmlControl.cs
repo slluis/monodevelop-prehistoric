@@ -4,7 +4,7 @@ using GtkSharp;
 
 namespace ICSharpCode.SharpDevelop.Gui.HtmlControl
 {
-	public class HtmlControl : Bin, IWebBrowserEvents
+	public class HtmlControl : Frame, IWebBrowserEvents
 	{
 		private static GLib.GType type;
 				
@@ -69,9 +69,10 @@ namespace ICSharpCode.SharpDevelop.Gui.HtmlControl
 			}
 			set {
 				this.url = value;
-				Console.WriteLine ("setting html url");
 				if (control_type == ControlType.GtkMozilla)
+				{
 					((MozillaControl) control).LoadUrl (value);
+				}
 				else
 					Console.WriteLine ("unable to load url");
 			}
@@ -83,8 +84,7 @@ namespace ICSharpCode.SharpDevelop.Gui.HtmlControl
 			}
 			set {
 				this.html = value;
-				Console.WriteLine ("setting html content");
-				ApplyBody(html);
+				//ApplyBody(html);
 			}
 		}
 		
@@ -113,9 +113,9 @@ namespace ICSharpCode.SharpDevelop.Gui.HtmlControl
 					break;
 				case ControlType.GtkMozilla:
 					this.control = new MozillaControl ();
-					//Console.WriteLine ("new MozillaControl");
 					((MozillaControl) this.control).Show ();
-					//this.Add ((MozillaControl) this.control);
+					this.Add ((MozillaControl) this.control);
+					Console.WriteLine ("added MozillaControl to HtmlControl");
 					break;
 				default:
 					throw new NotImplementedException (control_type.ToString ());
@@ -154,6 +154,8 @@ namespace ICSharpCode.SharpDevelop.Gui.HtmlControl
 			initialized = true;
 			if (html.Length > 0) {
 				ApplyBody(html);
+			} else {
+				Console.WriteLine ("no html to apply");
 			}
 			UIActivate();
 			ApplyCascadingStyleSheet();
@@ -170,7 +172,10 @@ namespace ICSharpCode.SharpDevelop.Gui.HtmlControl
 				if (control != null) {
 					if (control_type == ControlType.GtkMozilla)
 					{
+						Console.WriteLine ("rendering");
+						((MozillaControl) control).Show ();
 						((MozillaControl) control).RenderData (val, "file://", "text/html");
+						Console.WriteLine ("rendered");
 						return;
 					}
 					else
@@ -199,7 +204,11 @@ namespace ICSharpCode.SharpDevelop.Gui.HtmlControl
 				{
 					Console.WriteLine ("control is null");
 				}
-			} catch {}
+			}
+			catch (Exception e)
+			{
+				Console.WriteLine (e.ToString ());
+			} 
 		}
 		
 		void ApplyCascadingStyleSheet()
