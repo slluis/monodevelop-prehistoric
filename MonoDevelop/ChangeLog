@@ -1,3 +1,6 @@
+2004-06-14  Francisco "Paco" Martinez <paco@mfcon.com>
+	* monodevelop.in -- added a missing space before an enclosing square bracket
+
 2004-06-14  Peter Johanson <latexer@gentoo.org>
 
 	* build/AddIns/SharpDevelopCore.addin.xml:
