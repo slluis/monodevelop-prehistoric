@@ -90,7 +90,7 @@ namespace ICSharpCode.SharpDevelop.Services {
 				}
 			}
 			
-			System.Reflection.Assembly asm = nonLocking ? Assembly.Load(GetBytes(fileName)) : Assembly.LoadFrom(fileName);
+			System.Reflection.Assembly asm = /* nonLocking ? Assembly.Load(GetBytes(fileName)) : */ Assembly.LoadFrom(fileName);
 			foreach (Type type in asm.GetTypes()) {
 				if (!type.FullName.StartsWith("<")) {
 					classes.Add(new ReflectionClass(type, docuNodes));

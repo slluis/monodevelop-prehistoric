@@ -170,5 +170,14 @@ namespace MonoDevelop.Gui {
 			TreeView.SetCursor (new Gtk.TreePath (TreePath), TreeView.complete_column, true);
 			TreeView.GrabFocus ();
 		}
+		
+		public void Sort ()
+		{
+			Nodes.Sort ();
+		}
+		public void Sort (IComparer c)
+		{
+			Nodes.Sort (c);
+		}
 	}
 }

@@ -26,7 +26,19 @@ namespace MonoDevelop.Gui {
 				Changed();
 			}
 		}
-
+		
+		public void Sort ()
+		{
+			list.Sort ();
+			Changed ();
+		}
+		
+		public void Sort (IComparer c)
+		{
+			list.Sort (c);
+			Changed ();
+		}
+		
 		public virtual TreeNode Add(string text) 
 		{
 			TreeNode node =  new TreeNode (text, null);
