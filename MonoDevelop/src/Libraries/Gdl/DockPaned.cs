@@ -47,7 +47,6 @@ namespace Gdl
 				this.Child = new Gtk.VPaned ();
 			
 			//Signal connects?
-			
 			this.Child.Parent = this;
 			this.Child.Show ();
 		}
@@ -58,15 +57,16 @@ namespace Gdl
 			if (item == null)
 				return;
 			Gtk.Paned paned = (Gtk.Paned)this.Child;
-			if (paned.Child1 != null && paned.Child2 != null)
+			if (paned.Child1 != null && paned.Child2 != null) {
 				return;
+			}
 			
 			DockPlacement pos = DockPlacement.None;
 			
 			if (paned.Child1 == null)
-				pos = item.Orientation == Gtk.Orientation.Horizontal ? DockPlacement.Left : DockPlacement.Top;
+				pos = (this.Orientation == Gtk.Orientation.Horizontal ? DockPlacement.Left : DockPlacement.Top);
 			else
-				pos = item.Orientation == Gtk.Orientation.Vertical ? DockPlacement.Right : DockPlacement.Bottom;
+				pos = (this.Orientation == Gtk.Orientation.Horizontal ? DockPlacement.Right : DockPlacement.Bottom);
 			
 			if (pos != DockPlacement.None)
 				this.Docking (item, pos, null);

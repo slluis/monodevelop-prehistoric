@@ -473,6 +473,7 @@ namespace Gdl
 		
 		public override bool DockRequest (int x, int y, DockRequest request)
 		{
+			Console.WriteLine ("Inside DockItem.DockRequest");
 			Gdk.Rectangle alloc = this.Allocation;
 			int rel_x = x - alloc.X;
 			int rel_y = y - alloc.Y;
@@ -570,8 +571,10 @@ namespace Gdl
 				return;
 			}
 			
-			if (this.ParentObject != null)
-				this.ParentObject.Freeze ();
+			Console.WriteLine ("new_parent is of type: " + new_parent);
+			
+			if (parentObj != null)
+				parentObj.Freeze ();
 			this.DockObjectFlags |= DockObjectFlags.InReflow;
 			this.Detach (false);
 			new_parent.Freeze ();
@@ -579,10 +582,14 @@ namespace Gdl
 			
 			Console.WriteLine ("About to add");
 			if (add_ourselves_first) {
+				Console.WriteLine ("Adding this");
 				new_parent.Add (this);
+				Console.WriteLine ("Adding new object");
 				new_parent.Add (requestor);
 			} else {
+				Console.WriteLine ("Adding new object");
 				new_parent.Add (requestor);
+				Console.WriteLine ("Adding this");
 				new_parent.Add (this);
 			}
 			Console.WriteLine ("Done Adding");
@@ -603,8 +610,8 @@ namespace Gdl
 			
 			this.DockObjectFlags &= ~(DockObjectFlags.InReflow);
 			new_parent.Thaw ();
-			if (this.ParentObject != null)
-				this.ParentObject.Thaw ();
+			if (parentObj != null)
+				parentObj.Thaw ();
 		}
 		
 		private void DetachMenu (Gtk.Widget item, Gtk.Menu menu)

@@ -34,24 +34,20 @@ class T
 		di2.Add (new Label ("test2"));
 		dock.AddItem (di2, DockPlacement.Center);
 		
-		/*DockItem di3 = new DockItem ("item3", "Item #3", DockItemBehavior.Normal);
+		DockItem di3 = new DockItem ("item3", "Item #3", DockItemBehavior.Normal);
 		di3.Add (new Label ("test3"));
-		dock.AddItem (di3, DockPlacement.Center);
+		dock.AddItem (di3, DockPlacement.Top);
 		
-		DockItem di4 = new DockItem ("item4", "Item #4", DockItemBehavior.Normal);
+		/*DockItem di4 = new DockItem ("item4", "Item #4", DockItemBehavior.Normal);
 		di4.Add (new Label ("test4"));
 		dock.AddItem (di4, DockPlacement.Center);*/
 		
-		Console.WriteLine ("1");
 		app.Add (dock);
-		Console.WriteLine ("2");
 		app.ShowAll ();
-		Console.WriteLine ("3");
-		if (dock.Root == null) {
-			Console.WriteLine ("Crap, dock.root is null");
-		}
+		//if (dock.Root == null) {
+		//	Console.WriteLine ("Crap, dock.root is null");
+		//}
 		Gtk.Application.Run ();
-		Console.WriteLine ("4");
 	}
 	
 	private void OnAppDelete (object o, DeleteEventArgs args)
