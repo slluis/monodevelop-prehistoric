@@ -8,10 +8,6 @@
 using System;
 using System.Collections;
 using System.IO;
-using System.Drawing;
-using System.Reflection;
-using System.Resources;
-using System.Xml;
 
 using ICSharpCode.Core.AddIns;
 using ICSharpCode.Core.Properties;
@@ -60,10 +56,8 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 		MessageService      messageService = (MessageService)ServiceManager.Services.GetService(typeof(MessageService));
 		bool openCombine;
 		
-		public NewProjectDialog(bool openCombine) : base ()
+		public NewProjectDialog (bool openCombine) : base ("New Project", (Window) WorkbenchSingleton.Workbench, DialogFlags.DestroyWithParent)
 		{
-			this.Title = "New Project...";
-			this.TransientFor = (Window) WorkbenchSingleton.Workbench;
 			this.BorderWidth = 6;
 			this.HasSeparator = false;
 			
@@ -73,9 +67,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 			InitializeTemplates();
 			InitializeView();
 			
-			//((TreeView)ControlDictionary["categoryTreeView"]).Select();
 			pathEntry.Text = propertyService.GetProperty("ICSharpCode.SharpDevelop.Gui.Dialogs.NewProjectDialog.DefaultPath", fileUtilityService.GetDirectoryNameWithSeparator(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal)) + "MonoDevelopProjects").ToString();
-			//Icon = null;
 			ShowAll ();
 		}
 		
@@ -113,8 +105,6 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 				}
 			}
 			
-			//((ListView)ControlDictionary["templateListView"]).LargeImageList = imglist;
-			//((ListView)ControlDictionary["templateListView"]).SmallImageList = smalllist;
 			
 			InsertCategories (TreeIter.Zero, categories);
 			/*for (int j = 0; j < categories.Count; ++j) {
@@ -184,13 +174,6 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 				okButton.Sensitive = false;
 				TemplateView.PopulateTable ();
 			}
-//			((ListView)ControlDictionary["templateListView"]).Items.Clear();
-//			if (((TreeView)ControlDictionary["categoryTreeView"]).SelectedNode != null) {
-//				foreach (TemplateItem item in ((Category)((TreeView)ControlDictionary["categoryTreeView"]).SelectedNode).Templates) {
-//					((ListView)ControlDictionary["templateListView"]).Items.Add(item);
-//				}
-//			}
-//			this.SelectedIndexChange(sender, e);
 		}
 		
 		void OnBeforeExpand(object sender, EventArgs e)
@@ -357,12 +340,14 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 		
 		void BrowseDirectories(object sender, EventArgs e)
 		{
-			// Changes Shankar
-			//FolderDialog fd = new FolderDialog();
-			//if (fd.DisplayDialog() == DialogResult.OK) {
-			//	((TextBox)ControlDictionary["locationTextBox"]).Text = fd.Path;
-			//}
-			// End
+			FolderDialog fd = new FolderDialog("Choose project location");
+			int response = fd.Run ();
+			fd.Hide ();
+			
+			if (response == (int) ResponseType.Ok)
+			{
+				pathEntry.Text = fd.Filename;
+			}
 		}
 		
 		// icon view event handlers
@@ -481,48 +466,15 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 			catView.Selection.Changed += new EventHandler (CategoryChange);
 			TemplateView.IconSelected += new EventHandler(SelectedIndexChange);
 
-//			((ListView)ControlDictionary["templateListView"]).DoubleClick += new EventHandler(OpenEvent);
-//			((ListView)ControlDictionary["templateListView"]).SelectedIndexChanged += new EventHandler(SelectedIndexChange);
-//			((TreeView)ControlDictionary["categoryTreeView"]).AfterSelect    += new TreeViewEventHandler(CategoryChange);
-//			((TreeView)ControlDictionary["categoryTreeView"]).BeforeSelect   += new TreeViewCancelEventHandler(OnBeforeExpand);
-//			((TreeView)ControlDictionary["categoryTreeView"]).BeforeExpand   += new TreeViewCancelEventHandler(OnBeforeExpand);
-//			((TreeView)ControlDictionary["categoryTreeView"]).BeforeCollapse += new TreeViewCancelEventHandler(OnBeforeCollapse);
-//			((TextBox)ControlDictionary["solutionNameTextBox"]).TextChanged += new EventHandler(PathChanged);
 			newEntry.Changed += new EventHandler (PathChanged);
-//			((TextBox)ControlDictionary["nameTextBox"]).TextChanged += new EventHandler(NameTextChanged);
 			nameEntry.Changed += new EventHandler (NameTextChanged);
-//			((TextBox)ControlDictionary["nameTextBox"]).TextChanged += new EventHandler(PathChanged);
 			nameEntry.Changed += new EventHandler (PathChanged);
-//			((TextBox)ControlDictionary["locationTextBox"]).TextChanged += new EventHandler(PathChanged);
 			pathEntry.Changed += new EventHandler (PathChanged);
-//			
-//			PropertyService propertyService = (PropertyService)ServiceManager.Services.GetService(typeof(PropertyService));
-//			((RadioButton)ControlDictionary["largeIconsRadioButton"]).Checked = propertyService.GetProperty("Dialogs.NewProjectDialog.LargeImages", true);
-//			((RadioButton)ControlDictionary["largeIconsRadioButton"]).CheckedChanged += new EventHandler(IconSizeChange);
-//			((RadioButton)ControlDictionary["largeIconsRadioButton"]).FlatStyle = FlatStyle.Standard;
-//			((RadioButton)ControlDictionary["largeIconsRadioButton"]).Image  = IconService.GetBitmap("Icons.16x16.LargeIconsIcon");
-//			
-//			((RadioButton)ControlDictionary["smallIconsRadioButton"]).Checked = !propertyService.GetProperty("Dialogs.NewProjectDialog.LargeImages", true);
-//			((RadioButton)ControlDictionary["smallIconsRadioButton"]).CheckedChanged += new EventHandler(IconSizeChange);
-//			((RadioButton)ControlDictionary["smallIconsRadioButton"]).FlatStyle = FlatStyle.Standard;
-//			((RadioButton)ControlDictionary["smallIconsRadioButton"]).Image  = IconService.GetBitmap("Icons.16x16.SmallIconsIcon");
-//			
-//			ControlDictionary["openButton"] .Click += new EventHandler(OpenEvent);
-//			ControlDictionary["browseButton"].Click += new EventHandler(BrowseDirectories);
-//			((CheckBox)ControlDictionary["createSeparateDirCheckBox"]).CheckedChanged += new EventHandler(CheckedChange);
+			browseButton.Clicked += new EventHandler (BrowseDirectories);
 			seperatedirButton.Toggled += new EventHandler (CheckedChange);
-//			((CheckBox)ControlDictionary["createSeparateDirCheckBox"]).CheckedChanged += new EventHandler(PathChanged);
 			seperatedirButton.Toggled += new EventHandler (PathChanged);
-//			((CheckBox)ControlDictionary["autoCreateSubDirCheckBox"]).CheckedChanged  += new EventHandler(PathChanged);
 			createdirButton.Toggled += new EventHandler (PathChanged);			
-//			
-//			ToolTip tooltip = new ToolTip();
-//			tooltip.SetToolTip(ControlDictionary["largeIconsRadioButton"], StringParserService.Parse("${res:Global.LargeIconToolTip}"));
-//			tooltip.SetToolTip(ControlDictionary["smallIconsRadioButton"], StringParserService.Parse("${res:Global.SmallIconToolTip}"));
-//			tooltip.Active = true;
-//			Owner         = (Form)WorkbenchSingleton.Workbench;
-//			StartPosition = FormStartPosition.CenterParent;
-//			Icon          = null;
+			this.WindowPosition = Gtk.WindowPosition.CenterOnParent;
 //			
 //			CheckedChange(this, EventArgs.Empty);
 //			IconSizeChange(this, EventArgs.Empty);
