@@ -28,6 +28,7 @@
 - Allow show hidden (.*) files/directories in the file browser.
 - Figure out how to print the textarea char markers in pango, as it rejectes
   the original #d ones.
+- Implement ctrl+space to ask for completion
 
 ---- Bugs in the File->New->File... Dialog
 
