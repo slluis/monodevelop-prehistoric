@@ -94,7 +94,7 @@ namespace ICSharpCode.Core.Services
 				}
 				SetValueFromXmlElement(doc.DocumentElement["Properties"]);
 			} catch (Exception e) {
-				Console.WriteLine("Exception while load properties from stream :\n " + e.ToString());
+				//Console.WriteLine("Exception while load properties from stream :\n " + e.ToString());
 				return false;
 			}
 			return true;
