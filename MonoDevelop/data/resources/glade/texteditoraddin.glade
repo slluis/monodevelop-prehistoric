@@ -794,7 +794,7 @@
 	    <widget class="GtkHBox" id="hbox18">
 	      <property name="visible">True</property>
 	      <property name="homogeneous">False</property>
-	      <property name="spacing">0</property>
+	      <property name="spacing">6</property>
 
 	      <child>
 		<widget class="GtkLabel" id="label6">
@@ -847,7 +847,7 @@
 	    <widget class="GtkHBox" id="hbox19">
 	      <property name="visible">True</property>
 	      <property name="homogeneous">False</property>
-	      <property name="spacing">0</property>
+	      <property name="spacing">6</property>
 
 	      <child>
 		<widget class="GtkLabel" id="label7">
@@ -1348,7 +1348,7 @@
 	    <widget class="GtkHBox" id="hbox18">
 	      <property name="visible">True</property>
 	      <property name="homogeneous">False</property>
-	      <property name="spacing">0</property>
+	      <property name="spacing">6</property>
 
 	      <child>
 		<widget class="GtkLabel" id="label6">
@@ -1401,7 +1401,7 @@
 	    <widget class="GtkHBox" id="hbox19">
 	      <property name="visible">True</property>
 	      <property name="homogeneous">False</property>
-	      <property name="spacing">0</property>
+	      <property name="spacing">6</property>
 
 	      <child>
 		<widget class="GtkLabel" id="label7">
