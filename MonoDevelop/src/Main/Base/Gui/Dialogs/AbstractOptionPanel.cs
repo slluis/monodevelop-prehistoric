@@ -23,6 +23,12 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 				return this;
 			}
 		}
+
+		public virtual Gtk.Image Icon {
+			get {
+				return null;
+			}
+		}
 		
 		public bool WasActivated {
 			get {

@@ -70,6 +70,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 		[Glade.Widget] Gtk.Button    okbutton;
 		[Glade.Widget] Gtk.Button    cancelbutton;
 		[Glade.Widget] Gtk.Notebook  mainBook;
+		[Glade.Widget] Gtk.Image     panelImage;
 		[Glade.Widget] Gtk.Dialog    TreeViewOptionDialog;
 		
 		PixbufList    imglist;
@@ -112,6 +113,15 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 			if (descriptor != null && descriptor.DialogPanel != null) {
 				descriptor.DialogPanel.ReceiveDialogMessage(DialogMessage.Activated);
 				mainBook.CurrentPage = mainBook.PageNum (descriptor.DialogPanel.Control);
+				if (descriptor.DialogPanel.Icon == null) {
+					panelImage.Stock = Gtk.Stock.Properties;
+				} else {
+					//FIXME: this needs to actually switch over the ImageType and use that instead of this *hack*
+					if (descriptor.DialogPanel.Icon.Stock != null)
+						panelImage.Stock = descriptor.DialogPanel.Icon.Stock;
+					else
+						panelImage.Pixbuf = descriptor.DialogPanel.Icon.Pixbuf;
+				}
 				optionTitle.Markup = "<b>" + descriptor.Label + "</b>";
 				TreeViewOptionDialog.ShowAll ();
 			}

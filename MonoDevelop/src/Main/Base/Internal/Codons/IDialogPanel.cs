@@ -45,6 +45,10 @@ namespace ICSharpCode.Core.AddIns.Codons
 		bool EnableFinish {
 			get;
 		}
+
+		Gtk.Image Icon {
+			get;
+		}
 		
 		/// <returns>
 		/// true, if the DialogMessage could be executed.

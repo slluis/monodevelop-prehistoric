@@ -53,7 +53,13 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs.OptionPanels
 		
 		public LoadSavePanel () : base ()
 		{
-		}	
+		}
+
+		public override Gtk.Image Icon {
+			get {
+				return new Gtk.Image (Gtk.Stock.SaveAs, Gtk.IconSize.Button);
+			}
+		}
 		
 		// services needed
 		StringParserService StringParserService = (StringParserService)ServiceManager.Services.GetService (typeof (StringParserService));
