@@ -750,15 +750,15 @@ namespace ICSharpCode.SharpDevelop.Services
 		{
 			// added exception handling here to prevent silly parser exceptions from
 			// being thrown and corrupting the textarea control
-			//try {
+			try {
 				IParser parser = GetParser(fileName);
 				if (parser != null) {
 					return parser.Resolve(this, expression, caretLineNumber, caretColumn, fileName, fileContent);
 				}
 				return null;
-			//} catch {
-//				return null;
-			//}
+			} catch {
+				return null;
+			}
 		}
 		
 		public ResolveResult Resolve(string expression,
@@ -770,15 +770,15 @@ namespace ICSharpCode.SharpDevelop.Services
 		{
 			// added exception handling here to prevent silly parser exceptions from
 			// being thrown and corrupting the textarea control
-			//try {
+			try {
 				IParser p = language == "c#" || language == "C#" ? parser[0] : null;
 				if (p != null) {
 					return p.Resolve(this, expression, caretLineNumber, caretColumn, fileName, fileContent);
 				}
 				return null;
-			//} catch {
-//				return null;
-			//}
+			} catch {
+				return null;
+			}
 		}
 		
 		protected void OnParseInformationAdded(ParseInformationEventArgs e)
