@@ -1,5 +1,10 @@
 2004-03-27  Todd Berman  <tberman@sevenl.net>
 
+	* CodeCompletion/CodeCompletionDataProvider.cs: add refactorying of
+	AddResolveResults.
+
+2004-03-27  Todd Berman  <tberman@sevenl.net>
+
 	* CodeCompletion/*Provider.cs:
 	* InsightWindow/*Provider.cs: update to reflect parser differences.
 

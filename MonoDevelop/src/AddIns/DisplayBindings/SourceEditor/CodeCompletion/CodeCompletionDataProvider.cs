@@ -104,45 +104,54 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 			
 			return (ICompletionData[]) completionData.ToArray (typeof (ICompletionData));
 		}
-		
-		void AddResolveResults (ResolveResult results)
+
+		void AddResolveResults(ICollection list) 
 		{
-			if (results != null) {
-				completionData.Capacity += results.Namespaces.Count +
-					results.Members.Count;
-				
-				if (results.Namespaces != null && results.Namespaces.Count > 0) {
-					foreach (string s in results.Namespaces) {
-						completionData.Add (new CodeCompletionData (s, Stock.NameSpace));
+			if (list == null) {
+				return;
+			}
+			completionData.Capacity += list.Count;
+			foreach (object o in list) {
+				if (o is string) {
+					completionData.Add(new CodeCompletionData(o.ToString(), Stock.NameSpace));
+				} else if (o is IClass) {
+					completionData.Add(new CodeCompletionData((IClass)o));
+				} else if (o is IProperty) {
+					IProperty property = (IProperty)o;
+					if (property.Name != null && insertedPropertiesElements[property.Name] == null) {
+						completionData.Add(new CodeCompletionData(property));
+						insertedPropertiesElements[property.Name] = property;
 					}
-				}
-				if (results.Members != null && results.Members.Count > 0) {
-					foreach (object o in results.Members) {
-						if (o is IClass) {
-							completionData.Add (new CodeCompletionData ((IClass)o));
-						} else if (o is IProperty) {
-							IProperty property = (IProperty) o;
-							if (property.Name != null && insertedPropertiesElements[property.Name] == null) {
-								completionData.Add (new CodeCompletionData (property));
-								insertedPropertiesElements[property.Name] = property;
-							}
-						} else if (o is IMethod) {
-							IMethod method = (IMethod) o;
-							if (method.Name != null && insertedElements[method.Name] == null && !method.IsConstructor) {
-								completionData.Add (new CodeCompletionData(method));
-								insertedElements[method.Name] = method;
-							}
-						} else if (o is IField) {
-							completionData.Add (new CodeCompletionData ((IField)o));
-						} else if (o is IEvent) {
-							IEvent e = (IEvent) o;
-							if (e.Name != null && insertedEventElements[e.Name] == null) {
-								completionData.Add (new CodeCompletionData (e));
-								insertedEventElements[e.Name] = e;
-							}
+				} else if (o is IMethod) {
+					IMethod method = (IMethod)o;
+					
+					if (method.Name != null &&!method.IsConstructor) {
+						CodeCompletionData ccd = new CodeCompletionData(method);
+						if (insertedElements[method.Name] == null) {
+							completionData.Add(ccd);
+							insertedElements[method.Name] = ccd;
+						} else {
+							CodeCompletionData oldMethod = (CodeCompletionData)insertedElements[method.Name];
+							++oldMethod.Overloads;
 						}
 					}
+				} else if (o is IField) {
+					completionData.Add(new CodeCompletionData((IField)o));
+				} else if (o is IEvent) {
+					IEvent e = (IEvent)o;
+					if (e.Name != null && insertedEventElements[e.Name] == null) {
+						completionData.Add(new CodeCompletionData(e));
+						insertedEventElements[e.Name] = e;
+					}
 				}
+			}
+		}
+			
+		void AddResolveResults(ResolveResult results)
+		{
+			if (results != null) {
+				AddResolveResults(results.Namespaces);
+				AddResolveResults(results.Members);
 			}
 		}
 	}
