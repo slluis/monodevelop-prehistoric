@@ -16,7 +16,7 @@ using MonoDevelop.Core.Services;
 
 namespace MonoDevelop.Gui.Dialogs
 {
-	public class TipOfTheDayWindow : IDisposable
+	public class TipOfTheDayWindow
 	{
  		ResourceService resourceService = (ResourceService)ServiceManager.Services.GetService (typeof (IResourceService));
  		PropertyService propertyService = (PropertyService)ServiceManager.Services.GetService (typeof (PropertyService));
@@ -56,11 +56,6 @@ namespace MonoDevelop.Gui.Dialogs
 			tipTextview.Buffer.InsertAtCursor (tips[currentTip]);
 		}
 
-		public void Dispose ()
-		{
-			tipOfTheDayWindow.Dispose ();
-		}
-
 		private void ParseTips (XmlElement el)
 		{
  			StringParserService stringParserService = (StringParserService)ServiceManager.Services.GetService (typeof (StringParserService));
@@ -74,27 +69,29 @@ namespace MonoDevelop.Gui.Dialogs
  			currentTip = (new Random ().Next ()) % nodes.Count;
 		}
 
-		public void OnNoshow (object obj, EventArgs args)
+		void OnNoshow (object obj, EventArgs args)
 		{
 			propertyService.SetProperty ("MonoDevelop.Gui.Dialog.TipOfTheDayView.ShowTipsAtStartup",
 						    noshowCheckbutton.Active);
 		}
 
-		public void OnNext (object obj, EventArgs args)
+		void OnNext (object obj, EventArgs args)
 		{
 			tipTextview.Buffer.Clear ();
 			currentTip = ++currentTip % tips.Length;
 			tipTextview.Buffer.InsertAtCursor (tips[currentTip]);
 		}
 
-		public void OnClose (object obj, EventArgs args)
+		void OnClose (object obj, EventArgs args)
 		{
-			tipOfTheDayWindow.Destroy ();
+			tipOfTheDayWindow.Hide ();
+			tipOfTheDayWindow.Dispose ();
 		}
 
-		public void OnDelete (object obj, DeleteEventArgs args)
+		void OnDelete (object obj, DeleteEventArgs args)
 		{
-			tipOfTheDayWindow.Destroy ();
+			tipOfTheDayWindow.Hide ();
+			tipOfTheDayWindow.Dispose ();
 		}
 
 		public void Show ()

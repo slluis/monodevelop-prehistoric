@@ -4,6 +4,9 @@
 	* Gui/Dialogs/SharpDevelopAboutPanels.cs: rearrange the copyright, license,
 	sponsorship, and version information.  Add back info about SharpDevelop and
 	AlphaSierraPapa
+	* Gui/Dialogs/TipOfTheDay.cs: remove IDisposable and call Hide and Dispose
+	instead of Destroy on the window, remove some unneccesary public things
+	* Commands/HelpCommand.cs: revert addition of using () {} to tipoftheday
 
 2004-04-07  Todd Berman  <tberman@sevenl.net>
 

@@ -86,9 +86,8 @@ namespace MonoDevelop.Commands
 	{
 		public override void Run()
 		{
-			using (TipOfTheDayWindow totdw = new TipOfTheDayWindow ()) {
-				totdw.Show ();
-			}
+			TipOfTheDayWindow totdw = new TipOfTheDayWindow ();
+			totdw.Show ();
 		}
 	}
 	
