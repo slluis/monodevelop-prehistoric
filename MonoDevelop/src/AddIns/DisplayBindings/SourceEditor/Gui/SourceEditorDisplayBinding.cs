@@ -13,6 +13,8 @@ using System.Runtime.InteropServices;
 using Gtk;
 using GtkSharp;
 
+using MonoDevelop.GuiUtils;
+
 namespace MonoDevelop.SourceEditor.Gui {
 	public class SourceEditorDisplayBinding : IDisplayBinding {
 		
@@ -131,11 +133,8 @@ namespace MonoDevelop.SourceEditor.Gui {
 		
 		public override void Load (string fileName)
 		{
-			if (fileName.EndsWith (".cs"))
-				se.Buffer.LoadFile (fileName, "text/x-csharp");
-			else
-				se.Buffer.LoadFile (fileName);
-			
+			se.Buffer.LoadFile (fileName, Vfs.GetMimeType (fileName));
+
 			ContentName = fileName;
 		}
 		
