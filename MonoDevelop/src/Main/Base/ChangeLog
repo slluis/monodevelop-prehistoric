@@ -1,5 +1,11 @@
 2004-06-25  Todd Berman  <tberman@off.net>
 
+	* Services/Project/DefaultProjectService.cs: When restoring combine
+	preferences, if xml document is invalid, just return, closes bug
+	#60417.
+
+2004-06-25  Todd Berman  <tberman@off.net>
+
 	* Gui/Dialogs/SharpDevelopAboutPanels.cs: Removing ASP mention at
 	the request of Mike Krueger.
 

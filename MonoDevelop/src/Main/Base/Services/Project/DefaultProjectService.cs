@@ -497,7 +497,11 @@ namespace MonoDevelop.Services
 			
 			if (files.Length > 0) {
 				XmlDocument doc = new XmlDocument();
-				doc.Load(files[0]);
+				try {
+					doc.Load(files[0]);
+				} catch (Exception) {
+					return;
+				}
 				XmlElement root = doc.DocumentElement;
 				string combinepath = Path.GetDirectoryName(combinefilename);
 				if (root["Files"] != null) {
