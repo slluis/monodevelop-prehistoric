@@ -554,7 +554,7 @@ namespace MonoDevelop.Services
 				if (tns == null) return;
 				
 				foreach (DictionaryEntry en in tns.Contents) {
-					if (en.Value is NamespaceEntry)
+					if (en.Value is NamespaceEntry && !list.Contains (en.Key))
 						list.Add (en.Key);
 				}
 			}

@@ -1,3 +1,8 @@
+2004-10-06  Todd Berman  <tberman@off.net>
+
+	* Services/ParserService/CodeCompletionDatabase.cs: Check to see if
+	the namespace is already in the list before adding.
+
 2004-09-26  Todd Berman  <tberman@off.net>
 
 	* Gui/Components/SdMenu.cs: this should fix i18n for menus
