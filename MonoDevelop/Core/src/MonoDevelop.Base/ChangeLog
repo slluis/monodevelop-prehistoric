@@ -1,3 +1,11 @@
+2005-03-11  Lluis Sanchez Gual  <lluis@novell.com>
+
+	* Services/Project/ProjectService.cs: Search for new files after the
+	whole combine has been loaded.
+	* Internal/Project/Project/Project.cs: Don't show the include file
+	dialog because it doesn't work. It will work with the new solution
+	pad. All this partially fixes bug #71688.
+
 2005-03-10  Todd Berman  <tberman@off.net>
 
 	* Gui/Dialogs/SplashScreen.cs: Use an alignment, not labels.

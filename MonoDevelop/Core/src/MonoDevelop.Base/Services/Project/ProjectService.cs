@@ -267,6 +267,8 @@ namespace MonoDevelop.Services
 				openCombine.ReferenceAddedToProject += new ProjectReferenceEventHandler (NotifyReferenceAddedToProject);
 				openCombine.ReferenceRemovedFromProject += new ProjectReferenceEventHandler (NotifyReferenceRemovedFromProject);
 		
+				SearchForNewFiles ();
+		
 				OnCombineOpened(new CombineEventArgs(openCombine));
 				
 				RestoreCombinePreferences (CurrentOpenCombine);
@@ -276,6 +278,14 @@ namespace MonoDevelop.Services
 				monitor.ReportError ("Load operation failed.", ex);
 			} finally {
 				monitor.Dispose ();
+			}
+		}
+		
+		void SearchForNewFiles ()
+		{
+			foreach (Project p in openCombine.GetAllProjects()) {
+				if (p.NewFileSearch != NewFileSearch.None)
+					p.SearchNewFiles ();
 			}
 		}
 		
