@@ -170,12 +170,12 @@ namespace MonoDevelop.Commands
 						
 					} catch (Exception ex) {								messageService.ShowError(ex, String.Format (GettextCatalog.GetString ("External program execution failed.\nError while starting:\n '{0} {1}'"), command, args));
 					}
-						break;
-					}
+					break;
 				}
 			}
 		}
-				
+	}
+	
 	public class OpenContentsMenuBuilder : ISubmenuBuilder
 	{
 				
