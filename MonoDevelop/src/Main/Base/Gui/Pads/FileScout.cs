@@ -268,7 +268,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads
 					return fullname;
 				} 
 				set {
-					fullname = value;
+					fullname = System.IO.Path.GetFullPath(value);
 					text = System.IO.Path.GetFileName(fullname);
 				}
 			}
@@ -449,10 +449,11 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads
 			IFileService    fileService    = (IFileService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(IFileService));
 			FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.Services.GetService(typeof(FileUtilityService));
 
-			
-			//foreach (FileList.FileListItem item in filelister.SelectedItems) {
 			Gtk.TreeIter iter;
-			for (filelister.Model.GetIterFirst(out iter); filelister.Model.IterNext(out iter) == true;) {
+			if (filelister.Model.GetIterFirst(out iter) == false) {
+				return;
+			}
+			do {
 				if (filelister.Selection.IterIsSelected(iter) == false) {
 					continue;
 				} 
@@ -466,7 +467,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads
 						fileService.OpenFile(item.FullName);
 						break;
 				}
-			}
+			} while (filelister.Model.IterNext(out iter) == true);
 		}
 /*
 		protected virtual void OnTitleChanged(EventArgs e)
