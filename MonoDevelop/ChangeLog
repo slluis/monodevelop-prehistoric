@@ -1,3 +1,9 @@
+2004-04-08  John Luke  <jluke@cfl.rr.com>
+
+	* configure.in: output src/Tools/Makefile and
+	src/Tools/SharpCoco/Makefile
+	* src/Makefile.am: add Tools to subdirs
+
 2004-04-07  John Luke  <jluke@cfl.rr.com>
 	
 	* monodevelop.in: conditionally set LD_LIBRARY_PATH based on advice from

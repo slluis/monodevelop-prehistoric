@@ -1,1 +1,3 @@
-SUBDIRS=Libraries Main AddIns
+
+SUBDIRS = Tools Libraries Main AddIns
+
