@@ -18,6 +18,8 @@
 	do not force an extension on renamed files
 	fixes bug # 59677
 
+	* Commands/FileCommands.cs: workaround for #59731
+
 2004-06-16  John Luke  <jluke@cfl.rr.com>
 
 	* Gui/Dialogs/NewProjectDialog.cs: guard against unauthorized

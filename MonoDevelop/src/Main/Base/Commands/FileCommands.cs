@@ -75,7 +75,13 @@ namespace MonoDevelop.Commands
 					sfa.Run();
 				} else {
 					FileAttributes attr = FileAttributes.ReadOnly | FileAttributes.Directory | FileAttributes.Offline | FileAttributes.System;
-					if ((File.GetAttributes(window.ViewContent.ContentName) & attr) != 0) {
+					// FIXME
+					// bug #59731 is if the file is moved out from under us, we were crashing
+					// I changed it to make it ask for a new
+					// filename instead, but maybe we should
+					// detect the move and update the reference
+					// to the name instead
+					if (!File.Exists (window.ViewContent.ContentName) || (File.GetAttributes(window.ViewContent.ContentName) & attr) != 0) {
 						SaveFileAs sfa = new SaveFileAs();
 						sfa.Run();
 					} else {						
