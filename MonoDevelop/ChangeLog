@@ -1,3 +1,7 @@
+2004-05-22  Todd Berman  <tberman@sevenl.net>
+
+	* configure.in: bump some deps and MD itself.
+
 2004-05-21 Iain McCoy <iain@mccoy.id.au>
 
 	* monodevelop.in: make the script more robust in cases where
