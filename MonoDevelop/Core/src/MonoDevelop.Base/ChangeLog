@@ -9,6 +9,10 @@
 	* Gui/Components/SideBar/AxSideTab.cs
 	* Gui/Components/SideBar/SharpDevelopSideBar.cs
 	* Gui/Components/SideBar/SharpDevelopSideTabItem.cs
+	* Commands/SideBarCommands.cs:
+	* Gui/Pads/SideBarView.cs:
+	* Gui/ErrorDialogs:
+	* Gui/ErrorDialogs/LoadingError.cs:
 	* Makefile.am: remove unused stuff from SD
 
 2005-02-11  Todd Berman  <tberman@off.net>

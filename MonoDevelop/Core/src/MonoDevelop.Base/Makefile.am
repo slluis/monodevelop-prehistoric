@@ -42,7 +42,6 @@ Gui/Pads/ClassScout/NodeBuilder/IClassScoutNodeBuilder.cs \
 Gui/Pads/ClassScout/BrowserNode/AbstractClassScoutNode.cs \
 Gui/Pads/HelpBrowser/MonodocTreePad.cs \
 Gui/Pads/HelpBrowser/HelpViewer.cs \
-Gui/Pads/SideBarView.cs \
 Gui/Pads/DefaultMonitorPad.cs \
 Gui/AbstractPadContent.cs \
 Gui/ISecondaryViewContent.cs \
@@ -112,7 +111,6 @@ Gui/ContentInterfaces/IEditable.cs \
 Gui/ContentInterfaces/IParseInformationListener.cs \
 Gui/ContentInterfaces/IParsableContent.cs \
 Gui/IBaseViewContent.cs \
-Gui/ErrorDialogs/LoadingError.cs \
 Gui/IWorkbenchLayout.cs \
 Gui/ErrorHandlers/GenericError.cs \
 Gui/ErrorHandlers/CombineLoadError.cs \
@@ -151,7 +149,6 @@ Commands/ProjectBrowserCommands/ProjectNodeCommands.cs \
 Commands/ProjectCommands.cs \
 Commands/VBConverter/ConvertProject.cs \
 Commands/VBConverter/ConvertBuffer.cs \
-Commands/SideBarCommands.cs \
 Commands/ProjectOptionsCommands.cs \
 Commands/EditCommands.cs \
 Commands/WindowCommands.cs \
