@@ -3,6 +3,10 @@
 	* JavaBindingCompilerService.cs: rework so Process.Start works
 	* JavaBindingExecutionService.cs: rework so Process.Start works
 	by using ProcessStartInfo (cmd, args)
+	add support for using Gij
+	* Gui/ProjectConfigurationPropertyPanel.cs:
+	enable Java, remove Mono, and add Gij runtimes
+	* JavaRuntime.cs: add Gij
 
 2004-05-25  Todd Berman  <tberman@sevenl.net>
 

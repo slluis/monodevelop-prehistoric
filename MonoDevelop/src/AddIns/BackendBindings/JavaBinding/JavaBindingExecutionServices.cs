@@ -61,6 +61,9 @@ namespace JavaBinding
 				case JavaRuntime.Java:
 					javaExec = "-e \"java -classpath " + parameters.ClassPath + " " + mainClass + ";read -p 'press any key to continue...' -n1\"";
 					break;
+				case JavaRuntime.Gij:
+					javaExec = "-e \"gij -classpath " + parameters.ClassPath + " " + mainClass + ";read -p 'press any key to continue...' -n1\"";
+					break;
 				default:
 					javaExec = "-e \"ikvm -classpath " + parameters.ClassPath + " " + mainClass + ";read -p 'press any key to continue...' -n1\"";
 					break;

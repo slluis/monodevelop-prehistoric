@@ -44,6 +44,7 @@ namespace JavaBinding
 		private RadioButton ikvm = new RadioButton ("ikvm");
 		private RadioButton mono;
 		private RadioButton java;
+		private RadioButton gij;
 
 		private Entry outputAssembly = new Entry ();
 		private Entry outputDirectory = new Entry ();
@@ -68,6 +69,8 @@ namespace JavaBinding
 					compilerParameters.Runtime = JavaRuntime.Ikvm;
 				else if (mono.Active)
 					compilerParameters.Runtime = JavaRuntime.Mono;
+				else if (gij.Active)
+					compilerParameters.Runtime = JavaRuntime.Gij;
 				else
 					compilerParameters.Runtime = JavaRuntime.Java;
 
@@ -103,6 +106,9 @@ namespace JavaBinding
 					break;
 				case JavaRuntime.Java:
 					java.Active = true;
+					break;
+				case JavaRuntime.Gij:
+					gij.Active = true;
 					break;
 				default:
 					ikvm.Active = true;
@@ -153,8 +159,9 @@ namespace JavaBinding
 			vbox.PackStart (hboxRuntime);
 			HBox runtimes = new HBox ();
 			runtimes.PackStart (ikvm);
-			runtimes.PackStart (mono);
+			//runtimes.PackStart (mono);
 			runtimes.PackStart (java);
+			runtimes.PackStart (gij);
 			vbox.PackStart (runtimes);
 			HBox hboxClasspath = new HBox ();
 			hboxClasspath.PackStart (labelClasspath, false, false, 0);
@@ -197,7 +204,8 @@ namespace JavaBinding
 			mono = new RadioButton (ikvm, "mono");
 			mono.Sensitive = false;
 			java = new RadioButton (ikvm, "java");
-			java.Sensitive = false;
+			//java.Sensitive = false;
+			gij = new RadioButton (ikvm, "gij");
 
 			runtimeLabel.Markup = String.Format ("<b>{0}</b>", GettextCatalog.GetString ("Runtime"));
 
