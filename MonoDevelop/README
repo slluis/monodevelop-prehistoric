@@ -28,6 +28,8 @@ of the OpenCarpet channels.
 
 See http://lists.ximian.com/archives/public/monodevelop-list/2004-January/000129.html.
 
+The .cs extension must be mapped to the mime type text/x-csharp for the new editor to work.
+
 References
 ----------
 SharpDevelop Tech Notes
