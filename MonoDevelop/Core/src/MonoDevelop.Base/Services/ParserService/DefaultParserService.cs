@@ -1167,7 +1167,7 @@ namespace MonoDevelop.Services
 			// HACK: Still a hack, but extensible
 			if (fileName != null) {
 				foreach(IParser p in parser){
-					if(p.HandlesFileExtension(Path.GetExtension(fileName))){
+					if(p.CanParse(Path.GetExtension(fileName))){
 						return p;
 					}
 				}

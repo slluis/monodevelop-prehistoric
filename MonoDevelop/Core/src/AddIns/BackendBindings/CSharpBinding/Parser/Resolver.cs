@@ -51,6 +51,8 @@ namespace CSharpBinding.Parser
 		
 		bool showStatic = false;
 		
+		bool inNew = false;
+		
 		public bool ShowStatic {
 			get {
 				return showStatic;
@@ -185,6 +187,19 @@ namespace CSharpBinding.Parser
 			expression = expression.TrimStart(null);
 			if (expression == "") {
 				return null;
+			}
+			// disable the code completion for numbers like 3.47
+			try {
+				int.Parse(expression);
+//				Console.WriteLine(expression);
+				return null;
+			} catch (Exception) {
+			}
+			if (expression.StartsWith("new ")) {
+				inNew = true;
+				expression = expression.Substring(4);
+			} else {
+				inNew = false;
 			}
 			if (expression.StartsWith("using ")) {
 				// expression[expression.Length - 1] != '.'
@@ -686,7 +701,6 @@ namespace CSharpBinding.Parser
 				return name;
 			}
 			if (unit == null) {
-//				Console.WriteLine("done, resultless");
 				return null;
 			}
 			foreach (IUsing u in unit.Usings) {
@@ -697,7 +711,6 @@ namespace CSharpBinding.Parser
 					}
 				}
 			}
-//			Console.WriteLine("done, resultless");
 			return null;
 		}
 		
@@ -907,7 +920,7 @@ namespace CSharpBinding.Parser
 		
 		public ArrayList CtrlSpace(IParserService parserService, int caretLine, int caretColumn, string fileName)
 		{
-			ArrayList result = new ArrayList();
+			ArrayList result = new ArrayList(TypeReference.PrimitiveTypes);
 			this.parserService = parserService;
 			this.caretLine = caretLine;
 			this.caretColumn = caretColumn;

@@ -40,6 +40,16 @@ namespace VBBinding.Parser
 				return new ExpressionFinder();
 			}
 		}
+
+		public bool CanParse (string fileName)
+		{
+			return System.IO.Path.GetExtension (fileName).ToLower () == ".vb";
+		}
+
+		public bool CanParse (Project project)
+		{
+			return project.ProjectType == "VBNET";
+		}
 		
 		void RetrieveRegions(CompilationUnit cu, SpecialTracker tracker)
 		{
@@ -141,11 +151,6 @@ namespace VBBinding.Parser
 			return new Resolver (project).MonodocResolver (parserService, expression, caretLineNumber, caretColumn, fileName, fileContent);
 		}
 		
-		
-		public bool HandlesFileExtension(string fileExtension){
-        	if(fileExtension == null) return false;
-			return (fileExtension.ToLower() == ".vb");
-		}
 
 		
 		///////// IParser Interface END

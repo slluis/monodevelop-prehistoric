@@ -12,6 +12,7 @@ DLLS = /r:System.Drawing.dll \
 FILES = \
 Gui/ChooseRuntimePanel.cs \
 Gui/CodeGenerationPanel.cs \
+Parser/SharpDevelopTree/Destructor.cs \
 Parser/SharpDevelopTree/Event.cs \
 Parser/SharpDevelopTree/Indexer.cs \
 Parser/SharpDevelopTree/Constructor.cs \

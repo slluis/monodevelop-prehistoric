@@ -14,6 +14,7 @@ src/Lexer/Specials/SpecialType.cs \
 src/Lexer/Specials/Comment.cs \
 src/Lexer/Specials/SpecialTracker.cs \
 src/Lexer/Specials/BlankLine.cs \
+src/Lexer/Specials/TagComment.cs \
 src/Parser/AST/DebugASTVisitor.cs \
 src/Parser/AST/Expressions/BaseReferenceExpression.cs \
 src/Parser/AST/Expressions/ParenthesizedExpression.cs \

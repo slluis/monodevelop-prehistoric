@@ -118,16 +118,19 @@ namespace MonoDevelop.Internal.Parser
 	public interface IParser {
 		
 		string[] LexerTags {
+			get;
 			set;
 		}
 		
 		IExpressionFinder ExpressionFinder {
 			get;
 		}
+
+		bool CanParse (string fileName);
+		bool CanParse (Project_ project);
 		
 		ICompilationUnitBase Parse(string fileName);
 		ICompilationUnitBase Parse(string fileName, string fileContent);
-		bool HandlesFileExtension(string fileExtension);
 		
 		/// <summary>
 		/// Resolves an expression.

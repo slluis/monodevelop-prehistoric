@@ -1,3 +1,9 @@
+2005-01-28  John Luke  <john.luke@gmail.com>
+
+	* Services/ParserService/DefaultParserService.cs:
+	* Parser/IParser: use CanParse () instead of HandlesFileExtension
+	to be consistent with what SD did upstream
+
 2005-01-27  John Luke  <john.luke@gmail.com>
 
 	* Gui/Dialogs/CommonAboutDialog.cs: use a timeout

@@ -1,3 +1,8 @@
+2005-01-28  John Luke  <john.luke@gmail.com>
+
+	* Parser/Parser.cs: update to CanParse
+	* Parser/*.cs: update some minor fixes from SD
+
 2005-01-27  John Luke  <john.luke@gmail.com>
 
 	* CSharpBindingCompilerManager.cs:

@@ -20,6 +20,9 @@ namespace CSharpBinding.Parser
 		///<summary>IParser Interface</summary> 
 		string[] lexerTags;
 		public string[] LexerTags {
+			get {
+				return lexerTags;
+			}
 			set {
 				lexerTags = value;
 			}
@@ -28,6 +31,14 @@ namespace CSharpBinding.Parser
 			get {
 				return new ExpressionFinder();
 			}
+		}
+		public bool CanParse(string fileName)
+		{
+			return System.IO.Path.GetExtension(fileName).ToUpper() == ".CS";
+		}
+		public bool CanParse(Project project)
+		{
+			return project.ProjectType == "C#";
 		}
 		
 		void RetrieveRegions(CompilationUnit cu, SpecialTracker tracker)
@@ -113,13 +124,6 @@ namespace CSharpBinding.Parser
 		{
 			return new Resolver (project).MonodocResolver (parserService, expression, caretLineNumber, caretColumn, fileName, fileContent);
 		}
-
-
-		public bool HandlesFileExtension(string fileExtension){
-			if(fileExtension == null) return false;
-			return (fileExtension.ToLower() == ".cs");
-		}
-		
 		///////// IParser Interface END
 	}
 }
