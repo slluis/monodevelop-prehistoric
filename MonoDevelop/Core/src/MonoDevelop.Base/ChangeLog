@@ -1,3 +1,9 @@
+2005-02-11  Todd Berman  <tberman@off.net>
+
+	* Services/Project/ProjectService.cs:
+	* Internal/Project/Combine/CombineEntry.cs:
+	Make sure the filename is valid for the format.
+
 2005-02-11  Lluis Sanchez Gual  <lluis@novell.com>
 
 	* Services/Project/ProjectService.cs: Fix default file formats.

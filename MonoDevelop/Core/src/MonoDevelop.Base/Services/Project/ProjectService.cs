@@ -151,8 +151,9 @@ namespace MonoDevelop.Services
 				
 				if (format == null)
 					throw new InvalidOperationException ("FileFormat not provided for combine entry '" + entry.Name + "'");
+				entry.FileName = format.GetValidFormatName (file);
 			}
-			entry.FileName = format.GetValidFormatName (file);
+			entry.FileName = file;
 			format.WriteFile (entry.FileName, entry, monitor);
 		}
 		

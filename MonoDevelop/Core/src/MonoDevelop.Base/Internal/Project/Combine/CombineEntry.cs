@@ -64,12 +64,17 @@ namespace MonoDevelop.Internal.Project
 					path = parentCombine.GetRelativeChildPath (value);
 				else
 					path = value;
+				if (fileFormat != null)
+					path = fileFormat.GetValidFormatName (FileName);
 			}
 		}
 		
 		public virtual IFileFormat FileFormat {
 			get { return fileFormat; }
-			set { fileFormat = value; }
+			set {
+				fileFormat = value;
+				FileName = fileFormat.GetValidFormatName (FileName);
+			}
 		}
 		
 		public virtual string RelativeFileName {
