@@ -7,7 +7,7 @@ namespace MonoDevelop.Gui {
 		internal TreeNode parent = null;
 		private TreeNodeCollection nodes;
 		private string text;
-		private Gdk.Pixbuf image;
+		private Gdk.Pixbuf image, opened_image, closed_image;
 		private object tag;
 		
 		public TreeNode() {
@@ -36,10 +36,32 @@ namespace MonoDevelop.Gui {
 		
 		public Gdk.Pixbuf Image {
 			get {
+				if (image == null)
+					return closed_image;
 				return image;
 			}
 			set {
 				image = value;
+				UpdateBacking ();
+			}
+		}
+		
+		public Gdk.Pixbuf OpenedImage {
+			get {
+				return opened_image != null ? opened_image : image;
+			}
+			set {
+				opened_image = value;
+				UpdateBacking ();
+			}
+		}
+		
+		public Gdk.Pixbuf ClosedImage {
+			get {
+				return closed_image != null ? closed_image : image;
+			}
+			set {
+				closed_image = value;
 				UpdateBacking ();
 			}
 		}
@@ -74,7 +96,9 @@ namespace MonoDevelop.Gui {
 				return;
 			
 			TreeView.Model.SetValue (TreeIter, 0, text);
-			TreeView.Model.SetValue (TreeIter, 1, image);
+			if (image != null)        TreeView.Model.SetValue (TreeIter, 1, image);
+			if (opened_image != null) TreeView.Model.SetValue (TreeIter, 3, opened_image);
+			if (closed_image != null) TreeView.Model.SetValue (TreeIter, 4, closed_image);
 		}
 		
 		public TreeNodeCollection Nodes {

@@ -50,8 +50,8 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads.ProjectBrowser
 			canLabelEdited  = true;
 			contextmenuAddinTreePath = defaultContextMenuPath;
 			ResourceService resourceService = (ResourceService)ServiceManager.Services.GetService(typeof(IResourceService));
-			//OpenedImage = resourceService.GetBitmap("Icons.16x16.OpenFolderBitmap");
-			//ClosedImage = resourceService.GetBitmap("Icons.16x16.ClosedFolderBitmap");
+			OpenedImage = resourceService.GetBitmap("Icons.16x16.OpenFolderBitmap");
+			ClosedImage = resourceService.GetBitmap("Icons.16x16.ClosedFolderBitmap");
 		}
 		
 /*

@@ -16,7 +16,14 @@ namespace MonoDevelop.Gui {
 		}
 		
 		public TreeView(bool canEdit) {
-			store = new Gtk.TreeStore(typeof(string), typeof(Gdk.Pixbuf), typeof(TreeNode));
+			/*
+			0 -- Text
+			1 -- Icon
+			2 -- Node
+			3 -- Expanded Icon
+			4 -- Unexpanded Icon
+			*/
+			store = new Gtk.TreeStore(typeof(string), typeof(Gdk.Pixbuf), typeof(TreeNode), typeof(Gdk.Pixbuf), typeof(Gdk.Pixbuf));
 			this.Model = store;
 			this.canEdit = canEdit;
 
@@ -29,6 +36,8 @@ namespace MonoDevelop.Gui {
 			Gtk.CellRendererPixbuf pix_render = new Gtk.CellRendererPixbuf ();
 			complete_column.PackStart (pix_render, false);
 			complete_column.AddAttribute (pix_render, "pixbuf", 1);
+			complete_column.AddAttribute (pix_render, "pixbuf-expander-open", 3);
+			complete_column.AddAttribute (pix_render, "pixbuf-expander-closed", 4);
 			
 			text_render = new Gtk.CellRendererText ();
 			if (canEdit) {
@@ -119,14 +128,14 @@ namespace MonoDevelop.Gui {
         internal void UpdateStore(Gtk.TreeStore store) {
 			store.Clear();
 			foreach (TreeNode node in nodes) {
-				Gtk.TreeIter it = store.AppendValues(node.Text, node.Image, node);
+				Gtk.TreeIter it = store.AppendValues(node.Text, node.Image, node, node.OpenedImage, node.ClosedImage);
 				AddNodesRecursively(store, it, node);
 			}
 		}
 		
 		private void AddNodesRecursively(Gtk.TreeStore store, Gtk.TreeIter it, TreeNode node) {
 			foreach(TreeNode nod in node.Nodes) {
-				Gtk.TreeIter i = store.AppendValues(it, nod.Text, nod.Image, nod);
+				Gtk.TreeIter i = store.AppendValues(it, nod.Text, nod.Image, nod, nod.OpenedImage, nod.ClosedImage);
 				AddNodesRecursively(store, i, nod);
 			}
 		}
@@ -135,7 +144,7 @@ namespace MonoDevelop.Gui {
 			if (parent.TreeView != this) {
 				throw new Exception("Wrong tree");
 			}
-			Gtk.TreeIter i = store.AppendValues(parent.TreeIter, child.Text, child.Image, child);
+			Gtk.TreeIter i = store.AppendValues(parent.TreeIter, child.Text, child.Image, child, child.OpenedImage, child.ClosedImage);
 			AddNodesRecursively(store, i, child);
 		}
 		
@@ -150,7 +159,7 @@ namespace MonoDevelop.Gui {
 		private void OnNodeInserted(TreeNode node) {
 			node.treeView = this;
 			node.parent = null;
-			Gtk.TreeIter i = store.AppendValues(node.Text, node.Image, node);
+			Gtk.TreeIter i = store.AppendValues(node.Text, node.Image, node, node.OpenedImage, node.ClosedImage);
 			AddNodesRecursively(store, i, node);
 		}
 

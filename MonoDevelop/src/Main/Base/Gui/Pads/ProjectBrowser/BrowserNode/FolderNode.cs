@@ -24,51 +24,10 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads.ProjectBrowser
 	/// </summary>
 	public class FolderNode : AbstractBrowserNode 
 	{
-		Gdk.Pixbuf closedImage = null;
-		Gdk.Pixbuf openedImage = null;
-		
-		public Gdk.Pixbuf ClosedImage {
-			get {
-				return closedImage;
-			}
-			set {
-				closedImage = value;
-				if (!IsExpanded) {
-					IconImage = closedImage;
-				}
-			}
-		}
-		
-		public Gdk.Pixbuf OpenedImage {
-			get {
-				return openedImage;
-			}
-			set {
-				openedImage = value;
-				if (IsExpanded) {
-					IconImage = openedImage;
-				}
-			}
-		}
-		
 		public FolderNode(string nodeName)
 		{
 			Text           = nodeName;
 			canLabelEdited = false;
-		}
-		
-		public override void BeforeExpand()
-		{
-			if (openedImage != null) {
-				IconImage = openedImage;
-			}
-		}
-		
-		public override void BeforeCollapse()
-		{
-			if (closedImage != null) {
-				IconImage = closedImage;
-			}
 		}
 	}
 }
