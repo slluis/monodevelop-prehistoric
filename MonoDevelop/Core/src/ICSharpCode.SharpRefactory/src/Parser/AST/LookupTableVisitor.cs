@@ -64,6 +64,12 @@ namespace ICSharpCode.SharpRefactory.Parser
 			}
 			return data;
 		}
+
+		public override object Visit(ParameterDeclarationExpression parameterDeclaration, object data)
+		{
+			AddVariable (parameterDeclaration.TypeReference, parameterDeclaration.ParameterName, parameterDeclaration.StartLocation, CurrentBlock == null ? new Point(-1, -1) : CurrentBlock.EndLocation);
+			return data;
+		}
 		
 		// ForStatement and UsingStatement use a LocalVariableDeclaration,
 		// so they don't need to be visited separately

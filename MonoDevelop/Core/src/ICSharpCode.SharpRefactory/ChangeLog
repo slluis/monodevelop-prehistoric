@@ -1,5 +1,11 @@
 2005-01-28  John Luke  <john.luke@gmail.com>
 
+	* src/Parser/AST/LookupTableVisitor.cs:
+	capture parameters in the lookup table for completion
+	fixes bug# 71687
+
+2005-01-28  John Luke  <john.luke@gmail.com>
+
 	* src/*: Merged in sync with #D parser.
 	makes catch (Exception e) { e. } work and a few
 	other small fixes
