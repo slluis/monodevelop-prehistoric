@@ -43,7 +43,7 @@ update-mime-database /usr/share/mime</pre>
 </div>
 <br/>
 <div class="faq">
-	<div class="qeustion"><a name="gecko-sharp">Where do I get gecko-sharp.pc?</a></div>
+	<div class="question"><a name="gecko-sharp">Where do I get gecko-sharp.pc?</a></div>
 <p>gecko-sharp.pc can be found in the gtkmozembed-sharp CVS module in the Mono
 CVS repository.</p>
 </div>
