@@ -134,6 +134,7 @@ namespace MonoDevelop.Gui.Pads
 
 		public void RedrawContent()
 		{
+			this.QueueDraw ();
 		}
 
 		void OnCombineOpen(object sender, CombineEventArgs e)
