@@ -209,7 +209,14 @@ Services/Toolbar/ToolbarService.cs \
 Services/MonodocService.cs \
 Services/IDebuggerService.cs \
 Services/SystemAssemblyService.cs \
+Services/DispatchService/AsyncDispatchAttribute.cs \
 Services/DispatchService/DispatchService.cs \
+Services/DispatchService/FreeDispatchAttribute.cs \
+Services/DispatchService/GuiSyncContext.cs \
+Services/DispatchService/GuiSyncObject.cs \
+Services/DispatchService/SyncContext.cs \
+Services/DispatchService/SyncContextAttribute.cs \
+Services/DispatchService/SyncObject.cs \
 Services/Runtime.cs \
 Internal/Undo/IUndoableOperation.cs \
 Internal/Undo/UndoStack.cs \

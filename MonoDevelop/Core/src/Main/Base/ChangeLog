@@ -1,5 +1,18 @@
 2004-12-06  Lluis Sanchez Gual  <lluis@novell.com>
 
+	* Services/DispatchService/DispatchService.cs: Added support for
+	synchronous dispatch to the gui thread.
+	* Services/DispatchService/AsyncDispatchAttribute.cs:
+	* Services/DispatchService/SyncContext.cs:
+	* Services/DispatchService/SyncObject.cs:
+	* Services/DispatchService/FreeDispatchAttribute.cs:
+	* Services/DispatchService/SyncContextAttribute.cs:
+	* Services/DispatchService/GuiSyncContext.cs:
+	* Services/DispatchService/GuiSyncObject.cs: New classes that support
+	some new dispatch features.
+
+2004-12-06  Lluis Sanchez Gual  <lluis@novell.com>
+
 	* *.cs: Removed remaining calls to ServiceManager.GetService.
 
 2004-12-06  Lluis Sanchez Gual  <lluis@novell.com>
