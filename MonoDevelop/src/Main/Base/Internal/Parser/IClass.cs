@@ -70,10 +70,6 @@ namespace MonoDevelop.Internal.Parser
 			get;
 		}
 
-		IEnumerable ClassInheritanceTree {
-			get;
-		}
-		
 		object DeclaredIn {
 			get;
 		}

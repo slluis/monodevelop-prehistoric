@@ -11,6 +11,7 @@ using MonoDevelop.Services;
 
 namespace MonoDevelop.Internal.Parser
 {
+	[Serializable]
 	public sealed class PersistentProperty : AbstractProperty
 	{
 		const uint canGetFlag = (uint)(1 << 29);
@@ -31,45 +32,27 @@ namespace MonoDevelop.Internal.Parser
 			}
 		}
 		
-		public PersistentProperty(BinaryReader reader, ClassProxyCollection classProxyCollection)
+		public static PersistentProperty Read (BinaryReader reader, INameDecoder nameTable)
 		{
-			FullyQualifiedName = reader.ReadString();
-			Documentation      = reader.ReadString();
+			PersistentProperty pro = new PersistentProperty ();
+			pro.FullyQualifiedName = PersistentHelper.ReadString (reader, nameTable);
+			pro.Documentation = PersistentHelper.ReadString (reader, nameTable);
 			uint m = reader.ReadUInt32();
-			modifiers          = (ModifierEnum)(m & (canGetFlag - 1));
-			canGet             = (m & canGetFlag) == canGetFlag;
-			canSet             = (m & canSetFlag) == canSetFlag;
-			
-			returnType         = new PersistentReturnType(reader, classProxyCollection);
-			if (returnType.Name == null) {
-				returnType = null;
-			}
+			pro.modifiers = (ModifierEnum)(m & (canGetFlag - 1));
+			pro.canGet = (m & canGetFlag) == canGetFlag;
+			pro.canSet = (m & canSetFlag) == canSetFlag;
+			pro.returnType = PersistentReturnType.Read (reader, nameTable);
+			pro.region = PersistentRegion.Read (reader, nameTable);
+			return pro;
 		}
 		
-		public void WriteTo(BinaryWriter writer)
+		public static void WriteTo (IProperty p, BinaryWriter writer, INameEncoder nameTable)
 		{
-			writer.Write(FullyQualifiedName);
-			writer.Write(Documentation);
-			writer.Write((uint)modifiers + (CanGet ? canGetFlag : 0) + (CanSet ? canSetFlag : 0));
-			((PersistentReturnType)returnType).WriteTo(writer);
-		}
-		
-		public PersistentProperty(ClassProxyCollection classProxyCollection, IProperty property)
-		{
-			FullyQualifiedName = property.Name;
-			modifiers          = property.Modifiers;
-			if (property.Documentation != null) {
-				Documentation = property.Documentation;
-			} else {
-				Documentation = String.Empty;
-			}
-			
-			if (property.ReturnType != null) {
-				returnType     = new PersistentReturnType(classProxyCollection, property.ReturnType);
-			}
-			region = getterRegion = setterRegion = null;
-			canGet = property.CanGet;
-			canSet = property.CanSet;
+			PersistentHelper.WriteString (p.FullyQualifiedName, writer, nameTable);
+			PersistentHelper.WriteString (p.Documentation, writer, nameTable);
+			writer.Write((uint)p.Modifiers + (p.CanGet ? canGetFlag : 0) + (p.CanSet ? canSetFlag : 0));
+			PersistentReturnType.WriteTo (p.ReturnType, writer, nameTable);
+			PersistentRegion.WriteTo (p.Region, writer, nameTable);
 		}
 	}
 }

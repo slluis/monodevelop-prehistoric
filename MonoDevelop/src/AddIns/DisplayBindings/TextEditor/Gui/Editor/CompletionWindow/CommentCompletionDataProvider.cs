@@ -71,7 +71,7 @@ namespace MonoDevelop.DefaultEditor.Gui.Editor
 			return row >= region.BeginLine && (row <= region.EndLine || region.EndLine == -1);
 		}
 		
-		public ICompletionData[] GenerateCompletionData(string fileName, TextArea textArea, char charTyped)
+		public ICompletionData[] GenerateCompletionData(IProject project, string fileName, TextArea textArea, char charTyped)
 		{
 			caretLineNumber = textArea.Caret.Line;
 			caretColumn     = textArea.Caret.Column;

@@ -10,6 +10,7 @@ using System.Collections;
 using System.Collections.Specialized;
 
 using MonoDevelop.Services;
+using MonoDevelop.Internal.Project;
 
 namespace MonoDevelop.Internal.Parser
 {
@@ -131,6 +132,7 @@ namespace MonoDevelop.Internal.Parser
 		/// The caretLineNumber and caretColumn is 1 based.
 		/// </summary>
 		ResolveResult Resolve(IParserService parserService, 
+							  IProject project,
 		                      string expression, 
 		                      int caretLineNumber, 
 		                      int caretColumn, 
@@ -141,6 +143,6 @@ namespace MonoDevelop.Internal.Parser
 
 		ArrayList IsAsResolve (IParserService parserService, string expression, int caretLineNumber, int caretColumn, string fileName, string fileContent);
 		
-		ArrayList CtrlSpace(IParserService parserService, int caretLine, int caretColumn, string fileName);
+		ArrayList CtrlSpace(IParserService parserService, IProject project, int caretLine, int caretColumn, string fileName);
 	}
 }

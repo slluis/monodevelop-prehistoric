@@ -16,7 +16,7 @@ namespace MonoDevelop.Internal.Parser
 	{
 		protected ModifierEnum               modifiers     = ModifierEnum.None;
 		protected AttributeSectionCollection attributes    = null;
-		int    documentationHash = -1;
+		string documentation;
 		static Hashtable documentationHashtable = new Hashtable();
 		
 		
@@ -37,15 +37,19 @@ namespace MonoDevelop.Internal.Parser
 
 		public string Documentation {
 			get {
-				if (documentationHash == -1) {
-					return String.Empty;
-				}
-				return (string)documentationHashtable[documentationHash];
+				return documentation == null ? "" : documentation;
 			}
 			set {
-				documentationHash = value.GetHashCode();
-				if (documentationHashtable[documentationHash] == null) {
-					documentationHashtable[documentationHash] = value;
+				if (value == null)
+					documentation = null;
+				else {
+					string sharedVal = documentationHashtable [value] as string;
+					if (sharedVal == null) {
+						documentationHashtable [value] = value;
+						documentation = value;
+					}
+					else
+						documentation = sharedVal;
 				}
 			}
 		}

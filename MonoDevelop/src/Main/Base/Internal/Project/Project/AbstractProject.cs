@@ -52,7 +52,7 @@ namespace MonoDevelop.Internal.Project
 		protected ProjectFileCollection      projectFiles       = new ProjectFileCollection();
 
 		[XmlSetAttribute(typeof(ProjectReference), "References")]
-		protected ProjectReferenceCollection projectReferencess = new ProjectReferenceCollection();
+		protected ProjectReferenceCollection projectReferences = new ProjectReferenceCollection();
 		
 		protected DeployInformation deployInformation = new DeployInformation();
 		FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.Services.GetService(typeof(FileUtilityService));
@@ -105,7 +105,7 @@ namespace MonoDevelop.Internal.Project
 		[Browsable(false)]
 		public ProjectReferenceCollection ProjectReferences {
 			get {
-				return projectReferencess;
+				return projectReferences;
 			}
 		}
 		
@@ -172,6 +172,8 @@ namespace MonoDevelop.Internal.Project
 
 		public AbstractProject()
 		{
+			projectFiles.SetProject (this);
+			projectReferences.SetProject (this);
 		}
 
 		public bool IsFileInProject(string filename)
@@ -301,6 +303,9 @@ namespace MonoDevelop.Internal.Project
 			}
 			
 			SearchNewFiles();
+
+			projectFiles.SetProject (this);
+			projectReferences.SetProject (this);
 		}
 
 		void GetXmlAttributes(XmlDocument doc, XmlElement element, object o)
@@ -355,11 +360,13 @@ namespace MonoDevelop.Internal.Project
 							setElement = (XmlElement)element.SelectSingleNode("descendant::" + xmlSetAttributes[0].Name);
 						}
 						
-						IList collection = (IList)fieldInfo.GetValue(o);
-						foreach (XmlNode childNode in setElement.ChildNodes) {
-							object instance = xmlSetAttributes[0].Type.Assembly.CreateInstance(xmlSetAttributes[0].Type.FullName);
-							GetXmlAttributes(doc, (XmlElement)childNode, instance);
-							collection.Add(instance);
+						if (setElement != null) {
+							IList collection = (IList)fieldInfo.GetValue(o);
+							foreach (XmlNode childNode in setElement.ChildNodes) {
+								object instance = xmlSetAttributes[0].Type.Assembly.CreateInstance(xmlSetAttributes[0].Type.FullName);
+								GetXmlAttributes(doc, (XmlElement)childNode, instance);
+								collection.Add(instance);
+							}
 						}
 					} else { // finally try, if the field is from a type which has a XmlNodeName attribute attached
 						
@@ -561,6 +568,26 @@ namespace MonoDevelop.Internal.Project
 			return config;
 		}
 		
+		internal void NotifyFileRemovedFromProject (ProjectFile file)
+		{
+			OnFileRemovedFromProject (new ProjectFileEventArgs (this, file));
+		}
+		
+		internal void NotifyFileAddedToProject (ProjectFile file)
+		{
+			OnFileAddedToProject (new ProjectFileEventArgs (this, file));
+		}
+		
+		internal void NotifyReferenceRemovedFromProject (ProjectReference reference)
+		{
+			OnReferenceRemovedFromProject (new ProjectReferenceEventArgs (this, reference));
+		}
+		
+		internal void NotifyReferenceAddedToProject (ProjectReference reference)
+		{
+			OnReferenceAddedToProject (new ProjectReferenceEventArgs (this, reference));
+		}
+		
 		protected virtual void OnNameChanged(EventArgs e)
 		{
 			if (NameChanged != null) {
@@ -568,7 +595,39 @@ namespace MonoDevelop.Internal.Project
 			}
 		}
 		
+		protected virtual void OnFileRemovedFromProject (ProjectFileEventArgs e)
+		{
+			if (FileRemovedFromProject != null) {
+				FileRemovedFromProject (this, e);
+			}
+		}
+		
+		protected virtual void OnFileAddedToProject (ProjectFileEventArgs e)
+		{
+			if (FileAddedToProject != null) {
+				FileAddedToProject (this, e);
+			}
+		}
+		
+		protected virtual void OnReferenceRemovedFromProject (ProjectReferenceEventArgs e)
+		{
+			if (ReferenceRemovedFromProject != null) {
+				ReferenceRemovedFromProject (this, e);
+			}
+		}
+		
+		protected virtual void OnReferenceAddedToProject (ProjectReferenceEventArgs e)
+		{
+			if (ReferenceAddedToProject != null) {
+				ReferenceAddedToProject (this, e);
+			}
+		}
+		
 		public event EventHandler NameChanged;
+		public event ProjectFileEventHandler FileRemovedFromProject;
+		public event ProjectFileEventHandler FileAddedToProject;
+		public event ProjectReferenceEventHandler ReferenceRemovedFromProject;
+		public event ProjectReferenceEventHandler ReferenceAddedToProject;
 	}
 	
 	public class ProjectActiveConfigurationTypeConverter : TypeConverter

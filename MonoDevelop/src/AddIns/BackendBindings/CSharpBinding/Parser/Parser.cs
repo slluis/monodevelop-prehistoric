@@ -9,6 +9,7 @@ using System.Drawing;
 using System.Collections;
 using MonoDevelop.Services;
 using MonoDevelop.Internal.Parser;
+using MonoDevelop.Internal.Project;
 using CSharpBinding.Parser.SharpDevelopTree;
 using ICSharpCode.SharpRefactory.Parser;
 
@@ -70,6 +71,8 @@ namespace CSharpBinding.Parser
 			visitor.Visit(p.compilationUnit, null);
 			visitor.Cu.ErrorsDuringCompile = p.Errors.count > 0;
 			RetrieveRegions(visitor.Cu, lexer.SpecialTracker);
+			foreach (IClass c in visitor.Cu.Classes)
+				c.Region.FileName = fileName;
 			return visitor.Cu;
 		}
 		
@@ -86,27 +89,29 @@ namespace CSharpBinding.Parser
 			visitor.Cu.Tag = p.compilationUnit;
 			visitor.Cu.ErrorOutput = p.Errors.ErrorOutput;
 			RetrieveRegions(visitor.Cu, lexer.SpecialTracker);
+			foreach (IClass c in visitor.Cu.Classes)
+				c.Region.FileName = fileName;
 			return visitor.Cu;
 		}
 		
-		public ArrayList CtrlSpace(IParserService parserService, int caretLine, int caretColumn, string fileName)
+		public ArrayList CtrlSpace(IParserService parserService, IProject project, int caretLine, int caretColumn, string fileName)
 		{
-			return new Resolver().CtrlSpace(parserService, caretLine, caretColumn, fileName);
+			return new Resolver(project).CtrlSpace(parserService, caretLine, caretColumn, fileName);
 		}
 
 		public ArrayList IsAsResolve (IParserService parserService, string expression, int caretLineNumber, int caretColumn, string fileName, string fileContent)
 		{
-			return new Resolver ().IsAsResolve (parserService, expression, caretLineNumber, caretColumn, fileName, fileContent);
+			return new Resolver (null).IsAsResolve (parserService, expression, caretLineNumber, caretColumn, fileName, fileContent);
 		}
 		
-		public ResolveResult Resolve(IParserService parserService, string expression, int caretLineNumber, int caretColumn, string fileName, string fileContent)
+		public ResolveResult Resolve(IParserService parserService, IProject project, string expression, int caretLineNumber, int caretColumn, string fileName, string fileContent)
 		{
-			return new Resolver().Resolve(parserService, expression, caretLineNumber, caretColumn, fileName, fileContent);
+			return new Resolver(project).Resolve(parserService, expression, caretLineNumber, caretColumn, fileName, fileContent);
 		}
 
 		public string MonodocResolver (IParserService parserService, string expression, int caretLineNumber, int caretColumn, string fileName, string fileContent)
 		{
-			return new Resolver ().MonodocResolver (parserService, expression, caretLineNumber, caretColumn, fileName, fileContent);
+			return new Resolver (null).MonodocResolver (parserService, expression, caretLineNumber, caretColumn, fileName, fileContent);
 		}
 		
 		///////// IParser Interface END

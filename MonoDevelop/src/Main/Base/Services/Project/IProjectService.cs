@@ -187,9 +187,15 @@ namespace MonoDevelop.Services
 		/// <remarks>
 		/// Is called, when a file is removed from and added to a project.
 		/// </remarks>
-		event FileEventHandler FileRemovedFromProject;
-		event FileEventHandler FileAddedToProject;
+		event ProjectFileEventHandler FileRemovedFromProject;
+		event ProjectFileEventHandler FileAddedToProject;
 				
+		/// <remarks>
+		/// Is called, when a reference is removed from and added to a project.
+		/// </remarks>
+		event ProjectReferenceEventHandler ReferenceAddedToProject;
+		event ProjectReferenceEventHandler ReferenceRemovedFromProject;
+		
 		/// <remarks>
 		/// Called before a build run
 		/// </remarks>

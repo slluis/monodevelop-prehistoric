@@ -156,5 +156,9 @@ namespace MonoDevelop.Internal.Project
 		IConfiguration CreateConfiguration();
 		
 		event EventHandler NameChanged;
+		event ProjectFileEventHandler FileRemovedFromProject;
+		event ProjectFileEventHandler FileAddedToProject;
+		event ProjectReferenceEventHandler ReferenceRemovedFromProject;
+		event ProjectReferenceEventHandler ReferenceAddedToProject;
 	}
 }

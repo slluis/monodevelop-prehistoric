@@ -8,6 +8,7 @@
 using System;
 
 using MonoDevelop.Services;
+using MonoDevelop.Internal.Project;
 
 namespace MonoDevelop.Gui
 {
@@ -15,7 +16,7 @@ namespace MonoDevelop.Gui
 	{
 		string untitledName = "";
 		string contentName  = null;
-		string projectname = null;
+		IProject project = null;
 		string pathrelativetoproject = null;
 		
 		bool   isDirty  = false;
@@ -101,19 +102,19 @@ namespace MonoDevelop.Gui
 		
 		public abstract void Load(string fileName);
 
-		public string ProjectName
+		public IProject Project
 		{
 			get
 			{
-				return projectname;
+				return project;
 			}
 			set
 			{
-				if (!HasProject && value != null && value != "")
+				if (!HasProject && value != null)
 				{
 					HasProject = true;
 				}
-				projectname = value;
+				project = value;
 			}
 		}
 		
@@ -130,10 +131,6 @@ namespace MonoDevelop.Gui
 					if (!HasProject)
 					{
 						HasProject = true;
-					}
-					if (ProjectName == null)
-					{
-						ProjectName = "";
 					}
 				}
 				pathrelativetoproject = value;

@@ -23,8 +23,8 @@ namespace MonoDevelop.Gui.Pads
 	{
 		bool     CanBuildClassTree(IProject project);
 		TreeNode BuildClassTreeNode(IProject project);
+		void     ExpandNode (TreeNode node);
 
-		void     AddToClassTree(TreeNode projectNode, ParseInformationEventArgs e);
-		void     RemoveFromClassTree(TreeNode parentNode, ParseInformationEventArgs e);
+		void     UpdateClassTree (TreeNode projectNode, ClassInformationEventArgs e);
 	}
 }

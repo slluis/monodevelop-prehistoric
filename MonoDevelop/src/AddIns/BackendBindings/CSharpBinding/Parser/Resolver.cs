@@ -11,6 +11,7 @@ using System.Drawing;
 
 using MonoDevelop.Services;
 using MonoDevelop.Internal.Parser;
+using MonoDevelop.Internal.Project;
 using CSharpBinding.Parser.SharpDevelopTree;
 using ICSharpCode.SharpRefactory.Parser.AST;
 using ICSharpCode.SharpRefactory.Parser;
@@ -23,6 +24,12 @@ namespace CSharpBinding.Parser
 		ICompilationUnit cu;
 		IClass callingClass;
 		LookupTableVisitor lookupTableVisitor;
+		IProject project;
+		
+		public Resolver (IProject project)
+		{
+			this.project = project;
+		}
 		
 		public IParserService ParserService {
 			get {
@@ -195,7 +202,7 @@ namespace CSharpBinding.Parser
 				}
 				string t = expression.Substring(i + 1);
 //				Console.WriteLine("in Using Statement");
-				string[] namespaces = parserService.GetNamespaceList(t);
+				string[] namespaces = parserService.GetNamespaceList(project, t);
 				if (namespaces == null || namespaces.Length <= 0) {
 					return null;
 				}
@@ -211,14 +218,14 @@ namespace CSharpBinding.Parser
 				if (n == null) {
 					return null;
 				}
-				ArrayList content = parserService.GetNamespaceContents(n);
+				ArrayList content = parserService.GetNamespaceContents(project,n,true);
 				ArrayList classes = new ArrayList();
 				for (int i = 0; i < content.Count; ++i) {
 					if (content[i] is IClass) {
 						classes.Add((IClass)content[i]);
 					}
 				}
-				string[] namespaces = parserService.GetNamespaceList(n);
+				string[] namespaces = parserService.GetNamespaceList(project, n, true);
 				return new ResolveResult(namespaces, classes);
 			}
 			Console.WriteLine("Returning Result!");
@@ -674,7 +681,7 @@ namespace CSharpBinding.Parser
 		/// </remarks>
 		public string SearchNamespace(string name, ICompilationUnit unit)
 		{
-			if (parserService.NamespaceExists(name)) {
+			if (parserService.NamespaceExists(project, name)) {
 				return name;
 			}
 			if (unit == null) {
@@ -683,7 +690,7 @@ namespace CSharpBinding.Parser
 			}
 			foreach (IUsing u in unit.Usings) {
 				if (u != null && (u.Region == null || u.Region.IsInside(caretLine, caretColumn))) {
-					string nameSpace = u.SearchNamespace(name);
+					string nameSpace = parserService.SearchNamespace (project, u, name);
 					if (nameSpace != null) {
 						return nameSpace;
 					}
@@ -704,7 +711,7 @@ namespace CSharpBinding.Parser
 				return null;
 			}
 			IClass c;
-			c = parserService.GetClass(name);
+			c = parserService.GetClass(project, name);
 			if (c != null) {
 //				Console.WriteLine("Found!");
 				return c;
@@ -715,7 +722,7 @@ namespace CSharpBinding.Parser
 				foreach (IUsing u in unit.Usings) {
 					if (u != null && (u.Region == null || u.Region.IsInside(caretLine, caretColumn))) {
 //						Console.WriteLine("In UsingRegion");
-						c = u.SearchType(name);
+						c = parserService.SearchType(project, u, name);
 						if (c != null) {
 //							Console.WriteLine("SearchType Successfull!!!");
 							return c;
@@ -730,7 +737,7 @@ namespace CSharpBinding.Parser
 			string[] namespaces = fullname.Split(new char[] {'.'});
 			string curnamespace = namespaces[0] + '.';
 			for (int i = 1; i < namespaces.Length; ++i) {
-				c = parserService.GetClass(curnamespace + name);
+				c = parserService.GetClass(project, curnamespace + name);
 				if (c != null) {
 					return c;
 				}
@@ -877,7 +884,7 @@ namespace CSharpBinding.Parser
 			if (returnClass == null)
 				return null;
 
-			foreach (IClass iclass in returnClass.ClassInheritanceTree) {
+			foreach (IClass iclass in parserService.GetClassInheritanceTree (project, returnClass)) {
 				if (!result.Contains (iclass))
 					result.Add (iclass);
 			}
@@ -917,11 +924,11 @@ namespace CSharpBinding.Parser
 				result = ListMembers(result, callingClass);
 			}
 			string n = "";
-			result.AddRange(parserService.GetNamespaceContents(n));
+			result.AddRange(parserService.GetNamespaceContents(project, n, true));
 			foreach (IUsing u in cu.Usings) {
 				if (u != null && (u.Region == null || u.Region.IsInside(caretLine, caretColumn))) {
 					foreach (string name in u.Usings) {
-						result.AddRange(parserService.GetNamespaceContents(name));
+						result.AddRange(parserService.GetNamespaceContents(project, name, true));
 					}
 					foreach (string alias in u.Aliases.Keys) {
 						result.Add(alias);

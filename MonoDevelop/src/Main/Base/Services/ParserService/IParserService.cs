@@ -48,34 +48,40 @@ namespace MonoDevelop.Services
 		IExpressionFinder GetExpressionFinder(string fileName);
 		
 		// Default Parser Layer dependent functions
-		IClass    GetClass(string typeName);
-		string[]  GetNamespaceList(string subNameSpace);
-		ArrayList GetNamespaceContents(string subNameSpace);
-		bool      NamespaceExists(string name);
+		IClass    GetClass(IProject project, string typeName);
+		string[]  GetNamespaceList(IProject project, string subNameSpace);
+		ArrayList GetNamespaceContents(IProject project, string subNameSpace, bool includeReferences);
+		bool      NamespaceExists(IProject project, string name);
+		string    SearchNamespace(IProject project, IUsing iusing, string partitialNamespaceName);
+		IClass    SearchType(IProject project, IUsing iusing, string partitialTypeName);
 		
-		IClass    GetClass(string typeName, bool caseSensitive);
-		string[]  GetNamespaceList(string subNameSpace, bool caseSensitive);
-		ArrayList GetNamespaceContents(string subNameSpace, bool caseSensitive);
-		bool      NamespaceExists(string name, bool caseSensitive);
+		IClass    GetClass(IProject project, string typeName, bool caseSensitive);
+		string[]  GetNamespaceList(IProject project, string subNameSpace, bool caseSensitive);
+		ArrayList GetNamespaceContents(IProject project, string subNameSpace, bool includeReferences, bool caseSensitive);
+		bool      NamespaceExists(IProject project, string name, bool caseSensitive);
+		string    SearchNamespace(IProject project, IUsing iusing, string partitialNamespaceName, bool caseSensitive);
+		IClass    SearchType(IProject project, IUsing iusing, string partitialTypeName, bool caseSensitive);
+		
+		IEnumerable GetClassInheritanceTree (IProject project, IClass cls);
+		
 		////////////////////////////////////////////
 
 		/// <summary>
 		/// Resolves an expression.
 		/// The caretLineNumber and caretColumn is 1 based.
 		/// </summary>
-		ResolveResult Resolve(string expression,
+		ResolveResult Resolve(IProject project,
+							  string expression,
 		                      int caretLineNumber,
 		                      int caretColumn,
 		                      string fileName,
 		                      string fileContent);
 		string MonodocResolver (string expression, int caretLineNumber, int caretColumn, string fileName, string fileContent);
 		ArrayList IsAsResolve (string expression, int caretLineNumber, int caretColumn, string fileName, string fileContent);
-		ArrayList CtrlSpace(IParserService parserService, int caretLine, int caretColumn, string fileName);
-		void AddReferenceToCompletionLookup(IProject project, ProjectReference reference);
+		ArrayList CtrlSpace(IParserService parserService, IProject project, int caretLine, int caretColumn, string fileName);
 		string LoadAssemblyFromGac (string name);
 
-		event ParseInformationEventHandler ParseInformationAdded;
-		event ParseInformationEventHandler ParseInformationRemoved;
 		event ParseInformationEventHandler ParseInformationChanged;
+		event ClassInformationEventHandler ClassInformationChanged;
 	}
 }

@@ -17,37 +17,20 @@ namespace MonoDevelop.Internal.Project.Collections
 	/// <seealso cref='.ProjectFileCollection'/>
 	[Serializable()]
 	public class ProjectFileCollection : CollectionBase {
+	
+		AbstractProject project;
 		
 		/// <summary>
 		///     <para>
 		///       Initializes a new instance of <see cref='.ProjectFileCollection'/>.
 		///    </para>
 		/// </summary>
-		public ProjectFileCollection() {
+		public ProjectFileCollection () {
 		}
 		
-		/// <summary>
-		///     <para>
-		///       Initializes a new instance of <see cref='.ProjectFileCollection'/> based on another <see cref='.ProjectFileCollection'/>.
-		///    </para>
-		/// </summary>
-		/// <param name='value'>
-		///       A <see cref='.ProjectFileCollection'/> from which the contents are copied
-		/// </param>
-		public ProjectFileCollection(ProjectFileCollection value) {
-			this.AddRange(value);
-		}
-		
-		/// <summary>
-		///     <para>
-		///       Initializes a new instance of <see cref='.ProjectFileCollection'/> containing any array of <see cref='.ProjectFile'/> objects.
-		///    </para>
-		/// </summary>
-		/// <param name='value'>
-		///       A array of <see cref='.ProjectFile'/> objects with which to intialize the collection
-		/// </param>
-		public ProjectFileCollection(ProjectFile[] value) {
-			this.AddRange(value);
+		internal void SetProject (AbstractProject project)
+		{
+			this.project = project;
 		}
 		
 		/// <summary>
@@ -63,7 +46,9 @@ namespace MonoDevelop.Internal.Project.Collections
 				return ((ProjectFile)(List[index]));
 			}
 			set {
+				project.NotifyFileRemovedFromProject ((ProjectFile)List[index]);
 				List[index] = value;
+				project.NotifyFileAddedToProject (value);
 			}
 		}
 		
@@ -77,7 +62,9 @@ namespace MonoDevelop.Internal.Project.Collections
 		/// </returns>
 		/// <seealso cref='.ProjectFileCollection.AddRange'/>
 		public int Add(ProjectFile value) {
-			return List.Add(value);
+			int i = List.Add(value);
+			project.NotifyFileAddedToProject (value);
+			return i;
 		}
 		
 		/// <summary>
@@ -168,6 +155,7 @@ namespace MonoDevelop.Internal.Project.Collections
 		/// <seealso cref='.ProjectFileCollection.Add'/>
 		public void Insert(int index, ProjectFile value) {
 			List.Insert(index, value);
+			project.NotifyFileAddedToProject (value);
 		}
 		
 		/// <summary>

@@ -133,6 +133,7 @@ src/Libraries/SharpAssembly/Makefile
 src/Libraries/SharpRefactory/Makefile
 src/Tools/Makefile
 src/Tools/SharpCoco/Makefile
+src/Tools/dbgen/Makefile
 build/Makefile
 build/data/Makefile
 build/data/resources/Makefile

@@ -26,7 +26,7 @@ namespace ICSharpCode.SharpRefactory.Parser.AST
 	public abstract class AbstractNode : INode
 	{
 		INode     parent;
-		ArrayList children = new ArrayList();
+		ArrayList children;
 		Hashtable specials;
 		Point     startLocation;
 		Point     endLocation;
@@ -69,6 +69,7 @@ namespace ICSharpCode.SharpRefactory.Parser.AST
 		
 		public ArrayList Children {
 			get {
+				if (children == null) children = new ArrayList();
 				return children;
 			}
 		}
@@ -85,6 +86,7 @@ namespace ICSharpCode.SharpRefactory.Parser.AST
 		
 		public object AcceptChildren(IASTVisitor visitor, object data)
 		{
+			if (children == null) return data;
 			foreach (INode child in children) {
 				if (child != null) {
 					child.AcceptVisitor(visitor, data);

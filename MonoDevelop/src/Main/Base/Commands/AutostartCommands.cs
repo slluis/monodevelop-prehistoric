@@ -54,16 +54,14 @@ namespace MonoDevelop.Commands
 		{
 			PropertyService propertyService = (PropertyService)ServiceManager.Services.GetService(typeof(PropertyService));
 			string path = propertyService.GetProperty ("SharpDevelop.CodeCompletion.DataDirectory", null);
-			string codeCompletionProxyFile = Path.Combine (path, "CodeCompletionProxyDataV02.bin");
+			string codeCompletionProxyFile = Path.Combine (path, "mscorlib.pidb");
 			//Console.WriteLine("checking for existence of {0}", codeCompletionProxyFile);
 
-			if (!File.Exists (codeCompletionProxyFile)) {
+/*			if (!File.Exists (codeCompletionProxyFile)) {
 				generatingCompletionData = true;
 				RunWizard();
-				DefaultParserService parserService = (DefaultParserService)ServiceManager.Services.GetService(typeof(IParserService));
-				parserService.LoadProxyDataFile();
 			}
-		}
+*/		}
 		
 		void RunWizard()
 		{

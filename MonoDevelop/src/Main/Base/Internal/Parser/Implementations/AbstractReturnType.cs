@@ -15,16 +15,23 @@ namespace MonoDevelop.Internal.Parser
 		protected int    pointerNestingLevel;
 		protected int[]  arrayDimensions;
 		protected object declaredin = null;
-		int nameHashCode = -1;
+		string fname;
 		
 		public virtual string FullyQualifiedName {
 			get {
-				return (string)AbstractNamedEntity.fullyQualifiedNames[nameHashCode];
+				return fname;
 			}
 			set {
-				nameHashCode = value.GetHashCode();
-				if (AbstractNamedEntity.fullyQualifiedNames[nameHashCode] == null) {
-					AbstractNamedEntity.fullyQualifiedNames[nameHashCode] = value;
+				if (value == null)
+					fname = value;
+				else {
+					string sharedName = (string) AbstractNamedEntity.fullyQualifiedNames [value];
+					if (sharedName == null) {
+						AbstractNamedEntity.fullyQualifiedNames [value] = value;
+						fname = value;
+					}
+					else
+						fname = sharedName;
 				}
 			}
 		}

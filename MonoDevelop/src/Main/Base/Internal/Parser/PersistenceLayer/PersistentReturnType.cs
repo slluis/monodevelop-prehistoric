@@ -10,115 +10,41 @@ using MonoDevelop.Services;
 
 namespace MonoDevelop.Internal.Parser
 {
-	public sealed class PersistentReturnType : IReturnType
+	[Serializable]
+	public sealed class PersistentReturnType : AbstractReturnType
 	{
-		string               fullyQualifiedName;
-
-		int                  classProxyIndex;
-		ClassProxyCollection classProxyCollection;
-
-		int   pointerNestingLevel = -1;
-		int[] arrayDimensions     = new int[] {};
-
-		public PersistentReturnType(BinaryReader reader, ClassProxyCollection classProxyCollection)
+		public static PersistentReturnType Read (BinaryReader reader, INameDecoder nameTable)
 		{
-			this.classProxyCollection = classProxyCollection;
-			classProxyIndex      = reader.ReadInt32();
+			if (PersistentHelper.ReadNull (reader)) return null;
+			
+			PersistentReturnType rt = new PersistentReturnType ();
+			rt.FullyQualifiedName = PersistentHelper.ReadString (reader, nameTable);
 
-			if (classProxyIndex < 0) {
-				fullyQualifiedName = reader.ReadString();
-			}
-
-			pointerNestingLevel = reader.ReadInt32();
+			rt.pointerNestingLevel = reader.ReadInt32();
 
 			uint count = reader.ReadUInt32();
-			arrayDimensions = new int[count];
-			for (uint i = 0; i < arrayDimensions.Length; ++i) {
-				arrayDimensions[i] = reader.ReadInt32();
+			rt.arrayDimensions = new int[count];
+			for (uint i = 0; i < rt.arrayDimensions.Length; ++i) {
+				rt.arrayDimensions[i] = reader.ReadInt32();
 			}
+			return rt;
 		}
 
-		public void WriteTo(BinaryWriter writer)
+		public static void WriteTo (IReturnType rt, BinaryWriter writer, INameEncoder nameTable)
 		{
-			writer.Write(classProxyIndex);
-			if (classProxyIndex < 0) {
-				writer.Write(fullyQualifiedName);
-			}
-			writer.Write(pointerNestingLevel);
-			if (arrayDimensions == null) {
+			if (PersistentHelper.WriteNull (rt, writer)) return;
+			
+			PersistentHelper.WriteString (rt.FullyQualifiedName, writer, nameTable);
+
+			writer.Write (rt.PointerNestingLevel);
+			if (rt.ArrayDimensions == null) {
 				writer.Write((uint)0);
 			} else {
-				writer.Write((uint)arrayDimensions.Length);
-				for (uint i = 0; i < arrayDimensions.Length; ++i) {
-					writer.Write(arrayDimensions[i]);
+				writer.Write((uint)rt.ArrayDimensions.Length);
+				for (uint i = 0; i < rt.ArrayDimensions.Length; ++i) {
+					writer.Write (rt.ArrayDimensions[i]);
 				}
 			}
 		}
-
-		public PersistentReturnType(ClassProxyCollection classProxyCollection, IReturnType returnType)
-		{
-			if (returnType == null) {
-				classProxyIndex    = - 1;
-				fullyQualifiedName = String.Empty;
-			} else {
-				this.classProxyCollection = classProxyCollection;
-				this.pointerNestingLevel  = returnType.PointerNestingLevel;
-				this.arrayDimensions      = returnType.ArrayDimensions;
-				classProxyIndex           = classProxyCollection.IndexOf(returnType.FullyQualifiedName, true);
-				fullyQualifiedName        = returnType.FullyQualifiedName;
-			}
-		}
-
-		public string FullyQualifiedName {
-			get {
-				if (classProxyIndex < 0) {
-					return fullyQualifiedName;
-				}
-				return classProxyCollection[classProxyIndex].FullyQualifiedName;
-			}
-		}
-
-		public string Name {
- 			get {
-				string[] name = FullyQualifiedName.Split(new char[] {'.'});
-				return name[name.Length - 1];
-			}
-		}
-
-		public string Namespace {
-			get {
-				int index = FullyQualifiedName.LastIndexOf('.');
-				return index < 0 ? String.Empty : FullyQualifiedName.Substring(0, index);
-			}
-		}
-
-		public int PointerNestingLevel {
-			get {
-				return pointerNestingLevel;
-			}
-		}
-
-		public int ArrayCount {
-			get {
-				return ArrayDimensions.Length;
-			}
-		}
-
-		public int[] ArrayDimensions {
-			get {
-				return arrayDimensions;
-			}
-		}
-
-       int IComparable.CompareTo(object value) {
-          return 0;
-       }
-
-		// stub
-       	public object DeclaredIn {
-       		get {
-       			return null;
-       		}
-       	}
 	}
 }

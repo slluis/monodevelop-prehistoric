@@ -118,7 +118,7 @@ namespace MonoDevelop.Gui.Pads.ProjectBrowser
 			}
 			
 			Debug.Assert(removeEntry != null);
-			cmbNode.Combine.Entries.Remove(removeEntry);
+			cmbNode.Combine.RemoveEntry (removeEntry);
 			
 			// remove execute definition
 			CombineExecuteDefinition removeExDef = null;

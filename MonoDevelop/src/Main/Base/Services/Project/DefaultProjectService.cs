@@ -170,6 +170,10 @@ namespace MonoDevelop.Services
 			fileService.RecentOpen.AddLastProject(filename);
 			
 			OnCombineOpened(new CombineEventArgs(openCombine));
+			openCombine.FileAddedToProject += new ProjectFileEventHandler (NotifyFileAddedToProject);
+			openCombine.FileRemovedFromProject += new ProjectFileEventHandler (NotifyFileRemovedFromProject);
+			openCombine.ReferenceAddedToProject += new ProjectReferenceEventHandler (NotifyReferenceAddedToProject);
+			openCombine.ReferenceRemovedFromProject += new ProjectReferenceEventHandler (NotifyReferenceRemovedFromProject);
 			
 			RestoreCombinePreferences(CurrentOpenCombine, openCombineFileName);
 		}
@@ -202,13 +206,11 @@ namespace MonoDevelop.Services
 			}
 			ProjectFile newFileInformation = new ProjectFile(filename, action);
 			prj.ProjectFiles.Add(newFileInformation);
-			OnFileAddedToProject (new FileEventArgs (filename, false));
 			return newFileInformation;
 		}
 		
 		public void AddFileToProject(IProject prj, ProjectFile projectFile) {
 			prj.ProjectFiles.Add(projectFile);
-			OnFileAddedToProject (new FileEventArgs (projectFile.Name, false));
 		}
 
 		
@@ -462,7 +464,6 @@ namespace MonoDevelop.Services
 			base.InitializeService();
 			IFileService fileService = (IFileService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IFileService));
 			
-			FileRemovedFromProject += new FileEventHandler(CheckFileRemove);
 			fileService.FileRemoved += new FileEventHandler(CheckFileRemove);
 			fileService.FileRenamed += new FileEventHandler(CheckFileRename);
 		}
@@ -657,11 +658,6 @@ namespace MonoDevelop.Services
 		
 		public void RemoveFileFromProject(string fileName)
 		{
-			if (Directory.Exists(fileName)) {
-				OnFileRemovedFromProject(new FileEventArgs(fileName, true));
-			} else {
-				OnFileRemovedFromProject(new FileEventArgs(fileName, false));
-			}
 		}
 			
 		public void OnStartBuild()
@@ -684,20 +680,54 @@ namespace MonoDevelop.Services
 			}
 		}
 		
-		public virtual void OnFileRemovedFromProject (FileEventArgs e)
+		void NotifyFileRemovedFromProject (object sender, ProjectFileEventArgs e)
+		{
+			OnFileRemovedFromProject (e);
+		}
+		
+		void NotifyFileAddedToProject (object sender, ProjectFileEventArgs e)
+		{
+			OnFileAddedToProject (e);
+		}
+		
+		internal void NotifyReferenceAddedToProject (object sender, ProjectReferenceEventArgs e)
+		{
+			OnReferenceRemovedFromProject (e);
+		}
+		
+		internal void NotifyReferenceRemovedFromProject (object sender, ProjectReferenceEventArgs e)
+		{
+			OnReferenceAddedToProject (e);
+		}
+		
+		protected virtual void OnFileRemovedFromProject (ProjectFileEventArgs e)
 		{
 			if (FileRemovedFromProject != null) {
 				FileRemovedFromProject(this, e);
 			}
 		}
 
-		public virtual void OnFileAddedToProject (FileEventArgs e)
+		protected virtual void OnFileAddedToProject (ProjectFileEventArgs e)
 		{
 			if (FileAddedToProject != null) {
 				FileAddedToProject (this, e);
 			}
 		}
 		
+		protected virtual void OnReferenceRemovedFromProject (ProjectReferenceEventArgs e)
+		{
+			if (ReferenceRemovedFromProject != null) {
+				ReferenceRemovedFromProject (this, e);
+			}
+		}
+		
+		protected virtual void OnReferenceAddedToProject (ProjectReferenceEventArgs e)
+		{
+			if (ReferenceAddedToProject != null) {
+				ReferenceAddedToProject (this, e);
+			}
+		}
+
 		public string GetFileName(IProject project)
 		{
 			if (openCombine != null) {
@@ -739,8 +769,8 @@ namespace MonoDevelop.Services
 			openCombine.GenerateMakefiles ();
 		}
 		
-		public event FileEventHandler FileRemovedFromProject;
-		public event FileEventHandler FileAddedToProject;
+		public event ProjectFileEventHandler FileRemovedFromProject;
+		public event ProjectFileEventHandler FileAddedToProject;
 		public event EventHandler     StartBuild;
 		public event EventHandler     EndBuild;
 		public event EventHandler     BeforeStartProject;
@@ -752,5 +782,8 @@ namespace MonoDevelop.Services
 		
 		public event ProjectRenameEventHandler ProjectRenamed;
 		public event ProjectEventHandler       CurrentProjectChanged;
+		
+		public event ProjectReferenceEventHandler ReferenceAddedToProject;
+		public event ProjectReferenceEventHandler ReferenceRemovedFromProject;
 	}
 }

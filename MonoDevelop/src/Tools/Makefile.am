@@ -1,3 +1,3 @@
 
-SUBDIRS = SharpCoco
+SUBDIRS = SharpCoco dbgen
 

@@ -72,7 +72,7 @@ namespace MonoDevelop.Internal.Parser
 
 		public string Documentation {
 			get {
-				return documentation;
+				return documentation == null ? "" : documentation;
 			}
 		}
 		

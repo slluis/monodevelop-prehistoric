@@ -12,56 +12,39 @@ using MonoDevelop.Services;
 
 namespace MonoDevelop.Internal.Parser
 {
+	[Serializable]
 	public sealed class PersistentMethod : AbstractMethod
 	{
-		public PersistentMethod(BinaryReader reader, ClassProxyCollection classProxyCollection)
+		public static PersistentMethod Read (BinaryReader reader, INameDecoder nameTable)
 		{
-			FullyQualifiedName = reader.ReadString();
-			Documentation      = reader.ReadString();
+			PersistentMethod met = new PersistentMethod ();
+			met.FullyQualifiedName = PersistentHelper.ReadString (reader, nameTable);
+			met.Documentation = PersistentHelper.ReadString (reader, nameTable);
 			
-			modifiers          = (ModifierEnum)reader.ReadUInt32();
-			returnType         = new PersistentReturnType(reader, classProxyCollection);
-			if (returnType.Name == null) {
-				returnType = null;
-			}
+			met.modifiers = (ModifierEnum)reader.ReadUInt32();
+			met.returnType = PersistentReturnType.Read (reader, nameTable);
 			
 			uint count = reader.ReadUInt32();
 			for (uint i = 0; i < count; ++i) {
-				parameters.Add(new PersistentParameter(reader, classProxyCollection));
+				met.parameters.Add (PersistentParameter.Read (reader, nameTable));
 			}
+			met.region = PersistentRegion.Read (reader, nameTable);
+			return met;
 		}
 		
-		public void WriteTo(BinaryWriter writer)
+		public static void WriteTo (IMethod met, BinaryWriter writer, INameEncoder nameTable)
 		{
-			writer.Write(FullyQualifiedName);
-			writer.Write(Documentation);
-			writer.Write((uint)modifiers);
-			((PersistentReturnType)returnType).WriteTo(writer);
+			PersistentHelper.WriteString (met.FullyQualifiedName, writer, nameTable);
+			PersistentHelper.WriteString (met.Documentation, writer, nameTable);
 			
-			writer.Write((uint)parameters.Count);
-			foreach (PersistentParameter p in parameters) {
-				p.WriteTo(writer);
+			writer.Write ((uint)met.Modifiers);
+			PersistentReturnType.WriteTo (met.ReturnType, writer, nameTable);
+			
+			writer.Write (met.Parameters != null ? (uint)met.Parameters.Count : (uint)0);
+			foreach (IParameter p in met.Parameters) {
+				PersistentParameter.WriteTo (p, writer, nameTable);
 			}
+			PersistentRegion.WriteTo (met.Region, writer, nameTable);
 		}
-		
-		public PersistentMethod(ClassProxyCollection classProxyCollection, IMethod method)
-		{
-			FullyQualifiedName = method.Name;
-			if (method.Documentation != null) {
-				Documentation = method.Documentation;
-			} else {
-				Documentation = String.Empty;
-			}
-			
-			modifiers  = method.Modifiers;
-			returnType = new PersistentReturnType(classProxyCollection, method.ReturnType);
-			
-			foreach (IParameter param in method.Parameters) {
-				parameters.Add(new PersistentParameter(classProxyCollection, param));
-			}
-			
-			region = null;
-		}
-		
 	}
 }

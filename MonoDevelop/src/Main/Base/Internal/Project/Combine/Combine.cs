@@ -37,10 +37,16 @@ namespace MonoDevelop.Internal.Project
 		/// </summary>
 		string startProject  = null;
 		bool   singleStartup = true;
+		bool   eventsAllowed = true;
 		string path          = null;
 		string outputdir     = null;
 		
-		ArrayList entries       = new ArrayList();
+		ProjectFileEventHandler fileAddedToProjectHandler;
+		ProjectFileEventHandler fileRemovedFromProjectHandler;
+		ProjectReferenceEventHandler referenceAddedToProjectHandler;
+		ProjectReferenceEventHandler referenceRemovedFromProjectHandler;
+		
+		CombineEntryCollection entries = new CombineEntryCollection();
 		
 		CombineConfiguration activeConfiguration;
 		
@@ -74,7 +80,7 @@ namespace MonoDevelop.Internal.Project
 			}
 		}
 		[Browsable(false)]
-		public ArrayList Entries {
+		public ICombineEntryCollection Entries {
 			get {
 				return entries;
 			}
@@ -165,6 +171,10 @@ namespace MonoDevelop.Internal.Project
 		
 		public Combine()
 		{
+			fileAddedToProjectHandler = new ProjectFileEventHandler (NotifyFileAddedToProject);
+			fileRemovedFromProjectHandler = new ProjectFileEventHandler (NotifyFileRemovedFromProject);
+			referenceAddedToProjectHandler = new ProjectReferenceEventHandler (NotifyReferenceAddedToProject);
+			referenceRemovedFromProjectHandler = new ProjectReferenceEventHandler (NotifyReferenceRemovedFromProject);
 		}
 		
 		public Combine(string filename)
@@ -195,7 +205,6 @@ namespace MonoDevelop.Internal.Project
 			doc.Load(filename);
 			path = Path.GetDirectoryName(filename);
 			
-			
 			XmlElement root = doc.DocumentElement;
 			
 			name          = root.Attributes["name"].InnerText;
@@ -207,9 +216,15 @@ namespace MonoDevelop.Internal.Project
 			XmlNodeList nodes = root["Entries"].ChildNodes;
 			entries.Clear();
 			FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.Services.GetService(typeof(FileUtilityService));
-			foreach (XmlElement el in nodes) {
-				string abs_path = fileUtilityService.RelativeToAbsolutePath(path, el.Attributes["filename"].InnerText);
-				AddEntry(abs_path);
+			eventsAllowed = false;
+			try {
+				foreach (XmlElement el in nodes) {
+					string abs_path = fileUtilityService.RelativeToAbsolutePath(path, el.Attributes["filename"].InnerText);
+					AddEntry(abs_path);
+				}
+			}
+			finally {
+				eventsAllowed = true;
 			}
 			
 			nodes = root["StartMode"].ChildNodes;
@@ -382,7 +397,15 @@ namespace MonoDevelop.Internal.Project
 				foreach (DictionaryEntry entry in configurations) {
 					CombineConfiguration conf = (CombineConfiguration)entry.Value;
 					conf.AddEntry(project);
-				}				
+				}
+				if (eventsAllowed)
+					OnEntryAdded (new CombineEntryEventArgs (this, newEntry));
+				
+				newEntry.Project.FileRemovedFromProject += fileAddedToProjectHandler;
+				newEntry.Project.FileAddedToProject += fileRemovedFromProjectHandler;
+				newEntry.Project.ReferenceRemovedFromProject += referenceAddedToProjectHandler;
+				newEntry.Project.ReferenceAddedToProject += referenceRemovedFromProjectHandler;
+				
 				return project;
 			} else {
 				Combine combine = new Combine(filename);
@@ -405,8 +428,39 @@ namespace MonoDevelop.Internal.Project
 					CombineConfiguration conf = (CombineConfiguration)entry.Value;
 					conf.AddEntry(combine);
 				}
+				if (eventsAllowed)
+					OnEntryAdded (new CombineEntryEventArgs (this, newEntry));
+					
+				newEntry.Combine.FileRemovedFromProject += fileAddedToProjectHandler;
+				newEntry.Combine.FileAddedToProject += fileRemovedFromProjectHandler;
+				newEntry.Combine.ReferenceRemovedFromProject += referenceAddedToProjectHandler;
+				newEntry.Combine.ReferenceAddedToProject += referenceRemovedFromProjectHandler;
+				
 				return combine;
 			}
+		}
+		
+		public void RemoveEntry (CombineEntry entry)
+		{
+			ProjectCombineEntry pce = entry as ProjectCombineEntry;
+			if (pce != null) {
+				pce.Project.FileRemovedFromProject -= fileAddedToProjectHandler;
+				pce.Project.FileAddedToProject -= fileRemovedFromProjectHandler;
+				pce.Project.ReferenceRemovedFromProject -= referenceAddedToProjectHandler;
+				pce.Project.ReferenceAddedToProject -= referenceRemovedFromProjectHandler;
+			}
+			else {
+				CombineCombineEntry cce = entry as CombineCombineEntry;
+				if (cce != null) {
+					cce.Combine.FileRemovedFromProject -= fileAddedToProjectHandler;
+					cce.Combine.FileAddedToProject -= fileRemovedFromProjectHandler;
+					cce.Combine.ReferenceRemovedFromProject -= referenceAddedToProjectHandler;
+					cce.Combine.ReferenceAddedToProject -= referenceRemovedFromProjectHandler;
+				}
+			}
+				
+			entries.Remove (entry);
+			OnEntryRemoved (new CombineEntryEventArgs (this, entry));
 		}
 		
 		public void SaveAllProjects()
@@ -464,7 +518,7 @@ namespace MonoDevelop.Internal.Project
 			} else {
 				foreach (CombineExecuteDefinition ced in combineExecuteDefinitions) {
 					if (ced.Type == EntryExecuteType.Execute) {
-						StartProject(Entries.IndexOf(ced.Entry));
+						StartProject(entries.IndexOf(ced.Entry));
 					}
 				}
 			}
@@ -640,6 +694,26 @@ namespace MonoDevelop.Internal.Project
 			stream.Close ();
 		}
 		
+		internal void NotifyFileRemovedFromProject (object sender, ProjectFileEventArgs e)
+		{
+			OnFileRemovedFromProject (e);
+		}
+		
+		internal void NotifyFileAddedToProject (object sender, ProjectFileEventArgs e)
+		{
+			OnFileAddedToProject (e);
+		}
+		
+		internal void NotifyReferenceRemovedFromProject (object sender, ProjectReferenceEventArgs e)
+		{
+			OnReferenceRemovedFromProject (e);
+		}
+		
+		internal void NotifyReferenceAddedToProject (object sender, ProjectReferenceEventArgs e)
+		{
+			OnReferenceAddedToProject (e);
+		}
+		
 		protected virtual void OnStartupPropertyChanged(EventArgs e)
 		{
 			if (StartupPropertyChanged != null) {
@@ -655,8 +729,56 @@ namespace MonoDevelop.Internal.Project
 			}
 		}
 		
+		protected virtual void OnEntryAdded(CombineEntryEventArgs e)
+		{
+			if (EntryAdded != null) {
+				EntryAdded (this, e);
+			}
+		}
+		
+		protected virtual void OnEntryRemoved(CombineEntryEventArgs e)
+		{
+			if (EntryRemoved != null) {
+				EntryRemoved (this, e);
+			}
+		}
+		
+		protected virtual void OnFileRemovedFromProject (ProjectFileEventArgs e)
+		{
+			if (FileRemovedFromProject != null) {
+				FileRemovedFromProject (this, e);
+			}
+		}
+		
+		protected virtual void OnFileAddedToProject (ProjectFileEventArgs e)
+		{
+			if (FileAddedToProject != null) {
+				FileAddedToProject (this, e);
+			}
+		}
+		
+		protected virtual void OnReferenceRemovedFromProject (ProjectReferenceEventArgs e)
+		{
+			if (ReferenceRemovedFromProject != null) {
+				ReferenceRemovedFromProject (this, e);
+			}
+		}
+		
+		protected virtual void OnReferenceAddedToProject (ProjectReferenceEventArgs e)
+		{
+			if (ReferenceAddedToProject != null) {
+				ReferenceAddedToProject (this, e);
+			}
+		}
+
 		public event EventHandler NameChanged;
 		public event EventHandler StartupPropertyChanged;
+		public event CombineEntryEventHandler EntryAdded;
+		public event CombineEntryEventHandler EntryRemoved;
+		public event ProjectFileEventHandler FileAddedToProject;
+		public event ProjectFileEventHandler FileRemovedFromProject;
+		public event ProjectReferenceEventHandler ReferenceAddedToProject;
+		public event ProjectReferenceEventHandler ReferenceRemovedFromProject;
 	}
 	
 	public class CombineActiveConfigurationTypeConverter : TypeConverter

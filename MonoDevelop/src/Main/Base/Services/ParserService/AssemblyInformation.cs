@@ -31,6 +31,7 @@ namespace MonoDevelop.Services {
 	public class AssemblyInformation : MarshalByRefObject
 	{
 		ClassCollection classes = new ClassCollection();
+		string fileName;
 		
 		/// <value>
 		/// A <code>ClassColection</code> that contains all loaded classes.
@@ -39,6 +40,11 @@ namespace MonoDevelop.Services {
 			get {
 				return classes;
 			}
+		}
+		
+		public string FileName
+		{
+			get { return fileName; }
 		}
 		
 		public AssemblyInformation()
@@ -97,6 +103,9 @@ namespace MonoDevelop.Services {
 			//FIXME: Re-enable this code when the mono bug goes away, 0.32
 			//hopefully
 			//System.Reflection.Assembly asm = nonLocking ? Assembly.Load(GetBytes(fileName)) : Assembly.LoadFrom(fileName);
+			
+			this.fileName = fileName;
+			
 			Assembly asm = null;		
 			try {
 				asm = Assembly.LoadFrom (fileName);

@@ -12,6 +12,7 @@ using System.Collections;
 
 using MonoDevelop.Core.Properties;
 using MonoDevelop.Internal.Templates;
+using MonoDevelop.Internal.Project;
 using MonoDevelop.TextEditor.Document;
 using MonoDevelop.TextEditor;
 using MonoDevelop.TextEditor.Gui.CompletionWindow;
@@ -26,7 +27,7 @@ namespace MonoDevelop.DefaultEditor.Gui.Editor
 			}
 		}
 		
-		public ICompletionData[] GenerateCompletionData(string fileName, TextArea textArea, char charTyped)
+		public ICompletionData[] GenerateCompletionData(IProject project, string fileName, TextArea textArea, char charTyped)
 		{
 			CodeTemplateGroup templateGroup = CodeTemplateLoader.GetTemplateGroupPerFilename(fileName);
 			if (templateGroup == null) {

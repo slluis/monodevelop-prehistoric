@@ -49,7 +49,7 @@ namespace MonoDevelop.DefaultEditor.Gui.Editor
 		
 		ArrayList completionData = null;
 			
-		public ICompletionData[] GenerateCompletionData(string fileName, TextArea textArea, char charTyped)
+		public ICompletionData[] GenerateCompletionData(IProject project, string fileName, TextArea textArea, char charTyped)
 		{
 			IDocument document =  textArea.Document;
 			Console.WriteLine ("resolve " + document.Language);

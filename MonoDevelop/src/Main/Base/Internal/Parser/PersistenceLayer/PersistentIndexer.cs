@@ -11,56 +11,38 @@ using MonoDevelop.Services;
 
 namespace MonoDevelop.Internal.Parser
 {
+	[Serializable]
 	public sealed class PersistentIndexer : AbstractIndexer
 	{
-		public PersistentIndexer(BinaryReader reader, ClassProxyCollection classProxyCollection)
+		public static PersistentIndexer Read (BinaryReader reader, INameDecoder nameTable)
 		{
-			FullyQualifiedName = reader.ReadString();
-			Documentation      = reader.ReadString();
-			modifiers          = (ModifierEnum)reader.ReadUInt32();
-			
-			returnType         = new PersistentReturnType(reader, classProxyCollection);
-			if (returnType.Name == null) {
-				returnType = null;
-			}
+			PersistentIndexer ind = new PersistentIndexer();
+			ind.FullyQualifiedName = PersistentHelper.ReadString (reader, nameTable);
+			ind.Documentation = PersistentHelper.ReadString (reader, nameTable);
+			ind.modifiers = (ModifierEnum)reader.ReadUInt32();
+			ind.returnType = PersistentReturnType.Read (reader, nameTable);
 			
 			uint count = reader.ReadUInt32();
 			for (uint i = 0; i < count; ++i) {
-				parameters.Add(new PersistentParameter(reader, classProxyCollection));
+				ind.parameters.Add (PersistentParameter.Read (reader, nameTable));
 			}
+			ind.region = PersistentRegion.Read (reader, nameTable);
+			return ind;
 		}
 		
-		public void WriteTo(BinaryWriter writer)
+		public static void WriteTo (IIndexer ind, BinaryWriter writer, INameEncoder nameTable)
 		{
-			writer.Write(FullyQualifiedName);
-			writer.Write(Documentation);
+			PersistentHelper.WriteString (ind.FullyQualifiedName, writer, nameTable);
+			PersistentHelper.WriteString (ind.Documentation, writer, nameTable);
 			
-			writer.Write((uint)modifiers);
-			((PersistentReturnType)returnType).WriteTo(writer);
+			writer.Write((uint)ind.Modifiers);
+			PersistentReturnType.WriteTo (ind.ReturnType, writer, nameTable);
 			
-			writer.Write((uint)parameters.Count);
-			foreach (PersistentParameter p in parameters) {
-				p.WriteTo(writer);
+			writer.Write ((uint)ind.Parameters.Count);
+			foreach (IParameter p in ind.Parameters) {
+				PersistentParameter.WriteTo (p, writer, nameTable);
 			}
+			PersistentRegion.WriteTo (ind.Region, writer, nameTable);
 		}
-		
-		public PersistentIndexer(ClassProxyCollection classProxyCollection, IIndexer indexer)
-		{
-			FullyQualifiedName = indexer.Name;
-			if (indexer.Documentation != null) {
-				Documentation = indexer.Documentation;
-			} else {
-				Documentation = String.Empty;
-			}
-			modifiers = indexer.Modifiers;
-			returnType         = new PersistentReturnType(classProxyCollection, indexer.ReturnType);
-			
-			foreach (IParameter param in indexer.Parameters) {
-				parameters.Add(new PersistentParameter(classProxyCollection, param));
-			}
-			
-			region = getterRegion = setterRegion = null;
-		}
-		
 	}
 }

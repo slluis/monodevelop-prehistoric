@@ -14,16 +14,23 @@ namespace MonoDevelop.Internal.Parser
 	public abstract class AbstractNamedEntity : AbstractDecoration
 	{
 		public static Hashtable fullyQualifiedNames = new Hashtable();
-		int nameHashCode = -1;
+		string fqname;
 		
 		public virtual string FullyQualifiedName {
 			get {
-				return (string)fullyQualifiedNames[nameHashCode];
+				return fqname;
 			}
 			set {
-				nameHashCode = value.GetHashCode();
-				if (fullyQualifiedNames[nameHashCode] == null) {
-					fullyQualifiedNames[nameHashCode] = value;
+				if (value == null)
+					fqname = null;
+				else {
+					string sharedVal = fullyQualifiedNames[value] as string;
+					if (sharedVal != null)
+						fqname = sharedVal;
+					else {
+						fullyQualifiedNames[value] = value;
+						fqname = value;
+					}
 				}
 			}
 		}

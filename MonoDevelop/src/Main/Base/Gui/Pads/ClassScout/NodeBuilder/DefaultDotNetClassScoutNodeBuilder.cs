@@ -49,30 +49,32 @@ namespace MonoDevelop.Gui.Pads
 		}
 
 		private object locker = new object ();
-		public void AddToClassTree(TreeNode parentNode, ParseInformationEventArgs e)
+		
+		public void UpdateClassTree (TreeNode parentNode, ClassInformationEventArgs e)
 		{
 			lock (locker) {
-				AddToClassTree(parentNode, e.FileName, (ICompilationUnit)e.ParseInformation.MostRecentCompilationUnit);
+				RemoveFromClassTree (parentNode, e.ClassInformation.Removed);
+				AddToClassTree (parentNode, e.FileName, e.ClassInformation.Added);
+				AddToClassTree (parentNode, e.FileName, e.ClassInformation.Modified);
 			}
 		}
 		
-		public void RemoveFromClassTree(TreeNode parentNode, ParseInformationEventArgs e) {
+		public void RemoveFromClassTree (TreeNode parentNode, ClassCollection removed) {
 			ClassBrowserIconsService classBrowserIconService = (ClassBrowserIconsService)ServiceManager.Services.GetService(typeof(ClassBrowserIconsService));
 			
 			TreeNode classNode = new TreeNode();
 			
-			ICompilationUnit unit = (ICompilationUnit)e.ParseInformation.MostRecentCompilationUnit;
-			foreach (IClass c in unit.Classes) {
+			foreach (IClass c in removed) {
 				classNode.Text = c.Name;
 				classNode.Image = classBrowserIconService.GetIcon (c);
 				// TODO: Perf check
-				TreeNode node = GetNodeByPath(c.Namespace, parentNode.Nodes, false);
-				if (node != null) {
-					int oldIndex = SortUtility.BinarySearch (classNode, node.Nodes, TreeNodeComparer.Default);
+				TreeNode node = GetNodeByPath (c.Namespace, parentNode, false);
+				if (node != null && !NeedsExpansion (node)) {
+					int oldIndex = FindNodeByName (node.Nodes, c.Name);
 					if (oldIndex >= 0) {
 						node.Nodes[oldIndex].Remove ();
 					}
-					DropPhantomNamespaces (c.Namespace, parentNode.Nodes);
+					DropPhantomNamespaces (c.Namespace, parentNode);
 				}
 			}
 		}
@@ -83,6 +85,11 @@ namespace MonoDevelop.Gui.Pads
 			projectNode.Nodes.Clear();
 			foreach (TreeNode node in newNode.Nodes)
 				projectNode.Nodes.Add(node);
+		}
+		
+		static bool NeedsExpansion (TreeNode nod)
+		{
+			return (nod.Nodes.Count == 1 && nod.Nodes[0].Text == "");
 		}
 
 		public TreeNode BuildClassTreeNode(IProject p)
@@ -96,41 +103,65 @@ namespace MonoDevelop.Gui.Pads
 
 			TreeNode prjNode = new AbstractClassScoutNode(p.Name);
 			prjNode.Image = iconService.GetImageForProjectType(p.ProjectType);
- 			foreach (ProjectFile finfo in p.ProjectFiles) {
-				if (finfo.BuildAction == BuildAction.Compile) {
-					int i = 0;
-					IParserService parserService = (IParserService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IParserService));
-					if (parserService.GetParser(finfo.Name) == null) {
-						continue;
-					}
-
-					for(i=0; i < 5 && parserService.GetParseInformation(finfo.Name) == null; i++) {
-						Thread.Sleep(100);
-					}
-
-					if (parserService.GetParseInformation(finfo.Name) == null) {
-						continue;
-					}
-
-					IParseInformation parseInformation = parserService.GetParseInformation(finfo.Name);
-					if (parseInformation != null) {
-						ICompilationUnit unit = parseInformation.BestCompilationUnit as ICompilationUnit;
-						if (unit != null) {
-						   AddToClassTree(prjNode, finfo.Name, unit);
-						}
-					}
-				}
-			}
+			prjNode.Nodes.Add (new TreeNode (""));
+			prjNode.Tag = p;
 			return prjNode;
 		}
 		
-		public void AddToClassTree(TreeNode parentNode, string filename, ICompilationUnit unit)
+		public void ExpandNode (TreeNode node)
 		{
-			foreach (IClass c in unit.Classes) {
-				TreeNode node = GetNodeByPath(c.Namespace, parentNode.Nodes, true);
-				if (node == null) {
-					node = parentNode;
+			if (node.Tag == null)
+			{
+				// Build the namespace
+				string ns = node.Text;
+				TreeNode nod = node.Parent;
+				while (nod.Tag == null) {
+					ns = nod.Text + "." + ns;
+					nod = nod.Parent;
 				}
+
+				IProject p = (IProject)nod.Tag;
+				ExpandNamespaceTree (p, ns, node);
+			}
+			else if (node.Tag is IProject)
+			{
+				IProject p = (IProject)node.Tag;
+				ExpandNamespaceTree (p, "", node);
+			}
+		}
+		
+		void ExpandNamespaceTree (IProject project, string ns, TreeNode node)
+		{
+			if (!NeedsExpansion (node)) return;
+			node.Nodes.Clear ();
+			
+			IParserService parserService  = (IParserService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IParserService));
+			ArrayList contents = parserService.GetNamespaceContents (project, ns, false);
+			foreach (object item in contents)
+			{
+				if (item is string)
+				{
+					TreeNode newnode = new AbstractClassScoutNode ((string)item);
+					newnode.Image = Stock.NameSpace;
+					node.Nodes.Add (newnode);
+					newnode.Nodes.Add (new TreeNode (""));
+				}
+				else if (item is IClass)
+				{
+					node.Nodes.Add (BuildClassNode ((IClass)item));
+				}
+			}
+		}
+		
+		public void AddToClassTree(TreeNode parentNode, string filename, ClassCollection classes)
+		{
+			if (NeedsExpansion (parentNode)) return;
+			
+			foreach (IClass c in classes) {
+			
+				TreeNode node = GetNodeByPath (c.Namespace, parentNode, true);
+				if (node == null || NeedsExpansion (node))
+					continue;
 				
 				TreeNode oldClassNode = GetNodeByName(node.Nodes, c.Name);
 				bool wasExpanded = false;
@@ -139,7 +170,7 @@ namespace MonoDevelop.Gui.Pads
 					oldClassNode.Remove();
 				}
 				
-				TreeNode classNode = BuildClassNode(filename, c);
+				TreeNode classNode = BuildClassNode(c);
 				if(classNode != null) {
 					node.Nodes.Add (classNode);
 					
@@ -150,15 +181,16 @@ namespace MonoDevelop.Gui.Pads
 			}
 		}
 		
-		TreeNode BuildClassNode(string filename, IClass c)
+		TreeNode BuildClassNode (IClass c)
 		{
 			ClassBrowserIconsService classBrowserIconService = (ClassBrowserIconsService)ServiceManager.Services.GetService(typeof(ClassBrowserIconsService));
 
 			AbstractClassScoutNode classNode = new AbstractClassScoutNode(c.Name);
+			string file = c.Region.FileName;
 			
 			classNode.Image = classBrowserIconService.GetIcon (c);
 			classNode.ContextmenuAddinTreePath = "/SharpDevelop/Views/ClassScout/ContextMenu/ClassNode";
-			classNode.Tag = new ClassScoutTag(c.Region.BeginLine, filename);
+			classNode.Tag = new ClassScoutTag(c.Region.BeginLine, file);
 
 			// don't insert delegate 'members'
 			if (c.ClassType == ClassType.Delegate) {
@@ -168,12 +200,12 @@ namespace MonoDevelop.Gui.Pads
 			foreach (IClass innerClass in c.InnerClasses) {
 				if (innerClass.ClassType == ClassType.Delegate) {
 					TreeNode innerClassNode = new AbstractClassScoutNode(languageConversion.Convert(innerClass));
-					innerClassNode.Tag = new ClassScoutTag(innerClass.Region.BeginLine, filename);
+					innerClassNode.Tag = new ClassScoutTag(innerClass.Region.BeginLine, innerClass.Region.FileName == null ? file : innerClass.Region.FileName);
 					//innerClassNode.SelectedImageIndex = innerClassNode.ImageIndex = classBrowserIconService.GetIcon(innerClass);
 					innerClassNode.Image = classBrowserIconService.GetIcon(innerClass);
 					classNode.Nodes.Add(innerClassNode);
 				} else {
-					TreeNode n = BuildClassNode(filename, innerClass);
+					TreeNode n = BuildClassNode(innerClass);
 					if(classNode != null) {
 						classNode.Nodes.Add(n);
 					}
@@ -182,7 +214,7 @@ namespace MonoDevelop.Gui.Pads
 
 			foreach (IMethod method in c.Methods) {
 				TreeNode methodNode = new AbstractClassScoutNode(languageConversion.Convert(method));
-				methodNode.Tag = new ClassScoutTag(method.Region.BeginLine, filename);
+				methodNode.Tag = new ClassScoutTag(method.Region.BeginLine, method.Region.FileName == null ? file : method.Region.FileName);
 				//methodNode.SelectedImageIndex = methodNode.ImageIndex = classBrowserIconService.GetIcon(method);
 				methodNode.Image = classBrowserIconService.GetIcon(method);
 				classNode.Nodes.Add(methodNode);
@@ -190,7 +222,7 @@ namespace MonoDevelop.Gui.Pads
 			
 			foreach (IProperty property in c.Properties) {
 				TreeNode propertyNode = new AbstractClassScoutNode(languageConversion.Convert(property));
-				propertyNode.Tag = new ClassScoutTag(property.Region.BeginLine, filename);
+				propertyNode.Tag = new ClassScoutTag(property.Region.BeginLine, property.Region.FileName == null ? file : property.Region.FileName);
 				//propertyNode.SelectedImageIndex = propertyNode.ImageIndex = classBrowserIconService.GetIcon(property);
 				propertyNode.Image = classBrowserIconService.GetIcon(property);
 				classNode.Nodes.Add(propertyNode);
@@ -198,7 +230,7 @@ namespace MonoDevelop.Gui.Pads
 			
 			foreach (IField field in c.Fields) {
 				TreeNode fieldNode = new AbstractClassScoutNode(languageConversion.Convert(field));
-				fieldNode.Tag = new ClassScoutTag(field.Region.BeginLine, filename);
+				fieldNode.Tag = new ClassScoutTag(field.Region.BeginLine, field.Region.FileName == null ? file : field.Region.FileName);
 				//fieldNode.SelectedImageIndex = fieldNode.ImageIndex = classBrowserIconService.GetIcon(field);
 				fieldNode.Image = classBrowserIconService.GetIcon(field);
 				classNode.Nodes.Add(fieldNode);
@@ -206,7 +238,7 @@ namespace MonoDevelop.Gui.Pads
 			
 			foreach (IEvent e in c.Events) {
 				TreeNode eventNode = new AbstractClassScoutNode(languageConversion.Convert(e));
-				eventNode.Tag = new ClassScoutTag(e.Region.BeginLine, filename);
+				eventNode.Tag = new ClassScoutTag(e.Region.BeginLine, e.Region.FileName == null ? file : e.Region.FileName);
 				//eventNode.SelectedImageIndex = eventNode.ImageIndex = classBrowserIconService.GetIcon(e);
 				eventNode.Image = classBrowserIconService.GetIcon(e);
 				classNode.Nodes.Add(eventNode);
@@ -215,51 +247,51 @@ namespace MonoDevelop.Gui.Pads
 			return classNode;
 		}
 
-		public void DropPhantomNamespaces (string dir, TreeNodeCollection root)
+		public void DropPhantomNamespaces (string dir, TreeNode parentNode)
 		{
 			string[] full_path = dir.Split (new char[] { '.' });
 			for (int i = full_path.Length - 1; i != -1; i--)
 			{
-				TreeNode node = GetNodeByPath (String.Join (".", full_path, 0, i + 1), root, false);
-				if (node != null && node.Nodes.Count == 0)
+				TreeNode node = GetNodeByPath (String.Join (".", full_path, 0, i + 1), parentNode, false);
+				if (node != null && node.Nodes.Count == 0 && node != parentNode)
 					node.Remove ();
 			}
 		}
 		
-		static public TreeNode GetNodeByPath(string directory, TreeNodeCollection root, bool create)
+		static public TreeNode GetNodeByPath(string directory, TreeNode parentNode, bool create)
 		{
 			ClassBrowserIconsService classBrowserIconService = (ClassBrowserIconsService)ServiceManager.Services.GetService(typeof(ClassBrowserIconsService));
 
 			string[] treepath   = directory.Split(new char[] { '.' });
-			TreeNodeCollection curcollection = root;
-			TreeNode           curnode       = null;
-			if (treepath.Length == 1 && treepath[0].Length == 0) {
-				if (root.Count == 0)
-					return null;
-				return root[0].Parent;
-			}
+			TreeNode curnode = parentNode;
+			
+			if (NeedsExpansion (parentNode)) return null;
+			
+			if (treepath.Length == 1 && treepath[0].Length == 0)
+				return parentNode;
+			
 			foreach (string path in treepath) {
 				if (path.Length == 0 || path[0] == '.') {
 					continue;
 				}
 
-				TreeNode node = GetNodeByName(curcollection, path);
-				if (node == null) {
+				curnode = GetNodeByName (curnode.Nodes, path);
+				
+				if (curnode == null) {
 					if (create) {
-						TreeNode newnode = new AbstractClassScoutNode(path);
-						//newnode.ImageIndex = newnode.SelectedImageIndex = classBrowserIconService.NamespaceIndex;
-						newnode.Image = Stock.NameSpace;
-
-						curcollection.Add (newnode);
-						curnode = newnode;
-						curcollection = curnode.Nodes;
-						continue;
+						curnode = new AbstractClassScoutNode(path);
+						curnode.Image = Stock.NameSpace;
+						curnode.Nodes.Add (new TreeNode (""));
+						parentNode.Nodes.Add (curnode);
+						return null;	// Delay expansion
 					} else {
 						return null;
 					}
 				}
-				curnode = node;
-				curcollection = curnode.Nodes;
+				else if (NeedsExpansion (curnode))
+					return null;
+				
+				parentNode = curnode;
 			}
 			return curnode;
 		}
@@ -272,6 +304,15 @@ namespace MonoDevelop.Gui.Pads
 				}
 			}
 			return null;
+		}
+
+		static int FindNodeByName(TreeNodeCollection collection, string name)
+		{
+			for (int n=0; n<collection.Count; n++)
+				if (collection[n].Text == name)
+					return n;
+
+			return -1;
 		}
 	}
 }

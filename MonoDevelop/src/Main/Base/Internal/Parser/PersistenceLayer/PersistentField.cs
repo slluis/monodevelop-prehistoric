@@ -11,39 +11,27 @@ using MonoDevelop.Services;
 
 namespace MonoDevelop.Internal.Parser
 {
+	[Serializable]
 	public sealed class PersistentField : AbstractField
 	{
-		public PersistentField(BinaryReader reader, ClassProxyCollection classProxyCollection)
+		public static PersistentField Read (BinaryReader reader, INameDecoder nameTable)
 		{
-			FullyQualifiedName = reader.ReadString();
-			Documentation      = reader.ReadString();
-			modifiers          = (ModifierEnum)reader.ReadUInt32();
-			
-			returnType         = new PersistentReturnType(reader, classProxyCollection);
-			if (returnType.Name == null) {
-				returnType = null;
-			}
+			PersistentField field = new PersistentField ();
+			field.FullyQualifiedName = PersistentHelper.ReadString (reader, nameTable);
+			field.Documentation = PersistentHelper.ReadString (reader, nameTable);
+			field.modifiers = (ModifierEnum)reader.ReadUInt32();
+			field.returnType = PersistentReturnType.Read (reader, nameTable);
+			field.region = PersistentRegion.Read (reader, nameTable);
+			return field;
 		}
 		
-		public void WriteTo(BinaryWriter writer)
+		public static void WriteTo (IField field, BinaryWriter writer, INameEncoder nameTable)
 		{
-			writer.Write(FullyQualifiedName);
-			writer.Write(Documentation);
-			writer.Write((uint)modifiers);
-			((PersistentReturnType)returnType).WriteTo(writer);
-		}
-		
-		public PersistentField(ClassProxyCollection classProxyCollection, IField field)
-		{
-			modifiers          = field.Modifiers;
-			FullyQualifiedName = field.Name;
-			
-			if (field.Documentation != null) {
-				Documentation = field.Documentation;
-			}  else {
-				Documentation = String.Empty;
-			}
-			returnType         = new PersistentReturnType(classProxyCollection, field.ReturnType);
+			PersistentHelper.WriteString (field.FullyQualifiedName, writer, nameTable);
+			PersistentHelper.WriteString (field.Documentation, writer, nameTable);
+			writer.Write ((uint)field.Modifiers);
+			PersistentReturnType.WriteTo (field.ReturnType, writer, nameTable);
+			PersistentRegion.WriteTo (field.Region, writer, nameTable);
 		}
 	}
 }

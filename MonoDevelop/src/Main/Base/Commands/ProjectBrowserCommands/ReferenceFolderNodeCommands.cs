@@ -37,7 +37,6 @@ namespace MonoDevelop.Commands.ProjectBrowser
 			
 			if (node != null) {
 				IProject project = ((ProjectBrowserNode)node.Parent).Project;
-				IParserService parserService = (IParserService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IParserService));
 				
 				SelectReferenceDialog selDialog = new SelectReferenceDialog(project);
 				if (selDialog.Run() == (int)Gtk.ResponseType.Ok) {
@@ -45,7 +44,6 @@ namespace MonoDevelop.Commands.ProjectBrowser
 					project.ProjectReferences.Clear ();
 					foreach (ProjectReference refInfo in selDialog.ReferenceInformations) {
 						project.ProjectReferences.Add(refInfo);
-						parserService.AddReferenceToCompletionLookup(project, refInfo);
 					}
 					
 					DefaultDotNetNodeBuilder.InitializeReferences(node, project);

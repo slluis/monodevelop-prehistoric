@@ -458,7 +458,7 @@ namespace MonoDevelop.Gui
 					}
 					if (ActiveWorkbenchwindow.ViewContent.HasProject)
 					{
-						((Gtk.Window)WorkbenchSingleton.Workbench).Title = ActiveWorkbenchwindow.ViewContent.ProjectName + " - " + ActiveWorkbenchwindow.ViewContent.PathRelativeToProject + post + " - MonoDevelop";
+						((Gtk.Window)WorkbenchSingleton.Workbench).Title = ActiveWorkbenchwindow.ViewContent.Project.Name + " - " + ActiveWorkbenchwindow.ViewContent.PathRelativeToProject + post + " - MonoDevelop";
 					}
 					else
 					{

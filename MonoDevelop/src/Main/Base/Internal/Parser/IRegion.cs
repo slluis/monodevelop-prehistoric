@@ -27,6 +27,11 @@ namespace MonoDevelop.Internal.Parser
 			get;
 			set;
 		}
+		
+		string FileName {
+			get;
+			set;
+		}
 
 		bool IsInside(int row, int column);
 	}

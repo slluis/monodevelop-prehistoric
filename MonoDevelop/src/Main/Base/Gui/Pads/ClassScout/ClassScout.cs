@@ -60,8 +60,7 @@ namespace MonoDevelop.Gui.Pads
 		Gtk.Frame contentPanel;
 
 		ResourceService resourceService = (ResourceService)ServiceManager.Services.GetService(typeof(IResourceService));
-		ParseInformationEventHandler addParseInformationHandler = null;
-		ParseInformationEventHandler removeParseInformationHandler = null;
+		ClassInformationEventHandler changeClassInformationHandler = null;
 		Combine parseCombine;
 		ArrayList ImageList;
 		
@@ -99,8 +98,7 @@ namespace MonoDevelop.Gui.Pads
 		
 		public ClassScout() : base (false, TreeNodeComparer.GtkDefault)
 		{
-			addParseInformationHandler = new ParseInformationEventHandler(OnParseInformationAdded);
-			removeParseInformationHandler = new ParseInformationEventHandler(OnParseInformationRemoved);
+			changeClassInformationHandler = new ClassInformationEventHandler(OnClassInformationChanged);
 			
 			FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.Services.GetService(typeof(FileUtilityService));
 
@@ -110,8 +108,6 @@ namespace MonoDevelop.Gui.Pads
 
 			projectService.CombineOpened += new CombineEventHandler(OnCombineOpen);
 			projectService.CombineClosed += new CombineEventHandler(OnCombineClosed);
-			projectService.FileAddedToProject += new FileEventHandler (OnProjectFilesChanged);
-			projectService.FileRemovedFromProject += new FileEventHandler (OnProjectFilesChanged);
 
 			Gtk.ScrolledWindow sw = new Gtk.ScrolledWindow ();
 			sw.Add(this);
@@ -133,12 +129,6 @@ namespace MonoDevelop.Gui.Pads
 			}
 		}
 
-		void OnProjectFilesChanged (object sender, FileEventArgs e)
-		{
-			IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
-			OnCombineOpen (sender, new CombineEventArgs (projectService.CurrentOpenCombine));
-		}
-
 		public void RedrawContent()
 		{
 		}
@@ -153,44 +143,24 @@ namespace MonoDevelop.Gui.Pads
 		void OnCombineClosed(object sender, CombineEventArgs e)
 		{
 			IParserService parserService  = (IParserService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IParserService));
-			parserService.ParseInformationAdded -= addParseInformationHandler;
-			parserService.ParseInformationRemoved -= removeParseInformationHandler;
+			parserService.ClassInformationChanged -= changeClassInformationHandler;
 			Nodes.Clear();
 		}
-
-		ParseInformationEventArgs add_e = null;
-		void OnParseInformationAdded(object sender, ParseInformationEventArgs e)
+		
+		void AddIdle (IdleStateHandler cb, object data)
 		{
-			add_e = e;
-			GLib.Idle.Add (new GLib.IdleHandler (addParseInfo));
+			GLib.Idle.Add (new GLib.IdleHandler (new IdleWork (cb, data).Run));
 		}
 
-		bool addParseInfo ()
+		void OnClassInformationChanged(object sender, ClassInformationEventArgs e)
 		{
-			if (add_e != null) {
-				lock (add_e) {
-					AddParseInformation (Nodes, add_e);
-				}
-				add_e = null;
-			}
-			return false;
+			AddIdle (new IdleStateHandler(ChangeClassInfo), e);
 		}
 		
-		ParseInformationEventArgs remove_e;
-		void OnParseInformationRemoved(object sender, ParseInformationEventArgs e)
+		bool ChangeClassInfo (object e)
 		{
-			remove_e = e;
-			GLib.Idle.Add (new GLib.IdleHandler (removeParseInfo));
-		}
-
-		bool removeParseInfo ()
-		{
-			if (remove_e != null) {
-				lock (remove_e) {
-					RemoveParseInformation (Nodes, remove_e);
-				}
-				remove_e = null;
-			}
+			ClassInformationEventArgs ce = (ClassInformationEventArgs) e;
+			ChangeClassInformation (Nodes, ce);
 			return false;
 		}
 
@@ -213,6 +183,29 @@ namespace MonoDevelop.Gui.Pads
 				}
 			}
 		}
+		
+		protected override void OnBeforeExpand (TreeViewCancelEventArgs e)
+		{
+			TreeNode nod = e.Node;
+			if (nod.Tag == null || nod.Tag is IProject)
+			{
+				while (nod != null && nod.Tag == null)
+					nod = nod.Parent;
+					
+				if (nod == null) return;
+				
+				IProject p = (IProject)nod.Tag;
+				foreach (IClassScoutNodeBuilder classBrowserNodeBuilder in classBrowserNodeBuilders) {
+					if (classBrowserNodeBuilder.CanBuildClassTree(p)) {
+						classBrowserNodeBuilder.ExpandNode (e.Node);
+						break;
+					}
+				}
+				
+			}
+		}
+		
+		
 /*
 		protected override void OnMouseDown(MouseEventArgs e)
 		{
@@ -272,14 +265,13 @@ namespace MonoDevelop.Gui.Pads
 		
 		void StartPopulating()
 		{
-			ParseCombine(parseCombine);
+			//ParseCombine(parseCombine);
 			//Invoke(new MyD(DoPopulate));
 			Gdk.Threads.Enter();
 			DoPopulate();
 			Gdk.Threads.Leave();
 			IParserService parserService  = (IParserService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IParserService));
-			parserService.ParseInformationAdded += addParseInformationHandler;
-			parserService.ParseInformationRemoved += removeParseInformationHandler;
+			parserService.ClassInformationChanged += changeClassInformationHandler;
 		}
 
 		public void ParseCombine(Combine combine)
@@ -369,7 +361,7 @@ namespace MonoDevelop.Gui.Pads
 			}
 		}
 
-		void AddParseInformation(TreeNodeCollection nodes, ParseInformationEventArgs e)
+		void ChangeClassInformation(TreeNodeCollection nodes, ClassInformationEventArgs e)
 		{
 			BeginUpdate();
 			foreach (TreeNode node in nodes) {
@@ -377,34 +369,34 @@ namespace MonoDevelop.Gui.Pads
 					IProject p = (IProject)node.Tag;
 					if (p.IsFileInProject(e.FileName)) {
 						foreach (IClassScoutNodeBuilder classBrowserNodeBuilder in classBrowserNodeBuilders) {
-							classBrowserNodeBuilder.AddToClassTree(node, e);
+							classBrowserNodeBuilder.UpdateClassTree(node, e);
 							break;
 						}
 					}
 				} else {
-					AddParseInformation(node.Nodes, e);
+					ChangeClassInformation(node.Nodes, e);
 				}
 			}
 			EndUpdate();
 		}
+	}
+	
+	public delegate bool IdleStateHandler (object state);
+	
+	class IdleWork
+	{
+		object _data;
+		IdleStateHandler _cb;
 		
-		void RemoveParseInformation(TreeNodeCollection nodes, ParseInformationEventArgs e)
+		public IdleWork (IdleStateHandler cb, object data)
 		{
-			BeginUpdate();
-			foreach (TreeNode node in nodes) {
-				if (node.Tag is IProject) {
-					IProject p = (IProject)node.Tag;
-					if (p.IsFileInProject(e.FileName)) {
-						foreach (IClassScoutNodeBuilder classBrowserNodeBuilder in classBrowserNodeBuilders) {
-							classBrowserNodeBuilder.RemoveFromClassTree(node, e);
-							break;
-						}
-					}
-				} else {
-					RemoveParseInformation(node.Nodes, e);
-				}
-			}
-			EndUpdate();
+			_data = data;
+			_cb = cb;
+		}
+		
+		public bool Run ()
+		{
+			return _cb (_data);
 		}
 	}
 }

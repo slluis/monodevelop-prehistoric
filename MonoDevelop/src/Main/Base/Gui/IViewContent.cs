@@ -6,6 +6,7 @@
 // </file>
 
 using System;
+using MonoDevelop.Internal.Project;
 
 namespace MonoDevelop.Gui
 {
@@ -94,11 +95,11 @@ namespace MonoDevelop.Gui
 		/// <summary>
 		/// The name of the project the content is attached to
 		/// </summary>
-		string ProjectName {
+		IProject Project {
 			get;
 			set;
 		}
-		
+	
 		/// <summary>
 		/// The path relative to the project
 		/// </summary>

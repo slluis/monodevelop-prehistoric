@@ -11,39 +11,27 @@ using MonoDevelop.Services;
 
 namespace MonoDevelop.Internal.Parser
 {
+	[Serializable]
 	public sealed class PersistentEvent : AbstractEvent
 	{
-		public PersistentEvent(BinaryReader reader, ClassProxyCollection classProxyCollection)
+		public static PersistentEvent Read (BinaryReader reader, INameDecoder nameTable)
 		{
-			FullyQualifiedName = reader.ReadString();
-			Documentation      = reader.ReadString();
-			modifiers          = (ModifierEnum)reader.ReadUInt32();
-
-			returnType         = new PersistentReturnType(reader, classProxyCollection);
-			if (returnType.Name == null) {
-				returnType = null;
-			}
+			PersistentEvent ev = new PersistentEvent();
+			ev.FullyQualifiedName = PersistentHelper.ReadString (reader, nameTable);
+			ev.Documentation = PersistentHelper.ReadString (reader, nameTable);
+			ev.modifiers = (ModifierEnum)reader.ReadUInt32();
+			ev.returnType = PersistentReturnType.Read (reader, nameTable);
+			ev.region = PersistentRegion.Read (reader, nameTable);
+			return ev;
 		}
 
-		public void WriteTo(BinaryWriter writer)
+		public static void WriteTo (IEvent ev, BinaryWriter writer, INameEncoder nameTable)
 		{
-			writer.Write(FullyQualifiedName);
-			writer.Write(Documentation);
-			writer.Write((uint)modifiers);
-			((PersistentReturnType)returnType).WriteTo(writer);
-		}
-
-		public PersistentEvent(ClassProxyCollection classProxyCollection, IEvent e)
-		{
-			modifiers          = e.Modifiers;
-			FullyQualifiedName = e.Name;
-			if (e.Documentation != null) {
-				Documentation = e.Documentation;
-			} else {
-				Documentation = String.Empty;
-			}
-
-			returnType         = new PersistentReturnType(classProxyCollection, e.ReturnType);
+			PersistentHelper.WriteString (ev.FullyQualifiedName, writer, nameTable);
+			PersistentHelper.WriteString (ev.Documentation, writer, nameTable);
+			writer.Write ((uint)ev.Modifiers);
+			PersistentReturnType.WriteTo (ev.ReturnType, writer, nameTable);
+			PersistentRegion.WriteTo (ev.Region, writer, nameTable);
 		}
 	}
 }

@@ -18,6 +18,7 @@ namespace MonoDevelop.Internal.Parser {
 		protected int endLine = -1;
 		protected int beginColumn = -1;
 		protected int endColumn = -1;
+		protected string fileName;
 
 		public virtual int BeginLine {
 			get {
@@ -57,6 +58,15 @@ namespace MonoDevelop.Internal.Parser {
 			}
 		}
 
+		public string FileName {
+			get { 
+				return fileName; 
+			}
+			set {
+				fileName = value;
+			}
+		}
+		
 		public DefaultRegion(Point start, Point end) : this(start.Y, start.X, end.Y, end.X)
 		{
 		}

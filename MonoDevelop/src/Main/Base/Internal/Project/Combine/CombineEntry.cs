@@ -279,4 +279,52 @@ namespace MonoDevelop.Internal.Project
 			return String.Empty;
 		}
 	}
+
+	
+	public interface ICombineEntryCollection: IEnumerable
+	{
+		int Count { get; }
+		CombineEntry this [int n] { get; }
+		IEnumerator GetEnumerator ();
+	}
+	
+	public class CombineEntryCollection: ICombineEntryCollection
+	{
+		ArrayList list = new ArrayList ();
+		
+		public int Count
+		{
+			get { return list.Count; }
+		}
+		
+		public CombineEntry this [int n]
+		{
+			get { return (CombineEntry) list[n]; }
+		}
+		
+		public IEnumerator GetEnumerator ()
+		{
+			return list.GetEnumerator ();
+		}
+		
+		public void Add (CombineEntry entry)
+		{
+			list.Add (entry);
+		}
+		
+		public void Remove (CombineEntry entry)
+		{
+			list.Remove (entry);
+		}
+		
+		public int IndexOf (CombineEntry entry)
+		{
+			return list.IndexOf (entry);
+		}
+		
+		public void Clear ()
+		{
+			list.Clear ();
+		}
+	}
 }

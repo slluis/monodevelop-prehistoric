@@ -205,11 +205,13 @@ FILES= \
 ./Services/ClassBrowserIcons/ClassBrowserIconsService.cs \
 ./Services/ResourceNotFoundException.cs \
 ./Services/ParserService/DefaultParserService.cs \
+./Services/ParserService/CodeCompletionDatabase.cs \
 ./Services/ParserService/ClassProxyCollection.cs \
 ./Services/ParserService/IParserService.cs \
 ./Services/ParserService/ClassProxy.cs \
 ./Services/ParserService/AssemblyInformation.cs \
 ./Services/ParserService/ParseInformation.cs \
+./Services/ParserService/ClassInformationEventHandler.cs \
 ./Services/ResourceService.cs \
 ./Services/StockIcons.cs \
 ./Services/MessageService.cs \
@@ -339,10 +341,12 @@ FILES= \
 ./Internal/Project/Project/AbstractProjectConfiguration.cs \
 ./Internal/Project/Project/AbstractProject.cs \
 ./Internal/Project/Project/ProjectReference.cs \
+./Internal/Project/Project/ProjectReferenceEventArgs.cs \
 ./Internal/Project/Project/ConvertXml.cs \
 ./Internal/Project/Project/IncludeFilesDialog.cs \
 ./Internal/Project/Project/IConfiguration.cs \
 ./Internal/Project/Project/ProjectFile.cs \
+./Internal/Project/Project/ProjectFileEventArgs.cs \
 ./Internal/Project/Project/AbstractConfiguration.cs \
 ./Internal/Project/Project/IProject.cs \
 ./Internal/Project/Combine/Combine.cs \
@@ -351,6 +355,7 @@ FILES= \
 ./Internal/Project/Combine/CombineConfiguration.cs \
 ./Internal/Project/Combine/NoStartupCombineDefinedException.cs \
 ./Internal/Project/Combine/CombineEntry.cs \
+./Internal/Project/Combine/CombineEntryEventArgs.cs \
 ./Internal/Templates/FileDescriptionTemplate.cs \
 ./Internal/Templates/CodeTemplate.cs \
 ./Internal/Templates/CodeTemplateGroup.cs \

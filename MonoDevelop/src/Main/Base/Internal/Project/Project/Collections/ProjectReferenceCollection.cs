@@ -18,36 +18,19 @@ namespace MonoDevelop.Internal.Project.Collections
 	[Serializable()]
 	public class ProjectReferenceCollection : CollectionBase {
 		
+		AbstractProject project;
+		
 		/// <summary>
 		///     <para>
 		///       Initializes a new instance of <see cref='.ProjectReferenceCollection'/>.
 		///    </para>
 		/// </summary>
-		public ProjectReferenceCollection() {
+		internal ProjectReferenceCollection() {
 		}
 		
-		/// <summary>
-		///     <para>
-		///       Initializes a new instance of <see cref='.ProjectReferenceCollection'/> based on another <see cref='.ProjectReferenceCollection'/>.
-		///    </para>
-		/// </summary>
-		/// <param name='value'>
-		///       A <see cref='.ProjectReferenceCollection'/> from which the contents are copied
-		/// </param>
-		public ProjectReferenceCollection(ProjectReferenceCollection value) {
-			this.AddRange(value);
-		}
-		
-		/// <summary>
-		///     <para>
-		///       Initializes a new instance of <see cref='.ProjectReferenceCollection'/> containing any array of <see cref='.ProjectReference'/> objects.
-		///    </para>
-		/// </summary>
-		/// <param name='value'>
-		///       A array of <see cref='.ProjectReference'/> objects with which to intialize the collection
-		/// </param>
-		public ProjectReferenceCollection(ProjectReference[] value) {
-			this.AddRange(value);
+		internal void SetProject (AbstractProject project)
+		{
+			this.project = project;
 		}
 		
 		/// <summary>
@@ -63,7 +46,9 @@ namespace MonoDevelop.Internal.Project.Collections
 				return ((ProjectReference)(List[index]));
 			}
 			set {
+				project.NotifyReferenceRemovedFromProject ((ProjectReference)List[index]);
 				List[index] = value;
+				project.NotifyReferenceAddedToProject (value);
 			}
 		}
 		
@@ -77,7 +62,9 @@ namespace MonoDevelop.Internal.Project.Collections
 		/// </returns>
 		/// <seealso cref='.ProjectReferenceCollection.AddRange'/>
 		public int Add(ProjectReference value) {
-			return List.Add(value);
+			int i = List.Add(value);
+			project.NotifyReferenceAddedToProject (value);
+			return i;
 		}
 		
 		/// <summary>
@@ -168,6 +155,7 @@ namespace MonoDevelop.Internal.Project.Collections
 		/// <seealso cref='.ProjectReferenceCollection.Add'/>
 		public void Insert(int index, ProjectReference value) {
 			List.Insert(index, value);
+			project.NotifyReferenceAddedToProject (value);
 		}
 		
 		/// <summary>
@@ -189,6 +177,7 @@ namespace MonoDevelop.Internal.Project.Collections
 		/// <exception cref='System.ArgumentException'><paramref name='value'/> is not found in the Collection. </exception>
 		public void Remove(ProjectReference value) {
 			List.Remove(value);
+			project.NotifyReferenceRemovedFromProject (value);
 		}
 		
 		public class ProjectReferenceEnumerator : object, IEnumerator {

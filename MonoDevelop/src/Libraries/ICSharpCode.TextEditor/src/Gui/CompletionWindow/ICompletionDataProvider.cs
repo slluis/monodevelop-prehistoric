@@ -22,6 +22,6 @@ namespace MonoDevelop.TextEditor.Gui.CompletionWindow
 			get;
 		}
 		
-		ICompletionData[] GenerateCompletionData(string fileName, TextArea textArea, char charTyped);
+		ICompletionData[] GenerateCompletionData(IProject project, string fileName, TextArea textArea, char charTyped);
 	}
 }

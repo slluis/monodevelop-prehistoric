@@ -1,3 +1,114 @@
+2004-05-25  Lluis Sanchez Gual  <lluis@ximian.com>
+
+	* Commands/ProjectBrowserCommands/ReferenceFolderNodeCommands.cs:
+	  Removed call to IParserService.AddReferenceToCompletionLookup. The parser
+	  service now receives an event when a reference is added.
+	  
+	* Commands/AutostartCommands.cs: Disabled generation of initial code
+	  completion database.
+	  
+	* Services/File/DefaultFileService.cs: In LoadFileWrapper, use IProject
+	  reference instead of project name.
+	
+	* Services/Project/DefaultProjectService.cs: Added ReferenceAddedToProject
+	  and ReferenceRemovedFromProject events. Changed how event are handled.
+	  Now the service just forwards the events received from the open combine.
+	  The file events now use a new ProjectFileEventHandler delegate, which
+	  provide information about the source project in the args.
+	  
+	* Services/Project/IProjectService.cs: Added new reference events.
+	
+	* ParserService/DefaultParserService.cs: Mostly reimplemented. The new
+	  implementation uses a unified data structure for storing information
+	  from projects and assemblies.
+	  
+	* Services/ParserService/AssemblyInformation.cs: Added FileName property.
+	
+	* Services/ParserService/IParserService.cs: Added IProject parameter to
+	  most of methods. Added SearchNamespace, SearchType methods (moved
+	  from AbstractUnit), and GetClassInheritanceTree (moved from 
+	  AbstractClass).
+	  Removed ParseInformationAdded and ParseInformationRemoved, and added a
+	  new ClassInformationChanged event that provides all change information
+	  at once.
+	  
+	* Gui/Workbench/Layouts/SdiWorkspaceLayout.cs: Take the name of the project
+	  from view's IProject property.
+	  
+	* Gui/IViewContent.cs: Changed ProjectName property to IProject Project
+	  property.
+	  
+	* Gui/Pads/ClassScout/NodeBuilder/DefaultDotNetClassScoutNodeBuilder.cs
+	* Gui/Pads/ClassScout/ClassScout.cs: Use the new events and data structures
+	  from of parser service. Now, class data is not fully loaded when opening
+	  the project, but it is loaded under demand as project nodes are expanded.
+	  
+	* Gui/Pads/ClassScout/NodeBuilder/IClassScoutNodeBuilder.cs: Use a single
+	  method to update the tree from parse event args.
+	  
+	* Gui/Pads/ProjectBrowser/BrowserNode/ProjectBrowserNode.cs,
+	  Gui/Pads/ProjectBrowser/BrowserNode/CombineBrowserNode.cs:
+	  Use Combine.RemoveEntry to remove projects from a combine.
+	  
+	* Gui/AbstractViewContent.cs: Implement new Project property.
+	
+	* Makefile.am: Added new files: 
+	  Services/ParserService/CodeCompletionDatabase.cs,
+	  Services/ParserService/ClassInformationEventHandler.cs,
+	  Internal/Project/Project/ProjectReferenceEventArgs.cs,
+	  Internal/Project/Project/ProjectFileEventArgs.cs,
+	  Internal/Project/Combine/CombineEntryEventArgs.cs.
+	  
+	* Internal/Project/Project/IProject.cs: Added new events for changes in
+	  files and references.
+	  
+	* Internal/Project/Project/Collections/ProjectReferenceCollection.cs
+	  Internal/Project/Project/Collections/ProjectFileCollection.cs,
+	  AbstractProject.cs,
+	  Internal/Project/Combine/Combine.cs:
+	  Added support for new events.
+	  
+	* Internal/Project/Combine/CombineEntry.cs: Created CombineEntryCollection.
+	
+	* Internal/Parser/PersistenceLayer/PersistentIndexer.cs,
+	  Internal/Parser/PersistenceLayer/PersistentParameter.cs,
+	  Internal/Parser/PersistenceLayer/PersistentMethod.cs,
+	  Internal/Parser/PersistenceLayer/PersistentReturnType.cs,
+	  Internal/Parser/PersistenceLayer/PersistentEvent.cs,
+	  Internal/Parser/PersistenceLayer/PersistentField.cs,
+	  Internal/Parser/PersistenceLayer/PersistentProperty.cs,
+	  Internal/Parser/PersistenceLayer/PersistentClass.cs,
+	  New implementation of read and write methods based on static methods. In
+	  this way it can be used to write instances of any IClass and not only
+	  PersistentClass. Also use new helper methods for writing strings and
+	  object references.
+	  
+	* Internal/Parser/IClass.cs: Moved ClassInheritanceTree to IParserService.
+	
+	* Internal/Parser/ReflectionLayer/ReflectionClass.cs: Added Null check for
+	  MonodocService.
+	  
+	* Internal/Parser/IRegion.cs: Added FileName property.
+	
+	* Internal/Parser/Implementations/AbstractUsing.cs,
+	  Internal/Parser/IUsing.cs: Moved SearchType and SearchNamespace to
+	  IParserService.
+	  
+	* Internal/Parser/Implementations/AbstractDecoration.cs,
+	  Internal/Parser/Implementations/AbstractNamedEntity.cs,
+	  Internal/Parser/Implementations/AbstractReturnType.cs: Fixed usage of
+	  documentation hashtable. GetHashCode() do not return unique values!
+	  
+	* Internal/Parser/Implementations/DefaultRegion.cs: Implemented FileName
+	  property.
+	  
+	* Internal/Parser/Implementations/AbstractClass.cs: 
+	  Moved ClassInheritanceTree to IParserService.
+	  
+	* Internal/Parser/Implementations/AbstractParameter.cs: Added null check.
+	
+	* Internal/Parser/IParser.cs: Added Project parameter to some methods.
+	
 2004-05-25  Todd Berman  <tberman@sevenl.net>
 
 	* Internal/Project/Combine/Combine.cs: more makefile magic for

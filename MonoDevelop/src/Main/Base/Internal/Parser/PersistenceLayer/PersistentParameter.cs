@@ -11,39 +11,25 @@ using MonoDevelop.Services;
 
 namespace MonoDevelop.Internal.Parser
 {
+	[Serializable]
 	public sealed class PersistentParameter : AbstractParameter
 	{
-		public PersistentParameter(BinaryReader reader, ClassProxyCollection classProxyCollection)
+		public static PersistentParameter Read (BinaryReader reader, INameDecoder nameTable)
 		{
-			name     = reader.ReadString();
-			documentation      = reader.ReadString();
-
-			modifier = (ParameterModifier)reader.ReadByte();
-						
-			returnType = new PersistentReturnType(reader, classProxyCollection);
-			if (returnType.Name == null) {
-				returnType = null;
-			}
+			PersistentParameter par = new PersistentParameter ();
+			par.name = PersistentHelper.ReadString (reader, nameTable);
+			par.documentation = PersistentHelper.ReadString (reader, nameTable);
+			par.modifier = (ParameterModifier)reader.ReadByte();
+			par.returnType = PersistentReturnType.Read (reader, nameTable);
+			return par;
 		}
 		
-		public void WriteTo(BinaryWriter writer)
+		public static void WriteTo (IParameter p, BinaryWriter writer, INameEncoder nameTable)
 		{
-			writer.Write(name);
-			writer.Write(documentation);
-			writer.Write((byte)modifier);
-			((PersistentReturnType)returnType).WriteTo(writer);
-		}
-		
-		public PersistentParameter(ClassProxyCollection classProxyCollection, IParameter param)
-		{
-			name          = param.Name;
-			documentation = param.Documentation;
-			if (documentation == null) {
-				documentation = String.Empty;
-			}
-			
-			returnType = new PersistentReturnType(classProxyCollection, param.ReturnType);
-			modifier   = param.Modifier;
+			PersistentHelper.WriteString (p.Name, writer, nameTable);
+			PersistentHelper.WriteString (p.Documentation, writer, nameTable);
+			writer.Write((byte)p.Modifier);
+			PersistentReturnType.WriteTo (p.ReturnType, writer, nameTable);
 		}
 	}
 }
