@@ -1,4 +1,4 @@
-2004-12-07  Alexandre Gomes <alexmipego@hotmail.com>
+2004-12-10  Alexandre Gomes <alexmipego@hotmail.com>
 	
 	* Gui/SourceEditorDisplayBinding.cs:
 	* Gui/SourceEditorBuffer.cs: Keys 'Home' and 'End' while having
