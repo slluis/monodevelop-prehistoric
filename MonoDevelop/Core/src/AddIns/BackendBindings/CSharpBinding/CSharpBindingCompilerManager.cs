@@ -82,9 +82,11 @@ namespace CSharpBinding
 					writer.WriteLine("/d:DEBUG");
 				}
 				
-				if (compilerparameters.Optimize) {
+				// mcs default is + but others might not be
+				if (compilerparameters.Optimize)
 					writer.WriteLine("/optimize+");
-				}
+				else
+					writer.WriteLine("/optimize-");
 				
 				if (compilerparameters.Win32Icon != null && compilerparameters.Win32Icon.Length > 0 && File.Exists (compilerparameters.Win32Icon)) {
 					writer.WriteLine("\"/win32icon:" + compilerparameters.Win32Icon + "\"");
