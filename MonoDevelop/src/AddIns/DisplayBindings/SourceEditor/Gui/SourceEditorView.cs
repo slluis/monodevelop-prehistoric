@@ -125,7 +125,6 @@ namespace MonoDevelop.SourceEditor.Gui {
 					}
 					break;
 				case '[':
-					break;
 					try {
 						InsightWindow insightWindow = new InsightWindow(this, ParentEditor.DisplayBinding.ContentName);
 						

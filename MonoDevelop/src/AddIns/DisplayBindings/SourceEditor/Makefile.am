@@ -20,6 +20,8 @@ SOURCES = ./CodeCompletion/CodeCompletionData.cs \
 ./Gui/OptionPanels/GeneralTextEditorPanel.cs \
 ./Gui/EditTemplateGroupDialog.cs \
 ./Gui/Dialogs/GotoLineNumberDialog.cs \
+./Gui/Dialogs/ReplaceDialog.cs \
+./Gui/Dialogs/ReplaceInFilesDialog.cs \
 ./InsightWindow/IndexerInsightDataProvider.cs \
 ./InsightWindow/MethodInsightDataProvider.cs \
 ./InsightWindow/InsightWindow.cs \
@@ -39,7 +41,32 @@ SOURCES = ./CodeCompletion/CodeCompletionData.cs \
 ./FormattingStrategy/IndentStyle.cs \
 ./FormattingStrategy/IFormattingStrategy.cs \
 ./FormattingStrategy/IFormattableDocument.cs \
-./Codons/EditActionCodon.cs
+./Codons/EditActionCodon.cs \
+./Search/DocumentIterator/ProvidedDocumentInformation.cs \
+./Search/DocumentIterator/DirectoryDocumentIterator.cs \
+./Search/DocumentIterator/AllOpenDocumentIterator.cs \
+./Search/DocumentIterator/IDocumentIterator.cs \
+./Search/DocumentIterator/ReverseDocumentIterator.cs \
+./Search/DocumentIterator/WholeProjectDocumentIterator.cs \
+./Search/DocumentIterator/CurrentDocumentIterator.cs \
+./Search/SearchStrategy/KMPSearchStrategy.cs \
+./Search/SearchStrategy/ISearchStrategy.cs \
+./Search/SearchStrategy/BruteForceSearchStrategy.cs \
+./Search/SearchStrategy/RegExSearchStrategy.cs \
+./Search/SearchStrategy/WildcardSearchStrategy.cs \
+./Search/SearchReplaceManager.cs \
+./Search/DefaultFind.cs \
+./Search/SearchResult/DefaultSearchResult.cs \
+./Search/SearchResult/ISearchResult.cs \
+./Search/SearchOptions.cs \
+./Search/SearchReplaceInFilesManager.cs \
+./Search/SearchReplaceUtilities.cs \
+./Search/IFind.cs \
+./Search/TextIterator/ITextIterator.cs \
+./Search/TextIterator/ITextIteratorBuilder.cs \
+./Search/TextIterator/ForwardTextIteratorBuilder.cs \
+./Search/TextIterator/ForwardTextIterator.cs \
+./Search/ITextBufferStrategy.cs
 
 all : $(DLL)
 
