@@ -229,6 +229,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs {
 			string solution = txt_subdirectory.Text;
 			string name     = txt_name.Text;
 			string location = entry_location.GtkEntry.Text;
+			
 			if ((solution != null && solution.Trim () != "" 
 				&& (!fileUtilityService.IsValidFileName (solution) || solution.IndexOf(System.IO.Path.DirectorySeparatorChar) >= 0)) ||
 			    !fileUtilityService.IsValidFileName(name)     || name.IndexOf(System.IO.Path.DirectorySeparatorChar) >= 0 ||
@@ -364,7 +365,8 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs {
 			//label = stringParserService.Parse ("${res:Dialog.NewProject.autoCreateSubDirCheckBox}");
 			
 			
-			entry_location.GtkEntry.Text = propertyService.GetProperty ("ICSharpCode.SharpDevelop.Gui.Dialogs.NewProjectDialog.DefaultPath", fileUtilityService.GetDirectoryNameWithSeparator (Environment.GetFolderPath (Environment.SpecialFolder.Personal)) + "MonoDevelopProjects").ToString ();
+			entry_location.DefaultPath = propertyService.GetProperty ("ICSharpCode.SharpDevelop.Gui.Dialogs.NewProjectDialog.DefaultPath", fileUtilityService.GetDirectoryNameWithSeparator (Environment.GetFolderPath (Environment.SpecialFolder.Personal)) + "MonoDevelopProjects").ToString ();
+			entry_location.GtkEntry.Text = entry_location.DefaultPath;
 			
 			PathChanged (null, null);
 			
