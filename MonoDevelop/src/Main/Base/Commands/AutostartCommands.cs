@@ -54,8 +54,8 @@ namespace ICSharpCode.SharpDevelop.Commands
 		{
 			PropertyService propertyService = (PropertyService)ServiceManager.Services.GetService(typeof(PropertyService));
 			string path = propertyService.GetProperty ("SharpDevelop.CodeCompletion.DataDirectory", null);
-			string codeCompletionProxyFile = path + Path.DirectorySeparatorChar + "CodeCompletionProxyDataV02.bin";
-			Console.WriteLine("checking for existence of {0}", codeCompletionProxyFile);
+			string codeCompletionProxyFile = Path.Combine (path, "CodeCompletionProxyDataV02.bin");
+			//Console.WriteLine("checking for existence of {0}", codeCompletionProxyFile);
 
 			if (!File.Exists (codeCompletionProxyFile)) {
 				RunWizard();
