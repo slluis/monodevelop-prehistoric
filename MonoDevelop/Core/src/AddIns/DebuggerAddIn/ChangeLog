@@ -1,5 +1,9 @@
 2005-04-01  Chris Toshok  <toshok@ximian.com>
 
+	* Visualizers/*: Start of debug visualizer support.
+	
+2005-04-01  Chris Toshok  <toshok@ximian.com>
+
 	* Gui/Debugger*Pad.cs: rename to Gui/*Pad.cs (drop the
 	"Debugger").
 	
