@@ -1,3 +1,10 @@
+2004-12-07  Lluis Sanchez Gual  <lluis@novell.com>
+
+	* Gui/Pads/CompilerMessageView.cs: Subscribe to service events using
+	gui-thread aware delegates. Use Runtime class to access services.
+	* Search/SearchReplaceInFilesManager.cs: TaskService is now gui-thread
+	safe, so this class can be simplified.
+
 2004-12-06  Lluis Sanchez Gual  <lluis@novell.com>
 
 	* InsightWindow/MethodInsightDataProvider.cs:

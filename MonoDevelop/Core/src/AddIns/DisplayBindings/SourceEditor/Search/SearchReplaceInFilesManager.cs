@@ -30,8 +30,6 @@ namespace MonoDevelop.TextEditor.Document
 		static IFind find                  = new DefaultFind();
 		static SearchOptions searchOptions = new SearchOptions("SharpDevelop.SearchAndReplace.SearchAndReplaceInFilesProperties");
 		
-		static PropertyService      propertyService = (PropertyService)ServiceManager.GetService(typeof(PropertyService));
-		
 		static string              currentFileName = String.Empty;
 		static SourceEditorBuffer  currentDocument = null;
 		static DateTime timer;
@@ -68,8 +66,6 @@ namespace MonoDevelop.TextEditor.Document
 		/// </remarks>
 		static void DisplaySearchResult(ISearchResult result)
 		{
-			TaskService taskService = (TaskService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(TaskService));
-			
 			// check if the current document is up to date
 			if (currentFileName != result.FileName || currentDocument == null) {
 				// if not, create new document
@@ -80,7 +76,7 @@ namespace MonoDevelop.TextEditor.Document
 				catch
 				{
 					string msg = string.Format (GettextCatalog.GetString ("Match at offset {0}"), result.Offset);
-					taskService.AddTask (new Task(result.FileName, msg, -1, -1));
+					Runtime.TaskService.AddTask (new Task(result.FileName, msg, -1, -1));
 					return;
 				}
 			}
@@ -92,20 +88,14 @@ namespace MonoDevelop.TextEditor.Document
 			TextIter start_line = resultIter, end_line = resultIter;
 			start_line.LineOffset = 0;
 			end_line.ForwardToLineEnd ();
-			taskService.AddTask (new Task(result.FileName, currentDocument.GetText(start_line.Offset, end_line.Offset - start_line.Offset), resultIter.LineOffset, lineNumber));
-		}
-		
-		static void DisplaySearchResultCallback (object data)
-		{
-			DisplaySearchResult ((ISearchResult) data);
+			Runtime.TaskService.AddTask (new Task (result.FileName, currentDocument.GetText(start_line.Offset, end_line.Offset - start_line.Offset), resultIter.LineOffset, lineNumber));
 		}
 		
 		static bool InitializeSearchInFiles()
 		{
 			Debug.Assert(searchOptions != null);
 			
-			TaskService taskService = (TaskService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(TaskService));
-			taskService.ClearTasks();
+			Runtime.TaskService.ClearTasks();
 			
 			InitializeDocumentIterator(null, null);
 			InitializeSearchStrategy(null, null);
@@ -120,7 +110,6 @@ namespace MonoDevelop.TextEditor.Document
 		
 		static void FinishSearchInFiles ()
 		{
-			TaskService taskService = (TaskService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(TaskService));
 			string msg;
 			if (searchError != null)
 				msg = string.Format (GettextCatalog.GetString ("The search could not be finished: {0}"), searchError);
@@ -129,28 +118,21 @@ namespace MonoDevelop.TextEditor.Document
 			else
 				msg = string.Format (GettextCatalog.GetString ("Search completed. {0} matches found in {1} files."), find.MatchCount, find.SearchedFileCount);
 				
-			taskService.AddTask (new Task(null, msg, -1, -1));
-			
-			// present the taskview to show the search results
-			OpenTaskView taskView = WorkbenchSingleton.Workbench.GetPad(typeof(OpenTaskView)) as OpenTaskView;
-			if (taskView != null) {
-				taskView.BringToFront();
-			}
-			
+			Runtime.TaskService.AddTask (new Task(null, msg, -1, -1));
+			Runtime.TaskService.ShowTasks ();
+
 			Console.WriteLine ("Search time: " + (DateTime.Now - timer).TotalSeconds);
 			searching = false;
 			
 			// tell the user search is done.
-/*			MessageService MessageService = (MessageService)ServiceManager.GetService (typeof (MessageService));
-			MessageService.ShowMessage (GettextCatalog.GetString ("Search completed"));
+/*			Runtime.MessageService.ShowMessage (GettextCatalog.GetString ("Search completed"));
 			Console.WriteLine ("Done");
 */		}
 		
 		public static void ReplaceAll()
 		{
 			if (searching) {
-				MessageService MessageService = (MessageService)ServiceManager.GetService (typeof (MessageService));
-				if (!MessageService.AskQuestion (GettextCatalog.GetString ("There is a search already in progress. Do you want to cancel it?")))
+				if (!Runtime.MessageService.AskQuestion (GettextCatalog.GetString ("There is a search already in progress. Do you want to cancel it?")))
 					return;
 				CancelSearch ();
 			}
@@ -159,18 +141,15 @@ namespace MonoDevelop.TextEditor.Document
 				return;
 			}
 			
-			TaskService taskService = (TaskService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(TaskService));
 			string msg = string.Format (GettextCatalog.GetString ("Replacing '{0}' in {1}."), searchOptions.SearchPattern, searchOptions.SearchDirectory);
-			taskService.AddTask (new Task(null, msg, -1, -1));
+			Runtime.TaskService.AddTask (new Task(null, msg, -1, -1));
 			
 			timer = DateTime.Now;
-			DispatchService dispatcher = (DispatchService)ServiceManager.GetService (typeof (DispatchService));
-			dispatcher.BackgroundDispatch (new MessageHandler(ReplaceAllThread));
+			Runtime.DispatchService.BackgroundDispatch (new MessageHandler(ReplaceAllThread));
 		}
 		
 		public static void ReplaceAllThread()
 		{
-			DispatchService dispatcher = (DispatchService)ServiceManager.GetService (typeof (DispatchService));
 			searching = true;
 			searchError = null;
 			
@@ -184,8 +163,7 @@ namespace MonoDevelop.TextEditor.Document
 					}
 					
 					find.Replace(result, result.TransformReplacePattern(SearchOptions.ReplacePattern));
-					
-					dispatcher.GuiDispatch (new StatefulMessageHandler (DisplaySearchResultCallback), result);
+					DisplaySearchResult (result);
 				}
 				catch (Exception ex) 
 				{
@@ -194,14 +172,13 @@ namespace MonoDevelop.TextEditor.Document
 				}
 			}
 			
-			dispatcher.GuiDispatch (new MessageHandler (FinishSearchInFiles));
+			FinishSearchInFiles ();
 		}
 		
 		public static void FindAll()
 		{
 			if (searching) {
-				MessageService MessageService = (MessageService)ServiceManager.GetService (typeof (MessageService));
-				if (!MessageService.AskQuestion (GettextCatalog.GetString ("There is a search already in progress. Do you want to cancel it?")))
+				if (!Runtime.MessageService.AskQuestion (GettextCatalog.GetString ("There is a search already in progress. Do you want to cancel it?")))
 					return;
 				CancelSearch ();
 			}
@@ -210,18 +187,15 @@ namespace MonoDevelop.TextEditor.Document
 				return;
 			}
 			
-			TaskService taskService = (TaskService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(TaskService));
 			string msg = string.Format (GettextCatalog.GetString ("Looking for '{0}' in {1}."), searchOptions.SearchPattern, searchOptions.SearchDirectory);
-			taskService.AddTask (new Task(null, msg, -1, -1));
+			Runtime.TaskService.AddTask (new Task(null, msg, -1, -1));
 			
 			timer = DateTime.Now;
-			DispatchService dispatcher = (DispatchService)ServiceManager.GetService (typeof (DispatchService));
-			dispatcher.BackgroundDispatch (new MessageHandler(FindAllThread));
+			Runtime.DispatchService.BackgroundDispatch (new MessageHandler(FindAllThread));
 		}
 		
 		public static void FindAllThread()
 		{
-			DispatchService dispatcher = (DispatchService)ServiceManager.GetService (typeof (DispatchService));
 			searching = true;
 			searchError = null;
 			
@@ -233,8 +207,8 @@ namespace MonoDevelop.TextEditor.Document
 					if (result == null) {
 						break;
 					}
-	
-					dispatcher.GuiDispatch (new StatefulMessageHandler (DisplaySearchResultCallback), result);
+
+					DisplaySearchResult (result);
 				}
 				catch (Exception ex)
 				{
@@ -243,7 +217,7 @@ namespace MonoDevelop.TextEditor.Document
 				}
 			}
 			
-			dispatcher.GuiDispatch (new MessageHandler (FinishSearchInFiles));
+			FinishSearchInFiles ();
 		}
 		
 		static void CancelSearch ()

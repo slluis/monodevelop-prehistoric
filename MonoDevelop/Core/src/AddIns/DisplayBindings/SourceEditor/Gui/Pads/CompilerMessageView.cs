@@ -70,13 +70,10 @@ namespace MonoDevelop.EditorBindings.Gui.Pads
 			scroller.ShadowType = ShadowType.In;
 			scroller.Add (textEditorControl);
 			
-			TaskService     taskService    = (TaskService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(TaskService));
-			IProjectService projectService = (IProjectService) ServiceManager.GetService (typeof(IProjectService));
-			
-			taskService.CompilerOutputChanged += new EventHandler(SetOutput);
-			projectService.StartBuild      += new EventHandler (SelectMessageView);
-			projectService.CombineClosed += new CombineEventHandler (OnCombineClosed);
-			projectService.CombineOpened += new CombineEventHandler (OnCombineOpen);
+			Runtime.TaskService.CompilerOutputChanged += (EventHandler) Runtime.DispatchService.GuiDispatch (new EventHandler(SetOutput));
+			Runtime.ProjectService.StartBuild += (EventHandler) Runtime.DispatchService.GuiDispatch (new EventHandler (SelectMessageView));
+			Runtime.ProjectService.CombineClosed += (CombineEventHandler) Runtime.DispatchService.GuiDispatch (new CombineEventHandler (OnCombineClosed));
+			Runtime.ProjectService.CombineOpened += (CombineEventHandler) Runtime.DispatchService.GuiDispatch (new CombineEventHandler (OnCombineOpen));
 		}
 		
 		void OnCombineOpen(object sender, CombineEventArgs e)
@@ -91,12 +88,10 @@ namespace MonoDevelop.EditorBindings.Gui.Pads
 		
 		void SelectMessageView(object sender, EventArgs e)
 		{
-			PropertyService propertyService = (PropertyService)ServiceManager.GetService(typeof(PropertyService));
-			
 			if (WorkbenchSingleton.Workbench.WorkbenchLayout.IsVisible(this)) {
 				WorkbenchSingleton.Workbench.WorkbenchLayout.ActivatePad(this);
 			} else { 
-				if ((bool)propertyService.GetProperty("SharpDevelop.ShowOutputWindowAtBuild", true)) {
+				if ((bool)Runtime.Properties.GetProperty("SharpDevelop.ShowOutputWindowAtBuild", true)) {
 					WorkbenchSingleton.Workbench.WorkbenchLayout.ShowPad(this);
 					WorkbenchSingleton.Workbench.WorkbenchLayout.ActivatePad(this);
 				}
@@ -106,9 +101,8 @@ namespace MonoDevelop.EditorBindings.Gui.Pads
 		
 		void SetOutput2()
 		{
-			TaskService taskService = (TaskService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(TaskService));
 			try {
-				buffer.Text = taskService.CompilerOutput;
+				buffer.Text = Runtime.TaskService.CompilerOutput;
 				UpdateTextArea();
 			} catch (Exception) {}
 			
@@ -130,8 +124,7 @@ namespace MonoDevelop.EditorBindings.Gui.Pads
 				SetOutput2();
 				outputText = null;
 			} else {
-				TaskService taskService = (TaskService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(TaskService));
-				outputText = taskService.CompilerOutput;
+				outputText = Runtime.TaskService.CompilerOutput;
 				UpdateTextArea();
 			}
 		}
