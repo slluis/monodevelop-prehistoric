@@ -1,5 +1,5 @@
 SDDIR=.
-SOURCES= \
+FILES= \
 $(SDDIR)/src/SharpAssembly/PE/SectionTable.cs \
 $(SDDIR)/src/SharpAssembly/PE/IAT.cs \
 $(SDDIR)/src/SharpAssembly/PE/NameTable.cs \
@@ -71,13 +71,13 @@ DLL=../../../build/bin/ICSharpCode.SharpAssembly.dll
 
 all: $(DLL)
 
-$(DLL): $(SOURCES)
-	@ mcs /debug /out:$(DLL) /target:library $(SOURCES)
+$(DLL): $(FILES)
+	@ mcs /debug /out:$(DLL) /target:library $(FILES)
 
 assemblydir = $(libdir)/monodevelop/bin
 assembly_DATA = $(DLL)
   
 CLEANFILES=$(DLL)
 
-EXTRA_DIST = $(SOURCES)
+EXTRA_DIST = $(FILES)
 

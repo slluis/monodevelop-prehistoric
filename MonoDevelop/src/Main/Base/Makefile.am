@@ -1,4 +1,4 @@
-SOURCES= \
+FILES= \
 ./Gui/Pads/ProjectBrowser/ProjectBrowserView.cs \
 ./Gui/Pads/ProjectBrowser/NodeBuilder/DefaultDotNetNodeBuilder.cs \
 ./Gui/Pads/ProjectBrowser/NodeBuilder/IProjectNodeBuilder.cs \
@@ -355,7 +355,7 @@ DLL=../../../build/bin/MonoDevelop.Base.dll
 
 all: $(DLL)
 
-$(DLL): $(SOURCES) ../../../data/resources/glade/Base.glade
+$(DLL): $(FILES) ../../../data/resources/glade/Base.glade
 	@ mcs /debug /out:$(DLL) /target:library /r:System.Drawing.dll /r:ICSharpCode.SharpZipLib.dll \
 		/r:../../../build/bin/ICSharpCode.SharpRefactory.dll /r:../../../build/bin/MonoDevelop.Core.dll \
 		/r:../../../build/bin/ICSharpCode.SharpAssembly.dll \
@@ -369,7 +369,7 @@ $(DLL): $(SOURCES) ../../../data/resources/glade/Base.glade
 		/r:../../../build/bin/gtkmozembed-sharp.dll \
 		/r:glade-sharp.dll \
 		/r:gnome-sharp.dll \
-		$(SOURCES)
+		$(FILES)
 
 Services/StockIcons.cs : ./Services/process-icons.pl
 	perl  -x../../../build/data/resources/icons -w ./Services/process-icons.pl > $@
@@ -379,5 +379,5 @@ assembly_DATA = $(DLL)
 
 CLEANFILES=$(DLL)
 
-EXTRA_DIST = $(SOURCES) ./Services/process-icons.pl
+EXTRA_DIST = $(FILES) ./Services/process-icons.pl
 

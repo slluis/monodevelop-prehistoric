@@ -1,6 +1,6 @@
 BASEDIR=../../..
 
-SOURCES= \
+FILES= \
 ./SharpDevelopMain.cs \
 ./Dialogs/AddInTreeSettingsHandler.cs \
 ./Dialogs/ExceptionBox.cs \
@@ -34,19 +34,19 @@ DLL=../../../build/bin/MonoDevelop.exe
 
 all: $(DLL)
 
-$(DLL): $(SOURCES)
+$(DLL): $(FILES)
 	@ mcs /debug /out:$(DLL) /r:System.Drawing.dll \
 		/r:../../../build/bin/MonoDevelop.Core.dll \
 		/r:../../../build/bin/MonoDevelop.Base.dll \
 		/r:glib-sharp.dll \
 		/define:GTK /r:gtk-sharp.dll /r:gdk-sharp.dll \
 		/r:gnome-sharp.dll \
-		$(RESOURCES) $(SOURCES)
+		$(RESOURCES) $(FILES)
 
 assemblydir = $(libdir)/monodevelop/bin
 assembly_DATA = $(DLL)           
 
 CLEANFILES=$(DLL)
 
-EXTRA_DIST = $(SOURCES)
+EXTRA_DIST = $(FILES)
 

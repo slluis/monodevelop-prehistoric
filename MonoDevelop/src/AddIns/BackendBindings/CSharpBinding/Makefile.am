@@ -1,4 +1,4 @@
-SOURCES= \
+FILES= \
 ./Gui/ChooseRuntimePanel.cs \
 ./Gui/OutputOptionsPanel.cs \
 ./Gui/CodeGenerationPanel.cs \
@@ -29,19 +29,19 @@ DLL=../../../../build/AddIns/AddIns/BackendBindings/CSharpBinding.dll
 
 all: $(DLL)
 
-$(DLL): $(SOURCES)
+$(DLL): $(FILES)
 	@ mcs /debug /out:$(DLL) /target:library /r:System.Drawing.dll \
 		/r:../../../../build/bin/MonoDevelop.Core.dll \
 		/r:../../../../build/bin/MonoDevelop.SourceEditor.dll \
 		/r:../../../../build/bin/MonoDevelop.Base.dll \
 		/r:../../../../build/bin/ICSharpCode.SharpRefactory.dll \
 		/r:gtk-sharp.dll \
-		$(SOURCES)
+		$(FILES)
 
 csharpbindinglibdir = $(libdir)/monodevelop/AddIns/AddIns/BackendBindings
 csharpbindinglib_DATA = $(DLL)
 
 CLEANFILES=$(DLL)
 
-EXTRA_DIST = $(SOURCES)
+EXTRA_DIST = $(FILES)
 

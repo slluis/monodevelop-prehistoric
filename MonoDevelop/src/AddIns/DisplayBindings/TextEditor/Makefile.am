@@ -1,5 +1,5 @@
 SDDIR=../../../SharpDevelop/src/Main/Core
-SOURCES = \
+FILES = \
 ./Gui/Editor/ParserFoldingStrategy.cs \
 ./Gui/Editor/SharpDevelopTextEditorProperties.cs \
 ./Gui/Editor/SharpDevelopTextAreaControl.cs \
@@ -42,7 +42,7 @@ DLL=../../../../build/bin/MonoDevelop.DefaultTexteditor.dll
 
 all: $(DLL)
 
-$(DLL): $(SOURCES) ../../../../data/resources/glade/texteditoraddin.glade
+$(DLL): $(FILES) ../../../../data/resources/glade/texteditoraddin.glade
 	@ mcs /debug /out:$(DLL) /target:library /r:System.Drawing.dll \
 		/r:../../../../build/bin/MonoDevelop.Core.dll \
 		/r:../../../../build/bin/MonoDevelop.Base.dll \
@@ -52,9 +52,9 @@ $(DLL): $(SOURCES) ../../../../data/resources/glade/texteditoraddin.glade
 		/r:glib-sharp.dll \
 		/resource:../../../../data/resources/glade/texteditoraddin.glade,texteditoraddin.glade \
 		/define:GTK /r:gtk-sharp.dll /r:gdk-sharp.dll /r:gnome-sharp.dll\
-		$(SOURCES)
+		$(FILES)
 
 CLEANFILES=$(DLL)
 
-EXTRA_DIST = $(SOURCES)
+EXTRA_DIST = $(FILES)
 

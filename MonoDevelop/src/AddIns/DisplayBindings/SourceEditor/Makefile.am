@@ -1,6 +1,6 @@
 DLL=../../../../build/bin/MonoDevelop.SourceEditor.dll
 
-SOURCES = ./CodeCompletion/CodeCompletionData.cs \
+FILES = ./CodeCompletion/CodeCompletionData.cs \
 ./CodeCompletion/ICompletionData.cs \
 ./CodeCompletion/CompletionWindow.cs \
 ./CodeCompletion/TextUtilities.cs \
@@ -70,8 +70,8 @@ SOURCES = ./CodeCompletion/CodeCompletionData.cs \
 
 all : $(DLL)
 
-$(DLL) : $(SOURCES)
-	mcs $(SOURCES) /debug /out:$(DLL) /t:library \
+$(DLL) : $(FILES)
+	mcs $(FILES) /debug /out:$(DLL) /t:library \
 	/resource:../../../../data/resources/glade/EditorBindings.glade,EditorBindings.glade \
 	/resource:../../../../data/resources/glade/texteditoraddin.glade,texteditoraddin.glade \
 	 /r:gtk-sharp /r:gdk-sharp $(GTKSOURCEVIEW_SHARP) /r:glib-sharp \
@@ -88,4 +88,4 @@ assembly_DATA = $(DLL)
 
 CLEANFILES=$(DLL)
 
-EXTRA_DIST = $(SOURCES)
+EXTRA_DIST = $(FILES)

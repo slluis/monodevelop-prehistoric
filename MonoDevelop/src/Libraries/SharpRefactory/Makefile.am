@@ -1,4 +1,4 @@
-SOURCES = \
+FILES = \
 ./src/Lexer/Tokens.cs \
 ./src/Lexer/Reader/IReader.cs \
 ./src/Lexer/Reader/FileReader.cs \
@@ -110,8 +110,8 @@ DLL=../../../build/bin/ICSharpCode.SharpRefactory.dll
 
 all: $(DLL)
 
-$(DLL): $(SOURCES)
-	@ mcs /debug /out:$(DLL) /target:library /r:System.Drawing.dll $(SOURCES)
+$(DLL): $(FILES)
+	@ mcs /debug /out:$(DLL) /target:library /r:System.Drawing.dll $(FILES)
 
 test-parser.exe : $(DLL) src/Main.cs
 	@ mcs /debug /out:$@ /r:$(DLL) src/Main.cs
@@ -124,5 +124,5 @@ assembly_DATA = $(DLL)
 
 CLEANFILES=$(DLL)
 
-EXTRA_DIST = $(SOURCES)
+EXTRA_DIST = $(FILES)
 

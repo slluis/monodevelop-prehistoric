@@ -1,4 +1,4 @@
-SOURCES= \
+FILES= \
 ./Properties/CharacterEncodings.cs \
 ./Properties/DefaultProperties.cs \
 ./Properties/UnknownPropertyNodeException.cs \
@@ -62,14 +62,14 @@ DLL=../../../build/bin/MonoDevelop.Core.dll
 
 all: $(DLL)
 
-$(DLL): $(SOURCES)
+$(DLL): $(FILES)
 	@ mcs /debug /out:$(DLL) /target:library /r:System.Drawing.dll /define:LINUX /resource:../../../data/resources/AddIn.xsd,AddIn.xsd \
-	$(SOURCES)
+	$(FILES)
 
 assemblydir = $(libdir)/monodevelop/bin
 assembly_DATA = $(DLL)
 
 CLEANFILES=$(DLL)
 
-EXTRA_DIST = $(SOURCES)
+EXTRA_DIST = $(FILES)
 
