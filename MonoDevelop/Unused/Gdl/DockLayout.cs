@@ -22,6 +22,7 @@ namespace Gdl
 		{
 			layouts = new ArrayList ();
 			this.Attach (dock.Master);
+			BuildModels ();
 		}
 
 		public Widget ItemsUI {
@@ -172,14 +173,17 @@ namespace Gdl
 			if (name == null || name.Length < 1)
 				name = "__default__";
 
+			XmlNode root = doc.SelectSingleNode ("/dock-layout");
+
 			// delete any previous node with the same name
 			XmlNode node = FindLayout (name);
 			if (node != null)
-				doc.RemoveChild (node);
+				root.RemoveChild (node);
 
 			// create the new node
-			doc.CreateNode (XmlNodeType.Element, "layout", null);
-			// FIXME:set name attribute to name
+			XmlNode newNode = doc.CreateNode (XmlNodeType.Element, "layout", null);
+			((XmlElement) newNode).SetAttribute ("name", name);
+			root.AppendChild (newNode);
 
 			// save the layout
 			Save (node);
@@ -217,7 +221,8 @@ namespace Gdl
 		{
 			doc = new XmlDocument ();
 			doc.CreateXmlDeclaration ("1.0", null, null);
-			doc.CreateNode (XmlNodeType.Element, "dock-layout", null);
+			XmlNode root = doc.CreateNode (XmlNodeType.Element, "dock-layout", null);
+			doc.AppendChild (root);
 		}
 
 		XmlNode FindLayout (string name)
@@ -338,8 +343,7 @@ namespace Gdl
 			TreeViewColumn column = new TreeViewColumn ("Visible", renderer, "active", 1);
 			items_list.AppendColumn (column);
 
-			// connect signals
-			container.Destroyed += LayoutUIDestroyed;
+			items_list.AppendColumn ("Item", new CellRendererText (), "text", 0);
 
 			return container;
 		}
@@ -359,7 +363,6 @@ namespace Gdl
 			TreeViewColumn column = new TreeViewColumn ("Name", renderer, "text", 0, "editable", 1);
 			layouts_list.AppendColumn (column);
 
-			container.Destroyed += LayoutUIDestroyed;
 			return container;
 		}
 
@@ -368,13 +371,58 @@ namespace Gdl
 			return new Glade.XML (null, "layout.glade", topWidget, null);
 		}
 
-		DockObject SetupObject (DockMaster master, XmlNode node)
+		DockObject SetupObject (XmlNode node)
 		{
 			return null;
 		}
 
 		void RecursiveBuild (XmlNode parentNode, DockObject parent)
 		{
+			if (master == null || parentNode == null)
+				return;
+
+			DockObject obj;
+
+			// if parent is null, we should build toplevels
+			foreach (XmlNode node in parentNode.ChildNodes)
+			{
+				obj = SetupObject (node);
+				if (obj != null) {
+					obj.Freeze ();
+
+					// recurse here to catch placeholders
+					RecursiveBuild (node, obj);
+
+					// placeholders are later attached to the parent
+					if (obj is DockPlaceholder)
+						obj.Detach (false);
+
+					// apply "after" parameters
+					// FIXME:
+
+					// add the object to the parent
+					if (parent != null) {
+						if (obj is DockPlaceholder) {
+							((DockPlaceholder) obj).Attach (parent);
+						}
+						else if (parent.IsCompound) {
+							parent.Add (obj);
+							if (parent.Visible)
+								obj.Show ();
+						}
+					}
+					else {
+						if (master.Controller != obj && master.Controller.Visible)
+							obj.Show ();
+					}
+					
+					// call reduce just in case child is missing
+					if (obj.IsCompound)
+						obj.Reduce ();
+
+					obj.Thaw ();
+				}
+			}
 		}
 
 		void ForeachDetach (DockObject obj)
@@ -400,6 +448,13 @@ namespace Gdl
 
 		void ForeachObjectSave (DockObject obj)
 		{
+			if (obj == null)
+				return;
+
+			// recurse the object if appropriate
+			if (obj.IsCompound) {
+				//obj.Foreach (ForeachObjectSave)
+			}
 		}
 
 		void AddPlaceholder (DockObject obj, Hashtable placeholders)
@@ -414,7 +469,7 @@ namespace Gdl
 
 		bool IdleSave ()
 		{
-			//SaveLayout (this);
+			SaveLayout (null);
 			idleSavePending = false;
 			return false;
 		}
@@ -431,22 +486,41 @@ namespace Gdl
 
 		void LoadLayoutCb (object sender, EventArgs a)
 		{
+			TreeModel model;
+			TreeIter iter;
+
+			if (((TreeView) sender).Selection.GetSelected (out model, out iter))
+				LoadLayout ((string) model.GetValue (iter, 0));
 		}
 
 		void DeleteLayoutCb (object sender, EventArgs a)
 		{
+			TreeModel model;
+			TreeIter iter;
+
+			if (((TreeView) sender).Selection.GetSelected (out model, out iter)) {
+				DeleteLayout ((string) model.GetValue (iter, 0));
+				((ListStore)model).Remove (ref iter);
+			}
 		}
 
-		void ShowToggledCb (object sender, EventArgs a)
+		void ShowToggledCb (object sender, ToggledArgs a)
 		{
+			TreeIter iter;
+			if (itemsModel.GetIterFromString (out iter, a.Path)) {
+				bool show = (bool) itemsModel.GetValue (iter, 1);
+				DockItem item = itemsModel.GetValue (iter, 3) as DockItem;
+				if (show)
+					item.ShowItem ();
+				else
+					item.HideItem ();
+			}
 		}
 
 		void AllLockedToggledCb (object sender, EventArgs a)
 		{
-		}
-
-		void LayoutUIDestroyed (object sender, EventArgs a)
-		{
+			if (master == null)
+				return;
 		}
 
 		void MasterLockedNotifyCb (object sender, EventArgs a)
