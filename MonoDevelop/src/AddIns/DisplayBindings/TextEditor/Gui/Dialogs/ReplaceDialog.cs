@@ -21,9 +21,14 @@ using ICSharpCode.SharpDevelop.Services;
 //using ICSharpCode.SharpDevelop.Gui.XmlForms;
 using ICSharpCode.TextEditor;
 
+using Gtk;
+using Glade;
+
+using Assembly = System.Reflection.Assembly;
+
 namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 {
-	public class ReplaceDialog : Gtk.Window
+	public class ReplaceDialog
 	{
 		public bool replaceMode;
 		ResourceService resourceService = (ResourceService)ServiceManager.Services.GetService(typeof(IResourceService));
@@ -31,99 +36,92 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 		static FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.Services.GetService(typeof(FileUtilityService));
 		StringParserService stringParserService = (StringParserService)ServiceManager.Services.GetService (typeof (StringParserService));
 		
-		Gtk.Combo searchPatternComboBox;
-		Gtk.Combo replacePatternComboBox;
-		Gtk.Button findHelpButton;
-		Gtk.Button findButton;
-		Gtk.Button markAllButton;
-		Gtk.Button closeButton;
-		Gtk.Button replaceButton;
-		Gtk.Button replaceAllButton;
-		Gtk.Button replaceHelpButton;
-		Gtk.CheckButton ignoreCaseCheckBox;
-		Gtk.CheckButton searchWholeWordOnlyCheckBox;
-		Gtk.CheckButton useSpecialSearchStrategyCheckBox;
-		Gtk.OptionMenu specialSearchStrategyComboBox;
-		Gtk.OptionMenu searchLocationComboBox;
+		[Glade.Widget] Gtk.Combo searchPatternComboBox;
+		[Glade.Widget] Gtk.Combo replacePatternComboBox;
+		[Glade.Widget] Gtk.Button findHelpButton;
+		[Glade.Widget] Gtk.Button findButton;
+		[Glade.Widget] Gtk.Button markAllButton;
+		[Glade.Widget] Gtk.Button closeButton;
+		[Glade.Widget] Gtk.Button replaceButton;
+		[Glade.Widget] Gtk.Button replaceAllButton;
+		[Glade.Widget] Gtk.Button replaceHelpButton;
+		[Glade.Widget] Gtk.CheckButton ignoreCaseCheckBox;
+		[Glade.Widget] Gtk.CheckButton searchWholeWordOnlyCheckBox;
+		[Glade.Widget] Gtk.CheckButton useSpecialSearchStrategyCheckBox;
+		[Glade.Widget] Gtk.OptionMenu specialSearchStrategyComboBox;
+		[Glade.Widget] Gtk.OptionMenu searchLocationComboBox;
+		[Glade.Widget] Gtk.Label label1;
+		[Glade.Widget] Gtk.Label label2;
+		[Glade.Widget] Gtk.Label searchLocationLabel;
+		[Glade.Widget] Gtk.Dialog FindDialogWidget;
+		[Glade.Widget] Gtk.Dialog ReplaceDialogWidget;
+		Gtk.Dialog ReplaceDialogPointer;
 		
 		void InitDialog ()
 		{
-			Gtk.Label findWhat = new Gtk.Label (stringParserService.Parse ("${res:Dialog.NewProject.SearchReplace.FindWhat}"));
-			Gtk.Label searchIn = new Gtk.Label (stringParserService.Parse ("${res:Dialog.NewProject.SearchReplace.SearchIn}"));
-			searchPatternComboBox = new Gtk.Combo ();
-			findHelpButton = new Gtk.Button (">");
-			findButton = new Gtk.Button (stringParserService.Parse ("${res:Dialog.NewProject.SearchReplace.FindNextButton}"));
-			markAllButton = new Gtk.Button (stringParserService.Parse ("${res:Dialog.NewProject.SearchReplace.MarkAllButton}"));
-			closeButton = new Gtk.Button (stringParserService.Parse ("${res:Global.CloseButtonText}"));
-			ignoreCaseCheckBox = new Gtk.CheckButton (stringParserService.Parse ("${res:Dialog.NewProject.SearchReplace.CaseSensitive}"));
-			searchWholeWordOnlyCheckBox = new Gtk.CheckButton (stringParserService.Parse ("${res:Dialog.NewProject.SearchReplace.WholeWord}"));
-			useSpecialSearchStrategyCheckBox = new Gtk.CheckButton (stringParserService.Parse ("${res:Dialog.NewProject.SearchReplace.UseMethodLabel}"));
-			specialSearchStrategyComboBox = new Gtk.OptionMenu ();
-			searchLocationComboBox = new Gtk.OptionMenu ();
-
-			if (replaceMode) {
-				findButton = new Gtk.Button (stringParserService.Parse ("${res:Dialog.NewProject.SearchReplace.FindNextButton}"));
-				replacePatternComboBox = new Gtk.Combo ();
-				replaceButton = new Gtk.Button (stringParserService.Parse ("${res:Dialog.NewProject.SearchReplace.ReplaceButton}"));
-				replaceAllButton = new Gtk.Button (stringParserService.Parse ("${res:Dialog.NewProject.SearchReplace.ReplaceAllButton}"));
-				replaceHelpButton = new Gtk.Button (">");
-			}
+			label1.Text = stringParserService.Parse ("${res:Dialog.NewProject.SearchReplace.FindWhat}");
+			searchLocationLabel.Text = stringParserService.Parse ("${res:Dialog.NewProject.SearchReplace.SearchIn}");		
+			//findButton.Label = stringParserService.Parse ("${res:Dialog.NewProject.SearchReplace.FindNextButton}");			
+			//closeButton.Label = stringParserService.Parse ("${res:Global.CloseButtonText}");
+			findButton.UseUnderline = true;			
+			closeButton.UseUnderline = true;			
+			ignoreCaseCheckBox.Label = stringParserService.Parse ("${res:Dialog.NewProject.SearchReplace.CaseSensitive}");
+			searchWholeWordOnlyCheckBox.Label = stringParserService.Parse ("${res:Dialog.NewProject.SearchReplace.WholeWord}");
+			useSpecialSearchStrategyCheckBox.Label = stringParserService.Parse ("${res:Dialog.NewProject.SearchReplace.UseMethodLabel}");			
 			
-			Gtk.HBox mainbox = new Gtk.HBox (false, 2);
-			Gtk.VButtonBox btnbox = new Gtk.VButtonBox ();
-			btnbox.PackStart (findButton);
-			if (replaceMode) {
-				btnbox.PackStart (replaceButton);
-				btnbox.PackStart (replaceAllButton);
-			} else {
-				btnbox.PackStart (markAllButton);
-			}
-			btnbox.PackEnd (closeButton);
-
-			Gtk.VBox controlbox = new Gtk.VBox (false, 2);
-			Gtk.HBox findbox = new Gtk.HBox (false, 2);
-			findbox.PackStart (findWhat, false, false, 2);
-			findbox.PackStart (searchPatternComboBox);
-			findbox.PackStart (findHelpButton, false, false, 2);
-			controlbox.PackStart (findbox);
-
-			if (replaceMode) {
-				Gtk.HBox replaceBox = new Gtk.HBox (false, 2);
-				replaceBox.PackStart (new Gtk.Label (stringParserService.Parse ("${res:Dialog.NewProject.SearchReplace.ReplaceWith}")) , false, false, 2);
-				replaceBox.PackStart (replacePatternComboBox);
+			
+			//set up the size groups
+			SizeGroup labels = new SizeGroup(SizeGroupMode.Horizontal);
+			SizeGroup combos = new SizeGroup(SizeGroupMode.Horizontal);
+			SizeGroup options = new SizeGroup(SizeGroupMode.Horizontal);
+			SizeGroup helpButtons = new SizeGroup(SizeGroupMode.Horizontal);
+			SizeGroup checkButtons = new SizeGroup(SizeGroupMode.Horizontal);
+			labels.AddWidget(label1);			
+			combos.AddWidget(searchPatternComboBox);
+			helpButtons.AddWidget(findHelpButton);
+			checkButtons.AddWidget(ignoreCaseCheckBox);
+			checkButtons.AddWidget(searchWholeWordOnlyCheckBox);
+			checkButtons.AddWidget(useSpecialSearchStrategyCheckBox);
+			checkButtons.AddWidget(searchLocationLabel);
+			options.AddWidget(specialSearchStrategyComboBox);
+			options.AddWidget(searchLocationComboBox);
+			
+			// set button sensitivity
+			findHelpButton.Sensitive = false;
+			
+			// set replace dialog properties 
+			if(replaceMode)
+			{
+				ReplaceDialogPointer = this.ReplaceDialogWidget;
+				// set the label properties
+				label2.Text = stringParserService.Parse ("${res:Dialog.NewProject.SearchReplace.ReplaceWith}");
+				//replaceButton.Label = stringParserService.Parse ("${res:Dialog.NewProject.SearchReplace.ReplaceButton}");
+				replaceAllButton.Label = stringParserService.Parse ("${res:Dialog.NewProject.SearchReplace.ReplaceAllButton}");
+				replaceButton.UseUnderline = true;
+				replaceAllButton.UseUnderline = true;
+				
+				// set te size groups to include the replace dialog
+				labels.AddWidget(label2);
+				combos.AddWidget(replacePatternComboBox);
+				helpButtons.AddWidget(replaceHelpButton);
+				
 				replaceHelpButton.Sensitive = false;
-				replaceBox.PackStart (replaceHelpButton, false, false, 2);
-				controlbox.PackStart (replaceBox);
 			}
-
-			Gtk.HBox optionbox = new Gtk.HBox (false, 2);
-			Gtk.VBox checkbox = new Gtk.VBox (false, 2);
-
-			checkbox.PackStart (ignoreCaseCheckBox);
-			checkbox.PackStart (searchWholeWordOnlyCheckBox);
-			optionbox.PackStart (checkbox);
-
-			Gtk.VBox searchInBox = new Gtk.VBox (false, 2);
-			searchInBox.PackStart (searchIn);
-			searchInBox.PackStart (searchLocationComboBox);
-			optionbox.PackStart (searchInBox);
-
-			controlbox.PackStart (optionbox);
-
-			Gtk.HBox strategyBox = new Gtk.HBox (false, 2);
-			strategyBox.PackStart (useSpecialSearchStrategyCheckBox);
-			strategyBox.PackStart (specialSearchStrategyComboBox);
-			controlbox.PackStart (strategyBox);
-
-			mainbox.PackStart (controlbox);
-			mainbox.PackStart (btnbox, false, false, 2);
-
-			this.Add (mainbox);
+			else
+			{
+				ReplaceDialogPointer = this.FindDialogWidget;
+				markAllButton.UseUnderline = true;
+				markAllButton.Label = stringParserService.Parse ("${res:Dialog.NewProject.SearchReplace.MarkAllButton}");
+			}
 		}
 		
-		public ReplaceDialog(bool replaceMode) : base ("Find")
+		public ReplaceDialog(bool replaceMode)// : base ("Find")
 		{
 			this.replaceMode = replaceMode;
+			string dialogName = (replaceMode) ? "ReplaceDialogWidget" : "FindDialogWidget";
+			// we must do it from *here* otherwise, we get this assembly, not the caller
+			Glade.XML glade = new XML (null, "texteditoraddin.glade", dialogName, null);
+			glade.Autoconnect (this);
 			InitDialog ();
 			/*if (replaceMode) {
 				//this.SetupFromXml(Path.Combine(propertyService.DataDirectory, @"resources\dialogs\ReplaceDialog.xfrm"));
@@ -134,7 +132,6 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 				//this.SetupFromXml(Path.Combine(propertyService.DataDirectory, @"resources\dialogs\FindDialog.xfrm"));
 			}*/
 			
-			findHelpButton.Sensitive = false;
 			//AcceptButton = (Button)ControlDictionary["findButton"];
 			//CancelButton = (Button)ControlDictionary["closeButton"];
 			
@@ -170,7 +167,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 			tmpItem = new Gtk.MenuItem (resourceService.GetString("Global.Location.wholeproject"));
 			locMenu.Append (tmpItem);
 			
-			searchLocationComboBox.Menu = locMenu;
+			searchLocationComboBox.Menu = locMenu;	
 			
 			index = 0;
 			switch (SearchReplaceManager.SearchOptions.DocumentIteratorType) {
@@ -188,15 +185,15 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 			// insert event handlers
 			findButton.Clicked  += new EventHandler(FindNextEvent);
 			closeButton.Clicked += new EventHandler(CloseDialogEvent);
-			DeleteEvent += new GtkSharp.DeleteEventHandler (OnDeleted);
+			ReplaceDialogPointer.DeleteEvent += new GtkSharp.DeleteEventHandler (OnDeleted);
 			
 			if (replaceMode) {
-				this.Title = resourceService.GetString("Dialog.NewProject.SearchReplace.ReplaceDialogName");
+				ReplaceDialogPointer.Title = resourceService.GetString("Dialog.NewProject.SearchReplace.ReplaceDialogName");
 				replaceButton.Clicked    += new EventHandler(ReplaceEvent);
 				replaceAllButton.Clicked += new EventHandler(ReplaceAllEvent);
 				replacePatternComboBox.Entry.Text = SearchReplaceManager.SearchOptions.ReplacePattern;
 			} else {
-				this.Title = resourceService.GetString("Dialog.NewProject.SearchReplace.FindDialogName");
+				ReplaceDialogPointer.Title = resourceService.GetString("Dialog.NewProject.SearchReplace.FindDialogName");
 				markAllButton.Clicked    += new EventHandler(MarkAllEvent);
 			}
 			
@@ -213,7 +210,6 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 		
 		protected void OnClosed(EventArgs e)
 		{
-			//base.OnClosed(e);
 			SearchReplaceManager.ReplaceDialog     = null;
 		}
 		
@@ -331,7 +327,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 		
 		void CloseDialogEvent(object sender, EventArgs e)
 		{
-			Hide();
+			ReplaceDialogPointer.Hide();
 			OnClosed (null);
 		}
 		
@@ -341,5 +337,22 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 				specialSearchStrategyComboBox.Sensitive = useSpecialSearchStrategyCheckBox.Active;
 			}
 		}
+		
+		#region code to pretend to be a dialog (cause we can't inherit Dialog and use glade)
+		public void Present()
+		{
+			ReplaceDialogPointer.Present();
+		}
+		
+		public void Destroy()
+		{
+			ReplaceDialogPointer.Destroy();
+		}
+		
+		public void ShowAll()
+		{
+			ReplaceDialogPointer.ShowAll();
+		}
+		#endregion
 	}
 }
