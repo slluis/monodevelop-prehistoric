@@ -101,7 +101,7 @@ namespace MonoDevelop.Commands
 			
 			if (window != null && window.ViewContent.ContentName != null && !window.ViewContent.IsViewOnly) {
 				IMessageService messageService =(IMessageService)ServiceManager.Services.GetService(typeof(IMessageService));
-				if (messageService.AskQuestion("${res:MonoDevelop.Commands.ReloadFile.ReloadFileQuestion}")) {
+				if (messageService.AskQuestion("${res:ICSharpCode.SharpDevelop.Commands.ReloadFile.ReloadFileQuestion}")) {
 					IXmlConvertable memento = null;
 					if (window.ViewContent is IMementoCapable) {
 						memento = ((IMementoCapable)window.ViewContent).CreateMemento();

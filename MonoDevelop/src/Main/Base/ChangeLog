@@ -1,4 +1,8 @@
 2004-04-21  Todd Berman  <tberman@sevenl.net>
 
+	* Commands/FileCommands: fix bug #55869.
+
+2004-04-21  Todd Berman  <tberman@sevenl.net>
+
 	* Commands/VBConverter/ConvertProject.cs:
 	* Commands/VBConverter/ConvertBuffer.cs: Changed to use new parser
