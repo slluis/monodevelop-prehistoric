@@ -212,6 +212,7 @@ Core/src/AddIns/prj2make-sharp-lib/Makefile
 Core/src/AddIns/prj2make-sharp-lib/AssemblyInfo.cs
 Extras/Makefile
 Extras/MonoQuery/Makefile
+Extras/MonoDeveloperExtensions/Makefile
 ])
 
 echo "---"
