@@ -10,7 +10,6 @@ using System.Text;
 using System.Drawing;
 using System.Collections;
 using System.ComponentModel;
-using MSjogren.GacTool.FusionNative;
 using MonoDevelop.Internal.Project;
 
 using MonoDevelop.Core.Services;

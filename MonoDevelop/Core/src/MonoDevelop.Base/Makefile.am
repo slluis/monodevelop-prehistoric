@@ -96,7 +96,6 @@ Gui/Dialogs/CombineConfiguration/CombineDependencyPanel.cs \
 Gui/Dialogs/CombineConfiguration/CombineStartupPanel.cs \
 Gui/Dialogs/CombineConfiguration/CombineBuildOptions.cs \
 Gui/Dialogs/CombineConfiguration/ConfigurationManager.cs \
-Gui/Dialogs/FusionNative.cs \
 Gui/Dialogs/NewProjectDialog.cs \
 Gui/Dialogs/AbstractOptionPanel.cs \
 Gui/Dialogs/ReferenceDialog/COMReferencePanel.cs \
@@ -106,10 +105,8 @@ Gui/Dialogs/ReferenceDialog/GacReferencePanel.cs \
 Gui/Dialogs/ReferenceDialog/AddWebReferenceDialog.cs \
 Gui/Dialogs/ReferenceDialog/SelectReferenceDialog.cs \
 Gui/Dialogs/ReferenceDialog/ProjectReferencePanel.cs \
-Gui/Dialogs/TabbedOptions.cs \
 Gui/Dialogs/DirtyFilesDialog.cs \
 Gui/Dialogs/TipOfTheDay.cs \
-Gui/Dialogs/InputBox.cs \
 Gui/Dialogs/NewFileDialog.cs \
 Gui/Dialogs/ProjectOptionsDialog.cs \
 Gui/Dialogs/NewLayoutDialog.cs \
@@ -122,11 +119,6 @@ Gui/ContentInterfaces/ICustomizedCommands.cs \
 Gui/ContentInterfaces/IEditable.cs \
 Gui/ContentInterfaces/IParseInformationListener.cs \
 Gui/ContentInterfaces/IParsableContent.cs \
-Gui/XmlForms/SharpDevelopStringValueFilter.cs \
-Gui/XmlForms/BaseSharpDevelopForm.cs \
-Gui/XmlForms/SharpDevelopPropertyValueCreator.cs \
-Gui/XmlForms/BaseSharpDevelopUserControl.cs \
-Gui/XmlForms/SharpDevelopObjectCreator.cs \
 Gui/IBaseViewContent.cs \
 Gui/ErrorDialogs/LoadingError.cs \
 Gui/IWorkbenchLayout.cs \

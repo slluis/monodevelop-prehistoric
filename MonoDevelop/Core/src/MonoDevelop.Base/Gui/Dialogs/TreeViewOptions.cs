@@ -13,7 +13,6 @@ using MonoDevelop.Core.AddIns;
 using MonoDevelop.Core.Services;
 using MonoDevelop.Core.Properties;
 using MonoDevelop.Core.AddIns.Codons;
-using MonoDevelop.Gui.XmlForms;
 
 using MonoDevelop.Services;
 

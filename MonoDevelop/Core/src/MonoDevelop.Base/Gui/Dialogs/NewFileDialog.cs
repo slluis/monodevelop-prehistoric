@@ -16,7 +16,6 @@ using MonoDevelop.Gui;
 using MonoDevelop.Core.Properties;
 using MonoDevelop.Core.AddIns;
 using MonoDevelop.Internal.Templates;
-using MonoDevelop.Gui.XmlForms;
 
 using Gtk;
 using MonoDevelop.Gui.Widgets;

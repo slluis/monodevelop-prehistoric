@@ -1,3 +1,19 @@
+2005-02-09  John Luke  <john.luke@gmail.com>
+
+	* Gui/Dialogs/TreeViewOptions.cs
+	* Gui/Dialogs/NewFileDialog.cs: dont ref XmlForms
+
+	* Gui/Dialogs/TabbedOptions.cs
+	* Gui/Dialogs/InputBox.cs
+	* Gui/Dialogs/FusionNative.cs
+	* Gui/XmlForms
+	* Gui/XmlForms/BaseSharpDevelopForm.cs
+	* Gui/XmlForms/SharpDevelopPropertyValueCreator.cs
+	* Gui/XmlForms/SharpDevelopObjectCreator.cs
+	* Gui/XmlForms/SharpDevelopStringValueFilter.cs
+	* Gui/XmlForms/BaseSharpDevelopUserControl.cs
+	* Makefile.am: kill some unused stuff
+
 2005-02-02  Lluis Sanchez Gual  <lluis@novell.com>
 
 	* Gui/Dialogs/CombineConfiguration/CombineStartupPanel.cs: 
