@@ -29,25 +29,29 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs.OptionPanels
 	public class CompileFileProjectOptions : AbstractOptionPanel
 	{
 
-	// FIXME 
-	// - internationalize 
- 	//		SetupFromXml(Path.Combine(PropertyService.DataDirectory, 
- 	//		                          @"resources\panels\CompileFileProjectOptions.xfrm"));
-
 		class CompileFileOptionsWidget : GladeWidgetExtract 
 		{
 			// Gtk Controls
+			[Glade.Widget] Label includeLabel;
 			[Glade.Widget] Gtk.TreeView includeTreeView;
 			public ListStore store;
 			
+			// Services
+			StringParserService StringParserService = (StringParserService)ServiceManager.Services.GetService (
+							typeof (StringParserService));
+			FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.Services.GetService(
+				typeof(FileUtilityService));
+
 			IProject project;
-                       FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.Services.GetService(typeof(FileUtilityService));
 
 			public CompileFileOptionsWidget (IProperties CustomizationObject) : 
 				base ("Base.glade", "CompileFileOptionsPanel")
 			{
 				this.project = (IProject)((IProperties)CustomizationObject).GetProperty("Project");	
 				
+				includeLabel.Text =  StringParserService.Parse(
+					"${res:Dialog.Options.PrjOptions.CompileFile.IncludeGroupBox}");
+				includeLabel.UseUnderline = true;
 				store = new ListStore (typeof(bool), typeof(string));
 				includeTreeView.Selection.Mode = SelectionMode.None;
 				includeTreeView.Model = store;
