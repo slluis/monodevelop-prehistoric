@@ -1,3 +1,21 @@
+2005-03-15  Chris Toshok  <toshok@ximian.com>
+
+	* Makefile.am (DLLS): add ICSharpCode.SharpRefactory.dll
+	(FILES): remove CSharpTokenizer.cs, CSharpExpressionParser.cs, and
+	MyTextReader.cs.  Add DebuggerASTVisitor.cs
+
+	* Gui/DebuggerVariablePad.cs
+	(DebuggerVariablePad.EvaluateDebuggerDisplay): use MD's AST stuff
+	instead of mdb's parser c&p here.  
+	
+	* CSharpTokenizer.cs, CSharpExpressionParser.jay,
+	CSharpExpressionParser.cs, MyTextReader.cs: nuke.
+	
+	* DebuggerASTVisitor.cs: new class used to convert from MD's AST
+	to trees that the debugger can evaluate.
+	
+	* Expression.cs: add ConditionalExpression and BoolExpression.
+	
 2005-03-14  Lluis Sanchez Gual <lluis@novell.com>
 
 	* MonoDevelopDebugger.addin.xml: Use the new syntax for defining pads.

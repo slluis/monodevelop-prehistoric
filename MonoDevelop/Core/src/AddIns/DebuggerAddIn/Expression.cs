@@ -301,6 +301,86 @@ namespace Debugger.Frontend
 		}
 	}
 
+	public class ConditionalExpression : Expression
+	{
+		Expression test;
+		Expression true_expr;
+		Expression false_expr;
+
+		public override string Name {
+			get {
+				return "conditional";
+			}
+		}
+		public ConditionalExpression (Expression test, Expression true_expr, Expression false_expr)
+		{
+			this.test = test;
+			this.true_expr = true_expr;
+			this.false_expr = false_expr;
+		}
+
+		protected override Expression DoResolve (EvaluationContext context)
+		{
+			test = test.Resolve (context);
+			true_expr = true_expr.Resolve (context);
+			false_expr = false_expr.Resolve (context);
+
+			resolved = true;
+			return this;
+		}
+
+		protected override ITargetObject DoEvaluateVariable (EvaluationContext context)
+		{
+		  bool cond = false;
+
+		  try {
+		    cond = (bool) this.test.Evaluate (context);
+		  }
+		  catch (Exception e) {
+		    throw new EvaluationException (
+			   "Cannot convert {0} to a boolean for conditional: {1}",
+			   this.test, e);
+		  }
+
+		  return cond ? true_expr.EvaluateVariable (context) : false_expr.EvaluateVariable (context);
+		}
+	}
+
+	public class BoolExpression : Expression
+	{
+		bool val;
+
+		public BoolExpression (bool val)
+		{
+			this.val = val;
+		}
+
+		public override string Name {
+			get { return val.ToString(); }
+		}
+
+		protected override Expression DoResolve (EvaluationContext context)
+		{
+			resolved = true;
+			return this;
+		}
+
+		protected override object DoEvaluate (EvaluationContext context)
+		{
+			return val;
+		}
+
+		protected override ITargetObject DoEvaluateVariable (EvaluationContext context)
+		{
+			StackFrame frame = context.CurrentFrame.Frame;
+			if ((frame.Language == null) ||
+			    !frame.Language.CanCreateInstance (typeof (bool)))
+				return null;
+
+			return frame.Language.CreateInstance (frame, val);
+		}
+	}
+
 	public class ThisExpression : Expression
 	{
 		public override string Name {

@@ -6,16 +6,16 @@ ASSEMBLY = $(ADDIN_BUILD)/MonoDevelop.Debugger.dll
 DLLS = $(GTK_SHARP_LIBS) \
 	$(MONO_DEBUGGER_LIBS) \
 	/r:$(top_builddir)/build/bin/MonoDevelop.Base.dll \
-	/r:$(top_builddir)/build/bin/MonoDevelop.Core.dll
+	/r:$(top_builddir)/build/bin/MonoDevelop.Core.dll \
+        /r:$(top_builddir)/build/bin/ICSharpCode.SharpRefactory.dll
+
 
 FILES = \
 DebuggerCommands.cs \
 DebuggingService.cs \
 EvaluationContext.cs \
 Expression.cs \
-CSharpTokenizer.cs \
-CSharpExpressionParser.cs \
-MyTextReader.cs \
+DebuggerASTVisitor.cs \
 Gui/DebuggerLocalsPad.cs \
 Gui/DebuggerVariablePad.cs \
 Gui/DebuggerStackTracePad.cs \
@@ -36,7 +36,7 @@ $(ADDIN_BUILD)/$(ADDIN): $(srcdir)/$(ADDIN)
 
 $(ASSEMBLY): $(build_sources)
 	mkdir -p $(ADDIN_BUILD)
-	$(CSC) -out:$@ -target:library \
+	$(CSC) -define:NET_2_0 -out:$@ -target:library \
 	$(build_sources) $(DLLS)
 
 assemblydir = $(libdir)/monodevelop/AddIns/DebuggerAddIn

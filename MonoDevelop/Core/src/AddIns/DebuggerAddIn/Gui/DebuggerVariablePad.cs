@@ -12,7 +12,11 @@ using Mono.Debugger;
 using Mono.Debugger.Languages;
 
 using MonoDevelop.Core.Services;
+using MonoDevelop.Internal.Parser;
 using MonoDevelop.Services;
+
+using RefParse = ICSharpCode.SharpRefactory.Parser;
+using AST = ICSharpCode.SharpRefactory.Parser.AST;
 
 using Debugger.Frontend;
 
@@ -418,17 +422,30 @@ namespace MonoDevelop.SourceEditor.Gui
 				}
 
 				if (right_idx - left_idx > 1) {
-					// there's enough space for an
-					// expression.  parse it and see
-					// what we get.
+					/* there's enough space for an
+					 * expression.  parse it and see
+					 * what we get. */
+					RefParse.Parser parser;
+					AST.Expression ast_expr;
+					Expression dbgr_expr;
+					DebuggerASTVisitor visitor;
+					string snippet;
+					object retval;
 
-					string snippet = display.Substring (left_idx + 1, right_idx - left_idx - 1);
+					/* parse the snippet to build up MD's AST */
+					parser = new RefParse.Parser();
 
-					CSharpExpressionParser parser = new CSharpExpressionParser (ctx, snippet);
-					Expression expr = parser.Parse (snippet);
+					snippet = display.Substring (left_idx + 1, right_idx - left_idx - 1);
+					ast_expr = parser.ParseExpression (new RefParse.Lexer (new RefParse.StringReader (snippet)));
 
-					expr = expr.Resolve (ctx);
-					object retval = expr.Evaluate (ctx);
+					/* use our visitor to convert from MD's AST to types that
+					 * facilitate evaluation by the debugger */
+					visitor = new DebuggerASTVisitor ();
+					dbgr_expr = (Expression)e.AcceptVisitor (visitor, null);
+
+					/* finally, resolve and evaluate the expression */
+					dbgr_expr = dbgr_expr.Resolve (ctx);
+					retval = dbgr_expr.Evaluate (ctx);
 
 #region "c&p'ed from debugger/frontend/Style.cs"
 					if (retval is long) {
@@ -446,7 +463,6 @@ namespace MonoDevelop.SourceEditor.Gui
 					}
 #endregion
 				}
-				
 
 				start_idx = right_idx + 1;
 			}
