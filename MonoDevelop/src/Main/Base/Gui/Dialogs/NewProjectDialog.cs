@@ -18,7 +18,7 @@ using ICSharpCode.SharpDevelop.Gui;
 using ICSharpCode.SharpDevelop.Internal.Project;
 using ICSharpCode.SharpDevelop.Internal.Templates;
 using ICSharpCode.SharpDevelop.Gui.XmlForms;
-using MonoDevelop.GuiUtils;
+using MonoDevelop.Gui.Widgets;
 using Gtk;
 using GladeSharp;
 using Glade;

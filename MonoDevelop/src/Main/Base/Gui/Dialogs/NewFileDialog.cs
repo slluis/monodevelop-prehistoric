@@ -19,7 +19,7 @@ using ICSharpCode.SharpDevelop.Internal.Templates;
 using ICSharpCode.SharpDevelop.Gui.XmlForms;
 
 using Gtk;
-using MonoDevelop.GuiUtils;
+using MonoDevelop.Gui.Widgets;
 
 namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 {

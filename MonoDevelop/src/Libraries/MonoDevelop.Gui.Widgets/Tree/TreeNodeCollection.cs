@@ -1,7 +1,7 @@
 using System;
 using System.Collections;
 
-namespace MonoDevelop.GuiUtils {
+namespace MonoDevelop.Gui.Widgets {
     public class TreeNodeCollection: IList {
 		private ArrayList list;
                                                                                                                              

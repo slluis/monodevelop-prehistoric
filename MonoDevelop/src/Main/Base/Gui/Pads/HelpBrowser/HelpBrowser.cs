@@ -19,7 +19,7 @@ using ICSharpCode.SharpZipLib.Zip;
 using ICSharpCode.Core.Properties;
 using ICSharpCode.Core.Services;
 using ICSharpCode.SharpDevelop.BrowserDisplayBinding;
-using MonoDevelop.GuiUtils;
+using MonoDevelop.Gui.Widgets;
 
 namespace ICSharpCode.SharpDevelop.Gui.Pads 
 {

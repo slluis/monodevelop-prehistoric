@@ -5,7 +5,7 @@ using Gdk;
 using GtkSharp;
 using GdkSharp;
 
-namespace MonoDevelop.GuiUtils {
+namespace MonoDevelop.Gui.Widgets {
 	public abstract class BaseFileEntry : Gtk.HBox {
 		
 		string name;

@@ -1,8 +1,7 @@
-//using ;
 using System;
 using System.Collections;
 using ICSharpCode.SharpDevelop.Gui.Pads.ProjectBrowser;
-using MonoDevelop.GuiUtils;
+using MonoDevelop.Gui.Widgets;
 
 namespace System {
 	[Serializable]

@@ -18,7 +18,7 @@ using ICSharpCode.Core.Services;
 using ICSharpCode.Core.AddIns;
 
 using Gtk;
-using MonoDevelop.GuiUtils;
+using MonoDevelop.Gui.Widgets;
 
 namespace ICSharpCode.SharpDevelop.Gui.Dialogs.OptionPanels {
 	public class CodeGenerationPanel : AbstractOptionPanel {

@@ -72,7 +72,8 @@ $(DLL): $(SOURCES) ../../../../data/resources/glade/texteditoraddin.glade
 		/r:../../../../build/bin/MonoDevelop.TextEditor.dll \
 		/r:../../../../build/bin/MonoDevelop.Base.dll \
 		/r:System.DirectoryServices.dll /r:pango-sharp.dll /r:glade-sharp.dll \
-		/r:../../../../build/bin/MonoDevelop.GuiUtils.dll /r:glib-sharp.dll \
+		/r:../../../../build/bin/MonoDevelop.Gui.Widgets.dll \
+		/r:glib-sharp.dll \
 		/resource:../../../../data/resources/glade/texteditoraddin.glade,texteditoraddin.glade \
 		/define:GTK /r:gtk-sharp.dll /r:gdk-sharp.dll \
 		$(SOURCES)

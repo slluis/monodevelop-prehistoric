@@ -1,7 +1,7 @@
 using System;
 using Gtk;
 
-namespace MonoDevelop.GuiUtils
+namespace MonoDevelop.Gui.Widgets
 {
 
 	public class Docker : DrawingArea {

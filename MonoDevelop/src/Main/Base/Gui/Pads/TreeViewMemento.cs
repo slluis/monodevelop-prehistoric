@@ -23,7 +23,7 @@ using ICSharpCode.SharpDevelop.Internal.Project;
 using ICSharpCode.SharpDevelop.Gui.Dialogs;
 
 using ICSharpCode.SharpDevelop.Services;
-using MonoDevelop.GuiUtils;
+using MonoDevelop.Gui.Widgets;
 
 namespace ICSharpCode.SharpDevelop.Gui
 {

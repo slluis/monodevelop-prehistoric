@@ -19,9 +19,13 @@ StartPage:
 	@ echo Building $@
 	$(QMAKE) -C src/AddIns/Misc/StartPage
 
-MonoDevelop.GuiUtils:
+MonoDevelop.Gui.Widgets:
 	@ echo Building $@
-	$(QMAKE) -C src/Libraries/MonoDevelop.GuiUtils
+	$(QMAKE) -C src/Libraries/MonoDevelop.Gui.Widgets
+
+MonoDevelop.Gui.Utils:
+	@ echo Building $@
+	$(QMAKE) -C src/Libraries/MonoDevelop.Gui.Utils
 
 CSharpBinding:
 	@ echo Building $@
@@ -31,7 +35,7 @@ MonoDevelop.DefaultTexteditor: MonoDevelop.TextEditor
 	@ echo Building $@
 	$(QMAKE) -C src/AddIns/DisplayBindings/TextEditor
 
-MonoDevelop.Base: MonoDevelop.Core ICSharpCode.SharpRefactory ICSharpCode.SharpAssembly MonoDevelop.GuiUtils
+MonoDevelop.Base: MonoDevelop.Core ICSharpCode.SharpRefactory ICSharpCode.SharpAssembly MonoDevelop.Gui.Utils MonoDevelop.Gui.Widgets
 	@ echo Building $@
 	$(QMAKE) -C src/Main/Base
 

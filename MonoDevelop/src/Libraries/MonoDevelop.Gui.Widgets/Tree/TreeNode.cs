@@ -1,7 +1,7 @@
 using System;
 using System.Collections;
 
-namespace MonoDevelop.GuiUtils {
+namespace MonoDevelop.Gui.Widgets {
 	public class TreeNode {
 		internal TreeView treeView = null;
 		internal TreeNode parent = null;

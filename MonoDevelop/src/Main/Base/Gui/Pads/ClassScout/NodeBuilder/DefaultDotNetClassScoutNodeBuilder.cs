@@ -20,7 +20,7 @@ using ICSharpCode.SharpDevelop.Internal.Project;
 using SharpDevelop.Internal.Parser;
 using ICSharpCode.Core.Services;
 using ICSharpCode.SharpDevelop.Services;
-using MonoDevelop.GuiUtils;
+using MonoDevelop.Gui.Widgets;
 
 namespace ICSharpCode.SharpDevelop.Gui.Pads
 {

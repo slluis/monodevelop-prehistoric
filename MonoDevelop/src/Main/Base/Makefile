@@ -357,7 +357,8 @@ $(DLL): $(SOURCES) ../../../data/resources/glade/Base.glade
 	@ mcs /debug /out:$(DLL) /target:library /r:System.Drawing.dll /r:ICSharpCode.SharpZipLib.dll \
 		/r:../../../build/bin/ICSharpCode.SharpRefactory.dll /r:../../../build/bin/MonoDevelop.Core.dll \
 		/r:../../../build/bin/ICSharpCode.SharpAssembly.dll \
-		/r:../../../build/bin/MonoDevelop.GuiUtils.dll \
+		/r:../../../build/bin/MonoDevelop.Gui.Utils.dll \
+		/r:../../../build/bin/MonoDevelop.Gui.Widgets.dll \
 		/resource:../../../data/resources/glade/Base.glade,Base.glade \
 		/r:System.Data.dll /r:System.Web.Services.dll /define:LINUX \
 		/define:GTK /r:gtk-sharp.dll /r:gdk-sharp.dll /r:glib-sharp.dll \

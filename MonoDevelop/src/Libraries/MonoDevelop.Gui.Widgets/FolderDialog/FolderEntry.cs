@@ -5,7 +5,7 @@ using Gdk;
 using GtkSharp;
 using GdkSharp;
 
-namespace MonoDevelop.GuiUtils {
+namespace MonoDevelop.Gui.Widgets {
 	public class FolderEntry : BaseFileEntry {
 
 		public FolderEntry (string name) : base (name)
