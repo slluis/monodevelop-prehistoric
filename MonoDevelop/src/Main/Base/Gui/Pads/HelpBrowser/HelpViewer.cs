@@ -22,6 +22,10 @@ namespace MonoDevelop.Gui
 		MonodocService mds;
 		IStatusBarService statusBarService = (IStatusBarService)        MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IStatusBarService));
 
+		public override bool IsViewOnly {
+			get { return true; }
+		}
+
 		public override Gtk.Widget Control {
 			get { return scroller; }
 		}

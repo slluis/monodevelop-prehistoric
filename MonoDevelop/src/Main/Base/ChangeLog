@@ -11,6 +11,9 @@
 	* Gui/Dialogs/OptionPanels/ProjectOptions/DeployFileOptions.cs:
 	use MonoDevelop.Gui.Widgets.FileSelector instead of Gtk.FileSelection
 
+	* Gui/Pads/HelpBrowser/HelpViewer.cs: set IsViewOnly property to true
+	so we don't crash on save
+
 2004-06-16  John Luke  <jluke@cfl.rr.com>
 
 	* Gui/Dialogs/NewProjectDialog.cs: guard against unauthorized
