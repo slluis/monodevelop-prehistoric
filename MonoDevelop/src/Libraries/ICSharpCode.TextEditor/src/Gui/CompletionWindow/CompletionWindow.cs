@@ -51,7 +51,6 @@ namespace ICSharpCode.TextEditor.Gui.CompletionWindow
 		// ???
 		void ListKeyreleaseEvent(object sender, KeyReleaseEventArgs ex) {
 			if (ex.Event.Key == Gdk.Key.BackSpace) {
-				//Console.WriteLine("Got BackSpace on key release");
 				new ICSharpCode.TextEditor.Actions.Backspace().Execute(control.ActiveTextAreaControl.TextArea);
 				if (insertLength > 0) {
 					--insertLength;
@@ -65,7 +64,6 @@ namespace ICSharpCode.TextEditor.Gui.CompletionWindow
 		{
 			Gdk.Key key = ex.Event.Key;
 			char val = (char) key;
-			Console.WriteLine("Got Press event ({0}). Key {1}", ex, key);
 			switch (key) {
 				case Gdk.Key.Shift_L:
 				case Gdk.Key.Shift_R:
@@ -75,13 +73,11 @@ namespace ICSharpCode.TextEditor.Gui.CompletionWindow
 					return;
 					
 				case Gdk.Key.Escape:
-					Console.WriteLine("Got Escape");
 					LostFocusListView(null, null);
 					ex.RetVal = true;
 					return;
 					
 				case Gdk.Key.BackSpace:
-					Console.WriteLine("Got BackSpace on key press");
 					new ICSharpCode.TextEditor.Actions.Backspace().Execute(control.ActiveTextAreaControl.TextArea);
 					if (insertLength > 0) {
 						--insertLength;
@@ -92,7 +88,6 @@ namespace ICSharpCode.TextEditor.Gui.CompletionWindow
 					break;
 					
 				default:
-					Console.WriteLine("Got key: {0}", key);
 					if (val != '_' && !Char.IsLetterOrDigit(val)) {
 						if (listView.Selection.CountSelectedRows() > 0) {
 							ActivateItem(null, null);
