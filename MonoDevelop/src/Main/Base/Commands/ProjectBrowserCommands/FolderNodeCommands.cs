@@ -11,22 +11,19 @@ using System.Threading;
 using System.Drawing;
 using System.Drawing.Printing;
 using System.Collections;
-using System.ComponentModel;
-using System.Windows.Forms;
 using System.Diagnostics;
-
 using ICSharpCode.Core.AddIns;
-
 using ICSharpCode.Core.Properties;
 using ICSharpCode.Core.AddIns.Codons;
 using ICSharpCode.Core.Services;
-
 using ICSharpCode.SharpDevelop.Services;
 using ICSharpCode.SharpDevelop.Gui;
 using ICSharpCode.SharpDevelop.Gui.Components;
 using ICSharpCode.SharpDevelop.Internal.Project;
 using ICSharpCode.SharpDevelop.Gui.Dialogs;
 using ICSharpCode.SharpDevelop.Gui.Pads.ProjectBrowser;
+
+using Gtk;
 
 namespace ICSharpCode.SharpDevelop.Commands.ProjectBrowser
 {
@@ -42,9 +39,9 @@ namespace ICSharpCode.SharpDevelop.Commands.ProjectBrowser
 			
 			AbstractBrowserNode node = (AbstractBrowserNode)browser.SelectedNode;
 			
-			using (OpenFileDialog fdiag  = new OpenFileDialog()) {
-				fdiag.AddExtension    = true;
-				string[] fileFilters  = (string[])(AddInTreeSingleton.AddInTree.GetTreeNode("/SharpDevelop/Workbench/FileFilter").BuildChildItems(this)).ToArray(typeof(string));
+			FileSelection fdiag  = new FileSelection ("Add a file");
+				//fdiag.AddExtension    = true;
+				//string[] fileFilters  = (string[])(AddInTreeSingleton.AddInTree.GetTreeNode("/SharpDevelop/Workbench/FileFilter").BuildChildItems(this)).ToArray(typeof(string));
 
 //	TODO : Set the file filters to the current project
 //				for (int i = 0; i < fileFilters.Length; ++i) {
@@ -54,13 +51,16 @@ namespace ICSharpCode.SharpDevelop.Commands.ProjectBrowser
 //					}
 //				}
 				
-				fdiag.Filter          = String.Join("|", fileFilters);
-				fdiag.Multiselect     = true;
-				fdiag.CheckFileExists = true;
+				//fdiag.Filter          = String.Join("|", fileFilters);
+				fdiag.SelectMultiple = true;
+				//fdiag.CheckFileExists = true;
 				
-				if (fdiag.ShowDialog() == DialogResult.OK) {
+				int result = fdiag.Run ();
+				fdiag.Hide ();
+				
+				if (result == (int) ResponseType.Ok) {
 					bool alreadyInPlace = true;
-					foreach (string file in fdiag.FileNames) {
+					foreach (string file in fdiag.Selections) {
 						if (!file.StartsWith(node.Project.BaseDirectory)) {
 							alreadyInPlace = false;
 							break;
@@ -68,7 +68,7 @@ namespace ICSharpCode.SharpDevelop.Commands.ProjectBrowser
 					}
 					
 					if (alreadyInPlace) {
-						foreach (string file in fdiag.FileNames) {
+						foreach (string file in fdiag.Selections) {
 							ProjectBrowserView.MoveCopyFile(file, node, true, alreadyInPlace);
 						}
 					} else {
@@ -83,12 +83,12 @@ namespace ICSharpCode.SharpDevelop.Commands.ProjectBrowser
 						if (ret == 2 || ret == -1) {
 							return;
 						}
-						foreach (string file in fdiag.FileNames) {
+						foreach (string file in fdiag.Selections) {
 							ProjectBrowserView.MoveCopyFile(file, node, ret == 0, alreadyInPlace);
 						}
 					}
 				}
-			}
+			
 		}
 	}
 	
@@ -109,51 +109,50 @@ namespace ICSharpCode.SharpDevelop.Commands.ProjectBrowser
 				return;
 			}
 			
-			using (NewFileDialog nfd = new NewFileDialog()) {
-				if (nfd.Run() == (int)Gtk.ResponseType.Ok) {
-					IWorkbenchWindow window = WorkbenchSingleton.Workbench.ActiveWorkbenchWindow;
+			NewFileDialog nfd = new NewFileDialog ();
+			if (nfd.Run() == (int)Gtk.ResponseType.Ok) {
+				IWorkbenchWindow window = WorkbenchSingleton.Workbench.ActiveWorkbenchWindow;
 					
-					int count = 1;
+				int count = 1;
 					
-					string baseName  = Path.GetFileNameWithoutExtension(window.ViewContent.UntitledName);
-					string extension = Path.GetExtension(window.ViewContent.UntitledName);
+				string baseName  = Path.GetFileNameWithoutExtension(window.ViewContent.UntitledName);
+				string extension = Path.GetExtension(window.ViewContent.UntitledName);
 					
-					// first try the default untitled name of the viewcontent filename
-					FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.Services.GetService(typeof(FileUtilityService));
-					string fileName = fileUtilityService.GetDirectoryNameWithSeparator(baseFolderPath) + baseName +  extension;
+				// first try the default untitled name of the viewcontent filename
+				FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.Services.GetService(typeof(FileUtilityService));
+				string fileName = fileUtilityService.GetDirectoryNameWithSeparator(baseFolderPath) + baseName +  extension;
 					
-					// if it is already in the project, or it does exists we try to get a name that is
-					// untitledName + Numer + extension
-					while (node.Project.IsFileInProject(fileName) || File.Exists(fileName)) {
-						fileName = fileUtilityService.GetDirectoryNameWithSeparator(baseFolderPath) + baseName + count.ToString() + extension;
-						++count;
-					}
-					
-					// now we have a valid filename which we could use
-					window.ViewContent.Save(fileName);
-					
-					ProjectFile newFileInformation = new ProjectFile(fileName, BuildAction.Compile);
-					
-					AbstractBrowserNode newNode = new FileNode(newFileInformation);
-					newNode.ContextmenuAddinTreePath = FileNode.ProjectFileContextMenuPath;
-					
-					// Assume that the parent node of a 'leaf' (e.g. file) is
-					// a folder or project
-					AbstractBrowserNode parentNode = node;
-					if (!(parentNode is ProjectBrowserNode || parentNode is DirectoryNode)) {
-						parentNode = (AbstractBrowserNode)node.Parent;
-					}
-					
-					parentNode.Nodes.Add(newNode);
-					parentNode.Project.ProjectFiles.Add(newFileInformation);
-					
-					newNode.EnsureVisible();
-					browser.SelectedNode = newNode;
-					browser.StartLabelEdit();
-					
-					IProjectService projectService = (IProjectService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
-					projectService.SaveCombine();
+				// if it is already in the project, or it does exists we try to get a name that is
+				// untitledName + Numer + extension
+				while (node.Project.IsFileInProject(fileName) || File.Exists(fileName)) {
+					fileName = fileUtilityService.GetDirectoryNameWithSeparator(baseFolderPath) + baseName + count.ToString() + extension;
+					++count;
 				}
+					
+				// now we have a valid filename which we could use
+				window.ViewContent.Save(fileName);
+					
+				ProjectFile newFileInformation = new ProjectFile(fileName, BuildAction.Compile);
+					
+				AbstractBrowserNode newNode = new FileNode(newFileInformation);
+				newNode.ContextmenuAddinTreePath = FileNode.ProjectFileContextMenuPath;
+					
+				// Assume that the parent node of a 'leaf' (e.g. file) is
+				// a folder or project
+				AbstractBrowserNode parentNode = node;
+				if (!(parentNode is ProjectBrowserNode || parentNode is DirectoryNode)) {
+					parentNode = (AbstractBrowserNode)node.Parent;
+				}
+					
+				parentNode.Nodes.Add(newNode);
+				parentNode.Project.ProjectFiles.Add(newFileInformation);
+					
+				newNode.EnsureVisible();
+				browser.SelectedNode = newNode;
+				browser.StartLabelEdit();
+					
+				IProjectService projectService = (IProjectService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
+				projectService.SaveCombine();
 			}
 		}
 	}
