@@ -32,7 +32,7 @@ make install
 Otherwise, download the 
 <a href="http://ftp.acc.umu.se/pub/gnome/sources/gtksourceview/0.7/gtksourceview-0.7.0.tar.gz">official 
 tarball (0.7)</a>. 
-The `<tt>./configure</tt>' line is a little more involved than usual. Use the example below:</p>
+The `<tt>./configure</tt>' line is a little more involved than usual. Use the example below:
 <pre class="code">
 tar -xzf gtksourceview-0.7.0.tar.gz
 cd gtksourceview-0.7.0
@@ -40,6 +40,7 @@ cd gtksourceview-0.7.0
 make
 make install
 </pre>
+      </p>
 
       <br /><br />
       <b>3. gtkmozembed</b>
@@ -94,12 +95,13 @@ cd monodevelop-0.2
 make
 make install
 </pre>
-
+      
+      <br />
       <p>Congratulations! You now have the latest copy of MonoDevelop installed. Don't forget to report 
 all the bugs you find.</p>
       
       <br/><br/>
-      <hr />
+      <hr width="90%" />
       <p>This document was written by <a href="mailto:steve@citygroup.ca">Steve Deobald</a> 
 and is licensed under the Creative Commons License. If this document contains errors or could 
 be improved, please let me know.</p>
