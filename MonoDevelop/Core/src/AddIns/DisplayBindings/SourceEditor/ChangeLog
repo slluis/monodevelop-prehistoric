@@ -1,3 +1,8 @@
+2004-06-28  Todd Berman  <tberman@off.net>
+
+	* Gui/SourceEditorDisplayBinding.cs: Add a FSW to monitor for external
+	changes to a loaded file.
+
 2004-06-26  Lluis Sanchez Gual  <lluis@ximian.com>
 
 	* Search/SearchReplaceManager.cs: Make sure the search starts at the current

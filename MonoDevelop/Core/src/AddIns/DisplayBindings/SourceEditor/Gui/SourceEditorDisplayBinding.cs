@@ -91,8 +91,45 @@ namespace MonoDevelop.SourceEditor.Gui
 	public class SourceEditorDisplayBindingWrapper : AbstractViewContent,
 		IEditable, IPositionable, IBookmarkOperations, IDebuggableEditor
 	{
-		internal SourceEditor se;
+
+		internal FileSystemWatcher fsw;
 	
+		internal SourceEditor se;
+
+		void UpdateFSW (object o, EventArgs e)
+		{
+			if (ContentName == null || ContentName.Length == 0)
+				return;
+
+			fsw.EnableRaisingEvents = false;
+			fsw.Path = Path.GetDirectoryName (ContentName);
+			fsw.Filter = Path.GetFileName (ContentName);
+			fsw.EnableRaisingEvents = true;
+		}
+
+		private void OnFileChanged (object o, FileSystemEventArgs e)
+		{
+			DispatchService dispatcher = (DispatchService)ServiceManager.GetService (typeof (DispatchService));
+			dispatcher.GuiDispatch (new StatefulMessageHandler (realFileChanged), e);
+		}
+
+		void realFileChanged (object evnt)
+		{
+			FileSystemEventArgs e = (FileSystemEventArgs)evnt;
+			if (e.ChangeType == WatcherChangeTypes.Changed) {
+				MessageDialog msg = new MessageDialog ((Gtk.Window)WorkbenchSingleton.Workbench, DialogFlags.Modal, MessageType.Question, ButtonsType.YesNo, String.Format (GettextCatalog.GetString ("The file {0} has been changed outside of MonoDevelop. Would you like to reload the file?"), ContentName));
+				msg.Response += new Gtk.ResponseHandler (Responded);
+				msg.ShowAll ();
+			}
+		}
+
+		void Responded (object o, ResponseArgs e)
+		{
+			if (e.ResponseId == ResponseType.Yes)
+				Load (ContentName);
+			((Gtk.Window)o).Hide ();
+		}
+
 		public void ExecutingAt (int line)
 		{
 			se.ExecutingAt (line);
@@ -122,6 +159,7 @@ namespace MonoDevelop.SourceEditor.Gui
 			se.Buffer.MarkSet += new MarkSetHandler (OnMarkSet);
 			se.Buffer.Changed += new EventHandler (OnChanged);
 			se.View.ToggleOverwrite += new EventHandler (CaretModeChanged);
+			ContentNameChanged += new EventHandler (UpdateFSW);
 			
 			CaretModeChanged (null, null);
 			PropertiesChanged (null, null);
@@ -129,8 +167,11 @@ namespace MonoDevelop.SourceEditor.Gui
 			PropertyService propertyService = (PropertyService) ServiceManager.GetService (typeof (PropertyService));
 			IProperties properties2 = ((IProperties) propertyService.GetProperty("MonoDevelop.TextEditor.Document.Document.DefaultDocumentAggregatorProperties", new DefaultProperties()));
 			properties2.PropertyChanged += new PropertyEventHandler (PropertiesChanged);
+			fsw = new FileSystemWatcher ();
+			fsw.Changed += new FileSystemEventHandler (OnFileChanged);
+			UpdateFSW (null, null);
 		}
-		
+
 		public void JumpTo (int line, int column)
 		{
 			// NOTE: 0 based!			
@@ -169,6 +210,7 @@ namespace MonoDevelop.SourceEditor.Gui
 		
 		public override void Dispose()
 		{
+			fsw.Dispose ();
 		}
 		
 		void OnModifiedChanged (object o, EventArgs e)

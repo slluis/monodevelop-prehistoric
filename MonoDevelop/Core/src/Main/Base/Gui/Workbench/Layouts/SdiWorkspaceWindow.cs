@@ -253,6 +253,7 @@ namespace MonoDevelop.Gui
 				WorkbenchSingleton.Workbench.WorkbenchLayout.RemoveTab (pageNum);
 			}
 			OnWindowDeselected(EventArgs.Empty);
+			content.Dispose ();
 			OnCloseEvent(null);
 		}
 		

@@ -1,5 +1,12 @@
 2004-06-28  Todd Berman  <tberman@off.net>
 
+	* Gui/Workbench/Layouts/SdiWorkspaceWindow.cs: make sure everything is
+	being disposed on close.
+	* Gui/AbstractViewContent.cs: work around small virtual bug, will file
+	this when i can replicate in a smaller test case.
+
+2004-06-28  Todd Berman  <tberman@off.net>
+
 	* Services/Project/DefaultProjectService.cs:
 	* Services/Project/IProjectService.cs:
 	* Internal/Project/Project/IProject.cs:

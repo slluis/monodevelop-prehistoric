@@ -18,7 +18,6 @@ namespace MonoDevelop.Gui
 		string untitledName = "";
 		string contentName  = null;
 		IProject project = null;
-		string pathrelativetoproject = null;
 		
 		bool   isDirty  = false;
 		bool   isViewOnly = false;
@@ -102,6 +101,10 @@ namespace MonoDevelop.Gui
 		}
 		
 		public abstract void Load(string fileName);
+
+		public override void Dispose ()
+		{
+		}
 
 		public IProject Project
 		{
