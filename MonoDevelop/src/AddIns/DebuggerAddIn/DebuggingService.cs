@@ -256,7 +256,7 @@ namespace MonoDevelop.Services
 		public string[] Backtrace {
 			get {
 				Backtrace trace = proc.GetBacktrace ();
-				string[] result = new string [trace.Length];
+				string[] result = new string [trace.Frames.Length];
 				int i = 0;
 				foreach (StackFrame frame in trace.Frames)
 					result [i++] = frame.SourceAddress.Name;

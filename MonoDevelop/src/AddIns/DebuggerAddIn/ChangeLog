@@ -1,3 +1,7 @@
+2004-06-25  Todd Berman  <tberman@off.net>
+
+	* DebuggingService.cs: sync with cvs debugger.
+
 2004-06-18  Todd Berman  <tberman@off.net>
 
 	* Makefile.am: use pkg-config properly.
