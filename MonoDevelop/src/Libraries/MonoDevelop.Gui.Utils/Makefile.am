@@ -17,12 +17,12 @@ build_sources = $(addprefix $(srcdir)/, $(FILES))
 all: $(DLL)
 
 $(DLL): $(build_sources)
-	@ mcs /debug /out:$(DLL) /target:library $(REFERENCES) $(build_sources) \
+	mcs /debug /out:$(DLL) /target:library $(REFERENCES) $(build_sources) \
 	&& cp $(DLL) ../../../build/bin/.
 
 assemblydir = $(libdir)/monodevelop/bin
 assembly_DATA = $(DLL)
-  
+
 CLEANFILES=$(DLL)
 
 EXTRA_DIST = $(FILES)

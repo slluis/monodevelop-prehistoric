@@ -3,7 +3,7 @@ CSC = mcs /debug
 ASSEMBLY = MonoDevelop.Debugger.dll
 ADDIN = $(srcdir)/MonoDevelopDebugger.addin.xml
 
-DLLS = /r:gtk-sharp /r:glib-sharp \
+DLLS = @GTKSHARP@ \
 	/r:$(debugger_prefix)/lib/Mono.Debugger.dll \
 	/r:../../../build/bin/MonoDevelop.Base.dll \
 	/r:../../../build/bin/MonoDevelop.Core.dll

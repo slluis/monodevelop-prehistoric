@@ -4,7 +4,7 @@ ASSEMBLY = MonoDevelop.Nunit.dll
 ADDIN = $(srcdir)/MonoDevelopNunit.addin.xml
 
 DLLS = /r:NUnit.Framework.dll \
-	/r:gtk-sharp.dll /r:glib-sharp.dll /r:gdk-sharp.dll \
+	@GTKSHARP@ \
 	/r:../../../build/bin/MonoDevelop.Core.dll \
 	/r:../../../build/bin/MonoDevelop.Base.dll
 

@@ -8,9 +8,11 @@ DLLS = /r:System.Drawing /r:ICSharpCode.SharpZipLib.dll \
 	/r:../../../build/bin/MonoDevelop.Gui.Utils.dll \
 	/r:../../../build/bin/MonoDevelop.Gui.Widgets.dll \
 	/r:System.Data /r:System.Web.Services \
-	/r:gtk-sharp /r:gdk-sharp /r:glib-sharp /r:pango-sharp \
+	@GTKSHARP@ \
 	/r:../../../build/bin/gdl-sharp.dll \
-	/r:glade-sharp /r:gnome-sharp /r:gtkhtml-sharp \
+	@GLADESHARP@ \
+	@GNOMESHARP@ \
+	@GTKHTMLSHARP@ \
 	$(GECKO_SHARP) $(MONODOC)
 
 FILES= \
@@ -375,7 +377,7 @@ ASSEMBLY = MonoDevelop.Base.dll
 all: $(ASSEMBLY)
 
 $(ASSEMBLY): $(build_sources) ../../../data/resources/glade/Base.glade
-	@ $(CSC) -codepage:utf8 /out:$(ASSEMBLY) /target:library $(DLLS) \
+	$(CSC) -codepage:utf8 /out:$(ASSEMBLY) /target:library $(DLLS) \
 		/resource:$(srcdir)/../../../data/resources/glade/Base.glade,Base.glade \
 		$(monodoc_libflags) \
 		$(build_sources) \

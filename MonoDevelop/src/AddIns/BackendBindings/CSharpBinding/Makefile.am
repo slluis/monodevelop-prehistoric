@@ -7,9 +7,8 @@ DLLS = /r:System.Drawing.dll \
 	/r:../../../../build/bin/MonoDevelop.Base.dll \
 	/r:../../../../build/bin/ICSharpCode.SharpRefactory.dll \
 	/r:../../../../build/bin/MonoDevelop.Gui.Widgets.dll  \
-	/r:gtk-sharp \
-	/r:glade-sharp \
-	/r:glib-sharp \
+	@GTKSHARP@ \
+	@GLADESHARP@ \
 	$(GTKSOURCEVIEW_SHARP) 
 
 FILES = \
@@ -45,7 +44,7 @@ build_sources = $(addprefix $(srcdir)/, $(FILES))
 all: $(ASSEMBLY)
 
 $(ASSEMBLY): $(build_sources)
-	@ $(CSC) /out:$(ASSEMBLY) /target:library $(DLLS) \
+	$(CSC) /out:$(ASSEMBLY) /target:library $(DLLS) \
 		/resource:$(srcdir)/../../../../data/resources/glade/CSharp.glade,CSharp.glade \
 		$(build_sources) \
 	&& cp $(ASSEMBLY) ../../../../build/AddIns/AddIns/BackendBindings/.

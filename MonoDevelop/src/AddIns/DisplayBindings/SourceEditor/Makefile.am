@@ -78,13 +78,15 @@ $(DLL) : $(build_sources)
 	mcs $(build_sources) /debug /out:$(DLL) /t:library \
 	/resource:$(srcdir)/../../../../data/resources/glade/EditorBindings.glade,EditorBindings.glade \
 	/resource:$(srcdir)/../../../../data/resources/glade/texteditoraddin.glade,texteditoraddin.glade \
-	 /r:gtk-sharp /r:gdk-sharp $(GTKSOURCEVIEW_SHARP) /r:glib-sharp \
 		/r:../../../../build/bin/MonoDevelop.Core.dll \
 		/r:../../../../build/bin/MonoDevelop.Base.dll \
 		/r:../../../../build/bin/MonoDevelop.Gui.Utils.dll \
 		/r:../../../../build/bin/MonoDevelop.Gui.Widgets.dll \
-		/r:pango-sharp /r:gnome-sharp /r:glade-sharp \
-		/r:gconf-sharp \
+		@GTKSHARP@ \
+		@GLADESHARP@ \
+		@GNOMESHARP@ \
+		@GCONFSHARP@ \
+		$(GTKSOURCEVIEW_SHARP) \
 		/r:System.Drawing \
 	&& cp $(DLL) ../../../../build/bin/.
 

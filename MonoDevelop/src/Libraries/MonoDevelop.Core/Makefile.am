@@ -66,7 +66,7 @@ DLL = MonoDevelop.Core.dll
 all: $(DLL)
 
 $(DLL): $(build_sources)
-	@ mcs /debug /out:$(DLL) /target:library /r:System.Drawing.dll /define:LINUX /resource:$(srcdir)/../../../data/resources/AddIn.xsd,AddIn.xsd \
+	mcs /debug /out:$(DLL) /target:library /r:System.Drawing.dll /define:LINUX /resource:$(srcdir)/../../../data/resources/AddIn.xsd,AddIn.xsd \
 	$(build_sources) && cp $(DLL) ../../../build/bin/.
 
 assemblydir = $(libdir)/monodevelop/bin

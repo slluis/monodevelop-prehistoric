@@ -42,6 +42,7 @@ gtk-sharp >= $GTKSHARP_REQUIRED_VERSION
 glade-sharp >= $GTKSHARP_REQUIRED_VERSION
 gconf-sharp >= $GTKSHARP_REQUIRED_VERSION
 gnome-sharp >= $GTKSHARP_REQUIRED_VERSION
+gtkhtml-sharp >= $GTKSHARP_REQUIRED_VERSION
 gtksourceview-1.0 >= $GTKSOURCEVIEW_REQUIRED_VERSION
 gtksourceview-sharp >= $GTKSOURCEVIEWSHARP_REQUIRED_VERSION
 gecko-sharp >= $GECKOSHARP_REQUIRED_VERSION
@@ -56,6 +57,16 @@ GECKO_SHARP="`pkg-config --libs gecko-sharp`"
 AC_SUBST(GECKO_SHARP)
 MONODOC="`pkg-config --libs monodoc`"
 AC_SUBST(MONODOC)
+GTKSHARP="`pkg-config --libs gtk-sharp`"
+AC_SUBST(GTKSHARP)
+GLADESHARP="`pkg-config --libs glade-sharp`"
+AC_SUBST(GLADESHARP)
+GNOMESHARP="`pkg-config --libs gnome-sharp`"
+AC_SUBST(GNOMESHARP)
+GCONFSHARP="`pkg-config --libs gconf-sharp`"
+AC_SUBST(GCONFSHARP)
+GTKHTMLSHARP="`pkg-config --libs gtkhtml-sharp`"
+AC_SUBST(GTKHTMLSHARP)
 
 dnl GdlDock requirements and configuration
 GTK_REQUIRED=2.2.0

@@ -3,7 +3,7 @@ MCS = mcs -debug
 
 DLL = MonoDevelop.Gui.Widgets.dll
 
-REFERENCES = /r:System.Drawing /r:gtk-sharp /r:gdk-sharp /r:pango-sharp /r:gnome-sharp /r:glib-sharp /r:glade-sharp /r:../../../build/bin/MonoDevelop.Core.dll /r:../../../build/bin/MonoDevelop.Gui.Utils.dll
+REFERENCES = /r:System.Drawing @GTKSHARP@ @GNOMESHARP@ @GLADESHARP@ /r:../../../build/bin/MonoDevelop.Core.dll /r:../../../build/bin/MonoDevelop.Gui.Utils.dll
 
 FILES = ./Tree/TreeView.cs \
 ./Tree/TreeNodeCollection.cs \
@@ -26,7 +26,7 @@ build_sources = $(addprefix $(srcdir)/, $(FILES))
 all: $(DLL)
 
 $(DLL): $(build_sources)
-	@ $(MCS) /debug /out:$(DLL) /target:library $(REFERENCES) $(build_sources) \
+	$(MCS) /debug /out:$(DLL) /target:library $(REFERENCES) $(build_sources) \
 	&& cp $(DLL) ../../../build/bin/.
 
 assemblydir = $(libdir)/monodevelop/bin

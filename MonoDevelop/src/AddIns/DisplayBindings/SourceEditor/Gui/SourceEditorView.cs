@@ -1,5 +1,6 @@
 using Gtk;
 using Gdk;
+using Global = Gtk.Global;
 
 using System;
 using System.IO;
@@ -136,7 +137,7 @@ namespace MonoDevelop.SourceEditor.Gui
 
 		public void SimulateKeyPress (ref Gdk.EventKey evnt)
 		{
-			Gtk.Global.PropagateEvent (this, evnt);
+			Global.PropagateEvent (this, evnt);
 		}
 
 		void DeleteLine ()
