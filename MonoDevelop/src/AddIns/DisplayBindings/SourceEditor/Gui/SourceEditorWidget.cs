@@ -8,19 +8,19 @@ using System.Runtime.InteropServices;
 namespace MonoDevelop.SourceEditor.Gui {
 	public class SourceEditor : ScrolledWindow {
 		SourceView sv;
-		SourceBuffer sb;
+		internal SourceBuffer buffer;
 		SourceLanguagesManager slm = new SourceLanguagesManager ();
 		
 		public SourceEditor ()
 		{
-			sb = new SourceBuffer (new SourceTagTable ());
-			sv = new SourceView (sb);
+			buffer = new SourceBuffer (new SourceTagTable ());
+			sv = new SourceView (buffer);
 			
 			sv.AutoIndent = true;
 			sv.SmartHomeEnd = true;
 			sv.ShowLineNumbers = true;
 			sv.ShowLineMarkers = true;
-			sb.Highlight = true;
+			buffer.Highlight = true;
 			
 			Add (sv);
 		}
@@ -30,23 +30,25 @@ namespace MonoDevelop.SourceEditor.Gui {
 			LoadText (File.OpenText (file).ReadToEnd (), mime);
 		}
 		
-		
 		public void LoadFile (string file)
 		{
-			sb.Text = File.OpenText (file).ReadToEnd ();
+			buffer.Text = File.OpenText (file).ReadToEnd ();
 		}
 		
 		public void LoadText (string text, string mime)
 		{
-			sb.Text = text;
-			sb.Language = slm.GetLanguageFromMimeType (mime);
+			buffer.Text = text;
+			buffer.Language = slm.GetLanguageFromMimeType (mime);
 		}
 		
 		public void LoadText (string text)
 		{
-			sb.Text = text;
+			buffer.Text = text;
 		}
 		
-		public string Text { get { return sb.Text; } }
+		public string Text {
+			get { return buffer.Text; }
+			set { buffer.Text = value; }
+		}
 	}
 }

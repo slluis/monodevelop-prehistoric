@@ -60,7 +60,8 @@ namespace MonoDevelop.SourceEditor.Gui {
 		}	
 	}
 	
-	public class SourceEditorDisplayBindingWrapper : AbstractViewContent
+	public class SourceEditorDisplayBindingWrapper : AbstractViewContent,
+		IEditable, IClipboardHandler
 	{
 		internal SourceEditor se;
 		
@@ -97,6 +98,9 @@ namespace MonoDevelop.SourceEditor.Gui {
 		
 		public override void Save (string fileName)
 		{
+			TextWriter s = new StreamWriter (fileName, false);
+			s.Write (se.Text);
+			s.Close ();
 		}
 		
 		public override void Load (string fileName)
@@ -105,6 +109,8 @@ namespace MonoDevelop.SourceEditor.Gui {
 				se.LoadFile (fileName, "text/x-csharp");
 			else
 				se.LoadFile (fileName);
+			
+			ContentName = fileName;
 		}
 		
 		public void LoadString (string mime, string val)
@@ -114,5 +120,70 @@ namespace MonoDevelop.SourceEditor.Gui {
 			else
 				se.LoadText (val);
 		}
+		
+#region IEditable
+		public IClipboardHandler ClipboardHandler {
+			get { return this; }
+		}
+		
+		public string Text {
+			get { return se.Text; }
+			set { se.Text = value; }
+		}
+		
+		public void Undo ()
+		{
+			se.buffer.Undo ();
+		}
+		
+		public void Redo ()
+		{
+			se.buffer.Redo ();
+		}
+#endregion
+#region IClipboardHandler
+		//
+		// TODO: All of this ;-)
+		//
+		public bool EnableCut {
+			get { return false; }
+		}
+		
+		public bool EnableCopy {
+			get { return false; }
+		}
+		
+		public bool EnablePaste {
+			get { return false; }
+		}
+		
+		public bool EnableDelete {
+			get { return false; }
+		}
+		
+		public bool EnableSelectAll {
+			get { return false; }
+		}
+		
+		public void Cut (object sender, EventArgs e)
+		{
+		}
+		
+		public void Copy (object sender, EventArgs e)
+		{
+		}
+		
+		public void Paste (object sender, EventArgs e)
+		{
+		}
+		
+		public void Delete (object sender, EventArgs e)
+		{
+		}
+		
+		public void SelectAll (object sender, EventArgs e)
+		{
+		}
+#endregion
 	}
 }
