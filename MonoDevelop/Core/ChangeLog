@@ -1,3 +1,7 @@
+2004-10-17  John Luke  <john.luke@gmail.com>
+
+	* configure.in: echo $CSC at the end for the prefix impaired (like me)
+
 2004-10-15  Fawad Halim <fawad@fawad.net>
 
 	* build/AddIns/AddIns/BackendBindings/templates/Makefile.am: Add missing NemerleGtkSharpWindow.xft.xml reference.
