@@ -2,6 +2,9 @@
 
 	* configure.in: Added da_DK
 	* po/da_DK.po: Initial creation
+	Updated to match latest svn, 
+	fixed character encoding,
+	more translations.
 
 2004-05-25  Fawad Halim <fawad@fawad.net>
 

@@ -8,13 +8,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: MonoDevelop 0.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-05-05 00:29-0400\n"
-"PO-Revision-Date: 2004-05-25 20:14-0100\n\n"
+"POT-Creation-Date: 2004-05-26 15:01+0200\n"
+"PO-Revision-Date: 2004-05-26 15:05+0200\n"
 "Last-Translator: Martin Willemoes Hansen <mwh@sysrq.dk>\n"
 "Language-Team: Martin Willemoes Hansen <mwh@sysrq.dk>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"\n"
 
 #: build/AddIns/SharpDevelopCore.addin.xml.h:1
 msgid "#CvsLib"
@@ -1133,15 +1134,15 @@ msgstr "Vis uddata"
 
 #: data/resources/glade/Base.glade.h:58
 msgid "Show _task list pad if build finished with errors"
-msgstr ""
+msgstr "Vis opgavelis_te hvis bygningen blev færdiggjort med fejl"
 
 #: data/resources/glade/Base.glade.h:59
 msgid "Show hidden files and directories"
-msgstr ""
+msgstr "Vis skjulte filer og foldere"
 
 #: data/resources/glade/Base.glade.h:60
 msgid "Tip of the day"
-msgstr ""
+msgstr "Dagens tip"
 
 #: data/resources/glade/Base.glade.h:61
 msgid "Unix"
@@ -1149,36 +1150,36 @@ msgstr ""
 
 #: data/resources/glade/Base.glade.h:62
 msgid "Use _Output Window"
-msgstr ""
+msgstr "Brug _Uddata Vindue"
 
 #: data/resources/glade/Base.glade.h:64
 msgid "Windows"
-msgstr ""
+msgstr "Vinduer"
 
 #: data/resources/glade/Base.glade.h:65
 msgid "With _scriptfile"
-msgstr ""
+msgstr "Med _scriptfil"
 
 #: data/resources/glade/Base.glade.h:66
 msgid "_Arguments"
-msgstr ""
+msgstr "_Argumenter"
 
 #: data/resources/glade/Base.glade.h:67
 msgid "_Command"
-msgstr ""
+msgstr "_Kommando"
 
 #: data/resources/glade/Base.glade.h:68
 msgid "_Deploy target:"
-msgstr ""
+msgstr "U_drul mål"
 
 #: data/resources/glade/Base.glade.h:69
 #: src/Main/Base/Gui/Dialogs/OptionPanels/EditTemplateDialog.cs:64
 msgid "_Description"
-msgstr ""
+msgstr "Beskrive_lse"
 
 #: data/resources/glade/Base.glade.h:70
 msgid "_Don't save changes to open documents "
-msgstr ""
+msgstr "Lad være med at gemme ændringer til åbne _dokumenter"
 
 #: data/resources/glade/Base.glade.h:71
 msgid "_Else on same line as closing bracket"
@@ -1619,49 +1620,49 @@ msgstr ""
 msgid "Version Info"
 msgstr ""
 
-#: src/Main/Base/Gui/Dialogs/NewProjectDialog.cs:161
+#: src/Main/Base/Gui/Dialogs/NewProjectDialog.cs:163
 msgid "Project will be saved at"
 msgstr ""
 
-#: src/Main/Base/Gui/Dialogs/NewProjectDialog.cs:206
+#: src/Main/Base/Gui/Dialogs/NewProjectDialog.cs:208
 msgid ""
 "Illegal project name. \n"
 "Only use letters, digits, space, '.' or '_'."
 msgstr ""
 
-#: src/Main/Base/Gui/Dialogs/NewProjectDialog.cs:216
+#: src/Main/Base/Gui/Dialogs/NewProjectDialog.cs:218
 msgid ""
 "Illegal project name.\n"
 "Only use letters, digits, space, '.' or '_'."
 msgstr ""
 
-#: src/Main/Base/Gui/Dialogs/NewProjectDialog.cs:221
+#: src/Main/Base/Gui/Dialogs/NewProjectDialog.cs:223
 msgid "A Project with that name is already in your Project Space"
 msgstr ""
 
-#: src/Main/Base/Gui/Dialogs/NewProjectDialog.cs:278
+#: src/Main/Base/Gui/Dialogs/NewProjectDialog.cs:280
 #, csharp-format
 msgid ""
 "Combine file {0} already exists, do you want to overwrite\n"
 "the existing file ?"
 msgstr ""
 
-#: src/Main/Base/Gui/Dialogs/NewProjectDialog.cs:278
+#: src/Main/Base/Gui/Dialogs/NewProjectDialog.cs:280
 #: src/Main/Base/Internal/Templates/ProjectTemplates/ProjectDescriptor.cs:113
 #: src/Main/Base/Internal/Templates/ProjectTemplates/ProjectDescriptor.cs:139
 #: src/Main/Base/Internal/Templates/ProjectTemplates/ProjectDescriptor.cs:162
 msgid "File already exists"
 msgstr ""
 
-#: src/Main/Base/Gui/Dialogs/NewProjectDialog.cs:290
+#: src/Main/Base/Gui/Dialogs/NewProjectDialog.cs:292
 msgid "The project or source entry is empty, can't create project."
 msgstr ""
 
-#: src/Main/Base/Gui/Dialogs/NewProjectDialog.cs:290
+#: src/Main/Base/Gui/Dialogs/NewProjectDialog.cs:292
 msgid "Warning"
 msgstr ""
 
-#: src/Main/Base/Gui/Dialogs/NewProjectDialog.cs:348
+#: src/Main/Base/Gui/Dialogs/NewProjectDialog.cs:350
 msgid "Combine Location"
 msgstr ""
 
@@ -1840,7 +1841,7 @@ msgstr ""
 msgid "Path"
 msgstr ""
 
-#: src/Main/Base/Gui/Dialogs/ReferenceDialog/GacReferencePanel.cs:122
+#: src/Main/Base/Gui/Dialogs/ReferenceDialog/GacReferencePanel.cs:123
 msgid ""
 "ERROR: non-mono runtime detected, please use the mono runtime for this piece "
 "of MonoDevelop for the time being"
@@ -1950,7 +1951,7 @@ msgstr ""
 msgid "Abstract Content"
 msgstr ""
 
-#: src/Main/Base/Gui/AbstractViewContent.cs:26
+#: src/Main/Base/Gui/AbstractViewContent.cs:27
 msgid "Change me"
 msgstr ""
 
@@ -1959,7 +1960,7 @@ msgid "Web Browser"
 msgstr ""
 
 #: src/Main/Base/Gui/BrowserDisplayBinding/HtmlViewPane.cs:209
-#: src/Main/Base/Gui/Pads/ClassScout/ClassScout.cs:149
+#: src/Main/Base/Gui/Pads/ClassScout/ClassScout.cs:139
 msgid "Loading..."
 msgstr ""
 
@@ -2160,11 +2161,11 @@ msgid ""
 "{2}"
 msgstr ""
 
-#: src/Main/Base/Gui/Pads/ClassScout/ClassScout.cs:80
+#: src/Main/Base/Gui/Pads/ClassScout/ClassScout.cs:79
 msgid "Classes"
 msgstr ""
 
-#: src/Main/Base/Gui/Pads/ClassScout/ClassScout.cs:360
+#: src/Main/Base/Gui/Pads/ClassScout/ClassScout.cs:358
 msgid "No class builder found"
 msgstr ""
 
@@ -2248,7 +2249,7 @@ msgstr ""
 msgid "Solution"
 msgstr ""
 
-#: src/Main/Base/Gui/Workbench/DefaultWorkbench.cs:562
+#: src/Main/Base/Gui/Workbench/DefaultWorkbench.cs:593
 #: src/Main/Base/Commands/RunCommands.cs:242
 #: src/Main/Base/Services/Project/DefaultProjectService.cs:155
 msgid "Ready"
@@ -2484,38 +2485,39 @@ msgstr ""
 msgid "Can't load external tools configuration file"
 msgstr ""
 
-#: src/Main/Base/Internal/Project/Combine/Combine.cs:168
+#: src/Main/Base/Internal/Project/Combine/Combine.cs:195
 #, csharp-format
 msgid "Can't find language binding for {0}"
 msgstr ""
 
-#: src/Main/Base/Internal/Project/Combine/Combine.cs:301
-#: src/Main/Base/Internal/Project/Project/AbstractProject.cs:500
+#: src/Main/Base/Internal/Project/Combine/Combine.cs:347
+#: src/Main/Base/Internal/Project/Combine/Combine.cs:358
+#: src/Main/Base/Internal/Project/Project/AbstractProject.cs:509
 msgid ""
 "Can't save solution\n"
 "Please check your file and directory permissions."
 msgstr ""
 
-#: src/Main/Base/Internal/Project/Combine/Combine.cs:307
+#: src/Main/Base/Internal/Project/Combine/Combine.cs:365
 msgid "Save Combine As..."
 msgstr ""
 
-#: src/Main/Base/Internal/Project/Combine/Combine.cs:313
+#: src/Main/Base/Internal/Project/Combine/Combine.cs:371
 msgid "Combine saved"
 msgstr ""
 
-#: src/Main/Base/Internal/Project/Combine/Combine.cs:516
+#: src/Main/Base/Internal/Project/Combine/Combine.cs:613
 msgid ""
 "Cyclic dependencies can not be built with this version.\n"
 "But we are working on it."
 msgstr ""
 
-#: src/Main/Base/Internal/Project/Combine/CombineEntry.cs:115
+#: src/Main/Base/Internal/Project/Combine/CombineEntry.cs:116
 #, csharp-format
 msgid "Compiling: {0}"
 msgstr ""
 
-#: src/Main/Base/Internal/Project/Combine/CombineEntry.cs:133
+#: src/Main/Base/Internal/Project/Combine/CombineEntry.cs:134
 #, csharp-format
 msgid ""
 "------ Build started: Project: {0} Configuration: {1} ------\n"
@@ -2523,27 +2525,27 @@ msgid ""
 "Performing main compilation...\n"
 msgstr ""
 
-#: src/Main/Base/Internal/Project/Combine/CombineEntry.cs:136
-#: src/Main/Base/Internal/Project/Combine/CombineEntry.cs:150
+#: src/Main/Base/Internal/Project/Combine/CombineEntry.cs:137
+#: src/Main/Base/Internal/Project/Combine/CombineEntry.cs:151
 #, csharp-format
 msgid "Execute : {0}"
 msgstr ""
 
-#: src/Main/Base/Internal/Project/Combine/CombineEntry.cs:175
+#: src/Main/Base/Internal/Project/Combine/CombineEntry.cs:176
 #, csharp-format
 msgid ""
 "Build complete -- {0} errors, {1} warnings\n"
 "\n"
 msgstr ""
 
-#: src/Main/Base/Internal/Project/Project/AbstractProject.cs:261
+#: src/Main/Base/Internal/Project/Project/AbstractProject.cs:265
 #, csharp-format
 msgid ""
 "Old project file format found.\n"
 " It will be automatically converted to {0} information"
 msgstr ""
 
-#: src/Main/Base/Internal/Project/Project/AbstractProject.cs:276
+#: src/Main/Base/Internal/Project/Project/AbstractProject.cs:280
 msgid ""
 "Error writing the old project file.\n"
 "Check if you have write permission on the project file (.prjx).\n"
@@ -2552,11 +2554,11 @@ msgid ""
 "It is better if you close SharpDevelop and correct the problem."
 msgstr ""
 
-#: src/Main/Base/Internal/Project/Project/AbstractProject.cs:515
+#: src/Main/Base/Internal/Project/Project/AbstractProject.cs:524
 msgid "Save Project As..."
 msgstr ""
 
-#: src/Main/Base/Internal/Project/Project/AbstractProject.cs:523
+#: src/Main/Base/Internal/Project/Project/AbstractProject.cs:532
 msgid "Project saved"
 msgstr ""
 
@@ -2590,7 +2592,7 @@ msgstr ""
 msgid "Error loading template file {0}"
 msgstr ""
 
-#: src/Main/Base/Internal/Templates/ProjectTemplates/CombineDescriptor.cs:99
+#: src/Main/Base/Internal/Templates/ProjectTemplates/CombineDescriptor.cs:100
 #, csharp-format
 msgid ""
 "Solution file {0} already exists, do you want to overwrite\n"
@@ -2628,22 +2630,22 @@ msgstr ""
 msgid "Didnt match on mimetype: {0}, trying filename"
 msgstr ""
 
-#: src/Main/Base/Services/File/DefaultFileService.cs:246
+#: src/Main/Base/Services/File/DefaultFileService.cs:247
 #, csharp-format
 msgid "Can't remove directory {0}"
 msgstr ""
 
-#: src/Main/Base/Services/File/DefaultFileService.cs:255
+#: src/Main/Base/Services/File/DefaultFileService.cs:256
 #, csharp-format
 msgid "Can't remove file {0}"
 msgstr ""
 
-#: src/Main/Base/Services/File/DefaultFileService.cs:270
+#: src/Main/Base/Services/File/DefaultFileService.cs:271
 #, csharp-format
 msgid "Can't rename directory {0}"
 msgstr ""
 
-#: src/Main/Base/Services/File/DefaultFileService.cs:279
+#: src/Main/Base/Services/File/DefaultFileService.cs:280
 #, csharp-format
 msgid "Can't rename file {0}"
 msgstr ""
@@ -2652,11 +2654,11 @@ msgstr ""
 msgid "Question"
 msgstr ""
 
-#: src/Main/Base/Services/ParserService/DefaultParserService.cs:202
+#: src/Main/Base/Services/ParserService/DefaultParserService.cs:184
 msgid "Generate code completion database"
 msgstr ""
 
-#: src/Main/Base/Services/ParserService/DefaultParserService.cs:226
+#: src/Main/Base/Services/ParserService/DefaultParserService.cs:194
 msgid "Writing class"
 msgstr ""
 
@@ -2664,12 +2666,12 @@ msgstr ""
 msgid "Opening Combine..."
 msgstr ""
 
-#: src/Main/Base/Services/Project/DefaultProjectService.cs:278
+#: src/Main/Base/Services/Project/DefaultProjectService.cs:280
 #, csharp-format
 msgid "Compiling {0}"
 msgstr ""
 
-#: src/Main/Base/Services/Project/DefaultProjectService.cs:336
+#: src/Main/Base/Services/Project/DefaultProjectService.cs:338
 msgid "Save changed files?"
 msgstr ""
 
