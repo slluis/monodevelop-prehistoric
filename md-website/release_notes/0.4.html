@@ -1,4 +1,6 @@
-<html><head><title>MonoDevelop 0.4 Release Notes</title>
+<html>
+  <head>
+    <title>MonoDevelop 0.4 Release Notes</title>
     <style type="text/css">
       h1 {
       color: #efefef;
@@ -57,6 +59,7 @@
       border: 0;
       vertical-align: top;
       }
+      
       .code-xml, .code-csharp
       {
       margin:15px;
@@ -68,7 +71,10 @@
       line-height:110%;
       }
       
-      .shell { border-style: solid; background: #000000; color: #bbbbbb;
+      .shell {
+      border-style: solid;
+      background: #000000;
+      color: #bbbbbb;
       #777777; border-width:
       1px; padding: 2pt; 
       margin-left: 4em;
@@ -77,7 +83,8 @@
       
     </style>
     <script src="prettyprint.js" type="text/javascript">
-    </script></head>
+    </script>
+  </head>
   <body onload="paintColors();">
     
     <h1>MonoDevelop 0.4</h1>
@@ -88,23 +95,25 @@
       <a href="http://www.monodevelop.com/">here</a>. There is also a nice 
       tutorial <a href="http://www.monodevelop.com/tutorial.aspx">here</a>.
       
-    </p><h2>Installing MonoDevelop</h2>
+    </p>
+
+    <h2>Installing MonoDevelop</h2>
     
     <h3>Getting setup</h3>
     
     <p>You can get detailed instructions on how to build MonoDevelop 0.4 from <a href="http://www.monodevelop.com/tutorials/package_install.aspx">here</a>.</p>
-      
+    
     <p>You can download MonoDevelop 0.4 source from <a href="http://www.go-mono.com/archive/beta1/monodevelop-0.4.tar.gz">here</a>. The <a href="http://www.go-mono.com/download.html">go-mono</a> site may contain packages for your distro.</p>
-      
+    
     <h2>New Features</h2>
     
     <h3>Monodoc Integration</h3>
     
     <p>F1 now attempts to identify what type and method you are working
-    with and pull up Monodoc documentation for it.</p>
+      with and pull up Monodoc documentation for it.</p>
     
     <h3>Code Completion</h3>
-
+    
     <p>In addition to numerous bugfixes in general, Lluis Sanchez (of mono's
       remoting and web services fame) has rewritten the code completion
       backend and given us amazing speed and memory improvements.</p>
@@ -113,9 +122,9 @@
     
     <p>Drag and Drop from nautilus (and other text/uri-list providers) is now
       supported.</p>
-
+    
     <h3>Generation of makefiles</h3>
-
+    
     <p>The makefile generation support that was beta in 0.3 has been greatly
       improved in 0.4. It is now able to handle most projects and will not
       interfere with existing automake builds. These makefiles are also
@@ -131,14 +140,15 @@
       Jeroen Zwartepoorte, John BouAnton, John Luke, Lluis Sanchez Gual, 
       Miguel de Icaza, Nick Drochak, Pawel Rozanski, Pedro Abelleira Seco, 
       Richard Torkar, Todd Berman and Vincent Daron.</p>
-
+    
     <p>This list is not complete, it is missing some contributions sent
       in to the list and via our bugzilla. Your work is still greatly
       appreciated.</p>
-
-	<h3>Translators</h3>
-	<p>Atsushi Eno - Japanese<br />
-	Vincent Daron - French</p>
+    
+    <h3>Translators</h3>
+    
+    <p>Atsushi Eno - Japanese<br />
+      Vincent Daron - French</p>
     
     <h3>Thanks</h3>
     
