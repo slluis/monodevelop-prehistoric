@@ -1,3 +1,11 @@
+2004-12-26  Sander Rijken <sr+ximianbugs@d-90.nl>
+
+	* Services/ProcessService/ProcessService: Set property
+	"EnableRaisingEvents" to true, to be able to catch the Process.Exited
+	event.
+	* Internal/ExternalTool/ExternalTool.cs: Load the UseOutputPad setting
+	from config file.
+	
 2004-12-21  Todd Berman  <tberman@off.net>
 
 	* Services/Toolbar/ToolbarService.cs:

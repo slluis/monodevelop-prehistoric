@@ -98,16 +98,18 @@ namespace MonoDevelop.Internal.ExternalTool
 				el["ARGUMENTS"] == null ||
 				el["COMMAND"] == null ||
 				el["MENUCOMMAND"] == null || 
-				el["PROMPTFORARGUMENTS"] == null) {
-				throw new Exception("ExternalTool(XmlElement el) : INITIALDIRECTORY and ARGUMENTS and COMMAND and MENUCOMMAND and PROMPTFORARGUMENTS attributes must exist.(check the ExternalTool XML)");
+				el["PROMPTFORARGUMENTS"] == null ||
+				el["USEOUTPUTPAD"] == null) {
+				throw new Exception("ExternalTool(XmlElement el) : INITIALDIRECTORY and ARGUMENTS and COMMAND and MENUCOMMAND and PROMPTFORARGUMENTS and USEOUTPUTPAD attributes must exist.(check the ExternalTool XML)");
 			}
 			
 			InitialDirectory  = el["INITIALDIRECTORY"].InnerText;
 			Arguments         = el["ARGUMENTS"].InnerText;
 			Command           = el["COMMAND"].InnerText;
 			MenuCommand       = el["MENUCOMMAND"].InnerText;
-			
+						
 			PromptForArguments = Boolean.Parse(el["PROMPTFORARGUMENTS"].InnerText);
+			UseOutputPad       = Boolean.Parse(el["USEOUTPUTPAD"].InnerText);
 			
 		}
 		

@@ -52,6 +52,7 @@ namespace MonoDevelop.Services
 			p.StartInfo.RedirectStandardOutput = true;
 			p.StartInfo.RedirectStandardError = true;
 			p.StartInfo.UseShellExecute = false;
+			p.EnableRaisingEvents = true;
 			
 			p.Start ();
 		}
