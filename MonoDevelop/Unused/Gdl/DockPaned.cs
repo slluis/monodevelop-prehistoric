@@ -63,6 +63,7 @@ namespace Gdl
 				Child = new VPaned ();
 			
 			// FIXME: track position to emit layout changed
+			Child.AddNotification ("position", OnNotifyPosition);
 												
 			Child.Parent = this;
 			Child.Show ();
@@ -274,6 +275,11 @@ namespace Gdl
 			}
 
 			return mayDock;
+		}
+
+		void OnNotifyPosition (object sender, EventArgs a)
+		{
+			Master.EmitLayoutChangedEvent ();
 		}
 	}
 }

@@ -6,4 +6,3 @@
  - improve de-serialization (also use ExportLayoutAttribute?)
  - "after" properties, ex. restoring Notebook.Page
  - placeholders in layout store/restore
- - track paned position
