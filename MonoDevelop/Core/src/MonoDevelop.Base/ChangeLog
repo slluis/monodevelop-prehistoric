@@ -1,3 +1,9 @@
+2005-03-10	Christian Hergert	<christian.hergert@gmail.com>
+
+	* Gui/Dialogs/SplashScreen.cs: Add progress bar with status
+	message support. Will help users with slow initial startup
+	times.
+
 2005-03-09  John Luke  <john.luke@gmail.com>
 
 	* Gui/Workbench/Layouts/SdiWorkspaceLayout.cs:

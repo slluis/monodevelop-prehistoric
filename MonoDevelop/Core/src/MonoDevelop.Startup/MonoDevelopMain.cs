@@ -105,6 +105,7 @@ namespace MonoDevelop
 				RunMainLoop ();
 			}
 
+			SetSplashInfo(0.05, "Initializing Addins ...");
 			bool ignoreDefaultPath = false;
 			string [] addInDirs = MonoDevelop.AddInSettingsHandler.GetAddInDirectories(out ignoreDefaultPath);
 			AddInTreeSingleton.SetAddInDirectories(addInDirs, ignoreDefaultPath);
@@ -112,12 +113,18 @@ namespace MonoDevelop
 
 			ArrayList commands = null;
 			try {
+				SetSplashInfo(0.1, "Initializing Icon Service ...");
 				ServiceManager.AddService(new IconService());
+				SetSplashInfo(0.2, "Initializing Message Service ...");
 				ServiceManager.AddService(new MessageService());
+				SetSplashInfo(0.4, "Initializing Resource Service ...");
 				ServiceManager.AddService(new ResourceService());
+				SetSplashInfo(0.6, "Initializing Addin Services ...");
 				ServiceManager.InitializeServicesSubsystem("/Workspace/Services");
 
+				SetSplashInfo(0.8, "Initializing Autostart Addins ...");
 				commands = AddInTreeSingleton.AddInTree.GetTreeNode("/Workspace/Autostart").BuildChildItems(null);
+				SetSplashInfo(1, "Loading MonoDevelop Workbench ...");
 				RunMainLoop ();
 				for (int i = 0; i < commands.Count - 1; ++i) {
 					((ICommand)commands[i]).Run();
@@ -165,6 +172,13 @@ namespace MonoDevelop
 			return 0;
 		}
 
+		static void SetSplashInfo(double Percentage, string Message)
+		{
+			SplashScreenForm.SetProgress(Percentage);
+			SplashScreenForm.SetMessage(Message);
+			RunMainLoop();
+		}
+		
 		static string fileToOpen = String.Empty;
 		
 		static void RunMainLoop ()

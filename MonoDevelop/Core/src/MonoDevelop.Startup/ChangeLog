@@ -1,3 +1,8 @@
+2005-03-10	Christian Hergert	<christian.hergert@gmail.com>
+
+	* MonoDevelopMain.cs: Update the splash screen percentages
+	and status messages.
+
 2005-01-27  John Luke  <john.luke@gmail.com>
 
 	* MonoDevelopMain.cs: remove unused code that

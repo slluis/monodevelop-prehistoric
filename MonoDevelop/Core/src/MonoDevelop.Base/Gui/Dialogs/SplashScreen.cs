@@ -11,6 +11,8 @@ namespace MonoDevelop.Gui.Dialogs {
 		static SplashScreenForm splashScreen = new SplashScreenForm();
 		static ArrayList requestedFileList = new ArrayList();
 		static ArrayList parameterList = new ArrayList();
+		static ProgressBar progress;
+		static VBox vbox;
 		
 		public static SplashScreenForm SplashScreen {
 			get {
@@ -24,11 +26,22 @@ namespace MonoDevelop.Gui.Dialogs {
 			this.WindowPosition = WindowPosition.Center;
 			this.TypeHint = Gdk.WindowTypeHint.Splashscreen;
 			Gdk.Pixbuf bitmap = new Gdk.Pixbuf(Assembly.GetEntryAssembly(), "SplashScreen.png");
-			DefaultWidth = bitmap.Width;
-			DefaultHeight = bitmap.Height;
 			Gtk.Image image = new Gtk.Image (bitmap);
 			image.Show ();
-			this.Add (image);
+
+			HBox hbox = new HBox();
+			hbox.PackStart(new Label("    "), false, false, 0);
+			progress = new ProgressBar();
+			progress.Fraction = 0.00;
+			hbox.PackStart(progress, true, true, 0);
+			hbox.PackStart(new Label("    "), false, false, 0);
+			hbox.ShowAll();
+
+			vbox = new VBox();
+			vbox.PackStart(image, true, true, 0);
+			vbox.PackStart(hbox, false, true, 5);
+
+			this.Add (vbox);
 		}
 
 		public static string[] GetParameterList()
@@ -44,6 +57,16 @@ namespace MonoDevelop.Gui.Dialogs {
 		static string[] GetStringArray(ArrayList list)
 		{
 			return (string[])list.ToArray(typeof(string));
+		}
+
+		public static void SetProgress(double Percentage)
+		{
+			progress.Fraction = Percentage;
+		}
+
+		public static void SetMessage(string Message)
+		{
+			progress.Text = Message;
 		}
 		
 		public static void SetCommandLineArgs(string[] args)
