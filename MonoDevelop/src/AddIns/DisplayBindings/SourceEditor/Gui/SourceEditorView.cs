@@ -73,7 +73,7 @@ namespace MonoDevelop.SourceEditor.Gui {
 					completionWindow.ShowCompletionWindow ((char)key);
 					break;
 				case '(':
-					try {
+					/*try {
 						InsightWindow insightWindow = new InsightWindow(this, ParentEditor.DisplayBinding.ContentName);
 						
 						insightWindow.AddInsightDataProvider(new MethodInsightDataProvider());
@@ -81,9 +81,9 @@ namespace MonoDevelop.SourceEditor.Gui {
 					} catch (Exception e) {
 						Console.WriteLine("EXCEPTION: " + e);
 					}
-					break;
+					break;*/
 				case '[':
-					try {
+					/*try {
 						InsightWindow insightWindow = new InsightWindow(this, ParentEditor.DisplayBinding.ContentName);
 						
 						insightWindow.AddInsightDataProvider(new IndexerInsightDataProvider());
@@ -91,7 +91,7 @@ namespace MonoDevelop.SourceEditor.Gui {
 					} catch (Exception e) {
 						Console.WriteLine("EXCEPTION: " + e);
 					}
-					break;
+					break;*/
 			}
 		
 			return base.OnKeyPressEvent (ref evnt);

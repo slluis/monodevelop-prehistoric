@@ -91,7 +91,7 @@ echo "Running automake --gnu $am_opt ..."
 automake --add-missing --gnu $am_opt ||
   { echo "**Error**: automake failed."; exit 1; }
 echo "Running autoconf ..."
-autoconf || { echo "**Error**: autoconf failed."; exit 1; }
+WANT_AUTOCONF="2.5" autoconf || { echo "**Error**: autoconf failed."; exit 1; }
 
 
 conf_flags="--enable-maintainer-mode --enable-compile-warnings" #--enable-iso-c

@@ -1,1 +1,3 @@
 SUBDIRS = data AddIns
+
+all:
