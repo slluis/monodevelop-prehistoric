@@ -100,6 +100,10 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 			ReferencesTreeView.AppendColumn (resourceService.GetString ("Dialog.SelectReferenceDialog.TypeHeader"), new CellRendererText (), "text", 1);
 			ReferencesTreeView.AppendColumn (resourceService.GetString ("Dialog.SelectReferenceDialog.LocationHeader"), new CellRendererText (), "text", 2);
 			
+			
+			foreach (ProjectReference refInfo in configureProject.ProjectReferences) {
+				refTreeStore.AppendValues (System.IO.Path.GetFileName (refInfo.Reference), refInfo.ReferenceType.ToString (), System.IO.Path.GetFullPath (refInfo.GetReferencedFileName (configureProject)), refInfo);
+			}
 			//InitializeComponent();
 			
 			//gacTabPage.Controls.Add(new GacReferencePanel(this));
