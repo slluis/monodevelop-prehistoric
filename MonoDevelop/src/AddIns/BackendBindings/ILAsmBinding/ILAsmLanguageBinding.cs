@@ -103,5 +103,11 @@ namespace ILAsmBinding
 		{
 			return new ILAsmProject(info, projectOptions);
 		}
+
+		public void GenerateMakefile (IProject project)
+		{
+			throw new NotImplementedException ();
+		}
+		
 	}
 }

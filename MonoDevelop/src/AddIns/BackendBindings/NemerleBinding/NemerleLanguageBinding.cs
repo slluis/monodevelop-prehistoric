@@ -75,5 +75,10 @@ namespace NemerleBinding
 		{
 			throw new ApplicationException("No Nemele debug");
 		}
+
+		public void GenerateMakefile (IProject project)
+		{
+			throw new NotImplementedException ();
+		}
 	}
 }

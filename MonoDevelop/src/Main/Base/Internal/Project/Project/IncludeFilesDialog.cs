@@ -53,7 +53,7 @@ namespace MonoDevelop.Internal.Project
 			
 			// set up dialog title
 			StringParserService stringParserService = (StringParserService)ServiceManager.Services.GetService(typeof(StringParserService));
-			this.IncludeFilesDialogWidget.Title = String.Format (GettextCatalog.GetString ("Found new files in {0}"), project.Name); 
+			this.IncludeFilesDialogWidget.Title = String.Format (GettextCatalog.GetString ("Found new files in {0}"), project.Name);
 			
 			newFilesOnlyRadioButton.Active = true;
 			this.newFiles = newFiles;

@@ -324,4 +324,15 @@ namespace MonoDevelop.Commands
 			}
 		}
 	}
+
+	public class GenerateMakefiles : AbstractMenuCommand {
+		
+		public override void Run () 
+		{
+			IProjectService projectservice = (IProjectService)ServiceManager.Services.GetService (typeof (IProjectService));
+			if (projectservice.CurrentOpenCombine != null) {
+				projectservice.GenerateMakefiles ();
+			}
+		}
+	}
 }

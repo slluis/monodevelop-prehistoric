@@ -1,3 +1,8 @@
+2004-04-28  Todd Berman  <tberman@sevenl.net>
+
+	* ILAsmLanguageBinding.cs: stubbing GenerateMakefile
+
+
 2004-04-26  John Luke  <jluke@cfl.rr.com>
 
 	* *.cs: ILAsmBinding namespace

@@ -1,3 +1,7 @@
+2004-04-28  Todd Berman  <tberman@sevenl.net>
+
+	* NemerleLanguageBinding.cs: stubbing GenerateMakefile
+
 2004-04-28  Pawel Rozanski  <tokugawa@afn.no-ip.org>
 
 	* Gui/OutputPanel.cs:

@@ -91,5 +91,11 @@ namespace JavaBinding
 		{
 			//executionManager.Debug (project);
 		}
+
+		public void GenerateMakefile (IProject project)
+		{
+			throw new NotImplementedException ();
+		}
+		
 	}
 }

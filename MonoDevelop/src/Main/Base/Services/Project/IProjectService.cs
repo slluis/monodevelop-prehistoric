@@ -181,6 +181,8 @@ namespace MonoDevelop.Services
 		/// Removes a file from it's project(s)
 		/// </remarks>
 		void RemoveFileFromProject(string fileName);
+
+		void GenerateMakefiles ();
 		
 		/// <remarks>
 		/// Is called, when a file is removed from a project.

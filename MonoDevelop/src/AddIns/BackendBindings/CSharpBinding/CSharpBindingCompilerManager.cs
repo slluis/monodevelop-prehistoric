@@ -198,8 +198,8 @@ namespace CSharpBinding
 					if (finfo.Subtype != Subtype.Directory) {
 						switch (finfo.BuildAction) {
 							case BuildAction.Compile:
-								Console.Error.WriteLine(finfo.Name);
-								writer.WriteLine('"' + finfo.Name + '"');
+								if (CanCompile (finfo.Name))
+									writer.WriteLine('"' + finfo.Name + '"');
 								break;
 							case BuildAction.EmbedAsResource:
 								// Workaround 50752
@@ -275,6 +275,89 @@ namespace CSharpBinding
 			File.Delete(output);
 			File.Delete(error);
 			return result;
+		}
+
+		public void GenerateMakefile (IProject project)
+		{
+			StreamWriter stream = new StreamWriter (Path.Combine (project.BaseDirectory, "Makefile." + project.Name));
+
+			CSharpProject p = (CSharpProject)project;
+			CSharpCompilerParameters compilerparameters = (CSharpCompilerParameters)p.ActiveConfiguration;
+			
+			string outputName = compilerparameters.OutputAssembly + (compilerparameters.CompileTarget == CompileTarget.Library ? ".dll" : ".exe");
+
+			string target = "";
+
+			switch (compilerparameters.CompileTarget) {
+			case CompileTarget.Exe:
+				target = "exe";
+				break;
+			case CompileTarget.WinExe:
+				target = "winexe";
+				break;
+			case CompileTarget.Library:
+				target = "library";
+				break;
+			}			
+			
+			ArrayList compile_files = new ArrayList ();
+			ArrayList gac_references = new ArrayList ();
+			
+			foreach (ProjectFile finfo in project.ProjectFiles) {
+				if (finfo.Subtype != Subtype.Directory) {
+					switch (finfo.BuildAction) {
+					case BuildAction.Compile:
+						string rel_path = fileUtilityService.AbsoluteToRelativePath (project.BaseDirectory, Path.GetDirectoryName (finfo.Name));
+						compile_files.Add (Path.Combine (rel_path, Path.GetFileName (finfo.Name)));
+						break;
+						
+					case BuildAction.EmbedAsResource:
+						//writer.WriteLine("--linkres " + finfo.Name);
+						break;
+					}
+				}
+			}
+			
+			foreach (ProjectReference lib in project.ProjectReferences) {
+				switch (lib.ReferenceType) {
+				case ReferenceType.Gac:
+					string fileName = lib.GetReferencedFileName(project);
+					gac_references.Add (Path.GetFileNameWithoutExtension (fileName));
+					break;
+				}
+			}
+
+			stream.WriteLine ("SOURCES = \\");
+			for (int i = 0; i < compile_files.Count; i++) {
+				stream.Write (compile_files[i]);
+				if (i != compile_files.Count - 1)
+					stream.WriteLine (" \\");
+				else
+					stream.WriteLine ();
+			}
+
+			stream.WriteLine ();
+			stream.WriteLine ("GAC_REFERENCES = \\");
+			for (int i = 0; i < gac_references.Count; i++) {
+				stream.Write (gac_references[i]);
+				if (i != gac_references.Count - 1)
+					stream.WriteLine (" \\");
+				else
+					stream.WriteLine ();
+			}
+
+			stream.WriteLine ();
+			stream.WriteLine ("GAC_REFERENCES_BUILD = $(addprefix /r:, $(GAC_REFERENCES))");
+			stream.WriteLine ();
+
+			stream.WriteLine ("all: " + outputName);
+			stream.WriteLine ();
+			
+			stream.WriteLine (outputName + ": $(SOURCES)");
+			stream.WriteLine ("\tmcs /target:{0} /out:{1} $(GAC_REFERENCES_BUILD) $(SOURCES)", target, outputName);
+			
+			stream.Flush ();
+			stream.Close ();
 		}
 		
 		string GetCompilerName()

@@ -55,6 +55,8 @@ namespace MonoDevelop.Internal.Project
 		ICompilerResult CompileProject(IProject project);
 		
 		ICompilerResult RecompileProject(IProject project);
+
+		void GenerateMakefile (IProject project);
 		
 		/// <summary>
 		/// Creates a IProject out of the given ProjetCreateInformation object.

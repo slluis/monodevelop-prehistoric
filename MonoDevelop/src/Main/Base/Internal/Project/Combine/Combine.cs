@@ -513,7 +513,7 @@ namespace MonoDevelop.Internal.Project
 				allProjects = TopologicalSort(allProjects);
 			} catch (CyclicBuildOrderException) {
 				IMessageService messageService =(IMessageService)ServiceManager.Services.GetService(typeof(IMessageService));
-				messageService.ShowError(GettextCatalog.GetString ("Cyclic dependencies can not be build with this version.\nBut we are working on it."));
+				messageService.ShowError(GettextCatalog.GetString ("Cyclic dependencies can not be built with this version.\nBut we are working on it."));
 				return;
 			}
 			TaskService taskService = (TaskService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(TaskService));
@@ -522,6 +522,16 @@ namespace MonoDevelop.Internal.Project
 				if (taskService.Errors > 0) {
 					break;
 				}
+			}
+		}
+
+		public void GenerateMakefiles ()
+		{
+			foreach (CombineEntry entry in entries) {
+				if (entry is ProjectCombineEntry)
+					entry.GenerateMakefiles ();
+				else
+					Console.WriteLine ("Dont know how to generate makefiles for " + entry);
 			}
 		}
 		

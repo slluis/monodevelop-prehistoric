@@ -92,5 +92,10 @@ namespace CSharpBinding
 		{
 			return new CSharpProject(info, projectOptions);
 		}
+
+		public void GenerateMakefile (IProject project)
+		{
+			compilerManager.GenerateMakefile (project);
+		}
 	}
 }

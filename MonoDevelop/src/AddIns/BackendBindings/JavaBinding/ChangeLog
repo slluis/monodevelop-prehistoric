@@ -1,3 +1,7 @@
+2004-04-28  Todd Berman  <tberman@sevenl.net>
+
+	* JavaLanguageBinding.cs: stubbing GenerateMakefile.
+
 2004-04-16  John Luke  <jluke@cfl.rr.com>
 
 	* JavaBindingCompilerService.cs:

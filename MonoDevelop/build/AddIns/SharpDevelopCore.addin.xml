@@ -800,6 +800,9 @@
 		                          description = "${res:XML.MainMenu.RunMenu.Run.Description}" 
 		                          shortcut = "F5"
 		                          class = "MonoDevelop.Commands.RunCommand"/>
+				<MenuItem id = "GenerateMakefiles"
+				          _label = "Generate Makefiles"
+				          class = "MonoDevelop.Commands.GenerateMakefiles"/>
 
 			</Conditional> 
 	        </MenuItem>

@@ -725,6 +725,11 @@ namespace MonoDevelop.Services
 			
 			return String.Empty;
 		}
+
+		public void GenerateMakefiles ()
+		{
+			openCombine.GenerateMakefiles ();
+		}
 		
 		public event FileEventHandler FileRemovedFromProject;
 		public event EventHandler     StartBuild;

@@ -1,5 +1,23 @@
 2004-04-27  Todd Berman  <tberman@sevenl.net>
 
+	* Commands/RunCommands.c:
+	* Services/Project/DefaultProjectService.cs: 
+	* Services/Project/IProjectService.cs: 
+	* Internal/Codons/LanguageBinding/ILanguageBinding.cs:  
+	* Internal/Project/Project/IncludeFilesDialog.cs:
+	* Internal/Project/Combine/Combine.cs:
+	* Internal/Project/Combine/CombineEntry.cs:
+
+	Commit basically sets up the skeleton for the GenerateMakefiles stuff.
+	Right now all the real code is in the LanguageBinding, where it
+	should be (I think). Anyone looking to add this functionality to their
+	LanguageBinding is welcome too, however the api and setup may change
+	while the C# implementation is being written, so there are no
+	promises at all.
+
+
+2004-04-27  Todd Berman  <tberman@sevenl.net>
+
 	* Gui/Pads/HelpBrowser/MonodocTreePad.cs: Select the content window
 	when you render new docs.
 
