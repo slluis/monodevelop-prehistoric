@@ -311,11 +311,7 @@ namespace ICSharpCode.Core.Services
 			if (stockid != null)
 			{
 				Gtk.IconSet iconset = Gtk.IconFactory.LookupDefault (stockid);
-				if (iconset != null && iconset.Handle != IntPtr.Zero) {
-					// Gtk.IconFactory.Lookup never returns null, but
-					// the actual underlying GObject might be NULL
-					// (bug in Gtk#?)
-
+				if (iconset != null) {
 					// use P/Invoke to be able to pass some NULL parameters
 					IntPtr raw_ret = gtk_icon_set_render_icon
 						(iconset.Handle,

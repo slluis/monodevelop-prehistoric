@@ -41,10 +41,7 @@ namespace MonoDevelop.Gui {
 				                                    + filename);
 
 				Gtk.IconSet iconSet = iconFactory.Lookup (stockId);
-				if (iconSet == null || iconSet.Handle == IntPtr.Zero) {
-					// Gtk.IconFactory.Lookup never returns null, but
-					// the actual underlying GObject might be NULL
-					// (bug in Gtk#?)
+				if (iconSet == null) {
 					iconSet = new Gtk.IconSet ();
 					iconFactory.Add (stockId, iconSet);
 				}
