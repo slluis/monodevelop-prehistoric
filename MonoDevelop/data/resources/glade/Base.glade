@@ -5,8 +5,8 @@
 <requires lib="gnome"/>
 
 <widget class="GtkDialog" id="TreeViewOptionDialog">
-  <property name="width_request">700</property>
-  <property name="height_request">550</property>
+  <property name="width_request">640</property>
+  <property name="height_request">480</property>
   <property name="visible">True</property>
   <property name="title" translatable="yes">dialog1</property>
   <property name="type">GTK_WINDOW_TOPLEVEL</property>
