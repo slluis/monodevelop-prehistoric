@@ -1,0 +1,24 @@
+<AddIn
+	name        = "Assembly Analyzer"
+	author      = "Mike Krueger"
+	copyright   = "GPL"
+	url         = "http://www.icsharpcode.net"
+	description = "FxCop clone"
+	version     = "1.0.0"
+>
+	<Runtime>
+		<Import assembly="ICSharpCode.AssemblyAnalyser.AddIn.dll"/>
+	</Runtime>
+	
+	<Extension path = "/SharpDevelop/Workbench/MainMenu/View">
+		<Conditional iscombineopen="True" action="Disable">
+			<MenuItem
+				id           = "AssemblyAnalyser"
+				insertafter  = "ShowStartPage"
+				insertbefore = "StartPageSeparator"
+				label        = "${res:XML.MainMenu.ViewMenu.AssemblyAnalyser}"
+				class        = "MonoDevelop.AssemblyAnalyser.ShowAssemblyAnalyser"
+			/>
+		</Conditional>
+	</Extension>
+</AddIn>
