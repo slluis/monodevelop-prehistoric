@@ -10,6 +10,8 @@ using System.Diagnostics;
 using System.IO;
 using System.CodeDom.Compiler;
 
+using MonoDevelop.Gui.Components;
+using MonoDevelop.Services;
 using MonoDevelop.Core.Services;
 using MonoDevelop.Internal.Project;
 
@@ -151,6 +153,21 @@ namespace JavaBinding
 			Process p = new Process ();
             p.StartInfo = si;
             p.Start ();
+
+			IStatusBarService sbs = (IStatusBarService)ServiceManager.Services.GetService (typeof (IStatusBarService));
+			sbs.SetMessage ("Compiling...");
+
+			while (!p.HasExited) {
+				((SdStatusBar)sbs.ProgressMonitor).Pulse();
+				while (Gtk.Application.EventsPending ())
+					Gtk.Application.RunIteration ();
+				System.Threading.Thread.Sleep (100);
+			}
+			((SdStatusBar) sbs.ProgressMonitor).Done ();
+		
+			// FIXME: avoid having a full buffer
+			// perhaps read one line and append parsed output
+			// and then return cr at end 
 			output = p.StandardOutput;
 			error = p.StandardError;
             p.WaitForExit ();
@@ -160,13 +177,11 @@ namespace JavaBinding
 		{
 			string compilerOutput = "";		
 			StreamReader sr = errorStream;
-			
 			CompilerResults cr = new CompilerResults(tf);
 			
 			while (true) 
 				{
 				string next = sr.ReadLine ();
-				Console.WriteLine (next);
 				
 				if (next == null)
 					break;
