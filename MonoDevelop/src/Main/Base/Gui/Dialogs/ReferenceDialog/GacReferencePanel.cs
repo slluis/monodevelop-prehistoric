@@ -75,7 +75,19 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 				                             (string)store.GetValue (iter, 0),
 							     (string)store.GetValue (iter, 2));
 			}
-		}		
+		}
+
+		public void SignalRefChange (string refLoc, bool newstate)
+		{
+			Gtk.TreeIter looping_iter;
+			store.GetIterFirst (out looping_iter);
+			do {
+				if ((string)store.GetValue (looping_iter, 2) == refLoc) {
+					store.SetValue (looping_iter, 3, newstate);
+					return;
+				}
+			} while (store.IterNext (out looping_iter));
+		}
 		
 		void PrintCache()
 		{
