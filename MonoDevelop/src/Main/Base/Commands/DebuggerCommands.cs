@@ -25,8 +25,8 @@ namespace MonoDevelop.Commands
 					projServ.OnBeforeStartProject ();
 					projServ.CurrentOpenCombine.Debug ();
 				//} catch {
-					IMessageService msgServ = (IMessageService)ServiceManager.Services.GetService (typeof (IMessageService));
-					msgServ.ShowError ("Can't execute the debugger");
+				//	IMessageService msgServ = (IMessageService)ServiceManager.Services.GetService (typeof (IMessageService));
+				//	msgServ.ShowError ("Can't execute the debugger");
 				//}
 			}
 
