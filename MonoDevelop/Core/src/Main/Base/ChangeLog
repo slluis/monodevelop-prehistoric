@@ -1,3 +1,8 @@
+2004-10-15  Todd Berman  <tberman@off.net>
+
+	* Internal/Project/Combine/CombineEntry.cs: Before running, copy
+	all dependant output assemblies to the proper place.
+
 2004-10-12  Gert Driesen  <drieseng@users.sourceforge.net>
 
 	* Internal/Parser/SharpAssemblyLayer/SharpAssemblyClass.cs:

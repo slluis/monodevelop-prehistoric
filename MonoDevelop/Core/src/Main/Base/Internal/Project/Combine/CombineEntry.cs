@@ -185,6 +185,7 @@ namespace MonoDevelop.Internal.Project
 			
 			if (taskService.Errors == 0) {
 				if (taskService.Warnings == 0 || project.ActiveConfiguration != null && ((AbstractProjectConfiguration)project.ActiveConfiguration).RunWithWarnings) {
+					project.CopyReferencesToOutputPath (true);
 					binding.Execute(project);
 				}
 			}
