@@ -6,6 +6,6 @@ all: $(DLL)
 super-docker: */*.cs
 	@ mcs /debug /out:$(DLL) /target:library $(REFERENCES) /define:EXPERIMENTAL_DOCKER /recurse:*.cs
 
-$(DLL): */*.cs
+$(DLL): */*.cs *.cs
 	@ mcs /debug /out:$(DLL) /target:library $(REFERENCES) /recurse:*.cs
 

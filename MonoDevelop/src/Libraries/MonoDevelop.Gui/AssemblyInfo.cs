@@ -2,7 +2,7 @@ using System.Reflection;
 using System.Runtime.CompilerServices;
 
 [assembly: AssemblyTitle("MonoDevelop.Gui")]
-[assembly: AssemblyDescription("A .NET text editor control")]
+[assembly: AssemblyDescription("MonoDevelop GUI utility library")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyProduct("MonoDevelop.Gui")]
 [assembly: AssemblyCopyright("")]
