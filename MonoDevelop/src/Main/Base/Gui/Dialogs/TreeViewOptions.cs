@@ -93,7 +93,12 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 			TreeViewOptionDialog.Hide ();
 			//DialogResult = DialogResult.OK;
 		}
-		
+	
+		public int Run ()
+		{
+			return TreeViewOptionDialog.Run ();
+		}
+	
 		protected bool b = true;
 		
 		protected void SetOptionPanelTo(IDialogPanelDescriptor descriptor)

@@ -18,34 +18,36 @@ using ICSharpCode.Core.AddIns.Codons;
 using ICSharpCode.SharpDevelop.Internal.Project;
 using ICSharpCode.SharpDevelop.Services;
 namespace ICSharpCode.SharpDevelop.Gui.Dialogs {
-/*
+
 	/// <summary>
 	/// Dialog for viewing the project options (plain treeview isn't good enough :/)
 	/// </summary>
 	public class ProjectOptionsDialog : TreeViewOptions
 	{
 		IProject  project;
-		TreeNode configurationTreeNode;
+		//TreeNode configurationTreeNode;
 		
 		IAddInTreeNode configurationNode;
+	
+		StringParserService StringParserService = (StringParserService)ServiceManager.Services.GetService (typeof(StringParserService));
 		
 		public ProjectOptionsDialog(IProject project, IAddInTreeNode node, IAddInTreeNode configurationNode) : base(null, null)
 		{
 			this.project = project;
 			this.configurationNode = configurationNode;
-			this.Text = StringParserService.Parse("${res:Dialog.Options.ProjectOptions.DialogName}");
+			//this.Title = StringParserService.Parse("${res:Dialog.Options.ProjectOptions.DialogName}");
 			
-			((TreeView)ControlDictionary["optionsTreeView"]).MouseUp        += new MouseEventHandler(TreeViewMouseUp);
-			((TreeView)ControlDictionary["optionsTreeView"]).AfterLabelEdit += new NodeLabelEditEventHandler(AfterLabelEdit);
+			//((TreeView)ControlDictionary["optionsTreeView"]).MouseUp        += new MouseEventHandler(TreeViewMouseUp);
+			//((TreeView)ControlDictionary["optionsTreeView"]).AfterLabelEdit += new NodeLabelEditEventHandler(AfterLabelEdit);
 			
-			((TreeView)ControlDictionary["optionsTreeView"]).Font = boldFont;
+			//((TreeView)ControlDictionary["optionsTreeView"]).Font = boldFont;
 			
 			properties = new DefaultProperties();
 			properties.SetProperty("Project", project);
 			
-			AddNodes(properties, ((TreeView)ControlDictionary["optionsTreeView"]).Nodes, node.BuildChildItems(this));
+			AddNodes(properties, Gtk.TreeIter.Zero, node.BuildChildItems(this));
 			
-			configurationTreeNode = new TreeNode(StringParserService.Parse("${res:Dialog.Options.ProjectOptions.ConfigurationsNodeName}"));
+			/*configurationTreeNode = new TreeNode(StringParserService.Parse("${res:Dialog.Options.ProjectOptions.ConfigurationsNodeName}"));
 			configurationTreeNode.NodeFont = plainFont;
 			
 			foreach (IConfiguration config in project.Configurations) {
@@ -62,12 +64,12 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs {
 				AddNodes(configNodeProperties, newNode.Nodes, configurationNode.BuildChildItems(this));
 				configurationTreeNode.Nodes.Add(newNode);
 			} 
-			((TreeView)ControlDictionary["optionsTreeView"]).Nodes.Add(configurationTreeNode);
+			((TreeView)ControlDictionary["optionsTreeView"]).Nodes.Add(configurationTreeNode);*/
 			
 		}
 		
 		public void AddProjectConfiguration()
-		{
+		{/*
 			int    number  = -1;
 			string name    = "New Configuration"; // don't localize this project configs should have per default an english name
 			string newName = name;
@@ -95,11 +97,11 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs {
 			configurationTreeNode.Nodes.Add(newNode);
 			((TreeView)ControlDictionary["optionsTreeView"]).SelectedNode = newNode;
 			((TreeView)ControlDictionary["optionsTreeView"]).LabelEdit    = true;
-			newNode.BeginEdit();
+			newNode.BeginEdit();*/
 		}
 		
 		public void RemoveProjectConfiguration()
-		{
+		{/*
 			IConfiguration config = (IConfiguration)((TreeView)ControlDictionary["optionsTreeView"]).SelectedNode.Tag;
 			if (project.Configurations.Count > 1) {
 				bool newActiveConfig = project.ActiveConfiguration == config;
@@ -108,38 +110,38 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs {
 				((TreeView)ControlDictionary["optionsTreeView"]).Nodes.Remove(((TreeView)ControlDictionary["optionsTreeView"]).SelectedNode);
 				UpdateBoldConfigurationNode();
 				configurationTreeNode.Expand();
-			}
+			}*/
 		}
 		
 		void UpdateBoldConfigurationNode()
-		{
+		{/*
 			foreach (TreeNode node in configurationTreeNode.Nodes) {
 				if (node == ((TreeView)ControlDictionary["optionsTreeView"]).SelectedNode) {
 					node.NodeFont = boldFont;
 				} else {
 					node.NodeFont = plainFont;
 				}
-			}
+			}*/
 		}
 		
 		public void SetSelectedConfigurationAsStartup()
-		{
+		{/*
 			IConfiguration config = ((TreeView)ControlDictionary["optionsTreeView"]).SelectedNode.Tag as IConfiguration;
 			if (config != null) {
 				project.ActiveConfiguration = config;
 				UpdateBoldConfigurationNode();
-			}
+			}*/
 		}
 		
 		public void RenameProjectConfiguration()
 		{
-			((TreeView)ControlDictionary["optionsTreeView"]).LabelEdit    = true;
-			((TreeView)ControlDictionary["optionsTreeView"]).SelectedNode.BeginEdit();
+			//((TreeView)ControlDictionary["optionsTreeView"]).LabelEdit    = true;
+			//((TreeView)ControlDictionary["optionsTreeView"]).SelectedNode.BeginEdit();
 		}
 		
-		void AfterLabelEdit(object sender, NodeLabelEditEventArgs e)
+		/*void AfterLabelEdit(object sender, NodeLabelEditEventArgs e)
 		{
-			((TreeView)ControlDictionary["optionsTreeView"]).LabelEdit = false;
+			//((TreeView)ControlDictionary["optionsTreeView"]).LabelEdit = false;
 			
 			// canceled edit (or empty name)
 			if (e.Label == null || e.Label.Length == 0) {
@@ -159,12 +161,12 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs {
 				e.Node.Text = e.Label;
 				((IConfiguration)e.Node.Tag).Name = e.Label;
 			}
-		}
+		}*/
 		
 		static string configNodeMenu = "/SharpDevelop/Workbench/ProjectOptions/ConfigNodeMenu";
 		static string selectConfigNodeMenu = "/SharpDevelop/Workbench/ProjectOptions/SelectedConfigMenu";
 		
-		void TreeViewMouseUp(object sender, MouseEventArgs e)
+		/*void TreeViewMouseUp(object sender, MouseEventArgs e)
 		{
 			TreeNode clickedNode = ((TreeView)ControlDictionary["optionsTreeView"]).GetNodeAt(e.X, e.Y);
 			
@@ -183,6 +185,6 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs {
 					menuService.ShowContextMenu(this, selectConfigNodeMenu, this, e.X, e.Y);
 				}
 			}
-		}
-	}*/
+		}*/
+	}
 }

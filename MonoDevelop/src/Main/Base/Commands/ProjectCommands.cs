@@ -63,16 +63,10 @@ namespace ICSharpCode.SharpDevelop.Commands
 			IAddInTreeNode generalOptionsNode          = AddInTreeSingleton.AddInTree.GetTreeNode("/SharpDevelop/Workbench/ProjectOptions/GeneralOptions");
 			IAddInTreeNode configurationPropertiesNode = AddInTreeSingleton.AddInTree.GetTreeNode("/SharpDevelop/Workbench/ProjectOptions/ConfigurationProperties");
 			
-			/*using (ProjectOptionsDialog optionsDialog = new ProjectOptionsDialog(selectedProject,
-			                                                                     generalOptionsNode,
-			                                                                     configurationPropertiesNode)) {
-				optionsDialog.FormBorderStyle = FormBorderStyle.FixedDialog;
-				
-				optionsDialog.Owner = (Form)WorkbenchSingleton.Workbench;
-				if (optionsDialog.ShowDialog() == DialogResult.OK) {
+			ProjectOptionsDialog optionsDialog = new ProjectOptionsDialog(selectedProject, generalOptionsNode, configurationPropertiesNode);
+			if (optionsDialog.Run() == (int)Gtk.ResponseType.Ok) {
 					projectService.MarkProjectDirty(projectService.CurrentSelectedProject);
-				}
-			}*/
+			}
 			
 			projectService.SaveCombine();
 		}
