@@ -6,7 +6,8 @@ using System;
 using System.IO;
 using System.Runtime.InteropServices;
 using ICSharpCode.Core.AddIns.Conditions;
-using ICSharpCode.Core.AddIns;using MonoDevelop.SourceEditor.CodeCompletion;
+using ICSharpCode.Core.AddIns;
+using MonoDevelop.SourceEditor.CodeCompletion;
 using MonoDevelop.SourceEditor.InsightWindow;
 using MonoDevelop.EditorBindings.Properties;
 using MonoDevelop.EditorBindings.FormattingStrategy;
@@ -29,6 +30,8 @@ namespace MonoDevelop.SourceEditor.Gui {
 		public SourceEditorView (SourceEditorBuffer buf, SourceEditor parent) : base (type)
 		{
 			this.ParentEditor = parent;
+			//FIXME: hook into the options
+			this.TabsWidth = 4;
 			Buffer = this.buf = buf;
 			AutoIndent = true;
 			SmartHomeEnd = true;
