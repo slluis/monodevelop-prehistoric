@@ -18,7 +18,6 @@ Expression.cs \
 DebuggerASTVisitor.cs \
 DebugAttributeHandler.cs \
 Gui/LocalsPad.cs \
-Gui/VariablePad.cs \
 Gui/StackTracePad.cs \
 Gui/ThreadPad.cs
 
