@@ -347,7 +347,7 @@ namespace CSharpBinding.Parser
 		{
 //			Console.WriteLine("member.Modifiers = " + member.Modifiers);
 			if ((member.Modifiers & ModifierEnum.Internal) == ModifierEnum.Internal) {
-				return false;
+				return true;
 			}
 			if ((member.Modifiers & ModifierEnum.Public) == ModifierEnum.Public) {
 //				Console.WriteLine("IsAccessible");

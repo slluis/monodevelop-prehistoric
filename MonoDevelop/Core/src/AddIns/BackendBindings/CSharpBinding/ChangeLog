@@ -1,5 +1,11 @@
 2005-01-28  John Luke  <john.luke@gmail.com>
 
+	* Parser/Resolver.cs (IsAccessible):
+	internal should return true
+	fixes bug# 60526
+
+2005-01-28  John Luke  <john.luke@gmail.com>
+
 	* Parser/Resolver.cs: remove incorrect special case
 	for properties that made them visible to completion
 	incorrectly on static to instance and vice-versa
