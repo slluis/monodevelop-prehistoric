@@ -83,7 +83,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads
 //			menu.MenuCommands.Add(new MagicMenus.MenuCommand("Rename", new EventHandler(renameFile)));
 			
 			try {
-				//watcher = new FileSystemWatcher();
+				watcher = new FileSystemWatcher();
 			} catch {}
 			
 			if(watcher != null) {
@@ -238,7 +238,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads
 				return;
 			}
 			
-			//watcher.Path = path;
+			watcher.Path = path;
 			//watcher.EnableRaisingEvents = true;
 			
 			foreach (string file in files) {
@@ -439,7 +439,11 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads
 		void OnDirChanged(object sender, EventArgs args) 
 /*		void DirectorySelected(object sender, TreeViewEventArgs e)*/
 		{
-			filelister.ShowFilesInPath(filetree.NodePath + System.IO.Path.DirectorySeparatorChar);
+			//filelister.ShowFilesInPath(filetree.NodePath + System.IO.Path.DirectorySeparatorChar);
+			if (filetree.NodePath[filetree.NodePath.Length - 1] == System.IO.Path.DirectorySeparatorChar)
+				filelister.ShowFilesInPath(filetree.NodePath);
+			else
+				filelister.ShowFilesInPath(filetree.NodePath + System.IO.Path.DirectorySeparatorChar);			
 		}
 
 //		void FileSelected(object sender, EventArgs e)

@@ -7,6 +7,7 @@ namespace MonoDevelop.Gui {
 		private Gtk.TreeStore store;
 		private TreeNodeCollection nodes;
 		private bool updating = false;
+		private bool canEdit = false;
 		
 		public TreeView () : this (false)
 		{
@@ -15,6 +16,7 @@ namespace MonoDevelop.Gui {
 		public TreeView(bool canEdit) {
 			store = new Gtk.TreeStore(typeof(string), typeof(Gdk.Pixbuf), typeof(TreeNode));
 			this.Model = store;
+			this.canEdit = canEdit;
 
 			HeadersVisible = false;
 			Gtk.TreeViewColumn complete_column = new Gtk.TreeViewColumn ();
@@ -69,16 +71,25 @@ namespace MonoDevelop.Gui {
 				return (TreeNode) store.GetValue(iter, 2);
 			}
 			set {
-				throw new NotImplementedException();
+				Gtk.TreeIter iter;
+				if (store.GetIterFirst(out iter) == false) {
+					return;
+				}
+				do {
+					if (store.GetValue(iter, 2) == value) {
+						Selection.SelectIter(iter);
+						return;
+					} 
+				} while (store.IterNext(out iter) == true);
 			}
 		}
 		
 		public bool LabelEdit {
 			get {
-				return false;
+				return canEdit;
 			}
 			set {
-				// TODO
+				canEdit = value;
 			}
 		}
 		

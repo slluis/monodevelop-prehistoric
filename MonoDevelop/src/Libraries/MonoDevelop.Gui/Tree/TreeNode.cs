@@ -100,11 +100,10 @@ namespace MonoDevelop.Gui {
 			if (TreeView != null) {
 				TreeView.ExpandToPath(new Gtk.TreePath(TreePath));
 			}
-			//throw new NotImplementedException("Expand");
 		}
 		
 		public void EnsureVisible() {
-			//TODO
+			Expand(); // TODO
 		}
 		
 		public void Remove() {
