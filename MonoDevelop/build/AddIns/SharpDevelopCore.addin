@@ -488,12 +488,12 @@
 				             class = "ICSharpCode.SharpDevelop.Commands.Delete"/>
 			<!-- </Conditional> -->
 			<ToolbarItem id = "CutSeparator" insertafter ="Delete" insertbefore ="Find" tooltip = "-"/>
-	                <Conditional action="Disable">
+	                <!-- <Conditional action="Disable">
 	                	<Or>
 	                		<Condition activewindow="ICSharpCode.SharpDevelop.DefaultEditor.Gui.Editor.ITextAreaControlProvider"/>
 	                		<Condition iscombineopen="True"/>
 	                	</Or>
-			</Conditional>
+			</Conditional> -->
 			
 			<ToolbarItem id = "CompileSeparator" insertafter = "ClearBookmarks" tooltip = "-"/>
 	                <Conditional action="Disable">
