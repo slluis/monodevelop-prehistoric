@@ -1,7 +1,0 @@
-<TestConfig>
-	<Codebases>
-		<Path location="..\..\..\bin"/>
-		<Path location="..\..\..\AddIns"/>
-	</Codebases>
-</TestConfig>
-
