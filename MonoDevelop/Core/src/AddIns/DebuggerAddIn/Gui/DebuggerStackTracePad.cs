@@ -104,6 +104,14 @@ namespace MonoDevelop.SourceEditor.Gui
 			}
 		}
 
+		public string Id {
+			get { return "MonoDevelop.SourceEditor.Gui.DebuggeStackTracePad"; }
+		}
+
+		public string DefaultPlacement {
+			get { return "Bottom"; }
+		}
+
 		public string Title {
 			get {
 				return "Call Stack";

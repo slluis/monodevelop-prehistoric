@@ -1,3 +1,8 @@
+2005-03-23  Chris Toshok  <toshok@ximian.com>
+
+	* Gui/DebuggerThreadPad.cs, Gui/DebuggerStackTracePad.cs,
+	Gui/DebuggerLocalsPad.cs: Add Id and DefaultPlacement properties.
+
 2005-03-15  Chris Toshok  <toshok@ximian.com>
 
 	* Gui/DebuggerVariablePad.cs: never commit code before trying to

@@ -16,6 +16,14 @@ namespace MonoDevelop.SourceEditor.Gui
 			}
 		}
 
+		public string Id {
+			get { return "MonoDevelop.SourceEditor.Gui.DebuggerLocalsPad"; }
+		}
+
+		public string DefaultPlacement {
+			get { return "Bottom"; }
+		}
+
 		public string Title {
 			get {
 				return "Locals";

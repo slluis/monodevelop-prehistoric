@@ -123,6 +123,14 @@ namespace MonoDevelop.SourceEditor.Gui
 			}
 		}
 
+		public string Id {
+			get { return "MonoDevelop.SourceEditor.Gui.DebuggerThreadPad"; }
+		}
+
+		public string DefaultPlacement {
+			get { return "Bottom"; }
+		}
+
 		public string Title {
 			get {
 				return "Threads";
