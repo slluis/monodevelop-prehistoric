@@ -324,6 +324,7 @@ namespace MonoDevelop.Internal.Project
 				bool convertRel = convertToRelPath != null && convertToRelPath.Length > 0;
 				
 				if (xmlAttributes != null && xmlAttributes.Length > 0) {
+					if (xmlAttributes[0].Name == null) continue;
 					XmlAttribute xmlAttribute = element.Attributes[xmlAttributes[0].Name];
 					if (xmlAttribute != null) {
 						if (convertRel && convertToRelPath[0].PredicatePropertyName != null && convertToRelPath[0].PredicatePropertyName.Length > 0) {
@@ -402,6 +403,7 @@ namespace MonoDevelop.Internal.Project
 				bool convertRel = convertToRelPath != null && convertToRelPath.Length > 0;
 								
 				if (xmlAttributes != null && xmlAttributes.Length > 0) {
+					if (xmlAttributes[0].Name == null) continue;
 					XmlAttribute xmlAttribute = doc.CreateAttribute(xmlAttributes[0].Name);
 					object fieldValue = fieldInfo.GetValue(o);
 					

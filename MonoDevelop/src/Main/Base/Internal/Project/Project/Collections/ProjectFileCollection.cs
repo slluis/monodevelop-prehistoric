@@ -31,6 +31,8 @@ namespace MonoDevelop.Internal.Project.Collections
 		internal void SetProject (AbstractProject project)
 		{
 			this.project = project;
+			foreach (ProjectFile file in List)
+				file.SetProject (project);
 		}
 		
 		/// <summary>
@@ -48,6 +50,7 @@ namespace MonoDevelop.Internal.Project.Collections
 			set {
 				project.NotifyFileRemovedFromProject ((ProjectFile)List[index]);
 				List[index] = value;
+				value.SetProject (project);
 				project.NotifyFileAddedToProject (value);
 			}
 		}
@@ -63,6 +66,7 @@ namespace MonoDevelop.Internal.Project.Collections
 		/// <seealso cref='.ProjectFileCollection.AddRange'/>
 		public int Add(ProjectFile value) {
 			int i = List.Add(value);
+			value.SetProject (project);
 			project.NotifyFileAddedToProject (value);
 			return i;
 		}
@@ -155,6 +159,7 @@ namespace MonoDevelop.Internal.Project.Collections
 		/// <seealso cref='.ProjectFileCollection.Add'/>
 		public void Insert(int index, ProjectFile value) {
 			List.Insert(index, value);
+			value.SetProject (project);
 			project.NotifyFileAddedToProject (value);
 		}
 		

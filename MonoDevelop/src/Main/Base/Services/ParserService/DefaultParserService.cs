@@ -34,13 +34,20 @@ namespace MonoDevelop.Services
 	{
 		CodeCompletionDatabase coreDatabase;
 		
-		const int MAX_CACHE_SIZE = 10;
+		const int MAX_PARSING_CACHE_SIZE = 10;
+		const int MAX_SINGLEDB_CACHE_SIZE = 10;
 		string CoreDB;
 
 		class ParsingCacheEntry
 		{
 			   public ParseInformation ParseInformation;
 			   public string FileName;
+			   public DateTime AccessTime;
+		}
+		
+		class SingleFileCacheEntry
+		{
+			   public SimpleCodeCompletionDatabase Database;
 			   public DateTime AccessTime;
 		}
 		
@@ -86,8 +93,6 @@ namespace MonoDevelop.Services
 		Hashtable lastUpdateSize = new Hashtable();
 		Hashtable parsings = new Hashtable ();
 		
-		ParseInformation addedParseInformation = new ParseInformation();
-		ParseInformation removedParseInformation = new ParseInformation();
 		CombineEntryEventHandler combineEntryAddedHandler;
 		CombineEntryEventHandler combineEntryRemovedHandler;
 
@@ -96,6 +101,7 @@ namespace MonoDevelop.Services
 		string codeCompletionPath;
 
 		Hashtable databases = new Hashtable();
+		Hashtable singleDatabases = new Hashtable ();
 		
 		IParser[] parser;
 		
@@ -139,8 +145,6 @@ namespace MonoDevelop.Services
 		
 		public DefaultParserService()
 		{
-			addedParseInformation.DirtyCompilationUnit = new DummyCompilationUnit();
-			removedParseInformation.DirtyCompilationUnit = new DummyCompilationUnit();
 			combineEntryAddedHandler = new CombineEntryEventHandler (OnCombineEntryAdded);
 			combineEntryRemovedHandler = new CombineEntryEventHandler (OnCombineEntryRemoved);
 			nameTable = new StringNameTable (sharedNameTable);
@@ -308,6 +312,42 @@ namespace MonoDevelop.Services
 					}
 				}
 				return db;
+			}
+		}
+		
+		internal SimpleCodeCompletionDatabase GetSingleFileDatabase (string file)
+		{
+			lock (singleDatabases)
+			{
+				SingleFileCacheEntry entry = singleDatabases [file] as SingleFileCacheEntry;
+				if (entry != null) {
+					entry.AccessTime = DateTime.Now;
+					return entry.Database;
+				}
+				else 
+				{
+					if (singleDatabases.Count >= MAX_SINGLEDB_CACHE_SIZE)
+					{
+						DateTime tim = DateTime.MaxValue;
+						string toDelete = null;
+						foreach (DictionaryEntry pce in singleDatabases)
+						{
+							DateTime ptim = ((SingleFileCacheEntry)pce.Value).AccessTime;
+							if (ptim < tim) {
+								tim = ptim;
+								toDelete = pce.Key.ToString();
+							}
+						}
+						singleDatabases.Remove (toDelete);
+					}
+				
+					SimpleCodeCompletionDatabase db = new SimpleCodeCompletionDatabase (file, this);
+					entry = new SingleFileCacheEntry ();
+					entry.Database = db;
+					entry.AccessTime = DateTime.Now;
+					singleDatabases [file] = entry;
+					return db;
+				}
 			}
 		}
 		
@@ -620,11 +660,16 @@ namespace MonoDevelop.Services
 						parseInformation = DoParseFile(fileName, text);
 						if (parseInformation == null) return;
 						
-						ProjectCodeCompletionDatabase db = GetProjectDatabase (viewContent.Project);
-						if (db != null) {
+						if (viewContent.Project != null) {
+							ProjectCodeCompletionDatabase db = GetProjectDatabase (viewContent.Project);
 							ClassUpdateInformation res = db.UpdateFromParseInfo (parseInformation, fileName);
-							NotifyParseInfoChange (fileName, res);
+							if (res != null) NotifyParseInfoChange (fileName, res);
 						}
+						else {
+							SimpleCodeCompletionDatabase db = GetSingleFileDatabase (fileName);
+							db.UpdateFromParseInfo (parseInformation);
+						}
+
 						lastUpdateSize[fileName] = text.GetHashCode();
 						updated = true;
 					}
@@ -639,6 +684,28 @@ namespace MonoDevelop.Services
 			}
 		}
 		
+		CodeCompletionDatabase GetActiveFileDatabase()
+		{
+			IWorkbenchWindow win = WorkbenchSingleton.Workbench.ActiveWorkbenchWindow;
+			if (win == null || win.ActiveViewContent == null) return null;
+			
+			IEditable editable = win.ActiveViewContent as IEditable;
+			if (editable == null) return null;
+			
+			string fileName = null;
+			
+			IViewContent viewContent = win.ViewContent;
+			IParseableContent parseableContent = win.ActiveViewContent as IParseableContent;
+			
+			if (parseableContent != null) {
+				fileName = parseableContent.ParseableContentName;
+			} else {
+				fileName = viewContent.IsUntitled ? viewContent.UntitledName : viewContent.ContentName;
+			}
+			
+			if (fileName == null || fileName.Length == 0) return null;
+			return GetSingleFileDatabase (fileName);
+		}
 		
 #region Default Parser Layer dependent functions
 
@@ -657,10 +724,9 @@ namespace MonoDevelop.Services
 		
 		public IClass GetClass (IProject project, string typeName, bool caseSensitive)
 		{
-			CodeCompletionDatabase db = GetProjectDatabase (project);
-			IClass c;
+			CodeCompletionDatabase db = project != null ? GetProjectDatabase (project) : GetActiveFileDatabase ();
 			if (db != null) {
-				c = db.GetClass (typeName, caseSensitive);
+				IClass c = db.GetClass (typeName, caseSensitive);
 				if (c != null) return c;
 				foreach (ReferenceEntry re in db.References)
 				{
@@ -670,17 +736,20 @@ namespace MonoDevelop.Services
 					if (c != null) return c;
 				}
 			}
+			
 			db = GetDatabase (CoreDB);
 			return db.GetClass (typeName, caseSensitive);
 		}
 		
 		public IClass DeepGetClass (IProject project, string typeName, bool caseSensitive)
 		{
+			CodeCompletionDatabase db = (project != null) ? GetProjectDatabase (project) : GetActiveFileDatabase ();
+			
 			ArrayList visited = new ArrayList ();
-			IClass c = DeepGetClassRec (visited, GetProjectDatabase (project), typeName, caseSensitive);
+			IClass c = DeepGetClassRec (visited, db, typeName, caseSensitive);
 			if (c != null) return c;
 
-			CodeCompletionDatabase db = GetDatabase (CoreDB);
+			db = GetDatabase (CoreDB);
 			return db.GetClass (typeName, caseSensitive);
 		}
 		
@@ -713,7 +782,7 @@ namespace MonoDevelop.Services
 		{
 			ArrayList contents = new ArrayList ();
 			
-			CodeCompletionDatabase db = GetProjectDatabase (project);
+			CodeCompletionDatabase db = (project != null) ? GetProjectDatabase (project) : GetActiveFileDatabase ();
 			if (db != null) {
 				db.GetNamespaceList (contents, subNameSpace, caseSensitive);
 				foreach (ReferenceEntry re in db.References)
@@ -739,7 +808,7 @@ namespace MonoDevelop.Services
 		{
 			ArrayList contents = new ArrayList ();
 			
-			CodeCompletionDatabase db = GetProjectDatabase (project);
+			CodeCompletionDatabase db = (project != null) ? GetProjectDatabase (project) : GetActiveFileDatabase ();
 			if (db != null) {
 				db.GetNamespaceContents (contents, namspace, caseSensitive);
 				if (includeReferences) {
@@ -767,7 +836,7 @@ namespace MonoDevelop.Services
 		
 		public bool NamespaceExists(IProject project, string name, bool caseSensitive)
 		{
-			CodeCompletionDatabase db = GetProjectDatabase (project);
+			CodeCompletionDatabase db = (project != null) ? GetProjectDatabase (project) : GetActiveFileDatabase ();
 			if (db != null) {
 				if (db.NamespaceExists (name, caseSensitive)) return true;
 				foreach (ReferenceEntry re in db.References)
@@ -1037,7 +1106,7 @@ namespace MonoDevelop.Services
 		{
 			lock (parsings) 
 			{
-				if (parsings.Count >= MAX_CACHE_SIZE)
+				if (parsings.Count >= MAX_PARSING_CACHE_SIZE)
 				{
 					DateTime tim = DateTime.MaxValue;
 					string toDelete = null;

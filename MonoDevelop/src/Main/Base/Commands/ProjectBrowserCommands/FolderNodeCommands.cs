@@ -143,6 +143,7 @@ namespace MonoDevelop.Commands.ProjectBrowser
 					
 				parentNode.Nodes.Add(newNode);
 				parentNode.Project.ProjectFiles.Add(newFileInformation);
+				window.ViewContent.Project = parentNode.Project;
 					
 				newNode.EnsureVisible();
 				browser.StealFocus ();

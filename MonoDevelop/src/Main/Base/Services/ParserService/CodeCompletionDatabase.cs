@@ -144,7 +144,7 @@ namespace MonoDevelop.Services
 			return headers;
 		}
 		
-		public void Write ()
+		public virtual void Write ()
 		{
 			lock (rwlock)
 			{
@@ -282,6 +282,14 @@ namespace MonoDevelop.Services
 				datareader.Close ();
 				datareader = null;
 			}
+		}
+		
+		public void Clear ()
+		{
+			rootNamespace = new NamespaceEntry ();
+			files = new Hashtable ();
+			references = new ArrayList ();
+			headers = new Hashtable ();
 		}
 		
 		public IClass GetClass (string typeName, bool caseSensitive)
@@ -681,7 +689,7 @@ namespace MonoDevelop.Services
 			ICompilationUnit cu = (ICompilationUnit)parserInfo.BestCompilationUnit;
 			
 			ClassUpdateInformation res = UpdateFromParseInfo (parserInfo, fileName);
-			parserService.NotifyParseInfoChange (fileName, res);
+			if (res != null) parserService.NotifyParseInfoChange (fileName, res);
 		}
 		
 		public ClassUpdateInformation UpdateFromParseInfo (IParseInformation parserInfo, string fileName)
@@ -693,18 +701,17 @@ namespace MonoDevelop.Services
 			ClassUpdateInformation res = UpdateClassInformation (resolved, fileName);
 			
 			FileEntry file = files [fileName] as FileEntry;
+			if (file == null) return res;
 			
 			if (!allResolved) {
 				if (file.ParseErrorRetries > 0) {
 					file.ParseErrorRetries--;
 				}
-				else {
+				else
 					file.ParseErrorRetries = 3;
-				}
 			}
-			else {
+			else
 				file.ParseErrorRetries = 0;
-			}
 
 			return res;
 		}
@@ -868,6 +875,29 @@ namespace MonoDevelop.Services
 				Console.WriteLine ("Deleted " + dataFile);
 			}
 		}
+	}
+	
+	internal class SimpleCodeCompletionDatabase: CodeCompletionDatabase
+	{
+		string file = "_currentFile";
+		
+		public SimpleCodeCompletionDatabase (string file, DefaultParserService parserService)
+		: base (parserService)
+		{
+			AddFile (file);
+			this.file = file;
+		}
+		
+		public ClassUpdateInformation UpdateFromParseInfo (IParseInformation parserInfo)
+		{
+			ICompilationUnit cu = (ICompilationUnit)parserInfo.BestCompilationUnit;
+			ClassCollection resolved;
+			parserService.ResolveTypes (null, cu, cu.Classes, out resolved);
+			return UpdateClassInformation (resolved, file);
+		}
+		
+		public override void Read () {}
+		public override void Write () {}
 	}
 	
 

@@ -85,6 +85,7 @@ namespace MonoDevelop.Services
 		{
 			if (fileName == null)
 				return;
+
 			string origName = fileName;
 			if (!fileName.StartsWith ("http://"))
 				fileName = System.IO.Path.GetFullPath (fileName);

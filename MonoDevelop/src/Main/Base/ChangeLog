@@ -1,3 +1,20 @@
+2004-06-10  Lluis Sanchez Gual  <lluis@ximian.com>
+
+	* Commands/ProjectBrowserCommands/FolderNodeCommands.cs: Set the project of
+	  newly added files.
+	* Services/ParserService/DefaultParserService.cs: Generate and cache code
+	  completion databases for opened files that do not belong to any project.
+	* Services/ParserService/CodeCompletionDatabase.cs: Added Clear method.
+	  Made Write() virtual. 
+	  Added new SimpleCodeCompletionDatabase, for storing information for a
+	  single file.
+	* Internal/Project/Project/AbstractProject.cs: Ignore members with the
+	  xml name set to null.
+	* Internal/Project/Project/ProjectFile.cs: Added project filed. Notify
+	  the project when the file name changes.
+	* Internal/Project/Project/Collections/ProjectFileCollection.cs: assign
+	  the project to the files in the collection.
+
 2004-06-06  John Luke  <jluke@cfl.rr.com>
 
 	* Gui/Dialogs/CommonAboutDialog.cs: make the scrollbox not expand

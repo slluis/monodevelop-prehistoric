@@ -54,6 +54,14 @@ namespace MonoDevelop.Internal.Project
 		
 		[XmlAttribute("data")]
 		string		data;
+		
+		[XmlAttribute(null)]
+		AbstractProject project;
+		
+		internal void SetProject (AbstractProject prj)
+		{
+			project = prj;
+		}
 						
 		[LocalizedProperty("${res:MonoDevelop.Internal.Project.ProjectFile.Name}",
 		                   Description ="${res:MonoDevelop.Internal.Project.ProjectFile.Name.Description}")]
@@ -63,8 +71,10 @@ namespace MonoDevelop.Internal.Project
 				return filename;
 			}
 			set {
+				project.NotifyFileRemovedFromProject (this);
 				filename = value;
 				Debug.Assert(filename != null && filename.Length > 0, "name == null || name.Length == 0");
+				project.NotifyFileAddedToProject (this);
 			}
 		}
 		
