@@ -37,7 +37,7 @@ $(ASSEMBLY): $(build_sources) generated-stamp
 	-r glib-sharp -r gtk-sharp -r gdk-sharp \
 	$(build_sources) generated/*.cs /out:$(ASSEMBLY) \
 	&& cp -p $(ASSEMBLY) ../../build/bin/. \
-	&& cp -p $(ASSEMBLY).config ../../build/bin/.
+	&& cp -p $(srcdir)/$(ASSEMBLY).config ../../build/bin/.
 
 gdldocklibdir = $(prefix)/lib/monodevelop/bin
 gdldocklib_DATA = $(ASSEMBLY) $(ASSEMBLY).config
