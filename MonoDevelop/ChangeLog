@@ -1,3 +1,8 @@
+2004-03-21	John BouAntoun  <jba-mono@optusnet.com.au>
+
+	* src/AddIns/DisplayBindings/SourceEditor/Search/SearchReplaceInFilesManager.cs:
+	fixed taskview to be presented before "search completed" dialog.
+	
 2004-03-20 Iain McCoy <iainmccoy@optusnet.com.au>
 	* configure.in: forgot to undo a change that was part of one of the
 	mistakes I made :)

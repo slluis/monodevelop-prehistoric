@@ -105,11 +105,16 @@ namespace MonoDevelop.TextEditor.Document
 		{
 			TaskService taskService = (TaskService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(TaskService));
 			taskService.NotifyTaskChange();
+			
+			// present the taskview to show the search results
+			OpenTaskView taskView = WorkbenchSingleton.Workbench.GetPad(typeof(OpenTaskView)) as OpenTaskView;
+			if (taskView != null) {
+				taskView.BringToFront();
+			}
+			
+			// tell the user search is done.
 			MessageService MessageService = (MessageService)ServiceManager.Services.GetService (typeof (MessageService));
 			MessageService.ShowMessage ("Search completed");
-			
-			OpenTaskView taskView = WorkbenchSingleton.Workbench.GetPad(typeof(OpenTaskView)) as OpenTaskView;
-			if (taskView != null) taskView.BringToFront();
 		}
 		
 		public static void ReplaceAll()
