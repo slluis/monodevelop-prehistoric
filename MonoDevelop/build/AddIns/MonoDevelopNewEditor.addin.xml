@@ -164,7 +164,7 @@
 	
 	
 	<Extension path = "/SharpDevelop/Workbench/MainMenu">
-	        <MenuItem id = "Search" insertafter ="View" insertbefore ="Tools" _label = "Search">
+	        <MenuItem id = "Search" insertafter ="View" insertbefore ="Tools" _label = "_Search">
 	                <Conditional action="Disable">
 		                <Or>
 		                	<Condition openwindow="MonoDevelop.DefaultEditor.Gui.Editor.ITextEditorControlProvider"/>
@@ -172,19 +172,19 @@
 		                </Or>
 		                
 		                <MenuItem id = "Find"
-		                          _label = "Find..." 
+		                          _label = "_Find..." 
 		                          icon = "Icons.16x16.FindIcon" 
 		                          description = "${res:XML.MainMenu.SearchMenu.Find.Description}" 
 		                          shortcut = "Control|F" 
 		                          class = "MonoDevelop.DefaultEditor.Commands.Find"/>
 		                <MenuItem id = "FindNext"
-		                          _label = "Find Next" 
+		                          _label = "Find _Next" 
 		                          icon = "Icons.16x16.FindNextIcon" 
 		                          description = "${res:XML.MainMenu.SearchMenu.FindNext.Description}" 
 		                          shortcut = "F3"
 		                          class = "MonoDevelop.DefaultEditor.Commands.FindNext"/>
 		                <MenuItem id = "Replace"
-		                          _label = "Replace..." 
+		                          _label = "_Replace..." 
 		                          icon = "Icons.16x16.ReplaceIcon" 
 		                          description = "${res:XML.MainMenu.SearchMenu.Replace.Description}" 
 		                          shortcut = "Control|R"
@@ -193,12 +193,12 @@
 		        
 		        <MenuItem id = "SearchSeparator" _label = "-" />
 	                <MenuItem id = "FindInFiles"
-	                          _label = "Find In Files..." 
+	                          _label = "F_ind In Files..." 
 	                          icon = "Icons.16x16.FindInFiles" 
 	                          description = "${res:XML.MainMenu.SearchMenu.FindInFiles.Description}" 
 	                          class = "MonoDevelop.DefaultEditor.Commands.FindInFiles"/>
 	                <MenuItem id = "ReplaceInFiles"
-	                          _label = "Replace In Files..." 
+	                          _label = "R_eplace In Files..." 
 	                          icon = "Icons.16x16.ReplaceInFiles" 
 	                          description = "${res:XML.MainMenu.SearchMenu.ReplaceInFiles.Description}" 
 	                          class = "MonoDevelop.DefaultEditor.Commands.ReplaceInFiles"/>
@@ -207,37 +207,37 @@
 	                <Conditional activewindow="MonoDevelop.DefaultEditor.Gui.Editor.ITextEditorControlProvider" action="Disable">
 			        
 		                <MenuItem id = "ToggleBookmark"
-		                          _label = "Toggle Bookmark" 
+		                          _label = "_Toggle Bookmark" 
 		                          description = "${res:XML.MainMenu.SearchMenu.ToggleBookmark.Description}" 
 		                          shortcut = "Control|F2"
 		                          icon = "Icons.16x16.ToggleBookmark"
 		                          class = "MonoDevelop.EditorBindings.Commands.ToggleBookmark"/>
 		                <MenuItem id = "PrevBookmark"
-		                          _label = "Previous Bookmark" 
+		                          _label = "_Previous Bookmark" 
 		                          description = "${res:XML.MainMenu.SearchMenu.PrevBookmark.Description}" 
 		                          shortcut = "Alt|F2"
 		                          icon = "Icons.16x16.GotoPrevbookmark"
 		                          class = "MonoDevelop.EditorBindings.Commands.PrevBookmark"/>
 		                <MenuItem id = "NextBookmark"
-		                          _label = "Next Bookmark" 
+		                          _label = "_Next Bookmark" 
 		                          description = "${res:XML.MainMenu.SearchMenu.NextBookmark.Description}" 
 		                          shortcut = "F2" 
 		                          icon = "Icons.16x16.GotoNextbookmark"
 		                          class = "MonoDevelop.EditorBindings.Commands.NextBookmark"/>
 		                <MenuItem id = "ClearBookmarks"
-		                          _label = "Clear Bookmarks" 
+		                          _label = "_Clear Bookmarks" 
 		                          description = "${res:XML.MainMenu.SearchMenu.ClrBookmark.Description}"
 		                          icon = "Icons.16x16.ClearAllBookmarks"
 		                          class = "MonoDevelop.EditorBindings.Commands.ClearBookmarks"/>
 		                <MenuItem id = "Separator2" _label = "-" />
 		                <MenuItem id = "GotoLineNr"
-		                          _label = "Goto Line..." 
+		                          _label = "_Goto Line..." 
 		                          description = "${res:XML.MainMenu.SearchMenu.GotoLineNr.Description}" 
 		                          shortcut = "Control|G"
 		                          class = "MonoDevelop.DefaultEditor.Commands.GotoLineNumber"/>
 		                <MenuItem id = "Separator3" _label = "-" />
 		                <MenuItem id = "GotoBrace"
-		                          _label = "Goto Matching Brace" 
+		                          _label = "Goto Matching _Brace" 
 		                          description = "${res:XML.MainMenu.SearchMenu.GotoBrace.Description}" 
 		                          shortcut = "Control|B"
 		                          class = "MonoDevelop.DefaultEditor.Commands.GotoMatchingBrace"/>

@@ -1,3 +1,9 @@
+2004-06-14  Peter Johanson <latexer@gentoo.org>
+
+	* build/AddIns/SharpDevelopCore.addin.xml:
+	* build/AddIns/MonoDevelopNewEditor.addin.xml:
+	add mnemonics to many of the menu items.
+
 2004-06-12  Martin Baulig  <martin@ximian.com>
 
 	* configure.in: Reenable the debugger.

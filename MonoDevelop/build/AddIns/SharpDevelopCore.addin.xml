@@ -528,22 +528,22 @@
 	</Extension>
 
 	<Extension path = "/SharpDevelop/Workbench/MainMenu">
-	        <MenuItem id = "File" _label = "File">
+	        <MenuItem id = "File" _label = "_File">
 	                        <MenuItem id          = "File" 
-	                                  _label       = "New File..." 
+	                                  _label       = "_New File..." 
 	                                  icon        = "Icons.16x16.NewDocumentIcon" 
 	                                  description = "${res:XML.MainMenu.FileMenu.New.File.Description}" 
 	                                  shortcut    = "Control|N" 
 	                                  class = "MonoDevelop.Commands.CreateNewFile"/>
 	                                  
 	                        <MenuItem id = "Project" 
-	                                  _label = "New Solution/Project..." 
+	                                  _label = "N_ew Solution/Project..." 
 	                                  icon = "Icons.16x16.NewProjectIcon" 
 	                                  description = "${res:XML.MainMenu.FileMenu.New.Project.Description}" 
 	                                  shortcut = "Control|Shift|N" 
 	                                  class = "MonoDevelop.Commands.CreateNewProject"/>
 	                
-	                <!-- <MenuItem id = "Open" _label = "Open">
+	                <!-- <MenuItem id = "Open" _label = "_Open">
 	                        <MenuItem id = "File" 
 	                                  _label = "File..." 
 	                                  icon = "Icons.16x16.OpenFileIcon"  
@@ -559,7 +559,7 @@
 	                                  class = "MonoDevelop.Commands.OpenCombine"/>
 	                </MenuItem> -->
 
-			<MenuItem id = "Open" _label = "Open..."
+			<MenuItem id = "Open" _label = "_Open..."
 			          icon = "Icons.16x16.OpenFileIcon"
 			          shortcut = "Control|O"
 			          class = "MonoDevelop.Commands.OpenFile"/>
@@ -568,7 +568,7 @@
 	                
 	                        <Conditional activewindow="*" action="Disable">
 		                        <MenuItem id = "CloseFile"
-		                                  _label = "Close File" 
+		                                  _label = "_Close File" 
 		                                  description = "${res:XML.MainMenu.FileMenu.Close.File.Desription}"
 						  icon = "Icons.16x16.CloseIcon"
 						  shortcut = "Control|W"
@@ -576,7 +576,7 @@
 	                        </Conditional>
 	                        <Conditional iscombineopen="True" action="Disable">
 		                        <MenuItem id = "CloseCombine"
-		                                  _label = "Close Solution" 
+		                                  _label = "Close Sol_ution" 
 		                                  description = "${res:XML.MainMenu.FileMenu.Close.Project.Desription}"
 						  icon = "Icons.16x16.CloseCombineIcon"
 						  shortcut = "Control|Shift|W"
@@ -585,7 +585,7 @@
 	                
 			<MenuItem id = "ReloadSeparator" _label = "-" />
 			<MenuItem id = "Reloadfile"
-				  _label = "Reload File" 
+				  _label = "_Reload File" 
 				  shortcut = "Control|U"
 				  description = "${res:XML.MainMenu.FileMenu.Reload.Description}"
 	                          class = "MonoDevelop.Commands.ReloadFile" />
@@ -593,19 +593,19 @@
 			<MenuItem id = "SaveSeparator" _label = "-" />
 	                
 			<Conditional activewindow="*" action="Disable">
-		                <MenuItem id = "Save"
+		                <MenuItem id = "_Save"
 		                          _label = "_Save" 
 		                          icon = "Icons.16x16.SaveIcon" 
 		                          description = "${res:XML.MainMenu.FileMenu.Save.Description}" 
 		                          shortcut = "Control|S"
 		                          class = "MonoDevelop.Commands.SaveFile"/>
 		                <MenuItem id = "SaveAs"
-		                          _label = "Save As..."
+		                          _label = "Save _As..."
 					  icon = "Icons.16x16.SaveAsIcon"
 		                          description = "${res:XML.MainMenu.FileMenu.SaveAs.Description}"
 		                          class = "MonoDevelop.Commands.SaveFileAs"/>
 		                <MenuItem id = "SaveAll"
-		                          _label = "Save All" 
+		                          _label = "Save A_ll" 
 		                          icon = "Icons.16x16.SaveAllIcon" 
 		                          shortcut = "Control|Shift|S" 
 		                          description = "${res:XML.MainMenu.FileMenu.SaveAll.Description}"
@@ -628,42 +628,43 @@
 	                </Conditional>
 			-->
 	                <MenuItem id = "RecentSeparator"  _label = "-" />
-	                <MenuItem id = "RecentFiles"    attribute = "RecentFiles" _label = "Recent Files">
+	                <MenuItem id = "RecentFiles"    attribute = "RecentFiles" _label = "Recent _Files">
 	                	<MenuItem id = "RecentFilesBuilder" _label = "bogus_label" class = "MonoDevelop.Commands.RecentFilesMenuBuilder" />
 	                	<MenuItem id = "RecentFilesSeparator" _label = "-" />
 	                	<MenuItem id = "ClearRecentFiles" 
-	                	          _label = "Clear Recent Files" 
+	                	          _label = "_Clear Recent Files" 
 	                	          description = "${res:XML.MainMenu.FileMenu.ClearRecentFiles.Description}"
 	                	          class = "MonoDevelop.Commands.ClearRecentFiles" />
 	                </MenuItem>
 	                
-	                <MenuItem id = "RecentProjects" attribute = "RecentProjects" _label = "Recent Solutions">
+	                <MenuItem id = "RecentProjects" attribute = "RecentProjects" _label = "Recent _Solutions">
 	                	<MenuItem id = "RecentProjectsBuilder" _label = "bogus_label" class = "MonoDevelop.Commands.RecentProjectsMenuBuilder" />
 	                	<MenuItem id = "RecentProjectsSeparator" _label = "-" />
 	                	<MenuItem id = "ClearRecentFiles" 
-	                	          _label = "Clear Recent Solutions" 
+	                	          _label = "_Clear Recent Solutions" 
 	                	          description = "${res:XML.MainMenu.FileMenu.ClearRecentProjects.Description}"
 	                	          class = "MonoDevelop.Commands.ClearRecentProjects" />
 	                </MenuItem>
 	                
 	                <MenuItem id = "ExitSeparator" _label = "-" />
 	                <MenuItem id = "Exit"
-	                          _label = "Quit" 
+	                          _label = "_Quit" 
 	                          icon = "Icons.16x16.QuitIcon" 
 	                          description = "${res:XML.MainMenu.FileMenu.Exit.Description}"
+				  shortcut = "Control|Q"
 	                          class = "MonoDevelop.Commands.ExitWorkbenchCommand" />
 	        </MenuItem>
 	        
-	        <MenuItem id = "Edit" _label = "Edit">
+	        <MenuItem id = "Edit" _label = "_Edit">
 	                <Conditional activewindow="*" action="Disable">
 		                <MenuItem id = "Undo"
-		                          _label = "Undo" 
+		                          _label = "_Undo" 
 		                          icon = "Icons.16x16.UndoIcon" 
 		                          description = "${res:XML.MainMenu.EditMenu.Undo.Description}" 
 		                          shortcut = "Control|Z"
 		                          class = "MonoDevelop.Commands.Undo"/>
 		                <MenuItem id = "Redo" 
-		                          _label = "Redo" 
+		                          _label = "_Redo" 
 		                          icon = "Icons.16x16.RedoIcon" 
 		                          description = "${res:XML.MainMenu.EditMenu.Redo.Description}" 
 		                          shortcut = "Control|Y"
@@ -672,30 +673,30 @@
 	                <MenuItem id = "Separator1" _label = "-" />
 	                <Conditional activewindow="*" action="Disable">
 					<MenuItem id = "Cut" 
-						  _label = "Cut" 
+						  _label = "Cu_t" 
 						  icon = "Icons.16x16.CutIcon" 
 						  description = "${res:XML.MainMenu.EditMenu.Cut.Description}" 
 						  shortcut = "Control|X"
 						  class = "MonoDevelop.Commands.Cut"/>
 					<MenuItem id = "Copy" 
-						  _label = "Copy" 
+						  _label = "_Copy" 
 						  icon = "Icons.16x16.CopyIcon" 
 						  description = "${res:XML.MainMenu.EditMenu.Copy.Description}" 
 						  shortcut = "Control|C"
 						  class = "MonoDevelop.Commands.Copy"/>
 					<MenuItem id = "Paste" 
-						  _label = "Paste" 
+						  _label = "_Paste" 
 						  icon = "Icons.16x16.PasteIcon"  
 						  description = "${res:XML.MainMenu.EditMenu.Paste.Description}" 
 						  shortcut = "Control|V" 
 						  class = "MonoDevelop.Commands.Paste"/>
 					<MenuItem id = "Delete"
-						  _label = "Delete" 
+						  _label = "_Delete" 
 						  icon = "Icons.16x16.DeleteIcon" 
 						  description = "${res:XML.MainMenu.EditMenu.Delete.Description}"
 						  class = "MonoDevelop.Commands.Delete"/>
 					<MenuItem id = "SelectAll" 
-						  _label = "Select All" 
+						  _label = "Select _All" 
 						  description = "${res:XML.MainMenu.EditMenu.SelectAll.Description}" 
 						  shortcut = "Control|A"
 						  class = "MonoDevelop.Commands.SelectAll"/>
@@ -707,31 +708,32 @@
 		                	<Condition iscombineopen="True"/>
 		                </Or>
 		                <MenuItem id = "WordCount"
-		                          _label = "Word Count..." 
+		                          _label = "_Word Count..." 
 		                          description = "${res:XML.MainMenu.EditMenu.WordCount.Description}"
 		                          class = "MonoDevelop.Commands.WordCount"/>
 		        </Conditional>
 			<MenuItem id = "optionssep5" _label = "-" />
                         <MenuItem id = "Options"
-                                  _label = "Preferences"
+                                  _label = "_Preferences"
                                   icon = "Icons.16x16.Options"
                                   description = "${res:XML.MainMenu.ToolMenu.Options.Description}"
                                   class = "MonoDevelop.Commands.OptionsCommand"/>
 
 	        </MenuItem>
 	        
-	        <MenuItem id = "View" _label = "View">
+	        <MenuItem id = "View" _label = "_View">
 	                <MenuItem id = "ViewBuilder" _label = "" class = "MonoDevelop.Commands.ViewMenuBuilder" />
 	                <MenuItem id = "ViewItemsSeparator" _label = "-" />
-			<MenuItem id = "ViewLayouts" _label = "Layouts">
+			<MenuItem id = "ViewLayouts" _label = "_Layouts">
 				  <MenuItem id = "ViewLayoutsBuilder" _label = "" class = "MonoDevelop.Commands.LayoutsMenuBuilder" />
 				  <MenuItem id = "ViewLayoutsSeparator" _label = "-" />
-				  <MenuItem id = "ViewLayoutsNew" _label = "New" class = "MonoDevelop.Commands.NewLayoutCommand" />
+				  <MenuItem id = "ViewLayoutsNew" _label = "_New" class = "MonoDevelop.Commands.NewLayoutCommand" />
 			</MenuItem>
 	                <MenuItem id = "ViewItemsSeparator2" _label = "-" />
 			<MenuItem id = "FullScreen"
-	                          _label = "Full Screen" 
+	                          _label = "_Full Screen" 
 	                          icon = "Icons.16x16.FullScreen" 
+				  shortcut = "F11"
 	                          description = "${res:XML.MainMenu.ViewMenu.FullScreen.Description}" 
 	                          class = "MonoDevelop.Commands.ToggleFullscreenCommand" />
 	        </MenuItem>
@@ -766,7 +768,7 @@
 			</MenuItem>
 		</Conditional> -->
 		
-	        <MenuItem id = "Run" _label = "Run">
+	        <MenuItem id = "Run" _label = "_Run">
 	                <Conditional action="Disable">
 	                	<Or>
 	                		<Condition activewindow="MonoDevelop.SourceEditor.Gui.SourceEditorDisplayBindingWrapper"/>
@@ -774,13 +776,13 @@
 	                	</Or>
 	                	
 		                <MenuItem id = "Compile"
-		                          _label = "Compile" 
+		                          _label = "_Compile" 
 		                          description = "${res:XML.MainMenu.RunMenu.Compile.Description}" 
 		                          shortcut = "F8"
 		                          icon  = "Icons.16x16.BuildCombine"
 		                          class = "MonoDevelop.Commands.Compile"/>
 		                <MenuItem id = "CompileAll"
-		                          _label = "Compile All" 
+		                          _label = "Compile _All" 
 		                          description = "${res:XML.MainMenu.RunMenu.CompileAll.Description}" 
 		                          shortcut = "Control|F8"
 		                          class = "MonoDevelop.Commands.CompileAll"/>
@@ -800,7 +802,7 @@
 				                <MenuItem id = "Separator2" _label = "-" />
 			                </Conditional> -->
 		                <MenuItem id = "Run"
-		                          _label = "Run" 
+		                          _label = "_Run" 
 		                          icon = "Icons.16x16.RunProgramIcon" 
 		                          description = "${res:XML.MainMenu.RunMenu.Run.Description}" 
 		                          shortcut = "F5"
@@ -844,24 +846,24 @@
 	                <MenuItem _label = "${res:XML.MainMenu.PluginMenu.Manager}" description = "${res:XML.MainMenu.PluginMenu.Manager.Description}" class = "SharpDevelop.Actions.Edit.ShowPlugInManager"/> 
 	        </MenuItem>-->
 
-	        <MenuItem id = "Window" _label = "Window">
+	        <MenuItem id = "Window" _label = "_Window">
 	                <Conditional action="Disable">
 				<Condition activewindow="*" />
 	                <MenuItem id  = "NextWindow"
-			          _label = "Next Window"
+			          _label = "_Next Window"
 			          icon = "Icons.16x16.NextWindowIcon"
 				  description = "${res:XML.MainMenu.WindowMenu.NxtWindow.Description}" 
 				  shortcut = "Control|Page_Down"
 				  class = "MonoDevelop.Commands.SelectNextWindow" />
 	                <MenuItem id = "PrevWindow"
-			          _label = "Previous Window"
+			          _label = "_Previous Window"
 			          icon = "Icons.16x16.PrevWindowIcon"
 				  description = "${res:XML.MainMenu.WindowMenu.PrvWindow.Description}"
 				  shortcut = "Control|Page_Up"
 				  class = "MonoDevelop.Commands.SelectPrevWindow" />
 	                <MenuItem id ="NxtPrvSeparator" _label = "-" /> 
 		                <MenuItem id    = "CloseAll"
-		                          _label = "Close All" 
+		                          _label = "_Close All" 
 		                          icon  = "Icons.16x16.CloseAllDocuments" 
 		                          description = "${res:XML.MainMenu.FileMenu.CloseAll.Description}"
 		                          class = "MonoDevelop.Commands.CloseAllWindows" />
@@ -870,15 +872,15 @@
 	                <MenuItem id = "ContentBuilder" _label = "bogus_label" class="MonoDevelop.Commands.OpenContentsMenuBuilder"/>
 	        </MenuItem> 
 	        
-	        <MenuItem id = "Help" _label = "Help">
+	        <MenuItem id = "Help" _label = "_Help">
 	                <MenuItem id = "Help"
-	                          _label = "Help..." 
+	                          _label = "_Help..." 
 	                          icon = "Icons.16x16.HelpIcon" 
 	                          description = "${res:XML.MainMenu.HelpMenu.Topics.Description}" 
 	                          shortcut = "Alt|F1" 
 	                          class = "MonoDevelop.Commands.ShowHelp"/>
 	                <MenuItem id = "TipOfTheDay"
-	                          _label = "Tip of the Day..." 
+	                          _label = "_Tip of the Day..." 
 	                          icon = "Icons.16x16.TipOfTheDay" 
 	                          description = "${res:XML.MainMenu.HelpMenu.Tips.Description}" 
 	                          class = "MonoDevelop.Commands.ViewTipOfTheDay" />
@@ -899,7 +901,7 @@
 	                          description = "${res:XML.MainMenu.HelpMenu.StyleGuide.Description}" 
 	                          link = "home://../doc/CodingStyleGuide.pdf" /> -->
 	                <MenuItem id = "Separator2" _label = "-" />
-	                <MenuItem id = "Web" _label = "Web">
+	                <MenuItem id = "Web" _label = "_Web">
 	                        <!-- <MenuItem id = "ASP" _label = "&amp;AlphaSierraPapa" icon = "Icons.16x16.WebSearchIcon" description = "Visit my sponsors" link = "http://www.alphasierrapapa.com/" /> -->
 	                        <MenuItem id = "MonoDevelop" _label = "MonoDevelop" icon = "Icons.16x16.WebSearchIcon" link = "http://www.monodevelop.com" />
 				<!-- <MenuItem id = "SharpDevelop" _label = "SharpDevelop">
@@ -925,7 +927,7 @@
 	                </MenuItem>
 	                <MenuItem id = "Separator3" _label = "-" />
 	                <MenuItem id = "About"
-	                          _label = "About" 
+	                          _label = "_About" 
 	                          icon = "Icons.16x16.AboutIcon" 
 	                          description = "${res:XML.MainMenu.HelpMenu.About.Description}" 
 	                          class = "MonoDevelop.Commands.AboutSharpDevelop" />
