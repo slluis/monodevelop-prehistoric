@@ -37,6 +37,8 @@ namespace MonoDevelop.SourceEditor.Gui
 				return false;
 			if (mimetype.StartsWith ("text"))
 				return true;
+			if (mimetype == "application/x-python")
+				return true;
 			return false;
 		}
 		
