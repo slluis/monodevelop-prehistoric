@@ -7,14 +7,9 @@
 
 using System;
 using System.IO;
-using System.Text;
-using System.Collections;
 using System.Collections.Specialized;
-using System.Drawing;
-using System.Reflection;
-using System.Resources;
 using System.Diagnostics;
-using System.Xml;
+using System.Reflection;
 
 using MonoDevelop.Services;
 using MonoDevelop.Core.Services;

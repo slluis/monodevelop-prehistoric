@@ -7,7 +7,6 @@ Properties/IProperties.cs \
 Properties/PropertyFileLoadException.cs \
 Properties/IXmlConvertable.cs \
 Services/FileUtilityService.cs \
-Services/SaveErrorInformDialog.cs \
 Services/AbstractService.cs \
 Services/IMessageService.cs \
 Services/StringParserService.cs \
@@ -15,7 +14,6 @@ Services/PropertyService.cs \
 Services/ServiceManager.cs \
 Services/IService.cs \
 Services/IStringTagProvider.cs \
-Services/SaveErrorChooseDialog.cs \
 AssemblyInfo.cs \
 AddIns/Conditions/DuplicateConditionException.cs \
 AddIns/Conditions/ConditionCollection.cs \
@@ -61,8 +59,7 @@ build_sources = $(addprefix $(srcdir)/, $(FILES)) Services/GettextCatalog.cs
 
 DLL = MonoDevelop.Core.dll
 
-REFS = /r:System.Drawing.dll \
-/r:Mono.Posix.dll
+REFS = -r:Mono.Posix.dll
 
 all: $(DLL)
 
@@ -72,7 +69,7 @@ Services/GettextCatalog.cs: $(srcdir)/Services/GettextCatalog.cs.in
 	mv $@.tmp $@
 
 $(DLL): $(build_sources) $(build_resources)
-	$(CSC) /out:$(DLL) /target:library $(REFS) /define:LINUX \
+	$(CSC) /out:$(DLL) /target:library $(REFS) \
 	$(build_sources) && cp $(DLL) $(top_builddir)/build/bin/.
 
 assemblydir = $(libdir)/monodevelop/bin
