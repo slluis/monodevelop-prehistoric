@@ -14,6 +14,7 @@ DLLS = -r:nunit.framework.dll \
 FILES = \
 AssemblyInfo.cs \
 FixtureAddedEventHandler.cs \
+FixtureLoadedErrorEventHandler.cs \
 Commands/NUnitCommands.cs \
 Gui/CircleImage.cs \
 Gui/TestPad.cs \

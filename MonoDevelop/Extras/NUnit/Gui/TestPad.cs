@@ -121,6 +121,11 @@ namespace MonoDevelop.NUnit
 			// FIXME: set run menu items sensitive
 		}
 
+		void OnFinishedRunning (object sender, EventArgs a)
+		{
+			statusBarService.SetMessage ("");
+		}
+
 		void OnFixtureAdded (object sender, FixtureAddedEventArgs a)
 		{
 			string msg = String.Format (GettextCatalog.GetString ("Loading test {0} of {1}"), a.Current, a.Total);

@@ -4,6 +4,7 @@ using System.Reflection;
 
 using NUnit.Core;
 using MonoDevelop.Core.Services;
+using MonoDevelop.NUnit;
 
 namespace MonoDevelop.Services
 {
@@ -13,14 +14,11 @@ namespace MonoDevelop.Services
 		bool running = false;
 
 		public event EventHandler AssemblyLoaded;
-		public event EventHandler FixtureLoadError;
-		public event EventHandler RunFinishedEvent;
-		public event EventHandler RunStartedEvent;
+		public event FixtureLoadedErrorEventHandler FixtureLoadError;
 		public event TestEventHandler SuiteFinishedEvent;
 		public event TestEventHandler SuiteStartedEvent;
 		public event TestEventHandler TestFinishedEvent;
 		public event TestEventHandler TestStartedEvent;
-		public event EventHandler UnhandledExceptionEvent;
 
 		public NUnitService ()
 		{
@@ -41,8 +39,7 @@ namespace MonoDevelop.Services
 			}
 			catch (Exception e) {
 				if (FixtureLoadError != null)
-					FixtureLoadError (this, EventArgs.Empty);
-				//	FixtureLoadError (this, new FixtureLoadErrorArgs (assemblyName, e));
+					FixtureLoadError (this, new FixtureLoadedErrorEventArgs (assemblyName, e));
 			}
 			finally {
 				AppDomain.CurrentDomain.AssemblyResolve -= reh;
@@ -64,20 +61,14 @@ namespace MonoDevelop.Services
 
 		public void RunFinished (Exception exception)
 		{
-			if (RunFinishedEvent != null)
-				RunFinishedEvent (this, EventArgs.Empty);
 		}
 
 		public void RunFinished (TestResult[] results)
 		{
-			if (RunFinishedEvent != null)
-				RunFinishedEvent (this, EventArgs.Empty);
 		}
 
 		public void RunStarted (Test[] tests)
 		{
-			if (RunStartedEvent != null)
-				RunStartedEvent (this, EventArgs.Empty);
 		}
 
 		public void RunTest (Test test)
@@ -128,8 +119,6 @@ namespace MonoDevelop.Services
 
 		public void UnhandledException (Exception exception)
 		{
-			if (UnhandledExceptionEvent != null)
-				UnhandledExceptionEvent (this, EventArgs.Empty);
 		}
 	}
 }
