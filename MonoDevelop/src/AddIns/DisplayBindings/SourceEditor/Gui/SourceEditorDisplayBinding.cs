@@ -292,9 +292,72 @@ namespace MonoDevelop.SourceEditor.Gui {
 #endregion
 		
 		void PropertiesChanged (object sender, PropertyEventArgs e)
-		{
-			se.View.ModifyFont (TextEditorProperties.Font);
-		}
+ 		{
+			string switchVal = (e != null) ? e.Key : null;
+			switch(switchVal)
+			{
+				case null:
+				case "DefaultFont":
+					// font
+					se.View.ModifyFont (TextEditorProperties.Font);
+					break;
+				
+				case "ShowLineNumbers":
+					// show line numbers
+					se.View.ShowLineNumbers = TextEditorProperties.ShowLineNumbers;
+					break;
+				
+				case "ShowBracketHighlight":
+					// hilight matching bracket
+					se.Buffer.CheckBrackets = TextEditorProperties.ShowMatchingBracket;
+					break;
+				
+				case "ShowVRuler":
+				case "VRulerRow":
+					// show column ruler after n cols
+					se.View.ShowMargin = TextEditorProperties.ShowVerticalRuler;
+					if (TextEditorProperties.VerticalRulerRow > -1) {
+						se.View.Margin = (uint) TextEditorProperties.VerticalRulerRow;
+					} else {
+						se.View.Margin = (uint) 80;		// FIXME: should i be doing this on a bad vruller setting?
+					}
+					break;
+				
+				case "IndentationSize":
+				case "TabIndent":
+					// tab width
+					if (TextEditorProperties.TabIndent > -1) {
+						se.View.TabsWidth = (uint) TextEditorProperties.TabIndent;
+					} else {
+						se.View.TabsWidth = (uint) 8;	// FIXME: should i be doing this on a bad tabindent setting?
+					}
+					break;
+					
+				case "TabsToSpaces":
+					// convert tabs to spaces
+					se.View.InsertSpacesInsteadOfTabs = TextEditorProperties.ConvertTabsToSpaces;
+					break;
+					
+				default:
+					System.Console.WriteLine(e.Key + " = " + e.NewValue + "(from " + e.OldValue + ")" );
+					// The items below can't be done (since there is no support for it in gtksourceview)
+					// CANTDO: show spaces				Key = "ShowSpaces"
+					// CANTDO: show tabs				Key = "ShowTabs"
+					// CANTDO eol makers				Key = "ShowEOLMarkers"
+					// CANTDO: show horizontal ruler	Key = "ShowHRuler"		
+					// CANTDO: underline errors			Key = "ShowErrors"
+					// CANTDO: indentation 				Key = "IndentStyle"
+					// DONOTDO: auto insert braces		Key = "AutoInsertCurlyBracket"
+					// TODO: Show Invalid Lines			Key = "ShowInvalidLines"
+					// TODO: CodeCompletion				Key = "EnableCodeCompletion"
+					// TODO: Code Folding				Key = "EnableFolding"
+					// TODO: Double Buffering			Key = "DoubleBuffer"
+					// TODO: can move past EOL 			Key = "CursorBehindEOL"
+					// TODO: auot insert template		Key = "AutoInsertTemplates"	
+					// TODO: hide mouse while typing 	Key = "HideMouseCursor"
+				break;
+			}
+ 		}
 
 	}
 }

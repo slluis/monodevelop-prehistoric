@@ -883,6 +883,7 @@
 		      <child>
 			<widget class="GtkLabel" id="characterMarkersLabel">
 			  <property name="visible">True</property>
+			  <property name="sensitive">False</property>
 			  <property name="label" translatable="yes">Character Markers-</property>
 			  <property name="use_underline">False</property>
 			  <property name="use_markup">False</property>
@@ -937,6 +938,7 @@
 			      <child>
 				<widget class="GtkCheckButton" id="showSpaceCharsCheckBox">
 				  <property name="visible">True</property>
+				  <property name="sensitive">False</property>
 				  <property name="can_focus">True</property>
 				  <property name="label" translatable="yes">Show _spaces-</property>
 				  <property name="use_underline">True</property>
@@ -955,6 +957,7 @@
 			      <child>
 				<widget class="GtkCheckButton" id="showTabCharsCheckBox">
 				  <property name="visible">True</property>
+				  <property name="sensitive">False</property>
 				  <property name="can_focus">True</property>
 				  <property name="label" translatable="yes">Show _tabs-</property>
 				  <property name="use_underline">True</property>
@@ -973,6 +976,7 @@
 			      <child>
 				<widget class="GtkCheckButton" id="showEOLMarkersCheckBox">
 				  <property name="visible">True</property>
+				  <property name="sensitive">False</property>
 				  <property name="can_focus">True</property>
 				  <property name="label" translatable="yes">Show _EOL markers-</property>
 				  <property name="use_underline">True</property>
@@ -991,6 +995,7 @@
 			      <child>
 				<widget class="GtkCheckButton" id="showErrorsCheckBox">
 				  <property name="visible">True</property>
+				  <property name="sensitive">False</property>
 				  <property name="can_focus">True</property>
 				  <property name="label" translatable="yes">Show _invalid lines-</property>
 				  <property name="use_underline">True</property>
