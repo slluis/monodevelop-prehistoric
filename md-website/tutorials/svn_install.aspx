@@ -3,7 +3,7 @@
 
 <ccms:PageHeader runat="server"/>      
 
-      <div class="title">Snapshot Installation Tutorial</div>
+      <div class="title">Development Installation Tutorial</div>
       
       <br />
       <p>Coming soon.</p>
