@@ -68,12 +68,15 @@ namespace ICSharpCode.TextEditor
 #region Drawing functions
 		void DrawBookmark(Gdk.GC gc, Gdk.Drawable wnd, int y)
 		{
-			gc.RgbFgColor = new Gdk.Color (Color.Green);
-			int delta = textArea.TextView.FontHeight / 8;
-			Rectangle rect = new Rectangle( 1, y + delta, base.drawingPosition.Width - 4, textArea.TextView.FontHeight - delta * 2);
-			wnd.DrawArc (gc, true, rect.X, rect.Y, rect.Width, rect.Height, 0, 23040);
+			gc.RgbFgColor = new Gdk.Color (Color.DarkBlue);
+			int delta = textArea.TextView.FontHeight / 6;
+			Rectangle rect = new Rectangle( 2, y + delta, base.drawingPosition.Width - 6, textArea.TextView.FontHeight - 2 * delta);
+			
+			wnd.DrawRectangle (gc, true, rect);
+			
 			gc.RgbFgColor = new Gdk.Color (Color.Black);
-			wnd.DrawArc (gc, false, rect.X, rect.Y, rect.Width, rect.Height, 0, 23040);
+			
+			wnd.DrawRectangle (gc, false, rect);
 			//FillRoundRect(g, Brushes.Cyan, rect);
 			//DrawRoundRect(g, Pens.Black, rect);
 		}
