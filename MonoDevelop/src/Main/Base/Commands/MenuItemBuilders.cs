@@ -347,9 +347,15 @@ namespace MonoDevelop.Commands
 		public Gtk.MenuItem[] BuildSubmenu(ConditionCollection conditionCollection, object owner)
 		{
 			ArrayList items = new ArrayList();
-			foreach (IPadContent padContent in WorkbenchSingleton.Workbench.PadContentCollection) {
-				items.Add(new MyMenuItem(padContent));
+			IWorkbench wb = WorkbenchSingleton.Workbench;
+			if (wb.WorkbenchLayout != null)
+			{
+				PadContentCollection pads = wb.WorkbenchLayout.PadContentCollection;
+				foreach (IPadContent padContent in pads) {
+					items.Add(new MyMenuItem(padContent));
+				}
 			}
+			
 			return (Gtk.MenuItem[])items.ToArray(typeof(Gtk.MenuItem));
 		}
 	}

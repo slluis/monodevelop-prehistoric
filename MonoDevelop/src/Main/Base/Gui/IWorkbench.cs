@@ -10,6 +10,12 @@ using System.Collections;
 
 namespace MonoDevelop.Gui
 {
+	public enum WorkbenchContext
+	{
+		Edit,
+		Debug
+	}
+	
 	/// <summary>
 	/// This is the basic interface to the workspace.
 	/// </summary>
@@ -89,5 +95,17 @@ namespace MonoDevelop.Gui
 		/// the foreground (e.g. editable) changed to a new one.
 		/// </summary>
 		event EventHandler ActiveWorkbenchWindowChanged;
+
+		/// <summary>
+		/// The context the workbench is currently in
+		/// </summary>
+		WorkbenchContext Context {
+			get;
+		}
+		
+		/// <summary>
+		/// Called when the Context property changes
+		/// </summary>
+		event EventHandler ContextChanged;
 	}
 }

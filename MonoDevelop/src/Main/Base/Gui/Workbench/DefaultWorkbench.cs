@@ -85,10 +85,10 @@ namespace MonoDevelop.Gui
 		public IWorkbenchLayout WorkbenchLayout {
 			get {
 				//FIXME: i added this, we need to fix this shit
-				if (layout == null) {
-					layout = new SdiWorkbenchLayout ();
-					layout.Attach(this);
-				}
+				//				if (layout == null) {
+				//	layout = new SdiWorkbenchLayout ();
+				//	layout.Attach(this);
+				//}
 				return layout;
 			}
 			set {
@@ -142,11 +142,18 @@ namespace MonoDevelop.Gui
 			this.WindowPosition = Gtk.WindowPosition.None;
 
 			DebuggingService dbgr = (DebuggingService)ServiceManager.Services.GetService (typeof (DebuggingService));
+			dbgr.StartedEvent += new EventHandler (onDebuggerStarted);
 			dbgr.PausedEvent += new EventHandler (onDebuggerPaused);
 			dbgr.ResumedEvent += new EventHandler (onDebuggerResumed);		
 			dbgr.StoppedEvent += new EventHandler (onDebuggerStopped);		
 		}
 
+		void onDebuggerStarted (object o, EventArgs e)
+		{
+			context = WorkbenchContext.Debug;
+			ContextChanged (this, new EventArgs());
+		}
+		
 		void onDebuggerPaused (object o, EventArgs e)
 		{
 			DebuggingService dbgr = (DebuggingService)ServiceManager.Services.GetService (typeof (DebuggingService));
@@ -176,7 +183,9 @@ namespace MonoDevelop.Gui
 					((IDebuggableEditor)content).ClearExecutingAt (cur_dbgLineNumber);
 					break;
 				}
-			}	
+			}
+			context = WorkbenchContext.Edit;
+			ContextChanged (this, new EventArgs());
 		}
 		
 		public void InitializeWorkspace()
@@ -690,6 +699,17 @@ namespace MonoDevelop.Gui
 #endif
 		
 		public event EventHandler ActiveWorkbenchWindowChanged;
+
+		/// Context switching specific parts
+		WorkbenchContext context = WorkbenchContext.Edit;
+		
+		public WorkbenchContext Context {
+			get {
+				return context;
+			}
+		}
+
+		public event EventHandler ContextChanged;
 	}
 }
 

@@ -1,3 +1,24 @@
+2004-03-18  Gustavo Giráldez  <gustavo.giraldez@gmx.net>
+
+	* src/Main/Base/Gui/IWorkbench.cs: Added WorkbenchContext enum,
+	Context property and ContextChanged event.
+
+	* src/Main/Base/Gui/IWorkbenchLayout.cs: Added CurrentLayout
+	and PadContentCollection properties.
+
+	* src/Main/Base/Gui/Workbench/DefaultWorkbench.cs: Connect to the
+	debugging service's StartedEvent, and switch workbench context
+	whenever debugging is started or stopped.
+
+	* src/Main/Base/Gui/Workbench/Layouts/SdiWorkspaceLayout.cs: Added
+	layout switching functionality.  Connect to the IWorkbench's new
+	ContextChanged event and switch layouts when starting/stopping
+	debug.  Provide a collection of valid content pads for the current
+	workbench context.
+
+	* src/Main/Base/Commands/MenuItemBuilders.cs: Take the collection
+	of content pads from the layout.
+
 2004-03-17	John BouAntoun  <jba-mono@optusnet.com.au>
 	
 	* src/Main/Base/Commands/MenuItemBuilders.cs:

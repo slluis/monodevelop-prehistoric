@@ -30,6 +30,11 @@ namespace MonoDevelop.Gui
 		IWorkbenchWindow ActiveWorkbenchwindow {
 			get;
 		}
+
+		string CurrentLayout {
+			get;
+			set;
+		}
 		
 		/// <summary>
 		/// Attaches this layout manager to a workbench object.
@@ -79,5 +84,12 @@ namespace MonoDevelop.Gui
 		/// the foreground (e.g. editable) changed to a new one.
 		/// </summary>
 		event EventHandler ActiveWorkbenchWindowChanged;
+
+		/// <summary>
+		/// A collection of all valid pads in the layout for the workbench context.
+		/// </summary>
+		PadContentCollection PadContentCollection {
+			get;
+		}
 	}
 }
