@@ -32,7 +32,7 @@ namespace MonoDevelop.Core.AddIns
 			if (context == "*")
 				return true;
 
-			if (context == WorkbenchSingleton.Workbench.Context.ToString ())
+			if (context == WorkbenchSingleton.Workbench.Context.Id)
 				return true;
 
 			return false;

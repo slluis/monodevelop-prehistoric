@@ -1,3 +1,9 @@
+2005-05-04	John Luke	<john.luke@gmail.com>
+
+	* Internal/Conditions/WorkbenchContextCondition.cs:
+	use Id so we can see the debugger menu again, it was
+	comparing the wrong thing
+
 2005-04-01	Christian Hergert	<christian.hergert@gmail.com>
 
 	* Commands/FileCommands.cs: Add Andrew's patch to ask if we want to
