@@ -33,6 +33,7 @@ ILAsmConsoleProject.xpt.xml \
 JavaApplicationProject.xpt.xml \
 JavaConsoleApplicationProject.xpt.xml \
 Library.xpt.xml \
-NemerleEmptyProject.xpt.xml
+NemerleEmptyProject.xpt.xml \
+NemerleGtkSharpProject.xpt.xml
 
 EXTRA_DIST = $(template_DATA)

@@ -5,11 +5,11 @@
 
 	<!-- Template Header -->
 	<TemplateConfiguration>
-		<_Name>Empty Nemerle project</_Name>
+		<_Name>Empty Project</_Name>
 		<Category>Nemerle</Category>
 		<Icon>Nemerle.Project.EmptyProject</Icon>
 		<LanguageName>Nemerle</LanguageName>
-		<_Description>Empty Nemerle project</_Description>
+		<_Description>Creates an empty Nemerle project</_Description>
 	</TemplateConfiguration>
 	
 	<Combine name = "${ProjectName}" directory = ".">

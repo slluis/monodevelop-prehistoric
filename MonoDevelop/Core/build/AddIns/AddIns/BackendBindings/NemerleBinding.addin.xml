@@ -19,11 +19,15 @@
   <Extension path = "/MonoDevelop/FileTemplates">
     <FileTemplate id = "EmptyNemerleFile"
                   location = "templates/EmptyNemerleFile.xft.xml"/>
+    <FileTemplate id = "NemerleGtkSharpWindow"
+                  location = "templates/NemerleGtkSharpWindow.xft.xml"/>
   </Extension>
 
   <Extension path = "/MonoDevelop/ProjectTemplates">
     <ProjectTemplate id = "EmptyNemerleProject"
                      location = "templates/NemerleEmptyProject.xpt.xml"/>
+    <ProjectTemplate id = "NemerleGtkSharpProject"
+                     location = "templates/NemerleGtkSharpProject.xpt.xml"/>
   </Extension>
 
   <Extension path = "/SharpDevelop/Workbench/ProjectOptions/ConfigurationProperties">

@@ -1,3 +1,15 @@
+2004-07-08  Pawel Rozanski  <tokugawa@afn.no-ip.org>
+
+	* AddIns/BackendBindings/templates/EmptyNemerleFile.xft.xml:
+	* AddIns/BackendBindings/templates/NemerleEmptyProject.xpt.xml:
+	change descriptions, looks like C# bindings now.
+
+	* AddIns/BackendBindings/NemerleBinding.addin.xml:
+	* AddIns/BackendBindings/templates/NemerleGtkSharpWindow.xft.xml:
+	* AddIns/BackendBindings/templates/NemerleGtkSharpProject.xpt.xml:
+	* AddIns/BackendBindings/templates/Makefile.am:
+	add Nemerle/Gtk# templates.	
+
 2004-04-22  Todd Berman  <tberman@sevenl.net>
 
 	* SharpDevelopCore.addin.xml: moving Tools->Options to 

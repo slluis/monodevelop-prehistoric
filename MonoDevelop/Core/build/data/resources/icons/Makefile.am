@@ -289,8 +289,10 @@ JScript.Project.UserControl \
 JScript.Project.WebProject \
 MonoDevelop.Close.png \
 Nemerle.File.EmptyFile \
+Nemerle.File.Form \
 Nemerle.FileIcon \
 Nemerle.Project.EmptyProject \
+Nemerle.Project.Form \
 Nemerle.ProjectIcon \
 VB.File.EmptyFile \
 VB.File.Form \
