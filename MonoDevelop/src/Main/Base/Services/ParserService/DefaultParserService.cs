@@ -388,7 +388,7 @@ namespace ICSharpCode.SharpDevelop.Services
 		void ParserUpdateThread()
 		{
 			while (true) {
-				Thread.Sleep(1000);
+				Thread.Sleep(100);
 				try {
 					if (WorkbenchSingleton.Workbench.ActiveWorkbenchWindow != null && WorkbenchSingleton.Workbench.ActiveWorkbenchWindow.ViewContent != null) {
 						IEditable editable = WorkbenchSingleton.Workbench.ActiveWorkbenchWindow.ViewContent as IEditable;
@@ -402,7 +402,7 @@ namespace ICSharpCode.SharpDevelop.Services
 								fileName = WorkbenchSingleton.Workbench.ActiveWorkbenchWindow.ViewContent.ContentName;
 							}
 							if (!(fileName == null || fileName.Length == 0)) {
-								Thread.Sleep(300);
+								Thread.Sleep(100);
 								IParseInformation parseInformation = null;
 								lock (parsings) {
 									parseInformation = ParseFile(fileName, editable.Text);
@@ -418,7 +418,7 @@ namespace ICSharpCode.SharpDevelop.Services
 						Console.WriteLine(e.ToString());
 					} catch {}
 				}
-				Thread.Sleep(500);
+				Thread.Sleep(100);
 			}
 		}
 
