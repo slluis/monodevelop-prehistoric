@@ -1,3 +1,7 @@
+2004-04-04  John Luke  <jluke@cfl.rr.com>
+
+	* Gui/Pads/FileScout.cs: use Gtk.Stock.Open for the icon
+
 2004-04-04  Todd Berman  <tberman@sevenl.net>
 
 	* Internal/Codons/MenuItems/MenuItemCodon.cs:

@@ -49,7 +49,7 @@ namespace CSharpBinding
 				p.StartInfo = psi;
 				p.Start();
 			} catch (Exception) {
-				throw new ApplicationException("Can't execute " + "\"" + exe + "\"\n(.NET bug? Try restaring SD or manual start)");
+				throw new ApplicationException("Can not execute " + "\"" + exe + "\"\n(Try restarting MonoDevelop or start your app manually)");
 			}
 		}
 		
@@ -99,7 +99,7 @@ namespace CSharpBinding
 				p.StartInfo = psi;
 				p.Start();
 			} catch (Exception) {
-				throw new ApplicationException("Can't execute " + "\"" + directory + exe + "\"\n(.NET bug? Try restaring SD or manual start)");
+				throw new ApplicationException("Can not execute " + "\"" + directory + exe + "\"\n(Try restarting MonoDevelop or start your app manually)");
 			}
 		}
 	}

@@ -1,3 +1,7 @@
+2004-04-04  John Luke  <jluke@cfl.rr.com>
+
+	* CSharpBindingExecutionManager.cs: improve error message
+
 2004-04-03  Todd Berman  <tberman@sevenl.net>
 
 	* Gui/OutputOptionsPanel.cs:

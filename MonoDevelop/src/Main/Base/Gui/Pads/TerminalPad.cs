@@ -29,7 +29,8 @@ namespace MonoDevelop.Gui.Pads
 		
 		public string Title {
 			get {
-				return resourceService.GetString ("MainWindow.Windows.OutputWindow");
+				//FIXME: check the string
+				return GettextCatalog.GetString ("Output");
 			}
 		}
 		
@@ -57,7 +58,7 @@ namespace MonoDevelop.Gui.Pads
 			term.CursorBlinks = true;
 			term.MouseAutohide = true;
 			term.FontFromString = "monospace 12";
-			term.Encoding = "UTF8";
+			term.Encoding = "UTF-8";
 			term.BackspaceBinding = TerminalEraseBinding.Auto;
 			term.DeleteBinding = TerminalEraseBinding.Auto;
 			term.Emulation = "xterm";
@@ -67,11 +68,14 @@ namespace MonoDevelop.Gui.Pads
 			Gdk.Colormap colormap = Gdk.Colormap.System;
 			colormap.AllocColor (ref fgcolor, true, true);
 			colormap.AllocColor (ref bgcolor, true, true);
-			term.ColorBackground = bgcolor;
-			term.ColorForeground = fgcolor;
+			term.SetColors (fgcolor, bgcolor, fgcolor, 16);
+			term.SetSize (50, 5);
 
 			term.Commit += new Vte.CommitHandler (OnTermCommit);
 			term.RestoreWindow += new EventHandler (OnRestoreWindow);
+			term.ChildExited += new EventHandler (OnChildExited);
+			term.LowerWindow += new EventHandler (OnTermLower);
+			term.RaiseWindow += new EventHandler (OnTermRaise);
 //			term.TextModified += new EventHandler (OnTermTextModified);
 
 			vscroll = new VScrollbar (term.Adjustment);
@@ -94,10 +98,25 @@ namespace MonoDevelop.Gui.Pads
 		{
 		}
 */
+		void OnChildExited (object o, EventArgs args)
+		{
+			// full reset
+			term.Reset (true, true);
+		}
+
+		void OnTermLower (object o, EventArgs args)
+		{
+			Console.WriteLine ("term lower");
+		}
+
+		void OnTermRaise (object o, EventArgs args)
+		{
+			Console.WriteLine ("term raise");
+		}
 
 		void OnRestoreWindow (object o, EventArgs args)
 		{
-
+			Console.WriteLine ("restore window");
 		}
 
 		void OnTermCommit (object o, Vte.CommitArgs args)

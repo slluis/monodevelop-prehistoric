@@ -334,7 +334,8 @@ namespace MonoDevelop.Gui.Pads
 		
 		public string Icon {
 			get {
-				return MonoDevelop.Gui.Stock.OpenFolderBitmap;
+				//return MonoDevelop.Gui.Stock.OpenFolderBitmap;
+				return Gtk.Stock.Open;
 			}
 		}
 		

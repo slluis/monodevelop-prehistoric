@@ -268,6 +268,7 @@ namespace MonoDevelop.Gui
 				"MonoDevelop.Gui.Pads.OpenTaskView",
 				"MonoDevelop.Gui.Pads.HelpTree",
 				"MonoDevelop.EditorBindings.Gui.Pads.CompilerMessageView",
+				//"MonoDevelop.Gui.Pads.TerminalPad",
 				"MonoDevelop.Gui.Pads.HelpBrowser"
 			};
 

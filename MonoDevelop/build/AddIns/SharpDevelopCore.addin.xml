@@ -396,13 +396,10 @@
 <!--			   
 		<Class id    = "SideBar" 
 		       class = "MonoDevelop.Gui.Pads.SideBarView"/>
-		
-
 		<Class id    = "PropertyPad" 
 		       class = "MonoDevelop.Gui.Pads.PropertyPad"/>
-		       
-		<Class id    = "HelpBrowser" 
-		       class = "MonoDevelop.Gui.Pads.HelpBrowser"/>
+		<Class id    = "TerminalPad" 
+		       class = "MonoDevelop.Gui.Pads.TerminalPad"/>
 -->			 
 	</Extension>
 	
