@@ -14,17 +14,19 @@
 		    class = "MonoDevelop.Services.NunitService"/>
 	</Extension>
 
-	<Extension path="/SharpDevelop/Workbench/Views">
-		<Class id    = "NunitTestTree"
-		       class = "MonoDevelop.Nunit.Gui.TestTree"/>
+	<Extension path = "/SharpDevelop/Workbench/Pads">
+		<Pad id = "MonoDevelop.Nunit.Gui.TestTree" class = "MonoDevelop.Nunit.Gui.TestTree"/>
 	</Extension>
 
-	<Extension path="/SharpDevelop/Workbench/DisplayBinding">
-		<Class id    = "NunitResultTree"
-		       class = "MonoDevelop.Nunit.Gui.ResultTree"/>
+	<Extension path = "/SharpDevelop/Workbench/Contexts/Edit">
+		<ContextPad id = "MonoDevelop.Nunit.Gui.TestTree" />
 	</Extension>
 
-	<Extension path="/SharpDevelop/Workbench/MainMenu/Tools">
+	<Extension path = "/SharpDevelop/Workbench/DisplayBinding">
+		<Class id = "NunitResultTree" class = "MonoDevelop.Nunit.Gui.ResultTree"/>
+	</Extension>
+
+	<Extension path = "/SharpDevelop/Workbench/MainMenu/Tools">
 		<MenuItem id = "NunitMenu" _label = "NUnit">
 			<MenuItem id = "LoadTestAssembly"
 	                  _label = "Load Assembly"

@@ -40,7 +40,7 @@ namespace MonoDevelop.Services.Nunit
 			circles [(int) CircleColor.None] = resourceService.GetIcon ("MonoDevelop.Nunit.None.png");
 			circles [(int) CircleColor.Failure] = resourceService.GetIcon ("MonoDevelop.Nunit.Red.png");
 			circles [(int) CircleColor.NotRun] = resourceService.GetIcon ("MonoDevelop.Nunit.Yellow.png");
-			circles [(int) CircleColor.Success] = resourceService.GetIcon ("MonoDevelop.Nuint.Green.png");
+			circles [(int) CircleColor.Success] = resourceService.GetIcon ("MonoDevelop.Nunit.Green.png");
 		}
 		
 		static void SetCellData (TreeViewColumn col, CellRenderer cell, TreeModel model, TreeIter iter)
