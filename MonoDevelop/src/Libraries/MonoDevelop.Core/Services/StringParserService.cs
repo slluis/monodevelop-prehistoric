@@ -6,9 +6,9 @@
 // </file>
 
 using System;
-using System.Text.RegularExpressions;
 using System.Collections;
 using System.Collections.Specialized;
+using System.Text;
 
 using ICSharpCode.Core.Properties;
 
@@ -60,78 +60,105 @@ namespace ICSharpCode.Core.Services
 				stringTagProviders[str.ToUpper()] = tagProvider;
 			}
 		}
+		
+		string Replace (string[,] customTags, string propertyName)
+		{
+			string propertyValue = null;
+			switch (propertyName.ToUpper()) {
+				case "DATE": // current date
+					propertyValue = DateTime.Today.ToShortDateString();
+					break;
+				case "TIME": // current time
+					propertyValue = DateTime.Now.ToShortTimeString();
+					break;
+				default:
+					propertyValue = null;
+					if (customTags != null) {
+						for (int j = 0; j < customTags.GetLength(0); ++j) {
+							if (propertyName.ToUpper() == customTags[j, 0].ToUpper()) {
+								propertyValue = customTags[j, 1];
+								break;
+							}
+						}
+					}
+					
+					if (propertyValue == null) {
+						propertyValue = properties[propertyName.ToUpper()];
+					}
+					
+					if (propertyValue == null) {
+						IStringTagProvider stringTagProvider = stringTagProviders[propertyName.ToUpper()] as IStringTagProvider;
+						if (stringTagProvider != null) {
+							propertyValue = stringTagProvider.Convert(propertyName.ToUpper());
+						}
+					}
+					
+					if (propertyValue == null) {
+						int k = propertyName.IndexOf(':');
+						if (k > 0) {
+							switch (propertyName.Substring(0, k).ToUpper()) {
+								case "RES":
+									IResourceService resourceService = (IResourceService)ServiceManager.Services.GetService(typeof(IResourceService));
+									if (resourceService != null) {
+											propertyValue = Parse(resourceService.GetString(propertyName.Substring(k + 1)), customTags);
+									}
+									break;
+								case "PROPERTY":
+									PropertyService propertyService = (PropertyService)ServiceManager.Services.GetService(typeof(PropertyService));
+									propertyValue = propertyService.GetProperty(propertyName.Substring(k + 1)).ToString();
+									break;
+							}
+						}
+					}
+					break;
+			}
+			
+			return propertyValue;
+		}
 			
 		/// <summary>
 		/// Expands ${xyz} style property values.
 		/// </summary>
-		public string Parse(string input, string[,] customTags)
+		public string Parse(string input, string [,] customTags)
 		{
-			string output = input;
-			if (input != null) {
-				const string pattern = @"\$\{([^\}]*)\}";
-				foreach (Match m in Regex.Matches(input, pattern)) {
-					if (m.Length > 0) {
-						string token         = m.ToString();
-						string propertyName  = m.Groups[1].Captures[0].Value;
-						string propertyValue = null;
-						switch (propertyName.ToUpper()) {
-							case "DATE": // current date
-								propertyValue = DateTime.Today.ToShortDateString();
-								break;
-							case "TIME": // current time
-								propertyValue = DateTime.Now.ToShortTimeString();
-								break;
-							default:
-								propertyValue = null;
-								if (customTags != null) {
-									for (int j = 0; j < customTags.GetLength(0); ++j) {
-										if (propertyName.ToUpper() == customTags[j, 0].ToUpper()) {
-											propertyValue = customTags[j, 1];
-											break;
-										}
-									}
-								}
-								
-								if (propertyValue == null) {
-									propertyValue = properties[propertyName.ToUpper()];
-								}
-								
-								if (propertyValue == null) {
-									IStringTagProvider stringTagProvider = stringTagProviders[propertyName.ToUpper()] as IStringTagProvider;
-									if (stringTagProvider != null) {
-										propertyValue = stringTagProvider.Convert(propertyName.ToUpper());
-									}
-								}
-								
-								if (propertyValue == null) {
-									int k = propertyName.IndexOf(':');
-									if (k > 0) {
-										switch (propertyName.Substring(0, k).ToUpper()) {
-											case "RES":
-												IResourceService resourceService = (IResourceService)ServiceManager.Services.GetService(typeof(IResourceService));
-												if (resourceService != null) {
-														propertyValue = Parse(resourceService.GetString(propertyName.Substring(k + 1)), customTags);
-												}
-												break;
-											case "PROPERTY":
-												PropertyService propertyService = (PropertyService)ServiceManager.Services.GetService(typeof(PropertyService));
-												propertyValue = propertyService.GetProperty(propertyName.Substring(k + 1)).ToString();
-												break;
-										}
-									}
-								}
-								break;
-						}
-						if (propertyValue != null) {
-							output = output.Replace(token, propertyValue);
-						}
-					}
+			StringBuilder sb = new StringBuilder (input.Length);
+			for (int i = 0; i < input.Length; i++) {
+				if (input [i] != '$') {
+					sb.Append (input [i]);
+					continue;
 				}
+				
+				int start = i;
+				
+				if (++i >= input.Length)
+					break;
+				
+				if (input [i] != '{') {
+					sb.Append (input [i]);
+					continue;
+				}
+				
+				int end;
+				for (end = ++i; end < input.Length; end++) {
+					if (input [end] == '}')
+						break;
+				}
+				
+				string replacement;
+				if (end == input.Length || (replacement = Replace (customTags, input.Substring (i, end - i))) == null) {
+					sb.Append (input.Substring (start, end - start));
+					break;
+				}
+				
+				sb.Append (replacement);
+				i = end;
 			}
-			output = output.Replace (@"\&", "||!|");
-			output = output.Replace ("&", "_");
-			output = output.Replace ("||!|", "&");
-			return output;
+			
+			sb.Replace (@"\&", "||!|");
+			sb.Replace ("&", "_");
+			sb.Replace ("||!|", "&");
+			
+			return sb.ToString ();
 		}
 	}
 	
