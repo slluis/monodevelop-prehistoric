@@ -99,6 +99,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Components
 						foreach (Gtk.MenuItem menuItem in items) {
 							Append (menuItem);
 						}
+						
 					}
 				}
 				ShowAll ();
@@ -107,7 +108,9 @@ namespace ICSharpCode.SharpDevelop.Gui.Components
 
 		public void Append (Gtk.Widget item)
 		{
-			subMenu.Append (item);
+			if (item.Parent == null) {
+				subMenu.Append (item);
+			}
 		}
 	}
 }

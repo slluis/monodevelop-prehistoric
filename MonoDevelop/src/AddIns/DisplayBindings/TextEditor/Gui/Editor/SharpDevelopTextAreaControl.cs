@@ -60,9 +60,13 @@ namespace ICSharpCode.SharpDevelop.DefaultEditor.Gui.Editor
 			statusBarService.SetCaretPosition(ActiveTextAreaControl.TextArea.TextView.GetVisualColumn(ActiveTextAreaControl.Caret.Line, ActiveTextAreaControl.Caret.Column), ActiveTextAreaControl.Caret.Line, ActiveTextAreaControl.Caret.Column);
 		}
 		
+		bool lastStatus;
 		void SelectionChanged(object sender, EventArgs e)
 		{
-			((DefaultWorkbench)WorkbenchSingleton.Workbench).UpdateMenu(null, null);
+			if (ActiveTextAreaControl.SelectionManager.HasSomethingSelected != lastStatus) {
+				lastStatus = ActiveTextAreaControl.SelectionManager.HasSomethingSelected;
+				((DefaultWorkbench)WorkbenchSingleton.Workbench).UpdateMenu(null, null);
+			}
 		}
 		
 		void GenerateEditActions()
