@@ -7,7 +7,6 @@
 
       <p>Learn to use MonoDevelop by reading our tutorials.</p>
       <ul>
-        <li><a href="/tutorials/install.aspx">Installing MonoDevelop</a></li>
 	<li><a href="/tutorials/helloworld.aspx">Write a Gtk# Hello
       World</a></li>
         <li><a href="/tutorials/plugin.aspx">Writing a Monodevelop plugin</a></li>
