@@ -14,7 +14,6 @@ Services/PropertyService.cs \
 Services/ServiceManager.cs \
 Services/IService.cs \
 Services/IStringTagProvider.cs \
-AssemblyInfo.cs \
 AddIns/Conditions/DuplicateConditionException.cs \
 AddIns/Conditions/ConditionCollection.cs \
 AddIns/Conditions/ICondition.cs \
@@ -55,7 +54,7 @@ AddIns/AddInInitializeException.cs \
 AddIns/AddInCollection.cs \
 AddIns/AddInSignatureException.cs
 
-build_sources = $(addprefix $(srcdir)/, $(FILES)) Services/GettextCatalog.cs
+build_sources = $(addprefix $(srcdir)/, $(FILES)) Services/GettextCatalog.cs AssemblyInfo.cs
 
 DLL = $(top_builddir)/build/bin/MonoDevelop.Core.dll
 
