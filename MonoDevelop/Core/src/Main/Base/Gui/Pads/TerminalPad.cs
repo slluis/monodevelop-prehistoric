@@ -16,7 +16,6 @@ namespace MonoDevelop.Gui.Pads
 		Frame frame = new Frame ();
 		Terminal term;
 
-		TaskService taskService = (TaskService) MonoDevelop.Core.Services.ServiceManager.Services.GetService (typeof (TaskService));
 		IProjectService projectService = (IProjectService) ServiceManager.Services.GetService (typeof (IProjectService));
 		PropertyService propertyService = (PropertyService) ServiceManager.Services.GetService (typeof (PropertyService));
 		
@@ -98,10 +97,10 @@ namespace MonoDevelop.Gui.Pads
 			sw.Add (hbox);
 			frame.Add (sw);
 			
-			taskService.CompilerOutputChanged += new EventHandler (SetOutput);
-			projectService.StartBuild += new EventHandler (SelectMessageView);
-			projectService.CombineClosed += new CombineEventHandler (OnCombineClosed);
-			projectService.CombineOpened += new CombineEventHandler (OnCombineOpen);
+			Runtime.TaskService.CompilerOutputChanged += (EventHandler) Runtime.DispatchService.GuiDispatch (new EventHandler (SetOutput));
+			projectService.StartBuild += (EventHandler) Runtime.DispatchService.GuiDispatch (new EventHandler (SelectMessageView));
+			projectService.CombineClosed += (CombineEventHandler) Runtime.DispatchService.GuiDispatch (new CombineEventHandler (OnCombineClosed));
+			projectService.CombineOpened += (CombineEventHandler) Runtime.DispatchService.GuiDispatch (new CombineEventHandler (OnCombineOpen));
 		}
 
 		void OnChildExited (object o, EventArgs args)
@@ -140,7 +139,7 @@ namespace MonoDevelop.Gui.Pads
 
 		void SetOutput2 ()
 		{
-			term.Feed (taskService.CompilerOutput.Replace ("\n", "\r\n"));
+			term.Feed (Runtime.TaskService.CompilerOutput.Replace ("\n", "\r\n"));
 		}
 		
 		void SetOutput (object sender, EventArgs e)
@@ -149,7 +148,7 @@ namespace MonoDevelop.Gui.Pads
 				SetOutput2 ();
 			}
 			else {
-				term.Feed (taskService.CompilerOutput.Replace ("\n", "\r\n"));
+				term.Feed (Runtime.TaskService.CompilerOutput.Replace ("\n", "\r\n"));
 			}
 		}
 		

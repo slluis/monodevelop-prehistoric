@@ -14,10 +14,10 @@ namespace MonoDevelop.Services
 		Thread thrBackground;
 		uint iIdle = 0;
 		GLib.IdleHandler handler;
-		static int guiThreadId;
-		static GuiSyncContext guiContext;
+		int guiThreadId;
+		GuiSyncContext guiContext;
 		const string errormsg = "An exception was thrown while dispatching a method call in the UI thread.";
-		internal static bool DispatchDebug;
+		internal bool DispatchDebug;
 
 		public override void InitializeService ()
 		{
@@ -87,18 +87,18 @@ namespace MonoDevelop.Services
 			}
 		}
 		
-		public static bool IsGuiThread
+		public bool IsGuiThread
 		{
 			get { return guiThreadId == AppDomain.GetCurrentThreadId(); }
 		}
 		
-		public static void AssertGuiThread ()
+		public void AssertGuiThread ()
 		{
 			if (guiThreadId != AppDomain.GetCurrentThreadId())
 				throw new InvalidOperationException ("This method can only be called in the GUI thread");
 		}
 		
-		public static Delegate GuiDispatch (Delegate del)
+		public Delegate GuiDispatch (Delegate del)
 		{
 			return guiContext.CreateSynchronizedDelegate (del);
 		}
@@ -190,7 +190,7 @@ namespace MonoDevelop.Services
 		{
 			callback = cb;
 			this.isSynchronous = isSynchronous;
-			if (DispatchService.DispatchDebug) callerStack = Environment.StackTrace;
+			if (Runtime.DispatchService.DispatchDebug) callerStack = Environment.StackTrace;
 		}
 
 		public virtual void Run ()
@@ -229,7 +229,7 @@ namespace MonoDevelop.Services
 			data = state;
 			callback = cb;
 			this.isSynchronous = isSynchronous;
-			if (DispatchService.DispatchDebug) callerStack = Environment.StackTrace;
+			if (Runtime.DispatchService.DispatchDebug) callerStack = Environment.StackTrace;
 		}
 		
 		public override void Run ()

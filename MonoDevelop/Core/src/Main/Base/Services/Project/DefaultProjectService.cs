@@ -587,16 +587,10 @@ namespace MonoDevelop.Services
 		{
 			GenerateMakefiles ();
 			if (CombineOpened != null) {
-				Runtime.DispatchService.GuiDispatch (new StatefulMessageHandler (dispatchOpened), e);
-				//CombineOpened(this, e);
+				CombineOpened(this, e);
 			}
 		}
 
-		void dispatchOpened (object args)
-		{
-			CombineOpened (this, (CombineEventArgs)args);
-		}
-		
 		protected virtual void OnCombineClosed(CombineEventArgs e)
 		{
 			if (CombineClosed != null) {

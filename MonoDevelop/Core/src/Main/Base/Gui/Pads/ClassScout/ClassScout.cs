@@ -97,12 +97,12 @@ namespace MonoDevelop.Gui.Pads
 		
 		public ClassScout() : base (false, TreeNodeComparer.GtkDefault)
 		{
-			changeClassInformationHandler = new ClassInformationEventHandler(OnClassInformationChanged);
+			changeClassInformationHandler = (ClassInformationEventHandler) Runtime.DispatchService.GuiDispatch (new ClassInformationEventHandler (OnClassInformationChanged));
 			
 			LabelEdit     = false;
 
-			Runtime.ProjectService.CombineOpened += new CombineEventHandler(OnCombineOpen);
-			Runtime.ProjectService.CombineClosed += new CombineEventHandler(OnCombineClosed);
+			Runtime.ProjectService.CombineOpened += (CombineEventHandler) Runtime.DispatchService.GuiDispatch (new CombineEventHandler(OnCombineOpen));
+			Runtime.ProjectService.CombineClosed += (CombineEventHandler) Runtime.DispatchService.GuiDispatch (new CombineEventHandler(OnCombineClosed));
 
 			Gtk.ScrolledWindow sw = new Gtk.ScrolledWindow ();
 			sw.Add(this);
@@ -140,15 +140,9 @@ namespace MonoDevelop.Gui.Pads
 			Nodes.Clear();
 		}
 		
-		void OnClassInformationChanged(object sender, ClassInformationEventArgs e)
+		void OnClassInformationChanged (object sender, ClassInformationEventArgs e)
 		{
-			Runtime.DispatchService.GuiDispatch (new StatefulMessageHandler (ChangeClassInfo), e);
-		}
-		
-		void ChangeClassInfo (object e)
-		{
-			ClassInformationEventArgs ce = (ClassInformationEventArgs) e;
-			ChangeClassInformation (Nodes, ce);
+			ChangeClassInformation (Nodes, e);
 		}
 
 		private void OnNodeActivated(object sender, Gtk.RowActivatedArgs args)

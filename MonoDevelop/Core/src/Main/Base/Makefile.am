@@ -213,6 +213,7 @@ Services/DispatchService/AsyncDispatchAttribute.cs \
 Services/DispatchService/DispatchService.cs \
 Services/DispatchService/FreeDispatchAttribute.cs \
 Services/DispatchService/GuiSyncContext.cs \
+Services/DispatchService/GuiSyncAbstractService.cs \
 Services/DispatchService/GuiSyncObject.cs \
 Services/DispatchService/SyncContext.cs \
 Services/DispatchService/SyncContextAttribute.cs \

@@ -18,11 +18,10 @@ namespace MonoDevelop.Services
 			if (dispatcher == null)
 				dispatcher = Runtime.DispatchService;
 				
-			if (DispatchService.IsGuiThread)
+			if (dispatcher.IsGuiThread)
 				cb (ob);
-			else {
+			else
 				dispatcher.GuiSyncDispatch (cb, ob);
-			}
 		}
 		
 		public override void AsyncDispatch (StatefulMessageHandler cb, object ob)

@@ -76,9 +76,9 @@ namespace MonoDevelop.Gui.Pads.ProjectBrowser
 		{
 			WorkbenchSingleton.Workbench.ActiveWorkbenchWindowChanged += new EventHandler(ActiveWindowChanged);
 
-			Runtime.ProjectService.CombineOpened += new CombineEventHandler(OpenCombine);
-			Runtime.ProjectService.CombineClosed += new CombineEventHandler(CloseCombine);
-			Runtime.Properties.PropertyChanged += new PropertyEventHandler (TrackPropertyChange);
+			Runtime.ProjectService.CombineOpened += (CombineEventHandler) Runtime.DispatchService.GuiDispatch (new CombineEventHandler (OpenCombine));
+			Runtime.ProjectService.CombineClosed += (CombineEventHandler) Runtime.DispatchService.GuiDispatch (new CombineEventHandler (CloseCombine));
+			Runtime.Properties.PropertyChanged += (PropertyEventHandler) Runtime.DispatchService.GuiDispatch (new PropertyEventHandler (TrackPropertyChange));
 
 			Gtk.ScrolledWindow sw = new Gtk.ScrolledWindow ();
 			sw.Add(this);

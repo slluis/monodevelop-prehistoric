@@ -75,11 +75,11 @@ namespace MonoDevelop.Gui.Pads
 			sw.ShadowType = ShadowType.In;
 			sw.Add (view);
 			
-			Runtime.TaskService.TasksChanged     += new EventHandler (ShowResults);
-			Runtime.TaskService.TaskAdded        += new TaskEventHandler (TaskAdded);
-			Runtime.ProjectService.EndBuild      += new EventHandler (SelectTaskView);
-			Runtime.ProjectService.CombineOpened += new CombineEventHandler (OnCombineOpen);
-			Runtime.ProjectService.CombineClosed += new CombineEventHandler (OnCombineClosed);
+			Runtime.TaskService.TasksChanged     += (EventHandler) Runtime.DispatchService.GuiDispatch (new EventHandler (ShowResults));
+			Runtime.TaskService.TaskAdded        += (TaskEventHandler) Runtime.DispatchService.GuiDispatch (new TaskEventHandler (TaskAdded));
+			Runtime.ProjectService.EndBuild      += (EventHandler) Runtime.DispatchService.GuiDispatch (new EventHandler (SelectTaskView));
+			Runtime.ProjectService.CombineOpened += (CombineEventHandler) Runtime.DispatchService.GuiDispatch (new CombineEventHandler (OnCombineOpen));
+			Runtime.ProjectService.CombineClosed += (CombineEventHandler) Runtime.DispatchService.GuiDispatch (new CombineEventHandler (OnCombineClosed));
 			view.RowActivated            += new RowActivatedHandler (OnRowActivated);
 		}
 

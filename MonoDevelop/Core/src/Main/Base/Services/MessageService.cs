@@ -18,7 +18,7 @@ namespace MonoDevelop.Core.Services
 	/// <summary>
 	/// This interface must be implemented by all services.
 	/// </summary>
-	public class MessageService : AbstractService, IMessageService
+	public class MessageService : GuiSyncAbstractService, IMessageService
 	{
 		StringParserService stringParserService = Runtime.StringParserService;
 		
@@ -49,29 +49,22 @@ namespace MonoDevelop.Core.Services
 			}
 		}
 
-		public void ShowError(Exception ex, string message)
+		public void ShowError (Exception ex, string message)
 		{
-			DispatchService dispatcher = (DispatchService)ServiceManager.GetService (typeof (DispatchService));
-			dispatcher.GuiDispatch (new StatefulMessageHandler (realShowError), new ErrorContainer (ex, message));
-		}
-
-		private void realShowError (object state)
-		{
-			ErrorContainer container = (ErrorContainer)state;
 			string msg = String.Empty;
 			
-			if (container.message != null) {
-				msg += container.message;
+			if (message != null) {
+				msg += message;
 			}
 			
-			if (container.message != null && container.ex != null) {
+			if (message != null && ex != null) {
 				msg += "\n\n";
 			}
 			
-			if (container.ex != null) {
-				msg += "Exception occurred: " + container.ex.ToString();
+			if (ex != null) {
+				msg += "Exception occurred: " + ex.ToString();
 			}
-			Gtk.MessageDialog md = new Gtk.MessageDialog ((Gtk.Window) WorkbenchSingleton.Workbench, Gtk.DialogFlags.Modal | Gtk.DialogFlags.DestroyWithParent, Gtk.MessageType.Error, Gtk.ButtonsType.Ok, container.message);
+			Gtk.MessageDialog md = new Gtk.MessageDialog ((Gtk.Window) WorkbenchSingleton.Workbench, Gtk.DialogFlags.Modal | Gtk.DialogFlags.DestroyWithParent, Gtk.MessageType.Error, Gtk.ButtonsType.Ok, message);
 			md.Response += new Gtk.ResponseHandler (OnErrorResponse);
 			md.ShowAll ();
 		}
@@ -83,13 +76,6 @@ namespace MonoDevelop.Core.Services
 		
 		public void ShowWarning(string message)
 		{
-			DispatchService dispatcher = (DispatchService)ServiceManager.GetService (typeof (DispatchService));
-			dispatcher.GuiDispatch (new StatefulMessageHandler (realShowWarning), message);
-		}
-
-		private void realShowWarning (object state)
-		{
-			string message = state as string;
 			Gtk.MessageDialog md = new Gtk.MessageDialog ((Gtk.Window) WorkbenchSingleton.Workbench, Gtk.DialogFlags.Modal | Gtk.DialogFlags.DestroyWithParent, Gtk.MessageType.Warning, Gtk.ButtonsType.Ok, message);
 			md.Response += new Gtk.ResponseHandler (OnWarningResponse);
 			md.ShowAll ();
@@ -156,13 +142,6 @@ namespace MonoDevelop.Core.Services
 		
 		public void ShowMessage(string message, string caption)
 		{
-			DispatchService dispatcher = (DispatchService)ServiceManager.GetService (typeof (DispatchService));
-			dispatcher.GuiDispatch (new StatefulMessageHandler (realShowMessage), message);
-		}
-
-		void realShowMessage (object state)
-		{
-			string message = state as string;
 			Gtk.MessageDialog md = new Gtk.MessageDialog ((Gtk.Window) WorkbenchSingleton.Workbench, Gtk.DialogFlags.Modal | Gtk.DialogFlags.DestroyWithParent, Gtk.MessageType.Info, Gtk.ButtonsType.Ok, message);
 			md.Response += new Gtk.ResponseHandler(OnMessageResponse);
 			md.ShowAll ();

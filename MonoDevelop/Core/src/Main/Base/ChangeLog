@@ -1,3 +1,21 @@
+2004-12-07  Lluis Sanchez Gual  <lluis@novell.com>
+
+	* Services/DispatchService/DispatchService.cs: Made some method non-static.
+	* Services/DispatchService/GuiSyncContext.cs: Minor fix.
+	* Services/Tasks/TaskService.cs: Added ShowTasks method, which brings
+	to the front the task view.
+	* Services/Project/DefaultProjectService.cs: It is the resposibility
+	of the subscriber to handle the event in the right thread.
+	* Services/MessageService.cs: Handle gui-thread transitions automatically
+	by deriving from GuiSyncAbstractService.
+	* Gui/Workbench/DefaultWorkbench.cs,
+	* Gui/Pads/OpenTaskView.cs,
+	* Gui/Pads/TerminalPad.cs,
+	* Gui/Pads/ProjectBrowser/ProjectBrowserView.cs,
+	* Gui/Pads/ClassScout/ClassScout.cs: Subscribe to service events using
+	gui-thread aware delegates.
+	* Makefile.am: New file.
+
 2004-12-06  Lluis Sanchez Gual  <lluis@novell.com>
 
 	* Services/DispatchService/DispatchService.cs: Added support for

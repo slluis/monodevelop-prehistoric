@@ -236,8 +236,8 @@ namespace MonoDevelop.Gui
 			// FIXME: GTKize
 			ActiveWorkbenchWindowChanged += new EventHandler(UpdateMenu);
 			
-			Runtime.ProjectService.CurrentProjectChanged += new ProjectEventHandler(SetProjectTitle);
-			Runtime.ProjectService.CombineOpened         += new CombineEventHandler(CombineOpened);
+			Runtime.ProjectService.CurrentProjectChanged += (ProjectEventHandler) Runtime.DispatchService.GuiDispatch (new ProjectEventHandler(SetProjectTitle));
+			Runtime.ProjectService.CombineOpened         += (CombineEventHandler) Runtime.DispatchService.GuiDispatch (new CombineEventHandler(CombineOpened));
 
 			Runtime.FileService.FileRemoved += new FileEventHandler(CheckRemovedFile);
 			Runtime.FileService.FileRenamed += new FileEventHandler(CheckRenamedFile);

@@ -10,6 +10,7 @@ using System.Collections;
 
 using MonoDevelop.Core.Services;
 using MonoDevelop.Gui;
+using MonoDevelop.Gui.Pads;
 using MonoDevelop.Internal.Project;
 
 namespace MonoDevelop.Services
@@ -19,6 +20,7 @@ namespace MonoDevelop.Services
 		ArrayList tasks  = new ArrayList();
 		string    compilerOutput = String.Empty;
 		
+		[FreeDispatch]
 		public ICollection Tasks {
 			get {
 				return tasks;
@@ -87,6 +89,17 @@ namespace MonoDevelop.Services
 			tasks.Clear ();
 			warnings = errors = comments = 0;
 			OnTasksChanged (null);
+		}
+		
+		public void ShowTasks ()
+		{
+			Runtime.DispatchService.GuiDispatch (new MessageHandler (ShowTasksCallback));
+		}
+		
+		void ShowTasksCallback ()
+		{
+			OpenTaskView taskView = Runtime.Gui.Workbench.GetPad(typeof(OpenTaskView)) as OpenTaskView;
+			if (taskView != null) taskView.BringToFront();
 		}
 		
 		protected virtual void OnCompilerOutputChanged(EventArgs e)
