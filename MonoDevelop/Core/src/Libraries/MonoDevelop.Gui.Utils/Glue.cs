@@ -18,6 +18,20 @@ namespace MonoDevelop.Gui.Utils
 		{
 			lmd_propagate_eventkey (Handle, ref key);
 		}
+
+		[DllImport ("gtk-x11-2.0")]
+		static extern IntPtr gtk_check_version (uint maj, uint min, uint mic);
+
+		// check for gtk 2.4 or newer
+		public bool IsGtk24 {
+			get {
+				string res = Marshal.PtrToStringAnsi (gtk_check_version (2, 4, 0));
+				if (res == null || res == String.Empty)
+					return true;
+				else
+					return false;
+			}
+		}
 	
 	}
 

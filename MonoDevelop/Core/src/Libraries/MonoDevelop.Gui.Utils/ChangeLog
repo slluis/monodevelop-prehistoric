@@ -1,3 +1,8 @@
+2004-06-30  John Luke  <jluke@cfl.rr.com>
+
+	* Glue.cs: add IsGtk24 property for potential FileChooser hack
+	* MonoDevelop.Gui.Utils.dll.config: add gtk config mapping
+
 2004-05-28  Todd Berman  <tberman@sevenl.net>
 
 	* MonoDevelop.Gui.Utils.prjx: update to new ICSharpCode.SharpZipLib
