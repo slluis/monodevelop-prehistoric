@@ -29,9 +29,8 @@ namespace ICSharpCode.TextEditor.Gui.CompletionWindow
 			}
 			
 			set {
-				Console.WriteLine (value);
 				label.Markup = value;
-				QueueDraw ();
+				//QueueDraw ();
 			}
 		}
 		

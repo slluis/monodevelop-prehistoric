@@ -312,10 +312,14 @@ namespace ICSharpCode.TextEditor.Gui.CompletionWindow
 				//FIXME: This is a bad calc, its always on the right, it needs to test if thats too big, and if so, place on the left;
 				int horiz = listpos_x + listView.GdkWindow.Size.Width + 30;
 				ICompletionDataWithMarkup wMarkup = data as ICompletionDataWithMarkup;
-				if (wMarkup != null)
+				declarationviewwindow.Destroy ();
+				if (wMarkup != null) {
+					declarationviewwindow = new DeclarationViewWindow ();
 					declarationviewwindow.DescriptionMarkup = wMarkup.DescriptionPango;
-				else
+				} else {
+					declarationviewwindow = new DeclarationViewWindow ();
 					declarationviewwindow.DescriptionMarkup = data.Description;
+				}
 				
 				declarationviewwindow.ShowAll ();
 				declarationviewwindow.Move (horiz, vert);
