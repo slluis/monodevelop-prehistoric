@@ -133,8 +133,11 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 			Gtk.TreeIter looping_iter;
 			refTreeStore.GetIterFirst (out looping_iter);
 			do {
-				if (referenceLocation == (string)refTreeStore.GetValue (looping_iter, 2) && referenceName == (string)refTreeStore.GetValue (looping_iter, 0)) {
-					return;
+				try {
+					if (referenceLocation == (string)refTreeStore.GetValue (looping_iter, 2) && referenceName == (string)refTreeStore.GetValue (looping_iter, 0)) {
+						return;
+					}
+				} catch {
 				}
 			} while (refTreeStore.IterNext (out looping_iter));
 			
