@@ -9,7 +9,6 @@ using Microsoft.CSharp;
 using ICSharpCode.SharpRefactory.PrettyPrinter;
 using ICSharpCode.SharpRefactory.Parser;
 
-
 class MainClass
 {
 /*
@@ -81,21 +80,23 @@ class MainClass
 //		PrettyPrintDirectories();
 		Parser p = new Parser();
 		string fileName = args[0];
-		Console.Write("Converting : " + fileName);
-		p.Parse(new Lexer(new FileReader(fileName)));
+		Console.WriteLine ("Converting : " + fileName);
+		p.Parse (new Lexer (new FileReader (fileName)));
 		if (p.Errors.count == 0) {
 			StreamReader sr = File.OpenText(fileName);
 			string content = sr.ReadToEnd();
 			sr.Close();
 			PrettyPrintVisitor ppv = new PrettyPrintVisitor(content);
+			Console.WriteLine (typeof (PrettyPrintVisitor));
 			ppv.Visit(p.compilationUnit, null);
 			
 			Console.WriteLine(ppv.Text);
 			
 			Console.WriteLine(" done.");
 		} else {
-			Console.Write(" Source code errors:");
-			Console.WriteLine(p.Errors.ErrorOutput);
+			Console.WriteLine (" Source code errors:");
+			foreach (ErrorInfo error in p.Errors.ErrorInformation)
+				Console.WriteLine (error.ToString ());
 		}
 	}
 }
