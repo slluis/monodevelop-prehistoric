@@ -1,3 +1,8 @@
+2004-06-21  Todd Berman  <tberman@off.net>
+
+	* Commands/AutostartCommands.cs: workaround icewm issue, dont show
+	tip of the day dialog automatically under any circumstance.
+
 2004-06-21  John Luke <jluke@cfl.rr.com>
 
 	* Gui/Pads/OpenTaskView.cs: implement a popup menu for copying

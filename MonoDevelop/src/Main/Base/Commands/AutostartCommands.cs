@@ -197,10 +197,10 @@ namespace MonoDevelop.Commands
 			((Gtk.Window)WorkbenchSingleton.Workbench).Present ();
 		
 			// Give Gtk time to display the workbench window before showing the TOTD.
-			while (Gtk.Application.EventsPending ())
-				Gtk.Application.RunIteration ();
+			//while (Gtk.Application.EventsPending ())
+			//	Gtk.Application.RunIteration ();
 		
-			ShowTipOfTheDay (null, null);
+			//ShowTipOfTheDay (null, null);
 		
 			// finally run the workbench window ...
 			Gtk.Application.Run ();
