@@ -7,7 +7,7 @@ using Gtk;
 using MonoDevelop.Gui;
 using MonoDevelop.Services;
 using Stock = MonoDevelop.Gui.Stock;
-using MonoDevelop.DebuggerVisualizers;
+//using MonoDevelop.DebuggerVisualizers;
 
 using Mono.Debugger;
 using Mono.Debugger.Languages;
