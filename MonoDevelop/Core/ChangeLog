@@ -1,3 +1,12 @@
+2004-10-15  Fawad Halim <fawad@fawad.net>
+
+	* build/AddIns/AddIns/BackendBindings/templates/Makefile.am: Add missing NemerleGtkSharpWindow.xft.xml reference.
+	* src/AddIns/DisplayBindings/SourceEditor/Gui/SourceEditorDisplayBinding.cs:
+	* src/AddIns/BackendBindings/CSharpBinding/CSharpBindingCompilerManager.cs:
+	* build/AddIns/AddIns/BackendBindings/BackendBindings.addin.xml:
+	* build/AddIns/AddIns/BackendBindings/templates/AppConfigFile.xft.xml: Added support for app.config at compile time for C#, and added template for same under File->New->Misc.
+	
+
 2004-10-04  Todd Berman  <tberman@off.net>
 
 	* configure.in: Add a --with-gtk-sharp-2-0 to allow gtk-sharp-2-0

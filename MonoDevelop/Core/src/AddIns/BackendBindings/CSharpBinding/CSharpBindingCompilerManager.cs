@@ -207,8 +207,12 @@ namespace CSharpBinding
 								break;
 						}
 					}
+					
+					// Treat app.config in the project root directory as the application config
+					if(Path.GetFileName(finfo.Name).ToUpper()=="app.config".ToUpper() &&
+						Path.GetDirectoryName(finfo.Name)==p.BaseDirectory)
+						File.Copy(finfo.Name,exe+".config",true);
 				}
-				
 				if (compilerparameters.GenerateXmlDocumentation) {
 					writer.WriteLine("\"/doc:" + Path.ChangeExtension(exe, ".xml") + '"');
 				}

@@ -27,6 +27,8 @@
 		              location = "templates/GtkSharpWindow.xft.xml"/>
 		<FileTemplate id = "EmptyHTMLFile"
 		              location = "templates/EmptyHTMLFile.xft.xml"/>
+		<FileTemplate id = "AppConfigFile"
+		              location = "templates/AppConfigFile.xft.xml"/>
 		<FileTemplate id = "EmptyResourceFile"
 		              location = "templates/EmptyResourceFile.xft.xml"/>
 		<FileTemplate id = "EmptyTextFile"

@@ -40,6 +40,8 @@ namespace MonoDevelop.SourceEditor.Gui
 				return true;
 			if (mimetype == "application/x-python")
 				return true;
+			if (mimetype == "application/x-config")
+				return true;
 			return false;
 		}
 		
