@@ -101,6 +101,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads.ProjectBrowser
 
 			projectService.CombineOpened += new CombineEventHandler(OpenCombine);
 			projectService.CombineClosed += new CombineEventHandler(CloseCombine);
+			propertyService.PropertyChanged += new PropertyEventHandler (TrackPropertyChange);
 
 			//PlainFont = new Font(Font, FontStyle.Regular);
 			//boldFont  = new Font(Font, FontStyle.Bold);
@@ -114,6 +115,13 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads.ProjectBrowser
 			contentPanel.Add(sw);
 			RowActivated += new GtkSharp.RowActivatedHandler(OnNodeActivated);
 			contentPanel.ButtonReleaseEvent += new GtkSharp.ButtonReleaseEventHandler(OnButtonRelease);
+		}
+		
+		void TrackPropertyChange (object o, ICSharpCode.Core.Properties.PropertyEventArgs e)
+		{
+			if (e.OldValue != e.NewValue && e.Key == "ICSharpCode.SharpDevelop.Gui.ProjectBrowser.ShowExtensions") {
+				RedrawContent ();
+			}
 		}
 		
 		public void RefreshTree(Combine combine)
