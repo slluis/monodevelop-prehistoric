@@ -106,7 +106,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Components
 			UpdateStatus();
 		}
 
-		public void SetAccel (string[] keys)
+		public void SetAccel (string[] keys, string pathmod)
 		{
 			Gdk.ModifierType mod = 0;
 			string accel_path = "<MonoDevelop>/MainWindow/" + this.Text + keys[keys.Length - 1];

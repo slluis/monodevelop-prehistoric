@@ -147,15 +147,11 @@ namespace ICSharpCode.Core.AddIns.Codons
 			
 			if (Shortcut != null && newItem is SdMenuCommand) {
 				try {
-					((SdMenuCommand)newItem).SetAccel (shortcut);
-					//foreach (string key in this.shortcut) {
-					//	((SdMenuCommand)newItem).Shortcut |= (System.Windows.Forms.Keys)Enum.Parse(typeof(System.Windows.Forms.Keys), key);
-					//}
+					((SdMenuCommand)newItem).SetAccel (shortcut, owner.ToString ());
 				} catch (Exception) {
-					//((SdMenuCommand)newItem).Shortcut = System.Windows.Forms.Keys.None;
 				}
 			}
-			//newItem.IsEnabled = true; //action != ConditionFailedAction.Disable;
+			newItem.Sensitive = true; //action != ConditionFailedAction.Disable;
 			return newItem;
 		}
 	}

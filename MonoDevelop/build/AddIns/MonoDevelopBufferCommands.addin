@@ -381,8 +381,7 @@
 			          insertafter = "Separator2"
 			          label = "${res:XML.MainMenu.ToolMenu.GenerateCode}" 
 			          description = "${res:XML.MainMenu.ToolMenu.GenerateCode.Description}" 
-			          shortcut = "Control|W"
-			          class = "ICSharpCode.SharpDevelop.DefaultEditor.Commands.GenerateCodeAction"/>  
+			          class = "ICSharpCode.SharpDevelop.DefaultEditor.Commands.GenerateCodeAction"/>
 			<MenuItem id = "ShowQuickHelp"
 			          label = "${res:XML.MainMenu.ToolMenu.QuickXmlDoc}" 
 			          description = "${res:XML.MainMenu.ToolMenu.QuickXmlDoc.Description}" 
