@@ -61,8 +61,13 @@ namespace ICSharpCode.SharpDevelop.Services
 						continue;
 					} else {
 						item = new SdToolbarCommand(childCodon.Conditions, owner, childCodon.ToolTip);
-						Gdk.Pixbuf pb = resourceService.GetBitmap(childCodon.Icon);
-						item.Pixbuf = pb;
+						Gtk.Image img = resourceService.GetImage(childCodon.Icon, Gtk.IconSize.Menu);
+						if (img.StorageType == Gtk.ImageType.Stock) {
+							item.Stock = img.Stock;
+							item.IconSize = (int)Gtk.IconSize.Menu;
+						} else {
+							item.Pixbuf = img.Pixbuf;
+						}
 						item.ShowAll();
 					}
 				} else {
