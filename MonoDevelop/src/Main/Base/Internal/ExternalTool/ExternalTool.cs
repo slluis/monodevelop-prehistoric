@@ -117,7 +117,7 @@ namespace MonoDevelop.Internal.ExternalTool
 		public XmlElement ToXmlElement(XmlDocument doc)
 		{
 			if (doc == null) {
-				throw new ArgumentNullException("ExternalTool.ToXmlElement(XmlDocument doc) : doc can't be null");
+				throw new ArgumentNullException("ExternalTool.ToXmlElement(XmlDocument doc) : doc can not be null");
 			}
 			
 			XmlElement el = doc.CreateElement("TOOL");
@@ -140,6 +140,10 @@ namespace MonoDevelop.Internal.ExternalTool
 			
 			x = doc.CreateElement("PROMPTFORARGUMENTS");
 			x.InnerText = PromptForArguments.ToString();
+			el.AppendChild(x);
+
+			x = doc.CreateElement("USEOUTPUTPAD");
+			x.InnerText = UseOutputPad.ToString();
 			el.AppendChild(x);
 			
 			return el;

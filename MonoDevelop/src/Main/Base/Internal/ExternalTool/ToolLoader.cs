@@ -79,7 +79,7 @@ namespace MonoDevelop.Internal.ExternalTool
 			FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.Services.GetService(typeof(FileUtilityService));
 		
 			if (!LoadToolsFromStream(propertyService.ConfigDirectory + TOOLFILE)) {
-				Console.WriteLine("Tools: can't load user defaults, reading system defaults");
+				//Console.WriteLine("Tools: can't load user defaults, reading system defaults");
 				if (!LoadToolsFromStream(propertyService.DataDirectory +
 				                         Path.DirectorySeparatorChar + "options" + 
 				                         Path.DirectorySeparatorChar + TOOLFILE)) {
