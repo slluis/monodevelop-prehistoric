@@ -40,7 +40,7 @@ $(ASSEMBLY): $(build_sources) generated-stamp
 	&& cp -p $(ASSEMBLY).config ../../build/bin/.
 
 gdldocklibdir = $(prefix)/lib/monodevelop/bin
-gdldocklib_DATA = $(ASSEMBLY)
+gdldocklib_DATA = $(ASSEMBLY) $(ASSEMBLY).config
 
 clean-local:
 	rm -rf generated
