@@ -9,6 +9,8 @@ using ICSharpCode.Core.Services;
 using ICSharpCode.SharpDevelop.Services;
 using ICSharpCode.Core.AddIns.Codons;
 
+using Gtk;
+
 namespace MonoDevelop.SourceEditor.Gui {
 	public class SourceEditorDisplayBinding : IDisplayBinding
 	{
@@ -145,24 +147,32 @@ namespace MonoDevelop.SourceEditor.Gui {
 		//
 		// TODO: All of this ;-)
 		//
+		
+		bool HasSelection {
+			get {
+				TextIter dummy, dummy2;
+				return se.buffer.GetSelectionBounds (out dummy, out dummy2);
+			}
+		}
+		
 		public bool EnableCut {
-			get { return false; }
+			get { return HasSelection; }
 		}
 		
 		public bool EnableCopy {
-			get { return false; }
+			get { return HasSelection; }
 		}
 		
 		public bool EnablePaste {
-			get { return false; }
+			get { return true; }
 		}
 		
 		public bool EnableDelete {
-			get { return false; }
+			get { return HasSelection; }
 		}
 		
 		public bool EnableSelectAll {
-			get { return false; }
+			get { return true; }
 		}
 		
 		public void Cut (object sender, EventArgs e)
@@ -179,6 +189,7 @@ namespace MonoDevelop.SourceEditor.Gui {
 		
 		public void Delete (object sender, EventArgs e)
 		{
+			se.buffer.DeleteSelection (true, true);
 		}
 		
 		public void SelectAll (object sender, EventArgs e)
