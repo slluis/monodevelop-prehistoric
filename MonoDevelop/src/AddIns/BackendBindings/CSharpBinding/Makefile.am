@@ -38,4 +38,11 @@ $(DLL): $(SOURCES)
 		/r:gtk-sharp.dll \
 		$(SOURCES)
 
+monodeveloplibdir = $(prefix)/lib/monodevelop
+csharpbindinglibdir = $(monodeveloplibdir)/AddIns/AddIns/BackendBindings
+
+install-data-local: $(DLL)
+	$(mkinstalldirs) $(DESTDIR)$(csharpbindinglibdir)
+	$(INSTALL_DATA) $(DLL) $(DESTDIR)$(csharpbindinglibdir)/CSharpBinding.dll
+
 CLEANFILES=$(DLL)

@@ -9,4 +9,10 @@ super-docker: */*.cs
 $(DLL): */*.cs *.cs
 	@ mcs /debug /out:$(DLL) /target:library $(REFERENCES) /recurse:*.cs
 
+monodeveloplibdir = $(prefix)/lib/monodevelop
+  
+install-data-local: $(DLL)
+	$(mkinstalldirs) $(DESTDIR)$(monodeveloplibdir)/bin
+	$(INSTALL_DATA) $(DLL) $(DESTDIR)$(monodeveloplibdir)/bin/MonoDevelop.Gui.Widgets.dll
+
 CLEANFILES=$(DLL)

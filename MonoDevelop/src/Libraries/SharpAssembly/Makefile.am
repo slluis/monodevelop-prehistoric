@@ -74,4 +74,10 @@ all: $(DLL)
 $(DLL): $(SOURCES)
 	@ mcs /debug /out:$(DLL) /target:library $(SOURCES)
 
+monodeveloplibdir = $(prefix)/lib/monodevelop
+  
+install-data-local: $(DLL)
+	$(mkinstalldirs) $(DESTDIR)$(monodeveloplibdir)/bin
+	$(INSTALL_DATA) $(DLL) $(DESTDIR)$(monodeveloplibdir)/bin/ICSharpCode.SharpAssembly.dll
+
 CLEANFILES=$(DLL)

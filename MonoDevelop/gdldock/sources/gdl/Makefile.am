@@ -113,6 +113,14 @@ libgdlmarshal.c: libgdlmarshal.h
 	&& cp xgen-gmc $(@F) \
 	&& rm -f xgen-gmc
 
+gdldocklibdir = $(prefix)/lib/monodevelop
+
+install-data-local: libgdldock.so
+	$(mkinstalldirs) $(DESTDIR)$(gdldocklibdir)/bin
+	$(INSTALL_DATA) libgdldock.so $(DESTDIR)$(gdldocklibdir)/bin/libgdldock.so
+	$(INSTALL_DATA) stock-close-12.png $(DESTDIR)$(gdldocklibdir)/bin/stock-close-12.png
+	$(INSTALL_DATA) stock-menu-left-12.png $(DESTDIR)$(gdldocklibdir)/bin/stock-menu-left-12.png
+	$(INSTALL_DATA) stock-menu-right-12.png $(DESTDIR)$(gdldocklibdir)/bin/stock-menu-right-12.png
 
 clean:
 	rm -f libgdldock.so $(libgdldock_OBJECTS) $(GENERATED_SOURCES)

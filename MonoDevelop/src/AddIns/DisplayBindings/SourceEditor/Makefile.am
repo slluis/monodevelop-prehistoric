@@ -12,4 +12,10 @@ $(DLL) : $(shell find . -name \*.cs)
 		/r:gconf-sharp.dll \
 		/r:System.Drawing.dll
 
+monodeveloplibdir = $(prefix)/lib/monodevelop
+
+install-data-local: $(DLL)
+	$(mkinstalldirs) $(DESTDIR)$(monodeveloplibdir)/bin
+	$(INSTALL_DATA) $(DLL) $(DESTDIR)$(monodeveloplibdir)/bin/MonoDevelop.SourceEditor.dll
+
 CLEANFILES=$(DLL)

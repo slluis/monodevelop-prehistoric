@@ -16,5 +16,11 @@ $(ASSEMBLY): generated-stamp
 	$(MCS) --unsafe --target library \
 	-r glib-sharp.dll -r gtk-sharp.dll -r gdk-sharp.dll \
 	--recurse '*.cs' -o $(ASSEMBLY)
+
+monodeveloplibdir = $(prefix)/lib/monodevelop
+
+install-data-local: $(ASSEMBLY)
+	$(mkinstalldirs) $(DESTDIR)$(monodeveloplibdir)/bin
+	$(INSTALL_DATA) $(ASSEMBLY) $(DESTDIR)$(monodeveloplibdir)/bin/gtkmozembed-sharp.dll
  
 CLEANFILES=$(ASSEMBLY) generated-stamp generated

@@ -66,4 +66,10 @@ $(DLL): $(SOURCES)
 	@ mcs /debug /out:$(DLL) /target:library /r:System.Drawing.dll /define:LINUX /resource:../../../data/resources/AddIn.xsd,AddIn.xsd \
 	$(SOURCES)
 
+monodeveloplibdir = $(prefix)/lib/monodevelop
+
+install-data-local: $(DLL)
+	$(mkinstalldirs) $(DESTDIR)$(monodeveloplibdir)/bin
+	$(INSTALL_DATA) $(DLL) $(DESTDIR)$(monodeveloplibdir)/bin/MonoDevelop.Core.dll
+
 CLEANFILES=$(DLL)

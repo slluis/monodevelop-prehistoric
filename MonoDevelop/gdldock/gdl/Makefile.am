@@ -17,6 +17,12 @@ $(ASSEMBLY): generated-stamp
 	$(MCS) --unsafe --target library \
 	-r glib-sharp.dll -r gtk-sharp.dll -r gdk-sharp.dll \
 	--recurse '*.cs' -o $(ASSEMBLY)
+
+gdldocklibdir = $(prefix)/lib/monodevelop
+
+install-data-local: $(ASSEMBLY)
+	$(mkinstalldirs) $(DESTDIR)$(gdldocklibdir)/bin
+	$(INSTALL_DATA) $(ASSEMBLY) $(DESTDIR)$(gdldocklibdir)/bin/gdl-sharp.dll
  
 clean:
 	rm -f $(ASSEMBLY)

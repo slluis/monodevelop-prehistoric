@@ -119,4 +119,10 @@ test-parser.exe : $(DLL) src/Main.cs
 run : test-parser.exe
 	@ MONO_PATH=`dirname $(DLL)` mono --debug test-parser.exe $(TEST_SOURCE)
 
+monodeveloplibdir = $(prefix)/lib/monodevelop
+                                                             
+install-data-local: $(DLL)
+	$(mkinstalldirs) $(DESTDIR)$(monodeveloplibdir)/bin
+	$(INSTALL_DATA) $(DLL) $(DESTDIR)$(monodeveloplibdir)/bin/ICSharpCode.SharpRefactory.dll
+
 CLEANFILES=$(DLL)
