@@ -8,4 +8,5 @@ $(DLL) : $(shell find . -name \*.cs)
 		/r:../../../../build/bin/MonoDevelop.Base.dll \
 		/r:../../../../build/bin/MonoDevelop.Gui.Utils.dll \
 		/r:../../../../build/bin/MonoDevelop.Gui.Widgets.dll \
-		/r:gnome-sharp.dll /r:pango-sharp.dll /r:glade-sharp.dll
+		/r:gnome-sharp.dll /r:pango-sharp.dll /r:glade-sharp.dll \
+		/resource:../../../../data/resources/glade/EditorBindings.glade,EditorBindings.glade

@@ -57,7 +57,7 @@ namespace MonoDevelop.EditorBindings.Gui.OptionPanels
 			[Glade.Widget] FontPicker fontNameDisplayTextBox;
 			[Glade.Widget] VBox encodingBox;
 			
-			public GeneralTextEditorPanelWidget (IProperties CustomizationObject) :  base ("texteditoraddin.glade", "GeneralTextEditorPanel")
+			public GeneralTextEditorPanelWidget (IProperties CustomizationObject) :  base ("EditorBindings.glade", "GeneralTextEditorPanel")
 			{
 				encodingBox.Destroy(); // this is a really dirty way of hiding encodingBox, but Hide() doesn't work
 				genOptions.Markup = "<b> " + StringParserService.Parse(

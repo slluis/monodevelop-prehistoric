@@ -65,7 +65,7 @@ namespace MonoDevelop.EditorBindings.Gui.OptionPanels
 				}
 			}
 			
-			public CodeTemplatePanelWidget (ArrayList templateGroups) : base ("texteditoraddin.glade", "CodeTemplatePane")
+			public CodeTemplatePanelWidget (ArrayList templateGroups) : base ("EditorBindings.glade", "CodeTemplatePane")
 			{
 				this.templateGroups = templateGroups;
 				
