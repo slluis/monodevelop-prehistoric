@@ -57,7 +57,7 @@ the Mozilla development package for your OS. For example:
       </p>
 
       <br /><br />
-      <b>4. Install Mono 0.31</b><br />
+      <b>4. Install Mono</b><br />
       <p>MonoDevelop will require the following mono packages to be installed, in this order:
       <ul>
 <li><a href="ftp://www-126.ibm.com/pub/icu/2.8/icu-2.8.tgz">International Components for Unicode 2.8</a></li>
