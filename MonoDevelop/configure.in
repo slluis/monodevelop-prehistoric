@@ -94,8 +94,14 @@ AC_SUBST(MOZILLA_HOME)
 gnome_prefix="`$PKG_CONFIG --variable=prefix libgnome-2.0`"
 AC_SUBST(gnome_prefix)
 
+if test "x$XDGMIME" = "xno" ; then
+enable_xdgmime="no"
+else
+enable_xdgmime="yes"
+fi
+
 AM_CONDITIONAL(ENABLE_DEBUGGER, test "x$enable_debugger" = "xyes")
-AM_CONDITIONAL(ENABLE_XDGMIME, test "x$XDGMIME")
+AM_CONDITIONAL(ENABLE_XDGMIME, test "x$enable_xdgmime" = "xyes")
 
 AC_OUTPUT([
 Makefile
