@@ -86,13 +86,16 @@ namespace ICSharpCode.TextEditor.Document
 			}
 		}
 		
-		/*public IDocument CreateDocument()
+		public SourceEditor CreateDocument()
 		{
 			if (document != null) {
 				return document;
 			}
-			return new DocumentFactory().CreateFromFile(fileName);
-		}*/		
+			
+			SourceEditorDisplayBindingWrapper w = new SourceEditorDisplayBindingWrapper ();
+			w.Load (fileName);
+			return (SourceEditor) w.Control;	
+		}		
 		
 		public ProvidedDocumentInformation (SourceEditor document, string fileName)
 		{

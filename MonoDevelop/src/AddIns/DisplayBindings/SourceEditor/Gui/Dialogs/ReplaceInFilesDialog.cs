@@ -63,11 +63,14 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 		void InitDialog ()
 		{
 			label1.Text = stringParserService.Parse ("${res:Dialog.NewProject.SearchReplace.FindWhat}");
-			searchLocationLabel.Text = stringParserService.Parse ("${res:Dialog.NewProject.SearchReplace.SearchIn}");		
+			searchLocationLabel.Text = stringParserService.Parse ("${res:Dialog.NewProject.SearchReplace.SearchIn}");
+			label6.Text = stringParserService.Parse ("${res:NewProject.SearchReplace.FileMask}");
+			label7.Text = stringParserService.Parse ("${res:NewProject.SearchReplace.Directory}");
 			//findButton.Label = stringParserService.Parse ("${res:Dialog.NewProject.SearchReplace.FindNextButton}");			
 			//closeButton.Label = stringParserService.Parse ("${res:Global.CloseButtonText}");
 			findButton.UseUnderline = true;			
-			closeButton.UseUnderline = true;			
+			closeButton.UseUnderline = true;
+			includeSubdirectoriesCheckBox.Label = stringParserService.Parse ("${res:NewProject.SearchReplace.IncludeSubdirectories}");
 			ignoreCaseCheckBox.Label = stringParserService.Parse ("${res:Dialog.NewProject.SearchReplace.CaseSensitive}");
 			searchWholeWordOnlyCheckBox.Label = stringParserService.Parse ("${res:Dialog.NewProject.SearchReplace.WholeWord}");
 			useSpecialSearchStrategyCheckBox.Label = stringParserService.Parse ("${res:Dialog.NewProject.SearchReplace.UseMethodLabel}");			
@@ -79,9 +82,15 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 			SizeGroup options = new SizeGroup(SizeGroupMode.Horizontal);
 			SizeGroup helpButtons = new SizeGroup(SizeGroupMode.Horizontal);
 			SizeGroup checkButtons = new SizeGroup(SizeGroupMode.Horizontal);
-			labels.AddWidget(label1);			
+			labels.AddWidget(label1);
+			labels.AddWidget(label6);
+			labels.AddWidget(label7);
 			combos.AddWidget(searchPatternComboBox);
+			combos.AddWidget(directoryTextBox);
+			combos.AddWidget(fileMaskTextBox);
 			helpButtons.AddWidget(findHelpButton);
+			helpButtons.AddWidget(browseButton);
+			checkButtons.AddWidget (includeSubdirectoriesCheckBox);
 			checkButtons.AddWidget(ignoreCaseCheckBox);
 			checkButtons.AddWidget(searchWholeWordOnlyCheckBox);
 			checkButtons.AddWidget(useSpecialSearchStrategyCheckBox);

@@ -12,6 +12,8 @@ using System.Drawing;
 using ICSharpCode.Core.Properties;
 using ICSharpCode.SharpDevelop.Internal.Undo;
 
+using MonoDevelop.SourceEditor.Gui;
+
 namespace ICSharpCode.TextEditor.Document
 {
 	public class DefaultSearchResult : ISearchResult
@@ -49,10 +51,10 @@ namespace ICSharpCode.TextEditor.Document
 			return pattern;
 		}
 		
-		/*public IDocument CreateDocument()
+		public SourceEditor CreateDocument()
 		{
 			return providedDocumentInformation.CreateDocument();
-		}*/
+		}
 		
 		public DefaultSearchResult(int offset, int length)
 		{

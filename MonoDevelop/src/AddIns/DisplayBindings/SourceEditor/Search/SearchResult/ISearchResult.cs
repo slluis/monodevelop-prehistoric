@@ -12,6 +12,8 @@ using System.Drawing;
 using ICSharpCode.Core.Properties;
 using ICSharpCode.SharpDevelop.Internal.Undo;
 
+using MonoDevelop.SourceEditor.Gui;
+
 namespace ICSharpCode.TextEditor.Document
 {
 	/// <summary>
@@ -56,6 +58,7 @@ namespace ICSharpCode.TextEditor.Document
 		/// This method creates a document for the file FileName. This method works
 		/// only after the ProvidedDocumentInformation is set.
 		/// </remarks>
+		SourceEditor CreateDocument ();
 		
 		/// <remarks>
 		/// Replace operations must transform the replace pattern with this

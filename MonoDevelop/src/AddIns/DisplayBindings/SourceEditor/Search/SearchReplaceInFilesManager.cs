@@ -16,6 +16,10 @@ using ICSharpCode.SharpDevelop.Services;
 using ICSharpCode.SharpDevelop.Gui.Dialogs;
 using ICSharpCode.SharpDevelop.Gui.Pads;
 
+using MonoDevelop.SourceEditor.Gui;
+
+using Gtk;
+
 namespace ICSharpCode.TextEditor.Document
 {
 	public class SearchReplaceInFilesManager
@@ -26,7 +30,7 @@ namespace ICSharpCode.TextEditor.Document
 		static PropertyService      propertyService = (PropertyService)ServiceManager.Services.GetService(typeof(PropertyService));
 		
 		static string              currentFileName = String.Empty;
-		//static IDocument currentDocument = null;
+		static SourceEditor        currentDocument = null;
 		
 		public static SearchOptions SearchOptions {
 			get {
@@ -64,13 +68,19 @@ namespace ICSharpCode.TextEditor.Document
 			if (currentFileName != result.FileName) {
 				// if not, create new document
 				currentFileName = result.FileName;
-				//currentDocument = result.CreateDocument(); 
+				currentDocument = result.CreateDocument(); 
 			}
 			
 			// get line out of the document and display it in the task list
 			//int lineNumber = currentDocument.GetLineNumberForOffset(Math.Min(currentDocument.TextLength, result.Offset));
+			TextIter resultIter = currentDocument.Buffer.GetIterAtOffset (result.Offset);
+			int lineNumber = resultIter.Line;
+
+			TextIter start_line = resultIter, end_line = resultIter;
+			start_line.LineOffset = 0;
+			end_line.ForwardToLineEnd ();
 			//LineSegment line = currentDocument.GetLineSegment(lineNumber);
-			//taskService.Tasks.Add(new Task(result.FileName, currentDocument.GetText(line.Offset, line.Length), result.Offset - line.Offset, lineNumber));
+			taskService.Tasks.Add(new Task(result.FileName, currentDocument.Buffer.GetText(start_line.Offset, end_line.Offset - start_line.Offset), resultIter.LineOffset, lineNumber));
 		}
 		
 		static bool InitializeSearchInFiles()
@@ -86,7 +96,7 @@ namespace ICSharpCode.TextEditor.Document
 			find.SearchStrategy.CompilePattern(searchOptions);
 			
 			currentFileName = String.Empty;
-			//currentDocument = null;
+			currentDocument = null;
 			
 			return true;
 		}
