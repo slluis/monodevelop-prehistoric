@@ -5,6 +5,7 @@ Name=MonoDevelop
 GenericName=Integrated Development Environment
 Comment=Integrated Development Environment
 Exec=monodevelop
+TryExec=monodevelop
 Icon=monodevelop.png
 StartupNotify=true
 Terminal=false

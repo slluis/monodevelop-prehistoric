@@ -8,3 +8,4 @@ application/x-monodevelop-project:
 
 application/x-monodevelop-combine:
 	open=monodevelop %f
+

@@ -1,4 +1,13 @@
 application/x-monodevelop-combine
+	category=Software Development
+	default_action_type=monodevelop
+	description=MonoDevelop Combine
 	ext: cmbx
+	icon_filename=monodevelop.png
+
 application/x-monodevelop-project
+	category=Software Development
+	default_action_type=monodevelop
+	description=MonoDevelop Project
 	ext: prjx
+	icon_filename=monodevelop.png
