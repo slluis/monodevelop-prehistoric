@@ -19,19 +19,16 @@ View
 Search
 	Find in Files
 	Replace in Files
+	
+	// These actually work, we just need support in the gutter
 	Toogle Bookmark
 	Prev Bookmark
 	Next Bookmark
 	Clear All Bookmarks
 
-Run
-	Build Combine
-	Rebuild Combine
-	Build $ {Project Name}
-	Rebuild $ {Project Name}
-	Run
-
 Tools
+	// The tools dont work if you replace them
+	// with linuxish tools
 	NotePad
 	NProf
 	IL Dasm
