@@ -5,21 +5,27 @@ using Gdk;
 using System;
 using System.IO;
 using System.Runtime.InteropServices;
+
+using MonoDevelop.SourceEditor.CodeCompletion;
 	
 namespace MonoDevelop.SourceEditor.Gui {
 	public class SourceEditorView : SourceView {
 		
 		private static GLib.GType type;
 			
-		SourceEditorBuffer buf;
+		                SourceEditorBuffer buf;
+		public readonly SourceEditor       ParentEditor;
+
+		CompletionWindow completionWindow;
 		
 		static SourceEditorView ()
 		{
 			type = RegisterGType (typeof (SourceEditorView));
 		}
 		
-		public SourceEditorView (SourceEditorBuffer buf) : base (type)
+		public SourceEditorView (SourceEditorBuffer buf, SourceEditor parent) : base (type)
 		{
+			this.ParentEditor = parent;
 			Buffer = this.buf = buf;
 			AutoIndent = true;
 			SmartHomeEnd = true;
@@ -51,6 +57,16 @@ namespace MonoDevelop.SourceEditor.Gui {
 						break;
 				}
 				break;
+			}
+
+			switch ((char)key) {
+				//FIXME: ' ' needs to do extra parsing
+				case ' ':
+				case '.':
+					Console.WriteLine ("About to show completion Window");
+					completionWindow = new CompletionWindow (this, ParentEditor.DisplayBinding.ContentName, new CodeCompletionDataProvider ());
+					completionWindow.ShowCompletionWindow ((char)key);
+					break;
 			}
 			
 			base.OnKeyPressEvent (ref evnt);

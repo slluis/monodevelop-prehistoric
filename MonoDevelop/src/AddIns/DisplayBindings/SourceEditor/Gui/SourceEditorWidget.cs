@@ -11,12 +11,14 @@ namespace MonoDevelop.SourceEditor.Gui {
 		
 		public readonly SourceEditorBuffer Buffer;
 		public readonly SourceEditorView View;
+		public readonly SourceEditorDisplayBindingWrapper DisplayBinding;
 		
-		public SourceEditor ()
+		public SourceEditor (SourceEditorDisplayBindingWrapper bind)
 		{
+			DisplayBinding = bind;
 			Buffer = new SourceEditorBuffer ();
 			
-			View = new SourceEditorView (Buffer);
+			View = new SourceEditorView (Buffer, this);
 			
 
 			Buffer.Highlight = true;

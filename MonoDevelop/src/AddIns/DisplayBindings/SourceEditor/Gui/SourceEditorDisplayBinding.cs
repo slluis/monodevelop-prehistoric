@@ -82,7 +82,7 @@ namespace MonoDevelop.SourceEditor.Gui {
 		
 		public SourceEditorDisplayBindingWrapper ()
 		{
-			se = new SourceEditor ();
+			se = new SourceEditor (this);
 			se.Buffer.ModifiedChanged += new EventHandler (OnModifiedChanged);
 			se.Buffer.MarkSet += new MarkSetHandler (OnMarkSet);
 			se.Buffer.Changed += new EventHandler (OnChanged);
