@@ -58,6 +58,9 @@ namespace ICSharpCode.Core.AddIns
 			StringCollection retryList  = new StringCollection();
 			
 			foreach (string addInFile in addInFiles) {
+				if (Path.GetFileName (addInFile) == "MonoDevelopNewEditor.addin" && Environment.GetEnvironmentVariable ("NEW_EDITOR") == null)
+					continue;
+				
 				AddIn addIn = new AddIn();
 				try {
 					addIn.Initialize(addInFile);

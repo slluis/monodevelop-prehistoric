@@ -1,0 +1,19 @@
+<AddIn name        = "New Editor"
+       author      = "Ben Maurer"
+       copyright   = ""
+       url         = ""
+       description = ""
+       version     = "1.0.0">
+	
+	<Runtime>
+		<Import assembly="../bin/MonoDevelop.SourceEditor.dll"/>
+	</Runtime>
+
+	<Extension path = "/SharpDevelop/Workbench/DisplayBindings">
+		<DisplayBinding id    = "NewText"
+		       insertbefore = "Text"
+		       supportedformats = "Text Files,Source Files"
+		       class = "MonoDevelop.SourceEditor.Gui.SourceEditorDisplayBinding" />
+	</Extension>
+	
+</AddIn>

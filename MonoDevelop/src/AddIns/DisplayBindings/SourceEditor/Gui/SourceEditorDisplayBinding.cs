@@ -99,17 +99,15 @@ namespace MonoDevelop.SourceEditor.Gui {
 		
 		public override void Save (string fileName)
 		{
-			TextWriter s = new StreamWriter (fileName, false);
-			s.Write (se.Text);
-			s.Close ();
+			se.Buffer.Save (fileName);
 		}
 		
 		public override void Load (string fileName)
 		{
 			if (fileName.EndsWith (".cs"))
-				se.LoadFile (fileName, "text/x-csharp");
+				se.Buffer.LoadFile (fileName, "text/x-csharp");
 			else
-				se.LoadFile (fileName);
+				se.Buffer.LoadFile (fileName);
 			
 			ContentName = fileName;
 		}
@@ -117,9 +115,9 @@ namespace MonoDevelop.SourceEditor.Gui {
 		public void LoadString (string mime, string val)
 		{
 			if (mime != null)
-				se.LoadText (val, mime);
+				se.Buffer.LoadText (val, mime);
 			else
-				se.LoadText (val);
+				se.Buffer.LoadText (val);
 		}
 		
 #region IEditable
@@ -128,18 +126,18 @@ namespace MonoDevelop.SourceEditor.Gui {
 		}
 		
 		public string Text {
-			get { return se.Text; }
-			set { se.Text = value; }
+			get { return se.Buffer.Text; }
+			set { se.Buffer.Text = value; }
 		}
 		
 		public void Undo ()
 		{
-			se.buffer.Undo ();
+			se.Buffer.Undo ();
 		}
 		
 		public void Redo ()
 		{
-			se.buffer.Redo ();
+			se.Buffer.Redo ();
 		}
 #endregion
 #region IClipboardHandler
@@ -150,7 +148,7 @@ namespace MonoDevelop.SourceEditor.Gui {
 		bool HasSelection {
 			get {
 				TextIter dummy, dummy2;
-				return se.buffer.GetSelectionBounds (out dummy, out dummy2);
+				return se.Buffer.GetSelectionBounds (out dummy, out dummy2);
 			}
 		}
 		
@@ -178,22 +176,22 @@ namespace MonoDevelop.SourceEditor.Gui {
 		
 		public void Cut (object sender, EventArgs e)
 		{
-			se.buffer.CutClipboard (clipboard, true);
+			se.Buffer.CutClipboard (clipboard, true);
 		}
 		
 		public void Copy (object sender, EventArgs e)
 		{
-			se.buffer.CopyClipboard (clipboard);
+			se.Buffer.CopyClipboard (clipboard);
 		}
 		
 		public void Paste (object sender, EventArgs e)
 		{
-			se.buffer.PasteClipboard (clipboard);
+			se.Buffer.PasteClipboard (clipboard);
 		}
 		
 		public void Delete (object sender, EventArgs e)
 		{
-			se.buffer.DeleteSelection (true, true);
+			se.Buffer.DeleteSelection (true, true);
 		}
 		
 		public void SelectAll (object sender, EventArgs e)
@@ -207,11 +205,11 @@ namespace MonoDevelop.SourceEditor.Gui {
 			//	gtk_text_buffer_move_mark_by_name (buffer, "insert", &start_iter);
 			//	gtk_text_buffer_move_mark_by_name (buffer, "selection_bound", &end_iter);
 			
-			se.buffer.MoveMark ("insert", se.buffer.StartIter);
-			se.buffer.MoveMark ("selection_bound", se.buffer.EndIter);
+			se.Buffer.MoveMark ("insert", se.Buffer.StartIter);
+			se.Buffer.MoveMark ("selection_bound", se.Buffer.EndIter);
 		}
 		
-		Gtk.Clipboard clipboard = Gtk.Clipboard.Get (Gdk.Atom.Intern("CLIPBOARD", false));
+		Gtk.Clipboard clipboard = Gtk.Clipboard.Get (Gdk.Atom.Intern ("CLIPBOARD", false));
 #endregion
 	}
 }
