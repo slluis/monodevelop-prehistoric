@@ -233,8 +233,11 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 			browseButton.Clicked += new EventHandler(BrowseDirectoryEvent);
 			findButton.Clicked += new EventHandler(FindEvent);
 			
+			searchPatternComboBox.Entry.Text = SearchReplaceInFilesManager.SearchOptions.SearchPattern;
+			
 			if (replaceMode) {
 				replaceAllButton.Clicked += new EventHandler(ReplaceEvent);
+				replacePatternComboBox.Entry.Text = SearchReplaceInFilesManager.SearchOptions.ReplacePattern;
 			}
 			
 			ReplaceDialogPointer.Close += new EventHandler (CloseDialogEvent);

@@ -54,16 +54,15 @@ namespace ICSharpCode.SharpDevelop.DefaultEditor.Commands
 	{
 		public static void SetSearchPattern()
 		{
-//			// Get Highlighted value and set it to FindDialog.searchPattern
-//			IWorkbenchWindow window = WorkbenchSingleton.Workbench.ActiveWorkbenchWindow;
-//			
-//			if (window != null && (window.ViewContent is ITextEditorControlProvider)) {
-//				TextAreaControl textarea = ((ITextEditorControlProvider)window.ViewContent).TextAreaControl;				
-//				string selectedText = textarea.Document.SelectedText;
-//				if (selectedText != null && selectedText.Length > 0) {
-//					SearchReplaceManager.SearchOptions.SearchPattern = selectedText;
-//				}
-//			}
+			IWorkbenchWindow window = WorkbenchSingleton.Workbench.ActiveWorkbenchWindow;
+
+			if (window != null && window.ViewContent is SourceEditorDisplayBindingWrapper)
+			{
+				SourceEditor editor = (SourceEditor) ((SourceEditorDisplayBindingWrapper)window.ViewContent).Control;
+				string selectedText = editor.Buffer.GetSelectedText ();
+				if (selectedText != null && selectedText.Length > 0)
+					SearchReplaceManager.SearchOptions.SearchPattern = selectedText;
+			}
 		}
 		
 		public override void Run()
@@ -120,17 +119,16 @@ namespace ICSharpCode.SharpDevelop.DefaultEditor.Commands
 	{
 		public static void SetSearchPattern()
 		{
-//			// Get Highlighted value and set it to FindDialog.searchPattern
-//			IWorkbenchWindow window = WorkbenchSingleton.Workbench.ActiveWorkbenchWindow;
-//			
-//			if (window != null && (window.ViewContent is ITextEditorControlProvider)) {
-//				TextAreaControl textarea = ((ITextEditorControlProvider)window.ViewContent).TextAreaControl;				
-//				string selectedText = textarea.Document.SelectedText;
-//				if (selectedText != null && selectedText.Length > 0) {
-//					SearchReplaceInFilesManager.SearchOptions.SearchPattern = selectedText;
-//				}
-//			}			
+			IWorkbenchWindow window = WorkbenchSingleton.Workbench.ActiveWorkbenchWindow;
+			if (window != null && window.ViewContent is SourceEditorDisplayBindingWrapper)
+			{
+				SourceEditor editor = (SourceEditor) ((SourceEditorDisplayBindingWrapper)window.ViewContent).Control;
+				string selectedText = editor.Buffer.GetSelectedText ();
+				if (selectedText != null && selectedText.Length > 0)
+					SearchReplaceInFilesManager.SearchOptions.SearchPattern = selectedText;
+			}
 		}
+		
 		public override void Run()
 		{
 			SetSearchPattern();
