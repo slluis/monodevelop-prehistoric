@@ -77,6 +77,14 @@ if grep "^AM_PROG_LIBTOOL" configure.in >/dev/null; then
   fi
 fi
 
+echo "Running glib-gettextize ..."
+glib-gettextize --force --copy ||
+  { echo "**Error**: glib-gettextize failed."; exit 1; }
+
+echo "Running intltoolize ..."
+intltoolize --force --copy --automake ||
+  { echo "**Error**: intltoolize failed."; exit 1; }
+
 echo "Running aclocal $ACLOCAL_FLAGS ..."
 aclocal $ACLOCAL_FLAGS || {
   echo
@@ -96,10 +104,6 @@ fi
 echo "Running automake --gnu $am_opt ..."
 automake --add-missing --gnu $am_opt ||
   { echo "**Error**: automake failed."; exit 1; }
-
-echo "Running intltoolize ..."
-intltoolize --force ||
-  { echo "**Error**: intltoolize failed."; exit 1; }
 
 echo "Running autoconf ..."
 WANT_AUTOCONF="2.5" autoconf || { echo "**Error**: autoconf failed."; exit 1; }
