@@ -170,8 +170,6 @@ namespace MonoDevelop.Commands
 						// do actual save
 						if (fileUtilityService.ObservedSave(new NamedFileOperationDelegate(window.ViewContent.Save), filename) == FileOperationResult.OK) {
 							fileService.RecentOpen.AddLastFile(filename);							
-							IMessageService messageService =(IMessageService)ServiceManager.Services.GetService(typeof(IMessageService));
-							messageService.ShowMessage(filename, "File saved");
 						}
 					}
 				}

@@ -1,5 +1,10 @@
 2004-03-27  Todd Berman  <tberman@sevenl.net>
 
+	* Commands/FileCommands: remove save as notification, as its useless
+	closes bug #56126
+
+2004-03-27  Todd Berman  <tberman@sevenl.net>
+
 	* Internal/Parser/*: update to new parser from upstream.
 	* Gui/ContentInterfaces/IParseInformationListener.cs: update.
 	* Gui/Pads/ClassScout/NodeBuilder/DefaultDotNetClassScoutNodeBuilder.cs:
