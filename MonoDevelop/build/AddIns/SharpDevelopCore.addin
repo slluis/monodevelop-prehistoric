@@ -758,7 +758,7 @@
 		                          shortcut = "Alt|F8"
 		                          class = "ICSharpCode.SharpDevelop.Commands.CompileAll"/>
 		                <MenuItem id = "Separator1" label = "-" />
-			                <Conditional activeproject="*">
+			                <!-- <Conditional activeproject="*">
 				                <MenuItem id = "BuildProject"
 				                          label = "${res:XML.MainMenu.RunMenu.BuildProject}" 
 				                          description = "${res:XML.MainMenu.RunMenu.BuildProject.Description}" 
@@ -771,7 +771,7 @@
 				                          shortcut = "Alt|F9"
 				                          class = "ICSharpCode.SharpDevelop.Commands.RebuildCurrentProject"/>
 				                <MenuItem id = "Separator2" label = "-" />
-			                </Conditional>
+			                </Conditional> -->
 		                <MenuItem id = "Run"
 		                          label = "${res:XML.MainMenu.RunMenu.Run}" 
 		                          icon = "Icons.16x16.RunProgramIcon" 
