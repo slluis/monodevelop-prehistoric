@@ -555,14 +555,14 @@
 		                        <MenuItem id = "CloseFile"
 		                                  label = "${res:XML.MainMenu.FileMenu.Close.File}" 
 		                                  description = "${res:XML.MainMenu.FileMenu.Close.File.Desription}"
-						  shortcut = "Control|F4"
+						  shortcut = "Control|W"
 		                                  class ="ICSharpCode.SharpDevelop.Commands.CloseFile"/>
 	                        </Conditional>
 	                        <Conditional iscombineopen="True" action="Disable">
 		                        <MenuItem id = "CloseCombine"
 		                                  label = "${res:XML.MainMenu.FileMenu.Close.Project}" 
 		                                  description = "${res:XML.MainMenu.FileMenu.Close.Project.Desription}"
-						  shortcut = "Control|Shift|F4"
+						  shortcut = "Control|Shift|W"
 		                                  class = "ICSharpCode.SharpDevelop.Commands.ClearCombine"/>
 		                </Conditional>
 	                </MenuItem>
