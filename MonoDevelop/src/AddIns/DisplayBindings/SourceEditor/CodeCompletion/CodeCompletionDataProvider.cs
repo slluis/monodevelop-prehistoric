@@ -23,6 +23,8 @@ using SharpDevelop.Internal.Parser;
 using MonoDevelop.SourceEditor.Gui;
 using Stock = MonoDevelop.Gui.Stock;
 
+using Gtk;
+
 namespace MonoDevelop.SourceEditor.CodeCompletion
 {
 	/// <summary>
@@ -42,7 +44,7 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 		
 		ArrayList completionData = null;
 
-		public ICompletionData[] GenerateCompletionData(string fileName, SourceEditorView textArea, char charTyped)
+		public ICompletionData[] GenerateCompletionData(string fileName, SourceEditorView textArea, char charTyped, TextMark triggerMark)
 		{
 			//FIXME: THIS IS A HACK
 			string lang = "C#";
@@ -51,7 +53,7 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 			completionData = new ArrayList();
 			this.fileName = fileName;
 		
-			Gtk.TextIter insertIter = textArea.Buffer.GetIterAtMark (textArea.Buffer.InsertMark);
+			Gtk.TextIter insertIter = textArea.Buffer.GetIterAtMark (triggerMark);
 		
 			// the parser works with 1 based coordinates
 			

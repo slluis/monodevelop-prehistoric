@@ -78,6 +78,7 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 		{
 			// FIXME: we should actually use GtkTextIter's
 			string text = textArea.Buffer.Text;
+			int origOffset = offset;
 			
 			while (offset - 1 > 0) {
 				switch (text [offset - 1]) {
@@ -143,7 +144,7 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 			done:
 //			Console.WriteLine("ofs : {0} cart:{1}", offset, document.Caret.Offset);
 //			Console.WriteLine("return:" + document.GetText(offset, document.Caret.Offset - offset).Trim());
-			Gtk.TextIter start_Iter = textArea.Buffer.GetIterAtMark (textArea.Buffer.InsertMark);
+			Gtk.TextIter start_Iter = textArea.Buffer.GetIterAtOffset (origOffset);
 			Gtk.TextIter offset_Iter = textArea.Buffer.GetIterAtOffset (offset);
 			return textArea.Buffer.GetText (start_Iter, offset_Iter, false ).Trim();
 		}

@@ -54,6 +54,8 @@ namespace MonoDevelop.SourceEditor.Gui
 			ShowLineMarkers = true;
 			ButtonPressEvent += new ButtonPressEventHandler (buttonPress);
 			buf.PlaceCursor (buf.StartIter);
+			GrabFocus ();
+
 		}
 
 		void buttonPress (object o, ButtonPressEventArgs e)
@@ -125,6 +127,37 @@ namespace MonoDevelop.SourceEditor.Gui
 		{
 			Gtk.Global.PropagateEvent (this, evnt);
 		}
+
+		void TriggerCodeComplete ()
+		{
+			TextIter iter = buf.GetIterAtMark (buf.InsertMark);
+			char triggerChar = '.';
+			TextIter triggerIter = TextIter.Zero;
+			do {
+				//FIXME: This code is placeholder until you can
+				//just switch on iter.Char
+				string s = buf.GetText (iter, buf.GetIterAtOffset (iter.Offset + 1), true);
+				switch (s) {
+				case " ":
+					triggerIter = iter;
+					triggerChar = ' ';
+					break;
+				case ".":
+					triggerIter = iter;
+					break;
+				}
+				if (!triggerIter.Equals (TextIter.Zero))
+					break;
+				iter.BackwardChar ();
+			} while (iter.LineOffset != 0);
+
+			if (triggerIter.Equals (TextIter.Zero)) return;
+			triggerIter.ForwardChar ();
+			completionWindow = new CompletionWindow (this, ParentEditor.DisplayBinding.ContentName, new CodeCompletionDataProvider ());
+
+			completionWindow.ShowCompletionWindow (triggerChar, triggerIter);
+			completionWindow.ShuffleSelection ();
+		}
 		
 		protected override bool OnKeyPressEvent (Gdk.EventKey evnt)
 		{
@@ -148,6 +181,13 @@ namespace MonoDevelop.SourceEditor.Gui
 						if (UnIndentSelection ())
 							return true;
 						break;
+				}
+				break;
+			case Control:
+				switch (key) {
+					case Gdk.Key.space:
+						TriggerCodeComplete ();
+						return true;
 				}
 				break;
 			}
@@ -175,7 +215,7 @@ namespace MonoDevelop.SourceEditor.Gui
 					bool retval = base.OnKeyPressEvent (evnt);
 					if (EnableCodeCompletion) {
 						completionWindow = new CompletionWindow (this, ParentEditor.DisplayBinding.ContentName, new CodeCompletionDataProvider ());
-						completionWindow.ShowCompletionWindow ((char)key);
+						completionWindow.ShowCompletionWindow ((char)key, buf.GetIterAtMark (buf.InsertMark));
 					}
 					return retval;
 				/*case '(':

@@ -24,21 +24,29 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 		SourceEditorView control;
 		TreeView listView;
 		TreeStore store;
-		DeclarationViewWindow declarationviewwindow = new DeclarationViewWindow ();		
-		int insertLength = 0;
+		TextMark triggeringMark;
+		int origOffset;
+		DeclarationViewWindow declarationviewwindow = new DeclarationViewWindow ();
 		
 		string GetTypedString ()
 		{
 			TextIter startIter = control.Buffer.GetIterAtMark (control.Buffer.InsertMark);
-			TextIter offsetIter = control.Buffer.GetIterAtOffset (startIter.Offset - insertLength);
+			TextIter offsetIter = control.Buffer.GetIterAtMark (triggeringMark);
 			return control.Buffer.GetText (offsetIter, startIter, true);
 		}
-  
+
+		int insertLength {
+			get {
+				TextIter startIter = control.Buffer.GetIterAtMark (control.Buffer.InsertMark);
+				return startIter.Offset - origOffset;
+			}
+		}
+
 		void DeleteInsertion()
 		{
-			if (insertLength > 0) {
-				TextIter startIter = control.Buffer.GetIterAtMark (control.Buffer.InsertMark);
-				TextIter offsetIter = control.Buffer.GetIterAtOffset (startIter.Offset - insertLength);
+			TextIter startIter = control.Buffer.GetIterAtMark (control.Buffer.InsertMark);
+			TextIter offsetIter = control.Buffer.GetIterAtMark (triggeringMark);
+			if (startIter.Offset > offsetIter.Offset) {
 				int newPos = offsetIter.Offset;
 				control.Buffer.Delete (offsetIter, startIter);
 				control.Buffer.MoveMark (control.Buffer.InsertMark, control.Buffer.GetIterAtOffset (newPos));
@@ -63,8 +71,7 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 					return true;
 				case (char) Gdk.Key.BackSpace:
 					control.SimulateKeyPress (ref e);
-					insertLength--;
-					if (insertLength == -1) {
+					if (insertLength <= -1) {
 						LostFocusListView (null, null);
 					}
 					return true;
@@ -115,11 +122,17 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 						return;
 					} else {
 						control.Buffer.InsertAtCursor (val.ToString ());
-						++insertLength;
 					}
 					break;
 			}
-			
+
+			ShuffleSelection ();
+	
+			ex.RetVal = true;
+		}
+
+		public void ShuffleSelection ()
+		{
 			// select the current typed word
 			int lastSelected = -1;
 			int capitalizationIndex = -1;
@@ -155,7 +168,6 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 				listView.ScrollToCell (path, null, false, 0, 0);
 			}
 			
-			ex.RetVal =  true;
 		}
 		
 		void InitializeControls ()
@@ -201,8 +213,10 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 		/// <remarks>
 		/// Shows the filled completion window, if it has no items it isn't shown.
 		/// </remarks>
-		public void ShowCompletionWindow (char firstChar)
+		public void ShowCompletionWindow (char firstChar, TextIter trigIter)
 		{
+			triggeringMark = control.Buffer.CreateMark (null, trigIter, true);
+			origOffset = trigIter.Offset;
 			FillList (true, firstChar);
 
 			TreeIter iter;
@@ -215,10 +229,10 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 			//Point visualPos = new Point(control.ActiveTextAreaControl.TextArea.TextView.GetDrawingXPos(caretPos.Y, caretPos.X) + control.ActiveTextAreaControl.TextArea.TextView.DrawingPosition.X,
 			//          (int)((1 + caretPos.Y) * control.ActiveTextAreaControl.TextArea.TextView.FontHeight) - control.ActiveTextAreaControl.TextArea.VirtualTop.Y - 1 + control.ActiveTextAreaControl.TextArea.TextView.DrawingPosition.Y);
 
-			Gdk.Rectangle rect = control.GetIterLocation (control.Buffer.GetIterAtMark (control.Buffer.InsertMark));
+			Gdk.Rectangle rect = control.GetIterLocation (control.Buffer.GetIterAtMark (triggeringMark));
 
 			int wx, wy;
-			control.BufferToWindowCoords (Gtk.TextWindowType.Widget, rect.X + rect.Width, rect.Y + rect.Height, out wx, out wy);
+			control.BufferToWindowCoords (Gtk.TextWindowType.Widget, rect.X /*+ rect.Width*/, rect.Y + rect.Height, out wx, out wy);
 			
 			int tx, ty;
 			control.GdkWindow.GetOrigin (out tx, out ty);
@@ -284,8 +298,7 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 		
 		void FillList (bool firstTime, char ch)
 		{
-			ICompletionData[] completionData = completionDataProvider.GenerateCompletionData(fileName, control, ch);
-			//Console.WriteLine ("testing");
+			ICompletionData[] completionData = completionDataProvider.GenerateCompletionData(fileName, control, ch, triggeringMark);
 			if (completionData == null || completionData.Length == 0) {
 				return;
 			}

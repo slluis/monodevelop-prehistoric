@@ -1,5 +1,19 @@
 2004-03-25  Todd Berman  <tberman@sevenl.net>
 
+	* Gui/SourceEditorView.cs:
+	* CodeCompletion/TextUtilities.cs:
+	* CodeCompletion/CompletionWindow.cs:
+	* CodeCompletion/ICompletionDataProvider.cs:
+	* CodeCompletion/CommentCompletionDataProvider.cs:
+	* CodeCompletion/CodeCompletionDataProvider.cs:
+	* CodeCompletion/TemplateCompletionDataProvider.cs:
+		Lots of changes to allow for ctrl+space code completion
+		activation. Most of the changes revolve around removing the
+		assumption that the completion window is shown when the text
+		insert mark is right after the triggering character.
+
+2004-03-25  Todd Berman  <tberman@sevenl.net>
+
 	* Properties/TextEditorProperties.cs: add a EnableCodeCompletion prop
 	* Gui/SourceEditorDisplayBinding.cs:
 	* Gui/SourceEditorView.cs: hookup EnabledCodeCompletion prop
