@@ -122,7 +122,6 @@ namespace CSharpBinding.Parser
 					c.BaseTypes.Add(type);
 				}
 			}
-			Console.WriteLine (c);
 			currentClass.Push(c);
 			object ret = typeDeclaration.AcceptChildren(this, data);
 			currentClass.Pop();
