@@ -25,13 +25,22 @@
 		
 		<Project name = "${ProjectName}" directory = ".">
 			<Options/>
+			
+			<References>
+				<Reference type="Gac" refto="gtk-sharp.dll" />
+				<Reference type="Gac" refto="gdk-sharp.dll" />
+				<Reference type="Gac" refto="glib-sharp.dll" />
+				<Reference type="Gac" refto="glade-sharp.dll" />
+				<Reference type="Gac" refto="pango-sharp.dll" />
+				<Reference type="Gac" refto="System.Drawing.dll" />
+			</References>
+		
 			<Files>
 				<File name="Main.cs"><![CDATA[// project created on ${Date} at ${Time}
 using System;
 using Gtk;
 
-class MainClass
-{
+class MainClass {
 	public static void Main(string[] args)
 	{
 		Application.Init ();
@@ -43,8 +52,7 @@ class MainClass
 using Gtk;
 using GtkSharp;
 
-public class MyWindow : Window
-{
+public class MyWindow : Window {
 	static GLib.GType type;
 	
 	static MyWindow ()
@@ -60,7 +68,7 @@ public class MyWindow : Window
 		this.ShowAll ();
 	}
 	
-	private void OnMyWindowDelete (object o, DeleteEventArgs args)
+	void OnMyWindowDelete (object o, DeleteEventArgs args)
 	{
 		Application.Quit ();
 	}

@@ -101,8 +101,12 @@ namespace ICSharpCode.SharpDevelop.Internal.Project
 					return reference;
 				
 				case ReferenceType.Gac: 
+#if LINUX
 					return GetPathToGACAssembly(this);
-				
+#else
+					// TODO: gac on linux
+					return reference;
+#endif
 				case ReferenceType.Project:
 					IProjectService projectService = (IProjectService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
 					string projectOutputLocation   = projectService.GetOutputAssemblyName(reference);
