@@ -294,16 +294,18 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 				int listpos_x, listpos_y;
 				GetPosition (out listpos_x, out listpos_y);
 				int vert = listpos_y + rect.Y;
-
-				if (vert >= listpos_y + listView.GdkWindow.Size.Height - 2) {
-					vert = listpos_y + listView.GdkWindow.Size.Height - rect.Height;
+				
+				int lvWidth, lvHeight;
+				listView.GdkWindow.GetSize (out lvWidth, out lvHeight);
+				if (vert >= listpos_y + lvHeight - 2) {
+					vert = listpos_y + lvHeight - rect.Height;
 				} else if (vert < listpos_y) {
 					vert = listpos_y;
 				}
 
 				// FIXME: This is a bad calc, its always on the right,
 				// it needs to test if thats too big, and if so, place on the left;
-				int horiz = listpos_x + listView.GdkWindow.Size.Width + 30;
+				int horiz = listpos_x + lvWidth + 30;
 				ICompletionDataWithMarkup wMarkup = data as ICompletionDataWithMarkup;
 				declarationviewwindow.Destroy ();
 				
@@ -319,9 +321,13 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 					return;
 			
 				declarationviewwindow.ShowAll ();
-				
-				if (listView.Screen.Width <= horiz + declarationviewwindow.GdkWindow.FrameExtents.Width) {
-					horiz = listpos_x - declarationviewwindow.GdkWindow.FrameExtents.Width - 10;
+
+				int dvwWidth, dvwHeight;
+	
+				declarationviewwindow.GdkWindow.GetSize (out dvwWidth, out dvwHeight);
+	
+				if (listView.Screen.Width <= horiz + dvwWidth) {
+					horiz = listpos_x - dvwWidth - 10;
 				}
 				
 				declarationviewwindow.Move (horiz, vert);

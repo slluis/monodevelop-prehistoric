@@ -13,11 +13,6 @@ FILES = ./Tree/TreeView.cs \
 ./IconView/IconView.cs \
 ./AssemblyInfo.cs \
 ./FileBrowser/FileBrowser.cs \
-./PropertyGrid/PropertyGridWidget.cs \
-./PropertyGrid/ELabel.cs \
-./PropertyGrid/PropertyGridGroup.cs \
-./PropertyGrid/PropertyGridItem.cs \
-./PropertyGrid/PropertyGrid.cs \
 ./FolderDialog/FolderDialog.cs \
 ./FolderDialog/BaseFileEntry.cs \
 ./FolderDialog/FolderEntry.cs \

@@ -104,6 +104,7 @@ namespace MonoDevelop.Services
 				IFileService fileService = (IFileService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IFileService));
 				fileService.OpenFile(fileName);
 				IWorkbenchWindow window = fileService.GetOpenFile(fileName);
+				System.Threading.Thread.Sleep (50);
 				if (window == null) {
 					return;
 				}

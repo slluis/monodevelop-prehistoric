@@ -235,10 +235,10 @@ namespace MonoDevelop.SourceEditor.Gui
 		[DllImport("gtksourceview-1.0")]
 		static extern void gtk_source_buffer_delete_marker(IntPtr raw, IntPtr marker);
 		
-		[DllImport("gtksharpglue")]
+		[DllImport("glibsharpglue")]
 		static extern IntPtr gtksharp_slist_get_data (IntPtr l);
 
-		[DllImport("gtksharpglue")]
+		[DllImport("glibsharpglue")]
 		static extern IntPtr gtksharp_slist_get_next (IntPtr l);
 		
 		[DllImport("gtksourceview-1.0")]

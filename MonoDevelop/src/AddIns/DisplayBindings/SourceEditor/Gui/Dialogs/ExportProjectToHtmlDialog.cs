@@ -72,7 +72,7 @@ namespace MonoDevelop.Gui.Dialogs
 			
 			//cancelButton.DialogResult = DialogResult.Cancel;
 			
-			RequestSize = new Size (350, 88 + 6);
+			SetSizeRequest (350, 88 + 6);
 			WindowPosition = WindowPosition.CenterOnParent;
 			
 			Title = resourceService.GetString ("Dialog.ExportProjectToHtml.DialogName");

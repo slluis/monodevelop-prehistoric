@@ -44,7 +44,7 @@ namespace MonoDevelop.Gui.Dialogs
 			boldFont.Weight = Pango.Weight.Bold;
 			
 			this.wizard = wizard;
-			RequestSize = new Size (198, 400);
+			SetSizeRequest (198, 400);
 
 			bitmap = resourceService.GetBitmap ("GeneralWizardBackground");
 
@@ -66,7 +66,9 @@ namespace MonoDevelop.Gui.Dialogs
 				smallFont.Weight = Pango.Weight.Normal;
 				ly.FontDescription = smallFont;
 				ly.SetText (resourceService.GetString("SharpDevelop.Gui.Dialogs.WizardDialog.StepsLabel"));
-				int smallFontHeight = (int)(ly.Size.Height/1024.0f);
+				int lyWidth, lyHeight;
+				ly.GetSize (out lyWidth, out lyHeight);
+				int smallFontHeight = (int)(lyHeight/1024.0f);
 				GdkWindow.DrawLayout (gc, 10, 24 - smallFontHeight, ly);
 				GdkWindow.DrawLine(gc, 10, 24, WidthRequest - 10, 24);
 				

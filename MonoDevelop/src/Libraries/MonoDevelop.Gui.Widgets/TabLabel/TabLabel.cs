@@ -28,7 +28,13 @@ namespace MonoDevelop.Gui.Widgets
 			btn = new Button ();
 			btn.Add (new Gtk.Image ("../data/resources/icons/MonoDevelop.Close.png"));
 			btn.Relief = ReliefStyle.None;
-			btn.RequestSize = new Size (16, 16);
+			//btn.RequestSize = new Size (16, 16);
+
+			//FIXME: When gtk# gets unbroken uncomment the line
+			//above, and remove the two below
+			
+			btn.HeightRequest = 16;
+			btn.WidthRequest = 16;
 			this.PackStart (btn, true, true, 2);
 
 			this.ShowAll ();

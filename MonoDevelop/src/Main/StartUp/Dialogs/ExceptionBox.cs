@@ -130,30 +130,30 @@ namespace MonoDevelop
 			// continueButton
 			//
 			this.continueButton.Label = "Continue";
-			this.continueButton.RequestSize = new System.Drawing.Size(112, 40);
+			this.continueButton.SetSizeRequest (112, 40);
 			this.continueButton.Clicked += new System.EventHandler(this.ContinueButton_Clicked);
 			//
 			// abortButton
 			//
 			this.abortButton.Label = "Abort";
-			this.abortButton.RequestSize = new System.Drawing.Size(112, 40);
+			this.abortButton.SetSizeRequest (112, 40);
 			this.abortButton.Clicked += new System.EventHandler(this.AbortButton_Clicked);
 			//
 			// ignoreButton
 			//
 			this.ignoreButton.Label = "Ignore";
-			this.ignoreButton.RequestSize = new System.Drawing.Size(112, 40);
+			this.ignoreButton.SetSizeRequest (112, 40);
 			this.ignoreButton.Clicked += new System.EventHandler(this.IgnoreButton_Clicked);
 			//
 			// copyErrorCheckButton
 			//
 			this.copyErrorCheckButton.Label = "Copy error to clipboard";
-			this.copyErrorCheckButton.RequestSize = new System.Drawing.Size(672, 24);
+			this.copyErrorCheckButton.SetSizeRequest (672, 24);
 			//
 			// includeSysInfoCheckButton
 			//
 			this.includeSysInfoCheckButton.Label = "Include system info (Mono version, O.S. version)";
-			this.copyErrorCheckButton.RequestSize = new System.Drawing.Size(672, 24);
+			this.copyErrorCheckButton.SetSizeRequest (672, 24);
 			//
 			// label
 			//
@@ -162,14 +162,14 @@ namespace MonoDevelop
 										"This may be due to a programming error." + System.Environment.NewLine +
 										"Please, help us to make MonoDevelop a better program for everyone." + System.Environment.NewLine +
 										"Thanks in advance for your help.";
-			this.label.RequestSize = new System.Drawing.Size(480, 88);
+			this.label.SetSizeRequest (480, 88);
 			//
 			// scrolledwindow
 			//
 			this.scrolledwindow.HscrollbarPolicy = Gtk.PolicyType.Automatic;
 			this.scrolledwindow.VscrollbarPolicy = Gtk.PolicyType.Automatic;
 			this.scrolledwindow.AddWithViewport(this.exceptionTextView);
-			this.scrolledwindow.RequestSize = new System.Drawing.Size(480, 256);
+			this.scrolledwindow.SetSizeRequest (480, 256);
 			//
 			// exceptionTextView
 			//
@@ -177,11 +177,11 @@ namespace MonoDevelop
 			//
 			// image
 			//
-			this.image.RequestSize = new System.Drawing.Size(226, 466);
+			this.image.SetSizeRequest (226, 466);
 			//
 			// fixedcontainer
 			//
-			this.fixedcontainer.RequestSize = new System.Drawing.Size(740, 483);
+			this.fixedcontainer.SetSizeRequest (740, 483);
 			this.fixedcontainer.Put(continueButton, 624, 432);
 			this.fixedcontainer.Put(abortButton, 368, 432);
 			this.fixedcontainer.Put(ignoreButton, 496, 432);

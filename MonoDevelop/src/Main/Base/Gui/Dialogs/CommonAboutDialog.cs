@@ -46,7 +46,7 @@ namespace MonoDevelop.Gui.Dialogs
 		
 		public ScrollBox() : base (GType)
 		{
-			this.RequestSize = new System.Drawing.Size (400, 220);
+			this.SetSizeRequest (400, 220);
 			this.Realized += new EventHandler (OnRealized);
 			this.ExposeEvent += new ExposeEventHandler (OnExposed);
 			
@@ -99,7 +99,6 @@ namespace MonoDevelop.Gui.Dialogs
 		protected void OnRealized (object o, EventArgs args)
 		{
 			layout = new Pango.Layout (this.PangoContext);
-			Console.WriteLine (this.GdkWindow.Size);
 			// FIXME: this seems wrong but works
 			layout.Width = 253952;
 			layout.Wrap = Pango.WrapMode.Word;
@@ -136,7 +135,7 @@ namespace MonoDevelop.Gui.Dialogs
 			this.VBox.PackStart (copyright, false, true, 0);
 		
 			Notebook nb = new Notebook ();
-			nb.RequestSize = new System.Drawing.Size (400, 280);
+			nb.SetSizeRequest (400, 280);
 			//nb.SwitchPage += new SwitchPageHandler (OnPageChanged);
 			//aatp = new AuthorAboutTabPage ();
 			//changelog = new ChangeLogTabPage ();

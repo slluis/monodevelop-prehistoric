@@ -185,7 +185,7 @@ namespace MonoDevelop.Gui.Dialogs
 			
 			// take out panel control & show new one
 			if (dialogPanel.Child != null) {
-				statusPanel.GdkWindow.InvalidateRect (new Rectangle (0, 0, 400, 400), true);
+				statusPanel.GdkWindow.InvalidateRect (new Gdk.Rectangle (0, 0, 400, 400), true);
 				dialogPanel.Remove (dialogPanel.Child);
 			}
 			if (CurrentWizardPane.ToString () == "MonoDevelop.Gui.Dialogs.OptionPanels.CompletionDatabaseWizard.CreationFinishedPanel") {
