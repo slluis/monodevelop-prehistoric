@@ -39,6 +39,8 @@ namespace MonoDevelop.Services
 			if (!Debugging)
 				return;
 
+			if (StoppedEvent != null)
+				StoppedEvent (this, new EventArgs ());
 			backend.Dispose ();
 			backend = null;
 			proc = null;
@@ -131,6 +133,8 @@ namespace MonoDevelop.Services
 
 			proc.TargetEvent += new TargetEventHandler (target_event);
 
+			Gtk.Timeout.Add (1, new Gtk.Function (EmitStarted));
+
 			proc.Continue (false);
 		}
 
@@ -143,8 +147,39 @@ namespace MonoDevelop.Services
 			case TargetEventType.TargetSignaled:
 				Gtk.Timeout.Add (1, new Gtk.Function (KillApplication));
 				break;
+			case TargetEventType.TargetStopped:
+			case TargetEventType.TargetRunning:
+				Gtk.Timeout.Add (1, new Gtk.Function (ChangeState));
+				break;
+			case TargetEventType.TargetHitBreakpoint:
+			default:
+				break;
 			}
 		}
+
+		bool EmitStarted ()
+		{
+			if (StartedEvent != null)
+				StartedEvent (this, new EventArgs ());
+
+			return false;
+		}
+
+		bool ChangeState ()
+		{
+			if (IsRunning) {
+				if (ResumedEvent != null) {
+					ResumedEvent (this, new EventArgs ());
+				}
+			} else if (PausedEvent != null)
+				PausedEvent (this, new EventArgs ());
+			return false;
+		}
+
+		public event EventHandler PausedEvent;
+		public event EventHandler ResumedEvent;
+		public event EventHandler StartedEvent;
+		public event EventHandler StoppedEvent;
 
 		bool KillApplication ()
 		{
@@ -205,6 +240,14 @@ namespace MonoDevelop.Services
 				}
 
 				return result;
+			}
+		}
+
+		public StackFrame CurrentFrame {
+			get {
+				if (IsRunning)
+					return null;
+				return proc.GetBacktrace ().Frames[0];
 			}
 		}
 
