@@ -9,6 +9,7 @@ Edit
 	Word Count			
 
 View
+	//FIXME: this menu will wait until we have the new docker stuff
 	Project
 	Output
 	Classes
@@ -34,13 +35,11 @@ Tools
 	NotePad
 	NProf
 	IL Dasm
-	Insert Color
+	Insert Color //FIXME: Half implemented, seems to be broken inside Gtk#
 	AutoCode Generations
 	Quick XML doc
 
 Window
-	Next Window
-	Prev Window
 	Split
 Help
 	Help Topics
