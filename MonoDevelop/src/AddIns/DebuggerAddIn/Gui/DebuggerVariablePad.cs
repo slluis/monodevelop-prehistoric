@@ -200,8 +200,9 @@ namespace MonoDevelop.SourceEditor.Gui
 
 		void add_object (ITargetObject obj, string name, TreeIter iter)
 		{
+			AmbienceService amb = (AmbienceService)MonoDevelop.Core.Services.ServiceManager.Services.GetService (typeof (AmbienceService));
 			store.SetValue (iter, 0, new GLib.Value (name));
-			store.SetValue (iter, 1, new GLib.Value (obj.Type.Name));
+			store.SetValue (iter, 1, new GLib.Value (amb.CurrentAmbience.GetIntrinsicTypeName (obj.Type.Name)));
 
 			switch (obj.Type.Kind) {
 			case TargetObjectKind.Fundamental:

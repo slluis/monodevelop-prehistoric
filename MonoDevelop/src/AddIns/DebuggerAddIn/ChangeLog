@@ -1,3 +1,8 @@
+2004-03-29  Todd Berman  <tberman@sevenl.net>
+
+	* Gui/DebuggerVariablePad.cs: use AmbienceService to convert from
+	System.Int32 to int, etc.
+
 2004-03-24  John Luke  <jluke@cfl.rr.com>
 
 	* Makefile.am: addin was not being cp'd to build/AddIns/.
