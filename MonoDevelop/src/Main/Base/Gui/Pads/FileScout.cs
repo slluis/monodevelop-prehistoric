@@ -467,6 +467,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads
 /*		void DirectorySelected(object sender, TreeViewEventArgs e)*/
 		{
 			//filelister.ShowFilesInPath(filetree.NodePath + System.IO.Path.DirectorySeparatorChar);
+			if (filetree.NodePath.Length == 0) return; 
 			if (filetree.NodePath[filetree.NodePath.Length - 1] == System.IO.Path.DirectorySeparatorChar)
 				filelister.ShowFilesInPath(filetree.NodePath);
 			else
