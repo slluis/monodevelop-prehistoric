@@ -1,3 +1,7 @@
+2004-04-13  John Luke  <jluke@cfl.rr.com>
+
+	* Gui/BrowserDisplayBinding/HtmlViewPane.cs: use Navbar control
+
 2004-04-11  Todd Berman  <tberman@sevenl.net>
 
 	* Gui/Workbench/WorkbenchMemento.cs: ugh, check for valid data too.

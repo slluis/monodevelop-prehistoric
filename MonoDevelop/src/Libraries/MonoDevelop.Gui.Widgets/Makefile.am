@@ -17,6 +17,7 @@ FILES = ./Tree/TreeView.cs \
 ./FolderDialog/BaseFileEntry.cs \
 ./FolderDialog/FolderEntry.cs \
 ./FolderDialog/FileEntry.cs \
+./Navbar/Navbar.cs \
 ./TabLabel/TabLabel.cs \
 ./GladeWidgetExtract/GladeWidgetExtract.cs
 

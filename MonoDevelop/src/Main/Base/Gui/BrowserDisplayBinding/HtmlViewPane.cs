@@ -14,6 +14,7 @@ using MonoDevelop.Core.Properties;
 using MonoDevelop.Core.Services;
 using MonoDevelop.Core.AddIns.Codons;
 using MonoDevelop.Gui;
+using MonoDevelop.Gui.Widgets;
 using MonoDevelop.Gui.HtmlControl;
 using MonoDevelop.Services;
 
@@ -135,8 +136,7 @@ namespace MonoDevelop.BrowserDisplayBinding
 		MozillaControl htmlControl = null;
 		
 		VBox topPanel = new VBox (false, 2);
-		Toolbar toolBar = new Toolbar ();
-		Entry urlTextBox = new Entry ();
+		Navbar nav = new Navbar ();
 		Statusbar status;
 		
 		bool isHandleCreated = false;
@@ -165,44 +165,20 @@ namespace MonoDevelop.BrowserDisplayBinding
 			
 			if (showNavigation) {
 				
-				Button toolBarBack = new Button ();
-				toolBarBack.Child = new Image (Gtk.Stock.GoBack, IconSize.SmallToolbar);
-				toolBarBack.Relief = ReliefStyle.None;
-				toolBarBack.Clicked += new EventHandler (OnBackClicked);
+				nav.Back += OnBackClicked;
+				nav.Forward += OnForwardClicked;
+				nav.Stop += OnStopClicked;
+				nav.Reload += OnRefreshClicked;
+				nav.Go += OnEntryActivated;
 				
-				Button toolBarForward = new Button ();
-				toolBarForward.Child = new Image (Gtk.Stock.GoForward, IconSize.SmallToolbar);
-				toolBarForward.Relief = ReliefStyle.None;
-				toolBarForward.Clicked += new EventHandler (OnForwardClicked);
-				
-				Button toolBarStop = new Button ();
-				toolBarStop.Child = new Image (Gtk.Stock.Stop, IconSize.SmallToolbar);
-				toolBarStop.Relief = ReliefStyle.None;
-				toolBarStop.Clicked += new EventHandler (OnStopClicked);
-				
-				Button toolBarRefresh = new Button ();
-				toolBarRefresh.Child = new Image (Gtk.Stock.Refresh, IconSize.SmallToolbar);
-				toolBarRefresh.Relief = ReliefStyle.None;
-				toolBarRefresh.Clicked += new EventHandler (OnRefreshClicked);
-			
-				urlTextBox.WidthChars = 50;
-				urlTextBox.Activated += new EventHandler (OnEntryActivated);
-				
-				toolBar.ToolbarStyle = ToolbarStyle.Icons;
-				toolBar.IconSize = IconSize.SmallToolbar;
-				toolBar.AppendWidget (toolBarBack, GettextCatalog.GetString ("Go Back"), "");
-				toolBar.AppendWidget (toolBarForward, GettextCatalog.GetString ("Go Forward"), "");
-				toolBar.AppendWidget (toolBarStop, GettextCatalog.GetString ("Stop Loading"), "");
-				toolBar.AppendWidget (toolBarRefresh, GettextCatalog.GetString ("Reload page"), "");
-				toolBar.AppendWidget (urlTextBox, GettextCatalog.GetString ("Location"), "");
-				
-				topPanel.PackStart (toolBar);
+				topPanel.PackStart (nav);
 				mainbox.PackStart (topPanel, false, false, 2);
 			} 
 			
 			htmlControl = new MozillaControl ();
-			htmlControl.NetStart += new EventHandler (OnNetStart);
-			htmlControl.NetStop += new EventHandler (OnNetStop);
+			htmlControl.NetStart += OnNetStart;
+			htmlControl.NetStop += OnNetStop;
+			htmlControl.LocChange += OnLocationChanged;
 			htmlControl.ShowAll ();
 			
 			mainbox.PackStart (htmlControl);
@@ -217,7 +193,7 @@ namespace MonoDevelop.BrowserDisplayBinding
 		
 		void OnEntryActivated (object o, EventArgs args)
 		{
-			htmlControl.LoadUrl (urlTextBox.Text);
+			htmlControl.LoadUrl (nav.Url);
 		}
 		
 		public void CreatedWebBrowserHandle(object sender, EventArgs evArgs) 
@@ -227,7 +203,7 @@ namespace MonoDevelop.BrowserDisplayBinding
 		
 		public void Navigate(string name)
 		{
-			urlTextBox.Text = name;
+			nav.Url = name;
 			htmlControl.LoadUrl (name);
 		}
 
@@ -239,6 +215,11 @@ namespace MonoDevelop.BrowserDisplayBinding
 		private void OnNetStop (object o, EventArgs args)
 		{
 			status.Push (1, GettextCatalog.GetString ("Done."));
+		}
+
+		void OnLocationChanged (object o, EventArgs args)
+		{
+			nav.Url = htmlControl.Location;
 		}
 
 		private void OnBackClicked (object o, EventArgs args)
