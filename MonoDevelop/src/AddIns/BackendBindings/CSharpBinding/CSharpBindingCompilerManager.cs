@@ -151,8 +151,8 @@ namespace CSharpBinding
 				}
 				
 				writer.WriteLine("/nologo");
-				writer.WriteLine("/utf8output");
-				writer.WriteLine("/w:" + compilerparameters.WarningLevel);;
+//				writer.WriteLine("/utf8output");
+//				writer.WriteLine("/w:" + compilerparameters.WarningLevel);;
 				
 				if (compilerparameters.Debugmode) {
 					writer.WriteLine("/debug:+");
@@ -160,9 +160,9 @@ namespace CSharpBinding
 					writer.WriteLine("/d:DEBUG");
 				}
 				
-				if (compilerparameters.Optimize) {
-					writer.WriteLine("/o");
-				}
+//				if (compilerparameters.Optimize) {
+//					writer.WriteLine("/o");
+//				}
 				
 				if (compilerparameters.Win32Icon != null && compilerparameters.Win32Icon.Length > 0 && File.Exists(compilerparameters.Win32Icon)) {
 					writer.WriteLine("\"/win32icon:" + compilerparameters.Win32Icon + "\"");
@@ -260,7 +260,14 @@ namespace CSharpBinding
 			string outstr = compilerName + " @" + responseFileName;
 			TempFileCollection tf = new TempFileCollection();
 			
-			Executor.ExecWaitWithCapture(outstr,  tf, ref output, ref error);
+			
+			StreamReader t = File.OpenText(responseFileName);
+			StreamWriter w = new StreamWriter("/home/pedro/mirame");
+			w.Write(t.ReadToEnd());
+			w.Close();
+			
+			//Executor.ExecWaitWithCapture(outstr,  tf, ref output, ref error);
+			DoCompilation(outstr, tf, ref output, ref error);
 			
 			ICompilerResult result = ParseOutput(tf, output);
 			project.CopyReferencesToOutputPath(false);
@@ -272,8 +279,13 @@ namespace CSharpBinding
 		
 		string GetCompilerName()
 		{
-			return fileUtilityService.GetDirectoryNameWithSeparator(System.Runtime.InteropServices.RuntimeEnvironment.GetRuntimeDirectory()) + 
-			       "csc.exe";
+			//return fileUtilityService.GetDirectoryNameWithSeparator(System.Runtime.InteropServices.RuntimeEnvironment.GetRuntimeDirectory()) + 
+			//       "csc.exe";
+			string ret = fileUtilityService.GetDirectoryNameWithSeparator(System.Runtime.InteropServices.RuntimeEnvironment.GetRuntimeDirectory());
+			ret = ret.Substring(0, ret.Length - 4);
+			ret = ret + "bin/mcs";
+			return ret;
+			
 		}
 		
 		ICompilerResult ParseOutput(TempFileCollection tf, string file)
@@ -283,7 +295,7 @@ namespace CSharpBinding
 			StreamReader sr = File.OpenText(file);
 			
 			// skip fist whitespace line
-			sr.ReadLine();
+			//sr.ReadLine();
 			
 			CompilerResults cr = new CompilerResults(tf);
 			
@@ -331,6 +343,21 @@ namespace CSharpBinding
 			}
 			sr.Close();
 			return new DefaultCompilerResult(cr, compilerOutput.ToString());
+		}
+		
+		private void DoCompilation(string outstr, TempFileCollection tf, ref string output, ref string error) {
+			output = Path.GetTempFileName();
+			error = Path.GetTempFileName();
+			
+			string arguments = outstr + " > " + output + " 2> " + error;
+			string command = arguments;
+			ProcessStartInfo si = new ProcessStartInfo("/bin/sh -c \"" + command + "\"");
+			si.RedirectStandardOutput = true;
+			si.RedirectStandardError = true;
+			Process p = new Process();
+			p.StartInfo = si;
+			p.Start();
+			p.WaitForExit();
 		}
 	}
 }

@@ -115,7 +115,8 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads
 			
 		}
 		
-		void SetOutput2(object sender, EventArgs e)
+		//void SetOutput2(object sender, EventArgs e)
+		void SetOutput2()
 		{
 			TaskService taskService = (TaskService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(TaskService));
 			try {
@@ -128,7 +129,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads
 		
 		void UpdateTextArea()
 		{
-			Console.WriteLine("Create CompilerMessage View Handle:" + textEditorControl.Handle);
+			//Console.WriteLine("Create CompilerMessage View Handle:" + textEditorControl.Handle);
 			
 			textEditorControl.ActiveTextAreaControl.Caret.Position = textEditorControl.Document.OffsetToPosition(textEditorControl.Document.TextLength);
 			textEditorControl.ActiveTextAreaControl.ScrollToCaret();
@@ -137,9 +138,10 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads
 		string outputText = null;
 		void SetOutput(object sender, EventArgs e)
 		{
-			Console.WriteLine("Create CompilerMessage View Handle:" + textEditorControl.Handle);
-			
+			//Console.WriteLine("Create CompilerMessage View Handle:" + textEditorControl.Handle);
+			//throw new Exception("Trace me...");
 			if (WorkbenchSingleton.Workbench.WorkbenchLayout.IsVisible(this)) {
+				SetOutput2();
 				//textEditorControl.Invoke(new EventHandler(SetOutput2));
 				outputText = null;
 			} else {
