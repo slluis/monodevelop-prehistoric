@@ -43,7 +43,11 @@ build_TEMPLATES = $(addprefix $(TEMPLATES_DIR)/, $(notdir $(TEMPLATES)))
 
 src_TEMPLATES = $(addprefix $(srcdir)/, $(TEMPLATES))
 
+if ENABLE_JAVA
 all: $(ASSEMBLY) $(ADDIN_BUILD)/$(ADDIN) $(build_TEMPLATES)
+else
+all:
+endif
 
 #%.xft.xml: $(srcdir)/templates/%.xft.xml
 #	mkdir -p $(TEMPLATES_DIR)
@@ -69,11 +73,13 @@ $(ASSEMBLY): $(FILES)
 	mkdir -p $(ADDIN_BUILD)
 	$(CSC) $(DLLS) $(build_sources) -out:$@ -target:library
 
+if ENABLE_JAVA
 assemblydir = $(libdir)/monodevelop/AddIns/BackendBindings
 assembly_DATA = $(ASSEMBLY) $(ADDIN)
 
 templatedir = $(assemblydir)/templates
 template_DATA = $(TEMPLATES)
+endif
 
 CLEANFILES = $(ASSEMBLY) $(ASSEMBLY).mdb
 EXTRA_DIST = $(FILES) $(ADDIN) $(TEMPLATES)

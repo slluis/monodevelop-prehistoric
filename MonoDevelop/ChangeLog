@@ -1,3 +1,8 @@
+2005-02-24  John Luke  <john.luke@gmail.com>
+
+	* configure.in: move JavaBinding to Extras
+	and some incomplete dep-checking for ikvm
+
 2005-02-09  John Luke  <john.luke@gmail.com>
 
 	* */Makefile.am: build to build/bin/ so the make CSC='mcs -g'

@@ -1,9 +1,10 @@
 <AddIn name	 = "AddInManager"
        author	 = "John Luke"
-       copyright = "GPL"
+       copyright = "2004-2005 John Luke"
+       license   = "GPL"
        url       = "http://monodevelop.com"
        description = "Displays and Manages AddIns"
-       version   = "0.0">
+       version   = "0.5">
 
 	<Runtime>
 		<Import assembly="AddInManager.dll"/>

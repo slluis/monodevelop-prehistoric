@@ -9,7 +9,8 @@ namespace AddInManager
 {
 	public class AddInManagerDialog : Dialog
 	{
-		TreeStore store;
+		ListStore store;
+		AddInDetailsFrame addinDetails;
 
 		public AddInManagerDialog ()
 		{
@@ -21,6 +22,7 @@ namespace AddInManager
 			ScrolledWindow sw = new ScrolledWindow ();
 			sw.ShadowType = ShadowType.In;
 			TreeView tv = new TreeView ();
+			tv.Selection.Changed += new EventHandler (OnSelectionChanged);
 			tv.RowActivated += new RowActivatedHandler (OnRowActivated);
 
 			CellRendererToggle toggle = new CellRendererToggle ();
@@ -35,16 +37,19 @@ namespace AddInManager
 			LoadAddIns ();
 			tv.Model = store;
 			this.VBox.Add (sw);
+
+			addinDetails = new AddInDetailsFrame ();
+			this.VBox.Add (addinDetails);
 			this.ShowAll ();
 		}
 
 		void LoadAddIns ()
 		{
-			store = new TreeStore (typeof (bool), typeof (string), typeof (string));
+			store = new ListStore (typeof (bool), typeof (string), typeof (string), typeof (AddIn));
 			AddInCollection addins = AddInTreeSingleton.AddInTree.AddIns;
 
 			foreach (AddIn a in addins)
-				store.AppendValues (true, a.Name, a.Version);
+				store.AppendValues (true, a.Name, a.Version, a);
 		}
 
 		void OnCellToggled (object sender, ToggledArgs a)
@@ -52,6 +57,17 @@ namespace AddInManager
 			TreeIter iter;
 			if (store.GetIterFromString (out iter, a.Path))
 				Toggle (iter);
+		}
+
+		void OnSelectionChanged (object sender, EventArgs a)
+		{
+			TreeIter iter;
+			TreeModel model;
+
+			if (((TreeSelection)sender).GetSelected (out model, out iter))
+				addinDetails.SetAddin ((AddIn) model.GetValue (iter, 3));
+			else
+				addinDetails.Clear ();
 		}
 
 		void OnRowActivated (object sender, RowActivatedArgs a)

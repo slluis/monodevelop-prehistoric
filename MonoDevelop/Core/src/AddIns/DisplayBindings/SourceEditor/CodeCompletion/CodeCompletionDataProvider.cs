@@ -111,7 +111,7 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 				} else if (o is IClass) {
 					IClass iclass = (IClass) o;
 					if (iclass.Name != null && insertedClasses[iclass.Name] == null) {
-						completionData.Add(new CodeCompletionData((IClass)o));
+						completionData.Add(new CodeCompletionData(iclass));
 						insertedClasses[iclass.Name] = iclass;
 					}
 				} else if (o is IProperty) {

@@ -127,6 +127,17 @@ AC_ARG_ENABLE(debugger,
  AM_CONDITIONAL(ENABLE_DEBUGGER, test x$enable_debugger = xyes)
  AC_SUBST(MONO_DEBUGGER_LIBS)
 
+dnl java binding
+dnl need to test for a java source to bytecode compiler
+dnl and for ikvm
+IKVM_REQUIRED_VERSION=0.10
+AC_ARG_ENABLE(java,
+	AC_HELP_STRING([--enable-java],
+		[enable support for Java via ikvm [default=no]]),
+		[PKG_CHECK_MODULES(IKVM, ikvm >= $IKVM_REQUIRED_VERSION, enable_java=yes, enable_java=no)],
+		enable_java=no)
+AM_CONDITIONAL(ENABLE_JAVA, test x$enable_java = xyes)
+
 MOZILLA_HOME="`$PKG_CONFIG --variable=libdir mozilla-gtkmozembed`"
 AC_SUBST(MOZILLA_HOME)
 
@@ -188,7 +199,6 @@ Core/src/Makefile
 Core/src/AddIns/Makefile
 Core/src/AddIns/BackendBindings/Makefile
 Core/src/AddIns/BackendBindings/CSharpBinding/Makefile
-Core/src/AddIns/BackendBindings/JavaBinding/Makefile
 Core/src/AddIns/BackendBindings/ILAsmBinding/Makefile
 Core/src/AddIns/BackendBindings/NemerleBinding/Makefile
 Core/src/AddIns/BackendBindings/VBNetBinding/Makefile
@@ -229,6 +239,7 @@ Extras/Makefile
 Extras/MonoQuery/Makefile
 Extras/MonoQuery/MonoQuery.addin.xml
 Extras/MonoDeveloperExtensions/Makefile
+Extras/JavaBinding/Makefile
 ])
 
 echo ""
@@ -242,4 +253,5 @@ echo "   * MonoQuery Providers:"
 echo "   *   PostgreSQL:   yes"
 echo "   *   MySQL:        yes"
 echo "   *   SQLite:       $enable_monoquery_sqlite"
+echo "   * java support: $enable_java"
 echo ""
