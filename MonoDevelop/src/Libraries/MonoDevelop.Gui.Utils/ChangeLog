@@ -1,3 +1,7 @@
+2004-05-26  Todd Berman  <tberman@sevenl.net>
+
+	* VFS/Vfs.cs: change string marshalling to make things not leak.
+
 2004-04-12  Kristian Rietveld  <kris@gtk.org>
 
 	* FileIcons/FileIconLoader.cs: if LookupIcon returns an empty string,

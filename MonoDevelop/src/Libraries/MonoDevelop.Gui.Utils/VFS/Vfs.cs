@@ -20,17 +20,17 @@ namespace MonoDevelop.Gui.Utils
 		static extern bool gnome_vfs_shutdown ();
 		
 		[DllImport ("gnomevfs-2")]
-		static extern string gnome_vfs_get_mime_type (string uri);
+		static extern IntPtr gnome_vfs_get_mime_type (string uri);
 		
 		[DllImport ("gnomevfs-2")]
-		static extern string gnome_vfs_get_mime_type_for_data (string data, int length);
+		static extern IntPtr gnome_vfs_get_mime_type_for_data (string data, int length);
 		
 		[DllImport ("gnomevfs-2")]
-		static extern string gnome_vfs_mime_get_icon (string mime_type);
+		static extern IntPtr gnome_vfs_mime_get_icon (string mime_type);
 		
 		[DllImport ("gnomevfs-2")]
 		static extern bool gnome_vfs_mime_type_is_known (string mime_type);
-		
+
 		private Vfs ()
 		{
 		}
@@ -43,17 +43,17 @@ namespace MonoDevelop.Gui.Utils
 		
 		public static string GetIcon (string mimetype)
 		{
-			return gnome_vfs_mime_get_icon (mimetype);
+			return GLib.Marshaller.PtrToStringGFree (gnome_vfs_mime_get_icon (mimetype));
 		}
 		
 		public static string GetMimeType (string filename)
 		{
-			return gnome_vfs_get_mime_type (filename);
+			return GLib.Marshaller.PtrToStringGFree (gnome_vfs_get_mime_type (filename));
 		}
 		
 		public static string GetMimeTypeFromData (string data)
 		{
-			return gnome_vfs_get_mime_type_for_data (data, data.Length);
+			return GLib.Marshaller.PtrToStringGFree (gnome_vfs_get_mime_type_for_data (data, data.Length));
 		}
 		
 		public static bool IsKnownType (string mimetype)

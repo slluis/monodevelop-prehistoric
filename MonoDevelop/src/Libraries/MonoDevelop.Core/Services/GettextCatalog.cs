@@ -23,6 +23,7 @@
  *     be picked up by update-po.
  */
 
+using System;
 using System.Runtime.InteropServices;
 
 using MonoDevelop.Core.Services;
@@ -43,15 +44,15 @@ namespace MonoDevelop.Services
 		}
 	
 		[DllImport ("libmonodevelop")]
-		private static extern string intl_get_string (string str);
+		private static extern IntPtr intl_get_string (string str);
 	
 		public static string GetString (string str)
 		{
-			return intl_get_string (str);
+			return Marshal.PtrToStringAnsi (intl_get_string (str));
 		}
 	
 		[DllImport ("libmonodevelop")]
-		private static extern string intl_get_plural_string (string singular,
+		private static extern IntPtr intl_get_plural_string (string singular,
 								     string plural,
 								     int n);
 	
@@ -59,7 +60,7 @@ namespace MonoDevelop.Services
 			    	 	              string plural,
 					              int n)
 		{
-			return intl_get_plural_string (singular, plural, n);
+			return Marshal.PtrToStringAnsi (intl_get_plural_string (singular, plural, n));
 		}
 	}
 }
