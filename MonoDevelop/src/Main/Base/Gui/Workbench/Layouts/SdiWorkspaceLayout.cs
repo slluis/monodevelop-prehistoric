@@ -94,8 +94,8 @@ namespace ICSharpCode.SharpDevelop.Gui
 			dock = new Dock ();
 			DockBar dockBar = new DockBar (dock);
 			Gtk.HBox dockBox = new HBox (false, 5);
-			dockBox.PackStart (dock, true, true, 0);
 			dockBox.PackStart (dockBar, false, true, 0);
+			dockBox.PackStart (dock, true, true, 0);
 			vbox.PackStart (dockBox, true, true, 0);
 
 			// Create the notebook for the various documents.
