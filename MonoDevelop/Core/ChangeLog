@@ -1,3 +1,8 @@
+2004-07-03  John Luke  <jluke@cfl.rr.com>
+
+	* README: update dependency versions
+	* configure.in: set mono dep to 1.0
+
 2004-07-01  Todd Berman  <tberman@off.net>
 
 	* *: This is a huge changeset, so instead of annotating in every
