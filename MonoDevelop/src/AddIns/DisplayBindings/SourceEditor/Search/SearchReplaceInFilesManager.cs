@@ -114,7 +114,7 @@ namespace MonoDevelop.TextEditor.Document
 			
 			// tell the user search is done.
 			MessageService MessageService = (MessageService)ServiceManager.Services.GetService (typeof (MessageService));
-			MessageService.ShowMessage ("Search completed");
+			MessageService.ShowMessage (GettextCatalog.GetString ("Search completed"));
 		}
 		
 		public static void ReplaceAll()

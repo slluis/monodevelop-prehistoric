@@ -75,3 +75,9 @@ src/Libraries/MonoDevelop.Gui.Widgets/Tree/TreeNodeCollection.cs
 src/AddIns/DisplayBindings/SourceEditor/Commands/ToolCommands.cs
 src/AddIns/DisplayBindings/SourceEditor/Gui/Dialogs/ReplaceDialog.cs
 src/AddIns/DisplayBindings/SourceEditor/Gui/Dialogs/EditTemplateGroupDialog.cs
+src/AddIns/DisplayBindings/SourceEditor/Gui/Dialogs/ReplaceInFilesDialog.cs
+src/AddIns/DisplayBindings/SourceEditor/Gui/OptionPanels/CodeTemplatePanel.cs
+src/AddIns/DisplayBindings/SourceEditor/Gui/Pads/CompilerMessageView.cs
+src/AddIns/DisplayBindings/SourceEditor/Gui/SourceEditorDisplayBinding.cs
+src/AddIns/DisplayBindings/SourceEditor/Search/SearchReplaceInFilesManager.cs
+src/AddIns/DisplayBindings/SourceEditor/Search/SearchReplaceManager.cs

@@ -1,5 +1,19 @@
 2004-04-03  Todd Berman  <tberman@sevenl.net>
 
+	* Gui/Dialogs/ReplaceInFilesDialog.cs:
+	* Gui/SourceEditorView.cs:
+	* Gui/Pads/CompilerMessageView.cs:
+	* Gui/OptionPanels/BehaviorTextEditorPanel.cs:
+	* Gui/OptionPanels/MarkersTextEditorPanel.cs:
+	* Gui/OptionPanels/CodeTemplatePanel.cs:
+	* Gui/OptionPanels/GeneralTextEditorPanel.cs:
+	* Gui/SourceEditorDisplayBinding.cs:
+	* Search/SearchReplaceManager.cs:
+	* Search/SearchReplaceInFilesManager.cs:
+	gettextify
+
+2004-04-03  Todd Berman  <tberman@sevenl.net>
+
 	* Commands/ToolCommands.cs:
 	* Gui/Dialogs/ReplaceDialog.cs:
 	* Gui/Dialogs/EditTemplateGroupDialog.cs:

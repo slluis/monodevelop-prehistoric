@@ -61,24 +61,11 @@ namespace MonoDevelop.EditorBindings.Gui.OptionPanels
 			public GeneralTextEditorPanelWidget (IProperties CustomizationObject) :  base ("EditorBindings.glade", "GeneralTextEditorPanel")
 			{
 				encodingBox.Destroy(); // this is a really dirty way of hiding encodingBox, but Hide() doesn't work
-				genOptions.Markup = "<b> " + StringParserService.Parse(
-					"${res:Dialog.Options.IDEOptions.TextEditor.General.GeneralOptionsGroupBox}" ) + "</b>";
-				fontOptions.Markup = "<b> " + StringParserService.Parse(
-					"${res:Dialog.Options.IDEOptions.TextEditor.General.FontGroupBox}" ) + "</b>";
-// 				encOptions.Markup = "<b> " + StringParserService.Parse(
-// 					"${res:Dialog.Options.IDEOptions.TextEditor.General.FontGroupBox.FileEncodingGroupBox}" ) + "</b>";
-
-				enableCodeCompletionCheckBox.Label = StringParserService.Parse(
-					"${res:Dialog.Options.IDEOptions.TextEditor.General.CodeCompletionCheckBox}");
 				enableCodeCompletionCheckBox.Active = ((IProperties) CustomizationObject).GetProperty(
 					"EnableCodeCompletion", true);
 				
- 				enableFoldingCheckBox.Label = StringParserService.Parse(
- 					"${res:Dialog.Options.IDEOptions.TextEditor.General.FoldingCheckBox}");
  				enableFoldingCheckBox.Active = ((IProperties) CustomizationObject).GetProperty("EnableFolding", true);
 
-				enableDoublebufferingCheckBox.Label = StringParserService.Parse(
-					"${res:Dialog.Options.IDEOptions.TextEditor.General.DoubleBufferCheckBox}");
  				enableDoublebufferingCheckBox.Active = ((IProperties) CustomizationObject).GetProperty(
 					"DoubleBuffer", true);
 					

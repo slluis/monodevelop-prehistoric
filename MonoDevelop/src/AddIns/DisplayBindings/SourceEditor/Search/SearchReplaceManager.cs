@@ -102,7 +102,7 @@ namespace MonoDevelop.TextEditor.Document
 				
 				if (result == null) {
 					//MessageBox.Show((Form)WorkbenchSingleton.Workbench, "Mark all done", "Finished");
-					MessageService.ShowMessage ("Mark all completed");
+					MessageService.ShowMessage (GettextCatalog.GetString ("Mark all completed"));
 					find.Reset();
 					return;
 				} else {
@@ -135,7 +135,7 @@ namespace MonoDevelop.TextEditor.Document
 				
 				if (result == null) {
 					//MessageBox.Show((Form)WorkbenchSingleton.Workbench, "Replace all done", "Finished");
-					MessageService.ShowMessage ("Replace all finished");
+					MessageService.ShowMessage (GettextCatalog.GetString ("Replace all finished"));
 					find.Reset();
 					return;
 				} else {
@@ -170,7 +170,7 @@ namespace MonoDevelop.TextEditor.Document
 				                "Not Found", 
 				                MessageBoxButtons.OK, 
 				                MessageBoxIcon.Information);*/
-				MessageService.ShowMessage ("Not Found");
+				MessageService.ShowMessage (GettextCatalog.GetString ("Not Found"));
 				find.Reset();
 			} else {
 				SourceEditor textArea = OpenTextArea(result.FileName);

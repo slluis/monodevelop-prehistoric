@@ -69,34 +69,6 @@ namespace MonoDevelop.EditorBindings.Gui.OptionPanels
 			{
 				// Set up Text
 
-				//FIXME: i18n the following Labels
-				noneIndentStyle.Label =      "None";
-				automaticIndentStyle.Label = "Automatic"; 
-				// FIXME: renable this when smart indent is back
-				//smartIndentStyle.Label =     "Smart";
-
-				tabsGroupBoxLabel.Markup = "<b>" + StringParserService.Parse(
-					"${res:Dialog.Options.IDEOptions.TextEditor.Behaviour.TabsGroupBox}")  + "</b>";
-				tabSizeLabel.TextWithMnemonic = StringParserService.Parse(
-					"${res:Dialog.Options.IDEOptions.TextEditor.Behaviour.TabSizeLabel}");
-				indentSizeLabel.TextWithMnemonic = StringParserService.Parse(
-					"${res:Dialog.Options.IDEOptions.TextEditor.Behaviour.IndentSizeLabel}");
-				indentLabel.TextWithMnemonic = StringParserService.Parse(
-					"${res:Dialog.Options.IDEOptions.TextEditor.Behaviour.IndentLabel}");
-				
-				behaviourGroupBoxLabel.Markup = "<b>" +  StringParserService.Parse(
-					"${res:Dialog.Options.IDEOptions.TextEditor.Behaviour.BehaviourGroupBox}") + "</b>";
-				autoinsertCurlyBraceCheckBox.Label = StringParserService.Parse(
-					"${res:Dialog.Options.IDEOptions.TextEditor.Behaviour.CurlyBracketCheckBox}");
-				hideMouseCursorCheckBox.Label = StringParserService.Parse(
-					"${res:Dialog.Options.IDEOptions.TextEditor.Behaviour.HideMouseCheckBox}");
-				caretBehindEOLCheckBox.Label = StringParserService.Parse(
-					"${res:Dialog.Options.IDEOptions.TextEditor.Behaviour.BehindEOLCheckBox}");
-				autoInsertTemplatesCheckBox.Label = StringParserService.Parse(
-					"${res:Dialog.Options.IDEOptions.TextEditor.Behaviour.TemplateInsertCheckBox}");
-				convertTabsToSpacesCheckBox.Label = StringParserService.Parse(
-					"${res:Dialog.Options.IDEOptions.TextEditor.Behaviour.ConvertTabsToSpacesCheckBox}");			
-				
 				// Set up Value
 				autoinsertCurlyBraceCheckBox.Active = ((IProperties)CustomizationObject).GetProperty(
 					"AutoInsertCurlyBracket", true);

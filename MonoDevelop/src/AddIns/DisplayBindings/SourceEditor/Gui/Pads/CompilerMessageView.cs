@@ -42,7 +42,7 @@ namespace MonoDevelop.EditorBindings.Gui.Pads
 		
 		public string Title {
 			get {
-				return resourceService.GetString("MainWindow.Windows.OutputWindow");
+				return GettextCatalog.GetString ("Output");
 			}
 		}
 		

@@ -105,7 +105,7 @@ namespace MonoDevelop.SourceEditor.Gui
 		
 		public override string TabPageLabel {
 			get {
-				return "Source Editor";
+				return GettextCatalog.GetString ("Source Editor");
 			}
 		}
 		

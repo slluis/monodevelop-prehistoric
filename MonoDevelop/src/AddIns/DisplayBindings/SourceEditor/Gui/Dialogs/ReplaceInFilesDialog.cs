@@ -64,19 +64,8 @@ namespace MonoDevelop.Gui.Dialogs
 		
 		void InitDialog ()
 		{
-			label1.Text = stringParserService.Parse ("${res:Dialog.NewProject.SearchReplace.FindWhat}");
-			searchLocationLabel.Text = stringParserService.Parse ("${res:Dialog.NewProject.SearchReplace.SearchIn}");
-			label6.Text = stringParserService.Parse ("${res:NewProject.SearchReplace.FileMask}");
-			label7.Text = stringParserService.Parse ("${res:NewProject.SearchReplace.Directory}");
-			//findButton.Label = stringParserService.Parse ("${res:Dialog.NewProject.SearchReplace.FindNextButton}");			
-			//closeButton.Label = stringParserService.Parse ("${res:Global.CloseButtonText}");
 			findButton.UseUnderline = true;			
 			closeButton.UseUnderline = true;
-			includeSubdirectoriesCheckBox.Label = stringParserService.Parse ("${res:NewProject.SearchReplace.IncludeSubdirectories}");
-			ignoreCaseCheckBox.Label = stringParserService.Parse ("${res:Dialog.NewProject.SearchReplace.CaseSensitive}");
-			searchWholeWordOnlyCheckBox.Label = stringParserService.Parse ("${res:Dialog.NewProject.SearchReplace.WholeWord}");
-			useSpecialSearchStrategyCheckBox.Label = stringParserService.Parse ("${res:Dialog.NewProject.SearchReplace.UseMethodLabel}");			
-			
 			
 			//set up the size groups
 			SizeGroup labels = new SizeGroup(SizeGroupMode.Horizontal);
@@ -106,9 +95,8 @@ namespace MonoDevelop.Gui.Dialogs
 			// set replace dialog properties 
 			if(replaceMode)
 			{
-				ReplaceDialogPointer = this.ReplaceInFilesDialogWidget;
 				// set the label properties
-				label2.Text = stringParserService.Parse ("${res:Dialog.NewProject.SearchReplace.ReplaceWith}");
+				label2.Text = GettextCatalog.GetString ("Replace in Files");
 				//replaceButton.Label = stringParserService.Parse ("${res:Dialog.NewProject.SearchReplace.ReplaceButton}");
 				//replaceButton.UseUnderline = true;
 				
@@ -185,9 +173,9 @@ namespace MonoDevelop.Gui.Dialogs
 			//CancelButton = (Button)ControlDictionary["closeButton"];
 			Gtk.MenuItem tmpItem;
 			Gtk.Menu stratMenu = new Gtk.Menu ();
-			tmpItem = new Gtk.MenuItem (resourceService.GetString("Dialog.NewProject.SearchReplace.SearchStrategy.WildcardSearch"));
+			tmpItem = new Gtk.MenuItem (GettextCatalog.GetString ("Wildcards"));
 			stratMenu.Append (tmpItem);
-			tmpItem = new Gtk.MenuItem (resourceService.GetString("Dialog.NewProject.SearchReplace.SearchStrategy.RegexSearch"));
+			tmpItem = new Gtk.MenuItem (GettextCatalog.GetString ("Regular Expressions"));
 			stratMenu.Append (tmpItem);
 			specialSearchStrategyComboBox.Menu = stratMenu;
 			
@@ -203,11 +191,11 @@ namespace MonoDevelop.Gui.Dialogs
  			specialSearchStrategyComboBox.SetHistory (index);
 			
 			Gtk.Menu locMenu = new Gtk.Menu ();
-			tmpItem = new Gtk.MenuItem (resourceService.GetString("Global.Location.directories"));
+			tmpItem = new Gtk.MenuItem (GettextCatalog.GetString ("Directories"));
 			locMenu.Append (tmpItem);
-			tmpItem = new Gtk.MenuItem (resourceService.GetString("Global.Location.allopenfiles"));
+			tmpItem = new Gtk.MenuItem (GettextCatalog.GetString ("All open files"));
 			locMenu.Append (tmpItem);
-			tmpItem = new Gtk.MenuItem (resourceService.GetString("Global.Location.wholeproject"));
+			tmpItem = new Gtk.MenuItem (GettextCatalog.GetString ("Whole project"));
 			locMenu.Append (tmpItem);
 			searchLocationComboBox.Menu = locMenu;
 						
@@ -265,7 +253,7 @@ namespace MonoDevelop.Gui.Dialogs
 		
 		void BrowseDirectoryEvent(object sender, EventArgs e)
 		{
-			FolderDialog fd = new FolderDialog("Select directory");
+			FolderDialog fd = new FolderDialog(GettextCatalog.GetString ("Select directory"));
 			if (fd.Run() == (int)Gtk.ResponseType.Ok)
 			{
 				directoryTextBox.Text = fd.Filename;
@@ -303,17 +291,17 @@ namespace MonoDevelop.Gui.Dialogs
 			if (SearchReplaceInFilesManager.SearchOptions.DocumentIteratorType == DocumentIteratorType.Directory) {
 				
 				if (!fileUtilityService.IsValidFileName(directoryName)) {
-					messageService.ShowErrorFormatted("${res:NewProject.SearchReplace.FindInFilesInvalidDirectoryMessage}", directoryName);
+					messageService.ShowErrorFormatted(GettextCatalog.GetString ("Invalid directory name: {0}"), directoryName);
 					return false;
 				}
 				
 				if (!Directory.Exists(directoryName)) {
-					messageService.ShowErrorFormatted("${res:NewProject.SearchReplace.FindInFilesDirectoryNotExistingMessage}", directoryName);
+					messageService.ShowErrorFormatted (GettextCatalog.GetString ("Invalid directory name: {0}"), directoryName);
 					return false;
 				}
 				
 				if (!fileUtilityService.IsValidFileName(fileMask) || fileMask.IndexOf('\\') >= 0) {
-					messageService.ShowErrorFormatted("${res:NewProject.SearchReplace.FindInFilesInvalidFilemaskMessage}", fileMask);
+					messageService.ShowErrorFormatted(GettextCatalog.GetString ("Invalid file mask: {0}"), fileMask);
 					return false;
 				}
 			}

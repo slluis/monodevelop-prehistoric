@@ -15,6 +15,7 @@ using MonoDevelop.Core.Properties;
 using MonoDevelop.Core.AddIns.Codons;
 
 using MonoDevelop.Core.Services;
+using MonoDevelop.Services;
 using MonoDevelop.Gui.Dialogs;
 
 using Gtk;
@@ -105,24 +106,15 @@ namespace MonoDevelop.EditorBindings.Gui.OptionPanels
 			
 			void SetLabels()
 			{
-				extensionLabel.TextWithMnemonic = StringParserService.Parse("${res:Dialog.Options.CodeTemplate.ExtensionsLabel}");
-				removeButton.Label = StringParserService.Parse("${res:Global.RemoveButtonText}");
-				addButton.Label = StringParserService.Parse("${res:Global.AddButtonText}");
-				editButton.Label = StringParserService.Parse("${res:Global.EditButtonText}");
-				addGroupButton.Label = StringParserService.Parse("${res:Dialog.Options.CodeTemplate.AddGroupLabel}");
-				// FIXME: make this use the resource file for the label
-				editGroupButton.Label = "Ed_it Group";
-				removeGroupButton.Label = StringParserService.Parse("${res:Dialog.Options.CodeTemplate.RemoveGroupLabel}");
-				
 				CellRendererText textRenderer = new CellRendererText ();
 				
 				// and listview columns 
 				templateListView.AppendColumn (
-					StringParserService.Parse("${res:Dialog.Options.CodeTemplate.Template}"), 
+					GettextCatalog.GetString ("Template"), 
 					textRenderer,  
 					new TreeCellDataFunc(TemplateListViewCellDataFunc));
 				templateListView.AppendColumn (
-					StringParserService.Parse("${res:Dialog.Options.CodeTemplate.Description}"), 
+					GettextCatalog.GetString ("Description"), 
 					textRenderer, 
 					new TreeCellDataFunc(TemplateListViewCellDataFunc));
 			}
@@ -134,7 +126,7 @@ namespace MonoDevelop.EditorBindings.Gui.OptionPanels
 				
 				CodeTemplate codeTemplate = ((ListStore)model).GetValue(iter, 0) as CodeTemplate;
 				
-				if(column.Title == StringParserService.Parse("${res:Dialog.Options.CodeTemplate.Template}"))
+				if(column.Title == GettextCatalog.GetString ("Template"))
 				{
 					// first column
 					((CellRendererText)renderer).Text = codeTemplate.Shortcut;
@@ -166,7 +158,7 @@ namespace MonoDevelop.EditorBindings.Gui.OptionPanels
 			{
 				foreach (Widget control in controls) {				
 					if (control == null) {
-						MessageService.ShowError("Control not found!");
+						MessageService.ShowError(GettextCatalog.GetString ("Control not found!"));
 					} else {
 						control.Sensitive = enabled;
 					}
@@ -186,7 +178,7 @@ namespace MonoDevelop.EditorBindings.Gui.OptionPanels
 			void AddGroupEvent(object sender, EventArgs e)
 			{
 				CodeTemplateGroup templateGroup = new CodeTemplateGroup(".???");
-				if(ShowEditTemplateGroupDialog(ref templateGroup, "New ")) {
+				if(ShowEditTemplateGroupDialog(ref templateGroup, GettextCatalog.GetString ("New "))) {
 					templateGroups.Add(templateGroup);
 					FillGroupOptionMenu();
 					groupOptionMenu.SetHistory((uint) templateGroups.Count - 1);
@@ -199,7 +191,7 @@ namespace MonoDevelop.EditorBindings.Gui.OptionPanels
 				
 				int index = groupOptionMenu.History;
 				CodeTemplateGroup templateGroup = (CodeTemplateGroup) templateGroups[index];
-				if(ShowEditTemplateGroupDialog(ref templateGroup, "Edit ")) {
+				if(ShowEditTemplateGroupDialog(ref templateGroup, GettextCatalog.GetString ("Edit "))) {
 					templateGroups[index] = templateGroup;
 					FillGroupOptionMenu();
 					groupOptionMenu.SetHistory((uint)index);

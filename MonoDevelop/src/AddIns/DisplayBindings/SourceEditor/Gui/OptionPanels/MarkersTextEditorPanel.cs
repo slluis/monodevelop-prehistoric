@@ -73,30 +73,6 @@ namespace MonoDevelop.EditorBindings.Gui.OptionPanels
 				// Load Text
 
 				// FIXME i8n the following labels:
-				markersLabel.Markup =  "<b>Markers</b> ";
-				rulersLabel.Markup =  "<b>Rulers</b> ";
-				characterMarkersLabel.TextWithMnemonic =  "Character Markers";
-
-				atColumnLabel.TextWithMnemonic = StringParserService.Parse(
-					"${res:Dialog.Options.IDEOptions.TextEditor.Markers.AtRowLabel}") + ", ";
-				showLineNumberCheckBox.Label = StringParserService.Parse(
-					"${res:Dialog.Options.IDEOptions.TextEditor.Markers.LineNumberCheckBox}");
-				showInvalidLinesCheckBox.Label = StringParserService.Parse(
-					"${res:Dialog.Options.IDEOptions.TextEditor.Markers.InvalidLinesCheckBox}");
-				showBracketHighlighterCheckBox.Label = StringParserService.Parse(
-					"${res:Dialog.Options.IDEOptions.TextEditor.Markers.HiglightBracketCheckBox}");
-				showErrorsCheckBox.Label = StringParserService.Parse(
-					"${res:Dialog.Options.IDEOptions.TextEditor.Markers.UnderLineErrorsCheckBox}");
- 				showHRulerCheckBox.Label = StringParserService.Parse(
- 					"${res:Dialog.Options.IDEOptions.TextEditor.Markers.HorizontalRulerCheckBox}");
- 				showEOLMarkersCheckBox.Label = StringParserService.Parse(
- 					"${res:Dialog.Options.IDEOptions.TextEditor.Markers.EOLMarkersCheckBox}");
- 				showVRulerCheckBox.Label = StringParserService.Parse(
- 					"${res:Dialog.Options.IDEOptions.TextEditor.Markers.VerticalRulerCheckBox}");
- 				showTabCharsCheckBox.Label = StringParserService.Parse(
- 					"${res:Dialog.Options.IDEOptions.TextEditor.Markers.TabsCheckBox}");
- 				showSpaceCharsCheckBox.Label = StringParserService.Parse(
-					"${res:Dialog.Options.IDEOptions.TextEditor.Markers.SpacesCheckBox}");
 
 				// Load Values
 
