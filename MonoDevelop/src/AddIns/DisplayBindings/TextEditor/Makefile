@@ -65,12 +65,12 @@ DLL=../../../../build/bin/SharpDevelop.DefaultTexteditor.dll
 
 all: $(DLL)
 
-$(DLL): $(SOURCES)
+$(DLL): $(SOURCES) ../../../../data/resources/glade/texteditoraddin.glade
 	mcs /debug /out:$(DLL) /target:library /r:System.Drawing.dll \
 		/r:../../../../build/bin/ICSharpCode.Core.dll \
 		/r:../../../../build/bin/ICSharpCode.TextEditor.dll \
 		/r:../../../../build/bin/SharpDevelop.Base.dll \
-		/r:System.DirectoryServices.dll /r:pango-sharp.dll \
+		/r:System.DirectoryServices.dll /r:pango-sharp.dll /r:glade-sharp.dll \
 		/resource:../../../../data/resources/glade/texteditoraddin.glade,texteditoraddin.glade \
 		/define:GTK /r:gtk-sharp.dll /r:gdk-sharp.dll \
 		$(SOURCES)
