@@ -8,6 +8,7 @@
 using System;
 using System.IO;
 using System.Collections;
+using System.Reflection;
 using System.Xml;
 using System.Threading;
 
@@ -46,12 +47,15 @@ namespace MonoDevelop
 		}
 
 		/// <summary>
-		/// Starts the core of SharpDevelop.
+		/// Starts the core of MonoDevelop.
 		/// </summary>
 		[STAThread()]
 		public static void Main(string[] args)
 		{
-			Gnome.Program program = new Gnome.Program ("MonoDevelop", "0.3", Gnome.Modules.UI, args);
+			string name = Assembly.GetEntryAssembly ().GetName ().Name;
+			string version = Assembly.GetEntryAssembly ().GetName ().Version.Major + + "." + Assembly.GetEntryAssembly ().GetName ().Version.Minor;
+
+			Gnome.Program program = new Gnome.Program (name, version, Gnome.Modules.UI, args);
 			Gdk.Threads.Init();
 			commandLineArgs = args;
 			bool noLogo = false;

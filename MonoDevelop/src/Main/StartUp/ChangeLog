@@ -1,3 +1,7 @@
+2004-04-07  John Luke  <jluke@cfl.rr.com>
+
+	* MonoDevelopMain.cs: use reflection for the name and version
+
 2004-04-02  Todd Berman  <tberman@sevenl.net>
 
 	* MonoDevelopMain.cs: move SharpDevelopMain.cs... damn i love svn.
