@@ -62,9 +62,6 @@ namespace MonoDevelop.SourceEditor.Gui
 		{
 			SourceEditorDisplayBindingWrapper w = new SourceEditorDisplayBindingWrapper ();
 			
-			Console.WriteLine ("*************");
-			Console.WriteLine (language);
-			//FIXME
 			switch (language.ToUpper ()) {
 				case "C#":
 					language = "text/x-csharp";
