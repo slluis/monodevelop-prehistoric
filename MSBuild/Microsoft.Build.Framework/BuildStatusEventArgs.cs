@@ -1,4 +1,12 @@
-﻿using System;
+﻿//
+// BuildStatusEventArgs.cs: event arguments for build status events
+//
+// Author:
+//   Rob Tillie (Rob@flep-tech.nl)
+// 
+// (C) Rob Tillie
+
+using System;
 
 namespace Microsoft.Build.Framework
 {

@@ -1,9 +1,12 @@
 using System;
 
 //
+// ILogger.cs: Interface for a logger.
+//
 // Author:
 //   Rob Tillie (Rob@flep-tech.nl)
 // 
+// (C) Rob Tillie
 
 namespace Microsoft.Build.Framework
 {

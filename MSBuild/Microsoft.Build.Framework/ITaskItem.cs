@@ -1,7 +1,10 @@
 ﻿//
+// ITaskItem.cs: interface for a task item.
+//
 // Author:
 //   Rob Tillie (Rob@flep-tech.nl)
 // 
+// (C) Rob Tillie
 
 using System;
 using System.Collections;

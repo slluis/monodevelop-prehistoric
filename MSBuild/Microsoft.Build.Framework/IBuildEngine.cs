@@ -1,10 +1,13 @@
-﻿using System;
-using System.Collections;
-
+﻿//
+// IBuildEngine.cs: build engine interface.
 //
 // Author:
 //   Rob Tillie (Rob@flep-tech.nl)
 // 
+// (C) Rob Tillie
+
+using System;
+using System.Collections;
 
 namespace Microsoft.Build.Framework
 {

@@ -1,5 +1,13 @@
 ﻿using System;
 
+//
+// TaskEventArgs.cs: Event arguments used by a task event.
+//
+// Author:
+//   Rob Tillie (Rob@flep-tech.nl)
+// 
+// (C) Rob Tillie
+
 namespace Microsoft.Build.Framework
 {
 	[Serializable]

@@ -1,7 +1,10 @@
 ﻿//
-//	Author:
-//		Rob Tillie (Rob@flep-tech.nl)
+// IEventSource.cs: Interface for an event source.
 //
+// Author:
+//   Rob Tillie (Rob@flep-tech.nl)
+// 
+// (C) Rob Tillie
 
 namespace Microsoft.Build.Framework
 {

@@ -1,9 +1,12 @@
 ﻿using System;
 
 //
+// BuildEventArgs.cs: event arguments for build events
+//
 // Author:
 //   Rob Tillie (Rob@flep-tech.nl)
 // 
+// (C) Rob Tillie
 
 namespace Microsoft.Build.Framework
 {
@@ -26,7 +29,6 @@ namespace Microsoft.Build.Framework
 		
 		public BuildEventArgs ()
 		{
-			Console.WriteLine ("My LIB!");
 		}
 
 		public BuildEventArgs (BuildEventCategory category, BuildEventImportance importance)
