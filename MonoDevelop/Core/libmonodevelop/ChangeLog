@@ -1,4 +1,0 @@
-2004-04-02  Todd Berman  <tberman@sevenl.net>
-
-	* *: Creation of libmonodevelop.so. Right now it is used to bind to
-	gettext. Copied from muine.

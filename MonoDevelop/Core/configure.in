@@ -119,7 +119,6 @@ gdldock/gdl/Makefile
 gdldock/sources/Makefile
 gdldock/sources/gdl/Makefile
 gdldock/gdl/gdl-sharp.dll.config
-libmonodevelop/Makefile
 src/Makefile
 src/AddIns/Makefile
 src/AddIns/BackendBindings/Makefile

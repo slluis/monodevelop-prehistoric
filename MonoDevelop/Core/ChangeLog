@@ -1,3 +1,9 @@
+2004-07-05  Todd Berman  <tberman@off.net>
+
+	* configure.in:
+	* Makefile.am:
+	* libmonodevelop: Removed libmonodevelop.
+
 2004-07-04  Todd Berman  <tberman@off.net>
 
 	* *: Fixup to work on macosx OOB, at least a bit better.

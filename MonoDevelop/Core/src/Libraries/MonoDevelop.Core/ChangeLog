@@ -1,3 +1,11 @@
+2004-07-05  Todd Berman  <tberman@off.net>
+
+	* Services/GettextCatalog.cs: removed
+	* Services/GettextCatalog.cs.in: Added, this is a passthru to
+	Mono.Posix.Catalog. We are using the .in so that the locale dir is
+	specified properly.
+	* Makefile.am: Add .cs.in rules to generate, etc.
+
 2004-07-02  Todd Berman  <tberman@off.net>
 
 	* Services/FileUtilityService.cs: remove some unneeded code, and

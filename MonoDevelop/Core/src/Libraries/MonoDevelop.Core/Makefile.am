@@ -55,8 +55,7 @@ FILES= \
 ./AddIns/TypeNotFoundException.cs \
 ./AddIns/AddInInitializeException.cs \
 ./AddIns/AddInCollection.cs \
-./AddIns/AddInSignatureException.cs \
-./Services/GettextCatalog.cs
+./AddIns/AddInSignatureException.cs
 
 build_sources = $(addprefix $(srcdir)/, $(FILES))
 
@@ -69,18 +68,23 @@ COMPILE_RESOURCES = $(foreach res,$(build_resources), $(addprefix -resource:,$(r
 
 DLL = MonoDevelop.Core.dll
 
-REFS = /r:System.Drawing.dll
+REFS = /r:System.Drawing.dll \
+/r:Mono.Posix.dll
 
 all: $(DLL)
 
-$(DLL): $(build_sources) $(build_resources)
+Services/GettextCatalog.cs: Services/GettextCatalog.cs.in
+	sed -e 's,@''prefix@,$(prefix),g' $(srcdir)/$@.in > $@.tmp
+	mv $@.tmp $@
+
+$(DLL): $(build_sources) $(build_resources) Services/GettextCatalog.cs
 	mcs /debug /out:$(DLL) /target:library $(REFS) /define:LINUX $(COMPILE_RESOURCES) \
-	$(build_sources) && cp $(DLL) ../../../build/bin/.
+	$(build_sources) Services/GettextCatalog.cs && cp $(DLL) ../../../build/bin/.
 
 assemblydir = $(libdir)/monodevelop/bin
 assembly_DATA = $(DLL)
 
-CLEANFILES = $(DLL)
+CLEANFILES = $(DLL) Services/GettextCatalog.cs
 
-EXTRA_DIST = $(FILES)
+EXTRA_DIST = $(FILES) Services/GettextCatalog.cs.in
 
