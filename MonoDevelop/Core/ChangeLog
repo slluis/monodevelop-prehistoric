@@ -1,3 +1,8 @@
+2004-10-27  Todd Berman  <tberman@off.net>
+
+	* configure.in: Make sure a valid gnome prefix is returned, error out
+	otherwise.
+
 2004-10-27  Levi Bard  <taktaktaktaktaktaktaktaktaktak@gmail.com>
 
 	* monodevelop.xml: fix vb mime entry.

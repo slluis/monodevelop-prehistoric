@@ -121,6 +121,11 @@ MOZILLA_HOME="`$PKG_CONFIG --variable=libdir mozilla-gtkmozembed`"
 AC_SUBST(MOZILLA_HOME)
 
 gnome_prefix="`$PKG_CONFIG --variable=prefix libgnome-2.0`"
+
+if test "x$gnome_prefix" = "x"; then
+	AC_MSG_ERROR([Unable to determine gnome prefix. Please install that package that contains libgnome-2.0.pc and make sure it is in your accessible via pkg-config])
+fi
+
 AC_SUBST(gnome_prefix)
 
 gtksharp_prefix="`$PKG_CONFIG --variable=prefix gtk-sharp`"
