@@ -8,7 +8,7 @@
   <property name="width_request">640</property>
   <property name="height_request">480</property>
   <property name="visible">True</property>
-  <property name="title" translatable="yes">dialog1</property>
+  <property name="title" translatable="yes">Options</property>
   <property name="type">GTK_WINDOW_TOPLEVEL</property>
   <property name="window_position">GTK_WIN_POS_NONE</property>
   <property name="modal">False</property>
@@ -301,7 +301,7 @@
 </widget>
 
 <widget class="GtkDialog" id="NewProjectDialog">
-  <property name="title" translatable="yes">New Combine</property>
+  <property name="title" translatable="yes">New Solution</property>
   <property name="type">GTK_WINDOW_TOPLEVEL</property>
   <property name="window_position">GTK_WIN_POS_CENTER</property>
   <property name="modal">False</property>
@@ -794,7 +794,7 @@
 
 <widget class="GtkDialog" id="AddReferenceDialog">
   <property name="visible">True</property>
-  <property name="title" translatable="yes">dialog1</property>
+  <property name="title" translatable="yes">Add References</property>
   <property name="type">GTK_WINDOW_TOPLEVEL</property>
   <property name="window_position">GTK_WIN_POS_NONE</property>
   <property name="modal">False</property>
@@ -1439,7 +1439,7 @@
 	  <child>
 	    <widget class="GtkLabel" id="locationLabel">
 	      <property name="visible">True</property>
-	      <property name="label" translatable="yes">Default _combine location-</property>
+	      <property name="label" translatable="yes">Default _combine location</property>
 	      <property name="use_underline">True</property>
 	      <property name="use_markup">False</property>
 	      <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -1501,7 +1501,7 @@
 	  <child>
 	    <widget class="GtkLabel" id="loadLabel">
 	      <property name="visible">True</property>
-	      <property name="label" translatable="yes">&lt;b&gt;Load&lt;/b&gt;-</property>
+	      <property name="label" translatable="yes">&lt;b&gt;Load&lt;/b&gt;</property>
 	      <property name="use_underline">False</property>
 	      <property name="use_markup">True</property>
 	      <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -1562,7 +1562,7 @@
 			<widget class="GtkCheckButton" id="loadUserDataCheckButton">
 			  <property name="visible">True</property>
 			  <property name="can_focus">True</property>
-			  <property name="label" translatable="yes">Load user-specific settings with the document-</property>
+			  <property name="label" translatable="yes">Load user-specific settings with the document</property>
 			  <property name="use_underline">True</property>
 			  <property name="relief">GTK_RELIEF_NORMAL</property>
 			  <property name="active">False</property>
@@ -1580,7 +1580,7 @@
 			<widget class="GtkCheckButton" id="loadPrevProjectCheckButton">
 			  <property name="visible">True</property>
 			  <property name="can_focus">True</property>
-			  <property name="label" translatable="yes">_Load previous combine on startup-</property>
+			  <property name="label" translatable="yes">_Load previous solution on startup</property>
 			  <property name="use_underline">True</property>
 			  <property name="relief">GTK_RELIEF_NORMAL</property>
 			  <property name="active">False</property>
@@ -1631,7 +1631,7 @@
 	  <child>
 	    <widget class="GtkLabel" id="saveLabel">
 	      <property name="visible">True</property>
-	      <property name="label" translatable="yes">&lt;b&gt;Save&lt;/b&gt;-</property>
+	      <property name="label" translatable="yes">&lt;b&gt;Save&lt;/b&gt;</property>
 	      <property name="use_underline">False</property>
 	      <property name="use_markup">True</property>
 	      <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -1686,7 +1686,7 @@
 		    <widget class="GtkCheckButton" id="createBackupCopyCheckButton">
 		      <property name="visible">True</property>
 		      <property name="can_focus">True</property>
-		      <property name="label" translatable="yes">Allways create backup copy-</property>
+		      <property name="label" translatable="yes">Always create backup copy</property>
 		      <property name="use_underline">True</property>
 		      <property name="relief">GTK_RELIEF_NORMAL</property>
 		      <property name="active">False</property>
@@ -1703,7 +1703,7 @@
 		  <child>
 		    <widget class="GtkLabel" id="terminatorLabel">
 		      <property name="visible">True</property>
-		      <property name="label" translatable="yes">Line Terminator Style-</property>
+		      <property name="label" translatable="yes">Line Terminator Style</property>
 		      <property name="use_underline">False</property>
 		      <property name="use_markup">True</property>
 		      <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -1764,7 +1764,7 @@
 				<widget class="GtkRadioButton" id="windowsRadioButton">
 				  <property name="visible">True</property>
 				  <property name="can_focus">True</property>
-				  <property name="label" translatable="yes">Windows-</property>
+				  <property name="label" translatable="yes">Windows</property>
 				  <property name="use_underline">True</property>
 				  <property name="relief">GTK_RELIEF_NORMAL</property>
 				  <property name="active">False</property>
@@ -1782,7 +1782,7 @@
 				<widget class="GtkRadioButton" id="macintoshRadioButton">
 				  <property name="visible">True</property>
 				  <property name="can_focus">True</property>
-				  <property name="label" translatable="yes">Macintosh-</property>
+				  <property name="label" translatable="yes">Macintosh</property>
 				  <property name="use_underline">True</property>
 				  <property name="relief">GTK_RELIEF_NORMAL</property>
 				  <property name="active">False</property>
@@ -1801,7 +1801,7 @@
 				<widget class="GtkRadioButton" id="unixRadioButton">
 				  <property name="visible">True</property>
 				  <property name="can_focus">True</property>
-				  <property name="label" translatable="yes">Unix-</property>
+				  <property name="label" translatable="yes">Unix</property>
 				  <property name="use_underline">True</property>
 				  <property name="relief">GTK_RELIEF_NORMAL</property>
 				  <property name="active">False</property>
@@ -2118,7 +2118,7 @@
 	<widget class="GtkCheckButton" id="showOutputCheckBox">
 	  <property name="visible">True</property>
 	  <property name="can_focus">True</property>
-	  <property name="label" translatable="yes">Show _output pad when build starts-</property>
+	  <property name="label" translatable="yes">Show _output pad when build starts</property>
 	  <property name="use_underline">True</property>
 	  <property name="relief">GTK_RELIEF_NORMAL</property>
 	  <property name="active">False</property>
@@ -2136,7 +2136,7 @@
 	<widget class="GtkCheckButton" id="showTaskListCheckBox">
 	  <property name="visible">True</property>
 	  <property name="can_focus">True</property>
-	  <property name="label" translatable="yes">Show _task list pad if build finished with errors-</property>
+	  <property name="label" translatable="yes">Show _task list pad if build finished with errors</property>
 	  <property name="use_underline">True</property>
 	  <property name="relief">GTK_RELIEF_NORMAL</property>
 	  <property name="active">False</property>
@@ -2208,7 +2208,7 @@
 		<widget class="GtkRadioButton" id="saveChangesRadioButton">
 		  <property name="visible">True</property>
 		  <property name="can_focus">True</property>
-		  <property name="label" translatable="yes">_Save Changes to open documents-</property>
+		  <property name="label" translatable="yes">_Save Changes to open documents</property>
 		  <property name="use_underline">True</property>
 		  <property name="relief">GTK_RELIEF_NORMAL</property>
 		  <property name="active">False</property>
@@ -2226,7 +2226,7 @@
 		<widget class="GtkRadioButton" id="promptChangesRadioButton">
 		  <property name="visible">True</property>
 		  <property name="can_focus">True</property>
-		  <property name="label" translatable="yes">_Prompt to save changes to open documents-</property>
+		  <property name="label" translatable="yes">_Prompt to save changes to open documents</property>
 		  <property name="use_underline">True</property>
 		  <property name="relief">GTK_RELIEF_NORMAL</property>
 		  <property name="active">False</property>
@@ -2245,7 +2245,7 @@
 		<widget class="GtkRadioButton" id="noSaveRadioButton">
 		  <property name="visible">True</property>
 		  <property name="can_focus">True</property>
-		  <property name="label" translatable="yes">_Don't save changes to open documents -</property>
+		  <property name="label" translatable="yes">_Don't save changes to open documents </property>
 		  <property name="use_underline">True</property>
 		  <property name="relief">GTK_RELIEF_NORMAL</property>
 		  <property name="active">False</property>
@@ -2833,7 +2833,7 @@
 	  <child>
 	    <widget class="GtkLabel" id="informationHeaderLabel">
 	      <property name="visible">True</property>
-	      <property name="label" translatable="yes">&lt;b&gt;Project Information-&lt;/b&gt;</property>
+	      <property name="label" translatable="yes">&lt;b&gt;Project Information&lt;/b&gt;</property>
 	      <property name="use_underline">True</property>
 	      <property name="use_markup">True</property>
 	      <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -2899,7 +2899,7 @@
 			  <child>
 			    <widget class="GtkLabel" id="nameLabel">
 			      <property name="visible">True</property>
-			      <property name="label" translatable="yes">_Name-</property>
+			      <property name="label" translatable="yes">_Name</property>
 			      <property name="use_underline">True</property>
 			      <property name="use_markup">False</property>
 			      <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -2993,7 +2993,7 @@
 		      <child>
 			<widget class="GtkLabel" id="descriptionLabel">
 			  <property name="visible">True</property>
-			  <property name="label" translatable="yes">_Description-</property>
+			  <property name="label" translatable="yes">_Description</property>
 			  <property name="use_underline">True</property>
 			  <property name="use_markup">False</property>
 			  <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -3092,7 +3092,7 @@
 		    <widget class="GtkCheckButton" id="enableViewStateCheckButton">
 		      <property name="visible">True</property>
 		      <property name="can_focus">True</property>
-		      <property name="label" translatable="yes">Enable _viewstate-</property>
+		      <property name="label" translatable="yes">Enable _viewstate</property>
 		      <property name="use_underline">True</property>
 		      <property name="relief">GTK_RELIEF_NORMAL</property>
 		      <property name="active">False</property>
@@ -3136,7 +3136,7 @@
 	  <child>
 	    <widget class="GtkLabel" id="onProjectLoadHeaderLabel">
 	      <property name="visible">True</property>
-	      <property name="label" translatable="yes">&lt;b&gt;On Project Load- &lt;/b&gt;</property>
+	      <property name="label" translatable="yes">&lt;b&gt;On Project Load&lt;/b&gt;</property>
 	      <property name="use_underline">True</property>
 	      <property name="use_markup">True</property>
 	      <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -3185,7 +3185,7 @@
 		<widget class="GtkCheckButton" id="newFilesOnLoadCheckButton">
 		  <property name="visible">True</property>
 		  <property name="can_focus">True</property>
-		  <property name="label" translatable="yes">Search for new _files on load-</property>
+		  <property name="label" translatable="yes">Search for new _files on load</property>
 		  <property name="use_underline">True</property>
 		  <property name="relief">GTK_RELIEF_NORMAL</property>
 		  <property name="active">False</property>
@@ -3258,7 +3258,7 @@
 		<widget class="GtkCheckButton" id="autoInsertNewFilesCheckButton">
 		  <property name="visible">True</property>
 		  <property name="can_focus">True</property>
-		  <property name="label" translatable="yes">Automaticly _include found files-</property>
+		  <property name="label" translatable="yes">Automaticly _include found files</property>
 		  <property name="use_underline">True</property>
 		  <property name="relief">GTK_RELIEF_NORMAL</property>
 		  <property name="active">False</property>
@@ -3307,7 +3307,7 @@
       <child>
 	<widget class="GtkLabel" id="includeLabel">
 	  <property name="visible">True</property>
-	  <property name="label" translatable="yes">_Include files in compile run-</property>
+	  <property name="label" translatable="yes">_Include files in compile run</property>
 	  <property name="use_underline">True</property>
 	  <property name="use_markup">False</property>
 	  <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -3788,7 +3788,7 @@
 	    <widget class="GtkRadioButton" id="singleRadioButton">
 	      <property name="visible">True</property>
 	      <property name="can_focus">True</property>
-	      <property name="label" translatable="yes">_Single Startup Project-</property>
+	      <property name="label" translatable="yes">_Single Startup Project</property>
 	      <property name="use_underline">True</property>
 	      <property name="relief">GTK_RELIEF_NORMAL</property>
 	      <property name="active">False</property>
@@ -3866,7 +3866,7 @@
 	    <widget class="GtkRadioButton" id="multipleRadioButton">
 	      <property name="visible">True</property>
 	      <property name="can_focus">True</property>
-	      <property name="label" translatable="yes">_Multiple Startup Project-</property>
+	      <property name="label" translatable="yes">_Multiple Startup Project</property>
 	      <property name="use_underline">True</property>
 	      <property name="relief">GTK_RELIEF_NORMAL</property>
 	      <property name="active">False</property>
@@ -4029,7 +4029,7 @@
 		      <child>
 			<widget class="GtkLabel" id="ActionLabel">
 			  <property name="visible">True</property>
-			  <property name="label" translatable="yes">Action-</property>
+			  <property name="label" translatable="yes">Action</property>
 			  <property name="use_underline">False</property>
 			  <property name="use_markup">False</property>
 			  <property name="justify">GTK_JUSTIFY_LEFT</property>

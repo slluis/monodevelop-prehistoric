@@ -1,0 +1,5 @@
+2004-04-02  Todd Berman  <tberman@sevenl.net>
+
+	* Base.glade: bring up to speed with gettext, someone needs to mark
+	certain strings untranslateable, my ver of glade doesnt seem to have
+	that option.
