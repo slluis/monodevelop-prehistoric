@@ -18,6 +18,8 @@ namespace Gdl
 		private Gdk.Pixbuf icon_pixbuf = null;
 		private string title;
 		private Pango.Layout title_layout = null;
+
+		protected DockItemGrip (IntPtr raw) : base (raw) { }
 		
 		public DockItemGrip ()
 		{

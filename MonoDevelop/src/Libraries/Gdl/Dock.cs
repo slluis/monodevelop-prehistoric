@@ -19,26 +19,43 @@ namespace Gdl
 		private Gdk.GC xorGC;
 		private string title;
 
-		public Dock ()
+		protected Dock (IntPtr raw) : base (raw) { }
+
+		public Dock () : this (null, false)
 		{
-			Flags |= (int)WidgetFlags.NoWindow;
-			
+		}
+		
+		public Dock (Dock original, bool _float)
+		{
+			SetFlag (WidgetFlags.NoWindow);
+			if (original != null)
+				Master = original.Master;
+			this.floating = _float;
 			if (Master == null) {
 				DockObjectFlags &= ~(DockObjectFlags.Automatic);
 				Bind (new DockMaster ());
 			}
-
 			if (floating) {
-				//Need code here to handle floating shit.
+				window = new Window (WindowType.Toplevel);
+				((Gtk.Window)window).WindowPosition = WindowPosition.Mouse;
+				((Gtk.Window)window).SetDefaultSize (width, height);
+				((Gtk.Window)window).TypeHint = Gdk.WindowTypeHint.Normal;
+				((Gtk.Window)window).Move (float_x, float_y);
+				window.ConfigureEvent += new ConfigureEventHandler (floatingConfigure);
+				SetWindowTitle ();
+				//TODO: connect to long name notify
+				DockObject controller = Master.Controller;
+				if (controller != null && controller is Dock) {
+					if (!((Dock)controller).Floating) {
+						if (controller.Toplevel != null && controller.Toplevel is Gtk.Window) {
+							((Gtk.Window)window).TransientFor = (Gtk.Window)controller.Toplevel;
+						}
+					}
+				}
+				((Gtk.Window)window).Add (this);
+				((Gtk.Window)window).ShowAll ();
 			}
-
 			DockObjectFlags |= DockObjectFlags.Attached;
-		}
-		
-		public Dock (Dock original, bool floating) : this ()
-		{
-			Master = original.Master;
-			this.floating = floating;
 		}
 		
 		public bool Floating {
@@ -505,6 +522,16 @@ namespace Gdl
 			}
 			
 			((Window)window).Title = title;
+		}
+
+		private void floatingConfigure (object o, ConfigureEventArgs e)
+		{
+			Console.WriteLine ("inside configure");
+			float_x = e.Event.X;
+			float_y = e.Event.Y;
+			width = e.Event.Width;
+			height = e.Event.Height;
+			e.RetVal = false;
 		}
 	}
 }

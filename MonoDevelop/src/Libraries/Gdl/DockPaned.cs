@@ -9,6 +9,8 @@ namespace Gdl
 	{
 		private bool positionChanged = false;
 
+		protected DockPaned (IntPtr raw) : base (raw) { }
+
 		public DockPaned (Orientation orientation)
 		{
 			CreateChild (orientation);

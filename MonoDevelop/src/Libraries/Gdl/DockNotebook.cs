@@ -22,6 +22,8 @@ namespace Gdl
 		private DockInfo dockInfo;
 		private CallbackInvoker storedInvoker;
 
+		protected DockNotebook (IntPtr raw) : base (raw) { }
+
 		static DockNotebook ()
 		{
 			Rc.ParseString ("style \"gdl-dock-notebook-default\" {\n" +

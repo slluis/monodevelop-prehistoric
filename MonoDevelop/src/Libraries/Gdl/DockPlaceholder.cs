@@ -13,6 +13,8 @@ namespace Gdl
 		private ArrayList placement_stack;
 		private int host_detach_handler;
 		private int host_dock_handler;
+
+		protected DockPlaceholder (IntPtr raw) : base (raw) { }
 		
 		public DockPlaceholder ()
 		{

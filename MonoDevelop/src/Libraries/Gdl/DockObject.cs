@@ -16,6 +16,9 @@ namespace Gdl
 		
 		public event DetachedHandler Detached;
 		public event DockedHandler Docked;
+
+		protected DockObject (IntPtr raw) : base (raw) { }
+		protected DockObject () : base () { }
 		
 		public DockObjectFlags DockObjectFlags {
 			get {

@@ -50,6 +50,8 @@ namespace Gdl
 				grip.Show ();
 			}
 		}
+
+		protected DockItem (IntPtr raw) : base (raw) { }
 		
 		public DockItem (string name, string longName, DockItemBehavior behavior) : this ()
 		{
