@@ -31,4 +31,20 @@
 	<li>Create a bug in <a href="http://bugzilla.ximian.com/">bugzilla.ximian.com</a> and attach the patch to the bug.  If you're patching against a pre-existing bug, just attach to the bug.</li>
       </ol>
 
+      <b>Working on the Website:</b>
+      <p>
+        We are always looking for help on developing the Monodevelop web site.  If you're
+        interested, please contact mrproper at ximian dot com.  Currently,
+	we're are looking for the following:
+      </p>
+        <ul>
+          <li>Tutorials</li>
+          <li>Screenshots</li>
+          <li>Content writers</li>
+        </ul>
+      <p>
+        Any contributions you may have though would be appreciated.  The list
+        above is in no way all inclusive.
+      </p>
+
 <ccms:PageFooter runat="server"/>
