@@ -518,8 +518,8 @@ namespace MonoDevelop.StartPage
 					object recentOpenObj = svc.GetProperty("MonoDevelop.Gui.MainWindow.RecentOpen");
 					if (recentOpenObj is MonoDevelop.Services.RecentOpen) {
 						MonoDevelop.Services.RecentOpen recOpen = (MonoDevelop.Services.RecentOpen)recentOpenObj;
-						projectFiles = new string[recOpen.RecentProject.Count];
-						for (int i = 0; i < recOpen.RecentProject.Count; ++i) {
+						projectFiles = new string[recOpen.RecentProject.Length];
+						for (int i = 0; i < recOpen.RecentProject.Length; ++i) {
 							string fileName = recOpen.RecentProject[i].ToString();
 							
 							// if the file does not exist, goto next one
