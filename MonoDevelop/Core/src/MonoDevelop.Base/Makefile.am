@@ -355,6 +355,7 @@ Internal/Project/Project/ProjectReferenceEventArgs.cs \
 Internal/Project/Project/ConvertXml.cs \
 Internal/Project/Project/IncludeFilesDialog.cs \
 Internal/Project/Project/IConfiguration.cs \
+Internal/Project/Project/ProjectCompileEventHandler.cs \
 Internal/Project/Project/ProjectFile.cs \
 Internal/Project/Project/ProjectFileEventArgs.cs \
 Internal/Project/Project/AbstractConfiguration.cs \

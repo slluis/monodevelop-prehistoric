@@ -153,7 +153,7 @@ namespace MonoDevelop.Services
 		/// <remarks>
 		/// Only to be called by the compile actions.
 		/// </remarks>
-		void OnEndBuild();
+		void OnEndBuild(bool success);
 		
 		/// <remarks>
 		/// Only to be called by the compile actions.
@@ -209,7 +209,7 @@ namespace MonoDevelop.Services
 		/// <remarks>
 		/// Called after a build run
 		/// </remarks>
-		event EventHandler EndBuild;
+		event ProjectCompileEventHandler EndBuild;
 		
 		/// <remarks>
 		/// Called before execution

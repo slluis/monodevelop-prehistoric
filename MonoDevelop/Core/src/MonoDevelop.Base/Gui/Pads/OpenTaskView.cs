@@ -15,6 +15,7 @@ using System.Diagnostics;
 using MonoDevelop.Core.Services;
 using MonoDevelop.Services;
 using MonoDevelop.Core.Properties;
+using MonoDevelop.Internal.Project;
 
 using Gtk;
 
@@ -78,7 +79,7 @@ namespace MonoDevelop.Gui.Pads
 			
 			Runtime.TaskService.TasksChanged     += (EventHandler) Runtime.DispatchService.GuiDispatch (new EventHandler (ShowResults));
 			Runtime.TaskService.TaskAdded        += (TaskEventHandler) Runtime.DispatchService.GuiDispatch (new TaskEventHandler (TaskAdded));
-			Runtime.ProjectService.EndBuild      += (EventHandler) Runtime.DispatchService.GuiDispatch (new EventHandler (SelectTaskView));
+			Runtime.ProjectService.EndBuild      += (ProjectCompileEventHandler) Runtime.DispatchService.GuiDispatch (new ProjectCompileEventHandler (SelectTaskView));
 			Runtime.ProjectService.CombineOpened += (CombineEventHandler) Runtime.DispatchService.GuiDispatch (new CombineEventHandler (OnCombineOpen));
 			Runtime.ProjectService.CombineClosed += (CombineEventHandler) Runtime.DispatchService.GuiDispatch (new CombineEventHandler (OnCombineClosed));
 			view.RowActivated            += new RowActivatedHandler (OnRowActivated);
@@ -165,7 +166,7 @@ namespace MonoDevelop.Gui.Pads
 		{
 		}
 		
-		void SelectTaskView (object sender, EventArgs e)
+		void SelectTaskView (bool success)
 		{
 			if (Runtime.TaskService.Tasks.Count > 0) {
 				try {
@@ -200,7 +201,7 @@ namespace MonoDevelop.Gui.Pads
 			foreach (Task t in Runtime.TaskService.Tasks) {
 				AddTask (t);
 			}
-			SelectTaskView(null, null);
+			SelectTaskView(true);
 		}
 		
 		void TaskAdded (object sender, TaskEventArgs e)

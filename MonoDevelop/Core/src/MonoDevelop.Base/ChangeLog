@@ -1,3 +1,15 @@
+2004-01-03  Todd Berman  <tberman@off.net>
+
+	* Commands/RunCommands.cs:
+	* Services/Project/DefaultProjectService.cs:
+	* Services/Project/IProjectService.cs:
+	* Gui/Pads/OpenTaskView.cs:
+	* Makefile.am:
+	* Internal/Project/Project/ProjectCompileEventHandler.cs:
+	Change ProjectService.EndBuild to emit a bool variable to denote the
+	success or failure of the combine build. Add a new delegate. Patch
+	various uses to properly use new delegate.
+
 2004-12-26  Sander Rijken <sr+ximianbugs@d-90.nl>
 
 	* Services/ProcessService/ProcessService: Set property

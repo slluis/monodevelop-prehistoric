@@ -670,10 +670,10 @@ namespace MonoDevelop.Services
 			}
 		}
 		
-		public void OnEndBuild()
+		public void OnEndBuild(bool success)
 		{
 			if (EndBuild != null) {
-				EndBuild(this, null);
+				EndBuild(success);
 			}
 		}
 		public void OnBeforeStartProject()
@@ -797,7 +797,7 @@ namespace MonoDevelop.Services
 		public event ProjectFileEventHandler FileChangedInProject;
 		
 		public event EventHandler     StartBuild;
-		public event EventHandler     EndBuild;
+		public event ProjectCompileEventHandler EndBuild;
 		public event EventHandler     BeforeStartProject;
 		
 		

@@ -86,7 +86,7 @@ namespace MonoDevelop.Commands
 					Console.WriteLine (e);
 					Runtime.MessageService.ShowError(e, GettextCatalog.GetString ("Error while compiling"));
 				}
-				projectService.OnEndBuild();
+				projectService.OnEndBuild(CombineEntry.BuildErrors == 0);
 			//}
 		}
 		
@@ -152,7 +152,7 @@ namespace MonoDevelop.Commands
 					Console.WriteLine (e);
 					Runtime.MessageService.ShowError (e, GettextCatalog.GetString ("Error while compiling"));
 				}
-				projectService.OnEndBuild();
+				projectService.OnEndBuild(CombineEntry.BuildErrors == 0);
 			}
 		}
 		
@@ -250,7 +250,7 @@ namespace MonoDevelop.Commands
 					} catch (Exception e) {
 						Runtime.MessageService.ShowError(e, String.Format (GettextCatalog.GetString ("Error while compiling project {0}"), projectService.CurrentSelectedProject.Name));
 					}
-					projectService.OnEndBuild();
+					projectService.OnEndBuild(CombineEntry.BuildErrors == 0);
 				}
 				Compile.ShowAfterCompileStatus();
 			}
@@ -278,7 +278,7 @@ namespace MonoDevelop.Commands
 					} catch (Exception e) {
 						Runtime.MessageService.ShowError(e, String.Format (GettextCatalog.GetString ("Error while compiling project {0}"), projectService.CurrentSelectedProject.Name));
 					}
-					projectService.OnEndBuild();
+					projectService.OnEndBuild(CombineEntry.BuildErrors == 0);
 				}					
 				Compile.ShowAfterCompileStatus();
 			}
