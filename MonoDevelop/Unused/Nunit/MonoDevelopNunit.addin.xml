@@ -3,7 +3,7 @@
        copyright = "GPL"
        url       = "http://monodevelop.com"
        description = "NUnit testing tool"
-       version   = "0.2">
+       version   = "0.6">
 
 	<Runtime>
 		<Import assembly="MonoDevelop.Nunit.dll"/>
@@ -25,7 +25,7 @@
 	</Extension>
 
 	<Extension path="/SharpDevelop/Workbench/MainMenu/Tools">
-		<MenuItem id = "NunitMenu" _label = "NUnit" insertafter = "ExternalTools" insertbefore = "Options">
+		<MenuItem id = "NunitMenu" _label = "NUnit">
 			<MenuItem id = "LoadTestAssembly"
 	                  _label = "Load Assembly"
 			          shortcut = ""

@@ -12,17 +12,17 @@ using System.Text;
 using Gtk;
 
 using MonoDevelop.Gui;
+using MonoDevelop.Core.Services;
 using MonoDevelop.Services;
 using MonoDevelop.Services.Nunit;
-using MonoDevelop.Core.Services;
 using NUnit.Core;
 
 namespace MonoDevelop.Nunit.Gui
 {
 	public class TestTree : AbstractPadContent, EventListener
 	{
-		NunitService ns = (NunitService) ServiceManager.Services.GetService (typeof (NunitService));
-		IStatusBarService sbs = (IStatusBarService) ServiceManager.Services.GetService (typeof (IStatusBarService));
+		NunitService ns = (NunitService) ServiceManager.GetService (typeof (NunitService));
+		IStatusBarService sbs = (IStatusBarService) ServiceManager.GetService (typeof (IStatusBarService));
 
 		ScrolledWindow sw = new ScrolledWindow ();
 		Notebook notebook;
@@ -139,7 +139,7 @@ namespace MonoDevelop.Nunit.Gui
 
             ntests = -1;
             finishedTests = 0;
-            sbs.ProgressMonitor.Worked (0.0, "");
+            //sbs.ProgressMonitor.Worked (0.0, "");
 
 			sbs.SetMessage ("Running tests...");
             SetStringWriters ();
@@ -147,6 +147,22 @@ namespace MonoDevelop.Nunit.Gui
             startTime = DateTime.Now.Ticks;
             ClockUpdater (this, EventArgs.Empty);
         }
+
+		public void RunFinished (Exception e)
+		{
+		}
+
+		public void RunFinished (TestResult[] tests)
+		{
+		}
+
+		public void RunStarted (Test[] tests)
+		{
+		}
+
+		public void UnhandledException (Exception e)
+		{
+		}
 
 		void SetStringWriters ()
         {
@@ -214,7 +230,7 @@ namespace MonoDevelop.Nunit.Gui
 
 		void EventListener.TestFinished (TestCaseResult result)
         {
-            sbs.ProgressMonitor.Worked (++finishedTests / (double) ntests, String.Format ("{0}/{1}", finishedTests, ntests));
+            //sbs.ProgressMonitor.Worked (++finishedTests / (double) ntests, String.Format ("{0}/{1}", finishedTests, ntests));
 
             if (result.Executed == false) {
                 AddIgnored (result.Test.FullName, result.Test.IgnoreReason);

@@ -2,10 +2,9 @@ using System;
 using System.IO;
 using Gtk;
 
-using MonoDevelop.Core.AddIns.Codons;
 using MonoDevelop.Services;
-using MonoDevelop.Core.Services;
 using MonoDevelop.Gui.Widgets;
+using MonoDevelop.Core.AddIns.Codons;
 
 namespace MonoDevelop.Commands
 {
@@ -13,10 +12,10 @@ namespace MonoDevelop.Commands
 	{
 		public override void Run ()
 		{
-			NunitService nunitService = (NunitService) MonoDevelop.Core.Services.ServiceManager.Services.GetService (typeof (NunitService));
+			NunitService nunitService = (NunitService) MonoDevelop.Core.Services.ServiceManager.GetService (typeof (NunitService));
 
 			using (FileSelector fs = new FileSelector ("Load test assembly")) {
-				string defaultPath = Path.Combine (Environment.GetEnvironmentVariable ("HOME"), "Projects");
+				//string defaultPath = Path.Combine (Environment.GetEnvironmentVariable ("HOME"), "Projects");
 
 				if (fs.Run () == (int) Gtk.ResponseType.Ok)
 				{

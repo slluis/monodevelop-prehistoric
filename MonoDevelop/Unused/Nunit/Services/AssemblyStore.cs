@@ -9,7 +9,6 @@ namespace MonoDevelop.Services.Nunit
 {
 	public class AssemblyStore : TreeStore, EventListener
     {
-		static GLib.GType gtype;
         string assemblyName;
         Hashtable iters;
         TestSuite rootTS;
@@ -33,17 +32,7 @@ namespace MonoDevelop.Services.Nunit
         public event EventHandler FinishedLoad;
         public event EventHandler IdleCallback;
 
-		public static new GLib.GType GType
-		{
-			get {
-				if (gtype == GLib.GType.Invalid) 
-					gtype = RegisterGType (typeof (AssemblyStore));
-				return gtype;
-			}
-		}	
-
-        public AssemblyStore (string assemblyName)
-            : base (typeof (int), typeof (string))
+        public AssemblyStore (string assemblyName) : base (typeof (int), typeof (string))
         {
             if (assemblyName == null)
                 throw new ArgumentNullException ("assemblyName");
@@ -100,6 +89,22 @@ namespace MonoDevelop.Services.Nunit
 			GLib.Idle.Add (new GLib.IdleHandler (Populate));
 		}
 
+		public void RunFinished (Exception e)
+		{
+		}
+
+		public void RunFinished (TestResult[] results)
+		{
+		}
+
+		public void RunStarted (Test[] tests)
+		{
+		}
+
+		public void UnhandledException (Exception e)
+		{
+		}
+
 		void GrayOut (TreeIter iter)
         {
             SetValue (iter, 0, (int) CircleColor.None);
@@ -109,7 +114,7 @@ namespace MonoDevelop.Services.Nunit
 
             do {
                 GrayOut (child);
-            } while (IterNext (out child));
+            } while (IterNext (ref child));
         }
 
         public void RunTestAtIter (TreeIter iter, EventListener listener, ref int ntests)
@@ -146,7 +151,7 @@ namespace MonoDevelop.Services.Nunit
             if (test == null)
 				return;
 
-            ntests = test.CountTestCases;
+            ntests = test.CountTestCases ();
             runningTest = true;
             this.listener = listener;
             th = new System.Threading.Thread (new ThreadStart (InternalRunTest));
@@ -292,7 +297,7 @@ namespace MonoDevelop.Services.Nunit
             }
 
 			currentTest = 0;
-            totalTests = rootTS.CountTestCases;
+            totalTests = rootTS.CountTestCases ();
             AddSuite (first, rootTS);
             OnFinishedLoad ();
 

@@ -29,7 +29,7 @@ namespace MonoDevelop.Services.Nunit
 		static TreeCellDataFunc dataFunc = null;
 		static Pixbuf [] circles = null;
 		static string [] colors = null;
-		static ResourceService resourceService = (ResourceService) ServiceManager.Services.GetService (typeof (ResourceService));
+		static ResourceService resourceService = (ResourceService) ServiceManager.GetService (typeof (ResourceService));
 
 		static void Init ()
 		{
