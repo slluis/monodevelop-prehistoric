@@ -7,8 +7,9 @@ namespace MonoDevelop.Gui {
 		private Gtk.TreeStore store;
 		private TreeNodeCollection nodes;
 		private bool updating = false;
-		private bool canEdit = false;
+		internal bool canEdit = false;
 		internal Gtk.TreeViewColumn complete_column;
+		internal Gtk.CellRendererText text_render;
 		
 		public TreeView () : this (false)
 		{
@@ -29,8 +30,7 @@ namespace MonoDevelop.Gui {
 			complete_column.PackStart (pix_render, false);
 			complete_column.AddAttribute (pix_render, "pixbuf", 1);
 			
-			Gtk.CellRendererText text_render = new Gtk.CellRendererText ();
-			text_render.Editable = canEdit;
+			text_render = new Gtk.CellRendererText ();
 			if (canEdit) {
 				text_render.Edited += new GtkSharp.EditedHandler (HandleOnEdit);
 			}
@@ -49,7 +49,7 @@ namespace MonoDevelop.Gui {
 
 		void HandleOnEdit (object o, GtkSharp.EditedArgs e)
 		{
-			
+			text_render.Editable = false;
 			Gtk.TreeIter iter;
 			if (! Model.GetIterFromString (out iter, e.Path))
 				throw new Exception("Error calculating iter for path " + e.Path);

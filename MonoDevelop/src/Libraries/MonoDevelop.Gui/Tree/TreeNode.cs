@@ -166,6 +166,7 @@ namespace MonoDevelop.Gui {
 		
 		public virtual void BeginEdit ()
 		{
+			TreeView.text_render.Editable = TreeView.canEdit;
 			TreeView.SetCursor (new Gtk.TreePath (TreePath), TreeView.complete_column, true);
 			TreeView.GrabFocus ();
 		}
