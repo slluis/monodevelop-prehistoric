@@ -1,3 +1,10 @@
+2004-03-04  Daniel Kornhauser <dkor@alum.mit.edu>
+                                                                                                                             
+        * data/resources/glade/CSharp.glade : created glade file with CodeGenerationPanel UI
+        * src/AddIns/BackendBindings/CSharpBinding/Gui/CodeGenerationPanel.cs : ported CodeGenerationPanel
+        * data/resources/glade/Makefile.am  : added reference and resource
+        * src/AddIns/BackendBindings/CSharpBinding/Makefile.am : added reference and resource
+
 2004-03-04 John BouAntoun  <jba-mono@optusnet.com.au>
 	* src/Main/Base/Gui/Dialogs/ProjectOptionsDialog.cs: ported [Add/Remove/UpdateBold]Configuration functions. still no way to cool them, need context menu
 	* src/Main/Base/Gui/Dialogs/TreeViewOptions.cs : made TreeView explicitely protected, added SelectSpecificNode that does just that 
