@@ -360,7 +360,7 @@ namespace Gdl
 				grip.ParentWindow = GdkWindow;
 		}
 		
-		/*protected override void OnStyleSet (Style previous_style)
+		protected override void OnStyleSet (Style previous_style)
 		{
 			if (IsRealized && !NoWindow) {
 				Style.SetBackground (GdkWindow, State);
@@ -368,7 +368,7 @@ namespace Gdl
 					GdkWindow.Clear ();
 				}
 			}
-		}*/
+		}
 		
 		protected override bool OnExposeEvent (Gdk.EventExpose evnt)
 		{
