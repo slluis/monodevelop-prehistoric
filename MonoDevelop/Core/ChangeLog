@@ -1,3 +1,7 @@
+2004-10-27  Levi Bard  <taktaktaktaktaktaktaktaktaktak@gmail.com>
+
+	* monodevelop.xml: fix vb mime entry.
+
 2004-10-21  John Luke  <john.luke@gmail.com>
 
 	* *Makefile.am: remove CSC= in individual Makefile.am's (make CSC='mcs -g' for debug)

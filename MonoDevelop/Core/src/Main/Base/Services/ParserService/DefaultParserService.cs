@@ -1154,9 +1154,9 @@ namespace MonoDevelop.Services
 				if (Path.GetExtension(fileName).ToUpper() == ".CS") {
 					return parser[0];
 				}
-				if (Path.GetExtension(fileName).ToUpper() == ".VB") {
-					return parser[1];
-				}
+				//if (Path.GetExtension(fileName).ToUpper() == ".VB") {
+				//	return parser[1];
+				//}
 			}
 			return null;
 		}
