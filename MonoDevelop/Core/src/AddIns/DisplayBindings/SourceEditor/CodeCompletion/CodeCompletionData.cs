@@ -10,6 +10,7 @@ using System.Xml;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.IO;
+using System.Collections;
 
 using MonoDevelop.Internal.Parser;
 using MonoDevelop.Services;
@@ -136,6 +137,18 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 			set {
 				description = value;
 			}
+		}
+
+		ArrayList overload_data = new ArrayList ();
+
+		public CodeCompletionData[] GetOverloads ()
+		{
+			return (CodeCompletionData[]) overload_data.ToArray (typeof (CodeCompletionData));
+		}
+
+		public void AddOverload (CodeCompletionData overload)
+		{
+			overload_data.Add (overload);
 		}
 		
 		public CodeCompletionData (string s, string image)

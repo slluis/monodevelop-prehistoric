@@ -143,17 +143,25 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 			// FIXME: This is a bad calc, its always on the right,
 			// it needs to test if thats too big, and if so, place on the left;
 			int horiz = listpos_x + lvWidth + 2;
-			ICompletionDataWithMarkup wMarkup = data as ICompletionDataWithMarkup;
+
+			ICompletionDataWithMarkup datawMarkup = data as ICompletionDataWithMarkup;
 			declarationviewwindow.Destroy ();
-			
-			if (wMarkup != null) {
-				declarationviewwindow = new DeclarationViewWindow ();
-				declarationviewwindow.DescriptionMarkup = wMarkup.DescriptionPango;
-			} else {
-				declarationviewwindow = new DeclarationViewWindow ();
-				declarationviewwindow.DescriptionMarkup = data.Description;
+
+			string descMarkup;
+
+			if (datawMarkup != null)
+				descMarkup = datawMarkup.DescriptionPango;
+			else
+				descMarkup = declarationviewwindow.DescriptionMarkup = data.Description;
+
+			foreach (CodeCompletionData odata in ((CodeCompletionData) data).GetOverloads ()) {
+				ICompletionDataWithMarkup odatawMarkup = odata as ICompletionDataWithMarkup;
+				descMarkup += "\n\n" + (odatawMarkup == null ? odata.Description : odatawMarkup.DescriptionPango);
 			}
-		
+
+			declarationviewwindow = new DeclarationViewWindow ();
+			declarationviewwindow.DescriptionMarkup = descMarkup;
+
 			if (declarationviewwindow.DescriptionMarkup.Length == 0)
 				return;
 

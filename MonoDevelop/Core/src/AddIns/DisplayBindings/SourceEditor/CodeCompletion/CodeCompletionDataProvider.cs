@@ -125,8 +125,9 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 							completionData.Add(ccd);
 							insertedElements[method.Name] = ccd;
 						} else {
-							CodeCompletionData oldMethod = (CodeCompletionData)insertedElements[method.Name];
-							++oldMethod.Overloads;
+							CodeCompletionData firstMethod = (CodeCompletionData)insertedElements[method.Name];
+							++firstMethod.Overloads;
+							firstMethod.AddOverload (ccd);
 						}
 					}
 				} else if (o is IField) {
