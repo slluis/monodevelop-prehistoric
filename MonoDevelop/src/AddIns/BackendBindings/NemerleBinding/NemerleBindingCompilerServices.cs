@@ -171,7 +171,7 @@ namespace NemerleBinding
 		private ICompilerResult DoCompilation(string arguments)
 		{
 			string l;
-			ProcessStartInfo si = new ProcessStartInfo("/bin/sh -c \"" + ncc + arguments + "\"");
+			ProcessStartInfo si = new ProcessStartInfo(ncc, arguments);
 			si.RedirectStandardOutput = true;
 			si.RedirectStandardError = true;
 			si.UseShellExecute = false;
