@@ -74,12 +74,10 @@ namespace ICSharpCode.SharpDevelop.Commands.ProjectBrowser
 					} else {
 						ResourceService resourceService = (ResourceService)ServiceManager.Services.GetService(typeof(IResourceService));
 						
-						int ret = new SharpMessageBox("Move or copy",
-													  "Move or copy file ?", 
-													  "&Move", 
-													  "&Copy", 
-													  resourceService.GetString("Global.CancelButtonText")
-													  ).ShowMessageBox();
+						MessageDialog md = new MessageDialog ((Window) WorkbenchSingleton.Workbench, DialogFlags.Modal | DialogFlags.DestroyWithParent, MessageType.Question, ButtonsType.YesNo, "Move or copy file ?");
+						int ret = md.Run ();
+						md.Hide ();
+						
 						if (ret == 2 || ret == -1) {
 							return;
 						}
