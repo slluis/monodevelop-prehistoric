@@ -77,9 +77,10 @@
 			<DialogPanel id = "CSharpOutputOptionsPanel"
 			             label = "${res:Dialog.Options.PrjOptions.OutputOptionsPanel.PanelName}"
 			             class = "CSharpBinding.OutputOptionsPanel"/>
+<!-- not able to choose runtime in MD (jba 4 march 04)
 			<DialogPanel id = "CSharpRuntimeCompilerPanel"
 			             label = "Runtime/Compiler"
-			             class = "CSharpBinding.ChooseRuntimePanel"/>
+			             class = "CSharpBinding.ChooseRuntimePanel"/>	-->
 		</Conditional>
 <!--		<Conditional activeproject="VBNET">
 			<DialogPanel id = "VBCodeGenerationPanel"
