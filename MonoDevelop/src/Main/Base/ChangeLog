@@ -1,5 +1,11 @@
 2004-04-03  Todd Berman  <tberman@sevenl.net>
 
+	* Gui/Workbench/Layous/SdiWorkspaceLayout.cs: set pref height and width
+	on the Documents dockitem to -2 to make gdl-dock attempt to give it
+	greedy resizing as much as possible.
+
+2004-04-03  Todd Berman  <tberman@sevenl.net>
+
 	* Services/GettextCatalog.cs: moved to .Core.
 	* Makefile.am: reflect above change.
 

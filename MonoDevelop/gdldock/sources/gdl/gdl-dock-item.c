@@ -283,14 +283,14 @@ gdl_dock_item_class_init (GdlDockItemClass *klass)
         g_object_class, PROP_PREFERRED_WIDTH,
         g_param_spec_int ("preferred_width", _("Preferred width"),
                           _("Preferred width for the dock item"),
-                          -1, G_MAXINT, -1,
+                          -2, G_MAXINT, -1,
                           G_PARAM_READWRITE));
 
     g_object_class_install_property (
         g_object_class, PROP_PREFERRED_HEIGHT,
         g_param_spec_int ("preferred_height", _("Preferred height"),
                           _("Preferred height for the dock item"),
-                          -1, G_MAXINT, -1,
+                          -2, G_MAXINT, -1,
                           G_PARAM_READWRITE));
 
     /* signals */

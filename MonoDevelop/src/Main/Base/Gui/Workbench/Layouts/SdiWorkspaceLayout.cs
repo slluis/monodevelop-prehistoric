@@ -98,6 +98,8 @@ namespace MonoDevelop.Gui
 			tabControl.SwitchPage += new SwitchPageHandler (ActiveMdiChanged);
 			DockItem item = new DockItem ("Documents", "Documents",
 						      DockItemBehavior.Locked);
+			item.PreferredWidth = -2;
+			item.PreferredHeight = -2;
 			item.Add (tabControl);
 			item.ShowAll ();
 			dock.AddItem (item, DockPlacement.Center);
