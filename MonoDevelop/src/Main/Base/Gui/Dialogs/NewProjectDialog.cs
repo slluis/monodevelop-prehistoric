@@ -54,25 +54,16 @@ namespace MonoDevelop.Gui.Dialogs {
 		StringParserService stringParserService = (StringParserService)ServiceManager.GetService(typeof(StringParserService));
 		PropertyService     propertyService = (PropertyService)ServiceManager.GetService(typeof(PropertyService));
 		MessageService      messageService = (MessageService)ServiceManager.GetService(typeof(MessageService));
+		DispatchService     dispatcher = (DispatchService)ServiceManager.GetService (typeof (DispatchService));
 		bool openCombine;
 		
 		public NewProjectDialog (bool openCombine)
 		{
 			this.openCombine = openCombine;
 			new Glade.XML (null, "Base.glade", "NewProjectDialog", null).Autoconnect (this);
-			dialog.TransientFor = (Window) WorkbenchSingleton.Workbench;
-			
-			InitializeComponents();
-			InitializeTemplates();
-			InitializeView();
+			dialog.TransientFor = (Window) WorkbenchSingleton.Workbench;			
 
-			catStore.SetSortColumnId (0, SortType.Ascending);
-			
-			TreeIter first;
-			if (catStore.GetIterFirst (out first))
-				lst_template_types.Selection.SelectIter (first);
-			
-			dialog.ShowAll ();
+			dispatcher.BackgroundDispatch (new MessageHandler (InitializeTemplates));
 		}
 		
 		void InitializeView()
@@ -84,6 +75,11 @@ namespace MonoDevelop.Gui.Dialogs {
 					break;
 				}
 			}*/
+			catStore.SetSortColumnId (0, SortType.Ascending);
+			TreeIter first;
+			if (catStore.GetIterFirst (out first))
+				lst_template_types.Selection.SelectIter (first);
+			dialog.ShowAll ();
 		}
 		
 		void InsertCategories (TreeIter node, ArrayList catarray)
@@ -121,6 +117,7 @@ namespace MonoDevelop.Gui.Dialogs {
 				//	titem.Selected = true;
 				alltemplates.Add(titem);
 			}
+			dispatcher.GuiDispatch (new MessageHandler (InitializeComponents));
 		}
 		
 		void CategoryChange(object sender, EventArgs e)
@@ -231,76 +228,45 @@ namespace MonoDevelop.Gui.Dialogs {
 				chk_combine_directory.Active);
 			
 			if (TemplateView.CurrentlySelected != null && name.Length != 0) {
-					ProjectTemplate item = (ProjectTemplate) TemplateView.CurrentlySelected;
-					
-					try
-					{
-						System.IO.Directory.CreateDirectory (ProjectSolution);
-					}
-					catch (UnauthorizedAccessException accessException)
-					{
-						messageService.ShowError (String.Format (GettextCatalog.GetString ("You do not have permission to create to {0}"), ProjectSolution));
-						return;
-					}
-					
-					ProjectCreateInformation cinfo = new ProjectCreateInformation ();
-					
-					cinfo.CombinePath     = ProjectLocation;
-					cinfo.ProjectBasePath = ProjectSolution;
-//					cinfo.Description     = stringParserService.Parse(item.Template.Description);
-					
-					cinfo.ProjectName     = name;
-//					cinfo.ProjectTemplate = item.Template;
-					
-					NewCombineLocation = item.CreateProject (cinfo);
-					if (NewCombineLocation == null || NewCombineLocation.Length == 0)
-						return;
-					
-					if (openCombine)
-						item.OpenCreatedCombine();
-					
-					// TODO :: THIS DOESN'T WORK !!!
-					NewProjectLocation = System.IO.Path.ChangeExtension(NewCombineLocation, ".prjx");
-					
-					//DialogResult = DialogResult.OK;
-					dialog.Respond(Gtk.ResponseType.Ok);
-					dialog.Hide ();
-
-#if false // from .98
-					if (item.Template.LanguageName != null && item.Template.LanguageName.Length > 0)  {
-						
-					}
-					
-					if (item.Template.WizardPath != null) {
-						IProperties customizer = new DefaultProperties();
-						customizer.SetProperty("Template", item.Template);
-						customizer.SetProperty("Creator",  this);
-						WizardDialog wizard = new WizardDialog("Project Wizard", customizer, item.Template.WizardPath);
-						if (wizard.ShowDialog() == DialogResult.OK) {
-							DialogResult = DialogResult.OK;
-						}
-					}
-					
-					NewCombineLocation = fileUtilityService.GetDirectoryNameWithSeparator(ProjectLocation) + ((TextBox)ControlDictionary["nameTextBox"]).Text + ".cmbx";
-					
-					if (File.Exists(NewCombineLocation)) {
-						DialogResult result = MessageBox.Show(String.Format (Gettext.GetString ("Combine file {0} already exists, do you want to overwrite\nthe existing file ?"), NewCombineLocation), Gettext.GetString ("File already exists"), MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2);
-						switch(result) {
-							case DialogResult.Yes:
-								cmb.SaveCombine(NewCombineLocation);
-								break;
-							case DialogResult.No:
-								break;
-						}
-					} else {
-						cmb.SaveCombine(NewCombineLocation);
-					}
-				} else {
-					MessageBox.Show(GettextCatalog.GetString ("The project or source entry is empty, can't create project."), GettextCatalog.GetString ("Warning"), MessageBoxButtons.OK, MessageBoxIcon.Warning);
+				ProjectTemplate item = (ProjectTemplate) TemplateView.CurrentlySelected;
+				
+				try
+				{
+					System.IO.Directory.CreateDirectory (ProjectSolution);
 				}
-#endif
+				catch (UnauthorizedAccessException accessException)
+				{
+					messageService.ShowError (String.Format (GettextCatalog.GetString ("You do not have permission to create to {0}"), ProjectSolution));
+					return;
+				}
+				
+				ProjectCreateInformation cinfo = new ProjectCreateInformation ();
+				
+				cinfo.CombinePath     = ProjectLocation;
+				cinfo.ProjectBasePath = ProjectSolution;
+//				cinfo.Description     = stringParserService.Parse(item.Template.Description);
+				
+				cinfo.ProjectName     = name;
+//				cinfo.ProjectTemplate = item.Template;
+				
+				NewCombineLocation = item.CreateProject (cinfo);
+				if (NewCombineLocation == null || NewCombineLocation.Length == 0)
+					return;
+				
+				if (openCombine)
+					item.OpenCreatedCombine();
+				
+				// TODO :: THIS DOESN'T WORK !!!
+				NewProjectLocation = System.IO.Path.ChangeExtension(NewCombineLocation, ".prjx");
+				
+				//DialogResult = DialogResult.OK;
+				if (OnOked != null)
+					OnOked (null, null);
+				dialog.Destroy ();
 			}
 		}
+
+		public event EventHandler OnOked;
 		
 		// icon view event handlers
 		void SelectedIndexChange(object sender, EventArgs e)
@@ -315,12 +281,7 @@ namespace MonoDevelop.Gui.Dialogs {
 		
 		void cancelClicked (object o, EventArgs e)
 		{
-			dialog.Hide ();
-		}
-		
-		public int Run ()
-		{
-			return dialog.Run ();
+			dialog.Destroy ();
 		}
 		
 		void ActivateIfReady ()
@@ -332,8 +293,7 @@ namespace MonoDevelop.Gui.Dialogs {
 		}
 		
 		void InitializeComponents()
-		{
-		
+		{	
 			catStore = new Gtk.TreeStore (typeof (string), typeof (Category));
 			lst_template_types.Model = catStore;
 			lst_template_types.WidthRequest = 160;
@@ -365,6 +325,7 @@ namespace MonoDevelop.Gui.Dialogs {
 			TemplateView.IconSelected += new EventHandler(SelectedIndexChange);
 			TemplateView.IconDoubleClicked += new EventHandler(OpenEvent);
 			entry_location.PathChanged += new EventHandler (PathChanged);
+			InitializeView ();
 		}
 		
 		/// <summary>

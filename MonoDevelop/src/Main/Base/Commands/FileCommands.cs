@@ -26,10 +26,7 @@ namespace MonoDevelop.Commands
 	{
 		public override void Run()
 		{
-			IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IProjectService));
-			
 			NewProjectDialog npdlg = new NewProjectDialog(true);
-			npdlg.Run ();
 		}
 	}
 	

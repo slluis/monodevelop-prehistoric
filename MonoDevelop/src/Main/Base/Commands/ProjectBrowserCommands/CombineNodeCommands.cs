@@ -30,59 +30,75 @@ namespace MonoDevelop.Commands.ProjectBrowser
 {
 	public class AddNewProjectToCombine : AbstractMenuCommand
 	{
+		NewProjectDialog npdlg;
+		ProjectBrowserView browser;
+		CombineBrowserNode node;
+		MessageService msg;
+		IProjectService projectService;
+
 		public override void Run()
 		{
-			IProjectService projectService = (IProjectService)ServiceManager.GetService(typeof(IProjectService));
-			ProjectBrowserView browser     = (ProjectBrowserView)Owner;
-			CombineBrowserNode node        = browser.SelectedNode as CombineBrowserNode;
-			MessageService msg             = (MessageService)ServiceManager.GetService (typeof (MessageService));
+			projectService = (IProjectService)ServiceManager.GetService(typeof(IProjectService));
+			browser     = (ProjectBrowserView)Owner;
+			node        = browser.SelectedNode as CombineBrowserNode;
+			msg             = (MessageService)ServiceManager.GetService (typeof (MessageService));
 			
 			if (node != null) {
-				NewProjectDialog npdlg = new NewProjectDialog(false);
-				if (npdlg.Run() == (int)Gtk.ResponseType.Ok) {
-					//System.Console.WriteLine("inside if");
-					try 
-					{
-						int newNodeIndex = node.Nodes.Add(ProjectBrowserView.BuildProjectTreeNode((IProject)node.Combine.AddEntry(npdlg.NewProjectLocation)));
-						projectService.SaveCombine();
-						// expand to the new node
-						node.Nodes[newNodeIndex].Expand();
-					}
-					catch
-					{
-						msg.ShowError (GettextCatalog.GetString ("Invalid Project File"));
-					}
-				}
-			}			
-			//System.Console.WriteLine("end");
+				npdlg = new NewProjectDialog(false);
+				npdlg.OnOked += new EventHandler (Oked);
+			}
 		}
+
+		void Oked (object o, EventArgs e)
+		{
+			try 
+			{
+				int newNodeIndex = node.Nodes.Add(ProjectBrowserView.BuildProjectTreeNode((IProject)node.Combine.AddEntry(npdlg.NewProjectLocation)));
+				projectService.SaveCombine();
+			// expand to the new node
+				node.Nodes[newNodeIndex].Expand();
+			}
+			catch
+			{
+				msg.ShowError (GettextCatalog.GetString ("Invalid Project File"));
+			}
+		}			
 	}
 		
 	public class AddNewCombineToCombine : AbstractMenuCommand
 	{
+		IProjectService projectService;
+		ProjectBrowserView browser;
+		CombineBrowserNode node;
+		MessageService msg;
+		NewProjectDialog npdlg;
+
 		public override void Run()
 		{
-			IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IProjectService));
-			ProjectBrowserView browser = (ProjectBrowserView)Owner;
-			CombineBrowserNode node    = browser.SelectedNode as CombineBrowserNode;
-			MessageService msg         = (MessageService)ServiceManager.GetService (typeof (MessageService));
+			projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IProjectService));
+			browser = (ProjectBrowserView)Owner;
+			node    = browser.SelectedNode as CombineBrowserNode;
+			msg         = (MessageService)ServiceManager.GetService (typeof (MessageService));
 			
 			if (node != null) {
-				NewProjectDialog npdlg = new NewProjectDialog(false);
-				if (npdlg.Run() == (int)Gtk.ResponseType.Ok) {
-					try 
-					{
-						int newNodeIndex = node.Nodes.Add(ProjectBrowserView.BuildCombineTreeNode((Combine)node.Combine.AddEntry(npdlg.NewCombineLocation)));
-						projectService.SaveCombine();
-						
-						// expand to the new node
-						node.Nodes[newNodeIndex].Expand();
-					}
-					catch
-					{
-						msg.ShowError (GettextCatalog.GetString ("Invalid Solution File"));
-					}
-				}
+				npdlg = new NewProjectDialog(false);
+				npdlg.OnOked += new EventHandler (Oked);
+			}
+		}
+
+		void Oked (object o, EventArgs e)
+		{
+			try 
+			{
+				int newNodeIndex = node.Nodes.Add(ProjectBrowserView.BuildCombineTreeNode((Combine)node.Combine.AddEntry(npdlg.NewCombineLocation)));
+				projectService.SaveCombine();
+				
+				// expand to the new node
+				node.Nodes[newNodeIndex].Expand();
+			}
+			catch
+			{
+				msg.ShowError (GettextCatalog.GetString ("Invalid Solution File"));
 			}
 		}
 	}
