@@ -1,0 +1,9 @@
+This list tracks know issues, hopefully to prevent duplicate bug reporting
+upon release.
+
+* When you iconify a dockitem, close MonoDevelop and reopen, the dockitem is
+  gone.
+* When you maximize MonoDevelop, the docks do not resize properly.
+* The toolbar sometimes exhibit interesting behaviour including but not
+  limited to looking disabled and working, looking enabled and not working
+  and others.
