@@ -1,3 +1,8 @@
+2004-04-28  Pawel Rozanski  <tokugawa@afn.no-ip.org>
+
+	* Gui/SourceEditorDisplayBinding.cs: added a case for setting mime for
+	new Nemerle files.
+
 2004-04-27  Todd Berman  <tberman@sevenl.net>
 
 	* Gui/SourceEditorDisplayBinding.cs: workaround some to reduce the

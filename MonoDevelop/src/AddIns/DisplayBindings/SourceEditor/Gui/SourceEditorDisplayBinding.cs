@@ -75,6 +75,9 @@ namespace MonoDevelop.SourceEditor.Gui
 				//case language "VBNET":
 				//	language = "text/x-vbnet";
 				//	break;
+				case "NEMERLE":
+					language = "text/x-nemerle";
+					break;
 				default:
 					language = "text/plain";
 					break;
