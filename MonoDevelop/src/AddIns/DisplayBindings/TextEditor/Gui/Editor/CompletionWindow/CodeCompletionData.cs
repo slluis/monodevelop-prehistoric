@@ -19,7 +19,7 @@ using ICSharpCode.TextEditor.Gui.CompletionWindow;
 
 namespace ICSharpCode.SharpDevelop.DefaultEditor.Gui.Editor
 {
-	class CodeCompletionData : ICompletionData
+	class CodeCompletionData : ICompletionDataWithMarkup
 	{
 		static ClassBrowserIconsService classBrowserIconService = (ClassBrowserIconsService)ServiceManager.Services.GetService(typeof(ClassBrowserIconsService));
 		static IParserService           parserService           = (IParserService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(IParserService));
@@ -29,10 +29,19 @@ namespace ICSharpCode.SharpDevelop.DefaultEditor.Gui.Editor
 		int      overloads;
 		string   text;
 		string   description;
+		string   pango_description;
 		string   documentation;
 		string   completionString;
 		IClass   c;
 		bool     convertedDocumentation = false;
+		
+		static IAmbience PangoAmbience {
+			get {
+				IAmbience asvc = ambienceService.CurrentAmbience;
+				asvc.ConversionFlags |= ConversionFlags.IncludePangoMarkup;
+				return asvc;
+			}
+		}
 		
 		public int Overloads {
 			get {
@@ -69,6 +78,7 @@ namespace ICSharpCode.SharpDevelop.DefaultEditor.Gui.Editor
 				// Mike
 				if (c is ClassProxy && c.ClassType == ClassType.Delegate) {
 					description = ambienceService.CurrentAmbience.Convert(parserService.GetClass(c.FullyQualifiedName));
+					pango_description = PangoAmbience.Convert(parserService.GetClass(c.FullyQualifiedName));
 					c = null;
 				}
 				
@@ -90,7 +100,45 @@ namespace ICSharpCode.SharpDevelop.DefaultEditor.Gui.Editor
 						Console.WriteLine(e.ToString());
 					}
 				}
-				return description + (overloads > 0 ? " (+" + overloads + " overloads)" : String.Empty) + "\n" + documentation;
+				return (description + (overloads > 0 ? " (+" + overloads + " overloads)" : String.Empty) + "\n" + documentation).Trim ();
+			}
+			set {
+				description = value;
+			}
+		}
+		
+		public string DescriptionPango {
+			get {
+				// get correct delegate description (when description is requested)
+				// in the classproxies aren't methods saved, therefore delegate methods
+				// must be get through the real class instead out of the proxy
+				//
+				// Mike
+				if (c is ClassProxy && c.ClassType == ClassType.Delegate) {
+					description = ambienceService.CurrentAmbience.Convert(parserService.GetClass(c.FullyQualifiedName));
+					pango_description = PangoAmbience.Convert(parserService.GetClass(c.FullyQualifiedName));
+					c = null;
+				}
+				
+				// don't give a description string, if no documentation or description is provided
+				if (description.Length + documentation.Length == 0) {
+					return null;
+				}
+				if (!convertedDocumentation) {
+					convertedDocumentation = true;
+					try {
+						documentation = GetDocumentation(documentation);
+						// new (by G.B.)
+						// XmlDocument doc = new XmlDocument();
+						// doc.LoadXml("<doc>" + documentation + "</doc>");
+						// XmlNode root      = doc.DocumentElement;
+						// XmlNode paramDocu = root.SelectSingleNode("summary");
+						// documentation = paramDocu.InnerXml;
+					} catch (Exception e) {
+						Console.WriteLine(e.ToString());
+					}
+				}
+				return (pango_description + (overloads > 0 ? " (+" + overloads + " overloads)" : String.Empty) + "\n" + documentation).Trim ();
 			}
 			set {
 				description = value;
@@ -99,7 +147,7 @@ namespace ICSharpCode.SharpDevelop.DefaultEditor.Gui.Editor
 		
 		public CodeCompletionData(string s, int imageIndex)
 		{
-			description = documentation = String.Empty;
+			description = pango_description = documentation = String.Empty;
 			text = s;
 			completionString = s;
 			this.imageIndex = imageIndex;
@@ -113,6 +161,7 @@ namespace ICSharpCode.SharpDevelop.DefaultEditor.Gui.Editor
 			text = c.Name;
 			completionString = c.Name;
 			description = ambienceService.CurrentAmbience.Convert(c);
+			pango_description  = PangoAmbience.Convert(c);
 			documentation = c.Documentation;
 		}
 		
@@ -121,6 +170,7 @@ namespace ICSharpCode.SharpDevelop.DefaultEditor.Gui.Editor
 			imageIndex  = classBrowserIconService.GetIcon(method);
 			text        = method.Name;
 			description = ambienceService.CurrentAmbience.Convert(method);
+			pango_description  = PangoAmbience.Convert (method);
 			completionString = method.Name;
 			documentation = method.Documentation;
 		}
@@ -130,6 +180,7 @@ namespace ICSharpCode.SharpDevelop.DefaultEditor.Gui.Editor
 			imageIndex  = classBrowserIconService.GetIcon(field);
 			text        = field.Name;
 			description = ambienceService.CurrentAmbience.Convert(field);
+			pango_description  = PangoAmbience.Convert (field);
 			completionString = field.Name;
 			documentation = field.Documentation;
 		}
@@ -139,6 +190,7 @@ namespace ICSharpCode.SharpDevelop.DefaultEditor.Gui.Editor
 			imageIndex  = classBrowserIconService.GetIcon(property);
 			text        = property.Name;
 			description = ambienceService.CurrentAmbience.Convert(property);
+			pango_description  = PangoAmbience.Convert (property);
 			completionString = property.Name;
 			documentation = property.Documentation;
 		}
@@ -148,6 +200,7 @@ namespace ICSharpCode.SharpDevelop.DefaultEditor.Gui.Editor
 			imageIndex  = classBrowserIconService.GetIcon(e);
 			text        = e.Name;
 			description = ambienceService.CurrentAmbience.Convert(e);
+			pango_description  = PangoAmbience.Convert (e);
 			completionString = e.Name;
 			documentation = e.Documentation;
 		}

@@ -63,6 +63,12 @@ namespace ICSharpCode.SharpDevelop.Services
 			}
 		}
 		
+		public bool IncludePangoMarkup {
+			get {
+				return (conversionFlags & ConversionFlags.IncludePangoMarkup) == ConversionFlags.IncludePangoMarkup;
+			}
+		}
+		
 		public bool UseLinkArrayList {
 			get {
 				return (conversionFlags & ConversionFlags.UseLinkArrayList) == ConversionFlags.UseLinkArrayList;

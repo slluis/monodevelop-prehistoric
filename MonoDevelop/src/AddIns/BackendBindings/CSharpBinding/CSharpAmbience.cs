@@ -80,29 +80,19 @@ namespace ICSharpCode.SharpDevelop.Services
 		
 		string GetModifier(IDecoration decoration)
 		{	
-			string ret = "";
+			string mod;
 			
-			if (IncludeHTMLMarkup) {
-				ret += "<i>";
-			}
+			if (decoration.IsStatic)        mod = "static ";
+			else if (decoration.IsFinal)    mod = "final ";
+			else if (decoration.IsVirtual)  mod = "virtual ";
+			else if (decoration.IsOverride) mod = "override ";
+			else if (decoration.IsNew)      mod = "new ";
+			else return "";
 			
-			if (decoration.IsStatic) {
-				ret += "static ";
-			} else if (decoration.IsFinal) {
-				ret += "final ";
-			} else if (decoration.IsVirtual) {
-				ret += "virtual ";
-			} else if (decoration.IsOverride) {
-				ret += "override ";
-			} else if (decoration.IsNew) {
-				ret += "new ";
-			}
-			
-			if (IncludeHTMLMarkup) {
-				ret += "</i>";
-			}
-			
-			return ret;
+			if (IncludeHTMLMarkup | IncludePangoMarkup)
+				return "<i>" + mod + "</i>";
+			else
+				return mod;
 		}
 		
 		
@@ -111,10 +101,6 @@ namespace ICSharpCode.SharpDevelop.Services
 			StringBuilder builder = new StringBuilder();
 			
 			builder.Append(Convert(c.Modifiers));
-			
-			if (IncludeHTMLMarkup) {
-				builder.Append("<i>");
-			}
 			
 			if (ShowModifiers) {
 				if (c.IsSealed) {
@@ -125,16 +111,12 @@ namespace ICSharpCode.SharpDevelop.Services
 							break;
 						
 						default:
-							builder.Append("sealed ");
+							AppendPangoHtmlTag (builder, "sealed ", "i");
 							break;
 					}
 				} else if (c.IsAbstract && c.ClassType != ClassType.Interface) {
-					builder.Append("abstract ");
+					AppendPangoHtmlTag (builder, "abstract ", "i");
 				}
-			}
-			
-			if (IncludeHTMLMarkup) {
-				builder.Append("</i>");
 			}
 			
 			if (ShowModifiers) {
@@ -167,19 +149,11 @@ namespace ICSharpCode.SharpDevelop.Services
 				}
 			}
 			
-			if (IncludeHTMLMarkup) {
-				builder.Append("<b>");
-			}
+			if (UseFullyQualifiedMemberNames)
+				AppendPangoHtmlTag (builder, c.FullyQualifiedName, "b");
+			else
+				AppendPangoHtmlTag (builder, c.Name, "b");
 			
-	    	if (UseFullyQualifiedMemberNames) {
-				builder.Append(c.FullyQualifiedName);
-			} else {
-				builder.Append(c.Name);
-			}
-			
-			if (IncludeHTMLMarkup) {
-				builder.Append("</b>");
-			}
 			
 			if (c.ClassType == ClassType.Delegate) {
 				builder.Append(" (");
@@ -229,24 +203,15 @@ namespace ICSharpCode.SharpDevelop.Services
 			
 			builder.Append(Convert(field.Modifiers));
 			
-			if (IncludeHTMLMarkup) {
-				builder.Append("<i>");
-			}
-			
 			if (ShowModifiers) {
-				if (field.IsStatic && field.IsLiteral) {
-					builder.Append("const ");
-				} else if (field.IsStatic) {
-					builder.Append("static ");
-				}
+				if (field.IsStatic && field.IsLiteral)
+					AppendPangoHtmlTag (builder, "const ", "i");
+				else if (field.IsStatic)
+					AppendPangoHtmlTag (builder, "static ", "i");
 				
 				if (field.IsReadonly) {
-					builder.Append("readonly ");
+					AppendPangoHtmlTag (builder, "readonly ", "i");
 				}
-			}
-			
-			if (IncludeHTMLMarkup) {
-				builder.Append("</i>");
 			}
 			
 			if (field.ReturnType != null) {
@@ -254,19 +219,10 @@ namespace ICSharpCode.SharpDevelop.Services
 				builder.Append(' ');
 			}
 			
-			if (IncludeHTMLMarkup) {
-				builder.Append("<b>");
-			}
-			
-			if (UseFullyQualifiedMemberNames) {
-				builder.Append(field.FullyQualifiedName);
-			} else {
-				builder.Append(field.Name);
-			}
-			
-			if (IncludeHTMLMarkup) {
-				builder.Append("</b>");
-			}
+			if (UseFullyQualifiedMemberNames)
+				AppendPangoHtmlTag (builder, field.FullyQualifiedName, "b");
+			else
+				AppendPangoHtmlTag (builder, field.Name, "b");
 			
 			if (IncludeBodies) builder.Append(";");
 			
@@ -288,19 +244,10 @@ namespace ICSharpCode.SharpDevelop.Services
 				builder.Append(' ');
 			}
 			
-			if (IncludeHTMLMarkup) {
-				builder.Append("<b>");
-			}
-			
-			if (UseFullyQualifiedMemberNames) {
-				builder.Append(property.FullyQualifiedName);
-			} else {
-				builder.Append(property.Name);
-			}
-			
-			if (IncludeHTMLMarkup) {
-				builder.Append("</b>");
-			}
+			if (UseFullyQualifiedMemberNames)
+				AppendPangoHtmlTag (builder, property.FullyQualifiedName, "b");
+			else
+				AppendPangoHtmlTag (builder, property.Name, "b");
 			
 			if (property.Parameters.Count > 0) {
 				builder.Append(" (");
@@ -347,19 +294,10 @@ namespace ICSharpCode.SharpDevelop.Services
 				builder.Append(' ');
 			}
 			
-			if (IncludeHTMLMarkup) {
-				builder.Append("<b>");
-			}
-			
-			if (UseFullyQualifiedMemberNames) {
-				builder.Append(e.FullyQualifiedName);
-			} else {
-				builder.Append(e.Name);
-			}
-			
-			if (IncludeHTMLMarkup) {
-				builder.Append("</b>");
-			}
+			if (UseFullyQualifiedMemberNames)
+				AppendPangoHtmlTag (builder, e.FullyQualifiedName, "b");
+			else
+				AppendPangoHtmlTag (builder, e.Name, "b");
 			
 			if (IncludeBodies) builder.Append(";");
 			
@@ -371,38 +309,18 @@ namespace ICSharpCode.SharpDevelop.Services
 			StringBuilder builder = new StringBuilder();
 			builder.Append(Convert(m.Modifiers));
 			
-			if (IncludeHTMLMarkup) {
-				builder.Append("<i>");
-			}
-			
-			if (ShowModifiers) {
-				if (m.IsStatic) {
-					builder.Append("static ");
-				}
-			}
-			
-			if (IncludeHTMLMarkup) {
-				builder.Append("</i>");
-			}
+			if (ShowModifiers && m.IsStatic)
+				AppendPangoHtmlTag (builder, "static", "i");
 			
 			if (m.ReturnType != null) {
 				builder.Append(Convert(m.ReturnType));
 				builder.Append(' ');
 			}
 			
-			if (IncludeHTMLMarkup) {
-				builder.Append("<b>");
-			}
-			
-			if (UseFullyQualifiedMemberNames) {
-				builder.Append(m.FullyQualifiedName);
-			} else {
-				builder.Append(m.Name);
-			}
-			
-			if (IncludeHTMLMarkup) {
-				builder.Append("</b>");
-			}
+			if (UseFullyQualifiedMemberNames)
+				AppendPangoHtmlTag (builder, m.FullyQualifiedName, "b");
+			else
+				AppendPangoHtmlTag (builder, m.Name, "b");
 			
 			builder.Append(" [");
 			if (IncludeHTMLMarkup) builder.Append("<br>");
@@ -437,26 +355,16 @@ namespace ICSharpCode.SharpDevelop.Services
 				builder.Append(' ');
 			}
 			
-			if (IncludeHTMLMarkup) {
-				builder.Append("<b>");
-			}
-			
 			if (m.IsConstructor) {
-				if (m.DeclaringType != null) {
-					builder.Append(m.DeclaringType.Name);
-				} else {
-					builder.Append(m.Name);
-				}
+				if (m.DeclaringType != null)
+					AppendPangoHtmlTag (builder, m.DeclaringType.Name, "b");
+				else
+					AppendPangoHtmlTag (builder, m.Name, "b");
 			} else {
-				if (UseFullyQualifiedMemberNames) {
-					builder.Append(m.FullyQualifiedName);
-				} else {
-					builder.Append(m.Name);
-				}
-			}
-			
-			if (IncludeHTMLMarkup) {
-				builder.Append("</b>");
+				if (UseFullyQualifiedMemberNames)
+					AppendPangoHtmlTag (builder, m.FullyQualifiedName, "b");
+				else
+					AppendPangoHtmlTag (builder, m.Name, "b");
 			}
 			
 			builder.Append(" (");
@@ -545,21 +453,12 @@ namespace ICSharpCode.SharpDevelop.Services
 		{
 			StringBuilder builder = new StringBuilder();
 			
-			if (IncludeHTMLMarkup) {
-				builder.Append("<i>");
-			}
-						
-			if (param.IsRef) {
-				builder.Append("ref ");
-			} else if (param.IsOut) {
-				builder.Append("out ");
-			} else if (param.IsParams) {
-				builder.Append("params ");
-			}
-			
-			if (IncludeHTMLMarkup) {
-				builder.Append("</i>");
-			}
+			if (param.IsRef)
+				AppendPangoHtmlTag (builder, "ref ", "i");
+			else if (param.IsOut)
+				AppendPangoHtmlTag (builder, "out ", "i");
+			else if (param.IsParams)
+				AppendPangoHtmlTag (builder, "params ", "i");
 			
 			builder.Append(Convert(param.ReturnType));
 			
@@ -568,6 +467,19 @@ namespace ICSharpCode.SharpDevelop.Services
 				builder.Append(param.Name);
 			}
 			return builder.ToString();
+		}
+		
+		// pango has some problems with
+		// <i>static </i>bool <b>Equals</b> (<i></i>object a, <i></i>object b)
+		// it will make "object a" italics. so rather tan appending a markup
+		// tag if there might be a modifier, we only do it if there is.
+		void AppendPangoHtmlTag (StringBuilder sb, string str, string tag)
+		{
+			if (IncludeHTMLMarkup | IncludePangoMarkup) sb.Append ('<').Append (tag).Append ('>');
+			
+			sb.Append (str);
+			
+			if (IncludeHTMLMarkup | IncludePangoMarkup) sb.Append ("</").Append (tag).Append ('>');
 		}
 		
 		public override string WrapAttribute(string attribute)

@@ -29,4 +29,11 @@ namespace ICSharpCode.TextEditor.Gui.CompletionWindow
 		
 		void InsertAction(TextEditorControl control);
 	}
+	
+	public interface ICompletionDataWithMarkup : ICompletionData
+	{
+		string DescriptionPango {
+			get;
+		}
+	}
 }

@@ -21,17 +21,16 @@ namespace ICSharpCode.TextEditor.Gui.CompletionWindow
 {
 	public class DeclarationViewWindow : Gtk.Window
 	{
-		string description = "";
-		
 		Label label;
 		
-		public string Description {
+		public string DescriptionMarkup {
 			get {
 				return label.Text;
 			}
 			
 			set {
-				label.Text = value;
+				Console.WriteLine (value);
+				label.Markup = value;
 				QueueDraw ();
 			}
 		}
@@ -39,7 +38,7 @@ namespace ICSharpCode.TextEditor.Gui.CompletionWindow
 		public DeclarationViewWindow () : base (WindowType.Popup)
 		{
 			Gtk.Frame frame = new Gtk.Frame ();
-			frame.Add (label = new Label (description));
+			frame.Add (label = new Label (""));
 			Add (frame);
 		}
 	}

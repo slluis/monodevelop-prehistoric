@@ -26,6 +26,7 @@ namespace ICSharpCode.SharpDevelop.Services
 		UseLinkArrayList       = 64,
 		QualifiedNamesOnlyForReturnTypes = 128,
 		IncludeBodies          = 256,
+		IncludePangoMarkup         = 512,
 		
 		StandardConversionFlags = ShowParameterNames | 
 		                          UseFullyQualifiedNames | 
