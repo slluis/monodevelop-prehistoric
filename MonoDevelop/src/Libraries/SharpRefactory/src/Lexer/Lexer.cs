@@ -329,18 +329,27 @@ namespace ICSharpCode.SharpRefactory.Parser
 			return new Token(Tokens.EOF, col, line, String.Empty);
 		}
 		
+		const int max_id_size = 512;
+		char [] id_builder = new char [max_id_size];
+		
 		string ReadIdent(char ch)
 		{
-			StringBuilder s = new StringBuilder(ch.ToString());
+			int pos = 0;
+			
+			id_builder [pos ++] = ch;
 			++col;
 			while (!reader.Eos() && (Char.IsLetterOrDigit(ch = reader.GetNext()) || ch == '_')) {
-				s.Append(ch.ToString());
+				if (pos == max_id_size) {
+					errors.Error(col, line, "identifier too long");
+				}
+				
+				id_builder [pos ++] = ch;
 				++col;
 			}
 			if (!reader.Eos()) {
 				reader.UnGet();
 			}
-			return s.ToString();
+			return new String (id_builder, 0, pos);
 		}
 		
 		Token ReadDigit(char ch, int x)
