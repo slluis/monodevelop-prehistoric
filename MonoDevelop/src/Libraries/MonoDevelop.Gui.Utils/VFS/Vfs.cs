@@ -1,3 +1,8 @@
+//
+// Author: John Luke  <jluke@cfl.rr.com>
+// License: LGPL
+//
+
 using System;
 using System.Runtime.InteropServices;
 
@@ -26,6 +31,10 @@ namespace MonoDevelop.GuiUtils
 		[DllImport ("gnomevfs-2")]
 		static extern bool gnome_vfs_mime_type_is_known (string mime_type);
 		
+		private Vfs ()
+		{
+		}
+
 		// gnome_program_init calls this for you
 		public static bool Init ()
 		{

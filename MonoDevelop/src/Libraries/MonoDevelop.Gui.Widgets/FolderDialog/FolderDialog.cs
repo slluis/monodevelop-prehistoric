@@ -1,19 +1,28 @@
+//
+// Author: John Luke  <jluke@cfl.rr.com>
+// License: LGPL
+//
+
 using System;
 using Gtk;
-using GtkSharp;
 
 namespace MonoDevelop.Gui.Widgets
 {
 	public class FolderDialog : FileSelection
 	{
-		static GLib.GType type;
+		static GLib.GType gtype;
 
-		static FolderDialog ()
+		public static new GLib.GType GType
 		{
-			type = RegisterGType (typeof (FolderDialog));
+			get
+			{
+				if (gtype == GLib.GType.Invalid)
+					gtype = RegisterGType (typeof (FolderDialog));
+				return gtype;
+			}
 		}
 
-		public FolderDialog (string title) : base (type)
+		public FolderDialog (string title) : base (GType)
 		{
 			this.Title = title;
 			this.SelectMultiple = false;

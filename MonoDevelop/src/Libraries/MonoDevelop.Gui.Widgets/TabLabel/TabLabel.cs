@@ -1,3 +1,8 @@
+//
+// Author: John Luke  <jluke@cfl.rr.com>
+// License: LGPL
+//
+
 using System;
 using System.Drawing;
 using Gtk;

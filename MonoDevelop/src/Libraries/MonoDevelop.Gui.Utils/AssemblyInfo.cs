@@ -1,10 +1,10 @@
 using System.Reflection;
 using System.Runtime.CompilerServices;
 
-[assembly: AssemblyTitle("MonoDevelop.Gui")]
+[assembly: AssemblyTitle("MonoDevelop.Gui.Utils")]
 [assembly: AssemblyDescription("MonoDevelop GUI utility library")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyProduct("MonoDevelop.Gui")]
+[assembly: AssemblyProduct("MonoDevelop.Gui.Utils")]
 [assembly: AssemblyCopyright("")]
 [assembly: AssemblyCulture("")]
 [assembly: AssemblyVersion("0.1.0.0")]
