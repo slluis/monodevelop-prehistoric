@@ -5,6 +5,12 @@
 
   <div class="title">News</div>
 
+<br />
+  <div class="news_header">Mar. 26, 2004: New Tutorial</div>
+  <p>John Luke has done an awesome job putting together our newest tutorial:
+  <a href="/tutorials/plugin.aspx">Writing a Monodevelop Plugin</a>.  Check it
+  out in the <a href="/tutorial.aspx">tutorials section</a>.</p>
+
   <br />
   <div class="news_header">Mar. 4, 2004: MonoDevelop 0.1 Released</div>
   <p>Just in time for the <a href="http://primates.ximian.com/~miguel/MonoMeet.html">mono meeting in Cambridge</a>, we have a 0.1 release ready. At the time of this writing, it is only available in tarball form. However, we will upload binary packages if anyone can find time to produce them. Download from the <a href="http://monodevelop.com/download.aspx#package">`package' section of the download page</a>.</p>
