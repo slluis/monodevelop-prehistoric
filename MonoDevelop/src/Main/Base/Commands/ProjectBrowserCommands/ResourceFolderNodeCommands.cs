@@ -27,6 +27,8 @@ using ICSharpCode.SharpDevelop.Internal.Project;
 using ICSharpCode.SharpDevelop.Gui.Dialogs;
 using ICSharpCode.SharpDevelop.Gui.Pads.ProjectBrowser;
 
+using Gtk;
+
 namespace ICSharpCode.SharpDevelop.Commands.ProjectBrowser
 {
 	public class AddResourceToProject : AbstractMenuCommand
@@ -37,31 +39,40 @@ namespace ICSharpCode.SharpDevelop.Commands.ProjectBrowser
 			FolderNode         node    = browser.SelectedNode as FolderNode;
 			
 			if (node != null) {
-				/*using (OpenFileDialog fdiag  = new OpenFileDialog()) {
-					fdiag.AddExtension    = true;
-					
-					StringParserService stringParserService = (StringParserService)ServiceManager.Services.GetService(typeof(StringParserService));
-					fdiag.Filter = stringParserService.Parse("${res:SharpDevelop.FileFilter.ResourceFiles}|*.resources;*.resx|${res:SharpDevelop.FileFilter.AllFiles}|*.*");
-					fdiag.Multiselect     = true;
-					fdiag.CheckFileExists = true;
-					
-					if (fdiag.ShowDialog() == DialogResult.OK) {
-						IProject project = ((ProjectBrowserNode)node.Parent).Project;
-						IProjectService projectService = (IProjectService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
-						ResourceService resourceService = (ResourceService)ServiceManager.Services.GetService(typeof(IResourceService));
-						
-						foreach (string fileName in fdiag.FileNames) {
-							ProjectFile fileInformation = projectService.AddFileToProject(project, fileName, BuildAction.EmbedAsResource);
-							
-							AbstractBrowserNode newResNode = new FileNode(fileInformation);
-							//newResNode.IconImage = resourceService.GetBitmap("Icons.16x16.ResourceFileIcon");
-							node.Nodes.Add(newResNode);
-						}
-						node.Expand();
-						projectService.SaveCombine();
+				
+			show_dialog:
+									
+				Gtk.FileSelection fs = new Gtk.FileSelection ("File to Open");
+				fs.SelectMultiple = true;
+				int response = fs.Run ();
+				string [] files = fs.Selections;
+				
+				fs.Destroy ();
+				
+				if (response != (int)Gtk.ResponseType.Ok)
+					return;
+				
+				foreach (string file in files) {
+					if (! File.Exists (file)) {
+						IMessageService messageService = (IMessageService) ServiceManager.Services.GetService (typeof (IMessageService));
+						messageService.ShowError (String.Format ("Resource file `{0}' does not exist", file));
+						goto show_dialog;
 					}
-				}*/
-				Console.WriteLine ("Unported dialog in ResourceFolderNodeCommands.cs");
+				}
+				
+				IProject project = ((ProjectBrowserNode) node.Parent).Project;
+				IProjectService projectService = (IProjectService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
+				ResourceService resourceService = (ResourceService)ServiceManager.Services.GetService(typeof(IResourceService));
+				
+				foreach (string fileName in files) {
+					ProjectFile fileInformation = projectService.AddFileToProject(project, fileName, BuildAction.EmbedAsResource);
+					
+					AbstractBrowserNode newResNode = new FileNode(fileInformation);
+					newResNode.IconImage = resourceService.GetBitmap ("Icons.16x16.ResourceFileIcon");
+					node.Nodes.Add(newResNode);
+				}
+				node.Expand();
+				projectService.SaveCombine();
 			}
 		}
 	}
