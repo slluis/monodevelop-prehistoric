@@ -1,3 +1,9 @@
+2004-07-07  Lluis Sanchez Gual  <lluis@novell.com>
+
+	* Parser/Resolver.cs: When locating the inner or outer classes, get the 
+	  class from the parser service, since it has all type names resolved 
+	  (the one got from the compilation unit does not).
+
 2004-07-05  Todd Berman  <tberman@off.net>
 
 	* CSharpBindingExecutionManager.cs: removed.

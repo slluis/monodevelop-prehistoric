@@ -795,14 +795,14 @@ namespace CSharpBinding.Parser
 				return null;
 			}
 			if (curClass.InnerClasses == null) {
-				return curClass;
+				return GetResolvedClass (curClass);
 			}
 			foreach (IClass c in curClass.InnerClasses) {
 				if (c != null && c.Region != null && c.Region.IsInside(caretLine, caretColumn)) {
 					return GetInnermostClass(c);
 				}
 			}
-			return curClass;
+			return GetResolvedClass (curClass);
 		}
 		
 		/// <remarks>
@@ -819,7 +819,7 @@ namespace CSharpBinding.Parser
 					if (c != null && c.Region != null && c.Region.IsInside(caretLine, caretColumn)) {
 						if (c != GetInnermostClass()) {
 							GetOuterClasses(classes, c);
-							classes.Add(c);
+							classes.Add(GetResolvedClass (c));
 						}
 						break;
 					}
@@ -836,12 +836,18 @@ namespace CSharpBinding.Parser
 					if (c != null && c.Region != null && c.Region.IsInside(caretLine, caretColumn)) {
 						if (c != GetInnermostClass()) {
 							GetOuterClasses(classes, c);
-							classes.Add(c);
+							classes.Add(GetResolvedClass (c));
 						}
 						break;
 					}
 				}
 			}
+		}
+		
+		public IClass GetResolvedClass (IClass cls)
+		{
+			// Returns an IClass in which all type names have been properly resolved
+			return parserService.GetClass (project, cls.FullyQualifiedName);
 		}
 
 		public ArrayList IsAsResolve (IParserService parserService, string expression, int caretLine, int caretColumn, string fileName, string fileContent)
