@@ -78,6 +78,11 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 		{
 			return AddReferenceDialog.Run ();
 		}
+
+		public void Hide ()
+		{
+			AddReferenceDialog.Hide ();
+		}
 		
 		public SelectReferenceDialog(IProject configureProject)
 		{

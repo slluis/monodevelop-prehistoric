@@ -52,6 +52,7 @@ namespace ICSharpCode.SharpDevelop.Commands.ProjectBrowser
 					IProjectService projectService = (IProjectService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
 					projectService.SaveCombine();
 				}
+				selDialog.Hide ();
 			}
 			node.Expand();
 		}
