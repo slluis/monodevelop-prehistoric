@@ -211,6 +211,11 @@ namespace MonoDevelop.Internal.Project
 		public override void Save (IProgressMonitor monitor)
 		{
 			base.Save (monitor);
+			foreach (CombineEntry entry in Entries)
+			{
+				if (entry is Combine || entry is Project)
+					entry.Save (monitor);
+			}
 			GenerateMakefiles ();
 		}
 

@@ -355,6 +355,8 @@ Internal/ProgressMonitoring/NullAsyncOperation.cs \
 Internal/ProgressMonitoring/ProgressTracker.cs \
 Internal/Project/PrjxFileFormat.cs \
 Internal/Project/CmbxFileFormat.cs \
+Internal/Project/MdsFileFormat.cs \
+Internal/Project/MdpFileFormat.cs \
 Internal/Project/IFileFormat.cs \
 Internal/Project/ProjectPathItemPropertyAttribute.cs \
 Internal/Project/Project/Deployment/DeployInformation.cs \

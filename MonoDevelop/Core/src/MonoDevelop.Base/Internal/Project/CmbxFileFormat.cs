@@ -191,6 +191,7 @@ namespace MonoDevelop.Internal.Project
 		{
 			DataItem data = (DataItem) Read (reader);
 			serializer.Deserialize (combine, data);
+			combine.FileFormat = new MdsFileFormat ();
 			return combine;
 		}
 		

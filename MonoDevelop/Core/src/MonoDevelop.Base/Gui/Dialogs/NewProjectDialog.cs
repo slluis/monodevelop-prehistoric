@@ -251,7 +251,7 @@ namespace MonoDevelop.Gui.Dialogs {
 					item.OpenCreatedCombine();
 				
 				// TODO :: THIS DOESN'T WORK !!!
-				NewProjectLocation = System.IO.Path.ChangeExtension(NewCombineLocation, ".prjx");
+				NewProjectLocation = System.IO.Path.ChangeExtension(NewCombineLocation, ".mdp");
 				
 				//DialogResult = DialogResult.OK;
 				if (OnOked != null)

@@ -44,8 +44,8 @@ namespace MonoDevelop.Services
 		IAsyncOperation currentRunOperation;
 		
 		FileFormatManager formatManager = new FileFormatManager ();
-		IFileFormat defaultProjectFormat = new PrjxFileFormat ();
-		IFileFormat defaultCombineFormat = new CmbxFileFormat ();
+		IFileFormat defaultProjectFormat = new MdsFileFormat ();
+		IFileFormat defaultCombineFormat = new MdpFileFormat ();
 		
 		ICompilerResult lastResult = new DefaultCompilerResult ();
 			
@@ -134,8 +134,10 @@ namespace MonoDevelop.Services
 			CombineEntry obj = format.ReadFile (file, monitor) as CombineEntry;
 			if (obj == null)
 				throw new InvalidOperationException ("Invalid file format: " + file);
-				
-			obj.FileFormat = format;
+			
+			if (obj.FileFormat == null)	
+				obj.FileFormat = format;
+
 			return obj;
 		}
 		
@@ -150,8 +152,8 @@ namespace MonoDevelop.Services
 				if (format == null)
 					throw new InvalidOperationException ("FileFormat not provided for combine entry '" + entry.Name + "'");
 			}
-
-			format.WriteFile (file, entry, monitor);
+			entry.FileName = format.GetValidFormatName (file);
+			format.WriteFile (entry.FileName, entry, monitor);
 		}
 		
 		public Project CreateSingleFileProject (string file)
@@ -234,11 +236,14 @@ namespace MonoDevelop.Services
 					return;
 				}
 				
-				string validcombine = Path.ChangeExtension (filename, ".cmbx");
+				string validcombine = Path.ChangeExtension (filename, ".mds");
 				
-				if (Path.GetExtension (filename).ToLower() != ".cmbx") {
+				if (Path.GetExtension (filename).ToLower() != ".mds") {
 					if (File.Exists (validcombine))
 						filename = validcombine;
+				} else if (Path.GetExtension (filename).ToLower () != ".cmbx") {
+					if (File.Exists (Path.ChangeExtension (filename, ".cmbx")))
+						filename = Path.ChangeExtension (filename, ".cmbx");
 				}
 			
 				CombineEntry entry = ReadFile (filename, monitor);
@@ -261,8 +266,8 @@ namespace MonoDevelop.Services
 				openCombine.ReferenceRemovedFromProject += new ProjectReferenceEventHandler (NotifyReferenceRemovedFromProject);
 		
 				RestoreCombinePreferences (CurrentOpenCombine);
+				SaveCombine ();
 				monitor.ReportSuccess (GettextCatalog.GetString ("Combine loaded."));
-
 				OnCombineOpened(new CombineEventArgs(openCombine));
 			} catch (Exception ex) {
 				monitor.ReportError ("Load operation failed.", ex);

@@ -147,7 +147,7 @@ namespace MonoDevelop.Internal.Templates
 			}
 			
 			// Save project
-			string projectLocation = fileUtilityService.GetDirectoryNameWithSeparator(projectCreateInformation.ProjectBasePath) + newProjectName + ".prjx";
+			string projectLocation = fileUtilityService.GetDirectoryNameWithSeparator(projectCreateInformation.ProjectBasePath) + newProjectName + ".mdp";
 			
 			
 			using (IProgressMonitor monitor = Runtime.TaskService.GetSaveProgressMonitor ()) {

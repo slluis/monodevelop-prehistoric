@@ -58,6 +58,8 @@ namespace MonoDevelop.Core.Services {
 		{			
 			extensionHashtable[".PRJX"] = Stock.SolutionIcon;
 			extensionHashtable[".CMBX"] = Stock.CombineIcon;
+			extensionHashtable[".MDS"] = Stock.CombineIcon;
+			extensionHashtable[".MDP"] = Stock.SolutionIcon;
 		
 			IconCodon[] icons = (IconCodon[])treeNode.BuildChildItems(null).ToArray(typeof(IconCodon));
 			for (int i = 0; i < icons.Length; ++i) {

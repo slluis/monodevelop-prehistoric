@@ -236,6 +236,8 @@ namespace MonoDevelop.Commands
 					switch (Path.GetExtension(name).ToUpper()) {
 						case ".CMBX": // Don't forget the 'recent' projects if you chance something here
 						case ".PRJX":
+						case ".MDP":
+						case ".MDS":
 							try {
 								//Runtime.ProjectService.OpenCombine(name);
 								Runtime.FileService.OpenFile(name);

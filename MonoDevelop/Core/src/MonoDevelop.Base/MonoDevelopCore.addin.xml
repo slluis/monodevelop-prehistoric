@@ -70,6 +70,10 @@
 	</Extension>
 	  
 	<Extension path = "/SharpDevelop/Workbench/ProjectFileFormats">
+		<FileFormat id="PrjxFileFormat"
+		            class="MonoDevelop.Internal.Project.PrjxFileFormat"/>
+		<FileFormat id="CmbxFileFormat"
+		            class="MonoDevelop.Internal.Project.CmbxFileFormat"/>
 	</Extension>
 	  
 	<Extension path = "/SharpDevelop/Workbench/DisplayBindings">

@@ -34,20 +34,20 @@ using MonoDevelop.Services;
 
 namespace MonoDevelop.Internal.Project
 {
-	public class PrjxFileFormat: IFileFormat
+	public class MdpFileFormat: IFileFormat
 	{
 		public string Name {
-			get { return "SharpDevelop Project"; }
+			get { return "MonoDevelop Project"; }
 		}
 		
 		public string GetValidFormatName (string fileName)
 		{
-			return Path.ChangeExtension (fileName, ".prjx");
+			return Path.ChangeExtension (fileName, ".mdp");
 		}
 		
 		public bool CanReadFile (string file)
 		{
-			return string.Compare (Path.GetExtension (file), ".prjx", true) == 0;
+			return String.Compare (Path.GetExtension (file), ".mdp", true) == 0;
 		}
 		
 		public bool CanWriteFile (object obj)
@@ -114,7 +114,7 @@ namespace MonoDevelop.Internal.Project
 			
 			try {
 				monitor.BeginTask (string.Format (GettextCatalog.GetString ("Loading project: {0}"), fileName), 1);
-				if (projectReader != null) 
+				if (projectReader != null)
 					return projectReader.ReadProject (reader);
 				else
 					throw new UnknownProjectVersionException (fileName, version);
@@ -125,101 +125,6 @@ namespace MonoDevelop.Internal.Project
 				monitor.EndTask ();
 				reader.Close ();
 			}
-		}
-	}
-	
-	interface IProjectReader {
-		Project ReadProject (XmlReader reader);
-	}
-	
-	class ProjectReaderV1: XmlConfigurationReader, IProjectReader
-	{
-		DotNetProject project;
-		string file;
-		DataSerializer serializer;
-
-		static string [] changes = new string [] { 
-			"Output/executeScript", "Execution","executeScript",
-			"Output/executeBeforeBuild", "Build","executeBeforeBuild",
-			"Output/executeAfterBuild", "Build","executeAfterBuild",
-			"runwithwarnings", "Execution","runwithwarnings",
-			"CodeGeneration/runtime", "Execution","runtime",
-			"CodeGeneration/includedebuginformation", "Build","debugmode",
-			"CodeGeneration/target", "Build","target",
-			"CompilerOptions/compilationTarget", "Build","target",
-			"CompilerOptions/includeDebugInformation", "Build","debugmode"
-		};
-		
-		public ProjectReaderV1 (DataSerializer serializer)
-		{
-			this.serializer = serializer;
-			this.file = serializer.SerializationContext.BaseFile;
-		}
-
-		public Project ReadProject (XmlReader reader)
-		{
-			string langName = reader.GetAttribute ("projecttype");
-			project = new DotNetProject (langName);
-			project.FileName = file;
-			DataItem data = (DataItem) Read (reader);
-			serializer.Deserialize (project, data);
-			project.FileFormat = new MdpFileFormat ();
-			return project;
-		}
-		
-		protected override DataNode ReadChild (XmlReader reader, DataItem parent)
-		{
-			if (reader.LocalName == "Configurations")
-			{
-				ILanguageBinding binding = Runtime.Languages.GetBindingPerLanguageName (project.LanguageName);
-				object confObj = binding.CreateCompilationParameters (null);
-				Type confType = confObj.GetType ();
-				DataContext prjContext = Runtime.ProjectService.DataContext;
-				
-				DataItem item = base.ReadChild (reader, parent) as DataItem;
-				foreach (DataNode data in item.ItemData) {
-					DataItem conf = data as DataItem;
-					if (conf == null) continue;
-					prjContext.SetTypeInfo (conf, typeof(DotNetProjectConfiguration));
-					DataItem codeGeneration = conf ["CodeGeneration"] as DataItem;
-					if (codeGeneration != null)
-						prjContext.SetTypeInfo (codeGeneration, confType);
-					Transform (conf);
-				}
-				return item;
-			}
-			return base.ReadChild (reader, parent);
-		}
-		
-		void Transform (DataItem conf)
-		{
-			for (int n=0; n<changes.Length; n+=3) {
-				DataNode data = conf.ItemData.Extract (changes[n]);
-				if (data != null) {
-					data.Name = changes [n+2];
-					conf.ItemData.Add (data, changes[n+1]);
-				}
-			}
-		}
-	}
-
-
-	class ProjectReaderV2: XmlConfigurationReader, IProjectReader
-	{
-		DataSerializer serializer;
-		
-		public ProjectReaderV2 (DataSerializer serializer)
-		{
-			this.serializer = serializer;
-		}
-
-		public Project ReadProject (XmlReader reader)
-		{
-			DataNode data = Read (reader);
-			Project project = (Project) serializer.Deserialize (typeof(Project), data);
-			project.FileName = serializer.SerializationContext.BaseFile;
-			project.FileFormat = new MdpFileFormat ();
-			return project;
 		}
 	}
 }

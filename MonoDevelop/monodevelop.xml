@@ -77,16 +77,24 @@
     <glob pattern="*.asmx"/>
   </mime-type>
   <mime-type type="application/x-prjx">
-    <comment xml:lang="en">MonoDevelop project</comment>
+    <comment xml:lang="en">SharpDevelop project</comment>
     <glob pattern="*.prjx"/>
   </mime-type>
   <mime-type type="application/x-cmbx">
-    <comment xml:lang="en">MonoDevelop solution</comment>
+    <comment xml:lang="en">SharpDevelop solution</comment>
     <glob pattern="*.cmbx"/>
   </mime-type>
   <mime-type type="application/x-mdsx">
-    <comment xml:lang="en">MonoDevelop solution</comment>
+    <comment xml:lang="en">SharpDevelop solution extension</comment>
     <glob pattern="*.mdsx"/>
+  </mime-type>
+  <mime-type type="application/x-mdp">
+    <comment xml:lang="en">MonoDevelop project</comment>
+    <glob pattern="*.mdp"/>
+  </mime-type>
+  <mime-type type="application/x-mds">
+    <comment xml:lang="en">MonoDevelop solution</comment>
+    <glob pattern="*.mds"/>
   </mime-type>
   <mime-type type="application/x-disco">
     <comment xml:lang="en">Static Discovery File</comment>

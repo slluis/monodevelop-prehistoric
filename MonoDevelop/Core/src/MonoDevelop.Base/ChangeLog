@@ -1,3 +1,26 @@
+2005-02-10  Todd Berman  <tberman@off.net>
+
+	* Commands/FileCommands.cs:
+	* Services/Project/DefaultProjectService.cs:
+	* Services/IconService.cs:
+	* Gui/Dialogs/NewProjectDialog.cs:
+	* Makefile.am:
+	* Internal/Project/PrjxFileFormat.cs:
+	* Internal/Project/MdsFileFormat.cs:
+	* Internal/Project/Project/Project.cs:
+	* Internal/Project/CmbxFileFormat.cs:
+	* Internal/Project/Combine/Combine.cs:
+	* Internal/Project/MdpFileFormat.cs:
+	* Internal/Templates/ProjectTemplates/CombineDescriptor.cs:
+	* Internal/Templates/ProjectTemplates/ProjectDescriptor.cs:
+	* MonoDevelopCore.addin.xml:
+	
+	Changes to make the default file extensions .mds and .mdp. Your
+	projects will be converted to this fileformat by default.
+
+	Also a lot of misc changes across the codebase to make this work
+	properly with other bad code that checks for .CMBX and .PRJX.
+
 2005-02-09  John Luke  <john.luke@gmail.com>
 
 	* Gui/Dialogs/TreeViewOptions.cs

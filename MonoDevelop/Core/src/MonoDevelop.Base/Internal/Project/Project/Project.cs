@@ -181,6 +181,8 @@ namespace MonoDevelop.Internal.Project
 					extension != ".PRJX" &&
 					extension != ".SWP" &&
 					extension != ".MDSX" &&
+					extension != ".MDS" &&
+					extension != ".MDP" && 
 					extension != ".PIDB" &&
 					!file.EndsWith ("make.sh") &&
 					!file.EndsWith ("~") &&
