@@ -40,7 +40,10 @@ namespace NemerleBinding
 			exe += " " + p.OutputAssembly + ".exe " + p.Parameters;
 			
 			try {
-				ProcessStartInfo psi = new ProcessStartInfo(exe);
+				ProcessStartInfo psi = new ProcessStartInfo("xterm",
+					string.Format (
+					@"-e ""{0} ;echo;read -p 'press any key to continue...' -n1""",
+					exe));
 				psi.WorkingDirectory = fus.GetDirectoryNameWithSeparator(p.OutputDirectory);
 				psi.UseShellExecute = false;
 				
