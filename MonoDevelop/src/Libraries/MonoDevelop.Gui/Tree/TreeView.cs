@@ -76,24 +76,16 @@ namespace MonoDevelop.Gui {
 
 		public TreeNode SelectedNode {
 			get {
+				
 				Gtk.TreeModel foo;
 				Gtk.TreeIter iter;
-				if (Selection.GetSelected(out foo, out iter) == false) {
+				if (! Selection.GetSelected (out foo, out iter))
 					return null;
-				}
-				return (TreeNode) store.GetValue(iter, 2);
+				
+				return (TreeNode) store.GetValue (iter, 2);
 			}
-			set {
-				Gtk.TreeIter iter;
-				if (store.GetIterFirst(out iter) == false) {
-					return;
-				}
-				do {
-					if (store.GetValue(iter, 2) == value) {
-						Selection.SelectIter(iter);
-						return;
-					} 
-				} while (store.IterNext(out iter) == true);
+			set {			
+				Selection.SelectIter (value.TreeIter);
 			}
 		}
 		
