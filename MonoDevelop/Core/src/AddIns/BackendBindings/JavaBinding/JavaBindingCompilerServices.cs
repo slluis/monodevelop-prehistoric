@@ -36,7 +36,7 @@ namespace JavaBinding
 			return "javac";
 		}
 		
-		public ICompilerResult Compile (ProjectFileCollection projectFiles, ProjectReferenceCollection references, DotNetProjectConfiguration configuration)
+		public ICompilerResult Compile (ProjectFileCollection projectFiles, ProjectReferenceCollection references, DotNetProjectConfiguration configuration, IProgressMonitor monitor)
 		{
 			JavaCompilerParameters compilerparameters = (JavaCompilerParameters) configuration.CompilationParameters;
 			if (compilerparameters == null) compilerparameters = new JavaCompilerParameters ();
@@ -94,40 +94,38 @@ namespace JavaBinding
 
 			StreamReader output;
 			StreamReader error;
-			DoCompilation (compiler, args, tf, configuration, compilerparameters, out output, out error);
+			DoCompilation (monitor, compiler, args, tf, configuration, compilerparameters, out output, out error);
 			ICompilerResult cr = ParseOutput (tf, error);			
 			
 			return cr;
 		}
 
-		private void DoCompilation (string compiler, string args, TempFileCollection tf, DotNetProjectConfiguration configuration, JavaCompilerParameters compilerparameters, out StreamReader output, out StreamReader error)
+		private void DoCompilation (IProgressMonitor monitor, string compiler, string args, TempFileCollection tf, DotNetProjectConfiguration configuration, JavaCompilerParameters compilerparameters, out StreamReader output, out StreamReader error)
 		{
-            ProcessStartInfo si = new ProcessStartInfo (compiler, args);
-			si.RedirectStandardOutput = true;
-            si.RedirectStandardError = true;
-			si.UseShellExecute = false;
-			Process p = new Process ();
-           	p.StartInfo = si;
-            p.Start ();
-
-			IStatusBarService sbs = (IStatusBarService)ServiceManager.GetService (typeof (IStatusBarService));
-			sbs.SetMessage ("Compiling...");
-
-			while (!p.HasExited) {
-				((SdStatusBar)sbs.Control).Pulse();
-				while (Gtk.Application.EventsPending ())
-					Gtk.Application.RunIteration ();
-				System.Threading.Thread.Sleep (100);
-			}
+			try {
+				monitor.BeginTask (null, 2);
+				monitor.Log.WriteLine ("Compiling Java source code ...");
+				ProcessStartInfo si = new ProcessStartInfo (compiler, args);
+				si.RedirectStandardOutput = true;
+				si.RedirectStandardError = true;
+				si.UseShellExecute = false;
+				Process p = new Process ();
+				p.StartInfo = si;
+				p.Start ();
+				p.WaitForExit ();
+				
+				monitor.Step (1);
+				monitor.Log.WriteLine ("Generating assembly ...");
+				CompileToAssembly (configuration, compilerparameters);
 			
-			CompileToAssembly (configuration, compilerparameters);
-			((SdStatusBar) sbs.Control).Done ();
-		
-			// FIXME: avoid having a full buffer
-			// perhaps read one line and append parsed output
-			// and then return cr at end 
-			output = p.StandardOutput;
-			error = p.StandardError;
+				// FIXME: avoid having a full buffer
+				// perhaps read one line and append parsed output
+				// and then return cr at end 
+				output = p.StandardOutput;
+				error = p.StandardError;
+			} finally {
+				monitor.EndTask ();
+			}
         }
 
 		void CompileToAssembly (DotNetProjectConfiguration configuration, JavaCompilerParameters compilerparameters)
@@ -146,14 +144,7 @@ namespace JavaBinding
 			Process p = new Process ();
            	p.StartInfo = si;
             p.Start ();
-
-			IStatusBarService sbs = (IStatusBarService)ServiceManager.GetService (typeof (IStatusBarService));
-			while (!p.HasExited) {
-				((SdStatusBar)sbs.Control).Pulse();
-				while (Gtk.Application.EventsPending ())
-					Gtk.Application.RunIteration ();
-				System.Threading.Thread.Sleep (100);
-			}
+			p.WaitForExit ();
 		}
 		
 		ICompilerResult ParseOutput (TempFileCollection tf, StreamReader errorStream)

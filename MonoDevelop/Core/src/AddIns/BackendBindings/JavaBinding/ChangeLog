@@ -1,3 +1,8 @@
+2005-01-24  Lluis Sanchez Gual  <lluis@novell.com>
+
+	* JavaBindingCompilerServices.cs: 
+	* JavaLanguageBinding.cs: Use the new progress monitor API.
+	
 2005-01-16  John Luke  <john.luke@gmail.com>
 
 	* Makefile.am: remove FormattingStrategy from build
