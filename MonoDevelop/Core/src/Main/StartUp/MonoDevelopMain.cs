@@ -57,16 +57,19 @@ namespace MonoDevelop
 		/// <summary>
 		/// Starts the core of MonoDevelop.
 		/// </summary>
-		[STAThread()]
-		public static void Main(string[] args)
+		public static void Main (string[] args)
 		{
+			MonoDevelopOptions options = new MonoDevelopOptions ();
+			options.ProcessArgs (args);
+			string[] remainingArgs = options.RemainingArguments;
+
 			string socket_filename = "/tmp/md-" + Environment.GetEnvironmentVariable ("USER") + "-socket";
 			listen_socket = new Socket (AddressFamily.Unix, SocketType.Stream, ProtocolType.IP);
 			EndPoint ep = new UnixEndPoint (socket_filename);
 			if (File.Exists (socket_filename)) {
 				try {
 					listen_socket.Connect (ep);
-					listen_socket.Send (Encoding.UTF8.GetBytes (String.Join ("\n", args)));
+					listen_socket.Send (Encoding.UTF8.GetBytes (String.Join ("\n", remainingArgs)));
 					return;
 				} catch {
 				}
@@ -76,12 +79,12 @@ namespace MonoDevelop
 			string name = Assembly.GetEntryAssembly ().GetName ().Name;
 			string version = Assembly.GetEntryAssembly ().GetName ().Version.Major + + "." + Assembly.GetEntryAssembly ().GetName ().Version.Minor;
 
-			Gnome.Program program = new Gnome.Program (name, version, Gnome.Modules.UI, args);
+			Gnome.Program program = new Gnome.Program (name, version, Gnome.Modules.UI, remainingArgs);
 			Gdk.Threads.Init();
-			commandLineArgs = args;
+			commandLineArgs = remainingArgs;
 			bool noLogo = false;
 		
-			SplashScreenForm.SetCommandLineArgs(args);
+			SplashScreenForm.SetCommandLineArgs(remainingArgs);
 			
 			foreach (string parameter in SplashScreenForm.GetParameterList()) {
 				switch (parameter.ToUpper()) {

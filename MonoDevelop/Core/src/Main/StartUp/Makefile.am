@@ -2,6 +2,7 @@ BASEDIR=$(srcdir)/../../..
 
 FILES= \
 ./MonoDevelopMain.cs \
+./MonoDevelopOptions.cs \
 ./Dialogs/AddInTreeSettingsHandler.cs \
 ./Dialogs/ExceptionBox.cs \
 ./AssemblyInfo.cs
@@ -16,6 +17,7 @@ REFS = /r:System.Drawing \
 	/r:../../../build/bin/MonoDevelop.Core.dll \
 	/r:../../../build/bin/MonoDevelop.Base.dll \
 	/r:Mono.Posix.dll \
+	/r:Mono.GetOptions.dll \
 	$(BASE_DEPENDENCIES_LIBS)
 
 $(DLL): $(build_sources)
