@@ -1,3 +1,8 @@
+2005-03-13  Todd Berman  <tberman@off.net>
+
+	* Gui/Workbench/Layouts/SdiWorkspaceWindow.cs: Don't use a dock, this
+	is insane, and it always was.
+
 2005-03-12  John Luke  <john.luke@gmail.com>
 
 	* Makefile.am: use MonoDevelop.Dock.dll

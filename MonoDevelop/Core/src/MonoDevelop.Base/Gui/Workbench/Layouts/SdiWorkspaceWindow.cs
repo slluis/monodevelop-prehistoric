@@ -20,13 +20,12 @@ using MonoDevelop.Gui.Widgets;
 
 namespace MonoDevelop.Gui
 {
-	public class SdiWorkspaceWindow : Dock, IWorkbenchWindow
+	public class SdiWorkspaceWindow : Frame, IWorkbenchWindow
 	{
 		Notebook   viewTabControl = null;
 		IViewContent content;
 		ArrayList    subViewContents = null;
 
-		DockItem mainItem;
 		ArrayList    subDockItems = null;
 		
 		TabLabel tabLabel;
@@ -127,11 +126,10 @@ namespace MonoDevelop.Gui
 			content.DirtyChanged       += new EventHandler(SetTitleEvent);
 			content.BeforeSave         += new EventHandler(BeforeSave);
 			content.ContentChanged     += new EventHandler (OnContentChanged);
-
-			mainItem = new DockItem (content.TabPageLabel, content.TabPageLabel, DockItemBehavior.Locked | DockItemBehavior.CantClose | DockItemBehavior.CantIconify);
-			mainItem.Add (content.Control);
-			mainItem.ShowAll ();
-			AddItem (mainItem, DockPlacement.Center);
+			ShadowType = ShadowType.None;
+			Add (content.Control);
+			content.Control.ShowAll ();
+			ShowAll ();
 			SetTitleEvent(null, null);
 		}
 		
@@ -251,7 +249,6 @@ namespace MonoDevelop.Gui
 				WorkbenchSingleton.Workbench.WorkbenchLayout.RemoveTab (pageNum);
 			}
 			OnWindowDeselected(EventArgs.Empty);
-			mainItem.Remove (content.Control);
 			content.Dispose ();
 			OnCloseEvent(null);
 			content = null;
@@ -259,7 +256,8 @@ namespace MonoDevelop.Gui
 		
 		public void AttachSecondaryViewContent(ISecondaryViewContent subViewContent)
 		{
-			if (subViewContents == null) {
+			// FIXME: We should use a notebook instead.
+			/*if (subViewContents == null) {
 				subViewContents = new ArrayList ();
 				subDockItems = new ArrayList ();
 			}
@@ -272,7 +270,7 @@ namespace MonoDevelop.Gui
 			dockitem.ShowAll ();
 			subDockItems.Add (dockitem);
 			AddItem (dockitem, DockPlacement.Bottom);
-			OnContentChanged (null, null);
+			OnContentChanged (null, null);*/
 		}
 		
 		int oldIndex = -1;
