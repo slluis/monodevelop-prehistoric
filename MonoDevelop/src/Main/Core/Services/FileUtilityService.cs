@@ -42,7 +42,8 @@ namespace ICSharpCode.Core.Services
 	/// </summary>
 	public class FileUtilityService : AbstractService
 	{
-		readonly static char[] separators = { Path.DirectorySeparatorChar, Path.VolumeSeparatorChar };
+		readonly static char[] separators = { Path.DirectorySeparatorChar, Path.VolumeSeparatorChar, Path.AltDirectorySeparatorChar };
+		readonly static char[] dir_sep = { Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar };
 		string sharpDevelopRootPath;
 		
 		public string SharpDevelopRootPath {
@@ -110,8 +111,14 @@ namespace ICSharpCode.Core.Services
 		/// </summary>
 		public string AbsoluteToRelativePath(string baseDirectoryPath, string absPath)
 		{
-			string[] bPath = baseDirectoryPath.Split(separators);
-			string[] aPath = absPath.Split(separators);
+			if (! Path.IsPathRooted (absPath))
+				return absPath;
+			
+			absPath = Path.GetFullPath (absPath);
+			baseDirectoryPath = Path.GetFullPath (baseDirectoryPath);
+			
+			string[] bPath = baseDirectoryPath.Split (separators);
+			string[] aPath = absPath.Split (separators);
 			int indx = 0;
 			for(; indx < Math.Min(bPath.Length, aPath.Length); ++indx){
 				if(!bPath[indx].Equals(aPath[indx]))
@@ -145,8 +152,8 @@ namespace ICSharpCode.Core.Services
 			/*if (separators[0] != separators[1] && relPath.IndexOf(separators[1]) != -1) {
 				return relPath;
 			}*/
-			string[] bPath = baseDirectoryPath.Split(separators[0]);
-			string[] rPath = relPath.Split(separators[0]);
+			string[] bPath = baseDirectoryPath.Split(dir_sep);
+			string[] rPath = relPath.Split(dir_sep);
 			int indx = 0;
 		
 			for (; indx < rPath.Length; ++indx) {
@@ -163,7 +170,7 @@ namespace ICSharpCode.Core.Services
 			
 			erg += separators[0] + String.Join(Path.DirectorySeparatorChar.ToString(), rPath, indx, rPath.Length-indx);
 			
-			return erg;
+			return Path.GetFullPath (erg);
 		}
 		
 		/// <summary>
