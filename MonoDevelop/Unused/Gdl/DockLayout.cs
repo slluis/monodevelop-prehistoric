@@ -620,7 +620,7 @@ namespace Gdl
 			UpdateItemsModel ();
 
 			if (!idleSavePending) {
-				GLib.Idle.Add (IdleSave);
+				GLib.Idle.Add (new GLib.IdleHandler (IdleSave));
 				idleSavePending = true;
 			}
 		}
