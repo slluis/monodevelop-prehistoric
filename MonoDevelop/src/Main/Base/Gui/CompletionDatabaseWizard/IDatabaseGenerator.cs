@@ -20,5 +20,6 @@ namespace MonoDevelop.Gui.Dialogs.OptionPanels.CompletionDatabaseWizard
 	public interface IDatabaseGenerator
 	{
 		void Generate(IProgressMonitor monitor);
+		bool Cancelable { get; }
 	}
 }

@@ -1,9 +1,15 @@
 DLL = MonoDevelop.Gui.Utils.dll
-REFERENCES=/r:System.Drawing /r:gtk-sharp /r:gdk-sharp /r:pango-sharp /r:gnome-sharp /r:glib-sharp /r:glade-sharp
+REFERENCES=/r:System.Drawing /r:gtk-sharp /r:gdk-sharp /r:pango-sharp /r:gnome-sharp /r:glib-sharp /r:glade-sharp /r:ICSharpCode.SharpZipLib
 
 FILES = ./FileIcons/FileIconLoader.cs \
 ./AssemblyInfo.cs \
 ./VFS/Vfs.cs \
+./ReportingStream/ReportingStream.cs \
+./DirectoryArchive/Decompressor.cs \
+./DirectoryArchive/TarDecompressor.cs \
+./DirectoryArchive/ZipDecompressor.cs \
+./DirectoryArchive/Bz2Support.cs \
+./DirectoryArchive/GzSupport.cs \
 ./Glue.cs
 
 build_sources = $(addprefix $(srcdir)/, $(FILES))

@@ -13,17 +13,15 @@ namespace MonoDevelop.Gui.Dialogs.OptionPanels.CompletionDatabaseWizard
 {
 	public class CreateDBGenerator : CreatingGenerator, IDatabaseGenerator
 	{
+		public bool Cancelable { get { return true; } }
 		public bool Fast;
 		public void Generate(IProgressMonitor progress)
 		{
 			string path = this.CreateCodeCompletionDir();
 			DefaultParserService parserService  = (DefaultParserService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(DefaultParserService));
-			Console.WriteLine("using path " + path);
 			if (Fast) {
-				Console.WriteLine("Creating DB with fast process");
 				parserService.GenerateCodeCompletionDatabaseFast(path, progress);
 			} else {
-				Console.WriteLine("Creating DB with slow process");
 				parserService.GenerateEfficientCodeCompletionDatabase(path, progress);
 			}
 		}

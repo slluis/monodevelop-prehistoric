@@ -113,6 +113,7 @@ src/Main/Base/Makefile
 src/Main/StartUp/Makefile
 src/Libraries/Makefile
 src/Libraries/MonoDevelop.Core/Makefile
+src/Libraries/MonoDevelop.Misc/Makefile
 src/Libraries/MonoDevelop.Gui.Utils/Makefile
 src/Libraries/MonoDevelop.Gui.Widgets/Makefile
 src/Libraries/SharpAssembly/Makefile

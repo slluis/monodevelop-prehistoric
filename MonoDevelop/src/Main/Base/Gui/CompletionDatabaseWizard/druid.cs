@@ -19,7 +19,7 @@ class MethodSelectionPage : DruidPageStandard {
 		this.NextClicked += new NextClickedHandler(druid.GoToMethodPage);
 		AppendItem("", generateDatabase, "");
 		AppendItem("", useExisting, "");
-//		AppendItem("", download, "");
+		AppendItem("", download, "");
 	}
 }
 
@@ -51,10 +51,28 @@ class UseExistingPage : DetailsPageBase {
 class DownloadPage : DetailsPageBase {
 	internal Gtk.Entry uri;
 	
-	internal DownloadPage(CodeCompletionDruid druid) : base(druid) {
+	internal DownloadPage(CodeCompletionDruid druid) : base(druid) 
+	{
 		Title = "Download Database";
 		uri = new Gtk.Entry();
 		AppendItem("Where would you like to download the code completion database from?", uri, "");
+	}
+	
+	protected override string GetError (object sender)
+	{
+		try {
+			Uri u = new Uri(this.uri.Text);
+		} catch (UriFormatException ex) {
+			return "That Uri is invalid: " + ex.Message;
+		}
+
+		int compressionType = (int)MonoDevelop.Gui.Utils.DirectoryArchive.Decompressor.GetTypeFromString(this.uri.Text, false);
+
+		if (compressionType == -1){
+			return "That Uri appears not to refer to a file with a known compression type";
+		}
+		
+		return null;
 	}
 }
 
@@ -70,9 +88,23 @@ abstract class DetailsPageBase : DruidPageStandard {
 
 	internal void MoveNext(object sender, NextClickedArgs args)
 	{
+		string error = GetError(sender);
+		
+		if (error != null) {
+			IMessageService messageService = (IMessageService) ServiceManager.Services.GetService (typeof (IMessageService));
+			messageService.ShowError(error);
+			args.RetVal = true;
+			return;
+		}
+
 		druid.PreviousPage = this;
 		druid.ShowLast();
 		args.RetVal = true;
+	}
+
+	protected virtual string GetError(object sender)
+	{
+		return null;
 	}
 
 	internal void MoveBack(object sender, BackClickedArgs args)
@@ -146,7 +178,6 @@ class CodeCompletionDruid : Druid {
 	
 	internal void EndOfWizard(object sender, FinishClickedArgs args)
 	{
-		Console.WriteLine("Finishing druid");
 		IDatabaseGenerator generator = null;
 		if (methodSelectionPage.generateDatabase.Active) {
 			generator = (IDatabaseGenerator)new CreateDBGenerator();
@@ -155,7 +186,9 @@ class CodeCompletionDruid : Druid {
 		} else if (methodSelectionPage.useExisting.Active) {
 			generator = (IDatabaseGenerator)new UseExistingDBGenerator();
 			((UseExistingDBGenerator)generator).Path = useExistingPage.filename.Path;
-	//	} else if (methodSelectionPage.download.Active) {
+		} else if (methodSelectionPage.download.Active) {
+			generator = (IDatabaseGenerator)new DownloadGenerator();
+			((DownloadGenerator)generator).SourceUri = new Uri(downloadPage.uri.Text);
 		}
 		if (Finished != null)
 			Finished(this, generator);
@@ -168,7 +201,6 @@ class CodeCompletionDruid : Druid {
 	
 	internal void ShowMain()
 	{
-		Console.WriteLine("Showing main page...");
 		Page = methodSelectionPage;
 	}
 	

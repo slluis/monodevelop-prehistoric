@@ -1,3 +1,13 @@
+2004-03-20 Iain McCoy <iainmccoy@optusnet.com.au>
+	* src/Main/Base/Gui/CompletionDatabaseWizard/*: Remove WriteLine
+	statements
+	* src/Main/Base/Gui/CompletionDatabaseWizard/DownloadGenerator.cs: add
+	downloading from a url
+	* src/Libraries/MonoDevelop.Gui.Utils/Makefile.am:
+	* src/Libraries/MonoDevelop.Gui.Utils/ReportingStream/*:
+	* src/Libraries/MonoDevelop.Gui.Utils/DirectoryArchive/*: Added
+	ReportingStream and DirectoryArchive utilities
+
 2004-03-20  Gustavo Giráldez  <gustavo.giraldez@gmx.net>
 
 	* gdldock/gdl/Makefile.am:

@@ -43,25 +43,34 @@ namespace MonoDevelop.Gui.Dialogs.OptionPanels.CompletionDatabaseWizard
 		
 		public GeneratorProgress (IDatabaseGenerator generator) : base("Code completion database generator")
 		{
-			this.generator = generator;
+			try {
+				this.generator = generator;
 			
-			Gtk.VBox vb = new Gtk.VBox(false, 6);
-			this.Add(vb);
+				Gtk.VBox vb = new Gtk.VBox(false, 6);
+				this.Add(vb);
 				
-			vb.Add(new Gtk.Label("Creating database..."));
+				vb.Add(new Gtk.Label("Creating database..."));
 
-			progress = new ProgressMonitorBar();
-			vb.Add(progress);
+				progress = new ProgressMonitorBar();
+				vb.Add(progress);
 
-			cancel = new Gtk.Button("Cancel");
-			cancel.Clicked += new EventHandler(DoCancel);
-			vb.Add(cancel);
-			this.ShowAll();
-			while (Gtk.Application.EventsPending ())
-				Gtk.Application.RunIteration ();
+				cancel = new Gtk.Button("Cancel");
+				cancel.Clicked += new EventHandler(DoCancel);
+				if (!generator.Cancelable) {
+					cancel.Sensitive = false;
+					Tooltips t = new Tooltips();
+					t.SetTip(cancel, "Cancelling not available",
+							"This type of code completion database generator can not be canceled");
+				}
+				vb.Add(cancel);
+				this.ShowAll();
+				while (Gtk.Application.EventsPending ())
+					Gtk.Application.RunIteration ();
 		
-			generator.Generate(progress);
-			this.Destroy();
+				generator.Generate(progress);
+			} finally {
+				this.Destroy();
+			}
 		}
 
 		private void DoCancel(object sender, EventArgs args)
@@ -87,14 +96,21 @@ namespace MonoDevelop.Gui.Dialogs.OptionPanels.CompletionDatabaseWizard
 
 		void GotDruidData(object sender, IDatabaseGenerator gen)
 		{
+			GeneratorProgress gp = null;
 			try {
 				druidHost.Destroy();
 
-				GeneratorProgress gp = new GeneratorProgress(gen);
+				gp = new GeneratorProgress(gen);
 			} catch (Exception e) {
-				Console.WriteLine("Failed with exception " + e.GetType().Name + ": " + e.Message);
-				//FIXME: display error message
+				IMessageService messageService = (IMessageService) ServiceManager.Services.GetService (typeof (IMessageService));
+				string message = e.Message;
+				if (e.InnerException != null)
+					message += ": " + e.InnerException.Message;
+				messageService.ShowError(message);
+				if (gp != null)
+					gp.Destroy();
 				Start();
+				return;
 			}
 			// restart  & exit 
 			ServiceManager.Services.UnloadAllServices();

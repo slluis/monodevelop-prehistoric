@@ -13,6 +13,7 @@ namespace MonoDevelop.Gui.Dialogs.OptionPanels.CompletionDatabaseWizard
 {
 	public class UseExistingDBGenerator : IDatabaseGenerator
 	{
+		public bool Cancelable { get { return true; } }
 		public string Path;
 		// changed to work during GLib.Idle
 		public void Generate(IProgressMonitor progress)
