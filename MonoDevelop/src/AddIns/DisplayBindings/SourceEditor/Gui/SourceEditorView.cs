@@ -166,9 +166,10 @@ namespace MonoDevelop.SourceEditor.Gui
 					goto case '.';
 
 				case '.':
+					bool retval = base.OnKeyPressEvent (evnt);
 					completionWindow = new CompletionWindow (this, ParentEditor.DisplayBinding.ContentName, new CodeCompletionDataProvider ());
 					completionWindow.ShowCompletionWindow ((char)key);
-					break;
+					return retval;
 				/*case '(':
 					try {
 						InsightWindow insightWindow = new InsightWindow(this, ParentEditor.DisplayBinding.ContentName);
