@@ -1,0 +1,127 @@
+<html>
+	<head>
+		<title>MonoDevelop 0.1 Release Bible</title>
+		<style type="text/css"> h1 { color: #efefef; font-size: 14pt; font-family: "Trebuchet MS"; border: 0; margin: 0; padding: 1em; background: #666666; }
+	h2, h4, h5, h6 { font-family: Verdana,sans-serif; font-weight: bold; }
+	h3, h4, h5, h5 { margin-left: 1em; }
+	h2, h3 { font-size: 18px; }
+	h2 { padding: 3px; color: #000000; }
+	h3 { font-size: 13px; border-bottom: 2px solid #dddddd; }
+	body, table { background-color: #ffffff; font-family: Verdana, sans-serif; font-size: 12px; color: black; margin: 0; padding: 0; border: 0; margin-left: 20%; margin-right: 20%; }
+	p,lu,li { margin-left: 2em; margin-right: 2em; }
+	img { border: 0; vertical-align: top; }
+	.code-xml, .code-csharp { margin:15px; padding:15px; font-size: small; font-family: "Courier New", Courier; background:whitesmoke; border: solid 1px silver; line-height:110%; }
+	.shell { border-style: solid; background: #000000; color: #bbbbbb; #777777; border-width: 1px; padding: 2pt; margin-left: 4em; margin-right: 4em; }
+	</style>
+		<script src="MonoDevelop-0.1-Notes_files/prettyprint.js" type="text/javascript">
+		</script>
+	</head>
+	<body onload="paintColors();">
+		<h1>MonoDevelop 0.1</h1>
+		<p>
+			Et bien, le temps est enfin venu de sortir le premier release de MonoDevelop. 
+			Vous pouvez toujours trouver la derni&egrave;re info <a href="http://www.monodevelop.com/">
+				ici</a>. Vous pourrez &eacute;galement trouver un didacticiel int&eacute;ressant <a href="http://www.monodevelop.com/tutorial.aspx">
+				ici</a>.
+		</p>
+		<P></P>
+		<h2>Installer MonoDevelop</h2>
+		<h3>Configuration</h3>
+		<p>Vous avez besoin de la derni&egrave;re version de mono avec le support ICU.</p>
+		<p>Vous pouvez t&eacute;l&eacute;charger MonoDevelop 0.1 <a href="http://www.go-mono.com/archive/monodevelop-0.1.tar.gz">
+				ici</a>. Le site de <a href="http://www.go-mono.com/download.html">mono</a> 
+			peut &eacute;galement disposer des paquetages pour votre distribution.</p>
+		<p>
+			Si vous d&eacute;cidez de contruire MonoDevelop &agrave; partir d'un tarball, vous pouvez le 
+			construire en suivant les instructions suivantes.
+		</p>
+		<pre class="shell">	tar zxvf monodevelop-0.1.tar.gz
+	cd monodevelop-0.1
+	./configure
+	make
+	make install
+	</pre>
+		<p>
+			Par D&eacute;faut, MonoDevelop s'installera avec le pr&eacute;fixe /usr/local
+		</p>
+		<p>
+			MonoDevelop devrait appara&icirc;tre dans le menu des Applications et un script shell 
+			'monodevelop' est install&eacute; dans le r&eacute;pertoire $(prefix)/bin.
+		</p>
+		<h2>Fonctionnalit&eacute;s</h2>
+		<h3>Editeur de texte</h3>
+		<p>MonoDevelop dispose d'une version am&eacute;lior&eacute;e de <a href="http://gtksourceview.sf.net/">
+				gtksourceview</a> pour un &eacute;diteur de texte. Nous l'avons &eacute;tendu &agrave; 
+			l'int&eacute;rieur du code de base de MonoDevelop en utilisant C#. Actuellement, il 
+			supporte entre autre la Colorisation Syntaxique, la Compl&eacute;tion de Code, et des 
+			gabarits de code.</p>
+		<h3>Support de projets</h3>
+		<p>
+			MonoDevelop poss&egrave;de un support de projets assez complet. Il supporte la 
+			cr&eacute;ation de projets multi-projets, la compilation &agrave; l'int&eacute;rieur de l'&eacute;diteur, 
+			l'ex&eacute;cution depuis l'&eacute;diteur. Le format de projet est actuellement compatible 
+			avec celui utilis&eacute; par SharpDevelop.
+		</p>
+		<h3>Explorateur de classes</h3>
+		<p>
+			Lorsqu'un projet est ouvert, MonoDevelop identifie automatiquement les classes, 
+			m&eacute;thodes et propri&eacute;t&eacute;s disponibles dans ce projet, et g&eacute;n&egrave;re une arborescence 
+			que l'on peut explorer.
+		</p>
+		<h3>Recherche</h3>
+		<p>
+			MonoDevelop propose un outil de recherche/remplacement avanc&eacute;. Il supporte la 
+			recherche dans un fichier, tous les documents ouverts, tous les documents dans 
+			un dossier et tous les documents d'un projet. Il supporte &eacute;galement une vari&eacute;t&eacute; 
+			d'options de recherche comme les expressions r&eacute;guli&egrave;res.</p>
+		<h3>Ancrage des widgets</h3>
+		<p>
+			MonoDevelop utilise une librairie C appel&eacute;e gdl-dock (disponible actuellement 
+			sur le serveur CVS de gnome.org). Cela permet de r&eacute;aliser un ancrage avanc&eacute; 
+			impressionant, incluant le d&eacute;placement des &eacute;l&eacute;ments ancr&eacute;s dans une nouvelle 
+			fen&ecirc;tre, la possibilit&eacute; de les empiler les uns sur les autres. Gdl-dock permet 
+			aussi le masquage et la r&eacute;duction en ic&ocirc;ne des &eacute;l&eacute;ments.
+		</p>
+		<h3>Visionneur HTML int&eacute;gr&eacute;</h3>
+		<p>
+			MonoDevelop dispose d'un visionneur html int&eacute;gr&eacute; gr&acirc;ce &agrave; gtkmozembed-sharp. 
+			Cette fonctionnalit&eacute; sera finalement utilis&eacute;e pour permettre le d&eacute;veloppement 
+			ASP.NET.</p>
+		<h2>Futures fonctionnalit&eacute;s</h2>
+		<h3>Debugging</h3>
+		<p>
+			Un travail d'int&eacute;gration du debugger mono &agrave; MonoDevelop est actuellement en 
+			cours en vue d'offrir un degugging int&eacute;gr&eacute;.
+		</p>
+		<h3>Support de projets avanc&eacute;</h3>
+		<p>
+			Nous travaillons &agrave; l'impl&eacute;mentation de la possibilit&eacute; d'utiliser les composants 
+			autotools standards afin de faciliter le processus de construction et de 
+			distribution.
+		</p>
+		<h3>Compl&eacute;tion de code avanc&eacute;e</h3>
+		<p>
+			Il est pr&eacute;vu d'am&eacute;liorer infiniment notre compl&eacute;tion de code. Nous sommes 
+			encore en train de sp&eacute;culer sur la meilleure approche possible pour r&eacute;aliser ce 
+			travail.
+		</p>
+		<h2>Cr&eacute;dits</h2>
+		<h3>Collaborateurs</h3>
+		<p>Alex Graveley, Ben Maurer, Daniel Kornhauser, Gustavo Giraldez, Iain McCoy, 
+			Inigo Illan, Jeroen Zwartepoorte, Jon Wood, John BouAnton, John Luke, Miguel de 
+			Icaza, David Ricciardi, Pedro Abelleira Seco, et Todd Berman.</p>
+		<p>
+			Cette liste est incompl&egrave;te, certaines collaborations envoy&eacute;es sur la mailing 
+			list ou via bugzilla sont manquantes. Votre travail est tr&egrave;s appr&eacute;ci&eacute;.
+		</p>
+		<h3>Remerciements</h3>
+		<p>
+			Tous nos merveilleux testeurs qui sont pass&eacute;s outre les probl&egrave;mes de 
+			d&eacute;pendances, la rupture constante et ont toujours post&eacute; de sympathiques 
+			rapports de bugs.</p>
+		<p>Mike Krueger et le reste de l'&eacute;quipe de AlphaSierraPapa pour avoir donn&eacute; une 
+			tr&egrave;s bonne base de code comme point de d&eacute;part.</p>
+		<p>Duncan Mak qui a assembl&eacute; les paquetages pour nous.
+		</p>
+	</body>
+</html>
