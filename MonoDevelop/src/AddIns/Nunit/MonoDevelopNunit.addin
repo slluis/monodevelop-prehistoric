@@ -1,0 +1,40 @@
+<AddIn name	 = "MonoDevelop Nunit"
+       author	 = "John Luke"
+       copyright = "GPL"
+       url       = "http://monodevelop.com"
+       description = "NUnit testing tool"
+       version   = "0.2">
+
+	<Runtime>
+		<Import assembly="MonoDevelop.Nunit.dll"/>
+	</Runtime>
+
+	<Extension path="/Workspace/Services">
+		<Class id = "NunitService"
+		    class = "MonoDevelop.Services.NunitService"/>
+	</Extension>
+
+	<Extension path="/SharpDevelop/Workbench/Views">
+		<Class id    = "NunitTestTree"
+		       class = "MonoDevelop.Nunit.Gui.TestTree"/>
+	</Extension>
+
+	<Extension path="/SharpDevelop/Workbench/DisplayBinding">
+		<Class id    = "NunitResultTree"
+		       class = "MonoDevelop.Nunit.Gui.ResultTree"/>
+	</Extension>
+
+	<Extension path="/SharpDevelop/Workbench/MainMenu/Tools">
+		<MenuItem id = "NunitMenu" label = "NUnit" insertafter = "ExternalTools" insertbefore = "Options">
+			<MenuItem id = "LoadTestAssembly"
+	                  label = "Load Assembly"
+			          shortcut = ""
+		              class = "MonoDevelop.Commands.NunitLoadAssembly" />
+			<MenuItem id = "NunitRunTests"
+	                  label = "Run Tests"
+			          shortcut = ""
+		              class = "MonoDevelop.Commands.NunitRunTests" />
+		</MenuItem>
+	</Extension>
+
+</AddIn>

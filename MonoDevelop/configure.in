@@ -166,6 +166,7 @@ data/resources/glade/Makefile
 src/AddIns/DebuggerAddIn/AssemblyInfo.cs
 src/AddIns/DisplayBindings/SourceEditor/AssemblyInfo.cs
 src/AddIns/Misc/StartPage/AssemblyInfo.cs
+src/AddIns/Nunit/Makefile
 src/Main/StartUp/AssemblyInfo.cs
 src/Main/Base/AssemblyInfo.cs
 src/Libraries/MonoDevelop.Gui.Widgets/AssemblyInfo.cs
