@@ -70,6 +70,15 @@ namespace ICSharpCode.Core.Services
 			stockMappings["Icons.16x16.PasteIcon"] = Gtk.Stock.Paste;
 			stockMappings["Icons.16x16.CopyIcon"] = Gtk.Stock.Copy;
 			stockMappings["Icons.16x16.CutIcon"] = Gtk.Stock.Cut;
+			stockMappings["Icons.16x16.QuitIcon"] = Gtk.Stock.Quit;
+			stockMappings["Icons.16x16.UndoIcon"] = Gtk.Stock.Undo;
+			stockMappings["Icons.16x16.RedoIcon"] = Gtk.Stock.Redo;
+			stockMappings["Icons.16x16.RunProgramIcon"] = Gtk.Stock.Execute;
+			stockMappings["Icons.16x16.NextWindowIcon"] = Gtk.Stock.GoForward;
+			stockMappings["Icons.16x16.PrevWindowIcon"] = Gtk.Stock.GoBack;
+			stockMappings["Icons.16x16.HelpIcon"] = Gtk.Stock.Help;
+			stockMappings["Icons.16x16.FindIcon"] = Gtk.Stock.Find;
+			stockMappings["Icons.16x16.ReplaceIcon"] = Gtk.Stock.FindAndReplace;
 		}
 
 		void ChangeProperty(object sender, PropertyEventArgs e)

@@ -632,7 +632,7 @@
 	                <MenuItem id = "ExitSeparator" label = "-" />
 	                <MenuItem id = "Exit"
 	                          label = "${res:XML.MainMenu.FileMenu.Exit}" 
-	                          icon = "Icons.16x16.CancelIcon" 
+	                          icon = "Icons.16x16.QuitIcon" 
 	                          description = "${res:XML.MainMenu.FileMenu.Exit.Description}"
 	                          class = "ICSharpCode.SharpDevelop.Commands.ExitWorkbenchCommand" />
 	        </MenuItem>
