@@ -50,6 +50,7 @@ namespace ICSharpCode.SharpDevelop.DefaultEditor.Commands
 			SetSearchPattern();
 			if (SearchReplaceManager.ReplaceDialog != null) {
 				SearchReplaceManager.ReplaceDialog.SetSearchPattern(SearchReplaceManager.SearchOptions.SearchPattern);
+				SearchReplaceManager.ReplaceDialog.Present ();
 			} else {
 				ReplaceDialog rd = new ReplaceDialog(false);
 				rd.ShowAll();
@@ -73,6 +74,7 @@ namespace ICSharpCode.SharpDevelop.DefaultEditor.Commands
 			
 			if (SearchReplaceManager.ReplaceDialog != null) {
 				SearchReplaceManager.ReplaceDialog.SetSearchPattern(SearchReplaceManager.SearchOptions.SearchPattern);
+				SearchReplaceManager.ReplaceDialog.Present ();
 			} else {
 				ReplaceDialog rd = new ReplaceDialog(true);
 				rd.ShowAll();
