@@ -1,0 +1,236 @@
+<html>
+  <head>
+    <title>Todd's MonoDevelop Todo List</title>
+    <style type="text/css">
+      h1 {
+      color: #efefef;
+      font-size: 14pt;
+      font-family: "Trebuchet MS";
+      
+      border: 0;
+      
+      margin: 0;
+      
+      padding: 1em;
+      
+      background: #666666;
+      }
+      
+      h2, h4, h5, h6 {
+      font-family: Verdana,sans-serif;
+      font-weight: bold;
+      }
+      
+      h3, h4, h5, h5 {
+      margin-left: 1em;
+      }
+      
+      h2, h3 {
+      font-size: 18px;
+      }
+      
+      h2 {
+      padding: 3px;
+      color: #000000;
+      }
+      
+      h3 {
+      font-size: 13px;
+      border-bottom: 2px solid #dddddd;
+      }
+      
+      body, table {
+      background-color: #ffffff;
+      font-family: Verdana, sans-serif; font-size: 12px;
+      color: black;
+      margin: 0;
+      padding: 0;
+      border: 0;
+      margin-left: 20%;
+      margin-right: 20%;
+      }
+      
+      p,lu,li {
+      margin-left: 2em;
+      margin-right: 2em;
+      }
+      
+      img {
+      border: 0;
+      vertical-align: top;
+      }
+      
+      .code-xml, .code-csharp
+      {
+      margin:15px;
+      padding:15px;
+      font-size: small;
+      font-family: "Courier New", Courier;
+      background:whitesmoke;
+      border: solid 1px silver;
+      line-height:110%;
+      }
+      
+      .shell {
+      border-style: solid;
+      background: #000000;
+      color: #bbbbbb;
+      #777777; border-width:
+      1px; padding: 2pt; 
+      margin-left: 4em;
+      margin-right: 4em;
+      }
+      
+    </style>
+    <script src="http://www.monodevelop.com/release_notes/prettyprint.js" type="text/javascript">
+    </script>
+  </head>
+  <body onload="paintColors();">
+    
+    <h1>Todd's MonoDevelop Todo List</h1>
+
+    <p>Here is a list of stuff that is on my todo list for MD. Some of these
+      are huge, others are smaller. All of them need to get done and I will 
+      be implementing them over time. They are not listed in any
+      particular order at all. And if anyone starts to implement one and
+      wants my help, or just wants to do it on their own, and submits
+      patch(es) for them I won't be offended. I promise. If you have
+      any questions regarding this list, email either the
+      <a href="mailto:monodevelop-list@lists.ximian.com">list</a> or
+      <a href="mailto:tberman@off.net">me directly</a>.</p>
+
+    <h2>Updating/Extension system</h2>
+
+    <p>To prevent MD from turning into a hugely bloated pile of features that
+      no one uses, we need to create a system that allows extensions to be
+      installed with a minimum of fuss.</p>
+
+    <p>My current thinking is that the MD core should be light, potentially
+      lighter than it is now. However, due to the way most people install MD
+      requiring installation into its prefix (generally /usr) would be
+      impossible to handle reliably. So, what we need to do, is allow
+      ~/.local/share/monodevelop/ to become an overridable mirror of
+      $prefix/lib/monodevelop/ (which should in reality move to
+      $prefix/share/monodevelop/). This will allow the gui to install/manage
+      extensions installed into that location. RPM packages of various
+      extensions would still be possible, as they would be installed
+      system-wide into $prefix/lib/monodevelop.</p>
+
+    <p>General feature requirements of this system:
+      <ul><li>Installation of extensions, hopefully via the web w/ some
+	sort of web services/xml fetching system.</li>
+      <li>Removal of extensions.</li>
+      <li>Enabling/Disabling of various extensions without removal.</li>
+      <li>Updating of extensions.</li>
+      </ul>
+    </p>
+
+    <p>A couple potential potholes in implementing this:
+      <ul><li>API changes between various versions of MonoDevelop. There will
+	have to be a way for the extensions to say 'I work on version 0.7 and
+	0.8'.</li>
+      <li>Proper handling of updating, basically, when MonoDevelop 0.9 comes
+	out, do we enable extensions that arent certified to work with 0.9 and
+	take our chances, or do we disable functionality until someone marks
+	that extension as 'working'?</li>
+      <li>Dependency resolution.</li>
+      <li>It would be entirely possible for one
+	extension to conflict with another, and this needs to be avoided,
+	as it could break one, or both of the extensions. Having a variable
+	like 'importance' is not the way to go, as then you will end up
+	with every extension marked as the highest importance level
+	available.</li>
+      </ul>
+    </p>
+
+    <h2>Keybinding System</h2>
+
+    <p>Currently, we have hardcoded keybindings, like control+space to
+      trigger code completion, or F1 to do monodoc lookups. This needs to
+      be moved to a system that allows arbitrary keybindings to be assigned
+      to the keys.</p>
+
+    <p>Looking at the gnome-control-center keybinding capplet for a UI
+      would be a good place to start, however also need a way for extensions
+      to install keybindings onto the system so they show up there.</p>
+
+    <h2>Menu Extensibility</h2>
+
+    <p>Our menu system is very extensible as it stands right now. However,
+      there are a few key places where more extensibility is needed. One
+      is in the right click menu on the text widget. This is an area that
+      sorely needs fixing for future text widget features.</p>
+
+    <p>Another place that could be useful is customized menus. Right now
+      you can change the menu easily by editing the xml that represents
+      them. However, it would be nice to be able to do this via a gui.
+      Many people may disagree with allowing this sort of configurability, and
+      at times, I do as well, however it will allow people to work faster,
+      and that is the prime goal of the IDE. As well as disabling/enabling and
+      rearranging menu items, it would be nice if you could change the accel
+      the menuitem is attached to.</p>
+
+    <h2>Code Templating Updates</h2>
+
+    <p>Our code template system now is just no good. typing forp and having
+      it expand into a for loop just isnt as helpful as typing for and hitting
+      tab, and getting an expanded for loop, potentially even with more hinting
+      occuring. A system that allowed you to define variables that would be
+      expanded is the way to go. For example, a template defined as:<br/></p>
+
+    <div class="code-csharp">
+for ($type$ $variable$ = 0; $variable$ &lt; | ; $variable$++)<br/>
+{<br/>
+<br/>
+}</div>
+
+    <p>Would allow you to hit tab and switch between the various variables, and
+      when you changed one instance, it would change them all. Note, this is just
+      an example off the top of my head, and the final syntax would be totally
+      different.</p>
+
+    <h2>Code Completion</h2>
+
+    <h3>Overloads</h3>
+    
+    <p>Overloads need to be listed in the main dropdown, sequentially. So
+      for Console.WriteLine it should have:<br></p>
+
+    <div class="code-csharp">
+WriteLine (int value)<br/>
+WriteLine (bool value)<br/>
+etc..</div>
+
+    <p>This will allow for a lot greater flexibility, as well as allow the
+      different overloads (which could have different docs) to show up
+      properly without someone guessing.</p>
+
+    <h3>Method Insight</h3>
+
+    <p>When you enter the ( to start a method, it needs to id the method
+      you are working with, and display a parameter list as well as any
+      additional info it might have (docs, etc). In addition, if the method
+      has no overloads, or you just chose a specific overload in the previous
+      completion dialog, it should attempt to help you out, by displaying
+      a completion list with all the matching types. If you didn't pick
+      an overload from this list, it should show all types that match that
+      parameter from all the available overloads.</p>
+
+    <h3>Additional completion targets</h3>
+
+    <p>Here is a small list of additional places where code completion
+      isnt, and could be.</p>
+
+    <ul><li>override methods. When you type 'public override' you have just
+	limited your available potential entries, we should offer completion
+	data there.</li>
+      <li>There are more, I'm just drawing a blank right now.</li>
+    </ul>
+
+    <h2>Debugger GUI</h2>
+
+    <p>The debugger doesnt have nearly enough gui, at all. This needs to be
+      fixed.</p>
+    
+  </body>
+</html>
