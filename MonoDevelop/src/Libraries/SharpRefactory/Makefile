@@ -112,3 +112,9 @@ all: $(DLL)
 
 $(DLL): $(SOURCES)
 	mcs /debug /out:$(DLL) /target:library /r:System.Drawing.dll $(SOURCES)
+
+test-parser.exe : $(DLL) src/Main.cs
+	mcs /debug /out:$@ /r:$(DLL) src/Main.cs
+
+run : test-parser.exe
+	MONO_PATH=`dirname $(DLL)` mono --debug test-parser.exe $(TEST_SOURCE)

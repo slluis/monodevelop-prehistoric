@@ -44,15 +44,15 @@ class MainClass
 //		}
 		
 		Parser p = new Parser();
-		p.Parse(new Lexer(new FileReader("C:\\Main.cs")));
+		p.Parse(new Lexer(new FileReader(args [0])));
 		if (p.Errors.count == 0) {
 			LookupTableVisitor lookupTableVisitor = new LookupTableVisitor();
 			lookupTableVisitor.Visit(p.compilationUnit, null);
 			
-//			new DebugASTVisitor().Visit(p.compilationUnit, null);
-//			PrettyPrintVisitor ppv = new PrettyPrintVisitor();
-//			ppv.Visit(p.compilationUnit, null);
-//			Console.WriteLine(ppv.Text.ToString());
+			new DebugASTVisitor().Visit(p.compilationUnit, null);
+			PrettyPrintVisitor ppv = new PrettyPrintVisitor();
+			ppv.Visit(p.compilationUnit, null);
+			Console.WriteLine(ppv.Text.ToString());
 		} else {
 			Console.WriteLine("Source code errors:");
 			Console.WriteLine(p.Errors.ErrorOutput);
