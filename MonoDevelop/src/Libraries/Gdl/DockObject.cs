@@ -9,10 +9,7 @@ using Gtk;
 namespace Gdl
 {
 	public class DockObject : Gtk.Container
-	{
-	
-		private static bool is_compound = true;
-	
+	{	
 		private Gtk.Container container;
 		private Gdl.DockObjectFlags flags;
 		private int freeze_count;
@@ -161,9 +158,9 @@ namespace Gdl
 		
 		public abstract bool ChildPlacement (DockObject child, DockPlacement placement);
 		
-		public bool IsCompound {
+		public virtual bool IsCompound {
 			get {
-				return is_compound;
+				return true;
 			}
 		}
 		

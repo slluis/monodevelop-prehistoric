@@ -12,7 +12,8 @@ SOURCES = \
 ./DockPlacement.cs \
 ./DockRequest.cs \
 ./DockMaster.cs \
-./Dock.cs
+./Dock.cs \
+./DockItem.cs
 
 PKG_REFERENCES = \
 gtk-sharp
