@@ -1,3 +1,7 @@
+2004-12-05  John BouAntoun  <jba-mono@optusnet.com.au>
+
+	* Internal/Project/Combine/Combine.cs: made it work with mono svn head Posix OEE
+
 2004-12-03  John Luke  <john.luke@cfl.rr.com>
 
 	* Commands/MenuItemBuilders.cs:

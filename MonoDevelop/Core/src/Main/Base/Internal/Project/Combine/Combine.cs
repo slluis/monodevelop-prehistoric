@@ -15,10 +15,11 @@ using System.Diagnostics;
 using System.CodeDom.Compiler;
 using System.ComponentModel;
 
-using Mono.Posix;
 #if MONO_POSIX_OEE
-using FileMode = Mono.Posix.FilePermissions;
+using Mono.Unix;
+using FileMode = Mono.Unix.FilePermissions;
 #else
+using Mono.Posix;
 using FileMode = Mono.Posix.FileMode;
 #endif
 
