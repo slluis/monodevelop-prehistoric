@@ -10,6 +10,7 @@ namespace MonoDevelop.Gui.Widgets
 	{
 		const string LastPathProperty = "MonoDevelop.FileSelector.LastPath";
 		PropertyService propertyService = (PropertyService) ServiceManager.GetService (typeof (PropertyService));
+		FileUtilityService fileUtilityService = (FileUtilityService) ServiceManager.GetService (typeof (FileUtilityService));
 
 		public FileSelector () : base (GettextCatalog.GetString ("Open file ..."), null, FileChooserAction.Open)
 		{
@@ -52,8 +53,11 @@ namespace MonoDevelop.Gui.Widgets
 			else
 				this.SetCurrentFolder (Environment.GetFolderPath (Environment.SpecialFolder.Personal));
 
-			// add ~/Projects as a MD bookmark
-			this.AddShortcutFolder (System.IO.Path.Combine (Environment.GetFolderPath (Environment.SpecialFolder.Personal), "Projects"));
+			// add default project path as a MD bookmark
+			string pathName = propertyService.GetProperty ("MonoDevelop.Gui.Dialogs.NewProjectDialog.DefaultPath", fileUtilityService.GetDirectoryNameWithSeparator (Environment.GetFolderPath (Environment.SpecialFolder.Personal))).ToString ();
+
+			if (fileUtilityService.IsDirectory (pathName))
+				this.AddShortcutFolder (pathName);
 
 			// FIXME: only set this once per-dialog
 			// perhaps in Dispose ()? or only when a file or dir is selected
