@@ -201,10 +201,11 @@ namespace MonoDevelop.Internal.Project
 			StringCollection newFiles   = new StringCollection();
 			StringCollection collection = fileUtilityService.SearchDirectory(basedirectory, "*");
 
-			foreach (string file in collection) {
-				string extension = Path.GetExtension(file).ToUpper();
+			foreach (string sfile in collection) {
+				string extension = Path.GetExtension(sfile).ToUpper();
+				string file = Path.GetFileName (sfile);
 
-				if (!IsFileInProject(file) &&
+				if (!IsFileInProject(sfile) &&
 				     extension != ".SCC" &&  // source safe control files -- Svante Lidmans
 				     extension != ".DLL" &&
 				     extension != ".PDB" &&
@@ -216,10 +217,10 @@ namespace MonoDevelop.Internal.Project
 				     !file.StartsWith (".") &&
 				     !Path.GetDirectoryName(file).EndsWith("CVS") &&
 				     !Path.GetDirectoryName(file).EndsWith(".svn") &&
-					 !file.StartsWith ("Makefile") &&
+				     !file.StartsWith ("Makefile") &&
 				     !Path.GetDirectoryName(file).EndsWith("ProjectDocumentation")) {
 
-					newFiles.Add(file);
+					newFiles.Add(sfile);
 				}
 			}
 			

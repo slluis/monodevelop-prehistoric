@@ -1,5 +1,10 @@
 2004-04-28  Todd Berman  <tberman@sevenl.net>
 
+	* Internal/Project/Project/AbstractProject.cs: Actually make that check
+	and the others like it work.
+
+2004-04-28  Todd Berman  <tberman@sevenl.net>
+
 	* Internal/Project/Project/AbstractProject.cs: For now, dont ask
 	to add new Makefiles.
 
