@@ -93,7 +93,6 @@ namespace ICSharpCode.SharpDevelop.DefaultEditor.Gui.Editor
 				//FIXME: I added the null check, #D doesnt need it, why do we?
 				if (fileName != null) {
 					Console.WriteLine ("resolve " + document.Language);
-					Console.WriteLine ("resolve " + document.TextContent);
 					results = parserService.Resolve(expression, 
 				                                caretLineNumber,
 				                                caretColumn,
