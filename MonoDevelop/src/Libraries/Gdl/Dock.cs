@@ -62,6 +62,7 @@ namespace Gdl
 					}
 				}
 				((Gtk.Window)window).Add (this);
+				((Gtk.Window)window).DeleteEvent += new DeleteEventHandler (floatingDelete);
 			}
 			DockObjectFlags |= DockObjectFlags.Attached;
 		}
@@ -538,6 +539,13 @@ namespace Gdl
 			width = e.Event.Width;
 			height = e.Event.Height;
 			e.RetVal = false;
+		}
+
+		private void floatingDelete (object o, DeleteEventArgs e)
+		{
+			if (root != null)
+				root.HideItem ();
+			e.RetVal = true;
 		}
 	}
 }

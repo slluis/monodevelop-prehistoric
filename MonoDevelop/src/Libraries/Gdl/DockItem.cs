@@ -81,7 +81,7 @@ namespace Gdl
                 g_object_notify (g_object, "locked");
                 gdl_dock_item_showhide_grip (item);
                 */
-                }
+                		}
 			}
 		}
 		
@@ -362,7 +362,7 @@ namespace Gdl
 		
 		protected override void OnMapped ()
 		{
-			Flags |= (int)WidgetFlags.Mapped;
+			SetFlag (WidgetFlags.Mapped);
 			
 			GdkWindow.Show ();
 
@@ -374,7 +374,7 @@ namespace Gdl
 		
 		protected override void OnUnmapped ()
 		{
-			Flags &= ~((int)WidgetFlags.Mapped);
+			ClearFlag (WidgetFlags.Mapped);
 			
 			GdkWindow.Hide ();
 			
