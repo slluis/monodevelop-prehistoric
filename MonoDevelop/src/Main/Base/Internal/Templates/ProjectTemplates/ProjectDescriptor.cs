@@ -30,6 +30,7 @@ namespace MonoDevelop.Internal.Templates
 		
 		ArrayList files      = new ArrayList(); // contains FileTemplate classes
 		ArrayList references = new ArrayList(); 
+		ArrayList resources = new ArrayList ();
 		
 		XmlElement projectOptions = null;
 		
@@ -49,6 +50,12 @@ namespace MonoDevelop.Internal.Templates
 		public ArrayList References {
 			get {
 				return references;
+			}
+		}
+
+		public ArrayList Resources {
+			get {
+				return resources;
 			}
 		}
 
@@ -93,7 +100,34 @@ namespace MonoDevelop.Internal.Templates
 			foreach (ProjectReference projectReference in references) {
 				project.ProjectReferences.Add(projectReference);
 			}
-			
+
+			foreach (FileDescriptionTemplate file in resources) {
+				string fileName = fileUtilityService.GetDirectoryNameWithSeparator(projectCreateInformation.ProjectBasePath) + stringParserService.Parse(file.Name, new string[,] { {"ProjectName", projectCreateInformation.ProjectName} });
+				
+				ProjectFile resource = new ProjectFile (fileName);
+				resource.BuildAction = BuildAction.EmbedAsResource;
+				project.ProjectFiles.Add(resource);
+				
+				if (File.Exists(fileName)) {
+					IMessageService messageService =(IMessageService)ServiceManager.Services.GetService(typeof(IMessageService));
+					if (!messageService.AskQuestion("File " + fileName + " already exists, do you want to overwrite\nthe existing file ?", "File already exists")) {
+						continue;
+					}
+				}
+				
+				try {
+					if (!Directory.Exists(Path.GetDirectoryName(fileName))) {
+						Directory.CreateDirectory(Path.GetDirectoryName(fileName));
+					}
+					StreamWriter sr = File.CreateText(fileName);
+					sr.Write(stringParserService.Parse(file.Content, new string[,] { {"ProjectName", projectCreateInformation.ProjectName}, {"FileName", fileName}}));
+					sr.Close();
+				} catch (Exception ex) {
+					IMessageService messageService =(IMessageService)ServiceManager.Services.GetService(typeof(IMessageService));
+					messageService.ShowError(ex, "File " + fileName + " could not be written.");
+				}
+			}
+	
 			// Add Files
 			foreach (FileDescriptionTemplate file in files) {
 				string fileName = fileUtilityService.GetDirectoryNameWithSeparator(projectCreateInformation.ProjectBasePath) + stringParserService.Parse(file.Name, new string[,] { {"ProjectName", projectCreateInformation.ProjectName} });
@@ -148,6 +182,13 @@ namespace MonoDevelop.Internal.Templates
 				foreach (XmlNode node in element["Files"].ChildNodes) {
 					if (node != null && node.Name == "File") {
 						projectDescriptor.files.Add(new FileDescriptionTemplate(node.Attributes["name"].InnerText, node.InnerText));
+					}
+				}
+			}
+			if (element["Resources"] != null) {
+				foreach (XmlNode node in element["Resources"].ChildNodes) {
+					if (node != null && node.Name == "File") {
+						projectDescriptor.resources.Add (new FileDescriptionTemplate (node.Attributes["name"].InnerText, node.InnerText));
 					}
 				}
 			}
