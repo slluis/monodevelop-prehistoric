@@ -36,6 +36,7 @@
 			<xs:element ref="DialogPanel"/>
 			<xs:element ref="LanguageBinding"/>
 			<xs:element ref="ProjectBinding"/>
+			<xs:element ref="FileFormat"/>
 			<xs:element ref="Class"/>
 			<xs:element ref="MenuItem"/>
 			<xs:element ref="FileTemplate"/>
@@ -82,6 +83,7 @@
 					<xs:element ref="DisplayBinding"/>
 					<xs:element ref="LanguageBinding"/>
 					<xs:element ref="ProjectBinding"/>
+					<xs:element ref="FileFormat"/>
 					<xs:element ref="MenuItem"/>
 					<xs:element ref="ToolbarItem"/>
 				</xs:choice>
@@ -199,6 +201,12 @@
 		</xs:complexContent>
 	</xs:complexType>
 	<xs:element name="ProjectBinding" type="ProjectBinding"/>
+	<xs:complexType name="FileFormat">
+		<xs:complexContent>
+			<xs:extension base="AbstractCodon" />
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="FileFormat" type="FileFormat"/>
 	<xs:complexType name="MenuItem">
 		<xs:complexContent>
 			<xs:extension base="AbstractCodon">
