@@ -9,10 +9,7 @@ using System;
 using System.IO;
 using System.Reflection;
 using System.Collections;
-using System.ComponentModel;
 using System.Drawing;
-using System.Drawing.Drawing2D;
-using System.Drawing.Text;
 using System.Diagnostics;
 using ICSharpCode.TextEditor.Document;
 

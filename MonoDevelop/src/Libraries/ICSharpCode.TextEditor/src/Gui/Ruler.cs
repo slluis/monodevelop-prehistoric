@@ -7,10 +7,7 @@
 // </file>
 
 using System;
-using System.Windows.Forms;
 using System.Drawing;
-using System.ComponentModel;
-
 using ICSharpCode.TextEditor.Document;
 
 namespace ICSharpCode.TextEditor

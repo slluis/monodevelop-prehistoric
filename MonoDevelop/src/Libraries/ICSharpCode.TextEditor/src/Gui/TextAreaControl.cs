@@ -8,17 +8,9 @@
 using System;
 using System.Collections;
 using System.IO;
-using System.ComponentModel;
 using System.Drawing;
-using System.Threading;
-using System.Drawing.Text;
-using System.Drawing.Drawing2D;
-using System.Drawing.Printing;
 using System.Diagnostics;
-using System.Runtime.Remoting;
-using System.Runtime.InteropServices;
 using System.Text;
-using System.Xml;
 using ICSharpCode.TextEditor.Actions;
 using ICSharpCode.TextEditor.Document;
 
@@ -27,7 +19,7 @@ namespace ICSharpCode.TextEditor
 	/// <summary>
 	/// This class paints the textarea.
 	/// </summary>
-	[ToolboxItem(false)]
+	//[ToolboxItem(false)]
 	public class TextAreaControl : Gtk.Table
 	{
 		TextEditorControl         motherTextEditorControl;
@@ -66,7 +58,7 @@ namespace ICSharpCode.TextEditor
 		}
 
 		
-		[Browsable(false)]
+		//[Browsable(false)]
 		public IDocument Document {
 			get {
 				return motherTextEditorControl.Document;

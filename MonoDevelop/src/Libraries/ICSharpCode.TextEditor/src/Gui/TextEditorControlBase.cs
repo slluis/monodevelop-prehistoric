@@ -11,13 +11,7 @@ using System.Collections.Specialized;
 using System.IO;
 using System.ComponentModel;
 using System.Drawing;
-using System.Drawing.Drawing2D;
-using System.Drawing.Printing;
 using System.Diagnostics;
-using System.Threading;
-using System.Runtime.Remoting;
-using System.Runtime.InteropServices;
-using System.Xml;
 using System.Text;
 
 using ICSharpCode.TextEditor.Document;
@@ -662,8 +656,8 @@ namespace ICSharpCode.TextEditor
 					File.Copy(fileName, backupName);
 				}
 			} catch (Exception) {
-//				IMessageService messageService =(IMessageService)ServiceManager.Services.GetService(typeof(IMessageService));
-//				messageService.ShowError(e, "Can not create backup copy of " + fileName);
+				//IMessageService messageService = (IMessageService) ServiceManager.Services.GetService (typeof (IMessageService));
+				//messageService.ShowError (e, "Can not create backup copy of " + fileName);
 			}
 		}
 		
@@ -678,11 +672,8 @@ namespace ICSharpCode.TextEditor
 			if (IsUpdating) {
 				return;
 			}
-#if GTK
-			// FIXME: GTKize?
-#else
-			base.Refresh();
-#endif
+
+			this.QueueDraw ();
 		}
 		
 		protected virtual void OnFileNameChanged(EventArgs e)

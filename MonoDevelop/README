@@ -1,6 +1,6 @@
 This is a port of SharpDevelop to Gtk# and Mono.
 To compile simply run make, or 'make run' to compile and run it.
-You need Mono and Gtk# cvs.
+You need Mono and Gtk# cvs, and ORBit2-2.8.3 or newer
 
 You will also need GtkMozEmbed# installed.  If you do not have a recent version. Do this once:
 cd ./gtkmozembed-sharp && ./autogen.sh --prefix=/usr/local && make && make install
@@ -8,6 +8,7 @@ cd ./gtkmozembed-sharp && ./autogen.sh --prefix=/usr/local && make && make insta
 (replace /usr/local with the same prefix as the rest of Gtk#)
 
 Mono must be installed with ICU enabled.
+
 
 We are attempting to follow the HIG in certain areas especially, particularly dialogs.
 
