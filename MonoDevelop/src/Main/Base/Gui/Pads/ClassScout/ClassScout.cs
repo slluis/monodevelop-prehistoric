@@ -333,14 +333,16 @@ namespace MonoDevelop.Gui.Pads
 			//combineNode.SelectedImageIndex = combineNode.ImageIndex = classBrowserIconService.CombineIndex;
 			combineNode.Image = Stock.CombineIcon;
 			
-			foreach (CombineEntry entry in combine.Entries) {
-				if (entry is ProjectCombineEntry) {
-					Populate(((ProjectCombineEntry)entry).Project, combineNode.Nodes);
-				} else {
-					Populate(((CombineCombineEntry)entry).Combine, combineNode.Nodes);
+			lock (combine.Entries) {
+				foreach (CombineEntry entry in combine.Entries) {
+					if (entry is ProjectCombineEntry) {
+						Populate(((ProjectCombineEntry)entry).Project, combineNode.Nodes);
+					} else {
+						Populate(((CombineCombineEntry)entry).Combine, combineNode.Nodes);
+					}
 				}
 			}
-			
+				
 			nodes.Add(combineNode);
 		}
 
