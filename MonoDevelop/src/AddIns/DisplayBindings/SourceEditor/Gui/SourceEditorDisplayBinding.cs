@@ -34,6 +34,7 @@ namespace MonoDevelop.SourceEditor.Gui {
 
 		public virtual bool CanCreateContentForMimeType (string mimetype)
 		{
+			if (mimetype == null) return false;
 			if (mimetype.StartsWith ("text")) return true;
 			return false;
 		}
