@@ -14,7 +14,7 @@
       <p>Most likely, this is the path you want to take.</p>
 
       <p>This tutorial is your guide to installing MonoDevelop releases using official tarball packages. If you would like to build MonoDevelop from snapshots, please see the 
-<a href="snapshot_install.aspx">snapshot tutorial</a>.</p>
+<a href="svn_install.aspx">svn tutorial</a>.</p>
       <p>Unless specified otherwise, build and install all tarball packages using:
 <pre class="code">
 tar -xzf mypackage.tar.gz
