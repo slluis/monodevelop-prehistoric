@@ -8,6 +8,7 @@ namespace MonoDevelop.Gui {
 		private TreeNodeCollection nodes;
 		private bool updating = false;
 		private bool canEdit = false;
+		internal Gtk.TreeViewColumn complete_column;
 		
 		public TreeView () : this (false)
 		{
@@ -21,7 +22,7 @@ namespace MonoDevelop.Gui {
 			HeadersVisible = false;
 			SearchColumn = 0;
 			EnableSearch = true;
-			Gtk.TreeViewColumn complete_column = new Gtk.TreeViewColumn ();
+			complete_column = new Gtk.TreeViewColumn ();
 			complete_column.Title = "column";
 
 			Gtk.CellRendererPixbuf pix_render = new Gtk.CellRendererPixbuf ();
@@ -29,10 +30,10 @@ namespace MonoDevelop.Gui {
 			complete_column.AddAttribute (pix_render, "pixbuf", 1);
 			
 			Gtk.CellRendererText text_render = new Gtk.CellRendererText ();
-			//text_render.Editable = canEdit;
-			//if (canEdit) {
-			//	text_render.Edited += new GtkSharp.EditedHandler (OnEdit);
-			//}
+			text_render.Editable = canEdit;
+			if (canEdit) {
+				text_render.Edited += new GtkSharp.EditedHandler (HandleOnEdit);
+			}
 			complete_column.PackStart (text_render, true);
 			complete_column.AddAttribute (text_render, "text", 0);
 	
@@ -40,16 +41,26 @@ namespace MonoDevelop.Gui {
 
 			nodes = new TreeNodeCollection();
 			nodes.TreeNodeCollectionChanged += new TreeNodeCollectionChangedHandler(OnTreeChanged);
-            nodes.NodeInserted += new NodeInsertedHandler(OnNodeInserted);
+			nodes.NodeInserted += new NodeInsertedHandler(OnNodeInserted);
 			nodes.NodeRemoved += new NodeRemovedHandler(OnNodeRemoved);
 			
 			TestExpandRow += new GtkSharp.TestExpandRowHandler(OnTestExpandRow);
 		}
 
-		public virtual void OnEdit (object o, GtkSharp.EditedArgs e)
+		void HandleOnEdit (object o, GtkSharp.EditedArgs e)
 		{
 			
+			Gtk.TreeIter iter;
+			if (! Model.GetIterFromString (out iter, e.Path))
+				throw new Exception("Error calculating iter for path " + e.Path);
+			
+			OnEdit ((TreeNode) store.GetValue (iter, 2), e.NewText);
 		}
+		
+		protected virtual void OnEdit (TreeNode node, string new_text)
+		{
+		}
+		
 
 		public TreeNodeCollection Nodes {
 			get {

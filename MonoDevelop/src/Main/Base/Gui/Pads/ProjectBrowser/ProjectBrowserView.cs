@@ -175,11 +175,18 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads.ProjectBrowser
 			}
 		}
 
-		public override void OnEdit (object o, GtkSharp.EditedArgs e)
+		
+		protected override void OnEdit (TreeNode node, string new_text)
 		{
-			//FIXME: We need to change the filename and refresh the view here
-			//FIXME: We should also be checking to make sure the filename *actually* changed
-			Console.WriteLine ("Filename needs to be changed here");
+			// we set the label ourself
+			((AbstractBrowserNode) node).AfterLabelEdit (new_text);
+			
+			if (node.Parent != null)
+				SortUtility.QuickSort (node.Parent.Nodes, TreeNodeComparer.ProjectNode);
+			
+			// save changes
+			IProjectService projectService = (IProjectService) ServiceManager.Services.GetService (typeof(IProjectService));
+			projectService.SaveCombine();
 		}
 
 		void DisposeProjectNodes()
@@ -251,8 +258,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads.ProjectBrowser
 			AbstractBrowserNode selectedNode = (AbstractBrowserNode)SelectedNode;
 			if (selectedNode != null && selectedNode.CanLabelEdited) {
 				//LabelEdit = true;
-				//selectedNode.BeforeLabelEdit();
-				//selectedNode.BeginEdit();
+				selectedNode.BeginEdit ();
 			}
 		}
 

@@ -66,6 +66,12 @@ namespace MonoDevelop.Gui {
 			}
 		}
 		
+		public void UpdateBacking ()
+		{
+			TreeView.Model.SetValue (TreeIter, 0, text);
+			TreeView.Model.SetValue (TreeIter, 1, image);
+		}
+		
 		public TreeNodeCollection Nodes {
 			get {
 				return nodes;
@@ -156,6 +162,12 @@ namespace MonoDevelop.Gui {
 				}
 				return iter;
 			}
+		}
+		
+		public virtual void BeginEdit ()
+		{
+			TreeView.SetCursor (new Gtk.TreePath (TreePath), TreeView.complete_column, true);
+			TreeView.GrabFocus ();
 		}
 	}
 }

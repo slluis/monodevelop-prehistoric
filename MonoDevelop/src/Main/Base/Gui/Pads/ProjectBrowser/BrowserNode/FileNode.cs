@@ -110,7 +110,6 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads.ProjectBrowser
 				}
 				
 				string newname = Path.GetDirectoryName(oldname) + Path.DirectorySeparatorChar + newName;
-				
 				if (oldname != newname) {
 					ResourceService resourceService = (ResourceService)ServiceManager.Services.GetService(typeof(IResourceService));
 					try {
@@ -120,6 +119,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads.ProjectBrowser
 							fileService.RenameFile(oldname, newname);
 							SetNodeLabel();
 							SetNodeIcon();
+							UpdateBacking ();
 						}
 					} catch (System.IO.IOException) {   // assume duplicate file
 						IMessageService messageService =(IMessageService)ServiceManager.Services.GetService(typeof(IMessageService));
