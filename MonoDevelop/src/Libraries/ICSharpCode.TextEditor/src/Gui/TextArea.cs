@@ -798,11 +798,10 @@ namespace ICSharpCode.TextEditor
 
 		public void Invalidate() 
 		{
-			if (GdkWindow == null) {
+			if (GdkWindow == null)
 				return;
-			}
-		
-			Invalidate (new System.Drawing.Rectangle(0, 0, GdkWindow.Size.Width, GdkWindow.Size.Height));
+			
+			Invalidate (new System.Drawing.Rectangle(0, 0, -1, -1));
 		}
 		
 		internal void Invalidate (System.Drawing.Rectangle rect) 
@@ -811,19 +810,21 @@ namespace ICSharpCode.TextEditor
 			// FIXME Improve this
 			
 			try {
-				int x = Math.Max(rect.X, 0);
-				int y = Math.Max(rect.Y, 0);
-				int width = Math.Max(rect.Width, 0);
-				if (rect.Width < 0) {
-					width = GdkWindow.Size.Width;
-				}
-				int height = Math.Max(rect.Height, 0);
-				if (rect.Height < 0) {
-					height = GdkWindow.Size.Height;
-				}
+				Gdk.Window w = GdkWindow;
+				
+				int x = Math.Max (rect.X, 0);
+				int y = Math.Max (rect.Y, 0);
+				int width = Math.Max (rect.Width, 0);
+				int height = Math.Max (rect.Height, 0);
+				
+				if (rect.Width < 0)
+					width = w.Size.Width;
+				
+				if (rect.Height < 0)
+					height = w.Size.Height;
 
 				//Console.WriteLine ("{0} {1} {2} {3}", x, y, width, height);
-				GdkWindow.InvalidateRect(new Gdk.Rectangle(x, y, width, height), false);
+				w.InvalidateRect(new Gdk.Rectangle(x, y, width, height), false);
 			} catch {
 				//This try/catch seems to fix a bug when creating files
 			}

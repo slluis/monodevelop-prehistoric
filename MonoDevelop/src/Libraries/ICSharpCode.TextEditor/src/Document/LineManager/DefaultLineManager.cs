@@ -295,7 +295,7 @@ namespace ICSharpCode.TextEditor.Document
 		
 		void RunHighlighter()
 		{
-			DateTime time = DateTime.Now;
+			//DateTime time = DateTime.Now;
 			if (highlightingStrategy != null) {
 				highlightingStrategy.MarkTokens(document, markLines);
 			}

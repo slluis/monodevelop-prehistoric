@@ -98,8 +98,9 @@ namespace ICSharpCode.TextEditor.Util
 							
 							case TextWordType.Word:
 								Color c = word.Color;
+								string word_word = word.GetWord (textArea.Document, line);
 								
-								if (offset + word.Word.Length > selectionOffset && offset < selectionEndOffset) {
+								if (offset + word_word.Length > selectionOffset && offset < selectionEndOffset) {
 									string colorstr = c.R + ", " + c.G + ", " + c.B;
 									
 									if (colors[colorstr] == null) {
@@ -142,11 +143,11 @@ namespace ICSharpCode.TextEditor.Util
 									}
 									string printWord;
 									if (offset < selectionOffset) {
-										printWord = word.Word.Substring(selectionOffset - offset);
-									} else if (offset + word.Word.Length > selectionEndOffset) {
-										printWord = word.Word.Substring(0, (offset + word.Word.Length) - selectionEndOffset);
+										printWord = word_word.Substring(selectionOffset - offset);
+									} else if (offset + word_word.Length > selectionEndOffset) {
+										printWord = word_word.Substring(0, (offset + word_word.Length) - selectionEndOffset);
 									} else {
-										printWord = word.Word;
+										printWord = word_word;
 									}
 									
 									rtf.Append(printWord.Replace("{", "\\{").Replace("}", "\\}"));

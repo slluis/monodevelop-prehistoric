@@ -612,7 +612,7 @@ namespace ICSharpCode.TextEditor.Document
 								}
 							}
 							
-							words.Add(new TextWord(document, currentLine, currentOffset, currentLength, DigitColor, false));
+							words.Add(new TextWord(currentOffset, currentLength, DigitColor, false));
 							currentOffset += currentLength;
 							currentLength = 0;
 							continue;
@@ -625,7 +625,7 @@ namespace ICSharpCode.TextEditor.Document
 									PushCurWord(document, ref markNext, words);
 									string regex = currentLine.GetRegString(activeSpan.End, i, document);
 									currentLength += regex.Length;
-									words.Add(new TextWord(document, currentLine, currentOffset, currentLength, activeSpan.EndColor, false));
+									words.Add(new TextWord(currentOffset, currentLength, activeSpan.EndColor, false));
 									currentOffset += currentLength;
 									currentLength = 0;
 									i += regex.Length - 1;
@@ -638,12 +638,15 @@ namespace ICSharpCode.TextEditor.Document
 						
 						// check for SPAN BEGIN
 						if (activeRuleSet != null) {
-							foreach (Span span in activeRuleSet.Spans) {
+							ArrayList spans = activeRuleSet.Spans;
+							int c = spans.Count;
+							for (int j = 0; j < c; j ++) { Span span = (Span) spans [j];
+								
 								if (currentLine.MatchExpr(span.Begin, i, document)) {
 									PushCurWord(document, ref markNext, words);
 									string regex = currentLine.GetRegString(span.Begin, i, document);
 									currentLength += regex.Length;
-									words.Add(new TextWord(document, currentLine, currentOffset, currentLength, span.BeginColor, false));
+									words.Add(new TextWord(currentOffset, currentLength, span.BeginColor, false));
 									currentOffset += currentLength;
 									currentLength = 0;
 									
@@ -724,13 +727,13 @@ namespace ICSharpCode.TextEditor.Document
 						}
 						hasDefaultColor = true;
 					}
-					words.Add(new TextWord(document, currentLine, currentOffset, currentLength, markNext != null ? markNext : c, hasDefaultColor));
+					words.Add(new TextWord(currentOffset, currentLength, markNext != null ? markNext : c, hasDefaultColor));
 				} else {
 					HighlightColor c = markNext != null ? markNext : GetColor(activeRuleSet, document, currentLine, currentOffset, currentLength);
 					if (c == null) {
-						words.Add(new TextWord(document, currentLine, currentOffset, currentLength, defaultColor, true));
+						words.Add(new TextWord(currentOffset, currentLength, defaultColor, true));
 					} else {
-						words.Add(new TextWord(document, currentLine, currentOffset, currentLength, c, false));
+						words.Add(new TextWord(currentOffset, currentLength, c, false));
 					}
 				}
 				

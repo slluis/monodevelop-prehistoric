@@ -223,7 +223,7 @@ namespace ICSharpCode.TextEditor
 							break;
 						
 						case TextWordType.Word:
-							string word    = currentWord.Word;
+							string word    = currentWord.GetWord (textArea.Document, currentLine);
 							float  lastPos = physicalXPos;
 							
 							if (ColumnRange.WholeColumn.Equals(selectionRange) || selectionRange.EndColumn - 1  >= word.Length + logicalColumn &&
@@ -348,7 +348,19 @@ namespace ICSharpCode.TextEditor
 
 		public float GetWidth(char ch)
 		{
-			return GetWidth(TextArea.GdkWindow, ch);
+			if (ch == ' ') {
+				return GetWidth('w'); // Hack! FIXME PEDRO
+			}		
+			object width = charWitdh[ch];
+			if (width == null) {
+				//Pango.Layout ly = new Pango.Layout(TextArea.PangoContext);
+				Pango.Layout ly = _layout;
+				ly.SetText(ch.ToString());
+				
+				charWitdh[ch] = (float) (ly.Size.Width/1024.0f - 1); // Hack! I don't know why it works substracting 1. FIXME PEDRO
+				return (float)charWitdh[ch];
+			}
+			return (float)width;
 		}
 		
 		public float GetWidth(Gdk.Drawable g, char ch)
@@ -442,7 +454,7 @@ namespace ICSharpCode.TextEditor
 						break;
 
 					case TextWordType.Word:
-						string word    = currentWord.Word;
+						string word    = currentWord.GetWord (textArea.Document, currentLine);
 						
 						if (physicalXPos + MeasureString(FontContainer.DefaultFont, word) > xPos + spaceWidth/2) {
 							do {
@@ -494,7 +506,7 @@ namespace ICSharpCode.TextEditor
 						break;
 
 					case TextWordType.Word:
-						string word    = currentWord.Word;
+						string word    = currentWord.GetWord (textArea.Document, currentLine);
 						if (currentColumn + word.Length > logicalColumn) {
 							word = word.Substring(0, logicalColumn - currentColumn);
 						}
