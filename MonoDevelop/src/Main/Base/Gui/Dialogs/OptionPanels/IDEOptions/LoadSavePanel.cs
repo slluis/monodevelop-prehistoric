@@ -8,11 +8,13 @@
 using System;
 using System.IO;
 using System.Collections;
-//using System.Windows.Forms;
-using Gtk;
+
 using ICSharpCode.SharpDevelop.Gui.Dialogs;
 using ICSharpCode.Core.Services;
 using ICSharpCode.Core.AddIns.Codons;
+
+using Gtk;
+using MonoDevelop.Gui.Widgets;
 
 namespace ICSharpCode.SharpDevelop.Gui.Dialogs.OptionPanels
 {
@@ -27,63 +29,70 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs.OptionPanels
 	/// </summary>
 	public class LoadSavePanel : AbstractOptionPanel
 	{
-		//FIXME: Hashtables are wrong here.
-		//FIXME: Yes, this is a dirty hack.
-		//FIXME: Lets use something else.
-		Hashtable MenuToValue = new Hashtable ();	
+		class LoadSavePanelWidget : GladeWidgetExtract 
+		{
+			
+			//
+			// Gtk controls
+			//
+			
+			[Glade.Widget] public Gtk.CheckButton loadUserDataCheckBox;
+			[Glade.Widget] public Gtk.CheckButton createBackupCopyCheckBox;
+			[Glade.Widget] public Gtk.RadioButton windowsRadioButton, macintoshRadioButton, unixRadioButton;
+			[Glade.Widget] public Gtk.Label load, save, terminator;			
+			
+			public LoadSavePanelWidget () : base ("Base.glade", "LoadSavePanel")
+			{
+				
+			}
+		}		
 		
-		//
-		// Gtk controls
-		//
-		Gtk.CheckButton loadUserDataCheckBox;
-		Gtk.CheckButton createBackupCopyCheckBox;
-		Gtk.Menu lineTerminatorStyleComboBoxMenu;
-		Gtk.OptionMenu lineTerminatorStyleComboBox;
+		public LoadSavePanel () : base ()
+		{
+		}	
 		
 		// services needed
 		StringParserService StringParserService = (StringParserService)ServiceManager.Services.GetService (typeof (StringParserService));
 		PropertyService PropertyService = (PropertyService)ServiceManager.Services.GetService (typeof (PropertyService));
 		
+		LoadSavePanelWidget widget;
+		
 		public override void LoadPanelContents()
 		{
-			SetupPanelInstance();
+			Add (widget = new LoadSavePanelWidget ());
 			
-			//
-			// load the data
-			//
-			loadUserDataCheckBox.Active = PropertyService.GetProperty("SharpDevelop.LoadDocumentProperties", true);
-			createBackupCopyCheckBox.Active = PropertyService.GetProperty("SharpDevelop.CreateBackupCopy", false);
-		
-			lineTerminatorStyleComboBoxMenu.Append(
-				Gtk.MenuItem.NewWithLabel(StringParserService.Parse("${res:Dialog.Options.IDEOptions.LoadSaveOptions.WindowsRadioButton}")));
-			MenuToValue[0] = StringParserService.Parse("${res:Dialog.Options.IDEOptions.LoadSaveOptions.WindowsRadioButton}");
+ 			SetupPanelInstance();
 			
-			lineTerminatorStyleComboBoxMenu.Append(
-				Gtk.MenuItem.NewWithLabel(StringParserService.Parse("${res:Dialog.Options.IDEOptions.LoadSaveOptions.MacintoshRadioButton}")));
-			MenuToValue[1] = StringParserService.Parse("${res:Dialog.Options.IDEOptions.LoadSaveOptions.MacintoshRadioButton}");
-			
-			lineTerminatorStyleComboBoxMenu.Append(
-				Gtk.MenuItem.NewWithLabel(StringParserService.Parse("${res:Dialog.Options.IDEOptions.LoadSaveOptions.UnixRadioButton}")));
-			MenuToValue[2] = StringParserService.Parse("${res:Dialog.Options.IDEOptions.LoadSaveOptions.UnixRadioButton}");
-			
-			//FIXME: need Gtk# fix here for mapping menu item to index
-			string selectedItem = Enum.GetName(typeof(LineTerminatorStyle), PropertyService.GetProperty("SharpDevelop.LineTerminatorStyle", LineTerminatorStyle.Unix));			
-			for(int i = 0; i < MenuToValue.Count; i++)
-			{
-				if(MenuToValue[i].ToString().Equals(selectedItem))
-				{				
-					lineTerminatorStyleComboBox.SetHistory((uint)i);
-					break;
-				}
-			}
-		
+ 			//
+ 			// load the data
+		        //
+			widget.loadUserDataCheckBox.Active = PropertyService.GetProperty ("SharpDevelop.LoadDocumentProperties", true);
+			widget.createBackupCopyCheckBox.Active = PropertyService.GetProperty ("SharpDevelop.CreateBackupCopy", false);
+
+			if (LineTerminatorStyle.Windows.Equals (
+				    PropertyService.GetProperty ("SharpDevelop.LineTerminatorStyle", LineTerminatorStyle.Unix)))  {
+				widget.windowsRadioButton.Active = true;}
+			else if  (LineTerminatorStyle.Macintosh.Equals (
+					  PropertyService.GetProperty ("SharpDevelop.LineTerminatorStyle", LineTerminatorStyle.Unix)))  {
+				widget.macintoshRadioButton.Active = true;}
+			else if (LineTerminatorStyle.Unix.Equals (
+					 PropertyService.GetProperty ("SharpDevelop.LineTerminatorStyle", LineTerminatorStyle.Unix))) {
+				widget.unixRadioButton.Active = true;}
+			// Finish here
+
+
 		}
 		
 		public override bool StorePanelContents()
 		{
-			PropertyService.SetProperty("SharpDevelop.LoadDocumentProperties", loadUserDataCheckBox.Active);
-			PropertyService.SetProperty("SharpDevelop.CreateBackupCopy",       createBackupCopyCheckBox.Active);
-			PropertyService.SetProperty("SharpDevelop.LineTerminatorStyle",    (LineTerminatorStyle)lineTerminatorStyleComboBox.History);
+ 			PropertyService.SetProperty ("SharpDevelop.LoadDocumentProperties", widget.loadUserDataCheckBox.Active);
+ 			PropertyService.SetProperty ("SharpDevelop.CreateBackupCopy",       widget.createBackupCopyCheckBox.Active);
+			if (widget.windowsRadioButton.Active) {
+				PropertyService.SetProperty ("SharpDevelop.LineTerminatorStyle", LineTerminatorStyle.Windows);} 
+			else if (widget.macintoshRadioButton.Active) {
+				PropertyService.SetProperty ("SharpDevelop.LineTerminatorStyle", LineTerminatorStyle.Macintosh);} 
+			else if (widget.unixRadioButton.Active){
+				PropertyService.SetProperty ("SharpDevelop.LineTerminatorStyle", LineTerminatorStyle.Unix);}
 			
 			return true;
 		}
@@ -92,42 +101,31 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs.OptionPanels
 		
 		private void SetupPanelInstance()
 		{
-			//
-			// set up the load options
-			//
-			Gtk.Frame loadContainer = new Gtk.Frame(StringParserService.Parse("${res:Dialog.Options.IDEOptions.LoadSaveOptions.LoadLabel}"));
-			loadUserDataCheckBox = new Gtk.CheckButton (StringParserService.Parse("${res:Dialog.Options.IDEOptions.LoadSaveOptions.LoadUserDataCheckBox}"));
-			loadContainer.Add(loadUserDataCheckBox);
-			
-			//
-			// setup the save options
-			//			
-			Gtk.Frame saveContainer = new Gtk.Frame(StringParserService.Parse("${res:Dialog.Options.IDEOptions.LoadSaveOptions.SaveLabel}"));
-			Gtk.VBox saveVBox = new Gtk.VBox(false, 2);
-			
-			// the backup checkbox
-			createBackupCopyCheckBox = new Gtk.CheckButton (StringParserService.Parse("${res:Dialog.Options.IDEOptions.LoadSaveOptions.CreateBackupCopyCheckBox}"));
-			saveVBox.PackStart(createBackupCopyCheckBox, false, false, 2);
-			
-			// the terminator label 
-			Gtk.Label label1 = new Gtk.Label(StringParserService.Parse("${res:Dialog.Options.IDEOptions.LoadSaveOptions.LineTerminatorStyleGroupBox}"));
-			saveVBox.PackStart(label1, false, false, 2);
-			
-			// the terminator menu
-			lineTerminatorStyleComboBoxMenu = new Gtk.Menu();
-			lineTerminatorStyleComboBox = new Gtk.OptionMenu();
-			lineTerminatorStyleComboBox.Menu = lineTerminatorStyleComboBoxMenu;
-			saveVBox.PackStart(lineTerminatorStyleComboBox, false, false, 2);
-			
-			// add the vbox
-			saveContainer.Add(saveVBox);
-			
-			// create the main box
-			Gtk.VBox mainBox = new Gtk.VBox(false, 2);
-			mainBox.PackStart(loadContainer, false, false, 2);
-			mainBox.PackStart(saveContainer, false, false, 2);
-			
-			this.Add(mainBox);
+ 			//
+ 			// set up the load options
+ 			//
+			widget.load.Markup = "<b> " + StringParserService.Parse(
+				"${res:Dialog.Options.IDEOptions.LoadSaveOptions.LoadLabel}") + " </b>";
+ 			widget.loadUserDataCheckBox.Label = StringParserService.Parse(
+				"${res:Dialog.Options.IDEOptions.LoadSaveOptions.LoadUserDataCheckBox}");
+ 			//
+ 			// setup the save options
+ 			//			
+ 			widget.save.Markup = "<b> " + StringParserService.Parse(
+				"${res:Dialog.Options.IDEOptions.LoadSaveOptions.SaveLabel}")+ "</b>";
+ 			// the backup checkbox
+ 			widget.createBackupCopyCheckBox.Label =StringParserService.Parse(
+				"${res:Dialog.Options.IDEOptions.LoadSaveOptions.CreateBackupCopyCheckBox}");
+ 			// the terminator label 
+ 			widget.terminator.TextWithMnemonic  = StringParserService.Parse(
+				"${res:Dialog.Options.IDEOptions.LoadSaveOptions.LineTerminatorStyleGroupBox}");
+ 			// the terminator radiobutton
+			widget.windowsRadioButton.Label = StringParserService.Parse(
+				"${res:Dialog.Options.IDEOptions.LoadSaveOptions.WindowsRadioButton}");
+			widget.macintoshRadioButton.Label = StringParserService.Parse(
+				"${res:Dialog.Options.IDEOptions.LoadSaveOptions.MacintoshRadioButton}");
+			widget.unixRadioButton.Label = StringParserService.Parse(
+				"${res:Dialog.Options.IDEOptions.LoadSaveOptions.UnixRadioButton}");
 		}
 		
 		#endregion
