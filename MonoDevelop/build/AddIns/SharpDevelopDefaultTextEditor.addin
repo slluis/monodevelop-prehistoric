@@ -3,8 +3,7 @@
        copyright   = "GPL"
        url         = "http://www.icsharpcode.net"
        description = "NCvs texteditor module"
-       version     = "1.0.0"
-       if-not-env  = "NEW_EDITOR">
+       version     = "1.0.0">
 	
 	<Runtime>
 		<Import assembly="../bin/MonoDevelop.TextEditor.dll"/>
@@ -134,7 +133,6 @@
 				</Or>
 			
 				<ToolbarItem id = "Find"
-				             insertafter = "CutSeparator"
 				             icon = "Icons.16x16.FindIcon" 
 				             tooltip = "${res:XML.MainMenu.SearchMenu.Find.Description}"
 				             class = "ICSharpCode.SharpDevelop.DefaultEditor.Commands.Find"/>

@@ -20,7 +20,8 @@
 		       class = "ICSharpCode.SharpDevelop.Commands.InitializeWorkbenchCommand"/>
 		<Class id = "StartCodeCompletionWizard" 
 		       class = "ICSharpCode.SharpDevelop.Commands.StartCodeCompletionWizard"/>
-
+		<Class id = "StartParserServiceThread" 
+		       class = "ICSharpCode.SharpDevelop.Commands.StartParserServiceThread"/>
 		<!-- #assembly preload -->
 <!--		<Class id = "StartSharpAssemblyPreloadThread"
 		       class = "ICSharpCode.SharpDevelop.Commands.StartSharpAssemblyPreloadThread"/>-->
@@ -28,24 +29,25 @@
 		       class = "ICSharpCode.SharpDevelop.Commands.StartWorkbenchCommand"/>
 	</Extension>
 	
-	<Extension path = "/Workspace/Autostart" if-not-env = "NEW_EDITOR">
-		<Class id = "StartParserServiceThread" 
-		       class = "ICSharpCode.SharpDevelop.Commands.StartParserServiceThread"/>
-	</Extension>
-	
 	<Extension path = "/Workspace/Services">
 		<Class id    = "ProjectService"
 		       class = "ICSharpCode.SharpDevelop.Services.DefaultProjectService"/>
 		<Class id    = "FileService"
 		       class = "ICSharpCode.SharpDevelop.Services.DefaultFileService"/>
+		<Class id    = "ParserService"
+		       class = "ICSharpCode.SharpDevelop.Services.DefaultParserService"/>
 		<Class id    = "TaskService"
 		       class = "ICSharpCode.SharpDevelop.Services.TaskService"/>
 		<Class id    = "StatusBarService"
 		       class = "ICSharpCode.SharpDevelop.Services.DefaultStatusBarService"/>
 		<Class id    = "ToolbarService"
 		       class = "ICSharpCode.SharpDevelop.Services.ToolbarService"/>
+		<Class id    = "LanguageService"
+		       class = "ICSharpCode.SharpDevelop.Services.LanguageService"/>
 		<Class id    = "ClassBrowserIconsService"
 		       class = "ICSharpCode.SharpDevelop.Services.ClassBrowserIconsService"/>
+		<Class id    = "LanguageBindingService"
+		       class = "ICSharpCode.SharpDevelop.Services.LanguageBindingService"/>
 		<Class id    = "DisplayBindingService"
 		       class = "ICSharpCode.SharpDevelop.Services.DisplayBindingService"/>
 		<Class id    = "AmbienceService"
@@ -53,14 +55,7 @@
 		<Class id    = "MenuService"
 		       class = "ICSharpCode.SharpDevelop.Services.MenuService"/>
 	</Extension>
-	
-	<Extension path = "/Workspace/Services" if-not-env = "NEW_EDITOR">
-		<Class id    = "LanguageService"
-		       class = "ICSharpCode.SharpDevelop.Services.LanguageService"/>
-		<Class id    = "ParserService"
-		       class = "ICSharpCode.SharpDevelop.Services.DefaultParserService"/>
-	</Extension>
-	
+
 	<Extension path = "/SharpDevelop/Workbench/DisplayBindings">
 		<DisplayBinding id    = "Browser"
 		                supportedformats = "Web Pages"
@@ -491,9 +486,15 @@
 				             tooltip = "${res:XML.MainMenu.EditMenu.Delete.Description}"
 				             class = "ICSharpCode.SharpDevelop.Commands.Delete"/>
 			</Conditional>
-			<ToolbarItem id = "CutSeparator" tooltip = "-"/>
+			<ToolbarItem id = "CutSeparator" insertafter ="Delete" insertbefore ="Find" tooltip = "-"/>
+	                <Conditional action="Disable">
+	                	<Or>
+	                		<Condition activewindow="ICSharpCode.SharpDevelop.DefaultEditor.Gui.Editor.ITextAreaControlProvider"/>
+	                		<Condition iscombineopen="True"/>
+	                	</Or>
+			</Conditional>
 			
-			
+			<ToolbarItem id = "CompileSeparator" insertafter = "ClearBookmarks" tooltip = "-"/>
 	                <Conditional action="Disable">
 	                	<Or>
 	                		<Condition activewindow="ICSharpCode.SharpDevelop.DefaultEditor.Gui.Editor.ITextAreaControlProvider"/>
@@ -513,7 +514,6 @@
 				             tooltip = "${res:XML.MainMenu.RunMenu.Run.Description}"
 				             class = "ICSharpCode.SharpDevelop.Commands.RunCommand"/>
 			</Conditional>
-			<ToolbarItem id = "CompileSeparator" tooltip = "-"/>
 		</ToolbarItem>
 	</Extension>
 
@@ -1003,63 +1003,6 @@
 		<MenuItem id    = "ShowDescription"
 		          label = "${res:ICSharpCode.SharpDevelop.Gui.Pads.PropertyPad.ContextMenu.ShowDescription}" 
 		          class = "ICSharpCode.SharpDevelop.Gui.Pads.PropertyPadShowDescriptionCommand"/>
-	</Extension>
-	
-	
-	<Extension path = "/Workspace/Icons">
-		<!-- C# -->
-		<Icon id         = "C#Prj"
-		      language   = "C#"
-		      resource   = "C#.ProjectIcon"/>
-
-		<Icon id         = "C#File"
-		      extensions = ".cs"
-		      resource   = "C#.FileIcon"/>
-		
-		<!-- VB.NET -->
-		<Icon id         = "VBPrj"
-		      language   = "VBNET"
-		      resource   = "VB.ProjectIcon"/>
-		<Icon id         = "VBFile"
-		      extensions = ".vb"
-		      resource   = "VB.FileIcon"/>
-
-		<!-- Java -->
-                <Icon id         = "JavaPrj"
-		      language   = "Java"
-		      resource   = "Java.ProjectIcon"/>
-                <Icon id         = "JavaFile"
-		      extensions = ".java"
-		      resource   = "Java.FileIcon"/>
-		      
-		<!-- Java Script -->
-                <Icon id         = "JScriptPrj"
-		      language   = "JScript"
-		      resource   = "JScript.ProjectIcon"/>
-                <Icon id         = "JScriptFile"
-		      extensions = ".js"
-		      resource   = "JScript.FileIcon"/>
-		
-		<!-- C++ -->
-                <Icon id         = "C++Project"
-		      language   = "C++"
-		      resource   = "C++.ProjectIcon"/>
-                <Icon id         = "C++File"
-		      extensions = ".cpp"
-		      resource   = "C++.FileIcon"/>
-		
-		<!-- Resources -->
-		<Icon id         = "ResourceFileIcon"
-		      extensions = ".resources,.resx"
-		      resource   = "Icons.16x16.ResourceFileIcon" />
-		<!-- XML -->
-		<Icon id         = "XmlFileIcon"
-		      extensions = ".xml"
-		      resource   = "FileIcons.XmlIcon" />
-		<!-- TextFiles -->
-		<Icon id         = "TextFileIcon"
-		      extensions = ".txt,.doc"
-		      resource   = "Icons.16x16.TextFileIcon"/>
 	</Extension>
 	
 </AddIn>

@@ -21,7 +21,6 @@ using ICSharpCode.Core.Properties;
 using ICSharpCode.Core.Services;
 using ICSharpCode.SharpDevelop.Gui.Components;
 using ICSharpCode.SharpDevelop.Services;
-using ICSharpCode.SharpDevelop.Gui.Dialogs;
 
 namespace ICSharpCode.SharpDevelop.Gui
 {
@@ -179,11 +178,6 @@ namespace ICSharpCode.SharpDevelop.Gui
 
 			CreateToolBars();
 			CreateMainMenu();
-			
-			
-			if (SplashScreenForm.SplashScreen != null) {
-				SplashScreenForm.SplashScreen.Hide();
-			}
 		}
 				
 		//		public void OpenCombine(string filename)

@@ -182,14 +182,6 @@ namespace ICSharpCode.Core.AddIns
 				url         = doc.DocumentElement.Attributes["url"].InnerText;
 				description = doc.DocumentElement.Attributes["description"].InnerText;
 				version     = doc.DocumentElement.Attributes["version"].InnerText;
-				
-				XmlAttribute if_env     = doc.DocumentElement.Attributes ["if-env"];
-				XmlAttribute if_not_env = doc.DocumentElement.Attributes ["if-not-env"];
-				
-				if (if_env != null && Environment.GetEnvironmentVariable (if_env.InnerText) == null)
-					return;
-				if (if_not_env != null && Environment.GetEnvironmentVariable (if_not_env.InnerText) != null)
-					return;
 			} catch (Exception) {
 				throw new AddInLoadException("No or malformed 'AddIn' node");
 			}
@@ -234,13 +226,7 @@ namespace ICSharpCode.Core.AddIns
 		{
 			if (el.Attributes["path"] == null) {
 				throw new AddInLoadException("One extension node has no path attribute defined.");
-			}
-			
-			if (el.Attributes["if-not-env"] != null && Environment.GetEnvironmentVariable (el.Attributes["if-not-env"].InnerText) != null)
-				return;
-			if (el.Attributes["if-env"] != null && Environment.GetEnvironmentVariable (el.Attributes["if-env"].InnerText) == null)
-				return;
-			
+			}			
 			Extension e = new Extension(el.Attributes["path"].InnerText);
 			AddCodonsToExtension(e, el, new ConditionCollection());
 			extensions.Add(e);
