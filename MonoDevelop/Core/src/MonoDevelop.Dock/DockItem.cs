@@ -48,6 +48,7 @@ namespace Gdl
 		{
 			// remove NoWindow flag
 			WidgetFlags &= ~(WidgetFlags.NoWindow);
+			DockObjectFlags &= ~(DockObjectFlags.Automatic);
 		
 			if (HasGrip) {
 				grip = new DockItemGrip (this);

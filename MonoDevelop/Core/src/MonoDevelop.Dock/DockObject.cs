@@ -216,7 +216,7 @@ namespace Gdl
 					element.SetAttribute (p.Name.ToLower (), p.GetValue (this, null).ToString ().ToLower ());
 				else if (p.PropertyType == typeof (bool))
 					element.SetAttribute (p.Name.ToLower (), ((bool) p.GetValue (this, null)) ? "yes" : "no");
-				else
+				else if (p.GetValue (this, null) != null)
 					element.SetAttribute (p.Name.ToLower (), p.GetValue (this, null).ToString ());
 			}
 			return element;

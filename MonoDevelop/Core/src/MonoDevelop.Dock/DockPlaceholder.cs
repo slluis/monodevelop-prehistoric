@@ -11,7 +11,7 @@ namespace Gdl
 	{
 		private DockObject host;
 		private bool sticky;
-		private ArrayList placementStack;
+		private Stack placementStack;
 
 		protected DockPlaceholder (IntPtr raw) : base (raw) { }
 		
@@ -20,7 +20,6 @@ namespace Gdl
 		{
 			WidgetFlags |= WidgetFlags.NoWindow;
 			WidgetFlags &= ~(WidgetFlags.CanFocus);
-			DockObjectFlags &= ~(DockObjectFlags.Automatic);
 
 			Sticky = sticky;
 			Name = name;
@@ -60,13 +59,13 @@ namespace Gdl
 		public DockPlacement NextPlacement {
 			get {
 				if (placementStack != null && placementStack.Count != 0)
-					return (DockPlacement)placementStack[0];
+					return (DockPlacement)placementStack.Pop ();
 				return DockPlacement.Center;
 			}
 			set { 
 				if (placementStack == null)
-					placementStack = new ArrayList ();
-				placementStack.Insert (0, value);
+					placementStack = new Stack ();
+				placementStack.Push (value);
 			}
 		}
 
@@ -95,7 +94,7 @@ namespace Gdl
 			// default position
 			DockPlacement position = DockPlacement.Center;
 			if (placementStack != null && placementStack.Count > 0)
-				position = (DockPlacement) placementStack[0];
+				position = (DockPlacement) placementStack.Pop ();
 
 			Dock ((DockItem)widget, position, null);
 		}
@@ -156,7 +155,8 @@ namespace Gdl
 					host.ChildPlacement (item, ref pos);
 					if (pos == stack_pos) {
 						// remove the stack position
-						placementStack.RemoveAt (0);
+						if (placementStack.Count > 1)
+							placementStack.Pop ();
 						DisconnectHost ();
 
 						// connect to the new host
@@ -176,8 +176,8 @@ namespace Gdl
 			if (host == null)
 				return;
 
-			//this.Detach -= OnDetached;
-			//this.Dock -= OnDock;
+			host.Detached -= OnHostDetached;
+			host.Docked -= OnHostDocked;
 
 			host = null;
 		}
@@ -189,8 +189,8 @@ namespace Gdl
 
 			host = newHost;
 
-			//this.Detach += OnDetached;
-			//this.Dock += OnDock;
+			host.Detached += OnHostDetached;
+			host.Docked += OnHostDocked;
 		}
 		
 		public void Attach (DockObject objekt)
@@ -215,6 +215,56 @@ namespace Gdl
 			
 			DockObjectFlags |= DockObjectFlags.Attached;
 			Thaw ();
+		}
+
+		void OnHostDetached (object sender, DetachedArgs a)
+		{
+			// skip sticky objects
+			if (sticky)
+				return;
+
+			// go up in the hierarchy
+			DockObject newHost = host.ParentObject;
+
+			while (newHost != null) {
+				DockPlacement pos = DockPlacement.None;
+
+				// get a placement hint from the new host
+				if (newHost.ChildPlacement (host, ref pos))
+					placementStack.Push (pos);
+				else
+					Console.WriteLine ("Something weird happened while getting the child placement for {0} from parent {1}", host, newHost);
+
+				// we found a "stable" dock object
+				if (newHost.InDetach)
+					break;
+
+				newHost = newHost.ParentObject;
+			}
+
+			// disconnect host
+			DisconnectHost ();
+
+			// the toplevel was detached: we attach ourselves to the
+			// controller with an initial placement of floating
+			if (newHost == null) {
+				newHost = this.Master.Controller;
+				placementStack.Push (DockPlacement.Floating);
+			}
+
+			if (newHost != null)
+				ConnectHost (newHost);
+		}
+
+		void OnHostDocked (object sender, DockedArgs a)
+		{
+			DockObject obj = sender as DockObject;
+			// see if the given position is compatible for the stack's top element
+			if (sticky && placementStack != null) {
+				DockPlacement pos = (DockPlacement) placementStack.Pop ();
+				if (obj.ChildPlacement (a.Requestor, ref pos))
+					DoExcursion ();
+			}
 		}
 	}
 }

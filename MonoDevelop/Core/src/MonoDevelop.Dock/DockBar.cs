@@ -78,7 +78,7 @@ namespace Gdl
 				// item.DockBarButton = null;
 			}
 			else {
-				Console.WriteLine ("WARNING: Item has not been added to the dockbar");
+				Console.WriteLine ("WARNING: {0} has not been added to the dockbar", item.Name);
 			}
 		}
 		

@@ -1,5 +1,15 @@
 2005-03-13  John Luke  <john.luke@gmail.com>
 
+	* DockNotebook.cs: not Automatic
+	* DockPlaceholder.cs: port detach_cb and dock_cb
+	is Automatic
+	use Stack instead of ArrayList
+	* DockMaster.cs: restore IsAutomatic code
+	* DockItem.cs: not Automatic
+	* DockObject.cs: small null check fix
+
+2005-03-13  John Luke  <john.luke@gmail.com>
+
 	* DockPaned.cs: fix little orientaion bug when
 	loading the layout
 

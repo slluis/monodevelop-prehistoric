@@ -50,5 +50,5 @@ $(TEST) : $(TEST_FILES) $(DOCK)
 	$(CSC) -out:$@ -r:$(DOCK) -pkg:gtk-sharp-2.0 $(TEST_FILES) -codepage:utf8
 
 run-test: $(TEST)
-	$(RUNTIME) $(TEST)
+	MONO_PATH=../../../build/bin $(RUNTIME) $(TEST)
 

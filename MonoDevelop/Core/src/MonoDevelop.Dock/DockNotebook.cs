@@ -46,7 +46,7 @@ namespace Gdl
 			//((Notebook)Child).ButtonReleaseEvent += new ButtonReleaseEvent (ButtonReleaseCb);
 			((Notebook)Child).Scrollable = true;
 			Child.Show ();
-			DockObjectFlags &= DockObjectFlags.Automatic;
+			DockObjectFlags &= ~(DockObjectFlags.Automatic);
 		}
 		
 		protected void SwitchPageHandler (object o, SwitchPageArgs e)
