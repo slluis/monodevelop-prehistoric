@@ -19,7 +19,8 @@ namespace ICSharpCode.TextEditor.Document
 	public class HighlightRuleSet
 	{
 		LookupTable keyWords;
-		ArrayList   spans = new ArrayList();
+		Span [] spans;
+		
 		LookupTable prevMarkers;
 		LookupTable nextMarkers;
 		IHighlightingStrategy highlighter = null;
@@ -32,7 +33,7 @@ namespace ICSharpCode.TextEditor.Document
 		
 		string      reference  = null;
 		
-		public ArrayList Spans {
+		public Span [] Spans {
 			get {
 				return spans;
 			}
@@ -107,6 +108,7 @@ namespace ICSharpCode.TextEditor.Document
 		
 		public HighlightRuleSet(XmlElement el)
 		{
+			ArrayList   spans = new ArrayList ();
 			XmlNodeList nodes = el.GetElementsByTagName("KeyWords");
 			
 			if (el.Attributes["name"] != null) {
@@ -136,8 +138,6 @@ namespace ICSharpCode.TextEditor.Document
 				}
 			}
 			
-//			Spans       = new LookupTable(!IgnoreCase);
-
 			keyWords    = new LookupTable(!IgnoreCase);
 			prevMarkers = new LookupTable(!IgnoreCase);
 			nextMarkers = new LookupTable(!IgnoreCase);
@@ -153,7 +153,7 @@ namespace ICSharpCode.TextEditor.Document
 			
 			nodes = el.GetElementsByTagName("Span");
 			foreach (XmlElement el2 in nodes) {
-				Spans.Add(new Span(el2));
+				spans.Add(new Span(el2));
 				/*
 				Span span = new Span(el2);
 				Spans[span.Begin] = span;*/
@@ -170,6 +170,8 @@ namespace ICSharpCode.TextEditor.Document
 				NextMarker next = new NextMarker(el2);
 				nextMarkers[next.What] = next;
 			}
+			
+			this.spans = (Span []) spans.ToArray (typeof (Span));
 		}
 	}
 }
