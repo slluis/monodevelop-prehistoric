@@ -21,14 +21,12 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs.OptionPanels
 {
 	public class CombineStartupPanel : AbstractOptionPanel
 	{
-		// FIXME 
-		// - internationalize 
-		// propertyService.DataDirectory + @"\resources\panels\CombineStartupPanel.xfrm")
 		CombineStartupPanelWidget widget;
 		
 		class CombineStartupPanelWidget : GladeWidgetExtract 
 		{
 			// Gtk Controls
+			[Glade.Widget] Label ActionLabel;
  			[Glade.Widget] RadioButton singleRadioButton;
  			[Glade.Widget] RadioButton multipleRadioButton;
  			[Glade.Widget] OptionMenu singleOptionMenu;
@@ -40,6 +38,8 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs.OptionPanels
  			public ListStore store;
 
 			// Services
+			StringParserService StringParserService = (StringParserService)ServiceManager.Services.GetService (
+										typeof (StringParserService));
 			static ResourceService resourceService = (ResourceService)ServiceManager.Services.GetService(
 										typeof(IResourceService));
 			static PropertyService propertyService = (PropertyService)ServiceManager.Services.GetService(
@@ -51,9 +51,18 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs.OptionPanels
 			{
 				this.combine = (Combine)((IProperties)CustomizationObject).GetProperty("Combine");
 
+
+				ActionLabel.Text = StringParserService.Parse(
+					"${res:Dialog.Options.CombineOptions.Startup.ActionLabel}");
+
 				// Setting up RadioButtons
+
+				singleRadioButton.Label = StringParserService.Parse(
+					"${res:Dialog.Options.CombineOptions.Startup.SingleStartupRadioButton}");
 				singleRadioButton.Active = combine.SingleStartupProject;
 				singleRadioButton.Clicked += new EventHandler(OnSingleRadioButtonClicked);
+				multipleRadioButton.Label =  StringParserService.Parse(
+					"${res:Dialog.Options.CombineOptions.Startup.MultipleStartupRadioButton}");
 				multipleRadioButton.Active = !combine.SingleStartupProject;
 				singleRadioButton.Clicked += new EventHandler(OptionsChanged);
 
@@ -83,8 +92,12 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs.OptionPanels
 				entryTreeView.Model = store;
 				
 				TreeIter iter = new TreeIter ();
-				entryTreeView.AppendColumn ("Entry", new CellRendererText (), "text", 0);
-				entryTreeView.AppendColumn ("Action", new CellRendererText (), "text", 1);
+ 				string entryHeader = StringParserService.Parse(
+ 					"${res:Dialog.Options.CombineOptions.Startup.EntryColumnHeader}");	
+ 				entryTreeView.AppendColumn (entryHeader, new CellRendererText (), "text", 0);
+ 				string actionHeader = StringParserService.Parse(
+ 					"${res:Dialog.Options.CombineOptions.Startup.ActionColumnHeader}");
+ 				entryTreeView.AppendColumn (actionHeader, new CellRendererText (), "text", 1);
 				
 				// sanity check to ensure we had a proper execture definitions save last time rounf
 				if(combine.CombineExecuteDefinitions.Count == combine.Entries.Count) {
@@ -109,7 +122,8 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs.OptionPanels
 					// tell the user we encountered and worked around an issue 
 					IMessageService messageService =(IMessageService)ServiceManager.Services.GetService(typeof(IMessageService));
 					// FIXME: il8n this
-					messageService.ShowError("The Combine Execute Definitions for this Combine were invalid. A new empty set of Execute Definitions has been created.");
+					messageService.ShowError(
+						"The Combine Execute Definitions for this Combine were invalid. A new empty set of Execute Definitions has been created.");
 				}
 					
  				entryTreeView.Selection.Changed += new EventHandler(SelectedEntryChanged);
@@ -178,7 +192,6 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs.OptionPanels
 				TreeModel ls;				
 				((ListStore)entryTreeView.Model).GetIter(
 					out selectedItem, (TreePath) entryTreeView.Selection.GetSelectedRows(out ls)[0]);
-				store.SetValue(selectedItem, 1, actionOptionMenu.History);
 				
 				int index = GetSelectedIndex(entryTreeView);
 				CombineExecuteDefinition edef = (CombineExecuteDefinition) store.GetValue(selectedItem, 2);
@@ -242,8 +255,6 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs.OptionPanels
 
 			public bool Store()
 			{
-				//Menu singleMenu = (Menu) singleOptionMenu.Menu;
-				//MenuItem singleMenuItem = (MenuItem) singleMenu.Active;
 				combine.SingleStartProjectName = ((CombineEntry)combine.Entries[singleOptionMenu.History]).Name;
 				combine.SingleStartupProject   = singleRadioButton.Active;
 				
