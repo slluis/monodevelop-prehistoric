@@ -40,7 +40,7 @@ namespace NemerleBinding
 				{
 					p.OutputPath = info.BinPath + Path.DirectorySeparatorChar + p.Name;
 					p.AssemblyName = Name;					
-				}				
+				}				
 			}
 		}
 	}
