@@ -1,4 +1,4 @@
-SUBDIRS = Java CSharp Misc VBNet Nemerle
+SUBDIRS = Java CSharp Misc VBNet Nemerle ILAsm
 
 all:
 	

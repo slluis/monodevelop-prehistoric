@@ -3,7 +3,7 @@
        copyright = "GPL"
        url       = ""
        description = ""
-       version   = "0.2">
+       version   = "0.3">
 
 	<Runtime>
 		<Import assembly="MonoDevelop.Debugger.dll"/>

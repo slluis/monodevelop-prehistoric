@@ -1,1 +1,3 @@
-SUBDIRS=StartPage
+
+SUBDIRS = StartPage
+

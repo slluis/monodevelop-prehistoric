@@ -1,0 +1,50 @@
+<?xml version="1.0"?>
+<Template originator   = "John Luke"
+          created      = "04/25/2004"
+          lastModified = "04/25/2004">
+	
+	<!-- Template Header -->
+	<TemplateConfiguration>
+		<Name>ILAsm Console Project</Name>
+		<Category>ILAsm</Category>
+		<Icon>C#.Project.DOSProject</Icon>
+		<LanguageName>ILAsm</LanguageName>
+		<Description>ILAsm Console Project</Description>
+	</TemplateConfiguration>
+	
+	<!-- Actions -->
+	<Actions>
+		<Open filename = "main.il"/>
+	</Actions>
+	
+	<!-- Template Content -->
+	<Combine name = "${ProjectName}" directory = ".">
+		<Options>
+			<StartupProject>${ProjectName}</StartupProject>
+		</Options>
+		
+		<Project name = "${ProjectName}" directory = ".">
+			<Options/>
+			<Files>
+				<File name="main.il"><![CDATA[.assembly HelloWorld
+{
+}
+
+.namespace DefaultNamespace
+{
+	.class private auto ansi beforefieldinit MainClass
+	{
+		.method public hidebysig static void Main(string[] args) cil managed
+		{
+			.entrypoint
+			.maxstack  1
+			ldstr "Hello World!"
+			call void [mscorlib]System.Console::WriteLine(string)
+			ret
+		}
+	}
+}]]></File>
+			</Files>
+		</Project>
+	</Combine>
+</Template>
