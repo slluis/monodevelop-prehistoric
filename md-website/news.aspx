@@ -5,6 +5,9 @@
 
   <div class="title">News</div>
 
+  <div class="news_header">June 18, 2004: MonoDevelop article</div>
+  <p>Paul Ferrill wrote an <a href="http://www.newsforge.com/programming/04/06/12/1649241.shtml">article</a> about MonoDevelop for NewsForge.</p>
+
   <div class="news_header">June 1, 2004: MonoDevelop 0.4 Released</div>
   <p>MonoDevelop 0.4 released. Release notes available
   <a href="/release_notes/0.4.html">here</a>. Packages are available in the
