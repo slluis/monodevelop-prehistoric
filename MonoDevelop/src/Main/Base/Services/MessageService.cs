@@ -7,13 +7,6 @@
 
 using System;
 using System.IO;
-using System.Collections;
-using System.Threading;
-using System.Resources;
-using System.Drawing;
-using System.Diagnostics;
-using System.Reflection;
-using System.Xml;
 
 using ICSharpCode.SharpDevelop.Gui;
 using ICSharpCode.Core.AddIns;
@@ -59,24 +52,18 @@ namespace ICSharpCode.Core.Services
 				msg += "Exception occurred: " + ex.ToString();
 			}
 
-#if GTK
-			Gtk.MessageDialog md = new Gtk.MessageDialog ((Gtk.Window) WorkbenchSingleton.Workbench, Gtk.DialogFlags.Modal | Gtk.DialogFlags.DestroyWithParent, Gtk.MessageType.Error, Gtk.ButtonsType.Ok, stringParserService.Parse(msg));
-			md.Run ();
-			md.Hide ();
-#else
-			MessageBox.Show(stringParserService.Parse(msg), stringParserService.Parse("${res:Global.ErrorText}"), MessageBoxButtons.OK, MessageBoxIcon.Error);
-#endif
+			using (Gtk.MessageDialog md = new Gtk.MessageDialog ((Gtk.Window) WorkbenchSingleton.Workbench, Gtk.DialogFlags.Modal | Gtk.DialogFlags.DestroyWithParent, Gtk.MessageType.Error, Gtk.ButtonsType.Ok, stringParserService.Parse(msg))) {
+				md.Run ();
+				md.Hide ();
+			}
 		}
 		
 		public void ShowWarning(string message)
 		{
-#if GTK
-			Gtk.MessageDialog md = new Gtk.MessageDialog ((Gtk.Window) WorkbenchSingleton.Workbench, Gtk.DialogFlags.Modal | Gtk.DialogFlags.DestroyWithParent, Gtk.MessageType.Warning, Gtk.ButtonsType.Ok, stringParserService.Parse(message));
-			md.Run ();
-			md.Hide ();
-#else
-			MessageBox.Show(stringParserService.Parse(message), stringParserService.Parse("${res:Global.WarningText}"), MessageBoxButtons.OK, MessageBoxIcon.Warning);
-#endif
+			using (Gtk.MessageDialog md = new Gtk.MessageDialog ((Gtk.Window) WorkbenchSingleton.Workbench, Gtk.DialogFlags.Modal | Gtk.DialogFlags.DestroyWithParent, Gtk.MessageType.Warning, Gtk.ButtonsType.Ok, stringParserService.Parse(message))) {
+				md.Run ();
+				md.Hide ();
+			}
 		}
 		
 		public void ShowWarningFormatted(string formatstring, params string[] formatitems)
@@ -86,18 +73,15 @@ namespace ICSharpCode.Core.Services
 		
 		public bool AskQuestion(string question, string caption)
 		{
-#if GTK
-			Gtk.MessageDialog md = new Gtk.MessageDialog ((Gtk.Window) WorkbenchSingleton.Workbench, Gtk.DialogFlags.Modal | Gtk.DialogFlags.DestroyWithParent, Gtk.MessageType.Question, Gtk.ButtonsType.YesNo, stringParserService.Parse(question));
-			int response = md.Run ();
-			Console.WriteLine (response);
-			md.Hide ();
-			if ((Gtk.ResponseType) response == Gtk.ResponseType.Yes)
-				return true;
-			else
-				return false;
-#else
-			return MessageBox.Show(stringParserService.Parse(question), stringParserService.Parse(caption), MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes;
-#endif
+			using (Gtk.MessageDialog md = new Gtk.MessageDialog ((Gtk.Window) WorkbenchSingleton.Workbench, Gtk.DialogFlags.Modal | Gtk.DialogFlags.DestroyWithParent, Gtk.MessageType.Question, Gtk.ButtonsType.YesNo, stringParserService.Parse(question))) {
+				int response = md.Run ();
+				md.Hide ();
+				
+				if ((Gtk.ResponseType) response == Gtk.ResponseType.Yes)
+					return true;
+				else
+					return false;
+			}
 		}
 		
 		public bool AskQuestionFormatted(string caption, string formatstring, params string[] formatitems)
@@ -112,8 +96,6 @@ namespace ICSharpCode.Core.Services
 		
 		public bool AskQuestion(string question)
 		{
-			Console.WriteLine("stps: " + stringParserService);
-			
 			return AskQuestion(stringParserService.Parse(question), stringParserService.Parse("${res:Global.QuestionText}"));
 		}
 		
@@ -125,7 +107,7 @@ namespace ICSharpCode.Core.Services
 		
 		public void ShowMessage(string message)
 		{
-			ShowMessage(message, "SharpDevelop");
+			ShowMessage(message, "MonoDevelop");
 		}
 		
 		public void ShowMessageFormatted(string formatstring, params string[] formatitems)
@@ -140,13 +122,10 @@ namespace ICSharpCode.Core.Services
 		
 		public void ShowMessage(string message, string caption)
 		{
-#if GTK
-			Gtk.MessageDialog md = new Gtk.MessageDialog ((Gtk.Window) WorkbenchSingleton.Workbench, Gtk.DialogFlags.Modal | Gtk.DialogFlags.DestroyWithParent, Gtk.MessageType.Info, Gtk.ButtonsType.Ok, stringParserService.Parse(message));
-			md.Run ();
-			md.Hide ();
-#else
-			MessageBox.Show(stringParserService.Parse(message), stringParserService.Parse(caption), MessageBoxButtons.OK, MessageBoxIcon.Information);
-#endif
+			using (Gtk.MessageDialog md = new Gtk.MessageDialog ((Gtk.Window) WorkbenchSingleton.Workbench, Gtk.DialogFlags.Modal | Gtk.DialogFlags.DestroyWithParent, Gtk.MessageType.Info, Gtk.ButtonsType.Ok, stringParserService.Parse(message))) {
+				md.Run ();
+				md.Hide ();
+			}
 		}
 	}
 }

@@ -7,8 +7,6 @@
 
 using System;
 using System.IO;
-//using System.Text;
-//using System.Drawing;
 using System.Collections;
 using System.Resources;
 using ICSharpCode.Core.Properties;
@@ -22,12 +20,23 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads
 {
 	public class FileList : Gtk.TreeView
 	{
+		private static GLib.GType gtype;
 		private FileSystemWatcher watcher;
 		private ItemCollection Items;
 		private Gtk.ListStore store;
 		private Gtk.Menu popmenu = null;
 		
-		public FileList()
+		public static new GLib.GType GType
+		{
+			get
+			{
+				if (gtype == GLib.GType.Invalid)
+					gtype = RegisterGType (typeof (FileList));
+				return gtype;
+			}	
+		}
+
+		public FileList() : base (GType)
 		{
 			Items = new ItemCollection(this);
 			ResourceManager resources = new ResourceManager("ProjectComponentResources", this.GetType().Module.Assembly);
@@ -66,14 +75,12 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads
 			modi_column.PackStart (render3, false);
 			modi_column.AddAttribute (render3, "text", 2);
 				
-			//listView.AppendColumn (complete_column);
 			AppendColumn(name_column);
 			AppendColumn(size_column);
 			AppendColumn(modi_column);
 
-//			menu = new MagicMenus.PopupMenu();
-//			menu.MenuCommands.Add(new MagicMenus.MenuCommand("Delete file", new EventHandler(deleteFiles)));
-//			menu.MenuCommands.Add(new MagicMenus.MenuCommand("Rename", new EventHandler(renameFile)));
+			this.PopupMenu += new Gtk.PopupMenuHandler (OnPopupMenu);
+			this.ButtonReleaseEvent += new Gtk.ButtonReleaseEventHandler (OnButtonReleased);
 			
 			watcher = new FileSystemWatcher ();
 			
@@ -150,7 +157,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads
 			}
 		}
 		
-		void renameFile(object sender, EventArgs e)
+		private void OnRenameFile (object sender, EventArgs e)
 		{
 		/*
 			if(SelectedItems.Count == 1) {
@@ -159,21 +166,51 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads
 		*/
 		}
 		
-		void deleteFiles(object sender, EventArgs e)
+		private void OnDeleteFiles (object sender, EventArgs e)
 		{
 			IMessageService messageService =(IMessageService)ServiceManager.Services.GetService(typeof(IMessageService));
 			
-			if (messageService.AskQuestion("Are you sure ?", "Delete files")) {
-				/*foreach(FileListItem fileItem in SelectedItems)
+			if (messageService.AskQuestion("Are you sure you want to delete this file?", "Delete files"))
+			{
+			/*	try
 				{
-					try {
-						File.Delete(fileItem.FullName);
-					} catch(Exception ex) {
-						messageService.ShowError(ex, "Couldn't delete file '" + Path.GetFileName(fileItem.FullName) + "'");
-						break;
-					}
-				}*/
+					File.Delete (fileItem.FullName);
+				}
+				catch (Exception ex)
+				{
+					messageService.ShowError (ex, "Could not delete file '" + Path.GetFileName (fileItem.FullName) + "'");
+				} */
 			}
+		}
+		
+		private void OnPopupMenu (object o, Gtk.PopupMenuArgs args)
+		{
+			ShowPopup ();
+		}
+
+		private void OnButtonReleased (object o, Gtk.ButtonReleaseEventArgs args)
+		{
+			if (args.Event.Button == 3)
+				ShowPopup ();
+		}
+
+		private void ShowPopup ()
+		{
+			Gtk.Menu menu = new Gtk.Menu ();
+
+			Gtk.MenuItem deleteFile = new Gtk.MenuItem ("Delete file");
+			deleteFile.Activated += new EventHandler (OnDeleteFiles);
+			deleteFile.Sensitive = false;
+
+			Gtk.MenuItem renameFile = new Gtk.MenuItem ("Rename file");
+			renameFile.Activated += new EventHandler (OnRenameFile);
+			renameFile.Sensitive = false;
+			
+			menu.Append (deleteFile);
+			menu.Append (renameFile);
+
+			menu.Popup (null, null, null, IntPtr.Zero, 3, Gtk.Global.CurrentEventTime);
+			menu.ShowAll ();
 		}
 		
 		public class FileListItem
