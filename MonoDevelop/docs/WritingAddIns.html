@@ -14,10 +14,11 @@
     intended as a simple and quick overview.</p>
 
 	<h3>Terms</h3>
-	<p>AddIn - what other systems term a plugin, also used for the core
-	application.<br />
-	Pad - content area like the project browser or output pad. <br />
-	View - main content area, like the SourceEditor.<br />
+	<p><b>AddIn</b> - what many other systems refer to as a plugin. In this case the whole application is also a plugin<br />
+	<b>Pad</b> - content area like the project browser or output pad. <br />
+	<b>View</b> - main content area, like the SourceEditor.<br />
+	<b>Language binding</b> - compilation, execution, and project management for a programming language<br />
+	<b>Service</b> - reponsible for one part of the program, for example the MessageService is delegated the reponsiblity of displaying messages to the user.
     </p>
 
     <h3>AddIn assembly</h3>
@@ -36,6 +37,7 @@ namespace MonoDevelop.Services;
 {
 	public class ExampleService : AbstractService
 	{
+		// Do stuff here
 	}
 }
 </pre>
@@ -53,13 +55,15 @@ namespace MonoDevelop.Services;
 </pre>
 </p>
 
-    <h3>.addin file</h3>
+    <h3>.addin.xml file</h3>
+	<p><b>Note:</b> MonoDevelop had to change to .addin.xml extension for
+	using gettext in translations.  SharpDevelop uses .addin</p>
     <p>The addin file basically maps the "entry" points of your code
 	into the various parts of the IDE.  You specify services to load,
     append menus in a certain place, and virtually everything else.
 	Since the entire application is an AddIn there is no limit.
     It supports conditional directives and other advanced constructs.
-    In the following sample MonoDevelopNunit.addin file, you can see
+    In the following sample MonoDevelopNunit.addin.xml file, you can see
 	it specifies the name of the assembly to load, specifies a service
     to load into the /Workspace/Services node, two views and some menus.
     Last, it is important to note the class attribute that is used to
@@ -103,22 +107,28 @@ namespace MonoDevelop.Services;
 </AddIn>
 	</xmp>
 
+	<h3>AddIn tree</h3>
+	<p>The various addins are loaded and merge into an AddInTree, which
+	is how the IDE knows what and where to load</p>
+
     <h3>AddIn xml format</h3>
 	<p>There is an AddIn.xsd file that specifies the required/optional
 	xml format. Perhaps someone would like to make a RelaxNG one also.
-	See data/resources/AddIn.xsd</p>
+	See <code>data/resources/AddIn.xsd</code></p>
 
     <h3>Building and installing</h3>
-    <p>We currently support both running in a self-contained build/
-    directly as well as installing to $(prefix)/lib/monodevelop so you
-    will want to make sure both your .addin file and .dll are placed
-    into the AddIn directory in both places.  Note: this this may change
+    <p>We currently support both running in a self-contained <code>build/</code>
+    directory as well as installing to <code>$(prefix)/lib/monodevelop</code> so you
+    will want to make sure both your .addin.xml file and .dll are placed
+    into the AddIn directory in both places.  <b>Note:</b> this this may change
     at some point in the future.</p>
 
 	<h3>Existing Examples</h3>
 <ul>
   <li>SourceEditor</li>
   <li>CSharpBinding</li>
+  <li>JavaBinding</li>
+  <li>NemerleBinding</li>
   <li>DebuggerAddin</li>
   <li>Monodoc</li>
   <li>StartPage (not fully ported)</li>
@@ -129,7 +139,9 @@ namespace MonoDevelop.Services;
     <p>Although SharpDevelop and MonoDevelop currently use the same
     format this may not always be the case.  Also, while non-gui addins
     could possibly be reused, MonoDevelop and SharpDevelop use different
-    GUI toolkits that will likely prevent sharing many things.</p>
+    GUI toolkits that will likely prevent sharing many things. Any
+	suggestions on making sharing things as easy as possible would be
+	appreciated.</p>
 
     <h3>AddIn ideas</h3>
     <p>There are various things that would be nice to have implemented
@@ -146,8 +158,10 @@ namespace MonoDevelop.Services;
   <li>Also, there are some additional things that SharpDevelop already has that could be ported to MonoDevelop.</li>
 </ul></p>
 
-	<h3>Credits and Errata</h3>
+	<h3>Credits, License, Errata</h3>
 	<p>Send comments to <a href="mailto:jluke@cfl.rr.com">jluke@cfl.rr.com</a> or the <a href="mailto:monodevelop-list@lists.ximian.com">monodevelop mailing list</a>.</p>
-    <p>Last updated March 24, 2004</p>
+	<p>Licensed under the <a href="http://opensource.org/licenses/mit-license.php">MIT License</a></p>
+    <p>Last updated April 14, 2004</p>
   </body>
 </html>
+
