@@ -1,3 +1,8 @@
+2004-04-27  Todd Berman  <tberman@sevenl.net>
+
+	* Gui/Pads/HelpBrowser/MonodocTreePad.cs: Select the content window
+	when you render new docs.
+
 2004-04-27  John Luke  <jluke@cfl.rr.com>
 
 	* Gui/Pads/FileScout.cs: kill

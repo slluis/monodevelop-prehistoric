@@ -107,6 +107,7 @@ namespace MonoDevelop.Gui.Pads
 			foreach (IViewContent content in WorkbenchSingleton.Workbench.ViewContentCollection) {
 				if (content.ContentName == GettextCatalog.GetString ("Documentation")) {
 					((HelpViewer)content).Render (text, matched_node, url);
+					content.WorkbenchWindow.SelectWindow ();
 					return;
 				}
 			}
