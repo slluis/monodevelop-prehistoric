@@ -2,47 +2,50 @@ MCS = mcs
 RUNTIME = mono
 ASSEMBLY = gdl-sharp.dll
 
+API = gdl-api.xml
+RAWAPI = gdl-api.raw
+METADATA = Gdl.metadata
+
 INCLUDE_APIS = \
 	@gtksharp_prefix@/share/gapi/gdk-api.xml \
 	@gtksharp_prefix@/share/gapi/gtk-api.xml \
 	@gtksharp_prefix@/share/gapi/atk-api.xml
 
-CUSTOM_FILES = \
+FILES = \
 	DockItemFlags.cs \
-	DockParamFlags.cs \
+	DockParamFlags.cs
+
+CUSTOM_FILES = \
 	DockLayout.custom \
 	DockObject.custom
 
-custom_files_build = $(addprefix $(srcdir)/, $(CUSTOM_FILES))
+build_sources = $(addprefix $(srcdir)/, $(FILES))
+build_customs = $(addprefix $(srcdir)/, $(CUSTOM_FILES))
 
 all: $(ASSEMBLY)
 
-gdl-api.xml: $(srcdir)/gdl-api.raw $(srcdir)/Gdl.metadata
-	cp $(srcdir)/gdl-api.raw gdl-api.xml
-	chmod u+w gdl-api.xml
-	gapi-fixup --api=gdl-api.xml --metadata=$(srcdir)/Gdl.metadata
+$(API): $(srcdir)/$(RAWAPI) $(srcdir)/$(METADATA)
+	cp $(srcdir)/$(RAWAPI) $(API)
+	chmod u+w $(API)
+	gapi-fixup --api=$(API) --metadata=$(srcdir)/$(METADATA)
 
-generated-stamp: gdl-api.xml $(custom_files_build)
-	gapi-codegen --generate gdl-api.xml --include $(INCLUDE_APIS) --outdir=generated --customdir=$(srcdir) --assembly-name=gdl-sharp && touch generated-stamp
+generated-stamp: $(API) $(build_customs)
+	gapi-codegen --generate $(API) --include $(INCLUDE_APIS) --outdir=generated --customdir=$(srcdir) --assembly-name=gdl-sharp && touch generated-stamp
 
-$(ASSEMBLY): generated-stamp ../../build/bin
+$(ASSEMBLY): $(build_sources) generated-stamp
+	mkdir ../../build/bin
 	$(MCS) --unsafe --target library \
 	-r glib-sharp -r gtk-sharp -r gdk-sharp \
-	--recurse '*.cs' -o $(ASSEMBLY) \
-	&& cp $(ASSEMBLY) ../../build/bin/.
-
-../../build/bin:
-	mkdir ../../build/bin
+	$(build_sources) generated/*.cs /out:$(ASSEMBLY) \
+	&& cp -p $(ASSEMBLY) ../../build/bin/.
 
 gdldocklibdir = $(prefix)/lib/monodevelop/bin
 gdldocklib_DATA = $(ASSEMBLY)
 
-clean:
-	rm -f $(ASSEMBLY)
-	rm -f generated-stamp
+clean-local:
 	rm -rf generated
 
-CLEANFILES=$(ASSEMBLY) generated-stamp generated/* gdl-api.xml
+CLEANFILES = $(ASSEMBLY) generated-stamp $(API)
 
-EXTRA_DIST = gdl-api.raw Gdl.metadata $(CUSTOM_FILES)
+EXTRA_DIST = $(RAWAPI) $(METADATA) $(FILES) $(CUSTOM_FILES)
 

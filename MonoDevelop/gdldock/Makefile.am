@@ -1,1 +1,1 @@
-SUBDIRS=gdl sources
+SUBDIRS = gdl sources

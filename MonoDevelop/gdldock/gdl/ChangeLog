@@ -1,0 +1,4 @@
+2004-03-28  John Luke  <jluke@cfl.rr.com>
+
+	* Makefile.am: cleanup, and make it run only once
+
