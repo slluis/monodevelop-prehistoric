@@ -11,21 +11,23 @@ using System.CodeDom.Compiler;
 using System.Collections;
 using System.IO;
 using System.Diagnostics;
+
 using MonoDevelop.Core.Services;
 using MonoDevelop.Services;
-
-using Gtk;
-using GtkSharp;
-
 using MonoDevelop.Core.Properties;
 
-namespace MonoDevelop.Gui.Pads {
-	public class OpenTaskView : IPadContent {
-		
+using Gtk;
+
+namespace MonoDevelop.Gui.Pads
+{
+	public class OpenTaskView : IPadContent
+	{
 		ResourceService resourceService = (ResourceService) ServiceManager.Services.GetService (typeof (IResourceService));
-		Gtk.ScrolledWindow sw;
+
+		ScrolledWindow sw;
 		Gtk.TreeView view;
-		Gtk.ListStore store;
+		ListStore store;
+		Clipboard clipboard;
 		
 		public Gtk.Widget Control {
 			get {
@@ -57,9 +59,6 @@ namespace MonoDevelop.Gui.Pads {
 			TaskService taskService        = (TaskService) ServiceManager.Services.GetService (typeof(TaskService));
 			IProjectService projectService = (IProjectService) ServiceManager.Services.GetService (typeof(IProjectService));
 			
-
-			
-			
 			store = new Gtk.ListStore (
 				typeof (Gdk.Pixbuf), // image
 				typeof (int),        // line
@@ -73,6 +72,8 @@ namespace MonoDevelop.Gui.Pads {
 				
 			view = new Gtk.TreeView (store);
 			view.RulesHint = true;
+			view.PopupMenu += OnPopupMenu;
+			view.ButtonPressEvent += OnButtonPressed;
 			AddColumns ();
 			
 			sw = new Gtk.ScrolledWindow ();
@@ -84,6 +85,51 @@ namespace MonoDevelop.Gui.Pads {
 			projectService.CombineOpened += new CombineEventHandler (OnCombineOpen);
 			projectService.CombineClosed += new CombineEventHandler (OnCombineClosed);
 			view.RowActivated            += new RowActivatedHandler (OnRowActivated);
+		}
+
+		[GLib.ConnectBefore]
+		void OnButtonPressed (object o, ButtonPressEventArgs args)
+		{
+			if (args.Event.Button == 3)
+				ShowPopup ();
+		}
+
+		void OnPopupMenu (object o, PopupMenuArgs args)
+		{
+			ShowPopup ();
+		}
+
+		void ShowPopup ()
+		{
+			Menu menu = new Menu ();
+			menu.AccelGroup = new AccelGroup ();
+                        ImageMenuItem copy = new ImageMenuItem (Gtk.Stock.Copy, menu.AccelGroup);
+                        copy.Activated += OnTaskCopied;
+			menu.Append (copy);
+			menu.Popup (null, null, null, IntPtr.Zero, 3, Global.CurrentEventTime);
+			menu.ShowAll ();
+		}
+
+		void OnTaskCopied (object o, EventArgs args)
+		{
+			Task task;
+			TreeModel model;
+			TreeIter iter;
+
+			if (view.Selection.GetSelected (out model, out iter))
+			{
+				task = (Task) model.GetValue (iter, 5);
+			}
+			else
+			{
+				// no selection
+				return;
+			}
+
+			clipboard = Clipboard.Get (Gdk.Atom.Intern ("CLIPBOARD", false));
+			clipboard.SetText (task.ToString ());
+			clipboard = Clipboard.Get (Gdk.Atom.Intern ("PRIMARY", false));
+			clipboard.SetText (task.ToString ());
 		}
 		
 		void MarkupCol (Gtk.TreeViewColumn col)
