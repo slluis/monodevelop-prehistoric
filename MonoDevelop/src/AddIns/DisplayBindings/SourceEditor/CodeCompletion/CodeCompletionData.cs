@@ -1,7 +1,7 @@
 // <file>
 //     <copyright see="prj:///doc/copyright.txt"/>
 //     <license see="prj:///doc/license.txt"/>
-//     <owner name="Mike KrÃƒÂ¼ger" email="mike@icsharpcode.net"/>
+//     <owner name="Mike KrÃ?Â¼ger" email="mike@icsharpcode.net"/>
 //     <version value="$version"/>
 // </file>
 
@@ -42,6 +42,15 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 				return asvc;
 			}
 		}
+
+		public string CompletionString 
+		{
+			get 
+			{
+				return completionString;
+			}
+		}
+		
 		
 		public int Overloads
 		{

@@ -27,6 +27,11 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 		string Description {
 			get;
 		}
+
+		string CompletionString 
+		{
+			get;
+		}
 		
 		void InsertAction(SourceEditorView control);
 	}

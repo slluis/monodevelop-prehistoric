@@ -1,3 +1,16 @@
+2004-04-09  Todd Berman  <tberman@sevenl.net>
+
+	* Gui/SourceEditorBuffer.cs:
+	* Gui/SourceEditorView.cs:
+	* CodeCompletion/ICompletionData.cs:
+	* CodeCompletion/CodeCompletionData.cs:
+	* CodeCompletion/CompletionWindow.cs:
+	* CodeCompletion/CommentCompletionDataProvider.cs:
+	* CodeCompletion/TemplateCompletionDataProvider.cs:
+	add support for xcode style type ahead completion. It looks cool, and
+	is actually pretty useful.
+	
+
 2004-04-03  Todd Berman  <tberman@sevenl.net>
 
 	* Gui/SourceEditorView.cs:

@@ -50,6 +50,14 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 					return Stock.Method;
 				}
 			}
+
+			public string CompletionString
+			{
+				get 
+				{
+					return "";
+				}
+			}
 			
 			public string[] Text
 			{

@@ -26,6 +26,7 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 		TreeStore store;
 		TextMark triggeringMark;
 		int origOffset;
+		int num_in = 0;
 		DeclarationViewWindow declarationviewwindow = new DeclarationViewWindow ();
 		
 		string GetTypedString ()
@@ -70,10 +71,12 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 					LostFocusListView (null, null);
 					return true;
 				case (char) Gdk.Key.BackSpace:
+					num_in--;
 					control.SimulateKeyPress (ref e);
 					if (insertLength <= -1) {
 						LostFocusListView (null, null);
 					}
+					RowActivated (null, null);
 					return true;
 				}
 				break;
@@ -125,6 +128,8 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 					}
 					break;
 			}
+
+			num_in++;
 
 			ShuffleSelection (false);
 	
@@ -247,7 +252,7 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 			int tx, ty;
 			control.GdkWindow.GetOrigin (out tx, out ty);
 			//Console.WriteLine ("Moving to: " + (tx + wx) + " . " + (ty + wy));
-			System.Threading.Thread.Sleep (100);
+			//System.Threading.Thread.Sleep (50);
 			ShowAll ();
 			Move (tx + wx, ty + wy);
 			Present ();
@@ -298,6 +303,7 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 				TreeIter iter;
 				listView.Selection.GetSelected (out foo, out iter);
 				ICompletionData data = (ICompletionData) store.GetValue (iter, 2);
+				control.buf.DropCompleteAhead ();
 				DeleteInsertion ();
 				data.InsertAction (control);
 				LostFocusListView (null, null);
@@ -309,6 +315,7 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 			control.HasFocus = true;
 			declarationviewwindow.HideAll ();
 			this.Hide ();
+			control.buf.DropCompleteAhead ();
 		}
 		
 		void FillList (bool firstTime, char ch)
@@ -317,7 +324,7 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 			if (completionData == null || completionData.Length == 0) {
 				return;
 			}
-
+			
 			foreach (ICompletionData data in completionData) {
 				store.AppendValues (data.Text[0], data.Image, data);
 			}
@@ -329,11 +336,28 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 		{
 			Gtk.TreeIter iter;
 			Gtk.TreeModel model;
-	
+			
 			if (listView.Selection.GetSelected (out model, out iter)){
 				ICompletionData data = (ICompletionData) store.GetValue (iter, 2);
 				if (data == null)
 					return;
+				
+				int inst = insertLength;
+				if (inst == -1) {
+					LostFocusListView (null, null);
+					return;
+				}
+				if (inst >= 1) {
+					DeleteInsertion ();
+					int l = inst > data.CompletionString.Length ? data.CompletionString.Length : inst;
+					control.buf.InsertAtCursor (data.CompletionString.Substring (0, l));
+				}
+				control.buf.DropCompleteAhead ();
+				if (data.CompletionString.Length > inst) {
+					control.buf.DropCompleteAhead ();
+					control.buf.CompleteAhead (data.CompletionString.Substring(inst));
+				}
+					
 				// This code is for sizing the treeview properly.
 				Gtk.TreePath path = store.GetPath (iter);
 				Gdk.Rectangle backRect = listView.GetBackgroundArea (path, (Gtk.TreeViewColumn)listView.Columns[0]);
@@ -342,7 +366,8 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 
 				// FIXME: This code is buggy, and generates a bad placement sometimes when you jump a lot.
 				// but it is better than 0,0
-                                // This code is for sizing the treeview properly.
+				// This code is for sizing the treeview properly.
+				
 				Gdk.Rectangle rect = listView.GetCellArea (path, (Gtk.TreeViewColumn)listView.Columns[0]);
 				int listpos_x = 0, listpos_y = 0;
 				while (listpos_x == 0)

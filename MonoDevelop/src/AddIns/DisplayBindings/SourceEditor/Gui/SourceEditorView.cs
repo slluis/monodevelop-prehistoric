@@ -23,7 +23,7 @@ namespace MonoDevelop.SourceEditor.Gui
 		private static GLib.GType gtype;
 		public readonly SourceEditor ParentEditor;
 		internal IFormattingStrategy fmtr;
-		SourceEditorBuffer buf;
+		public SourceEditorBuffer buf;
 		int lineToMark = -1;
 		CompletionWindow completionWnd;
 		bool codeCompleteEnabled;

@@ -98,6 +98,14 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 					return new string[] { text };
 				}
 			}
+
+			public string CompletionString
+			{
+				get 
+				{
+					return "";
+				}
+			}
 			
 			public string Description
 			{

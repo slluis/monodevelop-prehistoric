@@ -62,12 +62,18 @@ namespace MonoDevelop.SourceEditor.Gui
 	{	
 		SourceLanguagesManager slm = new SourceLanguagesManager ();
 		TextTag markup;
+		TextTag complete_ahead;
+		TextMark complete_end;
 		
 		public SourceEditorBuffer () : base (new SourceTagTable ())
 		{
 			markup = new TextTag ("breakpoint");
 			markup.Background = "yellow";
 			TagTable.Add (markup);
+			complete_ahead = new TextTag ("complete_ahead");
+			complete_ahead.Foreground = "grey";
+			TagTable.Add (complete_ahead);
+			complete_end = CreateMark (null, StartIter, true);
 		}
 		
 		public void MarkupLine (int linenumber)
@@ -85,6 +91,26 @@ namespace MonoDevelop.SourceEditor.Gui
 			RemoveTag (markup, StartIter, EndIter);
 		}
 
+		public void DropCompleteAhead ()
+		{
+			if (GetIterAtMark (complete_end).Offset == 0)
+				return;
+			RemoveTag (complete_ahead, GetIterAtMark (InsertMark), GetIterAtMark (complete_end));
+			Delete (GetIterAtMark (InsertMark), GetIterAtMark (complete_end));
+			MoveMark (complete_end, GetIterAtOffset (0));
+		}
+
+		public void CompleteAhead (string what)
+		{
+			DropCompleteAhead ();
+			InsertWithTags (GetIterAtMark (InsertMark), what, new TextTag[] 
+							{ complete_ahead });
+			TextIter it = GetIterAtMark (InsertMark);
+			MoveMark (complete_end, it);
+			it.BackwardChars (what.Length);
+			PlaceCursor (it);
+		}
+		
 		public void LoadFile (string file, string mime)
 		{
 			LoadText (File.OpenText (file).ReadToEnd (), mime);		
