@@ -30,7 +30,7 @@ DLL=../../../../build/AddIns/AddIns/BackendBindings/CSharpBinding.dll
 all: $(DLL)
 
 $(DLL): $(SOURCES)
-	mcs /debug /out:$(DLL) /target:library /r:System.Drawing.dll \
+	@ mcs /debug /out:$(DLL) /target:library /r:System.Drawing.dll \
 		/r:../../../../build/bin/ICSharpCode.Core.dll \
 		/r:../../../../build/bin/ICSharpCode.TextEditor.dll \
 		/r:../../../../build/bin/SharpDevelop.Base.dll \

@@ -35,7 +35,7 @@ DLL=../../../build/bin/SharpDevelop.exe
 all: $(DLL)
 
 $(DLL): $(SOURCES)
-	mcs /debug /out:$(DLL) /r:System.Drawing.dll \
+	@ mcs /debug /out:$(DLL) /r:System.Drawing.dll \
 		/r:../../../build/bin/ICSharpCode.Core.dll \
 		/r:../../../build/bin/SharpDevelop.Base.dll \
 		/define:GTK /r:gtk-sharp.dll /r:gdk-sharp.dll\

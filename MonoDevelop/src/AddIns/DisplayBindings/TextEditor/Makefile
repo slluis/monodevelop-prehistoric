@@ -66,7 +66,7 @@ DLL=../../../../build/bin/SharpDevelop.DefaultTexteditor.dll
 all: $(DLL)
 
 $(DLL): $(SOURCES) ../../../../data/resources/glade/texteditoraddin.glade
-	mcs /debug /out:$(DLL) /target:library /r:System.Drawing.dll \
+	@ mcs /debug /out:$(DLL) /target:library /r:System.Drawing.dll \
 		/r:../../../../build/bin/ICSharpCode.Core.dll \
 		/r:../../../../build/bin/ICSharpCode.TextEditor.dll \
 		/r:../../../../build/bin/SharpDevelop.Base.dll \

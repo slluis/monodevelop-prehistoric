@@ -72,4 +72,4 @@ DLL=../../../build/bin/ICSharpCode.SharpAssembly.dll
 all: $(DLL)
 
 $(DLL): $(SOURCES)
-	mcs /debug /out:$(DLL) /target:library $(SOURCES)
+	@ mcs /debug /out:$(DLL) /target:library $(SOURCES)

@@ -1,38 +1,49 @@
 PROGRAM=build/bin/SharpDevelop.exe
 MONOPAD=build/bin/MonoPad.exe
-
+QMAKE=@ $(MAKE)
 $(PROGRAM): SharpDevelop.Base SharpDevelop.DefaultTexteditor CSharpBinding StartPage
-	cd src/Main/StartUp && make
+	@ echo Building $@
+	$(QMAKE) -C src/Main/StartUp
 
 $(MONOPAD): ICSharpCode.TextEditor
-	cd samples/MonoPad && make
+	@ echo Building $@
+	$(QMAKE) -C samples/MonoPad
 
 StartPage:
-	cd src/AddIns/Misc/StartPage && make
+	@ echo Building $@
+	$(QMAKE) -C src/AddIns/Misc/StartPage
 
 MonoDevelop.Gui:
-	cd src/Libraries/MonoDevelop.Gui && make
+	@ echo Building $@
+	$(QMAKE) -C src/Libraries/MonoDevelop.Gui
 
 CSharpBinding:
-	cd src/AddIns/BackendBindings/CSharpBinding && make
+	@ echo Building $@
+	$(QMAKE) -C src/AddIns/BackendBindings/CSharpBinding
 
 SharpDevelop.DefaultTexteditor: ICSharpCode.TextEditor
-	cd src/AddIns/DisplayBindings/TextEditor && make
+	@ echo Building $@
+	$(QMAKE) -C src/AddIns/DisplayBindings/TextEditor
 
 SharpDevelop.Base: ICSharpCode.Core ICSharpCode.SharpRefactory ICSharpCode.SharpAssembly MonoDevelop.Gui
-	cd src/Main/Base && make
+	@ echo Building $@
+	$(QMAKE) -C src/Main/Base
 
 ICSharpCode.Core:
-	cd src/Main/Core && make
+	@ echo Building $@
+	$(QMAKE) -C src/Main/Core
 
 ICSharpCode.TextEditor:
-	cd src/Libraries/ICSharpCode.TextEditor && make 
+	@ echo Building $@
+	$(QMAKE) -C src/Libraries/ICSharpCode.TextEditor 
 
 ICSharpCode.SharpRefactory:
-	cd src/Libraries/SharpRefactory && make
+	@ echo Building $@
+	$(QMAKE) -C src/Libraries/SharpRefactory
 
 ICSharpCode.SharpAssembly:
-	cd src/Libraries/SharpAssembly && make
+	@ echo Building $@
+	$(QMAKE) -C src/Libraries/SharpAssembly
 
 clean:
 	find ./build/ -name '*.dll' | xargs rm -f

@@ -66,5 +66,5 @@ RESOURCES= \
 all: $(DLL)
 
 $(DLL): $(SOURCES)
-	mcs /debug /out:$(DLL) /target:library /r:System.Drawing.dll /define:LINUX \
+	@ mcs /debug /out:$(DLL) /target:library /r:System.Drawing.dll /define:LINUX \
 		$(RESOURCES) $(SOURCES)

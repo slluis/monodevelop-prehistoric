@@ -354,7 +354,7 @@ DLL=../../../build/bin/SharpDevelop.Base.dll
 all: $(DLL)
 
 $(DLL): $(SOURCES) ../../../data/resources/glade/Base.glade
-	mcs /debug /out:$(DLL) /target:library /r:System.Drawing.dll /r:ICSharpCode.SharpZipLib.dll \
+	@ mcs /debug /out:$(DLL) /target:library /r:System.Drawing.dll /r:ICSharpCode.SharpZipLib.dll \
 		/r:../../../build/bin/ICSharpCode.SharpRefactory.dll /r:../../../build/bin/ICSharpCode.Core.dll \
 		/r:../../../build/bin/ICSharpCode.SharpAssembly.dll \
 		/r:../../../build/bin/MonoDevelop.Gui.dll \
