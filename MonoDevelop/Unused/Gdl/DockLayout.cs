@@ -129,7 +129,9 @@ namespace Gdl
 			if (File.Exists (file))
 			{
 				doc = new XmlDocument ();
-				doc.Load (file);
+				Stream s = File.OpenRead (file);
+				doc.Load (s);
+				s.Close ();
 				// minimum validation: test root element
 				if (this.RootNode != null) {
 					// FIXME: I cheated here
@@ -232,6 +234,8 @@ namespace Gdl
 			XmlTextWriter writer = new XmlTextWriter (file, System.Text.Encoding.UTF8);
 			writer.Formatting = Formatting.Indented;
 			doc.WriteTo (writer);
+			writer.Flush ();
+			writer.Close ();
 			dirty = false;
 			// notify dirty
 			return true;
