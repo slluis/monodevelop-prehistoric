@@ -30,13 +30,14 @@ namespace ICSharpCode.SharpDevelop.Gui
 	public class SdiWorkbenchLayout : IWorkbenchLayout
 	{
 		static PropertyService propertyService = (PropertyService)ServiceManager.Services.GetService(typeof(PropertyService));
-		static string configFile = propertyService.ConfigDirectory + "MdiLayoutConfig.xml";
+		static string configFile = propertyService.ConfigDirectory + "DefaultEditingLayout.xml";
 
 		private IWorkbench workbench;
 		Window wbWindow;
 		Container rootWidget;
 		Container toolbarContainer;
 		Dock dock;
+		DockLayout dockLayout;
 		Notebook tabControl;
 
 		//ICSharpCode.SharpDevelop.Gui.Components.OpenFileTab tabControl = new ICSharpCode.SharpDevelop.Gui.Components.OpenFileTab();
@@ -91,8 +92,10 @@ namespace ICSharpCode.SharpDevelop.Gui
 			
 			// Create the docking widget and add it to the window.
 			dock = new Dock ();
+			DockBar dockBar = new DockBar (dock);
 			Gtk.HBox dockBox = new HBox (false, 5);
 			dockBox.PackStart (dock, true, true, 0);
+			dockBox.PackStart (dockBar, false, true, 0);
 			vbox.PackStart (dockBox, true, true, 0);
 
 			// Create the notebook for the various documents.
@@ -146,16 +149,7 @@ namespace ICSharpCode.SharpDevelop.Gui
 			//tabControl.SwitchPage += new EventHandler(ActiveMdiChanged);
 			//tabControl.SelectionChanged += new EventHandler(ActiveMdiChanged);
 			
-			try {
-				if (File.Exists(configFile)) {
-					// FIXME: GTKize
-					//dockManager.LoadConfigFromFile(configFile);
-				} else {
-					CreateDefaultLayout();
-				}
-			} catch (Exception) {
-				Console.WriteLine("can't load docking configuration, version clash ?");
-			}
+			CreateDefaultLayout();
 			RedrawAllComponents();
 			wbWindow.ShowAll ();
 		}
@@ -228,11 +222,19 @@ namespace ICSharpCode.SharpDevelop.Gui
 				}
 			}
 			//Console.WriteLine(" Default Layout created.");
+			dockLayout = new DockLayout (dock);
+			if (File.Exists (configFile)) {
+				dockLayout.LoadFromFile (configFile);
+			} else {
+				dockLayout.LoadFromFile ("../data/options/DefaultEditingLayout.xml");
+			}
+			dockLayout.LoadLayout ("__default__");
 		}		
 
 		public void Detach()
 		{
 			Console.WriteLine("Call to SdiWorkSpaceLayout.Detach");
+			dockLayout.SaveToFile (configFile);
 			rootWidget.Remove(((DefaultWorkbench)workbench).TopMenu);
 			foreach (Gtk.Widget w in toolbarContainer.Children) {
 				toolbarContainer.Remove(w);
