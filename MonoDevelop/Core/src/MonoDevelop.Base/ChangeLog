@@ -1,3 +1,8 @@
+2005-02-02  John Luke  <john.luke@gmail.com>
+
+	* Parser/ICompilationUnitBase.cs:
+	* Parser/Implementations/AbstractCompilationUnit.cs: adjust to ErrorInfo 
+
 2005-01-31  Lluis Sanchez Gual  <lluis@novell.com>
 
 	* Services/Project/DefaultProjectService.cs: In BuildActiveCombine(),

@@ -7,6 +7,7 @@
 using System;
 using System.Collections;
 using System.Collections.Specialized;
+using ICSharpCode.SharpRefactory.Parser;
 
 namespace MonoDevelop.Internal.Parser
 {
@@ -43,7 +44,7 @@ namespace MonoDevelop.Internal.Parser
 		protected bool errorsDuringCompile = false;
 		protected object tag               = null;
 		protected ArrayList foldingRegions = new ArrayList();
-		protected string erroroutput = String.Empty;
+		protected ErrorInfo[] errorInfo;
 		
 		public bool ErrorsDuringCompile {
 			get {
@@ -54,12 +55,12 @@ namespace MonoDevelop.Internal.Parser
 			}
 		}
 
-		public string ErrorOutput {
+		public ErrorInfo[] ErrorInformation {
 			get {
-				return erroroutput;
+				return errorInfo;
 			}
 			set {
-				erroroutput = value;
+				errorInfo = value;
 			}
 		}
 		

@@ -7,6 +7,7 @@
 
 using System.Collections;
 using System.Collections.Specialized;
+using ICSharpCode.SharpRefactory.Parser;
 
 namespace MonoDevelop.Internal.Parser
 {
@@ -17,7 +18,7 @@ namespace MonoDevelop.Internal.Parser
 			set;
 		}
 
-		string ErrorOutput {
+		ErrorInfo[] ErrorInformation {
 			get;
 			set;
 		}

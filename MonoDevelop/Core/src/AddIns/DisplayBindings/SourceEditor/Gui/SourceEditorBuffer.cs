@@ -15,6 +15,7 @@ using System.IO;
 using System.Collections;
 using System.Runtime.InteropServices;
 
+using ICSharpCode.SharpRefactory.Parser;
 using GtkSourceView;
 	
 namespace MonoDevelop.SourceEditor.Gui
@@ -74,7 +75,6 @@ namespace MonoDevelop.SourceEditor.Gui
 		SourceEditorView view;
 		int highlightLine = -1;
 		bool underlineErrors = true;
-		ArrayList points;
 
 		IParserService ps = (IParserService)ServiceManager.GetService (typeof (IParserService));
 
@@ -90,7 +90,6 @@ namespace MonoDevelop.SourceEditor.Gui
 				underlineErrors = value;
 				/* still too broken to leave on
 				if (underlineErrors) {
-					points = new ArrayList ();
 					ps.ParseInformationChanged += (ParseInformationEventHandler) Runtime.DispatchService.GuiDispatch (new ParseInformationEventHandler (ParseChanged));
 				}
 				else {
@@ -122,48 +121,39 @@ namespace MonoDevelop.SourceEditor.Gui
 			TagTable.Add (highlightLineTag);
 		}
 		
-		public void ParseChanged (object o, ParseInformationEventArgs e)
+		void ParseChanged (object o, ParseInformationEventArgs e)
 		{
 			if (view != null) {
 				if (view.ParentEditor.DisplayBinding.ContentName == e.FileName) {
+
+					RemoveTag (compilation_error, StartIter, EndIter);
+
 					if (e.ParseInformation.MostRecentCompilationUnit.ErrorsDuringCompile) {
-						string[] errors = e.ParseInformation.MostRecentCompilationUnit.ErrorOutput.Split ('\n');
-						foreach (string error in errors) {
-							string[] pieces = error.Split (' ');
-							if (pieces.Length == 1)
-								continue;
-							int[] point = new int[2];
-							point[0] = Convert.ToInt32 (pieces[2]) - 1;
-							point[1] = Convert.ToInt32 (pieces[4]) - 1;
-							points.Add (point);
+						ErrorInfo[] errors = e.ParseInformation.MostRecentCompilationUnit.ErrorInformation;
+						foreach (ErrorInfo error in errors) {
+							// adjust to 0 base
+							DrawError (error.Line - 1, error.Column - 1);
 						}
 					}
-					else {
-						points.Clear ();
-					}
-					DrawErrors ();
 				}
 			}
 		}
 
-		bool DrawErrors ()
+		// FIXME: underlines under keywords get ignored
+		void DrawError (int line, int column)
 		{
-			// FIXME: clear old ones nicer
-			RemoveTag (compilation_error, StartIter, EndIter);
-			if (!underlineErrors)
-				return false;
+			//Console.WriteLine ("error at: {0} {1}", line, column);
+			TextIter start = GetIterAtLine (line);
+			if (column < start.CharsInLine)
+				start.LineOffset = column;
 
-			foreach (int[] point in points) {
-				//Console.WriteLine ("Error is line: {0} col: {1}", point[0], point[1]);
-				// FIXME: maybe we can be more precise
-				TextIter start = GetIterAtLineOffset (point[0], point[1]);
-				TextIter end = start;
+			TextIter end = start;
+			if (!end.EndsLine ())
 				end.ForwardToLineEnd ();
-				ApplyTag (compilation_error, start, end);
-			}
 
-			// keep it running
-			return true;
+			// FIXME: we can either skip or go backwards
+			if (GetText (start, end, false).Trim () != "")
+				ApplyTag (compilation_error, start, end);
 		}		
 		
 		public void MarkupLine (int linenumber)

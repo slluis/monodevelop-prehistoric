@@ -80,6 +80,7 @@ REFS = /r:System.Drawing.dll \
 	/r:$(top_builddir)/build/bin/MonoDevelop.Base.dll \
 	/r:$(top_builddir)/build/bin/MonoDevelop.Gui.Utils.dll \
 	/r:$(top_builddir)/build/bin/MonoDevelop.Gui.Widgets.dll \
+	/r:$(top_builddir)/build/bin/ICSharpCode.SharpRefactory.dll \
 	$(GTK_SHARP_LIBS) \
 	$(GNOME_VFS_SHARP_LIBS) \
 	$(GLADE_SHARP_LIBS) \

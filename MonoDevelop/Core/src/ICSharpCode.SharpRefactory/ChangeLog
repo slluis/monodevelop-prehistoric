@@ -1,5 +1,11 @@
 2005-01-31  John Luke  <john.luke@gmail.com>
 
+	* src/Parser/generated/Error.cs: lets not
+	force people to parse the error message
+	instead use an ErrorInfo struct
+
+2005-01-31  John Luke  <john.luke@gmail.com>
+
 	* src/Lexer/Lexer.cs:
 	* src/Parser/generated/cs.ATG:
 	* src/Parser/generated/Parser.cs:

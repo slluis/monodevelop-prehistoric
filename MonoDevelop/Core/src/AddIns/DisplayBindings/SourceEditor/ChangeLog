@@ -1,3 +1,8 @@
+2005-02-01  John Luke  <john.luke@gmail.com>
+
+	* Gui.SourceEditorBuffer.cs: use ErrorInfo
+	and error underline improvements
+
 2005-01-31  John Luke  <john.luke@gmail.com>
 
 	* EditorBindings.glade:

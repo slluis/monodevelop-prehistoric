@@ -98,7 +98,7 @@ namespace CSharpBinding.Parser
 			visitor.Visit(p.compilationUnit, null);
 			visitor.Cu.ErrorsDuringCompile = p.Errors.count > 0;
 			visitor.Cu.Tag = p.compilationUnit;
-			visitor.Cu.ErrorOutput = p.Errors.ErrorOutput;
+			visitor.Cu.ErrorInformation = p.Errors.ErrorInformation;
 			RetrieveRegions(visitor.Cu, lexer.SpecialTracker);
 			foreach (IClass c in visitor.Cu.Classes)
 				c.Region.FileName = fileName;
