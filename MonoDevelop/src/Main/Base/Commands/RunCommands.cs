@@ -210,7 +210,7 @@ namespace MonoDevelop.Commands
 							if (projectService.NeedsCompiling) {
 								projectService.CompileCombine();
 							}
-							if (taskService.Tasks.Count == 0) {
+							if (taskService.Errors == 0) {
 								projectService.OnBeforeStartProject();
 								projectService.CurrentOpenCombine.Execute();
 							}
@@ -222,7 +222,7 @@ namespace MonoDevelop.Commands
 					} else {
 						if (WorkbenchSingleton.Workbench.ActiveWorkbenchWindow != null) {
 							new Compile().RunWithWait();
-							if (!taskService.SomethingWentWrong) {
+							if (taskService.Errors == 0) {
 								LanguageBindingService languageBindingService = (LanguageBindingService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(LanguageBindingService));
 								ILanguageBinding binding = languageBindingService.GetBindingPerFileName(WorkbenchSingleton.Workbench.ActiveWorkbenchWindow.ViewContent.ContentName);
 								if (binding != null) {

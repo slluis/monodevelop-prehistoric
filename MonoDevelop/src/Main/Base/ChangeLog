@@ -1,3 +1,9 @@
+2004-04-14  Pawel Rozanski  <tokugawa@afn.no-ip.org>
+
+	* Commands/RunCommands.cs:
+	* Internal/Project/Combine/Combine.cs:
+	fix bug #56864.
+
 2004-04-13  John Luke  <jluke@cfl.rr.com>
 
 	* Gui/BrowserDisplayBinding/HtmlViewPane.cs: use Navbar control

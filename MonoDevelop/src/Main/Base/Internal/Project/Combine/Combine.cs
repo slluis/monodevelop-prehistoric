@@ -519,7 +519,7 @@ namespace MonoDevelop.Internal.Project
 			TaskService taskService = (TaskService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(TaskService));
 			foreach (ProjectCombineEntry entry in allProjects) {
 				entry.Build(doBuildAll);
-				if (taskService.SomethingWentWrong) {
+				if (taskService.Errors > 0) {
 					break;
 				}
 			}
