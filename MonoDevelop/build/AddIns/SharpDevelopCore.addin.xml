@@ -129,7 +129,7 @@
 	
 	<Extension path = "/SharpDevelop/Views/ProjectBrowser/ContextMenu/ReferenceFolderNode">
                 <MenuItem id = "AddReference"
-	                  _label = "Add Reference" 
+	                  _label = "Edit References"
 	                  class = "MonoDevelop.Commands.ProjectBrowser.AddReferenceToProject"/>
 	</Extension>
 	

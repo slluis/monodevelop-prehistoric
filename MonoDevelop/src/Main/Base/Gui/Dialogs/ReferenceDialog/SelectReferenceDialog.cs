@@ -31,7 +31,7 @@ namespace MonoDevelop.Gui.Dialogs
 		[Glade.Widget] Gtk.TreeView  ReferencesTreeView;
 		[Glade.Widget] Gtk.Button    okbutton;
 		[Glade.Widget] Gtk.Button    cancelbutton;
-		[Glade.Widget] Gtk.Button    RemoveReferencesButton;
+		[Glade.Widget] Gtk.Button    RemoveReferenceButton;
 		[Glade.Widget] Gtk.Notebook  mainBook;
 		GacReferencePanel gacRefPanel;
 
@@ -95,7 +95,17 @@ namespace MonoDevelop.Gui.Dialogs
 			mainBook.AppendPage (new ProjectReferencePanel (this), new Gtk.Label (GettextCatalog.GetString ("Projects")));
 			mainBook.AppendPage (new AssemblyReferencePanel (this), new Gtk.Label (GettextCatalog.GetString (".Net Assembly")));
 			//comTabPage.Controls.Add(new COMReferencePanel(this));
+			ReferencesTreeView.Selection.Changed += new EventHandler (onChanged);
 			AddReferenceDialog.ShowAll ();
+			onChanged (null, null);
+		}
+
+		void onChanged (object o, EventArgs e)
+		{
+			if (ReferencesTreeView.Selection.CountSelectedRows () > 0)
+				RemoveReferenceButton.Sensitive = true;
+			else
+				RemoveReferenceButton.Sensitive = false;
 		}
 
 		void AddNonGacReference (ProjectReference refInfo)
@@ -166,7 +176,19 @@ namespace MonoDevelop.Gui.Dialogs
 						gacRefPanel.SignalRefChange ((string)refTreeStore.GetValue (iter, 2), false);
 						break;
 				}
-				refTreeStore.Remove (ref iter);
+				Gtk.TreeIter newIter = iter;
+				if (refTreeStore.IterNext (out newIter)) {
+					ReferencesTreeView.Selection.SelectIter (newIter);
+					refTreeStore.Remove (ref iter);
+				} else {
+					Gtk.TreePath path = refTreeStore.GetPath (iter);
+					if (path.Prev ()) {
+						ReferencesTreeView.Selection.SelectPath (path);
+						refTreeStore.Remove (ref iter);
+					} else {
+						refTreeStore.Remove (ref iter);
+					}
+				}
 			}
 		}
 	}

@@ -1,5 +1,12 @@
 2004-05-26  Todd Berman  <tberman@sevenl.net>
 
+	* Gui/Dialogs/ReferenceDialog/SelectReferenceDialog.cs: fix up
+	per edd's suggestions. Now we select a valid node if possible when
+	you remove, and the remove button is only sensitive when an iter is
+	selected.
+
+2004-05-26  Todd Berman  <tberman@sevenl.net>
+
 	* Services/ProjectService/DefaultProjectService.cs: move the call to
 	GenerateMakefiles when the solution is closed to somewhere that
 	actually generates a makefile.
