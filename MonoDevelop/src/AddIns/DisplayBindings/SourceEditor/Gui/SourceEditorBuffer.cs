@@ -108,21 +108,22 @@ namespace MonoDevelop.SourceEditor.Gui {
 		}
 		
 		bool IClipboardHandler.EnableCut {
-			get { return HasSelection; }
+			get { return true; }
 		}
 		
 		bool IClipboardHandler.EnableCopy {
-			get { return HasSelection; }
+			get { return true; }
 		}
 		
 		bool IClipboardHandler.EnablePaste {
 			get {
-				return clipboard.WaitIsTextAvailable ();
+				return true;
+				//return clipboard.WaitIsTextAvailable ();
 			}
 		}
 		
 		bool IClipboardHandler.EnableDelete {
-			get { return HasSelection; }
+			get { return true; }
 		}
 		
 		bool IClipboardHandler.EnableSelectAll {
@@ -131,22 +132,26 @@ namespace MonoDevelop.SourceEditor.Gui {
 		
 		void IClipboardHandler.Cut (object sender, EventArgs e)
 		{
-			CutClipboard (clipboard, true);
+			if (HasSelection)
+				CutClipboard (clipboard, true);
 		}
 		
 		void IClipboardHandler.Copy (object sender, EventArgs e)
 		{
-			CopyClipboard (clipboard);
+			if (HasSelection)
+				CopyClipboard (clipboard);
 		}
 		
 		void IClipboardHandler.Paste (object sender, EventArgs e)
 		{
-			PasteClipboard (clipboard);
+			if (clipboard.WaitIsTextAvailable ())
+				PasteClipboard (clipboard);
 		}
 		
 		void IClipboardHandler.Delete (object sender, EventArgs e)
 		{
-			DeleteSelection (true, true);
+			if (HasSelection)
+				DeleteSelection (true, true);
 		}
 		
 		void IClipboardHandler.SelectAll (object sender, EventArgs e)
