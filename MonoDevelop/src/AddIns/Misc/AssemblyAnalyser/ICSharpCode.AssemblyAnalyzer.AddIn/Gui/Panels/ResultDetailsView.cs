@@ -31,6 +31,7 @@ namespace MonoDevelop.AssemblyAnalyser
 
 		public ResultDetailsView()
 		{
+			Console.WriteLine ("new result details view");
 			PropertyService propertyService = (PropertyService) ServiceManager.GetService (typeof (PropertyService));
 			//htmlControl.CascadingStyleSheet = propertyService.DataDirectory + Path.DirectorySeparatorChar +
 			//                                  "resources" + Path.DirectorySeparatorChar +
@@ -39,6 +40,7 @@ namespace MonoDevelop.AssemblyAnalyser
 			
 			ClearContents();
 			this.OpenUri += new OpenUriHandler (HtmlControlBeforeNavigate);
+			this.Show ();
 		}
 		
 		void HtmlControlBeforeNavigate(object sender, OpenUriArgs e)

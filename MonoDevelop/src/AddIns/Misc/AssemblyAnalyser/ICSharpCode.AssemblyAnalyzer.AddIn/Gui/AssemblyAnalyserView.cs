@@ -25,7 +25,7 @@ namespace MonoDevelop.AssemblyAnalyser
 	{
 		public static AssemblyAnalyserView AssemblyAnalyserViewInstance = null;
 		
-		AssemblyTreeControl assemblyAnalyserControl;
+		AssemblyAnalyserControl assemblyAnalyserControl;
 		
 		AppDomain        analyserDomain  = null;
 		AssemblyAnalyser currentAnalyser = null;
@@ -59,7 +59,7 @@ namespace MonoDevelop.AssemblyAnalyser
 		public AssemblyAnalyserView()
 		{
 			AssemblyAnalyserViewInstance = this;
-			assemblyAnalyserControl = new AssemblyTreeControl ();
+			assemblyAnalyserControl = new AssemblyAnalyserControl ();
 			IProjectService projectService = (IProjectService) ServiceManager.GetService (typeof (IProjectService));
 			projectService.StartBuild += new EventHandler (ProjectServiceStartBuild);
 			projectService.EndBuild += new EventHandler (ProjectServiceEndBuild);

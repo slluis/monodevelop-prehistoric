@@ -41,6 +41,7 @@ namespace MonoDevelop.AssemblyAnalyser
 			
 			assembliesStore.AppendValues ("AssembliesNode");
 			this.Selection.Changed += AssemblyTreeViewSelectionChanged;
+			this.Show ();
 		}
 		
 		void AssemblyTreeViewSelectionChanged (object sender, EventArgs e)

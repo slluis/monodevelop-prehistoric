@@ -41,6 +41,7 @@ namespace MonoDevelop.AssemblyAnalyser
 			this.AppendColumn ("Item", new CellRendererText (), "text", 3);
 			this.Model = store;
 			this.HeadersVisible = true;
+			this.Show ();
 		}
 		
 		public void ClearContents ()

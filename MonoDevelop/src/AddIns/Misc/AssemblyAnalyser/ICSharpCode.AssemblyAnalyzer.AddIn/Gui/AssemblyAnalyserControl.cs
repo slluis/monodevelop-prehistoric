@@ -35,9 +35,13 @@ namespace MonoDevelop.AssemblyAnalyser
 			
 			vert.Add1 (resultListControl);
 			vert.Add2 (resultDetailsView);
+			
+			horiz.Position = 200;
+			vert.Position = 200;
 
 			resultListControl.ResultDetailsView = resultDetailsView;
 			assemblyTreeControl.ResultListControl = resultListControl;
+			this.Add (horiz);
 			this.ShowAll ();
 		}
 		
