@@ -45,7 +45,6 @@ namespace ICSharpCode.SharpDevelop.Commands
 				for (int i = 0; i < recentOpen.RecentFile.Count; ++i) {
 					string accelaratorKeyPrefix = i < 10 ? "&" + ((i + 1) % 10).ToString() + " " : "";
 					items[i] = new SdMenuCommand(null, null, accelaratorKeyPrefix + recentOpen.RecentFile[i].ToString(), new EventHandler(LoadRecentFile));
-					items[i].Key = recentOpen.RecentFile[i].ToString ();
 					items[i].Tag = recentOpen.RecentFile[i].ToString();
 					items[i].Description = stringParserService.Parse(resourceService.GetString("Dialog.Componnents.RichMenuItem.LoadFileDescription"),
 					                                          new string[,] { {"FILE", recentOpen.RecentFile[i].ToString()} });
@@ -82,7 +81,6 @@ namespace ICSharpCode.SharpDevelop.Commands
 				for (int i = 0; i < recentOpen.RecentProject.Count; ++i) {
 					string accelaratorKeyPrefix = i < 10 ? "&" + ((i + 1) % 10).ToString() + " " : "";
 					items[i] = new SdMenuCommand(null, null, accelaratorKeyPrefix + recentOpen.RecentProject[i].ToString(), new EventHandler(LoadRecentProject));
-					items[i].Key = recentOpen.RecentProject[i].ToString ();
 					items[i].Tag = recentOpen.RecentProject[i].ToString();
 					items[i].Description = stringParserService.Parse(resourceService.GetString("Dialog.Componnents.RichMenuItem.LoadProjectDescription"),
 					                                         new string[,] { {"PROJECT", recentOpen.RecentProject[i].ToString()} });
@@ -185,7 +183,7 @@ namespace ICSharpCode.SharpDevelop.Commands
 				return new Gtk.MenuItem[] {};
 			}
 			Gtk.MenuItem[] items = new Gtk.MenuItem[contentCount + 1];
-			items [0] = new SdMenuSeparator ("OpenFilesSep", null, null);
+			items[0] = new SdMenuSeparator(null, null);
 			for (int i = 0; i < contentCount; ++i) {
 				IViewContent content = (IViewContent)WorkbenchSingleton.Workbench.ViewContentCollection[i];
 				

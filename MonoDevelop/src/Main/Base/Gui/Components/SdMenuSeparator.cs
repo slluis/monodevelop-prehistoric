@@ -20,20 +20,12 @@ namespace ICSharpCode.SharpDevelop.Gui.Components
 	{
 		object caller;
 		ConditionCollection conditionCollection;
-
-		string key;
-
-		public string Key {
-			get { return key; }
-			set { key = value; }
-		}
 		
-		public SdMenuSeparator(string id)
+		public SdMenuSeparator()
 		{
-			key = id;
 		}
 		
-		public SdMenuSeparator(string id, ConditionCollection conditionCollection, object caller) : this (id)
+		public SdMenuSeparator(ConditionCollection conditionCollection, object caller)
 		{
 			this.caller              = caller;
 			this.conditionCollection = conditionCollection;

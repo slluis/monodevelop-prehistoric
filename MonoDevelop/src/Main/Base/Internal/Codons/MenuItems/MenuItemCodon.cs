@@ -100,7 +100,7 @@ namespace ICSharpCode.Core.AddIns.Codons
 		{
 			Gtk.MenuItem newItem = null;
 			if (Label == "-") {
-				newItem = new SdMenuSeparator(ID, conditions, owner);
+				newItem = new SdMenuSeparator(conditions, owner);
 			} else  if (Link != null) {
 				newItem = new SdMenuCommand(conditions, null, Label,  Link.StartsWith("http") ? (IMenuCommand)new GotoWebSite(Link) : (IMenuCommand)new GotoLink(Link));
 			} else {

@@ -27,13 +27,6 @@ namespace ICSharpCode.SharpDevelop.Gui.Components
 		string description   = String.Empty;
 		string localizedText = String.Empty;
 		ICommand menuCommand = null;
-
-		string key;
-
-		public string Key {
-			get { return key; }
-			set { key = value; }
-		}
 		
 		public ICommand Command {
 			get {

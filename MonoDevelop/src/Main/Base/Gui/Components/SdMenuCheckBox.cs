@@ -26,13 +26,6 @@ namespace ICSharpCode.SharpDevelop.Gui.Components
 		string localizedText = String.Empty;
 		ICheckableMenuCommand menuCommand;
 
-		string key;
-
-		public string Key {
-			get { return key; }
-			set { key = value; }
-		}
-
 		object _tag;
 
 		public object Tag {
@@ -52,7 +45,6 @@ namespace ICSharpCode.SharpDevelop.Gui.Components
 		public SdMenuCheckBox (string label) : base (label)
 		{
 			Toggled += new EventHandler (OnClick);
-			key = label;
 		}
 	
 		public SdMenuCheckBox(ConditionCollection conditionCollection, object caller, string label) : this(stringParserService.Parse(label))
