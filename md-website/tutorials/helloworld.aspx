@@ -67,7 +67,8 @@ public class MyWindow : Window {
 
       <hr />
 
-      <p>This document was written by Steve Deobald (steve [at] citygroup.ca) and is licensed under the GNU Free Documentation License, Version 1.1 or any later version published by the Free Software Foundation. If this document contains errors or could be improved, please let me know.</p>
+      <p>This document was written by <a href="mailto:steve@citygroup.ca">Steve Deobald</a> and is licensed under Creative Commons, Share-Alike, Attribution. If this document contains errors or could be improved, please let me know.
+      </p>
       <br /><br />
 
 <ccms:PageFooter runat="server"/>

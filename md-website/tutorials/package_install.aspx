@@ -103,7 +103,7 @@ all the bugs you find.</p>
       <br/><br/>
       <hr width="90%" />
       <p>This document was written by <a href="mailto:steve@citygroup.ca">Steve Deobald</a> 
-and is licensed under the Creative Commons License. If this document contains errors or could 
+and is licensed under Creative Commons, Share-Alike, Attribution. If this document contains errors or could 
 be improved, please let me know.</p>
       
 
