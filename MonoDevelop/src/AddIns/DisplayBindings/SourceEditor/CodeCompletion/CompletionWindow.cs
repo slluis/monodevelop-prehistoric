@@ -191,8 +191,7 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 
 			if (lastSelected != -1) {
 				listView.Selection.UnselectAll ();
-				TreePath path = new TreePath ("" + (lastSelected));
-				listView.Selection.SelectPath (path);
+				TreePath path = new TreePath (lastSelected.ToString ());
 				listView.SetCursor (path, complete_column, false);
 				listView.ScrollToCell (path, null, false, 0, 0);
 				if (magic && numOfHits == 1) {
@@ -340,8 +339,8 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 			control.buf.EndAtomicUndo ();
 			listView.FocusOutEvent -= LostFocusListView;
 			control.HasFocus = true;
-			declarationviewwindow.HideAll ();
-			this.Hide ();
+			declarationviewwindow.Destroy ();
+			this.Destroy ();
 		}
 		
 		void FillList (bool firstTime, char ch)

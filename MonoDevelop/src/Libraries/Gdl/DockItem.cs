@@ -58,7 +58,7 @@ namespace Gdl
 		{
 			Name = name;
 			LongName = longName;
-			Behavior = behavior;			
+			Behavior = behavior;
 		}
 		
 		public DockItem (string name, string longName, string stockid,
