@@ -107,15 +107,15 @@ namespace MonoDevelop.Gui {
 		}
 		
 		public void BeginUpdate() {
-//			updating = true;
+			updating = true;
 		}
 		
 		public void EndUpdate() {
-/*			if (updating == true) {
+			if (updating == true) {
 				UpdateStore(store);
 			}
 			updating = false;
-*/
+
 		}
 				
 		internal void OnTreeChanged() {

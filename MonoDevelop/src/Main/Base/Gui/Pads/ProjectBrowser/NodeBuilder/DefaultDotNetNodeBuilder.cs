@@ -423,6 +423,8 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads.ProjectBrowser
 
 		public static void InitializeReferences(AbstractBrowserNode parentNode, IProject project)
 		{
+			if (parentNode.TreeView != null)
+				parentNode.TreeView.BeginUpdate ();
 			parentNode.Nodes.Clear();
 			foreach (ProjectReference referenceInformation in project.ProjectReferences) {
 				string name = null;
@@ -455,6 +457,9 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads.ProjectBrowser
 				parentNode.Nodes.Add(newReferenceNode);
 			}
 			SortUtility.QuickSort(parentNode.Nodes, TreeNodeComparer.ProjectNode);
+			if (parentNode.TreeView != null) {
+				parentNode.TreeView.EndUpdate ();
+			}
 		}
 		
 	}
