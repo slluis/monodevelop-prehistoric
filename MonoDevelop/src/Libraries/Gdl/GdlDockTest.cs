@@ -30,11 +30,11 @@ class T
 		di.Add (new Label ("test"));
 		dock.AddItem (di, DockPlacement.Center);
 		
-		/*DockItem di2 = new DockItem ("item2", "Item #2", DockItemBehavior.Normal);
+		DockItem di2 = new DockItem ("item2", "Item #2", DockItemBehavior.Normal);
 		di2.Add (new Label ("test2"));
 		dock.AddItem (di2, DockPlacement.Center);
 		
-		DockItem di3 = new DockItem ("item3", "Item #3", DockItemBehavior.Normal);
+		/*DockItem di3 = new DockItem ("item3", "Item #3", DockItemBehavior.Normal);
 		di3.Add (new Label ("test3"));
 		dock.AddItem (di3, DockPlacement.Center);
 		
@@ -47,6 +47,9 @@ class T
 		Console.WriteLine ("2");
 		app.ShowAll ();
 		Console.WriteLine ("3");
+		if (dock.Root == null) {
+			Console.WriteLine ("Crap, dock.root is null");
+		}
 		Gtk.Application.Run ();
 		Console.WriteLine ("4");
 	}

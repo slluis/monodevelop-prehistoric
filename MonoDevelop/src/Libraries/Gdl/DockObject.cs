@@ -10,7 +10,6 @@ namespace Gdl
 {
 	public class DockObject : Gtk.Container
 	{	
-		private Gtk.Container container;
 		private Gdl.DockObjectFlags flags;
 		private int freeze_count;
 		private DockMaster master;

@@ -548,6 +548,7 @@ namespace Gdl
 		{
 			DockObject new_parent = null;
 			bool add_ourselves_first;
+			DockObject parentObj = this.ParentObject;
 			
 			switch (position) {
 			case DockPlacement.Top:
@@ -576,6 +577,7 @@ namespace Gdl
 			new_parent.Freeze ();
 			new_parent.Bind (this.Master);
 			
+			Console.WriteLine ("About to add");
 			if (add_ourselves_first) {
 				new_parent.Add (this);
 				new_parent.Add (requestor);
@@ -583,9 +585,13 @@ namespace Gdl
 				new_parent.Add (requestor);
 				new_parent.Add (this);
 			}
+			Console.WriteLine ("Done Adding");
 			
-			if (this.ParentObject != null)
-				this.ParentObject.Add (new_parent);
+			if (parentObj != null) {
+				Console.WriteLine ("About to add new_parent to ParentObject");
+				parentObj.Add (new_parent);
+				Console.WriteLine ("Done with the second add");
+			}
 			
 			if (this.Visible)
 				new_parent.Show ();

@@ -100,6 +100,7 @@ namespace Gdl
 					int new_position = -1;
 					if (extra_data is Int32)
 						new_position = Convert.ToInt32 (extra_data);
+					Console.WriteLine (requestor_item + " --> " + requestor_item.Child + " <-- " + requestor_item.Child.Parent);
 					((Gtk.Notebook)this.Child).InsertPage (requestor, label, new_position);
 					requestor.DockObjectFlags |= DockObjectFlags.Attached;
 				}
@@ -163,7 +164,7 @@ namespace Gdl
 		}
 		
 		public override bool IsCompound {
-			get { return false; }
+			get { return true; }
 		}
 		
 		public int Page {

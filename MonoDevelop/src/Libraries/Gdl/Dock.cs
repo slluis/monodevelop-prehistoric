@@ -292,7 +292,6 @@ gdl_dock_child_type (GtkContainer *container)
 		{
 			if (!(requestor is DockItem))
 				return;
-			Console.WriteLine ("requestor is a DockItem");
 			if (position == DockPlacement.Floating) {
 				Console.WriteLine ("Adding a floating dockitem");
 				DockItem item = requestor as DockItem;
