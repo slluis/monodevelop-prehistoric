@@ -24,6 +24,7 @@ Dependencies
 Mono >= 0.30 with ICU enabled
 Gtk# cvs
 ORBit2 >= 2.8.3
+gnome-vfs >= 2.0
 gtksourceview >= 0.7
 gtksourceview-sharp from mono's cvs
 (gtksourceview is available on Red Carpet,
