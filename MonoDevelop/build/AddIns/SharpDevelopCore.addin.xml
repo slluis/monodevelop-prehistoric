@@ -875,12 +875,12 @@
 	        </MenuItem> 
 	        
 	        <MenuItem id = "Help" _label = "_Help">
-	                <MenuItem id = "Help"
+	                <!--<MenuItem id = "Help"
 	                          _label = "_Help..." 
 	                          icon = "Icons.16x16.HelpIcon" 
 	                          description = "${res:XML.MainMenu.HelpMenu.Topics.Description}" 
 	                          shortcut = "Alt|F1" 
-	                          class = "MonoDevelop.Commands.ShowHelp"/>
+	                          class = "MonoDevelop.Commands.ShowHelp"/>-->
 	                <MenuItem id = "TipOfTheDay"
 	                          _label = "_Tip of the Day..." 
 	                          icon = "Icons.16x16.TipOfTheDay" 
