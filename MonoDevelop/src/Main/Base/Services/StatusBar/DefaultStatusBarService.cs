@@ -6,8 +6,6 @@
 // </file>
 using System;
 using System.Diagnostics;
-//using System.Drawing;
-//using System.Windows.Forms;
 using Gtk;
 
 using ICSharpCode.Core.Services;
@@ -106,16 +104,16 @@ namespace ICSharpCode.SharpDevelop.Services
 		public void Update()
 		{
 			Debug.Assert(statusBar != null);
-	/*		statusBar.Panels.Clear();
-			statusBar.Controls.Clear();
+			/*statusBar.Clear ();
+			statusBar.Clear ();
 			
 			foreach (StatusBarContributionItem item in Items) {
 				if (item.Control != null) {
-					statusBar.Controls.Add(item.Control);
+					statusBar.Add (item.Control);
 				} else if (item.Panel != null) {
-					statusBar.Panels.Add(item.Panel);
+					statusBar.Add (item.Panel);
 				} else {
-					throw new ApplicationException("StatusBarContributionItem " + item.ItemID + " has no Control or Panel defined.");
+					throw new ApplicationException ("StatusBarContributionItem " + item.ItemID + " has no Control or Panel defined.");
 				}
 			}*/
 		}

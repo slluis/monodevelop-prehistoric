@@ -5,22 +5,18 @@
 //     <version value="$version"/>
 // </file>
 using System;
-//using System.Drawing;
-//using System.Windows.Forms;
 using ICSharpCode.SharpDevelop.Services;
 using Gtk;
+using Gnome;
 
 namespace ICSharpCode.SharpDevelop.Gui.Components
 {
-	public class SdStatusBar : HBox, IProgressMonitor
+	public class SdStatusBar : AppBar, IProgressMonitor
 	{
-		ProgressBar statusProgressBar      = new ProgressBar ();
-		
 		Statusbar txtStatusBarPanel    = new Statusbar ();
 		Statusbar cursorStatusBarPanel = new Statusbar ();
 		Statusbar modeStatusBarPanel   = new Statusbar ();
-		private static GLib.GType type;
-
+		private static GLib.GType gtype;
 		
 		public Statusbar CursorStatusBarPanel {
 			get {
@@ -45,45 +41,26 @@ namespace ICSharpCode.SharpDevelop.Gui.Components
 			}
 		}
 
-		static SdStatusBar ()
-		{
-			type = RegisterGType (typeof (SdStatusBar));
+		public static new GLib.GType GType {
+			get {
+				if (gtype == GLib.GType.Invalid)
+					gtype = RegisterGType (typeof (SdStatusBar));
+				return gtype;
+			}
 		}
 		
-		public SdStatusBar(IStatusBarService manager) : base (type)
+		// FIXME: actually use a Progressbar
+		public SdStatusBar(IStatusBarService manager) : base (false, true, PreferencesType.Never)
 		{
-			//txtStatusBarPanel.Width = 500;
-			//txtStatusBarPanel.AutoSize = StatusBarPanelAutoSize.Spring;
 			txtStatusBarPanel.HasResizeGrip = false;
-			//txtStatusBarPanel.Push (1, "test");
 			this.PackStart (txtStatusBarPanel);
-	//		manager.Add (new StatusBarContributionItem("TextPanel", txtStatusBarPanel));
 			
-			//statusProgressBar.Width  = 200;
-			//statusProgressBar.Height = 14;
-			//statusProgressBar.Location = new Point(160, 4);
-			//statusProgressBar.Minimum = 0;
-			statusProgressBar.Visible = false;
-			//this.PackStart (statusProgressBar, true, false, 0);
-			
-			//cursorStatusBarPanel.Width = 200;
-			//cursorStatusBarPanel.AutoSize = StatusBarPanelAutoSize.None;
-			//cursorStatusBarPanel.Alignment = HorizontalAlignment.Left;
 			cursorStatusBarPanel.HasResizeGrip = false;
-			//cursorStatusBarPanel.Push (1, "test");
 			this.PackStart (cursorStatusBarPanel, true, true, 0);
 				
-			//modeStatusBarPanel.Width = 44;
-			//modeStatusBarPanel.AutoSize = StatusBarPanelAutoSize.None;
-			//modeStatusBarPanel.Alignment = HorizontalAlignment.Right;
 			modeStatusBarPanel.HasResizeGrip = false;
-			//modeStatusBarPanel.Push (1, "test");
 			this.PackStart (modeStatusBarPanel, true, true, 0);
-			
-			
-			//manager.Add(new StatusBarContributionItem("ProgressBar", statusProgressBar));
-			
-			//ShowPanels = true;
+
 			this.ShowAll ();
 		}
 		
@@ -114,20 +91,20 @@ namespace ICSharpCode.SharpDevelop.Gui.Components
 			//oldMessage = txtStatusBarPanel.Pop (1);
 			SetMessage(name);
 			//statusProgressBar.Maximum = totalWork;
-			statusProgressBar.Visible = true;
+			this.Progress.Visible = true;
 		}
 		
 		public void Worked(int work, string status)
 		{
-			statusProgressBar.Fraction = (double) work;
-			statusProgressBar.Text = status;
+			this.Progress.Fraction = (double) work;
+			this.Progress.Text = status;
 		}
 		
 		public void Done()
 		{
 			SetMessage(oldMessage);
 			oldMessage = null;
-			statusProgressBar.Visible = false;
+			this.Progress.Visible = false;
 		}
 		
 		public bool Canceled {
@@ -147,9 +124,5 @@ namespace ICSharpCode.SharpDevelop.Gui.Components
 				
 			}
 		}
-		
-		//public void Dispose() {
-			// FIXME PEDRO
-		//}
 	}
 }
