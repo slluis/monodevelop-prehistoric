@@ -177,7 +177,6 @@ namespace ICSharpCode.SharpDevelop.Commands
 
 		public Gtk.MenuItem[] BuildSubmenu(ConditionCollection conditionCollection, object owner)
 		{
-			//			IconMenuStyle iconMenuStyle = (IconMenuStyle)propertyService.GetProperty("IconMenuItem.IconMenuStyle", IconMenuStyle.VSNet);
 			int contentCount = WorkbenchSingleton.Workbench.ViewContentCollection.Count;
 			if (contentCount == 0) {
 				return new Gtk.MenuItem[] {};
@@ -195,6 +194,16 @@ namespace ICSharpCode.SharpDevelop.Commands
 					item.Active = false;
 				}
 				item.Description = "Activate this window ";
+				if (i + 1 <= 9) {
+					string accel_path = "<MonoDevelop>/MainWindow/" + content.WorkbenchWindow.Title + (i + 1).ToString ();
+					if (!Gtk.Accel.MapLookupEntry (accel_path, new Gtk.AccelKey ())) {
+						Gtk.Accel.MapAddEntry (accel_path, Gdk.Keyval.FromName ((i + 1).ToString ()), Gdk.ModifierType.ControlMask);
+						item.AccelPath = accel_path;
+					} else {
+						Gtk.Accel.MapChangeEntry (accel_path, Gdk.Keyval.FromName ((i + 1).ToString()), Gdk.ModifierType.ControlMask, true);
+						item.AccelPath = accel_path;
+					}
+				}
 				items[i + 1] = item;
 			}
 			return items;
