@@ -79,6 +79,9 @@ namespace MonoDevelop.Gui.Pads
 			Gtk.TreeModel model;
 
 			if (tree_view.Selection.GetSelected (out model, out iter)) {
+
+				if (iter.Equals (root_iter)) return;
+
 				Node n = (Node)store.GetValue (iter, 1);
 				
 				string url = n.URL;
