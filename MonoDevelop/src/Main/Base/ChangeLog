@@ -1,3 +1,7 @@
+2004-04-09  Pawel Rozanski  <tokugawa@afn.no-ip.org>
+
+	* Services/Tasks/Task.cs: don't show "()" when error.ErrorNumber is empty
+
 2004-04-07  John Luke  <jluke@cfl.rr.com>
 
 	* Gui/Dialogs/CommonAboutDialog.cs:
