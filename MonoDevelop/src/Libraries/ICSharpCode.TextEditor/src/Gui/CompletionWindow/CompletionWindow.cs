@@ -296,9 +296,19 @@ namespace ICSharpCode.TextEditor.Gui.CompletionWindow
 				Gtk.TreePath path = store.GetPath (iter);
 				Gdk.Rectangle rect;
 				rect = listView.GetCellArea (path, (Gtk.TreeViewColumn)listView.Columns[0]);
+
+				int x, y;
+				listView.TreeToWidgetCoords (rect.x, rect.y, out x, out y);
+				
 				int listpos_x, listpos_y;
 				listView.GdkWindow.GetOrigin (out listpos_x, out listpos_y);
 				int vert = listpos_y + rect.y;
+
+				if (vert > listpos_y + listView.GdkWindow.Size.Height) {
+					vert = listpos_y + listView.GdkWindow.Size.Height - rect.height;
+				} else if (vert < listpos_y) {
+					vert = listpos_y;
+				}
 
 				//FIXME: This is a bad calc, its always on the right, it needs to test if thats too big, and if so, place on the left;
 				int horiz = listpos_x + listView.GdkWindow.Size.Width + 30;
