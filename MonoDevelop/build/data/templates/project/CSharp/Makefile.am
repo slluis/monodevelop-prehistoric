@@ -2,8 +2,7 @@
 monodevelopdir = $(prefix)/lib/monodevelop
 cstemplatedir = $(monodevelopdir)/data/templates/project/CSharp
 
-cstemplate_DATA = AspNetProject.xpt \
-	ConsoleProject.xpt \
+cstemplate_DATA = ConsoleProject.xpt \
 	GnomeSharpProject.xpt \
 	Library.xpt \
 	EmptyProject.xpt \
