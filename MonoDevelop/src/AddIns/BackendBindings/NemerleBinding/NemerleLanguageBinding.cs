@@ -78,7 +78,7 @@ namespace NemerleBinding
 
 		public void GenerateMakefile (IProject project, Combine parentCombine)
 		{
-			throw new NotImplementedException ();
+			compilerServices.GenerateMakefile(project, parentCombine);
 		}
 	}
 }

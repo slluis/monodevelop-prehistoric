@@ -1,3 +1,8 @@
+2004-06-26  Pawel Rozanski  <tokugawa@afn.no-ip.org>
+
+	* NemerleBindingCompilerServices.cs: add GenerateMakefile method.
+	* NemerleLanguageBinding.cs: runs GenerateMakefile
+
 2004-06-23  Pawel Rozanski  <tokugawa@afn.no-ip.org>
 
 	* NemerleBindingCompilerServices.cs: one line fix for ProcessStartInfo.
