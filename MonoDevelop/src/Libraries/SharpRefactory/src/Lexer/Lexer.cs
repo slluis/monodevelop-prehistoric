@@ -491,6 +491,14 @@ namespace ICSharpCode.SharpRefactory.Parser
 					try {
 						return new Token(Tokens.Literal, x, y, digit, Int32.Parse(digit, ishex ? NumberStyles.HexNumber : NumberStyles.Number));
 					} catch (Exception) {
+						try {
+							return new Token(Tokens.Literal, x, y, digit, Int64.Parse(digit, ishex ? NumberStyles.HexNumber : NumberStyles.Number));
+						} catch {}
+							
+						try {
+							return new Token(Tokens.Literal, x, y, digit, UInt64.Parse(digit, ishex ? NumberStyles.HexNumber : NumberStyles.Number));
+						} catch {}
+						
 						errors.Error(y, x, String.Format("Can't parse int {0}", digit));
 						return new Token(Tokens.Literal, x, y, digit, 0);
 					}
