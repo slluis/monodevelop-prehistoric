@@ -1,4 +1,4 @@
-﻿// <file>
+// <file>
 //     <copyright see="prj:///doc/copyright.txt"/>
 //     <license see="prj:///doc/license.txt"/>
 //     <owner name="Mike Krüger" email="mike@icsharpcode.net"/>
@@ -40,9 +40,9 @@ namespace ICSharpCode.SharpDevelop.Commands.ProjectBrowser
 			AbstractBrowserNode node = (AbstractBrowserNode)browser.SelectedNode;
 			
 			FileSelection fdiag  = new FileSelection ("Add a file");
-				//fdiag.AddExtension    = true;
-				//string[] fileFilters  = (string[])(AddInTreeSingleton.AddInTree.GetTreeNode("/SharpDevelop/Workbench/FileFilter").BuildChildItems(this)).ToArray(typeof(string));
-
+			//fdiag.AddExtension    = true;
+			//string[] fileFilters  = (string[])(AddInTreeSingleton.AddInTree.GetTreeNode("/SharpDevelop/Workbench/FileFilter").BuildChildItems(this)).ToArray(typeof(string));
+			
 //	TODO : Set the file filters to the current project
 //				for (int i = 0; i < fileFilters.Length; ++i) {
 //					if (fileFilters[i].IndexOf(Path.GetExtension(window.ViewContent.ContentName == null ? window.ViewContent.UntitledName : window.ViewContent.ContentName)) >= 0) {
@@ -50,43 +50,41 @@ namespace ICSharpCode.SharpDevelop.Commands.ProjectBrowser
 //						break;
 //					}
 //				}
+			
+			//fdiag.Filter          = String.Join("|", fileFilters);
+			fdiag.SelectMultiple = true;
+			//fdiag.CheckFileExists = true;
+			
+			int result = fdiag.Run ();
+			try {
+				if (result != (int) ResponseType.Ok)
+					return;
 				
-				//fdiag.Filter          = String.Join("|", fileFilters);
-				fdiag.SelectMultiple = true;
-				//fdiag.CheckFileExists = true;
-				
-				int result = fdiag.Run ();
-				fdiag.Hide ();
-				
-				if (result == (int) ResponseType.Ok) {
-					bool alreadyInPlace = true;
-					foreach (string file in fdiag.Selections) {
-						if (!file.StartsWith(node.Project.BaseDirectory)) {
-							alreadyInPlace = false;
-							break;
-						}
-					}
-					
-					if (alreadyInPlace) {
-						foreach (string file in fdiag.Selections) {
-							ProjectBrowserView.MoveCopyFile(file, node, true, alreadyInPlace);
-						}
+				foreach (string file in fdiag.Selections) {
+					if (file.StartsWith(node.Project.BaseDirectory)) {
+						ProjectBrowserView.MoveCopyFile (file, node, true, true);
 					} else {
-						ResourceService resourceService = (ResourceService)ServiceManager.Services.GetService(typeof(IResourceService));
+						MessageDialog md = new MessageDialog (
+							(Window) WorkbenchSingleton.Workbench,
+							DialogFlags.Modal | DialogFlags.DestroyWithParent,
+							MessageType.Question, ButtonsType.None,
+							"The file is outside the project directory, what should I do?");
+						md.AddButton ("Copy", 1);
+						md.AddButton ("Move", 2);
+						md.AddButton ("Cancel", ResponseType.Cancel);
 						
-						MessageDialog md = new MessageDialog ((Window) WorkbenchSingleton.Workbench, DialogFlags.Modal | DialogFlags.DestroyWithParent, MessageType.Question, ButtonsType.YesNo, "Move or copy file ?");
 						int ret = md.Run ();
-						md.Hide ();
+						md.Destroy ();
 						
-						if (ret == 2 || ret == -1) {
+						if (ret < 0)
 							return;
-						}
-						foreach (string file in fdiag.Selections) {
-							ProjectBrowserView.MoveCopyFile(file, node, ret == 0, alreadyInPlace);
-						}
+						
+						ProjectBrowserView.MoveCopyFile (file, node, ret == 2, false);
 					}
 				}
-			
+			} finally {
+				fdiag.Destroy ();
+			}
 		}
 	}
 	
