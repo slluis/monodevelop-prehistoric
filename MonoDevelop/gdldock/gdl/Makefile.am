@@ -16,8 +16,7 @@ FILES = \
 	DockParamFlags.cs
 
 CUSTOM_FILES = \
-	DockLayout.custom \
-	DockObject.custom
+	DockLayout.custom
 
 build_sources = $(addprefix $(srcdir)/, $(FILES))
 build_customs = $(addprefix $(srcdir)/, $(CUSTOM_FILES))

@@ -1,7 +1,7 @@
 <metadata>
   <attr path="/api/namespace/object[@cname='GdlDockObject']/signal[@name='Detach']" name="name">Detached</attr>
   <attr path="/api/namespace/object[@cname='GdlDockObject']/signal[@name='Dock']" name="name">Docked</attr>
-  <attr path="/api/namespace/object[@cname='GdlDockObject']/method[@name='Present']" name="hidden">1</attr>
+  <attr path="/api/namespace/object[@cname='GdlDockObject']/method[@name='Present']/parameters/parameter[@name='child']" name="null_ok">1</attr>
   <attr path="/api/namespace/object[@cname='GdlDockLayout']/method[@name='GetLayouts']" name="hidden">1</attr>
   <attr path="/api/namespace/enum[@cname='GdlDockItemFlags']" name="hidden">1</attr>
   <attr path="/api/namespace/enum[@cname='GdlDockParamFlags']" name="hidden">1</attr>
