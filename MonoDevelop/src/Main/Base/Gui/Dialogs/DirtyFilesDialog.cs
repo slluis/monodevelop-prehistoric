@@ -78,9 +78,8 @@ namespace MonoDevelop.Gui.Dialogs
 			sc.Add (tvFiles);
 			sc.ShadowType = ShadowType.In;
 
-			this.VBox.BorderWidth = 12;
-			sc.BorderWidth = 12;
-			this.VBox.PackStart (sc);
+			sc.BorderWidth = 6;
+			this.VBox.PackStart (sc, true, true, 6);
 			
 			btnSaveAndQuit = new Button (GettextCatalog.GetString ("_Save and Quit"));
 			btnQuit = new Button (Gtk.Stock.Quit);
