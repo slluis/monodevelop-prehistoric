@@ -1,1 +1,1 @@
-SUBDIRS = CSharpBinding JavaBinding
+SUBDIRS = CSharpBinding JavaBinding NemerleBinding

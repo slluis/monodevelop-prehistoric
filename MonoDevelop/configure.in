@@ -133,6 +133,7 @@ src/AddIns/Makefile
 src/AddIns/BackendBindings/Makefile
 src/AddIns/BackendBindings/CSharpBinding/Makefile
 src/AddIns/BackendBindings/JavaBinding/Makefile
+src/AddIns/BackendBindings/NemerleBinding/Makefile
 src/AddIns/DisplayBindings/Makefile
 src/AddIns/DisplayBindings/SourceEditor/Makefile
 src/AddIns/Misc/Makefile
@@ -162,11 +163,13 @@ build/data/templates/Makefile
 build/data/templates/file/Makefile
 build/data/templates/file/CSharp/Makefile
 build/data/templates/file/SharpDevelop/Makefile
+build/data/templates/file/Nemerle/Makefile
 build/data/templates/file/VBNet/Makefile
 build/data/templates/project/Makefile
 build/data/templates/project/CSharp/Makefile
 build/data/templates/project/Java/Makefile
 build/data/templates/project/Misc/Makefile
+build/data/templates/project/Nemerle/Makefile
 build/data/templates/project/VBNet/Makefile
 build/doc/Makefile
 build/AddIns/Makefile

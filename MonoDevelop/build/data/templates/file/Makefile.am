@@ -1,4 +1,4 @@
-SUBDIRS = CSharp SharpDevelop VBNet
+SUBDIRS = CSharp SharpDevelop VBNet Nemerle
 
 monodevelopdir = $(prefix)/lib/monodevelop
 templatedir = $(monodevelopdir)/data/templates/file

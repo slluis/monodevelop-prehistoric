@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<Template Originator   = "Pawel Rozanski"
+	  Language     = "Nemerle"
+          Created      = "04/04/2004"
+          LastModified = "04/04/2004">
+	  
+	<TemplateConfiguration>
+		<Name>Empty Nemerle file</Name>
+		<Icon>C#.File.EmptyFile</Icon>
+		<Category>Nemerle</Category>
+		<LanguageName>Nemerle</LanguageName>
+		<Description>Empty Nemerle file</Description>
+	</TemplateConfiguration>
+	
+	<TemplateFiles>
+		<File DefaultExtension=".n" DefaultName="EmptyNemerlefile">
+			<![CDATA[// created on ${Date} at ${Time}]]>
+		</File>
+	</TemplateFiles>
+	
+	<FileOptions/>
+	
+</Template>

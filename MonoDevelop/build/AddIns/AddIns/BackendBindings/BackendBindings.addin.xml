@@ -10,6 +10,7 @@
 		<Import assembly = "JavaBinding.dll"/> 
 <!-- ORIGINAL #D COMMENT		<Import assembly = "JScriptLanguageModule.dll"/> -->
 <!--		<Import assembly = "VBNetBinding.dll"/> -->
+		<Import assembly = "NemerleBinding.dll"/> 
 	</Runtime>
 
 	<Extension path = "/SharpDevelop/Workbench/Ambiences">
@@ -62,6 +63,10 @@
 		            insertbefore="AllFiles"
 		            name = "${res:SharpDevelop.FileFilter.XmlForms}"
 		            extensions = "*.xfrm"/>
+		<FileFilter id = "Nemerle"
+		            insertbefore="AllFiles"
+		            name = "Nemerle files"
+			    extensions = "*.n"/>
 	</Extension>
 
 	<Extension path = "/Workspace/Parser">
@@ -106,6 +111,14 @@
 			             class = "JavaBinding.ProjectConfigurationPropertyPanel"/>
 	
 		</Conditional>
+		<Conditional activeproject="Nemerle">
+			<DialogPanel id = "NemerleCodeGenerationPanel"
+			             _label = "Code Generation"
+			             class = "NemerleBinding.CodeGenerationPanel"/>
+			<DialogPanel id = "NemerleOutputPanel"
+			             _label = "Output"
+			             class = "NemerleBinding.OutputPanel"/>
+		</Conditional>		
 	</Extension>
 	
 
@@ -182,6 +195,15 @@
 		<Icon id         = "TextFileIcon"
 		      extensions = ".txt,.doc"
 		      resource   = "Icons.16x16.TextFileIcon"/>
+
+		<!-- Nemerle -->
+		<Icon id         = "NemerlePrj"
+		      language   = "Nemerle"
+		      resource   = "Java.ProjectIcon"/>
+                <Icon id         = "NemerleFile"
+		      extensions = ".n"
+		      resource   = "Java.FileIcon"/>
+
 	</Extension>
 
 	<Extension path = "/SharpDevelop/Workbench/LanguageBindings">
@@ -197,6 +219,9 @@
 <!--ORIGINAL #D COMMENT		<LanguageBinding id    = "JScript"
 		                 supportedextensions = ".js"
 		                 class = "JScriptBinding.JScriptLanguageBinding" /> -->
+		<LanguageBinding id    = "Nemerle"
+		                 supportedextensions = ".n"
+		                 class = "NemerleBinding.NemerleLanguageBinding" />
 	</Extension>
 	
 	<Extension path = "/SharpDevelop/Views/ProjectBrowser/NodeBuilders">
