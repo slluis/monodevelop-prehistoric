@@ -18,6 +18,7 @@ using MonoDevelop.Gui.Widgets;
 
 namespace ICSharpCode.SharpDevelop.Gui.Dialogs.OptionPanels
 {
+
 	public enum LineTerminatorStyle {
 		Windows,
 		Macintosh,
@@ -29,6 +30,9 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs.OptionPanels
 	/// </summary>
 	public class LoadSavePanel : AbstractOptionPanel
 	{
+		//FIXME: Add mneumonics for Window, Macintosh and Unix Radio Buttons. 
+		//       Remove mneumonic from terminator label.
+
 		class LoadSavePanelWidget : GladeWidgetExtract 
 		{
 			
