@@ -28,7 +28,7 @@ namespace MonoDevelop.Gui.Dialogs.OptionPanels
 	{
 
 		// service instances needed
-		PropertyService PropertyService = (PropertyService)ServiceManager.Services.GetService (typeof (PropertyService));
+		PropertyService PropertyService = (PropertyService)ServiceManager.GetService (typeof (PropertyService));
 		
 		ProjectAndCombinePanelWidget widget;
 		const string projectAndCombineProperty = "SharpDevelop.UI.ProjectAndCombineOptions";
@@ -59,9 +59,9 @@ namespace MonoDevelop.Gui.Dialogs.OptionPanels
 			[Glade.Widget] public Gtk.Label buildAndRunOptionsLabel;   
 
 			// service instances needed
-			StringParserService StringParserService = (StringParserService)ServiceManager.Services.GetService (
+			StringParserService StringParserService = (StringParserService)ServiceManager.GetService (
 				typeof (StringParserService));
-			PropertyService PropertyService = (PropertyService)ServiceManager.Services.GetService (
+			PropertyService PropertyService = (PropertyService)ServiceManager.GetService (
 				typeof (PropertyService));
 
 			public  ProjectAndCombinePanelWidget () : base ("Base.glade", "ProjectAndCombinePanel")

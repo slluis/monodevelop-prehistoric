@@ -21,6 +21,8 @@
     <File name="./stock-menu-right-12.png" subtype="Code" buildaction="Exclude" dependson="" data="" />
     <File name="./DetachedHandler.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
     <File name="./DockedHandler.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name="./DockLayout.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name="./DockBar.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
   </Contents>
   <References>
     <Reference type="Gac" refto="gtk-sharp, Version=1.0.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" localcopy="True" />

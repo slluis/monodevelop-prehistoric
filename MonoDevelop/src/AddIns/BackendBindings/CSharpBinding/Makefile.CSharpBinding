@@ -48,7 +48,8 @@ PROJECT_REFERENCES = \
 "../../DisplayBindings/SourceEditor/MonoDevelop.SourceEditor.dll" \
 "../../../Main/Base/MonoDevelop.Base.dll" \
 "../../../Libraries/SharpRefactory/ICSharpCode.SharpRefactory.dll" \
-"../../../Libraries/MonoDevelop.Gui.Widgets/MonoDevelop.Gui.Widgets.dll"
+"../../../Libraries/MonoDevelop.Gui.Widgets/MonoDevelop.Gui.Widgets.dll" \
+"../../../Libraries/SharpAssembly/ICSharpCode.SharpAssembly.dll"
 
 PROJECT_REFERENCES_BUILD = $(addprefix -r:, $(PROJECT_REFERENCES))
 

@@ -18,7 +18,9 @@ SOURCES = \
 ./DockPaned.cs \
 ./DockNotebook.cs \
 ./DetachedHandler.cs \
-./DockedHandler.cs
+./DockedHandler.cs \
+./DockLayout.cs \
+./DockBar.cs
 
 PKG_REFERENCES = \
 gtk-sharp

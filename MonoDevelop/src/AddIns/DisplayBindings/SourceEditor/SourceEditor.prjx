@@ -86,6 +86,7 @@
     <Reference type="Project" refto="MonoDevelop.Gui.Utils" localcopy="True" />
     <Reference type="Project" refto="MonoDevelop.Gui.Widgets" localcopy="True" />
     <Reference type="Project" refto="MonoDevelop.Base" localcopy="True" />
+    <Reference type="Gac" refto="pango-sharp, Version=1.0.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" localcopy="True" />
   </References>
   <DeploymentInformation target="" script="" strategy="File" />
   <Configuration runwithwarnings="False" name="Debug">
