@@ -62,7 +62,7 @@ namespace MonoDevelop.SourceEditor.Gui {
 
 		public void SimulateKeyPress (ref Gdk.EventKey evnt)
 		{
-			Glue.SimulateKeyPress (Handle, ref evnt);
+			Gtk.Global.PropagateEvent (this, evnt);
 		}
 		
 		protected override bool OnKeyPressEvent (Gdk.EventKey evnt)
