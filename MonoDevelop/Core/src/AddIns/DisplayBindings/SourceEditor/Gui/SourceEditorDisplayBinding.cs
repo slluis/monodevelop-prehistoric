@@ -159,7 +159,7 @@ namespace MonoDevelop.SourceEditor.Gui
 			se.Buffer.MarkSet += new MarkSetHandler (OnMarkSet);
 			se.Buffer.Changed += new EventHandler (OnChanged);
 			se.View.ToggleOverwrite += new EventHandler (CaretModeChanged);
-			ContentNameChanged += new EventHandler (UpdateFSW);
+			//ContentNameChanged += new EventHandler (UpdateFSW);
 			
 			CaretModeChanged (null, null);
 			PropertiesChanged (null, null);

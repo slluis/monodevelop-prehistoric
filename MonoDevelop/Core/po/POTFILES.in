@@ -28,10 +28,6 @@ src/Main/Base/Gui/Dialogs/WordCountDialog.cs
 src/Main/Base/Gui/AbstractBaseViewContent.cs
 src/Main/Base/Gui/AbstractViewContent.cs
 src/Main/Base/Gui/BrowserDisplayBinding/HtmlViewPane.cs
-src/Main/Base/Gui/CompletionDatabaseWizard/DownloadGenerator.cs
-src/Main/Base/Gui/CompletionDatabaseWizard/druid.cs
-src/Main/Base/Gui/CompletionDatabaseWizard/GenerateDatabase.cs
-src/Main/Base/Gui/CompletionDatabaseWizard/UseExistingGenerator.cs
 src/Main/Base/Gui/Components/StatusBar/SdStatusBar.cs
 src/Main/Base/Gui/Pads/FileScout/FileList.cs
 src/Main/Base/Gui/Pads/FileScout/FileListItem.cs
