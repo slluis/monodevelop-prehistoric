@@ -1,3 +1,8 @@
+2004-11-09  Todd Berman  <tberman@off.net>
+
+	* CSharpBindingCompilerManager.cs: Use SAS for assembly detection.
+	This doesnt seem to break anything for me.
+
 2004-11-01  Todd Berman  <tberman@off.net>
 
 	* CSharpBindingExecutionManager.cs.in: Add fu to actually properly run

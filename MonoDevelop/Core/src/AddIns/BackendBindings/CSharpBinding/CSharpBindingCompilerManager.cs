@@ -145,10 +145,29 @@ namespace CSharpBinding
 				
 				IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IProjectService));
 				ArrayList allProjects = Combine.GetAllProjects(projectService.CurrentOpenCombine);
-				
-				foreach (ProjectReference lib in p.ProjectReferences) {
-					string fileName = lib.GetReferencedFileName(p);
-					writer.WriteLine("\"/r:" + fileName + "\"");
+				SystemAssemblyService sas = (SystemAssemblyService)ServiceManager.GetService (typeof (SystemAssemblyService));
+				ArrayList pkg_references = new ArrayList ();
+				foreach (ProjectReference lib in project.ProjectReferences) {
+					switch (lib.ReferenceType) {
+					case ReferenceType.Gac:
+						string pkg = sas.GetPackageFromFullName (lib.Reference);
+						if (pkg == "MONO-SYSTEM") {
+							writer.WriteLine ("\"/r:" + Path.GetFileName (lib.GetReferencedFileName (project)) + "\"");
+						} else if (!pkg_references.Contains (pkg)) {
+							pkg_references.Add (pkg);
+							writer.WriteLine ("\"-pkg:" + pkg + "\"");
+						}
+						break;
+					case ReferenceType.Assembly:
+						string assembly_fileName = lib.GetReferencedFileName (project);
+						string rel_path_to = fileUtilityService.AbsoluteToRelativePath (project.BaseDirectory, Path.GetDirectoryName (assembly_fileName));
+						writer.WriteLine ("\"/r:" + Path.Combine (rel_path_to, Path.GetFileName (assembly_fileName)) + "\"");
+						break;
+					case ReferenceType.Project:
+						string project_fileName = lib.GetReferencedFileName (project);
+						writer.WriteLine ("\"/r:" + project_fileName + "\"");
+						break;
+					}
 				}
 				
 				writer.WriteLine("/nologo");
