@@ -1,3 +1,9 @@
+2004-10-04  Todd Berman  <tberman@off.net>
+
+	* Gui/SourceEditorView.cs:
+	* CodeCompletion/ListWindow.cs: Need to use System.Char w/
+	gtk-sharp-2-0 for some reason. Not sure why.
+
 2004-09-18  Lluis Sanchez Gual  <lluis@ximian.com>
 
 	* Gui/SourceEditorView.cs: Use the new completion window.

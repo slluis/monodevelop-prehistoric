@@ -358,7 +358,7 @@ namespace MonoDevelop.SourceEditor.Gui
 		{
 			for ( offset-- ; offset >= 0 ; offset--)
 			{
-				if (Char.IsWhiteSpace (doc, offset)) break;
+				if (System.Char.IsWhiteSpace (doc, offset)) break;
 			}
 			return ++offset;
 		}
@@ -381,7 +381,7 @@ namespace MonoDevelop.SourceEditor.Gui
 		public string GetLeadingWhiteSpace (int line) {
 			string lineText = ((IFormattableDocument)this).GetLineAsString (line);
 			int index = 0;
-			while (index < lineText.Length && Char.IsWhiteSpace (lineText[index])) {
+			while (index < lineText.Length && System.Char.IsWhiteSpace (lineText[index])) {
     				index++;
     			}
  	   		return index > 0 ? lineText.Substring (0, index) : "";

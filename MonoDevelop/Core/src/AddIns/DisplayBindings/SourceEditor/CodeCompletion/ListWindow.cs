@@ -136,12 +136,12 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 			
 			char c = (char)e.KeyValue;
 			
-			if (Char.IsLetterOrDigit (c) || c == '_') {
+			if (System.Char.IsLetterOrDigit (c) || c == '_') {
 				word.Insert (curPos++, c);
 				UpdateWordSelection ();
 				return KeyAction.Process;
 			}
-			else if ((Char.IsPunctuation (c) || c == ' ') && !list.SelectionDisabled) {
+			else if ((System.Char.IsPunctuation (c) || c == ' ') && !list.SelectionDisabled) {
 				return KeyAction.Complete | KeyAction.Process | KeyAction.CloseWindow;
 			}
 			

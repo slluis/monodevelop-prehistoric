@@ -1,3 +1,10 @@
+2004-10-04  Todd Berman  <tberman@off.net>
+
+	* configure.in: Add a --with-gtk-sharp-2-0 to allow gtk-sharp-2-0
+	to be used. This is a needed workaround for now to allow for people
+	to get 2.0 completion info. Works around a mono bug. That jackson
+	is going to fix. :)
+
 2004-09-20  Tim Gerla  <tim@gerla.net>
 
 	* configure.in:
