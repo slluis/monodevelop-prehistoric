@@ -1,5 +1,16 @@
 2005-02-02  John Luke  <john.luke@gmail.com>
 
+	* Gui/Dialogs/CombineConfiguration/CombineBuildOptions.cs
+	* Gui/Dialogs/OptionPanels/ProjectOptions/OutputOptionsPanel.cs
+	* Gui/Dialogs/OptionPanels/ProjectOptions/DeployFileOptions.cs
+	* Gui/Dialogs/OptionPanels/ExternalToolPanel.cs
+	* Gui/Dialogs/OptionPanels/IDEOptions/LoadSavePanel.cs
+	* Base.glade: use Gnome.FileEntry where appropriate
+	remove disabled line endings prefs
+	a few other spacing, spelling, capitalization improvements
+
+2005-02-02  John Luke  <john.luke@gmail.com>
+
 	* Parser/ICompilationUnitBase.cs:
 	* Parser/Implementations/AbstractCompilationUnit.cs: adjust to ErrorInfo 
 

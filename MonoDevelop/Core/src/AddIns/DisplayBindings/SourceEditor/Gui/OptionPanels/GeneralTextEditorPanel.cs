@@ -50,7 +50,7 @@ namespace MonoDevelop.EditorBindings.Gui.OptionPanels
 			[Glade.Widget] Label genOptions, fontOptions;
 // 					encOptions, encVBox; // if you uncoment change to "," above 
 			[Glade.Widget] CheckButton enableCodeCompletionCheckBox, 
-					enableFoldingCheckBox, enableDoublebufferingCheckBox;
+					enableFoldingCheckBox;
 // 			[Glade.Widget] ComboBox textEncodingComboBox;
 			[Glade.Widget] FontButton fontNameDisplayTextBox;
 			[Glade.Widget] VBox encodingBox;
@@ -64,9 +64,6 @@ namespace MonoDevelop.EditorBindings.Gui.OptionPanels
 				
  				enableFoldingCheckBox.Active = ((IProperties) CustomizationObject).GetProperty("EnableFolding", true);
 
- 				enableDoublebufferingCheckBox.Active = ((IProperties) CustomizationObject).GetProperty(
-					"DoubleBuffer", true);
-					
 				string font_name = ((IProperties) CustomizationObject).GetProperty("DefaultFont", "__default_monospace").ToString ();
 				
 				switch (font_name) {
@@ -112,15 +109,10 @@ namespace MonoDevelop.EditorBindings.Gui.OptionPanels
 // 				encoding = CharacterEncodings.GetEncodingByIndex(i).CodePage;
 
 // 				textEncodingComboBox.Changed += new EventHandler (OnOptionChanged);
-
-				// FIXME: enable the sensitivity on these widgets when the implementation has been added
-				enableDoublebufferingCheckBox.Sensitive = false;
 			}
 
 			public void Store (IProperties CustomizationObject)
 			{
-				((IProperties) CustomizationObject).SetProperty (
-					"DoubleBuffer", enableDoublebufferingCheckBox.Active);
 				((IProperties) CustomizationObject).SetProperty (
 					"EnableCodeCompletion", enableCodeCompletionCheckBox.Active);
 				((IProperties) CustomizationObject).SetProperty (

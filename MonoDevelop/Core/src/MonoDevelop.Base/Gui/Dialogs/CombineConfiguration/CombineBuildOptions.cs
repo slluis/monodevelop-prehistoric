@@ -26,8 +26,7 @@ namespace MonoDevelop.Gui.Dialogs.OptionPanels
 		class CombineBuildOptionsWidget : GladeWidgetExtract 
 		{
 			// Gtk Controls
-			[Glade.WidgetAttribute] Entry buildOutputLoc;
-			[Glade.WidgetAttribute] Button OutputDirBrowse;
+			[Glade.Widget] Gnome.FileEntry outputDirButton;
 			
 			Combine combine;
 
@@ -35,23 +34,12 @@ namespace MonoDevelop.Gui.Dialogs.OptionPanels
 				base ("Base.glade", "CombineBuildOptions")
 			{
 				this.combine = (Combine)((IProperties)CustomizationObject).GetProperty("Combine");
-				buildOutputLoc.Text = combine.OutputDirectory + System.IO.Path.DirectorySeparatorChar;
-				OutputDirBrowse.Clicked += new EventHandler (onClicked);
-			}
-
-			void onClicked (object o, EventArgs e)
-			{
-				FolderDialog fd = new FolderDialog ("Output Directory");
-				fd.SetFilename (buildOutputLoc.Text);
-				int response = fd.Run ();
-				if (response == (int) ResponseType.Ok)
-					buildOutputLoc.Text = fd.Filename + System.IO.Path.DirectorySeparatorChar;
-				fd.Hide ();
+				outputDirButton.Filename = combine.OutputDirectory + System.IO.Path.DirectorySeparatorChar;
 			}
 
 			public bool Store()
 			{
-				combine.OutputDirectory = buildOutputLoc.Text;
+				combine.OutputDirectory = outputDirButton.Filename;
 				return true;
 			}
 		}

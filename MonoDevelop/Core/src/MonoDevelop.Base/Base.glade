@@ -716,7 +716,7 @@
 			<widget class="GtkCheckButton" id="chk_combine_directory">
 			  <property name="visible">True</property>
 			  <property name="can_focus">True</property>
-			  <property name="label" translatable="yes">Create seperate c_ombine subdirectory</property>
+			  <property name="label" translatable="yes">Create seperate _Solution subdirectory</property>
 			  <property name="use_underline">True</property>
 			  <property name="relief">GTK_RELIEF_NORMAL</property>
 			  <property name="focus_on_click">True</property>
@@ -1331,7 +1331,7 @@
 	<widget class="GtkCheckButton" id="extensionButton">
 	  <property name="visible">True</property>
 	  <property name="can_focus">True</property>
-	  <property name="label" translatable="yes">Show Extensions in project scout</property>
+	  <property name="label" translatable="yes">Show extensions in project scout</property>
 	  <property name="use_underline">True</property>
 	  <property name="relief">GTK_RELIEF_NORMAL</property>
 	  <property name="focus_on_click">True</property>
@@ -1401,7 +1401,7 @@
 	  <child>
 	    <widget class="GtkLabel" id="locationLabel">
 	      <property name="visible">True</property>
-	      <property name="label" translatable="yes">Default _solution location</property>
+	      <property name="label" translatable="yes">Default _Solution location</property>
 	      <property name="use_underline">True</property>
 	      <property name="use_markup">False</property>
 	      <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -1423,10 +1423,11 @@
 	    <widget class="GnomeFileEntry" id="projectLocationTextBox">
 	      <property name="visible">True</property>
 	      <property name="max_saved">10</property>
-	      <property name="directory_entry">False</property>
-	      <property name="modal">False</property>
+	      <property name="browse_dialog_title" translatable="yes">Select default location</property>
+	      <property name="directory_entry">True</property>
+	      <property name="modal">True</property>
 	      <property name="use_filechooser">True</property>
-	      <property name="filechooser_action">GTK_FILE_CHOOSER_ACTION_OPEN</property>
+	      <property name="filechooser_action">GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER</property>
 
 	      <child internal-child="entry">
 		<widget class="GtkEntry" id="combo-entry1">
@@ -1664,146 +1665,6 @@
 		      <property name="padding">0</property>
 		      <property name="expand">False</property>
 		      <property name="fill">False</property>
-		    </packing>
-		  </child>
-
-		  <child>
-		    <widget class="GtkLabel" id="terminatorLabel">
-		      <property name="visible">True</property>
-		      <property name="label" translatable="yes">Line Terminator Style</property>
-		      <property name="use_underline">False</property>
-		      <property name="use_markup">True</property>
-		      <property name="justify">GTK_JUSTIFY_LEFT</property>
-		      <property name="wrap">False</property>
-		      <property name="selectable">False</property>
-		      <property name="xalign">0</property>
-		      <property name="yalign">0.5</property>
-		      <property name="xpad">0</property>
-		      <property name="ypad">0</property>
-		    </widget>
-		    <packing>
-		      <property name="padding">0</property>
-		      <property name="expand">False</property>
-		      <property name="fill">False</property>
-		    </packing>
-		  </child>
-
-		  <child>
-		    <widget class="GtkHBox" id="hbox12">
-		      <property name="visible">True</property>
-		      <property name="homogeneous">False</property>
-		      <property name="spacing">6</property>
-
-		      <child>
-			<widget class="GtkHBox" id="hbox13">
-			  <property name="visible">True</property>
-			  <property name="homogeneous">False</property>
-			  <property name="spacing">6</property>
-
-			  <child>
-			    <widget class="GtkLabel" id="label24">
-			      <property name="visible">True</property>
-			      <property name="label" translatable="yes">    </property>
-			      <property name="use_underline">False</property>
-			      <property name="use_markup">False</property>
-			      <property name="justify">GTK_JUSTIFY_LEFT</property>
-			      <property name="wrap">False</property>
-			      <property name="selectable">False</property>
-			      <property name="xalign">0.5</property>
-			      <property name="yalign">0.5</property>
-			      <property name="xpad">0</property>
-			      <property name="ypad">0</property>
-			    </widget>
-			    <packing>
-			      <property name="padding">0</property>
-			      <property name="expand">False</property>
-			      <property name="fill">False</property>
-			    </packing>
-			  </child>
-
-			  <child>
-			    <widget class="GtkVBox" id="vbox21">
-			      <property name="visible">True</property>
-			      <property name="homogeneous">False</property>
-			      <property name="spacing">6</property>
-
-			      <child>
-				<widget class="GtkRadioButton" id="windowsRadioButton">
-				  <property name="visible">True</property>
-				  <property name="can_focus">True</property>
-				  <property name="label" translatable="yes">Windows</property>
-				  <property name="use_underline">True</property>
-				  <property name="relief">GTK_RELIEF_NORMAL</property>
-				  <property name="focus_on_click">True</property>
-				  <property name="active">False</property>
-				  <property name="inconsistent">False</property>
-				  <property name="draw_indicator">True</property>
-				</widget>
-				<packing>
-				  <property name="padding">0</property>
-				  <property name="expand">False</property>
-				  <property name="fill">False</property>
-				</packing>
-			      </child>
-
-			      <child>
-				<widget class="GtkRadioButton" id="macintoshRadioButton">
-				  <property name="visible">True</property>
-				  <property name="can_focus">True</property>
-				  <property name="label" translatable="yes">Macintosh</property>
-				  <property name="use_underline">True</property>
-				  <property name="relief">GTK_RELIEF_NORMAL</property>
-				  <property name="focus_on_click">True</property>
-				  <property name="active">False</property>
-				  <property name="inconsistent">False</property>
-				  <property name="draw_indicator">True</property>
-				  <property name="group">windowsRadioButton</property>
-				</widget>
-				<packing>
-				  <property name="padding">0</property>
-				  <property name="expand">False</property>
-				  <property name="fill">False</property>
-				</packing>
-			      </child>
-
-			      <child>
-				<widget class="GtkRadioButton" id="unixRadioButton">
-				  <property name="visible">True</property>
-				  <property name="can_focus">True</property>
-				  <property name="label" translatable="yes">Unix</property>
-				  <property name="use_underline">True</property>
-				  <property name="relief">GTK_RELIEF_NORMAL</property>
-				  <property name="focus_on_click">True</property>
-				  <property name="active">False</property>
-				  <property name="inconsistent">False</property>
-				  <property name="draw_indicator">True</property>
-				  <property name="group">windowsRadioButton</property>
-				</widget>
-				<packing>
-				  <property name="padding">0</property>
-				  <property name="expand">False</property>
-				  <property name="fill">False</property>
-				</packing>
-			      </child>
-			    </widget>
-			    <packing>
-			      <property name="padding">0</property>
-			      <property name="expand">True</property>
-			      <property name="fill">True</property>
-			    </packing>
-			  </child>
-			</widget>
-			<packing>
-			  <property name="padding">0</property>
-			  <property name="expand">True</property>
-			  <property name="fill">True</property>
-			</packing>
-		      </child>
-		    </widget>
-		    <packing>
-		      <property name="padding">0</property>
-		      <property name="expand">True</property>
-		      <property name="fill">True</property>
 		    </packing>
 		  </child>
 		</widget>
@@ -2495,6 +2356,7 @@
 	      <property name="yalign">0.5</property>
 	      <property name="xpad">0</property>
 	      <property name="ypad">0</property>
+	      <property name="mnemonic_widget">combo-entry2</property>
 	    </widget>
 	    <packing>
 	      <property name="left_attach">0</property>
@@ -2558,7 +2420,7 @@
 	  <child>
 	    <widget class="GtkLabel" id="workingDirLabel">
 	      <property name="visible">True</property>
-	      <property name="label" translatable="yes">_Working Dir.</property>
+	      <property name="label" translatable="yes">_Working Directory</property>
 	      <property name="use_underline">True</property>
 	      <property name="use_markup">False</property>
 	      <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -2698,16 +2560,17 @@
 	  </child>
 
 	  <child>
-	    <widget class="GtkTable" id="table5">
+	    <widget class="GnomeFileEntry" id="browseButton">
 	      <property name="visible">True</property>
-	      <property name="n_rows">1</property>
-	      <property name="n_columns">2</property>
-	      <property name="homogeneous">False</property>
-	      <property name="row_spacing">0</property>
-	      <property name="column_spacing">0</property>
+	      <property name="max_saved">10</property>
+	      <property name="browse_dialog_title" translatable="yes">Select command</property>
+	      <property name="directory_entry">False</property>
+	      <property name="modal">True</property>
+	      <property name="use_filechooser">True</property>
+	      <property name="filechooser_action">GTK_FILE_CHOOSER_ACTION_OPEN</property>
 
-	      <child>
-		<widget class="GtkEntry" id="commandTextBox">
+	      <child internal-child="entry">
+		<widget class="GtkEntry" id="combo-entry2">
 		  <property name="visible">True</property>
 		  <property name="can_focus">True</property>
 		  <property name="editable">True</property>
@@ -2718,32 +2581,6 @@
 		  <property name="invisible_char">*</property>
 		  <property name="activates_default">False</property>
 		</widget>
-		<packing>
-		  <property name="left_attach">0</property>
-		  <property name="right_attach">1</property>
-		  <property name="top_attach">0</property>
-		  <property name="bottom_attach">1</property>
-		  <property name="y_options"></property>
-		</packing>
-	      </child>
-
-	      <child>
-		<widget class="GtkButton" id="browseButton">
-		  <property name="visible">True</property>
-		  <property name="can_focus">True</property>
-		  <property name="label" translatable="yes">Browse</property>
-		  <property name="use_underline">True</property>
-		  <property name="relief">GTK_RELIEF_NORMAL</property>
-		  <property name="focus_on_click">True</property>
-		</widget>
-		<packing>
-		  <property name="left_attach">1</property>
-		  <property name="right_attach">2</property>
-		  <property name="top_attach">0</property>
-		  <property name="bottom_attach">1</property>
-		  <property name="x_options">fill</property>
-		  <property name="y_options"></property>
-		</packing>
 	      </child>
 	    </widget>
 	    <packing>
@@ -2751,8 +2588,7 @@
 	      <property name="right_attach">2</property>
 	      <property name="top_attach">1</property>
 	      <property name="bottom_attach">2</property>
-	      <property name="x_options">fill</property>
-	      <property name="y_options">fill</property>
+	      <property name="y_options"></property>
 	    </packing>
 	  </child>
 	</widget>
@@ -2773,7 +2609,7 @@
 	    <widget class="GtkCheckButton" id="promptArgsCheckBox">
 	      <property name="visible">True</property>
 	      <property name="can_focus">True</property>
-	      <property name="label" translatable="yes">_Prompt for Arguments</property>
+	      <property name="label" translatable="yes">_Prompt for arguments</property>
 	      <property name="use_underline">True</property>
 	      <property name="relief">GTK_RELIEF_NORMAL</property>
 	      <property name="focus_on_click">True</property>
@@ -3227,7 +3063,7 @@
 	    <widget class="GtkHBox" id="hbox27">
 	      <property name="visible">True</property>
 	      <property name="homogeneous">False</property>
-	      <property name="spacing">0</property>
+	      <property name="spacing">6</property>
 
 	      <child>
 		<widget class="GtkLabel" id="label50">
@@ -3251,31 +3087,10 @@
 	      </child>
 
 	      <child>
-		<widget class="GtkLabel" id="label51">
-		  <property name="visible">True</property>
-		  <property name="label" translatable="yes">    </property>
-		  <property name="use_underline">False</property>
-		  <property name="use_markup">False</property>
-		  <property name="justify">GTK_JUSTIFY_LEFT</property>
-		  <property name="wrap">False</property>
-		  <property name="selectable">False</property>
-		  <property name="xalign">0.5</property>
-		  <property name="yalign">0.5</property>
-		  <property name="xpad">0</property>
-		  <property name="ypad">0</property>
-		</widget>
-		<packing>
-		  <property name="padding">0</property>
-		  <property name="expand">False</property>
-		  <property name="fill">False</property>
-		</packing>
-	      </child>
-
-	      <child>
 		<widget class="GtkCheckButton" id="autoInsertNewFilesCheckButton">
 		  <property name="visible">True</property>
 		  <property name="can_focus">True</property>
-		  <property name="label" translatable="yes">Automaticly _include found files</property>
+		  <property name="label" translatable="yes">Automatically _include found files</property>
 		  <property name="use_underline">True</property>
 		  <property name="relief">GTK_RELIEF_NORMAL</property>
 		  <property name="focus_on_click">True</property>
@@ -3514,13 +3329,17 @@
 			  </child>
 
 			  <child>
-			    <widget class="GtkHBox" id="hbox32">
+			    <widget class="GnomeFileEntry" id="selectScriptButton">
 			      <property name="visible">True</property>
-			      <property name="homogeneous">False</property>
-			      <property name="spacing">6</property>
+			      <property name="max_saved">10</property>
+			      <property name="browse_dialog_title" translatable="yes">Select deploy script</property>
+			      <property name="directory_entry">False</property>
+			      <property name="modal">True</property>
+			      <property name="use_filechooser">True</property>
+			      <property name="filechooser_action">GTK_FILE_CHOOSER_ACTION_OPEN</property>
 
-			      <child>
-				<widget class="GtkEntry" id="deployScriptEntry">
+			      <child internal-child="entry">
+				<widget class="GtkEntry" id="combo-entry3">
 				  <property name="visible">True</property>
 				  <property name="can_focus">True</property>
 				  <property name="editable">True</property>
@@ -3531,27 +3350,6 @@
 				  <property name="invisible_char">*</property>
 				  <property name="activates_default">False</property>
 				</widget>
-				<packing>
-				  <property name="padding">0</property>
-				  <property name="expand">True</property>
-				  <property name="fill">True</property>
-				</packing>
-			      </child>
-
-			      <child>
-				<widget class="GtkButton" id="selectScriptFileButton">
-				  <property name="visible">True</property>
-				  <property name="can_focus">True</property>
-				  <property name="label" translatable="yes">...</property>
-				  <property name="use_underline">True</property>
-				  <property name="relief">GTK_RELIEF_NORMAL</property>
-				  <property name="focus_on_click">True</property>
-				</widget>
-				<packing>
-				  <property name="padding">0</property>
-				  <property name="expand">False</property>
-				  <property name="fill">False</property>
-				</packing>
 			      </child>
 			    </widget>
 			    <packing>
@@ -3714,7 +3512,7 @@
 			      <property name="yalign">0.5</property>
 			      <property name="xpad">0</property>
 			      <property name="ypad">0</property>
-			      <property name="mnemonic_widget">deployTargetEntry</property>
+			      <property name="mnemonic_widget">combo-entry4</property>
 			    </widget>
 			    <packing>
 			      <property name="padding">0</property>
@@ -3724,37 +3522,33 @@
 			  </child>
 
 			  <child>
-			    <widget class="GtkEntry" id="deployTargetEntry">
+			    <widget class="GnomeFileEntry" id="deployTargetButton">
 			      <property name="visible">True</property>
-			      <property name="can_focus">True</property>
-			      <property name="editable">True</property>
-			      <property name="visibility">True</property>
-			      <property name="max_length">0</property>
-			      <property name="text" translatable="yes"></property>
-			      <property name="has_frame">True</property>
-			      <property name="invisible_char">*</property>
-			      <property name="activates_default">False</property>
+			      <property name="max_saved">10</property>
+			      <property name="browse_dialog_title" translatable="yes">Select target location</property>
+			      <property name="directory_entry">True</property>
+			      <property name="modal">True</property>
+			      <property name="use_filechooser">True</property>
+			      <property name="filechooser_action">GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER</property>
+
+			      <child internal-child="entry">
+				<widget class="GtkEntry" id="combo-entry4">
+				  <property name="visible">True</property>
+				  <property name="can_focus">True</property>
+				  <property name="editable">True</property>
+				  <property name="visibility">True</property>
+				  <property name="max_length">0</property>
+				  <property name="text" translatable="yes"></property>
+				  <property name="has_frame">True</property>
+				  <property name="invisible_char">*</property>
+				  <property name="activates_default">False</property>
+				</widget>
+			      </child>
 			    </widget>
 			    <packing>
 			      <property name="padding">0</property>
 			      <property name="expand">True</property>
 			      <property name="fill">True</property>
-			    </packing>
-			  </child>
-
-			  <child>
-			    <widget class="GtkButton" id="selectTargetButton">
-			      <property name="visible">True</property>
-			      <property name="can_focus">True</property>
-			      <property name="label" translatable="yes">...</property>
-			      <property name="use_underline">True</property>
-			      <property name="relief">GTK_RELIEF_NORMAL</property>
-			      <property name="focus_on_click">True</property>
-			    </widget>
-			    <packing>
-			      <property name="padding">0</property>
-			      <property name="expand">False</property>
-			      <property name="fill">False</property>
 			    </packing>
 			  </child>
 			</widget>
@@ -4386,7 +4180,7 @@
 		      <property name="visible">True</property>
 		      <property name="can_default">True</property>
 		      <property name="can_focus">True</property>
-		      <property name="label" translatable="yes">Select All</property>
+		      <property name="label" translatable="yes">Select _All</property>
 		      <property name="use_underline">True</property>
 		      <property name="relief">GTK_RELIEF_NORMAL</property>
 		      <property name="focus_on_click">True</property>
@@ -4398,8 +4192,8 @@
 		      <property name="visible">True</property>
 		      <property name="can_default">True</property>
 		      <property name="can_focus">True</property>
-		      <property name="label" translatable="yes">Clear Selection</property>
-		      <property name="use_underline">True</property>
+		      <property name="label">gtk-clear</property>
+		      <property name="use_stock">True</property>
 		      <property name="relief">GTK_RELIEF_NORMAL</property>
 		      <property name="focus_on_click">True</property>
 		    </widget>
@@ -4617,37 +4411,33 @@
 	  </child>
 
 	  <child>
-	    <widget class="GtkEntry" id="buildOutputLoc">
+	    <widget class="GnomeFileEntry" id="outputDirButton">
 	      <property name="visible">True</property>
-	      <property name="can_focus">True</property>
-	      <property name="editable">True</property>
-	      <property name="visibility">True</property>
-	      <property name="max_length">0</property>
-	      <property name="text" translatable="yes"></property>
-	      <property name="has_frame">True</property>
-	      <property name="invisible_char">*</property>
-	      <property name="activates_default">False</property>
+	      <property name="max_saved">10</property>
+	      <property name="browse_dialog_title" translatable="yes">Select output directory</property>
+	      <property name="directory_entry">True</property>
+	      <property name="modal">True</property>
+	      <property name="use_filechooser">True</property>
+	      <property name="filechooser_action">GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER</property>
+
+	      <child internal-child="entry">
+		<widget class="GtkEntry" id="combo-entry5">
+		  <property name="visible">True</property>
+		  <property name="can_focus">True</property>
+		  <property name="editable">True</property>
+		  <property name="visibility">True</property>
+		  <property name="max_length">0</property>
+		  <property name="text" translatable="yes"></property>
+		  <property name="has_frame">True</property>
+		  <property name="invisible_char">*</property>
+		  <property name="activates_default">False</property>
+		</widget>
+	      </child>
 	    </widget>
 	    <packing>
 	      <property name="padding">0</property>
 	      <property name="expand">True</property>
 	      <property name="fill">True</property>
-	    </packing>
-	  </child>
-
-	  <child>
-	    <widget class="GtkButton" id="OutputDirBrowse">
-	      <property name="visible">True</property>
-	      <property name="can_focus">True</property>
-	      <property name="label" translatable="yes">_Browse...</property>
-	      <property name="use_underline">True</property>
-	      <property name="relief">GTK_RELIEF_NORMAL</property>
-	      <property name="focus_on_click">True</property>
-	    </widget>
-	    <packing>
-	      <property name="padding">0</property>
-	      <property name="expand">False</property>
-	      <property name="fill">False</property>
 	    </packing>
 	  </child>
 	</widget>
@@ -4745,7 +4535,7 @@
 		    <widget class="GtkTable" id="table10">
 		      <property name="visible">True</property>
 		      <property name="n_rows">3</property>
-		      <property name="n_columns">3</property>
+		      <property name="n_columns">2</property>
 		      <property name="homogeneous">False</property>
 		      <property name="row_spacing">6</property>
 		      <property name="column_spacing">6</property>
@@ -4788,7 +4578,7 @@
 			  <property name="yalign">0.5</property>
 			  <property name="xpad">0</property>
 			  <property name="ypad">0</property>
-			  <property name="mnemonic_widget">outputDirectoryEntry</property>
+			  <property name="mnemonic_widget">combo-entry6</property>
 			</widget>
 			<packing>
 			  <property name="left_attach">0</property>
@@ -4826,46 +4616,6 @@
 		      </child>
 
 		      <child>
-			<widget class="GtkEntry" id="outputDirectoryEntry">
-			  <property name="visible">True</property>
-			  <property name="can_focus">True</property>
-			  <property name="editable">True</property>
-			  <property name="visibility">True</property>
-			  <property name="max_length">0</property>
-			  <property name="text" translatable="yes"></property>
-			  <property name="has_frame">True</property>
-			  <property name="invisible_char">*</property>
-			  <property name="activates_default">False</property>
-			</widget>
-			<packing>
-			  <property name="left_attach">1</property>
-			  <property name="right_attach">2</property>
-			  <property name="top_attach">1</property>
-			  <property name="bottom_attach">2</property>
-			  <property name="y_options"></property>
-			</packing>
-		      </child>
-
-		      <child>
-			<widget class="GtkButton" id="browseButton">
-			  <property name="visible">True</property>
-			  <property name="can_focus">True</property>
-			  <property name="label" translatable="yes">...</property>
-			  <property name="use_underline">True</property>
-			  <property name="relief">GTK_RELIEF_NORMAL</property>
-			  <property name="focus_on_click">True</property>
-			</widget>
-			<packing>
-			  <property name="left_attach">2</property>
-			  <property name="right_attach">3</property>
-			  <property name="top_attach">1</property>
-			  <property name="bottom_attach">2</property>
-			  <property name="x_options">fill</property>
-			  <property name="y_options"></property>
-			</packing>
-		      </child>
-
-		      <child>
 			<widget class="GtkEntry" id="assemblyNameEntry">
 			  <property name="visible">True</property>
 			  <property name="can_focus">True</property>
@@ -4879,7 +4629,7 @@
 			</widget>
 			<packing>
 			  <property name="left_attach">1</property>
-			  <property name="right_attach">3</property>
+			  <property name="right_attach">2</property>
 			  <property name="top_attach">0</property>
 			  <property name="bottom_attach">1</property>
 			  <property name="y_options"></property>
@@ -4900,9 +4650,42 @@
 			</widget>
 			<packing>
 			  <property name="left_attach">1</property>
-			  <property name="right_attach">3</property>
+			  <property name="right_attach">2</property>
 			  <property name="top_attach">2</property>
 			  <property name="bottom_attach">3</property>
+			  <property name="y_options"></property>
+			</packing>
+		      </child>
+
+		      <child>
+			<widget class="GnomeFileEntry" id="outputPathButton">
+			  <property name="visible">True</property>
+			  <property name="max_saved">10</property>
+			  <property name="browse_dialog_title" translatable="yes">Select output path</property>
+			  <property name="directory_entry">True</property>
+			  <property name="modal">True</property>
+			  <property name="use_filechooser">True</property>
+			  <property name="filechooser_action">GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER</property>
+
+			  <child internal-child="entry">
+			    <widget class="GtkEntry" id="combo-entry6">
+			      <property name="visible">True</property>
+			      <property name="can_focus">True</property>
+			      <property name="editable">True</property>
+			      <property name="visibility">True</property>
+			      <property name="max_length">0</property>
+			      <property name="text" translatable="yes"></property>
+			      <property name="has_frame">True</property>
+			      <property name="invisible_char">*</property>
+			      <property name="activates_default">False</property>
+			    </widget>
+			  </child>
+			</widget>
+			<packing>
+			  <property name="left_attach">1</property>
+			  <property name="right_attach">2</property>
+			  <property name="top_attach">1</property>
+			  <property name="bottom_attach">2</property>
 			  <property name="y_options"></property>
 			</packing>
 		      </child>
@@ -5031,7 +4814,7 @@
 		<widget class="GtkTable" id="table9">
 		  <property name="visible">True</property>
 		  <property name="n_rows">3</property>
-		  <property name="n_columns">3</property>
+		  <property name="n_columns">2</property>
 		  <property name="homogeneous">False</property>
 		  <property name="row_spacing">6</property>
 		  <property name="column_spacing">6</property>
@@ -5039,7 +4822,7 @@
 		  <child>
 		    <widget class="GtkLabel" id="label95">
 		      <property name="visible">True</property>
-		      <property name="label" translatable="yes">Execute Co_mmand</property>
+		      <property name="label" translatable="yes">Execute co_mmand</property>
 		      <property name="use_underline">True</property>
 		      <property name="use_markup">False</property>
 		      <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -5049,7 +4832,7 @@
 		      <property name="yalign">0.5</property>
 		      <property name="xpad">0</property>
 		      <property name="ypad">0</property>
-		      <property name="mnemonic_widget">executeScriptEntry</property>
+		      <property name="mnemonic_widget">combo-entry7</property>
 		    </widget>
 		    <packing>
 		      <property name="left_attach">0</property>
@@ -5064,7 +4847,7 @@
 		  <child>
 		    <widget class="GtkLabel" id="label96">
 		      <property name="visible">True</property>
-		      <property name="label" translatable="yes">_After Build</property>
+		      <property name="label" translatable="yes">_After build</property>
 		      <property name="use_underline">True</property>
 		      <property name="use_markup">False</property>
 		      <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -5074,7 +4857,7 @@
 		      <property name="yalign">0.5</property>
 		      <property name="xpad">0</property>
 		      <property name="ypad">0</property>
-		      <property name="mnemonic_widget">executeAfterEntry</property>
+		      <property name="mnemonic_widget">combo-entry8</property>
 		    </widget>
 		    <packing>
 		      <property name="left_attach">0</property>
@@ -5099,7 +4882,7 @@
 		      <property name="yalign">0.5</property>
 		      <property name="xpad">0</property>
 		      <property name="ypad">0</property>
-		      <property name="mnemonic_widget">executeBeforeEntry</property>
+		      <property name="mnemonic_widget">combo-entry9</property>
 		    </widget>
 		    <packing>
 		      <property name="left_attach">0</property>
@@ -5112,16 +4895,27 @@
 		  </child>
 
 		  <child>
-		    <widget class="GtkEntry" id="executeScriptEntry">
+		    <widget class="GnomeFileEntry" id="executeButton">
 		      <property name="visible">True</property>
-		      <property name="can_focus">True</property>
-		      <property name="editable">True</property>
-		      <property name="visibility">True</property>
-		      <property name="max_length">0</property>
-		      <property name="text" translatable="yes"></property>
-		      <property name="has_frame">True</property>
-		      <property name="invisible_char">*</property>
-		      <property name="activates_default">False</property>
+		      <property name="max_saved">10</property>
+		      <property name="directory_entry">False</property>
+		      <property name="modal">True</property>
+		      <property name="use_filechooser">True</property>
+		      <property name="filechooser_action">GTK_FILE_CHOOSER_ACTION_OPEN</property>
+
+		      <child internal-child="entry">
+			<widget class="GtkEntry" id="combo-entry7">
+			  <property name="visible">True</property>
+			  <property name="can_focus">True</property>
+			  <property name="editable">True</property>
+			  <property name="visibility">True</property>
+			  <property name="max_length">0</property>
+			  <property name="text" translatable="yes"></property>
+			  <property name="has_frame">True</property>
+			  <property name="invisible_char">*</property>
+			  <property name="activates_default">False</property>
+			</widget>
+		      </child>
 		    </widget>
 		    <packing>
 		      <property name="left_attach">1</property>
@@ -5133,16 +4927,27 @@
 		  </child>
 
 		  <child>
-		    <widget class="GtkEntry" id="executeAfterEntry">
+		    <widget class="GnomeFileEntry" id="afterButton">
 		      <property name="visible">True</property>
-		      <property name="can_focus">True</property>
-		      <property name="editable">True</property>
-		      <property name="visibility">True</property>
-		      <property name="max_length">0</property>
-		      <property name="text" translatable="yes"></property>
-		      <property name="has_frame">True</property>
-		      <property name="invisible_char">*</property>
-		      <property name="activates_default">False</property>
+		      <property name="max_saved">10</property>
+		      <property name="directory_entry">False</property>
+		      <property name="modal">True</property>
+		      <property name="use_filechooser">True</property>
+		      <property name="filechooser_action">GTK_FILE_CHOOSER_ACTION_OPEN</property>
+
+		      <child internal-child="entry">
+			<widget class="GtkEntry" id="combo-entry8">
+			  <property name="visible">True</property>
+			  <property name="can_focus">True</property>
+			  <property name="editable">True</property>
+			  <property name="visibility">True</property>
+			  <property name="max_length">0</property>
+			  <property name="text" translatable="yes"></property>
+			  <property name="has_frame">True</property>
+			  <property name="invisible_char">*</property>
+			  <property name="activates_default">False</property>
+			</widget>
+		      </child>
 		    </widget>
 		    <packing>
 		      <property name="left_attach">1</property>
@@ -5154,79 +4959,33 @@
 		  </child>
 
 		  <child>
-		    <widget class="GtkEntry" id="executeBeforeEntry">
+		    <widget class="GnomeFileEntry" id="beforeButton">
 		      <property name="visible">True</property>
-		      <property name="can_focus">True</property>
-		      <property name="editable">True</property>
-		      <property name="visibility">True</property>
-		      <property name="max_length">0</property>
-		      <property name="text" translatable="yes"></property>
-		      <property name="has_frame">True</property>
-		      <property name="invisible_char">*</property>
-		      <property name="activates_default">False</property>
+		      <property name="max_saved">10</property>
+		      <property name="directory_entry">False</property>
+		      <property name="modal">True</property>
+		      <property name="use_filechooser">True</property>
+		      <property name="filechooser_action">GTK_FILE_CHOOSER_ACTION_OPEN</property>
+
+		      <child internal-child="entry">
+			<widget class="GtkEntry" id="combo-entry9">
+			  <property name="visible">True</property>
+			  <property name="can_focus">True</property>
+			  <property name="editable">True</property>
+			  <property name="visibility">True</property>
+			  <property name="max_length">0</property>
+			  <property name="text" translatable="yes"></property>
+			  <property name="has_frame">True</property>
+			  <property name="invisible_char">*</property>
+			  <property name="activates_default">False</property>
+			</widget>
+		      </child>
 		    </widget>
 		    <packing>
 		      <property name="left_attach">1</property>
 		      <property name="right_attach">2</property>
 		      <property name="top_attach">2</property>
 		      <property name="bottom_attach">3</property>
-		      <property name="y_options"></property>
-		    </packing>
-		  </child>
-
-		  <child>
-		    <widget class="GtkButton" id="browseButton2">
-		      <property name="visible">True</property>
-		      <property name="can_focus">True</property>
-		      <property name="label" translatable="yes">...</property>
-		      <property name="use_underline">True</property>
-		      <property name="relief">GTK_RELIEF_NORMAL</property>
-		      <property name="focus_on_click">True</property>
-		    </widget>
-		    <packing>
-		      <property name="left_attach">2</property>
-		      <property name="right_attach">3</property>
-		      <property name="top_attach">0</property>
-		      <property name="bottom_attach">1</property>
-		      <property name="x_options">fill</property>
-		      <property name="y_options"></property>
-		    </packing>
-		  </child>
-
-		  <child>
-		    <widget class="GtkButton" id="browseButton3">
-		      <property name="visible">True</property>
-		      <property name="can_focus">True</property>
-		      <property name="label" translatable="yes">...</property>
-		      <property name="use_underline">True</property>
-		      <property name="relief">GTK_RELIEF_NORMAL</property>
-		      <property name="focus_on_click">True</property>
-		    </widget>
-		    <packing>
-		      <property name="left_attach">2</property>
-		      <property name="right_attach">3</property>
-		      <property name="top_attach">1</property>
-		      <property name="bottom_attach">2</property>
-		      <property name="x_options">fill</property>
-		      <property name="y_options"></property>
-		    </packing>
-		  </child>
-
-		  <child>
-		    <widget class="GtkButton" id="browseButton4">
-		      <property name="visible">True</property>
-		      <property name="can_focus">True</property>
-		      <property name="label" translatable="yes">...</property>
-		      <property name="use_underline">True</property>
-		      <property name="relief">GTK_RELIEF_NORMAL</property>
-		      <property name="focus_on_click">True</property>
-		    </widget>
-		    <packing>
-		      <property name="left_attach">2</property>
-		      <property name="right_attach">3</property>
-		      <property name="top_attach">2</property>
-		      <property name="bottom_attach">3</property>
-		      <property name="x_options">fill</property>
 		      <property name="y_options"></property>
 		    </packing>
 		  </child>

@@ -1,3 +1,12 @@
+2005-02-02  John Luke  <john.luke@gmail.com>
+
+	* EditorBindings.glade:
+	* Gui/OptionPanels/MarkersTextEditorPanel.cs:
+	* Gui/OptionPanels/GeneralTextEditorPanel.cs:
+	use Gnome.FileEntry where appropriate
+	remove window-ish editor props (show line endings, etc)
+	remove double buffering pref (we always are)
+
 2005-02-01  John Luke  <john.luke@gmail.com>
 
 	* Gui.SourceEditorBuffer.cs: use ErrorInfo

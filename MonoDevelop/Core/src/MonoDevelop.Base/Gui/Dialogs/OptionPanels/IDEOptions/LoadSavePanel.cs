@@ -49,19 +49,9 @@ namespace MonoDevelop.Gui.Dialogs.OptionPanels
 			[Glade.Widget] public Gtk.CheckButton loadUserDataCheckButton;
 			[Glade.Widget] public Gtk.CheckButton createBackupCopyCheckButton;
 			[Glade.Widget] public Gtk.CheckButton loadPrevProjectCheckButton;
-			[Glade.Widget] public Gtk.RadioButton windowsRadioButton; 
-			[Glade.Widget] public Gtk.RadioButton macintoshRadioButton;
-			[Glade.Widget] public Gtk.RadioButton unixRadioButton;
 			[Glade.Widget] public Gtk.Label loadLabel;		
 			[Glade.Widget] public Gtk.Label saveLabel;
-			[Glade.Widget] public Gtk.Label terminatorLabel;	
 			[Glade.Widget] public Gtk.Label locationLabel;
-			
-			public enum LineTerminatorStyle {
-				Windows,
-				Macintosh,
-				Unix
-			}
 			
 			public LoadSavePanelWidget () : base ("Base.glade", "LoadSavePanel")
 			{
@@ -82,25 +72,6 @@ namespace MonoDevelop.Gui.Dialogs.OptionPanels
 					"SharpDevelop.CreateBackupCopy", false);
 				loadPrevProjectCheckButton.Active = (bool) Runtime.Properties.GetProperty(
 					"SharpDevelop.LoadPrevProjectOnStartup", false);
-				
-				if (LineTerminatorStyle.Windows.Equals (
-					    Runtime.Properties.GetProperty (
-						    "SharpDevelop.LineTerminatorStyle", LineTerminatorStyle.Unix)))  {
-					windowsRadioButton.Active = true;}
-				else if  (LineTerminatorStyle.Macintosh.Equals (
-						  Runtime.Properties.GetProperty 
-						  ("SharpDevelop.LineTerminatorStyle", LineTerminatorStyle.Unix)))  {
-					macintoshRadioButton.Active = true;}
-				else if (LineTerminatorStyle.Unix.Equals (
-						 Runtime.Properties.GetProperty (
-							 "SharpDevelop.LineTerminatorStyle", LineTerminatorStyle.Unix))) {
-					unixRadioButton.Active = true;}
-				
-				// FIXME: renable all terminator style radio buttons when they're implemented.
-				unixRadioButton.Sensitive = false;
-				macintoshRadioButton.Sensitive = false;
-				windowsRadioButton.Sensitive = false;
-				terminatorLabel.Sensitive = false;
 			}
 			
 			public bool Store () 
@@ -108,13 +79,6 @@ namespace MonoDevelop.Gui.Dialogs.OptionPanels
 				Runtime.Properties.SetProperty("SharpDevelop.LoadPrevProjectOnStartup", loadPrevProjectCheckButton.Active);
 				Runtime.Properties.SetProperty ("SharpDevelop.LoadDocumentProperties",  loadUserDataCheckButton.Active);
 				Runtime.Properties.SetProperty ("SharpDevelop.CreateBackupCopy",        createBackupCopyCheckButton.Active);
-				
-				if (windowsRadioButton.Active) {
-					Runtime.Properties.SetProperty ("SharpDevelop.LineTerminatorStyle", LineTerminatorStyle.Windows);} 
-				else if (macintoshRadioButton.Active) {
-					Runtime.Properties.SetProperty ("SharpDevelop.LineTerminatorStyle", LineTerminatorStyle.Macintosh);} 
-				else if (unixRadioButton.Active){
-					Runtime.Properties.SetProperty ("SharpDevelop.LineTerminatorStyle", LineTerminatorStyle.Unix);}
 				
 				// check for correct settings
 				string projectPath = projectLocationTextBox.GtkEntry.Text;

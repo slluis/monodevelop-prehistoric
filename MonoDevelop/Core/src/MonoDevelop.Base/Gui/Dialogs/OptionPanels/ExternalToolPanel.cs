@@ -80,7 +80,6 @@ namespace MonoDevelop.Gui.Dialogs.OptionPanels
 			[Glade.Widget] ListStore toolListBoxStore;
 			[Glade.Widget] Gtk.TreeView toolListBox;
 			[Glade.Widget] Gtk.Entry titleTextBox; 
-			[Glade.Widget] Gtk.Entry commandTextBox; 
 			[Glade.Widget] Gtk.Entry argumentTextBox; 
 			[Glade.Widget] Gtk.Entry workingDirTextBox; 
 			[Glade.Widget] CheckButton promptArgsCheckBox; 
@@ -89,7 +88,7 @@ namespace MonoDevelop.Gui.Dialogs.OptionPanels
 			[Glade.Widget] Label argumentLabel; 
 			[Glade.Widget] Label commandLabel; 
 			[Glade.Widget] Label workingDirLabel; 
- 			[Glade.Widget] Button browseButton; 
+ 			[Glade.Widget] Gnome.FileEntry browseButton; 
  			[Glade.Widget] Button argumentQuickInsertButton; 
 			[Glade.Widget] Button workingDirQuickInsertButton; 
  			[Glade.Widget] Button moveUpButton; 
@@ -109,7 +108,7 @@ namespace MonoDevelop.Gui.Dialogs.OptionPanels
 				toolListBoxStore = new ListStore (typeof (string), typeof (ExternalTool));
 
 				dependendControls = new Widget[] {
-					titleTextBox, commandTextBox, argumentTextBox, 
+					titleTextBox, argumentTextBox, 
 					workingDirTextBox, promptArgsCheckBox, useOutputPadCheckBox, 
 					titleLabel, argumentLabel, commandLabel, 
 					workingDirLabel, browseButton, argumentQuickInsertButton, 
@@ -140,23 +139,10 @@ namespace MonoDevelop.Gui.Dialogs.OptionPanels
 				addButton.Clicked += new EventHandler (addEvent);
 				moveUpButton.Clicked += new EventHandler (moveUpEvent);
 				moveDownButton.Clicked += new EventHandler (moveDownEvent);
-				browseButton.Clicked += new EventHandler (browseEvent);
 
 				selectEvent (this, EventArgs.Empty);
 			}
 	         
-			void browseEvent (object sender, EventArgs e)
-			{
-				using (FileSelector fs = new FileSelector (GettextCatalog.GetString ("File to Open"))) {
-					int response = fs.Run ();
-					string name = fs.Filename;
-					fs.Hide ();
-					if (response == (int) Gtk.ResponseType.Ok) {
-						commandTextBox.Text = name;
-					}
-				}
-			}
-				 
 			void moveUpEvent (object sender, EventArgs e)
 			{
 				if(toolListBox.Selection.CountSelectedRows () == 1)
@@ -212,7 +198,7 @@ namespace MonoDevelop.Gui.Dialogs.OptionPanels
 						 	 
 					lv.SetValue (selectedIter, 0, titleTextBox.Text);
 					selectedItem.MenuCommand = titleTextBox.Text;
-					selectedItem.Command = commandTextBox.Text;
+					selectedItem.Command = browseButton.Filename;
 					selectedItem.Arguments = argumentTextBox.Text;
 					selectedItem.InitialDirectory = workingDirTextBox.Text;
 					selectedItem.PromptForArguments = promptArgsCheckBox.Active;
@@ -225,7 +211,6 @@ namespace MonoDevelop.Gui.Dialogs.OptionPanels
 				SetEnabledStatus (toolListBox.Selection.CountSelectedRows () > 0, removeButton);
 					 
 				titleTextBox.Changed -= new EventHandler (setToolValues);
-				commandTextBox.Changed -= new EventHandler (setToolValues);
 				argumentTextBox.Changed -= new EventHandler (setToolValues);
 				workingDirTextBox.Changed -= new EventHandler (setToolValues);
 				promptArgsCheckBox.Toggled -= new EventHandler (setToolValues);
@@ -242,7 +227,7 @@ namespace MonoDevelop.Gui.Dialogs.OptionPanels
 					 
 					SetEnabledStatus (true, dependendControls);
 					titleTextBox.Text = selectedItem.MenuCommand;
-					commandTextBox.Text = selectedItem.Command;
+					browseButton.Filename = selectedItem.Command;
 					argumentTextBox.Text = selectedItem.Arguments;
 					workingDirTextBox.Text = selectedItem.InitialDirectory;
 					promptArgsCheckBox.Active = selectedItem.PromptForArguments;
@@ -250,7 +235,7 @@ namespace MonoDevelop.Gui.Dialogs.OptionPanels
 				} else {
 					SetEnabledStatus (false, dependendControls);
 					titleTextBox.Text = String.Empty;
-					commandTextBox.Text = String.Empty;
+					browseButton.Filename = String.Empty;
 					argumentTextBox.Text = String.Empty;
 					workingDirTextBox.Text = String.Empty;
 					promptArgsCheckBox.Active = false;
@@ -258,7 +243,6 @@ namespace MonoDevelop.Gui.Dialogs.OptionPanels
 				}
 				 
 				titleTextBox.Changed += new EventHandler (setToolValues);
-				commandTextBox.Changed += new EventHandler (setToolValues);
 				argumentTextBox.Changed += new EventHandler (setToolValues);
 				workingDirTextBox.Changed += new EventHandler (setToolValues);
 				promptArgsCheckBox.Toggled += new EventHandler (setToolValues);

@@ -32,11 +32,9 @@ namespace MonoDevelop.Gui.Dialogs.OptionPanels
  			[Glade.Widget] RadioButton projectFileRadioButton;
  			[Glade.Widget] RadioButton compiledAssemblyRadioButton;
  			[Glade.Widget] RadioButton scriptFileRadioButton;
- 			[Glade.Widget] Button selectScriptFileButton;
- 			[Glade.Widget] Button selectTargetButton;
- 			[Glade.Widget] Entry deployTargetEntry;
- 			[Glade.Widget] Entry deployScriptEntry;
-			[Glade.Widget] VBox deployScriptBox;
+ 			[Glade.Widget] Gnome.FileEntry selectScriptButton;
+ 			[Glade.Widget] Gnome.FileEntry selectTargetButton;
+			//[Glade.Widget] VBox deployScriptBox;
 			[Glade.Widget] VBox deployTargetBox;
 			[Glade.Widget] Gtk.TreeView includeTreeView;
 			public ListStore store;
@@ -53,8 +51,6 @@ namespace MonoDevelop.Gui.Dialogs.OptionPanels
   				projectFileRadioButton.Clicked += new EventHandler(RadioButtonClicked);
   				compiledAssemblyRadioButton.Clicked += new EventHandler(RadioButtonClicked);
   				scriptFileRadioButton.Clicked += new EventHandler(RadioButtonClicked);
-				selectScriptFileButton.Clicked += new EventHandler(SelectScriptFileEvent);
-				selectTargetButton.Clicked += new EventHandler(SelectTargetFolderEvent);
 
 				store = new ListStore (typeof(bool), typeof(string));
 				includeTreeView.Selection.Mode = SelectionMode.None;
@@ -72,8 +68,8 @@ namespace MonoDevelop.Gui.Dialogs.OptionPanels
 					}
 				}
 
-				deployTargetEntry.Text = project.DeployInformation.DeployTarget;
-				deployScriptEntry.Text = project.DeployInformation.DeployScript;
+				selectTargetButton.Filename = project.DeployInformation.DeployTarget;
+				selectScriptButton.Filename = project.DeployInformation.DeployScript;
 			
 				projectFileRadioButton.Active = project.DeployInformation.DeploymentStrategy == DeploymentStrategy.File;
 				compiledAssemblyRadioButton.Active = project.DeployInformation.DeploymentStrategy == DeploymentStrategy.Assembly;
@@ -82,32 +78,10 @@ namespace MonoDevelop.Gui.Dialogs.OptionPanels
 				RadioButtonClicked(null, null);
 			}
 
-			//FIXME : Finish details in this dialog.
-			void SelectScriptFileEvent(object sender, EventArgs e)
-			{
-				using (FileSelector fs = new FileSelector (GettextCatalog.GetString ("Select your File"))) { // Put correct title 
-					if ( fs.Run () == (int) ResponseType.Ok) {
- 						deployScriptEntry.Text = fs.Filename;
-					}
-					fs.Hide ();
-				} 
-			}
-			
-			void SelectTargetFolderEvent(object sender, EventArgs e)
-			{
-				using (FileSelector fs = new FileSelector (GettextCatalog.GetString ("Select the target directory"))) {
-					if ( fs.Run () == (int) ResponseType.Ok) {
-						deployTargetEntry.Text = fs.Filename;
-					}
-					fs.Hide ();
-				}
-			}
-			
 			void RadioButtonClicked(object sender, EventArgs e)
 			{
  				deployTargetBox.Sensitive = compiledAssemblyRadioButton.Active || projectFileRadioButton.Active;
-  				deployScriptEntry.Sensitive = scriptFileRadioButton.Active;
-  				selectScriptFileButton.Sensitive = scriptFileRadioButton.Active;
+  				selectScriptButton.Sensitive = scriptFileRadioButton.Active;
 			}
 			
 			private void ItemToggled (object o, ToggledArgs args)
@@ -123,27 +97,27 @@ namespace MonoDevelop.Gui.Dialogs.OptionPanels
 			
 			public bool Store () 
 			{
-				if (deployTargetEntry.Text.Length > 0) {
-					if (!fileUtilityService.IsValidFileName(deployTargetEntry.Text)) {
+				if (selectTargetButton.Filename.Length > 0) {
+					if (!fileUtilityService.IsValidFileName(selectTargetButton.Filename)) {
 						Runtime.MessageService.ShowError (GettextCatalog.GetString ("Invalid deploy target specified"));
 						return false;
 					}
 				}
 				
-				if (deployScriptEntry.Text.Length > 0) {
-					if (!fileUtilityService.IsValidFileName(deployScriptEntry.Text)) {
+				if (selectScriptButton.Filename.Length > 0) {
+					if (!fileUtilityService.IsValidFileName(selectScriptButton.Filename)) {
 						Runtime.MessageService.ShowError (GettextCatalog.GetString ("Invalid deploy script specified"));
 						return false;				
 					}
 				}
 				
-				if (!System.IO.File.Exists(deployScriptEntry.Text)) {
+				if (!System.IO.File.Exists(selectScriptButton.Filename)) {
 					Runtime.MessageService.ShowError (GettextCatalog.GetString ("Deploy script doesn't exists"));
 					return false;
  				}
 			
- 			project.DeployInformation.DeployTarget = deployTargetEntry.Text;
- 			project.DeployInformation.DeployScript = deployScriptEntry.Text;
+ 			project.DeployInformation.DeployTarget = selectTargetButton.Filename;
+ 			project.DeployInformation.DeployScript = selectScriptButton.Filename;
 			
  			if (projectFileRadioButton.Active) {
  				project.DeployInformation.DeploymentStrategy = DeploymentStrategy.File;
