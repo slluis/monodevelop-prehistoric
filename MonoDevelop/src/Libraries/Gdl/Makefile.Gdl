@@ -5,7 +5,6 @@ SOURCES = \
 ./DockObject.cs \
 ./AssemblyInfo.cs \
 ./DockItemBehavior.cs \
-./DockItemFlags.cs \
 ./DockObjectFlags.cs \
 ./DockParamFlags.cs \
 ./Stock.cs \

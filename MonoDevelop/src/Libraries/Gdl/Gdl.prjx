@@ -3,7 +3,6 @@
     <File name="./DockObject.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
     <File name="./AssemblyInfo.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
     <File name="./DockItemBehavior.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
-    <File name="./DockItemFlags.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
     <File name="./DockObjectFlags.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
     <File name="./DockParamFlags.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
     <File name="./Stock.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
