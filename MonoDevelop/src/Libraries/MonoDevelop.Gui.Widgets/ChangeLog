@@ -1,3 +1,9 @@
+2004-06-06  John Luke  <jluke@cfl.rr.com>
+
+	* TabLabel/TabLabel.cs: fix the size of the button to 18 so it is
+	not clipped, don't allow the button to expand/fill, make the label
+	do so
+
 2004-05-09  Todd Berman  <tberman@sevenl.net>
 
 	* DragNotebook/DragNotebook.cs: notebook from Inigo Illan to add
