@@ -59,26 +59,22 @@ ADDIN = MonoQuery.addin.xml
 
 ADDIN_BUILD = $(top_builddir)/build/AddIns/MonoQuery
 
-DLL = MonoQuery.dll
+DLL = $(ADDIN_BUILD)/MonoQuery.dll
 
-DLL_BUILD = $(top_builddir)/build/AddIns/MonoQuery
-
-all: $(DLL_BUILD)/$(DLL) $(ADDIN_BUILD)/$(ADDIN)
+all: $(ADDIN_BUILD)/$(ADDIN) $(DLL)
 
 $(ADDIN_BUILD)/$(ADDIN): $(srcdir)/$(ADDIN)
 	mkdir -p $(ADDIN_BUILD)
 	cp $(srcdir)/$(ADDIN) $(ADDIN_BUILD)/$(ADDIN)
 
 $(DLL): $(build_sources) $(srcdir)/$(GLADEFILE)
-	mcs -target:library -out:$(DLL) $(build_sources) $(REFS)
+	mkdir -p $(ADDIN_BUILD)
+	$(CSC) -target:library -out:$@ $(build_sources) $(REFS)
 
-$(DLL_BUILD)/$(DLL): $(srcdir)/$(DLL)
-	mkdir -p $(DLL_BUILD)
-	cp $(srcdir)/$(DLL) $(DLL_BUILD)/$(DLL)
+CLEANFILES = $(DLL) $(DLL).mdb $(ADDIN_BUILD)/$(ADDIN)
 
-CLEANFILES=$(DLL) $(DLL_BUILD)/$(DLL) $(ADDIN_BUILD)/$(ADDIN)
-
-EXTRADIST=$(FILES)
+EXTRA_DIST = $(FILES) $(SQLITE_FILES) $(ADDIN)
 
 monoquerydir = $(libdir)/monodevelop/AddIns/MonoQuery
-monoquery_DATA = $(DLL_BUILD)/$(DLL) $(ADDIN_BUILD)/$(ADDIN)
+monoquery_DATA = $(DLL) $(ADDIN_BUILD)/$(ADDIN)
+

@@ -1,3 +1,11 @@
+2005-02-09  John Luke  <john.luke@gmail.com>
+
+	* */Makefile.am: build to build/bin/ so the make CSC='mcs -g'
+	and then running with --debug will work
+	almost fix distcheck
+	* po/POTFILES.in: update
+	* configure.in: dep on gtk-sharp-2 > 1.9.2
+
 2005-02-10  Christian Hergert <christian.hergert@gmail.com>
 
 	* configure.in: Gecko# updated their pkg-config settings. We now check

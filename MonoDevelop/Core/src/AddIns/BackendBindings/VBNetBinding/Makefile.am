@@ -1,4 +1,6 @@
-ASSEMBLY = VBNetBinding.dll
+
+ADDIN_BUILD = $(top_builddir)/build/AddIns/BackendBindings
+ASSEMBLY = $(ADDIN_BUILD)/VBNetBinding.dll
 
 SUBDIRS = SharpRefactoryVB
 
@@ -48,8 +50,6 @@ build_sources = $(addprefix $(srcdir)/, $(FILES))
 
 ADDIN = VBNetBinding.addin.xml
 
-ADDIN_BUILD = $(top_builddir)/build/AddIns/BackendBindings
-
 TEMPLATES_DIR = $(ADDIN_BUILD)/templates
 
 build_TEMPLATES = $(addprefix $(TEMPLATES_DIR)/, $(notdir $(TEMPLATES)))
@@ -71,10 +71,9 @@ $(ADDIN_BUILD)/$(ADDIN): $(srcdir)/$(ADDIN)
 $(ASSEMBLY): $(build_sources) $(srcdir)/VB.glade
 	mkdir -p $(ADDIN_BUILD)
 	cd SharpRefactoryVB && make
-	$(CSC) /out:$(ASSEMBLY) /target:library $(DLLS) \
-		/resource:$(srcdir)/VB.glade,VB.glade \
-		$(build_sources) \
-	&& cp $(ASSEMBLY) $(ADDIN_BUILD)/.
+	$(CSC) -out:$@ -target:library $(DLLS) \
+		-resource:$(srcdir)/VB.glade,VB.glade \
+		$(build_sources)
 
 vbnetbindinglibdir = $(libdir)/monodevelop/AddIns/BackendBindings
 vbnetbindinglib_DATA = $(ASSEMBLY) $(ADDIN)

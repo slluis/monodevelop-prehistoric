@@ -57,7 +57,7 @@ AddIns/AddInSignatureException.cs
 
 build_sources = $(addprefix $(srcdir)/, $(FILES)) Services/GettextCatalog.cs
 
-DLL = MonoDevelop.Core.dll
+DLL = $(top_builddir)/build/bin/MonoDevelop.Core.dll
 
 REFS = -r:Mono.Posix.dll
 
@@ -69,8 +69,7 @@ Services/GettextCatalog.cs: $(srcdir)/Services/GettextCatalog.cs.in
 	mv $@.tmp $@
 
 $(DLL): $(build_sources) $(build_resources)
-	$(CSC) /out:$(DLL) /target:library $(REFS) \
-	$(build_sources) && cp $(DLL) $(top_builddir)/build/bin/.
+	$(CSC) -out:$@ -target:library $(REFS) $(build_sources)
 
 assemblydir = $(libdir)/monodevelop/bin
 assembly_DATA = $(DLL)

@@ -1,5 +1,6 @@
 
-ASSEMBLY = NemerleBinding.dll
+ADDIN_BUILD = $(top_builddir)/build/AddIns/BackendBindings
+ASSEMBLY = $(ADDIN_BUILD)/NemerleBinding.dll
 
 DLLS = /r:System.Drawing.dll \
 	/r:$(top_builddir)/build/bin/MonoDevelop.Core.dll \
@@ -29,8 +30,6 @@ build_TEMPLATES = $(addprefix $(ADDIN_BUILD)/templates/, $(TEMPLATES))
 
 ADDIN = NemerleBinding.addin.xml
 
-ADDIN_BUILD = $(top_builddir)/build/AddIns/BackendBindings
-
 TEMPLATES_DIR = $(ADDIN_BUILD)/templates
 
 all: $(ASSEMBLY) $(ADDIN_BUILD)/$(ADDIN) $(build_TEMPLATES)
@@ -49,9 +48,8 @@ $(ADDIN_BUILD)/$(ADDIN): $(srcdir)/$(ADDIN)
 
 $(ASSEMBLY): $(FILES) $(srcdir)/Nemerle.glade
 	mkdir -p $(ADDIN_BUILD)
-	$(CSC) $(DLLS) $(build_sources) /out:$(ASSEMBLY) /target:library \
-	/resource:$(srcdir)/Nemerle.glade,Nemerle.glade \
-	&& cp $(ASSEMBLY) $(ADDIN_BUILD)/.
+	$(CSC) $(DLLS) $(build_sources) -out:$@ -target:library \
+	-resource:$(srcdir)/Nemerle.glade,Nemerle.glade
 
 assemblydir = $(libdir)/monodevelop/AddIns/BackendBindings/
 assembly_DATA = $(ASSEMBLY) $(ADDIN)

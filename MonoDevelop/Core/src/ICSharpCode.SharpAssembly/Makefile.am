@@ -68,13 +68,12 @@ src/SharpAssembly/AssemblyNameNotFoundException.cs
 
 build_sources = $(addprefix $(srcdir)/, $(FILES))
 
-DLL = ICSharpCode.SharpAssembly.dll
+DLL = $(top_builddir)/build/bin/ICSharpCode.SharpAssembly.dll
 
 all: $(DLL)
 
 $(DLL): $(build_sources)
-	$(CSC) /out:$(DLL) /target:library $(build_sources) \
-	&& cp $(DLL) $(top_builddir)/build/bin/.
+	$(CSC) -out:$@ -target:library $(build_sources)
 
 assemblydir = $(libdir)/monodevelop/bin
 assembly_DATA = $(DLL)

@@ -1,5 +1,6 @@
 
-ASSEMBLY = JavaBinding.dll
+ADDIN_BUILD = $(top_builddir)/build/AddIns/BackendBindings
+ASSEMBLY = $(ADDIN_BUILD)/JavaBinding.dll
 
 DLLS = /r:System.Drawing.dll \
 	/r:$(top_builddir)/build/bin/MonoDevelop.Core.dll \
@@ -35,7 +36,6 @@ build_sources = $(addprefix $(srcdir)/, $(FILES))
 
 ADDIN = JavaBinding.addin.xml
 
-ADDIN_BUILD = $(top_builddir)/build/AddIns/BackendBindings
 
 TEMPLATES_DIR = $(ADDIN_BUILD)/templates
 
@@ -67,8 +67,7 @@ $(ADDIN_BUILD)/$(ADDIN): $(srcdir)/$(ADDIN)
 
 $(ASSEMBLY): $(FILES)
 	mkdir -p $(ADDIN_BUILD)
-	$(CSC) $(DLLS) $(build_sources) /out:$(ASSEMBLY) /target:library \
-	&& cp $(ASSEMBLY) $(ADDIN_BUILD)/.
+	$(CSC) $(DLLS) $(build_sources) -out:$@ -target:library
 
 assemblydir = $(libdir)/monodevelop/AddIns/BackendBindings
 assembly_DATA = $(ASSEMBLY) $(ADDIN)

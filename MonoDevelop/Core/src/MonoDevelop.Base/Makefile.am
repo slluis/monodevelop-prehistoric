@@ -432,7 +432,9 @@ build_OPTIONS = $(addprefix $(top_builddir)/build/data/options/, $(notdir $(OPTI
 
 build_sources = $(addprefix $(srcdir)/, $(FILES))
 
-ASSEMBLY = MonoDevelop.Base.dll
+DLLNAME = MonoDevelop.Base.dll
+CONFIG = $(DLLNAME).config
+ASSEMBLY = $(top_builddir)/build/bin/$(DLLNAME)
 
 ADDIN = MonoDevelopCore.addin.xml
 
@@ -449,18 +451,16 @@ $(ADDIN_BUILD)/$(ADDIN): $(srcdir)/$(ADDIN)
 	cp $(srcdir)/$(ADDIN) $(ADDIN_BUILD)/.
 
 $(ASSEMBLY): $(build_sources) $(srcdir)/Base.glade
-	$(CSC) $(MONO_POSIX_OEE) -g -codepage:utf8 /out:$(ASSEMBLY) /target:library $(DLLS) \
-		/resource:$(srcdir)/Base.glade,Base.glade \
-		$(monodoc_libflags) \
-		$(build_sources) \
-	&& cp $(ASSEMBLY) $(top_builddir)/build/bin/. \
-	&& cp $(ASSEMBLY).config $(top_builddir)/build/bin/.
+	$(CSC) $(MONO_POSIX_OEE) -codepage:utf8 -out:$@ -target:library $(DLLS) \
+		-resource:$(srcdir)/Base.glade,Base.glade \
+		$(monodoc_libflags) $(build_sources) \
+	&& cp $(CONFIG) $(top_builddir)/build/bin/.
 
 Services/StockIcons.cs : ./Services/process-icons.pl ../../../build/data/resources/icons
 	perl  -x$(srcdir)/../../../build/data/resources/icons -w $(srcdir)/./Services/process-icons.pl > $(srcdir)/Services/StockIcons.cs
 
 assemblydir = $(libdir)/monodevelop/bin
-assembly_DATA = $(ASSEMBLY) $(ASSEMBLY).config
+assembly_DATA = $(ASSEMBLY) $(CONFIG)
 
 addindir = $(libdir)/monodevelop/AddIns
 addin_DATA = $(ADDIN)
@@ -469,7 +469,7 @@ optionsdir = $(libdir)/monodevelop/data/options
 options_DATA = $(OPTIONS)
 
 CLEANFILES = $(ASSEMBLY) $(ASSEMBLY).mdb
-DISTCLEANFILES = $(ASSEMBLY).config
+DISTCLEANFILES = $(CONFIG)
 
-EXTRA_DIST = $(FILES) ./Services/process-icons.pl $(ASSEMBLY).config.in Base.glade $(ADDIN) $(OPTIONS)
+EXTRA_DIST = $(FILES) ./Services/process-icons.pl $(CONFIG).in Base.glade $(ADDIN) $(OPTIONS)
 

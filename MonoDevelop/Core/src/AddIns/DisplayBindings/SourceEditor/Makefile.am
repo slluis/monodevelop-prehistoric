@@ -1,4 +1,6 @@
-DLL = MonoDevelop.SourceEditor.dll
+DLLNAME = MonoDevelop.SourceEditor.dll
+CONFIG = $(DLLNAME).config
+DLL = $(top_builddir)/build/bin/$(DLLNAME)
 
 FILES = \
 AssemblyInfo.cs \
@@ -99,18 +101,18 @@ $(ADDIN_BUILD)/$(ADDIN): $(srcdir)/$(ADDIN)
 
 $(DLL) : $(build_sources) $(srcdir)/EditorBindings.glade $(srcdir)/texteditoraddin.glade
 	mkdir -p $(top_builddir)/build/bin
-	$(CSC) $(build_sources) /debug /out:$(DLL) /t:library $(REFS) \
-	/resource:$(srcdir)/EditorBindings.glade,EditorBindings.glade \
-	/resource:$(srcdir)/texteditoraddin.glade,texteditoraddin.glade \
-	&& cp $(DLL) $(top_builddir)/build/bin/. && cp $(DLL).config $(top_builddir)/build/bin/.
+	$(CSC) $(build_sources) -out:$@ -t:library $(REFS) \
+	-resource:$(srcdir)/EditorBindings.glade,EditorBindings.glade \
+	-resource:$(srcdir)/texteditoraddin.glade,texteditoraddin.glade \
+	&& cp $(CONFIG) $(top_builddir)/build/bin/.
 
 assemblydir = $(libdir)/monodevelop/bin
-assembly_DATA = $(DLL) $(DLL).config
+assembly_DATA = $(DLL) $(CONFIG)
 
 addindir = $(libdir)/monodevelop/AddIns
 addin_DATA = $(ADDIN)
 
 CLEANFILES = $(DLL) $(DLL).mdb
-DISTCLEANFILES = $(DLL).config
+DISTCLEANFILES = $(CONFIG)
 
-EXTRA_DIST = $(FILES) $(DLL).config.in EditorBindings.glade texteditoraddin.glade $(ADDIN)
+EXTRA_DIST = $(FILES) $(CONFIG).in EditorBindings.glade texteditoraddin.glade $(ADDIN)

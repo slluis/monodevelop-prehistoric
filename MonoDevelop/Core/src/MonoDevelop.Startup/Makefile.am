@@ -6,7 +6,7 @@ AssemblyInfo.cs
 
 build_sources = $(addprefix $(srcdir)/, $(FILES))
 
-DLL = MonoDevelop.exe
+DLL = $(top_builddir)/build/bin/MonoDevelop.exe
 
 all: $(DLL)
 
@@ -19,11 +19,8 @@ REFS = /r:System.Drawing \
 	$(GNOME_SHARP_LIBS)
 
 $(DLL): $(build_sources)
-	$(CSC) /out:$(DLL) \
-		/define:GTK $(REFS) \
-		$(build_sources) \
-		/resource:$(srcdir)/SplashScreen.png,SplashScreen.png \
-	&& cp $(DLL) $(top_builddir)/build/bin/.
+	$(CSC) -out:$@ -define:GTK $(REFS) $(build_sources) \
+		-resource:$(srcdir)/SplashScreen.png,SplashScreen.png
 
 assemblydir = $(libdir)/monodevelop/bin
 assembly_DATA = $(DLL)           

@@ -1,7 +1,7 @@
 
-ASSEMBLY = prj2make-sharp-lib.dll
 ADDIN = prj2make-sharp-lib.addin.xml
 ADDIN_BUILD = $(top_builddir)/build/AddIns/prj2makesharp
+ASSEMBLY = $(ADDIN_BUILD)/prj2make-sharp-lib.dll
 
 DLLS = $(GTK_SHARP_LIBS) \
 	/r:$(top_builddir)/build/bin/MonoDevelop.Base.dll \
@@ -34,9 +34,7 @@ $(ADDIN_BUILD)/$(ADDIN):
 
 $(ASSEMBLY): $(build_sources)
 	mkdir -p $(ADDIN_BUILD)
-	$(CSC) /out:$(ASSEMBLY) /target:library \
-	$(build_sources) $(DLLS)\
-	&& cp $(ASSEMBLY) $(ADDIN_BUILD)/.
+	$(CSC) -out:$@ -target:library $(build_sources) $(DLLS)
 
 assemblydir = $(libdir)/monodevelop/AddIns
 assembly_DATA = $(ASSEMBLY) $(ADDIN)

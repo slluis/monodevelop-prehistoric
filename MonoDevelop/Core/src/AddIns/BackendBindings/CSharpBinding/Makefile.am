@@ -1,4 +1,6 @@
-ASSEMBLY = CSharpBinding.dll
+ADDIN_BUILD = $(top_builddir)/build/AddIns/BackendBindings
+ASSEMBLY = $(ADDIN_BUILD)/CSharpBinding.dll
+
 PARSE = parse.exe
 
 DLLS = /r:System.Drawing.dll \
@@ -62,7 +64,6 @@ build_sources = $(addprefix $(srcdir)/, $(FILES))
 
 ADDIN = CSharpBinding.addin.xml
 
-ADDIN_BUILD = $(top_builddir)/build/AddIns/BackendBindings
 
 TEMPLATES_DIR = $(ADDIN_BUILD)/templates
 
@@ -84,17 +85,16 @@ $(ADDIN_BUILD)/$(ADDIN): $(srcdir)/$(ADDIN)
 
 $(ASSEMBLY): $(build_sources) $(srcdir)/CSharp.glade
 	mkdir -p $(ADDIN_BUILD)
-	$(CSC) /out:$(ASSEMBLY) /target:library $(DLLS) \
-		/resource:$(srcdir)/CSharp.glade,CSharp.glade \
-		$(build_sources) \
-	&& cp $(ASSEMBLY) $(ADDIN_BUILD)/.
+	$(CSC) -out:$@ -target:library $(DLLS) \
+		-resource:$(srcdir)/CSharp.glade,CSharp.glade \
+		$(build_sources)
 
 parse: $(PARSE)
 
 $(PARSE): parse.cs $(ASSEMBLY)
 	$(CSC) -out:$@ parse.cs $(DLLS) -r:../../../../../build/AddIns/BackendBindings/$(ASSEMBLY)
 
-run-parse-test:
+run-parse-test: $(PARSE)
 	MONO_PATH=../../../../../build/AddIns/BackendBindings/:../../../../../build/bin/ mono $(PARSE) .
 
 csharpbindinglibdir = $(libdir)/monodevelop/AddIns/BackendBindings

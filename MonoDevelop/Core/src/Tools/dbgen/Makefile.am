@@ -1,5 +1,5 @@
 
-ASSEMBLY = dbgen.exe
+ASSEMBLY = $(top_builddir)/build/bin/dbgen.exe
 
 FILES = src/AssemblyInfo.cs \
 src/dbgen.cs
@@ -11,8 +11,7 @@ all: $(ASSEMBLY)
 REFS = /r:$(top_builddir)/build/bin/MonoDevelop.Base.dll /r:$(top_builddir)/build/bin/MonoDevelop.Core.dll
 	
 $(ASSEMBLY): $(build_sources)
-	$(CSC) $(build_sources) $(REFS) /out:$(ASSEMBLY) \
-	&& cp $(ASSEMBLY) $(top_builddir)/build/bin/.
+	$(CSC) $(build_sources) $(REFS) -out:$@
 
 assemblydir = $(libdir)/monodevelop/bin
 assembly_DATA = $(ASSEMBLY)           

@@ -67,7 +67,7 @@ Core/src/MonoDevelop.Base/Services/DisplayBinding/DisplayBindingService.cs
 Core/src/MonoDevelop.Base/Services/File/DefaultFileService.cs
 Core/src/MonoDevelop.Base/Services/MessageService.cs
 Core/src/MonoDevelop.Base/Services/ParserService/DefaultParserService.cs
-Core/src/MonoDevelop.Base/Services/Project/DefaultProjectService.cs
+Core/src/MonoDevelop.Base/Services/Project/ProjectService.cs
 Core/src/MonoDevelop.Base/Services/StatusBar/DefaultStatusBarService.cs
 Core/src/MonoDevelop.Base/Services/ResourceNotFoundException.cs
 Core/src/MonoDevelop.Gui.Widgets/FileBrowser/FileBrowser.cs
@@ -137,12 +137,10 @@ Core/src/MonoDevelop.Base/Gui/Dialogs/CombineConfiguration/CombineStartupPanel.c
 Core/src/MonoDevelop.Base/Gui/Dialogs/DirtyFilesDialog.cs
 Core/src/MonoDevelop.Base/Gui/Dialogs/Wizard/StatusPanel.cs
 Core/src/MonoDevelop.Base/Gui/Dialogs/Wizard/WizardDialog.cs
-Core/src/MonoDevelop.Base/Gui/Pads/SideBarView.cs
 Core/src/MonoDevelop.Base/Gui/Pads/TerminalPad.cs
 Core/src/MonoDevelop.Base/Internal/ExternalTool/ExternalTool.cs
 Core/src/MonoDevelop.Base/Internal/Templates/ProjectTemplates/ProjectTemplate.cs
 Core/src/MonoDevelop.Core/Services/FileUtilityService.cs
-Core/src/MonoDevelop.Core/Services/SaveErrorChooseDialog.cs
 Core/src/MonoDevelop.Gui.Widgets/FileSelector/FileSelector.cs
 Extras/PythonBinding/Gui/CompilerParametersPanel.cs
 Extras/PythonBinding/templates/PythonConsoleProject.xpt.xml

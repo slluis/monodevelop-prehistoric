@@ -1,5 +1,6 @@
 
-ASSEMBLY = ILAsmBinding.dll
+ADDIN_BUILD = $(top_builddir)/build/AddIns/BackendBindings
+ASSEMBLY = $(ADDIN_BUILD)/ILAsmBinding.dll
 
 DLLS = /r:$(top_builddir)/build/bin/MonoDevelop.Core.dll \
 	/r:$(top_builddir)/build/bin/MonoDevelop.Base.dll \
@@ -21,7 +22,6 @@ build_sources = $(addprefix $(srcdir)/, $(FILES))
 
 ADDIN = ILAsmBinding.addin.xml
 
-ADDIN_BUILD = $(top_builddir)/build/AddIns/BackendBindings
 
 TEMPLATES_DIR = $(ADDIN_BUILD)/templates
 
@@ -45,8 +45,7 @@ $(ADDIN_BUILD)/$(ADDIN): $(srcdir)/$(ADDIN)
 
 $(ASSEMBLY): $(build_sources)
 	mkdir -p $(ADDIN_BUILD)
-	$(CSC) $(build_sources) $(DLLS) /out:$(ASSEMBLY) /target:library \
-	&& cp $(ASSEMBLY) $(ADDIN_BUILD)/.
+	$(CSC) $(build_sources) $(DLLS) -out:$@ -target:library
 
 CLEANFILES = $(ASSEMBLY) $(ASSEMBLY).mdb
 EXTRA_DIST = $(FILES) $(ADDIN) $(TEMPLATES)

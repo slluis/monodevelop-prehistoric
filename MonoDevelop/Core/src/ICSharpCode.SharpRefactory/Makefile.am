@@ -1,4 +1,4 @@
-DLL = ICSharpCode.SharpRefactory.dll
+DLL = $(top_builddir)/build/bin/ICSharpCode.SharpRefactory.dll
 TEST = test-parser.exe
 
 REFS = -r:System.Drawing.dll
@@ -116,16 +116,15 @@ src/AssemblyInfo.cs
 
 build_sources = $(addprefix $(srcdir)/, $(FILES))
 
-all: $(DLL)
+all: $(DLL) $(TEST)
 
 $(DLL): $(FILES)
-	$(CSC) /out:$(DLL) /target:library $(REFS) $(build_sources) \
-	&& cp $(DLL) $(top_builddir)/build/bin/.
+	$(CSC) -out:$@ /target:library $(REFS) $(build_sources)
 
 test: $(TEST)
 
-$(TEST): $(DLL) src/Main.cs
-	$(CSC) -out:$@ -r:$(DLL) src/Main.cs
+$(TEST): $(DLL) $(srcdir)/src/Main.cs
+	$(CSC) -out:$@ -r:$(DLL) $(srcdir)/src/Main.cs
 
 run-test: test
 	mono $(TEST) a.cs
@@ -135,5 +134,5 @@ assembly_DATA = $(DLL)
 
 CLEANFILES = $(DLL) $(DLL).mdb $(TEST)
 
-EXTRA_DIST = $(FILES)
+EXTRA_DIST = $(FILES) src/Main.cs
 

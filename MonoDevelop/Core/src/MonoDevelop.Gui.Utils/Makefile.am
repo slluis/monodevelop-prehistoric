@@ -1,4 +1,6 @@
-DLL = MonoDevelop.Gui.Utils.dll
+DLLNAME = MonoDevelop.Gui.Utils.dll
+CONFIG = $(DLLNAME).config
+DLL = $(top_builddir)/build/bin/$(DLLNAME)
 
 REFERENCES = /r:System.Drawing \
 	/r:ICSharpCode.SharpZipLib \
@@ -21,14 +23,14 @@ build_sources = $(addprefix $(srcdir)/, $(FILES))
 all: $(DLL)
 
 $(DLL): $(build_sources)
-	$(CSC) /out:$(DLL) /target:library $(REFERENCES) $(build_sources) \
-	&& cp $(DLL) $(top_builddir)/build/bin/. && cp $(DLL).config $(top_builddir)/build/bin
+	$(CSC) -out:$@ /target:library $(REFERENCES) $(build_sources) \
+	&& cp $(CONFIG) $(top_builddir)/build/bin/.
 
 assemblydir = $(libdir)/monodevelop/bin
-assembly_DATA = $(DLL) $(DLL).config
+assembly_DATA = $(DLL) $(CONFIG)
 
 CLEANFILES = $(DLL) $(DLL).mdb
-DISTCLEANFILES = $(DLL).config
+DISTCLEANFILES = $(CONFIG)
 
-EXTRA_DIST = $(FILES) $(DLL).config.in
+EXTRA_DIST = $(FILES) $(CONFIG).in
 
