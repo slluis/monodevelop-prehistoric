@@ -8,7 +8,7 @@
 using System;
 using System.Reflection;
 
-namespace MonoDevelop.AssemblyAnalyser.Rules
+namespace ICSharpCode.AssemblyAnalyser.Rules
 {
 	/// <summary>
 	/// Description of PropertiesShouldNotHaveSetOnly.	
@@ -17,26 +17,23 @@ namespace MonoDevelop.AssemblyAnalyser.Rules
 	{
 		public override string Description {
 			get {
-				return "${res:MonoDevelop.AssemblyAnalyser.Rules.PropertiesShouldNotHaveSetOnly.Description}";
+				// FIXME: I18N
+				return "Properties should not be write only";
 			}
 		}
 		
 		public override string Details {
 			get {
-				return "${res:MonoDevelop.AssemblyAnalyser.Rules.PropertiesShouldNotHaveSetOnly.Details}";
+				// FIXME: I18N
+				return "Write only properties generally indicate a design flaw and should be avoided.";
 			}
 		}
 		
 		public Resolution Check(PropertyInfo property)
 		{
 			if (!property.CanRead && property.CanWrite) {
-				return new Resolution(this, 
-				                      "${res:MonoDevelop.AssemblyAnalyser.Rules.PropertiesShouldNotHaveSetOnly.Resolution}",
-				                      NamingUtilities.Combine(property.DeclaringType.FullName, property.Name),
-				                      new string[,] { 
-				                      	{"PropertyName", property.Name}, 
-				                      	{"DeclaringType", property.DeclaringType.FullName}, 
-				                      });
+				// FIXME: I18N
+				return new Resolution (this, String.Format ("Add a getter to the property <code>{0}</code> in the type <code>{1}</code>.", property.Name, property.DeclaringType.FullName), NamingUtilities.Combine(property.DeclaringType.FullName, property.Name));
 			}
 			return null;
 		}
@@ -45,8 +42,7 @@ namespace MonoDevelop.AssemblyAnalyser.Rules
 
 #region Unit Test
 #if TEST
-/*
-namespace MonoDevelop.AssemblyAnalyser.Rules
+namespace ICSharpCode.AssemblyAnalyser.Rules
 {
 	using NUnit.Framework;
 
@@ -96,6 +92,5 @@ namespace MonoDevelop.AssemblyAnalyser.Rules
 		}
 	}
 }
-*/
 #endif
 #endregion

@@ -8,7 +8,7 @@
 using System;
 using System.Reflection;
 
-namespace MonoDevelop.AssemblyAnalyser.Rules
+namespace ICSharpCode.AssemblyAnalyser.Rules
 {
 	/// <summary>
 	/// Description of OnlyEventHandlerSuffixIsEventHandlerRule.	
@@ -17,13 +17,15 @@ namespace MonoDevelop.AssemblyAnalyser.Rules
 	{
 		public override string Description {
 			get {
-				return "${res:MonoDevelop.AssemblyAnalyser.Rules.OnlyEventHandlerSuffixIsEventHandler.Description}";
+				// FIXME: I18N
+				return "Only event handler names have the suffix 'EventHandler'";
 			}
 		}
 		
 		public override string Details {
 			get {
-				return "${res:MonoDevelop.AssemblyAnalyser.Rules.OnlyEventHandlerSuffixIsEventHandler.Details}";
+				// FIXME: I18N
+				return "Only delegates that get used in events have the suffix <i>EventHandler</i>.";
 			}
 		}
 		
@@ -42,7 +44,8 @@ namespace MonoDevelop.AssemblyAnalyser.Rules
 				}
 			}
 			if (member.Name.EndsWith("EventHandler")) {
-				return new Resolution(this, "${res:MonoDevelop.AssemblyAnalyser.Rules.OnlyEventHandlerSuffixIsEventHandler.Resolution}", NamingUtilities.Combine(member.ReflectedType.FullName, member.Name), new string[,] { {"MemberName", member.Name}, {"DeclaringType", member.DeclaringType.FullName} });
+				// FIXME: I18N
+				return new Resolution (this, String.Format ("", member.Name, member.DeclaringType.FullName), NamingUtilities.Combine (member.ReflectedType.FullName, member.Name));
 			}
 			return null;
 		}

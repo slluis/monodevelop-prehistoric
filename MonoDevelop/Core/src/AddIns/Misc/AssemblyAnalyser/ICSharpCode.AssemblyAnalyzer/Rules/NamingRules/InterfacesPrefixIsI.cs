@@ -8,22 +8,24 @@
 using System;
 using System.Reflection;
 
-namespace MonoDevelop.AssemblyAnalyser.Rules
+namespace ICSharpCode.AssemblyAnalyser.Rules
 {
 	/// <summary>
-	/// Description of AttributeSuffixIsAttribute.	
+	/// Description of InterfacesPrefixIsI.	
 	/// </summary>
 	public class InterfacesPrefixIsI : AbstractReflectionRule, ITypeRule
 	{
 		public override string Description {
 			get {
-				return "${res:MonoDevelop.AssemblyAnalyser.Rules.InterfacesPrefixIsI.Description}";
+				// FIXME: I18N
+				return "Interface names have the Prefix 'I'";
 			}
 		}
 		
 		public override string Details {
 			get {
-				return "${res:MonoDevelop.AssemblyAnalyser.Rules.InterfacesPrefixIsI.Details}";
+				// FIXME: I18N
+				return "An interface name should always start with <i>I</i> like in <code>IComparable</code>.";
 			}
 		}
 		
@@ -35,7 +37,8 @@ namespace MonoDevelop.AssemblyAnalyser.Rules
 		public Resolution Check(Type type)
 		{
 			if (type.IsInterface && !type.Name.StartsWith("I")) {
-				return new Resolution(this, "${res:MonoDevelop.AssemblyAnalyser.Rules.InterfacesPrefixIsI.Resolution}", type.FullName, new string[,] { { "TypeName", type.FullName }});
+				// FIXME: I18N
+				return new Resolution (this, String.Format ("Change the name of the interface <code>{0}</code> so that it starts with <i>I</i>.", type.FullName), type.FullName);
 			}
 			return null;
 		}
@@ -44,8 +47,7 @@ namespace MonoDevelop.AssemblyAnalyser.Rules
 
 #region Unit Test
 #if TEST
-/*
-namespace MonoDevelop.AssemblyAnalyser.Rules
+namespace ICSharpCode.AssemblyAnalyser.Rules
 {
 	using NUnit.Framework;
 
@@ -75,6 +77,5 @@ namespace MonoDevelop.AssemblyAnalyser.Rules
 		}
 	}
 }
-*/
 #endif
 #endregion

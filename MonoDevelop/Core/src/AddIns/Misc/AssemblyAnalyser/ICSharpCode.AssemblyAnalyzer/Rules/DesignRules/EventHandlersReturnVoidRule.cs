@@ -8,7 +8,7 @@
 using System;
 using System.Reflection;
 
-namespace MonoDevelop.AssemblyAnalyser.Rules
+namespace ICSharpCode.AssemblyAnalyser.Rules
 {
 	/// <summary>
 	/// Description of EventFirstParameterNameIsSender.	
@@ -17,13 +17,15 @@ namespace MonoDevelop.AssemblyAnalyser.Rules
 	{
 		public override string Description {
 			get {
-				return "${res:MonoDevelop.AssemblyAnalyser.Rules.EventHandlersReturnVoid.Description}";
+				// FIXME: I18N
+				return "Event handlers return void";
 			}
 		}
 		
 		public override string Details {
 			get {
-				return "${res:MonoDevelop.AssemblyAnalyser.Rules.EventHandlersReturnVoid.Details}";
+				// FIXME: I18N
+				return "Event handlers return <code>void</code> because they can send event to multiple target methods. Any return value would get lost.";
 			}
 		}
 		
@@ -36,7 +38,8 @@ namespace MonoDevelop.AssemblyAnalyser.Rules
 		{
 			MethodInfo invokeMethod = evnt.EventHandlerType.GetMethod("Invoke");
 			if (invokeMethod.ReturnType != typeof(void)) {
-				return new Resolution(this, "${res:MonoDevelop.AssemblyAnalyser.Rules.EventHandlersReturnVoid.Resolution}", evnt.EventHandlerType.FullName, new string[,] { { "EventType", evnt.EventHandlerType.FullName }, {"OldReturnType", invokeMethod.ReturnType.FullName}});
+				// FIXME: I18N
+				return new Resolution (this, String.Format ("Change <code>{0}</code> so that it returns <code>void</code> instead of <code>{1}</code>.", evnt.EventHandlerType.FullName, invokeMethod.ReturnType.FullName), evnt.EventHandlerType.FullName);
 			}
 			return null;
 		}
@@ -45,8 +48,7 @@ namespace MonoDevelop.AssemblyAnalyser.Rules
 
 #region Unit Test
 #if TEST
-/*
-namespace MonoDevelop.AssemblyAnalyser.Rules
+namespace ICSharpCode.AssemblyAnalyser.Rules
 {
 	using NUnit.Framework;
 
@@ -85,6 +87,5 @@ namespace MonoDevelop.AssemblyAnalyser.Rules
 		}
 	}
 }
-*/
 #endif
 #endregion

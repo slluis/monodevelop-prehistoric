@@ -8,7 +8,7 @@
 using System;
 using System.Reflection;
 
-namespace MonoDevelop.AssemblyAnalyser.Rules
+namespace ICSharpCode.AssemblyAnalyser.Rules
 {
 	/// <summary>
 	/// Description of ExceptionSuffixIsException.	
@@ -17,13 +17,15 @@ namespace MonoDevelop.AssemblyAnalyser.Rules
 	{
 		public override string Description {
 			get {
-				return "${res:MonoDevelop.AssemblyAnalyser.Rules.ExceptionSuffixIsException.Description}";
+				// FIXME: I18N
+				return "Exception names have the suffix 'Exception'";
 			}
 		}
 		
 		public override string Details {
 			get {
-				return "${res:MonoDevelop.AssemblyAnalyser.Rules.ExceptionSuffixIsException.Details}";
+				// FIXME: I18N
+				return "A type that extends <code><a href='help://types/System.Exception'>Exception</a></code> is an exception and should always use the suffix <i>Exception</i> like in <code>ArgumentNullException</code>.";
 			}
 		}
 		
@@ -35,7 +37,8 @@ namespace MonoDevelop.AssemblyAnalyser.Rules
 		public Resolution Check(Type type)
 		{
 			if (typeof(System.Exception).IsAssignableFrom(type) && !type.Name.EndsWith("Exception")) {
-				return new Resolution(this, "${res:MonoDevelop.AssemblyAnalyser.Rules.ExceptionSuffixIsException.Resolution}", type.FullName, new string[,] { { "TypeName", type.FullName }});
+				// FIXME: I18M
+				return new Resolution (this, String.Format ("Change the name of the type <code>{0}</code> so that it ends with <i>Exception</i>.", type.FullName), type.FullName);
 			}
 			return null;
 		}
@@ -43,8 +46,7 @@ namespace MonoDevelop.AssemblyAnalyser.Rules
 }
 #region Unit Test
 #if TEST
-/*
-namespace MonoDevelop.AssemblyAnalyser.Rules
+namespace ICSharpCode.AssemblyAnalyser.Rules
 {
 	using NUnit.Framework;
 
@@ -72,6 +74,5 @@ namespace MonoDevelop.AssemblyAnalyser.Rules
 		}
 	}
 }
-*/
 #endif
 #endregion

@@ -8,7 +8,7 @@
 using System;
 using System.Reflection;
 
-namespace MonoDevelop.AssemblyAnalyser.Rules
+namespace ICSharpCode.AssemblyAnalyser.Rules
 {
 	/// <summary>
 	/// Description of OnlyAttributesSuffixAttribute.	
@@ -17,13 +17,15 @@ namespace MonoDevelop.AssemblyAnalyser.Rules
 	{
 		public override string Description {
 			get {
-				return "${res:MonoDevelop.AssemblyAnalyser.Rules.OnlyAttributesSuffixAttribute.Description}";
+				// FIXME: I18N
+				return "Only attribute names have the suffix 'Attribute'";
 			}
 		}
 		
 		public override string Details {
 			get {
-				return "${res:MonoDevelop.AssemblyAnalyser.Rules.OnlyAttributesSuffixAttribute.Details}";
+				// FIXME: I18N
+				return "A type that does not extend from <code><a href='help://types/System.Attribute'>Attribute</a></code> should never have the suffix <i>Attribute</i>.";
 			}
 		}
 		
@@ -36,7 +38,8 @@ namespace MonoDevelop.AssemblyAnalyser.Rules
 		public Resolution Check(Type type)
 		{
 			if (!type.IsSubclassOf(typeof(System.Attribute)) && type.Name.EndsWith("Attribute")) {
-				return new Resolution(this, "${res:MonoDevelop.AssemblyAnalyser.Rules.OnlyAttributesSuffixAttribute.Resolution}", type.FullName, new string[,] { { "TypeName", type.FullName }});
+				// FIXME: I18N
+				return new Resolution (this, String.Format ("Change the name of the type <code>{0}</code> so that it does not end with <i>Attribute</i>.", type.FullName), type.FullName);
 			}
 			return null;
 		}
@@ -44,8 +47,7 @@ namespace MonoDevelop.AssemblyAnalyser.Rules
 }
 #region Unit Test
 #if TEST
-/*
-namespace MonoDevelop.AssemblyAnalyser.Rules
+namespace ICSharpCode.AssemblyAnalyser.Rules
 {
 	using NUnit.Framework;
 
@@ -77,6 +79,5 @@ namespace MonoDevelop.AssemblyAnalyser.Rules
 		}
 	}
 }
-*/
 #endif
 #endregion

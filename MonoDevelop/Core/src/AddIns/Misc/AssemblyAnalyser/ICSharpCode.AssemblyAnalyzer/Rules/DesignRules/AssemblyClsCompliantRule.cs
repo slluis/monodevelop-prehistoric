@@ -9,7 +9,7 @@ using System;
 using System.IO;
 using System.Reflection;
 
-namespace MonoDevelop.AssemblyAnalyser.Rules
+namespace ICSharpCode.AssemblyAnalyser.Rules
 {
 	/// <summary>
 	/// Description of AssemblyStrongName.	
@@ -18,13 +18,15 @@ namespace MonoDevelop.AssemblyAnalyser.Rules
 	{
 		public override string Description {
 			get {
-				return "${res:MonoDevelop.AssemblyAnalyser.Rules.AssemblyClsCompliantRule.Description}";
+				// FIXME: I18N
+				return "Assemblies should be marked CLSCompliant";
 			}
 		}
 		
 		public override string Details {
 			get {
-				return "${res:MonoDevelop.AssemblyAnalyser.Rules.AssemblyClsCompliantRule.Details}";
+				// FIXME: I18N
+				return "Assemblies should be marked CLS (Common Language Specification) compliant using the <code><a href='help://types/System.CLSCompliantAttribute'>CLSCompliantAttribute</a></code> assemblies without this attribute are not CLS compliant. It is possible to have non-CLS compliant parts in a CLS compliant assembly. In this case all non-compliant members must have the CLSCompliant attribute set to <code>false</code>. You should supply for each non-CLS compliant member a CLS compliant alternative.";
 			}
 		}
 		
@@ -37,11 +39,13 @@ namespace MonoDevelop.AssemblyAnalyser.Rules
 		{
 			object[] attributes = assembly.GetCustomAttributes(typeof(System.CLSCompliantAttribute), true);
 			if (attributes == null || attributes.Length == 0) {
-				return new Resolution(this, "${res:MonoDevelop.AssemblyAnalyser.Rules.AssemblyClsCompliantRule.Resolution1}", assembly.Location, new string[,] { {"AssemblyName", Path.GetFileName(assembly.Location)} });
+				// FIXME: I18N
+				return new Resolution (this, String.Format ("Declare a <code><a href='help://types/System.CLSCompliantAttribute'>CLSCompliantAttribute</a></code> in the assembly <code>{0}</code> and its value should be <code>true</code>.", Path.GetFileName (assembly.Location)), assembly.Location);
 			} else {
 				foreach (CLSCompliantAttribute attr in attributes) {
 					if (!attr.IsCompliant) {
-						return new Resolution(this, "${res:MonoDevelop.AssemblyAnalyser.Rules.AssemblyClsCompliantRule.Resolution2}", assembly.Location, new string[,] { {"AssemblyName", Path.GetFileName(assembly.Location)} });
+						// FIXME: I18N
+						return new Resolution (this, String.Format ("Set the <code><a href='help://types/System.CLSCompliantAttribute'>CLSCompliantAttribute</a></code> in the assembly <code>{0}</code> to <code>true<code>.", Path.GetFileName (assembly.Location)), assembly.Location);
 					}
 				}
 			}

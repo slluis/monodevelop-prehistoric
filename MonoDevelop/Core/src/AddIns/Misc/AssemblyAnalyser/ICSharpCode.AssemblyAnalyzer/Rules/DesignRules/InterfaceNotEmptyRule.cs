@@ -8,7 +8,7 @@
 using System;
 using System.Reflection;
 
-namespace MonoDevelop.AssemblyAnalyser.Rules
+namespace ICSharpCode.AssemblyAnalyser.Rules
 {
 	/// <summary>
 	/// Description of InterfaceNotEmpty.	
@@ -17,19 +17,22 @@ namespace MonoDevelop.AssemblyAnalyser.Rules
 	{
 		public override string Description {
 			get {
-				return "${res:MonoDevelop.AssemblyAnalyser.Rules.InterfaceNotEmpty.Description}";
+				// FIXME: I18N
+				return "Interfaces should not be empty";
 			}
 		}
 		
 		public override string Details {
 			get {
-				return "${res:MonoDevelop.AssemblyAnalyser.Rules.InterfaceNotEmpty.Details}";
+				// FIXME: I18N
+				return "Interfaces should specify behaviour. To mark classes use Attributes instead of empty interfaces.";
 			}
 		}
 		public Resolution Check(Type type)
 		{
 			if (type.IsInterface && type.GetMembers().Length == 0) {
-				return new Resolution(this, "${res:MonoDevelop.AssemblyAnalyser.Rules.InterfaceNotEmpty.Resolution}", type.FullName, new string[,] { { "TypeName", type.FullName }});
+				// FIXME: I18N
+				return new Resolution (this, String.Format ("Use a custom attribute to replace the empty interface <code>{0}</code>. Or specify behaviour for this interface.", type.FullName), type.FullName);
 			}
 			return null;
 		}
@@ -38,8 +41,7 @@ namespace MonoDevelop.AssemblyAnalyser.Rules
 
 #region Unit Test
 #if TEST
-/*
-namespace MonoDevelop.AssemblyAnalyser.Rules
+namespace ICSharpCode.AssemblyAnalyser.Rules
 {
 	using NUnit.Framework;
 
@@ -81,6 +83,5 @@ namespace MonoDevelop.AssemblyAnalyser.Rules
 		}
 	}
 }
-*/
 #endif
 #endregion

@@ -15,6 +15,8 @@ using Gtk;
 using MonoDevelop.Core.Services;
 using MonoDevelop.Services;
 
+using AssemblyAnalyser = ICSharpCode.AssemblyAnalyser.AssemblyAnalyser;
+
 namespace MonoDevelop.AssemblyAnalyser
 {
 	public class AssemblyTreeControl : TreeView

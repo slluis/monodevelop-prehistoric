@@ -8,7 +8,7 @@
 using System;
 using System.Reflection;
 
-namespace MonoDevelop.AssemblyAnalyser.Rules
+namespace ICSharpCode.AssemblyAnalyser.Rules
 {
 	/// <summary>
 	/// Description of EventFirstParameterIsObject.	
@@ -17,13 +17,15 @@ namespace MonoDevelop.AssemblyAnalyser.Rules
 	{
 		public override string Description {
 			get {
-				return "${res:MonoDevelop.AssemblyAnalyser.Rules.EventFirstParameterIsObject.Description}";
+				// FIXME: I18N
+				return "The first parameter of an event is from type System.Object";
 			}
 		}
 		
 		public override string Details {
 			get {
-				return "${res:MonoDevelop.AssemblyAnalyser.Rules.EventFirstParameterIsObject.Details}";
+				// FIXME: I18N
+				return "As a convention in .NET events have two parameters a sender and an event data object. The sender must always be from the type <code><a href='help://types/System.Object'>object</a></code> and never a specialized type.<BR>For example: <code>void MouseEventHandler(object sender, MouseEventArgs e);</code>";
 			}
 		}
 		
@@ -38,7 +40,8 @@ namespace MonoDevelop.AssemblyAnalyser.Rules
 			ParameterInfo[] parameters = invokeMethod.GetParameters();
 
 			if (parameters.Length > 0 && parameters[0].ParameterType != typeof(System.Object)) {
-				return new Resolution(this, "${res:MonoDevelop.AssemblyAnalyser.Rules.EventFirstParameterIsObject.Resolution}", evnt.EventHandlerType.FullName, new string[,] { { "EventType", evnt.EventHandlerType.FullName }, { "OldParameterType", parameters[0].ParameterType.FullName }});
+				// FIXME: I18N
+				return new Resolution (this, String.Format ("Change the first parameter of <code>{0}</code> from the type <code>{1}</code> to the type <code><a href='help://types/System.Object'>object</a></code>.", evnt.EventHandlerType.FullName, parameters[0].ParameterType.FullName), evnt.EventHandlerType.FullName);
 			}
 			return null;
 		}
@@ -47,8 +50,7 @@ namespace MonoDevelop.AssemblyAnalyser.Rules
 
 #region Unit Test
 #if TEST
-/*
-namespace MonoDevelop.AssemblyAnalyser.Rules
+namespace ICSharpCode.AssemblyAnalyser.Rules
 {
 	using NUnit.Framework;
 
@@ -87,6 +89,5 @@ namespace MonoDevelop.AssemblyAnalyser.Rules
 		}
 	}
 }
-*/
 #endif
 #endregion

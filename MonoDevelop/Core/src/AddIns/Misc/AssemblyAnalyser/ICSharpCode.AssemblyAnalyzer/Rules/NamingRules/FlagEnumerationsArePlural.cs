@@ -8,22 +8,24 @@
 using System;
 using System.Reflection;
 
-namespace MonoDevelop.AssemblyAnalyser.Rules
+namespace ICSharpCode.AssemblyAnalyser.Rules
 {
 	/// <summary>
-	/// Description of AttributeSuffixIsAttribute.	
+	/// Description of FlagEnumerationsArePlural.	
 	/// </summary>
 	public class FlagEnumerationsArePlural : AbstractReflectionRule, ITypeRule
 	{
 		public override string Description {
 			get {
-				return "${res:MonoDevelop.AssemblyAnalyser.Rules.FlagEnumerationsArePlural.Description}";
+				// FIXME: I18N
+				return "Flag enumeration names should be pluralized";
 			}
 		}
 		
 		public override string Details {
 			get {
-				return "${res:MonoDevelop.AssemblyAnalyser.Rules.FlagEnumerationsArePlural.Details}";
+				// FIXME: I18N
+				return "An enumeration with the <code><a href='help://types/System.FlagsAttribute'>FlagsAttribute</a></code>  should have a plural name like in <code>Modifiers</code>.";
 			}
 		}
 		
@@ -36,7 +38,8 @@ namespace MonoDevelop.AssemblyAnalyser.Rules
 		{
 			if (type.IsSubclassOf(typeof(System.Enum)) && type.IsDefined(typeof(System.FlagsAttribute), true)) {
 				if (!type.Name.EndsWith("s") && !type.Name.EndsWith("ae") && !type.Name.EndsWith("i")) {
- 					return new Resolution(this, "${res:MonoDevelop.AssemblyAnalyser.Rules.FlagEnumerationsArePlural.Resolution}", type.FullName, new string[,] { { "TypeName", type.FullName }});
+					// FIXME: I18N
+ 					return new Resolution (this, String.Format ("Change the type name of the enumeration <code>{0}</code> to plural.", type.FullName), type.FullName);
 				}
 			}
 			return null;
@@ -45,8 +48,7 @@ namespace MonoDevelop.AssemblyAnalyser.Rules
 }
 #region Unit Test
 #if TEST
-/*
-namespace MonoDevelop.AssemblyAnalyser.Rules
+namespace ICSharpCode.AssemblyAnalyser.Rules
 {
 	using NUnit.Framework;
 
@@ -80,6 +82,5 @@ namespace MonoDevelop.AssemblyAnalyser.Rules
 		}
 	}
 }
-*/
 #endif
 #endregion

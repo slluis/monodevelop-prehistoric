@@ -8,22 +8,24 @@
 using System;
 using System.Reflection;
 
-namespace MonoDevelop.AssemblyAnalyser.Rules
+namespace ICSharpCode.AssemblyAnalyser.Rules
 {
 	/// <summary>
-	/// Description of PropertiesShouldNotHaveSetOnly.	
+	/// Description of TypesHaveNoPublicInstanceFields
 	/// </summary>
 	public class TypesHaveNoPublicInstanceFields : AbstractReflectionRule, IFieldRule
 	{
 		public override string Description {
 			get {
-				return "${res:MonoDevelop.AssemblyAnalyser.Rules.TypesHaveNoPublicInstanceFields.Description}";
+				// FIXME: I18N
+				return "Types do not have externally visible instance fields";
 			}
 		}
 		
 		public override string Details {
 			get {
-				return "${res:MonoDevelop.AssemblyAnalyser.Rules.TypesHaveNoPublicInstanceFields.Details}";
+				// FIXME: I18N
+				return "Public or internal instance fields are a design flaw and should be avoided. Use properties instead. They are more flexible and hide the implementation details of the underlying data. Furthermore, properties do not have a performance penalty.";
 			}
 		}
 		
@@ -35,13 +37,8 @@ namespace MonoDevelop.AssemblyAnalyser.Rules
 		public Resolution Check(Module module, FieldInfo field)
 		{
 			if (!field.IsStatic && (field.IsPublic || field.IsAssembly)) {
-				return new Resolution(this, 
-				                      "${res:MonoDevelop.AssemblyAnalyser.Rules.TypesHaveNoPublicInstanceFields.Resolution}",
-				                      NamingUtilities.Combine(field.DeclaringType.FullName, field.Name),
-				                      new string[,] {
-				                      	{"FieldName", field.Name}, 
-				                      	{"DeclaringType", field.DeclaringType.FullName}, 
-				                      });
+				// FIXME: I18N
+				return new Resolution (this, String.Format ("Make the field <code>{0}</code> in the type <code>{1}</code> private or protected. Provide a public or internal property if the field should be accessed from outside.", field.Name, field.DeclaringType.FullName), NamingUtilities.Combine (field.DeclaringType.FullName, field.Name));
 			}
 			return null;
 		}
@@ -50,8 +47,7 @@ namespace MonoDevelop.AssemblyAnalyser.Rules
 
 #region Unit Test
 #if TEST
-/*
-namespace MonoDevelop.AssemblyAnalyser.Rules
+namespace ICSharpCode.AssemblyAnalyser.Rules
 {
 	using NUnit.Framework;
 
@@ -102,6 +98,5 @@ namespace MonoDevelop.AssemblyAnalyser.Rules
 		}
 	}
 }
-*/
 #endif
 #endregion

@@ -8,22 +8,24 @@
 using System;
 using System.Reflection;
 
-namespace MonoDevelop.AssemblyAnalyser.Rules
+namespace ICSharpCode.AssemblyAnalyser.Rules
 {
 	/// <summary>
-	/// Description of DelegatesHaveNoDelegateSuffix.	
+	/// Description of EnumsHaveNoEnumSuffix.	
 	/// </summary>
 	public class EnumsHaveNoEnumSuffix : AbstractReflectionRule, ITypeRule
 	{
 		public override string Description {
 			get {
-				return "${res:MonoDevelop.AssemblyAnalyser.Rules.EnumsHaveNoEnumSuffix.Description}";
+				// FIXME: I18N
+				return "Enumeration names do not have the suffix 'Enum'";
 			}
 		}
 		
 		public override string Details {
 			get {
-				return "${res:MonoDevelop.AssemblyAnalyser.Rules.EnumsHaveNoEnumSuffix.Details}";
+				// FIXME: I18N
+				return "Do not use the <i>Enum</i> suffix for enumeration names.";
 			}
 		}
 		
@@ -35,7 +37,8 @@ namespace MonoDevelop.AssemblyAnalyser.Rules
 		public Resolution Check(Type type)
 		{
 			if (type.IsSubclassOf(typeof(System.Enum)) && type.Name.EndsWith("Enum")) {
-				return new Resolution(this, "${res:MonoDevelop.AssemblyAnalyser.Rules.EnumsHaveNoEnumSuffix.Resolution}", type.FullName, new string[,] { { "TypeName", type.FullName }});
+				// FIXME: I18N
+				return new Resolution (this, String.Format ("Rename the enumeration <code>{0}</code> so that it does not end with <i>Enum</i>.", type.FullName), type.FullName);
 			}
 			return null;
 		}
@@ -43,8 +46,7 @@ namespace MonoDevelop.AssemblyAnalyser.Rules
 }
 #region Unit Test
 #if TEST
-/*
-namespace MonoDevelop.AssemblyAnalyser.Rules
+namespace ICSharpCode.AssemblyAnalyser.Rules
 {
 	using NUnit.Framework;
 
@@ -75,6 +77,5 @@ namespace MonoDevelop.AssemblyAnalyser.Rules
 		
 	}
 }
-*/
 #endif
 #endregion

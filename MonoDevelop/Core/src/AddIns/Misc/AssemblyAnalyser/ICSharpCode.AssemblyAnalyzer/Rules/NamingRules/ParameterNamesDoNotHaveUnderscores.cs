@@ -9,7 +9,7 @@ using System;
 using System.Reflection;
 using System.Collections;
 
-namespace MonoDevelop.AssemblyAnalyser.Rules
+namespace ICSharpCode.AssemblyAnalyser.Rules
 {
 	/// <summary>
 	/// Description of ParameterNamesDoNotHaveUnderscores.	
@@ -18,13 +18,15 @@ namespace MonoDevelop.AssemblyAnalyser.Rules
 	{
 		public override string Description {
 			get {
-				return "${res:MonoDevelop.AssemblyAnalyser.Rules.ParameterNamesDoNotHaveUnderscores.Description}";
+				// FIXME: I18N
+				return "Parameter names do not contain underscores '_'";
 			}
 		}
 		
 		public override string Details {
 			get {
-				return "${res:MonoDevelop.AssemblyAnalyser.Rules.ParameterNamesDoNotHaveUnderscores.Details}";
+				// FIXME: I18N
+				return "Underscores should never be used inside parameter names.";
 			}
 		}
 		
@@ -37,7 +39,8 @@ namespace MonoDevelop.AssemblyAnalyser.Rules
 		{
 			if (param.Name != null && param.Name.IndexOf('_') >= 0) {
 				string memberName = NamingUtilities.Combine(param.Member.DeclaringType.FullName, param.Member.Name);
-				return new Resolution(this, "${res:MonoDevelop.AssemblyAnalyser.Rules.ParameterNamesDoNotHaveUnderscores.Resolution}", memberName, new string[,] {{"ParameterName", param.Name}, {"MemberName", memberName}});
+				// FIXME: I18N
+				return new Resolution (this, String.Format ("Remove all underscores in parameter <code>{0}</code> inside member <code>{1}</code>.", param.Name, memberName), memberName);
 			}
 			return null;
 		}
@@ -45,8 +48,7 @@ namespace MonoDevelop.AssemblyAnalyser.Rules
 }
 #region Unit Test
 #if TEST
-/*
-namespace MonoDevelop.AssemblyAnalyser.Rules
+namespace ICSharpCode.AssemblyAnalyser.Rules
 {
 	using NUnit.Framework;
 
@@ -95,6 +97,5 @@ namespace MonoDevelop.AssemblyAnalyser.Rules
 		}
 	}
 }
-*/
 #endif
 #endregion

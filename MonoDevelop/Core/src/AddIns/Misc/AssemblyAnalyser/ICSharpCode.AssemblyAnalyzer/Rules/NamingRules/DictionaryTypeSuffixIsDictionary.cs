@@ -8,29 +8,32 @@
 using System;
 using System.Reflection;
 
-namespace MonoDevelop.AssemblyAnalyser.Rules
+namespace ICSharpCode.AssemblyAnalyser.Rules
 {
 	/// <summary>
-	/// Description of DelegatesHaveNoDelegateSuffix.	
+	/// Description of DictionaryTypeSuffixIsDictionary.	
 	/// </summary>
 	public class DictionaryTypeSuffixIsDictionary : AbstractReflectionRule, ITypeRule
 	{
 		public override string Description {
 			get {
-				return "${res:MonoDevelop.AssemblyAnalyser.Rules.DictionaryTypeSuffixIsDictionary.Description}";
+				// FIXME: I18N
+				return "Dictionary names have the suffix 'Dictionary'.";
 			}
 		}
 		
 		public override string Details {
 			get {
-				return "${res:MonoDevelop.AssemblyAnalyser.Rules.DictionaryTypeSuffixIsDictionary.Details}";
+				// FIXME: I18N
+				return "A type that implements <code><a href='help://types/System.Collections.IDictionary'>IDictionary</a></code> is a dictonary and should use the suffix <i>Dictionary</i> like in <code>HybridDictionary</code>.";
 			}
 		}
 		
 		public Resolution Check(Type type)
 		{
 			if (typeof(System.Collections.IDictionary).IsAssignableFrom(type) && !type.Name.EndsWith("Dictionary")) {
-				return new Resolution(this, "${res:MonoDevelop.AssemblyAnalyser.Rules.DictionaryTypeSuffixIsDictionary.Resolution}", type.FullName, new string[,] { { "TypeName", type.FullName }});
+				// FIXME: I18N
+				return new Resolution (this, String.Format ("Change the name of the dictionary <code>{0}</code> so that it ends with <i>Dictionary</i>.", type.FullName), type.FullName);
 			}
 			return null;
 		}
@@ -39,8 +42,7 @@ namespace MonoDevelop.AssemblyAnalyser.Rules
 #region Unit Test
 
 #if TEST
-/*
-namespace MonoDevelop.AssemblyAnalyser.Rules
+namespace ICSharpCode.AssemblyAnalyser.Rules
 {
 	using NUnit.Framework;
 
@@ -69,6 +71,5 @@ namespace MonoDevelop.AssemblyAnalyser.Rules
 		
 	}
 }
-*/
 #endif
 #endregion

@@ -8,29 +8,32 @@
 using System;
 using System.Reflection;
 
-namespace MonoDevelop.AssemblyAnalyser.Rules
+namespace ICSharpCode.AssemblyAnalyser.Rules
 {
 	/// <summary>
-	/// Description of AttributeSuffixIsAttribute.	
+	/// Description of EventArgsSuffixIsEventArgs
 	/// </summary>
 	public class EventArgsSuffixIsEventArgsRule : AbstractReflectionRule, ITypeRule
 	{
 		public override string Description {
 			get {
-				return "${res:MonoDevelop.AssemblyAnalyser.Rules.EventArgsSuffixIsEventArgs.Description}";
+				// FIXME: I18N
+				return "EventArgs names have the suffix 'EventArgs'";
 			}
 		}
 		
 		public override string Details {
 			get {
-				return "${res:MonoDevelop.AssemblyAnalyser.Rules.EventArgsSuffixIsEventArgs.Details}";
+				// FIXME: I18N
+				return "A type that extends <code><a href='help://types/System.EventArgs'>EventArgs</a></code> is an event argument and should use the suffix <i>EventArgs</i> like in <code>MouseEventArgs</code>.";
 			}
 		}
 		
 		public Resolution Check(Type type)
 		{
 			if (typeof(System.EventArgs).IsAssignableFrom(type) && !type.Name.EndsWith("EventArgs")) {
-				return new Resolution(this, "${res:MonoDevelop.AssemblyAnalyser.Rules.EventArgsSuffixIsEventArgs.Resolution}", type.FullName, new string[,] { { "TypeName", type.FullName }});
+				// FIXME: I18N
+				return new Resolution (this, String.Format ("Rename the event argument <code>{0}</code> so that it ends with <i>EventArgs</i>.", type.FullName), type.FullName);
 			}
 			return null;
 		}
@@ -39,8 +42,7 @@ namespace MonoDevelop.AssemblyAnalyser.Rules
 
 #region Unit Test
 #if TEST
-/*
-namespace MonoDevelop.AssemblyAnalyser.Rules
+namespace ICSharpCode.AssemblyAnalyser.Rules
 {
 	using NUnit.Framework;
 
@@ -69,6 +71,5 @@ namespace MonoDevelop.AssemblyAnalyser.Rules
 		
 	}
 }
-*/
 #endif
 #endregion

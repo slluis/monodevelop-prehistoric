@@ -8,22 +8,24 @@
 using System;
 using System.Reflection;
 
-namespace MonoDevelop.AssemblyAnalyser.Rules
+namespace ICSharpCode.AssemblyAnalyser.Rules
 {
 	/// <summary>
-	/// Description of AttributeSuffixIsAttribute.	
+	/// Description of TypesArePascalCased.	
 	/// </summary>
 	public class TypesArePascalCased : AbstractReflectionRule, ITypeRule
 	{
 		public override string Description {
 			get {
-				return "${res:MonoDevelop.AssemblyAnalyser.Rules.TypesArePascalCased.Description}";
+				// FIXME: I18N
+				return "Type names should be pascal cased";
 			}
 		}
 		
 		public override string Details {
 			get {
-				return "${res:MonoDevelop.AssemblyAnalyser.Rules.TypesArePascalCased.Details}";
+				// FIXME: I18N
+				return "Pascal casing capitalized the first letter like in <code><b>A</b>ppDomain</code>. Use pascal casing for all type names.";
 			}
 		}
 		
@@ -35,7 +37,8 @@ namespace MonoDevelop.AssemblyAnalyser.Rules
 		public Resolution Check(Type type)
 		{
 			if (!NamingUtilities.IsPascalCase(type.Name)) {
-				return new Resolution(this, "${res:MonoDevelop.AssemblyAnalyser.Rules.TypesArePascalCased.Resolution}", type.FullName, new string[,] { { "TypeName", type.FullName }, {"AlternateName", NamingUtilities.PascalCase(type.Name)}});
+				// FIXME: I18N
+				return new Resolution(this, String.Format ("Use pascal casing for the type <code>{0}</code>.<BR>For example: <code>{1}</code>.", type.FullName, NamingUtilities.PascalCase (type.FullName)),  type.FullName);
 			}
 			return null;
 		}
@@ -43,8 +46,7 @@ namespace MonoDevelop.AssemblyAnalyser.Rules
 }
 #region Unit Test
 #if TEST
-/*
-namespace MonoDevelop.AssemblyAnalyser.Rules
+namespace ICSharpCode.AssemblyAnalyser.Rules
 {
 	using NUnit.Framework;
 
@@ -78,6 +80,5 @@ namespace MonoDevelop.AssemblyAnalyser.Rules
 		}
 	}
 }
-*/
 #endif
 #endregion

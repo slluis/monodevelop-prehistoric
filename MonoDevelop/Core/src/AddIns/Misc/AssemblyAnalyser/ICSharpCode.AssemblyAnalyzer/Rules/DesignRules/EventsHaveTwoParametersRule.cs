@@ -8,7 +8,7 @@
 using System;
 using System.Reflection;
 
-namespace MonoDevelop.AssemblyAnalyser.Rules
+namespace ICSharpCode.AssemblyAnalyser.Rules
 {
 	/// <summary>
 	/// Description of EventsHaveTwoParameters.	
@@ -17,13 +17,15 @@ namespace MonoDevelop.AssemblyAnalyser.Rules
 	{
 		public override string Description {
 			get {
-				return "${res:MonoDevelop.AssemblyAnalyser.Rules.EventsHaveTwoParameters.Description}";
+				// FIXME: I18N
+				return "Events have two parameters";
 			}
 		}
 		
 		public override string Details {
 			get {
-				return "${res:MonoDevelop.AssemblyAnalyser.Rules.EventsHaveTwoParameters.Details}";
+				// FIXME: I18N
+				return "As a convention in .NET events have two parameters a sender and an event data object. <BR>For example: <code>void MouseEventHandler(object sender, MouseEventArgs e);</code>";
 			}
 		}
 		
@@ -38,7 +40,8 @@ namespace MonoDevelop.AssemblyAnalyser.Rules
 			ParameterInfo[] parameters = invokeMethod.GetParameters();
 
 			if (parameters.Length != 2) {
-				return new Resolution(this, "${res:MonoDevelop.AssemblyAnalyser.Rules.EventsHaveTwoParameters.Resolution}", evnt.EventHandlerType.FullName, new string[,] { { "EventType", evnt.EventHandlerType.FullName }});
+				// FIXME: I18N
+				return new Resolution (this, String.Format ("Change <code>{0}</code> so that it has only two parameters. A sender and an event data object.", evnt.EventHandlerType.FullName), evnt.EventHandlerType.FullName);
 			}
 			return null;
 		}
@@ -47,8 +50,7 @@ namespace MonoDevelop.AssemblyAnalyser.Rules
 
 #region Unit Test
 #if TEST
-/*
-namespace MonoDevelop.AssemblyAnalyser.Rules
+namespace ICSharpCode.AssemblyAnalyser.Rules
 {
 	using NUnit.Framework;
 
@@ -87,6 +89,5 @@ namespace MonoDevelop.AssemblyAnalyser.Rules
 		}
 	}
 }
-*/
 #endif
 #endregion

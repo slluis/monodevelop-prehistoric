@@ -12,8 +12,11 @@ using System.Drawing;
 using Gtk;
 
 using MonoDevelop.Core.Services;
-using MonoDevelop.AssemblyAnalyser.Rules;
 using MonoDevelop.Services;
+
+using AssemblyAnalyser = ICSharpCode.AssemblyAnalyser.AssemblyAnalyser;
+using Resolution = ICSharpCode.AssemblyAnalyser.Resolution;
+using ICSharpCode.AssemblyAnalyser.Rules;
 
 namespace MonoDevelop.AssemblyAnalyser
 {

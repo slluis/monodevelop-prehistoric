@@ -8,7 +8,7 @@
 using System;
 using System.Reflection;
 
-namespace MonoDevelop.AssemblyAnalyser.Rules
+namespace ICSharpCode.AssemblyAnalyser.Rules
 {
 	/// <summary>
 	/// Description of EventHandlerSuffixIsEventHandler.	
@@ -17,20 +17,23 @@ namespace MonoDevelop.AssemblyAnalyser.Rules
 	{
 		public override string Description {
 			get {
-				return "${res:MonoDevelop.AssemblyAnalyser.Rules.EventHandlerSuffixIsEventHandler.Description}";
+				// FIXME: I18N
+				return "Event handler names have the suffix 'EventHandler'";
 			}
 		}
 		
 		public override string Details {
 			get {
-				return "${res:MonoDevelop.AssemblyAnalyser.Rules.EventHandlerSuffixIsEventHandler.Details}";
+				// FIXME: I18N
+				return "An event handler delegate name should use the suffix <i>EventHandler</i> like in <code>DragAndDropEventHandler</code>.";
 			}
 		}
 		
 		public Resolution Check(EventInfo evnt)
 		{
 			if (!evnt.EventHandlerType.Name.EndsWith("EventHandler")) {
-				return new Resolution(this, "${res:MonoDevelop.AssemblyAnalyser.Rules.EventHandlerSuffixIsEventHandler.Resolution}", evnt.EventHandlerType.FullName, new string[,] { { "EventType", evnt.EventHandlerType.FullName }});
+				// FIXME: I18N
+				return new Resolution (this, String.Format ("Change the name of the member <code>{0}</code> in the type <code>{1}</code> so that it does not end with <i>EventHandler</i>.", evnt.EventHandlerType.FullName, evnt.DeclaringType.FullName), evnt.EventHandlerType.FullName);
 			}
 			return null;
 		}
@@ -38,8 +41,7 @@ namespace MonoDevelop.AssemblyAnalyser.Rules
 }
 #region Unit Test
 #if TEST
-/*
-namespace MonoDevelop.AssemblyAnalyser.Rules
+namespace ICSharpCode.AssemblyAnalyser.Rules
 {
 	using NUnit.Framework;
 
@@ -90,6 +92,5 @@ namespace MonoDevelop.AssemblyAnalyser.Rules
 		
 	}
 }
-*/
 #endif
 #endregion

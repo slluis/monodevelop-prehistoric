@@ -8,7 +8,7 @@
 using System;
 using System.Reflection;
 
-namespace MonoDevelop.AssemblyAnalyser.Rules
+namespace ICSharpCode.AssemblyAnalyser.Rules
 {
 	/// <summary>
 	/// Description of AbstractRule.	
@@ -18,7 +18,7 @@ namespace MonoDevelop.AssemblyAnalyser.Rules
 		protected PriorityLevel priorityLevel = PriorityLevel.Error;
 		protected int certainty = 99;
 		
-		#region MonoDevelop.AssemblyAnalyser.Rules.IRule interface implementation
+		#region ICSharpCode.AssemblyAnalyser.Rules.IRule interface implementation
 		public PriorityLevel PriorityLevel {
 			get {
 				return priorityLevel;

@@ -8,7 +8,7 @@
 using System;
 using System.Reflection;
 
-namespace MonoDevelop.AssemblyAnalyser.Rules
+namespace ICSharpCode.AssemblyAnalyser.Rules
 {
 	/// <summary>
 	/// Description of TypesImplementingInterfacesHaveNoSuffixImplRule.	
@@ -17,20 +17,23 @@ namespace MonoDevelop.AssemblyAnalyser.Rules
 	{
 		public override string Description {
 			get {
-				return "${res:MonoDevelop.AssemblyAnalyser.Rules.TypesImplementingInterfacesHaveNoSuffixImpl.Description}";
+				// FIXME: I18N
+				return "Types that implement interfaces have no 'Impl' suffix";
 			}
 		}
 		
 		public override string Details {
 			get {
-				return "${res:MonoDevelop.AssemblyAnalyser.Rules.TypesImplementingInterfacesHaveNoSuffixImpl.Details}";
+				// FIXME: I18N
+				return "Do not use the <i>Impl</i> suffix for providing an interface implementation. Consider using the interface name without the <i>I</i> like <code>Component</code> that implements <code>IComponent</code>.";
 			}
 		}
 		
 		public Resolution Check(Type type)
 		{
 			if (type.GetInterfaces().Length > 0 && type.Name.EndsWith("Impl")) {
-				return new Resolution(this, "${res:MonoDevelop.AssemblyAnalyser.Rules.TypesImplementingInterfacesHaveNoSuffixImpl.Resolution}", type.FullName, new string[,] { { "TypeName", type.FullName }});
+				// FIXME: I18N
+				return new Resolution (this, String.Format ("Change the name of the type <code>{0}</code> so that it does not end with <i>Impl</i>.", type.FullName), type.FullName);
 			}
 			return null;
 		}
@@ -38,8 +41,7 @@ namespace MonoDevelop.AssemblyAnalyser.Rules
 }
 #region Unit Test
 #if TEST
-/*
-namespace MonoDevelop.AssemblyAnalyser.Rules
+namespace ICSharpCode.AssemblyAnalyser.Rules
 {
 	using NUnit.Framework;
 
@@ -72,6 +74,5 @@ namespace MonoDevelop.AssemblyAnalyser.Rules
 		}
 	}
 }
-*/
 #endif
 #endregion

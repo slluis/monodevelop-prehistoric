@@ -8,22 +8,24 @@
 using System;
 using System.Reflection;
 
-namespace MonoDevelop.AssemblyAnalyser.Rules
+namespace ICSharpCode.AssemblyAnalyser.Rules
 {
 	/// <summary>
-	/// Description of EventFirstParameterNameIsSender.	
+	/// Description of EventSecondParameterNameIsE	
 	/// </summary>
 	public class EventSecondParameterNameIsE : AbstractReflectionRule, IEventRule
 	{
 		public override string Description {
 			get {
-				return "${res:MonoDevelop.AssemblyAnalyser.Rules.EventSecondParameterNameIsE.Description}";
+				// FIXME: I18N
+				return "Second parameter in events is named 'e'";
 			}
 		}
 		
 		public override string Details {
 			get {
-				return "${res:MonoDevelop.AssemblyAnalyser.Rules.EventSecondParameterNameIsE.Details}";
+				// FIXME: I18N
+				return "As a convention in .NET events have two parameters a sender and an event data object which is called <i>e</i>. The event data object must be extend from the type <code><a href='help://types/System.EventArgs'>EventArgs</a></code>.<BR>For example: <code>void MouseEventHandler(object sender, MouseEventArgs e);</code>";
 			}
 		}
 		
@@ -38,7 +40,8 @@ namespace MonoDevelop.AssemblyAnalyser.Rules
 			ParameterInfo[] parameters = invokeMethod.GetParameters();
 
 			if (parameters.Length > 1 && parameters[1].Name != "e") {
-				return new Resolution(this, "${res:MonoDevelop.AssemblyAnalyser.Rules.EventSecondParameterNameIsE.Resolution}", evnt.EventHandlerType.FullName, new string[,] { { "EventType", evnt.EventHandlerType.FullName }, { "OldParameterName", parameters[1].Name }});
+				// FIXME: I18N
+				return new Resolution (this, String.Format ("Rename the second parameter name in the event <code>{0}</code> from <i>{1}</i> to <i>e</i>.", evnt.EventHandlerType.FullName, parameters[1].Name), evnt.EventHandlerType.FullName);
 			}
 			return null;
 		}
@@ -46,8 +49,7 @@ namespace MonoDevelop.AssemblyAnalyser.Rules
 }
 #region Unit Test
 #if TEST
-/*
-namespace MonoDevelop.AssemblyAnalyser.Rules
+namespace ICSharpCode.AssemblyAnalyser.Rules
 {
 	using NUnit.Framework;
 
@@ -86,6 +88,5 @@ namespace MonoDevelop.AssemblyAnalyser.Rules
 		}
 	}
 }
-*/
 #endif
 #endregion

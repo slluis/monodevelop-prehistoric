@@ -8,7 +8,7 @@
 using System;
 using System.Reflection;
 
-namespace MonoDevelop.AssemblyAnalyser.Rules
+namespace ICSharpCode.AssemblyAnalyser.Rules
 {
 	/// <summary>
 	/// Description of TypesShouldBeInNamespaces.	
@@ -17,20 +17,23 @@ namespace MonoDevelop.AssemblyAnalyser.Rules
 	{
 		public override string Description {
 			get {
-				return "${res:MonoDevelop.AssemblyAnalyser.Rules.TypesShouldBeInNamespaces.Description}";
+				// FIXME: I18N
+				return "Types should be defined in namespaces";
 			}
 		}
 		
 		public override string Details {
 			get {
-				return "${res:MonoDevelop.AssemblyAnalyser.Rules.TypesShouldBeInNamespaces.Details}";
+				// FIXME: I18N
+				return "A type should always be defined inside a namespace to avoid naming collisions.";
 			}
 		}
 		
 		public Resolution Check(Type type)
 		{
 			if (type.Namespace == null || type.Namespace.Length == 0) {
-				return new Resolution(this, "${res:MonoDevelop.AssemblyAnalyser.Rules.TypesShouldBeInNamespaces.Resolution}", type.FullName, new string[,] { { "TypeName", type.FullName }});
+				// FIXME: I18N
+				return new Resolution (this, String.Format ("Declare <code>{0}</code> inside a namespace.", type.FullName), type.FullName);
 			}
 			return null;
 		}
@@ -39,12 +42,11 @@ namespace MonoDevelop.AssemblyAnalyser.Rules
 
 #region Unit Test
 #if TEST
-/*
 class OutsideNamespace
 {
 	
 }
-namespace MonoDevelop.AssemblyAnalyser.Rules
+namespace ICSharpCode.AssemblyAnalyser.Rules
 {
 	using NUnit.Framework;
 
@@ -71,6 +73,5 @@ namespace MonoDevelop.AssemblyAnalyser.Rules
 		}
 	}
 }
-*/
 #endif
 #endregion

@@ -15,8 +15,11 @@ using MonoDevelop.Gui;
 using MonoDevelop.Core;
 using MonoDevelop.Services;
 using MonoDevelop.Core.Services;
-using MonoDevelop.AssemblyAnalyser.Rules;
 using MonoDevelop.Gui.Pads;
+
+using AssemblyAnalyser = ICSharpCode.AssemblyAnalyser.AssemblyAnalyser;
+using Resolution = ICSharpCode.AssemblyAnalyser.Resolution;
+using ICSharpCode.AssemblyAnalyser.Rules;
 
 namespace MonoDevelop.AssemblyAnalyser
 {

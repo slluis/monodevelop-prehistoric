@@ -8,22 +8,24 @@
 using System;
 using System.Reflection;
 
-namespace MonoDevelop.AssemblyAnalyser.Rules
+namespace ICSharpCode.AssemblyAnalyser.Rules
 {
 	/// <summary>
-	/// Description of AttributeSuffixIsAttribute.	
+	/// Description of MembersArePascalCased.	
 	/// </summary>
 	public class MembersArePascalCased : AbstractReflectionRule, IMemberRule
 	{
 		public override string Description {
 			get {
-				return "${res:MonoDevelop.AssemblyAnalyser.Rules.MembersArePascalCased.Description}";
+				// FIXME: I18N
+				return "Member names should be pascal cased";
 			}
 		}
 		
 		public override string Details {
 			get {
-				return "${res:MonoDevelop.AssemblyAnalyser.Rules.MembersArePascalCased.Details}";
+				// FIXME: I18N
+				return "Pascal casing capitalized the first letter like in <code><b>W</b>riteLine</code>. Use pascal casing for all public identifiers that consist of compound words.";
 			}
 		}
 		
@@ -45,13 +47,8 @@ namespace MonoDevelop.AssemblyAnalyser.Rules
 			}
 			
 			if (!NamingUtilities.IsPascalCase(member.Name)) {
-				return new Resolution(this, 
-				                      "${res:MonoDevelop.AssemblyAnalyser.Rules.MembersArePascalCased.Resolution}",
-				                      NamingUtilities.Combine(member.DeclaringType.FullName, member.Name),
-				                      new string[,] { 
-				                      	{"MemberName", member.Name}, 
-				                      	{"DeclaringType", member.DeclaringType.FullName}, 
-				                      	{"AlternateName", NamingUtilities.PascalCase(member.Name)}});
+				// FIXME: I18N
+				return new Resolution (this, String.Format ("Use pascal casing for <code>{0}</code> in <code>{1}</code>.<BR>For example : <code>${2}</code>.", member.Name, member.DeclaringType, NamingUtilities.PascalCase (member.Name)), NamingUtilities.Combine(member.DeclaringType.FullName, member.Name));
 			}
 			return null;
 		}

@@ -9,7 +9,7 @@ using System;
 using System.Collections;
 using System.Reflection;
 
-namespace MonoDevelop.AssemblyAnalyser.Rules
+namespace ICSharpCode.AssemblyAnalyser.Rules
 {
 	/// <summary>
 	/// Description of INamespaceRule.	

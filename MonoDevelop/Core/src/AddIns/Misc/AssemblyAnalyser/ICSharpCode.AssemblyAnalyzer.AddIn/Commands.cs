@@ -7,9 +7,10 @@
 using System;
 using System.Reflection;
 
-using MonoDevelop.AssemblyAnalyser.Rules;
 using MonoDevelop.Core.AddIns.Codons;
 using MonoDevelop.Gui;
+
+using ICSharpCode.AssemblyAnalyser.Rules;
 
 namespace MonoDevelop.AssemblyAnalyser
 {

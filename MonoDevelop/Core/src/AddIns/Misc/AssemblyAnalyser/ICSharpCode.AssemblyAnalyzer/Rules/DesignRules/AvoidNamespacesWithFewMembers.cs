@@ -8,7 +8,7 @@
 using System;
 using System.Collections;
 
-namespace MonoDevelop.AssemblyAnalyser.Rules
+namespace ICSharpCode.AssemblyAnalyser.Rules
 {
 	/// <summary>
 	/// Description of AvoidNamespacesWithFewMembers.	
@@ -17,13 +17,15 @@ namespace MonoDevelop.AssemblyAnalyser.Rules
 	{
 		public override string Description {
 			get {
-				return "${res:MonoDevelop.AssemblyAnalyser.Rules.AvoidNamespacesWithFewMembers.Description}";
+				// FIXME: I18N
+				return "Avoid having namespaces with few type members";
 			}
 		}
 		
 		public override string Details {
 			get {
-				return "${res:MonoDevelop.AssemblyAnalyser.Rules.AvoidNamespacesWithFewMembers.Details}";
+				// FIXME: I18N
+				return " A namespace should generally contain a minimum of five types.";
 			}
 		}
 		
@@ -36,7 +38,8 @@ namespace MonoDevelop.AssemblyAnalyser.Rules
 		public Resolution Check(string namespaceName, ICollection types)
 		{
 			if (namespaceName != null && namespaceName.Length > 0 && types.Count < 5) {
-				return new Resolution(this, "${res:MonoDevelop.AssemblyAnalyser.Rules.AvoidNamespacesWithFewMembers.Resolution}", namespaceName, new string[,]{{"NamespaceName", namespaceName}});
+				// FIXME: I18N
+				return new Resolution (this, String.Format ("Consider merging the types inside namespace <code>{0}</code> with another namespace.", namespaceName), namespaceName);
 			}
 			return null;
 		}
@@ -44,8 +47,7 @@ namespace MonoDevelop.AssemblyAnalyser.Rules
 }
 #region Unit Test
 #if TEST
-/*
-namespace MonoDevelop.AssemblyAnalyser.Rules
+namespace ICSharpCode.AssemblyAnalyser.Rules
 {
 	using NUnit.Framework;
 
@@ -72,6 +74,5 @@ namespace MonoDevelop.AssemblyAnalyser.Rules
 		}
 	}
 }
-*/
 #endif
 #endregion

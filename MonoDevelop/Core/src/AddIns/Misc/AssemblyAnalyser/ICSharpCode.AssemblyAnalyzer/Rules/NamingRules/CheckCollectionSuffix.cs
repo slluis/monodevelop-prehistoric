@@ -9,7 +9,7 @@ using System;
 using System.Collections;
 using System.Reflection;
 
-namespace MonoDevelop.AssemblyAnalyser.Rules
+namespace ICSharpCode.AssemblyAnalyser.Rules
 {
 	/// <summary>
 	/// Description of CheckCollectionSuffix.	
@@ -18,13 +18,15 @@ namespace MonoDevelop.AssemblyAnalyser.Rules
 	{
 		public override string Description {
 			get {
-				return "${res:MonoDevelop.AssemblyAnalyser.Rules.CheckCollectionSuffix.Description}";
+				// FIXME: I18N
+				return "Collections names have the suffix 'Collection', 'Queue' or 'Stack'";
 			}
 		}
 		
 		public override string Details {
 			get {
-				return "${res:MonoDevelop.AssemblyAnalyser.Rules.CheckCollectionSuffix.Details}";
+				// FIXME: I18N
+				return "A type that implements <code><a href='help://types/System.Collections.ICollection'>ICollection</a></code> or <code><a href='help://types/System.Collections.IEnumerable'>IEnumerable</a></code> is a collection and its name should use the suffix <i>Collection</i>.<BR>An exception to this rule are queues (extend <code><a href='help://types/System.Collections.Queue'>Queue</a></code>) which should use the suffix <i>Queue</i> and stacks (extend <code><a href='help://types/System.Collections.Stack'>Stack</a></code>) that should use the <i>Stack</i> suffix. <BR>For example: <code>StringCollection</code>, <code>StateStack</code> or <code>EventQueue</code> are valid names.";
 			}
 		}
 		
@@ -38,15 +40,18 @@ namespace MonoDevelop.AssemblyAnalyser.Rules
 			if ((typeof(ICollection).IsAssignableFrom(type) || typeof(IEnumerable).IsAssignableFrom(type)) && !typeof(System.Collections.IDictionary).IsAssignableFrom(type)) {
 				if (typeof(Queue).IsAssignableFrom(type)) {
 					if (!type.Name.EndsWith("Queue")) {
-						return new Resolution(this, "${res:MonoDevelop.AssemblyAnalyser.Rules.CheckCollectionSuffix.Resolution1}", type.FullName, new string[,] { { "TypeName", type.FullName }} );
+						// FIXME: I18N
+						return new Resolution (this, String.Format ("Change the name of the queue <code>{0}</code> so that it ends with <i>Queue</i>.", type.FullName), type.FullName);
 					}
 				} else if (typeof(Stack).IsAssignableFrom(type)) {
 					if (!type.Name.EndsWith("Stack")) {
-						return new Resolution(this, "${res:MonoDevelop.AssemblyAnalyser.Rules.CheckCollectionSuffix.Resolution2}", type.FullName, new string[,] { { "TypeName", type.FullName }});
+						// FIXME: I18N
+						return new Resolution (this, String.Format ("Change the name of the queue <code>{0}</code> so that it ends with <i>Stack</i>.", type.FullName), type.FullName);
 					}
 				} else {
 					if (!type.Name.EndsWith("Collection")) {
-						return new Resolution(this, "${res:MonoDevelop.AssemblyAnalyser.Rules.CheckCollectionSuffix.Resolution3}", type.FullName, new string[,] { { "TypeName", type.FullName }});
+						// FIXME: I18N
+						return new Resolution (this, String.Format ("Change the name of the queue <code>{0}</code> so that it ends with <i>Collection</i>.", type.FullName), type.FullName);
 					}
 				}
 			}
@@ -56,8 +61,7 @@ namespace MonoDevelop.AssemblyAnalyser.Rules
 }
 #region Unit Test
 #if TEST
-/*
-namespace MonoDevelop.AssemblyAnalyser.Rules
+namespace ICSharpCode.AssemblyAnalyser.Rules
 {
 	using NUnit.Framework;
 
@@ -135,6 +139,5 @@ namespace MonoDevelop.AssemblyAnalyser.Rules
 		#endregion
 	}
 }
-*/
 #endif
 #endregion

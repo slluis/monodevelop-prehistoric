@@ -8,7 +8,7 @@
 using System;
 using System.Reflection;
 
-namespace MonoDevelop.AssemblyAnalyser.Rules
+namespace ICSharpCode.AssemblyAnalyser.Rules
 {
 	/// <summary>
 	/// Description of EventFirstParameterNameIsSender.	
@@ -17,13 +17,15 @@ namespace MonoDevelop.AssemblyAnalyser.Rules
 	{
 		public override string Description {
 			get {
-				return "${res:MonoDevelop.AssemblyAnalyser.Rules.EventFirstParameterNameIsSender.Description}";
+				// FIXME: I18N
+				return "First parameter in events is named 'sender'";
 			}
 		}
 		
 		public override string Details {
 			get {
-				return "${res:MonoDevelop.AssemblyAnalyser.Rules.EventFirstParameterNameIsSender.Details}";
+				// FIXME: I18N
+				return "As a convention in .NET events have two parameters a sender which must be called <i>sender</i> and an event data object. The sender must always be from the type <code><a href='help://types/System.Object'>object</a></code> and never a specialized type.<BR>For example: <code>void MouseEventHandler(object sender, MouseEventArgs e);</code>";
 			}
 		}
 		
@@ -38,7 +40,8 @@ namespace MonoDevelop.AssemblyAnalyser.Rules
 			ParameterInfo[] parameters = invokeMethod.GetParameters();
 
 			if (parameters.Length > 0 && parameters[0].Name != "sender") {
-				return new Resolution(this, "${res:MonoDevelop.AssemblyAnalyser.Rules.EventFirstParameterNameIsSender.Resolution}", evnt.EventHandlerType.FullName, new string[,] { { "EventType", evnt.EventHandlerType.FullName }, { "OldParameterName", parameters[0].Name }});
+				// FIXME: I18N
+				return new Resolution (this, String.Format ("Rename the first parameter name of the event <code>{0}</code> from <i>{1}</i> to <i>sender</i>.", evnt.EventHandlerType.FullName, parameters[0].Name), evnt.EventHandlerType.FullName);
 			}
 			return null;
 		}
@@ -47,8 +50,7 @@ namespace MonoDevelop.AssemblyAnalyser.Rules
 
 #region Unit Test
 #if TEST
-/*
-namespace MonoDevelop.AssemblyAnalyser.Rules
+namespace ICSharpCode.AssemblyAnalyser.Rules
 {
 	using NUnit.Framework;
 
@@ -87,6 +89,5 @@ namespace MonoDevelop.AssemblyAnalyser.Rules
 		}
 	}
 }
-*/
 #endif
 #endregion

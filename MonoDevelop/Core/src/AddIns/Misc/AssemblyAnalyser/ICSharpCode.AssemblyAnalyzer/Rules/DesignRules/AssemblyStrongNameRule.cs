@@ -9,7 +9,7 @@ using System;
 using System.IO;
 using System.Reflection;
 
-namespace MonoDevelop.AssemblyAnalyser.Rules
+namespace ICSharpCode.AssemblyAnalyser.Rules
 {
 	/// <summary>
 	/// Description of AssemblyStrongName.	
@@ -18,13 +18,15 @@ namespace MonoDevelop.AssemblyAnalyser.Rules
 	{
 		public override string Description {
 			get {
-				return "${res:MonoDevelop.AssemblyAnalyser.Rules.AssemblyStrongName.Description}";
+				// FIXME: I18N
+				return "Assemblies should be strong named";
 			}
 		}
 		
 		public override string Details {
 			get {
-				return "${res:MonoDevelop.AssemblyAnalyser.Rules.AssemblyStrongName.Details}";
+				// FIXME: I18N
+				return "Assemblies with a strong name can be placed in the GAC. Furthermore only strong named assemblies can be referenced by a strong named assembly (Your assembly cannot be used by a strong named assembly if you do not sign it).";
 			}
 		}
 		
@@ -36,8 +38,9 @@ namespace MonoDevelop.AssemblyAnalyser.Rules
 		public Resolution Check(Assembly assembly)
 		{
 			byte[] publicKeyToken = assembly.GetName().GetPublicKeyToken();
+			// FIXME: I18N
 			if (publicKeyToken == null || publicKeyToken.Length == 0) {
-				return new Resolution(this, "${res:MonoDevelop.AssemblyAnalyser.Rules.AssemblyStrongName.Resolution}", assembly.Location, new string[,] { {"AssemblyName", Path.GetFileName(assembly.Location)} });
+				return new Resolution (this, String.Format ("Sign the assembly {0} with a strong name.", Path.GetFileName (assembly.Location)), assembly.Location);
 			}
 			return null;
 		}

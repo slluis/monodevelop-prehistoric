@@ -8,22 +8,24 @@
 using System;
 using System.Reflection;
 
-namespace MonoDevelop.AssemblyAnalyser.Rules
+namespace ICSharpCode.AssemblyAnalyser.Rules
 {
 	/// <summary>
-	/// Description of OnlyExceptionsSuffixException.	
+	/// Description of OnlyPermissionSuffixPermissionRule.	
 	/// </summary>
 	public class OnlyPermissionsSuffixPermissionRule : AbstractReflectionRule, ITypeRule
 	{
 		public override string Description {
 			get {
-				return "${res:MonoDevelop.AssemblyAnalyser.Rules.OnlyPermissionsSuffixPermission.Description}";
+				// FIXME: I18N
+				return "Only permission names have the suffix 'Permission'";
 			}
 		}
 		
 		public override string Details {
 			get {
-				return "${res:MonoDevelop.AssemblyAnalyser.Rules.OnlyPermissionsSuffixPermission.Details}";
+				// FIXME: I18N
+				return "A type that does not implement <code><a href='help://types/System.Security.IPermission'>IPermission</a></code> should never have the suffix <i>Permission</i>.";
 			}
 		}
 		
@@ -36,7 +38,8 @@ namespace MonoDevelop.AssemblyAnalyser.Rules
 		public Resolution Check(Type type)
 		{
 			if (!typeof(System.Security.IPermission).IsAssignableFrom(type) && type.Name.EndsWith("Permission")) {
-				return new Resolution(this, "${res:MonoDevelop.AssemblyAnalyser.Rules.OnlyPermissionsSuffixPermission.Resolution}", type.FullName, new string[,] { { "TypeName", type.FullName }});
+				// FIXME: I18N
+				return new Resolution (this, String.Format ("Change the name of the type <code>{0}</code> so that it does not end with <i>Permission</i>.", type.FullName), type.FullName);
 			}
 			return null;
 		}
@@ -44,8 +47,7 @@ namespace MonoDevelop.AssemblyAnalyser.Rules
 }
 #region Unit Test
 #if TEST
-/*
-namespace MonoDevelop.AssemblyAnalyser.Rules
+namespace ICSharpCode.AssemblyAnalyser.Rules
 {
 	using NUnit.Framework;
 
@@ -74,6 +76,5 @@ namespace MonoDevelop.AssemblyAnalyser.Rules
 		}
 	}
 }
-*/
 #endif
 #endregion

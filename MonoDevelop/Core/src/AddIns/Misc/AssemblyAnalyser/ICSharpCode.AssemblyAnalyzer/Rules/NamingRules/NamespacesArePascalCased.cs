@@ -8,7 +8,7 @@
 using System;
 using System.Collections;
 
-namespace MonoDevelop.AssemblyAnalyser.Rules
+namespace ICSharpCode.AssemblyAnalyser.Rules
 {
 	/// <summary>
 	/// Description of NamespacesArePascalCased.	
@@ -17,13 +17,15 @@ namespace MonoDevelop.AssemblyAnalyser.Rules
 	{
 		public override string Description {
 			get {
-				return "${res:MonoDevelop.AssemblyAnalyser.Rules.NamespacesArePascalCased.Description}";
+				// FIXME: I18N
+				return "Namespace names should be pascal cased";
 			}
 		}
 		
 		public override string Details {
 			get {
-				return "${res:MonoDevelop.AssemblyAnalyser.Rules.NamespacesArePascalCased.Details}";
+				// FIXME: I18N
+				return "Pascal casing capitalized the first letter like in <code><b>S</b>ystem.<b>C</b>omponentModel.<b>D</b>esign</code>. Use pascal casing for all namespaces.";
 			}
 		}
 		
@@ -40,7 +42,8 @@ namespace MonoDevelop.AssemblyAnalyser.Rules
 					for (int i = 0; i < namespaces.Length; ++i) {
 						namespaces[i] = NamingUtilities.PascalCase(namespaces[i]);
 					}
-					return new Resolution(this, "${res:MonoDevelop.AssemblyAnalyser.Rules.NamespacesArePascalCased.Resolution}", namespaceName, new string[,]{{"NamespaceName", namespaceName}, {"AlternateName", String.Join(".", namespaces) }});
+					// FIXME: I18N
+					return new Resolution (this, String.Format ("Use pascal casing for the namespace <code>{0}</code>.<BR>For example: <code>{1}</code>.", namespaceName, String.Join (".", namespaces)), namespaceName);
 				}
 			}
 			return null;
@@ -49,8 +52,7 @@ namespace MonoDevelop.AssemblyAnalyser.Rules
 }
 #region Unit Test
 #if TEST
-/*
-namespace MonoDevelop.AssemblyAnalyser.Rules
+namespace ICSharpCode.AssemblyAnalyser.Rules
 {
 	using NUnit.Framework;
 
@@ -76,6 +78,5 @@ namespace MonoDevelop.AssemblyAnalyser.Rules
 		}
 	}
 }
-*/
 #endif
 #endregion

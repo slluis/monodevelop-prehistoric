@@ -8,22 +8,24 @@
 using System;
 using System.Reflection;
 
-namespace MonoDevelop.AssemblyAnalyser.Rules
+namespace ICSharpCode.AssemblyAnalyser.Rules
 {
 	/// <summary>
-	/// Description of AttributeSuffixIsAttribute.	
+	/// Description of TypeNamesDoNotContainUnderscores.
 	/// </summary>
 	public class TypeNamesDoNotContainUnderscores : AbstractReflectionRule, ITypeRule
 	{
 		public override string Description {
 			get {
-				return "${res:MonoDevelop.AssemblyAnalyser.Rules.TypeNamesDoNotContainUnderscores.Description}";
+				// FIXME: I18N
+				return "Type names do not contain underscores '_'";
 			}
 		}
 		
 		public override string Details {
 			get {
-				return "${res:MonoDevelop.AssemblyAnalyser.Rules.TypeNamesDoNotContainUnderscores.Details}";
+				// FIXME: I18N
+				return "Underscores should never be used inside type names.";
 			}
 		}
 		
@@ -35,7 +37,8 @@ namespace MonoDevelop.AssemblyAnalyser.Rules
 		public Resolution Check(Type type)
 		{
 			if (NamingUtilities.ContainsUnderscore(type.Name)) {
-				return new Resolution(this, "${res:MonoDevelop.AssemblyAnalyser.Rules.TypeNamesDoNotContainUnderscores.Resolution}", type.FullName, new string[,] { { "TypeName", type.FullName }});
+				// FIXME: I18N
+				return new Resolution (this, String.Format ("Remove all underscores in the type name <code>{0}</code>.", type.FullName), type.FullName);
 			}
 			return null;
 		}
@@ -43,8 +46,7 @@ namespace MonoDevelop.AssemblyAnalyser.Rules
 }
 #region Unit Test
 #if TEST
-/*
-namespace MonoDevelop.AssemblyAnalyser.Rules
+namespace ICSharpCode.AssemblyAnalyser.Rules
 {
 	using NUnit.Framework;
 
@@ -72,6 +74,5 @@ namespace MonoDevelop.AssemblyAnalyser.Rules
 		}
 	}
 }
-*/
 #endif
 #endregion

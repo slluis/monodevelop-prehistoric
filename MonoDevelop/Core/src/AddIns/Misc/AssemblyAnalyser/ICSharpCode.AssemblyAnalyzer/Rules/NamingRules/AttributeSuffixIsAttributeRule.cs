@@ -8,7 +8,7 @@
 using System;
 using System.Reflection;
 
-namespace MonoDevelop.AssemblyAnalyser.Rules
+namespace ICSharpCode.AssemblyAnalyser.Rules
 {
 	/// <summary>
 	/// Description of AttributeSuffixIsAttribute.	
@@ -17,20 +17,23 @@ namespace MonoDevelop.AssemblyAnalyser.Rules
 	{
 		public override string Description {
 			get {
-				return "${res:MonoDevelop.AssemblyAnalyser.Rules.AttributeSuffixIsAttribute.Description}";
+				// FIXME: I18N
+				return "Attribute names have the suffix 'Attribute'";
 			}
 		}
 		
 		public override string Details {
 			get {
-				return "${res:MonoDevelop.AssemblyAnalyser.Rules.AttributeSuffixIsAttribute.Details}";
+				// FIXME: I18N
+				return "A type that extends <code><a href='help://types/System.Attribute'>Attribute</a></code> is an attribute and its name should always end with <i>Attribute</i> like in <code>CategoryAttribute</code>.";
 			}
 		}
 		
 		public Resolution Check(Type type)
 		{
 			if (type.IsSubclassOf(typeof(System.Attribute)) && !type.Name.EndsWith("Attribute")) {
-				return new Resolution(this, "${res:MonoDevelop.AssemblyAnalyser.Rules.AttributeSuffixIsAttribute.Resolution}", type.FullName, new string[,] { { "TypeName", type.FullName }});
+				// FIXME: I18N
+				return new Resolution (this, String.Format ("Change the name of the type <code>{0}</code> so that it ends with <I>Attribute</I>.", type.FullName), type.FullName);
 			}
 			return null;
 		}
@@ -39,8 +42,7 @@ namespace MonoDevelop.AssemblyAnalyser.Rules
 
 #region Unit Test
 #if TEST
-/*
-namespace MonoDevelop.AssemblyAnalyser.Rules
+namespace ICSharpCode.AssemblyAnalyser.Rules
 {
 	using NUnit.Framework;
 
@@ -68,6 +70,5 @@ namespace MonoDevelop.AssemblyAnalyser.Rules
 		}
 	}
 }
-*/
 #endif
 #endregion

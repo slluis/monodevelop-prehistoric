@@ -11,6 +11,8 @@ using System.Collections;
 using System.Reflection;
 using Gtk;
 
+using AssemblyAnalyser = ICSharpCode.AssemblyAnalyser.AssemblyAnalyser;
+
 namespace MonoDevelop.AssemblyAnalyser
 {
 	public class AssemblyAnalyserControl : Frame

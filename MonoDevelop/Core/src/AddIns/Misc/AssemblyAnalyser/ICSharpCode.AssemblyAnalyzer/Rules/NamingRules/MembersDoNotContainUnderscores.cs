@@ -8,22 +8,24 @@
 using System;
 using System.Reflection;
 
-namespace MonoDevelop.AssemblyAnalyser.Rules
+namespace ICSharpCode.AssemblyAnalyser.Rules
 {
 	/// <summary>
-	/// Description of AttributeSuffixIsAttribute.	
+	/// Description of MembersDoNotContainUnderscores.	
 	/// </summary>
 	public class MembersDoNotContainUnderscores : AbstractReflectionRule, IMemberRule
 	{
 		public override string Description {
 			get {
-				return "${res:MonoDevelop.AssemblyAnalyser.Rules.MembersDoNotContainUnderscores.Description}";
+				// FIXME: I18N
+				return "Member names do not contain underscores '_'";
 			}
 		}
 		
 		public override string Details {
 			get {
-				return "${res:MonoDevelop.AssemblyAnalyser.Rules.MembersDoNotContainUnderscores.Details}";
+				// FIXME: I18N
+				return "Underscores should never be used inside public members.";
 			}
 		}
 		
@@ -45,7 +47,8 @@ namespace MonoDevelop.AssemblyAnalyser.Rules
 			}
 			
 			if (NamingUtilities.ContainsUnderscore(member.Name)) {
-				return new Resolution(this, "${res:MonoDevelop.AssemblyAnalyser.Rules.MembersDoNotContainUnderscores.Resolution}", NamingUtilities.Combine(member.ReflectedType.FullName, member.Name), new string[,] { {"MemberName", member.Name}, {"DeclaringType", member.DeclaringType.FullName} });
+				// FIXME: I18N
+				return new Resolution (this, String.Format ("Remove all underscores in member name <code>{0}</code> in the type <code>{1}</code>.", member.Name, member.DeclaringType.FullName), NamingUtilities.Combine(member.ReflectedType.FullName, member.Name));
 			}
 			
 			return null;

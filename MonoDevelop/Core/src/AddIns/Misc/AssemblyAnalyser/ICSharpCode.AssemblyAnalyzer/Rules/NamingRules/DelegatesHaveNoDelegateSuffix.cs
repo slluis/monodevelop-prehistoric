@@ -8,7 +8,7 @@
 using System;
 using System.Reflection;
 
-namespace MonoDevelop.AssemblyAnalyser.Rules
+namespace ICSharpCode.AssemblyAnalyser.Rules
 {
 	/// <summary>
 	/// Description of DelegatesHaveNoDelegateSuffix.	
@@ -17,13 +17,15 @@ namespace MonoDevelop.AssemblyAnalyser.Rules
 	{
 		public override string Description {
 			get {
-				return "${res:MonoDevelop.AssemblyAnalyser.Rules.DelegatesHaveNoDelegateSuffix.Description}";
+				// FIXME: I18N
+				return "Delegate names do not have the suffix 'Delegate'";
 			}
 		}
 		
 		public override string Details {
 			get {
-				return "${res:MonoDevelop.AssemblyAnalyser.Rules.DelegatesHaveNoDelegateSuffix.Details}";
+				// FIXME: I18N
+				return "Do not use the <i>Delegate</i> suffix for delegate names. You may consider using a callback instead.";
 			}
 		}
 		
@@ -35,7 +37,8 @@ namespace MonoDevelop.AssemblyAnalyser.Rules
 		public Resolution Check(Type type)
 		{
 			if (type.IsSubclassOf(typeof(System.Delegate)) && type.Name.EndsWith("Delegate")) {
-				return new Resolution(this, "${res:MonoDevelop.AssemblyAnalyser.Rules.DelegatesHaveNoDelegateSuffix.Resolution}", type.FullName, new string[,] { { "TypeName", type.FullName }});
+				// FIXME: I18N
+				return new Resolution (this, String.Format ("Rename the delegate <code>{0}</code> so that it does not end with <i>Delegate</i>. Or replace it with a callback.", type.FullName), type.FullName);
 			}
 			return null;
 		}
@@ -43,8 +46,7 @@ namespace MonoDevelop.AssemblyAnalyser.Rules
 }
 #region Unit Test
 #if TEST
-/*
-namespace MonoDevelop.AssemblyAnalyser.Rules
+namespace ICSharpCode.AssemblyAnalyser.Rules
 {
 	using NUnit.Framework;
 
@@ -68,6 +70,5 @@ namespace MonoDevelop.AssemblyAnalyser.Rules
 		}
 	}
 }
-*/
 #endif
 #endregion

@@ -9,22 +9,24 @@ using System;
 using System.Reflection;
 using System.Collections;
 
-namespace MonoDevelop.AssemblyAnalyser.Rules
+namespace ICSharpCode.AssemblyAnalyser.Rules
 {
 	/// <summary>
-	/// Description of NamespacesArePascalCased.	
+	/// Description of ParametersArePascalCased.	
 	/// </summary>
 	public class ParametersAreCamelCased : AbstractReflectionRule, IParameterRule
 	{
 		public override string Description {
 			get {
-				return "${res:MonoDevelop.AssemblyAnalyser.Rules.ParametersAreCamelCased.Description}";
+				// FIXME: I18N
+				return "Parameter names should be camel cased";
 			}
 		}
 		
 		public override string Details {
 			get {
-				return "${res:MonoDevelop.AssemblyAnalyser.Rules.ParametersAreCamelCased.Details}";
+				// FIXME: I18N
+				return "Camel casing lowercase the first letter like in <code><b>m</b>ousePosition</code> but the starting letters of all subsequent words are capitalized. Use camel casing for all parameters.";
 			}
 		}
 		
@@ -37,7 +39,8 @@ namespace MonoDevelop.AssemblyAnalyser.Rules
 		{
 			if (!NamingUtilities.IsCamelCase(param.Name)) {
 				string memberName = NamingUtilities.Combine(param.Member.DeclaringType.FullName, param.Member.Name);
-				return new Resolution(this, "${res:MonoDevelop.AssemblyAnalyser.Rules.ParametersAreCamelCased.Resolution}", memberName, new string[,] {{"ParameterName", param.Name}, {"MemberName", memberName}, {"AlternateName", NamingUtilities.CamelCase(param.Name)}});
+				// FIXME: I18N
+				return new Resolution (this, String.Format ("Use camel casing for the parameter <code>{0}</code> inside member <code>{1}</code>.<BR>For example: <code>{2}</code>.", param.Name, memberName, NamingUtilities.CamelCase (param.Name)), memberName);
 			}
 			return null;
 		}
@@ -45,8 +48,7 @@ namespace MonoDevelop.AssemblyAnalyser.Rules
 }
 #region Unit Test
 #if TEST
-/*
-namespace MonoDevelop.AssemblyAnalyser.Rules
+namespace ICSharpCode.AssemblyAnalyser.Rules
 {
 	using NUnit.Framework;
 
@@ -95,6 +97,5 @@ namespace MonoDevelop.AssemblyAnalyser.Rules
 		}
 	}
 }
-*/
 #endif
 #endregion

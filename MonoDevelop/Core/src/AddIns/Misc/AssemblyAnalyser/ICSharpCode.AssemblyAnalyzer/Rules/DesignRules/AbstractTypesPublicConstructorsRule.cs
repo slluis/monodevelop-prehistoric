@@ -8,7 +8,7 @@
 using System;
 using System.Reflection;
 
-namespace MonoDevelop.AssemblyAnalyser.Rules
+namespace ICSharpCode.AssemblyAnalyser.Rules
 {
 	/// <summary>
 	/// Description of AssemblyStrongName.	
@@ -17,13 +17,15 @@ namespace MonoDevelop.AssemblyAnalyser.Rules
 	{
 		public override string Description {
 			get {
-				return "${res:MonoDevelop.AssemblyAnalyser.Rules.AbstractTypesPublicConstructors.Description}";
+				// FIXME: I18N
+				return "Abstract types should not have public constructors";
 			}
 		}
 		
 		public override string Details {
 			get {
-				return "${res:MonoDevelop.AssemblyAnalyser.Rules.AbstractTypesPublicConstructors.Details}";
+				// FIXME: I18N
+				return "You cannot create abstract types therefore public constructors do not make any sense.";
 			}
 		}
 		
@@ -37,7 +39,8 @@ namespace MonoDevelop.AssemblyAnalyser.Rules
 			if (type.IsAbstract) {
 				foreach (ConstructorInfo info in type.GetConstructors()) {
 					if (info.IsPublic) {
- 						return new Resolution(this, "${res:MonoDevelop.AssemblyAnalyser.Rules.AbstractTypesPublicConstructors.Resolution}", type.FullName, new string[,] { { "TypeName", type.FullName }});
+						// FIXME: I18N
+ 						return new Resolution (this, String.Format ("Change all constructors access levels in <code>{0}</code> to <code>protected</code>.", type.FullName), type.FullName);
 					}
 				}
 			}
@@ -48,8 +51,7 @@ namespace MonoDevelop.AssemblyAnalyser.Rules
 
 #region Unit Test
 #if TEST
-/*
-namespace MonoDevelop.AssemblyAnalyser.Rules
+namespace ICSharpCode.AssemblyAnalyser.Rules
 {
 	using NUnit.Framework;
 
@@ -97,6 +99,5 @@ namespace MonoDevelop.AssemblyAnalyser.Rules
 		}
 	}
 }
-*/
 #endif
 #endregion

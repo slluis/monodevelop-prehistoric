@@ -8,30 +8,33 @@
 using System;
 using System.Reflection;
 
-namespace MonoDevelop.AssemblyAnalyser.Rules
+namespace ICSharpCode.AssemblyAnalyser.Rules
 {
 	/// <summary>
-	/// Description of AttributeSuffixIsAttribute.	
+	/// Description of MembershipConditionNamesSuffixIsMembershipCondition
 	/// </summary>
 	public class MembershipConditionNamesSuffixIsMembershipCondition : AbstractReflectionRule, ITypeRule
 	{
 		public override string Description {
 			get {
-				return "${res:MonoDevelop.AssemblyAnalyser.Rules.MembershipConditionNamesSuffixIsMembershipCondition.Description}";
+				// FIXME: I18N
+				return "MembershipCondition names have the suffix 'MembershipCondition'";
 			}
 		}
 		
 		// System.Attribute
 		public override string Details {
 			get {
-				return "${res:MonoDevelop.AssemblyAnalyser.Rules.MembershipConditionNamesSuffixIsMembershipCondition.Details}";
+				// FIXME: I18N
+				return " A type that implements <code><a href='help://types/System.Security.Policy.IMembershipCondition'>IMembershipCondition</a></code> is a condition and its name should always end with <i>MembershipCondition</i> like in <code>UrlMembershipCondition</code>.";
 			}
 		}
 		
 		public Resolution Check(Type type)
 		{
 			if (typeof(System.Security.Policy.IMembershipCondition).IsAssignableFrom(type) && !type.Name.EndsWith("MembershipCondition")) {
-				return new Resolution(this, "${res:MonoDevelop.AssemblyAnalyser.Rules.MembershipConditionNamesSuffixIsMembershipCondition.Resolution}", type.FullName, new string[,] { { "TypeName", type.FullName }});
+				// FIXME: I18N
+				return new Resolution (this, String.Format ("Change the name of the type <code>{0}</code> so that it ends with <I>MembershipCondition</I>.", type.FullName), type.FullName);
 			}
 			return null;
 		}
@@ -40,8 +43,7 @@ namespace MonoDevelop.AssemblyAnalyser.Rules
 
 #region Unit Test
 #if TEST
-/*
-namespace MonoDevelop.AssemblyAnalyser.Rules
+namespace ICSharpCode.AssemblyAnalyser.Rules
 {
 	using NUnit.Framework;
 
@@ -107,6 +109,5 @@ namespace MonoDevelop.AssemblyAnalyser.Rules
 		}
 	}
 }
-*/
 #endif
 #endregion

@@ -19,6 +19,8 @@ using MonoDevelop.Gui.HtmlControl;
 using MonoDevelop.Core.Services;
 using MonoDevelop.Internal.Project;
 
+using AssemblyAnalyser = ICSharpCode.AssemblyAnalyser.AssemblyAnalyser;
+
 namespace MonoDevelop.AssemblyAnalyser
 {
 	public class AssemblyAnalyserView : AbstractViewContent

@@ -8,22 +8,24 @@
 using System;
 using System.Collections;
 
-namespace MonoDevelop.AssemblyAnalyser.Rules
+namespace ICSharpCode.AssemblyAnalyser.Rules
 {
 	/// <summary>
-	/// Description of NamespacesArePascalCased.	
+	/// Description of NamespacesDoNotContainUnderScores
 	/// </summary>
 	public class NamespacesDoNotContainUnderscores : AbstractReflectionRule, INamespaceRule
 	{
 		public override string Description {
 			get {
-				return "${res:MonoDevelop.AssemblyAnalyser.Rules.NamespacesDoNotContainUnderscores.Description}";
+				// FIXME: I18N
+				return "Namespace names do not contain underscores '_'";
 			}
 		}
 		
 		public override string Details {
 			get {
-				return "${res:MonoDevelop.AssemblyAnalyser.Rules.NamespacesDoNotContainUnderscores.Details}";
+				// FIXME: I18N
+				return "Underscores should never be used inside namespace names.";
 			}
 		}
 		
@@ -35,7 +37,8 @@ namespace MonoDevelop.AssemblyAnalyser.Rules
 		public Resolution Check(string namespaceName, ICollection types)
 		{
 			if (NamingUtilities.ContainsUnderscore(namespaceName)) {
-				return new Resolution(this, "${res:MonoDevelop.AssemblyAnalyser.Rules.NamespacesDoNotContainUnderscores.Resolution}", namespaceName, new string[,]{{"NamespaceName", namespaceName}});
+				// FIXME: I18N
+				return new Resolution (this, String.Format ("Remove all underscores in namespace <code>{0}</code>.", namespaceName), namespaceName);
 			}
 			return null;
 		}
@@ -43,8 +46,7 @@ namespace MonoDevelop.AssemblyAnalyser.Rules
 }
 #region Unit Test
 #if TEST
-/*
-namespace MonoDevelop.AssemblyAnalyser.Rules
+namespace ICSharpCode.AssemblyAnalyser.Rules
 {
 	using NUnit.Framework;
 
@@ -70,6 +72,5 @@ namespace MonoDevelop.AssemblyAnalyser.Rules
 		}
 	}
 }
-*/
 #endif
 #endregion

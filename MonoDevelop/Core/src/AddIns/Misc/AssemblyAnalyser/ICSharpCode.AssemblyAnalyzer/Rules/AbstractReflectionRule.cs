@@ -7,18 +7,18 @@
 
 using System;
 
-namespace MonoDevelop.AssemblyAnalyser.Rules
+namespace ICSharpCode.AssemblyAnalyser.Rules
 {
 	/// <summary>
 	/// Description of AbstractReflectionRule.	
 	/// </summary>
-	public abstract class AbstractReflectionRule : AbstractRule, MonoDevelop.AssemblyAnalyser.Rules.IReflectionRule
+	public abstract class AbstractReflectionRule : AbstractRule, IReflectionRule
 	{
 		protected ProtectionLevels memberProtectionLevel     = ProtectionLevels.All;
 		protected ProtectionLevels nestedTypeProtectionLevel = ProtectionLevels.All;
 		protected ProtectionLevels typeProtectionLevel       = ProtectionLevels.All;
 		
-		#region MonoDevelop.AssemblyAnalyser.Rules.IReflectionRule interface implementation
+		#region ICSharpCode.AssemblyAnalyser.Rules.IReflectionRule interface implementation
 		public virtual ProtectionLevels MemberProtectionLevel {
 			get {
 				return memberProtectionLevel;

@@ -8,22 +8,24 @@
 using System;
 using System.Reflection;
 
-namespace MonoDevelop.AssemblyAnalyser.Rules
+namespace ICSharpCode.AssemblyAnalyser.Rules
 {
 	/// <summary>
-	/// Description of EventFirstParameterIsObject.	
+	/// Description of EventSecondParameterIsEventArgsRule.	
 	/// </summary>
 	public class EventSecondParameterIsEventArgsRule : AbstractReflectionRule, IEventRule
 	{
 		public override string Description {
 			get {
-				return "${res:MonoDevelop.AssemblyAnalyser.Rules.EventSecondParameterIsEventArgs.Description}";
+				// FIXME: I18N
+				return "Second parameter type in events is a System.EventArgs type";
 			}
 		}
 		
 		public override string Details {
 			get {
-				return "${res:MonoDevelop.AssemblyAnalyser.Rules.EventSecondParameterIsEventArgs.Details}";
+				// FIXME: I18N
+				return "As a convention in .NET events have two parameters a sender and an event data object. The event data must always extend from the type <code><a href='help://types/System.EventArgs'>System.EventArgs</a></code> .<BR>For example: <code>void MouseEventHandler(object sender, MouseEventArgs e);</code> where <code>MouseEventArgs</code> extends <code><a href='help://types/System.EventArgs'>System.EventArgs</a></code>.";
 			}
 		}
 		
@@ -38,7 +40,8 @@ namespace MonoDevelop.AssemblyAnalyser.Rules
 			ParameterInfo[] parameters = invokeMethod.GetParameters();
 
 			if (parameters.Length > 1 && !typeof(System.EventArgs).IsAssignableFrom(parameters[1].ParameterType)) {
-				return new Resolution(this, "${res:MonoDevelop.AssemblyAnalyser.Rules.EventSecondParameterIsEventArgs.Resolution}", evnt.EventHandlerType.FullName, new string[,] { { "EventType", evnt.EventHandlerType.FullName }, { "OldParameterType", parameters[1].ParameterType.FullName }});
+				// FIXME: I18N
+				return new Resolution (this, String.Format ("Change the second parameter of the event <code>{0}</code> from <code>{1}</code> so that it is from the type <code><a href='help://types/System.EventArgs'>EventArgs</a></code> or any more specialized type.", evnt.EventHandlerType.FullName, parameters[1].ParameterType.FullName), evnt.EventHandlerType.FullName);
 			}
 			return null;
 		}
@@ -47,8 +50,7 @@ namespace MonoDevelop.AssemblyAnalyser.Rules
 
 #region Unit Test
 #if TEST
-/*
-namespace MonoDevelop.AssemblyAnalyser.Rules
+namespace ICSharpCode.AssemblyAnalyser.Rules
 {
 	using NUnit.Framework;
 
@@ -87,6 +89,5 @@ namespace MonoDevelop.AssemblyAnalyser.Rules
 		}
 	}
 }
-*/
 #endif
 #endregion

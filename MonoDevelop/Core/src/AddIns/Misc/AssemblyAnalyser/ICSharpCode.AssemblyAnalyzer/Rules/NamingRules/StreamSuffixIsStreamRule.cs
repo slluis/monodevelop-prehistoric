@@ -8,7 +8,7 @@
 using System;
 using System.Reflection;
 
-namespace MonoDevelop.AssemblyAnalyser.Rules
+namespace ICSharpCode.AssemblyAnalyser.Rules
 {
 	/// <summary>
 	/// Description of StreamSuffixIsStreamRule.	
@@ -17,13 +17,15 @@ namespace MonoDevelop.AssemblyAnalyser.Rules
 	{
 		public override string Description {
 			get {
-				return "${res:MonoDevelop.AssemblyAnalyser.Rules.StreamSuffixIsStream.Description}";
+				// FIXME: I18N
+				return "Stream names have the suffix 'Stream'";
 			}
 		}
 		
 		public override string Details {
 			get {
-				return "${res:MonoDevelop.AssemblyAnalyser.Rules.StreamSuffixIsStream.Details}";
+				// FIXME: I18N
+				return "A type that extends <code><a href='help://types/System.IO.Stream'>Stream</a></code> is a stream and its name should always end with <i>Stream</i> like in <code>FileStream</code>.";
 			}
 		}
 		
@@ -35,7 +37,8 @@ namespace MonoDevelop.AssemblyAnalyser.Rules
 		public Resolution Check(Type type)
 		{
 			if (typeof(System.IO.Stream).IsAssignableFrom(type) && !type.Name.EndsWith("Stream")) {
-				return new Resolution(this, "${res:MonoDevelop.AssemblyAnalyser.Rules.StreamSuffixIsStream.Resolution}", type.FullName, new string[,] { { "TypeName", type.FullName }});
+				// FIXME: I18N
+				return new Resolution (this, String.Format ("Change the name of the type <code>{0}</code> so that it ends with <I>Stream</I>.", type.FullName), type.FullName);
 			}
 			return null;
 		}
@@ -43,8 +46,7 @@ namespace MonoDevelop.AssemblyAnalyser.Rules
 }
 #region Unit Test
 #if TEST
-/*
-namespace MonoDevelop.AssemblyAnalyser.Rules
+namespace ICSharpCode.AssemblyAnalyser.Rules
 {
 	using System.IO;
 	using NUnit.Framework;
@@ -81,6 +83,5 @@ namespace MonoDevelop.AssemblyAnalyser.Rules
 		}
 	}
 }
-*/
 #endif
 #endregion

@@ -8,7 +8,7 @@
 using System;
 using System.Reflection;
 
-namespace MonoDevelop.AssemblyAnalyser.Rules
+namespace ICSharpCode.AssemblyAnalyser.Rules
 {
 	/// <summary>
 	/// Description of OnlyEventArgsSuffixEventArgsRule.	
@@ -17,13 +17,15 @@ namespace MonoDevelop.AssemblyAnalyser.Rules
 	{
 		public override string Description {
 			get {
-				return "${res:MonoDevelop.AssemblyAnalyser.Rules.OnlyEventArgsSuffixEventArgs.Description}";
+				// FIXME: I18N
+				return "Only event argument names have the suffix 'EventArgs'";
 			}
 		}
 		
 		public override string Details {
 			get {
-				return "${res:MonoDevelop.AssemblyAnalyser.Rules.OnlyEventArgsSuffixEventArgs.Details}";
+				// FIXME: I18N
+				return "A type that does not extend from <code><a href='help://types/System.EventArgs'>EventArgs</a></code> should never have the suffix <i>EventArgs</i>.";
 			}
 		}
 		
@@ -36,7 +38,8 @@ namespace MonoDevelop.AssemblyAnalyser.Rules
 		public Resolution Check(Type type)
 		{
 			if (!typeof(System.EventArgs).IsAssignableFrom(type) && type.Name.EndsWith("EventArgs")) {
-				return new Resolution(this, "${res:MonoDevelop.AssemblyAnalyser.Rules.OnlyEventArgsSuffixEventArgs.Resolution}", type.FullName, new string[,] { { "TypeName", type.FullName }});
+				// FIXME: I18N
+				return new Resolution (this, String.Format ("Change the name of the type <code>{0}</code> so that it does not end with <i>EventArgs</i>.", type.FullName), type.FullName);
 			}
 			return null;
 		}
@@ -44,8 +47,7 @@ namespace MonoDevelop.AssemblyAnalyser.Rules
 }
 #region Unit Test
 #if TEST
-/*
-namespace MonoDevelop.AssemblyAnalyser.Rules
+namespace ICSharpCode.AssemblyAnalyser.Rules
 {
 	using NUnit.Framework;
 
@@ -82,6 +84,5 @@ namespace MonoDevelop.AssemblyAnalyser.Rules
 		
 	}
 }
-*/
 #endif
 #endregion

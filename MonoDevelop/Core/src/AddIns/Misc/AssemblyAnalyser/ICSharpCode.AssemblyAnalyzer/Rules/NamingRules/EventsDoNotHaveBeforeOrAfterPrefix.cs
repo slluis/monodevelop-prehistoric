@@ -8,7 +8,7 @@
 using System;
 using System.Reflection;
 
-namespace MonoDevelop.AssemblyAnalyser.Rules
+namespace ICSharpCode.AssemblyAnalyser.Rules
 {
 	/// <summary>
 	/// Description of EventsDoNotHaveBeforeOrAfterPrefix.	
@@ -17,13 +17,15 @@ namespace MonoDevelop.AssemblyAnalyser.Rules
 	{
 		public override string Description {
 			get {
-				return "${res:MonoDevelop.AssemblyAnalyser.Rules.EventsDoNotHaveBeforeOrAfterPrefix.Description}";
+				// FIXME: I18N
+				return "Event names do not have a 'Before' or 'After' prefix";
 			}
 		}
 		
 		public override string Details {
 			get {
-				return "${res:MonoDevelop.AssemblyAnalyser.Rules.EventsDoNotHaveBeforeOrAfterPrefix.Details}";
+				// FIXME: I18N
+				return "Use present or past tense for pre/post events instead using <i>Before</i> or <i>After</i> prefix.";
 			}
 		}
 		
@@ -35,9 +37,11 @@ namespace MonoDevelop.AssemblyAnalyser.Rules
 		public Resolution Check(EventInfo evnt)
 		{
 			if (evnt.Name.StartsWith("Before")) {
-				return new Resolution(this, "${res:MonoDevelop.AssemblyAnalyser.Rules.EventsDoNotHaveBeforeOrAfterPrefix.Resolution1}", NamingUtilities.Combine(evnt.ReflectedType.FullName, evnt.Name), new string[,] { { "EventName", evnt.Name }, { "ReflectedType", evnt.ReflectedType.FullName }});
+				// FIXME: I18N
+				return new Resolution (this, String.Format ("Change event name <code>{0}</code> in <code>{1}</code> so that it does not use the <i>Before</i> prefix.", evnt.Name, evnt.ReflectedType.FullName), NamingUtilities.Combine (evnt.ReflectedType.FullName, evnt.Name));
 			} else if (evnt.Name.StartsWith("After")) {
-				return new Resolution(this, "${res:MonoDevelop.AssemblyAnalyser.Rules.EventsDoNotHaveBeforeOrAfterPrefix.Resolution2}", NamingUtilities.Combine(evnt.ReflectedType.FullName, evnt.Name), new string[,] { { "EventName", evnt.Name }, { "ReflectedType", evnt.ReflectedType.FullName }});	
+				// FIXME: I18N
+				return new Resolution (this, String.Format ("Change event name <code>{0}</code> in <code>{1}</code> so that it does not use the <i>After</i> prefix.", evnt.Name, evnt.ReflectedType.FullName), NamingUtilities.Combine (evnt.ReflectedType.FullName, evnt.Name));
 			}
 			return null;
 		}
@@ -45,8 +49,7 @@ namespace MonoDevelop.AssemblyAnalyser.Rules
 }
 #region Unit Test
 #if TEST
-/*
-namespace MonoDevelop.AssemblyAnalyser.Rules
+namespace ICSharpCode.AssemblyAnalyser.Rules
 {
 	using NUnit.Framework;
 
@@ -86,6 +89,5 @@ namespace MonoDevelop.AssemblyAnalyser.Rules
 		}
 	}
 }
-*/
 #endif
 #endregion

@@ -8,7 +8,7 @@
 using System;
 using System.Reflection;
 
-namespace MonoDevelop.AssemblyAnalyser.Rules
+namespace ICSharpCode.AssemblyAnalyser.Rules
 {
 	/// <summary>
 	/// Description of PermissionSuffixIsPermissionRule.	
@@ -17,21 +17,24 @@ namespace MonoDevelop.AssemblyAnalyser.Rules
 	{
 		public override string Description {
 			get {
-				return "${res:MonoDevelop.AssemblyAnalyser.Rules.PermissionSuffixIsPermission.Description}";
+				// FIXME: I18N
+				return "Permission names have the suffix 'Permission'";
 			}
 		}
 		
 		// System.Attribute
 		public override string Details {
 			get {
-				return "${res:MonoDevelop.AssemblyAnalyser.Rules.PermissionSuffixIsPermission.Details}";
+				// FIXME: I18N
+				return "A type that extends <code><a href='help://types/System.Security.IPermission'>IPermission</a></code> is a permission and its name should always end with <i>Permission</i> like in <code>FileIOPermission</code>.";
 			}
 		}
 		
 		public Resolution Check(Type type)
 		{
 			if (typeof(System.Security.IPermission).IsAssignableFrom(type) && !type.Name.EndsWith("Permission")) {
-				return new Resolution(this, "${res:MonoDevelop.AssemblyAnalyser.Rules.PermissionSuffixIsPermission.Resolution}", type.FullName, new string[,] { { "TypeName", type.FullName }});
+				// FIXME: I18N
+				return new Resolution (this, String.Format ("Change the name of the type <code>{0}</code> so that it ends with <I>Permission</I>.", type.FullName), type.FullName);
 			}
 			return null;
 		}
@@ -40,8 +43,7 @@ namespace MonoDevelop.AssemblyAnalyser.Rules
 
 #region Unit Test
 #if TEST
-/*
-namespace MonoDevelop.AssemblyAnalyser.Rules
+namespace ICSharpCode.AssemblyAnalyser.Rules
 {
 	using NUnit.Framework;
 
@@ -59,6 +61,5 @@ namespace MonoDevelop.AssemblyAnalyser.Rules
 		
 	}
 }
-*/
 #endif
 #endregion
