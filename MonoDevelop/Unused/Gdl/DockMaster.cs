@@ -56,17 +56,12 @@ namespace Gdl
 		
 		public int Locked {
 			get {
-				if (unlockedItems.Count == 0)
-					return 1;
-				if (lockedItems.Count == 0)
-					return 0;
-				return -1;
+				return ComputeLocked ();
 			}
 			set {
 				if (value >= 0)
 					LockUnlock (value > 0);
-				if (NotifyLocked != null)
-					NotifyLocked (this, EventArgs.Empty);
+				EmitNotifyLocked ();
 			}
 		}
 		
@@ -176,21 +171,19 @@ namespace Gdl
 			if (obj == null)
 				return;
 	
-			/*if (obj is DockItem && ((DockItem)obj).HasGrip) {
+			if (obj is DockItem && ((DockItem)obj).HasGrip) {
 				int locked = Locked;
 				if (lockedItems.Contains (obj)) {
 					lockedItems.Remove (obj);
-					if (Locked != locked) {
-						//g_object_notify (G_OBJECT (this), "locked");
-					}
+					if (Locked != locked)
+						EmitNotifyLocked ();
 				}
 				if (unlockedItems.Contains (obj)) {
 					lockedItems.Remove (obj);
-					if (Locked != locked) {
-						//g_object_notify (G_OBJECT (this), "locked");
-					}
+					if (Locked != locked)
+						EmitNotifyLocked ();
 				}
-			}*/
+			}
 			
 			if (obj is Dock) {
 				toplevelDocks.Remove (obj);
@@ -261,16 +254,55 @@ namespace Gdl
 		
 		private void OnItemDetached (object o, DetachedArgs args)
 		{
+			DockItem obj = o as DockItem;
+			if (!obj.InReflow && !obj.IsAutomatic)
+				EmitLayoutChangedEvent ();
 		}
 		
 		private void OnItemDocked (object o, DockedArgs args)
 		{
+			DockItem requestor = args.Requestor as DockItem;
+
+			// here we are in fact interested in the requestor, since it's
+			// assumed that object will not change its visibility... for the
+			// requestor, however, could mean that it's being shown
+			if (!requestor.InReflow && !requestor.IsAutomatic)
+				EmitLayoutChangedEvent ();
 		}
 		
 		private void OnItemPropertyChanged (object o, string name)
 		{
+			DockItem item = o as DockItem;
+			int locked = ComputeLocked ();
+			bool item_locked = item.Locked;
+
+			if (item_locked) {
+				if (unlockedItems.ContainsKey (item))
+					unlockedItems.Remove (item);
+				if (!lockedItems.ContainsKey (item))
+					lockedItems.Add (item, 1);
+			}
+			else {
+				if (lockedItems.ContainsKey (item))
+					lockedItems.Remove (item);
+				if (!unlockedItems.ContainsKey (item))
+					unlockedItems.Add (item, 1);
+			}
+
+			if (ComputeLocked () != locked)
+				EmitNotifyLocked ();
 		}
-		
+
+		private int ComputeLocked ()
+		{
+			if (unlockedItems.Count == 0)
+				return 1;
+			else if (lockedItems.Count == 0)
+				return 0;
+			else
+				return -1;
+		}		
+
 		private void OnDragBegin (DockItem item)
 		{
 			/* Set the target to itself so it won't go floating with just a click. */
@@ -443,6 +475,12 @@ namespace Gdl
 			window.DrawRectangle (rootXorGC, false, request.X + 1,
 					      request.Y + 1, request.Width - 2,
 					      request.Height - 2);
+		}
+
+		void EmitNotifyLocked ()
+		{
+			if (NotifyLocked != null)
+				NotifyLocked (this, EventArgs.Empty);
 		}
 	}
 }
