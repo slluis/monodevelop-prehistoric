@@ -187,7 +187,7 @@ namespace Gdl
 				myRequest.Target = this;
 
 				/* See if it's in the border_width band. */
-				if (relX < bw) {
+				/*if (relX < bw) {
 					myRequest.Position = DockPlacement.Left;
 					myRequest.Rect.Width = myRequest.Rect.Width * SplitRatio;
 					divider = other.Width;
@@ -206,8 +206,9 @@ namespace Gdl
 					myRequest.Rect.Height *= SplitRatio;
 					divider = Math.Max (0, my.Height - other.Height);
 				} else { /* Otherwise try our children. */
-				}
+				//}
 			}
+			return true;
 		}
 	}
 }
