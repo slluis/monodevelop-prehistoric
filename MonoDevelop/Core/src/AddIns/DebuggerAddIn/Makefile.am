@@ -1,6 +1,7 @@
 
 ASSEMBLY = MonoDevelop.Debugger.dll
-ADDIN = $(srcdir)/MonoDevelopDebugger.addin.xml
+ADDIN = MonoDevelopDebugger.addin.xml
+ADDIN_BUILD = $(top_builddir)/build/AddIns/DebuggerAddIn
 
 DLLS = $(GTK_SHARP_LIBS) \
 	$(MONO_DEBUGGER_LIBS) \
@@ -20,20 +21,21 @@ EXTRA_DIST = $(FILES) $(ADDIN)
 
 if ENABLE_DEBUGGER
 
-all: $(ASSEMBLY)
-
+all: $(ASSEMBLY) $(ADDIN_BUILD)/$(ADDIN)
 
 build_sources = $(addprefix $(srcdir)/, $(FILES))
 
-$(top_builddir)/build/AddIns/$(ADDIN):
-	cp $(ADDIN) $(top_builddir)/build/AddIns/.
+$(ADDIN_BUILD)/$(ADDIN): $(srcdir)/$(ADDIN)
+	mkdir -p $(ADDIN_BUILD)
+	cp $(ADDIN) $(ADDIN_BUILD)/.
 
-$(ASSEMBLY): $(build_sources) $(top_builddir)/build/AddIns/$(ADDIN)
+$(ASSEMBLY): $(build_sources)
+	mkdir -p $(ADDIN_BUILD)
 	$(CSC) /out:$(ASSEMBLY) /target:library \
 	$(build_sources) $(DLLS)\
-	&& cp $(ASSEMBLY) $(top_builddir)/build/AddIns/
+	&& cp $(ASSEMBLY) $(ADDIN_BUILD)/$(ADDIN)
 
-assemblydir = $(libdir)/monodevelop/AddIns
+assemblydir = $(libdir)/monodevelop/AddIns/DebuggerAddIn
 assembly_DATA = $(ASSEMBLY) $(ADDIN)
 
 CLEANFILES = $(ASSEMBLY) $(ASSEMBLY).mdb

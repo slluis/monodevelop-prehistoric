@@ -14,17 +14,26 @@ REFS = /r:System.Drawing \
 	$(GTK_SHARP_LIBS) \
 	$(GECKO_SHARP_LIBS)
 
-all: $(DLL)
+ADDIN = StartPage.addin.xml
+
+ADDIN_BUILD = $(top_builddir)/build/AddIns/StartPage
+
+all: $(DLL) $(ADDIN_BUILD)/$(ADDIN)
+
+$(ADDIN_BUILD)/$(ADDIN): $(srcdir)/$(ADDIN)
+	mkdir -p $(ADDIN_BUILD)
+	cp $(srcdir)/$(ADDIN) $(ADDIN_BUILD)/$(ADDIN)
 
 $(DLL): $(build_sources)
+	mkdir -p $(ADDIN_BUILD)
 	$(CSC) /out:$(DLL) /target:library $(REFS) \
 		$(build_sources) \
-	&& cp $(DLL) $(top_builddir)/build/AddIns/AddIns/Misc/StartPage/.
+	&& cp $(DLL) $(ADDIN_BUILD)/.
 
-startpagelibdir = $(libdir)/monodevelop/AddIns/AddIns/Misc/StartPage
-startpagelib_DATA = $(DLL)
+startpagelibdir = $(libdir)/monodevelop/AddIns/StartPage
+startpagelib_DATA = $(DLL) $(ADDIN)
 
 CLEANFILES=$(DLL) $(DLL).mdb
 
-EXTRA_DIST = $(FILES)
+EXTRA_DIST = $(FILES) $(ADDIN)
 

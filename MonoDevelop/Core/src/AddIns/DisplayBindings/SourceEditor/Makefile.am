@@ -87,9 +87,18 @@ REFS = /r:System.Drawing.dll \
 	$(GCONF_SHARP_LIBS) \
 	$(GTKSOURCEVIEW_SHARP_LIBS)
 
-all : $(DLL)
+ADDIN = MonoDevelopEditor.addin.xml
+
+ADDIN_BUILD = $(top_builddir)/build/AddIns
+
+all : $(DLL) $(ADDIN_BUILD)/$(ADDIN)
+
+$(ADDIN_BUILD)/$(ADDIN): $(srcdir)/$(ADDIN)
+	mkdir -p $(ADDIN_BUILD)
+	cp $(srcdir)/$(ADDIN) $(ADDIN_BUILD)/$(ADDIN)
 
 $(DLL) : $(build_sources) $(srcdir)/EditorBindings.glade $(srcdir)/texteditoraddin.glade
+	mkdir -p $(top_builddir)/build/bin
 	$(CSC) $(build_sources) /debug /out:$(DLL) /t:library $(REFS) \
 	/resource:$(srcdir)/EditorBindings.glade,EditorBindings.glade \
 	/resource:$(srcdir)/texteditoraddin.glade,texteditoraddin.glade \
@@ -98,7 +107,10 @@ $(DLL) : $(build_sources) $(srcdir)/EditorBindings.glade $(srcdir)/texteditoradd
 assemblydir = $(libdir)/monodevelop/bin
 assembly_DATA = $(DLL) $(DLL).config
 
+addindir = $(libdir)/monodevelop/AddIn
+addin_DATA = $(ADDIN)
+
 CLEANFILES = $(DLL) $(DLL).mdb
 DISTCLEANFILES = $(DLL).config
 
-EXTRA_DIST = $(FILES) $(DLL).config.in EditorBindings.glade texteditoraddin.glade
+EXTRA_DIST = $(FILES) $(DLL).config.in EditorBindings.glade texteditoraddin.glade $(ADDIN)

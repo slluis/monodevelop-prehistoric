@@ -389,7 +389,15 @@ build_sources = $(addprefix $(srcdir)/, $(FILES))
 
 ASSEMBLY = MonoDevelop.Base.dll
 
-all: $(ASSEMBLY)
+ADDIN = MonoDevelopCore.addin.xml
+
+ADDIN_BUILD = $(top_builddir)/build/AddIns
+
+all: $(ASSEMBLY) $(ADDIN_BUILD)/$(ADDIN)
+
+$(ADDIN_BUILD)/$(ADDIN): $(srcdir)/$(ADDIN)
+	mkdir -p $(ADDIN_BUILD)
+	cp $(srcdir)/$(ADDIN) $(ADDIN_BUILD)/.
 
 $(ASSEMBLY): $(build_sources) $(srcdir)/Base.glade
 	$(CSC) $(MONO_POSIX_OEE) -codepage:utf8 /out:$(ASSEMBLY) /target:library $(DLLS) \
@@ -405,8 +413,11 @@ Services/StockIcons.cs : ./Services/process-icons.pl ../../../build/data/resourc
 assemblydir = $(libdir)/monodevelop/bin
 assembly_DATA = $(ASSEMBLY) $(ASSEMBLY).config
 
+addindir = $(libdir)/monodevelop/AddIns
+addin_DATA = $(ADDIN)
+
 CLEANFILES = $(ASSEMBLY) $(ASSEMBLY).mdb
 DISTCLEANFILES = $(ASSEMBLY).config
 
-EXTRA_DIST = $(FILES) ./Services/process-icons.pl $(ASSEMBLY).config.in Base.glade
+EXTRA_DIST = $(FILES) ./Services/process-icons.pl $(ASSEMBLY).config.in Base.glade $(ADDIN)
 

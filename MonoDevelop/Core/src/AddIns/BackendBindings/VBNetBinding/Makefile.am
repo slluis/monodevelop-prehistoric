@@ -40,23 +40,52 @@ Parser/SharpDevelopTree/ReturnType.cs \
 Project/VBCompilerParameters.cs \
 Project/VBProject.cs
 
+TEMPLATES = \
+templates/EmptyVBFile.xft.xml \
+templates/EmptyVBProject.xpt.xml \
+templates/VBConsoleApplicationProject.xpt.xml
+
 build_sources = $(addprefix $(srcdir)/, $(FILES))
 
-all: $(ASSEMBLY)
+ADDIN = VBNetBinding.addin.xml
+
+ADDIN_BUILD = $(top_builddir)/build/AddIns/BackendBindings
+
+TEMPLATES_DIR = $(ADDIN_BUILD)/templates
+
+build_TEMPLATES = $(addprefix $(TEMPLATES_DIR)/, $(notdir $(TEMPLATES)))
+
+all: $(ASSEMBLY) $(ADDIN_BUILD)/$(ADDIN) $(build_TEMPLATES)
+
+$(filter %.xpt.xml, $(build_TEMPLATES)): $(TEMPLATES_DIR)/%.xpt.xml: $(srcdir)/templates/%.xpt.xml
+	mkdir -p $(TEMPLATES_DIR)
+	cp $(srcdir)/templates/$(notdir $@) $@
+
+$(filter %.xft.xml, $(build_TEMPLATES)): $(TEMPLATES_DIR)/%.xft.xml: $(srcdir)/templates/%.xft.xml
+	mkdir -p $(TEMPLATES_DIR)
+	cp $(srcdir)/templates/$(notdir $@) $@
+
+$(ADDIN_BUILD)/$(ADDIN): $(srcdir)/$(ADDIN)
+	mkdir -p $(ADDIN_BUILD)
+	cp $(srcdir)/$(ADDIN) $(ADDIN_BUILD)/.
 
 $(ASSEMBLY): $(build_sources) $(srcdir)/VB.glade
+	mkdir -p $(ADDIN_BUILD)
 	cd SharpRefactoryVB && make
 	$(CSC) /out:$(ASSEMBLY) /target:library $(DLLS) \
 		/resource:$(srcdir)/VB.glade,VB.glade \
 		$(build_sources) \
-	&& cp $(ASSEMBLY) $(top_builddir)/build/AddIns/AddIns/BackendBindings/.
+	&& cp $(ASSEMBLY) $(ADDIN_BUILD)/.
 
-vbnetbindinglibdir = $(libdir)/monodevelop/AddIns/AddIns/BackendBindings
-vbnetbindinglib_DATA = $(ASSEMBLY)
+vbnetbindinglibdir = $(libdir)/monodevelop/AddIns/BackendBindings
+vbnetbindinglib_DATA = $(ASSEMBLY) $(ADDIN)
+
+templatesdir = $(vbnetbindinglibdir)/templates/
+templates_DATA = $(TEMPLATES)
 
 CLEANFILES = $(ASSEMBLY) $(ASSEMBLY).mdb
 
 DISTCLEANFILES =
 
-EXTRA_DIST = $(FILES) VB.glade
+EXTRA_DIST = $(FILES) VB.glade $(ADDIN) $(TEMPLATES)
 

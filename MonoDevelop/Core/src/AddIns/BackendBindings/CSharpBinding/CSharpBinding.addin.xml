@@ -1,7 +1,7 @@
 <AddIn name        = "CSharp Language Binding"
        author      = "Todd Berman"
        copyright   = "GPL"
-       url         = "http://www.monodevelop.com"
+       url         = "http://www.monodevelop.com/"
        description = "CSharp Language Binding"
        version     = "0.6">
 	

@@ -198,12 +198,6 @@ build/data/options/Makefile
 build/data/resources/css/Makefile
 build/data/resources/icons/Makefile
 build/doc/Makefile
-build/AddIns/Makefile
-build/AddIns/AddIns/Makefile
-build/AddIns/AddIns/BackendBindings/Makefile
-build/AddIns/AddIns/BackendBindings/templates/Makefile
-build/AddIns/AddIns/Misc/Makefile
-build/AddIns/AddIns/Misc/StartPage/Makefile
 Core/src/AddIns/DebuggerAddIn/AssemblyInfo.cs
 Core/src/AddIns/DisplayBindings/SourceEditor/AssemblyInfo.cs
 Core/src/AddIns/Misc/StartPage/AssemblyInfo.cs
