@@ -1,3 +1,8 @@
+2004-03-04  Daniel Kornhauser <dkor@alum.mit.edu>
+
+	    * data/resources/glade/CSharp.glade : created glade file with OutputOptionsPanel UI
+	    * src/AddIns/BackendBindings/CSharpBinding/Gui/OutputOptionsPanel.cs: Gladed CodeGenerationPanel
+
 2004-03-04 John BouAntoun  <jba-mono@optusnet.com.au>
 	* src/Main/Base/Gui/Dialogs/ProjectOptionsDialog.cs : enabled context menu's for project configurations
 	* src/Main/Base/Gui/Dialogs/TreeViewOptions.cs : made SelectNode virtual so ProjectOptionsDialog could override
