@@ -1,5 +1,9 @@
 2004-10-29  Todd Berman  <tberman@off.net>
 
+	* Commands/FileCommands: Fix SaveAs.
+
+2004-10-29  Todd Berman  <tberman@off.net>
+
 	* Commands/FileCommands.cs: Patch from Valters Svabe
 	<valters@inbox.lv> to close bug #62300
 

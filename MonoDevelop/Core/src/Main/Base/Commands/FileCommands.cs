@@ -153,32 +153,29 @@ namespace MonoDevelop.Commands
 							break;
 						}
 					}*/
-					
-					using (FileSelector fdiag = new FileSelector (GettextCatalog.GetString ("Save as..."))) {
-						fdiag.SetFilename (window.ViewContent.ContentName);
-						int response = fdiag.Run ();
-						string filename = fdiag.Filename;
-						fdiag.Hide ();
-					
-					
-						if (response == (int)Gtk.ResponseType.Ok) {
-							IFileService fileService = (IFileService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IFileService));
-							FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.GetService(typeof(FileUtilityService));
-							if (!fileUtilityService.IsValidFileName(filename)) {
-								IMessageService messageService =(IMessageService)ServiceManager.GetService(typeof(IMessageService));
-								messageService.ShowMessage(String.Format (GettextCatalog.GetString ("File name {0} is invalid"), filename));
-								return;
-							}
+					FileSelector fdiag = new FileSelector (GettextCatalog.GetString ("Save as..."), Gtk.FileChooserAction.Save);
+					fdiag.SetFilename (window.ViewContent.ContentName);
+					int response = fdiag.Run ();
+					string filename = fdiag.Filename;
+					fdiag.Hide ();
+				
+					if (response == (int)Gtk.ResponseType.Ok) {
+						IFileService fileService = (IFileService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IFileService));
+						FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.GetService(typeof(FileUtilityService));
+						if (!fileUtilityService.IsValidFileName(filename)) {
+							IMessageService messageService =(IMessageService)ServiceManager.GetService(typeof(IMessageService));
+							messageService.ShowMessage(String.Format (GettextCatalog.GetString ("File name {0} is invalid"), filename));
+							return;
+						}
 
-						// save backup first
-						if((bool) PropertyService.GetProperty ("SharpDevelop.CreateBackupCopy", false)) {
-							fileUtilityService.ObservedSave(new NamedFileOperationDelegate(window.ViewContent.Save), filename + "~");
-						}
-						
-						// do actual save
-						if (fileUtilityService.ObservedSave(new NamedFileOperationDelegate(window.ViewContent.Save), filename) == FileOperationResult.OK) {
-							fileService.RecentOpen.AddLastFile(filename);							
-						}
+					// save backup first
+					if((bool) PropertyService.GetProperty ("SharpDevelop.CreateBackupCopy", false)) {
+						fileUtilityService.ObservedSave(new NamedFileOperationDelegate(window.ViewContent.Save), filename + "~");
+					}
+					
+					// do actual save
+					if (fileUtilityService.ObservedSave(new NamedFileOperationDelegate(window.ViewContent.Save), filename) == FileOperationResult.OK) {
+						fileService.RecentOpen.AddLastFile(filename);							
 					}
 				}
 			}

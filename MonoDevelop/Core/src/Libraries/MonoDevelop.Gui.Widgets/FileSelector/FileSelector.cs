@@ -35,6 +35,9 @@ namespace MonoDevelop.Gui.Widgets
 			if (action == FileChooserAction.SelectFolder) {
 				AddButton (Gtk.Stock.Cancel, ResponseType.Cancel);
 				AddButton ("Select Folder", ResponseType.Ok);
+			} else if (action == FileChooserAction.Save) {
+				AddButton (Gtk.Stock.Cancel, ResponseType.Cancel);
+				AddButton (Gtk.Stock.Save, ResponseType.Ok);
 			}
 			CommonSetup ();
 		}
@@ -72,6 +75,9 @@ namespace MonoDevelop.Gui.Widgets
 
 		void UpdateLastDir ()
 		{
+			if (this.Filename == null || this.Filename == "")
+				return;
+			
 			if (this.Filename.EndsWith ("/") || Directory.Exists (this.Filename))
 				lastPath = this.Filename;
 			else

@@ -1,3 +1,7 @@
+2004-10-29  Todd Berman  <tberman@off.net>
+
+	* FileSelector/FileSelector.cs: Add proper Save buttons.
+
 2004-10-16  John Luke  <john.luke@gmail.com>
 
 	* Makefile.am: remove MCS use $(CSC) from configure.in,
