@@ -13,6 +13,8 @@ using ICSharpCode.SharpDevelop.Gui.ErrorHandlers;
 using ICSharpCode.SharpDevelop.Gui.HtmlControl;
 using ICSharpCode.Core.Services;
 
+using GtkMozEmbedSharp;
+
 namespace ICSharpCode.StartPage 
 {
 	/// <summary>
@@ -80,7 +82,7 @@ namespace ICSharpCode.StartPage
 			
 			htmlControl.Html = page.Render(curSection);
 			htmlControl.ShowAll ();
-			//htmlControl.BeforeNavigate += new BrowserNavigateEventHandler(HtmlControlBeforeNavigate);
+			htmlControl.OpenUri += new OpenUriHandler (HtmlControlBeforeNavigate);
 			
 			StringParserService stringParserService = (StringParserService)ServiceManager.Services.GetService(typeof(StringParserService));
 			// Description of the tab shown in #develop
@@ -100,10 +102,10 @@ namespace ICSharpCode.StartPage
 			WorkbenchWindow.CloseWindow(true);
 		}
 		
-		void HtmlControlBeforeNavigate(object sender, BrowserNavigateEventArgs e)
+		void HtmlControlBeforeNavigate(object sender, OpenUriArgs e)
 		{
-			e.Cancel = true;
-			if (e.Url.StartsWith("project://")) {
+			e.RetVal = true;
+			if (e.AURI.StartsWith("project://")) {
 				try {
 					Core.Properties.DefaultProperties svc = (Core.Properties.DefaultProperties)Core.Services.ServiceManager.Services.GetService(typeof(Core.Services.PropertyService));
 					object recentOpenObj = svc.GetProperty("ICSharpCode.SharpDevelop.Gui.MainWindow.RecentOpen");
@@ -112,7 +114,7 @@ namespace ICSharpCode.StartPage
 						
 						IProjectService projectService = (IProjectService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
 						
-						string prjNumber = e.Url.Substring("project://".Length);
+						string prjNumber = e.AURI.Substring("project://".Length);
 						prjNumber = prjNumber.Substring(0, prjNumber.Length - 1);
 			
 						string projectFile = page.projectFiles[int.Parse(prjNumber)];
@@ -126,21 +128,21 @@ namespace ICSharpCode.StartPage
 				} catch (Exception ex) {
 					//MessageBox.Show("Could not access project service or load project:\n\n" + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 				}
-			} else if (e.Url.EndsWith("/opencombine")) {
+			} else if (e.AURI.EndsWith("/opencombine")) {
 				OpenBtnClicked(this, EventArgs.Empty);
-			} else if (e.Url.EndsWith("/newcombine")) {
+			} else if (e.AURI.EndsWith("/newcombine")) {
 				NewBtnClicked(this, EventArgs.Empty);
-			} else if (e.Url.EndsWith("/newcombine")) {
+			} else if (e.AURI.EndsWith("/newcombine")) {
 				NewBtnClicked(this, EventArgs.Empty);
-			} else if (e.Url.EndsWith("/opensection")) {
+			} else if (e.AURI.EndsWith("/opensection")) {
 				Regex section = new Regex(@"/(?<section>.+)/opensection", RegexOptions.Compiled);
-				Match match = section.Match(e.Url);
+				Match match = section.Match(e.AURI);
 				if (match.Success) {
 					curSection = match.Result("${section}");
 					htmlControl.Html = page.Render(curSection);
 				}
 			} else {
-				System.Diagnostics.Process.Start(e.Url);
+				System.Diagnostics.Process.Start(e.AURI);
 			}
 		}
 		

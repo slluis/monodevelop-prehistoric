@@ -19,9 +19,9 @@ namespace ICSharpCode.StartPage {
 				}
 			}
 			//if (SharpDevelopMain.CommandLineArgs != null) {
-				StartPageView spv = new StartPageView ();
-				WorkbenchSingleton.Workbench.ShowView(spv);
-				spv.DelayedInitialize ();
+				//StartPageView spv = new StartPageView ();
+				//WorkbenchSingleton.Workbench.ShowView(spv);
+				//spv.DelayedInitialize ();
 				
 			//}
 		}
