@@ -1,3 +1,8 @@
+2004-06-29  Todd Berman  <tberman@off.net>
+
+	* Gui/SourceEditorDisplayBinding.cs: Removing that patch for now,
+	that was half-cooked.
+
 2004-06-28  Todd Berman  <tberman@off.net>
 
 	* Gui/SourceEditorDisplayBinding.cs: Add a FSW to monitor for external
