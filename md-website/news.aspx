@@ -5,7 +5,7 @@
 
   <div class="title">News</div>
 
-  <div class="news_header">: MonoDevelop 0.2 Released</div>
+  <div class="news_header">Mar 31, 2004: MonoDevelop 0.2 Released</div>
   <p>MonoDevelop 0.2 is released, so get your <tt>mcs</tt> warmed up.  0.2 has
   a lot of new features such as built-in monodoc and debugger support.
   Download it from the <a href="/release.aspx">releases page</a>.</p>
