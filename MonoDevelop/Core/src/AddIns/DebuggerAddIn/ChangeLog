@@ -1,3 +1,7 @@
+2005-02-25  Chris Toshok  <toshok@ximian.com>
+
+	* Gui/DebuggerVariablePad.cs: track martin's debugger changes.
+
 2005-02-04  Chris Toshok  <toshok@ximian.com>
 
 	* DebuggerCommands.cs: Update so this compiles/works with new MD.
