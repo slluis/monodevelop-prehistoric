@@ -93,6 +93,25 @@ namespace Gdl
 			stored_invoker.Invoke (widget);
 		}
 
+		public override bool OnChildPlacement (DockObject child, ref DockPlacement placement)
+		{
+			DockPlacement pos = DockPlacement.None;
+			if (this.Child != null) {
+				Paned paned = this.Child as Paned;
+				if (child == paned.Child1)
+					pos = this.Orientation == Orientation.Horizontal ? DockPlacement.Left : DockPlacement.Top;
+				else if (child == paned.Child2)
+					pos = this.Orientation == Orientation.Horizontal ? DockPlacement.Right : DockPlacement.Bottom;
+			}
+
+			if (pos != DockPlacement.None) {
+				placement = pos;
+				return true;
+			}
+
+			return base.OnChildPlacement (child, ref pos);
+		}
+
 		protected override void OnDestroyed ()
 		{
 			// this first

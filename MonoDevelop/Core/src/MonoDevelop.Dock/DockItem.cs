@@ -799,6 +799,8 @@ namespace Gdl
 					Console.WriteLine ("Attempting to bind an unbound item");
 					return;
 				}
+
+				// FIXME: save previous docking position for later re-docking?
 				
 				dragoffX = dragoffY = 0;
 				((Dock)Master.Controller).AddFloatingItem (this, 0, 0, -1, -1);
