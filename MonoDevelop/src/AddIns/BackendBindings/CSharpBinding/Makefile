@@ -32,7 +32,7 @@ all: $(DLL)
 $(DLL): $(SOURCES)
 	@ mcs /debug /out:$(DLL) /target:library /r:System.Drawing.dll \
 		/r:../../../../build/bin/MonoDevelop.Core.dll \
-		/r:../../../../build/bin/MonoDevelop.EditorBindings.dll \
+		/r:../../../../build/bin/MonoDevelop.SourceEditor.dll \
 		/r:../../../../build/bin/MonoDevelop.Base.dll \
 		/r:../../../../build/bin/ICSharpCode.SharpRefactory.dll \
 		/r:gtk-sharp.dll \

@@ -7,5 +7,7 @@ $(DLL) : $(shell find . -name \*.cs)
 		/r:../../../../build/bin/MonoDevelop.Core.dll \
 		/r:../../../../build/bin/MonoDevelop.Base.dll \
 		/r:../../../../build/bin/MonoDevelop.Gui.Utils.dll \
-		/r:../../../../build/bin/MonoDevelop.EditorBindings.dll \
+		/r:../../../../build/bin/MonoDevelop.Gui.Widgets.dll \
+		/r:pango-sharp.dll /r:gnome-sharp.dll /r:glade-sharp.dll \
+		/r:gconf-sharp.dll \
 		/r:System.Drawing.dll
