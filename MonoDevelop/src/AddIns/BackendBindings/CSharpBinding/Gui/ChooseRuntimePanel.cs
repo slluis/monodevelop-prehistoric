@@ -7,50 +7,52 @@
 
 using System;
 using System.IO;
-using System.Drawing;
 using System.Collections;
-using System.ComponentModel;
 
 using ICSharpCode.SharpDevelop.Internal.Project;
 using ICSharpCode.Core.Properties;
-
 using ICSharpCode.Core.AddIns.Codons;
-//using ICSharpCode.SharpDevelop.Gui.Dialogs;
+using ICSharpCode.SharpDevelop.Gui.Dialogs;
 using ICSharpCode.Core.Services;
+
+using Gtk;
 
 namespace CSharpBinding
 {
-	public class ChooseRuntimePanel //: AbstractOptionPanel
-	{/*
+	public class ChooseRuntimePanel : AbstractOptionPanel
+	{
 		CSharpCompilerParameters config = null;
+		// FIXME: set the right rb groups
+		RadioButton msnetRadioButton = new RadioButton ("Msnet");
+		RadioButton monoRadioButton = new RadioButton ("Mono");
+		RadioButton mintRadioButton = new RadioButton ("Mint");
+		RadioButton cscRadioButton = new RadioButton ("CSC");
+		RadioButton mcsRadioButton = new RadioButton ("MCS");
 		
 		public override void LoadPanelContents()
 		{
-			SetupFromXml(Path.Combine(PropertyService.DataDirectory, 
-			                          @"resources\panels\ChooseRuntimePanel.xfrm"));
-			
 			this.config = (CSharpCompilerParameters)((IProperties)CustomizationObject).GetProperty("Config");
 			
-			((RadioButton)ControlDictionary["msnetRadioButton"]).Checked = config.NetRuntime == NetRuntime.MsNet;
-			((RadioButton)ControlDictionary["monoRadioButton"]).Checked  = config.NetRuntime == NetRuntime.Mono;
-			((RadioButton)ControlDictionary["mintRadioButton"]).Checked  = config.NetRuntime == NetRuntime.MonoInterpreter;
+			msnetRadioButton.Active = config.NetRuntime == NetRuntime.MsNet;
+			monoRadioButton.Active  = config.NetRuntime == NetRuntime.Mono;
+			mintRadioButton.Active  = config.NetRuntime == NetRuntime.MonoInterpreter;
 			
-			((RadioButton)ControlDictionary["cscRadioButton"]).Checked = config.CsharpCompiler == CsharpCompiler.Csc;
-			((RadioButton)ControlDictionary["mcsRadioButton"]).Checked = config.CsharpCompiler == CsharpCompiler.Mcs;
+			cscRadioButton.Active = config.CsharpCompiler == CsharpCompiler.Csc;
+			mcsRadioButton.Active = config.CsharpCompiler == CsharpCompiler.Mcs;
 		}
 		
 		public override bool StorePanelContents()
 		{
-			if (((RadioButton)ControlDictionary["msnetRadioButton"]).Checked) {
+			if (msnetRadioButton.Active) {
 				config.NetRuntime =  NetRuntime.MsNet;
-			} else if (((RadioButton)ControlDictionary["monoRadioButton"]).Checked) {
+			} else if (monoRadioButton.Active) {
 				config.NetRuntime =  NetRuntime.Mono;
 			} else {
 				config.NetRuntime =  NetRuntime.MonoInterpreter;
 			}
-			config.CsharpCompiler = ((RadioButton)ControlDictionary["cscRadioButton"]).Checked ? CsharpCompiler.Csc : CsharpCompiler.Mcs;
+			config.CsharpCompiler = cscRadioButton.Active ? CsharpCompiler.Csc : CsharpCompiler.Mcs;
 			
 			return true;
-		}*/
+		}
 	}
 }

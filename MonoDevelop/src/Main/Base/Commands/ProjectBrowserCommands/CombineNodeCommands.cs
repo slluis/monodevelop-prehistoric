@@ -133,18 +133,18 @@ namespace ICSharpCode.SharpDevelop.Commands.ProjectBrowser
 			CombineBrowserNode node    = browser.SelectedNode as CombineBrowserNode;
 			
 			if (node != null) {
-			//	DefaultProperties defaultProperties = new DefaultProperties();
-			//	defaultProperties.SetProperty("Combine", node.Combine);
-			//	using (TreeViewOptions optionsDialog = new TreeViewOptions(defaultProperties,
-			//	                                                           AddInTreeSingleton.AddInTree.GetTreeNode("/SharpDevelop/Workbench/CombineOptions"))) {
-//			//		optionsDialog.Size = new Size(700, 450);
+				DefaultProperties defaultProperties = new DefaultProperties();
+				defaultProperties.SetProperty("Combine", node.Combine);
+				TreeViewOptions optionsDialog = new TreeViewOptions(defaultProperties,
+				                                                           AddInTreeSingleton.AddInTree.GetTreeNode("/SharpDevelop/Workbench/CombineOptions"));
+			//		optionsDialog.SetDefaultSize = new Size(700, 450);
 			//		optionsDialog.FormBorderStyle = FormBorderStyle.FixedDialog;
 			//				
-			//		optionsDialog.Owner = (Form)WorkbenchSingleton.Workbench;
-			//		optionsDialog.ShowDialog();
-			//		projectService.SaveCombine();
-			//	}
+			//		optionsDialog.TransientFor = (Gtk.Window)WorkbenchSingleton.Workbench;
+					optionsDialog.Run ();
+			//		optionsDialog.Hide ();
+					projectService.SaveCombine();
+				}
 			}
-		}
 	}
 }
