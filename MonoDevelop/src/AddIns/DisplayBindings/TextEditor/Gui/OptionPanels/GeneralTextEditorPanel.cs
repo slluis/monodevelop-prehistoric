@@ -10,6 +10,8 @@ using System.IO;
 using System.Collections;
 using System.Text;
 using Gtk;
+using Gnome;
+using MonoDevelop.Gui.Widgets;
 using Pango;
 
 using ICSharpCode.SharpDevelop.Internal.ExternalTool;
@@ -22,128 +24,130 @@ using ICSharpCode.SharpDevelop.Gui.Dialogs;
 namespace ICSharpCode.SharpDevelop.DefaultEditor.Gui.OptionPanels
 {
 	/// <summary>
-	/// General texteditor options panel.
+	/// General texteditor options panelS.
 	/// </summary>
 	public class GeneralTextEditorPanel : AbstractOptionPanel
 	{
-		FontDescription selectedFont = FontDescription.FromString ("Courier New");
-		//selectedFont.Size = 10;
-		
-		int encoding = Encoding.UTF8.CodePage;
-		int selectedIndex = 0;
-		
-		CheckButton enableDoublebufferingCheckBox;
-		CheckButton enableCodeCompletionCheckBox;
-		CheckButton enableFoldingCheckBox;
-		Entry fontNameDisplayTextBox;
-		CheckButton enableAAFontRenderingCheckBox;
+
+		GeneralTextEditorPanelWidget widget;
 		
 		public override void LoadPanelContents()
 		{
-			VBox mainVBox = new VBox (false, 0);
-			Frame genOptions = new Frame ("General Options");
-			Frame fontOptions = new Frame ("Font");
-			Frame encOptions = new Frame ("File encoding");
-			
-			VBox genVBox = new VBox (true, 0);
-			enableCodeCompletionCheckBox = new CheckButton ("Enable code _completion");
-			enableCodeCompletionCheckBox.Active = ((IProperties)CustomizationObject).GetProperty("EnableCodeCompletion", true);
-			genVBox.PackStart (enableCodeCompletionCheckBox);
-			
-			enableFoldingCheckBox = new CheckButton ("Enable code _folding");
-			enableFoldingCheckBox.Active = ((IProperties)CustomizationObject).GetProperty("EnableFolding", true);
-			genVBox.PackStart (enableFoldingCheckBox);
-			genOptions.Add (genVBox);
-			
-			enableDoublebufferingCheckBox = new CheckButton ("Enable double _buffering");
-			enableDoublebufferingCheckBox.Active = ((IProperties)CustomizationObject).GetProperty("DoubleBuffer", true);
-			genVBox.PackStart (enableDoublebufferingCheckBox);
-			
-			VBox fontVBox = new VBox (true, 0);
-			fontVBox.PackStart (new Label ("Text Font:"));
-			
-			HBox hb = new HBox (false, 0);
-			fontNameDisplayTextBox = new Entry ();
-			fontNameDisplayTextBox.Text = ((IProperties)CustomizationObject).GetProperty("DefaultFont", selectedFont).ToString();
-			hb.PackStart (fontNameDisplayTextBox);
-			
-			Button browseButton = new Button ("_Select");
-			browseButton.Clicked += new EventHandler(SelectFontEvent);
-			hb.PackStart (browseButton);
-			fontVBox.PackStart (hb);
-			
-			enableAAFontRenderingCheckBox = new CheckButton ("_Render font aliased");
-			enableAAFontRenderingCheckBox.Active = ((IProperties)CustomizationObject).GetProperty("UseAntiAliasFont", false);
-			fontVBox.PackStart (enableAAFontRenderingCheckBox);
-			fontOptions.Add (fontVBox);
-			
-			VBox encVBox = new VBox (true, 0);
-			OptionMenu textEncodingComboBox = new OptionMenu ();
-			textEncodingComboBox.Changed += new EventHandler (OnOptionChanged);
-			
-			Menu m = new Menu ();
-			foreach (String name in CharacterEncodings.Names) {
-				m.Append (new MenuItem (name));
-			}
-			textEncodingComboBox.Menu = m;
-			encVBox.PackStart (new Label ("Choose _encoding"));
-			encVBox.PackStart (textEncodingComboBox);
-			encOptions.Add (encVBox);
-			
-			int i = 0;
-			try {
-				i = CharacterEncodings.GetEncodingIndex((Int32)((IProperties)CustomizationObject).GetProperty("Encoding", encoding));
-			} catch {
-				i = CharacterEncodings.GetEncodingIndex(encoding);
-			}
-			
-			selectedIndex = i;
-			encoding = CharacterEncodings.GetEncodingByIndex(i).CodePage;
-			
-			selectedFont = FontDescription.FromString (fontNameDisplayTextBox.Text);
-			
-			mainVBox.PackStart (genOptions, false, true, 0);
-			mainVBox.PackStart (fontOptions, false, true, 0);
-			mainVBox.PackStart (encOptions, false, true, 0);
-			this.Add (mainVBox);
+			Add (widget = new GeneralTextEditorPanelWidget ((IProperties) CustomizationObject));
 		}
 		
 		public override bool StorePanelContents()
 		{
-			((IProperties) CustomizationObject).SetProperty ("DoubleBuffer", enableDoublebufferingCheckBox.Active);
-			((IProperties) CustomizationObject).SetProperty ("UseAntiAliasFont",     enableAAFontRenderingCheckBox.Active);
-			((IProperties) CustomizationObject).SetProperty ("EnableCodeCompletion", enableCodeCompletionCheckBox.Active);
-			((IProperties) CustomizationObject).SetProperty ("EnableFolding",        enableFoldingCheckBox.Active);
-			((IProperties) CustomizationObject).SetProperty ("DefaultFont",          selectedFont);
-			((IProperties) CustomizationObject).SetProperty ("Encoding",             CharacterEncodings.GetCodePageByIndex (selectedIndex));
+			widget.Store ((IProperties) CustomizationObject);
 			return true;
 		}
-		
-		//static Font ParseFont(string font)
-		//{
-		//	string[] descr = font.Split(new char[]{',', '='});
-		//	return new Font(descr[1], Single.Parse(descr[3]));
-		//}
-		
-		void SelectFontEvent(object sender, EventArgs e)
-		{
-			FontSelectionDialog fdialog = new FontSelectionDialog ("Select a font");
-				fdialog.SetFontName (selectedFont.ToString ());
+	
+		class GeneralTextEditorPanelWidget : GladeWidgetExtract 
+		{	
+			StringParserService StringParserService = (
+				StringParserService)ServiceManager.Services.GetService (typeof (StringParserService));
+// 			int encoding = Encoding.UTF8.CodePage;
+// 			int selectedIndex = 0;
+			
+			[Glade.Widget] Label genOptions, fontOptions, textFontLabel;
+// 					encOptions, encVBox; // if you uncoment change to "," above 
+			[Glade.Widget] CheckButton enableCodeCompletionCheckBox, 
+					enableFoldingCheckBox, enableDoublebufferingCheckBox, 
+					enableAAFontRenderingCheckBox;
+// 			[Glade.Widget] OptionMenu textEncodingComboBox;
+			[Glade.Widget] Button browseButton;
+			[Glade.Widget] FontPicker fontNameDisplayTextBox;
+			[Glade.Widget] VBox encodingBox;
+			
+			public GeneralTextEditorPanelWidget (IProperties CustomizationObject) :  base ("texteditoraddin.glade", "GeneralTextEditorPanel")
+			{
+				encodingBox.Destroy(); // this is a really dirty way of hiding encodingBox, but Hide() doesn't work
+				genOptions.Markup = "<b> " + StringParserService.Parse(
+					"${res:Dialog.Options.IDEOptions.TextEditor.General.GeneralOptionsGroupBox}" ) + "</b>";
+				fontOptions.Markup = "<b> " + StringParserService.Parse(
+					"${res:Dialog.Options.IDEOptions.TextEditor.General.FontGroupBox}" ) + "</b>";
+// 				encOptions.Markup = "<b> " + StringParserService.Parse(
+// 					"${res:Dialog.Options.IDEOptions.TextEditor.General.FontGroupBox.FileEncodingGroupBox}" ) + "</b>";
+
+				enableCodeCompletionCheckBox.Label = StringParserService.Parse(
+					"${res:Dialog.Options.IDEOptions.TextEditor.General.CodeCompletionCheckBox}");
+				enableCodeCompletionCheckBox.Active = ((IProperties) CustomizationObject).GetProperty(
+					"EnableCodeCompletion", true);
 				
-				int response = fdialog.Run ();
-				fdialog.Hide ();
-				if (response == (int) ResponseType.Ok) {
-					FontDescription newFont  = FontDescription.FromString (fdialog.FontName);
-					fontNameDisplayTextBox.Text = newFont.ToString();
-					selectedFont  = newFont;
-					((IProperties)CustomizationObject).SetProperty("DefaultFont",          selectedFont);
-					
-				}
-		}
-		
-		private void OnOptionChanged (object o, EventArgs args)
-		{
-			selectedIndex = ((OptionMenu) o).History;
+ 				enableFoldingCheckBox.Label = StringParserService.Parse(
+ 					"${res:Dialog.Options.IDEOptions.TextEditor.General.FoldingCheckBox}");
+ 				enableFoldingCheckBox.Active = ((IProperties) CustomizationObject).GetProperty("EnableFolding", true);
+
+				enableDoublebufferingCheckBox.Label = StringParserService.Parse(
+					"${res:Dialog.Options.IDEOptions.TextEditor.General.DoubleBufferCheckBox}");
+ 				enableDoublebufferingCheckBox.Active = ((IProperties) CustomizationObject).GetProperty(
+					"DoubleBuffer", true);
+
+  				textFontLabel.TextWithMnemonic = StringParserService.Parse(
+ 					"${res:Dialog.Options.IDEOptions.TextEditor.General.TextfontLabel}");
+
+				fontNameDisplayTextBox.FontName = ((IProperties) CustomizationObject).GetProperty("DefaultFont", "Courier 12").ToString();
+				browseButton.Label =  StringParserService.Parse(
+					"${res:Dialog.Options.IDEOptions.TextEditor.General.SelectButtonText}");
+				browseButton.Clicked += new EventHandler(SelectEvent);
+				
+				enableAAFontRenderingCheckBox.Label =  StringParserService.Parse(
+					"${res:Dialog.Options.IDEOptions.TextEditor.General.AntialiasedFontCheckBox}");
+				enableAAFontRenderingCheckBox.Active = ((IProperties) CustomizationObject).GetProperty(
+					"UseAntiAliasFont", false);
+				
+// 				encVBox.TextWithMnemonic = StringParserService.Parse(
+// 					"${res:Dialog.Options.IDEOptions.TextEditor.General.FontGroupBox.FileEncodingLabel}");
+
+// 				Menu m = new Menu ();
+// 				foreach (String name in CharacterEncodings.Names) {
+// 					m.Append (new MenuItem (name));
+// 				}
+// 				textEncodingComboBox.Menu = m;
+				
+// 				int i = 0;
+// 				try {
+// 					Console.WriteLine("Getting encoding Property");
+// 					i = CharacterEncodings.GetEncodingIndex(
+// 						(Int32)((IProperties) CustomizationObject).GetProperty("Encoding", encoding));
+// 				} catch {
+// 					Console.WriteLine("Getting encoding Default");
+// 					i = CharacterEncodings.GetEncodingIndex(encoding);
+// 				}
+				
+// 				selectedIndex = i;
+// 				encoding = CharacterEncodings.GetEncodingByIndex(i).CodePage;
+
+// 				textEncodingComboBox.Changed += new EventHandler (OnOptionChanged);
+			}
+
+			public void Store (IProperties CustomizationObject)
+			{
+				((IProperties) CustomizationObject).SetProperty (
+					"DoubleBuffer", enableDoublebufferingCheckBox.Active);
+				((IProperties) CustomizationObject).SetProperty (
+					"UseAntiAliasFont", enableAAFontRenderingCheckBox.Active);
+				((IProperties) CustomizationObject).SetProperty (
+					"EnableCodeCompletion", enableCodeCompletionCheckBox.Active);
+				((IProperties) CustomizationObject).SetProperty (
+					"EnableFolding", enableFoldingCheckBox.Active);
+				((IProperties) CustomizationObject).SetProperty (
+					"DefaultFont", fontNameDisplayTextBox.FontName);
+// 				Console.WriteLine (CharacterEncodings.GetEncodingByIndex (selectedIndex).CodePage);
+// 				((IProperties) CustomizationObject).SetProperty (
+// 					"Encoding",CharacterEncodings.GetEncodingByIndex (selectedIndex).CodePage);
+			}
+			
+// 			private void OnOptionChanged (object o, EventArgs args)
+// 			{
+// 				Console.WriteLine (selectedIndex);
+// 				selectedIndex = ((OptionMenu) o).History;
+// 			}
+
+			private void SelectEvent(object sender, EventArgs e)
+			{
+				fontNameDisplayTextBox.Click();
+			}
 		}
 	}
 }
