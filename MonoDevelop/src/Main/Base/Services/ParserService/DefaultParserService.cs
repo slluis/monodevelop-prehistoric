@@ -148,7 +148,7 @@ namespace ICSharpCode.SharpDevelop.Services
 					string path = fileUtilityService.GetDirectoryNameWithSeparator(System.Runtime.InteropServices.RuntimeEnvironment.GetRuntimeDirectory());
 
 					AssemblyInformation frameworkAssemblyInformation = new AssemblyInformation();
-					frameworkAssemblyInformation.Load(String.Concat(path, assemblyList[i], ".dll"), false);
+					frameworkAssemblyInformation.Load(assemblyList[i], false);
 					// create all class proxies
 					foreach (IClass newClass in frameworkAssemblyInformation.Classes) {
 						ClassProxy newProxy = new ClassProxy(newClass);
