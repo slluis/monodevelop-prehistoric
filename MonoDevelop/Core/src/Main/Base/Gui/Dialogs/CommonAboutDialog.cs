@@ -6,6 +6,7 @@
 // </file>
 
 using System;
+using System.Text;
 
 using MonoDevelop.Gui;
 using MonoDevelop.Core.Properties;
@@ -22,7 +23,6 @@ namespace MonoDevelop.Gui.Dialogs
 	public class ScrollBox : DrawingArea
 	{
 		Pixbuf image;
-		string text;
 		int scroll = -220;
 		uint hndlr;
 		Pango.Font font;
@@ -33,6 +33,29 @@ namespace MonoDevelop.Gui.Dialogs
 		{
 			get { return hndlr; }
 		}
+
+		string[] authors = new string[]
+		{
+			"Todd Berman",
+			"Pedro Abelleira Seco",
+			"John Luke",
+			"Daniel Kornhauser",
+			"Alex Graveley",
+			"nricciar",
+			"John Bou Antoun",
+			"Ben Maurer",
+			"Jeroen Zwartepoorte",
+			"Gustavo Giráldez",
+			"Miguel de Icaza",
+			"Inigo Illan",
+			"Iain McCoy",
+			"Nick Drochak",
+			"Paweł Różański",
+			"Richard Torkar",
+			"Erik Dasque",
+			"Paco Martinez",
+			"Lluis Sanchez Gual"
+		};
 		
 		public ScrollBox ()
 		{
@@ -41,32 +64,36 @@ namespace MonoDevelop.Gui.Dialogs
 			this.ExposeEvent += new ExposeEventHandler (OnExposed);
 			
 			image = Runtime.Gui.Resources.GetBitmap ("Icons.AboutImage");
-			string trans = GettextCatalog.GetString ("translator-credits");
-			
-			text = "<b>Ported and developed by:</b>\nTodd Berman\nPedro Abelleira Seco\nJohn Luke\nDaniel Kornhauser\nAlex Graveley\nnricciar\nJohn Bou Antoun\nBen Maurer\nJeroen Zwartepoorte\nGustavo Giráldez\nMiguel de Icaza\nInigo Illan\nIain McCoy\nNick Drochak\nPaweł Różański\nRichard Torkar\nErik Dasque\nPaco Martinez\nLluis Sanchez Gual";
-
-			if (trans != "translator-credits") {
-				text += "\n\n<b>Translated by:</b>\n" + trans + "  ";
-			} else {
-				text += " ";
-			}
-			
-			//text = "\"The most successful method of programming is to begin a program as simply as possible, test it, and then add to the program until it performs the required job.\"\n    -- PDP8 handbook, Pg 9-64\n\n\n";
-			//text = "\"The primary purpose of the DATA statement is to give names to constants; instead of referring to pi as 3.141592653589793 at every\n appearance, the variable PI can be given that value with a DATA statement and used instead of the longer form of the constant. This also simplifies modifying the program, should the value of pi change.\"\n    -- FORTRAN manual for Xerox computers\n\n\n";
-			//text = "\"No proper program contains an indication which as an operator-applied occurrence identifies an operator-defining occurrence which as an indication-applied occurrence identifies an indication-defining occurrence different from the one identified by the given indication as an indication- applied occurrence.\"\n   -- ALGOL 68 Report\n\n\n";
-			//text = "\"The '#pragma' command is specified in the ANSI standard to have an arbitrary implementation-defined effect. In the GNU C preprocessor, `#pragma' first attempts to run the game rogue; if that fails, it tries to run the game hack; if that fails, it tries to run GNU Emacs displaying the Tower of Hanoi; if that fails, it reports a fatal error. In any case, preprocessing does not continue.\"\n   --From an old GNU C Preprocessor document";
-			
 			
 			Gtk.Function ScrollHandler = new Gtk.Function (ScrollDown);
 			hndlr = Timeout.Add (30, ScrollHandler);
+		}
+
+		string CreditText {
+			get {
+				StringBuilder sb = new StringBuilder ();
+				sb.Append ("<b>Ported and developed by:</b>\n");
+
+				foreach (string s in authors)
+				{
+					sb.Append (s);
+					sb.Append ("\n");
+				}
+
+				string trans = GettextCatalog.GetString ("translator-credits");
+				if (trans != "translator-credits")
+				{
+					sb.Append ("\n\n<b>Translated by:</b>\n");
+					sb.Append (trans);
+				}
+				return sb.ToString ();
+			}
 		}
 		
 		bool ScrollDown ()
 		{
 			++scroll;
-			// FIXME: only redraw the right side
-			this.QueueDraw ();
-			//this.QueueDrawArea (200, 0, 200, 220);
+			this.QueueDrawArea (200, 0, 200, 220);
 			return true;
 		}
 		
@@ -76,14 +103,20 @@ namespace MonoDevelop.Gui.Dialogs
 				this.GdkWindow.DrawPixbuf (this.Style.BackgroundGC (StateType.Normal), image, 0, 0, 0, 0, -1, -1, RgbDither.Normal,  0,  0);
 			}
 		}
+
+		int GetTextHeight ()
+		{
+			// FIXME: calculate this
+			// nameCount * lineHeight
+			return 325;
+		}
 		
 		private void DrawText ()
 		{
 			this.GdkWindow.DrawLayout (this.Style.TextGC (StateType.Normal), 200, 0 - scroll, layout);
 	
-			if (scroll > 275 ) {
+			if (scroll > GetTextHeight ())
 				scroll = -scroll;
-			}
 		}
 		
 		protected void OnExposed (object o, ExposeEventArgs args)
@@ -100,7 +133,7 @@ namespace MonoDevelop.Gui.Dialogs
 			layout.Wrap = Pango.WrapMode.Word;
 			FontDescription fd = FontDescription.FromString ("Tahoma 10");
 			layout.FontDescription = fd;
-			layout.SetMarkup (text);	
+			layout.SetMarkup (CreditText);	
 		}
 	}
 	

@@ -1,3 +1,10 @@
+2004-12-14  John Luke  <john.luke@gmail.com>
+
+	* Gui/Dialogs/CommonAboutDialog.cs:
+	only redraw the right-half on scrolling
+	use an array and a stringbuilder to build CreditText
+	remove the old SD quotes
+
 2004-12-13  Lluis Sanchez Gual <lluis@novell.com>
 
 	* Gui/BrowserDisplayBinding/HtmlViewPane.cs:
