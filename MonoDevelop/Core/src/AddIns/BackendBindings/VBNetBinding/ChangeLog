@@ -1,5 +1,14 @@
 2005-01-28  John Luke  <john.luke@gmail.com>
 
+	* SharpRefactoryVB/src/Lexer/Lexer.cs:
+	* SharpRefactoryVB/src/Parser/generated/Parser.cs:
+	* SharpRefactoryVB/src/Parser/generated/VBNET.ATG:
+	warning fixes for unused code
+	* SharpRefactoryVB/src/Parser/generated/Makefile:
+	add makefile to regen parser
+
+2005-01-28  John Luke  <john.luke@gmail.com>
+
 	* Parser/Parser.cs: update to CanParse
 
 2005-01-27  John Luke  <john.luke@gmail.com>

@@ -688,8 +688,6 @@ namespace ICSharpCode.SharpRefactory.Parser.VB
 			StringBuilder curWord = new StringBuilder();
 			StringBuilder comment = new StringBuilder();
 			
-			int x = col;
-			int y = line;
 			int nextChar;
 			while ((nextChar = reader.GetNext()) != -1) {
 				char ch = (char)nextChar;

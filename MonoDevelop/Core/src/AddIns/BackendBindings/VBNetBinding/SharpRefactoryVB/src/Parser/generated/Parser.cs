@@ -2153,7 +2153,7 @@ out expr);
 		AttributeSection section;
 		Modifiers mod = new Modifiers(this);
 		ArrayList attributes = new ArrayList();
-		ArrayList parameters = new ArrayList();
+		/*ArrayList parameters = new ArrayList();*/
 		string name;
 		
 		if (StartOf(12)) {
@@ -5510,7 +5510,7 @@ out clause);
 #line  2190 "VBNET.ATG" 
 			ArrayList clauses = new ArrayList();
 			clauses.Add(clause);
-			ReDimStatement reDimStatement = new ReDimStatement(clauses);
+			/*ReDimStatement reDimStatement = new ReDimStatement(clauses);*/
 			
 			while (la.kind == 12) {
 				lexer.NextToken();

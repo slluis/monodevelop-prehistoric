@@ -762,7 +762,7 @@ InterfaceMemberDecl
 		AttributeSection section;
 		Modifiers mod = new Modifiers(this);
 		ArrayList attributes = new ArrayList();
-		ArrayList parameters = new ArrayList();
+		/*ArrayList parameters = new ArrayList();*/
 		string name;
 	.) =
 	{ AttributeSection<out section>			(. attributes.Add(section); .) }
@@ -2189,7 +2189,7 @@ EmbeddedStatement<out Statement statement>
 	(.
 		ArrayList clauses = new ArrayList();
 		clauses.Add(clause);
-		ReDimStatement reDimStatement = new ReDimStatement(clauses);
+		/*ReDimStatement reDimStatement = new ReDimStatement(clauses);*/
 	.)
 	{ "," Expr<out clause> (. clauses.Add(clause); .) }
 	| /* 10.12.2 */
