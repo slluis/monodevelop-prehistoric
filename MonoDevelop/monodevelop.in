@@ -35,7 +35,7 @@ else
 	export LD_LIBRARY_PATH=$MOZILLA_HOME:$MD_BIN_PATH
 fi
 
-if [ -n $PKG_CONFIG_PATH]; then
+if [ -n $PKG_CONFIG_PATH ]; then
 	export PKG_CONFIG_PATH=$PKG_CONFIG_PATH:@gtksharp_prefix@/lib/pkgconfig/
 else
 	export PKG_CONFIG_PATH=@gtksharp_prefix@/lib/pkgconfig/
