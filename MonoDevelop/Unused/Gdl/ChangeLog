@@ -1,3 +1,7 @@
+2005-03-13  Lluis Sanchez Gual  <lluis@novell.com>
+
+	* DockItemGrip.cs, DockMaster.cs: Fix potential memory leaks.
+
 2005-02-28  John Luke  <john.luke@gmail.com>
 
 	* DockBarButton.cs: new Button wrapper

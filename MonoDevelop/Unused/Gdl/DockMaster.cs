@@ -177,7 +177,7 @@ namespace Gdl
 						EmitNotifyLocked ();
 				}
 				if (unlockedItems.Contains (obj)) {
-					lockedItems.Remove (obj);
+					unlockedItems.Remove (obj);
 					if (Locked != locked)
 						EmitNotifyLocked ();
 				}
@@ -185,6 +185,7 @@ namespace Gdl
 			
 			if (obj is Dock) {
 				toplevelDocks.Remove (obj);
+				obj.Docked -= OnItemDocked;
 
 				if (obj == controller) {
 					DockObject newController = null;
@@ -219,6 +220,7 @@ namespace Gdl
 				item.DockItemDragBegin -= OnDragBegin;
 				item.DockItemMotion -= OnDragMotion;
 				item.DockItemDragEnd -= OnDragEnd;
+				item.PropertyChanged -= OnItemPropertyChanged;
 			}
 			
 			// remove the object from the hash if it is there

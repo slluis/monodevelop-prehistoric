@@ -77,6 +77,9 @@ namespace Gdl
 				return item;
 			}
 			set {
+				if (item != null)
+					item.PropertyChanged -= OnPropertyChanged;
+				
 				item = value;
 				item.PropertyChanged += OnPropertyChanged;
 				
