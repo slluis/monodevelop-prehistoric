@@ -322,6 +322,7 @@ namespace ICSharpCode.SharpDevelop.Gui
 			btn.Relief = ReliefStyle.None;
 			btn.RequestSize = new Size (16, 16);
 			btn.Clicked += new EventHandler (closeClicked);
+			btn.StateChanged += new StateChangedHandler (stateChanged);
 			
 			Label label = new Label (title);
 			hbox.PackStart (label, false, false, 0);
@@ -338,6 +339,12 @@ namespace ICSharpCode.SharpDevelop.Gui
 			
 			tabControl.ShowAll();
 			return sdiWorkspaceWindow;
+		}
+
+		void stateChanged (object o, StateChangedArgs e)
+		{
+			if (((Gtk.Widget)o).State == Gtk.StateType.Active)
+				((Gtk.Widget)o).State = Gtk.StateType.Normal;
 		}
 
 		void closeClicked (object o, EventArgs e)
