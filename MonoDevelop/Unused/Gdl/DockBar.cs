@@ -26,10 +26,14 @@ namespace Gdl
 		
 		public void AddItem (DockItem item)
 		{
-			Console.WriteLine ("adding item to dockbar");
 			DockBarButton button = new DockBarButton (item);
 			button.DockButtonClicked += OnDockButtonClicked;
 			// check if already there
+			foreach (DockBarButton dbb in this.Children) {
+				if (item == dbb.DockItem) {
+					return;
+				}
+			}
 			tooltips.SetTip (button, item.Name, item.Name);
 			item.DockBar = this;
 			item.DockBarButton = button;
