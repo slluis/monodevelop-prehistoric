@@ -54,7 +54,7 @@ ICSharpCode.SharpAssembly:
 SourceEditor :
 	@ pkg-config gtksourceview-1.0  --atleast-version=0.7 || \
 	 (echo "You must have GtkSourceView, version 0.7 or greater installed, as well as the c# bindings" && exit 1)
-	@ test -f `pkg-config gtk-sharp --variable=prefix`/lib/gtk-sourceview-sharp.dll || \
+	@ test -f `pkg-config gtk-sharp --variable=prefix`/lib/gtksourceview-sharp.dll || \
 	 (echo "You must have the GtkSourceView bindings installed" && exit 1)
 	@ echo Building $@
 	$(QMAKE) -C src/AddIns/DisplayBindings/SourceEditor
