@@ -133,7 +133,7 @@ namespace MonoDevelop.Gui
 
 			DeleteEvent += new Gtk.DeleteEventHandler (OnClosing);
 			this.Icon = resourceService.GetBitmap ("Icons.SharpDevelopIcon");
-			this.WindowPosition = Gtk.WindowPosition.None;
+			//this.WindowPosition = Gtk.WindowPosition.None;
 
 			IDebuggingService dbgr = (IDebuggingService)ServiceManager.Services.GetService (typeof (IDebuggingService));
 			if (dbgr != null) {
@@ -400,7 +400,7 @@ namespace MonoDevelop.Gui
 				normalBounds = memento.Bounds;
 				Move (normalBounds.X, normalBounds.Y);
 				Resize (normalBounds.Width, normalBounds.Height);
-				FullScreen  = memento.FullScreen;
+				//FullScreen  = memento.FullScreen;
 			}
 		}
 		
