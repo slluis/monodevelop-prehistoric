@@ -21,11 +21,11 @@ class T
 		app.Add (table);
 		
 		Dock dock = new Dock ();		
-		//DockLayout layout = new DockLayout (dock);
-		//DockBar dockbar = new DockBar (dock);
+		DockLayout layout = new DockLayout (dock);
+		DockBar dockbar = new DockBar (dock);
 		
 		Box box = new HBox (false, 5);
-		//box.PackStart (dockbar, false, false, 0);
+		box.PackStart (dockbar, false, false, 0);
 		box.PackEnd (dock, true, true, 0);
 		table.PackStart (box, true, true, 0);
 

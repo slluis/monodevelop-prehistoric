@@ -9,9 +9,11 @@ namespace Gdl
 	public class DockBar : VBox
 	{
 		DockMaster master;
+		Tooltips tooltips = new Tooltips ();
 		
 		public DockBar (Dock dock)
 		{
+			Console.WriteLine ("new dockbar");
 			master = dock.Master;
 		}
 		
@@ -26,12 +28,14 @@ namespace Gdl
 		
 		public void AddItem (DockItem item)
 		{
+			Console.WriteLine ("adding item to dockbar");
 			Button button = new Button ();
-			Image image = new Image (item.StockId);
+			button.Relief = ReliefStyle.None;
+			Image image = new Image (item.StockId, IconSize.SmallToolbar);
 			button.Add (image);
 			button.Clicked += OnDockButtonClicked;
 			// check if already there
-			// set tooltip
+			tooltips.SetTip (button, item.Name, item.Name);
 			item.DockBar = this;
 			item.DockBarButton = button;
 			this.PackStart (button, false, false, 0);
@@ -68,9 +72,14 @@ namespace Gdl
 		
 		void OnDockButtonClicked (object o, EventArgs args)
 		{
-			// show
-			// remove
-			// resize
+			DockItem item = (DockItem) o;  //FIXME: o is a Button
+			DockObject controller = item.Master.Controller;
+			item.DockBar = null;
+			// remove Iconified flag
+			item.Flags |= (int) DockObjectFlags.Iconified;
+			item.Show ();
+			this.RemoveItem (item);
+			controller.QueueResize ();
 		}
 	}
 }
