@@ -1,0 +1,10 @@
+text/x-csharp:
+	open=AbiWord %f
+	edit=AbiWord %f
+	view=AbiWord %f
+
+application/x-monodevelop-project:
+	open=AbiWord %f
+
+application/x-monodevelop-combine:
+	open=AbiWord %f

@@ -10,8 +10,9 @@ desktop_DATA = monodevelop.desktop
 pixmapdir = $(datadir)/pixmaps
 pixmap_DATA = monodevelop.png
 
+# FIXME install to gnome prefix
 mimeinfodir = $(datadir)/mime-info
-mimeinfo_DATA = monodevelop.mime
+mimeinfo_DATA = monodevelop.mime monodevelop.keys
 
 run: runmd
 
