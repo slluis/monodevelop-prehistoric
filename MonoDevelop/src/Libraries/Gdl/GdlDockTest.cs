@@ -50,6 +50,10 @@ class T
 	    		items[0].Dock (items[i], DockPlacement.Center, null);	    
 		}
 
+		di3.DockTo (di, DockPlacement.Top);
+		di2.DockTo (di3, DockPlacement.Right);
+		di2.DockTo (di3, DockPlacement.Left);
+
 		app.Add (dock);
 		app.ShowAll ();
 		Application.Run ();

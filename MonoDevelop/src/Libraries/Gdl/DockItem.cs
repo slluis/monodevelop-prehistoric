@@ -754,7 +754,7 @@ namespace Gdl
 			if (target == null && position != DockPlacement.Floating)
 				return;
 
-			if (position == DockPlacement.Floating || target != null) {
+			if (position == DockPlacement.Floating || target == null) {
 				if (!IsBound) {
 					Console.WriteLine ("Attempting to bind an unbound item");
 					return;
