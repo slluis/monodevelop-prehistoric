@@ -1,3 +1,8 @@
+2005-02-02  Lluis Sanchez Gual  <lluis@novell.com>
+
+	* Gui/Dialogs/CombineConfiguration/CombineStartupPanel.cs: 
+	Fix nullref exception when saving. 'store' wasn't being set.
+
 2005-02-02  John Luke  <john.luke@gmail.com>
 
 	* Commands/MenuItemBuilders.cs: only use RecentItem.Private

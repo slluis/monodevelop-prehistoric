@@ -52,26 +52,26 @@ namespace MonoDevelop.Gui.Dialogs.OptionPanels
 				//singleRadioButton.Clicked += new EventHandler(OptionsChanged);
 
 				// Setting up OptionMenus
-				ListStore store = new ListStore (typeof (string));
+				ListStore tmpStore = new ListStore (typeof (string));
 				int active = -1;
 				for (int i = 0;  i < combine.Entries.Count; i++)  {
 					CombineEntry entry = (CombineEntry) combine.Entries[i];
-					store.AppendValues (entry.Name);
+					tmpStore.AppendValues (entry.Name);
 
 					if (combine.SingleStartProjectName == entry.Name)
 						active = i;
 				}
-				singleCombo.Model = store;
+				singleCombo.Model = tmpStore;
 
 				CellRendererText cr = new CellRendererText ();
 				singleCombo.PackStart (cr, true);
 				singleCombo.AddAttribute (cr, "text", 0);
 				singleCombo.Active = active;
 
-				store = new ListStore (typeof (string));
-				store.AppendValues (GettextCatalog.GetString ("None"));
-				store.AppendValues (GettextCatalog.GetString ("Execute"));
-				actionCombo.Model = store;
+				tmpStore = new ListStore (typeof (string));
+				tmpStore.AppendValues (GettextCatalog.GetString ("None"));
+				tmpStore.AppendValues (GettextCatalog.GetString ("Execute"));
+				actionCombo.Model = tmpStore;
 				actionCombo.PackStart (cr, true);
 				actionCombo.AddAttribute (cr, "text", 0);
 				actionCombo.Changed += new EventHandler(OptionsChanged);
