@@ -1,9 +1,0 @@
-<h1>Welcome!</h1>
-<p>MonoDevelop is in the very early stages of development right now, and progressing quickly. The <a href="news_and_status.html">News and Status</a> page and the <a href="lists.html">Mailing Lists</a> will contain all major updates.</p>
-<h2>What is MonoDevelop?</h2>
-<p>MonoDevelop is a project to port <a href="http://www.icsharpcode.net/OpenSource/SD/" target="_new">
-SharpDevelop</a> to Gtk#. See the <a href="goals.html">Goals</a> and <a href="features.html">Features</a> pages for more information.</p>
-<h2>How can I get MonoDevelop?</h2>
-<p>Go to the <a href="downloads.html">Getting Started</a> page for instructions on getting MonoDevelop binaries/sources.</p>
-<h2>How can I contribute?</h2>
-<p><a href="contributing.html">Sending SVN Diffs</a> and <a href="bugs.html">Filing Bug Reports</a> is a good way to start. Your <a href="comments_and_suggestions.html">Comments and Suggestions</a> are also very welcome.</p>

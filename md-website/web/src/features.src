@@ -1,9 +1,0 @@
-<h1>IDE Features</h1>
-<p>At present the core features include the following:
-	<ul>
-		<li>C# Text Editor with Code Completion</li>
-		<li>Debugger</li>
-		<li>Help Integration</li>
-		<li>Gtk# Forms Designer</li>
-	</ul>
-</p>
