@@ -323,12 +323,20 @@ namespace MonoDevelop.Services
 			}
 		}
 
+#if NET_2_0
+		public Process MainThread {
+			get {
+				return proc;
+			}
+		}
+#endif
+
 		public Process[] Threads {
-		  get {
+			get {
 				Process[] retval = new Process [procs.Count];
 				procs.Values.CopyTo (retval, 0);
 				return retval;
-		  }
+			}
 		}
 
 		public object CurrentFrame {

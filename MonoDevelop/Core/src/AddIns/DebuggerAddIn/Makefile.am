@@ -11,6 +11,11 @@ DLLS = $(GTK_SHARP_LIBS) \
 FILES = \
 DebuggerCommands.cs \
 DebuggingService.cs \
+EvaluationContext.cs \
+Expression.cs \
+CSharpTokenizer.cs \
+CSharpExpressionParser.cs \
+MyTextReader.cs \
 Gui/DebuggerLocalsPad.cs \
 Gui/DebuggerVariablePad.cs \
 Gui/DebuggerStackTracePad.cs \

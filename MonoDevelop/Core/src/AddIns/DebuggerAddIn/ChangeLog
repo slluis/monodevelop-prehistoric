@@ -1,3 +1,31 @@
+2005-03-01  Chris Toshok  <toshok@ximian.com>
+
+	* Gui/DebuggerVariablePad.cs (DebuggerVariablePad.add_member):
+	strip out the part of add_struct that adds individual fields and
+	implement all the DebuggerBrowsableAttribute handling.
+	(DebuggerVariablePad.add_struct): display both fields and
+	properties.
+	(DebuggerVariablePad.GetDebuggerBrowsableAttribute): returns the
+	first DebuggerBrowsable attribute for a given ITargetMemberInfo,
+	if there are any.
+	(DebuggerVariablePad.GetDebuggerDisplayAttribute): returns the
+	first DebuggerDisplay attribute for a given ITargetObject, if
+	there are any.
+	(DebuggerVariablePad.EvaluateDebuggerDisplay): given the
+	DebuggerDisplay attribute's value, evaluate any nested
+	{expressions} and convert them all to strings.
+	(DebuggerVariablePad.add_object): if it's a struct or class, add
+	the DebuggerDisplay if there is one.
+
+	* DebuggingService.cs (MainThread): add a getter for this, so we
+	can grab a thread with which to evaluate expressions in
+	DebuggerDisplayAttributes.
+
+	* Makefile.am (FILES): add stripped down files from the debugger
+	source - EvaluationContext.cs (formerly ScriptingContext),
+	Expression.cs, MyTextReader.cs, CSharpTokenizer.cs, and
+	CSharpExpressionParser.cs.
+
 2005-02-25  Chris Toshok  <toshok@ximian.com>
 
 	* Gui/DebuggerVariablePad.cs (DebuggerVariablePad.add_data): fix

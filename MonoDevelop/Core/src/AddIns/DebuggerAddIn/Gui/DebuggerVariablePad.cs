@@ -2,9 +2,11 @@ using GLib;
 using Gtk;
 using GtkSharp;
 using System;
+using System.Diagnostics;
 using System.IO;
 using System.Collections;
 using System.Globalization;
+using System.Text;
 using System.Runtime.InteropServices;
 using Mono.Debugger;
 using Mono.Debugger.Languages;
@@ -12,11 +14,13 @@ using Mono.Debugger.Languages;
 using MonoDevelop.Core.Services;
 using MonoDevelop.Services;
 
+using Debugger.Frontend;
+
 namespace MonoDevelop.SourceEditor.Gui
 {
 	public class DebuggerVariablePad : Gtk.ScrolledWindow
 	{
-		StackFrame current_frame;
+		Mono.Debugger.StackFrame current_frame;
 
 		Gtk.TreeView tree;
 		Gtk.TreeStore store;
@@ -91,14 +95,101 @@ namespace MonoDevelop.SourceEditor.Gui
 			return inserted;
 		}
 
+		bool add_member (TreeIter parent, ITargetStructObject sobj, ITargetMemberInfo member, bool is_field)
+		{
+			bool inserted = false;
+
+#if NET_2_0
+			DebuggerBrowsableAttribute battr = GetDebuggerBrowsableAttribute (member);
+			if (battr == null) {
+				TreeIter iter = store.Append (parent);
+				add_object (is_field ? sobj.GetField (member.Index) : sobj.GetProperty (member.Index),
+					    member.Name, iter);
+				inserted = true;
+			}
+			else {
+				TreeIter iter;
+
+				switch (battr.State) {
+				case DebuggerBrowsableState.Never:
+					// don't display it at all
+					continue;
+				case DebuggerBrowsableState.Collapsed:
+					// the default behavior for the debugger (c&p from above)
+					iter = store.Append (parent);
+					add_object (is_field ? sobj.GetField (member.Index) : sobj.GetProperty (member.Index),
+						    member.Name, iter);
+					inserted = true;
+					break;
+				case DebuggerBrowsableState.Expanded:
+					// add it as in the Collapsed case...
+					iter = store.Append (parent);
+					add_object (is_field ? sobj.GetField (member.Index) : sobj.GetProperty (member.Index),
+						    member.Name, iter);
+					inserted = true;
+					// then expand the row
+					tree.ExpandRow (store.GetPath (iter), false);
+					break;
+				case DebuggerBrowsableState.RootHidden:
+					ITargetObject member_obj = is_field ? sobj.GetField (member.Index) : sobj.GetProperty (member.Index);
+
+					if (member_obj != null) {
+						switch (member_obj.TypeInfo.Type.Kind) {
+						case TargetObjectKind.Array:
+							iter = store.Append (parent);
+							// handle arrays normally, should check how vs2005 does this.
+							add_object (member_obj, member.Name, iter);
+							inserted = true;
+							break;
+						case TargetObjectKind.Class:
+							try {
+								add_class (parent, (ITargetClassObject)member_obj);
+								inserted = true;
+							}
+							catch {
+								// what about this case?  where the member is possibly
+								// uninitialized, do we try to add it later?
+							}
+							break;
+						case TargetObjectKind.Struct:
+							try {
+								add_struct (parent, (ITargetStructObject)member_obj);
+								inserted = true;
+							}
+							catch {
+								// what about this case?  where the member is possibly
+								// uninitialized, do we try to add it later?
+							}
+							break;
+						default:
+							// nothing
+							break;
+						}
+					}
+					break;
+				}
+			}
+#else
+			TreeIter iter = store.Append (parent);
+			add_object (sobj.GetField (member.Index), member.Name, iter);
+			inserted = true;
+#endif
+
+			return inserted;
+		}
+
 		bool add_struct (TreeIter parent, ITargetStructObject sobj)
 		{
 			bool inserted = false;
 
 			foreach (ITargetFieldInfo field in sobj.Type.Fields) {
-				TreeIter iter = store.Append (parent);
-				add_object (sobj.GetField (field.Index), field.Name, iter);
-				inserted = true;
+				if (add_member (parent, sobj, field, true))
+					inserted = true;
+			}
+
+			foreach (ITargetPropertyInfo prop in sobj.Type.Properties) {
+				if (add_member (parent, sobj, prop, false))
+					inserted = true;
 			}
 
 			return inserted;
@@ -198,6 +289,104 @@ namespace MonoDevelop.SourceEditor.Gui
 			iters.Add (parent, obj);
 		}
 
+#if NET_2_0
+		DebuggerBrowsableAttribute GetDebuggerBrowsableAttribute (ITargetMemberInfo info)
+		{
+	  		if (info.Handle != null && info.Handle is System.Reflection.MemberInfo) {
+				System.Reflection.MemberInfo mi = (System.Reflection.MemberInfo)info.Handle;
+				object[] attrs = mi.GetCustomAttributes (typeof (DebuggerBrowsableAttribute), false);
+
+				if (attrs != null && attrs.Length > 0)
+					return (DebuggerBrowsableAttribute)attrs[0];
+			}
+
+			return null;
+		}
+
+		DebuggerDisplayAttribute GetDebuggerDisplayAttribute (ITargetObject obj)
+		{
+			if (obj.TypeInfo.Type.TypeHandle != null && obj.TypeInfo.Type.TypeHandle is Type) {
+				Type t = (Type)obj.TypeInfo.Type.TypeHandle;
+				object[] attrs = t.GetCustomAttributes (typeof (DebuggerDisplayAttribute), false);
+
+				if (attrs != null && attrs.Length > 0)
+					return (DebuggerDisplayAttribute)attrs[0];
+			}
+
+			return null;
+		}
+
+		string EvaluateDebuggerDisplay (ITargetObject obj, string display)
+		{
+			StringBuilder sb = new StringBuilder ("");
+			DebuggingService dbgr = (DebuggingService)ServiceManager.GetService (typeof (DebuggingService));
+			EvaluationContext ctx = new EvaluationContext (obj);
+
+			ctx.CurrentProcess = new ProcessHandle (dbgr.MainThread);
+
+			/* break up the string into runs of {...} and
+			 * normal text.  treat the {...} as C#
+			 * expressions, and evaluate them */
+			int start_idx = 0;
+
+			while (true) {
+				int left_idx;
+				int right_idx;
+				left_idx = display.IndexOf ('{', start_idx);
+
+				if (left_idx == -1) {
+					/* we're done. */
+					sb.Append (display.Substring (start_idx));
+					break;
+				}
+				if (left_idx != start_idx) {
+					sb.Append (display.Substring (start_idx, left_idx - start_idx));
+				}
+				right_idx = display.IndexOf ('}', left_idx + 1);
+				if (right_idx == -1) {
+					// '{...\0'.  ignore the '{', append the rest, and break out */
+					sb.Append (display.Substring (left_idx + 1));
+					break;
+				}
+
+				if (right_idx - left_idx > 1) {
+					// there's enough space for an
+					// expression.  parse it and see
+					// what we get.
+
+					string snippet = display.Substring (left_idx + 1, right_idx - left_idx - 1);
+
+					CSharpExpressionParser parser = new CSharpExpressionParser (ctx, snippet);
+					Expression expr = parser.Parse (snippet);
+
+					expr = expr.Resolve (ctx);
+					object retval = expr.Evaluate (ctx);
+
+#region "c&p'ed from debugger/frontend/Style.cs"
+					if (retval is long) {
+						sb.Append (String.Format ("0x{0:x}", (long) retval));
+					}
+					else if (retval is string) {
+						sb.Append ('"' + (string) retval + '"');
+					}
+					else if (retval is ITargetObject) {
+						ITargetObject tobj = (ITargetObject) retval;
+						sb.Append (tobj.Print ());
+					}
+					else {
+						sb.Append (retval.ToString ());
+					}
+#endregion
+				}
+				
+
+				start_idx = right_idx + 1;
+			}
+
+			return sb.ToString ();
+		}
+#endif
+
 		void add_object (ITargetObject obj, string name, TreeIter iter)
 		{
 			AmbienceService amb = (AmbienceService)MonoDevelop.Core.Services.ServiceManager.GetService (typeof (AmbienceService));
@@ -211,8 +400,16 @@ namespace MonoDevelop.SourceEditor.Gui
 				break;
 
 			case TargetObjectKind.Array:
+				add_data (obj, iter);
+				break;
 			case TargetObjectKind.Struct:
 			case TargetObjectKind.Class:
+#if NET_2_0
+				DebuggerDisplayAttribute dattr = GetDebuggerDisplayAttribute (obj);
+				if (dattr != null)
+					store.SetValue (iter, 2,
+							new GLib.Value (EvaluateDebuggerDisplay (obj, dattr.Value)));
+#endif
 				add_data (obj, iter);
 				break;
 			}
@@ -281,7 +478,7 @@ namespace MonoDevelop.SourceEditor.Gui
 		protected void OnPausedEvent (object o, EventArgs args)
 		{
 			DebuggingService dbgr = (DebuggingService)ServiceManager.GetService (typeof (DebuggingService));
-			current_frame = (StackFrame)dbgr.CurrentFrame;
+			current_frame = (Mono.Debugger.StackFrame)dbgr.CurrentFrame;
 			UpdateDisplay ();
 		}
 	}

@@ -1,0 +1,235 @@
+%{
+using System.Text;
+using System.IO;
+using System.Collections;
+using System;
+
+namespace Debugger.Frontend
+{
+#if NET_2_0
+	public class CSharpExpressionParser
+	{
+		EvaluationContext current_context;
+		MyTextReader reader;
+		Tokenizer lexer;
+
+		protected bool yacc_verbose_flag = false;
+
+		public bool Verbose {
+			set {
+				yacc_verbose_flag = value;
+			}
+
+			get {
+				return yacc_verbose_flag;
+			}
+		}
+
+%}
+
+%token QUIT
+%token EOF
+%token NONE	// This token is never returned by our lexer
+%token ERROR	// This is used not by the parser, but by the tokenizer.
+		// do not remove.
+
+%token IDENTIFIER
+%token INTEGER
+%token NUMBER
+%token STRING
+%token HASH
+%token AT
+%token PERCENT
+%token DOLLAR
+%token DOT
+%token DOTDOT
+%token BANG
+%token COMMA
+%token ASSIGN
+%token STAR
+%token PLUS
+%token MINUS
+%token DIV
+%token OPEN_PARENS
+%token CLOSE_PARENS
+%token OPEN_BRACKET
+%token CLOSE_BRACKET
+%token OP_LT
+%token OP_GT
+%token COLON
+%token AMPERSAND
+
+%token LENGTH
+%token LOWER
+%token UPPER
+
+%token NEW
+%token THIS
+%token BASE
+%token CATCH
+
+%start parse_expression
+%%
+
+parse_expression
+	: primary_expression
+	  {
+		return $1;
+	  }
+	;
+
+primary_expression
+	: expression
+	| expression ASSIGN expression
+	  {
+		$$ = new AssignmentExpression ((Expression) $1, (Expression) $3);
+	  }
+	;	
+
+expression
+	: NUMBER
+	  {
+		$$ = new NumberExpression ((long) $1);
+	  }
+	| INTEGER
+	  {
+		$$ = new NumberExpression ((int) $1);
+	  }
+	| STRING
+	  {
+		$$ = new StringExpression ((string) $1);
+	  }
+	| THIS
+	  {
+		$$ = new ThisExpression ();
+	  }
+	| CATCH
+	  {
+//		$$ = new CatchExpression ();
+	  }
+	| BASE DOTDOT IDENTIFIER
+	  {
+		$$ = new MemberAccessExpression (new BaseExpression (), "." + ((string) $3));
+	  }
+	| BASE DOT IDENTIFIER
+	  {
+		$$ = new MemberAccessExpression (new BaseExpression (), (string) $3);
+	  }
+	| variable_or_type_name
+	| PERCENT IDENTIFIER
+	  {
+//		$$ = new RegisterExpression ((string) $2, 0);
+	  }
+	| STAR expression
+	  {
+		$$ = new PointerDereferenceExpression ((Expression) $2, false);
+	  }
+	| AMPERSAND expression
+	  {
+		$$ = new AddressOfExpression ((Expression) $2);
+	  }
+	| expression OPEN_BRACKET expression CLOSE_BRACKET
+	  {
+		$$ = new ArrayAccessExpression ((Expression) $1, (Expression) $3);
+	  }
+	| expression OPEN_PARENS argument_list CLOSE_PARENS
+	  {
+		$$ = new InvocationExpression ((Expression) $1, ((Expression []) $3));
+	  }
+	| NEW variable_or_type_name OPEN_PARENS argument_list CLOSE_PARENS
+	  {
+		$$ = new NewExpression ((Expression) $2, ((Expression []) $4));
+	  }
+	| OPEN_PARENS variable_or_type_name CLOSE_PARENS expression
+	  {
+		$$ = new CastExpression ((Expression) $2, (Expression) $4);
+	  }
+	| OPEN_PARENS expression CLOSE_PARENS
+	  {
+		$$ = $2;
+	  }
+	;
+
+argument_list
+	: /* empty */
+	  {
+		$$ = new Expression [0];
+	  }
+	| argument_list_0
+	  {
+		Expression[] args = new Expression [((ArrayList) $1).Count];
+		((ArrayList) $1).CopyTo (args, 0);
+
+		$$ = args;
+	  }
+	;
+
+argument_list_0
+	: expression
+	  {
+		ArrayList args = new ArrayList ();
+		args.Add ($1);
+
+		$$ = args;
+	  }
+	| argument_list_0 COMMA expression
+	  {
+		ArrayList args = (ArrayList) $1;
+		args.Add ($3);
+
+		$$ = args;
+	  }
+	;
+
+variable_or_type_name
+	: IDENTIFIER
+	  {
+		$$ = new SimpleNameExpression ((string) $1);
+	  }
+	| expression DOT IDENTIFIER
+	  { 
+		$$ = new MemberAccessExpression ((Expression) $1, (string) $3);
+	  }
+	| expression DOTDOT IDENTIFIER
+	  { 
+		$$ = new MemberAccessExpression ((Expression) $1, "." + (string) $3);
+	  }
+	| expression MINUS OP_GT IDENTIFIER
+	  {
+		Expression expr = new PointerDereferenceExpression ((Expression) $1, true);
+		$$ = new MemberAccessExpression (expr, (string) $4);
+	  }
+	;
+
+%%
+
+public CSharpExpressionParser (EvaluationContext context, string name)
+{
+	this.reader = new MyTextReader ();
+	this.current_context = context;
+
+	lexer = new Tokenizer (context, reader, name);
+}
+
+public Expression Parse (string text)
+{
+	try {
+		reader.Text = text;
+		lexer.restart ();
+		if (yacc_verbose_flag)
+			return (Expression) yyparse (lexer, new yydebug.yyDebugSimple ());
+		else
+			return (Expression) yyparse (lexer);
+	} catch (Exception e){
+		// Please do not remove this, it is used during debugging
+		// of the grammar
+		//
+//		current_context.Error (lexer.location + "  : Parsing error ");
+//		current_context.Error (e.ToString ());
+		return null;
+	}
+}
+
+/* end end end */
+#endif
+}
