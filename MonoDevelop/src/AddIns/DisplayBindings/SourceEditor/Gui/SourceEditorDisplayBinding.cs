@@ -28,6 +28,7 @@ namespace MonoDevelop.SourceEditor.Gui {
 			SourceEditorDisplayBindingWrapper w = new SourceEditorDisplayBindingWrapper ();
 			
 			w.Load (fileName);
+			return w;
 		}
 		
 		public virtual IViewContent CreateContentForLanguage (string language, string content)
@@ -41,6 +42,7 @@ namespace MonoDevelop.SourceEditor.Gui {
 				language = null;
 			
 			w.LoadString (language, content);
+			return w;
 		}
 		
 		public virtual IViewContent CreateContentForLanguage (string language, string content, string new_file_name)
@@ -54,6 +56,7 @@ namespace MonoDevelop.SourceEditor.Gui {
 				language = null;
 			
 			w.LoadString (language, content);
+			return w;
 		}	
 	}
 	
@@ -99,9 +102,9 @@ namespace MonoDevelop.SourceEditor.Gui {
 		public override void Load (string fileName)
 		{
 			if (fileName.EndsWith (".cs"))
-				se.Load (fileName, "text/x-csharp");
+				se.LoadFile (fileName, "text/x-csharp");
 			else
-				se.Load (fileName);
+				se.LoadFile (fileName);
 		}
 		
 		public void LoadString (string mime, string val)
