@@ -199,7 +199,7 @@
         <Extension path = "/SharpDevelop/Views/ProjectBrowser/ContextMenu/DefaultDirectoryNode">
                 <MenuItem id = "Add" _label = "Add">
         		<MenuItem id = "NewFiles"
-		                  _label = "Add New Files" 
+		                  _label = "Add New File" 
 		                  icon  = "Icons.16x16.NewDocumentIcon"
 		                  class = "MonoDevelop.Commands.ProjectBrowser.AddNewFileEvent"/>
         		<MenuItem id = "AddFiles"
@@ -233,7 +233,7 @@
                 <MenuItem id = "BuildGroupSeparator" _label = "-" />
                 <MenuItem id = "Add" _label = "Add">
         		<MenuItem id = "NewFiles"
-		                  _label = "Add New Files" 
+		                  _label = "Add New File" 
 		                  icon  = "Icons.16x16.NewDocumentIcon"
 		                  class = "MonoDevelop.Commands.ProjectBrowser.AddNewFileEvent"/>
         		<MenuItem id = "AddFiles"
