@@ -15,7 +15,7 @@ using MonoDevelop.Services;
 
 namespace MonoDevelop.Services
 {
-	public class DefaultStatusBarService : AbstractService, IStatusBarService
+	public class DefaultStatusBarService : GuiSyncAbstractService, IStatusBarService, IProgressMonitor
 	{
 		SdStatusBar statusBar = null;
 		StringParserService stringParserService = Runtime.StringParserService;
@@ -43,8 +43,34 @@ namespace MonoDevelop.Services
 		public IProgressMonitor ProgressMonitor {
 			get { 
 				Debug.Assert(statusBar != null);
-				return statusBar;
+				return this;
 			}
+		}
+		
+
+		void IProgressMonitor.BeginTask (string name, int totalWork)
+		{
+			statusBar.BeginTask (name, totalWork);
+		}
+		
+		void IProgressMonitor.Worked (double work, string status)
+		{
+			statusBar.Worked (work, status);
+		}
+		
+		void IProgressMonitor.Done()
+		{
+			statusBar.Done ();
+		}
+		
+		bool IProgressMonitor.Canceled {
+			get { return statusBar.Canceled; }
+			set { statusBar.Canceled = value; }
+		}
+		
+		string IProgressMonitor.TaskName {
+			get { return statusBar.TaskName; }
+			set { statusBar.TaskName = value; }
 		}
 		
 		public bool CancelEnabled {
@@ -57,22 +83,26 @@ namespace MonoDevelop.Services
 			}
 		}
 		
+		[AsyncDispatch]
 		public void SetCaretPosition (int ln, int col, int ch)
 		{
 			statusBar.SetCursorPosition (ln, col, ch);
 		}
 		
+		[AsyncDispatch]
 		public void SetInsertMode (bool insertMode)
 		{
 			statusBar.ModeStatusBarPanel.Push (1, insertMode ? GettextCatalog.GetString ("INS") : GettextCatalog.GetString ("OVR"));
 		}
 		
+		[AsyncDispatch]
 		public void ShowErrorMessage (string message)
 		{
 			Debug.Assert(statusBar != null);
 			statusBar.ShowErrorMessage(stringParserService.Parse(message));
 		}
 		
+		[AsyncDispatch]
 		public void SetMessage (string message)
 		{
 			Debug.Assert(statusBar != null);
@@ -80,6 +110,7 @@ namespace MonoDevelop.Services
 			statusBar.SetMessage(stringParserService.Parse(message));
 		}
 		
+		[AsyncDispatch]
 		public void SetMessage(Gtk.Image image, string message)
 		{
 			Debug.Assert(statusBar != null);
@@ -89,6 +120,8 @@ namespace MonoDevelop.Services
 		
 		bool   wasError    = false;
 		string lastMessage = "";
+		
+		[AsyncDispatch]
 		public void RedrawStatusbar()
 		{
 			if (wasError) {
@@ -98,6 +131,7 @@ namespace MonoDevelop.Services
 			}
 		}
 		
+		[AsyncDispatch]
 		public void Update()
 		{
 			Debug.Assert(statusBar != null);
