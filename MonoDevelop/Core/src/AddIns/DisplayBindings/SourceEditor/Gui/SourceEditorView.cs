@@ -239,7 +239,7 @@ namespace MonoDevelop.SourceEditor.Gui
 			}
 			HelpViewer new_content = new HelpViewer ();
 			new_content.LoadUrl (type);
-			WorkbenchSingleton.Workbench.ShowView (new_content);
+			WorkbenchSingleton.Workbench.ShowView (new_content, true);
 			
 			return true;
 		}

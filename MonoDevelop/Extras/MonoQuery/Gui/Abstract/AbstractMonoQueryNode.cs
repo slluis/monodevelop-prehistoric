@@ -216,7 +216,7 @@ namespace MonoQuery.Gui.TreeView
 					MonoQuerySchemaClassCollection ret = this.OnExecute( e );
 					if ( e.Cancel == false )
 					{
-						WorkbenchSingleton.Workbench.ShowView( new MonoQueryDataView( this.SchemaClass, rows, ret ) );
+						WorkbenchSingleton.Workbench.ShowView( new MonoQueryDataView( this.SchemaClass, rows, ret ), true );
 					}
 				}
 			}

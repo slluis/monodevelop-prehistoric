@@ -1,3 +1,9 @@
+2005-01-26  Christian Hergert <chris@mosaix.net>
+
+	* Extras/MonoQuery/Gui/Abstract/AbstractMonoQueryNode.cs:
+	* Extras/MonoQuery/Commands/MonoQueryCommands.cs: Fixed to use new
+	ShowView
+
 2005-01-08  Christian Hergert <chris@mosaix.net>
 
 	* Fixed druid to expand the connection after building

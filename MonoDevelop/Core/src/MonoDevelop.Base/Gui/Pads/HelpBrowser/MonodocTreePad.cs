@@ -119,7 +119,7 @@ namespace MonoDevelop.Gui.Pads
 			}
 			HelpViewer new_content = new HelpViewer ();
 			new_content.Render (text, matched_node, url);
-			WorkbenchSingleton.Workbench.ShowView (new_content);
+			WorkbenchSingleton.Workbench.ShowView (new_content, true);
 		}
 
 		void PopulateNode (TreeIter parent)

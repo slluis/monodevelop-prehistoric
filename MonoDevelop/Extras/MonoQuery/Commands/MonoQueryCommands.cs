@@ -193,7 +193,7 @@ namespace MonoQuery.Commands
 			
 			MonoDevelop.Gui.WorkbenchSingleton.Workbench.ShowView(
 				new MonoQuery.Gui.SqlQueryView.SqlQueryView(
-					node.Connection ) );
+					node.Connection ), true );
 		}
 	}
 }
