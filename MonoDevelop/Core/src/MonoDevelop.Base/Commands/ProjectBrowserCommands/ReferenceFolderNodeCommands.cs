@@ -24,7 +24,7 @@ using MonoDevelop.Gui;
 using MonoDevelop.Gui.Components;
 using MonoDevelop.Internal.Project;
 using MonoDevelop.Gui.Dialogs;
-using MonoDevelop.Gui.Pads.ProjectBrowser;
+using MonoDevelop.Gui.Pads;
 
 namespace MonoDevelop.Commands.ProjectBrowser
 {
@@ -32,98 +32,32 @@ namespace MonoDevelop.Commands.ProjectBrowser
 	{
 		public override void Run()
 		{
-			ProjectBrowserView browser = (ProjectBrowserView)Owner;
-			FolderNode         node    = browser.SelectedNode as FolderNode;
+			SolutionPad browser = (SolutionPad) Owner;
+			ITreeNavigator tnav = browser.GetSelectedNode ();
+			Project project = tnav.GetParentDataItem (typeof(Project), true) as Project;
 			
-			if (node != null) {
-				Project project = ((ProjectBrowserNode)node.Parent).Project;
-				
+			if (project != null) {
 				SelectReferenceDialog selDialog = new SelectReferenceDialog(project);
 				if (selDialog.Run() == (int)Gtk.ResponseType.Ok) {
+					ProjectReferenceCollection newRefs = selDialog.ReferenceInformations;
 					
-					project.ProjectReferences.Clear ();
-					foreach (ProjectReference refInfo in selDialog.ReferenceInformations) {
-						project.ProjectReferences.Add(refInfo);
-					}
+					ArrayList toDelete = new ArrayList ();
+					foreach (ProjectReference refInfo in project.ProjectReferences)
+						if (!newRefs.Contains (refInfo))
+							toDelete.Add (refInfo);
 					
-					DefaultDotNetNodeBuilder.InitializeReferences(node, project);
+					foreach (ProjectReference refInfo in toDelete)
+							project.ProjectReferences.Remove (refInfo);
+
+					foreach (ProjectReference refInfo in selDialog.ReferenceInformations)
+						if (!project.ProjectReferences.Contains (refInfo))
+							project.ProjectReferences.Add(refInfo);
+					
 					Runtime.ProjectService.SaveCombine();
+					tnav.Expanded = true;
 				}
 				selDialog.Hide ();
 			}
-			node.Expand();
 		}
-	}
-	
-	/*
-	public class RefreshWebReference : AbstractMenuCommand
-	{
-		public override void Run()
-		{
-			ProjectBrowserView browser = (ProjectBrowserView)Owner;
-			ReferenceNode   node    = browser.SelectedNode as ReferenceNode;
-			if (node != null) {				
-				Project project = node.Project;  //((ProjectBrowserNode)node.Parent.Parent).Project;
-				IParserService parserService = (IParserService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IParserService));
-				
-				ProjectReference refInfo = (ProjectWebReference)node.UserData;
-				WebReference.GenerateWebProxy(project, refInfo.HRef);				
-				parserService.AddReferenceToCompletionLookup(project, refInfo);							
-			}
-		}
-	}*/
-	
-	public class AddWebReferenceToProject : AbstractMenuCommand
-	{
-		public override void Run()
-		{
-/*			ProjectBrowserView browser = (ProjectBrowserView)Owner;
-			AbstractBrowserNode node   = browser.SelectedNode as AbstractBrowserNode;
-			AbstractBrowserNode projectNode = DefaultDotNetNodeBuilder.GetProjectNode(node);
-			bool bInitReferences = false;
-			
-			if (node != null) {
-				Project project = ((ProjectBrowserNode)node.Parent).Project;
-			
-				using (AddWebReferenceDialog refDialog = new AddWebReferenceDialog(project)) {
-					if (refDialog.ShowDialog() == DialogResult.OK) {						
-						foreach(object objReference in refDialog.ReferenceInformations) {
-							if(objReference is ProjectReference) {
-								ProjectReference refInfo = (ProjectReference)objReference;
-								project.ProjectReferences.Add(refInfo);
-								if(refInfo.ReferenceType == ReferenceType.Assembly) {
-									parserService.AddReferenceToCompletionLookup(project, refInfo);
-									bInitReferences = true;
-								}
-							} else if(objReference is ProjectFile) {
-								ProjectFile projectFile = (ProjectFile) objReference;
-								//HACK: fix later
-								if(projectFile.Subtype == Subtype.WebReferences || projectFile.Subtype == Subtype.Directory) {																		
-									AbstractBrowserNode checkNode = DefaultDotNetNodeBuilder.GetPath(fileUtilityService.AbsoluteToRelativePath(project.BaseDirectory,projectFile.Name + Path.DirectorySeparatorChar), projectNode, false);
-									if(checkNode != null) {
-										continue;
-									}
-								}																																	
-								// add to the project browser
-								DefaultDotNetNodeBuilder.AddProjectFileNode(project, projectNode, projectFile);
-									
-								// add to the project
-								projectService.AddFileToProject(project, projectFile);
-								
-								// add to code completion
-								if(projectFile.Subtype == Subtype.Code ) {
-									parserService.ParseFile(projectFile.Name);
-								}
-								
-							}							
-						}
-						if(bInitReferences) {
-							DefaultDotNetNodeBuilder.InitializeReferences(node, project);						
-						}
-						projectService.SaveCombine();						
-					}
-				}
-			}*/
-		}
-	}
+	}	
 }

@@ -184,6 +184,19 @@ namespace MonoDevelop.Internal.Project
 			return MemberwiseClone();
 		}
 		
+		public override bool Equals (object other)
+		{
+			ProjectReference oref = other as ProjectReference;
+			if (oref == null) return false;
+			
+			return reference == oref.reference && referenceType == oref.referenceType;
+		}
+		
+		public override int GetHashCode ()
+		{
+			return reference.GetHashCode ();
+		}
+		
 		protected virtual void OnReferenceChanged(EventArgs e) 
 		{
 			if (ReferenceChanged != null) {

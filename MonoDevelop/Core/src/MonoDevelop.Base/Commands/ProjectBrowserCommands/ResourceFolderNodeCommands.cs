@@ -25,7 +25,7 @@ using MonoDevelop.Gui;
 using MonoDevelop.Gui.Components;
 using MonoDevelop.Internal.Project;
 using MonoDevelop.Gui.Dialogs;
-using MonoDevelop.Gui.Pads.ProjectBrowser;
+using MonoDevelop.Gui.Pads;
 using MonoDevelop.Gui.Widgets;
 
 using Gtk;
@@ -37,43 +37,52 @@ namespace MonoDevelop.Commands.ProjectBrowser
 	{
 		public override void Run()
 		{
-			ProjectBrowserView browser = (ProjectBrowserView)Owner;
-			FolderNode         node    = browser.SelectedNode as FolderNode;
+			SolutionPad browser = (SolutionPad) Owner;
+			ITreeNavigator nav = browser.GetSelectedNode ();
+			if (nav == null) return;
 			
-			if (node != null) {
-				Project project = ((ProjectBrowserNode) node.Parent).Project;
-				
-				show_dialog:
-									
-				using (FileSelector fs = new FileSelector (GettextCatalog.GetString ("File to Open"))) {
-					fs.SelectMultiple = true;
-					fs.SetFilename (project.BaseDirectory);
-					int response = fs.Run ();
-					string [] files = fs.Filenames;
-					fs.Hide ();
+			Project project = nav.GetParentDataItem (typeof(Project), true) as Project;
+			if (project == null) return;
+			
+			string [] files;
+			do {
+				files = AskFiles (project);
+				if (files == null) return;
+			}
+			while (!CheckFiles (files));
+			
+			nav.Expanded = true;
+		
+			foreach (string fileName in files)
+				project.AddFile (fileName, BuildAction.EmbedAsResource);
+			Runtime.ProjectService.SaveCombine ();
+		}
+		
+		string[] AskFiles (Project project)
+		{
+			using (FileSelector fs = new FileSelector (GettextCatalog.GetString ("File to Open"))) {
+				fs.SelectMultiple = true;
+				fs.SetFilename (project.BaseDirectory);
+				int response = fs.Run ();
+				string [] files = fs.Filenames;
+				fs.Hide ();
 
-					if (response != (int)Gtk.ResponseType.Ok)
-						return;
-				
-					foreach (string file in files) {
-						if (!System.IO.File.Exists (file)) {
-							Runtime.MessageService.ShowError (String.Format (GettextCatalog.GetString ("Resource file '{0}' does not exist"), file));
-							goto show_dialog;
-						}
-					}
-				
-					foreach (string fileName in files) {
-						ProjectFile fileInformation = project.AddFile (fileName, BuildAction.EmbedAsResource);
-					
-						AbstractBrowserNode newResNode = new FileNode(fileInformation);
-						newResNode.Image = Stock.ResourceFileIcon;
-						node.Nodes.Add (newResNode);
-					}
-
-					node.Expand();
-					Runtime.ProjectService.SaveCombine ();
+				if (response != (int)Gtk.ResponseType.Ok)
+					return null;
+				else
+					return files;
+			}
+		}
+		
+		bool CheckFiles (string[] files)
+		{
+			foreach (string file in files) {
+				if (!System.IO.File.Exists (file)) {
+					Runtime.MessageService.ShowError (String.Format (GettextCatalog.GetString ("Resource file '{0}' does not exist"), file));
+					return false;
 				}
 			}
+			return true;
 		}
 	}
 }

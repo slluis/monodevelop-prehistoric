@@ -73,6 +73,14 @@ namespace MonoDevelop.Gui.Pads
 			new DefaultDotNetClassScoutNodeBuilder()
 		};
 
+		public string Id {
+			get { return "ClassScout"; }
+		}
+		
+		public string DefaultPlacement {
+			get { return "Left"; }
+		}
+
 		public string Title {
 			get {
 				return GettextCatalog.GetString("Classes");

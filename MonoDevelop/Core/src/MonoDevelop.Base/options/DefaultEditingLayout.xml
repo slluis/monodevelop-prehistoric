@@ -5,8 +5,8 @@
       <paned orientation="horizontal" locked="no" position="226">
         <notebook orientation="vertical" locked="no" page="3">
           <item name="MonoDevelop.Gui.Pads.FileScout" orientation="vertical" locked="no"/>
-          <item name="MonoDevelop.Gui.Pads.ClassScout" orientation="vertical" locked="no"/>
-          <item name="MonoDevelop.Gui.Pads.ProjectBrowser.ProjectBrowserView" orientation="vertical" locked="no"/>
+          <item name="MonoDevelop.Gui.Pads.ClassPad" orientation="vertical" locked="no"/>
+          <item name="MonoDevelop.Gui.Pads.ProjectPad" orientation="vertical" locked="no"/>
           <item name="MonoDevelop.Gui.Pads.HelpTree" orientation="vertical" locked="no"/>
         </notebook>
         <paned orientation="vertical" locked="no" position="319">

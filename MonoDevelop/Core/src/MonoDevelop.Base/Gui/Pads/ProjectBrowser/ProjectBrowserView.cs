@@ -46,6 +46,14 @@ namespace MonoDevelop.Gui.Pads.ProjectBrowser
 			}
 		}
 
+		public string Id {
+			get { return "ProjectScout"; }
+		}
+		
+		public string DefaultPlacement {
+			get { return "Left"; }
+		}
+		
 		public void BringToFront() {
 			// TODO FIXME
 		}

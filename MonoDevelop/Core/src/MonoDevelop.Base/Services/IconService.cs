@@ -217,5 +217,15 @@ namespace MonoDevelop.Core.Services {
 			
 			return GetWithModifiers (mod, Stock.Class, Stock.ProtectedClass, Stock.InternalClass, Stock.PrivateClass);
 		}
+		
+		public Gdk.Pixbuf MakeTransparent (Gdk.Pixbuf icon, double opacity)
+		{
+			// If somebody knows a better way of doing this, please redo.
+			Gdk.Pixbuf gicon = icon.Copy ();
+			gicon.Fill (0);
+			gicon = gicon.AddAlpha (true,0,0,0);
+			icon.Composite (gicon, 0, 0, icon.Width, icon.Height, 0, 0, 1, 1, Gdk.InterpType.Bilinear, (int)(256 * opacity));
+			return gicon;
+		}
 	}
 }

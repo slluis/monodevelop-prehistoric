@@ -1062,6 +1062,12 @@ namespace MonoDevelop.Services
 			return new ClassInheritanceEnumerator (this, project, cls);
 		}
 		
+		public IClass[] GetFileContents (Project project, string fileName)
+		{
+			CodeCompletionDatabase db = (project != null) ? GetProjectDatabase (project) : GetActiveFileDatabase ();
+			return db.GetFileContents (fileName);
+		}
+		
 #endregion
 		
 		public IParseInformation ParseFile(string fileName)

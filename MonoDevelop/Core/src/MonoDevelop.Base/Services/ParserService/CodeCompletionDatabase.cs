@@ -624,6 +624,20 @@ namespace MonoDevelop.Services
 			get { return references; }
 		}
 		
+		public IClass[] GetFileContents (string fileName)
+		{
+			FileEntry fe = GetFile (fileName);
+			if (fe == null) return new IClass [0];
+
+			ArrayList classes = new ArrayList ();
+			ClassEntry ce = fe.FirstClass;
+			while (ce != null) {
+				classes.Add (GetClass (ce));
+				ce = ce.NextInFile;
+			}
+			return (IClass[]) classes.ToArray (typeof(IClass));
+		}
+		
 		IClass CopyClass (IClass cls)
 		{
 			MemoryStream ms = new MemoryStream ();

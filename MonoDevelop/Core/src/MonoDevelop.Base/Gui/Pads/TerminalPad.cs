@@ -18,6 +18,14 @@ namespace MonoDevelop.Gui.Pads
 
 		IProjectService projectService = (IProjectService) ServiceManager.Services.GetService (typeof (IProjectService));
 		PropertyService propertyService = (PropertyService) ServiceManager.Services.GetService (typeof (PropertyService));
+
+		public string Id {
+			get { return "TerminalPad"; }
+		}
+		
+		public string DefaultPlacement {
+			get { return "Bottom"; }
+		}
 		
 		public Widget Control {
 			get {

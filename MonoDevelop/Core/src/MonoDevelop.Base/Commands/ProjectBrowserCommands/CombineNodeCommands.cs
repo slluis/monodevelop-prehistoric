@@ -24,22 +24,24 @@ using MonoDevelop.Gui.Components;
 using MonoDevelop.Gui.Widgets;
 using MonoDevelop.Internal.Project;
 using MonoDevelop.Gui.Dialogs;
-using MonoDevelop.Gui.Pads.ProjectBrowser;
+using MonoDevelop.Gui.Pads;
 
 namespace MonoDevelop.Commands.ProjectBrowser
 {
 	public class AddNewProjectToCombine : AbstractMenuCommand
 	{
 		NewProjectDialog npdlg;
-		ProjectBrowserView browser;
-		CombineBrowserNode node;
+		Combine combine;
+		NodePosition position;
+		SolutionPad browser;
 
 		public override void Run()
 		{
-			browser     = (ProjectBrowserView)Owner;
-			node        = browser.SelectedNode as CombineBrowserNode;
-			
-			if (node != null) {
+			browser = (SolutionPad) Owner;
+			ITreeNavigator nav = browser.GetSelectedNode ();
+			combine = nav.GetParentDataItem (typeof(Combine), true) as Combine;
+			if (combine != null) {
+				position = nav.CurrentPosition;
 				npdlg = new NewProjectDialog(false);
 				npdlg.OnOked += new EventHandler (Oked);
 			}
@@ -47,36 +49,46 @@ namespace MonoDevelop.Commands.ProjectBrowser
 
 		void Oked (object o, EventArgs e)
 		{
+			ITreeNavigator nav = browser.GetNodeAtPosition (position);
+			nav.Expanded = true;
+			
+			IProgressMonitor monitor = Runtime.TaskService.GetLoadProgressMonitor ();
 			try 
 			{
-				int newNodeIndex;
-				using (IProgressMonitor monitor = Runtime.TaskService.GetLoadProgressMonitor ()) {
-					newNodeIndex = node.Nodes.Add(ProjectBrowserView.BuildProjectTreeNode((Project)node.Combine.AddEntry(npdlg.NewProjectLocation, monitor)));
-				}
+				object ob = combine.AddEntry (npdlg.NewProjectLocation, monitor);
 				Runtime.ProjectService.SaveCombine ();
-			// expand to the new node
-				node.Nodes[newNodeIndex].Expand();
+				browser.AddNodeInsertCallback (ob, new TreeNodeCallback (OnEntryInserted));
 			}
 			catch {
 				Runtime.MessageService.ShowError (GettextCatalog.GetString ("Invalid Project File"));
 			}
-			
-			npdlg = null;
-		}	
+			finally {
+				monitor.Dispose ();
+				npdlg = null;
+			}
+		}
+		
+		void OnEntryInserted (ITreeNavigator nav)
+		{
+			nav.Selected = true;
+			nav.Expanded = true;
+		}
 	}
 		
 	public class AddNewCombineToCombine : AbstractMenuCommand
 	{
-		ProjectBrowserView browser;
-		CombineBrowserNode node;
+		Combine combine;
 		NewProjectDialog npdlg;
+		SolutionPad browser;
+		NodePosition position;
 
 		public override void Run()
 		{
-			browser = (ProjectBrowserView)Owner;
-			node    = browser.SelectedNode as CombineBrowserNode;
-			
-			if (node != null) {
+			browser = (SolutionPad) Owner;
+			ITreeNavigator nav = browser.GetSelectedNode ();
+			combine = nav.GetParentDataItem (typeof(Combine), true) as Combine;
+			if (combine != null) {
+				position = nav.CurrentPosition;
 				npdlg = new NewProjectDialog(false);
 				npdlg.OnOked += new EventHandler (Oked);
 			}
@@ -84,22 +96,29 @@ namespace MonoDevelop.Commands.ProjectBrowser
 
 		void Oked (object o, EventArgs e)
 		{
+			ITreeNavigator nav = browser.GetNodeAtPosition (position);
+			nav.Expanded = true;
+			
+			IProgressMonitor monitor = Runtime.TaskService.GetLoadProgressMonitor ();
 			try 
 			{
-				int newNodeIndex;
-				using (IProgressMonitor monitor = Runtime.TaskService.GetLoadProgressMonitor ()) {
-					newNodeIndex = node.Nodes.Add(ProjectBrowserView.BuildCombineTreeNode((Combine)node.Combine.AddEntry(npdlg.NewCombineLocation, monitor)));
-				}
+				object ob = combine.AddEntry (npdlg.NewCombineLocation, monitor);
 				Runtime.ProjectService.SaveCombine ();
-				
-				// expand to the new node
-				node.Nodes[newNodeIndex].Expand();
+				browser.AddNodeInsertCallback (ob, new TreeNodeCallback (OnEntryInserted));
 			}
-			catch
-			{
+			catch {
 				Runtime.MessageService.ShowError (GettextCatalog.GetString ("Invalid Solution File"));
 			}
-			npdlg = null;
+			finally {
+				monitor.Dispose ();
+				npdlg = null;
+			}
+		}
+		
+		void OnEntryInserted (ITreeNavigator nav)
+		{
+			nav.Selected = true;
+			nav.Expanded = true;
 		}
 	}
 	
@@ -107,40 +126,37 @@ namespace MonoDevelop.Commands.ProjectBrowser
 	{
 		public override void Run()
 		{
-			ProjectBrowserView browser = (ProjectBrowserView)Owner;
-			CombineBrowserNode node    = browser.SelectedNode as CombineBrowserNode;
+			SolutionPad browser = (SolutionPad) Owner;
+			ITreeNavigator nav = browser.GetSelectedNode ();
+			Combine combine = nav.GetParentDataItem (typeof(Combine), true) as Combine;
+			if (combine == null) return;
 			
-			if (node != null) {
-				using (FileSelector fdiag = new FileSelector (GettextCatalog.GetString ("Add a Project"))) {
-					fdiag.SelectMultiple = false;
-					if (fdiag.Run () == (int) Gtk.ResponseType.Ok) {
-						try {
-							object obj;
-							using (IProgressMonitor monitor = Runtime.TaskService.GetLoadProgressMonitor ()) {
-								obj = node.Combine.AddEntry (fdiag.Filename, monitor);
-							}
-							int newNodeIndex = -1;
-							if (obj is Project) {
-								newNodeIndex = node.Nodes.Add(ProjectBrowserView.BuildProjectTreeNode((Project)obj));
-							} else {
-								newNodeIndex = node.Nodes.Add(ProjectBrowserView.BuildCombineTreeNode((Combine)obj));
-							}
+			using (FileSelector fdiag = new FileSelector (GettextCatalog.GetString ("Add a Project"))) {
+				fdiag.SelectMultiple = false;
+				if (fdiag.Run () == (int) Gtk.ResponseType.Ok) {
+					try
+					{
+						nav.Expanded = true;
+						using (IProgressMonitor monitor = Runtime.TaskService.GetLoadProgressMonitor ()) {
+							object ob = combine.AddEntry (fdiag.Filename, monitor);
 							Runtime.ProjectService.SaveCombine ();
-						
-							if (newNodeIndex > -1) {
-								// expand to the new node
-								node.Nodes[newNodeIndex].Expand();
-							}
-						}
-						catch 
-						{
-							Runtime.MessageService.ShowError (GettextCatalog.GetString ("Invalid Project File"));
+							browser.AddNodeInsertCallback (ob, new TreeNodeCallback (OnEntryInserted));
 						}
 					}
-
-					fdiag.Hide ();
+					catch 
+					{
+						Runtime.MessageService.ShowError (GettextCatalog.GetString ("Invalid Project File"));
+					}
 				}
+
+				fdiag.Hide ();
 			}
+		}
+		
+		void OnEntryInserted (ITreeNavigator nav)
+		{
+			nav.Selected = true;
+			nav.Expanded = true;
 		}
 	}
 		
@@ -148,40 +164,38 @@ namespace MonoDevelop.Commands.ProjectBrowser
 	{
 		public override void Run()
 		{
-			ProjectBrowserView browser = (ProjectBrowserView)Owner;
-			CombineBrowserNode node    = browser.SelectedNode as CombineBrowserNode;
+			SolutionPad browser = (SolutionPad) Owner;
+			ITreeNavigator nav = browser.GetSelectedNode ();
+			Combine combine = nav.GetParentDataItem (typeof(Combine), true) as Combine;
+			if (combine == null) return;
 			
-			if (node != null) {
-				using (FileSelector fdiag = new FileSelector (GettextCatalog.GetString ("Add a Combine"))) {
-					fdiag.SelectMultiple = false;
-					if (fdiag.Run () == (int) Gtk.ResponseType.Ok) {
-						try {
-							object obj;
-							using (IProgressMonitor monitor = Runtime.TaskService.GetLoadProgressMonitor ()) {
-								obj = node.Combine.AddEntry (fdiag.Filename, monitor);
-							}
-							int newNodeIndex = -1;
-							if (obj is Project) {
-								newNodeIndex = node.Nodes.Add(ProjectBrowserView.BuildProjectTreeNode((Project)obj));
-							} else {
-								newNodeIndex = node.Nodes.Add(ProjectBrowserView.BuildCombineTreeNode((Combine)obj));
-							}
+			using (FileSelector fdiag = new FileSelector (GettextCatalog.GetString ("Add a Combine"))) {
+				fdiag.SelectMultiple = false;
+				if (fdiag.Run () == (int) Gtk.ResponseType.Ok)
+				{
+					try
+					{
+						nav.Expanded = true;
+						using (IProgressMonitor monitor = Runtime.TaskService.GetLoadProgressMonitor ()) {
+							object ob = combine.AddEntry (fdiag.Filename, monitor);
 							Runtime.ProjectService.SaveCombine ();
-							
-							if (newNodeIndex > -1) {
-								// expand to the new node
-								node.Nodes[newNodeIndex].Expand();
-							}
-						}
-						catch 
-						{
-							Runtime.MessageService.ShowError (GettextCatalog.GetString ("Invalid Solution File"));
+							browser.AddNodeInsertCallback (ob, new TreeNodeCallback (OnEntryInserted));
 						}
 					}
-
-					fdiag.Hide ();
+					catch 
+					{
+						Runtime.MessageService.ShowError (GettextCatalog.GetString ("Invalid Solution File"));
+					}
 				}
+
+				fdiag.Hide ();
 			}
+		}
+		
+		void OnEntryInserted (ITreeNavigator nav)
+		{
+			nav.Selected = true;
+			nav.Expanded = true;
 		}
 	}
 	
@@ -189,22 +203,22 @@ namespace MonoDevelop.Commands.ProjectBrowser
 	{
 		public override void Run()
 		{
-			ProjectBrowserView browser = (ProjectBrowserView)Owner;
-			CombineBrowserNode node    = browser.SelectedNode as CombineBrowserNode;
+			SolutionPad browser = (SolutionPad) Owner;
+			ITreeNavigator nav = browser.GetSelectedNode ();
+			Combine combine = nav.GetParentDataItem (typeof(Combine), true) as Combine;
+			if (combine == null) return;
 			
-			if (node != null) {
-				DefaultProperties defaultProperties = new DefaultProperties();
-				defaultProperties.SetProperty("Combine", node.Combine);
-				TreeViewOptions optionsDialog = new TreeViewOptions(defaultProperties,
-				                                                           AddInTreeSingleton.AddInTree.GetTreeNode("/SharpDevelop/Workbench/CombineOptions"));
-			//		optionsDialog.SetDefaultSize = new Size(700, 450);
-			//		optionsDialog.FormBorderStyle = FormBorderStyle.FixedDialog;
-			//				
-			//		optionsDialog.TransientFor = (Gtk.Window)WorkbenchSingleton.Workbench;
-					optionsDialog.Run ();
-			//		optionsDialog.Hide ();
-					Runtime.ProjectService.SaveCombine ();
-				}
-			}
+			DefaultProperties defaultProperties = new DefaultProperties();
+			defaultProperties.SetProperty ("Combine", combine);
+			TreeViewOptions optionsDialog = new TreeViewOptions (defaultProperties,
+																	   AddInTreeSingleton.AddInTree.GetTreeNode("/SharpDevelop/Workbench/CombineOptions"));
+		//		optionsDialog.SetDefaultSize = new Size(700, 450);
+		//		optionsDialog.FormBorderStyle = FormBorderStyle.FixedDialog;
+		//				
+		//		optionsDialog.TransientFor = (Gtk.Window)WorkbenchSingleton.Workbench;
+				optionsDialog.Run ();
+		//		optionsDialog.Hide ();
+				Runtime.ProjectService.SaveCombine ();
+		}
 	}
 }

@@ -192,16 +192,16 @@ namespace MonoDevelop.Internal.Project
 			}
 			
 			if (newFiles.Count > 0) {
-//				if (newFileSearch == NewFileSearch.OnLoadAutoInsert) {
+				if (newFileSearch == NewFileSearch.OnLoadAutoInsert) {
 					foreach (string file in newFiles) {
 						ProjectFile newFile = new ProjectFile(file);
 						newFile.BuildAction = IsCompileable(file) ? BuildAction.Compile : BuildAction.Nothing;
 						ProjectFiles.Add(newFile);
 					}
-/*				} else {
-					Runtime.DispatchService.GuiSyncDispatch (new MessageHandler (new IncludeFilesDialog (BaseDirectory, this, newFiles).ShowDialog));
+				} else {
+					Runtime.DispatchService.GuiDispatch (new MessageHandler (new IncludeFilesDialog (this, newFiles).ShowDialog));
 				}
-*/			}
+			}
 		}
 		
 		public static Project LoadProject (string filename, IProgressMonitor monitor)

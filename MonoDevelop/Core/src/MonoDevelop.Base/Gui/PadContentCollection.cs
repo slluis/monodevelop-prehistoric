@@ -67,10 +67,10 @@ namespace MonoDevelop.Gui
 			}
 		}
 		
-		public IPadContent this[string typeName] {
+		public IPadContent this [string id] {
 			get {
 				foreach (IPadContent padContent in this) {
-					if (padContent.GetType().FullName == typeName) {
+					if (padContent.Id == id) {
 						return padContent;
 					}
 				}

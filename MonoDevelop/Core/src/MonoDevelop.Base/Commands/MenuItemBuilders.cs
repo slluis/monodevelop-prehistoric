@@ -214,11 +214,11 @@ namespace MonoDevelop.Commands
 		{
 			public MyMenuItem(string name) : base(null, null, name)
 			{
-				Toggled += new EventHandler (OnClick);
 			}
 			
-			protected new void OnClick(object o, EventArgs e)
+			protected override void OnToggled ()
 			{
+				base.OnToggled ();
 				((IWorkbenchWindow)Tag).SelectWindow();
 				Active = true;
 			}
@@ -370,13 +370,15 @@ namespace MonoDevelop.Commands
 			
 			public MyMenuItem(IPadContent padContent) : base(null, null, padContent.Title)
 			{
+				Active = WorkbenchSingleton.Workbench.WorkbenchLayout.IsVisible (padContent);
 				this.padContent = padContent;
-				Active = IsPadVisible;
-				Toggled += new EventHandler (OnClick);
 			}
 			
-			protected new void OnClick(object o, EventArgs e)
+			protected override void OnToggled ()
 			{
+				base.OnToggled ();
+				if (padContent == null) return;
+				
 				if (IsPadVisible) {
 					WorkbenchSingleton.Workbench.WorkbenchLayout.HidePad(padContent);
 				} else {
@@ -421,14 +423,15 @@ namespace MonoDevelop.Commands
 			
 			public MyMenuItem (string name) : base (null, null, name)
 			{
+				Active = WorkbenchSingleton.Workbench.WorkbenchLayout.CurrentLayout == layoutName;
 				this.layoutName = name;
-				Active = IsCurrentLayout;
-				Toggled += new EventHandler (OnClick);
 			}
 			
-			protected new void OnClick(object o, EventArgs e)
+			protected override void OnToggled ()
 			{
-				WorkbenchSingleton.Workbench.WorkbenchLayout.CurrentLayout = layoutName;
+				base.OnToggled ();
+				if (layoutName != null)
+					WorkbenchSingleton.Workbench.WorkbenchLayout.CurrentLayout = layoutName;
 			}
 			
 			public override  void UpdateStatus()

@@ -126,6 +126,8 @@ namespace MonoDevelop.Internal.Project
 				store.IterNext(ref current);
 			}
 			
+			Runtime.ProjectService.SaveCombine ();
+			
 			IncludeFilesDialogWidget.Destroy();
 		}
 		
@@ -158,7 +160,7 @@ namespace MonoDevelop.Internal.Project
 		
 		public void ShowDialog()
 		{
-			this.IncludeFilesDialogWidget.Run();
+			this.IncludeFilesDialogWidget.Show ();
 		}
 
 	}

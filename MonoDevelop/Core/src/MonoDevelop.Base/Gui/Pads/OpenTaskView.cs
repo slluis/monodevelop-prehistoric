@@ -34,6 +34,14 @@ namespace MonoDevelop.Gui.Pads
 				return sw;
 			}
 		}
+
+		public string Id {
+			get { return "MonoDevelop.Gui.Pads.OpenTaskView"; }
+		}
+		
+		public string DefaultPlacement {
+			get { return "Bottom"; }
+		}
 		
 		public string Title {
 			get {

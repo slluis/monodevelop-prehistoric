@@ -18,6 +18,8 @@ using Gtk;
 using Gdl;
 using MonoDevelop.Gui.Widgets;
 using MonoDevelop.Gui.Utils;
+using MonoDevelop.Core.AddIns.Codons;
+using MonoDevelop.Core.AddIns;
 
 namespace MonoDevelop.Gui
 {	
@@ -44,6 +46,8 @@ namespace MonoDevelop.Gui
 		DockLayout dockLayout;
 		DragNotebook tabControl;
 		EventHandler contextChangedHandler;
+		
+		WorkbenchContextCodon[] contextCodons;
 
 		public SdiWorkbenchLayout () {
 			contextChangedHandler = new EventHandler (OnContextChanged);
@@ -113,7 +117,7 @@ namespace MonoDevelop.Gui
 			// create DockItems for all the pads
 			foreach (IPadContent content in workbench.PadContentCollection)
 			{
-				AddPad (content, DockPlacement.Left, false);
+				AddPad (content, content.DefaultPlacement);
 			}
 			
 			// FIXME: GTKize
@@ -176,7 +180,7 @@ namespace MonoDevelop.Gui
 			{
 				if (!activePadCollection.Contains (content))
 				{
-					DockItem item = dock.GetItemByName (content.ToString ());
+					DockItem item = dock.GetItemByName (content.Id);
 					if (item != null)
 						item.HideItem ();
 				}
@@ -219,7 +223,7 @@ namespace MonoDevelop.Gui
 
 				// persist the selected layout for the current context
 				Runtime.Properties.SetProperty ("MonoDevelop.Gui.SdiWorkbenchLayout." +
-				                             workbenchContext.ToString (), value);
+				                             workbenchContext.Id, value);
 			}
 		}
 
@@ -247,7 +251,7 @@ namespace MonoDevelop.Gui
 		{
 			if (activePadCollection.Contains (content))
 			{
-				DockItem item = dock.GetItemByName (content.ToString ());
+				DockItem item = dock.GetItemByName (content.Id);
 				return item;
 			}
 			return null;
@@ -255,59 +259,23 @@ namespace MonoDevelop.Gui
 		
 		void CreateDefaultLayout()
 		{
-			string[] commonPads = new string[] {
-				"MonoDevelop.Gui.Pads.ProjectBrowser.ProjectBrowserView",
-				"MonoDevelop.Gui.Pads.ClassScout",
-				"MonoDevelop.Gui.Pads.FileScout",
-				"MonoDevelop.Gui.Pads.SideBarView",
-				"MonoDevelop.Gui.Pads.PropertyPad",
-				"MonoDevelop.Gui.Pads.OpenTaskView",
-				"MonoDevelop.Gui.Pads.HelpTree",
-//				"MonoDevelop.EditorBindings.Gui.Pads.CompilerMessageView",
-				//"MonoDevelop.Gui.Pads.TerminalPad",
-				"MonoDevelop.Gui.Pads.HelpBrowser",
-				"MonoQuery.Pads.MonoQueryView"
-			};
-
-			string[] debugPads = new string[] {
-				"MonoDevelop.SourceEditor.Gui.DebuggerLocalsPad",
-				"MonoDevelop.SourceEditor.Gui.DebuggerStackTracePad",
-				"MonoDevelop.SourceEditor.Gui.DebuggerThreadPad"
-			};
-
-			string[] editPads = new string[] {
-			};
-
+			contextCodons = (WorkbenchContextCodon[])(AddInTreeSingleton.AddInTree.GetTreeNode("/SharpDevelop/Workbench/Contexts").BuildChildItems(this)).ToArray(typeof(WorkbenchContextCodon));
 			PadContentCollection collection;
 			
-			foreach (WorkbenchContext ctxt in Enum.GetValues (typeof (WorkbenchContext)))
+			// Set the pads specific of each context
+			foreach (WorkbenchContextCodon codon in contextCodons)
 			{
 				collection = new PadContentCollection ();
-				padCollections [ctxt] = collection;
-				foreach (string padTypeName in commonPads)
-				{
-					IPadContent pad = workbench.PadContentCollection [padTypeName];
+				WorkbenchContext ctx = WorkbenchContext.GetContext (codon.ID);
+				padCollections [ctx] = collection;
+
+				foreach (ContextPadCodon padCodon in codon.Pads) {
+					IPadContent pad = workbench.PadContentCollection [padCodon.ID];
 					if (pad != null)
 						collection.Add (pad);
 				}
 			}
 			
-			collection = (PadContentCollection) padCollections [WorkbenchContext.Edit];
-			foreach (string padTypeName in editPads)
-			{
-				IPadContent pad = workbench.PadContentCollection [padTypeName];
-				if (pad != null)
-					collection.Add (pad);
-			}
-				
-			collection = (PadContentCollection) padCollections [WorkbenchContext.Debug];
-			foreach (string padTypeName in debugPads)
-			{
-				IPadContent pad = workbench.PadContentCollection [padTypeName];
-				if (pad != null)
-					collection.Add (pad);
-			}
-				
 			//Console.WriteLine(" Default Layout created.");
 			dockLayout = new DockLayout (dock);
 			if (System.IO.File.Exists (configFile)) {
@@ -331,9 +299,54 @@ namespace MonoDevelop.Gui
 			activePadCollection = null;
 		}
 		
-		void AddPad (IPadContent content, DockPlacement placement, bool extraPad)
+		void GetPlacement (string placementString, out DockPlacement dockPlacement, out DockItem originItem)
 		{
-			DockItem item = new DockItem (content.ToString (),
+			// placementString can be: left, right, top, bottom, or a relative
+			// position, for example: "ProjectPad/left" would show the pad at
+			// the left of the project pad. When using
+			// relative placements several positions can be provided. If the
+			// pad can be placed in the first position, the next one will be
+			// tried. For example "ProjectPad/left; bottom".
+			
+			dockPlacement = DockPlacement.None;
+			string[] placementOptions = placementString.Split (';');
+			foreach (string placementOption in placementOptions) {
+				int i = placementOption.IndexOf ('/');
+				if (i == -1) {
+					dockPlacement = (DockPlacement) Enum.Parse (typeof(DockPlacement), placementOption, true);
+					break;
+				} else {
+					string id = placementOption.Substring (0, i);
+					originItem = dock.GetItemByName (id); 
+					if (originItem != null && originItem.IsAttached) {
+						dockPlacement = (DockPlacement) Enum.Parse (typeof(DockPlacement), placementOption.Substring (i+1), true);
+						return;
+					}
+				}
+			}
+
+			if (dockPlacement != DockPlacement.None) {
+				// If there is a pad in the same position, place the new one
+				// over the existing one with a new tab.
+				foreach (IPadContent pad in activePadCollection) {
+					string[] places = pad.DefaultPlacement.Split (';');
+					foreach (string p in places)
+						if (string.Compare (p.Trim(), dockPlacement.ToString(), true) == 0) {
+							originItem = GetDockItem (pad);
+							if (originItem != null && originItem.IsAttached) {
+								dockPlacement = DockPlacement.Center;
+								return;
+							}
+						}
+				}
+			}
+			
+			originItem = null;
+		}
+		
+		void AddPad (IPadContent content, string placement)
+		{
+			DockItem item = new DockItem (content.Id,
 								 content.Title,
 								 content.Icon,
 								 DockItemBehavior.Normal);
@@ -343,24 +356,36 @@ namespace MonoDevelop.Gui
 
 			item.Add (content.Control);
 			item.ShowAll ();
+			item.HideItem ();
+
 			content.TitleChanged += new EventHandler (UpdatePad);
 			content.IconChanged += new EventHandler (UpdatePad);
 			
-			if (extraPad) {
-				DockItem ot = dock.GetItemByName ("MonoDevelop.Gui.Pads.OpenTaskView"); 
-				if (ot != null && ot.IsAttached) {
-					item.DockTo (ot, DockPlacement.Center);
-				}
-				else {
-					ot = dock.GetItemByName ("Documents"); 
-					item.DockTo (ot, DockPlacement.Bottom);
-				}
-			}
-			else
-				dock.AddItem (item, placement);
+			DockPad (item, placement);
 
 			if (!activePadCollection.Contains (content))
 				activePadCollection.Add (content);
+		}
+		
+		void DockPad (DockItem item, string placement)
+		{
+			DockPlacement dockPlacement = DockPlacement.None;
+			DockItem ot = null;
+			
+			if (placement != null)
+				GetPlacement (placement, out dockPlacement, out ot);
+				
+			if (dockPlacement != DockPlacement.None && dockPlacement != DockPlacement.Floating) {
+				if (ot != null) {
+					item.DockTo (ot, dockPlacement);
+				}
+				else {
+					ot = dock.GetItemByName ("Documents"); 
+					item.DockTo (ot, dockPlacement);
+				}
+			}
+			else
+				dock.AddItem (item, dockPlacement);
 		}
 		
 		void UpdatePad (object source, EventArgs args)
@@ -378,11 +403,14 @@ namespace MonoDevelop.Gui
 		public void ShowPad (IPadContent content)
 		{
 			DockItem item = GetDockItem (content);
-			if (item != null)
-				item.ShowItem();
-			else {
-				AddPad (content, DockPlacement.Bottom, true);
+			if (item != null) {
+				if (item.DefaultPosition != null)
+					item.ShowItem();
+				else
+					DockPad (item, content.DefaultPlacement);
 			}
+			else
+				AddPad (content, content.DefaultPlacement);
 		}
 		
 		public bool IsVisible (IPadContent padContent)
@@ -410,7 +438,7 @@ namespace MonoDevelop.Gui
 		public void RedrawAllComponents()
 		{
 			foreach (IPadContent content in ((IWorkbench)workbench).PadContentCollection) {
-				DockItem item = dock.GetItemByName (content.ToString ());
+				DockItem item = dock.GetItemByName (content.Id);
 				if (item != null)
 					item.LongName = content.Title;
 			}

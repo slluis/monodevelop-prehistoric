@@ -151,9 +151,8 @@ namespace MonoDevelop.Gui.Pads
 			set { id = value; }
 		}
 		
-		public override string ToString ()
-		{
-			return base.ToString () + id;
+		public string DefaultPlacement {
+			get { return "Bottom"; }
 		}
 		
 		public void EndProgress ()

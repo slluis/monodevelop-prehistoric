@@ -21,6 +21,7 @@ using MonoDevelop.Core.Properties;
 using MonoDevelop.Core.Services;
 using MonoDevelop.Gui.Components;
 using MonoDevelop.Gui.Dialogs;
+using MonoDevelop.Core.AddIns.Codons;
 
 using MonoDevelop.Services;
 
@@ -34,7 +35,7 @@ namespace MonoDevelop.Gui
 	public class DefaultWorkbench : Gtk.Window, IWorkbench
 	{
 		readonly static string mainMenuPath    = "/SharpDevelop/Workbench/MainMenu";
-		readonly static string viewContentPath = "/SharpDevelop/Workbench/Views";
+		readonly static string viewContentPath = "/SharpDevelop/Workbench/Pads";
 		
 		PadContentCollection viewContentCollection       = new PadContentCollection();
 		ViewContentCollection workbenchContentCollection = new ViewContentCollection();
@@ -52,7 +53,7 @@ namespace MonoDevelop.Gui
 		static GType gtype;
 		
 		public Gtk.MenuBar TopMenu = null;
-
+		
 		enum TargetList {
 			UriList = 100
 		}
@@ -291,13 +292,12 @@ namespace MonoDevelop.Gui
 			RedrawAllComponents ();
 		}
 		
-		public virtual void ShowPad(IPadContent content)
+		public virtual void ShowPad (IPadContent content)
 		{
 			PadContentCollection.Add(content);
 			
-			if (layout != null) {
-				layout.ShowPad(content);
-			}
+			if (layout != null)
+				layout.ShowPad (content);
 		}
 		
 		public void RedrawAllComponents()
@@ -583,12 +583,12 @@ namespace MonoDevelop.Gui
 		
 		public void UpdateViews(object sender, EventArgs e)
 		{
-			IPadContent[] contents = (IPadContent[])(AddInTreeSingleton.AddInTree.GetTreeNode(viewContentPath).BuildChildItems(this)).ToArray(typeof(IPadContent));
-			foreach (IPadContent content in contents) {
-				ShowPad(content);
-			}
+			PadCodon[] padCodons = (PadCodon[])(AddInTreeSingleton.AddInTree.GetTreeNode(viewContentPath).BuildChildItems(this)).ToArray(typeof(PadCodon));
+			foreach (PadCodon codon in padCodons)
+				ShowPad (codon.Pad);
 		}
-			// Handle keyboard shortcuts
+		
+		// Handle keyboard shortcuts
 
 
 		public event EventHandler ActiveWorkbenchWindowChanged;

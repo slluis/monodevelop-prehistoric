@@ -23,7 +23,8 @@ using MonoDevelop.Gui.Widgets;
 using MonoDevelop.Gui.Components;
 using MonoDevelop.Internal.Project;
 using MonoDevelop.Gui.Dialogs;
-using MonoDevelop.Gui.Pads.ProjectBrowser;
+using MonoDevelop.Gui.Pads;
+using MonoDevelop.Gui.Pads.ProjectPad;
 
 using Gtk;
 
@@ -31,16 +32,13 @@ namespace MonoDevelop.Commands.ProjectBrowser
 {
 	public class AddFilesToProject : AbstractMenuCommand
 	{
-		
 		public override void Run()
 		{
-			ProjectBrowserView browser = (ProjectBrowserView)Owner;
+			SolutionPad browser = (SolutionPad) Owner;
+			ITreeNavigator nav = browser.GetSelectedNode ();
+			if (nav == null) return;
 			
-			if (browser == null || browser.SelectedNode == null) {
-				return;
-			}
-			
-			AbstractBrowserNode node = (AbstractBrowserNode)browser.SelectedNode;
+			Project project = nav.GetParentDataItem (typeof(Project), true) as Project;
 			
 			using (FileSelector fdiag  = new FileSelector (GettextCatalog.GetString ("Add files"))) {
 				fdiag.SelectMultiple = true;
@@ -51,8 +49,8 @@ namespace MonoDevelop.Commands.ProjectBrowser
 						return;
 					
 					foreach (string file in fdiag.Filenames) {
-						if (file.StartsWith(node.Project.BaseDirectory)) {
-							ProjectBrowserView.MoveCopyFile (file, node, true, true);
+						if (file.StartsWith (project.BaseDirectory)) {
+							MoveCopyFile (project, nav, file, true, true);
 						} else {
 							using (MessageDialog md = new MessageDialog (
 																		 (Window) WorkbenchSingleton.Workbench,
@@ -69,12 +67,10 @@ namespace MonoDevelop.Commands.ProjectBrowser
 								if (ret < 0)
 									return;
 
-								try 
-								{
-									ProjectBrowserView.MoveCopyFile (file, node, ret == 2, false);
+								try {
+									MoveCopyFile (project, nav, file, ret == 2, false);
 								}
-								catch 
-								{
+								catch {
 									Runtime.MessageService.ShowError (GettextCatalog.GetString ("An error occurred while attempt to move/copy that file. Please check your permissions."));
 								}
 							}
@@ -85,28 +81,49 @@ namespace MonoDevelop.Commands.ProjectBrowser
 				}
 			}
 		}
+		
+		public static void MoveCopyFile (Project project, ITreeNavigator nav, string filename, bool move, bool alreadyInPlace)
+		{
+			if (Runtime.FileUtilityService.IsDirectory (filename))
+			    return;
+
+			ProjectFolder folder = nav.GetParentDataItem (typeof(ProjectFolder), true) as ProjectFolder;
+			
+			string name = System.IO.Path.GetFileName (filename);
+			string baseDirectory = folder != null ? folder.Path : project.BaseDirectory;
+			string newfilename = alreadyInPlace ? filename : Path.Combine (baseDirectory, name);
+
+			if (filename != newfilename) {
+				File.Copy (filename, newfilename);
+				if (move)
+					Runtime.FileService.RemoveFile (filename);
+			}
+			
+			if (project.IsCompileable (newfilename)) {
+				project.AddFile (newfilename, BuildAction.Compile);
+			} else {
+				project.AddFile (newfilename, BuildAction.Nothing);
+			}
+
+			Runtime.ProjectService.SaveCombine();
+		}
 	}
 	
 	public class AddNewFileEvent : AbstractMenuCommand
 	{
 		string baseFolderPath;
-		AbstractBrowserNode node;
-		ProjectBrowserView browser;
+		SolutionPad browser;
+		Project project;
 
 		public override void Run()
 		{
-			browser = (ProjectBrowserView)Owner;
+			browser = (SolutionPad) Owner;
+			ITreeNavigator nav = browser.GetSelectedNode ();
+			project = nav.GetParentDataItem (typeof(Project), true) as Project;
+			if (project == null) return;
 			
-			if (browser == null || browser.SelectedNode == null) {
-				return;
-			}
-			
-			node = (AbstractBrowserNode)browser.SelectedNode;
-			baseFolderPath = NewFolderEvent.SearchBasePath(node);
-			
-			if (baseFolderPath == null || baseFolderPath.Length == 0) {
-				return;
-			}
+			ProjectFolder folder = nav.GetParentDataItem (typeof(ProjectFolder), true) as ProjectFolder;
+			baseFolderPath = folder != null ? folder.Path : project.BaseDirectory;
 			
 			NewFileDialog nfd = new NewFileDialog ();
 			nfd.OnOked += new EventHandler (newfileOked);
@@ -121,102 +138,74 @@ namespace MonoDevelop.Commands.ProjectBrowser
 			string extension = Path.GetExtension(window.ViewContent.UntitledName);
 				
 			// first try the default untitled name of the viewcontent filename
-			string fileName = Runtime.FileUtilityService.GetDirectoryNameWithSeparator(baseFolderPath) + baseName +  extension;
+			string fileName = Path.Combine (baseFolderPath, baseName +  extension);
 				
 			// if it is already in the project, or it does exists we try to get a name that is
 			// untitledName + Numer + extension
-			while (node.Project.IsFileInProject(fileName) || System.IO.File.Exists(fileName)) {
-				fileName = Runtime.FileUtilityService.GetDirectoryNameWithSeparator(baseFolderPath) + baseName + count.ToString() + extension;
+			while (project.IsFileInProject (fileName) || System.IO.File.Exists (fileName)) {
+				fileName = Path.Combine (baseFolderPath, baseName + count.ToString() + extension);
 				++count;
 			}
-				
+
 			// now we have a valid filename which we could use
-			window.ViewContent.Save(fileName);
+			window.ViewContent.Save (fileName);
 				
 			ProjectFile newFileInformation = new ProjectFile(fileName, BuildAction.Compile);
-				
-			AbstractBrowserNode newNode = new FileNode(newFileInformation);
-			newNode.ContextmenuAddinTreePath = FileNode.ProjectFileContextMenuPath;
-				
-			// Assume that the parent node of a 'leaf' (e.g. file) is
-			// a folder or project
-			AbstractBrowserNode parentNode = node;
-			if (!(parentNode is ProjectBrowserNode || parentNode is DirectoryNode)) {
-				parentNode = (AbstractBrowserNode)node.Parent;
-			}
-				
-			parentNode.Nodes.Add(newNode);
-			parentNode.Project.ProjectFiles.Add(newFileInformation);
-			window.ViewContent.Project = parentNode.Project;
-				
-			newNode.EnsureVisible();
-			browser.StealFocus ();
-			browser.SelectedNode = newNode;
-			browser.StartLabelEdit();
-				
+			project.ProjectFiles.Add (newFileInformation);
 			Runtime.ProjectService.SaveCombine();
-			
+
+			browser.AddNodeInsertCallback (newFileInformation, new TreeNodeCallback (OnFileInserted));
+		}
+		
+		void OnFileInserted (ITreeNavigator nav)
+		{
+			browser.StealFocus ();
+			nav.Selected = true;
+			browser.StartLabelEdit ();
 		}
 	}
 	
 	public class NewFolderEvent : AbstractMenuCommand
 	{
-		public static string SearchBasePath(AbstractBrowserNode node)
-		{
-			while (node != null) {
-				if (node is ProjectBrowserNode) {
-					return node.Project.BaseDirectory;
-				} else if (node is DirectoryNode) {
-					return ((DirectoryNode)node).FolderName;
-				}
-				node = (AbstractBrowserNode)node.Parent;
-			}
-			return null;
-		}
+		SolutionPad browser;
 		
 		public override void Run()
 		{
-			ProjectBrowserView browser = (ProjectBrowserView)Owner;
+			browser = (SolutionPad) Owner;
+			ITreeNavigator nav = browser.GetSelectedNode ();
+			if (nav == null) return;
 			
-			if (browser == null || browser.SelectedNode == null) {
-				return;
+			Project project = nav.GetParentDataItem (typeof(Project), true) as Project;
+			if (project == null) return;
+
+			ProjectFolder folder = nav.GetParentDataItem (typeof(ProjectFolder), true) as ProjectFolder;
+			string baseFolderPath = folder != null ? folder.Path : project.BaseDirectory;
+
+			string directoryName = Path.Combine (baseFolderPath, GettextCatalog.GetString("New Folder"));
+			int index = -1;
+
+			if (Directory.Exists(directoryName)) {
+				while (Directory.Exists(directoryName + (++index + 1))) ;
 			}
-			AbstractBrowserNode selectedNode = (AbstractBrowserNode)browser.SelectedNode;
 			
-			string baseFolderPath = SearchBasePath(selectedNode);
-			
-			if (baseFolderPath != null && baseFolderPath.Length > 0) {
-				string directoryName = Runtime.FileUtilityService.GetDirectoryNameWithSeparator(baseFolderPath) + GettextCatalog.GetString("New Folder");
-				int    index         = -1;
-				
-				if (Directory.Exists(directoryName)) {
-					while (Directory.Exists(directoryName + (++index + 1))) ;
-				}
-				
-				if (index >= 0) {
-					directoryName += index + 1;
-				}
-				
-				DirectoryNode newDirectoryNode = new DirectoryNode(directoryName);
-				Directory.CreateDirectory(newDirectoryNode.FolderName);
-						
-				// Assume that the parent node of a 'leaf' (e.g. file) is
-				// a folder or project
-				AbstractBrowserNode parentNode = selectedNode;
-				if (!(parentNode is ProjectBrowserNode || parentNode is DirectoryNode)) {
-					parentNode = (AbstractBrowserNode)selectedNode.Parent;
-				}
-				
-				parentNode.Nodes.Add(newDirectoryNode);
-				
-				ProjectFile newFolder = new ProjectFile(newDirectoryNode.FolderName);
-				newFolder.Subtype = Subtype.Directory;
-				parentNode.Project.ProjectFiles.Add(newFolder);
-				
-				newDirectoryNode.EnsureVisible();
-				browser.SelectedNode = newDirectoryNode;
-				browser.StartLabelEdit();
+			if (index >= 0) {
+				directoryName += index + 1;
 			}
+			
+			Directory.CreateDirectory (directoryName);
+			
+			ProjectFile newFolder = new ProjectFile (directoryName);
+			newFolder.Subtype = Subtype.Directory;
+			project.ProjectFiles.Add (newFolder);
+
+			browser.AddNodeInsertCallback (newFolder, new TreeNodeCallback (OnFolderInserted));
+		}
+		
+		void OnFolderInserted (ITreeNavigator nav)
+		{
+			browser.StealFocus ();
+			nav.Selected = true;
+			browser.StartLabelEdit();
 		}
 	}
 }

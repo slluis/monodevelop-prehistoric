@@ -28,6 +28,7 @@ namespace MonoDevelop.Gui.Components
 		string description   = String.Empty;
 		string localizedText = String.Empty;
 		ICommand menuCommand = null;
+		bool internalActivate;
 		
 		string tag;
 		
@@ -70,7 +71,7 @@ namespace MonoDevelop.Gui.Components
 		{
 			this.caller              = caller;
 			this.conditionCollection = conditionCollection;
-			this.Activated += new EventHandler (OnClick);
+			internalActivate = true;
 			UpdateStatus();
 		}
 		
@@ -79,7 +80,7 @@ namespace MonoDevelop.Gui.Components
 			this.caller = caller;
 			this.conditionCollection = conditionCollection;
 			this.menuCommand = menuCommand;
-			this.Activated += new EventHandler (OnClick);
+			internalActivate = true;
 			UpdateStatus();
 		}
 		
@@ -120,9 +121,10 @@ namespace MonoDevelop.Gui.Components
 			}
 		}
 		
-		protected void OnClick(object o, EventArgs e)
+		protected override void OnActivated ()
 		{
-			if (menuCommand != null) {
+			base.OnActivated ();
+			if (internalActivate && menuCommand != null) {
 				menuCommand.Run();
 			}
 		}

@@ -16,6 +16,8 @@ namespace MonoDevelop.Gui
 	{
 		string title;
 		string icon;
+		string id;
+		string defaultPosition = "left";
 		
 		public abstract Gtk.Widget Control {
 			get;
@@ -32,15 +34,27 @@ namespace MonoDevelop.Gui
 				return icon;
 			}
 		}
+
+		public string Id {
+			get { return id; }
+			set { id = value; }
+		}
+		
+		public string DefaultPlacement {
+			get { return defaultPosition; }
+			set { defaultPosition = value; }
+		}
 		
 		public AbstractPadContent(string title) : this(title, null)
 		{
+			id = GetType ().FullName;
 		}
 		
 		public AbstractPadContent(string title, string iconResoureName)
 		{
 			this.title = title;
 			this.icon  = iconResoureName;
+			id = GetType ().FullName;
 		}
 		
 		public virtual void RedrawContent()

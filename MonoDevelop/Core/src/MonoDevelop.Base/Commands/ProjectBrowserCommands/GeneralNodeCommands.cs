@@ -23,7 +23,7 @@ using MonoDevelop.Gui;
 using MonoDevelop.Gui.Components;
 using MonoDevelop.Internal.Project;
 using MonoDevelop.Gui.Dialogs;
-using MonoDevelop.Gui.Pads.ProjectBrowser;
+using MonoDevelop.Gui.Pads;
 
 namespace MonoDevelop.Commands.ProjectBrowser
 {
@@ -31,19 +31,8 @@ namespace MonoDevelop.Commands.ProjectBrowser
 	{
 		public override void Run()
 		{
-			ProjectBrowserView  browser = (ProjectBrowserView)Owner;
-			AbstractBrowserNode node    = browser.SelectedNode as AbstractBrowserNode;
-			
-			if (node.IsEditing) { // TODO : throw remove key to the browser component.
-				return;
-			}
-			
-			if (node != null && node.Parent != null) {
-				if (node.RemoveNode()) {
-					node.Parent.Nodes.Remove(node);
-					Runtime.ProjectService.SaveCombine();
-				}
-			}
+			SolutionPad pad = (SolutionPad) Owner;
+			pad.RemoveCurrentItem ();
 		}
 	}
 	
@@ -51,7 +40,7 @@ namespace MonoDevelop.Commands.ProjectBrowser
 	{
 		public override void Run()
 		{
-			ProjectBrowserView browser = (ProjectBrowserView)Owner;
+			SolutionPad browser = (SolutionPad) Owner;
 			browser.StartLabelEdit();
 		}
 	}
@@ -60,12 +49,8 @@ namespace MonoDevelop.Commands.ProjectBrowser
 	{
 		public override void Run()
 		{
-			ProjectBrowserView  browser = (ProjectBrowserView)Owner;
-			AbstractBrowserNode node    = browser.SelectedNode as AbstractBrowserNode;
-			
-			if (node != null) {
-				node.ActivateItem();
-			}
+			SolutionPad browser = (SolutionPad)Owner;
+			browser.ActivateCurrentItem ();
 		}
 	}
 }

@@ -201,14 +201,6 @@ namespace MonoDevelop.Gui
 			WorkbenchSingleton.Workbench.WorkbenchLayout.ActiveMdiChanged (null, null);
 		}
 		
-		public void DetachContent()
-		{
-			content.ContentNameChanged -= new EventHandler(SetTitleEvent);
-			content.DirtyChanged       -= new EventHandler(SetTitleEvent);
-			content.BeforeSave         -= new EventHandler(BeforeSave);
-			content.ContentChanged     -= new EventHandler (OnContentChanged);
-		}
-
 		public void OnContentChanged (object o, EventArgs e)
 		{
 			if (subViewContents != null) {
@@ -249,9 +241,21 @@ namespace MonoDevelop.Gui
 				WorkbenchSingleton.Workbench.WorkbenchLayout.RemoveTab (pageNum);
 			}
 			OnWindowDeselected(EventArgs.Empty);
+			
+			content.ContentNameChanged -= new EventHandler(SetTitleEvent);
+			content.DirtyChanged       -= new EventHandler(SetTitleEvent);
+			content.BeforeSave         -= new EventHandler(BeforeSave);
+			content.ContentChanged     -= new EventHandler (OnContentChanged);
+			content.WorkbenchWindow = null;
+			
+			Remove (content.Control);
 			content.Dispose ();
 			OnCloseEvent(null);
-			content = null;
+			
+			this.content = null;
+			this.tabControl = null;
+			this.tabLabel = null;
+			this.tabPage = null;
 		}
 		
 		public void AttachSecondaryViewContent(ISecondaryViewContent subViewContent)

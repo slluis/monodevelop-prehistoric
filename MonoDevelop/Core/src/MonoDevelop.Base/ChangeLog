@@ -1,3 +1,72 @@
+2005-03-14  Lluis Sanchez Gual <lluis@novell.com>
+
+	* Commands/MenuItemBuilders.cs
+	* Gui/Components/SdMenuCheckBox.cs
+	* Gui/Components/SdMenuCommand.cs:
+	  Avoid subscribing self events since it can be a source of memory leaks.
+	
+	* Commands/ProjectBrowserCommands/ResourceFolderNodeCommands.cs,
+	  Commands/ProjectBrowserCommands/ProjectNodeCommands.cs,
+	  Commands/ProjectBrowserCommands/ReferenceFolderNodeCommands.cs,
+	  Commands/ProjectBrowserCommands/FolderNodeCommands.cs,
+	  Commands/ProjectBrowserCommands/CombineNodeCommands.cs,
+	  Commands/ProjectBrowserCommands/GeneralNodeCommands.cs:
+	  Modified to use the new tree navigation api.
+	  
+	* Services/Project/ProjectService.cs: call RestoreCombinePreferences
+	  in the gui thread.
+	* IconService.cs: Added helper method for changing the alpha of a pixbuf.
+	* PadContentCollection.cs: Pads now have an Id. Use it.
+	* SelectReferenceDialog.cs: Use a ProjectReferenceCollection instead
+	  of an array list to return the results.
+	* Gui/Workbench/Layouts/SdiWorkspaceLayout.cs: Name dock items after
+	  pad's ids. Read the list of pads for the context from the addin xm
+	  file. Use the new IPadContent.DefaultPlacement property to put pads
+	  in the right place.
+	* Gui/Workbench/Layouts/SdiWorkspaceWindow.cs: Properly dispose the
+	  window.
+	* Gui/Workbench/DefaultWorkbench.cs: Read pads declarations from the
+	  new addin tree path, and using the new codons.
+	* Gui/AbstractPadContent.cs: Added Id and DefaultPlacement properties.
+	
+	* Gui/Pads/SolutionPad/*: The new generic solution pad.
+	* Gui/Pads/ClassPad/*: Node builders for the new class pad.
+	* Gui/Pads/ProjectPad/*: Node builders for the new project pad.
+	
+	* Gui/Pads/ClassScout/ClassScout.cs:
+	* Gui/Pads/OpenTaskView.cs:
+	* Gui/Pads/TerminalPad.cs:
+	* Gui/Pads/DefaultMonitorPad.cs:
+	* Gui/Pads/ProjectBrowser/ProjectBrowserView.cs:
+	* Gui/Pads/FileScout/FileScout.cs:
+	  Track API changes.
+	  
+	* Gui/IWorkbench.cs: WorkbenchContext is now a class instad of an
+	  enum. New context can be dynamically created.
+	* Gui/IPadContent.cs: Added Id and DefaultPlacement properties.
+	* options/DefaultEditingLayout.xml: Use new pad Ids.
+	
+	* Internal/Codons/ContextPadCodon.cs: New codon for defining pads
+	  in a workbench context.
+	* Internal/Codons/Pads/NodeBuilderCodon.cs: New codon for defining
+	  node builders.
+	* Internal/Codons/Pads/PadOptionCodon.cs: New codon for defining
+	  pad options.
+	* Internal/Codons/Pads/SolutionPadCodon.cs: New codon for defining
+	  solution pads.
+	* Internal/Codons/Pads/PadCodon.cs: New codon for defining
+	  pads.
+	* Internal/Codons/WorkbenchContextCodon.cs: New codon for defining
+	  workbench contexts.
+	  
+	* Internal/Project/Project/ProjectReference.cs: Implemented Equals().
+	* Internal/Project/Project/IncludeFilesDialog.cs: Doesn't need to be modal.
+	* Internal/Project/Project/Project.cs: Enable include files dialog.
+	* Internal/Project/Combine/Combine.cs: Fixed some wrong events.
+	
+	* MonoDevelopCore.addin.xml: Use the new codons for defining pads and
+	  contexts.
+
 2005-03-13  Todd Berman  <tberman@off.net>
 
 	* Gui/Workbench/Layouts/SdiWorkspaceWindow.cs: Don't use a dock, this

@@ -22,7 +22,7 @@ using MonoDevelop.Gui;
 using MonoDevelop.Gui.Components;
 using MonoDevelop.Internal.Project;
 using MonoDevelop.Gui.Dialogs;
-using MonoDevelop.Gui.Pads.ProjectBrowser;
+using MonoDevelop.Gui.Pads;
 
 namespace MonoDevelop.Commands.ProjectBrowser
 {
@@ -30,15 +30,17 @@ namespace MonoDevelop.Commands.ProjectBrowser
 	{
 		public override void Run()
 		{
-			ProjectBrowserView  browser = (ProjectBrowserView)Owner;
-			ProjectBrowserNode  node    = browser.SelectedNode as ProjectBrowserNode;
+			SolutionPad browser = (SolutionPad) Owner;
+			ITreeNavigator nav = browser.GetSelectedNode ();
+			if (nav == null) return;
 			
-			if (node != null) {
-				Combine combine                = node.Combine;
-				combine.SingleStartProjectName = node.Project.Name;
-				combine.SingleStartupProject   = true;
-				Runtime.ProjectService.SaveCombine();
-			}
+			Project project = nav.DataItem as Project;
+			if (project == null) return;
+			
+			Combine combine = nav.GetParentDataItem (typeof(Combine), false) as Combine;
+			combine.SingleStartProjectName = project.Name;
+			combine.SingleStartupProject = true;
+			Runtime.ProjectService.SaveCombine ();
 		}
 	}
 }

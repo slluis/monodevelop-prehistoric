@@ -10,10 +10,37 @@ using System.Collections;
 
 namespace MonoDevelop.Gui
 {
-	public enum WorkbenchContext
+	public class WorkbenchContext
 	{
-		Edit,
-		Debug
+		string id;
+		static Hashtable contexts = new Hashtable ();
+		
+		WorkbenchContext (string id)
+		{
+			this.id = id;
+		}
+		
+		public static WorkbenchContext GetContext (string id)
+		{
+			WorkbenchContext ctx = (WorkbenchContext) contexts [id];
+			if (ctx == null) {
+				ctx = new WorkbenchContext (id);
+				contexts [id] = ctx;
+			}
+			return ctx;
+		}
+		
+		public static WorkbenchContext Edit {
+			get { return GetContext ("Edit"); }
+		}
+		
+		public static WorkbenchContext Debug {
+			get { return GetContext ("Debug"); }
+		}
+		
+		public string Id {
+			get { return id; }
+		}
 	}
 	
 	/// <summary>

@@ -235,8 +235,8 @@ namespace MonoDevelop.Internal.Project
 		{
 			Project pce = entry as Project;
 			if (pce != null) {
-				pce.FileRemovedFromProject -= fileAddedToProjectHandler;
-				pce.FileAddedToProject -= fileRemovedFromProjectHandler;
+				pce.FileRemovedFromProject -= fileRemovedFromProjectHandler;
+				pce.FileAddedToProject -= fileAddedToProjectHandler;
 				pce.FileChangedInProject -= fileChangedInProjectHandler;
 				pce.FileRenamedInProject -= fileRenamedInProjectHandler;
 				pce.ReferenceRemovedFromProject -= referenceRemovedFromProjectHandler;
@@ -245,8 +245,8 @@ namespace MonoDevelop.Internal.Project
 			else {
 				Combine cce = entry as Combine;
 				if (cce != null) {
-					cce.FileRemovedFromProject -= fileAddedToProjectHandler;
-					cce.FileAddedToProject -= fileRemovedFromProjectHandler;
+					cce.FileRemovedFromProject -= fileRemovedFromProjectHandler;
+					cce.FileAddedToProject -= fileAddedToProjectHandler;
 					cce.FileChangedInProject -= fileChangedInProjectHandler;
 					cce.FileRenamedInProject -= fileRenamedInProjectHandler;
 					cce.ReferenceRemovedFromProject -= referenceRemovedFromProjectHandler;
@@ -267,12 +267,13 @@ namespace MonoDevelop.Internal.Project
 			// remove configuration
 			foreach (CombineConfiguration dentry in Configurations)
 				dentry.RemoveEntry (entry);
+
+			OnEntryRemoved (new CombineEntryEventArgs (entry));
 		}
 		
 		public void RemoveEntry (CombineEntry entry)
 		{
 			Entries.Remove (entry);
-			OnEntryRemoved (new CombineEntryEventArgs (entry));
 		}
 		
 		public override void Debug (IProgressMonitor monitor)

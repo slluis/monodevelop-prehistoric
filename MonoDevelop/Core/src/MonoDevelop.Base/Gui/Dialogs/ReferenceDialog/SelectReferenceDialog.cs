@@ -37,16 +37,16 @@ namespace MonoDevelop.Gui.Dialogs
 
 		Project configureProject;
 		
-		public ArrayList ReferenceInformations {
+		public ProjectReferenceCollection ReferenceInformations {
 			get {
-				ArrayList referenceInformations = new ArrayList();
+				ProjectReferenceCollection referenceInformations = new ProjectReferenceCollection();
 				Gtk.TreeIter looping_iter;
 				if (refTreeStore.GetIterFirst (out looping_iter) == false) {
 					return referenceInformations;
 				}
 				do {
 					//Debug.Assert(item.Tag != null);
-					referenceInformations.Add(refTreeStore.GetValue(looping_iter, 3));
+					referenceInformations.Add ((ProjectReference) refTreeStore.GetValue(looping_iter, 3));
 				} while (refTreeStore.IterNext (ref looping_iter));
 				return referenceInformations;
 			}

@@ -8,6 +8,14 @@ namespace MonoDevelop.Gui.Pads
 {
 	public class FileScout : Gtk.VPaned, IPadContent
 	{
+		public string Id {
+			get { return "MonoDevelop.Gui.Pads.FileScout"; }
+		}
+		
+		public string DefaultPlacement {
+			get { return "Left"; }
+		}
+
 		public Gtk.Widget Control {
 			get {
 				return this;

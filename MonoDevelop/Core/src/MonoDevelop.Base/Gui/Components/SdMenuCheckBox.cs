@@ -45,7 +45,6 @@ namespace MonoDevelop.Gui.Components
 	
 		public SdMenuCheckBox (string label) : base ()
 		{
-			Toggled += new EventHandler (OnClick);
 			Gtk.AccelLabel child = new Gtk.AccelLabel (label);
 			child.Xalign = 0;
 			child.UseUnderline = true;
@@ -72,8 +71,9 @@ namespace MonoDevelop.Gui.Components
 			UpdateStatus();
 		}
 		
-		protected void OnClick(object o, EventArgs e)
+		protected override void OnToggled ()
 		{
+			base.OnToggled ();
 			if (menuCommand != null) {
 				menuCommand.IsChecked = Active;
 			}

@@ -403,27 +403,60 @@
 		            extensions = "*.*"/>
 	</Extension>
 	
-	<Extension path = "/SharpDevelop/Workbench/Views">
-		<Class id    = "ProjectScout" 
-		       class = "MonoDevelop.Gui.Pads.ProjectBrowser.ProjectBrowserView"/>
-		<Class id    = "ClassScout"
-		       class = "MonoDevelop.Gui.Pads.ClassScout"/>
-		<Class id    = "FileScout" 
-		       class = "MonoDevelop.Gui.Pads.FileScout"/>
-		<Class id    = "OpenTaskView" 
-		       class = "MonoDevelop.Gui.Pads.OpenTaskView"/>
-		<Class id    = "HelpBrowser"
-		       class = "MonoDevelop.Gui.Pads.HelpTree"/>
+	<Extension path = "/SharpDevelop/Workbench/Pads">
+		<Pad id = "MonoDevelop.Gui.Pads.FileScout" class = "MonoDevelop.Gui.Pads.FileScout"/>
+		<Pad id = "MonoDevelop.Gui.Pads.OpenTaskView" class = "MonoDevelop.Gui.Pads.OpenTaskView"/>
+		<Pad id = "MonoDevelop.Gui.Pads.HelpTree" class = "MonoDevelop.Gui.Pads.HelpTree"/>
+
+		<SolutionPad id = "MonoDevelop.Gui.Pads.ProjectPad" defaultPlacement = "Left" _label = "Solution" icon = "Icons.16x16.CombineIcon">
+			<PadOption id = "ShowAllFiles" _label = "Show All Files" defaultValue = "False" />
+			<NodeBuilder id = "Combine" class = "MonoDevelop.Gui.Pads.ProjectPad.CombineNodeBuilder"/>
+			<NodeBuilder id = "Project" class = "MonoDevelop.Gui.Pads.ProjectPad.ProjectNodeBuilder"/>
+			<NodeBuilder id = "ProjectReferenceFolder" class = "MonoDevelop.Gui.Pads.ProjectPad.ProjectReferenceFolderNodeBuilder"/>
+			<NodeBuilder id = "ProjectReference" class = "MonoDevelop.Gui.Pads.ProjectPad.ProjectReferenceNodeBuilder"/>
+			<NodeBuilder id = "ProjectFile" class = "MonoDevelop.Gui.Pads.ProjectPad.ProjectFileNodeBuilder"/>
+			<NodeBuilder id = "Folder" class = "MonoDevelop.Gui.Pads.ProjectPad.ProjectFolderNodeBuilder"/>
+			<NodeBuilder id = "ResourceFolder" class = "MonoDevelop.Gui.Pads.ProjectPad.ResourceFolderNodeBuilder"/>
+		</SolutionPad>
+
+		<SolutionPad id = "MonoDevelop.Gui.Pads.ClassPad" defaultPlacement = "Left" _label = "Classes" icon = "Icons.16x16.Class">
+			<PadOption id = "NestedNamespaces" _label = "Nested namespaces" defaultValue = "True" />
+			<PadOption id = "ShowProjects" _label = "Show project structure" defaultValue = "True" />
+			<PadOption id = "GroupByAccess" _label = "Group members by access" defaultValue = "False" />
+			<PadOption id = "GroupByType" _label = "Group members by member type" defaultValue = "True" />
+			<NodeBuilder id = "Combine" class = "MonoDevelop.Gui.Pads.ClassPad.CombineNodeBuilder"/>
+			<NodeBuilder id = "Project" class = "MonoDevelop.Gui.Pads.ClassPad.ProjectNodeBuilder"/>
+			<NodeBuilder id = "Namespace" class = "MonoDevelop.Gui.Pads.ClassPad.NamespaceNodeBuilder"/>
+			<NodeBuilder id = "Class" class = "MonoDevelop.Gui.Pads.ClassPad.ClassNodeBuilder"/>
+			<NodeBuilder id = "Event" class = "MonoDevelop.Gui.Pads.ClassPad.EventNodeBuilder"/>
+			<NodeBuilder id = "Field" class = "MonoDevelop.Gui.Pads.ClassPad.FieldNodeBuilder"/>
+			<NodeBuilder id = "Method" class = "MonoDevelop.Gui.Pads.ClassPad.MethodNodeBuilder"/>
+			<NodeBuilder id = "Property" class = "MonoDevelop.Gui.Pads.ClassPad.PropertyNodeBuilder"/>
+		</SolutionPad>
+
 <!--			   
-		<Class id    = "SideBar" 
-		       class = "MonoDevelop.Gui.Pads.SideBarView"/>
-		<Class id    = "PropertyPad" 
-		       class = "MonoDevelop.Gui.Pads.PropertyPad"/>
-		<Class id    = "TerminalPad" 
-		       class = "MonoDevelop.Gui.Pads.TerminalPad"/>
+		<Pad id = "SideBar" class = "MonoDevelop.Gui.Pads.SideBarView"/>
+		<Pad id = "PropertyPad" class = "MonoDevelop.Gui.Pads.PropertyPad"/>
+		<Pad id = "TerminalPad" class = "MonoDevelop.Gui.Pads.TerminalPad"/>
 -->			 
 	</Extension>
 	
+	<Extension path = "/SharpDevelop/Workbench/Contexts">
+		<WorkbenchContext id = "Edit">
+			<ContextPad id = "MonoDevelop.Gui.Pads.ProjectPad" />
+			<ContextPad id = "MonoDevelop.Gui.Pads.ClassPad" />
+			<ContextPad id = "MonoDevelop.Gui.Pads.FileScout" />
+			<ContextPad id = "MonoDevelop.Gui.Pads.HelpTree" />
+			<ContextPad id = "MonoDevelop.Gui.Pads.OpenTaskView"/>
+		</WorkbenchContext>
+		<WorkbenchContext id = "Debug">
+			<ContextPad id = "MonoDevelop.Gui.Pads.ProjectPad"/>
+			<ContextPad id = "MonoDevelop.Gui.Pads.ClassPad" defaultVisible = "False"/>
+			<ContextPad id = "MonoDevelop.Gui.Pads.FileScout" defaultVisible = "False"/>
+			<ContextPad id = "MonoDevelop.Gui.Pads.HelpTree" defaultVisible = "False"/>
+			<ContextPad id = "MonoDevelop.Gui.Pads.OpenTaskView"/>
+		</WorkbenchContext>
+	</Extension>
 	
 	<Extension path = "/SharpDevelop/Dialogs/OptionsDialog">
 		<DialogPanel id    = "UIOptions"

@@ -266,12 +266,13 @@ namespace MonoDevelop.Services
 				openCombine.FileChangedInProject += new ProjectFileEventHandler (NotifyFileChangedInProject);
 				openCombine.ReferenceAddedToProject += new ProjectReferenceEventHandler (NotifyReferenceAddedToProject);
 				openCombine.ReferenceRemovedFromProject += new ProjectReferenceEventHandler (NotifyReferenceRemovedFromProject);
-		
+				
 				SearchForNewFiles ();
 		
 				OnCombineOpened(new CombineEventArgs(openCombine));
+
+				Runtime.DispatchService.GuiDispatch (new StatefulMessageHandler (RestoreCombinePreferences), CurrentOpenCombine);
 				
-				RestoreCombinePreferences (CurrentOpenCombine);
 				SaveCombine ();
 				monitor.ReportSuccess (GettextCatalog.GetString ("Combine loaded."));
 			} catch (Exception ex) {
@@ -672,8 +673,9 @@ namespace MonoDevelop.Services
 			return tmp;
 		}
 		
-		void RestoreCombinePreferences (Combine combine)
+		void RestoreCombinePreferences (object data)
 		{
+			Combine combine = (Combine) data;
 			string combinefilename = combine.FileName;
 			string directory = Runtime.Properties.ConfigDirectory + "CombinePreferences";
 
@@ -704,7 +706,7 @@ namespace MonoDevelop.Services
 				if (root["Views"] != null) {
 					foreach (XmlElement el in root["Views"].ChildNodes) {
 						foreach (IPadContent view in WorkbenchSingleton.Workbench.PadContentCollection) {
-							if (el.Attributes["class"].InnerText == view.GetType().ToString() && view is IMementoCapable && el.ChildNodes.Count > 0) {
+							if (el.GetAttribute ("Id") == view.Id && view is IMementoCapable && el.ChildNodes.Count > 0) {
 								IMementoCapable m = (IMementoCapable)view; 
 								m.SetMemento((IXmlConvertable)m.CreateMemento().FromXmlElement((XmlElement)el.ChildNodes[0]));
 							}
@@ -763,13 +765,8 @@ namespace MonoDevelop.Services
 			foreach (IPadContent view in WorkbenchSingleton.Workbench.PadContentCollection) {
 				if (view is IMementoCapable) {
 					XmlElement el = doc.CreateElement("ViewMemento");
-					
-					XmlAttribute attr = doc.CreateAttribute("class");
-					attr.InnerText = view.GetType().ToString();
-					el.Attributes.Append(attr);
-					
+					el.SetAttribute ("Id", view.Id);
 					el.AppendChild(((IMementoCapable)view).CreateMemento().ToXmlElement(doc));
-					
 					viewsnode.AppendChild(el);
 				}
 			}
