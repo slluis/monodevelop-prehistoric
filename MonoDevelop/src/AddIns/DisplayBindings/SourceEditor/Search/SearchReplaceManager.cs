@@ -179,9 +179,8 @@ namespace ICSharpCode.TextEditor.Document
 				}
 				int startPos = Math.Min(textArea.Buffer.Text.Length, Math.Max(0, result.Offset));
 				int endPos   = Math.Min(textArea.Buffer.Text.Length, startPos + result.Length);
-				
-														textArea.Buffer.MoveMark ("insert", textArea.Buffer.GetIterAtOffset (startPos));
-				textArea.Buffer.MoveMark ("selection_bound", textArea.Buffer.GetIterAtOffset (endPos));
+														textArea.Buffer.MoveMark ("insert", textArea.Buffer.GetIterAtOffset (endPos));
+				textArea.Buffer.MoveMark ("selection_bound", textArea.Buffer.GetIterAtOffset (startPos));
 			}
 			
 			lastResult = result;
