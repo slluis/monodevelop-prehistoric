@@ -284,7 +284,7 @@ namespace CSharpBinding
 			CSharpProject p = (CSharpProject)project;
 			CSharpCompilerParameters compilerparameters = (CSharpCompilerParameters)p.ActiveConfiguration;
 			
-			string outputName = compilerparameters.OutputAssembly + (compilerparameters.CompileTarget == CompileTarget.Library ? ".dll" : ".exe");
+			string outputName = "\"" + compilerparameters.OutputAssembly + (compilerparameters.CompileTarget == CompileTarget.Library ? ".dll" : ".exe") + "\"";
 
 			string target = "";
 
@@ -420,7 +420,7 @@ namespace CSharpBinding
 			if (assembly_references.Count > 0) {
 				stream.WriteLine ("ASSEMBLY_REFERENCES = \\");
 				for (int i = 0; i < assembly_references.Count; i++) {
-					stream.Write (assembly_references[i]);
+					stream.Write ("\"" + assembly_references[i] + "\"");
 					if (i != assembly_references.Count - 1)
 						stream.WriteLine (" \\");
 					else
@@ -435,7 +435,7 @@ namespace CSharpBinding
 			if (project_references.Count > 0) {
 				stream.WriteLine ("PROJECT_REFERENCES = \\");
 				for (int i = 0; i < project_references.Count; i++) {
-					stream.Write (project_references[i]);
+					stream.Write ("\"" + project_references[i] + "\"");
 					if (i != project_references.Count - 1)
 						stream.WriteLine (" \\");
 					else
