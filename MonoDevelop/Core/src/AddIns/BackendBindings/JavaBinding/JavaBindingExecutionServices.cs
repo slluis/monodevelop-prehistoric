@@ -14,102 +14,47 @@ using MonoDevelop.Internal.Project;
 using MonoDevelop.Gui;
 using MonoDevelop.Gui.Pads;
 using MonoDevelop.Core.Services;
+using MonoDevelop.Services;
 
 namespace JavaBinding
 {
-	/// <summary>
-	/// This class controls the compilation of C Sharp files and C Sharp projects
-	/// </summary>
 	public class JavaBindingExecutionServices
 	{	
-		
-		public void Execute(string filename)
+		public void Execute (string filename)
 		{
-			string exe = Path.GetFileNameWithoutExtension(filename);
-			ProcessStartInfo psi = new ProcessStartInfo(Environment.GetEnvironmentVariable("ComSpec"), "/c java\"" + " & pause");
-			psi.WorkingDirectory = Path.GetDirectoryName(filename);
-			psi.UseShellExecute = false;
-			try {
-				Process p = new Process();
-				p.StartInfo = psi;
-				p.Start();
-			} catch (Exception) {
-				throw new ApplicationException("Can not execute " + "\"" + exe + "\"\n(Try restarting MonoDevelop or manual start)");
-			}
+			throw new ApplicationException ("Cannot execute a file.");
 		}
 		
-		public void Execute(IProject project)
+		public void Execute (IProject project)
 		{
-			JavaCompilerParameters parameters = (JavaCompilerParameters)project.ActiveConfiguration;
-			FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.GetService(typeof(FileUtilityService));
-			string directory = fileUtilityService.GetDirectoryNameWithSeparator(((JavaCompilerParameters)project.ActiveConfiguration).OutputDirectory);
-			string mainClass = ((JavaCompilerParameters) project.ActiveConfiguration).MainClass;
-			
-			string CurrentDir = Directory.GetCurrentDirectory();
-			Directory.SetCurrentDirectory (parameters.OutputDirectory);
-		
-			string javaExec;
-			switch (parameters.Runtime) {
-				case JavaRuntime.Ikvm:
-					javaExec = "-e \"ikvm -classpath " + parameters.ClassPath + " " + mainClass + ";read -p 'press any key to continue...' -n1\"";
-				break;
-				// FIXME: need to both compile with ikvmc
-				// and then run with mono
-				case JavaRuntime.Mono:
-					javaExec = "-e \"ikvm -classpath " + parameters.ClassPath + " " + mainClass + ";read -p 'press any key to continue...' -n1\"";
-					break;
-				case JavaRuntime.Java:
-					javaExec = "-e \"java -classpath " + parameters.ClassPath + " " + mainClass + ";read -p 'press any key to continue...' -n1\"";
-					break;
-				case JavaRuntime.Gij:
-					javaExec = "-e \"gij -classpath " + parameters.ClassPath + " " + mainClass + ";read -p 'press any key to continue...' -n1\"";
-					break;
-				default:
-					javaExec = "-e \"ikvm -classpath " + parameters.ClassPath + " " + mainClass + ";read -p 'press any key to continue...' -n1\"";
-					break;
+			JavaCompilerParameters parameters = (JavaCompilerParameters) project.ActiveConfiguration;
+			string exe = ((JavaCompilerParameters) project.ActiveConfiguration).OutputAssembly;
+			exe = Path.ChangeExtension (exe, ".exe");
+			exe = Path.Combine (parameters.OutputDirectory, exe);
+	
+			if (!File.Exists (exe))
+			{
+				IMessageService messageService = (IMessageService) ServiceManager.GetService (typeof (IMessageService));
+				messageService.ShowError (String.Format (GettextCatalog.GetString ("Error running {0}"), exe));
+				return;
 			}
+			
+			string javaExec = String.Format ("-e \"mono {0}; echo; read -p 'press any key to continue...' -n1\"", exe);
+			ProcessStartInfo psi = new ProcessStartInfo ("xterm", javaExec);
 
-			ProcessStartInfo psi = new ProcessStartInfo("xterm", javaExec);
-
-            try {
-                psi.WorkingDirectory = Path.GetDirectoryName (directory);
+            try
+            {
                 psi.UseShellExecute = false;
 
                 Process p = new Process ();
                 p.StartInfo = psi;
                 p.Start ();
-            } catch (Exception) {
-                throw new ApplicationException ("Can not execute " + "\"" + directory + mainClass + "\"\n(Try restarting MonoDevelop or start your app manually)");
+                p.WaitForExit ();
             }
-
-/*
-			//FIXME: find out how to set the working dir better
-			TerminalPad outputPad = (TerminalPad) WorkbenchSingleton.Workbench.GetPad (typeof (TerminalPad));
-			outputPad.RunCommand ("cd " + parameters.OutputDirectory);
-
-			string runtime = "ikvm"; // make it project.RuntimeOptions or so
-			switch (runtime) {
-				// is this even supposed to work with CLI binaries?
-				//case "java": // use an installed jre
-				//	outputPad.RunCommand ("java -classpath " + parameters.ClassPath + " "  + ((JavaCompilerParameters) project.ActiveConfiguration).MainClass);
-				//	break;
-				case "ikvm": // JIT to Java then JIT to mono
-					outputPad.RunCommand ("ikvm -classpath " + parameters.ClassPath + " "  + ((JavaCompilerParameters) project.ActiveConfiguration).MainClass);
-					break;
-				default: // run compiled to exe with mono
-					string command = "ikvmc -reference:/usr/lib/classpath.dll " + ((JavaCompilerParameters) project.ActiveConfiguration).MainClass + ".class ";
-					string[] allJars = parameters.ClassPath.Split (':');
-					foreach (string jar in allJars)
-					{
-						if (jar != ".")
-							command += jar + " ";
-					}
-					outputPad.RunCommand (command);
-					outputPad.RunCommand ("mono " + ((JavaCompilerParameters) project.ActiveConfiguration).MainClass + ".exe");
-					break;
-			}
-			outputPad.RunCommand ("cd -");
-*/				
+            catch
+            {
+                throw new ApplicationException (String.Format ("Cannot execute: {0}", exe));
+            }
 		}
 	}
 }

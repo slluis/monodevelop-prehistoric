@@ -15,7 +15,6 @@ FILES = ./Gui/ProjectConfigurationPropertyPanel.cs \
 ./JavaBindingCompilerServices.cs \
 ./JavaCompiler.cs \
 ./JavaLanguageBinding.cs \
-./JavaRuntime.cs \
 ./FormatingStrategy/JavaFormattingStrategy.cs \
 ./JavaBindingExecutionServices.cs \
 ./ProjectTreeBuilder/JavaNodeBuilder.cs

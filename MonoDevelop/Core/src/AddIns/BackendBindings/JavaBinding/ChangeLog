@@ -1,3 +1,14 @@
+2004-07-05  John Luke  <jluke@cfl.rr.com>
+
+	* *.cs: cleanup everything
+	remove single file compile/run
+	remove runtime choices and use ikvmc to produce assemblies
+
+	need to check errors on ikvmc part, I wish there was a better
+	way than screen-scraping to do this.
+
+	convert line endings to unix, not sure why they were dos style
+
 2004-06-08  John Luke  <jluke@cfl.rr.com>
 
 	* JavaBindingCompilerService.cs: rework so Process.Start works

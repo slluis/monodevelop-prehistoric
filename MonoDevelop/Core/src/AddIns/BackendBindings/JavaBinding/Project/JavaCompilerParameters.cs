@@ -22,31 +22,27 @@ namespace JavaBinding
 		class CodeGeneration 
 		{
 			[XmlAttribute("includedebuginformation")]
-			public bool debugmode          = true;
+			public bool debugmode = true;
 			
 			[XmlAttribute("deprecation")]
-			public bool deprecation        = true;
+			public bool deprecation = true;
 			
 			[XmlAttribute("optimize")]
-			public bool optimize           = true;
+			public bool optimize = true;
 			
 			[XmlAttribute("mainclass")]
-			public string         mainclass     = null;
+			public string  mainclass = null;
 			
 			[XmlAttribute("definesymbols")]
-			public string         definesymbols = String.Empty;
+			public string definesymbols = String.Empty;
 			
 			[XmlAttribute("classpath")]
-			public string         classpath = String.Empty;
+			public string classpath = String.Empty;
 			
 			[XmlAttribute ("compiler")]
-			public JavaCompiler compiler  = JavaCompiler.Gcj;		
-
-			[XmlAttribute ("runtime")]
-			public JavaRuntime runtime = JavaRuntime.Ikvm;		
-
+			public JavaCompiler compiler = JavaCompiler.Gcj;		
 			[XmlAttribute("compilerpath")]
-			public string compilerpath  = "gcj";		
+			public string compilerpath = "gcj";		
 			
 			[XmlAttribute("genwarnings")]
 			public bool genwarnings = false;
@@ -56,12 +52,12 @@ namespace JavaBinding
 		class Execution
 		{
 			[XmlAttribute("consolepause")]
-			public bool    pauseconsoleoutput = true;
+			public bool pauseconsoleoutput = true;
 		}
 		
-		CodeGeneration codeGeneration = new CodeGeneration();
+		CodeGeneration codeGeneration = new CodeGeneration ();
 		
-		Execution      execution      = new Execution();
+		Execution execution = new Execution ();
 
 		public bool GenWarnings {
 			get {
@@ -78,15 +74,6 @@ namespace JavaBinding
 			}
 			set {
 				codeGeneration.classpath = value;
-			}
-		}
-
-		public JavaRuntime Runtime {
-			get {
-				return codeGeneration.runtime;
-			}
-			set {
-				codeGeneration.runtime = value;
 			}
 		}
 
@@ -156,6 +143,7 @@ namespace JavaBinding
 		public JavaCompilerParameters()
 		{
 		}
+
 		public JavaCompilerParameters(string name)
 		{
 			this.name = name;

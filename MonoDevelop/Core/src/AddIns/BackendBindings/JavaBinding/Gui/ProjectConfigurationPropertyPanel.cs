@@ -40,12 +40,6 @@ namespace JavaBinding
 		private RadioButton javac = new RadioButton ("javac");
 		private RadioButton gcj;
 
-		// runtime chooser
-		private RadioButton ikvm = new RadioButton ("ikvm");
-		private RadioButton mono;
-		private RadioButton java;
-		private RadioButton gij;
-
 		private Entry outputAssembly = new Entry ();
 		private Entry outputDirectory = new Entry ();
 		private Entry compilerPath = new Entry ();
@@ -64,15 +58,6 @@ namespace JavaBinding
 					compilerParameters.Compiler = JavaCompiler.Javac;
 				else
 					compilerParameters.Compiler = JavaCompiler.Gcj;
-
-				if (ikvm.Active)
-					compilerParameters.Runtime = JavaRuntime.Ikvm;
-				else if (mono.Active)
-					compilerParameters.Runtime = JavaRuntime.Mono;
-				else if (gij.Active)
-					compilerParameters.Runtime = JavaRuntime.Gij;
-				else
-					compilerParameters.Runtime = JavaRuntime.Java;
 
 				compilerParameters.GenWarnings = checkWarnings.Active;			
 				compilerParameters.Deprecation = checkDeprecation.Active;			
@@ -96,24 +81,6 @@ namespace JavaBinding
 				javac.Active = true;
 			else
 				gcj.Active = true;
-
-			switch (compilerParameters.Runtime) {
-				case JavaRuntime.Ikvm:
-					ikvm.Active = true;
-					break;
-				case JavaRuntime.Mono:
-					mono.Active = true;
-					break;
-				case JavaRuntime.Java:
-					java.Active = true;
-					break;
-				case JavaRuntime.Gij:
-					gij.Active = true;
-					break;
-				default:
-					ikvm.Active = true;
-					break;
-			}
 
 			checkOptimize.Active = compilerParameters.Optimize;
 			checkDebug.Active = compilerParameters.Debugmode;
@@ -157,12 +124,6 @@ namespace JavaBinding
 			HBox hboxRuntime = new HBox ();
 			hboxRuntime.PackStart (runtimeLabel, false, false, 0);
 			vbox.PackStart (hboxRuntime);
-			HBox runtimes = new HBox ();
-			runtimes.PackStart (ikvm);
-			//runtimes.PackStart (mono);
-			runtimes.PackStart (java);
-			runtimes.PackStart (gij);
-			vbox.PackStart (runtimes);
 			HBox hboxClasspath = new HBox ();
 			hboxClasspath.PackStart (labelClasspath, false, false, 0);
 			vbox.PackStart (hboxClasspath);
@@ -200,14 +161,6 @@ namespace JavaBinding
 			gcj = new RadioButton (javac, "gcj");
 			gcj.Toggled += OnCompilerToggled;
 			javac.Toggled += OnCompilerToggled;
-
-			mono = new RadioButton (ikvm, "mono");
-			mono.Sensitive = false;
-			java = new RadioButton (ikvm, "java");
-			//java.Sensitive = false;
-			gij = new RadioButton (ikvm, "gij");
-
-			runtimeLabel.Markup = String.Format ("<b>{0}</b>", GettextCatalog.GetString ("Runtime"));
 
 			this.browseButton = new Button ("_Browse");
 			this.browseButton.Clicked += new EventHandler (SelectFolder);
