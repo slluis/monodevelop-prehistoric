@@ -17,14 +17,11 @@ using System.Xml;
 using System.Resources;
 
 using MonoDevelop.Core.Properties;
-
 using MonoDevelop.Core.AddIns;
 using MonoDevelop.Core.AddIns.Codons;
 using MonoDevelop.Core.Services;
-
 using MonoDevelop.Internal.Project;
 using MonoDevelop.Gui.Dialogs;
-
 using MonoDevelop.Services;
 using MonoDevelop.Gui.Widgets;
 
@@ -134,6 +131,9 @@ namespace MonoDevelop.Gui.Pads.ProjectBrowser
 			// .NET bugfix : have to expand the node to ensure the refresh
 			// (Refresh won't work) tested 08/16/2002 Mike
 			treeNode.Expand();
+
+			// TODO: maybe exand all should be true
+			this.ExpandRow (new Gtk.TreePath ("0"), false);
 		}
 		
 		void OpenCombine(object sender, CombineEventArgs e)

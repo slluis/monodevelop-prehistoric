@@ -6,6 +6,10 @@
 	* Gui/Pads/ProjectBrowser/BrowserNode/FileNode.cs:
 	workaround/fix for #55185, a confusing message when
 	removing a file from a project, need to revisit it later
+	* Gui/Pads/HelpBrowser/MonodocTreePad.cs:
+	expand the first row by default
+	* Gui/Pads/ProjectBrowser/ProjectBrowserView.cs:
+	expand the first row by default
 
 2004-03-25  Todd Berman  <tberman@sevenl.net>
 
