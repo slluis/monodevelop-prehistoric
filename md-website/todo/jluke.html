@@ -1,0 +1,177 @@
+<html>
+  <head>
+    <title>John's MonoDevelop Todo List</title>
+    <style type="text/css">
+      h1 {
+      color: #efefef;
+      font-size: 14pt;
+      font-family: "Trebuchet MS";
+      
+      border: 0;
+      
+      margin: 0;
+      
+      padding: 1em;
+      
+      background: #666666;
+      }
+      
+      h2, h4, h5, h6 {
+      font-family: Verdana,sans-serif;
+      font-weight: bold;
+      }
+      
+      h3, h4, h5, h5 {
+      margin-left: 1em;
+      }
+      
+      h2, h3 {
+      font-size: 18px;
+      }
+      
+      h2 {
+      padding: 3px;
+      color: #000000;
+      }
+      
+      h3 {
+      font-size: 13px;
+      border-bottom: 2px solid #dddddd;
+      }
+      
+      body, table {
+      background-color: #ffffff;
+      font-family: Verdana, sans-serif; font-size: 12px;
+      color: black;
+      margin: 0;
+      padding: 0;
+      border: 0;
+      margin-left: 20%;
+      margin-right: 20%;
+      }
+      
+      p,lu,li {
+      margin-left: 2em;
+      margin-right: 2em;
+      }
+      
+      img {
+      border: 0;
+      vertical-align: top;
+      }
+      
+      .code-xml, .code-csharp
+      {
+      margin:15px;
+      padding:15px;
+      font-size: small;
+      font-family: "Courier New", Courier;
+      background:whitesmoke;
+      border: solid 1px silver;
+      line-height:110%;
+      }
+      
+      .shell {
+      border-style: solid;
+      background: #000000;
+      color: #bbbbbb;
+      #777777; border-width:
+      1px; padding: 2pt; 
+      margin-left: 4em;
+      margin-right: 4em;
+      }
+      
+    </style>
+    <script src="http://www.monodevelop.com/release_notes/prettyprint.js" type="text/javascript">
+    </script>
+  </head>
+  <body onload="paintColors();">
+    
+    <h1>John's MonoDevelop Todo List</h1>
+
+    <p>Here is a list of stuff that is on my todo list for MD. Some of these
+      are huge, others are smaller. All of them need to get done and I will 
+      be implementing them over time. They are not listed in any
+      particular order at all. And if anyone starts to implement one and
+      wants my help, or just wants to do it on their own, and submits
+      patch(es) for them I won't be offended. I promise. If you have
+      any questions regarding this list, email either the
+      <a href="mailto:monodevelop-list@lists.ximian.com">list</a> or
+      <a href="mailto:john.luke@gmail.com">me directly</a>.</p>
+
+    <h2>Build system</h2>
+    <p>Status: planning</p>
+    <p>Currently MonoDevelop projects can be built from within the IDE,
+    and there is preliminary support for generating Makefiles.  If Makefile
+    generation is permanently decided upon there are many things to fix
+    about it.</p>
+    <p>I have prototyped a small managed build tool that can build MonoDevelop
+    projects from the command-line.  I believe this to be a better approach
+    then Makefile generation, for three reasons:
+    <ul>
+      <li>does not require distribution of generated Makefiles</li>
+      <li>will work on win32</li>
+      <li>does not duplicate information</li>
+    </ul>
+    </p>
+    <p>The last issue is to go through and verify the project format
+    satisfies our needs for the long term.  My current opinion is that
+    it does, with two exceptions:
+    <ul>
+     <li>Alternative resource names</li>
+     <li>Dependency information</li>
+    </ul>
+    </p>
+
+    <h2>Terminal</h2>
+    <p>Status: mostly done and in svn (Dock interaction bug)</p>
+    <p>Our current method of running projects via xterm is troublesome
+    at best.  Using VTE will improve that, and also allow people to perform
+    simple commands from within the IDE itself.  There is currently a 
+    weird bug when VTE is combined with the gdldock, hopefully it
+    will be easier to debug  when the managed dock is completed.</p>
+
+    <h2>NUnit integration</h2>
+    <p>Status: very early and in svn (but abandoned by me)</p>
+    <p>Port either gnunit (nunit-gtk in mono cvs) or SharpDevelop's
+    NUnit addin.  I started on this, but lost interest because I never
+    really use NUnit myself.  This would be a great thing for someone
+    to start out with, and will be helpful to many people.</p>
+
+    <h2>Graph of Project classes</h2>
+    <p>It should be possible to generate a simple hierarchal image
+    based on the ClassBrowser, and display that in a View.  Requires
+    finding a suitable tool to output a png or svg image.  At first,
+    it can just be static, but eventually it should update as your
+    code changes.</p>
+
+    <h2>Assembly Analayzer</h2>
+    <p>Status: partially ported and in svn</p>
+    <p>Port this from SharpDevelop.  It is basically a automatic code
+    analyzer, that detects many types of different rules for your
+    assemblies.</p>
+
+    <h2>Start page</h2>
+    <p>Status: not started</p>
+    <p>
+    We should probably have a nice looking, simple start page.  I do not
+    like the current one (that is disabled and half-unported).  I would
+    recommend starting from scratch.  On the other hand, I don't really
+    miss it either.
+    </p>
+
+    <h2>Howtos</h2>
+    <p>Status: not started</p>
+    <p>
+    We need several user level, developer level, translator level, and UI
+    level howtos. These could be both for the website and included in a
+    "How to" submenu under Help.
+    </p>
+
+    <h2>Profiling</h2>
+    <p>Status: not started</p>
+    <p>AddIns for profiling would be wonderful.
+    </p>
+
+  </body>
+</html>
