@@ -14,14 +14,11 @@ using System.Collections.Specialized;
 using System.Xml;
 
 using ICSharpCode.Core.Properties;
-using ICSharpCode.SharpDevelop.Internal.Templates;
-using ICSharpCode.TextEditor.Document;
-using ICSharpCode.TextEditor;
 using ICSharpCode.Core.Services;
+using ICSharpCode.SharpDevelop.Gui;
+using ICSharpCode.SharpDevelop.Internal.Templates;
 using ICSharpCode.SharpDevelop.Services;
 using SharpDevelop.Internal.Parser;
-using ICSharpCode.TextEditor.Gui.CompletionWindow;
-using ICSharpCode.SharpDevelop.Gui;
 
 using MonoDevelop.SourceEditor.Gui;
 

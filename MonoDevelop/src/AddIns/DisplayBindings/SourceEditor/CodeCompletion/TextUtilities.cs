@@ -8,9 +8,6 @@
 using System;
 using System.Text;
 using System.Diagnostics;
-
-using ICSharpCode.TextEditor.Undo;
-
 using MonoDevelop.SourceEditor.Gui;
 
 namespace MonoDevelop.SourceEditor.CodeCompletion

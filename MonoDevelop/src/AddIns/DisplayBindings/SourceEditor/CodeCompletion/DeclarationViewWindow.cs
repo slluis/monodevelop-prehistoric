@@ -10,10 +10,6 @@ using System.Drawing;
 using System.Reflection;
 using System.Collections;
 
-using ICSharpCode.TextEditor.Document;
-using ICSharpCode.TextEditor.Util;
-using ICSharpCode.TextEditor;
-
 using Gtk;
 using GtkSharp;
 

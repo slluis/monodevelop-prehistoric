@@ -11,25 +11,19 @@ using System.Reflection;
 using System.Collections;
 
 using ICSharpCode.Core.Properties;
-using ICSharpCode.SharpDevelop.Internal.Templates;
-using ICSharpCode.TextEditor.Document;
-using ICSharpCode.TextEditor;
 using ICSharpCode.Core.Services;
+using ICSharpCode.SharpDevelop.Gui;
+using ICSharpCode.SharpDevelop.Internal.Templates;
 using ICSharpCode.SharpDevelop.Services;
 
 using SharpDevelop.Internal.Parser;
-using ICSharpCode.TextEditor.Gui.CompletionWindow;
-using ICSharpCode.SharpDevelop.Gui;
-
 using MonoDevelop.SourceEditor.Gui;
 
-namespace MonoDevelop.SourceEditor.CodeCompletion
-{
+namespace MonoDevelop.SourceEditor.CodeCompletion {
 	/// <summary>
 	/// Data provider for code completion.
 	/// </summary>
-	public class CommentCompletionDataProvider : ICompletionDataProvider
-	{
+	public class CommentCompletionDataProvider : ICompletionDataProvider {
 		static ClassBrowserIconsService classBrowserIconService = (ClassBrowserIconsService)ServiceManager.Services.GetService(typeof(ClassBrowserIconsService));
 		static IParserService           parserService           = (IParserService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(IParserService));
 		

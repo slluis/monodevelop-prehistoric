@@ -10,8 +10,6 @@ using System.Drawing;
 using System.Reflection;
 using System.Collections;
 
-using ICSharpCode.TextEditor;
-
 using Gtk;
 using GtkSharp;
 

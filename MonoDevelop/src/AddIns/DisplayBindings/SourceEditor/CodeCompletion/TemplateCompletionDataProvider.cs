@@ -12,16 +12,11 @@ using System.Collections;
 
 using ICSharpCode.Core.Properties;
 using ICSharpCode.SharpDevelop.Internal.Templates;
-using ICSharpCode.TextEditor.Document;
-using ICSharpCode.TextEditor;
-using ICSharpCode.TextEditor.Gui.CompletionWindow;
 
 using MonoDevelop.SourceEditor.Gui;
 
-namespace MonoDevelop.SourceEditor.CodeCompletion
-{
-	public class TemplateCompletionDataProvider : ICompletionDataProvider
-	{
+namespace MonoDevelop.SourceEditor.CodeCompletion {
+	public class TemplateCompletionDataProvider : ICompletionDataProvider {
 		public Gdk.Pixbuf[] ImageList {
 			get {
 				return null;
