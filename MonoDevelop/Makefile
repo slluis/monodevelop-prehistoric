@@ -75,6 +75,9 @@ MonoDevelop.EditorBindings :
 clean:
 	find ./build/ -name '*.dll' | xargs rm -f
 	find ./build/ -name '*.exe' | xargs rm -f
+	find . -name '*.so' | xargs rm -f
+	find . -name '*.o' | xargs rm -f
+	find . -name 'generated-stamp' | xargs rm -f
 
 # Should change when IDE starts working
 run: runmd
