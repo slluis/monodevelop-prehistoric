@@ -9,7 +9,7 @@ build_sources = $(addprefix $(srcdir)/, $(FILES))
 
 all: $(ASSEMBLY)
 
-REFS = /r:../../../build/bin/MonoDevelop.Base.dll
+REFS = /r:../../../build/bin/MonoDevelop.Base.dll /r:../../../build/bin/MonoDevelop.Core.dll
 	
 $(ASSEMBLY): $(build_sources)
 	$(CSC) $(build_sources) $(REFS) /out:$(ASSEMBLY)
