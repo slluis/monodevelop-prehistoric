@@ -5,6 +5,8 @@ using System.CodeDom.Compiler;
 
 using MonoDevelop.Core.Services;
 using MonoDevelop.Internal.Project;
+using MonoDevelop.Gui.Components;
+using MonoDevelop.Services;
 
 namespace NemerleBinding
 {
@@ -105,7 +107,16 @@ namespace NemerleBinding
 			Process p = new Process();
 			p.StartInfo = si;
 			p.Start();
-			p.WaitForExit();
+
+			IStatusBarService sbs = (IStatusBarService)ServiceManager.Services.GetService (typeof (IStatusBarService));
+			sbs.SetMessage ("Compiling..."); 
+			while (!p.HasExited) {
+				((SdStatusBar)sbs.ProgressMonitor).Pulse();
+				while (Gtk.Application.EventsPending ())
+					Gtk.Application.RunIteration ();
+				System.Threading.Thread.Sleep (100);
+			}
+			((SdStatusBar)sbs.ProgressMonitor).Done();
 		}
 		
 		ICompilerResult ParseOutput(TempFileCollection tf, string file)
