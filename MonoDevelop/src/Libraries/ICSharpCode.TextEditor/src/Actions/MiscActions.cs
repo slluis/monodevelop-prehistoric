@@ -17,14 +17,7 @@ namespace ICSharpCode.TextEditor.Actions
 	{
 		public static string GetIndentationString(IDocument document)
 		{
-			StringBuilder indent = new StringBuilder();
-			
-			if (document.TextEditorProperties.ConvertTabsToSpaces) {
-				indent.Append(new String(' ', document.TextEditorProperties.TabIndent));
-			} else {
-				indent.Append('\t');
-			}
-			return indent.ToString();
+			return document.IndentString;
 		}
 		
 		void InsertTabs(IDocument document, ISelection selection, int y1, int y2)

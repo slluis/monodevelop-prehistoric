@@ -17,6 +17,8 @@ using ICSharpCode.Core.Properties;
 using ICSharpCode.Core.Services;
 using ICSharpCode.SharpDevelop.Services;
 
+using MonoDevelop.EditorBindings.FormattingStrategy;
+
 namespace CSharpBinding.FormattingStrategy {
 	/// <summary>
 	/// This class handles the auto and smart indenting in the textbuffer while
@@ -27,59 +29,56 @@ namespace CSharpBinding.FormattingStrategy {
 		/// <summary>
 		/// Define CSharp specific smart indenting for a line :)
 		/// </summary>
-		protected override int SmartIndentLine (IDocument d, int lineNr)
+		protected override int SmartIndentLine (IFormattableDocument d, int lineNr)
 		{
 			if (lineNr > 0) {
-				LineSegment lineAbove = d.GetLineSegment (lineNr - 1);
-				string  lineAboveText = d.GetText (lineAbove.Offset, lineAbove.Length).Trim ();
-				
-				LineSegment curLine = d.GetLineSegment (lineNr);
-				string  curLineText = d.GetText (curLine.Offset, curLine.Length).Trim ();
+				string  lineAboveText = d.GetLineAsString (lineNr - 1).Trim ();
+				string  curLineText = d.GetLineAsString (lineNr).Trim ();
 				
 				if ((lineAboveText.EndsWith (")") && curLineText.StartsWith ("{")) ||       // after for, while, etc.
 				    (lineAboveText.EndsWith ("else") && curLineText.StartsWith ("{")))      // after else
 				{
 					string indentation = GetIndentation (d, lineNr - 1);
-					d.Replace (curLine.Offset, curLine.Length, indentation + curLineText);
+					d.ReplaceLine (lineNr, indentation + curLineText);
 					return indentation.Length;
 				}
 				
 				// indent closing bracket.
 				if (curLineText.StartsWith ("}")) {
-					int closingBracketOffset = TextUtilities.SearchBracketBackward (d, curLine.Offset + d.GetText (curLine.Offset, curLine.Length).IndexOf ('}') - 1, '{', '}');
+					int openLine;
+					int closingBracketOffset = d.GetClosingBraceForLine (lineNr, out openLine);
 					
 					// no closing bracket found -> autoindent
 					if (closingBracketOffset == -1)
 						return AutoIndentLine (d, lineNr);
 					
-					string indentation = GetIndentation (d, d.GetLineNumberForOffset (closingBracketOffset));
+					string indentation = GetIndentation (d, openLine);
 					
-					d.Replace (curLine.Offset, curLine.Length, indentation + curLineText);
+					d.ReplaceLine (lineNr, indentation + curLineText);
 					return indentation.Length;
 				}
 				
 				// expression ended, reset to valid indent.
 				if (lineAboveText.EndsWith (";")) {
-					int closingBracketOffset = TextUtilities.SearchBracketBackward (d, curLine.Offset + d.GetText (curLine.Offset, curLine.Length).IndexOf ('}') - 1, '{', '}');
+					int openLine;
+					int closingBracketOffset = d.GetClosingBraceForLine (lineNr, out openLine);
 					
 					// no closing bracket found -> autoindent
 					if (closingBracketOffset == -1)
 						return AutoIndentLine (d, lineNr);
 					
-					int closingBracketLineNr = d.GetLineNumberForOffset (closingBracketOffset);
-					LineSegment closingBracketLine = d.GetLineSegment (closingBracketLineNr);
-					string  closingBracketLineText = d.GetText (closingBracketLine.Offset, closingBracketLine.Length).Trim ();
+					string closingBracketLineText = d.GetLineAsString (openLine).Trim ();
 					
-					string indentation = GetIndentation (d, closingBracketLineNr);
+					string indentation = GetIndentation (d, openLine);
 					
 					// special handling for switch statement formatting.
 					if (closingBracketLineText.StartsWith ("switch")) {
 						if (! (lineAboveText.StartsWith ("break;") || lineAboveText.StartsWith ("goto") || lineAboveText.StartsWith ("return")))
-							indentation += ICSharpCode.TextEditor.Actions.Tab.GetIndentationString (d);
+							indentation += d.IndentString;
 					}
-					indentation += ICSharpCode.TextEditor.Actions.Tab.GetIndentationString (d);
+					indentation += d.IndentString;
 					
-					d.Replace (curLine.Offset, curLine.Length, indentation + curLineText);
+					d.ReplaceLine (lineNr, indentation + curLineText);
 					return indentation.Length;
 				}
 				
@@ -90,8 +89,8 @@ namespace CSharpBinding.FormattingStrategy {
 				     lineAboveText.StartsWith ("while") ||
 				     lineAboveText.StartsWith ("for"))) ||
 				     lineAboveText.EndsWith ("else")) {
-						string indentation = GetIndentation (d, lineNr - 1) + ICSharpCode.TextEditor.Actions.Tab.GetIndentationString (d);
-						d.Replace (curLine.Offset, curLine.Length, indentation + curLineText);
+						string indentation = GetIndentation (d, lineNr - 1) + d.IndentString;
+						d.ReplaceLine (lineNr, indentation + curLineText);
 						return indentation.Length;
 				} else {
 					// try to indent linewrap
@@ -113,7 +112,7 @@ namespace CSharpBinding.FormattingStrategy {
 						for (int i = 0; i <= bracketIndex; ++i)
 							indentation += " ";
 						
-						d.Replace (curLine.Offset, curLine.Length, indentation + curLineText);
+						d.ReplaceLine (lineNr, indentation + curLineText);
 						return indentation.Length;
 					}
 				}
@@ -178,12 +177,12 @@ namespace CSharpBinding.FormattingStrategy {
 			return curlyCounter > 0;
 		}
 		
-		bool IsInsideStringOrComment (IDocument d, LineSegment curLine, int cursorOffset)
+		bool IsInsideStringOrComment (IFormattableDocument d, int curLineOffset, int cursorOffset)
 		{
 			// scan cur line if it is inside a string or single line comment (//)
 			bool isInsideString  = false;
 			
-			for (int i = curLine.Offset; i < cursorOffset; ++i) {
+			for (int i = curLineOffset; i < cursorOffset; ++i) {
 				char ch = d.GetCharAt (i);
 				if (ch == '"')
 					isInsideString = !isInsideString;
@@ -195,12 +194,12 @@ namespace CSharpBinding.FormattingStrategy {
 			return isInsideString;
 		}
 
-		bool IsInsideDocumentationComment (IDocument d, LineSegment curLine, int cursorOffset)
+		bool IsInsideDocumentationComment (IFormattableDocument d, int curLineOffset, int cursorOffset)
 		{
 			// scan cur line if it is inside a string or single line comment (//)
 			bool isInsideString  = false;
 			
-			for (int i = curLine.Offset; i < cursorOffset; ++i) {
+			for (int i = curLineOffset; i < cursorOffset; ++i) {
 				char ch = d.GetCharAt (i);
 				if (ch == '"')
 					isInsideString = !isInsideString;
@@ -215,19 +214,19 @@ namespace CSharpBinding.FormattingStrategy {
 		}
 		
 		// used for comment tag formater/inserter
-		public override int FormatLine (IDocument d, int lineNr, int cursorOffset, char ch)
+		public override int FormatLine (IFormattableDocument d, int lineNr, int cursorOffset, char ch)
 		{
-			LineSegment curLine   = d.GetLineSegment (lineNr);
-			LineSegment lineAbove = lineNr > 0 ? d.GetLineSegment (lineNr - 1) : null;
+			int curLineOffset, curLineLength;
+			d.GetLineLengthInfo (lineNr, out curLineOffset, out curLineLength);
 			
-			if (ch != '\n' && ch != '>' && IsInsideStringOrComment (d, curLine, cursorOffset))
+			if (ch != '\n' && ch != '>' && IsInsideStringOrComment (d, curLineOffset, cursorOffset))
 				return 0;
 			
 			switch (ch) {
 				case '>':
-					if (IsInsideDocumentationComment (d, curLine, cursorOffset)) {
-						string curLineText  = d.GetText (curLine.Offset, curLine.Length);
-						int column = cursorOffset - curLine.Offset;
+					if (IsInsideDocumentationComment (d, curLineOffset, cursorOffset)) {
+						string curLineText  = d.GetLineAsString (lineNr);
+						int column = cursorOffset - curLineOffset;
 						int index = Math.Min (column - 1, curLineText.Length - 1);
 						if (curLineText [index] == '/')
 							break;
@@ -268,19 +267,18 @@ namespace CSharpBinding.FormattingStrategy {
 					if (lineNr <= 0)
 						return IndentLine (d, lineNr);
 					
-					if (d.TextEditorProperties.AutoInsertCurlyBracket) {
-						string oldLineText = TextUtilities.GetLineAsString (d, lineNr - 1);
+					if (d.AutoInsertCurlyBracket) {
+						string oldLineText = d.GetLineAsString (lineNr - 1);
 						if (oldLineText.EndsWith ("{") && NeedCurlyBracket (d.TextContent)) {
 							d.Insert (cursorOffset, "\n}");
 							IndentLine (d, lineNr + 1);
 						}
 					}
 					
-					string  lineAboveText = d.GetText (lineAbove.Offset, lineAbove.Length);
+					string  lineAboveText = d.GetLineAsString (lineNr - 1);
 					
-					LineSegment    nextLine      = lineNr + 1 < d.TotalNumberOfLines ? d.GetLineSegment (lineNr + 1) : null;
-					string  nextLineText  = lineNr + 1 < d.TotalNumberOfLines ? d.GetText (nextLine.Offset, nextLine.Length) : "";
-					
+
+#if NON_PORTABLE_CODE
 					if (lineAbove.HighlightSpanStack != null && lineAbove.HighlightSpanStack.Count > 0) {				
 						if (!((Span)lineAbove.HighlightSpanStack.Peek ()).StopEOL) {	// case for /* style comments
 							int index = lineAboveText.IndexOf ("/*");
@@ -304,6 +302,9 @@ namespace CSharpBinding.FormattingStrategy {
 								return indentation.Length + 2;
 							}
 						} else {
+							LineSegment nextLine = lineNr + 1 < d.TotalNumberOfLines ? d.GetLineSegment (lineNr + 1) : null;
+							string  nextLineText  = lineNr + 1 < d.TotalNumberOfLines ? d.GetText (nextLine.Offset, nextLine.Length) : "";
+							
 							// don't handle // lines, because they're only one lined comments
 							int indexAbove = lineAboveText.IndexOf ("///");
 							int indexNext  = nextLineText.IndexOf ("///");
@@ -318,6 +319,7 @@ namespace CSharpBinding.FormattingStrategy {
 							}
 						}
 					}
+#endif
 					return IndentLine (d, lineNr);
 			}
 			return 0;

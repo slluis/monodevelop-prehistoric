@@ -30,6 +30,8 @@ using ICSharpCode.TextEditor;
 using SharpDevelop.Internal.Parser;
 using ICSharpCode.SharpDevelop.Services;
 
+using MonoDevelop.EditorBindings.FormattingStrategy;
+
 namespace ICSharpCode.SharpDevelop.DefaultEditor.Commands
 {
 	public class GenerateCodeAction : AbstractMenuCommand

@@ -2,6 +2,8 @@ using System;
 using System.Drawing;
 using System.Text;
 
+using MonoDevelop.EditorBindings.FormattingStrategy;
+
 namespace ICSharpCode.TextEditor.Document
 {
 	public interface ITextEditorProperties

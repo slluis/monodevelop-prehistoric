@@ -9,6 +9,7 @@ using System.Collections;
 using System.Drawing;
 
 using ICSharpCode.TextEditor.Undo;
+using MonoDevelop.EditorBindings.FormattingStrategy;
 
 namespace ICSharpCode.TextEditor.Document
 {
@@ -16,7 +17,7 @@ namespace ICSharpCode.TextEditor.Document
 	/// This interface represents a container which holds a text sequence and
 	/// all necessary information about it. It is used as the base for a text editor.
 	/// </summary>
-	public interface IDocument
+	public interface IDocument : IFormattableDocument
 	{
 		ITextEditorProperties TextEditorProperties {
 			get;

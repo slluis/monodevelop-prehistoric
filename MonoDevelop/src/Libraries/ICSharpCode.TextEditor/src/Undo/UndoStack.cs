@@ -55,13 +55,16 @@ namespace ICSharpCode.TextEditor.Undo
 			}
 		}
 		
+		public int UndoCount { get { return undostack.Count; } }
+		
 		/// <summary>
 		/// You call this method to pool the last x operations from the undo stack
 		/// to make 1 operation from it.
 		/// </summary>
 		public void UndoLast(int x)
 		{
-			undostack.Push(new UndoQueue(this, x));
+			if (x > 0)
+				undostack.Push(new UndoQueue(this, x));
 		}
 		
 		/// <summary>

@@ -17,6 +17,8 @@ using ICSharpCode.TextEditor.Document;
 using ICSharpCode.TextEditor.Actions;
 using ICSharpCode.TextEditor;
 
+using MonoDevelop.EditorBindings.FormattingStrategy;
+
 namespace ICSharpCode.SharpDevelop.DefaultEditor
 {
 	/// <summary>
@@ -25,7 +27,7 @@ namespace ICSharpCode.SharpDevelop.DefaultEditor
 	/// </summary>
 	public class XmlFormattingStrategy : DefaultFormattingStrategy
 	{
-		public override int FormatLine(IDocument d, int lineNr, int caretOffset, char charTyped) // used for comment tag formater/inserter
+		public override int FormatLine(IFormattableDocument d, int lineNr, int caretOffset, char charTyped) // used for comment tag formater/inserter
 		{
 			try {
 				if (charTyped == '>') {

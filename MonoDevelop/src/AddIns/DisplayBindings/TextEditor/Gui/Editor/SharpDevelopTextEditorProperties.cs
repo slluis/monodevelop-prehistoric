@@ -11,6 +11,8 @@ using ICSharpCode.TextEditor.Document;
 
 using Pango;
 
+using MonoDevelop.EditorBindings.FormattingStrategy;
+
 namespace ICSharpCode.SharpDevelop.DefaultEditor.Gui.Editor
 {
 	public class SharpDevelopTextEditorProperties : ITextEditorProperties

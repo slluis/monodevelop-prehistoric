@@ -24,6 +24,7 @@ using ICSharpCode.SharpDevelop.Gui.Components;
 using ICSharpCode.TextEditor.Gui.InsightWindow;
 using ICSharpCode.TextEditor.Gui.CompletionWindow;
 
+using MonoDevelop.EditorBindings.FormattingStrategy;
 
 namespace ICSharpCode.SharpDevelop.DefaultEditor.Gui.Editor
 {

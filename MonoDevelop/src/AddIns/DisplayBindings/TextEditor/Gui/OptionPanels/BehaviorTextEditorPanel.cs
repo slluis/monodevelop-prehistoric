@@ -21,6 +21,7 @@ using ICSharpCode.TextEditor.Document;
 using ICSharpCode.SharpDevelop.Gui.Dialogs;
 
 using Gtk;
+using MonoDevelop.EditorBindings.FormattingStrategy;
 
 namespace ICSharpCode.SharpDevelop.DefaultEditor.Gui.OptionPanels
 {

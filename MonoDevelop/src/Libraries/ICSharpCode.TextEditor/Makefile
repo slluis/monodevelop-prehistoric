@@ -86,7 +86,6 @@ SOURCES= \
 ./src/Document/IDocument.cs \
 ./src/Document/AbstractSegment.cs \
 ./src/Document/FormattingStrategy/DefaultFormattingStrategy.cs \
-./src/Document/FormattingStrategy/IFormattingStrategy.cs \
 ./src/Document/TextBufferStrategy/StringTextBufferStrategy.cs \
 ./src/Document/TextBufferStrategy/GapTextBufferStrategy.cs \
 ./src/Document/TextBufferStrategy/ITextBufferStrategy.cs \
@@ -99,8 +98,15 @@ SOURCES= \
 ./src/Document/DocumentFactory.cs \
 
 DLL=../../../build/bin/MonoDevelop.TextEditor.dll
+REFS= \
+ /r:System.Drawing.dll \
+ /r:gtk-sharp.dll \
+ /r:glib-sharp.dll \
+ /r:gdk-sharp.dll \
+ /r:pango-sharp.dll \
+ /r:../../../build/bin/MonoDevelop.EditorBindings.dll
 
 all: $(DLL)
 
 $(DLL): $(SOURCES)
-	@ mcs /debug /out:$(DLL) /target:library /r:System.Drawing.dll /define:GTK /r:gtk-sharp.dll /r:glib-sharp.dll /r:gdk-sharp.dll /r:pango-sharp.dll /resource:data/syntaxmodes/SyntaxModes.xml,SyntaxModes.xml /resource:data/syntaxmodes/CSharp-Mode.xshd,CSharp-Mode.xshd /resource:data/Mode.xsd,Mode.xsd /resource:data/syntaxmodes/ASPX.xshd,ASPX.xshd /resource:data/syntaxmodes/BAT-Mode.xshd,BAT-Mode.xshd /resource:data/syntaxmodes/CPP-Mode.xshd,CPP-Modes.xshd /resource:data/syntaxmodes/Coco-Mode.xshd,Coco-Mode.xshd /resource:data/syntaxmodes/HTML-Mode.xshd,HTML-Mode.xshd /resource:data/syntaxmodes/Java-Mode.xshd,Java-Mode.xshd /resource:data/syntaxmodes/JavaScript-Mode.xshd,JavaScript-Mode.xshd /resource:data/syntaxmodes/PHP-Mode.xshd,PHP-Mode.xshd /resource:data/syntaxmodes/Tex-Mode.xshd,Tex-Mode.xshd /resource:data/syntaxmodes/VBNET-Mode.xshd,VBNET-Mode.xshd /resource:data/syntaxmodes/XML-Mode.xshd,XML-Mode.xshd /resource:data/RightArrow.cur,RightArrow.cur $(SOURCES)
+	@ mcs /debug /out:$@ /target:library $(REFS) /define:GTK /resource:data/syntaxmodes/SyntaxModes.xml,SyntaxModes.xml /resource:data/syntaxmodes/CSharp-Mode.xshd,CSharp-Mode.xshd /resource:data/Mode.xsd,Mode.xsd /resource:data/syntaxmodes/ASPX.xshd,ASPX.xshd /resource:data/syntaxmodes/BAT-Mode.xshd,BAT-Mode.xshd /resource:data/syntaxmodes/CPP-Mode.xshd,CPP-Modes.xshd /resource:data/syntaxmodes/Coco-Mode.xshd,Coco-Mode.xshd /resource:data/syntaxmodes/HTML-Mode.xshd,HTML-Mode.xshd /resource:data/syntaxmodes/Java-Mode.xshd,Java-Mode.xshd /resource:data/syntaxmodes/JavaScript-Mode.xshd,JavaScript-Mode.xshd /resource:data/syntaxmodes/PHP-Mode.xshd,PHP-Mode.xshd /resource:data/syntaxmodes/Tex-Mode.xshd,Tex-Mode.xshd /resource:data/syntaxmodes/VBNET-Mode.xshd,VBNET-Mode.xshd /resource:data/syntaxmodes/XML-Mode.xshd,XML-Mode.xshd /resource:data/RightArrow.cur,RightArrow.cur $(SOURCES)

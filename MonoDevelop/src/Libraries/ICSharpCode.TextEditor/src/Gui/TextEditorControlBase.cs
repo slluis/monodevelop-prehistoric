@@ -16,6 +16,8 @@ using System.Text;
 
 using ICSharpCode.TextEditor.Document;
 using ICSharpCode.TextEditor.Actions;
+
+using MonoDevelop.EditorBindings.FormattingStrategy;
  
 namespace ICSharpCode.TextEditor
 {

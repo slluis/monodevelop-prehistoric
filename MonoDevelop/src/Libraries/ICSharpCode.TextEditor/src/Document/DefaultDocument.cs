@@ -13,6 +13,8 @@ using System.Drawing;
 
 using ICSharpCode.TextEditor.Undo;
 
+using MonoDevelop.EditorBindings.FormattingStrategy;
+
 namespace ICSharpCode.TextEditor.Document
 {
 	/// <summary>
@@ -28,27 +30,6 @@ namespace ICSharpCode.TextEditor.Document
 		/// The row in which the caret is will be marked
 		/// </summary>
 		FullRow
-	}
-	
-	/// <summary>
-	/// Describes the indent style
-	/// </summary>
-	public enum IndentStyle {
-		/// <summary>
-		/// No indentation occurs
-		/// </summary>
-		None,
-		
-		/// <summary>
-		/// The indentation from the line above will be
-		/// taken to indent the curent line
-		/// </summary>
-		Auto, 
-		
-		/// <summary>
-		/// Inteligent, context sensitive indentation will occur
-		/// </summary>
-		Smart
 	}
 	
 	/// <summary>
@@ -379,5 +360,67 @@ namespace ICSharpCode.TextEditor.Document
 		
 		public event EventHandler UpdateCommited;
 		public event EventHandler TextContentChanged;
+			
+#region IFormattableDocument
+		public string GetLineAsString (int ln)
+		{
+			LineSegment line = GetLineSegment (ln);
+			return GetText (line.Offset, line.Length);
+		}
+		
+		int atomic_begin_level = 0;
+		int atomic_undo_level = 0;
+		
+		public void BeginAtomicUndo ()
+		{
+			if (atomic_undo_level ++ == 0)
+				atomic_begin_level = UndoStack.UndoCount;
+		}
+		
+		public void EndAtomicUndo ()
+		{
+			if (-- atomic_undo_level == 0) {
+				UndoStack.UndoLast (UndoStack.UndoCount - atomic_begin_level);
+				atomic_begin_level = 0;
+			}
+		}
+		
+		public void ReplaceLine (int ln, string txt)
+		{
+			LineSegment l = GetLineSegment (ln);
+			Replace (l.Offset, l.Length, txt);
+		}
+		
+		public IndentStyle IndentStyle {
+			get {
+				return TextEditorProperties.IndentStyle;
+			}
+		}
+		
+		public string IndentString {
+			get {
+				return TextEditorProperties.ConvertTabsToSpaces ? new string (' ', TextEditorProperties.TabIndent) : "\t";
+			}
+		}
+		
+		public int GetClosingBraceForLine (int ln, out int openingLine)
+		{
+			int offset = TextUtilities.SearchBracketBackward (this, GetLineSegment (ln).Offset - 1, '{', '}');
+			
+			openingLine = offset == -1 ? -1 : GetLineNumberForOffset (offset);
+			return offset;
+		}
+		
+		public bool AutoInsertCurlyBracket {
+			get { return TextEditorProperties.AutoInsertCurlyBracket; }			
+		}
+		
+		public void GetLineLengthInfo (int ln, out int offset, out int len)
+		{
+			LineSegment l = GetLineSegment (ln);
+			offset = l.Offset;
+			len = l.Length;
+		}
+#endregion
 	}
 }
