@@ -393,7 +393,7 @@ namespace MonoDevelop.Internal.Project
 			string args = configuration.CommandLineParameters;
 			
 			if (configuration.ExecuteScript != null && configuration.ExecuteScript.Length > 0) {
-				ProcessWrapper p = Runtime.ProcessService.StartProcess (configuration.ExecuteScript, args, BaseDirectory, monitor.Log, monitor.Log, null);
+				ProcessWrapper p = Runtime.ProcessService.StartConsoleProcess (configuration.ExecuteScript, args, BaseDirectory, configuration.ExternalConsole, configuration.PauseConsoleOutput, null);
 				p.WaitForOutput ();
 			} else {
 				DoExecute (monitor);
