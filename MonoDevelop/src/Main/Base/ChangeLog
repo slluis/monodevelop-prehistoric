@@ -1,3 +1,34 @@
+2004-05-30  Lluis Sanchez Gual  <lluis@ximian.com>
+
+	* Services/ParserService/DefaultParserService.cs: Don't use the "Gac:"
+	  prefix to reference gac assemblies, they are handled internally by
+	  AssemblyCodeCompletionDatabase.
+	  When locating an assembly database, take into account partial names,
+	  and avoid loading the same db twice.
+	  Perform the modified file check taking into account dependencies
+	  between databases. This increases the posibility of resolving all classes
+	  of a database in the first parse cycle (since its dependecies will be
+	  already parsed).
+	  Added parameter to GetClass which allows deep search of a class in all
+	  project references.
+	  In ResolveTypes, added out parameter to inform if all types could be
+	  resolved.
+	  In ClassInheritanceEnumerator, use a reference deep search to get base
+	  classes.
+	  
+	* IParserService.cs: Added parameter to GetClass which allows deep search of
+	  a class in all project references.
+	  
+	* CodeCompletionDatabase.cs: Increased db version, since the format has
+	  changed a bit. Added an easy way for derived classes to serialize data
+	  together with the index.
+	  When writing the db, make a byte copy from the old file to the new one
+	  for classes not loaded.
+	  In ProjectCodeCompletionDatabase, if a file can't be fully resolved,
+	  schedule a reparse.
+	  In GetClass() support lookup of inner classes. Improved some internal
+	  methods to support this.
+
 2004-05-29  Todd Berman  <tberman@sevenl.net>
 
 	* Services/Project/DefaultProjectService.cs: try catch around

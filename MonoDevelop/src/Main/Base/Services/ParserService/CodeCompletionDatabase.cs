@@ -28,7 +28,7 @@ namespace MonoDevelop.Services
 	{
 		static readonly int MAX_ACTIVE_COUNT = 100;
 		static readonly int MIN_ACTIVE_COUNT = 50;
-		static readonly int FORMAT_VERSION = 2;
+		static protected readonly int FORMAT_VERSION = 3;
 		
 		NamespaceEntry rootNamespace;
 		protected ArrayList references;
@@ -53,6 +53,11 @@ namespace MonoDevelop.Services
 			files = new Hashtable ();
 			references = new ArrayList ();
 			headers = new Hashtable ();
+		}
+		
+		public string DataFile
+		{
+			get { return dataFile; }
 		}
 		
 		protected void SetLocation (string basePath, string name)
@@ -108,11 +113,14 @@ namespace MonoDevelop.Services
 					ifile.Position = indexOffset;
 					
 					object[] data = (object[]) bf.Deserialize (ifile);
+					Queue dataQueue = new Queue (data);
+					references = (ArrayList) dataQueue.Dequeue ();
+					rootNamespace = (NamespaceEntry)  dataQueue.Dequeue ();
+					files = (Hashtable)  dataQueue.Dequeue ();
+					DeserializeData (dataQueue);
+
 					ifile.Close ();
 					
-					references = (ArrayList) data[0];
-					rootNamespace = (NamespaceEntry) data[1];
-					files = (Hashtable) data[2];
 				}
 				catch (Exception ex)
 				{
@@ -160,6 +168,9 @@ namespace MonoDevelop.Services
 				long indexOffsetPos = dfile.Position;
 				bw.Write ((long)0);
 				
+				MemoryStream buffer = new MemoryStream ();
+				BinaryWriter bufWriter = new BinaryWriter (buffer);
+				
 				// Write all class data
 				foreach (FileEntry fe in files.Values) 
 				{
@@ -167,19 +178,43 @@ namespace MonoDevelop.Services
 					while (ce != null)
 					{
 						IClass c = ce.Class;
-						if (c == null)
-							c = ReadClass (ce);
-							
+						byte[] data;
+						int len;
+						
+						if (c == null) {
+							// Copy the data from the source file
+							if (datareader == null) {
+								datafile = new FileStream (dataFile, FileMode.Open, FileAccess.Read, FileShare.Read);
+								datareader = new BinaryReader (datafile);
+							}
+							datafile.Position = ce.Position;
+							len = datareader.ReadInt32 ();
+							data = new byte[len];
+							datafile.Read (data, 0, len);
+						}
+						else {
+							buffer.Position = 0;
+							PersistentClass.WriteTo (c, bufWriter, parserService.DefaultNameEncoder);
+							data = buffer.GetBuffer ();
+							len = (int)buffer.Position;
+						}
+						
 						ce.Position = dfile.Position;
-						PersistentClass.WriteTo (c, bw, parserService.DefaultNameEncoder);
+						bw.Write (len);
+						bw.Write (data, 0, len);
 						ce = ce.NextInFile;
 					}
 				}
 				
 				// Write the index
 				long indexOffset = dfile.Position;
-				object[] data = new object[] { references, rootNamespace, files };
-				bf.Serialize (dfile, data);
+				
+				Queue dataQueue = new Queue ();
+				dataQueue.Enqueue (references);
+				dataQueue.Enqueue (rootNamespace);
+				dataQueue.Enqueue (files);
+				SerializeData (dataQueue);
+				bf.Serialize (dfile, dataQueue.ToArray ());
 				
 				dfile.Position = indexOffsetPos;
 				bw.Write (indexOffset);
@@ -193,11 +228,17 @@ namespace MonoDevelop.Services
 					File.Delete (dataFile);
 					
 				File.Move (tmpDataFile, dataFile);
-				
-				Console.WriteLine ("Done Writing " + tmpDataFile);
 			}
 		}
 		
+		protected virtual void SerializeData (Queue dataQueue)
+		{
+		}
+		
+		protected virtual void DeserializeData (Queue dataQueue)
+		{
+		}
+				
 		void Flush ()
 		{
 			int activeCount = 0;
@@ -231,6 +272,7 @@ namespace MonoDevelop.Services
 				datareader = new BinaryReader (datafile);
 			}
 			datafile.Position = ce.Position;
+			datareader.ReadInt32 ();	// Length of data
 			return PersistentClass.Read (datareader, parserService.DefaultNameDecoder);
 		}
 		
@@ -246,14 +288,41 @@ namespace MonoDevelop.Services
 		{
 			lock (rwlock)
 			{
+//				Console.WriteLine ("GET CLASS " + typeName + " in " + dataFile);
 				string[] path = typeName.Split ('.');
 				int len = path.Length - 1;
-				NamespaceEntry nst = GetNamespaceEntry (path, len, false, caseSensitive);
-				if (nst == null) return null;
-	
-				ClassEntry ce = nst.GetClass (path[len], caseSensitive);
-				if (ce == null) return null;
-				return GetClass (ce);
+				
+				NamespaceEntry nst;
+				int nextPos;
+				
+				if (GetBestNamespaceEntry (path, len, false, caseSensitive, out nst, out nextPos)) 
+				{
+					ClassEntry ce = nst.GetClass (path[len], caseSensitive);
+					if (ce == null) return null;
+					return GetClass (ce);
+				}
+				else
+				{
+					// It may be an inner class
+					ClassEntry ce = nst.GetClass (path[nextPos++], caseSensitive);
+					if (ce == null) return null;
+					
+					len++;	// Now include class name
+					IClass c = GetClass (ce);
+					
+					while (nextPos < len) {
+						IClass nextc = null;
+						for (int n=0; n<c.InnerClasses.Count && nextc == null; n++) {
+							IClass innerc = c.InnerClasses[n];
+							if (string.Compare (innerc.Name, path[nextPos], !caseSensitive) == 0)
+								nextc = innerc;
+						}
+						if (nextc == null) return null;
+						c = nextc;
+						nextPos++;
+					}
+					return c;
+				}
 			}
 		}
 		
@@ -276,7 +345,7 @@ namespace MonoDevelop.Services
 				{
 					if (!File.Exists (file.FileName)) continue;
 					FileInfo fi = new FileInfo (file.FileName);
-					if (fi.LastWriteTime > file.LastParseTime) 
+					if (fi.LastWriteTime > file.LastParseTime || file.ParseErrorRetries > 0) 
 					{
 						// Change date now, to avoid reparsing if CheckModifiedFiles is called again
 						// before the parse job is executed
@@ -311,7 +380,6 @@ namespace MonoDevelop.Services
 		
 		protected void AddReference (string uri)
 		{
-			Console.WriteLine ("AddReference " + uri);
 			lock (rwlock)
 			{
 				ReferenceEntry re = new ReferenceEntry (uri);
@@ -322,7 +390,6 @@ namespace MonoDevelop.Services
 		
 		protected void RemoveReference (string uri)
 		{
-			Console.WriteLine ("RemoveReference " + uri);
 			lock (rwlock)
 			{
 				for (int n=0; n<references.Count; n++)
@@ -334,6 +401,16 @@ namespace MonoDevelop.Services
 					}
 				}
 			}
+		}
+		
+		protected bool HasReference (string uri)
+		{
+			for (int n=0; n<references.Count; n++) {
+				ReferenceEntry re = (ReferenceEntry) references[n];
+				if (((ReferenceEntry) references[n]).Uri == uri)
+					return true;
+			}
+			return false;
 		}
 		
 		public void AddFile (string fileName)
@@ -364,29 +441,6 @@ namespace MonoDevelop.Services
 			}
 		}
 		
-		protected void AddClass (IClass c, FileEntry fe)
-		{
-			lock (rwlock)
-			{
-				string[] path = c.Namespace.Split ('.');
-				NamespaceEntry nst = GetNamespaceEntry (path, path.Length, true, true);
-				ClassEntry ce = nst.GetClass (c.Name, true);
-				if (ce == null) {
-					ce = new ClassEntry (c, fe, nst);
-					nst.Add (c.Name, ce);
-				}
-				else {
-					ce.Class = CopyClass (c);
-				}
-				
-				if (ce.FileEntry != fe)
-					fe.AddClass (ce);
-	
-				ce.LastGetTime = currentGetTime++;
-				modified = true;
-			}
-		}
-			
 		public ClassUpdateInformation UpdateClassInformation (ClassCollection newClasses, string fileName)
 		{
 			lock (rwlock)
@@ -524,26 +578,43 @@ namespace MonoDevelop.Services
 			return PersistentClass.Read (br, parserService.DefaultNameDecoder);
 		}
 		
-		NamespaceEntry GetNamespaceEntry (string[] path, int length, bool createPath, bool caseSensitive)
+		bool GetBestNamespaceEntry (string[] path, int length, bool createPath, bool caseSensitive, out NamespaceEntry lastEntry, out int numMatched)
 		{
-			NamespaceEntry nst = rootNamespace;
+			lastEntry = rootNamespace;
 
 			if (length == 0 || (length == 1 && path[0] == "")) {
-				return nst;
+				numMatched = length;
+				return true;
 			}
 			else
 			{
 				for (int n=0; n<length; n++) {
-					NamespaceEntry nh = nst.GetNamespace (path[n], caseSensitive);
+					NamespaceEntry nh = lastEntry.GetNamespace (path[n], caseSensitive);
 					if (nh == null) {
-						if (!createPath) return null;
+						if (!createPath) {
+							numMatched = n;
+							return false;
+						}
+						
 						nh = new NamespaceEntry ();
-						nst.Add (path[n], nh);
+						lastEntry.Add (path[n], nh);
 					}
-					nst = nh;
+					lastEntry = nh;
 				}
-				return nst;
+				numMatched = length;
+				return true;
 			}
+		}
+		
+		NamespaceEntry GetNamespaceEntry (string[] path, int length, bool createPath, bool caseSensitive)
+		{
+			NamespaceEntry nst;
+			int matched;
+			
+			if (GetBestNamespaceEntry (path, length, createPath, caseSensitive, out nst, out matched))
+				return nst;
+			else
+				return null;
 		}
 	}
 	
@@ -584,17 +655,14 @@ namespace MonoDevelop.Services
 			fs.Clear ();
 			foreach (ProjectReference pr in project.ProjectReferences)
 			{
-				string refId = pr.ReferenceType + ":" + pr.Reference;
+				string refId = pr.ReferenceType == ReferenceType.Project ? "Project" : "Assembly";
+				refId += ":" + pr.Reference;
+
 				if (pr.ReferenceType == ReferenceType.Gac && refId.ToLower().EndsWith (".dll"))
 					refId = refId.Substring (0, refId.Length - 4);
 
 				fs[refId] = null;
-				bool found = false;
-				for (int n=0; n<references.Count && !found; n++) {
-					ReferenceEntry re = (ReferenceEntry) references[n];
-					found = ((ReferenceEntry) references[n]).Uri == refId;
-				}
-				if (!found)
+				if (!HasReference (refId))
 					AddReference (refId);
 			}
 			
@@ -611,11 +679,34 @@ namespace MonoDevelop.Services
 		{
 			IParseInformation parserInfo = parserService.DoParseFile ((string)fileName, null);
 			ICompilationUnit cu = (ICompilationUnit)parserInfo.BestCompilationUnit;
+			
+			ClassUpdateInformation res = UpdateFromParseInfo (parserInfo, fileName);
+			parserService.NotifyParseInfoChange (fileName, res);
+		}
+		
+		public ClassUpdateInformation UpdateFromParseInfo (IParseInformation parserInfo, string fileName)
+		{
+			ICompilationUnit cu = (ICompilationUnit)parserInfo.BestCompilationUnit;
 
-			ClassCollection resolved = parserService.ResolveTypes (project, cu, cu.Classes);
+			ClassCollection resolved;
+			bool allResolved = parserService.ResolveTypes (project, cu, cu.Classes, out resolved);
 			ClassUpdateInformation res = UpdateClassInformation (resolved, fileName);
 			
-			parserService.NotifyParseInfoChange (fileName, res);
+			FileEntry file = files [fileName] as FileEntry;
+			
+			if (!allResolved) {
+				if (file.ParseErrorRetries > 0) {
+					file.ParseErrorRetries--;
+				}
+				else {
+					file.ParseErrorRetries = 3;
+				}
+			}
+			else {
+				file.ParseErrorRetries = 0;
+			}
+
+			return res;
 		}
 	}
 	
@@ -630,25 +721,40 @@ namespace MonoDevelop.Services
 		{
 			string assemblyFile;
 			string name;
+			Assembly asm = null;
 			
-			this.assemblyName = assemblyName;
-			
-			if (assemblyName == "mscorlib") {
-				name = assemblyName;
-				assemblyFile = typeof(object).Assembly.Location;
-			}
-			else if (assemblyName.ToLower().EndsWith (".dll")) {
+			if (assemblyName.ToLower().EndsWith (".dll")) 
+			{
 				name = assemblyName.Substring (0, assemblyName.Length - 4);
 				name = name.Replace(',','_').Replace(" ","").Replace('/','_');
 				assemblyFile = assemblyName;
+				try {
+					asm = Assembly.LoadFrom (assemblyFile);
+				}
+				catch {}
+				
+				if (asm == null) {
+					Console.WriteLine ("Could not load assembly: " + assemblyFile);
+					return;
+				}
 			}
-			else {
-				assemblyName = GetAssemblyFullName (assemblyName);
+			else 
+			{
+				asm = FindAssembly (assemblyName);
+				
+				if (asm == null) {
+					Console.WriteLine ("Could not load assembly: " + assemblyName);
+					return;
+				}
+				
+				assemblyName = asm.GetName().FullName;
 				name = EncodeGacAssemblyName (assemblyName);
-				assemblyFile = GetGacAssemblyLocation (assemblyName);
+				assemblyFile = asm.Location;
 			}
 			
+			this.assemblyName = assemblyName;
 			this.baseDir = baseDir;
+			
 			SetLocation (baseDir, name);
 
 			Read ();
@@ -657,6 +763,54 @@ namespace MonoDevelop.Services
 				AddFile (assemblyFile);
 				headers ["CheckFile"] = assemblyFile;
 			}
+			
+			// Update references to other assemblies
+			
+			Hashtable rs = new Hashtable ();
+			foreach (AssemblyName aname in asm.GetReferencedAssemblies ()) {
+				string uri = "Assembly:" + aname.ToString();
+				rs[uri] = null;
+				if (!HasReference (uri))
+					AddReference (uri);
+			}
+			
+			ArrayList keys = new ArrayList ();
+			keys.AddRange (references);
+			foreach (ReferenceEntry re in keys)
+			{
+				if (!rs.Contains (re.Uri))
+					RemoveReference (re.Uri);
+			}
+		}
+		
+		public static string GetFullAssemblyName (string s)
+		{
+			if (s.ToLower().EndsWith (".dll")) 
+				return s;
+				
+			Assembly asm = FindAssembly (s);
+			
+			if (asm != null)
+				return asm.GetName().FullName;
+			else
+				return s;
+		}
+		
+		public static Assembly FindAssembly (string name)
+		{
+			Assembly asm = null;
+			try {
+				asm = Assembly.Load (name);
+			}
+			catch {}
+			
+			if (asm == null) {
+				try {
+					asm = Assembly.LoadWithPartialName (name);
+				}
+				catch {}
+			}
+			return asm;
 		}
 		
 		string EncodeGacAssemblyName (string assemblyName)
@@ -673,27 +827,9 @@ namespace MonoDevelop.Services
 			return res;
 		}
 		
-		string GetGacAssemblyLocation (string assemblyName)
+		public string AssemblyName
 		{
-			Assembly asm;
-			try {
-				asm = Assembly.Load (assemblyName);
-			}
-			catch {
-				asm = Assembly.LoadWithPartialName (assemblyName);
-			}
-			
-			if (asm == null)
-				throw new InvalidOperationException ("Could not find: " + assemblyName);
-
-			return asm.Location;
-		}
-		
-		public string GetAssemblyFullName (string assemblyName)
-		{
-			if (assemblyName.IndexOf (',') == -1) return assemblyName;
-			Assembly asm = Assembly.LoadWithPartialName (assemblyName);
-			return asm.GetName().FullName;
+			get { return assemblyName; }
 		}
 		
 		protected override void ParseFile (string fileName)
@@ -701,10 +837,8 @@ namespace MonoDevelop.Services
 			if (useExternalProcess)
 			{
 				string dbgen = Path.Combine (AppDomain.CurrentDomain.BaseDirectory, "dbgen.exe");
-				Console.WriteLine ("Starting " + dbgen);
 				Process proc = Process.Start ("mono " + dbgen, "\"" + baseDir + "\" \"" + assemblyName + "\"");
 				proc.WaitForExit ();
-				Console.WriteLine ("Done " + proc.ExitCode);
 				Read ();
 			}
 			else
@@ -727,10 +861,10 @@ namespace MonoDevelop.Services
 			// Read the headers of the file without fully loading the database
 			Hashtable headers = ReadHeaders (baseDir, name);
 			string checkFile = (string) headers ["CheckFile"];
-			if (!File.Exists (checkFile)) {
+			int version = (int) headers ["Version"];
+			if (!File.Exists (checkFile) || version != FORMAT_VERSION) {
 				string dataFile = Path.Combine (baseDir, name + ".pidb");
 				File.Delete (dataFile);
-				Console.WriteLine ("File not exists: " + checkFile);
 				Console.WriteLine ("Deleted " + dataFile);
 			}
 		}
@@ -931,6 +1065,7 @@ namespace MonoDevelop.Services
 		string filePath;
 		DateTime parseTime;
 		ClassEntry firstClass;
+		int parseErrorRetries;
 		
 		public FileEntry (string path)
 		{
@@ -952,6 +1087,12 @@ namespace MonoDevelop.Services
 		public ClassEntry FirstClass
 		{
 			get { return firstClass; }
+		}
+		
+		public int ParseErrorRetries
+		{
+			get { return parseErrorRetries; }
+			set { parseErrorRetries = value; }
 		}
 		
 		public void SetClasses (ArrayList list)

@@ -55,7 +55,7 @@ namespace MonoDevelop.Services
 		string    SearchNamespace(IProject project, IUsing iusing, string partitialNamespaceName);
 		IClass    SearchType(IProject project, IUsing iusing, string partitialTypeName);
 		
-		IClass    GetClass(IProject project, string typeName, bool caseSensitive);
+		IClass    GetClass(IProject project, string typeName, bool deepSearchReferences, bool caseSensitive);
 		string[]  GetNamespaceList(IProject project, string subNameSpace, bool caseSensitive);
 		ArrayList GetNamespaceContents(IProject project, string subNameSpace, bool includeReferences, bool caseSensitive);
 		bool      NamespaceExists(IProject project, string name, bool caseSensitive);

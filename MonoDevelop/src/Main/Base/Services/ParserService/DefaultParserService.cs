@@ -35,7 +35,7 @@ namespace MonoDevelop.Services
 		CodeCompletionDatabase coreDatabase;
 		
 		const int MAX_CACHE_SIZE = 10;
-		const string CoreDB = "Assembly:mscorlib";
+		string CoreDB;
 
 		class ParsingCacheEntry
 		{
@@ -56,6 +56,7 @@ namespace MonoDevelop.Services
 			IProject project;
 			ICompilationUnit unit;
 			DefaultParserService parserService;
+			bool allResolved;
 			
 			public CompilationUnitTypeResolver (IProject project, ICompilationUnit unit, DefaultParserService parserService)
 			{
@@ -69,8 +70,16 @@ namespace MonoDevelop.Services
 				IClass c = parserService.SearchType (project, typeName, CallingClass, unit);
 				if (c != null)
 					return c.FullyQualifiedName;
-				else
+				else {
+					allResolved = false;
 					return typeName;
+				}
+			}
+			
+			public bool AllResolved
+			{
+				get { return allResolved; }
+				set { allResolved = value; }
 			}
 		}
 		
@@ -208,7 +217,7 @@ namespace MonoDevelop.Services
 		
 		public void GenerateAssemblyDatabase (string baseDir, string name)
 		{
-			AssemblyCodeCompletionDatabase db = GetDatabase (baseDir, "Assembly:" + name) as AssemblyCodeCompletionDatabase;
+			AssemblyCodeCompletionDatabase db = new AssemblyCodeCompletionDatabase (baseDir, name, this);
 			db.ParseInExternalProcess = false;
 			db.ParseAll ();
 			db.Write ();
@@ -232,7 +241,9 @@ namespace MonoDevelop.Services
 			SetDefaultCompletionFileLocation();
 			DeleteObsoleteDatabases ();
 
-			coreDatabase = new AssemblyCodeCompletionDatabase (codeCompletionPath, "mscorlib", this);
+			string coreName = typeof(object).Assembly.GetName().ToString ();
+			CoreDB = "Assembly:" + coreName;
+			coreDatabase = new AssemblyCodeCompletionDatabase (codeCompletionPath, coreName, this);
 			databases [CoreDB] = coreDatabase;
 			
 			IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
@@ -265,19 +276,31 @@ namespace MonoDevelop.Services
 				if (db == null) 
 				{
 					// Create/load the database
-						
+
 					if (uri.StartsWith ("Assembly:"))
 					{
 						string file = uri.Substring (9);
-						db = new AssemblyCodeCompletionDatabase (baseDir, file, this);
+						
+						// We may be trying to load an assembly db using a partial name.
+						// In this case we get the full name to avoid database conflicts
+						file = AssemblyCodeCompletionDatabase.GetFullAssemblyName (file);
+						string realUri = "Assembly:" + file;
+						db = (CodeCompletionDatabase) databases [realUri];
+						if (db != null) {
+							databases [uri] = db;
+							return db;
+						}
+						
+						AssemblyCodeCompletionDatabase adb;
+						db = adb = new AssemblyCodeCompletionDatabase (baseDir, file, this);
+						databases [realUri] = adb;
+						if (uri != realUri)
+							databases [uri] = adb;
+						
+						// Load referenced databases
+						foreach (ReferenceEntry re in db.References)
+							GetDatabase (baseDir, re.Uri);
 					}
-					else if (uri.StartsWith ("Gac:"))
-					{
-						string file = uri.Substring (4);
-						db = new AssemblyCodeCompletionDatabase (baseDir, file, this);
-					}
-					if (db != null)
-						databases [uri] = db;
 				}
 				return db;
 			}
@@ -483,13 +506,58 @@ namespace MonoDevelop.Services
 		
 		void CheckModifiedFiles ()
 		{
+			// Check databases following a bottom-up strategy in the dependency
+			// tree. This will help resolving parsed classes.
+			
 			ArrayList list = new ArrayList ();
-			lock (databases) {
-				list.AddRange (databases.Values);
+			lock (databases) 
+			{
+				// There may be several uris for the same db
+				foreach (object ob in databases.Values)
+					if (!list.Contains (ob))
+						list.Add (ob);
 			}
 			
-			foreach (CodeCompletionDatabase db in list) 
-				db.CheckModifiedFiles ();
+			ArrayList done = new ArrayList ();
+			while (list.Count > 0) 
+			{
+				CodeCompletionDatabase readydb = null;
+				CodeCompletionDatabase bestdb = null;
+				int bestRefCount = int.MaxValue;
+				
+				// Look for a db with all references resolved
+				for (int n=0; n<list.Count && readydb==null; n++)
+				{
+					CodeCompletionDatabase db = (CodeCompletionDatabase)list[n];
+
+					bool allDone = true;
+					foreach (ReferenceEntry re in db.References) {
+						CodeCompletionDatabase refdb = GetDatabase (re.Uri);
+						if (!done.Contains (refdb)) {
+							allDone = false;
+							break;
+						}
+					}
+					
+					if (allDone)
+						readydb = db;
+					else if (db.References.Count < bestRefCount) {
+						bestdb = db;
+						bestRefCount = db.References.Count;
+					}
+				}
+
+				// It may not find any db without resolved references if there
+				// are circular dependencies. In this case, take the one with
+				// less references
+				
+				if (readydb == null)
+					readydb = bestdb;
+					
+				readydb.CheckModifiedFiles ();
+				list.Remove (readydb);
+				done.Add (readydb);
+			}
 		}
 		
 		void ConsumeParsingQueue ()
@@ -549,9 +617,7 @@ namespace MonoDevelop.Services
 						
 						ProjectCodeCompletionDatabase db = GetProjectDatabase (viewContent.Project);
 						if (db != null) {
-							ICompilationUnit cu = (ICompilationUnit)parseInformation.BestCompilationUnit;
-							ClassCollection resolved = ResolveTypes (viewContent.Project, cu, cu.Classes);
-							ClassUpdateInformation res = db.UpdateClassInformation (resolved, fileName);
+							ClassUpdateInformation res = db.UpdateFromParseInfo (parseInformation, fileName);
 							NotifyParseInfoChange (fileName, res);
 						}
 						lastUpdateSize[fileName] = text.GetHashCode();
@@ -573,7 +639,15 @@ namespace MonoDevelop.Services
 
 		public IClass GetClass (IProject project, string typeName)
 		{
-			return GetClass(project, typeName, true);
+			return GetClass(project, typeName, false, true);
+		}
+		
+		public IClass GetClass (IProject project, string typeName, bool deepSearchReferences, bool caseSensitive)
+		{
+			if (deepSearchReferences)
+				return DeepGetClass (project, typeName, caseSensitive);
+			else
+				return GetClass (project, typeName, caseSensitive);
 		}
 		
 		public IClass GetClass (IProject project, string typeName, bool caseSensitive)
@@ -593,6 +667,36 @@ namespace MonoDevelop.Services
 			}
 			db = GetDatabase (CoreDB);
 			return db.GetClass (typeName, caseSensitive);
+		}
+		
+		public IClass DeepGetClass (IProject project, string typeName, bool caseSensitive)
+		{
+			ArrayList visited = new ArrayList ();
+			IClass c = DeepGetClassRec (visited, GetProjectDatabase (project), typeName, caseSensitive);
+			if (c != null) return c;
+
+			CodeCompletionDatabase db = GetDatabase (CoreDB);
+			return db.GetClass (typeName, caseSensitive);
+		}
+		
+		internal IClass DeepGetClassRec (ArrayList visitedDbs, CodeCompletionDatabase db, string typeName, bool caseSensitive)
+		{
+			if (db == null) return null;
+			if (visitedDbs.Contains (db)) return null;
+			
+			visitedDbs.Add (db);
+			
+			IClass c = db.GetClass (typeName, caseSensitive);
+			if (c != null) return c;
+			
+			foreach (ReferenceEntry re in db.References)
+			{
+				CodeCompletionDatabase cdb = GetDatabase (re.Uri);
+				if (cdb == null) continue;
+				c = DeepGetClassRec (visitedDbs, cdb, typeName, caseSensitive);
+				if (c != null) return c;
+			}
+			return null;
 		}
 		
 		public string[] GetNamespaceList (IProject project, string subNameSpace)
@@ -746,14 +850,19 @@ namespace MonoDevelop.Services
 			}
 			string fullname = callingClass.FullyQualifiedName;
 			string[] namespaces = fullname.Split(new char[] {'.'});
-			string curnamespace = namespaces[0] + '.';
-			for (int i = 1; i < namespaces.Length; ++i) {
+			string curnamespace = "";
+			int i = 0;
+			
+			do {
+				curnamespace += namespaces[i] + '.';
 				c = GetClass(project, curnamespace + name);
 				if (c != null) {
 					return c;
 				}
-				curnamespace += namespaces[i] + '.';
+				i++;
 			}
+			while (i < namespaces.Length);
+			
 			return null;
 		}
 		
@@ -819,17 +928,20 @@ namespace MonoDevelop.Services
 			return null;
 		}
 		
-		public ClassCollection ResolveTypes (IProject project, ICompilationUnit unit, ClassCollection types)
+		public bool ResolveTypes (IProject project, ICompilationUnit unit, ClassCollection types, out ClassCollection result)
 		{
 			CompilationUnitTypeResolver tr = new CompilationUnitTypeResolver (project, unit, this);
 			
-			ClassCollection col = new ClassCollection ();
+			bool allResolved = true;
+			result = new ClassCollection ();
 			foreach (IClass c in types) {
 				tr.CallingClass = c;
-				col.Add (PersistentClass.Resolve (c, tr));
+				tr.AllResolved = true;
+				result.Add (PersistentClass.Resolve (c, tr));
+				allResolved = allResolved && tr.AllResolved;
 			}
 				
-			return col;
+			return allResolved;
 		}
 		
 		public IEnumerable GetClassInheritanceTree (IProject project, IClass cls)
@@ -851,7 +963,6 @@ namespace MonoDevelop.Services
 		
 		public IParseInformation DoParseFile (string fileName, string fileContent)
 		{
-			Console.WriteLine ("PARSING " + fileName);
 			IParser parser = GetParser(fileName);
 			
 			if (parser == null) {
@@ -1094,13 +1205,13 @@ namespace MonoDevelop.Services
 	
 	public class ClassInheritanceEnumerator : IEnumerator, IEnumerable
 	{
-		IParserService parserService;
+		DefaultParserService parserService;
 		IClass topLevelClass;
 		IClass currentClass  = null;
 		Queue  baseTypeQueue = new Queue();
 		IProject project;
 
-		public ClassInheritanceEnumerator(IParserService parserService, IProject project, IClass topLevelClass)
+		internal ClassInheritanceEnumerator(DefaultParserService parserService, IProject project, IClass topLevelClass)
 		{
 			this.parserService = parserService;
 			this.project = project;
@@ -1116,9 +1227,8 @@ namespace MonoDevelop.Services
 
 		void PutBaseClassesOnStack(IClass c)
 		{
-			foreach (string baseTypeName in c.BaseTypes) {
+			foreach (string baseTypeName in c.BaseTypes)
 				baseTypeQueue.Enqueue(baseTypeName);
-			}
 		}
 
 		public IClass Current {
@@ -1140,7 +1250,7 @@ namespace MonoDevelop.Services
 			}
 			string baseTypeName = baseTypeQueue.Dequeue().ToString();
 
-			IClass baseType = parserService.GetClass(project, baseTypeName);
+			IClass baseType = parserService.DeepGetClass (project, baseTypeName, true);
 			if (baseType == null) {
 				ICompilationUnit unit = currentClass == null ? null : currentClass.CompilationUnit;
 				if (unit != null) {
@@ -1157,7 +1267,7 @@ namespace MonoDevelop.Services
 				currentClass = baseType;
 				PutBaseClassesOnStack(currentClass);
 			}
-
+			
 			return baseType != null;
 		}
 
