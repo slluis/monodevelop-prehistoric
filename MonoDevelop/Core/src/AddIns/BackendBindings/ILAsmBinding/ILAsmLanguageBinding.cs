@@ -62,7 +62,6 @@ namespace ILAsmBinding
 			return new ILAsmCompilerParameters();
 		}
 		
-		// source: irc
 		public string CommentTag
 		{
 			get { return "//"; }

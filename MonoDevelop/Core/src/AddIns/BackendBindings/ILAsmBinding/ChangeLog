@@ -1,5 +1,10 @@
 2005-01-24  John Luke  <john.luke@gmail.com>
 
+	* ILAsmCompilerManager.cs: update to work like CSharpBinding
+	and add some primitive error parsing
+
+2005-01-24  John Luke  <john.luke@gmail.com>
+
 	* ILAsmCompilerManager.cs: remove unused lines and fix 2 warnings
 
 2005-01-24  Lluis Sanchez Gual  <lluis@novell.com>

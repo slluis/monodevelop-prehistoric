@@ -31,22 +31,30 @@ namespace ILAsmBinding
 		
 		public bool CanCompile(string fileName)
 		{
-			return Path.GetExtension(fileName).ToUpper() == ".IL";
+			return Path.GetExtension (fileName).ToLower () == ".il";
 		}
 		
-		ICompilerResult Compile (DotNetProjectConfiguration configuration, string[] fileNames)
+		public ICompilerResult Compile (ProjectFileCollection projectFiles, ProjectReferenceCollection references, DotNetProjectConfiguration configuration, IProgressMonitor monitor)
 		{
-			// TODO: No response file possible ? @FILENAME seems not to work.
+			// FIXME: response file?
 			StringBuilder parameters = new StringBuilder();
-			foreach (string fileName in fileNames) {
-				parameters.Append('"');
-				parameters.Append(Path.GetFullPath(fileName));
-				parameters.Append("\" ");
+			foreach (ProjectFile finfo in projectFiles) {
+				if (finfo.Subtype != Subtype.Directory) {
+					switch (finfo.BuildAction) {
+						case BuildAction.Compile:
+							if (CanCompile (finfo.Name)) {
+								parameters.Append (finfo.Name);
+								parameters.Append (" ");
+							}
+							break;
+						default:
+							break;
+					}
+				}
 			}
 			
-			string outputFile = configuration.CompiledOutputName;
-			Console.WriteLine (outputFile);
-			parameters.Append("/out:" + outputFile);
+			parameters.Append("/out:");
+			parameters.Append(configuration.CompiledOutputName);
 			parameters.Append(" ");
 			
 			switch (configuration.CompileTarget) {
@@ -61,22 +69,28 @@ namespace ILAsmBinding
 			}
 			
 			if (configuration.DebugMode)
-				parameters.Append("/DEBUG ");
+				parameters.Append("/debug ");
 				
-			string outstr = parameters.ToString();
-			
+			string output = String.Empty;
+			string error = String.Empty;
 			TempFileCollection tf = new TempFileCollection();
-			StreamReader output;
-			StreamReader error;
-			DoCompilation (outstr, tf, out output, out error);
-			ICompilerResult result = ParseOutput(tf, output);
+			DoCompilation (parameters.ToString (), tf, ref output, ref error);
+			ICompilerResult result = ParseOutput(tf, output, error);
+			if (result.CompilerOutput.Trim () != "")
+				monitor.Log.WriteLine (result.CompilerOutput);
 			
+			File.Delete(output);
+			File.Delete(error);
 			return result;
 		}
 
-		private void DoCompilation (string outstr, TempFileCollection tf, out StreamReader output, out StreamReader error)
+		private void DoCompilation (string outstr, TempFileCollection tf, ref string output, ref string error)
 		{
-			ProcessStartInfo si = new ProcessStartInfo (GetCompilerName (), outstr);
+			output = Path.GetTempFileName ();
+			error = Path.GetTempFileName ();
+
+			string arguments = String.Format ("-c \"{0} {1} > {2} 2> {3}\"", GetCompilerName (), outstr, output, error);
+			ProcessStartInfo si = new ProcessStartInfo ("/bin/sh", arguments);
 			si.RedirectStandardOutput = true;
 			si.RedirectStandardError = true;
 			si.UseShellExecute = false;
@@ -84,93 +98,73 @@ namespace ILAsmBinding
 			p.StartInfo = si;
 			p.Start ();
 			p.WaitForExit ();
-
-			// FIXME: avoid having a full buffer
-			// perhaps read one line and append parsed output
-			// and then return cr at end 
-			output = p.StandardOutput;
-			error = p.StandardError;
         }
 		
-		public ICompilerResult Compile (ProjectFileCollection projectFiles, ProjectReferenceCollection references, DotNetProjectConfiguration configuration, IProgressMonitor monitor)
-		{
-			ArrayList fileNames = new ArrayList();
-			
-			foreach (ProjectFile finfo in projectFiles) {
-				if (finfo.Subtype != Subtype.Directory) {
-					switch (finfo.BuildAction) {
-						case BuildAction.Compile:
-							fileNames.Add(finfo.Name);
-							break;
-//				TODO : Embedded resources ?		
-//						case BuildAction.EmbedAsResource:
-//							writer.WriteLine("\"/res:" + finfo.Name + "\"");
-//							break;
-					}
-				}
-			}
-			
-			return Compile (configuration, (string[])fileNames.ToArray(typeof(string)));
-		}
-		
-		string GetCompilerName()
+		string GetCompilerName ()
 		{
 			return "ilasm";
 		}
 		
-		ICompilerResult ParseOutput(TempFileCollection tf, StreamReader sr)
+		ICompilerResult ParseOutput (TempFileCollection tf, string stdout, string stderr)
 		{
-			StringBuilder compilerOutput = new StringBuilder();
+			StringBuilder compilerOutput = new StringBuilder ();
+			CompilerResults cr = new CompilerResults (tf);
 			
-			//StreamReader sr = File.OpenText(file);
-			
-			// skip fist whitespace line
-			sr.ReadLine();
-			
-			CompilerResults cr = new CompilerResults(tf);
-			
-			while (true) {
-				string curLine = sr.ReadLine();
-				compilerOutput.Append(curLine);
-				compilerOutput.Append('\n');
-				if (curLine == null) {
-					break;
-				}
-				// TODO : PARSE ERROR OUTPUT.
+			foreach (string s in new string[] { stdout, stderr })
+			{
+				StreamReader sr = File.OpenText (s);
+				while (true) {
+					string curLine = sr.ReadLine ();
+					compilerOutput.Append (curLine);
+					compilerOutput.Append ('\n');
+
+					if (curLine == null)
+						break;
+
+					curLine = curLine.Trim ();
+
+					if (curLine.Length == 0)
+						continue;
 				
-//				curLine = curLine.Trim();
-//				if (curLine.Length == 0) {
-//					continue;
-//				}
-//				
-//				CompilerError error = new CompilerError();
-//				
-//				// try to match standard errors
-//				Match match = normalError.Match(curLine);
-//				if (match.Success) {
-//					error.Column      = Int32.Parse(match.Result("${column}"));
-//					error.Line        = Int32.Parse(match.Result("${line}"));
-//					error.FileName    = Path.GetFullPath(match.Result("${file}"));
-//					error.IsWarning   = match.Result("${error}") == "warning"; 
-//					error.ErrorNumber = match.Result("${number}");
-//					error.ErrorText   = match.Result("${message}");
-//				} else {
-//					match = generalError.Match(curLine); // try to match general csc errors
-//					if (match.Success) {
-//						error.IsWarning   = match.Result("${error}") == "warning"; 
-//						error.ErrorNumber = match.Result("${number}");
-//						error.ErrorText   = match.Result("${message}");
-//					} else { // give up and skip the line
-//						continue;
-////						error.IsWarning = false;
-////						error.ErrorText = curLine;
-//					}
-//				}
-//				
-//				cr.Errors.Add(error);
+					CompilerError error = CreateErrorFromString (curLine);
+					
+					if (error != null)
+						cr.Errors.Add (error);
+				}
+				sr.Close ();
 			}
-			sr.Close();
-			return new DefaultCompilerResult(cr, compilerOutput.ToString());
+			return new DefaultCompilerResult (cr, compilerOutput.ToString ());
+		}
+
+		private static string efile, etext = String.Empty;
+		// FIXME: ilasm seems to use > 1 line per error
+		private static CompilerError CreateErrorFromString (string error)
+		{
+			if (error.StartsWith ("Assembling ")) {
+				int start = error.IndexOf ('\'');
+				int length = error.IndexOf ('\'', start + 1) - start;
+				efile = error.Substring (start, length);
+			}
+			if (error.StartsWith ("syntax error, ")) {
+				etext = error;
+			}
+			if (error.StartsWith ("Error at: ")) {
+				string[] info = error.Substring ("Error at: ".Length).Split (' ');
+				CompilerError cerror = new CompilerError();
+				int col = 0;
+				int line = 0;
+				try {
+					line = int.Parse (info[1].Trim ('(', ')'));
+					col = int.Parse (info[3].Trim ('(', ')'));
+				} catch {}
+				cerror.Line = line;
+				cerror.Column = col;
+				cerror.ErrorText = etext;
+				cerror.FileName = efile;
+				return cerror;
+			}
+			return null;
 		}
 	}
 }
+
