@@ -307,9 +307,9 @@
 			<DialogPanel id = "Compile"
 			             label = "${res:Dialog.Options.PrjOptions.CompileFile.PanelName}"
 			             class = "ICSharpCode.SharpDevelop.Gui.Dialogs.OptionPanels.CompileFileProjectOptions"/>
-			<DialogPanel id = "Deploy"
+<!--			<DialogPanel id = "Deploy"
 			             label = "${res:Dialog.Options.PrjOptions.DeployFile.PanelName}"
-			             class = "ICSharpCode.SharpDevelop.Gui.Dialogs.OptionPanels.DeployFileProjectOptions"/>
+			             class = "ICSharpCode.SharpDevelop.Gui.Dialogs.OptionPanels.DeployFileProjectOptions"/> -->
 		</DialogPanel>
 	</Extension>
 	
