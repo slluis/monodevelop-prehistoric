@@ -1,3 +1,9 @@
+2005-03-09  John Luke  <john.luke@gmail.com>
+
+	* Gui/Workbench/Layouts/SdiWorkspaceLayout.cs:
+	remove toolbarContainer that was causing an assertion
+	and was no longer used
+
 2005-03-08  Todd Berman  <tberman@off.net>
 
 	* Gui/AbstractViewContent.cs: only emit an event when the name

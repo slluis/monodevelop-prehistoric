@@ -40,7 +40,6 @@ namespace MonoDevelop.Gui
 		
 		Window wbWindow;
 		Container rootWidget;
-		VBox toolbarContainer;
 		Dock dock;
 		DockLayout dockLayout;
 		DragNotebook tabControl;
@@ -71,14 +70,12 @@ namespace MonoDevelop.Gui
 
 			vbox.PackStart (workbench.TopMenu, false, false, 0);
 			if (workbench.ToolBars != null) {
-				toolbarContainer = new VBox (false, 0);
 				for (int i = 0; i < workbench.ToolBars.Length; i++) {
 					Gtk.HandleBox toolHandleBox = new Gtk.HandleBox ();
 					toolHandleBox.Shadow = Gtk.ShadowType.None;
 					toolHandleBox.Add (workbench.ToolBars[i]);
 					vbox.PackStart (toolHandleBox, false, false, 0);
 				}
-				//vbox.PackStart(toolbarContainer, false, false, 0);
 			}
 			
 			// Create the docking widget and add it to the window.
@@ -330,10 +327,6 @@ namespace MonoDevelop.Gui
 			dockLayout.SaveLayout (currentLayout);
 			dockLayout.SaveToFile (configFile);
 			rootWidget.Remove(((DefaultWorkbench)workbench).TopMenu);
-			foreach (Gtk.Widget w in toolbarContainer.Children) {
-				toolbarContainer.Remove(w);
-			}
-			rootWidget.Remove(toolbarContainer);
 			wbWindow.Remove(rootWidget);
 			activePadCollection = null;
 		}
