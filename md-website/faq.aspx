@@ -84,15 +84,9 @@ upon release.
 <b>References</b>
 
 <ul>
-<li><a href="http://www.icsharpcode.net/TechNotes/
-">SharpDevelop Tech Notes</a></li>
-		 
-<li><a href="Gnome Human Interface Guidelines (HIG)
-http://developer.gnome.org/projects/gup/hig/1.0/
-		  
-">freedesktop.org standards</a></li>
-<li><a href="http://developers.sun.com/solaris/articles/integrating_gnome.html
-">Integrating with GNOME (a little out of date)</a></li>
+<li><a href="http://www.icsharpcode.net/TechNotes/">SharpDevelop Tech Notes</a></li>
+<li><a href="http://developer.gnome.org/projects/gup/hig/1.0/">GNOME HIG (Human Interface Guidelines)</a></li>
+<li><a href="http://developers.sun.com/solaris/articles/integrating_gnome.html">Integrating with GNOME (a little out of date)</a></li>
 </ul>	    
 
 <ccms:PageFooter runat="server"/>
