@@ -1,8 +1,17 @@
 2005-04-06  Chris Toshok  <toshok@ximian.com>
 
+	* Gui/LocalsPad.cs: wrap the using MonoDevelop.DebuggerVisualizers
+	with #if NET_2_0.
+	(LocalsPad.VisualizerActivate): comment out an unworking line for
+	the time being.
+
+2005-04-06  Chris Toshok  <toshok@ximian.com>
+
 	* Gui/LocalsPad.cs: (LocalsPad.OnStoppedEvent): the CurrentFrame
 	field is of type StackFrame now, so move the cast to the
 	DebuggingService instead of the stackframe.
+
+	* Gui/StackTracePad.cs: same.
 
 	* Gui/ThreadPad.cs (ThreadPad.UpdateThread): just set the values
 	on the row, don't both comparing to the current value.

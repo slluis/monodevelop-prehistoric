@@ -7,7 +7,9 @@ using Gtk;
 using MonoDevelop.Gui;
 using MonoDevelop.Services;
 using Stock = MonoDevelop.Gui.Stock;
-//using MonoDevelop.DebuggerVisualizers;
+#if NET_2_0
+using MonoDevelop.DebuggerVisualizers;
+#endif
 
 using Mono.Debugger;
 using Mono.Debugger.Languages;
@@ -333,7 +335,8 @@ namespace MonoDevelop.Debugger
 			// VisualizerObjectSource used by this
 			// visualizer is loaded into the debuggee.
 			Type sourceType = Type.GetType (va_attr.VisualizerObjectSourceTypeName);
-			dbgr.LoadLibrary (dbgr.MainThread, sourceType.Assembly.Location);
+
+			//			dbgr.LoadLibrary (dbgr.MainThread, sourceType.Assembly.Location);
 
 			ITargetObject tobj = (ITargetObject)iters [selected_iter];
 			visualizer.Show (null, new TargetObjectProvider (tobj, sourceType.FullName));
