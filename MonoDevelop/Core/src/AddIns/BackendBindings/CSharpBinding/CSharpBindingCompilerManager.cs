@@ -160,8 +160,7 @@ namespace CSharpBinding
 						break;
 					case ReferenceType.Assembly:
 						string assembly_fileName = lib.GetReferencedFileName (project);
-						string rel_path_to = fileUtilityService.AbsoluteToRelativePath (project.BaseDirectory, Path.GetDirectoryName (assembly_fileName));
-						writer.WriteLine ("\"/r:" + Path.Combine (rel_path_to, Path.GetFileName (assembly_fileName)) + "\"");
+						writer.WriteLine ("\"/r:" + assembly_fileName + "\"");
 						break;
 					case ReferenceType.Project:
 						string project_fileName = lib.GetReferencedFileName (project);
