@@ -1,5 +1,10 @@
 2004-03-28  Todd Berman  <tberman@sevenl.net>
 
+	* CodeCompletion/CodeCompletionDataProvider.cs: adding null check,
+	should be the last of the code completion bugs relating to the new code
+
+2004-03-28  Todd Berman  <tberman@sevenl.net>
+
 	* CodeCompletion/CompletionWindow.cs: apply patch from Haakon Nilsen
 	<haakon AT ii.uib.no> to fix completion window on KDE.
 
