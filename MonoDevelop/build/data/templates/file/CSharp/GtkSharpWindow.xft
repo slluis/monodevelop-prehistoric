@@ -21,19 +21,7 @@ namespace MyWindow
 {
 	public class CreatedWindow : Window
 	{
-		static GLib.GType gtype;
-		
-		public static new GLib.GType GType
-		{
-			get
-			{
-				if (gtype == GLib.GType.Invalid)
-					gtype = RegisterGType (typeof (CreatedWindow));
-				return gtype;
-			}
-		}
-
-		public CreatedWindow () : base (GType)
+		public CreatedWindow () : base ("MyWindow")
 		{
 		}
 	}

@@ -52,21 +52,9 @@ class MainClass {
 using Gtk;
 
 public class MyWindow : Window {
-	static GLib.GType gtype;
 	
-	public static new GLib.GType GType
+	public MyWindow () : base ("MyWindow")
 	{
-		get
-		{
-			if (gtype == GLib.GType.Invalid)
-				gtype = RegisterGType (typeof (MyWindow));
-			return gtype;
-		}
-	}
-	
-	public MyWindow () : base (GType)
-	{
-		this.Title = "MyWindow";
 		this.SetDefaultSize (400, 300);
 		this.DeleteEvent += new DeleteEventHandler (OnMyWindowDelete);
 		this.ShowAll ();
