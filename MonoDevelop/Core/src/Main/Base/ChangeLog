@@ -1,3 +1,10 @@
+2004-08-10  Todd Berman  <tberman@off.net>
+
+	* Gui/Dialogs/NewProjectDialog.cs:
+	* Gui/Dialogs/OptionPanels/IDEOptions/LoadSavePanel.cs: Patch from
+	Samuel Kaufman to change the default project location to ~/Projects.
+	<emrysk AT comcast net>
+
 2004-08-09  Todd Berman  <tberman@off.net>
 
 	* Services/SystemAssemblyService.cs: Work w/ cvs HEAD and 1.0.x

@@ -264,7 +264,7 @@ namespace MonoDevelop.Gui.Dialogs
 						"MonoDevelop.Gui.Dialogs.NewProjectDialog.DefaultPath", 
 						System.IO.Path.Combine (
 							System.Environment.GetEnvironmentVariable ("HOME"),
-							"MonoDevelopProjects")).ToString ();
+							"Projects")).ToString ();
 			}
 			fd.Complete (defaultFolder);
 

@@ -16,7 +16,7 @@ namespace MonoDevelop.Commands
 			NunitService nunitService = (NunitService) MonoDevelop.Core.Services.ServiceManager.Services.GetService (typeof (NunitService));
 
 			using (FileSelector fs = new FileSelector ("Load test assembly")) {
-				string defaultPath = Path.Combine (Environment.GetEnvironmentVariable ("HOME"), "MonoDevelopProjects");
+				string defaultPath = Path.Combine (Environment.GetEnvironmentVariable ("HOME"), "Projects");
 				fs.Complete (defaultPath);
 
 				if (fs.Run () == (int) Gtk.ResponseType.Ok)
