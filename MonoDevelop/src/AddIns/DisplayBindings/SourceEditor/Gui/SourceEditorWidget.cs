@@ -34,7 +34,12 @@ namespace MonoDevelop.SourceEditor.Gui {
 		public void ExecutingAt (int linenumber)
 		{
 			View.ExecutingAt (linenumber);
-		}		
+		}
+
+		public void ClearExecutingAt (int linenumber)
+		{
+			View.ClearExecutingAt (linenumber);
+		}
 
 		public string Text {
 			get { return Buffer.Text; }

@@ -91,6 +91,11 @@ namespace MonoDevelop.SourceEditor.Gui {
 		{
 			se.ExecutingAt (line);
 		}
+
+		public void ClearExecutingAt (int line)
+		{
+			se.ClearExecutingAt (line);
+		}
 		
 		public override Gtk.Widget Control {
 			get {

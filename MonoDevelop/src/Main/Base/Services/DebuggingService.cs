@@ -20,6 +20,7 @@ namespace MonoDevelop.Services
 
 	public interface IDebuggableEditor {
 		void ExecutingAt (int lineNumber);
+		void ClearExecutingAt (int lineNumber);
 	}
 
 	public class DebuggingService : AbstractService

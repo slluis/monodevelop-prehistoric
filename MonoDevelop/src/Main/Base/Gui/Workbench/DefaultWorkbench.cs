@@ -22,6 +22,8 @@ using ICSharpCode.Core.Services;
 using ICSharpCode.SharpDevelop.Gui.Components;
 using ICSharpCode.SharpDevelop.Services;
 
+using MonoDevelop.Services;
+
 namespace ICSharpCode.SharpDevelop.Gui
 {
 	/// <summary>
@@ -36,6 +38,9 @@ namespace ICSharpCode.SharpDevelop.Gui
 		ViewContentCollection workbenchContentCollection = new ViewContentCollection();
 		
 		bool closeAll = false;
+
+		string cur_dbgFilename;
+		int    cur_dbgLineNumber;
 		
 		bool            fullscreen;
 #if !GTK
@@ -148,6 +153,32 @@ namespace ICSharpCode.SharpDevelop.Gui
 			DeleteEvent += new Gtk.DeleteEventHandler (OnClosing);
 			this.Icon = resourceService.GetBitmap ("Icons.SharpDevelopIcon");
 			this.WindowPosition = Gtk.WindowPosition.None;
+
+			DebuggingService dbgr = (DebuggingService)ServiceManager.Services.GetService (typeof (DebuggingService));
+			dbgr.PausedEvent += new EventHandler (onDebuggerPaused);
+			dbgr.ResumedEvent += new EventHandler (onDebuggerResumed);		
+		}
+
+		void onDebuggerPaused (object o, EventArgs e)
+		{
+			DebuggingService dbgr = (DebuggingService)ServiceManager.Services.GetService (typeof (DebuggingService));
+			cur_dbgFilename = dbgr.CurrentFilename;
+			cur_dbgLineNumber = dbgr.CurrentLineNumber - 1;
+
+			IFileService fs = (IFileService)ServiceManager.Services.GetService (typeof (IFileService));
+			fs.OpenFile (cur_dbgFilename);
+			if (ActiveWorkbenchWindow.ViewContent is IDebuggableEditor) 
+				((IDebuggableEditor)ActiveWorkbenchWindow.ViewContent).ExecutingAt (cur_dbgLineNumber);
+		}
+
+		void onDebuggerResumed (object o, EventArgs e)
+		{
+			foreach (IViewContent content in ViewContentCollection) {
+				if (content.ContentName != null && content.ContentName == cur_dbgFilename) {
+					((IDebuggableEditor)content).ClearExecutingAt (cur_dbgLineNumber);
+					break;
+				}
+			}	
 		}
 		
 		public void InitializeWorkspace()
