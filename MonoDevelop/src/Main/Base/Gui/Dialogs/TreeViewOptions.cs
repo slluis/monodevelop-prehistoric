@@ -19,64 +19,26 @@ using ICSharpCode.Core.Properties;
 using ICSharpCode.Core.AddIns.Codons;
 using ICSharpCode.SharpDevelop.Gui.XmlForms;
 
-namespace ICSharpCode.SharpDevelop.Gui.Dialogs
-{
-	/*
-	public class GradientHeaderPanel : Label
-	{
-		public GradientHeaderPanel(int fontSize) : this()
-		{
-			Font = new Font("Tahoma", fontSize);
-		}
-		
-		public GradientHeaderPanel() : base()
-		{
-			ResourceService resourceService = (ResourceService)ServiceManager.Services.GetService(typeof(IResourceService));
-			
-			ResizeRedraw = true;
-			Text = String.Empty;
-		}
-
-		protected override void OnPaintBackground(PaintEventArgs pe)
-		{
-			base.OnPaintBackground(pe);
-			Graphics g = pe.Graphics;
-			
-			g.FillRectangle(new LinearGradientBrush(new Point(0, 0), new Point(Width, Height), 
-			                                        SystemColors.Window, SystemColors.Control),
-							new Rectangle(0, 0, Width, Height));
-		}
-	}*/
+namespace ICSharpCode.SharpDevelop.Gui.Dialogs {
 	
 	/// <summary>
 	/// TreeView options are used, when more options will be edited (for something like
 	/// IDE Options + Plugin Options)
 	/// </summary>
-	public class TreeViewOptions
-	{
-		//protected GradientHeaderPanel optionsPanelLabel;
+	public class TreeViewOptions {
 		
-		protected ArrayList OptionPanels          = new ArrayList();
-		
+		protected ArrayList OptionPanels = new ArrayList ();
 		protected IProperties properties = null;
-		
-		protected Font plainFont = null;
-		protected Font boldFont  = null;
 
 		Gtk.TreeStore treeStore;
 		
 		[Glade.Widget] Gtk.TreeView  TreeView;
 		[Glade.Widget] Gtk.Label     optionTitle;
-		[Glade.Widget] Gtk.Button    okbutton;
-		[Glade.Widget] Gtk.Button    cancelbutton;
 		[Glade.Widget] Gtk.Notebook  mainBook;
 		[Glade.Widget] Gtk.Image     panelImage;
 		[Glade.Widget] Gtk.Dialog    TreeViewOptionDialog;
 		
-		PixbufList    imglist;
-		
-		ResourceService IconService = (ResourceService)ServiceManager.Services.GetService (typeof (IResourceService));
-		StringParserService StringParserService = (StringParserService)ServiceManager.Services.GetService (typeof (StringParserService));
+		StringParserService StringParserService = (StringParserService) ServiceManager.Services.GetService (typeof (StringParserService));
 		
 		public IProperties Properties {
 			get {
@@ -90,15 +52,13 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 			}
 		}
 		
-		protected void AcceptEvent(object sender, EventArgs e)
+		protected void AcceptEvent (object sender, EventArgs e)
 		{
 			foreach (AbstractOptionPanel pane in OptionPanels) {
-				if (!pane.ReceiveDialogMessage(DialogMessage.OK)) {
+				if (!pane.ReceiveDialogMessage (DialogMessage.OK))
 					return;
-				}
 			}
 			TreeViewOptionDialog.Hide ();
-			//DialogResult = DialogResult.OK;
 		}
 	
 		public int Run ()
@@ -114,7 +74,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 				descriptor.DialogPanel.ReceiveDialogMessage(DialogMessage.Activated);
 				mainBook.CurrentPage = mainBook.PageNum (descriptor.DialogPanel.Control);
 				if (descriptor.DialogPanel.Icon == null) {
-					panelImage.Stock = Gtk.Stock.Properties;
+					panelImage.Stock = Gtk.Stock.Preferences;
 				} else {
 					//FIXME: this needs to actually switch over the ImageType and use that instead of this *hack*
 					if (descriptor.DialogPanel.Icon.Stock != null)
@@ -122,7 +82,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 					else
 						panelImage.Pixbuf = descriptor.DialogPanel.Icon.Pixbuf;
 				}
-				optionTitle.Markup = "<b>" + descriptor.Label + "</b>";
+				optionTitle.Markup = "<span weight=\"bold\" size=\"x-large\">" + descriptor.Label + "</span>";
 				TreeViewOptionDialog.ShowAll ();
 			}
 		}		
@@ -139,13 +99,13 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 			
 				Gtk.TreeIter i;
 				if (iter.Equals (Gtk.TreeIter.Zero)) {
-					i = treeStore.AppendValues  (descriptor.Label, descriptor, imglist[2]);
+					i = treeStore.AppendValues (descriptor.Label, descriptor);
 				} else {
-					i = treeStore.AppendValues(iter, descriptor.Label, descriptor, imglist[2]);
-				
+					i = treeStore.AppendValues (iter, descriptor.Label, descriptor);
 				}
+				
 				if (descriptor.DialogPanelDescriptors != null) {
-					AddNodes(customizer, i, descriptor.DialogPanelDescriptors);
+					AddNodes (customizer, i, descriptor.DialogPanelDescriptors);
 				}
 			}
 		}
@@ -163,29 +123,11 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 					TreeView.ExpandToPath (new_path);
 					TreeView.Selection.SelectPath (new_path);
 				} else {
-					treeStore.Foreach (new Gtk.TreeModelForeachFunc (killArrows));
-					treeStore.SetValue (iter, 2, imglist[3]);
 					SetOptionPanelTo ((IDialogPanelDescriptor)treeStore.GetValue (iter, 1));
 				}
 			}
 		}
-
-		bool killArrows (Gtk.TreeModel mdl, Gtk.TreePath path, Gtk.TreeIter iter)
-		{
-			treeStore.SetValue (iter, 2, imglist[2]);
-			return false;
-		}
-		
-		protected void InitImageList()
-		{
-			imglist = new PixbufList();
-			imglist.Add(IconService.GetBitmap("Icons.16x16.ClosedFolderBitmap"));
-			imglist.Add(IconService.GetBitmap("Icons.16x16.OpenFolderBitmap"));
-			imglist.Add(IconService.GetBitmap("Icons.16x16.Empty") );
-			imglist.Add(IconService.GetBitmap("Icons.16x16.SelectionArrow"));
-		}
-		
-		public TreeViewOptions(IProperties properties, IAddInTreeNode node)
+		public TreeViewOptions (IProperties properties, IAddInTreeNode node)
 		{
 			this.properties = properties;
 			
@@ -194,13 +136,11 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 		
 			TreeViewOptionDialog.Title = StringParserService.Parse("${res:Dialog.Options.TreeViewOptions.DialogName}");
 
-			InitImageList ();
-
 			this.InitializeComponent();
 			
-			if (node != null) {
-				AddNodes(properties, Gtk.TreeIter.Zero, node.BuildChildItems(this));
-			}
+			if (node != null)
+				AddNodes (properties, Gtk.TreeIter.Zero, node.BuildChildItems(this));
+			
 			SelectFirstNode ();
 		}
 
@@ -210,33 +150,12 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 			SelectNode (null, null);
 		}
 		
-		protected void InitializeComponent() 
+		protected void InitializeComponent () 
 		{
-			treeStore = new Gtk.TreeStore (typeof(string), typeof(IDialogPanelDescriptor), typeof (Gdk.Pixbuf));
+			treeStore = new Gtk.TreeStore (typeof (string), typeof (IDialogPanelDescriptor));
+			
 			TreeView.Model = treeStore;
-
-			Gtk.TreeViewColumn column = new Gtk.TreeViewColumn ();
-			column.Title = "items";
-			
-			Gtk.CellRendererPixbuf pix_render = new Gtk.CellRendererPixbuf ();
-			pix_render.PixbufExpanderOpen = imglist[1];
-			pix_render.PixbufExpanderClosed = imglist[0];
-
-			column.PackStart (pix_render, false);
-			column.AddAttribute (pix_render, "pixbuf", 2);
-			Gtk.CellRendererText text_render = new Gtk.CellRendererText ();
-			column.PackStart (text_render, true);
-			column.AddAttribute (text_render, "text", 0);
-			
-			
-			Gtk.TreeViewColumn empty = new Gtk.TreeViewColumn ("a", new Gtk.CellRendererText (), "string", 0);
-			TreeView.AppendColumn (empty);
-			empty.Visible = false;
-			TreeView.ExpanderColumn = empty;
-						
-			TreeView.AppendColumn (column);
-			TreeView.HeadersVisible = false;
-
+			TreeView.AppendColumn ("", new Gtk.CellRendererText (), "text", 0);
 			TreeView.Selection.Changed += new EventHandler (SelectNode);
 		}
 		
