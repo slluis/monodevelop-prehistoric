@@ -784,10 +784,10 @@
 	        <MenuItem id = "Tools" 
 	                  label = "${res:XML.MainMenu.ToolMenu}">
 	                <MenuItem id = "ToolBuilder" label = "boguslabel" class = "ICSharpCode.SharpDevelop.Commands.ToolMenuBuilder" />
-	                <MenuItem id = "Separator1" label = "-" />
+	                <!-- <MenuItem id = "Separator1" label = "-" /> -->
 	                
-	                <MenuItem id = "Separator4" label = "-" />
-			<Conditional action = "Disable">
+	                <!-- <MenuItem id = "Separator4" label = "-" /> -->
+			<!-- <Conditional action = "Disable">
 				<Or>
 					<Condition activewindow="ICSharpCode.SharpDevelop.FormDesigner.FormDesignerDisplayBindingWrapper"/>
 					<Condition activewindow="ICSharpCode.SharpDevelop.FormDesigner.CSharpDesignerDisplayBindingWrapper"/>
@@ -797,14 +797,14 @@
 		                          label = "${res:XML.MainMenu.ToolMenu.ConvertBufferToVBNET}" 
 		                          description = "${res:XML.MainMenu.ToolMenu.ConvertBufferToVBNET.Description}"
 		                          class = "ICSharpCode.SharpDevelop.Commands.VBConvertBuffer"/>
-			</Conditional>
+			</Conditional> -->
 
 	<!-- ORIGINAL #D COMMENT <MenuItem id = "ConvertProject"
 	                          label = "Convert C# Project to VB.NET" 
 	                          description = "Converts the current selected C# project to VB.NET"
 	                          class = "ICSharpCode.SharpDevelop.Commands.VBConvertProject"/>-->
 
-	                <MenuItem id = "Separator5" label = "-" />
+	                <!-- <MenuItem id = "Separator5" label = "-" /> -->
 	               
 			<MenuItem id = "Options"
 	                          label = "${res:XML.MainMenu.ToolMenu.Options}" 

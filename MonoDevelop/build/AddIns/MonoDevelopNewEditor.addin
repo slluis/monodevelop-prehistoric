@@ -246,6 +246,7 @@
 		</MenuItem>
 	</Extension>
 	
+	<!--
 	<Extension path = "/SharpDevelop/Workbench/MainMenu/Window">
 		<Conditional activewindow="ICSharpCode.SharpDevelop.DefaultEditor.Gui.Editor.ITextEditorControlProvider" action="Disable">
 			<MenuItem id = "SplitTextEditor"
@@ -257,6 +258,7 @@
 			          class ="ICSharpCode.SharpDevelop.DefaultEditor.Commands.SplitTextEditor"/>
 		</Conditional> 
 	</Extension>
+	-->
 	
 	<Extension path = "/SharpDevelop/Workbench/MainMenu/Edit">
                 <MenuItem insertafter = "Delete" insertbefore = "SelectAll" id = "Separator2" label = "-" />
