@@ -62,11 +62,21 @@ namespace MonoDevelop.SourceEditor.Gui
 		{
 			SourceEditorDisplayBindingWrapper w = new SourceEditorDisplayBindingWrapper ();
 			
-			// FIXME
-			if (language == "C#")
-				language = "text/x-csharp";
-			else
-				language = "text/plain";
+			//FIXME
+			switch (language) {
+				case "C#":
+					language = "text/x-csharp";
+					break;
+				case "Java":
+					language = "text/x-java";
+					break;
+				//case language "VB":
+				//	language = "text/x-vbnet";
+				//	break;
+				default:
+					language = "text/plain";
+					break;
+			}
 			
 			w.LoadString (language, sps.Parse (content));
 			return w;
@@ -152,8 +162,7 @@ namespace MonoDevelop.SourceEditor.Gui
 		public override bool IsReadOnly
 		{
 			get {
-				// FIXME
-				return false;
+				return se.View.Editable;
 			}
 		}
 		
@@ -336,15 +345,13 @@ namespace MonoDevelop.SourceEditor.Gui
 					// CANTDO: show tabs				Key = "ShowTabs"
 					// CANTDO eol makers				Key = "ShowEOLMarkers"
 					// CANTDO: show horizontal ruler	Key = "ShowHRuler"		
-					// CANTDO: underline errors			Key = "ShowErrors"					
+					// CANDO in pango1.4: underline errors			Key = "ShowErrors"
 					// DONOTDO: auto insert braces		Key = "AutoInsertCurlyBracket"
 					// TODO: Show Invalid Lines			Key = "ShowInvalidLines"
-					// TODO: CodeCompletion				Key = "EnableCodeCompletion"
 					// TODO: Code Folding				Key = "EnableFolding"
 					// TODO: Double Buffering			Key = "DoubleBuffer"
 					// TODO: can move past EOL 			Key = "CursorBehindEOL"
 					// TODO: auto insert template		Key = "AutoInsertTemplates"	
-					// TODO: hide mouse while typing 	Key = "HideMouseCursor"
  		}
 	}
 }
