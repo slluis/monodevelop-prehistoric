@@ -22,7 +22,7 @@ namespace ICSharpCode.SharpDevelop.Internal.Templates
 	/// </summary>
 	public class CodeTemplateLoader
 	{
-		static string TemplateFileName = "SharpDevelop-templates.xml";
+		static string TemplateFileName = "MonoDevelop-templates.xml";
 		static string TemplateVersion  = "2.0";
 		
 		static ArrayList templateGroups = new ArrayList();

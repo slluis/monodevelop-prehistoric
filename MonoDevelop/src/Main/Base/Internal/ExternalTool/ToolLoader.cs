@@ -21,7 +21,7 @@ namespace ICSharpCode.SharpDevelop.Internal.ExternalTool
 	/// </summary>
 	public class ToolLoader
 	{
-		static string TOOLFILE        = "SharpDevelop-tools.xml";
+		static string TOOLFILE        = "MonoDevelop-tools.xml";
 		static string TOOLFILEVERSION = "1";
 		
 		static ArrayList tool         = new ArrayList();
