@@ -58,7 +58,8 @@ namespace ILAsmBinding
 			}
 			
 			string outputFile = Path.GetFullPath(fileUtilityService.GetDirectoryNameWithSeparator(compilerparameters.OutputDirectory) + compilerparameters.OutputAssembly + ".exe");
-			parameters.Append("/output:" + outputFile);
+			Console.WriteLine (outputFile);
+			parameters.Append("/out:" + outputFile);
 			parameters.Append(" ");
 			parameters.Append(compilerparameters.CurrentCompilerOptions.GenerateOptions());
 			string compilerName = GetCompilerName();

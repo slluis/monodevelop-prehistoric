@@ -45,10 +45,12 @@ namespace ILAsmBinding
 			FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.Services.GetService(typeof(FileUtilityService));
 			
 			string exe = Path.GetFullPath(Path.Combine(parameters.OutputDirectory, parameters.OutputAssembly) + ".exe");
-			ProcessStartInfo psi = new ProcessStartInfo("\"" + exe  + "\"");
-			psi.WorkingDirectory = Path.GetDirectoryName(exe);
-			psi.UseShellExecute  = true;
-			
+			string fullCommand = String.Format ("xterm -e \"mono {0};read -p 'press any key to continue...' -n1\"", exe);
+			ProcessStartInfo psi = new ProcessStartInfo(fullCommand);
+			psi.WorkingDirectory = Path.GetDirectoryName (exe);
+			psi.UseShellExecute  = false;
+			Process p = Process.Start (psi);
+			p.WaitForExit ();
 			//DebuggerService debuggerService  = (DebuggerService)ServiceManager.Services.GetService(typeof(DebuggerService));
 			//debuggerService.StartWithoutDebugging(psi);
 		}
