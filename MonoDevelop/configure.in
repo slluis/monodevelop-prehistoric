@@ -192,7 +192,6 @@ Core/src/Tools/dbgen/Makefile
 build/Makefile
 build/data/Makefile
 build/data/resources/Makefile
-build/data/options/Makefile
 build/data/resources/css/Makefile
 build/data/resources/icons/Makefile
 Core/src/AddIns/DebuggerAddIn/AssemblyInfo.cs

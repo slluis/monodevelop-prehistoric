@@ -385,6 +385,15 @@ Internal/ExternalTool/ToolLoader.cs \
 Internal/ExternalTool/ExternalTool.cs \
 AssemblyInfo.cs
 
+OPTIONS = \
+options/DefaultEditingLayout.xml \
+options/MonoDevelopProperties.xml \
+options/MonoDevelop-templates.xml \
+options/MonoDevelop-tools.xml \
+options/TipsOfTheDay.xml
+
+build_OPTIONS = $(addprefix $(top_builddir)/build/data/options/, $(notdir $(OPTIONS)))
+
 build_sources = $(addprefix $(srcdir)/, $(FILES))
 
 ASSEMBLY = MonoDevelop.Base.dll
@@ -393,7 +402,11 @@ ADDIN = MonoDevelopCore.addin.xml
 
 ADDIN_BUILD = $(top_builddir)/build/AddIns
 
-all: $(ASSEMBLY) $(ADDIN_BUILD)/$(ADDIN)
+all: $(ASSEMBLY) $(ADDIN_BUILD)/$(ADDIN) $(build_OPTIONS)
+
+$(build_OPTIONS): $(top_builddir)/build/data/options/%.xml: $(srcdir)/options/%.xml
+	mkdir -p $(top_builddir)/build/data/options
+	cp $(srcdir)/options/$(notdir $@) $@
 
 $(ADDIN_BUILD)/$(ADDIN): $(srcdir)/$(ADDIN)
 	mkdir -p $(ADDIN_BUILD)
@@ -416,8 +429,11 @@ assembly_DATA = $(ASSEMBLY) $(ASSEMBLY).config
 addindir = $(libdir)/monodevelop/AddIns
 addin_DATA = $(ADDIN)
 
+optionsdir = $(libdir)/monodevelop/data/options
+options_DATA = $(OPTIONS)
+
 CLEANFILES = $(ASSEMBLY) $(ASSEMBLY).mdb
 DISTCLEANFILES = $(ASSEMBLY).config
 
-EXTRA_DIST = $(FILES) ./Services/process-icons.pl $(ASSEMBLY).config.in Base.glade $(ADDIN)
+EXTRA_DIST = $(FILES) ./Services/process-icons.pl $(ASSEMBLY).config.in Base.glade $(ADDIN) $(OPTIONS)
 

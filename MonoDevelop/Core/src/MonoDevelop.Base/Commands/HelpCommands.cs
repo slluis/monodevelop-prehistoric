@@ -34,14 +34,6 @@ namespace MonoDevelop.Commands
 		}
 	}
 	
-	public class ViewGPL : AbstractMenuCommand
-	{
-		public override void Run()
-		{
-			using (ViewGPLDialog vgd = new ViewGPLDialog ());
-		}
-	}
-	
 	public class GotoWebSite : AbstractMenuCommand
 	{
 		string site;

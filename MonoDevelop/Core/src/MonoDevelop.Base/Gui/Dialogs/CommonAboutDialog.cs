@@ -140,11 +140,7 @@ namespace MonoDevelop.Gui.Dialogs
 	public class CommonAboutDialog : Dialog
 	{
 		
-		AuthorAboutTabPage aatp;
-		//ChangeLogTabPage changelog;
 		ScrollBox aboutPictureScrollBox;
-		
-		//static PropertyService propertyService = (PropertyService)ServiceManager.Services.GetService(typeof(PropertyService));
 		
 		public CommonAboutDialog ()
 		{
