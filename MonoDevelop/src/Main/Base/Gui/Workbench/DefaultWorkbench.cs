@@ -402,6 +402,7 @@ namespace MonoDevelop.Gui
 				Resize (normalBounds.Width, normalBounds.Height);
 				//FullScreen  = memento.FullScreen;
 			}*/
+			Decorated = true;
 		}
 		
 		protected /*override*/ void OnResize(EventArgs e)
