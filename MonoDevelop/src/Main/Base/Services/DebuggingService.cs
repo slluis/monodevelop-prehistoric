@@ -64,6 +64,11 @@ namespace MonoDevelop.Services
 			return point;
 		}
 
+		public void StepOver ()
+		{
+
+		}
+
 		public bool AddBreakpoint (string filename, int linenum)
 		{
 			string key = filename + ":" + linenum;

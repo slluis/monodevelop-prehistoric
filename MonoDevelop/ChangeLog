@@ -1,26 +1,51 @@
+2004-03-04  Todd Berman  <tberman@sevenl.net>
+
+	* build/AddIns/SharpDevelopCore.addin: adding debug menu.
+	* src/Main/Base/Services/DebuggingService.cs: added stub for step over.
+	* src/Main/Base/Commands/DebuggerCommands.cs: added StepOver.
+	* src/AddIns/DisplayBindings/SourceEditor/Gui/SourceEditorBuffer.cs:
+		change current execution from red to yellow.
+	* ChangeLog: formatting fixes, use this format from now on.
+
 2004-03-04  Daniel Kornhauser <dkor@alum.mit.edu>
 
-	    * data/resources/glade/CSharp.glade : created glade file with OutputOptionsPanel UI
-	    * src/AddIns/BackendBindings/CSharpBinding/Gui/OutputOptionsPanel.cs: Gladed CodeGenerationPanel
+	* data/resources/glade/CSharp.glade: 
+		created glade file with OutputOptionsPanel UI
+	* src/AddIns/BackendBindings/CSharpBinding/Gui/OutputOptionsPanel.cs:
+		Gladed CodeGenerationPanel
 
 2004-03-04 John BouAntoun  <jba-mono@optusnet.com.au>
-	* src/Main/Base/Gui/Dialogs/ProjectOptionsDialog.cs : enabled context menu's for project configurations
-	* src/Main/Base/Gui/Dialogs/TreeViewOptions.cs : made SelectNode virtual so ProjectOptionsDialog could override
-	* data/resources/glade/Base.glade : fiddled with TreeviewOptions Dialog
+	* src/Main/Base/Gui/Dialogs/ProjectOptionsDialog.cs: 
+		enabled context menu's for project configurations
+	* src/Main/Base/Gui/Dialogs/TreeViewOptions.cs: 
+		made SelectNode virtual so ProjectOptionsDialog could override
+	* data/resources/glade/Base.glade: 
+		fiddled with TreeviewOptions Dialog
 
 2004-03-04  Daniel Kornhauser <dkor@alum.mit.edu>
                                                                                                                              
-        * data/resources/glade/CSharp.glade : created glade file with CodeGenerationPanel UI
-        * src/AddIns/BackendBindings/CSharpBinding/Gui/CodeGenerationPanel.cs : ported CodeGenerationPanel
-        * data/resources/glade/Makefile.am  : added reference and resource
-        * src/AddIns/BackendBindings/CSharpBinding/Makefile.am : added reference and resource
+        * data/resources/glade/CSharp.glade: 
+		created glade file with CodeGenerationPanel UI
+        * src/AddIns/BackendBindings/CSharpBinding/Gui/CodeGenerationPanel.cs: 
+		ported CodeGenerationPanel
+        * data/resources/glade/Makefile.am: 
+		added reference and resource
+        * src/AddIns/BackendBindings/CSharpBinding/Makefile.am:
+		added reference and resource
 
 2004-03-04 John BouAntoun  <jba-mono@optusnet.com.au>
-	* src/Main/Base/Gui/Dialogs/ProjectOptionsDialog.cs: ported [Add/Remove/UpdateBold]Configuration functions. still no way to cool them, need context menu
-	* src/Main/Base/Gui/Dialogs/TreeViewOptions.cs : made TreeView explicitely protected, added SelectSpecificNode that does just that 
+	* src/Main/Base/Gui/Dialogs/ProjectOptionsDialog.cs: 
+		ported [Add/Remove/UpdateBold]Configuration functions. still 
+		no way to cool them, need context menu
+	* src/Main/Base/Gui/Dialogs/TreeViewOptions.cs: 
+		made TreeView explicitely protected, added SelectSpecificNode
+		that does just that 
 
 2004-03-04 John BouAntoun  <jba-mono@optusnet.com.au>
-	* build/AddIns/AddIns/BackendBindings/BackendBindings.addin : commented ChoosRuntimePanel binding (we can't support any other runtimes)  
+
+	* build/AddIns/AddIns/BackendBindings/BackendBindings.addin: 
+		commented ChoosRuntimePanel binding (we wont't support any 
+		other runtimes)  
 
 2004-03-03  Todd Berman  <tberman@sevenl.net>
 
@@ -55,19 +80,26 @@
 	* Main/Base/Services/DebuggingService.cs (Run): ignore if running
 
 2004-03-03 John BouAntoun  <jba-mono@optusnet.com.au>
-	* src/Main/Base/Commands/ProjectOptionsCommands.cs : enabled all the projections command actions
-	* src/Main/Base/Gui/Dialogs/ProjectOptionsDialog.cs : added code to display the configuration options nodes
-	* src/Main/Base/Gui/Dialogs/TreeViewOptions.cs : made treeStore explicitely protected so ProjectOptionsDialogs could append configuration nodes
-
+	* src/Main/Base/Commands/ProjectOptionsCommands.cs: 
+		enabled all the projections command actions
+	* src/Main/Base/Gui/Dialogs/ProjectOptionsDialog.cs:
+		added code to display the configuration options nodes
+	* src/Main/Base/Gui/Dialogs/TreeViewOptions.cs:
+		made treeStore explicitely protected so ProjectOptionsDialogs
+		could append configuration nodes
 
 2004-03-03  Todd Berman  <tberman@sevenl.net>
 
 	* bunch o' files: Added first pass debugger support.
 
 2004-03-03 John BouAntoun  <jba-mono@optusnet.com.au>
-	* src/Main/Base/Internal/Project/Project/IncludeFilesDialog.cs : Changed ShowDialog() to do a Dialog.Run() instead of Dialog.ShowAll().
-	* src/Main/Base/Internal/Project/Project/AbstractProject.cs : removed comment that said to fix the IncludeFilesDialog
-	* data/resources/glade/Base.glade : made the treeview's scrolled window visible from start
+	* src/Main/Base/Internal/Project/Project/IncludeFilesDialog.cs:
+		Changed ShowDialog() to do a Dialog.Run() instead of 
+		Dialog.ShowAll().
+	* src/Main/Base/Internal/Project/Project/AbstractProject.cs:
+		removed comment that said to fix the IncludeFilesDialog
+	* data/resources/glade/Base.glade:
+		made the treeview's scrolled window visible from start
 
 2004-03-02  Mike Kestner  <mkestner@ximian.com>
 

@@ -62,7 +62,7 @@ namespace MonoDevelop.SourceEditor.Gui {
 		public SourceEditorBuffer () : base (new SourceTagTable ())
 		{
 			markup = new TextTag ("breakpoint");
-			markup.Background = "red";
+			markup.Background = "yellow";
 			TagTable.Add (markup);
 		}
 		

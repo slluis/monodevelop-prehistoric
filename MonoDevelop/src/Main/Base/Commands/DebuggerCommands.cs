@@ -9,6 +9,16 @@ using ICSharpCode.Core.Services;
 namespace MonoDevelop.Commands
 {
 
+	public class StepOver : AbstractMenuCommand
+	{
+		public override void Run ()
+		{
+			DebuggingService dbgr = (DebuggingService)ServiceManager.Services.GetService (typeof (DebuggingService));
+			
+			dbgr.StepOver ();
+		}
+	}
+
 	public class DebugProject : AbstractMenuCommand
 	{
 

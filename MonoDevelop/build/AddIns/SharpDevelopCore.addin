@@ -789,7 +789,16 @@
 			                  class = "MonoDevelop.Commands.DebugProject"/>
 			</Conditional> 
 	        </MenuItem>
-	                
+
+		<MenuItem id = "DebugMenu"
+			  label = "Debug">
+
+			<MenuItem id = "DebugStepOver"
+				  label = "Step Over"
+				  class = "MonoDevelop.Commands.StepOver"/>
+		
+		</MenuItem>
+        
 	        <MenuItem id = "Tools" 
 	                  label = "${res:XML.MainMenu.ToolMenu}">
 	                <MenuItem id = "ToolBuilder" label = "boguslabel" class = "ICSharpCode.SharpDevelop.Commands.ToolMenuBuilder" />
