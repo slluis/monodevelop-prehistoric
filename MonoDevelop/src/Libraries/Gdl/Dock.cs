@@ -8,26 +8,6 @@ namespace Gdl
 {
 	public class Dock : DockObject
 	{
-	
-		public Dock ()
-		{
-			this.Flags |= (int)Gtk.WidgetFlags.NoWindow;
-			this.DockObjectFlags &= ~(DockObjectFlags.Automatic);
-			if (this.Master == null) {
-				this.Bind (new DockMaster ());
-			}
-			if (this.floating) {
-				//Need code here to handle floating shit.
-			}
-			this.DockObjectFlags |= DockObjectFlags.Attached;
-		}
-		
-		public Dock (Dock original, bool _floating) : this ()
-		{
-			this.Master = original.Master;
-			this.floating = _floating;
-		}
-		
 		private DockObject root = null;
 		private bool floating;
 		private Widget window;
@@ -38,6 +18,25 @@ namespace Gdl
 		private int height = -1;
 		private Gdk.GC xor_gc;
 
+		public Dock ()
+		{
+			Flags |= (int)WidgetFlags.NoWindow;
+			DockObjectFlags &= ~(DockObjectFlags.Automatic);
+			if (Master == null) {
+				Bind (new DockMaster ());
+			}
+			if (floating) {
+				//Need code here to handle floating shit.
+			}
+			DockObjectFlags |= DockObjectFlags.Attached;
+		}
+		
+		public Dock (Dock original, bool _floating) : this ()
+		{
+			Master = original.Master;
+			floating = _floating;
+		}
+		
 		public DockObject Root {
 			get { return root; }
 			set { root = value; }
@@ -50,13 +49,13 @@ namespace Gdl
 		
 		public string DefaultTitle {
 			get {
-				if (this.Master != null)
-					return this.Master.DefaultTitle;
+				if (Master != null)
+					return Master.DefaultTitle;
 				return null;
 			}
 			set {
-				if (this.Master != null)
-					this.Master.DefaultTitle = value;
+				if (Master != null)
+					Master.DefaultTitle = value;
 			}
 		}
 		
@@ -64,8 +63,8 @@ namespace Gdl
 			get { return width; }
 			set {
 				width = value;
-				if (this.floating && this.window != null && this.window is Gtk.Window)
-					((Gtk.Window)this.window).Resize (width, height);
+				if (floating && window != null && window is Window)
+					((Window)window).Resize (width, height);
 			}
 		}
 		
@@ -73,8 +72,8 @@ namespace Gdl
 			get { return height; }
 			set {
 				height = value;
-				if (this.floating && this.window != null && this.window is Gtk.Window)
-					((Gtk.Window)this.window).Resize (width, height);
+				if (floating && window != null && window is Window)
+					((Window)window).Resize (width, height);
 			}
 		}
 		
@@ -82,8 +81,8 @@ namespace Gdl
 			get { return float_x; }
 			set {
 				float_x = value;
-				if (this.floating && this.window != null && this.window is Gtk.Window)
-					((Gtk.Window)this.window).Resize (width, height);
+				if (floating && window != null && window is Window)
+					((Window)window).Resize (width, height);
 			}
 		}
 		
@@ -91,46 +90,49 @@ namespace Gdl
 			get { return float_y; }
 			set {
 				float_y = value;
-				if (this.floating && this.window != null && this.window is Gtk.Window)
-					((Gtk.Window)this.window).Resize (width, height);
+				if (floating && window != null && window is Window)
+					((Window)window).Resize (width, height);
 			}
 		}
 		
-		protected override void OnSizeRequested (ref Gtk.Requisition requisition)
+		protected override void OnSizeRequested (ref Requisition requisition)
 		{
-			int border_width = (int)this.BorderWidth;
-			if (this.root != null && this.root.Visible)
-				requisition = this.root.SizeRequest ();
-			else {
-				requisition.Width = 0;
-				requisition.Height = 0;
-			}
-			
-			requisition.Width += 2 * border_width;
-			requisition.Height += 2 * border_width;
+			requisition.Width = 2 * (int)BorderWidth;
+			requisition.Height = 2 * (int)BorderWidth;
+
+			if (root != null && root.Visible) {
+				Requisition rootReq = root.SizeRequest ();
+				requisition.Width += rootReq.Width;
+				requisition.Height += rootReq.Height;
+			}			
 		}
 		
 		protected override void OnSizeAllocated (Gdk.Rectangle allocation)
 		{
-			int border_width = (int)this.BorderWidth;
-			allocation.X += border_width;
-			allocation.Y += border_width;
-			allocation.Width = Math.Max (1, allocation.Width - 2 * border_width);
-			allocation.Height = Math.Max (1, allocation.Height - 2 * border_width);
+			base.OnSizeAllocated (allocation);
+		
+			if (root != null && root.Visible) {
+				int bw = (int)BorderWidth;
+				Gdk.Rectangle childAlloc;
 			
-			if (this.root != null && this.root.Visible)
-				this.root.SizeAllocate (allocation);
+				childAlloc.X = allocation.X + bw;
+				childAlloc.Y = allocation.Y + bw;
+				childAlloc.Width = Math.Max (1, allocation.Width - 2 * bw);
+				childAlloc.Height = Math.Max (1, allocation.Height - 2 * bw);
+			
+				root.SizeAllocate (childAlloc);
+			}
 		}
 		
 		protected override void OnMapped ()
 		{
 			base.OnMapped ();
 			Console.WriteLine ("Mapping");
-			if (this.root != null) {
-				Console.WriteLine ("root.Visible = " + this.root.Visible);
-				if (this.root.Visible && !this.root.IsMapped) {
+			if (root != null) {
+				Console.WriteLine ("root.Visible = " + root.Visible);
+				if (root.Visible && !root.IsMapped) {
 					Console.WriteLine ("Mapping root");
-					this.root.Map ();
+					root.Map ();
 				}
 			}
 		}
@@ -138,21 +140,21 @@ namespace Gdl
 		protected override void OnUnmapped ()
 		{
 			base.OnUnmapped ();
-			if (this.root != null) {
-				if (this.root.Visible && this.root.IsMapped)
-					this.root.Unmap ();
+			if (root != null) {
+				if (root.Visible && root.IsMapped)
+					root.Unmap ();
 			}
-			if (this.window != null)
+			if (window != null)
 				window.Unmap ();
 		}
 		
 		protected override void OnShown ()
 		{
 			base.OnShown ();
-			if (this.floating && this.window != null)
-				this.window.Show ();
-			if (this.IsController) {
-				foreach (DockObject item in this.Master.TopLevelDocks) {
+			if (floating && window != null)
+				window.Show ();
+			if (IsController) {
+				foreach (DockObject item in Master.TopLevelDocks) {
 					if (item == this)
 						continue;
 					if (item.IsAutomatic)
@@ -164,8 +166,8 @@ namespace Gdl
 		protected override void OnHidden ()
 		{
 			base.OnHidden ();
-			if (this.floating && this.window != null)
-				this.window.Hide ();
+			if (floating && window != null)
+				window.Hide ();
 			/*PORT:
 			    if (GDL_DOCK_IS_CONTROLLER (dock)) {
         gdl_dock_master_foreach_toplevel (GDL_DOCK_OBJECT_GET_MASTER (dock),
@@ -174,8 +176,9 @@ namespace Gdl
     		}*/
 		}
 		
-		protected override void OnAdded (Gtk.Widget widget)
+		protected override void OnAdded (Widget widget)
 		{
+			Console.WriteLine ("OnAdded {0}", widget);
 			DockItem child = widget as DockItem;
 			if (child == null)
 				return;
@@ -183,22 +186,22 @@ namespace Gdl
 			AddItem (child, DockPlacement.Top);
 		}
 		
-		protected override void OnRemoved (Gtk.Widget widget)
+		protected override void OnRemoved (Widget widget)
 		{
 			bool was_visible = widget.Visible;
-			if (this.root == widget) {
-				this.root = null;
+			if (root == widget) {
+				root = null;
 				((DockObject)widget).DockObjectFlags &= ~(DockObjectFlags.Attached);
 				widget.Unparent ();
-				if (was_visible && this.Visible)
-					this.QueueResize ();
+				if (was_visible && Visible)
+					QueueResize ();
 			}
 		}
 		
 		protected override void ForAll (bool include_internals, CallbackInvoker invoker)
 		{
-			if (this.root != null)
-				invoker.Invoke (this.root);
+			if (root != null)
+				invoker.Invoke (root);
 		}
 		
 		/*PORT THIS CODE: its an override of Container.ChildType
@@ -210,32 +213,32 @@ gdl_dock_child_type (GtkContainer *container)
 		
 		public override void Detach (bool recursive)
 		{
-			if (recursive && this.root != null)
-				this.root.Detach (recursive);
-			this.DockObjectFlags &= ~(DockObjectFlags.Attached);
+			if (recursive && root != null)
+				root.Detach (recursive);
+			DockObjectFlags &= ~(DockObjectFlags.Attached);
 		}
 		
 		public override void Reduce ()
 		{
-			if (this.root != null)
+			if (root != null)
 				return;
 			
-			if (this.IsAutomatic)
-				this.Destroy ();
-			else if (!(this.IsAttached)) {
-				if (this.floating)
-					this.Hide ();
+			if (IsAutomatic)
+				Destroy ();
+			else if (!(IsAttached)) {
+				if (floating)
+					Hide ();
 				else {
-					if (this.Parent != null && this.Parent is Gtk.Container)
-						((Gtk.Container)this.Parent).Remove (this);
+					if (Parent != null && Parent is Container)
+						((Container)Parent).Remove (this);
 				}
 			}
 		}
 		
 		public override bool DockRequest (int x, int y, DockRequest request)
 		{
-			Gdk.Rectangle alloc = this.Allocation;
-			int bw = (int)this.BorderWidth;
+			Gdk.Rectangle alloc = Allocation;
+			int bw = (int)BorderWidth;
 			int rel_x = x - alloc.X;
 			int rel_y = y - alloc.Y;
 			DockRequest my_request = null;
@@ -253,11 +256,11 @@ gdl_dock_child_type (GtkContainer *container)
 				req_rect.Height = alloc.Height - 2 * bw;
 				my_request.Rect = req_rect;
 				
-				if (this.root == null) {
+				if (root == null) {
 					my_request.Position = DockPlacement.Top;
 					my_request.Target = this;
 				} else {
-					my_request.Target = this.root;
+					my_request.Target = root;
 					
 					if (rel_x < bw) {
 						my_request.Position = DockPlacement.Left;
@@ -278,7 +281,7 @@ gdl_dock_child_type (GtkContainer *container)
 						req_rect.Height = (int)(req_rect.Height * 0.3);
 						my_request.Rect = req_rect;
 					} else {
-						may_dock = this.root.DockRequest (x, y, my_request);
+						may_dock = root.DockRequest (x, y, my_request);
 					}
 				}
 			}
@@ -304,27 +307,27 @@ gdl_dock_child_type (GtkContainer *container)
 					height = rect.Height;
 				}
 				AddFloatingItem (item, x, y, width, height);
-			} else if (this.root != null) {
+			} else if (root != null) {
 				Console.WriteLine ("root was not null, docking to root");
-				this.root.Docking (requestor, position, null);
+				root.Docking (requestor, position, null);
 				//gdl_dock_set_title (dock /*this*/);
 			} else {
 				Console.WriteLine ("root is null, setting requestor to root");
-				this.root = requestor;
-				this.root.DockObjectFlags &= DockObjectFlags.Attached;
-				this.root.Parent = this;
-				((DockItem)this.root).ShowGrip ();
-				if (this.IsRealized) {
+				root = requestor;
+				root.DockObjectFlags &= DockObjectFlags.Attached;
+				root.Parent = this;
+				((DockItem)root).ShowGrip ();
+				if (IsRealized) {
 					Console.WriteLine ("realizing new root");
-					this.root.Realize ();
+					root.Realize ();
 				}
-				if (this.Visible && this.root.Visible) {
+				if (Visible && root.Visible) {
 					Console.WriteLine ("root is visible");
-					if (this.IsMapped) {
+					if (IsMapped) {
 						Console.WriteLine ("mapping new root");
-						this.root.Map ();
+						root.Map ();
 					}
-					this.root.QueueResize ();
+					root.QueueResize ();
 				}
 				//gdl_dock_set_title (dock /*this*/);
 			}
@@ -333,11 +336,11 @@ gdl_dock_child_type (GtkContainer *container)
 		public override bool Reorder (DockObject requestor, DockPlacement new_position, object other_data)
 		{
 			bool handled = false;
-			if (this.floating && new_position == DockPlacement.Floating && this.root == requestor) {
+			if (floating && new_position == DockPlacement.Floating && root == requestor) {
 				if (other_data != null && other_data is Gdk.Rectangle) {
 					Gdk.Rectangle rect = (Gdk.Rectangle)other_data;
-					if (this.window != null && this.window is Gtk.Window) {
-						((Gtk.Window)this.window).Move (rect.X, rect.Y);
+					if (window != null && window is Window) {
+						((Window)window).Move (rect.X, rect.Y);
 						handled = true;
 					}
 				}
@@ -348,7 +351,7 @@ gdl_dock_child_type (GtkContainer *container)
 		public override bool ChildPlacement (DockObject child, ref DockPlacement placement)
 		{
 			bool retval = true;
-			if (this.root == child) {
+			if (root == child) {
 				if (placement == DockPlacement.None || placement == DockPlacement.Floating)
 					placement = DockPlacement.Top;
 			} else
@@ -359,8 +362,8 @@ gdl_dock_child_type (GtkContainer *container)
 		
 		public override void Present (DockObject child)
 		{
-			if (this.floating && this.window != null && this.window is Gtk.Window)
-				((Gtk.Window)this.window).Present ();
+			if (floating && window != null && window is Window)
+				((Window)window).Present ();
 		}
 		
 		public void AddItem (DockItem item, DockPlacement placement)
@@ -371,7 +374,7 @@ gdl_dock_child_type (GtkContainer *container)
 				AddFloatingItem (item, 0, 0, -1, -1);
 			else {
 				Console.WriteLine ("about to dock");
-				this.Docking (item, placement, null);
+				Docking (item, placement, null);
 			}
 		}
 		
@@ -382,9 +385,9 @@ gdl_dock_child_type (GtkContainer *container)
 			new_dock.Height = height;
 			new_dock.FloatX = x;
 			new_dock.FloatY = y;
-			if (this.Visible) {
+			if (Visible) {
 				new_dock.Show ();
-				if (this.IsMapped)
+				if (IsMapped)
 					new_dock.Map ();
 				new_dock.QueueResize ();
 			}
@@ -395,7 +398,7 @@ gdl_dock_child_type (GtkContainer *container)
 		{
 			if (name == null)
 				return null;
-			DockObject found = this.Master.GetObject (name);
+			DockObject found = Master.GetObject (name);
 			if (found != null && found is DockItem)
 				return (DockItem)found;
 			return null;
@@ -405,7 +408,7 @@ gdl_dock_child_type (GtkContainer *container)
 		{
 			if (name == null)
 				return null;
-			DockObject found = this.Master.GetObject (name);
+			DockObject found = Master.GetObject (name);
 			if (found != null && found is DockPlaceholder)
 				return (DockPlaceholder)found;
 			return null;
@@ -432,32 +435,32 @@ gdl_dock_child_type (GtkContainer *container)
 		
 		public void XorRect (Gdk.Rectangle rect)
 		{
-			if (this.xor_gc == null) {
-				if (this.IsRealized) {
+			if (xor_gc == null) {
+				if (IsRealized) {
 					Gdk.GCValues values = new Gdk.GCValues ();
 					values.Function = Gdk.Function.Invert;
 					values.SubwindowMode = Gdk.SubwindowMode.IncludeInferiors;
-					this.xor_gc = new Gdk.GC (this.GdkWindow);
-					this.xor_gc.SetValues (values, Gdk.GCValuesMask.Function | Gdk.GCValuesMask.Subwindow);
+					xor_gc = new Gdk.GC (GdkWindow);
+					xor_gc.SetValues (values, Gdk.GCValuesMask.Function | Gdk.GCValuesMask.Subwindow);
 				} else
 					return;
 			}
 			xor_gc.SetLineAttributes (1, Gdk.LineStyle.OnOffDash, Gdk.CapStyle.NotLast, Gdk.JoinStyle.Bevel);
 			xor_gc.SetDashes (1, new sbyte[] { 1, 1}, 2);
-			this.GdkWindow.DrawRectangle (xor_gc, false, rect.X, rect.Y, rect.Width, rect.Height);
+			GdkWindow.DrawRectangle (xor_gc, false, rect.X, rect.Y, rect.Width, rect.Height);
 			xor_gc.SetDashes (0, new sbyte[] { 1, 1}, 2);
-			this.GdkWindow.DrawRectangle (xor_gc, false, rect.X + 1, rect.Y + 1, rect.Width - 2, rect.Height - 2);
+			GdkWindow.DrawRectangle (xor_gc, false, rect.X + 1, rect.Y + 1, rect.Width - 2, rect.Height - 2);
 		}
 		
 		private bool IsController {
 			get {
-				if (this.Master == null) {
+				if (Master == null) {
 					Console.WriteLine ("Master is null");
 					return false;
 				}
-				if (this.Master.Controller == null)
+				if (Master.Controller == null)
 					Console.WriteLine ("Master.Controller is null");
-				return (this.Master.Controller == this); 
+				return (Master.Controller == this); 
 			}
 		}
 	}

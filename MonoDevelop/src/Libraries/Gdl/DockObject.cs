@@ -8,9 +8,10 @@ using Gtk;
 //FIXME: Event emitting doesnt happen, and it needs to.
 namespace Gdl
 {
-	public class DockObject : Gtk.Container
+	public class DockObject : Container
 	{	
-		private Gdl.DockObjectFlags flags;
+		private Container container;
+		private DockObjectFlags flags;
 		private int freeze_count;
 		private DockMaster master;
 		private string name;
@@ -37,16 +38,16 @@ namespace Gdl
 			get { return master; }
 			set {
 				if (value != null)
-					this.Bind (master);
+					Bind (master);
 				else
-					this.Unbind ();
+					Unbind ();
 			}
 		}
 		
 		protected override void OnShown ()
 		{
-			if (this.IsCompound) {
-				foreach (Gtk.Widget child in this.Children) {
+			if (IsCompound) {
+				foreach (Widget child in Children) {
 					child.Show ();
 				}
 			}
@@ -55,8 +56,8 @@ namespace Gdl
 		
 		protected override void OnHidden ()
 		{
-			if (this.IsCompound) {
-				foreach (Gtk.Widget child in this.Children) {
+			if (IsCompound) {
+				foreach (Widget child in Children) {
 					child.Hide ();
 				}
 			}
@@ -66,16 +67,16 @@ namespace Gdl
 		public virtual void Detach (bool recursive)
 		{
 			//Detach children
-			if (recursive && this.IsCompound) {
-				foreach (DockObject child in this.Children) {
+			if (recursive && IsCompound) {
+				foreach (DockObject child in Children) {
 					child.Detach (recursive);
 				}
 			}
 			//Detach object itself.
-			this.flags &= ~(DockObjectFlags.Attached);
-			DockObject parent = this.ParentObject;
-			if (this.Parent != null && this.Parent is Gtk.Container) {
-				((Gtk.Container)this.Parent).Remove (this);
+			flags &= ~(DockObjectFlags.Attached);
+			DockObject parent = ParentObject;
+			if (Parent != null && Parent is Container) {
+				((Container)Parent).Remove (this);
 			}
 			if (parent != null)
 				parent.Reduce ();
@@ -84,27 +85,27 @@ namespace Gdl
 		
 		public virtual void Reduce ()
 		{
-			if (!this.IsCompound)
+			if (!IsCompound)
 				return;
 				
-			Gdl.DockObject parent = this.ParentObject;
-			Gtk.Widget[] children = this.Children;
+			DockObject parent = ParentObject;
+			Widget[] children = Children;
 			if (children.Length <= 1) {
 				if (parent != null)
 					parent.Freeze ();
-				this.Freeze ();
-				this.Detach (false);
-				foreach (Gtk.Widget widget in children) {
-					Gdl.DockObject child = widget as Gdl.DockObject;
+				Freeze ();
+				Detach (false);
+				foreach (Widget widget in children) {
+					DockObject child = widget as DockObject;
 					if (child == null) continue;
-					child.flags |= Gdl.DockObjectFlags.InReflow;
+					child.flags |= DockObjectFlags.InReflow;
 					child.Detach (false);
 					if (parent != null)
 						parent.Add (child);
-					child.flags &= ~(Gdl.DockObjectFlags.InReflow);
+					child.flags &= ~(DockObjectFlags.InReflow);
 				}
 				reduce_pending = false;
-				this.Thaw ();
+				Thaw ();
 				if (parent != null)
 					parent.Thaw ();
 			}
@@ -115,40 +116,40 @@ namespace Gdl
 			return false;
 		}
 		
-		public virtual void Docking (Gdl.DockObject requestor, DockPlacement position, object other_data)
+		public virtual void Docking (DockObject requestor, DockPlacement position, object other_data)
 		{
-			Gdl.DockObject parent;
+			DockObject parent;
 			if (requestor == null)
 				return;
 				
 			if (requestor == this)
 				return;
 			
-			if (this.master == null) {
+			if (master == null) {
 				Console.WriteLine ("Dock operation requested in a non-bound object.");
 				Console.WriteLine ("This might break.");
 			}
 			if (!requestor.IsBound)
-				requestor.Bind (this.master);
-			if (requestor.Master != this.master) {
+				requestor.Bind (master);
+			if (requestor.Master != master) {
 				Console.WriteLine ("Cannot complete dock as they belong to different masters.");
 				return;
 			}
 			//Attempt to optimize the placement with reordering (heh)
 			if (position != DockPlacement.None) {
-				if (this.Reorder (requestor, position, other_data) || (this.ParentObject != null && this.ParentObject.Reorder (requestor, position, other_data)))
+				if (Reorder (requestor, position, other_data) || (ParentObject != null && ParentObject.Reorder (requestor, position, other_data)))
 					return;
 			}
-			this.Freeze ();
+			Freeze ();
 			if (requestor.IsAttached)
 				requestor.Detach (false);
-			if (position != Gdl.DockPlacement.None) {
+			if (position != DockPlacement.None) {
 				/*FIXME: port this code: 
 				g_signal_emit (object, gdl_dock_object_signals [DOCK], 0,
 				requestor, position, other_data);
 				*/
 			}
-			this.Thaw ();
+			Thaw ();
 		}
 		
 		public virtual bool Reorder (DockObject child, DockPlacement new_position, object other_data)
@@ -158,7 +159,7 @@ namespace Gdl
 		
 		public virtual void Present (DockObject child)
 		{
-			this.Show ();
+			Show ();
 		}
 		
 		public virtual bool ChildPlacement (DockObject child, ref DockPlacement placement)
@@ -174,7 +175,7 @@ namespace Gdl
 		
 		public DockObject ParentObject {
 			get {
-				Widget parent = this.Parent;
+				Widget parent = Parent;
 				while (parent != null && !(parent is DockObject)) {
 					parent = parent.Parent;
 				}
@@ -184,19 +185,19 @@ namespace Gdl
 		
 		public bool IsAttached {
 			get {
-				return ((this.flags & Gdl.DockObjectFlags.Attached) != 0);
+				return ((flags & DockObjectFlags.Attached) != 0);
 			}
 		}
 		
 		public bool IsAutomatic {
 			get {
-				return ((this.flags & Gdl.DockObjectFlags.Automatic) != 0);
+				return ((flags & DockObjectFlags.Automatic) != 0);
 			}
 		}
 		
 		public bool InReflow {
 			get {
-				return ((this.flags & Gdl.DockObjectFlags.InReflow) != 0);
+				return ((flags & DockObjectFlags.InReflow) != 0);
 			}
 		}
 		
@@ -210,7 +211,7 @@ namespace Gdl
 			freeze_count--;
 			if (freeze_count == 0 && reduce_pending) {
 				reduce_pending = false;
-				this.Reduce ();
+				Reduce ();
 			}
 		}
 		
@@ -218,24 +219,24 @@ namespace Gdl
 		{
 			if (_master == null)
 				return;
-			if (this.master == _master)
+			if (master == _master)
 				return;
-			if (this.master != null) {
+			if (master != null) {
 				Console.WriteLine ("Attempt to bind an already bound object");
 				return;
 			}
 			_master.Add (this);
-			this.master = _master;
+			master = _master;
 			//g_object_notify (G_OBJECT (object) /*this*/, "master");
 		}
 		
 		public void Unbind ()
 		{
-			if (this.IsAttached)
-				this.Detach (true);
-			if (this.master != null) {
-				DockMaster _master = this.master;
-				this.master = null;
+			if (IsAttached)
+				Detach (true);
+			if (master != null) {
+				DockMaster _master = master;
+				master = null;
 				_master.Remove (this);
 				//g_object_notify (G_OBJECT (object) /*this*/, "master");
 			}
@@ -243,13 +244,13 @@ namespace Gdl
 		
 		public bool IsBound {
 			get {
-				return this.master != null;
+				return master != null;
 			}
 		}
 		
 		public DockObjectFlags DockObjectFlags {
-			get { return this.flags; }
-			set { this.flags = value; }
+			get { return flags; }
+			set { flags = value; }
 		}
 	}
 }

@@ -6,17 +6,17 @@ namespace Gdl
 {
 	public class DockItem : DockObject
 	{		
-		private Gtk.Widget child = null;
+		private Widget child = null;
 		private DockItemBehavior behavior = DockItemBehavior.Normal;
-		private Gtk.Orientation orientation = Gtk.Orientation.Horizontal;
+		private Orientation orientation = Orientation.Vertical;
 		private bool resize = false;
 		private int dragoff_x = 0;
 		private int dragoff_y = 0;
-		private Gtk.Menu menu = null;
+		private Menu menu = null;
 		private bool grip_shown;
 		private DockItemGrip grip;
 		private uint grip_size;
-		private Gtk.Widget tab_label = null;
+		private Widget tab_label = null;
 		private int preferred_width = -1;
 		private int preferred_height = -1;
 		private DockPlaceholder ph = null;
@@ -25,7 +25,7 @@ namespace Gdl
 		
 		static DockItem ()
 		{
-			Gtk.Rc.ParseString ("style \"gdl-dock-item-default\" {\n" +
+			Rc.ParseString ("style \"gdl-dock-item-default\" {\n" +
 			                    "xthickness = 0\n" +
 			                    "ythickness = 0\n" + 
 			                    "}\n" + 
@@ -35,22 +35,22 @@ namespace Gdl
 		
 		public DockItem ()
 		{
-			if (this.HasGrip) {
-				this.grip_shown = true;
-				this.grip = new DockItemGrip (this);
-				this.grip.Parent = this;
-				this.grip.Show ();
+			if (HasGrip) {
+				grip_shown = true;
+				grip = new DockItemGrip (this);
+				grip.Parent = this;
+				grip.Show ();
 			} else {
-				this.grip_shown = false;
+				grip_shown = false;
 			}
-			this.DockObjectFlags &= ~(DockObjectFlags.Automatic);
+			DockObjectFlags &= ~(DockObjectFlags.Automatic);
 		}
 		
 		public DockItem (string name, string long_name, DockItemBehavior behavior) : this ()
 		{
-			this.Name = name;
-			this.LongName = long_name;
-			this.Behavior = behavior;
+			Name = name;
+			LongName = long_name;
+			Behavior = behavior;
 			//FIXME: Set the tab label here, should it just be an hbox or that
 			//strange DockTabLabel with what looks like a lot of dead code
 			//from gdl-dock
@@ -58,17 +58,17 @@ namespace Gdl
 		
 		public DockItem (string name, string long_name, string stock_id, DockItemBehavior behavior) : this (name, long_name, behavior)
 		{
-			this.StockId = stock_id;
+			StockId = stock_id;
 		}
 		
-		public Gtk.Widget TabLabel {
-			get { return this.tab_label; }
-			set { this.tab_label = value; }
+		public Widget TabLabel {
+			get { return tab_label; }
+			set { tab_label = value; }
 		}
 		
-		public new Gtk.Widget Child {
-			get { return this.child; }
-			set { this.child = value; }
+		public new Widget Child {
+			get { return child; }
+			set { child = value; }
 		}
 		
 		public virtual bool HasGrip {
@@ -76,38 +76,38 @@ namespace Gdl
 		}
 		
 		public int DragOffX {
-			get { return this.dragoff_x; }
-			set { this.dragoff_x = value; }
+			get { return dragoff_x; }
+			set { dragoff_x = value; }
 		}
 		
 		public int DragOffY {
-			get { return this.dragoff_y; }
-			set { this.dragoff_y = value; }
+			get { return dragoff_y; }
+			set { dragoff_y = value; }
 		}
 		
 		public override bool IsCompound {
 			get { return false; }
 		}
 		
-		public Gtk.Orientation Orientation {
+		public Orientation Orientation {
 			get { return orientation; }
 			set { SetOrientation (value); }
 		}
 		
 		public bool Resize {
-			get { return this.resize; }
+			get { return resize; }
 			set {
-				this.resize = value;
-				this.QueueResize ();
+				resize = value;
+				QueueResize ();
 			}
 		}
 		
 		public DockItemBehavior Behavior {
 			get { return behavior; }
 			set {
-				DockItemBehavior old_beh = this.behavior;
-				this.behavior = value;
-				if (((old_beh ^ this.behavior) & DockItemBehavior.Locked) != 0) {
+				DockItemBehavior old_beh = behavior;
+				behavior = value;
+				if (((old_beh ^ behavior) & DockItemBehavior.Locked) != 0) {
 					/* PORT THIS:
 					                if (GDL_DOCK_OBJECT_GET_MASTER (item))
                     g_signal_emit_by_name (GDL_DOCK_OBJECT_GET_MASTER (item),
@@ -120,14 +120,14 @@ namespace Gdl
 		}
 		
 		public bool Locked {
-			get { return ((this.behavior & DockItemBehavior.Locked) != 0); }
+			get { return ((behavior & DockItemBehavior.Locked) != 0); }
 			set {
-				DockItemBehavior old_beh = this.behavior;
+				DockItemBehavior old_beh = behavior;
 				if (value)
-					this.behavior |= DockItemBehavior.Locked;
+					behavior |= DockItemBehavior.Locked;
 				else
-					this.behavior &= ~(DockItemBehavior.Locked);
-				if ((old_beh ^ this.behavior) != 0) {
+					behavior &= ~(DockItemBehavior.Locked);
+				if ((old_beh ^ behavior) != 0) {
 					//PORT THIS:
 					//gdl_dock_item_showhide_grip (item /*this*/);
 					//g_object_notify (g_object, "behavior");
@@ -138,229 +138,243 @@ namespace Gdl
 		}
 		
 		public int PreferredWidth {
-			get { return this.preferred_width; }
-			set { this.preferred_width = value; }
+			get { return preferred_width; }
+			set { preferred_width = value; }
 		}
 		
 		public int PreferredHeight {
-			get { return this.preferred_height; }
-			set { this.preferred_height = value; }
+			get { return preferred_height; }
+			set { preferred_height = value; }
 		}
 		
 		public bool InDrag {
-			get { return ((this.DockObjectFlags & DockObjectFlags.InDrag) != 0); }
+			get { return ((DockObjectFlags & DockObjectFlags.InDrag) != 0); }
 		}
 		
 		public bool InPreDrag {
-			get { return ((this.DockObjectFlags & DockObjectFlags.InPreDrag) != 0); }
+			get { return ((DockObjectFlags & DockObjectFlags.InPreDrag) != 0); }
 		}
 		
 		public bool Iconified {
-			get { return ((this.DockObjectFlags & DockObjectFlags.Iconified) != 0); }
+			get { return ((DockObjectFlags & DockObjectFlags.Iconified) != 0); }
 		}
 		
 		public bool UserAction {
-			get { return ((this.DockObjectFlags & DockObjectFlags.UserAction) != 0); }
+			get { return ((DockObjectFlags & DockObjectFlags.UserAction) != 0); }
 		}
 		
 		public bool GripShown {
 			get {
-				return (this.HasGrip && !this.Locked && this.grip_shown);
+				return (HasGrip && !Locked && grip_shown);
 			}
 		}
 		
 		public bool CantClose {
-			get { return ((this.Behavior & DockItemBehavior.CantClose) != 0); }
+			get { return ((Behavior & DockItemBehavior.CantClose) != 0); }
 		}
 		
 		public bool CantIconify {
-			get { return ((this.Behavior & DockItemBehavior.CantIconify) != 0); }
+			get { return ((Behavior & DockItemBehavior.CantIconify) != 0); }
 		}
 		
-		protected override void OnAdded (Gtk.Widget widget)
+		protected override void OnAdded (Widget widget)
 		{
 			if (widget is DockObject) {
 				Console.WriteLine ("You can't add a DockObject to a DockItem");
 				return;
 			}
-			if (this.Child != null) {
+			if (Child != null) {
 				Console.WriteLine ("This DockItem already has a child");
 				return;
 			}
 			widget.Parent = this;
-			this.Child = widget;
+			Child = widget;
 		}
 		
-		protected override void OnRemoved (Gtk.Widget widget)
+		protected override void OnRemoved (Widget widget)
 		{
-			if (this.grip == widget) {
+			if (grip == widget) {
 				bool grip_was_visible = widget.Visible;
 				widget.Unparent ();
-				this.grip = null;
+				grip = null;
 				if (grip_was_visible)
-					this.QueueResize ();
+					QueueResize ();
 				return;
 			}
-			if (this.InDrag) {
-				this.DockDragEnd ();
+			if (InDrag) {
+				DockDragEnd ();
 			}
 			
-			if (widget != this.Child)
+			if (widget != Child)
 				return;
 			
 			bool was_visible = widget.Visible;
 			widget.Unparent ();
-			this.Child = null;
+			Child = null;
 			
 			if (was_visible)
-				this.QueueResize ();
+				QueueResize ();
 		}
 		
 		protected override void ForAll (bool include_internals, CallbackInvoker invoker)
 		{
-			if (include_internals && this.grip != null)
-				invoker.Invoke (this.grip);
-			if (this.Child != null)
-				invoker.Invoke (this.Child);
+			if (include_internals && grip != null)
+				invoker.Invoke (grip);
+			if (Child != null)
+				invoker.Invoke (Child);
 		}
 		
-		protected override void OnSizeRequested (ref Gtk.Requisition requisition)
+		protected override void OnSizeRequested (ref Requisition requisition)
 		{
-			Gtk.Requisition child_requisition = new Gtk.Requisition ();
-			Gtk.Requisition grip_requisition = new Gtk.Requisition ();
-			
-			if (this.Child != null)
-				child_requisition = this.Child.SizeRequest ();
-			else {
-				child_requisition.Width = 0;
-				child_requisition.Height = 0;
+			requisition.Width = ((int)BorderWidth + Style.XThickness) * 2;
+			requisition.Height = ((int)BorderWidth + Style.YThickness) * 2;
+		
+			Requisition childReq;
+			if (Child != null && Child.Visible) {
+				childReq = Child.SizeRequest ();
+			} else {
+				childReq.Width = 0;
+				childReq.Height = 0;
 			}
-			if (this.Orientation == Gtk.Orientation.Horizontal) {
-				if (this.GripShown) {
-					grip_requisition = this.grip.SizeRequest ();
-					requisition.Width = grip_requisition.Width;
-				} else {
-					requisition.Width = 0;
+
+			Requisition gripReq;
+			gripReq.Width = gripReq.Height = 0;
+
+			if (Orientation == Orientation.Horizontal) {
+				if (GripShown) {
+					gripReq = grip.SizeRequest ();
+					requisition.Width += gripReq.Width;
 				}
 				
-				if (this.Child != null) {
-					requisition.Width += child_requisition.Width;
-					requisition.Height = child_requisition.Height;
-				} else {
-					requisition.Height = 0;
+				if (Child != null) {
+					requisition.Width += childReq.Width;
+					requisition.Height += Math.Max (childReq.Height,
+									gripReq.Height);
 				}
 			} else {
-				if (this.GripShown) {
-					grip_requisition = this.grip.SizeRequest ();
-					requisition.Height = grip_requisition.Height;
-				} else {
-					requisition.Height = 0;
+				if (GripShown) {
+					gripReq = grip.SizeRequest ();
+					requisition.Height += gripReq.Height;
 				}
 				
-				if (this.Child != null) {
-					requisition.Width = child_requisition.Width;
-					requisition.Height += child_requisition.Height;
-				} else {
-					requisition.Width = 0;
+				if (Child != null) {
+					requisition.Width += Math.Max (childReq.Width,
+								       gripReq.Width);
+					requisition.Height += childReq.Height;
 				}
 			}
-			requisition.Width += ((int)this.BorderWidth + this.Style.XThickness) * 2;
-			requisition.Width += ((int)this.BorderWidth + this.Style.YThickness) * 2;
-			this.SetSizeRequest (requisition.Width, requisition.Height);
 		}
 		
 		protected override void OnSizeAllocated (Gdk.Rectangle allocation)
 		{
-			this.Allocation = allocation;
+			base.OnSizeAllocated (allocation);
 			
-			if (this.IsRealized) {
-				this.GdkWindow.MoveResize (allocation.X, allocation.Y, allocation.Width, allocation.Height);
+			if (IsRealized) {
+				GdkWindow.MoveResize (allocation.X, allocation.Y,
+						      allocation.Width, allocation.Height);
 			}
-			if (this.Child != null && this.Child.Visible) {
-				int border_width = (int)this.BorderWidth;
-				Gdk.Rectangle child_allocation = new Gdk.Rectangle ();
-				child_allocation.X = border_width + this.Style.XThickness;
-				child_allocation.Y = border_width + this.Style.YThickness;
-				child_allocation.Width = allocation.Width - 2 * (border_width + this.Style.XThickness);
-				child_allocation.Height = allocation.Height - 2 * (border_width + this.Style.YThickness);
+			
+			if (Child != null && Child.Visible) {
+				int bw = (int)BorderWidth;
+				Gdk.Rectangle childAlloc;
 				
-				if (this.GripShown) {
-					Gdk.Rectangle grip_alloc = child_allocation;
-					Gtk.Requisition grip_req = this.grip.SizeRequest ();
-					if (this.Orientation == Gtk.Orientation.Horizontal) {
-						child_allocation.X += grip_req.Width;
-						child_allocation.Width -= grip_req.Width;
-						//grip_alloc.Width = grip_req.Width;
+				childAlloc.X = bw + Style.XThickness;
+				childAlloc.Y = bw + Style.YThickness;
+				childAlloc.Width = allocation.Width - 2 * (bw + Style.XThickness);
+				childAlloc.Height = allocation.Height - 2 * (bw + Style.YThickness);
+				
+				if (GripShown) {
+					Gdk.Rectangle gripAlloc = childAlloc;
+					Requisition gripReq = grip.SizeRequest ();
+					
+					if (Orientation == Orientation.Horizontal) {
+						childAlloc.X += gripReq.Width;
+						childAlloc.Width -= gripReq.Width;
+						gripAlloc.Width = gripReq.Width;
 					} else {
-						child_allocation.Y += grip_req.Height;
-						child_allocation.Height -= grip_req.Height;
-						//grip_alloc.Height = grip_req.Height;
+						childAlloc.Y += gripReq.Height;
+						childAlloc.Height -= gripReq.Height;
+						gripAlloc.Height = gripReq.Height;
 					}
-					if (this.grip != null) {
-						this.grip.SizeAllocate (grip_alloc);
-					}
+					
+					grip.SizeAllocate (gripAlloc);
 				}
-				this.Child.SizeAllocate (child_allocation);
+
+				Child.SizeAllocate (childAlloc);
 			}
 		}
 		
 		protected override void OnMapped ()
 		{
-			this.Flags |= (int)Gtk.WidgetFlags.Mapped;
-			this.GdkWindow.Show ();
-			if (this.Child != null && this.Child.Visible && !this.Child.IsMapped)
-				this.Child.Map ();
-			if (this.grip != null && this.grip.Visible && !this.grip.IsMapped)
-				this.grip.Map ();
+			Flags |= (int)WidgetFlags.Mapped;
+			GdkWindow.Show ();
+			if (Child != null && Child.Visible && !Child.IsMapped)
+				Child.Map ();
+			if (grip != null && grip.Visible && !grip.IsMapped)
+				grip.Map ();
 		}
 		
 		protected override void OnUnmapped ()
 		{
-			this.Flags &= ~((int)Gtk.WidgetFlags.Mapped);
-			this.GdkWindow.Hide ();
-			if (this.grip != null)
-				this.grip.Unmap ();
+			Flags &= ~((int)WidgetFlags.Mapped);
+			GdkWindow.Hide ();
+			if (grip != null)
+				grip.Unmap ();
 		}
 		
 		protected override void OnRealized ()
 		{
-			this.Flags |= (int)Gtk.WidgetFlags.Realized;
+			Flags |= (int)WidgetFlags.Realized;
+			
 			Gdk.WindowAttr attributes = new Gdk.WindowAttr ();
-			attributes.X = this.Allocation.X;
-			attributes.Y = this.Allocation.Y;
-			attributes.Height = this.Allocation.Height;
-			attributes.Width = this.Allocation.Width;
+			attributes.X = Allocation.X;
+			attributes.Y = Allocation.Y;
+			attributes.Height = Allocation.Height;
+			attributes.Width = Allocation.Width;
 			attributes.WindowType = Gdk.WindowType.Child;
 			attributes.Wclass = Gdk.WindowClass.InputOutput;
-			attributes.visual = this.Visual;
-			attributes.colormap = this.Colormap;
-			attributes.EventMask = (int)(this.Events | Gdk.EventMask.ExposureMask | Gdk.EventMask.Button1MotionMask | Gdk.EventMask.ButtonPressMask | Gdk.EventMask.ButtonReleaseMask);
-			Gdk.WindowAttributesType attributes_mask = Gdk.WindowAttributesType.X | Gdk.WindowAttributesType.Y | Gdk.WindowAttributesType.Colormap | Gdk.WindowAttributesType.Visual;
-			this.GdkWindow = new Gdk.Window (this.ParentWindow, attributes, (int)attributes_mask);
-			this.GdkWindow.UserData = this.Handle;
-			this.Style = this.Style.Attach (this.GdkWindow);
-			this.Style.SetBackground (this.GdkWindow, this.State);
-			this.GdkWindow.SetBackPixmap (null, true);
-			if (this.Child != null)
-				this.Child.ParentWindow = this.GdkWindow;
-			if (this.grip != null)
-				this.grip.ParentWindow = this.GdkWindow;
+			attributes.visual = Visual;
+			attributes.colormap = Colormap;
+			attributes.EventMask = (int)(Events |
+				Gdk.EventMask.ExposureMask |
+				Gdk.EventMask.Button1MotionMask |
+				Gdk.EventMask.ButtonPressMask |
+				Gdk.EventMask.ButtonReleaseMask);
+		
+			Gdk.WindowAttributesType attributes_mask =
+				Gdk.WindowAttributesType.X |
+				Gdk.WindowAttributesType.Y |
+				Gdk.WindowAttributesType.Colormap |
+				Gdk.WindowAttributesType.Visual;
+			GdkWindow = new Gdk.Window (ParentWindow, attributes, (int)attributes_mask);
+			GdkWindow.UserData = Handle;
+			
+			Style = Style.Attach (GdkWindow);
+			Style.SetBackground (GdkWindow, State);
+			
+			// FIXME: Throws NullReferenceException.
+			//GdkWindow.SetBackPixmap (null, true);
+			
+			if (Child != null)
+				Child.ParentWindow = GdkWindow;
+			if (grip != null)
+				grip.ParentWindow = GdkWindow;
 		}
 		
-		/*protected override void OnStyleSet (Gtk.Style previous_style)
+		/*protected override void OnStyleSet (Style previous_style)
 		{
-			if (this.IsRealized && !this.NoWindow) {
-				this.Style.SetBackground (this.GdkWindow, this.State);
-				if (this.Drawable) {
-					this.GdkWindow.Clear ();
+			if (IsRealized && !NoWindow) {
+				Style.SetBackground (GdkWindow, State);
+				if (Drawable) {
+					GdkWindow.Clear ();
 				}
 			}
 		}*/
 		
 		protected override bool OnExposeEvent (Gdk.EventExpose evnt)
 		{
-			if (this.Drawable && evnt.Window == this.GdkWindow) {
-				Gtk.Style.PaintBox (this.Style, this.GdkWindow, this.State, Gtk.ShadowType.None, evnt.Area, this, "dockitem", 0, 0, -1, -1);
+			if (Drawable && evnt.Window == GdkWindow) {
+				Style.PaintBox (Style, GdkWindow, State, ShadowType.None, evnt.Area, this, "dockitem", 0, 0, -1, -1);
 				base.OnExposeEvent (evnt);
 			}
 			return false;
@@ -368,7 +382,7 @@ namespace Gdl
 		
 		private bool EventInGripWindow (Gdk.Event evnt)
 		{
-			if (this.grip != null && this.grip.TitleWindow == evnt.Window)
+			if (grip != null && grip.TitleWindow == evnt.Window)
 				return true;
 			return false;
 		}
@@ -377,19 +391,19 @@ namespace Gdl
 		{
 			if (!EventInGripWindow (evnt))
 				return false;
-			if (this.Locked)
+			if (Locked)
 				return false;
 			
 			bool event_handled = false;
 			bool in_handle;
 			Gdk.Cursor cursor = null;
 			
-			switch (this.Orientation) {
-			case Gtk.Orientation.Horizontal:
-				in_handle = evnt.X < this.grip.Allocation.Width;
+			switch (Orientation) {
+			case Orientation.Horizontal:
+				in_handle = evnt.X < grip.Allocation.Width;
 				break;
-			case Gtk.Orientation.Vertical:
-				in_handle = evnt.Y < this.grip.Allocation.Height;
+			case Orientation.Vertical:
+				in_handle = evnt.Y < grip.Allocation.Height;
 				break;
 			default:
 				in_handle = false;
@@ -398,28 +412,28 @@ namespace Gdl
 			
 			if (evnt.Button == 1 && evnt.Type == Gdk.EventType.ButtonPress) {
 				if (in_handle) {
-					this.start_x = (int)evnt.X;
-					this.start_y = (int)evnt.Y;
-					this.DockObjectFlags |= DockObjectFlags.InPreDrag;
-					cursor = new Gdk.Cursor (this.Display, Gdk.CursorType.Fleur);
-					this.grip.TitleWindow.Cursor = cursor;
+					start_x = (int)evnt.X;
+					start_y = (int)evnt.Y;
+					DockObjectFlags |= DockObjectFlags.InPreDrag;
+					cursor = new Gdk.Cursor (Display, Gdk.CursorType.Fleur);
+					grip.TitleWindow.Cursor = cursor;
 					event_handled = true;
 				}
 			} else if (evnt.Type == Gdk.EventType.ButtonRelease && evnt.Button == 1) {
-				if (this.InDrag) {
-					this.DockDragEnd ();
+				if (InDrag) {
+					DockDragEnd ();
 					event_handled = true;
-				} else if (this.InPreDrag) {
-					this.DockObjectFlags &= ~(DockObjectFlags.InPreDrag);
+				} else if (InPreDrag) {
+					DockObjectFlags &= ~(DockObjectFlags.InPreDrag);
 					event_handled = true;
 				}
 				
-				if (this.grip.TitleWindow != null) {
-					cursor = new Gdk.Cursor (this.Display, Gdk.CursorType.Hand2);
-					this.grip.TitleWindow.Cursor = cursor;
+				if (grip.TitleWindow != null) {
+					cursor = new Gdk.Cursor (Display, Gdk.CursorType.Hand2);
+					grip.TitleWindow.Cursor = cursor;
 				}
 			} else if (evnt.Button == 3 && evnt.Type == Gdk.EventType.ButtonPress && in_handle) {
-				this.DockPopupMenu (evnt.Button, evnt.Time);
+				DockPopupMenu (evnt.Button, evnt.Time);
 				event_handled = true;
 			}
 			return event_handled;
@@ -434,16 +448,16 @@ namespace Gdl
 		{
 			if (!EventInGripWindow (evnt))
 				return false;
-			if (this.InPreDrag) {
-				if (Gtk.Drag.CheckThreshold (this, this.start_x, this.start_y, (int)evnt.X, (int)evnt.Y)) {
-					this.DockObjectFlags &= ~(DockObjectFlags.InPreDrag);
-					this.dragoff_x = this.start_x;
-					this.dragoff_y = this.start_y;
-					this.DockDragStart ();
+			if (InPreDrag) {
+				if (Drag.CheckThreshold (this, start_x, start_y, (int)evnt.X, (int)evnt.Y)) {
+					DockObjectFlags &= ~(DockObjectFlags.InPreDrag);
+					dragoff_x = start_x;
+					dragoff_y = start_y;
+					DockDragStart ();
 				}
 			}
 			
-			if (!this.InDrag)
+			if (!InDrag)
 				return false;
 			
 			int new_x = (int)evnt.XRoot;
@@ -456,16 +470,16 @@ namespace Gdl
 		
 		protected override bool OnKeyPressEvent (Gdk.EventKey evnt)
 		{
-			if (this.InDrag && evnt.Key == Gdk.Key.Escape) {
-				this.DockDragEnd ();
+			if (InDrag && evnt.Key == Gdk.Key.Escape) {
+				DockDragEnd ();
 				return true;
 			}
 			return base.OnKeyPressEvent (evnt);
 		}
 		
-		public static Gtk.Requisition PreferredSize (DockItem item)
+		public static Requisition PreferredSize (DockItem item)
 		{
-			Gtk.Requisition req;
+			Requisition req;
 			req.Width = Math.Max (item.preferred_width, item.Allocation.Width);
 			req.Height = Math.Max (item.preferred_height, item.Allocation.Height);
 			return req;
@@ -473,14 +487,13 @@ namespace Gdl
 		
 		public override bool DockRequest (int x, int y, DockRequest request)
 		{
-			Console.WriteLine ("Inside DockItem.DockRequest");
-			Gdk.Rectangle alloc = this.Allocation;
+			Gdk.Rectangle alloc = Allocation;
 			int rel_x = x - alloc.X;
 			int rel_y = y - alloc.Y;
 			
 			if (rel_x > 0 && rel_x < alloc.Width && rel_y > 0 && rel_y < alloc.Width) {
-				Gtk.Requisition other = DockItem.PreferredSize ((DockItem)request.Applicant);
-				Gtk.Requisition my = DockItem.PreferredSize (this);
+				Requisition other = DockItem.PreferredSize ((DockItem)request.Applicant);
+				Requisition my = DockItem.PreferredSize (this);
 				int divider = 0;
 				float rx = (float) rel_x / alloc.Width;
 				float ry = (float) rel_y / alloc.Height;
@@ -547,74 +560,67 @@ namespace Gdl
 		
 		public override void Docking (DockObject requestor, DockPlacement position, object other_data)
 		{
-			DockObject new_parent = null;
-			bool add_ourselves_first;
+			DockObject parent = ParentObject;
+			DockObject newParent = null;
+			bool addOurselvesFirst;
 			DockObject parentObj = this.ParentObject;
 			
 			switch (position) {
 			case DockPlacement.Top:
 			case DockPlacement.Bottom:
-				new_parent = new DockPaned (Gtk.Orientation.Vertical);
-				add_ourselves_first = (position == DockPlacement.Bottom);
+				newParent = new DockPaned (Orientation.Vertical);
+				addOurselvesFirst = (position == DockPlacement.Bottom);
 				break;
 			case DockPlacement.Left:
 			case DockPlacement.Right:
-				new_parent = new DockPaned (Gtk.Orientation.Horizontal);
-				add_ourselves_first = (position == DockPlacement.Right);
+				newParent = new DockPaned (Orientation.Horizontal);
+				addOurselvesFirst = (position == DockPlacement.Right);
 				break;
 			case DockPlacement.Center:
-				new_parent = new DockNotebook ();
-				add_ourselves_first = true;
+				newParent = new DockNotebook ();
+				addOurselvesFirst = true;
 				break;
 			default:
 				Console.WriteLine ("Unsupported docking strategy");
 				return;
 			}
 			
-			Console.WriteLine ("new_parent is of type: " + new_parent);
+			if (parent != null)
+				parent.Freeze ();
+
+			DockObjectFlags |= DockObjectFlags.InReflow;
+			Detach (false);
+			newParent.Freeze ();
+			newParent.Bind (Master);
 			
-			if (parentObj != null)
-				parentObj.Freeze ();
-			this.DockObjectFlags |= DockObjectFlags.InReflow;
-			this.Detach (false);
-			new_parent.Freeze ();
-			new_parent.Bind (this.Master);
-			
-			Console.WriteLine ("About to add");
-			if (add_ourselves_first) {
-				Console.WriteLine ("Adding this");
-				new_parent.Add (this);
-				Console.WriteLine ("Adding new object");
-				new_parent.Add (requestor);
+			if (addOurselvesFirst) {
+				newParent.Add (this);
+				newParent.Add (requestor);
 			} else {
-				Console.WriteLine ("Adding new object");
-				new_parent.Add (requestor);
-				Console.WriteLine ("Adding this");
-				new_parent.Add (this);
+				newParent.Add (requestor);
+				newParent.Add (this);
 			}
 			Console.WriteLine ("Done Adding");
 			
-			if (parentObj != null) {
-				Console.WriteLine ("About to add new_parent to ParentObject");
-				parentObj.Add (new_parent);
-				Console.WriteLine ("Done with the second add");
-			}
+			if (parent != null)
+				parent.Add (newParent);
 			
-			if (this.Visible)
-				new_parent.Show ();
+			if (Visible)
+				newParent.Show ();
 			
 			if (position != DockPlacement.Center && other_data != null && other_data is System.Int32) {
 				//PORT THIS:
-				//g_object_set (G_OBJECT (new_parent), "position", g_value_get_uint (other_data), NULL);
+				//g_object_set (G_OBJECT (newParent), "position", g_value_get_uint (other_data), NULL);
 			}
 			
-			this.DockObjectFlags &= ~(DockObjectFlags.InReflow);
-			new_parent.Thaw ();
-			if (parentObj != null)
-				parentObj.Thaw ();
+			DockObjectFlags &= ~(DockObjectFlags.InReflow);
+			newParent.Thaw ();
+			
+			if (parent != null)
+				parent.Thaw ();
 		}
 		
-		private void DetachMenu (Gtk.Widget item, Gtk.Menu menu)
+		private void DetachMenu (Widget item, Menu menu)
 		{
 			if (item is DockItem)
 				((DockItem)item).menu = null;
@@ -622,34 +628,34 @@ namespace Gdl
 		
 		public void DockPopupMenu (uint button, uint time)
 		{
-			if (this.menu == null) {
-				this.menu = new Gtk.Menu ();
-				this.menu.AttachToWidget (this, new MenuDetachFunc (DetachMenu));
+			if (menu == null) {
+				menu = new Menu ();
+				menu.AttachToWidget (this, new MenuDetachFunc (DetachMenu));
 				
-				Gtk.MenuItem mitem = new Gtk.MenuItem ("Hide");
+				MenuItem mitem = new MenuItem ("Hide");
 				mitem.Activated += new EventHandler (ItemHideCb);
-				this.menu.Append (mitem);
+				menu.Append (mitem);
 			}
-			this.menu.ShowAll ();
-			this.menu.Popup (null, null, null, IntPtr.Zero, button, time);
+			menu.ShowAll ();
+			menu.Popup (null, null, null, IntPtr.Zero, button, time);
 			
 		}
 		
 		private void ItemHideCb (object o, EventArgs e)
 		{
-			this.HideItem ();
+			HideItem ();
 		}
 		
 		public void DockDragStart ()
 		{
 			Gdk.Cursor fleur = new Gdk.Cursor (Gdk.CursorType.Fleur);
 			
-			if (!this.IsRealized)
-				this.Realize ();
+			if (!IsRealized)
+				Realize ();
 			
-			this.DockObjectFlags |= DockObjectFlags.InDrag;
+			DockObjectFlags |= DockObjectFlags.InDrag;
 			
-			Gtk.Grab.Add (this);
+			Grab.Add (this);
 			
 			//PORT THIS:
 			//g_signal_emit (item, gdl_dock_item_signals [DOCK_DRAG_BEGIN], 0);
@@ -657,23 +663,23 @@ namespace Gdl
 		
 		public void DockDragEnd ()
 		{
-			Gtk.Grab.Remove (Gtk.Grab.Current);
+			Grab.Remove (Grab.Current);
 			
 			//PORT THIS:
 			//g_signal_emit (item, gdl_dock_item_signals [DOCK_DRAG_END], 0);
 			
-			this.DockObjectFlags &= ~(DockObjectFlags.InDrag);
+			DockObjectFlags &= ~(DockObjectFlags.InDrag);
 		}
 		
 		private void ShowHideGrip ()
 		{
-			if (this.grip != null) {
-				if (this.GripShown)
-					this.grip.Show ();
+			if (grip != null) {
+				if (GripShown)
+					grip.Show ();
 				else
-					this.grip.Hide ();
+					grip.Hide ();
 			}
-			this.QueueResize ();
+			QueueResize ();
 		}
 		
 		public void DockTo (DockItem target, DockPlacement position, int docking_param)
@@ -681,20 +687,20 @@ namespace Gdl
 			if (target == null || position == DockPlacement.Floating)
 				return;
 			if (position == DockPlacement.Floating || target == null) {
-				if (!this.IsBound) {
+				if (!IsBound) {
 					Console.WriteLine ("Attempting to bind an unbound object");
 					return;
 				}
-				this.dragoff_x = this.dragoff_y = 0;
-				((Dock)this.Master.Controller).AddFloatingItem (this, 0, 0, -1, -1);
+				dragoff_x = dragoff_y = 0;
+				((Dock)Master.Controller).AddFloatingItem (this, 0, 0, -1, -1);
 			} else
 				target.Docking (this, position, null);
 		}
 		
-		public virtual void SetOrientation (Gtk.Orientation orientation)
+		public virtual void SetOrientation (Orientation orientation)
 		{
-			if (this.Orientation != orientation) {
-				if (this.Child != null) {
+			if (Orientation != orientation) {
+				if (Child != null) {
 					//FIXME: Port this, prolly w/ reflection
 					            /*pspec = g_object_class_find_property (
                 G_OBJECT_GET_CLASS (item->child), "orientation");
@@ -710,17 +716,17 @@ namespace Gdl
 		
 		public void HideGrip ()
 		{
-			if (this.grip_shown) {
-				this.grip_shown = false;
-				this.ShowHideGrip ();
+			if (grip_shown) {
+				grip_shown = false;
+				ShowHideGrip ();
 			}
 		}
 		
 		public void ShowGrip ()
 		{
-			if (!this.grip_shown) {
-				this.grip_shown = true;
-				this.ShowHideGrip ();
+			if (!grip_shown) {
+				grip_shown = true;
+				ShowHideGrip ();
 			}
 		}
 		
@@ -729,28 +735,28 @@ namespace Gdl
 			if (dock == null)
 				return;
 			
-			this.Bind (dock.Master);
+			Bind (dock.Master);
 		}
 		
 		public void HideItem ()
 		{
-			if (!this.IsAttached)
+			if (!IsAttached)
 				return;
 			
-			if (!this.IsAutomatic) {
-				this.ph = new DockPlaceholder (this, false);
+			if (!IsAutomatic) {
+				ph = new DockPlaceholder (this, false);
 			}
 			
-			this.Freeze ();
-			if (this.IsCompound) {
-				this.Foreach (new Gtk.Callback (HideItem));
+			Freeze ();
+			if (IsCompound) {
+				Foreach (new Callback (HideItem));
 			}
 			
-			this.Detach (true);
-			this.Thaw ();
+			Detach (true);
+			Thaw ();
 		}
 		
-		public void HideItem (Gtk.Widget widget)
+		public void HideItem (Widget widget)
 		{
 			if (!(widget is DockItem))
 				return;
@@ -762,7 +768,7 @@ namespace Gdl
 			
 			item.Freeze ();
 			if (item.IsCompound) {
-				item.Foreach (new Gtk.Callback (HideItem));
+				item.Foreach (new Callback (HideItem));
 			}
 			
 			item.Detach (true);
@@ -771,33 +777,33 @@ namespace Gdl
 		
 		public void IconifyItem ()
 		{
-			this.DockObjectFlags |= DockObjectFlags.Iconified;
-			this.HideItem ();
+			DockObjectFlags |= DockObjectFlags.Iconified;
+			HideItem ();
 		}
 		
 		public void ShowItem ()
 		{
-			this.DockObjectFlags &= ~(DockObjectFlags.Iconified);
+			DockObjectFlags &= ~(DockObjectFlags.Iconified);
 			
-			if (this.ph != null) {
-				this.ph.Add (this);
-				this.ph = null;
-			} else if (this.IsBound) {
-				if (this.Master.Controller != null) {
-					this.Master.Controller.Docking (this, DockPlacement.Floating, null);
+			if (ph != null) {
+				ph.Add (this);
+				ph = null;
+			} else if (IsBound) {
+				if (Master.Controller != null) {
+					Master.Controller.Docking (this, DockPlacement.Floating, null);
 				}
 			}
 		}
 		
 		public virtual void SetDefaultPosition (DockObject reference)
 		{
-			this.ph = null;
+			ph = null;
 			
 			if (reference != null && reference.IsAttached) {
 				if (reference is DockPlaceholder) {
-					this.ph = (DockPlaceholder)reference;
+					ph = (DockPlaceholder)reference;
 				} else {
-					this.ph = new DockPlaceholder (reference, true);
+					ph = new DockPlaceholder (reference, true);
 				}
 			}
 		}
