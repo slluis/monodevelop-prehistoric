@@ -213,7 +213,7 @@ namespace MonoDevelop.Commands
 			Gtk.Application.Run();
 			
 			// save the workbench memento in the ide properties
-			propertyService.SetProperty(workbenchMemento, WorkbenchSingleton.Workbench.CreateMemento());
+			//propertyService.SetProperty(workbenchMemento, WorkbenchSingleton.Workbench.CreateMemento());
 		}
 	}
 }

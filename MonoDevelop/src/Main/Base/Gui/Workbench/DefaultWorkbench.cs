@@ -59,23 +59,11 @@ namespace MonoDevelop.Gui
 			}
 			set {
 				fullscreen = value;
-#if GTK
 				if (fullscreen) {
 					this.Fullscreen ();
 				} else {
 					this.Unfullscreen ();
 				}
-#else
-				if (fullscreen) {
-					FormBorderStyle    = FormBorderStyle.None;
-					defaultWindowState = WindowState;
-					WindowState        = FormWindowState.Maximized;
-				} else {
-					FormBorderStyle = FormBorderStyle.Sizable;
-					Bounds          = normalBounds;
-					WindowState     = defaultWindowState;
-				}
-#endif
 			}
 		}
 		
@@ -146,8 +134,8 @@ namespace MonoDevelop.Gui
 		
 			windowChangeEventHandler = new EventHandler(OnActiveWindowChanged);
 
-			DefaultWidth = normalBounds.Width;
-			DefaultHeight = normalBounds.Height;
+			WidthRequest = normalBounds.Width;
+			HeightRequest = normalBounds.Height;
 
 			DeleteEvent += new Gtk.DeleteEventHandler (OnClosing);
 			this.Icon = resourceService.GetBitmap ("Icons.SharpDevelopIcon");
@@ -391,7 +379,14 @@ namespace MonoDevelop.Gui
 		public IXmlConvertable CreateMemento()
 		{
 			WorkbenchMemento memento   = new WorkbenchMemento();
-			memento.Bounds             = normalBounds;
+			int x, y, width, height;
+			GdkWindow.GetSize (out width, out height);
+			GdkWindow.GetRootOrigin (out x, out y);
+			if (GdkWindow.State != Gdk.WindowState.Fullscreen && GdkWindow.State != Gdk.WindowState.Maximized) {
+				memento.Bounds             = new Rectangle (x, y, width, height);
+			} else {
+				memento.Bounds = normalBounds;
+			}
 #if GTK
 			// FIXME: GTKize
 #else
@@ -408,6 +403,8 @@ namespace MonoDevelop.Gui
 				WorkbenchMemento memento = (WorkbenchMemento)xmlMemento;
 				
 				normalBounds = memento.Bounds;
+				Move (normalBounds.X, normalBounds.Y);
+				Resize (normalBounds.Width, normalBounds.Height);
 #if GTK
 				// FIXME: GTKize
 #else
@@ -496,6 +493,7 @@ namespace MonoDevelop.Gui
 		protected /*override*/ void OnClosing(object o, Gtk.DeleteEventArgs e)
 		{
 			if (Close()) {
+	                        propertyService.SetProperty("SharpDevelop.Workbench.WorkbenchMemento", WorkbenchSingleton.Workbench.CreateMemento());
 				Gtk.Application.Quit ();
 			} else {
 				e.RetVal = true;
