@@ -4,6 +4,6 @@
 		<version>0.5</version>
 	</mdinfo>
 	<channels>
-		<channel url="http://www.monodevelop.com/swingline/monodevelop.xml" />
+		<channel url="http://www.monodevelop.com/sonata/monodevelop.xml" />
 	</channels>
 </masterinfo>
