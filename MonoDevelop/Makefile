@@ -42,8 +42,8 @@ clean:
 run: runsd
 
 runsd: $(PROGRAM)
-	cd build/bin && mono --debug SharpDevelop.exe
-	
+	./monodevelop
+
 pad: $(MONOPAD)
 
 runpad: $(MONOPAD)
