@@ -1,5 +1,10 @@
 2004-08-10  Todd Berman  <tberman@off.net>
 
+	* Gui/Dialogs/CombineConfiguration/CombineStartupPanel.cs: fix left
+	over ${RES:} strings.
+
+2004-08-10  Todd Berman  <tberman@off.net>
+
 	* Gui/Dialogs/NewProjectDialog.cs:
 	* Gui/Dialogs/OptionPanels/IDEOptions/LoadSavePanel.cs: Patch from
 	Samuel Kaufman to change the default project location to ~/Projects.

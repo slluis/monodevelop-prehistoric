@@ -51,17 +51,8 @@ namespace MonoDevelop.Gui.Dialogs.OptionPanels
 				this.combine = (Combine)((IProperties)CustomizationObject).GetProperty("Combine");
 
 
-				ActionLabel.Text = StringParserService.Parse(
-					"${res:Dialog.Options.CombineOptions.Startup.ActionLabel}");
-
-				// Setting up RadioButtons
-
-				singleRadioButton.Label = StringParserService.Parse(
-					"${res:Dialog.Options.CombineOptions.Startup.SingleStartupRadioButton}");
 				singleRadioButton.Active = combine.SingleStartupProject;
 				singleRadioButton.Clicked += new EventHandler(OnSingleRadioButtonClicked);
-				multipleRadioButton.Label =  StringParserService.Parse(
-					"${res:Dialog.Options.CombineOptions.Startup.MultipleStartupRadioButton}");
 				multipleRadioButton.Active = !combine.SingleStartupProject;
 				singleRadioButton.Clicked += new EventHandler(OptionsChanged);
 
@@ -89,11 +80,9 @@ namespace MonoDevelop.Gui.Dialogs.OptionPanels
 				entryTreeView.Model = store;
 				
 				TreeIter iter = new TreeIter ();
- 				string entryHeader = StringParserService.Parse(
- 					"${res:Dialog.Options.CombineOptions.Startup.EntryColumnHeader}");	
+ 				string entryHeader = StringParserService.Parse("Entry");
  				entryTreeView.AppendColumn (entryHeader, new CellRendererText (), "text", 0);
- 				string actionHeader = StringParserService.Parse(
- 					"${res:Dialog.Options.CombineOptions.Startup.ActionColumnHeader}");
+ 				string actionHeader = StringParserService.Parse( "Action");
  				entryTreeView.AppendColumn (actionHeader, new CellRendererText (), "text", 1);
 				
 				// sanity check to ensure we had a proper execture definitions save last time rounf
