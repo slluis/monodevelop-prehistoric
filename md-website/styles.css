@@ -104,3 +104,13 @@ img { border: 0; }
  margin: 3px;
  line-height: 1.2em;
 }
+
+.faq {
+	background-color: #fafafa;
+	border: 1px solid black;
+}
+
+.question {
+	background-color: #dcdcdc;
+	border-bottom: 1px solid black;
+}
