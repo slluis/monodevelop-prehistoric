@@ -229,12 +229,7 @@ namespace MonoDevelop.Services
 
 		public void Stop ()
 		{
-			if (!Debugging)
-				return;
-
-			proc.Kill ();
-			proc = null;
-			backend = null;
+			Cleanup ();
 		}
 
 		public void StepInto ()

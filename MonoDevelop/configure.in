@@ -59,6 +59,8 @@ PKG_CHECK_MODULES(BASE_DEPENDENCIES, mozilla-gtkmozembed >= $MOZGTK_REQUIRED_VER
 dnl find mono debugger
 MONO_DEBUGGER_REQUIRED_VERSION=0.6
 PKG_CHECK_MODULES(MONO_DEBUGGER, mono-debugger >= $MONO_DEBUGGER_REQUIRED_VERSION)
+debugger_prefix=`pkg-config --variable=prefix mono-debugger`
+AC_SUBST(debugger_prefix)
 
 MOZILLA_HOME="`$PKG_CONFIG --variable=libdir mozilla-gtkmozembed`"
 AC_SUBST(MOZILLA_HOME)

@@ -371,7 +371,7 @@ $(DLL): $(FILES) ../../../data/resources/glade/Base.glade
 		/r:../../../build/bin/gtkmozembed-sharp.dll \
 		/r:glade-sharp \
 		/r:gnome-sharp \
-		/r:Mono.Debugger \
+		/r:$(debugger_prefix)/lib/Mono.Debugger.dll \
 		$(FILES) \
 	&& cp $(DLL) ../../../build/bin/.
 

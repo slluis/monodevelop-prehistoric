@@ -21,6 +21,16 @@ namespace MonoDevelop.Commands
 		}
 	}
 
+	public class KillApplication : AbstractMenuCommand
+	{
+		public override void Run ()
+		{
+			DebuggingService dbgr = (DebuggingService)ServiceManager.Services.GetService (typeof (DebuggingService));
+
+			dbgr.Stop ();
+		}
+	}
+
 	public class StepOver : AbstractMenuCommand
 	{
 		public override void Run ()

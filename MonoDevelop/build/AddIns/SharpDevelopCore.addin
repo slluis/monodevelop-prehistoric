@@ -800,6 +800,10 @@
 			          shortcut = "Control|F8"
 				  class = "MonoDevelop.Commands.ToggleRunning"/>
 
+			<MenuItem id = "DebugKillApplication"
+				  label = "Kill Application"
+				  class = "MonoDevelop.Commands.KillApplication"/>
+
 			<MenuItem id = "DebugSep1" label = "-" />
 
 			<MenuItem id = "DebugStepOver"

@@ -157,6 +157,7 @@ namespace ICSharpCode.SharpDevelop.Gui
 			DebuggingService dbgr = (DebuggingService)ServiceManager.Services.GetService (typeof (DebuggingService));
 			dbgr.PausedEvent += new EventHandler (onDebuggerPaused);
 			dbgr.ResumedEvent += new EventHandler (onDebuggerResumed);		
+			dbgr.StoppedEvent += new EventHandler (onDebuggerStopped);		
 		}
 
 		void onDebuggerPaused (object o, EventArgs e)
@@ -172,6 +173,16 @@ namespace ICSharpCode.SharpDevelop.Gui
 		}
 
 		void onDebuggerResumed (object o, EventArgs e)
+		{
+			foreach (IViewContent content in ViewContentCollection) {
+				if (content.ContentName != null && content.ContentName == cur_dbgFilename) {
+					((IDebuggableEditor)content).ClearExecutingAt (cur_dbgLineNumber);
+					break;
+				}
+			}	
+		}
+
+		void onDebuggerStopped (object o, EventArgs e)
 		{
 			foreach (IViewContent content in ViewContentCollection) {
 				if (content.ContentName != null && content.ContentName == cur_dbgFilename) {

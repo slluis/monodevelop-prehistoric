@@ -71,6 +71,8 @@ namespace MonoDevelop.SourceEditor.Gui
 
 			DebuggingService dbgr = (DebuggingService)ServiceManager.Services.GetService (typeof (DebuggingService));
 			dbgr.PausedEvent += new EventHandler (OnPausedEvent);
+			dbgr.ResumedEvent += new EventHandler (OnResumedEvent);
+			dbgr.StoppedEvent += new EventHandler (OnStoppedEvent);
 		}
 
 		bool add_array (TreeIter parent, ITargetArrayObject array)
@@ -236,10 +238,15 @@ namespace MonoDevelop.SourceEditor.Gui
 
 		Hashtable iters = null;
 
-		public void UpdateDisplay ()
+		public void CleanDisplay ()
 		{
 			store.Clear ();
 			iters = new Hashtable ();
+		}
+
+		public void UpdateDisplay ()
+		{
+			CleanDisplay ();
 
 			if ((current_frame == null) || (current_frame.Method == null))
 				return;
@@ -259,6 +266,16 @@ namespace MonoDevelop.SourceEditor.Gui
 				store.Clear ();
 				iters = new Hashtable ();
 			}
+		}
+
+		protected void OnStoppedEvent (object o, EventArgs args)
+		{
+			CleanDisplay ();
+		}
+
+		protected void OnResumedEvent (object o, EventArgs args)
+		{
+			CleanDisplay ();
 		}
 
 		protected void OnPausedEvent (object o, EventArgs args)

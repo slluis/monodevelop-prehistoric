@@ -1,3 +1,18 @@
+2004-03-06  Martin Baulig  <martin@ximian.com>
+
+	* configure.in: AC_SUBST(debugger_prefix).
+	* src/Main/Base/Services/Makefile.am: Use full path name for Mono.Debugger.dll.
+
+	* src/Main/Base/Gui/Workbench/DefaultWorkbench.cs: connect to the
+	debugger's StoppedEvent.
+	* src/AddIns/DisplayBindings/SourceEditor/Gui/Pads/DebuggerVariablePad.cs:
+	connect to the debugger's ResumedEvent and StoppedEvent.
+
+	* Main/Base/Commands/DebuggerCommands.cs: added KillApplication
+	and hook it to the DebuggingService.
+	* build/AddIns/SharpDevelopCore.addin: added menu item to the
+	debugging menu to kill the application.	
+
 2004-03-05  John BouAntoun  <jba-mono@optusnet.com.au>
 	
 	* src/Main/Base/Gui/Components/OpenFileTab.cs : deleted (duplicates TabLabel)
