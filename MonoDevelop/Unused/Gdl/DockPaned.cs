@@ -9,7 +9,6 @@ namespace Gdl
 	public class DockPaned : DockItem
 	{
 		private readonly float SplitRatio = 0.3f;
-		private bool positionChanged = false;
 
 		protected DockPaned (IntPtr raw) : base (raw) { }
 
@@ -62,7 +61,6 @@ namespace Gdl
 			else
 				Child = new VPaned ();
 			
-			// FIXME: track position to emit layout changed
 			Child.AddNotification ("position", OnNotifyPosition);
 												
 			Child.Parent = this;

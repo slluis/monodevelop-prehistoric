@@ -93,10 +93,11 @@ namespace Gdl
 		{
 			item.Locked = locked;
 			if (item.IsCompound) {
-				/*PORT THIS: Container.Foreach doesnt take the arg i need it to take.
-				        gtk_container_foreach (GTK_CONTAINER (item),
-                               (GtkCallback) ForeachLockUnlock,
-                               (gpointer) locked);*/
+				foreach (Widget w in item.Children) {
+					DockItem i = w as DockItem;
+					if (i != null)
+						ForeachLockUnlock (i, locked);
+				}
 			}
 		}
 		
@@ -106,11 +107,14 @@ namespace Gdl
 				if (dock.Root != null && dock.Root is DockItem)
 					ForeachLockUnlock ((DockItem)dock.Root, locked);
 			}
-			/*PORT THIS:
-			    // just to be sure hidden items are set too
-    gdl_dock_master_foreach (master,
-                             (GFunc) ForeachLockUnlock,
-                             (gpointer) locked);*/
+
+			// FIXME: not sure about which list to foreach here
+			// just to be sure hidden items are set too
+			foreach (Widget w in toplevelDocks) {
+				DockItem i = w as DockItem;
+				if (i != null)
+					ForeachLockUnlock (i, locked);
+			}
 		}
 		
 		public void Add (DockObject obj)
@@ -118,6 +122,7 @@ namespace Gdl
 			if (obj == null)
 				return;
 
+			// FIXME: this is possibly wrong
 			//if (!obj.IsAutomatic) {
 				/* create a name for the object if it doesn't have one */
 				if (obj.Name == null)

@@ -744,10 +744,9 @@ namespace Gdl
 			if (Visible)
 				newParent.Show ();
 			
-			if (position != DockPlacement.Center && data != null &&
-			    data is System.Int32) {
-				//PORT THIS:
-				//g_object_set (G_OBJECT (newParent), "position", g_value_get_uint (other_data), NULL);
+			if (position != DockPlacement.Center && data != null && data is System.Int32) {
+				if (newParent is DockPaned)
+					((DockPaned) newParent).Position = (int) data;
 			}
 			
 			DockObjectFlags &= ~(DockObjectFlags.InReflow);
