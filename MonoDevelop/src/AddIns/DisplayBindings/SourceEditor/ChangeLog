@@ -1,5 +1,9 @@
 2004-04-10  Todd Berman  <tberman@sevenl.net>
 
+	* Gui/SourceEditorView.cs: fix logic bug.
+
+2004-04-10  Todd Berman  <tberman@sevenl.net>
+
 	* CodeCompletion/CompletionWindow.cs: convert to RenderIcon and away
 	from stock-id, because of gtk+2.4 sizing issues.
 

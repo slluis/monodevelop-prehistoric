@@ -1,5 +1,9 @@
 2004-04-10  Todd Berman  <tberman@sevenl.net>
 
+	* Internal/Project/Project/AbstractProject.cs: fix potentiall nullref
+
+2004-04-10  Todd Berman  <tberman@sevenl.net>
+
 	* Gui/Workbench/Layouts/SdiWorkspaceLayout.cs:
 	* Gui/Workbench/Layouts/SdiWorkspaceWindow.cs:
 	* Gui/IWorkbenchLayout.cs:

@@ -369,7 +369,7 @@ namespace MonoDevelop.SourceEditor.Gui
 		
 		void IndentLines (int y0, int y1)
 		{
-			string indent = InsertSpacesInsteadOfTabs ? "\t" : new string (' ', (int) TabsWidth);
+			string indent = InsertSpacesInsteadOfTabs ? new string (' ', (int) TabsWidth) : "\t";
 			
 			for (int l = y0; l <= y1; l ++)
 				Buffer.Insert (Buffer.GetIterAtLine (l), indent);
