@@ -30,11 +30,15 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads
 		private FileSystemWatcher watcher;
 		private ItemCollection Items;
 		private Gtk.ListStore store;
+		private static Gnome.IconTheme theme;
+		private static Gnome.ThumbnailFactory tFactory;
 		
 //		private MagicMenus.PopupMenu menu = null;
 		
 		public FileList()
 		{
+			theme = new Gnome.IconTheme ();
+			tFactory = new Gnome.ThumbnailFactory (Gnome.ThumbnailSize.Normal);
 			Items = new ItemCollection(this);
 			ResourceManager resources = new ResourceManager("ProjectComponentResources", this.GetType().Module.Assembly);
 			FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.Services.GetService(typeof(FileUtilityService));
@@ -43,7 +47,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads
 			//Columns.Add("Size", -2, HorizontalAlignment.Right);
 			//Columns.Add("Last modified", -2, HorizontalAlignment.Left);
 			
-			store = new Gtk.ListStore (typeof (string), typeof (string), typeof(string), typeof(FileListItem));
+			store = new Gtk.ListStore (typeof (string), typeof (string), typeof(string), typeof(FileListItem), typeof (Gdk.Pixbuf));
 			Model = store;
 
 			HeadersVisible = true;
@@ -60,6 +64,10 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads
 			Gtk.TreeViewColumn modi_column = new Gtk.TreeViewColumn ();
 			modi_column.Title = "Last modified";
 
+			Gtk.CellRendererPixbuf pix_render = new Gtk.CellRendererPixbuf ();
+			name_column.PackStart (pix_render, false);
+			name_column.AddAttribute (pix_render, "pixbuf", 4);
+			
 			Gtk.CellRendererText render1 = new Gtk.CellRendererText ();
 			name_column.PackStart (render1, false);
 			name_column.AddAttribute (render1, "text", 0);
@@ -106,7 +114,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads
 		}
 		
 		void ItemAdded(FileListItem item) {
-			store.AppendValues(item.Text, item.Size, item.LastModified, item);
+			store.AppendValues(item.Text, item.Size, item.LastModified, item, item.Icon);
 		}
 		
 		void ItemRemoved(FileListItem item) {
@@ -247,6 +255,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads
 					continue;
 				}
 				FileInfo info = new FileInfo(file);
+			
 				FileListItem fileItem = Items.Add(new FileListItem(file,
 					Math.Round((double)info.Length / 1024).ToString() + " KB",
 					info.LastWriteTime.ToString()
@@ -262,6 +271,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads
 			string text;
 			string size;
 			string lastModified;
+			Gdk.Pixbuf icon;
 			
 			public string FullName {
 				get {
@@ -296,13 +306,32 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads
 					lastModified = value;
 				}
 			}
+
+			public Gdk.Pixbuf Icon {
+				get {
+					return icon;
+				}
+				set {
+					icon = value;
+				}
+			}
 			
 			public FileListItem(string fullname, string size, string lastModified) 
 			{
 				this.size = size;
 				this.lastModified = lastModified;
-				FullName = fullname;
-				//ImageIndex = IconManager.GetIndexForFile(fullname);
+				//FIXME: This is because //home/blah is not the same as /home/blah according to Icon.LookupSync, if we get weird behaviours, lets look at this again, see if we still need it.
+				FullName = FullName.Substring (1);
+				//FIXME: This code needs to be abstracted out to a MonoDevelop.Gui class and made to be performant and not sucky, ill do it later --Todd
+				Gnome.IconLookupResultFlags result;
+				Console.WriteLine (FullName);
+				string icon = Gnome.Icon.LookupSync (theme, tFactory, FullName, "", Gnome.IconLookupFlags.None, out result);
+				int i;
+				string p_filename = theme.LookupIcon (icon, 1, new Gnome.IconData (), out i);
+				Console.WriteLine (p_filename);
+				Gdk.Pixbuf big_pixbuf = new Gdk.Pixbuf (p_filename);
+				this.icon = big_pixbuf.ScaleSimple (16, 16, Gdk.InterpType.Nearest);
+	
 			}
 		}
 		
