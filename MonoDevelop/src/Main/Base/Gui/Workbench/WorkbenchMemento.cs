@@ -19,7 +19,7 @@ namespace MonoDevelop.Gui
 	/// </summary>
 	public class WorkbenchMemento : IXmlConvertable
 	{
-		//FormWindowState windowstate        = FormWindowState.Normal;
+		Gdk.WindowState windowstate        = 0;
 		//FormWindowState defaultwindowstate = FormWindowState.Normal;
 		Rectangle       bounds             = new Rectangle(0, 0, 640, 480);
 		bool            fullscreen         = false;
@@ -33,14 +33,14 @@ namespace MonoDevelop.Gui
 			}
 		}*/
 		
-		/*public FormWindowState WindowState {
+		public Gdk.WindowState WindowState {
 			get {
 				return windowstate;
 			}
 			set {
 				windowstate = value;
 			}
-		}*/
+		}
 		
 		public Rectangle Bounds {
 			get {
@@ -76,8 +76,9 @@ namespace MonoDevelop.Gui
 			
 			bounds = new Rectangle(Int32.Parse(boundstr[0]), Int32.Parse(boundstr[1]), 
 			                       Int32.Parse(boundstr[2]), Int32.Parse(boundstr[3]));
-			
-			//windowstate = (FormWindowState)Enum.Parse(typeof(FormWindowState), element.Attributes["formwindowstate"].InnerText);
+			if (element.Attributes["formwindowstate"] != null) {
+				windowstate = (Gdk.WindowState)Enum.Parse(typeof(Gdk.WindowState), element.Attributes["formwindowstate"].InnerText);
+			}
 			
 			/*if (element.Attributes["defaultformwindowstate"] != null) {
 				defaultwindowstate = (FormWindowState)Enum.Parse(typeof(FormWindowState), element.Attributes["defaultformwindowstate"].InnerText);
@@ -100,11 +101,11 @@ namespace MonoDevelop.Gui
 			attr.InnerText = bounds.X + "," + bounds.Y + "," + bounds.Width + "," + bounds.Height;
 			element.Attributes.Append(attr);
 			
-			/*attr = doc.CreateAttribute("formwindowstate");
+			attr = doc.CreateAttribute ("formwindowstate");
 			attr.InnerText = windowstate.ToString();
 			element.Attributes.Append(attr);
 			
-			attr = doc.CreateAttribute("defaultformwindowstate");
+			/*attr = doc.CreateAttribute("defaultformwindowstate");
 			attr.InnerText = defaultwindowstate.ToString();
 			element.Attributes.Append(attr);*/
 			

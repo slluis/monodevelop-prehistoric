@@ -396,14 +396,14 @@ namespace MonoDevelop.Gui
 		public IXmlConvertable CreateMemento()
 		{
 			WorkbenchMemento memento   = new WorkbenchMemento();
-			int x, y, width, height;
-			GdkWindow.GetSize (out width, out height);
-			GdkWindow.GetRootOrigin (out x, out y);
-			if (GdkWindow.State != Gdk.WindowState.Fullscreen && GdkWindow.State != Gdk.WindowState.Maximized) {
+			int x, y, width, height, depth;
+			GdkWindow.GetGeometry (out x, out y, out width, out height, out depth);
+			if (GdkWindow.State == 0) {
 				memento.Bounds             = new Rectangle (x, y, width, height);
 			} else {
 				memento.Bounds = normalBounds;
 			}
+			memento.WindowState = GdkWindow.State;
 
 			memento.FullScreen         = fullscreen;
 			return memento;
@@ -417,6 +417,11 @@ namespace MonoDevelop.Gui
 				normalBounds = memento.Bounds;
 				Move (normalBounds.X, normalBounds.Y);
 				Resize (normalBounds.Width, normalBounds.Height);
+				if (memento.WindowState == Gdk.WindowState.Maximized) {
+					Maximize ();
+				} else if (memento.WindowState == Gdk.WindowState.Iconified) {
+					Iconify ();
+				}
 				FullScreen = memento.FullScreen;
 			}
 			Decorated = true;

@@ -1,7 +1,7 @@
 // <file>
 //     <copyright see="prj:///doc/copyright.txt"/>
 //     <license see="prj:///doc/license.txt"/>
-//     <owner name="Mike KrÃÂ¼ger" email="mike@icsharpcode.net"/>
+//     <owner name="Mike KrÃ?Â¼ger" email="mike@icsharpcode.net"/>
 //     <version value="$version"/>
 // </file>
 
@@ -41,10 +41,10 @@ namespace MonoDevelop.Commands
 			
 			w.InitializeWorkspace();
 			PropertyService propertyService = (PropertyService)ServiceManager.Services.GetService(typeof(PropertyService));
-			w.SetMemento((IXmlConvertable)propertyService.GetProperty(workbenchMemento, new WorkbenchMemento()));
 			w.UpdateViews(null, null);
 			WorkbenchSingleton.CreateWorkspace();
 			((Gtk.Window)w).Visible = false;
+			w.SetMemento ((IXmlConvertable)propertyService.GetProperty (workbenchMemento, new WorkbenchMemento ()));
 			
 		}
 	}

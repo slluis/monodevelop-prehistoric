@@ -1,3 +1,11 @@
+2004-04-11  Todd Berman  <tberman@sevenl.net>
+
+	* Commands/AutostartCommands.cs: reorganize the SetMemento so it works
+	better.
+	* Gui/Workbench/WorkbenchMemento.cs: readd windowstate.
+	* Gui/Workbench/DefaultWorkbench.cs: now we restore from maximized
+	properly.
+
 2004-04-10  Todd Berman  <tberman@sevenl.net>
 
 	* Internal/Project/Project/AbstractProject.cs: fix potentiall nullref
