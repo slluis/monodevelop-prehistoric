@@ -301,9 +301,10 @@ namespace CSharpBinding
 			}			
 			
 			ArrayList compile_files = new ArrayList ();
-			ArrayList gac_references = new ArrayList ();
+			ArrayList pkg_references = new ArrayList ();
 			ArrayList assembly_references = new ArrayList ();
 			ArrayList project_references = new ArrayList ();
+			ArrayList system_references = new ArrayList ();
 			ArrayList resources = new ArrayList ();
 			
 			foreach (ProjectFile finfo in project.ProjectFiles) {
@@ -322,12 +323,17 @@ namespace CSharpBinding
 					}
 				}
 			}
-			
+
+			SystemAssemblyService sas = (SystemAssemblyService)ServiceManager.Services.GetService (typeof (SystemAssemblyService));
 			foreach (ProjectReference lib in project.ProjectReferences) {
 				switch (lib.ReferenceType) {
 				case ReferenceType.Gac:
-					string gac_fileName = lib.GetReferencedFileName (project);
-					gac_references.Add (Path.GetFileNameWithoutExtension (gac_fileName));
+					string pkg = sas.GetPackageFromFullName (lib.Reference);
+					if (pkg == "MONO-SYSTEM") {
+						system_references.Add (Path.GetFileName (lib.GetReferencedFileName (project)));
+					} else if (!pkg_references.Contains (pkg)) {
+						pkg_references.Add (pkg);
+					}
 					break;
 				case ReferenceType.Assembly:
 					string assembly_fileName = lib.GetReferencedFileName (project);
@@ -361,56 +367,82 @@ namespace CSharpBinding
 			}
 			stream.WriteLine ();
 
-			stream.WriteLine ("RESOURCES = \\");
-			for (int i = 0; i < resources.Count; i++) {
-				stream.Write (resources[i]);
-				if (i != resources.Count - 1)
-					stream.WriteLine (" \\");
-				else
-					stream.WriteLine ();
-			}
-			stream.WriteLine ();
-			stream.WriteLine ("RESOURCES_BUILD = $(foreach res,$(RESOURCES), $(addprefix -resource:,$(res)),$(notdir $(res)))");
-
-			stream.WriteLine ();
-			stream.WriteLine ("GAC_REFERENCES = \\");
-			for (int i = 0; i < gac_references.Count; i++) {
-				stream.Write (gac_references[i]);
-				if (i != gac_references.Count - 1)
-					stream.WriteLine (" \\");
-				else
-					stream.WriteLine ();
+			if (resources.Count > 0) {
+				stream.WriteLine ("RESOURCES = \\");
+				for (int i = 0; i < resources.Count; i++) {
+					stream.Write (resources[i]);
+					if (i != resources.Count - 1)
+						stream.WriteLine (" \\");
+					else
+						stream.WriteLine ();
+				}
+				stream.WriteLine ();
+				stream.WriteLine ("RESOURCES_BUILD = $(foreach res,$(RESOURCES), $(addprefix -resource:,$(res)),$(notdir $(res)))");
+				stream.WriteLine ();
 			}
 
-			stream.WriteLine ();
-			stream.WriteLine ("GAC_REFERENCES_BUILD = $(addprefix /r:, $(GAC_REFERENCES))");
-			stream.WriteLine ();
-
-			stream.WriteLine ("ASSEMBLY_REFERENCES = \\");
-			for (int i = 0; i < assembly_references.Count; i++) {
-				stream.Write (assembly_references[i]);
-				if (i != assembly_references.Count - 1)
-					stream.WriteLine (" \\");
-				else
-					stream.WriteLine ();
+			if (pkg_references.Count > 0) {
+				stream.WriteLine ("PKG_REFERENCES = \\");
+				for (int i = 0; i < pkg_references.Count; i++) {
+					stream.Write (pkg_references[i]);
+					if (i != pkg_references.Count - 1)
+						stream.WriteLine (" \\");
+					else
+						stream.WriteLine ();
+				}
+				
+				stream.WriteLine ();
+				stream.WriteLine ("PKG_REFERENCES_BUILD = $(addprefix /pkg:, $(PKG_REFERENCES))");
+				stream.WriteLine ();
+				stream.WriteLine ("PKG_REFERENCES_CHECK = $(addsuffix .pkgcheck, $(PKG_REFERENCES))");
+			}
+			
+			if (system_references.Count > 0) {
+				stream.WriteLine ();
+				stream.WriteLine ("SYSTEM_REFERENCES = \\");
+				for (int i = 0; i < system_references.Count; i++) {
+					stream.Write (system_references[i]);
+					if (i != system_references.Count - 1)
+						stream.WriteLine (" \\");
+					else
+						stream.WriteLine ();
+				}
+				stream.WriteLine ();
+				stream.WriteLine ("SYSTEM_REFERENCES_BUILD = $(addprefix /r:, $(SYSTEM_REFERENCES))");
+				stream.WriteLine ();
+				stream.WriteLine ("SYSTEM_REFERENCES_CHECK = $(addsuffix .check, $(SYSTEM_REFERENCES))");
+				stream.WriteLine ();
 			}
 
-			stream.WriteLine ();
-			stream.WriteLine ("ASSEMBLY_REFERENCES_BUILD = $(addprefix /r:, $(ASSEMBLY_REFERENCES))");
-			stream.WriteLine ();
-
-			stream.WriteLine ("PROJECT_REFERENCES = \\");
-			for (int i = 0; i < project_references.Count; i++) {
-				stream.Write (project_references[i]);
-				if (i != project_references.Count - 1)
-					stream.WriteLine (" \\");
-				else
-					stream.WriteLine ();
+			if (assembly_references.Count > 0) {
+				stream.WriteLine ("ASSEMBLY_REFERENCES = \\");
+				for (int i = 0; i < assembly_references.Count; i++) {
+					stream.Write (assembly_references[i]);
+					if (i != assembly_references.Count - 1)
+						stream.WriteLine (" \\");
+					else
+						stream.WriteLine ();
+				}
+				
+				stream.WriteLine ();
+				stream.WriteLine ("ASSEMBLY_REFERENCES_BUILD = $(addprefix /r:, $(ASSEMBLY_REFERENCES))");
+				stream.WriteLine ();
 			}
 
-			stream.WriteLine ();
-			stream.WriteLine ("PROJECT_REFERENCES_BUILD = $(addprefix /r:, $(PROJECT_REFERENCES))");
-			stream.WriteLine ();
+			if (project_references.Count > 0) {
+				stream.WriteLine ("PROJECT_REFERENCES = \\");
+				for (int i = 0; i < project_references.Count; i++) {
+					stream.Write (project_references[i]);
+					if (i != project_references.Count - 1)
+						stream.WriteLine (" \\");
+					else
+						stream.WriteLine ();
+				}
+				
+				stream.WriteLine ();
+				stream.WriteLine ("PROJECT_REFERENCES_BUILD = $(addprefix /r:, $(PROJECT_REFERENCES))");
+				stream.WriteLine ();
+			}
 
 			stream.Write ("MCS_OPTIONS = ");
 			if (compilerparameters.UnsafeCode) {
@@ -428,12 +460,71 @@ namespace CSharpBinding
 			stream.WriteLine ("all: " + outputName);
 			stream.WriteLine ();
 			
-			stream.WriteLine (outputName + ": $(SOURCES) $(RESOURCES)");
-			stream.WriteLine ("\tmcs $(MCS_OPTIONS) /target:{0} /out:{1} $(RESOURCES_BUILD) $(GAC_REFERENCES_BUILD) $(ASSEMBLY_REFERENCES_BUILD) $(PROJECT_REFERENCES_BUILD) $(SOURCES)", target, outputName);
+			stream.Write (outputName + ": $(SOURCES)");
+			if (resources.Count > 0) {
+				stream.WriteLine (" $(RESOURCES)");
+			} else {
+				stream.WriteLine ();
+			}
+			
+			stream.Write ("\tmcs $(MCS_OPTIONS) /target:{0} /out:{1}", target, outputName);
+			if (resources.Count > 0) {
+				stream.Write (" $(RESOURCES_BUILD)");
+			}
+			if (pkg_references.Count > 0) {
+				stream.Write (" $(PKG_REFERENCES_BUILD)");
+			}
+			if (assembly_references.Count > 0) {
+				stream.Write (" $(ASSEMBLY_REFERENCES_BUILD)");
+			}
+			if (project_references.Count > 0) {
+				stream.Write (" $(PROJECT_REFERENCES_BUILD)");
+			}
+			if (system_references.Count > 0) {
+				stream.Write (" $(SYSTEM_REFERENCES_BUILD)");
+			}
+			stream.WriteLine (" $(SOURCES)");
 
 			stream.WriteLine ();
 			stream.WriteLine ("clean:");
 			stream.WriteLine ("\trm -f {0}", outputName);
+			stream.WriteLine ();
+			
+			stream.Write ("depcheck: ");
+			if (pkg_references.Count > 0) {
+				stream.Write ("PKG_depcheck ");
+			}
+			if (system_references.Count > 0) {
+				stream.Write ("SYSTEM_depcheck");
+			}
+			stream.WriteLine ();
+			stream.WriteLine ();
+			if (pkg_references.Count > 0) {
+				stream.WriteLine ("PKG_depcheck: $(PKG_REFERENCES_CHECK)");
+				stream.WriteLine ();
+				stream.WriteLine ("%.pkgcheck:");
+				stream.WriteLine ("\t@echo -n Checking for package $(subst .pkgcheck,,$@)...");
+				stream.WriteLine ("\t@if pkg-config --libs $(subst .pkgcheck,,$@) &> /dev/null; then \\");
+				stream.WriteLine ("\t\techo yes; \\");
+				stream.WriteLine ("\telse \\");
+				stream.WriteLine ("\t\techo no; \\");
+				stream.WriteLine ("\t\texit 1; \\");
+				stream.WriteLine ("\tfi");
+				stream.WriteLine ();
+			}
+
+			if (system_references.Count > 0) {
+				stream.WriteLine ("SYSTEM_depcheck: $(SYSTEM_REFERENCES_CHECK)");
+				stream.WriteLine ();
+				stream.WriteLine ("%.check:");
+				stream.WriteLine ("\t@echo -n Checking for $(subst .check,,$@)...");
+				stream.WriteLine ("\t@if [ ! -e `pkg-config --variable=libdir mono`/mono/1.0/$(subst .check,,$@) ]; then \\");
+				stream.WriteLine ("\t\techo no; \\");
+				stream.WriteLine ("\t\texit 1; \\");
+				stream.WriteLine ("\telse \\");
+				stream.WriteLine ("\t\techo yes; \\");
+				stream.WriteLine ("\tfi");
+			}
 			
 			stream.Flush ();
 			stream.Close ();

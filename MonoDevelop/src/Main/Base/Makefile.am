@@ -215,6 +215,7 @@ FILES= \
 ./Services/Toolbar/ToolbarService.cs \
 ./Services/MonodocService.cs \
 ./Services/IDebuggerService.cs \
+./Services/SystemAssemblyService.cs \
 ./Internal/Undo/IUndoableOperation.cs \
 ./Internal/Undo/UndoStack.cs \
 ./Internal/Undo/UndoQueue.cs \

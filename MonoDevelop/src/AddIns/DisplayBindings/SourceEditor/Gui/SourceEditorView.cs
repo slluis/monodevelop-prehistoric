@@ -9,12 +9,14 @@ using System.Runtime.InteropServices;
 using MonoDevelop.Core.AddIns.Conditions;
 using MonoDevelop.Core.AddIns;
 using MonoDevelop.Internal.Templates;
+using MonoDevelop.Internal.Parser;
 using MonoDevelop.Core.Services;
 using MonoDevelop.SourceEditor.CodeCompletion;
 using MonoDevelop.SourceEditor.InsightWindow;
 using MonoDevelop.EditorBindings.Properties;
 using MonoDevelop.EditorBindings.FormattingStrategy;
 using MonoDevelop.Gui.Utils;
+using MonoDevelop.Gui;
 using MonoDevelop.Services;
 
 using GtkSourceView;
@@ -180,6 +182,54 @@ namespace MonoDevelop.SourceEditor.Gui
 			
 			completionWindow.ShowCompletionWindow (triggerChar, triggerIter, true);
 		}
+
+		bool MonodocResolver ()
+		{
+			TextIter insertIter = buf.GetIterAtMark (buf.InsertMark);
+			TextIter triggerIter = TextIter.Zero;
+			try {
+				do {
+					switch (insertIter.Char[0]) {
+					case ' ':
+					case '\t':
+					case '.':
+					case '(':
+					case '[':
+						triggerIter = insertIter;
+						break;
+					}
+					if (!triggerIter.Equals (TextIter.Zero))
+						break;
+					insertIter.ForwardChar ();
+				} while (insertIter.LineOffset != 0);
+				triggerIter.ForwardChar ();
+			} catch {
+				return false;
+			}
+			insertIter = triggerIter;
+			IParserService parser = (IParserService)ServiceManager.Services.GetService (typeof (IParserService));
+			string fileName = ParentEditor.DisplayBinding.ContentName;
+			IExpressionFinder expressionFinder = parser.GetExpressionFinder(fileName);
+			string expression    = expressionFinder == null ? TextUtilities.GetExpressionBeforeOffset(this, insertIter.Offset) : expressionFinder.FindExpression(buf.GetText(buf.StartIter, insertIter, true), insertIter.Offset - 2);
+			if (expression == null) return false;
+			Console.WriteLine ("Expression: {" + expression + "}");
+			string type = parser.MonodocResolver (expression, insertIter.Line + 1, insertIter.LineOffset + 1, fileName, buf.Text);
+			if (type == null || type.Length == 0)
+				return false;
+
+			foreach (IViewContent content in WorkbenchSingleton.Workbench.ViewContentCollection) {
+				if (content.ContentName == GettextCatalog.GetString ("Documentation")) {
+					((HelpViewer)content).LoadUrl (type);
+					content.WorkbenchWindow.SelectWindow ();
+					return true;
+				}
+			}
+			HelpViewer new_content = new HelpViewer ();
+			new_content.LoadUrl (type);
+			WorkbenchSingleton.Workbench.ShowView (new_content);
+			
+			return true;
+		}
 		
 		protected override bool OnKeyPressEvent (Gdk.EventKey evnt)
 		{
@@ -191,31 +241,36 @@ namespace MonoDevelop.SourceEditor.Gui
 			switch (state) {
 			case Normal:
 				switch (key) {
-					case Gdk.Key.Tab:
-						if (IndentSelection ())
-							return true;
-						break;
+				case Gdk.Key.Tab:
+					if (IndentSelection ())
+						return true;
+					break;
+				case Gdk.Key.F1:
+				case Gdk.Key.KP_F1:
+					if (MonodocResolver ())
+						return true;
+					break;
 				}
 				break;
 			case Shift:
 				switch (key) {
-					case Gdk.Key.ISO_Left_Tab:
-						if (UnIndentSelection ())
-							return true;
-						break;
-					case Gdk.Key.Delete:
-						DeleteLine ();
+				case Gdk.Key.ISO_Left_Tab:
+					if (UnIndentSelection ())
 						return true;
+					break;
+				case Gdk.Key.Delete:
+					DeleteLine ();
+					return true;
 				}
 				break;
 			case Control:
 				switch (key) {
-					case Gdk.Key.space:
-						TriggerCodeComplete ();
-						return true;
-					case Gdk.Key.l:
-						DeleteLine ();
-						return true;
+				case Gdk.Key.space:
+					TriggerCodeComplete ();
+					return true;
+				case Gdk.Key.l:
+					DeleteLine ();
+					return true;
 				}
 				break;
 			}

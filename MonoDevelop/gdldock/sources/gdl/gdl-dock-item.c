@@ -1260,11 +1260,11 @@ gdl_dock_item_popup_menu (GdlDockItem  *item,
         g_signal_connect (mitem, "activate", 
                           G_CALLBACK (gdl_dock_item_hide_cb), item);
 
-        /* Lock menuitem */
+        /* Lock menuitem -- Remove by Todd
         mitem = gtk_menu_item_new_with_label (_("Lock"));
         gtk_menu_shell_append (GTK_MENU_SHELL (item->_priv->menu), mitem);
         g_signal_connect (mitem, "activate",
-                          G_CALLBACK (gdl_dock_item_lock_cb), item);
+        G_CALLBACK (gdl_dock_item_lock_cb), item);*/
 
     }
 

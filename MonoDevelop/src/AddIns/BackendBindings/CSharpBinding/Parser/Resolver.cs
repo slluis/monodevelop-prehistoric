@@ -57,7 +57,7 @@ namespace CSharpBinding.Parser
 		int caretLine;
 		int caretColumn;
 		
-		public ResolveResult Resolve(IParserService parserService, string expression, int caretLineNumber, int caretColumn, string fileName, string fileContent)
+		public IReturnType internalResolve(IParserService parserService, string expression, int caretLineNumber, int caretColumn, string fileName, string fileContent)
 		{
 			Console.WriteLine("Start Resolving");
 			if (expression == null) {
@@ -67,32 +67,6 @@ namespace CSharpBinding.Parser
 			if (expression == "") {
 				return null;
 			}
-			if (expression.StartsWith("using ")) {
-				// expression[expression.Length - 1] != '.'
-				// the period that causes this Resove() is not part of the expression
-				if (expression[expression.Length - 1] == '.') {
-					return null;
-				}
-				int i;
-				for (i = expression.Length - 1; i >= 0; --i) {
-					if (!(Char.IsLetterOrDigit(expression[i]) || expression[i] == '_' || expression[i] == '.')) {
-						break;
-					}
-				}
-				// no Identifier before the period
-				if (i == expression.Length - 1) {
-					return null;
-				}
-				string t = expression.Substring(i + 1);
-//				Console.WriteLine("in Using Statement");
-				string[] namespaces = parserService.GetNamespaceList(t);
-				if (namespaces == null || namespaces.Length <= 0) {
-					return null;
-				}
-				return new ResolveResult(namespaces);
-			}
-			
-			Console.WriteLine("Not in Using");
 			this.caretLine     = caretLineNumber;
 			this.caretColumn   = caretColumn;
 			
@@ -173,7 +147,64 @@ namespace CSharpBinding.Parser
 				type = new ReturnType("System.Array");
 			}
 			Console.WriteLine("Here: Type is " + type.FullyQualifiedName);
-			IClass returnClass = SearchType(type.FullyQualifiedName, cu);
+			return type;
+		}
+
+		public string MonodocResolver (IParserService parserService, string expression, int caretLineNumber, int caretColumn, string fileName, string fileContent) 
+		{
+			if (expression == null) {
+				return null;
+			}
+			expression = expression.TrimStart (null);
+			if (expression == "") {
+				return null;
+			}
+			IReturnType retType = internalResolve (parserService, expression, caretLineNumber, caretColumn, fileName, fileContent);
+			IClass retClass = SearchType (retType.FullyQualifiedName, cu);
+			if (retClass == null)
+				return null;
+			
+			Console.WriteLine (retClass.FullyQualifiedName);
+			return "T:" + retClass.FullyQualifiedName;
+		}
+		
+		public ResolveResult Resolve(IParserService parserService, string expression, int caretLineNumber, int caretColumn, string fileName, string fileContent) 
+		{
+			if (expression == null) {
+				return null;
+			}
+			expression = expression.TrimStart(null);
+			if (expression == "") {
+				return null;
+			}
+			if (expression.StartsWith("using ")) {
+				// expression[expression.Length - 1] != '.'
+				// the period that causes this Resove() is not part of the expression
+				if (expression[expression.Length - 1] == '.') {
+					return null;
+				}
+				int i;
+				for (i = expression.Length - 1; i >= 0; --i) {
+					if (!(Char.IsLetterOrDigit(expression[i]) || expression[i] == '_' || expression[i] == '.')) {
+						break;
+					}
+				}
+				// no Identifier before the period
+				if (i == expression.Length - 1) {
+					return null;
+				}
+				string t = expression.Substring(i + 1);
+//				Console.WriteLine("in Using Statement");
+				string[] namespaces = parserService.GetNamespaceList(t);
+				if (namespaces == null || namespaces.Length <= 0) {
+					return null;
+				}
+				return new ResolveResult(namespaces);
+			}
+			
+			Console.WriteLine("Not in Using");
+			IReturnType type = internalResolve (parserService, expression, caretLineNumber, caretColumn, fileName, fileContent);
+			IClass returnClass = SearchType (type.FullyQualifiedName, cu);
 			if (returnClass == null) {
 				// Try if type is Namespace:
 				string n = SearchNamespace(type.FullyQualifiedName, cu);

@@ -817,6 +817,19 @@ namespace MonoDevelop.Services
 			}
 		}
 
+		public string MonodocResolver (string expression, int caretLineNumber, int caretColumn, string fileName, string fileContent)
+		{
+			try {
+				IParser parser = GetParser (fileName);
+				if (parser != null) {
+					return parser.MonodocResolver (this, expression, caretLineNumber, caretColumn, fileName, fileContent);
+				}
+				return null;
+			} catch {
+				return null;
+			}
+		}
+
 		protected void OnParseInformationAdded(ParseInformationEventArgs e)
 		{
 			if (ParseInformationAdded != null) {

@@ -1,3 +1,9 @@
+2004-05-16  Todd Berman  <tberman@sevenl.net>
+
+	* Gui/SourceEditorView.cs: Implement beta monodoc resolving.
+	This works only with types for right now, so its now 100% of what
+	you would expect.
+
 2004-05-09  Todd Berman  <tberman@sevenl.net>
 
 	* Gui/SourceEditorView.cs: bring current with gtk-sharp cvs.

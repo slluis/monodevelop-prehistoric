@@ -86,7 +86,7 @@ namespace MonoDevelop.Gui.Dialogs
 						AddNonGacReference (refInfo);
 						break;
 					case ReferenceType.Gac:
-						AddGacReference (refInfo);
+						AddGacReference (refInfo, configureProject);
 						break;
 				}
 			}
@@ -103,10 +103,10 @@ namespace MonoDevelop.Gui.Dialogs
 			refTreeStore.AppendValues (System.IO.Path.GetFileName (refInfo.Reference), refInfo.ReferenceType.ToString (), System.IO.Path.GetFullPath (refInfo.GetReferencedFileName (configureProject)), refInfo);
 		}
 
-		void AddGacReference (ProjectReference refInfo)
+		void AddGacReference (ProjectReference refInfo, IProject referencedProject)
 		{
 			gacRefPanel.SignalRefChange (refInfo.Reference, true);
-			refTreeStore.AppendValues (refInfo.Reference, refInfo.ReferenceType.ToString (), refInfo.Reference, refInfo);
+			refTreeStore.AppendValues (System.IO.Path.GetFileNameWithoutExtension (refInfo.GetReferencedFileName (referencedProject)), refInfo.ReferenceType.ToString (), refInfo.Reference, refInfo);
 		}
 
 		public void RemoveReference (ReferenceType referenceType, string referenceName, string referenceLocation)

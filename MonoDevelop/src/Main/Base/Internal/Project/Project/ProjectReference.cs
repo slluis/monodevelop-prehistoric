@@ -98,7 +98,7 @@ namespace MonoDevelop.Internal.Project
 					return reference;
 				
 				case ReferenceType.Gac:
-					string file = ((IParserService)ServiceManager.Services.GetService (typeof (IParserService))).LoadAssemblyFromGac (reference);
+					string file = ((IParserService)ServiceManager.Services.GetService (typeof (IParserService))).LoadAssemblyFromGac (GetPathToGACAssembly (this));
 					return file == String.Empty ? reference : file;
 				case ReferenceType.Project:
 					IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
@@ -135,11 +135,11 @@ namespace MonoDevelop.Internal.Project
 			Debug.Assert(refInfo.ReferenceType == ReferenceType.Gac);
 			string[] info = refInfo.Reference.Split(',');
 			
-			if (info.Length < 4) {
-				return info[0];
-			}
+			//if (info.Length < 4) {
+			return info[0];
+			//	}
 			
-			string aName      = info[0];
+			/*string aName      = info[0];
 			string aVersion   = info[1].Substring(info[1].LastIndexOf('=') + 1);
 			string aPublicKey = info[3].Substring(info[3].LastIndexOf('=') + 1);
 			
@@ -149,7 +149,7 @@ namespace MonoDevelop.Internal.Project
 			       Path.DirectorySeparatorChar + "GAC" +
 			       Path.DirectorySeparatorChar + aName +
 			       Path.DirectorySeparatorChar + aVersion + "__" + aPublicKey +
-			       Path.DirectorySeparatorChar + aName + ".dll";
+			       Path.DirectorySeparatorChar + aName + ".dll";*/
 		}
 		
 		public object Clone()

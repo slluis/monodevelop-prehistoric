@@ -58,7 +58,7 @@ namespace MonoDevelop.Gui.Dialogs
 			ScrolledWindow sc = new ScrolledWindow ();
 			sc.AddWithViewport (treeView);
 			this.Add (sc);
-			Shadow = ShadowType.None;
+			Shadow = ShadowType.In;
 			ShowAll ();
 		}
 		
@@ -70,13 +70,13 @@ namespace MonoDevelop.Gui.Dialogs
 				store.SetValue (iter, 3, true);
 				selectDialog.AddReference(ReferenceType.Gac,
 				                          (string)store.GetValue (iter, 0),
-				                          (string)store.GetValue (iter, 2));
+				                          (string)store.GetValue (iter, 4));
 				
 			} else {
 				store.SetValue (iter, 3, false);
 				selectDialog.RemoveReference (ReferenceType.Gac,
 											  (string)store.GetValue (iter, 0),
-											  (string)store.GetValue (iter, 2));
+											  (string)store.GetValue (iter, 4));
 			}
 		}
 
@@ -85,7 +85,7 @@ namespace MonoDevelop.Gui.Dialogs
 			Gtk.TreeIter looping_iter;
 			store.GetIterFirst (out looping_iter);
 			do {
-				if ((string)store.GetValue (looping_iter, 2) == refLoc) {
+				if ((string)store.GetValue (looping_iter, 4) == refLoc) {
 					store.SetValue (looping_iter, 3, newstate);
 					return;
 				}
@@ -117,6 +117,7 @@ namespace MonoDevelop.Gui.Dialogs
 				Items.Add(item);
 			}
 #endif
+			#if false
 			System.Reflection.MethodInfo gac = typeof (System.Environment).GetMethod ("internalGetGacPath", System.Reflection.BindingFlags.Static|System.Reflection.BindingFlags.NonPublic);
 			if (gac == null) {
 				Console.WriteLine (GettextCatalog.GetString ("ERROR: non-mono runtime detected, please use the mono runtime for this piece of MonoDevelop for the time being"));
@@ -133,6 +134,15 @@ namespace MonoDevelop.Gui.Dialogs
 						store.AppendValues (an.Name, an.Version.ToString (), System.IO.Path.GetFileName (files[0].FullName), false, an.FullName);
 					} catch {
 					}
+				}
+			}
+			#endif
+			SystemAssemblyService sas = (SystemAssemblyService)ServiceManager.Services.GetService (typeof (SystemAssemblyService));
+			foreach (string assemblyPath in sas.AssemblyPaths) {
+				try {
+					System.Reflection.AssemblyName an = System.Reflection.AssemblyName.GetAssemblyName (assemblyPath);
+					store.AppendValues (an.Name, an.Version.ToString (), System.IO.Path.GetFileName (assemblyPath), false, an.FullName);
+				}catch {
 				}
 			}
 		}

@@ -103,6 +103,11 @@ namespace CSharpBinding.Parser
 		{
 			return new Resolver().Resolve(parserService, expression, caretLineNumber, caretColumn, fileName, fileContent);
 		}
+
+		public string MonodocResolver (IParserService parserService, string expression, int caretLineNumber, int caretColumn, string fileName, string fileContent)
+		{
+			return new Resolver ().MonodocResolver (parserService, expression, caretLineNumber, caretColumn, fileName, fileContent);
+		}
 		
 		///////// IParser Interface END
 	}

@@ -1,4 +1,4 @@
-﻿// <file>
+// <file>
 //     <copyright see="prj:///doc/copyright.txt"/>
 //     <license see="prj:///doc/license.txt"/>
 //     <owner name="Mike Krüger" email="mike@icsharpcode.net"/>
@@ -48,9 +48,12 @@ namespace MonoDevelop.Gui.Pads
 			languageConversion.ConversionFlags = ConversionFlags.None;
 		}
 
+		private object locker = new object ();
 		public void AddToClassTree(TreeNode parentNode, ParseInformationEventArgs e)
 		{
-			AddToClassTree(parentNode, e.FileName, (ICompilationUnit)e.ParseInformation.MostRecentCompilationUnit);
+			lock (locker) {
+				AddToClassTree(parentNode, e.FileName, (ICompilationUnit)e.ParseInformation.MostRecentCompilationUnit);
+			}
 		}
 		
 		public void RemoveFromClassTree(TreeNode parentNode, ParseInformationEventArgs e) {

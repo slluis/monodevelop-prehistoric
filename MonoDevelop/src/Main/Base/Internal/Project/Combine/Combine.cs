@@ -34,6 +34,7 @@ namespace MonoDevelop.Internal.Project
 		/// </summary>
 		string startProject  = null;
 		bool   singleStartup = true;
+		string path          = null;
 		
 		ArrayList entries       = new ArrayList();
 		
@@ -178,7 +179,7 @@ namespace MonoDevelop.Internal.Project
 		{
 			XmlDocument doc = new XmlDocument();
 			doc.Load(filename);
-			string path = Path.GetDirectoryName(filename);
+			path = Path.GetDirectoryName(filename);
 			
 			
 			XmlElement root = doc.DocumentElement;
@@ -527,12 +528,46 @@ namespace MonoDevelop.Internal.Project
 
 		public void GenerateMakefiles ()
 		{
+			ArrayList projects = new ArrayList ();
 			foreach (CombineEntry entry in entries) {
-				if (entry is ProjectCombineEntry)
+				if (entry is ProjectCombineEntry) {
 					entry.GenerateMakefiles ();
+					projects.Add (((ProjectCombineEntry)entry).Project);
+				}
 				else
 					Console.WriteLine ("Dont know how to generate makefiles for " + entry);
 			}
+
+			StreamWriter stream = new StreamWriter (Path.Combine (path, "Makefile"));
+
+			stream.Write ("all: ");
+			foreach (IProject proj in projects) {
+				stream.Write ("Makefile.{0}.all", proj.Name);
+			}
+			stream.WriteLine ();
+			stream.WriteLine ();
+
+			stream.Write ("clean: ");
+			foreach (IProject proj in projects) {
+				stream.Write ("Makefile.{0}.clean", proj.Name);
+			}
+			stream.WriteLine ();
+			stream.WriteLine ();
+
+			stream.Write ("depcheck: ");
+			foreach (IProject proj in projects) {
+				stream.Write ("Makefile.{0}.depcheck", proj.Name);
+			}
+			stream.WriteLine ();
+			stream.WriteLine ();
+
+			foreach (IProject proj in projects) {
+				stream.WriteLine ("Makefile.{0}.%:", proj.Name);
+				stream.WriteLine ("\t@$(MAKE) -f $(subst .$*,,$@) $*");
+			}
+
+			stream.Flush ();
+			stream.Close ();
 		}
 		
 		protected virtual void OnStartupPropertyChanged(EventArgs e)

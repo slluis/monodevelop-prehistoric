@@ -27,13 +27,12 @@
 			<Options/>
 			
 			<References>
-				<Reference type="Gac" refto="gtk-sharp.dll" />
-				<Reference type="Gac" refto="gdk-sharp.dll" />
-				<Reference type="Gac" refto="glib-sharp.dll" />
-				<Reference type="Gac" refto="glade-sharp.dll" />
-				<Reference type="Gac" refto="pango-sharp.dll" />
-				<Reference type="Gac" refto="System.Drawing.dll" />
-				<Reference type="Gac" refto="glade-sharp.dll" />
+				<Reference type="Gac" refto="gtk-sharp, Version=1.0.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
+				<Reference type="Gac" refto="gdk-sharp, Version=1.0.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
+				<Reference type="Gac" refto="glib-sharp, Version=1.0.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
+				<Reference type="Gac" refto="glade-sharp, Version=1.0.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
+				<Reference type="Gac" refto="pango-sharp, Version=1.0.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
+				<Reference type="Gac" refto="glade-sharp, Version=1.0.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
 			</References>
 			
 			<Resources>

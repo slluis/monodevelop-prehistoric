@@ -178,8 +178,7 @@ namespace MonoDevelop.Internal.Project
 		{
 			if (filename == null) return false;
 			foreach (ProjectFile file in projectFiles) {
-				// WINDOWS DEPENDENCY:
-				if (file.Name.ToUpper() == filename.ToUpper()) {
+				if (file.Name == filename) {
 					return true;
 				}
 			}

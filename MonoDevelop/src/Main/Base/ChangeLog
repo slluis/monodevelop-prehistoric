@@ -1,3 +1,30 @@
+2004-05-16  Todd Berman  <tberman@sevenl.net>
+
+	* Gui/Dialogs/ReferenceDialog/SelectReferenceDialog.cs: fix to use
+	the new SystemAssemblySerivce.
+	* Gui/Dialogs/ReferenceDialog/GacReferencePanel.cs: ^^
+	* Gui/Components/SdMenuCommand.cs: remove useless code, use the proper
+	overload.
+	* Gui/Pads/ClassScout/ClassScout.cs: revert semi-fix of r1600 and add
+	a new fix that might or might not work, but will not cause the speed
+	issues of the previous fix.
+	* Gui/Pads/ClassScout/NodeBuilder/DefaultDotNetClassScoutNodeBuiler.cs:
+	^^
+	* Gui/Pads/HelpBrowser/HelpViewer.cs: indenting fix.
+	* Services/SystemAssemblyService.cs: new service for identifying
+	system assemblies (mono installed + pc'd assemblies)
+	* Services/ParserService/DefaultParserService.cs:
+	* Services/ParserService/IParserService.cs: passthrough for monodoc
+	resolver.
+	* Makefile.am: add SystemAssemblyService
+	* Internal/Project/Project/ProjectReference.cs: proper reference
+	information.
+	* Internal/Project/Project/AbstractProject.cs: remove windows .ToUpper
+	hack.
+	* Internal/Project/Combine/Combine.cs: start of solution level
+	makefiles.
+	* Internal/Parser/IParser.cs: monodoc resolver addition.
+
 2004-05-10  Todd Berman  <tberman@sevenl.net>
 
 	* Gui/Workbench/DefaultWorkbench.cs: Attempt non-metacity toplevel fix

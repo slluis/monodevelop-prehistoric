@@ -60,18 +60,9 @@ namespace MonoDevelop.Gui.Components
 			}
 		}
 		
-		public SdMenuCommand (string text) : base ()
+		public SdMenuCommand (string text) : base (text)
 		{
-			ResourceService resourceService = (ResourceService)ServiceManager.Services.GetService (typeof(IResourceService));
-			StringParserService parserService = (StringParserService)ServiceManager.Services.GetService (typeof(StringParserService));
-
-			localizedText = parserService.Parse (text);
-
-			Gtk.AccelLabel label = new Gtk.AccelLabel (localizedText);
-			label.Xalign = 0;
-			label.UseUnderline = true;
-			this.Child = label;
-			label.AccelWidget = this;
+			localizedText = text;
 		}
 		
 		public SdMenuCommand(ConditionCollection conditionCollection, object caller, string label) : this(stringParserService.Parse(label))

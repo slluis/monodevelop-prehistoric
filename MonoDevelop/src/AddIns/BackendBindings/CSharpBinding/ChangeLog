@@ -1,3 +1,12 @@
+2004-05-16  Todd Berman  <tberman@sevenl.net>
+
+	* CSharpBindingCompilerManager.cs: output a much better makefile.
+	now using /pkg, checking for deps, etc.
+	* Parser/Parser.cs: passthrough for Monodoc resolver.
+	* Parser/Resolver.cs: New resolver for identifying a type and sending
+	back a monodoc url for it. It needs to be worked on to return proper
+	M: style urls in addition to T: style urls.
+
 2004-05-08  Todd Berman  <tberman@sevenl.net>
 
 	* CSharpBindingCompilerManager.cs: output /define and /main properly.

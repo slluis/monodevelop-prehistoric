@@ -167,13 +167,11 @@ namespace MonoDevelop.Gui.Pads
 
 		bool addParseInfo ()
 		{
-			try {
-				if (add_e != null) {
+			if (add_e != null) {
+				lock (add_e) {
 					AddParseInformation (Nodes, add_e);
-					add_e = null;
 				}
-			} catch {
-				OnProjectFilesChanged (null, null);
+				add_e = null;
 			}
 			return false;
 		}
@@ -187,13 +185,11 @@ namespace MonoDevelop.Gui.Pads
 
 		bool removeParseInfo ()
 		{
-			try {
-				if (remove_e != null) {
+			if (remove_e != null) {
+				lock (remove_e) {
 					RemoveParseInformation (Nodes, remove_e);
-					remove_e = null;
 				}
-			} catch {
-				OnProjectFilesChanged (null, null);
+				remove_e = null;
 			}
 			return false;
 		}
