@@ -24,7 +24,7 @@ make install
       </p>
 
       <b>1. ORBit2 2.8.3</b>
-      <p>Although newer versions of ORBit <i>may</i> work, they have been known to produce non-fatal crashes when MonoDevelop exits. If in doubt, <a href="http://ftp.gnome.org/pub/GNOME/sources/ORBit2/2.8/ORBit2-2.8.3.tar.gz">download ORBit 2.8.3</a>.</p>
+      <p>Although newer and older versions of ORBit <i>may</i> work, they have been known to produce non-fatal and data-safe crashes when MonoDevelop exits. If in doubt, <a href="http://ftp.gnome.org/pub/GNOME/sources/ORBit2/2.8/ORBit2-2.8.3.tar.gz">download ORBit 2.8.3</a>. Note, if you have a newer version installed, it would be best to keep it as other pieces of your system may depend on it, and these crashes will never effect your data.</p>
 
       <br /><br />
       <b>2. GtkSourceView 0.7+</b>
