@@ -91,7 +91,7 @@ namespace MonoDevelop.Services
 		public Task(IProject project, CompilerError error)
 		{
 			this.project = project;
-			type        = error.IsWarning ? TaskType.Warning : TaskType.Error;
+			type        = error.IsWarning ? error.ErrorNumber == "COMMENT" ? TaskType.Comment : TaskType.Warning : TaskType.Error;
 			column      = error.Column - 1;
 			line        = error.Line - 1;
 			description = error.ErrorText;

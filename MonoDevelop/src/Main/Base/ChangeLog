@@ -1,3 +1,8 @@
+2004-05-20  Pawel Rozanski  <tokugawa@afn.no-ip.org>
+
+	* Services/Tasks/Task.cs: add a "COMMENT" ErrorNumber in order to
+	show TaskType.Comment in Task List.
+
 2004-05-18  Todd Berman  <tberman@sevenl.net>
 
 	* Internal/Project/Combine/Combine.cs: load/save a new property
