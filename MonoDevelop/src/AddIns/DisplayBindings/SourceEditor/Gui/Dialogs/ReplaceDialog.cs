@@ -118,6 +118,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 				markAllButton.UseUnderline = true;
 				markAllButton.Label = stringParserService.Parse ("${res:Dialog.NewProject.SearchReplace.MarkAllButton}");
 			}
+			ReplaceDialogPointer.TransientFor = (Gtk.Window)WorkbenchSingleton.Workbench;
 		}
 		
 		public ReplaceDialog(bool replaceMode)

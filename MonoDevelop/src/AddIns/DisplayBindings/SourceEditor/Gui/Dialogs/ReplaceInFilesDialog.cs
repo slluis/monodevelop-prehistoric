@@ -123,6 +123,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 			{
 				ReplaceDialogPointer = this.FindInFilesDialogWidget;
 			}
+			ReplaceDialogPointer.TransientFor = (Gtk.Window)WorkbenchSingleton.Workbench;
 		}
 
 		protected void OnClosed()

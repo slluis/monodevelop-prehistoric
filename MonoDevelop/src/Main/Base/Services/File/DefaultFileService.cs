@@ -73,14 +73,15 @@ namespace ICSharpCode.SharpDevelop.Services
 			// test, if file fileName exists
 			if (!fileName.StartsWith("http://")) {
 				// test, if an untitled file should be opened
-				if (!Path.IsPathRooted(fileName)) { 
+				//if (!Path.IsPathRooted(fileName)) { 
 					foreach (IViewContent content in WorkbenchSingleton.Workbench.ViewContentCollection) {
 						if (content.IsUntitled && content.UntitledName == fileName) {
 							content.WorkbenchWindow.SelectWindow();
 							return;
 						}
 					}
-				} else if (!fileUtilityService.TestFileExists(fileName)) {
+				//} else 
+				if (!fileUtilityService.TestFileExists(fileName)) {
 					return;
 				}
 			}
