@@ -62,8 +62,7 @@ namespace ILAsmBinding
 			parameters.Append("/out:" + outputFile);
 			parameters.Append(" ");
 			parameters.Append(compilerparameters.CurrentCompilerOptions.GenerateOptions());
-			string compilerName = GetCompilerName();
-			string outstr = compilerName + " " + parameters.ToString();
+			string outstr = parameters.ToString();
 			
 			TempFileCollection tf = new TempFileCollection();
 			StreamReader output;
@@ -76,15 +75,13 @@ namespace ILAsmBinding
 
 		private void DoCompilation (string outstr, TempFileCollection tf, out StreamReader output, out StreamReader error)
 		{
-            string arguments = outstr;
-            string command = arguments;
-            ProcessStartInfo si = new ProcessStartInfo (command);
+            		ProcessStartInfo si = new ProcessStartInfo (GetCompilerName (), outstr);
 			si.RedirectStandardOutput = true;
-            si.RedirectStandardError = true;
+            		si.RedirectStandardError = true;
 			si.UseShellExecute = false;
 			Process p = new Process ();
-            p.StartInfo = si;
-            p.Start ();
+            		p.StartInfo = si;
+            		p.Start ();
 
 			IStatusBarService sbs = (IStatusBarService)ServiceManager.Services.GetService (typeof (IStatusBarService));
 			sbs.SetMessage ("Compiling...");
@@ -103,7 +100,7 @@ namespace ILAsmBinding
 			// and then return cr at end 
 			output = p.StandardOutput;
 			error = p.StandardError;
-            p.WaitForExit ();
+            		p.WaitForExit ();
         }
 		
 		public ICompilerResult CompileFile(string fileName, ILAsmCompilerParameters compilerparameters)

@@ -45,8 +45,9 @@ namespace ILAsmBinding
 			FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.Services.GetService(typeof(FileUtilityService));
 			
 			string exe = Path.GetFullPath(Path.Combine(parameters.OutputDirectory, parameters.OutputAssembly) + ".exe");
-			string fullCommand = String.Format ("xterm -e \"mono {0};read -p 'press any key to continue...' -n1\"", exe);
-			ProcessStartInfo psi = new ProcessStartInfo(fullCommand);
+			string fullCommand = String.Format ("-e \"mono {0};read -p 'press any key to continue...' -n1\"", exe);
+			Console.WriteLine (fullCommand);
+			ProcessStartInfo psi = new ProcessStartInfo("xterm", fullCommand);
 			psi.WorkingDirectory = Path.GetDirectoryName (exe);
 			psi.UseShellExecute  = false;
 			Process p = Process.Start (psi);
