@@ -57,7 +57,7 @@ namespace MonoDevelop
 		/// <summary>
 		/// Starts the core of MonoDevelop.
 		/// </summary>
-		public static void Main (string[] args)
+		public static int Main (string[] args)
 		{
 			MonoDevelopOptions options = new MonoDevelopOptions ();
 			options.ProcessArgs (args);
@@ -67,15 +67,22 @@ namespace MonoDevelop
 			listen_socket = new Socket (AddressFamily.Unix, SocketType.Stream, ProtocolType.IP);
 			EndPoint ep = new UnixEndPoint (socket_filename);
 
-			if (File.Exists (socket_filename)) {
-				try {
+			// only reuse if we are being passed in a file
+			if (remainingArgs.Length > 0 && File.Exists (socket_filename))
+			{
+				try
+				{
 					listen_socket.Connect (ep);
 					listen_socket.Send (Encoding.UTF8.GetBytes (String.Join ("\n", remainingArgs)));
-					return;
-				} catch {
+					return 0;
+				}
+				catch
+				{
 				}
 			}
-			File.Delete (socket_filename);
+
+			// why was this here
+			// File.Delete (socket_filename);
 			
 			string name = Assembly.GetEntryAssembly ().GetName ().Name;
 			string version = Assembly.GetEntryAssembly ().GetName ().Version.Major + + "." + Assembly.GetEntryAssembly ().GetName ().Version.Minor;
@@ -116,20 +123,30 @@ namespace MonoDevelop
 
 			} catch (XmlException e) {
 				Console.WriteLine("Could not load XML :\n" + e.Message);
-				return;
+				return 1;
 			} catch (Exception e) {
 				Console.WriteLine("Loading error, please reinstall :\n" + e.ToString());
-				return;
+				return 1;
 			} finally {
 				if (SplashScreenForm.SplashScreen != null) {
 					SplashScreenForm.SplashScreen.Hide();
 				}
 			}
 
+			// FIXME: we should probably track the last 'selected' one
+			// and do this more cleanly
+			try
+			{
+				listen_socket.Bind (ep);
+				listen_socket.Listen (5);
+				listen_socket.BeginAccept (new AsyncCallback (ListenCallback), listen_socket);
+			}
+			catch
+			{
+				Console.WriteLine ("Socket already in use");
+			}
+
 			// run the last autostart command, this must be the workbench starting command
-			listen_socket.Bind (ep);
-			listen_socket.Listen (5);
-			listen_socket.BeginAccept (new AsyncCallback (ListenCallback), listen_socket);
 			if (commands.Count > 0) {
 				RunMainLoop ();
 				((ICommand)commands[commands.Count - 1]).Run();
@@ -139,6 +156,7 @@ namespace MonoDevelop
 			File.Delete (socket_filename);
 			ServiceManager.UnloadAllServices();
 			System.Environment.Exit (0);
+			return 0;
 		}
 
 		static string fileToOpen = String.Empty;

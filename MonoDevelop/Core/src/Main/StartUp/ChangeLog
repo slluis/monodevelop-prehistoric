@@ -1,5 +1,14 @@
 2004-07-01  John Luke  <jluke@cfl.rr.com>
 
+	* MonoDevelopMain.cs: return 1 on error and 0 otherwise
+	* MonoDevelopOptions.cs: remove unneeded -f option
+	implement reusing MD instance only when we are getting passed
+	arguments (like files). This allows more than one MD to be run
+	at a time, and adding files from nautilus still works.  Less
+	than perfect, but better than what it was
+
+2004-07-01  John Luke  <jluke@cfl.rr.com>
+
 	* MonoDevelopMain.cs: implement nologo
 	* MonoDevelopOptions.cs: add -f and --nologo args
 
