@@ -12,6 +12,7 @@ using System.Drawing;
 using System.Collections.Specialized;
 
 using ICSharpCode.Core.Properties;
+using ICSharpCode.Core.Services;
 
 using ICSharpCode.Core.AddIns;
 
@@ -27,7 +28,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads.ProjectBrowser
 	public abstract class AbstractBrowserNode : TreeNode, IDisposable
 	{
 		//Gdk.Pixbuf  iconImage = null;
-		public static bool ShowExtensions = false;
+		public static bool ShowExtensions = ((PropertyService)ServiceManager.Services.GetService (typeof(PropertyService))).GetProperty ("ICSharpCode.SharpDevelop.Gui.ProjectBrowser.ShowExtensions", true);
 		
 		protected bool   canLabelEdited = true;
 		protected object userData  = null;
