@@ -74,4 +74,5 @@ FILES = \
 all: $(ASSEMBLY)
 
 $(ASSEMBLY): $(FILES)
-	$(CSC) /out:$(ASSEMBLY) /target:library $(FILES) 
+	$(CSC) /out:$(ASSEMBLY) /target:library $(FILES) \
+	&& cp $(ASSEMBLY) ../../../../../build/bin/.

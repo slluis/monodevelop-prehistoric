@@ -9,34 +9,29 @@ using System;
 using System.IO;
 using System.Collections;
 using System.Reflection;
-using System.Windows.Forms;
+using Gtk;
 
 namespace MonoDevelop.AssemblyAnalyser
 {
 	/// <summary>
 	/// Description of AssemblyAnalyserControl.	
 	/// </summary>
-	public class AssemblyAnalyserControl : System.Windows.Forms.UserControl
+	public class AssemblyAnalyserControl : Frame
 	{
-		private System.Windows.Forms.Splitter splitter2;
-		private System.Windows.Forms.TabControl tabControl;
-		private MonoDevelop.AssemblyAnalyser.ResultListControl resultListControl;
-		private System.Windows.Forms.Splitter splitter;
-		private MonoDevelop.AssemblyAnalyser.AssemblyTreeControl assemblyTreeControl;
-		private System.Windows.Forms.Panel panel;
-		private System.Windows.Forms.TabPage assembliesTabPage;
-		private MonoDevelop.AssemblyAnalyser.ResultDetailsView resultDetailsView;
+		//VPanel splitter2;
+		Notebook tabControl;
+		MonoDevelop.AssemblyAnalyser.ResultListControl resultListControl;
+		//VPane splitter;
+		MonoDevelop.AssemblyAnalyser.AssemblyTreeControl assemblyTreeControl;
+		Frame panel;
+		//NotebookPage assembliesTabPage;
+		MonoDevelop.AssemblyAnalyser.ResultDetailsView resultDetailsView;
 		
 		public AssemblyAnalyserControl()
 		{
-			//
-			// The InitializeComponent() call is required for Windows Forms designer support.
-			//
-			
 			InitializeComponent();
 			resultListControl.ResultDetailsView = resultDetailsView;
 			assemblyTreeControl.ResultListControl = resultListControl;
-			
 		}
 		
 		public void ClearContents()
@@ -66,20 +61,14 @@ namespace MonoDevelop.AssemblyAnalyser
 		/// </summary>
 		private void InitializeComponent() {
 			this.resultDetailsView = new MonoDevelop.AssemblyAnalyser.ResultDetailsView();
-			this.assembliesTabPage = new System.Windows.Forms.TabPage();
-			this.panel = new System.Windows.Forms.Panel();
+			//this.assembliesTabPage = new NotebookPage();
+			this.panel = new Frame ();
 			this.assemblyTreeControl = new MonoDevelop.AssemblyAnalyser.AssemblyTreeControl();
-			this.splitter = new System.Windows.Forms.Splitter();
+			//this.splitter = new VPane ();
 			this.resultListControl = new MonoDevelop.AssemblyAnalyser.ResultListControl();
-			this.tabControl = new System.Windows.Forms.TabControl();
-			this.splitter2 = new System.Windows.Forms.Splitter();
-			this.assembliesTabPage.SuspendLayout();
-			this.panel.SuspendLayout();
-			this.tabControl.SuspendLayout();
-			this.SuspendLayout();
-			// 
-			// resultDetailsView
-			// 
+			this.tabControl = new Notebook();
+			//this.splitter2 = new VPane();
+/*
 			this.resultDetailsView.Dock = System.Windows.Forms.DockStyle.Bottom;
 			this.resultDetailsView.Location = new System.Drawing.Point(0, 304);
 			this.resultDetailsView.Name = "resultDetailsView";
@@ -157,10 +146,7 @@ namespace MonoDevelop.AssemblyAnalyser
 			this.Controls.Add(this.tabControl);
 			this.Name = "AssemblyAnalyserControl";
 			this.Size = new System.Drawing.Size(748, 504);
-			this.assembliesTabPage.ResumeLayout(false);
-			this.panel.ResumeLayout(false);
-			this.tabControl.ResumeLayout(false);
-			this.ResumeLayout(false);
+*/
 		}
 		#endregion
 		

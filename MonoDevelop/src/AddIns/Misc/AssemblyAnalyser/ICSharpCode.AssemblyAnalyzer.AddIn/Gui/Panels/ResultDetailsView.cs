@@ -8,7 +8,8 @@
 using System;
 using System.IO;
 using System.Drawing;
-using System.Windows.Forms;
+using Gtk;
+using Gecko;
 
 using MonoDevelop.Gui;
 using MonoDevelop.Core;
@@ -24,10 +25,9 @@ namespace MonoDevelop.AssemblyAnalyser
 	/// <summary>
 	/// Description of ResultDetailsView.	
 	/// </summary>
-	[ToolboxBitmap(typeof(System.Windows.Forms.RichTextBox))]
-	public class ResultDetailsView : System.Windows.Forms.UserControl
+	public class ResultDetailsView : MozillaControl
 	{
-		HtmlControl htmlControl;
+		MozillaControl htmlControl;
 		Resolution  currentResolution;
 		public ResultDetailsView()
 		{
@@ -36,28 +36,28 @@ namespace MonoDevelop.AssemblyAnalyser
 			//
 			InitializeComponent();
 			
-			htmlControl = new HtmlControl();
-			htmlControl.Dock = DockStyle.Fill;
+			htmlControl = new MozillaControl ();
+			//htmlControl.Dock = DockStyle.Fill;
 			PropertyService propertyService = (PropertyService)ServiceManager.Services.GetService(typeof(PropertyService));
-			htmlControl.CascadingStyleSheet = propertyService.DataDirectory + Path.DirectorySeparatorChar +
-			                                  "resources" + Path.DirectorySeparatorChar +
-			                                  "css" + Path.DirectorySeparatorChar +
-			                                  "MsdnHelp.css";
+			//htmlControl.CascadingStyleSheet = propertyService.DataDirectory + Path.DirectorySeparatorChar +
+			//                                  "resources" + Path.DirectorySeparatorChar +
+			//                                  "css" + Path.DirectorySeparatorChar +
+			//                                  "MsdnHelp.css";
 			
 			ClearContents();
-			htmlControl.BeforeNavigate += new BrowserNavigateEventHandler(HtmlControlBeforeNavigate);
-			this.Controls.Add(htmlControl);
+			htmlControl.OpenUri += new OpenUriHandler (HtmlControlBeforeNavigate);
+			this.Add (htmlControl);
 		}
 		
-		void HtmlControlBeforeNavigate(object sender, BrowserNavigateEventArgs e)
+		void HtmlControlBeforeNavigate(object sender, OpenUriArgs e)
 		{
-			e.Cancel = true;
-			Console.WriteLine(" >{0}< ", e.Url);
-			if (e.Url.StartsWith("help://types/")) {
-				string typeName = e.Url.Substring("help://types/".Length);
-				HelpBrowser helpBrowser = (HelpBrowser)WorkbenchSingleton.Workbench.GetPad(typeof(HelpBrowser));
-				helpBrowser.ShowHelpFromType(typeName);
-			} else if (e.Url.StartsWith("help://gotocause")) {
+			e.RetVal = true;
+			Console.WriteLine(" >{0}< ", e.AURI);
+			if (e.AURI.StartsWith("help://types/")) {
+				string typeName = e.AURI.Substring("help://types/".Length);
+				//HelpBrowser helpBrowser = (HelpBrowser)WorkbenchSingleton.Workbench.GetPad(typeof(HelpBrowser));
+				//helpBrowser.ShowHelpFromType(typeName);
+			} else if (e.AURI.StartsWith("help://gotocause")) {
 				GotoCurrentCause();
 			}
 		}
@@ -70,19 +70,20 @@ namespace MonoDevelop.AssemblyAnalyser
 		void GotoCurrentCause()
 		{
 			IParserService parserService = (IParserService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IParserService));
-			Position position = parserService.GetPosition(currentResolution.Item.Replace('+', '.'));
+			//Position position = parserService.GetPosition(currentResolution.Item.Replace('+', '.'));
 			
-			if (position != null && position.Cu != null) {
-				IFileService fileService = (IFileService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IFileService));
-				fileService.JumpToFilePosition(position.Cu.FileName, Math.Max(0, position.Line - 1), Math.Max(0, position.Column - 1));
-			}
+			//if (position != null && position.Cu != null) {
+			//	IFileService fileService = (IFileService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IFileService));
+			//	fileService.JumpToFilePosition(position.Cu.FileName, Math.Max(0, position.Line - 1), Math.Max(0, position.Column - 1));
+			//}
 		}
 		
 		bool CanGoto(Resolution res)
 		{
 			IParserService parserService = (IParserService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IParserService));
-			Position position = parserService.GetPosition(res.Item.Replace('+', '.'));
-			return position != null && position.Cu != null;
+			//Position position = parserService.GetPosition(res.Item.Replace('+', '.'));
+			//return position != null && position.Cu != null;
+			return false; //FIXME
 		}
 		
 		public void ViewResolution(Resolution resolution)
@@ -112,7 +113,7 @@ namespace MonoDevelop.AssemblyAnalyser
 			// ResultDetailsView
 			// 
 			this.Name = "ResultDetailsView";
-			this.Size = new System.Drawing.Size(292, 266);
+			//this.SetDefaultSize (292, 266);
 		}
 		#endregion
 	}

@@ -10,7 +10,7 @@ using System.Collections;
 using System.Reflection;
 using System.Security.Policy;
 using System.Threading;
-using System.Windows.Forms;
+using Gtk;
 
 using MonoDevelop.Gui;
 using MonoDevelop.Core;
@@ -32,7 +32,7 @@ namespace MonoDevelop.AssemblyAnalyser
 		
 		AppDomain        analyserDomain  = null;
 		AssemblyAnalyser currentAnalyser = null;
-		public override Control Control {
+		public override Widget Control {
 			get {
 				return assemblyAnalyserControl;
 			}
@@ -49,7 +49,7 @@ namespace MonoDevelop.AssemblyAnalyser
 			}
 		}
 		
-		public AssemblyAnalyserView() : base("Assembly Analyser")
+		public AssemblyAnalyserView() //: base("Assembly Analyser")
 		{
 			AssemblyAnalyserViewInstance = this;
 			assemblyAnalyserControl = new AssemblyAnalyserControl();
@@ -107,7 +107,7 @@ namespace MonoDevelop.AssemblyAnalyser
 		
 		void ProjectServiceEndBuild(object sender, EventArgs e)
 		{
-			assemblyAnalyserControl.Invoke(new ThreadStart(RefreshProjectAssemblies));
+			//assemblyAnalyserControl.Invoke(new ThreadStart(RefreshProjectAssemblies));
 		}
 		
 		AssemblyAnalyser CreateRemoteAnalyser()
@@ -115,7 +115,7 @@ namespace MonoDevelop.AssemblyAnalyser
 			AppDomainSetup setup = new AppDomainSetup();
 			Evidence evidence = new Evidence(AppDomain.CurrentDomain.Evidence);
 			setup.ApplicationName = "Analyser";
-			setup.ApplicationBase = Application.StartupPath;
+			//setup.ApplicationBase = Application.StartupPath;
 
 			analyserDomain = AppDomain.CreateDomain("AnalyserDomain", evidence, setup);
 			return (AssemblyAnalyser)analyserDomain.CreateInstanceAndUnwrap(

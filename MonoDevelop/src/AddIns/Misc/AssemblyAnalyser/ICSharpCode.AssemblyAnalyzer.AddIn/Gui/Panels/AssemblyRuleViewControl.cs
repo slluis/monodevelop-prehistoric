@@ -6,18 +6,16 @@
 // </file>
 
 using System;
-using System.Drawing;
-using System.Windows.Forms;
+using Gtk;
 
 namespace MonoDevelop.AssemblyAnalyser
 {
 	/// <summary>
 	/// Description of AssemblyRuleViewControl.	
 	/// </summary>
-	[ToolboxBitmap(typeof(System.Windows.Forms.TreeView))]
-	public class AssemblyRuleViewControl : System.Windows.Forms.UserControl
+	public class AssemblyRuleViewControl : TreeView
 	{
-		private System.Windows.Forms.TreeView ruleTreeView;
+		TreeView ruleTreeView;
 		public AssemblyRuleViewControl()
 		{
 			//
@@ -34,12 +32,8 @@ namespace MonoDevelop.AssemblyAnalyser
 		/// not be able to load this method if it was changed manually.
 		/// </summary>
 		private void InitializeComponent() {
-			this.ruleTreeView = new System.Windows.Forms.TreeView();
-			this.SuspendLayout();
-			// 
-			// ruleTreeView
-			// 
-			this.ruleTreeView.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.ruleTreeView = new TreeView ();
+/*
 			this.ruleTreeView.ImageIndex = -1;
 			this.ruleTreeView.Location = new System.Drawing.Point(0, 0);
 			this.ruleTreeView.Name = "ruleTreeView";
@@ -52,7 +46,7 @@ namespace MonoDevelop.AssemblyAnalyser
 			this.Controls.Add(this.ruleTreeView);
 			this.Name = "AssemblyRuleViewControl";
 			this.Size = new System.Drawing.Size(292, 266);
-			this.ResumeLayout(false);
+*/
 		}
 		#endregion
 	}

@@ -8,9 +8,9 @@
 using System;
 using System.Collections;
 using System.IO;
-using System.Drawing;
 using System.Reflection;
-using System.Windows.Forms;
+using Gtk;
+
 using MonoDevelop.Core.Services;
 using MonoDevelop.Services;
 namespace MonoDevelop.AssemblyAnalyser
@@ -18,10 +18,9 @@ namespace MonoDevelop.AssemblyAnalyser
 	/// <summary>
 	/// Description of AssemblyTreeControl.	
 	/// </summary>
-	[ToolboxBitmap(typeof(System.Windows.Forms.TreeView))]
-	public class AssemblyTreeControl : System.Windows.Forms.UserControl
+	public class AssemblyTreeControl : TreeView
 	{
-		private System.Windows.Forms.TreeView assemblyTreeView;
+		TreeView assemblyTreeView;
 		TreeNode assembliesNode;
 		ResultListControl resultListControl;
 		
@@ -36,29 +35,27 @@ namespace MonoDevelop.AssemblyAnalyser
 		
 		public AssemblyTreeControl()
 		{
-			//
-			// The InitializeComponent() call is required for Windows Forms designer support.
-			//
 			InitializeComponent();
 			StringParserService stringParserService = (StringParserService)ServiceManager.Services.GetService(typeof(StringParserService));
 			ClassBrowserIconsService classBrowserIconService = (ClassBrowserIconsService)ServiceManager.Services.GetService(typeof(ClassBrowserIconsService));
-			assemblyTreeView.ImageList = classBrowserIconService.ImageList;
+			//assemblyTreeView.ImageList = classBrowserIconService.ImageList;
 			
-			assembliesNode = new TreeNode(stringParserService.Parse("${res:MonoDevelop.AssemblyAnalyser.AssemblyTreeControl.AssembliesNode}"));
-			assembliesNode.ImageIndex = assembliesNode.SelectedImageIndex = 0;
-			assemblyTreeView.Nodes.Add(assembliesNode);
-			assemblyTreeView.AfterCollapse += new TreeViewEventHandler(AssemblyTreeViewAfterCollapse);
-			assemblyTreeView.AfterExpand += new TreeViewEventHandler(AssemblyTreeViewAfterExpand);
-			assemblyTreeView.AfterSelect += new TreeViewEventHandler(AssemblyTreeViewAfterSelect);
+			//assembliesNode = new TreeNode(stringParserService.Parse("${res:MonoDevelop.AssemblyAnalyser.AssemblyTreeControl.AssembliesNode}"));
+			//assembliesNode.ImageIndex = assembliesNode.SelectedImageIndex = 0;
+			//assemblyTreeView.Nodes.Add(assembliesNode);
+			//assemblyTreeView.AfterCollapse += new TreeViewEventHandler(AssemblyTreeViewAfterCollapse);
+			//assemblyTreeView.AfterExpand += new TreeViewEventHandler(AssemblyTreeViewAfterExpand);
+			//assemblyTreeView.AfterSelect += new TreeViewEventHandler(AssemblyTreeViewAfterSelect);
 		}
 		
+/*		
 		void AssemblyTreeViewAfterCollapse(object sender, TreeViewEventArgs e)
 		{
 			if (e.Node == assembliesNode) {
 				assembliesNode.ImageIndex = assembliesNode.SelectedImageIndex = 0;
 			}
 		}
-		
+
 		void AssemblyTreeViewAfterExpand(object sender, TreeViewEventArgs e)
 		{
 			if (e.Node == assembliesNode) {
@@ -74,29 +71,30 @@ namespace MonoDevelop.AssemblyAnalyser
 				this.resultListControl.PrintReport((ArrayList)e.Node.Tag);
 			}
 		}
+*/
 		
 		public void PrintAllResolutions()
 		{
 			ArrayList allResolutions = new ArrayList();
-			foreach (TreeNode node in assembliesNode.Nodes) {
-				allResolutions.AddRange((ArrayList)node.Tag);
-			}
+			//foreach (TreeNode node in assembliesNode.Nodes) {
+			//	allResolutions.AddRange((ArrayList)node.Tag);
+			//}
 			this.resultListControl.PrintReport(allResolutions);
 		}
 		
 		public void ClearContents()
 		{
 			Console.WriteLine("CLEAR CONTENTS");
-			assembliesNode.Nodes.Clear();
+			//assembliesNode.Nodes.Clear();
 		}
 		
 		public void AddAssembly(string assemblyFileName, ArrayList resolutions)
 		{
-			TreeNode newNode = new TreeNode(Path.GetFileName(assemblyFileName));
-			newNode.Tag = resolutions;
-			newNode.ImageIndex = newNode.SelectedImageIndex = 2;
-			assembliesNode.Nodes.Add(newNode);
-			assembliesNode.Expand();
+			//TreeNode newNode = new TreeNode(Path.GetFileName(assemblyFileName));
+			//newNode.Tag = resolutions;
+			//newNode.ImageIndex = newNode.SelectedImageIndex = 2;
+			//assembliesNode.Nodes.Add(newNode);
+			//assembliesNode.Expand();
 		}
 		
 		#region Windows Forms Designer generated code
@@ -106,12 +104,8 @@ namespace MonoDevelop.AssemblyAnalyser
 		/// not be able to load this method if it was changed manually.
 		/// </summary>
 		private void InitializeComponent() {
-			this.assemblyTreeView = new System.Windows.Forms.TreeView();
-			this.SuspendLayout();
-			// 
-			// assemblyTreeView
-			// 
-			this.assemblyTreeView.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.assemblyTreeView = new TreeView ();
+/*
 			this.assemblyTreeView.HideSelection = false;
 			this.assemblyTreeView.ImageIndex = -1;
 			this.assemblyTreeView.Location = new System.Drawing.Point(0, 0);
@@ -125,7 +119,7 @@ namespace MonoDevelop.AssemblyAnalyser
 			this.Controls.Add(this.assemblyTreeView);
 			this.Name = "AssemblyTreeControl";
 			this.Size = new System.Drawing.Size(292, 266);
-			this.ResumeLayout(false);
+*/
 		}
 		#endregion
 	}
