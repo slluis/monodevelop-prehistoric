@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<masterinfo>
+	<mdinfo>
+		<version>0.5</version>
+	</mdinfo>
+	<channels>
+		<channel url="http://www.monodevelop.com/swingline/monodevelop.xml" />
+	</channels>
+</masterinfo>

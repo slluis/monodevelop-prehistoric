@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<channel>
+	<package name="debugger">
+		<DisplayName>MonoDevelop Debugging Extension</DisplayName>
+		<Version>0.5</Version>
+		<CompatWith>
+			<Version>0.5</Version>
+		</CompatWith>
+		<Url>http://www.monodevelop.com/packages/debugger/0.5/debugger.tar.gz</Url>
+	</package>
+</channel>
