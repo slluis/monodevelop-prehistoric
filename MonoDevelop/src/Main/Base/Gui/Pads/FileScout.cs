@@ -378,6 +378,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads
 		FileList   filelister = new FileList();
 		FileBrowser fb = new FileBrowser ();
 		Gtk.Entry pathEntry;
+		PropertyService PropertyService = (PropertyService) ServiceManager.Services.GetService (typeof (PropertyService));
 
 		public FileScout()
 		{
@@ -432,13 +433,24 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads
 			pathEntry.Text = fb.CurrentDir;
 			filelister.Clear ();
 
+			IProperties p = (IProperties) PropertyService.GetProperty ("SharpDevelop.UI.SelectStyleOptions", new DefaultProperties ());
+			bool ignoreHidden = !p.GetProperty ("ICSharpCode.SharpDevelop.Gui.FileScout.ShowHidden", false);
+
 			foreach (string f in fb.Files)
 			{
-				//FIXME: hack to ignore . files
 				if (!(System.IO.Path.GetFileName (f)).StartsWith ("."))
 				{
 					FileList.FileListItem it = new FileList.FileListItem (f);
 					filelister.ItemAdded (it);
+				}
+				else
+				{
+					if (!ignoreHidden)
+					{
+						FileList.FileListItem it = new FileList.FileListItem (f);
+						filelister.ItemAdded (it);
+					
+					}
 				}
 			}
 		}

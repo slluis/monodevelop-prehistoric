@@ -26,7 +26,6 @@ namespace MonoDevelop.Gui.Widgets
 
 			IProperties p = (IProperties) PropertyService.GetProperty ("SharpDevelop.UI.SelectStyleOptions", new DefaultProperties ());
 			ignoreHidden = !p.GetProperty ("ICSharpCode.SharpDevelop.Gui.FileScout.ShowHidden", false);
-			Console.WriteLine (ignoreHidden);
 
 			tv = new Gtk.TreeView ();
 			tv.RulesHint = true;
