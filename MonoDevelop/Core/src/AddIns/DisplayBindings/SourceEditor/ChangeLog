@@ -1,3 +1,9 @@
+2005-01-30  Todd Berman  <tberman@off.net>
+
+	* CodeCompletion/CompletionListWindow: comment out
+	UpdateDeclarationView in one place because it crashes
+	sometimes
+
 2005-01-30  John Luke <john.luke@gmail.com>
 
 	* Gui/SourceEditorView.cs: only show completion if the

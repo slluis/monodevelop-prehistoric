@@ -153,7 +153,9 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 		
 		void ListSizeChanged (object obj, SizeAllocatedArgs args)
 		{
-			UpdateDeclarationView ();
+			// FIXME: crashes on System.Runtime.
+			// first line array out of bounds
+			//UpdateDeclarationView ();
 		}
 		
 		protected override void OnSelectionChanged ()
