@@ -23,7 +23,7 @@ $(DLL): $(build_sources)
 		-resource:$(srcdir)/SplashScreen.png,SplashScreen.png
 
 $(DLL).config: $(DLL)
-	cp $(CONFIG) $(DLL).config
+	cp app.config $(DLL).config
 
 assemblydir = $(libdir)/monodevelop/bin
 assembly_DATA = $(DLL) $(DLL).config
