@@ -17,59 +17,75 @@ using ICSharpCode.SharpDevelop.Internal.Project;
 
 using ICSharpCode.SharpDevelop.Gui;
 
-namespace ICSharpCode.SharpDevelop.Services
-{
-	public class ClassProxy : AbstractClass, IComparable
-	{
-		uint offset = 0;
-		
-		public uint Offset {
-			get {
-				return offset;
-			}
-			set {
-				offset = value;
-			}
-		}
-		
-		/// <value>
-		/// Class Proxies clases don't have a compilation unit.
-		/// </value>
-		public override ICompilationUnit CompilationUnit {
-			get {
-				return null;
-			}
-		}
+namespace ICSharpCode.SharpDevelop.Services {
+	public class ClassProxy : IComparable {
+		public uint Offset = 0;
+		public readonly ClassType ClassType;
+		public readonly string FullyQualifiedName;
+		public readonly ModifierEnum Modifiers;
+		public readonly string Documentation;
+		private string className;
+		private string namespaceName;
 		
 		public int CompareTo(object obj) 
 		{
-			return FullyQualifiedName.CompareTo(((ClassProxy)obj).FullyQualifiedName);
+			return FullyQualifiedName.CompareTo (((ClassProxy) obj).FullyQualifiedName);
 		}
 		
 		public ClassProxy(BinaryReader reader)
 		{
-			FullyQualifiedName = reader.ReadString();
-			documentation      = reader.ReadString();
-			offset             = reader.ReadUInt32();
-			modifiers          = (ModifierEnum)reader.ReadUInt32();
-			classType          = (ClassType)reader.ReadInt16();
+			FullyQualifiedName = reader.ReadString ();
+			Documentation      = reader.ReadString ();
+			Offset             = reader.ReadUInt32 ();
+			Modifiers          = (ModifierEnum) reader.ReadUInt32 ();
+			ClassType          = (ClassType) reader.ReadInt16 ();
 		}
 		
 		public void WriteTo(BinaryWriter writer)
 		{
-			writer.Write(FullyQualifiedName);
-			writer.Write(documentation);
-			writer.Write(offset);
-			writer.Write((uint)modifiers);
-			writer.Write((short)classType);
+			writer.Write (FullyQualifiedName);
+			writer.Write (Documentation);
+			writer.Write (Offset);
+			writer.Write ((uint) Modifiers);
+			writer.Write ((short) ClassType);
 		}
 		
 		public ClassProxy(IClass c)
 		{
 			this.FullyQualifiedName  = c.FullyQualifiedName;
-			this.documentation       = c.Documentation;
-			this.modifiers           = c.Modifiers;
-			this.classType           = c.ClassType;
+			this.Documentation       = c.Documentation;
+			this.Modifiers           = c.Modifiers;
+			this.ClassType           = c.ClassType;
+		}
+		
+		public string Name {
+			get {
+				if (className == null && FullyQualifiedName != null) {
+					int lastIndex = FullyQualifiedName.LastIndexOfAny (new char[] { '.', '+' });
+					
+					if (lastIndex < 0)
+						className = FullyQualifiedName;
+					else
+						className = FullyQualifiedName.Substring(lastIndex + 1);
+				}
+				
+				return className;
+			}
+		}
+
+		public string Namespace {
+			get {
+				if (namespaceName == null && FullyQualifiedName != null) {
+					int lastIndex = FullyQualifiedName.LastIndexOf ('.');
+					
+					if (lastIndex < 0)
+						namespaceName = string.Empty;
+					else
+						namespaceName = FullyQualifiedName.Substring (0, lastIndex);
+				}
+				
+				return namespaceName;
+			}
 		}
 	}
 }

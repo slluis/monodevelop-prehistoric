@@ -435,6 +435,34 @@ namespace ICSharpCode.SharpDevelop.Services
 				return cur;
 			}
 		}
+		
+		Hashtable AddClassToNamespaceList(ClassProxy addClass)
+		{
+			string nSpace = addClass.Namespace;
+			if (nSpace == null) {
+				nSpace = String.Empty;
+			}
+			string[] path = nSpace.Split('.');
+			
+			lock (namespaces) {
+				Hashtable cur = namespaces;
+				
+				for (int i = 0; i < path.Length; ++i) {
+					if (cur[path[i]] == null) {
+						cur[path[i]] = new Hashtable();
+					} else {
+						if (!(cur[path[i]] is Hashtable)) {
+							return null;
+						}
+					}
+					cur = (Hashtable)cur[path[i]];
+				}
+				
+				cur[addClass.Name] = addClass;
+				
+				return cur;
+			}
+		}
 
 		public ArrayList GetNamespaceContents(string subNameSpace)
 		{
