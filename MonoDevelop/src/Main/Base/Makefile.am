@@ -11,7 +11,7 @@ DLLS = /r:System.Drawing /r:ICSharpCode.SharpZipLib.dll \
 	/r:gtk-sharp /r:gdk-sharp /r:glib-sharp /r:pango-sharp \
 	/r:../../../build/bin/gdl-sharp.dll \
 	/r:glade-sharp /r:gnome-sharp /r:gtkhtml-sharp \
-	$(GECKO_SHARP)
+	$(GECKO_SHARP) $(MONODOC)
 
 FILES= \
 ./Gui/Pads/ProjectBrowser/ProjectBrowserView.cs \
