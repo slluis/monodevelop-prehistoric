@@ -1,4 +1,2 @@
 * replace when doing a case insensitive match with differing cases, the match
   is found, but not replaced.
-* replace all seems to always use the direct buffer which makes it save after
-  each successful replace, making undo impossible. It shouldnt be doing this.

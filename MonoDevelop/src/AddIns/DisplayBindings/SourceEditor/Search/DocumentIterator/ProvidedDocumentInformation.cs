@@ -77,13 +77,13 @@ namespace ICSharpCode.TextEditor.Document
 		
 		public void SaveBuffer()
 		{
-			//if (document != null) {
+			if (document != null) {
 				
-			//} else {
+			} else {
 				StreamWriter streamWriter = File.CreateText(this.fileName);
 				streamWriter.Write(textBuffer.GetText(0, textBuffer.Length));
 				streamWriter.Close();
-			//}
+			}
 		}
 		
 		/*public IDocument CreateDocument()
