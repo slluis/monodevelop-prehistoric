@@ -1,3 +1,8 @@
+2004-04-16  Pawel Rozanski <tokugawa@afn.no-ip.org>
+
+	* NemerleBindingCompilerServices.cs: without temp files now,
+	Process.StandardOutput based interface
+
 2004-04-14  Pawel Rozanski <tokugawa@afn.no-ip.org>
 
 	* NemerleBindingCompilerServices.cs: uses the StatusBarService

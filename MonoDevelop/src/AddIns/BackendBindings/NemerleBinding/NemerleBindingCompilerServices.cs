@@ -2,6 +2,7 @@ using System;
 using System.Diagnostics;
 using System.IO;
 using System.CodeDom.Compiler;
+using System.Threading;
 
 using MonoDevelop.Core.Services;
 using MonoDevelop.Internal.Project;
@@ -11,13 +12,64 @@ using MonoDevelop.Services;
 namespace NemerleBinding
 {
 	public class NemerleBindingCompilerServices
-	{	
+	{
+		class CompilerResultsParser : CompilerResults
+		{
+			public CompilerResultsParser() : base (new TempFileCollection ())
+			{
+			}
+
+			public void Parse(string l)
+			{
+				if ((l.IndexOf(".n:") < 0) &&
+					(l.IndexOf(":0:0:") < 0))
+					return;				
+
+				CompilerError error = new CompilerError();
+
+				int s1 = l.IndexOf(':')+1;
+				int s2 = l.IndexOf(':',s1)+1;
+				int s3 = l.IndexOf(':',s2)+1;
+				int s4 = l.IndexOf(':',s3)+1;
+
+				error.FileName  = l.Substring(0, s1-1);
+				error.Line   	= Int32.Parse(l.Substring(s1, s2-s1-1));
+				error.Column    = Int32.Parse(l.Substring(s2, s3-s2-1));
+				error.ErrorNumber = String.Empty;
+				error.ErrorText = "";
+				switch(l.Substring(s3+1, s4-s3-2))
+				{
+					case "error":
+						error.IsWarning = false;
+						break;
+						case "warning":
+						error.IsWarning = true;
+						break;
+					case "hint":
+						error.IsWarning = true;
+						error.ErrorText = "hint: ";
+						break;
+					default:
+						error.IsWarning = false;
+						error.ErrorText = "unknown: ";
+						break;
+				}
+				error.ErrorText += l.Substring(s4+1);
+				Errors.Add(error);
+			}
+
+			public ICompilerResult GetResult()
+			{
+				return new DefaultCompilerResult(this, "");
+			} 
+		}
+	
 		FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.Services.GetService(typeof(FileUtilityService));
-		static string ncc = "ncc -q -no-color";
-		
+		static string ncc = "ncc";
+
 		private string GetOptionsString(NemerleParameters cp)
 		{
-			string options = "";
+			string options = " -q -no-color";
 			if (cp.Nostdmacros)
 				options += " -no-stdmacros";
 			if (cp.Nostdlib)
@@ -81,94 +133,69 @@ namespace NemerleBinding
 			if (!Directory.Exists(cp.OutputPath))
 				Directory.CreateDirectory(cp.OutputPath);
 			
-			string outstr = ncc + GetOptionsString(cp) + references + files  + " -o " + GetCompiledOutputName(project);
-			string output = "";
-			string error  = "";
-			TempFileCollection  tf = new TempFileCollection ();		
-//			Executor.ExecWaitWithCapture(outstr, tf, ref error , ref output);
-			DoCompilation (outstr, tf, ref output, ref error);			
-			ICompilerResult cr = ParseOutput (tf, output);			
-			File.Delete(output);
-			File.Delete(error);
-			return cr;
+			string args = GetOptionsString(cp) + references + files  + " -o " + GetCompiledOutputName(project);
+			return DoCompilation (args);
 		}
 		
-		private void DoCompilation(string outstr, TempFileCollection tf, ref string output, ref string error)
+		// This enables check if we have output without blocking 
+		class VProcess : Process
 		{
-			output = Path.GetTempFileName();
-			error = Path.GetTempFileName();
-			
-			string arguments = outstr + " > " + output + " 2> " + error;
-			string command = arguments;
-			ProcessStartInfo si = new ProcessStartInfo("/bin/sh -c \"" + command + "\"");
+			Thread t = null;
+			public void thr()
+			{
+				while (StandardOutput.Peek() == -1){};
+			}
+			public void OutWatch()
+			{
+				t = new Thread(new ThreadStart(thr));
+				t.Start();
+			}
+			public bool HasNoOut()
+			{
+				return t.IsAlive;
+			} 
+		}
+		
+		private ICompilerResult DoCompilation(string arguments)
+		{
+			string l;
+			ProcessStartInfo si = new ProcessStartInfo("/bin/sh -c \"" + ncc + arguments + "\"");
 			si.RedirectStandardOutput = true;
 			si.RedirectStandardError = true;
 			si.UseShellExecute = false;
-			Process p = new Process();
+			VProcess p = new VProcess();
 			p.StartInfo = si;
 			p.Start();
 
 			IStatusBarService sbs = (IStatusBarService)ServiceManager.Services.GetService (typeof (IStatusBarService));
-			sbs.SetMessage ("Compiling..."); 
-			while (!p.HasExited) {
+			sbs.SetMessage ("Compiling...");
+			
+			p.OutWatch();
+			while ((!p.HasExited) && p.HasNoOut())
+//			while ((!p.HasExited) && (p.StandardOutput.Peek() == -1)) // this could eliminate VProcess outgrowth
+			{
 				((SdStatusBar)sbs.ProgressMonitor).Pulse();
 				while (Gtk.Application.EventsPending ())
 					Gtk.Application.RunIteration ();
 				System.Threading.Thread.Sleep (100);
 			}
-			((SdStatusBar)sbs.ProgressMonitor).Done();
-		}
-		
-		ICompilerResult ParseOutput(TempFileCollection tf, string file)
-		{
-			string compilerOutput = "";
-			string l;		
-			StreamReader sr = new StreamReader(file, System.Text.Encoding.Default);
-			CompilerResults cr = new CompilerResults(tf);
 			
-			while ((l = sr.ReadLine())!=null) 
+			CompilerResultsParser cr = new CompilerResultsParser();			
+			while ((l = p.StandardOutput.ReadLine()) != null)
 			{
-				compilerOutput += l + "\n";
-
-				if ((l.IndexOf(".n:") < 0) &&
-					(l.IndexOf(":0:0:") < 0))
-					continue;				
-
-				CompilerError error = new CompilerError();
-				
-				int s1 = l.IndexOf(':')+1;
-				int s2 = l.IndexOf(':',s1)+1;
-				int s3 = l.IndexOf(':',s2)+1;
-				int s4 = l.IndexOf(':',s3)+1;
-				
-				error.FileName  = l.Substring(0, s1-1);
-				error.Line   	= Int32.Parse(l.Substring(s1, s2-s1-1));
-				error.Column    = Int32.Parse(l.Substring(s2, s3-s2-1));
-				error.ErrorNumber = String.Empty;
-				error.ErrorText = "";
-				switch(l.Substring(s3+1, s4-s3-2))
-				{
-					case "error":
-						error.IsWarning = false;
-						break;
-					case "warning":
-						error.IsWarning = true;
-						break;
-					case "hint":
-						error.IsWarning = true;
-						error.ErrorText = "hint: ";
-						break;
-					default:
-						error.IsWarning = false;
-						error.ErrorText = "unknown: ";
-						break;
-				}
-				error.ErrorText += l.Substring(s4+1);
-				
-				cr.Errors.Add(error);
+				((SdStatusBar)sbs.ProgressMonitor).Pulse();
+				while (Gtk.Application.EventsPending ())
+					Gtk.Application.RunIteration ();
+				cr.Parse(l);
 			}
-			sr.Close();			
-			return new DefaultCompilerResult(cr, compilerOutput);
+			((SdStatusBar)sbs.ProgressMonitor).Done();
+			
+			if  ((l = p.StandardError.ReadLine()) != null)
+			{
+				cr.Parse(":0:0: error: " + ncc + " execution problem");
+			}
+			
+			return cr.GetResult();
 		}
 	}
 }
