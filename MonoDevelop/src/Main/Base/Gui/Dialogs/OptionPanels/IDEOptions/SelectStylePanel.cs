@@ -6,8 +6,8 @@
 // </file>
 
 using System;
-using System.IO;
-using System.Drawing;
+//using System.IO;
+//using System.Drawing;
 using System.Collections;
 
 using ICSharpCode.SharpDevelop.Internal.ExternalTool;
@@ -52,6 +52,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs.OptionPanels
 			Hashtable ValueToMenu = new Hashtable ();
 			public Gtk.Menu ambienceMenu;
 			[Glade.Widget] public Gtk.CheckButton extensionButton;
+			[Glade.Widget] public Gtk.CheckButton hiddenButton;
 			[Glade.Widget] public Gtk.OptionMenu option;
 					
 			public SelectStylePanelWidget (IProperties p) : base ("Base.glade", "SelectStylePanel")
@@ -59,6 +60,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs.OptionPanels
 				ambienceMenu = new Gtk.Menu ();
 				option.Menu = ambienceMenu;
 				extensionButton.Active  = p.GetProperty("ICSharpCode.SharpDevelop.Gui.ProjectBrowser.ShowExtensions", true);
+				hiddenButton.Active  = p.GetProperty("ICSharpCode.SharpDevelop.Gui.FileScout.ShowHidden", false);
 				IAddInTreeNode treeNode = AddInTreeSingleton.AddInTree.GetTreeNode("/SharpDevelop/Workbench/Ambiences");
 				string active = p.GetProperty ("SharpDevelop.UI.CurrentAmbience", "CSharp");
 				
@@ -80,6 +82,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs.OptionPanels
 			public void Store(IProperties p)
 			{
 				p.SetProperty("ICSharpCode.SharpDevelop.Gui.ProjectBrowser.ShowExtensions", extensionButton.Active);
+				p.SetProperty("ICSharpCode.SharpDevelop.Gui.FileScout.ShowHidden", hiddenButton.Active);
 				p.SetProperty("SharpDevelop.UI.CurrentAmbience", (string)MenuToValue[ambienceMenu.Active]);
 			}
 		}

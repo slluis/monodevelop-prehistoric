@@ -3,6 +3,9 @@ using System.IO;
 using Gtk;
 using GtkSharp;
 
+using ICSharpCode.Core.Properties;
+using ICSharpCode.Core.Services;
+
 namespace MonoDevelop.Gui.Widgets
 {
 	public class FileBrowser : ScrolledWindow
@@ -11,15 +14,19 @@ namespace MonoDevelop.Gui.Widgets
 		private Gtk.TreeView tv;
 		private ListStore store;
 		private string currentDir;
-		private bool ignoreHidden;
+		private bool ignoreHidden = true;
 		private string[] files;
 		private bool init = false;
+		PropertyService PropertyService = (PropertyService) ServiceManager.Services.GetService (typeof (PropertyService));
 
 		public FileBrowser () : base (GType)
 		{
 			this.VscrollbarPolicy = PolicyType.Automatic;
 			this.HscrollbarPolicy = PolicyType.Automatic;
-			ignoreHidden = true;
+
+			IProperties p = (IProperties) PropertyService.GetProperty ("SharpDevelop.UI.SelectStyleOptions", new DefaultProperties ());
+			ignoreHidden = !p.GetProperty ("ICSharpCode.SharpDevelop.Gui.FileScout.ShowHidden", false);
+			Console.WriteLine (ignoreHidden);
 
 			tv = new Gtk.TreeView ();
 			tv.RulesHint = true;
@@ -37,11 +44,11 @@ namespace MonoDevelop.Gui.Widgets
 			init = true;
 		}
 
-		public bool IgnoreHidden
+		/*public bool IgnoreHidden
 		{
 			get { return ignoreHidden; }
 			set { ignoreHidden = value; }
-		}
+		}*/
 
 		public Gtk.TreeView TreeView
 		{
