@@ -128,8 +128,8 @@ namespace MonoDevelop.SourceEditor.Gui {
 		{
 			TextIter iter = se.Buffer.GetIterAtMark (se.Buffer.InsertMark);
 			if (Source.IterFindMatchingBracket (ref iter)) {
-				Console.WriteLine ("should be moved");
 				se.Buffer.PlaceCursor (iter);
+				se.View.ScrollMarkOnscreen (se.Buffer.InsertMark);
 			}
 		}
 		
