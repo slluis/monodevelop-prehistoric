@@ -1,8 +1,12 @@
+2005-03-31  Christian Hergert <chris@mosaix.net>
+
+	* MonoQueryView.cs: Fix the momento icon.
+
 2005-03-14  Lluis Sanchez Gual <lluis@novell.com>
 
 	* MonoQuery.addin.xml.in: Define the MonoQuery pad.
 
-2005-03-06	Christian Hergert	<chris@mosaix.net>
+2005-03-06	Christian Hergert <chris@mosaix.net>
 
 	* MonoQuery/Makefile.am: EXTRA_DIST doesnt support conditional variables.
 

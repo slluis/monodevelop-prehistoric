@@ -28,9 +28,6 @@ namespace MonoQuery.Pads
 		private static MonoQueryTree monoQueryTree = null;
 		private static Gtk.ScrolledWindow scroller = null;
 #region AbstractPadContent requirements
-		/// <summary>
-		/// The <see cref="System.Windows.Forms.Control"/> representing the pad
-		/// </summary>
 		public override Gtk.Widget Control {
 			get {
 				return scroller;
@@ -41,7 +38,7 @@ namespace MonoQuery.Pads
 		/// Creates a new MonoQueryView object
 		/// </summary>
 		public MonoQueryView()
-			: base( GettextCatalog.GetString( "Database" ), "Icons.16x16.MonoQuery.DatabaseConnection")
+			: base( GettextCatalog.GetString( "Database" ), "md-mono-query-database")
 		{
 			CreateDefaultMonoQuery();
 //			monoQueryTree.Dock = DockStyle.Fill;
