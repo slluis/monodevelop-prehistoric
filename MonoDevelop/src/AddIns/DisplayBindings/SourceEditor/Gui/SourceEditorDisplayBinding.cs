@@ -348,7 +348,10 @@ namespace MonoDevelop.SourceEditor.Gui {
 					// convert tabs to spaces
 					se.View.InsertSpacesInsteadOfTabs = TextEditorProperties.ConvertTabsToSpaces;
 					break;
-					
+				case "IndentStyle":
+					// FIXME: should also be able to handle Smart indent, for now treating smart as None					
+					se.View.AutoIndent = (TextEditorProperties.IndentStyle == IndentStyle.Auto);
+					break;
 				default:
 					System.Console.WriteLine(e.Key + " = " + e.NewValue + "(from " + e.OldValue + ")" );
 					// The items below can't be done (since there is no support for it in gtksourceview)
@@ -356,8 +359,7 @@ namespace MonoDevelop.SourceEditor.Gui {
 					// CANTDO: show tabs				Key = "ShowTabs"
 					// CANTDO eol makers				Key = "ShowEOLMarkers"
 					// CANTDO: show horizontal ruler	Key = "ShowHRuler"		
-					// CANTDO: underline errors			Key = "ShowErrors"
-					// CANTDO: indentation 				Key = "IndentStyle"
+					// CANTDO: underline errors			Key = "ShowErrors"					
 					// DONOTDO: auto insert braces		Key = "AutoInsertCurlyBracket"
 					// TODO: Show Invalid Lines			Key = "ShowInvalidLines"
 					// TODO: CodeCompletion				Key = "EnableCodeCompletion"

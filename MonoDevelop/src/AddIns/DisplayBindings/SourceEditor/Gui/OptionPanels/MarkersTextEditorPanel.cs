@@ -121,7 +121,7 @@ namespace MonoDevelop.EditorBindings.Gui.OptionPanels
 			
 				vRulerRowTextBox.Value = ((IProperties)CustomizationObject).GetProperty("VRulerRow", 80);
 
-				// FIXME: reenable these widhet's when they're implemented
+				// FIXME: reenable these widget's when they're implemented
 				showInvalidLinesCheckBox.Sensitive = false;
 				showHRulerCheckBox.Sensitive = false;
 			}

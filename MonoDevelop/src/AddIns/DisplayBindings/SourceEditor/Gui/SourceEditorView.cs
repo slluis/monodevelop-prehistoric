@@ -32,7 +32,6 @@ namespace MonoDevelop.SourceEditor.Gui {
 		public SourceEditorView (SourceEditorBuffer buf, SourceEditor parent) : base (type)
 		{
 			this.ParentEditor = parent;
-			//FIXME: hook into the options
 			this.TabsWidth = 4;
 			Buffer = this.buf = buf;
 			AutoIndent = true;

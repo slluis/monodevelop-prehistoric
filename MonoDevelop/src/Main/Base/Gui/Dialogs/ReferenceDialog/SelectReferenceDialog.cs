@@ -92,8 +92,9 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 			}
 			mainBook.RemovePage (mainBook.CurrentPage);
 			mainBook.AppendPage (gacRefPanel, new Gtk.Label (resourceService.GetString("Dialog.SelectReferenceDialog.GacTabPage")));
-			mainBook.AppendPage (new ProjectReferencePanel (this), new Gtk.Label (resourceService.GetString("Dialog.SelectReferenceDialog.ProjectTabPage")));
-			//browserTabPage.Controls.Add(new AssemblyReferencePanel(this));
+			mainBook.AppendPage (new ProjectReferencePanel (this), new Gtk.Label (resourceService.GetString("Dialog.SelectReferenceDialog.ProjectTabPage")));			
+			// FIXME il8n the assembly tab name			
+			mainBook.AppendPage (new AssemblyReferencePanel (this), new Gtk.Label (".Net Assembly"));
 			//comTabPage.Controls.Add(new COMReferencePanel(this));
 			AddReferenceDialog.ShowAll ();
 		}

@@ -74,7 +74,8 @@ namespace MonoDevelop.EditorBindings.Gui.OptionPanels
 				//FIXME: i8n the following Labels
 				noneIndentStyle.Label =      "None";
 				automaticIndentStyle.Label = "Automatic"; 
-				smartIndentStyle.Label =     "Smart";
+				// FIXME: renable this when smart indent is back
+				//smartIndentStyle.Label =     "Smart";
 
 				tabsGroupBoxLabel.Markup = "<b>" + StringParserService.Parse(
 					"${res:Dialog.Options.IDEOptions.TextEditor.Behaviour.TabsGroupBox}")  + "</b>";
@@ -129,17 +130,18 @@ namespace MonoDevelop.EditorBindings.Gui.OptionPanels
 				else if (IndentStyle.Smart.Equals(
 						 (IndentStyle) ((IProperties)CustomizationObject).GetProperty(
 							 "IndentStyle", IndentStyle.Smart))){
-					smartIndentStyle.Active = true;
+					// FIXME: renable this when smart indent is back
+					//smartIndentStyle.Active = true;
 				}
 				
 				// FIXME: re-enable these when their options are implemented
 				autoinsertCurlyBraceCheckBox.Sensitive = false;
 				hideMouseCursorCheckBox.Sensitive = false;
 				caretBehindEOLCheckBox.Sensitive = false;
-				autoInsertTemplatesCheckBox.Sensitive = false;	// FIXME: there is no reason why this option couldn't ber wired in right now
-				noneIndentStyle.Sensitive = false;
-				automaticIndentStyle.Sensitive = false;
-				smartIndentStyle.Sensitive = false;
+                // FIXME: there is no reason why this option couldn't ber wired in right now				
+                autoInsertTemplatesCheckBox.Sensitive = false;	
+   				// FIXME: renable this when smart indent is back
+				//smartIndentStyle.Sensitive = false;
 			}
 
 			public void Store (IProperties CustomizationObject)
@@ -159,8 +161,9 @@ namespace MonoDevelop.EditorBindings.Gui.OptionPanels
 					((IProperties)CustomizationObject).SetProperty("IndentStyle", IndentStyle.None);
 				else if (automaticIndentStyle.Active)
 					((IProperties)CustomizationObject).SetProperty("IndentStyle", IndentStyle.Auto);
-				else if (smartIndentStyle.Active)
-					((IProperties)CustomizationObject).SetProperty("IndentStyle", IndentStyle.Smart);
+				// FIXME: renable this when smart indent is back
+				//else if (smartIndentStyle.Active)
+				//	((IProperties)CustomizationObject).SetProperty("IndentStyle", IndentStyle.Smart);
 				
 				//FIXME: Only one of these should be selected to save the value
 				((IProperties)CustomizationObject).SetProperty("TabIndent", indentAndTabSizeSpinButton.Value);
