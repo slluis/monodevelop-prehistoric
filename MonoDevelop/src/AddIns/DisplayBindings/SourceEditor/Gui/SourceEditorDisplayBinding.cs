@@ -86,6 +86,9 @@ namespace MonoDevelop.SourceEditor.Gui {
 			se.Buffer.ModifiedChanged += new EventHandler (OnModifiedChanged);
 			se.Buffer.MarkSet += new MarkSetHandler (OnMarkSet);
 			se.Buffer.Changed += new EventHandler (OnChanged);
+			se.View.ToggleOverwrite += new EventHandler (CaretModeChanged);
+			
+			CaretModeChanged (null, null);
 		}
 		
 		public override void RedrawContent()
@@ -205,6 +208,13 @@ namespace MonoDevelop.SourceEditor.Gui {
 			// NOTE: this is absurd, *I* should tell the status bar which numbers
 			// to print.
 			statusBarService.SetCaretPosition (col - 1, iter.Line, chr - 1);
+		}
+		
+		// This is false because we at first `toggle' it to set it to true
+		bool insert_mode = false; // TODO: is this always the default
+		void CaretModeChanged (object sender, EventArgs e)
+		{
+			statusBarService.SetInsertMode (insert_mode = ! insert_mode);
 		}
 #endregion
 
