@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 
 using MonoDevelop.Services;
 using MonoDevelop.Core.Properties;
@@ -15,7 +16,6 @@ namespace MonoDevelop.Gui.Pads
 		Frame frame = new Frame ();
 		Terminal term;
 
-		ResourceService resourceService = (ResourceService) ServiceManager.Services.GetService(typeof(IResourceService));
 		TaskService taskService = (TaskService) MonoDevelop.Core.Services.ServiceManager.Services.GetService (typeof (TaskService));
 		IProjectService projectService = (IProjectService) ServiceManager.Services.GetService (typeof (IProjectService));
 		PropertyService propertyService = (PropertyService) ServiceManager.Services.GetService (typeof (PropertyService));
@@ -72,8 +72,18 @@ namespace MonoDevelop.Gui.Pads
 			//FIXME: whats a good default here
 			//term.SetSize (80, 5);
 
-			// FIXME: pass the environment along
-			term.ForkCommand (Environment.GetEnvironmentVariable ("SHELL"), Environment.GetCommandLineArgs (), new string[] {""}, Environment.GetEnvironmentVariable ("HOME"), false, true, true);
+			// seems to want an array of "variable=value"
+                	string[] envv = new string [Environment.GetEnvironmentVariables ().Count];
+                	int i = 0;
+			foreach (DictionaryEntry e in Environment.GetEnvironmentVariables ())
+			{
+				if (e.Key == "" || e.Value == "")
+					continue;
+				envv[i] = String.Format ("{0}={1}", e.Key, e.Value);
+				i ++;
+			}
+
+			term.ForkCommand (Environment.GetEnvironmentVariable ("SHELL"), Environment.GetCommandLineArgs (), envv, Environment.GetEnvironmentVariable ("HOME"), false, true, true);
 
 			term.ChildExited += new EventHandler (OnChildExited);
 
