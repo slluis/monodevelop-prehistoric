@@ -8,3 +8,7 @@ cd ./gtkmozembed-sharp && ./autogen.sh --prefix=/usr/local && make && make insta
 (replace /usr/local with the same prefix as the rest of Gtk#)
 
 Mono must be installed with ICU enabled.
+
+We are attempting to follow the HIG in certain areas especially, particularly dialogs.
+
+You can find a copy of the HIG at http://developer.gnome.org/projects/gup/hig/1.0/
