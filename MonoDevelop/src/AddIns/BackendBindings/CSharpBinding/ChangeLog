@@ -1,3 +1,7 @@
+2004-04-03  Todd Berman  <tberman@sevenl.net>
+
+	* Project/CSharpCompilerParameters.cs: duh, refix library target bug
+
 2004-04-01  Todd Berman  <tberman@sevenl.net>
 
 	* Gui/OutputOptionsPanel.cs: parse resource string, closes bug #56325

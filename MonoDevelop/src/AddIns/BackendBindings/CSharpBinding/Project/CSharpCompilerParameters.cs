@@ -15,9 +15,9 @@ using MonoDevelop.Internal.Project;
 namespace CSharpBinding
 {
 	public enum CompileTarget {
-		Exe, 
-		WinExe, 
+		Exe,
 		Library,
+		WinExe, 
 		Module
 	};
 	
