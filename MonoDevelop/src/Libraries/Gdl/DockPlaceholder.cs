@@ -57,7 +57,11 @@ namespace Gdl
 					return (DockPlacement)this.placement_stack[0];
 				return DockPlacement.Center;
 			}
-			set { this.placement_stack.Insert (0, value); }
+			set { 
+				if (placement_stack == null)
+					placement_stack = new ArrayList ();
+				this.placement_stack.Insert (0, value);
+			}
 		}
 		
 		protected override void OnAdded (Gtk.Widget widget)
