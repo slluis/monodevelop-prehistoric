@@ -57,6 +57,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 		[Glade.Widget] Gtk.OptionMenu searchLocationComboBox;
 		[Glade.Widget] Gtk.Label label1;
 		[Glade.Widget] Gtk.Label label2;
+		[Glade.Widget] Gtk.Entry combo_entry1;
 		[Glade.Widget] Gtk.Label searchLocationLabel;
 		[Glade.Widget] Gtk.Dialog FindDialogWidget;
 		[Glade.Widget] Gtk.Dialog ReplaceDialogWidget;
@@ -207,6 +208,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 				ReplaceDialogPointer.Title = resourceService.GetString("Dialog.NewProject.SearchReplace.FindDialogName");
 				markAllButton.Clicked    += new EventHandler(MarkAllEvent);
 			}
+			combo_entry1.SelectRegion(0, 999);
 			
 				//ControlDictionary["replacePatternComboBox"].Visible = false;
 				//ControlDictionary["replaceAllButton"].Visible       = false;

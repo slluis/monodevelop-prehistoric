@@ -401,7 +401,7 @@
 		  <property name="enable_arrows_always">False</property>
 
 		  <child internal-child="entry">
-		    <widget class="GtkEntry" id="combo-entry1">
+		    <widget class="GtkEntry" id="combo_entry1">
 		      <property name="visible">True</property>
 		      <property name="can_focus">True</property>
 		      <property name="editable">True</property>
@@ -1847,7 +1847,7 @@
 		  <property name="enable_arrows_always">False</property>
 
 		  <child internal-child="entry">
-		    <widget class="GtkEntry" id="combo-entry1">
+		    <widget class="GtkEntry" id="combo_entry1">
 		      <property name="visible">True</property>
 		      <property name="can_focus">True</property>
 		      <property name="editable">True</property>
