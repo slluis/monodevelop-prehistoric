@@ -10,7 +10,8 @@
 	the code for your addin.  Second, providing an .addin XML file that
     maps your code into MonoDevelop.  There is a detailed pdf available
     at SharpDevelop's website <a href="http://www.icsharpcode.net/TechNotes/ProgramArchitecture.pdf">here</a> that you will want to read for a 
-    full understanding of the entire system and possiblities.  This is
+    full understanding of the entire system and possiblities.  The
+	SharpDevelop book has information on this as well.  This is
     intended as a simple and quick overview.</p>
 
 	<h3>Terms</h3>
@@ -109,7 +110,10 @@ namespace MonoDevelop.Services;
 
 	<h3>AddIn tree</h3>
 	<p>The various addins are loaded and merge into an AddInTree, which
-	is how the IDE knows what and where to load</p>
+	is how the IDE knows what and where to load.  Look at
+	<code>build/AddIns/SharpDevelopCore.addin.xml</code> to see the
+	various places to attach your addin, such as the menu items.
+	</p>
 
     <h3>AddIn xml format</h3>
 	<p>There is an AddIn.xsd file that specifies the required/optional
@@ -122,6 +126,19 @@ namespace MonoDevelop.Services;
     will want to make sure both your .addin.xml file and .dll are placed
     into the AddIn directory in both places.  <b>Note:</b> this this may change
     at some point in the future.</p>
+	<p>For those not familiar with autoconf/automake here is a brief
+	description of what you need to do, if you are wanting to add your
+	addin to the current build process.  This will not be required when
+	we are self-hosting.  Have a Makefile.am that compiles and installs
+	your dll and addin.xml files.  I highly recommend you copy one of
+	the existing ones as a reference.  Add
+	<code>path/to/your/addin/Makefile</code> to the
+	<code>AC_OUTPUT</code> section of configure.in. 
+	This creates the Makefile from Makefile.am.  In the parent
+	directory of your addin add your directory to the SUBDIRS variable.
+	If you are especially prudent you can make sure
+	<code>make distcheck</code> from the top directory still works.
+	</p>
 
 	<h3>Existing Examples</h3>
 <ul>
@@ -142,6 +159,12 @@ namespace MonoDevelop.Services;
     GUI toolkits that will likely prevent sharing many things. Any
 	suggestions on making sharing things as easy as possible would be
 	appreciated.</p>
+
+	<h3>Internationalization</h3>
+	<p>Since we are using Gettext and not resources, you will want to
+	read the translation guide as that is handled in a
+	different way than SharpDevelop, and deserves its own explanation.
+	</p>
 
     <h3>AddIn ideas</h3>
     <p>There are various things that would be nice to have implemented
