@@ -405,7 +405,6 @@ namespace MonoDevelop.Gui
 				memento.Bounds = normalBounds;
 			}
 			memento.WindowState = GdkWindow.State;
-			Console.WriteLine (memento.WindowState);
 
 			memento.FullScreen         = fullscreen;
 			return memento;
@@ -419,9 +418,7 @@ namespace MonoDevelop.Gui
 				normalBounds = memento.Bounds;
 				Move (normalBounds.X, normalBounds.Y);
 				Resize (normalBounds.Width, normalBounds.Height);
-				Console.WriteLine (memento.WindowState);
 				if (memento.WindowState == Gdk.WindowState.Maximized) {
-					Console.WriteLine ("About to maximize");
 					Maximize ();
 				} else if (memento.WindowState == Gdk.WindowState.Iconified) {
 					Iconify ();

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fr_FR\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-04-17 19:24-0400\n"
+"POT-Creation-Date: 2004-04-20 15:52-0400\n"
 "PO-Revision-Date: 2004-04-18 20:52-0400\n"
 "Last-Translator: Vincent Daron <vdaron@ask.be>\n"
 "Language-Team: Françcais <fr@li.org>\n"
@@ -278,7 +278,7 @@ msgid "Community Forums"
 msgstr "Forums de la communauté"
 
 #: build/AddIns/SharpDevelopCore.addin.xml.h:65
-#: src/Main/Base/Commands/MenuItemBuilders.cs:276
+#: src/Main/Base/Commands/MenuItemBuilders.cs:301
 msgid "Compile"
 msgstr "Compiler"
 
@@ -1597,14 +1597,14 @@ msgstr "_Remplacer"
 msgid "searchPatternEntry"
 msgstr ""
 
-#: src/Main/Base/Gui/Dialogs/CommonAboutDialog.cs:128
-#: src/Main/Base/Gui/Dialogs/CommonAboutDialog.cs:142
+#: src/Main/Base/Gui/Dialogs/CommonAboutDialog.cs:134
+#: src/Main/Base/Gui/Dialogs/CommonAboutDialog.cs:148
 msgid "About MonoDevelop"
 msgstr "A propos de MonoDevelop"
 
 #. nb.AppendPage (aatp, new Label ("Authors"));
 #. nb.AppendPage (changelog, new Label ("ChangeLog"));
-#: src/Main/Base/Gui/Dialogs/CommonAboutDialog.cs:146
+#: src/Main/Base/Gui/Dialogs/CommonAboutDialog.cs:152
 msgid "Version Info"
 msgstr "Information sur la version"
 
@@ -1824,13 +1824,13 @@ msgid "Reference Name"
 msgstr "Nom de la référence"
 
 #: src/Main/Base/Gui/Dialogs/ReferenceDialog/GacReferencePanel.cs:50
-#: src/Main/Base/Gui/Dialogs/SharpDevelopAboutPanels.cs:46
-#: src/Main/Base/Gui/Dialogs/SharpDevelopAboutPanels.cs:162
+#: src/Main/Base/Gui/Dialogs/SharpDevelopAboutPanels.cs:44
+#: src/Main/Base/Gui/Dialogs/SharpDevelopAboutPanels.cs:169
 msgid "Version"
 msgstr "Version"
 
 #: src/Main/Base/Gui/Dialogs/ReferenceDialog/GacReferencePanel.cs:51
-#: src/Main/Base/Gui/Dialogs/SharpDevelopAboutPanels.cs:163
+#: src/Main/Base/Gui/Dialogs/SharpDevelopAboutPanels.cs:170
 #: src/Main/Base/Gui/Pads/OpenTaskView.cs:108
 msgid "Path"
 msgstr "Chemin"
@@ -1839,7 +1839,9 @@ msgstr "Chemin"
 msgid ""
 "ERROR: non-mono runtime detected, please use the mono runtime for this piece "
 "of MonoDevelop for the time being"
-msgstr "ERREUR: Mono n'est pas votre runtime actuel, merci d'utiliser Mono pour cette partie de MonoDevelop pour le moment."
+msgstr ""
+"ERREUR: Mono n'est pas votre runtime actuel, merci d'utiliser Mono pour "
+"cette partie de MonoDevelop pour le moment."
 
 #: src/Main/Base/Gui/Dialogs/ReferenceDialog/ProjectReferencePanel.cs:33
 msgid "Project Name"
@@ -1854,7 +1856,6 @@ msgid "Type"
 msgstr "Type"
 
 #: src/Main/Base/Gui/Dialogs/ReferenceDialog/SelectReferenceDialog.cs:78
-#: src/Main/Base/Gui/BrowserDisplayBinding/HtmlViewPane.cs:197
 msgid "Location"
 msgstr "Position"
 
@@ -1871,17 +1872,16 @@ msgstr "Projets"
 msgid ".Net Assembly"
 msgstr "Assemblage .NET"
 
-#. FIXME why do they align in the center always
-#: src/Main/Base/Gui/Dialogs/SharpDevelopAboutPanels.cs:49
+#: src/Main/Base/Gui/Dialogs/SharpDevelopAboutPanels.cs:50
 msgid "Released under the GNU General Public license."
 msgstr "Diffusé sous la licence Publique Générale GNU"
 
-#: src/Main/Base/Gui/Dialogs/SharpDevelopAboutPanels.cs:161
+#: src/Main/Base/Gui/Dialogs/SharpDevelopAboutPanels.cs:168
 msgid "Name"
 msgstr "Nom"
 
-#: src/Main/Base/Gui/Dialogs/SharpDevelopAboutPanels.cs:193
-#: src/Main/Base/Gui/Dialogs/SharpDevelopAboutPanels.cs:214
+#: src/Main/Base/Gui/Dialogs/SharpDevelopAboutPanels.cs:200
+#: src/Main/Base/Gui/Dialogs/SharpDevelopAboutPanels.cs:221
 msgid "dynamic"
 msgstr "Dynamique"
 
@@ -1953,32 +1953,16 @@ msgstr "Contenu"
 msgid "Change me"
 msgstr "Changez moi"
 
-#: src/Main/Base/Gui/BrowserDisplayBinding/HtmlViewPane.cs:43
+#: src/Main/Base/Gui/BrowserDisplayBinding/HtmlViewPane.cs:45
 msgid "Web Browser"
 msgstr "Butineur Internet"
 
-#: src/Main/Base/Gui/BrowserDisplayBinding/HtmlViewPane.cs:193
-msgid "Go Back"
-msgstr "En arrière"
-
-#: src/Main/Base/Gui/BrowserDisplayBinding/HtmlViewPane.cs:194
-msgid "Go Forward"
-msgstr "En avant"
-
-#: src/Main/Base/Gui/BrowserDisplayBinding/HtmlViewPane.cs:195
-msgid "Stop Loading"
-msgstr "Arrêter le chargement"
-
-#: src/Main/Base/Gui/BrowserDisplayBinding/HtmlViewPane.cs:196
-msgid "Reload page"
-msgstr "Recharger le fichier"
-
-#: src/Main/Base/Gui/BrowserDisplayBinding/HtmlViewPane.cs:236
+#: src/Main/Base/Gui/BrowserDisplayBinding/HtmlViewPane.cs:209
 #: src/Main/Base/Gui/Pads/ClassScout/ClassScout.cs:142
 msgid "Loading..."
 msgstr "Chargement en cours..."
 
-#: src/Main/Base/Gui/BrowserDisplayBinding/HtmlViewPane.cs:241
+#: src/Main/Base/Gui/BrowserDisplayBinding/HtmlViewPane.cs:222
 msgid "Done."
 msgstr "Fini."
 
@@ -2005,7 +1989,8 @@ msgstr "Générer une base de données de complétion"
 
 #: src/Main/Base/Gui/CompletionDatabaseWizard/druid.cs:18
 msgid "Use a code completion database already on this computer"
-msgstr "Utiliser une base de données de complétion existante sur cet ordinateur"
+msgstr ""
+"Utiliser une base de données de complétion existante sur cet ordinateur"
 
 #: src/Main/Base/Gui/CompletionDatabaseWizard/druid.cs:19
 msgid "Download a code completion database"
@@ -2282,17 +2267,17 @@ msgstr "Références"
 msgid "Solution"
 msgstr "Solution"
 
-#: src/Main/Base/Gui/Workbench/DefaultWorkbench.cs:554
+#: src/Main/Base/Gui/Workbench/DefaultWorkbench.cs:565
 #: src/Main/Base/Commands/RunCommands.cs:242
 #: src/Main/Base/Services/Project/DefaultProjectService.cs:155
 msgid "Ready"
 msgstr "Prêt"
 
-#: src/Main/Base/Gui/Workbench/Layouts/SdiWorkspaceWindow.cs:220
+#: src/Main/Base/Gui/Workbench/Layouts/SdiWorkspaceWindow.cs:221
 msgid "Do you want to save the current changes"
 msgstr "Voulez-vous sauver vos modifications"
 
-#: src/Main/Base/Gui/Workbench/Layouts/SdiWorkspaceWindow.cs:228
+#: src/Main/Base/Gui/Workbench/Layouts/SdiWorkspaceWindow.cs:229
 msgid "Do you really want to discard your changes ?"
 msgstr "Êtes-vous sûr de vouloir annuler vos modifications"
 
@@ -2356,7 +2341,7 @@ msgid "Clear recent projects"
 msgstr "Effacer la liste des projets récents"
 
 #: src/Main/Base/Commands/HelpCommands.cs:80
-#,csharp-format
+#, csharp-format
 msgid ""
 "Can not execute or view {0}\n"
 " Please check that the file exists and that you can open this file."
@@ -2364,38 +2349,38 @@ msgstr ""
 "Impossible d'exécuter/afficher {0}\n"
 " Veuillez vérifier que vous pouvez ouvrir ce fichier."
 
-#: src/Main/Base/Commands/MenuItemBuilders.cs:49
+#: src/Main/Base/Commands/MenuItemBuilders.cs:63
 msgid "Dialog.Componnents.RichMenuItem.LoadFileDescription"
 msgstr ""
 
-#: src/Main/Base/Commands/MenuItemBuilders.cs:55
+#: src/Main/Base/Commands/MenuItemBuilders.cs:69
 msgid "recent files"
 msgstr "Fichiers récents"
 
-#: src/Main/Base/Commands/MenuItemBuilders.cs:85
+#: src/Main/Base/Commands/MenuItemBuilders.cs:106
 #, csharp-format
 msgid "load solution {0}"
 msgstr "Charger la solution {0}"
 
-#: src/Main/Base/Commands/MenuItemBuilders.cs:90
+#: src/Main/Base/Commands/MenuItemBuilders.cs:111
 msgid "recent solutions"
 msgstr "Solutions récentes"
 
-#: src/Main/Base/Commands/MenuItemBuilders.cs:120
+#: src/Main/Base/Commands/MenuItemBuilders.cs:146
 msgid "Start tool"
 msgstr "Démarrer l'outil"
 
-#: src/Main/Base/Commands/MenuItemBuilders.cs:144
+#: src/Main/Base/Commands/MenuItemBuilders.cs:170
 #, csharp-format
 msgid "Enter any arguments you want to use while launching tool, {0}:"
 msgstr "Entrez les différents paramètres de l'outil, {0}."
 
-#: src/Main/Base/Commands/MenuItemBuilders.cs:144
+#: src/Main/Base/Commands/MenuItemBuilders.cs:170
 #, csharp-format
 msgid "Command Arguments for {0}"
 msgstr ""
 
-#: src/Main/Base/Commands/MenuItemBuilders.cs:171
+#: src/Main/Base/Commands/MenuItemBuilders.cs:197
 #, csharp-format
 msgid ""
 "External program execution failed.\n"
@@ -2406,11 +2391,11 @@ msgstr ""
 "Erreur :\n"
 " '{0} {1}'"
 
-#: src/Main/Base/Commands/MenuItemBuilders.cs:214
+#: src/Main/Base/Commands/MenuItemBuilders.cs:239
 msgid "Activate this window"
 msgstr "Activer cette fenêtre"
 
-#: src/Main/Base/Commands/MenuItemBuilders.cs:277
+#: src/Main/Base/Commands/MenuItemBuilders.cs:302
 msgid "Deploy"
 msgstr "Déployer"
 
@@ -2448,7 +2433,9 @@ msgstr "_Déplacer"
 msgid ""
 "An error occurred while attempt to move/copy that file. Please check your "
 "permissions."
-msgstr "Une erreur s'est produite lors du déplacement ou de la copie de ce fichier, vérifiez vos droits d'accès."
+msgstr ""
+"Une erreur s'est produite lors du déplacement ou de la copie de ce fichier, "
+"vérifiez vos droits d'accès."
 
 #: src/Main/Base/Commands/ProjectBrowserCommands/ResourceFolderNodeCommands.cs:60
 #, csharp-format
@@ -2535,7 +2522,7 @@ msgid "Can't find language binding for {0}"
 msgstr ""
 
 #: src/Main/Base/Internal/Project/Combine/Combine.cs:301
-#: src/Main/Base/Internal/Project/Project/AbstractProject.cs:497
+#: src/Main/Base/Internal/Project/Project/AbstractProject.cs:498
 msgid ""
 "Can't save solution\n"
 "Please check your file and directory permissions."
@@ -2555,7 +2542,9 @@ msgstr "Solution Sauvée"
 msgid ""
 "Cyclic dependencies can not be build with this version.\n"
 "But we are working on it."
-msgstr "Les dépendances cycliques ne peuvent être compilées avec cette version, mais on y travaille :)."
+msgstr ""
+"Les dépendances cycliques ne peuvent être compilées avec cette version, mais "
+"on y travaille :)."
 
 #: src/Main/Base/Internal/Project/Combine/CombineEntry.cs:114
 #, csharp-format
@@ -2588,7 +2577,7 @@ msgstr ""
 "Compilation terminée -- {0} erreurs, {1} avertissements\n"
 "\n"
 
-#: src/Main/Base/Internal/Project/Project/AbstractProject.cs:258
+#: src/Main/Base/Internal/Project/Project/AbstractProject.cs:259
 #, csharp-format
 msgid ""
 "Old project file format found.\n"
@@ -2597,7 +2586,7 @@ msgstr ""
 "Vieux format de projet détecté.\n"
 " Il va être convertit en {0} information"
 
-#: src/Main/Base/Internal/Project/Project/AbstractProject.cs:273
+#: src/Main/Base/Internal/Project/Project/AbstractProject.cs:274
 msgid ""
 "Error writing the old project file.\n"
 "Check if you have write permission on the project file (.prjx).\n"
@@ -2612,11 +2601,11 @@ msgstr ""
 "sauvergardé\n"
 " Il est préférable de fermer Monodevelop et de corriger le problème."
 
-#: src/Main/Base/Internal/Project/Project/AbstractProject.cs:512
+#: src/Main/Base/Internal/Project/Project/AbstractProject.cs:513
 msgid "Save Project As..."
 msgstr "Sauver le projet sous..."
 
-#: src/Main/Base/Internal/Project/Project/AbstractProject.cs:520
+#: src/Main/Base/Internal/Project/Project/AbstractProject.cs:521
 msgid "Project saved"
 msgstr "Projet sauvé"
 
@@ -2626,11 +2615,13 @@ msgstr "Déploiement impossible: aucune cible de déploiement spécifiée"
 
 #: src/Main/Base/Internal/Project/Project/Deployment/FileDeploy.cs:24
 msgid "Can't deploy: you forgot to specify a deployment script"
-msgstr "Déploiement impossible: Vous avez oublié de spécifié un script de déploiement"
+msgstr ""
+"Déploiement impossible: Vous avez oublié de spécifié un script de déploiement"
 
 #: src/Main/Base/Internal/Project/Project/Deployment/ScriptDeploy.cs:24
 msgid "Can't deply: you forgot to specify a deployment script"
-msgstr "Déploiement impossible: Vous avez oublié de spécifié un script de déploiement"
+msgstr ""
+"Déploiement impossible: Vous avez oublié de spécifié un script de déploiement"
 
 #: src/Main/Base/Internal/Project/Project/Deployment/ScriptDeploy.cs:36
 msgid "Error while executing deploy script"
@@ -2797,6 +2788,34 @@ msgstr "Impossible de supprimer le répertoire {0}"
 msgid "_Browse..."
 msgstr "Parcourir ..."
 
+#: src/Libraries/MonoDevelop.Gui.Widgets/Navbar/Navbar.cs:51
+#, fuzzy
+msgid "Go back"
+msgstr "En arrière"
+
+#: src/Libraries/MonoDevelop.Gui.Widgets/Navbar/Navbar.cs:52
+#, fuzzy
+msgid "Go forward"
+msgstr "En avant"
+
+#: src/Libraries/MonoDevelop.Gui.Widgets/Navbar/Navbar.cs:53
+#, fuzzy
+msgid "Stop loading"
+msgstr "Arrêter le chargement"
+
+#: src/Libraries/MonoDevelop.Gui.Widgets/Navbar/Navbar.cs:54
+msgid "Reload page"
+msgstr "Recharger le fichier"
+
+#: src/Libraries/MonoDevelop.Gui.Widgets/Navbar/Navbar.cs:55
+#, fuzzy
+msgid "Address"
+msgstr "Ajouter des fichiers"
+
+#: src/Libraries/MonoDevelop.Gui.Widgets/Navbar/Navbar.cs:56
+msgid "Load address"
+msgstr ""
+
 #: src/Libraries/MonoDevelop.Gui.Widgets/Tree/TreeNodeCollection.cs:171
 #, fuzzy
 msgid "Attempt to remove a non node from the tree"
@@ -2917,4 +2936,3 @@ msgstr "Librairie"
 #: src/AddIns/BackendBindings/CSharpBinding/Gui/OutputOptionsPanel.cs:100
 msgid "Select the directory in which the assembly will be created"
 msgstr "Sélectionnez le répertoire ou doit être sauvé l'assembly"
-
