@@ -1,3 +1,11 @@
+2004-10-20  John Luke  <john.luke@gmail.com>
+
+	* Makefile.am: remove RingBuffer, add RecentFiles (not used yet)
+	* Services/File/FdoRecentFiles.cs
+	* Services/File/RecentItem.cs
+	* Services/File/RingBuffer.cs: remove old unused stuff
+	* Services/File/RecentFiles.cs: new in-progress implementation
+
 2004-10-15  Todd Berman  <tberman@off.net>
 
 	* Internal/Project/Combine/CombineEntry.cs: Before running, copy

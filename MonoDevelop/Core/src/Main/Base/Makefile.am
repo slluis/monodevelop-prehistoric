@@ -170,7 +170,7 @@ FILES= \
 ./Services/File/IFileService.cs \
 ./Services/File/DefaultFileService.cs \
 ./Services/File/FileEventArgs.cs \
-./Services/File/RingBuffer.cs \
+./Services/File/RecentFiles.cs \
 ./Services/File/RecentOpen.cs \
 ./Services/MenuService/MenuService.cs \
 ./Services/DisplayBinding/DisplayBindingService.cs \
