@@ -76,7 +76,7 @@ namespace NemerleBinding
 			} 
 		}
 	
-		FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.Services.GetService(typeof(FileUtilityService));
+		FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.GetService(typeof(FileUtilityService));
 		static string ncc = "ncc";
 
 		private string GetOptionsString(NemerleParameters cp)
@@ -179,7 +179,7 @@ namespace NemerleBinding
 			p.StartInfo = si;
 			p.Start();
 
-			IStatusBarService sbs = (IStatusBarService)ServiceManager.Services.GetService (typeof (IStatusBarService));
+			IStatusBarService sbs = (IStatusBarService)ServiceManager.GetService (typeof (IStatusBarService));
 			sbs.SetMessage ("Compiling...");
 			
 			p.OutWatch();

@@ -33,7 +33,7 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 	/// </summary>
 	public class CodeCompletionDataProvider : ICompletionDataProvider
 	{
-		static ClassBrowserIconsService classBrowserIconService = (ClassBrowserIconsService)ServiceManager.Services.GetService(typeof(ClassBrowserIconsService));
+		static ClassBrowserIconsService classBrowserIconService = (ClassBrowserIconsService)ServiceManager.GetService(typeof(ClassBrowserIconsService));
 //		static AmbienceService          ambienceService = (AmbienceService)ServiceManager.Services.GetService(typeof(AmbienceService));
 		Hashtable insertedElements           = new Hashtable();
 		Hashtable insertedPropertiesElements = new Hashtable();
@@ -69,7 +69,7 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 			//string expression    = TextUtilities.GetExpressionBeforeOffset (textArea, insertIter.Offset);
 			ResolveResult results;
 			
-			IParserService parserService = (IParserService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IParserService));
+			IParserService parserService = (IParserService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IParserService));
 			IExpressionFinder expressionFinder = parserService.GetExpressionFinder(fileName);
 			string expression    = expressionFinder == null ? TextUtilities.GetExpressionBeforeOffset(textArea, insertIter.Offset) : expressionFinder.FindExpression(textArea.Buffer.GetText(textArea.Buffer.StartIter, insertIter, true), insertIter.Offset - 2);
 			if (expression == null) return null;

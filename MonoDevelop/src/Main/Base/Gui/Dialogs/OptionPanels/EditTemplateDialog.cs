@@ -23,7 +23,7 @@ namespace MonoDevelop.Gui.Dialogs
 		Gtk.Entry descriptionTextBox;
 		
 		// Services
-		StringParserService StringParserService = (StringParserService)ServiceManager.Services.GetService (typeof (StringParserService));
+		StringParserService StringParserService = (StringParserService)ServiceManager.GetService (typeof (StringParserService));
 		
 		public CodeTemplate CodeTemplate {
 			get {

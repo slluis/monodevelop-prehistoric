@@ -45,7 +45,7 @@ namespace MonoDevelop.EditorBindings.Gui.OptionPanels
 		class GeneralTextEditorPanelWidget : GladeWidgetExtract 
 		{	
 			StringParserService StringParserService = (
-				StringParserService)ServiceManager.Services.GetService (typeof (StringParserService));
+				StringParserService)ServiceManager.GetService (typeof (StringParserService));
 // 			int encoding = Encoding.UTF8.CodePage;
 // 			int selectedIndex = 0;
 			

@@ -151,9 +151,9 @@ namespace MonoDevelop.Internal.Templates
 		
 		static FileTemplate()
 		{
-			FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.Services.GetService(typeof(FileUtilityService));
-			PropertyService    propertyService    = (PropertyService)ServiceManager.Services.GetService(typeof(PropertyService));
-			IMessageService    messageService     = (IMessageService)ServiceManager.Services.GetService(typeof(IMessageService));
+			FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.GetService(typeof(FileUtilityService));
+			PropertyService    propertyService    = (PropertyService)ServiceManager.GetService(typeof(PropertyService));
+			IMessageService    messageService     = (IMessageService)ServiceManager.GetService(typeof(IMessageService));
 			
 			StringCollection files = fileUtilityService.SearchDirectory(propertyService.DataDirectory + 
 			                            Path.DirectorySeparatorChar + "templates" + 

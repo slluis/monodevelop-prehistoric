@@ -21,7 +21,7 @@ namespace MonoDevelop.Gui.Dialogs
 
 		public ViewGPLDialog () 
 		{
-			FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.Services.GetService(typeof(FileUtilityService));
+			FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.GetService(typeof(FileUtilityService));
 			string filename = fileUtilityService.SharpDevelopRootPath + 
 			System.IO.Path.DirectorySeparatorChar + "doc" +
 			System.IO.Path.DirectorySeparatorChar + "license.txt";

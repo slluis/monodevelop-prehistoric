@@ -57,14 +57,14 @@ namespace MonoDevelop.Commands.ProjectBrowser
 				
 					foreach (string file in files) {
 						if (!System.IO.File.Exists (file)) {
-							IMessageService messageService = (IMessageService) ServiceManager.Services.GetService (typeof (IMessageService));
+							IMessageService messageService = (IMessageService) ServiceManager.GetService (typeof (IMessageService));
 							messageService.ShowError (String.Format (GettextCatalog.GetString ("Resource file '{0}' does not exist"), file));
 							goto show_dialog;
 						}
 					}
 				
-					IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
-					ResourceService resourceService = (ResourceService)ServiceManager.Services.GetService(typeof(IResourceService));
+					IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IProjectService));
+					ResourceService resourceService = (ResourceService)ServiceManager.GetService(typeof(IResourceService));
 				
 					foreach (string fileName in files) {
 						ProjectFile fileInformation = projectService.AddFileToProject(project, fileName, BuildAction.EmbedAsResource);

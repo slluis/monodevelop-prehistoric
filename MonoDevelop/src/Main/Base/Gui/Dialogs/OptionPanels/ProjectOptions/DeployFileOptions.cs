@@ -52,8 +52,8 @@ namespace MonoDevelop.Gui.Dialogs.OptionPanels
 
 			// Services
 			IProject project;
-			static FileUtilityService fileUtilityService = (FileUtilityService) ServiceManager.Services.GetService(typeof(FileUtilityService));
-			StringParserService StringParserService = (StringParserService)ServiceManager.Services.GetService (typeof (StringParserService));
+			static FileUtilityService fileUtilityService = (FileUtilityService) ServiceManager.GetService(typeof(FileUtilityService));
+			StringParserService StringParserService = (StringParserService)ServiceManager.GetService (typeof (StringParserService));
 			public DeployFileOptionsWidget (IProperties CustomizationObject) : 
 				base ("Base.glade", "DeployFileOptionsPanel")
 			{
@@ -203,7 +203,7 @@ namespace MonoDevelop.Gui.Dialogs.OptionPanels
 		}
 		
 		DeployFileOptionsWidget widget;
-		ResourceService resourceService = (ResourceService)ServiceManager.Services.GetService(typeof(IResourceService));
+		ResourceService resourceService = (ResourceService)ServiceManager.GetService(typeof(IResourceService));
 		
 		public override void LoadPanelContents()
 		{

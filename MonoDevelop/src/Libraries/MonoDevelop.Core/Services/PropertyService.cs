@@ -82,7 +82,7 @@ namespace MonoDevelop.Core.Services
 			
 			doc.DocumentElement.AppendChild(ToXmlElement(doc));
 			
-			FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.Services.GetService(typeof(FileUtilityService));
+			FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.GetService(typeof(FileUtilityService));
 			fileUtilityService.ObservedSave(new NamedFileOperationDelegate(doc.Save), fileName, FileErrorPolicy.ProvideAlternative);
 		}
 		

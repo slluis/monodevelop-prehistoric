@@ -24,8 +24,8 @@ namespace MonoDevelop.SourceEditor.InsightWindow
 {
 	public class IndexerInsightDataProvider : IInsightDataProvider
 	{
-		ClassBrowserIconsService classBrowserIconService = (ClassBrowserIconsService)ServiceManager.Services.GetService(typeof(ClassBrowserIconsService));
-		AmbienceService          ambienceService = (AmbienceService)ServiceManager.Services.GetService(typeof(AmbienceService));
+		ClassBrowserIconsService classBrowserIconService = (ClassBrowserIconsService)ServiceManager.GetService(typeof(ClassBrowserIconsService));
+		AmbienceService          ambienceService = (AmbienceService)ServiceManager.GetService(typeof(AmbienceService));
 		
 		string              fileName = null;
 		SourceEditorView    textArea;
@@ -61,7 +61,7 @@ namespace MonoDevelop.SourceEditor.InsightWindow
 			// the parser works with 1 based coordinates
 			int caretLineNumber      = initialIter.Line + 1;
 			int caretColumn          = initialIter.LineOffset + 1;
-			IParserService parserService = (IParserService)ServiceManager.Services.GetService(typeof(IParserService));
+			IParserService parserService = (IParserService)ServiceManager.GetService(typeof(IParserService));
 			ResolveResult results = parserService.Resolve(project, methodObject, caretLineNumber, caretColumn, fileName, textArea.Buffer.Text);
 			
 			if (results != null && results.Type != null) {

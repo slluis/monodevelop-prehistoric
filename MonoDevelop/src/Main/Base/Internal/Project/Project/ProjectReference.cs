@@ -80,7 +80,7 @@ namespace MonoDevelop.Internal.Project
 			}
 			set {
 				localCopy = value;
-				IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
+				IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IProjectService));
 				projectService.SaveCombine();
 			}
 		}
@@ -98,10 +98,10 @@ namespace MonoDevelop.Internal.Project
 					return reference;
 				
 				case ReferenceType.Gac:
-					string file = ((IParserService)ServiceManager.Services.GetService (typeof (IParserService))).LoadAssemblyFromGac (GetPathToGACAssembly (this));
+					string file = ((IParserService)ServiceManager.GetService (typeof (IParserService))).LoadAssemblyFromGac (GetPathToGACAssembly (this));
 					return file == String.Empty ? reference : file;
 				case ReferenceType.Project:
-					IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
+					IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IProjectService));
 					string projectOutputLocation   = projectService.GetOutputAssemblyName(reference);
 					return projectOutputLocation;
 				

@@ -103,10 +103,10 @@ namespace MonoDevelop.Services
 		public void JumpToPosition()
 		{
 			if (fileName != null && fileName.Length > 0) {
-				IFileService fileService = (IFileService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IFileService));
+				IFileService fileService = (IFileService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IFileService));
 				fileService.OpenFile(fileName);
-				IWorkbenchWindow window = fileService.GetOpenFile(fileName);
 				System.Threading.Thread.Sleep (50);
+				IWorkbenchWindow window = fileService.GetOpenFile(fileName);
 				if (window == null) {
 					return;
 				}

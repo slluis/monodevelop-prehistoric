@@ -33,8 +33,7 @@ namespace MonoDevelop.Gui.Dialogs
 		
 		void SelectReferenceDialog(object sender, EventArgs e)
 		{
-			// FIXME: il8n the dialog name
-			StringParserService stringParserService = (StringParserService)ServiceManager.Services.GetService(typeof(StringParserService));
+			StringParserService stringParserService = (StringParserService)ServiceManager.GetService(typeof(StringParserService));
 			using (FileSelector fdiag = new FileSelector (GettextCatalog.GetString ("Find .Net Assembly"))) {
 			// FIXME: this should only allow dll's and exe's
 			// fdiag.Complete("*");
@@ -58,7 +57,7 @@ namespace MonoDevelop.Gui.Dialogs
 							System.IO.Path.GetFileName(file),
 							file);
 						} else {
-							IMessageService messageService =(IMessageService)ServiceManager.Services.GetService(typeof(IMessageService));
+							IMessageService messageService =(IMessageService)ServiceManager.GetService(typeof(IMessageService));
 							// FIXME: il8n this
 							messageService.ShowError(String.Format (GettextCatalog.GetString ("File {0} is not a valid .Net Assembly"), file));
 						}

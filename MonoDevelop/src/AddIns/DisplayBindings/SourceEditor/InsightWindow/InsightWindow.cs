@@ -32,7 +32,7 @@ namespace MonoDevelop.SourceEditor.InsightWindow
 		string fileName;
 		IProject project;
 
-		StringParserService StringParserService = (StringParserService)ServiceManager.Services.GetService (typeof (StringParserService)); 
+		StringParserService StringParserService = (StringParserService)ServiceManager.GetService (typeof (StringParserService)); 
 		
 		class InsightDataProviderStackElement 
 		{
@@ -242,7 +242,7 @@ namespace MonoDevelop.SourceEditor.InsightWindow
 				description = "Unknown Method";
 			} else {
 				if (DataProvider.InsightDataCount > 1) {
-					StringParserService stringParserService = (StringParserService)ServiceManager.Services.GetService(typeof(StringParserService));
+					StringParserService stringParserService = (StringParserService)ServiceManager.GetService(typeof(StringParserService));
 					stringParserService.Properties["CurrentMethodNumber"]  = (CurrentData + 1).ToString();
 					stringParserService.Properties["NumberOfTotalMethods"] = DataProvider.InsightDataCount.ToString();
 					methodCountMessage = stringParserService.Parse("${res:MonoDevelop.DefaultEditor.Gui.Editor.InsightWindow.NumberOfText}");

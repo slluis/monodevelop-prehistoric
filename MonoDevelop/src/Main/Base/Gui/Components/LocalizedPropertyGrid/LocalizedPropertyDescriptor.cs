@@ -14,7 +14,7 @@ namespace MonoDevelop.Gui.Components
 	/// </summary>
 	public class LocalizedPropertyDescriptor : PropertyDescriptor
 	{
-		static StringParserService stringParserService = (StringParserService)ServiceManager.Services.GetService(typeof(StringParserService));
+		static StringParserService stringParserService = (StringParserService)ServiceManager.GetService(typeof(StringParserService));
 		
 		PropertyDescriptor basePropertyDescriptor; 
 		

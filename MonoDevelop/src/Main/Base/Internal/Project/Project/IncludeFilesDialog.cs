@@ -42,8 +42,8 @@ namespace MonoDevelop.Internal.Project
 		// regular members
 		StringCollection newFiles;
 		IProject         project;
-		IResourceService resourceService = (IResourceService)ServiceManager.Services.GetService(typeof(IResourceService));
-		FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.Services.GetService(typeof(FileUtilityService));
+		IResourceService resourceService = (IResourceService)ServiceManager.GetService(typeof(IResourceService));
+		FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.GetService(typeof(FileUtilityService));
 		
 		public IncludeFilesDialog(IProject project, StringCollection newFiles)
 		{
@@ -52,7 +52,7 @@ namespace MonoDevelop.Internal.Project
 			glade.Autoconnect (this);
 			
 			// set up dialog title
-			StringParserService stringParserService = (StringParserService)ServiceManager.Services.GetService(typeof(StringParserService));
+			StringParserService stringParserService = (StringParserService)ServiceManager.GetService(typeof(StringParserService));
 			this.IncludeFilesDialogWidget.Title = String.Format (GettextCatalog.GetString ("Found new files in {0}"), project.Name);
 			
 			newFilesOnlyRadioButton.Active = true;

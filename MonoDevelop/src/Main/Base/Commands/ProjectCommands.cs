@@ -25,18 +25,18 @@ namespace MonoDevelop.Commands
 	{
 		public override void Run()
 		{
-			IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
+			IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IProjectService));
 			
 			if (projectService.CurrentSelectedProject != null) {
-				LanguageBindingService languageBindingService = (LanguageBindingService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(LanguageBindingService));
+				LanguageBindingService languageBindingService = (LanguageBindingService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(LanguageBindingService));
 				ILanguageBinding csc = languageBindingService.GetBindingPerLanguageName(projectService.CurrentSelectedProject.ProjectType);
 				string assembly = csc.GetCompiledOutputName(projectService.CurrentSelectedProject);
 				
 				if (!File.Exists(assembly)) {
-					IMessageService messageService =(IMessageService)ServiceManager.Services.GetService(typeof(IMessageService));
+					IMessageService messageService =(IMessageService)ServiceManager.GetService(typeof(IMessageService));
 					messageService.ShowError(GettextCatalog.GetString ("Assembly not Found (Compile the project first)"));
 				} else {
-					FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.Services.GetService(typeof(FileUtilityService));
+					FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.GetService(typeof(FileUtilityService));
 					string command = fileUtilityService.SharpDevelopRootPath + 
 					                 Path.DirectorySeparatorChar + "bin" + 
 					                 Path.DirectorySeparatorChar + "nunit" + 
@@ -52,7 +52,7 @@ namespace MonoDevelop.Commands
 	{
 		public override void Run()
 		{
-			IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
+			IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IProjectService));
 			IProject        selectedProject = projectService.CurrentSelectedProject;
 			if (selectedProject == null) {
 				return;
@@ -74,7 +74,7 @@ namespace MonoDevelop.Commands
 	{
 		public override void Run()
 		{
-			IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
+			IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IProjectService));
 			foreach (IViewContent viewContent in WorkbenchSingleton.Workbench.ViewContentCollection) {
 				if (viewContent.IsDirty) {
 					viewContent.Save();
@@ -91,10 +91,10 @@ namespace MonoDevelop.Commands
 		public override void Run()
 		{
 			try {
-				IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
+				IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IProjectService));
 				
 				if (projectService.CurrentSelectedProject != null) {
-					LanguageBindingService languageBindingService = (LanguageBindingService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(LanguageBindingService));
+					LanguageBindingService languageBindingService = (LanguageBindingService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(LanguageBindingService));
 					ILanguageBinding csc = languageBindingService.GetBindingPerLanguageName(projectService.CurrentSelectedProject.ProjectType);
 					
 					string assembly    = csc.GetCompiledOutputName(projectService.CurrentSelectedProject);
@@ -163,7 +163,7 @@ namespace MonoDevelop.Commands
 						sw.WriteLine("    				</project>");
 						sw.Close();
 					}
-					FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.Services.GetService(typeof(FileUtilityService));
+					FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.GetService(typeof(FileUtilityService));
 					string command = fileUtilityService.SharpDevelopRootPath +
 					Path.DirectorySeparatorChar + "bin" +
 					Path.DirectorySeparatorChar + "ndoc" +

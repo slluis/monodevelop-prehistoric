@@ -72,8 +72,8 @@ namespace MonoDevelop.Gui.Dialogs
 		public AuthorAboutTabPage()
 		{
 			try {
-				FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.Services.GetService(typeof(FileUtilityService));
-				PropertyService propertyService = (PropertyService)ServiceManager.Services.GetService(typeof(PropertyService));
+				FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.GetService(typeof(FileUtilityService));
+				PropertyService propertyService = (PropertyService)ServiceManager.GetService(typeof(PropertyService));
 				
 				string html = ConvertXml.ConvertToString(fileUtilityService.SharpDevelopRootPath +
 				                   System.IO.Path.DirectorySeparatorChar + "doc" +
@@ -90,7 +90,7 @@ namespace MonoDevelop.Gui.Dialogs
 				                           "SharpDevelopStandard.css";
 				base.Html = html;
 			} catch (Exception e) {
-				IMessageService messageService = (IMessageService)ServiceManager.Services.GetService(typeof(IMessageService));
+				IMessageService messageService = (IMessageService)ServiceManager.GetService(typeof(IMessageService));
 				messageService.ShowError(e);
 			}
 		}
@@ -101,8 +101,8 @@ namespace MonoDevelop.Gui.Dialogs
 		public ChangeLogTabPage()
 		{
 			try {
-				FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.Services.GetService(typeof(FileUtilityService));
-				PropertyService propertyService = (PropertyService)ServiceManager.Services.GetService(typeof(PropertyService));
+				FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.GetService(typeof(FileUtilityService));
+				PropertyService propertyService = (PropertyService)ServiceManager.GetService(typeof(PropertyService));
 				
 				string html = ConvertXml.ConvertToString(fileUtilityService.SharpDevelopRootPath +
 				                   System.IO.Path.DirectorySeparatorChar + "doc" +
@@ -134,7 +134,7 @@ namespace MonoDevelop.Gui.Dialogs
 				+ "</ul></body></html>";*/
 				
 			} catch (Exception e) {
-				IMessageService messageService = (IMessageService)ServiceManager.Services.GetService(typeof(IMessageService));
+				IMessageService messageService = (IMessageService)ServiceManager.GetService(typeof(IMessageService));
 				messageService.ShowError(e);
 			}
 		}
@@ -161,7 +161,7 @@ namespace MonoDevelop.Gui.Dialogs
 
 		public VersionInformationTabPage() : base (GType)
 		{
-			ResourceService resourceService = (ResourceService)ServiceManager.Services.GetService(typeof(IResourceService));
+			ResourceService resourceService = (ResourceService)ServiceManager.GetService(typeof(IResourceService));
 	
 			TreeView listView = new TreeView ();
 			listView.RulesHint = true;

@@ -38,11 +38,11 @@ namespace MonoDevelop.Gui.Dialogs.OptionPanels
  			public ListStore store;
 
 			// Services
-			StringParserService StringParserService = (StringParserService)ServiceManager.Services.GetService (
+			StringParserService StringParserService = (StringParserService)ServiceManager.GetService (
 										typeof (StringParserService));
-			static ResourceService resourceService = (ResourceService)ServiceManager.Services.GetService(
+			static ResourceService resourceService = (ResourceService)ServiceManager.GetService(
 										typeof(IResourceService));
-			static PropertyService propertyService = (PropertyService)ServiceManager.Services.GetService(
+			static PropertyService propertyService = (PropertyService)ServiceManager.GetService(
 										typeof(PropertyService));
 			Combine combine;
 
@@ -120,7 +120,7 @@ namespace MonoDevelop.Gui.Dialogs.OptionPanels
 					}
 					
 					// tell the user we encountered and worked around an issue 
-					IMessageService messageService =(IMessageService)ServiceManager.Services.GetService(typeof(IMessageService));
+					IMessageService messageService =(IMessageService)ServiceManager.GetService(typeof(IMessageService));
 					// FIXME: il8n this
 					messageService.ShowError(
 						"The Combine Execute Definitions for this Combine were invalid. A new empty set of Execute Definitions has been created.");

@@ -18,8 +18,8 @@ namespace MonoDevelop.Gui.Dialogs
 {
 	public class TipOfTheDayWindow
 	{
- 		ResourceService resourceService = (ResourceService)ServiceManager.Services.GetService (typeof (IResourceService));
- 		PropertyService propertyService = (PropertyService)ServiceManager.Services.GetService (typeof (PropertyService));
+ 		ResourceService resourceService = (ResourceService)ServiceManager.GetService (typeof (IResourceService));
+ 		PropertyService propertyService = (PropertyService)ServiceManager.GetService (typeof (PropertyService));
 
 		[Glade.Widget] Label categoryLabel;
 		[Glade.Widget] TextView tipTextview;
@@ -58,7 +58,7 @@ namespace MonoDevelop.Gui.Dialogs
 
 		private void ParseTips (XmlElement el)
 		{
- 			StringParserService stringParserService = (StringParserService)ServiceManager.Services.GetService (typeof (StringParserService));
+ 			StringParserService stringParserService = (StringParserService)ServiceManager.GetService (typeof (StringParserService));
  			XmlNodeList nodes = el.ChildNodes;
  			tips = new string[nodes.Count];
 			

@@ -19,7 +19,7 @@ namespace MonoDevelop.DefaultEditor.Commands
 	{
 		public override void Run()
 		{
-			IProjectService projectService = (IProjectService) MonoDevelop.Core.Services.ServiceManager.Services.GetService (typeof (IProjectService));
+			IProjectService projectService = (IProjectService) MonoDevelop.Core.Services.ServiceManager.GetService (typeof (IProjectService));
 			if (projectService.CurrentSelectedProject != null) {
 			
 				using (ExportProjectToHtmlDialog ephd = new ExportProjectToHtmlDialog (projectService.CurrentSelectedProject)) {

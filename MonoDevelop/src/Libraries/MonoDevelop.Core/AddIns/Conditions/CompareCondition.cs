@@ -54,7 +54,7 @@ namespace MonoDevelop.Core.AddIns.Conditions
 		/// </summary>
 		public override bool IsValid(object owner)
 		{
-			StringParserService stringParserService = (StringParserService)ServiceManager.Services.GetService(typeof(StringParserService));
+			StringParserService stringParserService = (StringParserService)ServiceManager.GetService(typeof(StringParserService));
 			return stringParserService.Parse(s1) == stringParserService.Parse(s2);
 		}
 	}

@@ -41,7 +41,7 @@ namespace JavaBinding
 		public void Execute(IProject project)
 		{
 			JavaCompilerParameters parameters = (JavaCompilerParameters)project.ActiveConfiguration;
-			FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.Services.GetService(typeof(FileUtilityService));
+			FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.GetService(typeof(FileUtilityService));
 			string directory = fileUtilityService.GetDirectoryNameWithSeparator(((JavaCompilerParameters)project.ActiveConfiguration).OutputDirectory);
 			string mainClass = ((JavaCompilerParameters) project.ActiveConfiguration).MainClass;
 			

@@ -73,7 +73,7 @@ namespace CSharpBinding
 					return true;
 				}
 				
-				FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.Services.GetService(
+				FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.GetService(
 					typeof(FileUtilityService));
 				if (!fileUtilityService.IsValidFileName(assemblyNameEntry.Text)) {
 					//MessageService.ShowError("Invalid assembly name specified");
@@ -97,7 +97,7 @@ namespace CSharpBinding
 			
 			void SelectFolder(object sender, EventArgs e)
 			{
-				ResourceService res = (ResourceService)ServiceManager.Services.GetService (typeof (ResourceService));
+				ResourceService res = (ResourceService)ServiceManager.GetService (typeof (ResourceService));
 				using (FileSelector fdiag = new FileSelector (GettextCatalog.GetString ("Select the directory in which the assembly will be created"))) {
 					if (fdiag.Run () == (int) ResponseType.Ok) {
 						outputDirectoryEntry.Text = fdiag.Filename;

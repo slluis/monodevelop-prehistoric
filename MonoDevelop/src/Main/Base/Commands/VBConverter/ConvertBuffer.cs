@@ -43,14 +43,14 @@ namespace MonoDevelop.Commands
 				p.Parse(new Lexer(new ICSharpCode.SharpRefactory.Parser.StringReader(((IEditable)window.ViewContent).Text)));
 				
 				if (p.Errors.count > 0) {
-					IMessageService messageService =(IMessageService)ServiceManager.Services.GetService(typeof(IMessageService));
+					IMessageService messageService =(IMessageService)ServiceManager.GetService(typeof(IMessageService));
 					messageService.ShowError("Correct source code errors first (only compileable C# source code would convert).");
 					return;
 				}
 				VBNetVisitor vbv = new VBNetVisitor();
 				vbv.Visit(p.compilationUnit, null);
 				
-				IFileService fileService = (IFileService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IFileService));
+				IFileService fileService = (IFileService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IFileService));
 				Console.WriteLine(vbv.SourceText.ToString());
 				fileService.NewFile("Generated.VB", "VBNET", vbv.SourceText.ToString());
 			}

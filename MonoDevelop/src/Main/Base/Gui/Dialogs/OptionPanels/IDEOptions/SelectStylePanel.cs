@@ -22,7 +22,7 @@ namespace MonoDevelop.Gui.Dialogs.OptionPanels
 {
 	public class SelectStylePanel : AbstractOptionPanel
 	{
-		PropertyService PropertyService = (PropertyService)ServiceManager.Services.GetService (typeof (PropertyService));
+		PropertyService PropertyService = (PropertyService)ServiceManager.GetService (typeof (PropertyService));
 		SelectStylePanelWidget widget;
 		const string selectStyleProperty = "SharpDevelop.UI.SelectStyleOptions";
 
@@ -40,7 +40,7 @@ namespace MonoDevelop.Gui.Dialogs.OptionPanels
 		class SelectStylePanelWidget : GladeWidgetExtract 
 		{
 
-			PropertyService p = (PropertyService)ServiceManager.Services.GetService (typeof (PropertyService));
+			PropertyService p = (PropertyService)ServiceManager.GetService (typeof (PropertyService));
 			//FIXME: Hashtables are wrong here.
 			//FIXME: Yes, this is a dirty hack.
 			//FIXME: Lets use something else.

@@ -20,7 +20,7 @@ namespace MonoDevelop.Gui.Components
 {
 	public class SdToolbarCommand : Gtk.Button, IStatusUpdate
 	{
-		static StringParserService stringParserService = (StringParserService)ServiceManager.Services.GetService(typeof(StringParserService));
+		static StringParserService stringParserService = (StringParserService)ServiceManager.GetService(typeof(StringParserService));
 			
 		object caller;
 		ConditionCollection conditionCollection;
@@ -55,7 +55,7 @@ namespace MonoDevelop.Gui.Components
 		
 		public SdToolbarCommand (string text) : base ()
 		{
-			ResourceService resourceService = (ResourceService)ServiceManager.Services.GetService (typeof(IResourceService));
+			ResourceService resourceService = (ResourceService)ServiceManager.GetService (typeof(IResourceService));
 			
 			if (text.StartsWith ("${")) {
 				localizedText = resourceService.GetString (text);

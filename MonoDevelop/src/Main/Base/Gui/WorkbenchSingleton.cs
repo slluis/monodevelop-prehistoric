@@ -35,7 +35,7 @@ namespace MonoDevelop.Gui
 		
 		static WorkbenchSingleton()
 		{
-			PropertyService propertyService = (PropertyService)ServiceManager.Services.GetService(typeof(PropertyService));
+			PropertyService propertyService = (PropertyService)ServiceManager.GetService(typeof(PropertyService));
 			propertyService.PropertyChanged += new PropertyEventHandler(TrackPropertyChanges);
 		}
 		

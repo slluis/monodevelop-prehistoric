@@ -37,7 +37,7 @@ namespace MonoDevelop.Core.AddIns.Codons
 		public override object BuildItem(object owner, ArrayList subItems, ConditionCollection conditions)
 		{
 			IDialogPanelDescriptor newItem = null;
-			StringParserService stringParserService = (StringParserService)ServiceManager.Services.GetService(typeof(StringParserService));
+			StringParserService stringParserService = (StringParserService)ServiceManager.GetService(typeof(StringParserService));
 			
 			if (subItems == null || subItems.Count == 0) {				
 				if (Class != null) {

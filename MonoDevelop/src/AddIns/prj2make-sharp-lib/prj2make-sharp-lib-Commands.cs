@@ -13,7 +13,7 @@ namespace MonoDevelop.Commands
 {
 	public class ImportPrj : AbstractMenuCommand
 	{
-		static PropertyService PropertyService = (PropertyService)ServiceManager.Services.GetService (typeof (PropertyService));
+		static PropertyService PropertyService = (PropertyService)ServiceManager.GetService (typeof (PropertyService));
 		
 		public override void Run()
 		{
@@ -42,13 +42,13 @@ namespace MonoDevelop.Commands
 							name = slnMkObj.PrjxFileName;
 							break;
 						default:
-							IMessageService messageService =(IMessageService)ServiceManager.Services.GetService(typeof(IMessageService));
+							IMessageService messageService =(IMessageService)ServiceManager.GetService(typeof(IMessageService));
 							messageService.ShowError(String.Format (GettextCatalog.GetString ("Can't open file {0} as project"), name));
 							break;
 					}
 					if (conversionSuccessfull == true) {
 						try {
-							proj = (IProjectService)ServiceManager.Services.GetService (typeof (IProjectService));
+							proj = (IProjectService)ServiceManager.GetService (typeof (IProjectService));
 							proj.OpenCombine(name);
 						} catch (Exception ex) {
 							Console.WriteLine(ex.Message);

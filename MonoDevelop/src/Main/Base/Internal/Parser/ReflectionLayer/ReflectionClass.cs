@@ -47,12 +47,9 @@ namespace MonoDevelop.Internal.Parser
 				type = Type.GetType ("System.Object");
 			
 
-			//FIXME: remove after doc changes are complete.
-			Hashtable xmlComments = null;
-			
 			FullyQualifiedName = type.FullName;
 
-			MonodocService docservice = ((MonodocService)ServiceManager.Services.GetService (typeof (MonodocService)));
+			MonodocService docservice = ((MonodocService)ServiceManager.GetService (typeof (MonodocService)));
 			XmlDocument docs = docservice != null ? docservice.GetHelpXml (FullyQualifiedName) : null;
 			if (docs != null) {
 				XmlNode node = docs.SelectSingleNode ("/Type/Docs/summary");

@@ -20,7 +20,7 @@ namespace MonoDevelop.SourceEditor.Gui
 {
 	public class SourceEditorDisplayBinding : IDisplayBinding
 	{
-		StringParserService sps = (StringParserService) ServiceManager.Services.GetService (typeof (StringParserService));
+		StringParserService sps = (StringParserService) ServiceManager.GetService (typeof (StringParserService));
 		
 		static SourceEditorDisplayBinding ()
 		{
@@ -126,7 +126,7 @@ namespace MonoDevelop.SourceEditor.Gui
 			CaretModeChanged (null, null);
 			PropertiesChanged (null, null);
 			
-			PropertyService propertyService = (PropertyService) ServiceManager.Services.GetService (typeof (PropertyService));
+			PropertyService propertyService = (PropertyService) ServiceManager.GetService (typeof (PropertyService));
 			IProperties properties2 = ((IProperties) propertyService.GetProperty("MonoDevelop.TextEditor.Document.Document.DefaultDocumentAggregatorProperties", new DefaultProperties()));
 			properties2.PropertyChanged += new PropertyEventHandler (PropertiesChanged);
 		}
@@ -265,7 +265,7 @@ namespace MonoDevelop.SourceEditor.Gui
 #endregion
 
 #region Status Bar Handling
-		IStatusBarService statusBarService = (IStatusBarService) ServiceManager.Services.GetService (typeof (IStatusBarService));
+		IStatusBarService statusBarService = (IStatusBarService) ServiceManager.GetService (typeof (IStatusBarService));
 		
 		void OnMarkSet (object o, MarkSetArgs args)
 		{

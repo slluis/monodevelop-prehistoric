@@ -36,7 +36,7 @@ namespace MonoDevelop.Gui.Pads.ProjectBrowser
 				return combine;
 			}
 		}
-		ResourceService resourceService = (ResourceService)ServiceManager.Services.GetService(typeof(IResourceService));
+		ResourceService resourceService = (ResourceService)ServiceManager.GetService(typeof(IResourceService));
 		public CombineBrowserNode(Combine combine)
 		{
 			UserData     = combine;
@@ -64,7 +64,7 @@ namespace MonoDevelop.Gui.Pads.ProjectBrowser
 		bool ContainsNoInvalidChars (string name)
 		{
 			if (name.IndexOfAny (new char [] { '\'', '(', ')', '"', '{', '}', '|' } ) != -1) {
-				((MessageService)ServiceManager.Services.GetService (typeof (MessageService))).ShowError (String.Format (GettextCatalog.GetString ("Solution name may not contain any of the following characters: {0}"), "', (, ), \", {, }, |"));
+				((MessageService)ServiceManager.GetService (typeof (MessageService))).ShowError (String.Format (GettextCatalog.GetString ("Solution name may not contain any of the following characters: {0}"), "', (, ), \", {, }, |"));
 				return false;
 			}
 			return true;
@@ -78,7 +78,7 @@ namespace MonoDevelop.Gui.Pads.ProjectBrowser
 		
 		public void UpdateCombineName(object sender, EventArgs e)
 		{
-			StringParserService stringParserService = (StringParserService)ServiceManager.Services.GetService(typeof(StringParserService));
+			StringParserService stringParserService = (StringParserService)ServiceManager.GetService(typeof(StringParserService));
 			switch (combine.Entries.Count) {
 				case 0:
 					Text = String.Format (GettextCatalog.GetString ("Solution {0}"), combine.Name);
@@ -104,7 +104,7 @@ namespace MonoDevelop.Gui.Pads.ProjectBrowser
 			}
 			
 			CombineBrowserNode cmbNode = (CombineBrowserNode)Parent;
-			StringParserService stringParserService = (StringParserService)ServiceManager.Services.GetService(typeof(StringParserService));
+			StringParserService stringParserService = (StringParserService)ServiceManager.GetService(typeof(StringParserService));
 			
 			Gtk.MessageDialog dialog = new Gtk.MessageDialog ((Gtk.Window)WorkbenchSingleton.Workbench, Gtk.DialogFlags.DestroyWithParent, Gtk.MessageType.Question, Gtk.ButtonsType.OkCancel, String.Format (GettextCatalog.GetString ("Do you really want to remove solution {0} from solution {1}?"), combine.Name, cmbNode.Combine.Name));
 			

@@ -42,7 +42,7 @@ namespace ILAsmBinding
 		public void Execute(IProject project, bool debug)
 		{
 			ILAsmCompilerParameters parameters = (ILAsmCompilerParameters)project.ActiveConfiguration;
-			FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.Services.GetService(typeof(FileUtilityService));
+			FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.GetService(typeof(FileUtilityService));
 			
 			string exe = Path.GetFullPath(Path.Combine(parameters.OutputDirectory, parameters.OutputAssembly) + ".exe");
 			string fullCommand = String.Format ("-e \"mono {0};read -p 'press any key to continue...' -n1\"", exe);

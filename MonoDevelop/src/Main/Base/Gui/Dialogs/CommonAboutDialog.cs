@@ -51,7 +51,7 @@ namespace MonoDevelop.Gui.Dialogs
 			this.Realized += new EventHandler (OnRealized);
 			this.ExposeEvent += new ExposeEventHandler (OnExposed);
 			
-			ResourceService resourceService = (ResourceService)ServiceManager.Services.GetService(typeof(IResourceService));
+			ResourceService resourceService = (ResourceService)ServiceManager.GetService(typeof(IResourceService));
 			image = resourceService.GetBitmap ("Icons.AboutImage");
 			string trans = GettextCatalog.GetString ("translator-credits");
 			
@@ -119,7 +119,7 @@ namespace MonoDevelop.Gui.Dialogs
 	public class CommonAboutDialog : Dialog
 	{
 		static GLib.GType gtype;
-		static FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.Services.GetService(typeof(FileUtilityService));
+		static FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.GetService(typeof(FileUtilityService));
 		
 		AuthorAboutTabPage aatp;
 		//ChangeLogTabPage changelog;

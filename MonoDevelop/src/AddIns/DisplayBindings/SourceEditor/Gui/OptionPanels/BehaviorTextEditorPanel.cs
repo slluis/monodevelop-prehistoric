@@ -46,7 +46,7 @@ namespace MonoDevelop.EditorBindings.Gui.OptionPanels
 		{
 			// Services
 			StringParserService StringParserService = (
-				StringParserService)ServiceManager.Services.GetService (typeof (StringParserService));
+				StringParserService)ServiceManager.GetService (typeof (StringParserService));
 			
 			// GTK controls
 			[Glade.Widget] Label tabsGroupBoxLabel;

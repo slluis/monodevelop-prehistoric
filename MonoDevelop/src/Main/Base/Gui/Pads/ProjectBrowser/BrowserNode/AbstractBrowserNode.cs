@@ -28,7 +28,7 @@ namespace MonoDevelop.Gui.Pads.ProjectBrowser
 	public abstract class AbstractBrowserNode : TreeNode, IDisposable
 	{
 		//Gdk.Pixbuf  iconImage = null;
-		public static bool ShowExtensions = ((PropertyService)ServiceManager.Services.GetService (typeof(PropertyService))).GetProperty ("MonoDevelop.Gui.ProjectBrowser.ShowExtensions", true);
+		public static bool ShowExtensions = ((PropertyService)ServiceManager.GetService (typeof(PropertyService))).GetProperty ("MonoDevelop.Gui.ProjectBrowser.ShowExtensions", true);
 		
 		protected bool   canLabelEdited = true;
 		protected object userData  = null;

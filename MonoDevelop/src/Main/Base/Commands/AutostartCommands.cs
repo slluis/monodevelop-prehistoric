@@ -21,7 +21,6 @@ using MonoDevelop.Core.AddIns.Codons;
 using MonoDevelop.Services;
 using MonoDevelop.Gui;
 using MonoDevelop.Gui.Dialogs;
-using MonoDevelop.Gui.Dialogs.OptionPanels.CompletionDatabaseWizard;
 using MonoDevelop.Gui.ErrorHandlers;
 
 using SA = MonoDevelop.SharpAssembly.Assembly;
@@ -51,7 +50,7 @@ namespace MonoDevelop.Commands
 
 		public override void Run()
 		{
-			PropertyService propertyService = (PropertyService)ServiceManager.Services.GetService(typeof(PropertyService));
+			PropertyService propertyService = (PropertyService)ServiceManager.GetService(typeof(PropertyService));
 			string path = propertyService.GetProperty ("SharpDevelop.CodeCompletion.DataDirectory", null);
 			string codeCompletionProxyFile = Path.Combine (path, "mscorlib.pidb");
 			//Console.WriteLine("checking for existence of {0}", codeCompletionProxyFile);
@@ -62,21 +61,21 @@ namespace MonoDevelop.Commands
 			}
 */		}
 		
-		void RunWizard()
+		/*void RunWizard()
 		{
 			if (SplashScreenForm.SplashScreen.Visible) {
 				SplashScreenForm.SplashScreen.Hide();
 			}
 			
 			(new GenerateDatabase()).Start();
-		}
+		}*/
 	}
 	
 	public class StartParserServiceThread : AbstractCommand
 	{
 		public override void Run()
 		{
-			DefaultParserService parserService = (DefaultParserService)ServiceManager.Services.GetService(typeof(DefaultParserService));
+			DefaultParserService parserService = (DefaultParserService)ServiceManager.GetService(typeof(DefaultParserService));
 			parserService.StartParserThread();
 		}
 	}
@@ -129,7 +128,7 @@ namespace MonoDevelop.Commands
 			}
 			isCalled = true;
 			// show tip of the day
-			PropertyService propertyService = (PropertyService)ServiceManager.Services.GetService(typeof(PropertyService));
+			PropertyService propertyService = (PropertyService)ServiceManager.GetService(typeof(PropertyService));
 			if (propertyService.GetProperty("MonoDevelop.Gui.Dialog.TipOfTheDayView.ShowTipsAtStartup", false)) {
 				ViewTipOfTheDay dview = new ViewTipOfTheDay();
 				dview.Run();
@@ -145,15 +144,15 @@ namespace MonoDevelop.Commands
 			}
 		
 			// register string tag provider (TODO: move to add-in tree :)
-			StringParserService stringParserService = (StringParserService)ServiceManager.Services.GetService(typeof(StringParserService));
+			StringParserService stringParserService = (StringParserService)ServiceManager.GetService(typeof(StringParserService));
 			stringParserService.RegisterStringTagProvider(new MonoDevelop.Commands.SharpDevelopStringTagProvider());
 			
-			PropertyService propertyService = (PropertyService)ServiceManager.Services.GetService(typeof(PropertyService));
+			PropertyService propertyService = (PropertyService)ServiceManager.GetService(typeof(PropertyService));
 			
 			//idleEventHandler = new EventHandler(ShowTipOfTheDay);
 			//Application.Idle += idleEventHandler;
 			
-			IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
+			IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IProjectService));
 			
 			// load previous combine
 			if ((bool)propertyService.GetProperty("SharpDevelop.LoadPrevProjectOnStartup", false)) {
@@ -180,7 +179,7 @@ namespace MonoDevelop.Commands
 						break;
 					default:
 						try {
-							IFileService fileService = (IFileService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IFileService));
+							IFileService fileService = (IFileService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IFileService));
 							fileService.OpenFile(file);
 						
 						} catch (Exception e) {

@@ -27,7 +27,7 @@ namespace CSharpBinding
 	/// </summary>
 	public class CSharpBindingCompilerManager
 	{	
-		FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.Services.GetService(typeof(FileUtilityService));
+		FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.GetService(typeof(FileUtilityService));
 		
 		public string GetCompiledOutputName(string fileName)
 		{
@@ -143,7 +143,7 @@ namespace CSharpBinding
 			if (compilerparameters.CsharpCompiler == CsharpCompiler.Csc) {
 				writer.WriteLine("\"/out:" + exe + '"');
 				
-				IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
+				IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IProjectService));
 				ArrayList allProjects = Combine.GetAllProjects(projectService.CurrentOpenCombine);
 				
 				foreach (ProjectReference lib in p.ProjectReferences) {
@@ -221,7 +221,7 @@ namespace CSharpBinding
 				}
 				
 				writer.WriteLine("--wlevel " + compilerparameters.WarningLevel);
-				IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
+				IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IProjectService));
 				ArrayList allProjects = Combine.GetAllProjects(projectService.CurrentOpenCombine);
 				
 				foreach (ProjectReference lib in p.ProjectReferences) {
@@ -325,7 +325,7 @@ namespace CSharpBinding
 				}
 			}
 
-			SystemAssemblyService sas = (SystemAssemblyService)ServiceManager.Services.GetService (typeof (SystemAssemblyService));
+			SystemAssemblyService sas = (SystemAssemblyService)ServiceManager.GetService (typeof (SystemAssemblyService));
 			foreach (ProjectReference lib in project.ProjectReferences) {
 				switch (lib.ReferenceType) {
 				case ReferenceType.Gac:
@@ -343,7 +343,7 @@ namespace CSharpBinding
 					break;
 				case ReferenceType.Project:
 					string project_fileName = lib.GetReferencedFileName (project);
-					IProjectService prjService = (IProjectService)ServiceManager.Services.GetService (typeof (IProjectService));
+					IProjectService prjService = (IProjectService)ServiceManager.GetService (typeof (IProjectService));
 					ArrayList allProjects = Combine.GetAllProjects(prjService.CurrentOpenCombine);
 					
 					foreach (ProjectCombineEntry projectEntry in allProjects) {
@@ -610,19 +610,19 @@ namespace CSharpBinding
 
 		bool setmsg ()
 		{
-			((IStatusBarService)ServiceManager.Services.GetService (typeof (IStatusBarService))).SetMessage ("Compiling...");
+			((IStatusBarService)ServiceManager.GetService (typeof (IStatusBarService))).SetMessage ("Compiling...");
 			return false;
 		}
 
 		bool done ()
 		{
-			((SdStatusBar)((IStatusBarService)ServiceManager.Services.GetService (typeof (IStatusBarService))).ProgressMonitor).Done ();
+			((SdStatusBar)((IStatusBarService)ServiceManager.GetService (typeof (IStatusBarService))).ProgressMonitor).Done ();
 			return false;
 		}
 
 		bool pulse () 
 		{
-			((SdStatusBar)((IStatusBarService)ServiceManager.Services.GetService (typeof (IStatusBarService))).ProgressMonitor).Pulse ();
+			((SdStatusBar)((IStatusBarService)ServiceManager.GetService (typeof (IStatusBarService))).ProgressMonitor).Pulse ();
 			while (Gtk.Application.EventsPending ())
 				Gtk.Application.RunIteration ();
 			return false;

@@ -24,8 +24,8 @@ namespace MonoDevelop.SourceEditor.InsightWindow
 {
 	public class MethodInsightDataProvider : IInsightDataProvider
 	{
-		ClassBrowserIconsService classBrowserIconService = (ClassBrowserIconsService)ServiceManager.Services.GetService(typeof(ClassBrowserIconsService));
-		AmbienceService          ambienceService = (AmbienceService)ServiceManager.Services.GetService(typeof(AmbienceService));
+		ClassBrowserIconsService classBrowserIconService = (ClassBrowserIconsService)ServiceManager.GetService(typeof(ClassBrowserIconsService));
+		AmbienceService          ambienceService = (AmbienceService)ServiceManager.GetService(typeof(AmbienceService));
 		
 		string              fileName = null;
 		SourceEditorView    textArea  = null;
@@ -87,7 +87,7 @@ namespace MonoDevelop.SourceEditor.InsightWindow
 					methodObject = words[words.Length - 1];
 				}
 			}
-			IParserService parserService = (IParserService)ServiceManager.Services.GetService(typeof(IParserService));
+			IParserService parserService = (IParserService)ServiceManager.GetService(typeof(IParserService));
 			ResolveResult results = parserService.Resolve(project, methodObject, caretLineNumber, caretColumn, fileName, text);
 			
 			if (results != null && results.Type != null) {

@@ -42,7 +42,7 @@ namespace MonoDevelop.TextEditor.Document
 		static IFind find                  = new DefaultFind();
 		static SearchOptions searchOptions = new SearchOptions("SharpDevelop.SearchAndReplace.SearchAndReplaceProperties");
 
-		static MessageService MessageService = (MessageService)ServiceManager.Services.GetService (typeof (MessageService));
+		static MessageService MessageService = (MessageService)ServiceManager.GetService (typeof (MessageService));
 		
 		public static SearchOptions SearchOptions {
 			get {
@@ -163,7 +163,7 @@ namespace MonoDevelop.TextEditor.Document
 			ISearchResult result = find.FindNext(searchOptions);
 			
 			if (result == null) {
-				ResourceService resourceService = (ResourceService)ServiceManager.Services.GetService(typeof(IResourceService));
+				ResourceService resourceService = (ResourceService)ServiceManager.GetService(typeof(IResourceService));
 				MessageService.ShowMessage (GettextCatalog.GetString ("Not Found"));
 				find.Reset();
 			} else {
@@ -185,7 +185,7 @@ namespace MonoDevelop.TextEditor.Document
 		static SourceEditor OpenTextArea(string fileName) 
 		{
 			if (fileName != null) {
-				IFileService fileService = (IFileService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IFileService));
+				IFileService fileService = (IFileService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IFileService));
 				fileService.OpenFile(fileName);
 			}
 			

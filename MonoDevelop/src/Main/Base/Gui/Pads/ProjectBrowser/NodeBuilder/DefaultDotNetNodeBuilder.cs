@@ -28,7 +28,7 @@ namespace MonoDevelop.Gui.Pads.ProjectBrowser
 {
 	public class DefaultDotNetNodeBuilder : IProjectNodeBuilder
 	{
-		static FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.Services.GetService(typeof(FileUtilityService));
+		static FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.GetService(typeof(FileUtilityService));
 
 		public bool CanBuildProjectTree(IProject project)
 		{
@@ -50,8 +50,8 @@ namespace MonoDevelop.Gui.Pads.ProjectBrowser
 
 		public AbstractBrowserNode BuildProjectTreeNode(IProject project)
 		{
-			ResourceService resourceService = (ResourceService)ServiceManager.Services.GetService(typeof(IResourceService));
-			IconService iconService = (IconService)ServiceManager.Services.GetService(typeof(IconService));
+			ResourceService resourceService = (ResourceService)ServiceManager.GetService(typeof(IResourceService));
+			IconService iconService = (IconService)ServiceManager.GetService(typeof(IconService));
 			ProjectBrowserNode projectNode = new ProjectBrowserNode(project);
 
 			projectNode.Image = iconService.GetImageForProjectType (project.ProjectType);
@@ -216,7 +216,7 @@ namespace MonoDevelop.Gui.Pads.ProjectBrowser
 			AbstractBrowserNode parentNode = null;
 			string relativeFile = fileUtilityService.AbsoluteToRelativePath(project.BaseDirectory, projectFile.Name);
 			string fileName     = Path.GetFileName(projectFile.Name);
-			ResourceService resourceService = (ResourceService)ServiceManager.Services.GetService(typeof(IResourceService));
+			ResourceService resourceService = (ResourceService)ServiceManager.GetService(typeof(IResourceService));
 
 			parentNode = projectNode;
 

@@ -33,7 +33,7 @@ namespace MonoDevelop.Gui.Dialogs
 		Pango.FontDescription smallFont;
 		Pango.FontDescription normalFont;
 		Pango.FontDescription boldFont;
-		ResourceService resourceService = (ResourceService)ServiceManager.Services.GetService(typeof(IResourceService));
+		ResourceService resourceService = (ResourceService)ServiceManager.GetService(typeof(IResourceService));
 		
 		public StatusPanel(WizardDialog wizard)
 		{

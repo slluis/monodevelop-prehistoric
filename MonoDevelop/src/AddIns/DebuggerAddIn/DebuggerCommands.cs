@@ -11,7 +11,7 @@ namespace MonoDevelop.Commands
 	{
 		public override void Run ()
 		{
-			DebuggingService dbgr = (DebuggingService)ServiceManager.Services.GetService (typeof (DebuggingService));
+			DebuggingService dbgr = (DebuggingService)ServiceManager.GetService (typeof (DebuggingService));
 			if (dbgr.IsRunning)
 				dbgr.Pause ();
 			else
@@ -23,7 +23,7 @@ namespace MonoDevelop.Commands
 	{
 		public override void Run ()
 		{
-			DebuggingService dbgr = (DebuggingService)ServiceManager.Services.GetService (typeof (DebuggingService));
+			DebuggingService dbgr = (DebuggingService)ServiceManager.GetService (typeof (DebuggingService));
 
 			dbgr.Stop ();
 		}
@@ -33,7 +33,7 @@ namespace MonoDevelop.Commands
 	{
 		public override void Run ()
 		{
-			DebuggingService dbgr = (DebuggingService)ServiceManager.Services.GetService (typeof (DebuggingService));
+			DebuggingService dbgr = (DebuggingService)ServiceManager.GetService (typeof (DebuggingService));
 			
 			dbgr.StepOver ();
 		}
@@ -43,7 +43,7 @@ namespace MonoDevelop.Commands
 	{
 		public override void Run ()
 		{
-			DebuggingService dbgr = (DebuggingService)ServiceManager.Services.GetService (typeof (DebuggingService));
+			DebuggingService dbgr = (DebuggingService)ServiceManager.GetService (typeof (DebuggingService));
 
 			dbgr.StepInto ();
 		}
@@ -55,7 +55,7 @@ namespace MonoDevelop.Commands
 		public override void Run ()
 		{
 
-			IProjectService projServ = (IProjectService)ServiceManager.Services.GetService (typeof (IProjectService));
+			IProjectService projServ = (IProjectService)ServiceManager.GetService (typeof (IProjectService));
 			
 			if (projServ.CurrentOpenCombine != null) {
 				//try {

@@ -23,7 +23,7 @@ namespace MonoDevelop.Commands
 	{
 		public override void Run()
 		{
-			PropertyService propertyService = (PropertyService)ServiceManager.Services.GetService(typeof(PropertyService));
+			PropertyService propertyService = (PropertyService)ServiceManager.GetService(typeof(PropertyService));
 			TreeViewOptions optionsDialog = new TreeViewOptions((IProperties)propertyService.GetProperty("MonoDevelop.TextEditor.Document.Document.DefaultDocumentAggregatorProperties", new DefaultProperties()),
 			                                                           AddInTreeSingleton.AddInTree.GetTreeNode("/SharpDevelop/Dialogs/OptionsDialog"));
 			//optionsDialog.ShowAll ();

@@ -24,7 +24,7 @@ namespace MonoDevelop.Commands
 	{
 		public override void Run()
 		{
-			FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.Services.GetService(typeof(FileUtilityService));
+			FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.GetService(typeof(FileUtilityService));
 			string fileName = fileUtilityService.SharpDevelopRootPath + 
 			              Path.DirectorySeparatorChar + "doc" +
 			              Path.DirectorySeparatorChar + "help" +
@@ -54,7 +54,7 @@ namespace MonoDevelop.Commands
 		
 		public override void Run()
 		{
-			IFileService fileService = (IFileService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IFileService));
+			IFileService fileService = (IFileService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IFileService));
 			fileService.OpenFile(site);
 		}
 	}
@@ -71,12 +71,12 @@ namespace MonoDevelop.Commands
 		
 		public override void Run()
 		{
-			FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.Services.GetService(typeof(FileUtilityService));
+			FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.GetService(typeof(FileUtilityService));
 			string file = site.StartsWith("home://") ? fileUtilityService.GetDirectoryNameWithSeparator(fileUtilityService.SharpDevelopRootPath) + "bin" + Path.DirectorySeparatorChar + site.Substring(7).Replace('/', Path.DirectorySeparatorChar) : site;
 			try {
 				Process.Start(file);
 			} catch (Exception) {
-				IMessageService messageService =(IMessageService)ServiceManager.Services.GetService(typeof(IMessageService));
+				IMessageService messageService =(IMessageService)ServiceManager.GetService(typeof(IMessageService));
 				messageService.ShowError(String.Format (GettextCatalog.GetString ("Can not execute or view {0}\n Please check that the file exists and that you can open this file."), file));
 			}
 		}

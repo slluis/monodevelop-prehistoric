@@ -152,7 +152,7 @@ namespace MonoDevelop.DefaultEditor.Commands
 	/// </summary>
 	public class SortSelection : AbstractMenuCommand
 	{
-		static PropertyService propertyService = (PropertyService)ServiceManager.Services.GetService(typeof(PropertyService));
+		static PropertyService propertyService = (PropertyService)ServiceManager.GetService(typeof(PropertyService));
 		class SortComparer : IComparer
 		{
 			

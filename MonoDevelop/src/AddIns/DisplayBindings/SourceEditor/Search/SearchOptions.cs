@@ -17,7 +17,7 @@ namespace MonoDevelop.TextEditor.Document
 {
 	public class SearchOptions
 	{
-		static PropertyService propertyService = (PropertyService)ServiceManager.Services.GetService(typeof(PropertyService));
+		static PropertyService propertyService = (PropertyService)ServiceManager.GetService(typeof(PropertyService));
 		IProperties properties;
 		
 		public bool IgnoreCase {

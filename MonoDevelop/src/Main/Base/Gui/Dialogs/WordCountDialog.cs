@@ -29,8 +29,8 @@ namespace MonoDevelop.Gui.Dialogs
 		Report total;
 		int selectedIndex = 0;
 		
-		StringParserService stringParserService = (StringParserService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(StringParserService));
-		MessageService messageService = (MessageService)MonoDevelop.Core.Services.ServiceManager.Services.GetService (typeof(MessageService));
+		StringParserService stringParserService = (StringParserService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(StringParserService));
+		MessageService messageService = (MessageService)MonoDevelop.Core.Services.ServiceManager.GetService (typeof(MessageService));
 		
 		internal class Report
 		{
@@ -54,7 +54,7 @@ namespace MonoDevelop.Gui.Dialogs
 			
 			public static Report operator+(Report r, Report s)
 			{
-				ResourceService resourceService = (ResourceService)ServiceManager.Services.GetService(typeof(IResourceService));
+				ResourceService resourceService = (ResourceService)ServiceManager.GetService(typeof(IResourceService));
 				Report tmpReport = new Report (GettextCatalog.GetString("total"), s.chars, s.words, s.lines);
 				
 				tmpReport.chars += r.chars;
@@ -139,7 +139,7 @@ namespace MonoDevelop.Gui.Dialogs
 				break;
 				}
 				case 2: {// whole project
-					IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
+					IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IProjectService));
 					
 					if (projectService.CurrentOpenCombine == null) {
 						messageService.ShowError (GettextCatalog.GetString ("You must be in project mode"));
@@ -326,7 +326,7 @@ namespace MonoDevelop.Gui.Dialogs
 			store.AppendValues ("", "", "", "");
 			resultListView.Model = store;
 			
-			ResourceService resourceService = (ResourceService) ServiceManager.Services.GetService(typeof(IResourceService));
+			ResourceService resourceService = (ResourceService) ServiceManager.GetService(typeof(IResourceService));
 			this.Icon = resourceService.GetIcon ("Icons.16x16.FindIcon");
 			this.TransientFor = (Window) WorkbenchSingleton.Workbench;
 			

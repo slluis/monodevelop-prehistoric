@@ -29,7 +29,7 @@ namespace MonoDevelop.TextEditor.Document
 		static IFind find                  = new DefaultFind();
 		static SearchOptions searchOptions = new SearchOptions("SharpDevelop.SearchAndReplace.SearchAndReplaceInFilesProperties");
 		
-		static PropertyService      propertyService = (PropertyService)ServiceManager.Services.GetService(typeof(PropertyService));
+		static PropertyService      propertyService = (PropertyService)ServiceManager.GetService(typeof(PropertyService));
 		
 		static string              currentFileName = String.Empty;
 		static SourceEditorBuffer  currentDocument = null;
@@ -64,7 +64,7 @@ namespace MonoDevelop.TextEditor.Document
 		/// </remarks>
 		static void DisplaySearchResult(ISearchResult result)
 		{
-			TaskService taskService = (TaskService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(TaskService));
+			TaskService taskService = (TaskService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(TaskService));
 			
 			// check if the current document is up to date
 			//if (currentFileName != result.FileName) {
@@ -87,7 +87,7 @@ namespace MonoDevelop.TextEditor.Document
 		{
 			Debug.Assert(searchOptions != null);
 			
-			TaskService taskService = (TaskService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(TaskService));
+			TaskService taskService = (TaskService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(TaskService));
 			taskService.Tasks.Clear();
 			
 			InitializeDocumentIterator(null, null);
@@ -103,7 +103,7 @@ namespace MonoDevelop.TextEditor.Document
 		
 		static void FinishSearchInFiles()
 		{
-			TaskService taskService = (TaskService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(TaskService));
+			TaskService taskService = (TaskService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(TaskService));
 			taskService.NotifyTaskChange();
 			
 			// present the taskview to show the search results
@@ -113,7 +113,7 @@ namespace MonoDevelop.TextEditor.Document
 			}
 			
 			// tell the user search is done.
-			MessageService MessageService = (MessageService)ServiceManager.Services.GetService (typeof (MessageService));
+			MessageService MessageService = (MessageService)ServiceManager.GetService (typeof (MessageService));
 			MessageService.ShowMessage (GettextCatalog.GetString ("Search completed"));
 		}
 		

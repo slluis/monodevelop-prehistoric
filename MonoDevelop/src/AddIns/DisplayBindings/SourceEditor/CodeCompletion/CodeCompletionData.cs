@@ -20,9 +20,9 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 {
 	class CodeCompletionData : ICompletionDataWithMarkup
 	{
-		ClassBrowserIconsService classBrowserIconService = (ClassBrowserIconsService) ServiceManager.Services.GetService (typeof (ClassBrowserIconsService));
-		IParserService parserService = (IParserService) MonoDevelop.Core.Services.ServiceManager.Services.GetService (typeof (IParserService));
-		static AmbienceService ambienceService = (AmbienceService) ServiceManager.Services.GetService (typeof (AmbienceService));
+		ClassBrowserIconsService classBrowserIconService = (ClassBrowserIconsService) ServiceManager.GetService (typeof (ClassBrowserIconsService));
+		IParserService parserService = (IParserService) MonoDevelop.Core.Services.ServiceManager.GetService (typeof (IParserService));
+		static AmbienceService ambienceService = (AmbienceService) ServiceManager.GetService (typeof (AmbienceService));
 		
 		string image;
 		int overloads;

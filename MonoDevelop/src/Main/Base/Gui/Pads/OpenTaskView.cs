@@ -22,7 +22,7 @@ namespace MonoDevelop.Gui.Pads
 {
 	public class OpenTaskView : IPadContent
 	{
-		ResourceService resourceService = (ResourceService) ServiceManager.Services.GetService (typeof (IResourceService));
+		ResourceService resourceService = (ResourceService) ServiceManager.GetService (typeof (IResourceService));
 
 		ScrolledWindow sw;
 		Gtk.TreeView view;
@@ -56,8 +56,8 @@ namespace MonoDevelop.Gui.Pads
 		
 		public OpenTaskView()
 		{
-			TaskService taskService        = (TaskService) ServiceManager.Services.GetService (typeof(TaskService));
-			IProjectService projectService = (IProjectService) ServiceManager.Services.GetService (typeof(IProjectService));
+			TaskService taskService        = (TaskService) ServiceManager.GetService (typeof(TaskService));
+			IProjectService projectService = (IProjectService) ServiceManager.GetService (typeof(IProjectService));
 			
 			store = new Gtk.ListStore (
 				typeof (Gdk.Pixbuf), // image
@@ -170,10 +170,10 @@ namespace MonoDevelop.Gui.Pads
 		
 		void SelectTaskView (object sender, EventArgs e)
 		{
-			TaskService taskService = (TaskService) ServiceManager.Services.GetService (typeof (TaskService));
+			TaskService taskService = (TaskService) ServiceManager.GetService (typeof (TaskService));
 			if (taskService.Tasks.Count > 0) {
 				try {
-					PropertyService propertyService = (PropertyService) ServiceManager.Services.GetService (typeof (PropertyService));
+					PropertyService propertyService = (PropertyService) ServiceManager.GetService (typeof (PropertyService));
 					if (WorkbenchSingleton.Workbench.WorkbenchLayout.IsVisible (this)) {
 						WorkbenchSingleton.Workbench.WorkbenchLayout.ActivatePad (this);
 					} else if ((bool) propertyService.GetProperty ("SharpDevelop.ShowTaskListAfterBuild", true)) {
@@ -200,8 +200,8 @@ namespace MonoDevelop.Gui.Pads
 		public void ShowResults(object sender, EventArgs e)
 		{
 			store.Clear ();
-			FileUtilityService fileUtilityService = (FileUtilityService) ServiceManager.Services.GetService (typeof (FileUtilityService));
-			TaskService taskService = (TaskService) ServiceManager.Services.GetService (typeof (TaskService));
+			FileUtilityService fileUtilityService = (FileUtilityService) ServiceManager.GetService (typeof (FileUtilityService));
+			TaskService taskService = (TaskService) ServiceManager.GetService (typeof (TaskService));
 			
 			foreach (Task t in taskService.Tasks) {
 				Gdk.Pixbuf stock;

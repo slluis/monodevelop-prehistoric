@@ -66,7 +66,7 @@ namespace MonoDevelop.Services
 		
 		public LanguageService()
 		{
-			PropertyService propertyService = (PropertyService)ServiceManager.Services.GetService(typeof(PropertyService));
+			PropertyService propertyService = (PropertyService)ServiceManager.GetService(typeof(PropertyService));
 			languagePath =  propertyService.DataDirectory +
 			                Path.DirectorySeparatorChar + "resources" +
 		                    Path.DirectorySeparatorChar + "languages" +

@@ -46,7 +46,7 @@ namespace MonoDevelop.Core.Services
 		
 		static ResourceService()
 		{
-			PropertyService propertyService = (PropertyService)ServiceManager.Services.GetService(typeof(PropertyService));
+			PropertyService propertyService = (PropertyService)ServiceManager.GetService(typeof(PropertyService));
 			resourceDirctory = propertyService.DataDirectory + Path.DirectorySeparatorChar + "resources";
 
 			iconFactory = new Gtk.IconFactory ();
@@ -76,7 +76,7 @@ namespace MonoDevelop.Core.Services
 		
 		void LoadLanguageResources()
 		{
-			PropertyService propertyService = (PropertyService)ServiceManager.Services.GetService(typeof(PropertyService));
+			PropertyService propertyService = (PropertyService)ServiceManager.GetService(typeof(PropertyService));
 			string language = propertyService.GetProperty(uiLanguageProperty, Thread.CurrentThread.CurrentUICulture.Name);
 			
 			localStrings = Load(stringResources, language);
@@ -93,7 +93,7 @@ namespace MonoDevelop.Core.Services
 		public override void InitializeService()
 		{
 			base.InitializeService();
-			PropertyService propertyService = (PropertyService)ServiceManager.Services.GetService(typeof(PropertyService));
+			PropertyService propertyService = (PropertyService)ServiceManager.GetService(typeof(PropertyService));
 			propertyService.PropertyChanged += new PropertyEventHandler(ChangeProperty);
 			
 			LoadLanguageResources();

@@ -58,13 +58,13 @@ namespace MonoDevelop.Gui.Dialogs.OptionPanels
 			[Glade.Widget] public Gtk.Label locationLabel;
 			
 			// services needed
-			StringParserService StringParserService = (StringParserService)ServiceManager.Services.GetService (
+			StringParserService StringParserService = (StringParserService)ServiceManager.GetService (
 				typeof (StringParserService));
-			PropertyService PropertyService = (PropertyService)ServiceManager.Services.GetService (
+			PropertyService PropertyService = (PropertyService)ServiceManager.GetService (
 				typeof (PropertyService));
-			FileUtilityService FileUtilityService = (FileUtilityService)ServiceManager.Services.GetService (
+			FileUtilityService FileUtilityService = (FileUtilityService)ServiceManager.GetService (
 				typeof (FileUtilityService));
-			MessageService MessageService = (MessageService)ServiceManager.Services.GetService (
+			MessageService MessageService = (MessageService)ServiceManager.GetService (
 				typeof (MessageService));
 
 			public enum LineTerminatorStyle {

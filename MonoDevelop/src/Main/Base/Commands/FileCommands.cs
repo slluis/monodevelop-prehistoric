@@ -26,7 +26,7 @@ namespace MonoDevelop.Commands
 	{
 		public override void Run()
 		{
-			IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
+			IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IProjectService));
 			
 			NewProjectDialog npdlg = new NewProjectDialog(true);
 			npdlg.Run ();
@@ -53,7 +53,7 @@ namespace MonoDevelop.Commands
 
 	public class SaveFile : AbstractMenuCommand
 	{
-		static PropertyService PropertyService = (PropertyService)ServiceManager.Services.GetService (typeof (PropertyService));
+		static PropertyService PropertyService = (PropertyService)ServiceManager.GetService (typeof (PropertyService));
 		
 		public override void Run()
 		{
@@ -78,8 +78,8 @@ namespace MonoDevelop.Commands
 						SaveFileAs sfa = new SaveFileAs();
 						sfa.Run();
 					} else {						
-						IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
-						FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.Services.GetService(typeof(FileUtilityService));
+						IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IProjectService));
+						FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.GetService(typeof(FileUtilityService));
 						projectService.MarkFileDirty(window.ViewContent.ContentName);
 						string fileName = window.ViewContent.ContentName;
 						// save backup first						
@@ -100,7 +100,7 @@ namespace MonoDevelop.Commands
 			IWorkbenchWindow window = WorkbenchSingleton.Workbench.ActiveWorkbenchWindow;
 			
 			if (window != null && window.ViewContent.ContentName != null && !window.ViewContent.IsViewOnly) {
-				IMessageService messageService =(IMessageService)ServiceManager.Services.GetService(typeof(IMessageService));
+				IMessageService messageService =(IMessageService)ServiceManager.GetService(typeof(IMessageService));
 				if (messageService.AskQuestion(GettextCatalog.GetString ("Are you sure that you want to reload the file?"))) {
 					IXmlConvertable memento = null;
 					if (window.ViewContent is IMementoCapable) {
@@ -117,7 +117,7 @@ namespace MonoDevelop.Commands
 	
 	public class SaveFileAs : AbstractMenuCommand
 	{
-		static PropertyService PropertyService = (PropertyService)ServiceManager.Services.GetService (typeof (PropertyService));
+		static PropertyService PropertyService = (PropertyService)ServiceManager.GetService (typeof (PropertyService));
 		
 		public override void Run()
 		{
@@ -154,10 +154,10 @@ namespace MonoDevelop.Commands
 					
 					
 						if (response == (int)Gtk.ResponseType.Ok) {
-							IFileService fileService = (IFileService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IFileService));
-							FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.Services.GetService(typeof(FileUtilityService));
+							IFileService fileService = (IFileService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IFileService));
+							FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.GetService(typeof(FileUtilityService));
 							if (!fileUtilityService.IsValidFileName(filename)) {
-								IMessageService messageService =(IMessageService)ServiceManager.Services.GetService(typeof(IMessageService));
+								IMessageService messageService =(IMessageService)ServiceManager.GetService(typeof(IMessageService));
 								messageService.ShowMessage(String.Format (GettextCatalog.GetString ("File name {0} is invalid"), filename));
 								return;
 							}
@@ -181,7 +181,7 @@ namespace MonoDevelop.Commands
 	{
 		public override void Run()
 		{
-			FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.Services.GetService(typeof(FileUtilityService));
+			FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.GetService(typeof(FileUtilityService));
 			
 			foreach (IViewContent content in WorkbenchSingleton.Workbench.ViewContentCollection) {
 				if (content.IsViewOnly) {
@@ -205,7 +205,7 @@ namespace MonoDevelop.Commands
 
 							if (fileUtilityService.ObservedSave(new NamedFileOperationDelegate(content.Save), fileName) == FileOperationResult.OK)
 							{
-								IMessageService messageService =(IMessageService)ServiceManager.Services.GetService(typeof(IMessageService));
+								IMessageService messageService =(IMessageService)ServiceManager.GetService(typeof(IMessageService));
 								messageService.ShowMessage(fileName, GettextCatalog.GetString ("File saved"));
 							}
 						}
@@ -223,7 +223,7 @@ namespace MonoDevelop.Commands
 	
 	public class OpenCombine : AbstractMenuCommand
 	{
-		static PropertyService PropertyService = (PropertyService)ServiceManager.Services.GetService (typeof (PropertyService));
+		static PropertyService PropertyService = (PropertyService)ServiceManager.GetService (typeof (PropertyService));
 		
 		public override void Run()
 		{
@@ -236,18 +236,18 @@ namespace MonoDevelop.Commands
 					switch (Path.GetExtension(name).ToUpper()) {
 						case ".CMBX": // Don't forget the 'recent' projects if you chance something here
 						case ".PRJX":
-							IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
+							IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IProjectService));
 							
 							try {
 								//projectService.OpenCombine(name);
-								IFileService fileService = (IFileService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IFileService));
+								IFileService fileService = (IFileService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IFileService));
 								fileService.OpenFile(name);
 							} catch (Exception ex) {
 								CombineLoadError.HandleError(ex, name);
 							}
 							break;
 						default:
-							IMessageService messageService =(IMessageService)ServiceManager.Services.GetService(typeof(IMessageService));
+							IMessageService messageService =(IMessageService)ServiceManager.GetService(typeof(IMessageService));
 							messageService.ShowError(String.Format (GettextCatalog.GetString ("Can't open file {0} as project"), name));
 							break;
 					}
@@ -258,7 +258,7 @@ namespace MonoDevelop.Commands
 	
 	public class OpenFile : AbstractMenuCommand
 	{
-		static PropertyService PropertyService = (PropertyService)ServiceManager.Services.GetService (typeof (PropertyService));
+		static PropertyService PropertyService = (PropertyService)ServiceManager.GetService (typeof (PropertyService));
 		
 		public override void Run()
 		{
@@ -266,10 +266,10 @@ namespace MonoDevelop.Commands
 				bool foundFilter      = false;
 				// search filter like in the current selected project
 				
-				IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
+				IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IProjectService));
 				
 				if (projectService.CurrentSelectedProject != null) {
-					LanguageBindingService languageBindingService = (LanguageBindingService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(LanguageBindingService));
+					LanguageBindingService languageBindingService = (LanguageBindingService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(LanguageBindingService));
 					
 					LanguageBindingCodon languageCodon = languageBindingService.GetCodonPerLanguageName(projectService.CurrentSelectedProject.ProjectType);
 					
@@ -300,8 +300,8 @@ namespace MonoDevelop.Commands
 					string name = fs.Filename;
 
 				if (response == (int)Gtk.ResponseType.Ok) {
-					IFileService fileService = (IFileService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IFileService));
-					IProjectService proj = (IProjectService)ServiceManager.Services.GetService (typeof (IProjectService));
+					IFileService fileService = (IFileService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IFileService));
+					IProjectService proj = (IProjectService)ServiceManager.GetService (typeof (IProjectService));
 					switch (System.IO.Path.GetExtension (name).ToUpper()) {
 					case ".PRJX":
 					case ".CMBX":
@@ -320,7 +320,7 @@ namespace MonoDevelop.Commands
 	{
 		public override void Run()
 		{
-			IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
+			IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IProjectService));
 			
 			projectService.CloseCombine();
 		}
@@ -398,8 +398,8 @@ namespace MonoDevelop.Commands
 		public override void Run()
 		{			
 			try {
-				IFileService fileService = (IFileService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IFileService));
-				IMessageService messageService = (IMessageService) MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IMessageService));
+				IFileService fileService = (IFileService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IFileService));
+				IMessageService messageService = (IMessageService) MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IMessageService));
 				
 				if (fileService.RecentOpen.RecentFile != null && fileService.RecentOpen.RecentFile.Count > 0 && messageService.AskQuestion(GettextCatalog.GetString ("Are you sure you want to clear recent files list?"), GettextCatalog.GetString ("Clear recent files")))
 				{
@@ -414,8 +414,8 @@ namespace MonoDevelop.Commands
 		public override void Run()
 		{			
 			try {
-				IFileService fileService = (IFileService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IFileService));
-				IMessageService messageService = (IMessageService) MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IMessageService));
+				IFileService fileService = (IFileService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IFileService));
+				IMessageService messageService = (IMessageService) MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IMessageService));
 				
 				if (fileService.RecentOpen.RecentProject != null && fileService.RecentOpen.RecentProject.Count > 0 && messageService.AskQuestion(GettextCatalog.GetString ("Are you sure you want to clear recent projects list?"), GettextCatalog.GetString ("Clear recent projects")))
 				{

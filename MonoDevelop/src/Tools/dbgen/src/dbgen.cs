@@ -13,7 +13,7 @@ public class CodeCompletionDatabaseGeneratorTool
 			Console.WriteLine ("Usage: dbgen <destDirectory> [<assemblyName> | <assemblyPath>]");
 			return 0;
 		}
-		ServiceManager.Services.AddService (new MonodocService());
+		ServiceManager.AddService (new MonodocService());
 		DefaultParserService parserService = new DefaultParserService ();
 		parserService.GenerateAssemblyDatabase (args[0], args[1]);
 		return 0;

@@ -106,7 +106,7 @@ namespace MonoDevelop.SourceEditor.Gui
 		public void breakpointToggled (object o, EventArgs e)
 		{
 			if (lineToMark == -1) return;
-			IDebuggingService dbgr = (IDebuggingService)ServiceManager.Services.GetService (typeof (IDebuggingService));
+			IDebuggingService dbgr = (IDebuggingService)ServiceManager.GetService (typeof (IDebuggingService));
 			if (dbgr != null) {
 				bool canToggle = dbgr.ToggleBreakpoint (ParentEditor.DisplayBinding.ContentName, lineToMark + 1);
 				if (canToggle)
@@ -197,7 +197,7 @@ namespace MonoDevelop.SourceEditor.Gui
 				return false;
 			}
 			insertIter = triggerIter;
-			IParserService parser = (IParserService)ServiceManager.Services.GetService (typeof (IParserService));
+			IParserService parser = (IParserService)ServiceManager.GetService (typeof (IParserService));
 			string fileName = ParentEditor.DisplayBinding.ContentName;
 			IExpressionFinder expressionFinder = parser.GetExpressionFinder(fileName);
 			string expression    = expressionFinder == null ? TextUtilities.GetExpressionBeforeOffset(this, insertIter.Offset) : expressionFinder.FindExpression(buf.GetText(buf.StartIter, insertIter, true), insertIter.Offset - 2);

@@ -27,7 +27,7 @@ namespace MonoDevelop.Gui.Components
 	
 	public class SdMenu : Gtk.ImageMenuItem, IStatusUpdate
 	{
-		static StringParserService stringParserService = (StringParserService)ServiceManager.Services.GetService(typeof(StringParserService));
+		static StringParserService stringParserService = (StringParserService)ServiceManager.GetService(typeof(StringParserService));
 		
 		ConditionCollection conditionCollection;
 		object caller;
@@ -42,7 +42,7 @@ namespace MonoDevelop.Gui.Components
 			this.subMenu             = new Gtk.Menu ();
 			this.Submenu             = subMenu;
 
-			ResourceService resourceService = (ResourceService)ServiceManager.Services.GetService (typeof (IResourceService));
+			ResourceService resourceService = (ResourceService)ServiceManager.GetService (typeof (IResourceService));
 			
 			
 			if (text.StartsWith("${")) {

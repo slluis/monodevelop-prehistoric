@@ -25,7 +25,7 @@ namespace MonoDevelop.Gui.Dialogs
 	public class GacReferencePanel : Frame, IReferencePanel
 	{
 		SelectReferenceDialog selectDialog;
-		ResourceService resourceService = (ResourceService)ServiceManager.Services.GetService(typeof(IResourceService));
+		ResourceService resourceService = (ResourceService)ServiceManager.GetService(typeof(IResourceService));
 
 		TreeStore store;
 		TreeView  treeView;
@@ -137,7 +137,7 @@ namespace MonoDevelop.Gui.Dialogs
 				}
 			}
 			#endif
-			SystemAssemblyService sas = (SystemAssemblyService)ServiceManager.Services.GetService (typeof (SystemAssemblyService));
+			SystemAssemblyService sas = (SystemAssemblyService)ServiceManager.GetService (typeof (SystemAssemblyService));
 			foreach (string assemblyPath in sas.AssemblyPaths) {
 				try {
 					System.Reflection.AssemblyName an = System.Reflection.AssemblyName.GetAssemblyName (assemblyPath);

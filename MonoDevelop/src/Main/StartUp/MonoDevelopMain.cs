@@ -103,10 +103,10 @@ namespace MonoDevelop
 
 			ArrayList commands = null;
 			try {
-				ServiceManager.Services.AddService(new IconService());
-				ServiceManager.Services.AddService(new MessageService());
-				ServiceManager.Services.AddService(new ResourceService());
-				ServiceManager.Services.InitializeServicesSubsystem("/Workspace/Services");
+				ServiceManager.AddService(new IconService());
+				ServiceManager.AddService(new MessageService());
+				ServiceManager.AddService(new ResourceService());
+				ServiceManager.InitializeServicesSubsystem("/Workspace/Services");
 
 				commands = AddInTreeSingleton.AddInTree.GetTreeNode("/Workspace/Autostart").BuildChildItems(null);
 				RunMainLoop ();
@@ -142,7 +142,7 @@ namespace MonoDevelop
 
 			// unloading services
 			File.Delete (socket_filename);
-			ServiceManager.Services.UnloadAllServices();
+			ServiceManager.UnloadAllServices();
 		}
 
 		static string fileToOpen = String.Empty;
@@ -181,14 +181,14 @@ namespace MonoDevelop
 				case ".CMBX":
 				case ".PRJX":
 					try {
-						IProjectService projectService = (IProjectService)ServiceManager.Services.GetService (typeof (IProjectService));
+						IProjectService projectService = (IProjectService)ServiceManager.GetService (typeof (IProjectService));
 						projectService.OpenCombine(file);
 					} catch (Exception e) {
 					}
 					break;
 				default:
 					try {
-						IFileService fileService = (IFileService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IFileService));
+						IFileService fileService = (IFileService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IFileService));
 						fileService.OpenFile(file);
 					} catch (Exception e) {
 					}

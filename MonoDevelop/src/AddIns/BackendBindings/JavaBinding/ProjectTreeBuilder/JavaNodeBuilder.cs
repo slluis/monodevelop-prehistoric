@@ -24,9 +24,9 @@ namespace JavaBinding
 {
 	public class JavaNodeBuilder : IProjectNodeBuilder
 	{
-		FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.Services.GetService(typeof(FileUtilityService));
-		ResourceService resourceService = (ResourceService)ServiceManager.Services.GetService(typeof(IResourceService));
-		IconService iconService = (IconService)ServiceManager.Services.GetService(typeof(IconService));
+		FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.GetService(typeof(FileUtilityService));
+		ResourceService resourceService = (ResourceService)ServiceManager.GetService(typeof(IResourceService));
+		IconService iconService = (IconService)ServiceManager.GetService(typeof(IconService));
 		
 		public bool CanBuildProjectTree(IProject project)
 		{

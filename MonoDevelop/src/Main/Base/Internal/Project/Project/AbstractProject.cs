@@ -56,7 +56,7 @@ namespace MonoDevelop.Internal.Project
 		protected ProjectReferenceCollection projectReferences = new ProjectReferenceCollection();
 		
 		protected DeployInformation deployInformation = new DeployInformation();
-		FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.Services.GetService(typeof(FileUtilityService));
+		FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.GetService(typeof(FileUtilityService));
 		
 		[Browsable(false)]
 		public string BaseDirectory {
@@ -73,7 +73,7 @@ namespace MonoDevelop.Internal.Project
 			}
 			set {
 				if (projectname != value && value != null && value.Length > 0) {
-					IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
+					IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IProjectService));
 					if (!projectService.ExistsEntryWithName(value)) {
 						string oldName = projectname;
 						projectname = value;
@@ -190,7 +190,7 @@ namespace MonoDevelop.Internal.Project
 
 		public bool IsCompileable(string fileName)
 		{
-			LanguageBindingService languageBindingService = (LanguageBindingService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(LanguageBindingService));
+			LanguageBindingService languageBindingService = (LanguageBindingService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(LanguageBindingService));
 			return languageBindingService.GetBindingPerLanguageName(ProjectType).CanCompile(fileName);
 		}
 		
@@ -262,9 +262,9 @@ namespace MonoDevelop.Internal.Project
 			}
 			if (version == "1.0") {
 				string tempFile = Path.GetTempFileName();
-				IMessageService messageService =(IMessageService)ServiceManager.Services.GetService(typeof(IMessageService));
+				IMessageService messageService =(IMessageService)ServiceManager.GetService(typeof(IMessageService));
 				messageService.ShowMessage(String.Format (GettextCatalog.GetString ("Old project file format found.\n It will be automatically converted to {0} information"), currentProjectFileVersion));
-				PropertyService propertyService = (PropertyService)ServiceManager.Services.GetService(typeof(PropertyService));
+				PropertyService propertyService = (PropertyService)ServiceManager.GetService(typeof(PropertyService));
 				
 				ConvertXml.Convert(fileName,
 				                   propertyService.DataDirectory + Path.DirectorySeparatorChar +
@@ -505,8 +505,8 @@ namespace MonoDevelop.Internal.Project
 			
 			doc.DocumentElement.AppendChild(configurationElement);
 			
-			FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.Services.GetService(typeof(FileUtilityService));
-			IResourceService resourceService = (IResourceService)ServiceManager.Services.GetService(typeof(IResourceService));
+			FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.GetService(typeof(FileUtilityService));
+			IResourceService resourceService = (IResourceService)ServiceManager.GetService(typeof(IResourceService));
 			fileUtilityService.ObservedSave(new NamedFileOperationDelegate(doc.Save), 
 			                                fileName, 
                                                         GettextCatalog.GetString ("Can't save solution\nPlease check your file and directory permissions."), 
@@ -530,8 +530,8 @@ namespace MonoDevelop.Internal.Project
 				if (fdiag.Run() == (int)Gtk.ResponseType.Ok) {
 					string filename = fdiag.Filename;
 					SaveProject(filename);
-					IResourceService resourceService = (IResourceService)ServiceManager.Services.GetService(typeof(IResourceService));
-					IMessageService messageService =(IMessageService)ServiceManager.Services.GetService(typeof(IMessageService));
+					IResourceService resourceService = (IResourceService)ServiceManager.GetService(typeof(IResourceService));
+					IMessageService messageService =(IMessageService)ServiceManager.GetService(typeof(IMessageService));
 					messageService.ShowMessage(filename, GettextCatalog.GetString ("Project saved"));
 				}
 				

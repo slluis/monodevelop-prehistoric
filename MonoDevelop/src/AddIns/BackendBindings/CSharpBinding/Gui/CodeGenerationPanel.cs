@@ -47,7 +47,7 @@ namespace CSharpBinding
 			//
 			// services needed
 			//
-			StringParserService StringParserService = (StringParserService)ServiceManager.Services.GetService (
+			StringParserService StringParserService = (StringParserService)ServiceManager.GetService (
 				typeof (StringParserService));
 
 			CSharpCompilerParameters compilerParameters = null;

@@ -56,8 +56,8 @@ namespace MonoDevelop.Internal.Templates
 		
 		public string CreateCombine(ProjectCreateInformation projectCreateInformation, string defaultLanguage)
 		{
-			FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.Services.GetService(typeof(FileUtilityService));
-			StringParserService stringParserService = (StringParserService)ServiceManager.Services.GetService(typeof(StringParserService));
+			FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.GetService(typeof(FileUtilityService));
+			StringParserService stringParserService = (StringParserService)ServiceManager.GetService(typeof(StringParserService));
 			
 			Combine newCombine     = new Combine();
 			string  newCombineName = stringParserService.Parse(name, new string[,] { 
@@ -96,7 +96,7 @@ namespace MonoDevelop.Internal.Templates
 			string combineLocation = fileUtilityService.GetDirectoryNameWithSeparator(projectCreateInformation.CombinePath) + newCombineName + ".cmbx";
 			newCombine.OutputDirectory = Path.Combine (Path.Combine (Path.GetDirectoryName (combineLocation), "build"), "bin");
 			if (File.Exists(combineLocation)) {
-				IMessageService messageService =(IMessageService)ServiceManager.Services.GetService(typeof(IMessageService));
+				IMessageService messageService =(IMessageService)ServiceManager.GetService(typeof(IMessageService));
 				if (messageService.AskQuestion(String.Format (GettextCatalog.GetString ("Solution file {0} already exists, do you want to overwrite\nthe existing file ?"), combineLocation))) {
 					newCombine.SaveCombine(combineLocation);
 				}

@@ -130,7 +130,7 @@ namespace MonoDevelop.StartPage
 
 		public virtual void PopulateTopMenu()
 		{
-			StringParserService stringParserService = (StringParserService)ServiceManager.Services.GetService(typeof(StringParserService));
+			StringParserService stringParserService = (StringParserService)ServiceManager.GetService(typeof(StringParserService));
 			
 			TopMenu.Add(new MenuItem(stringParserService.Parse("${res:StartPage.StartMenu.Name}"),      "/Start/opensection"));
 			TopMenu.Add(new MenuItem(stringParserService.Parse("${res:StartPage.ChangeLogMenu.Name}"),  "/ChangeLog/opensection"));
@@ -502,7 +502,7 @@ namespace MonoDevelop.StartPage
 		StringBuilder projectSection = null;
 		public void RenderSectionStartBody(StringBuilder builder)
 		{
-			StringParserService stringParserService = (StringParserService)ServiceManager.Services.GetService(typeof(StringParserService));
+			StringParserService stringParserService = (StringParserService)ServiceManager.GetService(typeof(StringParserService));
 			if (projectSection == null) {
 				projectSection = new StringBuilder();
 				projectSection.Append("<DIV class='tablediv'><TABLE CLASS='dtTABLE' CELLSPACING='0'>\n");
@@ -514,7 +514,7 @@ namespace MonoDevelop.StartPage
 				
 				try {
 					// Get the recent projects
-					Core.Properties.DefaultProperties svc = (Core.Properties.DefaultProperties)Core.Services.ServiceManager.Services.GetService(typeof(Core.Services.PropertyService));
+					Core.Properties.DefaultProperties svc = (Core.Properties.DefaultProperties)Core.Services.ServiceManager.GetService(typeof(Core.Services.PropertyService));
 					object recentOpenObj = svc.GetProperty("MonoDevelop.Gui.MainWindow.RecentOpen");
 					if (recentOpenObj is MonoDevelop.Services.RecentOpen) {
 						MonoDevelop.Services.RecentOpen recOpen = (MonoDevelop.Services.RecentOpen)recentOpenObj;
@@ -555,8 +555,8 @@ namespace MonoDevelop.StartPage
 		public void RenderSectionAuthorBody(StringBuilder builder)
 		{
 			try {
-				FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.Services.GetService(typeof(FileUtilityService));
-				PropertyService propertyService = (PropertyService)ServiceManager.Services.GetService(typeof(PropertyService));
+				FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.GetService(typeof(FileUtilityService));
+				PropertyService propertyService = (PropertyService)ServiceManager.GetService(typeof(PropertyService));
 				
 				string html = ConvertXml.ConvertToString(propertyService.DataDirectory +
 				                   Path.DirectorySeparatorChar + ".." +
@@ -576,8 +576,8 @@ namespace MonoDevelop.StartPage
 		public void RenderSectionChangeLogBody(StringBuilder builder)
 		{
 			try {
-				PropertyService ps = (PropertyService) ServiceManager.Services.GetService (typeof(PropertyService));
-				FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.Services.GetService(typeof(FileUtilityService));
+				PropertyService ps = (PropertyService) ServiceManager.GetService (typeof(PropertyService));
+				FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.GetService(typeof(FileUtilityService));
 				string html = ConvertXml.ConvertToString(ps.DataDirectory +
 				                   Path.DirectorySeparatorChar + ".." +
 				                   Path.DirectorySeparatorChar + "doc" +
@@ -598,8 +598,8 @@ namespace MonoDevelop.StartPage
 		public void RenderSectionHelpWantedBody(StringBuilder builder)
 		{
 			try {
-				PropertyService ps = (PropertyService)ServiceManager.Services.GetService (typeof(PropertyService));
-				FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.Services.GetService(typeof(FileUtilityService));
+				PropertyService ps = (PropertyService)ServiceManager.GetService (typeof(PropertyService));
+				FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.GetService(typeof(FileUtilityService));
 				string html = ConvertXml.ConvertToString(ps.DataDirectory +
 				                   Path.DirectorySeparatorChar + ".." +
 				                   Path.DirectorySeparatorChar + "doc" +
@@ -632,13 +632,13 @@ namespace MonoDevelop.StartPage
 		
 		public string Render(string section) 
 		{
-			PropertyService ps = (PropertyService) ServiceManager.Services.GetService (typeof(PropertyService));
+			PropertyService ps = (PropertyService) ServiceManager.GetService (typeof(PropertyService));
 			startPageLocation = ps.DataDirectory + Path.DirectorySeparatorChar + 
 			                    ".." + Path.DirectorySeparatorChar +
 			                    "data" + Path.DirectorySeparatorChar +
 			                    "resources" + Path.DirectorySeparatorChar +
 			                    "startpage";
-			StringParserService stringParserService = (StringParserService)ServiceManager.Services.GetService(typeof(StringParserService));
+			StringParserService stringParserService = (StringParserService)ServiceManager.GetService(typeof(StringParserService));
 			
 			switch (section) {
 				case "Start":

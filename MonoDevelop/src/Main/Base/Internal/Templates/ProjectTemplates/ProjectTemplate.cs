@@ -32,7 +32,7 @@ namespace MonoDevelop.Internal.Templates
 		
 		public void Run(ProjectCreateInformation projectCreateInformation)
 		{
-			IFileService fileService = (IFileService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IFileService));
+			IFileService fileService = (IFileService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IFileService));
 			fileService.OpenFile(projectCreateInformation.ProjectBasePath + Path.DirectorySeparatorChar + fileName);
 		}
 	}
@@ -190,7 +190,7 @@ namespace MonoDevelop.Internal.Templates
 		
 		public void OpenCreatedCombine()
 		{
-			IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
+			IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IProjectService));
 			projectService.OpenCombine(lastCombine);
 			
 			foreach (OpenFileAction action in actions) {
@@ -209,8 +209,8 @@ namespace MonoDevelop.Internal.Templates
 		
 		static ProjectTemplate()
 		{
-			FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.Services.GetService(typeof(FileUtilityService));
-			PropertyService    propertyService    = (PropertyService)ServiceManager.Services.GetService(typeof(PropertyService));
+			FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.GetService(typeof(FileUtilityService));
+			PropertyService    propertyService    = (PropertyService)ServiceManager.GetService(typeof(PropertyService));
 			StringCollection files = fileUtilityService.SearchDirectory(propertyService.DataDirectory + 
 			                                                            Path.DirectorySeparatorChar + "templates" +
 			                                                            Path.DirectorySeparatorChar + "project", "*.xpt");
@@ -218,8 +218,8 @@ namespace MonoDevelop.Internal.Templates
 				try {
 					ProjectTemplates.Add(new ProjectTemplate(fileName));
 				} catch (Exception e) {
-					IResourceService resourceService = (IResourceService)ServiceManager.Services.GetService(typeof(IResourceService));
-					IMessageService messageService =(IMessageService)ServiceManager.Services.GetService(typeof(IMessageService));
+					IResourceService resourceService = (IResourceService)ServiceManager.GetService(typeof(IResourceService));
+					IMessageService messageService =(IMessageService)ServiceManager.GetService(typeof(IMessageService));
 					messageService.ShowError(e, resourceService.GetString("Internal.Templates.ProjectTemplate.LoadingError") + "\n(" + fileName + ")\n");
 				}
 			}

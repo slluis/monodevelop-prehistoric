@@ -26,7 +26,7 @@ namespace NemerleBinding
 		{
 			
 			NemerleParameters p = (NemerleParameters)project.ActiveConfiguration;
-			FileUtilityService fus = (FileUtilityService)ServiceManager.Services.GetService(typeof(FileUtilityService));
+			FileUtilityService fus = (FileUtilityService)ServiceManager.GetService(typeof(FileUtilityService));
 			string exe;
 			
 			if (p.ExecuteScript == String.Empty)

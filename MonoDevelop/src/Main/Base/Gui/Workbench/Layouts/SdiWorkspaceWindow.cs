@@ -35,7 +35,7 @@ namespace MonoDevelop.Gui
 		
 		string myUntitledTitle     = null;
 		string _titleHolder = "";
-		static StringParserService stringParserService = (StringParserService)ServiceManager.Services.GetService(typeof(StringParserService));
+		static StringParserService stringParserService = (StringParserService)ServiceManager.GetService(typeof(StringParserService));
 		
 		public Widget TabPage {
 			get {
@@ -183,7 +183,7 @@ namespace MonoDevelop.Gui
 			
 			if (content.IsDirty) {
 				newTitle += "*";
-				IProjectService prj = (IProjectService)ServiceManager.Services.GetService (typeof (IProjectService));
+				IProjectService prj = (IProjectService)ServiceManager.GetService (typeof (IProjectService));
 				prj.MarkFileDirty (content.ContentName);
 			} else if (content.IsReadOnly) {
 				newTitle += "+";
@@ -216,8 +216,8 @@ namespace MonoDevelop.Gui
 		public void CloseWindow(bool force, bool fromMenu, int pageNum)
 		{
 			if (!force && ViewContent != null && ViewContent.IsDirty) {
-				ResourceService resourceService = (ResourceService)ServiceManager.Services.GetService(typeof(IResourceService));
-				IMessageService messageService =(IMessageService)ServiceManager.Services.GetService(typeof(IMessageService));
+				ResourceService resourceService = (ResourceService)ServiceManager.GetService(typeof(IResourceService));
+				IMessageService messageService =(IMessageService)ServiceManager.GetService(typeof(IMessageService));
 				bool response = messageService.AskQuestion (GettextCatalog.GetString ("Do you want to save the current changes"));
 				
 				switch (response) {
@@ -235,7 +235,7 @@ namespace MonoDevelop.Gui
 							}
 							
 						} else {
-							FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.Services.GetService(typeof(FileUtilityService));
+							FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.GetService(typeof(FileUtilityService));
 							fileUtilityService.ObservedSave(new FileOperationDelegate(ViewContent.Save), ViewContent.ContentName , FileErrorPolicy.ProvideAlternative);
 						}
 						break;

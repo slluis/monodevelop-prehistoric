@@ -19,7 +19,7 @@ namespace MonoDevelop.Gui.Components
 {
 	public class SharpDevelopSideTabItem : AxSideTabItem
 	{
-		ResourceService resourceService = (ResourceService)ServiceManager.Services.GetService(typeof(IResourceService));
+		ResourceService resourceService = (ResourceService)ServiceManager.GetService(typeof(IResourceService));
 		
 		public SharpDevelopSideTabItem(string name) : base(name)
 		{

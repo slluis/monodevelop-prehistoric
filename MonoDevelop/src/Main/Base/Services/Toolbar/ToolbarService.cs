@@ -51,7 +51,7 @@ namespace MonoDevelop.Services
 			Gtk.Toolbar bar = new Gtk.Toolbar();
 			bar.ToolbarStyle = Gtk.ToolbarStyle.Icons;
 			
-			ResourceService resourceService = (ResourceService)ServiceManager.Services.GetService(typeof(IResourceService));
+			ResourceService resourceService = (ResourceService)ServiceManager.GetService(typeof(IResourceService));
 			foreach (ToolbarItemCodon childCodon in codon.SubItems) {
 				SdToolbarCommand item = null;
 				

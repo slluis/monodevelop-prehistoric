@@ -18,8 +18,8 @@
 	<Extension path = "/Workspace/Autostart">
 		<Class id = "InitializeWorkbenchCommand" 
 		       class = "MonoDevelop.Commands.InitializeWorkbenchCommand"/>
-		<Class id = "StartCodeCompletionWizard" 
-		       class = "MonoDevelop.Commands.StartCodeCompletionWizard"/>
+		<!--<Class id = "StartCodeCompletionWizard" 
+		       class = "MonoDevelop.Commands.StartCodeCompletionWizard"/>-->
 		<Class id = "StartParserServiceThread" 
 		       class = "MonoDevelop.Commands.StartParserServiceThread"/>
 		<!-- #assembly preload -->

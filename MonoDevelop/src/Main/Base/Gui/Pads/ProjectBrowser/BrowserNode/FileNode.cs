@@ -64,7 +64,7 @@ namespace MonoDevelop.Gui.Pads.ProjectBrowser
 		
 		protected virtual void SetNodeIcon()
 		{
-			IconService iconService = (IconService)ServiceManager.Services.GetService(typeof(IconService));
+			IconService iconService = (IconService)ServiceManager.GetService(typeof(IconService));
 			Image = iconService.GetImageForFile(((ProjectFile)userData).Name);
 		}
 		
@@ -90,7 +90,7 @@ namespace MonoDevelop.Gui.Pads.ProjectBrowser
 		public override void ActivateItem()
 		{
 			if (userData != null && userData is ProjectFile) {
-				IFileService fileService = (IFileService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IFileService));
+				IFileService fileService = (IFileService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IFileService));
 				
 				fileService.OpenFile (((ProjectFile)userData).Name);
 			}
@@ -113,10 +113,10 @@ namespace MonoDevelop.Gui.Pads.ProjectBrowser
 				
 				string newname = Path.GetDirectoryName(oldname) + Path.DirectorySeparatorChar + newName;
 				if (oldname != newname) {
-					ResourceService resourceService = (ResourceService)ServiceManager.Services.GetService(typeof(IResourceService));
+					ResourceService resourceService = (ResourceService)ServiceManager.GetService(typeof(IResourceService));
 					try {
-						IFileService fileService = (IFileService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IFileService));
-						FileUtilityService fileUtilityService = (FileUtilityService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(FileUtilityService));
+						IFileService fileService = (IFileService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IFileService));
+						FileUtilityService fileUtilityService = (FileUtilityService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(FileUtilityService));
 						if (fileUtilityService.IsValidFileName(newname)) {
 							fileService.RenameFile(oldname, newname);
 							SetNodeLabel();
@@ -124,10 +124,10 @@ namespace MonoDevelop.Gui.Pads.ProjectBrowser
 							UpdateBacking ();
 						}
 					} catch (System.IO.IOException) {   // assume duplicate file
-						IMessageService messageService =(IMessageService)ServiceManager.Services.GetService(typeof(IMessageService));
+						IMessageService messageService =(IMessageService)ServiceManager.GetService(typeof(IMessageService));
 						messageService.ShowError(GettextCatalog.GetString ("File or directory name is already in use, choose a different one."));
 					} catch (System.ArgumentException) { // new file name with wildcard (*, ?) characters in it
-						IMessageService messageService =(IMessageService)ServiceManager.Services.GetService(typeof(IMessageService));
+						IMessageService messageService =(IMessageService)ServiceManager.GetService(typeof(IMessageService));
 						messageService.ShowError(GettextCatalog.GetString ("The file name you have chosen contains illegal characters. Please choose a different file name."));
 					}
 				}
@@ -140,8 +140,8 @@ namespace MonoDevelop.Gui.Pads.ProjectBrowser
 		public override bool RemoveNode()
 		{
 			DateTime old = DateTime.Now;
-			ResourceService resourceService = (ResourceService)ServiceManager.Services.GetService(typeof(IResourceService));
-			StringParserService stringParserService = (StringParserService)ServiceManager.Services.GetService(typeof(StringParserService));
+			ResourceService resourceService = (ResourceService)ServiceManager.GetService(typeof(IResourceService));
+			StringParserService stringParserService = (StringParserService)ServiceManager.GetService(typeof(StringParserService));
 			
 			using (MessageDialog dialog = new Gtk.MessageDialog ((Window) WorkbenchSingleton.Workbench, DialogFlags.DestroyWithParent, MessageType.Question, ButtonsType.YesNo, String.Format (GettextCatalog.GetString ("Are you sure you want to remove file {0} from project {1}?"), Path.GetFileName (((ProjectFile)userData).Name), Project.Name))) {
 			
@@ -157,7 +157,7 @@ namespace MonoDevelop.Gui.Pads.ProjectBrowser
 			//	case 2:
 			//		return false;
 			//	case 0:
-					IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
+					IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IProjectService));
 					projectService.RemoveFileFromProject(((ProjectFile)userData).Name);
 			//		break;
 			//	case 1:

@@ -27,12 +27,12 @@ namespace MonoDevelop.Services
 	{
 		string currentFile;
 		RecentOpen       recentOpen = null;
-		FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.Services.GetService(typeof(FileUtilityService));
+		FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.GetService(typeof(FileUtilityService));
 		
 		public RecentOpen RecentOpen {
 			get {
 				if (recentOpen == null) {
-					PropertyService propertyService = (PropertyService)ServiceManager.Services.GetService(typeof(PropertyService));
+					PropertyService propertyService = (PropertyService)ServiceManager.GetService(typeof(PropertyService));
 					recentOpen = (RecentOpen)propertyService.GetProperty("MonoDevelop.Gui.MainWindow.RecentOpen", new RecentOpen());
 				}
 				return recentOpen;
@@ -76,14 +76,14 @@ namespace MonoDevelop.Services
 					newContent.PathRelativeToProject = pathrelativetoproject;
 				}
 				WorkbenchSingleton.Workbench.ShowView(newContent);
-				DisplayBindingService displayBindingService = (DisplayBindingService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(DisplayBindingService));
+				DisplayBindingService displayBindingService = (DisplayBindingService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(DisplayBindingService));
 				displayBindingService.AttachSubWindows(newContent.WorkbenchWindow);
 			}
 		}
 		
 		public void OpenFile (string fileName)
 		{
-			DispatchService dispatcher = (DispatchService)ServiceManager.Services.GetService (typeof (DispatchService));
+			DispatchService dispatcher = (DispatchService)ServiceManager.GetService (typeof (DispatchService));
 			dispatcher.GuiDispatch (new StatefulMessageHandler (realOpenFile), fileName);
 		}
 
@@ -122,9 +122,9 @@ namespace MonoDevelop.Services
 				}
 			}
 			
-			DisplayBindingService displayBindingService = (DisplayBindingService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(DisplayBindingService));
+			DisplayBindingService displayBindingService = (DisplayBindingService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(DisplayBindingService));
 			
-			IFileService fileService = (IFileService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IFileService));
+			IFileService fileService = (IFileService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IFileService));
 			IDisplayBinding binding = displayBindingService.GetBindingPerFileName(fileName);
 			
 			if (binding != null) {
@@ -164,7 +164,7 @@ namespace MonoDevelop.Services
 		
 		protected void GetProjectAndCombineFromFile (string fileName, out IProject project, out Combine combine)
 		{
-			IProjectService projectService = (IProjectService) ServiceManager.Services.GetService(typeof(IProjectService));
+			IProjectService projectService = (IProjectService) ServiceManager.GetService(typeof(IProjectService));
 			combine = projectService.CurrentOpenCombine;
 			project = null;
 			
@@ -205,7 +205,7 @@ namespace MonoDevelop.Services
 		
 		public void NewFile(string defaultName, string language, string content)
 		{
-			DisplayBindingService displayBindingService = (DisplayBindingService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(DisplayBindingService));
+			DisplayBindingService displayBindingService = (DisplayBindingService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(DisplayBindingService));
 			IDisplayBinding binding = displayBindingService.GetBindingPerLanguageName(language);
 			
 			if (binding != null) {
@@ -251,7 +251,7 @@ namespace MonoDevelop.Services
 				try {
 					Directory.Delete(fileName);
 				} catch (Exception e) {
-					IMessageService messageService = (IMessageService)ServiceManager.Services.GetService(typeof(IMessageService));
+					IMessageService messageService = (IMessageService)ServiceManager.GetService(typeof(IMessageService));
 					messageService.ShowError(e, String.Format (GettextCatalog.GetString ("Can't remove directory {0}"), fileName));
 					return;
 				}
@@ -260,7 +260,7 @@ namespace MonoDevelop.Services
 				try {
 					File.Delete(fileName);
 				} catch (Exception e) {
-					IMessageService messageService = (IMessageService)ServiceManager.Services.GetService(typeof(IMessageService));
+					IMessageService messageService = (IMessageService)ServiceManager.GetService(typeof(IMessageService));
 					messageService.ShowError(e, String.Format (GettextCatalog.GetString ("Can't remove file {0}"), fileName));
 					return;
 				}
@@ -275,7 +275,7 @@ namespace MonoDevelop.Services
 					try {
 						Directory.Move(oldName, newName);
 					} catch (Exception e) {
-						IMessageService messageService = (IMessageService)ServiceManager.Services.GetService(typeof(IMessageService));
+						IMessageService messageService = (IMessageService)ServiceManager.GetService(typeof(IMessageService));
 						messageService.ShowError(e, String.Format (GettextCatalog.GetString ("Can't rename directory {0}"), oldName));
 						return;
 					}
@@ -284,7 +284,7 @@ namespace MonoDevelop.Services
 					try {
 						File.Move(oldName, newName);
 					} catch (Exception e) {
-						IMessageService messageService = (IMessageService)ServiceManager.Services.GetService(typeof(IMessageService));
+						IMessageService messageService = (IMessageService)ServiceManager.GetService(typeof(IMessageService));
 						messageService.ShowError(e, String.Format (GettextCatalog.GetString ("Can't rename file {0}"), oldName));
 						return;
 					}

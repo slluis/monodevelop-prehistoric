@@ -62,7 +62,7 @@ namespace MonoDevelop.Gui.Pads
 		{
 			filelister.Clear ();
 
-			PropertyService p = (PropertyService)ServiceManager.Services.GetService(typeof(PropertyService));
+			PropertyService p = (PropertyService)ServiceManager.GetService(typeof(PropertyService));
 			bool ignoreHidden = !p.GetProperty ("MonoDevelop.Gui.FileScout.ShowHidden", false);
 			fb.IgnoreHidden = ignoreHidden;
 
@@ -87,9 +87,9 @@ namespace MonoDevelop.Gui.Pads
 
 		void FileSelected (object sender, Gtk.RowActivatedArgs e)
 		{
-			IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
-			IFileService    fileService    = (IFileService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IFileService));
-			FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.Services.GetService(typeof(FileUtilityService));
+			IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IProjectService));
+			IFileService    fileService    = (IFileService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IFileService));
+			FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.GetService(typeof(FileUtilityService));
 
 			Gtk.TreeIter iter;
 			Gtk.TreeModel model;

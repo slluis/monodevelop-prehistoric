@@ -29,11 +29,11 @@ namespace CSharpBinding
 	{
 		public void Debug (IProject project)
 		{
-			FileUtilityService fileUtilityService = (FileUtilityService) ServiceManager.Services.GetService (typeof (FileUtilityService));
+			FileUtilityService fileUtilityService = (FileUtilityService) ServiceManager.GetService (typeof (FileUtilityService));
 			string directory = fileUtilityService.GetDirectoryNameWithSeparator(((CSharpCompilerParameters)project.ActiveConfiguration).OutputDirectory);
 			string exe = ((CSharpCompilerParameters)project.ActiveConfiguration).OutputAssembly + ".exe";
 
-			IDebuggingService dbgr = (IDebuggingService) ServiceManager.Services.GetService (typeof (IDebuggingService));
+			IDebuggingService dbgr = (IDebuggingService) ServiceManager.GetService (typeof (IDebuggingService));
 			if (dbgr != null)
 				dbgr.Run (new string[] { Path.Combine (directory, exe) } );
 		}
@@ -56,7 +56,7 @@ namespace CSharpBinding
 		public void Execute(IProject project)
 		{
 			CSharpCompilerParameters parameters = (CSharpCompilerParameters)project.ActiveConfiguration;
-			FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.Services.GetService(typeof(FileUtilityService));
+			FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.GetService(typeof(FileUtilityService));
 			
 			string directory = fileUtilityService.GetDirectoryNameWithSeparator(((CSharpCompilerParameters)project.ActiveConfiguration).OutputDirectory);
 			string exe = ((CSharpCompilerParameters)project.ActiveConfiguration).OutputAssembly + ".exe";

@@ -20,7 +20,7 @@ namespace MonoDevelop.Gui
 		ScrolledWindow scroller = new ScrolledWindow ();
 
 		MonodocService mds;
-		IStatusBarService statusBarService = (IStatusBarService)        MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IStatusBarService));
+		IStatusBarService statusBarService = (IStatusBarService)        MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IStatusBarService));
 
 		public override bool IsViewOnly {
 			get { return true; }
@@ -36,7 +36,7 @@ namespace MonoDevelop.Gui
 
 		public HelpViewer ()
 		{
-			mds = (MonodocService)ServiceManager.Services.GetService (typeof (MonodocService));
+			mds = (MonodocService)ServiceManager.GetService (typeof (MonodocService));
 	
 			html_viewer.LinkClicked += new LinkClickedHandler (LinkClicked);
 			html_viewer.UrlRequested += new UrlRequestedHandler (UrlRequested);

@@ -98,13 +98,13 @@ namespace MonoDevelop.Core.Services
 						if (k > 0) {
 							switch (propertyName.Substring(0, k).ToUpper()) {
 								case "RES":
-									IResourceService resourceService = (IResourceService)ServiceManager.Services.GetService(typeof(IResourceService));
+									IResourceService resourceService = (IResourceService)ServiceManager.GetService(typeof(IResourceService));
 									if (resourceService != null) {
 											propertyValue = Parse(resourceService.GetString(propertyName.Substring(k + 1)), customTags);
 									}
 									break;
 								case "PROPERTY":
-									PropertyService propertyService = (PropertyService)ServiceManager.Services.GetService(typeof(PropertyService));
+									PropertyService propertyService = (PropertyService)ServiceManager.GetService(typeof(PropertyService));
 									propertyValue = propertyService.GetProperty(propertyName.Substring(k + 1)).ToString();
 									break;
 							}

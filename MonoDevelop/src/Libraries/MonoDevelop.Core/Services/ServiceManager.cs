@@ -29,20 +29,21 @@ namespace MonoDevelop.Core.Services
 		Hashtable servicesHashtable = new Hashtable();
 		
 		static ServiceManager defaultServiceManager = new ServiceManager();
-		
-		/// <summary>
-		/// Gets the default ServiceManager
-		/// </summary>
-		public static ServiceManager Services {
+		public static IService GetService (Type serviceType) {
+			return defaultServiceManager.FetchService (serviceType);
+		}
+			
+
+		public IService this [Type index] {
 			get {
-				return defaultServiceManager;
+				return FetchService (index);
 			}
 		}		
 		
 		/// <summary>
 		/// Don't create ServiceManager objects, only have ONE per application.
 		/// </summary>
-		private ServiceManager()
+		static ServiceManager()
 		{
 			// add 'core' services
 			AddService(new PropertyService());
@@ -54,14 +55,13 @@ namespace MonoDevelop.Core.Services
 		/// This method initializes the service system to a path inside the add-in tree.
 		/// This method must be called ONCE.
 		/// </remarks>
-		public void InitializeServicesSubsystem(string servicesPath)
+		public static void InitializeServicesSubsystem(string servicesPath)
 		{
 			// add add-in tree services
-			AddServices((IService[])AddInTreeSingleton.AddInTree.GetTreeNode(servicesPath).BuildChildItems(this).ToArray(typeof(IService)));
+			AddServices((IService[])AddInTreeSingleton.AddInTree.GetTreeNode(servicesPath).BuildChildItems(defaultServiceManager).ToArray(typeof(IService)));
 			
 			// initialize all services
-			foreach (IService service in serviceList) {
-				DateTime now = DateTime.Now;
+			foreach (IService service in defaultServiceManager.serviceList) {
 				service.InitializeService();
 			}
 		}
@@ -69,19 +69,19 @@ namespace MonoDevelop.Core.Services
 		/// <remarks>
 		/// Calls UnloadService on all services. This method must be called ONCE.
 		/// </remarks>
-		public void UnloadAllServices()
+		public static void UnloadAllServices()
 		{
-			foreach (IService service in serviceList) {
+			foreach (IService service in defaultServiceManager.serviceList) {
 				service.UnloadService();
 			}
 		}
 		
-		public void AddService(IService service)
+		public static void AddService(IService service)
 		{
-			serviceList.Add(service);
+			defaultServiceManager.serviceList.Add(service);
 		}
 		
-		public void AddServices(IService[] services)
+		public static void AddServices(IService[] services)
 		{
 			foreach (IService service in services) {
 				AddService(service);
@@ -112,7 +112,7 @@ namespace MonoDevelop.Core.Services
 		/// <remarks>
 		/// Requestes a specific service, may return null if this service is not found.
 		/// </remarks>
-		public IService GetService(Type serviceType)
+		IService FetchService(Type serviceType)
 		{
 			IService s = (IService)servicesHashtable[serviceType];
 			if (s != null) {

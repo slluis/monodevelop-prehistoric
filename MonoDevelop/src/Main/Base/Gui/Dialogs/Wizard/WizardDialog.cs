@@ -279,8 +279,8 @@ namespace MonoDevelop.Gui.Dialogs
 		
 		void InitializeComponents()
 		{
-			PropertyService propertyService = (PropertyService)ServiceManager.Services.GetService(typeof(PropertyService));
-			ResourceService resourceService = (ResourceService)ServiceManager.Services.GetService(typeof(IResourceService));
+			PropertyService propertyService = (PropertyService)ServiceManager.GetService(typeof(PropertyService));
+			ResourceService resourceService = (ResourceService)ServiceManager.GetService(typeof(IResourceService));
 		
 			dialogPanel.Shadow = Gtk.ShadowType.None;
 		

@@ -50,7 +50,7 @@ namespace MonoDevelop.Core.AddIns.Codons
 			if (subItems.Count > 0) {
 				throw new ApplicationException("more than one level of file filters don't make sense!");
 			}
-			StringParserService stringParserService = (StringParserService)ServiceManager.Services.GetService(typeof(StringParserService));
+			StringParserService stringParserService = (StringParserService)ServiceManager.GetService(typeof(StringParserService));
 			return stringParserService.Parse(filtername) + "|" + String.Join(";", extensions);
 		}
 	}

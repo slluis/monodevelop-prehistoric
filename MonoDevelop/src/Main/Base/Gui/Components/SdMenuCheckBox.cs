@@ -18,7 +18,7 @@ namespace MonoDevelop.Gui.Components
 {
 	public class SdMenuCheckBox : Gtk.CheckMenuItem, IStatusUpdate
 	{
-		static StringParserService stringParserService = (StringParserService)ServiceManager.Services.GetService(typeof(StringParserService));
+		static StringParserService stringParserService = (StringParserService)ServiceManager.GetService(typeof(StringParserService));
 			
 		object caller;
 		ConditionCollection conditionCollection;

@@ -32,7 +32,7 @@ namespace MonoDevelop.EditorBindings.Gui.Pads
 		Gtk.TextView textEditorControl;
 		Gtk.ScrolledWindow scroller;
 		//Panel       myPanel = new Panel();
-		ResourceService resourceService = (ResourceService)ServiceManager.Services.GetService(typeof(IResourceService));
+		ResourceService resourceService = (ResourceService)ServiceManager.GetService(typeof(IResourceService));
 		
 		public Gtk.Widget Control {
 			get {
@@ -70,10 +70,10 @@ namespace MonoDevelop.EditorBindings.Gui.Pads
 			scroller = new Gtk.ScrolledWindow ();
 			scroller.ShadowType = ShadowType.In;
 			scroller.Add (textEditorControl);
-			ResourceService resourceService = (ResourceService)ServiceManager.Services.GetService(typeof(IResourceService));
+			ResourceService resourceService = (ResourceService)ServiceManager.GetService(typeof(IResourceService));
 			
-			TaskService     taskService    = (TaskService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(TaskService));
-			IProjectService projectService = (IProjectService) ServiceManager.Services.GetService (typeof(IProjectService));
+			TaskService     taskService    = (TaskService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(TaskService));
+			IProjectService projectService = (IProjectService) ServiceManager.GetService (typeof(IProjectService));
 			
 			taskService.CompilerOutputChanged += new EventHandler(SetOutput);
 			projectService.StartBuild      += new EventHandler (SelectMessageView);
@@ -93,7 +93,7 @@ namespace MonoDevelop.EditorBindings.Gui.Pads
 		
 		void SelectMessageView(object sender, EventArgs e)
 		{
-			PropertyService propertyService = (PropertyService)ServiceManager.Services.GetService(typeof(PropertyService));
+			PropertyService propertyService = (PropertyService)ServiceManager.GetService(typeof(PropertyService));
 			
 			if (WorkbenchSingleton.Workbench.WorkbenchLayout.IsVisible(this)) {
 				WorkbenchSingleton.Workbench.WorkbenchLayout.ActivatePad(this);
@@ -108,7 +108,7 @@ namespace MonoDevelop.EditorBindings.Gui.Pads
 		
 		void SetOutput2()
 		{
-			TaskService taskService = (TaskService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(TaskService));
+			TaskService taskService = (TaskService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(TaskService));
 			try {
 				buffer.Text = taskService.CompilerOutput;
 				UpdateTextArea();
@@ -132,7 +132,7 @@ namespace MonoDevelop.EditorBindings.Gui.Pads
 				SetOutput2();
 				outputText = null;
 			} else {
-				TaskService taskService = (TaskService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(TaskService));
+				TaskService taskService = (TaskService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(TaskService));
 				outputText = taskService.CompilerOutput;
 				UpdateTextArea();
 			}

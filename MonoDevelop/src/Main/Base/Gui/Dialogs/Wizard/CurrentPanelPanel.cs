@@ -29,7 +29,7 @@ namespace MonoDevelop.Gui.Dialogs
 		Pixbuf backGround = null;
 		
 		FontDescription normalFont;
-		ResourceService resourceService = (ResourceService)ServiceManager.Services.GetService(typeof(IResourceService));
+		ResourceService resourceService = (ResourceService)ServiceManager.GetService(typeof(IResourceService));
 		
 		public CurrentPanelPanel(WizardDialog wizard)
 		{

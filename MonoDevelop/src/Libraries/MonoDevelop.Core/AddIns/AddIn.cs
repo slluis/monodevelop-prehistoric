@@ -42,7 +42,7 @@ namespace MonoDevelop.Core.AddIns
 		
 		ArrayList        extensions = new ArrayList();
 		
-		FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.Services.GetService(typeof(FileUtilityService));
+		FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.GetService(typeof(FileUtilityService));
 		
 		/// <summary>
 		/// returns the filename of the xml definition in which

@@ -135,7 +135,7 @@ namespace MonoDevelop.BrowserDisplayBinding
 	public class HtmlViewPane : Gtk.Frame
 	{
 		MozillaControl htmlControl = null;
-		IStatusBarService statusbarService = (IStatusBarService) ServiceManager.Services.GetService (typeof (IStatusBarService));
+		IStatusBarService statusbarService = (IStatusBarService) ServiceManager.GetService (typeof (IStatusBarService));
 		SdStatusBar status;
 		
 		VBox topPanel = new VBox (false, 2);

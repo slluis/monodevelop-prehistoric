@@ -27,8 +27,8 @@ namespace MonoDevelop.Gui.Dialogs.OptionPanels
 		Gtk.Label culture;
 		Gtk.Label descr;
 		
-		ResourceService resourceService = (ResourceService)ServiceManager.Services.GetService(typeof(IResourceService));
-		PropertyService propertyService = (PropertyService)ServiceManager.Services.GetService(typeof(PropertyService));
+		ResourceService resourceService = (ResourceService)ServiceManager.GetService(typeof(IResourceService));
+		PropertyService propertyService = (PropertyService)ServiceManager.GetService(typeof(PropertyService));
 		
 		string SelectedCulture {
 			get {
@@ -69,7 +69,7 @@ namespace MonoDevelop.Gui.Dialogs.OptionPanels
 		
 		string GetCulture(string languageCode)
 		{
-			LanguageService languageService = (LanguageService)ServiceManager.Services.GetService(typeof(LanguageService));
+			LanguageService languageService = (LanguageService)ServiceManager.GetService(typeof(LanguageService));
 			foreach (Language language in languageService.Languages) {
 				if (languageCode.StartsWith(language.Code)) {
 					return language.Name;
@@ -80,7 +80,7 @@ namespace MonoDevelop.Gui.Dialogs.OptionPanels
 		
 		public IDEOptionPanel() : base ()
 		{
-			LanguageService languageService = (LanguageService)ServiceManager.Services.GetService(typeof(LanguageService));
+			LanguageService languageService = (LanguageService)ServiceManager.GetService(typeof(LanguageService));
 			
 			Gtk.VBox mainbox = new Gtk.VBox (false, 2);
 			

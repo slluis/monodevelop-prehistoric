@@ -73,7 +73,7 @@ namespace MonoDevelop.StartPage
 		public StartPageView()
 		{
 			htmlControl = new MozillaControl ();
-			PropertyService propertyService = (PropertyService)ServiceManager.Services.GetService(typeof(PropertyService));
+			PropertyService propertyService = (PropertyService)ServiceManager.GetService(typeof(PropertyService));
 			//htmlControl.Css = propertyService.DataDirectory + Path.DirectorySeparatorChar +
 			//                                  "resources" + Path.DirectorySeparatorChar +
 			//                                  "startpage" + Path.DirectorySeparatorChar +
@@ -84,11 +84,11 @@ namespace MonoDevelop.StartPage
 			htmlControl.ShowAll ();
 			htmlControl.OpenUri += new OpenUriHandler (HtmlControlBeforeNavigate);
 			
-			StringParserService stringParserService = (StringParserService)ServiceManager.Services.GetService(typeof(StringParserService));
+			StringParserService stringParserService = (StringParserService)ServiceManager.GetService(typeof(StringParserService));
 			// Description of the tab shown in #develop
 			ContentName = stringParserService.Parse("${res:StartPage.StartPageContentName}");
 			
-			IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
+			IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IProjectService));
 			projectService.CombineOpened += new CombineEventHandler(HandleCombineOpened);
 		}
 		
@@ -108,12 +108,12 @@ namespace MonoDevelop.StartPage
 			e.RetVal = true;
 			if (e.AURI.StartsWith("project://")) {
 				try {
-					Core.Properties.DefaultProperties svc = (Core.Properties.DefaultProperties)Core.Services.ServiceManager.Services.GetService(typeof(Core.Services.PropertyService));
+					Core.Properties.DefaultProperties svc = (Core.Properties.DefaultProperties)Core.Services.ServiceManager.GetService(typeof(Core.Services.PropertyService));
 					object recentOpenObj = svc.GetProperty("MonoDevelop.Gui.MainWindow.RecentOpen");
 					if (recentOpenObj is MonoDevelop.Services.RecentOpen) {
 						MonoDevelop.Services.RecentOpen recOpen = (MonoDevelop.Services.RecentOpen)recentOpenObj;
 						
-						IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
+						IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IProjectService));
 						
 						string prjNumber = e.AURI.Substring("project://".Length);
 						// wrong (jluke)

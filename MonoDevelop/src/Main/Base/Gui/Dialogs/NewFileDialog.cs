@@ -43,8 +43,8 @@ namespace MonoDevelop.Gui.Dialogs
 		Button cancelButton;
 		Label infoLabel;
 
-		ResourceService iconService = (ResourceService)ServiceManager.Services.GetService (typeof(IResourceService));
-		DispatchService dispatcher = (DispatchService)ServiceManager.Services.GetService (typeof (DispatchService));
+		ResourceService iconService = (ResourceService)ServiceManager.GetService (typeof(IResourceService));
+		DispatchService dispatcher = (DispatchService)ServiceManager.GetService (typeof (DispatchService));
 		
 		public NewFileDialog () : base ()
 		{
@@ -164,7 +164,7 @@ namespace MonoDevelop.Gui.Dialogs
 
 			if (item != null)
 			{
-				ResourceService resourceService = (ResourceService)ServiceManager.Services.GetService (typeof (IResourceService));
+				ResourceService resourceService = (ResourceService)ServiceManager.GetService (typeof (IResourceService));
                         	if (item.Description.StartsWith("${")) {
                                 	infoLabel.Text = resourceService.GetString (item.Description);
                         	} else {
@@ -188,7 +188,7 @@ namespace MonoDevelop.Gui.Dialogs
 		
 		public void SaveFile(string filename, string content, string languageName, bool showFile)
 		{
-			IFileService fileService = (IFileService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IFileService));
+			IFileService fileService = (IFileService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IFileService));
 			fileService.NewFile(filename, languageName, content);
 		}
 		
@@ -271,7 +271,7 @@ namespace MonoDevelop.Gui.Dialogs
 			public TemplateItem(FileTemplate template)
 			{
 				this.template = template;
-				StringParserService sps = (StringParserService)ServiceManager.Services.GetService (typeof(StringParserService));
+				StringParserService sps = (StringParserService)ServiceManager.GetService (typeof(StringParserService));
 				this.name = sps.Parse(template.Name);
 			}
 

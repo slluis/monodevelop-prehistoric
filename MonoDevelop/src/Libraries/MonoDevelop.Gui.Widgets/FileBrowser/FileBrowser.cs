@@ -48,7 +48,7 @@ namespace MonoDevelop.Gui.Widgets
 		private ArrayList files = new ArrayList ();
 		private Hashtable hiddenfolders = new Hashtable ();
 
-		PropertyService PropertyService = (PropertyService) ServiceManager.Services.GetService (typeof (PropertyService));
+		PropertyService PropertyService = (PropertyService) ServiceManager.GetService (typeof (PropertyService));
 
 		public FileBrowser () : base (GType)
 		{
@@ -56,7 +56,7 @@ namespace MonoDevelop.Gui.Widgets
 				Vfs.Init ();
 			}
 
-			messageService = (IMessageService) ServiceManager.Services.GetService (typeof (IMessageService));
+			messageService = (IMessageService) ServiceManager.GetService (typeof (IMessageService));
 
 			scrolledwindow = new ScrolledWindow ();
 			scrolledwindow.VscrollbarPolicy = PolicyType.Automatic;

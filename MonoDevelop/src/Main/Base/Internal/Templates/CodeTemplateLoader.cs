@@ -86,7 +86,7 @@ namespace MonoDevelop.Internal.Templates
 				doc.DocumentElement.AppendChild(codeTemplateGroup.ToXmlElement(doc));
 			}
 			
-			FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.Services.GetService(typeof(FileUtilityService));
+			FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.GetService(typeof(FileUtilityService));
 			fileUtilityService.ObservedSave(new NamedFileOperationDelegate(doc.Save), fileName, FileErrorPolicy.ProvideAlternative);
 		}
 		
@@ -96,15 +96,15 @@ namespace MonoDevelop.Internal.Templates
 		/// </summary>
 		static CodeTemplateLoader()
 		{
-			PropertyService propertyService = (PropertyService)ServiceManager.Services.GetService(typeof(PropertyService));
-			FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.Services.GetService(typeof(FileUtilityService));
+			PropertyService propertyService = (PropertyService)ServiceManager.GetService(typeof(PropertyService));
+			FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.GetService(typeof(FileUtilityService));
 			
 			if (!LoadTemplatesFromStream(Path.Combine(propertyService.ConfigDirectory, TemplateFileName))) {
 				Console.WriteLine("Templates: can't load user defaults, reading system defaults");
 				if (!LoadTemplatesFromStream(propertyService.DataDirectory + 
 				                             Path.DirectorySeparatorChar   + "options" +
 				                             Path.DirectorySeparatorChar   + TemplateFileName)) {
-					IMessageService messageService = (IMessageService)ServiceManager.Services.GetService(typeof(IMessageService));
+					IMessageService messageService = (IMessageService)ServiceManager.GetService(typeof(IMessageService));
 					messageService.ShowWarning(GettextCatalog.GetString ("Can't load templates configuration file"));
 				}
 			}
@@ -116,7 +116,7 @@ namespace MonoDevelop.Internal.Templates
 		/// </summary>
 		public static void SaveTemplates()
 		{
-			PropertyService propertyService = (PropertyService)ServiceManager.Services.GetService(typeof(PropertyService));
+			PropertyService propertyService = (PropertyService)ServiceManager.GetService(typeof(PropertyService));
 			WriteTemplatesToFile(Path.Combine(propertyService.ConfigDirectory, TemplateFileName));
 		}
 	}

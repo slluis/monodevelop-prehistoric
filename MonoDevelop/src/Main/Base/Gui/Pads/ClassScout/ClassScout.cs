@@ -59,7 +59,7 @@ namespace MonoDevelop.Gui.Pads
 		//Panel contentPanel = new Panel();
 		Gtk.Frame contentPanel;
 
-		ResourceService resourceService = (ResourceService)ServiceManager.Services.GetService(typeof(IResourceService));
+		ResourceService resourceService = (ResourceService)ServiceManager.GetService(typeof(IResourceService));
 		ClassInformationEventHandler changeClassInformationHandler = null;
 		Combine parseCombine;
 		ArrayList ImageList;
@@ -100,11 +100,11 @@ namespace MonoDevelop.Gui.Pads
 		{
 			changeClassInformationHandler = new ClassInformationEventHandler(OnClassInformationChanged);
 			
-			FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.Services.GetService(typeof(FileUtilityService));
+			FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.GetService(typeof(FileUtilityService));
 
 			LabelEdit     = false;
 
-			IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
+			IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IProjectService));
 
 			projectService.CombineOpened += new CombineEventHandler(OnCombineOpen);
 			projectService.CombineClosed += new CombineEventHandler(OnCombineClosed);
@@ -114,7 +114,7 @@ namespace MonoDevelop.Gui.Pads
 			contentPanel = new Gtk.Frame();
 			contentPanel.Add(sw);
 			
-			AmbienceService ambienceService = (AmbienceService)ServiceManager.Services.GetService(typeof(AmbienceService));
+			AmbienceService ambienceService = (AmbienceService)ServiceManager.GetService(typeof(AmbienceService));
 			ambienceService.AmbienceChanged += new EventHandler(AmbienceChangedEvent);
 
 			RowActivated += new Gtk.RowActivatedHandler(OnNodeActivated);
@@ -142,14 +142,14 @@ namespace MonoDevelop.Gui.Pads
 
 		void OnCombineClosed(object sender, CombineEventArgs e)
 		{
-			IParserService parserService  = (IParserService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IParserService));
+			IParserService parserService  = (IParserService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IParserService));
 			parserService.ClassInformationChanged -= changeClassInformationHandler;
 			Nodes.Clear();
 		}
 		
 		void OnClassInformationChanged(object sender, ClassInformationEventArgs e)
 		{
-			DispatchService dispatcher = (DispatchService)ServiceManager.Services.GetService (typeof (DispatchService));
+			DispatchService dispatcher = (DispatchService)ServiceManager.GetService (typeof (DispatchService));
 			dispatcher.GuiDispatch (new StatefulMessageHandler (ChangeClassInfo), e);
 		}
 		
@@ -166,7 +166,7 @@ namespace MonoDevelop.Gui.Pads
 			if (node != null) {
 				ClassScoutTag tag = node.Tag as ClassScoutTag;
 				if (tag != null) {
-					IFileService fileService = (IFileService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IFileService));
+					IFileService fileService = (IFileService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IFileService));
 					fileService.OpenFile(tag.FileName);
 					
 					IViewContent content = fileService.GetOpenFile(tag.FileName).ViewContent;
@@ -230,7 +230,7 @@ namespace MonoDevelop.Gui.Pads
 		{
 			AbstractClassScoutNode selectedBrowserNode = (AbstractClassScoutNode) SelectedNode;
 			if (selectedBrowserNode.ContextmenuAddinTreePath != null && selectedBrowserNode.ContextmenuAddinTreePath.Length > 0) {
-			MenuService menuService = (MenuService) MonoDevelop.Core.Services.ServiceManager.Services.GetService (typeof (MenuService));
+			MenuService menuService = (MenuService) MonoDevelop.Core.Services.ServiceManager.GetService (typeof (MenuService));
 			menuService.ShowContextMenu(this, selectedBrowserNode.ContextmenuAddinTreePath, this);
 			}
 		}
@@ -265,7 +265,7 @@ namespace MonoDevelop.Gui.Pads
 			Gdk.Threads.Enter();
 			DoPopulate();
 			Gdk.Threads.Leave();
-			IParserService parserService  = (IParserService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IParserService));
+			IParserService parserService  = (IParserService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IParserService));
 			parserService.ClassInformationChanged += changeClassInformationHandler;
 		}
 
@@ -285,7 +285,7 @@ namespace MonoDevelop.Gui.Pads
 			if (p.ProjectType == "C#") {
 	 			foreach (ProjectFile finfo in p.ProjectFiles) {
 					if (finfo.BuildAction == BuildAction.Compile) {
-						IParserService parserService = (IParserService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IParserService));
+						IParserService parserService = (IParserService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IParserService));
 						parserService.ParseFile(finfo.Name);
 					}
 	 			}
@@ -311,7 +311,7 @@ namespace MonoDevelop.Gui.Pads
 
 		public void Populate(Combine combine, TreeNodeCollection nodes)
 		{
-			ClassBrowserIconsService classBrowserIconService = (ClassBrowserIconsService)ServiceManager.Services.GetService(typeof(ClassBrowserIconsService));
+			ClassBrowserIconsService classBrowserIconService = (ClassBrowserIconsService)ServiceManager.GetService(typeof(ClassBrowserIconsService));
 			TreeNode combineNode = new TreeNode(combine.Name);
 			//combineNode.SelectedImageIndex = combineNode.ImageIndex = classBrowserIconService.CombineIndex;
 			combineNode.Image = Stock.CombineIcon;
@@ -346,8 +346,8 @@ namespace MonoDevelop.Gui.Pads
 			// no builder found -> create 'dummy' node
 			if (!builderFound) {
 				TreeNode prjNode = new TreeNode(p.Name);
-				FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.Services.GetService(typeof(FileUtilityService));
-				IconService iconService = (IconService)ServiceManager.Services.GetService(typeof(IconService));
+				FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.GetService(typeof(FileUtilityService));
+				IconService iconService = (IconService)ServiceManager.GetService(typeof(IconService));
 				//prjNode.SelectedImageIndex = prjNode.ImageIndex = imageIndexOffset + iconService.GetImageIndexForProjectType(p.ProjectType);
 				prjNode.Image = iconService.GetImageForProjectType(p.ProjectType);
 				prjNode.Nodes.Add(new TreeNode(GettextCatalog.GetString ("No class builder found")));

@@ -32,10 +32,10 @@ namespace MonoDevelop.Commands.ProjectBrowser
 	{
 		public override void Run()
 		{
-			IProjectService projectService = (IProjectService)ServiceManager.Services.GetService(typeof(IProjectService));
+			IProjectService projectService = (IProjectService)ServiceManager.GetService(typeof(IProjectService));
 			ProjectBrowserView browser     = (ProjectBrowserView)Owner;
 			CombineBrowserNode node        = browser.SelectedNode as CombineBrowserNode;
-			MessageService msg             = (MessageService)ServiceManager.Services.GetService (typeof (MessageService));
+			MessageService msg             = (MessageService)ServiceManager.GetService (typeof (MessageService));
 			
 			if (node != null) {
 				NewProjectDialog npdlg = new NewProjectDialog(false);
@@ -62,10 +62,10 @@ namespace MonoDevelop.Commands.ProjectBrowser
 	{
 		public override void Run()
 		{
-			IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
+			IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IProjectService));
 			ProjectBrowserView browser = (ProjectBrowserView)Owner;
 			CombineBrowserNode node    = browser.SelectedNode as CombineBrowserNode;
-			MessageService msg         = (MessageService)ServiceManager.Services.GetService (typeof (MessageService));
+			MessageService msg         = (MessageService)ServiceManager.GetService (typeof (MessageService));
 			
 			if (node != null) {
 				NewProjectDialog npdlg = new NewProjectDialog(false);
@@ -91,14 +91,14 @@ namespace MonoDevelop.Commands.ProjectBrowser
 	{
 		public override void Run()
 		{
-			IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
+			IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IProjectService));
 			ProjectBrowserView browser = (ProjectBrowserView)Owner;
 			CombineBrowserNode node    = browser.SelectedNode as CombineBrowserNode;
-			PropertyService propertyService = (PropertyService)ServiceManager.Services.GetService (typeof (PropertyService));
+			PropertyService propertyService = (PropertyService)ServiceManager.GetService (typeof (PropertyService));
 			
 			if (node != null) {
 				using (FileSelector fdiag = new FileSelector (GettextCatalog.GetString ("Add a Project"))) {
-					StringParserService stringParserService = (StringParserService)ServiceManager.Services.GetService(typeof(StringParserService));
+					StringParserService stringParserService = (StringParserService)ServiceManager.GetService(typeof(StringParserService));
 					fdiag.SelectMultiple = false;
 					if (fdiag.Run () == (int) Gtk.ResponseType.Ok) {
 						try {
@@ -118,7 +118,7 @@ namespace MonoDevelop.Commands.ProjectBrowser
 						}
 						catch 
 						{
-							((MessageService)ServiceManager.Services.GetService (typeof (MessageService))).ShowError (GettextCatalog.GetString ("Invalid Project File"));
+							((MessageService)ServiceManager.GetService (typeof (MessageService))).ShowError (GettextCatalog.GetString ("Invalid Project File"));
 						}
 					}
 
@@ -132,14 +132,14 @@ namespace MonoDevelop.Commands.ProjectBrowser
 	{
 		public override void Run()
 		{
-			IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
+			IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IProjectService));
 			ProjectBrowserView browser = (ProjectBrowserView)Owner;
 			CombineBrowserNode node    = browser.SelectedNode as CombineBrowserNode;
-			PropertyService propertyService = (PropertyService)ServiceManager.Services.GetService (typeof (PropertyService));
+			PropertyService propertyService = (PropertyService)ServiceManager.GetService (typeof (PropertyService));
 			
 			if (node != null) {
 				using (FileSelector fdiag = new FileSelector (GettextCatalog.GetString ("Add a Combine"))) {
-					StringParserService stringParserService = (StringParserService)ServiceManager.Services.GetService(typeof(StringParserService));
+					StringParserService stringParserService = (StringParserService)ServiceManager.GetService(typeof(StringParserService));
 				
 					fdiag.SelectMultiple = false;
 					if (fdiag.Run () == (int) Gtk.ResponseType.Ok) {
@@ -160,7 +160,7 @@ namespace MonoDevelop.Commands.ProjectBrowser
 						}
 						catch 
 						{
-							((MessageService)ServiceManager.Services.GetService (typeof (MessageService))).ShowError (GettextCatalog.GetString ("Invalid Solution File"));
+							((MessageService)ServiceManager.GetService (typeof (MessageService))).ShowError (GettextCatalog.GetString ("Invalid Solution File"));
 						}
 					}
 
@@ -174,7 +174,7 @@ namespace MonoDevelop.Commands.ProjectBrowser
 	{
 		public override void Run()
 		{
-			IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
+			IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IProjectService));
 			ProjectBrowserView browser = (ProjectBrowserView)Owner;
 			CombineBrowserNode node    = browser.SelectedNode as CombineBrowserNode;
 			

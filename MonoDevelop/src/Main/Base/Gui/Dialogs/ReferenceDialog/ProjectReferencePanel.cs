@@ -19,7 +19,7 @@ namespace MonoDevelop.Gui.Dialogs {
 	
 	public class ProjectReferencePanel : VBox, IReferencePanel {
 		SelectReferenceDialog selectDialog;
-		ResourceService resourceService = (ResourceService)ServiceManager.Services.GetService(typeof(IResourceService));
+		ResourceService resourceService = (ResourceService)ServiceManager.GetService(typeof(IResourceService));
 
 		TreeStore store;
 		TreeView  treeView;
@@ -49,7 +49,7 @@ namespace MonoDevelop.Gui.Dialogs {
 		void AddReference (TreeModel model, TreePath path, TreeIter iter)
 		{
 			IProject project = (IProject) model.GetValue (iter, 2);
-			LanguageBindingService languageBindingService = (LanguageBindingService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(LanguageBindingService));
+			LanguageBindingService languageBindingService = (LanguageBindingService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(LanguageBindingService));
 			ILanguageBinding binding = languageBindingService.GetBindingPerLanguageName(project.ProjectType);
 			
 			selectDialog.AddReference(ReferenceType.Project,
@@ -64,7 +64,7 @@ namespace MonoDevelop.Gui.Dialogs {
 		
 		void PopulateListView ()
 		{
-			IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
+			IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IProjectService));
 			
 			Combine openCombine = projectService.CurrentOpenCombine;
 			

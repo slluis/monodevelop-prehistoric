@@ -32,9 +32,9 @@ namespace MonoDevelop.EditorBindings.Gui.OptionPanels
 			int       currentSelectedGroup = -1;
 			
 			// Services
-			StringParserService StringParserService = (StringParserService)ServiceManager.Services.GetService (typeof (StringParserService));
-			PropertyService PropertyService = (PropertyService)ServiceManager.Services.GetService(typeof(PropertyService));
-			MessageService MessageService = (MessageService)ServiceManager.Services.GetService(typeof(MessageService));					
+			StringParserService StringParserService = (StringParserService)ServiceManager.GetService (typeof (StringParserService));
+			PropertyService PropertyService = (PropertyService)ServiceManager.GetService(typeof(PropertyService));
+			MessageService MessageService = (MessageService)ServiceManager.GetService(typeof(MessageService));					
 			
 			// Gtk widgets
 			[Glade.Widget] Label extensionLabel;

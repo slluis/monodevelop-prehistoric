@@ -19,7 +19,7 @@ namespace MonoDevelop.Gui.Pads
 {
 	public class SideBarView : IPadContent, IDisposable
 	{
-		ResourceService resourceService = (ResourceService)ServiceManager.Services.GetService(typeof(IResourceService));
+		ResourceService resourceService = (ResourceService)ServiceManager.GetService(typeof(IResourceService));
 		public Gtk.Widget Control {
 			get {
 				return null;
@@ -57,7 +57,7 @@ namespace MonoDevelop.Gui.Pads
 		{
 			try {
 				XmlDocument doc = new XmlDocument();
-				PropertyService propertyService = (PropertyService)ServiceManager.Services.GetService(typeof(PropertyService));
+				PropertyService propertyService = (PropertyService)ServiceManager.GetService(typeof(PropertyService));
 				doc.Load(propertyService.ConfigDirectory + "SideBarConfig.xml");
 				if (doc.DocumentElement.Attributes["version"] == null || doc.DocumentElement.Attributes["version"].InnerText != "1.0") {
 					GenerateStandardSideBar();

@@ -20,7 +20,7 @@ namespace MonoDevelop.Services
 		
 		public IProperties CodeGenerationProperties {
 			get {
-				PropertyService propertyService = (PropertyService)ServiceManager.Services.GetService(typeof(PropertyService));
+				PropertyService propertyService = (PropertyService)ServiceManager.GetService(typeof(PropertyService));
 				return (IProperties)propertyService.GetProperty(codeGenerationProperty, new DefaultProperties());
 			}
 		}
@@ -45,7 +45,7 @@ namespace MonoDevelop.Services
 		
 		public AmbienceReflectionDecorator CurrentAmbience {
 			get {
-				PropertyService propertyService = (PropertyService)ServiceManager.Services.GetService(typeof(PropertyService));
+				PropertyService propertyService = (PropertyService)ServiceManager.GetService(typeof(PropertyService));
 				string language = propertyService.GetProperty(ambienceProperty, "CSharp");
 				return new AmbienceReflectionDecorator((IAmbience)AddInTreeSingleton.AddInTree.GetTreeNode("/SharpDevelop/Workbench/Ambiences").BuildChildItem(language, this));
 			}
@@ -60,7 +60,7 @@ namespace MonoDevelop.Services
 		
 		public override void InitializeService()
 		{
-			PropertyService propertyService = (PropertyService)ServiceManager.Services.GetService(typeof(PropertyService));
+			PropertyService propertyService = (PropertyService)ServiceManager.GetService(typeof(PropertyService));
 			propertyService.PropertyChanged += new PropertyEventHandler(PropertyChanged);
 		}
 		

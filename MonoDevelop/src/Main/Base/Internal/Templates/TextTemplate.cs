@@ -81,8 +81,8 @@ namespace MonoDevelop.Internal.Templates
 		
 		static TextTemplate()
 		{
-			FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.Services.GetService(typeof(FileUtilityService));
-			PropertyService    propertyService    = (PropertyService)ServiceManager.Services.GetService(typeof(PropertyService));
+			FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.GetService(typeof(FileUtilityService));
+			PropertyService    propertyService    = (PropertyService)ServiceManager.GetService(typeof(PropertyService));
 			
 			StringCollection files = fileUtilityService.SearchDirectory(propertyService.DataDirectory + 
 			                            Path.DirectorySeparatorChar + "options" + 

@@ -79,7 +79,7 @@ namespace MonoDevelop.Core.AddIns
 		{
 			addInTree = new DefaultAddInTree();
 			
-			FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.Services.GetService(typeof(FileUtilityService));
+			FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.GetService(typeof(FileUtilityService));
 			
 			StringCollection addInFiles = null;
 			StringCollection retryList  = null;

@@ -20,7 +20,7 @@ namespace MonoDevelop.Gui.Components
 {
 	public class SdMenuCommand : Gtk.ImageMenuItem, IStatusUpdate
 	{
-		static StringParserService stringParserService = (StringParserService)ServiceManager.Services.GetService(typeof(StringParserService));
+		static StringParserService stringParserService = (StringParserService)ServiceManager.GetService(typeof(StringParserService));
 			
 		object caller;
 		ConditionCollection conditionCollection;

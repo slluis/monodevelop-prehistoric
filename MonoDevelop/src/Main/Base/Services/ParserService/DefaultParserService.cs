@@ -229,8 +229,8 @@ namespace MonoDevelop.Services
 		
 		void SetDefaultCompletionFileLocation()
 		{
-			PropertyService propertyService = (PropertyService)ServiceManager.Services.GetService(typeof(PropertyService));
-			FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.Services.GetService (typeof (FileUtilityService));
+			PropertyService propertyService = (PropertyService)ServiceManager.GetService(typeof(PropertyService));
+			FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.GetService (typeof (FileUtilityService));
 			string path = propertyService.GetProperty("SharpDevelop.CodeCompletion.DataDirectory", String.Empty).ToString();
 			if (path == String.Empty) {
                         	path = Path.Combine (fileUtilityService.GetDirectoryNameWithSeparator(propertyService.ConfigDirectory), "CodeCompletionData");
@@ -255,7 +255,7 @@ namespace MonoDevelop.Services
 			coreDatabase = new AssemblyCodeCompletionDatabase (codeCompletionPath, coreName, this);
 			databases [CoreDB] = coreDatabase;
 			
-			IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
+			IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IProjectService));
 			projectService.CombineOpened += new CombineEventHandler(OnCombineOpened);
 			projectService.CombineClosed += new CombineEventHandler(OnCombineClosed);
 			projectService.FileRemovedFromProject += new ProjectFileEventHandler (OnProjectFilesChanged);
@@ -1048,7 +1048,7 @@ namespace MonoDevelop.Services
 			ICompilationUnitBase parserOutput = null;
 			
 			if (fileContent == null) {
-				IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
+				IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IProjectService));
 				if (projectService.CurrentOpenCombine != null) {
 					ArrayList projects = Combine.GetAllProjects(projectService.CurrentOpenCombine);
 					foreach (ProjectCombineEntry entry in projects) {

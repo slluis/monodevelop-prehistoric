@@ -63,7 +63,7 @@ namespace MonoDevelop.TextEditor.Document
 				try {
 					strategy = SourceEditorBuffer.CreateTextBufferFromFile (fileName);
 				} catch (Exception) {
-					TaskService taskService = (TaskService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(TaskService));
+					TaskService taskService = (TaskService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(TaskService));
 					taskService.Tasks.Add(new Task(String.Empty, "can't access " + fileName, -1, -1));
 					return null;
 				}
@@ -112,7 +112,7 @@ namespace MonoDevelop.TextEditor.Document
 		public void Reset() 
 		{
 			files.Clear();
-			IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
+			IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IProjectService));
 			if (projectService.CurrentOpenCombine != null) {
 				AddFiles(projectService.CurrentOpenCombine);
 			}

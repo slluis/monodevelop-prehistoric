@@ -83,7 +83,7 @@ namespace MonoDevelop.SourceEditor.Gui
 		}
 		
 		
-		IParserService ps = (IParserService)ServiceManager.Services.GetService (typeof (IParserService));
+		IParserService ps = (IParserService)ServiceManager.GetService (typeof (IParserService));
 
 		public SourceEditorBuffer (SourceEditorView view) : this ()
 		{

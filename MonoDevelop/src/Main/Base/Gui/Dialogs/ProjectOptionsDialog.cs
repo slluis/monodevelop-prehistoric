@@ -31,7 +31,7 @@ namespace MonoDevelop.Gui.Dialogs {
 		Gtk.CellRendererText textRenderer;		// used to set an editable node
 		Gtk.TreeViewColumn textColumn;			// used to set an editable node
 	
-		StringParserService StringParserService = (StringParserService)ServiceManager.Services.GetService (typeof(StringParserService));
+		StringParserService StringParserService = (StringParserService)ServiceManager.GetService (typeof(StringParserService));
 		
 		public ProjectOptionsDialog(IProject project, IAddInTreeNode node, IAddInTreeNode configurationNode) : base(null, null)
 		{
@@ -292,11 +292,11 @@ namespace MonoDevelop.Gui.Dialogs {
 	
 					// now see if the iter is the configuration root node iter
 					if (iter.Equals(configurationTreeNode)) {							
-						MenuService menuService = (MenuService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(MenuService));
+						MenuService menuService = (MenuService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(MenuService));
 						menuService.ShowContextMenu(this, configNodeMenu, TreeView);
 					} else if (path.Indices[0] == configPath.Indices[0] && (path.Depth - configPath.Depth) == 1) {
 						// now see if it's a specific configuration node (i.e. the configuration root node is it's parent
-						MenuService menuService = (MenuService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(MenuService));
+						MenuService menuService = (MenuService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(MenuService));
 						menuService.ShowContextMenu(this, selectConfigNodeMenu, TreeView);
 					}
 					

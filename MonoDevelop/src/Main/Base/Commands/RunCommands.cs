@@ -40,12 +40,12 @@ namespace MonoDevelop.Commands
 		
 		public static void ShowAfterCompileStatus()
 		{
-			TaskService taskService = (TaskService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(TaskService));
-			IStatusBarService statusBarService = (IStatusBarService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IStatusBarService));
+			TaskService taskService = (TaskService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(TaskService));
+			IStatusBarService statusBarService = (IStatusBarService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IStatusBarService));
 			if (!taskService.SomethingWentWrong) {
 				statusBarService.SetMessage(GettextCatalog.GetString ("Successful"));
 			} else {
-				StringParserService stringParserService = (StringParserService)ServiceManager.Services.GetService(typeof(StringParserService));
+				StringParserService stringParserService = (StringParserService)ServiceManager.GetService(typeof(StringParserService));
 				statusBarService.SetMessage(String.Format (GettextCatalog.GetString ("{0} errors, {1} warnings"), taskService.Errors.ToString (), taskService.Warnings.ToString ()));
 			}
 		}
@@ -56,22 +56,22 @@ namespace MonoDevelop.Commands
 				CombineEntry.BuildProjects = 0;
 				CombineEntry.BuildErrors   = 0;
 				
-				TaskService taskService = (TaskService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(TaskService));
-				IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
-				ResourceService resourceService = (ResourceService)ServiceManager.Services.GetService(typeof(IResourceService));
-				StringParserService stringParserService = (StringParserService)ServiceManager.Services.GetService(typeof(StringParserService));
+				TaskService taskService = (TaskService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(TaskService));
+				IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IProjectService));
+				ResourceService resourceService = (ResourceService)ServiceManager.GetService(typeof(IResourceService));
+				StringParserService stringParserService = (StringParserService)ServiceManager.GetService(typeof(StringParserService));
 				try {
 					if (projectService.CurrentOpenCombine != null) {
 						projectService.CompileCombine();
 						ShowAfterCompileStatus();
 					} else {
 						if (WorkbenchSingleton.Workbench.ActiveWorkbenchWindow != null) {
-							LanguageBindingService languageBindingService = (LanguageBindingService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(LanguageBindingService));
+							LanguageBindingService languageBindingService = (LanguageBindingService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(LanguageBindingService));
 							ILanguageBinding binding = languageBindingService.GetBindingPerFileName(WorkbenchSingleton.Workbench.ActiveWorkbenchWindow.ViewContent.ContentName);
 							
 							if (binding != null) {
 								if (binding == null || !binding.CanCompile(WorkbenchSingleton.Workbench.ActiveWorkbenchWindow.ViewContent.ContentName)) {
-									IMessageService messageService =(IMessageService)ServiceManager.Services.GetService(typeof(IMessageService));
+									IMessageService messageService =(IMessageService)ServiceManager.GetService(typeof(IMessageService));
 									messageService.ShowError(String.Format (GettextCatalog.GetString ("Language binding {0} can't compile {1}"), binding.Language, WorkbenchSingleton.Workbench.ActiveWorkbenchWindow.ViewContent.ContentName));
 								} else {
 									new SaveFile().Run();
@@ -85,7 +85,7 @@ namespace MonoDevelop.Commands
 									ShowAfterCompileStatus();
 								}
 							} else {
-								IMessageService messageService =(IMessageService)ServiceManager.Services.GetService(typeof(IMessageService));
+								IMessageService messageService =(IMessageService)ServiceManager.GetService(typeof(IMessageService));
 								messageService.ShowError(GettextCatalog.GetString ("No source file for compilation found. Please save unsaved files"));
 							}
 						}
@@ -93,7 +93,7 @@ namespace MonoDevelop.Commands
 					taskService.CompilerOutput += String.Format (GettextCatalog.GetString ("---------------------- Done ----------------------\n\nBuild: {0} succeeded, {1} failed\n"), CombineEntry.BuildProjects.ToString (), CombineEntry.BuildErrors.ToString ());
 				} catch (Exception e) {
 					Console.WriteLine (e);
-					IMessageService messageService =(IMessageService)ServiceManager.Services.GetService(typeof(IMessageService));
+					IMessageService messageService =(IMessageService)ServiceManager.GetService(typeof(IMessageService));
 					messageService.ShowError(e, GettextCatalog.GetString ("Error while compiling"));
 				}
 				projectService.OnEndBuild();
@@ -108,8 +108,8 @@ namespace MonoDevelop.Commands
 		public override void Run()
 		{
 			lock (CompileLockObject) {
-				TaskService taskService = (TaskService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(TaskService));
-				IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
+				TaskService taskService = (TaskService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(TaskService));
+				IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IProjectService));
 				
 				if (projectService.CurrentOpenCombine != null) {
 					taskService.CompilerOutput = String.Empty;
@@ -130,10 +130,10 @@ namespace MonoDevelop.Commands
 			lock (Compile.CompileLockObject) {
 				CombineEntry.BuildProjects = 0;
 				CombineEntry.BuildErrors   = 0;
-				TaskService taskService = (TaskService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(TaskService));
-				IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
-				ResourceService resourceService = (ResourceService)ServiceManager.Services.GetService(typeof(IResourceService));
-				StringParserService stringParserService = (StringParserService)ServiceManager.Services.GetService(typeof(StringParserService));
+				TaskService taskService = (TaskService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(TaskService));
+				IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IProjectService));
+				ResourceService resourceService = (ResourceService)ServiceManager.GetService(typeof(IResourceService));
+				StringParserService stringParserService = (StringParserService)ServiceManager.GetService(typeof(StringParserService));
 				try {
 					
 					if (projectService.CurrentOpenCombine != null) {
@@ -141,12 +141,12 @@ namespace MonoDevelop.Commands
 						Compile.ShowAfterCompileStatus();
 					} else {
 						if (WorkbenchSingleton.Workbench.ActiveWorkbenchWindow != null) {
-							LanguageBindingService languageBindingService = (LanguageBindingService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(LanguageBindingService));
+							LanguageBindingService languageBindingService = (LanguageBindingService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(LanguageBindingService));
 							ILanguageBinding binding = languageBindingService.GetBindingPerFileName(WorkbenchSingleton.Workbench.ActiveWorkbenchWindow.ViewContent.ContentName);
 							
 							if (binding != null) {
 								if (binding == null || !binding.CanCompile(WorkbenchSingleton.Workbench.ActiveWorkbenchWindow.ViewContent.ContentName)) {
-									IMessageService messageService =(IMessageService)ServiceManager.Services.GetService(typeof(IMessageService));
+									IMessageService messageService =(IMessageService)ServiceManager.GetService(typeof(IMessageService));
 									messageService.ShowError(String.Format (GettextCatalog.GetString ("Language binding {0} can't compile {1}"), binding.Language, WorkbenchSingleton.Workbench.ActiveWorkbenchWindow.ViewContent.ContentName));
 								} else {
 									new SaveFile().Run();
@@ -160,7 +160,7 @@ namespace MonoDevelop.Commands
 									Compile.ShowAfterCompileStatus();
 								}
 							} else {
-								IMessageService messageService =(IMessageService)ServiceManager.Services.GetService(typeof(IMessageService));
+								IMessageService messageService =(IMessageService)ServiceManager.GetService(typeof(IMessageService));
 								messageService.ShowError(GettextCatalog.GetString ("No source file for compilation found. Please save unsaved files"));
 							}
 						}
@@ -168,7 +168,7 @@ namespace MonoDevelop.Commands
 					taskService.CompilerOutput += String.Format (GettextCatalog.GetString ("---------------------- Done ----------------------\n\nBuild: {0} succeeded, {1} failed\n"), CombineEntry.BuildProjects.ToString(), CombineEntry.BuildErrors.ToString());
 				} catch (Exception e) {
 					Console.WriteLine (e);
-					IMessageService messageService =(IMessageService)ServiceManager.Services.GetService(typeof(IMessageService));
+					IMessageService messageService =(IMessageService)ServiceManager.GetService(typeof(IMessageService));
 					messageService.ShowError(e, GettextCatalog.GetString ("Error while compiling"));
 				}
 				projectService.OnEndBuild();
@@ -178,8 +178,8 @@ namespace MonoDevelop.Commands
 		public override void Run()
 		{
 //			if (Monitor.TryEnter(Compile.CompileLockObject)) {
-				TaskService taskService = (TaskService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(TaskService));
-				IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
+				TaskService taskService = (TaskService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(TaskService));
+				IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IProjectService));
 				if (projectService.CurrentOpenCombine != null) {
 	
 					taskService.CompilerOutput = String.Empty;
@@ -200,9 +200,9 @@ namespace MonoDevelop.Commands
 		bool RunThread()
 		{
 			lock (Compile.CompileLockObject) {
-				TaskService taskService = (TaskService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(TaskService));
-				IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
-				IStatusBarService statusBarService = (IStatusBarService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IStatusBarService));
+				TaskService taskService = (TaskService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(TaskService));
+				IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IProjectService));
+				IStatusBarService statusBarService = (IStatusBarService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IStatusBarService));
 				try {
 					statusBarService.SetMessage(GettextCatalog.GetString ("Executing"));
 					if (projectService.CurrentOpenCombine != null) {
@@ -216,27 +216,27 @@ namespace MonoDevelop.Commands
 							}
 							
 						} catch (NoStartupCombineDefinedException) {
-							IMessageService messageService =(IMessageService)ServiceManager.Services.GetService(typeof(IMessageService));
+							IMessageService messageService =(IMessageService)ServiceManager.GetService(typeof(IMessageService));
 							messageService.ShowError(GettextCatalog.GetString ("Cannot execute Run command, cannot find startup project.\nPlease define a startup project for the combine in the combine properties."));
 						}
 					} else {
 						if (WorkbenchSingleton.Workbench.ActiveWorkbenchWindow != null) {
 							new Compile().RunWithWait();
 							if (taskService.Errors == 0) {
-								LanguageBindingService languageBindingService = (LanguageBindingService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(LanguageBindingService));
+								LanguageBindingService languageBindingService = (LanguageBindingService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(LanguageBindingService));
 								ILanguageBinding binding = languageBindingService.GetBindingPerFileName(WorkbenchSingleton.Workbench.ActiveWorkbenchWindow.ViewContent.ContentName);
 								if (binding != null) {
 									projectService.OnBeforeStartProject();
 									binding.Execute(WorkbenchSingleton.Workbench.ActiveWorkbenchWindow.ViewContent.ContentName);
 								} else {
-									IMessageService messageService =(IMessageService)ServiceManager.Services.GetService(typeof(IMessageService));
+									IMessageService messageService =(IMessageService)ServiceManager.GetService(typeof(IMessageService));
 									messageService.ShowError(GettextCatalog.GetString ("No runnable executable found."));
 								}
 							}
 						}
 					}
 				} catch (Exception e) {
-					IMessageService messageService =(IMessageService)ServiceManager.Services.GetService(typeof(IMessageService));
+					IMessageService messageService =(IMessageService)ServiceManager.GetService(typeof(IMessageService));
 					messageService.ShowError(e, GettextCatalog.GetString ("Error while running"));
 				}
 				statusBarService.SetMessage(GettextCatalog.GetString ("Ready"));
@@ -246,7 +246,7 @@ namespace MonoDevelop.Commands
 		
 		public override void Run()
 		{
-			IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
+			IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IProjectService));
 			if (projectService.CurrentOpenCombine != null) {
 				RunThread(); // TODO FIXME PEDRO
 				
@@ -262,14 +262,14 @@ namespace MonoDevelop.Commands
 		public override void Run()
 		{
 			lock (Compile.CompileLockObject) {
-				TaskService taskService = (TaskService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(TaskService));
-				IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
-				ResourceService resourceService = (ResourceService)ServiceManager.Services.GetService(typeof(IResourceService));
-				IStatusBarService statusBarService = (IStatusBarService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IStatusBarService));
+				TaskService taskService = (TaskService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(TaskService));
+				IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IProjectService));
+				ResourceService resourceService = (ResourceService)ServiceManager.GetService(typeof(IResourceService));
+				IStatusBarService statusBarService = (IStatusBarService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IStatusBarService));
 				
 				if (projectService.CurrentSelectedProject != null) {
 					try {
-						StringParserService stringParserService = (StringParserService)ServiceManager.Services.GetService(typeof(StringParserService));
+						StringParserService stringParserService = (StringParserService)ServiceManager.GetService(typeof(StringParserService));
 						
 						CombineEntry.BuildProjects = 0;
 						CombineEntry.BuildErrors   = 0;
@@ -281,7 +281,7 @@ namespace MonoDevelop.Commands
 						projectService.CompileProject(projectService.CurrentSelectedProject);
 						taskService.CompilerOutput += String.Format (GettextCatalog.GetString ("---------------------- Done ----------------------\n\nBuild: {0} succeeded, {1} failed\n"), CombineEntry.BuildProjects.ToString(), CombineEntry.BuildErrors.ToString());
 					} catch (Exception e) {
-						IMessageService messageService =(IMessageService)ServiceManager.Services.GetService(typeof(IMessageService));
+						IMessageService messageService =(IMessageService)ServiceManager.GetService(typeof(IMessageService));
 						messageService.ShowError(e, String.Format (GettextCatalog.GetString ("Error while compiling project {0}"), projectService.CurrentSelectedProject.Name));
 					}
 					projectService.OnEndBuild();
@@ -296,14 +296,14 @@ namespace MonoDevelop.Commands
 		public override void Run()
 		{
 			lock (Compile.CompileLockObject) {
-				TaskService taskService = (TaskService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(TaskService));
-				IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
-				ResourceService resourceService = (ResourceService)ServiceManager.Services.GetService(typeof(IResourceService));
-				IStatusBarService statusBarService = (IStatusBarService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IStatusBarService));
+				TaskService taskService = (TaskService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(TaskService));
+				IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IProjectService));
+				ResourceService resourceService = (ResourceService)ServiceManager.GetService(typeof(IResourceService));
+				IStatusBarService statusBarService = (IStatusBarService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IStatusBarService));
 				
 				if (projectService.CurrentSelectedProject != null) {
 					try {
-						StringParserService stringParserService = (StringParserService)ServiceManager.Services.GetService(typeof(StringParserService));
+						StringParserService stringParserService = (StringParserService)ServiceManager.GetService(typeof(StringParserService));
 						
 						CombineEntry.BuildProjects = 0;
 						CombineEntry.BuildErrors   = 0;
@@ -315,7 +315,7 @@ namespace MonoDevelop.Commands
 						projectService.RecompileProject(projectService.CurrentSelectedProject);
 						taskService.CompilerOutput += String.Format (GettextCatalog.GetString ("---------------------- Done ----------------------\n\nBuild: {0} succeeded, {1} failed\n"), CombineEntry.BuildProjects.ToString(), CombineEntry.BuildErrors.ToString());
 					} catch (Exception e) {
-						IMessageService messageService =(IMessageService)ServiceManager.Services.GetService(typeof(IMessageService));
+						IMessageService messageService =(IMessageService)ServiceManager.GetService(typeof(IMessageService));
 						messageService.ShowError(e, String.Format (GettextCatalog.GetString ("Error while compiling project {0}"), projectService.CurrentSelectedProject.Name));
 					}
 					projectService.OnEndBuild();
@@ -329,7 +329,7 @@ namespace MonoDevelop.Commands
 		
 		public override void Run () 
 		{
-			IProjectService projectservice = (IProjectService)ServiceManager.Services.GetService (typeof (IProjectService));
+			IProjectService projectservice = (IProjectService)ServiceManager.GetService (typeof (IProjectService));
 			if (projectservice.CurrentOpenCombine != null) {
 				projectservice.GenerateMakefiles ();
 			}

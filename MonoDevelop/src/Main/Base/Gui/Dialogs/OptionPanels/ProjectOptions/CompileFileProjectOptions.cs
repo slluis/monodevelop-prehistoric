@@ -25,7 +25,7 @@ namespace MonoDevelop.Gui.Dialogs.OptionPanels
 {
 	public class CompileFileProjectOptions : AbstractOptionPanel
 	{
-		static MessageService messageService = (MessageService) ServiceManager.Services.GetService (typeof (MessageService));
+		static MessageService messageService = (MessageService) ServiceManager.GetService (typeof (MessageService));
 
 		class CompileFileOptionsWidget : GladeWidgetExtract 
 		{
@@ -35,8 +35,8 @@ namespace MonoDevelop.Gui.Dialogs.OptionPanels
 			public ListStore store;
 			
 			// Services
-			StringParserService StringParserService = (StringParserService) ServiceManager.Services.GetService (typeof (StringParserService));
-			FileUtilityService fileUtilityService = (FileUtilityService) ServiceManager.Services.GetService (typeof (FileUtilityService));
+			StringParserService StringParserService = (StringParserService) ServiceManager.GetService (typeof (StringParserService));
+			FileUtilityService fileUtilityService = (FileUtilityService) ServiceManager.GetService (typeof (FileUtilityService));
 
 			IProject project;
 

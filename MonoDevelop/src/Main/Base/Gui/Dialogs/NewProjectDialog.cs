@@ -49,11 +49,11 @@ namespace MonoDevelop.Gui.Dialogs {
 		[Glade.Widget] Gtk.TreeView lst_template_types;
 		[Glade.Widget] HBox hbox_template, hbox_for_browser;
 		
-		ResourceService     resourceService = (ResourceService)ServiceManager.Services.GetService(typeof(IResourceService));
-		FileUtilityService  fileUtilityService = (FileUtilityService)ServiceManager.Services.GetService(typeof(FileUtilityService));
-		StringParserService stringParserService = (StringParserService)ServiceManager.Services.GetService(typeof(StringParserService));
-		PropertyService     propertyService = (PropertyService)ServiceManager.Services.GetService(typeof(PropertyService));
-		MessageService      messageService = (MessageService)ServiceManager.Services.GetService(typeof(MessageService));
+		ResourceService     resourceService = (ResourceService)ServiceManager.GetService(typeof(IResourceService));
+		FileUtilityService  fileUtilityService = (FileUtilityService)ServiceManager.GetService(typeof(FileUtilityService));
+		StringParserService stringParserService = (StringParserService)ServiceManager.GetService(typeof(StringParserService));
+		PropertyService     propertyService = (PropertyService)ServiceManager.GetService(typeof(PropertyService));
+		MessageService      messageService = (MessageService)ServiceManager.GetService(typeof(MessageService));
 		bool openCombine;
 		
 		public NewProjectDialog (bool openCombine)
@@ -178,7 +178,7 @@ namespace MonoDevelop.Gui.Dialogs {
 			
 			if (showFile) {
 				string longfilename = fileUtilityService.GetDirectoryNameWithSeparator (ProjectSolution) + stringParserService.Parse(filename, new string[,] { {"PROJECT", txt_name.Text}});
-				IFileService fileService = (IFileService) MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IFileService));
+				IFileService fileService = (IFileService) MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IFileService));
 				fileService.OpenFile (longfilename);
 			}
 		}
@@ -188,18 +188,18 @@ namespace MonoDevelop.Gui.Dialogs {
 		
 		void OpenEvent(object sender, EventArgs e)
 		{
-			PropertyService propertyService = (PropertyService)ServiceManager.Services.GetService(typeof(PropertyService));
+			PropertyService propertyService = (PropertyService)ServiceManager.GetService(typeof(PropertyService));
 			if (TemplateView.CurrentlySelected != null) {
 				propertyService.SetProperty("Dialogs.NewProjectDialog.LastSelectedCategory", ((ProjectTemplate)TemplateView.CurrentlySelected).Name);
 				//propertyService.SetProperty("Dialogs.NewProjectDialog.LargeImages", ((RadioButton)ControlDictionary["largeIconsRadioButton"]).Checked);
 			}
 			
-			FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.Services.GetService(typeof(FileUtilityService));
+			FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.GetService(typeof(FileUtilityService));
 			string solution = txt_subdirectory.Text;
 			string name     = txt_name.Text;
 			string location = entry_location.Path;
 
-			IProjectService projService = (IProjectService)ServiceManager.Services.GetService(typeof(IProjectService));			
+			IProjectService projService = (IProjectService)ServiceManager.GetService(typeof(IProjectService));			
 						
 			if(solution.Equals("")) solution = name; //This was empty when adding after first combine
 			
@@ -408,7 +408,7 @@ namespace MonoDevelop.Gui.Dialogs {
 			
 			public TemplateItem(ProjectTemplate template)
 			{
-				name = ((StringParserService)ServiceManager.Services.GetService(typeof(StringParserService))).Parse(template.Name);
+				name = ((StringParserService)ServiceManager.GetService(typeof(StringParserService))).Parse(template.Name);
 				this.template = template;
 			}
 			

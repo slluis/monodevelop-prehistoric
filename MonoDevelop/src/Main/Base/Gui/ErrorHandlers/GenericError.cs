@@ -18,7 +18,7 @@ namespace MonoDevelop.Gui.ErrorHandlers
 		
 		public static void DisplayError(string message)
 		{
-			IMessageService messageService =(IMessageService)ServiceManager.Services.GetService(typeof(IMessageService));
+			IMessageService messageService =(IMessageService)ServiceManager.GetService(typeof(IMessageService));
 			messageService.ShowError(message);
 		}
 	}

@@ -77,15 +77,15 @@ namespace MonoDevelop.Gui.Dialogs.OptionPanels
 			};
 			 
 			// Services
-			FileUtilityService FileUtilityService = (FileUtilityService) ServiceManager.Services.GetService(
+			FileUtilityService FileUtilityService = (FileUtilityService) ServiceManager.GetService(
 				typeof (FileUtilityService));
-			StringParserService StringParserService = (StringParserService) ServiceManager.Services.GetService (
+			StringParserService StringParserService = (StringParserService) ServiceManager.GetService (
 				typeof (StringParserService));
-			PropertyService PropertyService = (PropertyService) ServiceManager.Services.GetService(
+			PropertyService PropertyService = (PropertyService) ServiceManager.GetService(
 				typeof (PropertyService));
-			MessageService MessageService = (MessageService) ServiceManager.Services.GetService(
+			MessageService MessageService = (MessageService) ServiceManager.GetService(
 				typeof (MessageService));
-			MenuService MenuService = (MenuService) ServiceManager.Services.GetService(
+			MenuService MenuService = (MenuService) ServiceManager.GetService(
 				typeof (MenuService));
 
 			// gtk controls

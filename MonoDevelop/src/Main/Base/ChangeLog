@@ -1,5 +1,10 @@
 2004-06-23  Todd Berman  <tberman@off.net>
 
+	* Gui/CompletionDatabaseWizard: removed directory, as its unused.
+	* Makefile.am: updated to reflect above.
+
+2004-06-23  Todd Berman  <tberman@off.net>
+
 	* Services/Project/DefaultProjectService.cs: make solution loading take
 	place without any gui locks.
 	* Service/File/DefaultFileService.cs: proxy OpenFile to a real method

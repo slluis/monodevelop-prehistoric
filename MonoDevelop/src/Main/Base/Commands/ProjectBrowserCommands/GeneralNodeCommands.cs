@@ -33,7 +33,7 @@ namespace MonoDevelop.Commands.ProjectBrowser
 		{
 			ProjectBrowserView  browser = (ProjectBrowserView)Owner;
 			AbstractBrowserNode node    = browser.SelectedNode as AbstractBrowserNode;
-			IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
+			IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IProjectService));
 			
 			if (node.IsEditing) { // TODO : throw remove key to the browser component.
 				return;

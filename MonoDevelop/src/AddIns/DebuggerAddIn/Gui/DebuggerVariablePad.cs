@@ -68,7 +68,7 @@ namespace MonoDevelop.SourceEditor.Gui
 			Add (tree);
 			ShowAll ();
 
-			DebuggingService dbgr = (DebuggingService)ServiceManager.Services.GetService (typeof (DebuggingService));
+			DebuggingService dbgr = (DebuggingService)ServiceManager.GetService (typeof (DebuggingService));
 			dbgr.PausedEvent += new EventHandler (OnPausedEvent);
 			dbgr.ResumedEvent += new EventHandler (OnResumedEvent);
 			dbgr.StoppedEvent += new EventHandler (OnStoppedEvent);
@@ -200,7 +200,7 @@ namespace MonoDevelop.SourceEditor.Gui
 
 		void add_object (ITargetObject obj, string name, TreeIter iter)
 		{
-			AmbienceService amb = (AmbienceService)MonoDevelop.Core.Services.ServiceManager.Services.GetService (typeof (AmbienceService));
+			AmbienceService amb = (AmbienceService)MonoDevelop.Core.Services.ServiceManager.GetService (typeof (AmbienceService));
 			store.SetValue (iter, 0, new GLib.Value (name));
 			store.SetValue (iter, 1, new GLib.Value (amb.CurrentAmbience.GetIntrinsicTypeName (obj.Type.Name)));
 
@@ -280,7 +280,7 @@ namespace MonoDevelop.SourceEditor.Gui
 
 		protected void OnPausedEvent (object o, EventArgs args)
 		{
-			DebuggingService dbgr = (DebuggingService)ServiceManager.Services.GetService (typeof (DebuggingService));
+			DebuggingService dbgr = (DebuggingService)ServiceManager.GetService (typeof (DebuggingService));
 			current_frame = (StackFrame)dbgr.CurrentFrame;
 			UpdateDisplay ();
 		}

@@ -148,7 +148,7 @@ namespace MonoDevelop.Gui.Dialogs
 		
 		public static ArrayList GenerateWebProxyCode(IProject project, ServiceDescription desc) {		
 			ArrayList fileList = null;
-			ResourceService resourceService = (ResourceService)ServiceManager.Services.GetService(typeof(IResourceService));				 
+			ResourceService resourceService = (ResourceService)ServiceManager.GetService(typeof(IResourceService));				 
 			
 			string serviceName = String.Empty;
 			if(desc.Services.Count > 0) {

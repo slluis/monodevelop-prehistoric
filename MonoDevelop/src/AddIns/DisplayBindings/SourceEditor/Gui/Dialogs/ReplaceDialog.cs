@@ -35,10 +35,10 @@ namespace MonoDevelop.Gui.Dialogs
 		StringCollection replaceHistory = new StringCollection();
 		
 		// services
-		ResourceService resourceService = (ResourceService)ServiceManager.Services.GetService(typeof(IResourceService));
-		static PropertyService propertyService = (PropertyService)ServiceManager.Services.GetService(typeof(PropertyService));
-		static FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.Services.GetService(typeof(FileUtilityService));
-		StringParserService stringParserService = (StringParserService)ServiceManager.Services.GetService (typeof (StringParserService));
+		ResourceService resourceService = (ResourceService)ServiceManager.GetService(typeof(IResourceService));
+		static PropertyService propertyService = (PropertyService)ServiceManager.GetService(typeof(PropertyService));
+		static FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.GetService(typeof(FileUtilityService));
+		StringParserService stringParserService = (StringParserService)ServiceManager.GetService (typeof (StringParserService));
 		
 		// gtk widgets
 		[Glade.Widget] Gnome.Entry searchPatternEntry;

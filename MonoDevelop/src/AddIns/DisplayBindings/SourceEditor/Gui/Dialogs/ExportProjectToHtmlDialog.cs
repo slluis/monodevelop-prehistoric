@@ -34,9 +34,9 @@ namespace MonoDevelop.Gui.Dialogs
 		Button browseButton = new Button ();
 		ProgressBar progressBar = new ProgressBar ();
 		
-		FileUtilityService fileUtilityService = (FileUtilityService) ServiceManager.Services.GetService(typeof(FileUtilityService));
-		IconService iconService = (IconService) ServiceManager.Services.GetService(typeof(IconService));
-		ResourceService resourceService = (ResourceService) ServiceManager.Services.GetService(typeof(IResourceService));	
+		FileUtilityService fileUtilityService = (FileUtilityService) ServiceManager.GetService(typeof(FileUtilityService));
+		IconService iconService = (IconService) ServiceManager.GetService(typeof(IconService));
+		ResourceService resourceService = (ResourceService) ServiceManager.GetService(typeof(IResourceService));	
 		
 		IProject project;
 		int filesExported = 0;
@@ -59,7 +59,7 @@ namespace MonoDevelop.Gui.Dialogs
 
 		public ExportProjectToHtmlDialog (IProject project)
 		{
-			PropertyService propertyService = (PropertyService) ServiceManager.Services.GetService (typeof (PropertyService));	
+			PropertyService propertyService = (PropertyService) ServiceManager.GetService (typeof (PropertyService));	
 			this.project = project;
 			
 			pathLabel.Text = resourceService.GetString ("Dialog.ExportProjectToHtml.FolderLabel");

@@ -80,7 +80,7 @@ namespace MonoDevelop.Services
 		public override void InitializeService()
 		{
 			base.InitializeService();
-			IFileService fileService = (IFileService)ServiceManager.Services.GetService(typeof(IFileService));
+			IFileService fileService = (IFileService)ServiceManager.GetService(typeof(IFileService));
 			fileService.FileRenamed += new FileEventHandler(CheckFileRename);
 			fileService.FileRemoved += new FileEventHandler(CheckFileRemove);
 		}

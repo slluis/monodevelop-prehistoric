@@ -67,7 +67,7 @@ namespace MonoDevelop.Internal.ExternalTool
 				doc.DocumentElement.AppendChild(et.ToXmlElement(doc));
 			}
 			
-			FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.Services.GetService(typeof(FileUtilityService));
+			FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.GetService(typeof(FileUtilityService));
 			fileUtilityService.ObservedSave(new NamedFileOperationDelegate(doc.Save), fileName, FileErrorPolicy.ProvideAlternative);
 		}
 		
@@ -77,16 +77,16 @@ namespace MonoDevelop.Internal.ExternalTool
 		/// </summary>
 		static ToolLoader()
 		{
-			PropertyService propertyService = (PropertyService)ServiceManager.Services.GetService(typeof(PropertyService));
-			FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.Services.GetService(typeof(FileUtilityService));
+			PropertyService propertyService = (PropertyService)ServiceManager.GetService(typeof(PropertyService));
+			FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.GetService(typeof(FileUtilityService));
 		
 			if (!LoadToolsFromStream(propertyService.ConfigDirectory + TOOLFILE)) {
 				//Console.WriteLine("Tools: can't load user defaults, reading system defaults");
 				if (!LoadToolsFromStream(propertyService.DataDirectory +
 				                         Path.DirectorySeparatorChar + "options" + 
 				                         Path.DirectorySeparatorChar + TOOLFILE)) {
-					IResourceService resourceService = (IResourceService)ServiceManager.Services.GetService(typeof(IResourceService));
-                	IMessageService messageService = (IMessageService)ServiceManager.Services.GetService(typeof(IMessageService));
+					IResourceService resourceService = (IResourceService)ServiceManager.GetService(typeof(IResourceService));
+                	IMessageService messageService = (IMessageService)ServiceManager.GetService(typeof(IMessageService));
 					messageService.ShowWarning(GettextCatalog.GetString ("Can't load external tools configuration file"));
 				}
 			}
@@ -98,7 +98,7 @@ namespace MonoDevelop.Internal.ExternalTool
 		/// </summary>
 		public static void SaveTools()
 		{
-			PropertyService propertyService = (PropertyService)ServiceManager.Services.GetService(typeof(PropertyService));
+			PropertyService propertyService = (PropertyService)ServiceManager.GetService(typeof(PropertyService));
 			WriteToolsToFile(propertyService.ConfigDirectory + TOOLFILE);
 		}
 	}

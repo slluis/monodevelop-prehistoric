@@ -47,9 +47,9 @@ namespace MonoDevelop.Commands
 		
 		public Gtk.MenuItem[] BuildSubmenu(ConditionCollection conditionCollection, object owner)
 		{
-			IFileService fileService = (IFileService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IFileService));
-			ResourceService resourceService = (ResourceService)ServiceManager.Services.GetService(typeof(IResourceService));
-			StringParserService stringParserService = (StringParserService)ServiceManager.Services.GetService(typeof(StringParserService));
+			IFileService fileService = (IFileService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IFileService));
+			ResourceService resourceService = (ResourceService)ServiceManager.GetService(typeof(IResourceService));
+			StringParserService stringParserService = (StringParserService)ServiceManager.GetService(typeof(StringParserService));
 			
 			RecentOpen recentOpen = fileService.RecentOpen;
 			
@@ -75,7 +75,7 @@ namespace MonoDevelop.Commands
 		void LoadRecentFile(object sender, EventArgs e)
 		{
 			SdMenuCommand item = (SdMenuCommand)sender;
-			IFileService fileService = (IFileService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IFileService));
+			IFileService fileService = (IFileService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IFileService));
 			fileService.OpenFile(item.Tag.ToString());
 		}
 	}
@@ -91,9 +91,9 @@ namespace MonoDevelop.Commands
 		
 		public Gtk.MenuItem[] BuildSubmenu(ConditionCollection conditionCollection, object owner)
 		{
-			IFileService fileService = (IFileService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IFileService));
-			ResourceService resourceService = (ResourceService)ServiceManager.Services.GetService(typeof(IResourceService));
-			StringParserService stringParserService = (StringParserService)ServiceManager.Services.GetService(typeof(StringParserService));
+			IFileService fileService = (IFileService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IFileService));
+			ResourceService resourceService = (ResourceService)ServiceManager.GetService(typeof(IResourceService));
+			StringParserService stringParserService = (StringParserService)ServiceManager.GetService(typeof(StringParserService));
 			
 			RecentOpen recentOpen = fileService.RecentOpen;
 			
@@ -116,7 +116,7 @@ namespace MonoDevelop.Commands
 		void LoadRecentProject(object sender, EventArgs e)
 		{
 			SdMenuCommand item = (SdMenuCommand)sender;
-			IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
+			IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IProjectService));
 			
 			//FIXME:THIS IS BROKEN!!
 			
@@ -152,10 +152,10 @@ namespace MonoDevelop.Commands
 		void ToolEvt(object sender, EventArgs e)
 		{
 			SdMenuCommand item = (SdMenuCommand)sender;
-			IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
-			StringParserService stringParserService = (StringParserService)ServiceManager.Services.GetService(typeof(StringParserService));
-			FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.Services.GetService(typeof(FileUtilityService));
-			MessageService messageService =(MessageService)ServiceManager.Services.GetService(typeof(MessageService));
+			IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IProjectService));
+			StringParserService stringParserService = (StringParserService)ServiceManager.GetService(typeof(StringParserService));
+			FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.GetService(typeof(FileUtilityService));
+			MessageService messageService =(MessageService)ServiceManager.GetService(typeof(MessageService));
 			
 			for (int i = 0; i < ToolLoader.Tool.Count; ++i) {
 				if (item.Text == ToolLoader.Tool[i].ToString()) {
@@ -322,7 +322,7 @@ namespace MonoDevelop.Commands
 					finfo.BuildAction = BuildAction.Compile;
 				}
 			}
-			IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
+			IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IProjectService));
 			projectService.SaveCombine();
 		}
 		
@@ -342,7 +342,7 @@ namespace MonoDevelop.Commands
 					node.Project.DeployInformation.AddExcludedFile(finfo.Name);
 				}
 			}
-			IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
+			IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IProjectService));
 			projectService.SaveCombine();
 		}
 	}

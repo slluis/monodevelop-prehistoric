@@ -100,7 +100,7 @@ namespace MonoDevelop.Core.Services
 					}
 				}
 			} catch (Exception e) {
-				IMessageService messageService =(IMessageService)ServiceManager.Services.GetService(typeof(IMessageService));
+				IMessageService messageService =(IMessageService)ServiceManager.GetService(typeof(IMessageService));
 				messageService.ShowError(e, "Can't access directory " + directory);
 			}
 		}
@@ -197,10 +197,10 @@ namespace MonoDevelop.Core.Services
 		public bool TestFileExists(string filename)
 		{
 			if (!File.Exists(filename)) {
-				IResourceService resourceService = (IResourceService)ServiceManager.Services.GetService(typeof(IResourceService));
-				StringParserService stringParserService = (StringParserService)ServiceManager.Services.GetService(typeof(StringParserService));
+				IResourceService resourceService = (IResourceService)ServiceManager.GetService(typeof(IResourceService));
+				StringParserService stringParserService = (StringParserService)ServiceManager.GetService(typeof(StringParserService));
 				
-				IMessageService messageService =(IMessageService)ServiceManager.Services.GetService(typeof(IMessageService));
+				IMessageService messageService =(IMessageService)ServiceManager.GetService(typeof(IMessageService));
 				messageService.ShowWarning(stringParserService.Parse(resourceService.GetString("Fileutility.CantFindFileError"), new string[,] { {"FILE",  filename} }));
 				return false;
 			}
@@ -273,7 +273,7 @@ namespace MonoDevelop.Core.Services
 		
 		public FileOperationResult ObservedSave(FileOperationDelegate saveFile, string fileName, FileErrorPolicy policy)
 		{
-			IResourceService resourceService = (IResourceService)ServiceManager.Services.GetService(typeof(IResourceService));
+			IResourceService resourceService = (IResourceService)ServiceManager.GetService(typeof(IResourceService));
 			return ObservedSave(saveFile,
 			                    fileName,
 			                    resourceService.GetString("ICSharpCode.Services.FileUtilityService.CantSaveFileStandardText"),
@@ -340,7 +340,7 @@ namespace MonoDevelop.Core.Services
 		
 		public FileOperationResult ObservedSave(NamedFileOperationDelegate saveFileAs, string fileName, FileErrorPolicy policy)
 		{
-			IResourceService resourceService = (IResourceService)ServiceManager.Services.GetService(typeof(IResourceService));
+			IResourceService resourceService = (IResourceService)ServiceManager.GetService(typeof(IResourceService));
 			return ObservedSave(saveFileAs,
 			                    fileName,
 			                    resourceService.GetString("ICSharpCode.Services.FileUtilityService.CantSaveFileStandardText"),
@@ -394,7 +394,7 @@ namespace MonoDevelop.Core.Services
 		
 		public FileOperationResult ObservedLoad(FileOperationDelegate saveFile, string fileName, FileErrorPolicy policy)
 		{
-			IResourceService resourceService = (IResourceService)ServiceManager.Services.GetService(typeof(IResourceService));
+			IResourceService resourceService = (IResourceService)ServiceManager.GetService(typeof(IResourceService));
 			return ObservedLoad(saveFile,
 			                    fileName,
 			                    resourceService.GetString("ICSharpCode.Services.FileUtilityService.CantLoadFileStandardText"),
@@ -430,7 +430,7 @@ namespace MonoDevelop.Core.Services
 		
 		public FileOperationResult ObservedLoad(NamedFileOperationDelegate saveFileAs, string fileName, FileErrorPolicy policy)
 		{
-			IResourceService resourceService = (IResourceService)ServiceManager.Services.GetService(typeof(IResourceService));
+			IResourceService resourceService = (IResourceService)ServiceManager.GetService(typeof(IResourceService));
 			return ObservedLoad(saveFileAs,
 			                    fileName,
 			                    resourceService.GetString("ICSharpCode.Services.FileUtilityService.CantLoadFileStandardText"),

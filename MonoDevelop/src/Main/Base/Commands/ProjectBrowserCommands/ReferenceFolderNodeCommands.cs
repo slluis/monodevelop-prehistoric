@@ -47,7 +47,7 @@ namespace MonoDevelop.Commands.ProjectBrowser
 					}
 					
 					DefaultDotNetNodeBuilder.InitializeReferences(node, project);
-					IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
+					IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IProjectService));
 					projectService.SaveCombine();
 				}
 				selDialog.Hide ();
@@ -85,9 +85,9 @@ namespace MonoDevelop.Commands.ProjectBrowser
 			
 			if (node != null) {
 				IProject project = ((ProjectBrowserNode)node.Parent).Project;
-				FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.Services.GetService(typeof(FileUtilityService));
-				IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
-				IParserService parserService = (IParserService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IParserService));					
+				FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.GetService(typeof(FileUtilityService));
+				IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IProjectService));
+				IParserService parserService = (IParserService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IParserService));					
 			
 /*				using (AddWebReferenceDialog refDialog = new AddWebReferenceDialog(project)) {
 					if (refDialog.ShowDialog() == DialogResult.OK) {						

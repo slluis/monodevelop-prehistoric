@@ -1,3 +1,7 @@
+2004-06-23  Todd Berman  <tberman@off.net>
+
+	* *.cs: Lots of changes to reflect the ServiceManager change.
+
 2004-06-18  Todd Berman  <tberman@off.net>
 
 	* configure.in: change how we reference the debugger stuff, to make

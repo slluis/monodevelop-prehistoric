@@ -20,7 +20,7 @@ namespace MonoDevelop.Core.Services
 	/// </summary>
 	public class MessageService : AbstractService, IMessageService
 	{
-		StringParserService stringParserService = (StringParserService)ServiceManager.Services.GetService(typeof(StringParserService));
+		StringParserService stringParserService = (StringParserService)ServiceManager.GetService(typeof(StringParserService));
 		
 		public void ShowError(Exception ex)
 		{

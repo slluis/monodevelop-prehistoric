@@ -27,10 +27,10 @@ namespace MonoDevelop.Gui.Dialogs
 {
 	public class ReplaceInFilesDialog
 	{
-		ResourceService resourceService = (ResourceService)ServiceManager.Services.GetService(typeof(IResourceService));
-		IMessageService messageService  = (IMessageService)ServiceManager.Services.GetService(typeof(IMessageService));
-		StringParserService stringParserService = (StringParserService)ServiceManager.Services.GetService (typeof (StringParserService));
-		static PropertyService propertyService = (PropertyService)ServiceManager.Services.GetService(typeof(PropertyService));
+		ResourceService resourceService = (ResourceService)ServiceManager.GetService(typeof(IResourceService));
+		IMessageService messageService  = (IMessageService)ServiceManager.GetService(typeof(IMessageService));
+		StringParserService stringParserService = (StringParserService)ServiceManager.GetService (typeof (StringParserService));
+		static PropertyService propertyService = (PropertyService)ServiceManager.GetService(typeof(PropertyService));
 		public bool replaceMode;
 
 		[Glade.Widget] Gnome.Entry searchPatternEntry;
@@ -153,7 +153,7 @@ namespace MonoDevelop.Gui.Dialogs
 		public ReplaceInFilesDialog(bool replaceMode)
 		{
 			this.replaceMode = replaceMode;
-			FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.Services.GetService(typeof(FileUtilityService));
+			FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.GetService(typeof(FileUtilityService));
 			string dialogName = (replaceMode) ? "ReplaceInFilesDialogWidget" : "FindInFilesDialogWidget";
 			Glade.XML glade = new XML (null, "texteditoraddin.glade", dialogName, null);
 			glade.Autoconnect (this);
@@ -254,7 +254,7 @@ namespace MonoDevelop.Gui.Dialogs
 		
 		void BrowseDirectoryEvent(object sender, EventArgs e)
 		{
-			PropertyService PropertyService = (PropertyService)ServiceManager.Services.GetService (typeof (PropertyService));			
+			PropertyService PropertyService = (PropertyService)ServiceManager.GetService (typeof (PropertyService));			
 			FolderDialog fd = new FolderDialog(GettextCatalog.GetString ("Select directory"));
 
 			// set up the dialog to point to currently selected folder, or the default projects folder
@@ -295,7 +295,7 @@ namespace MonoDevelop.Gui.Dialogs
 		
 		bool SetupSearchReplaceInFilesManager()
 		{
-			FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.Services.GetService(typeof(FileUtilityService));
+			FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.GetService(typeof(FileUtilityService));
 			
 			string directoryName = directoryTextBox.Text;
 			string fileMask      = fileMaskTextBox.Text;

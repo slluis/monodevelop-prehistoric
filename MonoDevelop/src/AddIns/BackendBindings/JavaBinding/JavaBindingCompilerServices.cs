@@ -65,7 +65,7 @@ namespace JavaBinding
 			return Path.ChangeExtension(fileName, ".class");
 		}
 
-		FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.Services.GetService(typeof(FileUtilityService));
+		FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.GetService(typeof(FileUtilityService));
 
 		public string GetCompiledOutputName(IProject project)
 		{
@@ -165,7 +165,7 @@ namespace JavaBinding
            		p.StartInfo = si;
             		p.Start ();
 
-			IStatusBarService sbs = (IStatusBarService)ServiceManager.Services.GetService (typeof (IStatusBarService));
+			IStatusBarService sbs = (IStatusBarService)ServiceManager.GetService (typeof (IStatusBarService));
 			sbs.SetMessage ("Compiling...");
 
 			while (!p.HasExited) {

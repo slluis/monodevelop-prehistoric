@@ -42,7 +42,7 @@ namespace MonoDevelop.EditorBindings.Properties {
 	}
 	
 	public class TextEditorProperties {
-		static PropertyService propertyService = (PropertyService)ServiceManager.Services.GetService(typeof(PropertyService));
+		static PropertyService propertyService = (PropertyService)ServiceManager.GetService(typeof(PropertyService));
 		static IProperties properties = ((IProperties) propertyService.GetProperty (
 			"MonoDevelop.TextEditor.Document.Document.DefaultDocumentAggregatorProperties",
 			new DefaultProperties()));

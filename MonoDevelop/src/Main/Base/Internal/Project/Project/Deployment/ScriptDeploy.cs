@@ -18,21 +18,21 @@ namespace MonoDevelop.Internal.Project
 	{
 		public void DeployProject(IProject project)
 		{
-			IResourceService resourceService = (IResourceService)ServiceManager.Services.GetService(typeof(IResourceService));
+			IResourceService resourceService = (IResourceService)ServiceManager.GetService(typeof(IResourceService));
 			if (project.DeployInformation.DeployScript.Length == 0) {
-				IMessageService messageService =(IMessageService)ServiceManager.Services.GetService(typeof(IMessageService));
+				IMessageService messageService =(IMessageService)ServiceManager.GetService(typeof(IMessageService));
 				messageService.ShowError(GettextCatalog.GetString ("Can't deploy: you forgot to specify a deployment script"));
 				return;
 			}
 			try {
-				FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.Services.GetService(typeof(FileUtilityService));
+				FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.GetService(typeof(FileUtilityService));
 				if (fileUtilityService.TestFileExists(project.DeployInformation.DeployScript)) {
 					ProcessStartInfo pInfo = new ProcessStartInfo(project.DeployInformation.DeployScript);
 					pInfo.WorkingDirectory = Path.GetDirectoryName(project.DeployInformation.DeployScript);
 					Process.Start(pInfo);
 				}
 			} catch (Exception e) {
-				IMessageService messageService =(IMessageService)ServiceManager.Services.GetService(typeof(IMessageService));
+				IMessageService messageService =(IMessageService)ServiceManager.GetService(typeof(IMessageService));
 				messageService.ShowError(e, GettextCatalog.GetString ("Error while executing deploy script"));
 			}
 		}

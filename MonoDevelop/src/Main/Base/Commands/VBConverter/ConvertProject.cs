@@ -52,7 +52,7 @@ namespace MonoDevelop.Commands
 		
 		public override void Run()
 		{
-			IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
+			IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IProjectService));
 			
 			if (projectService.CurrentSelectedProject != null) {
 				foreach (ProjectFile file in projectService.CurrentSelectedProject.ProjectFiles) {

@@ -44,7 +44,7 @@ namespace MonoDevelop.Gui.Dialogs.OptionPanels
  			[Glade.Widget] CheckButton enableViewStateCheckButton;
 
 			// Services
-			StringParserService StringParserService = (StringParserService)ServiceManager.Services.GetService (
+			StringParserService StringParserService = (StringParserService)ServiceManager.GetService (
 							typeof (StringParserService));
 			IProject project;
 

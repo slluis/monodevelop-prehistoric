@@ -30,13 +30,13 @@ namespace MonoDevelop.Gui.Dialogs.OptionPanels
 			[Glade.WidgetAttribute] Button OutputDirBrowse;
 			
 			// Services
-			StringParserService StringParserService = (StringParserService)ServiceManager.Services.GetService (
+			StringParserService StringParserService = (StringParserService)ServiceManager.GetService (
 										typeof (StringParserService));
-			static ResourceService resourceService = (ResourceService)ServiceManager.Services.GetService(
+			static ResourceService resourceService = (ResourceService)ServiceManager.GetService(
 										typeof(IResourceService));
-			static PropertyService propertyService = (PropertyService)ServiceManager.Services.GetService(
+			static PropertyService propertyService = (PropertyService)ServiceManager.GetService(
 										typeof(PropertyService));
-			FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.Services.GetService (typeof (FileUtilityService));
+			FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.GetService (typeof (FileUtilityService));
 			
 			Combine combine;
 

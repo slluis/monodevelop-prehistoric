@@ -29,7 +29,7 @@ namespace MonoDevelop.Gui.Pads
 	
 		public HelpTree () : base (GettextCatalog.GetString ("Help"), Gtk.Stock.Help)
 		{
-			mds = (MonodocService)ServiceManager.Services.GetService (typeof (MonodocService));
+			mds = (MonodocService)ServiceManager.GetService (typeof (MonodocService));
 			tree_view = new TreeView ();
 
 			tree_view.AppendColumn ("name_col", new CellRendererText (), "text", 0);

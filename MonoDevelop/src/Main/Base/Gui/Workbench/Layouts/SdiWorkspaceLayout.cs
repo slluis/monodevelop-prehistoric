@@ -27,7 +27,7 @@ namespace MonoDevelop.Gui
 	/// </summary>
 	public class SdiWorkbenchLayout : IWorkbenchLayout
 	{
-		static PropertyService propertyService = (PropertyService)ServiceManager.Services.GetService(typeof(PropertyService));
+		static PropertyService propertyService = (PropertyService)ServiceManager.GetService(typeof(PropertyService));
 		static string configFile = propertyService.ConfigDirectory + "DefaultEditingLayout.xml";
 
 		// contains the fully qualified name of the current layout (ie. Edit.Default)
@@ -107,7 +107,7 @@ namespace MonoDevelop.Gui
 
 			workbench.Add (vbox);
 			
-			IStatusBarService statusBarService = (IStatusBarService) ServiceManager.Services.GetService (typeof (IStatusBarService));
+			IStatusBarService statusBarService = (IStatusBarService) ServiceManager.GetService (typeof (IStatusBarService));
 			vbox.PackEnd (statusBarService.Control, false, true, 0);
 			
 			foreach (IViewContent content in workbench.ViewContentCollection)
@@ -158,7 +158,7 @@ namespace MonoDevelop.Gui
 		void SwitchContext (WorkbenchContext ctxt)
 		{
 			PropertyService propertyService =
-				(PropertyService) ServiceManager.Services.GetService (typeof (PropertyService));
+				(PropertyService) ServiceManager.GetService (typeof (PropertyService));
 			PadContentCollection old = activePadCollection;
 			
 			// switch pad collections
@@ -233,7 +233,7 @@ namespace MonoDevelop.Gui
 
 				// persist the selected layout for the current context
 				PropertyService propertyService =
-					(PropertyService) ServiceManager.Services.GetService (typeof (PropertyService));
+					(PropertyService) ServiceManager.GetService (typeof (PropertyService));
 				propertyService.SetProperty ("MonoDevelop.Gui.SdiWorkbenchLayout." +
 				                             workbenchContext.ToString (), value);
 			}

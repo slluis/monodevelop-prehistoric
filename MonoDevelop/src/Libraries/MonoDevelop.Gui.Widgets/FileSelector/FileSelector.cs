@@ -14,7 +14,7 @@ namespace MonoDevelop.Gui.Widgets
 	{
 		const string LastPathProperty = "MonoDevelop.FileSelector.LastPath";
 		string lastPath;
-		PropertyService propertyService = (PropertyService) ServiceManager.Services.GetService (typeof (PropertyService));
+		PropertyService propertyService = (PropertyService) ServiceManager.GetService (typeof (PropertyService));
 
 		public FileSelector () : base (GettextCatalog.GetString ("Open file ..."))
 		{

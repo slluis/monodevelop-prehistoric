@@ -137,14 +137,6 @@ FILES= \
 ./Gui/PadContentCollection.cs \
 ./Gui/PixbufList.cs \
 ./Gui/AbstractSecondaryViewContent.cs \
-./Gui/CompletionDatabaseWizard/CreateDBGenerator.cs \
-./Gui/CompletionDatabaseWizard/DownloadGenerator.cs \
-./Gui/CompletionDatabaseWizard/CreatingGenerator.cs \
-./Gui/CompletionDatabaseWizard/GenerateDatabase.cs \
-./Gui/CompletionDatabaseWizard/druid.cs \
-./Gui/CompletionDatabaseWizard/Exceptions.cs \
-./Gui/CompletionDatabaseWizard/IDatabaseGenerator.cs \
-./Gui/CompletionDatabaseWizard/UseExistingGenerator.cs \
 ./Gui/ViewContentCollection.cs \
 ./Gui/IWorkbenchWindow.cs \
 ./Gui/HtmlControl/IHTMLDocument2.cs \

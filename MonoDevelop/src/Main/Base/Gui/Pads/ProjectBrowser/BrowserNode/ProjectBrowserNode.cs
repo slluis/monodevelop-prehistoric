@@ -27,7 +27,7 @@ namespace MonoDevelop.Gui.Pads.ProjectBrowser
 	{
 		readonly static string defaultContextMenuPath = "/SharpDevelop/Views/ProjectBrowser/ContextMenu/ProjectBrowserNode";
 		IProject project;
-		ResourceService resourceService = (ResourceService)ServiceManager.Services.GetService(typeof(IResourceService));
+		ResourceService resourceService = (ResourceService)ServiceManager.GetService(typeof(IResourceService));
 		
 		public override IProject Project {
 			get {
@@ -105,7 +105,7 @@ namespace MonoDevelop.Gui.Pads.ProjectBrowser
 			Combine  cmb = Combine;
 			IProject prj = project;
 			CombineEntry removeEntry = null;
-			StringParserService stringParserService = (StringParserService)ServiceManager.Services.GetService(typeof(StringParserService));
+			StringParserService stringParserService = (StringParserService)ServiceManager.GetService(typeof(StringParserService));
 			
 			Gtk.MessageDialog dialog = new Gtk.MessageDialog ((Gtk.Window)WorkbenchSingleton.Workbench, Gtk.DialogFlags.DestroyWithParent, Gtk.MessageType.Question, Gtk.ButtonsType.OkCancel, String.Format (GettextCatalog.GetString ("Do you really want to remove project {0} from solution {1}"), project.Name, cmb.Name)); 
 													if (dialog.Run() != (int)Gtk.ResponseType.Ok) {
