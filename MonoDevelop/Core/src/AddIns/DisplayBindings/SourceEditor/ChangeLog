@@ -1,3 +1,16 @@
+2005-01-25  Lluis Sanchez Gual  <lluis@novell.com>
+
+	* Gui/Pads/CompilerMessageView.cs: 
+	* Makefile.am: CompilerMessageView moved to Monodevelop.Base. 
+	
+	* Commands/SearchCommands.cs:
+	* Search/SearchReplaceManager.cs:
+	* Search/DocumentIterator/CurrentDocumentIterator.cs:
+	* Search/DocumentIterator/WholeProjectDocumentIterator.cs:
+	* Search/DocumentIterator/AllOpenDocumentIterator.cs:
+	* Gui/SourceEditorDisplayBinding.cs: New GUI for warning about modified
+	files.
+
 2005-01-11  Lluis Sanchez Gual  <lluis@novell.com>
 
 	* Gui/SourceEditorDisplayBinding.cs: Use a different method for detecting

@@ -43,7 +43,7 @@ namespace MonoDevelop.TextEditor.Document
 				if (!SearchReplaceUtilities.IsTextAreaSelected) {
 					return null;
 				}
-				curDocument = ((SourceEditor_) ((SourceEditorDisplayBindingWrapper)WorkbenchSingleton.Workbench.ActiveWorkbenchWindow.ViewContent).Control);
+				curDocument = ((SourceEditorDisplayBindingWrapper)WorkbenchSingleton.Workbench.ActiveWorkbenchWindow.ViewContent).Editor;
 				return new EditorDocumentInformation(curDocument, CurrentFileName);
 			}
 		}

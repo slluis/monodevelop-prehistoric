@@ -55,7 +55,7 @@ namespace MonoDevelop.TextEditor.Document
 					// WINDOWS DEPENDENCY : ToUpper
 					if (content.ContentName != null &&
 						content.ContentName.ToUpper() == fileName.ToUpper()) {
-						document = (SourceEditor_) (((SourceEditorDisplayBindingWrapper)content).Control);
+						document = ((SourceEditorDisplayBindingWrapper)content).Editor;
 						return new EditorDocumentInformation(document, fileName);
 					}
 				}

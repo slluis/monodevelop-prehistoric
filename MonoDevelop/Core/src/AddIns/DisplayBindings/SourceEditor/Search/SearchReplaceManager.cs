@@ -73,7 +73,7 @@ namespace MonoDevelop.TextEditor.Document
 		public static void Replace()
 		{
 			if (WorkbenchSingleton.Workbench.ActiveWorkbenchWindow != null) {
-				SourceEditor_ textarea = (SourceEditor_) ((SourceEditorDisplayBindingWrapper)WorkbenchSingleton.Workbench.ActiveWorkbenchWindow.ViewContent).Control;
+				SourceEditor_ textarea = ((SourceEditorDisplayBindingWrapper)WorkbenchSingleton.Workbench.ActiveWorkbenchWindow.ViewContent).Editor;
 				string text = textarea.Buffer.GetSelectedText ();
 				if (text.ToLower () == SearchOptions.SearchPattern.ToLower ()) {
 					int offset = textarea.Buffer.GetLowerSelectionBounds ();
@@ -92,7 +92,7 @@ namespace MonoDevelop.TextEditor.Document
 		{
 			SourceEditor_ textArea = null;
 			if (WorkbenchSingleton.Workbench.ActiveWorkbenchWindow != null) {
-				textArea = (SourceEditor_) ((SourceEditorDisplayBindingWrapper)WorkbenchSingleton.Workbench.ActiveWorkbenchWindow.ViewContent).Control;
+				textArea = ((SourceEditorDisplayBindingWrapper)WorkbenchSingleton.Workbench.ActiveWorkbenchWindow.ViewContent).Editor;
 				textArea.Buffer.PlaceCursor (textArea.Buffer.GetIterAtMark (textArea.Buffer.InsertMark));
 			}
 			find.Reset();
@@ -124,7 +124,7 @@ namespace MonoDevelop.TextEditor.Document
 		{
 			SourceEditor_ textArea = null;
 			if (WorkbenchSingleton.Workbench.ActiveWorkbenchWindow != null) {
-				textArea = (SourceEditor_) ((SourceEditorDisplayBindingWrapper)WorkbenchSingleton.Workbench.ActiveWorkbenchWindow.ViewContent).Control;
+				textArea = ((SourceEditorDisplayBindingWrapper)WorkbenchSingleton.Workbench.ActiveWorkbenchWindow.ViewContent).Editor;
 				textArea.Buffer.PlaceCursor (textArea.Buffer.GetIterAtMark (textArea.Buffer.InsertMark));
 			}
 			find.Reset();
@@ -200,7 +200,7 @@ namespace MonoDevelop.TextEditor.Document
 			while (Gtk.Application.EventsPending ())
 				Gtk.Application.RunIteration ();
 			
-			return (SourceEditor_) ((SourceEditorDisplayBindingWrapper)WorkbenchSingleton.Workbench.ActiveWorkbenchWindow.ViewContent).Control;
+			return ((SourceEditorDisplayBindingWrapper)WorkbenchSingleton.Workbench.ActiveWorkbenchWindow.ViewContent).Editor;
 		}
 	}	
 }

@@ -17,7 +17,6 @@ Gui/SourceEditorWidget.cs \
 Gui/SourceEditorBuffer.cs \
 Gui/SourceEditorView.cs \
 Gui/SourceEditorDisplayBinding.cs \
-Gui/Pads/CompilerMessageView.cs \
 Gui/OptionPanels/BehaviorTextEditorPanel.cs \
 Gui/OptionPanels/MarkersTextEditorPanel.cs \
 Gui/OptionPanels/CodeTemplatePanel.cs \

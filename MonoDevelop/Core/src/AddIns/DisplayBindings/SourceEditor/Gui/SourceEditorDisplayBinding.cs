@@ -95,13 +95,16 @@ namespace MonoDevelop.SourceEditor.Gui
 	public class SourceEditorDisplayBindingWrapper : AbstractViewContent,
 		IEditable, IPositionable, IBookmarkOperations, IDebuggableEditor, ICodeStyleOperations
 	{
-
+		VBox mainBox;
+		HBox editorBar;
+		HBox reloadBar;
 		internal FileSystemWatcher fsw;
 	
 		internal SourceEditor se;
 
 		object fileSaveLock = new object ();
 		DateTime lastSaveTime;
+		bool warnOverwrite = false;
 		
 		void UpdateFSW (object o, EventArgs e)
 		{
@@ -130,13 +133,7 @@ namespace MonoDevelop.SourceEditor.Gui
 		{
 			FileSystemEventArgs e = (FileSystemEventArgs)evnt;
 			if (e.ChangeType == WatcherChangeTypes.Changed) {
-				//To prevent more than one being shown at a
-				//time, check if this is not null.
-				if (ReloadFileDialog != null)
-					return;
-				ReloadFileDialog = new MessageDialog ((Gtk.Window)WorkbenchSingleton.Workbench, DialogFlags.Modal, MessageType.Question, ButtonsType.YesNo, String.Format (GettextCatalog.GetString ("The file {0} has been changed outside of MonoDevelop. Would you like to reload the file?"), ContentName));
-				ReloadFileDialog.Response += new Gtk.ResponseHandler (Responded);
-				ReloadFileDialog.ShowAll ();
+				ShowFileChangedWarning ();
 			}
 		}
 
@@ -162,6 +159,12 @@ namespace MonoDevelop.SourceEditor.Gui
 		
 		public override Gtk.Widget Control {
 			get {
+				return mainBox;
+			}
+		}
+		
+		public SourceEditor Editor {
+			get {
 				return se;
 			}
 		}
@@ -174,6 +177,9 @@ namespace MonoDevelop.SourceEditor.Gui
 		
 		public SourceEditorDisplayBindingWrapper ()
 		{
+			mainBox = new VBox ();
+			editorBar = new HBox ();
+			mainBox.PackStart (editorBar, false, false, 0);
 			se = new SourceEditor (this);
 			se.Buffer.ModifiedChanged += new EventHandler (OnModifiedChanged);
 			se.Buffer.MarkSet += new MarkSetHandler (OnMarkSet);
@@ -190,6 +196,7 @@ namespace MonoDevelop.SourceEditor.Gui
 			fsw = new FileSystemWatcher ();
 			fsw.Changed += new FileSystemEventHandler (OnFileChanged);
 			UpdateFSW (null, null);
+			mainBox.PackStart (se, true, true, 0);
 		}
 
 		public void JumpTo (int line, int column)
@@ -247,6 +254,15 @@ namespace MonoDevelop.SourceEditor.Gui
 		
 		public override void Save (string fileName)
 		{
+			if (warnOverwrite) {
+				if (fileName == ContentName) {
+					if (!Runtime.MessageService.AskQuestion (string.Format (GettextCatalog.GetString ("The file {0} has been changed outside of MonoDevelop. Are you sure you want to overwrite the file?"), fileName),"MonoDevelop"))
+						return;
+				}
+				warnOverwrite = false;
+				editorBar.Remove (reloadBar);
+			}
+
 			lock (fileSaveLock) {
 				se.Buffer.Save (fileName);
 				lastSaveTime = File.GetLastWriteTime (fileName);
@@ -257,9 +273,50 @@ namespace MonoDevelop.SourceEditor.Gui
 		
 		public override void Load (string fileName)
 		{
+			if (warnOverwrite) {
+				warnOverwrite = false;
+				editorBar.Remove (reloadBar);
+			}
 			se.Buffer.LoadFile (fileName, Vfs.GetMimeType (fileName));
 			ContentName = fileName;
 			InitializeFormatter ();
+		}
+		
+		void ShowFileChangedWarning ()
+		{
+			if (reloadBar == null) {
+				reloadBar = new HBox ();
+				reloadBar.BorderWidth = 3;
+				Gtk.Image img = Runtime.Gui.Resources.GetImage ("Icons.32x32.Warning", IconSize.Menu);
+				reloadBar.PackStart (img, false, false, 2);
+				reloadBar.PackStart (new Gtk.Label (GettextCatalog.GetString ("This file has been changed outside of MonoDevelop")), false, false, 5);
+				HBox box = new HBox ();
+				reloadBar.PackStart (box, true, true, 10);
+				
+				Button b1 = new Button ("Reload");
+				box.PackStart (b1, false, false, 5);
+				b1.Clicked += new EventHandler (ClickedReload);
+				
+				Button b2 = new Button ("Ignore");
+				box.PackStart (b2, false, false, 5);
+				b2.Clicked += new EventHandler (ClickedIgnore);
+
+				reloadBar.ShowAll ();
+			}
+			warnOverwrite = true;
+			editorBar.PackStart (reloadBar);
+			reloadBar.ShowAll ();
+		}
+		
+		void ClickedReload (object sender, EventArgs args)
+		{
+			editorBar.Remove (reloadBar);
+			Load (ContentName);
+		}
+		
+		void ClickedIgnore (object sender, EventArgs args)
+		{
+			editorBar.Remove (reloadBar);
 		}
 		
 		public void InitializeFormatter()

@@ -45,9 +45,8 @@ namespace MonoDevelop.TextEditor.Document
 				if (!SearchReplaceUtilities.IsTextAreaSelected) {
 					return null;
 				}
-				SourceEditor_ document = (SourceEditor_) (((SourceEditorDisplayBindingWrapper)WorkbenchSingleton.Workbench.ActiveWorkbenchWindow.ViewContent).Control);
-				return new EditorDocumentInformation(document,
-				                                       CurrentFileName);
+				SourceEditor_ document = ((SourceEditorDisplayBindingWrapper)WorkbenchSingleton.Workbench.ActiveWorkbenchWindow.ViewContent).Editor;
+				return new EditorDocumentInformation(document, CurrentFileName);
 			}
 		}
 		

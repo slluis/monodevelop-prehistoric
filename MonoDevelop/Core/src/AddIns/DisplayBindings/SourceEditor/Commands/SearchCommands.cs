@@ -56,7 +56,7 @@ namespace MonoDevelop.DefaultEditor.Commands
 
 			if (window != null && window.ViewContent is SourceEditorDisplayBindingWrapper)
 			{
-				SourceEditor_ editor = (SourceEditor_) ((SourceEditorDisplayBindingWrapper)window.ViewContent).Control;
+				SourceEditor_ editor = ((SourceEditorDisplayBindingWrapper)window.ViewContent).Editor;
 				string selectedText = editor.Buffer.GetSelectedText ();
 				
 				if (selectedText != null && selectedText.Length > 0)
@@ -120,7 +120,7 @@ namespace MonoDevelop.DefaultEditor.Commands
 			IWorkbenchWindow window = WorkbenchSingleton.Workbench.ActiveWorkbenchWindow;
 			if (window != null && window.ViewContent is SourceEditorDisplayBindingWrapper)
 			{
-				SourceEditor_ editor = (SourceEditor_) ((SourceEditorDisplayBindingWrapper)window.ViewContent).Control;
+				SourceEditor_ editor = ((SourceEditorDisplayBindingWrapper)window.ViewContent).Editor;
 				string selectedText = editor.Buffer.GetSelectedText ();
 				if (selectedText != null && selectedText.Length > 0)
 					SearchReplaceInFilesManager.SearchOptions.SearchPattern = selectedText.Split ('\n')[0];
