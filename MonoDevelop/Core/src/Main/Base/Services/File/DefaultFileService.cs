@@ -28,6 +28,12 @@ namespace MonoDevelop.Services
 		string currentFile;
 		RecentOpen       recentOpen = null;
 		FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.GetService(typeof(FileUtilityService));
+	
+		private class FileInformation
+		{
+			public FileOpeningFinished OnFileOpened;
+			public string FileName;
+		}
 		
 		public RecentOpen RecentOpen {
 			get {
@@ -81,12 +87,31 @@ namespace MonoDevelop.Services
 		public void OpenFile (string fileName)
 		{
 			DispatchService dispatcher = (DispatchService)ServiceManager.GetService (typeof (DispatchService));
-			dispatcher.GuiDispatch (new StatefulMessageHandler (realOpenFile), fileName);
+			FileInformation openFileInfo=new FileInformation();
+			openFileInfo.OnFileOpened=null;
+			openFileInfo.FileName=fileName;
+			dispatcher.GuiDispatch (new StatefulMessageHandler (realOpenFile), openFileInfo);
 		}
 
-		void realOpenFile (object file)
+		public void OpenFile (string fileName, FileOpeningFinished OnFileOpened){
+			DispatchService dispatcher = (DispatchService)ServiceManager.GetService (typeof (DispatchService));
+			FileInformation openFileInfo=new FileInformation();
+			openFileInfo.OnFileOpened=OnFileOpened;
+			openFileInfo.FileName=fileName;
+			dispatcher.GuiDispatch (new StatefulMessageHandler (realOpenFile), openFileInfo);
+		}
+		
+		void realOpenFile (object openFileInfo)
 		{
-			string fileName = file as string;
+			string fileName;
+			FileInformation oFileInfo;
+			if(openFileInfo is FileInformation){
+				oFileInfo=openFileInfo as FileInformation;
+				fileName=oFileInfo.FileName;
+			}else{
+				return;
+			}
+			
 			if (fileName == null)
 				return;
 
@@ -105,11 +130,13 @@ namespace MonoDevelop.Services
 					foreach (IViewContent content in WorkbenchSingleton.Workbench.ViewContentCollection) {
 						if (content.IsUntitled && content.UntitledName == origName) {
 							content.WorkbenchWindow.SelectWindow();
+							if(oFileInfo.OnFileOpened!=null) oFileInfo.OnFileOpened();
 							return;
 						}
 					}
 				} else 
 				if (!fileUtilityService.TestFileExists(fileName)) {
+					if(oFileInfo.OnFileOpened!=null) oFileInfo.OnFileOpened();
 					return;
 				}
 			}
@@ -118,6 +145,7 @@ namespace MonoDevelop.Services
 				if (content.ContentName != null && 
 				    content.ContentName == fileName) {
 					content.WorkbenchWindow.SelectWindow();
+					if(oFileInfo.OnFileOpened!=null) oFileInfo.OnFileOpened();
 					return;
 				}
 			}
@@ -159,6 +187,7 @@ namespace MonoDevelop.Services
 					}
 				}
 			}
+			if(oFileInfo.OnFileOpened!=null) oFileInfo.OnFileOpened();
 		}
 		
 		protected void GetProjectAndCombineFromFile (string fileName, out IProject project, out Combine combine)

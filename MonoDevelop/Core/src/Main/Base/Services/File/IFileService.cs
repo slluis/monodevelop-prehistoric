@@ -35,6 +35,8 @@ namespace MonoDevelop.Services
 		/// </remarks>
 		void OpenFile(string fileName);
 		
+		void OpenFile(string fileName, FileOpeningFinished onFileOpened);
+		
 		/// <remarks>
 		/// Opens a new file with a given name, language and file content
 		/// in the workbench window.
@@ -59,7 +61,7 @@ namespace MonoDevelop.Services
 		/// to know for other parts of the IDE when a file is renamed.
 		/// </remarks>
 		void RenameFile(string oldName, string newName);
-		
+
 		/// <remarks>
 		/// Is called, when a file is renamed.
 		/// </remarks>
@@ -70,4 +72,5 @@ namespace MonoDevelop.Services
 		/// </remarks>
 		event FileEventHandler FileRemoved;
 	}
+	public delegate void FileOpeningFinished();
 }

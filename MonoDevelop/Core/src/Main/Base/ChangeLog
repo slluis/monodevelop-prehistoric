@@ -1,3 +1,10 @@
+2004-07-28  Fawad Halim <fawad@fawad.net>
+
+	* Services/File/DefaultFileService.cs: Added inner class FileInformation as a container for File Opening information. Overloaded OpenFile to accept a delegate to call after File Opening.
+	* Services/File/IFileService.cs: Added a delegate FileOpeningFinished for use after File Opening.
+	* Services/Tasks/Task.cs: Use OpenFile, having call OnFileOpened after completion.
+	* Gui/Pads/ClassScout/ClassScout.cs: Use OpenFile on node activation, having call OnFileOpened after completion.
+
 2004-07-12  John Luke  <jluke@cfl.rr.com>
 
 	* Gui/Dialogs/NewProjectDialog.cs: catch an IOException when

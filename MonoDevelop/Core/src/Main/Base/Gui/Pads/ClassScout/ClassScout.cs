@@ -166,18 +166,25 @@ namespace MonoDevelop.Gui.Pads
 				ClassScoutTag tag = node.Tag as ClassScoutTag;
 				if (tag != null) {
 					IFileService fileService = (IFileService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IFileService));
-					fileService.OpenFile(tag.FileName);
-					
-					IViewContent content = fileService.GetOpenFile(tag.FileName).ViewContent;
-					if (content is IPositionable) {
-						if (tag.Line > 0) {
-							((IPositionable)content).JumpTo(tag.Line - 1, 0);
-						}
-					}
+					fileService.OpenFile(tag.FileName,new FileOpeningFinished(OnFileOpened));
 				}
 			}
 		}
 		
+		private void OnFileOpened()
+		{
+			TreeNode node = SelectedNode;
+			ClassScoutTag tag = node.Tag as ClassScoutTag;
+			IFileService fileService = (IFileService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IFileService));
+			IWorkbenchWindow window = fileService.GetOpenFile(tag.FileName);
+			if (window == null) {
+				return;
+			}
+			IViewContent content = window.ViewContent;
+			if (content is IPositionable) {
+				((IPositionable)content).JumpTo(Math.Max(0, tag.Line), 0);
+			}
+		}
 		protected override void OnBeforeExpand (TreeViewCancelEventArgs e)
 		{
 			TreeNode nod = e.Node;

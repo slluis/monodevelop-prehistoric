@@ -107,16 +107,7 @@ namespace MonoDevelop.Services
 		{
 			if (fileName != null && fileName.Length > 0) {
 				IFileService fileService = (IFileService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IFileService));
-				fileService.OpenFile(fileName);
-				System.Threading.Thread.Sleep (50);
-				IWorkbenchWindow window = fileService.GetOpenFile(fileName);
-				if (window == null) {
-					return;
-				}
-				IViewContent content = window.ViewContent;
-				if (content is IPositionable) {
-					((IPositionable)content).JumpTo(Math.Max(0, line), Math.Max(0, column));
-				}
+				fileService.OpenFile(fileName,new FileOpeningFinished(OnFileOpened));
 			}
 			
 //			CompilerResultListItem li = (CompilerResultListItem)OpenTaskView.FocusedItem;
@@ -134,6 +125,19 @@ namespace MonoDevelop.Services
 //				
 //				ContentWindow window = OpenWindow(filename);
 //			}
+		}
+		
+		private void OnFileOpened()
+		{
+			IFileService fileService = (IFileService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IFileService));
+			IWorkbenchWindow window = fileService.GetOpenFile(fileName);
+			if (window == null) {
+				return;
+			}
+			IViewContent content = window.ViewContent;
+			if (content is IPositionable) {
+				((IPositionable)content).JumpTo(Math.Max(0, line), Math.Max(0, column));
+			}
 		}
 	}
 }
