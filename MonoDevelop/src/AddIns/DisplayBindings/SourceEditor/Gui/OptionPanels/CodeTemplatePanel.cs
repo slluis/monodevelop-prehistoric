@@ -317,7 +317,7 @@ namespace MonoDevelop.EditorBindings.Gui.OptionPanels
 				
 				
 				foreach (CodeTemplateGroup templateGroup in templateGroups) {					
-					groupMenu.Append(Gtk.MenuItem.NewWithLabel(String.Join(";", templateGroup.ExtensionStrings)));					
+					groupMenu.Append(new Gtk.MenuItem (String.Join(";", templateGroup.ExtensionStrings)));					
 				}
 				
 				groupMenu.ShowAll();

@@ -22,7 +22,9 @@ FILES = ./Tree/TreeView.cs \
 ./FolderDialog/FileEntry.cs \
 ./Navbar/Navbar.cs \
 ./TabLabel/TabLabel.cs \
-./GladeWidgetExtract/GladeWidgetExtract.cs
+./GladeWidgetExtract/GladeWidgetExtract.cs \
+./DragNotebook/DragNotebook.cs
+
 
 build_sources = $(addprefix $(srcdir)/, $(FILES))
 

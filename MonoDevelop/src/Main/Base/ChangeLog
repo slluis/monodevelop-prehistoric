@@ -1,3 +1,7 @@
+2004-05-09  Todd Berman  <tberman@sevenl.net>
+
+	* Gui/Workbench/Layouts/SdiWorkspaceLayout.cs: use DragNotebook
+
 2004-05-07  Todd Berman  <tberman@sevenl.net>
 
 	* Gui/Pads/ClassScout/ClassScout.cs: adding a lock.

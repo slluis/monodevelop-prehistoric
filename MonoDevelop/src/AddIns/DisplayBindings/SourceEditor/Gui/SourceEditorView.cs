@@ -89,8 +89,8 @@ namespace MonoDevelop.SourceEditor.Gui
 					buf.ToggleBookmark (line.Line);
 				} else if (e.Event.Button == 3) {
 					Gtk.Menu popup = new Gtk.Menu ();
-					Gtk.CheckMenuItem bookmarkItem = Gtk.CheckMenuItem.NewWithLabel (GettextCatalog.GetString ("Bookmark"));
-					Gtk.CheckMenuItem breakpointItem = Gtk.CheckMenuItem.NewWithLabel (GettextCatalog.GetString ("Breakpoint"));
+					Gtk.CheckMenuItem bookmarkItem = new Gtk.CheckMenuItem (GettextCatalog.GetString ("Bookmark"));
+					Gtk.CheckMenuItem breakpointItem = new Gtk.CheckMenuItem (GettextCatalog.GetString ("Breakpoint"));
 
 					bookmarkItem.Active = buf.IsBookmarked (line.Line);
 					breakpointItem.Active = buf.IsBreakpoint (line.Line);

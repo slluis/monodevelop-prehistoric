@@ -1,3 +1,9 @@
+2004-05-09  Todd Berman  <tberman@sevenl.net>
+
+	* DragNotebook/DragNotebook.cs: notebook from Inigo Illan to add
+	dragable reorg of the notebook.
+	* Makefile.am: add DragNotebook.cs to build.
+
 2004-04-13  John Luke  <jluke@cfl.rr.com>
 
 	* Navbar/Navbar.cs: switch the address entry to Gnome.Entry

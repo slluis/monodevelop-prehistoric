@@ -45,7 +45,7 @@ namespace MonoDevelop.Gui
 		VBox toolbarContainer;
 		Dock dock;
 		DockLayout dockLayout;
-		Notebook tabControl;
+		DragNotebook tabControl;
 		EventHandler contextChangedHandler;
 
 		ArrayList _windows = new ArrayList ();
@@ -94,7 +94,7 @@ namespace MonoDevelop.Gui
 			vbox.PackStart (dockBox, true, true, 0);
 
 			// Create the notebook for the various documents.
-			tabControl = new Notebook ();
+			tabControl = new DragNotebook ();
 			tabControl.Scrollable = true;
 			tabControl.ShowTabs = false;
 			tabControl.SwitchPage += new SwitchPageHandler (ActiveMdiChanged);
