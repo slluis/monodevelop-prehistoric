@@ -1,4 +1,8 @@
 2004-03-20 Iain McCoy <iainmccoy@optusnet.com.au>
+	* configure.in: forgot to undo a change that was part of one of the
+	mistakes I made :)
+
+2004-03-20 Iain McCoy <iainmccoy@optusnet.com.au>
 	* src/Main/Base/Gui/CompletionDatabaseWizard/*: Remove WriteLine
 	statements
 	* src/Main/Base/Gui/CompletionDatabaseWizard/DownloadGenerator.cs: add
