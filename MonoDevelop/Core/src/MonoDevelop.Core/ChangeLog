@@ -1,3 +1,8 @@
+2005-01-24  Lluis Sanchez Gual  <lluis@novell.com>
+
+	* AddIns/AddIn.cs: Use IsDefined() to look for custom attributes. It's
+	faster and uses less memory than GetCustomAttribute().
+
 2005-01-11  Lluis Sanchez Gual  <lluis@novell.com>
 
 	* AddIn.xsd: Added new codon type, and new condition.

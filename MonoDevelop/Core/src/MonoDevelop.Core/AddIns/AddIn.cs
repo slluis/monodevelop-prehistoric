@@ -245,9 +245,10 @@ namespace MonoDevelop.Core.AddIns
 				
 				foreach (FieldInfo fieldInfo in fieldInfoArray) {
 					// process XmlMemberAttributeAttribute attributes
-					XmlMemberAttributeAttribute codonAttribute = (XmlMemberAttributeAttribute)Attribute.GetCustomAttribute(fieldInfo, typeof(XmlMemberAttributeAttribute));
 					
-					if (codonAttribute != null) {
+					if (fieldInfo.IsDefined (typeof(XmlMemberAttributeAttribute), true)) {
+						XmlMemberAttributeAttribute codonAttribute = (XmlMemberAttributeAttribute)Attribute.GetCustomAttribute(fieldInfo, typeof(XmlMemberAttributeAttribute));
+					
 						// get value from xml file
 						XmlNode node = codonNode.Attributes [codonAttribute.Name];
 						
@@ -271,9 +272,10 @@ namespace MonoDevelop.Core.AddIns
 					}
 					
 					// process XmlMemberAttributeAttribute attributes
-					XmlMemberArrayAttribute codonArrayAttribute = (XmlMemberArrayAttribute)Attribute.GetCustomAttribute(fieldInfo, typeof(XmlMemberArrayAttribute));
 					
-					if (codonArrayAttribute != null) {
+					if (fieldInfo.IsDefined (typeof(XmlMemberArrayAttribute), true)) {
+						XmlMemberArrayAttribute codonArrayAttribute = (XmlMemberArrayAttribute)Attribute.GetCustomAttribute(fieldInfo, typeof(XmlMemberArrayAttribute));
+					
 						// get value from xml file
 						XmlNode node = codonNode.Attributes [codonArrayAttribute.Name];
 						
