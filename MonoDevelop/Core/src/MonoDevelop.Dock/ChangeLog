@@ -1,3 +1,7 @@
+2005-03-14  Lluis Sanchez Gual <lluis@novell.com>
+
+	* DockItem.cs: Added property for getting the default position.
+
 2005-03-13  Todd Berman  <tberman@off.net>
 
 	* DockPlaceholder.cs: Use Conditional instead of #if

@@ -901,6 +901,10 @@ namespace Gdl
 				}
 			}
 		}
+		
+		public DockPlaceholder DefaultPosition {
+			get { return ph; }
+		}
 
 		private bool EventInGripWindow (Gdk.Event evnt)
 		{
