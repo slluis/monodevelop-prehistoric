@@ -198,7 +198,7 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 			Gdk.Rectangle rect = control.GetIterLocation (control.Buffer.GetIterAtMark (control.Buffer.InsertMark));
 
 			int wx, wy;
-			control.BufferToWindowCoords (Gtk.TextWindowType.Widget, rect.x, rect.y + rect.height, out wx, out wy);
+			control.BufferToWindowCoords (Gtk.TextWindowType.Widget, rect.X, rect.Y + rect.Height, out wx, out wy);
 			
 			int tx, ty;
 			control.GdkWindow.GetOrigin(out tx, out ty);
@@ -284,7 +284,7 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 				Gtk.TreePath path = store.GetPath (iter);
 				Gdk.Rectangle backRect = listView.GetBackgroundArea (path, (Gtk.TreeViewColumn)listView.Columns[0]);
 
-				listView.HeightRequest = (backRect.height * 5) + 2;
+				listView.HeightRequest = (backRect.Height * 5) + 2;
 				
 				//FIXME: This code is buggy, and generates a bad placement sometimes when you jump a lot. but it is better than 0,0
 				
@@ -292,10 +292,10 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 
 				int listpos_x, listpos_y;
 				GetPosition (out listpos_x, out listpos_y);
-				int vert = listpos_y + rect.y;
+				int vert = listpos_y + rect.Y;
 
 				if (vert >= listpos_y + listView.GdkWindow.Size.Height - 2) {
-					vert = listpos_y + listView.GdkWindow.Size.Height - rect.height;
+					vert = listpos_y + listView.GdkWindow.Size.Height - rect.Height;
 				} else if (vert < listpos_y) {
 					vert = listpos_y;
 				}

@@ -222,7 +222,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads
 #endif
 		{
 			//if (e.Button == MouseButtons.Right && SelectedNode != null && SelectedNode is AbstractClassScoutNode) {
-			if (args.Event.button == 3 && SelectedNode != null && SelectedNode is AbstractClassScoutNode) {
+			if (args.Event.Button == 3 && SelectedNode != null && SelectedNode is AbstractClassScoutNode) {
 				AbstractClassScoutNode selectedBrowserNode = (AbstractClassScoutNode)SelectedNode;
 				if (selectedBrowserNode.ContextmenuAddinTreePath != null && selectedBrowserNode.ContextmenuAddinTreePath.Length > 0) {
 					MenuService menuService = (MenuService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(MenuService));

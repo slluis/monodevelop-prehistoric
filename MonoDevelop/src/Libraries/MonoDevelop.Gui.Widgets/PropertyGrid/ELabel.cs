@@ -46,9 +46,9 @@ namespace MonoDevelop.Gui.Widgets {
 				return;
 			}
 	
-			if (Allocation.width != old_width) 
+			if (Allocation.Width != old_width) 
 				Refresh ();
-			old_width = Allocation.width;
+			old_width = Allocation.Width;
 	
 			refreshed = true;
 		}
@@ -66,7 +66,7 @@ namespace MonoDevelop.Gui.Widgets {
 	
 		void Refresh ()
 		{
-			string ellipsized = Ellipsize (layout, text, Allocation.width, ellipsis_width, en_width);
+			string ellipsized = Ellipsize (layout, text, Allocation.Width, ellipsis_width, en_width);
 			if (base.Text != ellipsized)
 				base.Text = ellipsized;
 		}

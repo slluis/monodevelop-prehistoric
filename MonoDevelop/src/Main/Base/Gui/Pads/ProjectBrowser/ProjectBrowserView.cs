@@ -335,7 +335,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads.ProjectBrowser
 */
 		private void OnButtonRelease(object sender, GtkSharp.ButtonReleaseEventArgs args)
 		{
-			if (args.Event.button != 3 || SelectedNode == null) {
+			if (args.Event.Button != 3 || SelectedNode == null) {
 				return;
 			}
 			AbstractBrowserNode node = (AbstractBrowserNode) SelectedNode;

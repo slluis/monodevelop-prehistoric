@@ -46,7 +46,7 @@ namespace ICSharpCode.SharpDevelop.DefaultEditor.Commands
 		{
 			Gdk.Color color = this.ColorSelection.CurrentColor;
 			StringBuilder s = new StringBuilder ();
-			ushort[] vals = { color.red, color.green, color.blue };
+			ushort[] vals = { color.Red, color.Green, color.Blue };
 			// debug line
 			// Console.WriteLine("r {0}, b {1}, g{2}", color.red, color.green, color.blue );
 			char[] hexchars = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'};

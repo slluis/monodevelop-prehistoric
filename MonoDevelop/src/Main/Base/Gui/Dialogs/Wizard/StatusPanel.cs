@@ -61,7 +61,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 		
 		protected void OnPaint(object o, GtkSharp.ExposeEventArgs e)
 		{
-			GdkWindow.BeginPaintRect (e.Event.area);
+			GdkWindow.BeginPaintRect (e.Event.Area);
 				GdkWindow.DrawPixbuf (gc, bitmap, 0, 0, 0, 0, -1, -1, Gdk.RgbDither.None, 0, 0);
 				smallFont.Weight = Pango.Weight.Normal;
 				ly.FontDescription = smallFont;

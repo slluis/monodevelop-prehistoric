@@ -42,7 +42,7 @@ namespace MonoDevelop.SourceEditor.Gui {
 		protected override bool OnKeyPressEvent (ref Gdk.EventKey evnt)
 		{
 			Gdk.Key key = evnt.Key;
-			uint state = evnt.state;
+			uint state = evnt.State;
 			state &= 1101u;
 			const uint Normal = 0, Shift = 1, Control = 4, ShiftControl = 5, Alt = 8;
 			
