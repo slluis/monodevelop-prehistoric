@@ -169,6 +169,13 @@ namespace MonoDevelop.SourceEditor.Gui {
 
 		}
 		
+		public void InsertAtCursor (string s)
+		{
+			se.Buffer.InsertAtCursor (s);
+			se.View.ScrollMarkOnscreen (se.Buffer.InsertMark);
+			
+		}
+		
 		public void LoadString (string mime, string val)
 		{
 			if (mime != null)

@@ -27,6 +27,7 @@ using ICSharpCode.TextEditor;
 using ICSharpCode.SharpDevelop.Gui;
 using ICSharpCode.SharpDevelop.Gui.HtmlControl;
 using ICSharpCode.Core.Services;
+using MonoDevelop.SourceEditor.Gui;
 
 using Gtk;
 using GtkSharp;
@@ -65,45 +66,23 @@ namespace ICSharpCode.SharpDevelop.DefaultEditor.Commands
 	{
 		public override void Run()
 		{
-			Console.WriteLine ("Not Ported to the new editor yet");
-
-			/*IWorkbenchWindow window = WorkbenchSingleton.Workbench.ActiveWorkbenchWindow;
-			if (window == null || !(window.ViewContent is ITextEditorControlProvider)) {
+			IWorkbenchWindow window = WorkbenchSingleton.Workbench.ActiveWorkbenchWindow;
+			if (window == null)
 				return;
-			}
-			//TextEditorControl textarea = ((ITextEditorControlProvider)window.ViewContent).TextEditorControl;
+
+			SourceEditorDisplayBindingWrapper w = window.ViewContent as SourceEditorDisplayBindingWrapper;
+			if (w == null)
+				return;
+
 			//FIXME:  
 			// - The return sting value is not the same choosen in the Dialog
                         // - Return color name (not color value) if it IsKnownColor but it's still not implemented for System.Drawing.Color
-			ColorDialog dialog  = new ColorDialog ();
-			if ( dialog.Run () == (int) ResponseType.Ok) {
-				string ColorStr = dialog.ColorStr();
-				//string ColorStr = dialog.ColorSelection.CurrentColor.ToString();
-				//textarea.Document.Insert(textarea.ActiveTextAreaControl.Caret.Offset, ColorStr);
-				//int lineNumber = textarea.Document.GetLineNumberForOffset(textarea.ActiveTextAreaControl.Caret.Offset);
-				//textarea.ActiveTextAreaControl.Caret.Column += ColorStr.Length;
-				//textarea.Document.RequestUpdate(new TextAreaUpdate(TextAreaUpdateType.SingleLine, new Point(0, lineNumber)));
-				//textarea.Document.CommitUpdate();
+			using (ColorDialog dialog = new ColorDialog ()) {
+				if (dialog.Run () != (int) ResponseType.Ok)
+					return;
 				
-
-			};
-			dialog.Hide();
-
-			*/
-			/*using (ColorDialog cd = new ColorDialog()) {
-				if (cd.ShowDialog() == DialogResult.OK) {
-					string colorstr = "#" + cd.Color.ToArgb().ToString("X");
-					if (cd.Color.IsKnownColor) {
-						colorstr = cd.Color.ToKnownColor().ToString();
-					}
-					
-					textarea.Document.Insert(textarea.ActiveTextAreaControl.Caret.Offset, colorstr);
-					int lineNumber = textarea.Document.GetLineNumberForOffset(textarea.ActiveTextAreaControl.Caret.Offset);
-					textarea.ActiveTextAreaControl.Caret.Column += colorstr.Length;
-					textarea.Document.RequestUpdate(new TextAreaUpdate(TextAreaUpdateType.SingleLine, new Point(0, lineNumber)));
-					textarea.Document.CommitUpdate();
-				}
-			}*/
+				w.InsertAtCursor (dialog.ColorStr ());
+			}
 		}
 	}
 	
