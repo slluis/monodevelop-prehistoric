@@ -90,7 +90,6 @@ namespace CSharpBinding
 			try {
 				psi.WorkingDirectory = Path.GetDirectoryName(directory);
 				psi.UseShellExecute  =  false;
-				Console.WriteLine (psi.Arguments);
 				
 				Process p = new Process();
 				p.StartInfo = psi;
