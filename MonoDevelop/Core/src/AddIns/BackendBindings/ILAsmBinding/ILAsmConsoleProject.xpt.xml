@@ -5,7 +5,7 @@
 	
 	<!-- Template Header -->
 	<TemplateConfiguration>
-		<_Name>ILAsm Console Project</_Name>
+		<_Name>Console Project</_Name>
 		<Category>ILAsm</Category>
 		<Icon>C#.Project.DOSProject</Icon>
 		<LanguageName>ILAsm</LanguageName>

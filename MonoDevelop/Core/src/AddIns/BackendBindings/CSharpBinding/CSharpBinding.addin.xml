@@ -44,10 +44,16 @@
 		                 location = "templates/EmptyProject.xpt.xml"/>
 		<ProjectTemplate id = "GladeSharpProject"
 		                 location = "templates/GladeSharpProject.xpt.xml"/>
+		<ProjectTemplate id = "GladeSharp2Project"
+		                 location = "templates/GladeSharp2Project.xpt.xml"/>
 		<ProjectTemplate id = "GnomeSharpProject"
 		                 location = "templates/GnomeSharpProject.xpt.xml"/>
+		<ProjectTemplate id = "GnomeSharp2Project"
+		                 location = "templates/GnomeSharp2Project.xpt.xml"/>
 		<ProjectTemplate id = "GtkSharpProject"
 		                 location = "templates/GtkSharpProject.xpt.xml"/>
+		<ProjectTemplate id = "GtkSharp2Project"
+		                 location = "templates/GtkSharp2Project.xpt.xml"/>
 		<ProjectTemplate id = "Library"
 		                 location = "templates/Library.xpt.xml"/>
 		<ProjectTemplate id = "BlankCombine"

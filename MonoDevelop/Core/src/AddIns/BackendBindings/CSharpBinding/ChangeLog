@@ -1,3 +1,18 @@
+2005-02-16  Ben Motmans  <ben.motmans@gmail.com>
+
+	* ConsoleProject.xpt.xml:
+	* CSharpSessionStateWebService.xpt.xml:
+	* CSharpWebService.xpt.xml:
+	* Library.xpt.xml:
+	Consistent naming
+
+	* GladeSharp2Project.xpt.xml:
+	* GnomeSharp2Project.xpt.xml:
+	* GtkSharp2Project.xpt.xml:
+	* CSharpBinding.addin.xml:
+	* Makefile.am:
+	Added templates
+
 2005-02-18  John Luke  <john.luke@gmail.com>
 
 	* CSharpCompilerManager.cs: pass /optimize if enabled

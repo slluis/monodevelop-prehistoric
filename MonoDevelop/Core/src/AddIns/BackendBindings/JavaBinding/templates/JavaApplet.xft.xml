@@ -2,11 +2,11 @@
 <Template Originator="Gary Gray" Language="JAVA" Created="09/05/2001" LastModified="09/05/2001">
 	
 	<TemplateConfiguration>
-           <_Name>Java AWT Applet</_Name>
+           <_Name>AWT Applet</_Name>
            <Icon>Java.File.FullFile</Icon>
            <Category>Java</Category>
            <LanguageName>Java</LanguageName>
-           <_Description>Creates an AWT Applet</_Description>
+           <_Description>Creates a Java AWT Applet</_Description>
 	</TemplateConfiguration>
 	
 	<TemplateFiles>

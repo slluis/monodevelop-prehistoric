@@ -2,7 +2,7 @@
 <Template Originator="Christoph Wille" Language="C#" Created="6/13/2001" LastModified="6/13/2001">
 	
 	<TemplateConfiguration>
-		<_Name>C# Web Service</_Name>
+		<_Name>Web Service</_Name>
 		<Icon>C#.File.WebFile</Icon>
 		<Category>C#</Category>
 		<LanguageName>C#</LanguageName>

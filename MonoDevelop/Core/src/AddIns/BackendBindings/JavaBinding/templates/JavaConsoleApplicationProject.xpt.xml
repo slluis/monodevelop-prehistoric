@@ -5,7 +5,7 @@
 	
 	<!-- Template Header -->
 	<TemplateConfiguration>
-		<_Name>Java Console Project</_Name>
+		<_Name>Console Project</_Name>
 		<Category>Java</Category>
 		<Icon>Java.Project.DOSProject</Icon>
 		<LanguageName>Java</LanguageName>

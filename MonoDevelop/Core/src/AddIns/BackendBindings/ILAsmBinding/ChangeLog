@@ -1,3 +1,7 @@
+2005-02-16  Ben Motmans  <ben.motmans@gmail.com>
+
+	* ILAsmConsoleProject.xpt.xml: Consistent naming
+
 2005-01-24  John Luke  <john.luke@gmail.com>
 
 	* ILAsmCompilerManager.cs: update to work like CSharpBinding

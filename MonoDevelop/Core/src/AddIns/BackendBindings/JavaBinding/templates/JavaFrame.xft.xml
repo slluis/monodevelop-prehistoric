@@ -2,11 +2,11 @@
 <Template Originator="Gary Gray" Language="JAVA" Created="09/05/2001" LastModified="09/05/2001">
 	
 	<TemplateConfiguration>
-           <_Name>Java AWT Frame</_Name>
+           <_Name>AWT Frame</_Name>
            <Icon>Java.File.Form</Icon>
            <Category>Java</Category>
            <LanguageName>Java</LanguageName>
-           <_Description>Creates an AWT Frame</_Description>
+           <_Description>Creates a Java AWT Frame</_Description>
 	</TemplateConfiguration>
 	
 	<TemplateFiles>

@@ -5,11 +5,11 @@
 	
 	<!-- Template Header -->
 	<TemplateConfiguration>
-		<_Name>Java AWT Project</_Name>
+		<_Name>AWT Project</_Name>
 		<Category>Java</Category>
 		<Icon>Java.Project.FullProject</Icon>
 		<LanguageName>Java</LanguageName>
-		<_Description>Creates an AWT project.</_Description>
+		<_Description>Creates a Java AWT project.</_Description>
 	</TemplateConfiguration>
 	
 	<!-- Actions -->

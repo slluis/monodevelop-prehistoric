@@ -40,7 +40,9 @@ Project/VBCompilerParameters.cs
 TEMPLATES = \
 templates/EmptyVBFile.xft.xml \
 templates/EmptyVBProject.xpt.xml \
-templates/VBConsoleApplicationProject.xpt.xml
+templates/VBConsoleApplicationProject.xpt.xml \
+templates/VBGtkSharpProject.xpt.xml \
+templates/VBGtkSharp2Project.xpt.xml
 
 build_sources = $(addprefix $(srcdir)/, $(FILES))
 

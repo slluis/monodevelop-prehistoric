@@ -5,7 +5,7 @@
 	
 	<!-- Template Header -->
 	<TemplateConfiguration>
-		<_Name>C# Library</_Name>
+		<_Name>Library</_Name>
 		<Category>C#</Category>
 		<Icon>C#.Project.Library</Icon>
 		<LanguageName>C#</LanguageName>

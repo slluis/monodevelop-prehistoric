@@ -2,11 +2,11 @@
 <Template Originator="Gary Gray" Language="JAVA" Created="09/05/2001" LastModified="09/05/2001">
 	
 	<TemplateConfiguration>
-           <_Name>Java AWT Panel</_Name>
+           <_Name>AWT Panel</_Name>
            <Icon>Java.File.Form</Icon>
            <Category>Java</Category>
            <LanguageName>Java</LanguageName>
-           <_Description>Creates an AWT panel.</_Description>
+           <_Description>Creates a Java AWT panel.</_Description>
 	</TemplateConfiguration>
 	
 	<TemplateFiles>

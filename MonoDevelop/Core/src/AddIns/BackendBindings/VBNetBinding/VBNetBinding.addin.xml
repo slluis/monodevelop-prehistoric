@@ -26,6 +26,10 @@
                      location = "templates/EmptyVBProject.xpt.xml"/>
     <ProjectTemplate id = "VBConsoleApplicationProject"
                      location = "templates/VBConsoleApplicationProject.xpt.xml"/>
+    <ProjectTemplate id = "VBGtkSharpProject"
+                     location = "templates/VBGtkSharpProject.xpt.xml"/>
+    <ProjectTemplate id = "VBGtkSharp2Project"
+                     location = "templates/VBGtkSharp2Project.xpt.xml"/>
   </Extension>
   
 	<Extension path = "/Workspace/Parser">

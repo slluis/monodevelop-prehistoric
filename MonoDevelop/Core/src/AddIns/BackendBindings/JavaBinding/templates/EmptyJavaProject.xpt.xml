@@ -5,7 +5,7 @@
 	
 	<!-- Template Header -->
 	<TemplateConfiguration>
-                <_Name>Empty Java Project</_Name>
+                <_Name>Empty Project</_Name>
                 <Category>Java</Category>
                 <Icon>Java.Project.EmptyProject</Icon>
                 <LanguageName>Java</LanguageName>

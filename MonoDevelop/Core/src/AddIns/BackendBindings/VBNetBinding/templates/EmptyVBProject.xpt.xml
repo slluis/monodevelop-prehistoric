@@ -5,7 +5,7 @@
 	
 	<!-- Template Header -->
 	<TemplateConfiguration>
-                <_Name>Empty VB.NET Project</_Name>
+                <_Name>Empty Project</_Name>
                 <Category>VBNet</Category>
                 <Icon>VB.Project.EmptyProject</Icon>
                 <LanguageName>VBNet</LanguageName>

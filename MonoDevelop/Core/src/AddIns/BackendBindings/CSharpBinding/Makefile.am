@@ -49,9 +49,12 @@ templates/EmptyResourceFile.xft.xml \
 templates/EmptyTextFile.xft.xml \
 templates/EmptyXMLFile.xft.xml \
 templates/GladeSharpProject.xpt.xml \
+templates/GladeSharp2Project.xpt.xml \
 templates/GnomeSharpProgram.xft.xml \
 templates/GnomeSharpProject.xpt.xml \
+templates/GnomeSharp2Project.xpt.xml \
 templates/GtkSharpProject.xpt.xml \
+templates/GtkSharp2Project.xpt.xml \
 templates/GtkSharpWindow.xft.xml \
 templates/Library.xpt.xml
 

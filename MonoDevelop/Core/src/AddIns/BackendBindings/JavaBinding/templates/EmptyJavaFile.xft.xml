@@ -2,7 +2,7 @@
 <Template Originator="Gary Gray" Language="Java" Created="09/05/2001" LastModified="09/05/2001">
 	
 	<TemplateConfiguration>
-                <_Name>Empty Java File</_Name>
+                <_Name>Empty File</_Name>
                 <Icon>Java.File.EmptyFile</Icon>
                 <Category>Java</Category>
                 <LanguageName>Java</LanguageName>

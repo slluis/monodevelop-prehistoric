@@ -5,7 +5,7 @@
 	
 	<!-- Template Header -->
 	<TemplateConfiguration>
-		<_Name>VB.NET Console Project</_Name>
+		<_Name>Console Project</_Name>
 		<Category>VBNet</Category>
 		<Icon>VB.Project.DOSProject</Icon>
 		<LanguageName>VBNet</LanguageName>

@@ -1,3 +1,16 @@
+2005-02-16  Ben Motmans  <ben.motmans@gmail.com>
+
+	* EmptyVBFile.xpt.xml:
+	* EmptyVBProject.xpt.xml:
+	* VBConsoleApplicationProject.xpt.xml:
+	Consistent naming
+
+	* VBGtkSharpProject.xpt.xml:
+	* VBGtkSharp2Project.xpt.xml:
+	* VBNetBinding.addin.xml:
+	* Makefile.am:
+	Added templates
+
 2005-01-28  John Luke  <john.luke@gmail.com>
 
 	* SharpRefactoryVB/src/Lexer/Lexer.cs:
