@@ -1,0 +1,35 @@
+<AddIn name        = "MonoDeveloperExtensions"
+       author      = "Lluis Sanchez Gual"
+       copyright   = "(c) 2005 Novell, Inc."
+       url         = "http://www.monodevelop.com"
+       description = "MonoDevelop extensions for Mono developers"
+       version     = "0.0.1">
+    
+    <Runtime>
+        <Import assembly="MonoDeveloperExtensions.dll"/>
+    </Runtime>
+
+	<Extension path = "/SharpDevelop/Workbench/ProjectFileFormats">
+		<FileFormat id = "MonoMakefile"
+						class = "MonoDeveloper.MonoMakefileFormat" />
+	</Extension>
+	
+  <Extension path = "/SharpDevelop/Workbench/ProjectOptions/ConfigurationProperties">
+    <Conditional activeproject = "MonoMakefile">
+		<DialogPanel id = "MonoMakefileOptionsPanel"
+					 _label = "Output"
+					 class = "MonoDevelop.Gui.Dialogs.OptionPanels.OutputOptionsPanel"/>
+    </Conditional>
+  </Extension>
+  
+	<Extension path = "/SharpDevelop/Views/ProjectBrowser/ContextMenu/ProjectBrowserNode">
+		<Conditional activeproject="MonoMakefile" action="Exclude">
+			<MenuItem id = "Install"
+					  insertafter = "RebuildProject"
+					  insertbefore = "BuildGroupSeparator"
+					  _label = "Install" 
+					  class = "MonoDeveloper.InstallCommand"/>
+		</Conditional>
+	</Extension>
+</AddIn>
+
