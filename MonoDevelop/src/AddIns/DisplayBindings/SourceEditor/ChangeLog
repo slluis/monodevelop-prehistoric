@@ -1,4 +1,11 @@
+2004-06-11  Todd Berman  <tberman@sevenl.net>
+
+	* CodeCompletion/CompletionWindow.cs: pretty sure this is the undo
+	bug that has people all freaked out (for good reason). well, one of the
+	two changed lines is, the other is just to be a bit more correct.
+
 2004-06-10  John BouAntoun  <jba-mono@optusnet.com.au>
+
 	* Gui/Dialogs/ReplaceInFilesDialog.cs: Fix ReplaceInFilesDialog to 
 	make it show instead of crashing MD, also made the '...' browse 
 	button pick up current path or use default project path in the 

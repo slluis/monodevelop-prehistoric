@@ -92,6 +92,7 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 					control.SimulateKeyPress (ref e);
 					if (insertLength <= -1) {
 						LostFocusListView (null, null);
+						return true;
 					}
 					RowActivated (null, null);
 					return true;
@@ -335,6 +336,7 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 		{
 			control.buf.DropCompleteAhead ();
 			control.buf.EndAtomicUndo ();
+			listView.FocusOutEvent -= LostFocusListView;
 			control.HasFocus = true;
 			declarationviewwindow.HideAll ();
 			this.Hide ();
