@@ -304,6 +304,7 @@ VB.Project.ServiceProject \
 VB.Project.UserControl \
 VB.Project.WebProject \
 gnome-fs-regular.png \
-BreakPoint.png
+BreakPoint.png \
+ExecutionMarker.png
 
 EXTRA_DIST = $(icons_DATA)

@@ -92,7 +92,7 @@ namespace MonoDevelop.SourceEditor.Gui {
 		{
 			if (lineToMark == -1) return;
 			DebuggingService dbgr = (DebuggingService)ServiceManager.Services.GetService (typeof (DebuggingService));
-			bool canToggle = dbgr.ToggleBreakpoint (ParentEditor.DisplayBinding.ContentName, lineToMark);
+			bool canToggle = dbgr.ToggleBreakpoint (ParentEditor.DisplayBinding.ContentName, lineToMark + 1);
 			if (canToggle)
 				buf.ToggleMark (lineToMark, SourceMarkerType.BreakpointMark);
 			lineToMark = -1;
