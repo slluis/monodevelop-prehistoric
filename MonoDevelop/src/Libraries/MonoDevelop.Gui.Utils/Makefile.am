@@ -21,12 +21,12 @@ all: $(DLL)
 
 $(DLL): $(build_sources)
 	mcs /debug /out:$(DLL) /target:library $(REFERENCES) $(build_sources) \
-	&& cp $(DLL) ../../../build/bin/.
+	&& cp $(DLL) ../../../build/bin/. && cp $(srcdir)/$(DLL).config ../../../build/bin
 
 assemblydir = $(libdir)/monodevelop/bin
-assembly_DATA = $(DLL)
+assembly_DATA = $(DLL) $(DLL).config
 
 CLEANFILES=$(DLL)
 
-EXTRA_DIST = $(FILES)
+EXTRA_DIST = $(FILES) $(DLL).config
 
