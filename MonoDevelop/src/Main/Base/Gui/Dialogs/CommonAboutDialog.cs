@@ -143,7 +143,7 @@ namespace MonoDevelop.Gui.Dialogs
 			//ResourceService resourceService = (ResourceService) ServiceManager.Services.GetService(typeof (IResourceService));
 			aboutPictureScrollBox = new ScrollBox ();
 		
-			this.VBox.PackStart (aboutPictureScrollBox);
+			this.VBox.PackStart (aboutPictureScrollBox, false, false, 0);
 		
 			Notebook nb = new Notebook ();
 			nb.SetSizeRequest (400, 280);
@@ -157,7 +157,7 @@ namespace MonoDevelop.Gui.Dialogs
 			//nb.AppendPage (changelog, new Label ("ChangeLog"));
 
 			nb.AppendPage (vinfo, new Label (GettextCatalog.GetString ("Version Info")));
-			this.VBox.PackStart (nb);
+			this.VBox.PackStart (nb, true, true, 0);
 			this.AddButton (Gtk.Stock.Close, (int) ResponseType.Close);
 			this.ShowAll ();
 		}

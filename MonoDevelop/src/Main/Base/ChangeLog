@@ -1,3 +1,8 @@
+2004-06-06  John Luke  <jluke@cfl.rr.com>
+
+	* Gui/Dialogs/CommonAboutDialog.cs: make the scrollbox not expand
+	fixes bug #59652
+
 2004-06-02  Todd Berman  <tberman@sevenl.net>
 
 	* Commands/ProjectBrowserCommands/FolderNodeCommands.cs: call new func.
