@@ -20,6 +20,7 @@ using MonoDevelop.Core.Properties;
 
 using MonoDevelop.Core.Services;
 using MonoDevelop.Gui.Components;
+using MonoDevelop.Gui.Dialogs;
 
 using MonoDevelop.Services;
 
@@ -258,45 +259,6 @@ namespace MonoDevelop.Gui
 			CreateMainMenu();
 		}
 				
-		//		public void OpenCombine(string filename)
-		//		{
-		//			Debug.Assert(projectManager != null);
-		//			projectManager.ClearCombine();
-		//			CloseAllFiles();
-		//			projectManager.OpenCombine(filename);
-		//			UpdateMenu(null, null);
-		//		}
-		//
-		//		public void SaveCombine()
-		//		{
-		//			Debug.Assert(projectManager != null);
-		//			projectManager.SaveCombine();
-		//		}
-		//
-		//		public void ClearCombine()
-		//		{
-		//			Debug.Assert(projectManager != null);
-		//			projectManager.ClearCombine();
-		//		}
-		//
-		//		public void MarkFileDirty(string filename)
-		//		{
-		//			Debug.Assert(projectManager != null);
-		//			projectManager.MarkFileDirty(filename);
-		//		}
-		//
-		//		public void OpenFile(string fileName)
-		//		{
-		//			Debug.Assert(fileManager != null);
-		//			fileManager.OpenFile(fileName);
-		//		}
-		//
-		//		public void NewFile(string defaultName, string language, string content)
-		//		{
-		//			Debug.Assert(fileManager != null);
-		//			fileManager.NewFile(defaultName, language, content);
-		//		}
-		
 		public void CloseContent(IViewContent content)
 		{
 			if (propertyService.GetProperty("SharpDevelop.LoadDocumentProperties", true) && content is IMementoCapable) {
@@ -314,7 +276,7 @@ namespace MonoDevelop.Gui
 				ViewContentCollection fullList = new ViewContentCollection(workbenchContentCollection);
 				foreach (IViewContent content in fullList) {
 					IWorkbenchWindow window = content.WorkbenchWindow;
-					window.CloseWindow(false, true, 0);
+					window.CloseWindow(true, true, 0);
 				}
 			} finally {
 				closeAll = false;
@@ -509,22 +471,9 @@ namespace MonoDevelop.Gui
 			}
 		}
 		
-//		protected void OnTopMenuSelected(MenuCommand mc)
-//		{
-//			IStatusBarService statusBarService = (IStatusBarService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IStatusBarService));
-//			
-//			statusBarService.SetMessage(mc.Description);
-//		}
-//		
-//		protected void OnTopMenuDeselected(MenuCommand mc)
-//		{
-//			SetStandardStatusBar(null, null);
-//		}
-		
 		protected /*override*/ void OnClosing(object o, Gtk.DeleteEventArgs e)
 		{
 			if (Close()) {
-				//				propertyService.SetProperty("SharpDevelop.Workbench.WorkbenchMemento", WorkbenchSingleton.Workbench.CreateMemento());
 				Gtk.Application.Quit ();
 			} else {
 				e.RetVal = true;
@@ -542,30 +491,26 @@ namespace MonoDevelop.Gui
 		public bool Close() 
 		{
 			IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IProjectService));
-			
-			if (projectService != null)
+			projectService.SaveCombinePreferences ();
+
+			bool showDirtyDialog = false;
+
+			foreach (IViewContent content in WorkbenchSingleton.Workbench.ViewContentCollection)
 			{
-				projectService.SaveCombinePreferences();
-				while (WorkbenchSingleton.Workbench.ViewContentCollection.Count > 0) 
-				{
-					IViewContent content = WorkbenchSingleton.Workbench.ViewContentCollection[0];
-					content.WorkbenchWindow.CloseWindow(false, true, 0);
-					if (WorkbenchSingleton.Workbench.ViewContentCollection.Contains(content)) 
-					{
-						return false;
-					}
+				if (content.IsDirty) {
+					showDirtyDialog = true;
+					break;
 				}
-				projectService.CloseCombine(false);
+			}
+
+			if (showDirtyDialog) {
+				DirtyFilesDialog dlg = new DirtyFilesDialog ();
+				int response = dlg.Run ();
+				if (response != (int)Gtk.ResponseType.Ok)
+					return false;
 			}
 			
-			// TODO : Dirty Files Dialog
-			//			foreach (IViewContent content in ViewContentCollection) {
-			//				if (content.IsDirty) {
-			//					MonoDevelop.Gui.Dialogs.DirtyFilesDialog dfd = new MonoDevelop.Gui.Dialogs.DirtyFilesDialog();
-			//					e.Cancel = dfd.ShowDialog() == DialogResult.Cancel;
-			//					return;
-			//				}
-			//			}
+			projectService.CloseCombine (false);
 			propertyService.SetProperty("SharpDevelop.Workbench.WorkbenchMemento", WorkbenchSingleton.Workbench.CreateMemento());
 			OnClosed (null);
 			return true;

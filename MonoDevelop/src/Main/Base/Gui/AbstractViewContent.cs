@@ -8,6 +8,7 @@
 using System;
 
 using MonoDevelop.Services;
+using MonoDevelop.Core.Services;
 using MonoDevelop.Internal.Project;
 
 namespace MonoDevelop.Gui
@@ -110,10 +111,10 @@ namespace MonoDevelop.Gui
 			}
 			set
 			{
-				if (!HasProject && value != null)
-				{
+				if (value != null)
 					HasProject = true;
-				}
+				else
+					HasProject = false;
 				project = value;
 			}
 		}
@@ -122,18 +123,11 @@ namespace MonoDevelop.Gui
 		{
 			get
 			{
-				return pathrelativetoproject;
-			}
-			set
-			{
-				if (value != null && value != "")
-				{
-					if (!HasProject)
-					{
-						HasProject = true;
-					}
+				if (HasProject) {
+					FileUtilityService fus = (FileUtilityService)ServiceManager.GetService (typeof (FileUtilityService));
+					return fus.AbsoluteToRelativePath (project.BaseDirectory, ContentName).Substring (2);
 				}
-				pathrelativetoproject = value;
+				return null;
 			}
 		}
 

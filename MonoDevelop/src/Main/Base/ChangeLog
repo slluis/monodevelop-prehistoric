@@ -1,3 +1,18 @@
+2004-06-25  Todd Berman  <tberman@off.net>
+
+	* Gui/AbstractViewContent.cs: Make PathRelativeToProject not store in
+	a string, and always be correct, no matter if the file is new, or has
+	been moved since being loaded.
+	* Gui/Dialogs/DirtyFilesDialog.cs: New dialog to use on close, should
+	be working perfectly.
+	* Gui/Dialogs/ReferenceDialog/GacReferencePanel.cs: formatting fixes.
+	* Gui/IViewContent.cs: No longer all PathRelativeToProject to be set.
+	* Gui/Workbench/DefaultWorkbench.cs: remove the old closing code, and
+	use the new dirty files dialog.
+	* Services/File/FileService.cs: Fix LoadWrapperClass to not set the
+	path relative to project, as that is handled differently now. Remove
+	a method to make a path relative as there is no need for it now.
+
 2004-06-24  Todd Berman  <tberman@off.net>
 
 	* Commands/ProjectBrowserCommands/CombineNodeCommands.cs: set dialog

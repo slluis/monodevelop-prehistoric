@@ -52,28 +52,25 @@ namespace MonoDevelop.Services
 		{
 			IDisplayBinding binding;
 			IProject project;
-			string pathrelativetoproject;
 			
 			public LoadFileWrapper(IDisplayBinding binding)
 			{
 				this.binding = binding;
 			}
 			
-			public LoadFileWrapper(IDisplayBinding binding, IProject project, string pathrelativetoproject)
+			public LoadFileWrapper(IDisplayBinding binding, IProject project)
 			{
 				this.binding = binding;
 				this.project = project;
-				this.pathrelativetoproject = pathrelativetoproject;
 			}
 			
 			public void Invoke(string fileName)
 			{
 				IViewContent newContent = binding.CreateContentForFile(fileName);
-				if (project != null &&  pathrelativetoproject != null && pathrelativetoproject != "")
+				if (project != null)
 				{
 					newContent.HasProject = true;
 					newContent.Project = project;
-					newContent.PathRelativeToProject = pathrelativetoproject;
 				}
 				WorkbenchSingleton.Workbench.ShowView(newContent);
 				DisplayBindingService displayBindingService = (DisplayBindingService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(DisplayBindingService));
@@ -131,17 +128,16 @@ namespace MonoDevelop.Services
 				IProject project = null;
 				Combine combine = null;
 				GetProjectAndCombineFromFile (fileName, out project, out combine);
-				string pathrelativetoproject = GetRelativePath (project, fileName);
 				
 				if (combine != null && project != null)
 				{
-					if (fileUtilityService.ObservedLoad(new NamedFileOperationDelegate(new LoadFileWrapper(binding, project, pathrelativetoproject).Invoke), fileName) == FileOperationResult.OK) {
+					if (fileUtilityService.ObservedLoad(new NamedFileOperationDelegate(new LoadFileWrapper(binding, project).Invoke), fileName) == FileOperationResult.OK) {
 						fileService.RecentOpen.AddLastFile(fileName);
 					}
 				}
 				else
 				{
-					if (fileUtilityService.ObservedLoad(new NamedFileOperationDelegate(new LoadFileWrapper(binding, null, null).Invoke), fileName) == FileOperationResult.OK) {
+					if (fileUtilityService.ObservedLoad(new NamedFileOperationDelegate(new LoadFileWrapper(binding, null).Invoke), fileName) == FileOperationResult.OK) {
 						fileService.RecentOpen.AddLastFile(fileName);
 					}
 				}
@@ -155,7 +151,7 @@ namespace MonoDevelop.Services
 						Gnome.Url.Show ("file://" + fileName);
 					}
 				} catch {
-					if (fileUtilityService.ObservedLoad(new NamedFileOperationDelegate (new LoadFileWrapper (displayBindingService.LastBinding, null, null).Invoke), fileName) == FileOperationResult.OK) {
+					if (fileUtilityService.ObservedLoad(new NamedFileOperationDelegate (new LoadFileWrapper (displayBindingService.LastBinding, null).Invoke), fileName) == FileOperationResult.OK) {
 						fileService.RecentOpen.AddLastFile (fileName);
 					}
 				}
@@ -180,27 +176,6 @@ namespace MonoDevelop.Services
 					}
 				}
 			}
-		}
-		
-		protected string GetRelativePath (IProject project, string fileName)
-		{
-			string relativepath;
-	
-			if (project != null && fileName.IndexOf (project.BaseDirectory) == 0)
-			{
-				relativepath = fileName.Substring (project.BaseDirectory.Length);
-			
-				if (relativepath.StartsWith(System.IO.Path.DirectorySeparatorChar.ToString()))
-				{
-					relativepath = relativepath.Substring (1);
-				}
-			}
-			else
-			{
-				relativepath = System.IO.Path.GetFileName (fileName);
-			}
-			
-			return relativepath;
 		}
 		
 		public void NewFile(string defaultName, string language, string content)

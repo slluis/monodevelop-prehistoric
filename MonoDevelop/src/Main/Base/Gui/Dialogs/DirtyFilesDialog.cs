@@ -1,184 +1,189 @@
-// <file>
-//     <copyright see="prj:///doc/copyright.txt"/>
-//     <license see="prj:///doc/license.txt"/>
-//     <owner name="Mike Krüger" email="mike@icsharpcode.net"/>
-//     <version value="$version"/>
-// </file>
-/* TODO : Dirty Files dialog 
-* see DefaultWorkbench.cs OnClosing method
 using System;
-using System.Drawing;
-using System.Windows.Forms;
-using MonoDevelop.Core.Properties;
+using System.Collections;
 
-using MonoDevelop.Core.Gui;
+using Gtk;
+
+using MonoDevelop.Core.Services;
+using MonoDevelop.Services;
+using MonoDevelop.Core.Properties;
+using MonoDevelop.Gui;
 
 namespace MonoDevelop.Gui.Dialogs
 {
-	public class DirtyFilesDialog : System.Windows.Forms.Form
+	public class DirtyFilesDialog : Gtk.Dialog
 	{
-		private System.Windows.Forms.GroupBox groupBox1;
-		private System.Windows.Forms.ListView listView1;
-		private System.Windows.Forms.Button savebutton;
-		private System.Windows.Forms.Button saveallbutton;
-		private System.Windows.Forms.Button discardallbutton;
-		private System.Windows.Forms.Button cancelbutton;
-		
-		public DirtyFilesDialog()
+
+		Button btnSaveAndQuit;
+		Button btnQuit;
+		Button btnCancel;
+		TreeView tvFiles;
+		TreeStore tsFiles;
+
+		public DirtyFilesDialog() : base (GettextCatalog.GetString ("Save Files"), (Gtk.Window)WorkbenchSingleton.Workbench, DialogFlags.Modal)
 		{
-			InitializeComponent();
-			
-			listView1.Columns.Add(resourceService.GetString("Dialog.DirtyFiles.Files"), listView1.Width - 5, HorizontalAlignment.Left);
-			
-			listView1.SmallImageList = FileUtility.ImageList;
-			
-			foreach (IViewContent content in WorkbenchSingleton.Workbench.ViewContentCollection) {
-				if (content.IsDirty && content.ContentName != null) {
-					ListViewItem item = new ListViewItem(content.ContentName, FileUtility.GetImageIndexFor(content.ContentName));
-					item.Selected = true;
-					listView1.Items.Add(item);
-				}
+			tsFiles = new TreeStore (typeof (string), typeof (bool), typeof (SdiWorkspaceWindow), typeof (bool));
+			tvFiles = new TreeView (tsFiles);
+			IProjectService projectService = (IProjectService) ServiceManager.GetService (typeof (IProjectService));
+			TreeIter topCombineIter = TreeIter.Zero;
+			Hashtable projectIters = new Hashtable ();
+			if (projectService.CurrentOpenCombine != null) {
+				topCombineIter = tsFiles.AppendValues (String.Format (GettextCatalog.GetString ("Solution: {0}"), projectService.CurrentOpenCombine.Name), true, null, false);
 			}
-		}
-		
-		void DiscardAll(object sender, EventArgs e)
-		{
-			DialogResult = DialogResult.OK;
-		}
-		
-		void SaveAll(object sender, EventArgs e)
-		{
-			foreach (IViewContent content in WorkbenchSingleton.Workbench.ViewContentCollection) {
-				if (content.IsDirty && content.ContentName != null) {
-					content.SaveFile();
-				}
-			}
-			DialogResult = DialogResult.OK;
-		}
-		
-		void SaveSelected(object sender, EventArgs e)
-		{
-			foreach (IViewContent content in WorkbenchSingleton.Workbench.ViewContentCollection) {
-				if (content.IsDirty && content.ContentName != null) {
-					foreach (ListViewItem item in listView1.SelectedItems) {
-						if (item.Text == content.ContentName) {
-							content.SaveFile();
-							break;
-						}
+			foreach (IViewContent viewcontent in WorkbenchSingleton.Workbench.ViewContentCollection) {
+				if (!viewcontent.IsDirty)
+					continue;
+				
+				if (viewcontent.HasProject) {
+					TreeIter projIter = TreeIter.Zero;
+					if (projectIters.ContainsKey (viewcontent.Project))
+						projIter = (TreeIter) projectIters[viewcontent.Project];
+					else {
+						if (topCombineIter.Equals (TreeIter.Zero))
+							projIter = tsFiles.AppendValues (String.Format (GettextCatalog.GetString ("Project: {0}"), viewcontent.Project.Name), true, null, false);
+						else
+							projIter = tsFiles.AppendValues (topCombineIter, String.Format (GettextCatalog.GetString ("Project: {0}"), viewcontent.Project.Name), true, null, false);
+						projectIters[viewcontent.Project] = projIter;
 					}
+					tsFiles.AppendValues (projIter, viewcontent.PathRelativeToProject, true, viewcontent.WorkbenchWindow);
+				} else {
+					if (viewcontent.ContentName == null) {
+						viewcontent.ContentName = System.IO.Path.Combine (Environment.GetEnvironmentVariable ("HOME"), viewcontent.UntitledName);
+					}
+					tsFiles.AppendValues (viewcontent.ContentName, true, viewcontent.WorkbenchWindow);
 				}
 			}
-			DialogResult = DialogResult.OK;
+			if (!topCombineIter.Equals (TreeIter.Zero)) {
+				if (!tsFiles.IterHasChild (topCombineIter))
+					tsFiles.Remove (ref topCombineIter); 
+			}
+
+			TreeViewColumn mainColumn = new TreeViewColumn ();
+			mainColumn.Title = "header";
+			
+			CellRendererToggle togRender = new CellRendererToggle ();
+			togRender.Toggled += new ToggledHandler (toggled);
+			mainColumn.PackStart (togRender, false);
+			mainColumn.AddAttribute (togRender, "active", 1);
+			mainColumn.AddAttribute (togRender, "inconsistent", 3);
+			
+			CellRendererText textRender = new CellRendererText ();
+			mainColumn.PackStart (textRender, true);
+			mainColumn.AddAttribute (textRender, "text", 0);
+
+			tvFiles.AppendColumn (mainColumn);
+			tvFiles.HeadersVisible = false;
+			tvFiles.ExpandAll ();
+
+			ScrolledWindow sc = new ScrolledWindow ();
+			sc.Add (tvFiles);
+			sc.ShadowType = ShadowType.In;
+
+			this.VBox.BorderWidth = 12;
+			sc.BorderWidth = 12;
+			this.VBox.PackStart (sc);
+			
+			btnSaveAndQuit = new Button (GettextCatalog.GetString ("_Save and Quit"));
+			btnQuit = new Button (Gtk.Stock.Quit);
+			btnCancel = new Button (Gtk.Stock.Cancel);
+
+			btnSaveAndQuit.Clicked += new EventHandler (SaveAndQuit);
+			btnQuit.Clicked += new EventHandler (Quit);
+			btnCancel.Clicked += new EventHandler (Cancel);
+
+			this.ActionArea.PackStart (btnCancel);
+			this.ActionArea.PackStart (btnQuit);
+			this.ActionArea.PackStart (btnSaveAndQuit);
+			this.SetDefaultSize (300, 200);
+			this.ShowAll ();
 		}
-		
-		private void InitializeComponent()
+
+		ArrayList arrSaveWorkbenches = new ArrayList ();
+		void SaveAndQuit (object o, EventArgs e)
 		{
-			bool flat = Crownwood.Magic.Common.VisualStyle.IDE == (Crownwood.Magic.Common.VisualStyle)propertyService.GetProperty("MonoDevelop.Gui.VisualStyle", Crownwood.Magic.Common.VisualStyle.IDE);
-			this.groupBox1 = new System.Windows.Forms.GroupBox();
-			this.listView1 = new System.Windows.Forms.ListView();
-			this.savebutton = new System.Windows.Forms.Button();
-			this.saveallbutton = new System.Windows.Forms.Button();
-			this.discardallbutton = new System.Windows.Forms.Button();
-			this.cancelbutton = new System.Windows.Forms.Button();
-			this.groupBox1.SuspendLayout();
-			this.SuspendLayout();
-			//
-			// groupBox1
-			//
-			this.groupBox1.Controls.AddRange(new System.Windows.Forms.Control[] {this.listView1});
-			this.groupBox1.Location = new System.Drawing.Point(8, 8);
-			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Size = new System.Drawing.Size(312, 272);
-			this.groupBox1.TabIndex = 0;
-			this.groupBox1.TabStop = false;
-			this.groupBox1.Text = resourceService.GetString("Dialog.DirtyFiles.DirtyFiles");
+			tsFiles.Foreach (new TreeModelForeachFunc (CollectWorkbenches));
+			FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.GetService(typeof(FileUtilityService));
+			foreach (SdiWorkspaceWindow window in arrSaveWorkbenches) {
+				fileUtilityService.ObservedSave(new FileOperationDelegate(window.ViewContent.Save), window.ViewContent.ContentName , FileErrorPolicy.ProvideAlternative);
+			}
+
+			Respond (Gtk.ResponseType.Ok);
+			Hide ();
+		}
+
+		bool CollectWorkbenches (TreeModel model, TreePath path, TreeIter iter)
+		{
+			if ((bool)tsFiles.GetValue (iter, 1)) {
+				if (tsFiles.GetValue (iter, 2) != null)
+					arrSaveWorkbenches.Add (tsFiles.GetValue (iter, 2));
+			}
 			
-			//
-			// listView1
-			//
-			this.listView1.HideSelection = false;
-			this.listView1.FullRowSelect = true;
-			this.listView1.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
-			this.listView1.Location = new System.Drawing.Point(8, 16);
-			this.listView1.Name = "listView1";
-			this.listView1.Size = new System.Drawing.Size(296, 248);
-			this.listView1.TabIndex = 0;
-			this.listView1.View = System.Windows.Forms.View.Details;
-			listView1.BorderStyle  = flat ? BorderStyle.FixedSingle : BorderStyle.Fixed3D;
+			return false;
+		}
+
+		void Quit (object o, EventArgs e)
+		{
+			Respond (Gtk.ResponseType.Ok);
+			Hide ();
+		}
+
+		void Cancel (object o, EventArgs e)
+		{
+			Respond (Gtk.ResponseType.Cancel);
+			Hide ();
+		}
+
+		void toggled (object o, ToggledArgs e)
+		{
+			TreeIter iter;
+			tsFiles.GetIterFromString (out iter, e.Path);
+			bool newsetting = !(bool)tsFiles.GetValue (iter, 1);
+			tsFiles.SetValue (iter, 1, newsetting);
+			if (tsFiles.IterHasChild (iter))
+				ToggleChildren (iter, newsetting);
 			
-			//
-			// savebutton
-			//
-			this.savebutton.Location = new System.Drawing.Point(328, 16);
-			this.savebutton.Name = "savebutton";
-			this.savebutton.TabIndex = 1;
-			this.savebutton.Size = new System.Drawing.Size(96, 24);
-			this.savebutton.Text = resourceService.GetString("Dialog.DirtyFiles.SaveButton");
-			
-			this.savebutton.Click += new EventHandler(SaveSelected);
-			savebutton.FlatStyle = flat ? FlatStyle.Flat : FlatStyle.Standard;
-			
-			//
-			// saveallbutton
-			//
-			this.saveallbutton.Location = new System.Drawing.Point(328, 48);
-			this.saveallbutton.Name = "saveallbutton";
-			this.saveallbutton.TabIndex = 2;
-			this.saveallbutton.Size = new System.Drawing.Size(96, 24);
-			this.saveallbutton.Text = resourceService.GetString("Dialog.DirtyFiles.SaveAllButton");
-			
-			this.saveallbutton.Click += new EventHandler(SaveAll);
-			saveallbutton.FlatStyle = flat ? FlatStyle.Flat : FlatStyle.Standard;
-			
-			//
-			// discardallbutton
-			//
-			this.discardallbutton.Location = new System.Drawing.Point(328, 80);
-			this.discardallbutton.Name = "discardallbutton";
-			this.discardallbutton.TabIndex = 3;
-			this.discardallbutton.Size = new System.Drawing.Size(96, 24);
-			this.discardallbutton.Text = resourceService.GetString("Dialog.DirtyFiles.DiscardAllButton");
-			
-			this.discardallbutton.Click += new EventHandler(DiscardAll);
-			discardallbutton.FlatStyle = flat ? FlatStyle.Flat : FlatStyle.Standard;
-			
-			//
-			// cancelbutton
-			//
-			this.cancelbutton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-			this.cancelbutton.Location = new System.Drawing.Point(328, 112);
-			this.cancelbutton.Name = "cancelbutton";
-			this.cancelbutton.TabIndex = 4;
-			this.cancelbutton.Size = new System.Drawing.Size(96, 24);
-			this.cancelbutton.Text = resourceService.GetString("Global.CancelButtonText");
-			cancelbutton.FlatStyle = flat ? FlatStyle.Flat : FlatStyle.Standard;
-			
-			//
-			// Win32Form1
-			//
-			this.AcceptButton = this.savebutton;
-			this.AutoScaleBaseSize = new System.Drawing.Size(5, 13);
-			this.CancelButton = this.cancelbutton;
-			this.ClientSize = new System.Drawing.Size(430, 290);
-			this.Controls.AddRange(new System.Windows.Forms.Control[] {this.cancelbutton,
-			                       this.discardallbutton,
-			                       this.saveallbutton,
-			                       this.savebutton,
-			                       this.groupBox1});
-			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
-			this.MaximizeBox = false;
-			this.MinimizeBox = false;
-			
-			this.ShowInTaskbar = false;
-			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-			this.Text = resourceService.GetString("Dialog.DirtyFiles.DialogName");
-			
-			this.TopMost = true;
-			this.groupBox1.ResumeLayout(false);
-			this.ResumeLayout(false);
+			TreeIter iterFirst;
+			tsFiles.GetIterFirst (out iterFirst);
+			if (tsFiles.IterHasChild (iterFirst))
+				NewCheckStatus (iterFirst);
+		}
+
+		void NewCheckStatus (TreeIter iter)
+		{
+			if (tsFiles.IterHasChild (iter)) {
+				TreeIter childIter;
+				tsFiles.IterNthChild (out childIter, iter, 0);
+				if (tsFiles.IterHasChild (childIter))
+					NewCheckStatus (childIter);
+				bool lastsetting = (bool)tsFiles.GetValue (childIter, 1);
+				bool inconsistant = (bool)tsFiles.GetValue (childIter, 3);
+				bool anytrue, finalsetting;
+				anytrue = finalsetting = lastsetting;
+				while (tsFiles.IterNext (ref childIter)) {
+					if (tsFiles.IterHasChild (childIter))
+						NewCheckStatus (childIter);
+					bool newsetting = (bool)tsFiles.GetValue (childIter, 1);
+					if (newsetting != lastsetting || (bool)tsFiles.GetValue (childIter, 3) == true)
+						inconsistant = true;
+					if (newsetting)
+						anytrue = true;
+					lastsetting = newsetting;
+				}
+				
+				tsFiles.SetValue (iter, 3, inconsistant);
+				tsFiles.SetValue (iter, 1, anytrue);
+			}
+		}
+
+		void ToggleChildren (TreeIter iter, bool setting)
+		{
+			TreeIter newIter;
+			tsFiles.IterNthChild (out newIter, iter, 0);
+			do {
+				tsFiles.SetValue (newIter, 1, setting);
+				if (tsFiles.IterHasChild (newIter))
+					ToggleChildren (newIter, setting);
+			}
+			while (tsFiles.IterNext (ref newIter));
 		}
 	}
 }
-*/
-
- 

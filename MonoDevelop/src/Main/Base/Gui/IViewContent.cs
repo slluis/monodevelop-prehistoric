@@ -105,7 +105,6 @@ namespace MonoDevelop.Gui
 		/// </summary>
 		string PathRelativeToProject {
 			get;
-			set;
 		}
 		
 		/// <summary>

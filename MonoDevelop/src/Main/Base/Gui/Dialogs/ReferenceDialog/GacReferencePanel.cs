@@ -75,8 +75,8 @@ namespace MonoDevelop.Gui.Dialogs
 			} else {
 				store.SetValue (iter, 3, false);
 				selectDialog.RemoveReference (ReferenceType.Gac,
-											  (string)store.GetValue (iter, 0),
-											  (string)store.GetValue (iter, 4));
+				                              (string)store.GetValue (iter, 0),
+				                              (string)store.GetValue (iter, 4));
 			}
 		}
 
