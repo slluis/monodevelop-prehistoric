@@ -20,33 +20,36 @@ using ICSharpCode.SharpDevelop.Internal.Templates;
 using ICSharpCode.SharpDevelop.Gui.XmlForms;
 using MonoDevelop.Gui;
 using Gtk;
+using GladeSharp;
+using Glade;
 
-namespace ICSharpCode.SharpDevelop.Gui.Dialogs
-{
+namespace ICSharpCode.SharpDevelop.Gui.Dialogs {
 	/// <summary>
 	/// This class displays a new project dialog and sets up and creates a a new project,
 	/// the project types are described in an XML options file
 	/// </summary>
-	public class NewProjectDialog : Dialog
-	{
+	public class NewProjectDialog {
 		ArrayList alltemplates = new ArrayList();
 		ArrayList categories   = new ArrayList();
 		Hashtable icons        = new Hashtable();
 		
-		PixbufList cat_imglist;
-		TreeStore catStore;
-		Gtk.TreeView catView;
 		IconView TemplateView;
-		Button okButton;
-		Button cancelButton;
-		Button browseButton;
-		CheckButton seperatedirButton;
-		CheckButton createdirButton;
-		Entry nameEntry;
-		Entry pathEntry;
-		Entry newEntry;
-		Label infoLabel;
-		Label createInLabel;
+		FolderEntry entry_location;
+		TreeStore catStore;
+		
+		[Glade.Widget ("NewProjectDialog")] Dialog dialog;
+		[Glade.Widget] Button btn_close, btn_new;
+		
+		[Glade.Widget] Label lbl_hdr_template, lbl_hdr_location;
+		[Glade.Widget] Label lbl_name, lbl_location, lbl_subdirectory;
+		[Glade.Widget] Label lbl_will_save_in;
+		[Glade.Widget] Label lbl_template_descr;
+		
+		[Glade.Widget] Gtk.Entry txt_name, txt_subdirectory;
+		[Glade.Widget] CheckButton chk_combine_directory;
+		
+		[Glade.Widget] Gtk.TreeView lst_template_types;
+		[Glade.Widget] HBox hbox_template, hbox_for_browser;
 		
 		ResourceService     resourceService = (ResourceService)ServiceManager.Services.GetService(typeof(IResourceService));
 		FileUtilityService  fileUtilityService = (FileUtilityService)ServiceManager.Services.GetService(typeof(FileUtilityService));
@@ -56,27 +59,26 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 		MessageService      messageService = (MessageService)ServiceManager.Services.GetService(typeof(MessageService));
 		bool openCombine;
 		
-		public NewProjectDialog (bool openCombine) : base ("New Project", (Window) WorkbenchSingleton.Workbench, DialogFlags.DestroyWithParent)
+		public NewProjectDialog (bool openCombine)
 		{
-			this.BorderWidth = 6;
-			this.HasSeparator = false;
-			
 			this.openCombine = openCombine;
-			InitializeComponents();
+			new Glade.XML (null, "Base.glade", "NewProjectDialog", null).Autoconnect (this);
+			dialog.TransientFor = (Window) WorkbenchSingleton.Workbench;
 			
+			InitializeComponents();
 			InitializeTemplates();
 			InitializeView();
 			
-			pathEntry.Text = propertyService.GetProperty("ICSharpCode.SharpDevelop.Gui.Dialogs.NewProjectDialog.DefaultPath", fileUtilityService.GetDirectoryNameWithSeparator(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal)) + "MonoDevelopProjects").ToString();
-			ShowAll ();
+			TreeIter first;
+			if (catStore.GetIterFirst (out first))
+				lst_template_types.Selection.SelectIter (first);
+			
+			dialog.ShowAll ();
 		}
 		
 		void InitializeView()
 		{
-			PixbufList smalllist = new PixbufList();
 			PixbufList imglist = new PixbufList();
-			
-			smalllist.Add(resourceService.GetBitmap("Icons.32x32.EmptyProjectIcon"));
 			
 			imglist.Add(resourceService.GetBitmap("Icons.32x32.EmptyProjectIcon"));
 			
@@ -87,7 +89,6 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 			foreach (DictionaryEntry entry in icons) {
 				Gdk.Pixbuf bitmap = iconService.GetBitmap(entry.Key.ToString());
 				if (bitmap != null) {
-					smalllist.Add(bitmap);
 					imglist.Add(bitmap);
 					tmp[entry.Key] = ++i;
 				} else {
@@ -120,9 +121,9 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 			foreach (Category cat in catarray) {
 				TreeIter i;
 				if (node.Equals (TreeIter.Zero)) {
-					i = catStore.AppendValues (cat.Name, cat, cat_imglist[1]);
+					i = catStore.AppendValues (cat.Name, cat);
 				} else {
-					i = catStore.AppendValues (node, cat.Name, cat, cat_imglist[1]);
+					i = catStore.AppendValues (node, cat.Name, cat);
 				}
 				InsertCategories(i, cat.Categories);
 			}
@@ -153,81 +154,44 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 				alltemplates.Add(titem);
 			}
 		}
-
-		bool FixCatIcons (TreeModel mdl, TreePath path, TreeIter iter)
-		{
-			((TreeStore) mdl).SetValue (iter, 2, cat_imglist[1]);
-			return false;
-		}
 		
 		void CategoryChange(object sender, EventArgs e)
 		{
 			TreeModel mdl;
 			TreeIter  iter;
-			if (catView.Selection.GetSelected (out mdl, out iter)) {
-				((TreeStore) mdl).Foreach (new TreeModelForeachFunc (FixCatIcons));
-				((TreeStore) mdl).SetValue (iter, 2, cat_imglist[0]);
+			if (lst_template_types.Selection.GetSelected (out mdl, out iter)) {
 				TemplateView.Clear ();
 				foreach (TemplateItem item in ((Category)catStore.GetValue (iter, 1)).Templates) {
 					TemplateView.AddIcon (new Gtk.Image (iconService.GetBitmap (item.Template.Icon)), item.Name, item.Template);
 				}
-				okButton.Sensitive = false;
+				btn_new.Sensitive = false;
 			}
 		}
-		
-		void OnBeforeExpand(object sender, EventArgs e)
-		{
-			//e.Node.ImageIndex = 1;
-		}
-		
-		void OnBeforeCollapse(object sender, EventArgs e)
-		{
-			//e.Node.ImageIndex = 0;
-		}
-		
-		void CheckedChange(object sender, EventArgs e)
-		{
-			newEntry.Sensitive = seperatedirButton.Active;
-			
-			if (!newEntry.Sensitive) { // unchecked created own directory for solution
-				NameTextChanged(null, null);    // set the value of the ((TextBox)ControlDictionary["solutionNameTextBox"]) to ((TextBox)ControlDictionary["nameTextBox"])
-			}
-		}
-		
-		void NameTextChanged(object sender, EventArgs e)
-		{
-			if (!seperatedirButton.Active) {
-				newEntry.Text = nameEntry.Text;
-			}
-		}
-		
+
 		string ProjectSolution {
 			get {
-				string name = String.Empty;
-				if (seperatedirButton.Active) {
-					name += System.IO.Path.DirectorySeparatorChar + newEntry.Text;
-				}
-				return ProjectLocation + name;
+				string subdir = txt_subdirectory.Text.Trim ();
+				if (subdir != "")
+					return Path.Combine (ProjectLocation, subdir);
+				
+				return ProjectLocation;
 			}
 		}
 		
 		string ProjectLocation {
 			get {
-				string location = pathEntry.Text.TrimEnd('\\', '/', System.IO.Path.DirectorySeparatorChar);
-				string name     = nameEntry.Text;
-				return location + (createdirButton.Active ? System.IO.Path.DirectorySeparatorChar + name : "");
+				if (chk_combine_directory.Active)
+					return Path.Combine (entry_location.Path, txt_name.Text);
+				
+				return entry_location.Path;
 			}
 		}
 		
 		// TODO : Format the text
-		void PathChanged(object sender, EventArgs e)
+		void PathChanged (object sender, EventArgs e)
 		{
-			createInLabel.Text = resourceService.GetString("Dialog.NewProject.ProjectAtDescription")+ " " + ProjectSolution;
-		}
-		
-		void IconSizeChange(object sender, EventArgs e)
-		{
-			//((ListView)ControlDictionary["templateListView"]).View = ((RadioButton)ControlDictionary["smallIconsRadioButton"]).Checked ? View.List : View.LargeIcon;
+			ActivateIfReady ();
+			lbl_will_save_in.Text = resourceService.GetString("Dialog.NewProject.ProjectAtDescription") + " " + ProjectSolution;
 		}
 		
 		public bool IsFilenameAvailable(string fileName)
@@ -237,16 +201,16 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 		
 		public void SaveFile(IProject project, string filename, string content, bool showFile)
 		{
-			project.ProjectFiles.Add(new ProjectFile(filename));
+			project.ProjectFiles.Add (new ProjectFile(filename));
 			
-			StreamWriter sr = File.CreateText(filename);
-			sr.Write(stringParserService.Parse(content, new string[,] { {"PROJECT", nameEntry.Text}, {"FILE", System.IO.Path.GetFileName(filename)}}));
+			StreamWriter sr = File.CreateText (filename);
+			sr.Write(stringParserService.Parse(content, new string[,] { {"PROJECT", txt_name.Text}, {"FILE", System.IO.Path.GetFileName(filename)}}));
 			sr.Close();
 			
 			if (showFile) {
-				string longfilename = fileUtilityService.GetDirectoryNameWithSeparator(ProjectSolution) + stringParserService.Parse(filename, new string[,] { {"PROJECT", nameEntry.Text}});
-				IFileService fileService = (IFileService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(IFileService));
-				fileService.OpenFile(longfilename);
+				string longfilename = fileUtilityService.GetDirectoryNameWithSeparator (ProjectSolution) + stringParserService.Parse(filename, new string[,] { {"PROJECT", txt_name.Text}});
+				IFileService fileService = (IFileService) ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(IFileService));
+				fileService.OpenFile (longfilename);
 			}
 		}
 		
@@ -262,46 +226,50 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 			}
 			
 			FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.Services.GetService(typeof(FileUtilityService));
-			string solution = newEntry.Text;
-			string name     = nameEntry.Text;
-			string location = pathEntry.Text;
-			if (!fileUtilityService.IsValidFileName(solution) || solution.IndexOf(System.IO.Path.DirectorySeparatorChar) >= 0 ||
+			string solution = txt_subdirectory.Text;
+			string name     = txt_name.Text;
+			string location = entry_location.Path;
+			if ((solution != null && solution.Trim () != "" 
+				&& (!fileUtilityService.IsValidFileName (solution) || solution.IndexOf(System.IO.Path.DirectorySeparatorChar) >= 0)) ||
 			    !fileUtilityService.IsValidFileName(name)     || name.IndexOf(System.IO.Path.DirectorySeparatorChar) >= 0 ||
 			    !fileUtilityService.IsValidFileName(location)) {
 				messageService.ShowError("Illegal project name.\nOnly use letters, digits, space, '.' or '_'.");
 				return;
 			}
 			
-			propertyService.SetProperty("ICSharpCode.SharpDevelop.Gui.Dialogs.NewProjectDialog.AutoCreateProjectSubdir", createdirButton.Active);
-			if (TemplateView.CurrentlySelected != null && pathEntry.Text.Length > 0 && newEntry.Text.Length > 0) {
-					ProjectTemplate item = (ProjectTemplate)TemplateView.CurrentlySelected;
+			propertyService.SetProperty (
+				"ICSharpCode.SharpDevelop.Gui.Dialogs.NewProjectDialog.AutoCreateProjectSubdir",
+				chk_combine_directory.Active);
+			
+			if (TemplateView.CurrentlySelected != null && name.Length != 0) {
+					ProjectTemplate item = (ProjectTemplate) TemplateView.CurrentlySelected;
 					
-					System.IO.Directory.CreateDirectory(ProjectSolution);
+					System.IO.Directory.CreateDirectory (ProjectSolution);
 					
 					
-					ProjectCreateInformation cinfo = new ProjectCreateInformation();
+					ProjectCreateInformation cinfo = new ProjectCreateInformation ();
 					
 					cinfo.CombinePath     = ProjectLocation;
 					cinfo.ProjectBasePath = ProjectSolution;
 //					cinfo.Description     = stringParserService.Parse(item.Template.Description);
 					
-					cinfo.ProjectName     = nameEntry.Text;
+					cinfo.ProjectName     = name;
 //					cinfo.ProjectTemplate = item.Template;
 					
-					NewCombineLocation = item.CreateProject(cinfo);
-					if (NewCombineLocation == null || NewCombineLocation.Length == 0) {
+					NewCombineLocation = item.CreateProject (cinfo);
+					if (NewCombineLocation == null || NewCombineLocation.Length == 0)
 						return;
-					}
-					if (openCombine) {
+					
+					if (openCombine)
 						item.OpenCreatedCombine();
-					}
 					
 					// TODO :: THIS DOESN'T WORK !!!
 					NewProjectLocation = System.IO.Path.ChangeExtension(NewCombineLocation, ".prjx");
 					
 					//DialogResult = DialogResult.OK;
-					Hide ();
-					/*
+					dialog.Hide ();
+
+#if false // from .98
 					if (item.Template.LanguageName != null && item.Template.LanguageName.Length > 0)  {
 						
 					}
@@ -333,150 +301,78 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 				} else {
 					MessageBox.Show(resourceService.GetString("Dialog.NewProject.EmptyProjectFieldWarning"), "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 				}
-				*/		//THIS IS WHERE THE ORIGINAL COMMENT ENDED -- TODD
-			}
-		}
-		
-		void BrowseDirectories(object sender, EventArgs e)
-		{
-			FolderDialog fd = new FolderDialog("Choose project location");
-			int response = fd.Run ();
-			fd.Hide ();
-			
-			if (response == (int) ResponseType.Ok)
-			{
-				pathEntry.Text = fd.Filename;
+#endif
 			}
 		}
 		
 		// icon view event handlers
 		void SelectedIndexChange(object sender, EventArgs e)
 		{
-			if (TemplateView.CurrentlySelected != null) {
-				infoLabel.Text = stringParserService.Parse(((ProjectTemplate)TemplateView.CurrentlySelected).Description);
-				okButton.Sensitive = true;
-			} else {
-				infoLabel.Text = String.Empty;
-				okButton.Sensitive = false;
-			}
+			if (TemplateView.CurrentlySelected != null)
+				lbl_template_descr.Text = stringParserService.Parse (((ProjectTemplate)TemplateView.CurrentlySelected).Description);
+			else
+				lbl_template_descr.Text = String.Empty;
+			
+			ActivateIfReady ();
 		}
 		
 		void cancelClicked (object o, EventArgs e)
 		{
-			Hide ();
+			dialog.Hide ();
+		}
+		
+		public int Run ()
+		{
+			return dialog.Run ();
+		}
+		
+		void ActivateIfReady ()
+		{
+			if (TemplateView.CurrentlySelected == null || txt_name.Text.Trim () == "")
+				btn_new.Sensitive = false;
+			else
+				btn_new.Sensitive = true;
 		}
 		
 		void InitializeComponents()
 		{
 		
-			catStore = new Gtk.TreeStore (typeof (string), typeof(Category), typeof (Gdk.Pixbuf));
-			ScrolledWindow swindow1 = new ScrolledWindow();
-			swindow1.VscrollbarPolicy = PolicyType.Automatic;
-			swindow1.HscrollbarPolicy = PolicyType.Automatic;
-			swindow1.ShadowType = ShadowType.In;
-			catView = new Gtk.TreeView (catStore);
-			catView.WidthRequest = 160;
-			catView.HeadersVisible = false;
+			catStore = new Gtk.TreeStore (typeof (string), typeof (Category));
+			lst_template_types.Model = catStore;
+			lst_template_types.WidthRequest = 160;
+			
+			lst_template_types.Selection.Changed += new EventHandler (CategoryChange);
 			
 			TemplateView = new IconView();
 
 			TreeViewColumn catColumn = new TreeViewColumn ();
 			catColumn.Title = "categories";
-			//CellRendererPixbuf cat_pix_render = new CellRendererPixbuf ();
-			//catColumn.PackStart (cat_pix_render, false);
-			//catColumn.AddAttribute (cat_pix_render, "pixbuf", 2);
 			
 			CellRendererText cat_text_render = new CellRendererText ();
 			catColumn.PackStart (cat_text_render, true);
 			catColumn.AddAttribute (cat_text_render, "text", 0);
 
-			catView.AppendColumn (catColumn);
+			lst_template_types.AppendColumn (catColumn);
 
-			TemplateView = new IconView();
+			TemplateView = new IconView ();
+			hbox_template.PackStart (TemplateView, true, true, 0);
 
-			okButton = new Button (Stock.New);
-			okButton.Clicked += new EventHandler (OpenEvent);
-			okButton.Sensitive = false;
-
-			cancelButton = new Button (Stock.Close);
-			cancelButton.Clicked += new EventHandler (cancelClicked);
-
-			infoLabel = new Gtk.Label ();
-			Frame infoLabelFrame = new Frame ();
-			infoLabelFrame.Add(infoLabel);
+			//string label = stringParserService.Parse ("${res:Dialog.NewProject.NewSolutionLabelText}");
+			//label = stringParserService.Parse ("${res:Dialog.NewProject.LocationLabelText}");
+			//label = stringParserService.Parse ("${res:Dialog.NewProject.NameLabelText}");
+			//label = stringParserService.Parse ("${res:Dialog.NewProject.checkBox1Text}");
+			//label = stringParserService.Parse ("${res:Dialog.NewProject.autoCreateSubDirCheckBox}");
+			entry_location = new FolderEntry ("Combine Location");
+			hbox_for_browser.PackStart (entry_location, true, true, 0);
 			
-			HBox viewbox = new HBox (false, 6);
-			swindow1.Add(catView);
-			viewbox.PackStart (swindow1,false,true,0);
-			viewbox.PackStart(TemplateView, true, true,0);
-
-			this.AddActionWidget (cancelButton, (int)Gtk.ResponseType.Cancel);
-			this.AddActionWidget (okButton, (int)Gtk.ResponseType.Ok);
-
-			Table entryTable = new Table (3, 3, false);
-			entryTable.RowSpacing = 6;			
-
-			string label = stringParserService.Parse ("${res:Dialog.NewProject.NewSolutionLabelText}");
-			entryTable.Attach (new Label (label), 0, 1, 0, 1);
-			label = stringParserService.Parse ("${res:Dialog.NewProject.LocationLabelText}");
-			entryTable.Attach (new Label (label), 0, 1, 1, 2);
-			label = stringParserService.Parse ("${res:Dialog.NewProject.NameLabelText}");
-			entryTable.Attach (new Label (label), 0, 1, 2, 3);
-
-			nameEntry = new Entry ();
-			entryTable.Attach (nameEntry, 1, 3, 0, 1);
-
-			HBox path_btnBox = new HBox (false, 0);
 			
-			pathEntry = new Entry ();
-			path_btnBox.PackStart (pathEntry);
-			browseButton = new Button ("...");
-			path_btnBox.PackStart (browseButton, false, false, 6);
-			entryTable.Attach (path_btnBox, 1, 3, 1, 2);
-
-			newEntry = new Entry ();
-			newEntry.Sensitive = false;
-			entryTable.Attach (newEntry, 1, 2, 2, 3);
-
-			VBox checkBox = new VBox (false, 6);
+			entry_location.DefaultPath = propertyService.GetProperty ("ICSharpCode.SharpDevelop.Gui.Dialogs.NewProjectDialog.DefaultPath", fileUtilityService.GetDirectoryNameWithSeparator (Environment.GetFolderPath (Environment.SpecialFolder.Personal)) + "MonoDevelopProjects").ToString ();
 			
-			label = stringParserService.Parse ("${res:Dialog.NewProject.checkBox1Text}");
-			seperatedirButton = new CheckButton (label);
-			checkBox.PackStart (seperatedirButton);
-
-			label = stringParserService.Parse ("${res:Dialog.NewProject.autoCreateSubDirCheckBox}");
-			createdirButton = new CheckButton (label);
-			checkBox.PackStart (createdirButton);
-
-			entryTable.Attach (checkBox, 2, 3, 2, 3);
+			PathChanged (null, null);
 			
-			createInLabel = new Gtk.Label (ProjectLocation);
-			
-			this.VBox.PackStart (viewbox);
-			this.VBox.PackStart (infoLabelFrame, false, false, 6);
-			this.VBox.PackStart (entryTable, false, false, 6);
-			this.VBox.PackStart (createInLabel, false, false, 6);
-
-			cat_imglist = new PixbufList();
-			cat_imglist.Add(iconService.GetBitmap("Icons.16x16.OpenFolderBitmap"));
-			cat_imglist.Add(iconService.GetBitmap("Icons.16x16.ClosedFolderBitmap"));
-	
-			catView.Selection.Changed += new EventHandler (CategoryChange);
 			TemplateView.IconSelected += new EventHandler(SelectedIndexChange);
 			TemplateView.IconDoubleClicked += new EventHandler(OpenEvent);
-			
-			newEntry.Changed += new EventHandler (PathChanged);
-			nameEntry.Changed += new EventHandler (NameTextChanged);
-			nameEntry.Changed += new EventHandler (PathChanged);
-			pathEntry.Changed += new EventHandler (PathChanged);
-			browseButton.Clicked += new EventHandler (BrowseDirectories);
-			seperatedirButton.Toggled += new EventHandler (CheckedChange);
-			seperatedirButton.Toggled += new EventHandler (PathChanged);
-			createdirButton.Toggled += new EventHandler (PathChanged);			
-			this.WindowPosition = Gtk.WindowPosition.CenterOnParent;
-//			
-//			CheckedChange(this, EventArgs.Empty);
-//			IconSizeChange(this, EventArgs.Empty);
+			entry_location.PathChanged += new EventHandler (PathChanged);
 		}
 		
 		/// <summary>
