@@ -6,8 +6,7 @@ cstemplate_DATA = CSharpSessionStateWebService.xft \
 	GnomeSharpProgram.xft \
 	CSharpWebService.xft \
 	GtkSharpWindow.xft \
-	EmptyCSharpFile.xft \
-	TypedCSharpCollectionFile.xft
+	EmptyCSharpFile.xft 
 
 all:
 	
