@@ -56,7 +56,7 @@ namespace MonoDevelop.Gui.Pads.ProjectBrowser
 
 			projectNode.Image = iconService.GetImageForProjectType (project.ProjectType);
 
-			FolderNode resourceNode = new NamedFolderNode(GettextCatalog.GetString ("Resource Files (*.resources;*.resx)"), 0);
+			FolderNode resourceNode = new NamedFolderNode(GettextCatalog.GetString ("Resource Files"), 0);
 			resourceNode.ContextmenuAddinTreePath = "/SharpDevelop/Views/ProjectBrowser/ContextMenu/ResourceFolderNode";
 			resourceNode.OpenedImage = Stock.OpenResourceFolder;
 			resourceNode.ClosedImage = Stock.ClosedResourceFolder;

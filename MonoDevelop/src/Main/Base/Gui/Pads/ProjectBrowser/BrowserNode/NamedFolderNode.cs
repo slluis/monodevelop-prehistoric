@@ -43,9 +43,8 @@ namespace MonoDevelop.Gui.Pads.ProjectBrowser
 		
 		public override void UpdateNaming()
 		{
-			ResourceService resourceService = (ResourceService)ServiceManager.Services.GetService(typeof(IResourceService));
 			
-			Text = resourceService.GetString(resourceReference);
+			Text = resourceReference;
 			base.UpdateNaming();
 		}
 	}
