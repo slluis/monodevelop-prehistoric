@@ -161,7 +161,7 @@ namespace MonoDevelop.SourceEditor.Gui
 		public override bool IsReadOnly
 		{
 			get {
-				return se.View.Editable;
+				return !se.View.Editable;
 			}
 		}
 		
