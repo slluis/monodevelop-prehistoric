@@ -248,9 +248,10 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 			control.GdkWindow.GetOrigin (out tx, out ty);
 			//Console.WriteLine ("Moving to: " + (tx + wx) + " . " + (ty + wy));
 			System.Threading.Thread.Sleep (100);
-			Move (tx + wx, ty + wy);
-			listView.Selection.Changed += new EventHandler (RowActivated);
 			ShowAll ();
+			Move (tx + wx, ty + wy);
+			Present ();
+			listView.Selection.Changed += new EventHandler (RowActivated);
 			RowActivated (null, null);
 			//GdkWindow.Move (tx + wx, ty + wy);
 		}
@@ -343,8 +344,9 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 				// but it is better than 0,0
                                 // This code is for sizing the treeview properly.
 				Gdk.Rectangle rect = listView.GetCellArea (path, (Gtk.TreeViewColumn)listView.Columns[0]);
-				int listpos_x, listpos_y;
-				GetPosition (out listpos_x, out listpos_y);
+				int listpos_x = 0, listpos_y = 0;
+				while (listpos_x == 0)
+					GetPosition (out listpos_x, out listpos_y);
 				int vert = listpos_y + rect.Y;
 				
 				int lvWidth, lvHeight;
