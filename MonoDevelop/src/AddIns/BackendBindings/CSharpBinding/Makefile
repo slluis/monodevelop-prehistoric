@@ -35,4 +35,5 @@ $(DLL): $(SOURCES)
 		/r:../../../../build/bin/ICSharpCode.TextEditor.dll \
 		/r:../../../../build/bin/SharpDevelop.Base.dll \
 		/r:../../../../build/bin/ICSharpCode.SharpRefactory.dll \
+		/r:gtk-sharp.dll \
 		$(SOURCES)

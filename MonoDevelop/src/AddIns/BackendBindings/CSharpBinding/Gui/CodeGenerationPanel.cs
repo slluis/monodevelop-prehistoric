@@ -8,94 +8,97 @@
 using System;
 using System.IO;
 using System.Drawing;
+using System.Collections;
 
-using ICSharpCode.SharpDevelop.Internal.Project;
 using ICSharpCode.SharpDevelop.Internal.ExternalTool;
-using ICSharpCode.SharpDevelop.Gui.Dialogs;
-using ICSharpCode.Core.Services;
-using ICSharpCode.Core.Properties;
 using ICSharpCode.Core.AddIns.Codons;
+using ICSharpCode.Core.Properties;
+using ICSharpCode.SharpDevelop.Gui.Components;
+using ICSharpCode.Core.Services;
+using ICSharpCode.Core.AddIns;
 
-namespace CSharpBinding
+using Gtk;
+
+namespace ICSharpCode.SharpDevelop.Gui.Dialogs.OptionPanels
 {
-	public class CodeGenerationPanel //: AbstractOptionPanel
-	{/*
-		CSharpCompilerParameters compilerParameters = null;
+	public class CodeGenerationPanel : AbstractOptionPanel
+	{
+		// Gtk Controls
+		CheckButton generateAdditonalCommentsCheckBox;
+		CheckButton generateDocCommentsCheckBox;
+		CheckButton useFullTypeNamesCheckBox; 
+		CheckButton blankLinesBetweenMemberCheckBox;
+		CheckButton elseOnClosingCheckBox;
+		CheckButton startBlockOnTheSameLineCheckBox; 
+		
+		// Services
+		StringParserService StringParserService = (StringParserService)ServiceManager.Services.GetService (typeof (StringParserService));
+		PropertyService PropertyService = (PropertyService)ServiceManager.Services.GetService (typeof (PropertyService));
+		static readonly string codeGenerationProperty = "SharpDevelop.UI.CodeGenerationOptions";
 		
 		public override void LoadPanelContents()
 		{
-			SetupFromXml(Path.Combine(PropertyService.DataDirectory, 
-			                          @"resources\panels\ProjectOptions\CodeGenerationPanel.xfrm"));
+			// set up the form controls instance
+			SetupPanelInstance();
 			
-			((ComboBox)ControlDictionary["compileTargetComboBox"]).Items.Add(StringParserService.Parse("${res:Dialog.Options.PrjOptions.Configuration.CompileTarget.Exe}"));
-			((ComboBox)ControlDictionary["compileTargetComboBox"]).Items.Add(StringParserService.Parse("${res:Dialog.Options.PrjOptions.Configuration.CompileTarget.WinExe}"));
-			((ComboBox)ControlDictionary["compileTargetComboBox"]).Items.Add(StringParserService.Parse("${res:Dialog.Options.PrjOptions.Configuration.CompileTarget.Library}"));
-			((ComboBox)ControlDictionary["compileTargetComboBox"]).Items.Add(StringParserService.Parse("${res:Dialog.Options.PrjOptions.Configuration.CompileTarget.Module}"));
+			IProperties p = (IProperties)PropertyService.GetProperty(codeGenerationProperty, new DefaultProperties());
 			
-			ControlDictionary["browseWin32IconButton"].Click += new EventHandler(SelectWin32Icon);
+			generateAdditonalCommentsCheckBox.Active = p.GetProperty("GenerateAdditionalComments", true);
+			generateDocCommentsCheckBox.Active       = p.GetProperty("GenerateDocumentComments", true);
+			useFullTypeNamesCheckBox.Active          = p.GetProperty("UseFullyQualifiedNames", true);
 			
-			this.compilerParameters = (CSharpCompilerParameters)((IProperties)CustomizationObject).GetProperty("Config");
-			
-			((ComboBox)ControlDictionary["compileTargetComboBox"]).SelectedIndex = (int)compilerParameters.CompileTarget;
-			ControlDictionary["symbolsTextBox"].Text   = compilerParameters.DefineSymbols;
-			ControlDictionary["mainClassTextBox"].Text = compilerParameters.MainClass;
-			ControlDictionary["win32IconTextBox"].Text = compilerParameters.Win32Icon;
-
-			((CheckBox)ControlDictionary["generateDebugInformationCheckBox"]).Checked = compilerParameters.Debugmode;
-			((CheckBox)ControlDictionary["generateXmlOutputCheckBox"]).Checked        = compilerParameters.GenerateXmlDocumentation;
-			((CheckBox)ControlDictionary["enableOptimizationCheckBox"]).Checked       = compilerParameters.Optimize;
-			((CheckBox)ControlDictionary["allowUnsafeCodeCheckBox"]).Checked       = compilerParameters.UnsafeCode;
-			((CheckBox)ControlDictionary["generateOverflowChecksCheckBox"]).Checked       = compilerParameters.GenerateOverflowChecks;
-			((CheckBox)ControlDictionary["warningsAsErrorsCheckBox"]).Checked       = !compilerParameters.RunWithWarnings;
-			
-			((NumericUpDown)ControlDictionary["warningLevelNumericUpDown"]).Value = compilerParameters.WarningLevel;
+			blankLinesBetweenMemberCheckBox.Active   = p.GetProperty("BlankLinesBetweenMembers", true);
+			elseOnClosingCheckBox.Active             = p.GetProperty("ElseOnClosing", true);
+			startBlockOnTheSameLineCheckBox.Active   = p.GetProperty("StartBlockOnSameLine", true);
 		}
 		
 		public override bool StorePanelContents()
 		{
-			if (compilerParameters == null) {
-				return true;
-			}
-			FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.Services.GetService(typeof(FileUtilityService));
-			
-			if (ControlDictionary["win32IconTextBox"].Text.Length > 0) {
-				if (!fileUtilityService.IsValidFileName(ControlDictionary["win32IconTextBox"].Text)) {
-					MessageBox.Show("Invalid Win32Icon specified", "Error", MessageBoxButtons.OK, MessageBoxIcon.Hand, MessageBoxDefaultButton.Button1);
-					return false;
-				}
-				if (!File.Exists(ControlDictionary["win32IconTextBox"].Text)) {
-					MessageBox.Show("Win32Icon doesn't exists", "Error", MessageBoxButtons.OK, MessageBoxIcon.Hand, MessageBoxDefaultButton.Button1);
-					return false;
-				}
-			}
-			
-			compilerParameters.CompileTarget = (CompileTarget)((ComboBox)ControlDictionary["compileTargetComboBox"]).SelectedIndex;
-			compilerParameters.DefineSymbols = ControlDictionary["symbolsTextBox"].Text;
-			compilerParameters.MainClass     = ControlDictionary["mainClassTextBox"].Text;
-			compilerParameters.Win32Icon     = ControlDictionary["win32IconTextBox"].Text;
-			
-			compilerParameters.Debugmode = ((CheckBox)ControlDictionary["generateDebugInformationCheckBox"]).Checked;
-			compilerParameters.GenerateXmlDocumentation = ((CheckBox)ControlDictionary["generateXmlOutputCheckBox"]).Checked;
-			compilerParameters.Optimize = ((CheckBox)ControlDictionary["enableOptimizationCheckBox"]).Checked;
-			compilerParameters.UnsafeCode = ((CheckBox)ControlDictionary["allowUnsafeCodeCheckBox"]).Checked;
-			compilerParameters.GenerateOverflowChecks = ((CheckBox)ControlDictionary["generateOverflowChecksCheckBox"]).Checked;
-			compilerParameters.RunWithWarnings  = !((CheckBox)ControlDictionary["warningsAsErrorsCheckBox"]).Checked;
-			compilerParameters.WarningLevel = (int)((NumericUpDown)ControlDictionary["warningLevelNumericUpDown"]).Value;
+			IProperties p = (IProperties)PropertyService.GetProperty(codeGenerationProperty, new DefaultProperties());
+			p.SetProperty("GenerateAdditionalComments", generateAdditonalCommentsCheckBox.Active);
+			p.SetProperty("GenerateDocumentComments",   generateDocCommentsCheckBox.Active);
+			p.SetProperty("UseFullyQualifiedNames",     useFullTypeNamesCheckBox.Active);
+			p.SetProperty("BlankLinesBetweenMembers",   blankLinesBetweenMemberCheckBox.Active);
+			p.SetProperty("ElseOnClosing",              elseOnClosingCheckBox.Active);
+			p.SetProperty("StartBlockOnSameLine",       startBlockOnTheSameLineCheckBox.Active);
+			PropertyService.SetProperty(codeGenerationProperty, p);
 			return true;
 		}
 		
-		void SelectWin32Icon(object sender, EventArgs e) 
+		private void SetupPanelInstance()
 		{
-			using (OpenFileDialog fdiag  = new OpenFileDialog()) {
-				fdiag.AddExtension    = true;
-				fdiag.Filter          = StringParserService.Parse("Icons (*.ico)|*.ico|${res:SharpDevelop.FileFilter.AllFiles}|*.*");
-				fdiag.Multiselect     = false;
-				fdiag.CheckFileExists = true;
-				
-				if (fdiag.ShowDialog() == DialogResult.OK) {
-					ControlDictionary["win32IconTextBox"].Text = fdiag.FileName;
-				}
-			}
-		}*/
+			// instantiate all the controls in the first group
+			Gtk.Frame frame1 = new Gtk.Frame(StringParserService.Parse("${res:Dialog.Options.IDEOptions.CodeGenerationOptionsPanel.CodeGenerationOptionsGroupBox}"));
+			Gtk.VBox vBox1 = new Gtk.VBox(false,2);			
+			useFullTypeNamesCheckBox = CheckButton.NewWithLabel(StringParserService.Parse("${res:Dialog.Options.IDEOptions.CodeGenerationOptionsPanel.UseFullTypeNamesCheckBox}")); 
+			blankLinesBetweenMemberCheckBox = CheckButton.NewWithLabel(StringParserService.Parse("${res:Dialog.Options.IDEOptions.CodeGenerationOptionsPanel.BlankLinesBetweenMembersCheckBox}"));
+			elseOnClosingCheckBox = CheckButton.NewWithLabel(StringParserService.Parse("${res:Dialog.Options.IDEOptions.CodeGenerationOptionsPanel.ElseOnClosingCheckBox}"));
+			startBlockOnTheSameLineCheckBox = CheckButton.NewWithLabel(StringParserService.Parse("${res:Dialog.Options.IDEOptions.CodeGenerationOptionsPanel.StartBlockOnTheSameLineCheckBox}")); 
+			
+			// pack all controls in first group
+			vBox1.PackStart(startBlockOnTheSameLineCheckBox, false, false, 2);
+			vBox1.PackStart(elseOnClosingCheckBox, false, false, 2);
+			vBox1.PackStart(blankLinesBetweenMemberCheckBox, false, false, 2);
+			vBox1.PackStart(useFullTypeNamesCheckBox, false, false, 2);
+			frame1.Add(vBox1);
+			
+			// instantiate all the controls in the second group
+			Gtk.Frame frame2 = new Gtk.Frame(StringParserService.Parse("${res:Dialog.Options.IDEOptions.CodeGenerationOptionsPanel.CommentGenerationOptionsGroupBox}"));
+			Gtk.VBox vBox2 = new Gtk.VBox(false,2);			
+			generateAdditonalCommentsCheckBox = CheckButton.NewWithLabel(StringParserService.Parse("${res:Dialog.Options.IDEOptions.CodeGenerationOptionsPanel.GenerateAdditionalCommentsCheckBox}"));
+			generateDocCommentsCheckBox = CheckButton.NewWithLabel(StringParserService.Parse("${res:Dialog.Options.IDEOptions.CodeGenerationOptionsPanel.GenerateDocCommentsCheckBox}"));
+			
+			// pack all controls in second group
+			vBox2.PackStart(generateDocCommentsCheckBox, false, false, 2);
+			vBox2.PackStart(generateAdditonalCommentsCheckBox, false, false, 2);
+			frame2.Add(vBox2);
+			
+			// pack all the groups
+			Gtk.VBox mainBox = new Gtk.VBox(false,2);
+			mainBox.PackStart(frame1, false, false, 2);
+			mainBox.PackStart(frame2, false, false, 2);
+			this.Add(mainBox);
+		}
+
 	}
 }

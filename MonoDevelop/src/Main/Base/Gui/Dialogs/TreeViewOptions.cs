@@ -284,6 +284,12 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 			column.PackStart (text_render, true);
 			column.AddAttribute (text_render, "text", 0);
 			
+			
+			Gtk.TreeViewColumn empty = new Gtk.TreeViewColumn ("a", new Gtk.CellRendererText (), "string", 0);
+			treeView.AppendColumn (empty);
+			empty.Visible = false;
+			treeView.ExpanderColumn = empty;
+						
 			treeView.AppendColumn (column);
 			treeView.HeadersVisible = false;
 
