@@ -2960,7 +2960,7 @@
 	  <child>
 	    <widget class="GtkLabel" id="label56">
 	      <property name="visible">True</property>
-	      <property name="label" translatable="yes">&lt;b&gt;Project Information- &lt;/b&gt;</property>
+	      <property name="label" translatable="yes">&lt;b&gt;Project Information&lt;/b&gt;</property>
 	      <property name="use_underline">True</property>
 	      <property name="use_markup">True</property>
 	      <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -3026,7 +3026,7 @@
 			  <child>
 			    <widget class="GtkLabel" id="label53">
 			      <property name="visible">True</property>
-			      <property name="label" translatable="yes">_Name-</property>
+			      <property name="label" translatable="yes">_Name</property>
 			      <property name="use_underline">True</property>
 			      <property name="use_markup">False</property>
 			      <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -3120,7 +3120,7 @@
 		      <child>
 			<widget class="GtkLabel" id="label44">
 			  <property name="visible">True</property>
-			  <property name="label" translatable="yes">_Description-</property>
+			  <property name="label" translatable="yes">_Description</property>
 			  <property name="use_underline">True</property>
 			  <property name="use_markup">False</property>
 			  <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -3219,7 +3219,7 @@
 		    <widget class="GtkCheckButton" id="EnableViewStateCheckButton">
 		      <property name="visible">True</property>
 		      <property name="can_focus">True</property>
-		      <property name="label" translatable="yes">Enable _viewstate-</property>
+		      <property name="label" translatable="yes">Enable _viewstate</property>
 		      <property name="use_underline">True</property>
 		      <property name="relief">GTK_RELIEF_NORMAL</property>
 		      <property name="active">False</property>
@@ -3263,7 +3263,7 @@
 	  <child>
 	    <widget class="GtkLabel" id="label52">
 	      <property name="visible">True</property>
-	      <property name="label" translatable="yes">&lt;b&gt;On Project Load- &lt;/b&gt;</property>
+	      <property name="label" translatable="yes">&lt;b&gt;On Project Load &lt;/b&gt;</property>
 	      <property name="use_underline">True</property>
 	      <property name="use_markup">True</property>
 	      <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -3312,7 +3312,7 @@
 		<widget class="GtkCheckButton" id="NewFilesOnLoadCheckButton">
 		  <property name="visible">True</property>
 		  <property name="can_focus">True</property>
-		  <property name="label" translatable="yes">Search for new _files on load-</property>
+		  <property name="label" translatable="yes">Search for new _files on load</property>
 		  <property name="use_underline">True</property>
 		  <property name="relief">GTK_RELIEF_NORMAL</property>
 		  <property name="active">False</property>
@@ -3385,7 +3385,7 @@
 		<widget class="GtkCheckButton" id="AutoInsertNewFilesCheckButton">
 		  <property name="visible">True</property>
 		  <property name="can_focus">True</property>
-		  <property name="label" translatable="yes">Automaticly _include found files-</property>
+		  <property name="label" translatable="yes">Automaticly _include found files</property>
 		  <property name="use_underline">True</property>
 		  <property name="relief">GTK_RELIEF_NORMAL</property>
 		  <property name="active">False</property>
