@@ -1,3 +1,8 @@
+2004-04-23  Todd Berman  <tberman@sevenl.net>
+
+	* Gui/SourceEditorBuffer.cs: add a check for a 0 length iter.Char
+	value, closes bug #57549.
+
 2004-04-20  Todd Berman  <tberman@sevenl.net>
 
 	* CodeCompletion/CompletionWindow.cs: Properly attach to the lost focus

@@ -615,6 +615,8 @@ namespace MonoDevelop.SourceEditor.Gui
 			TextIter iter = GetIterAtOffset (offset);
 			if (iter.Equals (TextIter.Zero))
 				return ' ';
+			if (iter.Char == null || iter.Char.Length == 0)
+				return ' ';
 			return iter.Char[0];
 		}
 
