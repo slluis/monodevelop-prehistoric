@@ -30,6 +30,8 @@ namespace MonoDevelop.Gui {
 			nodes.TreeNodeCollectionChanged += new TreeNodeCollectionChangedHandler(OnTreeChanged);
             nodes.NodeInserted += new NodeInsertedHandler(OnNodeInserted);
 			nodes.NodeRemoved += new NodeRemovedHandler(OnNodeRemoved);
+			
+			TestExpandRow += new GtkSharp.TestExpandRowHandler(OnTestExpandRow);
 		}
 
 		public TreeNodeCollection Nodes {
@@ -78,7 +80,7 @@ namespace MonoDevelop.Gui {
 			updating = false;
 */
 		}
-		
+				
 		internal void OnTreeChanged() {
 			if (updating == false) {
 				UpdateStore(store);
@@ -127,6 +129,50 @@ namespace MonoDevelop.Gui {
 			RemoveNode(node);
 			node.parent = null;
 			node.treeView = null;
+		}
+		
+		private TreeNode GetNodeByIter(Gtk.TreeIter iter) {
+			TreeNode ret = (TreeNode)store.GetValue(iter, 2);
+			return ret;
+		}
+		
+		private void OnTestExpandRow(object sender, GtkSharp.TestExpandRowArgs args) {
+			TreeNode node = GetNodeByIter(args.Iter);
+			TreeViewCancelEventArgs e = new TreeViewCancelEventArgs(node);
+			OnBeforeExpand(e);
+			if (e.Cancel == true || node.Nodes.Count == 0) {
+				args.RetVal = true;
+			} else {
+				args.RetVal = false;
+			}
+		}
+		
+		protected virtual void OnBeforeExpand(TreeViewCancelEventArgs e) {
+			// Nothing
+		}
+	}
+	
+	public class TreeViewCancelEventArgs {
+		private TreeNode node;
+		private bool cancel = false;
+		
+		public TreeViewCancelEventArgs(TreeNode node) {
+			this.node = node;
+		}
+		
+		public TreeNode Node {
+			get {
+				return node;
+			}
+		}
+		
+		public bool Cancel {
+			get {
+				return cancel;
+			}
+			set {
+				cancel = value;
+			}
 		}
 	}
 }

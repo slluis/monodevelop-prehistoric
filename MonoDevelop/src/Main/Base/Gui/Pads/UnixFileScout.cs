@@ -25,20 +25,55 @@ using MonoDevelop.Gui;
 
 namespace ICSharpCode.SharpDevelop.Gui.Pads
 {
-	public class FileList : ListView
+	public class FileList : Gtk.TreeView
 	{
 		private FileSystemWatcher watcher;
+		private ItemCollection Items;
+		private Gtk.ListStore store;
 		
 //		private MagicMenus.PopupMenu menu = null;
 		
 		public FileList()
 		{
+			Items = new ItemCollection(this);
 			ResourceManager resources = new ResourceManager("ProjectComponentResources", this.GetType().Module.Assembly);
 			FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.Services.GetService(typeof(FileUtilityService));
 			
-			Columns.Add("File", 100, HorizontalAlignment.Left);
-			Columns.Add("Size", -2, HorizontalAlignment.Right);
-			Columns.Add("Last modified", -2, HorizontalAlignment.Left);
+			//Columns.Add("File", 100, HorizontalAlignment.Left);
+			//Columns.Add("Size", -2, HorizontalAlignment.Right);
+			//Columns.Add("Last modified", -2, HorizontalAlignment.Left);
+			
+			store = new Gtk.ListStore (typeof (string), typeof (string), typeof(string), typeof(FileListItem));
+			Model = store;
+
+			HeadersVisible = true;
+
+			Gtk.TreeViewColumn name_column = new Gtk.TreeViewColumn ();
+			name_column.Title = "File";
+			
+			Gtk.TreeViewColumn size_column = new Gtk.TreeViewColumn ();
+			size_column.Title = "Size";
+
+			Gtk.TreeViewColumn modi_column = new Gtk.TreeViewColumn ();
+			modi_column.Title = "Last modified";
+
+			Gtk.CellRendererText render1 = new Gtk.CellRendererText ();
+			name_column.PackStart (render1, false);
+			name_column.AddAttribute (render1, "text", 0);
+			
+			Gtk.CellRendererText render2 = new Gtk.CellRendererText ();
+			size_column.PackStart (render2, false);
+			size_column.AddAttribute (render2, "text", 1);
+			
+			Gtk.CellRendererText render3 = new Gtk.CellRendererText ();
+			modi_column.PackStart (render3, false);
+			modi_column.AddAttribute (render3, "text", 2);
+				
+			//listView.AppendColumn (complete_column);
+			AppendColumn(name_column);
+			AppendColumn(size_column);
+			AppendColumn(modi_column);
+
 			
 //			menu = new MagicMenus.PopupMenu();
 //			menu.MenuCommands.Add(new MagicMenus.MenuCommand("Delete file", new EventHandler(deleteFiles)));
@@ -67,6 +102,18 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads
 			//Alignment		= ListViewAlignment.Left;
 		}
 		
+		void ItemAdded(FileListItem item) {
+			store.AppendValues(System.IO.Path.GetFileName(item.FullName), item.Size, item.LastModified, item);
+		}
+		
+		void ItemRemoved(FileListItem item) {
+			// TODO
+		}
+		
+		void Clear() {
+			store.Clear();
+		}
+		
 		void fileDeleted(object sender, FileSystemEventArgs e)
 		{
 			foreach(FileListItem fileItem in Items)
@@ -86,8 +133,8 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads
 					
 					FileInfo info = new FileInfo(e.FullPath);
 					
-					fileItem.SubItems[1].Text = Math.Round((double)info.Length / 1024).ToString() + " KB";
-					fileItem.SubItems[2].Text = info.LastWriteTime.ToString();
+					fileItem.Size = Math.Round((double)info.Length / 1024).ToString() + " KB";
+					fileItem.LastModified = info.LastWriteTime.ToString();
 					break;
 				}
 			}
@@ -97,11 +144,12 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads
 		{
 			FileInfo info = new FileInfo(e.FullPath);
 			
-			ListViewItem fileItem = Items.Add(new FileListItem(e.FullPath));
-			fileItem.SubItems.Add(Math.Round((double)info.Length / 1024).ToString() + " KB");
-			fileItem.SubItems.Add(info.LastWriteTime.ToString());
+			FileListItem fileItem = Items.Add(new FileListItem(e.FullPath,
+				Math.Round((double)info.Length / 1024).ToString() + " KB",
+				info.LastWriteTime.ToString())
+			);
 			
-			Items.Add(fileItem);
+			//Items.Add(fileItem);
 		}
 		
 		void fileRenamed(object sender, RenamedEventArgs e)
@@ -110,7 +158,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads
 			{
 				if(fileItem.FullName.ToLower() == e.OldFullPath.ToLower()) {
 					fileItem.FullName = e.FullPath;
-					fileItem.Text = e.Name;
+					//fileItem.Text = e.Name;
 					break;
 				}
 			}
@@ -118,14 +166,16 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads
 		
 		void renameFile(object sender, EventArgs e)
 		{
+		/*
 			if(SelectedItems.Count == 1) {
 				//SelectedItems[0].BeginEdit();
 			}
+		*/
 		}
 		
 		void deleteFiles(object sender, EventArgs e)
 		{
-			IMessageService messageService =(IMessageService)ServiceManager.Services.GetService(typeof(IMessageService));
+/*			IMessageService messageService =(IMessageService)ServiceManager.Services.GetService(typeof(IMessageService));
 			
 			if (messageService.AskQuestion("Are you sure ?", "Delete files")) {
 				foreach(FileListItem fileItem in SelectedItems)
@@ -138,6 +188,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads
 					}
 				}
 			}
+*/
 		}
 		
 /*		protected override void OnMouseUp(MouseEventArgs e)
@@ -189,29 +240,84 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads
 			
 			foreach (string file in files) {
 				FileInfo info = new FileInfo(file);
-				ListViewItem fileItem = Items.Add(new FileListItem(file));
-				fileItem.SubItems.Add(Math.Round((double)info.Length / 1024).ToString() + " KB");
-				fileItem.SubItems.Add(info.LastWriteTime.ToString());
+				FileListItem fileItem = Items.Add(new FileListItem(file,
+					Math.Round((double)info.Length / 1024).ToString() + " KB",
+					info.LastWriteTime.ToString()
+				));
 			}
 			
-			EndUpdate();
+			//EndUpdate();
 		}
 		
-		public class FileListItem : ListViewItem
+		public class FileListItem
 		{
 			string fullname;
+			string size;
+			string lastModified;
+			
 			public string FullName {
 				get {
 					return fullname;
-				} set {
+				} 
+				set {
 					fullname = value;
 				}
 			}
 			
-			public FileListItem(string fullname) : base(Path.GetFileName(fullname))
+			public string Size {
+				get {
+					return size;
+				}
+				set {
+					size = value;
+				}
+			}
+			
+			public string LastModified {
+				get {
+					return lastModified;
+				}
+				set {
+					lastModified = value;
+				}
+			}
+			
+			public FileListItem(string fullname, string size, string lastModified) 
 			{
 				this.fullname = fullname;
+				this.size = size;
+				this.lastModified = lastModified;
 				//ImageIndex = IconManager.GetIndexForFile(fullname);
+			}
+		}
+		
+		class ItemCollection {
+			FileList parent;
+			ArrayList list = new ArrayList();
+			
+			public ItemCollection(FileList parent) {
+				this.parent = parent;
+			}
+			
+			public FileListItem Add(FileListItem item) {
+				list.Add(item);
+				parent.ItemAdded(item);
+				return item;
+			}
+			
+			public void Remove(FileListItem item) {
+				parent.ItemRemoved(item);
+				list.Remove(item);
+			}
+			
+			public void Clear() {
+				list.Clear();
+				parent.Clear();
+			}
+			
+			public IEnumerator GetEnumerator() {
+				ArrayList copy = (ArrayList)list.Clone();
+				return copy.GetEnumerator();
 			}
 		}
 	}
@@ -262,6 +368,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads
 			//filetree.Size = new System.Drawing.Size(184, 157);
 			//filetree.TabIndex = 1;
 			//filetree.AfterSelect += new TreeViewEventHandler(DirectorySelected);
+			filetree.RowActivated += new GtkSharp.RowActivatedHandler(OnRowActivated);
 			//ImageList imglist = new ImageList();
 			//imglist.ColorDepth = ColorDepth.Depth32Bit;
 			/*imglist.Images.Add(resourceService.GetBitmap("Icons.16x16.ClosedFolderBitmap"));
@@ -284,6 +391,8 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads
 			//filelister.Size = new System.Drawing.Size(184, 450);
 			//filelister.TabIndex = 3;
 			//filelister.ItemActivate += new EventHandler(FileSelected);
+			filelister.RowActivated += new GtkSharp.RowActivatedHandler(FileSelected);
+
 			
 			//splitter1.Dock = DockStyle.Top;
 			//splitter1.Location = new System.Drawing.Point(0, 179);
@@ -303,7 +412,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads
 			treef.Add(treesw);
 			
 			Gtk.ScrolledWindow listsw = new Gtk.ScrolledWindow ();
-			listsw.Add(filelister.Control);
+			listsw.Add(filelister);
 			Gtk.Frame listf  = new Gtk.Frame();
 			listf.Add(listsw);
 			
@@ -312,20 +421,28 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads
 			Pack2(listf, true, true);
 		}
 		
-/*		void DirectorySelected(object sender, TreeViewEventArgs e)
+		void OnRowActivated(object sender, GtkSharp.RowActivatedArgs args) 
+/*		void DirectorySelected(object sender, TreeViewEventArgs e)*/
 		{
-			filelister.ShowFilesInPath(filetree.NodePath + Path.DirectorySeparatorChar);
+			filelister.ShowFilesInPath(filetree.NodePath + System.IO.Path.DirectorySeparatorChar);
 		}
-		
-		void FileSelected(object sender, EventArgs e)
+
+//		void FileSelected(object sender, EventArgs e)
+		void FileSelected(object sender, GtkSharp.RowActivatedArgs e)
 		{
 			IProjectService projectService = (IProjectService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
 			IFileService    fileService    = (IFileService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(IFileService));
 			FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.Services.GetService(typeof(FileUtilityService));
+
 			
-			foreach (FileList.FileListItem item in filelister.SelectedItems) {
-				
-				switch (Path.GetExtension(item.FullName)) {
+			//foreach (FileList.FileListItem item in filelister.SelectedItems) {
+			Gtk.TreeIter iter;
+			for (filelister.Model.GetIterFirst(out iter); filelister.Model.IterNext(out iter) == true;) {
+				if (filelister.Selection.IterIsSelected(iter) == false) {
+					continue;
+				} 
+				FileList.FileListItem item = (FileList.FileListItem)filelister.Model.GetValue(iter, 3);
+				switch (System.IO.Path.GetExtension(item.FullName)) {
 					case ".cmbx":
 					case ".prjx":
 						projectService.OpenCombine(item.FullName);
@@ -336,6 +453,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads
 				}
 			}
 		}
+/*
 		protected virtual void OnTitleChanged(EventArgs e)
 		{
 			if (TitleChanged != null) {
@@ -532,28 +650,24 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads
 			}
 		}
 
-/*
 		protected override void OnBeforeExpand(TreeViewCancelEventArgs e)
 		{
-			Cursor.Current = Cursors.WaitCursor;
-			
+			//Cursor.Current = Cursors.WaitCursor;
 			try {
 				// do not populate if the "My Cpmputer" node is expaned
-				if(e.Node.Parent != null && e.Node.Parent.Parent != null) {
-					PopulateSubDirectory(e.Node, 2);
-					Cursor.Current = Cursors.Default;
-				} else {
+//				if(e.Node.Parent != null && e.Node.Parent.Parent != null) {
+//					PopulateSubDirectory(e.Node, 2);
+					//Cursor.Current = Cursors.Default;
+//				} else {
 					PopulateSubDirectory(e.Node, 1);
-					Cursor.Current = Cursors.Default;
-				}
+					//Cursor.Current = Cursors.Default;
+//				}
 			} catch (Exception excpt) {
 				IMessageService messageService =(IMessageService)ServiceManager.Services.GetService(typeof(IMessageService));
 				messageService.ShowError(excpt, "Device error");
 				e.Cancel = true;
 			}
-			
-			Cursor.Current = Cursors.Default;
+			//Cursor.Current = Cursors.Default;
 		}
-*/
 	}
 }
