@@ -55,10 +55,19 @@ namespace MonoDevelop.Gui.Pads.ProjectBrowser
 		
 		public override void AfterLabelEdit(string newName)
 		{
-			if (newName != null && newName.Trim().Length > 0) {
+			if (newName != null && newName.Trim().Length > 0 && ContainsNoInvalidChars (newName)) {
 				combine.Name = newName;
 			}
 			UpdateCombineName (null, EventArgs.Empty);
+		}
+		
+		bool ContainsNoInvalidChars (string name)
+		{
+			if (name.IndexOfAny (new char [] { '\'', '(', ')', '"', '{', '}', '|' } ) != -1) {
+				((MessageService)ServiceManager.Services.GetService (typeof (MessageService))).ShowError (String.Format (GettextCatalog.GetString ("Solution name may not contain any of the following characters: {0}"), "', (, ), \", {, }, |"));
+				return false;
+			}
+			return true;
 		}
 		
 		public override void UpdateNaming()

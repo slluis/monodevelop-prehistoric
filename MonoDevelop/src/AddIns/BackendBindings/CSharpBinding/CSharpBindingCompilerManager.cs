@@ -279,7 +279,7 @@ namespace CSharpBinding
 
 		public void GenerateMakefile (IProject project, Combine parentCombine)
 		{
-			StreamWriter stream = new StreamWriter (Path.Combine (project.BaseDirectory, "Makefile." + project.Name));
+			StreamWriter stream = new StreamWriter (Path.Combine (project.BaseDirectory, "Makefile." + project.Name.Replace (" ", "")));
 
 			CSharpProject p = (CSharpProject)project;
 			CSharpCompilerParameters compilerparameters = (CSharpCompilerParameters)p.ActiveConfiguration;
@@ -363,7 +363,7 @@ namespace CSharpBinding
 			stream.WriteLine ();
 			stream.WriteLine ("SOURCES = \\");
 			for (int i = 0; i < compile_files.Count; i++) {
-				stream.Write (compile_files[i]);
+				stream.Write (((string)compile_files[i]).Replace (" ", "\\ "));
 				if (i != compile_files.Count - 1)
 					stream.WriteLine (" \\");
 				else
@@ -374,7 +374,7 @@ namespace CSharpBinding
 			if (resources.Count > 0) {
 				stream.WriteLine ("RESOURCES = \\");
 				for (int i = 0; i < resources.Count; i++) {
-					stream.Write (resources[i]);
+					stream.Write (((string)resources[i]).Replace (" ", "\\ "));
 					if (i != resources.Count - 1)
 						stream.WriteLine (" \\");
 					else

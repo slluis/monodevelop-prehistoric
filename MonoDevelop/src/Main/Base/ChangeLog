@@ -1,5 +1,12 @@
 2004-05-27  Todd Berman  <tberman@sevenl.net>
 
+	* Internal/Project/Project/Combine.cs: properly handle spaces in the
+	solution and project names.
+	* Gui/Pads/ProjectBrowser/BrowserNode/CombineBrowserNode.cs: check
+	for invalid characters.
+
+2004-05-27  Todd Berman  <tberman@sevenl.net>
+
 	* Internal/Project/Project/AbstractProject.cs: Properly ignore
 	.svn and CVS directories.
 	* Gui/Pads/ClassScout/ClassScout.cs: Properly work around potential
