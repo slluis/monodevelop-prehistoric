@@ -1,3 +1,8 @@
+2004-12-13  Lluis Sanchez Gual  <lluis@novell.com>
+
+	* JavaBindingCompilerServices.cs: StatusBarService.ProgressMonitor is
+	not a StatusBar widget any more.
+
 2004-12-07  Alexandre Gomes <alexmipego@hotmail.com>
 
 	* JavaLanguageBinding.cs: Added CommentTag to be used by (Un)CommentCode
