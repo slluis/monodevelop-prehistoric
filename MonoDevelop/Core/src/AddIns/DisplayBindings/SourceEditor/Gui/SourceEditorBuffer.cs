@@ -425,7 +425,7 @@ namespace MonoDevelop.SourceEditor.Gui
 		[DllImport("gtksourceview-1.0")]
 		static extern IntPtr gtk_source_marker_get_marker_type(IntPtr raw);
 		
-		[DllImport("libglib-2.0.so.0")]
+		[DllImport("libglib-2.0-0.dll")]
 		static extern void g_slist_free (IntPtr l);
 		
 		[DllImport("gtksourceview-1.0")]

@@ -1,3 +1,8 @@
+2005-02-12  Christian Hergert <christian.hergert@gmail.com>
+
+	* Gui/SourceEditorBuffer.cs: Changed to DllImport the .dll rather
+	than .so for glib.
+
 2005-02-10  Ben Motmans  <ben.motmans@gmail.com>
 
 	* Gui/SourceEditorView.cs: Added ScrollUp and ScrollDown methods
