@@ -246,7 +246,6 @@ namespace MonoDevelop.Services
 				
 				Runtime.FileService.RecentOpen.AddLastProject (filename, openCombine.Name);
 				
-				OnCombineOpened(new CombineEventArgs(openCombine));
 				openCombine.FileAddedToProject += new ProjectFileEventHandler (NotifyFileAddedToProject);
 				openCombine.FileRemovedFromProject += new ProjectFileEventHandler (NotifyFileRemovedFromProject);
 				openCombine.FileChangedInProject += new ProjectFileEventHandler (NotifyFileChangedInProject);
@@ -255,6 +254,8 @@ namespace MonoDevelop.Services
 		
 				RestoreCombinePreferences (CurrentOpenCombine);
 				monitor.ReportSuccess (GettextCatalog.GetString ("Combine loaded."));
+
+				OnCombineOpened(new CombineEventArgs(openCombine));
 			}
 		}
 		

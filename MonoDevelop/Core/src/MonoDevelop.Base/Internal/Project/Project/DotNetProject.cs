@@ -137,11 +137,11 @@ namespace MonoDevelop.Internal.Project
 			DotNetProjectConfiguration configuration = (DotNetProjectConfiguration) ActiveConfiguration;
 			monitor.Log.WriteLine ("Running " + configuration.CompiledOutputName + " ...");
 			
-			string runtimeStarter = "/home/lluis/install/bin/mono";
+			string runtimeStarter = "mono";
 			
 			switch (configuration.NetRuntime) {
 				case NetRuntime.Mono:
-					runtimeStarter = "/home/lluis/install/bin/mono";
+					runtimeStarter = "mono";
 					break;
 				case NetRuntime.MonoInterpreter:
 					runtimeStarter = "mint";
@@ -160,16 +160,18 @@ namespace MonoDevelop.Internal.Project
 							Path.GetDirectoryName (configuration.CompiledOutputName), 
 							configuration.PauseConsoleOutput, null);
 				else
+					// The use of 'sh' is a workaround. Looks like there is a bug
+					// in mono, Process can't start a "mono" process.
 					p = Runtime.ProcessService.StartProcess (
-							runtimeStarter, 
-							args, 
+							"sh", 
+							string.Format ("-c \"{0} {1}\"", runtimeStarter, args),
 							Path.GetDirectoryName (configuration.CompiledOutputName), 
 							monitor.Log, monitor.Log, null);
 						
 				p.WaitForOutput ();
 				monitor.Log.WriteLine ("The application exited with code: {0}", p.ExitCode);
 			} catch (Exception ex) {
-				monitor.ReportError ("Can not execute " + "\"" + configuration.CompiledOutputName + "\"\n(Try restarting MonoDevelop or start your app manually)", ex);
+				monitor.ReportError ("Can not execute " + "\"" + configuration.CompiledOutputName + "\"", ex);
 			}
 		}
 

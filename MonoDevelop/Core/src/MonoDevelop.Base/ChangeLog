@@ -1,3 +1,12 @@
+2005-01-24  Lluis Sanchez Gual <lluis@novell.com>
+
+	* Services/Project/DefaultProjectService.cs: Don't raise the combine
+	opened event until all is done.
+	* Internal/ProgressMonitoring/BaseProgressMonitor.cs: Add the exception
+	message to the log.
+	* Internal/Project/Project/DotNetProject.cs: Execute mono through sh.
+	This is a workaround to what seems like a bug in mono.
+
 2005-01-24  Lluis Sanchez Gual  <lluis@novell.com>
 
 	* Services/ParserService/DefaultParserService.cs:

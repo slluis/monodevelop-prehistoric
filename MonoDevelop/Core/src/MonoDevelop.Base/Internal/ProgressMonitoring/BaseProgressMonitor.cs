@@ -101,6 +101,8 @@ namespace MonoDevelop.Services
 		{
 			if (message == null && ex != null)
 				message = ex.Message;
+			else if (message != null && ex != null)
+				message += "\n" + ex.Message;
 			errorsMessages.Add (message);
 		}
 		
