@@ -34,7 +34,7 @@ namespace CSharpBinding
 			return Path.GetExtension(fileName).ToUpper() == ".CS";
 		}
 
-		public ICompilerResult Compile (ProjectFileCollection projectFiles, ProjectReferenceCollection references, DotNetProjectConfiguration configuration)
+		public ICompilerResult Compile (ProjectFileCollection projectFiles, ProjectReferenceCollection references, DotNetProjectConfiguration configuration, IProgressMonitor monitor)
 		{
 			CSharpCompilerParameters compilerparameters = (CSharpCompilerParameters) configuration.CompilationParameters;
 			if (compilerparameters == null) compilerparameters = new CSharpCompilerParameters ();
@@ -46,7 +46,6 @@ namespace CSharpBinding
 			if (compilerparameters.CsharpCompiler == CsharpCompiler.Csc) {
 				writer.WriteLine("\"/out:" + exe + '"');
 				
-				IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IProjectService));
 				ArrayList pkg_references = new ArrayList ();
 				
 				if (references != null) {
@@ -141,7 +140,6 @@ namespace CSharpBinding
 				}
 				
 				writer.WriteLine("--wlevel " + compilerparameters.WarningLevel);
-				IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IProjectService));
 		
 				if (references != null) {		
 					foreach (ProjectReference lib in references) {
@@ -191,6 +189,9 @@ namespace CSharpBinding
 			DoCompilation(outstr, tf, ref output, ref error);
 			
 			ICompilerResult result = ParseOutput(tf, output, error);
+			if (result.CompilerOutput.Trim () != "")
+				monitor.Log.WriteLine (result.CompilerOutput);
+			
 			File.Delete(responseFileName);
 			File.Delete(output);
 			File.Delete(error);
@@ -520,39 +521,9 @@ namespace CSharpBinding
 			Process p = new Process();
 			p.StartInfo = si;
 			p.Start();
-			//FIXME: The glib.idle stuff is here because this *SHOULD* be
-			//a background thread calling back to the main thread.
-			//GLib.Idle.Add (new GLib.IdleHandler (setmsg));
-			setmsg ();
-			while (!p.HasExited) {
-				//GLib.Idle.Add (new GLib.IdleHandler (pulse));
-				pulse ();
-				System.Threading.Thread.Sleep (100);
-			}
-			//GLib.Idle.Add (new GLib.IdleHandler (done));
-			done ();
+			p.WaitForExit ();
 		}
 
-		bool setmsg ()
-		{
-			Runtime.Gui.StatusBar.SetMessage ("Compiling...");
-			return false;
-		}
-
-		bool done ()
-		{
-			Runtime.Gui.StatusBar.ProgressMonitor.Done ();
-			return false;
-		}
-
-		bool pulse () 
-		{
-			Runtime.Gui.StatusBar.ProgressMonitor.Pulse ();
-			while (Gtk.Application.EventsPending ())
-				Gtk.Application.RunIteration ();
-			return false;
-		}
-		
 		// Snatched from our codedom code :-).
 		static Regex regexError = new Regex (@"^(\s*(?<file>.*)\((?<line>\d*)(,(?<column>\d*))?\)\s+)*(?<level>\w+)\s*(?<number>.*):\s(?<message>.*)",
 			RegexOptions.Compiled | RegexOptions.ExplicitCapture);
