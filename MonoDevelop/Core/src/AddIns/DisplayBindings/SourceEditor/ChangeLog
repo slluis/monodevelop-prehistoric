@@ -1,3 +1,10 @@
+2005-03-10  John Luke  <john.luke@gmail.com>
+
+	* Gui/SourceEditorView.cs:
+	* Gui/SourceEditorDisplayBinding.cs: dont create
+	a char array from the string, it is already indexed
+	that way
+
 2005-03-09  John Luke  <john.luke@gmail.com>
 
 	* Gui/SourceEditorDisplayBinding.cs: only

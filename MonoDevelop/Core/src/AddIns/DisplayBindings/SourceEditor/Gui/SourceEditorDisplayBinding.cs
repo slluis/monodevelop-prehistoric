@@ -429,7 +429,7 @@ namespace MonoDevelop.SourceEditor.Gui
 			
 			while (!iter.Equal (start))
 			{
-				char c = iter.Char.ToCharArray ()[0];
+				char c = iter.Char[0];
 				
 				if (c == '\t')
 					col += (tab_size - (col % tab_size));

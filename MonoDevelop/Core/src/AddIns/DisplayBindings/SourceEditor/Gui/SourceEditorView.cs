@@ -548,7 +548,7 @@ namespace MonoDevelop.SourceEditor.Gui
 				TextIter start = Buffer.GetIterAtLine (l);
 				TextIter end = start;
 				
-				char c = start.Char.ToCharArray ()[0];
+				char c = start.Char[0];
 				
 				if (c == '\t') {
 					end.ForwardChar ();
@@ -558,7 +558,7 @@ namespace MonoDevelop.SourceEditor.Gui
 					int cnt = 0;
 					int max = (int) TabsWidth;
 					
-					while (cnt <= max && end.Char.ToCharArray ()[0] == ' ' && ! end.EndsLine ()) {
+					while (cnt <= max && end.Char[0] == ' ' && ! end.EndsLine ()) {
 						cnt ++;
 						end.ForwardChar ();
 					}
@@ -629,7 +629,7 @@ namespace MonoDevelop.SourceEditor.Gui
 		char IFormattableDocument.GetCharAt (int offset)
 		{
 			TextIter it = Buffer.GetIterAtOffset (offset);
-			return it.Char.ToCharArray ()[0];
+			return it.Char[0];
 		}
 		
 		void IFormattableDocument.Insert (int offset, string text)
