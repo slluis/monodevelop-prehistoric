@@ -111,11 +111,6 @@ namespace MonoDevelop.Services
 				IViewContent content = window.ViewContent;
 				if (content is IPositionable) {
 					((IPositionable)content).JumpTo(Math.Max(0, line), Math.Max(0, column));
-#if !LINUX
-					// Begin Svante Lidman (by mike : May be workaround for .NET bug ... ?)
-					content.Control.Focus();
-					// End Svante Lidman
-#endif					
 				}
 			}
 			

@@ -42,9 +42,6 @@ namespace MonoDevelop.Gui
 		int    cur_dbgLineNumber;
 		
 		bool            fullscreen;
-#if !GTK
-		FormWindowState defaultWindowState = FormWindowState.Normal;
-#endif
 		Rectangle       normalBounds       = new Rectangle(0, 0, 640, 480);
 		
 		private IWorkbenchLayout layout = null;
@@ -67,9 +64,7 @@ namespace MonoDevelop.Gui
 			}
 		}
 		
-#if GTK
-		// FIXME: GTKize (Actually, do we need too? --Todd)
-#else
+		/*
 		public string Title {
 			get {
 				return Text;
@@ -77,8 +72,7 @@ namespace MonoDevelop.Gui
 			set {
 				Text = value;
 			}
-		}
-#endif
+		}*/
 		
 		EventHandler windowChangeEventHandler;
 		
@@ -190,15 +184,8 @@ namespace MonoDevelop.Gui
 		
 		public void InitializeWorkspace()
 		{
-#if GTK
 			// FIXME: GTKize
 			ActiveWorkbenchWindowChanged += new EventHandler(UpdateMenu);
-#else
-			//statusBarManager.Control.Dock = DockStyle.Bottom;
-						
-			MenuComplete += new EventHandler(SetStandardStatusBar);
-			SetStandardStatusBar(null, null);
-#endif
 			
 			IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
 			IFileService fileService = (IFileService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IFileService));
@@ -396,12 +383,7 @@ namespace MonoDevelop.Gui
 			} else {
 				memento.Bounds = normalBounds;
 			}
-#if GTK
-			// FIXME: GTKize
-#else
-			memento.DefaultWindowState = fullscreen ? defaultWindowState : WindowState;
-			memento.WindowState        = WindowState;
-#endif
+
 			memento.FullScreen         = fullscreen;
 			return memento;
 		}
@@ -414,39 +396,19 @@ namespace MonoDevelop.Gui
 				normalBounds = memento.Bounds;
 				Move (normalBounds.X, normalBounds.Y);
 				Resize (normalBounds.Width, normalBounds.Height);
-#if GTK
-				// FIXME: GTKize
-#else
-				WindowState = memento.WindowState;
-				defaultWindowState = memento.DefaultWindowState;
-#endif
 				FullScreen  = memento.FullScreen;
 			}
 		}
 		
 		protected /*override*/ void OnResize(EventArgs e)
 		{
-#if GTK
 			// FIXME: GTKize
-#else
-			base.OnResize(e);
-			if (WindowState == FormWindowState.Normal) {
-				normalBounds = Bounds;
-			}
-#endif
 			
 		}
 		
 		protected /*override*/ void OnLocationChanged(EventArgs e)
 		{
-#if GTK
 			// FIXME: GTKize
-#else
-			base.OnLocationChanged(e);
-			if (WindowState == FormWindowState.Normal) {
-				normalBounds = Bounds;
-			}
-#endif
 		}
 		
 		void CheckRemovedFile(object sender, FileEventArgs e)
@@ -511,9 +473,6 @@ namespace MonoDevelop.Gui
 		
 		protected /*override*/ void OnClosed(EventArgs e)
 		{
-#if !GTK
-			base.OnClosed(e);
-#endif
 			layout.Detach();
 			foreach (IPadContent content in PadContentCollection) {
 				content.Dispose();
@@ -656,48 +615,6 @@ namespace MonoDevelop.Gui
 			// Handle keyboard shortcuts
 
 
-#if GTK
-		// FIXME: GTKize
-#else
-		protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
-		{
-			if (this.commandBarManager.PreProcessMessage(ref msg)) {
-				return true;
-			}
-
-			return base.ProcessCmdKey(ref msg, keyData);
-		}
-		
-		protected override void OnDragEnter(DragEventArgs e)
-		{
-			base.OnDragEnter(e);
-			if (e.Data != null && e.Data.GetDataPresent(DataFormats.FileDrop)) {
-				string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
-				foreach (string file in files) {
-					if (File.Exists(file)) {
-						e.Effect = DragDropEffects.Copy;
-						return;
-					}
-				}
-			}
-			e.Effect = DragDropEffects.None;
-		}
-		
-		protected override void OnDragDrop(DragEventArgs e)
-		{
-			base.OnDragDrop(e);
-			if (e.Data != null && e.Data.GetDataPresent(DataFormats.FileDrop)) {
-				string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
-				IFileService fileService = (IFileService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IFileService));
-				foreach (string file in files) {
-					if (File.Exists(file)) {
-						fileService.OpenFile(file);
-					}
-				}
-			}
-		}
-#endif
-		
 		public event EventHandler ActiveWorkbenchWindowChanged;
 
 		/// Context switching specific parts

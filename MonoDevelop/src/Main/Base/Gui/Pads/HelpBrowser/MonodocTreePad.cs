@@ -12,28 +12,23 @@ using Gtk;
 using Monodoc;
 
 using MonoDevelop.Gui;
-
 using MonoDevelop.Core.Services;
 using MonoDevelop.Services;
 
 namespace MonoDevelop.Gui.Pads
 {
-
 	public class HelpTree : AbstractPadContent
 	{
-
 		MonodocService mds;
 	
 		TreeStore store;
 		TreeView  tree_view;
 
 		ScrolledWindow scroller;
-
 		TreeIter root_iter;
 	
 		public HelpTree () : base ("Help", Gtk.Stock.Help)
 		{
-
 			mds = (MonodocService)ServiceManager.Services.GetService (typeof (MonodocService));
 			tree_view = new TreeView ();
 

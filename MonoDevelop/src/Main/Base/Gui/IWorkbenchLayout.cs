@@ -21,11 +21,9 @@ namespace MonoDevelop.Gui
 		/// The active workbench window.
 		/// </summary>
 
-#if GTK
 		Gtk.Widget LayoutWidget {
 			get;
 		}
-#endif
 		
 		IWorkbenchWindow ActiveWorkbenchwindow {
 			get;

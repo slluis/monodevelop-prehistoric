@@ -4,13 +4,12 @@
 //     <owner name="Poul Staugaard" email="poul@staugaard.dk"/>
 //     <version value="$version"/>
 // </file>
-#if !LINUX
+#if false
 using System;
 using System.IO;
 using System.Reflection;
 using System.Reflection.Emit;
 using System.Runtime.InteropServices;
-using System.Windows.Forms;
 using System.Diagnostics;
 
 using Microsoft.Win32;

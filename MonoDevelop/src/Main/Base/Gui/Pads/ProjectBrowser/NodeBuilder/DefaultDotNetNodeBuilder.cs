@@ -280,7 +280,7 @@ namespace MonoDevelop.Gui.Pads.ProjectBrowser
 						}
 					}
 					break;
-#if NOT_DONE
+#if false
 				case Subtype.WebReferences:
 					{
 						// add a web directory

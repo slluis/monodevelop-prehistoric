@@ -1,3 +1,19 @@
+
+CSC = mcs /debug
+
+DLLS = /r:System.Drawing /r:ICSharpCode.SharpZipLib.dll \
+	/r:../../../build/bin/ICSharpCode.SharpRefactory.dll \
+	/r:../../../build/bin/MonoDevelop.Core.dll \
+	/r:../../../build/bin/ICSharpCode.SharpAssembly.dll \
+	/r:../../../build/bin/MonoDevelop.Gui.Utils.dll \
+	/r:../../../build/bin/MonoDevelop.Gui.Widgets.dll \
+	/r:System.Data /r:System.Web.Services \
+	/r:gtk-sharp /r:gdk-sharp /r:glib-sharp /r:pango-sharp \
+	/r:../../../build/bin/gtkmozembed-sharp.dll \
+	/r:../../../build/bin/gdl-sharp.dll \
+	/r:glade-sharp /r:gnome-sharp /r:gtkhtml-sharp \
+	/r:$(debugger_prefix)/lib/Mono.Debugger.dll
+
 FILES= \
 ./Gui/Pads/ProjectBrowser/ProjectBrowserView.cs \
 ./Gui/Pads/ProjectBrowser/NodeBuilder/DefaultDotNetNodeBuilder.cs \
@@ -356,37 +372,24 @@ FILES= \
 
 build_sources = $(addprefix $(srcdir)/, $(FILES))
 
-DLL = MonoDevelop.Base.dll
+ASSEMBLY = MonoDevelop.Base.dll
 
-all: $(DLL)
+all: $(ASSEMBLY)
 
-$(DLL): $(build_sources) ../../../data/resources/glade/Base.glade
-	@ mcs /debug /out:$(DLL) /target:library /r:System.Drawing /r:ICSharpCode.SharpZipLib.dll \
-		/r:../../../build/bin/ICSharpCode.SharpRefactory.dll /r:../../../build/bin/MonoDevelop.Core.dll \
-		/r:../../../build/bin/ICSharpCode.SharpAssembly.dll \
-		/r:../../../build/bin/MonoDevelop.Gui.Utils.dll \
-		/r:../../../build/bin/MonoDevelop.Gui.Widgets.dll \
-		/r:../../../build/bin/gdl-sharp.dll \
+$(ASSEMBLY): $(build_sources) ../../../data/resources/glade/Base.glade
+	@ $(CSC) /out:$(ASSEMBLY) /target:library $(DLLS) \
 		/resource:$(srcdir)/../../../data/resources/glade/Base.glade,Base.glade \
-		/r:System.Data /r:System.Web.Services /define:LINUX \
-		/define:GTK /r:gtk-sharp /r:gdk-sharp /r:glib-sharp \
-		/r:pango-sharp \
-		/r:../../../build/bin/gtkmozembed-sharp.dll \
-		/r:glade-sharp \
-		/r:gnome-sharp \
-		/r:gtkhtml-sharp \
-		/r:$(debugger_prefix)/lib/Mono.Debugger.dll \
 		$(monodoc_libflags) \
 		$(build_sources) \
-	&& cp $(DLL) ../../../build/bin/.
+	&& cp $(ASSEMBLY) ../../../build/bin/.
 
 Services/StockIcons.cs : ./Services/process-icons.pl
 	perl  -x$(srcdir)/../../../build/data/resources/icons -w $(srcdir)/./Services/process-icons.pl > $@
 
 assemblydir = $(libdir)/monodevelop/bin
-assembly_DATA = $(DLL)
+assembly_DATA = $(ASSEMBLY)
 
-CLEANFILES=$(DLL)
+CLEANFILES = $(ASSEMBLY)
 
 EXTRA_DIST = $(FILES) ./Services/process-icons.pl
 

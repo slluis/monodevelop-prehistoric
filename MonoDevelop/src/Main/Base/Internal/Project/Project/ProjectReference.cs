@@ -92,21 +92,14 @@ namespace MonoDevelop.Internal.Project
 		{
 			switch (ReferenceType) {
 				case ReferenceType.Typelib:
-#if LINUX
 					return String.Empty;
-#else
-					return new TypelibImporter().Import(this, project);
-#endif
 				case ReferenceType.Assembly:
 					return reference;
 				
 				case ReferenceType.Gac: 
-#if LINUX
 					return GetPathToGACAssembly(this);
-#else
 					// TODO: gac on linux
-					return reference;
-#endif
+					//return reference;
 				case ReferenceType.Project:
 					IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
 					string projectOutputLocation   = projectService.GetOutputAssemblyName(reference);

@@ -168,11 +168,7 @@ namespace MonoDevelop.Gui.Pads
 			Gdk.Threads.Leave();
 		}
 
-#if !GTK
-		protected override void OnDoubleClick(EventArgs e)
-#else
 		private void OnNodeActivated(object sender, Gtk.RowActivatedArgs args)
-#endif
 		{
 			//base.OnDoubleClick(e);
 			TreeNode node = SelectedNode;
@@ -203,11 +199,7 @@ namespace MonoDevelop.Gui.Pads
 			base.OnMouseDown(e);
 		}
 */
-#if GTK
 		private void OnButtonRelease(object sender, Gtk.ButtonReleaseEventArgs args)
-#else
-		protected override void OnMouseUp(MouseEventArgs e)
-#endif
 		{
 			//if (e.Button == MouseButtons.Right && SelectedNode != null && SelectedNode is AbstractClassScoutNode) {
 			if (args.Event.Button == 3 && SelectedNode != null && SelectedNode is AbstractClassScoutNode) {

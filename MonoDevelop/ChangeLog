@@ -8,6 +8,8 @@
 	* src/Main/Base/Gui/Components/StatusBar/SdStatusBar.cs:
 	use double instead of casting to int everywhere
 	and implement ProgressBar
+	* src/Main/Base/Makefile.am: cleanup and undefine GTK and LINUX
+	* *.cs: account for above
 
 2004-03-19  Iñigo Illán <kodeport AT terra.es>
 	* src/Main/Base/Commands/FileCommands.cs:

@@ -383,11 +383,7 @@ namespace MonoDevelop.Gui.Pads.ProjectBrowser
 			}
 		}
 */
-#if !GTK
-		protected override void OnDoubleClick(EventArgs e)
-#else
 		private void OnNodeActivated(object sender, Gtk.RowActivatedArgs args)
-#endif
 		{
 			if (SelectedNode != null && SelectedNode is AbstractBrowserNode) {
 				((AbstractBrowserNode)SelectedNode).ActivateItem();
