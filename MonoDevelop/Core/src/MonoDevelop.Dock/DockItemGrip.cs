@@ -70,6 +70,10 @@ namespace Gdl
 					icon = RenderIcon (item.StockId, IconSize.Menu, "");
 				return icon;
 			}
+			set {
+				icon = value;
+				QueueDraw ();
+			}
 		}
 		
 		public new DockItem Item {
@@ -123,6 +127,7 @@ namespace Gdl
 				title = value;
 				if (layout != null)
 					layout.SetMarkup (Title);
+				QueueDraw ();
 			}
 		}
 		
@@ -170,7 +175,7 @@ namespace Gdl
 		{
 			switch (name) {
 			case "StockId":
-				icon = RenderIcon (item.StockId, IconSize.Menu, "");
+				Icon = RenderIcon (item.StockId, IconSize.Menu, "");
 				break;
 			case "LongName":
 				Title = item.LongName;
@@ -220,10 +225,10 @@ namespace Gdl
 					pixbufRect.X = titleArea.X + titleArea.Width - pixbufRect.Width;
 				} else {
 					pixbufRect.X = titleArea.X;
-					titleArea.X += pixbufRect.Width + 1;
+					titleArea.X += pixbufRect.Width + 4;
 				}
 				
-				titleArea.Width -= pixbufRect.Width - 1;
+				titleArea.Width -= pixbufRect.Width - 4;
 				pixbufRect.Y = titleArea.Y + (titleArea.Height - pixbufRect.Height) / 2;
 
 				if (evnt.Area.Intersect (pixbufRect, out exposeArea)) {

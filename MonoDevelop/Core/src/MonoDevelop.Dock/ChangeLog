@@ -1,3 +1,8 @@
+2005-03-15  Lluis Sanchez Gual <lluis@novell.com>
+
+	* DockItemGrip.cs: Redraw the grip if the title or the icon changes.
+	Added some padding between the icon and the label.
+
 2005-03-14  Lluis Sanchez Gual <lluis@novell.com>
 
 	* DockItem.cs: Added property for getting the default position.
