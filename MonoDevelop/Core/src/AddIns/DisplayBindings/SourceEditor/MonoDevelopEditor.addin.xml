@@ -49,11 +49,6 @@
 		</Conditional> -->
 	</Extension>
 	
-	<Extension path = "/SharpDevelop/Workbench/Views">
-		<Class id    = "CompilerMessageView" 
-		       class = "MonoDevelop.EditorBindings.Gui.Pads.CompilerMessageView"/>
-	</Extension>
-
 	<Extension path = "/SharpDevelop/ViewContent/DefaultTextEditor/ContextMenu">
 		<MenuItem id = "Cut"
 		          _label = "Cut"

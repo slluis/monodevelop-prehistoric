@@ -99,6 +99,7 @@ namespace MonoDevelop.SourceEditor.Gui
 		HBox editorBar;
 		HBox reloadBar;
 		internal FileSystemWatcher fsw;
+		IProperties properties;
 	
 		internal SourceEditor se;
 
@@ -191,8 +192,8 @@ namespace MonoDevelop.SourceEditor.Gui
 			SetInitialValues ();
 			
 			PropertyService propertyService = (PropertyService) ServiceManager.GetService (typeof (PropertyService));
-			IProperties properties2 = ((IProperties) propertyService.GetProperty("MonoDevelop.TextEditor.Document.Document.DefaultDocumentAggregatorProperties", new DefaultProperties()));
-			properties2.PropertyChanged += new PropertyEventHandler (PropertiesChanged);
+			properties = ((IProperties) propertyService.GetProperty("MonoDevelop.TextEditor.Document.Document.DefaultDocumentAggregatorProperties", new DefaultProperties()));
+			properties.PropertyChanged += new PropertyEventHandler (PropertiesChanged);
 			fsw = new FileSystemWatcher ();
 			fsw.Changed += new FileSystemEventHandler (OnFileChanged);
 			UpdateFSW (null, null);
@@ -239,6 +240,13 @@ namespace MonoDevelop.SourceEditor.Gui
 		
 		public override void Dispose()
 		{
+			properties.PropertyChanged -= new PropertyEventHandler (PropertiesChanged);
+			se.Buffer.ModifiedChanged -= new EventHandler (OnModifiedChanged);
+			se.Buffer.MarkSet -= new MarkSetHandler (OnMarkSet);
+			se.Buffer.Changed -= new EventHandler (OnChanged);
+			se.View.ToggleOverwrite -= new EventHandler (CaretModeChanged);
+			ContentNameChanged -= new EventHandler (UpdateFSW);
+			se.Dispose ();
 			fsw.Dispose ();
 		}
 		

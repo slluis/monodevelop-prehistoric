@@ -58,6 +58,13 @@ namespace MonoDevelop.SourceEditor.Gui
 			buf.Changed += new EventHandler (BufferChanged);
 		}
 		
+		public new void Dispose ()
+		{
+			buf.MarkSet -= new MarkSetHandler (BufferMarkSet);
+			buf.Changed -= new EventHandler (BufferChanged);
+			base.Dispose ();
+		}
+		
 		void BufferMarkSet (object s, MarkSetArgs a)
 		{
 			if (a.Mark.Name == "insert") {

@@ -7,9 +7,9 @@ namespace MonoDevelop.SourceEditor.Gui
 {
 	public class SourceEditor : ScrolledWindow
 	{	
-		public readonly SourceEditorBuffer Buffer;
-		public readonly SourceEditorView View;
-		public readonly SourceEditorDisplayBindingWrapper DisplayBinding;
+		public SourceEditorBuffer Buffer;
+		public SourceEditorView View;
+		public SourceEditorDisplayBindingWrapper DisplayBinding;
 		
 		public SourceEditor (SourceEditorDisplayBindingWrapper bind)
 		{
@@ -26,6 +26,15 @@ namespace MonoDevelop.SourceEditor.Gui
 			View.SetMarkerPixbuf ("BreakpointMark", new Gdk.Pixbuf ("../data/resources/icons/BreakPoint.png"));
 			
 			Add (View);
+		}
+		
+		public new void Dispose ()
+		{
+			Buffer = null;
+			Remove (View);
+			View.Dispose ();
+			View = null;
+			base.Dispose ();
 		}
 
 		public void ExecutingAt (int linenumber)

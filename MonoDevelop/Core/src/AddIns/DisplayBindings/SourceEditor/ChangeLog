@@ -1,3 +1,11 @@
+2005-03-07  Lluis Sanchez Gual  <lluis@novell.com>
+
+	* Gui/SourceEditorWidget.cs: Properly dispose the widget.
+	* Gui/SourceEditorView.cs: Added dispose method.
+	* Gui/SourceEditorDisplayBinding.cs: Unsubscribe events on dispose.
+	* CodeCompletion/CodeCompletionDataProvider.cs: Track api changes.
+	* MonoDevelopEditor.addin.xml: Removed unused view.
+
 2005-02-26  Poul Andersen  <pba@mailme.dk>
 	* Gui/Dialogs/ReplaceDialog.cs: Added property DialogPointer.
 	* Gui/Dialogs/ReplaceInFilesDialog.cs: Added property DialogPointer.

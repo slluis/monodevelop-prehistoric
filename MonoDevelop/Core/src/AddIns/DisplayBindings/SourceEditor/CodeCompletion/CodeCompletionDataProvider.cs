@@ -86,7 +86,7 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 			}
 			if (charTyped == ' ') {
 				if (expression == "using" || expression.EndsWith(" using") || expression.EndsWith("\tusing")|| expression.EndsWith("\nusing")|| expression.EndsWith("\rusing")) {
-					string[] namespaces = parserService.GetNamespaceList(project, "", true);
+					string[] namespaces = parserService.GetNamespaceList(project, "", true, true);
 					AddResolveResults(new ResolveResult(namespaces));
 				}
 			} else {
