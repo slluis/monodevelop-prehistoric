@@ -1,3 +1,8 @@
+2004-05-29  Todd Berman  <tberman@sevenl.net>
+
+	* Services/Project/DefaultProjectService.cs: try catch around
+	generate makefiles, as some bindings toss exceptions.
+
 2004-05-28  Todd Berman  <tberman@sevenl.net>
 
 	* Gui/Dialogs/CombineConfiguration/CombineStartupPanel.cs:

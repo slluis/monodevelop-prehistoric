@@ -781,7 +781,10 @@ namespace MonoDevelop.Services
 		public void GenerateMakefiles ()
 		{
 			if (openCombine != null)
-				openCombine.GenerateMakefiles ();
+				try {
+					openCombine.GenerateMakefiles ();
+				}
+				catch { }
 		}
 		
 		public event ProjectFileEventHandler FileRemovedFromProject;
