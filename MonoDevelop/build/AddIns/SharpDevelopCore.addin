@@ -714,25 +714,25 @@
 		<Conditional iscombineopen="True">
 			<MenuItem id = "Project" label = "${res:XML.MainMenu.ProjectMenu}">
 				<Conditional activeproject="*" action="Disable">
-					<MenuItem id = "RunTests"
+					<!-- <MenuItem id = "RunTests"
 					          label = "${res:XML.MainMenu.ProjectMenu.RunTests}" 
 					          description = "${res:XML.MainMenu.ProjectMenu.RunTests.Description}"
-					          class = "ICSharpCode.SharpDevelop.Commands.RunTestsInProject"/>
+					          class = "ICSharpCode.SharpDevelop.Commands.RunTestsInProject"/> -->
 			                          
-					<MenuItem id = "Deploy" 
+					<!-- <MenuItem id = "Deploy" 
 			                   label = "${res:XML.MainMenu.ProjectMenu.Deploy}" 
 			                          description = "${res:XML.MainMenu.ProjectMenu.Deploy.Description}" 
-			                          class = "ICSharpCode.SharpDevelop.Commands.DeployProject"/>
-				        <MenuItem id = "Separator1" label = "-" />
+			                          class = "ICSharpCode.SharpDevelop.Commands.DeployProject"/> -->
+				        <!-- <MenuItem id = "Separator1" label = "-" /> -->
 <!-- ORIGINAL #D COMMENT			        <MenuItem id = "ViewDocumentation"
 				                  label = "${res:ProjectComponent.ContextMenu.ViewDocumentation}"
 				                  class = "ICSharpCode.SharpDevelop.Commands.ViewProjectDocumentation"/> -->
 
-			                <MenuItem id = "GenerateDocumentation"
+			                <!-- <MenuItem id = "GenerateDocumentation"
 			                          label = "${res:ProjectComponent.ContextMenu.GenerateDocumentation}"
-			                          class = "ICSharpCode.SharpDevelop.Commands.GenerateProjectDocumentation"/>
+			                          class = "ICSharpCode.SharpDevelop.Commands.GenerateProjectDocumentation"/> -->
 					
-					<MenuItem id = "Separator2" label = "-" />
+					<!-- <MenuItem id = "Separator2" label = "-" /> -->
 			                <MenuItem id = "Options"
 			                          label = "${res:XML.MainMenu.ProjectMenu.Options}" 
 			                          description = "${res:XML.MainMenu.ProjectMenu.Options.Description}" 

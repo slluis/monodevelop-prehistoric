@@ -30,13 +30,13 @@
 	
 	<Extension path = "/SharpDevelop/Workbench/MainMenu/Project">
 		<!-- AddIn to the Project Add Menu -->
-		<Conditional activeproject="*">
+		<!-- <Conditional activeproject="*">
 			<MenuItem id = "ExportToHtml"
 			          insertafter = "GenerateDocumentation"
 			          insertbefore = "Separator2"
 			          label = "${res:ProjectComponent.ContextMenu.HtmlExport}"
 			          class = "ICSharpCode.SharpDevelop.DefaultEditor.Commands.ExportProjectToHtml"/>
-		</Conditional>
+		</Conditional> -->
 	</Extension>
 	
 	<Extension path = "/SharpDevelop/Views/ProjectBrowser/ContextMenu/ProjectBrowserNode">
