@@ -79,16 +79,16 @@ namespace CSharpBinding
 						break;
 				}
 				
-				if (parameters.CompileTarget != CompileTarget.WinExe && parameters.PauseConsoleOutput) {
+				//if (parameters.CompileTarget != CompileTarget.WinExe && parameters.PauseConsoleOutput) {
 					psi = new ProcessStartInfo("xterm",
 						string.Format (
 						@"-e ""{0} '{1}{2}' {3} ; echo; read -p 'press any key to continue...' -n1""",
 						runtimeStarter, directory, exe, args));
 					psi.UseShellExecute = false;
-				} else {
-					psi = new ProcessStartInfo(runtimeStarter, "\"" + directory + exe + "\" " + args);
-					psi.UseShellExecute = false;
-				}
+				//} else {
+				//	psi = new ProcessStartInfo(runtimeStarter, "\"" + directory + exe + "\" " + args);
+				//	psi.UseShellExecute = false;
+				//}
 			}
 			
 			try {

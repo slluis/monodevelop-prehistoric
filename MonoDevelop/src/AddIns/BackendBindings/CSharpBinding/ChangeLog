@@ -1,4 +1,9 @@
-2004-03-31  Todd Berman <tberman@sevenl.net>
+2004-03-31  Todd Berman  <tberman@sevenl.net>
+
+	* CSharpBindingExecutionManager.cs: dont test CompileTarget, for now
+	assume *everything* is being run in a terminal and pausing for output.
+
+2004-03-31  Todd Berman  <tberman@sevenl.net>
 
 	* Makefile.am: i think this fixed nick's bug.
 
