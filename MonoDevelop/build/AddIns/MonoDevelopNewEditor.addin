@@ -7,6 +7,8 @@
 	
 	<Runtime>
 		<Import assembly="../bin/MonoDevelop.SourceEditor.dll"/>
+		<Import assembly="../bin/MonoDevelop.TextEditor.dll"/>
+		<Import assembly="../bin/MonoDevelop.DefaultTexteditor.dll"/>
 	</Runtime>
 	
 	<Extension path = "/SharpDevelop/Dialogs/OptionsDialog/CodingOptions">
@@ -409,7 +411,6 @@
 
 	<Extension path = "/SharpDevelop/Workbench/DisplayBindings">
 		<DisplayBinding id    = "NewText"
-		       insertbefore = "Text"
 		       supportedformats = "Text Files,Source Files"
 		       class = "MonoDevelop.SourceEditor.Gui.SourceEditorDisplayBinding" />
 	</Extension>

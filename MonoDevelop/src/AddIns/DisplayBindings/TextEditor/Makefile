@@ -57,7 +57,7 @@ $(DLL): $(SOURCES) ../../../../data/resources/glade/texteditoraddin.glade
 		/r:../../../../build/bin/MonoDevelop.Core.dll \
 		/r:../../../../build/bin/MonoDevelop.TextEditor.dll \
 		/r:../../../../build/bin/MonoDevelop.Base.dll \
-		/r:../../../../build/bin/MonoDevelop.EditorBindings.dll \
+		/r:../../../../build/bin/MonoDevelop.SourceEditor.dll \
 		/r:System.DirectoryServices.dll /r:pango-sharp.dll /r:glade-sharp.dll \
 		/r:../../../../build/bin/MonoDevelop.Gui.Widgets.dll \
 		/r:glib-sharp.dll \

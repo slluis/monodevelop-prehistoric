@@ -4,7 +4,7 @@ GTKMOZEMBED=build/bin/gtkmozembed-sharp.dll
 GDLDOCK=build/bin/gdl-sharp.dll
 QMAKE=@ $(MAKE)
 
-$(PROGRAM): $(GTKMOZEMBED) $(GDLDOCK) MonoDevelop.Base SourceEditor CSharpBinding StartPage
+$(PROGRAM): $(GTKMOZEMBED) $(GDLDOCK) MonoDevelop.Base SourceEditor CSharpBinding StartPage MonoDevelop.DefaultTexteditor
 	@ echo Building $@
 	$(QMAKE) -C src/Main/StartUp
 

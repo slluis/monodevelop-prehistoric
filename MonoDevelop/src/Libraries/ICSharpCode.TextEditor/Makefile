@@ -103,8 +103,7 @@ REFS= \
  /r:glib-sharp.dll \
  /r:gdk-sharp.dll \
  /r:pango-sharp.dll \
- /r:../../../build/bin/MonoDevelop.EditorBindings.dll
-
+ /r:../../../build/bin/MonoDevelop.SourceEditor.dll 
 all: $(DLL)
 
 $(DLL): $(SOURCES)

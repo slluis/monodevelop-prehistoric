@@ -155,12 +155,12 @@ namespace MonoDevelop.SourceEditor.Gui {
 		
 		public void InitializeFormatter()
 		{
-			IFormattingStrategy[] formater = (IFormattingStrategy[])(AddInTreeSingleton.AddInTree.GetTreeNode("/AddIns/DefaultTextEditor/Formater").BuildChildItems(this)).ToArray(typeof(IFormattingStrategy));
+			/*IFormattingStrategy[] formater = (IFormattingStrategy[])(AddInTreeSingleton.AddInTree.GetTreeNode("/AddIns/DefaultTextEditor/Formater").BuildChildItems(this)).ToArray(typeof(IFormattingStrategy));
 			Console.WriteLine("SET FORMATTER : " + formater[0]);
 			if (formater != null && formater.Length > 0) {
 //					formater[0].Document = Document;
 				se.View.fmtr = formater[0];
-			}
+			}*/
 
 		}
 		
