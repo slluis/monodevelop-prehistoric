@@ -122,7 +122,7 @@ namespace Gdl
 			set {
 				title = value;
 				if (layout != null)
-					layout.SetText (Title);
+					layout.SetMarkup (Title);
 			}
 		}
 		
@@ -353,7 +353,7 @@ namespace Gdl
 		{
 			// no room to draw anything
 			if (width < 1) {
-				layout.SetText ("");
+				layout.SetMarkup ("");
 				return;
 			}
 			
@@ -366,10 +366,10 @@ namespace Gdl
 			// not enough room for ...
 			int ell_w, ell_h;
 			Pango.Layout ell = layout.Copy ();
-			ell.SetText ("...");
+			ell.SetMarkup ("...");
 			ell.GetPixelSize (out ell_w, out ell_h);
 			if (width < ell_w) {
-				layout.SetText ("");
+				layout.SetMarkup ("");
 				return;
 			}
 			
@@ -382,7 +382,7 @@ namespace Gdl
 				// Console.WriteLine ("length: {0} index: {1} trailing: {2}", layout.Text.Length, index, trailing);
 				// FIXME: breaks on accented chars
 				if (index < layout.Text.Length)
-					layout.SetText (layout.Text.Substring (0, index) + "...");
+					layout.SetMarkup (layout.Text.Substring (0, index) + "...");
 			}
 		}
 		
@@ -428,7 +428,7 @@ namespace Gdl
 			}
 			
 			if (TitleWindow != null) {
-				layout.SetText (title);
+				layout.SetMarkup (title);
 
 				Gdk.Rectangle area = TitleArea;
 				titleWindow.MoveResize (area.X, area.Y,area.Width, area.Height);

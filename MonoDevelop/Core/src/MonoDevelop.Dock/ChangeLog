@@ -1,3 +1,7 @@
+2005-03-12  Todd Berman  <tberman@off.net>
+
+	* DockItemGrip.cs: use .SetMarkup, not .SetText
+
 2005-03-13  Lluis Sanchez Gual  <lluis@novell.com>
 
 	* DockItemGrip.cs, DockMaster.cs: Fix potential memory leaks.
