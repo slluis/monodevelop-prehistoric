@@ -8,8 +8,8 @@
 
 	* Services/ParserService/DefaultParserService.cs:
 	if filename == null don't switch on it
+	* Gui/Pads/TerminalPad.cs: add but dont build yet
 
->>>>>>> .r1284
 2004-03-27  Todd Berman  <tberman@sevenl.net>
 
 	* Commands/FileCommands: remove save as notification, as its useless
