@@ -17,58 +17,129 @@ using ICSharpCode.Core.Services;
 using ICSharpCode.Core.AddIns.Codons;
 using ICSharpCode.SharpDevelop.Gui.Dialogs;
 
+using Gtk;
+
 namespace ICSharpCode.SharpDevelop.DefaultEditor.Gui.OptionPanels
 {
 	/// <summary>
 	/// Summary description for Form9.
 	/// </summary>
 	public class MarkersTextEditorPanel : AbstractOptionPanel
-	{/*
-		static FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.Services.GetService(typeof(FileUtilityService));
+	{
+		// Gtk Controls
+		CheckButton showLineNumberCheckBox;
+		CheckButton showInvalidLinesCheckBox;
+		CheckButton showBracketHighlighterCheckBox;
+		CheckButton showErrorsCheckBox;
+		CheckButton showHRulerCheckBox;
+		CheckButton showEOLMarkersCheckBox;
+		CheckButton showVRulerCheckBox;
+		CheckButton showTabCharsCheckBox;
+		CheckButton showSpaceCharsCheckBox;
+		Entry vRulerRowTextBox;
+		OptionMenu lineMarkerStyleComboBox;
+		Menu lineMarkerStyleComboBoxMenu;
+		
+		// Services
+		FileUtilityService FileUtilityService = (FileUtilityService)ServiceManager.Services.GetService(typeof(FileUtilityService));
+		StringParserService StringParserService = (StringParserService)ServiceManager.Services.GetService (typeof (StringParserService));
+		ResourceService ResourceService = (ResourceService)ServiceManager.Services.GetService(typeof(IResourceService));
 		
 		public override void LoadPanelContents()
 		{
-			SetupFromXml(Path.Combine(PropertyService.DataDirectory, 
-			                          @"resources\panels\MarkersTextEditorPanel.xfrm"));
+			// set up the form controls instance
+			SetupPanelInstance();
 			
-			((CheckBox)ControlDictionary["showLineNumberCheckBox"]).Checked         = ((IProperties)CustomizationObject).GetProperty("ShowLineNumbers", true);
-			((CheckBox)ControlDictionary["showInvalidLinesCheckBox"]).Checked       = ((IProperties)CustomizationObject).GetProperty("ShowInvalidLines", true);
-			((CheckBox)ControlDictionary["showBracketHighlighterCheckBox"]).Checked = ((IProperties)CustomizationObject).GetProperty("ShowBracketHighlight", true);
-			((CheckBox)ControlDictionary["showErrorsCheckBox"]).Checked             = ((IProperties)CustomizationObject).GetProperty("ShowErrors", true);
-			((CheckBox)ControlDictionary["showHRulerCheckBox"]).Checked             = ((IProperties)CustomizationObject).GetProperty("ShowHRuler", false);
-			((CheckBox)ControlDictionary["showEOLMarkersCheckBox"]).Checked         = ((IProperties)CustomizationObject).GetProperty("ShowEOLMarkers", false);
-			((CheckBox)ControlDictionary["showVRulerCheckBox"]).Checked             = ((IProperties)CustomizationObject).GetProperty("ShowVRuler", false);
-			((CheckBox)ControlDictionary["showTabCharsCheckBox"]).Checked           = ((IProperties)CustomizationObject).GetProperty("ShowTabs", false);
-			((CheckBox)ControlDictionary["showSpaceCharsCheckBox"]).Checked         = ((IProperties)CustomizationObject).GetProperty("ShowSpaces", false);
+			showLineNumberCheckBox.Active         = ((IProperties)CustomizationObject).GetProperty("ShowLineNumbers", true);
+			showInvalidLinesCheckBox.Active       = ((IProperties)CustomizationObject).GetProperty("ShowInvalidLines", true);
+			showBracketHighlighterCheckBox.Active = ((IProperties)CustomizationObject).GetProperty("ShowBracketHighlight", true);
+			showErrorsCheckBox.Active             = ((IProperties)CustomizationObject).GetProperty("ShowErrors", true);
+			showHRulerCheckBox.Active             = ((IProperties)CustomizationObject).GetProperty("ShowHRuler", false);
+			showEOLMarkersCheckBox.Active         = ((IProperties)CustomizationObject).GetProperty("ShowEOLMarkers", false);
+			showVRulerCheckBox.Active             = ((IProperties)CustomizationObject).GetProperty("ShowVRuler", false);
+			showTabCharsCheckBox.Active           = ((IProperties)CustomizationObject).GetProperty("ShowTabs", false);
+			showSpaceCharsCheckBox.Active         = ((IProperties)CustomizationObject).GetProperty("ShowSpaces", false);
 			
-			ControlDictionary["vRulerRowTextBox"].Text = ((IProperties)CustomizationObject).GetProperty("VRulerRow", 80).ToString();
+			vRulerRowTextBox.Text = ((IProperties)CustomizationObject).GetProperty("VRulerRow", 80).ToString();
 			
-			ResourceService resourceService = (ResourceService)ServiceManager.Services.GetService(typeof(IResourceService));
-			((ComboBox)ControlDictionary["lineMarkerStyleComboBox"]).Items.Add(resourceService.GetString("Dialog.Options.IDEOptions.TextEditor.Markers.LineViewerStyle.None"));
-			((ComboBox)ControlDictionary["lineMarkerStyleComboBox"]).Items.Add(resourceService.GetString("Dialog.Options.IDEOptions.TextEditor.Markers.LineViewerStyle.FullRow"));
-			((ComboBox)ControlDictionary["lineMarkerStyleComboBox"]).SelectedIndex = (int)(LineViewerStyle)((IProperties)CustomizationObject).GetProperty("LineViewerStyle", LineViewerStyle.None);
+			lineMarkerStyleComboBoxMenu.Append(MenuItem.NewWithLabel(ResourceService.GetString("Dialog.Options.IDEOptions.TextEditor.Markers.LineViewerStyle.None")));
+			lineMarkerStyleComboBoxMenu.Append(MenuItem.NewWithLabel(ResourceService.GetString("Dialog.Options.IDEOptions.TextEditor.Markers.LineViewerStyle.FullRow")));
+			lineMarkerStyleComboBox.SetHistory((uint)(LineViewerStyle)((IProperties)CustomizationObject).GetProperty("LineViewerStyle", LineViewerStyle.None));
 		}
 		
 		public override bool StorePanelContents()
 		{
-			((IProperties)CustomizationObject).SetProperty("ShowInvalidLines",     ((CheckBox)ControlDictionary["showInvalidLinesCheckBox"]).Checked);
-			((IProperties)CustomizationObject).SetProperty("ShowLineNumbers",      ((CheckBox)ControlDictionary["showLineNumberCheckBox"]).Checked);
-			((IProperties)CustomizationObject).SetProperty("ShowBracketHighlight", ((CheckBox)ControlDictionary["showBracketHighlighterCheckBox"]).Checked);
-			((IProperties)CustomizationObject).SetProperty("ShowErrors",           ((CheckBox)ControlDictionary["showErrorsCheckBox"]).Checked);
-			((IProperties)CustomizationObject).SetProperty("ShowHRuler",           ((CheckBox)ControlDictionary["showHRulerCheckBox"]).Checked);
-			((IProperties)CustomizationObject).SetProperty("ShowEOLMarkers",       ((CheckBox)ControlDictionary["showEOLMarkersCheckBox"]).Checked);
-			((IProperties)CustomizationObject).SetProperty("ShowVRuler",           ((CheckBox)ControlDictionary["showVRulerCheckBox"]).Checked);
-			((IProperties)CustomizationObject).SetProperty("ShowTabs",             ((CheckBox)ControlDictionary["showTabCharsCheckBox"]).Checked);
-			((IProperties)CustomizationObject).SetProperty("ShowSpaces",           ((CheckBox)ControlDictionary["showSpaceCharsCheckBox"]).Checked);
+			((IProperties)CustomizationObject).SetProperty("ShowInvalidLines",     showInvalidLinesCheckBox.Active);
+			((IProperties)CustomizationObject).SetProperty("ShowLineNumbers",      showLineNumberCheckBox.Active);
+			((IProperties)CustomizationObject).SetProperty("ShowBracketHighlight", showBracketHighlighterCheckBox.Active);
+			((IProperties)CustomizationObject).SetProperty("ShowErrors",           showErrorsCheckBox.Active);
+			((IProperties)CustomizationObject).SetProperty("ShowHRuler",           showHRulerCheckBox.Active);
+			((IProperties)CustomizationObject).SetProperty("ShowEOLMarkers",       showEOLMarkersCheckBox.Active);
+			((IProperties)CustomizationObject).SetProperty("ShowVRuler",           showVRulerCheckBox.Active);
+			((IProperties)CustomizationObject).SetProperty("ShowTabs",             showTabCharsCheckBox.Active);
+			((IProperties)CustomizationObject).SetProperty("ShowSpaces",           showSpaceCharsCheckBox.Active);
 			
 			try {
-				((IProperties)CustomizationObject).SetProperty("VRulerRow", Int32.Parse(ControlDictionary["vRulerRowTextBox"].Text));
+				((IProperties)CustomizationObject).SetProperty("VRulerRow", Int32.Parse(vRulerRowTextBox.Text));
 			} catch (Exception) {
 			}
 			
-			((IProperties)CustomizationObject).SetProperty("LineViewerStyle", (LineViewerStyle)((ComboBox)ControlDictionary["lineMarkerStyleComboBox"]).SelectedIndex);
+			((IProperties)CustomizationObject).SetProperty("LineViewerStyle", (LineViewerStyle)lineMarkerStyleComboBox.History);
 			
 			return true;
-		}*/
+		}
+		
+		#region jba added methods
+		
+		private void SetupPanelInstance()
+		{
+			Gtk.Frame frame1 = new Gtk.Frame(StringParserService.Parse("${res:Dialog.Options.IDEOptions.TextEditor.Markers.MarkersGroupBox}"));
+			//
+			// set up the Tab
+			//
+			// instantiate all the controls
+			Gtk.VBox vBox1 = new Gtk.VBox(false,2);
+			Gtk.Label label1 = new Gtk.Label(StringParserService.Parse("${res:Dialog.Options.IDEOptions.TextEditor.Markers.AtRowLabel}"));
+			Gtk.Label label2 = new Gtk.Label(StringParserService.Parse("${res:Dialog.Options.IDEOptions.TextEditor.Markers.LineMarkerLabel}"));
+			showLineNumberCheckBox = CheckButton.NewWithLabel(StringParserService.Parse("${res:Dialog.Options.IDEOptions.TextEditor.Markers.LineNumberCheckBox}"));
+			showInvalidLinesCheckBox = CheckButton.NewWithLabel(StringParserService.Parse("${res:Dialog.Options.IDEOptions.TextEditor.Markers.InvalidLinesCheckBox}"));
+			showBracketHighlighterCheckBox = CheckButton.NewWithLabel(StringParserService.Parse("${res:Dialog.Options.IDEOptions.TextEditor.Markers.HiglightBracketCheckBox}"));
+			showErrorsCheckBox = CheckButton.NewWithLabel(StringParserService.Parse("${res:Dialog.Options.IDEOptions.TextEditor.Markers.UnderLineErrorsCheckBox}"));
+			showHRulerCheckBox = CheckButton.NewWithLabel(StringParserService.Parse("${res:Dialog.Options.IDEOptions.TextEditor.Markers.HorizontalRulerCheckBox}"));
+			showEOLMarkersCheckBox = CheckButton.NewWithLabel(StringParserService.Parse("${res:Dialog.Options.IDEOptions.TextEditor.Markers.EOLMarkersCheckBox}"));
+			showVRulerCheckBox = CheckButton.NewWithLabel(StringParserService.Parse("${res:Dialog.Options.IDEOptions.TextEditor.Markers.VerticalRulerCheckBox}"));
+			showTabCharsCheckBox = CheckButton.NewWithLabel(StringParserService.Parse("${res:Dialog.Options.IDEOptions.TextEditor.Markers.TabsCheckBox}"));
+			showSpaceCharsCheckBox = CheckButton.NewWithLabel(StringParserService.Parse("${res:Dialog.Options.IDEOptions.TextEditor.Markers.SpacesCheckBox}"));
+			vRulerRowTextBox = new Entry();
+			lineMarkerStyleComboBox = new OptionMenu();
+			lineMarkerStyleComboBoxMenu = new Menu();
+			lineMarkerStyleComboBox.Menu = lineMarkerStyleComboBoxMenu;	
+			
+				// table to pack the tab settings options 
+				Table table1 = new Table(3, 2, false);
+				//pack the table
+				table1.Attach(showHRulerCheckBox, 0, 1, 0, 1);
+				table1.Attach(showVRulerCheckBox, 0, 1, 1, 2);
+				table1.Attach(label1, 1, 2, 1, 2);
+				table1.Attach(vRulerRowTextBox, 2, 3, 1, 2);
+				
+			// pack them all
+			vBox1.PackStart(label1, false, false, 2);
+			vBox1.PackStart(table1, false, false, 2);
+			vBox1.PackStart(label2, false, false, 2);
+			vBox1.PackStart(lineMarkerStyleComboBox, false, false, 2);
+			vBox1.PackStart(showLineNumberCheckBox, false, false, 2);
+			vBox1.PackStart(showErrorsCheckBox, false, false, 2);
+			vBox1.PackStart(showBracketHighlighterCheckBox, false, false, 2);
+			vBox1.PackStart(showInvalidLinesCheckBox, false, false, 2);
+			vBox1.PackStart(showEOLMarkersCheckBox, false, false, 2);
+			vBox1.PackStart(showSpaceCharsCheckBox, false, false, 2);
+			vBox1.PackStart(showTabCharsCheckBox, false, false, 2);
+			frame1.Add(vBox1);
+			
+			this.Add(frame1);
+		}
+		
+		#endregion
 	}
 }
