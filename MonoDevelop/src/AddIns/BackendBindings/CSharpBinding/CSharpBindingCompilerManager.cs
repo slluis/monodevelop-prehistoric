@@ -17,6 +17,7 @@ using MonoDevelop.Core.Services;
 
 using MonoDevelop.Internal.Project;
 using MonoDevelop.Gui;
+using MonoDevelop.Gui.Components;
 using MonoDevelop.Services;
 
 namespace CSharpBinding
@@ -335,7 +336,37 @@ namespace CSharpBinding
 			Process p = new Process();
 			p.StartInfo = si;
 			p.Start();
-			p.WaitForExit();
+			//FIXME: The glib.idle stuff is here because this *SHOULD* be
+			//a background thread calling back to the main thread.
+			//GLib.Idle.Add (new GLib.IdleHandler (setmsg));
+			setmsg ();
+			while (!p.HasExited) {
+				//GLib.Idle.Add (new GLib.IdleHandler (pulse));
+				pulse ();
+				System.Threading.Thread.Sleep (100);
+			}
+			//GLib.Idle.Add (new GLib.IdleHandler (done));
+			done ();
+		}
+
+		bool setmsg ()
+		{
+			((IStatusBarService)ServiceManager.Services.GetService (typeof (IStatusBarService))).SetMessage ("Compiling...");
+			return false;
+		}
+
+		bool done ()
+		{
+			((SdStatusBar)((IStatusBarService)ServiceManager.Services.GetService (typeof (IStatusBarService))).ProgressMonitor).Done ();
+			return false;
+		}
+
+		bool pulse () 
+		{
+			((SdStatusBar)((IStatusBarService)ServiceManager.Services.GetService (typeof (IStatusBarService))).ProgressMonitor).Pulse ();
+			while (Gtk.Application.EventsPending ())
+				Gtk.Application.RunIteration ();
+			return false;
 		}
 		
 		// Snatched from our codedom code :-).

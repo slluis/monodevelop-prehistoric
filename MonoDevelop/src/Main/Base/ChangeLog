@@ -1,16 +1,23 @@
+2004-04-09  Todd Berman  <tberman@sevenl.net>
+
+	* Gui/Components/SdStatusBar.cs: Add pulsing.
+
 2004-04-09  Pawel Rozanski  <tokugawa@afn.no-ip.org>
 
-	* Services/Tasks/Task.cs: don't show "()" when error.ErrorNumber is empty
+	* Services/Tasks/Task.cs: don't show "()" when error.ErrorNumber is 
+	empty
 
 2004-04-07  John Luke  <jluke@cfl.rr.com>
 
 	* Gui/Dialogs/CommonAboutDialog.cs:
-	* Gui/Dialogs/SharpDevelopAboutPanels.cs: rearrange the copyright, license,
-	sponsorship, and version information.  Add back info about SharpDevelop and
-	AlphaSierraPapa
-	* Gui/Dialogs/TipOfTheDay.cs: remove IDisposable and call Hide and Dispose
-	instead of Destroy on the window, remove some unneccesary public things
-	* Commands/HelpCommand.cs: revert addition of using () {} to tipoftheday
+	* Gui/Dialogs/SharpDevelopAboutPanels.cs: rearrange the copyright, 
+	license, sponsorship, and version information.  Add back info about    
+	SharpDevelop and AlphaSierraPapa
+	* Gui/Dialogs/TipOfTheDay.cs: remove IDisposable and call Hide and 
+	Dispose instead of Destroy on the window, remove some unneccesary 
+	public things
+	* Commands/HelpCommand.cs: revert addition of using () {} to 
+	tipoftheday
 	* Gui/Workbench/DefaultWorkbench.cs: uncomment memento restoring code
 
 2004-04-07  Todd Berman  <tberman@sevenl.net>

@@ -9,6 +9,7 @@ DLLS = /r:System.Drawing.dll \
 	/r:../../../../build/bin/MonoDevelop.Gui.Widgets.dll  \
 	/r:gtk-sharp \
 	/r:glade-sharp \
+	/r:glib-sharp \
 	$(GTKSOURCEVIEW_SHARP) 
 
 FILES = \

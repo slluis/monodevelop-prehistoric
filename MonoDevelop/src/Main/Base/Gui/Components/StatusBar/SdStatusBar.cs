@@ -65,6 +65,9 @@ namespace MonoDevelop.Gui.Components
 			modeStatusBarPanel.HasResizeGrip = false;
 			this.PackStart (modeStatusBarPanel, true, true, 0);
 
+			Progress.Visible = false;
+			Progress.PulseStep = 0.3;
+			
 			this.ShowAll ();
 		}
 		
@@ -111,6 +114,13 @@ namespace MonoDevelop.Gui.Components
 			txtStatusBarPanel.Pop (ctx);
 			this.Progress.Visible = false;
 		}
+
+		public void Pulse ()
+		{
+			this.Progress.Visible = true;
+			this.Progress.Pulse ();
+		}
+		
 		
 		public bool Canceled
 		{
