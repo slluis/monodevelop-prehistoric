@@ -1,3 +1,9 @@
+2003-03-26  John Luke  <jluke@cfl.rr.com>
+
+	* CSharpBindingExecutionManager.cs: use xterm instead of
+	gnome-terminal, fixes bug #53689 and also works when people
+	don't have gnome-terminal installed
+
 2004-03-22  Todd Berman  <tberman@sevenl.net>
 
 	* Project/CSharpCompilerParameters.cs: reverse WinExe and Library in

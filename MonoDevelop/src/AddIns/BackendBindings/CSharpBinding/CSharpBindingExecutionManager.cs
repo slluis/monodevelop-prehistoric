@@ -80,9 +80,9 @@ namespace CSharpBinding
 				}
 				
 				if (parameters.CompileTarget != CompileTarget.WinExe && parameters.PauseConsoleOutput) {
-					psi = new ProcessStartInfo("gnome-terminal",
+					psi = new ProcessStartInfo("xterm",
 						string.Format (
-						@"-x bash -c ""{0} '{1}{2}' {3} ; echo; read -p 'press any key to continue...' -n1""",
+						@"-e ""{0} '{1}{2}' {3} ; echo; read -p 'press any key to continue...' -n1""",
 						runtimeStarter, directory, exe, args));
 					psi.UseShellExecute = false;
 				} else {
