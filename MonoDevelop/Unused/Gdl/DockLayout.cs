@@ -414,7 +414,6 @@ namespace Gdl
 			}
 
 			string name = node.Attributes["name"].Value;
-			Console.WriteLine ("node: {0} name: {1}", node.Name, name);
 
 			if (name != null && name.Length > 0) {
 				obj = master.GetObject (name);
@@ -433,7 +432,7 @@ namespace Gdl
 		// this appears to create objects from the xml
 		void RecursiveBuild (XmlNode parentNode, DockObject parent)
 		{
-			Console.WriteLine ("RecursiveBuild: {0}, {1}", parentNode.Name, parent);
+			//Console.WriteLine ("RecursiveBuild: {0}, {1}", parentNode.Name, parent);
 			if (master == null || parentNode == null)
 				return;
 
@@ -506,7 +505,7 @@ namespace Gdl
 
 			// start by detaching all items from the toplevels
 			foreach (DockObject o in master.TopLevelDocks)
-					ForeachToplevelDetach (o);
+				ForeachToplevelDetach (o);
 
 			RecursiveBuild (node, null);
 		}

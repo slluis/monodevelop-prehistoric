@@ -72,6 +72,7 @@ namespace Gdl
 		{
 			string orientation = node.Attributes["orientation"].Value;
 			this.Orientation = orientation == "horizontal" ? Orientation.Horizontal : Orientation.Vertical;
+			CreateChild (this.Orientation);
 			string locked = node.Attributes["locked"].Value;
 			this.Locked = locked == "no" ? false : true;
 			string position = node.Attributes["position"].Value;
@@ -99,7 +100,7 @@ namespace Gdl
 			if (pos != DockPlacement.None)
 				Dock (item, pos, null);
 		}
-		
+
 		private void childForAll (Widget widget)
 		{
 			stored_invoker.Invoke (widget);

@@ -138,9 +138,9 @@ namespace Gdl
 		{
 			if (Child != null && Child is Notebook) {
 				if (orientation == Orientation.Horizontal)
-					((Notebook)Child).TabPos = PositionType.Top;
-				else
 					((Notebook)Child).TabPos = PositionType.Left;
+				else
+					((Notebook)Child).TabPos = PositionType.Bottom;
 			}
 			base.SetOrientation (orientation);
 		}
