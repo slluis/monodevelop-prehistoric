@@ -248,6 +248,8 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 						SaveFile(newfile.Name, newfile.Content, item.LanguageName, true);
 					}
 				}
+				
+				Respond ((int)Gtk.ResponseType.Ok);
 				Hide ();
 			}
 		}
