@@ -94,53 +94,56 @@ namespace CSharpBinding
 			
 			void SelectFolder(object sender, EventArgs e)
 			{
-				FileSelection fdiag = new FileSelection (
-					"${res:Dialog.Options.PrjOptions.Configuration.FolderBrowserDescription}");
+				using (FileSelection fdiag = new FileSelection (
+					"${res:Dialog.Options.PrjOptions.Configuration.FolderBrowserDescription}")) {
+					if (fdiag.Run () == (int) ResponseType.Ok) {
+						outputDirectoryEntry.Text = fdiag.Filename;
+					}
 				
-				if (fdiag.Run () == (int) ResponseType.Ok) {
-				outputDirectoryEntry.Text = fdiag.Filename;				
+					fdiag.Hide ();
 				}
-				fdiag.Hide ();
-				fdiag.Dispose ();
 			}
 		
 			void SelectFile2(object sender, EventArgs e)
 			{
-				FileSelection fdiag = new FileSelection ("");
-				//fdiag.Filter = StringParserService.Parse("${res:SharpDevelop.FileFilter.AllFiles}|*.*");
-				fdiag.SelectMultiple = false;
+				using (FileSelection fdiag = new FileSelection ("")) {
+					//fdiag.Filter = StringParserService.Parse("${res:SharpDevelop.FileFilter.AllFiles}|*.*");
+					fdiag.SelectMultiple = false;
 				
-				if(fdiag.Run () == (int) ResponseType.Ok) {
-					executeBeforeEntry.Text = fdiag.Filename;
+					if(fdiag.Run () == (int) ResponseType.Ok) {
+						executeBeforeEntry.Text = fdiag.Filename;
+					}
+
+					fdiag.Hide ();
 				}
-				fdiag.Hide ();
-				fdiag.Dispose ();			
 			}
 			
 			void SelectFile3(object sender, EventArgs e)
 			{
-				FileSelection fdiag = new FileSelection ("");
-				//fdiag.Filter = StringParserService.Parse("${res:SharpDevelop.FileFilter.AllFiles}|*.*");
-				fdiag.SelectMultiple = false;
+				using (FileSelection fdiag = new FileSelection ("")) {
+					//fdiag.Filter = StringParserService.Parse("${res:SharpDevelop.FileFilter.AllFiles}|*.*");
+					fdiag.SelectMultiple = false;
 				
-				if(fdiag.Run () == (int) ResponseType.Ok) {
-					executeAfterEntry.Text = fdiag.Filename;
+					if(fdiag.Run () == (int) ResponseType.Ok) {
+						executeAfterEntry.Text = fdiag.Filename;
+					}
+
+					fdiag.Hide ();
 				}
-				fdiag.Hide ();
-				fdiag.Dispose ();
 			}
 		
 			void SelectFile4(object sender, EventArgs e)
 			{
-				FileSelection fdiag = new FileSelection ("");
-				//fdiag.Filter = StringParserService.Parse("${res:SharpDevelop.FileFilter.AllFiles}|*.*");
-				fdiag.SelectMultiple = false;
+				using (FileSelection fdiag = new FileSelection ("")) {
+					//fdiag.Filter = StringParserService.Parse("${res:SharpDevelop.FileFilter.AllFiles}|*.*");
+					fdiag.SelectMultiple = false;
 				
-				if(fdiag.Run () == (int) ResponseType.Ok) {
-					executeScriptEntry.Text = fdiag.Filename;
+					if(fdiag.Run () == (int) ResponseType.Ok) {
+						executeScriptEntry.Text = fdiag.Filename;
+					}
+
+					fdiag.Hide ();
 				}
-				fdiag.Hide ();
-				fdiag.Dispose ();
 			}
 		}
 

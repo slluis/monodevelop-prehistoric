@@ -8,10 +8,6 @@
 using System;
 using System.IO;
 using System.Text;
-using System.Drawing;
-using System.Collections;
-using System.ComponentModel;
-using MSjogren.GacTool.FusionNative;
 using MonoDevelop.Internal.Project;
 using MonoDevelop.Core.Services;
 
@@ -37,32 +33,33 @@ namespace MonoDevelop.Gui.Dialogs
 		{
 			// FIXME: il8n the dialog name
 			StringParserService stringParserService = (StringParserService)ServiceManager.Services.GetService(typeof(StringParserService));
-			FileSelection fdiag = new FileSelection("Find .Net Assembly");			
+			using (FileSelection fdiag = new FileSelection("Find .Net Assembly")) {
 			// FIXME: this should only allow dll's and exe's
-			fdiag.Complete("*");
-			fdiag.SelectMultiple = true;
-			int response = fdiag.Run();
-			string[] selectedFiles = new string[fdiag.Selections.Length];
-			fdiag.Selections.CopyTo(selectedFiles, 0);
-			fdiag.Destroy();
+			// fdiag.Complete("*");
+				fdiag.SelectMultiple = true;
+				int response = fdiag.Run();
+				string[] selectedFiles = new string[fdiag.Selections.Length];
+				fdiag.Selections.CopyTo(selectedFiles, 0);
+				fdiag.Hide ();
 			
-			if (response == (int) ResponseType.Ok) {
-				foreach (string file in selectedFiles) {
-					bool isAssembly = true;
-					try	{
-						System.Reflection.AssemblyName.GetAssemblyName(System.IO.Path.GetFullPath (file));
-					} catch (Exception assemblyExcep) {
-						isAssembly = false;
-					}
+				if (response == (int) ResponseType.Ok) {
+					foreach (string file in selectedFiles) {
+						bool isAssembly = true;
+						try	{
+							System.Reflection.AssemblyName.GetAssemblyName(System.IO.Path.GetFullPath (file));
+						} catch (Exception assemblyExcep) {
+							isAssembly = false;
+						}
 					
-					if (isAssembly) {
-					selectDialog.AddReference(ReferenceType.Assembly,
-											  System.IO.Path.GetFileName(file),
-											  file);
-					} else {
-						IMessageService messageService =(IMessageService)ServiceManager.Services.GetService(typeof(IMessageService));
-						// FIXME: il8n this
-						messageService.ShowError("File " + file + "is not a valid .Net Assembly");
+						if (isAssembly) {
+						selectDialog.AddReference(ReferenceType.Assembly,
+							System.IO.Path.GetFileName(file),
+							file);
+						} else {
+							IMessageService messageService =(IMessageService)ServiceManager.Services.GetService(typeof(IMessageService));
+							// FIXME: il8n this
+							messageService.ShowError("File " + file + "is not a valid .Net Assembly");
+						}
 					}
 				}
 			}
@@ -70,7 +67,7 @@ namespace MonoDevelop.Gui.Dialogs
 		
 		public void AddReference(object sender, EventArgs e)
 		{
-			System.Console.WriteLine("This panel will contain a file browser, but so long use the browse button :)");
+			//System.Console.WriteLine("This panel will contain a file browser, but so long use the browse button :)");
 		}
 	}
 }

@@ -94,23 +94,23 @@ namespace MonoDevelop.Gui.Dialogs.OptionPanels
 			//FIXME : Finish details in this dialog.
 			void SelectScriptFileEvent(object sender, EventArgs e)
 			{
-				FileSelection fs = new FileSelection ("Select your File"); // Put correct title 
-				fs.Complete("*.txt");
-//				 fs.Complete(StringParserService.Parse("${res:SharpDevelop.FileFilter.ExecutableFiles}|*.exe;*.com;*.pif;*.bat;*.cmd|${res:SharpDevelop.FileFilter.AllFiles}|*.*"));
-// 				fdiag.Filter = StringParserService.Parse("${res:SharpDevelop.FileFilter.ExecutableFiles}|*.exe;*.com;*.pif;*.bat;*.cmd|${res:SharpDevelop.FileFilter.AllFiles}|*.*");
-				if ( fs.Run () == (int) ResponseType.Ok) {
- 					deployScriptEntry.Text = fs.SelectionEntry.Text;
-				}
-				fs.Hide (); 
+				using (FileSelection fs = new FileSelection ("Select your File")) { // Put correct title 
+					fs.Complete("*.txt");
+					if ( fs.Run () == (int) ResponseType.Ok) {
+ 						deployScriptEntry.Text = fs.SelectionEntry.Text;
+					}
+					fs.Hide ();
+				} 
 			}
 			
 			void SelectTargetFolderEvent(object sender, EventArgs e)
 			{
-				FileSelection fs = new FileSelection ("${res:Dialog.Options.PrjOptions.DeployFile.FolderDialogDescription}"); 
-				if ( fs.Run () == (int) ResponseType.Ok) {
-					deployTargetEntry.Text = fs.SelectionEntry.Text;
+				using (FileSelection fs = new FileSelection ("${res:Dialog.Options.PrjOptions.DeployFile.FolderDialogDescription}")) {
+					if ( fs.Run () == (int) ResponseType.Ok) {
+						deployTargetEntry.Text = fs.SelectionEntry.Text;
+					}
+					fs.Hide ();
 				}
-				fs.Hide (); 
 			}
 			
 			void RadioButtonClicked(object sender, EventArgs e)

@@ -39,21 +39,8 @@ namespace MonoDevelop.Commands.ProjectBrowser
 			
 			AbstractBrowserNode node = (AbstractBrowserNode)browser.SelectedNode;
 			
-			FileSelection fdiag  = new FileSelection ("Add a file");
-			//fdiag.AddExtension    = true;
-			//string[] fileFilters  = (string[])(AddInTreeSingleton.AddInTree.GetTreeNode("/SharpDevelop/Workbench/FileFilter").BuildChildItems(this)).ToArray(typeof(string));
-			
-//	TODO : Set the file filters to the current project
-//				for (int i = 0; i < fileFilters.Length; ++i) {
-//					if (fileFilters[i].IndexOf(Path.GetExtension(window.ViewContent.ContentName == null ? window.ViewContent.UntitledName : window.ViewContent.ContentName)) >= 0) {
-//						fdiag.FilterIndex = i + 1;
-//						break;
-//					}
-//				}
-			
-			//fdiag.Filter          = String.Join("|", fileFilters);
+			using (FileSelection fdiag  = new FileSelection ("Add a file")) {
 			fdiag.SelectMultiple = true;
-			//fdiag.CheckFileExists = true;
 			
 			int result = fdiag.Run ();
 			try {
@@ -83,7 +70,8 @@ namespace MonoDevelop.Commands.ProjectBrowser
 					}
 				}
 			} finally {
-				fdiag.Destroy ();
+				fdiag.Hide ();
+			}
 			}
 		}
 	}

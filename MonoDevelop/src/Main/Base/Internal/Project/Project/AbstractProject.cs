@@ -6,19 +6,17 @@
 // </file>
 
 using System;
+using System.ComponentModel;
+using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Collections;
 using System.Collections.Specialized;
-using System.Diagnostics;
 using System.Reflection;
-using System.ComponentModel;
 using System.Xml;
 
 using MonoDevelop.Core.Properties;
-
 using MonoDevelop.Core.AddIns;
-
 using MonoDevelop.Internal.Project.Collections;
 using MonoDevelop.Internal.Project;
 using MonoDevelop.Core.Services;
@@ -27,8 +25,6 @@ using MonoDevelop.Gui.Components;
 
 namespace MonoDevelop.Internal.Project
 {
-	
-	
 	/// <summary>
 	/// External language bindings must extend this class
 	/// </summary>
@@ -511,19 +507,21 @@ namespace MonoDevelop.Internal.Project
 		
 		public void SaveProjectAs()
 		{
-			Gtk.FileSelection fdiag = new Gtk.FileSelection ("Save Project As...");
-			fdiag.Filename = System.Environment.GetEnvironmentVariable ("HOME");
+			using (Gtk.FileSelection fdiag = new Gtk.FileSelection ("Save Project As...")) {
+				fdiag.Filename = System.Environment.GetEnvironmentVariable ("HOME");
 
-			if (fdiag.Run() == (int)Gtk.ResponseType.Ok) {
-				string filename = fdiag.Filename;
-				SaveProject(filename);
-				IResourceService resourceService = (IResourceService)ServiceManager.Services.GetService(typeof(IResourceService));
-				IMessageService messageService =(IMessageService)ServiceManager.Services.GetService(typeof(IMessageService));
-				messageService.ShowMessage(filename, resourceService.GetString("Internal.Project.DefaultProject.ProjectSavedMessage"));
+				if (fdiag.Run() == (int)Gtk.ResponseType.Ok) {
+					string filename = fdiag.Filename;
+					SaveProject(filename);
+					IResourceService resourceService = (IResourceService)ServiceManager.Services.GetService(typeof(IResourceService));
+					IMessageService messageService =(IMessageService)ServiceManager.Services.GetService(typeof(IMessageService));
+					messageService.ShowMessage(filename, resourceService.GetString("Internal.Project.DefaultProject.ProjectSavedMessage"));
+				}
+				
+				fdiag.Hide ();
 			}
-			fdiag.Destroy ();
 		}
-		
+
 		public void CopyReferencesToOutputPath(bool force)
 		{
 			AbstractProjectConfiguration config = ActiveConfiguration as AbstractProjectConfiguration;

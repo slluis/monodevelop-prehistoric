@@ -7,19 +7,12 @@
 
 using System;
 using System.IO;
-using System.Threading;
-using System.Drawing;
-using System.Drawing.Printing;
 using System.Collections;
-using System.ComponentModel;
-using System.Diagnostics;
 
 using MonoDevelop.Core.AddIns;
-
 using MonoDevelop.Core.Properties;
 using MonoDevelop.Core.AddIns.Codons;
 using MonoDevelop.Core.Services;
-
 using MonoDevelop.Services;
 using MonoDevelop.Internal.Project;
 using MonoDevelop.Gui;
@@ -43,10 +36,12 @@ namespace MonoDevelop.Commands
 	{
 		public override void Run()
 		{
-			NewFileDialog nfd = new NewFileDialog();
-			nfd.ShowAll();
-			if (WorkbenchSingleton.Workbench.ActiveWorkbenchWindow != null) {
-				WorkbenchSingleton.Workbench.ActiveWorkbenchWindow.SelectWindow();
+			using (NewFileDialog nfd = new NewFileDialog()) {
+				nfd.ShowAll ();
+				if (WorkbenchSingleton.Workbench.ActiveWorkbenchWindow != null)
+				{
+					WorkbenchSingleton.Workbench.ActiveWorkbenchWindow.SelectWindow();
+				}
 			}
 		}
 	}
@@ -150,21 +145,22 @@ namespace MonoDevelop.Commands
 						}
 					}*/
 					
-					Gtk.FileSelection fdiag = new Gtk.FileSelection ("Save as...");
-					fdiag.Filename = window.ViewContent.ContentName;
-					int response = fdiag.Run ();
-					string filename = fdiag.Filename;
-					fdiag.Destroy ();
+					using (Gtk.FileSelection fdiag = new Gtk.FileSelection ("Save as...")) {
+						fdiag.Filename = window.ViewContent.ContentName;
+						int response = fdiag.Run ();
+						string filename = fdiag.Filename;
+						fdiag.Hide ();
 					
-					if (response == (int)Gtk.ResponseType.Ok) {
-						IFileService fileService = (IFileService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IFileService));
-						FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.Services.GetService(typeof(FileUtilityService));
-						if (!fileUtilityService.IsValidFileName(filename)) {
-							IMessageService messageService =(IMessageService)ServiceManager.Services.GetService(typeof(IMessageService));
-							messageService.ShowMessage("File name " + filename +" is invalid");
-							return;
-						}
-						
+					
+						if (response == (int)Gtk.ResponseType.Ok) {
+							IFileService fileService = (IFileService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IFileService));
+							FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.Services.GetService(typeof(FileUtilityService));
+							if (!fileUtilityService.IsValidFileName(filename)) {
+								IMessageService messageService =(IMessageService)ServiceManager.Services.GetService(typeof(IMessageService));
+								messageService.ShowMessage("File name " + filename +" is invalid");
+								return;
+							}
+
 						// save backup first
 						if((bool) PropertyService.GetProperty ("SharpDevelop.CreateBackupCopy", false)) {
 							fileUtilityService.ObservedSave(new NamedFileOperationDelegate(window.ViewContent.Save), filename + "~");
@@ -177,7 +173,7 @@ namespace MonoDevelop.Commands
 							messageService.ShowMessage(filename, "File saved");
 						}
 					}
-				//} USING
+				}
 			}
 		}
 	}
@@ -193,23 +189,33 @@ namespace MonoDevelop.Commands
 					continue;
 				}
 				
-				if (content.ContentName == null) {
-					Gtk.FileSelection fdiag = new Gtk.FileSelection ("Save File As...");
-					fdiag.Filename = System.Environment.GetEnvironmentVariable ("HOME");
-					if (fdiag.Run () == (int)Gtk.ResponseType.Ok) {
-						string fileName = fdiag.Filename;
-						// currently useless, because the fdiag.FileName can't
-						// handle wildcard extensions :(
-						if (Path.GetExtension(fileName).StartsWith("?") || Path.GetExtension(fileName) == "*") {
-							fileName = Path.ChangeExtension(fileName, "");
+				if (content.ContentName == null)
+				{
+					using (Gtk.FileSelection fdiag = new Gtk.FileSelection ("Save File As..."))
+					{
+						fdiag.Filename = System.Environment.GetEnvironmentVariable ("HOME");
+						if (fdiag.Run () == (int) Gtk.ResponseType.Ok)
+						{
+							string fileName = fdiag.Filename;
+
+							// currently useless
+							if (Path.GetExtension(fileName).StartsWith("?") || Path.GetExtension(fileName) == "*")
+							{
+								fileName = Path.ChangeExtension(fileName, "");
+							}
+
+							if (fileUtilityService.ObservedSave(new NamedFileOperationDelegate(content.Save), fileName) == FileOperationResult.OK)
+							{
+								IMessageService messageService =(IMessageService)ServiceManager.Services.GetService(typeof(IMessageService));
+								messageService.ShowMessage(fileName, "File saved");
+							}
 						}
-						if (fileUtilityService.ObservedSave(new NamedFileOperationDelegate(content.Save), fileName) == FileOperationResult.OK) {
-							IMessageService messageService =(IMessageService)ServiceManager.Services.GetService(typeof(IMessageService));
-							messageService.ShowMessage(fileName, "File saved");
-						}
+					
+						fdiag.Hide ();
 					}
-					fdiag.Destroy ();
-				} else {
+				}
+				else
+				{
 					fileUtilityService.ObservedSave(new FileOperationDelegate(content.Save), content.ContentName);
 				}
 			}
@@ -222,37 +228,33 @@ namespace MonoDevelop.Commands
 		
 		public override void Run()
 		{
-			Gtk.FileSelection fs = new Gtk.FileSelection ("File to Open");
-			string defaultFolder = PropertyService.GetProperty(
-					"MonoDevelop.Gui.Dialogs.NewProjectDialog.DefaultPath", 
+			using (Gtk.FileSelection fs = new Gtk.FileSelection ("File to Open")) {
+				string defaultFolder = PropertyService.GetProperty(
+						"MonoDevelop.Gui.Dialogs.NewProjectDialog.DefaultPath", 
 					System.IO.Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal),
 						"MonoDevelopProjects")).ToString();
-			fs.Complete (defaultFolder);
-			int response = fs.Run ();
-			string name = fs.Filename;
-			fs.Hide ();
-			fs.Destroy ();
+				fs.Complete (defaultFolder);
+				int response = fs.Run ();
+				string name = fs.Filename;
+				fs.Hide ();
 
-//			fdiag.AddExtension    = true;
-//			fdiag.Filter          = String.Join("|", (string[])(AddInTreeSingleton.AddInTree.GetTreeNode("/SharpDevelop/Workbench/Combine/FileFilter").BuildChildItems(this)).ToArray(typeof(string)));
-//			fdiag.Multiselect     = false;
-//			fdiag.CheckFileExists = true;
-			if (response == (int)Gtk.ResponseType.Ok) {
-				switch (Path.GetExtension(name).ToUpper()) {
-					case ".CMBX": // Don't forget the 'recent' projects if you chance something here
-					case ".PRJX":
-						IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
+				if (response == (int)Gtk.ResponseType.Ok) {
+					switch (Path.GetExtension(name).ToUpper()) {
+						case ".CMBX": // Don't forget the 'recent' projects if you chance something here
+						case ".PRJX":
+							IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
 
-						try {
-							projectService.OpenCombine(name);
-						} catch (Exception ex) {
-							CombineLoadError.HandleError(ex, name);
-						}
-						break;
-					default:
-						IMessageService messageService =(IMessageService)ServiceManager.Services.GetService(typeof(IMessageService));
-						messageService.ShowError("Can't open file " + name + "as project");
-						break;
+							try {
+								projectService.OpenCombine(name);
+							} catch (Exception ex) {
+								CombineLoadError.HandleError(ex, name);
+							}
+							break;
+						default:
+							IMessageService messageService =(IMessageService)ServiceManager.Services.GetService(typeof(IMessageService));
+							messageService.ShowError("Can't open file " + name + "as project");
+							break;
+					}
 				}
 			}
 		}
@@ -302,45 +304,26 @@ namespace MonoDevelop.Commands
 					if (window != null) {
 						for (int i = 0; i < fileFilters.Length; ++i) {
 							if (fileFilters[i].IndexOf(Path.GetExtension(window.ViewContent.ContentName == null ? window.ViewContent.UntitledName : window.ViewContent.ContentName)) >= 0) {
-#if !GTK
-								fdiag.FilterIndex = i + 1;
-#endif
 								break;
 							}
 						}
 					}
 				}
 
-				Gtk.FileSelection fs = new Gtk.FileSelection ("File to Open");
-				string defaultFolder = PropertyService.GetProperty(
-					"MonoDevelop.Gui.Dialogs.NewProjectDialog.DefaultPath", 
-					System.IO.Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal),
-						"MonoDevelopProjects")).ToString();
-				fs.Complete (defaultFolder);
-				int response = fs.Run ();
-				string name = fs.Filename;
-				fs.Destroy ();
+				using (Gtk.FileSelection fs = new Gtk.FileSelection ("File to Open")) {
+					string defaultFolder = PropertyService.GetProperty(
+						"MonoDevelop.Gui.Dialogs.NewProjectDialog.DefaultPath", 
+						System.IO.Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal),
+							"MonoDevelopProjects")).ToString();
+					fs.Complete (defaultFolder);
+					int response = fs.Run ();
+					string name = fs.Filename;
 
-#if !GTK
-				fdiag.Multiselect     = true;
-				fdiag.CheckFileExists = true;
-				
-				if (fdiag.ShowDialog() == DialogResult.OK) {
-#endif
 				if (response == (int)Gtk.ResponseType.Ok) {
 					IFileService fileService = (IFileService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IFileService));
-#if !GTK
-					foreach (string name in fdiag.FileNames) {
-#endif
-						Console.WriteLine ("opening: " + name);
 						fileService.OpenFile(name);
-#if !GTK
-					}
-#endif
 				}
-#if !GTK //} from using
 			}
-#endif
 		}
 	}
 	

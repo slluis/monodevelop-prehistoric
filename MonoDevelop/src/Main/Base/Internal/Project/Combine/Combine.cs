@@ -304,15 +304,17 @@ namespace MonoDevelop.Internal.Project
 		
 		public void SaveCombineAs()
 		{
-			Gtk.FileSelection fdiag = new Gtk.FileSelection ("Save Combine As...");
-			fdiag.Filename = System.Environment.GetEnvironmentVariable ("HOME");
-			if (fdiag.Run() == (int)Gtk.ResponseType.Ok) {
-				string filename = fdiag.Filename;
-				SaveCombine(filename);
-				IMessageService messageService =(IMessageService)ServiceManager.Services.GetService(typeof(IMessageService));
-				messageService.ShowMessage(filename, resourceService.GetString("Internal.Project.Combine.CombineSavedMessage"));
+			using (Gtk.FileSelection fdiag = new Gtk.FileSelection ("Save Combine As...")) {
+				fdiag.Filename = System.Environment.GetEnvironmentVariable ("HOME");
+				if (fdiag.Run() == (int)Gtk.ResponseType.Ok) {
+					string filename = fdiag.Filename;
+					SaveCombine(filename);
+					IMessageService messageService =(IMessageService)ServiceManager.Services.GetService(typeof(IMessageService));
+					messageService.ShowMessage(filename, resourceService.GetString("Internal.Project.Combine.CombineSavedMessage"));
+				}
+				
+				fdiag.Hide ();
 			}
-			fdiag.Destroy ();
 		}
 
 		public object AddEntry(string filename)

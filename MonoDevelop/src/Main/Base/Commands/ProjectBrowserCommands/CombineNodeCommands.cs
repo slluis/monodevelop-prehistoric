@@ -76,12 +76,9 @@ namespace MonoDevelop.Commands.ProjectBrowser
 			CombineBrowserNode node    = browser.SelectedNode as CombineBrowserNode;
 			
 			if (node != null) {
-				Gtk.FileSelection fdiag = new Gtk.FileSelection ("Add a Project");
-					//fdiag.AddExtension    = true;
+				using (Gtk.FileSelection fdiag = new Gtk.FileSelection ("Add a Project")) {
 					StringParserService stringParserService = (StringParserService)ServiceManager.Services.GetService(typeof(StringParserService));
-					//fdiag.Filter = stringParserService.Parse("${res:SharpDevelop.FileFilter.ProjectFiles}|*.prjx|${res:SharpDevelop.FileFilter.AllFiles}|*.*");
 					fdiag.SelectMultiple = false;
-					//fdiag.CheckFileExists = true;
 					if (fdiag.Run () == (int) Gtk.ResponseType.Ok) {
 						object obj = node.Combine.AddEntry(fdiag.Filename);
 						if (obj is IProject) {
@@ -93,6 +90,7 @@ namespace MonoDevelop.Commands.ProjectBrowser
 					}
 
 					fdiag.Hide ();
+				}
 			}
 		}
 	}
@@ -106,12 +104,9 @@ namespace MonoDevelop.Commands.ProjectBrowser
 			CombineBrowserNode node    = browser.SelectedNode as CombineBrowserNode;
 			
 			if (node != null) {
-				Gtk.FileSelection fdiag = new Gtk.FileSelection ("Add a Combine");
-					//fdiag.AddExtension    = true;
+				using (Gtk.FileSelection fdiag = new Gtk.FileSelection ("Add a Combine")) {
 					StringParserService stringParserService = (StringParserService)ServiceManager.Services.GetService(typeof(StringParserService));
-					//fdiag.Filter = stringParserService.Parse("${res:SharpDevelop.FileFilter.CombineFiles}|*.cmbx|${res:SharpDevelop.FileFilter.AllFiles}|*.*");
 					fdiag.SelectMultiple = false;
-					//fdiag.CheckFileExists = true;
 					if (fdiag.Run () == (int) Gtk.ResponseType.Ok) {
 						object obj = node.Combine.AddEntry(fdiag.Filename);
 						if (obj is IProject) {
@@ -121,7 +116,9 @@ namespace MonoDevelop.Commands.ProjectBrowser
 						}
 						projectService.SaveCombine();
 					}
+
 					fdiag.Hide ();
+				}
 			}
 		}
 	}

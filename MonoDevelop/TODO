@@ -1,3 +1,6 @@
+NOTE: This file is deprecated please use bugzilla instead.
+http://bugzilla.ximian.com/
+
 Editor
 ------
 - Get code-folding working (not implemented in #d).

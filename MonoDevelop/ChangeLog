@@ -2,6 +2,8 @@
 
 	* README: add monodoc and debugger to list of deps
 	* configure.in: report Gtk#, monodoc, mono debugger results
+	* *.cs: anywhere a FileSelection dialog is used wrap it in
+	using {}, remove some obsolete/leftover stuff from the SD port
 
 2004-03-10  Todd Berman <tberman@sevenl.net>
 

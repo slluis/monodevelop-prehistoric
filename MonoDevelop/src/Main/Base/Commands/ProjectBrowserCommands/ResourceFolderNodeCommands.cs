@@ -42,42 +42,42 @@ namespace MonoDevelop.Commands.ProjectBrowser
 			if (node != null) {
 				IProject project = ((ProjectBrowserNode) node.Parent).Project;
 				
-			show_dialog:
+				show_dialog:
 									
-				Gtk.FileSelection fs = new Gtk.FileSelection ("File to Open");
-				fs.SelectMultiple = true;
-				fs.Filename = project.BaseDirectory;
-				int response = fs.Run ();
-				string [] files = fs.Selections;
+				using (Gtk.FileSelection fs = new Gtk.FileSelection ("File to Open")) {
+					fs.SelectMultiple = true;
+					fs.Filename = project.BaseDirectory;
+					int response = fs.Run ();
+					string [] files = fs.Selections;
+					fs.Hide ();
+
+					if (response != (int)Gtk.ResponseType.Ok)
+						return;
 				
-				fs.Destroy ();
-				
-				if (response != (int)Gtk.ResponseType.Ok)
-					return;
-				
-				foreach (string file in files) {
-					if (! File.Exists (file)) {
-						IMessageService messageService = (IMessageService) ServiceManager.Services.GetService (typeof (IMessageService));
-						messageService.ShowError (String.Format ("Resource file `{0}' does not exist", file));
-						goto show_dialog;
+					foreach (string file in files) {
+						if (! File.Exists (file)) {
+							IMessageService messageService = (IMessageService) ServiceManager.Services.GetService (typeof (IMessageService));
+							messageService.ShowError (String.Format ("Resource file `{0}' does not exist", file));
+							goto show_dialog;
+						}
 					}
-				}
 				
+					IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
+					ResourceService resourceService = (ResourceService)ServiceManager.Services.GetService(typeof(IResourceService));
 				
-				IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
-				ResourceService resourceService = (ResourceService)ServiceManager.Services.GetService(typeof(IResourceService));
-				
-				foreach (string fileName in files) {
-					ProjectFile fileInformation = projectService.AddFileToProject(project, fileName, BuildAction.EmbedAsResource);
+					foreach (string fileName in files) {
+						ProjectFile fileInformation = projectService.AddFileToProject(project, fileName, BuildAction.EmbedAsResource);
 					
-					AbstractBrowserNode newResNode = new FileNode(fileInformation);
-					newResNode.Image = Stock.ResourceFileIcon;
-					node.Nodes.Add (newResNode);
+						AbstractBrowserNode newResNode = new FileNode(fileInformation);
+						newResNode.Image = Stock.ResourceFileIcon;
+						node.Nodes.Add (newResNode);
+					}
+
+					node.Expand();
+					projectService.SaveCombine();
 				}
-				node.Expand();
-				projectService.SaveCombine();
 			}
 		}
 	}
-	
 }
+
