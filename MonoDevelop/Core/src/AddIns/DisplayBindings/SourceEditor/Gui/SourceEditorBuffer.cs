@@ -91,7 +91,6 @@ namespace MonoDevelop.SourceEditor.Gui
 				if (underlineErrors) {
 					points = new ArrayList ();
 					ps.ParseInformationChanged += (ParseInformationEventHandler) Runtime.DispatchService.GuiDispatch (new ParseInformationEventHandler (ParseChanged));
-					GLib.Timeout.Add (75, new GLib.TimeoutHandler (DrawErrors));
 				}
 				else {
 					ps.ParseInformationChanged -= (ParseInformationEventHandler) Runtime.DispatchService.GuiDispatch (new ParseInformationEventHandler (ParseChanged));
@@ -140,6 +139,7 @@ namespace MonoDevelop.SourceEditor.Gui
 					else {
 						points.Clear ();
 					}
+					DrawErrors ();
 				}
 			}
 		}
