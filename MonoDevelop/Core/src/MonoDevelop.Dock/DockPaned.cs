@@ -152,16 +152,16 @@ namespace Gdl
 					paned.Pack1 (requestor, false, false);
 					done = true;
 				} else if (paned.Child2 == null && position == DockPlacement.Right) {
-					paned.Pack2 (requestor, true, false);
+					paned.Pack2 (requestor, true, true);
 					done = true;
 				}
 				break;
 			case Orientation.Vertical:
 				if (paned.Child1 == null && position == DockPlacement.Top) {
-					paned.Pack1 (requestor, false, false);
+					paned.Pack1 (requestor, true, true);
 					done = true;
 				} else if (paned.Child2 == null && position == DockPlacement.Bottom) {
-					paned.Pack2 (requestor, true, false);
+					paned.Pack2 (requestor, false, false);
 					done = true;
 				}
 				break;

@@ -1,3 +1,8 @@
+2005-03-29  Alp Toker  <alp@atoker.com>
+
+	* DockPaned.cs: make the central pane resize rather than the edge
+	panes
+
 2005-03-24  John Luke  <john.luke@gmail.com>
 
 	* DockLayout.cs (UpdateItemsModel): reduce chances of being stuck
