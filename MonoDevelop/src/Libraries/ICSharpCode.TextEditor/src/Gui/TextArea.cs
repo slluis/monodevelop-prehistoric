@@ -303,14 +303,13 @@ namespace ICSharpCode.TextEditor
 			
 			System.Drawing.Rectangle clipRectangle = drect;
 			
-			Gdk.Drawable g = GdkWindow;
 			GdkWindow.BeginPaintRect(grect);
 			
 			/*
 			if (this.TextEditorProperties.UseAntiAliasedFont) {
-				g.TextRenderingHint = TextRenderingHint.ClearTypeGridFit;
+				GdkWindow.TextRenderingHint = TextRenderingHint.ClearTypeGridFit;
 			} else {
-				g.TextRenderingHint = TextRenderingHint.SystemDefault;
+				GdkWindow.TextRenderingHint = TextRenderingHint.SystemDefault;
 			}*/
 			
 			foreach (AbstractMargin margin in leftMargins) {
@@ -327,7 +326,7 @@ namespace ICSharpCode.TextEditor
 					currentXPos += margin.DrawingPosition.Width;
 					if (clipRectangle.IntersectsWith(marginRectangle)) {
 						marginRectangle.Intersect(clipRectangle);
-						margin.Paint(g, marginRectangle);
+						margin.Paint(GdkWindow, marginRectangle);
 					}
 				}
 			}
@@ -339,7 +338,7 @@ namespace ICSharpCode.TextEditor
 			}
 			if (clipRectangle.IntersectsWith(textViewArea)) {
 				textViewArea.Intersect(clipRectangle);
-				textView.Paint(g, textViewArea);
+				textView.Paint(GdkWindow, textViewArea);
 			}
 			
 			if (adjustScrollBars) {

@@ -13,7 +13,6 @@ using System.Collections;
 
 using ICSharpCode.SharpDevelop.Gui;
 using ICSharpCode.Core.Properties;
-
 using ICSharpCode.Core.Services;
 using ICSharpCode.SharpDevelop.Internal.Project;
 using ICSharpCode.SharpDevelop.Services;
@@ -291,7 +290,9 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 			this.Title = "Word Count";
 			Button startButton = new Button (Stock.Execute);
 			startButton.Clicked += new EventHandler (startEvent);
-			this.AddActionWidget (startButton, 7);
+
+			// dont emit response
+			this.ActionArea.PackStart (startButton);
 			
 			this.AddButton (Stock.Cancel, (int) ResponseType.Cancel);
 			
