@@ -1,3 +1,7 @@
+2005-03-20  Todd Berman  <tberman@off.net>
+
+	* Gui/Pads/FileScout/FileScout.cs: dispatch to the gui thread.
+
 2005-03-19	Christian Hergert	<christian.hergert@gmail.com>
 
 	* /Gui/Pads/FileScout/FileScout.cs: Change directories in the FileScout
