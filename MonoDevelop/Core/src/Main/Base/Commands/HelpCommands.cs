@@ -24,8 +24,7 @@ namespace MonoDevelop.Commands
 	{
 		public override void Run()
 		{
-			FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.GetService(typeof(FileUtilityService));
-			string fileName = fileUtilityService.SharpDevelopRootPath + 
+			string fileName = Runtime.FileUtilityService.SharpDevelopRootPath + 
 			              Path.DirectorySeparatorChar + "doc" +
 			              Path.DirectorySeparatorChar + "help" +
 			              Path.DirectorySeparatorChar + "sharpdevelop.chm";
@@ -54,8 +53,7 @@ namespace MonoDevelop.Commands
 		
 		public override void Run()
 		{
-			IFileService fileService = (IFileService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IFileService));
-			fileService.OpenFile(site);
+			Runtime.FileService.OpenFile (site);
 		}
 	}
 	
@@ -71,13 +69,11 @@ namespace MonoDevelop.Commands
 		
 		public override void Run()
 		{
-			FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.GetService(typeof(FileUtilityService));
-			string file = site.StartsWith("home://") ? fileUtilityService.GetDirectoryNameWithSeparator(fileUtilityService.SharpDevelopRootPath) + "bin" + Path.DirectorySeparatorChar + site.Substring(7).Replace('/', Path.DirectorySeparatorChar) : site;
+			string file = site.StartsWith("home://") ? Runtime.FileUtilityService.GetDirectoryNameWithSeparator (Runtime.FileUtilityService.SharpDevelopRootPath) + "bin" + Path.DirectorySeparatorChar + site.Substring(7).Replace('/', Path.DirectorySeparatorChar) : site;
 			try {
 				Process.Start(file);
 			} catch (Exception) {
-				IMessageService messageService =(IMessageService)ServiceManager.GetService(typeof(IMessageService));
-				messageService.ShowError(String.Format (GettextCatalog.GetString ("Can not execute or view {0}\n Please check that the file exists and that you can open this file."), file));
+				Runtime.MessageService.ShowError(String.Format (GettextCatalog.GetString ("Can not execute or view {0}\n Please check that the file exists and that you can open this file."), file));
 			}
 		}
 	}

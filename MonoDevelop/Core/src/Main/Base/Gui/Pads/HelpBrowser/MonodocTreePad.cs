@@ -19,8 +19,6 @@ namespace MonoDevelop.Gui.Pads
 {
 	public class HelpTree : AbstractPadContent
 	{
-		MonodocService mds;
-	
 		TreeStore store;
 		TreeView  tree_view;
 
@@ -29,7 +27,6 @@ namespace MonoDevelop.Gui.Pads
 	
 		public HelpTree () : base (GettextCatalog.GetString ("Help"), Gtk.Stock.Help)
 		{
-			mds = (MonodocService)ServiceManager.GetService (typeof (MonodocService));
 			tree_view = new TreeView ();
 
 			tree_view.AppendColumn ("name_col", new CellRendererText (), "text", 0);
@@ -37,7 +34,7 @@ namespace MonoDevelop.Gui.Pads
 			tree_view.Selection.Changed += new EventHandler (RowActivated);
 			
 			store = new TreeStore (typeof (string), typeof (Node));
-			root_iter = store.AppendValues (GettextCatalog.GetString ("Mono Documentation"), mds.HelpTree);
+			root_iter = store.AppendValues (GettextCatalog.GetString ("Mono Documentation"), Runtime.Documentation.HelpTree);
 
 			PopulateNode (root_iter);
 
@@ -103,7 +100,7 @@ namespace MonoDevelop.Gui.Pads
 					}
 				}
 
-				s = mds.HelpTree.RenderUrl (url, out match);
+				s = Runtime.Documentation.HelpTree.RenderUrl (url, out match);
 				if (s != null) {
 					ShowDocs (s, match, url);
 					return;

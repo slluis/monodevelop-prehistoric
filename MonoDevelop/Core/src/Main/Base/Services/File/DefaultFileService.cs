@@ -24,7 +24,6 @@ namespace MonoDevelop.Services
 	{
 		string currentFile;
 		RecentOpen       recentOpen = null;
-		FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.GetService(typeof(FileUtilityService));
 	
 		private class FileInformation
 		{
@@ -74,26 +73,23 @@ namespace MonoDevelop.Services
 					newContent.Project = project;
 				}
 				WorkbenchSingleton.Workbench.ShowView(newContent);
-				DisplayBindingService displayBindingService = (DisplayBindingService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(DisplayBindingService));
-				displayBindingService.AttachSubWindows(newContent.WorkbenchWindow);
+				Runtime.Gui.DisplayBindings.AttachSubWindows(newContent.WorkbenchWindow);
 			}
 		}
 		
 		public void OpenFile (string fileName)
 		{
-			DispatchService dispatcher = (DispatchService)ServiceManager.GetService (typeof (DispatchService));
 			FileInformation openFileInfo=new FileInformation();
 			openFileInfo.OnFileOpened=null;
 			openFileInfo.FileName=fileName;
-			dispatcher.GuiDispatch (new StatefulMessageHandler (realOpenFile), openFileInfo);
+			Runtime.DispatchService.GuiDispatch (new StatefulMessageHandler (realOpenFile), openFileInfo);
 		}
 
 		public void OpenFile (string fileName, FileOpeningFinished OnFileOpened){
-			DispatchService dispatcher = (DispatchService)ServiceManager.GetService (typeof (DispatchService));
 			FileInformation openFileInfo=new FileInformation();
 			openFileInfo.OnFileOpened=OnFileOpened;
 			openFileInfo.FileName=fileName;
-			dispatcher.GuiDispatch (new StatefulMessageHandler (realOpenFile), openFileInfo);
+			Runtime.DispatchService.GuiDispatch (new StatefulMessageHandler (realOpenFile), openFileInfo);
 		}
 		
 		void realOpenFile (object openFileInfo)
@@ -118,8 +114,8 @@ namespace MonoDevelop.Services
 			if (!fileName.StartsWith ("http://"))
 				fileName = System.IO.Path.GetFullPath (fileName);
 			
-			//Debug.Assert(fileUtilityService.IsValidFileName(fileName));
-			if (fileUtilityService.IsDirectory (fileName)) {
+			//Debug.Assert(Runtime.FileUtilityService.IsValidFileName(fileName));
+			if (Runtime.FileUtilityService.IsDirectory (fileName)) {
 				return;
 			}
 			// test, if file fileName exists
@@ -134,7 +130,7 @@ namespace MonoDevelop.Services
 						}
 					}
 				} else 
-				if (!fileUtilityService.TestFileExists(fileName)) {
+				if (!Runtime.FileUtilityService.TestFileExists(fileName)) {
 					if(oFileInfo.OnFileOpened!=null) oFileInfo.OnFileOpened();
 					return;
 				}
@@ -149,10 +145,7 @@ namespace MonoDevelop.Services
 				}
 			}
 			
-			DisplayBindingService displayBindingService = (DisplayBindingService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(DisplayBindingService));
-			
-			IFileService fileService = (IFileService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IFileService));
-			IDisplayBinding binding = displayBindingService.GetBindingPerFileName(fileName);
+			IDisplayBinding binding = Runtime.Gui.DisplayBindings.GetBindingPerFileName(fileName);
 			
 			if (binding != null) {
 				IProject project = null;
@@ -161,14 +154,14 @@ namespace MonoDevelop.Services
 				
 				if (combine != null && project != null)
 				{
-					if (fileUtilityService.ObservedLoad(new NamedFileOperationDelegate(new LoadFileWrapper(binding, project).Invoke), fileName) == FileOperationResult.OK) {
-						fileService.RecentOpen.AddLastFile (fileName, project.Name);
+					if (Runtime.FileUtilityService.ObservedLoad(new NamedFileOperationDelegate(new LoadFileWrapper(binding, project).Invoke), fileName) == FileOperationResult.OK) {
+						Runtime.FileService.RecentOpen.AddLastFile (fileName, project.Name);
 					}
 				}
 				else
 				{
-					if (fileUtilityService.ObservedLoad(new NamedFileOperationDelegate(new LoadFileWrapper(binding, null).Invoke), fileName) == FileOperationResult.OK) {
-						fileService.RecentOpen.AddLastFile (fileName, null);
+					if (Runtime.FileUtilityService.ObservedLoad(new NamedFileOperationDelegate(new LoadFileWrapper(binding, null).Invoke), fileName) == FileOperationResult.OK) {
+						Runtime.FileService.RecentOpen.AddLastFile (fileName, null);
 					}
 				}
 			} else {
@@ -181,8 +174,8 @@ namespace MonoDevelop.Services
 						Gnome.Url.Show ("file://" + fileName);
 					}
 				} catch {
-					if (fileUtilityService.ObservedLoad(new NamedFileOperationDelegate (new LoadFileWrapper (displayBindingService.LastBinding, null).Invoke), fileName) == FileOperationResult.OK) {
-						fileService.RecentOpen.AddLastFile (fileName, null);
+					if (Runtime.FileUtilityService.ObservedLoad(new NamedFileOperationDelegate (new LoadFileWrapper (Runtime.Gui.DisplayBindings.LastBinding, null).Invoke), fileName) == FileOperationResult.OK) {
+						Runtime.FileService.RecentOpen.AddLastFile (fileName, null);
 					}
 				}
 			}
@@ -191,8 +184,7 @@ namespace MonoDevelop.Services
 		
 		protected void GetProjectAndCombineFromFile (string fileName, out IProject project, out Combine combine)
 		{
-			IProjectService projectService = (IProjectService) ServiceManager.GetService(typeof(IProjectService));
-			combine = projectService.CurrentOpenCombine;
+			combine = Runtime.ProjectService.CurrentOpenCombine;
 			project = null;
 			
 			if (combine != null)
@@ -211,8 +203,7 @@ namespace MonoDevelop.Services
 		
 		public void NewFile(string defaultName, string language, string content)
 		{
-			DisplayBindingService displayBindingService = (DisplayBindingService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(DisplayBindingService));
-			IDisplayBinding binding = displayBindingService.GetBindingPerLanguageName(language);
+			IDisplayBinding binding = Runtime.Gui.DisplayBindings.GetBindingPerLanguageName(language);
 			
 			if (binding != null) {
 				IViewContent newContent = binding.CreateContentForLanguage(language, content, defaultName);
@@ -223,7 +214,7 @@ namespace MonoDevelop.Services
 				newContent.IsDirty      = false;
 				WorkbenchSingleton.Workbench.ShowView(newContent);
 				
-				displayBindingService.AttachSubWindows(newContent.WorkbenchWindow);
+				Runtime.Gui.DisplayBindings.AttachSubWindows(newContent.WorkbenchWindow);
 			} else {
 				throw new ApplicationException("Can't create display binding for language " + language);				
 			}
@@ -257,8 +248,7 @@ namespace MonoDevelop.Services
 				try {
 					Directory.Delete(fileName);
 				} catch (Exception e) {
-					IMessageService messageService = (IMessageService)ServiceManager.GetService(typeof(IMessageService));
-					messageService.ShowError(e, String.Format (GettextCatalog.GetString ("Can't remove directory {0}"), fileName));
+					Runtime.MessageService.ShowError(e, String.Format (GettextCatalog.GetString ("Can't remove directory {0}"), fileName));
 					return;
 				}
 				OnFileRemoved(new FileEventArgs(fileName, true));
@@ -266,8 +256,7 @@ namespace MonoDevelop.Services
 				try {
 					File.Delete(fileName);
 				} catch (Exception e) {
-					IMessageService messageService = (IMessageService)ServiceManager.GetService(typeof(IMessageService));
-					messageService.ShowError(e, String.Format (GettextCatalog.GetString ("Can't remove file {0}"), fileName));
+					Runtime.MessageService.ShowError(e, String.Format (GettextCatalog.GetString ("Can't remove file {0}"), fileName));
 					return;
 				}
 				OnFileRemoved(new FileEventArgs(fileName, false));
@@ -281,8 +270,7 @@ namespace MonoDevelop.Services
 					try {
 						Directory.Move(oldName, newName);
 					} catch (Exception e) {
-						IMessageService messageService = (IMessageService)ServiceManager.GetService(typeof(IMessageService));
-						messageService.ShowError(e, String.Format (GettextCatalog.GetString ("Can't rename directory {0}"), oldName));
+						Runtime.MessageService.ShowError(e, String.Format (GettextCatalog.GetString ("Can't rename directory {0}"), oldName));
 						return;
 					}
 					OnFileRenamed(new FileEventArgs(oldName, newName, true));
@@ -290,8 +278,7 @@ namespace MonoDevelop.Services
 					try {
 						File.Move(oldName, newName);
 					} catch (Exception e) {
-						IMessageService messageService = (IMessageService)ServiceManager.GetService(typeof(IMessageService));
-						messageService.ShowError(e, String.Format (GettextCatalog.GetString ("Can't rename file {0}"), oldName));
+						Runtime.MessageService.ShowError(e, String.Format (GettextCatalog.GetString ("Can't rename file {0}"), oldName));
 						return;
 					}
 					OnFileRenamed(new FileEventArgs(oldName, newName, false));

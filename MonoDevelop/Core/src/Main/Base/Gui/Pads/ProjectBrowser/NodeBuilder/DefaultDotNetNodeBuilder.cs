@@ -24,8 +24,6 @@ namespace MonoDevelop.Gui.Pads.ProjectBrowser
 {
 	public class DefaultDotNetNodeBuilder : IProjectNodeBuilder
 	{
-		static FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.GetService(typeof(FileUtilityService));
-
 		public bool CanBuildProjectTree(IProject project)
 		{
 			return true;
@@ -46,10 +44,8 @@ namespace MonoDevelop.Gui.Pads.ProjectBrowser
 
 		public AbstractBrowserNode BuildProjectTreeNode(IProject project)
 		{
-			IconService iconService = (IconService)ServiceManager.GetService(typeof(IconService));
 			ProjectBrowserNode projectNode = new ProjectBrowserNode(project);
-
-			projectNode.Image = iconService.GetImageForProjectType (project.ProjectType);
+			projectNode.Image = Runtime.Gui.Icons.GetImageForProjectType (project.ProjectType);
 
 			FolderNode resourceNode = new NamedFolderNode(GettextCatalog.GetString ("Resource Files"), 0);
 			resourceNode.ContextmenuAddinTreePath = "/SharpDevelop/Views/ProjectBrowser/ContextMenu/ResourceFolderNode";
@@ -209,13 +205,13 @@ namespace MonoDevelop.Gui.Pads.ProjectBrowser
 
 			// only works for relative paths right now!
 			AbstractBrowserNode parentNode = null;
-			string relativeFile = fileUtilityService.AbsoluteToRelativePath(project.BaseDirectory, projectFile.Name);
+			string relativeFile = Runtime.FileUtilityService.AbsoluteToRelativePath(project.BaseDirectory, projectFile.Name);
 			string fileName     = Path.GetFileName(projectFile.Name);
 			parentNode = projectNode;
 
 			if(projectFile.DependsOn != String.Empty && projectFile.DependsOn != null) {
 				// make sure the dependant node exists
-				AbstractBrowserNode dependNode = GetPath(fileUtilityService.AbsoluteToRelativePath(project.BaseDirectory,projectFile.DependsOn), projectNode, false);
+				AbstractBrowserNode dependNode = GetPath(Runtime.FileUtilityService.AbsoluteToRelativePath(project.BaseDirectory,projectFile.DependsOn), projectNode, false);
 				if(dependNode == null) {
 					// dependsOn does not exist, do what?
 				}
@@ -386,7 +382,7 @@ namespace MonoDevelop.Gui.Pads.ProjectBrowser
 
 				if (node == null) {
 					if (create) {
-						DirectoryNode newFolderNode  = new DirectoryNode(fileUtilityService.GetDirectoryNameWithSeparator(ConstructFolderName(curpathnode)) + path);
+						DirectoryNode newFolderNode  = new DirectoryNode(Runtime.FileUtilityService.GetDirectoryNameWithSeparator(ConstructFolderName(curpathnode)) + path);
 						curpathnode.Nodes.Add (newFolderNode);
 						curpathnode = newFolderNode;
 						continue;

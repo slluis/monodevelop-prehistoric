@@ -48,8 +48,7 @@ namespace MonoDevelop.Gui.Dialogs {
 		void AddReference (TreeModel model, TreePath path, TreeIter iter)
 		{
 			IProject project = (IProject) model.GetValue (iter, 2);
-			LanguageBindingService languageBindingService = (LanguageBindingService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(LanguageBindingService));
-			ILanguageBinding binding = languageBindingService.GetBindingPerLanguageName(project.ProjectType);
+			ILanguageBinding binding = Runtime.Languages.GetBindingPerLanguageName(project.ProjectType);
 			
 			selectDialog.AddReference(ReferenceType.Project,
 						  project.Name,
@@ -63,9 +62,7 @@ namespace MonoDevelop.Gui.Dialogs {
 		
 		void PopulateListView ()
 		{
-			IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IProjectService));
-			
-			Combine openCombine = projectService.CurrentOpenCombine;
+			Combine openCombine = Runtime.ProjectService.CurrentOpenCombine;
 			
 			if (openCombine == null) {
 				return;

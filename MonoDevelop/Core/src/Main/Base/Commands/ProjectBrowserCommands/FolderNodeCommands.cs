@@ -77,7 +77,7 @@ namespace MonoDevelop.Commands.ProjectBrowser
 								}
 								catch 
 								{
-									((MessageService)ServiceManager.GetService (typeof (MessageService))).ShowError (GettextCatalog.GetString ("An error occurred while attempt to move/copy that file. Please check your permissions."));
+									Runtime.MessageService.ShowError (GettextCatalog.GetString ("An error occurred while attempt to move/copy that file. Please check your permissions."));
 								}
 							}
 						}
@@ -123,13 +123,12 @@ namespace MonoDevelop.Commands.ProjectBrowser
 			string extension = Path.GetExtension(window.ViewContent.UntitledName);
 				
 			// first try the default untitled name of the viewcontent filename
-			FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.GetService(typeof(FileUtilityService));
-			string fileName = fileUtilityService.GetDirectoryNameWithSeparator(baseFolderPath) + baseName +  extension;
+			string fileName = Runtime.FileUtilityService.GetDirectoryNameWithSeparator(baseFolderPath) + baseName +  extension;
 				
 			// if it is already in the project, or it does exists we try to get a name that is
 			// untitledName + Numer + extension
 			while (node.Project.IsFileInProject(fileName) || System.IO.File.Exists(fileName)) {
-				fileName = fileUtilityService.GetDirectoryNameWithSeparator(baseFolderPath) + baseName + count.ToString() + extension;
+				fileName = Runtime.FileUtilityService.GetDirectoryNameWithSeparator(baseFolderPath) + baseName + count.ToString() + extension;
 				++count;
 			}
 				
@@ -157,8 +156,7 @@ namespace MonoDevelop.Commands.ProjectBrowser
 			browser.SelectedNode = newNode;
 			browser.StartLabelEdit();
 				
-			IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IProjectService));
-			projectService.SaveCombine();
+			Runtime.ProjectService.SaveCombine();
 			
 		}
 	}
@@ -190,9 +188,7 @@ namespace MonoDevelop.Commands.ProjectBrowser
 			string baseFolderPath = SearchBasePath(selectedNode);
 			
 			if (baseFolderPath != null && baseFolderPath.Length > 0) {
-				FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.GetService(typeof(FileUtilityService));
-				
-				string directoryName = fileUtilityService.GetDirectoryNameWithSeparator(baseFolderPath) + GettextCatalog.GetString("New Folder");
+				string directoryName = Runtime.FileUtilityService.GetDirectoryNameWithSeparator(baseFolderPath) + GettextCatalog.GetString("New Folder");
 				int    index         = -1;
 				
 				if (Directory.Exists(directoryName)) {

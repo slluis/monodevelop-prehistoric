@@ -40,8 +40,7 @@ namespace MonoDevelop.Gui.Dialogs
 			this.Realized += new EventHandler (OnRealized);
 			this.ExposeEvent += new ExposeEventHandler (OnExposed);
 			
-			ResourceService resourceService = (ResourceService)ServiceManager.GetService(typeof(ResourceService));
-			image = resourceService.GetBitmap ("Icons.AboutImage");
+			image = Runtime.Gui.Resources.GetBitmap ("Icons.AboutImage");
 			string trans = GettextCatalog.GetString ("translator-credits");
 			
 			text = "<b>Ported and developed by:</b>\nTodd Berman\nPedro Abelleira Seco\nJohn Luke\nDaniel Kornhauser\nAlex Graveley\nnricciar\nJohn Bou Antoun\nBen Maurer\nJeroen Zwartepoorte\nGustavo Giráldez\nMiguel de Icaza\nInigo Illan\nIain McCoy\nNick Drochak\nPaweł Różański\nRichard Torkar\nErik Dasque\nPaco Martinez\nLluis Sanchez Gual";
@@ -107,7 +106,6 @@ namespace MonoDevelop.Gui.Dialogs
 	
 	public class CommonAboutDialog : Dialog
 	{
-		static FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.GetService(typeof(FileUtilityService));
 		
 		AuthorAboutTabPage aatp;
 		//ChangeLogTabPage changelog;

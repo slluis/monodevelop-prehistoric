@@ -34,7 +34,6 @@ namespace MonoDevelop.Gui.Dialogs
 		Pango.FontDescription smallFont;
 		Pango.FontDescription normalFont;
 		Pango.FontDescription boldFont;
-		ResourceService resourceService = (ResourceService)ServiceManager.GetService(typeof(ResourceService));
 		
 		public StatusPanel(WizardDialog wizard)
 		{
@@ -47,7 +46,7 @@ namespace MonoDevelop.Gui.Dialogs
 			this.wizard = wizard;
 			SetSizeRequest (198, 400);
 
-			bitmap = resourceService.GetBitmap ("GeneralWizardBackground");
+			bitmap = Runtime.Gui.Resources.GetBitmap ("GeneralWizardBackground");
 
 			AddEvents ((int) (Gdk.EventMask.ExposureMask));
 			ExposeEvent += new Gtk.ExposeEventHandler (OnPaint);

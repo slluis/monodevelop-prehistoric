@@ -135,7 +135,6 @@ namespace MonoDevelop.BrowserDisplayBinding
 	public class HtmlViewPane : Gtk.Frame
 	{
 		MozillaControl htmlControl = null;
-		IStatusBarService statusbarService = (IStatusBarService) ServiceManager.GetService (typeof (IStatusBarService));
 		SdStatusBar status;
 		
 		VBox topPanel = new VBox (false, 2);
@@ -153,7 +152,7 @@ namespace MonoDevelop.BrowserDisplayBinding
 		{
 			Shadow = Gtk.ShadowType.In;
 			VBox mainbox = new VBox (false, 2);
-			status = (SdStatusBar) statusbarService.ProgressMonitor;
+			status = (SdStatusBar) Runtime.Gui.StatusBar.ProgressMonitor;
 			
 			if (showNavigation) {
 				
@@ -195,7 +194,7 @@ namespace MonoDevelop.BrowserDisplayBinding
 
 		private void OnNetStart (object o, EventArgs args)
 		{
-			statusbarService.SetMessage (GettextCatalog.GetString ("Loading..."));
+			Runtime.Gui.StatusBar.SetMessage (GettextCatalog.GetString ("Loading..."));
 			loading = true;
 			GLib.Idle.Add (new GLib.IdleHandler (Pulse));
 		}
@@ -208,7 +207,7 @@ namespace MonoDevelop.BrowserDisplayBinding
 				return true;
 			}
 			status.Done ();
-			statusbarService.SetMessage (GettextCatalog.GetString ("Done."));
+			Runtime.Gui.StatusBar.SetMessage (GettextCatalog.GetString ("Done."));
 			return false;
 		}
 

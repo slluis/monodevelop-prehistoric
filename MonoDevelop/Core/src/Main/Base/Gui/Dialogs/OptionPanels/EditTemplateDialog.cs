@@ -22,9 +22,6 @@ namespace MonoDevelop.Gui.Dialogs
 		Gtk.Entry templateTextBox;
 		Gtk.Entry descriptionTextBox;
 		
-		// Services
-		StringParserService StringParserService = (StringParserService)ServiceManager.GetService (typeof (StringParserService));
-		
 		public CodeTemplate CodeTemplate {
 			get {
 				return codeTemplate;

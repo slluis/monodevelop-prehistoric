@@ -33,7 +33,6 @@ namespace MonoDevelop.Commands.ProjectBrowser
 		{
 			ProjectBrowserView  browser = (ProjectBrowserView)Owner;
 			AbstractBrowserNode node    = browser.SelectedNode as AbstractBrowserNode;
-			IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IProjectService));
 			
 			if (node.IsEditing) { // TODO : throw remove key to the browser component.
 				return;
@@ -42,7 +41,7 @@ namespace MonoDevelop.Commands.ProjectBrowser
 			if (node != null && node.Parent != null) {
 				if (node.RemoveNode()) {
 					node.Parent.Nodes.Remove(node);
-					projectService.SaveCombine();
+					Runtime.ProjectService.SaveCombine();
 				}
 			}
 		}

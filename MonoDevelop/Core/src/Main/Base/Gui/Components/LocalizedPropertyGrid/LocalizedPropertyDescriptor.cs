@@ -4,6 +4,7 @@ using System.Globalization;
 using System.Resources;
 using System.Reflection;
 
+using MonoDevelop.Services;
 using MonoDevelop.Core.Services;
 
 namespace MonoDevelop.Gui.Components
@@ -14,7 +15,7 @@ namespace MonoDevelop.Gui.Components
 	/// </summary>
 	public class LocalizedPropertyDescriptor : PropertyDescriptor
 	{
-		static StringParserService stringParserService = (StringParserService)ServiceManager.GetService(typeof(StringParserService));
+		static StringParserService stringParserService = Runtime.StringParserService;
 		
 		PropertyDescriptor basePropertyDescriptor; 
 		

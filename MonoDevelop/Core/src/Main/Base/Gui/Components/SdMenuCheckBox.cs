@@ -13,12 +13,13 @@ using System.Drawing.Imaging;
 using MonoDevelop.Core.AddIns.Conditions;
 using MonoDevelop.Core.AddIns.Codons;
 using MonoDevelop.Core.Services;
+using MonoDevelop.Services;
 
 namespace MonoDevelop.Gui.Components
 {
 	public class SdMenuCheckBox : Gtk.CheckMenuItem, IStatusUpdate
 	{
-		static StringParserService stringParserService = (StringParserService)ServiceManager.GetService(typeof(StringParserService));
+		static StringParserService stringParserService = Runtime.StringParserService;
 			
 		object caller;
 		ConditionCollection conditionCollection;

@@ -43,9 +43,6 @@ namespace MonoDevelop.Gui.Dialogs.OptionPanels
  			[Glade.Widget] CheckButton autoInsertNewFilesCheckButton;
  			[Glade.Widget] CheckButton enableViewStateCheckButton;
 
-			// Services
-			StringParserService StringParserService = (StringParserService)ServiceManager.GetService (
-							typeof (StringParserService));
 			IProject project;
 
 

@@ -33,15 +33,11 @@ namespace MonoDevelop.Commands.ProjectBrowser
 		NewProjectDialog npdlg;
 		ProjectBrowserView browser;
 		CombineBrowserNode node;
-		MessageService msg;
-		IProjectService projectService;
 
 		public override void Run()
 		{
-			projectService = (IProjectService)ServiceManager.GetService(typeof(IProjectService));
 			browser     = (ProjectBrowserView)Owner;
 			node        = browser.SelectedNode as CombineBrowserNode;
-			msg             = (MessageService)ServiceManager.GetService (typeof (MessageService));
 			
 			if (node != null) {
 				npdlg = new NewProjectDialog(false);
@@ -54,13 +50,13 @@ namespace MonoDevelop.Commands.ProjectBrowser
 			try 
 			{
 				int newNodeIndex = node.Nodes.Add(ProjectBrowserView.BuildProjectTreeNode((IProject)node.Combine.AddEntry(npdlg.NewProjectLocation)));
-				projectService.SaveCombine();
+				Runtime.ProjectService.SaveCombine ();
 			// expand to the new node
 				node.Nodes[newNodeIndex].Expand();
 			}
 			catch
 			{
-				msg.ShowError (GettextCatalog.GetString ("Invalid Project File"));
+				Runtime.MessageService.ShowError (GettextCatalog.GetString ("Invalid Project File"));
 			}
 			npdlg = null;
 		}	
@@ -68,18 +64,14 @@ namespace MonoDevelop.Commands.ProjectBrowser
 		
 	public class AddNewCombineToCombine : AbstractMenuCommand
 	{
-		IProjectService projectService;
 		ProjectBrowserView browser;
 		CombineBrowserNode node;
-		MessageService msg;
 		NewProjectDialog npdlg;
 
 		public override void Run()
 		{
-			projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IProjectService));
 			browser = (ProjectBrowserView)Owner;
 			node    = browser.SelectedNode as CombineBrowserNode;
-			msg         = (MessageService)ServiceManager.GetService (typeof (MessageService));
 			
 			if (node != null) {
 				npdlg = new NewProjectDialog(false);
@@ -92,14 +84,14 @@ namespace MonoDevelop.Commands.ProjectBrowser
 			try 
 			{
 				int newNodeIndex = node.Nodes.Add(ProjectBrowserView.BuildCombineTreeNode((Combine)node.Combine.AddEntry(npdlg.NewCombineLocation)));
-				projectService.SaveCombine();
+				Runtime.ProjectService.SaveCombine ();
 				
 				// expand to the new node
 				node.Nodes[newNodeIndex].Expand();
 			}
 			catch
 			{
-				msg.ShowError (GettextCatalog.GetString ("Invalid Solution File"));
+				Runtime.MessageService.ShowError (GettextCatalog.GetString ("Invalid Solution File"));
 			}
 			npdlg = null;
 		}
@@ -109,7 +101,6 @@ namespace MonoDevelop.Commands.ProjectBrowser
 	{
 		public override void Run()
 		{
-			IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IProjectService));
 			ProjectBrowserView browser = (ProjectBrowserView)Owner;
 			CombineBrowserNode node    = browser.SelectedNode as CombineBrowserNode;
 			PropertyService propertyService = (PropertyService)ServiceManager.GetService (typeof (PropertyService));
@@ -127,7 +118,7 @@ namespace MonoDevelop.Commands.ProjectBrowser
 							} else {
 								newNodeIndex = node.Nodes.Add(ProjectBrowserView.BuildCombineTreeNode((Combine)obj));
 							}
-							projectService.SaveCombine();
+							Runtime.ProjectService.SaveCombine ();
 						
 							if (newNodeIndex > -1) {
 								// expand to the new node
@@ -136,7 +127,7 @@ namespace MonoDevelop.Commands.ProjectBrowser
 						}
 						catch 
 						{
-							((MessageService)ServiceManager.GetService (typeof (MessageService))).ShowError (GettextCatalog.GetString ("Invalid Project File"));
+							Runtime.MessageService.ShowError (GettextCatalog.GetString ("Invalid Project File"));
 						}
 					}
 
@@ -150,7 +141,6 @@ namespace MonoDevelop.Commands.ProjectBrowser
 	{
 		public override void Run()
 		{
-			IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IProjectService));
 			ProjectBrowserView browser = (ProjectBrowserView)Owner;
 			CombineBrowserNode node    = browser.SelectedNode as CombineBrowserNode;
 			PropertyService propertyService = (PropertyService)ServiceManager.GetService (typeof (PropertyService));
@@ -169,7 +159,7 @@ namespace MonoDevelop.Commands.ProjectBrowser
 							} else {
 								newNodeIndex = node.Nodes.Add(ProjectBrowserView.BuildCombineTreeNode((Combine)obj));
 							}
-							projectService.SaveCombine();
+							Runtime.ProjectService.SaveCombine ();
 							
 							if (newNodeIndex > -1) {
 								// expand to the new node
@@ -178,7 +168,7 @@ namespace MonoDevelop.Commands.ProjectBrowser
 						}
 						catch 
 						{
-							((MessageService)ServiceManager.GetService (typeof (MessageService))).ShowError (GettextCatalog.GetString ("Invalid Solution File"));
+							Runtime.MessageService.ShowError (GettextCatalog.GetString ("Invalid Solution File"));
 						}
 					}
 
@@ -192,7 +182,6 @@ namespace MonoDevelop.Commands.ProjectBrowser
 	{
 		public override void Run()
 		{
-			IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IProjectService));
 			ProjectBrowserView browser = (ProjectBrowserView)Owner;
 			CombineBrowserNode node    = browser.SelectedNode as CombineBrowserNode;
 			
@@ -207,7 +196,7 @@ namespace MonoDevelop.Commands.ProjectBrowser
 			//		optionsDialog.TransientFor = (Gtk.Window)WorkbenchSingleton.Workbench;
 					optionsDialog.Run ();
 			//		optionsDialog.Hide ();
-					projectService.SaveCombine();
+					Runtime.ProjectService.SaveCombine ();
 				}
 			}
 	}

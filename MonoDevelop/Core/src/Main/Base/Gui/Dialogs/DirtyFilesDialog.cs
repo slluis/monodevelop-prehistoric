@@ -23,11 +23,10 @@ namespace MonoDevelop.Gui.Dialogs
 		{
 			tsFiles = new TreeStore (typeof (string), typeof (bool), typeof (SdiWorkspaceWindow), typeof (bool));
 			tvFiles = new TreeView (tsFiles);
-			IProjectService projectService = (IProjectService) ServiceManager.GetService (typeof (IProjectService));
 			TreeIter topCombineIter = TreeIter.Zero;
 			Hashtable projectIters = new Hashtable ();
-			if (projectService.CurrentOpenCombine != null) {
-				topCombineIter = tsFiles.AppendValues (String.Format (GettextCatalog.GetString ("Solution: {0}"), projectService.CurrentOpenCombine.Name), true, null, false);
+			if (Runtime.ProjectService.CurrentOpenCombine != null) {
+				topCombineIter = tsFiles.AppendValues (String.Format (GettextCatalog.GetString ("Solution: {0}"), Runtime.ProjectService.CurrentOpenCombine.Name), true, null, false);
 			}
 			foreach (IViewContent viewcontent in WorkbenchSingleton.Workbench.ViewContentCollection) {
 				if (!viewcontent.IsDirty)
@@ -100,9 +99,8 @@ namespace MonoDevelop.Gui.Dialogs
 		void SaveAndQuit (object o, EventArgs e)
 		{
 			tsFiles.Foreach (new TreeModelForeachFunc (CollectWorkbenches));
-			FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.GetService(typeof(FileUtilityService));
 			foreach (SdiWorkspaceWindow window in arrSaveWorkbenches) {
-				fileUtilityService.ObservedSave(new FileOperationDelegate(window.ViewContent.Save), window.ViewContent.ContentName , FileErrorPolicy.ProvideAlternative);
+				Runtime.FileUtilityService.ObservedSave(new FileOperationDelegate(window.ViewContent.Save), window.ViewContent.ContentName , FileErrorPolicy.ProvideAlternative);
 			}
 
 			Respond (Gtk.ResponseType.Ok);

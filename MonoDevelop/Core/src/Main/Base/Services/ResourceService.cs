@@ -37,6 +37,11 @@ namespace MonoDevelop.Core.Services
 	
 	public class ResourceService : AbstractService
 	{
+		Hashtable userStrings = null;
+		Hashtable userIcons   = null;
+		static Gtk.IconFactory iconFactory = null;
+		static Hashtable stockMappings = null;
+		
 		static ResourceService()
 		{
 			iconFactory = new Gtk.IconFactory ();
@@ -47,9 +52,6 @@ namespace MonoDevelop.Core.Services
 			MonoDevelop.Gui.Stock.Init ();
 			iconFactory.AddDefault ();
 		}
-		
-		Hashtable userStrings = null;
-		Hashtable userIcons   = null;
 		
 		/// <summary>
 		/// The LoadFont routines provide a safe way to load fonts.
@@ -205,9 +207,6 @@ namespace MonoDevelop.Core.Services
 			return new Gtk.Image (GetBitmap (name));
 		}
 		
-		static Gtk.IconFactory iconFactory = null;
-		static Hashtable stockMappings = null;
-
 		internal static void AddToIconFactory (string stockId,
 		                                       string filename,
 						       Gtk.IconSize iconSize)

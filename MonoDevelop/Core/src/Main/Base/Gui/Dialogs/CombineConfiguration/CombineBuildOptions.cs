@@ -29,13 +29,6 @@ namespace MonoDevelop.Gui.Dialogs.OptionPanels
 			[Glade.WidgetAttribute] Entry buildOutputLoc;
 			[Glade.WidgetAttribute] Button OutputDirBrowse;
 			
-			// Services
-			StringParserService StringParserService = (StringParserService)ServiceManager.GetService (
-										typeof (StringParserService));
-			static PropertyService propertyService = (PropertyService)ServiceManager.GetService(
-										typeof(PropertyService));
-			FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.GetService (typeof (FileUtilityService));
-			
 			Combine combine;
 
 			public  CombineBuildOptionsWidget(IProperties CustomizationObject) : 

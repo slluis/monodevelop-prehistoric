@@ -35,7 +35,6 @@ namespace MonoDevelop.Gui
 		
 		string myUntitledTitle     = null;
 		string _titleHolder = "";
-		static StringParserService stringParserService = (StringParserService)ServiceManager.GetService(typeof(StringParserService));
 		
 		public Widget TabPage {
 			get {
@@ -183,8 +182,7 @@ namespace MonoDevelop.Gui
 			
 			if (content.IsDirty) {
 				newTitle += "*";
-				IProjectService prj = (IProjectService)ServiceManager.GetService (typeof (IProjectService));
-				prj.MarkFileDirty (content.ContentName);
+				Runtime.ProjectService.MarkFileDirty (content.ContentName);
 			} else if (content.IsReadOnly) {
 				newTitle += "+";
 			}
@@ -216,8 +214,7 @@ namespace MonoDevelop.Gui
 		public void CloseWindow(bool force, bool fromMenu, int pageNum)
 		{
 			if (!force && ViewContent != null && ViewContent.IsDirty) {
-				IMessageService messageService =(IMessageService)ServiceManager.GetService(typeof(IMessageService));
-				bool response = messageService.AskQuestion (GettextCatalog.GetString ("Do you want to save the current changes"));
+				bool response = Runtime.MessageService.AskQuestion (GettextCatalog.GetString ("Do you want to save the current changes"));
 				
 				switch (response) {
 					case true:
@@ -225,7 +222,7 @@ namespace MonoDevelop.Gui
 							while (true) {
 								new MonoDevelop.Commands.SaveFileAs().Run();
 								if (ViewContent.IsDirty) {
-									if (messageService.AskQuestion(GettextCatalog.GetString ("Do you really want to discard your changes ?"))) {
+									if (Runtime.MessageService.AskQuestion(GettextCatalog.GetString ("Do you really want to discard your changes ?"))) {
 										break;
 									}
 								} else {
@@ -234,8 +231,7 @@ namespace MonoDevelop.Gui
 							}
 							
 						} else {
-							FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.GetService(typeof(FileUtilityService));
-							fileUtilityService.ObservedSave(new FileOperationDelegate(ViewContent.Save), ViewContent.ContentName , FileErrorPolicy.ProvideAlternative);
+							Runtime.FileUtilityService.ObservedSave(new FileOperationDelegate(ViewContent.Save), ViewContent.ContentName , FileErrorPolicy.ProvideAlternative);
 						}
 						break;
 					case false:

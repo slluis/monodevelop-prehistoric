@@ -56,8 +56,7 @@ namespace MonoDevelop.Gui.Pads
 		{
 			try {
 				XmlDocument doc = new XmlDocument();
-				PropertyService propertyService = (PropertyService)ServiceManager.GetService(typeof(PropertyService));
-				doc.Load(propertyService.ConfigDirectory + "SideBarConfig.xml");
+				doc.Load (Runtime.Properties.ConfigDirectory + "SideBarConfig.xml");
 				if (doc.DocumentElement.Attributes["version"] == null || doc.DocumentElement.Attributes["version"].InnerText != "1.0") {
 					GenerateStandardSideBar();
 				} else {

@@ -25,19 +25,14 @@ namespace MonoDevelop.Commands
 	{
 		public override void Run()
 		{
-			IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IProjectService));
-			
-			if (projectService.CurrentSelectedProject != null) {
-				LanguageBindingService languageBindingService = (LanguageBindingService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(LanguageBindingService));
-				ILanguageBinding csc = languageBindingService.GetBindingPerLanguageName(projectService.CurrentSelectedProject.ProjectType);
-				string assembly = csc.GetCompiledOutputName(projectService.CurrentSelectedProject);
+			if (Runtime.ProjectService.CurrentSelectedProject != null) {
+				ILanguageBinding csc = Runtime.Languages.GetBindingPerLanguageName (Runtime.ProjectService.CurrentSelectedProject.ProjectType);
+				string assembly = csc.GetCompiledOutputName (Runtime.ProjectService.CurrentSelectedProject);
 				
 				if (!File.Exists(assembly)) {
-					IMessageService messageService =(IMessageService)ServiceManager.GetService(typeof(IMessageService));
-					messageService.ShowError(GettextCatalog.GetString ("Assembly not Found (Compile the project first)"));
+					Runtime.MessageService.ShowError (GettextCatalog.GetString ("Assembly not Found (Compile the project first)"));
 				} else {
-					FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.GetService(typeof(FileUtilityService));
-					string command = fileUtilityService.SharpDevelopRootPath + 
+					string command = Runtime.FileUtilityService.SharpDevelopRootPath + 
 					                 Path.DirectorySeparatorChar + "bin" + 
 					                 Path.DirectorySeparatorChar + "nunit" + 
 					                 Path.DirectorySeparatorChar + "nunit-gui.exe";
@@ -52,8 +47,7 @@ namespace MonoDevelop.Commands
 	{
 		public override void Run()
 		{
-			IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IProjectService));
-			IProject        selectedProject = projectService.CurrentSelectedProject;
+			IProject selectedProject = Runtime.ProjectService.CurrentSelectedProject;
 			if (selectedProject == null) {
 				return;
 			}
@@ -63,10 +57,10 @@ namespace MonoDevelop.Commands
 			
 			ProjectOptionsDialog optionsDialog = new ProjectOptionsDialog(selectedProject, generalOptionsNode, configurationPropertiesNode);
 			if (optionsDialog.Run() == (int)Gtk.ResponseType.Ok) {
-					projectService.MarkProjectDirty(projectService.CurrentSelectedProject);
+					Runtime.ProjectService.MarkProjectDirty (selectedProject);
 			}
 			
-			projectService.SaveCombine();
+			Runtime.ProjectService.SaveCombine();
 		}
 	}
 	
@@ -74,14 +68,13 @@ namespace MonoDevelop.Commands
 	{
 		public override void Run()
 		{
-			IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IProjectService));
 			foreach (IViewContent viewContent in WorkbenchSingleton.Workbench.ViewContentCollection) {
 				if (viewContent.IsDirty) {
 					viewContent.Save();
 				}
 			}
-			if (projectService.CurrentSelectedProject != null) {
-				DeployInformation.Deploy(projectService.CurrentSelectedProject);
+			if (Runtime.ProjectService.CurrentSelectedProject != null) {
+				DeployInformation.Deploy (Runtime.ProjectService.CurrentSelectedProject);
 			}
 		}
 	}
@@ -91,13 +84,10 @@ namespace MonoDevelop.Commands
 		public override void Run()
 		{
 			try {
-				IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IProjectService));
-				
-				if (projectService.CurrentSelectedProject != null) {
-					LanguageBindingService languageBindingService = (LanguageBindingService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(LanguageBindingService));
-					ILanguageBinding csc = languageBindingService.GetBindingPerLanguageName(projectService.CurrentSelectedProject.ProjectType);
+				if (Runtime.ProjectService.CurrentSelectedProject != null) {
+					ILanguageBinding csc = Runtime.Languages.GetBindingPerLanguageName (Runtime.ProjectService.CurrentSelectedProject.ProjectType);
 					
-					string assembly    = csc.GetCompiledOutputName(projectService.CurrentSelectedProject);
+					string assembly    = csc.GetCompiledOutputName (Runtime.ProjectService.CurrentSelectedProject);
 					string projectFile = Path.ChangeExtension(assembly, ".ndoc");
 					if (!File.Exists(projectFile)) {
 						StreamWriter sw = File.CreateText(projectFile);
@@ -163,15 +153,14 @@ namespace MonoDevelop.Commands
 						sw.WriteLine("    				</project>");
 						sw.Close();
 					}
-					FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.GetService(typeof(FileUtilityService));
-					string command = fileUtilityService.SharpDevelopRootPath +
+					string command = Runtime.FileUtilityService.SharpDevelopRootPath +
 					Path.DirectorySeparatorChar + "bin" +
 					Path.DirectorySeparatorChar + "ndoc" +
 					Path.DirectorySeparatorChar + "NDocGui.exe";
 					string args    = '"' + projectFile + '"';
 					
 					ProcessStartInfo psi = new ProcessStartInfo(command, args);
-					psi.WorkingDirectory = fileUtilityService.SharpDevelopRootPath +
+					psi.WorkingDirectory = Runtime.FileUtilityService.SharpDevelopRootPath +
 					Path.DirectorySeparatorChar + "bin" +
 					Path.DirectorySeparatorChar + "ndoc";
 					psi.UseShellExecute = false;

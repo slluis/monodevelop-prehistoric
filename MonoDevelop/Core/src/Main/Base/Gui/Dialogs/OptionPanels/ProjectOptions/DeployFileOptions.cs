@@ -43,9 +43,7 @@ namespace MonoDevelop.Gui.Dialogs.OptionPanels
 
 			// Services
 			IProject project;
-			static FileUtilityService fileUtilityService = (FileUtilityService) ServiceManager.GetService(typeof(FileUtilityService));
-			StringParserService StringParserService = (StringParserService)ServiceManager.GetService (typeof (StringParserService));
-			MessageService messageService = (MessageService) ServiceManager.GetService (typeof (MessageService));
+			static FileUtilityService fileUtilityService = Runtime.FileUtilityService;
 
 			public DeployFileOptionsWidget (IProperties CustomizationObject) : 
 				base ("Base.glade", "DeployFileOptionsPanel")
@@ -129,20 +127,20 @@ namespace MonoDevelop.Gui.Dialogs.OptionPanels
 			{
 				if (deployTargetEntry.Text.Length > 0) {
 					if (!fileUtilityService.IsValidFileName(deployTargetEntry.Text)) {
-						messageService.ShowError (GettextCatalog.GetString ("Invalid deploy target specified"));
+						Runtime.MessageService.ShowError (GettextCatalog.GetString ("Invalid deploy target specified"));
 						return false;
 					}
 				}
 				
 				if (deployScriptEntry.Text.Length > 0) {
 					if (!fileUtilityService.IsValidFileName(deployScriptEntry.Text)) {
-						messageService.ShowError (GettextCatalog.GetString ("Invalid deploy script specified"));
+						Runtime.MessageService.ShowError (GettextCatalog.GetString ("Invalid deploy script specified"));
 						return false;				
 					}
 				}
 				
 				if (!System.IO.File.Exists(deployScriptEntry.Text)) {
-					messageService.ShowError (GettextCatalog.GetString ("Deploy script doesn't exists"));
+					Runtime.MessageService.ShowError (GettextCatalog.GetString ("Deploy script doesn't exists"));
 					return false;
  				}
 			

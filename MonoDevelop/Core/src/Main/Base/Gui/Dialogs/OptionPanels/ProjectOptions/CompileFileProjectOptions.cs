@@ -25,8 +25,6 @@ namespace MonoDevelop.Gui.Dialogs.OptionPanels
 {
 	public class CompileFileProjectOptions : AbstractOptionPanel
 	{
-		static MessageService messageService = (MessageService) ServiceManager.GetService (typeof (MessageService));
-
 		class CompileFileOptionsWidget : GladeWidgetExtract 
 		{
 			// Gtk Controls
@@ -34,10 +32,6 @@ namespace MonoDevelop.Gui.Dialogs.OptionPanels
 			[Glade.Widget] Gtk.TreeView includeTreeView;
 			public ListStore store;
 			
-			// Services
-			StringParserService StringParserService = (StringParserService) ServiceManager.GetService (typeof (StringParserService));
-			FileUtilityService fileUtilityService = (FileUtilityService) ServiceManager.GetService (typeof (FileUtilityService));
-
 			IProject project;
 
 			public CompileFileOptionsWidget (IProperties CustomizationObject) : 
@@ -59,7 +53,7 @@ namespace MonoDevelop.Gui.Dialogs.OptionPanels
 				
 				foreach (ProjectFile info in project.ProjectFiles) {
 					if (info.BuildAction == BuildAction.Nothing || info.BuildAction == BuildAction.Compile) {
-						string name = fileUtilityService.AbsoluteToRelativePath(
+						string name = Runtime.FileUtilityService.AbsoluteToRelativePath(
 							project.BaseDirectory, info.Name).Substring(2);
 						iter = store.AppendValues (info.BuildAction == BuildAction.Compile ? true : false, name);
 					}
@@ -88,7 +82,7 @@ namespace MonoDevelop.Gui.Dialogs.OptionPanels
 				for (int i = 0; i < store.IterNChildren() - 1 ; ++i) {
 					if (i != 0)
 						store.IterNext(ref current);
-					string name = fileUtilityService.RelativeToAbsolutePath(
+					string name = Runtime.FileUtilityService.RelativeToAbsolutePath(
 						project.BaseDirectory, "." + System.IO.Path.DirectorySeparatorChar + store.GetValue(current, 1));
 					int j = 0;
 					while (j < project.ProjectFiles.Count && project.ProjectFiles[j].Name != name) {
@@ -97,7 +91,7 @@ namespace MonoDevelop.Gui.Dialogs.OptionPanels
 					if (j < project.ProjectFiles.Count) {
 						project.ProjectFiles[j].BuildAction = (bool) store.GetValue(current, 0) ? BuildAction.Compile : BuildAction.Nothing;
 					} else {
-						messageService.ShowError (String.Format (GettextCatalog.GetString ("File {0} not found in {1}."), name, project.Name));
+						Runtime.MessageService.ShowError (String.Format (GettextCatalog.GetString ("File {0} not found in {1}."), name, project.Name));
 						success = false;
 					}
 				}

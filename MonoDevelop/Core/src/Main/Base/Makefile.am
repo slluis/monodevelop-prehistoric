@@ -41,6 +41,7 @@ Gui/AbstractPadContent.cs \
 Gui/ISecondaryViewContent.cs \
 Gui/IViewContent.cs \
 Gui/AbstractViewContent.cs \
+Gui/GuiService.cs \
 Gui/Components/SdMenuSeparator.cs \
 Gui/Components/SharpMessageBox.cs \
 Gui/Components/StatusBar/AxStatusBar.cs \
@@ -192,7 +193,6 @@ Services/StatusBar/DefaultStatusBarService.cs \
 Services/StatusBar/IStatusBarService.cs \
 Services/Language/LanguageService.cs \
 Services/Language/Language.cs \
-Services/ClassBrowserIcons/ClassBrowserIconsService.cs \
 Services/ResourceNotFoundException.cs \
 Services/ParserService/DefaultParserService.cs \
 Services/ParserService/CodeCompletionDatabase.cs \
@@ -210,6 +210,7 @@ Services/MonodocService.cs \
 Services/IDebuggerService.cs \
 Services/SystemAssemblyService.cs \
 Services/DispatchService/DispatchService.cs \
+Services/Runtime.cs \
 Internal/Undo/IUndoableOperation.cs \
 Internal/Undo/UndoStack.cs \
 Internal/Undo/UndoQueue.cs \

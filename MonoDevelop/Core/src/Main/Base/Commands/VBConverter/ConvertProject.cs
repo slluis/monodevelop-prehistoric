@@ -52,10 +52,8 @@ namespace MonoDevelop.Commands
 		
 		public override void Run()
 		{
-			IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IProjectService));
-			
-			if (projectService.CurrentSelectedProject != null) {
-				foreach (ProjectFile file in projectService.CurrentSelectedProject.ProjectFiles) {
+			if (Runtime.ProjectService.CurrentSelectedProject != null) {
+				foreach (ProjectFile file in Runtime.ProjectService.CurrentSelectedProject.ProjectFiles) {
 					ConvertFile(file.Name, @"C:\\vbout\\" + Path.GetFileName(file.Name));
 				}
 			}

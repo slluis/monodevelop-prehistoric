@@ -29,8 +29,6 @@ namespace MonoDevelop.Gui.Pads
 		public FileList ()
 		{
 			Items = new ArrayList ();
-			FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.GetService(typeof(FileUtilityService));
-			
 			store = new Gtk.TreeStore (typeof (string), typeof (string), typeof(string), typeof(FileListItem), typeof (Gdk.Pixbuf));
 			Model = store;
 
@@ -155,9 +153,7 @@ namespace MonoDevelop.Gui.Pads
 		
 		private void OnDeleteFiles (object sender, EventArgs e)
 		{
-			IMessageService messageService =(IMessageService)ServiceManager.GetService(typeof(IMessageService));
-	
-			if (messageService.AskQuestion(GettextCatalog.GetString ("Are you sure you want to delete this file?"), GettextCatalog.GetString ("Delete files")))
+			if (Runtime.MessageService.AskQuestion(GettextCatalog.GetString ("Are you sure you want to delete this file?"), GettextCatalog.GetString ("Delete files")))
 			{
 				try
 				{
@@ -166,7 +162,7 @@ namespace MonoDevelop.Gui.Pads
 				}
 				catch (Exception ex)
 				{
-					messageService.ShowError (ex, "Could not delete file '" + System.IO.Path.GetFileName (selectedItem.FullName) + "'");
+					Runtime.MessageService.ShowError (ex, "Could not delete file '" + System.IO.Path.GetFileName (selectedItem.FullName) + "'");
 				} 
 			}
 		}

@@ -10,7 +10,7 @@ using System.IO;
 using System.Collections;
 
 using MonoDevelop.Gui.Dialogs;
-using MonoDevelop.Core.Services;
+using MonoDevelop.Services;
 using MonoDevelop.Core.AddIns.Codons;
 
 using Gtk;
@@ -57,16 +57,6 @@ namespace MonoDevelop.Gui.Dialogs.OptionPanels
 			[Glade.Widget] public Gtk.Label terminatorLabel;	
 			[Glade.Widget] public Gtk.Label locationLabel;
 			
-			// services needed
-			StringParserService StringParserService = (StringParserService)ServiceManager.GetService (
-				typeof (StringParserService));
-			PropertyService PropertyService = (PropertyService)ServiceManager.GetService (
-				typeof (PropertyService));
-			FileUtilityService FileUtilityService = (FileUtilityService)ServiceManager.GetService (
-				typeof (FileUtilityService));
-			MessageService MessageService = (MessageService)ServiceManager.GetService (
-				typeof (MessageService));
-
 			public enum LineTerminatorStyle {
 				Windows,
 				Macintosh,
@@ -78,7 +68,7 @@ namespace MonoDevelop.Gui.Dialogs.OptionPanels
 				//
 				// load the internationalized strings.
 				//
-				projectLocationTextBox.GtkEntry.Text = PropertyService.GetProperty(
+				projectLocationTextBox.GtkEntry.Text = Runtime.Properties.GetProperty(
 					"MonoDevelop.Gui.Dialogs.NewProjectDialog.DefaultPath", 
 					System.IO.Path.Combine(System.Environment.GetEnvironmentVariable ("HOME"),
 							"Projects")).ToString();
@@ -86,23 +76,23 @@ namespace MonoDevelop.Gui.Dialogs.OptionPanels
 				//
 				// setup the properties
 				//
-				loadUserDataCheckButton.Active = PropertyService.GetProperty (
+				loadUserDataCheckButton.Active = Runtime.Properties.GetProperty (
 					"SharpDevelop.LoadDocumentProperties", true);
-				createBackupCopyCheckButton.Active = PropertyService.GetProperty (
+				createBackupCopyCheckButton.Active = Runtime.Properties.GetProperty (
 					"SharpDevelop.CreateBackupCopy", false);
-				loadPrevProjectCheckButton.Active = (bool) PropertyService.GetProperty(
+				loadPrevProjectCheckButton.Active = (bool) Runtime.Properties.GetProperty(
 					"SharpDevelop.LoadPrevProjectOnStartup", false);
 				
 				if (LineTerminatorStyle.Windows.Equals (
-					    PropertyService.GetProperty (
+					    Runtime.Properties.GetProperty (
 						    "SharpDevelop.LineTerminatorStyle", LineTerminatorStyle.Unix)))  {
 					windowsRadioButton.Active = true;}
 				else if  (LineTerminatorStyle.Macintosh.Equals (
-						  PropertyService.GetProperty 
+						  Runtime.Properties.GetProperty 
 						  ("SharpDevelop.LineTerminatorStyle", LineTerminatorStyle.Unix)))  {
 					macintoshRadioButton.Active = true;}
 				else if (LineTerminatorStyle.Unix.Equals (
-						 PropertyService.GetProperty (
+						 Runtime.Properties.GetProperty (
 							 "SharpDevelop.LineTerminatorStyle", LineTerminatorStyle.Unix))) {
 					unixRadioButton.Active = true;}
 				
@@ -115,26 +105,26 @@ namespace MonoDevelop.Gui.Dialogs.OptionPanels
 			
 			public bool Store () 
 			{
-				PropertyService.SetProperty("SharpDevelop.LoadPrevProjectOnStartup", loadPrevProjectCheckButton.Active);
-				PropertyService.SetProperty ("SharpDevelop.LoadDocumentProperties",  loadUserDataCheckButton.Active);
-				PropertyService.SetProperty ("SharpDevelop.CreateBackupCopy",        createBackupCopyCheckButton.Active);
+				Runtime.Properties.SetProperty("SharpDevelop.LoadPrevProjectOnStartup", loadPrevProjectCheckButton.Active);
+				Runtime.Properties.SetProperty ("SharpDevelop.LoadDocumentProperties",  loadUserDataCheckButton.Active);
+				Runtime.Properties.SetProperty ("SharpDevelop.CreateBackupCopy",        createBackupCopyCheckButton.Active);
 				
 				if (windowsRadioButton.Active) {
-					PropertyService.SetProperty ("SharpDevelop.LineTerminatorStyle", LineTerminatorStyle.Windows);} 
+					Runtime.Properties.SetProperty ("SharpDevelop.LineTerminatorStyle", LineTerminatorStyle.Windows);} 
 				else if (macintoshRadioButton.Active) {
-					PropertyService.SetProperty ("SharpDevelop.LineTerminatorStyle", LineTerminatorStyle.Macintosh);} 
+					Runtime.Properties.SetProperty ("SharpDevelop.LineTerminatorStyle", LineTerminatorStyle.Macintosh);} 
 				else if (unixRadioButton.Active){
-					PropertyService.SetProperty ("SharpDevelop.LineTerminatorStyle", LineTerminatorStyle.Unix);}
+					Runtime.Properties.SetProperty ("SharpDevelop.LineTerminatorStyle", LineTerminatorStyle.Unix);}
 				
 				// check for correct settings
 				string projectPath = projectLocationTextBox.GtkEntry.Text;
 				if (projectPath.Length > 0) {
-					if (!FileUtilityService.IsValidFileName(projectPath)) {
-						MessageService.ShowError("Invalid project path specified");
+					if (!Runtime.FileUtilityService.IsValidFileName(projectPath)) {
+						Runtime.MessageService.ShowError("Invalid project path specified");
 						return false;
 					}
 				}
-				PropertyService.SetProperty("MonoDevelop.Gui.Dialogs.NewProjectDialog.DefaultPath", projectPath);
+				Runtime.Properties.SetProperty("MonoDevelop.Gui.Dialogs.NewProjectDialog.DefaultPath", projectPath);
 				
 				return true;
 			}

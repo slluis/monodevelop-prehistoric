@@ -51,8 +51,6 @@ namespace MonoDevelop.Gui
 
 		static GType gtype;
 		
-		protected static PropertyService propertyService = (PropertyService)ServiceManager.GetService(typeof(PropertyService));
-
 		public Gtk.MenuBar TopMenu = null;
 
 		enum TargetList {
@@ -136,7 +134,6 @@ namespace MonoDevelop.Gui
 		{
 			Title = "MonoDevelop";
 			Console.WriteLine ("Creating DefaultWorkbench");
-			ResourceService resourceService = (ResourceService)ServiceManager.GetService(typeof(ResourceService));
 		
 			windowChangeEventHandler = new EventHandler(OnActiveWindowChanged);
 
@@ -144,10 +141,10 @@ namespace MonoDevelop.Gui
 			HeightRequest = normalBounds.Height;
 
 			DeleteEvent += new Gtk.DeleteEventHandler (OnClosing);
-			this.Icon = resourceService.GetBitmap ("Icons.SharpDevelopIcon");
+			this.Icon = Runtime.Gui.Resources.GetBitmap ("Icons.SharpDevelopIcon");
 			//this.WindowPosition = Gtk.WindowPosition.None;
 
-			IDebuggingService dbgr = (IDebuggingService)ServiceManager.GetService (typeof (IDebuggingService));
+			IDebuggingService dbgr = Runtime.DebuggingService;
 			if (dbgr != null) {
 				dbgr.StartedEvent += new EventHandler (onDebuggerStarted);
 				dbgr.PausedEvent += new EventHandler (onDebuggerPaused);
@@ -179,16 +176,14 @@ namespace MonoDevelop.Gui
 					case ".CMBX":
 					case ".PRJX":
 						try {
-							IProjectService projectService = (IProjectService)ServiceManager.GetService (typeof (IProjectService));
-							projectService.OpenCombine(file);
+							Runtime.ProjectService.OpenCombine(file);
 						} catch (Exception e) {
 						}
 						
 						break;
 					default:
 						try {
-							IFileService fileService = (IFileService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IFileService));
-							fileService.OpenFile(file);
+							Runtime.FileService.OpenFile (file);
 							
 						} catch (Exception e) {
 							Console.WriteLine("unable to open file {0} exception was :\n{1}", file, e.ToString());
@@ -201,14 +196,13 @@ namespace MonoDevelop.Gui
 		
 		void onDebuggerPaused (object o, EventArgs e)
 		{
-			IDebuggingService dbgr = (IDebuggingService)ServiceManager.GetService (typeof (IDebuggingService));
+			IDebuggingService dbgr = Runtime.DebuggingService;
 			if (dbgr != null) {
 				cur_dbgFilename = dbgr.CurrentFilename;
 				cur_dbgLineNumber = dbgr.CurrentLineNumber - 1;
 
 				if (cur_dbgFilename != String.Empty) {
-					IFileService fs = (IFileService)ServiceManager.GetService (typeof (IFileService));
-					fs.OpenFile (cur_dbgFilename);
+					Runtime.FileService.OpenFile (cur_dbgFilename);
 					if (ActiveWorkbenchWindow.ViewContent is IDebuggableEditor) 
 						((IDebuggableEditor)ActiveWorkbenchWindow.ViewContent).ExecutingAt (cur_dbgLineNumber);
 				}
@@ -242,17 +236,14 @@ namespace MonoDevelop.Gui
 			// FIXME: GTKize
 			ActiveWorkbenchWindowChanged += new EventHandler(UpdateMenu);
 			
-			IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IProjectService));
-			IFileService fileService = (IFileService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IFileService));
-			
-			projectService.CurrentProjectChanged += new ProjectEventHandler(SetProjectTitle);
-			projectService.CombineOpened         += new CombineEventHandler(CombineOpened);
+			Runtime.ProjectService.CurrentProjectChanged += new ProjectEventHandler(SetProjectTitle);
+			Runtime.ProjectService.CombineOpened         += new CombineEventHandler(CombineOpened);
 
-			fileService.FileRemoved += new FileEventHandler(CheckRemovedFile);
-			fileService.FileRenamed += new FileEventHandler(CheckRenamedFile);
+			Runtime.FileService.FileRemoved += new FileEventHandler(CheckRemovedFile);
+			Runtime.FileService.FileRenamed += new FileEventHandler(CheckRenamedFile);
 			
-			fileService.FileRemoved += new FileEventHandler(fileService.RecentOpen.FileRemoved);
-			fileService.FileRenamed += new FileEventHandler(fileService.RecentOpen.FileRenamed);
+			Runtime.FileService.FileRemoved += new FileEventHandler (Runtime.FileService.RecentOpen.FileRemoved);
+			Runtime.FileService.FileRenamed += new FileEventHandler (Runtime.FileService.RecentOpen.FileRenamed);
 			
 //			TopMenu.Selected   += new CommandHandler(OnTopMenuSelected);
 //			TopMenu.Deselected += new CommandHandler(OnTopMenuDeselected);
@@ -263,7 +254,7 @@ namespace MonoDevelop.Gui
 				
 		public void CloseContent(IViewContent content)
 		{
-			if (propertyService.GetProperty("SharpDevelop.LoadDocumentProperties", true) && content is IMementoCapable) {
+			if (Runtime.Properties.GetProperty("SharpDevelop.LoadDocumentProperties", true) && content is IMementoCapable) {
 				StoreMemento(content);
 			}
 			if (workbenchContentCollection.Contains(content)) {
@@ -290,7 +281,7 @@ namespace MonoDevelop.Gui
 		{
 			Debug.Assert(layout != null);
 			ViewContentCollection.Add(content);
-			if (propertyService.GetProperty("SharpDevelop.LoadDocumentProperties", true) && content is IMementoCapable) {
+			if (Runtime.Properties.GetProperty("SharpDevelop.LoadDocumentProperties", true) && content is IMementoCapable) {
 				try {
 					IXmlConvertable memento = GetStoredMemento(content);
 					if (memento != null) {
@@ -334,17 +325,14 @@ namespace MonoDevelop.Gui
 		public IXmlConvertable GetStoredMemento(IViewContent content)
 		{
 			if (content != null && content.ContentName != null) {
-				PropertyService propertyService = (PropertyService)ServiceManager.GetService(typeof(PropertyService));
-				
-				string directory = propertyService.ConfigDirectory + "temp";
+				string directory = Runtime.Properties.ConfigDirectory + "temp";
 				if (!Directory.Exists(directory)) {
 					Directory.CreateDirectory(directory);
 				}
 				string fileName = content.ContentName.Substring(3).Replace('/', '.').Replace('\\', '.').Replace(System.IO.Path.DirectorySeparatorChar, '.');
 				string fullFileName = directory + System.IO.Path.DirectorySeparatorChar + fileName;
 				// check the file name length because it could be more than the maximum length of a file name
-				FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.GetService(typeof(FileUtilityService));
-				if (fileUtilityService.IsValidFileName(fullFileName) && File.Exists(fullFileName)) {
+				if (Runtime.FileUtilityService.IsValidFileName(fullFileName) && File.Exists(fullFileName)) {
 					IXmlConvertable prototype = ((IMementoCapable)content).CreateMemento();
 					XmlDocument doc = new XmlDocument();
 					doc.Load (File.OpenRead (fullFileName));
@@ -360,8 +348,7 @@ namespace MonoDevelop.Gui
 			if (content.ContentName == null) {
 				return;
 			}
-			PropertyService propertyService = (PropertyService)ServiceManager.GetService(typeof(PropertyService));
-			string directory = propertyService.ConfigDirectory + "temp";
+			string directory = Runtime.Properties.ConfigDirectory + "temp";
 			if (!Directory.Exists(directory)) {
 				Directory.CreateDirectory(directory);
 			}
@@ -373,17 +360,15 @@ namespace MonoDevelop.Gui
 			fileAttribute.InnerText = content.ContentName;
 			doc.DocumentElement.Attributes.Append(fileAttribute);
 			
-			
 			IXmlConvertable memento = ((IMementoCapable)content).CreateMemento();
 			
 			doc.DocumentElement.AppendChild(memento.ToXmlElement(doc));
 			
 			string fileName = content.ContentName.Substring(3).Replace('/', '.').Replace('\\', '.').Replace(System.IO.Path.DirectorySeparatorChar, '.');
-			FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.GetService(typeof(FileUtilityService));
 			// check the file name length because it could be more than the maximum length of a file name
 			string fullFileName = directory + System.IO.Path.DirectorySeparatorChar + fileName;
-			if (fileUtilityService.IsValidFileName(fullFileName)) {
-				fileUtilityService.ObservedSave(new NamedFileOperationDelegate(doc.Save), fullFileName, FileErrorPolicy.ProvideAlternative);
+			if (Runtime.FileUtilityService.IsValidFileName(fullFileName)) {
+				Runtime.FileUtilityService.ObservedSave(new NamedFileOperationDelegate(doc.Save), fullFileName, FileErrorPolicy.ProvideAlternative);
 			}
 		}
 		
@@ -492,8 +477,7 @@ namespace MonoDevelop.Gui
 		
 		public bool Close() 
 		{
-			IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IProjectService));
-			projectService.SaveCombinePreferences ();
+			Runtime.ProjectService.SaveCombinePreferences ();
 
 			bool showDirtyDialog = false;
 
@@ -512,8 +496,8 @@ namespace MonoDevelop.Gui
 					return false;
 			}
 			
-			projectService.CloseCombine (false);
-			propertyService.SetProperty("SharpDevelop.Workbench.WorkbenchMemento", WorkbenchSingleton.Workbench.CreateMemento());
+			Runtime.ProjectService.CloseCombine (false);
+			Runtime.Properties.SetProperty("SharpDevelop.Workbench.WorkbenchMemento", WorkbenchSingleton.Workbench.CreateMemento());
 			OnClosed (null);
 			return true;
 		}
@@ -535,8 +519,7 @@ namespace MonoDevelop.Gui
 		
 		void SetStandardStatusBar(object sender, EventArgs e)
 		{
-			IStatusBarService statusBarService = (IStatusBarService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IStatusBarService));
-			statusBarService.SetMessage(GettextCatalog.GetString ("Ready"));
+			Runtime.Gui.StatusBar.SetMessage(GettextCatalog.GetString ("Ready"));
 		}
 		
 		void OnActiveWindowChanged(object sender, EventArgs e)
@@ -601,8 +584,7 @@ namespace MonoDevelop.Gui
 		void CreateToolBars()
 		{
 			if (ToolBars == null) {
-				ToolbarService toolBarService = (ToolbarService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(ToolbarService));
-				Gtk.Toolbar[] toolBars = toolBarService.CreateToolbars();
+				Gtk.Toolbar[] toolBars = Runtime.Gui.Toolbars.CreateToolbars();
 				ToolBars = toolBars;
 			}
 		}

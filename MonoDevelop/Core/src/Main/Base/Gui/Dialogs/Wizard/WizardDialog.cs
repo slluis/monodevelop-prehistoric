@@ -280,8 +280,6 @@ namespace MonoDevelop.Gui.Dialogs
 		
 		void InitializeComponents()
 		{
-			PropertyService propertyService = (PropertyService)ServiceManager.GetService(typeof(PropertyService));
-		
 			dialogPanel.Shadow = Gtk.ShadowType.None;
 		
 			//this.GdkWindow.SkipPagerHint = true;

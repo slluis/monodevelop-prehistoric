@@ -26,9 +26,6 @@ namespace MonoDevelop.Gui.Dialogs.OptionPanels
 	public class BuildPanel : AbstractOptionPanel
 	{
 
-		// service instances needed
-		PropertyService PropertyService = (PropertyService)ServiceManager.GetService (typeof (PropertyService));
-		
 		BuildPanelWidget widget;
 		const string projectAndCombineProperty = "SharpDevelop.UI.ProjectAndCombineOptions";
 
@@ -56,12 +53,6 @@ namespace MonoDevelop.Gui.Dialogs.OptionPanels
 			[Glade.Widget] public Gtk.CheckButton showOutputCheckBox;
 			[Glade.Widget] public Gtk.Label buildAndRunOptionsLabel;   
 
-			// service instances needed
-			StringParserService StringParserService = (StringParserService)ServiceManager.GetService (
-				typeof (StringParserService));
-			PropertyService PropertyService = (PropertyService)ServiceManager.GetService (
-				typeof (PropertyService));
-
 			public  BuildPanelWidget () : base ("Base.glade", "BuildPanel")
 			{
 			        //
@@ -71,15 +62,15 @@ namespace MonoDevelop.Gui.Dialogs.OptionPanels
 				//
 				// reading properties
 				//
-				BeforeCompileAction action = (BeforeCompileAction) PropertyService.GetProperty(
+				BeforeCompileAction action = (BeforeCompileAction) Runtime.Properties.GetProperty(
 					"SharpDevelop.Services.DefaultParserService.BeforeCompileAction", 
 					BeforeCompileAction.SaveAllFiles);
 				saveChangesRadioButton.Active = action.Equals(BeforeCompileAction.SaveAllFiles);
 				promptChangesRadioButton.Active = action.Equals(BeforeCompileAction.PromptForSave);
 				noSaveRadioButton.Active = action.Equals(BeforeCompileAction.Nothing);
-				showTaskListCheckBox.Active = (bool)PropertyService.GetProperty(
+				showTaskListCheckBox.Active = (bool)Runtime.Properties.GetProperty(
 					"SharpDevelop.ShowTaskListAfterBuild", true);
-				showOutputCheckBox.Active = (bool)PropertyService.GetProperty(
+				showOutputCheckBox.Active = (bool)Runtime.Properties.GetProperty(
 					"SharpDevelop.ShowOutputWindowAtBuild", true);
 			}
 			
@@ -87,18 +78,18 @@ namespace MonoDevelop.Gui.Dialogs.OptionPanels
 			{
 				// set properties
 				if (saveChangesRadioButton.Active) {
-					PropertyService.SetProperty("SharpDevelop.Services.DefaultParserService.BeforeCompileAction", 
+					Runtime.Properties.SetProperty("SharpDevelop.Services.DefaultParserService.BeforeCompileAction", 
 							BeforeCompileAction.SaveAllFiles);
 				} else if (promptChangesRadioButton.Active) {
-					PropertyService.SetProperty("SharpDevelop.Services.DefaultParserService.BeforeCompileAction", 
+					Runtime.Properties.SetProperty("SharpDevelop.Services.DefaultParserService.BeforeCompileAction", 
 							BeforeCompileAction.PromptForSave);
 				} else if (noSaveRadioButton.Active) {
-					PropertyService.SetProperty("SharpDevelop.Services.DefaultParserService.BeforeCompileAction", 
+					Runtime.Properties.SetProperty("SharpDevelop.Services.DefaultParserService.BeforeCompileAction", 
 							BeforeCompileAction.Nothing);
 				}
 				
-				PropertyService.SetProperty("SharpDevelop.ShowTaskListAfterBuild", showTaskListCheckBox.Active);
-				PropertyService.SetProperty("SharpDevelop.ShowOutputWindowAtBuild", showOutputCheckBox.Active);
+				Runtime.Properties.SetProperty("SharpDevelop.ShowTaskListAfterBuild", showTaskListCheckBox.Active);
+				Runtime.Properties.SetProperty("SharpDevelop.ShowOutputWindowAtBuild", showOutputCheckBox.Active);
 			}
 		}
 	}

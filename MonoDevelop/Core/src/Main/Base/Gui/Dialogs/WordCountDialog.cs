@@ -28,9 +28,6 @@ namespace MonoDevelop.Gui.Dialogs
 		ArrayList items;
 		Report total;
 		
-		StringParserService stringParserService = (StringParserService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(StringParserService));
-		MessageService messageService = (MessageService)MonoDevelop.Core.Services.ServiceManager.GetService (typeof(MessageService));
-		
 		internal class Report
 		{
 			public string name;
@@ -95,7 +92,7 @@ namespace MonoDevelop.Gui.Dialogs
 					IWorkbenchWindow window = WorkbenchSingleton.Workbench.ActiveWorkbenchWindow;
 					if (window != null) {
 						if (window.ViewContent.ContentName == null) {
-							messageService.ShowWarning (GettextCatalog.GetString ("You must save the file"));
+							Runtime.MessageService.ShowWarning (GettextCatalog.GetString ("You must save the file"));
 						} else {
 							Report r = GetReport(window.ViewContent.ContentName);
 							if (r != null) items.Add(r);
@@ -112,7 +109,7 @@ namespace MonoDevelop.Gui.Dialogs
 					total = new Report (GettextCatalog.GetString ("total"), 0, 0, 0);
 					foreach (IViewContent content in WorkbenchSingleton.Workbench.ViewContentCollection) {
 						if (content.ContentName == null) {
-							messageService.ShowWarning (GettextCatalog.GetString ("You must save the file"));
+							Runtime.MessageService.ShowWarning (GettextCatalog.GetString ("You must save the file"));
 							continue;
 						} else {
 							Report r = GetReport(content.ContentName);
@@ -127,7 +124,7 @@ namespace MonoDevelop.Gui.Dialogs
 					}
 					
 					if (dirty) {
-						messageService.ShowWarning (GettextCatalog.GetString ("Unsaved changed to open files were not included in counting"));
+						Runtime.MessageService.ShowWarning (GettextCatalog.GetString ("Unsaved changed to open files were not included in counting"));
 					}
 					
 					store.AppendValues ("", "", "", "");
@@ -137,14 +134,12 @@ namespace MonoDevelop.Gui.Dialogs
 				break;
 				}
 				case 2: {// whole project
-					IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IProjectService));
-					
-					if (projectService.CurrentOpenCombine == null) {
-						messageService.ShowError (GettextCatalog.GetString ("You must be in project mode"));
+					if (Runtime.ProjectService.CurrentOpenCombine == null) {
+						Runtime.MessageService.ShowError (GettextCatalog.GetString ("You must be in project mode"));
 						break;
 					}
 					total = new Report (GettextCatalog.GetString ("total"), 0, 0, 0);
-					CountCombine(projectService.CurrentOpenCombine, ref total);
+					CountCombine (Runtime.ProjectService.CurrentOpenCombine, ref total);
 					store.AppendValues ("", "", "", "");
 					//string[] allItems = all.ToListItem ();
 					//store.AppendValues (allItems[0], allItems[1], allItems[2], allItems[3]);
@@ -314,8 +309,7 @@ namespace MonoDevelop.Gui.Dialogs
 			store.AppendValues ("", "", "", "");
 			resultListView.Model = store;
 			
-			ResourceService resourceService = (ResourceService) ServiceManager.GetService(typeof(ResourceService));
-			this.Icon = resourceService.GetIcon ("Icons.16x16.FindIcon");
+			this.Icon = Runtime.Gui.Resources.GetIcon ("Icons.16x16.FindIcon");
 			this.TransientFor = (Window) WorkbenchSingleton.Workbench;
 			
 			HBox hbox = new HBox (false, 0);

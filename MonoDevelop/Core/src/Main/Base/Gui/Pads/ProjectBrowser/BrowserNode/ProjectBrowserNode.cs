@@ -105,8 +105,7 @@ namespace MonoDevelop.Gui.Pads.ProjectBrowser
 			IProject prj = project;
 			CombineEntry removeEntry = null;
 			
-			IMessageService messageService = (IMessageService) ServiceManager.GetService (typeof (IMessageService));
-			bool yes = messageService.AskQuestion (String.Format (GettextCatalog.GetString ("Do you really want to remove project {0} from solution {1}"), project.Name, cmb.Name));
+			bool yes = Runtime.MessageService.AskQuestion (String.Format (GettextCatalog.GetString ("Do you really want to remove project {0} from solution {1}"), project.Name, cmb.Name));
 
 			if (!yes)
 				return false;

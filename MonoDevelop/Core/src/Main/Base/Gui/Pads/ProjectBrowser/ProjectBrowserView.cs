@@ -40,9 +40,6 @@ namespace MonoDevelop.Gui.Pads.ProjectBrowser
 		Font               boldFont  = null;
 		Gtk.Frame contentPanel = new Gtk.Frame();
 
-		static FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.GetService(typeof(FileUtilityService));
-		static PropertyService propertyService = (PropertyService)ServiceManager.GetService(typeof(PropertyService));
-
 		public Gtk.Widget Control {
 			get {
 				return contentPanel;
@@ -68,7 +65,7 @@ namespace MonoDevelop.Gui.Pads.ProjectBrowser
 		public void RedrawContent()
 		{
 			BeginUpdate();
-			AbstractBrowserNode.ShowExtensions = propertyService.GetProperty("MonoDevelop.Gui.ProjectBrowser.ShowExtensions", true);
+			AbstractBrowserNode.ShowExtensions = Runtime.Properties.GetProperty("MonoDevelop.Gui.ProjectBrowser.ShowExtensions", true);
 			foreach (AbstractBrowserNode node in Nodes) {
 				node.UpdateNaming();
 			}
@@ -78,11 +75,10 @@ namespace MonoDevelop.Gui.Pads.ProjectBrowser
 		public ProjectBrowserView() : base (true, TreeNodeComparer.GtkProjectNode)
 		{
 			WorkbenchSingleton.Workbench.ActiveWorkbenchWindowChanged += new EventHandler(ActiveWindowChanged);
-			IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IProjectService));
 
-			projectService.CombineOpened += new CombineEventHandler(OpenCombine);
-			projectService.CombineClosed += new CombineEventHandler(CloseCombine);
-			propertyService.PropertyChanged += new PropertyEventHandler (TrackPropertyChange);
+			Runtime.ProjectService.CombineOpened += new CombineEventHandler(OpenCombine);
+			Runtime.ProjectService.CombineClosed += new CombineEventHandler(CloseCombine);
+			Runtime.Properties.PropertyChanged += new PropertyEventHandler (TrackPropertyChange);
 
 			Gtk.ScrolledWindow sw = new Gtk.ScrolledWindow ();
 			sw.Add(this);
@@ -170,8 +166,7 @@ namespace MonoDevelop.Gui.Pads.ProjectBrowser
 			((AbstractBrowserNode) node).AfterLabelEdit (new_text);
 			
 			// save changes
-			IProjectService projectService = (IProjectService) ServiceManager.GetService (typeof(IProjectService));
-			projectService.SaveCombine();
+			Runtime.ProjectService.SaveCombine();
 		}
 
 		void DisposeProjectNodes()
@@ -267,9 +262,8 @@ namespace MonoDevelop.Gui.Pads.ProjectBrowser
 		public void UpdateCombineTree()
 		{
 			XmlElement storedTree = new TreeViewMemento(this).ToXmlElement(new XmlDocument());
-			IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IProjectService));
-			CloseCombine(this,new CombineEventArgs(projectService.CurrentOpenCombine));
-			OpenCombine(this, new CombineEventArgs(projectService.CurrentOpenCombine));
+			CloseCombine(this,new CombineEventArgs(Runtime.ProjectService.CurrentOpenCombine));
+			OpenCombine(this, new CombineEventArgs(Runtime.ProjectService.CurrentOpenCombine));
 			((TreeViewMemento)new TreeViewMemento().FromXmlElement(storedTree)).Restore(this);
 			ActiveWindowChanged(this, EventArgs.Empty);
 		}
@@ -330,11 +324,9 @@ namespace MonoDevelop.Gui.Pads.ProjectBrowser
 		void ShowPopup ()
 		{
 			AbstractBrowserNode node = (AbstractBrowserNode) SelectedNode;
-			IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IProjectService));
-			projectService.CurrentSelectedProject = node.Project;
-			projectService.CurrentSelectedCombine = node.Combine;
-			MenuService menuService = (MenuService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(MenuService));
-			menuService.ShowContextMenu(this, node.ContextmenuAddinTreePath, this);
+			Runtime.ProjectService.CurrentSelectedProject = node.Project;
+			Runtime.ProjectService.CurrentSelectedCombine = node.Combine;
+			Runtime.Gui.Menus.ShowContextMenu(this, node.ContextmenuAddinTreePath, this);
 
 		}
 
@@ -507,7 +499,7 @@ namespace MonoDevelop.Gui.Pads.ProjectBrowser
 		public static void MoveCopyFile(string filename, AbstractBrowserNode node, bool move, bool alreadyInPlace)
 		{
 			//			FileType type      = FileUtility.GetFileType(filename);
-			bool     directory = fileUtilityService.IsDirectory(filename);
+			bool     directory = Runtime.FileUtilityService.IsDirectory(filename);
 			if (
 //			    type == FileType.Dll ||
 //			    type == FileType.Resource ||
@@ -527,10 +519,10 @@ namespace MonoDevelop.Gui.Pads.ProjectBrowser
 
 			string name        = System.IO.Path.GetFileName(filename);
 			string baseDirectory = node is DirectoryNode ? ((DirectoryNode)node).FolderName : node.Project.BaseDirectory;
-			string newfilename = alreadyInPlace ? filename : fileUtilityService.GetDirectoryNameWithSeparator(baseDirectory) + name;
+			string newfilename = alreadyInPlace ? filename : Runtime.FileUtilityService.GetDirectoryNameWithSeparator(baseDirectory) + name;
 
-			string oldrelativename = fileUtilityService.AbsoluteToRelativePath(baseDirectory, filename);
-			string newrelativename = fileUtilityService.AbsoluteToRelativePath(baseDirectory, newfilename);
+			string oldrelativename = Runtime.FileUtilityService.AbsoluteToRelativePath(baseDirectory, filename);
+			string newrelativename = Runtime.FileUtilityService.AbsoluteToRelativePath(baseDirectory, newfilename);
 
 			AbstractBrowserNode oldparent = DefaultDotNetNodeBuilder.GetPath(oldrelativename, GetRootProjectNode(node), false);          // TODO : change this for more projects
 			AbstractBrowserNode newparent = node;
@@ -556,8 +548,7 @@ namespace MonoDevelop.Gui.Pads.ProjectBrowser
 			if (move) {
 				if (filename != newfilename) {
 					File.Copy(filename, newfilename);
-					IFileService fileService = (IFileService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IFileService));
-					fileService.RemoveFile(filename);
+					Runtime.FileService.RemoveFile (filename);
 				}
 				if (oldnode != null) {
 					oldparent.Nodes.Remove(oldnode);
@@ -569,19 +560,18 @@ namespace MonoDevelop.Gui.Pads.ProjectBrowser
 			}
 
 			ProjectFile fInfo;
-			IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IProjectService));
 
 			if (newparent.Project.IsCompileable(newfilename)) {
-				fInfo = projectService.AddFileToProject(newparent.Project, newfilename, BuildAction.Compile);
+				fInfo = Runtime.ProjectService.AddFileToProject(newparent.Project, newfilename, BuildAction.Compile);
 			} else {
-				fInfo = projectService.AddFileToProject(newparent.Project, newfilename, BuildAction.Nothing);
+				fInfo = Runtime.ProjectService.AddFileToProject(newparent.Project, newfilename, BuildAction.Nothing);
 			}
 
 			AbstractBrowserNode pbn = new FileNode(fInfo);
 			newparent.Nodes.Add (pbn);
 			
 			pbn.EnsureVisible();
-			projectService.SaveCombine();
+			Runtime.ProjectService.SaveCombine();
 		}
 
 

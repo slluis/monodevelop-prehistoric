@@ -5,7 +5,7 @@
 //     <version value="$version"/>
 // </file>
 
-using MonoDevelop.Core.Services;
+using MonoDevelop.Services;
 
 namespace MonoDevelop.Gui.ErrorHandlers
 {
@@ -18,8 +18,7 @@ namespace MonoDevelop.Gui.ErrorHandlers
 		
 		public static void DisplayError(string message)
 		{
-			IMessageService messageService =(IMessageService)ServiceManager.GetService(typeof(IMessageService));
-			messageService.ShowError(message);
+			Runtime.MessageService.ShowError (message);
 		}
 	}
 }

@@ -49,11 +49,7 @@ namespace MonoDevelop.Gui.Dialogs {
 		[Glade.Widget] Gtk.TreeView lst_template_types;
 		[Glade.Widget] HBox hbox_template, hbox_for_browser;
 		
-		FileUtilityService  fileUtilityService = (FileUtilityService)ServiceManager.GetService(typeof(FileUtilityService));
-		StringParserService stringParserService = (StringParserService)ServiceManager.GetService(typeof(StringParserService));
-		PropertyService     propertyService = (PropertyService)ServiceManager.GetService(typeof(PropertyService));
-		MessageService      messageService = (MessageService)ServiceManager.GetService(typeof(MessageService));
-		DispatchService     dispatcher = (DispatchService)ServiceManager.GetService (typeof (DispatchService));
+		FileUtilityService  fileUtilityService = Runtime.FileUtilityService;
 		bool openCombine;
 		
 		public NewProjectDialog (bool openCombine)
@@ -62,7 +58,7 @@ namespace MonoDevelop.Gui.Dialogs {
 			new Glade.XML (null, "Base.glade", "NewProjectDialog", null).Autoconnect (this);
 			dialog.TransientFor = (Window) WorkbenchSingleton.Workbench;			
 
-			dispatcher.BackgroundDispatch (new MessageHandler (InitializeTemplates));
+			Runtime.DispatchService.BackgroundDispatch (new MessageHandler (InitializeTemplates));
 		}
 		
 		void InitializeView()
@@ -116,7 +112,7 @@ namespace MonoDevelop.Gui.Dialogs {
 				//	titem.Selected = true;
 				alltemplates.Add(titem);
 			}
-			dispatcher.GuiDispatch (new MessageHandler (InitializeComponents));
+			Runtime.DispatchService.GuiDispatch (new MessageHandler (InitializeComponents));
 		}
 		
 		void CategoryChange(object sender, EventArgs e)
@@ -169,13 +165,12 @@ namespace MonoDevelop.Gui.Dialogs {
 			project.ProjectFiles.Add (new ProjectFile(filename));
 			
 			StreamWriter sr = System.IO.File.CreateText (filename);
-			sr.Write(stringParserService.Parse(content, new string[,] { {"PROJECT", txt_name.Text}, {"FILE", System.IO.Path.GetFileName(filename)}}));
+			sr.Write (Runtime.StringParserService.Parse(content, new string[,] { {"PROJECT", txt_name.Text}, {"FILE", System.IO.Path.GetFileName(filename)}}));
 			sr.Close();
 			
 			if (showFile) {
-				string longfilename = fileUtilityService.GetDirectoryNameWithSeparator (ProjectSolution) + stringParserService.Parse(filename, new string[,] { {"PROJECT", txt_name.Text}});
-				IFileService fileService = (IFileService) MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IFileService));
-				fileService.OpenFile (longfilename);
+				string longfilename = fileUtilityService.GetDirectoryNameWithSeparator (ProjectSolution) + Runtime.StringParserService.Parse(filename, new string[,] { {"PROJECT", txt_name.Text}});
+				Runtime.FileService.OpenFile (longfilename);
 			}
 		}
 		
@@ -184,24 +179,20 @@ namespace MonoDevelop.Gui.Dialogs {
 		
 		void OpenEvent(object sender, EventArgs e)
 		{
-			PropertyService propertyService = (PropertyService)ServiceManager.GetService(typeof(PropertyService));
 			if (TemplateView.CurrentlySelected != null) {
-				propertyService.SetProperty("Dialogs.NewProjectDialog.LastSelectedCategory", ((ProjectTemplate)TemplateView.CurrentlySelected).Name);
-				//propertyService.SetProperty("Dialogs.NewProjectDialog.LargeImages", ((RadioButton)ControlDictionary["largeIconsRadioButton"]).Checked);
+				Runtime.Properties.SetProperty("Dialogs.NewProjectDialog.LastSelectedCategory", ((ProjectTemplate)TemplateView.CurrentlySelected).Name);
+				//Runtime.Properties.SetProperty("Dialogs.NewProjectDialog.LargeImages", ((RadioButton)ControlDictionary["largeIconsRadioButton"]).Checked);
 			}
 			
-			FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.GetService(typeof(FileUtilityService));
 			string solution = txt_subdirectory.Text;
 			string name     = txt_name.Text;
 			string location = entry_location.Path;
 
-			IProjectService projService = (IProjectService)ServiceManager.GetService(typeof(IProjectService));			
-						
 			if(solution.Equals("")) solution = name; //This was empty when adding after first combine
 			
 			//The one below seemed to be failing sometimes.
 			if(solution.IndexOfAny("$#@!%^&*/?\\|'\";:}{".ToCharArray()) > -1) {
-				messageService.ShowError(GettextCatalog.GetString ("Illegal project name. \nOnly use letters, digits, space, '.' or '_'."));
+				Runtime.MessageService.ShowError(GettextCatalog.GetString ("Illegal project name. \nOnly use letters, digits, space, '.' or '_'."));
 				dialog.Respond(Gtk.ResponseType.Reject);
 				dialog.Hide();
 				return;
@@ -211,18 +202,18 @@ namespace MonoDevelop.Gui.Dialogs {
 				&& (!fileUtilityService.IsValidFileName (solution) || solution.IndexOf(System.IO.Path.DirectorySeparatorChar) >= 0)) ||
 			    !fileUtilityService.IsValidFileName(name)     || name.IndexOf(System.IO.Path.DirectorySeparatorChar) >= 0 ||
 			    !fileUtilityService.IsValidFileName(location)) {
-				messageService.ShowError(GettextCatalog.GetString ("Illegal project name.\nOnly use letters, digits, space, '.' or '_'."));
+				Runtime.MessageService.ShowError(GettextCatalog.GetString ("Illegal project name.\nOnly use letters, digits, space, '.' or '_'."));
 				return;
 			}
 
-			if(projService.ExistsEntryWithName(name)) {
-				messageService.ShowError(GettextCatalog.GetString ("A Project with that name is already in your Project Space"));
+			if(Runtime.ProjectService.ExistsEntryWithName(name)) {
+				Runtime.MessageService.ShowError(GettextCatalog.GetString ("A Project with that name is already in your Project Space"));
 				dialog.Respond(Gtk.ResponseType.Reject);
 				dialog.Hide();
 				return;
 			}
 			
-			propertyService.SetProperty (
+			Runtime.Properties.SetProperty (
 				"MonoDevelop.Gui.Dialogs.NewProjectDialog.AutoCreateProjectSubdir",
 				chk_combine_directory.Active);
 			
@@ -235,11 +226,11 @@ namespace MonoDevelop.Gui.Dialogs {
 				}
 				catch (IOException ioException)
 				{
-					messageService.ShowError (String.Format (GettextCatalog.GetString ("Could not create file {0}. File already exists."), ProjectSolution));
+					Runtime.MessageService.ShowError (String.Format (GettextCatalog.GetString ("Could not create file {0}. File already exists."), ProjectSolution));
 				}
 				catch (UnauthorizedAccessException accessException)
 				{
-					messageService.ShowError (String.Format (GettextCatalog.GetString ("You do not have permission to create to {0}"), ProjectSolution));
+					Runtime.MessageService.ShowError (String.Format (GettextCatalog.GetString ("You do not have permission to create to {0}"), ProjectSolution));
 					return;
 				}
 				
@@ -247,7 +238,7 @@ namespace MonoDevelop.Gui.Dialogs {
 				
 				cinfo.CombinePath     = ProjectLocation;
 				cinfo.ProjectBasePath = ProjectSolution;
-//				cinfo.Description     = stringParserService.Parse(item.Template.Description);
+//				cinfo.Description     = Runtime.StringParserService.Parse(item.Template.Description);
 				
 				cinfo.ProjectName     = name;
 //				cinfo.ProjectTemplate = item.Template;
@@ -275,7 +266,7 @@ namespace MonoDevelop.Gui.Dialogs {
 		void SelectedIndexChange(object sender, EventArgs e)
 		{
 			if (TemplateView.CurrentlySelected != null)
-				lbl_template_descr.Text = stringParserService.Parse (((ProjectTemplate)TemplateView.CurrentlySelected).Description);
+				lbl_template_descr.Text = Runtime.StringParserService.Parse (((ProjectTemplate)TemplateView.CurrentlySelected).Description);
 			else
 				lbl_template_descr.Text = String.Empty;
 			
@@ -321,7 +312,7 @@ namespace MonoDevelop.Gui.Dialogs {
 			hbox_for_browser.PackStart (entry_location, true, true, 0);
 			
 			
-			entry_location.DefaultPath = propertyService.GetProperty ("MonoDevelop.Gui.Dialogs.NewProjectDialog.DefaultPath", fileUtilityService.GetDirectoryNameWithSeparator (Environment.GetEnvironmentVariable ("HOME")) + "Projects").ToString ();
+			entry_location.DefaultPath = Runtime.Properties.GetProperty ("MonoDevelop.Gui.Dialogs.NewProjectDialog.DefaultPath", fileUtilityService.GetDirectoryNameWithSeparator (Environment.GetEnvironmentVariable ("HOME")) + "Projects").ToString ();
 			
 			PathChanged (null, null);
 			
@@ -372,7 +363,7 @@ namespace MonoDevelop.Gui.Dialogs {
 			
 			public TemplateItem(ProjectTemplate template)
 			{
-				name = ((StringParserService)ServiceManager.GetService(typeof(StringParserService))).Parse(template.Name);
+				name = Runtime.StringParserService.Parse(template.Name);
 				this.template = template;
 			}
 			

@@ -63,7 +63,7 @@ namespace MonoDevelop.Gui.Pads.ProjectBrowser
 		bool ContainsNoInvalidChars (string name)
 		{
 			if (name.IndexOfAny (new char [] { '\'', '(', ')', '"', '{', '}', '|' } ) != -1) {
-				((MessageService)ServiceManager.GetService (typeof (MessageService))).ShowError (String.Format (GettextCatalog.GetString ("Solution name may not contain any of the following characters: {0}"), "', (, ), \", {, }, |"));
+				Runtime.MessageService.ShowError (String.Format (GettextCatalog.GetString ("Solution name may not contain any of the following characters: {0}"), "', (, ), \", {, }, |"));
 				return false;
 			}
 			return true;
@@ -103,8 +103,7 @@ namespace MonoDevelop.Gui.Pads.ProjectBrowser
 			
 			CombineBrowserNode cmbNode = (CombineBrowserNode)Parent;
 			
-			IMessageService messageService = (IMessageService) ServiceManager.GetService (typeof (IMessageService));
-			bool yes = messageService.AskQuestion (String.Format (GettextCatalog.GetString ("Do you really want to remove solution {0} from solution {1}?"), combine.Name, cmbNode.Combine.Name));
+			bool yes = Runtime.MessageService.AskQuestion (String.Format (GettextCatalog.GetString ("Do you really want to remove solution {0} from solution {1}?"), combine.Name, cmbNode.Combine.Name));
 
 			if (!yes)
 				return false;

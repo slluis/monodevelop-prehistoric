@@ -127,8 +127,7 @@ namespace MonoDevelop.Gui
 			get
 			{
 				if (HasProject) {
-					FileUtilityService fus = (FileUtilityService)ServiceManager.GetService (typeof (FileUtilityService));
-					return fus.AbsoluteToRelativePath (project.BaseDirectory, ContentName).Substring (2);
+					return Runtime.FileUtilityService.AbsoluteToRelativePath (project.BaseDirectory, ContentName).Substring (2);
 				}
 				return null;
 			}

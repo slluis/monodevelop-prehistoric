@@ -12,14 +12,12 @@ using System.Xml;
 using Gtk;
 using MonoDevelop.Gui;
 using MonoDevelop.Core.Properties;
-using MonoDevelop.Core.Services;
+using MonoDevelop.Services;
 
 namespace MonoDevelop.Gui.Dialogs
 {
 	public class TipOfTheDayWindow
 	{
- 		PropertyService propertyService = (PropertyService)ServiceManager.GetService (typeof (PropertyService));
-
 		[Glade.Widget] Label categoryLabel;
 		[Glade.Widget] TextView tipTextview;
 		[Glade.Widget] CheckButton noshowCheckbutton;
@@ -39,14 +37,14 @@ namespace MonoDevelop.Gui.Dialogs
 					
 			tipOfTheDayWindow.TypeHint = Gdk.WindowTypeHint.Dialog;
 
-			noshowCheckbutton.Active = propertyService.GetProperty ("MonoDevelop.Gui.Dialog.TipOfTheDayView.ShowTipsAtStartup", false);
+			noshowCheckbutton.Active = Runtime.Properties.GetProperty ("MonoDevelop.Gui.Dialog.TipOfTheDayView.ShowTipsAtStartup", false);
 			noshowCheckbutton.Toggled += new EventHandler (OnNoshow);
 			nextButton.Clicked += new EventHandler (OnNext);
 			closeButton.Clicked += new EventHandler (OnClose);
 			tipOfTheDayWindow.DeleteEvent += new DeleteEventHandler (OnDelete);
 
  			XmlDocument doc = new XmlDocument();
- 			doc.Load (propertyService.DataDirectory +
+ 			doc.Load (Runtime.Properties.DataDirectory +
 				  System.IO.Path.DirectorySeparatorChar + "options" +
 				  System.IO.Path.DirectorySeparatorChar + "TipsOfTheDay.xml");
 			ParseTips (doc.DocumentElement);
@@ -57,12 +55,11 @@ namespace MonoDevelop.Gui.Dialogs
 
 		private void ParseTips (XmlElement el)
 		{
- 			StringParserService stringParserService = (StringParserService)ServiceManager.GetService (typeof (StringParserService));
  			XmlNodeList nodes = el.ChildNodes;
  			tips = new string[nodes.Count];
 			
  			for (int i = 0; i < nodes.Count; i++) {
- 				tips[i] = stringParserService.Parse (nodes[i].InnerText);
+ 				tips[i] = Runtime.StringParserService.Parse (nodes[i].InnerText);
  			}
 			
  			currentTip = (new Random ().Next ()) % nodes.Count;
@@ -70,7 +67,7 @@ namespace MonoDevelop.Gui.Dialogs
 
 		void OnNoshow (object obj, EventArgs args)
 		{
-			propertyService.SetProperty ("MonoDevelop.Gui.Dialog.TipOfTheDayView.ShowTipsAtStartup",
+			Runtime.Properties.SetProperty ("MonoDevelop.Gui.Dialog.TipOfTheDayView.ShowTipsAtStartup",
 						    noshowCheckbutton.Active);
 		}
 

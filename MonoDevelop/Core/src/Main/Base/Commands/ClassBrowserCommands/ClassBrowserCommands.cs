@@ -40,8 +40,7 @@ namespace MonoDevelop.Commands.ClassScoutCommands
 			AbstractClassScoutNode node = browser.SelectedNode as AbstractClassScoutNode;
 			
 			if (node != null) {
-				IMessageService messageService =(IMessageService)ServiceManager.GetService(typeof(IMessageService));
-				messageService.ShowWarning(GettextCatalog.GetString ("Not implemented"));
+				Runtime.MessageService.ShowWarning(GettextCatalog.GetString ("Not implemented"));
 			}
 		}
 	}

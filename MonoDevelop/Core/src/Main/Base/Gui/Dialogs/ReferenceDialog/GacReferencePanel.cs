@@ -136,8 +136,7 @@ namespace MonoDevelop.Gui.Dialogs
 				}
 			}
 			#endif
-			SystemAssemblyService sas = (SystemAssemblyService)ServiceManager.GetService (typeof (SystemAssemblyService));
-			foreach (string assemblyPath in sas.AssemblyPaths) {
+			foreach (string assemblyPath in Runtime.SystemAssemblyService.AssemblyPaths) {
 				try {
 					System.Reflection.AssemblyName an = System.Reflection.AssemblyName.GetAssemblyName (assemblyPath);
 					store.AppendValues (an.Name, an.Version.ToString (), System.IO.Path.GetFileName (assemblyPath), false, an.FullName);

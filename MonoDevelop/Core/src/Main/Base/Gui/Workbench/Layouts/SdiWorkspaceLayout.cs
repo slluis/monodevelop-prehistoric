@@ -26,8 +26,7 @@ namespace MonoDevelop.Gui
 	/// </summary>
 	public class SdiWorkbenchLayout : IWorkbenchLayout
 	{
-		static PropertyService propertyService = (PropertyService)ServiceManager.GetService(typeof(PropertyService));
-		static string configFile = propertyService.ConfigDirectory + "DefaultEditingLayout.xml";
+		static string configFile = Runtime.Properties.ConfigDirectory + "DefaultEditingLayout.xml";
 
 		// contains the fully qualified name of the current layout (ie. Edit.Default)
 		string currentLayout = "";
@@ -105,8 +104,7 @@ namespace MonoDevelop.Gui
 
 			workbench.Add (vbox);
 			
-			IStatusBarService statusBarService = (IStatusBarService) ServiceManager.GetService (typeof (IStatusBarService));
-			vbox.PackEnd (statusBarService.Control, false, true, 0);
+			vbox.PackEnd (Runtime.Gui.StatusBar.Control, false, true, 0);
 			
 			foreach (IViewContent content in workbench.ViewContentCollection)
 				ShowView (content);
@@ -155,8 +153,6 @@ namespace MonoDevelop.Gui
 
 		void SwitchContext (WorkbenchContext ctxt)
 		{
-			PropertyService propertyService =
-				(PropertyService) ServiceManager.GetService (typeof (PropertyService));
 			PadContentCollection old = activePadCollection;
 			
 			// switch pad collections
@@ -180,7 +176,7 @@ namespace MonoDevelop.Gui
 			}
 			
 			// get the default layout for the new context from the property service
-			CurrentLayout = propertyService.GetProperty
+			CurrentLayout = Runtime.Properties.GetProperty
 				("MonoDevelop.Gui.SdiWorkbenchLayout." + ctxt.ToString (), "Default");
 			
 			// make sure invalid pads for the new context are not visible
@@ -230,9 +226,7 @@ namespace MonoDevelop.Gui
 				currentLayout = newLayout;
 
 				// persist the selected layout for the current context
-				PropertyService propertyService =
-					(PropertyService) ServiceManager.GetService (typeof (PropertyService));
-				propertyService.SetProperty ("MonoDevelop.Gui.SdiWorkbenchLayout." +
+				Runtime.Properties.SetProperty ("MonoDevelop.Gui.SdiWorkbenchLayout." +
 				                             workbenchContext.ToString (), value);
 			}
 		}

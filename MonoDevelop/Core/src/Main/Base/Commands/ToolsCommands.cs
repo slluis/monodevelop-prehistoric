@@ -9,7 +9,7 @@ using System;
 using System.Collections;
 using System.CodeDom.Compiler;
 
-using MonoDevelop.Core.Services;
+using MonoDevelop.Services;
 using MonoDevelop.Core.AddIns;
 using MonoDevelop.Core.Properties;
 using MonoDevelop.Core.AddIns.Codons;
@@ -23,8 +23,7 @@ namespace MonoDevelop.Commands
 	{
 		public override void Run()
 		{
-			PropertyService propertyService = (PropertyService)ServiceManager.GetService(typeof(PropertyService));
-			TreeViewOptions optionsDialog = new TreeViewOptions((IProperties)propertyService.GetProperty("MonoDevelop.TextEditor.Document.Document.DefaultDocumentAggregatorProperties", new DefaultProperties()),
+			TreeViewOptions optionsDialog = new TreeViewOptions((IProperties)Runtime.Properties.GetProperty("MonoDevelop.TextEditor.Document.Document.DefaultDocumentAggregatorProperties", new DefaultProperties()),
 			                                                           AddInTreeSingleton.AddInTree.GetTreeNode("/SharpDevelop/Dialogs/OptionsDialog"));
 			//optionsDialog.ShowAll ();
 			//	optionsDialog.FormBorderStyle = FormBorderStyle.FixedDialog;

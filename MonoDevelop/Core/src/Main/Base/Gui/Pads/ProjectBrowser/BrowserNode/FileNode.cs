@@ -28,8 +28,6 @@ namespace MonoDevelop.Gui.Pads.ProjectBrowser
 		public readonly static string ProjectFileContextMenuPath = "/SharpDevelop/Views/ProjectBrowser/ContextMenu/ProjectFileNode";
 		public readonly static string DefaultContextMenuPath = "/SharpDevelop/Views/ProjectBrowser/ContextMenu/DefaultFileNode";
 		
-		IMessageService messageService = (IMessageService) ServiceManager.GetService (typeof (IMessageService));
-
 		/// <summary>
 		/// Generates a Drag & Drop data object. If this property returns null
 		/// the node indicates that it can't be dragged.
@@ -66,8 +64,7 @@ namespace MonoDevelop.Gui.Pads.ProjectBrowser
 		
 		protected virtual void SetNodeIcon()
 		{
-			IconService iconService = (IconService)ServiceManager.GetService(typeof(IconService));
-			Image = iconService.GetImageForFile(((ProjectFile)userData).Name);
+			Image = Runtime.Gui.Icons.GetImageForFile (((ProjectFile)userData).Name);
 		}
 		
 		protected virtual void SetNodeLabel()
@@ -91,11 +88,8 @@ namespace MonoDevelop.Gui.Pads.ProjectBrowser
 		
 		public override void ActivateItem()
 		{
-			if (userData != null && userData is ProjectFile) {
-				IFileService fileService = (IFileService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IFileService));
-				
-				fileService.OpenFile (((ProjectFile)userData).Name);
-			}
+			if (userData != null && userData is ProjectFile)
+				Runtime.FileService.OpenFile (((ProjectFile)userData).Name);
 		}
 		
 		public override void AfterLabelEdit(string newName)
@@ -109,18 +103,16 @@ namespace MonoDevelop.Gui.Pads.ProjectBrowser
 				string newname = Path.GetDirectoryName(oldname) + Path.DirectorySeparatorChar + newName;
 				if (oldname != newname) {
 					try {
-						IFileService fileService = (IFileService) ServiceManager.GetService (typeof (IFileService));
-						FileUtilityService fileUtilityService = (FileUtilityService) ServiceManager.GetService (typeof (FileUtilityService));
-						if (fileUtilityService.IsValidFileName(newname)) {
-							fileService.RenameFile(oldname, newname);
+						if (Runtime.FileUtilityService.IsValidFileName(newname)) {
+							Runtime.FileService.RenameFile(oldname, newname);
 							SetNodeLabel();
 							SetNodeIcon();
 							UpdateBacking ();
 						}
 					} catch (System.IO.IOException) {   // assume duplicate file
-						messageService.ShowError (GettextCatalog.GetString ("File or directory name is already in use, choose a different one."));
+						Runtime.MessageService.ShowError (GettextCatalog.GetString ("File or directory name is already in use, choose a different one."));
 					} catch (System.ArgumentException) { // new file name with wildcard (*, ?) characters in it
-						messageService.ShowError (GettextCatalog.GetString ("The file name you have chosen contains illegal characters. Please choose a different file name."));
+						Runtime.MessageService.ShowError (GettextCatalog.GetString ("The file name you have chosen contains illegal characters. Please choose a different file name."));
 					}
 				}
 			}
@@ -133,12 +125,11 @@ namespace MonoDevelop.Gui.Pads.ProjectBrowser
 		{
 			DateTime old = DateTime.Now;
 			
-			bool yes = messageService.AskQuestion (String.Format (GettextCatalog.GetString ("Are you sure you want to remove file {0} from project {1}?"), Path.GetFileName (((ProjectFile)userData).Name), Project.Name));
+			bool yes = Runtime.MessageService.AskQuestion (String.Format (GettextCatalog.GetString ("Are you sure you want to remove file {0} from project {1}?"), Path.GetFileName (((ProjectFile)userData).Name), Project.Name));
 			if (!yes)
 				return false;
 
-			IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IProjectService));
-			projectService.RemoveFileFromProject(((ProjectFile)userData).Name);
+			Runtime.ProjectService.RemoveFileFromProject (((ProjectFile)userData).Name);
 			return true;
 		}
 	}

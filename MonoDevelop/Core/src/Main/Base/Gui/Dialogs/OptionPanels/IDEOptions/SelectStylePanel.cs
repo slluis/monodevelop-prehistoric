@@ -12,7 +12,7 @@ using MonoDevelop.Internal.ExternalTool;
 using MonoDevelop.Core.AddIns.Codons;
 using MonoDevelop.Core.Properties;
 using MonoDevelop.Gui.Components;
-using MonoDevelop.Core.Services;
+using MonoDevelop.Services;
 using MonoDevelop.Core.AddIns;
 
 using Gtk;
@@ -22,7 +22,6 @@ namespace MonoDevelop.Gui.Dialogs.OptionPanels
 {
 	public class SelectStylePanel : AbstractOptionPanel
 	{
-		PropertyService PropertyService = (PropertyService)ServiceManager.GetService (typeof (PropertyService));
 		SelectStylePanelWidget widget;
 		const string selectStyleProperty = "SharpDevelop.UI.SelectStyleOptions";
 
@@ -39,8 +38,6 @@ namespace MonoDevelop.Gui.Dialogs.OptionPanels
 
 		class SelectStylePanelWidget : GladeWidgetExtract 
 		{
-
-			PropertyService p = (PropertyService)ServiceManager.GetService (typeof (PropertyService));
 			//FIXME: Hashtables are wrong here.
 			//FIXME: Yes, this is a dirty hack.
 			//FIXME: Lets use something else.
@@ -56,8 +53,8 @@ namespace MonoDevelop.Gui.Dialogs.OptionPanels
 					
 			public SelectStylePanelWidget () : base ("Base.glade", "SelectStylePanel")
 			{
-				extensionButton.Active  = p.GetProperty("MonoDevelop.Gui.ProjectBrowser.ShowExtensions", true);
-				hiddenButton.Active  = p.GetProperty("MonoDevelop.Gui.FileScout.ShowHidden", false);
+				extensionButton.Active  = Runtime.Properties.GetProperty("MonoDevelop.Gui.ProjectBrowser.ShowExtensions", true);
+				hiddenButton.Active  = Runtime.Properties.GetProperty("MonoDevelop.Gui.FileScout.ShowHidden", false);
 
 // commented out by jba - 23 feb 04, deosn't seem to be used
 //				ambienceMenu = new Gtk.Menu ();
@@ -83,8 +80,8 @@ namespace MonoDevelop.Gui.Dialogs.OptionPanels
 			
 			public void Store()
 			{
-				p.SetProperty("MonoDevelop.Gui.ProjectBrowser.ShowExtensions", extensionButton.Active);
-				p.SetProperty("MonoDevelop.Gui.FileScout.ShowHidden", hiddenButton.Active);
+				Runtime.Properties.SetProperty("MonoDevelop.Gui.ProjectBrowser.ShowExtensions", extensionButton.Active);
+				Runtime.Properties.SetProperty("MonoDevelop.Gui.FileScout.ShowHidden", hiddenButton.Active);
 //				p.SetProperty("SharpDevelop.UI.CurrentAmbience", (string)MenuToValue[ambienceMenu.Active]);
 			}
 		}

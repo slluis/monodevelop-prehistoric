@@ -95,19 +95,15 @@ namespace MonoDevelop.Gui.Pads.ProjectBrowser
 				if (oldFoldername != newFoldername) {
 					try {
 						
-						IFileService fileService = (IFileService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IFileService));
-						FileUtilityService fileUtilityService = (FileUtilityService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(FileUtilityService));
-						if (fileUtilityService.IsValidFileName(newFoldername)) {
-							fileService.RenameFile(oldFoldername, newFoldername);
+						if (Runtime.FileUtilityService.IsValidFileName(newFoldername)) {
+							Runtime.FileService.RenameFile (oldFoldername, newFoldername);
 							Text       = newName;
 							folderName = newFoldername;
 						}
 					} catch (System.IO.IOException) {   // assume duplicate file
-						IMessageService messageService =(IMessageService)ServiceManager.GetService(typeof(IMessageService));
-						messageService.ShowError(GettextCatalog.GetString ("File or directory name is already in use, choose a different one."));
+						Runtime.MessageService.ShowError(GettextCatalog.GetString ("File or directory name is already in use, choose a different one."));
 					} catch (System.ArgumentException) { // new file name with wildcard (*, ?) characters in it
-						IMessageService messageService =(IMessageService)ServiceManager.GetService(typeof(IMessageService));
-						messageService.ShowError(GettextCatalog.GetString ("The file name you have chosen contains illegal characters. Please choose a different file name."));
+						Runtime.MessageService.ShowError(GettextCatalog.GetString ("The file name you have chosen contains illegal characters. Please choose a different file name."));
 					}
 				}
 			}
@@ -123,20 +119,17 @@ namespace MonoDevelop.Gui.Pads.ProjectBrowser
 				return false;
 			}
 			
-			IMessageService messageService = (IMessageService) ServiceManager.GetService (typeof (IMessageService));
-			bool yes = messageService.AskQuestion (String.Format (GettextCatalog.GetString ("Do you want to remove folder {0} from project {1}?"), Text, Project.Name));
+			bool yes = Runtime.MessageService.AskQuestion (String.Format (GettextCatalog.GetString ("Do you want to remove folder {0} from project {1}?"), Text, Project.Name));
 
 			if (!yes)
 				return false;
 			
-			//IFileService fileService = (IFileService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IFileService));
-			IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IProjectService));
 			//switch (ret) {
 				//case 0:
-					projectService.RemoveFileFromProject(FolderName);
+					Runtime.ProjectService.RemoveFileFromProject(FolderName);
 				//	break;
 				//case 1:
-				//	fileService.RemoveFile(FolderName);
+				//	Runtime.FileService.RemoveFile(FolderName);
 				//	break;
 			//}
 			return true;

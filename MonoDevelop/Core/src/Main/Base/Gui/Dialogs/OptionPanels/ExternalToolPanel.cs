@@ -76,18 +76,6 @@ namespace MonoDevelop.Gui.Dialogs.OptionPanels
 				{GettextCatalog.GetString ("MonoDevelop Startup Directory"), "${StartupPath}"},
 			};
 			 
-			// Services
-			FileUtilityService FileUtilityService = (FileUtilityService) ServiceManager.GetService(
-				typeof (FileUtilityService));
-			StringParserService StringParserService = (StringParserService) ServiceManager.GetService (
-				typeof (StringParserService));
-			PropertyService PropertyService = (PropertyService) ServiceManager.GetService(
-				typeof (PropertyService));
-			MessageService MessageService = (MessageService) ServiceManager.GetService(
-				typeof (MessageService));
-			MenuService MenuService = (MenuService) ServiceManager.GetService(
-				typeof (MenuService));
-
 			// gtk controls
 			[Glade.Widget] ListStore toolListBoxStore;
 			[Glade.Widget] Gtk.TreeView toolListBox;
@@ -139,11 +127,11 @@ namespace MonoDevelop.Gui.Dialogs.OptionPanels
 					 
 				toolListBox.AppendColumn (GettextCatalog.GetString ("_Tools"), new CellRendererText (), "text", 0);
 
-				MenuService.CreateQuickInsertMenu (argumentTextBox,
+				Runtime.Gui.Menus.CreateQuickInsertMenu (argumentTextBox,
 						argumentQuickInsertButton,
 						argumentQuickInsertMenu);
 
-				MenuService.CreateQuickInsertMenu (workingDirTextBox,
+				Runtime.Gui.Menus.CreateQuickInsertMenu (workingDirTextBox,
 						workingDirQuickInsertButton,
 						workingDirInsertMenu);
 					 
@@ -348,7 +336,7 @@ namespace MonoDevelop.Gui.Dialogs.OptionPanels
 			{
 				foreach (Widget control in controls) {				
 					if (control == null) {
-						MessageService.ShowError (GettextCatalog.GetString ("Control not found!"));
+						Runtime.MessageService.ShowError (GettextCatalog.GetString ("Control not found!"));
 					} else {
 						control.Sensitive = enabled;
 					}
@@ -368,14 +356,14 @@ namespace MonoDevelop.Gui.Dialogs.OptionPanels
 						 
 					ExternalTool tool = toolListBox.Model.GetValue (current, 1) as ExternalTool;
 					
-					if (!FileUtilityService.IsValidFileName (tool.Command)) {
-						MessageService.ShowError (String.Format(GettextCatalog.GetString ("The command of tool \"{0}\" is invalid."), 
+					if (!Runtime.FileUtilityService.IsValidFileName (tool.Command)) {
+						Runtime.MessageService.ShowError (String.Format(GettextCatalog.GetString ("The command of tool \"{0}\" is invalid."), 
 										 tool.MenuCommand));
 						return false;
 					}
 					
-					if ((tool.InitialDirectory != "") && (!FileUtilityService.IsValidFileName(tool.InitialDirectory))) {
-						MessageService.ShowError (String.Format(GettextCatalog.GetString ("The working directory of tool \"{0}\" is invalid.") ,
+					if ((tool.InitialDirectory != "") && (!Runtime.FileUtilityService.IsValidFileName(tool.InitialDirectory))) {
+						Runtime.MessageService.ShowError (String.Format(GettextCatalog.GetString ("The working directory of tool \"{0}\" is invalid.") ,
 											 tool.MenuCommand));
 						return false;
 					}

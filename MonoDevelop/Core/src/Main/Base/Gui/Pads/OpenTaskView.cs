@@ -54,9 +54,6 @@ namespace MonoDevelop.Gui.Pads
 		
 		public OpenTaskView()
 		{
-			TaskService taskService        = (TaskService) ServiceManager.GetService (typeof(TaskService));
-			IProjectService projectService = (IProjectService) ServiceManager.GetService (typeof(IProjectService));
-			
 			store = new Gtk.ListStore (
 				typeof (Gdk.Pixbuf), // image
 				typeof (int),        // line
@@ -78,11 +75,11 @@ namespace MonoDevelop.Gui.Pads
 			sw.ShadowType = ShadowType.In;
 			sw.Add (view);
 			
-			taskService.TasksChanged     += new EventHandler (ShowResults);
-			taskService.TaskAdded        += new TaskEventHandler (TaskAdded);
-			projectService.EndBuild      += new EventHandler (SelectTaskView);
-			projectService.CombineOpened += new CombineEventHandler (OnCombineOpen);
-			projectService.CombineClosed += new CombineEventHandler (OnCombineClosed);
+			Runtime.TaskService.TasksChanged     += new EventHandler (ShowResults);
+			Runtime.TaskService.TaskAdded        += new TaskEventHandler (TaskAdded);
+			Runtime.ProjectService.EndBuild      += new EventHandler (SelectTaskView);
+			Runtime.ProjectService.CombineOpened += new CombineEventHandler (OnCombineOpen);
+			Runtime.ProjectService.CombineClosed += new CombineEventHandler (OnCombineClosed);
 			view.RowActivated            += new RowActivatedHandler (OnRowActivated);
 		}
 
@@ -169,13 +166,11 @@ namespace MonoDevelop.Gui.Pads
 		
 		void SelectTaskView (object sender, EventArgs e)
 		{
-			TaskService taskService = (TaskService) ServiceManager.GetService (typeof (TaskService));
-			if (taskService.Tasks.Count > 0) {
+			if (Runtime.TaskService.Tasks.Count > 0) {
 				try {
-					PropertyService propertyService = (PropertyService) ServiceManager.GetService (typeof (PropertyService));
 					if (WorkbenchSingleton.Workbench.WorkbenchLayout.IsVisible (this)) {
 						WorkbenchSingleton.Workbench.WorkbenchLayout.ActivatePad (this);
-					} else if ((bool) propertyService.GetProperty ("SharpDevelop.ShowTaskListAfterBuild", true)) {
+					} else if ((bool) Runtime.Properties.GetProperty ("SharpDevelop.ShowTaskListAfterBuild", true)) {
 						WorkbenchSingleton.Workbench.WorkbenchLayout.ShowPad (this);
 						WorkbenchSingleton.Workbench.WorkbenchLayout.ActivatePad (this);
 					}
@@ -199,9 +194,8 @@ namespace MonoDevelop.Gui.Pads
 		public void ShowResults (object sender, EventArgs e)
 		{
 			store.Clear ();
-			TaskService taskService = (TaskService) ServiceManager.GetService (typeof (TaskService));
 			
-			foreach (Task t in taskService.Tasks) {
+			foreach (Task t in Runtime.TaskService.Tasks) {
 				AddTask (t);
 			}
 			SelectTaskView(null, null);
@@ -214,7 +208,6 @@ namespace MonoDevelop.Gui.Pads
 		
 		public void AddTask (Task t)
 		{
-			FileUtilityService fileUtilityService = (FileUtilityService) ServiceManager.GetService (typeof (FileUtilityService));
 			Gdk.Pixbuf stock;
 			switch (t.TaskType) {
 				case TaskType.Warning:
@@ -236,7 +229,7 @@ namespace MonoDevelop.Gui.Pads
 			
 			string tmpPath = t.FileName;
 			if (t.Project != null)
-				tmpPath = fileUtilityService.AbsoluteToRelativePath (t.Project.BaseDirectory, t.FileName);
+				tmpPath = Runtime.FileUtilityService.AbsoluteToRelativePath (t.Project.BaseDirectory, t.FileName);
 			
 			string fileName = tmpPath;
 			string path     = tmpPath;

@@ -16,6 +16,7 @@ using MonoDevelop.Core.Properties;
 using MonoDevelop.Gui.Components;
 using MonoDevelop.Core.Services;
 using MonoDevelop.Core.AddIns;
+using MonoDevelop.Services;
 
 using Gtk;
 using MonoDevelop.Gui.Widgets;
@@ -24,8 +25,7 @@ namespace MonoDevelop.Gui.Dialogs.OptionPanels {
 	public class CodeGenerationPanel : AbstractOptionPanel {
 		
 		class CodeGenerationPanelWidget : GladeWidgetExtract {
-			PropertyService p = (PropertyService)ServiceManager.GetService (typeof (PropertyService));
-			StringParserService StringParserService = (StringParserService)ServiceManager.GetService (typeof (StringParserService));
+			PropertyService p = Runtime.Properties;
 			
 			[Glade.Widget] Label hdr_code_generation_options;
 			
@@ -73,7 +73,6 @@ namespace MonoDevelop.Gui.Dialogs.OptionPanels {
 		
 		CodeGenerationPanelWidget widget;
 		
-		PropertyService PropertyService = (PropertyService)ServiceManager.GetService (typeof (PropertyService));
 		const string codeGenerationProperty = "SharpDevelop.UI.CodeGenerationOptions";
 		
 		public override void LoadPanelContents ()

@@ -38,8 +38,6 @@ namespace MonoDevelop.Gui.Dialogs {
 		[Glade.Widget] Gtk.Image     panelImage;
 		[Glade.Widget] Gtk.Dialog    TreeViewOptionDialog;
 		
-		StringParserService StringParserService = (StringParserService) ServiceManager.GetService (typeof (StringParserService));
-		
 		public IProperties Properties {
 			get {
 				return properties;

@@ -55,26 +55,22 @@ namespace MonoDevelop.Gui.Dialogs
 		public AuthorAboutTabPage()
 		{
 			try {
-				FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.GetService(typeof(FileUtilityService));
-				PropertyService propertyService = (PropertyService)ServiceManager.GetService(typeof(PropertyService));
-				
-				string html = ConvertXml.ConvertToString(fileUtilityService.SharpDevelopRootPath +
+				string html = ConvertXml.ConvertToString (Runtime.FileUtilityService.SharpDevelopRootPath +
 				                   System.IO.Path.DirectorySeparatorChar + "doc" +
 				                   System.IO.Path.DirectorySeparatorChar + "AUTHORS.xml",
 				                   
-				                   propertyService.DataDirectory +
+				                   Runtime.Properties.DataDirectory +
 				                   System.IO.Path.DirectorySeparatorChar + "ConversionStyleSheets" + 
 				                   System.IO.Path.DirectorySeparatorChar + "ShowAuthors.xsl");
 				
 				
-				base.Css = propertyService.DataDirectory + System.IO.Path.DirectorySeparatorChar +
+				base.Css = Runtime.Properties.DataDirectory + System.IO.Path.DirectorySeparatorChar +
 				                           "resources" + System.IO.Path.DirectorySeparatorChar +
 				                           "css" + System.IO.Path.DirectorySeparatorChar +
 				                           "SharpDevelopStandard.css";
 				base.Html = html;
 			} catch (Exception e) {
-				IMessageService messageService = (IMessageService)ServiceManager.GetService(typeof(IMessageService));
-				messageService.ShowError(e);
+				Runtime.MessageService.ShowError(e);
 			}
 		}
 	}
@@ -84,18 +80,15 @@ namespace MonoDevelop.Gui.Dialogs
 		public ChangeLogTabPage()
 		{
 			try {
-				FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.GetService(typeof(FileUtilityService));
-				PropertyService propertyService = (PropertyService)ServiceManager.GetService(typeof(PropertyService));
-				
-				string html = ConvertXml.ConvertToString(fileUtilityService.SharpDevelopRootPath +
+				string html = ConvertXml.ConvertToString (Runtime.FileUtilityService.SharpDevelopRootPath +
 				                   System.IO.Path.DirectorySeparatorChar + "doc" +
 				                   System.IO.Path.DirectorySeparatorChar + "ChangeLog.xml",
 				                   
-				                   propertyService.DataDirectory +
+				                   Runtime.Properties.DataDirectory +
 				                   System.IO.Path.DirectorySeparatorChar + "ConversionStyleSheets" + 
 				                   System.IO.Path.DirectorySeparatorChar + "ShowChangeLog.xsl");
 				
-				base.Css = propertyService.DataDirectory + System.IO.Path.DirectorySeparatorChar +
+				base.Css = Runtime.Properties.DataDirectory + System.IO.Path.DirectorySeparatorChar +
 				                           "resources" + System.IO.Path.DirectorySeparatorChar +
 				                           "css" + System.IO.Path.DirectorySeparatorChar +
 				                           "SharpDevelopStandard.css";
@@ -117,8 +110,7 @@ namespace MonoDevelop.Gui.Dialogs
 				+ "</ul></body></html>";*/
 				
 			} catch (Exception e) {
-				IMessageService messageService = (IMessageService)ServiceManager.GetService(typeof(IMessageService));
-				messageService.ShowError(e);
+				Runtime.MessageService.ShowError (e);
 			}
 		}
 	}

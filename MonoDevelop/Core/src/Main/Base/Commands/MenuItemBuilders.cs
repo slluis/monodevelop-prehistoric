@@ -46,10 +46,7 @@ namespace MonoDevelop.Commands
 		
 		public Gtk.MenuItem[] BuildSubmenu(ConditionCollection conditionCollection, object owner)
 		{
-			IFileService fileService = (IFileService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IFileService));
-			StringParserService stringParserService = (StringParserService)ServiceManager.GetService(typeof(StringParserService));
-			
-			RecentOpen recentOpen = fileService.RecentOpen;
+			RecentOpen recentOpen = Runtime.FileService.RecentOpen;
 			
 			if (recentOpen.RecentFile != null && recentOpen.RecentFile.Length > 0) {
 				RFMItem[] items = new RFMItem[recentOpen.RecentFile.Length];
@@ -73,8 +70,7 @@ namespace MonoDevelop.Commands
 		void LoadRecentFile(object sender, EventArgs e)
 		{
 			SdMenuCommand item = (SdMenuCommand)sender;
-			IFileService fileService = (IFileService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IFileService));
-			fileService.OpenFile(item.Tag.ToString());
+			Runtime.FileService.OpenFile (item.Tag.ToString());
 		}
 	}
 	
@@ -89,10 +85,7 @@ namespace MonoDevelop.Commands
 		
 		public Gtk.MenuItem[] BuildSubmenu(ConditionCollection conditionCollection, object owner)
 		{
-			IFileService fileService = (IFileService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IFileService));
-			StringParserService stringParserService = (StringParserService)ServiceManager.GetService(typeof(StringParserService));
-			
-			RecentOpen recentOpen = fileService.RecentOpen;
+			RecentOpen recentOpen = Runtime.FileService.RecentOpen;
 			
 			if (recentOpen.RecentProject != null && recentOpen.RecentProject.Length > 0) {
 				RPMItem[] items = new RPMItem[recentOpen.RecentProject.Length];
@@ -115,14 +108,13 @@ namespace MonoDevelop.Commands
 		void LoadRecentProject(object sender, EventArgs e)
 		{
 			SdMenuCommand item = (SdMenuCommand)sender;
-			IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IProjectService));
 			
 			//FIXME:THIS IS BROKEN!!
 			
 			string filename = item.Tag.ToString();
 			
 			try {
-				projectService.OpenCombine(filename);
+				Runtime.ProjectService.OpenCombine(filename);
 			} catch (Exception ex) {
 				CombineLoadError.HandleError(ex, filename);
 			}
@@ -151,10 +143,7 @@ namespace MonoDevelop.Commands
 		void ToolEvt(object sender, EventArgs e)
 		{
 			SdMenuCommand item = (SdMenuCommand)sender;
-			IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IProjectService));
-			StringParserService stringParserService = (StringParserService)ServiceManager.GetService(typeof(StringParserService));
-			FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.GetService(typeof(FileUtilityService));
-			MessageService messageService =(MessageService)ServiceManager.GetService(typeof(MessageService));
+			StringParserService stringParserService = Runtime.StringParserService;
 			
 			for (int i = 0; i < ToolLoader.Tool.Count; ++i) {
 				if (item.Text == ToolLoader.Tool[i].ToString()) {
@@ -166,7 +155,7 @@ namespace MonoDevelop.Commands
 					string args = stringParserService.Parse(tool.Arguments);
 					// prompt for args if needed
 					if (tool.PromptForArguments) {
-						args = messageService.GetTextResponse(String.Format (GettextCatalog.GetString ("Enter any arguments you want to use while launching tool, {0}:"), tool.MenuCommand), String.Format (GettextCatalog.GetString ("Command Arguments for {0}"), tool.MenuCommand), args);
+						args = Runtime.MessageService.GetTextResponse(String.Format (GettextCatalog.GetString ("Enter any arguments you want to use while launching tool, {0}:"), tool.MenuCommand), String.Format (GettextCatalog.GetString ("Command Arguments for {0}"), tool.MenuCommand), args);
 							
 						// if user selected cancel string will be null
 						if (args == null) {
@@ -193,7 +182,8 @@ namespace MonoDevelop.Commands
 						// FIXME: need to find a way to wire the console output into the output window if specified
 						Process.Start(startinfo);
 						
-					} catch (Exception ex) {								messageService.ShowError(ex, String.Format (GettextCatalog.GetString ("External program execution failed.\nError while starting:\n '{0} {1}'"), command, args));
+					} catch (Exception ex) {
+						Runtime.MessageService.ShowError(ex, String.Format (GettextCatalog.GetString ("External program execution failed.\nError while starting:\n '{0} {1}'"), command, args));
 					}
 					break;
 				}
@@ -321,8 +311,7 @@ namespace MonoDevelop.Commands
 					finfo.BuildAction = BuildAction.Compile;
 				}
 			}
-			IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IProjectService));
-			projectService.SaveCombine();
+			Runtime.ProjectService.SaveCombine();
 		}
 		
 		void ChangeDeployInclude(object sender, EventArgs e)
@@ -341,8 +330,7 @@ namespace MonoDevelop.Commands
 					node.Project.DeployInformation.AddExcludedFile(finfo.Name);
 				}
 			}
-			IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IProjectService));
-			projectService.SaveCombine();
+			Runtime.ProjectService.SaveCombine();
 		}
 	}
 	

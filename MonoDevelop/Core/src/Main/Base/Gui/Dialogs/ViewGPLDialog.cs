@@ -10,7 +10,7 @@ using System.IO;
 using Gtk;
 
 using MonoDevelop.Core.Properties;
-using MonoDevelop.Core.Services;
+using MonoDevelop.Services;
 
 namespace MonoDevelop.Gui.Dialogs
 {
@@ -21,12 +21,11 @@ namespace MonoDevelop.Gui.Dialogs
 
 		public ViewGPLDialog () 
 		{
-			FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.GetService(typeof(FileUtilityService));
-			string filename = fileUtilityService.SharpDevelopRootPath + 
+			string filename = Runtime.FileUtilityService.SharpDevelopRootPath + 
 			System.IO.Path.DirectorySeparatorChar + "doc" +
 			System.IO.Path.DirectorySeparatorChar + "license.txt";
 			
-			if (fileUtilityService.TestFileExists(filename)) {
+			if (Runtime.FileUtilityService.TestFileExists(filename)) {
 				Glade.XML gplDialog = new Glade.XML (null, "Base.glade", "GPLDialog", null);
 				gplDialog.Autoconnect (this);
 				GPLDialog.DefaultResponse = ResponseType.Close;

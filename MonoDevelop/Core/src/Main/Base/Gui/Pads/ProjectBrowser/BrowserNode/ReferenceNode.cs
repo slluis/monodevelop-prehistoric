@@ -75,10 +75,8 @@ namespace MonoDevelop.Gui.Pads.ProjectBrowser
 		
 		public override void ActivateItem()
 		{
-			if (userData != null && userData is ProjectReference) {
-				IFileService fileService = (IFileService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IFileService));
-				fileService.OpenFile(((ProjectReference)userData).GetReferencedFileName(Project));
-			}
+			if (userData != null && userData is ProjectReference)
+				Runtime.FileService.OpenFile (((ProjectReference)userData).GetReferencedFileName(Project));
 		}
 		
 		/// <summary>

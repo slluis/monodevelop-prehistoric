@@ -57,15 +57,13 @@ namespace MonoDevelop.Commands.ProjectBrowser
 				
 					foreach (string file in files) {
 						if (!System.IO.File.Exists (file)) {
-							IMessageService messageService = (IMessageService) ServiceManager.GetService (typeof (IMessageService));
-							messageService.ShowError (String.Format (GettextCatalog.GetString ("Resource file '{0}' does not exist"), file));
+							Runtime.MessageService.ShowError (String.Format (GettextCatalog.GetString ("Resource file '{0}' does not exist"), file));
 							goto show_dialog;
 						}
 					}
 				
-					IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IProjectService));
 					foreach (string fileName in files) {
-						ProjectFile fileInformation = projectService.AddFileToProject(project, fileName, BuildAction.EmbedAsResource);
+						ProjectFile fileInformation = Runtime.ProjectService.AddFileToProject(project, fileName, BuildAction.EmbedAsResource);
 					
 						AbstractBrowserNode newResNode = new FileNode(fileInformation);
 						newResNode.Image = Stock.ResourceFileIcon;
@@ -73,7 +71,7 @@ namespace MonoDevelop.Commands.ProjectBrowser
 					}
 
 					node.Expand();
-					projectService.SaveCombine();
+					Runtime.ProjectService.SaveCombine ();
 				}
 			}
 		}

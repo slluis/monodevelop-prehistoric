@@ -1,3 +1,16 @@
+2004-12-06  Lluis Sanchez Gual  <lluis@novell.com>
+
+	* Services/Runtime.cs: Root class that gives access to all services.
+	* Gui/GuiService.cs: Root class that gives access to some gui-related
+	services.
+	* Services/ClassBrowserIcons/ClassBrowserIconsService.cs: Moved to
+	IconService.cs.
+	* Services/ResourceService.cs: Format.
+	* Services/IconService.cs: Moved here methods from ClassBrowserIcons.
+	* Makefile.am: Added new files.
+	* *.cs: Removed all calls to ServiceManager.GetService (some files
+	are still missing).
+
 2004-12-05  John BouAntoun  <jba-mono@optusnet.com.au>
 
 	* Internal/Project/Combine/Combine.cs: made it work with mono svn head Posix OEE

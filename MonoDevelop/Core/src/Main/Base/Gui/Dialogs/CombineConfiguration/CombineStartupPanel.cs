@@ -38,11 +38,6 @@ namespace MonoDevelop.Gui.Dialogs.OptionPanels
  			[Glade.Widget] Gtk.TreeView entryTreeView;
  			public ListStore store;
 
-			// Services
-			StringParserService StringParserService = (StringParserService)ServiceManager.GetService (
-										typeof (StringParserService));
-			static PropertyService propertyService = (PropertyService)ServiceManager.GetService(
-										typeof(PropertyService));
 			Combine combine;
 
 			public  CombineStartupPanelWidget(IProperties CustomizationObject) : 
@@ -80,9 +75,9 @@ namespace MonoDevelop.Gui.Dialogs.OptionPanels
 				entryTreeView.Model = store;
 				
 				TreeIter iter = new TreeIter ();
- 				string entryHeader = StringParserService.Parse("Entry");
+ 				string entryHeader = Runtime.StringParserService.Parse("Entry");
  				entryTreeView.AppendColumn (entryHeader, new CellRendererText (), "text", 0);
- 				string actionHeader = StringParserService.Parse( "Action");
+ 				string actionHeader = Runtime.StringParserService.Parse( "Action");
  				entryTreeView.AppendColumn (actionHeader, new CellRendererText (), "text", 1);
 				
 				// sanity check to ensure we had a proper execture definitions save last time rounf
@@ -102,8 +97,7 @@ namespace MonoDevelop.Gui.Dialogs.OptionPanels
 					}
 					
 					// tell the user we encountered and worked around an issue 
-					IMessageService messageService =(IMessageService)ServiceManager.GetService(typeof(IMessageService));
-					messageService.ShowError(GettextCatalog.GetString ("The Combine Execute Definitions for this Combine were invalid. A new empty set of Execute Definitions has been created."));
+					Runtime.MessageService.ShowError(GettextCatalog.GetString ("The Combine Execute Definitions for this Combine were invalid. A new empty set of Execute Definitions has been created."));
 				}
 					
  				entryTreeView.Selection.Changed += new EventHandler(SelectedEntryChanged);

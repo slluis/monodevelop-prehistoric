@@ -37,8 +37,7 @@ namespace MonoDevelop.Commands.ProjectBrowser
 				Combine combine                = node.Combine;
 				combine.SingleStartProjectName = node.Project.Name;
 				combine.SingleStartupProject   = true;
-				IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IProjectService));
-				projectService.SaveCombine();
+				Runtime.ProjectService.SaveCombine();
 			}
 		}
 	}

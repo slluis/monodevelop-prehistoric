@@ -43,16 +43,13 @@ namespace MonoDevelop.Gui.Dialogs
 		Button cancelButton;
 		Label infoLabel;
 
-		ResourceService iconService = (ResourceService)ServiceManager.GetService (typeof(ResourceService));
-		DispatchService dispatcher = (DispatchService)ServiceManager.GetService (typeof (DispatchService));
-		
 		public NewFileDialog () : base ()
 		{
 			this.TransientFor = (Window) WorkbenchSingleton.Workbench;
 			this.BorderWidth = 6;
 			this.HasSeparator = false;
 			
-			dispatcher.BackgroundDispatch (new MessageHandler (InitializeTemplates));
+			Runtime.DispatchService.BackgroundDispatch (new MessageHandler (InitializeTemplates));
 		}
 		
 		void InitializeView()
@@ -60,13 +57,13 @@ namespace MonoDevelop.Gui.Dialogs
 			PixbufList smalllist  = new PixbufList();
 			PixbufList imglist    = new PixbufList();
 			
-			smalllist.Add(iconService.GetBitmap("Icons.32x32.EmptyFileIcon"));
-			imglist.Add(iconService.GetBitmap("Icons.32x32.EmptyFileIcon"));
+			smalllist.Add(Runtime.Gui.Resources.GetBitmap("Icons.32x32.EmptyFileIcon"));
+			imglist.Add(Runtime.Gui.Resources.GetBitmap("Icons.32x32.EmptyFileIcon"));
 			
 			int i = 0;
 			Hashtable tmp = new Hashtable(icons);
 			foreach (DictionaryEntry entry in icons) {
-				Gdk.Pixbuf bitmap = iconService.GetBitmap(entry.Key.ToString(), Gtk.IconSize.LargeToolbar);
+				Gdk.Pixbuf bitmap = Runtime.Gui.Resources.GetBitmap(entry.Key.ToString(), Gtk.IconSize.LargeToolbar);
 				if (bitmap != null) {
 					smalllist.Add(bitmap);
 					imglist.Add(bitmap);
@@ -135,7 +132,7 @@ namespace MonoDevelop.Gui.Dialogs
 				}
 				alltemplates.Add(titem);
 			}
-			dispatcher.GuiDispatch (new MessageHandler (InitializeComponents));
+			Runtime.DispatchService.GuiDispatch (new MessageHandler (InitializeComponents));
 		}
 		
 		// tree view event handlers
@@ -149,7 +146,7 @@ namespace MonoDevelop.Gui.Dialogs
 				foreach (TemplateItem item in (ArrayList)((Gtk.TreeStore)mdl).GetValue (iter, 2)) {
 					//templateStore.AppendValues (item.Name, item.Template);
 					
-					TemplateView.AddIcon(new Gtk.Image(iconService.GetBitmap (item.Template.Icon, Gtk.IconSize.Dnd)), item.Name, item.Template);
+					TemplateView.AddIcon(new Gtk.Image(Runtime.Gui.Resources.GetBitmap (item.Template.Icon, Gtk.IconSize.Dnd)), item.Name, item.Template);
 				}
 				okButton.Sensitive = false;
 			}
@@ -183,8 +180,7 @@ namespace MonoDevelop.Gui.Dialogs
 		
 		public void SaveFile(string filename, string content, string languageName, bool showFile)
 		{
-			IFileService fileService = (IFileService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IFileService));
-			fileService.NewFile(filename, languageName, content);
+			Runtime.FileService.NewFile(filename, languageName, content);
 		}
 
 		public event EventHandler OnOked;	
@@ -346,8 +342,8 @@ namespace MonoDevelop.Gui.Dialogs
 			this.VBox.PackStart (infoLabelFrame, false, false, 6);
 
 			cat_imglist = new PixbufList();
-			cat_imglist.Add(iconService.GetBitmap("Icons.16x16.OpenFolderBitmap"));
-			cat_imglist.Add(iconService.GetBitmap("Icons.16x16.ClosedFolderBitmap"));
+			cat_imglist.Add(Runtime.Gui.Resources.GetBitmap("Icons.16x16.OpenFolderBitmap"));
+			cat_imglist.Add(Runtime.Gui.Resources.GetBitmap("Icons.16x16.ClosedFolderBitmap"));
 			catView.Selection.Changed += new EventHandler (CategoryChange);
 			TemplateView.IconSelected += new EventHandler(SelectedIndexChange);
 			TemplateView.IconDoubleClicked += new EventHandler(OpenEvent);

@@ -28,7 +28,7 @@ namespace MonoDevelop.Commands
 {
 	public class SharpDevelopStringTagProvider :  IStringTagProvider 
 	{
-		IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IProjectService));
+		IProjectService projectService = Runtime.ProjectService;
 		
 		public string[] Tags {
 			get {

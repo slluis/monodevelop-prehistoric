@@ -41,10 +41,7 @@ namespace MonoDevelop.Gui.Pads
 
 		void GetCurrentAmbience()
 		{
-			ClassBrowserIconsService classBrowserIconService = (ClassBrowserIconsService)ServiceManager.GetService(typeof(ClassBrowserIconsService));
-			AmbienceService          ambienceService = (AmbienceService)ServiceManager.GetService(typeof(AmbienceService));
-
-			languageConversion = ambienceService.CurrentAmbience;
+			languageConversion = Runtime.Ambience.CurrentAmbience;
 			languageConversion.ConversionFlags = ConversionFlags.None;
 		}
 
@@ -61,8 +58,6 @@ namespace MonoDevelop.Gui.Pads
 		
 		void RemoveFromClassTree (TreeNode projectNode, ClassCollection removed)
 		{
-			ClassBrowserIconsService classBrowserIconService = (ClassBrowserIconsService)ServiceManager.GetService(typeof(ClassBrowserIconsService));
-			
 			foreach (IClass c in removed) {
 				// TODO: Perf check
 				TreeNode node = GetNodeByPath (c.Namespace, projectNode, false);
@@ -92,14 +87,11 @@ namespace MonoDevelop.Gui.Pads
 		public TreeNode BuildClassTreeNode(IProject p)
 		{
 			Type fus = typeof (FileUtilityService);
-			FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.GetService(fus);
-			Type iconserv = typeof (IconService);
 			
-			IconService iconService = (IconService)ServiceManager.GetService(iconserv);
 			GetCurrentAmbience();
 
 			TreeNode prjNode = new AbstractClassScoutNode(p.Name);
-			prjNode.Image = iconService.GetImageForProjectType(p.ProjectType);
+			prjNode.Image = Runtime.Gui.Icons.GetImageForProjectType(p.ProjectType);
 			prjNode.Nodes.Add (new TreeNode (""));
 			prjNode.Tag = p;
 			return prjNode;
@@ -132,8 +124,7 @@ namespace MonoDevelop.Gui.Pads
 			if (!NeedsExpansion (node)) return;
 			node.Nodes.Clear ();
 			
-			IParserService parserService  = (IParserService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IParserService));
-			ArrayList contents = parserService.GetNamespaceContents (project, ns, false);
+			ArrayList contents = Runtime.ParserService.GetNamespaceContents (project, ns, false);
 			foreach (object item in contents)
 			{
 				if (item is string)
@@ -180,7 +171,7 @@ namespace MonoDevelop.Gui.Pads
 		
 		TreeNode BuildClassNode (IClass c)
 		{
-			ClassBrowserIconsService classBrowserIconService = (ClassBrowserIconsService)ServiceManager.GetService(typeof(ClassBrowserIconsService));
+			IconService classBrowserIconService = Runtime.Gui.Icons;
 
 			AbstractClassScoutNode classNode = new AbstractClassScoutNode(c.Name);
 			string file = c.Region.FileName;
@@ -253,8 +244,7 @@ namespace MonoDevelop.Gui.Pads
 				TreeNode node = GetNodeByPath (ns, projectNode, false);
 				if (node != null && node != projectNode) {
 					if (NeedsExpansion (node)) {
-						IParserService parserService  = (IParserService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IParserService));
-						ArrayList contents = parserService.GetNamespaceContents (projectNode.Tag as IProject, ns, false);
+						ArrayList contents = Runtime.ParserService.GetNamespaceContents (projectNode.Tag as IProject, ns, false);
 						if (contents.Count == 0)
 							node.Remove ();
 					} else if (node.Nodes.Count == 0) {
@@ -266,8 +256,6 @@ namespace MonoDevelop.Gui.Pads
 		
 		static TreeNode GetNodeByPath (string directory, TreeNode parentNode, bool create)
 		{
-			ClassBrowserIconsService classBrowserIconService = (ClassBrowserIconsService)ServiceManager.GetService(typeof(ClassBrowserIconsService));
-
 			string[] treepath   = directory.Split(new char[] { '.' });
 			TreeNode curnode = parentNode;
 			

@@ -50,8 +50,6 @@ namespace MonoDevelop.Commands
 
 	public class SaveFile : AbstractMenuCommand
 	{
-		static PropertyService PropertyService = (PropertyService)ServiceManager.GetService (typeof (PropertyService));
-		
 		public override void Run()
 		{
 			IWorkbenchWindow window = WorkbenchSingleton.Workbench.ActiveWorkbenchWindow;
@@ -75,15 +73,13 @@ namespace MonoDevelop.Commands
 						SaveFileAs sfa = new SaveFileAs();
 						sfa.Run();
 					} else {						
-						IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IProjectService));
-						FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.GetService(typeof(FileUtilityService));
-						projectService.MarkFileDirty(window.ViewContent.ContentName);
+						Runtime.ProjectService.MarkFileDirty(window.ViewContent.ContentName);
 						string fileName = window.ViewContent.ContentName;
 						// save backup first						
-						if((bool) PropertyService.GetProperty ("SharpDevelop.CreateBackupCopy", false)) {
-							fileUtilityService.ObservedSave(new NamedFileOperationDelegate(window.ViewContent.Save), fileName + "~");
+						if((bool) Runtime.Properties.GetProperty ("SharpDevelop.CreateBackupCopy", false)) {
+							Runtime.FileUtilityService.ObservedSave (new NamedFileOperationDelegate(window.ViewContent.Save), fileName + "~");
 						}
-						fileUtilityService.ObservedSave(new NamedFileOperationDelegate(window.ViewContent.Save), fileName);
+						Runtime.FileUtilityService.ObservedSave (new NamedFileOperationDelegate(window.ViewContent.Save), fileName);
 					}
 				}
 			}
@@ -108,8 +104,7 @@ namespace MonoDevelop.Commands
 			IWorkbenchWindow window = WorkbenchSingleton.Workbench.ActiveWorkbenchWindow;
 			
 			if (window != null && window.ViewContent.ContentName != null && !window.ViewContent.IsViewOnly) {
-				IMessageService messageService =(IMessageService)ServiceManager.GetService(typeof(IMessageService));
-				if (messageService.AskQuestion(GettextCatalog.GetString ("Are you sure that you want to reload the file?"))) {
+				if (Runtime.MessageService.AskQuestion(GettextCatalog.GetString ("Are you sure that you want to reload the file?"))) {
 					IXmlConvertable memento = null;
 					if (window.ViewContent is IMementoCapable) {
 						memento = ((IMementoCapable)window.ViewContent).CreateMemento();
@@ -125,8 +120,6 @@ namespace MonoDevelop.Commands
 	
 	public class SaveFileAs : AbstractMenuCommand
 	{
-		static PropertyService PropertyService = (PropertyService)ServiceManager.GetService (typeof (PropertyService));
-		
 		public override void Run()
 		{
 			IWorkbenchWindow window = WorkbenchSingleton.Workbench.ActiveWorkbenchWindow;
@@ -160,22 +153,19 @@ namespace MonoDevelop.Commands
 					fdiag.Hide ();
 				
 					if (response == (int)Gtk.ResponseType.Ok) {
-						IFileService fileService = (IFileService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IFileService));
-						FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.GetService(typeof(FileUtilityService));
-						if (!fileUtilityService.IsValidFileName(filename)) {
-							IMessageService messageService =(IMessageService)ServiceManager.GetService(typeof(IMessageService));
-							messageService.ShowMessage(String.Format (GettextCatalog.GetString ("File name {0} is invalid"), filename));
+						if (!Runtime.FileUtilityService.IsValidFileName (filename)) {
+							Runtime.MessageService.ShowMessage(String.Format (GettextCatalog.GetString ("File name {0} is invalid"), filename));
 							return;
 						}
 
 					// save backup first
-					if((bool) PropertyService.GetProperty ("SharpDevelop.CreateBackupCopy", false)) {
-						fileUtilityService.ObservedSave(new NamedFileOperationDelegate(window.ViewContent.Save), filename + "~");
+					if((bool) Runtime.Properties.GetProperty ("SharpDevelop.CreateBackupCopy", false)) {
+						Runtime.FileUtilityService.ObservedSave (new NamedFileOperationDelegate(window.ViewContent.Save), filename + "~");
 					}
 					
 					// do actual save
-					if (fileUtilityService.ObservedSave(new NamedFileOperationDelegate(window.ViewContent.Save), filename) == FileOperationResult.OK) {
-						fileService.RecentOpen.AddLastFile (filename, null);
+					if (Runtime.FileUtilityService.ObservedSave (new NamedFileOperationDelegate(window.ViewContent.Save), filename) == FileOperationResult.OK) {
+						Runtime.FileService.RecentOpen.AddLastFile (filename, null);
 					}
 				}
 			}
@@ -186,8 +176,6 @@ namespace MonoDevelop.Commands
 	{
 		public override void Run()
 		{
-			FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.GetService(typeof(FileUtilityService));
-			
 			foreach (IViewContent content in WorkbenchSingleton.Workbench.ViewContentCollection) {
 				if (content.IsViewOnly) {
 					continue;
@@ -208,10 +196,9 @@ namespace MonoDevelop.Commands
 								fileName = Path.ChangeExtension(fileName, "");
 							}
 
-							if (fileUtilityService.ObservedSave(new NamedFileOperationDelegate(content.Save), fileName) == FileOperationResult.OK)
+							if (Runtime.FileUtilityService.ObservedSave (new NamedFileOperationDelegate(content.Save), fileName) == FileOperationResult.OK)
 							{
-								IMessageService messageService =(IMessageService)ServiceManager.GetService(typeof(IMessageService));
-								messageService.ShowMessage(fileName, GettextCatalog.GetString ("File saved"));
+								Runtime.MessageService.ShowMessage(fileName, GettextCatalog.GetString ("File saved"));
 							}
 						}
 					
@@ -220,7 +207,7 @@ namespace MonoDevelop.Commands
 				}
 				else
 				{
-					fileUtilityService.ObservedSave(new FileOperationDelegate(content.Save), content.ContentName);
+					Runtime.FileUtilityService.ObservedSave (new FileOperationDelegate(content.Save), content.ContentName);
 				}
 			}
 		}
@@ -228,8 +215,6 @@ namespace MonoDevelop.Commands
 	
 	public class OpenCombine : AbstractMenuCommand
 	{
-		static PropertyService PropertyService = (PropertyService)ServiceManager.GetService (typeof (PropertyService));
-		
 		public override void Run()
 		{
 			using (FileSelector fs = new FileSelector (GettextCatalog.GetString ("File to Open"))) {
@@ -241,19 +226,15 @@ namespace MonoDevelop.Commands
 					switch (Path.GetExtension(name).ToUpper()) {
 						case ".CMBX": // Don't forget the 'recent' projects if you chance something here
 						case ".PRJX":
-							IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IProjectService));
-							
 							try {
-								//projectService.OpenCombine(name);
-								IFileService fileService = (IFileService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IFileService));
-								fileService.OpenFile(name);
+								//Runtime.ProjectService.OpenCombine(name);
+								Runtime.FileService.OpenFile(name);
 							} catch (Exception ex) {
 								CombineLoadError.HandleError(ex, name);
 							}
 							break;
 						default:
-							IMessageService messageService =(IMessageService)ServiceManager.GetService(typeof(IMessageService));
-							messageService.ShowError(String.Format (GettextCatalog.GetString ("Can't open file {0} as project"), name));
+							Runtime.MessageService.ShowError(String.Format (GettextCatalog.GetString ("Can't open file {0} as project"), name));
 							break;
 					}
 				}
@@ -263,8 +244,6 @@ namespace MonoDevelop.Commands
 	
 	public class OpenFile : AbstractMenuCommand
 	{
-		static PropertyService PropertyService = (PropertyService)ServiceManager.GetService (typeof (PropertyService));
-		
 		public override void Run()
 		{
 			//string[] fileFilters  = (string[])(AddInTreeSingleton.AddInTree.GetTreeNode("/SharpDevelop/Workbench/FileFilter").BuildChildItems(this)).ToArray(typeof(string));
@@ -302,15 +281,13 @@ namespace MonoDevelop.Commands
 				string name = fs.Filename;
 				fs.Hide ();
 				if (response == (int)Gtk.ResponseType.Ok) {
-					IFileService fileService = (IFileService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IFileService));
-					IProjectService proj = (IProjectService)ServiceManager.GetService (typeof (IProjectService));
 					switch (System.IO.Path.GetExtension (name).ToUpper()) {
 					case ".PRJX":
 					case ".CMBX":
-						proj.OpenCombine (name);
+						Runtime.ProjectService.OpenCombine (name);
 						break;
 					default:
-						fileService.OpenFile(name);
+						Runtime.FileService.OpenFile(name);
 						break;
 					}
 				}	
@@ -322,9 +299,7 @@ namespace MonoDevelop.Commands
 	{
 		public override void Run()
 		{
-			IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IProjectService));
-			
-			projectService.CloseCombine();
+			Runtime.ProjectService.CloseCombine();
 		}
 	}
 		
@@ -400,12 +375,9 @@ namespace MonoDevelop.Commands
 		public override void Run()
 		{			
 			try {
-				IFileService fileService = (IFileService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IFileService));
-				IMessageService messageService = (IMessageService) MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IMessageService));
-				
-				if (fileService.RecentOpen.RecentFile != null && fileService.RecentOpen.RecentFile.Length > 0 && messageService.AskQuestion(GettextCatalog.GetString ("Are you sure you want to clear recent files list?"), GettextCatalog.GetString ("Clear recent files")))
+				if (Runtime.FileService.RecentOpen.RecentFile != null && Runtime.FileService.RecentOpen.RecentFile.Length > 0 && Runtime.MessageService.AskQuestion(GettextCatalog.GetString ("Are you sure you want to clear recent files list?"), GettextCatalog.GetString ("Clear recent files")))
 				{
-					fileService.RecentOpen.ClearRecentFiles();
+					Runtime.FileService.RecentOpen.ClearRecentFiles();
 				}
 			} catch {}
 		}
@@ -416,12 +388,9 @@ namespace MonoDevelop.Commands
 		public override void Run()
 		{			
 			try {
-				IFileService fileService = (IFileService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IFileService));
-				IMessageService messageService = (IMessageService) MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IMessageService));
-				
-				if (fileService.RecentOpen.RecentProject != null && fileService.RecentOpen.RecentProject.Length > 0 && messageService.AskQuestion(GettextCatalog.GetString ("Are you sure you want to clear recent projects list?"), GettextCatalog.GetString ("Clear recent projects")))
+				if (Runtime.FileService.RecentOpen.RecentProject != null && Runtime.FileService.RecentOpen.RecentProject.Length > 0 && Runtime.MessageService.AskQuestion(GettextCatalog.GetString ("Are you sure you want to clear recent projects list?"), GettextCatalog.GetString ("Clear recent projects")))
 				{
-					fileService.RecentOpen.ClearRecentProjects();
+					Runtime.FileService.RecentOpen.ClearRecentProjects();
 				}
 			} catch {}
 		}

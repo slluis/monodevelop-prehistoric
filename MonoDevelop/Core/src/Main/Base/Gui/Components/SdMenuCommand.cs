@@ -13,6 +13,7 @@ using System.Drawing.Imaging;
 using MonoDevelop.Core.AddIns.Conditions;
 using MonoDevelop.Core.AddIns.Codons;
 using MonoDevelop.Core.Services;
+using MonoDevelop.Services;
 
 //using Reflector.UserInterface;
 
@@ -20,7 +21,7 @@ namespace MonoDevelop.Gui.Components
 {
 	public class SdMenuCommand : Gtk.ImageMenuItem, IStatusUpdate
 	{
-		static StringParserService stringParserService = (StringParserService)ServiceManager.GetService(typeof(StringParserService));
+		static StringParserService stringParserService = Runtime.StringParserService;
 			
 		object caller;
 		ConditionCollection conditionCollection;

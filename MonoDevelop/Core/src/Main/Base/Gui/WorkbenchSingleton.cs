@@ -9,7 +9,7 @@ using System;
 using System.CodeDom.Compiler;
 
 using MonoDevelop.Core.Properties;
-using MonoDevelop.Core.Services;
+using MonoDevelop.Services;
 using MonoDevelop.Gui;
 using MonoDevelop.Internal.Project;
 using MonoDevelop.Internal.Templates;
@@ -35,8 +35,7 @@ namespace MonoDevelop.Gui
 		
 		static WorkbenchSingleton()
 		{
-			PropertyService propertyService = (PropertyService)ServiceManager.GetService(typeof(PropertyService));
-			propertyService.PropertyChanged += new PropertyEventHandler(TrackPropertyChanges);
+			Runtime.Properties.PropertyChanged += new PropertyEventHandler(TrackPropertyChanges);
 		}
 		
 		static void SetWbLayout()

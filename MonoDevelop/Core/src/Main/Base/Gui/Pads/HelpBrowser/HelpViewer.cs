@@ -19,9 +19,6 @@ namespace MonoDevelop.Gui
 
 		ScrolledWindow scroller = new ScrolledWindow ();
 
-		MonodocService mds;
-		IStatusBarService statusBarService = (IStatusBarService)        MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IStatusBarService));
-
 		public override bool IsViewOnly {
 			get { return true; }
 		}
@@ -36,8 +33,6 @@ namespace MonoDevelop.Gui
 
 		public HelpViewer ()
 		{
-			mds = (MonodocService)ServiceManager.GetService (typeof (MonodocService));
-	
 			html_viewer.LinkClicked += new LinkClickedHandler (LinkClicked);
 			html_viewer.UrlRequested += new UrlRequestedHandler (UrlRequested);
 			html_viewer.OnUrl += new OnUrlHandler (OnUrl);
@@ -47,15 +42,15 @@ namespace MonoDevelop.Gui
 		void OnUrl (object sender, OnUrlArgs args)
 		{
 			if (args.Url == null)
-				statusBarService.SetMessage ("");
+				Runtime.Gui.StatusBar.SetMessage ("");
 			else
-				statusBarService.SetMessage (args.Url);
+				Runtime.Gui.StatusBar.SetMessage (args.Url);
 		}
 
 		void UrlRequested (object sender, UrlRequestedArgs args)
 		{
 			Console.WriteLine ("Image requested: " + args.Url);
-			Stream s = mds.HelpTree.GetImage (args.Url);
+			Stream s = Runtime.Documentation.HelpTree.GetImage (args.Url);
 			
 			if (s != null) {
 				byte [] buffer = new byte [8192];
@@ -82,7 +77,7 @@ namespace MonoDevelop.Gui
 			
 			Node node;
 			
-			string res = mds.HelpTree.RenderUrl (url, out node);
+			string res = Runtime.Documentation.HelpTree.RenderUrl (url, out node);
 			if (res != null) {
 				Render (res, node, url);
 			}

@@ -63,8 +63,7 @@ namespace MonoDevelop.Gui.Pads
 		{
 			filelister.Clear ();
 
-			PropertyService p = (PropertyService)ServiceManager.GetService(typeof(PropertyService));
-			bool ignoreHidden = !p.GetProperty ("MonoDevelop.Gui.FileScout.ShowHidden", false);
+			bool ignoreHidden = !Runtime.Properties.GetProperty ("MonoDevelop.Gui.FileScout.ShowHidden", false);
 			fb.IgnoreHidden = ignoreHidden;
 
 			foreach (string f in fb.Files)
@@ -88,10 +87,6 @@ namespace MonoDevelop.Gui.Pads
 
 		void FileSelected (object sender, Gtk.RowActivatedArgs e)
 		{
-			IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IProjectService));
-			IFileService    fileService    = (IFileService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IFileService));
-			FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.GetService(typeof(FileUtilityService));
-
 			Gtk.TreeIter iter;
 			Gtk.TreeModel model;
 
@@ -106,11 +101,11 @@ namespace MonoDevelop.Gui.Pads
 				switch (System.IO.Path.GetExtension (item.FullName).ToUpper ()) {
 					case ".cmbx":
 					case ".prjx":
-						projectService.OpenCombine (item.FullName);
+						Runtime.ProjectService.OpenCombine (item.FullName);
 						break;
 					default:
 						//Console.WriteLine (item.FullName);
-						fileService.OpenFile (item.FullName);
+						Runtime.FileService.OpenFile (item.FullName);
 						break;
 				}
 			}

@@ -38,8 +38,7 @@ namespace MonoDevelop.Commands
 	{
 		public override void Run()
 		{
-			DefaultParserService parserService = (DefaultParserService)ServiceManager.GetService(typeof(DefaultParserService));
-			parserService.StartParserThread();
+			((DefaultParserService)Runtime.ParserService).StartParserThread();
 		}
 	}
 
@@ -50,19 +49,14 @@ namespace MonoDevelop.Commands
 		public override void Run()
 		{
 			// register string tag provider (TODO: move to add-in tree :)
-			StringParserService stringParserService = (StringParserService)ServiceManager.GetService(typeof(StringParserService));
-			stringParserService.RegisterStringTagProvider(new MonoDevelop.Commands.SharpDevelopStringTagProvider());
-			
-			PropertyService propertyService = (PropertyService)ServiceManager.GetService(typeof(PropertyService));
-			
-			IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IProjectService));
+			Runtime.StringParserService.RegisterStringTagProvider(new MonoDevelop.Commands.SharpDevelopStringTagProvider());
 			
 			// load previous combine
-			if ((bool)propertyService.GetProperty("SharpDevelop.LoadPrevProjectOnStartup", false)) {
+			if ((bool)Runtime.Properties.GetProperty("SharpDevelop.LoadPrevProjectOnStartup", false)) {
 	                        RecentOpen recentOpen = ((IFileService)MonoDevelop.Core.Services.ServiceManager.GetService (typeof (IFileService))).RecentOpen;
 
 				if (recentOpen.RecentProject != null && recentOpen.RecentProject.Length > 0) { 
-					projectService.OpenCombine(recentOpen.RecentProject[0].ToString());
+					Runtime.ProjectService.OpenCombine(recentOpen.RecentProject[0].ToString());
 				}
 			}
 			
@@ -72,7 +66,7 @@ namespace MonoDevelop.Commands
 					case ".CMBX":
 					case ".PRJX":
 						try {
-							projectService.OpenCombine(file);
+							Runtime.ProjectService.OpenCombine (file);
 						} catch (Exception e) {
 							CombineLoadError.HandleError(e, file);
 						}
@@ -80,8 +74,7 @@ namespace MonoDevelop.Commands
 						break;
 					default:
 						try {
-							IFileService fileService = (IFileService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IFileService));
-							fileService.OpenFile(file);
+							Runtime.FileService.OpenFile (file);
 						
 						} catch (Exception e) {
 							Console.WriteLine("unable to open file {0} exception was :\n{1}", file, e.ToString());
@@ -91,7 +84,7 @@ namespace MonoDevelop.Commands
 			}
 			
 			((Gtk.Window)WorkbenchSingleton.Workbench).ShowAll ();
-			WorkbenchSingleton.Workbench.SetMemento ((IXmlConvertable)propertyService.GetProperty (workbenchMemento, new WorkbenchMemento ()));
+			WorkbenchSingleton.Workbench.SetMemento ((IXmlConvertable)Runtime.Properties.GetProperty (workbenchMemento, new WorkbenchMemento ()));
 			((Gtk.Window)WorkbenchSingleton.Workbench).Visible = true;
 			WorkbenchSingleton.Workbench.RedrawAllComponents ();
 			((Gtk.Window)WorkbenchSingleton.Workbench).Present ();
