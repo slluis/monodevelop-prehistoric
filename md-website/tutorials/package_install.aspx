@@ -56,7 +56,7 @@ the Mozilla development package for your OS. For example:
 <li><a href="http://sourceforge.net/project/showfiles.php?group_id=40240">gtk-sharp</a></li>
 <li><a href="http://www.go-mono.com/archive/monodoc-0.13.tar.gz">monodoc</a></li>
 <li><a href="http://www.go-mono.com/archive/gtksourceview-sharp-0.1.0.tar.gz">gtksourceview-sharp</a></li>
-<li><a href="http://www.go-mono.com/archive/gecko-sharp-0.1.tar.gz">gtkmozembed-sharp (gecko-sharp)</a></li>
+<li><a href="http://www.go-mono.com/archive/gecko-sharp-0.1.tar.gz">gecko-sharp</a></li>
 <li><a href="http://www.go-mono.com/archive/mono-debugger-0.6.tar.gz">debugger</a></li>
       </ul></p>
       <p>When building from the source provided above, always use a prefix of `<tt>/usr</tt>'.</p>
