@@ -7,7 +7,12 @@ INCLUDE_APIS = \
 	@gtksharp_prefix@/share/gapi/gtk-api.xml \
 	@gtksharp_prefix@/share/gapi/atk-api.xml
 
-CUSTOM_FILES = DockItemFlags.cs DockParamFlags.cs DockLayout.custom
+CUSTOM_FILES = \
+	DockItemFlags.cs \
+	DockParamFlags.cs \
+	DockLayout.custom \
+	DockObject.custom
+
 custom_files_build = $(addprefix $(srcdir)/, $(CUSTOM_FILES))
 
 all: $(ASSEMBLY)

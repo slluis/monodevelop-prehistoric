@@ -1,5 +1,12 @@
 2004-03-20  Gustavo Giráldez  <gustavo.giraldez@gmx.net>
 
+	* gdldock/gdl/Makefile.am:
+	* gdldock/gdl/Gdl.metadata: 
+	* gdldock/gdl/DockObject.custom: Customize Gdl.DockObject.Present
+	to accept a null parameter.
+
+2004-03-20  Gustavo Giráldez  <gustavo.giraldez@gmx.net>
+
 	* gdldock/gdl/Makefile.am: Make the generated source files depend
 	on the custom files too.
 	* gdldock/gdl/DockLayout.custom: Fix list elements leak.
