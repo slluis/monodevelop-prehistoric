@@ -93,14 +93,13 @@ namespace MonoDevelop
 
 			if (!noLogo) {
 				SplashScreenForm.SplashScreen.ShowAll ();
-				while (Gtk.Application.EventsPending()) {
-					Gtk.Application.RunIteration (false);
-				}
+				RunMainLoop ();
 			}
 
 			bool ignoreDefaultPath = false;
 			string [] addInDirs = MonoDevelop.AddInSettingsHandler.GetAddInDirectories(out ignoreDefaultPath);
 			AddInTreeSingleton.SetAddInDirectories(addInDirs, ignoreDefaultPath);
+			RunMainLoop ();
 
 			ArrayList commands = null;
 			try {
@@ -110,8 +109,10 @@ namespace MonoDevelop
 				ServiceManager.Services.InitializeServicesSubsystem("/Workspace/Services");
 
 				commands = AddInTreeSingleton.AddInTree.GetTreeNode("/Workspace/Autostart").BuildChildItems(null);
+				RunMainLoop ();
 				for (int i = 0; i < commands.Count - 1; ++i) {
 					((ICommand)commands[i]).Run();
+					RunMainLoop ();
 				}
 
 				// We don't have yet an alternative for Application.ThreadException
@@ -135,6 +136,7 @@ namespace MonoDevelop
 			listen_socket.Listen (5);
 			listen_socket.BeginAccept (new AsyncCallback (ListenCallback), listen_socket);
 			if (commands.Count > 0) {
+				RunMainLoop ();
 				((ICommand)commands[commands.Count - 1]).Run();
 			}
 
@@ -145,6 +147,13 @@ namespace MonoDevelop
 
 		static string fileToOpen = String.Empty;
 		
+		static void RunMainLoop ()
+		{
+			while (Gtk.Application.EventsPending()) {
+				Gtk.Application.RunIteration (false);
+			}
+		}
+
 		static void ListenCallback (IAsyncResult state)
 		{
 			Socket client = ((Socket)state.AsyncState).EndAccept (state);
