@@ -50,9 +50,9 @@ namespace ICSharpCode.TextEditor
 			HighlightColor lineNumberPainterColor = textArea.Document.HighlightingStrategy.GetColorFor("LineNumbers");
 			HighlightColor foldLineColor          = textArea.Document.HighlightingStrategy.GetColorFor("FoldLine");
 			
-			
+			using (Gdk.GC gc = new Gdk.GC(wnd)) {
 			for (int y = 0; y < (DrawingPosition.Height + textArea.TextView.VisibleLineDrawingRemainder) / textArea.TextView.FontHeight + 1; ++y) {
-				using (Gdk.GC gc = new Gdk.GC(wnd)) {
+				
 				gc.RgbFgColor = TextArea.Style.White;
 				System.Drawing.Rectangle markerRectangle = new System.Drawing.Rectangle(DrawingPosition.X, DrawingPosition.Top + y * textArea.TextView.FontHeight - textArea.TextView.VisibleLineDrawingRemainder, DrawingPosition.Width, textArea.TextView.FontHeight);
 				
@@ -71,8 +71,9 @@ namespace ICSharpCode.TextEditor
 					
 					int currentLine = textArea.TextView.FirstVisibleLine + y;
 					PaintFoldMarker(wnd, currentLine, markerRectangle);
-				}
+				
 				} //Using
+			}
 			}
 		
 		}
