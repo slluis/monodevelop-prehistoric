@@ -37,7 +37,8 @@ namespace MonoDevelop.Commands
 		public override void Run()
 		{
 			using (NewFileDialog nfd = new NewFileDialog()) {
-				nfd.ShowAll ();
+				nfd.Run ();
+				nfd.Hide ();
 				if (WorkbenchSingleton.Workbench.ActiveWorkbenchWindow != null)
 				{
 					WorkbenchSingleton.Workbench.ActiveWorkbenchWindow.SelectWindow();
