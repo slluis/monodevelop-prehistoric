@@ -1,3 +1,6 @@
+we directly use MozillaControl now
+
+#old info
 This is intended to provide a cross-platform HTML
 displaying Gtk# widget.  Currently it is display only,
 but may someday be used as part of ASP.NET ide support.

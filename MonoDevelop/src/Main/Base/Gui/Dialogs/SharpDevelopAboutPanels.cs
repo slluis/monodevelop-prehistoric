@@ -74,7 +74,7 @@ namespace MonoDevelop.Gui.Dialogs
 		}
 	}
 	
-	public class AuthorAboutTabPage : MonoDevelop.Gui.HtmlControl.HtmlControl
+	public class AuthorAboutTabPage : MonoDevelop.Gui.HtmlControl.MozillaControl
 	{
 		public AuthorAboutTabPage()
 		{
@@ -91,7 +91,7 @@ namespace MonoDevelop.Gui.Dialogs
 				                   System.IO.Path.DirectorySeparatorChar + "ShowAuthors.xsl");
 				
 				
-				base.CascadingStyleSheet = propertyService.DataDirectory + System.IO.Path.DirectorySeparatorChar +
+				base.Css = propertyService.DataDirectory + System.IO.Path.DirectorySeparatorChar +
 				                           "resources" + System.IO.Path.DirectorySeparatorChar +
 				                           "css" + System.IO.Path.DirectorySeparatorChar +
 				                           "SharpDevelopStandard.css";
@@ -103,7 +103,7 @@ namespace MonoDevelop.Gui.Dialogs
 		}
 	}
 	
-	public class ChangeLogTabPage : MonoDevelop.Gui.HtmlControl.HtmlControl
+	public class ChangeLogTabPage : MonoDevelop.Gui.HtmlControl.MozillaControl
 	{
 		public ChangeLogTabPage()
 		{
@@ -119,7 +119,7 @@ namespace MonoDevelop.Gui.Dialogs
 				                   System.IO.Path.DirectorySeparatorChar + "ConversionStyleSheets" + 
 				                   System.IO.Path.DirectorySeparatorChar + "ShowChangeLog.xsl");
 				
-				base.CascadingStyleSheet = propertyService.DataDirectory + System.IO.Path.DirectorySeparatorChar +
+				base.Css = propertyService.DataDirectory + System.IO.Path.DirectorySeparatorChar +
 				                           "resources" + System.IO.Path.DirectorySeparatorChar +
 				                           "css" + System.IO.Path.DirectorySeparatorChar +
 				                           "SharpDevelopStandard.css";
