@@ -17,7 +17,6 @@ namespace MonoDevelop.SourceEditor.Gui
 			DisplayBinding = bind;
 			Buffer = new SourceEditorBuffer ();	
 			View = new SourceEditorView (Buffer, this);
-			Buffer.Highlight = true;
 			Buffer.View = View;
 			this.VscrollbarPolicy = PolicyType.Automatic;
 			this.HscrollbarPolicy = PolicyType.Automatic;

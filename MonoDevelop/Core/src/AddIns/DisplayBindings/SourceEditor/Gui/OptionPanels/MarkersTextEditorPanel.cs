@@ -73,6 +73,9 @@ namespace MonoDevelop.EditorBindings.Gui.OptionPanels
 					"ShowVRuler", false);
 			
 				vRulerRowTextBox.Value = ((IProperties)CustomizationObject).GetProperty("VRulerRow", 80);
+
+				// disabled
+				showErrorsCheckBox.Sensitive = false;
 			}
 
 			public void Store (IProperties CustomizationObject)

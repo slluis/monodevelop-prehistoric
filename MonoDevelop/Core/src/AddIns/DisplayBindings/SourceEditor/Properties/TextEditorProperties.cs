@@ -1,15 +1,13 @@
 using System;
 using System.Text;
 
+using Pango;
+
 using MonoDevelop.Core.Properties;
 using MonoDevelop.Core.Services;
 using MonoDevelop.Gui.Dialogs.OptionPanels;
-
 using MonoDevelop.TextEditor;
 using MonoDevelop.TextEditor.Document;
-
-using Pango;
-
 using MonoDevelop.EditorBindings.FormattingStrategy;
 
 namespace MonoDevelop.EditorBindings.Properties {
@@ -54,6 +52,15 @@ namespace MonoDevelop.EditorBindings.Properties {
 			}
 			set {
 				properties.SetProperty ("TabIndent", value);
+			}
+		}
+
+		public static bool SyntaxHighlight {
+			get {
+				return properties.GetProperty ("SyntaxHighlight", true);
+			}
+			set {
+				properties.SetProperty ("SyntaxHighlight", value);
 			}
 		}
 

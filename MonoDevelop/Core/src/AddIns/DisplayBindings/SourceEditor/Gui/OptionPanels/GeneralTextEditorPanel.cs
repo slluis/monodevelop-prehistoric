@@ -50,7 +50,7 @@ namespace MonoDevelop.EditorBindings.Gui.OptionPanels
 			[Glade.Widget] Label genOptions, fontOptions;
 // 					encOptions, encVBox; // if you uncoment change to "," above 
 			[Glade.Widget] CheckButton enableCodeCompletionCheckBox, 
-					enableFoldingCheckBox;
+					enableFoldingCheckBox, enableSyntaxHighlighting;
 // 			[Glade.Widget] ComboBox textEncodingComboBox;
 			[Glade.Widget] FontButton fontNameDisplayTextBox;
 			[Glade.Widget] VBox encodingBox;
@@ -63,6 +63,7 @@ namespace MonoDevelop.EditorBindings.Gui.OptionPanels
 					"EnableCodeCompletion", true);
 				
  				enableFoldingCheckBox.Active = ((IProperties) CustomizationObject).GetProperty("EnableFolding", true);
+ 				enableSyntaxHighlighting.Active = ((IProperties) CustomizationObject).GetProperty("SyntaxHighlight", true);
 
 				string font_name = ((IProperties) CustomizationObject).GetProperty("DefaultFont", "__default_monospace").ToString ();
 				
@@ -117,6 +118,8 @@ namespace MonoDevelop.EditorBindings.Gui.OptionPanels
 					"EnableCodeCompletion", enableCodeCompletionCheckBox.Active);
 				((IProperties) CustomizationObject).SetProperty (
 					"EnableFolding", enableFoldingCheckBox.Active);
+				((IProperties) CustomizationObject).SetProperty (
+					"SyntaxHighlight", enableSyntaxHighlighting.Active);
 				
 				string font_name;
 				if (use_monospace.Active)
@@ -137,7 +140,7 @@ namespace MonoDevelop.EditorBindings.Gui.OptionPanels
 			{
 				fontNameDisplayTextBox.Sensitive = use_cust.Active;
 			}
-
 		}
 	}
 }
+

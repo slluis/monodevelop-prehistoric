@@ -188,7 +188,7 @@ namespace MonoDevelop.SourceEditor.Gui
 			ContentNameChanged += new EventHandler (UpdateFSW);
 			
 			CaretModeChanged (null, null);
-			PropertiesChanged (null, null);
+			SetInitialValues ();
 			
 			PropertyService propertyService = (PropertyService) ServiceManager.GetService (typeof (PropertyService));
 			IProperties properties2 = ((IProperties) propertyService.GetProperty("MonoDevelop.TextEditor.Document.Document.DefaultDocumentAggregatorProperties", new DefaultProperties()));
@@ -494,45 +494,83 @@ namespace MonoDevelop.SourceEditor.Gui
 			se.Buffer.ClearBookmarks ();
 		}
 #endregion
-		
-		void PropertiesChanged (object sender, PropertyEventArgs e)
- 		{
- 			// FIXME: do these seperately
+
+		void SetInitialValues ()
+		{
 			se.View.ModifyFont (TextEditorProperties.Font);
 			se.View.ShowLineNumbers = TextEditorProperties.ShowLineNumbers;
 			se.Buffer.CheckBrackets = TextEditorProperties.ShowMatchingBracket;
 			se.View.ShowMargin = TextEditorProperties.ShowVerticalRuler;
 			se.View.EnableCodeCompletion = TextEditorProperties.EnableCodeCompletion;
-			
-			if (TextEditorProperties.VerticalRulerRow > -1) {
-				se.View.Margin = (uint) TextEditorProperties.VerticalRulerRow;
-			} else {
-				se.View.Margin = (uint) 80;		// FIXME: should i be doing this on a bad vruller setting?
-			}
-			
-			if (TextEditorProperties.TabIndent > -1) {
-				se.View.TabsWidth = (uint) TextEditorProperties.TabIndent;
-			} else {
-				se.View.TabsWidth = (uint) 4;	// FIXME: should i be doing this on a bad tabindent setting?
-			}
-			
 			se.View.InsertSpacesInsteadOfTabs = TextEditorProperties.ConvertTabsToSpaces;
 			se.View.AutoIndent = (TextEditorProperties.IndentStyle == IndentStyle.Auto);
 			se.View.AutoInsertTemplates = TextEditorProperties.AutoInsertTemplates;
 			se.Buffer.UnderlineErrors = TextEditorProperties.UnderlineErrors;
-			
-			//System.Console.WriteLine(e.Key + " = " + e.NewValue + "(from " + e.OldValue + ")" );
-					// The items below can't be done (since there is no support for it in gtksourceview)
-					// CANTDO: show spaces				Key = "ShowSpaces"
-					// CANTDO: show tabs				Key = "ShowTabs"
-					// CANTDO eol makers				Key = "ShowEOLMarkers"
-					// CANTDO: show horizontal ruler	Key = "ShowHRuler"		
-					// DONOTDO: auto insert braces		Key = "AutoInsertCurlyBracket"
-					// TODO: Show Invalid Lines			Key = "ShowInvalidLines"
-					// TODO: Code Folding				Key = "EnableFolding"
-					// TODO: Double Buffering			Key = "DoubleBuffer"
-					// TODO: can move past EOL 			Key = "CursorBehindEOL"
-					// TODO: auto insert template		Key = "AutoInsertTemplates"	
+			se.Buffer.Highlight = TextEditorProperties.SyntaxHighlight;
+
+			if (TextEditorProperties.VerticalRulerRow > -1)
+				se.View.Margin = (uint) TextEditorProperties.VerticalRulerRow;
+			else
+				se.View.Margin = (uint) 80;
+
+			if (TextEditorProperties.TabIndent > -1)
+				se.View.TabsWidth = (uint) TextEditorProperties.TabIndent;
+			else
+				se.View.TabsWidth = (uint) 4;
+		}
+		
+		void PropertiesChanged (object sender, PropertyEventArgs e)
+ 		{
+			switch (e.Key) {
+				case "DefaultFont":
+					se.View.ModifyFont (TextEditorProperties.Font);
+					break;
+				case "ShowLineNumbers":
+					se.View.ShowLineNumbers = TextEditorProperties.ShowLineNumbers;
+					break;
+				case "ShowBracketHighlight":
+					se.Buffer.CheckBrackets = TextEditorProperties.ShowMatchingBracket;
+					break;
+				case "ShowVRuler":
+					se.View.ShowMargin = TextEditorProperties.ShowVerticalRuler;
+					break;
+				case "EnableCodeCompletion":
+					se.View.EnableCodeCompletion = TextEditorProperties.EnableCodeCompletion;
+					break;
+				case "ConvertTabsToSpaces":
+					se.View.InsertSpacesInsteadOfTabs = TextEditorProperties.ConvertTabsToSpaces;
+					break;
+				case "IndentStyle":
+					se.View.AutoIndent = (TextEditorProperties.IndentStyle == IndentStyle.Auto);
+					break;
+				case "AutoInsertTemplates":
+					se.View.AutoInsertTemplates = TextEditorProperties.AutoInsertTemplates;
+					break;
+				case "ShowErrors":
+					se.Buffer.UnderlineErrors = TextEditorProperties.UnderlineErrors;
+					break;
+				case "SyntaxHighlight":
+					se.Buffer.Highlight = TextEditorProperties.SyntaxHighlight;
+					break;
+				case "VRulerRow":
+					if (TextEditorProperties.VerticalRulerRow > -1)
+						se.View.Margin = (uint) TextEditorProperties.VerticalRulerRow;
+					else
+						se.View.Margin = (uint) 80;
+					break;
+				case "TabIndent":
+					if (TextEditorProperties.TabIndent > -1)
+						se.View.TabsWidth = (uint) TextEditorProperties.TabIndent;
+					else
+						se.View.TabsWidth = (uint) 4;
+					break;
+				case "EnableFolding":
+					// TODO
+					break;
+				default:
+					Console.WriteLine ("unhandled property change: {0}", e.Key);
+					break;
+			}
  		}
 	}
 }

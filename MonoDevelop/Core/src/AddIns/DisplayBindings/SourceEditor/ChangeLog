@@ -1,3 +1,13 @@
+2005-02-26  John Luke  <john.luke@gmail.com>
+
+	* Gui/SourceEditorWidget.cs: dont always set Highlight=true
+	* Gui/OptionPanels/MarkersTextEditorPanel.cs: un-sensitize ShowErrors
+	* Gui/SourceEditorDisplayBinding.cs: only modify properties
+	that were changed.
+	* Gui/OptionPanels/GeneralTextEditorPanel.cs:
+	* Properties/TextEditorProperties.cs:
+	* EditorBindings.glade: add SyntaxHighlight check button
+
 2005-02-23  Christian Hergert <christian.hergert@gmail.com>
 
 	* Gui/Dialogs/ReplaceDialog.cs: Check for null to prevent Exception.
