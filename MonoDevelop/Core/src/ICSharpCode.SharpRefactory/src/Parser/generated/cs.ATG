@@ -322,6 +322,11 @@ bool IsLocalVarDecl () {
 	       pt.kind == Tokens.Identifier;
 }
 
+/* True, if lookahead ident is "yield" */
+bool IdentIsYield () {
+	return la.kind == Tokens.Identifier && la.val == "yield";
+}
+
 /* True, if lookahead ident is "get" */
 bool IdentIsGet () {
 	return la.kind == Tokens.Identifier && la.val == "get";
@@ -1536,6 +1541,9 @@ EmbeddedStatement<out Statement statement>
 	Block<out statement>
 	/*--- empty statement: */
 	| ";"                       (. statement = new EmptyStatement(); .)
+	/* yield statements */
+	| IF (IdentIsYield ()) ident
+		("return" Expr<out expr> | "break") ";"			(. statement = new YieldStatement(expr); .)
 	/*--- checked / unchecked statement: */
 	| IF (UnCheckedAndLBrace()) (. Statement block; bool isChecked = true; .)
 	("checked" | "unchecked"    (. isChecked = false;.) )
@@ -1573,6 +1581,7 @@ EmbeddedStatement<out Statement statement>
 	| GotoStatement<out statement>
 	| "return" [ Expr<out expr> ] ";"    (. statement = new ReturnStatement(expr); .)
 	| "throw" [ Expr<out expr> ] ";"     (. statement = new ThrowStatement(expr); .)
+
 	/*--- try statement: */
 	| TryStatement<out statement>
 	/*--- lock satement: */
