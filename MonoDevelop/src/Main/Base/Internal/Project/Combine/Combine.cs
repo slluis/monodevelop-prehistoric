@@ -304,20 +304,14 @@ namespace ICSharpCode.SharpDevelop.Internal.Project
 		
 		public void SaveCombineAs()
 		{
-			/*SaveFileDialog fdiag = new SaveFileDialog();
-			fdiag.OverwritePrompt = true;
-			fdiag.AddExtension    = true;
-			
-			StringParserService stringParserService = (StringParserService)ServiceManager.Services.GetService(typeof(StringParserService));
-			fdiag.Filter = stringParserService.Parse("${res:SharpDevelop.FileFilter.CombineFiles}|*.cmbx|${res:SharpDevelop.FileFilter.AllFiles}|*.*");
-			
-			if (fdiag.ShowDialog() == DialogResult.OK) {
-				string filename = fdiag.FileName;
+			Gtk.FileSelection fdiag = new Gtk.FileSelection ("Save Combine As...");
+			fdiag.Filename = System.Environment.GetEnvironmentVariable ("HOME");
+			if (fdiag.Run() == (int)Gtk.ResponseType.Ok) {
+				string filename = fdiag.Filename;
 				SaveCombine(filename);
 				IMessageService messageService =(IMessageService)ServiceManager.Services.GetService(typeof(IMessageService));
 				messageService.ShowMessage(filename, resourceService.GetString("Internal.Project.Combine.CombineSavedMessage"));
-			}*/
-			Console.WriteLine ("Unported dialog in Combine.cs");
+			}
 		}
 
 		public object AddEntry(string filename)

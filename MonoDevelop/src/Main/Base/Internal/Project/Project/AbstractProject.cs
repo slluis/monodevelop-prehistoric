@@ -512,20 +512,16 @@ namespace ICSharpCode.SharpDevelop.Internal.Project
 		
 		public void SaveProjectAs()
 		{
-			/*SaveFileDialog fdiag = new SaveFileDialog();
-			fdiag.OverwritePrompt = true;
-			fdiag.AddExtension    = true;
+			Gtk.FileSelection fdiag = new Gtk.FileSelection ("Save Project As...");
+			fdiag.Filename = System.Environment.GetEnvironmentVariable ("HOME");
 
-			fdiag.Filter          = String.Join("|", (string[])(AddInTreeSingleton.AddInTree.GetTreeNode("/SharpDevelop/Workbench/Combine/FileFilter").BuildChildItems(this)).ToArray(typeof(string)));
-
-			if (fdiag.ShowDialog() == DialogResult.OK) {
-				string filename = fdiag.FileName;
+			if (fdiag.Run() == (int)Gtk.ResponseType.Ok) {
+				string filename = fdiag.Filename;
 				SaveProject(filename);
 				IResourceService resourceService = (IResourceService)ServiceManager.Services.GetService(typeof(IResourceService));
 				IMessageService messageService =(IMessageService)ServiceManager.Services.GetService(typeof(IMessageService));
 				messageService.ShowMessage(filename, resourceService.GetString("Internal.Project.DefaultProject.ProjectSavedMessage"));
-			}*/
-			Console.WriteLine ("AbstractProject.cs unported Dialog");
+			}
 		}
 		
 		public void CopyReferencesToOutputPath(bool force)
