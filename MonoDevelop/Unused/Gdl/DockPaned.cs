@@ -8,7 +8,7 @@ namespace Gdl
 {
 	public class DockPaned : DockItem
 	{
-		private readonly float SplitRatio = 0.3f;
+		private const float SplitRatio = 0.3f;
 
 		protected DockPaned (IntPtr raw) : base (raw) { }
 
@@ -18,19 +18,16 @@ namespace Gdl
 
 		public DockPaned (Orientation orientation)
 		{
+			DockObjectFlags &= ~(DockObjectFlags.Automatic);
 			CreateChild (orientation);
 		}
 		
 		public override bool HasGrip {
-			get {
-				return false;
-			}
+			get { return false; }
 		}
 		
 		public override bool IsCompound {
-			get {
-				return true;
-			}
+			get { return true; }
 		}
 		
 		[After]
@@ -97,7 +94,10 @@ namespace Gdl
 
 		protected override void OnDestroyed ()
 		{
+			// this first
 			base.OnDestroyed ();
+
+			// after that we can remove the Paned child
 			if (Child != null) {
 				Child.Unparent ();
 				Child = null;
@@ -170,7 +170,7 @@ namespace Gdl
 			int relX = x - alloc.X;
 			int relY = y - alloc.Y;
 			
-			/* Location is inside. */
+			/* Check if coordinates are inside the widget. */
 			if (relX > 0 && relX < alloc.Width &&
 			    relY > 0 && relY < alloc.Height) {
 			    	int divider = -1;

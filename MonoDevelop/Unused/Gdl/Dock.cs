@@ -179,6 +179,7 @@ namespace Gdl
 			requisition.Width = 2 * (int)BorderWidth;
 			requisition.Height = 2 * (int)BorderWidth;
 
+			// make request to root
 			if (root != null && root.Visible) {
 				Requisition rootReq = root.SizeRequest ();
 				requisition.Width += rootReq.Width;
@@ -194,6 +195,7 @@ namespace Gdl
 				int bw = (int)BorderWidth;
 				Gdk.Rectangle childAlloc;
 			
+				// reduce allocation by border width
 				childAlloc.X = allocation.X + bw;
 				childAlloc.Y = allocation.Y + bw;
 				childAlloc.Width = Math.Max (1, allocation.Width - 2 * bw);
@@ -264,6 +266,7 @@ namespace Gdl
 				window = null;
 			}
 
+			// destroy the xor gc
 			if (xorGC != null)
 				xorGC = null;
 

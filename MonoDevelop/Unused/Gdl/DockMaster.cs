@@ -12,13 +12,21 @@ namespace Gdl
 		private ArrayList toplevelDocks = new ArrayList ();
 		private DockObject controller = null;
 		private int dockNumber = 1;
+
+		// for naming nameless manual objects
 		private int number = 1;
 		private string defaultTitle;
+
 		private Gdk.GC rootXorGC;
 		private bool rectDrawn;
 		private Dock rectOwner;
+
 		private DockRequest request;
-		private uint idle_layout_changed_id;
+
+		// hashes to quickly calculate the overall locked status:
+		// if size(unlocked_items) == 0 then locked = 1
+		// else if size(locked_items) == 0 then locked = 0
+		// else locked = -1
 		private Hashtable lockedItems = new Hashtable ();
 		private Hashtable unlockedItems = new Hashtable ();
 		
@@ -53,6 +61,9 @@ namespace Gdl
 			}
 		}
 		
+		// 1  = all the dock items bound to the master are locked
+		// 0  = all the dock items bound to the master are unlocked
+		// -1 = inconsistent
 		public int Locked {
 			get {
 				return ComputeLocked ();
@@ -157,6 +168,7 @@ namespace Gdl
 			if (obj == null)
 				return;
 	
+			// remove from locked/unlocked hashes and property change if that's the case
 			if (obj is DockItem && ((DockItem)obj).HasGrip) {
 				int locked = Locked;
 				if (lockedItems.Contains (obj)) {
@@ -176,22 +188,30 @@ namespace Gdl
 
 				if (obj == controller) {
 					DockObject newController = null;
+
+					// now find some other non-automatic toplevel to use as a
+					// new controller.  start from the last dock, since it's
+					// probably a non-floating and manual
 					ArrayList reversed = toplevelDocks;
 					reversed.Reverse ();
+
 					foreach (DockObject item in reversed) {
 						if (!item.IsAutomatic) {
 							newController = item;
 							break;
 						}
 					}
+
 					if (newController != null) {
 						controller = newController;
 					} else {
+						// no controller, no master
 						controller = null;
 					}
 				}
 			}
 			
+			// disconnect the signals
 			if (obj is DockItem) {
 				DockItem item = obj as DockItem;
 				item.Detached -= OnItemDetached;
@@ -201,6 +221,7 @@ namespace Gdl
 				item.DockItemDragEnd -= OnDragEnd;
 			}
 			
+			// remove the object from the hash if it is there
 			if (obj.Name != null && dockObjects.Contains (obj.Name))
 				dockObjects.Remove (obj.Name);
 			
@@ -223,10 +244,12 @@ namespace Gdl
 				if (value != null) {
 					if (value.IsAutomatic)
 						Console.WriteLine ("New controller is automatic, only manual dock objects should be named controller");
+					// check that the controller is in the toplevel list
 					if (!toplevelDocks.Contains (value))
 						Add (value);
 					controller = value;
 				} else {
+					// no controller, no master
 					controller = null;
 				}
 			}
@@ -317,6 +340,7 @@ namespace Gdl
 			if (cancelled || request.Applicant == request.Target)
 				return;
 
+			// dock object to the requested position
 			request.Target.Dock (request.Applicant,
 					     request.Position,
 					     request.Extra);
@@ -400,6 +424,8 @@ namespace Gdl
 									myRequest.Y,
 									myRequest.Width,
 									myRequest.Height);
+
+				// setup extra docking information
 				myRequest.Extra = rect;
 			}
 			
@@ -414,6 +440,7 @@ namespace Gdl
 					XorRect ();
 			}
 			
+			// set the new values
 			request = myRequest;
 			rectOwner = dock;
 			

@@ -11,7 +11,7 @@ namespace Gdl
 	
 	public class DockItem : DockObject
 	{
-		private readonly float SplitRatio = 0.4f;
+		private const float SplitRatio = 0.4f;
 		private Widget child = null;
 		private DockItemBehavior behavior = DockItemBehavior.Normal;
 		private Orientation orientation = Orientation.Vertical;
@@ -88,24 +88,16 @@ namespace Gdl
 		}
 		
 		public bool CantClose {
-			get {
-				return ((Behavior & DockItemBehavior.CantClose) != 0);
-			}
+			get { return ((Behavior & DockItemBehavior.CantClose) != 0); }
 		}
 		
 		public bool CantIconify {
-			get {
-				return ((Behavior & DockItemBehavior.CantIconify) != 0);
-			}
+			get { return ((Behavior & DockItemBehavior.CantIconify) != 0); }
 		}
 		
 		public new Widget Child {
-			get {
-				return child;
-			}
-			set {
-				child = value;
-			}
+			get { return child; }
+			set { child = value; }
 		}
 
 		public DockBar DockBar {
@@ -114,66 +106,42 @@ namespace Gdl
 		}
 		
 		public DockBarButton DockBarButton {
-			get {
-				return dockButton;
-			}
-			set {
-				dockButton = value;	
-			}
+			get { return dockButton; }
+			set { dockButton = value;	}
 		}
 		
 		public int DragOffX {
-			get {
-				return dragoffX;
-			}
-			set {
-				dragoffX = value; 
-			}
+			get { return dragoffX; }
+			set { dragoffX = value; }
 		}
 		
 		public int DragOffY {
-			get {
-				return dragoffY;
-			}
-			set {
-				dragoffY = value;
-			}
+			get { return dragoffY; }
+			set { dragoffY = value; }
 		}
 		
 		public bool GripShown {
-			get {
-				return (HasGrip && !Locked && grip.Visible);
-			}
+			get { return (HasGrip && !Locked && grip.Visible); }
 		}
 		
 		public virtual bool HasGrip {
-			get {
-				return true;
-			}
+			get { return true; }
 		}
 		
 		public bool Iconified {
-			get {
-				return ((DockObjectFlags & DockObjectFlags.Iconified) != 0);
-			}
+			get { return ((DockObjectFlags & DockObjectFlags.Iconified) != 0); }
 		}
 		
 		public bool InDrag {
-			get {
-				return ((DockObjectFlags & DockObjectFlags.InDrag) != 0);
-			}
+			get { return ((DockObjectFlags & DockObjectFlags.InDrag) != 0); }
 		}
 		
 		public bool InPreDrag {
-			get {
-				return ((DockObjectFlags & DockObjectFlags.InPreDrag) != 0);
-			}
+			get { return ((DockObjectFlags & DockObjectFlags.InPreDrag) != 0); }
 		}
 		
 		public override bool IsCompound {
-			get {
-				return false;
-			}
+			get { return false; }
 		}
 		
 		[Export]
@@ -189,6 +157,7 @@ namespace Gdl
 					behavior &= ~(DockItemBehavior.Locked);
 
 				if ((oldBehavior ^ behavior) != 0) {
+					ShowHideGrip ();
 					if (Master != null)
 						Master.EmitLayoutChangedEvent ();
 					EmitPropertyEvent ("Locked");
@@ -198,30 +167,18 @@ namespace Gdl
 		
 		[Export]
 		public Orientation Orientation {
-			get {
-				return orientation;
-			}
-			set {
-				SetOrientation (value);
-			}
+			get { return orientation; }
+			set { SetOrientation (value); }
 		}
 		
 		public int PreferredHeight {
-			get {
-				return preferredHeight;
-			}
-			set {
-				preferredHeight = value;
-			}
+			get { return preferredHeight; }
+			set { preferredHeight = value; }
 		}
 		
 		public int PreferredWidth {
-			get {
-				return preferredWidth;
-			}
-			set {
-				preferredWidth = value;
-			}
+			get { return preferredWidth; }
+			set { preferredWidth = value; }
 		}
 		
 		public Requisition PreferredSize {
@@ -234,9 +191,7 @@ namespace Gdl
 		}
 		
 		public bool Resize {
-			get {
-				return resize;
-			}
+			get { return resize; }
 			set {
 				resize = value;
 				QueueResize ();
@@ -250,15 +205,11 @@ namespace Gdl
 					tabLabel = new Label ();
 				return tabLabel;
 			}
-			set {
-				tabLabel = value;
-			}
+			set { tabLabel = value; }
 		}
 		
 		public bool UserAction {
-			get {
-				return ((DockObjectFlags & DockObjectFlags.UserAction) != 0);
-			}
+			get { return ((DockObjectFlags & DockObjectFlags.UserAction) != 0); }
 		}
 		
 		protected override void OnAdded (Widget widget)
@@ -765,12 +716,19 @@ namespace Gdl
 		public void DockPopupMenu (uint button, uint time)
 		{
 			if (menu == null) {
+				// Create popup menu and attach it to the dock item
 				menu = new Menu ();
 				menu.AttachToWidget (this, new MenuDetachFunc (DetachMenu));
 				
+				// Hide menuitem
 				MenuItem mitem = new MenuItem ("Hide");
 				mitem.Activated += new EventHandler (ItemHideCb);
 				menu.Append (mitem);
+
+				// Lock menuitem -- need to be able to unlock
+				//mitem = new MenuItem ("Lock");
+				//mitem.Activated += new EventHandler (ItemLockCb);
+				//menu.Append (mitem);
 			}
 			menu.ShowAll ();
 			menu.Popup (null, null, null, IntPtr.Zero, button, time);
@@ -780,6 +738,11 @@ namespace Gdl
 		private void ItemHideCb (object o, EventArgs e)
 		{
 			HideItem ();
+		}
+
+		private void ItemLockCb (object o, EventArgs e)
+		{
+			this.Locked = true;
 		}
 		
 		private void StartDrag ()
@@ -908,10 +871,9 @@ namespace Gdl
 		{
 			DockObjectFlags |= DockObjectFlags.Iconified;
 			HideItem ();
-			//Master.DockBar.AddItem (this);
 			Master.EmitLayoutChangedEvent ();
 		}
-		
+
 		public void ShowItem ()
 		{
 			DockObjectFlags &= ~(DockObjectFlags.Iconified);
