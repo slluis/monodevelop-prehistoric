@@ -15,16 +15,20 @@ using System.Xml;
 
 using ICSharpCode.Core.Services;
 using ICSharpCode.Core.AddIns;
-
 using ICSharpCode.Core.Properties;
 using ICSharpCode.Core.AddIns.Codons;
+
+using Gtk;
+using Gdk;
 
 namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 {
 	public class StatusPanel : Gtk.DrawingArea
 	{
 		WizardDialog wizard;
-		Gdk.Pixbuf bitmap = null;
+		Pixbuf bitmap = null;
+		Gdk.GC gc;
+		Pango.Layout ly;
 		
 		Pango.FontDescription smallFont;
 		Pango.FontDescription normalFont;
@@ -46,14 +50,19 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 
 			AddEvents ((int) (Gdk.EventMask.ExposureMask));
 			ExposeEvent += new GtkSharp.ExposeEventHandler (OnPaint);
+			Realized += new EventHandler (OnRealized);
+		}
+
+		protected void OnRealized (object o, EventArgs args)
+		{
+			gc = new Gdk.GC (GdkWindow);
+			ly = new Pango.Layout(PangoContext);
 		}
 		
 		protected void OnPaint(object o, GtkSharp.ExposeEventArgs e)
 		{
 			GdkWindow.BeginPaintRect (e.Event.area);
-			using (Gdk.GC gc = new Gdk.GC (GdkWindow)) {
 				GdkWindow.DrawPixbuf (gc, bitmap, 0, 0, 0, 0, -1, -1, Gdk.RgbDither.None, 0, 0);
-				Pango.Layout ly = new Pango.Layout(PangoContext);
 				smallFont.Weight = Pango.Weight.Normal;
 				ly.FontDescription = smallFont;
 				ly.SetText (resourceService.GetString("SharpDevelop.Gui.Dialogs.WizardDialog.StepsLabel"));
@@ -75,7 +84,6 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 					GdkWindow.DrawLayout(gc, 10, 40 + curNumber * smallFontHeight, ly);
 					++curNumber;
 				}
-			}
 			GdkWindow.EndPaint ();
 		}
 		
