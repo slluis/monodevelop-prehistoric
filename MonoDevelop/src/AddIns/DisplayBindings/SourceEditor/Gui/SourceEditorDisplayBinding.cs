@@ -313,6 +313,7 @@ namespace MonoDevelop.SourceEditor.Gui
 			se.View.ShowLineNumbers = TextEditorProperties.ShowLineNumbers;
 			se.Buffer.CheckBrackets = TextEditorProperties.ShowMatchingBracket;
 			se.View.ShowMargin = TextEditorProperties.ShowVerticalRuler;
+			se.View.EnableCodeCompletion = TextEditorProperties.EnableCodeCompletion;
 			
 			if (TextEditorProperties.VerticalRulerRow > -1) {
 				se.View.Margin = (uint) TextEditorProperties.VerticalRulerRow;

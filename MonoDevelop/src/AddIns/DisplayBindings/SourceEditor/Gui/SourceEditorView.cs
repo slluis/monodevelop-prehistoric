@@ -26,6 +26,7 @@ namespace MonoDevelop.SourceEditor.Gui
 		SourceEditorBuffer buf;
 		int lineToMark = -1;
 		CompletionWindow completionWindow;
+		bool codeCompleteEnabled;
 		
 		public static new GLib.GType GType
 		{
@@ -35,6 +36,11 @@ namespace MonoDevelop.SourceEditor.Gui
 					gtype = RegisterGType (typeof (SourceEditorView));
 				return gtype;
 			}
+		}
+
+		public bool EnableCodeCompletion {
+			get { return codeCompleteEnabled; }
+			set { codeCompleteEnabled = value; }
 		}
 		
 		public SourceEditorView (SourceEditorBuffer buf, SourceEditor parent) : base (GType)
@@ -167,8 +173,10 @@ namespace MonoDevelop.SourceEditor.Gui
 
 				case '.':
 					bool retval = base.OnKeyPressEvent (evnt);
-					completionWindow = new CompletionWindow (this, ParentEditor.DisplayBinding.ContentName, new CodeCompletionDataProvider ());
-					completionWindow.ShowCompletionWindow ((char)key);
+					if (EnableCodeCompletion) {
+						completionWindow = new CompletionWindow (this, ParentEditor.DisplayBinding.ContentName, new CodeCompletionDataProvider ());
+						completionWindow.ShowCompletionWindow ((char)key);
+					}
 					return retval;
 				/*case '(':
 					try {

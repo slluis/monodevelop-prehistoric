@@ -1,5 +1,12 @@
 2004-03-25  Todd Berman  <tberman@sevenl.net>
 
+	* Properties/TextEditorProperties.cs: add a EnableCodeCompletion prop
+	* Gui/SourceEditorDisplayBinding.cs:
+	* Gui/SourceEditorView.cs: hookup EnabledCodeCompletion prop
+	* Gui/OptionPanels/GeneralTextEditorProperties: sensify checkbox
+
+2004-03-25  Todd Berman  <tberman@sevenl.net>
+
 	* CodeCompletion/CompletionWindow.cs: fix bug that didnt allow you to
 	enter shift+p or shift+n.
 

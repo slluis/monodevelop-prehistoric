@@ -56,6 +56,15 @@ namespace MonoDevelop.EditorBindings.Properties {
 				properties.SetProperty ("TabIndent", value);
 			}
 		}
+
+		public static bool EnableCodeCompletion {
+			get {
+				return properties.GetProperty ("EnableCodeCompletion", true);
+			}
+			set {
+				properties.SetProperty ("EnableCodeCompletion", value);
+			}
+		}
 		
 		public static IndentStyle IndentStyle {
 			get {

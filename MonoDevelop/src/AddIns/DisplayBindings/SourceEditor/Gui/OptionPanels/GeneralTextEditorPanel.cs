@@ -130,7 +130,6 @@ namespace MonoDevelop.EditorBindings.Gui.OptionPanels
 
 				// FIXME: enable the sensitivity on these widgets when the implementation has been added
 				enableDoublebufferingCheckBox.Sensitive = false;
-				enableCodeCompletionCheckBox.Sensitive = false;
 			}
 
 			public void Store (IProperties CustomizationObject)
