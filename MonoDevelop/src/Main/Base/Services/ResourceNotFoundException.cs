@@ -7,7 +7,7 @@
 
 using System;
 
-namespace ICSharpCode.Core.Services
+namespace MonoDevelop.Core.Services
 {
 	/// <summary>
 	/// Is thrown when the GlobalResource manager can't find a requested

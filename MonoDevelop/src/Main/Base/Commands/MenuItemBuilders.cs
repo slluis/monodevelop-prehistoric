@@ -10,30 +10,30 @@ using System.Diagnostics;
 using System.IO;
 using System.Collections;
 
-using ICSharpCode.Core.AddIns;
-using ICSharpCode.Core.AddIns.Codons;
-using ICSharpCode.Core.AddIns.Conditions;
+using MonoDevelop.Core.AddIns;
+using MonoDevelop.Core.AddIns.Codons;
+using MonoDevelop.Core.AddIns.Conditions;
 
-using ICSharpCode.Core.Properties;
-using ICSharpCode.Core.Services;
+using MonoDevelop.Core.Properties;
+using MonoDevelop.Core.Services;
 
-using ICSharpCode.SharpDevelop.Services;
-using ICSharpCode.SharpDevelop.Gui;
-using ICSharpCode.SharpDevelop.Gui.Components;
-using ICSharpCode.SharpDevelop.Gui.ErrorHandlers;
-using ICSharpCode.SharpDevelop.Gui.Dialogs;
-using ICSharpCode.SharpDevelop.Internal.Project;
+using MonoDevelop.Services;
+using MonoDevelop.Gui;
+using MonoDevelop.Gui.Components;
+using MonoDevelop.Gui.ErrorHandlers;
+using MonoDevelop.Gui.Dialogs;
+using MonoDevelop.Internal.Project;
 
-using ICSharpCode.SharpDevelop.Internal.ExternalTool;
-using ICSharpCode.SharpDevelop.Gui.Pads.ProjectBrowser;
+using MonoDevelop.Internal.ExternalTool;
+using MonoDevelop.Gui.Pads.ProjectBrowser;
 
-namespace ICSharpCode.SharpDevelop.Commands
+namespace MonoDevelop.Commands
 {
 	public class RecentFilesMenuBuilder : ISubmenuBuilder
 	{
 		public Gtk.MenuItem[] BuildSubmenu(ConditionCollection conditionCollection, object owner)
 		{
-			IFileService fileService = (IFileService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(IFileService));
+			IFileService fileService = (IFileService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IFileService));
 			ResourceService resourceService = (ResourceService)ServiceManager.Services.GetService(typeof(IResourceService));
 			StringParserService stringParserService = (StringParserService)ServiceManager.Services.GetService(typeof(StringParserService));
 			
@@ -61,7 +61,7 @@ namespace ICSharpCode.SharpDevelop.Commands
 		void LoadRecentFile(object sender, EventArgs e)
 		{
 			SdMenuCommand item = (SdMenuCommand)sender;
-			IFileService fileService = (IFileService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(IFileService));
+			IFileService fileService = (IFileService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IFileService));
 			fileService.OpenFile(item.Tag.ToString());
 		}
 	}
@@ -70,7 +70,7 @@ namespace ICSharpCode.SharpDevelop.Commands
 	{
 		public Gtk.MenuItem[] BuildSubmenu(ConditionCollection conditionCollection, object owner)
 		{
-			IFileService fileService = (IFileService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(IFileService));
+			IFileService fileService = (IFileService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IFileService));
 			ResourceService resourceService = (ResourceService)ServiceManager.Services.GetService(typeof(IResourceService));
 			StringParserService stringParserService = (StringParserService)ServiceManager.Services.GetService(typeof(StringParserService));
 			
@@ -96,7 +96,7 @@ namespace ICSharpCode.SharpDevelop.Commands
 		void LoadRecentProject(object sender, EventArgs e)
 		{
 			SdMenuCommand item = (SdMenuCommand)sender;
-			IProjectService projectService = (IProjectService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
+			IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
 			
 			//FIXME:THIS IS BROKEN!!
 			
@@ -127,7 +127,7 @@ namespace ICSharpCode.SharpDevelop.Commands
 		void ToolEvt(object sender, EventArgs e)
 		{
 			SdMenuCommand item = (SdMenuCommand)sender;
-			IProjectService projectService = (IProjectService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
+			IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
 			StringParserService stringParserService = (StringParserService)ServiceManager.Services.GetService(typeof(StringParserService));
 			FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.Services.GetService(typeof(FileUtilityService));
 			
@@ -280,7 +280,7 @@ namespace ICSharpCode.SharpDevelop.Commands
 					finfo.BuildAction = BuildAction.Compile;
 				}
 			}
-			IProjectService projectService = (IProjectService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
+			IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
 			projectService.SaveCombine();
 		}
 		
@@ -300,7 +300,7 @@ namespace ICSharpCode.SharpDevelop.Commands
 					node.Project.DeployInformation.AddExcludedFile(finfo.Name);
 				}
 			}
-			IProjectService projectService = (IProjectService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
+			IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
 			projectService.SaveCombine();
 		}
 	}

@@ -15,14 +15,14 @@ using System.Collections;
 using System.Collections.Specialized;
 using System.Collections.Utility;
 
-using ICSharpCode.Core.Properties;
+using MonoDevelop.Core.Properties;
 
-using ICSharpCode.Core.Services;
-using ICSharpCode.SharpDevelop.Internal.Project;
+using MonoDevelop.Core.Services;
+using MonoDevelop.Internal.Project;
 using MonoDevelop.Gui.Widgets;
 using Stock = MonoDevelop.Gui.Stock;
 
-namespace ICSharpCode.SharpDevelop.Gui.Pads.ProjectBrowser
+namespace MonoDevelop.Gui.Pads.ProjectBrowser
 {
 	public class DefaultDotNetNodeBuilder : IProjectNodeBuilder
 	{

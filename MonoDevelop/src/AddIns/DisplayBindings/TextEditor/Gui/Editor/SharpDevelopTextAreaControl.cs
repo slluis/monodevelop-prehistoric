@@ -10,23 +10,23 @@ using System.Collections;
 using System.Drawing;
 using System.Diagnostics;
 
-using ICSharpCode.Core.Services;
-using ICSharpCode.Core.AddIns;
-using ICSharpCode.Core.Properties;
-using ICSharpCode.TextEditor.Document;
-using ICSharpCode.SharpDevelop.Gui;
-using ICSharpCode.SharpDevelop.DefaultEditor.Actions;
-using ICSharpCode.TextEditor;
-using ICSharpCode.TextEditor.Actions;
-using ICSharpCode.SharpDevelop.Internal.Templates;
-using ICSharpCode.SharpDevelop.Services;
-using ICSharpCode.SharpDevelop.Gui.Components;
-using ICSharpCode.TextEditor.Gui.InsightWindow;
-using ICSharpCode.TextEditor.Gui.CompletionWindow;
+using MonoDevelop.Core.Services;
+using MonoDevelop.Core.AddIns;
+using MonoDevelop.Core.Properties;
+using MonoDevelop.TextEditor.Document;
+using MonoDevelop.Gui;
+using MonoDevelop.DefaultEditor.Actions;
+using MonoDevelop.TextEditor;
+using MonoDevelop.TextEditor.Actions;
+using MonoDevelop.Internal.Templates;
+using MonoDevelop.Services;
+using MonoDevelop.Gui.Components;
+using MonoDevelop.TextEditor.Gui.InsightWindow;
+using MonoDevelop.TextEditor.Gui.CompletionWindow;
 
 using MonoDevelop.EditorBindings.FormattingStrategy;
 
-namespace ICSharpCode.SharpDevelop.DefaultEditor.Gui.Editor
+namespace MonoDevelop.DefaultEditor.Gui.Editor
 {
 	public class SharpDevelopTextAreaControl : TextEditorControl
 	{
@@ -36,7 +36,7 @@ namespace ICSharpCode.SharpDevelop.DefaultEditor.Gui.Editor
 				
 		public SharpDevelopTextAreaControl()
 		{
-			Document.FoldingManager.FoldingStrategy = new ICSharpCode.SharpDevelop.DefaultEditor.Gui.Editor.ParserFoldingStrategy();
+			Document.FoldingManager.FoldingStrategy = new MonoDevelop.DefaultEditor.Gui.Editor.ParserFoldingStrategy();
 			GenerateEditActions();
 			
 			TextAreaDragDropHandler dragDropHandler = new TextAreaDragDropHandler();
@@ -46,16 +46,16 @@ namespace ICSharpCode.SharpDevelop.DefaultEditor.Gui.Editor
 		protected override void InitializeTextAreaControl(TextAreaControl newControl)
 		{
 			base.InitializeTextAreaControl(newControl);
-			MenuService menuService = (MenuService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(MenuService));
+			MenuService menuService = (MenuService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(MenuService));
 			newControl.ContextMenu = menuService.CreateContextMenu(this, contextMenuPath);
-			newControl.TextArea.KeyEventHandler += new ICSharpCode.TextEditor.KeyEventHandler(HandleKeyPress);
+			newControl.TextArea.KeyEventHandler += new MonoDevelop.TextEditor.KeyEventHandler(HandleKeyPress);
 			newControl.SelectionManager.SelectionChanged += new EventHandler(SelectionChanged);
 			newControl.Caret.PositionChanged += new EventHandler(CaretPositionChanged);
 		}
 		
 		void CaretPositionChanged(object sender, EventArgs e)
 		{
-			IStatusBarService statusBarService = (IStatusBarService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(IStatusBarService));
+			IStatusBarService statusBarService = (IStatusBarService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IStatusBarService));
 			statusBarService.SetCaretPosition(ActiveTextAreaControl.TextArea.TextView.GetVisualColumn(ActiveTextAreaControl.Caret.Line, ActiveTextAreaControl.Caret.Column), ActiveTextAreaControl.Caret.Line, ActiveTextAreaControl.Caret.Column);
 		}
 		

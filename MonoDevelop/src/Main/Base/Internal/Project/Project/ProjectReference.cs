@@ -9,12 +9,12 @@ using System;
 using System.IO;
 using System.Diagnostics;
 using System.Xml;
-using ICSharpCode.SharpDevelop.Services;
+using MonoDevelop.Services;
 using System.ComponentModel;
-using ICSharpCode.SharpDevelop.Gui.Components;
-using ICSharpCode.SharpDevelop.Internal.Project;
+using MonoDevelop.Gui.Components;
+using MonoDevelop.Internal.Project;
 
-namespace ICSharpCode.SharpDevelop.Internal.Project
+namespace MonoDevelop.Internal.Project
 {
 	public enum ReferenceType {
 		Assembly,
@@ -46,8 +46,8 @@ namespace ICSharpCode.SharpDevelop.Internal.Project
 		}
 		
 		[ReadOnly(true)]
-		[LocalizedProperty("${res:ICSharpCode.SharpDevelop.Internal.Project.ProjectReference.ReferenceType}",
-		                   Description ="${res:ICSharpCode.SharpDevelop.Internal.Project.ProjectReference.ReferenceType.Description})")]
+		[LocalizedProperty("${res:MonoDevelop.Internal.Project.ProjectReference.ReferenceType}",
+		                   Description ="${res:MonoDevelop.Internal.Project.ProjectReference.ReferenceType.Description})")]
 		public ReferenceType ReferenceType {
 			get {
 				return referenceType;
@@ -58,8 +58,8 @@ namespace ICSharpCode.SharpDevelop.Internal.Project
 		}
 		
 		[ReadOnly(true)]
-		[LocalizedProperty("${res:ICSharpCode.SharpDevelop.Internal.Project.ProjectReference.Reference}",
-		                   Description = "${res:ICSharpCode.SharpDevelop.Internal.Project.ProjectReference.Reference.Description}")]
+		[LocalizedProperty("${res:MonoDevelop.Internal.Project.ProjectReference.Reference}",
+		                   Description = "${res:MonoDevelop.Internal.Project.ProjectReference.Reference.Description}")]
 		public string Reference {
 			get {
 				return reference;
@@ -70,8 +70,8 @@ namespace ICSharpCode.SharpDevelop.Internal.Project
 			}
 		}
 		
-		[LocalizedProperty("${res:ICSharpCode.SharpDevelop.Internal.Project.ProjectReference.LocalCopy}",
-		                   Description = "${res:ICSharpCode.SharpDevelop.Internal.Project.ProjectReference.LocalCopy.Description}")]
+		[LocalizedProperty("${res:MonoDevelop.Internal.Project.ProjectReference.LocalCopy}",
+		                   Description = "${res:MonoDevelop.Internal.Project.ProjectReference.LocalCopy.Description}")]
 		[DefaultValue(true)]
 		public bool LocalCopy {
 			get {
@@ -79,7 +79,7 @@ namespace ICSharpCode.SharpDevelop.Internal.Project
 			}
 			set {
 				localCopy = value;
-				IProjectService projectService = (IProjectService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
+				IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
 				projectService.SaveCombine();
 			}
 		}
@@ -108,7 +108,7 @@ namespace ICSharpCode.SharpDevelop.Internal.Project
 					return reference;
 #endif
 				case ReferenceType.Project:
-					IProjectService projectService = (IProjectService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
+					IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
 					string projectOutputLocation   = projectService.GetOutputAssemblyName(reference);
 					return projectOutputLocation;
 				

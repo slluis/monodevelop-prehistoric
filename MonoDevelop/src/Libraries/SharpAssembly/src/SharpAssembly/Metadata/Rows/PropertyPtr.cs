@@ -18,7 +18,7 @@
 using System;
 using System.IO;
 
-namespace ICSharpCode.SharpAssembly.Metadata.Rows {
+namespace MonoDevelop.SharpAssembly.Metadata.Rows {
 	
 	public class PropertyPtr : AbstractRow
 	{
@@ -37,7 +37,7 @@ namespace ICSharpCode.SharpAssembly.Metadata.Rows {
 		
 		public override void LoadRow()
 		{
-			property = ReadSimpleIndex(ICSharpCode.SharpAssembly.Metadata.Rows.Property.TABLE_ID);
+			property = ReadSimpleIndex(MonoDevelop.SharpAssembly.Metadata.Rows.Property.TABLE_ID);
 		}
 	}
 }

@@ -6,7 +6,7 @@
 // </file>
 using System;
 using System.IO;
-using ICSharpCode.SharpDevelop.Services;
+using MonoDevelop.Services;
 
 namespace SharpDevelop.Internal.Parser
 {

@@ -12,15 +12,15 @@ using System.Text.RegularExpressions;
 using System.IO;
 
 using SharpDevelop.Internal.Parser;
-using ICSharpCode.SharpDevelop.Services;
-using ICSharpCode.Core.Services;
+using MonoDevelop.Services;
+using MonoDevelop.Core.Services;
 
 using MonoDevelop.SourceEditor.Gui;
 
 namespace MonoDevelop.SourceEditor.CodeCompletion {
 	class CodeCompletionData : ICompletionDataWithMarkup {
 		static ClassBrowserIconsService classBrowserIconService = (ClassBrowserIconsService)ServiceManager.Services.GetService(typeof(ClassBrowserIconsService));
-		static IParserService           parserService           = (IParserService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(IParserService));
+		static IParserService           parserService           = (IParserService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IParserService));
 		static AmbienceService          ambienceService = (AmbienceService)ServiceManager.Services.GetService(typeof(AmbienceService));
 		
 		string   image;

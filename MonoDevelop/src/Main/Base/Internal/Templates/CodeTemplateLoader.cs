@@ -10,12 +10,12 @@ using System.IO;
 using System.Collections;
 using System.Diagnostics;
 using System.Xml;
-using ICSharpCode.SharpDevelop.Internal.Templates;
+using MonoDevelop.Internal.Templates;
 
-using ICSharpCode.Core.Properties;
-using ICSharpCode.Core.Services;
+using MonoDevelop.Core.Properties;
+using MonoDevelop.Core.Services;
 
-namespace ICSharpCode.SharpDevelop.Internal.Templates
+namespace MonoDevelop.Internal.Templates
 {
 	/// <summary>
 	/// This class handles the code templates

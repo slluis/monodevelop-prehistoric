@@ -6,9 +6,9 @@
 // </file>
 
 using System.Collections;
-using ICSharpCode.SharpDevelop.Internal.Project;
+using MonoDevelop.Internal.Project;
 
-namespace ICSharpCode.SharpDevelop.Internal.Project
+namespace MonoDevelop.Internal.Project
 {
 	/// <summary>
 	/// This is the base interfaces for all configurations (projects and combines)

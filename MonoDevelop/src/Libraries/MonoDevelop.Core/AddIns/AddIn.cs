@@ -16,13 +16,13 @@ using System.Xml;
 using System.Xml.Schema;
 using System.Text;
 
-using ICSharpCode.Core.Properties;
-using ICSharpCode.Core.Services;
+using MonoDevelop.Core.Properties;
+using MonoDevelop.Core.Services;
 
-using ICSharpCode.Core.AddIns.Conditions;
-using ICSharpCode.Core.AddIns.Codons;
+using MonoDevelop.Core.AddIns.Conditions;
+using MonoDevelop.Core.AddIns.Codons;
 
-namespace ICSharpCode.Core.AddIns
+namespace MonoDevelop.Core.AddIns
 {
 	/// <summary>
 	/// The <code>AddIn</code> class handles the extensibility of the AddInTree by loading

@@ -9,9 +9,9 @@ using System;
 using System.Drawing;
 using System.Xml;
 
-using ICSharpCode.Core.Properties;
+using MonoDevelop.Core.Properties;
 
-namespace ICSharpCode.SharpDevelop.Gui
+namespace MonoDevelop.Gui
 {
 	/// <summary>
 	/// This class contains the state of the <code>MdiWorkspace</code>, it is used to 

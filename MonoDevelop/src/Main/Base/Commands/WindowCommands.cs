@@ -8,11 +8,11 @@
 using System;
 using System.Collections;
 using System.CodeDom.Compiler;
-using ICSharpCode.Core.Properties;
-using ICSharpCode.Core.AddIns.Codons;
-using ICSharpCode.SharpDevelop.Gui;
+using MonoDevelop.Core.Properties;
+using MonoDevelop.Core.AddIns.Codons;
+using MonoDevelop.Gui;
 
-namespace ICSharpCode.SharpDevelop.Commands
+namespace MonoDevelop.Commands
 {
 	public class SelectNextWindow : AbstractMenuCommand
 	{

@@ -15,7 +15,7 @@ using System.IO;
 using System.Reflection;
 using System.Xml;
 
-namespace ICSharpCode.TextEditor.Document
+namespace MonoDevelop.TextEditor.Document
 {
 	/// <summary>
 	/// A color used for highlighting 
@@ -118,7 +118,7 @@ namespace ICSharpCode.TextEditor.Document
 		/// </summary>
 		public HighlightColor(XmlElement el)
 		{
-			Debug.Assert(el != null, "ICSharpCode.TextEditor.Document.SyntaxColor(XmlElement el) : el == null");
+			Debug.Assert(el != null, "MonoDevelop.TextEditor.Document.SyntaxColor(XmlElement el) : el == null");
 			if (el.Attributes["bold"] != null) {
 				bold = Boolean.Parse(el.Attributes["bold"].InnerText);
 			}
@@ -167,7 +167,7 @@ namespace ICSharpCode.TextEditor.Document
 		/// </summary>
 		public HighlightColor(XmlElement el, HighlightColor defaultColor)
 		{
-			Debug.Assert(el != null, "ICSharpCode.TextEditor.Document.SyntaxColor(XmlElement el) : el == null");
+			Debug.Assert(el != null, "MonoDevelop.TextEditor.Document.SyntaxColor(XmlElement el) : el == null");
 			if (el.Attributes["bold"] != null) {
 				bold = Boolean.Parse(el.Attributes["bold"].InnerText);
 			} else {

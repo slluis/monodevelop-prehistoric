@@ -12,9 +12,9 @@ using System.Drawing;
 using System.Text;
 using System.Xml;
 
-using ICSharpCode.TextEditor.Util;
+using MonoDevelop.TextEditor.Util;
 
-namespace ICSharpCode.TextEditor.Document
+namespace MonoDevelop.TextEditor.Document
 {
 	public class HighlightRuleSet
 	{

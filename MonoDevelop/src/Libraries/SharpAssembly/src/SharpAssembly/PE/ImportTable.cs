@@ -18,7 +18,7 @@
 using System;
 using System.IO;
 
-namespace ICSharpCode.SharpAssembly.PE {
+namespace MonoDevelop.SharpAssembly.PE {
 	
 	public class ImportTable
 	{

@@ -13,11 +13,11 @@ using System.Collections;
 using System.Collections.Specialized;
 using System.Xml;
 
-using ICSharpCode.Core.Properties;
-using ICSharpCode.Core.Services;
-using ICSharpCode.SharpDevelop.Gui;
-using ICSharpCode.SharpDevelop.Internal.Templates;
-using ICSharpCode.SharpDevelop.Services;
+using MonoDevelop.Core.Properties;
+using MonoDevelop.Core.Services;
+using MonoDevelop.Gui;
+using MonoDevelop.Internal.Templates;
+using MonoDevelop.Services;
 using SharpDevelop.Internal.Parser;
 
 using MonoDevelop.SourceEditor.Gui;
@@ -63,7 +63,7 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 			if (expression.Length == 0) {
 				return null;
 			}
-			IParserService           parserService           = (IParserService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(IParserService));
+			IParserService           parserService           = (IParserService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IParserService));
 			if (charTyped == ' ') {
 				if (expression == "using" || expression.EndsWith(" using") || expression.EndsWith("\tusing")|| expression.EndsWith("\nusing")|| expression.EndsWith("\rusing")) {
 					string[] namespaces = parserService.GetNamespaceList("");

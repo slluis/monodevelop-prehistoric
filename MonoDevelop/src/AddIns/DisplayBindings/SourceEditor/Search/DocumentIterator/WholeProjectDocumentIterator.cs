@@ -9,15 +9,15 @@ using System;
 using System.Collections;
 using System.IO;
 
-using ICSharpCode.SharpDevelop.Gui;
-using ICSharpCode.SharpDevelop.Internal.Project;
-using ICSharpCode.Core.Services;
-using ICSharpCode.SharpDevelop.Services;
-using ICSharpCode.TextEditor;
+using MonoDevelop.Gui;
+using MonoDevelop.Internal.Project;
+using MonoDevelop.Core.Services;
+using MonoDevelop.Services;
+using MonoDevelop.TextEditor;
 
 using MonoDevelop.SourceEditor.Gui;
 
-namespace ICSharpCode.TextEditor.Document
+namespace MonoDevelop.TextEditor.Document
 {
 	public class WholeProjectDocumentIterator : IDocumentIterator
 	{
@@ -63,7 +63,7 @@ namespace ICSharpCode.TextEditor.Document
 				try {
 					strategy = SourceEditorBuffer.CreateTextBufferFromFile (fileName);
 				} catch (Exception) {
-					TaskService taskService = (TaskService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(TaskService));
+					TaskService taskService = (TaskService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(TaskService));
 					taskService.Tasks.Add(new Task(String.Empty, "can't access " + fileName, -1, -1));
 					return null;
 				}
@@ -112,7 +112,7 @@ namespace ICSharpCode.TextEditor.Document
 		public void Reset() 
 		{
 			files.Clear();
-			IProjectService projectService = (IProjectService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
+			IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
 			if (projectService.CurrentOpenCombine != null) {
 				AddFiles(projectService.CurrentOpenCombine);
 			}

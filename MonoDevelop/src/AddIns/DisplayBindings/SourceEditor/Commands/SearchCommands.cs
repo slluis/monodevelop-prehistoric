@@ -15,20 +15,20 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Text;
 
-using ICSharpCode.Core.AddIns;
+using MonoDevelop.Core.AddIns;
 
-using ICSharpCode.Core.Properties;
-using ICSharpCode.Core.AddIns.Codons;
+using MonoDevelop.Core.Properties;
+using MonoDevelop.Core.AddIns.Codons;
 
-using ICSharpCode.TextEditor;
-using ICSharpCode.TextEditor.Actions;
-using ICSharpCode.TextEditor.Document;
+using MonoDevelop.TextEditor;
+using MonoDevelop.TextEditor.Actions;
+using MonoDevelop.TextEditor.Document;
 
-using ICSharpCode.SharpDevelop.Gui.Dialogs;
-using ICSharpCode.SharpDevelop.Gui;
+using MonoDevelop.Gui.Dialogs;
+using MonoDevelop.Gui;
 using MonoDevelop.SourceEditor.Gui;
 
-namespace ICSharpCode.SharpDevelop.DefaultEditor.Commands
+namespace MonoDevelop.DefaultEditor.Commands
 {
 	
 	public abstract class AbstractEditActionMenuCommand : AbstractMenuCommand

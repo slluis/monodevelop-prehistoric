@@ -11,14 +11,14 @@ using System.Collections;
 using System.Diagnostics;
 using System.Drawing;
 using System.Collections.Specialized;
-using ICSharpCode.Core.Services;
-using ICSharpCode.SharpDevelop.Services;
-using ICSharpCode.Core.Properties;
+using MonoDevelop.Core.Services;
+using MonoDevelop.Services;
+using MonoDevelop.Core.Properties;
 
-using ICSharpCode.SharpDevelop.Internal.Project;
-using ICSharpCode.SharpDevelop.Gui.Components;
+using MonoDevelop.Internal.Project;
+using MonoDevelop.Gui.Components;
 
-namespace ICSharpCode.SharpDevelop.Gui.Pads.ProjectBrowser
+namespace MonoDevelop.Gui.Pads.ProjectBrowser
 {
 	/// <summary>
 	/// This class represents the default project in the project browser.

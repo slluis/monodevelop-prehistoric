@@ -11,13 +11,13 @@ using System.Diagnostics;
 using System.Collections;
 using System.Xml;
 
-using ICSharpCode.Core.Services;
-using ICSharpCode.Core.AddIns;
-using ICSharpCode.Core.Properties;
-using ICSharpCode.Core.AddIns.Codons;
+using MonoDevelop.Core.Services;
+using MonoDevelop.Core.AddIns;
+using MonoDevelop.Core.Properties;
+using MonoDevelop.Core.AddIns.Codons;
 using Gtk;
 
-namespace ICSharpCode.SharpDevelop.Gui.Dialogs
+namespace MonoDevelop.Gui.Dialogs
 {
 	/// <summary>
 	/// TreeView options are used, when more options will be edited (for something like
@@ -188,7 +188,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 				statusPanel.GdkWindow.InvalidateRect (new Rectangle (0, 0, 400, 400), true);
 				dialogPanel.Remove (dialogPanel.Child);
 			}
-			if (CurrentWizardPane.ToString () == "ICSharpCode.SharpDevelop.Gui.Dialogs.OptionPanels.CompletionDatabaseWizard.CreationFinishedPanel") {
+			if (CurrentWizardPane.ToString () == "MonoDevelop.Gui.Dialogs.OptionPanels.CompletionDatabaseWizard.CreationFinishedPanel") {
 				Console.WriteLine ("This is an ugly hack for an even uglier bug, Restart MD now");
 				System.Environment.Exit (0);
 			}
@@ -298,7 +298,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 			finishButton = new ImageButton(Gtk.Stock.Apply,resourceService.GetString("Dialog.WizardDialog.FinishButton"));
 			finishButton.Clicked   += new EventHandler(FinishEvent);
 
-			cancelButton = new Button (Stock.Cancel);
+			cancelButton = new Button (Gtk.Stock.Cancel);
 			cancelButton.Clicked += new EventHandler(CancelEvent);
 			
 			// don't emit response for back and next

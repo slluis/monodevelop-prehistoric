@@ -7,7 +7,7 @@
 
 using System;
 
-namespace ICSharpCode.SharpDevelop.Gui
+namespace MonoDevelop.Gui
 {
 	/// <summary>
 	/// </summary>

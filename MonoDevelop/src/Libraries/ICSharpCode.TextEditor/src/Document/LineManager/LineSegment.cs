@@ -10,7 +10,7 @@ using System.Drawing;
 using System.Collections;
 using System.Text;
 
-namespace ICSharpCode.TextEditor.Document
+namespace MonoDevelop.TextEditor.Document
 {
 	public class LineSegment : AbstractSegment
 	{

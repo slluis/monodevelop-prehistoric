@@ -9,14 +9,14 @@ using System;
 using System.Collections;
 using System.Reflection;
 
-using ICSharpCode.Core.AddIns.Conditions;
-using ICSharpCode.Core.Properties;
+using MonoDevelop.Core.AddIns.Conditions;
+using MonoDevelop.Core.Properties;
 
 
-using ICSharpCode.SharpDevelop.Gui;
-using ICSharpCode.SharpDevelop.Gui.Components;
+using MonoDevelop.Gui;
+using MonoDevelop.Gui.Components;
 
-namespace ICSharpCode.Core.AddIns.Codons
+namespace MonoDevelop.Core.AddIns.Codons
 {
 	public interface ISubmenuBuilder
 	{

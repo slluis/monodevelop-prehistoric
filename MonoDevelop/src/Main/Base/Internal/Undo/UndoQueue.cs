@@ -9,7 +9,7 @@ using System;
 using System.Diagnostics;
 using System.Collections;
 
-namespace ICSharpCode.SharpDevelop.Internal.Undo
+namespace MonoDevelop.Internal.Undo
 {
 	/// <summary>
 	/// This class stacks the last x operations from the undostack and makes
@@ -25,7 +25,7 @@ namespace ICSharpCode.SharpDevelop.Internal.Undo
 				throw new ArgumentNullException("stack");
 			}
 			
-			Debug.Assert(numops > 0 , "ICSharpCode.SharpDevelop.Internal.Undo.UndoQueue : numops should be > 0");
+			Debug.Assert(numops > 0 , "MonoDevelop.Internal.Undo.UndoQueue : numops should be > 0");
 			
 			for (int i = 0; i < numops; ++i) {
 				if (stack._UndoStack.Count > 0) {
@@ -34,18 +34,18 @@ namespace ICSharpCode.SharpDevelop.Internal.Undo
 			}
 		}
 		
-		public void Undo()
-		{
-			for (int i = 0; i < undolist.Count; ++i) {
-				((IUndoableOperation)undolist[i]).Undo();
-			}
-		}
-		
 		public void Redo()
 		{
 			for (int i = undolist.Count - 1 ; i >= 0 ; --i) {
 				((IUndoableOperation)undolist[i]).Redo();
 			}
+		}
+
+		public void Undo()
+		{
+			for (int i = 0; i < undolist.Count; ++i) {
+			    ((IUndoableOperation) undolist[i]).Undo();
+			    }
 		}
 	}
 }

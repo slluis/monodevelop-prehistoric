@@ -1,7 +1,7 @@
 using System;
-using ICSharpCode.SharpRefactory.Parser.AST;
+using MonoDevelop.SharpRefactory.Parser.AST;
 
-namespace ICSharpCode.SharpRefactory.Parser
+namespace MonoDevelop.SharpRefactory.Parser
 {
 	public interface IASTVisitor
 	{

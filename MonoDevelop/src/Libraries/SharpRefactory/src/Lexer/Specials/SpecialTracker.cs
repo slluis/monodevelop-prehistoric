@@ -4,7 +4,7 @@ using System.CodeDom;
 using System.Collections;
 using System.Drawing;
 
-namespace ICSharpCode.SharpRefactory.Parser
+namespace MonoDevelop.SharpRefactory.Parser
 {
 	public class SpecialTracker
 	{

@@ -14,25 +14,25 @@ using System.Collections;
 using System.ComponentModel;
 using System.Diagnostics;
 
-using ICSharpCode.Core.AddIns;
+using MonoDevelop.Core.AddIns;
 
-using ICSharpCode.Core.Properties;
-using ICSharpCode.Core.AddIns.Codons;
-using ICSharpCode.Core.Services;
+using MonoDevelop.Core.Properties;
+using MonoDevelop.Core.AddIns.Codons;
+using MonoDevelop.Core.Services;
 
-using ICSharpCode.SharpDevelop.Services;
-using ICSharpCode.SharpDevelop.Internal.Project;
-using ICSharpCode.SharpDevelop.Gui;
-using ICSharpCode.SharpDevelop.Gui.Dialogs;
-using ICSharpCode.SharpDevelop.Gui.ErrorHandlers;
+using MonoDevelop.Services;
+using MonoDevelop.Internal.Project;
+using MonoDevelop.Gui;
+using MonoDevelop.Gui.Dialogs;
+using MonoDevelop.Gui.ErrorHandlers;
 
-namespace ICSharpCode.SharpDevelop.Commands
+namespace MonoDevelop.Commands
 {
 	public class CreateNewProject : AbstractMenuCommand
 	{
 		public override void Run()
 		{
-			IProjectService projectService = (IProjectService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
+			IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
 			
 			NewProjectDialog npdlg = new NewProjectDialog(true);
 			npdlg.Run ();
@@ -82,7 +82,7 @@ namespace ICSharpCode.SharpDevelop.Commands
 						SaveFileAs sfa = new SaveFileAs();
 						sfa.Run();
 					} else {						
-						IProjectService projectService = (IProjectService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
+						IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
 						FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.Services.GetService(typeof(FileUtilityService));
 						projectService.MarkFileDirty(window.ViewContent.ContentName);
 						string fileName = window.ViewContent.ContentName;
@@ -105,7 +105,7 @@ namespace ICSharpCode.SharpDevelop.Commands
 			
 			if (window != null && window.ViewContent.ContentName != null && !window.ViewContent.IsViewOnly) {
 				IMessageService messageService =(IMessageService)ServiceManager.Services.GetService(typeof(IMessageService));
-				if (messageService.AskQuestion("${res:ICSharpCode.SharpDevelop.Commands.ReloadFile.ReloadFileQuestion}")) {
+				if (messageService.AskQuestion("${res:MonoDevelop.Commands.ReloadFile.ReloadFileQuestion}")) {
 					IXmlConvertable memento = null;
 					if (window.ViewContent is IMementoCapable) {
 						memento = ((IMementoCapable)window.ViewContent).CreateMemento();
@@ -157,7 +157,7 @@ namespace ICSharpCode.SharpDevelop.Commands
 					fdiag.Destroy ();
 					
 					if (response == (int)Gtk.ResponseType.Ok) {
-						IFileService fileService = (IFileService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(IFileService));
+						IFileService fileService = (IFileService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IFileService));
 						FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.Services.GetService(typeof(FileUtilityService));
 						if (!fileUtilityService.IsValidFileName(filename)) {
 							IMessageService messageService =(IMessageService)ServiceManager.Services.GetService(typeof(IMessageService));
@@ -224,7 +224,7 @@ namespace ICSharpCode.SharpDevelop.Commands
 		{
 			Gtk.FileSelection fs = new Gtk.FileSelection ("File to Open");
 			string defaultFolder = PropertyService.GetProperty(
-					"ICSharpCode.SharpDevelop.Gui.Dialogs.NewProjectDialog.DefaultPath", 
+					"MonoDevelop.Gui.Dialogs.NewProjectDialog.DefaultPath", 
 					System.IO.Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal),
 						"MonoDevelopProjects")).ToString();
 			fs.Complete (defaultFolder);
@@ -241,7 +241,7 @@ namespace ICSharpCode.SharpDevelop.Commands
 				switch (Path.GetExtension(name).ToUpper()) {
 					case ".CMBX": // Don't forget the 'recent' projects if you chance something here
 					case ".PRJX":
-						IProjectService projectService = (IProjectService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
+						IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
 
 						try {
 							projectService.OpenCombine(name);
@@ -276,10 +276,10 @@ namespace ICSharpCode.SharpDevelop.Commands
 				bool foundFilter      = false;
 				// search filter like in the current selected project
 				
-				IProjectService projectService = (IProjectService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
+				IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
 				
 				if (projectService.CurrentSelectedProject != null) {
-					LanguageBindingService languageBindingService = (LanguageBindingService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(LanguageBindingService));
+					LanguageBindingService languageBindingService = (LanguageBindingService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(LanguageBindingService));
 					
 					LanguageBindingCodon languageCodon = languageBindingService.GetCodonPerLanguageName(projectService.CurrentSelectedProject.ProjectType);
 					
@@ -313,7 +313,7 @@ namespace ICSharpCode.SharpDevelop.Commands
 
 				Gtk.FileSelection fs = new Gtk.FileSelection ("File to Open");
 				string defaultFolder = PropertyService.GetProperty(
-					"ICSharpCode.SharpDevelop.Gui.Dialogs.NewProjectDialog.DefaultPath", 
+					"MonoDevelop.Gui.Dialogs.NewProjectDialog.DefaultPath", 
 					System.IO.Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal),
 						"MonoDevelopProjects")).ToString();
 				fs.Complete (defaultFolder);
@@ -328,7 +328,7 @@ namespace ICSharpCode.SharpDevelop.Commands
 				if (fdiag.ShowDialog() == DialogResult.OK) {
 #endif
 				if (response == (int)Gtk.ResponseType.Ok) {
-					IFileService fileService = (IFileService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(IFileService));
+					IFileService fileService = (IFileService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IFileService));
 #if !GTK
 					foreach (string name in fdiag.FileNames) {
 #endif
@@ -348,7 +348,7 @@ namespace ICSharpCode.SharpDevelop.Commands
 	{
 		public override void Run()
 		{
-			IProjectService projectService = (IProjectService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
+			IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
 			
 			projectService.CloseCombine();
 		}
@@ -430,7 +430,7 @@ namespace ICSharpCode.SharpDevelop.Commands
 		public override void Run()
 		{			
 			try {
-				IFileService fileService = (IFileService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(IFileService));
+				IFileService fileService = (IFileService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IFileService));
 				
 				fileService.RecentOpen.ClearRecentFiles();
 			} catch {}
@@ -442,7 +442,7 @@ namespace ICSharpCode.SharpDevelop.Commands
 		public override void Run()
 		{			
 			try {
-				IFileService fileService = (IFileService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(IFileService));
+				IFileService fileService = (IFileService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IFileService));
 				
 				fileService.RecentOpen.ClearRecentProjects();
 			} catch {}

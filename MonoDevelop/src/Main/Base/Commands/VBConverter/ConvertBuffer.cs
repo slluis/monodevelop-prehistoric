@@ -14,22 +14,22 @@ using System.Collections;
 using System.ComponentModel;
 using System.Diagnostics;
 
-using ICSharpCode.Core.Services;
-using ICSharpCode.Core.AddIns;
+using MonoDevelop.Core.Services;
+using MonoDevelop.Core.AddIns;
 
-using ICSharpCode.Core.Properties;
-using ICSharpCode.Core.AddIns.Codons;
+using MonoDevelop.Core.Properties;
+using MonoDevelop.Core.AddIns.Codons;
 using System.CodeDom.Compiler;
 
-using ICSharpCode.SharpDevelop.Gui;
-using ICSharpCode.SharpDevelop.Internal.Project;
-using ICSharpCode.SharpDevelop.Gui.Dialogs;
-using ICSharpCode.SharpDevelop.Services;
+using MonoDevelop.Gui;
+using MonoDevelop.Internal.Project;
+using MonoDevelop.Gui.Dialogs;
+using MonoDevelop.Services;
 
-using ICSharpCode.SharpRefactory.PrettyPrinter;
-using ICSharpCode.SharpRefactory.Parser;
+using MonoDevelop.SharpRefactory.PrettyPrinter;
+using MonoDevelop.SharpRefactory.Parser;
 
-namespace ICSharpCode.SharpDevelop.Commands
+namespace MonoDevelop.Commands
 {
 	public class VBConvertBuffer : AbstractMenuCommand
 	{
@@ -40,7 +40,7 @@ namespace ICSharpCode.SharpDevelop.Commands
 			if (window != null && window.ViewContent is IEditable) {
 				
 				Parser p = new Parser();
-				p.Parse(new Lexer(new ICSharpCode.SharpRefactory.Parser.StringReader(((IEditable)window.ViewContent).Text)));
+				p.Parse(new Lexer(new MonoDevelop.SharpRefactory.Parser.StringReader(((IEditable)window.ViewContent).Text)));
 				
 				if (p.Errors.count > 0) {
 					IMessageService messageService =(IMessageService)ServiceManager.Services.GetService(typeof(IMessageService));
@@ -50,7 +50,7 @@ namespace ICSharpCode.SharpDevelop.Commands
 				VBNetVisitor vbv = new VBNetVisitor();
 				vbv.Visit(p.compilationUnit, null);
 				
-				IFileService fileService = (IFileService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(IFileService));
+				IFileService fileService = (IFileService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IFileService));
 				Console.WriteLine(vbv.SourceText.ToString());
 				fileService.NewFile("Generated.VB", "VBNET", vbv.SourceText.ToString());
 			}

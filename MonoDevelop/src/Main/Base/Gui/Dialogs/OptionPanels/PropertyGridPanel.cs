@@ -8,10 +8,10 @@
 using System;
 using System.Drawing;
 
-using ICSharpCode.Core.AddIns.Codons;
-using ICSharpCode.SharpDevelop.Internal.ExternalTool;
+using MonoDevelop.Core.AddIns.Codons;
+using MonoDevelop.Internal.ExternalTool;
 
-namespace ICSharpCode.SharpDevelop.Gui.Dialogs.OptionPanels 
+namespace MonoDevelop.Gui.Dialogs.OptionPanels 
 {/*
 	public class PropertyGridPanel : AbstractOptionPanel
 	{

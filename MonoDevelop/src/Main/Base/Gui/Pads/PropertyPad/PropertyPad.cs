@@ -13,13 +13,13 @@ using System.Drawing;
 using System.Drawing.Design;
 //using Reflector.UserInterface;
 
-using ICSharpCode.Core.AddIns;
-using ICSharpCode.Core.Properties;
-using ICSharpCode.SharpDevelop.Gui;
-using ICSharpCode.Core.Services;
-using ICSharpCode.SharpDevelop.Services;
+using MonoDevelop.Core.AddIns;
+using MonoDevelop.Core.Properties;
+using MonoDevelop.Gui;
+using MonoDevelop.Core.Services;
+using MonoDevelop.Services;
 
-namespace ICSharpCode.SharpDevelop.Gui.Pads
+namespace MonoDevelop.Gui.Pads
 {/*
 	class IDEContainer : Container
 	{
@@ -135,10 +135,10 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads
 			panel.Controls.Add(grid);
 			panel.Controls.Add(comboBox);
 			
-			IProjectService projectService = (IProjectService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
+			IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
 			projectService.CombineClosed += new CombineEventHandler(CombineClosedEvent);
 			
-			MenuService menuService = (MenuService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(MenuService));
+			MenuService menuService = (MenuService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(MenuService));
 			//grid.ContextMenu = menuService.CreateContextMenu(this, "/SharpDevelop/Views/PropertyPad/ContextMenu");
 		}
 		

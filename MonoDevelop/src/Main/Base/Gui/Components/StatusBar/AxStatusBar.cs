@@ -9,7 +9,7 @@ using System;
 using System.Collections;
 using System.Drawing;
 
-namespace ICSharpCode.SharpDevelop.Gui.Components
+namespace MonoDevelop.Gui.Components
 {
 /*	public class AxStatusBar : System.Windows.Forms.StatusBar
 	{

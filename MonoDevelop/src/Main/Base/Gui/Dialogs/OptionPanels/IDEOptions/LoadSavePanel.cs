@@ -9,14 +9,14 @@ using System;
 using System.IO;
 using System.Collections;
 
-using ICSharpCode.SharpDevelop.Gui.Dialogs;
-using ICSharpCode.Core.Services;
-using ICSharpCode.Core.AddIns.Codons;
+using MonoDevelop.Gui.Dialogs;
+using MonoDevelop.Core.Services;
+using MonoDevelop.Core.AddIns.Codons;
 
 using Gtk;
 using MonoDevelop.Gui.Widgets;
 
-namespace ICSharpCode.SharpDevelop.Gui.Dialogs.OptionPanels
+namespace MonoDevelop.Gui.Dialogs.OptionPanels
 {
 
 	public enum LineTerminatorStyle {

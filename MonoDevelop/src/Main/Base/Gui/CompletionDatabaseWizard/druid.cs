@@ -3,9 +3,9 @@ using Gtk;
 using Gnome;
 
 using MonoDevelop.Gui.Widgets;
-using ICSharpCode.Core.Services;
+using MonoDevelop.Core.Services;
 
-namespace ICSharpCode.SharpDevelop.Gui.Dialogs.OptionPanels.CompletionDatabaseWizard {
+namespace MonoDevelop.Gui.Dialogs.OptionPanels.CompletionDatabaseWizard {
 class MethodSelectionPage : DruidPageStandard {
 	internal RadioButton generateDatabase;
 	internal RadioButton useExisting;

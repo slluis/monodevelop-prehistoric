@@ -5,7 +5,7 @@
 //     <version value="$version"/>
 // </file>
 
-namespace ICSharpCode.SharpDevelop.BrowserDisplayBinding
+namespace MonoDevelop.BrowserDisplayBinding
 {
 	[System.Runtime.InteropServices.GuidAttribute("626FC520-A41E-11CF-A731-00A0C9082637")]
 	[System.Runtime.InteropServices.ComVisibleAttribute(true)]

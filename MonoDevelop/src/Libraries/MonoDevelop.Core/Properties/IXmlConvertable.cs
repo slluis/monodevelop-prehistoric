@@ -7,7 +7,7 @@
 
 using System.Xml;
 
-namespace ICSharpCode.Core.Properties
+namespace MonoDevelop.Core.Properties
 {
 	/// <summary>
 	/// If you want define own, complex options you can implement this interface

@@ -13,10 +13,10 @@ using System.Collections.Specialized;
 using System.Diagnostics;
 using System.Reflection;
 
-using ICSharpCode.Core.Services;
-using ICSharpCode.SharpDevelop.Services;
+using MonoDevelop.Core.Services;
+using MonoDevelop.Services;
 
-namespace ICSharpCode.SharpDevelop.Internal.Templates
+namespace MonoDevelop.Internal.Templates
 {
 	/// <summary>
 	/// This class defines and holds the new file templates.

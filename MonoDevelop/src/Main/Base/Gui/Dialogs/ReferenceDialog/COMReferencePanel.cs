@@ -14,10 +14,10 @@ using System.Reflection.Emit;
 using System.Runtime.InteropServices;
 
 using Microsoft.Win32;
-using ICSharpCode.SharpDevelop.Internal.Project;
-using ICSharpCode.Core.Services;
+using MonoDevelop.Internal.Project;
+using MonoDevelop.Core.Services;
 
-namespace ICSharpCode.SharpDevelop.Gui.Dialogs
+namespace MonoDevelop.Gui.Dialogs
 {/*
 	public class COMReferencePanel : ListView//, IReferencePanel
 	{

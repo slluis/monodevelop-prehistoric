@@ -15,10 +15,10 @@ using System.Diagnostics;
 using System.Reflection;
 using System.Xml;
 
-using ICSharpCode.Core.AddIns;
-using ICSharpCode.Core.Properties;
+using MonoDevelop.Core.AddIns;
+using MonoDevelop.Core.Properties;
 
-namespace ICSharpCode.Core.Services
+namespace MonoDevelop.Core.Services
 {
 	public class AbstractService : IService
 	{

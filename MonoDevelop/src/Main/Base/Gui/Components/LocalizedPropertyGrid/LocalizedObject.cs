@@ -6,7 +6,7 @@ using System.Globalization;
 using System.Resources;
 using System.Reflection;
 
-namespace ICSharpCode.SharpDevelop.Gui.Components
+namespace MonoDevelop.Gui.Components
 {
 	/// <summary>
 	/// GlobalizedObject implements ICustomTypeDescriptor to enable 

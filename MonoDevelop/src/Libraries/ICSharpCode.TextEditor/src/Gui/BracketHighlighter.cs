@@ -10,9 +10,9 @@ using System.Collections;
 using System.Drawing;
 using System.Diagnostics;
 
-using ICSharpCode.TextEditor.Document;
+using MonoDevelop.TextEditor.Document;
 
-namespace ICSharpCode.TextEditor
+namespace MonoDevelop.TextEditor
 {
 	public class Highlight
 	{

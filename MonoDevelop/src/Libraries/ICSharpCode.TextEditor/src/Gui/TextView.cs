@@ -12,12 +12,12 @@ using System.Drawing;
 using System.Diagnostics;
 using System.Text;
 
-using ICSharpCode.TextEditor.Document;
+using MonoDevelop.TextEditor.Document;
 
 using Gdk;
 using Pango;
 
-namespace ICSharpCode.TextEditor
+namespace MonoDevelop.TextEditor
 {
 	/// <summary>
 	/// This class paints the textarea.

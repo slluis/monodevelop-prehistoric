@@ -10,9 +10,9 @@ using System.Collections;
 using System.Collections.Specialized;
 using System.Text;
 
-using ICSharpCode.Core.Properties;
+using MonoDevelop.Core.Properties;
 
-namespace ICSharpCode.Core.Services
+namespace MonoDevelop.Core.Services
 {
 	/// <summary>
 	/// this class parses internal ${xyz} tags of sd.

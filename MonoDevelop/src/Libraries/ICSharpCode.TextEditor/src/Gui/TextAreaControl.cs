@@ -11,10 +11,10 @@ using System.IO;
 using System.Drawing;
 using System.Diagnostics;
 using System.Text;
-using ICSharpCode.TextEditor.Actions;
-using ICSharpCode.TextEditor.Document;
+using MonoDevelop.TextEditor.Actions;
+using MonoDevelop.TextEditor.Document;
 
-namespace ICSharpCode.TextEditor
+namespace MonoDevelop.TextEditor
 {
 	/// <summary>
 	/// This class paints the textarea.

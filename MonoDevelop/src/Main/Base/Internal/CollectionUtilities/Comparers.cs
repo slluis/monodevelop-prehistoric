@@ -1,6 +1,6 @@
 using System;
 using System.Collections;
-using ICSharpCode.SharpDevelop.Gui.Pads.ProjectBrowser;
+using MonoDevelop.Gui.Pads.ProjectBrowser;
 using MonoDevelop.Gui.Widgets;
 
 namespace System {

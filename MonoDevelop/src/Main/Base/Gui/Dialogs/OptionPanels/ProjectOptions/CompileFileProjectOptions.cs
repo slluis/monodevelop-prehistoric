@@ -11,17 +11,17 @@ using System.Drawing;
 using System.Collections;
 using System.ComponentModel;
 
-using ICSharpCode.Core.AddIns.Codons;
+using MonoDevelop.Core.AddIns.Codons;
 
-using ICSharpCode.SharpDevelop.Internal.Project;
-using ICSharpCode.Core.Services;
-using ICSharpCode.Core.Properties;
-using ICSharpCode.SharpDevelop.Gui.Components;
+using MonoDevelop.Internal.Project;
+using MonoDevelop.Core.Services;
+using MonoDevelop.Core.Properties;
+using MonoDevelop.Gui.Components;
 
 using Gtk;
 using MonoDevelop.Gui.Widgets;
 
-namespace ICSharpCode.SharpDevelop.Gui.Dialogs.OptionPanels
+namespace MonoDevelop.Gui.Dialogs.OptionPanels
 {
 	/// <summary>
 	/// Summary description for Form1.

@@ -14,12 +14,12 @@ using System.Drawing;
 using System.Diagnostics;
 using System.Reflection;
 using System.Xml;
-using ICSharpCode.Core.AddIns;
-using ICSharpCode.Core.AddIns.Codons;
-using ICSharpCode.Core.Services;
-using ICSharpCode.SharpDevelop.Gui.Components;
+using MonoDevelop.Core.AddIns;
+using MonoDevelop.Core.AddIns.Codons;
+using MonoDevelop.Core.Services;
+using MonoDevelop.Gui.Components;
 
-namespace ICSharpCode.SharpDevelop.Services
+namespace MonoDevelop.Services
 {
 	public class MenuService : AbstractService
 	{/*

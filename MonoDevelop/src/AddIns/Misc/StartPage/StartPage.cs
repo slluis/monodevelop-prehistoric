@@ -4,18 +4,18 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Drawing;
 using System.Xml;
-using ICSharpCode;
-using ICSharpCode.SharpDevelop.Gui;
-using ICSharpCode.Core;
-using ICSharpCode.SharpDevelop.Services;
-using ICSharpCode.SharpDevelop.BrowserDisplayBinding;
-using ICSharpCode.SharpDevelop.Gui.ErrorHandlers;
-using ICSharpCode.SharpDevelop.Gui.HtmlControl;
-using ICSharpCode.Core.Services;
+using MonoDevelop;
+using MonoDevelop.Gui;
+using MonoDevelop.Core;
+using MonoDevelop.Services;
+using MonoDevelop.BrowserDisplayBinding;
+using MonoDevelop.Gui.ErrorHandlers;
+using MonoDevelop.Gui.HtmlControl;
+using MonoDevelop.Core.Services;
 
 using GtkMozEmbed;
 
-namespace ICSharpCode.StartPage 
+namespace MonoDevelop.StartPage 
 {
 	/// <summary>
 	/// This is the ViewContent implementation for the Start Page.
@@ -67,7 +67,7 @@ namespace ICSharpCode.StartPage
 		}
 		
 		string curSection = "Start";
-		ICSharpCodePage page = new ICSharpCodePage();
+		MonoDevelopPage page = new MonoDevelopPage();
 		
 		// Default constructor: Initialize controls and display recent projects.
 		public StartPageView()
@@ -88,7 +88,7 @@ namespace ICSharpCode.StartPage
 			// Description of the tab shown in #develop
 			ContentName = stringParserService.Parse("${res:StartPage.StartPageContentName}");
 			
-			IProjectService projectService = (IProjectService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
+			IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
 			projectService.CombineOpened += new CombineEventHandler(HandleCombineOpened);
 		}
 		
@@ -109,11 +109,11 @@ namespace ICSharpCode.StartPage
 			if (e.AURI.StartsWith("project://")) {
 				try {
 					Core.Properties.DefaultProperties svc = (Core.Properties.DefaultProperties)Core.Services.ServiceManager.Services.GetService(typeof(Core.Services.PropertyService));
-					object recentOpenObj = svc.GetProperty("ICSharpCode.SharpDevelop.Gui.MainWindow.RecentOpen");
-					if (recentOpenObj is ICSharpCode.SharpDevelop.Services.RecentOpen) {
-						ICSharpCode.SharpDevelop.Services.RecentOpen recOpen = (ICSharpCode.SharpDevelop.Services.RecentOpen)recentOpenObj;
+					object recentOpenObj = svc.GetProperty("MonoDevelop.Gui.MainWindow.RecentOpen");
+					if (recentOpenObj is MonoDevelop.Services.RecentOpen) {
+						MonoDevelop.Services.RecentOpen recOpen = (MonoDevelop.Services.RecentOpen)recentOpenObj;
 						
-						IProjectService projectService = (IProjectService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
+						IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
 						
 						string prjNumber = e.AURI.Substring("project://".Length);
 						// wrong (jluke)
@@ -152,7 +152,7 @@ namespace ICSharpCode.StartPage
 		public void OpenBtnClicked(object sender, EventArgs e) 
 		{
 			try {
-				ICSharpCode.SharpDevelop.Commands.OpenCombine cmd = new ICSharpCode.SharpDevelop.Commands.OpenCombine();
+				MonoDevelop.Commands.OpenCombine cmd = new MonoDevelop.Commands.OpenCombine();
 				cmd.Run();
 			} catch (Exception ex) {
 				//MessageBox.Show("Could not access command:\n\n" + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -162,7 +162,7 @@ namespace ICSharpCode.StartPage
 		public void NewBtnClicked(object sender, EventArgs e) 
 		{
 			try {
-				ICSharpCode.SharpDevelop.Commands.CreateNewProject cmd = new ICSharpCode.SharpDevelop.Commands.CreateNewProject();
+				MonoDevelop.Commands.CreateNewProject cmd = new MonoDevelop.Commands.CreateNewProject();
 				cmd.Run();
 			} catch (Exception ex) {
 				//MessageBox.Show("Could not access command:\n\n" + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);

@@ -13,11 +13,11 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.CodeDom.Compiler;
 
-using ICSharpCode.Core.Services;
+using MonoDevelop.Core.Services;
 
-using ICSharpCode.SharpDevelop.Internal.Project;
-using ICSharpCode.SharpDevelop.Gui;
-using ICSharpCode.SharpDevelop.Services;
+using MonoDevelop.Internal.Project;
+using MonoDevelop.Gui;
+using MonoDevelop.Services;
 
 namespace CSharpBinding
 {
@@ -142,7 +142,7 @@ namespace CSharpBinding
 			if (compilerparameters.CsharpCompiler == CsharpCompiler.Csc) {
 				writer.WriteLine("\"/out:" + exe + '"');
 				
-				IProjectService projectService = (IProjectService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
+				IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
 				ArrayList allProjects = Combine.GetAllProjects(projectService.CurrentOpenCombine);
 				
 				foreach (ProjectReference lib in p.ProjectReferences) {
@@ -219,7 +219,7 @@ namespace CSharpBinding
 				}
 				
 				writer.WriteLine("--wlevel " + compilerparameters.WarningLevel);
-				IProjectService projectService = (IProjectService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
+				IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
 				ArrayList allProjects = Combine.GetAllProjects(projectService.CurrentOpenCombine);
 				
 				foreach (ProjectReference lib in p.ProjectReferences) {

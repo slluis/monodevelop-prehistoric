@@ -9,11 +9,11 @@ using System;
 using System.IO;
 using System.Drawing;
 
-using ICSharpCode.Core.Services;
-using ICSharpCode.Core.Properties;
-using ICSharpCode.SharpDevelop.Internal.Undo;
+using MonoDevelop.Core.Services;
+using MonoDevelop.Core.Properties;
+using MonoDevelop.Internal.Undo;
 
-namespace ICSharpCode.TextEditor.Document
+namespace MonoDevelop.TextEditor.Document
 {
 	public class SearchOptions
 	{

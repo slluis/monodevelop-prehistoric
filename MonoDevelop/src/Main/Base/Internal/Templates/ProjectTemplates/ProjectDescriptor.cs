@@ -12,12 +12,12 @@ using System.Collections;
 using System.Collections.Specialized;
 using System.Diagnostics;
 using System.Reflection;
-using ICSharpCode.Core.Services;
-using ICSharpCode.SharpDevelop.Services;
-using ICSharpCode.SharpDevelop.Gui;
-using ICSharpCode.SharpDevelop.Internal.Project;
+using MonoDevelop.Core.Services;
+using MonoDevelop.Services;
+using MonoDevelop.Gui;
+using MonoDevelop.Internal.Project;
 
-namespace ICSharpCode.SharpDevelop.Internal.Templates
+namespace MonoDevelop.Internal.Templates
 {
 	/// <summary>
 	/// This class is used inside the combine templates for projects.
@@ -67,7 +67,7 @@ namespace ICSharpCode.SharpDevelop.Internal.Templates
 		
 		public string CreateProject(ProjectCreateInformation projectCreateInformation, string defaultLanguage)
 		{
-			LanguageBindingService languageBindingService = (LanguageBindingService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(LanguageBindingService));
+			LanguageBindingService languageBindingService = (LanguageBindingService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(LanguageBindingService));
 			StringParserService stringParserService = (StringParserService)ServiceManager.Services.GetService(typeof(StringParserService));
 			FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.Services.GetService(typeof(FileUtilityService));
 			

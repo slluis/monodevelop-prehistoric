@@ -10,9 +10,9 @@ using System.Text.RegularExpressions;
 using System.Collections;
 using System.Collections.Specialized;
 
-using ICSharpCode.Core.Properties;
+using MonoDevelop.Core.Properties;
 
-namespace ICSharpCode.Core.Services
+namespace MonoDevelop.Core.Services
 {
 	public interface IStringTagProvider 
 	{

@@ -1,12 +1,12 @@
 using System;
 using System.Text;
 
-using ICSharpCode.Core.Properties;
-using ICSharpCode.Core.Services;
-using ICSharpCode.SharpDevelop.Gui.Dialogs.OptionPanels;
+using MonoDevelop.Core.Properties;
+using MonoDevelop.Core.Services;
+using MonoDevelop.Gui.Dialogs.OptionPanels;
 
-using ICSharpCode.TextEditor;
-using ICSharpCode.TextEditor.Document;
+using MonoDevelop.TextEditor;
+using MonoDevelop.TextEditor.Document;
 
 using Pango;
 
@@ -44,7 +44,7 @@ namespace MonoDevelop.EditorBindings.Properties {
 	public class TextEditorProperties {
 		static PropertyService propertyService = (PropertyService)ServiceManager.Services.GetService(typeof(PropertyService));
 		static IProperties properties = ((IProperties) propertyService.GetProperty (
-			"ICSharpCode.TextEditor.Document.Document.DefaultDocumentAggregatorProperties",
+			"MonoDevelop.TextEditor.Document.Document.DefaultDocumentAggregatorProperties",
 			new DefaultProperties()));
 		
 		public static int TabIndent {

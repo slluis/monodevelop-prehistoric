@@ -8,9 +8,9 @@
 using System;
 using System.Drawing;
 using System.Threading;
-using ICSharpCode.TextEditor.Document;
+using MonoDevelop.TextEditor.Document;
 
-namespace ICSharpCode.TextEditor
+namespace MonoDevelop.TextEditor
 {
 	/// <summary>
 	/// This class handles all mouse stuff for a textArea.

@@ -11,15 +11,15 @@ using System.Collections;
 using System.Drawing;
 using System.Drawing.Text;
 using System.Reflection;
-using ICSharpCode.Core.Services;
-using ICSharpCode.SharpDevelop.Services;
+using MonoDevelop.Core.Services;
+using MonoDevelop.Services;
 
 using System.ComponentModel;
 using System.Data;
 using System.Runtime.InteropServices;
 using System.Drawing.Drawing2D;
 
-namespace ICSharpCode.SharpDevelop.Gui.XmlForms
+namespace MonoDevelop.Gui.XmlForms
 {/*
 	public class SharpDevelopObjectCreator : DefaultObjectCreator
 	{

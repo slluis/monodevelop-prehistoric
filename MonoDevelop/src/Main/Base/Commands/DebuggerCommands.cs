@@ -1,10 +1,8 @@
 using System;
 
+using MonoDevelop.Core.AddIns.Codons;
 using MonoDevelop.Services;
-
-using ICSharpCode.Core.AddIns.Codons;
-using ICSharpCode.SharpDevelop.Services;
-using ICSharpCode.Core.Services;
+using MonoDevelop.Core.Services;
 
 namespace MonoDevelop.Commands
 {

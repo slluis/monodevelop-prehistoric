@@ -8,9 +8,9 @@
 using System;
 using System.Xml;
 
-using ICSharpCode.Core.AddIns.Conditions;
+using MonoDevelop.Core.AddIns.Conditions;
 
-namespace ICSharpCode.Core.AddIns
+namespace MonoDevelop.Core.AddIns
 {
 	public interface IOwnerState {
 		System.Enum InternalState {

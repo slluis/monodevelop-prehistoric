@@ -12,11 +12,11 @@ using System.IO;
 using System.Reflection;
 using System.Xml;
 
-using ICSharpCode.Core.Properties;
-using ICSharpCode.Core.AddIns.Conditions;
-using ICSharpCode.Core.AddIns.Codons;
+using MonoDevelop.Core.Properties;
+using MonoDevelop.Core.AddIns.Conditions;
+using MonoDevelop.Core.AddIns.Codons;
 
-namespace ICSharpCode.Core.AddIns
+namespace MonoDevelop.Core.AddIns
 {
 	/// <summary>
 	/// Default implementation for the <see cref="IAddInTree"/> interface.

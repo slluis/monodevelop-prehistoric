@@ -11,15 +11,15 @@ using System.Text;
 using System.Xml;
 using System;
 
-using ICSharpCode.Core.Properties;
-using ICSharpCode.SharpDevelop.DefaultEditor.Gui.Editor;
-using ICSharpCode.TextEditor.Document;
-using ICSharpCode.TextEditor.Actions;
-using ICSharpCode.TextEditor;
+using MonoDevelop.Core.Properties;
+using MonoDevelop.DefaultEditor.Gui.Editor;
+using MonoDevelop.TextEditor.Document;
+using MonoDevelop.TextEditor.Actions;
+using MonoDevelop.TextEditor;
 
 using MonoDevelop.EditorBindings.FormattingStrategy;
 
-namespace ICSharpCode.SharpDevelop.DefaultEditor
+namespace MonoDevelop.DefaultEditor
 {
 	/// <summary>
 	/// This class currently only inserts the closing tags to 

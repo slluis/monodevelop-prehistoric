@@ -8,7 +8,7 @@
 using System;
 using System.Collections;
 
-namespace ICSharpCode.SharpDevelop.Gui
+namespace MonoDevelop.Gui
 {
 	/// <summary>
 	/// The IWorkbenchWindow is the basic interface to a window which

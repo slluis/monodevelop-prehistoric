@@ -14,12 +14,12 @@ using Gnome;
 using MonoDevelop.Gui.Widgets;
 using Pango;
 
-using ICSharpCode.SharpDevelop.Internal.ExternalTool;
-using ICSharpCode.Core.Properties;
-using ICSharpCode.Core.Services;
+using MonoDevelop.Internal.ExternalTool;
+using MonoDevelop.Core.Properties;
+using MonoDevelop.Core.Services;
 
-using ICSharpCode.Core.AddIns.Codons;
-using ICSharpCode.SharpDevelop.Gui.Dialogs;
+using MonoDevelop.Core.AddIns.Codons;
+using MonoDevelop.Gui.Dialogs;
 
 namespace MonoDevelop.EditorBindings.Gui.OptionPanels
 {

@@ -9,18 +9,18 @@ using System;
 using System.Collections;
 using System.Diagnostics;
 
-using ICSharpCode.SharpDevelop.Gui;
+using MonoDevelop.Gui;
 
-using ICSharpCode.Core.Services;
-using ICSharpCode.SharpDevelop.Services;
-using ICSharpCode.SharpDevelop.Gui.Dialogs;
-using ICSharpCode.SharpDevelop.Gui.Pads;
+using MonoDevelop.Core.Services;
+using MonoDevelop.Services;
+using MonoDevelop.Gui.Dialogs;
+using MonoDevelop.Gui.Pads;
 
 using MonoDevelop.SourceEditor.Gui;
 
 using Gtk;
 
-namespace ICSharpCode.TextEditor.Document
+namespace MonoDevelop.TextEditor.Document
 {
 	public class SearchReplaceInFilesManager
 	{
@@ -64,7 +64,7 @@ namespace ICSharpCode.TextEditor.Document
 		/// </remarks>
 		static void DisplaySearchResult(ISearchResult result)
 		{
-			TaskService taskService = (TaskService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(TaskService));
+			TaskService taskService = (TaskService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(TaskService));
 			
 			// check if the current document is up to date
 			//if (currentFileName != result.FileName) {
@@ -87,7 +87,7 @@ namespace ICSharpCode.TextEditor.Document
 		{
 			Debug.Assert(searchOptions != null);
 			
-			TaskService taskService = (TaskService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(TaskService));
+			TaskService taskService = (TaskService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(TaskService));
 			taskService.Tasks.Clear();
 			
 			InitializeDocumentIterator(null, null);
@@ -103,7 +103,7 @@ namespace ICSharpCode.TextEditor.Document
 		
 		static void FinishSearchInFiles()
 		{
-			TaskService taskService = (TaskService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(TaskService));
+			TaskService taskService = (TaskService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(TaskService));
 			taskService.NotifyTaskChange();
 			MessageService MessageService = (MessageService)ServiceManager.Services.GetService (typeof (MessageService));
 			MessageService.ShowMessage ("Search completed");

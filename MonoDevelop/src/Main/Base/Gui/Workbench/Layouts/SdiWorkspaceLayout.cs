@@ -10,9 +10,9 @@ using System.IO;
 using System.Collections;
 using System.Drawing;
 
-using ICSharpCode.Core.Properties;
-using ICSharpCode.Core.Services;
-using ICSharpCode.SharpDevelop.Services;
+using MonoDevelop.Core.Properties;
+using MonoDevelop.Core.Services;
+using MonoDevelop.Services;
 
 using Gtk;
 using Gdl;
@@ -20,7 +20,7 @@ using GdlSharp;
 using MonoDevelop.Gui.Widgets;
 using MonoDevelop.Gui.Utils;
 
-namespace ICSharpCode.SharpDevelop.Gui
+namespace MonoDevelop.Gui
 {	
 	/// <summary>
 	/// This is the a Workspace with a single document interface.
@@ -129,17 +129,17 @@ namespace ICSharpCode.SharpDevelop.Gui
 			WindowContent bottomContent = null;
 			
 			string[] leftContents = new string[] {
-				"ICSharpCode.SharpDevelop.Gui.Pads.ProjectBrowser.ProjectBrowserView",
-				"ICSharpCode.SharpDevelop.Gui.Pads.ClassScout",
-				"ICSharpCode.SharpDevelop.Gui.Pads.FileScout",
-				"ICSharpCode.SharpDevelop.Gui.Pads.SideBarView"
+				"MonoDevelop.Gui.Pads.ProjectBrowser.ProjectBrowserView",
+				"MonoDevelop.Gui.Pads.ClassScout",
+				"MonoDevelop.Gui.Pads.FileScout",
+				"MonoDevelop.Gui.Pads.SideBarView"
 			};
 			string[] rightContents = new string[] {
-				"ICSharpCode.SharpDevelop.Gui.Pads.PropertyPad",
-				"ICSharpCode.SharpDevelop.Gui.Pads.HelpBrowser"
+				"MonoDevelop.Gui.Pads.PropertyPad",
+				"MonoDevelop.Gui.Pads.HelpBrowser"
 			};
 			string[] bottomContents = new string[] {
-				"ICSharpCode.SharpDevelop.Gui.Pads.OpenTaskView",
+				"MonoDevelop.Gui.Pads.OpenTaskView",
 				"MonoDevelop.EditorBindings.Gui.Pads.CompilerMessageView",
 				"MonoDevelop.SourceEditor.Gui.DebuggerLocalsPad"
 			};
@@ -279,7 +279,7 @@ namespace ICSharpCode.SharpDevelop.Gui
 		{
 			// FIXME: GTKize
 
-			//tabControl.Style = (Crownwood.Magic.Common.VisualStyle)propertyService.GetProperty("ICSharpCode.SharpDevelop.Gui.TabVisualStyle", Crownwood.Magic.Common.VisualStyle.IDE);
+			//tabControl.Style = (Crownwood.Magic.Common.VisualStyle)propertyService.GetProperty("MonoDevelop.Gui.TabVisualStyle", Crownwood.Magic.Common.VisualStyle.IDE);
 
 			// redraw correct pad content names (language changed).
 			//foreach (IPadContent content in ((IWorkbench)wbForm).PadContentCollection) {

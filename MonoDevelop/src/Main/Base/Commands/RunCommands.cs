@@ -20,19 +20,19 @@ using System.Collections;
 using Gtk;
 using System.Diagnostics;
 
-using ICSharpCode.Core.Services;
-using ICSharpCode.Core.AddIns;
+using MonoDevelop.Core.Services;
+using MonoDevelop.Core.AddIns;
 
-using ICSharpCode.Core.Properties;
-using ICSharpCode.Core.AddIns.Codons;
+using MonoDevelop.Core.Properties;
+using MonoDevelop.Core.AddIns.Codons;
 using System.CodeDom.Compiler;
 
-using ICSharpCode.SharpDevelop.Gui;
-using ICSharpCode.SharpDevelop.Internal.Project;
-using ICSharpCode.SharpDevelop.Gui.Dialogs;
-using ICSharpCode.SharpDevelop.Services;
+using MonoDevelop.Gui;
+using MonoDevelop.Internal.Project;
+using MonoDevelop.Gui.Dialogs;
+using MonoDevelop.Services;
 
-namespace ICSharpCode.SharpDevelop.Commands
+namespace MonoDevelop.Commands
 {
 	public class Compile : AbstractMenuCommand
 	{
@@ -40,8 +40,8 @@ namespace ICSharpCode.SharpDevelop.Commands
 		
 		public static void ShowAfterCompileStatus()
 		{
-			TaskService taskService = (TaskService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(TaskService));
-			IStatusBarService statusBarService = (IStatusBarService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(IStatusBarService));
+			TaskService taskService = (TaskService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(TaskService));
+			IStatusBarService statusBarService = (IStatusBarService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IStatusBarService));
 			if (!taskService.SomethingWentWrong) {
 				statusBarService.SetMessage("${res:MainWindow.StatusBar.SuccessfulMessage}");
 			} else {
@@ -58,8 +58,8 @@ namespace ICSharpCode.SharpDevelop.Commands
 				CombineEntry.BuildProjects = 0;
 				CombineEntry.BuildErrors   = 0;
 				
-				TaskService taskService = (TaskService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(TaskService));
-				IProjectService projectService = (IProjectService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
+				TaskService taskService = (TaskService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(TaskService));
+				IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
 				ResourceService resourceService = (ResourceService)ServiceManager.Services.GetService(typeof(IResourceService));
 				StringParserService stringParserService = (StringParserService)ServiceManager.Services.GetService(typeof(StringParserService));
 				try {
@@ -68,7 +68,7 @@ namespace ICSharpCode.SharpDevelop.Commands
 						ShowAfterCompileStatus();
 					} else {
 						if (WorkbenchSingleton.Workbench.ActiveWorkbenchWindow != null) {
-							LanguageBindingService languageBindingService = (LanguageBindingService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(LanguageBindingService));
+							LanguageBindingService languageBindingService = (LanguageBindingService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(LanguageBindingService));
 							ILanguageBinding binding = languageBindingService.GetBindingPerFileName(WorkbenchSingleton.Workbench.ActiveWorkbenchWindow.ViewContent.ContentName);
 							
 							if (binding != null) {
@@ -110,8 +110,8 @@ namespace ICSharpCode.SharpDevelop.Commands
 		public override void Run()
 		{
 			lock (CompileLockObject) {
-				TaskService taskService = (TaskService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(TaskService));
-				IProjectService projectService = (IProjectService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
+				TaskService taskService = (TaskService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(TaskService));
+				IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
 				
 				if (projectService.CurrentOpenCombine != null) {
 					taskService.CompilerOutput = String.Empty;
@@ -132,8 +132,8 @@ namespace ICSharpCode.SharpDevelop.Commands
 			lock (Compile.CompileLockObject) {
 				CombineEntry.BuildProjects = 0;
 				CombineEntry.BuildErrors   = 0;
-				TaskService taskService = (TaskService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(TaskService));
-				IProjectService projectService = (IProjectService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
+				TaskService taskService = (TaskService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(TaskService));
+				IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
 				ResourceService resourceService = (ResourceService)ServiceManager.Services.GetService(typeof(IResourceService));
 				StringParserService stringParserService = (StringParserService)ServiceManager.Services.GetService(typeof(StringParserService));
 				try {
@@ -143,7 +143,7 @@ namespace ICSharpCode.SharpDevelop.Commands
 						Compile.ShowAfterCompileStatus();
 					} else {
 						if (WorkbenchSingleton.Workbench.ActiveWorkbenchWindow != null) {
-							LanguageBindingService languageBindingService = (LanguageBindingService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(LanguageBindingService));
+							LanguageBindingService languageBindingService = (LanguageBindingService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(LanguageBindingService));
 							ILanguageBinding binding = languageBindingService.GetBindingPerFileName(WorkbenchSingleton.Workbench.ActiveWorkbenchWindow.ViewContent.ContentName);
 							
 							if (binding != null) {
@@ -180,8 +180,8 @@ namespace ICSharpCode.SharpDevelop.Commands
 		public override void Run()
 		{
 //			if (Monitor.TryEnter(Compile.CompileLockObject)) {
-				TaskService taskService = (TaskService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(TaskService));
-				IProjectService projectService = (IProjectService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
+				TaskService taskService = (TaskService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(TaskService));
+				IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
 				if (projectService.CurrentOpenCombine != null) {
 	
 					taskService.CompilerOutput = String.Empty;
@@ -202,9 +202,9 @@ namespace ICSharpCode.SharpDevelop.Commands
 		bool RunThread()
 		{
 			lock (Compile.CompileLockObject) {
-				TaskService taskService = (TaskService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(TaskService));
-				IProjectService projectService = (IProjectService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
-				IStatusBarService statusBarService = (IStatusBarService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(IStatusBarService));
+				TaskService taskService = (TaskService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(TaskService));
+				IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
+				IStatusBarService statusBarService = (IStatusBarService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IStatusBarService));
 				try {
 					statusBarService.SetMessage("${res:MainWindow.StatusBar.ExecutingMessage}");
 					if (projectService.CurrentOpenCombine != null) {
@@ -223,7 +223,7 @@ namespace ICSharpCode.SharpDevelop.Commands
 						if (WorkbenchSingleton.Workbench.ActiveWorkbenchWindow != null) {
 							new Compile().RunWithWait();
 							if (!taskService.SomethingWentWrong) {
-								LanguageBindingService languageBindingService = (LanguageBindingService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(LanguageBindingService));
+								LanguageBindingService languageBindingService = (LanguageBindingService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(LanguageBindingService));
 								ILanguageBinding binding = languageBindingService.GetBindingPerFileName(WorkbenchSingleton.Workbench.ActiveWorkbenchWindow.ViewContent.ContentName);
 								if (binding != null) {
 									projectService.OnBeforeStartProject();
@@ -246,7 +246,7 @@ namespace ICSharpCode.SharpDevelop.Commands
 		
 		public override void Run()
 		{
-			IProjectService projectService = (IProjectService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
+			IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
 			if (projectService.CurrentOpenCombine != null) {
 				RunThread(); // TODO FIXME PEDRO
 				
@@ -262,10 +262,10 @@ namespace ICSharpCode.SharpDevelop.Commands
 		public override void Run()
 		{
 			lock (Compile.CompileLockObject) {
-				TaskService taskService = (TaskService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(TaskService));
-				IProjectService projectService = (IProjectService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
+				TaskService taskService = (TaskService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(TaskService));
+				IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
 				ResourceService resourceService = (ResourceService)ServiceManager.Services.GetService(typeof(IResourceService));
-				IStatusBarService statusBarService = (IStatusBarService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(IStatusBarService));
+				IStatusBarService statusBarService = (IStatusBarService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IStatusBarService));
 				
 				if (projectService.CurrentSelectedProject != null) {
 					try {
@@ -297,10 +297,10 @@ namespace ICSharpCode.SharpDevelop.Commands
 		public override void Run()
 		{
 			lock (Compile.CompileLockObject) {
-				TaskService taskService = (TaskService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(TaskService));
-				IProjectService projectService = (IProjectService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
+				TaskService taskService = (TaskService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(TaskService));
+				IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
 				ResourceService resourceService = (ResourceService)ServiceManager.Services.GetService(typeof(IResourceService));
-				IStatusBarService statusBarService = (IStatusBarService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(IStatusBarService));
+				IStatusBarService statusBarService = (IStatusBarService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IStatusBarService));
 				
 				if (projectService.CurrentSelectedProject != null) {
 					try {

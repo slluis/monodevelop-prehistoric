@@ -12,9 +12,9 @@ using System.Diagnostics;
 using System.ComponentModel;
 using System.Xml;
 
-using ICSharpCode.SharpDevelop.Internal.Project;
+using MonoDevelop.Internal.Project;
 
-namespace ICSharpCode.SharpDevelop.Internal.Project
+namespace MonoDevelop.Internal.Project
 {
 	/// <summary>
 	/// External language bindings may choose to extend this class.

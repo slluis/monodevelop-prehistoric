@@ -1,10 +1,10 @@
 using System;
 
-using ICSharpCode.Core.Properties;
-using ICSharpCode.Core.Services;
-using ICSharpCode.SharpDevelop.Gui.Dialogs;
-using ICSharpCode.SharpDevelop.Gui;
-using ICSharpCode.Core.AddIns.Codons;
+using MonoDevelop.Core.Properties;
+using MonoDevelop.Core.Services;
+using MonoDevelop.Gui.Dialogs;
+using MonoDevelop.Gui;
+using MonoDevelop.Core.AddIns.Codons;
 
 namespace MonoDevelop.EditorBindings.Commands {
 	public class ToggleBookmark : AbstractMenuCommand {

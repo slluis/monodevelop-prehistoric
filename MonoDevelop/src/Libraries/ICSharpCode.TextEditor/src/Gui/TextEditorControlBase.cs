@@ -14,13 +14,13 @@ using System.Drawing;
 using System.Diagnostics;
 using System.Text;
 
-using ICSharpCode.TextEditor.Document;
-using ICSharpCode.TextEditor.Actions;
+using MonoDevelop.TextEditor.Document;
+using MonoDevelop.TextEditor.Actions;
 
 using MonoDevelop.EditorBindings.FormattingStrategy;
 using MonoDevelop.EditorBindings.Properties;
 
-namespace ICSharpCode.TextEditor
+namespace MonoDevelop.TextEditor
 {
 	/// <summary>
 	/// This class is used for a basic text area control

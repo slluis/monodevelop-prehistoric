@@ -10,13 +10,13 @@ using System.Drawing;
 using System.Reflection;
 using System.Collections;
 
-using ICSharpCode.Core.Properties;
-using ICSharpCode.SharpDevelop.Internal.Templates;
-using ICSharpCode.TextEditor.Document;
-using ICSharpCode.TextEditor;
-using ICSharpCode.TextEditor.Gui.CompletionWindow;
+using MonoDevelop.Core.Properties;
+using MonoDevelop.Internal.Templates;
+using MonoDevelop.TextEditor.Document;
+using MonoDevelop.TextEditor;
+using MonoDevelop.TextEditor.Gui.CompletionWindow;
 
-namespace ICSharpCode.SharpDevelop.DefaultEditor.Gui.Editor
+namespace MonoDevelop.DefaultEditor.Gui.Editor
 {
 	public class TemplateCompletionDataProvider : ICompletionDataProvider
 	{

@@ -1,4 +1,4 @@
-namespace ICSharpCode.SharpRefactory.Parser
+namespace MonoDevelop.SharpRefactory.Parser
 {
 	public sealed class ParserUtil
 	{

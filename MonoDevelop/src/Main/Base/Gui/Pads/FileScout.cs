@@ -9,14 +9,14 @@ using System;
 using System.IO;
 using System.Collections;
 using System.Resources;
-using ICSharpCode.Core.Properties;
-using ICSharpCode.Core.Services;
+using MonoDevelop.Core.Properties;
+using MonoDevelop.Core.Services;
 
-using ICSharpCode.SharpDevelop.Services;
+using MonoDevelop.Services;
 using MonoDevelop.Gui.Widgets;
 using MonoDevelop.Gui.Utils;
 
-namespace ICSharpCode.SharpDevelop.Gui.Pads
+namespace MonoDevelop.Gui.Pads
 {
 	public class FileList : Gtk.TreeView
 	{
@@ -374,7 +374,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads
 			filelister.Clear ();
 
 			PropertyService p = (PropertyService)ServiceManager.Services.GetService(typeof(PropertyService));
-			bool ignoreHidden = !p.GetProperty ("ICSharpCode.SharpDevelop.Gui.FileScout.ShowHidden", false);
+			bool ignoreHidden = !p.GetProperty ("MonoDevelop.Gui.FileScout.ShowHidden", false);
 			fb.IgnoreHidden = ignoreHidden;
 
 			foreach (string f in fb.Files)
@@ -398,8 +398,8 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads
 
 		void FileSelected (object sender, Gtk.RowActivatedArgs e)
 		{
-			IProjectService projectService = (IProjectService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
-			IFileService    fileService    = (IFileService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(IFileService));
+			IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
+			IFileService    fileService    = (IFileService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IFileService));
 			FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.Services.GetService(typeof(FileUtilityService));
 
 			Gtk.TreeIter iter;

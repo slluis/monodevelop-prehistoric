@@ -3,7 +3,7 @@ using System.Globalization;
 using System.Resources;
 using System.Reflection;
 
-namespace ICSharpCode.SharpDevelop.Gui.Components
+namespace MonoDevelop.Gui.Components
 {
 	[AttributeUsage(AttributeTargets.Property, AllowMultiple=false, Inherited=true)]
 	public class LocalizedPropertyAttribute : Attribute

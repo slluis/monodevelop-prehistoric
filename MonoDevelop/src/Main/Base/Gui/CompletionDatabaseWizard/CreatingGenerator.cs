@@ -2,14 +2,14 @@
 using System.IO;
 using Gtk;
 
-using ICSharpCode.SharpDevelop.Internal.Project;
-using ICSharpCode.Core.Properties;
-using ICSharpCode.Core.Services;
-using ICSharpCode.SharpDevelop.Services;
+using MonoDevelop.Internal.Project;
+using MonoDevelop.Core.Properties;
+using MonoDevelop.Core.Services;
+using MonoDevelop.Services;
 
-using ICSharpCode.Core.AddIns.Codons;
+using MonoDevelop.Core.AddIns.Codons;
 
-namespace ICSharpCode.SharpDevelop.Gui.Dialogs.OptionPanels.CompletionDatabaseWizard
+namespace MonoDevelop.Gui.Dialogs.OptionPanels.CompletionDatabaseWizard
 {
 	public abstract class CreatingGenerator
 	{

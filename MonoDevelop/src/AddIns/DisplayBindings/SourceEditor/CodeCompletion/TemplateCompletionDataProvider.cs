@@ -10,8 +10,8 @@ using System.Drawing;
 using System.Reflection;
 using System.Collections;
 
-using ICSharpCode.Core.Properties;
-using ICSharpCode.SharpDevelop.Internal.Templates;
+using MonoDevelop.Core.Properties;
+using MonoDevelop.Internal.Templates;
 
 using MonoDevelop.SourceEditor.Gui;
 using Stock = MonoDevelop.Gui.Stock;

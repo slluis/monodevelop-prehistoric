@@ -24,7 +24,7 @@ using System.Runtime.CompilerServices;
 // change them to the information which is associated with the assembly
 // you compile.
 
-[assembly: AssemblyTitle("ICSharpCode.SharpAssembly")]
+[assembly: AssemblyTitle("MonoDevelop.SharpAssembly")]
 [assembly: AssemblyDescription("CLI Assembly Reader library")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("www.icsharpcode.net")]
@@ -46,4 +46,4 @@ using System.Runtime.CompilerServices;
 // .NET Framework documentation for more information about signing.
 // This is not required, if you don't want signing let these attributes like they're.
 [assembly: AssemblyDelaySign(false)]
-//[assembly: AssemblyKeyFile("../src/Libraries/SharpAssembly/bin/ICSharpCode.SharpAssembly.key")]
+//[assembly: AssemblyKeyFile("../src/Libraries/SharpAssembly/bin/MonoDevelop.SharpAssembly.key")]

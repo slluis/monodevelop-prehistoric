@@ -12,13 +12,13 @@
  using Gnome;
  using MonoDevelop.Gui.Widgets;
 
- using ICSharpCode.SharpDevelop.Internal.ExternalTool;
- using ICSharpCode.Core.Properties;
- using ICSharpCode.Core.Services;
- using ICSharpCode.SharpDevelop.Services;
- using ICSharpCode.Core.AddIns.Codons;
+ using MonoDevelop.Internal.ExternalTool;
+ using MonoDevelop.Core.Properties;
+ using MonoDevelop.Core.Services;
+ using MonoDevelop.Services;
+ using MonoDevelop.Core.AddIns.Codons;
 
- namespace ICSharpCode.SharpDevelop.Gui.Dialogs.OptionPanels
+ namespace MonoDevelop.Gui.Dialogs.OptionPanels
  {
 	 public class ExternalToolPane: AbstractOptionPanel
 	 {

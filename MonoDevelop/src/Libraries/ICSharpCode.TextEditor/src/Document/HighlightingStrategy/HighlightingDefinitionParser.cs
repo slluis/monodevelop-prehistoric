@@ -13,7 +13,7 @@ using System.Text;
 using System.Collections;
 using System.Reflection;
 
-namespace ICSharpCode.TextEditor.Document
+namespace MonoDevelop.TextEditor.Document
 {
 	internal class HighlightingDefinitionParser
 	{

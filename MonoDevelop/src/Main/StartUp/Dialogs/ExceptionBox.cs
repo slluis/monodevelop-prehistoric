@@ -7,10 +7,10 @@ using System.Drawing;
 using Gtk;
 using Gdk;
 
-using ICSharpCode.SharpDevelop.Gui;
-using ICSharpCode.Core.Services;
+using MonoDevelop.Gui;
+using MonoDevelop.Core.Services;
 
-namespace ICSharpCode.SharpDevelop 
+namespace MonoDevelop 
 {
 	public enum  DialogResult{
 		Abort,
@@ -205,8 +205,8 @@ namespace ICSharpCode.SharpDevelop
 	
 		void SuspendLayout() {
 			this.Modal = true;
-			if (ICSharpCode.SharpDevelop.Gui.WorkbenchSingleton.Workbench != null) {
-				this.TransientFor = (Gtk.Window) ICSharpCode.SharpDevelop.Gui.WorkbenchSingleton.Workbench;
+			if (MonoDevelop.Gui.WorkbenchSingleton.Workbench != null) {
+				this.TransientFor = (Gtk.Window) MonoDevelop.Gui.WorkbenchSingleton.Workbench;
 			}
 		}
 

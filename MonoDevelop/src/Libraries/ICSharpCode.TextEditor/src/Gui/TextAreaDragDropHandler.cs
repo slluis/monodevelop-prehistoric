@@ -19,9 +19,9 @@ using System.Runtime.Remoting;
 using System.Runtime.InteropServices;
 using System.Xml;
 
-using ICSharpCode.TextEditor.Document;
+using MonoDevelop.TextEditor.Document;
 
-namespace ICSharpCode.TextEditor
+namespace MonoDevelop.TextEditor
 {
 	public class TextAreaDragDropHandler
 	{

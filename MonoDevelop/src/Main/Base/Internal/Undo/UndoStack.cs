@@ -9,7 +9,7 @@ using System;
 using System.Diagnostics;
 using System.Collections;
 
-namespace ICSharpCode.SharpDevelop.Internal.Undo
+namespace MonoDevelop.Internal.Undo
 {
 	/// <summary>
 	/// This class implements an undo stack

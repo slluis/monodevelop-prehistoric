@@ -9,7 +9,7 @@ using System;
 using System.Xml;
 using System.Diagnostics;
 
-using ICSharpCode.SharpDevelop.Internal.Project;
+using MonoDevelop.Internal.Project;
 
 namespace CSharpBinding
 {

@@ -17,17 +17,17 @@ using System.Xml;
 using System.Threading;
 using System.Text;
 
-using ICSharpCode.Core.AddIns;
-using ICSharpCode.Core.Properties;
+using MonoDevelop.Core.AddIns;
+using MonoDevelop.Core.Properties;
 
-using ICSharpCode.SharpDevelop.Internal.Project;
+using MonoDevelop.Internal.Project;
 
-using ICSharpCode.Core.Services;
-using ICSharpCode.SharpDevelop.Services;
+using MonoDevelop.Core.Services;
+using MonoDevelop.Services;
 using MonoDevelop.Gui.Widgets;
 using Stock = MonoDevelop.Gui.Stock;
 
-namespace ICSharpCode.SharpDevelop.Gui.Pads
+namespace MonoDevelop.Gui.Pads
 {
 	public class ClassScoutTag
 	{
@@ -108,7 +108,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads
 
 			LabelEdit     = false;
 
-			IProjectService projectService = (IProjectService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
+			IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
 
 			projectService.CombineOpened += new CombineEventHandler(OnCombineOpen);
 			projectService.CombineClosed += new CombineEventHandler(OnCombineClosed);
@@ -145,7 +145,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads
 
 		void OnCombineClosed(object sender, CombineEventArgs e)
 		{
-			IParserService parserService  = (IParserService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(IParserService));
+			IParserService parserService  = (IParserService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IParserService));
 			parserService.ParseInformationAdded -= addParseInformationHandler;
 			parserService.ParseInformationRemoved -= removeParseInformationHandler;
 			Nodes.Clear();
@@ -179,7 +179,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads
 			if (node != null) {
 				ClassScoutTag tag = node.Tag as ClassScoutTag;
 				if (tag != null) {
-					IFileService fileService = (IFileService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(IFileService));
+					IFileService fileService = (IFileService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IFileService));
 					fileService.OpenFile(tag.FileName);
 					
 					IViewContent content = fileService.GetOpenFile(tag.FileName).ViewContent;
@@ -213,7 +213,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads
 			if (args.Event.Button == 3 && SelectedNode != null && SelectedNode is AbstractClassScoutNode) {
 				AbstractClassScoutNode selectedBrowserNode = (AbstractClassScoutNode)SelectedNode;
 				if (selectedBrowserNode.ContextmenuAddinTreePath != null && selectedBrowserNode.ContextmenuAddinTreePath.Length > 0) {
-					MenuService menuService = (MenuService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(MenuService));
+					MenuService menuService = (MenuService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(MenuService));
 					menuService.ShowContextMenu(this, selectedBrowserNode.ContextmenuAddinTreePath, this);
 				}
 			}
@@ -251,7 +251,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads
 			Gdk.Threads.Enter();
 			DoPopulate();
 			Gdk.Threads.Leave();
-			IParserService parserService  = (IParserService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(IParserService));
+			IParserService parserService  = (IParserService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IParserService));
 			parserService.ParseInformationAdded += addParseInformationHandler;
 			parserService.ParseInformationRemoved += removeParseInformationHandler;
 		}
@@ -272,7 +272,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads
 			if (p.ProjectType == "C#") {
 	 			foreach (ProjectFile finfo in p.ProjectFiles) {
 					if (finfo.BuildAction == BuildAction.Compile) {
-						IParserService parserService = (IParserService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(IParserService));
+						IParserService parserService = (IParserService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IParserService));
 						parserService.ParseFile(finfo.Name);
 					}
 	 			}

@@ -5,7 +5,7 @@
 //     <version value="$version"/>
 // </file>
 
-namespace ICSharpCode.SharpDevelop.Gui
+namespace MonoDevelop.Gui
 {
 	/// <summary>
 	/// This is a basic interface to a "progress bar" type of 

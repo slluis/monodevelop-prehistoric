@@ -1,8 +1,8 @@
 using System.Collections;
-using ICSharpCode.Core.Services;
+using MonoDevelop.Core.Services;
 using Gdk;
 
-namespace ICSharpCode.SharpDevelop.Gui
+namespace MonoDevelop.Gui
 {
 	public class PixbufList : ArrayList
 	{

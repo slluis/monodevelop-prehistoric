@@ -8,11 +8,11 @@ using System;
 using System.Diagnostics;
 using Gtk;
 
-using ICSharpCode.Core.Services;
-using ICSharpCode.SharpDevelop.Gui.Components;
-using ICSharpCode.SharpDevelop.Gui;
+using MonoDevelop.Core.Services;
+using MonoDevelop.Gui.Components;
+using MonoDevelop.Gui;
 
-namespace ICSharpCode.SharpDevelop.Services
+namespace MonoDevelop.Services
 {
 	public class DefaultStatusBarService : AbstractService, IStatusBarService
 	{

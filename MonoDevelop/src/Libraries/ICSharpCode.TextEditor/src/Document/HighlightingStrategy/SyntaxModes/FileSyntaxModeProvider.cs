@@ -11,7 +11,7 @@ using System.Collections;
 using System.Reflection;
 using System.Xml;
 
-namespace ICSharpCode.TextEditor.Document
+namespace MonoDevelop.TextEditor.Document
 {
 	public class FileSyntaxModeProvider : ISyntaxModeFileProvider
 	{

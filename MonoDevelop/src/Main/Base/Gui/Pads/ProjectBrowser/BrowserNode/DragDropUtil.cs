@@ -10,15 +10,15 @@ using System.IO;
 using System.Diagnostics;
 using System.Drawing;
 using System.Collections.Specialized;
-using ICSharpCode.Core.Services;
-using ICSharpCode.SharpDevelop.Services;
-using ICSharpCode.Core.Properties;
+using MonoDevelop.Core.Services;
+using MonoDevelop.Services;
+using MonoDevelop.Core.Properties;
 
-using ICSharpCode.SharpDevelop.Internal.Project;
-using ICSharpCode.SharpDevelop.Gui.Components;
+using MonoDevelop.Internal.Project;
+using MonoDevelop.Gui.Components;
 using MonoDevelop.Gui.Widgets;
 
-namespace ICSharpCode.SharpDevelop.Gui.Pads.ProjectBrowser
+namespace MonoDevelop.Gui.Pads.ProjectBrowser
 {
 	/// <summary>
 	/// This class defines some Drag&Drop helper methods
@@ -76,7 +76,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads.ProjectBrowser
 			
 			switch (effect) {
 				case DragDropEffects.Move:
-					IFileService fileService = (IFileService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(IFileService));
+					IFileService fileService = (IFileService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IFileService));
 					fileService.RenameFile(fInfo.Name, newName);
 					break;
 				case DragDropEffects.Copy:

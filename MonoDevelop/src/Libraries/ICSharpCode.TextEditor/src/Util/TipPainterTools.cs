@@ -8,7 +8,7 @@
 using System;
 using System.Drawing;
 
-namespace ICSharpCode.TextEditor.Util
+namespace MonoDevelop.TextEditor.Util
 {
 	class TipPainterTools
 	{

@@ -8,11 +8,11 @@
 using System;
 using System.Drawing;
 using System.Collections;
-using ICSharpCode.SharpDevelop.Services;
+using MonoDevelop.Services;
 using SharpDevelop.Internal.Parser;
-using ICSharpCode.TextEditor.Document;
+using MonoDevelop.TextEditor.Document;
 
-namespace ICSharpCode.SharpDevelop.DefaultEditor.Gui.Editor
+namespace MonoDevelop.DefaultEditor.Gui.Editor
 {
 	/// <summary>
 	/// A simple folding strategy which calculates the folding level

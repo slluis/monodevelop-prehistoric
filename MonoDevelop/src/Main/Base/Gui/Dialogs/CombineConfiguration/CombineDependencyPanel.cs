@@ -10,12 +10,12 @@ using System.Collections;
 using System.ComponentModel;
 using System.Drawing;
 
-using ICSharpCode.Core.AddIns.Codons;
-using ICSharpCode.Core.Properties;
-using ICSharpCode.SharpDevelop.Internal.Project;
-using ICSharpCode.Core.Services;
+using MonoDevelop.Core.AddIns.Codons;
+using MonoDevelop.Core.Properties;
+using MonoDevelop.Internal.Project;
+using MonoDevelop.Core.Services;
 
-namespace ICSharpCode.SharpDevelop.Gui.Dialogs.OptionPanels
+namespace MonoDevelop.Gui.Dialogs.OptionPanels
 {/*
 	/// <summary>
 	/// Summary description for UserControl2.
@@ -96,7 +96,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs.OptionPanels
 		/// </summary>
 		private void InitializeComponent()
 		{
-			bool flat = Crownwood.Magic.Common.VisualStyle.IDE == (Crownwood.Magic.Common.VisualStyle)propertyService.GetProperty("ICSharpCode.SharpDevelop.Gui.VisualStyle", Crownwood.Magic.Common.VisualStyle.IDE);
+			bool flat = Crownwood.Magic.Common.VisualStyle.IDE == (Crownwood.Magic.Common.VisualStyle)propertyService.GetProperty("MonoDevelop.Gui.VisualStyle", Crownwood.Magic.Common.VisualStyle.IDE);
 			this.label1 = new System.Windows.Forms.Label();
 			
 			this.comboBox1 = new System.Windows.Forms.ComboBox();

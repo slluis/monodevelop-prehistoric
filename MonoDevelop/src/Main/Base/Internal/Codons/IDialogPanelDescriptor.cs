@@ -8,7 +8,7 @@
 using System;
 using System.Collections;
 
-namespace ICSharpCode.Core.AddIns.Codons
+namespace MonoDevelop.Core.AddIns.Codons
 {
 	public interface IDialogPanelDescriptor
 	{

@@ -8,9 +8,9 @@
 using System;
 using Gtk;
 
-using ICSharpCode.Core.AddIns.Codons;
+using MonoDevelop.Core.AddIns.Codons;
 
-namespace ICSharpCode.SharpDevelop.Gui.Dialogs
+namespace MonoDevelop.Gui.Dialogs
 {
 	public abstract class AbstractWizardPanel : AbstractOptionPanel, IWizardPanel
 	{

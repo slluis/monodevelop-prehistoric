@@ -11,13 +11,13 @@ using System.Runtime.CompilerServices;
 [assembly: AssemblyDescription("A .NET text editor control")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyProduct("MonoDevelop.TextEditor")]
-[assembly: AssemblyCopyright("ICSharpCode")]
+[assembly: AssemblyCopyright("MonoDevelop")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
 [assembly: AssemblyVersion("0.1.0.0")]
 
 [assembly: AssemblyDelaySign(false)]
-//[assembly: AssemblyKeyFile("../../data/ICSharpCode.TextEditor.key")]
+//[assembly: AssemblyKeyFile("../../data/MonoDevelop.TextEditor.key")]
 [assembly: AssemblyKeyFile("")]
 [assembly: AssemblyKeyName("")]

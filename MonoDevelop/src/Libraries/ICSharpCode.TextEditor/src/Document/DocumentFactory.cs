@@ -9,7 +9,7 @@ using System;
 using System.IO;
 
 
-namespace ICSharpCode.TextEditor.Document
+namespace MonoDevelop.TextEditor.Document
 {
 	/// <summary>
 	/// This interface represents a container which holds a text sequence and

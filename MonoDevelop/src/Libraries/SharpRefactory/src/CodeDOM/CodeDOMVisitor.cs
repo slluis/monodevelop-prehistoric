@@ -21,9 +21,9 @@ using System.CodeDom;
 using System.Text;
 using System.Collections;
 
-using ICSharpCode.SharpRefactory.Parser.AST;
+using MonoDevelop.SharpRefactory.Parser.AST;
 
-namespace ICSharpCode.SharpRefactory.Parser
+namespace MonoDevelop.SharpRefactory.Parser
 {
 	public class CodeDOMVisitor : IASTVisitor
 	{
@@ -71,7 +71,7 @@ namespace ICSharpCode.SharpRefactory.Parser
 			return type;
 		}
 
-#region ICSharpCode.SharpRefactory.Parser.IASTVisitor interface implementation
+#region MonoDevelop.SharpRefactory.Parser.IASTVisitor interface implementation
 		public object Visit(INode node, object data)
 		{
 			return null;

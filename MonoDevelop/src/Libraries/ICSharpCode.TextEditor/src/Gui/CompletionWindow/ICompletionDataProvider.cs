@@ -10,11 +10,11 @@ using System.Drawing;
 using System.Reflection;
 using System.Collections;
 
-using ICSharpCode.TextEditor.Document;
+using MonoDevelop.TextEditor.Document;
 
 using Gdk;
 
-namespace ICSharpCode.TextEditor.Gui.CompletionWindow
+namespace MonoDevelop.TextEditor.Gui.CompletionWindow
 {
 	public interface ICompletionDataProvider
 	{

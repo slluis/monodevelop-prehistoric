@@ -9,13 +9,13 @@ using System.Drawing;
 using System.Reflection;
 using System.Collections;
 
-using ICSharpCode.TextEditor.Document;
-using ICSharpCode.TextEditor.Util;
-using ICSharpCode.TextEditor;
+using MonoDevelop.TextEditor.Document;
+using MonoDevelop.TextEditor.Util;
+using MonoDevelop.TextEditor;
 using Gtk;
 using GtkSharp;
 
-namespace ICSharpCode.TextEditor.Gui.InsightWindow
+namespace MonoDevelop.TextEditor.Gui.InsightWindow
 {
 	public class InsightWindow : Window
 	{
@@ -234,7 +234,7 @@ namespace ICSharpCode.TextEditor.Gui.InsightWindow
 					StringParserService stringParserService = (StringParserService)ServiceManager.Services.GetService(typeof(StringParserService));
 					stringParserService.Properties["CurrentMethodNumber"]  = (CurrentData + 1).ToString();
 					stringParserService.Properties["NumberOfTotalMethods"] = DataProvider.InsightDataCount.ToString();
-					methodCountMessage = stringParserService.Parse("${res:ICSharpCode.SharpDevelop.DefaultEditor.Gui.Editor.InsightWindow.NumberOfText}");
+					methodCountMessage = stringParserService.Parse("${res:MonoDevelop.DefaultEditor.Gui.Editor.InsightWindow.NumberOfText}");
 				}*/
 				
 				description = DataProvider.GetInsightData(CurrentData);
@@ -256,7 +256,7 @@ namespace ICSharpCode.TextEditor.Gui.InsightWindow
 //					StringParserService stringParserService = (StringParserService)ServiceManager.Services.GetService(typeof(StringParserService));
 //					stringParserService.Properties["CurrentMethodNumber"]  = (CurrentData + 1).ToString();
 //					stringParserService.Properties["NumberOfTotalMethods"] = DataProvider.InsightDataCount.ToString();
-//					methodCountMessage = stringParserService.Parse("${res:ICSharpCode.SharpDevelop.DefaultEditor.Gui.Editor.InsightWindow.NumberOfText}");
+//					methodCountMessage = stringParserService.Parse("${res:MonoDevelop.DefaultEditor.Gui.Editor.InsightWindow.NumberOfText}");
 //				}
 				
 				description = DataProvider.GetInsightData(CurrentData);

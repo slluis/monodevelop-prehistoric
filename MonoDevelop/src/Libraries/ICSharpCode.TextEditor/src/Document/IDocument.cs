@@ -8,10 +8,10 @@ using System;
 using System.Collections;
 using System.Drawing;
 
-using ICSharpCode.TextEditor.Undo;
+using MonoDevelop.TextEditor.Undo;
 using MonoDevelop.EditorBindings.FormattingStrategy;
 
-namespace ICSharpCode.TextEditor.Document
+namespace MonoDevelop.TextEditor.Document
 {
 	/// <summary>
 	/// This interface represents a container which holds a text sequence and

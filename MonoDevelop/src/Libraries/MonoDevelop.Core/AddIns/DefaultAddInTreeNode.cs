@@ -12,10 +12,10 @@ using System.IO;
 using System.Reflection;
 using System.Xml;
 
-using ICSharpCode.Core.AddIns.Conditions;
-using ICSharpCode.Core.AddIns.Codons;
+using MonoDevelop.Core.AddIns.Conditions;
+using MonoDevelop.Core.AddIns.Codons;
 
-namespace ICSharpCode.Core.AddIns
+namespace MonoDevelop.Core.AddIns
 {
 	/// <summary>
 	/// This class represents a node in the <see cref="IAddInTree"/>

@@ -11,9 +11,9 @@ using System.Diagnostics;
 using System.Text;
 using System.Xml;
 using System.Reflection;
-using ICSharpCode.Core.Properties;
+using MonoDevelop.Core.Properties;
 
-namespace ICSharpCode.Core.Services
+namespace MonoDevelop.Core.Services
 { 
 	/// <summary>
 	/// This class handles the Global Properties for the IDE, all what can be configured should be

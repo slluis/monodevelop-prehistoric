@@ -12,15 +12,15 @@ using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Threading;
 using System.IO;
-using ICSharpCode.TextEditor.Document;
-using ICSharpCode.Core.Properties;
+using MonoDevelop.TextEditor.Document;
+using MonoDevelop.Core.Properties;
 
-using ICSharpCode.Core.Services;
-using ICSharpCode.TextEditor.Util;
+using MonoDevelop.Core.Services;
+using MonoDevelop.TextEditor.Util;
 
-using ICSharpCode.SharpDevelop.Internal.Project;
+using MonoDevelop.Internal.Project;
 
-namespace ICSharpCode.SharpDevelop.Gui.Dialogs
+namespace MonoDevelop.Gui.Dialogs
 {
 	public class ExportProjectToHtmlDialog //: Form
 	{/*

@@ -11,12 +11,12 @@ using System.Xml.Xsl;
 using System.CodeDom.Compiler;
 using System.Web.Services.Description;
 
-using ICSharpCode.SharpDevelop.Gui;
-using ICSharpCode.Core.Services;
-using ICSharpCode.SharpDevelop.Internal.Project;
-using ICSharpCode.SharpDevelop.BrowserDisplayBinding;
+using MonoDevelop.Gui;
+using MonoDevelop.Core.Services;
+using MonoDevelop.Internal.Project;
+using MonoDevelop.BrowserDisplayBinding;
 
-namespace ICSharpCode.SharpDevelop.Gui.Dialogs
+namespace MonoDevelop.Gui.Dialogs
 {
 	/// <summary>
 	/// Summary description for Form1.
@@ -112,7 +112,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 			this.panel2 = new System.Windows.Forms.Panel();
 			this.btnCancel = new System.Windows.Forms.Button();
 			this.btnAdd = new System.Windows.Forms.Button();
-			this.axBrowser = new ICSharpCode.SharpDevelop.BrowserDisplayBinding.AxWebBrowser();			
+			this.axBrowser = new MonoDevelop.BrowserDisplayBinding.AxWebBrowser();			
 			this.tabControl1 = new Crownwood.Magic.Controls.TabControl();
 			this.tabPage1 = new Crownwood.Magic.Controls.TabPage();
 			this.tabPage2 = new Crownwood.Magic.Controls.TabPage();

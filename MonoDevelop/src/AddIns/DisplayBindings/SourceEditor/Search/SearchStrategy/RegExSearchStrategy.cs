@@ -8,10 +8,10 @@
 using System;
 using System.Text.RegularExpressions;
 
-using ICSharpCode.Core.Properties;
-using ICSharpCode.SharpDevelop.Internal.Undo;
+using MonoDevelop.Core.Properties;
+using MonoDevelop.Internal.Undo;
 
-namespace ICSharpCode.TextEditor.Document
+namespace MonoDevelop.TextEditor.Document
 {
 	public class RegExSearchStrategy : ISearchStrategy
 	{

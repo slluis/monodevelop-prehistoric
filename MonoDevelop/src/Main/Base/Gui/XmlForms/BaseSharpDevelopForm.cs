@@ -7,12 +7,12 @@
 
 using System;
 
-using ICSharpCode.Core.AddIns.Codons;
-using ICSharpCode.SharpDevelop.Gui.XmlForms;
-using ICSharpCode.SharpDevelop.Services;
-using ICSharpCode.Core.Services;
+using MonoDevelop.Core.AddIns.Codons;
+using MonoDevelop.Gui.XmlForms;
+using MonoDevelop.Services;
+using MonoDevelop.Core.Services;
 
-namespace ICSharpCode.SharpDevelop.Gui.XmlForms
+namespace MonoDevelop.Gui.XmlForms
 {/*
 	public abstract class BaseSharpDevelopForm : XmlForm
 	{

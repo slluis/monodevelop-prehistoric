@@ -8,12 +8,12 @@
 using System;
 using System.Collections;
 
-using ICSharpCode.SharpDevelop.Gui;
-using ICSharpCode.TextEditor;
+using MonoDevelop.Gui;
+using MonoDevelop.TextEditor;
 
 using MonoDevelop.SourceEditor.Gui;
 
-namespace ICSharpCode.TextEditor.Document
+namespace MonoDevelop.TextEditor.Document
 {
 	public sealed class SearchReplaceUtilities
 	{

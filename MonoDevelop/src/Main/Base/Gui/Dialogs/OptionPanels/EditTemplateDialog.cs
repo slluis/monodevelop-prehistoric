@@ -8,10 +8,10 @@
 using System;
 using System.IO;
 
-using ICSharpCode.SharpDevelop.Internal.Templates;
-using ICSharpCode.Core.Services;
+using MonoDevelop.Internal.Templates;
+using MonoDevelop.Core.Services;
 
-namespace ICSharpCode.SharpDevelop.Gui.Dialogs
+namespace MonoDevelop.Gui.Dialogs
 {
 	public class EditTemplateDialog : Gtk.Dialog 
 	{

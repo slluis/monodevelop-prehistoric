@@ -1,7 +1,7 @@
 using System;
 using System.Runtime.InteropServices;
 
-namespace ICSharpCode.SharpDevelop.Gui.HtmlControl
+namespace MonoDevelop.Gui.HtmlControl
 {
 	[Guid(@"eab22ac2-30c1-11cf-a7eb-0000c05bae0b"), InterfaceType(ComInterfaceType.InterfaceIsIDispatch)]
 	public interface IWebBrowserEvents

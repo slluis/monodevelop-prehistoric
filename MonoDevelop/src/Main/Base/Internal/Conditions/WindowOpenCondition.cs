@@ -9,11 +9,11 @@ using System;
 using System.Xml;
 
 
-using ICSharpCode.Core.AddIns.Conditions;
+using MonoDevelop.Core.AddIns.Conditions;
 
-using ICSharpCode.SharpDevelop.Gui;
+using MonoDevelop.Gui;
 
-namespace ICSharpCode.Core.AddIns
+namespace MonoDevelop.Core.AddIns
 {
 	[ConditionAttribute()]
 	public class WindowOpenCondition : AbstractCondition

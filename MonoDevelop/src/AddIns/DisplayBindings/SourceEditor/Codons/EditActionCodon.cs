@@ -8,15 +8,15 @@
 using System;
 using System.Collections;
 using System.Reflection;
-using ICSharpCode.Core.Properties;
-using ICSharpCode.Core.AddIns;
-using ICSharpCode.Core.AddIns.Conditions;
-using ICSharpCode.Core.AddIns.Codons;
+using MonoDevelop.Core.Properties;
+using MonoDevelop.Core.AddIns;
+using MonoDevelop.Core.AddIns.Conditions;
+using MonoDevelop.Core.AddIns.Codons;
 
-using ICSharpCode.SharpDevelop.Gui.Components;
-using ICSharpCode.TextEditor.Actions;
+using MonoDevelop.Gui.Components;
+using MonoDevelop.TextEditor.Actions;
 
-namespace ICSharpCode.SharpDevelop.DefaultEditor.Codons
+namespace MonoDevelop.DefaultEditor.Codons
 {
 	[CodonNameAttribute("EditAction")]
 	public class EditActionCodon : AbstractCodon

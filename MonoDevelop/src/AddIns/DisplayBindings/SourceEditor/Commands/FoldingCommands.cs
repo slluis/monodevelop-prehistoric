@@ -11,25 +11,25 @@ using System.Collections;
 using System.Diagnostics;
 using System.Text;
 
-using ICSharpCode.Core.AddIns;
-using ICSharpCode.Core.Properties;
-using ICSharpCode.Core.AddIns.Codons;
+using MonoDevelop.Core.AddIns;
+using MonoDevelop.Core.Properties;
+using MonoDevelop.Core.AddIns.Codons;
 
-using ICSharpCode.SharpDevelop.Gui.Dialogs;
-using ICSharpCode.TextEditor.Document;
-using ICSharpCode.TextEditor;
-using ICSharpCode.TextEditor.Actions;
-using ICSharpCode.SharpDevelop.Gui;
-using ICSharpCode.SharpDevelop.Gui.HtmlControl;
-using ICSharpCode.Core.Services;
+using MonoDevelop.Gui.Dialogs;
+using MonoDevelop.TextEditor.Document;
+using MonoDevelop.TextEditor;
+using MonoDevelop.TextEditor.Actions;
+using MonoDevelop.Gui;
+using MonoDevelop.Gui.HtmlControl;
+using MonoDevelop.Core.Services;
 
-namespace ICSharpCode.SharpDevelop.DefaultEditor.Commands
+namespace MonoDevelop.DefaultEditor.Commands
 {
 	public class ToggleFolding : AbstractEditActionMenuCommand
 	{
 		public override IEditAction EditAction {
 			get {
-				//return new ICSharpCode.TextEditor.Actions.ToggleFolding();
+				//return new MonoDevelop.TextEditor.Actions.ToggleFolding();
 				Console.WriteLine ("Not implemented in the new editor");
 				return null;
 			}
@@ -42,7 +42,7 @@ namespace ICSharpCode.SharpDevelop.DefaultEditor.Commands
 			get {
 				Console.WriteLine ("Not implemented in the new Editor");
 				return null;
-				//return new ICSharpCode.TextEditor.Actions.ToggleAllFoldings();
+				//return new MonoDevelop.TextEditor.Actions.ToggleAllFoldings();
 			}
 		}
 	}
@@ -53,7 +53,7 @@ namespace ICSharpCode.SharpDevelop.DefaultEditor.Commands
 			get {
 				Console.WriteLine ("Not implemented in the new Editor");
 				return null;
-				//return new ICSharpCode.TextEditor.Actions.ShowDefinitionsOnly();
+				//return new MonoDevelop.TextEditor.Actions.ShowDefinitionsOnly();
 			}
 		}
 	}

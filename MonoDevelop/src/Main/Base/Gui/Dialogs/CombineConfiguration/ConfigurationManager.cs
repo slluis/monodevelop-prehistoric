@@ -9,10 +9,10 @@ using System.Drawing;
 using System.Collections;
 using System.ComponentModel;
 
-using ICSharpCode.Core.Services;
-using ICSharpCode.Core.Properties;
+using MonoDevelop.Core.Services;
+using MonoDevelop.Core.Properties;
 
-namespace ICSharpCode.SharpDevelop.Gui.Dialogs.OptionPanels
+namespace MonoDevelop.Gui.Dialogs.OptionPanels
 {
 	/// <summary>
 	/// Summary description for Form2.
@@ -73,7 +73,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs.OptionPanels
 		/// </summary>
 		private void InitializeComponent()
 		{
-			bool flat = Crownwood.Magic.Common.VisualStyle.IDE == (Crownwood.Magic.Common.VisualStyle)propertyService.GetProperty("ICSharpCode.SharpDevelop.Gui.VisualStyle", Crownwood.Magic.Common.VisualStyle.IDE);
+			bool flat = Crownwood.Magic.Common.VisualStyle.IDE == (Crownwood.Magic.Common.VisualStyle)propertyService.GetProperty("MonoDevelop.Gui.VisualStyle", Crownwood.Magic.Common.VisualStyle.IDE);
 			
 			this.treeView1 = new System.Windows.Forms.TreeView();
 			this.label1 = new System.Windows.Forms.Label();

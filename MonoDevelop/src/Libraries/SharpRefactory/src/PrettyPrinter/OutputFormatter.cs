@@ -20,10 +20,10 @@ using System.Text;
 using System.Collections;
 using System.Diagnostics;
 
-using ICSharpCode.SharpRefactory.Parser;
-using ICSharpCode.SharpRefactory.Parser.AST;
+using MonoDevelop.SharpRefactory.Parser;
+using MonoDevelop.SharpRefactory.Parser.AST;
 
-namespace ICSharpCode.SharpRefactory.PrettyPrinter
+namespace MonoDevelop.SharpRefactory.PrettyPrinter
 {
 	public class OutputFormatter
 	{

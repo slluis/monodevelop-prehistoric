@@ -16,7 +16,7 @@ using System.Reflection;
 using System.Xml;
 using System.Text;
 
-namespace ICSharpCode.TextEditor.Document
+namespace MonoDevelop.TextEditor.Document
 {
 	public class DefaultHighlightingStrategy : IHighlightingStrategy
 	{

@@ -13,14 +13,14 @@ using System.IO;
 using System.Text;
 using System.Reflection;
 
-using ICSharpCode.SharpDevelop.Gui;
-using ICSharpCode.Core.Properties;
-using ICSharpCode.Core.Services;
-using ICSharpCode.SharpDevelop.Internal.Project.Collections;
-using ICSharpCode.SharpDevelop.Internal.Project;
-using ICSharpCode.SharpDevelop.Services;
+using MonoDevelop.Gui;
+using MonoDevelop.Core.Properties;
+using MonoDevelop.Core.Services;
+using MonoDevelop.Internal.Project.Collections;
+using MonoDevelop.Internal.Project;
+using MonoDevelop.Services;
 
-namespace ICSharpCode.SharpDevelop.Gui.Dialogs
+namespace MonoDevelop.Gui.Dialogs
 {
 	public class AboutMonoDevelopTabPage : VBox
 	{
@@ -74,7 +74,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 		}
 	}
 	
-	public class AuthorAboutTabPage : ICSharpCode.SharpDevelop.Gui.HtmlControl.HtmlControl
+	public class AuthorAboutTabPage : MonoDevelop.Gui.HtmlControl.HtmlControl
 	{
 		public AuthorAboutTabPage()
 		{
@@ -103,7 +103,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 		}
 	}
 	
-	public class ChangeLogTabPage : ICSharpCode.SharpDevelop.Gui.HtmlControl.HtmlControl
+	public class ChangeLogTabPage : MonoDevelop.Gui.HtmlControl.HtmlControl
 	{
 		public ChangeLogTabPage()
 		{

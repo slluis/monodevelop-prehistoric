@@ -8,7 +8,7 @@
 using System;
 using System.Reflection;
 
-namespace ICSharpCode.Core.AddIns.Conditions
+namespace MonoDevelop.Core.AddIns.Conditions
 {
 	/// <summary>
 	/// Indicates that class represents a condition.

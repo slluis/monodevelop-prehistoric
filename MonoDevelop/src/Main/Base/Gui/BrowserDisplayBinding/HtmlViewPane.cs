@@ -10,16 +10,16 @@ using Gtk;
 using GtkSharp;
 using GtkMozEmbed;
 
-using ICSharpCode.SharpDevelop.Internal.Undo;
+using MonoDevelop.Internal.Undo;
 using System.Drawing.Printing;
-using ICSharpCode.Core.Properties;
+using MonoDevelop.Core.Properties;
 
-using ICSharpCode.Core.Services;
-using ICSharpCode.Core.AddIns.Codons;
-using ICSharpCode.SharpDevelop.Gui;
-using ICSharpCode.SharpDevelop.Gui.HtmlControl;
+using MonoDevelop.Core.Services;
+using MonoDevelop.Core.AddIns.Codons;
+using MonoDevelop.Gui;
+using MonoDevelop.Gui.HtmlControl;
 
-namespace ICSharpCode.SharpDevelop.BrowserDisplayBinding
+namespace MonoDevelop.BrowserDisplayBinding
 {
 	public class BrowserPane : AbstractViewContent, ISecondaryViewContent
 	{	
@@ -173,22 +173,22 @@ namespace ICSharpCode.SharpDevelop.BrowserDisplayBinding
 				//toolBar.Dock = DockStyle.None;
 				
 				Button toolBarBack = new Button ();
-				toolBarBack.Child = new Image (Stock.GoBack, IconSize.SmallToolbar);
+				toolBarBack.Child = new Image (Gtk.Stock.GoBack, IconSize.SmallToolbar);
 				toolBarBack.Relief = ReliefStyle.None;
 				toolBarBack.Clicked += new EventHandler (OnBackClicked);
 				
 				Button toolBarForward = new Button ();
-				toolBarForward.Child = new Image (Stock.GoForward, IconSize.SmallToolbar);
+				toolBarForward.Child = new Image (Gtk.Stock.GoForward, IconSize.SmallToolbar);
 				toolBarForward.Relief = ReliefStyle.None;
 				toolBarForward.Clicked += new EventHandler (OnForwardClicked);
 				
 				Button toolBarStop = new Button ();
-				toolBarStop.Child = new Image (Stock.Stop, IconSize.SmallToolbar);
+				toolBarStop.Child = new Image (Gtk.Stock.Stop, IconSize.SmallToolbar);
 				toolBarStop.Relief = ReliefStyle.None;
 				toolBarStop.Clicked += new EventHandler (OnStopClicked);
 				
 				Button toolBarRefresh = new Button ();
-				toolBarRefresh.Child = new Image (Stock.Refresh, IconSize.SmallToolbar);
+				toolBarRefresh.Child = new Image (Gtk.Stock.Refresh, IconSize.SmallToolbar);
 				toolBarRefresh.Relief = ReliefStyle.None;
 				toolBarRefresh.Clicked += new EventHandler (OnRefreshClicked);
 			

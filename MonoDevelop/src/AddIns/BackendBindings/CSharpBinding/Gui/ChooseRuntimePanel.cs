@@ -9,11 +9,11 @@ using System;
 using System.IO;
 using System.Collections;
 
-using ICSharpCode.SharpDevelop.Internal.Project;
-using ICSharpCode.Core.Properties;
-using ICSharpCode.Core.AddIns.Codons;
-using ICSharpCode.SharpDevelop.Gui.Dialogs;
-using ICSharpCode.Core.Services;
+using MonoDevelop.Internal.Project;
+using MonoDevelop.Core.Properties;
+using MonoDevelop.Core.AddIns.Codons;
+using MonoDevelop.Gui.Dialogs;
+using MonoDevelop.Core.Services;
 
 using Gtk;
 

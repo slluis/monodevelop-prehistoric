@@ -12,13 +12,13 @@ using System.Threading;
 using System.Xml;
 using SharpDevelop.Internal.Parser;
 
-//using ICSharpCode.SharpAssembly.Metadata.Rows;
-//using ICSharpCode.SharpAssembly.Metadata;
-//using ICSharpCode.SharpAssembly.PE;
-//using ICSharpCode.SharpAssembly;
+//using MonoDevelop.SharpAssembly.Metadata.Rows;
+//using MonoDevelop.SharpAssembly.Metadata;
+//using MonoDevelop.SharpAssembly.PE;
+//using MonoDevelop.SharpAssembly;
 using System.Reflection;
 
-namespace ICSharpCode.SharpDevelop.Services {
+namespace MonoDevelop.Services {
 	
 	/// <summary>
 	/// This class loads an assembly and converts all types from this assembly

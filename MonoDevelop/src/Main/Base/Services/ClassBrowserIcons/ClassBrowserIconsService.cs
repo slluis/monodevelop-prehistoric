@@ -14,15 +14,15 @@ using System.Reflection;
 using System.Resources;
 using System.Diagnostics;
 using SharpDevelop.Internal.Parser;
-using ICSharpCode.SharpDevelop.Gui;
+using MonoDevelop.Gui;
 
-using ICSharpCode.Core.AddIns;
-using ICSharpCode.Core.Properties;
+using MonoDevelop.Core.AddIns;
+using MonoDevelop.Core.Properties;
 
-using ICSharpCode.Core.Services;
+using MonoDevelop.Core.Services;
 using Stock = MonoDevelop.Gui.Stock;
 
-namespace ICSharpCode.SharpDevelop.Services {
+namespace MonoDevelop.Services {
 	public class ClassBrowserIconsService : AbstractService	{
 
 		string GetWithModifiers (ModifierEnum modifier, string mod_public, string mod_protected, string mod_internal, string mod_private)

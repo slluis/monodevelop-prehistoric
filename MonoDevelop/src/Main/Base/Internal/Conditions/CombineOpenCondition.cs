@@ -9,12 +9,12 @@ using System;
 using System.Xml;
 
 
-using ICSharpCode.Core.AddIns.Conditions;
-using ICSharpCode.Core.Services;
-using ICSharpCode.SharpDevelop.Services;
-using ICSharpCode.SharpDevelop.Gui;
+using MonoDevelop.Core.AddIns.Conditions;
+using MonoDevelop.Core.Services;
+using MonoDevelop.Services;
+using MonoDevelop.Gui;
 
-namespace ICSharpCode.Core.AddIns
+namespace MonoDevelop.Core.AddIns
 {
 	[ConditionAttribute()]
 	public class CombineOpenCondition : AbstractCondition
@@ -33,7 +33,7 @@ namespace ICSharpCode.Core.AddIns
 		
 		public override bool IsValid(object owner)
 		{
-			IProjectService projectService = (IProjectService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
+			IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
 			return projectService.CurrentOpenCombine != null || !isCombineOpen;
 		}
 	}

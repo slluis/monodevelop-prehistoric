@@ -18,7 +18,7 @@
 using System;
 using System.IO;
 
-namespace ICSharpCode.SharpAssembly.Metadata.Rows {
+namespace MonoDevelop.SharpAssembly.Metadata.Rows {
 	
 	public class FieldPtr : AbstractRow
 	{
@@ -37,7 +37,7 @@ namespace ICSharpCode.SharpAssembly.Metadata.Rows {
 		
 		public override void LoadRow()
 		{
-			field = ReadSimpleIndex(ICSharpCode.SharpAssembly.Metadata.Rows.Field.TABLE_ID);
+			field = ReadSimpleIndex(MonoDevelop.SharpAssembly.Metadata.Rows.Field.TABLE_ID);
 		}
 	}
 }

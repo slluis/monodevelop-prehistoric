@@ -8,7 +8,7 @@
 using System;
 using System.Collections;
 
-namespace ICSharpCode.TextEditor.Document
+namespace MonoDevelop.TextEditor.Document
 {
 	/// <summary>
 	/// Represents a bi-directional iterator which could move froward/backward

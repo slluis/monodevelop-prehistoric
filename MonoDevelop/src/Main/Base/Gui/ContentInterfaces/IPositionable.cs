@@ -5,7 +5,7 @@
 //     <version value="$version"/>
 // </file>
 
-namespace ICSharpCode.SharpDevelop.Gui
+namespace MonoDevelop.Gui
 {
 	/// <summary>
 	/// If a IViewContent object is from the type IPositionable it signals

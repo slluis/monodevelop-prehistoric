@@ -10,12 +10,12 @@ using System.Drawing;
 using System.Reflection;
 using System.Collections;
 
-using ICSharpCode.TextEditor;
+using MonoDevelop.TextEditor;
 
 using Gtk;
 using GtkSharp;
 
-namespace ICSharpCode.TextEditor.Gui.CompletionWindow
+namespace MonoDevelop.TextEditor.Gui.CompletionWindow
 {
 	public class CompletionWindow : Window
 	{
@@ -51,7 +51,7 @@ namespace ICSharpCode.TextEditor.Gui.CompletionWindow
 		// ???
 		void ListKeyreleaseEvent(object sender, KeyReleaseEventArgs ex) {
 			if (ex.Event.Key == Gdk.Key.BackSpace) {
-				new ICSharpCode.TextEditor.Actions.Backspace().Execute(control.ActiveTextAreaControl.TextArea);
+				new MonoDevelop.TextEditor.Actions.Backspace().Execute(control.ActiveTextAreaControl.TextArea);
 				if (insertLength > 0) {
 					--insertLength;
 				} else {
@@ -78,7 +78,7 @@ namespace ICSharpCode.TextEditor.Gui.CompletionWindow
 					return;
 					
 				case Gdk.Key.BackSpace:
-					new ICSharpCode.TextEditor.Actions.Backspace().Execute(control.ActiveTextAreaControl.TextArea);
+					new MonoDevelop.TextEditor.Actions.Backspace().Execute(control.ActiveTextAreaControl.TextArea);
 					if (insertLength > 0) {
 						--insertLength;
 					} else {

@@ -17,7 +17,7 @@ using System.Xml;
 
 using Pango;
 
-namespace ICSharpCode.TextEditor.Document
+namespace MonoDevelop.TextEditor.Document
 {
 	/// <summary>
 	/// This class is used to generate bold, italic and bold/italic fonts out
@@ -35,7 +35,7 @@ namespace ICSharpCode.TextEditor.Document
 		/// </value>
 		public static FontDescription BoldFont {
 			get {
-				Debug.Assert(boldfont != null, "ICSharpCode.TextEditor.Document.FontContainer : boldfont == null");
+				Debug.Assert(boldfont != null, "MonoDevelop.TextEditor.Document.FontContainer : boldfont == null");
 				return boldfont;
 			}
 		}
@@ -45,7 +45,7 @@ namespace ICSharpCode.TextEditor.Document
 		/// </value>
 		public static FontDescription ItalicFont {
 			get {
-				Debug.Assert(italicfont != null, "ICSharpCode.TextEditor.Document.FontContainer : italicfont == null");
+				Debug.Assert(italicfont != null, "MonoDevelop.TextEditor.Document.FontContainer : italicfont == null");
 				return italicfont;
 			}
 		}
@@ -55,7 +55,7 @@ namespace ICSharpCode.TextEditor.Document
 		/// </value>
 		public static FontDescription BoldItalicFont {
 			get {
-				Debug.Assert(bolditalicfont != null, "ICSharpCode.TextEditor.Document.FontContainer : bolditalicfont == null");
+				Debug.Assert(bolditalicfont != null, "MonoDevelop.TextEditor.Document.FontContainer : bolditalicfont == null");
 				return bolditalicfont;
 			}
 		}

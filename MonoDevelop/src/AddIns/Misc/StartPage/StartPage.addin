@@ -6,7 +6,7 @@
        version     = "1.0.0">
 	
 	<Runtime>
-		<Import assembly="ICSharpCode.StartPage.dll"/>
+		<Import assembly="MonoDevelop.StartPage.dll"/>
 	</Runtime>
 
 	<Extension path = "/SharpDevelop/Workbench/MainMenu/View">
@@ -14,7 +14,7 @@
 		          insertafter = "ViewItemsSeparator"
 				  insertbefore = "StartPageSeparator"
 		          label = "Show Start Page" 
-		          class = "ICSharpCode.StartPage.ShowStartPageCommand"/>
+		          class = "MonoDevelop.StartPage.ShowStartPageCommand"/>
 		<MenuItem id = "StartPageSeparator"
 				  insertbefore = "FullScreen"
 				  label = "-"/>
@@ -25,6 +25,6 @@
 		<Class id = "ShowStartPageCommand"
 				insertbefore = "StartWorkbenchCommand"
 				insertafter  = "InitializeWorkbenchCommand"
-				class = "ICSharpCode.StartPage.ShowStartPageCommand"/>
+				class = "MonoDevelop.StartPage.ShowStartPageCommand"/>
 	</Extension>
 </AddIn>

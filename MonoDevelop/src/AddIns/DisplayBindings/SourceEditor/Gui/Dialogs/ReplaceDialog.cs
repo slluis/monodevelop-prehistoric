@@ -11,19 +11,19 @@ using System.Drawing;
 using System.ComponentModel;
 using System.Collections.Specialized;
 
-using ICSharpCode.SharpDevelop.Gui;
-using ICSharpCode.TextEditor.Document;
-using ICSharpCode.Core.Properties;
+using MonoDevelop.Gui;
+using MonoDevelop.TextEditor.Document;
+using MonoDevelop.Core.Properties;
 
-using ICSharpCode.Core.Services;
-using ICSharpCode.SharpDevelop.Services;
-using ICSharpCode.TextEditor;
+using MonoDevelop.Core.Services;
+using MonoDevelop.Services;
+using MonoDevelop.TextEditor;
 //using MonoDevelop.EditorBindings.Search;
 
 using Gtk;
 using Glade;
 
-namespace ICSharpCode.SharpDevelop.Gui.Dialogs
+namespace MonoDevelop.Gui.Dialogs
 {
 	public class ReplaceDialog
 	{

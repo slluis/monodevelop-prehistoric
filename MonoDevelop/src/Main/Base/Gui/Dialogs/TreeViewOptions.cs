@@ -9,15 +9,15 @@ using System;
 using System.IO;
 using System.Collections;
 
-using ICSharpCode.Core.AddIns;
-using ICSharpCode.Core.Services;
-using ICSharpCode.Core.Properties;
-using ICSharpCode.Core.AddIns.Codons;
-using ICSharpCode.SharpDevelop.Gui.XmlForms;
+using MonoDevelop.Core.AddIns;
+using MonoDevelop.Core.Services;
+using MonoDevelop.Core.Properties;
+using MonoDevelop.Core.AddIns.Codons;
+using MonoDevelop.Gui.XmlForms;
 
-using ICSharpCode.SharpDevelop.Services;
+using MonoDevelop.Services;
 
-namespace ICSharpCode.SharpDevelop.Gui.Dialogs {
+namespace MonoDevelop.Gui.Dialogs {
 	
 	/// <summary>
 	/// TreeView options are used, when more options will be edited (for something like

@@ -8,7 +8,7 @@
 using System;
 using System.Reflection;
 
-namespace ICSharpCode.Core.AddIns
+namespace MonoDevelop.Core.AddIns
 {
 	[AttributeUsage(AttributeTargets.Field, Inherited=true)]
 	public class PathAttribute : Attribute

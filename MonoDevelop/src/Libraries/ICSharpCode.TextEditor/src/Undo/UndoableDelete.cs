@@ -9,10 +9,10 @@ using System;
 using System.Diagnostics;
 using System.Drawing;
 
-using ICSharpCode.TextEditor.Document;
-using ICSharpCode.TextEditor.Undo;
+using MonoDevelop.TextEditor.Document;
+using MonoDevelop.TextEditor.Undo;
 	
-namespace ICSharpCode.TextEditor.Undo
+namespace MonoDevelop.TextEditor.Undo
 {
 	/// <summary>
 	/// This class is for the undo of Document insert operations

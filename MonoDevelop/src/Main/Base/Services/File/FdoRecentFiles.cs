@@ -13,7 +13,7 @@ using System.Xml.XPath;
 // implementation of the freedesktop.org Recent Files spec
 // http://freedesktop.org/Standards/recent-file-spec/recent-file-spec-0.2.html
 
-namespace ICSharpCode.SharpDevelop.Services
+namespace MonoDevelop.Services
 {
 	public class FdoRecentFiles
 	{

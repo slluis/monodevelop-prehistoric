@@ -12,12 +12,12 @@ using System.Drawing;
 using System.Collections;
 using System.ComponentModel;
 using MSjogren.GacTool.FusionNative;
-using ICSharpCode.SharpDevelop.Internal.Project;
-using ICSharpCode.Core.Services;
+using MonoDevelop.Internal.Project;
+using MonoDevelop.Core.Services;
 
 using Gtk;
 
-namespace ICSharpCode.SharpDevelop.Gui.Dialogs
+namespace MonoDevelop.Gui.Dialogs
 {
 	public class AssemblyReferencePanel : VButtonBox, IReferencePanel
 	{

@@ -9,16 +9,16 @@ using System;
 using System.Collections;
 using System.Diagnostics;
 
-using ICSharpCode.SharpDevelop.Gui;
+using MonoDevelop.Gui;
 
-using ICSharpCode.Core.Services;
-using ICSharpCode.SharpDevelop.Services;
-using ICSharpCode.SharpDevelop.Gui.Dialogs;
-using ICSharpCode.TextEditor;
+using MonoDevelop.Core.Services;
+using MonoDevelop.Services;
+using MonoDevelop.Gui.Dialogs;
+using MonoDevelop.TextEditor;
 
 using MonoDevelop.SourceEditor.Gui;
 
-namespace ICSharpCode.TextEditor.Document
+namespace MonoDevelop.TextEditor.Document
 {
 	public enum DocumentIteratorType {
 		None,
@@ -191,7 +191,7 @@ namespace ICSharpCode.TextEditor.Document
 		static SourceEditor OpenTextArea(string fileName) 
 		{
 			if (fileName != null) {
-				IFileService fileService = (IFileService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(IFileService));
+				IFileService fileService = (IFileService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IFileService));
 				fileService.OpenFile(fileName);
 			}
 			

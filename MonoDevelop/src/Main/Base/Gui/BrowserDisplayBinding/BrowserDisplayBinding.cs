@@ -9,16 +9,16 @@ using System;
 using System.Drawing;
 using Gtk;
 
-using ICSharpCode.SharpDevelop.Internal.Undo;
+using MonoDevelop.Internal.Undo;
 using System.Drawing.Printing;
-using ICSharpCode.Core.Properties;
+using MonoDevelop.Core.Properties;
 
-using ICSharpCode.Core.AddIns.Codons;
-using ICSharpCode.SharpDevelop.Gui;
+using MonoDevelop.Core.AddIns.Codons;
+using MonoDevelop.Gui;
 
 using MonoDevelop.Gui.Utils;
 
-namespace ICSharpCode.SharpDevelop.BrowserDisplayBinding
+namespace MonoDevelop.BrowserDisplayBinding
 {
 	public class BrowserDisplayBinding : IDisplayBinding, ISecondaryDisplayBinding
 	{

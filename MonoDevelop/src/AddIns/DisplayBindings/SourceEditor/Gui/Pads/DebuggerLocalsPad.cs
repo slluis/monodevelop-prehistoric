@@ -1,5 +1,5 @@
 using System;
-using ICSharpCode.SharpDevelop.Gui;
+using MonoDevelop.Gui;
 
 namespace MonoDevelop.SourceEditor.Gui
 {

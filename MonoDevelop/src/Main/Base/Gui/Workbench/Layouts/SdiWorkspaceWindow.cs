@@ -12,13 +12,13 @@ using Gtk;
 
 using Gdl;
 
-using ICSharpCode.Core.Services;
-using ICSharpCode.SharpDevelop.Services;
+using MonoDevelop.Core.Services;
+using MonoDevelop.Services;
 
 using MonoDevelop.Gui.Utils;
 using MonoDevelop.Gui.Widgets;
 
-namespace ICSharpCode.SharpDevelop.Gui
+namespace MonoDevelop.Gui
 {
 	public class SdiWorkspaceWindow : Dock, IWorkbenchWindow
 	{
@@ -221,7 +221,7 @@ namespace ICSharpCode.SharpDevelop.Gui
 					case true:
 						if (content.ContentName == null) {
 							while (true) {
-								new ICSharpCode.SharpDevelop.Commands.SaveFileAs().Run();
+								new MonoDevelop.Commands.SaveFileAs().Run();
 								if (ViewContent.IsDirty) {
 									if (messageService.AskQuestion("Do you really want to discard your changes ?")) {
 										break;

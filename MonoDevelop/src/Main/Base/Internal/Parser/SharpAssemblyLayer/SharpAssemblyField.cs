@@ -10,10 +10,10 @@ using System.Text;
 using System.IO;
 using System.Xml;
 
-using ICSharpCode.SharpAssembly.Metadata.Rows;
-using ICSharpCode.SharpAssembly.Metadata;
-using ICSharpCode.SharpAssembly.PE;
-using ICSharpCode.SharpAssembly.Assembly;
+using MonoDevelop.SharpAssembly.Metadata.Rows;
+using MonoDevelop.SharpAssembly.Metadata;
+using MonoDevelop.SharpAssembly.PE;
+using MonoDevelop.SharpAssembly.Assembly;
 
 namespace SharpDevelop.Internal.Parser {
 	

@@ -11,14 +11,14 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Collections.Specialized;
 
-using ICSharpCode.Core.Properties;
+using MonoDevelop.Core.Properties;
 
-using ICSharpCode.Core.Services;
-using ICSharpCode.SharpDevelop.Services;
-using ICSharpCode.SharpDevelop.Internal.Project;
-using ICSharpCode.SharpDevelop.Gui.Components;
+using MonoDevelop.Core.Services;
+using MonoDevelop.Services;
+using MonoDevelop.Internal.Project;
+using MonoDevelop.Gui.Components;
 
-namespace ICSharpCode.SharpDevelop.Gui.Pads.ProjectBrowser
+namespace MonoDevelop.Gui.Pads.ProjectBrowser
 {
 	/// <summary>
 	/// This class represents the default file in the project browser.
@@ -90,7 +90,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads.ProjectBrowser
 		public override void ActivateItem()
 		{
 			if (userData != null && userData is ProjectFile) {
-				IFileService fileService = (IFileService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(IFileService));
+				IFileService fileService = (IFileService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IFileService));
 				fileService.OpenFile(((ProjectFile)userData).Name);
 			}
 		}
@@ -113,8 +113,8 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads.ProjectBrowser
 				if (oldname != newname) {
 					ResourceService resourceService = (ResourceService)ServiceManager.Services.GetService(typeof(IResourceService));
 					try {
-						IFileService fileService = (IFileService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(IFileService));
-						FileUtilityService fileUtilityService = (FileUtilityService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(FileUtilityService));
+						IFileService fileService = (IFileService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IFileService));
+						FileUtilityService fileUtilityService = (FileUtilityService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(FileUtilityService));
 						if (fileUtilityService.IsValidFileName(newname)) {
 							fileService.RenameFile(oldname, newname);
 							SetNodeLabel();
@@ -154,11 +154,11 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads.ProjectBrowser
 			//	case 2:
 			//		return false;
 			//	case 0:
-					IProjectService projectService = (IProjectService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
+					IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
 					projectService.RemoveFileFromProject(((ProjectFile)userData).Name);
 			//		break;
 			//	case 1:
-			//		IFileService fileService = (IFileService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(IFileService));
+			//		IFileService fileService = (IFileService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IFileService));
 			//		fileService.RemoveFile(((ProjectFile)userData).Name);
 			//		break;
 			//}

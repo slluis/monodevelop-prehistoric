@@ -8,7 +8,7 @@
 using System.Diagnostics;
 using System.Drawing;
 
-namespace ICSharpCode.TextEditor.Util
+namespace MonoDevelop.TextEditor.Util
 {
 	abstract class TipSection
 	{

@@ -12,8 +12,8 @@ using System.Diagnostics;
 using System.ComponentModel;
 using System.Xml;
 
-using ICSharpCode.SharpDevelop.Internal.Project;
-using ICSharpCode.SharpDevelop.Internal.Templates;
+using MonoDevelop.Internal.Project;
+using MonoDevelop.Internal.Templates;
 
 namespace CSharpBinding
 {

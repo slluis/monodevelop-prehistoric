@@ -8,9 +8,9 @@
 using System;
 using System.Drawing;
 
-using ICSharpCode.TextEditor.Document;
+using MonoDevelop.TextEditor.Document;
 
-namespace ICSharpCode.TextEditor
+namespace MonoDevelop.TextEditor
 {
 	/// <summary>
 	/// This enum describes all implemented request types

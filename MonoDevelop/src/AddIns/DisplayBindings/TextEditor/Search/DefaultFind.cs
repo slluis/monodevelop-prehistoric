@@ -8,10 +8,10 @@ using System;
 using System.Collections;
 using System.Diagnostics;
 
-using ICSharpCode.SharpDevelop.Gui;
+using MonoDevelop.Gui;
 using MonoDevelop.EditorBindings.Search;
 
-namespace ICSharpCode.TextEditor.Document
+namespace MonoDevelop.TextEditor.Document
 {
 	public class DefaultFind : IFind
 	{

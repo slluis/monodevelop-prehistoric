@@ -8,9 +8,9 @@
 using System;
 using System.Drawing;
 
-using ICSharpCode.Core.Services;
+using MonoDevelop.Core.Services;
 
-namespace ICSharpCode.SharpDevelop.Gui
+namespace MonoDevelop.Gui
 {
 	public abstract class AbstractPadContent : IPadContent
 	{

@@ -14,17 +14,17 @@ using System.Collections;
 using System.Collections.Specialized;
 using System.Collections.Utility;
 
-using ICSharpCode.Core.Properties;
+using MonoDevelop.Core.Properties;
 
-using ICSharpCode.SharpDevelop.Internal.Project;
+using MonoDevelop.Internal.Project;
 using SharpDevelop.Internal.Parser;
-using ICSharpCode.Core.Services;
-using ICSharpCode.SharpDevelop.Services;
+using MonoDevelop.Core.Services;
+using MonoDevelop.Services;
 using MonoDevelop.Gui.Widgets;
 
 using Stock = MonoDevelop.Gui.Stock;
 
-namespace ICSharpCode.SharpDevelop.Gui.Pads
+namespace MonoDevelop.Gui.Pads
 {
 	public class DefaultDotNetClassScoutNodeBuilder : IClassScoutNodeBuilder
 	{
@@ -95,7 +95,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads
  			foreach (ProjectFile finfo in p.ProjectFiles) {
 				if (finfo.BuildAction == BuildAction.Compile) {
 					int i = 0;
-					IParserService parserService = (IParserService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(IParserService));
+					IParserService parserService = (IParserService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IParserService));
 					if (parserService.GetParser(finfo.Name) == null) {
 						continue;
 					}

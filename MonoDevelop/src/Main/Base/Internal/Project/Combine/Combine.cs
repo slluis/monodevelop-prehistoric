@@ -15,14 +15,14 @@ using System.Diagnostics;
 using System.CodeDom.Compiler;
 using System.ComponentModel;
 
-using ICSharpCode.Core.Services;
-using ICSharpCode.SharpDevelop.Services;
-using ICSharpCode.SharpDevelop.Internal.Project;
-using ICSharpCode.Core.Properties;
-using ICSharpCode.SharpDevelop.Gui;
-using ICSharpCode.SharpDevelop.Gui.Components;
+using MonoDevelop.Core.Services;
+using MonoDevelop.Services;
+using MonoDevelop.Internal.Project;
+using MonoDevelop.Core.Properties;
+using MonoDevelop.Gui;
+using MonoDevelop.Gui.Components;
 
-namespace ICSharpCode.SharpDevelop.Internal.Project
+namespace MonoDevelop.Internal.Project
 {
 	public class Combine : LocalizedObject, IDisposable
 	{
@@ -43,8 +43,8 @@ namespace ICSharpCode.SharpDevelop.Internal.Project
 		ArrayList combineExecuteDefinitions = new ArrayList();
 		IResourceService resourceService = (IResourceService)ServiceManager.Services.GetService(typeof(IResourceService));
 		
-		[LocalizedProperty("${res:ICSharpCode.SharpDevelop.Internal.Project.Combine.ActiveConfiguration}",
-		                   Description = "${res:ICSharpCode.SharpDevelop.Internal.Project.Combine.ActiveConfiguration.Description}")]
+		[LocalizedProperty("${res:MonoDevelop.Internal.Project.Combine.ActiveConfiguration}",
+		                   Description = "${res:MonoDevelop.Internal.Project.Combine.ActiveConfiguration.Description}")]
 		[TypeConverter(typeof(CombineActiveConfigurationTypeConverter))]
 		public CombineConfiguration ActiveConfiguration {
 			get {
@@ -97,8 +97,8 @@ namespace ICSharpCode.SharpDevelop.Internal.Project
 			}
 		}
 		
-		[LocalizedProperty("${res:ICSharpCode.SharpDevelop.Internal.Project.Combine.Name}",
-		                   Description ="${res:ICSharpCode.SharpDevelop.Internal.Project.Combine.Name.Description}")]
+		[LocalizedProperty("${res:MonoDevelop.Internal.Project.Combine.Name}",
+		                   Description ="${res:MonoDevelop.Internal.Project.Combine.Name.Description}")]
 		public string Name {
 			get {
 				return name;
@@ -111,8 +111,8 @@ namespace ICSharpCode.SharpDevelop.Internal.Project
 			}
 		}
 		
-		[LocalizedProperty("${res:ICSharpCode.SharpDevelop.Internal.Project.Combine.Description}",
-		                   Description ="${res:ICSharpCode.SharpDevelop.Internal.Project.Combine.Description.Description}")]
+		[LocalizedProperty("${res:MonoDevelop.Internal.Project.Combine.Description}",
+		                   Description ="${res:MonoDevelop.Internal.Project.Combine.Description.Description}")]
 		public string Description {
 			get {
 				return description;
@@ -122,8 +122,8 @@ namespace ICSharpCode.SharpDevelop.Internal.Project
 			}
 		}
 		
-		[LocalizedProperty("${res:ICSharpCode.SharpDevelop.Internal.Project.Combine.NeedsBuilding}",
-		                   Description ="${res:ICSharpCode.SharpDevelop.Internal.Project.Combine.NeedsBuilding.Description}")]
+		[LocalizedProperty("${res:MonoDevelop.Internal.Project.Combine.NeedsBuilding}",
+		                   Description ="${res:MonoDevelop.Internal.Project.Combine.NeedsBuilding.Description}")]
 		public bool NeedsBuilding {
 			get {
 				ArrayList projects = new ArrayList();
@@ -159,7 +159,7 @@ namespace ICSharpCode.SharpDevelop.Internal.Project
 		
 		public IProject LoadProject(string filename)
 		{
-			LanguageBindingService languageBindingService = (LanguageBindingService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(LanguageBindingService));
+			LanguageBindingService languageBindingService = (LanguageBindingService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(LanguageBindingService));
 			StringParserService stringParserService = (StringParserService)ServiceManager.Services.GetService(typeof(StringParserService));
 			
 			ILanguageBinding binding = languageBindingService.GetBindingPerProjectFile(filename);
@@ -514,7 +514,7 @@ namespace ICSharpCode.SharpDevelop.Internal.Project
 				messageService.ShowError("Cyclic dependencies can not be build with this version.\nBut we are working on it.");
 				return;
 			}
-			TaskService taskService = (TaskService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(TaskService));
+			TaskService taskService = (TaskService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(TaskService));
 			foreach (ProjectCombineEntry entry in allProjects) {
 				entry.Build(doBuildAll);
 				if (taskService.SomethingWentWrong) {

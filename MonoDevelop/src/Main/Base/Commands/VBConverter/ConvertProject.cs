@@ -14,22 +14,22 @@ using System.Collections;
 using System.ComponentModel;
 using System.Diagnostics;
 
-using ICSharpCode.Core.Services;
-using ICSharpCode.Core.AddIns;
+using MonoDevelop.Core.Services;
+using MonoDevelop.Core.AddIns;
 
-using ICSharpCode.Core.Properties;
-using ICSharpCode.Core.AddIns.Codons;
+using MonoDevelop.Core.Properties;
+using MonoDevelop.Core.AddIns.Codons;
 using System.CodeDom.Compiler;
 
-using ICSharpCode.SharpDevelop.Gui;
-using ICSharpCode.SharpDevelop.Internal.Project;
-using ICSharpCode.SharpDevelop.Gui.Dialogs;
-using ICSharpCode.SharpDevelop.Services;
+using MonoDevelop.Gui;
+using MonoDevelop.Internal.Project;
+using MonoDevelop.Gui.Dialogs;
+using MonoDevelop.Services;
 
-using ICSharpCode.SharpRefactory.PrettyPrinter;
-using ICSharpCode.SharpRefactory.Parser;
+using MonoDevelop.SharpRefactory.PrettyPrinter;
+using MonoDevelop.SharpRefactory.Parser;
 
-namespace ICSharpCode.SharpDevelop.Commands
+namespace MonoDevelop.Commands
 {
 	public class VBConvertProject : AbstractMenuCommand
 	{
@@ -52,7 +52,7 @@ namespace ICSharpCode.SharpDevelop.Commands
 		
 		public override void Run()
 		{
-			IProjectService projectService = (IProjectService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
+			IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
 			
 			if (projectService.CurrentSelectedProject != null) {
 				foreach (ProjectFile file in projectService.CurrentSelectedProject.ProjectFiles) {

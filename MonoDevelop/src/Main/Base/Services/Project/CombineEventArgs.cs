@@ -6,9 +6,9 @@
 // </file>
 
 using System;
-using ICSharpCode.SharpDevelop.Internal.Project;
+using MonoDevelop.Internal.Project;
 
-namespace ICSharpCode.SharpDevelop.Services
+namespace MonoDevelop.Services
 {
 	public delegate void CombineEventHandler(object sender, CombineEventArgs e);
 	

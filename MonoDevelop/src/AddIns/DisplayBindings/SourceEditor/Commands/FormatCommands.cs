@@ -10,17 +10,17 @@ using System.IO;
 using System.Collections;
 using System.Text;
 
-using ICSharpCode.Core.Services;
-using ICSharpCode.Core.AddIns;
-using ICSharpCode.Core.AddIns.Codons;
-using ICSharpCode.Core.Properties;
-using ICSharpCode.SharpDevelop.Gui.Dialogs;
-using ICSharpCode.TextEditor.Document;
-using ICSharpCode.SharpDevelop.Gui;
-using ICSharpCode.TextEditor;
-using ICSharpCode.TextEditor.Actions;
+using MonoDevelop.Core.Services;
+using MonoDevelop.Core.AddIns;
+using MonoDevelop.Core.AddIns.Codons;
+using MonoDevelop.Core.Properties;
+using MonoDevelop.Gui.Dialogs;
+using MonoDevelop.TextEditor.Document;
+using MonoDevelop.Gui;
+using MonoDevelop.TextEditor;
+using MonoDevelop.TextEditor.Actions;
 
-namespace ICSharpCode.SharpDevelop.DefaultEditor.Commands
+namespace MonoDevelop.DefaultEditor.Commands
 {
 	public class RemoveLeadingWS : AbstractEditActionMenuCommand
 	{
@@ -28,7 +28,7 @@ namespace ICSharpCode.SharpDevelop.DefaultEditor.Commands
 			get {
 				Console.WriteLine ("Not implemented in the new editor");
 				return null;
-				//return new ICSharpCode.TextEditor.Actions.RemoveLeadingWS();
+				//return new MonoDevelop.TextEditor.Actions.RemoveLeadingWS();
 			}
 		}
 	}
@@ -39,7 +39,7 @@ namespace ICSharpCode.SharpDevelop.DefaultEditor.Commands
 			get {
 				Console.WriteLine ("Not implemented in the new editor");
 				return null;
-				//return new ICSharpCode.TextEditor.Actions.RemoveTrailingWS();
+				//return new MonoDevelop.TextEditor.Actions.RemoveTrailingWS();
 			}
 		}
 	}
@@ -51,7 +51,7 @@ namespace ICSharpCode.SharpDevelop.DefaultEditor.Commands
 			get {
 				Console.WriteLine ("Not implemented in the new editor");
 				return null;
-				//return new ICSharpCode.TextEditor.Actions.ToUpperCase();
+				//return new MonoDevelop.TextEditor.Actions.ToUpperCase();
 			}
 		}
 	}
@@ -62,7 +62,7 @@ namespace ICSharpCode.SharpDevelop.DefaultEditor.Commands
 			get {
 				Console.WriteLine ("Not implemented in the new editor");
 				return null;
-				//return new ICSharpCode.TextEditor.Actions.ToLowerCase();
+				//return new MonoDevelop.TextEditor.Actions.ToLowerCase();
 			}
 		}
 	}
@@ -73,7 +73,7 @@ namespace ICSharpCode.SharpDevelop.DefaultEditor.Commands
 			get {
 				Console.WriteLine ("Not implemented in the new editor");
 				return null;
-				//return new ICSharpCode.TextEditor.Actions.InvertCaseAction();
+				//return new MonoDevelop.TextEditor.Actions.InvertCaseAction();
 			}
 		}
 	}
@@ -84,7 +84,7 @@ namespace ICSharpCode.SharpDevelop.DefaultEditor.Commands
 			get {
 				Console.WriteLine ("Not implemented in the new editor");
 				return null;
-				//return new ICSharpCode.TextEditor.Actions.CapitalizeAction();
+				//return new MonoDevelop.TextEditor.Actions.CapitalizeAction();
 			}
 		}
 	}
@@ -95,7 +95,7 @@ namespace ICSharpCode.SharpDevelop.DefaultEditor.Commands
 			get {
 				Console.WriteLine ("Not implemented in the new editor");
 				return null;
-				//return new ICSharpCode.TextEditor.Actions.ConvertTabsToSpaces();
+				//return new MonoDevelop.TextEditor.Actions.ConvertTabsToSpaces();
 			}
 		}
 	}
@@ -106,7 +106,7 @@ namespace ICSharpCode.SharpDevelop.DefaultEditor.Commands
 			get {
 				Console.WriteLine ("Not implemented in the new editor");
 				return null;
-				//return new ICSharpCode.TextEditor.Actions.ConvertSpacesToTabs();
+				//return new MonoDevelop.TextEditor.Actions.ConvertSpacesToTabs();
 			}
 		}
 	}
@@ -117,7 +117,7 @@ namespace ICSharpCode.SharpDevelop.DefaultEditor.Commands
 			get {
 				Console.WriteLine ("Not implemented in the new Editor");
 				return null;
-				//return new ICSharpCode.TextEditor.Actions.ConvertLeadingTabsToSpaces();
+				//return new MonoDevelop.TextEditor.Actions.ConvertLeadingTabsToSpaces();
 			}
 		}
 	}
@@ -128,7 +128,7 @@ namespace ICSharpCode.SharpDevelop.DefaultEditor.Commands
 			get {
 				Console.WriteLine ("Not implemented in the new Editor");
 				return null;
-				//return new ICSharpCode.TextEditor.Actions.ConvertLeadingSpacesToTabs();
+				//return new MonoDevelop.TextEditor.Actions.ConvertLeadingSpacesToTabs();
 			}
 		}
 	}
@@ -142,7 +142,7 @@ namespace ICSharpCode.SharpDevelop.DefaultEditor.Commands
 			get {
 				Console.WriteLine ("Not implemented in the new Editor");
 				return null;
-				//return new ICSharpCode.TextEditor.Actions.FormatBuffer();
+				//return new MonoDevelop.TextEditor.Actions.FormatBuffer();
 			}
 		}
 	}

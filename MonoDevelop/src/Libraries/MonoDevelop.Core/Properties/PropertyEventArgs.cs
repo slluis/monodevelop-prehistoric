@@ -7,7 +7,7 @@
 
 using System;
 
-namespace ICSharpCode.Core.Properties
+namespace MonoDevelop.Core.Properties
 {
 	public delegate void PropertyEventHandler(object sender, PropertyEventArgs e);
 	

@@ -10,12 +10,12 @@ using System.Collections;
 using System.Drawing;
 using System.Xml;
 
-using ICSharpCode.Core.Services;
+using MonoDevelop.Core.Services;
 
-using ICSharpCode.Core.Properties;
-using ICSharpCode.SharpDevelop.Internal.Templates;
+using MonoDevelop.Core.Properties;
+using MonoDevelop.Internal.Templates;
 
-namespace ICSharpCode.SharpDevelop.Gui.Components
+namespace MonoDevelop.Gui.Components
 {
 	public class SharpDevelopSideTabItem : AxSideTabItem
 	{

@@ -10,7 +10,7 @@ using System.Collections;
 
 using MonoDevelop.SourceEditor.Gui;
 
-namespace ICSharpCode.TextEditor.Document
+namespace MonoDevelop.TextEditor.Document
 {
 	/// <summary>
 	/// This iterator iterates on a text buffer strategy.

@@ -1,8 +1,8 @@
 using System;
 using System.Collections;
-using ICSharpCode.SharpRefactory.Parser.AST;
+using MonoDevelop.SharpRefactory.Parser.AST;
 
-namespace ICSharpCode.SharpRefactory.Parser
+namespace MonoDevelop.SharpRefactory.Parser
 {
 	public abstract class AbstractASTVisitor : IASTVisitor
 	{
@@ -17,7 +17,7 @@ namespace ICSharpCode.SharpRefactory.Parser
 			}
 		}
 		
-#region ICSharpCode.SharpRefactory.Parser.IASTVisitor interface implementation
+#region MonoDevelop.SharpRefactory.Parser.IASTVisitor interface implementation
 		public virtual object Visit(INode node, object data)
 		{
 			Console.WriteLine("Warning: INode visited");

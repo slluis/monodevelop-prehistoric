@@ -10,14 +10,14 @@ using System.Collections;
 using System.Diagnostics;
 using System.IO;
 
-using ICSharpCode.Core.AddIns;
+using MonoDevelop.Core.AddIns;
 
 using SharpDevelop.Internal.Parser;
-using ICSharpCode.SharpDevelop.Internal.Project;
+using MonoDevelop.Internal.Project;
 
-using ICSharpCode.SharpDevelop.Gui;
+using MonoDevelop.Gui;
 
-namespace ICSharpCode.SharpDevelop.Services
+namespace MonoDevelop.Services
 {
 	public interface IParseInformation
 	{

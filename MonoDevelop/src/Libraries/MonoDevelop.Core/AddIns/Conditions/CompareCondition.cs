@@ -7,9 +7,9 @@
 
 using System;
 using System.Xml;
-using ICSharpCode.Core.Services;
+using MonoDevelop.Core.Services;
 
-namespace ICSharpCode.Core.AddIns.Conditions
+namespace MonoDevelop.Core.AddIns.Conditions
 {
 	/// <summary>
 	/// This condition compares two strings using the stringParserService 

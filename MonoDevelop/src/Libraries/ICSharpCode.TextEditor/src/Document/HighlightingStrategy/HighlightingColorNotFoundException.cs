@@ -6,7 +6,7 @@
 // </file>
 using System;
 
-namespace ICSharpCode.TextEditor.Document
+namespace MonoDevelop.TextEditor.Document
 {
 	public class HighlightingColorNotFoundException : Exception
 	{

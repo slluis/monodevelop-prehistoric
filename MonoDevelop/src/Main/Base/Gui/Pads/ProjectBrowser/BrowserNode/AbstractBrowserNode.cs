@@ -11,15 +11,15 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Collections.Specialized;
 
-using ICSharpCode.Core.Properties;
-using ICSharpCode.Core.Services;
+using MonoDevelop.Core.Properties;
+using MonoDevelop.Core.Services;
 
-using ICSharpCode.Core.AddIns;
+using MonoDevelop.Core.AddIns;
 
-using ICSharpCode.SharpDevelop.Internal.Project;
+using MonoDevelop.Internal.Project;
 using MonoDevelop.Gui.Widgets;
 
-namespace ICSharpCode.SharpDevelop.Gui.Pads.ProjectBrowser
+namespace MonoDevelop.Gui.Pads.ProjectBrowser
 {
 	/// <summary>
 	/// This class reperesents the base class for all nodes in the
@@ -28,7 +28,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads.ProjectBrowser
 	public abstract class AbstractBrowserNode : TreeNode, IDisposable
 	{
 		//Gdk.Pixbuf  iconImage = null;
-		public static bool ShowExtensions = ((PropertyService)ServiceManager.Services.GetService (typeof(PropertyService))).GetProperty ("ICSharpCode.SharpDevelop.Gui.ProjectBrowser.ShowExtensions", true);
+		public static bool ShowExtensions = ((PropertyService)ServiceManager.Services.GetService (typeof(PropertyService))).GetProperty ("MonoDevelop.Gui.ProjectBrowser.ShowExtensions", true);
 		
 		protected bool   canLabelEdited = true;
 		protected object userData  = null;

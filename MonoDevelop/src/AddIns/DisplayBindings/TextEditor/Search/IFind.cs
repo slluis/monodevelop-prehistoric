@@ -9,10 +9,10 @@ using System;
 using System.Collections;
 using System.Diagnostics;
 
-using ICSharpCode.SharpDevelop.Gui;
+using MonoDevelop.Gui;
 using MonoDevelop.EditorBindings.Search;
 
-namespace ICSharpCode.TextEditor.Document
+namespace MonoDevelop.TextEditor.Document
 {
 	/// <summary>
 	/// The basic interface for search operations in a document.

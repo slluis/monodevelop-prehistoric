@@ -8,10 +8,10 @@
 using System;
 using System.Collections;
 using System.Reflection;
-using ICSharpCode.Core.AddIns.Conditions;
-using ICSharpCode.Core.Services;
+using MonoDevelop.Core.AddIns.Conditions;
+using MonoDevelop.Core.Services;
 
-namespace ICSharpCode.Core.AddIns.Codons
+namespace MonoDevelop.Core.AddIns.Codons
 {
 	[CodonNameAttribute("DialogPanel")]
 	public class DialogPanelCodon : AbstractCodon

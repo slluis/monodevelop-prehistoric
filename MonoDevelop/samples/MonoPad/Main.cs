@@ -6,8 +6,8 @@ using System;
 using System.IO;
 using System.Drawing;
 
-using ICSharpCode.TextEditor;
-using ICSharpCode.TextEditor.Document;
+using MonoDevelop.TextEditor;
+using MonoDevelop.TextEditor.Document;
 
 namespace MonoDevelop.Shell
 {

@@ -9,14 +9,14 @@ using System;
 using System.Xml;
 
 
-using ICSharpCode.Core.AddIns.Conditions;
-using ICSharpCode.Core.AddIns;
+using MonoDevelop.Core.AddIns.Conditions;
+using MonoDevelop.Core.AddIns;
 
-using ICSharpCode.SharpDevelop.Gui;
-using ICSharpCode.SharpDevelop.DefaultEditor.Gui.Editor;
-using ICSharpCode.TextEditor;
+using MonoDevelop.Gui;
+using MonoDevelop.DefaultEditor.Gui.Editor;
+using MonoDevelop.TextEditor;
 
-namespace ICSharpCode.SharpDevelop.DefaultEditor.Conditions
+namespace MonoDevelop.DefaultEditor.Conditions
 {
 	[ConditionAttribute()]
 	public class TextContentCondition : AbstractCondition

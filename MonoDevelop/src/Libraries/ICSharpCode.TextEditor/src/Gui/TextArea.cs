@@ -13,11 +13,11 @@ using System.Drawing.Printing;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Text;
-using ICSharpCode.TextEditor.Actions;
-using ICSharpCode.TextEditor.Document;
+using MonoDevelop.TextEditor.Actions;
+using MonoDevelop.TextEditor.Document;
 using MonoDevelop.EditorBindings.Properties;
 
-namespace ICSharpCode.TextEditor
+namespace MonoDevelop.TextEditor
 {
 	public delegate bool KeyEventHandler(char ch);
 	

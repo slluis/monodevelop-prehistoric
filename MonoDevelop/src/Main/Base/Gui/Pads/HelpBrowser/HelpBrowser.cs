@@ -13,15 +13,15 @@ using System.Text;
 using System.Diagnostics;
 using System.Xml;
 using System.Reflection;
-using ICSharpCode.SharpDevelop.Services;
+using MonoDevelop.Services;
 
 using ICSharpCode.SharpZipLib.Zip;
-using ICSharpCode.Core.Properties;
-using ICSharpCode.Core.Services;
-using ICSharpCode.SharpDevelop.BrowserDisplayBinding;
+using MonoDevelop.Core.Properties;
+using MonoDevelop.Core.Services;
+using MonoDevelop.BrowserDisplayBinding;
 using MonoDevelop.Gui.Widgets;
 
-namespace ICSharpCode.SharpDevelop.Gui.Pads 
+namespace MonoDevelop.Gui.Pads 
 {
 	public class HelpBrowserWindow : BrowserPane
 	{

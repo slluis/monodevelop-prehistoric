@@ -9,7 +9,7 @@ using System;
 using System.Runtime.InteropServices;
 using System.Drawing;
 
-namespace ICSharpCode.TextEditor
+namespace MonoDevelop.TextEditor
 {
 	/// <summary>
 	/// Used internally, not for own use.

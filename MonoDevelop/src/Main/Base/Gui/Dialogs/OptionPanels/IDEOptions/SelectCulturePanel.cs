@@ -8,15 +8,15 @@
 using System;
 using System.Drawing;
 
-using ICSharpCode.SharpDevelop.Internal.ExternalTool;
-using ICSharpCode.Core.Properties;
+using MonoDevelop.Internal.ExternalTool;
+using MonoDevelop.Core.Properties;
 
-using ICSharpCode.Core.AddIns.Codons;
+using MonoDevelop.Core.AddIns.Codons;
 
-using ICSharpCode.Core.Services;
-using ICSharpCode.SharpDevelop.Services;
+using MonoDevelop.Core.Services;
+using MonoDevelop.Services;
 
-namespace ICSharpCode.SharpDevelop.Gui.Dialogs.OptionPanels
+namespace MonoDevelop.Gui.Dialogs.OptionPanels
 {
 	public class IDEOptionPanel : AbstractOptionPanel
 	{

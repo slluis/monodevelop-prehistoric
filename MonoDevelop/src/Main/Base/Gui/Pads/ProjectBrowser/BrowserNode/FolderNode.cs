@@ -11,12 +11,12 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Collections.Specialized;
 
-using ICSharpCode.Core.Properties;
+using MonoDevelop.Core.Properties;
 
-using ICSharpCode.SharpDevelop.Internal.Project;
-using ICSharpCode.SharpDevelop.Gui.Components;
+using MonoDevelop.Internal.Project;
+using MonoDevelop.Gui.Components;
 
-namespace ICSharpCode.SharpDevelop.Gui.Pads.ProjectBrowser
+namespace MonoDevelop.Gui.Pads.ProjectBrowser
 {
 	/// <summary>
 	/// This class represents the default folder in the project browser.

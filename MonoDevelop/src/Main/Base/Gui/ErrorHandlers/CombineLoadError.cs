@@ -8,7 +8,7 @@
 using System;
 using System.IO;
 
-namespace ICSharpCode.SharpDevelop.Gui.ErrorHandlers
+namespace MonoDevelop.Gui.ErrorHandlers
 {
 	public class CombineLoadError
 	{

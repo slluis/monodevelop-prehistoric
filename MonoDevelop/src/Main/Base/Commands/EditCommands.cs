@@ -14,15 +14,15 @@ using System.Collections;
 using System.ComponentModel;
 using System.Diagnostics;
 
-using ICSharpCode.Core.AddIns;
+using MonoDevelop.Core.AddIns;
 
-using ICSharpCode.Core.Properties;
-using ICSharpCode.Core.AddIns.Codons;
+using MonoDevelop.Core.Properties;
+using MonoDevelop.Core.AddIns.Codons;
 
-using ICSharpCode.SharpDevelop.Gui;
-using ICSharpCode.SharpDevelop.Gui.Dialogs;
+using MonoDevelop.Gui;
+using MonoDevelop.Gui.Dialogs;
 
-namespace ICSharpCode.SharpDevelop.Commands
+namespace MonoDevelop.Commands
 {
 	public class Undo : AbstractMenuCommand
 	{

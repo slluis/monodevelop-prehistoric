@@ -16,11 +16,11 @@
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 using System;
-using ICSharpCode.SharpAssembly.Metadata;
-using ICSharpCode.SharpAssembly.Metadata.Rows;
-using MDRows = ICSharpCode.SharpAssembly.Metadata.Rows;
+using MonoDevelop.SharpAssembly.Metadata;
+using MonoDevelop.SharpAssembly.Metadata.Rows;
+using MDRows = MonoDevelop.SharpAssembly.Metadata.Rows;
 
-namespace ICSharpCode.SharpAssembly.Assembly
+namespace MonoDevelop.SharpAssembly.Assembly
 {
 	
 	/// <summary>

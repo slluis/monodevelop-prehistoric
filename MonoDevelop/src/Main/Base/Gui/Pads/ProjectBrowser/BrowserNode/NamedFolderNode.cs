@@ -11,13 +11,13 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Collections.Specialized;
 
-using ICSharpCode.Core.Properties;
+using MonoDevelop.Core.Properties;
 
-using ICSharpCode.Core.Services;
-using ICSharpCode.SharpDevelop.Internal.Project;
-using ICSharpCode.SharpDevelop.Gui.Components;
+using MonoDevelop.Core.Services;
+using MonoDevelop.Internal.Project;
+using MonoDevelop.Gui.Components;
 
-namespace ICSharpCode.SharpDevelop.Gui.Pads.ProjectBrowser
+namespace MonoDevelop.Gui.Pads.ProjectBrowser
 {
 	/// <summary>
 	/// This class represents a named folder. A named folder gets a localized name

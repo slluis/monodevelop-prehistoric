@@ -22,10 +22,10 @@ using System.Text;
 using System.Collections;
 
 
-using ICSharpCode.SharpRefactory.Parser;
-using ICSharpCode.SharpRefactory.Parser.AST;
+using MonoDevelop.SharpRefactory.Parser;
+using MonoDevelop.SharpRefactory.Parser.AST;
 
-namespace ICSharpCode.SharpRefactory.PrettyPrinter
+namespace MonoDevelop.SharpRefactory.PrettyPrinter
 {
 	public class VBNetVisitor : IASTVisitor
 	{
@@ -40,7 +40,7 @@ namespace ICSharpCode.SharpRefactory.PrettyPrinter
 			}
 		}
 		
-#region ICSharpCode.SharpRefactory.Parser.IASTVisitor interface implementation
+#region MonoDevelop.SharpRefactory.Parser.IASTVisitor interface implementation
 		public object Visit(INode node, object data)
 		{
 			errors.Error(-1, -1, String.Format("visited unknown node '{0}' ", node));
@@ -115,7 +115,7 @@ namespace ICSharpCode.SharpRefactory.PrettyPrinter
 				sourceText.Append(": ");
 			}
 			for (int j = 0; j < attributeSection.Attributes.Count; ++j) {
-				ICSharpCode.SharpRefactory.Parser.AST.Attribute attr = (ICSharpCode.SharpRefactory.Parser.AST.Attribute)attributeSection.Attributes[j];
+				MonoDevelop.SharpRefactory.Parser.AST.Attribute attr = (MonoDevelop.SharpRefactory.Parser.AST.Attribute)attributeSection.Attributes[j];
 				
 				sourceText.Append(attr.Name);
 				sourceText.Append("(");

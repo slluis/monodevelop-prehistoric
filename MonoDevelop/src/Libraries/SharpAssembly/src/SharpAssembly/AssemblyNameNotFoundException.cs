@@ -7,7 +7,7 @@
 
 using System;
 
-namespace ICSharpCode.SharpAssembly.Assembly
+namespace MonoDevelop.SharpAssembly.Assembly
 {
 	/// <summary>
 	/// Is thrown when the given assembly name could not be found.

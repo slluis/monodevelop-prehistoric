@@ -9,7 +9,7 @@ using System;
 using System.Diagnostics;
 using System.Collections;
 
-namespace ICSharpCode.TextEditor.Undo
+namespace MonoDevelop.TextEditor.Undo
 {
 	/// <summary>
 	/// This class stacks the last x operations from the undostack and makes
@@ -27,7 +27,7 @@ namespace ICSharpCode.TextEditor.Undo
 				throw new ArgumentNullException("stack");
 			}
 			
-			Debug.Assert(numops > 0 , "ICSharpCode.TextEditor.Undo.UndoQueue : numops should be > 0");
+			Debug.Assert(numops > 0 , "MonoDevelop.TextEditor.Undo.UndoQueue : numops should be > 0");
 			
 			for (int i = 0; i < numops; ++i) {
 				if (stack._UndoStack.Count > 0) {
@@ -37,9 +37,9 @@ namespace ICSharpCode.TextEditor.Undo
 		}
 		public void Undo()
 		{
-			for (int i = 0; i < undolist.Count; ++i) {
-				((IUndoableOperation)undolist[i]).Undo();
-			}
+//			for (int i = 0; i < undolist.Count; ++i) {
+//				((IUndoableOperation)undolist[i]).Undo();
+/			}
 		}
 		
 		public void Redo()

@@ -9,9 +9,9 @@ using System;
 using System.Drawing;
 using System.Reflection;
 using System.Collections;
-using ICSharpCode.TextEditor;
+using MonoDevelop.TextEditor;
 
-namespace ICSharpCode.TextEditor.Gui.CompletionWindow
+namespace MonoDevelop.TextEditor.Gui.CompletionWindow
 {
 	public interface ICompletionData
 	{

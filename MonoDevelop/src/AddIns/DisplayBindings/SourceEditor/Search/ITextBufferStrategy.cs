@@ -5,7 +5,7 @@
 //     <version value="$version"/>
 // </file>
 
-namespace ICSharpCode.TextEditor.Document
+namespace MonoDevelop.TextEditor.Document
 {
 	/// <summary>
 	/// Interface to describe a sequence of characters that can be edited. 	

@@ -8,9 +8,9 @@
 using System;
 using System.Drawing;
 
-using ICSharpCode.Core.Properties;
+using MonoDevelop.Core.Properties;
 
-namespace ICSharpCode.SharpDevelop.Gui.Components
+namespace MonoDevelop.Gui.Components
 {
 /*	public class SharpMessageBox : Form
 	{

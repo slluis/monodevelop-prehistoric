@@ -13,15 +13,13 @@ using System.Reflection;
 using System.Diagnostics;
 using System.CodeDom.Compiler;
 
-using ICSharpCode.Core.Properties;
-using ICSharpCode.Core.Services;
-using ICSharpCode.SharpDevelop.Gui;
-using ICSharpCode.SharpDevelop.Internal.Project;
-using ICSharpCode.SharpDevelop.Services;
-
+using MonoDevelop.Core.Properties;
+using MonoDevelop.Core.Services;
+using MonoDevelop.Gui;
+using MonoDevelop.Internal.Project;
 using MonoDevelop.Services;
 
-namespace ICSharpCode.SharpDevelop.Internal.Project
+namespace MonoDevelop.Internal.Project
 {
 	public abstract class CombineEntry : IDisposable
 	{
@@ -108,13 +106,13 @@ namespace ICSharpCode.SharpDevelop.Internal.Project
 			if (doBuildAll || isDirty) {
 				StringParserService stringParserService = (StringParserService)ServiceManager.Services.GetService(typeof(StringParserService));
 				stringParserService.Properties["Project"] = Name;
-				IProjectService   projectService   = (IProjectService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
-				IStatusBarService statusBarService = (IStatusBarService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(IStatusBarService));
-				TaskService       taskService      = (TaskService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(TaskService));
+				IProjectService   projectService   = (IProjectService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
+				IStatusBarService statusBarService = (IStatusBarService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IStatusBarService));
+				TaskService       taskService      = (TaskService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(TaskService));
 				IResourceService resourceService   = (IResourceService)ServiceManager.Services.GetService(typeof(IResourceService));
 				
 				statusBarService.SetMessage("${res:MainWindow.StatusBar.CompilingMessage}");
-				LanguageBindingService languageBindingService = (LanguageBindingService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(LanguageBindingService));
+				LanguageBindingService languageBindingService = (LanguageBindingService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(LanguageBindingService));
 				
 				// create output directory, if not exists
 				string outputDir = ((AbstractProjectConfiguration)project.ActiveConfiguration).OutputDirectory;
@@ -179,12 +177,12 @@ namespace ICSharpCode.SharpDevelop.Internal.Project
 		
 		public override void Execute()
 		{
-			LanguageBindingService languageBindingService = (LanguageBindingService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(LanguageBindingService));
+			LanguageBindingService languageBindingService = (LanguageBindingService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(LanguageBindingService));
 			ILanguageBinding binding = languageBindingService.GetBindingPerLanguageName(project.ProjectType);
 			if (binding == null) {
 				throw new ApplicationException("can't find language binding for project ");
 			}
-			TaskService taskService = (TaskService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(TaskService));
+			TaskService taskService = (TaskService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(TaskService));
 			
 			if (taskService.Errors == 0) {
 				if (taskService.Warnings == 0 || project.ActiveConfiguration != null && ((AbstractProjectConfiguration)project.ActiveConfiguration).RunWithWarnings) {
@@ -196,13 +194,13 @@ namespace ICSharpCode.SharpDevelop.Internal.Project
 
 		public override void Debug ()
 		{
-			LanguageBindingService langBindingServ = (LanguageBindingService)ICSharpCode.Core.Services.ServiceManager.Services.GetService (typeof (LanguageBindingService));
+			LanguageBindingService langBindingServ = (LanguageBindingService)MonoDevelop.Core.Services.ServiceManager.Services.GetService (typeof (LanguageBindingService));
 			ILanguageBinding binding = langBindingServ.GetBindingPerLanguageName (project.ProjectType);
 			if (binding == null) {
 				Console.WriteLine ("Language binding unknown");
 				return;
 			}
-			TaskService taskService = (TaskService)ICSharpCode.Core.Services.ServiceManager.Services.GetService (typeof (TaskService));
+			TaskService taskService = (TaskService)MonoDevelop.Core.Services.ServiceManager.Services.GetService (typeof (TaskService));
 
 			if (taskService.Errors == 0)
 				binding.DebugProject (project);

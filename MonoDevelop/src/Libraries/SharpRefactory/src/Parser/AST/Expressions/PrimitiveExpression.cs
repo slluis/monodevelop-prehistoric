@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using System.Globalization;
 
-namespace ICSharpCode.SharpRefactory.Parser.AST {
+namespace MonoDevelop.SharpRefactory.Parser.AST {
 	
 	public class PrimitiveExpression : Expression
 	{

@@ -3,7 +3,7 @@
 using System.Diagnostics;
 
 using SharpDevelop.Internal.Parser;
-using ICSharpCode.SharpRefactory.Parser;
+using MonoDevelop.SharpRefactory.Parser;
 
 namespace CSharpBinding.Parser.SharpDevelopTree
 {

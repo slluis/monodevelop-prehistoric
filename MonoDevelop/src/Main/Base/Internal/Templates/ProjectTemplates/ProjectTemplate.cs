@@ -14,12 +14,12 @@ using System.Collections.Specialized;
 using System.Diagnostics;
 using System.Reflection;
 
-using ICSharpCode.Core.Properties;
-using ICSharpCode.Core.Services;
-using ICSharpCode.SharpDevelop.Services;
-using ICSharpCode.SharpDevelop.Gui.Dialogs;
+using MonoDevelop.Core.Properties;
+using MonoDevelop.Core.Services;
+using MonoDevelop.Services;
+using MonoDevelop.Gui.Dialogs;
 
-namespace ICSharpCode.SharpDevelop.Internal.Templates
+namespace MonoDevelop.Internal.Templates
 {
 	public class OpenFileAction
 	{
@@ -32,7 +32,7 @@ namespace ICSharpCode.SharpDevelop.Internal.Templates
 		
 		public void Run(ProjectCreateInformation projectCreateInformation)
 		{
-			IFileService fileService = (IFileService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(IFileService));
+			IFileService fileService = (IFileService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IFileService));
 			fileService.OpenFile(projectCreateInformation.ProjectBasePath + Path.DirectorySeparatorChar + fileName);
 		}
 	}
@@ -190,7 +190,7 @@ namespace ICSharpCode.SharpDevelop.Internal.Templates
 		
 		public void OpenCreatedCombine()
 		{
-			IProjectService projectService = (IProjectService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
+			IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
 			projectService.OpenCombine(lastCombine);
 			
 			foreach (OpenFileAction action in actions) {

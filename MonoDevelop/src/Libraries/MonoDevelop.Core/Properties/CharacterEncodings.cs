@@ -9,7 +9,7 @@ using System;
 using System.Collections;
 using System.Text;
 
-namespace ICSharpCode.Core.Properties {
+namespace MonoDevelop.Core.Properties {
 	
 	/// <summary>
 	/// Contains supported character encodings.

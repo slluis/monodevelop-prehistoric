@@ -11,13 +11,13 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Collections.Specialized;
 
-using ICSharpCode.Core.Properties;
-using ICSharpCode.SharpDevelop.Services;
+using MonoDevelop.Core.Properties;
+using MonoDevelop.Services;
 
-using ICSharpCode.SharpDevelop.Internal.Project;
+using MonoDevelop.Internal.Project;
 using MonoDevelop.Gui.Widgets;
 
-namespace ICSharpCode.SharpDevelop.Gui.Pads
+namespace MonoDevelop.Gui.Pads
 {
 	public interface IClassScoutNodeBuilder
 	{

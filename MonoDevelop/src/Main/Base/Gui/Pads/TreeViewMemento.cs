@@ -15,17 +15,17 @@ using System.Collections;
 using System.Xml;
 using System.Resources;
 
-using ICSharpCode.Core.Properties;
-using ICSharpCode.Core.AddIns;
-using ICSharpCode.Core.AddIns.Codons;
+using MonoDevelop.Core.Properties;
+using MonoDevelop.Core.AddIns;
+using MonoDevelop.Core.AddIns.Codons;
 
-using ICSharpCode.SharpDevelop.Internal.Project;
-using ICSharpCode.SharpDevelop.Gui.Dialogs;
+using MonoDevelop.Internal.Project;
+using MonoDevelop.Gui.Dialogs;
 
-using ICSharpCode.SharpDevelop.Services;
+using MonoDevelop.Services;
 using MonoDevelop.Gui.Widgets;
 
-namespace ICSharpCode.SharpDevelop.Gui
+namespace MonoDevelop.Gui
 {
 	public class TreeViewMemento : IXmlConvertable
 	{

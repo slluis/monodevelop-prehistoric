@@ -8,8 +8,8 @@ using System.Diagnostics;
 using System.IO;
 using Gtk;
 
-using ICSharpCode.Core.Properties;
-using ICSharpCode.Core.Services;
+using MonoDevelop.Core.Properties;
+using MonoDevelop.Core.Services;
 using MonoDevelop.Gui.Utils;
 
 namespace MonoDevelop.Gui.Widgets
@@ -59,7 +59,7 @@ namespace MonoDevelop.Gui.Widgets
 			buttonbox.PackStart (entry, true, true, 0);
 
 			IProperties p = (IProperties) PropertyService.GetProperty ("SharpDevelop.UI.SelectStyleOptions", new DefaultProperties ());
-			ignoreHidden = !p.GetProperty ("ICSharpCode.SharpDevelop.Gui.FileScout.ShowHidden", false);
+			ignoreHidden = !p.GetProperty ("MonoDevelop.Gui.FileScout.ShowHidden", false);
 
 			tv = new Gtk.TreeView ();
 			tv.RulesHint = true;

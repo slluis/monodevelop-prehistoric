@@ -8,7 +8,7 @@ using System;
 using System.IO;
 
 using System.Reflection;
-using ICSharpCode.SharpDevelop.Services;
+using MonoDevelop.Services;
 
 namespace SharpDevelop.Internal.Parser
 {

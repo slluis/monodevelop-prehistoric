@@ -10,7 +10,7 @@ using System.Collections;
 using System.Xml;
 using System.Diagnostics;
 
-namespace ICSharpCode.SharpDevelop.Internal.Templates
+namespace MonoDevelop.Internal.Templates
 {
 	/// <summary>
 	/// This class reperesents a single Code Template

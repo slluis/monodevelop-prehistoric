@@ -14,19 +14,19 @@ using System.Collections;
 using System.ComponentModel;
 using System.Diagnostics;
 
-using ICSharpCode.Core.AddIns;
+using MonoDevelop.Core.AddIns;
 
-using ICSharpCode.Core.Properties;
-using ICSharpCode.Core.AddIns.Codons;
+using MonoDevelop.Core.Properties;
+using MonoDevelop.Core.AddIns.Codons;
 
-using ICSharpCode.SharpDevelop.Services;
-using ICSharpCode.SharpDevelop.Gui;
-using ICSharpCode.SharpDevelop.Gui.Components;
-using ICSharpCode.SharpDevelop.Internal.Project;
-using ICSharpCode.SharpDevelop.Gui.Dialogs;
-using ICSharpCode.SharpDevelop.Gui.Pads.ProjectBrowser;
+using MonoDevelop.Services;
+using MonoDevelop.Gui;
+using MonoDevelop.Gui.Components;
+using MonoDevelop.Internal.Project;
+using MonoDevelop.Gui.Dialogs;
+using MonoDevelop.Gui.Pads.ProjectBrowser;
 
-namespace ICSharpCode.SharpDevelop.Commands.ProjectBrowser
+namespace MonoDevelop.Commands.ProjectBrowser
 {
 	public class SetAsStartupProject : AbstractMenuCommand
 	{
@@ -39,7 +39,7 @@ namespace ICSharpCode.SharpDevelop.Commands.ProjectBrowser
 				Combine combine                = node.Combine;
 				combine.SingleStartProjectName = node.Project.Name;
 				combine.SingleStartupProject   = true;
-				IProjectService projectService = (IProjectService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
+				IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
 				projectService.SaveCombine();
 			}
 		}

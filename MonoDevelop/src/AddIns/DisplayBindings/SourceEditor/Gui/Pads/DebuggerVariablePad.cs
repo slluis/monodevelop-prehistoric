@@ -9,8 +9,8 @@ using System.Runtime.InteropServices;
 using Mono.Debugger;
 using Mono.Debugger.Languages;
 
-using ICSharpCode.Core.Services;
-using ICSharpCode.SharpDevelop.Services;
+using MonoDevelop.Core.Services;
+using MonoDevelop.Services;
 using MonoDevelop.Services;
 
 namespace MonoDevelop.SourceEditor.Gui

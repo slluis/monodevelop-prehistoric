@@ -10,26 +10,26 @@ using System.Drawing;
 using System.DirectoryServices; // for SortDirection
 using System.ComponentModel;
 
-using ICSharpCode.SharpDevelop.Gui;
-using ICSharpCode.SharpDevelop.DefaultEditor.Gui.Editor;
-using ICSharpCode.TextEditor.Document;
-using ICSharpCode.Core.Properties;
+using MonoDevelop.Gui;
+using MonoDevelop.DefaultEditor.Gui.Editor;
+using MonoDevelop.TextEditor.Document;
+using MonoDevelop.Core.Properties;
 
-using ICSharpCode.Core.Services;
-using ICSharpCode.SharpDevelop.Services;
-//using ICSharpCode.XmlForms;
-//using ICSharpCode.SharpDevelop.Gui.XmlForms;
-using ICSharpCode.TextEditor;
+using MonoDevelop.Core.Services;
+using MonoDevelop.Services;
+//using MonoDevelop.XmlForms;
+//using MonoDevelop.Gui.XmlForms;
+using MonoDevelop.TextEditor;
 
 
-namespace ICSharpCode.SharpDevelop.Gui.Dialogs
+namespace MonoDevelop.Gui.Dialogs
 {
 	public class SortOptionsDialog //: BaseSharpDevelopForm
 	{/*
-		public static readonly string removeDupesOption       = "ICSharpCode.SharpDevelop.Gui.Dialogs.SortOptionsDialog.RemoveDuplicateLines";
-		public static readonly string caseSensitiveOption     = "ICSharpCode.SharpDevelop.Gui.Dialogs.SortOptionsDialog.CaseSensitive";
-		public static readonly string ignoreWhiteSpacesOption = "ICSharpCode.SharpDevelop.Gui.Dialogs.SortOptionsDialog.IgnoreWhitespaces";
-		public static readonly string sortDirectionOption     = "ICSharpCode.SharpDevelop.Gui.Dialogs.SortOptionsDialog.SortDirection";
+		public static readonly string removeDupesOption       = "MonoDevelop.Gui.Dialogs.SortOptionsDialog.RemoveDuplicateLines";
+		public static readonly string caseSensitiveOption     = "MonoDevelop.Gui.Dialogs.SortOptionsDialog.CaseSensitive";
+		public static readonly string ignoreWhiteSpacesOption = "MonoDevelop.Gui.Dialogs.SortOptionsDialog.IgnoreWhitespaces";
+		public static readonly string sortDirectionOption     = "MonoDevelop.Gui.Dialogs.SortOptionsDialog.SortDirection";
 		
 		static PropertyService propertyService = (PropertyService)ServiceManager.Services.GetService(typeof(PropertyService));
 		

@@ -9,11 +9,11 @@
 using System;
 using System.Drawing;
 using System.Windows.Forms;
-using ICSharpCode.Core.Properties;
+using MonoDevelop.Core.Properties;
 
-using ICSharpCode.Core.Gui;
+using MonoDevelop.Core.Gui;
 
-namespace ICSharpCode.SharpDevelop.Gui.Dialogs
+namespace MonoDevelop.Gui.Dialogs
 {
 	public class DirtyFilesDialog : System.Windows.Forms.Form
 	{
@@ -73,7 +73,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 		
 		private void InitializeComponent()
 		{
-			bool flat = Crownwood.Magic.Common.VisualStyle.IDE == (Crownwood.Magic.Common.VisualStyle)propertyService.GetProperty("ICSharpCode.SharpDevelop.Gui.VisualStyle", Crownwood.Magic.Common.VisualStyle.IDE);
+			bool flat = Crownwood.Magic.Common.VisualStyle.IDE == (Crownwood.Magic.Common.VisualStyle)propertyService.GetProperty("MonoDevelop.Gui.VisualStyle", Crownwood.Magic.Common.VisualStyle.IDE);
 			this.groupBox1 = new System.Windows.Forms.GroupBox();
 			this.listView1 = new System.Windows.Forms.ListView();
 			this.savebutton = new System.Windows.Forms.Button();

@@ -11,13 +11,13 @@ using System.Collections;
 using System.ComponentModel;
 using System.Xml;
 
-using ICSharpCode.Core.AddIns;
-using ICSharpCode.Core.Services;
-using ICSharpCode.Core.Properties;
-using ICSharpCode.Core.AddIns.Codons;
-using ICSharpCode.SharpDevelop.Internal.Project;
-using ICSharpCode.SharpDevelop.Services;
-namespace ICSharpCode.SharpDevelop.Gui.Dialogs {
+using MonoDevelop.Core.AddIns;
+using MonoDevelop.Core.Services;
+using MonoDevelop.Core.Properties;
+using MonoDevelop.Core.AddIns.Codons;
+using MonoDevelop.Internal.Project;
+using MonoDevelop.Services;
+namespace MonoDevelop.Gui.Dialogs {
 
 	/// <summary>
 	/// Dialog for viewing the project options (plain treeview isn't good enough :/)
@@ -292,11 +292,11 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs {
 	
 					// now see if the iter is the configuration root node iter
 					if (iter.Equals(configurationTreeNode)) {							
-						MenuService menuService = (MenuService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(MenuService));
+						MenuService menuService = (MenuService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(MenuService));
 						menuService.ShowContextMenu(this, configNodeMenu, TreeView);
 					} else if (path.Indices[0] == configPath.Indices[0] && (path.Depth - configPath.Depth) == 1) {
 						// now see if it's a specific configuration node (i.e. the configuration root node is it's parent
-						MenuService menuService = (MenuService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(MenuService));
+						MenuService menuService = (MenuService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(MenuService));
 						menuService.ShowContextMenu(this, selectConfigNodeMenu, TreeView);
 					}
 					

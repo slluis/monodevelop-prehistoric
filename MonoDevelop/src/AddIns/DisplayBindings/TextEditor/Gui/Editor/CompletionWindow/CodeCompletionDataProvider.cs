@@ -13,17 +13,17 @@ using System.Collections;
 using System.Collections.Specialized;
 using System.Xml;
 
-using ICSharpCode.Core.Properties;
-using ICSharpCode.SharpDevelop.Internal.Templates;
-using ICSharpCode.TextEditor.Document;
-using ICSharpCode.TextEditor;
-using ICSharpCode.Core.Services;
-using ICSharpCode.SharpDevelop.Services;
+using MonoDevelop.Core.Properties;
+using MonoDevelop.Internal.Templates;
+using MonoDevelop.TextEditor.Document;
+using MonoDevelop.TextEditor;
+using MonoDevelop.Core.Services;
+using MonoDevelop.Services;
 using SharpDevelop.Internal.Parser;
-using ICSharpCode.TextEditor.Gui.CompletionWindow;
-using ICSharpCode.SharpDevelop.Gui;
+using MonoDevelop.TextEditor.Gui.CompletionWindow;
+using MonoDevelop.Gui;
 
-namespace ICSharpCode.SharpDevelop.DefaultEditor.Gui.Editor
+namespace MonoDevelop.DefaultEditor.Gui.Editor
 {
 	/// <summary>
 	/// Data provider for code completion.
@@ -66,7 +66,7 @@ namespace ICSharpCode.SharpDevelop.DefaultEditor.Gui.Editor
 			if (expression.Length == 0) {
 				return null;
 			}
-			IParserService           parserService           = (IParserService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(IParserService));
+			IParserService           parserService           = (IParserService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IParserService));
 			if (charTyped == ' ') {
 				if (expression == "using" || expression.EndsWith(" using") || expression.EndsWith("\tusing")|| expression.EndsWith("\nusing")|| expression.EndsWith("\rusing")) {
 					string[] namespaces = parserService.GetNamespaceList("");

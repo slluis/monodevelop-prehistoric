@@ -10,7 +10,7 @@ using System;
 using Gtk;
 using GtkSharp;
 
-namespace ICSharpCode.SharpDevelop.Gui.HtmlControl
+namespace MonoDevelop.Gui.HtmlControl
 {
 	public class GtkHtmlControl : EmbedWidget, IWebBrowser
 	{

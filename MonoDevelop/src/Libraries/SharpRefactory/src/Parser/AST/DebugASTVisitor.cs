@@ -1,11 +1,11 @@
 using System;
-using ICSharpCode.SharpRefactory.Parser.AST;
+using MonoDevelop.SharpRefactory.Parser.AST;
 
-namespace ICSharpCode.SharpRefactory.Parser
+namespace MonoDevelop.SharpRefactory.Parser
 {
 	public class DebugASTVisitor : IASTVisitor
 	{
-#region ICSharpCode.SharpRefactory.Parser.IASTVisitor interface implementation
+#region MonoDevelop.SharpRefactory.Parser.IASTVisitor interface implementation
 		public virtual object Visit(CompilationUnit compilationUnit, object data)
 		{
 			Console.WriteLine(compilationUnit.ToString());

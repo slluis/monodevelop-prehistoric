@@ -14,9 +14,9 @@
 
 	<Extension path = "/SharpDevelop/Workbench/Ambiences">
 		<Class id    = "CSharp"
-		       class = "ICSharpCode.SharpDevelop.Services.CSharpAmbience"/>
+		       class = "MonoDevelop.Services.CSharpAmbience"/>
 <!--		<Class id    = "VB.NET"
-		       class = "ICSharpCode.SharpDevelop.Services.VBAmbience"/>-->
+		       class = "MonoDevelop.Services.VBAmbience"/>-->
 	</Extension>
 	
 	<Extension path = "/SharpDevelop/Workbench/FileFilter">

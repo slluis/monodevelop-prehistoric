@@ -8,7 +8,7 @@
 using System;
 using System.Reflection;
 
-namespace ICSharpCode.Core.AddIns
+namespace MonoDevelop.Core.AddIns
 {
 	/// <summary>
 	/// Indicates that field should be treated as a xml attribute for the codon or condition.

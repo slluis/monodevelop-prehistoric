@@ -16,19 +16,19 @@ using System.Collections.Utility;
 using System.Xml;
 using System.Resources;
 
-using ICSharpCode.Core.Properties;
+using MonoDevelop.Core.Properties;
 
-using ICSharpCode.Core.AddIns;
-using ICSharpCode.Core.AddIns.Codons;
-using ICSharpCode.Core.Services;
+using MonoDevelop.Core.AddIns;
+using MonoDevelop.Core.AddIns.Codons;
+using MonoDevelop.Core.Services;
 
-using ICSharpCode.SharpDevelop.Internal.Project;
-using ICSharpCode.SharpDevelop.Gui.Dialogs;
+using MonoDevelop.Internal.Project;
+using MonoDevelop.Gui.Dialogs;
 
-using ICSharpCode.SharpDevelop.Services;
+using MonoDevelop.Services;
 using MonoDevelop.Gui.Widgets;
 
-namespace ICSharpCode.SharpDevelop.Gui.Pads.ProjectBrowser
+namespace MonoDevelop.Gui.Pads.ProjectBrowser
 {
 	/// <summary>
 	/// This class implements a project browser.
@@ -72,7 +72,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads.ProjectBrowser
 		public void RedrawContent()
 		{
 			BeginUpdate();
-			AbstractBrowserNode.ShowExtensions = propertyService.GetProperty("ICSharpCode.SharpDevelop.Gui.ProjectBrowser.ShowExtensions", true);
+			AbstractBrowserNode.ShowExtensions = propertyService.GetProperty("MonoDevelop.Gui.ProjectBrowser.ShowExtensions", true);
 			foreach (AbstractBrowserNode node in Nodes) {
 				node.UpdateNaming();
 			}
@@ -95,7 +95,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads.ProjectBrowser
 			//LabelEdit = false;
 
 			WorkbenchSingleton.Workbench.ActiveWorkbenchWindowChanged += new EventHandler(ActiveWindowChanged);
-			IProjectService projectService = (IProjectService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
+			IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
 
 			projectService.CombineOpened += new CombineEventHandler(OpenCombine);
 			projectService.CombineClosed += new CombineEventHandler(CloseCombine);
@@ -115,9 +115,9 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads.ProjectBrowser
 			contentPanel.ButtonReleaseEvent += new Gtk.ButtonReleaseEventHandler(OnButtonRelease);
 		}
 		
-		void TrackPropertyChange (object o, ICSharpCode.Core.Properties.PropertyEventArgs e)
+		void TrackPropertyChange (object o, MonoDevelop.Core.Properties.PropertyEventArgs e)
 		{
-			if (e.OldValue != e.NewValue && e.Key == "ICSharpCode.SharpDevelop.Gui.ProjectBrowser.ShowExtensions") {
+			if (e.OldValue != e.NewValue && e.Key == "MonoDevelop.Gui.ProjectBrowser.ShowExtensions") {
 				RedrawContent ();
 			}
 		}
@@ -273,7 +273,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads.ProjectBrowser
 		public void UpdateCombineTree()
 		{
 			XmlElement storedTree = new TreeViewMemento(this).ToXmlElement(new XmlDocument());
-			IProjectService projectService = (IProjectService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
+			IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
 			CloseCombine(this,new CombineEventArgs(projectService.CurrentOpenCombine));
 			OpenCombine(this, new CombineEventArgs(projectService.CurrentOpenCombine));
 			((TreeViewMemento)new TreeViewMemento().FromXmlElement(storedTree)).Restore(this);
@@ -340,13 +340,13 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads.ProjectBrowser
 			}
 			AbstractBrowserNode node = (AbstractBrowserNode) SelectedNode;
 
-			IProjectService projectService = (IProjectService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
+			IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
 
 			projectService.CurrentSelectedProject = node.Project;
 			projectService.CurrentSelectedCombine = node.Combine;
 			//PropertyPad.SetDesignableObject(node.UserData);
 			
-			MenuService menuService = (MenuService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(MenuService));
+			MenuService menuService = (MenuService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(MenuService));
 			menuService.ShowContextMenu(this, node.ContextmenuAddinTreePath, this);
 		}
 /*		
@@ -355,13 +355,13 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads.ProjectBrowser
 			base.OnAfterSelect(e);
 			AbstractBrowserNode node = (AbstractBrowserNode)e.Node;
 
-			IProjectService projectService = (IProjectService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
+			IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
 
 			projectService.CurrentSelectedProject = node.Project;
 			projectService.CurrentSelectedCombine = node.Combine;
 			PropertyPad.SetDesignableObject(node.UserData);
 			
-			MenuService menuService = (MenuService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(MenuService));
+			MenuService menuService = (MenuService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(MenuService));
 			//ContextMenu = menuService.CreateContextMenu(this, node.ContextmenuAddinTreePath);
 		}
 
@@ -491,7 +491,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads.ProjectBrowser
 				return;
 			}
 			node.DoDragDrop(e.Data, e.Effect);
-			IProjectService projectService = (IProjectService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
+			IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
 			
 			projectService.SaveCombine();
 		}
@@ -560,7 +560,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads.ProjectBrowser
 			if (move) {
 				if (filename != newfilename) {
 					File.Copy(filename, newfilename);
-					IFileService fileService = (IFileService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(IFileService));
+					IFileService fileService = (IFileService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IFileService));
 					fileService.RemoveFile(filename);
 				}
 				if (oldnode != null) {
@@ -573,7 +573,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads.ProjectBrowser
 			}
 
 			ProjectFile fInfo;
-			IProjectService projectService = (IProjectService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
+			IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
 
 			if (newparent.Project.IsCompileable(newfilename)) {
 				fInfo = projectService.AddFileToProject(newparent.Project, newfilename, BuildAction.Compile);

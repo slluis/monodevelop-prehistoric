@@ -14,7 +14,7 @@
 		          insertafter  = "ViewItemsSeparator"
 			  insertbefore = "StartPageSeparator"
 		          label = "${res:XML.MainMenu.ViewMenu.ShowStartPage}" 
-		          class = "ICSharpCode.StartPage.ShowStartPageCommand"/>
+		          class = "MonoDevelop.StartPage.ShowStartPageCommand"/>
 		<MenuItem id = "StartPageSeparator"
 				  insertbefore = "FullScreen"
 				  label = "-"/>
@@ -25,6 +25,6 @@
 		<Class id = "ShowStartPageCommand"
 				insertbefore = "StartWorkbenchCommand"
 				insertafter  = "InitializeWorkbenchCommand"
-				class = "ICSharpCode.StartPage.ShowStartPageCommand"/>
+				class = "MonoDevelop.StartPage.ShowStartPageCommand"/>
 	</Extension>
 </AddIn>

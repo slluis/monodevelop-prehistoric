@@ -4,9 +4,9 @@ using System.Globalization;
 using System.Resources;
 using System.Reflection;
 
-using ICSharpCode.Core.Services;
+using MonoDevelop.Core.Services;
 
-namespace ICSharpCode.SharpDevelop.Gui.Components
+namespace MonoDevelop.Gui.Components
 {
 	/// <summary>
 	/// LocalizedPropertyDescriptor enhances the base class bay obtaining the display name for a property

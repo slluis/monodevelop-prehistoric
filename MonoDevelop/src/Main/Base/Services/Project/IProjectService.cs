@@ -8,10 +8,10 @@
 using System;
 using System.Collections;
 
-using ICSharpCode.SharpDevelop.Gui;
-using ICSharpCode.SharpDevelop.Internal.Project;
+using MonoDevelop.Gui;
+using MonoDevelop.Internal.Project;
 
-namespace ICSharpCode.SharpDevelop.Services
+namespace MonoDevelop.Services
 {
 	/// <summary>
 	/// This interface describes the basic functions of the 

@@ -8,9 +8,9 @@
 using System;
 using System.Collections;
 using System.Drawing;
-using ICSharpCode.TextEditor.Document;
+using MonoDevelop.TextEditor.Document;
 
-namespace ICSharpCode.TextEditor.Util
+namespace MonoDevelop.TextEditor.Util
 {
 	/// <summary>
 	/// This class implements a keyword map. It implements a digital search trees (tries) to find

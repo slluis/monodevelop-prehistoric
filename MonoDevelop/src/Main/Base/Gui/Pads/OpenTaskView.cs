@@ -11,15 +11,15 @@ using System.CodeDom.Compiler;
 using System.Collections;
 using System.IO;
 using System.Diagnostics;
-using ICSharpCode.Core.Services;
-using ICSharpCode.SharpDevelop.Services;
+using MonoDevelop.Core.Services;
+using MonoDevelop.Services;
 
 using Gtk;
 using GtkSharp;
 
-using ICSharpCode.Core.Properties;
+using MonoDevelop.Core.Properties;
 
-namespace ICSharpCode.SharpDevelop.Gui.Pads {
+namespace MonoDevelop.Gui.Pads {
 	public class OpenTaskView : IPadContent {
 		
 		ResourceService resourceService = (ResourceService) ServiceManager.Services.GetService (typeof (IResourceService));

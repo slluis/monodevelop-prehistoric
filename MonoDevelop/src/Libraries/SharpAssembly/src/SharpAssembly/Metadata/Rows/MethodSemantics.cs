@@ -18,7 +18,7 @@
 using System;
 using System.IO;
 
-namespace ICSharpCode.SharpAssembly.Metadata.Rows {
+namespace MonoDevelop.SharpAssembly.Metadata.Rows {
 	
 	public class MethodSemantics : AbstractRow
 	{
@@ -66,7 +66,7 @@ namespace ICSharpCode.SharpAssembly.Metadata.Rows {
 		public override void LoadRow()
 		{
 			semantics   = binaryReader.ReadUInt16();
-			method      = ReadSimpleIndex(ICSharpCode.SharpAssembly.Metadata.Rows.Method.TABLE_ID);
+			method      = ReadSimpleIndex(MonoDevelop.SharpAssembly.Metadata.Rows.Method.TABLE_ID);
 			association = ReadCodedIndex(CodedIndex.HasSemantics);
 		}
 	}

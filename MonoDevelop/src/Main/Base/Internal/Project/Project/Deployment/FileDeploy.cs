@@ -9,9 +9,9 @@ using System;
 using System.IO;
 using System.CodeDom.Compiler;
 
-using ICSharpCode.Core.Services;
+using MonoDevelop.Core.Services;
 
-namespace ICSharpCode.SharpDevelop.Internal.Project
+namespace MonoDevelop.Internal.Project
 {
 	public class FileDeploy : IDeploymentStrategy
 	{

@@ -10,10 +10,10 @@ using System.Collections;
 using System.Reflection;
 
 using SharpDevelop.Internal.Parser;
-using ICSharpCode.Core.Properties;
-using ICSharpCode.Core.Services;
+using MonoDevelop.Core.Properties;
+using MonoDevelop.Core.Services;
 
-namespace ICSharpCode.SharpDevelop.Services
+namespace MonoDevelop.Services
 {
 	/// <summary>
 	/// This class wraps a ILanguageConversion to System.Reflection

@@ -7,7 +7,7 @@
 
 using System;
 
-namespace ICSharpCode.Core.AddIns 
+namespace MonoDevelop.Core.AddIns 
 {
 	/// <summary>
 	/// Is thrown when the xml has a false format.

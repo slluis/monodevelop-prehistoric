@@ -11,10 +11,10 @@ using System.Collections;
 using System.Diagnostics;
 using System.Xml;
 
-using ICSharpCode.Core.Properties;
-using ICSharpCode.Core.Services;
+using MonoDevelop.Core.Properties;
+using MonoDevelop.Core.Services;
 
-namespace ICSharpCode.SharpDevelop.Internal.ExternalTool
+namespace MonoDevelop.Internal.ExternalTool
 {
 	/// <summary>
 	/// This class handles the external tools 

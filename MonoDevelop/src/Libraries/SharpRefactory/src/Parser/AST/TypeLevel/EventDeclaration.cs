@@ -19,7 +19,7 @@ using System;
 using System.Drawing;
 using System.Collections;
 
-namespace ICSharpCode.SharpRefactory.Parser.AST
+namespace MonoDevelop.SharpRefactory.Parser.AST
 {
 	public class EventDeclaration : AbstractNode
 	{

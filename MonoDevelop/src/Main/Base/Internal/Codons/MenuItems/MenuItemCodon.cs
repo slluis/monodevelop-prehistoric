@@ -11,17 +11,17 @@ using System.Collections;
 using System.Reflection;
 //using System.Windows.Forms;
 
-using ICSharpCode.Core.Properties;
-using ICSharpCode.Core.AddIns.Conditions;
+using MonoDevelop.Core.Properties;
+using MonoDevelop.Core.AddIns.Conditions;
 
-using ICSharpCode.Core.Services;
+using MonoDevelop.Core.Services;
 
-using ICSharpCode.SharpDevelop.Services;
-using ICSharpCode.SharpDevelop.Gui;
-using ICSharpCode.SharpDevelop.Gui.Components;
-using ICSharpCode.SharpDevelop.Commands;
+using MonoDevelop.Services;
+using MonoDevelop.Gui;
+using MonoDevelop.Gui.Components;
+using MonoDevelop.Commands;
 
-namespace ICSharpCode.Core.AddIns.Codons
+namespace MonoDevelop.Core.AddIns.Codons
 {
 	[CodonName("MenuItem")]
 	public class MenuItemCodon : AbstractCodon

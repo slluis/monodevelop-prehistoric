@@ -11,13 +11,13 @@ using System.Drawing;
 using Gtk;
 using System.Collections;
 
-using ICSharpCode.SharpDevelop.Gui;
-using ICSharpCode.Core.Properties;
-using ICSharpCode.Core.Services;
-using ICSharpCode.SharpDevelop.Internal.Project;
-using ICSharpCode.SharpDevelop.Services;
+using MonoDevelop.Gui;
+using MonoDevelop.Core.Properties;
+using MonoDevelop.Core.Services;
+using MonoDevelop.Internal.Project;
+using MonoDevelop.Services;
 
-namespace ICSharpCode.SharpDevelop.Gui.Dialogs
+namespace MonoDevelop.Gui.Dialogs
 {
 	public class WordCountDialog : Dialog
 	{
@@ -29,8 +29,8 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 		Report total;
 		int selectedIndex = 0;
 		
-		StringParserService stringParserService = (StringParserService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(StringParserService));
-		MessageService messageService = (MessageService)ICSharpCode.Core.Services.ServiceManager.Services.GetService (typeof(MessageService));
+		StringParserService stringParserService = (StringParserService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(StringParserService));
+		MessageService messageService = (MessageService)MonoDevelop.Core.Services.ServiceManager.Services.GetService (typeof(MessageService));
 		
 		internal class Report
 		{
@@ -139,7 +139,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 				break;
 				}
 				case 2: {// whole project
-					IProjectService projectService = (IProjectService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
+					IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
 					
 					if (projectService.CurrentOpenCombine == null) {
 						messageService.ShowError ("${res:Dialog.WordCountDialog.MustBeInProtectedModeWarning}");
@@ -294,13 +294,13 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 		{
 			this.SetDefaultSize (300, 300);
 			this.Title = "Word Count";
-			Button startButton = new Button (Stock.Execute);
+			Button startButton = new Button (Gtk.Stock.Execute);
 			startButton.Clicked += new EventHandler (startEvent);
 
 			// dont emit response
 			this.ActionArea.PackStart (startButton);
 			
-			this.AddButton (Stock.Cancel, (int) ResponseType.Cancel);
+			this.AddButton (Gtk.Stock.Cancel, (int) ResponseType.Cancel);
 			
 			scrolledwindow = new ScrolledWindow();
 			scrolledwindow.VscrollbarPolicy = PolicyType.Automatic;

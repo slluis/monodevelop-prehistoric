@@ -16,11 +16,11 @@ using System.Resources;
 using System.Diagnostics;
 using System.Xml;
 
-using ICSharpCode.Core.Services;
-using ICSharpCode.Core.AddIns;
-using ICSharpCode.Core.AddIns.Codons;
+using MonoDevelop.Core.Services;
+using MonoDevelop.Core.AddIns;
+using MonoDevelop.Core.AddIns.Codons;
 
-namespace ICSharpCode.Core.Services
+namespace MonoDevelop.Core.Services
 {
 	public enum FileErrorPolicy {
 		Inform,

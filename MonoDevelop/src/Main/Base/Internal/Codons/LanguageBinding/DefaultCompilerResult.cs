@@ -9,10 +9,10 @@ using System.Collections;
 using System.CodeDom.Compiler;
 using System.Xml;
 
-using ICSharpCode.SharpDevelop.Internal.Templates;
-using ICSharpCode.SharpDevelop.Gui;
+using MonoDevelop.Internal.Templates;
+using MonoDevelop.Gui;
 
-namespace ICSharpCode.SharpDevelop.Internal.Project
+namespace MonoDevelop.Internal.Project
 {
 	/// <summary>
 	/// Default implementation of the ICompilerResult interface, this implementation

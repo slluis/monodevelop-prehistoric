@@ -5,9 +5,9 @@
 //     <version value="$version"/>
 // </file>
 
-using ICSharpCode.Core.Properties;
+using MonoDevelop.Core.Properties;
 
-namespace ICSharpCode.SharpDevelop.Gui
+namespace MonoDevelop.Gui
 {
 	/// <summary>
 	/// This interface flags an object beeing "mementocapable". This means that the

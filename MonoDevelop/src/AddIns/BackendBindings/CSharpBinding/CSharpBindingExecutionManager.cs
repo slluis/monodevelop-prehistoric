@@ -15,10 +15,10 @@ using System.Xml;
 using System.CodeDom.Compiler;
 using System.Threading;
 
-using ICSharpCode.SharpDevelop.Internal.Project;
-using ICSharpCode.SharpDevelop.Gui;
+using MonoDevelop.Internal.Project;
+using MonoDevelop.Gui;
 
-using ICSharpCode.Core.Services;
+using MonoDevelop.Core.Services;
 using MonoDevelop.Services;
 
 namespace CSharpBinding

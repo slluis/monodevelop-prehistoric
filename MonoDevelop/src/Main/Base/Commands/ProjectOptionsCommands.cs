@@ -10,22 +10,22 @@ using System.Diagnostics;
 using System.IO;
 using System.Collections;
 
-using ICSharpCode.Core.AddIns;
-using ICSharpCode.Core.AddIns.Codons;
+using MonoDevelop.Core.AddIns;
+using MonoDevelop.Core.AddIns.Codons;
 
-using ICSharpCode.Core.Properties;
-using ICSharpCode.Core.Services;
+using MonoDevelop.Core.Properties;
+using MonoDevelop.Core.Services;
 
-using ICSharpCode.SharpDevelop.Services;
-using ICSharpCode.SharpDevelop.Gui;
-using ICSharpCode.SharpDevelop.Gui.Components;
-using ICSharpCode.SharpDevelop.Gui.Dialogs;
-using ICSharpCode.SharpDevelop.Internal.Project;
+using MonoDevelop.Services;
+using MonoDevelop.Gui;
+using MonoDevelop.Gui.Components;
+using MonoDevelop.Gui.Dialogs;
+using MonoDevelop.Internal.Project;
 
-using ICSharpCode.SharpDevelop.Internal.ExternalTool;
-using ICSharpCode.SharpDevelop.Gui.Pads.ProjectBrowser;
+using MonoDevelop.Internal.ExternalTool;
+using MonoDevelop.Gui.Pads.ProjectBrowser;
 
-namespace ICSharpCode.SharpDevelop.Commands
+namespace MonoDevelop.Commands
 {
 	public class AddProjectConfiguration : AbstractMenuCommand
 	{

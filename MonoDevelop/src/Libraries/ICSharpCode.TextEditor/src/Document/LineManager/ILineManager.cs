@@ -6,7 +6,7 @@
 // </file>
 using System.Collections;
 
-namespace ICSharpCode.TextEditor.Document
+namespace MonoDevelop.TextEditor.Document
 {
 	/// <summary>
 	/// The line tracker keeps track of all lines in a document.

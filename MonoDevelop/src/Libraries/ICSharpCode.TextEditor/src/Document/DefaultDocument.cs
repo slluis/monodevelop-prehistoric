@@ -11,11 +11,11 @@ using System.IO;
 using System.Diagnostics;
 using System.Drawing;
 
-using ICSharpCode.TextEditor.Undo;
+using MonoDevelop.TextEditor.Undo;
 
 using MonoDevelop.EditorBindings.FormattingStrategy;
 
-namespace ICSharpCode.TextEditor.Document {
+namespace MonoDevelop.TextEditor.Document {
 	/// <summary>
 	/// The default <see cref="IDocument"/> implementation.
 	/// </summary>

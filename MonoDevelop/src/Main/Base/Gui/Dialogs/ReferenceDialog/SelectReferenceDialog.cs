@@ -11,12 +11,12 @@ using System.Collections;
 using System.Diagnostics;
 using System.ComponentModel;
 
-using ICSharpCode.SharpDevelop.Internal.Project;
-using ICSharpCode.Core.Services;
+using MonoDevelop.Internal.Project;
+using MonoDevelop.Core.Services;
 
 using Gtk;
 
-namespace ICSharpCode.SharpDevelop.Gui.Dialogs
+namespace MonoDevelop.Gui.Dialogs
 {
 	public interface IReferencePanel
 	{

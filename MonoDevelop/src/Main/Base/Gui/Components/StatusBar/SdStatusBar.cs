@@ -5,11 +5,11 @@
 //     <version value="$version"/>
 // </file>
 using System;
-using ICSharpCode.SharpDevelop.Services;
+using MonoDevelop.Services;
 using Gtk;
 using Gnome;
 
-namespace ICSharpCode.SharpDevelop.Gui.Components
+namespace MonoDevelop.Gui.Components
 {
 	public class SdStatusBar : AppBar, IProgressMonitor
 	{

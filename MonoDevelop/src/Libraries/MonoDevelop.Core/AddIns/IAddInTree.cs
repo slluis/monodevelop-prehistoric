@@ -12,14 +12,14 @@ using System.IO;
 using System.Reflection;
 using System.Xml;
 
-using ICSharpCode.Core.AddIns.Conditions;
-using ICSharpCode.Core.AddIns.Codons;
+using MonoDevelop.Core.AddIns.Conditions;
+using MonoDevelop.Core.AddIns.Codons;
 
-namespace ICSharpCode.Core.AddIns
+namespace MonoDevelop.Core.AddIns
 {
 	/// <summary>
 	/// This is the basic interface to add-in tree. You can always get
-	/// a valid IAddInTree object in the <see cref="ICSharpCode.Core.AddIns.AddInTreeSingleton"/>
+	/// a valid IAddInTree object in the <see cref="MonoDevelop.Core.AddIns.AddInTreeSingleton"/>
 	/// class.
 	/// </summary>
 	public interface IAddInTree

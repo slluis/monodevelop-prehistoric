@@ -12,15 +12,15 @@ using System.Collections;
 using System.ComponentModel;
 using System.Xml;
 
-using ICSharpCode.SharpDevelop.Gui.Dialogs.OptionPanels;
-using ICSharpCode.SharpDevelop.Internal.Project;
-using ICSharpCode.Core.AddIns;
-using ICSharpCode.Core.AddIns.Codons;
-using ICSharpCode.Core.Properties;
-using ICSharpCode.Core.Services;
-using ICSharpCode.SharpDevelop.Gui.XmlForms;
+using MonoDevelop.Gui.Dialogs.OptionPanels;
+using MonoDevelop.Internal.Project;
+using MonoDevelop.Core.AddIns;
+using MonoDevelop.Core.AddIns.Codons;
+using MonoDevelop.Core.Properties;
+using MonoDevelop.Core.Services;
+using MonoDevelop.Gui.XmlForms;
 
-namespace ICSharpCode.SharpDevelop.Gui.Dialogs
+namespace MonoDevelop.Gui.Dialogs
 {/*
 	/// <summary>
 	/// Basic "tabbed" options dialog

@@ -10,14 +10,14 @@ using System.IO;
 using System.Diagnostics;
 using System.Drawing;
 using System.Collections.Specialized;
-using ICSharpCode.Core.Services;
-using ICSharpCode.SharpDevelop.Services;
-using ICSharpCode.Core.Properties;
+using MonoDevelop.Core.Services;
+using MonoDevelop.Services;
+using MonoDevelop.Core.Properties;
 
-using ICSharpCode.SharpDevelop.Internal.Project;
-using ICSharpCode.SharpDevelop.Gui.Components;
+using MonoDevelop.Internal.Project;
+using MonoDevelop.Gui.Components;
 
-namespace ICSharpCode.SharpDevelop.Gui.Pads.ProjectBrowser
+namespace MonoDevelop.Gui.Pads.ProjectBrowser
 {
 	public class ReferenceNode : AbstractBrowserNode, IDisposable
 	{		
@@ -76,7 +76,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads.ProjectBrowser
 		public override void ActivateItem()
 		{
 			if (userData != null && userData is ProjectReference) {
-				IFileService fileService = (IFileService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(IFileService));
+				IFileService fileService = (IFileService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IFileService));
 				fileService.OpenFile(((ProjectReference)userData).GetReferencedFileName(Project));
 			}
 		}

@@ -15,9 +15,9 @@ using System.Xml;
 using System.CodeDom.Compiler;
 using System.Threading;
 
-using ICSharpCode.SharpDevelop.Internal.Project;
-using ICSharpCode.SharpDevelop.Internal.Templates;
-using ICSharpCode.SharpDevelop.Gui;
+using MonoDevelop.Internal.Project;
+using MonoDevelop.Internal.Templates;
+using MonoDevelop.Gui;
 
 namespace CSharpBinding
 {

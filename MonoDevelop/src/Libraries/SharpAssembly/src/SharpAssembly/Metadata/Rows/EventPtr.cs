@@ -18,7 +18,7 @@
 using System;
 using System.IO;
 
-namespace ICSharpCode.SharpAssembly.Metadata.Rows {
+namespace MonoDevelop.SharpAssembly.Metadata.Rows {
 	
 	public class EventPtr : AbstractRow
 	{
@@ -37,7 +37,7 @@ namespace ICSharpCode.SharpAssembly.Metadata.Rows {
 		
 		public override void LoadRow()
 		{
-			eventPtr = ReadSimpleIndex(ICSharpCode.SharpAssembly.Metadata.Rows.Event.TABLE_ID);
+			eventPtr = ReadSimpleIndex(MonoDevelop.SharpAssembly.Metadata.Rows.Event.TABLE_ID);
 		}
 	}
 }

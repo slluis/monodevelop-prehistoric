@@ -3,7 +3,7 @@ using System.Text;
 using System.CodeDom;
 using System.Collections;
 
-namespace ICSharpCode.SharpRefactory.Parser
+namespace MonoDevelop.SharpRefactory.Parser
 {
 	public class PreProcessingDirective
 	{

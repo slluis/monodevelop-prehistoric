@@ -8,9 +8,9 @@
 using System;
 using System.IO;
 using System.Diagnostics;
-using ICSharpCode.TextEditor.Undo;
+using MonoDevelop.TextEditor.Undo;
 
-namespace ICSharpCode.TextEditor.Document
+namespace MonoDevelop.TextEditor.Document
 {
 	/// <summary>
 	/// Simple implementation of the ITextBuffer interface implemented using a

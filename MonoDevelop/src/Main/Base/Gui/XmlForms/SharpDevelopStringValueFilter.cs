@@ -10,11 +10,11 @@ using System.Xml;
 using System.Collections;
 using System.Drawing;
 using System.Reflection;
-using ICSharpCode.Core.Properties;
+using MonoDevelop.Core.Properties;
 
-using ICSharpCode.Core.Services;
+using MonoDevelop.Core.Services;
 
-namespace ICSharpCode.SharpDevelop.Gui.XmlForms
+namespace MonoDevelop.Gui.XmlForms
 {/*
 	/// <summary>
 	/// This interface is used to filter the values defined in the xml files.
@@ -33,7 +33,7 @@ namespace ICSharpCode.SharpDevelop.Gui.XmlForms
 		/// </returns>
 		public string GetFilteredValue(string originalValue)
 		{
-			bool useFlatStyle = Crownwood.Magic.Common.VisualStyle.IDE == (Crownwood.Magic.Common.VisualStyle)propertyService.GetProperty("ICSharpCode.SharpDevelop.Gui.VisualStyle", Crownwood.Magic.Common.VisualStyle.IDE);
+			bool useFlatStyle = Crownwood.Magic.Common.VisualStyle.IDE == (Crownwood.Magic.Common.VisualStyle)propertyService.GetProperty("MonoDevelop.Gui.VisualStyle", Crownwood.Magic.Common.VisualStyle.IDE);
 			
 			stringParserService.Properties["BORDERSTYLE"] = useFlatStyle ? BorderStyle.FixedSingle.ToString() : BorderStyle.Fixed3D.ToString();
 			stringParserService.Properties["FLATSTYLE"]   = useFlatStyle ? FlatStyle.Flat.ToString() : FlatStyle.Standard.ToString();			

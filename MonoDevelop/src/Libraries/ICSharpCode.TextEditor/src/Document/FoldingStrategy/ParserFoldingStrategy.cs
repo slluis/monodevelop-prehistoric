@@ -9,7 +9,7 @@ using System;
 using System.Drawing;
 using System.Collections;
 
-namespace ICSharpCode.TextEditor.Document
+namespace MonoDevelop.TextEditor.Document
 {
 	/// <summary>
 	/// A simple folding strategy which calculates the folding level

@@ -9,7 +9,7 @@
 using System;
 using MonoDevelop.Gui.Utils;
 
-namespace ICSharpCode.SharpDevelop.Services
+namespace MonoDevelop.Services
 {
 	public class RecentItem
 	{

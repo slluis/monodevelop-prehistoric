@@ -2,13 +2,13 @@ using Gtk;
 using GtkSharp;
 using GLib;
 
-using ICSharpCode.SharpDevelop.Gui;
-using ICSharpCode.SharpDevelop.Internal.Project;
-using ICSharpCode.Core.Properties;
-using ICSharpCode.Core.AddIns;
-using ICSharpCode.Core.Services;
-using ICSharpCode.SharpDevelop.Services;
-using ICSharpCode.Core.AddIns.Codons;
+using MonoDevelop.Gui;
+using MonoDevelop.Internal.Project;
+using MonoDevelop.Core.Properties;
+using MonoDevelop.Core.AddIns;
+using MonoDevelop.Core.Services;
+using MonoDevelop.Services;
+using MonoDevelop.Core.AddIns.Codons;
 
 using System;
 using System.IO;

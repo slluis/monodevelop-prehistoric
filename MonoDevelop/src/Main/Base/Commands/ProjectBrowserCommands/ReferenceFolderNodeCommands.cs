@@ -14,19 +14,19 @@ using System.Collections;
 using System.ComponentModel;
 using System.Diagnostics;
 
-using ICSharpCode.Core.AddIns;
+using MonoDevelop.Core.AddIns;
 
-using ICSharpCode.Core.Properties;
-using ICSharpCode.Core.AddIns.Codons;
-using ICSharpCode.Core.Services;
-using ICSharpCode.SharpDevelop.Services;
-using ICSharpCode.SharpDevelop.Gui;
-using ICSharpCode.SharpDevelop.Gui.Components;
-using ICSharpCode.SharpDevelop.Internal.Project;
-using ICSharpCode.SharpDevelop.Gui.Dialogs;
-using ICSharpCode.SharpDevelop.Gui.Pads.ProjectBrowser;
+using MonoDevelop.Core.Properties;
+using MonoDevelop.Core.AddIns.Codons;
+using MonoDevelop.Core.Services;
+using MonoDevelop.Services;
+using MonoDevelop.Gui;
+using MonoDevelop.Gui.Components;
+using MonoDevelop.Internal.Project;
+using MonoDevelop.Gui.Dialogs;
+using MonoDevelop.Gui.Pads.ProjectBrowser;
 
-namespace ICSharpCode.SharpDevelop.Commands.ProjectBrowser
+namespace MonoDevelop.Commands.ProjectBrowser
 {
 	public class AddReferenceToProject : AbstractMenuCommand
 	{
@@ -37,7 +37,7 @@ namespace ICSharpCode.SharpDevelop.Commands.ProjectBrowser
 			
 			if (node != null) {
 				IProject project = ((ProjectBrowserNode)node.Parent).Project;
-				IParserService parserService = (IParserService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(IParserService));
+				IParserService parserService = (IParserService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IParserService));
 				
 				SelectReferenceDialog selDialog = new SelectReferenceDialog(project);
 				if (selDialog.Run() == (int)Gtk.ResponseType.Ok) {
@@ -49,7 +49,7 @@ namespace ICSharpCode.SharpDevelop.Commands.ProjectBrowser
 					}
 					
 					DefaultDotNetNodeBuilder.InitializeReferences(node, project);
-					IProjectService projectService = (IProjectService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
+					IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
 					projectService.SaveCombine();
 				}
 				selDialog.Hide ();
@@ -67,7 +67,7 @@ namespace ICSharpCode.SharpDevelop.Commands.ProjectBrowser
 			ReferenceNode   node    = browser.SelectedNode as ReferenceNode;
 			if (node != null) {				
 				IProject project = node.Project;  //((ProjectBrowserNode)node.Parent.Parent).Project;
-				IParserService parserService = (IParserService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(IParserService));
+				IParserService parserService = (IParserService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IParserService));
 				
 				ProjectReference refInfo = (ProjectWebReference)node.UserData;
 				WebReference.GenerateWebProxy(project, refInfo.HRef);				
@@ -88,8 +88,8 @@ namespace ICSharpCode.SharpDevelop.Commands.ProjectBrowser
 			if (node != null) {
 				IProject project = ((ProjectBrowserNode)node.Parent).Project;
 				FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.Services.GetService(typeof(FileUtilityService));
-				IProjectService projectService = (IProjectService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
-				IParserService parserService = (IParserService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(IParserService));					
+				IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
+				IParserService parserService = (IParserService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IParserService));					
 			
 /*				using (AddWebReferenceDialog refDialog = new AddWebReferenceDialog(project)) {
 					if (refDialog.ShowDialog() == DialogResult.OK) {						

@@ -5,7 +5,7 @@
 //     <version value="$version"/>
 // </file>
 
-namespace ICSharpCode.SharpDevelop.Internal.Undo
+namespace MonoDevelop.Internal.Undo
 {
 	/// <summary>
 	/// This Interface describes a the basic Undo/Redo operation

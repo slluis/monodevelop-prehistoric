@@ -1,7 +1,7 @@
 // created on 06.08.2003 at 12:34
 
 using SharpDevelop.Internal.Parser;
-using ICSharpCode.SharpRefactory.Parser;
+using MonoDevelop.SharpRefactory.Parser;
 
 namespace CSharpBinding.Parser.SharpDevelopTree
 {

@@ -10,22 +10,22 @@ using System.IO;
 using System.Collections;
 using System.Text;
 
-using ICSharpCode.Core.AddIns;
-using ICSharpCode.Core.Properties;
-using ICSharpCode.Core.AddIns.Codons;
-using ICSharpCode.Core.Services;
-using ICSharpCode.SharpDevelop.Services;
-using ICSharpCode.SharpDevelop.Gui.Dialogs;
-using ICSharpCode.TextEditor.Document;
-using ICSharpCode.SharpDevelop.Gui;
+using MonoDevelop.Core.AddIns;
+using MonoDevelop.Core.Properties;
+using MonoDevelop.Core.AddIns.Codons;
+using MonoDevelop.Core.Services;
+using MonoDevelop.Services;
+using MonoDevelop.Gui.Dialogs;
+using MonoDevelop.TextEditor.Document;
+using MonoDevelop.Gui;
 
-namespace ICSharpCode.SharpDevelop.DefaultEditor.Commands
+namespace MonoDevelop.DefaultEditor.Commands
 {
 	public class ExportProjectToHtml : AbstractMenuCommand
 	{
 		public override void Run()
 		{
-			IProjectService projectService = (IProjectService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
+			IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
 			if (projectService.CurrentSelectedProject != null) {
 			/*
 				ExportProjectToHtmlDialog ephd = new ExportProjectToHtmlDialog (projectService.CurrentSelectedProject);

@@ -10,17 +10,17 @@ using System.IO;
 using System.Drawing;
 using System.Collections;
 
-using ICSharpCode.SharpDevelop.Internal.ExternalTool;
-using ICSharpCode.Core.AddIns.Codons;
-using ICSharpCode.Core.Properties;
-using ICSharpCode.SharpDevelop.Gui.Components;
-using ICSharpCode.Core.Services;
-using ICSharpCode.Core.AddIns;
+using MonoDevelop.Internal.ExternalTool;
+using MonoDevelop.Core.AddIns.Codons;
+using MonoDevelop.Core.Properties;
+using MonoDevelop.Gui.Components;
+using MonoDevelop.Core.Services;
+using MonoDevelop.Core.AddIns;
 
 using Gtk;
 using MonoDevelop.Gui.Widgets;
 
-namespace ICSharpCode.SharpDevelop.Gui.Dialogs.OptionPanels {
+namespace MonoDevelop.Gui.Dialogs.OptionPanels {
 	public class CodeGenerationPanel : AbstractOptionPanel {
 		
 		class CodeGenerationPanelWidget : GladeWidgetExtract {

@@ -12,7 +12,7 @@ using System.IO;
 using System.Windows.Forms;
 using System.Drawing;
 
-namespace ICSharpCode.Core.Services
+namespace MonoDevelop.Core.Services
 {
 	/// <summary>
 	///     Add summary description for SaveErrorChooseDialog

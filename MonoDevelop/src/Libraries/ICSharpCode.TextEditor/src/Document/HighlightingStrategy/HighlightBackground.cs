@@ -15,7 +15,7 @@ using System.IO;
 using System.Reflection;
 using System.Xml;
 
-namespace ICSharpCode.TextEditor.Document
+namespace MonoDevelop.TextEditor.Document
 {
 	/// <summary>
 	/// Extens the highlighting color with a background image.

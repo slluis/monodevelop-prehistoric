@@ -13,15 +13,15 @@ using System.Drawing.Printing;
 using System.Diagnostics;
 using System.Text;
 
-using ICSharpCode.TextEditor.Document;
-using ICSharpCode.TextEditor.Actions;
+using MonoDevelop.TextEditor.Document;
+using MonoDevelop.TextEditor.Actions;
 
-namespace ICSharpCode.TextEditor
+namespace MonoDevelop.TextEditor
 {
 	/// <summary>
 	/// This class is used for a basic text area control
 	/// </summary>
-//	[ToolboxBitmap("ICSharpCode.TextEditor.TextEditorControl.bmp")]
+//	[ToolboxBitmap("MonoDevelop.TextEditor.TextEditorControl.bmp")]
 	[ToolboxItem(true)]
 	public class TextEditorControl : TextEditorControlBase
 	{

@@ -10,7 +10,7 @@ using System.Collections;
 using System.Text;
 using MonoDevelop.EditorBindings.FormattingStrategy;
 
-namespace ICSharpCode.TextEditor.Document {
+namespace MonoDevelop.TextEditor.Document {
 	/// <summary>
 	/// This class handles the auto and smart indenting in the textbuffer while
 	/// you type.

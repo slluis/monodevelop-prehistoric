@@ -9,22 +9,22 @@ using System;
 using System.Collections;
 using System.CodeDom.Compiler;
 
-using ICSharpCode.Core.Services;
-using ICSharpCode.Core.AddIns;
-using ICSharpCode.Core.Properties;
-using ICSharpCode.Core.AddIns.Codons;
+using MonoDevelop.Core.Services;
+using MonoDevelop.Core.AddIns;
+using MonoDevelop.Core.Properties;
+using MonoDevelop.Core.AddIns.Codons;
 
-using ICSharpCode.SharpDevelop.Gui;
-using ICSharpCode.SharpDevelop.Gui.Dialogs;
+using MonoDevelop.Gui;
+using MonoDevelop.Gui.Dialogs;
 
-namespace ICSharpCode.SharpDevelop.Commands
+namespace MonoDevelop.Commands
 {
 	public class OptionsCommand : AbstractMenuCommand
 	{
 		public override void Run()
 		{
 			PropertyService propertyService = (PropertyService)ServiceManager.Services.GetService(typeof(PropertyService));
-			TreeViewOptions optionsDialog = new TreeViewOptions((IProperties)propertyService.GetProperty("ICSharpCode.TextEditor.Document.Document.DefaultDocumentAggregatorProperties", new DefaultProperties()),
+			TreeViewOptions optionsDialog = new TreeViewOptions((IProperties)propertyService.GetProperty("MonoDevelop.TextEditor.Document.Document.DefaultDocumentAggregatorProperties", new DefaultProperties()),
 			                                                           AddInTreeSingleton.AddInTree.GetTreeNode("/SharpDevelop/Dialogs/OptionsDialog"));
 			//optionsDialog.ShowAll ();
 			//	optionsDialog.FormBorderStyle = FormBorderStyle.FixedDialog;

@@ -10,18 +10,18 @@ using System.Diagnostics;
 using System.IO;
 using System.Collections;
 
-using ICSharpCode.Core.AddIns;
-using ICSharpCode.Core.AddIns.Codons;
+using MonoDevelop.Core.AddIns;
+using MonoDevelop.Core.AddIns.Codons;
 
-using ICSharpCode.Core.Services;
-using ICSharpCode.Core.Properties;
+using MonoDevelop.Core.Services;
+using MonoDevelop.Core.Properties;
 
-using ICSharpCode.SharpDevelop.Gui;
-using ICSharpCode.SharpDevelop.Gui.Dialogs;
-using ICSharpCode.SharpDevelop.Internal.Project;
-using ICSharpCode.SharpDevelop.Gui.Components;
+using MonoDevelop.Gui;
+using MonoDevelop.Gui.Dialogs;
+using MonoDevelop.Internal.Project;
+using MonoDevelop.Gui.Components;
 
-namespace ICSharpCode.SharpDevelop.Commands
+namespace MonoDevelop.Commands
 {/*
 	public class SideBarRenameTabItem : AbstractMenuCommand
 	{

@@ -5,7 +5,7 @@ using System.Text;
 using MonoDevelop.EditorBindings.FormattingStrategy;
 using MonoDevelop.EditorBindings.Properties;
 
-namespace ICSharpCode.TextEditor.Document
+namespace MonoDevelop.TextEditor.Document
 {
 	public interface ITextEditorProperties
 	{

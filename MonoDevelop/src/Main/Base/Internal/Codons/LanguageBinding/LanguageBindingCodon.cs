@@ -9,10 +9,10 @@ using System;
 using System.Collections;
 using System.Diagnostics;
 
-using ICSharpCode.Core.AddIns.Conditions;
-using ICSharpCode.SharpDevelop.Internal.Project;
+using MonoDevelop.Core.AddIns.Conditions;
+using MonoDevelop.Internal.Project;
 
-namespace ICSharpCode.Core.AddIns.Codons
+namespace MonoDevelop.Core.AddIns.Codons
 {
 	[CodonNameAttribute("LanguageBinding")]
 	public class LanguageBindingCodon : AbstractCodon

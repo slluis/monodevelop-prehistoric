@@ -10,11 +10,11 @@ using System.Reflection;
 using System.Collections.Specialized;
 using System.IO;
 
-using ICSharpCode.Core.Services;
-using ICSharpCode.Core.AddIns.Conditions;
-using ICSharpCode.Core.AddIns.Codons;
+using MonoDevelop.Core.Services;
+using MonoDevelop.Core.AddIns.Conditions;
+using MonoDevelop.Core.AddIns.Codons;
 
-namespace ICSharpCode.Core.AddIns
+namespace MonoDevelop.Core.AddIns
 {
 	/// <summary>
 	/// Here is the ONLY point to get an <see cref="IAddInTree"/> object.

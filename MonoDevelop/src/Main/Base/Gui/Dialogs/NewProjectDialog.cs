@@ -9,20 +9,20 @@ using System;
 using System.Collections;
 using System.IO;
 
-using ICSharpCode.Core.AddIns;
-using ICSharpCode.Core.Properties;
-using ICSharpCode.Core.Services;
+using MonoDevelop.Core.AddIns;
+using MonoDevelop.Core.Properties;
+using MonoDevelop.Core.Services;
 
-using ICSharpCode.SharpDevelop.Services;
-using ICSharpCode.SharpDevelop.Gui;
-using ICSharpCode.SharpDevelop.Internal.Project;
-using ICSharpCode.SharpDevelop.Internal.Templates;
+using MonoDevelop.Services;
+using MonoDevelop.Gui;
+using MonoDevelop.Internal.Project;
+using MonoDevelop.Internal.Templates;
 
 using MonoDevelop.Gui.Widgets;
 using Gtk;
 using Glade;
 
-namespace ICSharpCode.SharpDevelop.Gui.Dialogs {
+namespace MonoDevelop.Gui.Dialogs {
 	/// <summary>
 	/// This class displays a new project dialog and sets up and creates a a new project,
 	/// the project types are described in an XML options file
@@ -176,7 +176,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs {
 			
 			if (showFile) {
 				string longfilename = fileUtilityService.GetDirectoryNameWithSeparator (ProjectSolution) + stringParserService.Parse(filename, new string[,] { {"PROJECT", txt_name.Text}});
-				IFileService fileService = (IFileService) ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(IFileService));
+				IFileService fileService = (IFileService) MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IFileService));
 				fileService.OpenFile (longfilename);
 			}
 		}
@@ -205,7 +205,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs {
 			}
 			
 			propertyService.SetProperty (
-				"ICSharpCode.SharpDevelop.Gui.Dialogs.NewProjectDialog.AutoCreateProjectSubdir",
+				"MonoDevelop.Gui.Dialogs.NewProjectDialog.AutoCreateProjectSubdir",
 				chk_combine_directory.Active);
 			
 			if (TemplateView.CurrentlySelected != null && name.Length != 0) {
@@ -333,7 +333,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs {
 			hbox_for_browser.PackStart (entry_location, true, true, 0);
 			
 			
-			entry_location.DefaultPath = propertyService.GetProperty ("ICSharpCode.SharpDevelop.Gui.Dialogs.NewProjectDialog.DefaultPath", fileUtilityService.GetDirectoryNameWithSeparator (Environment.GetFolderPath (Environment.SpecialFolder.Personal)) + "MonoDevelopProjects").ToString ();
+			entry_location.DefaultPath = propertyService.GetProperty ("MonoDevelop.Gui.Dialogs.NewProjectDialog.DefaultPath", fileUtilityService.GetDirectoryNameWithSeparator (Environment.GetFolderPath (Environment.SpecialFolder.Personal)) + "MonoDevelopProjects").ToString ();
 			
 			PathChanged (null, null);
 			

@@ -8,9 +8,9 @@ using System.Text;
 using System.Drawing;
 using System;
 
-using ICSharpCode.TextEditor.Document;
+using MonoDevelop.TextEditor.Document;
 
-namespace ICSharpCode.TextEditor.Actions 
+namespace MonoDevelop.TextEditor.Actions 
 {
 	public abstract class AbstractLineFormatAction : AbstractEditAction
 	{

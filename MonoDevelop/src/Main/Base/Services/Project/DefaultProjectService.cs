@@ -12,13 +12,13 @@ using System.IO;
 using System.Xml;
 using System.CodeDom.Compiler;
 
-using ICSharpCode.SharpDevelop.Gui;
-using ICSharpCode.SharpDevelop.Internal.Project;
+using MonoDevelop.Gui;
+using MonoDevelop.Internal.Project;
 
-using ICSharpCode.Core.Properties;
-using ICSharpCode.Core.Services;
+using MonoDevelop.Core.Properties;
+using MonoDevelop.Core.Services;
 
-namespace ICSharpCode.SharpDevelop.Services
+namespace MonoDevelop.Services
 {
 	
 	public enum BeforeCompileAction {
@@ -132,7 +132,7 @@ namespace ICSharpCode.SharpDevelop.Services
 			if (!fileUtilityService.TestFileExists(filename)) {
 				return;
 			}
-			IStatusBarService statusBarService = (IStatusBarService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(IStatusBarService));
+			IStatusBarService statusBarService = (IStatusBarService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IStatusBarService));
 			statusBarService.SetMessage("${res:MainWindow.StatusBar.OpeningCombineMessage}");
 				
 			if (Path.GetExtension(filename).ToUpper() == ".PRJX") {
@@ -166,7 +166,7 @@ namespace ICSharpCode.SharpDevelop.Services
 			openCombine         = loadingCombine;
 			openCombineFileName = filename;
 			
-			IFileService fileService = (IFileService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(IFileService));
+			IFileService fileService = (IFileService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IFileService));
 			fileService.RecentOpen.AddLastProject(filename);
 			
 			OnCombineOpened(new CombineEventArgs(openCombine));
@@ -243,7 +243,7 @@ namespace ICSharpCode.SharpDevelop.Services
 		{
 			if (openCombine != null) {
 				DoBeforeCompileAction();
-				TaskService taskService = (TaskService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(TaskService));
+				TaskService taskService = (TaskService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(TaskService));
 				taskService.Tasks.Clear();
 				taskService.NotifyTaskChange();
 				
@@ -255,7 +255,7 @@ namespace ICSharpCode.SharpDevelop.Services
 		{
 			if (openCombine != null) {
 				DoBeforeCompileAction();
-				TaskService taskService = (TaskService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(TaskService));
+				TaskService taskService = (TaskService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(TaskService));
 				taskService.Tasks.Clear();
 				taskService.NotifyTaskChange();
 				
@@ -266,14 +266,14 @@ namespace ICSharpCode.SharpDevelop.Services
 		ILanguageBinding BeforeCompile(IProject project)
 		{
 			DoBeforeCompileAction();
-			TaskService taskService = (TaskService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(TaskService));
+			TaskService taskService = (TaskService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(TaskService));
 			StringParserService stringParserService = (StringParserService)ServiceManager.Services.GetService(typeof(StringParserService));
 			
 			taskService.NotifyTaskChange();
 			
 			// cut&pasted from CombineEntry.cs
 			stringParserService.Properties["Project"] = project.Name;
-			IStatusBarService statusBarService = (IStatusBarService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(IStatusBarService));
+			IStatusBarService statusBarService = (IStatusBarService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IStatusBarService));
 			statusBarService.SetMessage("${res:MainWindow.StatusBar.CompilingMessage}");
 			
 			string outputDir = ((AbstractProjectConfiguration)project.ActiveConfiguration).OutputDirectory;
@@ -286,14 +286,14 @@ namespace ICSharpCode.SharpDevelop.Services
 				throw new ApplicationException("Can't create project output directory " + outputDir + " original exception:\n" + e.ToString());
 			}
 			// cut&paste EDND
-			LanguageBindingService languageBindingService = (LanguageBindingService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(LanguageBindingService));
+			LanguageBindingService languageBindingService = (LanguageBindingService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(LanguageBindingService));
 			return languageBindingService.GetBindingPerLanguageName(project.ProjectType);
 		}
 		
 		void AfterCompile(IProject project, ICompilerResult res)
 		{
 			// cut&pasted from CombineEntry.cs
-			TaskService taskService = (TaskService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(TaskService));
+			TaskService taskService = (TaskService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(TaskService));
 			foreach (CompilerError err in res.CompilerResults.Errors) {
 				taskService.Tasks.Add(new Task(project, err));
 			}
@@ -459,7 +459,7 @@ namespace ICSharpCode.SharpDevelop.Services
 		public override void InitializeService()
 		{
 			base.InitializeService();
-			IFileService fileService = (IFileService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(IFileService));
+			IFileService fileService = (IFileService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IFileService));
 			
 			FileRemovedFromProject += new FileEventHandler(CheckFileRemove);
 			fileService.FileRemoved += new FileEventHandler(CheckFileRemove);
@@ -491,7 +491,7 @@ namespace ICSharpCode.SharpDevelop.Services
 				XmlElement root = doc.DocumentElement;
 				string combinepath = Path.GetDirectoryName(combinefilename);
 				if (root["Files"] != null) {
-					IFileService fileService = (IFileService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(IFileService));
+					IFileService fileService = (IFileService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IFileService));
 					foreach (XmlElement el in root["Files"].ChildNodes) {
 						string fileName = fileUtilityService.RelativeToAbsolutePath(combinepath, el.Attributes["filename"].InnerText);
 						if (File.Exists(fileName)) {
@@ -638,7 +638,7 @@ namespace ICSharpCode.SharpDevelop.Services
 		
 		public string GetOutputAssemblyName(IProject project)
 		{
-			LanguageBindingService languageBindingService = (LanguageBindingService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(LanguageBindingService));
+			LanguageBindingService languageBindingService = (LanguageBindingService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(LanguageBindingService));
 			ILanguageBinding binding = languageBindingService.GetBindingPerLanguageName(project.ProjectType);
 			return binding.GetCompiledOutputName(project);
 		}

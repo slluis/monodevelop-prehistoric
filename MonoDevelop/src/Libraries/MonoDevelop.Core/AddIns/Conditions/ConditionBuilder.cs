@@ -11,7 +11,7 @@ using System.Diagnostics;
 using System.Collections.Specialized;
 using System.Reflection;
 
-namespace ICSharpCode.Core.AddIns.Conditions
+namespace MonoDevelop.Core.AddIns.Conditions
 {
 	/// <summary>
 	/// The condition builder builds a new condition

@@ -1,6 +1,6 @@
 using System;
 
-namespace ICSharpCode.SharpRefactory.Parser
+namespace MonoDevelop.SharpRefactory.Parser
 {
 	/// <summary>
 	/// Summary description for Class1.

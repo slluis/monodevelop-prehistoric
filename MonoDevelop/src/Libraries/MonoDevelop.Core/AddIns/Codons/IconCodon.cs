@@ -9,10 +9,10 @@ using System;
 using System.Collections;
 using System.Reflection;
 
-using ICSharpCode.Core.Properties;
-using ICSharpCode.Core.AddIns.Conditions;
+using MonoDevelop.Core.Properties;
+using MonoDevelop.Core.AddIns.Conditions;
 
-namespace ICSharpCode.Core.AddIns.Codons
+namespace MonoDevelop.Core.AddIns.Codons
 {
 	[CodonNameAttribute("Icon")]
 	public class IconCodon : AbstractCodon

@@ -10,13 +10,13 @@ using System.Drawing;
 using System.Diagnostics;
 using System.Drawing.Text;
 using System.Drawing.Imaging;
-using ICSharpCode.Core.AddIns.Conditions;
-using ICSharpCode.Core.AddIns.Codons;
-using ICSharpCode.Core.Services;
+using MonoDevelop.Core.AddIns.Conditions;
+using MonoDevelop.Core.AddIns.Codons;
+using MonoDevelop.Core.Services;
 
 //using Reflector.UserInterface;
 
-namespace ICSharpCode.SharpDevelop.Gui.Components
+namespace MonoDevelop.Gui.Components
 {
 	public class SdToolbarCommand : Gtk.Image, IStatusUpdate
 	{

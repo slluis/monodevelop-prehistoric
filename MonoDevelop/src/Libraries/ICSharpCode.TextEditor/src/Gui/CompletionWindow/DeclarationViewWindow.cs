@@ -10,14 +10,14 @@ using System.Drawing;
 using System.Reflection;
 using System.Collections;
 
-using ICSharpCode.TextEditor.Document;
-using ICSharpCode.TextEditor.Util;
-using ICSharpCode.TextEditor;
+using MonoDevelop.TextEditor.Document;
+using MonoDevelop.TextEditor.Util;
+using MonoDevelop.TextEditor;
 
 using Gtk;
 using GtkSharp;
 
-namespace ICSharpCode.TextEditor.Gui.CompletionWindow
+namespace MonoDevelop.TextEditor.Gui.CompletionWindow
 {
 	public class DeclarationViewWindow : Gtk.Window
 	{

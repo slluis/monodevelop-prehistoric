@@ -18,12 +18,12 @@ using System.Diagnostics;
 using System.Threading;
 using System.Xml;
 
-using ICSharpCode.Core.Services;
-using ICSharpCode.Core.AddIns;
-using ICSharpCode.Core.AddIns.Codons;
+using MonoDevelop.Core.Services;
+using MonoDevelop.Core.AddIns;
+using MonoDevelop.Core.AddIns.Codons;
 using Stock = MonoDevelop.Gui.Stock;
 
-namespace ICSharpCode.Core.Services {
+namespace MonoDevelop.Core.Services {
 	public class IconService : AbstractService {
 		Hashtable extensionHashtable   = new Hashtable ();
 		Hashtable projectFileHashtable = new Hashtable ();

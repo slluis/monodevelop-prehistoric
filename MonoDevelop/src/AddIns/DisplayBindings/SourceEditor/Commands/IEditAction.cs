@@ -11,7 +11,7 @@ using MonoDevelop.SourceEditor.Gui;
 
 using Gdk;
 
-namespace ICSharpCode.TextEditor.Actions
+namespace MonoDevelop.TextEditor.Actions
 {
 	/// <summary>
 	/// To define a new key for the textarea, you must write a class which

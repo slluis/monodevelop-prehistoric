@@ -9,16 +9,16 @@ using System;
 using System.Collections;
 using System.Diagnostics;
 
-using ICSharpCode.SharpDevelop.Gui;
+using MonoDevelop.Gui;
 
-using ICSharpCode.Core.Services;
-using ICSharpCode.SharpDevelop.Services;
-using ICSharpCode.SharpDevelop.Gui.Dialogs;
-using ICSharpCode.SharpDevelop.DefaultEditor.Gui.Editor;
-using ICSharpCode.TextEditor;
+using MonoDevelop.Core.Services;
+using MonoDevelop.Services;
+using MonoDevelop.Gui.Dialogs;
+using MonoDevelop.DefaultEditor.Gui.Editor;
+using MonoDevelop.TextEditor;
 using MonoDevelop.EditorBindings.Search;
 
-namespace ICSharpCode.TextEditor.Document
+namespace MonoDevelop.TextEditor.Document
 {
 	public class SearchReplaceManager
 	{
@@ -177,7 +177,7 @@ namespace ICSharpCode.TextEditor.Document
 		static TextEditorControl OpenTextArea(string fileName) 
 		{
 			if (fileName != null) {
-				IFileService fileService = (IFileService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(IFileService));
+				IFileService fileService = (IFileService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IFileService));
 				fileService.OpenFile(fileName);
 			}
 			

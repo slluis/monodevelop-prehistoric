@@ -8,11 +8,11 @@
 using System;
 using System.Collections;
 using System.Drawing;
-using ICSharpCode.TextEditor.Document;
+using MonoDevelop.TextEditor.Document;
 
 using Gdk;
 
-namespace ICSharpCode.TextEditor
+namespace MonoDevelop.TextEditor
 {
 	/// <summary>
 	/// This class views the line numbers and folding markers.

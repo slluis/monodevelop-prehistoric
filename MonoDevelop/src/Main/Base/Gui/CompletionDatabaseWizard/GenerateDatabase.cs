@@ -1,11 +1,11 @@
 using System;
 using Gtk;
 
-using ICSharpCode.Core.Properties;
-using ICSharpCode.Core.Services;
-using ICSharpCode.SharpDevelop.Services;
+using MonoDevelop.Core.Properties;
+using MonoDevelop.Core.Services;
+using MonoDevelop.Services;
 
-namespace ICSharpCode.SharpDevelop.Gui.Dialogs.OptionPanels.CompletionDatabaseWizard
+namespace MonoDevelop.Gui.Dialogs.OptionPanels.CompletionDatabaseWizard
 {
 	class ProgressMonitorBar : Gtk.ProgressBar, IProgressMonitor
 	{

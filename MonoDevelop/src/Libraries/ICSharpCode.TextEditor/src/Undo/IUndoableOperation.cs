@@ -4,7 +4,7 @@
 //     <owner name="Mike Krüger" email="mike@icsharpcode.net"/>
 //     <version value="$version"/>
 // </file>
-namespace ICSharpCode.TextEditor.Undo
+namespace MonoDevelop.TextEditor.Undo
 {
 	/// <summary>
 	/// This Interface describes a the basic Undo/Redo operation

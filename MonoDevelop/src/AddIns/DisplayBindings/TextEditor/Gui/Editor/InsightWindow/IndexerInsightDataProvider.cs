@@ -10,18 +10,18 @@ using System.Drawing;
 using System.Reflection;
 using System.Collections;
 
-using ICSharpCode.Core.Services;
-using ICSharpCode.Core.Properties;
-using ICSharpCode.SharpDevelop.Internal.Templates;
-using ICSharpCode.SharpDevelop.Services;
-using ICSharpCode.TextEditor.Document;
+using MonoDevelop.Core.Services;
+using MonoDevelop.Core.Properties;
+using MonoDevelop.Internal.Templates;
+using MonoDevelop.Services;
+using MonoDevelop.TextEditor.Document;
 using SharpDevelop.Internal.Parser;
-using ICSharpCode.TextEditor;
-using ICSharpCode.TextEditor.Gui.InsightWindow;
-using ICSharpCode.SharpDevelop.DefaultEditor.Gui.Editor;
+using MonoDevelop.TextEditor;
+using MonoDevelop.TextEditor.Gui.InsightWindow;
+using MonoDevelop.DefaultEditor.Gui.Editor;
 
 
-namespace ICSharpCode.SharpDevelop.DefaultEditor.Gui.Editor
+namespace MonoDevelop.DefaultEditor.Gui.Editor
 {
 	public class IndexerInsightDataProvider : IInsightDataProvider
 	{

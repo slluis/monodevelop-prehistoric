@@ -8,13 +8,13 @@
 using System;
 using System.IO;
 
-using ICSharpCode.TextEditor.Document;
-using ICSharpCode.SharpDevelop.Internal.ExternalTool;
-using ICSharpCode.Core.Properties;
+using MonoDevelop.TextEditor.Document;
+using MonoDevelop.Internal.ExternalTool;
+using MonoDevelop.Core.Properties;
 
-using ICSharpCode.Core.Services;
-using ICSharpCode.Core.AddIns.Codons;
-using ICSharpCode.SharpDevelop.Gui.Dialogs;
+using MonoDevelop.Core.Services;
+using MonoDevelop.Core.AddIns.Codons;
+using MonoDevelop.Gui.Dialogs;
 
 using Gtk;
 using MonoDevelop.Gui.Widgets;

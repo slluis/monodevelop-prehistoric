@@ -9,20 +9,20 @@ using System;
 using System.IO;
 using System.Text;
 
-using ICSharpCode.Core.AddIns;
-using ICSharpCode.Core.Properties;
-using ICSharpCode.Core.AddIns.Codons;
-using ICSharpCode.SharpDevelop.Gui.Dialogs;
-using ICSharpCode.TextEditor;
-using ICSharpCode.SharpDevelop.Gui;
-using ICSharpCode.SharpDevelop.Gui.HtmlControl;
-using ICSharpCode.Core.Services;
+using MonoDevelop.Core.AddIns;
+using MonoDevelop.Core.Properties;
+using MonoDevelop.Core.AddIns.Codons;
+using MonoDevelop.Gui.Dialogs;
+using MonoDevelop.TextEditor;
+using MonoDevelop.Gui;
+using MonoDevelop.Gui.HtmlControl;
+using MonoDevelop.Core.Services;
 using MonoDevelop.SourceEditor.Gui;
 
 using Gtk;
 using GtkSharp;
 
-namespace ICSharpCode.SharpDevelop.DefaultEditor.Commands
+namespace MonoDevelop.DefaultEditor.Commands
 {
 	public class ColorDialog : ColorSelectionDialog
 	{
@@ -133,7 +133,7 @@ namespace ICSharpCode.SharpDevelop.DefaultEditor.Commands
 			try {
 				FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.Services.GetService(typeof(FileUtilityService));
 				PropertyService propertyService = (PropertyService)ServiceManager.Services.GetService(typeof(PropertyService));
-				html = ICSharpCode.SharpDevelop.Internal.Project.ConvertXml.ConvertData(xml,
+				html = MonoDevelop.Internal.Project.ConvertXml.ConvertData(xml,
 				                   propertyService.DataDirectory +
 				                   Path.DirectorySeparatorChar + "ConversionStyleSheets" +
 				                   Path.DirectorySeparatorChar + "ShowXmlDocumentation.xsl",

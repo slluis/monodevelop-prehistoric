@@ -9,9 +9,9 @@ using System;
 using System.Drawing;
 using System.Text;
 using System.Collections;
-using ICSharpCode.TextEditor.Document;
+using MonoDevelop.TextEditor.Document;
 
-namespace ICSharpCode.TextEditor.Util
+namespace MonoDevelop.TextEditor.Util
 {
 	public class RtfWriter
 	{

@@ -10,11 +10,11 @@ using System.Diagnostics;
 using System.IO;
 using System.Xml;
 
-using ICSharpCode.Core.AddIns;
-using ICSharpCode.SharpDevelop.Internal.Project;
-using ICSharpCode.SharpDevelop.Gui;
+using MonoDevelop.Core.AddIns;
+using MonoDevelop.Internal.Project;
+using MonoDevelop.Gui;
 
-namespace ICSharpCode.SharpDevelop.Services
+namespace MonoDevelop.Services
 {
 	/// <summary>
 	/// This interface describes the basic functions of the 

@@ -7,7 +7,7 @@
 
 using System;
 
-namespace ICSharpCode.TextEditor.Document
+namespace MonoDevelop.TextEditor.Document
 {
 	public delegate void LineManagerEventHandler(object sender,LineManagerEventArgs e);
 	

@@ -5,9 +5,9 @@
 //     <version value="$version"/>
 // </file>
 
-using ICSharpCode.Core.Services;
+using MonoDevelop.Core.Services;
 
-namespace ICSharpCode.SharpDevelop.Gui.ErrorHandlers
+namespace MonoDevelop.Gui.ErrorHandlers
 {
 	class GenericError
 	{

@@ -9,7 +9,7 @@ using System.Drawing;
 using System.Reflection;
 using System.Collections;
 
-using ICSharpCode.Core.Services;
+using MonoDevelop.Core.Services;
 using Gtk;
 using GtkSharp;
 
@@ -242,7 +242,7 @@ namespace MonoDevelop.SourceEditor.InsightWindow
 					StringParserService stringParserService = (StringParserService)ServiceManager.Services.GetService(typeof(StringParserService));
 					stringParserService.Properties["CurrentMethodNumber"]  = (CurrentData + 1).ToString();
 					stringParserService.Properties["NumberOfTotalMethods"] = DataProvider.InsightDataCount.ToString();
-					methodCountMessage = stringParserService.Parse("${res:ICSharpCode.SharpDevelop.DefaultEditor.Gui.Editor.InsightWindow.NumberOfText}");
+					methodCountMessage = stringParserService.Parse("${res:MonoDevelop.DefaultEditor.Gui.Editor.InsightWindow.NumberOfText}");
 				}
 				
 				//I know this call looks stupid, but really it isnt.
@@ -261,7 +261,7 @@ namespace MonoDevelop.SourceEditor.InsightWindow
 //					StringParserService stringParserService = (StringParserService)ServiceManager.Services.GetService(typeof(StringParserService));
 //					stringParserService.Properties["CurrentMethodNumber"]  = (CurrentData + 1).ToString();
 //					stringParserService.Properties["NumberOfTotalMethods"] = DataProvider.InsightDataCount.ToString();
-//					methodCountMessage = stringParserService.Parse("${res:ICSharpCode.SharpDevelop.DefaultEditor.Gui.Editor.InsightWindow.NumberOfText}");
+//					methodCountMessage = stringParserService.Parse("${res:MonoDevelop.DefaultEditor.Gui.Editor.InsightWindow.NumberOfText}");
 //				}
 				
 				description = DataProvider.GetInsightData(CurrentData);

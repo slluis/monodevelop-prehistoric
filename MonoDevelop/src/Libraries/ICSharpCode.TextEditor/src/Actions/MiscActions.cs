@@ -9,9 +9,9 @@ using System;
 using System.Drawing;
 using System.Text;
 
-using ICSharpCode.TextEditor.Document;
+using MonoDevelop.TextEditor.Document;
 
-namespace ICSharpCode.TextEditor.Actions
+namespace MonoDevelop.TextEditor.Actions
 {
 	public class Tab : AbstractEditAction
 	{

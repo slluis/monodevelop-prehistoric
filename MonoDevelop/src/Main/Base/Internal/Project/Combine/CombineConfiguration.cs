@@ -13,12 +13,12 @@ using System.Reflection;
 using System.Diagnostics;
 using System.CodeDom.Compiler;
 
-using ICSharpCode.SharpDevelop.Internal.Project;
+using MonoDevelop.Internal.Project;
 
-using ICSharpCode.Core.Properties;
-using ICSharpCode.SharpDevelop.Gui;
+using MonoDevelop.Core.Properties;
+using MonoDevelop.Gui;
 
-namespace ICSharpCode.SharpDevelop.Internal.Project
+namespace MonoDevelop.Internal.Project
 {
 	public class CombineConfiguration : AbstractConfiguration, IXmlConvertable
 	{

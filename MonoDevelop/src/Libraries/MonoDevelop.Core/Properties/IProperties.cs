@@ -12,7 +12,7 @@ using System.Diagnostics;
 using System.Xml;
 using System.Reflection;
 
-namespace ICSharpCode.Core.Properties
+namespace MonoDevelop.Core.Properties
 {
 	/// <summary>
 	/// The <code>IProperties</code> interface defines a set of properties

@@ -11,16 +11,16 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Collections.Specialized;
 
-using ICSharpCode.Core.Properties;
+using MonoDevelop.Core.Properties;
 
-using ICSharpCode.Core.Services;
+using MonoDevelop.Core.Services;
 
-using ICSharpCode.SharpDevelop.Services;
-using ICSharpCode.SharpDevelop.Internal.Project;
-using ICSharpCode.SharpDevelop.Gui.Components;
+using MonoDevelop.Services;
+using MonoDevelop.Internal.Project;
+using MonoDevelop.Gui.Components;
 using Stock = MonoDevelop.Gui.Stock;
 
-namespace ICSharpCode.SharpDevelop.Gui.Pads.ProjectBrowser
+namespace MonoDevelop.Gui.Pads.ProjectBrowser
 {
 	/// <summary>
 	/// This class represents the default directory in the project browser.
@@ -98,8 +98,8 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads.ProjectBrowser
 				if (oldFoldername != newFoldername) {
 					try {
 						
-						IFileService fileService = (IFileService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(IFileService));
-						FileUtilityService fileUtilityService = (FileUtilityService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(FileUtilityService));
+						IFileService fileService = (IFileService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IFileService));
+						FileUtilityService fileUtilityService = (FileUtilityService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(FileUtilityService));
 						if (fileUtilityService.IsValidFileName(newFoldername)) {
 							fileService.RenameFile(oldFoldername, newFoldername);
 							Text       = newName;
@@ -136,8 +136,8 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads.ProjectBrowser
 			}
 			dialog.Destroy ();
 			
-			IFileService fileService = (IFileService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(IFileService));
-			IProjectService projectService = (IProjectService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
+			IFileService fileService = (IFileService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IFileService));
+			IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
 			//switch (ret) {
 				//case 0:
 					projectService.RemoveFileFromProject(FolderName);

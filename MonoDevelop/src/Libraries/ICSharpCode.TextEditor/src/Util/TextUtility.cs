@@ -7,9 +7,9 @@
 
 using System;
 
-using ICSharpCode.TextEditor.Document;
+using MonoDevelop.TextEditor.Document;
 
-namespace ICSharpCode.TextEditor.Util
+namespace MonoDevelop.TextEditor.Util
 {
 	public class TextUtility
 	{

@@ -12,11 +12,11 @@ using System.Xml;
 using Gtk;
 using GtkSharp;
 
-using ICSharpCode.SharpDevelop.Gui;
-using ICSharpCode.Core.Properties;
-using ICSharpCode.Core.Services;
+using MonoDevelop.Gui;
+using MonoDevelop.Core.Properties;
+using MonoDevelop.Core.Services;
 
-namespace ICSharpCode.SharpDevelop.Gui.Dialogs
+namespace MonoDevelop.Gui.Dialogs
 {
 	public class TipOfTheDayWindow
 	{
@@ -42,7 +42,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 					
 			tipOfTheDayWindow.TypeHint = Gdk.WindowTypeHint.Dialog;
 
-			noshowCheckbutton.Active = propertyService.GetProperty ("ICSharpCode.SharpDevelop.Gui.Dialog.TipOfTheDayView.ShowTipsAtStartup", true);
+			noshowCheckbutton.Active = propertyService.GetProperty ("MonoDevelop.Gui.Dialog.TipOfTheDayView.ShowTipsAtStartup", true);
 			noshowCheckbutton.Toggled += new EventHandler (OnNoshow);
 			nextButton.Clicked += new EventHandler (OnNext);
 			closeButton.Clicked += new EventHandler (OnClose);
@@ -73,7 +73,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 
 		public void OnNoshow (object obj, EventArgs args)
 		{
-			propertyService.SetProperty ("ICSharpCode.SharpDevelop.Gui.Dialog.TipOfTheDayView.ShowTipsAtStartup",
+			propertyService.SetProperty ("MonoDevelop.Gui.Dialog.TipOfTheDayView.ShowTipsAtStartup",
 						    noshowCheckbutton.Active);
 		}
 

@@ -8,7 +8,7 @@
 using System.Drawing;
 using System.Drawing.Text;
 
-namespace ICSharpCode.TextEditor.Util
+namespace MonoDevelop.TextEditor.Util
 {
 	class TipText: TipSection
 	{

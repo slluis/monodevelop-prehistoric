@@ -8,9 +8,9 @@
 using System;
 using System.Drawing.Printing;
 using SharpDevelop.Internal.Parser;
-using ICSharpCode.SharpDevelop.Services;
+using MonoDevelop.Services;
 
-namespace ICSharpCode.SharpDevelop.Gui
+namespace MonoDevelop.Gui
 {
 	public interface IParseInformationListener
 	{

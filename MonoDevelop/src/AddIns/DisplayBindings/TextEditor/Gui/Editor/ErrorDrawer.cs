@@ -10,12 +10,12 @@
 //using System.Drawing;
 //using System.Drawing.Text;
 //
-//using ICSharpCode.TextEditor.Document;
-//using ICSharpCode.SharpDevelop.Services;
-//using ICSharpCode.SharpDevelop.Gui;
-//using ICSharpCode.TextEditor;
+//using MonoDevelop.TextEditor.Document;
+//using MonoDevelop.Services;
+//using MonoDevelop.Gui;
+//using MonoDevelop.TextEditor;
 //
-//namespace ICSharpCode.SharpDevelop.DefaultEditor.Gui.Editor
+//namespace MonoDevelop.DefaultEditor.Gui.Editor
 //{
 //	/// <summary>
 //	/// reperesents a visual error, this class is needed by the errordrawer.
@@ -73,7 +73,7 @@
 //			textarea.TextAreaPainter.ToolTipEvent += new ToolTipEvent(ToolTip);
 //			textarea.TextAreaPainter.LinePainter += new LinePainter(ErrorPainter);
 //			
-//			TaskService taskService = (TaskService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(TaskService));
+//			TaskService taskService = (TaskService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(TaskService));
 //			taskService.TasksChanged += new EventHandler(SetErrors);
 //			textarea.FileNameChanged += new EventHandler(SetErrors);
 //		}
@@ -142,7 +142,7 @@
 //		void SetErrors(object sender, EventArgs e)
 //		{
 //			ClearErrors();
-//			TaskService taskService = (TaskService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(TaskService));
+//			TaskService taskService = (TaskService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(TaskService));
 //			foreach (Task task in taskService.Tasks) {
 //				if (task.FileName == textarea.FileName && (task.TaskType == TaskType.Warning || 
 //				                                           task.TaskType == TaskType.Error)) {

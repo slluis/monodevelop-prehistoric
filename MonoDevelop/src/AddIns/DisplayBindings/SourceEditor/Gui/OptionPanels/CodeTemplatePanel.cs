@@ -9,13 +9,13 @@ using System;
 using System.IO;
 using System.Collections;
 
-using ICSharpCode.SharpDevelop.Internal.ExternalTool;
-using ICSharpCode.SharpDevelop.Internal.Templates;
-using ICSharpCode.Core.Properties;
-using ICSharpCode.Core.AddIns.Codons;
+using MonoDevelop.Internal.ExternalTool;
+using MonoDevelop.Internal.Templates;
+using MonoDevelop.Core.Properties;
+using MonoDevelop.Core.AddIns.Codons;
 
-using ICSharpCode.Core.Services;
-using ICSharpCode.SharpDevelop.Gui.Dialogs;
+using MonoDevelop.Core.Services;
+using MonoDevelop.Gui.Dialogs;
 
 using Gtk;
 using MonoDevelop.Gui.Widgets;

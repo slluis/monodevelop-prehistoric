@@ -5,10 +5,10 @@ using System.Text;
 using System.Xml;
 
 
-using ICSharpCode.Core.Services;
-using ICSharpCode.SharpDevelop.Internal.Project;
+using MonoDevelop.Core.Services;
+using MonoDevelop.Internal.Project;
 
-namespace ICSharpCode.StartPage 
+namespace MonoDevelop.StartPage 
 {
 	public enum ColorScheme
 	{
@@ -30,7 +30,7 @@ namespace ICSharpCode.StartPage
 		}
 	}
 	
-	public class ICSharpCodePage
+	public class MonoDevelopPage
 	{
 		ColorScheme _ColorScheme;
 		
@@ -182,9 +182,9 @@ namespace ICSharpCode.StartPage
 			builder.Append(m_strRightBoxHtml);
 		}
 
-		public ICSharpCodePage()
+		public MonoDevelopPage()
 		{
-			ColorScheme = ICSharpCode.StartPage.ColorScheme.blue;
+			ColorScheme = MonoDevelop.StartPage.ColorScheme.blue;
 			
 			TopMenu = new ArrayList();
 			PopulateTopMenu();
@@ -515,9 +515,9 @@ namespace ICSharpCode.StartPage
 				try {
 					// Get the recent projects
 					Core.Properties.DefaultProperties svc = (Core.Properties.DefaultProperties)Core.Services.ServiceManager.Services.GetService(typeof(Core.Services.PropertyService));
-					object recentOpenObj = svc.GetProperty("ICSharpCode.SharpDevelop.Gui.MainWindow.RecentOpen");
-					if (recentOpenObj is ICSharpCode.SharpDevelop.Services.RecentOpen) {
-						ICSharpCode.SharpDevelop.Services.RecentOpen recOpen = (ICSharpCode.SharpDevelop.Services.RecentOpen)recentOpenObj;
+					object recentOpenObj = svc.GetProperty("MonoDevelop.Gui.MainWindow.RecentOpen");
+					if (recentOpenObj is MonoDevelop.Services.RecentOpen) {
+						MonoDevelop.Services.RecentOpen recOpen = (MonoDevelop.Services.RecentOpen)recentOpenObj;
 						projectFiles = new string[recOpen.RecentProject.Count];
 						for (int i = 0; i < recOpen.RecentProject.Count; ++i) {
 							string fileName = recOpen.RecentProject[i].ToString();

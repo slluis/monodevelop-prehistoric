@@ -10,10 +10,10 @@ using System.Drawing;
 using System.Reflection;
 using System.Collections;
 
-using ICSharpCode.Core.Services;
-using ICSharpCode.Core.Properties;
-using ICSharpCode.SharpDevelop.Internal.Templates;
-using ICSharpCode.SharpDevelop.Services;
+using MonoDevelop.Core.Services;
+using MonoDevelop.Core.Properties;
+using MonoDevelop.Internal.Templates;
+using MonoDevelop.Services;
 using SharpDevelop.Internal.Parser;
 
 using MonoDevelop.SourceEditor.Gui;

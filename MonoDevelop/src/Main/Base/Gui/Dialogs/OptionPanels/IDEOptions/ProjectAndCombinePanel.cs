@@ -10,19 +10,19 @@ using System.IO;
 using System.Drawing;
 using System.Collections;
 
-using ICSharpCode.SharpDevelop.Internal.ExternalTool;
-using ICSharpCode.Core.AddIns.Codons;
-using ICSharpCode.Core.Properties;
-using ICSharpCode.SharpDevelop.Gui.Components;
-using ICSharpCode.Core.Services;
-using ICSharpCode.Core.AddIns;
-using ICSharpCode.SharpDevelop.Services;
+using MonoDevelop.Internal.ExternalTool;
+using MonoDevelop.Core.AddIns.Codons;
+using MonoDevelop.Core.Properties;
+using MonoDevelop.Gui.Components;
+using MonoDevelop.Core.Services;
+using MonoDevelop.Core.AddIns;
+using MonoDevelop.Services;
 
 //using System.Windows.Forms;
 using Gtk;
 using MonoDevelop.Gui.Widgets;
 
-namespace ICSharpCode.SharpDevelop.Gui.Dialogs.OptionPanels
+namespace MonoDevelop.Gui.Dialogs.OptionPanels
 {
 	public class ProjectAndCombinePanel : AbstractOptionPanel
 	{
@@ -51,7 +51,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs.OptionPanels
 					return false;
 				}
 			}
-			PropertyService.SetProperty("ICSharpCode.SharpDevelop.Gui.Dialogs.NewProjectDialog.DefaultPath", projectPath);
+			PropertyService.SetProperty("MonoDevelop.Gui.Dialogs.NewProjectDialog.DefaultPath", projectPath);
 
 			widget.Store ();
 			return true;
@@ -103,7 +103,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs.OptionPanels
 					"${res:Dialog.Options.IDEOptions.ProjectAndCombineOptions.ShowTaskListPadCheckBox}");
 				// read properties
 				projectLocationTextBox.GtkEntry.Text = PropertyService.GetProperty(
-					"ICSharpCode.SharpDevelop.Gui.Dialogs.NewProjectDialog.DefaultPath", 
+					"MonoDevelop.Gui.Dialogs.NewProjectDialog.DefaultPath", 
 					System.IO.Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal),
 							"MonoDevelopProjects")).ToString();
 				BeforeCompileAction action = (BeforeCompileAction) PropertyService.GetProperty(

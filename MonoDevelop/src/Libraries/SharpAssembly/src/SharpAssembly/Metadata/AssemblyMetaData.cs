@@ -17,9 +17,9 @@
 
 using System;
 using System.IO;
-using ICSharpCode.SharpAssembly.PE;
+using MonoDevelop.SharpAssembly.PE;
 
-namespace ICSharpCode.SharpAssembly.Metadata
+namespace MonoDevelop.SharpAssembly.Metadata
 {
 	
 	public class AssemblyMetadata

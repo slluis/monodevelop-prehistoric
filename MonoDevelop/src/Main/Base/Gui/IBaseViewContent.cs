@@ -8,7 +8,7 @@
 using System;
 //using System.Windows.Forms;
 
-namespace ICSharpCode.SharpDevelop.Gui
+namespace MonoDevelop.Gui
 {
 	/// <summary>
 	/// The base functionalty all view contents must provide

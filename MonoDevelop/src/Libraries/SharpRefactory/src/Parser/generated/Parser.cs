@@ -4,12 +4,12 @@ using System.Drawing;
 using System.Collections;
 using System.Collections.Specialized;
 using System.Text;
-using ICSharpCode.SharpRefactory.Parser;
-using ICSharpCode.SharpRefactory.Parser.AST;
+using MonoDevelop.SharpRefactory.Parser;
+using MonoDevelop.SharpRefactory.Parser.AST;
 using System;
 using System.Reflection;
 
-namespace ICSharpCode.SharpRefactory.Parser {
+namespace MonoDevelop.SharpRefactory.Parser {
 
 
 
@@ -527,7 +527,7 @@ out qualident);
 		if (t.val != "assembly") Error("global attribute target specifier (\"assembly\") expected");
 		string attributeTarget = t.val;
 		ArrayList attributes = new ArrayList();
-		ICSharpCode.SharpRefactory.Parser.AST.Attribute attribute;
+		MonoDevelop.SharpRefactory.Parser.AST.Attribute attribute;
 		
 		Expect(9);
 		Attribute(
@@ -644,7 +644,7 @@ DotAndIdent()) {
 
 	void Attribute(
 #line  567 "cs.ATG" 
-out ICSharpCode.SharpRefactory.Parser.AST.Attribute attribute) {
+out MonoDevelop.SharpRefactory.Parser.AST.Attribute attribute) {
 
 #line  568 "cs.ATG" 
 		string qualident; 
@@ -664,7 +664,7 @@ ref positional, ref named);
 		}
 
 #line  574 "cs.ATG" 
-		attribute  = new ICSharpCode.SharpRefactory.Parser.AST.Attribute(name, positional, named);
+		attribute  = new MonoDevelop.SharpRefactory.Parser.AST.Attribute(name, positional, named);
 	}
 
 	void AttributeArguments(
@@ -775,7 +775,7 @@ out AttributeSection section) {
 #line  611 "cs.ATG" 
 		string attributeTarget = "";
 		ArrayList attributes = new ArrayList();
-		ICSharpCode.SharpRefactory.Parser.AST.Attribute attribute;
+		MonoDevelop.SharpRefactory.Parser.AST.Attribute attribute;
 		
 		
 		Expect(16);

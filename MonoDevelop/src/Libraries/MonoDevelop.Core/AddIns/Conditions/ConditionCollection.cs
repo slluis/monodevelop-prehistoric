@@ -7,7 +7,7 @@
 using System;
 using System.Collections;
 
-namespace ICSharpCode.Core.AddIns.Conditions
+namespace MonoDevelop.Core.AddIns.Conditions
 {
 	/// <summary>
 	///     <para>

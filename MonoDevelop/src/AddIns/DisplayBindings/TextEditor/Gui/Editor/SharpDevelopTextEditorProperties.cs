@@ -2,26 +2,26 @@ using System;
 using System.Text;
 using System.Drawing;
 
-using ICSharpCode.Core.Properties;
-using ICSharpCode.Core.Services;
-using ICSharpCode.SharpDevelop.Gui.Dialogs.OptionPanels;
+using MonoDevelop.Core.Properties;
+using MonoDevelop.Core.Services;
+using MonoDevelop.Gui.Dialogs.OptionPanels;
 
-using ICSharpCode.TextEditor;
-using ICSharpCode.TextEditor.Document;
+using MonoDevelop.TextEditor;
+using MonoDevelop.TextEditor.Document;
 
 using Pango;
 
 using MonoDevelop.EditorBindings.FormattingStrategy;
 using MonoDevelop.EditorBindings.Properties;
 
-namespace ICSharpCode.SharpDevelop.DefaultEditor.Gui.Editor
+namespace MonoDevelop.DefaultEditor.Gui.Editor
 {
 	public class SharpDevelopTextEditorProperties : ITextEditorProperties
 	{	
 		static SharpDevelopTextEditorProperties()
 		{
 			PropertyService propertyService = (PropertyService) ServiceManager.Services.GetService (typeof(PropertyService));
-			IProperties properties2 = ((IProperties) propertyService.GetProperty("ICSharpCode.TextEditor.Document.Document.DefaultDocumentAggregatorProperties", new DefaultProperties()));
+			IProperties properties2 = ((IProperties) propertyService.GetProperty("MonoDevelop.TextEditor.Document.Document.DefaultDocumentAggregatorProperties", new DefaultProperties()));
 			properties2.PropertyChanged += new PropertyEventHandler (CheckFontChange);
 			
 			FontContainer.DefaultFont = TextEditorProperties.Font;

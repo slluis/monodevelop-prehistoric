@@ -10,11 +10,11 @@ using System.Collections;
 using System.CodeDom.Compiler;
 using Gtk;
 
-using ICSharpCode.Core.AddIns;
-using ICSharpCode.Core.AddIns.Codons;
-using ICSharpCode.Core.Properties;
+using MonoDevelop.Core.AddIns;
+using MonoDevelop.Core.AddIns.Codons;
+using MonoDevelop.Core.Properties;
 
-namespace ICSharpCode.Core.AddIns.Codons
+namespace MonoDevelop.Core.AddIns.Codons
 {
 	public enum DialogMessage {
 		OK,

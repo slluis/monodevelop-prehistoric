@@ -8,7 +8,7 @@
 using System;
 using System.Drawing;
 
-namespace ICSharpCode.SharpDevelop.Gui 
+namespace MonoDevelop.Gui 
 {
 	/// <summary>
 	/// The IPadContent interface is the basic interface to all "tool" windows

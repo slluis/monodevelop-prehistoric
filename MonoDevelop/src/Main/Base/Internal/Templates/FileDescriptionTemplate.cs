@@ -11,7 +11,7 @@ using System.Xml;
 using System.Collections;
 using System.Diagnostics;
 
-namespace ICSharpCode.SharpDevelop.Internal.Templates
+namespace MonoDevelop.Internal.Templates
 {
 	public class FileDescriptionTemplate
 	{

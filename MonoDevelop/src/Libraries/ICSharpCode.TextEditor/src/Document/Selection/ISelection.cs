@@ -5,9 +5,9 @@
 //     <version value="$version"/>
 // </file>
 using System.Drawing;
-using ICSharpCode.TextEditor.Undo;
+using MonoDevelop.TextEditor.Undo;
 
-namespace ICSharpCode.TextEditor.Document
+namespace MonoDevelop.TextEditor.Document
 {
 	/// <summary>
 	/// An interface representing a portion of the current selection.

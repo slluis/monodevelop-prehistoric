@@ -7,7 +7,7 @@
 using System;
 using System.Collections;
 
-namespace ICSharpCode.SharpDevelop.Internal.Project.Collections
+namespace MonoDevelop.Internal.Project.Collections
 {
 	/// <summary>
 	///     <para>

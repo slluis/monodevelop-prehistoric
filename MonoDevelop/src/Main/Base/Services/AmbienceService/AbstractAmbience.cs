@@ -9,7 +9,7 @@ using System;
 using System.Collections;
 using SharpDevelop.Internal.Parser;
 
-namespace ICSharpCode.SharpDevelop.Services
+namespace MonoDevelop.Services
 {
 	public abstract class AbstractAmbience : IAmbience
 	{

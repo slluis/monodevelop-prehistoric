@@ -8,7 +8,7 @@
 using System;
 //using System.Windows.Forms;
 
-namespace ICSharpCode.SharpDevelop.Gui.ErrorDialogs
+namespace MonoDevelop.Gui.ErrorDialogs
 {
 /*	public class LoadingError : System.Windows.Forms.Form 
 	{

@@ -9,7 +9,7 @@ using System;
 using System.Xml;
 using System.Diagnostics;
 
-namespace ICSharpCode.SharpDevelop.Internal.Templates
+namespace MonoDevelop.Internal.Templates
 {
 	/// <summary>
 	/// This class reperesents a single Code Template
@@ -26,7 +26,7 @@ namespace ICSharpCode.SharpDevelop.Internal.Templates
 			}
 			set {
 				shortcut = value;
-				Debug.Assert(shortcut != null, "ICSharpCode.SharpDevelop.Internal.Template : string Shortcut == null");
+				Debug.Assert(shortcut != null, "MonoDevelop.Internal.Template : string Shortcut == null");
 			}
 		}
 		
@@ -36,7 +36,7 @@ namespace ICSharpCode.SharpDevelop.Internal.Templates
 			}
 			set {
 				description = value;
-				Debug.Assert(description != null, "ICSharpCode.SharpDevelop.Internal.Template : string Description == null");
+				Debug.Assert(description != null, "MonoDevelop.Internal.Template : string Description == null");
 			}
 		}
 		
@@ -46,7 +46,7 @@ namespace ICSharpCode.SharpDevelop.Internal.Templates
 			}
 			set {
 				text = value;
-				Debug.Assert(text != null, "ICSharpCode.SharpDevelop.Internal.Template : string Text == null");
+				Debug.Assert(text != null, "MonoDevelop.Internal.Template : string Text == null");
 			}
 		}
 		

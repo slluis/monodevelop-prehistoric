@@ -10,20 +10,20 @@ using System.IO;
 using System.Drawing;
 using System.Drawing.Printing;
 
-using ICSharpCode.SharpDevelop.Gui;
-using ICSharpCode.TextEditor;
-using ICSharpCode.TextEditor.Document;
-using ICSharpCode.SharpDevelop.Internal.Project;
-using ICSharpCode.SharpDevelop.Internal.Undo;
+using MonoDevelop.Gui;
+using MonoDevelop.TextEditor;
+using MonoDevelop.TextEditor.Document;
+using MonoDevelop.Internal.Project;
+using MonoDevelop.Internal.Undo;
 
 
-using ICSharpCode.Core.Properties;
-using ICSharpCode.Core.AddIns;
-using ICSharpCode.Core.Services;
-using ICSharpCode.SharpDevelop.Services;
-using ICSharpCode.Core.AddIns.Codons;
+using MonoDevelop.Core.Properties;
+using MonoDevelop.Core.AddIns;
+using MonoDevelop.Core.Services;
+using MonoDevelop.Services;
+using MonoDevelop.Core.AddIns.Codons;
 
-namespace ICSharpCode.SharpDevelop.DefaultEditor.Gui.Editor
+namespace MonoDevelop.DefaultEditor.Gui.Editor
 {
 	public class TextEditorDisplayBinding : IDisplayBinding
 	{	
@@ -335,13 +335,13 @@ namespace ICSharpCode.SharpDevelop.DefaultEditor.Gui.Editor
 		{
 			Point    pos       = textAreaControl.Document.OffsetToPosition(textAreaControl.ActiveTextAreaControl.Caret.Offset);
 			LineSegment line   = textAreaControl.Document.GetLineSegment(pos.Y);
-			IStatusBarService statusBarService = (IStatusBarService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(IStatusBarService));
+			IStatusBarService statusBarService = (IStatusBarService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IStatusBarService));
 			statusBarService.SetCaretPosition(pos.X + 1, pos.Y + 1, textAreaControl.ActiveTextAreaControl.Caret.Offset - line.Offset + 1);
 		}
 		
 		void CaretModeChanged(object sender, EventArgs e)
 		{
-			IStatusBarService statusBarService = (IStatusBarService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(IStatusBarService));
+			IStatusBarService statusBarService = (IStatusBarService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IStatusBarService));
 			statusBarService.SetInsertMode(textAreaControl.ActiveTextAreaControl.Caret.CaretMode == CaretMode.InsertMode);
 		}
 				
@@ -378,7 +378,7 @@ namespace ICSharpCode.SharpDevelop.DefaultEditor.Gui.Editor
 		}
 		
 
-#region ICSharpCode.SharpDevelop.Gui.IClipboardHandler interface implementation
+#region MonoDevelop.Gui.IClipboardHandler interface implementation
 		public bool EnableCut {
 			get {
 				return textAreaControl.ActiveTextAreaControl.TextArea.ClipboardHandler.EnableCut;
@@ -436,10 +436,10 @@ namespace ICSharpCode.SharpDevelop.DefaultEditor.Gui.Editor
 #endregion
 		
 #region IBookmarkOperations
-		void IBookmarkOperations.ToggleBookmark () { new ICSharpCode.TextEditor.Actions.ToggleBookmark     ().Execute (TextEditorControl.ActiveTextAreaControl.TextArea); }
-		void IBookmarkOperations.PrevBookmark ()   { new ICSharpCode.TextEditor.Actions.GotoPrevBookmark   ().Execute (TextEditorControl.ActiveTextAreaControl.TextArea); }
-		void IBookmarkOperations.NextBookmark ()   { new ICSharpCode.TextEditor.Actions.GotoNextBookmark   ().Execute (TextEditorControl.ActiveTextAreaControl.TextArea); }
-		void IBookmarkOperations.ClearBookmarks () { new ICSharpCode.TextEditor.Actions.ClearAllBookmarks  ().Execute (TextEditorControl.ActiveTextAreaControl.TextArea); }
+		void IBookmarkOperations.ToggleBookmark () { new MonoDevelop.TextEditor.Actions.ToggleBookmark     ().Execute (TextEditorControl.ActiveTextAreaControl.TextArea); }
+		void IBookmarkOperations.PrevBookmark ()   { new MonoDevelop.TextEditor.Actions.GotoPrevBookmark   ().Execute (TextEditorControl.ActiveTextAreaControl.TextArea); }
+		void IBookmarkOperations.NextBookmark ()   { new MonoDevelop.TextEditor.Actions.GotoNextBookmark   ().Execute (TextEditorControl.ActiveTextAreaControl.TextArea); }
+		void IBookmarkOperations.ClearBookmarks () { new MonoDevelop.TextEditor.Actions.ClearAllBookmarks  ().Execute (TextEditorControl.ActiveTextAreaControl.TextArea); }
 #endregion
 	}
 }

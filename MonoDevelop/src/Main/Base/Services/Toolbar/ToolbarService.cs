@@ -11,17 +11,17 @@ using System.Drawing;
 using System.IO;
 using System.CodeDom.Compiler;
 
-using ICSharpCode.SharpDevelop.Gui;
-using ICSharpCode.SharpDevelop.Gui.Components;
-using ICSharpCode.SharpDevelop.Internal.Project;
-using ICSharpCode.Core.AddIns.Codons;
-using ICSharpCode.Core.AddIns;
+using MonoDevelop.Gui;
+using MonoDevelop.Gui.Components;
+using MonoDevelop.Internal.Project;
+using MonoDevelop.Core.AddIns.Codons;
+using MonoDevelop.Core.AddIns;
 
-using ICSharpCode.Core.Services;
+using MonoDevelop.Core.Services;
 
 using Gtk;
 
-namespace ICSharpCode.SharpDevelop.Services
+namespace MonoDevelop.Services
 {
 	public class ToolbarService : AbstractService
 	{

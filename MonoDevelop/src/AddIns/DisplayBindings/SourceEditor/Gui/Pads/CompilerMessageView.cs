@@ -9,18 +9,18 @@ using System;
 using System.CodeDom.Compiler;
 using System.IO;
 using System.Diagnostics;
-using ICSharpCode.SharpDevelop.Services;
+using MonoDevelop.Services;
 
-using ICSharpCode.Core.Properties;
-using ICSharpCode.Core.Services;
-using ICSharpCode.SharpDevelop.Gui;
+using MonoDevelop.Core.Properties;
+using MonoDevelop.Core.Services;
+using MonoDevelop.Gui;
 
 using Gtk;
 
 namespace MonoDevelop.EditorBindings.Gui.Pads
 {
 	// Note: I moved the pads to this assembly, because I want no cyclic dll dependency
-	// on the ICSharpCode.TextEditor assembly.
+	// on the MonoDevelop.TextEditor assembly.
 	
 	/// <summary>
 	/// This class displays the errors and warnings which the compiler outputs and
@@ -72,7 +72,7 @@ namespace MonoDevelop.EditorBindings.Gui.Pads
 			scroller.Add (textEditorControl);
 			ResourceService resourceService = (ResourceService)ServiceManager.Services.GetService(typeof(IResourceService));
 			
-			TaskService     taskService    = (TaskService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(TaskService));
+			TaskService     taskService    = (TaskService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(TaskService));
 			IProjectService projectService = (IProjectService) ServiceManager.Services.GetService (typeof(IProjectService));
 			
 			taskService.CompilerOutputChanged += new EventHandler(SetOutput);
@@ -108,7 +108,7 @@ namespace MonoDevelop.EditorBindings.Gui.Pads
 		
 		void SetOutput2()
 		{
-			TaskService taskService = (TaskService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(TaskService));
+			TaskService taskService = (TaskService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(TaskService));
 			try {
 				buffer.Text = taskService.CompilerOutput;
 				UpdateTextArea();
@@ -132,7 +132,7 @@ namespace MonoDevelop.EditorBindings.Gui.Pads
 				SetOutput2();
 				outputText = null;
 			} else {
-				TaskService taskService = (TaskService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(TaskService));
+				TaskService taskService = (TaskService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(TaskService));
 				outputText = taskService.CompilerOutput;
 				UpdateTextArea();
 			}

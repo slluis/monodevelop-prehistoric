@@ -13,13 +13,13 @@ using System.Xml;
 
 //using Reflector.UserInterface;
 
-using ICSharpCode.Core.Services;
-using ICSharpCode.Core.AddIns;
-using ICSharpCode.Core.Properties;
-using ICSharpCode.SharpDevelop.Internal.Templates;
-using ICSharpCode.SharpDevelop.Services;
+using MonoDevelop.Core.Services;
+using MonoDevelop.Core.AddIns;
+using MonoDevelop.Core.Properties;
+using MonoDevelop.Internal.Templates;
+using MonoDevelop.Services;
 
-namespace ICSharpCode.SharpDevelop.Gui.Components
+namespace MonoDevelop.Gui.Components
 {
 /*	public class SharpDevelopSideTabItemFactory : ISideTabItemFactory
 	{
@@ -215,7 +215,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Components
 			}
 			
 			if (e.Button == MouseButtons.Right) {
-				MenuService menuService = (MenuService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(MenuService));
+				MenuService menuService = (MenuService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(MenuService));
 				//menuService.ShowContextMenu(this, contextMenuPath, this, e.X, e.Y);
 			}
 		}
@@ -260,7 +260,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Components
 					internalState = internalState & ~(SidebarState.CanMoveItemDown);
 				}
 				
-				MenuService menuService = (MenuService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(MenuService));
+				MenuService menuService = (MenuService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(MenuService));
 				//menuService.ShowContextMenu(this, sideTabContextMenuPath, sideTabContent, e.X, e.Y);
 			}
 		}

@@ -8,7 +8,7 @@
 using System;
 using System.Reflection;
 
-namespace ICSharpCode.SharpDevelop.Internal.Project
+namespace MonoDevelop.Internal.Project
 {
 	/// <summary>
 	/// Indicates that field value is a file or directory which should be saved

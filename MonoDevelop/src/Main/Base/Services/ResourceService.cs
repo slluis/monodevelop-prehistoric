@@ -16,9 +16,9 @@ using System.Reflection;
 using System.Xml;
 using System.Runtime.InteropServices;
 
-using ICSharpCode.Core.Properties;
+using MonoDevelop.Core.Properties;
 
-namespace ICSharpCode.Core.Services
+namespace MonoDevelop.Core.Services
 {
 	/// <summary>
 	/// This Class contains two ResourceManagers, which handle string and image resources

@@ -9,10 +9,10 @@ using System;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Xml;
-using ICSharpCode.SharpDevelop.Internal.Project;
-using ICSharpCode.SharpDevelop.Gui.Components;
+using MonoDevelop.Internal.Project;
+using MonoDevelop.Gui.Components;
 
-namespace ICSharpCode.SharpDevelop.Internal.Project
+namespace MonoDevelop.Internal.Project
 {
 	public enum Subtype {
 		Code,
@@ -55,8 +55,8 @@ namespace ICSharpCode.SharpDevelop.Internal.Project
 		[XmlAttribute("data")]
 		string		data;
 						
-		[LocalizedProperty("${res:ICSharpCode.SharpDevelop.Internal.Project.ProjectFile.Name}",
-		                   Description ="${res:ICSharpCode.SharpDevelop.Internal.Project.ProjectFile.Name.Description}")]
+		[LocalizedProperty("${res:MonoDevelop.Internal.Project.ProjectFile.Name}",
+		                   Description ="${res:MonoDevelop.Internal.Project.ProjectFile.Name.Description}")]
 		[ReadOnly(true)]
 		public string Name {
 			get {
@@ -78,8 +78,8 @@ namespace ICSharpCode.SharpDevelop.Internal.Project
 			}
 		}
 		
-		[LocalizedProperty("${res:ICSharpCode.SharpDevelop.Internal.Project.ProjectFile.BuildAction}",
-		                   Description ="${res:ICSharpCode.SharpDevelop.Internal.Project.ProjectFile.BuildAction.Description}")]
+		[LocalizedProperty("${res:MonoDevelop.Internal.Project.ProjectFile.BuildAction}",
+		                   Description ="${res:MonoDevelop.Internal.Project.ProjectFile.BuildAction.Description}")]
 		public BuildAction BuildAction {
 			get {
 				return buildaction;

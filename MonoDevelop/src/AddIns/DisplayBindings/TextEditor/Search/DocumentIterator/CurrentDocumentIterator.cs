@@ -8,11 +8,11 @@
 using System;
 using System.Collections;
 
-using ICSharpCode.SharpDevelop.Gui;
-using ICSharpCode.TextEditor;
-using ICSharpCode.SharpDevelop.DefaultEditor.Gui.Editor;
+using MonoDevelop.Gui;
+using MonoDevelop.TextEditor;
+using MonoDevelop.DefaultEditor.Gui.Editor;
 
-namespace ICSharpCode.TextEditor.Document
+namespace MonoDevelop.TextEditor.Document
 {
 	public class CurrentDocumentIterator : IDocumentIterator
 	{

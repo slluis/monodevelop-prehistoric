@@ -10,18 +10,18 @@ using System.IO;
 using System.Drawing;
 using System.ComponentModel;
 
-using ICSharpCode.SharpDevelop.Gui;
-using ICSharpCode.SharpDevelop.DefaultEditor.Gui.Editor;
-using ICSharpCode.TextEditor.Document;
-using ICSharpCode.Core.Properties;
+using MonoDevelop.Gui;
+using MonoDevelop.DefaultEditor.Gui.Editor;
+using MonoDevelop.TextEditor.Document;
+using MonoDevelop.Core.Properties;
 
-using ICSharpCode.Core.Services;
-using ICSharpCode.SharpDevelop.Services;
-//using ICSharpCode.XmlForms;
-//using ICSharpCode.SharpDevelop.Gui.XmlForms;
-using ICSharpCode.TextEditor;
+using MonoDevelop.Core.Services;
+using MonoDevelop.Services;
+//using MonoDevelop.XmlForms;
+//using MonoDevelop.Gui.XmlForms;
+using MonoDevelop.TextEditor;
 
-namespace ICSharpCode.SharpDevelop.Gui.Dialogs
+namespace MonoDevelop.Gui.Dialogs
 {
 	public class ReplaceInFilesDialog //: BaseSharpDevelopForm
 	{/*

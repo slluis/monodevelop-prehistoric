@@ -21,7 +21,7 @@ using System.Drawing;
 
 using System.Collections;
 
-namespace ICSharpCode.SharpRefactory.Parser.AST
+namespace MonoDevelop.SharpRefactory.Parser.AST
 {
 	public abstract class AbstractNode : INode
 	{

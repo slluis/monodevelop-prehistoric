@@ -9,7 +9,7 @@ using System;
 using System.Diagnostics;
 using System.Collections;
 
-namespace ICSharpCode.TextEditor.Document
+namespace MonoDevelop.TextEditor.Document
 {
 	internal class DefaultLineManager : ILineManager
 	{

@@ -9,7 +9,7 @@ using System;
 using System.Collections;
 using System.Xml;
 
-namespace ICSharpCode.Core.AddIns.Conditions
+namespace MonoDevelop.Core.AddIns.Conditions
 {
 	public class ConditionNotFoundException : System.Exception
 	{

@@ -1,9 +1,9 @@
 // created on 08.09.2003 at 22:11
 using System;
 
-using ICSharpCode.SharpDevelop.Gui.XmlForms;
+using MonoDevelop.Gui.XmlForms;
 
-namespace ICSharpCode.SharpDevelop.Gui.Dialogs {
+namespace MonoDevelop.Gui.Dialogs {
 /*	
 	public class InputBox : BaseSharpDevelopForm
 	{

@@ -11,7 +11,7 @@ using System.Collections.Specialized;
 using System.IO;
 using System.Reflection;
 
-namespace ICSharpCode.TextEditor.Document
+namespace MonoDevelop.TextEditor.Document
 {
 	public class HighlightingManager
 	{

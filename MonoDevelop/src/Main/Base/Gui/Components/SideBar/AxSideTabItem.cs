@@ -9,9 +9,9 @@ using System;
 using System.Drawing;
 using System.Collections;
 
-using ICSharpCode.Core.Properties;
+using MonoDevelop.Core.Properties;
 
-namespace ICSharpCode.SharpDevelop.Gui.Components
+namespace MonoDevelop.Gui.Components
 {
 	public enum SideTabItemStatus {
 		Normal,

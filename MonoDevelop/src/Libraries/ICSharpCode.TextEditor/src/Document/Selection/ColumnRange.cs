@@ -8,9 +8,9 @@ using System;
 using System.Drawing;
 using System.Collections;
 using System.Text;
-using ICSharpCode.TextEditor.Undo;
+using MonoDevelop.TextEditor.Undo;
 
-namespace ICSharpCode.TextEditor.Document
+namespace MonoDevelop.TextEditor.Document
 {
 	public class ColumnRange 
 	{

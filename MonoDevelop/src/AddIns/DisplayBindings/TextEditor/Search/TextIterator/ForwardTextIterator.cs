@@ -11,7 +11,7 @@ using System.Collections;
 
 using MonoDevelop.EditorBindings.Search;
 
-namespace ICSharpCode.TextEditor.Document
+namespace MonoDevelop.TextEditor.Document
 {
 	public class ForwardTextIterator : ITextIterator
 	{

@@ -8,17 +8,17 @@
 using System;
 using System.Collections;
 
-using ICSharpCode.SharpDevelop.Internal.ExternalTool;
-using ICSharpCode.Core.AddIns.Codons;
-using ICSharpCode.Core.Properties;
-using ICSharpCode.SharpDevelop.Gui.Components;
-using ICSharpCode.Core.Services;
-using ICSharpCode.Core.AddIns;
+using MonoDevelop.Internal.ExternalTool;
+using MonoDevelop.Core.AddIns.Codons;
+using MonoDevelop.Core.Properties;
+using MonoDevelop.Gui.Components;
+using MonoDevelop.Core.Services;
+using MonoDevelop.Core.AddIns;
 
 using Gtk;
 using MonoDevelop.Gui.Widgets;
 
-namespace ICSharpCode.SharpDevelop.Gui.Dialogs.OptionPanels
+namespace MonoDevelop.Gui.Dialogs.OptionPanels
 {
 	public class SelectStylePanel : AbstractOptionPanel
 	{
@@ -56,8 +56,8 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs.OptionPanels
 					
 			public SelectStylePanelWidget () : base ("Base.glade", "SelectStylePanel")
 			{
-				extensionButton.Active  = p.GetProperty("ICSharpCode.SharpDevelop.Gui.ProjectBrowser.ShowExtensions", true);
-				hiddenButton.Active  = p.GetProperty("ICSharpCode.SharpDevelop.Gui.FileScout.ShowHidden", false);
+				extensionButton.Active  = p.GetProperty("MonoDevelop.Gui.ProjectBrowser.ShowExtensions", true);
+				hiddenButton.Active  = p.GetProperty("MonoDevelop.Gui.FileScout.ShowHidden", false);
 
 // commented out by jba - 23 feb 04, deosn't seem to be used
 //				ambienceMenu = new Gtk.Menu ();
@@ -83,8 +83,8 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs.OptionPanels
 			
 			public void Store()
 			{
-				p.SetProperty("ICSharpCode.SharpDevelop.Gui.ProjectBrowser.ShowExtensions", extensionButton.Active);
-				p.SetProperty("ICSharpCode.SharpDevelop.Gui.FileScout.ShowHidden", hiddenButton.Active);
+				p.SetProperty("MonoDevelop.Gui.ProjectBrowser.ShowExtensions", extensionButton.Active);
+				p.SetProperty("MonoDevelop.Gui.FileScout.ShowHidden", hiddenButton.Active);
 //				p.SetProperty("SharpDevelop.UI.CurrentAmbience", (string)MenuToValue[ambienceMenu.Active]);
 			}
 		}

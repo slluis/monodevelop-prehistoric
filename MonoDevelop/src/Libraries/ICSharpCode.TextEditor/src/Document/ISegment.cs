@@ -5,9 +5,9 @@
 //     <version value="$version"/>
 // </file>
 
-using ICSharpCode.TextEditor.Undo;
+using MonoDevelop.TextEditor.Undo;
 
-namespace ICSharpCode.TextEditor.Document
+namespace MonoDevelop.TextEditor.Document
 {
 	/// <summary>
 	/// This interface is used to describe a span inside a text sequence

@@ -10,11 +10,11 @@ using System.Drawing;
 using System.Reflection;
 using System.Collections;
 
-using ICSharpCode.Core.Properties;
-using ICSharpCode.Core.Services;
-using ICSharpCode.SharpDevelop.Gui;
-using ICSharpCode.SharpDevelop.Internal.Templates;
-using ICSharpCode.SharpDevelop.Services;
+using MonoDevelop.Core.Properties;
+using MonoDevelop.Core.Services;
+using MonoDevelop.Gui;
+using MonoDevelop.Internal.Templates;
+using MonoDevelop.Services;
 
 using SharpDevelop.Internal.Parser;
 using MonoDevelop.SourceEditor.Gui;
@@ -26,7 +26,7 @@ namespace MonoDevelop.SourceEditor.CodeCompletion {
 	/// </summary>
 	public class CommentCompletionDataProvider : ICompletionDataProvider {
 		static ClassBrowserIconsService classBrowserIconService = (ClassBrowserIconsService)ServiceManager.Services.GetService(typeof(ClassBrowserIconsService));
-		static IParserService           parserService           = (IParserService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(IParserService));
+		static IParserService           parserService           = (IParserService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IParserService));
 		
 		int caretLineNumber;
 		int caretColumn;

@@ -12,11 +12,11 @@ using System.Diagnostics;
 using System.Drawing.Text;
 using System.Drawing.Imaging;
 
-using ICSharpCode.Core.Services;
-using ICSharpCode.Core.AddIns.Conditions;
-using ICSharpCode.Core.AddIns.Codons;
+using MonoDevelop.Core.Services;
+using MonoDevelop.Core.AddIns.Conditions;
+using MonoDevelop.Core.AddIns.Codons;
 
-namespace ICSharpCode.SharpDevelop.Gui.Components
+namespace MonoDevelop.Gui.Components
 {
 	public interface IStatusUpdate
 	{

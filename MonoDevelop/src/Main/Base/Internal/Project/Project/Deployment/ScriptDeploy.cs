@@ -9,9 +9,9 @@ using System;
 using System.IO;
 using System.Diagnostics;
 
-using ICSharpCode.Core.Services;
+using MonoDevelop.Core.Services;
 
-namespace ICSharpCode.SharpDevelop.Internal.Project
+namespace MonoDevelop.Internal.Project
 {
 	public class ScriptDeploy : IDeploymentStrategy
 	{

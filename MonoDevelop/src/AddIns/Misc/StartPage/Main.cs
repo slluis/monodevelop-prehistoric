@@ -3,12 +3,12 @@ using System;
 using System.IO;
 using System.Drawing;
 
-using ICSharpCode.Core.AddIns;
-using ICSharpCode.Core.AddIns.Codons;
-using ICSharpCode.SharpDevelop.Gui;
-using ICSharpCode.Core.Services;
+using MonoDevelop.Core.AddIns;
+using MonoDevelop.Core.AddIns.Codons;
+using MonoDevelop.Gui;
+using MonoDevelop.Core.Services;
 
-namespace ICSharpCode.StartPage {
+namespace MonoDevelop.StartPage {
 	
 	public class ShowStartPageCommand : AbstractMenuCommand
 	{

@@ -7,16 +7,16 @@
 
 using System;
 
-using ICSharpCode.SharpDevelop.Gui;
-using ICSharpCode.Core.Properties;
-using ICSharpCode.Core.Services;
-//using ICSharpCode.SharpDevelop.Gui.HtmlControl;
+using MonoDevelop.Gui;
+using MonoDevelop.Core.Properties;
+using MonoDevelop.Core.Services;
+//using MonoDevelop.Gui.HtmlControl;
 
 using Gdk;
 using Gtk;
 using Pango;
 
-namespace ICSharpCode.SharpDevelop.Gui.Dialogs
+namespace MonoDevelop.Gui.Dialogs
 {
 	public class ScrollBox : DrawingArea
 	{
@@ -147,7 +147,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 			//nb.AppendPage (changelog, new Label ("ChangeLog"));
 			nb.AppendPage (vinfo, new Label ("Version Info"));
 			this.VBox.PackStart (nb);
-			this.AddButton (Stock.Close, (int) ResponseType.Close);
+			this.AddButton (Gtk.Stock.Close, (int) ResponseType.Close);
 			this.ShowAll ();
 		}
 		

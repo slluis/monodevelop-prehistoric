@@ -11,11 +11,11 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Text;
 
-using ICSharpCode.TextEditor;
-using ICSharpCode.TextEditor.Document;
-using ICSharpCode.Core.Properties;
-using ICSharpCode.Core.Services;
-using ICSharpCode.SharpDevelop.Services;
+using MonoDevelop.TextEditor;
+using MonoDevelop.TextEditor.Document;
+using MonoDevelop.Core.Properties;
+using MonoDevelop.Core.Services;
+using MonoDevelop.Services;
 
 using MonoDevelop.EditorBindings.FormattingStrategy;
 

@@ -5,10 +5,10 @@
 //     <version value="$version"/>
 // </file>
 using System.Drawing;
-using ICSharpCode.SharpDevelop.Gui;
+using MonoDevelop.Gui;
 using Gtk;
 
-namespace ICSharpCode.SharpDevelop.Services
+namespace MonoDevelop.Services
 {
 	public interface IStatusBarService
 	{

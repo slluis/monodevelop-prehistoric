@@ -8,11 +8,11 @@
 using System;
 using System.Collections;
 
-using ICSharpCode.Core.Properties;
-using ICSharpCode.Core.AddIns.Conditions;
-using ICSharpCode.Core.Services;
+using MonoDevelop.Core.Properties;
+using MonoDevelop.Core.AddIns.Conditions;
+using MonoDevelop.Core.Services;
 
-namespace ICSharpCode.Core.AddIns.Codons
+namespace MonoDevelop.Core.AddIns.Codons
 {
 	[CodonNameAttribute("FileFilter")]
 	public class FileFilterCodon : AbstractCodon

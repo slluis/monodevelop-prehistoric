@@ -9,7 +9,7 @@ using System;
 using System.Collections;
 using System.Collections.Specialized;
 
-using ICSharpCode.SharpDevelop.Services;
+using MonoDevelop.Services;
 
 namespace SharpDevelop.Internal.Parser
 {

@@ -11,15 +11,15 @@ using System.IO;
 using System.Collections;
 using System.Collections.Specialized;
 
-using ICSharpCode.Core.Properties;
-using ICSharpCode.Core.Services;
-using ICSharpCode.SharpDevelop.Internal.Project;
-using ICSharpCode.TextEditor.Document;
-//using ICSharpCode.TextEditor.Util;
+using MonoDevelop.Core.Properties;
+using MonoDevelop.Core.Services;
+using MonoDevelop.Internal.Project;
+using MonoDevelop.TextEditor.Document;
+//using MonoDevelop.TextEditor.Util;
 
 using Gtk;
 
-namespace ICSharpCode.SharpDevelop.Gui.Dialogs
+namespace MonoDevelop.Gui.Dialogs
 {
 	public class ExportProjectToHtmlDialog : Dialog
 	{

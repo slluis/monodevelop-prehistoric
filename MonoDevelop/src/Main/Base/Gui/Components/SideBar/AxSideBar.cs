@@ -9,7 +9,7 @@ using System;
 using System.Collections;
 using System.Drawing;
 
-namespace ICSharpCode.SharpDevelop.Gui.Components
+namespace MonoDevelop.Gui.Components
 {/*
 	public interface ISideTabItemFactory
 	{
@@ -1043,7 +1043,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Components
 					return o;
 				}
 				
-				if (typeStr == "ICSharpCode.SharpDevelop.Gui.Components.SharpDevelopSideTabItem" && str     == "TimeSprint.Alexandria.UI.SideBar.AxSideTabItem") {
+				if (typeStr == "MonoDevelop.Gui.Components.SharpDevelopSideTabItem" && str     == "TimeSprint.Alexandria.UI.SideBar.AxSideTabItem") {
 					return o;
 				}
 				

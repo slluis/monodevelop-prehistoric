@@ -1,13 +1,13 @@
 using System;
 using System.IO;
 
-using ICSharpCode.SharpDevelop.Gui;
-using ICSharpCode.SharpDevelop.Internal.Project;
-using ICSharpCode.Core.Properties;
-using ICSharpCode.Core.AddIns;
-using ICSharpCode.Core.Services;
-using ICSharpCode.SharpDevelop.Services;
-using ICSharpCode.Core.AddIns.Codons;
+using MonoDevelop.Gui;
+using MonoDevelop.Internal.Project;
+using MonoDevelop.Core.Properties;
+using MonoDevelop.Core.AddIns;
+using MonoDevelop.Core.Services;
+using MonoDevelop.Services;
+using MonoDevelop.Core.AddIns.Codons;
 using System.Runtime.InteropServices;
 
 using Gtk;
@@ -121,7 +121,7 @@ namespace MonoDevelop.SourceEditor.Gui {
 			PropertiesChanged (null, null);
 			
 			PropertyService propertyService = (PropertyService) ServiceManager.Services.GetService (typeof (PropertyService));
-			IProperties properties2 = ((IProperties) propertyService.GetProperty("ICSharpCode.TextEditor.Document.Document.DefaultDocumentAggregatorProperties", new DefaultProperties()));
+			IProperties properties2 = ((IProperties) propertyService.GetProperty("MonoDevelop.TextEditor.Document.Document.DefaultDocumentAggregatorProperties", new DefaultProperties()));
 			properties2.PropertyChanged += new PropertyEventHandler (PropertiesChanged);
 		}
 		

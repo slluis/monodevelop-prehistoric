@@ -6,9 +6,9 @@
 // </file>
 
 using System;
-using ICSharpCode.SharpDevelop.Internal.Undo;
+using MonoDevelop.Internal.Undo;
 
-namespace ICSharpCode.SharpDevelop.Gui
+namespace MonoDevelop.Gui
 {
 	public interface IClipboardHandler
 	{

@@ -11,14 +11,14 @@ using System.CodeDom;
 using System.CodeDom.Compiler;
 using System.Text;
 
-using ICSharpCode.Core.Properties;
-using ICSharpCode.Core.Services;
+using MonoDevelop.Core.Properties;
+using MonoDevelop.Core.Services;
 
-namespace ICSharpCode.SharpDevelop.Services
+namespace MonoDevelop.Services
 {
 	public class CodeDOMGeneratorUtility 
 	{
-		AmbienceService     ambienceService = (AmbienceService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(AmbienceService));
+		AmbienceService     ambienceService = (AmbienceService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(AmbienceService));
 		
 		public CodeGeneratorOptions CreateCodeGeneratorOptions {
 			get {
@@ -28,7 +28,7 @@ namespace ICSharpCode.SharpDevelop.Services
 				options.ElseOnClosing            = ambienceService.CodeGenerationProperties.GetProperty("ElseOnClosing", true);
 				
 				PropertyService propertyService = (PropertyService)ServiceManager.Services.GetService(typeof(PropertyService));
-				IProperties docProperties = ((IProperties)propertyService.GetProperty("ICSharpCode.TextEditor.Document.Document.DefaultDocumentAggregatorProperties", new DefaultProperties()));
+				IProperties docProperties = ((IProperties)propertyService.GetProperty("MonoDevelop.TextEditor.Document.Document.DefaultDocumentAggregatorProperties", new DefaultProperties()));
 				
 				if ((bool)docProperties.GetProperty("TabsToSpaces", false)) {
 					StringBuilder indentationString = new StringBuilder();

@@ -9,13 +9,13 @@ using System;
 using System.IO;
 using System.Resources;
 
-using ICSharpCode.Core.Properties;
-using ICSharpCode.Core.Services;
+using MonoDevelop.Core.Properties;
+using MonoDevelop.Core.Services;
 
 using Gtk;
 using Glade;
 
-namespace ICSharpCode.SharpDevelop.Gui.Dialogs
+namespace MonoDevelop.Gui.Dialogs
 {
 	public class GotoLineNumberDialog : IDisposable
 	{

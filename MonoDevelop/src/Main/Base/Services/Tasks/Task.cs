@@ -8,10 +8,10 @@
 using System;
 using System.Collections;
 using System.CodeDom.Compiler;
-using ICSharpCode.SharpDevelop.Internal.Project;
-using ICSharpCode.SharpDevelop.Gui;
+using MonoDevelop.Internal.Project;
+using MonoDevelop.Gui;
 
-namespace ICSharpCode.SharpDevelop.Services
+namespace MonoDevelop.Services
 {
 	public enum TaskType {
 		Error,
@@ -101,7 +101,7 @@ namespace ICSharpCode.SharpDevelop.Services
 		public void JumpToPosition()
 		{
 			if (fileName != null && fileName.Length > 0) {
-				IFileService fileService = (IFileService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(IFileService));
+				IFileService fileService = (IFileService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IFileService));
 				fileService.OpenFile(fileName);
 				IWorkbenchWindow window = fileService.GetOpenFile(fileName);
 				if (window == null) {

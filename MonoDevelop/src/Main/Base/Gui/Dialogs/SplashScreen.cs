@@ -4,7 +4,7 @@ using System.Collections;
 using System.Reflection;
 using Gtk;
 
-namespace ICSharpCode.SharpDevelop.Gui.Dialogs {
+namespace MonoDevelop.Gui.Dialogs {
 	
 	public class SplashScreenForm : Gtk.Window
 	{

@@ -8,11 +8,11 @@
 using System;
 using System.Collections;
 
-using ICSharpCode.Core.Services;
-using ICSharpCode.SharpDevelop.Gui;
-using ICSharpCode.SharpDevelop.Internal.Project;
+using MonoDevelop.Core.Services;
+using MonoDevelop.Gui;
+using MonoDevelop.Internal.Project;
 
-namespace ICSharpCode.SharpDevelop.Services
+namespace MonoDevelop.Services
 {
 	public class TaskService : AbstractService
 	{

@@ -9,7 +9,7 @@ using System;
 using System.Collections;
 using System.Xml;
 
-namespace ICSharpCode.TextEditor.Document
+namespace MonoDevelop.TextEditor.Document
 {
 	public interface ISyntaxModeFileProvider
 	{

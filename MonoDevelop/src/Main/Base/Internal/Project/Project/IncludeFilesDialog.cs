@@ -9,16 +9,16 @@ using System.Drawing;
 using System.Collections;
 using System.Collections.Specialized;
 using System.ComponentModel;
-using ICSharpCode.Core.Properties;
+using MonoDevelop.Core.Properties;
 
-using ICSharpCode.Core.Services;
+using MonoDevelop.Core.Services;
 
-using ICSharpCode.SharpDevelop.Gui;
-using ICSharpCode.SharpDevelop.Internal.Project;
+using MonoDevelop.Gui;
+using MonoDevelop.Internal.Project;
 
 using Gtk;
 
-namespace ICSharpCode.SharpDevelop.Internal.Project
+namespace MonoDevelop.Internal.Project
 {
 	/// <summary>
 	/// Summary description for Form1.

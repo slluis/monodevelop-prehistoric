@@ -8,7 +8,7 @@
 using System;
 using System.Collections.Specialized;
 
-namespace ICSharpCode.Core.AddIns
+namespace MonoDevelop.Core.AddIns
 {
 	/// <summary>
 	/// Is thrown when the AddInTree could not find the requested path.

@@ -9,7 +9,7 @@ using System;
 using System.Drawing;
 using System.Diagnostics;
 
-namespace ICSharpCode.TextEditor.Document
+namespace MonoDevelop.TextEditor.Document
 {
 	
 	public enum TextWordType {

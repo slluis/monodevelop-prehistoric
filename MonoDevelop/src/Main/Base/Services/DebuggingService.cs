@@ -7,11 +7,11 @@
 using System;
 using System.Collections;
 
-using ICSharpCode.Core.Services;
-using ICSharpCode.Core.AddIns;
+using MonoDevelop.Core.Services;
+using MonoDevelop.Core.AddIns;
 
-using ICSharpCode.SharpDevelop.Services;
-using ICSharpCode.SharpDevelop.Gui;
+using MonoDevelop.Services;
+using MonoDevelop.Gui;
 
 using Mono.Debugger;
 

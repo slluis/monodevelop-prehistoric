@@ -10,7 +10,7 @@ using System.Collections;
 using System.Drawing;
 using System.Text;
 
-namespace ICSharpCode.TextEditor.Document
+namespace MonoDevelop.TextEditor.Document
 {
 	/// <summary>
 	/// A highlighting strategy for a buffer.

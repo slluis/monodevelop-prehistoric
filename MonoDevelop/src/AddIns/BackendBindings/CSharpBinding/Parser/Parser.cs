@@ -5,10 +5,10 @@
 //     <version value="$version"/>
 // </file>
 using System;
-using ICSharpCode.SharpDevelop.Services;
+using MonoDevelop.Services;
 using SharpDevelop.Internal.Parser;
 using CSharpBinding.Parser.SharpDevelopTree;
-using ICSharpCode.SharpRefactory.Parser;
+using MonoDevelop.SharpRefactory.Parser;
 
 namespace CSharpBinding.Parser
 {
@@ -24,7 +24,7 @@ namespace CSharpBinding.Parser
 		
 		public ICompilationUnitBase Parse(string fileName)
 		{
-			ICSharpCode.SharpRefactory.Parser.Parser p = new ICSharpCode.SharpRefactory.Parser.Parser();
+			MonoDevelop.SharpRefactory.Parser.Parser p = new MonoDevelop.SharpRefactory.Parser.Parser();
 			
 			p.Parse(new Lexer(new FileReader(fileName)));
 			
@@ -36,7 +36,7 @@ namespace CSharpBinding.Parser
 		
 		public ICompilationUnitBase Parse(string fileName, string fileContent)
 		{
-			ICSharpCode.SharpRefactory.Parser.Parser p = new ICSharpCode.SharpRefactory.Parser.Parser();
+			MonoDevelop.SharpRefactory.Parser.Parser p = new MonoDevelop.SharpRefactory.Parser.Parser();
 			p.Parse(new Lexer(new StringReader(fileContent)));
 			
 			CSharpVisitor visitor = new CSharpVisitor();

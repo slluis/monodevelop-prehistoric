@@ -9,19 +9,19 @@ using System;
 using System.Collections;
 using System.IO;
 
-using ICSharpCode.Core.Services;
-using ICSharpCode.SharpDevelop.Services;
-using ICSharpCode.SharpDevelop.Gui.Components;
-using ICSharpCode.SharpDevelop.Gui;
-using ICSharpCode.Core.Properties;
-using ICSharpCode.Core.AddIns;
-using ICSharpCode.SharpDevelop.Internal.Templates;
-using ICSharpCode.SharpDevelop.Gui.XmlForms;
+using MonoDevelop.Core.Services;
+using MonoDevelop.Services;
+using MonoDevelop.Gui.Components;
+using MonoDevelop.Gui;
+using MonoDevelop.Core.Properties;
+using MonoDevelop.Core.AddIns;
+using MonoDevelop.Internal.Templates;
+using MonoDevelop.Gui.XmlForms;
 
 using Gtk;
 using MonoDevelop.Gui.Widgets;
 
-namespace ICSharpCode.SharpDevelop.Gui.Dialogs
+namespace MonoDevelop.Gui.Dialogs
 {
 	/// <summary>
 	///  This class is for creating a new "empty" file
@@ -216,7 +216,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 		
 		public void SaveFile(string filename, string content, string languageName, bool showFile)
 		{
-			IFileService fileService = (IFileService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(IFileService));
+			IFileService fileService = (IFileService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IFileService));
 			fileService.NewFile(filename, languageName, content);
 		}
 		
@@ -357,11 +357,11 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 			templateView.AppendColumn (templateColumn);
 
 			//okButton = new Gtk.Button ("Create");
-			okButton = new Button (Stock.New);
+			okButton = new Button (Gtk.Stock.New);
 			okButton.Clicked += new EventHandler (OpenEvent);
 
 			//cancelButton = new Gtk.Button ("Cancel");
-			cancelButton = new Button (Stock.Close);
+			cancelButton = new Button (Gtk.Stock.Close);
 			cancelButton.Clicked += new EventHandler (cancelClicked);
 
 			infoLabel = new Label ("");

@@ -14,10 +14,10 @@ using System.Drawing;
 using System.Diagnostics;
 using System.Reflection;
 using System.Xml;
-using ICSharpCode.Core.Services;
-using ICSharpCode.SharpDevelop.Gui;
+using MonoDevelop.Core.Services;
+using MonoDevelop.Gui;
 
-namespace ICSharpCode.SharpDevelop.Services
+namespace MonoDevelop.Services
 {
 	public class LanguageService : AbstractService
 	{

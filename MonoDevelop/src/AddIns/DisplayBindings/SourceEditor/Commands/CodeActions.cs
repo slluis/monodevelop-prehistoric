@@ -10,22 +10,22 @@ using System.IO;
 using System.Collections;
 using System.Text;
 
-using ICSharpCode.Core.AddIns;
-using ICSharpCode.Core.AddIns.Codons;
-using ICSharpCode.Core.Properties;
-using ICSharpCode.Core.Services;
-using ICSharpCode.SharpDevelop.Gui.Dialogs;
-using ICSharpCode.TextEditor.Document;
-using ICSharpCode.SharpDevelop.Gui;
-using ICSharpCode.TextEditor.Actions;
-using ICSharpCode.TextEditor;
+using MonoDevelop.Core.AddIns;
+using MonoDevelop.Core.AddIns.Codons;
+using MonoDevelop.Core.Properties;
+using MonoDevelop.Core.Services;
+using MonoDevelop.Gui.Dialogs;
+using MonoDevelop.TextEditor.Document;
+using MonoDevelop.Gui;
+using MonoDevelop.TextEditor.Actions;
+using MonoDevelop.TextEditor;
 using SharpDevelop.Internal.Parser;
-using ICSharpCode.SharpDevelop.Services;
+using MonoDevelop.Services;
 
 using MonoDevelop.EditorBindings.FormattingStrategy;
 using MonoDevelop.SourceEditor.Gui;
 
-namespace ICSharpCode.SharpDevelop.DefaultEditor.Commands
+namespace MonoDevelop.DefaultEditor.Commands
 {
 	public class GenerateCodeAction : AbstractMenuCommand
 	{
@@ -40,7 +40,7 @@ namespace ICSharpCode.SharpDevelop.DefaultEditor.Commands
 			}
 			TextEditorControl textEditorControl = ((ITextEditorControlProvider)window.ViewContent).TextEditorControl;
 			
-			IParserService parserService = (IParserService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(IParserService));
+			IParserService parserService = (IParserService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IParserService));
 			
 			IParseInformation parseInformation = parserService.GetParseInformation(textEditorControl.FileName);
 			
@@ -677,7 +677,7 @@ namespace ICSharpCode.SharpDevelop.DefaultEditor.Commands
 		
 		public InterfaceImplementorCodeGenerator(IClass currentClass) : base(currentClass)
 		{
-			IParserService parserService = (IParserService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(IParserService));
+			IParserService parserService = (IParserService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IParserService));
 			
 			foreach (string className in currentClass.BaseTypes) {
 				IClass baseType = parserService.GetClass(className);
@@ -972,7 +972,7 @@ namespace ICSharpCode.SharpDevelop.DefaultEditor.Commands
 		
 		public AbstractClassImplementorCodeGenerator(IClass currentClass) : base(currentClass)
 		{
-			IParserService parserService = (IParserService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(IParserService));
+			IParserService parserService = (IParserService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IParserService));
 			
 			foreach (string className in currentClass.BaseTypes) {
 				IClass baseType = parserService.GetClass(className);

@@ -11,9 +11,9 @@ using System.Drawing;
 using System.Diagnostics;
 using System.Globalization;
 using System.Text;
-using ICSharpCode.SharpRefactory.Parser;
+using MonoDevelop.SharpRefactory.Parser;
 
-namespace ICSharpCode.SharpRefactory.Parser {
+namespace MonoDevelop.SharpRefactory.Parser {
 	public struct Token {
 		public readonly int kind;
 		

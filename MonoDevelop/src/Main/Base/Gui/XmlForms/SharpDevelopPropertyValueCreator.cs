@@ -10,9 +10,9 @@ using System.Xml;
 using System.Collections;
 using System.Drawing;
 using System.Reflection;
-using ICSharpCode.Core.Services;
+using MonoDevelop.Core.Services;
 
-namespace ICSharpCode.SharpDevelop.Gui.XmlForms
+namespace MonoDevelop.Gui.XmlForms
 {/*
 	public class SharpDevelopPropertyValueCreator : IPropertyValueCreator
 	{

@@ -6,9 +6,9 @@
 // </file>
 
 using System.Xml;
-using ICSharpCode.SharpDevelop.Internal.Project;
+using MonoDevelop.Internal.Project;
 
-namespace ICSharpCode.SharpDevelop.Internal.Project
+namespace MonoDevelop.Internal.Project
 {
 	public abstract class AbstractConfiguration : IConfiguration
 	{

@@ -8,14 +8,14 @@
 using System.Drawing;
 using System;
 
-using ICSharpCode.Core.Properties;
-using ICSharpCode.SharpDevelop.DefaultEditor.Gui.Editor;
-using ICSharpCode.TextEditor.Document;
-using ICSharpCode.TextEditor.Actions;
-using ICSharpCode.TextEditor;
-using ICSharpCode.TextEditor.Gui.CompletionWindow;
+using MonoDevelop.Core.Properties;
+using MonoDevelop.DefaultEditor.Gui.Editor;
+using MonoDevelop.TextEditor.Document;
+using MonoDevelop.TextEditor.Actions;
+using MonoDevelop.TextEditor;
+using MonoDevelop.TextEditor.Gui.CompletionWindow;
 
-namespace ICSharpCode.SharpDevelop.DefaultEditor.Actions
+namespace MonoDevelop.DefaultEditor.Actions
 {
 	public class TemplateCompletion : AbstractEditAction
 	{

@@ -1,4 +1,4 @@
-namespace ICSharpCode.SharpDevelop.Gui {
+namespace MonoDevelop.Gui {
 	public interface IBookmarkOperations {
 		void ToggleBookmark ();
 		void PrevBookmark ();

@@ -7,7 +7,7 @@
 
 using System;
 
-namespace ICSharpCode.Core.Properties
+namespace MonoDevelop.Core.Properties
 {
 	/// <summary>
 	/// Is thrown when no property file could be loaded.

@@ -8,7 +8,7 @@
 using System;
 using System.Reflection;
 
-namespace ICSharpCode.Core.AddIns.Codons
+namespace MonoDevelop.Core.AddIns.Codons
 {
 	/// <summary>
 	/// Indicates that class represents a codon.

@@ -8,8 +8,8 @@
 using System;
 using System.IO;
 
-using ICSharpCode.SharpDevelop.Internal.Templates;
-using ICSharpCode.Core.Services;
+using MonoDevelop.Internal.Templates;
+using MonoDevelop.Core.Services;
 
 namespace MonoDevelop.EditorBindings.Gui.Dialogs
 {

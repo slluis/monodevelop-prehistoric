@@ -15,17 +15,17 @@ using System.Reflection;
 using System.ComponentModel;
 using System.Xml;
 
-using ICSharpCode.Core.Properties;
+using MonoDevelop.Core.Properties;
 
-using ICSharpCode.Core.AddIns;
+using MonoDevelop.Core.AddIns;
 
-using ICSharpCode.SharpDevelop.Internal.Project.Collections;
-using ICSharpCode.SharpDevelop.Internal.Project;
-using ICSharpCode.Core.Services;
-using ICSharpCode.SharpDevelop.Services;
-using ICSharpCode.SharpDevelop.Gui.Components;
+using MonoDevelop.Internal.Project.Collections;
+using MonoDevelop.Internal.Project;
+using MonoDevelop.Core.Services;
+using MonoDevelop.Services;
+using MonoDevelop.Gui.Components;
 
-namespace ICSharpCode.SharpDevelop.Internal.Project
+namespace MonoDevelop.Internal.Project
 {
 	
 	
@@ -68,15 +68,15 @@ namespace ICSharpCode.SharpDevelop.Internal.Project
 			}
 		}
 		
-		[LocalizedProperty("${res:ICSharpCode.SharpDevelop.Internal.Project.Project.Name}",
-		                   Description ="${res:ICSharpCode.SharpDevelop.Internal.Project.Project.Description}")]
+		[LocalizedProperty("${res:MonoDevelop.Internal.Project.Project.Name}",
+		                   Description ="${res:MonoDevelop.Internal.Project.Project.Description}")]
 		public string Name {
 			get {
 				return projectname;
 			}
 			set {
 				if (projectname != value && value != null && value.Length > 0) {
-					IProjectService projectService = (IProjectService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
+					IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
 					if (!projectService.ExistsEntryWithName(value)) {
 						string oldName = projectname;
 						projectname = value;
@@ -87,8 +87,8 @@ namespace ICSharpCode.SharpDevelop.Internal.Project
 			}
 		}
 		
-		[LocalizedProperty("${res:ICSharpCode.SharpDevelop.Internal.Project.ProjectClass.Description}",
-		                   Description = "${res:ICSharpCode.SharpDevelop.Internal.Project.ProjectClass.Description.Description}")]
+		[LocalizedProperty("${res:MonoDevelop.Internal.Project.ProjectClass.Description}",
+		                   Description = "${res:MonoDevelop.Internal.Project.ProjectClass.Description.Description}")]
 		[DefaultValue("")]
 		public string Description {
 			get {
@@ -123,8 +123,8 @@ namespace ICSharpCode.SharpDevelop.Internal.Project
 			}
 		}
 		
-		[LocalizedProperty("${res:ICSharpCode.SharpDevelop.Internal.Project.Project.ActiveConfiguration}",
-		                   Description = "${res:ICSharpCode.SharpDevelop.Internal.Project.Project.ActiveConfiguration.Description}")]
+		[LocalizedProperty("${res:MonoDevelop.Internal.Project.Project.ActiveConfiguration}",
+		                   Description = "${res:MonoDevelop.Internal.Project.Project.ActiveConfiguration.Description}")]
 		[TypeConverter(typeof(ProjectActiveConfigurationTypeConverter))]
 		public IConfiguration ActiveConfiguration {
 			get {
@@ -138,8 +138,8 @@ namespace ICSharpCode.SharpDevelop.Internal.Project
 			}
 		}
 		
-		[LocalizedProperty("${res:ICSharpCode.SharpDevelop.Internal.Project.Project.NewFileSearch}",
-		                   Description = "${res:ICSharpCode.SharpDevelop.Internal.Project.Project.NewFileSearch.Description}")]
+		[LocalizedProperty("${res:MonoDevelop.Internal.Project.Project.NewFileSearch}",
+		                   Description = "${res:MonoDevelop.Internal.Project.Project.NewFileSearch.Description}")]
 		[DefaultValue(NewFileSearch.None)]
 		public NewFileSearch NewFileSearch {
 			get {
@@ -161,8 +161,8 @@ namespace ICSharpCode.SharpDevelop.Internal.Project
 			}
 		}
 		
-		[LocalizedProperty("${res:ICSharpCode.SharpDevelop.Internal.Project.Project.ProjectType}",
-		                   Description = "${res:ICSharpCode.SharpDevelop.Internal.Project.Project.ProjectType.Description}")]
+		[LocalizedProperty("${res:MonoDevelop.Internal.Project.Project.ProjectType}",
+		                   Description = "${res:MonoDevelop.Internal.Project.Project.ProjectType.Description}")]
 		public abstract string ProjectType {
 			get;
 		}
@@ -191,7 +191,7 @@ namespace ICSharpCode.SharpDevelop.Internal.Project
 
 		public bool IsCompileable(string fileName)
 		{
-			LanguageBindingService languageBindingService = (LanguageBindingService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(LanguageBindingService));
+			LanguageBindingService languageBindingService = (LanguageBindingService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(LanguageBindingService));
 			return languageBindingService.GetBindingPerLanguageName(ProjectType).CanCompile(fileName);
 		}
 		

@@ -8,7 +8,7 @@
 using System;
 using System.Xml;
 
-namespace ICSharpCode.Core.AddIns.Conditions
+namespace MonoDevelop.Core.AddIns.Conditions
 {
 	/// <summary>
 	/// Default actions, when a condition is failed.

@@ -9,7 +9,7 @@ using System.Reflection;
 using System.Collections;
 using System.Collections.Specialized;
 using System.Collections.Utility;
-using ICSharpCode.SharpDevelop.Services;
+using MonoDevelop.Services;
 
 namespace SharpDevelop.Internal.Parser {
 	
@@ -167,7 +167,7 @@ namespace SharpDevelop.Internal.Parser {
 
 		public class ClassInheritanceEnumerator : IEnumerator, IEnumerable
 		{
-			static IParserService parserService = (IParserService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(IParserService));
+			static IParserService parserService = (IParserService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IParserService));
 			IClass topLevelClass;
 			IClass currentClass  = null;
 			Queue  baseTypeQueue = new Queue();

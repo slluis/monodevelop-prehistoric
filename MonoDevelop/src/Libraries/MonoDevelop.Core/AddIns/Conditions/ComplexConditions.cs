@@ -9,7 +9,7 @@ using System;
 using System.Diagnostics;
 using System.Xml;
 
-namespace ICSharpCode.Core.AddIns.Conditions
+namespace MonoDevelop.Core.AddIns.Conditions
 {
 	/// <summary>
 	/// Negates a condition

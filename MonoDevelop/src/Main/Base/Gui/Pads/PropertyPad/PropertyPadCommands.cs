@@ -12,12 +12,12 @@ using System.ComponentModel.Design;
 using System.Drawing;
 using System.Drawing.Design;
 
-using ICSharpCode.Core.Properties;
-using ICSharpCode.SharpDevelop.Gui;
-using ICSharpCode.Core.Services;
-using ICSharpCode.Core.AddIns.Codons;
+using MonoDevelop.Core.Properties;
+using MonoDevelop.Gui;
+using MonoDevelop.Core.Services;
+using MonoDevelop.Core.AddIns.Codons;
 
-namespace ICSharpCode.SharpDevelop.Gui.Pads
+namespace MonoDevelop.Gui.Pads
 {
 	public class PropertyPadResetCommand : AbstractMenuCommand
 	{

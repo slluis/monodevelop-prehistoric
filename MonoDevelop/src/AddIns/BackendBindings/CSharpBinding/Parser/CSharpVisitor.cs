@@ -4,8 +4,8 @@ using System.Drawing;
 using System.Diagnostics;
 using System.Collections;
 
-using RefParser = ICSharpCode.SharpRefactory.Parser;
-using AST = ICSharpCode.SharpRefactory.Parser.AST;
+using RefParser = MonoDevelop.SharpRefactory.Parser;
+using AST = MonoDevelop.SharpRefactory.Parser.AST;
 using SharpDevelop.Internal.Parser;
 using CSharpBinding.Parser.SharpDevelopTree;
 
@@ -67,7 +67,7 @@ namespace CSharpBinding.Parser
 			return null;
 		}
 		
-//		ModifierEnum VisitModifier(ICSharpCode.SharpRefactory.Parser.Modifier m)
+//		ModifierEnum VisitModifier(MonoDevelop.SharpRefactory.Parser.Modifier m)
 //		{
 //			return (ModifierEnum)m;
 //		}

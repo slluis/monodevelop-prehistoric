@@ -1,7 +1,7 @@
 using System;
 using System.ComponentModel;
 
-namespace ICSharpCode.SharpDevelop.Gui.HtmlControl
+namespace MonoDevelop.Gui.HtmlControl
 {
 	public delegate void BrowserNavigateEventHandler(object s, BrowserNavigateEventArgs e);
 	

@@ -10,15 +10,15 @@ using System.Diagnostics;
 using System.IO;
 using System.Xml;
 
-using ICSharpCode.Core.AddIns;
+using MonoDevelop.Core.AddIns;
 
-using ICSharpCode.Core.Services;
+using MonoDevelop.Core.Services;
 
-using ICSharpCode.SharpDevelop.Internal.Project;
-using ICSharpCode.SharpDevelop.Gui;
-using ICSharpCode.Core.AddIns.Codons;
+using MonoDevelop.Internal.Project;
+using MonoDevelop.Gui;
+using MonoDevelop.Core.AddIns.Codons;
 
-namespace ICSharpCode.SharpDevelop.Services
+namespace MonoDevelop.Services
 {
 	public class DefaultFileService : AbstractService, IFileService
 	{
@@ -30,7 +30,7 @@ namespace ICSharpCode.SharpDevelop.Services
 			get {
 				if (recentOpen == null) {
 					PropertyService propertyService = (PropertyService)ServiceManager.Services.GetService(typeof(PropertyService));
-					recentOpen = (RecentOpen)propertyService.GetProperty("ICSharpCode.SharpDevelop.Gui.MainWindow.RecentOpen", new RecentOpen());
+					recentOpen = (RecentOpen)propertyService.GetProperty("MonoDevelop.Gui.MainWindow.RecentOpen", new RecentOpen());
 				}
 				return recentOpen;
 			}
@@ -58,7 +58,7 @@ namespace ICSharpCode.SharpDevelop.Services
 			{
 				IViewContent newContent = binding.CreateContentForFile(fileName);
 				WorkbenchSingleton.Workbench.ShowView(newContent);
-				DisplayBindingService displayBindingService = (DisplayBindingService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(DisplayBindingService));
+				DisplayBindingService displayBindingService = (DisplayBindingService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(DisplayBindingService));
 				displayBindingService.AttachSubWindows(newContent.WorkbenchWindow);
 			}
 		}
@@ -96,9 +96,9 @@ namespace ICSharpCode.SharpDevelop.Services
 				}
 			}
 			
-			DisplayBindingService displayBindingService = (DisplayBindingService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(DisplayBindingService));
+			DisplayBindingService displayBindingService = (DisplayBindingService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(DisplayBindingService));
 			
-			IFileService fileService = (IFileService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(IFileService));
+			IFileService fileService = (IFileService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IFileService));
 			IDisplayBinding binding = displayBindingService.GetBindingPerFileName(fileName);
 			
 			if (binding != null) {
@@ -118,7 +118,7 @@ namespace ICSharpCode.SharpDevelop.Services
 		
 		public void NewFile(string defaultName, string language, string content)
 		{
-			DisplayBindingService displayBindingService = (DisplayBindingService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(DisplayBindingService));
+			DisplayBindingService displayBindingService = (DisplayBindingService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(DisplayBindingService));
 			IDisplayBinding binding = displayBindingService.GetBindingPerLanguageName(language);
 			
 			if (binding != null) {

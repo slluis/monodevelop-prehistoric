@@ -8,13 +8,13 @@
 using System;
 using System.CodeDom.Compiler;
 
-using ICSharpCode.Core.Properties;
-using ICSharpCode.Core.Services;
-using ICSharpCode.SharpDevelop.Gui;
-using ICSharpCode.SharpDevelop.Internal.Project;
-using ICSharpCode.SharpDevelop.Internal.Templates;
+using MonoDevelop.Core.Properties;
+using MonoDevelop.Core.Services;
+using MonoDevelop.Gui;
+using MonoDevelop.Internal.Project;
+using MonoDevelop.Internal.Templates;
 
-namespace ICSharpCode.SharpDevelop.Gui
+namespace MonoDevelop.Gui
 {
 	public class WorkbenchSingleton
 	{
@@ -48,11 +48,11 @@ namespace ICSharpCode.SharpDevelop.Gui
 		/// <remarks>
 		/// This method handles the redraw all event for specific changed IDE properties
 		/// </remarks>
-		static void TrackPropertyChanges(object sender, ICSharpCode.Core.Properties.PropertyEventArgs e)
+		static void TrackPropertyChanges(object sender, MonoDevelop.Core.Properties.PropertyEventArgs e)
 		{
 			if (e.OldValue != e.NewValue) {
 				switch (e.Key) {
-					case "ICSharpCode.SharpDevelop.Gui.VisualStyle":
+					case "MonoDevelop.Gui.VisualStyle":
 					case "CoreProperties.UILanguage":
 						workbench.RedrawAllComponents();
 						break;

@@ -15,7 +15,7 @@ using System.Diagnostics;
 using System.Reflection;
 using System.Xml;
 
-namespace ICSharpCode.SharpDevelop.Services
+namespace MonoDevelop.Services
 {
 	public class Language
 	{

@@ -10,18 +10,18 @@ using System.Drawing;
 using System.Reflection;
 using System.Collections;
 
-using ICSharpCode.Core.Properties;
-using ICSharpCode.SharpDevelop.Internal.Templates;
-using ICSharpCode.TextEditor.Document;
-using ICSharpCode.TextEditor;
-using ICSharpCode.Core.Services;
-using ICSharpCode.SharpDevelop.Services;
+using MonoDevelop.Core.Properties;
+using MonoDevelop.Internal.Templates;
+using MonoDevelop.TextEditor.Document;
+using MonoDevelop.TextEditor;
+using MonoDevelop.Core.Services;
+using MonoDevelop.Services;
 
 using SharpDevelop.Internal.Parser;
-using ICSharpCode.TextEditor.Gui.CompletionWindow;
-using ICSharpCode.SharpDevelop.Gui;
+using MonoDevelop.TextEditor.Gui.CompletionWindow;
+using MonoDevelop.Gui;
 
-namespace ICSharpCode.SharpDevelop.DefaultEditor.Gui.Editor
+namespace MonoDevelop.DefaultEditor.Gui.Editor
 {
 	/// <summary>
 	/// Data provider for code completion.
@@ -29,7 +29,7 @@ namespace ICSharpCode.SharpDevelop.DefaultEditor.Gui.Editor
 	public class CommentCompletionDataProvider : ICompletionDataProvider
 	{
 		static ClassBrowserIconsService classBrowserIconService = (ClassBrowserIconsService)ServiceManager.Services.GetService(typeof(ClassBrowserIconsService));
-		static IParserService           parserService           = (IParserService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(IParserService));
+		static IParserService           parserService           = (IParserService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IParserService));
 		
 		int caretLineNumber;
 		int caretColumn;

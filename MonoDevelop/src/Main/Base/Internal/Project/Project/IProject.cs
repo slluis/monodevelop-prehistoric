@@ -8,9 +8,9 @@
 using System;
 using System.Collections;
 using System.Xml;
-using ICSharpCode.SharpDevelop.Internal.Project.Collections;
+using MonoDevelop.Internal.Project.Collections;
 
-namespace ICSharpCode.SharpDevelop.Internal.Project
+namespace MonoDevelop.Internal.Project
 {
 	public enum NewFileSearch {
 		None,

@@ -10,9 +10,9 @@ using System.Drawing;
 using System.Reflection;
 using System.Collections;
 
-using ICSharpCode.TextEditor.Document;
+using MonoDevelop.TextEditor.Document;
 
-namespace ICSharpCode.TextEditor.Gui.InsightWindow
+namespace MonoDevelop.TextEditor.Gui.InsightWindow
 {
 	public interface IInsightDataProvider
 	{

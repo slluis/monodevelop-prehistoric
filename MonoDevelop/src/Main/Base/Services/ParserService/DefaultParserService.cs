@@ -20,15 +20,15 @@ using System.Security.Permissions;
 using System.Security.Policy;
 using System.Xml;
 
-using ICSharpCode.Core.Properties;
-using ICSharpCode.Core.Services;
-using ICSharpCode.SharpDevelop.Services;
-using ICSharpCode.Core.AddIns;
-using ICSharpCode.SharpDevelop.Internal.Project;
-using ICSharpCode.SharpDevelop.Gui;
+using MonoDevelop.Core.Properties;
+using MonoDevelop.Core.Services;
+using MonoDevelop.Services;
+using MonoDevelop.Core.AddIns;
+using MonoDevelop.Internal.Project;
+using MonoDevelop.Gui;
 using SharpDevelop.Internal.Parser;
 
-namespace ICSharpCode.SharpDevelop.Services
+namespace MonoDevelop.Services
 {
 	public class DefaultParserService : AbstractService, IParserService
 	{
@@ -324,7 +324,7 @@ namespace ICSharpCode.SharpDevelop.Services
 			myThread.Priority = ThreadPriority.Lowest;
 			myThread.Start();
 			/*ProjectService isnt up yet*/
-			IProjectService projectService = (IProjectService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
+			IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
 
 			projectService.CombineOpened += new CombineEventHandler(OpenCombine);
 		}
@@ -599,7 +599,7 @@ namespace ICSharpCode.SharpDevelop.Services
 			ICompilationUnitBase parserOutput = null;
 			
 			if (fileContent == null) {
-				IProjectService projectService = (IProjectService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
+				IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
 				if (projectService.CurrentOpenCombine != null) {
 					ArrayList projects = Combine.GetAllProjects(projectService.CurrentOpenCombine);
 					foreach (ProjectCombineEntry entry in projects) {

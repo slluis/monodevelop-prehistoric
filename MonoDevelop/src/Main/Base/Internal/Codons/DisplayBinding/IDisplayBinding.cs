@@ -8,11 +8,11 @@
 using System;
 using System.IO;
 
-using ICSharpCode.SharpDevelop.Internal.Project;
+using MonoDevelop.Internal.Project;
 
-using ICSharpCode.SharpDevelop.Gui;
+using MonoDevelop.Gui;
 
-namespace ICSharpCode.Core.AddIns.Codons
+namespace MonoDevelop.Core.AddIns.Codons
 {
 	/// <summary>
 	/// This class defines the SharpDevelop display binding interface, it is a factory

@@ -9,11 +9,11 @@ using System;
 using System.IO;
 using System.Collections;
 
-using ICSharpCode.SharpDevelop.Gui;
+using MonoDevelop.Gui;
 
 using MonoDevelop.SourceEditor.Gui;
 
-namespace ICSharpCode.TextEditor.Document
+namespace MonoDevelop.TextEditor.Document
 {
 	public class ProvidedDocumentInformation
 	{

@@ -10,14 +10,14 @@ using System.Collections;
 using System.Xml;
 
 
-using ICSharpCode.Core.AddIns.Conditions;
-using ICSharpCode.Core.Services;
+using MonoDevelop.Core.AddIns.Conditions;
+using MonoDevelop.Core.Services;
 
-using ICSharpCode.SharpDevelop.Gui;
-using ICSharpCode.SharpDevelop.Services;
-using ICSharpCode.SharpDevelop.Internal.Project;
+using MonoDevelop.Gui;
+using MonoDevelop.Services;
+using MonoDevelop.Internal.Project;
 
-namespace ICSharpCode.Core.AddIns
+namespace MonoDevelop.Core.AddIns
 {
 	[ConditionAttribute()]
 	public class ProjectOpenCondition : AbstractCondition
@@ -36,7 +36,7 @@ namespace ICSharpCode.Core.AddIns
 		
 		public override bool IsValid(object owner)
 		{
-			IProjectService projectService = (IProjectService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
+			IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
 			IProject project = projectService.CurrentSelectedProject;
 			
 			if (project == null && projectService.CurrentOpenCombine != null) {

@@ -19,11 +19,11 @@ using System.Runtime.InteropServices;
 using System.Xml;
 using System.Text;
 
-using ICSharpCode.TextEditor.Document;
-using ICSharpCode.TextEditor.Undo;
-using ICSharpCode.TextEditor.Util;
+using MonoDevelop.TextEditor.Document;
+using MonoDevelop.TextEditor.Undo;
+using MonoDevelop.TextEditor.Util;
 
-namespace ICSharpCode.TextEditor
+namespace MonoDevelop.TextEditor
 {
 	public class TextAreaClipboardHandler
 	{
@@ -110,12 +110,12 @@ namespace ICSharpCode.TextEditor
 		
 		public void Delete(object sender, EventArgs e)
 		{
-			new ICSharpCode.TextEditor.Actions.Delete().Execute(textArea);
+			new MonoDevelop.TextEditor.Actions.Delete().Execute(textArea);
 		}
 		
 		public void SelectAll(object sender, EventArgs e)
 		{
-			new ICSharpCode.TextEditor.Actions.SelectWholeDocument().Execute(textArea);
+			new MonoDevelop.TextEditor.Actions.SelectWholeDocument().Execute(textArea);
 		}
 	}
 }

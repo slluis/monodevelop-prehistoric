@@ -10,27 +10,27 @@ using System.Diagnostics;
 using System.IO;
 using System.Collections;
 
-using ICSharpCode.Core.AddIns;
+using MonoDevelop.Core.AddIns;
 
-using ICSharpCode.Core.Properties;
-using ICSharpCode.Core.AddIns.Codons;
-using ICSharpCode.Core.Services;
+using MonoDevelop.Core.Properties;
+using MonoDevelop.Core.AddIns.Codons;
+using MonoDevelop.Core.Services;
 
-using ICSharpCode.SharpDevelop.Services;
-using ICSharpCode.SharpDevelop.Gui;
-using ICSharpCode.SharpDevelop.Gui.Dialogs;
-using ICSharpCode.SharpDevelop.Internal.Project;
+using MonoDevelop.Services;
+using MonoDevelop.Gui;
+using MonoDevelop.Gui.Dialogs;
+using MonoDevelop.Internal.Project;
 
-namespace ICSharpCode.SharpDevelop.Commands
+namespace MonoDevelop.Commands
 {
 	public class RunTestsInProject : AbstractMenuCommand
 	{
 		public override void Run()
 		{
-			IProjectService projectService = (IProjectService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
+			IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
 			
 			if (projectService.CurrentSelectedProject != null) {
-				LanguageBindingService languageBindingService = (LanguageBindingService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(LanguageBindingService));
+				LanguageBindingService languageBindingService = (LanguageBindingService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(LanguageBindingService));
 				ILanguageBinding csc = languageBindingService.GetBindingPerLanguageName(projectService.CurrentSelectedProject.ProjectType);
 				string assembly = csc.GetCompiledOutputName(projectService.CurrentSelectedProject);
 				
@@ -54,7 +54,7 @@ namespace ICSharpCode.SharpDevelop.Commands
 	{
 		public override void Run()
 		{
-			IProjectService projectService = (IProjectService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
+			IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
 			IProject        selectedProject = projectService.CurrentSelectedProject;
 			if (selectedProject == null) {
 				return;
@@ -76,7 +76,7 @@ namespace ICSharpCode.SharpDevelop.Commands
 	{
 		public override void Run()
 		{
-			IProjectService projectService = (IProjectService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
+			IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
 			foreach (IViewContent viewContent in WorkbenchSingleton.Workbench.ViewContentCollection) {
 				if (viewContent.IsDirty) {
 					viewContent.Save();
@@ -93,10 +93,10 @@ namespace ICSharpCode.SharpDevelop.Commands
 		public override void Run()
 		{
 			try {
-				IProjectService projectService = (IProjectService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
+				IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
 				
 				if (projectService.CurrentSelectedProject != null) {
-					LanguageBindingService languageBindingService = (LanguageBindingService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(LanguageBindingService));
+					LanguageBindingService languageBindingService = (LanguageBindingService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(LanguageBindingService));
 					ILanguageBinding csc = languageBindingService.GetBindingPerLanguageName(projectService.CurrentSelectedProject.ProjectType);
 					
 					string assembly    = csc.GetCompiledOutputName(projectService.CurrentSelectedProject);

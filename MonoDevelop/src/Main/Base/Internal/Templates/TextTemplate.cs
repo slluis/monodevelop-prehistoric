@@ -12,9 +12,9 @@ using System.Collections;
 using System.Collections.Specialized;
 using System.Diagnostics;
 
-using ICSharpCode.Core.Services;
+using MonoDevelop.Core.Services;
 
-namespace ICSharpCode.SharpDevelop.Internal.Templates
+namespace MonoDevelop.Internal.Templates
 {
 	/// <summary>
 	/// This class defines and holds text templates

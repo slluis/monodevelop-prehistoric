@@ -8,10 +8,10 @@
 using System;
 using System.Drawing;
 
-namespace ICSharpCode.TextEditor.Document
+namespace MonoDevelop.TextEditor.Document
 {
 	/// <summary>
-	/// Default implementation of the <see cref="ICSharpCode.TextEditor.Document.ISelection"/> interface.
+	/// Default implementation of the <see cref="MonoDevelop.TextEditor.Document.ISelection"/> interface.
 	/// </summary>
 	public class DefaultSelection : ISelection
 	{

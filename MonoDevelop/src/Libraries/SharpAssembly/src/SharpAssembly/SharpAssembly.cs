@@ -18,15 +18,15 @@
 using System;
 using System.IO;
 using System.Collections;
-using ICSharpCode.SharpAssembly.Assembly;
-using ICSharpCode.SharpAssembly.Metadata;
-using ICSharpCode.SharpAssembly.Metadata.Rows;
-using Rows = ICSharpCode.SharpAssembly.Metadata.Rows;
+using MonoDevelop.SharpAssembly.Assembly;
+using MonoDevelop.SharpAssembly.Metadata;
+using MonoDevelop.SharpAssembly.Metadata.Rows;
+using Rows = MonoDevelop.SharpAssembly.Metadata.Rows;
 using MSjogren.Fusion.Native;
 using System.Runtime.InteropServices;
 using Microsoft.Win32;
 
-namespace ICSharpCode.SharpAssembly.Assembly
+namespace MonoDevelop.SharpAssembly.Assembly
 {
 	public class SharpAssembly
 	{

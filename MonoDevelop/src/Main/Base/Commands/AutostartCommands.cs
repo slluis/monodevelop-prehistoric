@@ -14,21 +14,21 @@ using System.Threading;
 using System.Runtime.Remoting;
 using System.Security.Policy;
 
-using ICSharpCode.Core.Services;
-using ICSharpCode.Core.Properties;
-using ICSharpCode.Core.AddIns.Codons;
+using MonoDevelop.Core.Services;
+using MonoDevelop.Core.Properties;
+using MonoDevelop.Core.AddIns.Codons;
 
-using ICSharpCode.SharpDevelop.Services;
-using ICSharpCode.SharpDevelop.Gui;
-using ICSharpCode.SharpDevelop.Gui.Dialogs;
-using ICSharpCode.SharpDevelop.Gui.Dialogs.OptionPanels.CompletionDatabaseWizard;
-using ICSharpCode.SharpDevelop.Gui.ErrorHandlers;
+using MonoDevelop.Services;
+using MonoDevelop.Gui;
+using MonoDevelop.Gui.Dialogs;
+using MonoDevelop.Gui.Dialogs.OptionPanels.CompletionDatabaseWizard;
+using MonoDevelop.Gui.ErrorHandlers;
 
-using SA = ICSharpCode.SharpAssembly.Assembly;
+using SA = MonoDevelop.SharpAssembly.Assembly;
 
 using SharpDevelop.Internal.Parser;
 
-namespace ICSharpCode.SharpDevelop.Commands
+namespace MonoDevelop.Commands
 {
 	public class InitializeWorkbenchCommand : AbstractCommand
 	{
@@ -132,7 +132,7 @@ namespace ICSharpCode.SharpDevelop.Commands
 			isCalled = true;
 			// show tip of the day
 			PropertyService propertyService = (PropertyService)ServiceManager.Services.GetService(typeof(PropertyService));
-			if (propertyService.GetProperty("ICSharpCode.SharpDevelop.Gui.Dialog.TipOfTheDayView.ShowTipsAtStartup", true)) {
+			if (propertyService.GetProperty("MonoDevelop.Gui.Dialog.TipOfTheDayView.ShowTipsAtStartup", true)) {
 				ViewTipOfTheDay dview = new ViewTipOfTheDay();
 				dview.Run();
 			}
@@ -144,20 +144,20 @@ namespace ICSharpCode.SharpDevelop.Commands
 			
 			// register string tag provider (TODO: move to add-in tree :)
 			StringParserService stringParserService = (StringParserService)ServiceManager.Services.GetService(typeof(StringParserService));
-			stringParserService.RegisterStringTagProvider(new ICSharpCode.SharpDevelop.Commands.SharpDevelopStringTagProvider());
+			stringParserService.RegisterStringTagProvider(new MonoDevelop.Commands.SharpDevelopStringTagProvider());
 			
 			PropertyService propertyService = (PropertyService)ServiceManager.Services.GetService(typeof(PropertyService));
 			
 			//idleEventHandler = new EventHandler(ShowTipOfTheDay);
 			//Application.Idle += idleEventHandler;
 			
-			IProjectService projectService = (IProjectService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
+			IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
 			
 			// load previous combine
 			if ((bool)propertyService.GetProperty("SharpDevelop.LoadPrevProjectOnStartup", false)) {
-				object recentOpenObj = propertyService.GetProperty("ICSharpCode.SharpDevelop.Gui.MainWindow.RecentOpen");
-				if (recentOpenObj is ICSharpCode.SharpDevelop.Services.RecentOpen) {
-					ICSharpCode.SharpDevelop.Services.RecentOpen recOpen = (ICSharpCode.SharpDevelop.Services.RecentOpen)recentOpenObj;
+				object recentOpenObj = propertyService.GetProperty("MonoDevelop.Gui.MainWindow.RecentOpen");
+				if (recentOpenObj is MonoDevelop.Services.RecentOpen) {
+					MonoDevelop.Services.RecentOpen recOpen = (MonoDevelop.Services.RecentOpen)recentOpenObj;
 					if (recOpen.RecentProject.Count > 0) { 
 						projectService.OpenCombine(recOpen.RecentProject[0].ToString());
 					}
@@ -178,7 +178,7 @@ namespace ICSharpCode.SharpDevelop.Commands
 						break;
 					default:
 						try {
-							IFileService fileService = (IFileService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(IFileService));
+							IFileService fileService = (IFileService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IFileService));
 							fileService.OpenFile(file);
 						
 						} catch (Exception e) {

@@ -14,17 +14,16 @@ using System.CodeDom.Compiler;
 using System.ComponentModel;
 using System.Xml;
 
-using ICSharpCode.SharpDevelop.Internal.Project;
-using ICSharpCode.Core.AddIns;
-using ICSharpCode.Core.Properties;
+using MonoDevelop.Internal.Project;
+using MonoDevelop.Core.AddIns;
+using MonoDevelop.Core.Properties;
 
-using ICSharpCode.Core.Services;
-using ICSharpCode.SharpDevelop.Gui.Components;
-using ICSharpCode.SharpDevelop.Services;
+using MonoDevelop.Core.Services;
+using MonoDevelop.Gui.Components;
 
 using MonoDevelop.Services;
 
-namespace ICSharpCode.SharpDevelop.Gui
+namespace MonoDevelop.Gui
 {
 	/// <summary>
 	/// This is the a Workspace with a multiple document interface.
@@ -204,8 +203,8 @@ namespace ICSharpCode.SharpDevelop.Gui
 			SetStandardStatusBar(null, null);
 #endif
 			
-			IProjectService projectService = (IProjectService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
-			IFileService fileService = (IFileService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(IFileService));
+			IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
+			IFileService fileService = (IFileService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IFileService));
 			
 			projectService.CurrentProjectChanged += new ProjectEventHandler(SetProjectTitle);
 			projectService.CombineOpened         += new CombineEventHandler(CombineOpened);
@@ -484,7 +483,7 @@ namespace ICSharpCode.SharpDevelop.Gui
 		
 //		protected void OnTopMenuSelected(MenuCommand mc)
 //		{
-//			IStatusBarService statusBarService = (IStatusBarService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(IStatusBarService));
+//			IStatusBarService statusBarService = (IStatusBarService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IStatusBarService));
 //			
 //			statusBarService.SetMessage(mc.Description);
 //		}
@@ -516,7 +515,7 @@ namespace ICSharpCode.SharpDevelop.Gui
 		
 		public bool Close() 
 		{
-			IProjectService projectService = (IProjectService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
+			IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
 			
 			if (projectService != null)
 			{
@@ -536,7 +535,7 @@ namespace ICSharpCode.SharpDevelop.Gui
 			// TODO : Dirty Files Dialog
 			//			foreach (IViewContent content in ViewContentCollection) {
 				//				if (content.IsDirty) {
-					//					ICSharpCode.SharpDevelop.Gui.Dialogs.DirtyFilesDialog dfd = new ICSharpCode.SharpDevelop.Gui.Dialogs.DirtyFilesDialog();
+					//					MonoDevelop.Gui.Dialogs.DirtyFilesDialog dfd = new MonoDevelop.Gui.Dialogs.DirtyFilesDialog();
 			//					e.Cancel = dfd.ShowDialog() == DialogResult.Cancel;
 			//					return;
 			//				}
@@ -563,7 +562,7 @@ namespace ICSharpCode.SharpDevelop.Gui
 		
 		void SetStandardStatusBar(object sender, EventArgs e)
 		{
-			IStatusBarService statusBarService = (IStatusBarService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(IStatusBarService));
+			IStatusBarService statusBarService = (IStatusBarService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IStatusBarService));
 			statusBarService.SetMessage("${res:MainWindow.StatusBar.ReadyMessage}");
 		}
 		
@@ -634,7 +633,7 @@ namespace ICSharpCode.SharpDevelop.Gui
 		void CreateToolBars()
 		{
 			if (ToolBars == null) {
-				ToolbarService toolBarService = (ToolbarService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(ToolbarService));
+				ToolbarService toolBarService = (ToolbarService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(ToolbarService));
 				Gtk.Toolbar[] toolBars = toolBarService.CreateToolbars();
 				ToolBars = toolBars;
 			}
@@ -682,7 +681,7 @@ namespace ICSharpCode.SharpDevelop.Gui
 			base.OnDragDrop(e);
 			if (e.Data != null && e.Data.GetDataPresent(DataFormats.FileDrop)) {
 				string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
-				IFileService fileService = (IFileService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(IFileService));
+				IFileService fileService = (IFileService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IFileService));
 				foreach (string file in files) {
 					if (File.Exists(file)) {
 						fileService.OpenFile(file);

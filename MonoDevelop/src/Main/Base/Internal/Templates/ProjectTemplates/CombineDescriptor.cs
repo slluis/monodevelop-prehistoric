@@ -13,10 +13,10 @@ using System.Collections.Specialized;
 using System.Diagnostics;
 using System.Reflection;
 
-using ICSharpCode.Core.Services;
-using ICSharpCode.SharpDevelop.Internal.Project;
+using MonoDevelop.Core.Services;
+using MonoDevelop.Internal.Project;
 
-namespace ICSharpCode.SharpDevelop.Internal.Templates
+namespace MonoDevelop.Internal.Templates
 {
 	public class CombineDescriptor
 	{

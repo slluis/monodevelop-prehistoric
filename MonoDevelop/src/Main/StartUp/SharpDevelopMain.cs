@@ -11,13 +11,13 @@ using System.Collections;
 using System.Xml;
 using System.Threading;
 
-using ICSharpCode.Core.Properties;
-using ICSharpCode.Core.AddIns.Codons;
-using ICSharpCode.Core.AddIns;
-using ICSharpCode.Core.Services;
-using ICSharpCode.SharpDevelop.Gui.Dialogs;
+using MonoDevelop.Core.Properties;
+using MonoDevelop.Core.AddIns.Codons;
+using MonoDevelop.Core.AddIns;
+using MonoDevelop.Core.Services;
+using MonoDevelop.Gui.Dialogs;
 
-namespace ICSharpCode.SharpDevelop
+namespace MonoDevelop
 {
 	/// <summary>
 	/// This Class is the Core main class, it starts the program.
@@ -74,7 +74,7 @@ namespace ICSharpCode.SharpDevelop
 			}
 
 			bool ignoreDefaultPath = false;
-			string [] addInDirs = ICSharpCode.SharpDevelop.AddInSettingsHandler.GetAddInDirectories(out ignoreDefaultPath);
+			string [] addInDirs = MonoDevelop.AddInSettingsHandler.GetAddInDirectories(out ignoreDefaultPath);
 			AddInTreeSingleton.SetAddInDirectories(addInDirs, ignoreDefaultPath);
 
 			ArrayList commands = null;

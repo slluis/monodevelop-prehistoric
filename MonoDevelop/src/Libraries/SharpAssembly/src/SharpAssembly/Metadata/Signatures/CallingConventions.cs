@@ -18,7 +18,7 @@
 using System;
 using System.IO;
 
-namespace ICSharpCode.SharpAssembly.Metadata
+namespace MonoDevelop.SharpAssembly.Metadata
 {
 	public enum CallingConvention : uint
 	{

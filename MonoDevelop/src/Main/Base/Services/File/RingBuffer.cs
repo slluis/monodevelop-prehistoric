@@ -12,11 +12,11 @@ using System.Diagnostics;
 using System.Collections;
 using System.IO;
 
-using ICSharpCode.Core.Properties;
+using MonoDevelop.Core.Properties;
 
-using ICSharpCode.SharpDevelop.Services;
+using MonoDevelop.Services;
 
-namespace ICSharpCode.SharpDevelop.Services
+namespace MonoDevelop.Services
 {
 	public class RingBuffer : IXmlConvertable
 	{

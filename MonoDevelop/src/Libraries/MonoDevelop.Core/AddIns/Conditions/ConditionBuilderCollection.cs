@@ -10,7 +10,7 @@ using System.Collections;
 using System.Collections.Specialized;
 using System.Xml;
 
-namespace ICSharpCode.Core.AddIns.Conditions
+namespace MonoDevelop.Core.AddIns.Conditions
 {
 	/// <summary>
 	/// A collection containing <code>ConditionBuilder</code> objects.

@@ -3,7 +3,7 @@ using System.Configuration;
 using System.Collections;
 using System.Xml;
 
-namespace ICSharpCode.SharpDevelop
+namespace MonoDevelop
 {
 	public class AddInSettingsHandler : System.Configuration.IConfigurationSectionHandler
 	{

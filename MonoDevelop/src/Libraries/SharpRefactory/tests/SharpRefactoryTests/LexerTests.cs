@@ -1,9 +1,9 @@
 // project created on 28.08.2003 at 16:17
 using System;
 
-using ICSharpCode.SharpUnit;
-using ICSharpCode.SharpRefactory.PrettyPrinter;
-using ICSharpCode.SharpRefactory.Parser;
+using MonoDevelop.SharpUnit;
+using MonoDevelop.SharpRefactory.PrettyPrinter;
+using MonoDevelop.SharpRefactory.Parser;
 	
 [TestSuiteAttribute()]
 class MainClass

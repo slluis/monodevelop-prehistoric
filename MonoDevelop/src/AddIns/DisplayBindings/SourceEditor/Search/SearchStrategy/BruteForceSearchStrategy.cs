@@ -7,12 +7,12 @@
 
 using System;
 
-using ICSharpCode.Core.Properties;
-using ICSharpCode.SharpDevelop.Internal.Undo;
+using MonoDevelop.Core.Properties;
+using MonoDevelop.Internal.Undo;
 
 using MonoDevelop.SourceEditor.Gui;
 
-namespace ICSharpCode.TextEditor.Document
+namespace MonoDevelop.TextEditor.Document
 {
 	/// <summary>
 	///  Only for fallback purposes.

@@ -19,10 +19,10 @@ using System;
 using System.Reflection;
 using System.Collections;
 using System.IO;
-using ICSharpCode.SharpAssembly.Metadata.Rows;
-using MDRows = ICSharpCode.SharpAssembly.Metadata.Rows;
+using MonoDevelop.SharpAssembly.Metadata.Rows;
+using MDRows = MonoDevelop.SharpAssembly.Metadata.Rows;
 
-namespace ICSharpCode.SharpAssembly.Metadata
+namespace MonoDevelop.SharpAssembly.Metadata
 {
 	
 	public class MetadataTable

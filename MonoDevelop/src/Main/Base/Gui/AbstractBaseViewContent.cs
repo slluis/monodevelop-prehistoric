@@ -8,7 +8,7 @@
 using System;
 //using System.Windows.Forms;
 
-namespace ICSharpCode.SharpDevelop.Gui
+namespace MonoDevelop.Gui
 {
 	public abstract class AbstractBaseViewContent : IBaseViewContent
 	{

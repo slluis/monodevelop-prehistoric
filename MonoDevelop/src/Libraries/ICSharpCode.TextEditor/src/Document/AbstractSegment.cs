@@ -5,9 +5,9 @@
 //     <version value="$version"/>
 // </file>
 
-using ICSharpCode.TextEditor.Undo;
+using MonoDevelop.TextEditor.Undo;
 
-namespace ICSharpCode.TextEditor.Document
+namespace MonoDevelop.TextEditor.Document
 {
 	/// <summary>
 	/// This interface is used to describe a span inside a text sequence
@@ -17,7 +17,7 @@ namespace ICSharpCode.TextEditor.Document
 		protected int offset = -1;
 		protected int length = -1;
 		
-#region ICSharpCode.TextEditor.Document.ISegment interface implementation
+#region MonoDevelop.TextEditor.Document.ISegment interface implementation
 		public virtual int Offset {
 			get {
 				return offset;

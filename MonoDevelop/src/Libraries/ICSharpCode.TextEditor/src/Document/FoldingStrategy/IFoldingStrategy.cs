@@ -9,7 +9,7 @@ using System;
 using System.Drawing;
 using System.Collections;
 
-namespace ICSharpCode.TextEditor.Document
+namespace MonoDevelop.TextEditor.Document
 {
 	/// <summary>
 	/// This interface is used for the folding capabilities

@@ -20,11 +20,11 @@ using System.Collections;
 using System.Collections.Specialized;
 using System.Reflection;
 using System.IO;
-using ICSharpCode.SharpAssembly.Metadata.Rows;
-using ICSharpCode.SharpAssembly.Metadata;
-using ICSharpCode.SharpAssembly.PE;
+using MonoDevelop.SharpAssembly.Metadata.Rows;
+using MonoDevelop.SharpAssembly.Metadata;
+using MonoDevelop.SharpAssembly.PE;
 
-namespace ICSharpCode.SharpAssembly.Assembly {
+namespace MonoDevelop.SharpAssembly.Assembly {
 	
 	public class AssemblyReader
 	{

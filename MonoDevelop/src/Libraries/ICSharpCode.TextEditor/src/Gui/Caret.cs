@@ -13,9 +13,9 @@ using System.Drawing.Text;
 using System.Diagnostics;
 using System.Text;
 
-using ICSharpCode.TextEditor.Document;
+using MonoDevelop.TextEditor.Document;
 
-namespace ICSharpCode.TextEditor
+namespace MonoDevelop.TextEditor
 {
 	/// <summary>
 	/// In this enumeration are all caret modes listed.

@@ -8,11 +8,11 @@
 using System;
 using System.IO;
 
-using ICSharpCode.SharpDevelop.Gui;
-using ICSharpCode.Core.AddIns;
-using ICSharpCode.Core.Properties;
+using MonoDevelop.Gui;
+using MonoDevelop.Core.AddIns;
+using MonoDevelop.Core.Properties;
 
-namespace ICSharpCode.Core.Services
+namespace MonoDevelop.Core.Services
 {
 	/// <summary>
 	/// This interface must be implemented by all services.

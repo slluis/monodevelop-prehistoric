@@ -5,15 +5,15 @@ using System.CodeDom;
 using System.CodeDom.Compiler;
 using Microsoft.CSharp;
 
-using ICSharpCode.SharpRefactory.PrettyPrinter;
-using ICSharpCode.SharpRefactory.Parser;
+using MonoDevelop.SharpRefactory.PrettyPrinter;
+using MonoDevelop.SharpRefactory.Parser;
 
 
 class MainClass
 {
 //	static void A()
 //	{
-//		Lexer lexer = new Lexer(new ICSharpCode.SharpRefactory.Lexer.StringReader("(int)i"));
+//		Lexer lexer = new Lexer(new MonoDevelop.SharpRefactory.Lexer.StringReader("(int)i"));
 //		for (int i = 0; i < 10; ++i) {
 //			Console.WriteLine(i + " ----> " + lexer.Peek(i).kind);
 //		}

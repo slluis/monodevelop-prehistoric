@@ -8,14 +8,14 @@ using System;
 using System.Drawing;
 using System.Collections;
 using System.ComponentModel;
-using ICSharpCode.SharpDevelop.Internal.Project;
+using MonoDevelop.Internal.Project;
 
-using ICSharpCode.Core.Services;
-using ICSharpCode.SharpDevelop.Services;
+using MonoDevelop.Core.Services;
+using MonoDevelop.Services;
 
 using Gtk;
 
-namespace ICSharpCode.SharpDevelop.Gui.Dialogs {
+namespace MonoDevelop.Gui.Dialogs {
 	
 	public class ProjectReferencePanel : VBox, IReferencePanel {
 		SelectReferenceDialog selectDialog;
@@ -39,7 +39,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs {
 			sc.AddWithViewport (treeView);
 			PackStart (sc, true, true, 0);
 			
-			Button b = new Button (Stock.Add);
+			Button b = new Button (Gtk.Stock.Add);
 			b.Clicked += new EventHandler (AddReference);
 			
 			PackEnd (b, false, false, 0);
@@ -49,7 +49,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs {
 		void AddReference (TreeModel model, TreePath path, TreeIter iter)
 		{
 			IProject project = (IProject) model.GetValue (iter, 2);
-			LanguageBindingService languageBindingService = (LanguageBindingService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(LanguageBindingService));
+			LanguageBindingService languageBindingService = (LanguageBindingService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(LanguageBindingService));
 			ILanguageBinding binding = languageBindingService.GetBindingPerLanguageName(project.ProjectType);
 			
 			selectDialog.AddReference(ReferenceType.Project,
@@ -64,7 +64,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs {
 		
 		void PopulateListView ()
 		{
-			IProjectService projectService = (IProjectService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
+			IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
 			
 			Combine openCombine = projectService.CurrentOpenCombine;
 			
@@ -110,7 +110,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs {
 		{
 			foreach (ListViewItem item in SelectedItems) {
 				IProject project = (IProject)item.Tag;
-				LanguageBindingService languageBindingService = (LanguageBindingService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(LanguageBindingService));
+				LanguageBindingService languageBindingService = (LanguageBindingService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(LanguageBindingService));
 				ILanguageBinding binding = languageBindingService.GetBindingPerLanguageName(project.ProjectType);
 				
 				selectDialog.AddReference(ReferenceType.Project,

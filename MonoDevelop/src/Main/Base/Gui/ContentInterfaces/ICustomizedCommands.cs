@@ -8,7 +8,7 @@
 using System;
 using System.Drawing.Printing;
 
-namespace ICSharpCode.SharpDevelop.Gui
+namespace MonoDevelop.Gui
 {
 	/// <summary>
 	/// </summary>
