@@ -1,5 +1,12 @@
 2005-01-28  John Luke  <john.luke@gmail.com>
 
+	* Parser/Resolver.cs: remove incorrect special case
+	for properties that made them visible to completion
+	incorrectly on static to instance and vice-versa
+	fixes bug# 69741
+
+2005-01-28  John Luke  <john.luke@gmail.com>
+
 	* Parser/Parser.cs: update to CanParse
 	* Parser/*.cs: update some minor fixes from SD
 

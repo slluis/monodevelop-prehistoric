@@ -68,7 +68,7 @@ namespace CSharpBinding.Parser
 		
 		public IReturnType internalResolve(IParserService parserService, string expression, int caretLineNumber, int caretColumn, string fileName, string fileContent)
 		{
-			Console.WriteLine("Start Resolving");
+			//Console.WriteLine("Start Resolving");
 			if (expression == null) {
 				return null;
 			}
@@ -85,7 +85,7 @@ namespace CSharpBinding.Parser
 			if (fileCompilationUnit == null) {
 //				ICSharpCode.SharpRefactory.Parser.Parser fileParser = new ICSharpCode.SharpRefactory.Parser.Parser();
 //				fileParser.Parse(new Lexer(new StringReader(fileContent)));
-				Console.WriteLine("!Warning: no parseinformation!");
+				Console.WriteLine("Warning: no parse information!");
 				return null;
 			}
 			/*
@@ -226,7 +226,7 @@ namespace CSharpBinding.Parser
 				return new ResolveResult(namespaces);
 			}
 			
-			Console.WriteLine("Not in Using");
+			//Console.WriteLine("Not in Using");
 			IReturnType type = internalResolve (parserService, expression, caretLineNumber, caretColumn, fileName, fileContent);
 			IClass returnClass = SearchType (type.FullyQualifiedName, cu);
 			if (returnClass == null) {
@@ -245,7 +245,7 @@ namespace CSharpBinding.Parser
 				string[] namespaces = parserService.GetNamespaceList(project, n, true);
 				return new ResolveResult(namespaces, classes);
 			}
-			Console.WriteLine("Returning Result!");
+			//Console.WriteLine("Returning Result!");
 			if (returnClass.FullyQualifiedName == "System.Void")
 				return null;
 			return new ResolveResult(returnClass, ListMembers(new ArrayList(), returnClass));
@@ -272,15 +272,6 @@ namespace CSharpBinding.Parser
 				if (MustBeShowen(curType, p)) {
 					members.Add(p);
 //					Console.WriteLine("Member added");
-				} else {
-					//// for some public static properties msutbeshowen is false, so additional check
-					//// this is lame fix because curType doesn't allow to find out if to show only
-					//// static public or simply public properties
-					if (((AbstractMember)p).ReturnType!=null) {
-						// if public add it to completion window
-						if (((AbstractDecoration)p).IsPublic) members.Add(p);
-//						Console.WriteLine("Property {0} added", p.FullyQualifiedName);
-					}
 				}
 			}
 //			Console.WriteLine("ADDING METHODS!!!");
