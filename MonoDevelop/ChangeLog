@@ -1,3 +1,8 @@
+2004-06-07  John Luke  <jluke@cfl.rr.com>
+
+	* monodevelop.in: patch from Michael Levy <mlevy@wardium.homeip.net>
+	to handle relative files in the command line.
+
 2004-06-02  Martin Willemoes Hansen  <mwh@sysrq.dk>
 
 	* AUTHORS: Added Atsushi, Martin, Antonio, Andre & Maurício who 

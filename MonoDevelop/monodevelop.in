@@ -1,5 +1,21 @@
 #!/bin/bash
 
+function reWrite {
+    ret=""
+    WD=`pwd`
+    for arg in $*
+    do
+	if [ -f ./$arg ]
+	then
+	    ret="$ret $WD/$arg"
+	else
+	    ret="$ret $arg"
+	fi
+   done
+
+    echo "$ret"
+}
+
 if test -n "$MOZILLA_FIVE_HOME"; then
 	MOZILLA_HOME=$MOZILLA_FIVE_HOME
 elif [ -f @MOZILLA_HOME@/chrome/comm.jar ]; then
@@ -20,6 +36,9 @@ else
 fi
 
 export MOZILLA_FIVE_HOME=$MOZILLA_HOME
+
+ARGS=`reWrite "$@"`
+set -- $ARGS
 
 cd $MD_BIN_PATH
 
