@@ -110,13 +110,28 @@
     <h3>Monodoc Integration</h3>
     
     <p>F1 now attempts to identify what type and method you are working
-      with and pull up Monodoc documentation for it.</p>
+      with and pull up Monodoc documentation for it. This is very beta, and
+      not completed functionality yet. Look for vast improvements in
+      the next version of MonoDevelop.</p>
     
     <h3>Code Completion</h3>
     
     <p>In addition to numerous bugfixes in general, Lluis Sanchez (of mono's
       remoting and web services fame) has rewritten the code completion
       backend and given us amazing speed and memory improvements.</p>
+
+    <p>Here is a brief rundown of the improvements this patch gives us:</p>
+
+    <p>We no longer require the generated code completion database at first
+      run. Assemblys that are not part of the older database used to be
+      reindexed at project load every time. They are now serialized.
+      MonoDevelop projects now save a up to date completion database instead
+      of requiring all their files to be parsed every time. The databases
+      are updated as assemblies change. Our memory footprint is far smaller
+      and the startup time has been reduced. And last but not least, we now
+      load the class browser on demand instead of all at once. There are
+      more changes, but those are the high points. All in all, it is a far
+      more usable setup.</p>
     
     <h3>Nautilus integration</h3>
     
