@@ -67,7 +67,8 @@ namespace MonoDevelop.Internal.Project
 		public abstract void Execute();
 		public abstract void Save();
 		public abstract void Debug ();
-		public abstract void GenerateMakefiles ();
+		public abstract void GenerateMakefiles (Combine parentCombine);
+		public abstract string GetOutputName ();
 	}
 	
 	public class ProjectCombineEntry : CombineEntry
@@ -212,12 +213,19 @@ namespace MonoDevelop.Internal.Project
 			project.SaveProject(Filename);
 		}
 
-		public override void GenerateMakefiles ()
+		public override void GenerateMakefiles (Combine parentCombine)
 		{
 			Console.WriteLine ("Generating makefiles for " + Name);
 			LanguageBindingService languageBindingService = (LanguageBindingService)ServiceManager.Services.GetService(typeof(LanguageBindingService));
 			ILanguageBinding langBinding = languageBindingService.GetBindingPerLanguageName(project.ProjectType);
-			langBinding.GenerateMakefile (project);
+			langBinding.GenerateMakefile (project, parentCombine);
+		}
+
+		public override string GetOutputName ()
+		{
+			LanguageBindingService lbs = (LanguageBindingService)ServiceManager.Services.GetService (typeof (LanguageBindingService));
+			ILanguageBinding langBinding = lbs.GetBindingPerLanguageName (project.ProjectType);
+			return System.IO.Path.GetFileName (langBinding.GetCompiledOutputName (project));
 		}
 	}
 	
@@ -262,8 +270,13 @@ namespace MonoDevelop.Internal.Project
 			combine.Debug ();
 		}
 
-		public override void GenerateMakefiles ()
+		public override void GenerateMakefiles (Combine parentCombine)
 		{
+		}
+
+		public override string GetOutputName ()
+		{
+			return String.Empty;
 		}
 	}
 }

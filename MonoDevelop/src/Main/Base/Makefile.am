@@ -7,8 +7,9 @@ DLLS = /r:System.Drawing /r:ICSharpCode.SharpZipLib.dll \
 	/r:../../../build/bin/ICSharpCode.SharpAssembly.dll \
 	/r:../../../build/bin/MonoDevelop.Gui.Utils.dll \
 	/r:../../../build/bin/MonoDevelop.Gui.Widgets.dll \
-	/r:System.Data /r:System.Web.Services \
+	/r:System.Data.dll /r:System.Web.Services.dll \
 	/r:../../../build/bin/gdl-sharp.dll \
+	/r:Mono.Posix.dll \
 	$(BASE_DEPENDENCIES_LIBS)
 
 FILES= \

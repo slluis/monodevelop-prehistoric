@@ -1,3 +1,13 @@
+2004-05-25  Todd Berman  <tberman@sevenl.net>
+
+	* Internal/Project/Combine/Combine.cs: more makefile magic for
+	building, outputting semi-properly, and a make run setup.
+	* Internal/Project/Combine/CombineEntry.cs: pass the Combine to the
+	makefile being generated.
+	* Internal/Codons/LanguageBinding/ILanguageBinding.cs: pass the Combine
+	on down.
+	* Makefile.am: Add Mono.Posix to the build.
+
 2004-05-24  Todd Berman  <tberman@sevenl.net>
 
 	* Gui/Workbench/DefaultWorkbench.cs: Setup text/uri-list DnD.

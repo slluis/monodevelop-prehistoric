@@ -257,7 +257,7 @@ namespace CSharpBinding
 			writer.Close();
 			
 			string output = String.Empty;
-			string error  = String.Empty; 
+			string error  = String.Empty;
 			
 			string compilerName = compilerparameters.CsharpCompiler == CsharpCompiler.Csc ? GetCompilerName() : System.Environment.GetEnvironmentVariable("ComSpec") + " /c mcs";
 			string outstr = compilerName + " @" + responseFileName;
@@ -277,16 +277,17 @@ namespace CSharpBinding
 			return result;
 		}
 
-		public void GenerateMakefile (IProject project)
+		public void GenerateMakefile (IProject project, Combine parentCombine)
 		{
 			StreamWriter stream = new StreamWriter (Path.Combine (project.BaseDirectory, "Makefile." + project.Name));
 
 			CSharpProject p = (CSharpProject)project;
 			CSharpCompilerParameters compilerparameters = (CSharpCompilerParameters)p.ActiveConfiguration;
 			
-			string outputName = "\"" + compilerparameters.OutputAssembly + (compilerparameters.CompileTarget == CompileTarget.Library ? ".dll" : ".exe") + "\"";
+			string outputName = compilerparameters.OutputAssembly + (compilerparameters.CompileTarget == CompileTarget.Library ? ".dll" : ".exe");
 
 			string target = "";
+			string relativeOutputDir = fileUtilityService.AbsoluteToRelativePath (project.BaseDirectory, parentCombine.OutputDirectory);
 
 			switch (compilerparameters.CompileTarget) {
 			case CompileTarget.Exe:
@@ -470,7 +471,7 @@ namespace CSharpBinding
 				stream.WriteLine ();
 			}
 			
-			stream.Write ("\tmcs $(MCS_OPTIONS) -target:{0} -out:{1}", target, outputName);
+			stream.Write ("\tmcs $(MCS_OPTIONS) -target:{0} -out:\"{1}\"", target, outputName);
 			if (resources.Count > 0) {
 				stream.Write (" $(RESOURCES_BUILD)");
 			}
@@ -486,8 +487,9 @@ namespace CSharpBinding
 			if (system_references.Count > 0) {
 				stream.Write (" $(SYSTEM_REFERENCES_BUILD)");
 			}
-			stream.WriteLine (" $(SOURCES)");
-
+			stream.WriteLine (" $(SOURCES) \\");
+			stream.WriteLine ("\t&& cp \"{0}\" {1}", outputName, relativeOutputDir);
+			
 			stream.WriteLine ();
 			stream.WriteLine ("clean:");
 			stream.WriteLine ("\trm -f {0}", outputName);

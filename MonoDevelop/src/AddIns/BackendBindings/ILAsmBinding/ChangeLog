@@ -1,3 +1,7 @@
+2004-05-25  Todd Berman  <tberman@sevenl.net>
+
+	* ILAsmLanguageBinding.cs: sigchange for GenerateMakefile
+
 2004-04-28  Todd Berman  <tberman@sevenl.net>
 
 	* ILAsmLanguageBinding.cs: stubbing GenerateMakefile

@@ -92,7 +92,7 @@ namespace JavaBinding
 			//executionManager.Debug (project);
 		}
 
-		public void GenerateMakefile (IProject project)
+		public void GenerateMakefile (IProject project, Combine parentCombine)
 		{
 			throw new NotImplementedException ();
 		}

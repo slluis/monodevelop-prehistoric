@@ -1,3 +1,7 @@
+2004-05-25  Todd Berman  <tberman@sevenl.net>
+
+	* NemerleLanguageBinding.cs: signature change for Generate Makefile.
+
 2004-05-20  Pawel Rozanski  <tokugawa@afn.no-ip.org>
 
 	* NemerleBindingCompilerServices.cs: updated ncc output parser.

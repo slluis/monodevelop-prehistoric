@@ -1,3 +1,9 @@
+2004-05-25  Todd Berman  <tberman@sevenl.net>
+
+	* CSharpLanguageBinding.cs: signature change for GenerateMakefile
+	* CSharpBindingCompilerManager.cs: lots of new stuff, make run compat
+	stuff, etc, etc
+
 2004-05-22  Todd Berman  <tberman@sevenl.net>
 
 	* CSharpBindingCompilerManager.cs: add "s to work around potential

@@ -93,9 +93,9 @@ namespace CSharpBinding
 			return new CSharpProject(info, projectOptions);
 		}
 
-		public void GenerateMakefile (IProject project)
+		public void GenerateMakefile (IProject project, Combine parentCombine)
 		{
-			compilerManager.GenerateMakefile (project);
+			compilerManager.GenerateMakefile (project, parentCombine);
 		}
 	}
 }

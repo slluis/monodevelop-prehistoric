@@ -104,7 +104,7 @@ namespace ILAsmBinding
 			return new ILAsmProject(info, projectOptions);
 		}
 
-		public void GenerateMakefile (IProject project)
+		public void GenerateMakefile (IProject project, Combine parentCombine)
 		{
 			throw new NotImplementedException ();
 		}
