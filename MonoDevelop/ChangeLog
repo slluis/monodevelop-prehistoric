@@ -1,6 +1,8 @@
 2004-03-22  John Luke  <jluke@cfl.rr.coc>
 
 	* configure.in: make ENABLE_XDGMIME work right
+	* AssemblyInfo.cs*: generate the MonoDevelop versions from configure
+	* Makefile.am: workaround EXTRA_DIST conditional varaibles
 
 2004-03-22 Iñigo Illán <kodeport AT terra.es>
 

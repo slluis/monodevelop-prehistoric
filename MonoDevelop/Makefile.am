@@ -52,8 +52,10 @@ run-profile: $(PROGRAM)
 profile-pad: $(MONOPAD)
 	cd build/bin && mono -O=inline --profile MonoPad.exe
 
-EXTRA_DIST = $(bin_SCRIPTS) $(desktop_DATA) \
-	$(mimeinfo_DATA) $(pixmap_DATA) $(application_DATA) $(xdgmime_DATA)
+# we can't use the variables that are conditionally defined
+EXTRA_DIST = $(bin_SCRIPTS) $(desktop_DATA) $(pixmap_DATA) \
+	monodevelop.mime monodevelop.keys monodevelop.applications \
+	monodevelop.xml
 
 DISTCLEANFILES = monodevelop
 

@@ -155,6 +155,7 @@ build/AddIns/AddIns/Misc/StartPage/Makefile
 data/Makefile
 data/resources/Makefile
 data/resources/glade/Makefile
+src/AddIns/DebuggerAddIn/AssemblyInfo.cs
 src/AddIns/DisplayBindings/SourceEditor/AssemblyInfo.cs
 src/AddIns/Misc/StartPage/AssemblyInfo.cs
 src/Main/StartUp/AssemblyInfo.cs
