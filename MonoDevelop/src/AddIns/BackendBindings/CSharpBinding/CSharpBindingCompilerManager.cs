@@ -412,11 +412,18 @@ namespace CSharpBinding
 			stream.WriteLine ("PROJECT_REFERENCES_BUILD = $(addprefix /r:, $(PROJECT_REFERENCES))");
 			stream.WriteLine ();
 
+			stream.Write ("MCS_OPTIONS = ");
+			if (compilerparameters.UnsafeCode) {
+				stream.Write ("/unsafe ");
+			}
+			stream.WriteLine ();
+			stream.WriteLine ();
+
 			stream.WriteLine ("all: " + outputName);
 			stream.WriteLine ();
 			
 			stream.WriteLine (outputName + ": $(SOURCES) $(RESOURCES)");
-			stream.WriteLine ("\tmcs /target:{0} /out:{1} $(RESOURCES_BUILD) $(GAC_REFERENCES_BUILD) $(ASSEMBLY_REFERENCES_BUILD) $(PROJECT_REFERENCES_BUILD) $(SOURCES)", target, outputName);
+			stream.WriteLine ("\tmcs $(MCS_OPTIONS) /target:{0} /out:{1} $(RESOURCES_BUILD) $(GAC_REFERENCES_BUILD) $(ASSEMBLY_REFERENCES_BUILD) $(PROJECT_REFERENCES_BUILD) $(SOURCES)", target, outputName);
 
 			stream.WriteLine ();
 			stream.WriteLine ("clean:");
