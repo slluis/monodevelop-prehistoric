@@ -47,7 +47,25 @@ namespace JavaBinding
 			
 			string CurrentDir = Directory.GetCurrentDirectory();
 			Directory.SetCurrentDirectory (parameters.OutputDirectory);
-			string javaExec = "xterm -e \"ikvm -classpath " + parameters.ClassPath + " " + mainClass + ";read -p 'press any key to continue...' -n1\"";
+		
+			string javaExec;
+			switch (parameters.Runtime) {
+				case JavaRuntime.Ikvm:
+					javaExec = "xterm -e \"ikvm -classpath " + parameters.ClassPath + " " + mainClass + ";read -p 'press any key to continue...' -n1\"";
+				break;
+				// FIXME: need to both compile with ikvmc
+				// and then run with mono
+				case JavaRuntime.Mono:
+					javaExec = "xterm -e \"ikvm -classpath " + parameters.ClassPath + " " + mainClass + ";read -p 'press any key to continue...' -n1\"";
+					break;
+				case JavaRuntime.Java:
+					javaExec = "xterm -e \"java -classpath " + parameters.ClassPath + " " + mainClass + ";read -p 'press any key to continue...' -n1\"";
+					break;
+				default:
+					javaExec = "xterm -e \"ikvm -classpath " + parameters.ClassPath + " " + mainClass + ";read -p 'press any key to continue...' -n1\"";
+					break;
+			}
+
 			ProcessStartInfo psi = new ProcessStartInfo(javaExec);
 
             try {

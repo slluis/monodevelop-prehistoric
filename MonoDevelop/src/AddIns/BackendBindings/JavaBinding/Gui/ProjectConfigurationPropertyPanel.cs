@@ -21,22 +21,29 @@ namespace JavaBinding
 {
 	public class ProjectConfigurationPropertyPanel : AbstractOptionPanel
 	{
-		private Label label4 = new Label ();
-		private Label label5 = new Label ();
+		private Label runtimeLabel = new Label ();
+		private Label labelWarnings = new Label ();
+		private Label labelOutput = new Label ();
 		private Label titleLabel = new Label ();
-		private Label label6 = new Label ();
-		private Label label7 = new Label ();
-		private Label label8 = new Label ();
+		private Label labelCompiler = new Label ();
+		private Label labelClasspath = new Label ();
+		private Label labelMainClass = new Label ();
 
-		private Button button1;
+		private Button browseButton;
 		
-		private CheckButton checkBox3;
-		private CheckButton checkBox5;
-		private CheckButton checkBox6;
-		private CheckButton checkBox7;
+		private CheckButton checkDebug = new CheckButton (GettextCatalog.GetString ("Enable debug"));
+		private CheckButton checkDeprecation = new CheckButton (GettextCatalog.GetString ("Deprecated"));
+		private CheckButton checkOptimize = new CheckButton (GettextCatalog.GetString ("Enable optimizations"));
+		private CheckButton checkWarnings = new CheckButton (GettextCatalog.GetString ("Generate Warnings"));
 
+		// compiler chooser
 		private RadioButton javac = new RadioButton ("javac");
 		private RadioButton gcj;
+
+		// runtime chooser
+		private RadioButton ikvm = new RadioButton ("ikvm");
+		private RadioButton mono;
+		private RadioButton java;
 
 		private Entry outputAssembly = new Entry ();
 		private Entry outputDirectory = new Entry ();
@@ -44,7 +51,6 @@ namespace JavaBinding
 		private Entry classPath = new Entry ();
 		private Entry mainClass = new Entry ();
 		
-		ResourceService resourceService = (ResourceService) ServiceManager.Services.GetService (typeof (IResourceService));
 		JavaCompilerParameters compilerParameters = null;
 		
 		public override bool ReceiveDialogMessage(DialogMessage message)
@@ -52,14 +58,23 @@ namespace JavaBinding
 			if (message == DialogMessage.OK) {
 				if (compilerParameters == null)
 					return true;
+
 				if (javac.Active)
-					compilerParameters.Compiler = "javac";
+					compilerParameters.Compiler = JavaCompiler.Javac;
 				else
-					compilerParameters.Compiler = "gcj";
-				compilerParameters.GenWarnings = checkBox7.Active;			
-				compilerParameters.Deprecation = checkBox6.Active;			
-				compilerParameters.Debugmode = checkBox5.Active;			
-				compilerParameters.Optimize = checkBox3.Active;						
+					compilerParameters.Compiler = JavaCompiler.Gcj;
+
+				if (ikvm.Active)
+					compilerParameters.Runtime = JavaRuntime.Ikvm;
+				else if (mono.Active)
+					compilerParameters.Runtime = JavaRuntime.Mono;
+				else
+					compilerParameters.Runtime = JavaRuntime.Java;
+
+				compilerParameters.GenWarnings = checkWarnings.Active;			
+				compilerParameters.Deprecation = checkDeprecation.Active;			
+				compilerParameters.Debugmode = checkDebug.Active;			
+				compilerParameters.Optimize = checkOptimize.Active;						
 				compilerParameters.OutputAssembly = outputAssembly.Text;
 				compilerParameters.OutputDirectory = outputDirectory.Text;
 				
@@ -74,16 +89,32 @@ namespace JavaBinding
 		{
 			this.compilerParameters = (JavaCompilerParameters)((IProperties)CustomizationObject).GetProperty("Config");
 			
-			if (compilerParameters.Compiler == "javac")
+			if (compilerParameters.Compiler == JavaCompiler.Javac)
 				javac.Active = true;
 			else
 				gcj.Active = true;
-			checkBox3.Active = compilerParameters.Optimize;
-			checkBox5.Active = compilerParameters.Debugmode;
-			checkBox6.Active = compilerParameters.Deprecation;
-			checkBox7.Active = compilerParameters.GenWarnings;
+
+			switch (compilerParameters.Runtime) {
+				case JavaRuntime.Ikvm:
+					ikvm.Active = true;
+					break;
+				case JavaRuntime.Mono:
+					mono.Active = true;
+					break;
+				case JavaRuntime.Java:
+					java.Active = true;
+					break;
+				default:
+					ikvm.Active = true;
+					break;
+			}
+
+			checkOptimize.Active = compilerParameters.Optimize;
+			checkDebug.Active = compilerParameters.Debugmode;
+			checkDeprecation.Active = compilerParameters.Deprecation;
+			checkWarnings.Active = compilerParameters.GenWarnings;
 			outputAssembly.Text = compilerParameters.OutputAssembly;
-			outputDirectory.Text = compilerParameters.OutputDirectory;				
+			outputDirectory.Text = compilerParameters.OutputDirectory;
 			
 			compilerPath.Text = compilerParameters.CompilerPath;
 			classPath.Text = compilerParameters.ClassPath;				
@@ -105,25 +136,45 @@ namespace JavaBinding
 		{
 			InitializeComponent ();						
 			VBox vbox = new VBox ();
-			vbox.PackStart (titleLabel);
+			HBox hboxTitle = new HBox ();
+			hboxTitle.PackStart (titleLabel, false, false, 0);
+			vbox.PackStart (hboxTitle);
 			vbox.PackStart (outputAssembly);
-			vbox.PackStart (label6);
+			HBox hboxCompiler = new HBox ();
+			hboxCompiler.PackStart (labelCompiler, false, false, 0);
+			vbox.PackStart (hboxCompiler);
 			HBox comps = new HBox ();
-			comps.PackStart (javac);
 			comps.PackStart (gcj);
+			comps.PackStart (javac);
 			vbox.PackStart (comps);
 			vbox.PackStart (compilerPath);
-			vbox.PackStart (label7);
+			HBox hboxRuntime = new HBox ();
+			hboxRuntime.PackStart (runtimeLabel, false, false, 0);
+			vbox.PackStart (hboxRuntime);
+			HBox runtimes = new HBox ();
+			runtimes.PackStart (ikvm);
+			runtimes.PackStart (mono);
+			runtimes.PackStart (java);
+			vbox.PackStart (runtimes);
+			HBox hboxClasspath = new HBox ();
+			hboxClasspath.PackStart (labelClasspath, false, false, 0);
+			vbox.PackStart (hboxClasspath);
 			vbox.PackStart (classPath);
-			vbox.PackStart (label8);
+			HBox hboxMainClass = new HBox ();
+			hboxMainClass.PackStart (labelMainClass, false, false, 0);
+			vbox.PackStart (hboxMainClass);
 			vbox.PackStart (mainClass);
-			vbox.PackStart (label4);
+			HBox hboxWarnings = new HBox ();
+			hboxWarnings.PackStart (labelWarnings, false, false, 0);
+			vbox.PackStart (hboxWarnings);
 			HBox hbox = new HBox ();
-			hbox.PackStart (checkBox5);
-			hbox.PackStart (checkBox6);
-			hbox.PackStart (checkBox3);
+			hbox.PackStart (checkDeprecation);
+			hbox.PackStart (checkDebug);
+			hbox.PackStart (checkOptimize);
 			vbox.PackStart (hbox);
-			vbox.PackStart (label5);
+			HBox hboxOutput = new HBox ();
+			hboxOutput.PackStart (labelOutput, false, false, 0);
+			vbox.PackStart (hboxOutput);
 			vbox.PackStart (outputDirectory);
 			this.Add (vbox);
 			CustomizationObjectChanged += new EventHandler (SetValues);
@@ -143,21 +194,23 @@ namespace JavaBinding
 			gcj.Toggled += OnCompilerToggled;
 			javac.Toggled += OnCompilerToggled;
 
-			this.checkBox6 = new CheckButton (GettextCatalog.GetString ("Deprecation"));
-			this.checkBox5 = new CheckButton (GettextCatalog.GetString ("Debug Info"));
-			this.checkBox3 = new CheckButton (GettextCatalog.GetString ("Optimize"));
-			
-			this.button1 = new Button ("...");
-			this.button1.Clicked += new EventHandler (SelectFolder);
-			label5.Markup = String.Format ("<b>{0}</b>", GettextCatalog.GetString ("Output path"));
+			mono = new RadioButton (ikvm, "mono");
+			mono.Sensitive = false;
+			java = new RadioButton (ikvm, "java");
+			java.Sensitive = false;
+
+			runtimeLabel.Markup = String.Format ("<b>{0}</b>", GettextCatalog.GetString ("Runtime"));
+
+			this.browseButton = new Button ("_Browse");
+			this.browseButton.Clicked += new EventHandler (SelectFolder);
+			labelOutput.Markup = String.Format ("<b>{0}</b>", GettextCatalog.GetString ("Output path"));
 			this.outputAssembly = new Entry ();
 			titleLabel.Markup = String.Format ("<b>{0}</b>", GettextCatalog.GetString ("Output Assembly"));
-			label4.Markup = String.Format ("<b>{0}</b>", GettextCatalog.GetString ("Warnings and Errors"));
+			labelWarnings.Markup = String.Format ("<b>{0}</b>", GettextCatalog.GetString ("Warnings and Errors"));
 			
-			this.checkBox7 = new CheckButton (GettextCatalog.GetString ("Generate Warnings"));
-			label6.Markup = String.Format ("<b>{0}</b>", GettextCatalog.GetString ("Compiler"));
-			label7.Markup = String.Format ("<b>{0}</b>", GettextCatalog.GetString ("Classpath"));
-			label8.Markup = String.Format ("<b>{0}</b>", GettextCatalog.GetString ("Main Class"));
+			labelCompiler.Markup = String.Format ("<b>{0}</b>", GettextCatalog.GetString ("Compiler"));
+			labelClasspath.Markup = String.Format ("<b>{0}</b>", GettextCatalog.GetString ("Classpath"));
+			labelMainClass.Markup = String.Format ("<b>{0}</b>", GettextCatalog.GetString ("Main Class"));
 		}
 	}
 }

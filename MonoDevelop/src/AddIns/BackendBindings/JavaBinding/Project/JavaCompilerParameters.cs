@@ -40,10 +40,13 @@ namespace JavaBinding
 			public string         classpath = String.Empty;
 			
 			[XmlAttribute ("compiler")]
-			public string compiler  = "javac";		
+			public JavaCompiler compiler  = JavaCompiler.Gcj;		
+
+			[XmlAttribute ("runtime")]
+			public JavaRuntime runtime = JavaRuntime.Ikvm;		
 
 			[XmlAttribute("compilerpath")]
-			public string         compilerpath  = "javac";		
+			public string compilerpath  = "javac";		
 			
 			[XmlAttribute("genwarnings")]
 			public bool genwarnings = false;
@@ -78,7 +81,16 @@ namespace JavaBinding
 			}
 		}
 
-		public string Compiler {
+		public JavaRuntime Runtime {
+			get {
+				return codeGeneration.runtime;
+			}
+			set {
+				codeGeneration.runtime = value;
+			}
+		}
+
+		public JavaCompiler Compiler {
 			get {
 				return codeGeneration.compiler;
 			}

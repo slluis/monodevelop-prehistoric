@@ -4,6 +4,12 @@
 	rework error parsing to work off of Streams instead of temp files
 	allows javac errors to work, gcj maybe not	
 	set the column of the error
+	specify the output directory
+	* Project/JavaCompilerOptions: add runtime prop
+	* JavaBindingExecutionService.cs:  add prelim support
+	for choosing runtime
+	* JavaCompiler.cs:
+	* JavaRuntime.cs: add enums for compiler and runtime
 
 2004-04-09  John Luke  <jluke@cfl.rr.com>
 

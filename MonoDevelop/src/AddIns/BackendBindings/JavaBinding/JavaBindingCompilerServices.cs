@@ -119,20 +119,28 @@ namespace JavaBinding
 			TempFileCollection  tf = new TempFileCollection ();			
 			
 
-			string compiler = compilerparameters.Compiler;
-			if (compiler == "gcj")
-				compiler = "gcj -C"; // compile to bytecode
+			string outdir = " -d " + compilerparameters.OutputDirectory;
+			string compiler;
 
-			// FIXME: maybe just send javac command to vte
-			// we don't seem to have task support anyways
+			if (compilerparameters.Compiler == JavaCompiler.Gcj)
+			{
+				compiler = "gcj -C"; // compile to bytecode
+			}
+			else
+			{
+				compiler = "javac";
+			}
+
 			string outstr;
 			//FIXME re-enable options
 			//FIXME re-enable compilerPath
 			if (compilerparameters.ClassPath == "") {
-				outstr = compiler + files;			
+				outstr = compiler + files + outdir;			
 			} else {
-				outstr = compiler + " -classpath " + compilerparameters.ClassPath + files;
+				outstr = compiler + " -classpath " + compilerparameters.ClassPath + files + outdir;
 			}
+			Console.WriteLine (outstr);
+
 			StreamReader output;
 			StreamReader error;
 			DoCompilation (outstr, tf, out output, out error);
