@@ -2,8 +2,6 @@ using System;
 using System.IO;
 using Gtk;
 using Gdk;
-using GtkSharp;
-using GdkSharp;
 
 namespace MonoDevelop.Gui.Widgets {
 	public class FolderEntry : BaseFileEntry {

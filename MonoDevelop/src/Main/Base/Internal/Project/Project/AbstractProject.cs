@@ -22,6 +22,7 @@ using MonoDevelop.Internal.Project;
 using MonoDevelop.Core.Services;
 using MonoDevelop.Services;
 using MonoDevelop.Gui.Components;
+using MonoDevelop.Gui.Widgets;
 
 namespace MonoDevelop.Internal.Project
 {
@@ -523,8 +524,8 @@ namespace MonoDevelop.Internal.Project
 		
 		public void SaveProjectAs()
 		{
-			using (Gtk.FileSelection fdiag = new Gtk.FileSelection (GettextCatalog.GetString ("Save Project As..."))) {
-				fdiag.Filename = System.Environment.GetEnvironmentVariable ("HOME");
+			using (FileSelector fdiag = new FileSelector (GettextCatalog.GetString ("Save Project As..."))) {
+				//fdiag.Filename = System.Environment.GetEnvironmentVariable ("HOME");
 
 				if (fdiag.Run() == (int)Gtk.ResponseType.Ok) {
 					string filename = fdiag.Filename;

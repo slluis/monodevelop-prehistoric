@@ -26,6 +26,7 @@ using MonoDevelop.Gui.Components;
 using MonoDevelop.Internal.Project;
 using MonoDevelop.Gui.Dialogs;
 using MonoDevelop.Gui.Pads.ProjectBrowser;
+using MonoDevelop.Gui.Widgets;
 
 using Gtk;
 using Stock = MonoDevelop.Gui.Stock;
@@ -44,7 +45,7 @@ namespace MonoDevelop.Commands.ProjectBrowser
 				
 				show_dialog:
 									
-				using (Gtk.FileSelection fs = new Gtk.FileSelection (GettextCatalog.GetString ("File to Open"))) {
+				using (FileSelector fs = new FileSelector (GettextCatalog.GetString ("File to Open"))) {
 					fs.SelectMultiple = true;
 					fs.Filename = project.BaseDirectory;
 					int response = fs.Run ();

@@ -6,7 +6,8 @@ ADDIN = $(srcdir)/prj2make-sharp-lib.addin.xml
 
 DLLS = $(BASE_DEPENDENCIES_LIBS) \
 	/r:../../../build/bin/MonoDevelop.Base.dll \
-	/r:../../../build/bin/MonoDevelop.Core.dll
+	/r:../../../build/bin/MonoDevelop.Core.dll \
+	/r:../../../build/bin/MonoDevelop.Gui.Widgets.dll
 
 
 FILES = \

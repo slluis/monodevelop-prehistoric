@@ -96,7 +96,7 @@ namespace MonoDevelop.Gui.Dialogs.OptionPanels
 			//FIXME : Finish details in this dialog.
 			void SelectScriptFileEvent(object sender, EventArgs e)
 			{
-				using (FileSelection fs = new FileSelection (GettextCatalog.GetString ("Select your File"))) { // Put correct title 
+				using (FileSelector fs = new FileSelector (GettextCatalog.GetString ("Select your File"))) { // Put correct title 
 					fs.Complete("*.txt");
 					if ( fs.Run () == (int) ResponseType.Ok) {
  						deployScriptEntry.Text = fs.SelectionEntry.Text;
@@ -107,7 +107,7 @@ namespace MonoDevelop.Gui.Dialogs.OptionPanels
 			
 			void SelectTargetFolderEvent(object sender, EventArgs e)
 			{
-				using (FileSelection fs = new FileSelection (GettextCatalog.GetString ("Select the target directory"))) {
+				using (FileSelector fs = new FileSelector (GettextCatalog.GetString ("Select the target directory"))) {
 					if ( fs.Run () == (int) ResponseType.Ok) {
 						deployTargetEntry.Text = fs.SelectionEntry.Text;
 					}

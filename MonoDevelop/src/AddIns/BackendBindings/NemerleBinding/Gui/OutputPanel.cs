@@ -47,7 +47,7 @@ namespace NemerleBinding
 			}
 			void SelectFolder(object sender, EventArgs e)			
 			{
-				using (FileSelection fdiag = new FileSelection ("Output Path")) 
+				using (FileSelector fdiag = new FileSelector ("Output Path")) 
 				{
 					if (fdiag.Run () == (int) ResponseType.Ok) 
 						outputPath.Text = fdiag.Filename;

@@ -1,3 +1,10 @@
+2004-06-17  John Luke  <jluke@cfl.rr.com>
+
+	* Makefile.am: add reference to MonoDevelop.Gui.Widgets
+	* *.Makefile: remove generated makefile from svn
+	* prj2make-sharp-Commands.cs : use MonoDevelop.Gui.Widgets.FileSelector
+	instead of Gtk.FileSelection
+
 2004-06-14  Francisco "Paco" Martinez <paco@mfcon.com>
 	
 	Changes to correctly specify GAC type references on imported projects from VS .NET csproj files

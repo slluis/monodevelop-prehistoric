@@ -41,12 +41,14 @@ namespace MonoDevelop.Gui.Widgets
 			}
 
 			// FIXME: surely there is a better way to set the dir
+			// this way is horrible
 			this.Complete (lastPath);
 
 			// Basically need to track if the directory has
 			// been changed in the simplest way possible
 			this.DirList.RowActivated += OnDirectoryChanged;
 			this.HistoryPulldown.Changed += OnOptionChanged;
+			// FIXME: tab-completion dir changes? and others?
 		}
 
 		void OnDirectoryChanged (object o, RowActivatedArgs args)
@@ -62,6 +64,7 @@ namespace MonoDevelop.Gui.Widgets
 		void UpdateLastDir ()
 		{
 			lastPath = this.SelectionText.Text;
+			// FIXME: find a way to only set this once per-dialog
 			propertyService.SetProperty (LastPathProperty, lastPath);
 		}
 	}

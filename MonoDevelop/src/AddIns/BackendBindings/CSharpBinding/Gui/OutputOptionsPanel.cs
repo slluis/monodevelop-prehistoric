@@ -12,6 +12,7 @@ using System.Drawing;
 using MonoDevelop.Internal.Project;
 using MonoDevelop.Internal.ExternalTool;
 using MonoDevelop.Gui.Dialogs;
+using MonoDevelop.Gui.Widgets;
 using MonoDevelop.Core.Services;
 using MonoDevelop.Core.Properties;
 using MonoDevelop.Core.AddIns.Codons;
@@ -97,7 +98,7 @@ namespace CSharpBinding
 			void SelectFolder(object sender, EventArgs e)
 			{
 				ResourceService res = (ResourceService)ServiceManager.Services.GetService (typeof (ResourceService));
-				using (FileSelection fdiag = new FileSelection (GettextCatalog.GetString ("Select the directory in which the assembly will be created"))) {
+				using (FileSelector fdiag = new FileSelector (GettextCatalog.GetString ("Select the directory in which the assembly will be created"))) {
 					if (fdiag.Run () == (int) ResponseType.Ok) {
 						outputDirectoryEntry.Text = fdiag.Filename;
 					}
@@ -108,7 +109,7 @@ namespace CSharpBinding
 		
 			void SelectFile2(object sender, EventArgs e)
 			{
-				using (FileSelection fdiag = new FileSelection ("")) {
+				using (FileSelector fdiag = new FileSelector ("")) {
 					//fdiag.Filter = StringParserService.Parse("${res:SharpDevelop.FileFilter.AllFiles}|*.*");
 					fdiag.SelectMultiple = false;
 				
@@ -122,7 +123,7 @@ namespace CSharpBinding
 			
 			void SelectFile3(object sender, EventArgs e)
 			{
-				using (FileSelection fdiag = new FileSelection ("")) {
+				using (FileSelector fdiag = new FileSelector ("")) {
 					//fdiag.Filter = StringParserService.Parse("${res:SharpDevelop.FileFilter.AllFiles}|*.*");
 					fdiag.SelectMultiple = false;
 				
@@ -136,7 +137,7 @@ namespace CSharpBinding
 		
 			void SelectFile4(object sender, EventArgs e)
 			{
-				using (FileSelection fdiag = new FileSelection ("")) {
+				using (FileSelector fdiag = new FileSelector ("")) {
 					//fdiag.Filter = StringParserService.Parse("${res:SharpDevelop.FileFilter.AllFiles}|*.*");
 					fdiag.SelectMultiple = false;
 				

@@ -2,6 +2,8 @@
 
 	* FileSelector/FileSelector.cs: a thin wrapper for selecting files
 	* Makefile.am: add FileSelector
+	* FolderDialog/FileEntry.cs:
+	* FolderDialog/FolderDialog.cs: use FileSelector, remove *Sharp usings
 
 2004-06-07  John Luke  <jluke@cfl.rr.com>
 

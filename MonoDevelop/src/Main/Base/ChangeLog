@@ -1,3 +1,16 @@
+2004-06-17  John Luke  <jluke@cfl.rr.com>
+
+	* Commands/ProjectBrowserCommands/ResourceFolderNodeCommands.cs:
+	* Commands/ProjectBrowserCommands/FolderNodeCommands.cs:
+	* Commands/ProjectBrowserCommands/CombineNodeCommands.cs:
+	* Commands/FileCommands.cs:
+	* Gui/Dialogs/OptionPanels/ExternalToolPanel.cs:
+	* Gui/Dialogs/ReferenceDialog/AssemblyReferencePanel.cs:
+	* Internal/Project/Project/AbstractProject.cs:
+	* Internal/Project/Combine/Combine.cs:
+	* Gui/Dialogs/OptionPanels/ProjectOptions/DeployFileOptions.cs:
+	use MonoDevelop.Gui.Widgets.FileSelector instead of Gtk.FileSelection
+
 2004-06-16  John Luke  <jluke@cfl.rr.com>
 
 	* Gui/Dialogs/NewProjectDialog.cs: guard against unauthorized

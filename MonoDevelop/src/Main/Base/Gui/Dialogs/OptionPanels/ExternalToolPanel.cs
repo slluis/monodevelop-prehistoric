@@ -159,7 +159,7 @@ namespace MonoDevelop.Gui.Dialogs.OptionPanels
 	         
 			void browseEvent (object sender, EventArgs e)
 			{
-				using (Gtk.FileSelection fs = new Gtk.FileSelection (GettextCatalog.GetString ("File to Open"))) {
+				using (FileSelector fs = new FileSelector (GettextCatalog.GetString ("File to Open"))) {
 					int response = fs.Run ();
 					string name = fs.Filename;
 					fs.Hide ();

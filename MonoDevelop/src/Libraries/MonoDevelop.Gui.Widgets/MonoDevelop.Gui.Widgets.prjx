@@ -19,6 +19,7 @@
     <File name="./Tree/TreeNode.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
     <File name="./Tree/TreeNodeCollection.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
     <File name="./Tree/TreeView.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name="./FileSelector/FileSelector.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
   </Contents>
   <References>
     <Reference type="Gac" refto="glade-sharp, Version=1.0.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" localcopy="True" />

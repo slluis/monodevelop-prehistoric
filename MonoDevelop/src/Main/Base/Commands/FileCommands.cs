@@ -16,6 +16,7 @@ using MonoDevelop.Core.Services;
 using MonoDevelop.Services;
 using MonoDevelop.Internal.Project;
 using MonoDevelop.Gui;
+using MonoDevelop.Gui.Widgets;
 using MonoDevelop.Gui.Dialogs;
 using MonoDevelop.Gui.ErrorHandlers;
 
@@ -146,7 +147,7 @@ namespace MonoDevelop.Commands
 						}
 					}*/
 					
-					using (Gtk.FileSelection fdiag = new Gtk.FileSelection (GettextCatalog.GetString ("Save as..."))) {
+					using (FileSelector fdiag = new FileSelector (GettextCatalog.GetString ("Save as..."))) {
 						fdiag.Filename = window.ViewContent.ContentName;
 						int response = fdiag.Run ();
 						string filename = fdiag.Filename;
@@ -190,7 +191,7 @@ namespace MonoDevelop.Commands
 				
 				if (content.ContentName == null)
 				{
-					using (Gtk.FileSelection fdiag = new Gtk.FileSelection (GettextCatalog.GetString ("Save File As...")))
+					using (FileSelector fdiag = new FileSelector (GettextCatalog.GetString ("Save File As...")))
 					{
 						fdiag.Filename = System.Environment.GetEnvironmentVariable ("HOME");
 						if (fdiag.Run () == (int) Gtk.ResponseType.Ok)
@@ -227,12 +228,7 @@ namespace MonoDevelop.Commands
 		
 		public override void Run()
 		{
-			using (Gtk.FileSelection fs = new Gtk.FileSelection (GettextCatalog.GetString ("File to Open"))) {
-				string defaultFolder = PropertyService.GetProperty(
-						"MonoDevelop.Gui.Dialogs.NewProjectDialog.DefaultPath", 
-					System.IO.Path.Combine(System.Environment.GetEnvironmentVariable ("HOME"),
-						"MonoDevelopProjects")).ToString();
-				fs.Complete (defaultFolder);
+			using (FileSelector fs = new FileSelector (GettextCatalog.GetString ("File to Open"))) {
 				int response = fs.Run ();
 				string name = fs.Filename;
 				fs.Hide ();
@@ -299,12 +295,7 @@ namespace MonoDevelop.Commands
 					}
 				}
 
-				using (Gtk.FileSelection fs = new Gtk.FileSelection (GettextCatalog.GetString ("File to Open"))) {
-					string defaultFolder = PropertyService.GetProperty(
-						"MonoDevelop.Gui.Dialogs.NewProjectDialog.DefaultPath", 
-						System.IO.Path.Combine(System.Environment.GetEnvironmentVariable ("HOME"),
-							"MonoDevelopProjects")).ToString();
-					fs.Complete (defaultFolder);
+				using (FileSelector fs = new FileSelector (GettextCatalog.GetString ("File to Open"))) {
 					int response = fs.Run ();
 					fs.Hide ();
 					string name = fs.Filename;

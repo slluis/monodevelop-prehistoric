@@ -4,6 +4,7 @@ using System.IO;
 using MonoDevelop.Core.AddIns.Codons;
 using MonoDevelop.Services;
 using MonoDevelop.Core.Services;
+using MonoDevelop.Gui.Widgets;
 using MonoDevelop.Prj2Make;
 using MonoDevelop.Prj2Make.Schema.Prjx;
 using MonoDevelop.Prj2Make.Schema.Csproj;
@@ -16,14 +17,9 @@ namespace MonoDevelop.Commands
 		
 		public override void Run()
 		{
-			using (Gtk.FileSelection fs = new Gtk.FileSelection (GettextCatalog.GetString ("File to Open"))) {
+			using (FileSelector fs = new FileSelector (GettextCatalog.GetString ("File to Open"))) {
 				bool conversionSuccessfull = false;
 				SlnMaker slnMkObj = null;
-				string defaultFolder = PropertyService.GetProperty(
-						"MonoDevelop.Gui.Dialogs.NewProjectDialog.DefaultPath", 
-					System.IO.Path.Combine(System.Environment.GetEnvironmentVariable ("HOME"),
-						"MonoDevelopProjects")).ToString();
-				fs.Complete (defaultFolder);
 				int response = fs.Run ();
 				string name = fs.Filename;
 				fs.Hide ();

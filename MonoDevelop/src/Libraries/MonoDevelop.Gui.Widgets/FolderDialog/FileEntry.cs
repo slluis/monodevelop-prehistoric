@@ -2,11 +2,9 @@ using System;
 using System.IO;
 using Gtk;
 using Gdk;
-using GtkSharp;
-using GdkSharp;
 
 namespace MonoDevelop.Gui.Widgets {
-	public class FileEntry : BaseFileEntry{
+	public class FileEntry : BaseFileEntry {
 
 		public FileEntry (string name) : base (name)
 		{
@@ -14,7 +12,7 @@ namespace MonoDevelop.Gui.Widgets {
 		
 		protected override string ShowBrowseDialog (string name, string start_in)
 		{
-			FileSelection fd = new FileSelection (name);
+			FileSelector fd = new FileSelector (name);
 			if (start_in != null)
 				fd.Filename = start_in;
 			

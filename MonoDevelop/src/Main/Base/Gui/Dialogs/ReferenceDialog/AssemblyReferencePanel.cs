@@ -11,6 +11,7 @@ using System.Text;
 using MonoDevelop.Internal.Project;
 using MonoDevelop.Core.Services;
 using MonoDevelop.Services;
+using MonoDevelop.Gui.Widgets;
 
 using Gtk;
 
@@ -34,7 +35,7 @@ namespace MonoDevelop.Gui.Dialogs
 		{
 			// FIXME: il8n the dialog name
 			StringParserService stringParserService = (StringParserService)ServiceManager.Services.GetService(typeof(StringParserService));
-			using (FileSelection fdiag = new FileSelection(GettextCatalog.GetString ("Find .Net Assembly"))) {
+			using (FileSelector fdiag = new FileSelector (GettextCatalog.GetString ("Find .Net Assembly"))) {
 			// FIXME: this should only allow dll's and exe's
 			// fdiag.Complete("*");
 				fdiag.SelectMultiple = true;

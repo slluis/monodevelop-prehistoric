@@ -21,6 +21,7 @@ using MonoDevelop.Core.Services;
 using MonoDevelop.Services;
 using MonoDevelop.Gui;
 using MonoDevelop.Gui.Components;
+using MonoDevelop.Gui.Widgets;
 using MonoDevelop.Internal.Project;
 using MonoDevelop.Gui.Dialogs;
 using MonoDevelop.Gui.Pads.ProjectBrowser;
@@ -96,14 +97,8 @@ namespace MonoDevelop.Commands.ProjectBrowser
 			PropertyService propertyService = (PropertyService)ServiceManager.Services.GetService (typeof (PropertyService));
 			
 			if (node != null) {
-				using (Gtk.FileSelection fdiag = new Gtk.FileSelection (GettextCatalog.GetString ("Add a Project"))) {
+				using (FileSelector fdiag = new FileSelector (GettextCatalog.GetString ("Add a Project"))) {
 					StringParserService stringParserService = (StringParserService)ServiceManager.Services.GetService(typeof(StringParserService));
-					string defaultFolder = propertyService.GetProperty(
-						"MonoDevelop.Gui.Dialogs.NewProjectDialog.DefaultPath", 
-					System.IO.Path.Combine(System.Environment.GetEnvironmentVariable ("HOME"),
-						"MonoDevelopProjects")).ToString();
-					
-					fdiag.Complete (defaultFolder);
 					fdiag.SelectMultiple = false;
 					if (fdiag.Run () == (int) Gtk.ResponseType.Ok) {
 						try {
@@ -143,15 +138,9 @@ namespace MonoDevelop.Commands.ProjectBrowser
 			PropertyService propertyService = (PropertyService)ServiceManager.Services.GetService (typeof (PropertyService));
 			
 			if (node != null) {
-				using (Gtk.FileSelection fdiag = new Gtk.FileSelection (GettextCatalog.GetString ("Add a Combine"))) {
+				using (FileSelector fdiag = new FileSelector (GettextCatalog.GetString ("Add a Combine"))) {
 					StringParserService stringParserService = (StringParserService)ServiceManager.Services.GetService(typeof(StringParserService));
 				
-					string defaultFolder = propertyService.GetProperty(
-						"MonoDevelop.Gui.Dialogs.NewProjectDialog.DefaultPath", 
-					System.IO.Path.Combine(System.Environment.GetEnvironmentVariable ("HOME"),
-						"MonoDevelopProjects")).ToString();
-					
-					fdiag.Complete (defaultFolder);
 					fdiag.SelectMultiple = false;
 					if (fdiag.Run () == (int) Gtk.ResponseType.Ok) {
 						try {

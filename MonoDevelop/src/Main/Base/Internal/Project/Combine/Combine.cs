@@ -25,6 +25,7 @@ using MonoDevelop.Internal.Project;
 using MonoDevelop.Core.Properties;
 using MonoDevelop.Gui;
 using MonoDevelop.Gui.Components;
+using MonoDevelop.Gui.Widgets;
 
 namespace MonoDevelop.Internal.Project
 {
@@ -367,8 +368,8 @@ namespace MonoDevelop.Internal.Project
 		
 		public void SaveCombineAs()
 		{
-			using (Gtk.FileSelection fdiag = new Gtk.FileSelection (GettextCatalog.GetString ("Save Combine As..."))) {
-				fdiag.Filename = System.Environment.GetEnvironmentVariable ("HOME");
+			using (FileSelector fdiag = new FileSelector (GettextCatalog.GetString ("Save Combine As..."))) {
+				//fdiag.Filename = System.Environment.GetEnvironmentVariable ("HOME");
 				if (fdiag.Run() == (int)Gtk.ResponseType.Ok) {
 					string filename = fdiag.Filename;
 					SaveCombine(filename);

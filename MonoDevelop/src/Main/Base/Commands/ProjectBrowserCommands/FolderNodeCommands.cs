@@ -19,6 +19,7 @@ using MonoDevelop.Core.AddIns.Codons;
 using MonoDevelop.Core.Services;
 using MonoDevelop.Services;
 using MonoDevelop.Gui;
+using MonoDevelop.Gui.Widgets;
 using MonoDevelop.Gui.Components;
 using MonoDevelop.Internal.Project;
 using MonoDevelop.Gui.Dialogs;
@@ -41,7 +42,7 @@ namespace MonoDevelop.Commands.ProjectBrowser
 			
 			AbstractBrowserNode node = (AbstractBrowserNode)browser.SelectedNode;
 			
-			using (FileSelection fdiag  = new FileSelection (GettextCatalog.GetString ("Add a file"))) {
+			using (FileSelector fdiag  = new FileSelector (GettextCatalog.GetString ("Add a file"))) {
 				fdiag.SelectMultiple = true;
 				
 				string defaultPath = node.Project.BaseDirectory;

@@ -5,6 +5,7 @@ using Gtk;
 using MonoDevelop.Core.AddIns.Codons;
 using MonoDevelop.Services;
 using MonoDevelop.Core.Services;
+using MonoDevelop.Gui.Widgets;
 
 namespace MonoDevelop.Commands
 {
@@ -14,7 +15,7 @@ namespace MonoDevelop.Commands
 		{
 			NunitService nunitService = (NunitService) MonoDevelop.Core.Services.ServiceManager.Services.GetService (typeof (NunitService));
 
-			using (FileSelection fs = new FileSelection ("Load test assembly")) {
+			using (FileSelector fs = new FileSelector ("Load test assembly")) {
 				string defaultPath = Path.Combine (Environment.GetEnvironmentVariable ("HOME"), "MonoDevelopProjects");
 				fs.Complete (defaultPath);
 
