@@ -237,9 +237,11 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads
 			} catch (Exception) {
 				return;
 			}
-			
-			watcher.Path = path;
-			watcher.EnableRaisingEvents = true;
+		
+			if (watcher != null) {
+				watcher.Path = path;
+				watcher.EnableRaisingEvents = true;
+			}
 			
 			foreach (string file in files) {
 				string filename = System.IO.Path.GetFileName(file);
