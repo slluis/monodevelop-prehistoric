@@ -133,6 +133,9 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs {
 			Glade.XML treeViewXml = new Glade.XML (null, "Base.glade", "TreeViewOptionDialog", null);
 			treeViewXml.Autoconnect (this);
 		
+			TreeViewOptionDialog.TransientFor = (Gtk.Window)WorkbenchSingleton.Workbench;
+			TreeViewOptionDialog.WindowPosition = Gtk.WindowPosition.CenterOnParent;
+		
 			TreeViewOptionDialog.Title = StringParserService.Parse("${res:Dialog.Options.TreeViewOptions.DialogName}");
 
 			this.InitializeComponent();
