@@ -482,7 +482,7 @@ namespace VBBinding.Parser
 						classes.Add((IClass)content[i]);
 					}
 				}
-				string[] namespaces = parserService.GetNamespaceList(project, n, false);
+				string[] namespaces = parserService.GetNamespaceList(project, n, true, false);
 				return new ResolveResult(namespaces, classes);
 			}
 			//Console.WriteLine("Returning Result!");
@@ -654,7 +654,7 @@ namespace VBBinding.Parser
 			}
 			string t = expression.Substring(i + 1);
 //			Console.WriteLine("in imports Statement");
-			string[] namespaces = parserService.GetNamespaceList(project,t, false);
+			string[] namespaces = parserService.GetNamespaceList(project,t, true, false);
 			if (namespaces == null || namespaces.Length <= 0) {
 				return null;
 			}
