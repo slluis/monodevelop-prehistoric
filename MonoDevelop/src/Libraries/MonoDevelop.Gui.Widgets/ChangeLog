@@ -1,3 +1,8 @@
+2004-06-17  John Luke  <jluke@cfl.rr.com>
+
+	* FileSelector/FileSelector.cs: a thin wrapper for selecting files
+	* Makefile.am: add FileSelector
+
 2004-06-07  John Luke  <jluke@cfl.rr.com>
 
 	* FileBrowser/FileBrowser.cs: use a toolbar with tooltips

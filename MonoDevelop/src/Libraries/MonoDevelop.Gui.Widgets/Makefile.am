@@ -16,6 +16,7 @@ FILES = ./Tree/TreeView.cs \
 ./IconView/IconView.cs \
 ./AssemblyInfo.cs \
 ./FileBrowser/FileBrowser.cs \
+./FileSelector/FileSelector.cs \
 ./FolderDialog/FolderDialog.cs \
 ./FolderDialog/BaseFileEntry.cs \
 ./FolderDialog/FolderEntry.cs \
