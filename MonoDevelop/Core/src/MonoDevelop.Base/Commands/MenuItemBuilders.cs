@@ -234,7 +234,12 @@ namespace MonoDevelop.Commands
 			for (int i = 0; i < contentCount; ++i) {
 				IViewContent content = (IViewContent)WorkbenchSingleton.Workbench.ViewContentCollection[i];
 				
-				MyMenuItem item = new MyMenuItem(content.WorkbenchWindow.Title);
+				MyMenuItem item = null;
+				if (content.WorkbenchWindow.ShowNotification) {
+					item = new MyMenuItem("<span foreground=\"blue\">" + content.WorkbenchWindow.Title + "</span>");
+				} else {
+					item = new MyMenuItem (content.WorkbenchWindow.Title);
+				}
 				item.Tag = content.WorkbenchWindow;
 				if (WorkbenchSingleton.Workbench.ActiveWorkbenchWindow == content.WorkbenchWindow) {
 					item.Active = true;

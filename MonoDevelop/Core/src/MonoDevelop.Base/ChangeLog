@@ -5,6 +5,8 @@
 	* Gui/Components/SdMenuCheckBox.cs: Use markup instead of text, this
 	will allow the view menu item builder to show things properly.
 	* Gui/IWorkbenchWindow.cs: Add ShowNotification get; set;
+	* Commands/MenuItemBuilders.cs: Use ShowNotification to properly show
+	the open contents menu.
 
 2005-01-25  Lluis Sanchez Gual  <lluis@novell.com>
 
