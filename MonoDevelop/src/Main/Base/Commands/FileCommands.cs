@@ -86,8 +86,7 @@ namespace ICSharpCode.SharpDevelop.Commands
 						FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.Services.GetService(typeof(FileUtilityService));
 						projectService.MarkFileDirty(window.ViewContent.ContentName);
 						string fileName = window.ViewContent.ContentName;
-						// save backup first
-						System.Console.WriteLine(fileName);
+						// save backup first						
 						if((bool) PropertyService.GetProperty ("SharpDevelop.CreateBackupCopy", false)) {
 							fileUtilityService.ObservedSave(new NamedFileOperationDelegate(window.ViewContent.Save), fileName + "~");
 						}

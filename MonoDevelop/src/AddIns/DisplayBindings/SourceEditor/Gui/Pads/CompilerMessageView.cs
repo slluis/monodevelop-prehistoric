@@ -73,8 +73,12 @@ namespace MonoDevelop.EditorBindings.Gui.Pads
 			ResourceService resourceService = (ResourceService)ServiceManager.Services.GetService(typeof(IResourceService));
 			
 			TaskService     taskService    = (TaskService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(TaskService));
+			IProjectService projectService = (IProjectService) ServiceManager.Services.GetService (typeof(IProjectService));
 			
 			taskService.CompilerOutputChanged += new EventHandler(SetOutput);
+			projectService.StartBuild      += new EventHandler (SelectMessageView);
+			projectService.CombineClosed += new CombineEventHandler (OnCombineClosed);
+			projectService.CombineOpened += new CombineEventHandler (OnCombineOpen);
 		}
 		
 		void OnCombineOpen(object sender, CombineEventArgs e)
