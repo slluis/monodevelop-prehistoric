@@ -54,16 +54,17 @@ namespace MonoDevelop.Commands
 
 		public override void Run ()
 		{
-
+			DebuggingService dbgr = (DebuggingService)ServiceManager.GetService (typeof (DebuggingService));
 			IProjectService projServ = (IProjectService)ServiceManager.GetService (typeof (IProjectService));
 			
 			if (projServ.CurrentOpenCombine != null) {
 				//try {
 					if (projServ.NeedsCompiling) {
-						projServ.CompileCombine ();
+						projServ.BuildActiveCombine ().WaitForCompleted ();
 					}
-					projServ.OnBeforeStartProject ();
-					projServ.CurrentOpenCombine.Debug ();
+					//					if (projServ.BeforeStartProject != null)
+					//						projServ.BeforeStartProject (projServ, null);
+					projServ.CurrentOpenCombine.Debug (dbgr.GetDebugProgressMonitor ());
 				//} catch {
 				//	IMessageService msgServ = (IMessageService)ServiceManager.Services.GetService (typeof (IMessageService));
 				//	msgServ.ShowError ("Can't execute the debugger");

@@ -1,3 +1,22 @@
+2005-02-04  Chris Toshok  <toshok@ximian.com>
+
+	* DebuggerCommands.cs: Update so this compiles/works with new MD.
+
+	* DebuggingService.cs (DebuggingService.GetDebugProgressMonitor):
+	create a progress monitor in which to display output from the
+	debugged program.  not sure what to do about input, though.
+	(DebuggingService.Cleanup): null current_monitor.
+	(DebuggingService.thread_created): add
+	TargetOutput/DebuggerOutput/DebuggerError handlers for the new
+	thread, and use Gtk.ThreadNotify.
+	(DebuggingService.initialized_event): same.
+	(DebuggingService.thread_exited): use Gtk.ThreadNotify
+	(DebuggingService.target_output, DebuggingService.debugger_output,
+	DebuggingService.debugger_error): delegates for inferior output -
+	output to our current_monitor.
+	(DebuggingService.target_event): use Gtk.ThreadNotify.
+	(DebuggingService.OnBreakpointHit): same.
+
 2004-10-23  Chris Toshok  <toshok@ximian.com>
 
 	* Gui/DebuggerThreadPad.cs: add the current location to stopped

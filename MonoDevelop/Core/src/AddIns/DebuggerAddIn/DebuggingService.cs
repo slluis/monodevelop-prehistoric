@@ -32,10 +32,18 @@ namespace MonoDevelop.Services
 		DebuggerBackend backend;
 		Breakpoint point;
 
+		IProgressMonitor current_monitor;
+
 		public DebuggingService()
 		{
 			DebuggerBackend.Initialize ();
 		}
+
+                public IProgressMonitor GetDebugProgressMonitor ()
+                {
+                        current_monitor = Runtime.TaskService.GetOutputProgressMonitor ("Debug Output", MonoDevelop.Gui.Stock.OutputIcon, true, true);
+			return current_monitor;
+                }
 		
 		void Cleanup ()
 		{
@@ -46,6 +54,7 @@ namespace MonoDevelop.Services
 				StoppedEvent (this, new EventArgs ());
 			backend.Dispose ();
 			backend = null;
+			current_monitor = null;
 			proc = null;
 		}
 
@@ -111,11 +120,14 @@ namespace MonoDevelop.Services
 		private void thread_created (ThreadManager manager, Process process)
 		{
 			lock (procs) {
-			  //				process.ProcessExitedEvent += new ProcessExitedHandler (thread_exited);
 				procs.Add (process.ID, process);
+
+				process.TargetOutput += new TargetOutputHandler (target_output);
+				process.DebuggerOutput += new DebuggerOutputHandler (debugger_output);
+				process.DebuggerError += new DebuggerErrorHandler (debugger_error);
 			}
 
-			Gtk.Timeout.Add (1, new Gtk.Function (EmitThreadStateEvent));
+			new Gtk.ThreadNotify (new Gtk.ReadyEvent (EmitThreadStateEvent)).WakeupMain();
 		}
 
 		private void thread_exited (ThreadManager manager, Process process)
@@ -124,16 +136,34 @@ namespace MonoDevelop.Services
 				procs.Remove (process.ID);
 			}
 
-			Gtk.Timeout.Add (1, new Gtk.Function (EmitThreadStateEvent));
+			new Gtk.ThreadNotify (new Gtk.ReadyEvent (EmitThreadStateEvent)).WakeupMain();
 		}
 
 		private void initialized_event (ThreadManager manager, Process process)
 		{
 			this.proc = process;
 
+			proc.TargetOutput += new TargetOutputHandler (target_output);
+			proc.DebuggerOutput += new DebuggerOutputHandler (debugger_output);
+			proc.DebuggerError += new DebuggerErrorHandler (debugger_error);
 			proc.TargetEvent += new TargetEventHandler (target_event);
 
-			Gtk.Timeout.Add (1, new Gtk.Function (EmitStarted));
+			new Gtk.ThreadNotify (new Gtk.ReadyEvent (EmitStarted)).WakeupMain();
+		}
+
+		void target_output (bool is_stderr, string line)
+		{
+			current_monitor.Log.Write (line);
+		}
+
+		void debugger_output (string line)
+		{
+			current_monitor.ReportWarning (line);
+		}
+
+		void debugger_error (object sender, string message, Exception e)
+		{
+			current_monitor.ReportError (message, e);
 		}
 
 		private void target_event (object sender, TargetEventArgs args)
@@ -141,11 +171,11 @@ namespace MonoDevelop.Services
 			switch (args.Type) {
 			case TargetEventType.TargetExited:
 			case TargetEventType.TargetSignaled:
-				Gtk.Timeout.Add (1, new Gtk.Function (KillApplication));
+				new Gtk.ThreadNotify (new Gtk.ReadyEvent (KillApplication)).WakeupMain();
 				break;
 			case TargetEventType.TargetStopped:
 			case TargetEventType.TargetRunning:
-				Gtk.Timeout.Add (1, new Gtk.Function (ChangeState));
+				new Gtk.ThreadNotify (new Gtk.ReadyEvent (ChangeState)).WakeupMain();
 				break;
 			case TargetEventType.TargetHitBreakpoint:
 			default:
@@ -174,15 +204,13 @@ namespace MonoDevelop.Services
 			}
 		}
 
-		bool EmitThreadStateEvent ()
+		void EmitThreadStateEvent ()
 		{
 			if (ThreadStateEvent != null)
 				ThreadStateEvent (this, new EventArgs ());
-
-			return false;
 		}
 
-		bool EmitStarted ()
+		void EmitStarted ()
 		{
 			insert_breakpoints ();
 
@@ -190,11 +218,9 @@ namespace MonoDevelop.Services
 				StartedEvent (this, new EventArgs ());
 
 			ChangeState ();
-
-			return false;
 		}
 
-		bool ChangeState ()
+		void ChangeState ()
 		{
 			if (ThreadStateEvent != null)
 				ThreadStateEvent (this, new EventArgs ());
@@ -205,7 +231,6 @@ namespace MonoDevelop.Services
 			} else if (PausedEvent != null) {
 				PausedEvent (this, new EventArgs ());
 			}
-			return false;
 		}
 
 		public event EventHandler PausedEvent;
@@ -214,10 +239,9 @@ namespace MonoDevelop.Services
 		public event EventHandler StoppedEvent;
 		public event EventHandler ThreadStateEvent;
 
-		bool KillApplication ()
+		void KillApplication ()
 		{
 			Cleanup ();
-			return false;
 		}
 
 		public void Pause ()
@@ -348,21 +372,20 @@ namespace MonoDevelop.Services
 		private void OnBreakpointHit (Breakpoint pointFromDbg, StackFrame frame)
 		{
 			point = pointFromDbg;
-			Gtk.Timeout.Add (1, new Gtk.Function (MainThreadNotify));
+			new Gtk.ThreadNotify (new Gtk.ReadyEvent (MainThreadNotify)).WakeupMain();
 		}
 
-		bool MainThreadNotify ()
+		void MainThreadNotify ()
 		{
 			string[] toks = point.Name.Split (':');
 			string filename = toks [0];
 			int linenumber = Int32.Parse (toks [1]);
 
 			if (this.BreakpointHit == null)
-				return false;
+				return;
 			
 			BreakpointHitArgs args = new BreakpointHitArgs (filename, linenumber);
 			BreakpointHit (this, args);
-			return false;
 		}
 
 		public event DebuggingService.BreakpointHitHandler BreakpointHit;
