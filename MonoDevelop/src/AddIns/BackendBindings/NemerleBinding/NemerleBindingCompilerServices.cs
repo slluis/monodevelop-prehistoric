@@ -107,8 +107,8 @@ namespace NemerleBinding
 		{
 			NemerleParameters cp = (NemerleParameters)project.ActiveConfiguration;
 			
-			return fileUtilityService.GetDirectoryNameWithSeparator(cp.OutputPath)
-					+ cp.AssemblyName + ((int)cp.Target == 0?".exe":".dll");
+			return fileUtilityService.GetDirectoryNameWithSeparator(cp.OutputDirectory)
+					+ cp.OutputAssembly + ((int)cp.Target == 0?".exe":".dll");
 		}
 		
 		public ICompilerResult CompileProject(IProject project)
@@ -130,8 +130,8 @@ namespace NemerleBinding
 						break;
 					}
 
-			if (!Directory.Exists(cp.OutputPath))
-				Directory.CreateDirectory(cp.OutputPath);
+			if (!Directory.Exists(cp.OutputDirectory))
+				Directory.CreateDirectory(cp.OutputDirectory);
 			
 			string args = GetOptionsString(cp) + references + files  + " -o " + GetCompiledOutputName(project);
 			return DoCompilation (args);

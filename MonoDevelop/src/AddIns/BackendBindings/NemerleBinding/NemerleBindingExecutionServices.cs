@@ -27,31 +27,26 @@ namespace NemerleBinding
 			
 			NemerleParameters p = (NemerleParameters)project.ActiveConfiguration;
 			FileUtilityService fus = (FileUtilityService)ServiceManager.Services.GetService(typeof(FileUtilityService));
-			string dir = fus.GetDirectoryNameWithSeparator(p.OutputPath);
 			string exe;
 			
-			if (p.ExecuteCommand == String.Empty)
+			if (p.ExecuteScript == String.Empty)
 			{
 				exe	= "mono --debug";
 			} else
 			{
-				exe = p.ExecuteCommand;
+				exe = p.ExecuteScript;
 			}
 			
-			exe += " " + p.AssemblyName + ".exe " + p.Parameters;
+			exe += " " + p.OutputAssembly + ".exe " + p.Parameters;
 			
 			try {
-				string currentDir = Directory.GetCurrentDirectory();
-				Directory.SetCurrentDirectory(dir);				
-				
 				ProcessStartInfo psi = new ProcessStartInfo(exe);
-				psi.WorkingDirectory = dir;
+				psi.WorkingDirectory = fus.GetDirectoryNameWithSeparator(p.OutputDirectory);
 				psi.UseShellExecute = false;
 				
 				Process pr = new Process();
 				pr.StartInfo = psi;
 				pr.Start();
-				Directory.SetCurrentDirectory(currentDir);	
 			} catch (Exception) {
 				throw new ApplicationException("Can not execute");
 			}

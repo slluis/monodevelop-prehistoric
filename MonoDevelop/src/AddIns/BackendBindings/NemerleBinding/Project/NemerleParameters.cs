@@ -24,7 +24,7 @@ namespace NemerleBinding
 			[XmlAttribute("nostdlib")]
 			public bool nostdlib            = false;
 			[XmlAttribute("ot")]
-			public bool ot                  = true;
+			public bool ot                  = false;
 			[XmlAttribute("obcm")]
 			public bool obcm                = true;
 			[XmlAttribute("oocm")]
@@ -32,25 +32,11 @@ namespace NemerleBinding
 			[XmlAttribute("oscm")]
 			public bool oscm                = true;
 			
-			[XmlAttribute("assemblyname")]
-			public string assemblyname      = String.Empty;
-			[XmlAttribute("outputpath")]
-			public string outputpath        = String.Empty;
 			[XmlAttribute("parameters")]
 			public string parameters        = String.Empty;
 		}
 		
-		[XmlNodeName("Execution")]
-		class Execution
-		{
-			[XmlAttribute("executecommand")]
-			public string executecommand    = String.Empty;
-		}
-
-		
 		CodeGeneration codeGeneration = new CodeGeneration();
-		
-		Execution      execution      = new Execution();
 		
 		public CompileTarget Target
 		{
@@ -88,29 +74,12 @@ namespace NemerleBinding
 			set { codeGeneration.oscm = value; }
 		}
 		
-		public string AssemblyName
-		{
-			get { return codeGeneration.assemblyname; }
-			set { codeGeneration.assemblyname = value; }
-		}
-		public string OutputPath
-		{
-			get { return codeGeneration.outputpath; }
-			set { codeGeneration.outputpath = value; }
-		}
 		public string Parameters
 		{
 			get { return codeGeneration.parameters; }
 			set { codeGeneration.parameters = value; }
 		}
 		
-		public string ExecuteCommand
-		{
-			get { return execution.executecommand; }
-			set { execution.executecommand = value; }
-		}
-
-	
 		public NemerleParameters()
 		{
 		}

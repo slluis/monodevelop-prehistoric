@@ -21,6 +21,7 @@ namespace NemerleBinding
  			[Glade.Widget] OptionMenu target;
  			[Glade.Widget] CheckButton nostdmacros;
 			[Glade.Widget] CheckButton nostdlib;
+			[Glade.Widget] CheckButton ignorewarnings;
  			[Glade.Widget] CheckButton ot;
  			[Glade.Widget] CheckButton obcm;
  			[Glade.Widget] CheckButton oocm;
@@ -36,6 +37,7 @@ namespace NemerleBinding
 				
 				nostdmacros.Active = compilerParameters.Nostdmacros;
 				nostdlib.Active    = compilerParameters.Nostdlib;
+				ignorewarnings.Active = compilerParameters.RunWithWarnings;
 				ot.Active          = compilerParameters.Ot;
 				obcm.Active        = compilerParameters.Obcm;
 				oocm.Active        = compilerParameters.Oocm;
@@ -47,6 +49,7 @@ namespace NemerleBinding
 				compilerParameters.Target = (NemerleBinding.CompileTarget)target.History;
 				compilerParameters.Nostdmacros = nostdmacros.Active;
 				compilerParameters.Nostdlib = nostdlib.Active;
+				compilerParameters.RunWithWarnings = ignorewarnings.Active;
 				compilerParameters.Ot = ot.Active;
 				compilerParameters.Obcm = obcm.Active;
 				compilerParameters.Oocm = oocm.Active;

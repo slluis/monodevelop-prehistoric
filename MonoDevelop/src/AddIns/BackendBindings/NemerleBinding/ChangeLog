@@ -1,3 +1,14 @@
+2004-04-28  Pawel Rozanski  <tokugawa@afn.no-ip.org>
+
+	* Gui/OutputPanel.cs:
+	* Gui/CodeGenerationPanel.cs:
+	* NemerleBindingCompilerServices.cs:
+	* Project/NemerleParameters.cs:
+	* Project/NemerleProject.cs:
+	* NemerleBindingExecutionServices.cs:
+	NemerleParameters uses more from inherited AbstractProjectConfiguration
+	class
+
 2004-04-16  Pawel Rozanski <tokugawa@afn.no-ip.org>
 
 	* NemerleBindingCompilerServices.cs: without temp files now,

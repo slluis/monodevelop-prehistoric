@@ -38,8 +38,9 @@ namespace NemerleBinding
 				
 				foreach (NemerleParameters p in Configurations)
 				{
-					p.OutputPath = info.BinPath + Path.DirectorySeparatorChar + p.Name;
-					p.AssemblyName = Name;					
+					p.OutputDirectory = info.BinPath + Path.DirectorySeparatorChar + p.Name;
+					p.OutputAssembly = Name;
+					p.RunWithWarnings = true;
 				}				
 			}
 		}

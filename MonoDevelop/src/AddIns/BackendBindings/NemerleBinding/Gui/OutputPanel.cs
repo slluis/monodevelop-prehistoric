@@ -31,18 +31,18 @@ namespace NemerleBinding
 				compilerParameters = (NemerleParameters)((IProperties)CustomizationObject).GetProperty("Config");
 				
 				outputPathButton.Clicked += new EventHandler(SelectFolder);
-				assemblyName.Text   = compilerParameters.AssemblyName;
-				outputPath.Text     = compilerParameters.OutputPath;
+				assemblyName.Text   = compilerParameters.OutputAssembly;
+				outputPath.Text     = compilerParameters.OutputDirectory;
 				parameters.Text     = compilerParameters.Parameters;
-				executeCommand.Text = compilerParameters.ExecuteCommand;
+				executeCommand.Text = compilerParameters.ExecuteScript;
  			}
 
 			public bool Store ()
 			{	
-				compilerParameters.AssemblyName   = assemblyName.Text;
-				compilerParameters.OutputPath     = outputPath.Text;
-				compilerParameters.Parameters     = parameters.Text;
-				compilerParameters.ExecuteCommand = executeCommand.Text;
+				compilerParameters.OutputAssembly  = assemblyName.Text;
+				compilerParameters.OutputDirectory = outputPath.Text;
+				compilerParameters.Parameters      = parameters.Text;
+				compilerParameters.ExecuteScript   = executeCommand.Text;
 				return true;
 			}
 			void SelectFolder(object sender, EventArgs e)			
