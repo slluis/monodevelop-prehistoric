@@ -382,9 +382,9 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 
 			TreeViewColumn catColumn = new TreeViewColumn ();
 			catColumn.Title = "categories";
-			CellRendererPixbuf cat_pix_render = new CellRendererPixbuf ();
-			catColumn.PackStart (cat_pix_render, false);
-			catColumn.AddAttribute (cat_pix_render, "pixbuf", 2);
+			//CellRendererPixbuf cat_pix_render = new CellRendererPixbuf ();
+			//catColumn.PackStart (cat_pix_render, false);
+			//catColumn.AddAttribute (cat_pix_render, "pixbuf", 2);
 			
 			CellRendererText cat_text_render = new CellRendererText ();
 			catColumn.PackStart (cat_text_render, true);
