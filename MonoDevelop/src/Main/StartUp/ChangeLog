@@ -1,3 +1,7 @@
 2004-04-02  Todd Berman  <tberman@sevenl.net>
 
+	* MonoDevelopMain.cs: move SharpDevelopMain.cs... damn i love svn.
+
+2004-04-02  Todd Berman  <tberman@sevenl.net>
+
 	* SharpDevelopMain.cs: bump to 0.3

@@ -1,7 +1,7 @@
 BASEDIR=$(srcdir)/../../..
 
 FILES= \
-./SharpDevelopMain.cs \
+./MonoDevelopMain.cs \
 ./Dialogs/AddInTreeSettingsHandler.cs \
 ./Dialogs/ExceptionBox.cs \
 ./AssemblyInfo.cs
