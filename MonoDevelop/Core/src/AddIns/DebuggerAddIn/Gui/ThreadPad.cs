@@ -9,19 +9,20 @@ using System.Runtime.InteropServices;
 using Mono.Debugger;
 using Mono.Debugger.Languages;
 
+using Stock = MonoDevelop.Gui.Stock;
 using MonoDevelop.Core.Services;
 using MonoDevelop.Services;
 using MonoDevelop.Gui;
 
 namespace MonoDevelop.Debugger
 {
-	public class DebuggerThreadPad : Gtk.ScrolledWindow, IPadContent
+	public class ThreadPad : Gtk.ScrolledWindow, IPadContent
 	{
 		Gtk.TreeView tree;
 		Gtk.TreeStore store;
 		Hashtable thread_rows;
 
-		public DebuggerThreadPad ()
+		public ThreadPad ()
 		{
 			thread_rows = new Hashtable ();
 
@@ -179,7 +180,7 @@ namespace MonoDevelop.Debugger
 		}
 
 		public string Id {
-			get { return "MonoDevelop.Debugger.DebuggerThreadPad"; }
+			get { return "MonoDevelop.Debugger.ThreadPad"; }
 		}
 
 		public string DefaultPlacement {
@@ -194,7 +195,7 @@ namespace MonoDevelop.Debugger
 
 		public string Icon {
 			get {
-				return MonoDevelop.Gui.Stock.OutputIcon;
+				return Stock.OutputIcon;
 			}
 		}
 

@@ -9,20 +9,21 @@ using System.Runtime.InteropServices;
 using Mono.Debugger;
 using Mono.Debugger.Languages;
 
+using Stock = MonoDevelop.Gui.Stock;
 using MonoDevelop.Core.Services;
 using MonoDevelop.Services;
 using MonoDevelop.Gui;
 
 namespace MonoDevelop.Debugger
 {
-	public class DebuggerStackTracePad : Gtk.ScrolledWindow, IPadContent
+	public class StackTracePad : Gtk.ScrolledWindow, IPadContent
 	{
 		StackFrame current_frame;
 
 		Gtk.TreeView tree;
 		Gtk.TreeStore store;
 
-		public DebuggerStackTracePad ()
+		public StackTracePad ()
 		{
 			this.ShadowType = ShadowType.In;
 
@@ -98,7 +99,7 @@ namespace MonoDevelop.Debugger
 		}
 
 		public string Id {
-			get { return "MonoDevelop.Debugger.DebuggerStackTracePad"; }
+			get { return "MonoDevelop.Debugger.StackTracePad"; }
 		}
 
 		public string DefaultPlacement {
@@ -113,7 +114,7 @@ namespace MonoDevelop.Debugger
 
 		public string Icon {
 			get {
-				return MonoDevelop.Gui.Stock.OutputIcon;
+				return Stock.OutputIcon;
 			}
 		}
 

@@ -1,3 +1,12 @@
+2005-04-01  Chris Toshok  <toshok@ximian.com>
+
+	* Gui/Debugger*Pad.cs: rename to Gui/*Pad.cs (drop the
+	"Debugger").
+	
+	* Makefile.am (FILES): track Pad filename changes.
+
+	* MonoDevelopDebugger.addin.xml: same.
+
 2005-03-31  Chris Toshok  <toshok@ximian.com>
 
 	* Gui/DebuggerVariablePad.cs: use Runtime.Gui.Icons and

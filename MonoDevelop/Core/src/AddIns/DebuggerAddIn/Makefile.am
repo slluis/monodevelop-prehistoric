@@ -17,10 +17,10 @@ EvaluationContext.cs \
 Expression.cs \
 DebuggerASTVisitor.cs \
 DebugAttributeHandler.cs \
-Gui/DebuggerLocalsPad.cs \
-Gui/DebuggerVariablePad.cs \
-Gui/DebuggerStackTracePad.cs \
-Gui/DebuggerThreadPad.cs
+Gui/LocalsPad.cs \
+Gui/VariablePad.cs \
+Gui/StackTracePad.cs \
+Gui/ThreadPad.cs
 
 
 EXTRA_DIST = $(FILES) $(ADDIN)

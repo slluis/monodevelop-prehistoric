@@ -1,12 +1,13 @@
 using System;
 using MonoDevelop.Gui;
+using Stock = MonoDevelop.Gui.Stock;
 
 namespace MonoDevelop.Debugger
 {
-	public class DebuggerLocalsPad : DebuggerVariablePad, IPadContent
+	public class LocalsPad : VariablePad, IPadContent
 	{
 
-		public DebuggerLocalsPad () : base (true)
+		public LocalsPad () : base (true)
 		{
 		}
 
@@ -17,7 +18,7 @@ namespace MonoDevelop.Debugger
 		}
 
 		public string Id {
-			get { return "MonoDevelop.Debugger.DebuggerLocalsPad"; }
+			get { return "MonoDevelop.Debugger.LocalsPad"; }
 		}
 
 		public string DefaultPlacement {
@@ -32,7 +33,7 @@ namespace MonoDevelop.Debugger
 
 		public string Icon {
 			get {
-				return MonoDevelop.Gui.Stock.OutputIcon;
+				return Stock.OutputIcon;
 			}
 		}
 

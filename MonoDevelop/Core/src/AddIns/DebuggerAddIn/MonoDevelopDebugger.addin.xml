@@ -15,15 +15,15 @@
 	</Extension>
 
 	<Extension path = "/SharpDevelop/Workbench/Pads">
-		<Pad id = "MonoDevelop.Debugger.DebuggerLocalsPad"     class = "MonoDevelop.Debugger.DebuggerLocalsPad"/>
-		<Pad id = "MonoDevelop.Debugger.DebuggerStackTracePad" class = "MonoDevelop.Debugger.DebuggerStackTracePad"/>
-		<Pad id = "MonoDevelop.Debugger.DebuggerThreadPad"     class = "MonoDevelop.Debugger.DebuggerThreadPad"/>
+		<Pad id = "MonoDevelop.Debugger.LocalsPad"     class = "MonoDevelop.Debugger.LocalsPad"/>
+		<Pad id = "MonoDevelop.Debugger.StackTracePad" class = "MonoDevelop.Debugger.StackTracePad"/>
+		<Pad id = "MonoDevelop.Debugger.ThreadPad"     class = "MonoDevelop.Debugger.ThreadPad"/>
 	</Extension>
 
 	<Extension path = "/SharpDevelop/Workbench/Contexts/Debug">
-		<ContextPad id = "MonoDevelop.Debugger.DebuggerLocalsPad" />
-		<ContextPad id = "MonoDevelop.Debugger.DebuggerStackTracePad" />
-		<ContextPad id = "MonoDevelop.Debugger.DebuggerThreadPad" />
+		<ContextPad id = "MonoDevelop.Debugger.LocalsPad" />
+		<ContextPad id = "MonoDevelop.Debugger.StackTracePad" />
+		<ContextPad id = "MonoDevelop.Debugger.ThreadPad" />
 	</Extension>
 
 	<Extension path="/SharpDevelop/Workbench/MainMenu/Run">

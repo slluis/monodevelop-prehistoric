@@ -19,7 +19,7 @@ using MonoDevelop.Services;
 
 namespace MonoDevelop.Debugger
 {
-	public class DebuggerVariablePad : Gtk.ScrolledWindow
+	public class VariablePad : Gtk.ScrolledWindow
 	{
 		Mono.Debugger.StackFrame current_frame;
 
@@ -36,7 +36,7 @@ namespace MonoDevelop.Debugger
 		internal const int RAW_VIEW_COL = 3;
 		internal const int PIXBUF_COL = 4;
 
-		public DebuggerVariablePad (bool is_locals_display)
+		public VariablePad (bool is_locals_display)
 		{
 			this.ShadowType = ShadowType.In;
 
