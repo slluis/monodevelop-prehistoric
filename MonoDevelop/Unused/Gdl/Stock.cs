@@ -1,12 +1,10 @@
-namespace Gdl {
+using System;
+using Gtk;
 
-	using System;
-	using System.Collections;
-	using System.Runtime.InteropServices;
-	using Gtk;
-
-	public class Stock {
-
+namespace Gdl
+{
+	public static class Stock
+	{
 		static Gtk.IconFactory stock = new Gtk.IconFactory ();
 
 		public static string Close {
@@ -28,13 +26,13 @@ namespace Gdl {
 			stock.AddDefault ();
 		}
 		
-		static void AddIcon (string stockid, string file)
+		static void AddIcon (string stockid, string resource)
 		{
 			Gtk.IconSet iconset = stock.Lookup (stockid);
 			
 			if (iconset == null) {
 				iconset = new Gtk.IconSet ();
-				Gdk.Pixbuf img = new Gdk.Pixbuf (file);
+				Gdk.Pixbuf img = Gdk.Pixbuf.LoadFromResource (resource);
 				IconSource source = new IconSource ();
 				source.Size = Gtk.IconSize.Menu;
 				source.SizeWildcarded = false;
@@ -45,3 +43,4 @@ namespace Gdl {
 		}
 	}
 }
+
