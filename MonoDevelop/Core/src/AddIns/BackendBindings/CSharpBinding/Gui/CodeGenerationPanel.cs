@@ -22,9 +22,7 @@ using MonoDevelop.Services;
 
 namespace CSharpBinding
 {
-
 	//FIXME: i8n 
-
 	public class CodeGenerationPanel : AbstractOptionPanel
 	{
 
@@ -35,7 +33,7 @@ namespace CSharpBinding
 			//
  			[Glade.Widget] Entry symbolsEntry;
  			[Glade.Widget] Entry mainClassEntry;
-			[Glade.Widget] OptionMenu CompileTargetOptionMenu;
+			[Glade.Widget] ComboBox compileTargetCombo;
  			[Glade.Widget] CheckButton generateOverflowChecksCheckButton;
 			[Glade.Widget] CheckButton allowUnsafeCodeCheckButton;
  			[Glade.Widget] CheckButton enableOptimizationCheckButton;
@@ -56,24 +54,19 @@ namespace CSharpBinding
  			public  CodeGenerationPanelWidget(IProperties CustomizationObject) : base ("CSharp.glade", "CodeGenerationPanel")
  			{	
 				configuration = (DotNetProjectConfiguration)((IProperties)CustomizationObject).GetProperty("Config");
-				
 				compilerParameters = (CSharpCompilerParameters) configuration.CompilationParameters;
 				
 				// FIXME: Enable when mcs has this feature
 				generateXmlOutputCheckButton.Sensitive = false;
 
-				Menu CompileTargetMenu = new Menu ();
-				CompileTargetMenu.Append(new MenuItem(GettextCatalog.GetString ("Executable")));
-
-				CompileTargetMenu.Append(new MenuItem(GettextCatalog.GetString ("Library")));
-				// FIXME commented until the Module capability is ported
-// 				CompileTargetMenu.Append(new MenuItem(
-// 								 StringParserService.Parse(
-// 									 "${res:Dialog.Options.PrjOptions.Configuration.CompileTarget.Module}")));
-
-				CompileTargetOptionMenu.Menu = CompileTargetMenu;
-				CompileTargetOptionMenu.SetHistory ( (uint) configuration.CompileTarget);
-
+				ListStore store = new ListStore (typeof (string));
+				store.AppendValues (GettextCatalog.GetString ("Executable"));
+				store.AppendValues (GettextCatalog.GetString ("Library"));
+				compileTargetCombo.Model = store;
+				CellRendererText cr = new CellRendererText ();
+				compileTargetCombo.PackStart (cr, true);
+				compileTargetCombo.AddAttribute (cr, "text", 0);
+				compileTargetCombo.Active = (int) configuration.CompileTarget;
 
 				symbolsEntry.Text = compilerParameters.DefineSymbols;
 				mainClassEntry.Text = compilerParameters.MainClass;
@@ -92,7 +85,7 @@ namespace CSharpBinding
 				if (compilerParameters == null) {
 					return true;
 				}
-				configuration.CompileTarget =  (CompileTarget)  CompileTargetOptionMenu.History;
+				configuration.CompileTarget =  (CompileTarget) compileTargetCombo.Active;
 				compilerParameters.DefineSymbols =  symbolsEntry.Text;
 				compilerParameters.MainClass     =  mainClassEntry.Text;
 

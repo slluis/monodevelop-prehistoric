@@ -1,6 +1,8 @@
 2005-01-27  John Luke  <john.luke@gmail.com>
 
 	* CSharp.glade: update to new glade format
+	* Gui/CodeGenerationPanel.cs:
+	* CSharp.glade: use ComboBox instead of OptionMenu
 
 2005-01-26  John Luke  <john.luke@gmail.com>
 
