@@ -16,9 +16,9 @@ namespace MonoDevelop.Gui.Widgets
 		bool DragInProgress;
 
 		public DragNotebook () {
-			ButtonPressEvent += new ButtonPressEventHandler (OnButtonPress);
-			ButtonReleaseEvent += new ButtonReleaseEventHandler (OnButtonRelease);
-			AddEvents ((Int32) (EventMask.AllEventsMask));
+			//ButtonPressEvent += new ButtonPressEventHandler (OnButtonPress);
+			//ButtonReleaseEvent += new ButtonReleaseEventHandler (OnButtonRelease);
+			//AddEvents ((Int32) (EventMask.AllEventsMask));
 		}
 
 		int FindTabAtPosition (double cursorX, double cursorY) {
