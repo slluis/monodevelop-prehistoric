@@ -14,16 +14,16 @@
 
 <p>How do I add mimetypes in gnome 2.6?</p>
 
-<p>First you copy monodevelop.xml to $(gnome_prefix)/share/mime/packages. Then you run update-mime-database $(gnome_prefix)/share/mime. On fedora, and many other distros $gnome_prefix is /usr, you do:
+<p>First you copy monodevelop.xml to $(gnome_prefix)/share/mime/packages. Then you run update-mime-database $(gnome_prefix)/share/mime. On fedora, and many other distros $gnome_prefix is /usr, so you do:</p>
 <pre class="code">cp monodevelop.xml /usr/share/mime/packages
 update-mime-database /usr/share/mime</pre>
-You might have to do these operations as the root user.</p>
-
+<p>You might have to do these operations as the root user.</p>
+<br/>
 <p>Where do I get gecko-sharp.pc?</p>
 
 <p>gecko-sharp.pc can be found in the gtkmozembed-sharp CVS module in the Mono
 CVS repository.</p>
-
+<br/>
 <p>Why aren't my C# files syntax highlighted?</p>
        
 <p>GNOME doesn't recognize *.cs files as the text/x-csharp
@@ -31,7 +31,7 @@ mimetype.  gtksourceview-sharp tries to set this up automatically,
 but it may not work in all cases. You can use
 gnome-file-types-properties to do this. If you are running gnome 2.6, see
 above.</p>
-        
+<br/>   
 <p>What if the configuration summary says 'no' for one of the requirements?</p>
 	   
 <p>The configure script uses pkg-config to see if you have the
