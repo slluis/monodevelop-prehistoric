@@ -110,7 +110,7 @@ namespace ICSharpCode.SharpDevelop.DefaultEditor.Gui.Editor
 								foreach (CodeTemplate template in templateGroup.Templates) {
 									if (template.Shortcut == word) {
 										InsertTemplate(template);
-										return true;
+										return false;
 									}
 								}
 							}
