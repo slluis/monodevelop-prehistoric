@@ -116,11 +116,16 @@ AC_SUBST(GLIB_GENMARSHAL)
 GLIB_MKENUMS="`$PKG_CONFIG --variable=glib_mkenums glib-2.0`"
 AC_SUBST(GLIB_MKENUMS)
 
-dnl find mono debugger
-dnl MONO_DEBUGGER_REQUIRED_VERSION=0.9
-dnl PKG_CHECK_MODULES(MONO_DEBUGGER, mono-debugger >= $MONO_DEBUGGER_REQUIRED_VERSION, enable_debugger=yes, enable_debugger=no)
-dnl AC_SUBST(MONO_DEBUGGER_LIBS)
-enable_debugger=no
+dnl deal with the mono debugger
+MONO_DEBUGGER_REQUIRED_VERSION=0.9
+AC_ARG_ENABLE(debugger,
+   AC_HELP_STRING([--enable-debugger],
+                   [enable support for the Mono Debugger [default=no]]),
+   [PKG_CHECK_MODULES(MONO_DEBUGGER, mono-debugger >= $MONO_DEBUGGER_REQUIRED_VERSION,
+				     enable_debugger=yes, enable_debugger=no)],
+   enable_debugger=no)
+ AM_CONDITIONAL(ENABLE_DEBUGGER, test x$enable_debugger = xyes)]
+ AC_SUBST(MONO_DEBUGGER_LIBS)
 
 dnl check for sqlite supported mono
 MONOQUERY_REQUIRED_MONO_VERSION=1.1.2.99
@@ -143,7 +148,6 @@ else
 enable_xdgmime="yes"
 fi
 
-AM_CONDITIONAL(ENABLE_DEBUGGER, test "x$enable_debugger" = "xyes")
 AM_CONDITIONAL(ENABLE_XDGMIME, test "x$enable_xdgmime" = "xyes")
 
 AC_ARG_ENABLE(update-mimedb,
@@ -237,8 +241,7 @@ echo ""
 echo "   * Installation prefix = $prefix"
 echo "   * GNOME prefix = $gnome_prefix"
 echo "   * C# compiler = $CSC"
-echo ""
-echo "   * mono-debugger: disabled in this release."
+echo "   * mono-debugger: $enable_debugger"
 echo ""
 echo "   NOTE: if any of the above say 'no' you may install the"
 echo "         corresponding development packages for them, and"
