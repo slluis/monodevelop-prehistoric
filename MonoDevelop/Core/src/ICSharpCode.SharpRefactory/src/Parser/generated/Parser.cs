@@ -4115,7 +4115,7 @@ out expr);
 			}
 
 #line  1793 "cs.ATG" 
-			string val = t.val; 
+			string val = t.val; t.val = ""; 
 			Expect(13);
 			Expect(1);
 

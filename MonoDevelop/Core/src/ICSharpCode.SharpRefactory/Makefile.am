@@ -1,3 +1,8 @@
+DLL = ICSharpCode.SharpRefactory.dll
+TEST = test-parser.exe
+
+REFS = -r:System.Drawing.dll
+
 FILES = \
 src/Lexer/Reader/IReader.cs \
 src/Lexer/Reader/FileReader.cs \
@@ -109,26 +114,21 @@ src/AssemblyInfo.cs
 
 build_sources = $(addprefix $(srcdir)/, $(FILES))
 
-DLL = ICSharpCode.SharpRefactory.dll
-
-REFS = /r:System.Drawing.dll
-
 all: $(DLL)
 
 $(DLL): $(FILES)
-	@ $(CSC) /out:$(DLL) /target:library $(REFS) $(build_sources) \
+	$(CSC) /out:$(DLL) /target:library $(REFS) $(build_sources) \
 	&& cp $(DLL) $(top_builddir)/build/bin/.
 
-test-parser.exe : $(DLL) src/Main.cs
-	@ $(CSC) /out:$@ /r:$(DLL) src/Main.cs
+test: $(TEST)
 
-run : test-parser.exe
-	@ MONO_PATH=`dirname $(DLL)` $(RUNTIME) test-parser.exe $(TEST_SOURCE)
+$(TEST): $(DLL) src/Main.cs
+	$(CSC) -out:$@ -r:$(DLL) src/Main.cs
 
 assemblydir = $(libdir)/monodevelop/bin
 assembly_DATA = $(DLL)
 
-CLEANFILES = $(DLL) $(DLL).mdb
+CLEANFILES = $(DLL) $(DLL).mdb $(TEST)
 
 EXTRA_DIST = $(FILES)
 

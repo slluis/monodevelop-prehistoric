@@ -12,6 +12,7 @@ using ICSharpCode.SharpRefactory.Parser;
 
 class MainClass
 {
+/*
 	public static StringCollection SearchDirectory(string directory, string filemask)
 	{
 		return SearchDirectory(directory, filemask, true);
@@ -74,12 +75,12 @@ class MainClass
 		}
 		Console.ReadLine();
 	}
-
+*/
 	public static void Main (string[] args)
 	{
 //		PrettyPrintDirectories();
 		Parser p = new Parser();
-		string fileName = "C:\\a.cs";
+		string fileName = args[0];
 		Console.Write("Converting : " + fileName);
 		p.Parse(new Lexer(new FileReader(fileName)));
 		if (p.Errors.count == 0) {

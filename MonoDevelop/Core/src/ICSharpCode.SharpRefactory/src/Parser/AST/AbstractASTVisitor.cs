@@ -20,9 +20,9 @@ namespace ICSharpCode.SharpRefactory.Parser
 #region ICSharpCode.SharpRefactory.Parser.IASTVisitor interface implementation
 		public virtual object Visit(INode node, object data)
 		{
-			Console.WriteLine("Warning: INode visited");
-			Console.WriteLine("Visitor was: " + this.GetType());
-			Console.WriteLine("Node was : " + node.GetType());
+			//Console.WriteLine("Warning: INode visited");
+			//Console.WriteLine("Visitor was: " + this.GetType());
+			//Console.WriteLine("Node was : " + node.GetType());
 			return node.AcceptChildren(this, data);
 		}
 		
@@ -312,7 +312,7 @@ namespace ICSharpCode.SharpRefactory.Parser
 				ret = ifElseStatement.EmbeddedStatement.AcceptVisitor(this, data);
 			}
 			if (ifElseStatement.EmbeddedElseStatement != null) {
-				ret = ifElseStatement.EmbeddedStatement.AcceptVisitor(this, data);
+				ret = ifElseStatement.EmbeddedElseStatement.AcceptVisitor(this, data);
 			}
 			return ret;
 		}
@@ -499,6 +499,14 @@ namespace ICSharpCode.SharpRefactory.Parser
 			}
 			return statementExpression.Expression.AcceptVisitor(this, data);
 		}
+
+		public virtual object Visit(UnsafeStatement unsafeStatement, object data)
+		{
+			if (unsafeStatement.Block == null) {
+				return null;
+			}
+			return unsafeStatement.Block.AcceptVisitor(this, data);
+		}
 #endregion
 		
 #region Expressions
@@ -524,10 +532,16 @@ namespace ICSharpCode.SharpRefactory.Parser
 		}
 		public virtual object Visit(InvocationExpression invocationExpression, object data)
 		{
+			object result = data;
 			if (invocationExpression.TargetObject != null) {
-				return invocationExpression.TargetObject.AcceptVisitor(this, data);
+				result = invocationExpression.TargetObject.AcceptVisitor(this, data);
 			}
-			return data;
+			if (invocationExpression.Parameters != null) {
+				foreach (INode n in invocationExpression.Parameters) {
+					n.AcceptVisitor(this, data);
+				}
+			}
+			return result;
 		}
 		public virtual object Visit(IdentifierExpression identifierExpression, object data)
 		{
@@ -577,7 +591,11 @@ namespace ICSharpCode.SharpRefactory.Parser
 		}
 		public virtual object Visit(IndexerExpression indexerExpression, object data)
 		{
-			return indexerExpression.TargetObject.AcceptVisitor(this, data);
+			object res = indexerExpression.TargetObject.AcceptVisitor(this, data);
+			foreach (INode n in indexerExpression.Indices) {
+				n.AcceptVisitor(this, data);
+			}
+			return res;
 		}
 		public virtual object Visit(ThisReferenceExpression thisReferenceExpression, object data)
 		{

@@ -48,6 +48,12 @@ namespace ICSharpCode.SharpRefactory.Parser.AST
 			types.Add("ushort",  "System.UInt16");
 			types.Add("void",    "System.Void");
 		}
+
+		public static ICollection PrimitiveTypes {
+			get {
+				return types.Keys;
+			}
+		}
 		
 		public string Type {
 			get {
@@ -87,7 +93,7 @@ namespace ICSharpCode.SharpRefactory.Parser.AST
 		
 		string GetSystemType(string type)
 		{
-			if (types[type] != null) {
+			if (types.ContainsKey(type)) {
 				return (string)types[type];
 			}
 			return type;

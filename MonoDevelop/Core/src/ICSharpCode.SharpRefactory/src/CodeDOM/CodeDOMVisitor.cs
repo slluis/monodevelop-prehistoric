@@ -100,14 +100,14 @@ namespace ICSharpCode.SharpRefactory.Parser
 				attr |=  MemberAttributes.Abstract;
 //			if ((modifier & Modifier.None) != 0)
 //				attr |=  MemberAttributes.AccessMask;
-//			if ((modifier & Modifier.None) != 0)
-//				attr |=  MemberAttributes.Assembly;
+			if ((modifier & Modifier.Internal) != 0)
+				attr |=  MemberAttributes.Assembly;
 			if ((modifier & Modifier.Const) != 0)
 				attr |=  MemberAttributes.Const;
-//			if ((modifier & Modifier.None) != 0)
-//				attr |=  MemberAttributes.Family;
-//			if ((modifier & Modifier.None) != 0)
-//				attr |=  MemberAttributes.FamilyAndAssembly;
+			if ((modifier & Modifier.Protected) != 0)
+				attr |=  MemberAttributes.Family;
+			if ((modifier & Modifier.Protected) != 0 && (modifier & Modifier.Internal) != 0)
+				attr |=  MemberAttributes.FamilyAndAssembly;
 //			if ((modifier & Modifier.None) != 0)
 //				attr |=  MemberAttributes.FamilyOrAssembly;
 			if ((modifier & Modifier.Sealed) != 0)
@@ -792,6 +792,10 @@ namespace ICSharpCode.SharpRefactory.Parser
 				case UnaryOperatorType.Minus:
 					if (unaryOperatorExpression.Expression is PrimitiveExpression) {
 						PrimitiveExpression expression = (PrimitiveExpression)unaryOperatorExpression.Expression;
+						if (expression.Value is System.UInt32 || expression.Value is System.UInt16) {
+							return new CodePrimitiveExpression(Int32.Parse("-" + expression.StringValue));
+						}
+						
 						if (expression.Value is int) {
 							return new CodePrimitiveExpression(- (int)expression.Value);
 						}

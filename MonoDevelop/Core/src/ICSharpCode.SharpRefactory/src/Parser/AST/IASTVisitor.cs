@@ -59,6 +59,7 @@ namespace ICSharpCode.SharpRefactory.Parser
 		object Visit(FixedStatement fixedStatement, object data);
 		object Visit(CheckedStatement checkedStatement, object data);
 		object Visit(UncheckedStatement uncheckedStatement, object data);
+		object Visit(UnsafeStatement unsafeStatement, object data);
 		
 		// Expressions
 		object Visit(PrimitiveExpression      primitiveExpression, object data);
