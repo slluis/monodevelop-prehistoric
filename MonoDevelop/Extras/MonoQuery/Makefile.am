@@ -12,7 +12,6 @@ Connection/Abstract/AbstractMonoQueryConnectionWrapper.cs \
 Connection/Interface/IConnection.cs \
 Connection/Npgsql/NpgsqlConnectionWrapper.cs \
 Connection/Mysql/MysqlConnectionWrapper.cs \
-Connection/Sqlite/SqliteConnectionWrapper.cs \
 Exceptions/Abstract/MonoQueryAbstractException.cs \
 Exceptions/ConnectionStringException.cs \
 Exceptions/ExecuteProcedureException.cs \
@@ -34,7 +33,15 @@ Gui/Forms/CreateConnectionDruid.cs \
 Gui/SqlQueryView/SqlQueryView.cs \
 Services/MonoQueryService.cs
 
-build_sources = $(addprefix $(srcdir)/, $(FILES))
+if ENABLE_MONOQUERY_SQLITE
+SQLITE_FILES=Connection/Sqlite/SqliteConnectionWrapper.cs
+else
+SQLITE_FILES=
+endif
+
+
+build_sources = $(addprefix $(srcdir)/, $(FILES)) \
+	$(addprefix $(srcdir)/, $(SQLITE_FILES))
 
 REFS = /r:$(top_builddir)/build/bin/MonoDevelop.Core.dll \
        /r:$(top_builddir)/build/bin/MonoDevelop.Base.dll \

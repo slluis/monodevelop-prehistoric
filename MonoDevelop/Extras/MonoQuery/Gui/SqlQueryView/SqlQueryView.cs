@@ -128,7 +128,6 @@ namespace MonoQuery.Gui.SqlQueryView
 		public SqlQueryViewToolbar() : base()
 		{
 			this.ToolbarStyle = ToolbarStyle.BothHoriz;
-			Tooltips tips = new Tooltips();
 			Gtk.ToolButton execute = new Gtk.ToolButton( Gtk.Stock.Execute );
 			
 			execute.Clicked += new EventHandler( OnExecuteClicked );
