@@ -242,7 +242,7 @@ namespace CSharpBinding.Parser
 						classes.Add((IClass)content[i]);
 					}
 				}
-				string[] namespaces = parserService.GetNamespaceList(project, n, true);
+				string[] namespaces = parserService.GetNamespaceList(project, n, true, true);
 				return new ResolveResult(namespaces, classes);
 			}
 			//Console.WriteLine("Returning Result!");
