@@ -403,9 +403,9 @@
 	<Extension path = "/SharpDevelop/Dialogs/OptionsDialog">
 		<DialogPanel id    = "UIOptions"
 		             label = "${res:Dialog.Options.TreeViewOptions.SharpDevelopOptionsText}">
-			<DialogPanel id = "SelectCulture"
+<!--			<DialogPanel id = "SelectCulture"
 			             label = "${res:Dialog.Options.IDEOptions.SelectCulture.PanelName}"
-			             class = "ICSharpCode.SharpDevelop.Gui.Dialogs.OptionPanels.IDEOptionPanel"/>
+			             class = "ICSharpCode.SharpDevelop.Gui.Dialogs.OptionPanels.IDEOptionPanel"/>-->
 			<DialogPanel id = "SelectStyle"
 				         label = "${res:Dialog.Options.IDEOptions.SelectVisualStyle.PanelName}"
 				         class = "ICSharpCode.SharpDevelop.Gui.Dialogs.OptionPanels.SelectStylePanel"/>

@@ -70,7 +70,7 @@ namespace MonoDevelop.SourceEditor.Gui {
 			}
 			
 			base.OnKeyPressEvent (ref evnt);
-			return false;
+			return true;
 		}
 		
 #region Indentation
