@@ -36,7 +36,7 @@ make install
       <p>You may download a binary package for your distribution if it provides version 1.0 or higher. On computers without gtk+ 2.4, you will need to download and install 1.0.1
 Otherwise, download the 
 <a href="http://ftp.acc.umu.se/pub/gnome/sources/gtksourceview/1.0/gtksourceview-1.0.0.tar.gz">official 
-tarball (0.7)</a>. 
+tarball (1.0.0)</a>. 
 The `<tt>./configure</tt>' line is a little more involved than usual. Use the example below:
 <pre class="code">
 tar -xzf gtksourceview-1.0.0.tar.gz
