@@ -1,11 +1,16 @@
 2004-04-10  Todd Berman  <tberman@sevenl.net>
 
+	* CodeCompletion/CompletionWindow.cs: convert to RenderIcon and away
+	from stock-id, because of gtk+2.4 sizing issues.
+
+2004-04-10  Todd Berman  <tberman@sevenl.net>
+
 	* Gui/SourceEditorView.cs: cleanup the delete line func.
 
 2004-04-09  Todd Berman  <tberman@sevenl.net>
 
 	* Gui/SourceEditorBuffer.cs:
-	* CodeCompletionCompletionWindow.cs:
+	* CodeCompletion/CompletionWindow.cs:
 	add atomic undo on code completion, cause its scary now.
 
 2004-04-09  Todd Berman  <tberman@sevenl.net>
