@@ -41,12 +41,16 @@ namespace ICSharpCode.Core.Services
 				                                       Path.DirectorySeparatorChar + ".." +
 				                                       Path.DirectorySeparatorChar + "data";
 			}
+
+			configDirectory = Environment.GetEnvironmentVariable ("XDG_CONFIG_HOME");
+			if (configDirectory == null || configDirectory == "")
+				configDirectory = System.IO.Path.Combine (Environment.GetEnvironmentVariable ("HOME"), ".config");
+
+			configDirectory = System.IO.Path.Combine (configDirectory, "MonoDevelop");
+			configDirectory += System.IO.Path.DirectorySeparatorChar;
 		}
-		
-		
-		readonly static string configDirectory = System.Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + 
-		                                         Path.DirectorySeparatorChar + ".MonoDevelop" +
-		                                         Path.DirectorySeparatorChar;
+
+		static string configDirectory;
 		/// <summary>
 		/// returns the path of the default application configuration directory
 		/// </summary>
