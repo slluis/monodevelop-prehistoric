@@ -4,5 +4,5 @@ monodevelop
 	can_open_multiple_files=true
 	expects_uris=false
 	requires_terminal=false
-	mime_types=text/x-csharp,application/x-monodevelop-combine,application/x-monodevelop-project
+	mime_types=text/x-csharp,text/x-java,text/x-msil,text/x-nemerle,text/x-vb,application/x-cmbx,application/x-prjx
 	uses_gnomevfs=false

@@ -1,3 +1,11 @@
+2004-04-26  Pawel Rozanski  <tokugawa@afn.no-ip.org>
+
+	* monodevelop.xml: mime for Nemerle source
+	* monodevelop.keys: added text/x-java,text/x-msil,
+	text/x-nemerle,text/x-vb 
+	* monodevelop.applications: as above
+	* monodevelop.mime: changed to x-prjx, x-cmbx 
+
 2004-04-25  John Luke  <jluke@cfl.rr.com>
 
 	* AUTHORS: add people that have contributed

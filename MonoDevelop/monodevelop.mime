@@ -1,15 +1,15 @@
-application/x-monodevelop-combine
+application/x-cmbx
 	category=Software Development
 	default_action_type=monodevelop
-	description=MonoDevelop Combine
+	description=MonoDevelop Solution
 	ext: cmbx
 	icon_filename=monodevelop.png
-	short_list_application_ids_for_novice_user_level=monodevelop,anjuta,gedit
+	short_list_application_ids_for_novice_user_level=monodevelop
 
-application/x-monodevelop-project
+application/x-prjx
 	category=Software Development
 	default_action_type=monodevelop
 	description=MonoDevelop Project
 	ext: prjx
 	icon_filename=monodevelop.png
-	short_list_application_ids_for_novice_user_level=monodevelop,anjuta,gedit
+	short_list_application_ids_for_novice_user_level=monodevelop

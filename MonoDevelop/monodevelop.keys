@@ -3,9 +3,29 @@ text/x-csharp:
 	edit=monodevelop %f
 	view=monodevelop %f
 
-application/x-monodevelop-project:
+text/x-java:
+	open=monodevelop %f
+	edit=monodevelop %f
+	view=monodevelop %f
+
+text/x-msil:
+	open=monodevelop %f
+	edit=monodevelop %f
+	view=monodevelop %f
+
+text/x-nemerle:
+	open=monodevelop %f
+	edit=monodevelop %f
+	view=monodevelop %f
+
+text/x-vb:
+	open=monodevelop %f
+	edit=monodevelop %f
+	view=monodevelop %f
+
+application/x-prjx:
 	open=monodevelop %f
 
-application/x-monodevelop-combine:
+application/x-cmbx:
 	open=monodevelop %f
 
