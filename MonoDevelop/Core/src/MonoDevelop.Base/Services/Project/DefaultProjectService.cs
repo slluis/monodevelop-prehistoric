@@ -469,7 +469,6 @@ namespace MonoDevelop.Services
 
 			formatManager.RegisterFileFormat (defaultProjectFormat);
 			formatManager.RegisterFileFormat (defaultCombineFormat);
-			formatManager.RegisterFileFormat (new MonoMakefileFormat ());
 			
 			DataContext.IncludeType (typeof(Combine));
 			DataContext.IncludeType (typeof(Project));
