@@ -59,7 +59,7 @@ namespace ICSharpCode.SharpDevelop.Services
 		public void ShowContextMenu(object owner, string addInTreePath, Gtk.Widget parent)
 		{
 			//CreateContextMenu(owner, addInTreePath).Show(parent, new Point(x, y));
-			CreateContextMenu(owner, addInTreePath).Popup(null, null, null, IntPtr.Zero, 3, Gtk.Global.CurrentEventTime);
+			CreateContextMenu(owner, addInTreePath).Popup(null, null, null, IntPtr.Zero, 0, Gtk.Global.CurrentEventTime);
 		}
 		/*
 		class QuickInsertMenuHandler
