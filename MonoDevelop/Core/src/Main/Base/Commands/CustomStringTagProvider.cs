@@ -128,7 +128,7 @@ namespace MonoDevelop.Commands
 					break;
 				
 				case "COMBINEDIR":
-					return projectService.GetFileName(projectService.CurrentOpenCombine);
+					return Path.GetDirectoryName (projectService.GetFileName(projectService.CurrentOpenCombine));
 				case "COMBINEFILENAME":
 					try {
 						return Path.GetFileName(projectService.GetFileName(projectService.CurrentOpenCombine));

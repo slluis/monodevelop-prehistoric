@@ -1,3 +1,9 @@
+2004-12-15  Sander Rijken  <sr+ximianbugs@d-90.nl>
+
+	* Commands/CustomStringTagProvider.cs: Patch to have COMBINEDIR return
+	the actual directory instead of the filename, COMBINEFILENAME already
+	does that.
+
 2004-12-14  John Luke  <john.luke@gmail.com>
 
 	* Gui/Dialogs/CommonAboutDialog.cs:
