@@ -1,11 +1,16 @@
+2004-10-23  Chris Toshok  <toshok@ximian.com>
+
+	* Gui/DebuggerThreadPad.cs: add the current location to stopped
+	threads.
+
+	* DebuggingService.cs: add thread (process) events and generate
+	thread state change events so the threadpad will update properly.
+
 2004-10-22  Chris Toshok  <toshok@ximian.com>
 
 	* Makefile.am (FILES): add Gui/DebuggerThreadPad.cs
 
 	* MonoDevelopDebugger.addin.xml: add the threadpad xml.
-
-	* DebuggingService.cs: add thread (process) events and generate
-	thread state change events so the threadpad will update properly.
 
 	* Gui/DebuggerThreadPad.cs: new pad, displaying a (for now very
 	unreactive) thread list.

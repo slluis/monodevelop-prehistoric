@@ -14,6 +14,7 @@ using MonoDevelop.Services;
 using MonoDevelop.Gui;
 
 using Mono.Debugger;
+using Mono.Debugger.Languages;
 
 /*
  * Some places we should be doing some error handling we used to toss
@@ -26,6 +27,7 @@ namespace MonoDevelop.Services
 	public class DebuggingService : AbstractService, IDebuggingService
 	{
 		Process proc;
+		Hashtable procs = new Hashtable ();
 		Hashtable breakpoints = new Hashtable ();
 		DebuggerBackend backend;
 		Breakpoint point;
@@ -106,6 +108,25 @@ namespace MonoDevelop.Services
 			return true;
 		}
 
+		private void thread_created (ThreadManager manager, Process process)
+		{
+			lock (procs) {
+			  //				process.ProcessExitedEvent += new ProcessExitedHandler (thread_exited);
+				procs.Add (process.ID, process);
+			}
+
+			Gtk.Timeout.Add (1, new Gtk.Function (EmitThreadStateEvent));
+		}
+
+		private void thread_exited (ThreadManager manager, Process process)
+		{
+			lock (procs) {
+				procs.Remove (process.ID);
+			}
+
+			Gtk.Timeout.Add (1, new Gtk.Function (EmitThreadStateEvent));
+		}
+
 		private void initialized_event (ThreadManager manager, Process process)
 		{
 			this.proc = process;
@@ -153,6 +174,14 @@ namespace MonoDevelop.Services
 			}
 		}
 
+		bool EmitThreadStateEvent ()
+		{
+			if (ThreadStateEvent != null)
+				ThreadStateEvent (this, new EventArgs ());
+
+			return false;
+		}
+
 		bool EmitStarted ()
 		{
 			insert_breakpoints ();
@@ -167,6 +196,8 @@ namespace MonoDevelop.Services
 
 		bool ChangeState ()
 		{
+			if (ThreadStateEvent != null)
+				ThreadStateEvent (this, new EventArgs ());
 			if (IsRunning) {
 				if (ResumedEvent != null) {
 					ResumedEvent (this, new EventArgs ());
@@ -181,6 +212,7 @@ namespace MonoDevelop.Services
 		public event EventHandler ResumedEvent;
 		public event EventHandler StartedEvent;
 		public event EventHandler StoppedEvent;
+		public event EventHandler ThreadStateEvent;
 
 		bool KillApplication ()
 		{
@@ -219,6 +251,8 @@ namespace MonoDevelop.Services
 
 			backend = new DebuggerBackend ();
 			backend.ThreadManager.InitializedEvent += new ThreadEventHandler (initialized_event);
+			backend.ThreadManager.ThreadCreatedEvent += new ThreadEventHandler (thread_created);
+			backend.ThreadManager.ThreadExitedEvent += new ThreadEventHandler (thread_exited);
 			backend.Run (new ProcessStart (null, argv));
 		}
 
@@ -263,6 +297,14 @@ namespace MonoDevelop.Services
 
 				return result;
 			}
+		}
+
+		public Process[] Threads {
+		  get {
+				Process[] retval = new Process [procs.Count];
+				procs.Values.CopyTo (retval, 0);
+				return retval;
+		  }
 		}
 
 		public object CurrentFrame {
