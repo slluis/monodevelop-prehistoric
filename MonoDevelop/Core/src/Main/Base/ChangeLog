@@ -1,5 +1,10 @@
 2004-07-01  Todd Berman  <tberman@off.net>
 
+	* Gui/Worbench/Layouts/SdiWorkspaceLayout.cs: Remove the code that
+	hides the tabs when there is only one item.
+
+2004-07-01  Todd Berman  <tberman@off.net>
+
 	* Services/ResourceService.cs: Remove a lot of code associated with
 	loading resources at runtime, etc.
 

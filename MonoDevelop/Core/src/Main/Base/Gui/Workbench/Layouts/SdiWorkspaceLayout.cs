@@ -93,7 +93,6 @@ namespace MonoDevelop.Gui
 			// Create the notebook for the various documents.
 			tabControl = new DragNotebook ();
 			tabControl.Scrollable = true;
-			tabControl.ShowTabs = false;
 			tabControl.SwitchPage += new SwitchPageHandler (ActiveMdiChanged);
 			tabControl.OnTabsReordered += new TabsReorderedHandler (TabsReordered);
 			DockItem item = new DockItem ("Documents", "Documents",
@@ -417,8 +416,6 @@ namespace MonoDevelop.Gui
 			sdiWorkspaceWindow.CloseEvent += new EventHandler(CloseWindowEvent);
 			tabControl.AppendPage (sdiWorkspaceWindow, tabLabel);
 		
-			if (tabControl.NPages > 1)
-				tabControl.ShowTabs = true;
 			tabControl.ShowAll();
 			return sdiWorkspaceWindow;
 		}
@@ -446,8 +443,6 @@ namespace MonoDevelop.Gui
 
 		public void RemoveTab (int pageNum) {
 			tabControl.RemovePage (pageNum);
-			if (tabControl.NPages == 1)
-				tabControl.ShowTabs = false;
 		}
 		
 		public void ActiveMdiChanged(object sender, SwitchPageArgs e)
