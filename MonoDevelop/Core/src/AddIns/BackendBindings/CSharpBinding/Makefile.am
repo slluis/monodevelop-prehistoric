@@ -1,4 +1,5 @@
 ASSEMBLY = CSharpBinding.dll
+PARSE = parse.exe
 
 DLLS = /r:System.Drawing.dll \
 	/r:$(top_builddir)/build/bin/MonoDevelop.Core.dll \
@@ -85,13 +86,21 @@ $(ASSEMBLY): $(build_sources) $(srcdir)/CSharp.glade
 		$(build_sources) \
 	&& cp $(ASSEMBLY) $(ADDIN_BUILD)/.
 
+parse: $(PARSE)
+
+$(PARSE): parse.cs $(ASSEMBLY)
+	$(CSC) -out:$@ parse.cs $(DLLS) -r:../../../../../build/AddIns/BackendBindings/$(ASSEMBLY)
+
+run-parse-test:
+	MONO_PATH=../../../../../build/AddIns/BackendBindings/:../../../../../build/bin/ mono $(PARSE) .
+
 csharpbindinglibdir = $(libdir)/monodevelop/AddIns/BackendBindings
 csharpbindinglib_DATA = $(ASSEMBLY) $(ADDIN)
 
 templatesdir = $(csharpbindinglibdir)/templates
 templates_DATA = $(TEMPLATES)
 
-CLEANFILES = $(ASSEMBLY) $(ASSEMBLY).mdb
+CLEANFILES = $(ASSEMBLY) $(ASSEMBLY).mdb $(PARSE) $(PARSE).mdb
 
 EXTRA_DIST = $(FILES) CSharp.glade $(ADDIN) $(TEMPLATES)
 
