@@ -1,3 +1,8 @@
+2004-04-16  Todd Berman  <tberman@sevenl.net>
+
+	* Gui/SourceEditorBuffer.cs: On load, place the cursor at the top
+	and grab focus.
+
 2004-04-12  Nick Drochak <ndrochak@gol.com>
 
 	* Gui/SourceEditorView.cs: Use white space already on the line to

@@ -199,6 +199,7 @@ namespace MonoDevelop.SourceEditor.Gui
 				Text = File.OpenText (file).ReadToEnd ();
 			
 			Modified = false;
+			ScrollToTop ();
 		}
 		
 		public void LoadText (string text, string mime)
@@ -211,6 +212,7 @@ namespace MonoDevelop.SourceEditor.Gui
 				Text = text;
 			
 			Modified = false;
+			ScrollToTop ();
 		}
 		
 		public void LoadText (string text)
@@ -219,6 +221,22 @@ namespace MonoDevelop.SourceEditor.Gui
 				Text = text;
 			
 			Modified = false;
+			ScrollToTop ();
+		}
+
+		void ScrollToTop ()
+		{
+			PlaceCursor (StartIter);
+			if (View != null) {
+				View.ScrollMarkOnscreen (InsertMark);
+				Gtk.Timeout.Add (20, new Gtk.Function (changeFocus));
+			}
+		}
+
+		bool changeFocus ()
+		{
+			View.GrabFocus ();
+			return false;
 		}
 		
 		public void Save (string fileName)
