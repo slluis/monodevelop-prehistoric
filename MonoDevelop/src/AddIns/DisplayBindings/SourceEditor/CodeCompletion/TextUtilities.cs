@@ -248,14 +248,14 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 		{
 			// FIXME: use iters
 			string text = document.Buffer.Text;
-			while (offset > 0 && offset < document.Buffer.Text.Length) {
+			while (offset > 0 && offset < text.Length) {
 				char ch = text [offset];
 				switch (ch) {
 					case '\r':
 					case '\n':
 						return false;
 					case '/':
-						if (document.Buffer.Text[offset + 1] == '/') {
+						if (text[offset + 1] == '/') {
 							return true;
 						}
 						break;
@@ -271,10 +271,10 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 			string text = document.Buffer.Text;			
 			int brackets = -1;		
 			bool inString = false;
-			bool inChar   = false;			
+			bool inChar   = false;	
 			bool blockComment = false;
 			
-			while (offset >= 0 && offset < document.Buffer.Text.Length) {
+			while (offset >= 0 && offset < text.Length) {
 				char ch = text [offset];
 				switch (ch) {
 					case '/':
