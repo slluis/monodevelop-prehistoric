@@ -190,7 +190,7 @@ Services/ProcessService/ProcessWrapper.cs \
 Services/Project/ProjectEventArgs.cs \
 Services/Project/IProjectService.cs \
 Services/Project/ProjectRenameEventArgs.cs \
-Services/Project/DefaultProjectService.cs \
+Services/Project/ProjectService.cs \
 Services/Project/ParseInformationEventHandler.cs \
 Services/Project/CombineEventArgs.cs \
 Services/Project/FileFormatManager.cs \

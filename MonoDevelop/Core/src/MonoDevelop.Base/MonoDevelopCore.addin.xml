@@ -37,7 +37,7 @@
 		<Class id    = "SystemAssemblyService"
 		       class = "MonoDevelop.Services.SystemAssemblyService"/>
 		<Class id    = "ProjectService"
-		       class = "MonoDevelop.Services.DefaultProjectService"/>
+		       class = "MonoDevelop.Services.ProjectService"/>
 		<Class id    = "FileService"
 		       class = "MonoDevelop.Services.DefaultFileService"/>
 		<Class id    = "ParserService"

@@ -32,7 +32,7 @@ namespace MonoDevelop.Services
 		PromptForSave,
 	}
 	
-	public class DefaultProjectService : AbstractService, IProjectService
+	public class ProjectService : AbstractService, IProjectService
 	{
 		Project currentProject = null;
 		Combine  currentCombine = null;

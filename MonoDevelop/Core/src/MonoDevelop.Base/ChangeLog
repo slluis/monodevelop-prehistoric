@@ -1,5 +1,14 @@
 2005-02-10  Todd Berman  <tberman@off.net>
 
+	* Services/Project/DefaultProjectService.cs: Moved, see below.
+	* Services/Project/ProjectService.cs:
+	* Makefile.am:
+	* MonoDevelopCore.addin.xml:
+
+	Moved DefaultProjectService to ProjectService.
+
+2005-02-10  Todd Berman  <tberman@off.net>
+
 	* Commands/FileCommands.cs:
 	* Services/Project/DefaultProjectService.cs:
 	* Services/IconService.cs:
