@@ -18,7 +18,9 @@ using System.ComponentModel;
 using Mono.Posix;
 using FileMode = Mono.Posix.FileMode;
 
+
 using MonoDevelop.Core.Services;
+
 using MonoDevelop.Services;
 using MonoDevelop.Internal.Project;
 using MonoDevelop.Core.Properties;
@@ -622,8 +624,9 @@ namespace MonoDevelop.Internal.Project
 
 		public void GenerateMakefiles ()
 		{
+			ArrayList allProjects = TopologicalSort (GetAllProjects (this));
 			ArrayList projects = new ArrayList ();
-			foreach (CombineEntry entry in entries) {
+			foreach (CombineEntry entry in allProjects) {
 				if (entry is ProjectCombineEntry) {
 					entry.GenerateMakefiles (this);
 					projects.Add (((ProjectCombineEntry)entry).Project);
@@ -631,7 +634,7 @@ namespace MonoDevelop.Internal.Project
 				else
 					Console.WriteLine ("Dont know how to generate makefiles for " + entry);
 			}
-
+			
 			FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.Services.GetService(typeof(FileUtilityService));
 			string rel_outputdir = fileUtilityService.AbsoluteToRelativePath (path, outputdir);
 			
@@ -652,9 +655,10 @@ namespace MonoDevelop.Internal.Project
 			stream.WriteLine ();
 
 			stream.WriteLine ("OUTPUTDIR := {0}", rel_outputdir);
+			stream.WriteLine ();
 			stream.Write ("all: depcheck __init ");
 			foreach (IProject proj in projects) {
-				stream.Write ("Makefile.{0}.all", proj.Name);
+				stream.Write ("Makefile.{0}.all ", proj.Name);
 			}
 			stream.WriteLine ();
 			stream.WriteLine ();
@@ -665,14 +669,14 @@ namespace MonoDevelop.Internal.Project
 
 			stream.Write ("clean: ");
 			foreach (IProject proj in projects) {
-				stream.Write ("Makefile.{0}.clean", proj.Name);
+				stream.Write ("Makefile.{0}.clean ", proj.Name);
 			}
 			stream.WriteLine ();
 			stream.WriteLine ();
 
 			stream.Write ("depcheck: ");
 			foreach (IProject proj in projects) {
-				stream.Write ("Makefile.{0}.depcheck", proj.Name);
+				stream.Write ("Makefile.{0}.depcheck ", proj.Name);
 			}
 			stream.WriteLine ();
 			stream.WriteLine ();
@@ -686,8 +690,10 @@ namespace MonoDevelop.Internal.Project
 			stream.WriteLine ();
 
 			foreach (IProject proj in projects) {
+				string relativeLocation = fileUtilityService.AbsoluteToRelativePath (path, proj.BaseDirectory);
 				stream.WriteLine ("Makefile.{0}.%:", proj.Name);
-				stream.WriteLine ("\t@$(MAKE) -f $(subst .$*,,$@) $*");
+				stream.WriteLine ("\t@cd {0} && $(MAKE) -f $(subst .$*,,$@) $*", relativeLocation);
+				stream.WriteLine ();
 			}
 
 			stream.Flush ();

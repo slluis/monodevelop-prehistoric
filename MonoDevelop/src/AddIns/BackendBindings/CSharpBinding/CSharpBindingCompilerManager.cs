@@ -399,10 +399,10 @@ namespace CSharpBinding
 				stream.WriteLine ("PKG_REFERENCES_BUILD = $(addprefix -pkg:, $(PKG_REFERENCES))");
 				stream.WriteLine ();
 				stream.WriteLine ("PKG_REFERENCES_CHECK = $(addsuffix .pkgcheck, $(PKG_REFERENCES))");
+				stream.WriteLine ();
 			}
 			
 			if (system_references.Count > 0) {
-				stream.WriteLine ();
 				stream.WriteLine ("SYSTEM_REFERENCES = \\");
 				for (int i = 0; i < system_references.Count; i++) {
 					stream.Write (system_references[i]);

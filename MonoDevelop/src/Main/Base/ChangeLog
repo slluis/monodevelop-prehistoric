@@ -1,5 +1,13 @@
 2004-05-26  Todd Berman  <tberman@sevenl.net>
 
+	* Internal/Project/Combine/Combine.cs: actually tested with a solution
+	with 2 projects in it, one that references the other. It works now,
+	building, cleaning, running, etc.
+	* Internal/Templates/ProjectTemplates/CombineDescriptor.cs: setup
+	OutputDirectory properly by default.
+
+2004-05-26  Todd Berman  <tberman@sevenl.net>
+
 	* Internal/Project/Project/AbstractProject.cs: ignore .pidb, .mdsx and
 	make.sh.
 

@@ -1,3 +1,7 @@
+2004-05-26  Todd Berman  <tberman@sevenl.net>
+
+	* CSharpBindingCompilerManager.cs: more makefile magic.
+
 2004-05-25  Todd Berman  <tberman@sevenl.net>
 
 	* Parser/Parser.cs: Update MonodocResolver and IsAsResolver.
