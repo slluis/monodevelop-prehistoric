@@ -157,7 +157,7 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 		{
 			string desc = overload.SimpleDescription;
 
-			if (desc != description && !overload_data.Contains (desc))
+			if (desc != description || !overload_data.Contains (desc))
 				overload_data[desc] = overload;
 		}
 		
