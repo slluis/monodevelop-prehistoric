@@ -105,6 +105,8 @@ namespace ICSharpCode.TextEditor.Document
 		{
 			TaskService taskService = (TaskService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(TaskService));
 			taskService.NotifyTaskChange();
+			MessageService MessageService = (MessageService)ServiceManager.Services.GetService (typeof (MessageService));
+			MessageService.ShowMessage ("Search completed");
 			
 			OpenTaskView taskView = WorkbenchSingleton.Workbench.GetPad(typeof(OpenTaskView)) as OpenTaskView;
 			if (taskView != null) taskView.BringToFront();

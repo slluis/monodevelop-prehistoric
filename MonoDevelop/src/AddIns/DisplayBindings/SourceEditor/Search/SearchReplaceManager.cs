@@ -42,6 +42,7 @@ namespace ICSharpCode.TextEditor.Document
 		static IFind find                  = new DefaultFind();
 		static SearchOptions searchOptions = new SearchOptions("SharpDevelop.SearchAndReplace.SearchAndReplaceProperties");
 
+		static MessageService MessageService = (MessageService)ServiceManager.Services.GetService (typeof (MessageService));
 		
 		public static SearchOptions SearchOptions {
 			get {
@@ -101,6 +102,7 @@ namespace ICSharpCode.TextEditor.Document
 				
 				if (result == null) {
 					//MessageBox.Show((Form)WorkbenchSingleton.Workbench, "Mark all done", "Finished");
+					MessageService.ShowMessage ("Mark all completed");
 					find.Reset();
 					return;
 				} else {
@@ -133,6 +135,7 @@ namespace ICSharpCode.TextEditor.Document
 				
 				if (result == null) {
 					//MessageBox.Show((Form)WorkbenchSingleton.Workbench, "Replace all done", "Finished");
+					MessageService.ShowMessage ("Replace all finished");
 					find.Reset();
 					return;
 				} else {
@@ -158,16 +161,16 @@ namespace ICSharpCode.TextEditor.Document
 			
 			find.SearchStrategy.CompilePattern(searchOptions);
 			ISearchResult result = find.FindNext(searchOptions);
-				
+			
 			if (result == null) {
 				ResourceService resourceService = (ResourceService)ServiceManager.Services.GetService(typeof(IResourceService));
 				//FIXME: This needs to be a msg or whatever
-				Console.WriteLine ("Not Found");
 				/*MessageBox.Show((Form)WorkbenchSingleton.Workbench,
 				                resourceService.GetString("Dialog.NewProject.SearchReplace.SearchStringNotFound"),
 				                "Not Found", 
 				                MessageBoxButtons.OK, 
 				                MessageBoxIcon.Information);*/
+				MessageService.ShowMessage ("Not Found");
 				find.Reset();
 			} else {
 				SourceEditor textArea = OpenTextArea(result.FileName);
