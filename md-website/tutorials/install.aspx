@@ -67,12 +67,14 @@ make install
 </pre>
 
 
-      <b>5. <a href="http://www.go-mono.com/download.html">Mono 0.30.1</a>, gtk-sharp, monodoc, gtksourceview-sharp, gtkmozembed-sharp, debugger</b>
+      <b>5. <a href="http://www.go-mono.com/download.html">Mono 0.31</a>, gtk-sharp, monodoc, gtksourceview-sharp, gtkmozembed-sharp, debugger</b>
 
-      <p>Though you may use a pre-packaged copy of the runtime, we recommend compiling one yourself from CVS. gtk-sharp and gtksourceview-sharp <b>must</b> be compiled from CVS.</p>
+      <i>Note: For current svn snapshots, it is highly recommended you use a packaged copy of mono 0.31. CVS mono may be used, but we don't guarantee it will work. Compile cvs modules to a prefix of `<tt>/usr</tt>', since this is where RPMs, DEBs, and ebuilds will put your mono package.</i>
+
+      <p>Though you may use a pre-packaged copy of the runtime, gtk-sharp, gtksourceview-sharp, et al <b>must</b> be compiled from CVS.</p>
 
       <ul>
-         <li>Download the latest cvs copies of mono, mcs, gtk-sharp, and gtksourceview-sharp:
+         <li>Download the latest cvs copies of mono, mcs, gtk-sharp, monodoc, gtksourceview-sharp, gtkmozembed-sharp, and debugger:
 
 <pre class="code">
 export CVSROOT=:pserver:anonymous@anoncvs.go-mono.com:/mono
