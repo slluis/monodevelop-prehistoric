@@ -4,6 +4,8 @@ using Gdl;
 
 class T
 {
+	DockLayout layout;
+
 	static void Main (string[] args)
 	{
 		new T (args);
@@ -14,6 +16,7 @@ class T
 		Application.Init ();
 		Window app = new Window ("test");
 		app.SetDefaultSize (400, 400);
+		app.WindowPosition = WindowPosition.Center;
 		app.DeleteEvent += new DeleteEventHandler (OnAppDelete);
 		
 		Box table = new VBox (false, 5);
@@ -21,7 +24,8 @@ class T
 		app.Add (table);
 		
 		Dock dock = new Dock ();		
-		DockLayout layout = new DockLayout (dock);
+		layout = new DockLayout (dock);
+		layout.LoadFromFile ("layout.xml");
 		DockBar dockbar = dock.Master.DockBar;
 		
 		Box box = new HBox (false, 5);
@@ -38,9 +42,8 @@ class T
 		di2.Add (new Button ("Button 2"));
 		dock.AddItem (di2, DockPlacement.Right);
 
-		DockItem di3 = new DockItem ("item3", "Item #3 has accented characters",/* (áéíóúñ)",*/
-					     Gtk.Stock.Convert, DockItemBehavior.Normal |
-					     DockItemBehavior.CantClose);
+		DockItem di3 = new DockItem ("item3", "Item #3 has accented characters (áéíóúñ)",
+					     Gtk.Stock.Convert, DockItemBehavior.Normal | DockItemBehavior.CantClose);
 		di3.Add (new Button ("Button 3"));
 		dock.AddItem (di3, DockPlacement.Bottom);
 
@@ -99,14 +102,17 @@ class T
 	
 	private void OnSaveLayout (object o, EventArgs args)
 	{
+		layout.SaveToFile ("layout.xml");
 	}
 	
 	private void OnRunLayoutManager (object o, EventArgs args)
 	{
+		layout.RunManager ();
 	}
 	
 	private void OnDumpXML (object o, EventArgs args)
 	{
+		layout.Dump ();
 	}
 	
 	private void OnAppDelete (object o, DeleteEventArgs args)

@@ -2,6 +2,7 @@ using System;
 
 namespace Gdl
 {
+	[Serializable]
 	[Flags]
 	public enum DockObjectFlags
 	{

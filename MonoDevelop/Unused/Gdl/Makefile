@@ -33,7 +33,7 @@ $(GDL): $(FILES)
 	$(CSC) -out:$@ -target:library $(FILES) -pkg:gtk-sharp-2.0
 
 $(TEST) : GdlDockTest.cs $(GDL)
-	$(CSC) -out:$@ -r:$(GDL) -pkg:gtk-sharp-2.0 GdlDockTest.cs
+	$(CSC) -out:$@ -r:$(GDL) -pkg:gtk-sharp-2.0 GdlDockTest.cs -codepage:utf8
 
 run-test: $(TEST)
 	mono $(TEST)
