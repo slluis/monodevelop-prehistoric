@@ -101,6 +101,7 @@ namespace MonoDevelop.SourceEditor.Gui {
 			se.Buffer.PlaceCursor (itr);
 			
 			se.View.ScrollMarkOnscreen (se.Buffer.InsertMark);
+			se.View.GrabFocus ();
 		}
 		
 		public override void RedrawContent()
