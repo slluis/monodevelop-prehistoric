@@ -54,22 +54,23 @@ namespace MonoDevelop.Commands.ProjectBrowser
 					if (file.StartsWith(node.Project.BaseDirectory)) {
 						ProjectBrowserView.MoveCopyFile (file, node, true, true);
 					} else {
-						MessageDialog md = new MessageDialog (
+						using (MessageDialog md = new MessageDialog (
 							(Window) WorkbenchSingleton.Workbench,
 							DialogFlags.Modal | DialogFlags.DestroyWithParent,
 							MessageType.Question, ButtonsType.None,
-							"The file is outside the project directory, what should I do?");
-						md.AddButton ("Copy", 1);
-						md.AddButton ("Move", 2);
-						md.AddButton ("Cancel", ResponseType.Cancel);
+							"The file is outside the project directory, what should I do?")) {
+							md.AddButton (Gtk.Stock.Copy, 1);
+							md.AddButton ("_Move", 2);
+							md.AddButton (Gtk.Stock.Cancel, ResponseType.Cancel);
 						
-						int ret = md.Run ();
-						md.Destroy ();
+							int ret = md.Run ();
+							md.Hide ();
 						
-						if (ret < 0)
-							return;
+							if (ret < 0)
+								return;
 						
-						ProjectBrowserView.MoveCopyFile (file, node, ret == 2, false);
+							ProjectBrowserView.MoveCopyFile (file, node, ret == 2, false);
+						}
 					}
 				}
 			} finally {
