@@ -15,60 +15,7 @@ using ICSharpCode.TextEditor.Undo;
 
 using MonoDevelop.EditorBindings.FormattingStrategy;
 
-namespace ICSharpCode.TextEditor.Document
-{
-	/// <summary>
-	/// Describes the caret marker
-	/// </summary>
-	public enum LineViewerStyle {
-		/// <summary>
-		/// No line viewer will be displayed
-		/// </summary>
-		None,
-		
-		/// <summary>
-		/// The row in which the caret is will be marked
-		/// </summary>
-		FullRow
-	}
-	
-	/// <summary>
-	/// Describes the bracket highlighting style
-	/// </summary>
-	public enum BracketHighlightingStyle {
-		
-		/// <summary>
-		/// Brackets won't be highlighted
-		/// </summary>
-		None,
-		
-		/// <summary>
-		/// Brackets will be highlighted if the caret is on the bracket
-		/// </summary>
-		OnBracket,
-		
-		/// <summary>
-		/// Brackets will be highlighted if the caret is after the bracket
-		/// </summary>
-		AfterBracket
-	}
-	
-	/// <summary>
-	/// Describes the selection mode of the text area
-	/// </summary>
-	public enum DocumentSelectionMode {
-		/// <summary>
-		/// The 'normal' selection mode.
-		/// </summary>
-		Normal,
-		
-		/// <summary>
-		/// Selections will be added to the current selection or new
-		/// ones will be created (multi-select mode)
-		/// </summary>
-		Additive
-	}
-	
+namespace ICSharpCode.TextEditor.Document {
 	/// <summary>
 	/// The default <see cref="IDocument"/> implementation.
 	/// </summary>

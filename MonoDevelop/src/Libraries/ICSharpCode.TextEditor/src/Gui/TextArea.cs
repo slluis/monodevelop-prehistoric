@@ -15,6 +15,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using ICSharpCode.TextEditor.Actions;
 using ICSharpCode.TextEditor.Document;
+using MonoDevelop.EditorBindings.Properties;
 
 namespace ICSharpCode.TextEditor
 {

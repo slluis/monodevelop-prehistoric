@@ -12,257 +12,150 @@ using ICSharpCode.TextEditor.Document;
 using Pango;
 
 using MonoDevelop.EditorBindings.FormattingStrategy;
+using MonoDevelop.EditorBindings.Properties;
 
 namespace ICSharpCode.SharpDevelop.DefaultEditor.Gui.Editor
 {
 	public class SharpDevelopTextEditorProperties : ITextEditorProperties
-	{
-		static PropertyService propertyService = (PropertyService)ServiceManager.Services.GetService(typeof(PropertyService));
-		IProperties properties;
-		
+	{	
 		static SharpDevelopTextEditorProperties()
 		{
-			IProperties properties2 = ((IProperties)propertyService.GetProperty("ICSharpCode.TextEditor.Document.Document.DefaultDocumentAggregatorProperties", new DefaultProperties()));
-			FontContainer.DefaultFont = FontContainer.ParseFont(properties2.GetProperty("DefaultFont", FontDescription.FromString ("Courier Pitch 10").ToString ()));
-			properties2.PropertyChanged += new PropertyEventHandler(CheckFontChange);
+			PropertyService propertyService = (PropertyService) ServiceManager.Services.GetService (typeof(PropertyService));
+			IProperties properties2 = ((IProperties) propertyService.GetProperty("ICSharpCode.TextEditor.Document.Document.DefaultDocumentAggregatorProperties", new DefaultProperties()));
+			FontContainer.DefaultFont = FontContainer.ParseFont (properties2.GetProperty ("DefaultFont", FontDescription.FromString ("Courier Pitch 10").ToString ()));
+			properties2.PropertyChanged += new PropertyEventHandler (CheckFontChange);
 		}
 		
 		static void CheckFontChange(object sender, PropertyEventArgs e)
 		{
-			if (e.Key == "DefaultFont") {
-				FontContainer.DefaultFont = FontContainer.ParseFont(e.NewValue.ToString());
-			}
-		}
-		
-		public SharpDevelopTextEditorProperties()
-		{
-			properties                      = ((IProperties)propertyService.GetProperty("ICSharpCode.TextEditor.Document.Document.DefaultDocumentAggregatorProperties", new DefaultProperties()));
-			
+			if (e.Key == "DefaultFont")
+				FontContainer.DefaultFont = TextEditorProperties.Font;
 		}
 		
 		public int TabIndent {
-			get {
-				return properties.GetProperty("TabIndent", 4);
-
-			}
-			set {
-				properties.SetProperty("TabIndent", value);
-			}
+			get { return TextEditorProperties.TabIndent; }
+			set { TextEditorProperties.TabIndent = value; }
 		}
+		
 		public IndentStyle IndentStyle {
-			get {
-				return (IndentStyle)properties.GetProperty("IndentStyle", IndentStyle.Smart);
-			}
-			set {
-				properties.SetProperty("IndentStyle", value);
-			}
+			get { return TextEditorProperties.IndentStyle; }
+			set { TextEditorProperties.IndentStyle = value; }
 		}
 		
 		public DocumentSelectionMode DocumentSelectionMode {
-			get {
-				return (DocumentSelectionMode)properties.GetProperty("DocumentSelectionMode", DocumentSelectionMode.Normal);
-			}
-			set {
-				properties.SetProperty("DocumentSelectionMode", value);
-			}
+			get { return TextEditorProperties.DocumentSelectionMode; }
+			set { TextEditorProperties.DocumentSelectionMode = value; }
 		}
+		
 		public bool AllowCaretBeyondEOL {
-			get {
-				return properties.GetProperty("CursorBehindEOL", false);
-			}
-			set {
-				properties.SetProperty("CursorBehindEOL", value);
-			}
+			get { return TextEditorProperties.AllowCaretBeyondEOL; }
+			set { TextEditorProperties.AllowCaretBeyondEOL = value; }
 		}
+		
 		public bool ShowMatchingBracket {
-			get {
-				return properties.GetProperty("ShowBracketHighlight", true);
-			}
-			set {
-				properties.SetProperty("ShowBracketHighlight", value);
-			}
+			get { return TextEditorProperties.ShowMatchingBracket; }
+			set { TextEditorProperties.ShowMatchingBracket = value; }
 		}
+		
 		public bool ShowLineNumbers {
-			get {
-				return properties.GetProperty("ShowLineNumbers", true);
-			}
-			set {
-				properties.SetProperty("ShowLineNumbers", value);
-			}
+			get { return TextEditorProperties.ShowLineNumbers; }
+			set { TextEditorProperties.ShowLineNumbers = value; }
 		}
+		
 		public bool ShowSpaces {
-			get {
-				return properties.GetProperty("ShowSpaces", false);
-			}
-			set {
-				properties.SetProperty("ShowSpaces", value);
-			}
+			get { return TextEditorProperties.ShowSpaces; }
+			set { TextEditorProperties.ShowSpaces = value; }
 		}
+		
 		public bool ShowTabs {
-			get {
-				return properties.GetProperty("ShowTabs", false);
-			}
-			set {
-				properties.GetProperty("ShowTabs", value);
-			}
+			get { return TextEditorProperties.ShowTabs; }
+			set { TextEditorProperties.ShowTabs = value; }
 		}
+		
 		public bool ShowEOLMarker {
-			get {
-				return properties.GetProperty("ShowEOLMarkers", false);
-			}
-			set {
-				properties.SetProperty("ShowEOLMarkers", value);
-			}
+			get { return TextEditorProperties.ShowEOLMarker; }
+			set { TextEditorProperties.ShowEOLMarker = value; }
 		}
+		
 		public bool ShowInvalidLines {
-			get {
-				return properties.GetProperty("ShowInvalidLines", false);
-			}
-			set {
-				properties.SetProperty("ShowInvalidLines", value);
-			}
+			get { return TextEditorProperties.ShowInvalidLines; }
+			set { TextEditorProperties.ShowInvalidLines = value; }
 		}
+		
 		public bool IsIconBarVisible {
-			get {
-				return properties.GetProperty("IconBarVisible", true);
-			}
-			set {
-				properties.SetProperty("IconBarVisible", value);
-			}
+			get { return TextEditorProperties.IsIconBarVisible; }
+			set { TextEditorProperties.IsIconBarVisible = value; }
 		}
+		
 		public bool EnableFolding {
-			get {
-				return properties.GetProperty("EnableFolding", true);
-			}
-			set {
-				properties.SetProperty("EnableFolding", value);
-			}
+			get { return TextEditorProperties.EnableFolding; }
+			set { TextEditorProperties.EnableFolding = value; }
 		}
+		
 		public bool ShowHorizontalRuler {
-			get {
-				return properties.GetProperty("ShowHRuler", false);
-			}
-			set {
-				properties.SetProperty("ShowHRuler", value);
-			}
+			get { return TextEditorProperties.ShowHorizontalRuler; }
+			set { TextEditorProperties.ShowHorizontalRuler = value; }
 		}
 		public bool ShowVerticalRuler {
-			get {
-				return properties.GetProperty("ShowVRuler", false);
-			}
-			set {
-				properties.SetProperty("ShowVRuler", value);
-			}
+			get { return TextEditorProperties.ShowVerticalRuler; }
+			set { TextEditorProperties.ShowVerticalRuler = value; }
 		}
+		
 		public bool ConvertTabsToSpaces {
-			get {
-				return properties.GetProperty("TabsToSpaces", false);
-			}
-			set {
-				properties.SetProperty("TabsToSpaces", value);
-			}
+			get { return TextEditorProperties.ConvertTabsToSpaces; }
+			set { TextEditorProperties.ConvertTabsToSpaces = value; }
 		}
+		
 		public bool UseAntiAliasedFont {
-			get {
-				return properties.GetProperty("UseAntiAliasFont", false);
-			}
-			set {
-				properties.SetProperty("UseAntiAliasFont", value);
-			}
+			get { return TextEditorProperties.UseAntiAliasedFont; }
+			set { TextEditorProperties.UseAntiAliasedFont = value; }
 		}
+		
 		public bool CreateBackupCopy {
-			get {
-				return properties.GetProperty("CreateBackupCopy", false);
-			}
-			set {
-				properties.SetProperty("CreateBackupCopy", value);
-			}
+			get { return TextEditorProperties.CreateBackupCopy; }
+			set { TextEditorProperties.CreateBackupCopy = value; }
 		}
+		
 		public bool MouseWheelScrollDown {
-			get {
-				return properties.GetProperty("MouseWheelScrollDown", false);
-			}
-			set {
-				properties.SetProperty("MouseWheelScrollDown", value);
-			}
+			get { return TextEditorProperties.MouseWheelScrollDown; }
+			set { TextEditorProperties.MouseWheelScrollDown = value; }
 		}
+		
 		public bool HideMouseCursor {
-			get {
-				return properties.GetProperty("HideMouseCursor", false);
-			}
-			set {
-				properties.SetProperty("HideMouseCursor", value);
-			}
+			get { return TextEditorProperties.HideMouseCursor; }
+			set { TextEditorProperties.HideMouseCursor = value; }
 		}
+		
 		public Encoding Encoding {
-			get {
-				return Encoding.GetEncoding(properties.GetProperty("Encoding", 1252));
-			}
-			set {
-				properties.SetProperty("Encoding", value.CodePage);
-			}
+			get { return TextEditorProperties.Encoding; }
+			set { TextEditorProperties.Encoding = value; }
 		}
 		
 		public int VerticalRulerRow {
-			get {
-				return properties.GetProperty("VRulerRow", 80);
-			}
-			set {
-				properties.SetProperty("VRulerRow", value);
-			}
+			get { return TextEditorProperties.VerticalRulerRow; }
+			set { TextEditorProperties.VerticalRulerRow = value; }
 		}
+		
 		public LineViewerStyle LineViewerStyle {
-			get {
-				return (LineViewerStyle)properties.GetProperty("LineViewerStyle", LineViewerStyle.None);
-			}
-			set {
-				properties.SetProperty("LineViewerStyle", value);
-			}
+			get { return TextEditorProperties.LineViewerStyle; }
+			set { TextEditorProperties.LineViewerStyle = value; }
 		}
+		
 		public string LineTerminator {
-			get {
-				/*
-				LineTerminatorStyle lineTerminatorStyle = (LineTerminatorStyle)propertyService.GetProperty("SharpDevelop.LineTerminatorStyle", LineTerminatorStyle.Windows);
-				switch (lineTerminatorStyle) {
-					case LineTerminatorStyle.Windows:
-						return "\r\n";
-					case LineTerminatorStyle.Macintosh:
-						return "\r";
-				}*/
-				return "\n";
-			}
-			set {
-				throw new System.NotImplementedException();
-			}
+			get { return TextEditorProperties.LineTerminator; }
+			set { TextEditorProperties.LineTerminator = value; }
 		}
+		
 		public bool AutoInsertCurlyBracket {
-			get {
-				return properties.GetProperty("AutoInsertCurlyBracket", true);
-			}
-			set {
-				properties.SetProperty("AutoInsertCurlyBracket", value);
-			}
+			get { return TextEditorProperties.AutoInsertCurlyBracket; }
+			set { TextEditorProperties.AutoInsertCurlyBracket = value; }
 		}
 		
 		public FontDescription Font {
-			get {
-				string s = properties.GetProperty ("DefaultFont", "ack");
-				if (s == "ack") {
-					return new Gtk.Label ("").Style.FontDescription;
-				}
-				return FontContainer.ParseFont(s);
-			}
+			get { return TextEditorProperties.Font; }
 			set {
-				properties.SetProperty("DefaultFont", value.ToString());
-				FontContainer.DefaultFont = value;
+				TextEditorProperties.Font = FontContainer.DefaultFont = value;
 			}
-		}
-		/*
-		<Property key="DoubleBuffer" value="True" />
-        <Property key="ShowErrors" value="True" />
-        <Property key="EnableCodeCompletion" value="True" />
-        <Property key="AutoInsertTemplates" value="True" />
-        <Property key="IndentationSize" value="4" />		 * */
-		
+		}		
 	}
 }

@@ -18,7 +18,8 @@ using ICSharpCode.TextEditor.Document;
 using ICSharpCode.TextEditor.Actions;
 
 using MonoDevelop.EditorBindings.FormattingStrategy;
- 
+using MonoDevelop.EditorBindings.Properties;
+
 namespace ICSharpCode.TextEditor
 {
 	/// <summary>
