@@ -1,5 +1,10 @@
 2005-02-02  John Luke  <john.luke@gmail.com>
 
+	* Commands/MenuItemBuilders.cs: only use RecentItem.Private
+	if it contains something, should fix disappearing labels
+
+2005-02-02  John Luke  <john.luke@gmail.com>
+
 	* Gui/Dialogs/CombineConfiguration/CombineBuildOptions.cs
 	* Gui/Dialogs/OptionPanels/ProjectOptions/OutputOptionsPanel.cs
 	* Gui/Dialogs/OptionPanels/ProjectOptions/DeployFileOptions.cs
