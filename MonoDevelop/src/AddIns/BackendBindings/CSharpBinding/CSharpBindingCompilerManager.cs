@@ -200,7 +200,8 @@ namespace CSharpBinding
 								writer.WriteLine('"' + finfo.Name + '"');
 								break;
 							case BuildAction.EmbedAsResource:
-								writer.WriteLine("\"/res:" + finfo.Name + "\"");
+								// Workaround 50752
+								writer.WriteLine(@"""/res:{0},{1}""", finfo.Name, Path.GetFileName (finfo.Name));
 								break;
 						}
 					}
