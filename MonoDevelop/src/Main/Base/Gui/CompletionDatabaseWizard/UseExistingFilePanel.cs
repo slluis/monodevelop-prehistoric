@@ -51,8 +51,9 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs.OptionPanels.CompletionDatabaseWi
 			               Directory.Exists(path) && 
 			               File.Exists(fileUtilityService.GetDirectoryNameWithSeparator(path) + "CodeCompletionProxyDataV02.bin");
 			if (EnableFinish) {
-				properties.SetProperty("SharpDevelop.CodeCompletion.DataDirectory",
-				                       path);
+				properties.SetProperty("SharpDevelop.CodeCompletion.DataDirectory", path);
+				propertyService.SetProperty ("SharpDevelop.CodeCompletion.DataDirectory", path);
+				propertyService.SaveProperties ();
 			}
 		}
 		
