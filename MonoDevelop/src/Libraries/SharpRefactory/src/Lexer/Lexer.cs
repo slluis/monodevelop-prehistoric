@@ -937,7 +937,18 @@ namespace ICSharpCode.SharpRefactory.Parser
 		
 		void ReadSingleLineComment(CommentType commentType)
 		{
-			string comment = ReadToEOL();
+			if (!reader.Eos()) {
+				char ch = reader.GetNext();
+				while (!reader.Eos()) {
+					if (ch == '\n') {
+						++line;
+						col = 1;
+						return;
+					}
+					ch = reader.GetNext();
+					++col;
+				}
+			}
 //			specialTracker.StartComment(commentType, new Point(line, col));
 //			specialTracker.AddString(ReadToEOL());
 //			specialTracker.FinishComment();
