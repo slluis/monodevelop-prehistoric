@@ -1,5 +1,10 @@
 2005-03-13  John Luke  <john.luke@gmail.com>
 
+	* autogen.sh: remove libtool, autoheader, and aclocal
+	usage, I dont think we'll need it
+
+2005-03-13  John Luke  <john.luke@gmail.com>
+
 	* configure.in: remove gdkdock & c-related stuff
 	add Core/src/MonoDevelop.Dock/Makefile output
 	* Core/gdldock: kill
