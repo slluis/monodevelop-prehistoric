@@ -69,11 +69,11 @@ namespace MonoDevelop.AssemblyAnalyser
 		public void RefreshProjectAssemblies()
 		{
 			if (currentAnalyser == null) {
-				currentAnalyser = CreateRemoteAnalyser();
+				currentAnalyser = CreateRemoteAnalyser ();
 			}
 
 			IProjectService projectService = (IProjectService) ServiceManager.GetService (typeof (IProjectService));
-			ArrayList projectCombineEntries = Combine.GetAllProjects(projectService.CurrentOpenCombine);
+			ArrayList projectCombineEntries = Combine.GetAllProjects (projectService.CurrentOpenCombine);
 			assemblyAnalyserControl.ClearContents ();
 
 			foreach (ProjectCombineEntry projectEntry in projectCombineEntries) {
@@ -81,16 +81,16 @@ namespace MonoDevelop.AssemblyAnalyser
 				assemblyAnalyserControl.AnalyzeAssembly (currentAnalyser, outputAssembly);
 			}
 
-			assemblyAnalyserControl.PrintAllResolutions();
+			assemblyAnalyserControl.PrintAllResolutions ();
 		}
 		
-		public override void Load(string fileName)
+		public override void Load (string file)
 		{
 		}
 		
-		public override void Dispose()
+		public override void Dispose ()
 		{
-			DisposeAnalyser();
+			DisposeAnalyser ();
 			
 			IProjectService projectService = (IProjectService) ServiceManager.GetService (typeof (IProjectService));
 			projectService.StartBuild -= new EventHandler (ProjectServiceStartBuild);
@@ -98,39 +98,39 @@ namespace MonoDevelop.AssemblyAnalyser
 			
 			IStatusBarService statusBarService = (IStatusBarService) ServiceManager.GetService (typeof (IStatusBarService));
 			
-			statusBarService.SetMessage(GettextCatalog.GetString ("Ready"));
+			statusBarService.SetMessage (GettextCatalog.GetString ("Ready"));
 			AssemblyAnalyserViewInstance = null;
 		}
 		
 		void DisposeAnalyser()
 		{
 			currentAnalyser = null;
-			AppDomain.Unload(analyserDomain);
+			AppDomain.Unload (analyserDomain);
 			analyserDomain = null;
 		}
 		
-		void ProjectServiceStartBuild(object sender, EventArgs e)
+		void ProjectServiceStartBuild (object sender, EventArgs e)
 		{
-			assemblyAnalyserControl.ClearContents();
-			DisposeAnalyser();
+			assemblyAnalyserControl.ClearContents ();
+			DisposeAnalyser ();
 		}
 		
-		void ProjectServiceEndBuild(object sender, EventArgs e)
+		void ProjectServiceEndBuild (object sender, EventArgs e)
 		{
-			//assemblyAnalyserControl.Invoke(new ThreadStart(RefreshProjectAssemblies));
+			this.RefreshProjectAssemblies ();
 		}
 		
-		AssemblyAnalyser CreateRemoteAnalyser()
+		AssemblyAnalyser CreateRemoteAnalyser ()
 		{
-			AppDomainSetup setup = new AppDomainSetup();
-			Evidence evidence = new Evidence(AppDomain.CurrentDomain.Evidence);
+			AppDomainSetup setup = new AppDomainSetup ();
+			Evidence evidence = new Evidence (AppDomain.CurrentDomain.Evidence);
 			setup.ApplicationName = "Analyser";
 			//setup.ApplicationBase = Application.StartupPath;
 
-			analyserDomain = AppDomain.CreateDomain("AnalyserDomain", evidence, setup);
-			return (AssemblyAnalyser)analyserDomain.CreateInstanceAndUnwrap(
-				typeof(AssemblyAnalyser).Assembly.FullName, 
-				typeof(AssemblyAnalyser).FullName,
+			analyserDomain = AppDomain.CreateDomain ("AnalyserDomain", evidence, setup);
+			return (AssemblyAnalyser) analyserDomain.CreateInstanceAndUnwrap (
+				typeof (AssemblyAnalyser).Assembly.FullName, 
+				typeof (AssemblyAnalyser).FullName,
 				false, BindingFlags.Default,null,null,null,null,null);
 		}
 	}

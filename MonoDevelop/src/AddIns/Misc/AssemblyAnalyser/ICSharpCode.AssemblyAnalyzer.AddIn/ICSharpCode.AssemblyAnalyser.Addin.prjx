@@ -10,7 +10,6 @@
     <File name="./Gui/Panels/ResultListControl.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
     <File name="./Gui/Panels/ResultDetailsView.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
     <File name="./AssemblyAnalyser.addin.xml" subtype="Code" buildaction="Nothing" dependson="" data="" />
-    <File name="./Gui/Panels/AssemblyRuleViewControl.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
   </Contents>
   <References>
     <Reference type="Assembly" refto="../../../../Libraries/MonoDevelop.Core/MonoDevelop.Core.dll" localcopy="True" />

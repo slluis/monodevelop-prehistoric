@@ -73,7 +73,7 @@
     <File name="./Rules/DesignRules/AssemblyClsCompliantRule.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
   </Contents>
   <References>
-    <Reference type="Gac" refto="nunit.framework, Version=2.1.4.0, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77" localcopy="False" />
+    <Reference type="Assembly" refto="../../../../Main/Base/MonoDevelop.Base.dll" localcopy="True" />
   </References>
   <DeploymentInformation target="" script="" strategy="File" />
   <Configuration runwithwarnings="True" name="Debug">

@@ -9,6 +9,7 @@ using System;
 using System.Collections;
 using System.IO;
 using System.Reflection;
+
 using Gtk;
 
 using MonoDevelop.Core.Services;
@@ -20,7 +21,7 @@ namespace MonoDevelop.AssemblyAnalyser
 	{
 		TreeStore assembliesStore;
 		TreeNode assembliesNode;
-		ResultListControl resultListControl;
+		ResultListControl resultListControl = new ResultListControl ();
 		
 		public ResultListControl ResultListControl {
 			get {
@@ -31,37 +32,16 @@ namespace MonoDevelop.AssemblyAnalyser
 			}
 		}
 		
-		public AssemblyTreeControl()
+		public AssemblyTreeControl ()
 		{
-			StringParserService stringParserService = (StringParserService) ServiceManager.GetService (typeof (StringParserService));
-			ClassBrowserIconsService classBrowserIconService = (ClassBrowserIconsService) ServiceManager.GetService (typeof (ClassBrowserIconsService));
-			assembliesStore = new TreeStore (typeof (string));
+			Console.WriteLine ("new assembly tree control");
+			//ClassBrowserIconsService classBrowserIconService = (ClassBrowserIconsService) ServiceManager.GetService (typeof (ClassBrowserIconsService));
+			assembliesStore = new TreeStore (typeof (string), typeof (ArrayList));
 			//assemblyTreeView.ImageList = classBrowserIconService.ImageList;
 			
-			//assembliesNode = new TreeNode(stringParserService.Parse("${res:MonoDevelop.AssemblyAnalyser.AssemblyTreeControl.AssembliesNode}"));
-			//assembliesNode.ImageIndex = assembliesNode.SelectedImageIndex = 0;
-			//assemblyTreeView.Nodes.Add(assembliesNode);
-			//assemblyTreeView.AfterCollapse += new TreeViewEventHandler(AssemblyTreeViewAfterCollapse);
-			//assemblyTreeView.AfterExpand += new TreeViewEventHandler(AssemblyTreeViewAfterExpand);
-			//assemblyTreeView.AfterSelect += new TreeViewEventHandler(AssemblyTreeViewAfterSelect);
+			assembliesStore.AppendValues ("AssembliesNode");
 			this.Selection.Changed += AssemblyTreeViewSelectionChanged;
 		}
-		
-/*		
-		void AssemblyTreeViewAfterCollapse(object sender, TreeViewEventArgs e)
-		{
-			if (e.Node == assembliesNode) {
-				assembliesNode.ImageIndex = assembliesNode.SelectedImageIndex = 0;
-			}
-		}
-
-		void AssemblyTreeViewAfterExpand(object sender, TreeViewEventArgs e)
-		{
-			if (e.Node == assembliesNode) {
-				assembliesNode.ImageIndex = assembliesNode.SelectedImageIndex = 1;
-			}
-		}
-*/
 		
 		void AssemblyTreeViewSelectionChanged (object sender, EventArgs e)
 		{
@@ -81,15 +61,25 @@ namespace MonoDevelop.AssemblyAnalyser
 		public void PrintAllResolutions ()
 		{
 			ArrayList allResolutions = new ArrayList ();
-			//foreach (TreeNode node in assembliesNode.Nodes) {
-			//	allResolutions.AddRange((ArrayList)node.Tag);
-			//}
+			TreeIter current;
+			
+			if (assembliesStore.GetIterFirst (out current))
+			{
+				// first one is always just the label I think
+				// allResolutions.AddRange ((ArrayList) assembliesStore.GetValue (current, 1));
+				
+				while (assembliesStore.IterNext (ref current))
+				{
+					assembliesStore.IterNext (ref current);
+			 		allResolutions.AddRange ((ArrayList) assembliesStore.GetValue (current, 1));
+				}
+			}
+			
 			this.resultListControl.PrintReport (allResolutions);
 		}
 		
 		public void ClearContents()
 		{
-			//Console.WriteLine("CLEAR CONTENTS");
 			assembliesStore.Clear ();
 		}
 		

@@ -4,7 +4,7 @@
 //     <owner name="Mike Krueger" email="mike@icsharpcode.net"/>
 //     <version value="$version"/>
 // </file>
-
+/*
 using System;
 using Gtk;
 
@@ -19,3 +19,4 @@ namespace MonoDevelop.AssemblyAnalyser
 		}
 	}
 }
+*/
