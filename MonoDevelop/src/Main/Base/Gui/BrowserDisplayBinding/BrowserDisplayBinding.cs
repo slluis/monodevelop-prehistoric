@@ -10,12 +10,9 @@ using System.Drawing;
 using Gtk;
 
 using MonoDevelop.Internal.Undo;
-using System.Drawing.Printing;
 using MonoDevelop.Core.Properties;
-
 using MonoDevelop.Core.AddIns.Codons;
 using MonoDevelop.Gui;
-
 using MonoDevelop.Gui.Utils;
 
 namespace MonoDevelop.BrowserDisplayBinding

@@ -56,7 +56,7 @@ namespace MonoDevelop.BrowserDisplayBinding
 					Gtk.Timeout.Add (50, new Gtk.Function (checkFocus));
 					
 				} catch {
-					Console.WriteLine ("gtkmozembed tossed an exception");
+					Console.WriteLine ("Gecko# tossed an exception");
 				}
 			}
 		}
@@ -99,13 +99,13 @@ namespace MonoDevelop.BrowserDisplayBinding
 		{
 		}
 
-		public BrowserPane (bool showNavigation) // : base (GType)
+		public BrowserPane (bool showNavigation)
 		{
 			htmlViewPane = new HtmlViewPane(showNavigation);
 			htmlViewPane.MozillaControl.TitleChange += new EventHandler (OnTitleChanged);
 		}
 		
-		public BrowserPane () : this(true)
+		public BrowserPane () : this (true)
 		{
 		}
 		
@@ -141,7 +141,6 @@ namespace MonoDevelop.BrowserDisplayBinding
 		Statusbar status;
 		
 		bool isHandleCreated = false;
-		string lastUrl = null;
 		static GLib.GType gtype;
 		
 		public MozillaControl MozillaControl {
@@ -162,17 +161,10 @@ namespace MonoDevelop.BrowserDisplayBinding
 		
 		public HtmlViewPane(bool showNavigation) : base (GType)
 		{
-			//RequestSize = new Size (500, 500);
-			
 			Shadow = Gtk.ShadowType.In;
 			VBox mainbox = new VBox (false, 2);
 			
 			if (showNavigation) {
-				
-				//topPanel.RequestSize = new Size (Width, 25);
-				//topPanel.Dock = DockStyle.Top;
-				
-				//toolBar.Dock = DockStyle.None;
 				
 				Button toolBarBack = new Button ();
 				toolBarBack.Child = new Image (Gtk.Stock.GoBack, IconSize.SmallToolbar);
@@ -226,11 +218,6 @@ namespace MonoDevelop.BrowserDisplayBinding
 			this.ShowAll ();
 		}
 		
-		//void TitleChange(object sender, DWebBrowserEvents2_TitleChangeEvent e)
-		//{
-		//	urlTextBox.Text = axWebBrowser.LocationURL;
-		//}
-		
 		void OnEntryActivated (object o, EventArgs args)
 		{
 			htmlControl.LoadUrl (urlTextBox.Text);
@@ -239,9 +226,6 @@ namespace MonoDevelop.BrowserDisplayBinding
 		public void CreatedWebBrowserHandle(object sender, EventArgs evArgs) 
 		{
 			isHandleCreated = true;
-			if (lastUrl != null) {
-				Navigate(lastUrl);
-			}
 		}
 		
 		public void Navigate(string name)

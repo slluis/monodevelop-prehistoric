@@ -1,3 +1,8 @@
+2004-04-04  John Luke  <jluke@cfl.rr.com>
+
+	* Gui/BrowserDisplayBinding/HtmlViewPane.cs:
+	* Gui/BrowserDisplayBinding/BrowserDisplayBinding.cs: small cleanups
+
 2004-04-04  Todd Berman  <tberman@sevenl.net>
 
 	* Services/ParserService/DefaultParserService.cs: fix nullref
