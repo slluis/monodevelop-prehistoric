@@ -1,3 +1,8 @@
+2005-01-17  Lluis Sanchez Gual  <lluis@novell.com>
+
+	* Internal/Serialization/ItemProperty.cs: Added workaround for a bug
+	in mono 1.0 (enum values are encoded as ints in attributes).
+
 2005-01-14  Christian Hergert <chris@mosaix.net>
 
 	* Commands/FileCommands.cs: Added a Close All menu item.

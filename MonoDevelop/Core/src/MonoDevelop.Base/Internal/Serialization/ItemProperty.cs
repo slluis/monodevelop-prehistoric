@@ -89,7 +89,12 @@ namespace MonoDevelop.Internal.Serialization
 		}
 		
 		public object DefaultValue {
-			get { return defaultValue; }
+			get {
+				// Workaround for a bug in mono 1.0 (enum values are encoded as ints in attributes)
+				if (defaultValue != null && propType != null && propType.IsEnum && !(propType.IsInstanceOfType (defaultValue)))
+					defaultValue = Enum.ToObject (propType, defaultValue);
+				return defaultValue;
+			}
 			set { CheckReadOnly (); defaultValue = value; }
 		}
 		
