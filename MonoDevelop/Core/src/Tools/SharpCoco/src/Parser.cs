@@ -87,7 +87,7 @@ const int id = 0;
 			UsingDecl(out ParserGen.usingPos);
 		}
 		Expect(6);
-		int gramLine = t.line;
+		//int gramLine = t.line;
 		genScanner = true;
 		bool ok = true;
 		Tab.ignored = null;
