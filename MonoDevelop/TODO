@@ -1,9 +1,7 @@
 - Test the functionality of the CreateCombineDialog vs the #D on Windows
-- Get code-folding working (it's only drawn, at the moment). It seems not
-  being implemented in the original #d, though.
-- Implement various menu items
-- Port dialogs to Gtk# (Please keep it as #D of a way as possible)
-- Convert all the icon code to Pixbuf instead of System.Drawing stuff (mostly done, I think)
+- Get code-folding working (not implemented in #d).
+- Implement menu items (see MonoDevelopBrokenMenuItems.txt)
+- Port dialogs (see README for HIG info)
 - HtmlControl (jluke)
 - Implement the remaining Option Dialogs. The framework is already ported (jba).
 - After the project pad is ported, we need to write a new Docker widget thing.
@@ -11,16 +9,12 @@
   Currently is a rough non-docking implementation in the file
   src/Main/Base/Gui/Workbench/Layouts/DockingManager.cs, wich can be used as a
   template for a more advanced one.
-- Project pad doesnt show extensions when the option is selected
-- Project pad doesnt update when the option is changed (Most likely code in
   multiple places)
 - Implement binding with monodoc to allow InsightWindow to work properly (jluke)
 - Implement Help Scout (jluke/others)
 - Tie Help Scout to monodoc (jluke)
 - When too many tabs are opened they go out for the window and don't show
 - printing support
-- HIGify (or at least improve the look) of dialogs
-	http://developer.gnome.org/projects/gup/hig/
 - some keywords should be bold when highlighted
 - make fonts choice persist (after restarting)
 - organize this list (Bugzilla maybe?)

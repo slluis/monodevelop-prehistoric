@@ -1,7 +1,9 @@
 File
+	(should wait for decision on text editor)
 	Print				
 	PrintPreview
 Edit
+	(needs Folding to be implemented first)
 	Folding
 		Toggle folds		
 		Toggle all folds	
@@ -19,12 +21,6 @@ Search
 	Find in Files
 	Replace in Files
 	
-	// These actually work, we just need support in the gutter
-	Toogle Bookmark
-	Prev Bookmark
-	Next Bookmark
-	Clear All Bookmarks
-
 Tools
 	// The tools dont work if you replace them
 	// with linuxish tools
