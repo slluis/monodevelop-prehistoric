@@ -89,7 +89,12 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs.OptionPanels
 					 PropertyService.GetProperty ("SharpDevelop.LineTerminatorStyle", LineTerminatorStyle.Unix))) {
 				widget.unixRadioButton.Active = true;}
 			// Finish here
-
+			
+			// FIXME: renable all terminatore style radio buttons when they're implemented
+			widget.unixRadioButton.Sensitive = false;
+			widget.macintoshRadioButton.Sensitive = false;
+			widget.windowsRadioButton.Sensitive = false;
+			widget.terminator.Sensitive = false;
 
 		}
 		

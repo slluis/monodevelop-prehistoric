@@ -63,13 +63,15 @@ namespace ICSharpCode.SharpDevelop.Commands
 
 	public class SaveFile : AbstractMenuCommand
 	{
+		static PropertyService PropertyService = (PropertyService)ServiceManager.Services.GetService (typeof (PropertyService));
+		
 		public override void Run()
 		{
 			IWorkbenchWindow window = WorkbenchSingleton.Workbench.ActiveWorkbenchWindow;
 			if (window != null) {
 				if (window.ViewContent.IsViewOnly) {
 					return;
-}
+				}
 				
 				if (window.ViewContent.ContentName == null) {
 					SaveFileAs sfa = new SaveFileAs();
@@ -79,11 +81,17 @@ namespace ICSharpCode.SharpDevelop.Commands
 					if ((File.GetAttributes(window.ViewContent.ContentName) & attr) != 0) {
 						SaveFileAs sfa = new SaveFileAs();
 						sfa.Run();
-					} else {
+					} else {						
 						IProjectService projectService = (IProjectService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
 						FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.Services.GetService(typeof(FileUtilityService));
 						projectService.MarkFileDirty(window.ViewContent.ContentName);
-						fileUtilityService.ObservedSave(new FileOperationDelegate(window.ViewContent.Save), window.ViewContent.ContentName);
+						string fileName = window.ViewContent.ContentName;
+						// save backup first
+						System.Console.WriteLine(fileName);
+						if((bool) PropertyService.GetProperty ("SharpDevelop.CreateBackupCopy", false)) {
+							fileUtilityService.ObservedSave(new NamedFileOperationDelegate(window.ViewContent.Save), fileName + "~");
+						}
+						fileUtilityService.ObservedSave(new NamedFileOperationDelegate(window.ViewContent.Save), fileName);
 					}
 				}
 			}
@@ -114,6 +122,8 @@ namespace ICSharpCode.SharpDevelop.Commands
 	
 	public class SaveFileAs : AbstractMenuCommand
 	{
+		static PropertyService PropertyService = (PropertyService)ServiceManager.Services.GetService (typeof (PropertyService));
+		
 		public override void Run()
 		{
 			IWorkbenchWindow window = WorkbenchSingleton.Workbench.ActiveWorkbenchWindow;
@@ -156,8 +166,14 @@ namespace ICSharpCode.SharpDevelop.Commands
 							return;
 						}
 						
+						// save backup first
+						if((bool) PropertyService.GetProperty ("SharpDevelop.CreateBackupCopy", false)) {
+							fileUtilityService.ObservedSave(new NamedFileOperationDelegate(window.ViewContent.Save), filename + "~");
+						}
+						
+						// do actual save
 						if (fileUtilityService.ObservedSave(new NamedFileOperationDelegate(window.ViewContent.Save), filename) == FileOperationResult.OK) {
-							fileService.RecentOpen.AddLastFile(filename);
+							fileService.RecentOpen.AddLastFile(filename);							
 							IMessageService messageService =(IMessageService)ServiceManager.Services.GetService(typeof(IMessageService));
 							messageService.ShowMessage(filename, "File saved");
 						}
