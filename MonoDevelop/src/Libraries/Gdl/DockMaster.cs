@@ -282,7 +282,7 @@ namespace Gdl
 
 			request.Target.Dock (request.Applicant,
 					     request.Position,
-					     null);
+					     request.Extra);
 			
 			EmitLayoutChangedEvent ();
 		}
@@ -302,12 +302,7 @@ namespace Gdl
 			
 			/* first look under the pointer */
 			Gdk.Window window = Gdk.Window.AtPointer (out winX, out winY);
-			if (window != null) {
-				if (window.UserData == IntPtr.Zero) {
-					Console.WriteLine ("The Gdk.Window should contain the Widget owner");
-					return;
-				}
-				
+			if (window != null && window.UserData != IntPtr.Zero) {
 				/* ok, now get the widget who owns that window and see if we can
 				   get to a Dock by walking up the hierarchy */
 				Widget widget = GLib.Object.GetObject (window.UserData, false) as Widget;
@@ -327,8 +322,6 @@ namespace Gdl
 					if (rootX >= winX && rootX < winX + winW &&
 					    rootY >= winY && rootY < winY + winH)
 						dock = widget as Dock;
-				} else {
-					Console.WriteLine ("Gdk.Window does not contain the owner in the UserData field");
 				}
 			}
 			
@@ -342,6 +335,8 @@ namespace Gdl
 			} else {
 				/* try to dock the item in all the docks in the ring in turn */
 				foreach (Dock topDock in toplevelDocks) {
+					if (topDock.GdkWindow == null)
+						Console.WriteLine ("Dock has no GdkWindow: {0}, {1}", topDock.Name, topDock);
 					/* translate root coordinates into dock object
 					   coordinates (i.e. widget coordinates) */
 					topDock.GdkWindow.GetOrigin (out winX, out winY);
@@ -363,6 +358,12 @@ namespace Gdl
 				myRequest.Height = preferredSize.Height;
 				myRequest.X = rootX - item.DragOffX;
 				myRequest.Y = rootY - item.DragOffY;
+				
+				Gdk.Rectangle rect = new Gdk.Rectangle (myRequest.X,
+									myRequest.Y,
+									myRequest.Width,
+									myRequest.Height);
+				myRequest.Extra = rect;
 			}
 			
 			if (!(myRequest.X == request.X &&
