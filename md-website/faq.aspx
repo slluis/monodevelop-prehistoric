@@ -68,14 +68,8 @@ upon release.
        
 <ul><li>When you iconify a dockitem, close MonoDevelop and reopen, the dockitem is
   gone.
-</li><li>When you maximize MonoDevelop, the docks do not resize properly.
-</li><li>The toolbar sometimes exhibit interesting behaviour including but not
-  limited to looking disabled and working, looking enabled and not working
-  and others.
-</li><li>When you click on  File-&gt;Recent Projects-&gt;clear recent project
-  list or File-&gt;Recent Files-&gt;clear recent files list you need a
-  confimartion dialog in order to avoid clearing accidentaly.</li></ul>
-
+</li><li>When you maximize MonoDevelop, the docks do not resize properly.</li>
+</ul>
 <b>References</b>
 
 <ul>
@@ -89,11 +83,5 @@ http://developer.gnome.org/projects/gup/hig/1.0/
 <li><a href="http://developers.sun.com/solaris/articles/integrating_gnome.html
 ">Integrating with GNOME (a little out of date)</a></li>
 </ul>	    
-
-
-<br /><br /><br /><br /><br /><br /><br /><br />
-<br /><br /><br /><br /><br /><br /><br /><br />
-<br /><br /><br /><br /><br /><br /><br /><br />
-<br /><br /><br /><br /><br /><br /><br /><br />
 
 <ccms:PageFooter runat="server"/>
