@@ -827,13 +827,13 @@
 			          label = "${res:XML.MainMenu.WindowMenu.NxtWindow}"
 			          icon = "Icons.16x16.NextWindowIcon"
 				  description = "${res:XML.MainMenu.WindowMenu.NxtWindow.Description}" 
-				  shortcut = "Control|Tab"
+				  shortcut = "Control|Page_Down"
 				  class = "ICSharpCode.SharpDevelop.Commands.SelectNextWindow" />
 	                <MenuItem id = "PrevWindow"
 			          label = "${res:XML.MainMenu.WindowMenu.PrvWindow}"
 			          icon = "Icons.16x16.PrevWindowIcon"
 				  description = "${res:XML.MainMenu.WindowMenu.PrvWindow.Description}"
-				  shortcut = "Shift|Control|Tab"
+				  shortcut = "Control|Page_Up"
 				  class = "ICSharpCode.SharpDevelop.Commands.SelectPrevWindow" />
 	                <MenuItem id ="NxtPrvSeparator" label = "-" /> 
 		                <MenuItem id    = "CloseAll"
