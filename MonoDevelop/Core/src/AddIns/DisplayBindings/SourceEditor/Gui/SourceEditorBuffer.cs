@@ -86,7 +86,17 @@ namespace MonoDevelop.SourceEditor.Gui
 
 		public bool UnderlineErrors {
 			get { return underlineErrors; }
-			set { underlineErrors = value; }
+			set {
+				underlineErrors = value;
+				if (underlineErrors) {
+					points = new ArrayList ();
+					ps.ParseInformationChanged += (ParseInformationEventHandler) Runtime.DispatchService.GuiDispatch (new ParseInformationEventHandler (ParseChanged));
+					GLib.Timeout.Add (75, new GLib.TimeoutHandler (DrawErrors));
+				}
+				else {
+					ps.ParseInformationChanged -= (ParseInformationEventHandler) Runtime.DispatchService.GuiDispatch (new ParseInformationEventHandler (ParseChanged));
+				}
+			}
 		}
 
 		public SourceEditorBuffer (SourceEditorView view) : this ()
@@ -109,10 +119,6 @@ namespace MonoDevelop.SourceEditor.Gui
 			highlightLineTag = new TextTag ("highlightLine");
 			highlightLineTag.Background = "lightgrey";
 			TagTable.Add (highlightLineTag);
-
-			points = new ArrayList ();
-			ps.ParseInformationChanged += new ParseInformationEventHandler (ParseChanged);
-			GLib.Timeout.Add (50, new GLib.TimeoutHandler (DrawErrors));
 		}
 		
 		public void ParseChanged (object o, ParseInformationEventArgs e)
@@ -143,7 +149,7 @@ namespace MonoDevelop.SourceEditor.Gui
 			// FIXME: clear old ones nicer
 			RemoveTag (compilation_error, StartIter, EndIter);
 			if (!underlineErrors)
-				return true;
+				return false;
 
 			foreach (int[] point in points) {
 				//Console.WriteLine ("Error is line: {0} col: {1}", point[0], point[1]);
@@ -154,6 +160,7 @@ namespace MonoDevelop.SourceEditor.Gui
 				ApplyTag (compilation_error, start, end);
 			}
 
+			// keep it running
 			return true;
 		}		
 		
