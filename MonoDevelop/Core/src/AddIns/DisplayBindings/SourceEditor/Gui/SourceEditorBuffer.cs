@@ -69,8 +69,10 @@ namespace MonoDevelop.SourceEditor.Gui
 		TextTag complete_ahead;
 		TextTag compilation_error;
 		TextMark complete_end;
+		TextTag highlightLineTag;
 		AtomicUndo atomic_undo;
 		SourceEditorView view;
+		int highlightLine = -1;
 
 		public SourceEditorView View
 		{
@@ -102,9 +104,12 @@ namespace MonoDevelop.SourceEditor.Gui
 			compilation_error.Underline = Pango.Underline.Single;
 			TagTable.Add (compilation_error);
 			complete_end = CreateMark (null, StartIter, true);
+			highlightLineTag = new TextTag ("highlightLine");
+			highlightLineTag.Background = "lightgrey";
+			TagTable.Add (highlightLineTag);
 			//ps.ParseInformationChanged += new ParseInformationEventHandler (parseChanged);
 		}
-
+		
 			ArrayList points = new ArrayList ();
 		public void parseChanged (object o, ParseInformationEventArgs e)
 		{
@@ -159,6 +164,24 @@ namespace MonoDevelop.SourceEditor.Gui
 		{
 			ClearMarks (SourceMarkerType.ExecutionMark);
 			RemoveTag (markup, StartIter, EndIter);
+		}
+		
+		public void HighlightLine (int linenumber)
+		{
+			TextIter begin_line = GetIterAtLine (linenumber);
+			TextIter end_line = begin_line;
+			begin_line.LineOffset = 0;
+			end_line.ForwardToLineEnd ();
+			ApplyTag (highlightLineTag, begin_line, end_line);
+			highlightLine = linenumber;
+		}
+		
+		public void HideHighlightLine ()
+		{
+			if (highlightLine != -1) {
+				RemoveTag (highlightLineTag, StartIter, EndIter);
+				highlightLine = -1;
+			}
 		}
 		
 		public void DropCompleteAhead ()
@@ -330,8 +353,10 @@ namespace MonoDevelop.SourceEditor.Gui
 		
 		void IClipboardHandler.Paste (object sender, EventArgs e)
 		{
-			if (clipboard.WaitIsTextAvailable ())
+			if (clipboard.WaitIsTextAvailable ()) {
 				PasteClipboard (clipboard);
+				View.ScrollMarkOnscreen (InsertMark);
+			}
 		}
 		
 		void IClipboardHandler.Delete (object sender, EventArgs e)

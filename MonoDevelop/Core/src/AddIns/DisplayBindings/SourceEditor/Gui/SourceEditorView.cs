@@ -46,8 +46,6 @@ namespace MonoDevelop.SourceEditor.Gui
 			SmartHomeEnd = true;
 			ShowLineNumbers = true;
 			ShowLineMarkers = true;
-			ButtonPressEvent += new ButtonPressEventHandler (buttonPress);
-			FocusOutEvent += new FocusOutEventHandler (OnFocusOut);
 			buf.PlaceCursor (buf.StartIter);
 			GrabFocus ();
 			buf.MarkSet += new MarkSetHandler (BufferMarkSet);
@@ -56,13 +54,17 @@ namespace MonoDevelop.SourceEditor.Gui
 		
 		void BufferMarkSet (object s, MarkSetArgs a)
 		{
-			if (autoHideCompletionWindow && a.Mark.Name == "insert")
-				CompletionListWindow.HideWindow ();
+			if (a.Mark.Name == "insert") {
+				if (autoHideCompletionWindow)
+					CompletionListWindow.HideWindow ();
+				buf.HideHighlightLine ();
+			}
 		}
 		
-		void OnFocusOut (object s, FocusOutEventArgs args)
+		protected override bool OnFocusOutEvent (EventFocus e)
 		{
 			CompletionListWindow.HideWindow ();
+			return base.OnFocusOutEvent (e);
 		}
 		
 		void BufferChanged (object s, EventArgs args)
@@ -71,24 +73,24 @@ namespace MonoDevelop.SourceEditor.Gui
 				CompletionListWindow.HideWindow ();
 		}
 		
-		void buttonPress (object o, ButtonPressEventArgs e)
+		protected override bool OnButtonPressEvent (Gdk.EventButton e)
 		{
 			CompletionListWindow.HideWindow ();
 			
 			if (!ShowLineMarkers)
-				return;
+				return base.OnButtonPressEvent (e);
 			
-			if (e.Event.Window == GetWindow (Gtk.TextWindowType.Left)) {
+			if (e.Window == GetWindow (Gtk.TextWindowType.Left)) {
 				int x, y;
-				WindowToBufferCoords (Gtk.TextWindowType.Left, (int) e.Event.X, (int) e.Event.Y, out x, out y);
+				WindowToBufferCoords (Gtk.TextWindowType.Left, (int) e.X, (int) e.Y, out x, out y);
 				TextIter line;
 				int top;
 
 				GetLineAtY (out line, y, out top);
 				
-				if (e.Event.Button == 1) {
+				if (e.Button == 1) {
 					buf.ToggleBookmark (line.Line);
-				} else if (e.Event.Button == 3) {
+				} else if (e.Button == 3) {
 					Gtk.Menu popup = new Gtk.Menu ();
 					Gtk.CheckMenuItem bookmarkItem = new Gtk.CheckMenuItem (GettextCatalog.GetString ("Bookmark"));
 					bookmarkItem.Active = buf.IsBookmarked (line.Line);
@@ -106,9 +108,10 @@ namespace MonoDevelop.SourceEditor.Gui
 
 					popup.ShowAll ();
 					lineToMark = line.Line;
-					popup.Popup (null, null, null, IntPtr.Zero, 3, e.Event.Time);
+					popup.Popup (null, null, null, IntPtr.Zero, 3, e.Time);
 				}
 			}
+			return base.OnButtonPressEvent (e);
 		}
 		
 		public void bookmarkToggled (object o, EventArgs e)

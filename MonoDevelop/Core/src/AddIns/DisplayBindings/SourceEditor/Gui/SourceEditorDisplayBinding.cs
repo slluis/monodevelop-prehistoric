@@ -204,9 +204,10 @@ namespace MonoDevelop.SourceEditor.Gui
 			// NOTE: 0 based!			
 			TextIter itr = se.Buffer.GetIterAtLine (line);
 			itr.LineOffset = column;
-			
+
 			se.Buffer.PlaceCursor (itr);		
-			se.View.ScrollMarkOnscreen (se.Buffer.InsertMark);
+			se.Buffer.HighlightLine (line);	
+			se.View.ScrollToMark (se.Buffer.InsertMark, 0.3, false, 0, 0);
 			GLib.Timeout.Add (20, new GLib.TimeoutHandler (changeFocus));
 		}
 
@@ -218,6 +219,7 @@ namespace MonoDevelop.SourceEditor.Gui
 		bool changeFocus ()
 		{
 			se.View.GrabFocus ();
+			se.View.ScrollToMark (se.Buffer.InsertMark, 0.3, false, 0, 0);
 			return false;
 		}
 		
