@@ -188,6 +188,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 			// insert event handlers
 			findButton.Clicked  += new EventHandler(FindNextEvent);
 			closeButton.Clicked += new EventHandler(CloseDialogEvent);
+			DeleteEvent += new GtkSharp.DeleteEventHandler (OnDeleted);
 			
 			if (replaceMode) {
 				this.Title = resourceService.GetString("Dialog.NewProject.SearchReplace.ReplaceDialogName");
@@ -216,6 +217,11 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 			SearchReplaceManager.ReplaceDialog     = null;
 		}
 		
+		void OnDeleted (object o, GtkSharp.DeleteEventArgs args)
+		{
+			SearchReplaceManager.ReplaceDialog = null;
+		}
+
 		public void SetSearchPattern(string pattern)
 		{
 			searchPatternComboBox.Entry.Text  = pattern;
