@@ -1,3 +1,7 @@
+2005-01-27  John Luke  <john.luke@gmail.com>
+
+	* Base.glade: update to newer glade format
+
 2005-01-27  Lluis Sanchez Gual  <lluis@novell.com>
 
 	* Services/ParserService/CodeCompletionDatabase.cs: Moved classes to
@@ -12,9 +16,9 @@
 	* Services/ParserService/ReferenceEntry.cs: New files.
 
 2005-01-27  Christian Hergert <chris@mosaix.net>
- 
-        * Gui/Pads/HelpBrowser/MonodocTreePad.cs: Fix to use new ShowView in
-        DefaultWorkbench.
+
+	* Gui/Pads/HelpBrowser/MonodocTreePad.cs: Fix to use new ShowView in
+	DefaultWorkbench.
 
 2005-01-27  John Luke  <john.luke@gmail.com>
 

@@ -1,3 +1,8 @@
+2005-01-27  John Luke  <john.luke@gmail.com>
+
+	* EditorBindings.glade:
+	* texteditoraddin.glade: update to new glade format
+
 2005-01-26  Christian Hergert <chris@mosaix.net>
                                                                                                                                                              
         * Gui/SourceEditorView.cs: Fix for new ShowView method in
