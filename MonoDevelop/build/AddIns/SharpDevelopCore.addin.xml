@@ -524,21 +524,19 @@
 
 	<Extension path = "/SharpDevelop/Workbench/MainMenu">
 	        <MenuItem id = "File" _label = "File">
-	                <MenuItem id = "New" _label = "New">
 	                        <MenuItem id          = "File" 
-	                                  _label       = "File..." 
+	                                  _label       = "New File..." 
 	                                  icon        = "Icons.16x16.NewDocumentIcon" 
 	                                  description = "${res:XML.MainMenu.FileMenu.New.File.Description}" 
 	                                  shortcut    = "Control|N" 
 	                                  class = "MonoDevelop.Commands.CreateNewFile"/>
 	                                  
 	                        <MenuItem id = "Project" 
-	                                  _label = "Solution/Project..." 
+	                                  _label = "New Solution/Project..." 
 	                                  icon = "Icons.16x16.NewProjectIcon" 
 	                                  description = "${res:XML.MainMenu.FileMenu.New.Project.Description}" 
 	                                  shortcut = "Control|Shift|N" 
 	                                  class = "MonoDevelop.Commands.CreateNewProject"/>
-	                </MenuItem>
 	                
 	                <!-- <MenuItem id = "Open" _label = "Open">
 	                        <MenuItem id = "File" 
@@ -561,10 +559,9 @@
 			          shortcut = "Control|O"
 			          class = "MonoDevelop.Commands.OpenFile"/>
 	                
-	                <MenuItem id = "Close" _label = "Close">
 	                        <Conditional activewindow="*" action="Disable">
 		                        <MenuItem id = "CloseFile"
-		                                  _label = "File" 
+		                                  _label = "Close File" 
 		                                  description = "${res:XML.MainMenu.FileMenu.Close.File.Desription}"
 						  icon = "Icons.16x16.CloseIcon"
 						  shortcut = "Control|W"
@@ -572,13 +569,12 @@
 	                        </Conditional>
 	                        <Conditional iscombineopen="True" action="Disable">
 		                        <MenuItem id = "CloseCombine"
-		                                  _label = "Solution" 
+		                                  _label = "Close Solution" 
 		                                  description = "${res:XML.MainMenu.FileMenu.Close.Project.Desription}"
 						  icon = "Icons.16x16.CloseCombineIcon"
 						  shortcut = "Control|Shift|W"
 		                                  class = "MonoDevelop.Commands.ClearCombine"/>
 		                </Conditional>
-	                </MenuItem>
 	                
 			<MenuItem id = "ReloadSeparator" _label = "-" />
 			<MenuItem id = "Reloadfile"
