@@ -74,14 +74,14 @@ namespace ICSharpCode.SharpDevelop.Commands.ProjectBrowser
 			CombineBrowserNode node    = browser.SelectedNode as CombineBrowserNode;
 			
 			if (node != null) {
-				/*using (OpenFileDialog fdiag = new OpenFileDialog()) {
-					fdiag.AddExtension    = true;
+				Gtk.FileSelection fdiag = new Gtk.FileSelection ("Add a Project");
+					//fdiag.AddExtension    = true;
 					StringParserService stringParserService = (StringParserService)ServiceManager.Services.GetService(typeof(StringParserService));
-					fdiag.Filter = stringParserService.Parse("${res:SharpDevelop.FileFilter.ProjectFiles}|*.prjx|${res:SharpDevelop.FileFilter.AllFiles}|*.*");
-					fdiag.Multiselect     = false;
-					fdiag.CheckFileExists = true;
-					if (fdiag.ShowDialog() == DialogResult.OK) {
-						object obj = node.Combine.AddEntry(fdiag.FileName);
+					//fdiag.Filter = stringParserService.Parse("${res:SharpDevelop.FileFilter.ProjectFiles}|*.prjx|${res:SharpDevelop.FileFilter.AllFiles}|*.*");
+					fdiag.SelectMultiple = false;
+					//fdiag.CheckFileExists = true;
+					if (fdiag.Run () == (int) Gtk.ResponseType.Ok) {
+						object obj = node.Combine.AddEntry(fdiag.Filename);
 						if (obj is IProject) {
 							node.Nodes.Add(ProjectBrowserView.BuildProjectTreeNode((IProject)obj));
 						} else {
@@ -89,8 +89,8 @@ namespace ICSharpCode.SharpDevelop.Commands.ProjectBrowser
 						}
 						projectService.SaveCombine();
 					}
-				}*/
-				Console.WriteLine ("Unported dialog in CombineNodeCommands.cs");
+
+					fdiag.Hide ();
 			}
 		}
 	}
@@ -104,14 +104,14 @@ namespace ICSharpCode.SharpDevelop.Commands.ProjectBrowser
 			CombineBrowserNode node    = browser.SelectedNode as CombineBrowserNode;
 			
 			if (node != null) {
-				/*using (OpenFileDialog fdiag = new OpenFileDialog()) {
-					fdiag.AddExtension    = true;
+				Gtk.FileSelection fdiag = new Gtk.FileSelection ("Add a Combine");
+					//fdiag.AddExtension    = true;
 					StringParserService stringParserService = (StringParserService)ServiceManager.Services.GetService(typeof(StringParserService));
-					fdiag.Filter = stringParserService.Parse("${res:SharpDevelop.FileFilter.CombineFiles}|*.cmbx|${res:SharpDevelop.FileFilter.AllFiles}|*.*");
-					fdiag.Multiselect     = false;
-					fdiag.CheckFileExists = true;
-					if (fdiag.ShowDialog() == DialogResult.OK) {
-						object obj = node.Combine.AddEntry(fdiag.FileName);
+					//fdiag.Filter = stringParserService.Parse("${res:SharpDevelop.FileFilter.CombineFiles}|*.cmbx|${res:SharpDevelop.FileFilter.AllFiles}|*.*");
+					fdiag.SelectMultiple = false;
+					//fdiag.CheckFileExists = true;
+					if (fdiag.Run () == (int) Gtk.ResponseType.Ok) {
+						object obj = node.Combine.AddEntry(fdiag.Filename);
 						if (obj is IProject) {
 							node.Nodes.Add(ProjectBrowserView.BuildProjectTreeNode((IProject)obj));
 						} else {
@@ -119,8 +119,7 @@ namespace ICSharpCode.SharpDevelop.Commands.ProjectBrowser
 						}
 						projectService.SaveCombine();
 					}
-				}*/
-				Console.WriteLine ("unported dialog in CombineNodeCommands.cs");
+					fdiag.Hide ();
 			}
 		}
 	}
