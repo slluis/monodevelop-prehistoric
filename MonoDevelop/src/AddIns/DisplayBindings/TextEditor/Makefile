@@ -71,6 +71,6 @@ $(DLL): $(SOURCES)
 		/r:../../../../build/bin/ICSharpCode.TextEditor.dll \
 		/r:../../../../build/bin/SharpDevelop.Base.dll \
 		/r:System.DirectoryServices.dll /r:pango-sharp.dll \
-		/resource:../../../../data/resources/glade/texteditoraddin.glade,texteditoraddin.glade
+		/resource:../../../../data/resources/glade/texteditoraddin.glade,texteditoraddin.glade \
 		/define:GTK /r:gtk-sharp.dll /r:gdk-sharp.dll \
 		$(SOURCES)
