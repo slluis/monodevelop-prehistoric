@@ -147,21 +147,16 @@ namespace MonoDevelop.Gui.Pads
 			Nodes.Clear();
 		}
 		
-		void AddIdle (IdleStateHandler cb, object data)
-		{
-			GLib.Idle.Add (new GLib.IdleHandler (new IdleWork (cb, data).Run));
-		}
-
 		void OnClassInformationChanged(object sender, ClassInformationEventArgs e)
 		{
-			AddIdle (new IdleStateHandler(ChangeClassInfo), e);
+			DispatchService dispatcher = (DispatchService)ServiceManager.Services.GetService (typeof (DispatchService));
+			dispatcher.GuiDispatch (new MessageHandler (ChangeClassInfo), e);
 		}
 		
-		bool ChangeClassInfo (object e)
+		void ChangeClassInfo (object e)
 		{
 			ClassInformationEventArgs ce = (ClassInformationEventArgs) e;
 			ChangeClassInformation (Nodes, ce);
-			return false;
 		}
 
 		private void OnNodeActivated(object sender, Gtk.RowActivatedArgs args)
@@ -380,30 +375,4 @@ namespace MonoDevelop.Gui.Pads
 			EndUpdate();
 		}
 	}
-	
-	public delegate bool IdleStateHandler (object state);
-	
-	class IdleWork
-	{
-		object _data;
-		IdleStateHandler _cb;
-		
-		public IdleWork (IdleStateHandler cb, object data)
-		{
-			_data = data;
-			_cb = cb;
-		}
-		
-		public bool Run ()
-		{
-			try {
-				return _cb (_data);
-			}
-			catch (Exception e) {
-				Console.WriteLine ("Caught an exception in IdleWork.Run: " + e.ToString ());
-			}
-			return false;
-		}
-	}
 }
-

@@ -32,6 +32,8 @@
 	<Extension path = "/Workspace/Services">
 		<Class id    = "MonodocService"
 		       class = "MonoDevelop.Services.MonodocService"/>
+		<Class id    = "DispatchService"
+		       class = "MonoDevelop.Services.DispatchService"/>
 		<Class id    = "SystemAssemblyService"
 		       class = "MonoDevelop.Services.SystemAssemblyService"/>
 		<Class id    = "ProjectService"

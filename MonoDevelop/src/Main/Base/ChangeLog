@@ -1,3 +1,13 @@
+2004-06-23  Todd Berman  <tberman@off.net>
+
+	* Gui/Pads/ClassScout/ClassScout.cs: use DispatchService instead of
+	IdleWork stuff.
+	* Services/DispatchService/DispatchService.cs: new service, used to
+	pass messages to the gui, or a background thread. The gui stuff has
+	been tested by the ClassScout above, the background thread dispatching
+	has yet to be tested.
+	* Makefile.am: Add DispatchService.cs
+
 2004-06-21  John Luke <jluke@cfl.rr.com>
 
 	* Gui/Dialogs/OptionPanels/ProjectOptions/CompileFileProjectOptions.cs:

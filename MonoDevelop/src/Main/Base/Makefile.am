@@ -220,6 +220,7 @@ FILES= \
 ./Services/MonodocService.cs \
 ./Services/IDebuggerService.cs \
 ./Services/SystemAssemblyService.cs \
+./Services/DispatchService/DispatchService.cs \
 ./Internal/Undo/IUndoableOperation.cs \
 ./Internal/Undo/UndoStack.cs \
 ./Internal/Undo/UndoQueue.cs \
