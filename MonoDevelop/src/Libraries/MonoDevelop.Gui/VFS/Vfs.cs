@@ -17,8 +17,14 @@ namespace MonoDevelop.Gui
 		[DllImport ("gnomevfs-2")]
 		static extern string gnome_vfs_get_mime_type (string uri);
 		
+		//[DllImport ("gnomevfs-2")]
+		//static extern string gnome_vfs_get_mime_type_for_data (IntPtr data, int length);
+		
 		[DllImport ("gnomevfs-2")]
 		static extern string gnome_vfs_mime_get_icon (string mime_type);
+		
+		[DllImport ("gnomevfs-2")]
+		static extern bool gnome_vfs_mime_type_is_known (string mime_type);
 		
 		// gnome_program_init calls this for you
 		public static bool Init ()
@@ -34,6 +40,11 @@ namespace MonoDevelop.Gui
 		public static string GetMimeType (string filename)
 		{
 			return gnome_vfs_get_mime_type (filename);
+		}
+		
+		public static bool IsKnownType (string mimetype)
+		{
+			return gnome_vfs_mime_type_is_known (mimetype);
 		}
 		
 		public static bool Shutdown ()
