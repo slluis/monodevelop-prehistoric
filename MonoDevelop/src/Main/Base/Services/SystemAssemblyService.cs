@@ -54,7 +54,12 @@ namespace MonoDevelop.Services {
 			}
 			search_dirs += ":" + libpath;
 			if (search_dirs != null && search_dirs.Length > 0) {
-				foreach (string pcdir in search_dirs.Split (':')) {
+				ArrayList scanDirs = new ArrayList ();
+				foreach (string potentialDir in search_dirs.Split (':')) {
+					if (!scanDirs.Contains (potentialDir))
+						scanDirs.Add (potentialDir);
+				}
+				foreach (string pcdir in scanDirs) {
 					if (pcdir == null)
 						continue;
 	

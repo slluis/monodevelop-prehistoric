@@ -84,6 +84,8 @@ AC_SUBST(MOZILLA_HOME)
 gnome_prefix="`$PKG_CONFIG --variable=prefix libgnome-2.0`"
 AC_SUBST(gnome_prefix)
 
+gtksharp_prefix="`$PKG_CONFIG --variable=prefix gtk-sharp`"
+
 if test "x$XDGMIME" = "xno" ; then
 enable_xdgmime="no"
 else

@@ -1,3 +1,9 @@
+2004-06-11  Todd Berman  <tberman@sevenl.net>
+
+	* configure.in: grab gtk-sharp prefix.
+	* monodevelop.in: add the gtk-sharp prefix for assembly ref issues.
+	attempt to be smart, etc.
+
 2004-06-10 John Bouantoun (jba-mono@optusnet.com.au)
 	* Numerous *.prjx in MonoDevelop solution: Changed them to not
 	search folders for new files on load.

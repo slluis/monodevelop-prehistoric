@@ -35,6 +35,12 @@ else
 	export LD_LIBRARY_PATH=$MOZILLA_HOME:$MD_BIN_PATH
 fi
 
+if [ -n $PKG_CONFIG_PATH]; then
+	export PKG_CONFIG_PATH=$PKG_CONFIG_PATH:@gtksharp_prefix@
+else
+	export PKG_CONFIG_PATH=@gtksharp_prefix@
+fi
+
 export MOZILLA_FIVE_HOME=$MOZILLA_HOME
 
 ARGS=`reWrite "$@"`
