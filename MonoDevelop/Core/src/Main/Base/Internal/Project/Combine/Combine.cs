@@ -664,6 +664,8 @@ namespace MonoDevelop.Internal.Project
 			stream.WriteLine ("# Do not edit it.");
 			stream.WriteLine ();
 
+			stream.WriteLine ("RUNTIME := mono");
+			stream.WriteLine ();
 			stream.WriteLine ("OUTPUTDIR := {0}", rel_outputdir);
 			stream.WriteLine ();
 			stream.Write ("all: depcheck __init ");
@@ -696,7 +698,7 @@ namespace MonoDevelop.Internal.Project
 				stream.WriteLine ("\t@echo `run'ning multiple startup projects is not yet support");
 			} else {
 				if (SingleStartProjectName != null && GetEntry (SingleStartProjectName) != null)
-					stream.WriteLine ("\tcd $(OUTPUTDIR) && mono {0}", GetEntry (SingleStartProjectName).GetOutputName ());
+					stream.WriteLine ("\tcd $(OUTPUTDIR) && $(RUNTIME) {0}", GetEntry (SingleStartProjectName).GetOutputName ());
 				else
 					stream.WriteLine ("\t@echo No startup project defined");
 			}

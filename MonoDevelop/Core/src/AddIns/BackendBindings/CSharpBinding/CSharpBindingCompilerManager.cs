@@ -470,7 +470,8 @@ namespace CSharpBinding
 				stream.WriteLine ();
 			}
 
-			stream.Write ("MCS_OPTIONS = ");
+			stream.WriteLine ("COMPILER = mcs");
+			stream.Write ("COMPILER_OPTIONS = ");
 			if (compilerparameters.UnsafeCode) {
 				stream.Write ("-unsafe ");
 			}
@@ -493,7 +494,7 @@ namespace CSharpBinding
 				stream.WriteLine ();
 			}
 			
-			stream.Write ("\tmcs $(MCS_OPTIONS) -target:{0} -out:\"{1}\"", target, outputName);
+			stream.Write ("\t$(COMPILER) $(COMPILER_OPTIONS) -target:{0} -out:\"{1}\"", target, outputName);
 			if (resources.Count > 0) {
 				stream.Write (" $(RESOURCES_BUILD)");
 			}
