@@ -6,24 +6,22 @@ using MonoDevelop.Services;
 namespace MonoDevelop.Gui.Widgets {
     public class TreeNodeCollection: IList {
 		private ArrayList list;
-                                                                                                                             
-		public TreeNodeCollection() {
-			list = new ArrayList();
-		}
 
 		public int Count {
-			get { return list.Count; }
+			get { return list != null ? list.Count : 0; }
 		}
 
 		public bool IsReadOnly {
-			get { return list.IsReadOnly; }
+			get { return false; }
 		}
 		
 		public virtual TreeNode this[int index] {
 			get {
+				if (list == null) throw new ArgumentOutOfRangeException( "index" );
 				return (TreeNode) list[index];
 			}
 			set {
+				if (list == null) list = new ArrayList ();
 				list[index] = value; //TODO
 				Changed();
 			}
@@ -31,12 +29,14 @@ namespace MonoDevelop.Gui.Widgets {
 		
 		public void Sort ()
 		{
+			if (list == null) return;
 			list.Sort ();
 			Changed ();
 		}
 		
 		public void Sort (IComparer c)
 		{
+			if (list == null) return;
 			list.Sort (c);
 			Changed ();
 		}
@@ -53,6 +53,7 @@ namespace MonoDevelop.Gui.Widgets {
 			if (node == null)
 				throw new ArgumentNullException("value");
 
+			if (list == null) list = new ArrayList ();
 			Inserted(node);
 			int index = list.Add(node);
 			return 	index;		
@@ -70,6 +71,7 @@ namespace MonoDevelop.Gui.Widgets {
 
 		public virtual void Clear() 
 		{
+			if (list == null) return;
 			ArrayList tmp = (ArrayList)list.Clone();
 			foreach (TreeNode node in tmp) {
 				Remove(node);
@@ -78,6 +80,7 @@ namespace MonoDevelop.Gui.Widgets {
 		
 		public bool Contains(TreeNode node) 
 		{
+			if (list == null) return false;
 			return list.Contains(node);
 		}
 
@@ -88,16 +91,20 @@ namespace MonoDevelop.Gui.Widgets {
 
 		public IEnumerator GetEnumerator() 
 		{
+			if (list == null) return Type.EmptyTypes.GetEnumerator ();
 			return list.GetEnumerator();
 		}
 
 		public int IndexOf(TreeNode node) 
 		{
+			if (list == null) return -1;
 			return list.IndexOf(node);
 		}
 
 		public virtual void Insert(int index, TreeNode node) 
 		{
+			if (list == null) list = new ArrayList ();
+
 			if ( node == null )
 				throw new ArgumentNullException ( "node" );
 
@@ -112,13 +119,14 @@ namespace MonoDevelop.Gui.Widgets {
 		{
 			if ( node == null )
 				throw new ArgumentNullException( "node" );
+			if (list == null) return;
 			Removed(node);
 			list.Remove(node);
 		}
 
 		public virtual void RemoveAt(int index) 
 		{
-			if (index < 0 || index > Count )
+			if (list == null || index < 0 || index > Count )
 				throw new ArgumentOutOfRangeException( "index" );
 
 			TreeNode node = (TreeNode) list[ index ];
@@ -139,6 +147,7 @@ namespace MonoDevelop.Gui.Widgets {
 
 		object IList.this[int index]{
 			get{
+				if (list == null) throw new ArgumentOutOfRangeException( "index" );
 				return list[index];
 			}
 			set{
@@ -155,10 +164,12 @@ namespace MonoDevelop.Gui.Widgets {
 		}
 
 		bool IList.Contains(object value){
+			if (list == null) return false;
 			return list.Contains(value);
 		}
 
 		int IList.IndexOf(object value){
+			if (list == null) return -1;
 			return list.IndexOf(value);
 		}
 
