@@ -3,6 +3,7 @@
 	* JavaBindingCompilerService.cs:
 	rework error parsing to work off of Streams instead of temp files
 	allows javac errors to work, gcj maybe not	
+	set the column of the error
 
 2004-04-09  John Luke  <jluke@cfl.rr.com>
 

@@ -185,11 +185,16 @@ namespace JavaBinding
 				
 				if (next == null)
 					break;
-				
+
+				CompilerError error = new CompilerError ();
+
+				int errorCol = 0;
+				string col = next.Trim ();
+				if (col.Length ==1 && col == "^")
+					errorCol = next.IndexOf ("^");
+
 				compilerOutput += next + "\n";
-					
-				CompilerError error = new CompilerError();
-				
+
 				int index1 = next.IndexOf(".java:");
 				if (index1 < 0)
 					continue;				
@@ -198,21 +203,19 @@ namespace JavaBinding
 				string s2 = next.Substring(index1 + 6);									
 				int index2  = s2.IndexOf(":");				
 				int line = Int32.Parse(next.Substring(index1 + 6,index2));
-					
-//				error.Column = Int32.Parse(pos2[1]);
-//				error.IsWarning   = what[0] == "warning";
-//				error.ErrorNumber = what[what.Length - 1];				
+				//error.IsWarning   = what[0] == "warning";
+				//error.ErrorNumber = what[what.Length - 1];
 								
-				error.Column = 25;
+				error.Column = errorCol;
 				error.Line   	= line;
-				error.ErrorText = next.Substring(index1 + index2 + 7);
-				error.FileName  = Path.GetFullPath(next.Substring(0, index1) + ".java"); //Path.GetFileName(filename);
-				cr.Errors.Add(error);
-				
+				error.ErrorText = next.Substring (index1 + index2 + 7);
+				error.FileName  = Path.GetFullPath (next.Substring (0, index1) + ".java"); //Path.GetFileName(filename);
+				cr.Errors.Add (error);
 			}
-			sr.Close();			
-			return new DefaultCompilerResult(cr, compilerOutput);
 
+			sr.Close ();			
+			return new DefaultCompilerResult (cr, compilerOutput);
 		}
 	}
 }
+
