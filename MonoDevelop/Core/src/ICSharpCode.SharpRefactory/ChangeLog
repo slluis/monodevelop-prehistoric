@@ -1,3 +1,12 @@
+2005-02-03  John Luke  <john.luke@gmail.com>
+
+	* Makefile.am: add PrettyPrintOptions.cs
+	* src/PrettyPrinter/PrettyPrintVisitor.cs:
+	* src/PrettyPrinter/OutputFormatter.cs
+	* src/PrettyPrinter/PrettyPrintOptions.cs:
+	update these from SD, and make it output
+	mono-like format by default (not done yet)
+
 2005-01-31  John Luke  <john.luke@gmail.com>
 
 	* src/Parser/generated/Error.cs: lets not

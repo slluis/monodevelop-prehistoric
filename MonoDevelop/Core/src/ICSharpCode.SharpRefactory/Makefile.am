@@ -105,6 +105,7 @@ src/Parser/generated/keywordlist/Tokens.cs \
 src/Parser/generated/keywordlist/Keywords.cs \
 src/PrettyPrinter/OutputFormatter.cs \
 src/PrettyPrinter/PrettyPrintVisitor.cs \
+src/PrettyPrinter/PrettyPrintOptions.cs \
 src/PrettyPrinter/PrettyPrintUtil.cs \
 src/PrettyPrinter/PrettyPrintData.cs \
 src/PrettyPrinter/SpecialVisitor.cs \

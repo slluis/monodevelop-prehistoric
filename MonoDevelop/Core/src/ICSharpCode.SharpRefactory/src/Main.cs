@@ -87,7 +87,6 @@ class MainClass
 			string content = sr.ReadToEnd();
 			sr.Close();
 			PrettyPrintVisitor ppv = new PrettyPrintVisitor(content);
-			Console.WriteLine (typeof (PrettyPrintVisitor));
 			ppv.Visit(p.compilationUnit, null);
 			
 			Console.WriteLine(ppv.Text);

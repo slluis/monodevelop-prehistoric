@@ -30,9 +30,13 @@ namespace ICSharpCode.SharpRefactory.PrettyPrinter
 		int           indentationLevel = 0;
 		StringBuilder text             = new StringBuilder();
 		Lexer         lexer; 
-		bool          indent       = true;
+		
+		PrettyPrintOptions prettyPrintOptions;
+		
+		bool          indent         = true;
 		bool          doNewLine      = true;
-		bool          emitSemicolon = true;
+		bool          emitSemicolon  = true;
+		
 		public string Text {
 			get {
 				return text.ToString();
@@ -73,8 +77,9 @@ namespace ICSharpCode.SharpRefactory.PrettyPrinter
 			}
 		}
 		Token token;
-		public OutputFormatter(string originalSourceFile)
+		public OutputFormatter(string originalSourceFile, PrettyPrintOptions prettyPrintOptions)
 		{
+			this.prettyPrintOptions = prettyPrintOptions;
 			lexer = new Lexer(new StringReader(originalSourceFile));
 //			token = lexer.NextToken();
 //			PrintSpecials(token.kind);
@@ -83,8 +88,18 @@ namespace ICSharpCode.SharpRefactory.PrettyPrinter
 		public void Indent()
 		{
 			if (DoIndent) {
-				for (int i = 0; i < indentationLevel; ++i) {
-					text.Append('\t');
+				int indent = 0;
+				while (indent < prettyPrintOptions.IndentSize * indentationLevel) {
+					char ch = prettyPrintOptions.IndentationChar;
+					if (ch == '\t' && indent + prettyPrintOptions.TabSize > prettyPrintOptions.IndentSize * indentationLevel) {
+						ch = ' ';
+					}
+					text.Append(ch);
+					if (ch == '\t') {
+						indent += prettyPrintOptions.TabSize;
+					} else {
+						++indent;
+					}
 				}
 			}
 		}
@@ -109,28 +124,29 @@ namespace ICSharpCode.SharpRefactory.PrettyPrinter
 					case CommentType.SingleLine:
 						text.Append("//");	
 						text.Append(comment.CommentText);	
-						text.Append("\n");
+						text.Append(Environment.NewLine);
 						Indent();
 						break;
 					case CommentType.Documentation:
 						text.Append("///");	
 						text.Append(comment.CommentText);	
-						text.Append("\n");	
+						text.Append(Environment.NewLine);	
 						Indent();
 						break;
 					case CommentType.Block:
 						text.Append("/*");	
 						text.Append(comment.CommentText);	
-						text.Append("*/\n");	
+						text.Append("*/");
+						text.Append(Environment.NewLine);	
 						Indent();
 						break;
 				}
 				PrintSpecials(tokenKind);
 			} else if (o is BlankLine) {
-				if (!gotBlankLine) {
-//						text.Append("\n");
-//						Indent();
-				} 
+				/*if (!gotBlankLine) {
+						text.Append(Environment.NewLine);
+						Indent();
+				}*/
 				gotBlankLine = false;
 				PrintSpecials(tokenKind);
 			} else if (o is PreProcessingDirective) { 
@@ -142,7 +158,7 @@ namespace ICSharpCode.SharpRefactory.PrettyPrinter
 					text.Append(" ");
 					text.Append(ppd.Arg);
 				}
-				text.Append("\n");
+				text.Append(Environment.NewLine);
 				Indent();
 				PrintSpecials(tokenKind);
 			} else {
@@ -157,7 +173,7 @@ namespace ICSharpCode.SharpRefactory.PrettyPrinter
 		public void NewLine()
 		{
 			if (DoNewLine) {
-				text.Append("\n");
+				text.Append(Environment.NewLine);
 				gotBlankLine = true;
 			}
 		}
@@ -214,6 +230,70 @@ namespace ICSharpCode.SharpRefactory.PrettyPrinter
 			this.token = lexer.NextToken();
 			PrintSpecials(token.kind);
 			text.Append(identifier);
+		}
+		
+		Stack braceStack = new Stack();
+		
+		public void BeginBrace(BraceStyle style)
+		{
+			switch (style) {
+				case BraceStyle.EndOfLine:
+					text.Append(" ");
+					PrintToken(Tokens.OpenCurlyBrace);
+					NewLine();
+					++IndentationLevel;
+					break;
+				case BraceStyle.NextLine:
+					NewLine();
+					Indent();
+					PrintToken(Tokens.OpenCurlyBrace);
+					NewLine();
+					++IndentationLevel;
+					break;
+				case BraceStyle.NextLineShifted:
+					NewLine();
+					++IndentationLevel;
+					Indent();
+					PrintToken(Tokens.OpenCurlyBrace);
+					NewLine();
+					break;
+				case BraceStyle.NextLineShifted2:
+					NewLine();
+					++IndentationLevel;
+					Indent();
+					PrintToken(Tokens.OpenCurlyBrace);
+					NewLine();
+					++IndentationLevel;
+					break;
+			}
+			braceStack.Push(style);
+		}
+		
+		public void EndBrace()
+		{
+			BraceStyle style = (BraceStyle)braceStack.Pop();
+			switch (style) {
+				case BraceStyle.EndOfLine:
+				case BraceStyle.NextLine:
+					--IndentationLevel;
+					Indent();
+					PrintToken(Tokens.CloseCurlyBrace);
+					NewLine();
+					break;
+				case BraceStyle.NextLineShifted:
+					Indent();
+					PrintToken(Tokens.CloseCurlyBrace);
+					NewLine();
+					--IndentationLevel;
+					break;
+				case BraceStyle.NextLineShifted2:
+					--IndentationLevel;
+					Indent();
+					PrintToken(Tokens.CloseCurlyBrace);
+					NewLine();
+					--IndentationLevel;
+					break;
+			}
 		}
 	}
 }
