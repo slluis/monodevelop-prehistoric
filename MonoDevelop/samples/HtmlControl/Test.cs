@@ -69,8 +69,8 @@ class HtmlTest
 		html = new MozillaControl ();
 		html.NetStart += new EventHandler (OnNetStart);
 		html.NetStop += new EventHandler (OnNetStop);
-		html.Title += new EventHandler (OnTitleChanged);
-		html.LinkMessage += new EventHandler (OnLinkMessage);
+		html.TitleChange += new EventHandler (OnTitleChanged);
+		html.LinkMsg += new EventHandler (OnLinkMessage);
 		html.Html = "<html><head><link rel=\"stylesheet\" type=\"text/css\" href=\"test.css\" /></head><body>testing</body></html>";
 		
 		html.ShowAll ();
@@ -91,7 +91,7 @@ class HtmlTest
 
 	void OnLinkMessage (object o, EventArgs args)
 	{
-		status.Push (1, html.GeckoLinkMessage);
+		status.Push (1, html.LinkMessage);
 	}
 	
 	void OnNetStart (object o, EventArgs args)
@@ -106,7 +106,7 @@ class HtmlTest
 
 	void OnTitleChanged (object o, EventArgs args)
 	{
-		win.Title = html.GeckoTitle;
+		win.Title = html.Title;
 	}
 
 	void OnGoClicked (object o, EventArgs args)
@@ -121,7 +121,7 @@ class HtmlTest
 
 	void OnHtmlTitle (object o, EventArgs args)
 	{
-		win.Title = html.GeckoTitle;
+		win.Title = html.Title;
 	}
 
 	void OnBackClicked (object o, EventArgs args)

@@ -1,8 +1,13 @@
+CSC = mcs /debug
+EXE = ../../build/bin/HtmlTest.exe
+
+DLLS = -r gtk-sharp -r ../../build/bin/MonoDevelop.Base.dll
+
 all:
-	@ mcs -g Test.cs -r gtk-sharp -r ../../build/bin/SharpDevelop.Base.dll -o ../../build/bin/HtmlTest.exe
+	$(CSC) Test.cs $(DLLS) /out:$(EXE)
 
 run:
-	mono --debug ../../build/bin/HtmlTest.exe
+	mono --debug $(EXE)
 
 clean:
-	rm -f ../../build/bin/HtmlTest.exe
+	rm -f $(EXE)
