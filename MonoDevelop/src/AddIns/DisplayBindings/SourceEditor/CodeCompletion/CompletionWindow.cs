@@ -53,9 +53,15 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 			case ';':
 			case '(':
 			case '[':
-			case (char) Gdk.Key.BackSpace:
 				control.SimulateKeyPress (ref e);
 				LostFocusListView (null, null);
+				return true;
+			case (char) Gdk.Key.BackSpace:
+				control.SimulateKeyPress (ref e);
+				insertLength--;
+				if (insertLength == -1) {
+					LostFocusListView (null, null);
+				}
 				return true;
 			}
 			return base.OnKeyPressEvent (e);
