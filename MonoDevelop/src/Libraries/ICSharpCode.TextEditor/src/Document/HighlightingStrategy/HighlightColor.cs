@@ -23,11 +23,11 @@ namespace ICSharpCode.TextEditor.Document
 	public class HighlightColor
 	{
 		bool   systemColor     = false;
-		string systemColorName = null;
+		KnownColor systemColorKnownColor;
 		double systemColorFactor = 1.0;
 		
 		bool   systemBgColor     = false;
-		string systemBgColorName = null;
+		KnownColor systemBgColorKnownColor;
 		double systemBgColorFactor = 1.0;
 		
 		Color  color;
@@ -77,7 +77,7 @@ namespace ICSharpCode.TextEditor.Document
 				if (!systemBgColor) {
 					return backgroundcolor;
 				}
-				return ParseColorString(systemBgColorName, systemBgColorFactor);
+				return ParseColorString(systemBgColorKnownColor, systemBgColorFactor);
 			}
 		}
 		
@@ -89,7 +89,7 @@ namespace ICSharpCode.TextEditor.Document
 				if (!systemColor) {
 					return color;
 				}
-				return ParseColorString(systemColorName, systemColorFactor);
+				return ParseColorString(systemColorKnownColor, systemColorFactor);
 			}
 		}
 		
@@ -105,9 +105,9 @@ namespace ICSharpCode.TextEditor.Document
 			}
 		}
 		
-		Color ParseColorString(string colorName, double factor)
+		Color ParseColorString(KnownColor color, double factor)
 		{
-			Color c = Color.FromName (colorName);
+			Color c = Color.FromKnownColor (color);
 			c = Color.FromArgb((int)((double)c.R * factor), (int)((double)c.G * factor), (int)((double)c.B * factor));
 			
 			return c;
@@ -134,7 +134,7 @@ namespace ICSharpCode.TextEditor.Document
 				} else if (c.StartsWith("SystemColors.")) {
 					systemColor     = true;
 					string [] cNames = c.Substring ("SystemColors.".Length).Split('*');
-					systemColorName = cNames [0];
+					systemColorKnownColor = (KnownColor) Enum.Parse (typeof (KnownColor), cNames [0]);
 					// hack : can't figure out how to parse doubles with '.' (culture info might set the '.' to ',')
 					if (cNames.Length == 2) systemColorFactor = Double.Parse(cNames[1]) / 100;
 				} else {
@@ -152,7 +152,7 @@ namespace ICSharpCode.TextEditor.Document
 				} else if (c.StartsWith("SystemColors.")) {
 					systemBgColor     = true;
 					string [] cNames = c.Substring ("SystemColors.".Length).Split('*');
-					systemBgColorName = cNames [0];
+					systemBgColorKnownColor = (KnownColor) Enum.Parse (typeof (KnownColor), cNames [0]);
 					// hack : can't figure out how to parse doubles with '.' (culture info might set the '.' to ',')
 					if (cNames.Length == 2) systemBgColorFactor = Double.Parse(cNames[1]) / 100;
 				} else {
@@ -187,7 +187,7 @@ namespace ICSharpCode.TextEditor.Document
 				} else if (c.StartsWith("SystemColors.")) {
 					systemColor     = true;
 					string [] cNames = c.Substring ("SystemColors.".Length).Split('*');
-					systemColorName = cNames [0];
+					systemColorKnownColor = (KnownColor) Enum.Parse (typeof (KnownColor), cNames [0]);
 					// hack : can't figure out how to parse doubles with '.' (culture info might set the '.' to ',')
 					if (cNames.Length == 2) systemColorFactor = Double.Parse(cNames[1]) / 100;
 				} else {
@@ -204,7 +204,7 @@ namespace ICSharpCode.TextEditor.Document
 				} else if (c.StartsWith("SystemColors.")) {
 					systemBgColor     = true;
 					string [] cNames = c.Substring ("SystemColors.".Length).Split('*');
-					systemBgColorName = cNames [0];
+					systemBgColorKnownColor = (KnownColor) Enum.Parse (typeof (KnownColor), cNames [0]);
 					// hack : can't figure out how to parse doubles with '.' (culture info might set the '.' to ',')
 					if (cNames.Length == 2) systemBgColorFactor = Double.Parse(cNames[1]) / 100;
 					
@@ -251,13 +251,13 @@ namespace ICSharpCode.TextEditor.Document
 			
 			this.systemColor  = true;
 			string [] cNames = systemColor.Split('*');
-			systemColorName = cNames [0];
+			systemColorKnownColor = (KnownColor) Enum.Parse (typeof (KnownColor), cNames [0]);
 			// hack : can't figure out how to parse doubles with '.' (culture info might set the '.' to ',')
 			if (cNames.Length == 2) systemColorFactor = Double.Parse(cNames[1]) / 100;
 		
 			systemBgColor     = true;
 			cNames = systemBackgroundColor.Split('*');
-			systemBgColorName = cNames [0];
+			systemBgColorKnownColor = (KnownColor) Enum.Parse (typeof (KnownColor), cNames [0]);
 			// hack : can't figure out how to parse doubles with '.' (culture info might set the '.' to ',')
 			if (cNames.Length == 2) systemBgColorFactor = Double.Parse(cNames[1]) / 100;
 			

@@ -48,12 +48,15 @@ namespace ICSharpCode.TextEditor
 		public override void Paint(Gdk.Drawable wnd, System.Drawing.Rectangle rect)
 		{
 			HighlightColor lineNumberPainterColor = textArea.Document.HighlightingStrategy.GetColorFor("LineNumbers");
-			HighlightColor foldLineColor          = textArea.Document.HighlightingStrategy.GetColorFor("FoldLine");
+			
+			Gdk.Color rect_fg = TextArea.Style.White;
+			Gdk.Color text_fg = new Gdk.Color (lineNumberPainterColor.Color);
+			Gdk.Color text_bg = new Gdk.Color (lineNumberPainterColor.BackgroundColor);
 			
 			using (Gdk.GC gc = new Gdk.GC(wnd)) {
 			for (int y = 0; y < (DrawingPosition.Height + textArea.TextView.VisibleLineDrawingRemainder) / textArea.TextView.FontHeight + 1; ++y) {
 				
-				gc.RgbFgColor = TextArea.Style.White;
+				gc.RgbFgColor = rect_fg;
 				System.Drawing.Rectangle markerRectangle = new System.Drawing.Rectangle(DrawingPosition.X, DrawingPosition.Top + y * textArea.TextView.FontHeight - textArea.TextView.VisibleLineDrawingRemainder, DrawingPosition.Width, textArea.TextView.FontHeight);
 				
 				if (rect.IntersectsWith(markerRectangle)) {
@@ -61,8 +64,8 @@ namespace ICSharpCode.TextEditor
 					if (textArea.Document.TextEditorProperties.ShowLineNumbers) {
 						wnd.DrawRectangle (gc, true, new System.Drawing.Rectangle (markerRectangle.X + 1, markerRectangle.Y, markerRectangle.Width - 1, markerRectangle.Height));
 					
-						gc.RgbFgColor = new Gdk.Color (lineNumberPainterColor.Color);
-						gc.RgbBgColor = new Gdk.Color (lineNumberPainterColor.BackgroundColor);
+						gc.RgbFgColor = text_fg;
+						gc.RgbBgColor = text_bg;
 						gc.SetLineAttributes (1, LineStyle.OnOffDash, CapStyle.NotLast, JoinStyle.Miter);
 						wnd.DrawLine (gc, base.drawingPosition.X, markerRectangle.Y, base.drawingPosition.X, markerRectangle.Bottom);
 					} else {
