@@ -1,0 +1,19 @@
+<AddIn name	 = "AddInManager"
+       author	 = "John Luke"
+       copyright = "GPL"
+       url       = "http://monodevelop.com"
+       description = "Displays and Manages AddIns"
+       version   = "0.0">
+
+	<Runtime>
+		<Import assembly="AddInManager.dll"/>
+	</Runtime>
+
+	<Extension path="/SharpDevelop/Workbench/MainMenu/Tools">
+		<MenuItem id = "ShowAddInManagerDialog"
+	        _label = "AddInManager"
+	      	shortcut = ""
+	       	class = "MonoDevelop.Commands.ShowAddInManager" />
+	</Extension>
+
+</AddIn>
