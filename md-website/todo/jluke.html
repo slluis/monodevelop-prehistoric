@@ -173,5 +173,15 @@
     <p>AddIns for profiling would be wonderful.
     </p>
 
+    <h2>Startup and command line handling</h2>
+    <p>Reorganize the parsing of command line arguments; hopefully,
+    with Mono.GetOptions. Actually, the whole startup procedure is
+    rather odd and should be more direct and simple.  It should be
+    able to support the wacky idea of running 2 or more MD instances
+    and still just work with nautilus (by utilizing .desktop file).
+    Hopefully this can be achieved without the socket stuff.  (If you
+    have two open a click on a file in nautilus, which one should it
+    open in?)</p>
+
   </body>
 </html>
