@@ -1,5 +1,11 @@
 2004-04-06  Todd Berman  <tberman@sevenl.net>
 
+	* Commands/FileCommands.cs: Combine the open solution/file into one
+	open... command
+	* Gui/Pads/FileScout.cs: add .ToUpper () to catch .pRjx, etc.
+
+2004-04-06  Todd Berman  <tberman@sevenl.net>
+
 	* Commands/MenuItemBuilders.cs: change to use alt instead of control
 	for a more 'gnomey' feel.
 

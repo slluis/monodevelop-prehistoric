@@ -540,7 +540,7 @@
 	                                  class = "MonoDevelop.Commands.CreateNewProject"/>
 	                </MenuItem>
 	                
-	                <MenuItem id = "Open" _label = "Open">
+	                <!-- <MenuItem id = "Open" _label = "Open">
 	                        <MenuItem id = "File" 
 	                                  _label = "File..." 
 	                                  icon = "Icons.16x16.OpenFileIcon"  
@@ -554,7 +554,12 @@
 	                                  description = "${res:XML.MainMenu.FileMenu.Open.Project.Description}" 
 	                                  shortcut = "Control|Shift|O" 
 	                                  class = "MonoDevelop.Commands.OpenCombine"/>
-	                </MenuItem>
+	                </MenuItem> -->
+
+			<MenuItem id = "Open" _label = "Open..."
+			          icon = "Icons.16x16.OpenFileIcon"
+			          shortcut = "Control|O"
+			          class = "MonoDevelop.Commands.OpenFile"/>
 	                
 	                <MenuItem id = "Close" _label = "Close">
 	                        <Conditional activewindow="*" action="Disable">

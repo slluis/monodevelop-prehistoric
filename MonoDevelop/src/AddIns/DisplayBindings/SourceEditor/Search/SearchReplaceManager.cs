@@ -164,12 +164,6 @@ namespace MonoDevelop.TextEditor.Document
 			
 			if (result == null) {
 				ResourceService resourceService = (ResourceService)ServiceManager.Services.GetService(typeof(IResourceService));
-				//FIXME: This needs to be a msg or whatever
-				/*MessageBox.Show((Form)WorkbenchSingleton.Workbench,
-				                resourceService.GetString("Dialog.NewProject.SearchReplace.SearchStringNotFound"),
-				                "Not Found", 
-				                MessageBoxButtons.OK, 
-				                MessageBoxIcon.Information);*/
 				MessageService.ShowMessage (GettextCatalog.GetString ("Not Found"));
 				find.Reset();
 			} else {
@@ -180,7 +174,7 @@ namespace MonoDevelop.TextEditor.Document
 				}
 				int startPos = Math.Min(textArea.Buffer.Text.Length, Math.Max(0, result.Offset));
 				int endPos   = Math.Min(textArea.Buffer.Text.Length, startPos + result.Length);
-														textArea.Buffer.MoveMark ("insert", textArea.Buffer.GetIterAtOffset (endPos));
+				textArea.Buffer.MoveMark ("insert", textArea.Buffer.GetIterAtOffset (endPos));
 				textArea.Buffer.MoveMark ("selection_bound", textArea.Buffer.GetIterAtOffset (startPos));
 				textArea.View.ScrollMarkOnscreen (textArea.Buffer.InsertMark);
 			}

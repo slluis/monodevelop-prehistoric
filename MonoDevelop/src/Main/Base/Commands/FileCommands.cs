@@ -242,9 +242,11 @@ namespace MonoDevelop.Commands
 						case ".CMBX": // Don't forget the 'recent' projects if you chance something here
 						case ".PRJX":
 							IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
-
+							
 							try {
-								projectService.OpenCombine(name);
+								//projectService.OpenCombine(name);
+								IFileService fileService = (IFileService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IFileService));
+								fileService.OpenFile(name);
 							} catch (Exception ex) {
 								CombineLoadError.HandleError(ex, name);
 							}
@@ -309,7 +311,16 @@ namespace MonoDevelop.Commands
 
 				if (response == (int)Gtk.ResponseType.Ok) {
 					IFileService fileService = (IFileService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IFileService));
+					IProjectService proj = (IProjectService)ServiceManager.Services.GetService (typeof (IProjectService));
+					switch (System.IO.Path.GetExtension (name).ToUpper()) {
+					case ".PRJX":
+					case ".CMBX":
+						proj.OpenCombine (name);
+						break;
+					default:
 						fileService.OpenFile(name);
+						break;
+					}
 				}
 			}
 		}
