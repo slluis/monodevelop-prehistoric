@@ -25,7 +25,7 @@ namespace MonoDevelop.Gui.Utils
 		// check for gtk 2.4 or newer
 		public bool IsGtk24 {
 			get {
-				string res = Marshal.PtrToStringAnsi (gtk_check_version (2, 4, 0));
+				string res = Marshal.PtrToStringAuto (gtk_check_version (2, 4, 0));
 				if (res == null || res == String.Empty)
 					return true;
 				else
