@@ -1,3 +1,12 @@
+2004-04-27  Francisco "Paco" Martinez <paco@mfcon.com>
+
+	* configure.in: output src/Addin/prj2make-sharp-lib/Makefile and
+		src/Addin/prj2make-sharp-lib/AssemblyInfo.cs
+	* src/Addin/Makefile.am: add prj2make-sharp-lib to subdirs
+	* src/Addin/prj2make-sharp-lib -- This is an addin to 
+		manipulate project and workspace file types created by
+		MS Visual Studio .NET 2003
+
 2004-04-27  Todd Berman  <tberman@sevenl.net>
 
 	* configure.in: bump gtksourceview-sharp dep.

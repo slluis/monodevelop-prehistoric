@@ -183,6 +183,8 @@ src/Libraries/MonoDevelop.Gui.Utils/AssemblyInfo.cs
 src/Libraries/MonoDevelop.Core/AssemblyInfo.cs
 monodevelop
 po/Makefile.in
+src/AddIns/prj2make-sharp-lib/Makefile
+src/AddIns/prj2make-sharp-lib/AssemblyInfo.cs
 ])
 
 echo "---"
