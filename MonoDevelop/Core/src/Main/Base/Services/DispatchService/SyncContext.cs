@@ -135,7 +135,7 @@ namespace MonoDevelop.Services
 			gen.Emit (OpCodes.Ldftn, methodDispatch);
 			gen.Emit (OpCodes.Newobj, typeof(StatefulMessageHandler).GetConstructor (new Type[] {typeof(object), typeof(IntPtr)} ));
 			gen.Emit (OpCodes.Ldnull);
-			gen.Emit (OpCodes.Callvirt, typeof(SyncContext).GetMethod ("Dispatch"));
+			gen.Emit (OpCodes.Callvirt, typeof(SyncContext).GetMethod ("AsyncDispatch"));
 			
 			if (returnField != null) {
 				gen.Emit (OpCodes.Ldarg_0);

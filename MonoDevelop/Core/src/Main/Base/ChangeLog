@@ -1,3 +1,8 @@
+2004-12-16  Lluis Sanchez Gual  <lluis@novell.com>
+
+	* Services/DispatchService/SyncContext.cs: Dispatch delegate calls
+	asynchronously, no minimize the risk of deadlocks.
+
 2004-12-16  Lluis Sanchez Gual <lluis@novell.com>
 
 	* Services/DispatchService/DispatchService.cs: added a locks for accessing
