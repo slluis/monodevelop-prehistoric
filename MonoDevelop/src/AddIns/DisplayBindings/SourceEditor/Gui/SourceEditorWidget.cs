@@ -25,15 +25,14 @@ namespace MonoDevelop.SourceEditor.Gui {
 			Buffer.Highlight = true;
 			
 			View.SetMarkerPixbuf ("SourceEditorBookmark", new Gdk.Pixbuf (drag_icon_xpm));
-			View.SetMarkerPixbuf ("BreakpointMark", new Gdk.Pixbuf ("../data/resources/icons/BreakPoint.png"));
 			View.SetMarkerPixbuf ("ExecutionMark", new Gdk.Pixbuf ("../data/resources/icons/ExecutionMarker.png"));
+			View.SetMarkerPixbuf ("BreakpointMark", new Gdk.Pixbuf ("../data/resources/icons/BreakPoint.png"));
 			
 			Add (View);
 		}
 
 		public void ExecutingAt (int linenumber)
 		{
-			Console.WriteLine ("Inside mainwidget");
 			View.ExecutingAt (linenumber);
 		}		
 

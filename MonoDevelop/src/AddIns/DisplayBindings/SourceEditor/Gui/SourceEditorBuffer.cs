@@ -316,6 +316,9 @@ namespace MonoDevelop.SourceEditor.Gui {
 			if (found_marker)
 				return;
 			
+			if (type.ToString () == "ExecutionMark")
+				begin_line.LineOffset = 1;
+
 			gtk_source_buffer_create_marker (Handle, null, type.ToString (), ref begin_line);
 		}
 		
