@@ -52,6 +52,8 @@
 	<Extension path = "/SharpDevelop/Workbench/Views">
 		<Class id    = "CompilerMessageView" 
 		       class = "MonoDevelop.EditorBindings.Gui.Pads.CompilerMessageView"/>
+		<Class id    = "DebuggerLocalsPad"
+		       class = "MonoDevelop.SourceEditor.Gui.DebuggerLocalsPad"/>
 	</Extension>
 
 	<Extension path = "/SharpDevelop/ViewContent/DefaultTextEditor/ContextMenu">

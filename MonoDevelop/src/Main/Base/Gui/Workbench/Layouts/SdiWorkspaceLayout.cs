@@ -140,7 +140,8 @@ namespace ICSharpCode.SharpDevelop.Gui
 			};
 			string[] bottomContents = new string[] {
 				"ICSharpCode.SharpDevelop.Gui.Pads.OpenTaskView",
-				"MonoDevelop.EditorBindings.Gui.Pads.CompilerMessageView"
+				"MonoDevelop.EditorBindings.Gui.Pads.CompilerMessageView",
+				"MonoDevelop.SourceEditor.Gui.DebuggerLocalsPad"
 			};
 			
 			foreach (string typeName in leftContents) {
