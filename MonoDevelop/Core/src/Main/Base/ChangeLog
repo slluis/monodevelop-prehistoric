@@ -1,5 +1,9 @@
 2004-11-01  Todd Berman  <tberman@off.net>
 
+	* Commands/AutoStartCommands.cs: Open the real last project.
+
+2004-11-01  Todd Berman  <tberman@off.net>
+
 	* Services/File/RecentOpen.cs: Properly handle if the renaming occurs
 	on a Directory, or if it is using SourceFile instead of FileName.
 
