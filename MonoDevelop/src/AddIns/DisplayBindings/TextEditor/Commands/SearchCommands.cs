@@ -29,6 +29,25 @@ using ICSharpCode.SharpDevelop.Gui;
 
 namespace ICSharpCode.SharpDevelop.DefaultEditor.Commands
 {
+	
+	public abstract class AbstractEditActionMenuCommand : AbstractMenuCommand
+	{
+		public abstract IEditAction EditAction {
+			get;
+		}
+		
+		public override void Run()
+		{
+			IWorkbenchWindow window = WorkbenchSingleton.Workbench.ActiveWorkbenchWindow;
+			
+			if (window == null || !(window.ViewContent is ITextEditorControlProvider)) {
+				return;
+			}
+			TextEditorControl textEditor = ((ITextEditorControlProvider)window.ViewContent).TextEditorControl;
+			EditAction.Execute(textEditor.ActiveTextAreaControl.TextArea);
+		}
+	}
+	
 	public class Find : AbstractMenuCommand
 	{
 		public static void SetSearchPattern()
