@@ -288,7 +288,7 @@ msgstr ""
 
 #: build/AddIns/SharpDevelopCore.addin.xml.h:66
 msgid "Compile All"
-msgstr ""
+msgstr "undo eh?"
 
 #: build/AddIns/SharpDevelopCore.addin.xml.h:67
 msgid "Convert C# Project to VB.NET"

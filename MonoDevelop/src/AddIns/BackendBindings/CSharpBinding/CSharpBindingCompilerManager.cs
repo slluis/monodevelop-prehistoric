@@ -588,7 +588,7 @@ namespace CSharpBinding
 			
 			string arguments = outstr + " > " + output + " 2> " + error;
 			string command = arguments;
-			ProcessStartInfo si = new ProcessStartInfo("/bin/sh -c \"" + command + "\"");
+			ProcessStartInfo si = new ProcessStartInfo("/bin/sh","-c \"" + command + "\"");
 			si.RedirectStandardOutput = true;
 			si.RedirectStandardError = true;
 			si.UseShellExecute = false;
