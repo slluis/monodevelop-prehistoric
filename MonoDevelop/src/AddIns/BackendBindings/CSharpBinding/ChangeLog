@@ -1,5 +1,11 @@
 2004-04-28  Todd Berman  <tberman@sevenl.net>
 
+	* CSharpBindingExecutionManager.cs: People running apps from the IDE
+	can be assumed to want line numbers if we can give them. Adding --debug
+	to the execution.
+
+2004-04-28  Todd Berman  <tberman@sevenl.net>
+
 	* CSharpBindingCompilerManager.cs: add code for project references.
 
 2004-04-28  Todd Berman  <tberman@sevenl.net>

@@ -68,11 +68,11 @@ namespace CSharpBinding
 				psi = new ProcessStartInfo("\"" + parameters.ExecuteScript + "\"");
 				psi.UseShellExecute = false;
 			} else {
-				string runtimeStarter = "mono ";
+				string runtimeStarter = "mono --debug ";
 				
 				switch (parameters.NetRuntime) {
 					case NetRuntime.Mono:
-						runtimeStarter = "mono ";
+						runtimeStarter = "mono --debug ";
 						break;
 					case NetRuntime.MonoInterpreter:
 						runtimeStarter = "mint ";
