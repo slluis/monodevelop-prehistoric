@@ -214,8 +214,6 @@ namespace MonoDevelop.Gui.Dialogs {
 			    !fileUtilityService.IsValidFileName(name)     || name.IndexOf(System.IO.Path.DirectorySeparatorChar) >= 0 ||
 			    !fileUtilityService.IsValidFileName(location)) {
 				messageService.ShowError(GettextCatalog.GetString ("Illegal project name.\nOnly use letters, digits, space, '.' or '_'."));
-				dialog.Respond(Gtk.ResponseType.Reject);
-				dialog.Hide();
 				return;
 			}
 

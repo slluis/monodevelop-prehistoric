@@ -1,3 +1,8 @@
+2004-04-04  Nick Drochak  <ndrochak@gol.com>
+ 
+	* Gui/Dialogs/NewProjectDialog.cs: On double click of icon when there
+        is an illegal or empty solution name, do not hide dialog.
+
 2004-04-03  Todd Berman  <tberman@sevenl.net>
 
 	* Gui/Workbench/Layous/SdiWorkspaceLayout.cs: set pref height and width
