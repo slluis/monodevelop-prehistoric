@@ -301,6 +301,7 @@ namespace MonoDevelop.Gui.Dialogs
 			scrolledwindow = new ScrolledWindow();
 			scrolledwindow.VscrollbarPolicy = PolicyType.Automatic;
 			scrolledwindow.HscrollbarPolicy = PolicyType.Never;
+			scrolledwindow.ShadowType = ShadowType.In;
 			
 			resultListView = new TreeView ();
 			resultListView.RulesHint = true;
