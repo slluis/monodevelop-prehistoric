@@ -6,19 +6,44 @@ namespace MonoDevelop.Gui
 	public class Vfs
 	{
 		[DllImport ("gnomevfs-2")]
-		static extern string gnome_vfs_mime_type_from_name (string filename);
+		static extern bool gnome_vfs_init ();
 		
 		[DllImport ("gnomevfs-2")]
-		static extern string gnome_vfs_mime_type_from_name_or_default (string filename, string defaultval);
-
-		public static string GetMimeType (string filename)
+		static extern bool gnome_vfs_initialized ();
+	
+		[DllImport ("gnomevfs-2")]
+		static extern bool gnome_vfs_shutdown ();
+		
+		[DllImport ("gnomevfs-2")]
+		static extern string gnome_vfs_get_mime_type (string uri);
+		
+		[DllImport ("gnomevfs-2")]
+		static extern string gnome_vfs_mime_get_icon (string mime_type);
+		
+		// gnome_program_init calls this for you
+		public static bool Init ()
 		{
-			return gnome_vfs_mime_type_from_name (filename);
+			return gnome_vfs_init ();
 		}
 		
-		public static string GetMimeTypeDefault (string filename, string defaultval)
+		public static string GetIcon (string mimetype)
 		{
-			return gnome_vfs_mime_type_from_name_or_default (filename, defaultval);
+			return gnome_vfs_mime_get_icon (mimetype);
+		}
+		
+		public static string GetMimeType (string filename)
+		{
+			return gnome_vfs_get_mime_type (filename);
+		}
+		
+		public static bool Shutdown ()
+		{
+			return gnome_vfs_shutdown ();
+		}
+		
+		public static bool Initialized
+		{
+			get { return gnome_vfs_init (); }
 		}
 	}
 }
