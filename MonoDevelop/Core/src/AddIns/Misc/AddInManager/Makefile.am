@@ -8,9 +8,9 @@ REFS = \
 	/r:../../../../build/bin/MonoDevelop.Base.dll
 
 FILES = \
-./AssemblyInfo.cs \
-./Commands/ShowDialog.cs \
-./Gui/AddInManagerDialog.cs
+AssemblyInfo.cs \
+Commands/ShowDialog.cs \
+Gui/AddInManagerDialog.cs
 
 addindir = $(libdir)/monodevelop/AddIns
 addin_DATA = $(ADDIN) $(ASSEMBLY)

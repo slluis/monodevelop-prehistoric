@@ -8,15 +8,16 @@ DLLS = /r:System.Drawing.dll \
 	/r:../../../../build/bin/MonoDevelop.Gui.Widgets.dll \
 	$(BASE_DEPENDENCIES_LIBS)
 
-FILES = ./Gui/ProjectConfigurationPropertyPanel.cs \
-./Project/JavaCompilerParameters.cs \
-./Project/JavaProject.cs \
-./JavaBindingCompilerServices.cs \
-./JavaCompiler.cs \
-./JavaLanguageBinding.cs \
-./FormatingStrategy/JavaFormattingStrategy.cs \
-./JavaBindingExecutionServices.cs \
-./ProjectTreeBuilder/JavaNodeBuilder.cs
+FILES = \
+Gui/ProjectConfigurationPropertyPanel.cs \
+Project/JavaCompilerParameters.cs \
+Project/JavaProject.cs \
+JavaBindingCompilerServices.cs \
+JavaCompiler.cs \
+JavaLanguageBinding.cs \
+FormatingStrategy/JavaFormattingStrategy.cs \
+JavaBindingExecutionServices.cs \
+ProjectTreeBuilder/JavaNodeBuilder.cs
 
 build_sources = $(addprefix $(srcdir)/, $(FILES))
 

@@ -7,23 +7,24 @@ DLLS = /r:NUnit.Framework.dll \
 	/r:../../../build/bin/MonoDevelop.Base.dll \
 	$(BASE_DEPENDENCIES_LIBS)
 
-FILES = AssemblyInfo.cs \
-./Commands/NunitCommands.cs \
-./Gui/NunitTestTree.cs \
-./Gui/NunitResultTree.cs \
-./Services/AssemblyStore.cs \
-./Services/CancelTestsException.cs \
-./Services/CircleRenderer.cs \
-./Services/Delegates.cs \
-./Services/FixtureAddedEventArgs.cs \
-./Services/FixtureLoadErrorEventArgs.cs \
-./Services/NunitService.cs \
-./Services/QueuedEvent.cs \
-./Services/QueuedSuiteFinish.cs \
-./Services/QueuedSuiteStart.cs \
-./Services/QueuedTestEvent.cs \
-./Services/QueuedTestFinish.cs \
-./Services/QueuedTestStart.cs
+FILES = \
+AssemblyInfo.cs \
+Commands/NunitCommands.cs \
+Gui/NunitTestTree.cs \
+Gui/NunitResultTree.cs \
+Services/AssemblyStore.cs \
+Services/CancelTestsException.cs \
+Services/CircleRenderer.cs \
+Services/Delegates.cs \
+Services/FixtureAddedEventArgs.cs \
+Services/FixtureLoadErrorEventArgs.cs \
+Services/NunitService.cs \
+Services/QueuedEvent.cs \
+Services/QueuedSuiteFinish.cs \
+Services/QueuedSuiteStart.cs \
+Services/QueuedTestEvent.cs \
+Services/QueuedTestFinish.cs \
+Services/QueuedTestStart.cs
 
 build_sources = $(addprefix $(srcdir)/, $(FILES))
 

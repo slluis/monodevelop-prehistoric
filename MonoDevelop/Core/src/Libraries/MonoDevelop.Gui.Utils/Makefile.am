@@ -4,16 +4,17 @@ REFERENCES = /r:System.Drawing \
 	/r:ICSharpCode.SharpZipLib \
 	$(BASE_DEPENDENCIES_LIBS)
 
-FILES = ./FileIcons/FileIconLoader.cs \
-./AssemblyInfo.cs \
-./VFS/Vfs.cs \
-./ReportingStream/ReportingStream.cs \
-./DirectoryArchive/Decompressor.cs \
-./DirectoryArchive/TarDecompressor.cs \
-./DirectoryArchive/ZipDecompressor.cs \
-./DirectoryArchive/Bz2Support.cs \
-./DirectoryArchive/GzSupport.cs \
-./Glue.cs
+FILES = \
+FileIcons/FileIconLoader.cs \
+AssemblyInfo.cs \
+VFS/Vfs.cs \
+ReportingStream/ReportingStream.cs \
+DirectoryArchive/Decompressor.cs \
+DirectoryArchive/TarDecompressor.cs \
+DirectoryArchive/ZipDecompressor.cs \
+DirectoryArchive/Bz2Support.cs \
+DirectoryArchive/GzSupport.cs \
+Glue.cs
 
 build_sources = $(addprefix $(srcdir)/, $(FILES))
 

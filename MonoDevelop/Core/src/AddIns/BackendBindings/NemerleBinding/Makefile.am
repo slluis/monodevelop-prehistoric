@@ -10,12 +10,12 @@ DLLS = /r:System.Drawing.dll \
 	$(BASE_DEPENDENCIES_LIBS)
 
 FILES = \
-./Gui/CodeGenerationPanel.cs \
-./Gui/OutputPanel.cs \
-./Project/NemerleParameters.cs \
-./Project/NemerleProject.cs \
-./NemerleBindingCompilerServices.cs \
-./NemerleLanguageBinding.cs 
+Gui/CodeGenerationPanel.cs \
+Gui/OutputPanel.cs \
+Project/NemerleParameters.cs \
+Project/NemerleProject.cs \
+NemerleBindingCompilerServices.cs \
+NemerleLanguageBinding.cs 
 
 build_sources = $(addprefix $(srcdir)/, $(FILES)) NemerleBindingExecutionServices.cs
 

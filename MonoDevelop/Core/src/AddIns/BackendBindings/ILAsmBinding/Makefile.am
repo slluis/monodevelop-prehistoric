@@ -8,14 +8,14 @@ DLLS = /r:../../../../build/bin/MonoDevelop.Core.dll \
 	$(BASE_DEPENDENCIES_LIBS)
 
 FILES = \
-./Gui/CompilerParametersPanel.cs \
-./Project/CompilationTarget.cs \
-./Project/ILAsmProject.cs \
-./Project/ILAsmCompilerParameters.cs \
-./ILAsmCompilerManager.cs \
-./AssemblyInfo.cs \
-./ILAsmLanguageBinding.cs \
-./ILAsmExecutionManager.cs
+Gui/CompilerParametersPanel.cs \
+Project/CompilationTarget.cs \
+Project/ILAsmProject.cs \
+Project/ILAsmCompilerParameters.cs \
+ILAsmCompilerManager.cs \
+AssemblyInfo.cs \
+ILAsmLanguageBinding.cs \
+ILAsmExecutionManager.cs
 
 build_sources = $(addprefix $(srcdir)/, $(FILES))
 
