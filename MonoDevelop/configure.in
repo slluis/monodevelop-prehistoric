@@ -45,6 +45,14 @@ PKG_CHECK_MODULES(BASE_DEPENDENCIES, gtksourceview-sharp >= $GTKSOURCEVIEWSHARP_
 GTKSOURCEVIEW_SHARP="`pkg-config --libs gtksourceview-sharp`"
 AC_SUBST(GTKSOURCEVIEW_SHARP)
 
+GECKOSHARP_REQUIRED_VERSION=0.1
+PKG_CHECK_MODULES(BASE_DEPENDENCIES, gecko-sharp >= $GECKOSHARP_REQUIRED_VERSION, enable_geckosharp=yes, enable_geckosharp=no)
+if test "x$enable_geckosharp" = "xno"; then
+        AC_MSG_ERROR([You need to install gecko-sharp])
+fi
+GECKO_SHARP="`pkg-config --libs gecko-sharp`"
+AC_SUBST(GECKO_SHARP)
+
 dnl find gnome-vfs
 GNOMEVFS_REQUIRED_VERSION=2.0
 PKG_CHECK_MODULES(BASE_DEPENDENCIES, gnome-vfs-2.0 >= $GNOMEVFS_REQUIRED_VERSION, enable_gnomevfs=yes, enable_gnomevfs=no)
@@ -109,7 +117,6 @@ gdldock/Makefile
 gdldock/gdl/Makefile
 gdldock/sources/Makefile
 gdldock/sources/gdl/Makefile
-gtkmozembed-sharp/Makefile
 src/Makefile
 src/AddIns/Makefile
 src/AddIns/BackendBindings/Makefile

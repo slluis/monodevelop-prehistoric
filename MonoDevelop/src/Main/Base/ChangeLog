@@ -1,5 +1,11 @@
 2004-03-25  Todd Berman  <tberman@sevenl.net>
 
+	* Makefile.am:
+	* Gui/HtmlControl/MozillaControl.cs:
+	* Gui/BrowserDisplayBinding/HtmlViewPane.cs: updated for gecko-sharp
+
+2004-03-25  Todd Berman  <tberman@sevenl.net>
+
 	* Services/File/DefaultFileService.cs: adding a new method of external
 	app launching based on gnome vfs stuff, works around broken gnome
 	installs.

@@ -7,12 +7,11 @@
 //
 
 using System;
-using GtkMozEmbed;
-using GtkMozEmbedSharp;
+using Gecko;
 
 namespace MonoDevelop.Gui.HtmlControl
 {
-	public class MozillaControl : EmbedWidget, IWebBrowser
+	public class MozillaControl : WebControl, IWebBrowser
 	{
 		private static GLib.GType gtype;
 		private string html;
@@ -31,7 +30,7 @@ namespace MonoDevelop.Gui.HtmlControl
 		//FIXME: pick a better path, one of the Environment dirs
 		public MozillaControl () : base (GType)
 		{
-			EmbedWidget.SetProfilePath ("/tmp", "MonoDevelop");
+			WebControl.SetProfilePath ("/tmp", "MonoDevelop");
 		}
 		
 		public void GoHome ()

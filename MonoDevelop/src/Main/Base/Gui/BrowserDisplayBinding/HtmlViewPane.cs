@@ -8,7 +8,7 @@
 using System;
 using Gtk;
 using GtkSharp;
-using GtkMozEmbed;
+using Gecko;
 
 using MonoDevelop.Internal.Undo;
 using System.Drawing.Printing;
@@ -105,7 +105,7 @@ namespace MonoDevelop.BrowserDisplayBinding
 		public BrowserPane(bool showNavigation) //: base (type)
 		{
 			htmlViewPane = new HtmlViewPane(showNavigation);
-			htmlViewPane.MozillaControl.Title += new EventHandler (OnTitleChanged);
+			htmlViewPane.MozillaControl.TitleChange += new EventHandler (OnTitleChanged);
 		}
 		
 		public BrowserPane() : this(true)
@@ -129,7 +129,7 @@ namespace MonoDevelop.BrowserDisplayBinding
 		
 		private void OnTitleChanged (object o, EventArgs args)
 		{
-			ContentName = htmlViewPane.MozillaControl.GeckoTitle; 
+			ContentName = htmlViewPane.MozillaControl.Title; 
 		}
 	}
 	

@@ -1,6 +1,6 @@
 # leave gdldock first
 # (mkdir ../../build/bin/ hack)
-SUBDIRS = gdldock gtkmozembed-sharp src build data
+SUBDIRS = gdldock src build data
 
 bin_SCRIPTS = monodevelop
 
@@ -43,7 +43,7 @@ endif
 run: runmd
 
 runmd: $(PROGRAM)
-	cd build/bin && MONO_PATH="`pkg-config --variable=libdir monodoc`/monodoc" mono --debug MonoDevelop.exe
+	cd build/bin && LD_LIBRARY_PATH="$(MOZILLA_HOME)" mono --debug MonoDevelop.exe
 
 pad: $(MONOPAD)
 

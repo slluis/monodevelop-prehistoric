@@ -13,7 +13,7 @@ using MonoDevelop.Gui.ErrorHandlers;
 using MonoDevelop.Gui.HtmlControl;
 using MonoDevelop.Core.Services;
 
-using GtkMozEmbed;
+using Gecko;
 
 namespace MonoDevelop.StartPage 
 {

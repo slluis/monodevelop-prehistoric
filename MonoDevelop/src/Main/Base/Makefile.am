@@ -9,9 +9,9 @@ DLLS = /r:System.Drawing /r:ICSharpCode.SharpZipLib.dll \
 	/r:../../../build/bin/MonoDevelop.Gui.Widgets.dll \
 	/r:System.Data /r:System.Web.Services \
 	/r:gtk-sharp /r:gdk-sharp /r:glib-sharp /r:pango-sharp \
-	/r:../../../build/bin/gtkmozembed-sharp.dll \
 	/r:../../../build/bin/gdl-sharp.dll \
-	/r:glade-sharp /r:gnome-sharp /r:gtkhtml-sharp
+	/r:glade-sharp /r:gnome-sharp /r:gtkhtml-sharp \
+	$(GECKO_SHARP)
 
 FILES= \
 ./Gui/Pads/ProjectBrowser/ProjectBrowserView.cs \

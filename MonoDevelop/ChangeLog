@@ -1,3 +1,10 @@
+2004-03-25  Todd Berman <tberman@sevenl.net>
+
+	* configure.in: updated for switchover to gecko-sharp
+	* gtkmozembed/: removed, as we now depend on the mono-cvs gecko-sharp --
+	gtkmozembed-sharp module
+	* Makefile.am: updated for gecko-sharp
+	
 2004-03-22  John Luke  <jluke@cfl.rr.coc>
 
 	* configure.in: make ENABLE_XDGMIME work right
