@@ -314,17 +314,58 @@ namespace Gdl
 
 		Widget ConstructItemsUI ()
 		{
-			return null;
+			Glade.XML gui = LoadInterface ("items_vbox");
+			if (gui == null)
+				return null;
+
+			Gtk.VBox container = gui.GetWidget ("items_vbox") as VBox;
+			Gtk.CheckButton locked_check = gui.GetWidget ("locked_check") as CheckButton;
+			Gtk.TreeView items_list = gui.GetWidget ("items_list") as TreeView;
+
+			locked_check.Toggled += AllLockedToggledCb;
+			if (master != null) {
+				//g_signal_connect (layout->master, "notify::locked", MasterLockedNotifyCb
+				// force update now
+				MasterLockedNotifyCb (master, null);
+			}
+
+			// set models
+			items_list.Model = itemsModel;
+
+			// construct list views
+			CellRendererToggle renderer = new CellRendererToggle ();
+			renderer.Toggled += ShowToggledCb;
+			TreeViewColumn column = new TreeViewColumn ("Visible", renderer, "active", 1);
+			items_list.AppendColumn (column);
+
+			// connect signals
+			container.Destroyed += LayoutUIDestroyed;
+
+			return container;
 		}
 
 		Widget ConstructLayoutsUI ()
 		{
-			return null;
+			Glade.XML gui = LoadInterface ("layouts_vbox");
+
+			if (gui == null)
+				return null;
+
+			Gtk.VBox container = gui.GetWidget ("layouts_vbox") as VBox;
+			Gtk.TreeView layouts_list = gui.GetWidget ("layouts_list") as TreeView;
+			layouts_list.Model = layoutsModel;
+			CellRendererText renderer = new CellRendererText ();
+			renderer.Edited += CellEditedCb;
+			TreeViewColumn column = new TreeViewColumn ("Name", renderer, "text", 0, "editable", 1);
+			layouts_list.AppendColumn (column);
+
+			container.Destroyed += LayoutUIDestroyed;
+			return container;
 		}
 
 		Glade.XML LoadInterface (string topWidget)
 		{
-			return null;
+			return new Glade.XML (null, "layout.glade", topWidget, null);
 		}
 
 		DockObject SetupObject (DockMaster master, XmlNode node)
