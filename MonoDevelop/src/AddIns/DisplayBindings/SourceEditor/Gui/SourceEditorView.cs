@@ -92,18 +92,6 @@ namespace MonoDevelop.SourceEditor.Gui {
 						Console.WriteLine("EXCEPTION: " + e);
 					}
 					break;
-					
-				default:
-					if (fmtr != null) {
-						TextIter itr = Buffer.GetIterAtMark (Buffer.InsertMark);
-						int offset = itr.Offset;
-						int delta = fmtr.FormatLine (this, itr.Line, itr.Offset, (char)key);
-						if (delta != 0) {
-							Buffer.PlaceCursor (Buffer.GetIterAtOffset (offset + delta));
-							return true;
-						}
-					}
-					break;
 			}
 		
 			return base.OnKeyPressEvent (ref evnt);
