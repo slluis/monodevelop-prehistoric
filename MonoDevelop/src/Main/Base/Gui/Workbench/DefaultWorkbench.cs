@@ -304,7 +304,7 @@ namespace ICSharpCode.SharpDevelop.Gui
 				if (fileUtilityService.IsValidFileName(fullFileName) && File.Exists(fullFileName)) {
 					IXmlConvertable prototype = ((IMementoCapable)content).CreateMemento();
 					XmlDocument doc = new XmlDocument();
-					doc.Load(fullFileName);
+					doc.Load (File.OpenRead (fullFileName));
 					
 					return (IXmlConvertable)prototype.FromXmlElement((XmlElement)doc.DocumentElement.ChildNodes[0]);
 				}
