@@ -127,7 +127,7 @@ namespace CSharpBinding.Parser
 			cu = (ICompilationUnit)cSharpVisitor.Visit(fileCompilationUnit, null);
 			if (cu != null) {
 				callingClass = GetInnermostClass();
-				//Console.WriteLine("CallingClass is " + callingClass == null ? "null" : callingClass.Name);
+//				Console.WriteLine("CallingClass is " + callingClass == null ? "null" : callingClass.Name);
 			}
 			//Console.WriteLine("expression = " + expr.ToString());
 			IReturnType type = expr.AcceptVisitor(typeVisitor, null) as IReturnType;
@@ -904,6 +904,8 @@ namespace CSharpBinding.Parser
 		{
 			ArrayList result = new ArrayList();
 			this.parserService = parserService;
+			this.caretLine = caretLine;
+			this.caretColumn = caretColumn;
 			IParseInformation parseInfo = parserService.GetParseInformation(fileName);
 			ICSharpCode.SharpRefactory.Parser.AST.CompilationUnit fileCompilationUnit = parseInfo.MostRecentCompilationUnit.Tag as ICSharpCode.SharpRefactory.Parser.AST.CompilationUnit;
 			if (fileCompilationUnit == null) {
@@ -916,7 +918,7 @@ namespace CSharpBinding.Parser
 			cu = (ICompilationUnit)cSharpVisitor.Visit(fileCompilationUnit, null);
 			if (cu != null) {
 				callingClass = GetInnermostClass();
-//				Console.WriteLine("CallingClass is " + callingClass == null ? "null" : callingClass.Name);
+				Console.WriteLine("CallingClass is " + (callingClass == null ? "null" : callingClass.Name));
 			}
 			foreach (string name in lookupTableVisitor.variables.Keys) {
 				ArrayList variables = (ArrayList)lookupTableVisitor.variables[name];
@@ -930,7 +932,7 @@ namespace CSharpBinding.Parser
 				}
 			}
 			if (callingClass != null) {
-				result = ListMembers(result, callingClass);
+				ListMembers(result, callingClass);
 			}
 			string n = "";
 			result.AddRange(parserService.GetNamespaceContents(project, n, true));
