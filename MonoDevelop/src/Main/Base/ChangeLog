@@ -1,5 +1,9 @@
 2004-04-11  Todd Berman  <tberman@sevenl.net>
 
+	* Gui/Workbench/WorkbenchMemento.cs: ugh, check for valid data too.
+
+2004-04-11  Todd Berman  <tberman@sevenl.net>
+
 	* Gui/Workbench/WorkbenchMemento.cs: fix potential nullrefs.
 
 2004-04-11  Todd Berman  <tberman@sevenl.net>

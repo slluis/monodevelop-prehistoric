@@ -72,14 +72,14 @@ namespace MonoDevelop.Gui
 		
 		WorkbenchMemento(XmlElement element)
 		{
-			if (element.Attributes["bounds"] != null) {
+			if (element.Attributes["bounds"] != null && element.Attributes["bounds"].InnerText != String.Empty) {
 				string[] boundstr = element.Attributes["bounds"].InnerText.Split(new char [] { ',' });
 				
 				bounds = new Rectangle(Int32.Parse(boundstr[0]), Int32.Parse(boundstr[1]), 
 									   Int32.Parse(boundstr[2]), Int32.Parse(boundstr[3]));
 			}
 			
-			if (element.Attributes["formwindowstate"] != null) {
+			if (element.Attributes["formwindowstate"] != null && element.Attributes["formwindowstate"].InnerText != String.Empty) {
 				windowstate = (Gdk.WindowState)Enum.Parse(typeof(Gdk.WindowState), element.Attributes["formwindowstate"].InnerText);
 			}
 			
@@ -87,7 +87,7 @@ namespace MonoDevelop.Gui
 				defaultwindowstate = (FormWindowState)Enum.Parse(typeof(FormWindowState), element.Attributes["defaultformwindowstate"].InnerText);
 			}*/
 
-			if (element.Attributes["fullscreen"] != null) {
+			if (element.Attributes["fullscreen"] != null && element.Attributes["fullscreen"].InnerText != String.Empty) {
 				fullscreen  = Boolean.Parse(element.Attributes["fullscreen"].InnerText);
 			}
 		}
