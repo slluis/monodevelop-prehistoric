@@ -94,7 +94,7 @@ SOURCES= \
 ./src/Document/FoldingStrategy/IFoldingStrategy.cs \
 ./src/Document/FoldingStrategy/FoldMarker.cs \
 ./src/Document/FoldingStrategy/IndentFoldingStrategy.cs \
-./src/Document/DocumentFactory.cs \
+./src/Document/DocumentFactory.cs
 
 DLL=../../../build/bin/MonoDevelop.TextEditor.dll
 REFS= \
