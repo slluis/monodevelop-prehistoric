@@ -1,5 +1,12 @@
 2004-06-02  Todd Berman  <tberman@sevenl.net>
 
+	* Gui/Dialogs/CommonAboutDialog.cs: This is actually how translator
+	credits are supposed to work. Update the po and go ahead and
+	translate the string "translator_credits" to include what you want
+	it to include. It will then show up properly.
+
+2004-06-02  Todd Berman  <tberman@sevenl.net>
+
 	* MonoDevelop.Base.prjx: fixed ICSharpCode.SharpZipLib reference and
 	added new file.
 	* Gui/Dialogs/CombineConfiguration/CombineBuildOptions.cs: new dialog
