@@ -3,7 +3,8 @@ REFERENCES=/r:System.Drawing.dll /r:gtk-sharp.dll /r:gdk-sharp.dll /r:pango-shar
 
 SOURCES = ./FileIcons/FileIconLoader.cs \
 ./AssemblyInfo.cs \
-./VFS/Vfs.cs
+./VFS/Vfs.cs \
+./Glue.cs
 
 all: $(DLL)
 

@@ -176,7 +176,8 @@ namespace MonoDevelop.SourceEditor.InsightWindow
 			//}
 			char val = (char)e.Key;
 			if (ProcessTextAreaKey (e.Key) == false) {
-				control.Buffer.InsertAtCursor (val.ToString ());
+				//control.Buffer.InsertAtCursor (val.ToString ());
+				control.SimulateKeyPress (ref e);
 				return true;
 			} else {
 				return base.OnKeyPressEvent (ref e);

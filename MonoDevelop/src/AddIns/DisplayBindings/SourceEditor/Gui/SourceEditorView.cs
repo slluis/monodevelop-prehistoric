@@ -11,6 +11,7 @@ using MonoDevelop.SourceEditor.CodeCompletion;
 using MonoDevelop.SourceEditor.InsightWindow;
 using MonoDevelop.EditorBindings.Properties;
 using MonoDevelop.EditorBindings.FormattingStrategy;
+using MonoDevelop.Gui.Utils;
 
 namespace MonoDevelop.SourceEditor.Gui {
 	public class SourceEditorView : SourceView, IFormattableDocument {
@@ -37,6 +38,11 @@ namespace MonoDevelop.SourceEditor.Gui {
 			SmartHomeEnd = true;
 			ShowLineNumbers = true;
 			ShowLineMarkers = true;
+		}
+
+		public void SimulateKeyPress (ref Gdk.EventKey evnt)
+		{
+			Glue.SimulateKeyPress (Handle, ref evnt);
 		}
 		
 		protected override bool OnKeyPressEvent (ref Gdk.EventKey evnt)
@@ -74,7 +80,7 @@ namespace MonoDevelop.SourceEditor.Gui {
 					completionWindow.ShowCompletionWindow ((char)key);
 					return retVal;
 				case '(':
-					/*try {
+					try {
 						InsightWindow insightWindow = new InsightWindow(this, ParentEditor.DisplayBinding.ContentName);
 						
 						insightWindow.AddInsightDataProvider(new MethodInsightDataProvider());
@@ -82,10 +88,10 @@ namespace MonoDevelop.SourceEditor.Gui {
 					} catch (Exception e) {
 						Console.WriteLine("EXCEPTION: " + e);
 					}
-					break;*/
+					break;
 				case '[':
 					break;
-					/*try {
+					try {
 						InsightWindow insightWindow = new InsightWindow(this, ParentEditor.DisplayBinding.ContentName);
 						
 						insightWindow.AddInsightDataProvider(new IndexerInsightDataProvider());
@@ -93,7 +99,7 @@ namespace MonoDevelop.SourceEditor.Gui {
 					} catch (Exception e) {
 						Console.WriteLine("EXCEPTION: " + e);
 					}
-					break;*/
+					break;
 			}
 		
 			return base.OnKeyPressEvent (ref evnt);

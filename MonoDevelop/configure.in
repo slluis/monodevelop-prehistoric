@@ -48,6 +48,7 @@ AC_SUBST(MOZILLA_HOME)
 
 AC_OUTPUT([
 Makefile
+libmonodevelop/Makefile
 gdldock/Makefile
 gdldock/gdl/Makefile
 gdldock/sources/Makefile
