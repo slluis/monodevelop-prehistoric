@@ -55,7 +55,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs.OptionPanels.CompletionDatabaseWi
 				createButton.Label = resourceService.GetString("Dialog.Wizards.CodeCompletionDatabaseWizard.CreateDatabasePanel.CancelCreationButton");
 			}
 		}
-				// changed to work during GLib.Idle
+				// changed to work during GLib.Idle
 		bool CreateDatabase()
 		{
 			try {

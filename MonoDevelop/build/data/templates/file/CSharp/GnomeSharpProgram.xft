@@ -25,7 +25,7 @@ namespace MyProgram
 		
 		static CreatedProgram ()
 		{
-			type = RegisterGType (typeof (CreatedProgram));		}
+			type = RegisterGType (typeof (CreatedProgram));		}
 		public CreatedProgram () : base (type)
 		{
 		}

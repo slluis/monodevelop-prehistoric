@@ -25,7 +25,7 @@ namespace MyWindow
 		
 		static CreatedWindow ()
 		{
-			type = RegisterGType (typeof (CreatedWindow));		}
+			type = RegisterGType (typeof (CreatedWindow));		}
 		public CreatedWindow () : base (type)
 		{
 		}
