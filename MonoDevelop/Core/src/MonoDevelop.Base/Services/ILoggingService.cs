@@ -47,7 +47,7 @@ namespace MonoDevelop.Services
 
 	public class LogAppendedArgs
 	{
-		public string Category, Message, Level;
+		public string Message, Level;
 		public DateTime Timestamp;
 	}
 }

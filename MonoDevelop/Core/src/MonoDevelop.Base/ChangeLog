@@ -1,5 +1,13 @@
 2005-04-01	Christian Hergert	<christian.hergert@gmail.com>
 
+	* Services/ILoggingService.cs: Update the LogAppendedArgs and remove the
+	category.
+	* Services/DefaultLoggingService.cs: Remove the need for the StackTrace.
+	We dont really need that in depth of information currently. Will look to
+	find this feature directly in log4net and update soon.
+
+2005-04-01	Christian Hergert	<christian.hergert@gmail.com>
+
 	* Commands/VBConverter/ConvertBuffer.cs: Convert to use new Logging
 	framework.
 	* Commands/MenuItemBuilders.cs
