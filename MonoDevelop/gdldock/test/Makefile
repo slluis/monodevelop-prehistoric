@@ -1,4 +1,4 @@
-ASSEMBLY = ../../build/bin/GdkDockTest.exe
+ASSEMBLY = ../../build/bin/GdlDockTest.exe
 
 all:
 	mcs -g GdlDockTest.cs /r:gtk-sharp.dll /r:../../build/bin/gdl-sharp.dll /r:gnome-sharp.dll -o $(ASSEMBLY)
