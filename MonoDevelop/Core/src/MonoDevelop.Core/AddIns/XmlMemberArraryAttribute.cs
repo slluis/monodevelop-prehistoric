@@ -16,7 +16,7 @@ namespace MonoDevelop.Core.AddIns
 	/// fileextensions = ".cpp,.cc,.C"
 	/// </summary>
 	[AttributeUsage(AttributeTargets.Field, Inherited=true)]
-	public class XmlMemberArrayAttribute : Attribute
+	public sealed class XmlMemberArrayAttribute : Attribute
 	{
 		char[]   separator = new char[] { ',' };
 		string name;

@@ -10,6 +10,12 @@
 	* Services/SaveErrorChooseDialog.cs:
 	* Services/SaveErrorInformDialog.cs: remove SWF cruft
 
+	* ./AddIns/Codons/CodonNameAttribute.cs
+	* ./AddIns/PathAttribute.cs
+	* ./AddIns/XmlMemberAttributeAttribute.cs
+	* ./AddIns/Conditions/ConditionAttribute.cs
+	* ./AddIns/XmlMemberArraryAttribute.cs: mark attributes sealed
+
 2005-01-31  Todd Berman  <tberman@off.net>
 
 	* AddIns/AddIn.cs: Remove usage of AddIn.xsd, it is a bad solution.

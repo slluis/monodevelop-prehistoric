@@ -14,7 +14,7 @@ namespace MonoDevelop.Core.AddIns.Conditions
 	/// Indicates that class represents a condition.
 	/// </summary>
 	[AttributeUsage(AttributeTargets.Class, Inherited=false, AllowMultiple=false)]
-	public class ConditionAttribute : Attribute
+	public sealed class ConditionAttribute : Attribute
 	{
 		/// <summary>
 		/// Creates a new instance.

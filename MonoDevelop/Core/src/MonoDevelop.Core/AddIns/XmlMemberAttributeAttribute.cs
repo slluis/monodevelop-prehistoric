@@ -14,7 +14,7 @@ namespace MonoDevelop.Core.AddIns
 	///  Indicates that field should be treated as a xml attribute.
 	/// </summary>
 	[AttributeUsage(AttributeTargets.Field, Inherited=true)]
-	public class XmlMemberAttributeAttribute : Attribute
+	public sealed class XmlMemberAttributeAttribute : Attribute
 	{
 		string name;
 		bool   isRequired;

@@ -14,7 +14,7 @@ namespace MonoDevelop.Core.AddIns.Codons
 	/// Indicates that class represents a codon.
 	/// </summary>
 	[AttributeUsage(AttributeTargets.Class, Inherited = false, AllowMultiple = false)]
-	public class CodonNameAttribute : Attribute
+	public sealed class CodonNameAttribute : Attribute
 	{
 		string name;
 		

@@ -11,7 +11,7 @@ using System.Reflection;
 namespace MonoDevelop.Core.AddIns
 {
 	[AttributeUsage(AttributeTargets.Field, Inherited=true)]
-	public class PathAttribute : Attribute
+	public sealed class PathAttribute : Attribute
 	{
 		/// <summary>
 		/// Constructs a new instance.
