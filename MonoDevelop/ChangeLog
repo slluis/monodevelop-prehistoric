@@ -1,3 +1,8 @@
+2004-03-03 John BouAntoun  <jba-mono@optusnet.com.au>
+	* src/Main/Base/Internal/Project/Project/IncludeFilesDialog.cs : Changed ShowDialog() to do a Dialog.Run() instead of Dialog.ShowAll().
+	* src/Main/Base/Internal/Project/Project/AbstractProject.cs : removed comment that said to fix the IncludeFilesDialog
+	* data/resources/glade/Base.glade : made the treeview's scrolled window visible from start
+
 2004-03-02  Mike Kestner  <mkestner@ximian.com>
 
 	* configure.in : check for mono debugger

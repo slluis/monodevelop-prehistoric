@@ -177,7 +177,7 @@ namespace ICSharpCode.SharpDevelop.Internal.Project
 		
 		public void ShowDialog()
 		{
-			this.IncludeFilesDialogWidget.ShowAll();
+			this.IncludeFilesDialogWidget.Run();
 		}
 
 	}

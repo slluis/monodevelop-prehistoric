@@ -232,9 +232,6 @@ namespace ICSharpCode.SharpDevelop.Internal.Project
 				} else {
 					new IncludeFilesDialog(this, newFiles).ShowDialog();
 				}
-				
-				// FIXME: need to find a way to do the following
-				// force the project pad to refresh - because it has already loaded before the new files were found
 			}
 		}
 		
