@@ -164,7 +164,7 @@ namespace MonoDevelop.Core.Services
 		{
 			string message = state as string;
 			using (Gtk.MessageDialog md = new Gtk.MessageDialog ((Gtk.Window) WorkbenchSingleton.Workbench, Gtk.DialogFlags.Modal | Gtk.DialogFlags.DestroyWithParent, Gtk.MessageType.Info, Gtk.ButtonsType.Ok, message)) {
-				md.Response += Gtk.ResponseHandler(OnMessageResponse);
+				md.Response += new Gtk.ResponseHandler(OnMessageResponse);
 				md.ShowAll ();
 			}
 		}
