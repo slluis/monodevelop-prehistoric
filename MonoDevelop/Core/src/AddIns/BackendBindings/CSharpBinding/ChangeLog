@@ -1,3 +1,9 @@
+2004-12-09  Todd Berman  <tberman@off.net>
+
+	* CSharpBindingCompilerManager.cs: mcs in Mono 1.1.3 now outputs error
+	on stderr instead of stdout. The old code just inspected stdout, now
+	we look at both.
+
 2004-12-08  Everaldo Canuto  <everaldo_canuto@yahoo.com.br>
 
 	* CSharpBindingCompilerManager.cs: Add support to multiple compilers

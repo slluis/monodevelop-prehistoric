@@ -121,7 +121,7 @@ namespace CSharpBinding
 			string outstr =  compilerName + " @" +responseFileName;
 			Executor.ExecWaitWithCapture(outstr, tf, ref output, ref error);
 			
-			ICompilerResult result = ParseOutput(tf, output);
+			ICompilerResult result = ParseOutput(tf, output, error);
 			
 			File.Delete(responseFileName);
 			File.Delete(output);
@@ -291,7 +291,7 @@ namespace CSharpBinding
 			//Executor.ExecWaitWithCapture(outstr,  tf, ref output, ref error);
 			DoCompilation(outstr, tf, ref output, ref error);
 			
-			ICompilerResult result = ParseOutput(tf, output);
+			ICompilerResult result = ParseOutput(tf, output, error);
 			project.CopyReferencesToOutputPath(false);
 			File.Delete(responseFileName);
 			File.Delete(output);
@@ -575,14 +575,9 @@ namespace CSharpBinding
 			
 		}
 		
-		ICompilerResult ParseOutput(TempFileCollection tf, string file)
+		ICompilerResult ParseOutput(TempFileCollection tf, string stdout, string stderr)
 		{
 			StringBuilder compilerOutput = new StringBuilder();
-			
-			StreamReader sr = File.OpenText(file);
-			
-			// skip fist whitespace line
-			//sr.ReadLine();
 			
 			CompilerResults cr = new CompilerResults(tf);
 			
@@ -590,24 +585,27 @@ namespace CSharpBinding
 			Regex normalError  = new Regex(@"(?<file>.*)\((?<line>\d+),(?<column>\d+)\):\s+(?<error>\w+)\s+(?<number>[\d\w]+):\s+(?<message>.*)", RegexOptions.Compiled);
 			Regex generalError = new Regex(@"(?<error>.+)\s+(?<number>[\d\w]+):\s+(?<message>.*)", RegexOptions.Compiled);
 			
-			while (true) {
-				string curLine = sr.ReadLine();
-				compilerOutput.Append(curLine);
-				compilerOutput.Append('\n');
-				if (curLine == null) {
-					break;
-				}
-				curLine = curLine.Trim();
-				if (curLine.Length == 0) {
-					continue;
-				}
+			foreach (string s in new string[] { stdout, stderr }) {
+				StreamReader sr = File.OpenText (s);
+				while (true) {
+					string curLine = sr.ReadLine();
+					compilerOutput.Append(curLine);
+					compilerOutput.Append('\n');
+					if (curLine == null) {
+						break;
+					}
+					curLine = curLine.Trim();
+					if (curLine.Length == 0) {
+						continue;
+					}
 				
-				CompilerError error = CreateErrorFromString (curLine);
-				
-				if (error != null)
-					cr.Errors.Add (error);
+					CompilerError error = CreateErrorFromString (curLine);
+					
+					if (error != null)
+						cr.Errors.Add (error);
+				}
+				sr.Close();
 			}
-			sr.Close();
 			return new DefaultCompilerResult(cr, compilerOutput.ToString());
 		}
 		
@@ -660,6 +658,7 @@ namespace CSharpBinding
 		// Snatched from our codedom code :-).
 		static Regex regexError = new Regex (@"^(\s*(?<file>.*)\((?<line>\d*)(,(?<column>\d*))?\)\s+)*(?<level>\w+)\s*(?<number>.*):\s(?<message>.*)",
 			RegexOptions.Compiled | RegexOptions.ExplicitCapture);
+		
 		private static CompilerError CreateErrorFromString(string error_string)
 		{
 			// When IncludeDebugInformation is true, prevents the debug symbols stats from braeking this.
