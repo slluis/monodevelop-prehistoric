@@ -6,12 +6,14 @@
 // </file>
 
 using System;
+using MonoDevelop.Services;
 
 namespace MonoDevelop.Internal.Project
 {
 	public class UnknownProjectVersionException : Exception
 	{
-		public UnknownProjectVersionException(string version) : base(version)
+		public UnknownProjectVersionException (string file, string version)
+		: base (string.Format (GettextCatalog.GetString ("The file '{0}' has an unknown format version (version '{1}')'."), file, version))
 		{
 		}
 	}

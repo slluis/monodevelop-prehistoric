@@ -24,7 +24,7 @@ using System.Reflection;
 
 namespace MonoDevelop.Services
 {
-	internal class CodeCompletionDatabase
+	internal class CodeCompletionDatabase: IDisposable
 	{
 		static readonly int MAX_ACTIVE_COUNT = 100;
 		static readonly int MIN_ACTIVE_COUNT = 50;
@@ -53,6 +53,10 @@ namespace MonoDevelop.Services
 			files = new Hashtable ();
 			references = new ArrayList ();
 			headers = new Hashtable ();
+		}
+		
+		public virtual void Dispose ()
+		{
 		}
 		
 		public string DataFile

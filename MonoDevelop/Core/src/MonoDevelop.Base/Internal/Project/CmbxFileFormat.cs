@@ -89,8 +89,10 @@ namespace MonoDevelop.Internal.Project
 			DataSerializer serializer = new DataSerializer (Runtime.ProjectService.DataContext, file);
 			ICombineReader combineReader = null;
 			
-			if (version == "1.0")
+			if (version == "1.0" || version == "1") {
 				combineReader = new CombineReaderV1 (serializer, monitor);
+				monitor.ReportWarning (string.Format (GettextCatalog.GetString ("The file '{0}' is using an old combine file format. It will be automatically converted to the current format."), file));
+			}
 			else if (version == "2.0")
 				combineReader = new CombineReaderV2 (serializer, monitor);
 			
@@ -98,7 +100,7 @@ namespace MonoDevelop.Internal.Project
 				if (combineReader != null)
 					return combineReader.ReadCombine (reader);
 				else
-					throw new UnknownProjectVersionException (version);
+					throw new UnknownProjectVersionException (file, version);
 			} finally {
 				reader.Close ();
 			}

@@ -381,6 +381,7 @@ namespace MonoDevelop.Services
 				if (db != null) {
 					db.Write ();
 					databases.Remove (uri);
+					db.Dispose ();
 				}
 			}
 		}

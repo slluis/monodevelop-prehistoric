@@ -232,7 +232,8 @@ namespace MonoDevelop.Services
 					filename = validcombine;
 			}
 			
-			using (IProgressMonitor monitor = Runtime.TaskService.GetLoadProgressMonitor ()) {
+			IProgressMonitor monitor = Runtime.TaskService.GetLoadProgressMonitor ();
+			try {
 				CombineEntry entry = ReadFile (filename, monitor);
 				if (!(entry is Combine)) {
 					Combine loadingCombine = new Combine();
@@ -256,6 +257,10 @@ namespace MonoDevelop.Services
 				monitor.ReportSuccess (GettextCatalog.GetString ("Combine loaded."));
 
 				OnCombineOpened(new CombineEventArgs(openCombine));
+			} catch (Exception ex) {
+				monitor.ReportError ("Load operation failed.", ex);
+			} finally {
+				monitor.Dispose ();
 			}
 		}
 		

@@ -1,3 +1,16 @@
+2005-01-26  Lluis Sanchez Gual  <lluis@novell.com>
+
+	* Services/Tasks/StatusProgressMonitor.cs: Forgot to save the
+	showErrorDialogs parameter.
+	* Services/Project/DefaultProjectService.cs: Catch and report combine
+	load errors.
+	* Internal/Project/CmbxFileFormat.cs:
+	* Internal/Project/PrjxFileFormat.cs: Version '1' is the same as '1.0.
+	* Internal/Project/Project/UnknownProjectVersionException.cs: Improved
+	error message.
+	* Internal/ProgressMonitoring/BaseProgressMonitor.cs: \n is not nice
+	in the status bar.
+
 2005-01-25  Todd Berman  <tberman@off.net>
 
 	* Gui/Workbench/Layouts/SdiWorkspaceWindow.cs: Add ShowNotification
