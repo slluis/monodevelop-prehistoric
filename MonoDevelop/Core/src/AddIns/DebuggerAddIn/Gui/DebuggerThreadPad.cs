@@ -19,9 +19,12 @@ namespace MonoDevelop.Debugger
 	{
 		Gtk.TreeView tree;
 		Gtk.TreeStore store;
+		Hashtable thread_rows;
 
 		public DebuggerThreadPad ()
 		{
+			thread_rows = new Hashtable ();
+
 			this.ShadowType = ShadowType.In;
 
 			store = new TreeStore (typeof (int),
@@ -75,11 +78,10 @@ namespace MonoDevelop.Debugger
 			Add (tree);
 			ShowAll ();
 
-			DebuggingService dbgr = (DebuggingService)ServiceManager.GetService (typeof (DebuggingService));
-			dbgr.ThreadStateEvent += new EventHandler (OnThreadEvent);
+			((DebuggingService)Runtime.DebuggingService).ThreadStateEvent += new EventHandler (OnThreadEvent);
 		}
 
-		void add_thread (Process thread)
+		void AddThread (Process thread)
 		{
 			TreeIter iter;
 			store.Append (out iter);
@@ -87,29 +89,82 @@ namespace MonoDevelop.Debugger
 			store.SetValue (iter, 1, new GLib.Value (thread.PID));
 			store.SetValue (iter, 2, new GLib.Value (thread.State.ToString()));
 			if (thread.IsStopped)
-			  store.SetValue (iter, 3, new GLib.Value (thread.GetBacktrace().Frames[0].SourceAddress.Name));
+				store.SetValue (iter, 3, new GLib.Value (thread.GetBacktrace().Frames[0].SourceAddress.Name));
 			else
-			  store.SetValue (iter, 3, new GLib.Value (""));
+				store.SetValue (iter, 3, new GLib.Value (""));
+			thread_rows.Add (thread, new TreeRowReference (store, store.GetPath (iter)));
 		}
 
-		Hashtable iters = null;
-
-		public void CleanDisplay ()
+		void UpdateThread (Process thread)
 		{
-			store.Clear ();
-			iters = new Hashtable ();
+			TreeRowReference row = (TreeRowReference)thread_rows[thread];
+			TreeIter iter;
+
+			if (row != null && store.GetIter (out iter, row.Path)) {
+				if (thread.ID != (int)store.GetValue (iter, 0))
+					store.SetValue (iter, 0, thread.ID);
+				if (thread.PID != (int)store.GetValue (iter, 1))
+					store.SetValue (iter, 1, thread.PID);
+				if (thread.State.ToString() != (string)store.GetValue (iter, 2))
+					store.SetValue (iter, 2, thread.State.ToString());
+
+				string location;
+				if (thread.IsStopped)
+					location = thread.GetBacktrace().Frames[0].SourceAddress.Name;
+				else
+					location = "";
+
+				if (location != (string)store.GetValue (iter, 3))
+					store.SetValue (iter, 3, location);
+			}
+			else {
+				AddThread (thread);
+			}
+		}
+
+		void RemoveThread (Process thread)
+		{
+			TreeRowReference row = (TreeRowReference)thread_rows[thread];
+			TreeIter iter;
+
+			if (row != null && store.GetIter (out iter, row.Path))
+				store.Remove (ref iter);
+
+			thread_rows.Remove (thread);
 		}
 
 		public void UpdateDisplay ()
 		{
-			CleanDisplay ();
+			Hashtable threads_to_remove = new Hashtable();
 
-			DebuggingService dbgr = (DebuggingService)ServiceManager.GetService (typeof (DebuggingService));
-			Process[] threads = dbgr.Threads;
+			foreach (Process thread in thread_rows.Keys) {
+				threads_to_remove.Add (thread, thread);
+			}
 
-			foreach (Process t in threads)
-				if (!t.IsDaemon)
-					add_thread (t);
+			foreach (Process t in ((DebuggingService)Runtime.DebuggingService).Threads) {
+				if (!t.IsDaemon) {
+					UpdateThread (t);
+					threads_to_remove.Remove (t);
+				}
+			}
+
+			foreach (Process t in threads_to_remove.Keys) {
+				RemoveThread (t);
+			}
+		}
+
+		public void CleanDisplay ()
+		{
+			UpdateDisplay ();
+		}
+
+		public void RedrawContent ()
+		{
+			UpdateDisplay ();
+		}
+
+		public void BringToFront ()
+		{
 		}
 
 		protected void OnThreadEvent (object o, EventArgs args)
@@ -141,15 +196,6 @@ namespace MonoDevelop.Debugger
 			get {
 				return MonoDevelop.Gui.Stock.OutputIcon;
 			}
-		}
-
-		public void RedrawContent ()
-		{
-			UpdateDisplay ();
-		}
-
-		public void BringToFront ()
-		{
 		}
 
                 protected virtual void OnTitleChanged(EventArgs e)

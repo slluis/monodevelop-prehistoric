@@ -57,7 +57,7 @@ namespace MonoDevelop.Debugger {
 		public string EvaluateDebuggerDisplay (ITargetObject obj, string display)
 		{
 			StringBuilder sb = new StringBuilder ("");
-			DebuggingService dbgr = (DebuggingService)ServiceManager.GetService (typeof (DebuggingService));
+			DebuggingService dbgr = (DebuggingService)Runtime.DebuggingService;
 			EvaluationContext ctx = new EvaluationContext (obj);
 
 			ctx.CurrentProcess = new ProcessHandle (dbgr.MainThread);

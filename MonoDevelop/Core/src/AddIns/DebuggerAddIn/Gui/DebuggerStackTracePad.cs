@@ -44,10 +44,9 @@ namespace MonoDevelop.Debugger
 			Add (tree);
 			ShowAll ();
 
-			DebuggingService dbgr = (DebuggingService)ServiceManager.GetService (typeof (DebuggingService));
-			dbgr.PausedEvent += new EventHandler (OnPausedEvent);
-			dbgr.ResumedEvent += new EventHandler (OnResumedEvent);
-			dbgr.StoppedEvent += new EventHandler (OnStoppedEvent);
+			Runtime.DebuggingService.PausedEvent += new EventHandler (OnPausedEvent);
+			Runtime.DebuggingService.ResumedEvent += new EventHandler (OnResumedEvent);
+			Runtime.DebuggingService.StoppedEvent += new EventHandler (OnStoppedEvent);
 		}
 
 		public void UpdateDisplay ()
@@ -55,8 +54,7 @@ namespace MonoDevelop.Debugger
 			if ((current_frame == null) || (current_frame.Method == null))
 				return;
 
-			DebuggingService dbgr = (DebuggingService)ServiceManager.GetService (typeof (DebuggingService));
-			string[] trace = dbgr.Backtrace;
+			string[] trace = Runtime.DebuggingService.Backtrace;
 
 			TreeIter it;
 			if (!store.GetIterFirst (out it)) {
@@ -89,8 +87,7 @@ namespace MonoDevelop.Debugger
 
 		protected void OnPausedEvent (object o, EventArgs args)
 		{
-			DebuggingService dbgr = (DebuggingService)ServiceManager.GetService (typeof (DebuggingService));
-			current_frame = (StackFrame)dbgr.CurrentFrame;
+			current_frame = (StackFrame)Runtime.DebuggingService.CurrentFrame;
 			UpdateDisplay ();
 		}
 

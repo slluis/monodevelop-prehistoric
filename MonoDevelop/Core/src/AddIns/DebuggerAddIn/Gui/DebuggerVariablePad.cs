@@ -90,9 +90,8 @@ namespace MonoDevelop.Debugger
 			Add (tree);
 			ShowAll ();
 
-			DebuggingService dbgr = (DebuggingService)ServiceManager.GetService (typeof (DebuggingService));
-			dbgr.PausedEvent += new EventHandler (OnPausedEvent);
-			dbgr.StoppedEvent += new EventHandler (OnStoppedEvent);
+			Runtime.DebuggingService.PausedEvent += new EventHandler (OnPausedEvent);
+			Runtime.DebuggingService.StoppedEvent += new EventHandler (OnStoppedEvent);
 		}
 
 		bool InsertArrayChildren (TreeIter parent, ITargetArrayObject array)
@@ -220,8 +219,6 @@ namespace MonoDevelop.Debugger
 					ITargetStructObject proxy_obj = ctor.Type.InvokeStatic (frame, args, false) as ITargetStructObject;
 
 					if (proxy_obj != null) {
-						ResourceService res = (ResourceService)ServiceManager.GetService (typeof (ResourceService));
-
 						foreach (ITargetPropertyInfo prop in proxy_obj.Type.Properties) {
 							InsertStructMember (parent, proxy_obj, prop, false);
 						}
@@ -230,7 +227,7 @@ namespace MonoDevelop.Debugger
 						store.SetValue (iter, NAME_COL, "Raw View");
 						store.SetValue (iter, RAW_VIEW_COL, true);
 
-						Gdk.Pixbuf icon = res.GetIcon (Stock.Class, Gtk.IconSize.Menu);
+						Gdk.Pixbuf icon = Runtime.ResourceService.GetIcon (Stock.Class, Gtk.IconSize.Menu);
 						if (icon != null)
 							store.SetValue (iter, PIXBUF_COL, icon);
 
@@ -252,7 +249,7 @@ namespace MonoDevelop.Debugger
 
 #if NET_2_0
 			if (!raw_view) {
-				DebuggingService dbgr = (DebuggingService)ServiceManager.GetService (typeof (DebuggingService));
+				DebuggingService dbgr = (DebuggingService)Runtime.DebuggingService;
 				DebuggerTypeProxyAttribute pattr = GetDebuggerTypeProxyAttribute (dbgr, sobj);
 
 				if (pattr != null) {
@@ -400,7 +397,7 @@ namespace MonoDevelop.Debugger
 			case TargetObjectKind.Class:
 				try {
 #if NET_2_0
-					DebuggingService dbgr = (DebuggingService)ServiceManager.GetService (typeof (DebuggingService));
+					DebuggingService dbgr = (DebuggingService)Runtime.DebuggingService;
 					DebuggerDisplayAttribute dattr = GetDebuggerDisplayAttribute (dbgr, obj);
 					if (dattr != null) {
 						return dbgr.AttributeHandler.EvaluateDebuggerDisplay (obj, dattr.Value);
@@ -424,13 +421,11 @@ namespace MonoDevelop.Debugger
 
 		void AddObject (string name, string icon_name, ITargetObject obj, TreeIter iter)
 		{
-			AmbienceService amb = (AmbienceService)ServiceManager.GetService (typeof (AmbienceService));
-			ResourceService res = (ResourceService)ServiceManager.GetService (typeof (ResourceService));
-
 			store.SetValue (iter, NAME_COL, name);
 			store.SetValue (iter, VALUE_COL, GetObjectValueString (obj));
-			store.SetValue (iter, TYPE_COL, obj == null ? "" : amb.CurrentAmbience.GetIntrinsicTypeName (obj.TypeInfo.Type.Name));
-			Gdk.Pixbuf icon = res.GetIcon (icon_name, Gtk.IconSize.Menu);
+			store.SetValue (iter, TYPE_COL,
+					obj == null ? "" : Runtime.Ambience.CurrentAmbience.GetIntrinsicTypeName (obj.TypeInfo.Type.Name));
+			Gdk.Pixbuf icon = Runtime.ResourceService.GetIcon (icon_name, Gtk.IconSize.Menu);
 			if (icon != null)
 				store.SetValue (iter, PIXBUF_COL, icon);
 			if (obj != null)
@@ -439,24 +434,22 @@ namespace MonoDevelop.Debugger
 
 		string GetIcon (ITargetObject obj)
 		{
-			IconService iconSrv = (IconService)ServiceManager.GetService (typeof (IconService));
 			string icon = "";
 
 			if (obj.TypeInfo.Type.TypeHandle is Type)
-				icon = iconSrv.GetIcon ((Type)obj.TypeInfo.Type.TypeHandle);
+				icon = Runtime.IconService.GetIcon ((Type)obj.TypeInfo.Type.TypeHandle);
 
 			return icon;
 		}
 
 		string GetIcon (ITargetMemberInfo member)
 		{
-			IconService iconSrv = (IconService)ServiceManager.GetService (typeof (IconService));
 			string icon = "";
 
 			if (member.Handle is PropertyInfo)
-				icon = iconSrv.GetIcon ((PropertyInfo)member.Handle);
+				icon = Runtime.IconService.GetIcon ((PropertyInfo)member.Handle);
 			else if (member.Handle is FieldInfo)
-				icon = iconSrv.GetIcon ((FieldInfo)member.Handle);
+				icon = Runtime.IconService.GetIcon ((FieldInfo)member.Handle);
 
 			return icon;
 		}
@@ -622,15 +615,13 @@ namespace MonoDevelop.Debugger
 
 		protected void OnStoppedEvent (object o, EventArgs args)
 		{
-			DebuggingService dbgr = (DebuggingService)ServiceManager.GetService (typeof (DebuggingService));
-			current_frame = (Mono.Debugger.StackFrame)dbgr.CurrentFrame;
+			current_frame = (Mono.Debugger.StackFrame)Runtime.DebuggingService.CurrentFrame;
 			UpdateDisplay ();
 		}
 
 		protected void OnPausedEvent (object o, EventArgs args)
 		{
-			DebuggingService dbgr = (DebuggingService)ServiceManager.GetService (typeof (DebuggingService));
-			current_frame = (Mono.Debugger.StackFrame)dbgr.CurrentFrame;
+			current_frame = (Mono.Debugger.StackFrame)Runtime.DebuggingService.CurrentFrame;
 			UpdateDisplay ();
 		}
 

@@ -11,11 +11,10 @@ namespace MonoDevelop.Debugger.Commands
 	{
 		public override void Run ()
 		{
-			DebuggingService dbgr = (DebuggingService)ServiceManager.GetService (typeof (DebuggingService));
-			if (dbgr.IsRunning)
-				dbgr.Pause ();
+			if (Runtime.DebuggingService.IsRunning)
+				Runtime.DebuggingService.Pause ();
 			else
-				dbgr.Resume ();
+				Runtime.DebuggingService.Resume ();
 		}
 	}
 
@@ -23,9 +22,7 @@ namespace MonoDevelop.Debugger.Commands
 	{
 		public override void Run ()
 		{
-			DebuggingService dbgr = (DebuggingService)ServiceManager.GetService (typeof (DebuggingService));
-
-			dbgr.Stop ();
+			Runtime.DebuggingService.Stop();
 		}
 	}
 
@@ -33,9 +30,7 @@ namespace MonoDevelop.Debugger.Commands
 	{
 		public override void Run ()
 		{
-			DebuggingService dbgr = (DebuggingService)ServiceManager.GetService (typeof (DebuggingService));
-			
-			dbgr.StepOver ();
+			Runtime.DebuggingService.StepOver();
 		}
 	}
 
@@ -43,9 +38,7 @@ namespace MonoDevelop.Debugger.Commands
 	{
 		public override void Run ()
 		{
-			DebuggingService dbgr = (DebuggingService)ServiceManager.GetService (typeof (DebuggingService));
-
-			dbgr.StepInto ();
+			Runtime.DebuggingService.StepInto();
 		}
 	}
 
@@ -54,26 +47,17 @@ namespace MonoDevelop.Debugger.Commands
 
 		public override void Run ()
 		{
-			DebuggingService dbgr = (DebuggingService)ServiceManager.GetService (typeof (DebuggingService));
-			IProjectService projServ = (IProjectService)ServiceManager.GetService (typeof (IProjectService));
+			DebuggingService dbgr = (DebuggingService)Runtime.DebuggingService;
 			
-			if (projServ.CurrentOpenCombine != null) {
-				//try {
-					if (projServ.NeedsCompiling) {
-						projServ.BuildActiveCombine ().WaitForCompleted ();
-					}
-					//					if (projServ.BeforeStartProject != null)
-					//						projServ.BeforeStartProject (projServ, null);
-
+			if (Runtime.ProjectService.CurrentOpenCombine != null) {
+				if (Runtime.ProjectService.NeedsCompiling) {
+					Runtime.ProjectService.BuildActiveCombine ().WaitForCompleted ();
+				}
 #if NET_2_0
-					dbgr.AttributeHandler.Rescan();
+				dbgr.AttributeHandler.Rescan();
 #endif
 
-					projServ.CurrentOpenCombine.Debug (dbgr.DebugProgressMonitor);
-				//} catch {
-				//	IMessageService msgServ = (IMessageService)ServiceManager.Services.GetService (typeof (IMessageService));
-				//	msgServ.ShowError ("Can't execute the debugger");
-				//}
+				Runtime.ProjectService.CurrentOpenCombine.Debug (dbgr.DebugProgressMonitor);
 			}
 
 		}

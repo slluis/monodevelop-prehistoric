@@ -1,3 +1,20 @@
+2005-03-31  Chris Toshok  <toshok@ximian.com>
+
+	* DebuggingService.cs: track BreakpointHandle api change, and use
+	Runtime.DispatchService instead of Gtk.ThreadNotify.
+
+	* DebuggerCommands.cs: use Runtime.* instead of
+	ServiceManager.GetService(...)
+
+	* DebuggerAttributeHandler.cs: same.
+	
+	* Gui/DebuggerStackTracePad.cs: same.
+
+	* Gui/DebuggerStackVariablePad.cs: same.
+
+	* Gui/DebuggerThreadPad.cs: same, and make this properly
+	update-without-clearing-the-store, like the other pads.
+
 2005-03-29  Chris Toshok  <toshok@ximian.com>
 
 	* Gui/DebuggerVariablePad.cs: display "this" if we're in a method

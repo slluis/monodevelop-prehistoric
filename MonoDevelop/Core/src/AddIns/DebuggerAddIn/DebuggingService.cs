@@ -126,7 +126,7 @@ namespace MonoDevelop.Debugger
 		{
 			string key = filename + ":" + linenum;
 			if (Debugging)
-				((BreakpointHandle)breakpoints [key]).RemoveBreakpoint (proc);
+				((BreakpointHandle)breakpoints [key]).Remove (proc);
 
 			breakpoints.Remove (key);
 		}
@@ -150,7 +150,7 @@ namespace MonoDevelop.Debugger
 				process.DebuggerError += new DebuggerErrorHandler (debugger_error);
 			}
 
-			new Gtk.ThreadNotify (new Gtk.ReadyEvent (EmitThreadStateEvent)).WakeupMain();
+			Runtime.DispatchService.GuiDispatch (new StatefulMessageHandler (EmitThreadStateEvent), null);
 		}
 
 		private void thread_exited (ThreadManager manager, Process process)
@@ -159,7 +159,7 @@ namespace MonoDevelop.Debugger
 				procs.Remove (process.ID);
 			}
 
-			new Gtk.ThreadNotify (new Gtk.ReadyEvent (EmitThreadStateEvent)).WakeupMain();
+			Runtime.DispatchService.GuiDispatch (new StatefulMessageHandler (EmitThreadStateEvent), null);
 		}
 
 		private void initialized_event (ThreadManager manager, Process process)
@@ -171,7 +171,7 @@ namespace MonoDevelop.Debugger
 			proc.DebuggerError += new DebuggerErrorHandler (debugger_error);
 			proc.TargetEvent += new TargetEventHandler (target_event);
 
-			new Gtk.ThreadNotify (new Gtk.ReadyEvent (EmitStarted)).WakeupMain();
+			Runtime.DispatchService.GuiDispatch (new StatefulMessageHandler (EmitStarted), null);
 		}
 
 		void target_output (bool is_stderr, string line)
@@ -194,11 +194,11 @@ namespace MonoDevelop.Debugger
 			switch (args.Type) {
 			case TargetEventType.TargetExited:
 			case TargetEventType.TargetSignaled:
-				new Gtk.ThreadNotify (new Gtk.ReadyEvent (KillApplication)).WakeupMain();
+				Runtime.DispatchService.GuiDispatch (new StatefulMessageHandler (KillApplication), null);
 				break;
 			case TargetEventType.TargetStopped:
 			case TargetEventType.TargetRunning:
-				new Gtk.ThreadNotify (new Gtk.ReadyEvent (ChangeState)).WakeupMain();
+				Runtime.DispatchService.GuiDispatch (new StatefulMessageHandler (ChangeState), null);
 				break;
 			case TargetEventType.TargetHitBreakpoint:
 			default:
@@ -227,23 +227,23 @@ namespace MonoDevelop.Debugger
 			}
 		}
 
-		void EmitThreadStateEvent ()
+		void EmitThreadStateEvent (object obj)
 		{
 			if (ThreadStateEvent != null)
 				ThreadStateEvent (this, new EventArgs ());
 		}
 
-		void EmitStarted ()
+		void EmitStarted (object obj)
 		{
 			insert_breakpoints ();
 
 			if (StartedEvent != null)
 				StartedEvent (this, new EventArgs ());
 
-			ChangeState ();
+			ChangeState (obj);
 		}
 
-		void ChangeState ()
+		void ChangeState (object obj)
 		{
 			if (ThreadStateEvent != null)
 				ThreadStateEvent (this, new EventArgs ());
@@ -262,7 +262,7 @@ namespace MonoDevelop.Debugger
 		public event EventHandler StoppedEvent;
 		public event EventHandler ThreadStateEvent;
 
-		void KillApplication ()
+		void KillApplication (object obj)
 		{
 			Cleanup ();
 		}
@@ -403,10 +403,10 @@ namespace MonoDevelop.Debugger
 		private void OnBreakpointHit (Breakpoint pointFromDbg, StackFrame frame)
 		{
 			point = pointFromDbg;
-			new Gtk.ThreadNotify (new Gtk.ReadyEvent (MainThreadNotify)).WakeupMain();
+			Runtime.DispatchService.GuiDispatch (new StatefulMessageHandler (MainThreadNotify), null);
 		}
 
-		void MainThreadNotify ()
+		void MainThreadNotify (object obj)
 		{
 			string[] toks = point.Name.Split (':');
 			string filename = toks [0];
