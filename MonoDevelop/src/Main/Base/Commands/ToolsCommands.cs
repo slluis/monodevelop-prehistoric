@@ -43,5 +43,12 @@ namespace MonoDevelop.Commands
 		}
 	}
 	
-	
+	public class NewLayoutCommand : AbstractMenuCommand
+	{
+		public override void Run()
+		{
+			NewLayoutDialog dlg = new NewLayoutDialog ();
+			dlg.Run ();
+		}
+	}
 }

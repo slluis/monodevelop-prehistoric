@@ -29,11 +29,21 @@ namespace MonoDevelop.Gui
 			get;
 		}
 
+		/// <summary>
+		/// The name of the active layout.
+		/// </summary>
 		string CurrentLayout {
 			get;
 			set;
 		}
-		
+
+		/// <summary>
+		/// A list of the currently available layouts for the current workbench context.
+		/// </summary>
+		string[] Layouts {
+			get;
+		}
+
 		/// <summary>
 		/// Attaches this layout manager to a workbench object.
 		/// </summary>

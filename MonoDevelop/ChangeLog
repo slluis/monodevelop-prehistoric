@@ -1,3 +1,24 @@
+2004-03-20  Gustavo Giráldez  <gustavo.giraldez@gmx.net>
+
+	* gdldock/gdl/Makefile.am: 
+	* gdldock/gdl/Gdl.metadata: 
+	* gdldock/gdl/DockLayout.custom: Provide a customized GetLayouts
+	to return a string[] instead of a GLib.List.
+	* src/Main/Base/Gui/IWorkbenchLayout.cs:
+	* src/Main/Base/Gui/Workbench/Layouts/SdiWorkspaceLayout.cs:
+	Support for different sets of layouts depending on the workbench
+	context.  Implement Layouts property.  Layouts are saved to the
+	xml file with fully qualified names such as "Context.Layout
+	name".  CurrentLayout hides the context prefix, so the value
+	set/retrieved is just the layout name.
+	* data/resources/glade/Base.glade:
+	* src/Main/Base/Gui/Dialogs/NewLayoutDialog.cs: New dialog used to
+	retrieve the name of the layout being created.
+	* src/Main/Base/Makefile.am: Add NewLayoutDialog.cs to the build.
+	* build/AddIns/SharpDevelopCore.addin:
+	* src/Main/Base/Commands/ToolsCommands.cs:
+	* src/Main/Base/Commands/MenuItemBuilders.cs: Add layouts menu.
+
 2004-03-20	John BouAntoun  <jba-mono@optusnet.com.au>
 
 	* src/Main/Base/Commands/MenuItemBuilders.cs : made it prompt 

@@ -377,4 +377,50 @@ namespace MonoDevelop.Commands
 			return (Gtk.MenuItem[])items.ToArray(typeof(Gtk.MenuItem));
 		}
 	}
+
+	public class LayoutsMenuBuilder : ISubmenuBuilder
+	{
+		class MyMenuItem : SdMenuCheckBox
+		{
+			string layoutName;
+			
+			bool IsCurrentLayout {
+				get {
+					return (WorkbenchSingleton.Workbench.WorkbenchLayout.CurrentLayout == layoutName);
+				}
+			}
+			
+			public MyMenuItem (string name) : base (null, null, name)
+			{
+				this.layoutName = name;
+				Active = IsCurrentLayout;
+				Toggled += new EventHandler (OnClick);
+			}
+			
+			protected new void OnClick(object o, EventArgs e)
+			{
+				WorkbenchSingleton.Workbench.WorkbenchLayout.CurrentLayout = layoutName;
+			}
+			public override  void UpdateStatus()
+			{
+				base.UpdateStatus();
+			}
+		}
+		
+		public Gtk.MenuItem[] BuildSubmenu(ConditionCollection conditionCollection, object owner)
+		{
+			ArrayList items = new ArrayList();
+			IWorkbench wb = WorkbenchSingleton.Workbench;
+			if (wb.WorkbenchLayout != null)
+			{
+				string[] layouts = wb.WorkbenchLayout.Layouts;
+				Array.Sort (layouts);
+				foreach (string layout in layouts) {
+					items.Add (new MyMenuItem (layout));
+				}
+			}
+			
+			return (Gtk.MenuItem[]) items.ToArray (typeof (Gtk.MenuItem));
+		}
+	}
 }

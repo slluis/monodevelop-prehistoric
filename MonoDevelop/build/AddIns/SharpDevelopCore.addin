@@ -712,7 +712,13 @@
 	        
 	        <MenuItem id = "View" label = "${res:XML.MainMenu.ViewMenu}">
 	                <MenuItem id = "ViewBuilder" label = "" class = "MonoDevelop.Commands.ViewMenuBuilder" />
-	                <MenuItem id = "ViewItemsSeparator" label = "-" /> 
+	                <MenuItem id = "ViewItemsSeparator" label = "-" />
+			<MenuItem id = "ViewLayouts" label = "Layouts">
+				  <MenuItem id = "ViewLayoutsBuilder" label = "" class = "MonoDevelop.Commands.LayoutsMenuBuilder" />
+				  <MenuItem id = "ViewLayoutsSeparator" label = "-" />
+				  <MenuItem id = "ViewLayoutsNew" label = "New" class = "MonoDevelop.Commands.NewLayoutCommand" />
+			</MenuItem>
+	                <MenuItem id = "ViewItemsSeparator2" label = "-" />
 			<MenuItem id = "FullScreen"
 	                          label = "${res:XML.MainMenu.ViewMenu.FullScreen}" 
 	                          icon = "Icons.16x16.FullScreen" 

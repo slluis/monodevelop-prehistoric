@@ -1,0 +1,18 @@
+// DockLayout.custom - customizations to Gdl.DockLayout
+//
+// Authors: Gustavo Giráldez  <gustavo.giraldez@gmx.net>
+
+[DllImport("gdldock")]
+static extern IntPtr gdl_dock_layout_get_layouts(IntPtr raw, bool include_default);
+
+public string[] GetLayouts(bool include_default) {
+	IntPtr list_ptr = gdl_dock_layout_get_layouts(Handle, include_default);
+	GLib.List list = new GLib.List (list_ptr, typeof (string));
+
+	// FIXME: list elements are leaked
+	string[] result = new string [list.Count];
+	for (int i = 0; i < list.Count; i++)
+		result [i] = list [i] as string;
+	
+	return result;
+}

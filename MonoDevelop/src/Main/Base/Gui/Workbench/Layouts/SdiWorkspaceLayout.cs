@@ -29,9 +29,17 @@ namespace MonoDevelop.Gui
 	{
 		static PropertyService propertyService = (PropertyService)ServiceManager.Services.GetService(typeof(PropertyService));
 		static string configFile = propertyService.ConfigDirectory + "DefaultEditingLayout.xml";
-		private string currentLayout = "";
+
+		// contains the fully qualified name of the current layout (ie. Edit.Default)
+		string currentLayout = "";
+		// list of layout names for the current context, without the context prefix
+		ArrayList layouts = new ArrayList ();
 
 		private IWorkbench workbench;
+
+		// current workbench context
+		WorkbenchContext workbenchContext;
+		
 		Window wbWindow;
 		Container rootWidget;
 		Container toolbarContainer;
@@ -114,6 +122,7 @@ namespace MonoDevelop.Gui
 				dock.AddItem (item, DockPlacement.Left);
 			}
 			// by default, the active pad collection is the full set
+			// will be overriden in CreateDefaultLayout() below
 			activePadCollection = workbench.PadContentCollection;
 
 			// FIXME: GTKize
@@ -129,13 +138,13 @@ namespace MonoDevelop.Gui
 
 		void onContextChanged (object o, EventArgs e)
 		{
-			WorkbenchContext ctxt = workbench.Context;
-			Console.WriteLine ("Workbench changed context to " + ctxt);
-			SwitchContext (ctxt);
+			SwitchContext (workbench.Context);
 		}
 
 		void SwitchContext (WorkbenchContext ctxt)
 		{
+			PropertyService propertyService =
+				(PropertyService) ServiceManager.Services.GetService (typeof (PropertyService));
 			PadContentCollection old = activePadCollection;
 			
 			// switch pad collections
@@ -145,18 +154,22 @@ namespace MonoDevelop.Gui
 				// this is so, for unkwown contexts, we get the full set of pads
 				activePadCollection = workbench.PadContentCollection;
 
-			switch (ctxt)
-			{
-			case WorkbenchContext.Debug:
-				CurrentLayout = "Debug";
-				break;
+			workbenchContext = ctxt;
+			
+			// get the list of layouts
+			string ctxtPrefix = ctxt.ToString () + ".";
+			string[] list = dockLayout.GetLayouts (false);
 
-			default:
-			case WorkbenchContext.Edit:
-				CurrentLayout = "Default";
-				break;
-
+			layouts.Clear ();
+			foreach (string name in list) {
+				if (name.StartsWith (ctxtPrefix)) {
+					layouts.Add (name.Substring (ctxtPrefix.Length));
+				}
 			}
+			
+			// get the default layout for the new context from the property service
+			CurrentLayout = propertyService.GetProperty
+				("MonoDevelop.Gui.SdiWorkbenchLayout." + ctxt.ToString (), "Default");
 			
 			// make sure invalid pads for the new context are not visible
 			foreach (IPadContent content in old)
@@ -175,21 +188,48 @@ namespace MonoDevelop.Gui
 		}
 		
 		public string CurrentLayout {
-			get
-			{
-				return currentLayout;
+			get {
+				return currentLayout.Substring (currentLayout.IndexOf (".") + 1);
 			}
-			set
-			{
+			set {
+				// save previous layout first
 				if (currentLayout != "")
 					dockLayout.SaveLayout (currentLayout);
 				
-				currentLayout = value;
+				string newLayout = workbench.Context.ToString () + "." + value;
 
-				if (!dockLayout.LoadLayout (value))
-					// if the "Default" layout doesn't exists, load the real default
-					// so old layout xml files work smoothly
-					dockLayout.LoadLayout (null);
+				if (layouts.Contains (value))
+				{
+					dockLayout.LoadLayout (newLayout);
+				}
+				else
+				{
+					if (currentLayout == "")
+						// if the layout doesn't exists and we need to
+						// load a layout (ie.  we've just been
+						// created), load the default so old layout
+						// xml files work smoothly
+						dockLayout.LoadLayout (null);
+					
+					// the layout didn't exist, so save it and add it to our list
+					dockLayout.SaveLayout (newLayout);
+					layouts.Add (value);
+				}
+				currentLayout = newLayout;
+
+				// persist the selected layout for the current context
+				PropertyService propertyService =
+					(PropertyService) ServiceManager.Services.GetService (typeof (PropertyService));
+				propertyService.SetProperty ("MonoDevelop.Gui.SdiWorkbenchLayout." +
+				                             workbenchContext.ToString (), value);
+			}
+		}
+
+		public string[] Layouts {
+			get {
+				string[] result = new string [layouts.Count];
+				layouts.CopyTo (result);
+				return result;
 			}
 		}
 
