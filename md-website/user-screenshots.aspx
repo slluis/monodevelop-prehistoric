@@ -18,5 +18,16 @@
           Debugging a GTK# application, integrated documentation
 	</div>
       </div>
+
+      <div class="image_frame">
+        <div class="image">
+          <a href="/images/screenshots/webbrowser.png" target="_blank">
+            <img src="/images/screenshots/thumbnails/webbrowser.png" alt="" />
+          </a>
+        </div>
+        <div class="image_caption">
+          Web browsing using the built in Mozilla component
+        </div>
+      </div>
       
 <ccms:PageFooter runat="server"/>
