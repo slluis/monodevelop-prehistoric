@@ -14,6 +14,10 @@
 	* Gui/Pads/HelpBrowser/HelpViewer.cs: set IsViewOnly property to true
 	so we don't crash on save
 
+	* Gui/Pads/ProjectBrowser/BrowserNode/FileNode.cs:
+	do not force an extension on renamed files
+	fixes bug # 59677
+
 2004-06-16  John Luke  <jluke@cfl.rr.com>
 
 	* Gui/Dialogs/NewProjectDialog.cs: guard against unauthorized

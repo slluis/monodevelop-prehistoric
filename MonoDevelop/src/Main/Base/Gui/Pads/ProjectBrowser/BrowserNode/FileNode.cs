@@ -104,11 +104,12 @@ namespace MonoDevelop.Gui.Pads.ProjectBrowser
 				}
 				string oldname = ((ProjectFile)userData).Name;
 				
-				string oldExtension = Path.GetExtension(oldname);
+				// this forces an extension: bug# 59677
+				//string oldExtension = Path.GetExtension(oldname);
 				
-				if (Path.GetExtension(newName).Length == 0) {
-					newName += oldExtension;
-				}
+				//if (Path.GetExtension(newName).Length == 0) {
+				//	newName += oldExtension;
+				//}
 				
 				string newname = Path.GetDirectoryName(oldname) + Path.DirectorySeparatorChar + newName;
 				if (oldname != newname) {
