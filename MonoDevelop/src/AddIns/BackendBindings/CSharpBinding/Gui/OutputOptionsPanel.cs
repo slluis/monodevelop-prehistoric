@@ -16,6 +16,8 @@ using MonoDevelop.Core.Services;
 using MonoDevelop.Core.Properties;
 using MonoDevelop.Core.AddIns.Codons;
 
+using MonoDevelop.Services;
+
 using Gtk;
 using MonoDevelop.Gui.Widgets;
 

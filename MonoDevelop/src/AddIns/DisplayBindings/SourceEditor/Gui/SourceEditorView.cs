@@ -462,7 +462,7 @@ namespace MonoDevelop.SourceEditor.Gui
 		}
 		
 		string IFormattableDocument.TextContent
-		{ get { return Buffer.Text; } }
+		{ get { return ParentEditor.DisplayBinding.Text; } }
 		
 		int IFormattableDocument.TextLength
 		{ get { return Buffer.EndIter.Offset; } }

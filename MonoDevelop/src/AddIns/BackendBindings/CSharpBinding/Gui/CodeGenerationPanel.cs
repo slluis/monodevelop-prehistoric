@@ -18,6 +18,7 @@ using MonoDevelop.Core.AddIns.Codons;
 
 using Gtk;
 using MonoDevelop.Gui.Widgets;
+using MonoDevelop.Services;
 
 namespace CSharpBinding
 {

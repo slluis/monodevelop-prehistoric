@@ -221,9 +221,22 @@ namespace MonoDevelop.SourceEditor.Gui
 			get { return se.Buffer; }
 		}
 		
+		string cachedText;
 		public string Text {
-			get { return se.Buffer.Text; }
+			get {
+				GLib.Idle.Add (new GLib.IdleHandler (BounceAndGrab));
+				return cachedText;
+			}
 			set { se.Buffer.Text = value; }
+		}
+
+		bool needsUpdate;
+		bool BounceAndGrab ()
+		{
+			if (needsUpdate) {
+				cachedText = se.Buffer.Text;
+			}
+			return false;
 		}
 		
 		public void Undo ()
@@ -244,6 +257,7 @@ namespace MonoDevelop.SourceEditor.Gui
 		{
 			// 99% of the time, this is the insertion point
 			UpdateLineCol ();
+			needsUpdate = true;
 		}
 		
 		void OnChanged (object o, EventArgs e)
@@ -251,6 +265,7 @@ namespace MonoDevelop.SourceEditor.Gui
 			// gedit also hooks this event, but do we need it?
 			UpdateLineCol ();
 			OnContentChanged (null);
+			needsUpdate = true;
 		}
 		
 		// WORKAROUND until we get this method returning char in gtk#
