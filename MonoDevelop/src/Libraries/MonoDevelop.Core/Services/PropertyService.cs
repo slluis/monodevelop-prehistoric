@@ -45,8 +45,7 @@ namespace ICSharpCode.Core.Services
 		
 		
 		readonly static string configDirectory = System.Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + 
-		                                         Path.DirectorySeparatorChar + ".ICSharpCode" +
-		                                         Path.DirectorySeparatorChar + "SharpDevelop" +
+		                                         Path.DirectorySeparatorChar + ".MonoDevelop" +
 		                                         Path.DirectorySeparatorChar;
 		/// <summary>
 		/// returns the path of the default application configuration directory
