@@ -153,9 +153,9 @@ namespace MonoDevelop.Gui.Dialogs
 		void CountCombine(Combine combine, ref Report all)
 		{
 			foreach (CombineEntry entry in combine.Entries) {
-				if (entry.Entry is IProject) {
+				if (entry is Project) {
 					// string tmp = "";
-					foreach (ProjectFile finfo in ((IProject)entry.Entry).ProjectFiles) {
+					foreach (ProjectFile finfo in ((Project)entry).ProjectFiles) {
 						if (finfo.Subtype != Subtype.Directory && 
 						    finfo.BuildAction == BuildAction.Compile) {
 							Report r = GetReport(finfo.Name);
@@ -166,7 +166,7 @@ namespace MonoDevelop.Gui.Dialogs
 						}
 					}
 				} else
-					CountCombine((Combine)entry.Entry, ref all);
+					CountCombine ((Combine)entry, ref all);
 			}
 		}
 		

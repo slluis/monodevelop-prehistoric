@@ -69,8 +69,9 @@ namespace MonoDevelop.Services
 			return GetCodonPerLanguageName(doc.DocumentElement.Attributes["projecttype"].InnerText);
 		}
 		
-		public LanguageBindingService()
+		public override void InitializeService ()
 		{
+			base.InitializeService ();
 			bindings = (LanguageBindingCodon[])(AddInTreeSingleton.AddInTree.GetTreeNode("/SharpDevelop/Workbench/LanguageBindings").BuildChildItems(null)).ToArray(typeof(LanguageBindingCodon));
 		}
 	}

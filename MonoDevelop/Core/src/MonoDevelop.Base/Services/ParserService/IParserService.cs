@@ -48,22 +48,22 @@ namespace MonoDevelop.Services
 		IExpressionFinder GetExpressionFinder(string fileName);
 		
 		// Default Parser Layer dependent functions
-		IClass    GetClass(IProject project, string typeName);
-		string[]  GetNamespaceList(IProject project, string subNameSpace);
-		ArrayList GetNamespaceContents(IProject project, string subNameSpace, bool includeReferences);
-		bool      NamespaceExists(IProject project, string name);
-		string    SearchNamespace(IProject project, IUsing iusing, string partitialNamespaceName);
-		IClass    SearchType(IProject project, IUsing iusing, string partitialTypeName);
+		IClass    GetClass(Project project, string typeName);
+		string[]  GetNamespaceList(Project project, string subNameSpace);
+		ArrayList GetNamespaceContents(Project project, string subNameSpace, bool includeReferences);
+		bool      NamespaceExists(Project project, string name);
+		string    SearchNamespace(Project project, IUsing iusing, string partitialNamespaceName);
+		IClass    SearchType(Project project, IUsing iusing, string partitialTypeName);
 		
-		IClass    GetClass(IProject project, string typeName, bool deepSearchReferences, bool caseSensitive);
-		string[]  GetNamespaceList(IProject project, string subNameSpace, bool caseSensitive);
-		ArrayList GetNamespaceContents(IProject project, string subNameSpace, bool includeReferences, bool caseSensitive);
-		bool      NamespaceExists(IProject project, string name, bool caseSensitive);
-		string    SearchNamespace(IProject project, IUsing iusing, string partitialNamespaceName, bool caseSensitive);
-		IClass    SearchType(IProject project, IUsing iusing, string partitialTypeName, bool caseSensitive);
-		IClass    SearchType (IProject project, string name, IClass callingClass, ICompilationUnit unit);
+		IClass    GetClass(Project project, string typeName, bool deepSearchReferences, bool caseSensitive);
+		string[]  GetNamespaceList(Project project, string subNameSpace, bool caseSensitive);
+		ArrayList GetNamespaceContents(Project project, string subNameSpace, bool includeReferences, bool caseSensitive);
+		bool      NamespaceExists(Project project, string name, bool caseSensitive);
+		string    SearchNamespace(Project project, IUsing iusing, string partitialNamespaceName, bool caseSensitive);
+		IClass    SearchType(Project project, IUsing iusing, string partitialTypeName, bool caseSensitive);
+		IClass    SearchType (Project project, string name, IClass callingClass, ICompilationUnit unit);
 		
-		IEnumerable GetClassInheritanceTree (IProject project, IClass cls);
+		IEnumerable GetClassInheritanceTree (Project project, IClass cls);
 		
 		////////////////////////////////////////////
 
@@ -71,15 +71,15 @@ namespace MonoDevelop.Services
 		/// Resolves an expression.
 		/// The caretLineNumber and caretColumn is 1 based.
 		/// </summary>
-		ResolveResult Resolve(IProject project,
+		ResolveResult Resolve(Project project,
 							  string expression,
 		                      int caretLineNumber,
 		                      int caretColumn,
 		                      string fileName,
 		                      string fileContent);
-		string MonodocResolver (IProject project, string expression, int caretLineNumber, int caretColumn, string fileName, string fileContent);
-		ArrayList IsAsResolve (IProject project, string expression, int caretLineNumber, int caretColumn, string fileName, string fileContent);
-		ArrayList CtrlSpace(IParserService parserService, IProject project, int caretLine, int caretColumn, string fileName);
+		string MonodocResolver (Project project, string expression, int caretLineNumber, int caretColumn, string fileName, string fileContent);
+		ArrayList IsAsResolve (Project project, string expression, int caretLineNumber, int caretColumn, string fileName, string fileContent);
+		ArrayList CtrlSpace(IParserService parserService, Project project, int caretLine, int caretColumn, string fileName);
 		string LoadAssemblyFromGac (string name);
 
 		event ParseInformationEventHandler ParseInformationChanged;

@@ -24,7 +24,7 @@ namespace MonoDevelop.Gui.Pads.ProjectBrowser
 {
 	public class DefaultDotNetNodeBuilder : IProjectNodeBuilder
 	{
-		public bool CanBuildProjectTree(IProject project)
+		public bool CanBuildProjectTree(Project project)
 		{
 			return true;
 		}
@@ -42,10 +42,11 @@ namespace MonoDevelop.Gui.Pads.ProjectBrowser
 			return false;
 		}
 
-		public AbstractBrowserNode BuildProjectTreeNode(IProject project)
+		public AbstractBrowserNode BuildProjectTreeNode(Project project)
 		{
 			ProjectBrowserNode projectNode = new ProjectBrowserNode(project);
-			projectNode.Image = Runtime.Gui.Icons.GetImageForProjectType (project.ProjectType);
+			string lang = (project is DotNetProject) ? ((DotNetProject)project).LanguageName : "";
+			projectNode.Image = Runtime.Gui.Icons.GetImageForProjectType (lang);
 
 			FolderNode resourceNode = new NamedFolderNode(GettextCatalog.GetString ("Resource Files"), 0);
 			resourceNode.ContextmenuAddinTreePath = "/SharpDevelop/Views/ProjectBrowser/ContextMenu/ResourceFolderNode";
@@ -198,7 +199,7 @@ namespace MonoDevelop.Gui.Pads.ProjectBrowser
 			return projectNode;
 		}
 
-		public static void AddProjectFileNode(IProject project, AbstractBrowserNode projectNode, ProjectFile projectFile) {
+		public static void AddProjectFileNode(Project project, AbstractBrowserNode projectNode, ProjectFile projectFile) {
 
 			if(projectNode.TreeView != null)
 				projectNode.TreeView.BeginUpdate();
@@ -413,7 +414,7 @@ namespace MonoDevelop.Gui.Pads.ProjectBrowser
 			return null;
 		}
 
-		public static void InitializeReferences(AbstractBrowserNode parentNode, IProject project)
+		public static void InitializeReferences(AbstractBrowserNode parentNode, Project project)
 		{
 			parentNode.Nodes.Clear();
 			foreach (ProjectReference referenceInformation in project.ProjectReferences) {

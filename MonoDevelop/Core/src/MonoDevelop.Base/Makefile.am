@@ -72,6 +72,7 @@ Gui/Dialogs/CommonAboutDialog.cs \
 Gui/Dialogs/OptionPanels/ProjectOptions/CompileFileProjectOptions.cs \
 Gui/Dialogs/OptionPanels/ProjectOptions/DeployFileOptions.cs \
 Gui/Dialogs/OptionPanels/ProjectOptions/GeneralProjectOptions.cs \
+Gui/Dialogs/OptionPanels/ProjectOptions/OutputOptionsPanel.cs \
 Gui/Dialogs/OptionPanels/IDEOptions/BuildPanel.cs \
 Gui/Dialogs/OptionPanels/IDEOptions/LoadSavePanel.cs \
 Gui/Dialogs/OptionPanels/IDEOptions/SelectStylePanel.cs \
@@ -195,6 +196,7 @@ Services/Project/ProjectRenameEventArgs.cs \
 Services/Project/DefaultProjectService.cs \
 Services/Project/ParseInformationEventHandler.cs \
 Services/Project/CombineEventArgs.cs \
+Services/Project/FileFormatManager.cs \
 Services/IconService.cs \
 Services/StatusBar/DefaultStatusBarService.cs \
 Services/StatusBar/IStatusBarService.cs \
@@ -229,6 +231,7 @@ Services/Runtime.cs \
 Internal/Undo/IUndoableOperation.cs \
 Internal/Undo/UndoStack.cs \
 Internal/Undo/UndoQueue.cs \
+Internal/Conditions/LanguageActiveCondition.cs \
 Internal/Conditions/OwnerStateCondition.cs \
 Internal/Conditions/ProjectActiveCondition.cs \
 Internal/Conditions/WindowActiveCondition.cs \
@@ -244,6 +247,8 @@ Internal/Codons/LanguageBinding/FileFilterCodon.cs \
 Internal/Codons/LanguageBinding/ILanguageBinding.cs \
 Internal/Codons/LanguageBinding/LanguageBindingCodon.cs \
 Internal/Codons/LanguageBinding/DefaultCompilerResult.cs \
+Internal/Codons/ProjectBinding/IProjectBinding.cs \
+Internal/Codons/ProjectBinding/ProjectBindingCodon.cs \
 Internal/Codons/DefaultDialogPanelDescriptor.cs \
 Internal/Codons/Toolbars/ToolbarItemCodon.cs \
 Internal/Codons/IDialogPanel.cs \
@@ -334,10 +339,10 @@ Internal/Parser/PersistenceLayer/PersistentClass.cs \
 Internal/Parser/IMethod.cs \
 Internal/Parser/IComment.cs \
 Internal/Parser/ICompilationUnit.cs \
-Internal/Project/Attributes/XmlNodeNameAttribute.cs \
-Internal/Project/Attributes/ConvertToRelativePathAttribute.cs \
-Internal/Project/Attributes/XmlSetAttribute.cs \
-Internal/Project/Attributes/XmlAttributeAttribute.cs \
+Internal/Project/PrjxFileFormat.cs \
+Internal/Project/CmbxFileFormat.cs \
+Internal/Project/IFileFormat.cs \
+Internal/Project/ProjectPathItemPropertyAttribute.cs \
 Internal/Project/Project/Deployment/DeployInformation.cs \
 Internal/Project/Project/Deployment/AssemblyDeploy.cs \
 Internal/Project/Project/Deployment/ScriptDeploy.cs \
@@ -349,6 +354,9 @@ Internal/Project/Project/UnknownProjectVersionException.cs \
 Internal/Project/Project/TypelibImporter.cs \
 Internal/Project/Project/AbstractProjectConfiguration.cs \
 Internal/Project/Project/AbstractProject.cs \
+Internal/Project/Project/DotNetProject.cs \
+Internal/Project/Project/DotNetProjectBinding.cs \
+Internal/Project/Project/DotNetProjectConfiguration.cs \
 Internal/Project/Project/ProjectReference.cs \
 Internal/Project/Project/ProjectReferenceEventArgs.cs \
 Internal/Project/Project/ConvertXml.cs \
@@ -358,7 +366,6 @@ Internal/Project/Project/ProjectCompileEventHandler.cs \
 Internal/Project/Project/ProjectFile.cs \
 Internal/Project/Project/ProjectFileEventArgs.cs \
 Internal/Project/Project/AbstractConfiguration.cs \
-Internal/Project/Project/IProject.cs \
 Internal/Project/Combine/Combine.cs \
 Internal/Project/Combine/CombineExecuteDefinition.cs \
 Internal/Project/Combine/CyclicBuildOrderException.cs \
@@ -366,6 +373,7 @@ Internal/Project/Combine/CombineConfiguration.cs \
 Internal/Project/Combine/NoStartupCombineDefinedException.cs \
 Internal/Project/Combine/CombineEntry.cs \
 Internal/Project/Combine/CombineEntryEventArgs.cs \
+Internal/Project/Combine/CombineEntryRenamedEventArgs.cs \
 Internal/Templates/FileDescriptionTemplate.cs \
 Internal/Templates/CodeTemplate.cs \
 Internal/Templates/CodeTemplateGroup.cs \
@@ -383,6 +391,29 @@ Internal/CollectionUtilities/SortUtility.cs \
 Internal/CollectionUtilities/Comparers.cs \
 Internal/ExternalTool/ToolLoader.cs \
 Internal/ExternalTool/ExternalTool.cs \
+Internal/Serialization/ArrayHandler.cs \
+Internal/Serialization/ArrayListHandler.cs \
+Internal/Serialization/ClassDataType.cs \
+Internal/Serialization/CollectionDataType.cs \
+Internal/Serialization/DataContext.cs \
+Internal/Serialization/DataNode.cs \
+Internal/Serialization/DataCollection.cs \
+Internal/Serialization/DataType.cs \
+Internal/Serialization/DataIncludeAttribute.cs \
+Internal/Serialization/DataItem.cs \
+Internal/Serialization/DataItemAttribute.cs \
+Internal/Serialization/DataValue.cs \
+Internal/Serialization/GenericCollectionHandler.cs \
+Internal/Serialization/IExtendedDataItem.cs \
+Internal/Serialization/ICollectionHandler.cs \
+Internal/Serialization/ExpandedCollectionAttribute.cs \
+Internal/Serialization/ItemProperty.cs \
+Internal/Serialization/ItemPropertyAttribute.cs \
+Internal/Serialization/SerializationContext.cs \
+Internal/Serialization/EnumDataType.cs \
+Internal/Serialization/PrimitiveDataType.cs \
+Internal/Serialization/XmlDataSerializer.cs \
+Internal/Serialization/DataSerializer.cs \
 AssemblyInfo.cs
 
 OPTIONS = \
@@ -413,7 +444,7 @@ $(ADDIN_BUILD)/$(ADDIN): $(srcdir)/$(ADDIN)
 	cp $(srcdir)/$(ADDIN) $(ADDIN_BUILD)/.
 
 $(ASSEMBLY): $(build_sources) $(srcdir)/Base.glade
-	$(CSC) $(MONO_POSIX_OEE) -codepage:utf8 /out:$(ASSEMBLY) /target:library $(DLLS) \
+	$(CSC) $(MONO_POSIX_OEE) -g -codepage:utf8 /out:$(ASSEMBLY) /target:library $(DLLS) \
 		/resource:$(srcdir)/Base.glade,Base.glade \
 		$(monodoc_libflags) \
 		$(build_sources) \

@@ -63,7 +63,12 @@
 		<Class id    = "ProcessService"
 		       class = "MonoDevelop.Services.ProcessService"/>
 	</Extension>
-
+	
+	<Extension path = "/SharpDevelop/Workbench/ProjectBindings">
+		<ProjectBinding id = "DotNet"
+						class = "MonoDevelop.Internal.Project.DotNetProjectBinding" />
+	</Extension>
+	  
 	<Extension path = "/SharpDevelop/Workbench/DisplayBindings">
 		<DisplayBinding id    = "Browser"
 		                supportedformats = "Web Pages"

@@ -62,24 +62,19 @@ namespace MonoDevelop.Commands
 			
 			foreach (string file in SplashScreenForm.GetRequestedFileList()) {
 				//FIXME: use mimetypes
-				switch (System.IO.Path.GetExtension(file).ToUpper()) {
-					case ".CMBX":
-					case ".PRJX":
-						try {
-							Runtime.ProjectService.OpenCombine (file);
-						} catch (Exception e) {
-							CombineLoadError.HandleError(e, file);
-						}
-						
-						break;
-					default:
-						try {
-							Runtime.FileService.OpenFile (file);
-						
-						} catch (Exception e) {
-							Console.WriteLine("unable to open file {0} exception was :\n{1}", file, e.ToString());
-						}
-						break;
+				if (Runtime.ProjectService.IsCombineEntryFile (file)) {
+					try {
+						Runtime.ProjectService.OpenCombine (file);
+					} catch (Exception e) {
+						CombineLoadError.HandleError(e, file);
+					}
+				} else {
+					try {
+						Runtime.FileService.OpenFile (file);
+					
+					} catch (Exception e) {
+						Console.WriteLine("unable to open file {0} exception was :\n{1}", file, e.ToString());
+					}
 				}
 			}
 			

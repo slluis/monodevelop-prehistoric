@@ -43,13 +43,13 @@ namespace MonoDevelop.Gui.Dialogs.OptionPanels
  			[Glade.Widget] CheckButton autoInsertNewFilesCheckButton;
  			[Glade.Widget] CheckButton enableViewStateCheckButton;
 
-			IProject project;
+			Project project;
 
 
 
 			public GeneralProjectOptionsWidget (IProperties CustomizationObject) : base ("Base.glade", "GeneralProjectOptionsPanel")
 			{
-				this.project = (IProject)((IProperties)CustomizationObject).GetProperty("Project");
+				this.project = (Project)((IProperties)CustomizationObject).GetProperty("Project");
 
 				nameLabel.UseUnderline = true;
 				

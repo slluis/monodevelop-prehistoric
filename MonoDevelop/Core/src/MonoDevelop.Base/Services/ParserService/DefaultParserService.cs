@@ -60,12 +60,12 @@ namespace MonoDevelop.Services
 		class CompilationUnitTypeResolver: ITypeResolver
 		{
 			public IClass CallingClass;
-			IProject project;
+			Project project;
 			ICompilationUnit unit;
 			DefaultParserService parserService;
 			bool allResolved;
 			
-			public CompilationUnitTypeResolver (IProject project, ICompilationUnit unit, DefaultParserService parserService)
+			public CompilationUnitTypeResolver (Project project, ICompilationUnit unit, DefaultParserService parserService)
 			{
 				this.project = project;
 				this.unit = unit;
@@ -261,7 +261,6 @@ namespace MonoDevelop.Services
 			projectService.FileAddedToProject += new ProjectFileEventHandler (OnProjectFilesChanged);
 			projectService.ReferenceAddedToProject += new ProjectReferenceEventHandler (OnProjectReferencesChanged);
 			projectService.ReferenceRemovedFromProject += new ProjectReferenceEventHandler (OnProjectReferencesChanged);
-			projectService.ProjectRenamed += new ProjectRenameEventHandler(OnProjectRenamed);
 		}
 		
 		internal CodeCompletionDatabase GetDatabase (string uri)
@@ -269,7 +268,7 @@ namespace MonoDevelop.Services
 			return GetDatabase (null, uri);
 		}
 		
-		internal ProjectCodeCompletionDatabase GetProjectDatabase (IProject project)
+		internal ProjectCodeCompletionDatabase GetProjectDatabase (Project project)
 		{
 			if (project == null) return null;
 			return (ProjectCodeCompletionDatabase) GetDatabase (null, "Project:" + project.Name);
@@ -350,7 +349,7 @@ namespace MonoDevelop.Services
 			}
 		}
 		
-		void LoadProjectDatabase (IProject project)
+		void LoadProjectDatabase (Project project)
 		{
 			lock (databases)
 			{
@@ -361,9 +360,9 @@ namespace MonoDevelop.Services
 				databases [uri] = db;
 				
 				foreach (ReferenceEntry re in db.References)
-				{
 					GetDatabase (re.Uri);
-				}
+
+				project.NameChanged += new CombineEntryRenamedEventHandler (OnProjectRenamed);
 			}
 		}
 		
@@ -380,10 +379,11 @@ namespace MonoDevelop.Services
 			}
 		}
 		
-		void UnloadProjectDatabase (IProject project)
+		void UnloadProjectDatabase (Project project)
 		{
 			string uri = "Project:" + project.Name;
 			UnloadDatabase (uri);
+			project.NameChanged -= new CombineEntryRenamedEventHandler (OnProjectRenamed);
 		}
 		
 		void CleanUnusedDatabases ()
@@ -413,17 +413,17 @@ namespace MonoDevelop.Services
 		
 		public void LoadCombineDatabases (Combine combine)
 		{
-			ArrayList projects = Combine.GetAllProjects(combine);
-			foreach (ProjectCombineEntry entry in projects) {
-				LoadProjectDatabase (entry.Project);
+			CombineEntryCollection projects = combine.GetAllProjects();
+			foreach (Project entry in projects) {
+				LoadProjectDatabase (entry);
 			}
 		}
 		
 		public void UnloadCombineDatabases (Combine combine)
 		{
-			ArrayList projects = Combine.GetAllProjects(combine);
-			foreach (ProjectCombineEntry entry in projects) {
-				UnloadProjectDatabase (entry.Project);
+			CombineEntryCollection projects = combine.GetAllProjects();
+			foreach (Project entry in projects) {
+				UnloadProjectDatabase (entry);
 			}
 		}
 		
@@ -442,9 +442,9 @@ namespace MonoDevelop.Services
 			e.Combine.EntryRemoved -= combineEntryRemovedHandler;
 		}
 		
-		void OnProjectRenamed (object sender, ProjectRenameEventArgs args)
+		void OnProjectRenamed (object sender, CombineEntryRenamedEventArgs args)
 		{
-			ProjectCodeCompletionDatabase db = GetProjectDatabase (args.Project);
+			ProjectCodeCompletionDatabase db = GetProjectDatabase ((Project) args.CombineEntry);
 			if (db == null) return;
 			
 			db.Rename (args.NewName);
@@ -456,18 +456,18 @@ namespace MonoDevelop.Services
 		
 		void OnCombineEntryAdded (object sender, CombineEntryEventArgs args)
 		{
-			if (args.CombineEntry is ProjectCombineEntry)
-				LoadProjectDatabase (((ProjectCombineEntry)args.CombineEntry).Project);
-			else if (args.CombineEntry is CombineCombineEntry)
-				LoadCombineDatabases (((CombineCombineEntry)args.CombineEntry).Combine);
+			if (args.CombineEntry is Project)
+				LoadProjectDatabase ((Project)args.CombineEntry);
+			else if (args.CombineEntry is Combine)
+				LoadCombineDatabases ((Combine)args.CombineEntry);
 		}
 		
 		void OnCombineEntryRemoved (object sender, CombineEntryEventArgs args)
 		{
-			if (args.CombineEntry is ProjectCombineEntry)
-				UnloadProjectDatabase (((ProjectCombineEntry)args.CombineEntry).Project);
-			else if (args.CombineEntry is CombineCombineEntry)
-				UnloadCombineDatabases (((CombineCombineEntry)args.CombineEntry).Combine);
+			if (args.CombineEntry is Project)
+				UnloadProjectDatabase ((Project) args.CombineEntry);
+			else if (args.CombineEntry is Combine)
+				UnloadCombineDatabases ((Combine) args.CombineEntry);
 			CleanUnusedDatabases ();
 		}
 		
@@ -706,12 +706,12 @@ namespace MonoDevelop.Services
 		
 #region Default Parser Layer dependent functions
 
-		public IClass GetClass (IProject project, string typeName)
+		public IClass GetClass (Project project, string typeName)
 		{
 			return GetClass(project, typeName, false, true);
 		}
 		
-		public IClass GetClass (IProject project, string typeName, bool deepSearchReferences, bool caseSensitive)
+		public IClass GetClass (Project project, string typeName, bool deepSearchReferences, bool caseSensitive)
 		{
 			if (deepSearchReferences)
 				return DeepGetClass (project, typeName, caseSensitive);
@@ -719,7 +719,7 @@ namespace MonoDevelop.Services
 				return GetClass (project, typeName, caseSensitive);
 		}
 		
-		public IClass GetClass (IProject project, string typeName, bool caseSensitive)
+		public IClass GetClass (Project project, string typeName, bool caseSensitive)
 		{
 			CodeCompletionDatabase db = project != null ? GetProjectDatabase (project) : GetActiveFileDatabase ();
 			if (db != null) {
@@ -738,7 +738,7 @@ namespace MonoDevelop.Services
 			return db.GetClass (typeName, caseSensitive);
 		}
 		
-		public IClass DeepGetClass (IProject project, string typeName, bool caseSensitive)
+		public IClass DeepGetClass (Project project, string typeName, bool caseSensitive)
 		{
 			CodeCompletionDatabase db = (project != null) ? GetProjectDatabase (project) : GetActiveFileDatabase ();
 			
@@ -770,12 +770,12 @@ namespace MonoDevelop.Services
 			return null;
 		}
 		
-		public string[] GetNamespaceList (IProject project, string subNameSpace)
+		public string[] GetNamespaceList (Project project, string subNameSpace)
 		{
 			return GetNamespaceList (project, subNameSpace, true);
 		}
 		
-		public string[] GetNamespaceList (IProject project, string subNameSpace, bool caseSensitive)
+		public string[] GetNamespaceList (Project project, string subNameSpace, bool caseSensitive)
 		{
 			ArrayList contents = new ArrayList ();
 			
@@ -796,12 +796,12 @@ namespace MonoDevelop.Services
 			return (string[]) contents.ToArray (typeof(string));
 		}
 		
-		public ArrayList GetNamespaceContents (IProject project, string namspace, bool includeReferences)
+		public ArrayList GetNamespaceContents (Project project, string namspace, bool includeReferences)
 		{
 			return GetNamespaceContents (project, namspace, includeReferences, true);
 		}
 		
-		public ArrayList GetNamespaceContents (IProject project, string namspace, bool includeReferences, bool caseSensitive)
+		public ArrayList GetNamespaceContents (Project project, string namspace, bool includeReferences, bool caseSensitive)
 		{
 			ArrayList contents = new ArrayList ();
 			
@@ -826,12 +826,12 @@ namespace MonoDevelop.Services
 			return contents;
 		}
 		
-		public bool NamespaceExists(IProject project, string name)
+		public bool NamespaceExists(Project project, string name)
 		{
 			return NamespaceExists(project, name, true);
 		}
 		
-		public bool NamespaceExists(IProject project, string name, bool caseSensitive)
+		public bool NamespaceExists(Project project, string name, bool caseSensitive)
 		{
 			CodeCompletionDatabase db = (project != null) ? GetProjectDatabase (project) : GetActiveFileDatabase ();
 			if (db != null) {
@@ -848,12 +848,12 @@ namespace MonoDevelop.Services
 			return db.NamespaceExists (name, caseSensitive);
 			}
 
-		public string SearchNamespace(IProject project, IUsing usin, string partitialNamespaceName)
+		public string SearchNamespace(Project project, IUsing usin, string partitialNamespaceName)
 		{
 			return SearchNamespace(project, usin, partitialNamespaceName, true);
 		}
 		
-		public string SearchNamespace(IProject project, IUsing usin, string partitialNamespaceName, bool caseSensitive)
+		public string SearchNamespace(Project project, IUsing usin, string partitialNamespaceName, bool caseSensitive)
 		{
 //			Console.WriteLine("SearchNamespace : >{0}<", partitialNamespaceName);
 			if (NamespaceExists(project, partitialNamespaceName, caseSensitive)) {
@@ -896,7 +896,7 @@ namespace MonoDevelop.Services
 		/// <remarks>
 		/// use the usings and the name of the namespace to find a class
 		/// </remarks>
-		public IClass SearchType (IProject project, string name, IClass callingClass, ICompilationUnit unit)
+		public IClass SearchType (Project project, string name, IClass callingClass, ICompilationUnit unit)
 		{
 			if (name == null || name == String.Empty)
 				return null;
@@ -937,12 +937,12 @@ namespace MonoDevelop.Services
 			return null;
 		}
 		
-		public IClass SearchType(IProject project, IUsing iusing, string partitialTypeName)
+		public IClass SearchType(Project project, IUsing iusing, string partitialTypeName)
 		{
 			return SearchType(project, iusing, partitialTypeName, true);
 		}
 		
-		public IClass SearchType(IProject project, IUsing iusing, string partitialTypeName, bool caseSensitive)
+		public IClass SearchType(Project project, IUsing iusing, string partitialTypeName, bool caseSensitive)
 		{
 //			Console.WriteLine("Search type : >{0}<", partitialTypeName);
 			IClass c = GetClass(project, partitialTypeName, caseSensitive);
@@ -999,7 +999,7 @@ namespace MonoDevelop.Services
 			return null;
 		}
 		
-		public bool ResolveTypes (IProject project, ICompilationUnit unit, ClassCollection types, out ClassCollection result)
+		public bool ResolveTypes (Project project, ICompilationUnit unit, ClassCollection types, out ClassCollection result)
 		{
 			CompilationUnitTypeResolver tr = new CompilationUnitTypeResolver (project, unit, this);
 			
@@ -1015,7 +1015,7 @@ namespace MonoDevelop.Services
 			return allResolved;
 		}
 		
-		public IEnumerable GetClassInheritanceTree (IProject project, IClass cls)
+		public IEnumerable GetClassInheritanceTree (Project project, IClass cls)
 		{
 			return new ClassInheritanceEnumerator (this, project, cls);
 		}
@@ -1046,10 +1046,10 @@ namespace MonoDevelop.Services
 			
 			if (fileContent == null) {
 				if (Runtime.ProjectService.CurrentOpenCombine != null) {
-					ArrayList projects = Combine.GetAllProjects (Runtime.ProjectService.CurrentOpenCombine);
-					foreach (ProjectCombineEntry entry in projects) {
-						if (entry.Project.IsFileInProject(fileName)) {
-							fileContent = entry.Project.GetParseableFileContent(fileName);
+					CombineEntryCollection projects = Runtime.ProjectService.CurrentOpenCombine.GetAllProjects ();
+					foreach (Project entry in projects) {
+						if (entry.IsFileInProject(fileName)) {
+							fileContent = entry.GetParseableFileContent(fileName);
 						}
 					}
 				}
@@ -1159,7 +1159,7 @@ namespace MonoDevelop.Services
 		
 		////////////////////////////////////
 		
-		public ArrayList CtrlSpace(IParserService parserService, IProject project, int caretLine, int caretColumn, string fileName)
+		public ArrayList CtrlSpace(IParserService parserService, Project project, int caretLine, int caretColumn, string fileName)
 		{
 			IParser parser = GetParser(fileName);
 			if (parser != null) {
@@ -1168,7 +1168,7 @@ namespace MonoDevelop.Services
 			return null;
 		}
 
-		public ArrayList IsAsResolve (IProject project, string expression, int caretLineNumber, int caretColumn, string fileName, string fileContent)
+		public ArrayList IsAsResolve (Project project, string expression, int caretLineNumber, int caretColumn, string fileName, string fileContent)
 		{
 			try {
 				IParser parser = GetParser (fileName);
@@ -1181,7 +1181,7 @@ namespace MonoDevelop.Services
 			}
 		}
 		
-		public ResolveResult Resolve(IProject project,
+		public ResolveResult Resolve(Project project,
 									 string expression, 
 		                             int caretLineNumber,
 		                             int caretColumn,
@@ -1210,7 +1210,7 @@ namespace MonoDevelop.Services
 			get { return nameTable; }
 		}
 		
-		public string MonodocResolver (IProject project, string expression, int caretLineNumber, int caretColumn, string fileName, string fileContent)
+		public string MonodocResolver (Project project, string expression, int caretLineNumber, int caretColumn, string fileName, string fileContent)
 		{
 			try {
 				IParser parser = GetParser (fileName);
@@ -1279,9 +1279,9 @@ namespace MonoDevelop.Services
 		IClass topLevelClass;
 		IClass currentClass  = null;
 		Queue  baseTypeQueue = new Queue();
-		IProject project;
+		Project project;
 
-		internal ClassInheritanceEnumerator(DefaultParserService parserService, IProject project, IClass topLevelClass)
+		internal ClassInheritanceEnumerator(DefaultParserService parserService, Project project, IClass topLevelClass)
 		{
 			this.parserService = parserService;
 			this.project = project;

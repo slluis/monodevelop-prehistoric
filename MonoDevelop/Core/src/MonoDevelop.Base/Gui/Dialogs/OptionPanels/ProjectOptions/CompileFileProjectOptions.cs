@@ -32,12 +32,12 @@ namespace MonoDevelop.Gui.Dialogs.OptionPanels
 			[Glade.Widget] Gtk.TreeView includeTreeView;
 			public ListStore store;
 			
-			IProject project;
+			Project project;
 
 			public CompileFileOptionsWidget (IProperties CustomizationObject) : 
 				base ("Base.glade", "CompileFileOptionsPanel")
 			{
-				this.project = (IProject)((IProperties)CustomizationObject).GetProperty("Project");	
+				this.project = (Project)((IProperties)CustomizationObject).GetProperty("Project");	
 				
 				includeLabel.UseUnderline = true;
 				store = new ListStore (typeof(bool), typeof(string));

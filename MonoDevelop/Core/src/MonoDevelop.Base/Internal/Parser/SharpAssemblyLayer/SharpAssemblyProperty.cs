@@ -13,7 +13,7 @@ using System.Xml;
 using MonoDevelop.SharpAssembly.Metadata.Rows;
 using MonoDevelop.SharpAssembly.Metadata;
 using MonoDevelop.SharpAssembly.PE;
-using SharpAssembly=MonoDevelop.SharpAssembly.Assembly.SharpAssembly;
+using SharpAssembly_=MonoDevelop.SharpAssembly.Assembly.SharpAssembly;
 using AssemblyReader=MonoDevelop.SharpAssembly.Assembly.AssemblyReader;
 using SharpCustomAttribute=MonoDevelop.SharpAssembly.Assembly.SharpCustomAttribute;
 
@@ -22,7 +22,7 @@ namespace MonoDevelop.Internal.Parser {
 	[Serializable]
 	public class SharpAssemblyProperty : AbstractProperty
 	{
-		public SharpAssemblyProperty(SharpAssembly asm, Property[] propertyTable, SharpAssemblyClass declaringtype, uint index)
+		public SharpAssemblyProperty(SharpAssembly_ asm, Property[] propertyTable, SharpAssemblyClass declaringtype, uint index)
 		{
 			if (asm == null) {
 				throw new System.ArgumentNullException("asm");
@@ -142,7 +142,7 @@ namespace MonoDevelop.Internal.Parser {
 			}
 		}
 		
-		void AddParameters(SharpAssembly asm, Method[] methodTable, uint index, IReturnType[] returnTypes)
+		void AddParameters(SharpAssembly_ asm, Method[] methodTable, uint index, IReturnType[] returnTypes)
 		{
 			Param[] paramTable = asm.Tables.Param;
 			if (paramTable == null) return;
@@ -167,7 +167,7 @@ namespace MonoDevelop.Internal.Parser {
 			}
 		}
 		
-		void AddParameters(SharpAssembly asm, IReturnType[] returnTypes)
+		void AddParameters(SharpAssembly_ asm, IReturnType[] returnTypes)
 		{
 			for (uint i = 0; i < returnTypes.GetUpperBound(0); ++i) {
 				parameters.Add(new SharpAssemblyParameter(asm, "param_" + i, returnTypes[i]));

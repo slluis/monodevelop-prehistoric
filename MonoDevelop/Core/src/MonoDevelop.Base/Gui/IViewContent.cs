@@ -95,7 +95,7 @@ namespace MonoDevelop.Gui
 		/// <summary>
 		/// The name of the project the content is attached to
 		/// </summary>
-		IProject Project {
+		Project Project {
 			get;
 			set;
 		}

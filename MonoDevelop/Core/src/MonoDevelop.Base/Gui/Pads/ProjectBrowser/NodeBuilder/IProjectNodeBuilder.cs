@@ -19,7 +19,7 @@ namespace MonoDevelop.Gui.Pads.ProjectBrowser
 {
 	public interface IProjectNodeBuilder
 	{
-		bool                CanBuildProjectTree(IProject project);
-		AbstractBrowserNode BuildProjectTreeNode(IProject project);
+		bool                CanBuildProjectTree(Project project);
+		AbstractBrowserNode BuildProjectTreeNode(Project project);
 	}
 }

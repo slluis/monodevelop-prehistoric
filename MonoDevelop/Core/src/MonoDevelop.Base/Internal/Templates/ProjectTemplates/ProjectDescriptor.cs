@@ -12,10 +12,12 @@ using System.Collections;
 using System.Collections.Specialized;
 using System.Diagnostics;
 using System.Reflection;
+using MonoDevelop.Internal.Project;
 using MonoDevelop.Core.Services;
 using MonoDevelop.Services;
 using MonoDevelop.Gui;
-using MonoDevelop.Internal.Project;
+
+using Project_ = MonoDevelop.Internal.Project.Project;
 
 namespace MonoDevelop.Internal.Templates
 {
@@ -26,7 +28,7 @@ namespace MonoDevelop.Internal.Templates
 	{
 		string name;
 		string relativePath;
-		string languageName = null;
+		string projectType;
 		
 		ArrayList files      = new ArrayList(); // contains FileTemplate classes
 		ArrayList references = new ArrayList(); 
@@ -35,12 +37,6 @@ namespace MonoDevelop.Internal.Templates
 		XmlElement projectOptions = null;
 		
 		#region public properties
-		public string LanguageName {
-			get {
-				return languageName;
-			}
-		}
-
 		public ArrayList Files {
 			get {
 				return files;
@@ -77,16 +73,18 @@ namespace MonoDevelop.Internal.Templates
 			StringParserService stringParserService = Runtime.StringParserService;
 			FileUtilityService fileUtilityService = Runtime.FileUtilityService;
 			
-			string language = languageName != null && languageName.Length > 0 ? languageName : defaultLanguage;
-			
-			ILanguageBinding languageinfo = Runtime.Languages.GetBindingPerLanguageName(language);
-			
-			if (languageinfo == null) {
-				Runtime.MessageService.ShowError(String.Format (GettextCatalog.GetString ("Can't create project with type : {0}"), language));
-				return String.Empty;
+			if (projectOptions.GetAttribute ("language") == "") {
+				if (defaultLanguage == null || defaultLanguage == "")
+					throw new InvalidOperationException ("Language not specified in template");
+				projectOptions.SetAttribute ("language", defaultLanguage);
 			}
 			
-			IProject project = languageinfo.CreateProject(projectCreateInformation, projectOptions);
+			Project_ project = Runtime.ProjectService.CreateProject (projectType, projectCreateInformation, projectOptions);
+			
+			if (project == null) {
+				Runtime.MessageService.ShowError(String.Format (GettextCatalog.GetString ("Can't create project with type : {0}"), projectType));
+				return String.Empty;
+			}
 			
 			string newProjectName = stringParserService.Parse(name, new string[,] { 
 				{"ProjectName", projectCreateInformation.ProjectName}
@@ -153,10 +151,10 @@ namespace MonoDevelop.Internal.Templates
 			
 			if (File.Exists(projectLocation)) {
 				if (Runtime.MessageService.AskQuestion(String.Format (GettextCatalog.GetString ("Project file {0} already exists, do you want to overwrite\nthe existing file ?"), projectLocation),  GettextCatalog.GetString ("File already exists"))) {
-					project.SaveProject(projectLocation);
+					project.Save (projectLocation);
 				}
 			} else {
-				project.SaveProject(projectLocation);
+				project.Save (projectLocation);
 			}
 			
 			return projectLocation;
@@ -166,10 +164,12 @@ namespace MonoDevelop.Internal.Templates
 		{
 			ProjectDescriptor projectDescriptor = new ProjectDescriptor(element.Attributes["name"].InnerText, element.Attributes["directory"].InnerText);
 			
+			projectDescriptor.projectType = element.GetAttribute ("type");
+			if (projectDescriptor.projectType == "") projectDescriptor.projectType = "DotNet";
+			
 			projectDescriptor.projectOptions = element["Options"];
-			if (element.Attributes["language"] != null) {
-				projectDescriptor.languageName = element.Attributes["language"].InnerText;
-			}
+			if (projectDescriptor.projectOptions == null)
+				projectDescriptor.projectOptions = element.OwnerDocument.CreateElement ("Options");
 			
 			if (element["Files"] != null) {
 				foreach (XmlNode node in element["Files"].ChildNodes) {

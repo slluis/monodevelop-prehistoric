@@ -13,7 +13,7 @@ using System.Xml;
 using MonoDevelop.SharpAssembly.Metadata.Rows;
 using MonoDevelop.SharpAssembly.Metadata;
 using MonoDevelop.SharpAssembly.PE;
-using SharpAssembly=MonoDevelop.SharpAssembly.Assembly.SharpAssembly;
+using SharpAssembly_=MonoDevelop.SharpAssembly.Assembly.SharpAssembly;
 using AssemblyReader=MonoDevelop.SharpAssembly.Assembly.AssemblyReader;
 using SharpCustomAttribute=MonoDevelop.SharpAssembly.Assembly.SharpCustomAttribute;
 
@@ -22,7 +22,7 @@ namespace MonoDevelop.Internal.Parser {
 	[Serializable]
 	public class SharpAssemblyParameter : AbstractParameter
 	{
-		public SharpAssemblyParameter(SharpAssembly asm, Param[] paramTable, uint index, IReturnType type)
+		public SharpAssemblyParameter(SharpAssembly_ asm, Param[] paramTable, uint index, IReturnType type)
 		{
 			if (asm == null) {
 				throw new System.ArgumentNullException("asm");
@@ -66,7 +66,7 @@ namespace MonoDevelop.Internal.Parser {
 			
 		}
 		
-		public SharpAssemblyParameter(SharpAssembly asm, string paramName, IReturnType type)
+		public SharpAssemblyParameter(SharpAssembly_ asm, string paramName, IReturnType type)
 		{
 			name = paramName;
 			if (type.Name.EndsWith("&")) {

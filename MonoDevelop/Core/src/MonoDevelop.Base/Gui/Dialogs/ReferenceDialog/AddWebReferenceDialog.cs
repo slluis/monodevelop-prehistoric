@@ -57,7 +57,7 @@ namespace MonoDevelop.Gui.Dialogs
 		/// </summary>
 		private System.ComponentModel.Container components = null;
 
-		private IProject project = null;
+		private Project project = null;
 		private ResourceService resourceService = (ResourceService)ServiceManager.Services.GetService(typeof(IResourceService));
 		private FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.Services.GetService(typeof(FileUtilityService));
 	
@@ -71,7 +71,7 @@ namespace MonoDevelop.Gui.Dialogs
 			}
 		}
 
-		public AddWebReferenceDialog(IProject p)
+		public AddWebReferenceDialog(Project p)
 		{			
 			//
 			// Required for Windows Form Designer support

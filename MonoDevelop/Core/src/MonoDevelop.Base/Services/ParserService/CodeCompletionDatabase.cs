@@ -628,9 +628,9 @@ namespace MonoDevelop.Services
 	
 	internal class ProjectCodeCompletionDatabase: CodeCompletionDatabase
 	{
-		IProject project;
+		Project project;
 		
-		public ProjectCodeCompletionDatabase (IProject project, DefaultParserService parserService)
+		public ProjectCodeCompletionDatabase (Project project, DefaultParserService parserService)
 		: base (parserService)
 		{
 			SetLocation (project.BaseDirectory, project.Name);

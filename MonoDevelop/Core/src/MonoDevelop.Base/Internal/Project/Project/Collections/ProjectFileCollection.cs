@@ -7,7 +7,7 @@
 using System;
 using System.Collections;
 
-namespace MonoDevelop.Internal.Project.Collections
+namespace MonoDevelop.Internal.Project
 {
 	/// <summary>
 	///     <para>
@@ -18,21 +18,20 @@ namespace MonoDevelop.Internal.Project.Collections
 	[Serializable()]
 	public class ProjectFileCollection : CollectionBase {
 	
-		AbstractProject project;
+		Project project;
 		
 		/// <summary>
 		///     <para>
 		///       Initializes a new instance of <see cref='.ProjectFileCollection'/>.
 		///    </para>
 		/// </summary>
-		public ProjectFileCollection () {
+		public ProjectFileCollection ()
+		{
 		}
 		
-		internal void SetProject (AbstractProject project)
+		public ProjectFileCollection (Project project)
 		{
 			this.project = project;
-			foreach (ProjectFile file in List)
-				file.SetProject (project);
 		}
 		
 		/// <summary>
@@ -48,10 +47,15 @@ namespace MonoDevelop.Internal.Project.Collections
 				return ((ProjectFile)(List[index]));
 			}
 			set {
-				project.NotifyFileRemovedFromProject ((ProjectFile)List[index]);
+				if (project != null)
+					project.NotifyFileRemovedFromProject ((ProjectFile)List[index]);
+
 				List[index] = value;
-				value.SetProject (project);
-				project.NotifyFileAddedToProject (value);
+				
+				if (project != null) {
+					value.SetProject (project);
+					project.NotifyFileAddedToProject (value);
+				}
 			}
 		}
 		
@@ -66,8 +70,10 @@ namespace MonoDevelop.Internal.Project.Collections
 		/// <seealso cref='.ProjectFileCollection.AddRange'/>
 		public int Add(ProjectFile value) {
 			int i = List.Add(value);
-			value.SetProject (project);
-			project.NotifyFileAddedToProject (value);
+			if (project != null) {
+				value.SetProject (project);
+				project.NotifyFileAddedToProject (value);
+			}
 			return i;
 		}
 		
@@ -159,8 +165,10 @@ namespace MonoDevelop.Internal.Project.Collections
 		/// <seealso cref='.ProjectFileCollection.Add'/>
 		public void Insert(int index, ProjectFile value) {
 			List.Insert(index, value);
-			value.SetProject (project);
-			project.NotifyFileAddedToProject (value);
+			if (project != null) {
+				value.SetProject (project);
+				project.NotifyFileAddedToProject (value);
+			}
 		}
 		
 		/// <summary>
@@ -182,6 +190,8 @@ namespace MonoDevelop.Internal.Project.Collections
 		/// <exception cref='System.ArgumentException'><paramref name='value'/> is not found in the Collection. </exception>
 		public void Remove(ProjectFile value) {
 			List.Remove(value);
+			if (project != null)
+				project.NotifyFileRemovedFromProject (value);
 		}
 		
 		public class ProjectFileEnumerator : object, IEnumerator {

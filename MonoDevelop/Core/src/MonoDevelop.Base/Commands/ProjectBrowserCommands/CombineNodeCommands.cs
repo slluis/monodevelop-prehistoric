@@ -49,7 +49,7 @@ namespace MonoDevelop.Commands.ProjectBrowser
 		{
 			try 
 			{
-				int newNodeIndex = node.Nodes.Add(ProjectBrowserView.BuildProjectTreeNode((IProject)node.Combine.AddEntry(npdlg.NewProjectLocation)));
+				int newNodeIndex = node.Nodes.Add(ProjectBrowserView.BuildProjectTreeNode((Project)node.Combine.AddEntry(npdlg.NewProjectLocation)));
 				Runtime.ProjectService.SaveCombine ();
 			// expand to the new node
 				node.Nodes[newNodeIndex].Expand();
@@ -111,8 +111,8 @@ namespace MonoDevelop.Commands.ProjectBrowser
 						try {
 							object obj = node.Combine.AddEntry(fdiag.Filename);
 							int newNodeIndex = -1;
-							if (obj is IProject) {
-								newNodeIndex = node.Nodes.Add(ProjectBrowserView.BuildProjectTreeNode((IProject)obj));
+							if (obj is Project) {
+								newNodeIndex = node.Nodes.Add(ProjectBrowserView.BuildProjectTreeNode((Project)obj));
 							} else {
 								newNodeIndex = node.Nodes.Add(ProjectBrowserView.BuildCombineTreeNode((Combine)obj));
 							}
@@ -149,8 +149,8 @@ namespace MonoDevelop.Commands.ProjectBrowser
 						try {
 							object obj = node.Combine.AddEntry(fdiag.Filename);
 							int newNodeIndex = -1;
-							if (obj is IProject) {
-								newNodeIndex = node.Nodes.Add(ProjectBrowserView.BuildProjectTreeNode((IProject)obj));
+							if (obj is Project) {
+								newNodeIndex = node.Nodes.Add(ProjectBrowserView.BuildProjectTreeNode((Project)obj));
 							} else {
 								newNodeIndex = node.Nodes.Add(ProjectBrowserView.BuildCombineTreeNode((Combine)obj));
 							}

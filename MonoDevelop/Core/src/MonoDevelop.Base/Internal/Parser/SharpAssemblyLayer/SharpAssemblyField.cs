@@ -13,7 +13,7 @@ using System.Xml;
 using MonoDevelop.SharpAssembly.Metadata.Rows;
 using MonoDevelop.SharpAssembly.Metadata;
 using MonoDevelop.SharpAssembly.PE;
-using SharpAssembly=MonoDevelop.SharpAssembly.Assembly.SharpAssembly;
+using SharpAssembly_=MonoDevelop.SharpAssembly.Assembly.SharpAssembly;
 using SharpCustomAttribute=MonoDevelop.SharpAssembly.Assembly.SharpCustomAttribute;
 
 namespace MonoDevelop.Internal.Parser {
@@ -21,7 +21,7 @@ namespace MonoDevelop.Internal.Parser {
 	[Serializable]
 	public class SharpAssemblyField : AbstractField
 	{
-		public SharpAssemblyField(SharpAssembly assembly, Field[] fieldTable, SharpAssemblyClass declaringtype, uint index)
+		public SharpAssemblyField(SharpAssembly_ assembly, Field[] fieldTable, SharpAssemblyClass declaringtype, uint index)
 		{
 			if (assembly == null) {
 				throw new System.ArgumentNullException("assembly");

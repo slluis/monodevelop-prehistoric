@@ -24,14 +24,14 @@ namespace MonoDevelop.Gui.Dialogs {
 	/// </summary>
 	public class ProjectOptionsDialog : TreeViewOptions
 	{
-		IProject  project;
+		Project  project;
 		
 		IAddInTreeNode configurationNode;
 		Gtk.TreeIter configurationTreeNode;
 		Gtk.CellRendererText textRenderer;		// used to set an editable node
 		Gtk.TreeViewColumn textColumn;			// used to set an editable node
 	
-		public ProjectOptionsDialog(IProject project, IAddInTreeNode node, IAddInTreeNode configurationNode) : base(null, null)
+		public ProjectOptionsDialog(Project project, IAddInTreeNode node, IAddInTreeNode configurationNode) : base(null, null)
 		{
 			this.project = project;
 			this.configurationNode = configurationNode;

@@ -16,7 +16,7 @@ namespace MonoDevelop.Internal.Project
 {
 	public class ScriptDeploy : IDeploymentStrategy
 	{
-		public void DeployProject(IProject project)
+		public void DeployProject(Project project)
 		{
 			if (project.DeployInformation.DeployScript.Length == 0) {
 				Runtime.MessageService.ShowError(GettextCatalog.GetString ("Can't deploy: you forgot to specify a deployment script"));

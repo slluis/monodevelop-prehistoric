@@ -14,7 +14,7 @@ using MonoDevelop.SharpAssembly.Metadata.Rows;
 using MonoDevelop.SharpAssembly.Metadata;
 using MonoDevelop.SharpAssembly.PE;
 using MonoDevelop.SharpAssembly.Assembly;
-using SharpAssembly = MonoDevelop.SharpAssembly.Assembly.SharpAssembly;
+using SharpAssembly_ = MonoDevelop.SharpAssembly.Assembly.SharpAssembly;
 
 namespace MonoDevelop.Internal.Parser {
 	
@@ -35,7 +35,7 @@ namespace MonoDevelop.Internal.Parser {
 			}
 		}
 		
-		public static string GetNestedName(SharpAssembly asm, TypeRef[] typeRefTable, uint index)
+		public static string GetNestedName(SharpAssembly_ asm, TypeRef[] typeRefTable, uint index)
 		{
 			uint val = typeRefTable[index].ResolutionScope;
 			int table = asm.Reader.GetCodedIndexTable(CodedIndex.ResolutionScope, ref val);
@@ -51,7 +51,7 @@ namespace MonoDevelop.Internal.Parser {
 			}
 		}
 		
-		public static string GetNestedName(SharpAssembly asm, TypeDef[] typeDefTable, uint index)
+		public static string GetNestedName(SharpAssembly_ asm, TypeDef[] typeDefTable, uint index)
 		{
 			uint nestedParent = asm.GetNestedTypeParent(index);
 			
@@ -66,7 +66,7 @@ namespace MonoDevelop.Internal.Parser {
 		/// Constructs a SharpAssemblyClass from an entry in the assembly's TypeRef table
 		/// by looking in the referencing assembly's TypeDef table
 		/// </summary>
-		public static SharpAssemblyClass FromTypeRef(SharpAssembly referencingAssembly, uint index)
+		public static SharpAssemblyClass FromTypeRef(SharpAssembly_ referencingAssembly, uint index)
 		{
 			if (referencingAssembly.TypeRefObjects[index] as SharpAssemblyClass != null) {
 				return (SharpAssemblyClass)referencingAssembly.TypeRefObjects[index];
@@ -76,7 +76,7 @@ namespace MonoDevelop.Internal.Parser {
 			
 			string name = referencingAssembly.Reader.GetStringFromHeap(typeRefTable[index].Name);
 			
-			SharpAssembly declaringAssembly = referencingAssembly.GetRefAssemblyFor(index);
+			SharpAssembly_ declaringAssembly = referencingAssembly.GetRefAssemblyFor(index);
 			if (declaringAssembly == null) {
 				Console.Write("FromTypeRef failed for: " + name + " declared in assembly " + referencingAssembly.Name);
 				Console.WriteLine(": Declaring assembly not found.");
@@ -112,7 +112,7 @@ namespace MonoDevelop.Internal.Parser {
 		/// Constructs a SharpAssemblyClass from an entry in the assembly's TypeDef table
 		/// Looks in the class cache for the assembly first
 		/// </summary>
-		public static SharpAssemblyClass FromTypeDef(SharpAssembly assembly, uint index)
+		public static SharpAssemblyClass FromTypeDef(SharpAssembly_ assembly, uint index)
 		{
 			if (assembly.TypeDefObjects[index] as SharpAssemblyClass != null) {
 				SharpAssemblyClass exclass = (SharpAssemblyClass)assembly.TypeDefObjects[index];
@@ -127,7 +127,7 @@ namespace MonoDevelop.Internal.Parser {
 		/// The constructor is private because the only way to construct SharpAssemblyClass objects
 		/// is to call FromTypeRef/Def to make us of the cache
 		/// </summary>
-		private SharpAssemblyClass(SharpAssembly assembly, TypeDef[] typeDefTable, uint index)
+		private SharpAssemblyClass(SharpAssembly_ assembly, TypeDef[] typeDefTable, uint index)
 		{
 			if (assembly == null) {
 				throw new System.ArgumentNullException("assembly");
@@ -263,7 +263,7 @@ namespace MonoDevelop.Internal.Parser {
 		{
 			if (membersLoaded) return;
 			
-			SharpAssembly assembly = (SharpAssembly)declaredIn;
+			SharpAssembly_ assembly = (SharpAssembly_)declaredIn;
 			TypeDef[] typeDefTable = assembly.Tables.TypeDef;
 			
 			AddMethods(assembly, typeDefTable, typeDefIndex);
@@ -285,7 +285,7 @@ namespace MonoDevelop.Internal.Parser {
 			return false;
 		}
 		
-		private static SharpAssemblyClass GetTypeRefOrDefClass(SharpAssembly assembly, uint cind) {
+		private static SharpAssemblyClass GetTypeRefOrDefClass(SharpAssembly_ assembly, uint cind) {
 			uint nTable = cind & 0x03;
 			uint nIndex = cind >> 2;
 			
@@ -300,7 +300,7 @@ namespace MonoDevelop.Internal.Parser {
 			}
 		}
 		
-		void AddEvents(SharpAssembly asm, TypeDef[] typeDefTable, uint index)
+		void AddEvents(SharpAssembly_ asm, TypeDef[] typeDefTable, uint index)
 		{
 			EventMap[] eventMapTable = asm.Tables.EventMap;
 			Event[]    eventTable    = asm.Tables.Event;
@@ -334,7 +334,7 @@ namespace MonoDevelop.Internal.Parser {
 			}
 		}
 		
-		void AddProperties(SharpAssembly asm, TypeDef[] typeDefTable, uint index)
+		void AddProperties(SharpAssembly_ asm, TypeDef[] typeDefTable, uint index)
 		{
 			PropertyMap[] propertyMapTable = asm.Tables.PropertyMap;
 			Property[]    propertyTable    = asm.Tables.Property;
@@ -368,7 +368,7 @@ namespace MonoDevelop.Internal.Parser {
 			}
 		}
 		
-		void AddFields(SharpAssembly asm, TypeDef[] typeDefTable, uint index)
+		void AddFields(SharpAssembly_ asm, TypeDef[] typeDefTable, uint index)
 		{
 			Field[] fieldTable = asm.Tables.Field;
 			if (fieldTable == null) {
@@ -393,7 +393,7 @@ namespace MonoDevelop.Internal.Parser {
 			}
 		}
 		
-		void AddMethods(SharpAssembly asm, TypeDef[] typeDefTable, uint index)
+		void AddMethods(SharpAssembly_ asm, TypeDef[] typeDefTable, uint index)
 		{
 			Method[] methodDefTable = asm.Tables.Method;
 			if (methodDefTable == null) {
@@ -418,7 +418,7 @@ namespace MonoDevelop.Internal.Parser {
 			}
 		}
 		
-		public static SharpAssemblyClass[] GetAssemblyTypes(SharpAssembly assembly)
+		public static SharpAssemblyClass[] GetAssemblyTypes(SharpAssembly_ assembly)
 		{
 			
 			TypeDef[] typeDefTable = assembly.Tables.TypeDef;

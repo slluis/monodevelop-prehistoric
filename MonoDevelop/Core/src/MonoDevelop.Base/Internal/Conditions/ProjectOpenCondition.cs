@@ -36,12 +36,12 @@ namespace MonoDevelop.Core.AddIns
 		
 		public override bool IsValid(object owner)
 		{
-			IProject project = Runtime.ProjectService.CurrentSelectedProject;
+			Project project = Runtime.ProjectService.CurrentSelectedProject;
 			
 			if (project == null && Runtime.ProjectService.CurrentOpenCombine != null) {
-				ArrayList projects = Combine.GetAllProjects(Runtime.ProjectService.CurrentOpenCombine);
+				CombineEntryCollection projects = Runtime.ProjectService.CurrentOpenCombine.GetAllProjects();
 				if (projects.Count > 0) {
-					project = ((ProjectCombineEntry)projects[0]).Project;
+					project = (Project)projects[0];
 				}
 			}
 			

@@ -41,7 +41,7 @@ namespace MonoDevelop.Internal.Project
 		{
 		}
 		
-		public string Import(ProjectReference refinfo, IProject project)
+		public string Import(ProjectReference refinfo, Project project)
 		{
 			RegistryKey root = Registry.ClassesRoot;
 			RegistryKey typelibsKey = root.OpenSubKey("TypeLib");

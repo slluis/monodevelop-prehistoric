@@ -26,8 +26,7 @@ namespace MonoDevelop.Commands
 		public override void Run()
 		{
 			if (Runtime.ProjectService.CurrentSelectedProject != null) {
-				ILanguageBinding csc = Runtime.Languages.GetBindingPerLanguageName (Runtime.ProjectService.CurrentSelectedProject.ProjectType);
-				string assembly = csc.GetCompiledOutputName (Runtime.ProjectService.CurrentSelectedProject);
+				string assembly = Runtime.ProjectService.CurrentSelectedProject.GetOutputFileName ();
 				
 				if (!File.Exists(assembly)) {
 					Runtime.MessageService.ShowError (GettextCatalog.GetString ("Assembly not Found (Compile the project first)"));
@@ -47,7 +46,7 @@ namespace MonoDevelop.Commands
 	{
 		public override void Run()
 		{
-			IProject selectedProject = Runtime.ProjectService.CurrentSelectedProject;
+			Project selectedProject = Runtime.ProjectService.CurrentSelectedProject;
 			if (selectedProject == null) {
 				return;
 			}
@@ -57,7 +56,7 @@ namespace MonoDevelop.Commands
 			
 			ProjectOptionsDialog optionsDialog = new ProjectOptionsDialog(selectedProject, generalOptionsNode, configurationPropertiesNode);
 			if (optionsDialog.Run() == (int)Gtk.ResponseType.Ok) {
-					Runtime.ProjectService.MarkProjectDirty (selectedProject);
+					Runtime.ProjectService.CurrentSelectedProject.NeedsBuilding = true;
 			}
 			
 			Runtime.ProjectService.SaveCombine();
@@ -85,9 +84,7 @@ namespace MonoDevelop.Commands
 		{
 			try {
 				if (Runtime.ProjectService.CurrentSelectedProject != null) {
-					ILanguageBinding csc = Runtime.Languages.GetBindingPerLanguageName (Runtime.ProjectService.CurrentSelectedProject.ProjectType);
-					
-					string assembly    = csc.GetCompiledOutputName (Runtime.ProjectService.CurrentSelectedProject);
+					string assembly    = Runtime.ProjectService.CurrentSelectedProject.GetOutputFileName ();
 					string projectFile = Path.ChangeExtension(assembly, ".ndoc");
 					if (!File.Exists(projectFile)) {
 						StreamWriter sw = File.CreateText(projectFile);

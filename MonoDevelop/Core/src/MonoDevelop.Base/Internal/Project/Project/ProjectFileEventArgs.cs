@@ -14,10 +14,10 @@ namespace MonoDevelop.Internal.Project
 	
 	public class ProjectFileEventArgs : EventArgs
 	{
-		IProject project;
+		Project project;
 		ProjectFile file;
 		
-		public IProject Project {
+		public Project Project {
 			get {
 				return project;
 			}
@@ -29,7 +29,7 @@ namespace MonoDevelop.Internal.Project
 			}
 		}
 		
-		public ProjectFileEventArgs (IProject project, ProjectFile file)
+		public ProjectFileEventArgs (Project project, ProjectFile file)
 		{
 			this.project = project;
 			this.file = file;

@@ -44,7 +44,7 @@ namespace MonoDevelop.Gui.Pads.ProjectBrowser
 			Image = Stock.CombineIcon;
 			
 			contextmenuAddinTreePath = defaultContextMenuPath;
-			combine.NameChanged += new EventHandler(UpdateCombineName);
+			combine.NameChanged += new CombineEntryRenamedEventHandler (UpdateCombineName);
 		}
 		
 		public override void BeforeLabelEdit()
@@ -57,7 +57,7 @@ namespace MonoDevelop.Gui.Pads.ProjectBrowser
 			if (newName != null && newName.Trim().Length > 0 && ContainsNoInvalidChars (newName)) {
 				combine.Name = newName;
 			}
-			UpdateCombineName (null, EventArgs.Empty);
+			UpdateCombineName (null, null);
 		}
 		
 		bool ContainsNoInvalidChars (string name)
@@ -71,11 +71,11 @@ namespace MonoDevelop.Gui.Pads.ProjectBrowser
 		
 		public override void UpdateNaming()
 		{
-			UpdateCombineName(this, EventArgs.Empty);
+			UpdateCombineName(this, null);
 			base.UpdateNaming();
 		}
 		
-		public void UpdateCombineName(object sender, EventArgs e)
+		public void UpdateCombineName (object sender, CombineEntryRenamedEventArgs e)
 		{
 			switch (combine.Entries.Count) {
 				case 0:
@@ -108,25 +108,12 @@ namespace MonoDevelop.Gui.Pads.ProjectBrowser
 			if (!yes)
 				return false;
 			
-			CombineEntry removeEntry = null;
-			
-			// remove combineentry
-			foreach (CombineEntry entry in cmbNode.Combine.Entries) {
-				if (entry is CombineCombineEntry) {
-					if (((CombineCombineEntry)entry).Combine == Combine) {
-						removeEntry = entry;
-						break;
-					}
-				}
-			}
-			
-			Debug.Assert(removeEntry != null);
-			cmbNode.Combine.RemoveEntry (removeEntry);
+			cmbNode.Combine.RemoveEntry (Combine);
 			
 			// remove execute definition
 			CombineExecuteDefinition removeExDef = null;
 			foreach (CombineExecuteDefinition exDef in cmbNode.Combine.CombineExecuteDefinitions) {
-				if (exDef.Entry == removeEntry) {
+				if (exDef.Entry == Combine) {
 					removeExDef = exDef;
 				}
 			}
@@ -135,7 +122,7 @@ namespace MonoDevelop.Gui.Pads.ProjectBrowser
 			
 			// remove configuration
 			foreach (DictionaryEntry dentry in cmbNode.Combine.Configurations) {
-				((CombineConfiguration)dentry.Value).RemoveEntry(removeEntry);
+				((CombineConfiguration)dentry.Value).RemoveEntry (Combine);
 			}
 			
 			cmbNode.UpdateNaming();

@@ -14,7 +14,7 @@ using System.Xml;
 using MonoDevelop.SharpAssembly.Metadata.Rows;
 using MonoDevelop.SharpAssembly.Metadata;
 using MonoDevelop.SharpAssembly.PE;
-using SharpAssembly=MonoDevelop.SharpAssembly.Assembly.SharpAssembly;
+using SharpAssembly_=MonoDevelop.SharpAssembly.Assembly.SharpAssembly;
 using SharpCustomAttribute=MonoDevelop.SharpAssembly.Assembly.SharpCustomAttribute;
 using AssemblyReader=MonoDevelop.SharpAssembly.Assembly.AssemblyReader;
 
@@ -23,7 +23,7 @@ namespace MonoDevelop.Internal.Parser {
 	[Serializable]
 	public class SharpAssemblyMethod : AbstractMethod
 	{
-		public SharpAssemblyMethod(SharpAssembly asm, Method[] methodTable, SharpAssemblyClass declaringtype, uint index)
+		public SharpAssemblyMethod(SharpAssembly_ asm, Method[] methodTable, SharpAssemblyClass declaringtype, uint index)
 		{
 			if (asm == null) {
 				throw new System.ArgumentNullException("asm");
@@ -112,7 +112,7 @@ namespace MonoDevelop.Internal.Parser {
 			AddParameters(asm, methodTable, index, returnTypes);
 		}
 		
-		void AddParameters(SharpAssembly asm, Method[] methodDefTable, uint index, IReturnType[] returnTypes)
+		void AddParameters(SharpAssembly_ asm, Method[] methodDefTable, uint index, IReturnType[] returnTypes)
 		{
 			Param[] paramTable = asm.Tables.Param;
 			if (paramTable == null) return;

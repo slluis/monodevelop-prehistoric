@@ -89,7 +89,7 @@ namespace MonoDevelop.Gui.Pads.ProjectBrowser
 		public override void ActivateItem()
 		{
 			if (userData != null && userData is ProjectFile)
-				Runtime.FileService.OpenFile (((ProjectFile)userData).Name);
+				Runtime.FileService.OpenFile (((ProjectFile)userData).FilePath);
 		}
 		
 		public override void AfterLabelEdit(string newName)

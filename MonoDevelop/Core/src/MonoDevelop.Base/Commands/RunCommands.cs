@@ -60,24 +60,16 @@ namespace MonoDevelop.Commands
 						ShowAfterCompileStatus();
 					} else {
 						if (WorkbenchSingleton.Workbench.ActiveWorkbenchWindow != null) {
-							ILanguageBinding binding = Runtime.Languages.GetBindingPerFileName(WorkbenchSingleton.Workbench.ActiveWorkbenchWindow.ViewContent.ContentName);
-							
-							if (binding != null) {
-								if (binding == null || !binding.CanCompile(WorkbenchSingleton.Workbench.ActiveWorkbenchWindow.ViewContent.ContentName)) {
-									Runtime.MessageService.ShowError(String.Format (GettextCatalog.GetString ("Language binding {0} can't compile {1}"), binding.Language, WorkbenchSingleton.Workbench.ActiveWorkbenchWindow.ViewContent.ContentName));
-								} else {
-									new SaveFile().Run();
-									ICompilerResult res = binding.CompileFile(WorkbenchSingleton.Workbench.ActiveWorkbenchWindow.ViewContent.ContentName);
-									taskService.ClearTasks ();
-									foreach (CompilerError err in res.CompilerResults.Errors) {
-										taskService.AddTask(new Task(null, err));
-									}
-									taskService.CompilerOutput = res.CompilerOutput;
-									taskService.NotifyTaskChange();
-									ShowAfterCompileStatus();
-								}
+							new SaveFile().Run();
+							Project tempProject = Runtime.ProjectService.CreateSingleFileProject (WorkbenchSingleton.Workbench.ActiveWorkbenchWindow.ViewContent.ContentName);
+							if (tempProject != null) {
+								taskService.ClearTasks ();
+								taskService.CompilerOutput = "";
+								ICompilerResult res = tempProject.Compile ();
+								taskService.CompilerOutput = res.CompilerOutput;
+								ShowAfterCompileStatus();
 							} else {
-								Runtime.MessageService.ShowError(GettextCatalog.GetString ("No source file for compilation found. Please save unsaved files"));
+								Runtime.MessageService.ShowError(GettextCatalog.GetString ("The current file can't be compiled."));
 							}
 						}
 					}
@@ -98,15 +90,12 @@ namespace MonoDevelop.Commands
 		public override void Run()
 		{
 			lock (CompileLockObject) {
-				if (Runtime.ProjectService.CurrentOpenCombine != null) {
-					Runtime.TaskService.CompilerOutput = String.Empty;
-					Runtime.ProjectService.OnStartBuild();
-					RunWithWait();
-					//Thread t = new Thread(new ThreadStart(CompileThread));
-					//t.IsBackground  = true;
-					//t.Start();
-				}
-				
+				Runtime.TaskService.CompilerOutput = String.Empty;
+				Runtime.ProjectService.OnStartBuild();
+				RunWithWait();
+				//Thread t = new Thread(new ThreadStart(CompileThread));
+				//t.IsBackground  = true;
+				//t.Start();
 			}
 		}
 	}
@@ -126,24 +115,16 @@ namespace MonoDevelop.Commands
 						Compile.ShowAfterCompileStatus();
 					} else {
 						if (WorkbenchSingleton.Workbench.ActiveWorkbenchWindow != null) {
-							ILanguageBinding binding = Runtime.Languages.GetBindingPerFileName(WorkbenchSingleton.Workbench.ActiveWorkbenchWindow.ViewContent.ContentName);
-							
-							if (binding != null) {
-								if (binding == null || !binding.CanCompile(WorkbenchSingleton.Workbench.ActiveWorkbenchWindow.ViewContent.ContentName)) {
-									Runtime.MessageService.ShowError(String.Format (GettextCatalog.GetString ("Language binding {0} can't compile {1}"), binding.Language, WorkbenchSingleton.Workbench.ActiveWorkbenchWindow.ViewContent.ContentName));
-								} else {
-									new SaveFile().Run();
-									ICompilerResult res = binding.CompileFile(WorkbenchSingleton.Workbench.ActiveWorkbenchWindow.ViewContent.ContentName);
-									taskService.ClearTasks();
-									foreach (CompilerError err in res.CompilerResults.Errors) {
-										taskService.AddTask(new Task(null, err));
-									}
-									taskService.CompilerOutput = res.CompilerOutput;
-									taskService.NotifyTaskChange();
-									Compile.ShowAfterCompileStatus();
-								}
+							new SaveFile().Run();
+							Project tempProject = Runtime.ProjectService.CreateSingleFileProject (WorkbenchSingleton.Workbench.ActiveWorkbenchWindow.ViewContent.ContentName);
+							if (tempProject != null) {
+								taskService.ClearTasks ();
+								taskService.CompilerOutput = "";
+								ICompilerResult res = tempProject.Compile ();
+								taskService.CompilerOutput = res.CompilerOutput;
+								Compile.ShowAfterCompileStatus();
 							} else {
-								Runtime.MessageService.ShowError(GettextCatalog.GetString ("No source file for compilation found. Please save unsaved files"));
+								Runtime.MessageService.ShowError(GettextCatalog.GetString ("The current file can't be compiled."));
 							}
 						}
 					}
@@ -197,12 +178,12 @@ namespace MonoDevelop.Commands
 						}
 					} else {
 						if (WorkbenchSingleton.Workbench.ActiveWorkbenchWindow != null) {
-							new Compile().RunWithWait();
 							if (Runtime.TaskService.Errors == 0) {
-								ILanguageBinding binding = Runtime.Languages.GetBindingPerFileName(WorkbenchSingleton.Workbench.ActiveWorkbenchWindow.ViewContent.ContentName);
-								if (binding != null) {
+								Project tempProject = Runtime.ProjectService.CreateSingleFileProject (WorkbenchSingleton.Workbench.ActiveWorkbenchWindow.ViewContent.ContentName);
+								if (tempProject != null) {
+									tempProject.Compile ();
 									projectService.OnBeforeStartProject();
-									binding.Execute(WorkbenchSingleton.Workbench.ActiveWorkbenchWindow.ViewContent.ContentName);
+									tempProject.Execute ();
 								} else {
 									Runtime.MessageService.ShowError(GettextCatalog.GetString ("No runnable executable found."));
 								}
@@ -210,6 +191,7 @@ namespace MonoDevelop.Commands
 						}
 					}
 				} catch (Exception e) {
+					Console.WriteLine (e);
 					Runtime.MessageService.ShowError(e, GettextCatalog.GetString ("Error while running"));
 				}
 				Runtime.Gui.StatusBar.SetMessage(GettextCatalog.GetString ("Ready"));
@@ -219,13 +201,11 @@ namespace MonoDevelop.Commands
 		
 		public override void Run()
 		{
-			if (Runtime.ProjectService.CurrentOpenCombine != null) {
-				RunThread(); // TODO FIXME PEDRO
-				
-				//Thread t = new Thread(new ThreadStart(RunThread));
-				//t.IsBackground  = true;
-				//t.Start();
-			}
+			RunThread(); // TODO FIXME PEDRO
+			
+			//Thread t = new Thread(new ThreadStart(RunThread));
+			//t.IsBackground  = true;
+			//t.Start();
 		}
 	}
 	
@@ -290,7 +270,7 @@ namespace MonoDevelop.Commands
 		public override void Run () 
 		{
 			if (Runtime.ProjectService.CurrentOpenCombine != null) {
-				Runtime.ProjectService.GenerateMakefiles ();
+				Runtime.ProjectService.CurrentOpenCombine.GenerateMakefiles ();
 			}
 		}
 	}

@@ -25,7 +25,7 @@ namespace MonoDevelop.Services
 		string   description;
 		string   fileName;
 		TaskType type;
-		IProject project;
+		Project project;
 		int      line;
 		int      column;
 		
@@ -40,7 +40,7 @@ namespace MonoDevelop.Services
 			                     description);
 		}
 		
-		public IProject Project {
+		public Project Project {
 			get {
 				return project;
 			}
@@ -91,7 +91,7 @@ namespace MonoDevelop.Services
 			this.line        = line;
 		}
 		
-		public Task(IProject project, CompilerError error)
+		public Task(Project project, CompilerError error)
 		{
 			this.project = project;
 			type        = error.IsWarning ? error.ErrorNumber == "COMMENT" ? TaskType.Comment : TaskType.Warning : TaskType.Error;

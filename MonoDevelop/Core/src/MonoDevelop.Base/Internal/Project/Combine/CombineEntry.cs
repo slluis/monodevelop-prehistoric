@@ -16,257 +16,187 @@ using System.CodeDom.Compiler;
 using MonoDevelop.Core.Properties;
 using MonoDevelop.Core.Services;
 using MonoDevelop.Gui;
+using MonoDevelop.Gui.Components;
 using MonoDevelop.Internal.Project;
 using MonoDevelop.Services;
+using MonoDevelop.Internal.Serialization;
 
 namespace MonoDevelop.Internal.Project
 {
-	public abstract class CombineEntry : IDisposable
+	public abstract class CombineEntry : ICustomDataItem, IDisposable
 	{
 		public static int BuildProjects = 0;
 		public static int BuildErrors   = 0;
 		
-		object    entry;
+		[ItemProperty ("Configurations")]
+		[ItemProperty ("Configuration", ValueType=typeof(IConfiguration), Scope=1)]
+		ArrayList configurations = new ArrayList();
+
+		Combine parentCombine;
+		IConfiguration activeConfiguration;
+		string name;
+		string path;
 		
-		ArrayList dependencies = new ArrayList();
+		IFileFormat fileFormat;
 		
-		string    filename;
-		public string Filename {
+		public event CombineEntryRenamedEventHandler NameChanged;
+		
+		[ItemProperty ("name")]
+		public virtual string Name {
 			get {
-				return filename;
+				return name;
 			}
 			set {
-				filename = value;
+				if (name != value && value != null && value.Length > 0) {
+					string oldName = name;
+					name = value;
+					OnNameChanged (new CombineEntryRenamedEventArgs (this, oldName, name));
+				}
 			}
 		}
 		
-		public abstract string Name {
-			get;
-		}
-		
-		public object Entry {
+		public virtual string FileName {
 			get {
-				return entry;
+				if (parentCombine != null && path != null)
+					return parentCombine.GetAbsoluteChildPath (path);
+				else
+					return path;
+			}
+			set {
+				if (parentCombine != null && path != null)
+					path = parentCombine.GetRelativeChildPath (value);
+				else
+					path = value;
 			}
 		}
 		
-		public CombineEntry(object entry, string filename)
-		{
-			this.entry = entry;
-			this.filename = filename;
+		public virtual IFileFormat FileFormat {
+			get { return fileFormat; }
+			set { fileFormat = value; }
 		}
 		
-		public void Dispose()
-		{
-			if (entry is IDisposable) {
-				((IDisposable)entry).Dispose();
+		public virtual string RelativeFileName {
+			get {
+				if (path != null && parentCombine != null)
+					return parentCombine.GetRelativeChildPath (path);
+				else
+					return path;
 			}
 		}
 		
-		public abstract void Build(bool doBuildAll);
+		public string BaseDirectory {
+			get { return Path.GetDirectoryName (FileName); }
+		}
+		
+		[ItemProperty ("fileversion")]
+		protected virtual string CurrentFileVersion {
+			get { return "2.0"; }
+			set {}
+		}
+		
+		public virtual void Save (string fileName)
+		{
+			FileName = fileName;
+			Save ();
+		}
+		
+		public virtual void Save ()
+		{
+			Runtime.ProjectService.WriteFile (FileName, this);
+		}
+		
+		internal void SetParentCombine (Combine combine)
+		{
+			parentCombine = combine;
+		}
+		
+		public ArrayList Configurations {
+			get {
+				return configurations;
+			}
+		}
+		
+		public IConfiguration ActiveConfiguration {
+			get {
+				if (activeConfiguration == null && configurations.Count > 0) {
+					return (IConfiguration)configurations[0];
+				}
+				return activeConfiguration;
+			}
+			set {
+				activeConfiguration = value;
+			}
+		}
+		
+		public virtual DataCollection Serialize (ITypeSerializer handler)
+		{
+			DataCollection data = handler.Serialize (this);
+			if (activeConfiguration != null) {
+				DataItem confItem = data ["Configurations"] as DataItem;
+				confItem.UniqueNames = true;
+				if (confItem != null)
+					confItem.ItemData.Add (new DataValue ("active", activeConfiguration.Name));
+			}
+			return data;
+		}
+		
+		public virtual void Deserialize (ITypeSerializer handler, DataCollection data)
+		{
+			DataValue ac = null;
+			DataItem confItem = data ["Configurations"] as DataItem;
+			if (confItem != null)
+				ac = (DataValue) confItem.ItemData.Extract ("active");
+				
+			handler.Deserialize (this, data);
+			if (ac != null)
+				activeConfiguration = GetConfiguration (ac.Value);
+		}
+		
+		public IConfiguration GetConfiguration (string name)
+		{
+			if (configurations != null) {
+				foreach (IConfiguration conf in configurations)
+					if (conf.Name == name) return conf;
+			}
+			return null;
+		}
+
+		public string GetAbsoluteChildPath (string relPath)
+		{
+			if (Path.IsPathRooted (relPath))
+				return relPath;
+			else
+				return Runtime.FileUtilityService.RelativeToAbsolutePath (BaseDirectory, relPath);
+		}
+		
+		public string GetRelativeChildPath (string absPath)
+		{
+			return Runtime.FileUtilityService.AbsoluteToRelativePath (BaseDirectory, absPath);
+		}
+		
+		public virtual void Dispose()
+		{
+		}
+		
+		protected virtual void OnNameChanged (CombineEntryRenamedEventArgs e)
+		{
+			if (NameChanged != null) {
+				NameChanged (this, e);
+			}
+		}
+		
+		public abstract void Clean ();
+		public abstract void Build ();
 		public abstract void Execute();
-		public abstract void Save();
 		public abstract void Debug ();
-		public abstract void GenerateMakefiles (Combine parentCombine);
-		public abstract string GetOutputName ();
+		public abstract string GetOutputFileName ();
+		public abstract bool NeedsBuilding { get; set; }
+		
+		public virtual void GenerateMakefiles (Combine parentCombine)
+		{
+		}
+		
 	}
-	
-	public class ProjectCombineEntry : CombineEntry
-	{
-		IProject project;
-		bool     isDirty = true;
-		
-		public bool IsDirty {
-			get {
-				return isDirty;
-			}
-			set {
-				isDirty = value;
-			}
-		}
-		
-		public IProject Project {
-			get {
-				return project;
-			}
-		}
-		
-		public override string Name {
-			get {
-				return project.Name;
-			}
-		}
-		
-		public ProjectCombineEntry(IProject project, string filename) : base(project, filename)
-		{
-			this.project = project;
-		}
-		
-				
-		public override void Build(bool doBuildAll)
-		{ // if you change something here look at the DefaultProjectService BeforeCompile method
-			if (doBuildAll || isDirty) {
-				Runtime.StringParserService.Properties["Project"] = Name;
-				TaskService taskService = Runtime.TaskService;
-				
-				Runtime.Gui.StatusBar.SetMessage(String.Format (GettextCatalog.GetString ("Compiling: {0}"), Project.Name));
-				
-				// create output directory, if not exists
-				string outputDir = ((AbstractProjectConfiguration)project.ActiveConfiguration).OutputDirectory;
-				try {
-					DirectoryInfo directoryInfo = new DirectoryInfo(outputDir);
-					if (!directoryInfo.Exists) {
-						directoryInfo.Create();
-					}
-				} catch (Exception e) {
-					throw new ApplicationException("Can't create project output directory " + outputDir + " original exception:\n" + e.ToString());
-				}
-				
-				ILanguageBinding csc = Runtime.Languages.GetBindingPerLanguageName(project.ProjectType);
-				
-				AbstractProjectConfiguration conf = project.ActiveConfiguration as AbstractProjectConfiguration;
-
-				taskService.CompilerOutput += String.Format (GettextCatalog.GetString ("------ Build started: Project: {0} Configuration: {1} ------\n\nPerforming main compilation...\n"), Project.Name, Project.ActiveConfiguration.Name);
-				
-				if (conf != null && File.Exists(conf.ExecuteBeforeBuild)) {
-					taskService.CompilerOutput += String.Format (GettextCatalog.GetString ("Execute : {0}"), conf.ExecuteBeforeBuild);
-					ProcessStartInfo ps = new ProcessStartInfo(conf.ExecuteBeforeBuild);
-					ps.UseShellExecute = false;
-					ps.RedirectStandardOutput = true;
-					ps.WorkingDirectory = Path.GetDirectoryName(conf.ExecuteBeforeBuild);
-					Process process = new Process();
-					process.StartInfo = ps;
-					process.Start();
-					taskService.CompilerOutput += process.StandardOutput.ReadToEnd();
-				}
-				
-				ICompilerResult res = csc.CompileProject(project);
-				
-				if (conf != null && File.Exists(conf.ExecuteAfterBuild)) {
-					taskService.CompilerOutput += String.Format (GettextCatalog.GetString ("Execute : {0}"), conf.ExecuteAfterBuild);
-					ProcessStartInfo ps = new ProcessStartInfo(conf.ExecuteAfterBuild);
-					ps.UseShellExecute = false;
-					ps.RedirectStandardOutput = true;
-					ps.WorkingDirectory = Path.GetDirectoryName(conf.ExecuteAfterBuild);
-					Process process = new Process();
-					process.StartInfo = ps;
-					process.Start();
-					taskService.CompilerOutput += process.StandardOutput.ReadToEnd();
-				}
-				
-				isDirty = false;
-				foreach (CompilerError err in res.CompilerResults.Errors) {
-					isDirty = true;
-					taskService.AddTask(new Task(project, err));
-				}
-				
-				if (taskService.Errors > 0) {
-					++BuildErrors;
-				} else {
-					++BuildProjects;
-				}
-				
-				taskService.CompilerOutput += String.Format (GettextCatalog.GetString ("Build complete -- {0} errors, {1} warnings\n\n"), taskService.Errors.ToString (), taskService.Warnings.ToString ());
-			}
-		}
-		
-		public override void Execute()
-		{
-			ILanguageBinding binding = Runtime.Languages.GetBindingPerLanguageName(project.ProjectType);
-			if (binding == null) {
-				throw new ApplicationException("can't find language binding for project ");
-			}
-			
-			if (Runtime.TaskService.Errors == 0) {
-				if (Runtime.TaskService.Warnings == 0 || project.ActiveConfiguration != null && ((AbstractProjectConfiguration)project.ActiveConfiguration).RunWithWarnings) {
-					project.CopyReferencesToOutputPath (true);
-					binding.Execute(project);
-				}
-			}
-
-		}
-
-		public override void Debug ()
-		{
-			ILanguageBinding binding = Runtime.Languages.GetBindingPerLanguageName (project.ProjectType);
-			if (binding == null) {
-				Console.WriteLine ("Language binding unknown");
-				return;
-			}
-			if (Runtime.TaskService.Errors == 0)
-				binding.DebugProject (project);
-		}
-		
-		public override void Save()
-		{
-			project.SaveProject(Filename);
-		}
-
-		public override void GenerateMakefiles (Combine parentCombine)
-		{
-			Console.WriteLine ("Generating makefiles for " + Name);
-			ILanguageBinding langBinding = Runtime.Languages.GetBindingPerLanguageName(project.ProjectType);
-			langBinding.GenerateMakefile (project, parentCombine);
-		}
-
-		public override string GetOutputName ()
-		{
-			ILanguageBinding langBinding = Runtime.Languages.GetBindingPerLanguageName (project.ProjectType);
-			return System.IO.Path.GetFileName (langBinding.GetCompiledOutputName (project));
-		}
-	}
-	
-	public class CombineCombineEntry : CombineEntry
-	{
-		Combine combine;
-		
-		public Combine Combine {
-			get {
-				return combine;
-			}
-		}
-		public override string Name {
-			get {
-				return combine.Name;
-			}
-		}
-		
-		public CombineCombineEntry(Combine combine, string filename) : base(combine, filename)
-		{
-			this.combine = combine;
-		}
-		
-		public override void Build(bool doBuildAll)
-		{
-			combine.Build(doBuildAll);
-		}
-		
-		public override void Execute()
-		{
-			combine.Execute();
-		}
-		
-		public override void Save()
-		{
-			combine.SaveCombine(System.IO.Path.GetFullPath (Filename));
-			combine.SaveAllProjects();
-		}
-
-		public override void Debug ()
-		{
-			combine.Debug ();
-		}
-
-		public override void GenerateMakefiles (Combine parentCombine)
-		{
-		}
-
-		public override string GetOutputName ()
-		{
-			return String.Empty;
-		}
-	}
-
 	
 	public interface ICombineEntryCollection: IEnumerable
 	{
@@ -277,6 +207,16 @@ namespace MonoDevelop.Internal.Project
 	public class CombineEntryCollection: ICombineEntryCollection
 	{
 		ArrayList list = new ArrayList ();
+		Combine parentCombine;
+		
+		internal CombineEntryCollection ()
+		{
+		}
+		
+		internal CombineEntryCollection (Combine combine)
+		{
+			parentCombine = combine;
+		}
 		
 		public int Count
 		{
@@ -288,6 +228,16 @@ namespace MonoDevelop.Internal.Project
 			get { return (CombineEntry) list[n]; }
 		}
 		
+		public CombineEntry this [string name]
+		{
+			get {
+			for (int n=0; n<list.Count; n++)
+				if (((CombineEntry)list[n]).Name == name)
+					return (CombineEntry)list[n];
+			return null;
+			}
+		}
+		
 		public IEnumerator GetEnumerator ()
 		{
 			return list.GetEnumerator ();
@@ -296,6 +246,10 @@ namespace MonoDevelop.Internal.Project
 		public void Add (CombineEntry entry)
 		{
 			list.Add (entry);
+			if (parentCombine != null) {
+				entry.SetParentCombine (parentCombine);
+				parentCombine.NotifyEntryAdded (entry);
+			}
 		}
 		
 		public void Remove (CombineEntry entry)
@@ -306,6 +260,14 @@ namespace MonoDevelop.Internal.Project
 		public int IndexOf (CombineEntry entry)
 		{
 			return list.IndexOf (entry);
+		}
+		
+		public int IndexOf (string name)
+		{
+			for (int n=0; n<list.Count; n++)
+				if (((CombineEntry)list[n]).Name == name)
+					return n;
+			return -1;
 		}
 		
 		public void Clear ()

@@ -160,7 +160,7 @@ namespace MonoDevelop.Gui.Dialogs {
 			return true;
 		}
 		
-		public void SaveFile(IProject project, string filename, string content, bool showFile)
+		public void SaveFile(Project project, string filename, string content, bool showFile)
 		{
 			project.ProjectFiles.Add (new ProjectFile(filename));
 			
@@ -206,7 +206,7 @@ namespace MonoDevelop.Gui.Dialogs {
 				return;
 			}
 
-			if(Runtime.ProjectService.ExistsEntryWithName(name)) {
+			if (Runtime.ProjectService.GetProject (name) != null) {
 				Runtime.MessageService.ShowError(GettextCatalog.GetString ("A Project with that name is already in your Project Space"));
 				dialog.Respond(Gtk.ResponseType.Reject);
 				dialog.Hide();

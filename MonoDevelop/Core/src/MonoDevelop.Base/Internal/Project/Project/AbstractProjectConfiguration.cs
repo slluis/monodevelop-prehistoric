@@ -13,6 +13,7 @@ using System.ComponentModel;
 using System.Xml;
 
 using MonoDevelop.Internal.Project;
+using MonoDevelop.Internal.Serialization;
 
 namespace MonoDevelop.Internal.Project
 {
@@ -20,93 +21,75 @@ namespace MonoDevelop.Internal.Project
 	/// External language bindings may choose to extend this class.
 	/// It makes things a bit easier.
 	/// </summary>
-	[XmlNodeNameAttribute("Configuration")]
+	[DataItemAttribute("Configuration")]
 	public abstract class AbstractProjectConfiguration : AbstractConfiguration
 	{
-		[XmlNodeName("Output")]
-		protected class OutputConfiguration
-		{
-			[XmlAttribute("directory")]
-			[ConvertToRelativePath()]
-			public string Directory = "." + Path.DirectorySeparatorChar.ToString();
-			
-			[XmlAttribute("assembly")]
-			public string Assembly = "a";
-			
-			[XmlAttribute("executeScript")]
-			[ConvertToRelativePath()]
-			public string ExecuteScript = String.Empty;
-			
-			[XmlAttribute("executeBeforeBuild")]
-			[ConvertToRelativePath()]
-			public string ExecuteBeforeBuild = String.Empty;
-			
-			[XmlAttribute("executeAfterBuild")]
-			[ConvertToRelativePath()]
-			public string ExecuteAfterBuild = String.Empty;
-		}
+		[ProjectPathItemProperty ("Output/directory")]
+		string directory = "." + Path.DirectorySeparatorChar.ToString();
 		
-		[XmlAttribute("runwithwarnings")]
+		[ProjectPathItemProperty ("Build/executeBeforeBuild", DefaultValue = "")]
+		string executeBeforeBuild = String.Empty;
+		
+		[ProjectPathItemProperty ("Build/executeAfterBuild", DefaultValue = "")]
+		string executeAfterBuild = String.Empty;
+		
+		[ItemProperty ("Build/debugmode")]
+		bool debugmode = true;
+		
+		[ProjectPathItemProperty ("Execution/executeScript", DefaultValue = "")]
+		string executeScript = String.Empty;
+		
+		[ItemProperty ("Execution/runwithwarnings")]
 		protected bool runWithWarnings = false;
 		
-		protected OutputConfiguration outputConfiguration = new OutputConfiguration();
+		[ItemProperty ("Execution/commandlineparameters", DefaultValue = "")]
+		public string commandLineParameters = String.Empty;
 		
-		public virtual string OutputDirectory {
-			get {
-				return outputConfiguration.Directory;
-			}
-			set {
-				outputConfiguration.Directory = value;
-			}
+		[ItemProperty ("Execution/consolepause")]
+		public bool pauseconsoleoutput = true;
+
+		public AbstractProjectConfiguration()
+		{
 		}
 		
-		public virtual string OutputAssembly {
-			get {
-				return outputConfiguration.Assembly;
-			}
-			set {
-				outputConfiguration.Assembly = value;
-			}
+		public virtual string OutputDirectory {
+			get { return directory; }
+			set { directory = value; }
 		}
 		
 		public virtual string ExecuteScript {
-			get {
-				return outputConfiguration.ExecuteScript;
-			}
-			set {
-				outputConfiguration.ExecuteScript = value;
-			}
+			get { return executeScript; }
+			set { executeScript = value; }
 		}
 		
 		public virtual string ExecuteBeforeBuild {
-			get {
-				return outputConfiguration.ExecuteBeforeBuild;
-			}
-			set {
-				outputConfiguration.ExecuteBeforeBuild = value;
-			}
+			get { return executeBeforeBuild; }
+			set { executeBeforeBuild = value; }
 		}
 		
 		public virtual string ExecuteAfterBuild {
-			get {
-				return outputConfiguration.ExecuteAfterBuild;
-			}
-			set {
-				outputConfiguration.ExecuteAfterBuild = value;
-			}
+			get { return executeAfterBuild; }
+			set { executeAfterBuild = value; }
 		}
 		
 		public virtual bool RunWithWarnings {
-			get {
-				return runWithWarnings;
-			}
-			set {
-				runWithWarnings = value;
-			}
+			get { return runWithWarnings; }
+			set { runWithWarnings = value; }
 		}
 		
-		public AbstractProjectConfiguration()
-		{
+		public bool DebugMode {
+			get { return debugmode; }
+			set { debugmode = value; }
+		}
+		
+		public string CommandLineParameters {
+			get { return commandLineParameters; }
+			set { commandLineParameters = value; }
+		}
+		
+		public bool PauseConsoleOutput {
+			get { return pauseconsoleoutput; }
+			set { pauseconsoleoutput = value; }
 		}
 	}
 }

@@ -58,6 +58,11 @@ namespace MonoDevelop.Services
 			statusBar.Worked (work, status);
 		}
 		
+		void IProgressMonitor.Pulse ()
+		{
+			statusBar.Pulse ();
+		}
+		
 		void IProgressMonitor.Done()
 		{
 			statusBar.Done ();

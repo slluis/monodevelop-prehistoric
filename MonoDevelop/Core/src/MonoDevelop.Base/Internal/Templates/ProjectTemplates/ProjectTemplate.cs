@@ -142,7 +142,9 @@ namespace MonoDevelop.Internal.Templates
 			
 			name         = GettextCatalog.GetString (config["_Name"].InnerText);
 			category     = config["Category"].InnerText;
-			languagename = config["LanguageName"].InnerText;
+			
+			if (config["LanguageName"] != null)
+				languagename = config["LanguageName"].InnerText;
 			
 			if (config["_Description"] != null) {
 				description  = GettextCatalog.GetString (config["_Description"].InnerText);

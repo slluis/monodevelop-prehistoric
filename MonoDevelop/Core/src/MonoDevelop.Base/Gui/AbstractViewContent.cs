@@ -17,7 +17,7 @@ namespace MonoDevelop.Gui
 	{
 		string untitledName = "";
 		string contentName  = null;
-		IProject project = null;
+		Project project = null;
 		
 		bool   isDirty  = false;
 		bool   isViewOnly = false;
@@ -106,7 +106,7 @@ namespace MonoDevelop.Gui
 		{
 		}
 
-		public IProject Project
+		public Project Project
 		{
 			get
 			{

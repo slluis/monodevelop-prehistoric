@@ -14,9 +14,13 @@ using System.CodeDom.Compiler;
 
 using MonoDevelop.Gui;
 using MonoDevelop.Internal.Project;
+using MonoDevelop.Internal.Serialization;
 
 using MonoDevelop.Core.Properties;
 using MonoDevelop.Core.Services;
+using MonoDevelop.Core.AddIns.Codons;
+using MonoDevelop.Internal.Templates;
+using MonoDevelop.Core.AddIns;
 
 namespace MonoDevelop.Services
 {
@@ -29,13 +33,17 @@ namespace MonoDevelop.Services
 	
 	public class DefaultProjectService : AbstractService, IProjectService
 	{
-		IProject currentProject = null;
+		Project currentProject = null;
 		Combine  currentCombine = null;
 		Combine  openCombine    = null;
+		DataContext dataContext = new DataContext ();
+		ProjectBindingCodon[] projectBindings;
 		
-		string   openCombineFileName = null;
-		
-		public IProject CurrentSelectedProject {
+		FileFormatManager formatManager = new FileFormatManager ();
+		IFileFormat defaultProjectFormat = new PrjxFileFormat ();
+		IFileFormat defaultCombineFormat = new CmbxFileFormat ();
+			
+		public Project CurrentSelectedProject {
 			get {
 				return currentProject;
 			}
@@ -68,10 +76,10 @@ namespace MonoDevelop.Services
 		
 		bool IsDirtyFileInCombine {
 			get {
-				ArrayList projects = Combine.GetAllProjects(openCombine);
+				CombineEntryCollection projects = openCombine.GetAllProjects();
 				
-				foreach (ProjectCombineEntry projectEntry in projects) {
-					foreach (ProjectFile fInfo in projectEntry.Project.ProjectFiles) {
+				foreach (Project projectEntry in projects) {
+					foreach (ProjectFile fInfo in projectEntry.ProjectFiles) {
 						foreach (IViewContent content in WorkbenchSingleton.Workbench.ViewContentCollection) {
 							if (content.IsDirty && content.ContentName == fInfo.Name) {
 								return true;
@@ -92,11 +100,69 @@ namespace MonoDevelop.Services
 			}
 		}
 		
+		public DataContext DataContext {
+			get { return dataContext; }
+		}
+		
+		public FileFormatManager FileFormats {
+			get { return formatManager; }
+		}
+		
 		public void SaveCombinePreferences()
 		{
-			if (CurrentOpenCombine != null) {
-				SaveCombinePreferences(CurrentOpenCombine, openCombineFileName);
+			if (CurrentOpenCombine != null)
+				SaveCombinePreferences(CurrentOpenCombine);
+		}
+		
+		public CombineEntry ReadFile (string file)
+		{
+			IFileFormat format = formatManager.GetFileFormat (file);
+
+			if (format == null)
+				throw new InvalidOperationException ("Unknown file format: " + file);
+			
+			CombineEntry obj = format.ReadFile (file) as CombineEntry;
+			if (obj == null)
+				throw new InvalidOperationException ("Invalid file format: " + file);
+				
+			obj.FileFormat = format;
+			return obj;
+		}
+		
+		public void WriteFile (string file, CombineEntry entry)
+		{
+			IFileFormat format = entry.FileFormat;
+			if (format == null) {
+				if (entry is Project) format = defaultProjectFormat;
+				else if (entry is Combine) format = defaultCombineFormat;
+				else format = formatManager.GetFileFormatForObject (entry);
+				
+				if (format == null)
+					throw new InvalidOperationException ("FileFormat not provided for combine entry '" + entry.Name + "'");
 			}
+
+			format.WriteFile (file, entry);
+		}
+		
+		public Project CreateSingleFileProject (string file)
+		{
+			foreach (ProjectBindingCodon projectBinding in projectBindings) {
+				Project project = projectBinding.ProjectBinding.CreateSingleFileProject (file);
+				if (project != null)
+					return project;
+			}
+			return null;
+		}
+		
+		public Project CreateProject (string type, ProjectCreateInformation info, XmlElement projectOptions)
+		{
+			foreach (ProjectBindingCodon projectBinding in projectBindings) {
+				if (projectBinding.ProjectBinding.Name == type) {
+					Project project = projectBinding.ProjectBinding.CreateProject (info, projectOptions);
+					return project;
+				}
+			}
+			return null;
 		}
 		
 		public void CloseCombine()
@@ -104,16 +170,14 @@ namespace MonoDevelop.Services
 			CloseCombine(true);
 		}
 
-		public void CloseCombine(bool saveCombinePreferencies)
+		public void CloseCombine (bool saveCombinePreferencies)
 		{
 			if (CurrentOpenCombine != null) {
 				if (saveCombinePreferencies)
-					SaveCombinePreferences(CurrentOpenCombine, openCombineFileName);
-				GenerateMakefiles ();
+					SaveCombinePreferences (CurrentOpenCombine);
 				Combine closedCombine = CurrentOpenCombine;
 				CurrentSelectedProject = null;
 				CurrentOpenCombine = CurrentSelectedCombine = null;
-				openCombineFileName = null;
 				WorkbenchSingleton.Workbench.CloseAllViews();
 				OnCombineClosed(new CombineEventArgs(closedCombine));
 				closedCombine.Dispose();
@@ -121,6 +185,15 @@ namespace MonoDevelop.Services
 		}
 		
 		FileUtilityService fileUtilityService = Runtime.FileUtilityService;
+		
+		public bool IsCombineEntryFile (string filename)
+		{
+			if (filename.StartsWith ("file://"))
+				filename = filename.Substring (7);
+				
+			IFileFormat format = formatManager.GetFileFormat (filename);
+			return format != null;
+		}
 		
 		public void OpenCombine(string filename)
 		{
@@ -132,28 +205,10 @@ namespace MonoDevelop.Services
 			if (filename.StartsWith ("file://"))
 				filename = filename.Substring (7);
 				
-			if (!fileUtilityService.TestFileExists(filename)) {
-				return;
-			}
 			Runtime.Gui.StatusBar.SetMessage(GettextCatalog.GetString ("Opening Combine..."));
-				
-			if (Path.GetExtension(filename).ToUpper() == ".PRJX") {
-				string validcombine = Path.ChangeExtension(filename, ".cmbx");
-				if (File.Exists(validcombine)) {
-					LoadCombine(validcombine);
-				} else {
-					Combine loadingCombine = new Combine();
-					IProject project = (IProject)loadingCombine.AddEntry(filename);
-					if (project == null) {
-						return;
-					}
-					loadingCombine.Name = project.Name;
-					loadingCombine.SaveCombine(validcombine);
-					LoadCombine(validcombine);
-				}
-			} else {
-				LoadCombine(filename);
-			}
+
+			LoadCombine (filename);
+			
 			Runtime.Gui.StatusBar.SetMessage(GettextCatalog.GetString ("Ready"));
 		}
 		
@@ -169,10 +224,23 @@ namespace MonoDevelop.Services
 				return;
 			}
 			
-			Combine loadingCombine = new Combine();
-			loadingCombine.LoadCombine(filename);
-			openCombine         = loadingCombine;
-			openCombineFileName = filename;
+			string validcombine = Path.ChangeExtension (filename, ".cmbx");
+			
+			if (Path.GetExtension (filename).ToLower() != ".cmbx") {
+				if (File.Exists (validcombine))
+					filename = validcombine;
+			}
+			
+			CombineEntry entry = ReadFile (filename);
+			if (!(entry is Combine)) {
+				Combine loadingCombine = new Combine();
+				loadingCombine.Entries.Add (entry);
+				loadingCombine.Name = entry.Name;
+				loadingCombine.Save (validcombine);
+				entry = loadingCombine;
+			}
+		
+			openCombine = (Combine) entry;
 			
 			Runtime.FileService.RecentOpen.AddLastProject (filename, openCombine.Name);
 			
@@ -183,80 +251,31 @@ namespace MonoDevelop.Services
 			openCombine.ReferenceAddedToProject += new ProjectReferenceEventHandler (NotifyReferenceAddedToProject);
 			openCombine.ReferenceRemovedFromProject += new ProjectReferenceEventHandler (NotifyReferenceRemovedFromProject);
 	
-			RestoreCombinePreferences(CurrentOpenCombine, openCombineFileName);
+			RestoreCombinePreferences (CurrentOpenCombine);
 		}
-		
-		void Save(string fileName)
-		{
-			openCombineFileName = System.IO.Path.GetFullPath (fileName);
-			openCombine.SaveCombine(fileName);
-			openCombine.SaveAllProjects();
-		}
-		
-		public ProjectReference AddReferenceToProject(IProject prj, string filename)
-		{
-			foreach (ProjectReference rInfo in prj.ProjectReferences) {
-				if (rInfo.Reference == filename) {
-					return rInfo;
-				}
-			}
-			ProjectReference newReferenceInformation = new ProjectReference(ReferenceType.Assembly, filename);
-			prj.ProjectReferences.Add(newReferenceInformation);
-			return newReferenceInformation;
-		}
-		
-		public ProjectFile AddFileToProject(IProject prj, string filename, BuildAction action)
-		{
-			foreach (ProjectFile fInfo in prj.ProjectFiles) {
-				if (fInfo.Name == filename) {
-					return fInfo;
-				}
-			}
-			ProjectFile newFileInformation = new ProjectFile(filename, action);
-			prj.ProjectFiles.Add(newFileInformation);
-			return newFileInformation;
-		}
-		
-		public void AddFileToProject(IProject prj, ProjectFile projectFile) {
-			prj.ProjectFiles.Add(projectFile);
-		}
-
 		
 		public void SaveCombine()
 		{
-			Save(openCombineFileName);
+			openCombine.Save ();
 		}
 		
-		public void MarkFileDirty(string filename)
+		public void MarkFileDirty (string filename)
 		{
 			if (openCombine != null) {
-				ProjectCombineEntry entry = openCombine.GetProjectEntryContaining(filename);
+				Project entry = openCombine.GetProjectEntryContaining (filename);
 				if (entry != null) {
-					entry.IsDirty = true;
+					entry.NeedsBuilding = true;
 				}
 			}
 		}
-		
-		public void MarkProjectDirty(IProject project)
-		{
-			if (openCombine != null) {
-				ArrayList projectEntries = Combine.GetAllProjects(openCombine);
-				foreach (ProjectCombineEntry entry in projectEntries) {
-					if (entry.Project == project) {
-						entry.IsDirty = true;
-						break;
-					}
-				}
-			}
-		}
-		
+
 		public void CompileCombine()
 		{
 			if (openCombine != null) {
 				DoBeforeCompileAction();
 				Runtime.TaskService.ClearTasks();
 				
-				openCombine.Build(false);
+				openCombine.Build ();
 			}
 		}
 		
@@ -266,11 +285,12 @@ namespace MonoDevelop.Services
 				DoBeforeCompileAction();
 				Runtime.TaskService.ClearTasks();
 				
-				openCombine.Build(true);
+				openCombine.Clean ();
+				openCombine.Build ();
 			}
 		}
 		
-		ILanguageBinding BeforeCompile(IProject project)
+		void BeforeCompile (Project project)
 		{
 			DoBeforeCompileAction();
 			
@@ -289,11 +309,9 @@ namespace MonoDevelop.Services
 			} catch (Exception e) {
 				throw new ApplicationException("Can't create project output directory " + outputDir + " original exception:\n" + e.ToString());
 			}
-			// cut&paste EDND
-			return Runtime.Languages.GetBindingPerLanguageName(project.ProjectType);
 		}
 		
-		void AfterCompile(IProject project, ICompilerResult res)
+		void AfterCompile (Project project, ICompilerResult res)
 		{
 			// cut&pasted from CombineEntry.cs
 			foreach (CompilerError err in res.CompilerResults.Errors) {
@@ -310,14 +328,17 @@ namespace MonoDevelop.Services
 			Runtime.TaskService.NotifyTaskChange();
 		}
 		
-		public void RecompileProject(IProject project)
+		public void RecompileProject(Project project)
 		{
-			AfterCompile(project, BeforeCompile(project).RecompileProject(project));
+			project.Clean ();
+			BeforeCompile (project);
+			AfterCompile(project, project.Compile ());
 		}
 		
-		public void CompileProject(IProject project)
+		public void CompileProject(Project project)
 		{
-			AfterCompile(project, BeforeCompile(project).CompileProject(project));
+			BeforeCompile (project);
+			AfterCompile(project, project.Compile ());
 		}
 		
 		void DoBeforeCompileAction()
@@ -357,35 +378,21 @@ namespace MonoDevelop.Services
 			}
 		}
 		
-		public ProjectFile RetrieveFileInformationForFile(string fileName)
-		{
-			ArrayList projects = Combine.GetAllProjects(openCombine);
-			
-			foreach (ProjectCombineEntry projectEntry in projects) {
-				foreach (ProjectFile fInfo in projectEntry.Project.ProjectFiles) {
-					if (fInfo.Name == fileName) {
-						return fInfo;
-					}
-				}
-			}
-			return null;
-		}
-		
 		void RemoveFileFromAllProjects(string fileName)
 		{
-			ArrayList projects = Combine.GetAllProjects(openCombine);
+			CombineEntryCollection projects = openCombine.GetAllProjects();
 			
 			restart:
-			foreach (ProjectCombineEntry projectEntry in projects) {
-				foreach (ProjectReference rInfo in projectEntry.Project.ProjectReferences) {
+			foreach (Project projectEntry in projects) {
+				foreach (ProjectReference rInfo in projectEntry.ProjectReferences) {
 					if (rInfo.ReferenceType == ReferenceType.Assembly && rInfo.Reference == fileName) {
-						projectEntry.Project.ProjectReferences.Remove(rInfo);
+						projectEntry.ProjectReferences.Remove(rInfo);
 						goto restart;
 					}
 				}
-				foreach (ProjectFile fInfo in projectEntry.Project.ProjectFiles) {
+				foreach (ProjectFile fInfo in projectEntry.ProjectFiles) {
 					if (fInfo.Name == fileName) {
-						projectEntry.Project.ProjectFiles.Remove(fInfo);
+						projectEntry.ProjectFiles.Remove(fInfo);
 						goto restart;
 					}
 				}
@@ -394,13 +401,13 @@ namespace MonoDevelop.Services
 		
 		void RemoveAllInDirectory(string dirName)
 		{
-			ArrayList projects = Combine.GetAllProjects(openCombine);
+			CombineEntryCollection projects = openCombine.GetAllProjects();
 			
 			restart:
-			foreach (ProjectCombineEntry projectEntry in projects) {
-				foreach (ProjectFile fInfo in projectEntry.Project.ProjectFiles) {
+			foreach (Project projectEntry in projects) {
+				foreach (ProjectFile fInfo in projectEntry.ProjectFiles) {
 					if (fInfo.Name.StartsWith(dirName)) {
-						projectEntry.Project.ProjectFiles.Remove(fInfo);
+						projectEntry.ProjectFiles.Remove(fInfo);
 						goto restart;
 					}
 				}
@@ -420,10 +427,10 @@ namespace MonoDevelop.Services
 		
 		void RenameFileInAllProjects(string oldName, string newName)
 		{
-			ArrayList projects = Combine.GetAllProjects(openCombine);
+			CombineEntryCollection projects = openCombine.GetAllProjects();
 			
-			foreach (ProjectCombineEntry projectEntry in projects) {
-				foreach (ProjectFile fInfo in projectEntry.Project.ProjectFiles) {
+			foreach (Project projectEntry in projects) {
+				foreach (ProjectFile fInfo in projectEntry.ProjectFiles) {
 					if (fInfo.Name == oldName) {
 						fInfo.Name = newName;
 					}
@@ -433,10 +440,10 @@ namespace MonoDevelop.Services
 
 		void RenameDirectoryInAllProjects(string oldName, string newName)
 		{
-			ArrayList projects = Combine.GetAllProjects(openCombine);
+			CombineEntryCollection projects = openCombine.GetAllProjects();
 			
-			foreach (ProjectCombineEntry projectEntry in projects) {
-				foreach (ProjectFile fInfo in projectEntry.Project.ProjectFiles) {
+			foreach (Project projectEntry in projects) {
+				foreach (ProjectFile fInfo in projectEntry.ProjectFiles) {
 					if (fInfo.Name.StartsWith(oldName)) {
 						fInfo.Name = newName + fInfo.Name.Substring(oldName.Length);
 					}
@@ -459,8 +466,19 @@ namespace MonoDevelop.Services
 		public override void InitializeService()
 		{
 			base.InitializeService();
+
+			formatManager.RegisterFileFormat (defaultProjectFormat);
+			formatManager.RegisterFileFormat (defaultCombineFormat);
+			formatManager.RegisterFileFormat (new MonoMakefileFormat ());
+			
+			DataContext.IncludeType (typeof(Combine));
+			DataContext.IncludeType (typeof(Project));
+			DataContext.IncludeType (typeof(DotNetProject));
+			
 			Runtime.FileService.FileRemoved += new FileEventHandler(CheckFileRemove);
 			Runtime.FileService.FileRenamed += new FileEventHandler(CheckFileRename);
+			
+			projectBindings = (ProjectBindingCodon[])(AddInTreeSingleton.AddInTree.GetTreeNode("/SharpDevelop/Workbench/ProjectBindings").BuildChildItems(null)).ToArray(typeof(ProjectBindingCodon));
 		}
 		
 		string MakeValidName(string str)
@@ -472,9 +490,11 @@ namespace MonoDevelop.Services
 			return tmp;
 		}
 		
-		void RestoreCombinePreferences(Combine combine, string combinefilename)
+		void RestoreCombinePreferences (Combine combine)
 		{
+			string combinefilename = combine.FileName;
 			string directory = Runtime.Properties.ConfigDirectory + "CombinePreferences";
+
 			if (!Directory.Exists(directory)) {
 				return;
 			}
@@ -524,9 +544,11 @@ namespace MonoDevelop.Services
 			} 
 		}
 		
-		void SaveCombinePreferences(Combine combine, string combinefilename)
+		void SaveCombinePreferences (Combine combine)
 		{
+			string combinefilename = combine.FileName;
 			string directory = Runtime.Properties.ConfigDirectory + "CombinePreferences";
+
 			if (!Directory.Exists(directory)) {
 				Directory.CreateDirectory(directory);
 			}
@@ -585,7 +607,6 @@ namespace MonoDevelop.Services
 		//********* own events
 		protected virtual void OnCombineOpened(CombineEventArgs e)
 		{
-			GenerateMakefiles ();
 			if (CombineOpened != null) {
 				CombineOpened(this, e);
 			}
@@ -615,38 +636,13 @@ namespace MonoDevelop.Services
 			}
 		}
 		
-		public virtual void OnRenameProject(ProjectRenameEventArgs e)
+		public Project GetProject (string projectName)
 		{
-			GenerateMakefiles ();
-			if (ProjectRenamed != null) {
-				ProjectRenamed(this, e);
-			}
-		}
-		
-		public bool ExistsEntryWithName(string name)
-		{
-			ArrayList allProjects = Combine.GetAllProjects(openCombine);
-			foreach (ProjectCombineEntry projectEntry in allProjects) {
-				if (projectEntry.Project.Name == name) {
-					return true;
-				}
-			}
-			return false;
-		}
-		
-		public string GetOutputAssemblyName(IProject project)
-		{
-			ILanguageBinding binding = Runtime.Languages.GetBindingPerLanguageName(project.ProjectType);
-			return binding.GetCompiledOutputName(project);
-		}
-		
-		public string GetOutputAssemblyName(string projectName)
-		{
-			ArrayList allProjects = Combine.GetAllProjects(CurrentOpenCombine);
-			foreach (ProjectCombineEntry projectEntry in allProjects) {
-				if (projectEntry.Project.Name == projectName) {
-					return GetOutputAssemblyName(projectEntry.Project);
-				}
+			if (CurrentOpenCombine == null) return null;
+			CombineEntryCollection allProjects = CurrentOpenCombine.GetAllProjects();
+			foreach (Project project in allProjects) {
+				if (project.Name == projectName)
+					return project;
 			}
 			return null;
 		}
@@ -659,7 +655,6 @@ namespace MonoDevelop.Services
 				} else {
 					RemoveFileFromAllProjects(fileName);
 				}
-				GenerateMakefiles ();
 			}
 		}
 	
@@ -710,7 +705,6 @@ namespace MonoDevelop.Services
 		
 		protected virtual void OnFileRemovedFromProject (ProjectFileEventArgs e)
 		{
-			GenerateMakefiles ();
 			if (FileRemovedFromProject != null) {
 				FileRemovedFromProject(this, e);
 			}
@@ -718,7 +712,6 @@ namespace MonoDevelop.Services
 
 		protected virtual void OnFileAddedToProject (ProjectFileEventArgs e)
 		{
-			GenerateMakefiles ();
 			if (FileAddedToProject != null) {
 				FileAddedToProject (this, e);
 			}
@@ -733,7 +726,6 @@ namespace MonoDevelop.Services
 		
 		protected virtual void OnReferenceRemovedFromProject (ProjectReferenceEventArgs e)
 		{
-			GenerateMakefiles ();
 			if (ReferenceRemovedFromProject != null) {
 				ReferenceRemovedFromProject (this, e);
 			}
@@ -741,57 +733,11 @@ namespace MonoDevelop.Services
 		
 		protected virtual void OnReferenceAddedToProject (ProjectReferenceEventArgs e)
 		{
-			GenerateMakefiles ();
 			if (ReferenceAddedToProject != null) {
 				ReferenceAddedToProject (this, e);
 			}
 		}
 
-		public string GetFileName(IProject project)
-		{
-			if (openCombine != null) {
-				ArrayList projects = Combine.GetAllProjects(openCombine);
-				foreach (ProjectCombineEntry projectCombineEntry in projects) {
-					if (projectCombineEntry.Project == project) {
-						return projectCombineEntry.Filename;
-					}
-				}
-			}
-			return String.Empty;
-		}
-		
-		public string GetFileName(Combine combine)
-		{
-			if (combine == openCombine) {
-				return openCombineFileName;
-			}
-			Stack combines = new Stack();
-			combines.Push(openCombine);
-			while (combines.Count > 0) {
-				Combine curCombine = (Combine)combines.Pop();
-				foreach (CombineEntry entry in curCombine.Entries) {
-					CombineCombineEntry combineEntry = (CombineCombineEntry)entry;
-					if (combineEntry != null) {
-						if (combineEntry.Combine == combine) {
-							return entry.Filename;
-						}
-						combines.Push(combineEntry.Combine);
-					}
-				}
-			}
-			
-			return String.Empty;
-		}
-
-		public void GenerateMakefiles ()
-		{
-			if (openCombine != null)
-				try {
-					openCombine.GenerateMakefiles ();
-				}
-				catch { }
-		}
-		
 		public event ProjectFileEventHandler FileRemovedFromProject;
 		public event ProjectFileEventHandler FileAddedToProject;
 		public event ProjectFileEventHandler FileChangedInProject;
@@ -805,7 +751,6 @@ namespace MonoDevelop.Services
 		public event CombineEventHandler CombineClosed;
 		public event CombineEventHandler CurrentSelectedCombineChanged;
 		
-		public event ProjectRenameEventHandler ProjectRenamed;
 		public event ProjectEventHandler       CurrentProjectChanged;
 		
 		public event ProjectReferenceEventHandler ReferenceAddedToProject;

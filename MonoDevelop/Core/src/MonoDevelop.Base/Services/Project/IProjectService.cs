@@ -7,9 +7,12 @@
 
 using System;
 using System.Collections;
+using System.Xml;
 
 using MonoDevelop.Gui;
 using MonoDevelop.Internal.Project;
+using MonoDevelop.Internal.Serialization;
+using MonoDevelop.Internal.Templates;
 
 namespace MonoDevelop.Services
 {
@@ -23,7 +26,7 @@ namespace MonoDevelop.Services
 		/// Gets/Sets the current selected project. (e.g. the project
 		/// that contains the file that has the focus)
 		/// </remarks>
-		IProject CurrentSelectedProject {
+		Project CurrentSelectedProject {
 			get;
 			set;
 		}
@@ -44,12 +47,26 @@ namespace MonoDevelop.Services
 			get;
 		}
 		
+		bool IsCombineEntryFile (string filename);
+		
 		/// <remarks>
 		/// Returns true, if one open project that should be compiled is dirty.
 		/// </remarks>
 		bool NeedsCompiling {
 			get;
 		}
+		
+		DataContext DataContext {
+			get;
+		}
+		
+		FileFormatManager FileFormats {
+			get;
+		}
+		
+		CombineEntry ReadFile (string file);
+
+		void WriteFile (string file, CombineEntry entry);
 		
 		/// <remarks>
 		/// Closes the root combine
@@ -60,16 +77,6 @@ namespace MonoDevelop.Services
 		/// Closes the root combine
 		/// </remarks>
 		void CloseCombine(bool saveCombinePreferencies);
-		
-		/// <remarks>
-		/// Gets the file name from one combine which is currently opened
-		/// </remarks>
-		string GetFileName(Combine combine);
-		
-		/// <remarks>
-		/// Gets the file name from one project which is currently opened
-		/// </remarks>
-		string GetFileName(IProject project);
 		
 		/// <remarks>
 		/// Compile the root combine.
@@ -85,12 +92,12 @@ namespace MonoDevelop.Services
 		/// Compiles a specific project, if the project isn't dirty this
 		/// method does nothing
 		/// </remarks>
-		void CompileProject(IProject project);
+		void CompileProject(Project project);
 		
 		/// <remarks>
 		/// Compiles a specific project (forced!)
 		/// </remarks>
-		void RecompileProject(IProject project);
+		void RecompileProject(Project project);
 		
 		/// <remarks>
 		/// Opens a new root combine, closes the old root combine automatically.
@@ -109,41 +116,10 @@ namespace MonoDevelop.Services
 		void SaveCombinePreferences();
 		
 		/// <remarks>
-		/// Add a reference to a given project (only assembly references)
-		/// </remarks>
-		ProjectReference AddReferenceToProject(IProject prj, string filename);
-		
-		/// <remarks>
-		/// Add a file to a given project
-		/// </remarks>
-		ProjectFile AddFileToProject(IProject prj, string filename, BuildAction action);
-		
-		/// <remarks>
-		/// Add a file to a given project
-		/// </remarks>
-		void AddFileToProject(IProject prj, ProjectFile projectFile);
-		
-		/// <remarks>
 		/// Mark a file dirty, the project in which the file is in will be compiled
 		/// in the next compiler run.
 		/// </remarks>
 		void MarkFileDirty(string filename);
-		
-		/// <remarks>
-		/// Mark a project dirty, the project will be compiled
-		/// in the next compiler run.
-		void MarkProjectDirty(IProject project);
-		
-		/// <remarks>
-		/// If the file given by fileName is inside a currently open project this method
-		/// gets the ProjectFile for this file, returns null otherwise.
-		/// </remarks>
-		ProjectFile RetrieveFileInformationForFile(string fileName);
-		
-		/// <summary>
-		/// Returns true if a project has this name
-		/// </summary>
-		bool ExistsEntryWithName(string name);
 		
 		/// <remarks>
 		/// Only to be called by the compile actions.
@@ -161,28 +137,15 @@ namespace MonoDevelop.Services
 		void OnBeforeStartProject();
 		
 		/// <remarks>
-		/// Only to be called by AbstractProject
-		/// </remarks>
-		void OnRenameProject(ProjectRenameEventArgs e);
-		
-		/// <remarks>
-		/// Gets the file name of the output assembly of a given project
-		/// (Or at least the 'main' file)
-		/// </remarks>
-		string GetOutputAssemblyName(IProject project);
-		
-		/// <remarks>
-		/// Gets the file name of the output assembly of a given file
-		/// (Or at least the 'main' file)
-		/// </remarks>
-		string GetOutputAssemblyName(string fileName);
-		
-		/// <remarks>
 		/// Removes a file from it's project(s)
 		/// </remarks>
 		void RemoveFileFromProject(string fileName);
 
-		void GenerateMakefiles ();
+		Project CreateSingleFileProject (string file);
+		
+		Project CreateProject (string type, ProjectCreateInformation info, XmlElement projectOptions);
+		
+		Project GetProject (string projectName);
 		
 		/// <remarks>
 		/// Is called, when a file is removed from and added to a project.
@@ -235,10 +198,5 @@ namespace MonoDevelop.Services
 		/// Called after the current selected combine has chaned
 		/// </remarks>
 		event CombineEventHandler CurrentSelectedCombineChanged;
-		
-		/// <remarks>
-		/// Called after a project got renamed
-		/// </remarks>
-		event ProjectRenameEventHandler ProjectRenamed;
 	}
 }

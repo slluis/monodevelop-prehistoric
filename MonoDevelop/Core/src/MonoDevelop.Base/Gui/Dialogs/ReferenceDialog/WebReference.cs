@@ -80,7 +80,7 @@ namespace MonoDevelop.Gui.Dialogs
 		}
 		
 		
-		public static ProjectReference GenerateWebProxyDLL(IProject project, ServiceDescription desc) {
+		public static ProjectReference GenerateWebProxyDLL(Project project, ServiceDescription desc) {
 			ProjectReference refInfo = null;
 			
 			string serviceName = String.Empty;
@@ -139,14 +139,14 @@ namespace MonoDevelop.Gui.Dialogs
 		///
 		/// <summary>Generates a Web Service proxy DLL from a URI</summary>
 		/// 
-		public static ProjectReference GenerateWebProxyDLL(IProject project, string url) {
+		public static ProjectReference GenerateWebProxyDLL(Project project, string url) {
 									
 			ServiceDescription desc = ReadServiceDescription(url);						
 			return GenerateWebProxyDLL(project, desc);
 									
 		}
 		
-		public static ArrayList GenerateWebProxyCode(IProject project, ServiceDescription desc) {		
+		public static ArrayList GenerateWebProxyCode(Project project, ServiceDescription desc) {		
 			ArrayList fileList = null;
 			
 			string serviceName = String.Empty;
@@ -273,7 +273,7 @@ namespace MonoDevelop.Gui.Dialogs
 		///
 		/// <summary>Generates a Web Service proxy class from a URI</summary>
 		/// 
-		public static ArrayList GenerateWebProxyCode(IProject project, string url) {
+		public static ArrayList GenerateWebProxyCode(Project project, string url) {
 			
 			
 			ServiceDescription desc = ReadServiceDescription(url);

@@ -14,6 +14,7 @@ using MonoDevelop.Services;
 using System.ComponentModel;
 using MonoDevelop.Gui.Components;
 using MonoDevelop.Internal.Project;
+using MonoDevelop.Internal.Serialization;
 
 namespace MonoDevelop.Internal.Project
 {
@@ -25,20 +26,18 @@ namespace MonoDevelop.Internal.Project
 	}
 	
 	/// <summary>
-	/// This class represent a reference information in an IProject object.
+	/// This class represent a reference information in an Project object.
 	/// </summary>
-	[XmlNodeName("Reference")]
-	public class ProjectReference : LocalizedObject, ICloneable
+	[DataItemAttribute ("Reference")]
+	public class ProjectReference : LocalizedObject, ICloneable, ICustomDataItem
 	{
-		[XmlAttribute("type")]
+		[ItemProperty ("type")]
 		ReferenceType referenceType;
 		
-		[XmlAttribute("refto")]
-		[ConvertToRelativePath("IsAssembly")]
-		string        reference = String.Empty;
+		string reference = String.Empty;
 		
-		[XmlAttribute("localcopy")]
-		bool          localCopy = true;
+		[ItemProperty ("localcopy")]
+		bool localCopy = true;
 		
 		bool IsAssembly {
 			get {
@@ -88,7 +87,7 @@ namespace MonoDevelop.Internal.Project
 		/// Returns the file name to an assembly, regardless of what 
 		/// type the assembly is.
 		/// </summary>
-		public string GetReferencedFileName(IProject project)
+		public string GetReferencedFileName ()
 		{
 			switch (ReferenceType) {
 				case ReferenceType.Typelib:
@@ -100,8 +99,8 @@ namespace MonoDevelop.Internal.Project
 					string file = Runtime.ParserService.LoadAssemblyFromGac (GetPathToGACAssembly (this));
 					return file == String.Empty ? reference : file;
 				case ReferenceType.Project:
-					string projectOutputLocation   = Runtime.ProjectService.GetOutputAssemblyName(reference);
-					return projectOutputLocation;
+					Project p = Runtime.ProjectService.GetProject (reference);
+					return p != null ? p.GetOutputFileName () : null;
 				
 				default:
 					throw new NotImplementedException("unknown reference type : " + ReferenceType);
@@ -118,6 +117,30 @@ namespace MonoDevelop.Internal.Project
 			this.reference     = reference;
 		}
 		
+		DataCollection ICustomDataItem.Serialize (ITypeSerializer handler)
+		{
+			DataCollection data = handler.Serialize (this);
+			string refto = reference;
+			if (referenceType == ReferenceType.Assembly) {
+				string basePath = Path.GetDirectoryName (handler.SerializationContext.BaseFile);
+				refto = Runtime.FileUtilityService.AbsoluteToRelativePath (basePath, refto);
+			}
+			data.Add (new DataValue ("refto", refto));
+			return data;
+		}
+		
+		void ICustomDataItem.Deserialize (ITypeSerializer handler, DataCollection data)
+		{
+			DataValue refto = data.Extract ("refto") as DataValue;
+			handler.Deserialize (this, data);
+			if (refto != null) {
+				reference = refto.Value;
+				if (referenceType == ReferenceType.Assembly) {
+					string basePath = Path.GetDirectoryName (handler.SerializationContext.BaseFile);
+					reference = Runtime.FileUtilityService.RelativeToAbsolutePath (basePath, reference);
+				}
+			}
+		}
 		
 		/// <summary>
 		/// This method returns the absolute path to an GAC assembly.

@@ -42,13 +42,13 @@ namespace MonoDevelop.Gui.Dialogs.OptionPanels
 			public ListStore store;
 
 			// Services
-			IProject project;
+			Project project;
 			static FileUtilityService fileUtilityService = Runtime.FileUtilityService;
 
 			public DeployFileOptionsWidget (IProperties CustomizationObject) : 
 				base ("Base.glade", "DeployFileOptionsPanel")
 			{
-				this.project = (IProject)((IProperties)CustomizationObject).GetProperty("Project");
+				this.project = (Project)((IProperties)CustomizationObject).GetProperty("Project");
 
   				projectFileRadioButton.Clicked += new EventHandler(RadioButtonClicked);
   				compiledAssemblyRadioButton.Clicked += new EventHandler(RadioButtonClicked);

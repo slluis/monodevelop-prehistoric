@@ -13,7 +13,7 @@ using System.Xml;
 using MonoDevelop.SharpAssembly.Metadata.Rows;
 using MonoDevelop.SharpAssembly.Metadata;
 using MonoDevelop.SharpAssembly.PE;
-using SharpAssembly=MonoDevelop.SharpAssembly.Assembly.SharpAssembly;
+using SharpAssembly_=MonoDevelop.SharpAssembly.Assembly.SharpAssembly;
 using AssemblyReader=MonoDevelop.SharpAssembly.Assembly.AssemblyReader;
 using SharpCustomAttribute=MonoDevelop.SharpAssembly.Assembly.SharpCustomAttribute;
 
@@ -22,7 +22,7 @@ namespace MonoDevelop.Internal.Parser {
 	[Serializable]
 	public class SharpAssemblyEvent : AbstractEvent
 	{
-		public SharpAssemblyEvent(SharpAssembly asm, Event[] eventTable, SharpAssemblyClass declaringtype, uint index)
+		public SharpAssemblyEvent(SharpAssembly_ asm, Event[] eventTable, SharpAssemblyClass declaringtype, uint index)
 		{
 			if (asm == null) {
 				throw new System.ArgumentNullException("asm");

@@ -27,7 +27,7 @@ namespace MonoDevelop.Gui.Dialogs {
 		{
 			this.selectDialog = selectDialog;
 			
-			store = new TreeStore (typeof (string), typeof (string), typeof(IProject));
+			store = new TreeStore (typeof (string), typeof (string), typeof(Project));
 			treeView = new TreeView (store);
 			treeView.AppendColumn (GettextCatalog.GetString ("Project Name"), new CellRendererText (), "text", 0);
 			treeView.AppendColumn (GettextCatalog.GetString ("Project Directory"), new CellRendererText (), "text", 1);
@@ -47,12 +47,10 @@ namespace MonoDevelop.Gui.Dialogs {
 		
 		void AddReference (TreeModel model, TreePath path, TreeIter iter)
 		{
-			IProject project = (IProject) model.GetValue (iter, 2);
-			ILanguageBinding binding = Runtime.Languages.GetBindingPerLanguageName(project.ProjectType);
-			
+			Project project = (Project) model.GetValue (iter, 2);
 			selectDialog.AddReference(ReferenceType.Project,
 						  project.Name,
-						  binding.GetCompiledOutputName(project));
+						  project.GetOutputFileName());
 		}
 		
 		public void AddReference(object sender, EventArgs e)
@@ -68,10 +66,8 @@ namespace MonoDevelop.Gui.Dialogs {
 				return;
 			}
 			
-			ArrayList projects = Combine.GetAllProjects(openCombine);
-			
-			foreach (ProjectCombineEntry projectEntry in projects) {
-				store.AppendValues (projectEntry.Project.Name, projectEntry.Project.BaseDirectory, projectEntry.Project);
+			foreach (Project projectEntry in openCombine.GetAllProjects()) {
+				store.AppendValues (projectEntry.Name, projectEntry.BaseDirectory, projectEntry);
 			}
 		}
 	}
@@ -105,13 +101,10 @@ namespace MonoDevelop.Gui.Dialogs {
 		public void AddReference(object sender, EventArgs e)
 		{
 			foreach (ListViewItem item in SelectedItems) {
-				IProject project = (IProject)item.Tag;
-				LanguageBindingService languageBindingService = (LanguageBindingService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(LanguageBindingService));
-				ILanguageBinding binding = languageBindingService.GetBindingPerLanguageName(project.ProjectType);
-				
+				Project project = (Project)item.Tag;
 				selectDialog.AddReference(ReferenceType.Project,
 				                          project.Name,
-				                          binding.GetCompiledOutputName(project));
+				                          project.GetOutputFileName());
 			}
 		}
 		

@@ -17,6 +17,8 @@ namespace MonoDevelop.Gui
 		
 		void Worked (double work, string status);
 		
+		void Pulse ();
+
 		void Done();
 		
 		bool Canceled {

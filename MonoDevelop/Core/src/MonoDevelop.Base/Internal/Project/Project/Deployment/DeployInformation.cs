@@ -10,6 +10,7 @@ using System.Collections;
 using System.IO;
 using System.Xml;
 
+using MonoDevelop.Internal.Serialization;
 using MonoDevelop.Internal.Project;
 
 namespace MonoDevelop.Internal.Project
@@ -20,14 +21,13 @@ namespace MonoDevelop.Internal.Project
 		File
 	}
 	
-	[XmlNodeName("DeploymentInformation")]
+	[DataItem ("DeploymentInformation")]
 	public class DeployInformation
 	{
-		[XmlNodeName("Exclude")]
+		[DataItem ("Exclude")]
 		class ExcludeFile 
 		{
-			[XmlAttribute("file")]
-			[ConvertToRelativePathAttribute()]
+			[ProjectPathItemProperty ("file")]
 			protected string fileName;
 			
 			public string FileName {
@@ -49,16 +49,17 @@ namespace MonoDevelop.Internal.Project
 			}
 		}
 		
-		[XmlSetAttribute(typeof(ExcludeFile))]
+		[ItemProperty]
+		[ItemProperty ("ExcludeFile", ValueType = typeof(ExcludeFile), Scope = 1)]
 		ArrayList excludeFiles = new ArrayList();
 		
-		[XmlAttribute("target")]
-		string    deployTarget = "";
+		[ItemProperty ("target", DefaultValue = "")]
+		string deployTarget = "";
 		
-		[XmlAttribute("script")]
-		string    deployScript = "";
+		[ItemProperty ("script", DefaultValue = "")]
+		string deployScript = "";
 		
-		[XmlAttribute("strategy")]
+		[ItemProperty ("strategy")]
 		DeploymentStrategy deploymentStrategy = DeploymentStrategy.File;
 		
 		public DeploymentStrategy DeploymentStrategy {
@@ -131,7 +132,7 @@ namespace MonoDevelop.Internal.Project
 		{
 		}
 		
-		public static void Deploy(IProject project)
+		public static void Deploy(Project project)
 		{
 			switch (project.DeployInformation.DeploymentStrategy) {
 				case DeploymentStrategy.File:

@@ -36,7 +36,7 @@ namespace MonoDevelop.Commands.ProjectBrowser
 			FolderNode         node    = browser.SelectedNode as FolderNode;
 			
 			if (node != null) {
-				IProject project = ((ProjectBrowserNode)node.Parent).Project;
+				Project project = ((ProjectBrowserNode)node.Parent).Project;
 				
 				SelectReferenceDialog selDialog = new SelectReferenceDialog(project);
 				if (selDialog.Run() == (int)Gtk.ResponseType.Ok) {
@@ -63,7 +63,7 @@ namespace MonoDevelop.Commands.ProjectBrowser
 			ProjectBrowserView browser = (ProjectBrowserView)Owner;
 			ReferenceNode   node    = browser.SelectedNode as ReferenceNode;
 			if (node != null) {				
-				IProject project = node.Project;  //((ProjectBrowserNode)node.Parent.Parent).Project;
+				Project project = node.Project;  //((ProjectBrowserNode)node.Parent.Parent).Project;
 				IParserService parserService = (IParserService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IParserService));
 				
 				ProjectReference refInfo = (ProjectWebReference)node.UserData;
@@ -83,7 +83,7 @@ namespace MonoDevelop.Commands.ProjectBrowser
 			bool bInitReferences = false;
 			
 			if (node != null) {
-				IProject project = ((ProjectBrowserNode)node.Parent).Project;
+				Project project = ((ProjectBrowserNode)node.Parent).Project;
 			
 /*				using (AddWebReferenceDialog refDialog = new AddWebReferenceDialog(project)) {
 					if (refDialog.ShowDialog() == DialogResult.OK) {						

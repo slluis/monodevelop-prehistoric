@@ -14,7 +14,7 @@ using System.IO;
 using MonoDevelop.SharpAssembly.Metadata.Rows;
 using MonoDevelop.SharpAssembly.Metadata;
 using MonoDevelop.SharpAssembly.PE;
-using SharpAssembly=MonoDevelop.SharpAssembly.Assembly.SharpAssembly;
+using SharpAssembly_=MonoDevelop.SharpAssembly.Assembly.SharpAssembly;
 using AssemblyReader=MonoDevelop.SharpAssembly.Assembly.AssemblyReader;
 using SharpCustomAttribute=MonoDevelop.SharpAssembly.Assembly.SharpCustomAttribute;
 
@@ -31,7 +31,7 @@ namespace MonoDevelop.Internal.Parser {
 			}
 		}
 		
-		public SharpAssemblyAttribute(SharpAssembly assembly, SharpCustomAttribute attribute)
+		public SharpAssemblyAttribute(SharpAssembly_ assembly, SharpCustomAttribute attribute)
 		{	
 			uint sigOffset = 0;
 			
@@ -242,7 +242,7 @@ namespace MonoDevelop.Internal.Parser {
 			return ret + ")";
 		}
 		
-		public static AttributeCollection GetAssemblyAttributes(SharpAssembly assembly)
+		public static AttributeCollection GetAssemblyAttributes(SharpAssembly_ assembly)
 		{
 			AttributeCollection attributes = new AttributeCollection();
 			

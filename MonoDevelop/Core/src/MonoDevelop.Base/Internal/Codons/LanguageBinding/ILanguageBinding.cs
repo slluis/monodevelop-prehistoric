@@ -10,6 +10,7 @@ using System.Collections;
 using System.Xml;
 
 using MonoDevelop.Internal.Templates;
+using MonoDevelop.Internal.Project;
 using MonoDevelop.Gui;
 
 namespace MonoDevelop.Internal.Project
@@ -27,43 +28,16 @@ namespace MonoDevelop.Internal.Project
 			get;
 		}
 		
-		/// <summary>
-		/// This function executes a file, the filename is given by filename,
-		/// the file was compiled by the compiler object before.
-		/// </summary>
-		void Execute(string fileName);
-
-		void DebugProject (IProject project);
-		
-		/// <summary>
-		/// This function executes a project, the project is given as a parameter,
-		/// the project was compiled by the compiler object before.
-		/// </summary>
-		void Execute(IProject project);
-		
-		string GetCompiledOutputName(string fileName);
-		
-		string GetCompiledOutputName(IProject project);
-		
 		/// <returns>
 		/// True, if this language binding can compile >fileName<
 		/// </returns>
 		bool CanCompile(string fileName);
 		
-		ICompilerResult CompileFile(string fileName);
+		ICompilerResult Compile (ProjectFileCollection projectFiles, ProjectReferenceCollection references, DotNetProjectConfiguration configuration);
 		
-		ICompilerResult CompileProject(IProject project);
+		void GenerateMakefile (Project project, Combine parentCombine);
 		
-		ICompilerResult RecompileProject(IProject project);
-
-		void GenerateMakefile (IProject project, Combine parentCombine);
-		
-		/// <summary>
-		/// Creates a IProject out of the given ProjetCreateInformation object.
-		/// Each language binding must provide a representation of the project
-		/// it 'controls'.
-		/// </summary>
-		IProject CreateProject(ProjectCreateInformation info, XmlElement projectOptions);
+		object CreateCompilationParameters (XmlElement projectOptions);
 
 		/// <summary>
 		/// Used by Comment and Uncomment operations and by Centaurus Addin.

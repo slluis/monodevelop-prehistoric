@@ -37,10 +37,10 @@ namespace MonoDevelop.Internal.Project
 		
 		// regular members
 		StringCollection newFiles;
-		IProject         project;
+		Project         project;
 		FileUtilityService fileUtilityService = Runtime.FileUtilityService;
 		
-		public IncludeFilesDialog(IProject project, StringCollection newFiles)
+		public IncludeFilesDialog(Project project, StringCollection newFiles)
 		{
 			Console.WriteLine ("*** Include files dialog ***");
 			// we must do it from *here* otherwise, we get this assembly, not the caller

@@ -14,22 +14,58 @@ using System.Diagnostics;
 using System.CodeDom.Compiler;
 
 using MonoDevelop.Internal.Project;
+using MonoDevelop.Internal.Serialization;
 
 using MonoDevelop.Core.Properties;
 using MonoDevelop.Gui;
 
 namespace MonoDevelop.Internal.Project
 {
-	public class CombineConfiguration : AbstractConfiguration, IXmlConvertable
+	public class CombineConfiguration : AbstractConfiguration
 	{
+		[ExpandedCollection]
+		[ItemProperty ("Entry", ValueType=typeof(Config))]
 		ArrayList configurations = new ArrayList();
-		Combine combine;
 		
+		[DataItem ("Entry")]
 		public class Config 
 		{
-			public CombineEntry Entry;
-			public string       ConfigurationName;
-			public bool         Build;
+			[ItemProperty ("name")]
+			string entryName;
+			
+			public CombineEntry entry;
+			
+			[ItemProperty ("configurationname")]
+			public string ConfigurationName;
+			
+			[ItemProperty ("build")]
+			public bool Build;
+			
+			public CombineEntry Entry {
+				get { return entry; }
+				set { entry = value; if (entry != null) entryName = entry.Name; }
+			}
+			
+			internal void SetCombine (Combine combine)
+			{
+				if (entryName != null)
+					Entry = combine.Entries [entryName];
+			}
+		}
+		
+		public CombineConfiguration ()
+		{
+		}
+		
+		public CombineConfiguration (string name)
+		{
+			this.Name = name;
+		}
+		
+		internal void SetCombine (Combine combine)
+		{
+			foreach (Config conf in configurations)
+				conf.SetCombine (combine);
 		}
 		
 		public Config GetConfiguration(int number)
@@ -41,52 +77,16 @@ namespace MonoDevelop.Internal.Project
 			return null;
 		}
 		
-		public CombineConfiguration(string name, Combine combine)
-		{
-			this.combine = combine;
-			this.Name    = name;
-		}
-		
-		public CombineConfiguration(XmlElement element, Combine combine)
-		{
-			this.combine = combine;
-			Name        = element.Attributes["name"].InnerText;
-			
-			XmlNodeList nodes = element.ChildNodes;
-			foreach (XmlElement confignode in nodes) {
-				Config config = new Config();
-				
-				config.Entry             = combine.GetEntry(confignode.Attributes["name"].InnerText);
-				config.ConfigurationName = confignode.Attributes["configurationname"].InnerText;
-				config.Build             = Boolean.Parse(confignode.Attributes["build"].InnerText);
-					
-				configurations.Add(config);
-			}
-		}
-		
-		public void AddEntry(IProject project)
+		public void AddEntry (CombineEntry combine)
 		{
 			Config conf = new Config();
-			conf.Entry             = combine.GetEntry(project.Name);
-			conf.ConfigurationName = project.ActiveConfiguration.Name;
-			conf.Build             = false;
-			configurations.Add(conf);
-		}
-		public void AddEntry(Combine  combine)
-		{
-			Config conf = new Config();
-			conf.Entry             = this.combine.GetEntry(combine.Name);
+			conf.Entry = combine;
 			conf.ConfigurationName = combine.ActiveConfiguration != null ? combine.ActiveConfiguration.Name : String.Empty;
-			conf.Build             = false;
+			conf.Build = false;
 			configurations.Add(conf);
 		}
 		
-		public object FromXmlElement(XmlElement element)
-		{
-			return null;
-		}
-		
-		public void RemoveEntry(CombineEntry entry)
+		public void RemoveEntry (CombineEntry entry)
 		{
 			Config removeConfig = null;
 			
@@ -99,40 +99,6 @@ namespace MonoDevelop.Internal.Project
 			
 			Debug.Assert(removeConfig != null);
 			configurations.Remove(removeConfig);
-		}
-		
-		public XmlElement ToXmlElement(XmlDocument doc)
-		{
-			if (combine == null) 
-				throw new ApplicationException("combine can't be null");
-			
-			XmlElement cel = doc.CreateElement("Configuration");
-			
-			XmlAttribute nameattr = doc.CreateAttribute("name");
-			nameattr.InnerText = Name;
-			cel.Attributes.Append(nameattr);
-			
-			foreach (Config config in configurations) {
-				if (config == null || config.Entry == null) {
-					continue;
-				}
-				XmlElement el = doc.CreateElement("Entry");
-				
-				XmlAttribute attr1 = doc.CreateAttribute("name");
-				attr1.InnerText = config.Entry.Name;
-				el.Attributes.Append(attr1);
-				
-				XmlAttribute attr2 = doc.CreateAttribute("configurationname");
-				attr2.InnerText = config.ConfigurationName;
-				el.Attributes.Append(attr2);
-				
-				XmlAttribute attr3 = doc.CreateAttribute("build");
-				attr3.InnerText = config.Build.ToString();
-				el.Attributes.Append(attr3);
-				
-				cel.AppendChild(el);
-			}
-			return cel;
 		}
 	}
 }

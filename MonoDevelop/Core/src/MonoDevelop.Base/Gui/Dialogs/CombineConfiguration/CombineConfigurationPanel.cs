@@ -112,8 +112,8 @@ namespace MonoDevelop.Gui.Dialogs.OptionPanels
 			
 			CombineEntry entry = (CombineEntry)combine.Entries[combine.GetEntryNumber(item.Text)];
 			int index = 0;
-			if (entry.Entry is IProject) {
-				IProject subproject = (IProject)entry.Entry;
+			if (entry.Entry is Project) {
+				Project subproject = (Project)entry.Entry;
 				for (int i = 0; i < subproject.Configurations.Count; ++i) {
 					string name = ((IConfiguration)subproject.Configurations[i]).Name;
 					if (name == item.SubItems[1].Text)

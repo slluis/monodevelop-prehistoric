@@ -64,6 +64,7 @@ namespace MonoDevelop.Gui.Pads.ProjectBrowser
 
 		public void RedrawContent()
 		{
+			Runtime.DispatchService.AssertGuiThread ();
 			BeginUpdate();
 			AbstractBrowserNode.ShowExtensions = Runtime.Properties.GetProperty("MonoDevelop.Gui.ProjectBrowser.ShowExtensions", true);
 			foreach (AbstractBrowserNode node in Nodes) {
@@ -74,6 +75,7 @@ namespace MonoDevelop.Gui.Pads.ProjectBrowser
 		
 		public ProjectBrowserView() : base (true, TreeNodeComparer.GtkProjectNode)
 		{
+			Runtime.DispatchService.AssertGuiThread ();
 			WorkbenchSingleton.Workbench.ActiveWorkbenchWindowChanged += new EventHandler(ActiveWindowChanged);
 
 			Runtime.ProjectService.CombineOpened += (CombineEventHandler) Runtime.DispatchService.GuiDispatch (new CombineEventHandler (OpenCombine));
@@ -96,7 +98,7 @@ namespace MonoDevelop.Gui.Pads.ProjectBrowser
 			}
 		}
 		
-		public void RefreshTree(Combine combine)
+		void RefreshTree (Combine combine)
 		{
 			DisposeProjectNodes();
 			Nodes.Clear();
@@ -198,7 +200,7 @@ namespace MonoDevelop.Gui.Pads.ProjectBrowser
 				if (node.UserData is ProjectFile && ((ProjectFile)node.UserData).Name == fileName) {
 					return node;
 				}
-				if (node.UserData is ProjectReference && ((ProjectReference)node.UserData).GetReferencedFileName(node.Project) == fileName) {
+				if (node.UserData is ProjectReference && ((ProjectReference)node.UserData).GetReferencedFileName() == fileName) {
 					return node;
 				}
 				
@@ -235,6 +237,7 @@ namespace MonoDevelop.Gui.Pads.ProjectBrowser
 		/// </summary>
 		public void StartLabelEdit()
 		{
+			Runtime.DispatchService.AssertGuiThread ();
 			AbstractBrowserNode selectedNode = (AbstractBrowserNode)SelectedNode;
 			CombineBrowserNode cbn = SelectedNode as CombineBrowserNode;
 			if (null != cbn)
@@ -261,6 +264,7 @@ namespace MonoDevelop.Gui.Pads.ProjectBrowser
 		/// </summary>
 		public void UpdateCombineTree()
 		{
+			Runtime.DispatchService.AssertGuiThread ();
 			XmlElement storedTree = new TreeViewMemento(this).ToXmlElement(new XmlDocument());
 			CloseCombine(this,new CombineEventArgs(Runtime.ProjectService.CurrentOpenCombine));
 			OpenCombine(this, new CombineEventArgs(Runtime.ProjectService.CurrentOpenCombine));
@@ -271,8 +275,9 @@ namespace MonoDevelop.Gui.Pads.ProjectBrowser
 		/// <summary>
 		/// This method builds a ProjectBrowserNode Tree out of a given combine.
 		/// </summary>
-		public static AbstractBrowserNode BuildProjectTreeNode(IProject project)
+		public static AbstractBrowserNode BuildProjectTreeNode(Project project)
 		{
+			Runtime.DispatchService.AssertGuiThread ();
 			IProjectNodeBuilder[] nodeBuilders = (IProjectNodeBuilder[])(AddInTreeSingleton.AddInTree.GetTreeNode(nodeBuilderPath).BuildChildItems(null)).ToArray(typeof(IProjectNodeBuilder));
 			IProjectNodeBuilder   projectNodeBuilder = null;
 			foreach (IProjectNodeBuilder nodeBuilder in nodeBuilders) {
@@ -293,15 +298,16 @@ namespace MonoDevelop.Gui.Pads.ProjectBrowser
 		/// </summary>
 		public static AbstractBrowserNode BuildCombineTreeNode(Combine combine)
 		{
+			Runtime.DispatchService.AssertGuiThread ();
 			CombineBrowserNode combineNode = new CombineBrowserNode(combine);
 			
 			// build subtree
 			foreach (CombineEntry entry in combine.Entries) {
 				TreeNode node = null;
-				if (entry.Entry is IProject) {
-					node = BuildProjectTreeNode((IProject)entry.Entry);
+				if (entry is Project) {
+					node = BuildProjectTreeNode((Project)entry);
 				} else {
-					node = BuildCombineTreeNode((Combine)entry.Entry);
+					node = BuildCombineTreeNode((Combine)entry);
 				}
 				combineNode.Nodes.Add (node);
 			}
@@ -498,6 +504,7 @@ namespace MonoDevelop.Gui.Pads.ProjectBrowser
 
 		public static void MoveCopyFile(string filename, AbstractBrowserNode node, bool move, bool alreadyInPlace)
 		{
+			Runtime.DispatchService.AssertGuiThread ();
 			//			FileType type      = FileUtility.GetFileType(filename);
 			bool     directory = Runtime.FileUtilityService.IsDirectory(filename);
 			if (
@@ -562,9 +569,9 @@ namespace MonoDevelop.Gui.Pads.ProjectBrowser
 			ProjectFile fInfo;
 
 			if (newparent.Project.IsCompileable(newfilename)) {
-				fInfo = Runtime.ProjectService.AddFileToProject(newparent.Project, newfilename, BuildAction.Compile);
+				fInfo = newparent.Project.AddFile (newfilename, BuildAction.Compile);
 			} else {
-				fInfo = Runtime.ProjectService.AddFileToProject(newparent.Project, newfilename, BuildAction.Nothing);
+				fInfo = newparent.Project.AddFile (newfilename, BuildAction.Nothing);
 			}
 
 			AbstractBrowserNode pbn = new FileNode(fInfo);

@@ -69,7 +69,7 @@ namespace MonoDevelop.Gui.Pads.ProjectBrowser
 		/// any node is child of a project. THIS DON'T WORK ON COMBINE NODES!
 		/// (a combine node returns null)
 		/// </summary>
-		public virtual IProject Project {
+		public virtual Project Project {
 			get {
 				if (Parent == null || !(Parent is AbstractBrowserNode)) {
 					return null;

@@ -21,24 +21,17 @@ namespace MonoDevelop.Internal.Project
 			".dll"
 		};
 		
-		public void DeployProject(IProject project)
+		public void DeployProject(Project project)
 		{
 			if (project.DeployInformation.DeployTarget.Length == 0) {
 				Runtime.MessageService.ShowError(GettextCatalog.GetString ("Can't deploy: no deployment target set"));
 				return;
 			}
 			try {
-				AbstractProjectConfiguration config = (AbstractProjectConfiguration)project.ActiveConfiguration;
-				FileUtilityService fileUtilityService = Runtime.FileUtilityService;
-				string assembly = fileUtilityService.GetDirectoryNameWithSeparator(config.OutputDirectory) + config.OutputAssembly;
-				
-				foreach (string  ext in extensions) {
-					if (File.Exists(assembly + ext)) {
-						File.Copy(assembly + ext, fileUtilityService.GetDirectoryNameWithSeparator(project.DeployInformation.DeployTarget) + config.OutputAssembly + ext, true);
-						return;
-					}
-				}
-				throw new Exception("Assembly not found.");
+				if (File.Exists (project.GetOutputFileName ()))
+					File.Copy (project.GetOutputFileName (), Path.GetFileName (project.GetOutputFileName ()), true);
+				else
+					throw new Exception("Assembly not found.");
 			} catch (Exception e) {
 				Runtime.MessageService.ShowError(e);
 			}

@@ -14,15 +14,15 @@ namespace MonoDevelop.Services
 	
 	public class ProjectEventArgs : EventArgs
 	{
-		IProject project;
+		Project project;
 		
-		public IProject Project {
+		public Project Project {
 			get {
 				return project;
 			}
 		}
 		
-		public ProjectEventArgs(IProject project)
+		public ProjectEventArgs(Project project)
 		{
 			this.project = project;
 		}

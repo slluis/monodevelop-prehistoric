@@ -11,7 +11,7 @@ using System.IO;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Xml;
-using MonoDevelop.Internal.Project;
+using MonoDevelop.Internal.Serialization;
 using MonoDevelop.Gui.Components;
 
 namespace MonoDevelop.Internal.Project
@@ -37,30 +37,47 @@ namespace MonoDevelop.Internal.Project
 	/// <summary>
 	/// This class represent a file information in an IProject object.
 	/// </summary>
-	[XmlNodeName("File")]	
 	public class ProjectFile : LocalizedObject, ICloneable
 	{
-		[XmlAttribute("name"),
-		 ConvertToRelativePath()]
-		string      filename;
+		[ProjectPathItemProperty("name")]
+		string filename;
 		
-		[XmlAttribute("subtype")]	
-		Subtype     subtype;
+		[ItemProperty("subtype")]	
+		Subtype subtype;
 		
-		[XmlAttribute("buildaction")]
+		[ItemProperty("buildaction")]
 		BuildAction buildaction;
 		
-		[XmlAttribute("dependson"),
-		 ConvertToRelativePath()]		
-		string		dependsOn;
+		[ItemProperty("dependson", DefaultValue="")]		
+		string dependsOn;
 		
-		[XmlAttribute("data")]
-		string		data;
+		[ItemProperty("data", DefaultValue="")]
+		string data;
 		
-		[XmlAttribute(null)]
-		AbstractProject project;
+		Project project;
 		
 		private FileSystemWatcher ProjectFileWatcher;
+		
+		public ProjectFile()
+		{
+			AddFileWatch();
+		}
+		
+		public ProjectFile(string filename)
+		{
+			this.filename = filename;
+			subtype       = Subtype.Code;
+			buildaction   = BuildAction.Compile;
+			AddFileWatch();
+		}
+		
+		public ProjectFile(string filename, BuildAction buildAction)
+		{
+			this.filename = filename;
+			subtype       = Subtype.Code;
+			buildaction   = buildAction;
+			AddFileWatch();
+		}
 		
 		private void AddFileWatch()
 		{
@@ -78,20 +95,25 @@ namespace MonoDevelop.Internal.Project
 		
 			if ((this.filename == null) || (this.filename.Length == 0))
 				return;				
-					
-			ProjectFileWatcher.EnableRaisingEvents = false;
-			ProjectFileWatcher.Path = Path.GetDirectoryName(filename);
-			ProjectFileWatcher.Filter = Path.GetFileName(filename);
-			ProjectFileWatcher.EnableRaisingEvents = true;
+
+			try {
+				ProjectFileWatcher.EnableRaisingEvents = false;
+				ProjectFileWatcher.Path = Path.GetDirectoryName(filename);
+				ProjectFileWatcher.Filter = Path.GetFileName(filename);
+				ProjectFileWatcher.EnableRaisingEvents = true;
+			} catch {
+				Console.WriteLine ("NOT WATCHING " + filename);
+			}
 
 		}
 		
 		private void OnChanged(object source, FileSystemEventArgs e)
 		{
-			project.NotifyFileChangedInProject(this);
+			if (project != null)
+				project.NotifyFileChangedInProject(this);
 		}
 
-		internal void SetProject (AbstractProject prj)
+		internal void SetProject (Project prj)
 		{
 			project = prj;
 			UpdateFileWatch();
@@ -105,12 +127,22 @@ namespace MonoDevelop.Internal.Project
 				return filename;
 			}
 			set {
-				project.NotifyFileRemovedFromProject (this);
+				Debug.Assert (value != null && value.Length > 0, "name == null || name.Length == 0");
+				if (project != null) project.NotifyFileRemovedFromProject (this);
 				filename = value;
 				UpdateFileWatch();
-				Debug.Assert(filename != null && filename.Length > 0, "name == null || name.Length == 0");
-				project.NotifyFileAddedToProject (this);
+				if (project != null) project.NotifyFileAddedToProject (this);
 			}
+		}
+		
+		public string FilePath {
+			get {
+				return filename;
+			}
+		}
+		
+		public string RelativePath {
+			get { return filename; }
 		}
 		
 		[Browsable(false)]
@@ -152,27 +184,6 @@ namespace MonoDevelop.Internal.Project
 			set {
 				data = value;
 			}
-		}
-		
-		public ProjectFile()
-		{
-			AddFileWatch();
-		}
-		
-		public ProjectFile(string filename)
-		{
-			this.filename = filename;
-			subtype       = Subtype.Code;
-			buildaction   = BuildAction.Compile;
-			AddFileWatch();
-		}
-		
-		public ProjectFile(string filename, BuildAction buildAction)
-		{
-			this.filename = filename;
-			subtype       = Subtype.Code;
-			buildaction   = buildAction;
-			AddFileWatch();
 		}
 		
 		public object Clone()

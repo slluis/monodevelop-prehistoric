@@ -11,6 +11,7 @@ using System.Collections.Specialized;
 
 using MonoDevelop.Services;
 using MonoDevelop.Internal.Project;
+using Project_ = MonoDevelop.Internal.Project.Project;
 
 namespace MonoDevelop.Internal.Parser
 {
@@ -133,17 +134,17 @@ namespace MonoDevelop.Internal.Parser
 		/// The caretLineNumber and caretColumn is 1 based.
 		/// </summary>
 		ResolveResult Resolve(IParserService parserService, 
-							  IProject project,
+							  Project_ project,
 		                      string expression, 
 		                      int caretLineNumber, 
 		                      int caretColumn, 
 		                      string fileName,
 		                      string fileContent);
 
-		string MonodocResolver (IParserService parserService, IProject project, string expression, int caretLineNumber, int caretColumn, string fileName, string fileContent);
+		string MonodocResolver (IParserService parserService, Project_ project, string expression, int caretLineNumber, int caretColumn, string fileName, string fileContent);
 
-		ArrayList IsAsResolve (IParserService parserService, IProject project, string expression, int caretLineNumber, int caretColumn, string fileName, string fileContent);
+		ArrayList IsAsResolve (IParserService parserService, Project_ project, string expression, int caretLineNumber, int caretColumn, string fileName, string fileContent);
 		
-		ArrayList CtrlSpace(IParserService parserService, IProject project, int caretLine, int caretColumn, string fileName);
+		ArrayList CtrlSpace(IParserService parserService, Project_ project, int caretLine, int caretColumn, string fileName);
 	}
 }

@@ -41,7 +41,7 @@ namespace MonoDevelop.Commands.ProjectBrowser
 			FolderNode         node    = browser.SelectedNode as FolderNode;
 			
 			if (node != null) {
-				IProject project = ((ProjectBrowserNode) node.Parent).Project;
+				Project project = ((ProjectBrowserNode) node.Parent).Project;
 				
 				show_dialog:
 									
@@ -63,7 +63,7 @@ namespace MonoDevelop.Commands.ProjectBrowser
 					}
 				
 					foreach (string fileName in files) {
-						ProjectFile fileInformation = Runtime.ProjectService.AddFileToProject(project, fileName, BuildAction.EmbedAsResource);
+						ProjectFile fileInformation = project.AddFile (fileName, BuildAction.EmbedAsResource);
 					
 						AbstractBrowserNode newResNode = new FileNode(fileInformation);
 						newResNode.Image = Stock.ResourceFileIcon;

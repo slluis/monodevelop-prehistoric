@@ -34,7 +34,7 @@ namespace MonoDevelop.Gui.Pads
 		{
 		}
 
-		public bool CanBuildClassTree(IProject project)
+		public bool CanBuildClassTree(Project project)
 		{
 			return true;
 		}
@@ -73,7 +73,7 @@ namespace MonoDevelop.Gui.Pads
 		
 		public void UpdateClassTree(TreeNode projectNode)
 		{
-			TreeNode newNode = BuildClassTreeNode((IProject)projectNode.Tag);
+			TreeNode newNode = BuildClassTreeNode((Project)projectNode.Tag);
 			projectNode.Nodes.Clear();
 			foreach (TreeNode node in newNode.Nodes)
 				projectNode.Nodes.Add(node);
@@ -84,14 +84,15 @@ namespace MonoDevelop.Gui.Pads
 			return (nod.Nodes.Count == 1 && nod.Nodes[0].Text == "");
 		}
 
-		public TreeNode BuildClassTreeNode(IProject p)
+		public TreeNode BuildClassTreeNode(Project p)
 		{
 			Type fus = typeof (FileUtilityService);
 			
 			GetCurrentAmbience();
 
 			TreeNode prjNode = new AbstractClassScoutNode(p.Name);
-			prjNode.Image = Runtime.Gui.Icons.GetImageForProjectType(p.ProjectType);
+			string lang = (p is DotNetProject) ? ((DotNetProject)p).LanguageName : "";
+			prjNode.Image = Runtime.Gui.Icons.GetImageForProjectType(lang);
 			prjNode.Nodes.Add (new TreeNode (""));
 			prjNode.Tag = p;
 			return prjNode;
@@ -109,17 +110,17 @@ namespace MonoDevelop.Gui.Pads
 					nod = nod.Parent;
 				}
 
-				IProject p = (IProject)nod.Tag;
+				Project p = (Project)nod.Tag;
 				ExpandNamespaceTree (p, ns, node);
 			}
-			else if (node.Tag is IProject)
+			else if (node.Tag is Project)
 			{
-				IProject p = (IProject)node.Tag;
+				Project p = (Project)node.Tag;
 				ExpandNamespaceTree (p, "", node);
 			}
 		}
 		
-		void ExpandNamespaceTree (IProject project, string ns, TreeNode node)
+		void ExpandNamespaceTree (Project project, string ns, TreeNode node)
 		{
 			if (!NeedsExpansion (node)) return;
 			node.Nodes.Clear ();
@@ -244,7 +245,7 @@ namespace MonoDevelop.Gui.Pads
 				TreeNode node = GetNodeByPath (ns, projectNode, false);
 				if (node != null && node != projectNode) {
 					if (NeedsExpansion (node)) {
-						ArrayList contents = Runtime.ParserService.GetNamespaceContents (projectNode.Tag as IProject, ns, false);
+						ArrayList contents = Runtime.ParserService.GetNamespaceContents (projectNode.Tag as Project, ns, false);
 						if (contents.Count == 0)
 							node.Remove ();
 					} else if (node.Nodes.Count == 0) {

@@ -281,15 +281,10 @@ namespace MonoDevelop.Commands
 				string name = fs.Filename;
 				fs.Hide ();
 				if (response == (int)Gtk.ResponseType.Ok) {
-					switch (System.IO.Path.GetExtension (name).ToUpper()) {
-					case ".PRJX":
-					case ".CMBX":
+					if (Runtime.ProjectService.IsCombineEntryFile (name))
 						Runtime.ProjectService.OpenCombine (name);
-						break;
-					default:
+					else
 						Runtime.FileService.OpenFile(name);
-						break;
-					}
 				}	
 			}
 		}

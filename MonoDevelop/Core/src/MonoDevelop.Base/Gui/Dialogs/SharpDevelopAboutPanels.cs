@@ -14,7 +14,6 @@ using Gtk;
 using MonoDevelop.Gui;
 using MonoDevelop.Core.Properties;
 using MonoDevelop.Core.Services;
-using MonoDevelop.Internal.Project.Collections;
 using MonoDevelop.Internal.Project;
 using MonoDevelop.Services;
 

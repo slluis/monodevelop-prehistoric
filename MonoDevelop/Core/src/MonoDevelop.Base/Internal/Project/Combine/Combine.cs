@@ -28,24 +28,31 @@ using MonoDevelop.Core.Services;
 using MonoDevelop.Services;
 using MonoDevelop.Internal.Project;
 using MonoDevelop.Core.Properties;
-using MonoDevelop.Gui;
 using MonoDevelop.Gui.Components;
 using MonoDevelop.Gui.Widgets;
+using MonoDevelop.Internal.Serialization;
 
 namespace MonoDevelop.Internal.Project
 {
-	public class Combine : LocalizedObject, IDisposable
+	[DataInclude (typeof(CombineConfiguration))]
+	public class Combine : CombineEntry
 	{
-		string name        = null;
+		[ItemProperty ("description", DefaultValue = "")]
 		string description = null;
 		
-		/// <summary>
-		/// name of the project to startup in singlestartup mode.
-		/// </summary>
+		[ItemProperty ("StartMode/startupentry")]
 		string startProject  = null;
+		
+		[ItemProperty ("StartMode/single")]
 		bool   singleStartup = true;
+		
+		[ExpandedCollection]
+		[ItemProperty ("StartMode/Execute", ValueType = typeof(CombineExecuteDefinition))]
+		ArrayList combineExecuteDefinitions = new ArrayList();
+		
 		bool   eventsAllowed = true;
-		string path          = null;
+		
+		[ProjectPathItemProperty ("outputpath")]
 		string outputdir     = null;
 		
 		ProjectFileEventHandler fileAddedToProjectHandler;
@@ -55,41 +62,12 @@ namespace MonoDevelop.Internal.Project
 		ProjectReferenceEventHandler referenceAddedToProjectHandler;
 		ProjectReferenceEventHandler referenceRemovedFromProjectHandler;
 		
-		CombineEntryCollection entries = new CombineEntryCollection();
-		
-		CombineConfiguration activeConfiguration;
-		
-		Hashtable configurations            = new Hashtable();
-		ArrayList combineExecuteDefinitions = new ArrayList();
-		
-		[LocalizedProperty("${res:MonoDevelop.Internal.Project.Combine.ActiveConfiguration}",
-		                   Description = "${res:MonoDevelop.Internal.Project.Combine.ActiveConfiguration.Description}")]
-		[TypeConverter(typeof(CombineActiveConfigurationTypeConverter))]
-		public CombineConfiguration ActiveConfiguration {
-			get {
-				return activeConfiguration;
-			}
-			set {
-				activeConfiguration = value;
-			}
-		}
+		CombineEntryCollection entries;
 		
 		[Browsable(false)]
-		public Hashtable Configurations {
+		public CombineEntryCollection Entries {
 			get {
-				return configurations;
-			}
-		}
-		
-		[Browsable(false)]
-		public ArrayList CombineExecuteDefinitions {
-			get {
-				return combineExecuteDefinitions;
-			}
-		}
-		[Browsable(false)]
-		public ICombineEntryCollection Entries {
-			get {
+				if (entries == null) entries = new CombineEntryCollection (this);
 				return entries;
 			}
 		}
@@ -100,6 +78,7 @@ namespace MonoDevelop.Internal.Project
 				return startProject;
 			}
 			set {
+				if (Entries [value] == null) throw new ArgumentException ("Invalid entry name");
 				startProject = value;
 				OnStartupPropertyChanged(null);
 			}
@@ -115,36 +94,31 @@ namespace MonoDevelop.Internal.Project
 				OnStartupPropertyChanged(null);
 			}
 		}
-
+		
+		public ArrayList CombineExecuteDefinitions {
+			get {
+				return combineExecuteDefinitions;
+			}
+		}
+		
 		public string OutputDirectory 
 		{
 			get {
-				return outputdir;
+				if (outputdir == null) return DefaultOutputDirectory;
+				else return outputdir;
 			}
 			set {
-				outputdir = value;
+				if (value == DefaultOutputDirectory) outputdir = null;
+				else outputdir = value;
 			}
 		}
 		
-		public string BaseDirectory {
+		string DefaultOutputDirectory {
 			get {
-				return path;
+				return (BaseDirectory != null) ? Path.Combine (BaseDirectory, Path.Combine ("build", "bin")) : null;
 			}
 		}
-		
-		[LocalizedProperty("${res:MonoDevelop.Internal.Project.Combine.Name}",
-		                   Description ="${res:MonoDevelop.Internal.Project.Combine.Name.Description}")]
-		public string Name {
-			get {
-				return name;
-			}
-			set {
-				if (name != value && value != null && value.Length > 0) {
-					name = value;
-					OnNameChanged(EventArgs.Empty);
-				}
-			}
-		}
+
 		
 		[LocalizedProperty("${res:MonoDevelop.Internal.Project.Combine.Description}",
 		                   Description ="${res:MonoDevelop.Internal.Project.Combine.Description.Description}")]
@@ -159,27 +133,14 @@ namespace MonoDevelop.Internal.Project
 		
 		[LocalizedProperty("${res:MonoDevelop.Internal.Project.Combine.NeedsBuilding}",
 		                   Description ="${res:MonoDevelop.Internal.Project.Combine.NeedsBuilding.Description}")]
-		public bool NeedsBuilding {
+		public override bool NeedsBuilding {
 			get {
-				ArrayList projects = new ArrayList();
-				GetAllProjects(projects, this);
-				foreach (ProjectCombineEntry projectEntry in projects) {
-					if (projectEntry.IsDirty) {
-						return true;
-					}
-				}
+				foreach (CombineEntry entry in Entries)
+					if (entry.NeedsBuilding) return true;
 				return false;
 			}
-		}
-		
-		public void Dispose()
-		{
-			if (entries != null) {
-				foreach (object o in entries) {
-					if (o is IDisposable) {
-						((IDisposable)o).Dispose();
-					}
-				}
+			set {
+				// Ignore
 			}
 		}
 		
@@ -192,190 +153,74 @@ namespace MonoDevelop.Internal.Project
 			referenceRemovedFromProjectHandler = new ProjectReferenceEventHandler (NotifyReferenceRemovedFromProject);
 		}
 		
-		public Combine(string filename)
+		internal void NotifyEntryAdded (CombineEntry entry)
 		{
-			LoadCombine(filename);
-		}
-		
-		public IProject LoadProject(string filename)
-		{
-			ILanguageBinding binding = Runtime.Languages.GetBindingPerProjectFile(filename);
-			if (binding == null) {
-				Runtime.MessageService.ShowError(String.Format (GettextCatalog.GetString ("Can't find language binding for {0}"), filename));
-				return null;
-			}
+			if (startProject == null)
+				startProject = entry.Name;
 			
-			IProject project = binding.CreateProject(null, null);
-			project.LoadProject(filename);
-			return project;
-		}
-		
-		public void LoadCombine(string filename)
-		{
-			XmlDocument doc = new XmlDocument();
-			doc.Load(filename);
-			path = Path.GetDirectoryName(filename);
-			
-			XmlElement root = doc.DocumentElement;
-			
-			name          = root.Attributes["name"].InnerText;
-			description   = root.Attributes["description"].InnerText;
-			
-			startProject   = root["StartMode"].Attributes["startupentry"].InnerText;
-			singleStartup  = Boolean.Parse(root["StartMode"].Attributes["single"].InnerText);
-			
-			XmlNodeList nodes = root["Entries"].ChildNodes;
-			entries.Clear();
-			FileUtilityService fileUtilityService = Runtime.FileUtilityService;
-			eventsAllowed = false;
-			try {
-				foreach (XmlElement el in nodes) {
-					string abs_path = fileUtilityService.RelativeToAbsolutePath(path, el.Attributes["filename"].InnerText);
-					AddEntry(abs_path);
-				}
-			}
-			finally {
-				eventsAllowed = true;
-			}
-			
-			nodes = root["StartMode"].ChildNodes;
-			combineExecuteDefinitions.Clear();
-			foreach (XmlElement el in nodes)  {
-				if (el.Name == "Execute") {
-					CombineExecuteDefinition ced = new CombineExecuteDefinition();
-					ced.Entry = GetEntry(el.Attributes["entry"].InnerText);
-					ced.Type = (EntryExecuteType)Enum.Parse(typeof(EntryExecuteType), el.Attributes["type"].InnerText);
-					combineExecuteDefinitions.Add(ced);
+			if (Configurations.Count == 0) {
+				foreach (IConfiguration pconf in entry.Configurations) {
+					if (pconf.Name == null)
+						continue;
+					CombineConfiguration cconf = new CombineConfiguration (pconf.Name);
+					Configurations.Add (cconf);
+					if (ActiveConfiguration == null)
+						ActiveConfiguration = cconf;
 				}
 			}
 			
-			nodes = root["Configurations"].ChildNodes;
-			configurations.Clear();
-			foreach (XmlElement el in nodes) {
-				CombineConfiguration cconf = new CombineConfiguration(el, this);
-				configurations[cconf.Name] = cconf;
-				
-				// set the active configuration, either to the first (if the active attribute is not set)
-				// or to the active configuration specified by the active attribute.
-				if ((doc.DocumentElement["Configurations"].Attributes["active"] == null) || cconf.Name == doc.DocumentElement["Configurations"].Attributes["active"].InnerText) { // ok, I know that && has a higher priority than ||, but many programmers think that a bracket is easier to read ... one thing I don't find easy to read are long lines :)
-					ActiveConfiguration = cconf;
-				}
-			}
+			foreach (CombineConfiguration conf in Configurations)
+				conf.AddEntry (entry);
 
-			string mdCombineAddition = Path.ChangeExtension (filename, "mdsx");
-			if (File.Exists (mdCombineAddition)) {
-				doc.Load (mdCombineAddition);
-				root = doc.DocumentElement;
-				if (root["RelativeOutputPath"] != null && root["RelativeOutputPath"].InnerText != null) {
-					outputdir = fileUtilityService.RelativeToAbsolutePath(path, root["RelativeOutputPath"].InnerText);
-				} else {
-					outputdir = Path.Combine (path, Path.Combine ("build", "bin"));
-				}
-			} else {
-				outputdir = Path.Combine (path, Path.Combine ("build", "bin"));
-			}
-		}
-		
-		public void SaveCombine(string filename)
-		{
-			XmlDocument doc = new XmlDocument();
-			doc.LoadXml("<Combine fileversion=\"1.0\"/>");
+			combineExecuteDefinitions.Add (new CombineExecuteDefinition (entry, EntryExecuteType.None));
 			
-			XmlAttribute combineNameAttribute = doc.CreateAttribute("name");
-			combineNameAttribute.InnerText = name;
-			doc.DocumentElement.Attributes.Append(combineNameAttribute);
-			
-			XmlAttribute combineDescriptionAttribute = doc.CreateAttribute("description");
-			combineDescriptionAttribute.InnerText = description;
-			doc.DocumentElement.Attributes.Append(combineDescriptionAttribute);
-			
-			string path = Path.GetDirectoryName(filename);
-			
-			XmlElement startupnode  = doc.CreateElement("StartMode");
-			
-			XmlAttribute single = doc.CreateAttribute("startupentry");
-			single.InnerText  = startProject;
-			startupnode.Attributes.Append(single);
-			
-			XmlAttribute activeconf = doc.CreateAttribute("single");
-			activeconf.InnerText = singleStartup.ToString();
-			startupnode.Attributes.Append(activeconf);
-			
-			foreach (CombineExecuteDefinition ced in combineExecuteDefinitions) {
-				XmlElement el = doc.CreateElement("Execute");
-				
-				XmlAttribute a1 = doc.CreateAttribute("entry");
-				CombineEntry centry = ced.Entry;
-				if (centry == null || centry.Entry == null) {
-					continue;
-				}
-				if (centry.Entry is IProject) {
-					a1.InnerText  = ((IProject)centry.Entry).Name;
-				} else {
-					a1.InnerText  = ((Combine)centry.Entry).Name;
-				}
-				el.Attributes.Append(a1);
-				
-				XmlAttribute a2 = doc.CreateAttribute("type");
-				a2.InnerText  = ced.Type.ToString();
-				el.Attributes.Append(a2);
-				
-				startupnode.AppendChild(el);
-			}
-			
-			doc.DocumentElement.AppendChild(startupnode);
-						
-			XmlElement projectsnode = doc.CreateElement("Entries");
-			FileUtilityService fileUtilityService = Runtime.FileUtilityService;
-			
-			foreach (CombineEntry entry in entries) {
-				XmlElement el = doc.CreateElement("Entry");
-	
-				XmlAttribute entrynameattr = doc.CreateAttribute("filename");
-				entrynameattr.InnerText = fileUtilityService.AbsoluteToRelativePath(path, entry.Filename);
-				el.Attributes.Append(entrynameattr);
-				
-				projectsnode.AppendChild(el);
-			}
-			doc.DocumentElement.AppendChild(projectsnode);
-			
-			XmlElement confnode = doc.CreateElement("Configurations");
-			
-			if (ActiveConfiguration != null) {
-				XmlAttribute activeconfattr = doc.CreateAttribute("active");
-				activeconfattr.InnerText = ActiveConfiguration.Name;
-				confnode.Attributes.Append(activeconfattr);
-			}
-			foreach (DictionaryEntry dentry in configurations) {
-				confnode.AppendChild(((CombineConfiguration)dentry.Value).ToXmlElement(doc));
-			}
-			doc.DocumentElement.AppendChild(confnode);
-			
-			fileUtilityService.ObservedSave(new NamedFileOperationDelegate(doc.Save),
-			                                filename,
-			                                GettextCatalog.GetString ("Can't save solution\nPlease check your file and directory permissions."),
-											FileErrorPolicy.ProvideAlternative);
+			if (eventsAllowed)
+				OnEntryAdded (new CombineEntryEventArgs (entry));
 
-			doc = new XmlDocument ();
-			doc.LoadXml ("<MonoDevelopSolution fileversion=\"1.0\"/>");
-			XmlElement outputElement = doc.CreateElement ("RelativeOutputPath");
-			outputElement.InnerText = fileUtilityService.AbsoluteToRelativePath(path, outputdir);
-			
-			doc.DocumentElement.AppendChild (outputElement);
-			fileUtilityService.ObservedSave (new NamedFileOperationDelegate (doc.Save),
-											 Path.ChangeExtension (filename, "mdsx"),
-											 GettextCatalog.GetString ("Can't save solution\nPlease check your file and directory permissions."),
-											 FileErrorPolicy.ProvideAlternative);
-			
+			if (entry is Project)
+			{
+				Project project = entry as Project;
+				project.FileRemovedFromProject += fileAddedToProjectHandler;
+				project.FileAddedToProject += fileRemovedFromProjectHandler;
+				project.FileChangedInProject += fileChangedInProjectHandler;
+				project.ReferenceRemovedFromProject += referenceAddedToProjectHandler;
+				project.ReferenceAddedToProject += referenceRemovedFromProjectHandler;
+			}
+			else if (entry is Combine)
+			{
+				Combine combine = entry as Combine;
+				combine.FileRemovedFromProject += fileAddedToProjectHandler;
+				combine.FileAddedToProject += fileRemovedFromProjectHandler;
+				combine.FileChangedInProject += fileChangedInProjectHandler;
+				combine.ReferenceRemovedFromProject += referenceAddedToProjectHandler;
+				combine.ReferenceAddedToProject += referenceRemovedFromProjectHandler;
+			}
 		}
 		
-		public void SaveCombineAs()
+		public override void Deserialize (ITypeSerializer handler, DataCollection data)
+		{
+			base.Deserialize (handler, data);
+
+			foreach (CombineExecuteDefinition ced in combineExecuteDefinitions)
+				ced.SetCombine (this);
+			
+			foreach (CombineConfiguration conf in Configurations)
+				conf.SetCombine (this);
+		}
+
+		public override void Save ()
+		{
+			base.Save ();
+			GenerateMakefiles ();
+		}
+		
+		public void SaveCombineAs ()
 		{
 			using (FileSelector fdiag = new FileSelector (GettextCatalog.GetString ("Save Combine As..."))) {
 				//fdiag.Filename = System.Environment.GetEnvironmentVariable ("HOME");
 				if (fdiag.Run() == (int)Gtk.ResponseType.Ok) {
 					string filename = fdiag.Filename;
-					SaveCombine(filename);
+					Save (filename);
 					Runtime.MessageService.ShowMessage(filename, GettextCatalog.GetString ("Combine saved"));
 				}
 				
@@ -383,157 +228,53 @@ namespace MonoDevelop.Internal.Project
 			}
 		}
 
-		public object AddEntry(string filename)
+		public CombineEntry AddEntry (string filename)
 		{
-			if (Path.GetExtension(filename).ToUpper() == ".PRJX") {
-				IProject project = LoadProject(filename);
-				ProjectCombineEntry newEntry = new ProjectCombineEntry(project, filename);
-				entries.Add(newEntry);
-				combineExecuteDefinitions.Add(new CombineExecuteDefinition(newEntry, EntryExecuteType.None));
-				if (startProject == null)
-					startProject = project.Name;
-				
-				if (configurations.Count == 0) {
-					foreach (IConfiguration pconf in project.Configurations) {
-						if (pconf.Name == null)
-							continue;
-						CombineConfiguration cconf = new CombineConfiguration(pconf.Name, this);
-						configurations[pconf.Name] = cconf;
-						if (ActiveConfiguration == null)
-							ActiveConfiguration = cconf;
-					}
-				}
-				
-				foreach (DictionaryEntry entry in configurations) {
-					CombineConfiguration conf = (CombineConfiguration)entry.Value;
-					conf.AddEntry(project);
-				}
-				if (eventsAllowed)
-					OnEntryAdded (new CombineEntryEventArgs (this, newEntry));
-				
-				newEntry.Project.FileRemovedFromProject += fileAddedToProjectHandler;
-				newEntry.Project.FileAddedToProject += fileRemovedFromProjectHandler;
-				newEntry.Project.FileChangedInProject += fileChangedInProjectHandler;
-				newEntry.Project.ReferenceRemovedFromProject += referenceAddedToProjectHandler;
-				newEntry.Project.ReferenceAddedToProject += referenceRemovedFromProjectHandler;
-					
-				return project;
-			} else {
-				Combine combine = new Combine(filename);
-				CombineCombineEntry newEntry = new CombineCombineEntry(combine, filename);
-				entries.Add(newEntry);
-				combineExecuteDefinitions.Add(new CombineExecuteDefinition(newEntry, EntryExecuteType.None));
-				if (startProject == null)
-					startProject = combine.Name;
-				
-				if (configurations.Count == 0) {
-					foreach (DictionaryEntry dentry in combine.Configurations) {
-						CombineConfiguration cconf = ((CombineConfiguration)dentry.Value);
-						configurations[cconf.Name] = new CombineConfiguration(cconf.Name, this);
-						if (ActiveConfiguration == null)
-							ActiveConfiguration = cconf;
-					}
-				}
-				
-				foreach (DictionaryEntry entry in configurations) {
-					CombineConfiguration conf = (CombineConfiguration)entry.Value;
-					conf.AddEntry(combine);
-				}
-				if (eventsAllowed)
-					OnEntryAdded (new CombineEntryEventArgs (this, newEntry));
-					
-				newEntry.Combine.FileRemovedFromProject += fileAddedToProjectHandler;
-				newEntry.Combine.FileAddedToProject += fileRemovedFromProjectHandler;
-				newEntry.Combine.FileChangedInProject += fileChangedInProjectHandler;
-				newEntry.Combine.ReferenceRemovedFromProject += referenceAddedToProjectHandler;
-				newEntry.Combine.ReferenceAddedToProject += referenceRemovedFromProjectHandler;
-				
-				return combine;
-			}
-		}
-		
-		public void RemoveEntry (CombineEntry entry)
-		{
-			ProjectCombineEntry pce = entry as ProjectCombineEntry;
-			if (pce != null) {
-				pce.Project.FileRemovedFromProject -= fileAddedToProjectHandler;
-				pce.Project.FileAddedToProject -= fileRemovedFromProjectHandler;
-				pce.Project.FileChangedInProject -= fileChangedInProjectHandler;
-				pce.Project.ReferenceRemovedFromProject -= referenceAddedToProjectHandler;
-				pce.Project.ReferenceAddedToProject -= referenceRemovedFromProjectHandler;
-			}
-			else {
-				CombineCombineEntry cce = entry as CombineCombineEntry;
-				if (cce != null) {
-					cce.Combine.FileRemovedFromProject -= fileAddedToProjectHandler;
-					cce.Combine.FileAddedToProject -= fileRemovedFromProjectHandler;
-					cce.Combine.FileChangedInProject -= fileChangedInProjectHandler;
-					cce.Combine.ReferenceRemovedFromProject -= referenceAddedToProjectHandler;
-					cce.Combine.ReferenceAddedToProject -= referenceRemovedFromProjectHandler;
-				}
-			}
-				
-			entries.Remove (entry);
-			OnEntryRemoved (new CombineEntryEventArgs (this, entry));
-		}
-		
-		public void SaveAllProjects()
-		{
-			foreach (CombineEntry entry in entries) {
-				entry.Save();
-			}
-		}
-		
-		public int GetEntryNumber(string name)
-		{
-			for (int i = 0; i < entries.Count; ++i) {
-				if (((CombineEntry)entries[i]).Name == name) {
-					return i;		
-				}
-			}
-			return -1;
-		}
-		
-		public CombineEntry GetEntry(string name)
-		{
-			for (int i = 0; i < entries.Count; ++i) {
-				if (((CombineEntry)entries[i]).Name == name) {
-					return (CombineEntry)entries[i];
-				}
-			}
-			return null;
-		}
-		
-		void StartProject(int  nr) 
-		{
-			CombineEntry entry = (CombineEntry)entries[nr];
-			entry.Execute();
-		}
-		
-		void StartProject(string name) 
-		{
-			int entrynum = GetEntryNumber(name);
-			if (entrynum == -1) {
-				throw new NoStartupCombineDefinedException();
-			}
-			StartProject(entrynum);
+			CombineEntry entry = Runtime.ProjectService.ReadFile (filename);
+			Entries.Add (entry);
+			return entry;
 		}
 
-		public void Debug ()
+		public void RemoveEntry (CombineEntry entry)
 		{
-			CombineEntry entry = (CombineEntry)entries[GetEntryNumber (startProject)];
+			Project pce = entry as Project;
+			if (pce != null) {
+				pce.FileRemovedFromProject -= fileAddedToProjectHandler;
+				pce.FileAddedToProject -= fileRemovedFromProjectHandler;
+				pce.FileChangedInProject -= fileChangedInProjectHandler;
+				pce.ReferenceRemovedFromProject -= referenceAddedToProjectHandler;
+				pce.ReferenceAddedToProject -= referenceRemovedFromProjectHandler;
+			}
+			else {
+				Combine cce = entry as Combine;
+				if (cce != null) {
+					cce.FileRemovedFromProject -= fileAddedToProjectHandler;
+					cce.FileAddedToProject -= fileRemovedFromProjectHandler;
+					cce.FileChangedInProject -= fileChangedInProjectHandler;
+					cce.ReferenceRemovedFromProject -= referenceAddedToProjectHandler;
+					cce.ReferenceAddedToProject -= referenceRemovedFromProjectHandler;
+				}
+			}
+				
+			Entries.Remove (entry);
+			OnEntryRemoved (new CombineEntryEventArgs (entry));
+		}
+		
+		public override void Debug ()
+		{
+			CombineEntry entry = Entries [startProject];
 			entry.Debug ();
 		}
 
-		public void Execute()
+		public override void Execute()
 		{
 			if (singleStartup) {
-				StartProject(startProject);
+				CombineEntry entry = (CombineEntry) Entries [startProject];
+				entry.Execute();
 			} else {
 				foreach (CombineExecuteDefinition ced in combineExecuteDefinitions) {
-					if (ced.Type == EntryExecuteType.Execute) {
-						StartProject(entries.IndexOf(ced.Entry));
-					}
+					if (ced.Type == EntryExecuteType.Execute)
+						ced.Entry.Execute ();
 				}
 			}
 		}
@@ -542,43 +283,38 @@ namespace MonoDevelop.Internal.Project
 		/// Returns an ArrayList containing all ProjectEntries in this combine and 
 		/// undercombines
 		/// </remarks>
-		public static ArrayList GetAllProjects(Combine combine)
+		public CombineEntryCollection GetAllProjects ()
 		{
-			ArrayList list = new ArrayList();
-			GetAllProjects(list, combine);
+			CombineEntryCollection list = new CombineEntryCollection();
+			GetAllProjects (list);
 			return list;
 		}
 		
-		static void GetAllProjects(ArrayList list, Combine combine)
+		void GetAllProjects (CombineEntryCollection list)
 		{
-			if (combine != null && combine.Entries != null) {
-				foreach (CombineEntry entry in combine.Entries) {
-					if (entry is ProjectCombineEntry) {
-						list.Add((ProjectCombineEntry)entry);
-					} else {
-						GetAllProjects(list, ((CombineCombineEntry)entry).Combine);
-					}
+			foreach (CombineEntry entry in Entries) {
+				if (entry is Project) {
+					list.Add (entry);
+				} else if (entry is Combine) {
+					((Combine)entry).GetAllProjects (list);
 				}
-			} else {
-				Console.WriteLine("combine or combine.Entries == null");
 			}
 		}
 		
-		public ProjectCombineEntry GetProjectEntryContaining(string fileName) 
+		public Project GetProjectEntryContaining (string fileName) 
 		{
-			ArrayList projects = new ArrayList();
-			GetAllProjects(projects, this);
-			foreach (ProjectCombineEntry projectEntry in projects) {
-				if (projectEntry.Project.IsFileInProject(fileName)) {
+			CombineEntryCollection projects = GetAllProjects ();
+			foreach (Project projectEntry in projects) {
+				if (projectEntry.IsFileInProject(fileName)) {
 					return projectEntry;
 				}
 			}
 			return null;
 		}
 		
-		ArrayList TopologicalSort(ArrayList allProjects)
+		CombineEntryCollection TopologicalSort (CombineEntryCollection allProjects)
 		{
-			ArrayList sortedEntries = new ArrayList(allProjects.Count);
+			CombineEntryCollection sortedEntries = new CombineEntryCollection ();
 			bool[]    inserted      = new bool[allProjects.Count];
 			bool[]    triedToInsert = new bool[allProjects.Count];
 			for (int i = 0; i < allProjects.Count; ++i) {
@@ -592,17 +328,17 @@ namespace MonoDevelop.Internal.Project
 			return sortedEntries;
 		}
 		
-		void Insert(int index, ArrayList allProjects, ArrayList sortedEntries, bool[] inserted, bool[] triedToInsert)
+		void Insert(int index, CombineEntryCollection allProjects, CombineEntryCollection sortedEntries, bool[] inserted, bool[] triedToInsert)
 		{
 			if (triedToInsert[index]) {
 				throw new CyclicBuildOrderException();
 			}
 			triedToInsert[index] = true;
-			foreach (ProjectReference reference in ((ProjectCombineEntry)allProjects[index]).Project.ProjectReferences) {
+			foreach (ProjectReference reference in ((Project)allProjects[index]).ProjectReferences) {
 				if (reference.ReferenceType == ReferenceType.Project) {
 					int j = 0;
 					for (; j < allProjects.Count; ++j) {
-						if (reference.Reference == ((ProjectCombineEntry)allProjects[j]).Name) {
+						if (reference.Reference == ((Project)allProjects[j]).Name) {
 							if (!inserted[j]) {
 								Insert(j, allProjects, sortedEntries, inserted, triedToInsert);
 							}
@@ -615,40 +351,55 @@ namespace MonoDevelop.Internal.Project
 			inserted[index] = true;
 		}
 		
-		public void Build(bool doBuildAll)
+		public override void Clean ()
 		{
-			ArrayList allProjects = GetAllProjects(this);
+			foreach (CombineEntry entry in Entries)
+				entry.Clean ();
+		}
+		
+		public override void Build ()
+		{
+			CombineEntryCollection allProjects = GetAllProjects ();
 			try {
 				allProjects = TopologicalSort(allProjects);
 			} catch (CyclicBuildOrderException) {
 				Runtime.MessageService.ShowError(GettextCatalog.GetString ("Cyclic dependencies can not be built with this version.\nBut we are working on it."));
 				return;
 			}
-			foreach (ProjectCombineEntry entry in allProjects) {
-				entry.Build(doBuildAll);
+			foreach (Project entry in allProjects) {
+				entry.Build ();
 				if (Runtime.TaskService.Errors > 0) {
 					break;
 				}
 			}
 		}
 
+		public override string GetOutputFileName ()
+		{
+			return String.Empty;
+		}
+		
 		public void GenerateMakefiles ()
 		{
-			ArrayList allProjects = TopologicalSort (GetAllProjects (this));
+			GenerateMakefiles (null);
+		}
+
+		public override void GenerateMakefiles (Combine parentCombine)
+		{
+			CombineEntryCollection allProjects = TopologicalSort (GetAllProjects ());
 			ArrayList projects = new ArrayList ();
 			foreach (CombineEntry entry in allProjects) {
-				if (entry is ProjectCombineEntry) {
+				if (entry is Project) {
 					entry.GenerateMakefiles (this);
-					projects.Add (((ProjectCombineEntry)entry).Project);
+					projects.Add ((Project)entry);
 				}
 				else
 					Console.WriteLine ("Dont know how to generate makefiles for " + entry);
 			}
 			
-			FileUtilityService fileUtilityService = Runtime.FileUtilityService;
-			string rel_outputdir = fileUtilityService.AbsoluteToRelativePath (path, outputdir);
+			string rel_outputdir = Runtime.FileUtilityService.AbsoluteToRelativePath (BaseDirectory, outputdir);
 			
-			StreamWriter buildstream = new StreamWriter (Path.Combine (path, "make.sh"));
+			StreamWriter buildstream = new StreamWriter (Path.Combine (BaseDirectory, "make.sh"));
 			buildstream.WriteLine ("#!/bin/sh");
 			buildstream.WriteLine ("# This file is autogenerated by MonoDevelop");
 			buildstream.WriteLine ("# Do not edit it.");
@@ -657,9 +408,9 @@ namespace MonoDevelop.Internal.Project
 			buildstream.Flush ();
 			buildstream.Close ();
 			
-			Syscall.chmod (Path.Combine (path, "make.sh"), FileMode.S_IRUSR | FileMode.S_IWUSR | FileMode.S_IXUSR | FileMode.S_IRGRP | FileMode.S_IWGRP | FileMode.S_IROTH);
+			Syscall.chmod (Path.Combine (BaseDirectory, "make.sh"), FileMode.S_IRUSR | FileMode.S_IWUSR | FileMode.S_IXUSR | FileMode.S_IRGRP | FileMode.S_IWGRP | FileMode.S_IROTH);
 
-			StreamWriter stream = new StreamWriter (Path.Combine (path, "Makefile.solution." + Name.Replace (" ", "")));
+			StreamWriter stream = new StreamWriter (Path.Combine (BaseDirectory, "Makefile.solution." + Name.Replace (" ", "")));
 			stream.WriteLine ("# This file is autogenerated by MonoDevelop");
 			stream.WriteLine ("# Do not edit it.");
 			stream.WriteLine ();
@@ -669,7 +420,7 @@ namespace MonoDevelop.Internal.Project
 			stream.WriteLine ("OUTPUTDIR := {0}", rel_outputdir);
 			stream.WriteLine ();
 			stream.Write ("all: depcheck __init ");
-			foreach (IProject proj in projects) {
+			foreach (Project proj in projects) {
 				stream.Write ("Makefile.{0}.all ", proj.Name.Replace (" ",""));
 			}
 			stream.WriteLine ();
@@ -680,14 +431,14 @@ namespace MonoDevelop.Internal.Project
 			stream.WriteLine ();
 
 			stream.Write ("clean: ");
-			foreach (IProject proj in projects) {
+			foreach (Project proj in projects) {
 				stream.Write ("Makefile.{0}.clean ", proj.Name.Replace (" ", ""));
 			}
 			stream.WriteLine ();
 			stream.WriteLine ();
 
 			stream.Write ("depcheck: ");
-			foreach (IProject proj in projects) {
+			foreach (Project proj in projects) {
 				stream.Write ("Makefile.{0}.depcheck ", proj.Name.Replace (" ", ""));
 			}
 			stream.WriteLine ();
@@ -697,15 +448,15 @@ namespace MonoDevelop.Internal.Project
 			if (!SingleStartupProject) {
 				stream.WriteLine ("\t@echo `run'ning multiple startup projects is not yet support");
 			} else {
-				if (SingleStartProjectName != null && GetEntry (SingleStartProjectName) != null)
-					stream.WriteLine ("\tcd $(OUTPUTDIR) && $(RUNTIME) {0}", GetEntry (SingleStartProjectName).GetOutputName ());
+				if (SingleStartProjectName != null && Entries [SingleStartProjectName] != null)
+					stream.WriteLine ("\tcd $(OUTPUTDIR) && $(RUNTIME) {0}", Entries [SingleStartProjectName].GetOutputFileName ());
 				else
 					stream.WriteLine ("\t@echo No startup project defined");
 			}
 			stream.WriteLine ();
 
-			foreach (IProject proj in projects) {
-				string relativeLocation = fileUtilityService.AbsoluteToRelativePath (path, proj.BaseDirectory);
+			foreach (Project proj in projects) {
+				string relativeLocation = Runtime.FileUtilityService.AbsoluteToRelativePath (BaseDirectory, proj.BaseDirectory);
 				stream.WriteLine ("Makefile.{0}.%:", proj.Name.Replace (" ", ""));
 				stream.WriteLine ("\t@cd {0} && $(MAKE) -f $(subst .$*,,$@) $*", relativeLocation);
 				stream.WriteLine ();
@@ -747,14 +498,6 @@ namespace MonoDevelop.Internal.Project
 			}
 		}
 			
-		
-		protected virtual void OnNameChanged(EventArgs e)
-		{
-			if (NameChanged != null) {
-				NameChanged(this, e);
-			}
-		}
-		
 		protected virtual void OnEntryAdded(CombineEntryEventArgs e)
 		{
 			if (EntryAdded != null) {
@@ -804,7 +547,6 @@ namespace MonoDevelop.Internal.Project
 			}
 		}
 
-		public event EventHandler NameChanged;
 		public event EventHandler StartupPropertyChanged;
 		public event CombineEntryEventHandler EntryAdded;
 		public event CombineEntryEventHandler EntryRemoved;
@@ -830,7 +572,7 @@ namespace MonoDevelop.Internal.Project
 		public override object ConvertFrom(ITypeDescriptorContext context, CultureInfo culture,  object value)
 		{
 			Combine combine = (Combine)context.Instance;
-			foreach (IConfiguration configuration in combine.Configurations.Values) {
+			foreach (IConfiguration configuration in combine.Configurations) {
 				if (configuration.Name == value.ToString()) {
 					return configuration;
 				}
@@ -860,7 +602,7 @@ namespace MonoDevelop.Internal.Project
 		
 		public override System.ComponentModel.TypeConverter.StandardValuesCollection GetStandardValues(System.ComponentModel.ITypeDescriptorContext context)
 		{
-			return new TypeConverter.StandardValuesCollection(((Combine)context.Instance).Configurations.Values);
+			return new TypeConverter.StandardValuesCollection(((Combine)context.Instance).Configurations);
 		}
 	}
 }

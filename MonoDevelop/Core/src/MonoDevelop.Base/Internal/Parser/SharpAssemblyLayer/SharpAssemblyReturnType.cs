@@ -13,7 +13,7 @@ using System.Xml;
 using MonoDevelop.SharpAssembly.Metadata.Rows;
 using MonoDevelop.SharpAssembly.Metadata;
 using MonoDevelop.SharpAssembly.PE;
-using SharpAssembly=MonoDevelop.SharpAssembly.Assembly.SharpAssembly;
+using SharpAssembly_=MonoDevelop.SharpAssembly.Assembly.SharpAssembly;
 using AssemblyReader=MonoDevelop.SharpAssembly.Assembly.AssemblyReader;
 
 namespace MonoDevelop.Internal.Parser {
@@ -31,7 +31,7 @@ namespace MonoDevelop.Internal.Parser {
 			}
 		}
 		
-		public void GetDataType(SharpAssembly asm, ref uint offset)
+		public void GetDataType(SharpAssembly_ asm, ref uint offset)
 		{
 			AssemblyReader assembly = asm.Reader;
 			string fullyQualifiedName = "";
@@ -153,7 +153,7 @@ namespace MonoDevelop.Internal.Parser {
 			declaredin = null;
 		}
 		
-		public SharpAssemblyReturnType(SharpAssembly assembly, TypeDef[] typeDefTable, uint index)
+		public SharpAssemblyReturnType(SharpAssembly_ assembly, TypeDef[] typeDefTable, uint index)
 		{
 			underlyingClass = SharpAssemblyClass.FromTypeDef(assembly, index);
 			if (underlyingClass != null) {
@@ -165,7 +165,7 @@ namespace MonoDevelop.Internal.Parser {
 			declaredin = assembly;
 		}
 		
-		public SharpAssemblyReturnType(SharpAssembly assembly, TypeRef[] typeRefTable, uint index)
+		public SharpAssemblyReturnType(SharpAssembly_ assembly, TypeRef[] typeRefTable, uint index)
 		{
 			underlyingClass = SharpAssemblyClass.FromTypeRef(assembly, index);
 			if (underlyingClass != null) {
@@ -178,7 +178,7 @@ namespace MonoDevelop.Internal.Parser {
 			declaredin = assembly.GetRefAssemblyFor(index);
 		}
 		
-		public SharpAssemblyReturnType(SharpAssembly assembly, ref uint blobSignatureIndex)
+		public SharpAssemblyReturnType(SharpAssembly_ assembly, ref uint blobSignatureIndex)
 		{
 			arrayRanks = new ArrayList();
 			try {

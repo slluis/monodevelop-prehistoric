@@ -1,3 +1,71 @@
+2005-01-11  Lluis Sanchez Gual  <lluis@novell.com>
+
+	* Services/Project/DefaultProjectService.cs: Added support for custom
+	file formats and project types.
+	
+	* Gui/Dialogs/OptionPanels/ProjectOptions/OutputOptionsPanel.cs:
+	* Base.glade: Moved here the OutputOptionsPanel dialog from the c#
+	binding.
+	
+	* Internal/Codons/LanguageBinding/ILanguageBinding.cs: Moved some methods
+	to the new IProjectBinding interface, since they are language independent.
+	Actually, ILanguageBinding is now a "dot net language binding". Support for
+	non-.net languages should be implemented by extending IProjectBinding.
+	
+	* Internal/Project/Project/AbstractProjectConfiguration.cs: Moved some
+	properties to the new DotNetProjectConfiguration, and added some others
+	from the language bindings.
+	
+	* Internal/Project/Project/AbstractProject.cs: The IProject interface
+	is not used anymore. All serialization code has been removed and
+	reimplemented in PrjxFileFormat. Some methods have been moved to the
+	new base class CombineEntry, and some others to the DotNetProject
+	subclass.
+	
+	* Internal/Project/Combine/Combine.cs: It is now a subclass of
+	CombineEntry. All serialization code has been removed and
+	reimplemented in CmbxFileFormat. The class interface has been simplified.
+	
+	* Internal/Project/Combine/CombineEntry.cs: It is now the base class
+	for Combine and Project. Some common properties have been factorized
+	here.
+	
+	* Internal/Templates/ProjectTemplates/ProjectTemplate.cs: LanguageName
+	is optional.
+	* Internal/Templates/ProjectTemplates/ProjectDescriptor.cs: Use the new
+	project type model.
+	* MonoDevelopCore.addin.xml: Added extension path for project types.
+	
+	* Services/Project/FileFormatManager.cs: New file. Class that allows
+	to register new types of combine entry files.
+	* Internal/Conditions/LanguageActiveCondition.cs: New file. Condition
+	that checks the language of the current project.
+	* Internal/Codons/ProjectBinding/IProjectBinding.cs: New file.
+	Interface that represents a project binding.
+	* Internal/Codons/ProjectBinding/ProjectBindingCodon.cs: new codon for
+	project bindings.
+	* Internal/Project/Attributes/*: Removed. Equivalent funcionality is
+	now provided by MonoDevelop.Internal.Serialization.
+	
+	* Internal/Project/IFileFormat.cs: Base interface for file format
+	implementations.
+	* Internal/Project/PrjxFileFormat.cs: Implements serialization into the
+	prjx file format. 
+	* Internal/Project/CmbxFileFormat.cs: Implements serialization into the
+	cmbx file format.
+	
+	* Internal/Project/Project/DotNetProject.cs: 
+	* Internal/Project/Project/DotNetProjectBinding.cs:
+	* Internal/Project/Project/DotNetProjectConfiguration.cs: A basic .net
+	project implementation.
+	
+	* Internal/Project/Project/IProject.cs: Removed. Not needed anymore.
+	* Internal/Project/Combine/CombineEntryRenamedEventArgs.cs: New file.
+	
+	* Internal/Serialization/*: A generic data serializer.
+	
+	* Other files: Follow architecture changes.
+
 2004-01-03  Todd Berman  <tberman@off.net>
 
 	* Commands/RunCommands.cs:

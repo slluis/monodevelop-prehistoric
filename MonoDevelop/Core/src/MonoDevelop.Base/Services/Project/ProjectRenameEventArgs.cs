@@ -14,11 +14,11 @@ namespace MonoDevelop.Services
 	
 	public class ProjectRenameEventArgs : EventArgs
 	{ 
-		IProject project;
+		Project project;
 		string   oldName;
 		string   newName;
 		
-		public IProject Project {
+		public Project Project {
 			get {
 				return project;
 			}
@@ -36,7 +36,7 @@ namespace MonoDevelop.Services
 			}
 		}
 		
-		public ProjectRenameEventArgs(IProject project, string oldName, string newName)
+		public ProjectRenameEventArgs(Project project, string oldName, string newName)
 		{
 			this.project = project;
 			this.oldName = oldName;

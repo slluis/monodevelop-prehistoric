@@ -9,7 +9,7 @@ namespace MonoDevelop.Internal.Project
 {
 	public interface IDeploymentStrategy
 	{
-		void DeployProject(IProject project);
+		void DeployProject(Project project);
 	}
 	
 }

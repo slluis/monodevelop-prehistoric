@@ -172,23 +172,13 @@ namespace MonoDevelop.Gui
 				string file = individualFile.Trim ();
 				if (file.StartsWith ("file://")) {
 					file = file.Substring (7);
-					switch (System.IO.Path.GetExtension(file).ToUpper()) {
-					case ".CMBX":
-					case ".PRJX":
-						try {
+					try {
+						if (Runtime.ProjectService.IsCombineEntryFile (file))
 							Runtime.ProjectService.OpenCombine(file);
-						} catch (Exception e) {
-						}
-						
-						break;
-					default:
-						try {
+						else
 							Runtime.FileService.OpenFile (file);
-							
-						} catch (Exception e) {
-							Console.WriteLine("unable to open file {0} exception was :\n{1}", file, e.ToString());
-						}
-						break;
+					} catch (Exception e) {
+						Console.WriteLine("unable to open file {0} exception was :\n{1}", file, e.ToString());
 					}
 				}
 			}

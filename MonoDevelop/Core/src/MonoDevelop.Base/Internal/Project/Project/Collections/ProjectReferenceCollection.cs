@@ -7,7 +7,7 @@
 using System;
 using System.Collections;
 
-namespace MonoDevelop.Internal.Project.Collections
+namespace MonoDevelop.Internal.Project
 {
 	/// <summary>
 	///     <para>
@@ -18,17 +18,17 @@ namespace MonoDevelop.Internal.Project.Collections
 	[Serializable()]
 	public class ProjectReferenceCollection : CollectionBase {
 		
-		AbstractProject project;
+		Project project;
 		
 		/// <summary>
 		///     <para>
 		///       Initializes a new instance of <see cref='.ProjectReferenceCollection'/>.
 		///    </para>
 		/// </summary>
-		internal ProjectReferenceCollection() {
+		public ProjectReferenceCollection() {
 		}
 		
-		internal void SetProject (AbstractProject project)
+		internal void SetProject (Project project)
 		{
 			this.project = project;
 		}
@@ -46,9 +46,9 @@ namespace MonoDevelop.Internal.Project.Collections
 				return ((ProjectReference)(List[index]));
 			}
 			set {
-				project.NotifyReferenceRemovedFromProject ((ProjectReference)List[index]);
+				if (project != null) project.NotifyReferenceRemovedFromProject ((ProjectReference)List[index]);
 				List[index] = value;
-				project.NotifyReferenceAddedToProject (value);
+				if (project != null) project.NotifyReferenceAddedToProject (value);
 			}
 		}
 		
@@ -63,7 +63,7 @@ namespace MonoDevelop.Internal.Project.Collections
 		/// <seealso cref='.ProjectReferenceCollection.AddRange'/>
 		public int Add(ProjectReference value) {
 			int i = List.Add(value);
-			project.NotifyReferenceAddedToProject (value);
+			if (project != null) project.NotifyReferenceAddedToProject (value);
 			return i;
 		}
 		
@@ -155,7 +155,7 @@ namespace MonoDevelop.Internal.Project.Collections
 		/// <seealso cref='.ProjectReferenceCollection.Add'/>
 		public void Insert(int index, ProjectReference value) {
 			List.Insert(index, value);
-			project.NotifyReferenceAddedToProject (value);
+			if (project != null) project.NotifyReferenceAddedToProject (value);
 		}
 		
 		/// <summary>
@@ -177,7 +177,7 @@ namespace MonoDevelop.Internal.Project.Collections
 		/// <exception cref='System.ArgumentException'><paramref name='value'/> is not found in the Collection. </exception>
 		public void Remove(ProjectReference value) {
 			List.Remove(value);
-			project.NotifyReferenceRemovedFromProject (value);
+			if (project != null) project.NotifyReferenceRemovedFromProject (value);
 		}
 		
 		public class ProjectReferenceEnumerator : object, IEnumerator {

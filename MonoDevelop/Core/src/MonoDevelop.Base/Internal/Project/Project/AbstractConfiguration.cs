@@ -7,23 +7,23 @@
 
 using System.Xml;
 using MonoDevelop.Internal.Project;
+using MonoDevelop.Internal.Serialization;
+using System.Collections;
 
 namespace MonoDevelop.Internal.Project
 {
-	public abstract class AbstractConfiguration : IConfiguration
+	public abstract class AbstractConfiguration : IConfiguration, IExtendedDataItem
 	{
-		[XmlAttribute("name")]
-		protected string name = null;
+		[ItemProperty("name")]
+		string name = null;
+
+		Hashtable properties;
 		
 		public string Name {
-			get {
-				return name;
-			}
-			set {
-				name = value;
-			}
+			get { return name; }
+			set { name = value; }
 		}
-		
+
 		public object Clone()
 		{
 			return MemberwiseClone();
@@ -32,6 +32,13 @@ namespace MonoDevelop.Internal.Project
 		public override string ToString()
 		{
 			return name;
+		}
+		
+		public IDictionary ExtendedProperties {
+			get {
+				if (properties == null) properties = new Hashtable ();
+				return properties;
+			}
 		}
 	}
 }

@@ -26,9 +26,9 @@ namespace MonoDevelop.Gui.Pads.ProjectBrowser
 	public class ProjectBrowserNode : AbstractBrowserNode 
 	{
 		readonly static string defaultContextMenuPath = "/SharpDevelop/Views/ProjectBrowser/ContextMenu/ProjectBrowserNode";
-		IProject project;
+		Project project;
 		
-		public override IProject Project {
+		public override Project Project {
 			get {
 				return project;
 			}
@@ -67,22 +67,22 @@ namespace MonoDevelop.Gui.Pads.ProjectBrowser
 		}
 */
 		
-		public ProjectBrowserNode(IProject project)
+		public ProjectBrowserNode(Project project)
 		{
 			UserData     = project;
 			this.project = project;
 			Text         = project.Name;
 			contextmenuAddinTreePath = defaultContextMenuPath;
-			project.NameChanged += new EventHandler(ProjectNameChanged);
+			project.NameChanged += new CombineEntryRenamedEventHandler (ProjectNameChanged);
 		}
 		
 		public override void Dispose()
 		{
 			base.Dispose();
-			project.NameChanged -= new EventHandler(ProjectNameChanged);
+			project.NameChanged -= new CombineEntryRenamedEventHandler (ProjectNameChanged);
 		}
 		
-		void ProjectNameChanged(object sender, EventArgs e)
+		void ProjectNameChanged (object sender, CombineEntryRenamedEventArgs e)
 		{
 			Text = project.Name;
 		}
@@ -102,31 +102,19 @@ namespace MonoDevelop.Gui.Pads.ProjectBrowser
 		public override bool RemoveNode()
 		{
 			Combine  cmb = Combine;
-			IProject prj = project;
-			CombineEntry removeEntry = null;
+			Project prj = project;
 			
 			bool yes = Runtime.MessageService.AskQuestion (String.Format (GettextCatalog.GetString ("Do you really want to remove project {0} from solution {1}"), project.Name, cmb.Name));
 
 			if (!yes)
 				return false;
 			
-			// remove combineentry
-			foreach (CombineEntry entry in cmb.Entries) {
-				if (entry is ProjectCombineEntry) {
-					if (((ProjectCombineEntry)entry).Project == prj) {
-						removeEntry = entry;
-						break;
-					}
-				}
-			}
-			
-			Debug.Assert(removeEntry != null);
-			cmb.RemoveEntry (removeEntry);
+			cmb.RemoveEntry (prj);
 			
 			// remove execute definition
 			CombineExecuteDefinition removeExDef = null;
 			foreach (CombineExecuteDefinition exDef in cmb.CombineExecuteDefinitions) {
-				if (exDef.Entry == removeEntry) {
+				if (exDef.Entry == prj) {
 					removeExDef = exDef;
 				}
 			}
@@ -134,9 +122,8 @@ namespace MonoDevelop.Gui.Pads.ProjectBrowser
 			cmb.CombineExecuteDefinitions.Remove(removeExDef);
 			
 			// remove configuration
-			foreach (DictionaryEntry dentry in cmb.Configurations) {
-				((CombineConfiguration)dentry.Value).RemoveEntry(removeEntry);
-			}
+			foreach (CombineConfiguration dentry in cmb.Configurations)
+				dentry.RemoveEntry (prj);
 			
 			CombineBrowserNode cbn = ((CombineBrowserNode)Parent);
 			cbn.UpdateNaming();

@@ -14,10 +14,10 @@ namespace MonoDevelop.Internal.Project
 	
 	public class ProjectReferenceEventArgs : EventArgs
 	{
-		IProject project;
+		Project project;
 		ProjectReference reference;
 		
-		public IProject Project {
+		public Project Project {
 			get {
 				return project;
 			}
@@ -29,7 +29,7 @@ namespace MonoDevelop.Internal.Project
 			}
 		}
 		
-		public ProjectReferenceEventArgs (IProject project, ProjectReference reference)
+		public ProjectReferenceEventArgs (Project project, ProjectReference reference)
 		{
 			this.project = project;
 			this.reference = reference;

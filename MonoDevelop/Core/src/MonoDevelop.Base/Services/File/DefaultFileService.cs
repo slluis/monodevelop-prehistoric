@@ -51,14 +51,14 @@ namespace MonoDevelop.Services
 		class LoadFileWrapper
 		{
 			IDisplayBinding binding;
-			IProject project;
+			Project project;
 			
 			public LoadFileWrapper(IDisplayBinding binding)
 			{
 				this.binding = binding;
 			}
 			
-			public LoadFileWrapper(IDisplayBinding binding, IProject project)
+			public LoadFileWrapper(IDisplayBinding binding, Project project)
 			{
 				this.binding = binding;
 				this.project = project;
@@ -148,7 +148,7 @@ namespace MonoDevelop.Services
 			IDisplayBinding binding = Runtime.Gui.DisplayBindings.GetBindingPerFileName(fileName);
 			
 			if (binding != null) {
-				IProject project = null;
+				Project project = null;
 				Combine combine = null;
 				GetProjectAndCombineFromFile (fileName, out project, out combine);
 				
@@ -182,21 +182,17 @@ namespace MonoDevelop.Services
 			if(oFileInfo.OnFileOpened!=null) oFileInfo.OnFileOpened();
 		}
 		
-		protected void GetProjectAndCombineFromFile (string fileName, out IProject project, out Combine combine)
+		protected void GetProjectAndCombineFromFile (string fileName, out Project project, out Combine combine)
 		{
 			combine = Runtime.ProjectService.CurrentOpenCombine;
 			project = null;
 			
 			if (combine != null)
 			{
-				ArrayList projectslist = Combine.GetAllProjects(combine);
-
-				foreach (ProjectCombineEntry projectaux in projectslist)
+				foreach (Project projectaux in combine.GetAllProjects())
 				{
-					if (projectaux.Project.IsFileInProject (fileName))
-					{
-						project = projectaux.Project;
-					}
+					if (projectaux.IsFileInProject (fileName))
+						project = projectaux;
 				}
 			}
 		}

@@ -172,14 +172,14 @@ namespace MonoDevelop.Gui.Pads
 		protected override void OnBeforeExpand (TreeViewCancelEventArgs e)
 		{
 			TreeNode nod = e.Node;
-			if (nod.Tag == null || nod.Tag is IProject)
+			if (nod.Tag == null || nod.Tag is Project)
 			{
 				while (nod != null && nod.Tag == null)
 					nod = nod.Parent;
 					
 				if (nod == null) return;
 				
-				IProject p = (IProject)nod.Tag;
+				Project p = (Project)nod.Tag;
 				foreach (IClassScoutNodeBuilder classBrowserNodeBuilder in classBrowserNodeBuilders) {
 					if (classBrowserNodeBuilder.CanBuildClassTree(p)) {
 						classBrowserNodeBuilder.ExpandNode (e.Node);
@@ -260,15 +260,15 @@ namespace MonoDevelop.Gui.Pads
 		public void ParseCombine(Combine combine)
 		{
 			foreach (CombineEntry entry in combine.Entries) {
-				if (entry is ProjectCombineEntry) {
-					ParseProject(((ProjectCombineEntry)entry).Project);
+				if (entry is Project) {
+					ParseProject((Project)entry);
 				} else {
-					ParseCombine(((CombineCombineEntry)entry).Combine);
+					ParseCombine((Combine)entry);
 				}
 			}
 		}
 
-		void ParseProject(IProject p)
+		void ParseProject(Project p)
 		{
 			if (p.ProjectType == "C#") {
 	 			foreach (ProjectFile finfo in p.ProjectFiles) {
@@ -303,10 +303,10 @@ namespace MonoDevelop.Gui.Pads
 			
 			lock (combine.Entries) {
 				foreach (CombineEntry entry in combine.Entries) {
-					if (entry is ProjectCombineEntry) {
-						Populate(((ProjectCombineEntry)entry).Project, combineNode.Nodes);
+					if (entry is Project) {
+						Populate((Project)entry, combineNode.Nodes);
 					} else {
-						Populate(((CombineCombineEntry)entry).Combine, combineNode.Nodes);
+						Populate((Combine)entry, combineNode.Nodes);
 					}
 				}
 			}
@@ -314,7 +314,7 @@ namespace MonoDevelop.Gui.Pads
 			nodes.Add(combineNode);
 		}
 
-		void Populate(IProject p, TreeNodeCollection nodes)
+		void Populate(Project p, TreeNodeCollection nodes)
 		{
 			// only C# is currently supported.
 			bool builderFound = false;
@@ -332,7 +332,8 @@ namespace MonoDevelop.Gui.Pads
 			if (!builderFound) {
 				TreeNode prjNode = new TreeNode(p.Name);
 				//prjNode.SelectedImageIndex = prjNode.ImageIndex = imageIndexOffset + iconService.GetImageIndexForProjectType(p.ProjectType);
-				prjNode.Image = Runtime.Gui.Icons.GetImageForProjectType(p.ProjectType);
+				string lang = (p is DotNetProject) ? ((DotNetProject)p).LanguageName : "";
+				prjNode.Image = Runtime.Gui.Icons.GetImageForProjectType(lang);
 				prjNode.Nodes.Add(new TreeNode(GettextCatalog.GetString ("No class builder found")));
 				prjNode.Tag = p;
 				nodes.Add(prjNode);
@@ -343,8 +344,8 @@ namespace MonoDevelop.Gui.Pads
 		{
 			BeginUpdate();
 			foreach (TreeNode node in nodes) {
-				if (node.Tag is IProject) {
-					IProject p = (IProject)node.Tag;
+				if (node.Tag is Project) {
+					Project p = (Project)node.Tag;
 					if (p.IsFileInProject(e.FileName)) {
 						foreach (IClassScoutNodeBuilder classBrowserNodeBuilder in classBrowserNodeBuilders) {
 							classBrowserNodeBuilder.UpdateClassTree(node, e);

@@ -14,14 +14,7 @@ namespace MonoDevelop.Internal.Project
 	
 	public class CombineEntryEventArgs : EventArgs
 	{
-		Combine combine;
 		CombineEntry entry;
-		
-		public Combine Combine {
-			get {
-				return combine;
-			}
-		}
 		
 		public CombineEntry CombineEntry {
 			get {
@@ -29,9 +22,8 @@ namespace MonoDevelop.Internal.Project
 			}
 		}
 		
-		public CombineEntryEventArgs (Combine combine, CombineEntry entry)
+		public CombineEntryEventArgs (CombineEntry entry)
 		{
-			this.combine = combine;
 			this.entry = entry;
 		}
 	}

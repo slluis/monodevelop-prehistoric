@@ -5,6 +5,8 @@
 //     <version value="$version"/>
 // </file>
 
+using MonoDevelop.Internal.Serialization;
+
 namespace MonoDevelop.Internal.Project
 {
 	public enum EntryExecuteType {
@@ -14,17 +16,40 @@ namespace MonoDevelop.Internal.Project
 	
 	public class CombineExecuteDefinition
 	{
-		public CombineEntry     Entry = null;
-		public EntryExecuteType Type  = EntryExecuteType.None;
+		CombineEntry combineEntry;
+		
+		[ItemProperty ("type")]
+		EntryExecuteType type = EntryExecuteType.None;
+
+		[ItemProperty]
+		string entry;
 		
 		public CombineExecuteDefinition()
 		{
 		}
 		
-		public CombineExecuteDefinition(CombineEntry entry, EntryExecuteType type)
+		public CombineExecuteDefinition (CombineEntry entry, EntryExecuteType type)
 		{
-			this.Entry = entry;
-			this.Type  = type;
+			Entry = entry;
+			this.type  = type;
+		}
+		
+		internal void SetCombine (Combine cmb)
+		{
+			combineEntry = cmb.Entries [entry];
+		}
+		
+		public CombineEntry Entry {
+			get { return combineEntry; }
+			set {
+				combineEntry = value; 
+				entry = value != null ? value.Name : null;
+			}
+		}
+		
+		public EntryExecuteType Type {
+			get { return type; }
+			set { type = value; }
 		}
 	}
 }

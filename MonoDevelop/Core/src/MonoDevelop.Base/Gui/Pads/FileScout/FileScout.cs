@@ -98,16 +98,10 @@ namespace MonoDevelop.Gui.Pads
 
 				//FIXME: use mimetypes not extensions
 				// also change to Project tab when its a project
-				switch (System.IO.Path.GetExtension (item.FullName).ToUpper ()) {
-					case ".cmbx":
-					case ".prjx":
-						Runtime.ProjectService.OpenCombine (item.FullName);
-						break;
-					default:
-						//Console.WriteLine (item.FullName);
-						Runtime.FileService.OpenFile (item.FullName);
-						break;
-				}
+				if (Runtime.ProjectService.IsCombineEntryFile (item.FullName))
+					Runtime.ProjectService.OpenCombine (item.FullName);
+				else
+					Runtime.FileService.OpenFile (item.FullName);
 			}
 		}
 

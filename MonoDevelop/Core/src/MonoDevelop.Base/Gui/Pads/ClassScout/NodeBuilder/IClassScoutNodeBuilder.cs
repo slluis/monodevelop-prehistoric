@@ -21,8 +21,8 @@ namespace MonoDevelop.Gui.Pads
 {
 	public interface IClassScoutNodeBuilder
 	{
-		bool     CanBuildClassTree(IProject project);
-		TreeNode BuildClassTreeNode(IProject project);
+		bool     CanBuildClassTree(Project project);
+		TreeNode BuildClassTreeNode(Project project);
 		void     ExpandNode (TreeNode node);
 
 		void     UpdateClassTree (TreeNode projectNode, ClassInformationEventArgs e);

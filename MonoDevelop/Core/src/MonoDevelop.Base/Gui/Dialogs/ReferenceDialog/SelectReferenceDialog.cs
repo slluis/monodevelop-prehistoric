@@ -35,7 +35,7 @@ namespace MonoDevelop.Gui.Dialogs
 		[Glade.Widget] Gtk.Notebook  mainBook;
 		GacReferencePanel gacRefPanel;
 
-		IProject configureProject;
+		Project configureProject;
 		
 		public ArrayList ReferenceInformations {
 			get {
@@ -62,7 +62,7 @@ namespace MonoDevelop.Gui.Dialogs
 			AddReferenceDialog.Hide ();
 		}
 		
-		public SelectReferenceDialog(IProject configureProject)
+		public SelectReferenceDialog(Project configureProject)
 		{
 			this.configureProject = configureProject;
 			
@@ -109,13 +109,13 @@ namespace MonoDevelop.Gui.Dialogs
 
 		void AddNonGacReference (ProjectReference refInfo)
 		{
-			refTreeStore.AppendValues (System.IO.Path.GetFileName (refInfo.Reference), refInfo.ReferenceType.ToString (), System.IO.Path.GetFullPath (refInfo.GetReferencedFileName (configureProject)), refInfo);
+			refTreeStore.AppendValues (System.IO.Path.GetFileName (refInfo.Reference), refInfo.ReferenceType.ToString (), System.IO.Path.GetFullPath (refInfo.GetReferencedFileName ()), refInfo);
 		}
 
-		void AddGacReference (ProjectReference refInfo, IProject referencedProject)
+		void AddGacReference (ProjectReference refInfo, Project referencedProject)
 		{
 			gacRefPanel.SignalRefChange (refInfo.Reference, true);
-			refTreeStore.AppendValues (System.IO.Path.GetFileNameWithoutExtension (refInfo.GetReferencedFileName (referencedProject)), refInfo.ReferenceType.ToString (), refInfo.Reference, refInfo);
+			refTreeStore.AppendValues (System.IO.Path.GetFileNameWithoutExtension (refInfo.GetReferencedFileName ()), refInfo.ReferenceType.ToString (), refInfo.Reference, refInfo);
 		}
 
 		public void RemoveReference (ReferenceType referenceType, string referenceName, string referenceLocation)

@@ -23,6 +23,7 @@ using MonoDevelop.Core.AddIns.Codons;
 using MonoDevelop.Services;
 using MonoDevelop.Gui;
 using MonoDevelop.Gui.Dialogs;
+using MonoDevelop.Internal.Project;
 
 namespace MonoDevelop.Commands
 {
@@ -52,11 +53,12 @@ namespace MonoDevelop.Commands
 		string GetCurrentTargetPath()
 		{
 			if (projectService.CurrentSelectedProject != null) {
-				return projectService.GetOutputAssemblyName(projectService.CurrentSelectedProject);
+				return projectService.CurrentSelectedProject.GetOutputFileName ();
 			}
 			if (WorkbenchSingleton.Workbench.ActiveWorkbenchWindow != null) {
 				string fileName = WorkbenchSingleton.Workbench.ActiveWorkbenchWindow.ViewContent.ContentName;
-				return projectService.GetOutputAssemblyName(fileName);
+				Project project = projectService.GetProject (fileName);
+				if (project != null) return project.GetOutputFileName();
 			}
 			return String.Empty;
 		}
@@ -116,22 +118,23 @@ namespace MonoDevelop.Commands
 				
 				case "PROJECTDIR":
 					if (projectService.CurrentSelectedProject != null) {
-						return projectService.GetFileName(projectService.CurrentSelectedProject);
+						return projectService.CurrentSelectedProject.BaseDirectory;
 					}
 					break;
 				case "PROJECTFILENAME":
 					if (projectService.CurrentSelectedProject != null) {
 						try {
-							return Path.GetFileName(projectService.GetFileName(projectService.CurrentSelectedProject));
+							return Path.GetFileName(projectService.CurrentSelectedProject.FileName);
 						} catch (Exception) {}
 					}
 					break;
 				
 				case "COMBINEDIR":
-					return Path.GetDirectoryName (projectService.GetFileName(projectService.CurrentOpenCombine));
+					return Path.GetDirectoryName (projectService.CurrentOpenCombine.FileName);
+
 				case "COMBINEFILENAME":
 					try {
-						return Path.GetFileName(projectService.GetFileName(projectService.CurrentOpenCombine));
+						return Path.GetFileName(projectService.CurrentOpenCombine.FileName);
 					} catch (Exception) {}
 					break;
 				case "STARTUPPATH":
