@@ -81,6 +81,7 @@ namespace MonoDevelop.SourceEditor.Gui {
 		public SourceEditorDisplayBindingWrapper ()
 		{
 			se = new SourceEditor ();
+			se.Buffer.ModifiedChanged += new EventHandler (OnModifiedChanged);
 		}
 		
 		public override void RedrawContent()
@@ -89,6 +90,11 @@ namespace MonoDevelop.SourceEditor.Gui {
 		
 		public override void Dispose()
 		{
+		}
+		
+		void OnModifiedChanged (object o, EventArgs e)
+		{
+			this.IsDirty = se.Buffer.Modified;
 		}
 		
 		public override bool IsReadOnly {

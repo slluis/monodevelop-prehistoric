@@ -26,22 +26,26 @@ namespace MonoDevelop.SourceEditor.Gui {
 		public void LoadFile (string file, string mime)
 		{
 			LoadText (File.OpenText (file).ReadToEnd (), mime);
+			Modified = false;
 		}
 		
 		public void LoadFile (string file)
 		{
 			Text = File.OpenText (file).ReadToEnd ();
+			Modified = false;
 		}
 		
 		public void LoadText (string text, string mime)
 		{
 			Text = text;
 			Language = slm.GetLanguageFromMimeType (mime);
+			Modified = false;
 		}
 		
 		public void LoadText (string text)
 		{
 			Text = text;
+			Modified = false;
 		}
 		
 		public void Save (string fileName)
@@ -49,6 +53,7 @@ namespace MonoDevelop.SourceEditor.Gui {
 			TextWriter s = new StreamWriter (fileName, false);
 			s.Write (Text);
 			s.Close ();
+			Modified = false;
 		}
 
 #region IClipboardHandler
