@@ -10,7 +10,6 @@ using System.Diagnostics;
 using System.IO;
 using System.Collections;
 using Gtk;
-using GtkSharp;
 
 using MonoDevelop.Core.AddIns.Codons;
 using MonoDevelop.Core.Properties;
@@ -40,7 +39,7 @@ namespace MonoDevelop.Commands
 	{
 		public override void Run()
 		{
-			ViewGPLDialog vgd = new ViewGPLDialog();
+			ViewGPLDialog vgd = new ViewGPLDialog ();
 		}
 	}
 	
@@ -78,7 +77,7 @@ namespace MonoDevelop.Commands
 				Process.Start(file);
 			} catch (Exception) {
 				IMessageService messageService =(IMessageService)ServiceManager.Services.GetService(typeof(IMessageService));
-				messageService.ShowError(String.Format (GettextCatalog.GetString ("Can't execute/view {0}\n Please check that the file exists and that you can open this file."), file));
+				messageService.ShowError(String.Format (GettextCatalog.GetString ("Can not execute or view {0}\n Please check that the file exists and that you can open this file."), file));
 			}
 		}
 	}
@@ -87,6 +86,7 @@ namespace MonoDevelop.Commands
 	{
 		public override void Run()
 		{
+			//FIXME: make this a dialog and use Run
 			TipOfTheDayWindow totdw = new TipOfTheDayWindow ();
 			totdw.Show ();
 		}
@@ -96,9 +96,10 @@ namespace MonoDevelop.Commands
 	{
 		public override void Run()
 		{
-			CommonAboutDialog ad = new CommonAboutDialog ();
-			ad.Run ();
-			ad.Hide ();
+			using (CommonAboutDialog ad = new CommonAboutDialog ()) {
+				ad.Run ();
+				ad.Hide ();
+			}
 		}
 	}
 }

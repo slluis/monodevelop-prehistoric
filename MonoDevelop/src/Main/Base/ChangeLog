@@ -2,6 +2,8 @@
 
 	* Gui/BrowserDisplayBinding/HtmlViewPane.cs:
 	* Gui/BrowserDisplayBinding/BrowserDisplayBinding.cs: small cleanups
+	* Commands/HelpCommands.cs: make sure dispose is called on the
+	tip of the day and about dialogs
 
 2004-04-04  Todd Berman  <tberman@sevenl.net>
 
