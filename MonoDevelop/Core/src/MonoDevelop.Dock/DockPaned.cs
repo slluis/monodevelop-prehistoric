@@ -31,6 +31,7 @@ namespace Gdl
 	public class DockPaned : DockItem
 	{
 		private const float SplitRatio = 0.3f;
+		bool positionChanged = false;
 
 		protected DockPaned (IntPtr raw) : base (raw) { }
 
@@ -82,7 +83,8 @@ namespace Gdl
 			else
 				Child = new VPaned ();
 			
-			Child.AddNotification ("Position", new GLib.NotifyHandler (OnNotifyPosition));
+			Child.AddNotification ("position", new GLib.NotifyHandler (OnNotifyPosition));
+			Child.ButtonReleaseEvent += OnButtonReleased;
 												
 			Child.Parent = this;
 			Child.Show ();
@@ -141,6 +143,7 @@ namespace Gdl
 
 			// after that we can remove the Paned child
 			if (Child != null) {
+				Child.ButtonReleaseEvent -= OnButtonReleased;
 				Child.Unparent ();
 				Child = null;
 			}
@@ -308,7 +311,16 @@ namespace Gdl
 
 		void OnNotifyPosition (object sender, GLib.NotifyArgs a)
 		{
-			Master.EmitLayoutChangedEvent ();
+			positionChanged = true;
+		}
+
+		[GLib.ConnectBefore]
+		void OnButtonReleased (object sender, ButtonReleaseEventArgs a)
+		{
+			if (a.Event.Button == 1 && positionChanged) {
+				Master.EmitLayoutChangedEvent ();
+				positionChanged = false;
+			}
 		}
 
 		void OnPropertyChanged (object sender, string name)

@@ -1,5 +1,10 @@
 2005-03-31  John Luke  <john.luke@gmail.com>
 
+	* DockPaned.cs: only emit layout_changed when
+	the position has changed and on button release
+
+2005-03-31  John Luke  <john.luke@gmail.com>
+
 	* *.cs: add license headers
 	* TODO: update
 
