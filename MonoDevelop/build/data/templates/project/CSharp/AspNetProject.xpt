@@ -1,0 +1,278 @@
+<?xml version="1.0"?>
+<Template originator   = "Steve Deobald"
+          created      = "02/03/2004"
+          lastModified = "02/03/2004">
+	
+	<!-- Template Header -->
+	<TemplateConfiguration>
+		<Name>ASP.net Project</Name>
+		<Category>C#</Category>
+		<Icon>C#.Project.WebProject</Icon>
+		<LanguageName>C#</LanguageName>
+		<Description>Creates an ASP.net project</Description>
+	</TemplateConfiguration>
+	
+	<!-- Actions -->
+	<Actions>
+		<Open filename = "WebForm1.aspx.cs"/>
+	</Actions>
+	
+	<!-- Template Content -->
+	<Combine name = "${ProjectName}" directory = ".">
+		<Options>
+			<StartupProject>${ProjectName}</StartupProject>
+		</Options>
+		
+		<Project name = "${ProjectName}" directory = ".">
+			<Options/>
+			
+			<References>
+				<Reference type="Gac" refto="System.dll" />
+				<Reference type="Gac" refto="System.Data.dll" />
+				<Reference type="Gac" refto="System.Drawing.dll" />
+				<Reference type="Gac" refto="System.Web.dll" />
+				<Reference type="Gac" refto="System.XML.dll" />
+			</References>
+		
+			<Files>
+				<File name="WebForm1.aspx"><![CDATA[<%@ Page language="c#" Codebehind="WebForm1.aspx.cs" AutoEventWireup="false" %>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" > 
+
+<html>
+	<head>
+		<title>WebForm1</title>
+		<meta name="GENERATOR" Content="MonoDevelop">
+		<meta name="CODE_LANGUAGE" Content="C#">
+		<meta name=vs_defaultClientScript content="JavaScript">
+	</head>
+	<body MS_POSITIONING="GridLayout"> 
+ 
+	<form id="Form1" method="post" runat="server">
+    
+	</form>
+    
+	</body>
+</html>]]></File>
+				<File name="WebForm1.aspx.cs"><![CDATA[// project created on ${Date} at ${Time}
+using System;
+using System.Collections;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Web;
+using System.Web.SessionState;
+using System.Web.UI;
+using System.Web.WebControls;
+using System.Web.HtmlControls;
+
+namespace WebApplication1
+{
+	public class WebForm1 : System.Web.UI.Page
+	{
+		private void Page_Load(object sender, System.EventArgs e)
+		{
+			// Put user code to initialize the page here
+		}
+
+		override protected void OnInit(EventArgs e)
+		{
+			InitializeComponent();
+			base.OnInit(e);
+		}
+    
+		private void InitializeComponent()
+		{    
+			this.Load += new System.EventHandler(this.Page_Load);
+		}
+	}
+}]]></File>
+			<File name="Global.asax"><![CDATA[<%@ Application Codebehind="Global.asax.cs" Inherits="WebApplication.Global" %>]]></File>
+			<File name="Global.asax.cs"><![CDATA[using System;
+using System.Collections;
+using System.ComponentModel;
+using System.Web;
+using System.Web.SessionState;
+
+namespace WebApplication1 
+{
+	public class Global : System.Web.HttpApplication
+	{
+		private System.ComponentModel.IContainer components = null;
+
+		public Global()
+		{
+			InitializeComponent();
+		}	
+		
+		protected void Application_Start(Object sender, EventArgs e)
+		{
+
+		}
+ 
+		protected void Session_Start(Object sender, EventArgs e)
+		{
+
+		}
+
+		protected void Application_BeginRequest(Object sender, EventArgs e)
+		{
+
+		}
+
+		protected void Application_EndRequest(Object sender, EventArgs e)
+		{
+
+		}
+
+		protected void Application_AuthenticateRequest(Object sender, EventArgs e)
+		{
+
+		}
+
+		protected void Application_Error(Object sender, EventArgs e)
+		{
+
+		}
+
+		protected void Session_End(Object sender, EventArgs e)
+		{
+
+		}
+
+		protected void Application_End(Object sender, EventArgs e)
+		{
+
+		}
+			
+		private void InitializeComponent()
+		{    
+			this.components = new System.ComponentModel.Container();
+		}
+	}
+}]]></File>
+			<File name="Web.config"><![CDATA[<?xml version="1.0" encoding="utf-8" ?>
+<configuration>
+    
+  <system.web>
+
+    <!--  DYNAMIC DEBUG COMPILATION
+          debug="true" enables ASPX debugging and inserts debugging symbols into the 
+          compiled page. This increases file size and degrades performance.
+          debug="false" should be always be used when not debugging
+    -->
+    <compilation 
+         defaultLanguage="c#"
+         debug="true"
+    />
+
+    <!--  CUSTOM ERROR MESSAGES
+          Set customErrors mode="On" or "RemoteOnly" to enable custom error messages, "Off" to disable. 
+          Add <error> tags for each of the errors you want to handle.
+
+          "On" Always display custom (friendly) messages.
+          "Off" Always display detailed ASP.NET error information.
+          "RemoteOnly" Display custom (friendly) messages only to users not running 
+           on the local Web server. This setting is recommended for security purposes, so 
+           that you do not display application detail information to remote clients.
+    -->
+    <customErrors 
+    mode="RemoteOnly" 
+    /> 
+
+    <!--  AUTHENTICATION 
+          This section sets the authentication policies of the application. Possible modes are "Windows", 
+          "Forms", "Passport" and "None"
+
+          "None" No authentication is performed. 
+          "Forms" You provide a custom form (Web page) for users to enter their credentials, and then 
+           you authenticate them in your application. A user credential token is stored in a cookie.
+    -->
+    <authentication mode="None" /> 
+
+	<!--  AUTHORIZATION 
+          This section sets the authorization policies of the application. You can allow or deny access
+          to application resources by user or role. Wildcards: "*" mean everyone, "?" means anonymous 
+          (unauthenticated) users.
+    -->
+
+    <authorization>
+        <allow users="*" /> <!-- Allow all users -->
+            <!--  <allow     users="[comma separated list of users]"
+                             roles="[comma separated list of roles]"/>
+                  <deny      users="[comma separated list of users]"
+                             roles="[comma separated list of roles]"/>
+            -->
+    </authorization>
+
+    <!--  APPLICATION-LEVEL TRACE LOGGING
+          Enables trace log output for every page 
+          Set trace enabled="true" to enable it
+    -->
+    <trace
+        enabled="false"
+        requestLimit="10"
+        pageOutput="false"
+        traceMode="SortByTime"
+		localOnly="true"
+    />
+
+    <!--  SESSION STATE SETTINGS
+          By default ASP.NET uses cookies for sessions
+		  To disable cookies, set sessionState cookieless="true".
+    -->
+    <sessionState 
+            mode="InProc"
+            stateConnectionString="tcpip=127.0.0.1:42424"
+            sqlConnectionString="data source=127.0.0.1;Trusted_Connection=yes"
+            cookieless="false" 
+            timeout="20" 
+    />
+
+    <!--  GLOBALIZATION
+    -->
+    <globalization 
+            requestEncoding="utf-8" 
+            responseEncoding="utf-8" 
+   />
+   
+ </system.web>
+
+</configuration>]]></File>
+			<File name="AssemblyInfo.cs"><![CDATA[using System.Reflection;
+using System.Runtime.CompilerServices;
+
+// Information about this assembly is defined by the following
+// attributes.
+//
+// Change them to the information which is associated with the assembly
+// you compile.
+
+[assembly: AssemblyTitle("")]
+[assembly: AssemblyDescription("")]
+[assembly: AssemblyConfiguration("")]
+[assembly: AssemblyCompany("")]
+[assembly: AssemblyProduct("")]
+[assembly: AssemblyCopyright("")]
+[assembly: AssemblyTrademark("")]
+[assembly: AssemblyCulture("")]
+
+// The assembly version has following format :
+//
+// Major.Minor.Build.Revision
+//
+// You can specify all values by your own or you can build default build and revision
+// numbers with the '*' character (the default):
+
+[assembly: AssemblyVersion("1.0.*")]
+
+// The following attributes specify the key for the sign of your assembly. See the
+// .NET Framework documentation for more information about signing.
+// This is not required. If you don't want signing, leave these attributes as they are.
+[assembly: AssemblyDelaySign(false)]
+[assembly: AssemblyKeyFile("")]
+[assembly: AssemblyKeyName("")]
+]]></File>
+			</Files>
+		</Project>
+	</Combine>
+</Template>
