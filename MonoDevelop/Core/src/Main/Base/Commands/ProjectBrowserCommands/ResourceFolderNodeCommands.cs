@@ -47,9 +47,9 @@ namespace MonoDevelop.Commands.ProjectBrowser
 									
 				using (FileSelector fs = new FileSelector (GettextCatalog.GetString ("File to Open"))) {
 					fs.SelectMultiple = true;
-					fs.Filename = project.BaseDirectory;
+					fs.SetFilename (project.BaseDirectory);
 					int response = fs.Run ();
-					string [] files = fs.Selections;
+					string [] files = fs.Filenames;
 					fs.Hide ();
 
 					if (response != (int)Gtk.ResponseType.Ok)

@@ -39,8 +39,8 @@ namespace MonoDevelop.Gui.Dialogs
 			// fdiag.Complete("*");
 				fdiag.SelectMultiple = true;
 				int response = fdiag.Run();
-				string[] selectedFiles = new string[fdiag.Selections.Length];
-				fdiag.Selections.CopyTo(selectedFiles, 0);
+				string[] selectedFiles = new string[fdiag.Filenames.Length];
+				fdiag.Filenames.CopyTo(selectedFiles, 0);
 				fdiag.Hide ();
 			
 				if (response == (int) ResponseType.Ok) {

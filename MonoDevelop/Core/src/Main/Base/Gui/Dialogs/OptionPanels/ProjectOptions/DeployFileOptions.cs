@@ -90,9 +90,8 @@ namespace MonoDevelop.Gui.Dialogs.OptionPanels
 			void SelectScriptFileEvent(object sender, EventArgs e)
 			{
 				using (FileSelector fs = new FileSelector (GettextCatalog.GetString ("Select your File"))) { // Put correct title 
-					fs.Complete("*.txt");
 					if ( fs.Run () == (int) ResponseType.Ok) {
- 						deployScriptEntry.Text = fs.SelectionEntry.Text;
+ 						deployScriptEntry.Text = fs.Filename;
 					}
 					fs.Hide ();
 				} 
@@ -102,7 +101,7 @@ namespace MonoDevelop.Gui.Dialogs.OptionPanels
 			{
 				using (FileSelector fs = new FileSelector (GettextCatalog.GetString ("Select the target directory"))) {
 					if ( fs.Run () == (int) ResponseType.Ok) {
-						deployTargetEntry.Text = fs.SelectionEntry.Text;
+						deployTargetEntry.Text = fs.Filename;
 					}
 					fs.Hide ();
 				}

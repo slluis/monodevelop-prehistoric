@@ -10,19 +10,32 @@ namespace MonoDevelop.Gui.Widgets
 	// basically just to remember the last directory
 	// we could do some if GTK2.4 then use new FileChooser
 	// but that is probably to be hacky at best
-	public class FileSelector : FileSelection
+	public class FileSelector : FileChooserDialog
 	{
 		const string LastPathProperty = "MonoDevelop.FileSelector.LastPath";
 		string lastPath;
 		PropertyService propertyService = (PropertyService) ServiceManager.GetService (typeof (PropertyService));
 
-		public FileSelector () : base (GettextCatalog.GetString ("Open file ..."))
+		public FileSelector () : base (GettextCatalog.GetString ("Open file ..."), null, FileChooserAction.Open)
 		{
+			AddButton (Gtk.Stock.Cancel, ResponseType.Cancel);
+			AddButton (Gtk.Stock.Open, ResponseType.Ok);
 			CommonSetup ();
 		}
 
-		public FileSelector (string title) : base (title)
+		public FileSelector (string title) : base (title, null, FileChooserAction.Open)
 		{
+			AddButton (Gtk.Stock.Cancel, ResponseType.Cancel);
+			AddButton (Gtk.Stock.Open, ResponseType.Ok);
+			CommonSetup ();
+		}
+
+		public FileSelector (string title, FileChooserAction action) : base (title, null, action)
+		{
+			if (action == FileChooserAction.SelectFolder) {
+				AddButton (Gtk.Stock.Cancel, ResponseType.Cancel);
+				AddButton ("Select Folder", ResponseType.Ok);
+			}
 			CommonSetup ();
 		}
 
@@ -44,12 +57,12 @@ namespace MonoDevelop.Gui.Widgets
 			}
 
 			// Set the dir here, must end in "/" to work right
-			this.Filename = lastPath;
+			this.SetFilename (lastPath);
 
 			// Basically need to track if the directory has
 			// been changed in the simplest way possible
 			// I think that this always changes when the dir does
-			this.HistoryPulldown.Changed += OnOptionListChanged;
+			this.CurrentFolderChanged += OnOptionListChanged;
 		}
 
 		void OnOptionListChanged (object o, EventArgs args)

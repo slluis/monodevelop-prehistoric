@@ -10,11 +10,9 @@ namespace MonoDevelop.Gui.Widgets
 {
 	public class FolderDialog : FileSelector
 	{
-		public FolderDialog (string title) : base (title)
+		public FolderDialog (string title) : base (title, FileChooserAction.SelectFolder)
 		{
 			this.SelectMultiple = false;
-			this.ShowFileops = false;
-			this.FileList.Sensitive = false;
 		}
 	}
 }

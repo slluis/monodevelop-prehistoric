@@ -266,7 +266,6 @@ namespace MonoDevelop.Gui.Dialogs
 							System.Environment.GetEnvironmentVariable ("HOME"),
 							"Projects")).ToString ();
 			}
-			fd.Complete (defaultFolder);
 
 			if (fd.Run() == (int)Gtk.ResponseType.Ok)
 			{

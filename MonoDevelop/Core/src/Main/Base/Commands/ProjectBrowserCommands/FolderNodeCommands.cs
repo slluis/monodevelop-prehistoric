@@ -47,14 +47,12 @@ namespace MonoDevelop.Commands.ProjectBrowser
 				
 				string defaultPath = node.Project.BaseDirectory;
 				
-				fdiag.Complete(defaultPath);
-				
 				int result = fdiag.Run ();
 				try {
 					if (result != (int) ResponseType.Ok)
 						return;
 					
-					foreach (string file in fdiag.Selections) {
+					foreach (string file in fdiag.Filenames) {
 						if (file.StartsWith(node.Project.BaseDirectory)) {
 							ProjectBrowserView.MoveCopyFile (file, node, true, true);
 						} else {

@@ -17,7 +17,6 @@ namespace MonoDevelop.Commands
 
 			using (FileSelector fs = new FileSelector ("Load test assembly")) {
 				string defaultPath = Path.Combine (Environment.GetEnvironmentVariable ("HOME"), "Projects");
-				fs.Complete (defaultPath);
 
 				if (fs.Run () == (int) Gtk.ResponseType.Ok)
 				{

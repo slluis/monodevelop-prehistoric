@@ -49,11 +49,11 @@ namespace MonoDevelop.Gui.Dialogs.OptionPanels
 			void onClicked (object o, EventArgs e)
 			{
 				FolderDialog fd = new FolderDialog ("Output Directory");
-				fd.Filename = buildOutputLoc.Text;
+				fd.SetFilename (buildOutputLoc.Text);
 				int response = fd.Run ();
-				fd.Hide ();
 				if (response == (int) ResponseType.Ok)
 					buildOutputLoc.Text = fd.Filename + System.IO.Path.DirectorySeparatorChar;
+				fd.Hide ();
 			}
 
 			public bool Store()

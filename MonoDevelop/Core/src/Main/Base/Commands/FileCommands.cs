@@ -155,7 +155,7 @@ namespace MonoDevelop.Commands
 					}*/
 					
 					using (FileSelector fdiag = new FileSelector (GettextCatalog.GetString ("Save as..."))) {
-						fdiag.Filename = window.ViewContent.ContentName;
+						fdiag.SetFilename (window.ViewContent.ContentName);
 						int response = fdiag.Run ();
 						string filename = fdiag.Filename;
 						fdiag.Hide ();
@@ -200,7 +200,7 @@ namespace MonoDevelop.Commands
 				{
 					using (FileSelector fdiag = new FileSelector (GettextCatalog.GetString ("Save File As...")))
 					{
-						fdiag.Filename = System.Environment.GetEnvironmentVariable ("HOME");
+						fdiag.SetFilename (System.Environment.GetEnvironmentVariable ("HOME"));
 						if (fdiag.Run () == (int) Gtk.ResponseType.Ok)
 						{
 							string fileName = fdiag.Filename;
@@ -302,8 +302,8 @@ namespace MonoDevelop.Commands
 			}*/
 			using (FileSelector fs = new FileSelector (GettextCatalog.GetString ("File to Open"))) {
 				int response = fs.Run ();
-				fs.Hide ();
 				string name = fs.Filename;
+				fs.Hide ();
 				if (response == (int)Gtk.ResponseType.Ok) {
 					IFileService fileService = (IFileService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IFileService));
 					IProjectService proj = (IProjectService)ServiceManager.GetService (typeof (IProjectService));

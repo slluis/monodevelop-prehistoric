@@ -14,13 +14,15 @@ namespace MonoDevelop.Gui.Widgets {
 		{
 			FolderDialog fd = new FolderDialog (name);
 			if (start_in != null)
-				fd.Filename = start_in;
+				fd.SetFilename (start_in);
 			
 			int response = fd.Run ();
-			fd.Hide ();
 			
-			if (response == (int) ResponseType.Ok)
+			if (response == (int) ResponseType.Ok) {
+				fd.Hide ();
 				return fd.Filename;
+			}
+			fd.Hide ();
 			
 			return null;
 		}
