@@ -49,11 +49,12 @@ namespace JavaBinding
 			options += " -encoding utf8 ";
 			
 			TempFileCollection  tf = new TempFileCollection();					
-			
-			string outstr = "javac \"" + filename + "\" -classpath " + cparam.ClassPath + options;
+			// FIXME
+			string compiler = "javac";
+			string args = filename + " -classpath " + cparam.ClassPath + options;
 			//Executor.ExecWaitWithCapture(outstr, tf, ref error , ref output);
 			StreamReader output, error;
-			DoCompilation (outstr, tf, out output, out error);
+			DoCompilation (compiler, args, tf, out output, out error);
 			ICompilerResult cr = ParseOutput (tf, error);
 			
 			return cr;	
@@ -74,6 +75,16 @@ namespace JavaBinding
 			string exe         = fileUtilityService.GetDirectoryNameWithSeparator(compilerparameters.OutputDirectory) + compilerparameters.OutputAssembly + ".class";
 			return exe;
 		}
+
+		string GetCompilerName (JavaCompilerParameters cp)
+		{
+			if (cp.Compiler == JavaCompiler.Gcj)
+			{
+				return "gcj"; // compile to bytecode
+			}
+
+			return "javac";
+		}
 		
 		public ICompilerResult CompileProject(IProject project)
 		{
@@ -82,6 +93,8 @@ namespace JavaBinding
 			
 			string exe         = fileUtilityService.GetDirectoryNameWithSeparator(compilerparameters.OutputDirectory) + compilerparameters.OutputAssembly + ".class";
 			string options   = "";
+
+			string compiler = GetCompilerName (compilerparameters);
 			
 			if (compilerparameters.Debugmode) 
 				options += " -g ";
@@ -117,50 +130,40 @@ namespace JavaBinding
 			}
 
 			TempFileCollection  tf = new TempFileCollection ();			
+			string args = "";
 			
+			if (compilerparameters.Compiler == JavaCompiler.Gcj)
+				args = "-C ";
 
 			string outdir = " -d " + compilerparameters.OutputDirectory;
-			string compiler;
-
-			if (compilerparameters.Compiler == JavaCompiler.Gcj)
-			{
-				compiler = "gcj -C"; // compile to bytecode
-			}
-			else
-			{
-				compiler = "javac";
-			}
-
-			string outstr;
+			
 			//FIXME re-enable options
 			//FIXME re-enable compilerPath
 			if (compilerparameters.ClassPath == "") {
-				outstr = compiler + files + outdir;			
+				args += files + outdir;			
 			} else {
-				outstr = compiler + " -classpath " + compilerparameters.ClassPath + files + outdir;
+				args += " -classpath " + compilerparameters.ClassPath + files + outdir;
 			}
-			Console.WriteLine (outstr);
+			Console.WriteLine (args);
 
 			StreamReader output;
 			StreamReader error;
-			DoCompilation (outstr, tf, out output, out error);
+			DoCompilation (compiler, args, tf, out output, out error);
 			//Executor.ExecWaitWithCapture(outstr, tf, ref error , ref output);			
 			ICompilerResult cr = ParseOutput (tf, error);			
 			
 			return cr;
 		}
 
-		private void DoCompilation (string outstr, TempFileCollection tf, out StreamReader output, out StreamReader error)
+		private void DoCompilation (string compiler, string args, TempFileCollection tf, out StreamReader output, out StreamReader error)
 		{
-            string arguments = outstr;
-            string command = arguments;
-            ProcessStartInfo si = new ProcessStartInfo (command);
+            		ProcessStartInfo si = new ProcessStartInfo (compiler, args);
 			si.RedirectStandardOutput = true;
-            si.RedirectStandardError = true;
+            		si.RedirectStandardError = true;
 			si.UseShellExecute = false;
 			Process p = new Process ();
-            p.StartInfo = si;
-            p.Start ();
+           		p.StartInfo = si;
+            		p.Start ();
 
 			IStatusBarService sbs = (IStatusBarService)ServiceManager.Services.GetService (typeof (IStatusBarService));
 			sbs.SetMessage ("Compiling...");
@@ -178,7 +181,7 @@ namespace JavaBinding
 			// and then return cr at end 
 			output = p.StandardOutput;
 			error = p.StandardError;
-            p.WaitForExit ();
+            		p.WaitForExit ();
         }
 		
 		ICompilerResult ParseOutput(TempFileCollection tf, StreamReader errorStream)
