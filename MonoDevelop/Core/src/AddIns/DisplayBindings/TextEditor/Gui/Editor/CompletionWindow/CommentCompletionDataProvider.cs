@@ -28,7 +28,7 @@ namespace MonoDevelop.DefaultEditor.Gui.Editor
 	/// </summary>
 	public class CommentCompletionDataProvider : ICompletionDataProvider
 	{
-		static ClassBrowserIconsService classBrowserIconService = (ClassBrowserIconsService)ServiceManager.Services.GetService(typeof(ClassBrowserIconsService));
+		static IconService classBrowserIconService = (IconService)ServiceManager.Services.GetService(typeof(IconService));
 		static IParserService           parserService           = (IParserService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IParserService));
 		
 		int caretLineNumber;

@@ -30,7 +30,7 @@ namespace MonoDevelop.DefaultEditor.Gui.Editor
 	/// </summary>
 	public class CodeCompletionDataProvider : ICompletionDataProvider
 	{
-		static ClassBrowserIconsService classBrowserIconService = (ClassBrowserIconsService)ServiceManager.Services.GetService(typeof(ClassBrowserIconsService));
+		static IconService classBrowserIconService = (IconService)ServiceManager.Services.GetService(typeof(IconService));
 //		static AmbienceService          ambienceService = (AmbienceService)ServiceManager.Services.GetService(typeof(AmbienceService));
 		Hashtable insertedElements           = new Hashtable();
 		Hashtable insertedPropertiesElements = new Hashtable();

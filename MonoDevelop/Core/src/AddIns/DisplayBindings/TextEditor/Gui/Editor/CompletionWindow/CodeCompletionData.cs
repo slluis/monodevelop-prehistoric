@@ -21,7 +21,7 @@ namespace MonoDevelop.DefaultEditor.Gui.Editor
 {
 	class CodeCompletionData : ICompletionDataWithMarkup
 	{
-		static ClassBrowserIconsService classBrowserIconService = (ClassBrowserIconsService)ServiceManager.Services.GetService(typeof(ClassBrowserIconsService));
+		static IconService classBrowserIconService = (IconService)ServiceManager.Services.GetService(typeof(IconService));
 		static IParserService           parserService           = (IParserService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IParserService));
 		static AmbienceService          ambienceService = (AmbienceService)ServiceManager.Services.GetService(typeof(AmbienceService));
 		

@@ -25,7 +25,6 @@ namespace MonoDevelop.DefaultEditor.Gui.Editor
 {
 	public class MethodInsightDataProvider : IInsightDataProvider
 	{
-		ClassBrowserIconsService classBrowserIconService = (ClassBrowserIconsService)ServiceManager.Services.GetService(typeof(ClassBrowserIconsService));
 		AmbienceService          ambienceService = (AmbienceService)ServiceManager.Services.GetService(typeof(AmbienceService));
 		
 		string              fileName = null;
