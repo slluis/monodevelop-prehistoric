@@ -1,3 +1,9 @@
+2005-01-30  John Luke  <john.luke@gmail.com>
+
+	* Internal/Project/Project/DotNetProject.cs: pass fileName
+	to the LangaugeBinding to determine if it is compilable
+	fixes bug# 71964
+
 2005-01-28  John Luke  <john.luke@gmail.com>
 
 	* Services/ParserService/DefaultParserService.cs:

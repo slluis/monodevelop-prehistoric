@@ -183,7 +183,7 @@ namespace MonoDevelop.Internal.Project
 		
 		public override bool IsCompileable(string fileName)
 		{
-			return languageBinding.CanCompile(LanguageName);
+			return languageBinding.CanCompile(fileName);
 		}
 	}
 }
