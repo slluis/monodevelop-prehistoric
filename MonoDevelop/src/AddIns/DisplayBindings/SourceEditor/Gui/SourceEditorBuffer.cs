@@ -200,8 +200,6 @@ namespace MonoDevelop.SourceEditor.Gui
 		
 		public void LoadFile (string file)
 		{
-			//Debug
-			Console.WriteLine("LoadFile (\"" +  file + "\")");
 			using (NoUndo n = new NoUndo (this)) {
 				StreamReader sr = System.IO.File.OpenText (file);
 				LoadText(sr.ReadToEnd ());
