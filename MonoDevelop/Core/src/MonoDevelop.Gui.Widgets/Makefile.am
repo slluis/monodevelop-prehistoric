@@ -25,7 +25,8 @@ FolderDialog/FileEntry.cs \
 Navbar/Navbar.cs \
 TabLabel/TabLabel.cs \
 GladeWidgetExtract/GladeWidgetExtract.cs \
-DragNotebook/DragNotebook.cs
+DragNotebook/DragNotebook.cs \
+DataGrid/DataGrid.cs
 
 
 build_sources = $(addprefix $(srcdir)/, $(FILES))

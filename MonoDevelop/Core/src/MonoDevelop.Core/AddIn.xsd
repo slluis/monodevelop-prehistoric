@@ -39,6 +39,7 @@
 			<xs:element ref="MenuItem"/>
 			<xs:element ref="FileTemplate"/>
 			<xs:element ref="ProjectTemplate"/>
+			<xs:element ref="MonoQueryConnection"/>
 		</xs:choice>
 		<xs:attribute name="path" type="xs:string" use="required"/>
 	</xs:complexType>
@@ -214,6 +215,17 @@
 		</xs:complexContent>
 	</xs:complexType>
 	<xs:element name="MenuItem" type="MenuItem"/>
+	<xs:complexType name="MonoQueryConnection">
+		<xs:complexContent>
+			<xs:extension base="AbstractCodon">
+				<xs:attribute name="schema" type="xs:string" use="required"/>
+				<xs:attribute name="node" type="xs:string" use="required"/>
+				<xs:attribute name="description" type="xs:string" use="optional"/>
+				<xs:attribute name="showUnsuported" type="xs:string" use="required"/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="MonoQueryConnection" type="MonoQueryConnection"/>
 	<xs:complexType name="ToolbarItem">
 		<xs:complexContent>
 			<xs:extension base="AbstractCodon">

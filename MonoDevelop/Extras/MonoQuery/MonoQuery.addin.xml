@@ -1,0 +1,245 @@
+<AddIn name        = "MonoQuery"
+       author      = "Christian Hergert, Denis ERCHOFF of SharpQuery"
+       copyright   = "GPL"
+       url         = "http://www.monodevelop.com"
+       description = "MonoQuery"
+       version     = "0.0.1">
+    
+    <Runtime>
+        <Import assembly="MonoQuery.dll"/>
+    </Runtime>
+	
+	<Extension path = "/Workspace/Services">
+		<Class id = "MonoQueryService"
+			class = "MonoQuery.Services.MonoQueryService"/>
+	</Extension>
+	
+    <Extension path = "/MonoQuery/Connection">
+    
+		 <Class id = "NpgsqlConnectionWrapper" 
+		    	class = "MonoQuery.Connection.NpgsqlConnectionWrapper"/>
+		 <!--
+		 <Class id = "MysqlConnectionWrapper"
+		 		class = "MonoQuery.Connection.MysqlConnectionWrapper"/>
+		 -->
+		 <Class id = "OledbConnectionWrapper"
+		 		class = "MonoQuery.Connection.OLEDBConnectionWrapper"/>
+
+	<MonoQueryConnection id ="Column"
+	 		schema="MonoQuery.SchemaClass.MonoQueryColumn"
+	 		node ="MonoQuery.Gui.TreeView.MonoQueryNodeColumn"
+			showUnsuported = "False"/>
+			
+	 <MonoQueryConnection id ="Parameter"
+	 		schema="MonoQuery.SchemaClass.MonoQueryParameter"
+	 		node ="MonoQuery.Gui.TreeView.MonoQueryNodeParameter"
+			showUnsuported = "False"/>
+			
+	 <MonoQueryConnection id ="Procedure"
+	 		schema="MonoQuery.SchemaClass.MonoQueryProcedure"
+	 		node ="MonoQuery.Gui.TreeView.MonoQueryNodeProcedure"
+			showUnsuported = "False"/>
+			
+	 <MonoQueryConnection id ="Table"
+	 		schema="MonoQuery.SchemaClass.MonoQueryTable"
+	 		node ="MonoQuery.Gui.TreeView.MonoQueryNodeTable"
+			showUnsuported = "False"/>
+			
+	 <MonoQueryConnection id ="View"
+	 		schema="MonoQuery.SchemaClass.MonoQueryView"
+	 		node ="MonoQuery.Gui.TreeView.MonoQueryNodeView"
+			showUnsuported = "False"/>
+			
+	 <MonoQueryConnection id ="NotSupported"
+	 		schema="MonoQuery.SchemaClass.MonoQueryNotSupported"
+	 		node ="MonoQuery.Gui.TreeView.MonoQueryNodeNotSupported"
+			showUnsuported = "False"/>
+			
+	 <MonoQueryConnection id ="Tables"
+	 		schema="MonoQuery.SchemaClass.MonoQueryTables"
+	 		node ="MonoQuery.Gui.TreeView.MonoQueryNodeTableRoot"
+			showUnsuported = "False"/>
+			
+	 <MonoQueryConnection id ="Views"
+	 		schema="MonoQuery.SchemaClass.MonoQueryViews"
+	 		node ="MonoQuery.Gui.TreeView.MonoQueryNodeViewRoot"
+			showUnsuported = "False"/>
+			
+	 <MonoQueryConnection id ="Procedures"
+	 		schema="MonoQuery.SchemaClass.MonoQueryProcedures"
+	 		node ="MonoQuery.Gui.TreeView.MonoQueryNodeProcedureRoot"
+			showUnsuported = "False"/>
+			
+	 <MonoQueryConnection id ="Schema"
+	 		schema="MonoQuery.SchemaClass.MonoQuerySchema"
+	 		node ="MonoQuery.Gui.TreeView.MonoQueryNodeSchema"
+			showUnsuported = "False"/>
+			
+	 <MonoQueryConnection id ="Catalog"
+	 		schema="MonoQuery.SchemaClass.MonoQueryCatalog"
+	 		node ="MonoQuery.Gui.TreeView.MonoQueryNodeCatalog"
+			showUnsuported = "False"/>
+			
+	 <MonoQueryConnection id ="Npgsql"
+	 		schema="MonoQuery.Connection.NpgsqlConnectionWrapper"
+	 		node ="MonoQuery.Gui.TreeView.MonoQueryNodeConnection"
+	 		description = "PostgreSQL 7.x Database Server"
+			showUnsuported = "False"/>
+	 <MonoQueryConnection id ="Mysql"
+	 		schema="MonoQuery.Connection.MysqlConnectionWrapper"
+	 		node ="MonoQuery.Gui.TreeView.MonoQueryNodeConnection"
+	 		description = "MySQL Database Server"
+			showUnsuported = "False"/>
+<!--
+	 <MonoQueryConnection id ="OLEDB"
+	 		schema="MonoQuery.Connection.OLEDBConnectionWrapper"
+	 		node ="MonoQuery.Gui.TreeView.MonoQueryNodeConnection"
+	 		description = "OleDB Connection Provider"
+			showUnsuported = "False"/>
+	 <MonoQueryConnection id ="ADO"
+	 		schema="MonoQuery.Connection.ADOConnectionWrapper"
+	 		node ="MonoQuery.Gui.TreeView.MonoQueryNodeConnection"
+			showUnsuported = "False"/>
+-->
+    </Extension>
+
+    <Extension path = "/SharpDevelop/Workbench/Views">
+		<Class    id    = "MonoQuery" 
+	    	insertafter = "HelpBrowser"
+            class		= "MonoQuery.Pads.MonoQueryView"/>
+    </Extension>
+
+	<Extension path = "/MonoQuery/ContextMenu/DatabaseRoot">
+		<MenuItem id = "Refresh"
+		          _label = "Refresh"
+		          icon = "Icons.16x16.BrowserRefresh"
+		          class = "MonoQuery.Commands.MonoQueryRefreshCommand"/>		
+		<MenuItem id = "Separator1" 
+			  _label = "-" />
+		<MenuItem id = "AddConnection"
+		          _label = "Add Connection"
+		          icon = "MonoQuery.Addconnection"
+		          class = "MonoQuery.Commands.MonoQueryAddconnectionCommand"/>		
+
+	</Extension>
+
+	<Extension path = "/MonoQuery/ContextMenu/DatabaseConnection">
+		<MenuItem id = "Refresh"
+		          _label = "Refresh"
+		          icon = "Icons.16x16.BrowserRefresh"
+		          class = "MonoQuery.Commands.MonoQueryRefreshCommand"/>
+		<MenuItem id = "ShowSqlView"
+				  _label = "Show SQL View"
+				  class = "MonoQuery.Commands.MonoQueryShowSqlViewCommand"/>		
+		<MenuItem id = "Separator1" 
+			  _label = "-" />	
+		<MenuItem id = "Supprimer"
+		          _label = "Remove"
+			  icon="Icons.16x16.Remove"
+		          class = "MonoQuery.Commands.MonoQueryRemoveConnectionCommand"/>	
+		<MenuItem id = "Separator2" 
+			  _label = "-" />
+<!-- No Glade Druid made yet
+		<MenuItem id = "ModifyConnection"
+		          _label = "Modify Connection"
+			  icon="Icons.16x16.Edit"
+		          class = "MonoQuery.Commands.MonoQueryModifyConnectionCommand"/>
+-->
+		<MenuItem id = "Disconnect"
+		          _label = "Disconnect"
+		          icon = "MonoQuery.Disconnect"
+		          class = "MonoQuery.Commands.MonoQueryDisconnectCommand"/>
+		<MenuItem id = "Connect"
+		          _label = "Connect"
+		          icon = "MonoQuery.Connect"
+		          class = "MonoQuery.Commands.MonoQueryConnectCommand"/>
+	</Extension>
+
+	<Extension path = "/MonoQuery/ContextMenu/TablesRoot">
+		<MenuItem id = "Refresh"
+		          _label = "Refresh"
+		          icon = "Icons.16x16.BrowserRefresh"
+		          class = "MonoQuery.Commands.MonoQueryRefreshCommand"/>		
+	</Extension>
+
+	<Extension path = "/MonoQuery/ContextMenu/ViewsRoot">
+		<MenuItem id = "Refresh"
+		          _label = "Refresh"
+		          icon = "Icons.16x16.BrowserRefresh"
+		          class = "MonoQuery.Commands.MonoQueryRefreshCommand"/>		
+	</Extension>
+
+	<Extension path = "/MonoQuery/ContextMenu/ProceduresRoot">
+		<MenuItem id = "Refresh"
+		          _label = "Refresh"
+		          icon = "Icons.16x16.BrowserRefresh"
+		          class = "MonoQuery.Commands.MonoQueryRefreshCommand"/>		
+	</Extension>
+
+
+	<Extension path = "/MonoQuery/ContextMenu/Table">
+		<MenuItem id = "Refresh"
+		          _label = "Refresh"
+		          icon = "Icons.16x16.BrowserRefresh"
+		          class = "MonoQuery.Commands.MonoQueryRefreshCommand"/>		
+		<MenuItem id = "ExtractData"
+		          _label = "Extract Data"
+			  icon = "Icons.16x16.PreView"
+		          class = "MonoQuery.Commands.MonoQueryExecuteCommand"/>
+	</Extension>
+
+	<Extension path = "/MonoQuery/ContextMenu/View">
+		<MenuItem id = "Refresh"
+		          _label = "Refresh"
+		          icon = "Icons.16x16.BrowserRefresh"
+		          class = "MonoQuery.Commands.MonoQueryRefreshCommand"/>		
+		<MenuItem id = "ExtractData"
+		          _label = "Extract Data"
+			  icon = "Icons.16x16.PreView"
+		          class = "MonoQuery.Commands.MonoQueryExecuteCommand"/>		          
+	</Extension>
+
+
+	<Extension path = "/MonoQuery/ContextMenu/Procedure">
+		<MenuItem id = "Refresh"
+		          _label = "Refresh"
+		          icon = "Icons.16x16.BrowserRefresh"
+		          class = "MonoQuery.Commands.MonoQueryRefreshCommand"/>
+<!--
+		<MenuItem id = "ExecuteProcedure"
+		          _label = "Execute Procedure"
+		          class = "MonoQuery.Commands.MonoQueryExecuteCommand"/>
+-->
+	</Extension>
+
+
+	<Extension path = "/MonoQuery/ContextMenu/Coulmn">
+		<MenuItem id = "Refresh"
+		          _label = "Refresh"
+		          icon = "Icons.16x16.BrowserRefresh"
+		          class = "MonoQuery.Commands.MonoQueryRefreshCommand"/>		
+	</Extension>
+
+	<Extension path = "/MonoQuery/ContextMenu/Parameter">
+		<MenuItem id = "Refresh"
+		          _label = "Refresh"
+		          icon = "Icons.16x16.BrowserRefresh"
+		          class = "MonoQuery.Commands.MonoQueryRefreshCommand"/>		
+	</Extension>
+
+	<Extension path = "/MonoQuery/ContextMenu/Catalog">
+		<MenuItem id = "Refresh"
+		          _label = "Refresh"
+		          icon = "Icons.16x16.BrowserRefresh"
+		          class = "MonoQuery.Commands.MonoQueryRefreshCommand"/>		
+	</Extension>
+	
+	<Extension path = "/MonoQuery/ContextMenu/Schema">
+		<MenuItem id = "Refresh"
+		          _label = "Refresh"
+		          icon = "Icons.16x16.BrowserRefresh"
+		          class = "MonoQuery.Commands.MonoQueryRefreshCommand"/>		
+	</Extension>
+	
+</AddIn>
+

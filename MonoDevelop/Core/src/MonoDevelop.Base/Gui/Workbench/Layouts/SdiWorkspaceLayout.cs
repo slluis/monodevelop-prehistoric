@@ -273,7 +273,8 @@ namespace MonoDevelop.Gui
 				"MonoDevelop.Gui.Pads.HelpTree",
 				"MonoDevelop.EditorBindings.Gui.Pads.CompilerMessageView",
 				//"MonoDevelop.Gui.Pads.TerminalPad",
-				"MonoDevelop.Gui.Pads.HelpBrowser"
+				"MonoDevelop.Gui.Pads.HelpBrowser",
+				"MonoQuery.Pads.MonoQueryView"
 			};
 
 			string[] debugPads = new string[] {

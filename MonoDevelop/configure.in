@@ -207,6 +207,8 @@ Core/src/AddIns/prj2make-sharp-lib/Makefile
 Core/src/AddIns/prj2make-sharp-lib/AssemblyInfo.cs
 Core/src/AddIns/BackendBindings/NemerleBinding/NemerleBindingExecutionServices.cs
 Core/src/AddIns/BackendBindings/CSharpBinding/CSharpBindingExecutionManager.cs
+Extras/Makefile
+Extras/MonoQuery/Makefile
 ])
 
 echo "---"

@@ -1,6 +1,6 @@
 # leave gdldock first
 # (mkdir ../../build/bin/ hack)
-SUBDIRS = Core build po
+SUBDIRS = Core build po Extras
 
 bin_SCRIPTS = monodevelop
 
