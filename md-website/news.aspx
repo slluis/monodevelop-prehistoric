@@ -5,12 +5,21 @@
 
   <div class="title">News</div>
 
+  <div class="news_header">May 4, 2004: Monodevelop.com Returns</div>
+  <p>Just a quick note to let everyone know what was going on with the server 
+  this past week. The old Debian/5mbit server is gone, and we're now on a 
+  Fedora server with a dual-OC3 connection. If you have any trouble connecting 
+  to monodevelop.com, monodevelop.org, or monodevelop.net, please 
+  <a href="mailto:steve@citygroup.ca">let Steve know</a>. We apologize for 
+  the downtime. Thanks to our new location, that shouldn't happen again.</p>
+
+  <br />
   <div class="news_header">Mar 31, 2004: MonoDevelop 0.2 Released</div>
   <p>MonoDevelop 0.2 is released, so get your <tt>mcs</tt> warmed up.  0.2 has
   a lot of new features such as built-in monodoc and debugger support.
   Download it from the <a href="/release.aspx">releases page</a>.</p>
 
-<br />
+  <br />
   <div class="news_header">Mar. 26, 2004: New Tutorial</div>
   <p>John Luke has done an awesome job putting together our newest tutorial:
   <a href="/tutorials/plugin.aspx">Writing a Monodevelop Plugin</a>.  Check it
