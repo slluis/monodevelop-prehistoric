@@ -167,11 +167,15 @@ namespace MonoDevelop.Gui.Pads
 
 		bool addParseInfo ()
 		{
-			if (add_e != null) {
-				AddParseInformation (Nodes, add_e);
-				add_e = null;
+			try {
+				if (add_e != null) {
+					AddParseInformation (Nodes, add_e);
+					add_e = null;
+				}
+				return false;
+			} catch {
+				OnProjectFilesChanged (null, null);
 			}
-			return false;
 		}
 		
 		ParseInformationEventArgs remove_e;
@@ -183,11 +187,15 @@ namespace MonoDevelop.Gui.Pads
 
 		bool removeParseInfo ()
 		{
-			if (remove_e != null) {
-				RemoveParseInformation (Nodes, remove_e);
-				remove_e = null;
+			try {
+				if (remove_e != null) {
+					RemoveParseInformation (Nodes, remove_e);
+					remove_e = null;
+				}
+				return false;
+			} catch {
+				OnProjectFilesChanged (null, null);
 			}
-			return false;
 		}
 
 		private void OnNodeActivated(object sender, Gtk.RowActivatedArgs args)
