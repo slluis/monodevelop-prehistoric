@@ -233,8 +233,15 @@ namespace MonoDevelop.Gui.Dialogs {
 			if (TemplateView.CurrentlySelected != null && name.Length != 0) {
 					ProjectTemplate item = (ProjectTemplate) TemplateView.CurrentlySelected;
 					
-					System.IO.Directory.CreateDirectory (ProjectSolution);
-					
+					try
+					{
+						System.IO.Directory.CreateDirectory (ProjectSolution);
+					}
+					catch (UnauthorizedAccessException accessException)
+					{
+						messageService.ShowError (String.Format (GettextCatalog.GetString ("You do not have permission to create to {0}"), ProjectSolution));
+						return;
+					}
 					
 					ProjectCreateInformation cinfo = new ProjectCreateInformation ();
 					

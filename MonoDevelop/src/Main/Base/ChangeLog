@@ -1,3 +1,10 @@
+2004-06-16  John Luke  <jluke@cfl.rr.com>
+
+	* Gui/Dialogs/NewProjectDialog.cs: guard against unauthorized
+	exception when creating the project directory, and display an error
+	message and allow the user to fix it.
+	fixes bug # 60001
+
 2004-06-13  Todd Berman  <tberman@sevenl.net>
 
 	* Internal/Project/Project/Deployment/ScriptDeploy.cs: string fix
