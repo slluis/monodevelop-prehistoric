@@ -1,3 +1,10 @@
+2005-01-14  Christian Hergert <chris@mosaix.net>
+
+	* Commands/FileCommands.cs: Added a Close All menu item.
+	* Gui/Dialogs/CommonAboutDialog.cs: Added Christian to authors array.
+	* MonoDevelopCore.addin.xml: Removed Close Solution shortcut. Added Close File
+	shortcut.
+
 2005-01-14  Lluis Sanchez Gual  <lluis@novell.com>
 
 	* Makefile.am, AbstractProject.cs, Project.cs: Renamed AbstractProject.cs.

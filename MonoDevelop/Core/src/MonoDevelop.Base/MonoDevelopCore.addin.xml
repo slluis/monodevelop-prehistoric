@@ -579,16 +579,21 @@
 		                        <MenuItem id = "CloseFile"
 		                                  _label = "_Close File" 
 		                                  description = "${res:XML.MainMenu.FileMenu.Close.File.Desription}"
-						  icon = "Icons.16x16.CloseIcon"
-						  shortcut = "Control|W"
+						  				  icon = "Icons.16x16.CloseIcon"
+						  				  shortcut = "Control|W"
 		                                  class ="MonoDevelop.Commands.CloseFile"/>
+		                        <MenuItem id = "CloseAllFiles"
+		                        		  _label = "Close All"
+		                        		  description = "Close All Files"
+		                        		  icon = "Icons.16x16.CloseIcon"
+		                        		  shortcut = "Control|Shift|W"
+		                        		  class = "MonoDevelop.Commands.CloseAllFiles"/>
 	                        </Conditional>
 	                        <Conditional iscombineopen="True" action="Disable">
 		                        <MenuItem id = "CloseCombine"
 		                                  _label = "Close Sol_ution" 
 		                                  description = "${res:XML.MainMenu.FileMenu.Close.Project.Desription}"
-						  icon = "Icons.16x16.CloseCombineIcon"
-						  shortcut = "Control|Shift|W"
+						  				  icon = "Icons.16x16.CloseCombineIcon"
 		                                  class = "MonoDevelop.Commands.ClearCombine"/>
 		                </Conditional>
 	                

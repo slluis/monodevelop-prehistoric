@@ -47,6 +47,16 @@ namespace MonoDevelop.Commands
 			}
 		}
 	}
+	
+	public class CloseAllFiles : AbstractMenuCommand
+	{
+		public override void Run()
+		{
+			if ( WorkbenchSingleton.Workbench != null ) {
+				WorkbenchSingleton.Workbench.CloseAllViews();
+			}
+		}
+	}
 
 	public class SaveFile : AbstractMenuCommand
 	{

@@ -54,7 +54,8 @@ namespace MonoDevelop.Gui.Dialogs
 			"Richard Torkar",
 			"Erik Dasque",
 			"Paco Martinez",
-			"Lluis Sanchez Gual"
+			"Lluis Sanchez Gual",
+			"Christian Hergert"
 		};
 		
 		public ScrollBox ()
