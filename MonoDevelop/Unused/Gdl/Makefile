@@ -30,7 +30,7 @@ clean:
 	rm -f $(TEST) $(TEST).mdb
 
 $(GDL): $(FILES)
-	$(CSC) -out:$@ -target:library $(FILES) -pkg:gtk-sharp-2.0
+	$(CSC) -out:$@ -target:library $(FILES) -pkg:gtk-sharp-2.0 -pkg:glade-sharp-2.0
 
 $(TEST) : GdlDockTest.cs $(GDL)
 	$(CSC) -out:$@ -r:$(GDL) -pkg:gtk-sharp-2.0 GdlDockTest.cs -codepage:utf8

@@ -113,6 +113,7 @@ class T
 	private void OnDumpXML (object o, EventArgs args)
 	{
 		layout.Dump ();
+		Console.WriteLine ();
 	}
 	
 	private void OnAppDelete (object o, DeleteEventArgs args)

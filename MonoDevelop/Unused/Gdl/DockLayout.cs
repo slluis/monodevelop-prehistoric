@@ -1,143 +1,90 @@
 using System;
 using System.Collections;
+using System.IO;
 using System.Xml;
-using System.Xml.Serialization;
 using Gtk;
 
 namespace Gdl
 {
 	public class DockLayout
 	{
-		DockMaster master;
-		Widget itemsui;
-		Widget layoutsui;
-		ArrayList layouts;
-		bool dirty;
 		XmlDocument doc;
+		ListStore itemsModel;
+		ListStore layoutsModel;
+		bool dirty = false;
+		bool idleSavePending = false;
+
+		Widget itemsUI, layoutsUI;
+		DockMaster master = null;
+		ArrayList layouts;
 
 		public DockLayout (Dock dock)
 		{
 			layouts = new ArrayList ();
 			this.Attach (dock.Master);
 		}
-		
+
+		public Widget ItemsUI {
+			get {
+				if (itemsUI == null)
+					itemsUI = ConstructItemsUI ();
+				return itemsUI;
+			}
+		}
+
+		public ArrayList Layouts {
+			get { return layouts; }
+		}
+
+		public Widget LayoutsUI {
+			get {
+				if (layoutsUI == null)
+					layoutsUI = ConstructLayoutsUI ();
+				return layoutsUI;
+			}
+		}
+
 		public DockMaster Master {
 			get { return master; }
 			set { master = value; }
 		}
-		
-		public bool IsDirty {
-			get {
-				return dirty;
-			}
-		}
-		
-		public Widget ItemsUi { 
-			get {
-				return itemsui;
-			}
-		}
-		
-		public Widget LayoutsUi { 
-			get {
-				return layoutsui;
-			}
+
+		public Widget UI {
+			get { return ConstructUI ();}
 		}
 
-		public string[] Layouts {
-			get {
-				return layouts.ToArray (typeof (string)) as string[];
-			}
+        // true if the layouts have changed and need to be saved to a file
+		public bool IsDirty {
+			get { return dirty; }
 		}
-		
+
 		public void Attach (DockMaster master)
 		{
-			if (this.master != null)
-				master.LayoutChanged -= OnLayoutChanged;
+			if (master == null)
+				return;
+
+			master.LayoutChanged -= OnLayoutChanged;
+
+			if (itemsModel != null)
+				itemsModel.Clear ();
 
 			this.master = master;
 			master.LayoutChanged += OnLayoutChanged;
+			UpdateItemsModel ();
 		}
-		
+
 		public void DeleteLayout (string name)
 		{
-		}
-	
-		public void LoadLayout (string newLayout)
-		{
-		}
-		
-		public void LoadFromFile (string configFile)
-		{
-			doc = new XmlDocument ();
-			doc.Load (configFile);
-			XmlNodeList nodes = doc.SelectNodes ("/dock-layout/layout");
-			foreach (XmlNode n in nodes)
-				LoadLayout (n);
-		}
+			// dont allow deletion of default layout
+			if (name == null || name == "__default__")
+				return;
 
-		void LoadLayout (XmlNode node)
-		{
-			layouts.Add (node.Attributes["name"].Value);
-			LoadDock (node["dock"]);
-		}
-
-		void LoadDock (XmlNode node)
-		{
-			Dock dock = new Dock ();
-			foreach (XmlNode child in node.ChildNodes)
-			{
-				switch (child.Name) {
-					case "notebook":
-						LoadNotebook (child);
-						break;
-					default:
-						Console.WriteLine (child.Name);
-						break;
-				}
-			}	
-		}
-
-		void LoadNotebook (XmlNode node)
-		{
-			DockNotebook notebook = new DockNotebook ();
-			notebook.Orientation = node.Attributes ["orientation"].Value == "vertical" ? Orientation.Vertical : Orientation.Horizontal;
-			notebook.Page = int.Parse (node.Attributes ["page"].Value);
-
-			foreach (XmlNode child in node.ChildNodes)
-			{
-				switch (child.Name) {
-					case "item":
-						LoadItem (child);
-						break;
-					default:
-						Console.WriteLine (child.Name);
-						break;
-				}
-			}	
-		}
-
-		void LoadItem (XmlNode node)
-		{
-			string name = node.Attributes ["name"].Value;
-			string locked = node.Attributes ["locked"].Value;
-			DockItem item = new DockItem (name, name, DockItemBehavior.Normal);
-			item.Orientation = node.Attributes ["orientation"].Value == "vertical" ? Orientation.Vertical : Orientation.Horizontal;
-		}
-		
-		public void RunManager ()
-		{
-		}
-		
-		public void SaveLayout (string currentLayout)
-		{
-		}
-		
-		public void SaveToFile (string file)
-		{
-			XmlTextWriter writer = new XmlTextWriter (file, System.Text.Encoding.UTF8);
-			writer.Formatting = Formatting.Indented;
-			doc.WriteTo (writer);
+			XmlNode node = FindLayout (name);
+			if (node != null) {
+				doc.RemoveChild (node);
+				dirty = true;
+				// notify dirty
+			}
 		}
 
 		public void Dump ()
@@ -147,9 +94,326 @@ namespace Gdl
 			doc.WriteTo (writer);
 		}
 
+		public bool LoadFromFile (string file)
+		{
+			if (doc != null) {
+				doc = null;
+				dirty = false;
+				// notify dirty
+			}
+
+			if (File.Exists (file))
+			{
+				doc = new XmlDocument ();
+				doc.Load (file);
+				// minimum validation: test root element
+				if (doc.SelectSingleNode ("/dock-layout") != null) {
+					UpdateLayoutsModel ();
+					return true;
+				}
+				else {
+					doc = null;	
+				}
+			}
+
+			return false;
+		}
+
+		public bool LoadLayout (string name)
+		{
+			if (doc == null || master == null)
+				return false;
+
+			if (name == null || name.Length < 1)
+				name = "__default__";
+
+			XmlNode node = FindLayout (name);
+			if (node == null)
+				node = FindLayout (null);
+			
+			if (node == null)
+				return false;
+
+			Load (node);
+			return true;
+		}
+
+		public void RunManager ()
+		{
+			if (master == null)
+				return;
+
+			Widget container = ConstructUI ();
+			if (container == null)
+				return;
+
+			Widget parent = master.Controller;
+			if (parent != null)
+				parent = parent.Toplevel;
+
+			Dialog dialog = new Dialog ();
+			dialog.Title = "Layout management";
+			dialog.TransientFor = parent as Window;
+			dialog.AddButton (Gtk.Stock.Close, Gtk.ResponseType.Close);
+			dialog.SetDefaultSize (-1, 300);
+			dialog.VBox.Add (container);
+			dialog.Run ();
+			dialog.Destroy ();
+		}
+
+		public void SaveLayout (string name)
+		{
+			if (master == null)
+				return;
+
+			if (doc == null)
+				BuildDoc ();
+
+			if (name == null || name.Length < 1)
+				name = "__default__";
+
+			// delete any previous node with the same name
+			XmlNode node = FindLayout (name);
+			if (node != null)
+				doc.RemoveChild (node);
+
+			// create the new node
+			doc.CreateNode (XmlNodeType.Element, "layout", null);
+			// FIXME:set name attribute to name
+
+			// save the layout
+			Save (node);
+			dirty = true;
+			// notify dirty
+		}
+
+		public bool SaveToFile (string file)
+		{
+			if (file == null)
+				return false;
+
+			// if there is still no xml doc, create an empty one
+			if (doc == null)
+				BuildDoc ();
+
+			XmlTextWriter writer = new XmlTextWriter (file, System.Text.Encoding.UTF8);
+			writer.Formatting = Formatting.Indented;
+			doc.WriteTo (writer);
+			dirty = false;
+			// notify dirty
+			return true;
+		}
+
+		void BuildModels ()
+		{
+			// NAME, SHOW, LOCKED, ITEM
+			itemsModel = new ListStore (typeof (string), typeof (bool), typeof (bool), typeof (DockItem));
+			itemsModel.SetSortColumnId (0, SortType.Ascending);
+			layoutsModel = new ListStore (typeof (string), typeof (bool));
+			layoutsModel.SetSortColumnId (0, SortType.Ascending);
+		}
+
+		void BuildDoc ()
+		{
+			doc = new XmlDocument ();
+			doc.CreateXmlDeclaration ("1.0", null, null);
+			doc.CreateNode (XmlNodeType.Element, "dock-layout", null);
+		}
+
+		XmlNode FindLayout (string name)
+		{
+			if (doc == null)
+				return null;
+
+			foreach (XmlNode n in doc.SelectNodes ("/dock-layout/layout"))
+			{
+				if (n.Attributes["name"].Value == name)
+					return n;
+			}
+
+			return null;
+		}
+
+		void UpdateItemsModel ()
+		{
+			if (itemsModel == null || master == null)
+				return;
+
+			// build items list
+			ArrayList items = new ArrayList ();
+    		//gdl_dock_master_foreach (master, BuildList, out items);
+			foreach (object o in master.DockObjects) {
+				if (o is DockItem)
+					items.Add (o);
+			}
+
+			TreeIter iter;
+			// update items model data after a layout load
+    		if (itemsModel.GetIterFirst (out iter)) {
+				bool valid = true;
+				while (valid) {
+					DockItem item = itemsModel.GetValue (iter, 3) as DockItem;
+					if (item != null) {
+                		// look for the object in the items list
+						foreach (DockItem di in items)
+						{
+                    		// found, update data
+							if (item == di) {
+								itemsModel.SetValue (iter, 0, item.Name);
+								itemsModel.SetValue (iter, 1, item.IsAttached);
+								itemsModel.SetValue (iter, 2, item.Locked);
+							}
+
+                    		// remove the item from the linked list and keep on walking the model
+							items.Remove (di);
+                    		valid = itemsModel.IterNext (ref iter);
+						}
+					}
+					else {
+                		// not a valid row
+                		valid = itemsModel.Remove (ref iter);
+					}
+				}
+			}
+
+			// add any remaining objects
+			foreach (DockItem ditem in items)
+				itemsModel.AppendValues (ditem.Name, ditem.IsAttached, ditem.Locked, ditem);
+		}
+
+		void UpdateLayoutsModel ()
+		{
+			if (master == null || layoutsModel == null)
+				return;
+
+			// build layouts list
+			layoutsModel.Clear ();
+    		ArrayList items = this.Layouts;
+			foreach (string s in items)
+				layoutsModel.AppendValues (s, true);
+		}
+
+		Notebook ConstructUI ()
+		{
+			Notebook notebook = new Notebook ();
+			notebook.Show ();
+
+			Widget child;
+
+			child = ConstructItemsUI ();
+			if (child != null)
+				notebook.AppendPage (child, new Label ("Items"));
+
+			child = ConstructLayoutsUI ();
+			if (child != null)
+				notebook.AppendPage (child, new Label ("Layouts"));
+
+			notebook.CurrentPage = 0;
+			return notebook;
+		}
+
+		Widget ConstructItemsUI ()
+		{
+			return null;
+		}
+
+		Widget ConstructLayoutsUI ()
+		{
+			return null;
+		}
+
+		Glade.XML LoadInterface (string topWidget)
+		{
+			return null;
+		}
+
+		DockObject SetupObject (DockMaster master, XmlNode node)
+		{
+			return null;
+		}
+
+		void RecursiveBuild (XmlNode parentNode, DockObject parent)
+		{
+		}
+
+		void ForeachDetach (DockObject obj)
+		{
+			obj.Detach (true);
+		}
+
+		void ForeachToplevelDetach (DockObject obj)
+		{
+			//((Container)obj).Foreach (ForeachDetach);
+		}
+
+		void Load (XmlNode node)
+		{
+			if (node == null)
+				return;
+
+			// start by detaching all items from the toplevels
+			//gdl_dock_master_foreach_toplevel (master, TRUE, (GFunc) gdl_dock_layout_foreach_toplevel_detach, NULL);
+
+			RecursiveBuild (node, null);
+		}
+
+		void ForeachObjectSave (DockObject obj)
+		{
+		}
+
+		void AddPlaceholder (DockObject obj, Hashtable placeholders)
+		{
+			if (obj is DockPlaceholder) {
+			}
+		}
+
+		void Save (XmlNode node)
+		{
+		}
+
+		bool IdleSave ()
+		{
+			//SaveLayout (this);
+			idleSavePending = false;
+			return false;
+		}
+
 		void OnLayoutChanged (object sender, EventArgs a)
 		{
-			Console.WriteLine ("layout changed");
+			UpdateItemsModel ();
+
+			if (!idleSavePending) {
+				GLib.Idle.Add (IdleSave);
+				idleSavePending = true;
+			}
+		}
+
+		void LoadLayoutCb (object sender, EventArgs a)
+		{
+		}
+
+		void DeleteLayoutCb (object sender, EventArgs a)
+		{
+		}
+
+		void ShowToggledCb (object sender, EventArgs a)
+		{
+		}
+
+		void AllLockedToggledCb (object sender, EventArgs a)
+		{
+		}
+
+		void LayoutUIDestroyed (object sender, EventArgs a)
+		{
+		}
+
+		void MasterLockedNotifyCb (object sender, EventArgs a)
+		{
+		}
+
+		void CellEditedCb (object sender, EventArgs a)
+		{
 		}
 	}
 }
