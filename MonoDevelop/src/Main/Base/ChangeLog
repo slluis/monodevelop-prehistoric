@@ -3,6 +3,9 @@
 	* Gui/Dialogs/SharpDevelopAboutPanels.cs:
 	enable copy button for assembly version info
 	fixes bug #55955
+	* Gui/Pads/ProjectBrowser/BrowserNode/FileNode.cs:
+	workaround/fix for #55185, a confusing message when
+	removing a file from a project, need to revisit it later
 
 2004-03-25  Todd Berman  <tberman@sevenl.net>
 

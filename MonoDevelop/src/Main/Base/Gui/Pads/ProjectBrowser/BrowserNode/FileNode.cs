@@ -11,8 +11,8 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Collections.Specialized;
 
+using Gtk;
 using MonoDevelop.Core.Properties;
-
 using MonoDevelop.Core.Services;
 using MonoDevelop.Services;
 using MonoDevelop.Internal.Project;
@@ -142,14 +142,17 @@ namespace MonoDevelop.Gui.Pads.ProjectBrowser
 			ResourceService resourceService = (ResourceService)ServiceManager.Services.GetService(typeof(IResourceService));
 			StringParserService stringParserService = (StringParserService)ServiceManager.Services.GetService(typeof(StringParserService));
 			
-			Gtk.MessageDialog dialog = new Gtk.MessageDialog ((Gtk.Window)WorkbenchSingleton.Workbench, Gtk.DialogFlags.DestroyWithParent, Gtk.MessageType.Question, Gtk.ButtonsType.OkCancel, stringParserService.Parse(resourceService.GetString("ProjectComponent.RemoveFile.Question"), new string[,] { {"FILE", Path.GetFileName (((ProjectFile)userData).Name)}, {"PROJECT", Project.Name}}));
+			//FIXME: bug #55185
+			//Gtk.MessageDialog dialog = new Gtk.MessageDialog ((Gtk.Window)WorkbenchSingleton.Workbench, Gtk.DialogFlags.DestroyWithParent, Gtk.MessageType.Question, Gtk.ButtonsType.OkCancel, stringParserService.Parse(resourceService.GetString("ProjectComponent.RemoveFile.Question"), new string[,] { {"FILE", Path.GetFileName (((ProjectFile)userData).Name)}, {"PROJECT", Project.Name}}));
+			using (MessageDialog dialog = new Gtk.MessageDialog ((Window) WorkbenchSingleton.Workbench, DialogFlags.DestroyWithParent, MessageType.Question, ButtonsType.YesNo, String.Format ("Are you sure you want to remove {0} from the {1}?", Path.GetFileName (((ProjectFile)userData).Name), Project.Name))) {
 			
-			if (dialog.Run() != (int)Gtk.ResponseType.Ok) {
-				dialog.Destroy ();
-				return false;
+				if (dialog.Run() != (int)Gtk.ResponseType.Yes) {
+					dialog.Hide ();
+					return false;
+				}
+			
+				dialog.Hide ();
 			}
-			
-			dialog.Destroy ();
 			//switch (sharpMessageBox.ShowMessageBox()) {
 			//	case -1:
 			//	case 2:
