@@ -208,10 +208,16 @@ namespace ICSharpCode.SharpDevelop.Commands
 	
 	public class OpenCombine : AbstractMenuCommand
 	{
+		static PropertyService PropertyService = (PropertyService)ServiceManager.Services.GetService (typeof (PropertyService));
+		
 		public override void Run()
 		{
 			Gtk.FileSelection fs = new Gtk.FileSelection ("File to Open");
-			fs.Complete (System.IO.Path.Combine (Environment.GetEnvironmentVariable ("HOME"), "MonoDevelopProjects"));
+			string defaultFolder = PropertyService.GetProperty(
+					"ICSharpCode.SharpDevelop.Gui.Dialogs.NewProjectDialog.DefaultPath", 
+					System.IO.Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal),
+						"MonoDevelopProjects")).ToString();
+			fs.Complete (defaultFolder);
 			int response = fs.Run ();
 			string name = fs.Filename;
 			fs.Hide ();
@@ -244,6 +250,8 @@ namespace ICSharpCode.SharpDevelop.Commands
 	
 	public class OpenFile : AbstractMenuCommand
 	{
+		static PropertyService PropertyService = (PropertyService)ServiceManager.Services.GetService (typeof (PropertyService));
+		
 		public override void Run()
 		{
 #if !GTK
@@ -294,7 +302,11 @@ namespace ICSharpCode.SharpDevelop.Commands
 				}
 
 				Gtk.FileSelection fs = new Gtk.FileSelection ("File to Open");
-				fs.Complete (System.IO.Path.Combine (Environment.GetEnvironmentVariable ("HOME"), "MonoDevelopProjects"));
+				string defaultFolder = PropertyService.GetProperty(
+					"ICSharpCode.SharpDevelop.Gui.Dialogs.NewProjectDialog.DefaultPath", 
+					System.IO.Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal),
+						"MonoDevelopProjects")).ToString();
+				fs.Complete (defaultFolder);
 				int response = fs.Run ();
 				string name = fs.Filename;
 				fs.Destroy ();
