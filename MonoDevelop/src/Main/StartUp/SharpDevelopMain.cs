@@ -57,7 +57,7 @@ namespace ICSharpCode.SharpDevelop
 		[STAThread()]
 		public static void Main(string[] args)
 		{
-			Gtk.Application.Init ();
+			Gnome.Program program = new Gnome.Program ("MonoDevelop", "0.1", Gnome.Modules.UI, args);
 			Gdk.Threads.Init();
 			commandLineArgs = args;
 			bool noLogo = false;

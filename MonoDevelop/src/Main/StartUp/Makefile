@@ -40,5 +40,6 @@ $(DLL): $(SOURCES)
 		/r:../../../build/bin/SharpDevelop.Base.dll \
 		/r:glib-sharp.dll \
 		/define:GTK /r:gtk-sharp.dll /r:gdk-sharp.dll \
+		/r:gnome-sharp.dll \
 		$(RESOURCES) $(SOURCES)
 
