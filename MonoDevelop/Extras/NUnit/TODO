@@ -1,10 +1,11 @@
-ResultTree
-TestTree
+load assembly/run context menus
+
+viewing results
 save the results to xml
 hook up progress/status
 
 what about the other tabs
 (gnunit had 4)
 
-integrate test with the projects
+integrate testing with projects
 

@@ -2,20 +2,21 @@ using System;
 using System.IO;
 using Gtk;
 
+using MonoDevelop.Core.Services;
 using MonoDevelop.Services;
 using MonoDevelop.Gui.Widgets;
 using MonoDevelop.Core.AddIns.Codons;
 
 namespace MonoDevelop.Commands
 {
-	public class NunitLoadAssembly : AbstractMenuCommand
+	public class NUnitLoadAssembly : AbstractMenuCommand
 	{
 		public override void Run ()
 		{
-			NunitService nunitService = (NunitService) MonoDevelop.Core.Services.ServiceManager.GetService (typeof (NunitService));
+			NUnitService nunitService = (NUnitService) ServiceManager.GetService (typeof (NUnitService));
 
 			using (FileSelector fs = new FileSelector ("Load test assembly")) {
-				//string defaultPath = Path.Combine (Environment.GetEnvironmentVariable ("HOME"), "Projects");
+				//fs.DefaultPath = Path.Combine (Environment.GetEnvironmentVariable ("HOME"), "Projects");
 
 				if (fs.Run () == (int) Gtk.ResponseType.Ok)
 				{
@@ -27,7 +28,7 @@ namespace MonoDevelop.Commands
 		}
 	}
 
-	public class NunitRunTests : AbstractMenuCommand
+	public class NUnitRunTests : AbstractMenuCommand
 	{
 		public override void Run ()
 		{
