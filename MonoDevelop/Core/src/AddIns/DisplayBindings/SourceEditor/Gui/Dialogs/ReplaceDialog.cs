@@ -392,7 +392,7 @@ namespace MonoDevelop.Gui.Dialogs
 			}
 		}
 		
-		#region code to pretend to be a dialog (cause we can't inherit Dialog and use glade)
+		#region code to pretend to be a dialog (cause we cant inherit Dialog and use glade)
 		public void Present()
 		{
 			ReplaceDialogPointer.Present();

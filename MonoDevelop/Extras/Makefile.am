@@ -1,3 +1,3 @@
 
 #SUBDIRS = PythonBinding MonoQuery
-SUBDIRS = MonoQuery MonoDeveloperExtensions
+SUBDIRS = MonoQuery MonoDeveloperExtensions JavaBinding
