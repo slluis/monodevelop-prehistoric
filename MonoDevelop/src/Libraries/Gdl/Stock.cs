@@ -37,7 +37,7 @@ namespace Gdl {
 				Gdk.Pixbuf img = new Gdk.Pixbuf (file);
 				IconSource source = new IconSource ();
 				source.Size = Gtk.IconSize.Menu;
-				source.SizeWildcarded = true;
+				source.SizeWildcarded = false;
 				source.Pixbuf = img;
 				iconset.AddSource (source);
 				stock.Add (stockid, iconset);
