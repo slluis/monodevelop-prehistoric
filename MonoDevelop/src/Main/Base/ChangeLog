@@ -8,6 +8,8 @@
 	* Gui/Dialogs/SharpDevelopAboutPanels.cs: call Path.GetFullPath
 	on assembly location to get rid of '../AddIn/..' stuff
 	send the text to the X clipboard also
+	* Gui/BrowserDisplayBinding/HtmlViewPane.cs: register the GType
+	to fix weirdness
 
 2004-04-04  Todd Berman  <tberman@sevenl.net>
 

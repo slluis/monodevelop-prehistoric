@@ -7,13 +7,10 @@
 
 using System;
 using Gtk;
-using GtkSharp;
 using Gecko;
 
 using MonoDevelop.Internal.Undo;
-using System.Drawing.Printing;
 using MonoDevelop.Core.Properties;
-
 using MonoDevelop.Core.Services;
 using MonoDevelop.Core.AddIns.Codons;
 using MonoDevelop.Gui;
@@ -102,13 +99,13 @@ namespace MonoDevelop.BrowserDisplayBinding
 		{
 		}
 
-		public BrowserPane(bool showNavigation) //: base (type)
+		public BrowserPane (bool showNavigation) // : base (GType)
 		{
 			htmlViewPane = new HtmlViewPane(showNavigation);
 			htmlViewPane.MozillaControl.TitleChange += new EventHandler (OnTitleChanged);
 		}
 		
-		public BrowserPane() : this(true)
+		public BrowserPane () : this(true)
 		{
 		}
 		
@@ -138,14 +135,14 @@ namespace MonoDevelop.BrowserDisplayBinding
 		MozillaControl htmlControl = null;
 		public Gtk.EventBox catcher = null;
 		
-		VBox   topPanel   = new VBox (false, 2);
-		Toolbar toolBar    = new Toolbar ();
+		VBox topPanel = new VBox (false, 2);
+		Toolbar toolBar = new Toolbar ();
 		Entry urlTextBox = new Entry ();
 		Statusbar status;
 		
-		bool   isHandleCreated  = false;
-		string lastUrl     = null;
-		static GLib.GType type;
+		bool isHandleCreated = false;
+		string lastUrl = null;
+		static GLib.GType gtype;
 		
 		public MozillaControl MozillaControl {
 			get {
@@ -153,12 +150,17 @@ namespace MonoDevelop.BrowserDisplayBinding
 			}
 		}
 		
-		static HtmlViewPane ()
+		public static new GLib.GType GType
 		{
-			type = RegisterGType (typeof (HtmlViewPane));
+			get
+			{
+				if (gtype == GLib.GType.Invalid)
+					gtype = RegisterGType (typeof (HtmlViewPane));
+				return gtype;
+			}
 		}
 		
-		public HtmlViewPane(bool showNavigation) : base ()
+		public HtmlViewPane(bool showNavigation) : base (GType)
 		{
 			//RequestSize = new Size (500, 500);
 			
