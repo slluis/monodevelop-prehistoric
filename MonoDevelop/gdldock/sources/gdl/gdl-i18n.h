@@ -30,7 +30,7 @@
 
 #ifndef __GDL_18N_H__
 #define __GDL_18N_H__ 1
-
+#undef ENABLE_NLS
 #include <glib.h>
 
 #ifndef GETTEXT_PACKAGE
