@@ -60,8 +60,9 @@ namespace ICSharpCode.SharpDevelop.DefaultEditor.Commands
 			{
 				SourceEditor editor = (SourceEditor) ((SourceEditorDisplayBindingWrapper)window.ViewContent).Control;
 				string selectedText = editor.Buffer.GetSelectedText ();
+				
 				if (selectedText != null && selectedText.Length > 0)
-					SearchReplaceManager.SearchOptions.SearchPattern = selectedText;
+					SearchReplaceManager.SearchOptions.SearchPattern = selectedText.Split ('\n')[0];
 			}
 		}
 		
@@ -125,7 +126,7 @@ namespace ICSharpCode.SharpDevelop.DefaultEditor.Commands
 				SourceEditor editor = (SourceEditor) ((SourceEditorDisplayBindingWrapper)window.ViewContent).Control;
 				string selectedText = editor.Buffer.GetSelectedText ();
 				if (selectedText != null && selectedText.Length > 0)
-					SearchReplaceInFilesManager.SearchOptions.SearchPattern = selectedText;
+					SearchReplaceInFilesManager.SearchOptions.SearchPattern = selectedText.Split ('\n')[0];
 			}
 		}
 		
