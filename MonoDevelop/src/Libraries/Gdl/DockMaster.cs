@@ -9,22 +9,21 @@ namespace Gdl
 	{
 		private object obj;
 		private Hashtable dockObjects = new Hashtable ();
-		private ArrayList toplevelDocks = null;
+		private ArrayList toplevelDocks = new ArrayList ();
 		private DockObject controller = null;
 		private int dockNumber = 1;
 		private int number = 1;
 		private string defaultTitle;
-		private Gdk.GC root_xor_gc;
+		private Gdk.GC rootXorGC;
 		private bool rectDrawn;
 		private Dock rectOwner;
-		private DockRequest dragRequest;
+		private DockRequest request;
 		private uint idle_layout_changed_id;
 		private Hashtable lockedItems = new Hashtable ();
 		private Hashtable unlockedItems = new Hashtable ();
 
 		public DockMaster () 
 		{
-			Console.WriteLine ("Creating a new DockMaster");
 		}
 		
 		public string DefaultTitle {
@@ -95,207 +94,65 @@ namespace Gdl
                              (gpointer) locked);*/
 		}
 		
-		
-		public void DragBegin (DockItem item)
-		{
-			if (item == null)
-				return;
-
-			if (dragRequest == null)
-				dragRequest = new DockRequest ();
-
-			DockRequest request = dragRequest;
-			request.Applicant = item;
-			request.Target = item;
-			request.Position = DockPlacement.Floating;
-			request.Extra = null;
-			rectDrawn = false;
-			rectOwner = null;
-		}
-		
-		public void DragEnd (DockItem item, bool cancelled)
-		{
-			if (item == null)
-				return;
-
-			DockRequest request = dragRequest;
-			if (item != request.Applicant)
-				return;
-			if (rectDrawn)
-				XorRect ();
-			if (cancelled || request.Applicant == request.Target)
-				return;
-			request.Target.Dock (request.Applicant, request.Position, request.Extra);
-			//emit LayoutChanged here
-		}
-		
-		public void DragMotion (DockItem item, int root_x, int root_y)
-		{
-			if (item == null)
-				return;
-			DockRequest request = dragRequest;
-			if (request.Applicant == item)
-				return;
-			DockRequest my_request = new DockRequest (request);
-			int win_x, win_y;
-			int x, y;
-			Dock dock = null;
-			bool may_dock = false;
-			
-			Gdk.Window window = Gdk.Window.AtPointer (out win_x, out win_y);
-			if (window != null) {
-				IntPtr widg = window.UserData;
-				if (widg != IntPtr.Zero) {
-					Gtk.Widget widget = GLib.Object.GetObject (widg, false) as Gtk.Widget;
-					if (widget != null) {
-						while (widget != null && (!(widget is Dock) || (widget is DockObject && ((DockObject)widget).Master == this)))
-							widget = widget.Parent;
-						if (widget != null) {
-							int win_w, win_h, winx, winy, depth;
-							widget.GdkWindow.GetGeometry (out winx, out winy, out win_w, out win_h, out depth);
-							widget.GdkWindow.GetOrigin (out win_x, out win_y);
-							if (root_x >= win_x && root_x < win_x + win_w && root_y >= win_y && root_y < win_y + win_h)
-								dock = widget as Dock;
-						}
-					}
-				}
-			}
-			
-			if (dock != null) {
-				dock.GdkWindow.GetOrigin (out win_x, out win_y);
-				x = root_x - win_x;
-				y = root_y - win_y;
-				may_dock = dock.OnDockRequest (x, y, my_request);
-			} else {
-				foreach (Dock top_dock in toplevelDocks) {
-					top_dock.GdkWindow.GetOrigin (out win_x, out win_y);
-					x = root_x - win_x;
-					y = root_y - win_y;
-					may_dock = top_dock.OnDockRequest (x, y, my_request);
-					if (may_dock)
-						break;
-				}
-			}
-			if (!may_dock) {
-				dock = null;
-				Gtk.Requisition req = DockItem.PreferredSize ((DockItem)request.Applicant);
-				my_request.Target = Dock.GetTopLevel (request.Applicant);
-				my_request.Position = DockPlacement.Floating;
-				Gdk.Rectangle rect = new Gdk.Rectangle ();
-				rect.Width = req.Width;
-				rect.Height = req.Height;
-				rect.X = root_x - ((DockItem)request.Applicant).DragOffX;
-				rect.Y = root_y - ((DockItem)request.Applicant).DragOffY;
-				my_request.Rect = rect;
-				my_request.Extra = my_request.Rect;
-			}
-			
-			if (!(my_request.Rect.X == request.Rect.X &&
-			      my_request.Rect.Y == request.Rect.Y &&
-			      my_request.Rect.Width == request.Rect.Width &&
-			      my_request.Rect.Height == request.Rect.Height &&
-			      dock == rectOwner)) {
-				if (rectDrawn) {
-					XorRect ();
-				}
-			}
-			
-			request = my_request;
-			rectOwner = dock;
-			
-			if (!rectDrawn) {
-				XorRect ();
-			}
-		}
-		
-		public void XorRect ()
-		{
-			if (dragRequest == null)
-				return;
-			rectDrawn = !(rectDrawn);
-			if (rectOwner != null) {
-				rectOwner.XorRect (dragRequest.Rect);
-				return;
-			}
-			
-			Gdk.Rectangle rect = dragRequest.Rect;
-			Gdk.Window window = Gdk.Global.DefaultRootWindow;
-			if (root_xor_gc == null) {
-				Gdk.GCValues values = new Gdk.GCValues ();
-				values.Function = Gdk.Function.Invert;
-				values.SubwindowMode = Gdk.SubwindowMode.IncludeInferiors;
-				root_xor_gc = new Gdk.GC (window);
-				root_xor_gc.SetValues (values, Gdk.GCValuesMask.Function | Gdk.GCValuesMask.Subwindow);
-			}
-			root_xor_gc.SetLineAttributes (1, Gdk.LineStyle.OnOffDash, Gdk.CapStyle.NotLast, Gdk.JoinStyle.Bevel);
-			root_xor_gc.SetDashes (1, new sbyte[] {1, 1}, 2);
-			window.DrawRectangle (root_xor_gc, false, rect.X, rect.Y, rect.Width, rect.Height);
-			root_xor_gc.SetDashes (0, new sbyte[] {1, 1}, 2);
-			window.DrawRectangle (root_xor_gc, false, rect.X + 1, rect.Y + 1, rect.Width - 2, rect.Height - 2);
-		}
-		
 		public void Add (DockObject obj)
 		{
 			if (obj == null)
 				return;
 
 			if (!obj.IsAutomatic) {
+				/* create a name for the object if it doesn't have one */
 				if (obj.Name == null)
 					obj.Name = "__dock_" + number++;
 
-				DockObject foundObject = (DockObject)dockObjects[obj.Name];
-				if (foundObject != null)
-					Console.WriteLine ("Unable to add object, name taken");
+				/* add the object to our hash list */
+				if (dockObjects.Contains (obj.Name))
+					Console.WriteLine ("Unable to add object, name \"{0}\" taken", obj.Name);
 				else
-					dockObjects[obj.Name] = obj;
+					dockObjects.Add (obj.Name, obj);
 			}
 			
 			if (obj is Dock) {
-				if (toplevelDocks == null) {
+				/* if this is the first toplevel we are adding, name it controller */
+				if (toplevelDocks.Count == 0)
 					controller = obj;
-					toplevelDocks = new ArrayList ();
-				}
 				
+				/* add dock to the toplevel list */
 				if (((Dock)obj).Floating)
 					toplevelDocks.Insert (0, obj);
 				else
 					toplevelDocks.Add (obj);
 				
-				/* PORT THIS:
-				        g_signal_connect (object, "dock",
-                          				  G_CALLBACK (item_dock_cb), master);
-				*/
+				/* we are interested in the dock request this toplevel
+				 * receives to update the layout */
+				obj.Docked += OnItemDocked;
 			} else if (obj is DockItem) {
-				DockItem dock_item = obj as DockItem;
-				dock_item.DockItemDragBegin += new DockItemDragBeginHandler (DragBegin);
-				dock_item.DockItemMotion += new DockItemMotionHandler (DragMotion);
-				dock_item.DockItemDragEnd += new DockItemDragEndHandler (DragEnd);
-				/* PORT THIS:
-        g_signal_connect (object, "dock",
-                          G_CALLBACK (item_dock_cb), master);
-        g_signal_connect (object, "detach",
-                          G_CALLBACK (item_detach_cb), master);
-                          
-                                  if (GDL_DOCK_ITEM_HAS_GRIP (object)) {
-            g_signal_connect (object, "notify::locked",
-                              G_CALLBACK (item_notify_cb), master);
-            item_notify_cb (object, NULL, master);
-        }
-        
-        if (!GDL_DOCK_OBJECT_AUTOMATIC (object)) {
-            if (!master->_priv->idle_layout_changed_id)
-                master->_priv->idle_layout_changed_id =
-                    g_idle_add (idle_emit_layout_changed, master);
-        }
-				*/
+				DockItem item = obj as DockItem;
 				
+				/* we need to connect the item's events */
+				item.Detached += OnItemDetached;
+				item.Docked += OnItemDocked;
+				item.DockItemDragBegin += OnDragBegin;
+				item.DockItemMotion += OnDragMotion;
+				item.DockItemDragEnd += OnDragEnd;
+
+				/* register to "locked" notification if the item has a grip,
+				 * and add the item to the corresponding hash */
+				item.PropertyChanged += OnItemPropertyChanged;
+
+				/* post a layout_changed emission if the item is not automatic
+				 * (since it should be added to the items model) */
+				if (!item.IsAutomatic) {
+					// FIXME: Emit a LayoutChanged event?
+				}
 			}
 		}
 		
 		public void Remove (DockObject obj)
 		{
+#if false
 			if (obj == null)
 				return;
+	
 			if (obj is DockItem && ((DockItem)obj).HasGrip) {
 				int locked = Locked;
 				if (lockedItems.Contains (obj)) {
@@ -354,6 +211,7 @@ namespace Gdl
 					idle_layout_changed_id = 0; //g_idle_add (idle_emit_layout_changed);
 				}
 			}
+#endif
 		}
 		
 		public DockObject GetObject (string name)
@@ -381,6 +239,195 @@ namespace Gdl
 		internal void EmitLayoutChangedEvent ()
 		{
 			// FIXME: emit the LayoutChanged event here.
+		}
+		
+		private void OnItemDetached (object o, DetachedArgs args)
+		{
+		}
+		
+		private void OnItemDocked (object o, DockedArgs args)
+		{
+		}
+		
+		private void OnItemPropertyChanged (object o, string name)
+		{
+		}
+		
+		private void OnDragBegin (DockItem item)
+		{
+			Console.WriteLine ("DockMaster.OnDragBegin");
+		
+			/* Set the target to itself so it won't go floating with just a click. */
+			request = new DockRequest ();
+			request.Applicant = item;
+			request.Target = item;
+			request.Position = DockPlacement.Floating;
+
+			rectDrawn = false;
+			rectOwner = null;
+		}
+		
+		private void OnDragEnd (DockItem item, bool cancelled)
+		{
+			Console.WriteLine ("DockMaster.OnDragEnd");
+		
+			if (item != request.Applicant)  {
+				Console.WriteLine ("Dragged item is not the same as the one we started with");
+				return;
+			}
+			
+			/* Erase previously drawn rectangle */
+			if (rectDrawn)
+				XorRect ();
+			
+			/* cancel conditions */
+			if (cancelled || request.Applicant == request.Target)
+				return;
+
+			request.Target.Dock (request.Applicant,
+					     request.Position,
+					     null);
+			
+			EmitLayoutChangedEvent ();
+		}
+		
+		private void OnDragMotion (DockItem item, int rootX, int rootY)
+		{
+			Console.WriteLine ("DockMaster.OnDragMotion");
+		
+			Dock dock = null;
+			int winX, winY;
+			int x, y;
+			bool mayDock = false;
+			DockRequest myRequest = request;
+
+			if (item != request.Applicant)  {
+				Console.WriteLine ("Dragged item is not the same as the one we started with");
+				return;
+			}
+			
+			/* first look under the pointer */
+			Gdk.Window window = Gdk.Window.AtPointer (out winX, out winY);
+			if (window != null) {
+				if (window.UserData == IntPtr.Zero) {
+					Console.WriteLine ("The Gdk.Window should contain the Widget owner");
+					return;
+				}
+				
+				/* ok, now get the widget who owns that window and see if we can
+				   get to a Dock by walking up the hierarchy */
+				Widget widget = GLib.Object.GetObject (window.UserData, false) as Widget;
+				while (widget != null && (!(widget is Dock) ||
+				       (widget is DockObject && ((DockObject)widget).Master != this)))
+					widget = widget.Parent;
+
+				if (widget != null) {
+					int winW, winH, depth;
+					
+					/* verify that the pointer is still in that dock
+					   (the user could have moved it) */
+					widget.GdkWindow.GetGeometry (out winX, out winY,
+								      out winW, out winH,
+								      out depth);
+					widget.GdkWindow.GetOrigin (out winX, out winY);
+					if (rootX >= winX && rootX < winX + winW &&
+					    rootY >= winY && rootY < winY + winH)
+						dock = widget as Dock;
+				}
+			}
+			
+			if (dock != null) {
+				/* translate root coordinates into dock object coordinates
+				   (i.e. widget coordinates) */
+				dock.GdkWindow.GetOrigin (out winX, out winY);
+				x = rootX - winX;
+				y = rootY - winY;
+				mayDock = dock.OnDockRequest (x, y, ref myRequest);
+			} else {
+				/* try to dock the item in all the docks in the ring in turn */
+				foreach (Dock topDock in toplevelDocks) {
+					/* translate root coordinates into dock object
+					   coordinates (i.e. widget coordinates) */
+					topDock.GdkWindow.GetOrigin (out winX, out winY);
+					x = rootX - winX;
+					y = rootY - winY;
+					mayDock = topDock.OnDockRequest (x, y, ref myRequest);
+					if (mayDock)
+						break;
+				}
+			}
+
+			if (!mayDock) {
+				dock = null;
+				
+				myRequest.Target = Dock.GetTopLevel (item);
+				myRequest.Position = DockPlacement.Floating;
+				
+				Gdk.Rectangle rect = new Gdk.Rectangle ();
+				rect.Width = item.PreferredWidth;
+				rect.Height = item.PreferredHeight;
+				rect.X = rootX - item.DragOffX;
+				rect.Y = rootY - item.DragOffY;
+				myRequest.Rect = rect;
+				myRequest.Extra = myRequest.Rect;
+			}
+			
+			if (!(myRequest.Rect.X == request.Rect.X &&
+			      myRequest.Rect.Y == request.Rect.Y &&
+			      myRequest.Rect.Width == request.Rect.Width &&
+			      myRequest.Rect.Height == request.Rect.Height &&
+			      dock == rectOwner)) {
+			      
+				/* erase the previous rectangle */
+				if (rectDrawn)
+					XorRect ();
+			}
+			
+			request = myRequest;
+			rectOwner = dock;
+			
+			/* draw the previous rectangle */
+			if (!rectDrawn)
+				XorRect ();
+		}
+
+		private void XorRect ()
+		{
+			Console.WriteLine ("DockMaster.XorRect");
+		
+			rectDrawn = !rectDrawn;
+
+			if (rectOwner != null) {
+				rectOwner.XorRect (request.Rect);
+				return;
+			}
+			
+			Gdk.Rectangle rect = request.Rect;
+			Gdk.Window window = Gdk.Global.DefaultRootWindow;
+			
+			if (rootXorGC == null) {
+				Gdk.GCValues values = new Gdk.GCValues ();
+				values.Function = Gdk.Function.Invert;
+				values.SubwindowMode = Gdk.SubwindowMode.IncludeInferiors;
+
+				rootXorGC = new Gdk.GC (window);
+				rootXorGC.SetValues (values, Gdk.GCValuesMask.Function |
+						     Gdk.GCValuesMask.Subwindow);
+			}
+			
+			rootXorGC.SetLineAttributes (1, Gdk.LineStyle.OnOffDash,
+						     Gdk.CapStyle.NotLast,
+						     Gdk.JoinStyle.Bevel);
+
+			rootXorGC.SetDashes (1, new sbyte[] {1, 1}, 2);
+			
+			window.DrawRectangle (rootXorGC, false, rect.X, rect.Y,
+					      rect.Width, rect.Height);
+			
+			rootXorGC.SetDashes (0, new sbyte[] {1, 1}, 2);
+
+			window.DrawRectangle (rootXorGC, false, rect.X + 1, rect.Y + 1,
+					      rect.Width - 2, rect.Height - 2);
 		}
 	}
 }

@@ -6,7 +6,7 @@ namespace Gdl
 {
 	public delegate void DockItemMotionHandler (DockItem o, int x, int y);
 	public delegate void DockItemDragBeginHandler (DockItem o);
-	public delegate void DockItemDragEndHandler (DockItem o, bool cancel);
+	public delegate void DockItemDragEndHandler (DockItem o, bool cancelled);
 	
 	public class DockItem : DockObject
 	{		
@@ -260,7 +260,7 @@ namespace Gdl
 			}
 
 			if (InDrag)
-				DockDragEnd (true);
+				EndDrag (true);
 			
 			widget.Unparent ();
 			Child = null;
@@ -492,7 +492,7 @@ namespace Gdl
 			} else if (evnt.Type == Gdk.EventType.ButtonRelease && evnt.Button == 1) {
 				if (InDrag) {
 					/* User dropped widget somewhere. */
-					DockDragEnd (false);
+					EndDrag (false);
 					eventHandled = true;
 				} else if (InPreDrag) {
 					DockObjectFlags &= ~(DockObjectFlags.InPreDrag);
@@ -529,7 +529,7 @@ namespace Gdl
 					DockObjectFlags &= ~(DockObjectFlags.InPreDrag);
 					dragoffX = startX;
 					dragoffY = startY;
-					DockDragStart ();
+					StartDrag ();
 				}
 			}
 			
@@ -538,28 +538,26 @@ namespace Gdl
 			
 			int newX = (int)evnt.XRoot;
 			int newY = (int)evnt.YRoot;
-			OnMotion (newX, newY);
+			
+			OnDragMotion (newX, newY);
+			DockItemMotionHandler handler = DockItemMotion;
+			if (handler != null)
+				handler (this, newX, newY);
 			
 			return true;
-		}
-		
-		protected void OnMotion (int x, int y)
-		{
-			if (DockItemMotion != null)
-				DockItemMotion (this, x, y);
 		}
 		
 		protected override bool OnKeyPressEvent (Gdk.EventKey evnt)
 		{
 			if (InDrag && evnt.Key == Gdk.Key.Escape) {
-				DockDragEnd (false);
+				EndDrag (false);
 				return true;
 			}
 			
 			return base.OnKeyPressEvent (evnt);
 		}
 		
-		public override bool OnDockRequest (int x, int y, DockRequest request)
+		public override bool OnDockRequest (int x, int y, ref DockRequest request)
 		{
 			Gdk.Rectangle alloc = Allocation;
 			int rel_x = x - alloc.X;
@@ -693,6 +691,18 @@ namespace Gdl
 				parent.Thaw ();
 		}
 		
+		protected virtual void OnDragBegin ()
+		{
+		}
+		
+		protected virtual void OnDragEnd (bool cancelled)
+		{
+		}
+		
+		protected virtual void OnDragMotion (int x, int y)
+		{
+		}
+		
 		private void DetachMenu (Widget item, Menu menu)
 		{
 			if (item is DockItem)
@@ -719,40 +729,36 @@ namespace Gdl
 			HideItem ();
 		}
 		
-		public void DockDragStart ()
+		private void StartDrag ()
 		{
-			Gdk.Cursor fleur = new Gdk.Cursor (Gdk.CursorType.Fleur);
-			
 			if (!IsRealized)
 				Realize ();
 			
 			DockObjectFlags |= DockObjectFlags.InDrag;
 			
+			/* grab the pointer so we receive all mouse events */
+			Gdk.Cursor fleur = new Gdk.Cursor (Gdk.CursorType.Fleur);
+			
+			/* grab the keyboard & pointer */
 			Grab.Add (this);
 			
 			OnDragBegin ();
+			DockItemDragBeginHandler handler = DockItemDragBegin;
+			if (handler != null)
+				handler (this);
 		}
 		
-		protected void OnDragBegin ()
+		private void EndDrag (bool cancel)
 		{
-			if (DockItemDragBegin != null)
-				DockItemDragBegin (this);
-		}
-		
-		public void DockDragEnd (bool cancel)
-		{
+			/* Release pointer & keyboard. */
 			Grab.Remove (Grab.Current);
 			
 			OnDragEnd (cancel);
+			DockItemDragEndHandler handler = DockItemDragEnd;
+			if (handler != null)
+				handler (this, cancel);
 			
 			DockObjectFlags &= ~(DockObjectFlags.InDrag);
-		}
-		
-		
-		protected void OnDragEnd (bool cancel)
-		{
-			if (DockItemDragEnd != null)
-				DockItemDragEnd (this, cancel);
 		}
 		
 		private void ShowHideGrip ()
@@ -834,17 +840,19 @@ namespace Gdl
 			
 			Freeze ();
 
+			/* hide our children first, so they can also set placeholders */
 			if (IsCompound)
-				Foreach (new Callback (HideItem));
+				Foreach (new Callback (HideChildItem));
 			
 			Detach (true);
 			Thaw ();
 		}
 		
-		public void HideItem (Widget widget)
+		private void HideChildItem (Widget widget)
 		{
 			if (!(widget is DockItem))
 				return;
+
 			DockItem item = widget as DockItem;
 			item.HideItem ();
 		}

@@ -217,7 +217,7 @@ namespace Gdl
 			}
 		}
 		
-		public virtual bool OnDockRequest (int x, int y, DockRequest request)
+		public virtual bool OnDockRequest (int x, int y, ref DockRequest request)
 		{
 			return false;
 		}
@@ -259,9 +259,10 @@ namespace Gdl
 			
 			DockObjectFlags |= DockObjectFlags.InDetach;
 			OnDetached (recursive);
-			if (Detached != null) {
+			DetachedHandler handler = Detached;
+			if (handler != null) {
 				DetachedArgs args = new DetachedArgs (recursive);
-				Detached (this, args);
+				handler (this, args);
 			}
 			DockObjectFlags &= ~(DockObjectFlags.InDetach);
 
@@ -373,7 +374,7 @@ namespace Gdl
 			
 			master.Add (this);
 			this.master = master;
-			//g_object_notify (G_OBJECT (object) /*this*/, "master");
+			EmitPropertyEvent ("Master");
 		}
 		
 		public void Unbind ()
@@ -385,7 +386,7 @@ namespace Gdl
 				DockMaster _master = master;
 				master = null;
 				_master.Remove (this);
-				//g_object_notify (G_OBJECT (object) /*this*/, "master");
+				EmitPropertyEvent ("Master");
 			}
 		}
 		

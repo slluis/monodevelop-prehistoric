@@ -10,62 +10,71 @@ namespace Gdl
 	{
 		private DockObject host;
 		private bool sticky;
-		private ArrayList placement_stack;
-		private int host_detach_handler;
-		private int host_dock_handler;
+		private ArrayList placementStack;
+		private int hostDetachHandler;
+		private int hostDockHandler;
 
 		protected DockPlaceholder (IntPtr raw) : base (raw) { }
 		
-		public DockPlaceholder ()
+		public DockPlaceholder (string name, DockObject obj,
+					DockPlacement position, bool sticky)
 		{
 			Flags |= (int)WidgetFlags.NoWindow;
 			Flags &= ~((int)WidgetFlags.CanFocus);
-		}
-		
-		public DockPlaceholder (string name, DockObject objekt, DockPlacement position, bool sticky) : this ()
-		{
+
 			Sticky = sticky;
 			Name = name;
-			if (objekt != null) {
-				Attach (objekt);
-				if (position == DockPlacement.None) {
+
+			if (obj != null) {
+				Attach (obj);
+
+				if (position == DockPlacement.None)
 					position = DockPlacement.Center;
-				}
+
 				NextPlacement = position;
-				if (objekt is Dock) {
+				if (obj is Dock)
 					NextPlacement = DockPlacement.Center;
-				}
+
 				DoExcursion ();
 			}
 		}
 		
-		public DockPlaceholder (DockObject objekt, bool sticky) : this (objekt.Name, objekt, DockPlacement.None, sticky)
-		{
-		}
-		
-		public bool Sticky {
-			get { return sticky; }
-			set { sticky = value; }
-		}
+		public DockPlaceholder (DockObject obj, bool sticky) :
+			this (obj.Name, obj, DockPlacement.None, sticky) { }
 		
 		public DockObject Host {
-			get { return host; }
-			set { Attach (value); }
+			get {
+				return host;
+			}
+			set {
+				Attach (value);
+				EmitPropertyEvent ("Host");
+			}
 		}
 		
 		public DockPlacement NextPlacement {
 			get {
-				if (placement_stack != null && placement_stack.Count != 0)
-					return (DockPlacement)placement_stack[0];
+				if (placementStack != null && placementStack.Count != 0)
+					return (DockPlacement)placementStack[0];
 				return DockPlacement.Center;
 			}
 			set { 
-				if (placement_stack == null)
-					placement_stack = new ArrayList ();
-				placement_stack.Insert (0, value);
+				if (placementStack == null)
+					placementStack = new ArrayList ();
+				placementStack.Insert (0, value);
 			}
 		}
 
+		public bool Sticky {
+			get {
+				return sticky;
+			}
+			set {
+				sticky = value;
+				EmitPropertyEvent ("Sticky");
+			}
+		}
+		
 		/*protected override void OnDestroyed ()
 		{
 			if (host != null)
@@ -77,13 +86,14 @@ namespace Gdl
 		{
 			if (!(widget is DockItem))
 				return;
+
 			Dock ((DockItem)widget, NextPlacement, null);
 		}
 		
 		public override void OnDetached (bool recursive)
 		{
 			DisconnectHost ();
-			placement_stack = null;
+			placementStack = null;
 			DockObjectFlags &= ~(DockObjectFlags.Attached);
 		}
 		
@@ -110,7 +120,7 @@ namespace Gdl
 		
 		public void DoExcursion ()
 		{
-			if (host != null && !Sticky && placement_stack != null && host.IsCompound) {
+			if (host != null && !Sticky && placementStack != null && host.IsCompound) {
 				DockPlacement pos;
 				DockPlacement stack_pos = NextPlacement;
 				foreach (Widget child in host.Children) {
@@ -121,7 +131,7 @@ namespace Gdl
 					
 					host.ChildPlacement (item, ref pos);
 					if (pos == stack_pos) {
-						placement_stack.RemoveAt (0);
+						placementStack.RemoveAt (0);
 						DisconnectHost ();
 						ConnectHost (item);
 						

@@ -293,7 +293,7 @@ namespace Gdl
 			}
 		}
 		
-		public override bool OnDockRequest (int x, int y, DockRequest request)
+		public override bool OnDockRequest (int x, int y, ref DockRequest request)
 		{
 			Gdk.Rectangle alloc = Allocation;
 			int bw = (int)BorderWidth;
@@ -339,7 +339,7 @@ namespace Gdl
 						req_rect.Height = (int)(req_rect.Height * 0.3);
 						my_request.Rect = req_rect;
 					} else {
-						may_dock = root.OnDockRequest (x, y, my_request);
+						may_dock = root.OnDockRequest (x, y, ref my_request);
 					}
 				}
 			}
