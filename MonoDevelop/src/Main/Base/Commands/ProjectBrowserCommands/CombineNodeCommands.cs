@@ -95,7 +95,7 @@ namespace MonoDevelop.Commands.ProjectBrowser
 				projectService.SaveCombine();
 				
 				// expand to the new node
-				\node.Nodes[newNodeIndex].Expand();
+				node.Nodes[newNodeIndex].Expand();
 			}
 			catch
 			{
