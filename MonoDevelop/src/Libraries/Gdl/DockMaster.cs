@@ -269,8 +269,6 @@ namespace Gdl
 		
 		private void OnDragEnd (DockItem item, bool cancelled)
 		{
-			Console.WriteLine ("DockMaster.OnDragEnd");
-		
 			if (item != request.Applicant)  {
 				Console.WriteLine ("Dragged item is not the same as the one we started with");
 				return;
@@ -297,7 +295,7 @@ namespace Gdl
 			int winX, winY;
 			int x, y;
 			bool mayDock = false;
-			DockRequest myRequest = request;
+			DockRequest myRequest = new DockRequest (request);
 
 			if (item != request.Applicant)  {
 				Console.WriteLine ("Dragged item is not the same as the one we started with");
@@ -331,6 +329,8 @@ namespace Gdl
 					if (rootX >= winX && rootX < winX + winW &&
 					    rootY >= winY && rootY < winY + winH)
 						dock = widget as Dock;
+				} else {
+					Console.WriteLine ("Gdk.Window does not contain the owner in the UserData field");
 				}
 			}
 			
@@ -360,20 +360,16 @@ namespace Gdl
 				
 				myRequest.Target = Dock.GetTopLevel (item);
 				myRequest.Position = DockPlacement.Floating;
-				
-				Gdk.Rectangle rect = new Gdk.Rectangle ();
-				rect.Width = item.PreferredWidth;
-				rect.Height = item.PreferredHeight;
-				rect.X = rootX - item.DragOffX;
-				rect.Y = rootY - item.DragOffY;
-				myRequest.Rect = rect;
-				myRequest.Extra = myRequest.Rect;
+				myRequest.Width = item.PreferredWidth;
+				myRequest.Height = item.PreferredHeight;
+				myRequest.X = rootX - item.DragOffX;
+				myRequest.Y = rootY - item.DragOffY;
 			}
 			
-			if (!(myRequest.Rect.X == request.Rect.X &&
-			      myRequest.Rect.Y == request.Rect.Y &&
-			      myRequest.Rect.Width == request.Rect.Width &&
-			      myRequest.Rect.Height == request.Rect.Height &&
+			if (!(myRequest.X == request.X &&
+			      myRequest.Y == request.Y &&
+			      myRequest.Width == request.Width &&
+			      myRequest.Height == request.Height &&
 			      dock == rectOwner)) {
 			      
 				/* erase the previous rectangle */
@@ -391,16 +387,17 @@ namespace Gdl
 
 		private void XorRect ()
 		{
-			Console.WriteLine ("DockMaster.XorRect");
-		
 			rectDrawn = !rectDrawn;
 
 			if (rectOwner != null) {
-				rectOwner.XorRect (request.Rect);
+				Gdk.Rectangle rect = new Gdk.Rectangle (request.X,
+								        request.Y,
+								        request.Width,
+								        request.Height);
+				rectOwner.XorRect (rect);
 				return;
 			}
 			
-			Gdk.Rectangle rect = request.Rect;
 			Gdk.Window window = Gdk.Global.DefaultRootWindow;
 			
 			if (rootXorGC == null) {
@@ -419,13 +416,14 @@ namespace Gdl
 
 			rootXorGC.SetDashes (1, new sbyte[] {1, 1}, 2);
 			
-			window.DrawRectangle (rootXorGC, false, rect.X, rect.Y,
-					      rect.Width, rect.Height);
+			window.DrawRectangle (rootXorGC, false, request.X, request.Y,
+					      request.Width, request.Height);
 			
 			rootXorGC.SetDashes (0, new sbyte[] {1, 1}, 2);
 
-			window.DrawRectangle (rootXorGC, false, rect.X + 1, rect.Y + 1,
-					      rect.Width - 2, rect.Height - 2);
+			window.DrawRectangle (rootXorGC, false, request.X + 1,
+					      request.Y + 1, request.Width - 2,
+					      request.Height - 2);
 		}
 	}
 }

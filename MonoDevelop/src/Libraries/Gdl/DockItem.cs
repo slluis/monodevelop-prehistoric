@@ -601,35 +601,34 @@ namespace Gdl
 				}
 				
 				/* Reset rectangle coordinates to entire item. */
-				Gdk.Rectangle reqRect = new Gdk.Rectangle ();
-				reqRect.X = 0;
-				reqRect.Y = 0;
-				reqRect.Width = alloc.Width;
-				reqRect.Height = alloc.Height;
+				request.X = 0;
+				request.Y = 0;
+				request.Width = alloc.Width;
+				request.Height = alloc.Height;
 				
 				/* Calculate docking indicator rectangle size for new locations.
 				   Only do this when we're not over the item's current location. */
 				if (request.Applicant != this) {
 					switch (request.Position) {
 					case DockPlacement.Top:
-						reqRect.Height = (int)(reqRect.Height * SplitRatio);
+						request.Height = (int)(request.Height * SplitRatio);
 						break;
 					case DockPlacement.Bottom:
-						reqRect.Y += (int)(reqRect.Height * (1 - SplitRatio));
-						reqRect.Height = (int)(reqRect.Height * SplitRatio);
+						request.Y += (int)(request.Height * (1 - SplitRatio));
+						request.Height = (int)(request.Height * SplitRatio);
 						break;
 					case DockPlacement.Left:
-						reqRect.Width = (int)(reqRect.Width * SplitRatio);
+						request.Width = (int)(request.Width * SplitRatio);
 						break;
 					case DockPlacement.Right:
-						reqRect.X += (int)(reqRect.Width * (1 - SplitRatio));
-						reqRect.Width = (int)(reqRect.Width * SplitRatio);
+						request.X += (int)(request.Width * (1 - SplitRatio));
+						request.Width = (int)(request.Width * SplitRatio);
 						break;
 					case DockPlacement.Center:
-						reqRect.X = (int)(reqRect.Width * SplitRatio / 2);
-						reqRect.Y = (int)(reqRect.Height * SplitRatio / 2);
-						reqRect.Width = (int)(reqRect.Width * (1 - SplitRatio / 2)) - reqRect.X;
-						reqRect.Height = (int)(reqRect.Height * (1 - SplitRatio / 2)) - reqRect.Y;
+						request.X = (int)(request.Width * SplitRatio / 2);
+						request.Y = (int)(request.Height * SplitRatio / 2);
+						request.Width = (int)(request.Width * (1 - SplitRatio / 2)) - request.X;
+						request.Height = (int)(request.Height * (1 - SplitRatio / 2)) - request.Y;
 						break;
 					default:
 						break;
@@ -638,14 +637,13 @@ namespace Gdl
 				
 				/* adjust returned coordinates so they are have the same
 				   origin as our window */
-				reqRect.X += alloc.X;
-				reqRect.Y += alloc.Y;
+				request.X += alloc.X;
+				request.Y += alloc.Y;
 				
 				/* Set possible target location and return true. */
 				request.Target = this;
 
 				/* fill-in other dock information */
-				request.Rect = reqRect;
 				if (request.Position != DockPlacement.Center && divider >= 0)
 					request.Extra = divider;
 

@@ -308,8 +308,6 @@ namespace Gdl
 			int relX = x - alloc.X;
 			int relY = y - alloc.Y;
 
-			DockRequest myRequest = new DockRequest (request);
-
 			/* Check if coordinates are in GdlDock widget. */
 			if (relX > 0 && relX < alloc.Width &&
 			    relY > 0 && relY < alloc.Height) {
@@ -318,55 +316,41 @@ namespace Gdl
 				mayDock = true;
 
 				/* Set docking indicator rectangle to the Dock size. */
-				Gdk.Rectangle reqRect = new Gdk.Rectangle ();
-				reqRect.X = alloc.X + bw;
-				reqRect.Y = alloc.Y + bw;
-				reqRect.Width = alloc.Width - 2 * bw;
-				reqRect.Height = alloc.Height - 2 * bw;
-				myRequest.Rect = reqRect;
+				request.X = alloc.X + bw;
+				request.Y = alloc.Y + bw;
+				request.Width = alloc.Width - 2 * bw;
+				request.Height = alloc.Height - 2 * bw;
 				
 				/* If Dock has no root item yet, set the dock
 				   itself as possible target. */
 				if (root == null) {
-					myRequest.Position = DockPlacement.Top;
-					myRequest.Target = this;
+					request.Position = DockPlacement.Top;
+					request.Target = this;
 				} else {
-					myRequest.Target = root;
+					request.Target = root;
 					
 					/* See if it's in the BorderWidth band. */
 					if (relX < bw) {
-						myRequest.Position = DockPlacement.Left;
-						reqRect.Width = (int)(reqRect.Width * SplitRatio);
-						myRequest.Rect = reqRect;
+						request.Position = DockPlacement.Left;
+						request.Width = (int)(request.Width * SplitRatio);
 					} else if (relX > alloc.Width - bw) {
-						myRequest.Position = DockPlacement.Right;
-						reqRect.X += (int)(reqRect.Width * (1 - SplitRatio));
-						reqRect.Width = (int)(reqRect.Width * SplitRatio);
-						myRequest.Rect = reqRect;
+						request.Position = DockPlacement.Right;
+						request.X += (int)(request.Width * (1 - SplitRatio));
+						request.Width = (int)(request.Width * SplitRatio);
 					} else if (relY < bw) {
-						myRequest.Position = DockPlacement.Top;
-						reqRect.Height = (int)(reqRect.Height * SplitRatio);
-						myRequest.Rect = reqRect;
+						request.Position = DockPlacement.Top;
+						request.Height = (int)(request.Height * SplitRatio);
 					} else if (relY > alloc.Height - bw) {
-						myRequest.Position = DockPlacement.Bottom;
-						reqRect.Y += (int)(reqRect.Height * (1 - SplitRatio));
-						reqRect.Height = (int)(reqRect.Height * SplitRatio);
-						myRequest.Rect = reqRect;
+						request.Position = DockPlacement.Bottom;
+						request.Y += (int)(request.Height * (1 - SplitRatio));
+						request.Height = (int)(request.Height * SplitRatio);
 					} else {
 						/* Otherwise try our children. */
 						/* give them allocation coordinates
 						   (we are a NoWindow widget) */
-						mayDock = root.OnDockRequest (x, y, ref myRequest);
+						mayDock = root.OnDockRequest (x, y, ref request);
 					}
 				}
-			}
-			
-			if (mayDock && request != null) {
-				request.Applicant = myRequest.Applicant;
-				request.Target = myRequest.Target;
-				request.Position = myRequest.Position;
-				request.Rect = myRequest.Rect;
-				request.Extra = myRequest.Extra;
 			}
 			
 			return mayDock;

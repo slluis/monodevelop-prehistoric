@@ -162,8 +162,6 @@ namespace Gdl
 			int relX = x - alloc.X;
 			int relY = y - alloc.Y;
 			
-			DockRequest myRequest = new DockRequest (request);
-			
 			/* Location is inside. */
 			if (relX > 0 && relX < alloc.Width &&
 			    relY > 0 && relY < alloc.Width) {
@@ -177,38 +175,82 @@ namespace Gdl
 				Requisition my = DockItem.PreferredSize (this);
 				
 				/* Set docking indicator rectangle to the Dock size. */
-				Gdk.Rectangle reqRect = new Gdk.Rectangle ();
-				reqRect.X = alloc.X + bw;
-				reqRect.Y = alloc.Y + bw;
-				reqRect.Width = alloc.Width - 2 * bw;
-				reqRect.Height = alloc.Height - 2 * bw;
-				myRequest.Rect = reqRect;
-				
-				myRequest.Target = this;
+				request.X = alloc.X + bw;
+				request.Y = alloc.Y + bw;
+				request.Width = alloc.Width - 2 * bw;
+				request.Height = alloc.Height - 2 * bw;
+				request.Target = this;
 
-				/* See if it's in the border_width band. */
-				/*if (relX < bw) {
-					myRequest.Position = DockPlacement.Left;
-					myRequest.Rect.Width = myRequest.Rect.Width * SplitRatio;
+				/* See if it's in the BorderWidth band. */
+				if (relX < bw) {
+					request.Position = DockPlacement.Left;
+					request.Width = (int)(request.Width * SplitRatio);
 					divider = other.Width;
-				} else if (relX > alloc->Width - bw) {
-					myRequest.Position = DockPlacement.Right;
-					myRequest.Rect.X += myRequest.Rect.Width * (1 - SplitRatio);
-					myRequest.Rect.Width *= SplitRatio;
+				} else if (relX > alloc.Width - bw) {
+					request.Position = DockPlacement.Right;
+					request.X += (int)(request.Width * (1 - SplitRatio));
+					request.Width = (int)(request.Width * SplitRatio);
 					divider = Math.Max (0, my.Width - other.Width);
 				} else if (relY < bw) {
-					myRequest.Position = DockPlacement.Top;
-					myRequest.Rect.Height *= SplitRatio;
+					request.Position = DockPlacement.Top;
+					request.Height = (int)(request.Height * SplitRatio);
 					divider = other.Height;
-				} else if (relY > alloc->Height - bw) {
-					myRequest.Position = DockPlacement.Bottom;
-					myRequest.Rect.Y += myRequest.Rect.Height * (1 - SplitRatio);
-					myRequest.Rect.Height *= SplitRatio;
+				} else if (relY > alloc.Height - bw) {
+					request.Position = DockPlacement.Bottom;
+					request.Y += (int)(request.Height * (1 - SplitRatio));
+					request.Height = (int)(request.Height * SplitRatio);
 					divider = Math.Max (0, my.Height - other.Height);
 				} else { /* Otherwise try our children. */
-				//}
+					mayDock = false;
+					DockRequest myRequest = new DockRequest (request);
+					foreach (DockObject item in Children) {
+						if (item.OnDockRequest (relX, relY, ref myRequest)) {
+							mayDock = true;
+							request = myRequest;
+							break;
+						}
+					}
+					
+					if (!mayDock) {
+						/* the pointer is on the handle, so snap
+						   to top/bottom or left/right */
+						mayDock = true;
+						
+						if (Orientation == Orientation.Horizontal) {
+							if (relY < alloc.Height / 2) {
+								request.Position = DockPlacement.Top;
+								request.Height = (int)(request.Height * SplitRatio);
+								divider = other.Height;
+							} else {
+								request.Position = DockPlacement.Bottom;
+								request.Y += (int)(request.Height * (1 - SplitRatio));
+								request.Height = (int)(request.Height * SplitRatio);
+								divider = Math.Max (0, my.Height - other.Height);
+							}
+						} else {
+							if (relX < alloc.Width / 2) {
+								request.Position = DockPlacement.Left;
+								request.Width = (int)(request.Width * SplitRatio);
+								divider = other.Width;
+							} else {
+								request.Position = DockPlacement.Right;
+								request.X += (int)(request.Width * (1 - SplitRatio));
+								request.Width = (int)(request.Width * SplitRatio);
+								divider = Math.Max (0, my.Width - other.Width);
+							}
+						}
+					}
+				}
+
+				if (mayDock) {				
+					/* adjust returned coordinates so they are
+					   relative to our allocation */
+					request.X += alloc.X;
+					request.Y += alloc.Y;
+				}
 			}
-			return true;
+
+			return mayDock;
 		}
 	}
 }

@@ -11,20 +11,24 @@ namespace Gdl
 		private DockObject applicant;
 		private DockObject target;
 		private DockPlacement position;
-		private Rectangle rect;
+		private int x, y, width, height;
 		private object extra;
-		
-		public DockRequest (DockRequest copy)
-		{
-			this.applicant = copy.Applicant;
-			this.target = copy.Target;
-			this.position = copy.Position;
-			this.rect = copy.Rect;
-			this.extra = copy.Extra;
-		}
 		
 		public DockRequest ()
 		{
+		}
+		
+		public DockRequest (DockRequest copy)
+		{
+			applicant = copy.Applicant;
+			target = copy.Target;
+			x = copy.X;
+			y = copy.Y;
+			width = copy.Width;
+			height = copy.Height;
+			position = copy.Position;
+			
+			extra = copy.Extra;
 		}
 		
 		public DockObject Applicant {
@@ -41,12 +45,43 @@ namespace Gdl
 			get { return position; }
 			set { position = value; }
 		}
-		
-		public Rectangle Rect {
-			get { return rect; }
-			set { rect = value; }
+
+		public int X {
+			get {
+				return x;
+			}
+			set {
+				x = value;
+			}
 		}
 		
+		public int Y {
+			get {
+				return y;
+			}
+			set {
+				y = value;
+			}
+		}
+		
+		public int Width {
+			get {
+				return width;
+			}
+			set {
+				width = value;
+			}
+		}
+		
+		public int Height {
+			get {
+				return height;
+			}
+			set {
+				height = value;
+			}
+		}
+						
 		public object Extra {
 			get { return extra; }
 			set { extra = value; }
