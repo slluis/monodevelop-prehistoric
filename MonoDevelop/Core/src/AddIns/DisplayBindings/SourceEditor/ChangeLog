@@ -1,3 +1,12 @@
+2005-04-05  John Luke  <john.luke@gmail.com>
+
+	* Gui/OptionPanels/SyntaxHighlightingPanel.cs:
+	fix two buglets with the sensitivity of restore
+	apparently we have to set .IsDefault to false ourselves
+	and update the toggle/colorbutton when it is restored
+	* Services/SourceViewService.cs: add is_default to
+	store/restore
+	
 2005-04-02  John Luke  <john.luke@gmail.com>
 
 	* EditorBindings.glade: add glade part of new Panel

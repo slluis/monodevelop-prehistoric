@@ -114,6 +114,7 @@ namespace MonoDevelop.EditorBindings.Gui.OptionPanels
 				sts.Italic = italicToggle.Active;
 				sts.Underline = underlineToggle.Active;
 				sts.Strikethrough = strikeToggle.Active;
+				sts.IsDefault = false;
 				currentLanguage.SetTagStyle (styleid, sts);
 				restoreDefaultButton.Sensitive = true;
 			}
@@ -123,6 +124,7 @@ namespace MonoDevelop.EditorBindings.Gui.OptionPanels
 				SourceTagStyle sts = currentStyle;
 				sts.Foreground = fgColorButton.Color;
 				sts.Background = bgColorButton.Color;
+				sts.IsDefault = false;
 				currentLanguage.SetTagStyle (styleid, sts);
 				restoreDefaultButton.Sensitive = true;
 			}
@@ -144,7 +146,7 @@ namespace MonoDevelop.EditorBindings.Gui.OptionPanels
 			private void OnRestoreClicked (object sender, EventArgs a)
 			{
 				currentLanguage = svs.RestoreDefaults (currentLanguage);
-				SetSourceTagStyle ();
+				OnStyleChanged (stylesTreeView.Selection, EventArgs.Empty);
 			}
 
 			private void OnStyleChanged (object sender, EventArgs a)

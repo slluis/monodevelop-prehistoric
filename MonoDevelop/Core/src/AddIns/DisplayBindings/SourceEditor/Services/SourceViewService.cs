@@ -57,6 +57,7 @@ namespace MonoDevelop.Services
 							sts.Italic = bool.Parse (reader.GetAttribute ("italic"));
 							sts.Underline = bool.Parse (reader.GetAttribute ("underline"));
 							sts.Strikethrough = bool.Parse (reader.GetAttribute ("strikethrough"));
+							sts.IsDefault = bool.Parse (reader.GetAttribute ("is_default"));
 							ParseColor (reader.GetAttribute ("foreground"), ref sts.Foreground);
 							ParseColor (reader.GetAttribute ("background"), ref sts.Background);
 							lang.SetTagStyle (name, sts);
@@ -139,6 +140,10 @@ namespace MonoDevelop.Services
 
 					writer.WriteStartAttribute (null, "background", null);
 						writer.WriteString (tag.TagStyle.Background.ToString ());
+					writer.WriteEndAttribute ();
+
+					writer.WriteStartAttribute (null, "is_default", null);
+						writer.WriteString (tag.TagStyle.IsDefault.ToString ());
 					writer.WriteEndAttribute ();
 
 					writer.WriteEndElement ();
