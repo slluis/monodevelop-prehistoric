@@ -48,8 +48,6 @@ namespace MonoDevelop.Gui
 		DragNotebook tabControl;
 		EventHandler contextChangedHandler;
 
-		ArrayList _windows = new ArrayList ();
-
 		public SdiWorkbenchLayout () {
 			contextChangedHandler = new EventHandler (onContextChanged);
 		}
@@ -59,7 +57,7 @@ namespace MonoDevelop.Gui
 				if (tabControl == null || tabControl.CurrentPage < 0 || tabControl.CurrentPage >= tabControl.NPages)  {
 					return null;
 				}
-				return (IWorkbenchWindow)_windows[tabControl.CurrentPage];
+				return (IWorkbenchWindow)workbench.ViewContentCollection[tabControl.CurrentPage].WorkbenchWindow;
 			}
 		}
 		
@@ -98,6 +96,7 @@ namespace MonoDevelop.Gui
 			tabControl.Scrollable = true;
 			tabControl.ShowTabs = false;
 			tabControl.SwitchPage += new SwitchPageHandler (ActiveMdiChanged);
+			tabControl.OnTabsReordered += new TabsReorderedHandler (TabsReordered);
 			DockItem item = new DockItem ("Documents", "Documents",
 						      DockItemBehavior.Locked);
 			item.PreferredWidth = -2;
@@ -138,6 +137,16 @@ namespace MonoDevelop.Gui
 			wbWindow.ShowAll ();
 
 			workbench.ContextChanged += contextChangedHandler;
+		}
+
+		void TabsReordered (Widget widget, int oldPlacement, int newPlacement)
+		{
+			lock (workbench.ViewContentCollection) {
+				IViewContent content = workbench.ViewContentCollection[oldPlacement];
+				workbench.ViewContentCollection.RemoveAt (oldPlacement);
+				workbench.ViewContentCollection.Insert (newPlacement, content);
+				
+			}
 		}
 
 		void onContextChanged (object o, EventArgs e)
@@ -408,8 +417,6 @@ namespace MonoDevelop.Gui
 
 			sdiWorkspaceWindow.CloseEvent += new EventHandler(CloseWindowEvent);
 			//sdiWorkspaceWindow.SwitchView(tabControl.Children.Length - 1);
-			_windows.Add (sdiWorkspaceWindow);
-		
 			tabControl.AppendPage (sdiWorkspaceWindow, tabLabel);
 		
 			if (tabControl.NPages > 1)
@@ -435,13 +442,12 @@ namespace MonoDevelop.Gui
 				}
 			}
 			if (pageNum != -1) {
-				((SdiWorkspaceWindow)_windows [pageNum]).CloseWindow (false, false, pageNum);
+				workbench.ViewContentCollection [pageNum].WorkbenchWindow.CloseWindow (false, false, pageNum);
 			}
 		}
 
 		public void RemoveTab (int pageNum) {
 			tabControl.RemovePage (pageNum);
-			_windows.RemoveAt (pageNum);
 			if (tabControl.NPages == 1)
 				tabControl.ShowTabs = false;
 		}

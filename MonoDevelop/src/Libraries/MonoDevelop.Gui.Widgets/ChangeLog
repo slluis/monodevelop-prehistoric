@@ -1,3 +1,9 @@
+2004-06-18  Todd Berman  <tberman@sevenl.net>
+
+	* DragNotebook/DragNotebook.cs: add an event that gets fired when
+	a tab is reordered.
+	* TabLabel/TabLabel.cs: try to make this widget unfocusable (untested)
+
 2004-06-17  John Luke  <jluke@cfl.rr.com>
 
 	* FileSelector/FileSelector.cs: a thin wrapper for selecting files

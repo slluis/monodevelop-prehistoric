@@ -16,13 +16,16 @@ using Gdk;
 }*/
 namespace MonoDevelop.Gui.Widgets 
 {
+
+	public delegate void TabsReorderedHandler (Widget widget, int oldPlacement, int newPlacement);
+
 	public class DragNotebook : Notebook {
 		protected bool draginprogress = false;
 		protected int srcpage;
 		protected double xstart;
 		protected double ystart;
 		protected Cursor cursor;
-		
+
 		public DragNotebook ()
 		{
 			this.ButtonPressEvent += new ButtonPressEventHandler (ButtonPressCallback);
@@ -76,10 +79,7 @@ namespace MonoDevelop.Gui.Widgets
 			return -1;
 		}
 		
-		protected void OnTabsReordered ()
-		{
-			
-		}
+		public event TabsReorderedHandler OnTabsReordered;
 		
 		[GLib.ConnectBefore]
 		protected void MotionNotifyCallback (object obj, MotionNotifyEventArgs args)
@@ -114,6 +114,8 @@ namespace MonoDevelop.Gui.Widgets
 				curpage = this.GetNthPage (curpagenum);
 				tab = this.GetTabLabel (curpage);
 				this.ReorderChild (CurrentPageWidget, destpagenum);
+				if (OnTabsReordered != null)
+					OnTabsReordered (CurrentPageWidget, curpagenum, destpagenum);
 			}
 		}
 		
@@ -137,7 +139,7 @@ namespace MonoDevelop.Gui.Widgets
 		protected void DragStop ()
 		{
 			if (draginprogress) {
-				OnTabsReordered();
+				//OnTabsReordered();
 			}
 			
 			draginprogress = false;

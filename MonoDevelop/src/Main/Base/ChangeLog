@@ -1,3 +1,10 @@
+2004-06-18  Todd Berman  <tberman@off.net>
+
+	* Commands/MenuItemBuilders.cs: clean up accel path code.
+	* Gui/Workbench/Layouts/SdiWorkspaceLayout.cs: reduce code complexity
+	by removing the extra ArrayList. Also properly use the tab reordering
+	event, closes bug #60356.
+
 2004-06-17  John Luke  <jluke@cfl.rr.com>
 
 	* Commands/ProjectBrowserCommands/ResourceFolderNodeCommands.cs:

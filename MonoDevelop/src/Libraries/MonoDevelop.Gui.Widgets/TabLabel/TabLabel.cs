@@ -17,7 +17,7 @@ namespace MonoDevelop.Gui.Widgets
 		private Gtk.Image icon;
 		private Button btn;
 		
-		public TabLabel (Label label, Gtk.Image icon) : base (GType)
+		public TabLabel (Label label, Gtk.Image icon) : base (false, 2)
 		{
 			this.icon = icon;
 			this.PackStart (icon, false, true, 2);
@@ -30,6 +30,7 @@ namespace MonoDevelop.Gui.Widgets
 			btn.Relief = ReliefStyle.None;
 			btn.SetSizeRequest (18, 18);
 			this.PackStart (btn, false, false, 2);
+			this.ClearFlag (WidgetFlags.CanFocus);
 
 			this.ShowAll ();
 		}
@@ -49,16 +50,6 @@ namespace MonoDevelop.Gui.Widgets
 		public Button Button
 		{
 			get { return btn; }
-		}
-		
-		public static new GLib.GType GType
-		{
-			get
-			{
-				if (gtype == GLib.GType.Invalid)
-					gtype = RegisterGType (typeof (TabLabel));
-				return gtype;
-			}
 		}
 	}
 }

@@ -1,5 +1,12 @@
+2004-06-18  Todd Berman  <tberman@off.net>
+
+	* configure.in: change how we reference the debugger stuff, to make
+	it a bit saner. Also cleanup (by making dirtier) the PKG check stuff.
+
 2004-06-14  Francisco "Paco" Martinez <paco@mfcon.com>
-	* monodevelop.in -- added a missing space before an enclosing square bracket
+	
+	* monodevelop.in: 
+	added a missing space before an enclosing square bracket
 
 2004-06-14  Peter Johanson <latexer@gentoo.org>
 

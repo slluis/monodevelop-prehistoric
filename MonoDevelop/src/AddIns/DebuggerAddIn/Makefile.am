@@ -4,7 +4,7 @@ ASSEMBLY = MonoDevelop.Debugger.dll
 ADDIN = $(srcdir)/MonoDevelopDebugger.addin.xml
 
 DLLS = $(BASE_DEPENDENCIES_LIBS) \
-	/r:$(debugger_prefix)/lib/Mono.Debugger.dll \
+	$(MONO_DEBUGGER_LIBS) \
 	/r:../../../build/bin/MonoDevelop.Base.dll \
 	/r:../../../build/bin/MonoDevelop.Core.dll
 
