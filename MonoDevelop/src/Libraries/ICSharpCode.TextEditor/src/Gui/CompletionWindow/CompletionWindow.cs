@@ -185,8 +185,6 @@ namespace ICSharpCode.TextEditor.Gui.CompletionWindow
 			listView.FocusOutEvent += new FocusOutEventHandler(LostFocusListView);
 			listView.RowActivated += new RowActivatedHandler(ActivateItem);
 			listView.AddEvents ((int) (Gdk.EventMask.KeyPressMask));
-			listView.Selection.Changed += new EventHandler (RowActivated);
-			//listView.SelectedIndexChanged += new EventHandler(SelectedIndexChanged);
 
 			/*
 			Panel buttonPanel = new Panel();
@@ -217,6 +215,7 @@ namespace ICSharpCode.TextEditor.Gui.CompletionWindow
 			int tx, ty;
 			control.ActiveTextAreaControl.TextArea.GdkWindow.GetOrigin(out tx, out ty);
 			Move(tx + visualPos.X, ty + visualPos.Y);
+			listView.Selection.Changed += new EventHandler (RowActivated);
 			ShowAll ();
 		}
 		string fileName;
@@ -301,7 +300,7 @@ namespace ICSharpCode.TextEditor.Gui.CompletionWindow
 				listView.TreeToWidgetCoords (rect.x, rect.y, out x, out y);
 				
 				int listpos_x, listpos_y;
-				listView.GdkWindow.GetOrigin (out listpos_x, out listpos_y);
+				GetPosition (out listpos_x, out listpos_y);
 				int vert = listpos_y + rect.y;
 
 				if (vert > listpos_y + listView.GdkWindow.Size.Height) {
