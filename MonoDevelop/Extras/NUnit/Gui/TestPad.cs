@@ -20,9 +20,13 @@ namespace MonoDevelop.NUnit
 		TreeStore store;
 		Hashtable iters;
 		TestSuite rootTestSuite;
+
+		IStatusBarService statusBarService;
 		NUnitService nunitService;
 
 		int currentTest, totalTests;
+
+		event FixtureAddedEventHandler FixtureAddedEvent;
 
 		public TestPad () : base ("NUnit")
 		{
@@ -34,9 +38,12 @@ namespace MonoDevelop.NUnit
 			// color, name
 			store = new TreeStore (typeof (Gdk.Pixbuf), typeof (string));
 
+			// services
+			statusBarService = ServiceManager.GetService (typeof (IStatusBarService)) as IStatusBarService;
 			nunitService = ServiceManager.GetService (typeof (NUnitService)) as NUnitService;
 
 			// register events
+			this.FixtureAddedEvent += OnFixtureAdded;
 			nunitService.AssemblyLoaded += OnAssemblyLoaded;
 			nunitService.TestFinishedEvent += OnTestFinished;
 		}
@@ -96,13 +103,29 @@ namespace MonoDevelop.NUnit
 
 				if (t.IsSuite)
 					AddTestSuite (next, (TestSuite) t);
-				// FIXME: else fixture addevent
+				else if (FixtureAddedEvent != null)
+					FixtureAddedEvent (this, new FixtureAddedEventArgs (++ currentTest, totalTests));
 			}
 		}
 
 		void OnAssemblyLoaded (object sender, EventArgs a)
 		{
 			GLib.Idle.Add (new GLib.IdleHandler (Populate));
+		}
+
+		void OnFinishedLoad (object sender, EventArgs a)
+		{
+			string msg = String.Format (GettextCatalog.GetString ("{0} tests loaded."), totalTests);
+			statusBarService.SetProgressFraction (0.0);
+			statusBarService.SetMessage (msg);
+			// FIXME: set run menu items sensitive
+		}
+
+		void OnFixtureAdded (object sender, FixtureAddedEventArgs a)
+		{
+			string msg = String.Format (GettextCatalog.GetString ("Loading test {0} of {1}"), a.Current, a.Total);
+			statusBarService.SetProgressFraction (a.Current / a.Total);
+			statusBarService.SetMessage (msg);
 		}
 
 		void OnRowActivated (object sender, RowActivatedArgs a)
@@ -129,7 +152,7 @@ namespace MonoDevelop.NUnit
 			currentTest = 0;
 			totalTests = rootTestSuite.CountTestCases ();
 			AddTestSuite (root, rootTestSuite);
-			//OnFinishedLoad
+			OnFinishedLoad (null, null);
 
 			view.Model = store;
 			return false;

@@ -10,6 +10,7 @@ namespace MonoDevelop.Services
 	public class NUnitService : AbstractService, EventListener
 	{
 		Assembly asm;
+		bool running = false;
 
 		public event EventHandler AssemblyLoaded;
 		public event EventHandler FixtureLoadError;
@@ -81,7 +82,13 @@ namespace MonoDevelop.Services
 
 		public void RunTest (Test test)
 		{
+			if (running) {
+				Console.WriteLine ("already running a test");
+				return;
+			}
+			running = true;
 			test.Run (this);
+			running = false;
 		}
 
 		public void SuiteFinished (TestSuiteResult result)
