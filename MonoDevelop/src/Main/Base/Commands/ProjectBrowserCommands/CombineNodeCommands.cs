@@ -38,8 +38,10 @@ namespace MonoDevelop.Commands.ProjectBrowser
 			CombineBrowserNode node    = browser.SelectedNode as CombineBrowserNode;
 			
 			if (node != null) {
-				NewProjectDialog npdlg = new NewProjectDialog(false);
-				if (npdlg.Run() == (int)Gtk.ResponseType.Ok) {
+				NewProjectDialog npdlg;
+				int response;				
+				while( (response = (npdlg = new NewProjectDialog(false)).Run())  == (int)Gtk.ResponseType.Reject ) 				
+					if (response /*npdlg.Run()*/ == (int)Gtk.ResponseType.Ok) {
 					node.Nodes.Add(ProjectBrowserView.BuildProjectTreeNode((IProject)node.Combine.AddEntry(npdlg.NewProjectLocation)));
 					projectService.SaveCombine();
 				}

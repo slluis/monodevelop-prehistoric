@@ -196,11 +196,33 @@ namespace MonoDevelop.Gui.Dialogs {
 			string solution = txt_subdirectory.Text;
 			string name     = txt_name.Text;
 			string location = entry_location.Path;
+
+			IProjectService projService = (IProjectService)ServiceManager.Services.GetService(typeof(IProjectService));			
+						
+			if(solution.Equals("")) solution = name; //This was empty when adding after first combine
+			
+			//The one below seemed to be failing sometimes.
+			if(solution.IndexOfAny("$#@!%^&*/?\\|'\";:}{".ToCharArray()) > -1) {
+				messageService.ShowError("Illegal project name. \nOnly use letters, digits, space, '.' or '_'.");
+				dialog.Respond(Gtk.ResponseType.Reject);
+				dialog.Hide();
+				return;
+			}
+
 			if ((solution != null && solution.Trim () != "" 
 				&& (!fileUtilityService.IsValidFileName (solution) || solution.IndexOf(System.IO.Path.DirectorySeparatorChar) >= 0)) ||
 			    !fileUtilityService.IsValidFileName(name)     || name.IndexOf(System.IO.Path.DirectorySeparatorChar) >= 0 ||
 			    !fileUtilityService.IsValidFileName(location)) {
 				messageService.ShowError("Illegal project name.\nOnly use letters, digits, space, '.' or '_'.");
+				dialog.Respond(Gtk.ResponseType.Reject);
+				dialog.Hide();
+				return;
+			}
+
+			if(projService.ExistsEntryWithName(name)) {
+				messageService.ShowError("A Project with that name is already in your Project Space");
+				dialog.Respond(Gtk.ResponseType.Reject);
+				dialog.Hide();
 				return;
 			}
 			
@@ -234,6 +256,7 @@ namespace MonoDevelop.Gui.Dialogs {
 					NewProjectLocation = System.IO.Path.ChangeExtension(NewCombineLocation, ".prjx");
 					
 					//DialogResult = DialogResult.OK;
+					dialog.Respond(Gtk.ResponseType.Ok);
 					dialog.Hide ();
 
 #if false // from .98
