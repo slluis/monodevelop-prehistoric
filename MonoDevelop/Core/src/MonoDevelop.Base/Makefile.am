@@ -216,6 +216,13 @@ Services/ParserService/ClassProxy.cs \
 Services/ParserService/AssemblyInformation.cs \
 Services/ParserService/ParseInformation.cs \
 Services/ParserService/ClassInformationEventHandler.cs \
+Services/ParserService/AssemblyCodeCompletionDatabase.cs \
+Services/ParserService/ClassEntry.cs \
+Services/ParserService/FileEntry.cs \
+Services/ParserService/NamespaceEntry.cs \
+Services/ParserService/ProjectCodeCompletionDatabase.cs \
+Services/ParserService/SimpleCodeCompletionDatabase.cs \
+Services/ParserService/ReferenceEntry.cs \
 Services/ResourceService.cs \
 Services/StockIcons.cs \
 Services/MessageService.cs \

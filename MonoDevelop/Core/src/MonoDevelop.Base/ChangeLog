@@ -1,3 +1,16 @@
+2005-01-27  Lluis Sanchez Gual  <lluis@novell.com>
+
+	* Services/ParserService/CodeCompletionDatabase.cs: Moved classes to
+	their own files, which are the following:
+	
+	* Services/ParserService/AssemblyCodeCompletionDatabase.cs:
+	* Services/ParserService/ClassEntry.cs:
+	* Services/ParserService/FileEntry.cs:
+	* Services/ParserService/NamespaceEntry.cs:
+	* Services/ParserService/ProjectCodeCompletionDatabase.cs:
+	* Services/ParserService/SimpleCodeCompletionDatabase.cs:
+	* Services/ParserService/ReferenceEntry.cs: New files.
+
 2005-01-27  Christian Hergert <chris@mosaix.net>
  
         * Gui/Pads/HelpBrowser/MonodocTreePad.cs: Fix to use new ShowView in

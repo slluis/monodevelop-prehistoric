@@ -1,12 +1,33 @@
-// <file>
-//     <copyright see="prj:///doc/copyright.txt"/>
-//     <license see="prj:///doc/license.txt"/>
-//     <owner name="Lluis Sanchez Gual" email="lluis@ximian.com"/>
-//     <version value="$version"/>
-// </file>
+//
+// CodeCompletionDatabase.cs
+//
+// Author:
+//   Lluis Sanchez Gual
+//
+// Copyright (C) 2005 Novell, Inc (http://www.novell.com)
+//
+// Permission is hereby granted, free of charge, to any person obtaining
+// a copy of this software and associated documentation files (the
+// "Software"), to deal in the Software without restriction, including
+// without limitation the rights to use, copy, modify, merge, publish,
+// distribute, sublicense, and/or sell copies of the Software, and to
+// permit persons to whom the Software is furnished to do so, subject to
+// the following conditions:
+// 
+// The above copyright notice and this permission notice shall be
+// included in all copies or substantial portions of the Software.
+// 
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+// EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+// NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+// LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+// OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+// WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+//
+
 
 using System;
-using System.Diagnostics;
 using System.Threading;
 using System.IO;
 using System.Collections;
@@ -358,15 +379,19 @@ namespace MonoDevelop.Services
 					if (!File.Exists (file.FileName)) continue;
 					FileInfo fi = new FileInfo (file.FileName);
 					if (fi.LastWriteTime > file.LastParseTime || file.ParseErrorRetries > 0) 
-					{
-						// Change date now, to avoid reparsing if CheckModifiedFiles is called again
-						// before the parse job is executed
-						
-						file.LastParseTime = fi.LastWriteTime;
-						parserService.QueueParseJob (new JobCallback (ParseCallback), file.FileName);
-					}
+						QueueParseJob (file);
 				}
 			}
+		}
+		
+		protected void QueueParseJob (FileEntry file)
+		{
+			// Change date now, to avoid reparsing if CheckModifiedFiles is called again
+			// before the parse job is executed
+			
+			FileInfo fi = new FileInfo (file.FileName);
+			file.LastParseTime = fi.LastWriteTime;
+			parserService.QueueParseJob (new JobCallback (ParseCallback), file.FileName);
 		}
 		
 		void ParseCallback (object ob, IProgressMonitor monitor)
@@ -629,295 +654,6 @@ namespace MonoDevelop.Services
 				return null;
 		}
 	}
-	
-	internal class ProjectCodeCompletionDatabase: CodeCompletionDatabase
-	{
-		Project project;
-		
-		public ProjectCodeCompletionDatabase (Project project, DefaultParserService parserService)
-		: base (parserService)
-		{
-			SetLocation (project.BaseDirectory, project.Name);
-			
-			this.project = project;
-			Read ();
-			
-			UpdateFromProject ();
-		}
-		
-		public void UpdateFromProject ()
-		{
-			Hashtable fs = new Hashtable ();
-			foreach (ProjectFile file in project.ProjectFiles)
-			{
-				if (file.BuildAction != BuildAction.Compile) continue;
-				FileEntry fe = files[file.Name] as FileEntry;
-				if (fe == null) AddFile (file.Name);
-				fs [file.Name] = null;
-			}
-			
-			ArrayList keys = new ArrayList ();
-			keys.AddRange (files.Keys);
-			foreach (string file in keys)
-			{
-				if (!fs.Contains (file))
-					RemoveFile (file);
-			}
-			
-			fs.Clear ();
-			foreach (ProjectReference pr in project.ProjectReferences)
-			{
-				string refId = pr.ReferenceType == ReferenceType.Project ? "Project" : "Assembly";
-				refId += ":" + pr.Reference;
-
-				if (pr.ReferenceType == ReferenceType.Gac && refId.ToLower().EndsWith (".dll"))
-					refId = refId.Substring (0, refId.Length - 4);
-
-				fs[refId] = null;
-				if (!HasReference (refId))
-					AddReference (refId);
-			}
-			
-			keys.Clear();
-			keys.AddRange (references);
-			foreach (ReferenceEntry re in keys)
-			{
-				if (!fs.Contains (re.Uri))
-					RemoveReference (re.Uri);
-			}
-		}
-		
-		protected override void ParseFile (string fileName, IProgressMonitor monitor)
-		{
-			if (monitor != null) monitor.BeginTask ("Parsing file: " + Path.GetFileName (fileName), 1);
-			
-			try {
-				IParseInformation parserInfo = parserService.DoParseFile ((string)fileName, null);
-				if (parserInfo != null) {
-					ClassUpdateInformation res = UpdateFromParseInfo (parserInfo, fileName);
-					if (res != null) parserService.NotifyParseInfoChange (fileName, res);
-				}
-			} finally {
-				if (monitor != null) monitor.EndTask ();
-			}
-		}
-		
-		public ClassUpdateInformation UpdateFromParseInfo (IParseInformation parserInfo, string fileName)
-		{
-			ICompilationUnit cu = (ICompilationUnit)parserInfo.BestCompilationUnit;
-
-			ClassCollection resolved;
-			bool allResolved = parserService.ResolveTypes (project, cu, cu.Classes, out resolved);
-			ClassUpdateInformation res = UpdateClassInformation (resolved, fileName);
-			
-			FileEntry file = files [fileName] as FileEntry;
-			if (file == null) return res;
-			
-			if (!allResolved) {
-				if (file.ParseErrorRetries > 0) {
-					file.ParseErrorRetries--;
-				}
-				else
-					file.ParseErrorRetries = 3;
-			}
-			else
-				file.ParseErrorRetries = 0;
-
-			return res;
-		}
-	}
-	
-	internal class AssemblyCodeCompletionDatabase: CodeCompletionDatabase
-	{
-		bool useExternalProcess = true;
-		string baseDir;
-		string assemblyName;
-		
-		public AssemblyCodeCompletionDatabase (string baseDir, string assemblyName, DefaultParserService parserService)
-		: base (parserService)
-		{
-			string assemblyFile;
-			string name;
-			Assembly asm = null;
-			
-			if (assemblyName.ToLower().EndsWith (".dll")) 
-			{
-				name = assemblyName.Substring (0, assemblyName.Length - 4);
-				name = name.Replace(',','_').Replace(" ","").Replace('/','_');
-				assemblyFile = assemblyName;
-				try {
-					asm = Assembly.LoadFrom (assemblyFile);
-				}
-				catch {}
-				
-				if (asm == null) {
-					Console.WriteLine ("Could not load assembly: " + assemblyFile);
-					return;
-				}
-			}
-			else 
-			{
-				asm = FindAssembly (assemblyName);
-				
-				if (asm == null) {
-					Console.WriteLine ("Could not load assembly: " + assemblyName);
-					return;
-				}
-				
-				assemblyName = asm.GetName().FullName;
-				name = EncodeGacAssemblyName (assemblyName);
-				assemblyFile = asm.Location;
-			}
-			
-			this.assemblyName = assemblyName;
-			this.baseDir = baseDir;
-			
-			SetLocation (baseDir, name);
-
-			Read ();
-			
-			if (files [assemblyFile] == null) {
-				AddFile (assemblyFile);
-				headers ["CheckFile"] = assemblyFile;
-			}
-			
-			// Update references to other assemblies
-			
-			Hashtable rs = new Hashtable ();
-			foreach (AssemblyName aname in asm.GetReferencedAssemblies ()) {
-				string uri = "Assembly:" + aname.ToString();
-				rs[uri] = null;
-				if (!HasReference (uri))
-					AddReference (uri);
-			}
-			
-			ArrayList keys = new ArrayList ();
-			keys.AddRange (references);
-			foreach (ReferenceEntry re in keys)
-			{
-				if (!rs.Contains (re.Uri))
-					RemoveReference (re.Uri);
-			}
-		}
-		
-		public static string GetFullAssemblyName (string s)
-		{
-			if (s.ToLower().EndsWith (".dll")) 
-				return s;
-				
-			Assembly asm = FindAssembly (s);
-			
-			if (asm != null)
-				return asm.GetName().FullName;
-			else
-				return s;
-		}
-		
-		public static Assembly FindAssembly (string name)
-		{
-			Assembly asm = null;
-			try {
-				asm = Assembly.Load (name);
-			}
-			catch {}
-			
-			if (asm == null) {
-				try {
-					asm = Assembly.LoadWithPartialName (name);
-				}
-				catch {}
-			}
-			return asm;
-		}
-		
-		string EncodeGacAssemblyName (string assemblyName)
-		{
-			string[] assemblyPieces = assemblyName.Split(',');
-			string res = "";
-			foreach (string item in assemblyPieces) {
-				string[] pieces = item.Trim ().Split (new char[] { '=' }, 2);
-				if(pieces.Length == 1)
-					res += pieces[0];
-				else if (!(pieces[0] == "Culture" && pieces[1] != "Neutral"))
-					res += "_" + pieces[1];
-			}
-			return res;
-		}
-		
-		public string AssemblyName
-		{
-			get { return assemblyName; }
-		}
-		
-		protected override void ParseFile (string fileName, IProgressMonitor parentMonitor)
-		{
-			IProgressMonitor monitor = parentMonitor;
-			if (parentMonitor == null) monitor = parserService.GetParseProgressMonitor ();
-			
-			try {
-				monitor.BeginTask ("Parsing assembly: " + Path.GetFileName (fileName), 1);
-				if (useExternalProcess)
-				{
-					string dbgen = Path.Combine (AppDomain.CurrentDomain.BaseDirectory, "dbgen.exe");
-					Process proc = Process.Start ("mono " + dbgen, "\"" + baseDir + "\" \"" + assemblyName + "\"");
-					proc.WaitForExit ();
-					Read ();
-				}
-				else
-				{
-					AssemblyInformation ainfo = new AssemblyInformation();
-					ainfo.Load (fileName, false);
-					UpdateClassInformation (ainfo.Classes, fileName);
-				}
-			} finally {
-				monitor.EndTask ();
-				if (parentMonitor == null) monitor.Dispose ();
-			}
-		}
-		
-		public bool ParseInExternalProcess
-		{
-			get { return useExternalProcess; }
-			set { useExternalProcess = value; }
-		}
-		
-		public static void CleanDatabase (string baseDir, string name)
-		{
-			// Read the headers of the file without fully loading the database
-			Hashtable headers = ReadHeaders (baseDir, name);
-			string checkFile = (string) headers ["CheckFile"];
-			int version = (int) headers ["Version"];
-			if (!File.Exists (checkFile) || version != FORMAT_VERSION) {
-				string dataFile = Path.Combine (baseDir, name + ".pidb");
-				File.Delete (dataFile);
-				Console.WriteLine ("Deleted " + dataFile);
-			}
-		}
-	}
-	
-	internal class SimpleCodeCompletionDatabase: CodeCompletionDatabase
-	{
-		string file = "_currentFile";
-		
-		public SimpleCodeCompletionDatabase (string file, DefaultParserService parserService)
-		: base (parserService)
-		{
-			AddFile (file);
-			this.file = file;
-		}
-		
-		public ClassUpdateInformation UpdateFromParseInfo (IParseInformation parserInfo)
-		{
-			ICompilationUnit cu = (ICompilationUnit)parserInfo.BestCompilationUnit;
-			ClassCollection resolved;
-			parserService.ResolveTypes (null, cu, cu.Classes, out resolved);
-			return UpdateClassInformation (resolved, file);
-		}
-		
-		public override void Read () {}
-		public override void Write () {}
-	}
-	
 
 	public interface INameEncoder
 	{
@@ -950,254 +686,6 @@ namespace MonoDevelop.Services
 			int i = Array.BinarySearch (table, text);
 			if (i >= 0) return i;
 			else return -1;
-		}
-	}
-	
-	[Serializable]
-	class NamespaceEntry
-	{
-		Hashtable contents = new Hashtable ();
-		
-		// This is the case insensitive version of the hashtable.
-		// It is constructed only when needed.
-		[NonSerialized] Hashtable contents_ci;
-		
-		// All methods with the caseSensitive parameter, first check for an
-		// exact match, and if not found, they try with the case insensitive table.
-		
-		public NamespaceEntry GetNamespace (string ns, bool caseSensitive)
-		{
-			NamespaceEntry ne = contents[ns] as NamespaceEntry;
-			if (ne != null || caseSensitive) return ne;
-			
-			if (contents_ci == null) BuildCaseInsensitiveTable ();
-			return contents_ci[ns] as NamespaceEntry;
-		}
-		
-		public ClassEntry GetClass (string name, bool caseSensitive)
-		{
-			ClassEntry ne = contents[name] as ClassEntry;
-			if (ne != null || caseSensitive) return ne;
-			
-			if (contents_ci == null) BuildCaseInsensitiveTable ();
-			return contents_ci[name] as ClassEntry;
-		}
-		
-		public void Add (string name, object value)
-		{
-			contents [name] = value;
-			if (contents_ci != null)
-				contents_ci [name] = value;
-		}
-		
-		public void Remove (string name)
-		{
-			contents.Remove (name);
-			contents_ci = null;
-		}
-		
-		public ICollection Contents
-		{
-			get { return contents; }
-		}
-		
-		public int ContentCount
-		{
-			get { return contents.Count; }
-		}
-		
-		public void Clean ()
-		{
-			ArrayList todel = new ArrayList ();
-			foreach (DictionaryEntry en in contents)
-			{
-				NamespaceEntry h = en.Value as NamespaceEntry;
-				if (h != null) {
-					h.Clean ();
-					if (h.ContentCount == 0) todel.Add (en.Key);
-				}
-			}
-			
-			if (todel.Count > 0)
-			{
-				contents_ci = null;
-				foreach (string key in todel)
-					contents.Remove (key);
-			}
-		}
-		
-		void BuildCaseInsensitiveTable ()
-		{
-			contents_ci = new Hashtable (CaseInsensitiveHashCodeProvider.Default, CaseInsensitiveComparer.Default);
-			foreach (DictionaryEntry en in contents)
-				contents_ci.Add (en.Key, en.Value);
-		}
-	}
-
-	[Serializable]
-	class ClassEntry
-	{
-		long position;
-		NamespaceEntry namespaceRef;
-		string name;
-		FileEntry fileEntry;
-		ClassEntry nextInFile;
-		
-		[NonSerialized]
-		int lastGetTime;
-		
-		[NonSerialized]
-		public IClass cls;
-		
-		public ClassEntry (IClass cls, FileEntry fileEntry, NamespaceEntry namespaceRef)
-		{
-			this.cls = cls;
-			this.fileEntry = fileEntry;
-			this.namespaceRef = namespaceRef;
-			this.name = cls.Name;
-			position = -1;
-		}
-		
-		public long Position
-		{
-			get { return position; }
-			set { position = value; }
-		}
-		
-		public IClass Class
-		{
-			get { 
-				return cls; 
-			}
-			set {
-				cls = value; 
-				if (cls != null) {
-					name = cls.Name; 
-					position = -1; 
-				}
-			}
-		}
-		
-		public string Name
-		{
-			get { return name; }
-		}
-		
-		public NamespaceEntry NamespaceRef
-		{
-			get { return namespaceRef; }
-		}
-		
-		public FileEntry FileEntry
-		{
-			get { return fileEntry; }
-			set { fileEntry = value; }
-		}
-		
-		public int LastGetTime
-		{
-			get { return lastGetTime; }
-			set { lastGetTime = value; }
-		}
-		
-		public ClassEntry NextInFile
-		{
-			get { return nextInFile; }
-			set { nextInFile = value; }
-		}
-	}
-	
-	[Serializable]
-	class FileEntry
-	{
-		string filePath;
-		DateTime parseTime;
-		ClassEntry firstClass;
-		int parseErrorRetries;
-		
-		public FileEntry (string path)
-		{
-			filePath = path;
-			parseTime = DateTime.MinValue;
-		}
-		
-		public string FileName
-		{
-			get { return filePath; }
-		}
-		
-		public DateTime LastParseTime
-		{
-			get { return parseTime; }
-			set { parseTime = value; }
-		}
-		
-		public ClassEntry FirstClass
-		{
-			get { return firstClass; }
-		}
-		
-		public int ParseErrorRetries
-		{
-			get { return parseErrorRetries; }
-			set { parseErrorRetries = value; }
-		}
-		
-		public void SetClasses (ArrayList list)
-		{
-			firstClass = null;
-			foreach (ClassEntry ce in list)
-				AddClass (ce);
-		}
-		
-		public void AddClass (ClassEntry ce)
-		{
-			if (ce.FileEntry != null)
-				ce.FileEntry.RemoveClass (ce);
-				
-			ce.NextInFile = firstClass;
-			firstClass = ce;
-		}
-		
-		public void RemoveClass (ClassEntry ce)
-		{
-			ClassEntry oldent = null;
-			ClassEntry curent = firstClass;
-			
-			while (curent != null && curent != ce) {
-				oldent = curent;
-				curent = curent.NextInFile;
-			}
-			
-			if (curent == null) 
-				return;
-			else if (oldent == null)
-				firstClass = curent.NextInFile;
-			else
-				oldent.NextInFile = curent.NextInFile;
-				
-			ce.FileEntry = null;
-		}
-		
-		public bool IsAssembly
-		{
-			get { return filePath.ToLower().EndsWith (".dll"); }
-		}
-	}
-	
-	[Serializable]
-	class ReferenceEntry
-	{
-		string databaseUri;
-		
-		public ReferenceEntry (string dbUri)
-		{
-			databaseUri = dbUri;
-		}
-		
-		public string Uri
-		{
-			get { return databaseUri; }
 		}
 	}
 }
