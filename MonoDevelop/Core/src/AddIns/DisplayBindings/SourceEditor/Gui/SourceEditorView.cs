@@ -257,10 +257,12 @@ namespace MonoDevelop.SourceEditor.Gui
 
 		void ScrollDown () {
 			double maxvalue = ParentEditor.Vadjustment.Upper - ParentEditor.Vadjustment.PageSize;
+			double newvalue = ParentEditor.Vadjustment.Value + (ParentEditor.Vadjustment.StepIncrement / 5);
 
-			ParentEditor.Vadjustment.Value += (ParentEditor.Vadjustment.StepIncrement / 5);
-			if (ParentEditor.Vadjustment.Value > maxvalue)
+			if (newvalue > maxvalue)
 				ParentEditor.Vadjustment.Value = maxvalue;
+			else
+				ParentEditor.Vadjustment.Value = newvalue;
 
 			ParentEditor.Vadjustment.ChangeValue();
 		}
