@@ -27,7 +27,7 @@
       <ol>
         <li>Copy the file before you edit it.</li>
 	<li>Make the changes you want to make and save the file.</li>
-	<li>On the command line type <tt>diff -u newfile.cs oldfile.cs > vardec.patch</tt>.  The name of the patch should be something quick which describes what you fixed.</li>
+	<li>On the command line type <tt>diff -u oldfile.cs newfile.cs > vardec.patch</tt>.  The name of the patch should be something quick which describes what you fixed.</li>
 	<li>Create a bug in <a href="http://bugzilla.ximian.com/">bugzilla.ximian.com</a> and attach the patch to the bug.  If you're patching against a pre-existing bug, just attach to the bug.</li>
       </ol>
 
