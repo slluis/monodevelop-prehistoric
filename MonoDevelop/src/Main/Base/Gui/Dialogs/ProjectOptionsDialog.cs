@@ -52,6 +52,8 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs {
 			//
 			AddConfigurationNodes();
 			
+			//TreeView.ButtonReleaseEvent += new EventHandler (OnButtonRelease);
+			
 			SelectFirstNode ();	
 		}
 		
@@ -109,13 +111,11 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs {
 			// add the child nodes to this new config
 			AddNodes(properties, newNode, configurationNode.BuildChildItems(newConfig));			
 			
-			SelectSpecificNode(newNode);
-			
-			// FIXME: how to set the new nodes Label as editable ?
-			/*
-			((TreeView)ControlDictionary["optionsTreeView"]).SelectedNode = newNode;
-			((TreeView)ControlDictionary["optionsTreeView"]).LabelEdit    = true;
-			*/
+			// select the new config's first child
+			Gtk.TreeIter newChild;
+			if (treeStore.IterNthChild(out newChild, newNode, 0)) {
+				SelectSpecificNode(newChild);
+			}
 		}
 		
 		public void RemoveProjectConfiguration()
@@ -203,25 +203,60 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs {
 		static string configNodeMenu = "/SharpDevelop/Workbench/ProjectOptions/ConfigNodeMenu";
 		static string selectConfigNodeMenu = "/SharpDevelop/Workbench/ProjectOptions/SelectedConfigMenu";
 		
-		/*void TreeViewMouseUp(object sender, MouseEventArgs e)
+		#region context menu presentation methods
+		
+		// override select node to allow config and config child nodes (braches) to be selected
+		protected override void SelectNode(object sender, EventArgs e)
 		{
-			TreeNode clickedNode = ((TreeView)ControlDictionary["optionsTreeView"]).GetNodeAt(e.X, e.Y);
-			
-			if (e.Button == MouseButtons.Right) {
-				MenuService menuService = (MenuService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(MenuService));
-				if (clickedNode == configurationTreeNode) {
-					b = false;
-					((TreeView)ControlDictionary["optionsTreeView"]).SelectedNode = clickedNode;
-					b = true;
-					menuService.ShowContextMenu(this, configNodeMenu, this, e.X, e.Y);
-				}
-				if (clickedNode.Parent == configurationTreeNode) {
-					b = false;
-					((TreeView)ControlDictionary["optionsTreeView"]).SelectedNode = clickedNode;
-					b = true;
-					menuService.ShowContextMenu(this, selectConfigNodeMenu, this, e.X, e.Y);
+			Gtk.TreeModel mdl;
+			Gtk.TreeIter  iter;
+			if (TreeView.Selection.GetSelected (out mdl, out iter)) {
+				if (treeStore.IterHasChild (iter)) {
+					// only interested if a row has been selected
+					Gtk.TreePath path = TreeView.Model.GetPath(iter);
+					Gtk.TreePath configPath = TreeView.Model.GetPath(configurationTreeNode);
+					// see if the itter is a config iter or it's direct child
+					// if so don't force focus onto child node just yet
+					if (!iter.Equals(configurationTreeNode) &&
+						!((path.Indices[0] == configPath.Indices[0]) && (path.Depth - configPath.Depth) == 1)) {
+						Gtk.TreeIter new_iter;
+						treeStore.IterChildren (out new_iter, iter);
+						Gtk.TreePath new_path = treeStore.GetPath (new_iter);
+						TreeView.ExpandToPath (new_path);
+						TreeView.Selection.SelectPath (new_path);
+					}
+				} else {					
+					SetOptionPanelTo ((IDialogPanelDescriptor)treeStore.GetValue (iter, 1));					
 				}
 			}
-		}*/
+		}
+		
+		protected virtual void OnButtonRelease(object sender, Gtk.ButtonReleaseEventArgs e)
+		{	
+			// only interested in right mouse button click
+			if (e.Event.Button == 3) {
+				
+				// only interested if a row has been selected
+				Gtk.TreeModel mdl;
+				Gtk.TreeIter iter;
+				Gtk.TreePath configPath = TreeView.Model.GetPath(configurationTreeNode);
+				if (TreeView.Selection.GetSelected (out mdl, out iter)) {
+					Gtk.TreePath path = TreeView.Model.GetPath(iter);
+	
+					// now see if the iter is the configuration root node iter
+					if (iter.Equals(configurationTreeNode)) {							
+						MenuService menuService = (MenuService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(MenuService));
+						menuService.ShowContextMenu(this, configNodeMenu, TreeView);
+					} else if (path.Indices[0] == configPath.Indices[0] && (path.Depth - configPath.Depth) == 1) {
+						// now see if it's a specific configuration node (i.e. the configuration root node is it's parent
+						MenuService menuService = (MenuService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(MenuService));
+						menuService.ShowContextMenu(this, selectConfigNodeMenu, TreeView);
+					}
+					
+				}
+			}
+		}
+		
+		#endregion
 	}
 }

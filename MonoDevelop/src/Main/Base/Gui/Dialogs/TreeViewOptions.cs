@@ -15,6 +15,8 @@ using ICSharpCode.Core.Properties;
 using ICSharpCode.Core.AddIns.Codons;
 using ICSharpCode.SharpDevelop.Gui.XmlForms;
 
+using ICSharpCode.SharpDevelop.Services;
+
 namespace ICSharpCode.SharpDevelop.Gui.Dialogs {
 	
 	/// <summary>
@@ -29,6 +31,8 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs {
 		protected Gtk.TreeStore treeStore;
 		
 		[Glade.Widget] protected Gtk.TreeView  TreeView;
+		[Glade.Widget] protected Gtk.ScrolledWindow TreeViewScrolledWindow;
+		[Glade.Widget] protected Gtk.VBox TreeViewContainer;
 		[Glade.Widget] Gtk.Label     optionTitle;
 		[Glade.Widget] Gtk.Notebook  mainBook;
 		[Glade.Widget] Gtk.Image     panelImage;
@@ -106,7 +110,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs {
 			}
 		}
 		
-		protected void SelectNode(object sender, EventArgs e)
+		protected virtual void SelectNode(object sender, EventArgs e)
 		{
 			Gtk.TreeModel mdl;
 			Gtk.TreeIter  iter;
@@ -130,7 +134,10 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs {
 			Gtk.TreePath new_path = treeStore.GetPath (iter);
 			TreeView.ExpandToPath (new_path);
 			TreeView.Selection.SelectPath (new_path);
-			SetOptionPanelTo ((IDialogPanelDescriptor)treeStore.GetValue (iter, 1));
+			IDialogPanelDescriptor descriptor = treeStore.GetValue (iter, 1) as IDialogPanelDescriptor;  
+			if (descriptor != null) {
+				SetOptionPanelTo (descriptor);
+			}
 		}
 		
 		public TreeViewOptions (IProperties properties, IAddInTreeNode node)
@@ -172,5 +179,6 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs {
 		{
 			TreeViewOptionDialog.Hide ();
 		}
+
 	}
 }
