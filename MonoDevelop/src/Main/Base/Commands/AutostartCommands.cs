@@ -199,6 +199,7 @@ namespace MonoDevelop.Commands
 			WorkbenchSingleton.Workbench.SetMemento ((IXmlConvertable)propertyService.GetProperty (workbenchMemento, new WorkbenchMemento ()));
 			((Gtk.Window)WorkbenchSingleton.Workbench).Visible = true;
 			WorkbenchSingleton.Workbench.RedrawAllComponents ();
+			((Gtk.Window)WorkbenchSingleton.Workbench).Present ();
 		
 			// Give Gtk time to display the workbench window before showing the TOTD.
 			while (Gtk.Application.EventsPending ())

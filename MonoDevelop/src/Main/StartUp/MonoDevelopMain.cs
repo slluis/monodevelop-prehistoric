@@ -11,12 +11,19 @@ using System.Collections;
 using System.Reflection;
 using System.Xml;
 using System.Threading;
+using System.Net;
+using System.Net.Sockets;
+using System.Text;
+
+using Mono.Posix;
 
 using MonoDevelop.Core.Properties;
 using MonoDevelop.Core.AddIns.Codons;
 using MonoDevelop.Core.AddIns;
 using MonoDevelop.Core.Services;
+using MonoDevelop.Services;
 using MonoDevelop.Gui.Dialogs;
+using MonoDevelop.Gui;
 
 namespace MonoDevelop
 {
@@ -26,6 +33,7 @@ namespace MonoDevelop
 	public class SharpDevelopMain
 	{
 		static string[] commandLineArgs = null;
+		static Socket listen_socket = null;
 		
 		public static string[] CommandLineArgs {
 			get {
@@ -52,6 +60,19 @@ namespace MonoDevelop
 		[STAThread()]
 		public static void Main(string[] args)
 		{
+			string socket_filename = "/tmp/md-" + Environment.GetEnvironmentVariable ("USER") + "-socket";
+			listen_socket = new Socket (AddressFamily.Unix, SocketType.Stream, ProtocolType.IP);
+			EndPoint ep = new UnixEndPoint (socket_filename);
+			if (File.Exists (socket_filename)) {
+				try {
+					listen_socket.Connect (ep);
+					listen_socket.Send (Encoding.UTF8.GetBytes (String.Join ("\n", args)));
+					return;
+				} catch {
+				}
+			}
+			File.Delete (socket_filename);
+			
 			string name = Assembly.GetEntryAssembly ().GetName ().Name;
 			string version = Assembly.GetEntryAssembly ().GetName ().Version.Major + + "." + Assembly.GetEntryAssembly ().GetName ().Version.Minor;
 
@@ -110,12 +131,63 @@ namespace MonoDevelop
 			}
 
 			// run the last autostart command, this must be the workbench starting command
+			listen_socket.Bind (ep);
+			listen_socket.Listen (5);
+			listen_socket.BeginAccept (new AsyncCallback (ListenCallback), listen_socket);
 			if (commands.Count > 0) {
 				((ICommand)commands[commands.Count - 1]).Run();
 			}
 
 			// unloading services
+			File.Delete (socket_filename);
 			ServiceManager.Services.UnloadAllServices();
+		}
+
+		static string fileToOpen = String.Empty;
+		
+		static void ListenCallback (IAsyncResult state)
+		{
+			Socket client = ((Socket)state.AsyncState).EndAccept (state);
+			((Socket)state.AsyncState).BeginAccept (new AsyncCallback (ListenCallback), state.AsyncState);
+			byte[] buf = new byte[1024];
+			client.Receive (buf);
+			foreach (string filename in Encoding.UTF8.GetString (buf).Split ('\n')) {
+				string trimmed = filename.Trim ();
+				string file = "";
+				foreach (char c in trimmed) {
+					if (c == 0x0000)
+						continue;
+					file += c;
+				}
+				fileToOpen = file;
+				GLib.Idle.Add (new GLib.IdleHandler (openFile));
+			}
+		}
+
+		static bool openFile () 
+		{
+			lock (fileToOpen) {
+				string file = fileToOpen;
+				switch (System.IO.Path.GetExtension(file).ToUpper()) {
+				case ".CMBX":
+				case ".PRJX":
+					try {
+						IProjectService projectService = (IProjectService)ServiceManager.Services.GetService (typeof (IProjectService));
+						projectService.OpenCombine(file);
+					} catch (Exception e) {
+					}
+					break;
+				default:
+					try {
+						IFileService fileService = (IFileService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IFileService));
+						fileService.OpenFile(file);
+					} catch (Exception e) {
+					}
+					break;
+				}
+				((Gtk.Window)WorkbenchSingleton.Workbench).Present ();
+				return false;
+			}
 		}
 	}
 }

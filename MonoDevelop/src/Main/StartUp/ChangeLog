@@ -1,3 +1,12 @@
+2004-05-24  Todd Berman  <tberman@sevenl.net>
+
+	* Makefile.am: add Mono.Posix reference
+	* MonoDevelopMain.cs: Use a unix socket to only allow one instance of
+	MD to be open at a time. This should eventually use something like
+	dbus or something else instead of a unix socket. Also, a --new-process
+	arg should be added or something similar to allow more than one
+	open copy of MD at a time.
+
 2004-04-19  Todd Berman  <tberman@sevenl.net>
 
 	* Makefile.am: only link the one .resources file we need.

@@ -43,6 +43,10 @@ namespace MonoDevelop.Internal.Parser
 		public ReflectionClass(Type type)
 		{
 
+			if (type == null)
+				type = Type.GetType ("System.Object");
+			
+
 			//FIXME: remove after doc changes are complete.
 			Hashtable xmlComments = null;
 			

@@ -15,6 +15,7 @@ all: $(DLL)
 REFS = /r:System.Drawing \
 	/r:../../../build/bin/MonoDevelop.Core.dll \
 	/r:../../../build/bin/MonoDevelop.Base.dll \
+	/r:Mono.Posix.dll \
 	$(BASE_DEPENDENCIES_LIBS)
 
 $(DLL): $(build_sources)

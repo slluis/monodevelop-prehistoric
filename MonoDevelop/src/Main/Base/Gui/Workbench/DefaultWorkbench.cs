@@ -53,6 +53,14 @@ namespace MonoDevelop.Gui
 		protected static PropertyService propertyService = (PropertyService)ServiceManager.Services.GetService(typeof(PropertyService));
 
 		public Gtk.MenuBar TopMenu = null;
+
+		enum TargetList {
+			UriList = 100
+		}
+
+		Gtk.TargetEntry[] targetEntryTypes = new Gtk.TargetEntry[] {
+			new Gtk.TargetEntry ("text/uri-list", 0, (uint)TargetList.UriList)
+		};
 		
 		public bool FullScreen {
 			get {
@@ -145,12 +153,49 @@ namespace MonoDevelop.Gui
 				dbgr.ResumedEvent += new EventHandler (onDebuggerResumed);		
 				dbgr.StoppedEvent += new EventHandler (onDebuggerStopped);
 			}
+
+			Gtk.Drag.DestSet (this, Gtk.DestDefaults.Motion | Gtk.DestDefaults.Highlight | Gtk.DestDefaults.Drop, targetEntryTypes, Gdk.DragAction.Copy);
+			DragDataReceived += new Gtk.DragDataReceivedHandler (onDragDataRec);
 		}
 
 		void onDebuggerStarted (object o, EventArgs e)
 		{
 			context = WorkbenchContext.Debug;
 			ContextChanged (this, new EventArgs());
+		}
+
+		void onDragDataRec (object o, Gtk.DragDataReceivedArgs args)
+		{
+			if (args.Info != (uint) TargetList.UriList)
+				return;
+			string fullData = System.Text.Encoding.UTF8.GetString (args.SelectionData.Data);
+
+			foreach (string individualFile in fullData.Split ('\n')) {
+				string file = individualFile.Trim ();
+				if (file.StartsWith ("file://")) {
+					file = file.Substring (7);
+					switch (System.IO.Path.GetExtension(file).ToUpper()) {
+					case ".CMBX":
+					case ".PRJX":
+						try {
+							IProjectService projectService = (IProjectService)ServiceManager.Services.GetService (typeof (IProjectService));
+							projectService.OpenCombine(file);
+						} catch (Exception e) {
+						}
+						
+						break;
+					default:
+						try {
+							IFileService fileService = (IFileService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IFileService));
+							fileService.OpenFile(file);
+							
+						} catch (Exception e) {
+							Console.WriteLine("unable to open file {0} exception was :\n{1}", file, e.ToString());
+						}
+						break;
+					}
+				}
+			}
 		}
 		
 		void onDebuggerPaused (object o, EventArgs e)
