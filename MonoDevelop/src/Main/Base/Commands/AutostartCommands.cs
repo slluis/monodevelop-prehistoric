@@ -137,7 +137,7 @@ namespace MonoDevelop.Commands
 			isCalled = true;
 			// show tip of the day
 			PropertyService propertyService = (PropertyService)ServiceManager.Services.GetService(typeof(PropertyService));
-			if (propertyService.GetProperty("MonoDevelop.Gui.Dialog.TipOfTheDayView.ShowTipsAtStartup", true)) {
+			if (propertyService.GetProperty("MonoDevelop.Gui.Dialog.TipOfTheDayView.ShowTipsAtStartup", false)) {
 				ViewTipOfTheDay dview = new ViewTipOfTheDay();
 				dview.Run();
 			}
