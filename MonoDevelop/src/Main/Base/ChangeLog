@@ -1,5 +1,10 @@
 2004-04-06  Todd Berman  <tberman@sevenl.net>
 
+	* Commands/MenuItemBuilders.cs: change to use alt instead of control
+	for a more 'gnomey' feel.
+
+2004-04-06  Todd Berman  <tberman@sevenl.net>
+
 	* Gui/Workbench/Layouts/SdiWorkspaceLayout.cs: update the menu
 	after a context switch.
 	* Gui/Components/SdMenu.cs: remove some junk.
