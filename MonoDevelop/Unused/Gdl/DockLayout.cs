@@ -554,8 +554,14 @@ namespace Gdl
 					exported.Add (p);
 			}
 
-			foreach (PropertyInfo p in exported)
-				element.SetAttribute (p.Name.ToLower (), p.GetValue (obj, null).ToString ());
+			foreach (PropertyInfo p in exported) {
+				if (p.PropertyType.IsSubclassOf (typeof (System.Enum)))
+					element.SetAttribute (p.Name.ToLower (), p.GetValue (obj, null).ToString ().ToLower ());
+				else if (p.PropertyType == typeof (bool))
+					element.SetAttribute (p.Name.ToLower (), ((bool) p.GetValue (obj, null)) ? "yes" : "no");
+				else
+					element.SetAttribute (p.Name.ToLower (), p.GetValue (obj, null).ToString ());
+			}
 
 			parent.AppendChild (element);
 
