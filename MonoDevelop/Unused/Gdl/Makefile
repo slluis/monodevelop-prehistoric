@@ -39,7 +39,8 @@ clean:
 	rm -f $(TEST) $(TEST).mdb
 
 $(GDL): $(FILES) $(GLADE) $(IMAGES)
-	$(CSC) -out:$@ -target:library $(FILES) $(RESOURCES) $(REFS)
+	$(CSC) -out:$@ -target:library $(FILES) $(RESOURCES) $(REFS) \
+	&& cp $(GDL) ../../build/bin/.
 
 $(TEST) : GdlDockTest.cs $(GDL)
 	$(CSC) -out:$@ -r:$(GDL) -pkg:gtk-sharp-2.0 GdlDockTest.cs -codepage:utf8

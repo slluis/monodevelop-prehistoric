@@ -53,14 +53,14 @@ namespace Gdl
 			//Does this code need to be ported at all?
 		}
 
-		/*protected override void OnDestroyed ()
+		protected override void OnDestroyed ()
 		{
 			base.OnDestroyed ();
 			if (Child != null) {
 				Child.Unparent ();
 				Child = null;
 			}
-		}*/
+		}
 		
 		protected override void OnAdded (Widget widget)
 		{

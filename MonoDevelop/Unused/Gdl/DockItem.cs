@@ -467,7 +467,7 @@ namespace Gdl
 			}
 		}
 
-		/*protected override void OnDestroyed ()
+		protected override void OnDestroyed ()
 		{
 			if (tabLabel != null)
 				tabLabel = null;
@@ -483,7 +483,7 @@ namespace Gdl
 				ph = null;
 			}
 			base.OnDestroyed ();
-		}*/
+		}
 		
 		protected override bool OnExposeEvent (Gdk.EventExpose evnt)
 		{

@@ -188,7 +188,7 @@ namespace Gdl
 			}
 		}
 
-		/*protected override void OnDestroyed ()
+		protected override void OnDestroyed ()
 		{
 			if (layout != null)
 				layout = null;
@@ -201,7 +201,7 @@ namespace Gdl
 			}
 			item = null;
 			base.OnDestroyed ();
-		}*/
+		}
 	
 		protected override bool OnExposeEvent (Gdk.EventExpose evnt)
 		{
