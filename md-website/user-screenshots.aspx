@@ -18,7 +18,7 @@
           Debugging a GTK# application, integrated documentation
 	</div>
       </div>
-
+      <br />
       <div class="image_frame">
         <div class="image">
           <a href="/images/screenshots/webbrowser.png" target="_blank">
