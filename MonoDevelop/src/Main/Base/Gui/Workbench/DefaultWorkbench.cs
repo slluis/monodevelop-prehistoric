@@ -502,6 +502,7 @@ namespace ICSharpCode.SharpDevelop.Gui
 			//					return;
 			//				}
 			//			}
+			OnClosed (null);
 			return true;
 		}
 		
