@@ -12,6 +12,7 @@ using System.Collections;
 using Gtk;
 using MonoDevelop.SourceEditor.Gui;
 using MonoDevelop.Internal.Project;
+using MonoDevelop.Gui;
 
 namespace MonoDevelop.SourceEditor.CodeCompletion
 {
@@ -215,6 +216,8 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 			SkipPagerHint = true;
 			SkipTaskbarHint = true;
 			TypeHint = Gdk.WindowTypeHint.Dialog;
+
+			TransientFor = (Gtk.Window)WorkbenchSingleton.Workbench;
 			
 			store = new Gtk.ListStore (typeof (string), typeof (Gdk.Pixbuf), typeof(ICompletionData));
 			listView = new Gtk.TreeView (store);

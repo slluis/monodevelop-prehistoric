@@ -1,5 +1,10 @@
 2004-07-01  Todd Berman  <tberman@off.net>
 
+	* CodeCompletion/CompletionWindow.cs: Fix bug #61020, by marking the
+	completion window a transient for the main window.
+
+2004-07-01  Todd Berman  <tberman@off.net>
+
 	* CodeCompletion/CompletionWindow.cs: Sigh, this was an evil bug
 	to let slip, this will work far far better though. Now the completion
 	gui should go away properly.
