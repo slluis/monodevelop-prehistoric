@@ -3,7 +3,8 @@
        copyright   = "GPL"
        url         = "http://www.icsharpcode.net"
        description = "NCvs core module"
-       version     = "1.0.0">
+       version     = "1.0.0"
+       if-not-env = "NEW_EDITOR">
 	
 	<Runtime>
 		<Import assembly = "CSharpBinding.dll"/>
@@ -125,62 +126,6 @@
 		<Conditional textcontent = "Java">
 			<Class id ="JavaFormatter" insertbefore="DefaultFormatter" class = "JavaBinding.FormattingStrategy.JavaFormattingStrategy"/>
 		</Conditional>
-	</Extension>
-	
-	<Extension path = "/Workspace/Icons">
-		<!-- C# -->
-		<Icon id         = "C#Prj"
-		      language   = "C#"
-		      resource   = "C#.ProjectIcon"/>
-
-		<Icon id         = "C#File"
-		      extensions = ".cs"
-		      resource   = "C#.FileIcon"/>
-		
-		<!-- VB.NET -->
-		<Icon id         = "VBPrj"
-		      language   = "VBNET"
-		      resource   = "VB.ProjectIcon"/>
-		<Icon id         = "VBFile"
-		      extensions = ".vb"
-		      resource   = "VB.FileIcon"/>
-
-		<!-- Java -->
-                <Icon id         = "JavaPrj"
-		      language   = "Java"
-		      resource   = "Java.ProjectIcon"/>
-                <Icon id         = "JavaFile"
-		      extensions = ".java"
-		      resource   = "Java.FileIcon"/>
-		      
-		<!-- Java Script -->
-                <Icon id         = "JScriptPrj"
-		      language   = "JScript"
-		      resource   = "JScript.ProjectIcon"/>
-                <Icon id         = "JScriptFile"
-		      extensions = ".js"
-		      resource   = "JScript.FileIcon"/>
-		
-		<!-- C++ -->
-                <Icon id         = "C++Project"
-		      language   = "C++"
-		      resource   = "C++.ProjectIcon"/>
-                <Icon id         = "C++File"
-		      extensions = ".cpp"
-		      resource   = "C++.FileIcon"/>
-		
-		<!-- Resources -->
-		<Icon id         = "ResourceFileIcon"
-		      extensions = ".resources,.resx"
-		      resource   = "Icons.16x16.ResourceFileIcon" />
-		<!-- XML -->
-		<Icon id         = "XmlFileIcon"
-		      extensions = ".xml"
-		      resource   = "FileIcons.XmlIcon" />
-		<!-- TextFiles -->
-		<Icon id         = "TextFileIcon"
-		      extensions = ".txt,.doc"
-		      resource   = "Icons.16x16.TextFileIcon"/>
 	</Extension>
 
 	<Extension path = "/SharpDevelop/Workbench/LanguageBindings">

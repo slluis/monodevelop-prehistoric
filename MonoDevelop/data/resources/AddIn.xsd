@@ -13,6 +13,8 @@
 		<xs:attribute name="url" type="xs:anyURI" use="required"/>
 		<xs:attribute name="description" type="xs:string" use="required"/>
 		<xs:attribute name="version" type="xs:string" use="required"/>
+		<xs:attribute name="if-not-env" type="xs:string" use="optional"/>
+		<xs:attribute name="if-env" type="xs:string" use="optional"/>
 	</xs:complexType>
 	<xs:element name="AddIn" type="AddIn"/>
 	<xs:complexType name="Import">
@@ -39,6 +41,8 @@
 			<xs:element ref="MenuItem"/>
 		</xs:choice>
 		<xs:attribute name="path" type="xs:string" use="required"/>
+		<xs:attribute name="if-not-env" type="xs:string" use="optional"/>
+		<xs:attribute name="if-env" type="xs:string" use="optional"/>
 	</xs:complexType>
 	<xs:element name="Extension" type="Extension"/>
 	<xs:complexType name="Condition">
