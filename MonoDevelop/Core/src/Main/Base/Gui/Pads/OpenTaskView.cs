@@ -26,6 +26,7 @@ namespace MonoDevelop.Gui.Pads
 		Gtk.TreeView view;
 		ListStore store;
 		Clipboard clipboard;
+		Hashtable tasks = new Hashtable ();
 		
 		public Gtk.Widget Control {
 			get {
@@ -194,6 +195,7 @@ namespace MonoDevelop.Gui.Pads
 		public void ShowResults (object sender, EventArgs e)
 		{
 			store.Clear ();
+			tasks.Clear ();
 			
 			foreach (Task t in Runtime.TaskService.Tasks) {
 				AddTask (t);
@@ -208,6 +210,9 @@ namespace MonoDevelop.Gui.Pads
 		
 		public void AddTask (Task t)
 		{
+			if (tasks.Contains (t)) return;
+			tasks [t] = t;
+			
 			Gdk.Pixbuf stock;
 			switch (t.TaskType) {
 				case TaskType.Warning:

@@ -65,6 +65,38 @@ namespace MonoDevelop.Services
 		{
 			MethodInfo invoke = delegateType.GetMethod ("Invoke");
 			ModuleBuilder module = GetModuleBuilder ();
+			
+			// *** Data class
+			
+			TypeBuilder dataTypeBuilder = module.DefineType ("__" + delegateType.Name + "_DelegateData", TypeAttributes.Public, typeof(object), Type.EmptyTypes);
+			
+			// Parameters
+			ParameterInfo[] pars = invoke.GetParameters ();
+			FieldBuilder[] paramFields = new FieldBuilder [pars.Length];
+			Type[] paramTypes = new Type[pars.Length];
+			for (int n=0; n<pars.Length; n++)
+			{
+				ParameterInfo pi = pars [n];
+				paramFields [n] = dataTypeBuilder.DefineField ("p" + n, pi.ParameterType, FieldAttributes.Public);
+				paramTypes [n] = pi.ParameterType;
+			}
+			
+			// Return value
+			FieldBuilder returnField = null;
+			if (invoke.ReturnType != typeof(void))
+				returnField = dataTypeBuilder.DefineField ("ret", invoke.ReturnType, FieldAttributes.Public);
+			
+			// Constructor
+			ConstructorBuilder dataCtor = dataTypeBuilder.DefineConstructor (MethodAttributes.Public, CallingConventions.Standard, Type.EmptyTypes);
+			ConstructorInfo baseCtor = typeof(object).GetConstructor (Type.EmptyTypes);
+			ILGenerator gen = dataCtor.GetILGenerator();
+			gen.Emit (OpCodes.Ldarg_0);
+			gen.Emit (OpCodes.Call, baseCtor);
+			gen.Emit (OpCodes.Ret);
+
+			
+			// *** Factory class
+			
 			TypeBuilder typeBuilder = module.DefineType ("__" + delegateType.Name + "_DelegateFactory", TypeAttributes.Public, typeof(object), new Type[] {typeof(IDelegateFactory)});
 			
 			// Context and target delegate field
@@ -72,29 +104,10 @@ namespace MonoDevelop.Services
 			FieldBuilder contextField = typeBuilder.DefineField ("context", typeof(SyncContext), FieldAttributes.Public);
 			FieldBuilder targetField = typeBuilder.DefineField ("target", delegateType, FieldAttributes.Public);
 			
-			// Parameters
-			
-			ParameterInfo[] pars = invoke.GetParameters ();
-			FieldBuilder[] paramFields = new FieldBuilder [pars.Length];
-			Type[] paramTypes = new Type[pars.Length];
-			for (int n=0; n<pars.Length; n++)
-			{
-				ParameterInfo pi = pars [n];
-				paramFields [n] = typeBuilder.DefineField ("p" + n, pi.ParameterType, FieldAttributes.Public);
-				paramTypes [n] = pi.ParameterType;
-			}
-			
-			// Return value
-			
-			FieldBuilder returnField = null;
-			if (invoke.ReturnType != typeof(void))
-				returnField = typeBuilder.DefineField ("ret", invoke.ReturnType, FieldAttributes.Public);
-			
 			// Constructor
 			
 			ConstructorBuilder ctor = typeBuilder.DefineConstructor (MethodAttributes.Public, CallingConventions.Standard, Type.EmptyTypes);
-			ConstructorInfo baseCtor = typeof(object).GetConstructor (Type.EmptyTypes);
-			ILGenerator gen = ctor.GetILGenerator();
+			gen = ctor.GetILGenerator();
 			gen.Emit (OpCodes.Ldarg_0);
 			gen.Emit (OpCodes.Call, baseCtor);
 			gen.Emit (OpCodes.Ret);
@@ -103,14 +116,20 @@ namespace MonoDevelop.Services
 			
 			MethodBuilder methodDispatch = typeBuilder.DefineMethod ("Dispatch", MethodAttributes.Public, typeof(void), new Type[] {typeof(object)});
 			gen = methodDispatch.GetILGenerator();
+			
+			LocalBuilder data = gen.DeclareLocal (dataTypeBuilder);
+			gen.Emit (OpCodes.Ldarg_1);
+			gen.Emit (OpCodes.Castclass, dataTypeBuilder);
+			gen.Emit (OpCodes.Stloc, data);
+			
 			if (returnField != null)
-				gen.Emit (OpCodes.Ldarg_0);
+				gen.Emit (OpCodes.Ldloc, data);
+
 			gen.Emit (OpCodes.Ldarg_0);
 			gen.Emit (OpCodes.Ldfld, targetField);
 			
-			for (int n=0; n<pars.Length; n++)
-			{
-				gen.Emit (OpCodes.Ldarg_0);
+			for (int n=0; n<pars.Length; n++) {
+				gen.Emit (OpCodes.Ldloc, data);
 				gen.Emit (OpCodes.Ldfld, paramFields[n]);
 			}
 			gen.Emit (OpCodes.Callvirt, invoke);
@@ -124,8 +143,13 @@ namespace MonoDevelop.Services
 			
 			MethodBuilder methodProxyCall = typeBuilder.DefineMethod ("ProxyCall", MethodAttributes.Public, invoke.ReturnType, paramTypes);
 			gen = methodProxyCall.GetILGenerator();
+			
+			data = gen.DeclareLocal (dataTypeBuilder);
+			gen.Emit (OpCodes.Newobj, dataCtor);
+			gen.Emit (OpCodes.Stloc, data);
+			
 			for (int n=0; n<paramFields.Length; n++) {
-				gen.Emit (OpCodes.Ldarg_0);
+				gen.Emit (OpCodes.Ldloc, data);
 				gen.Emit (OpCodes.Ldarg, n+1);
 				gen.Emit (OpCodes.Stfld, paramFields[n]);
 			}
@@ -134,12 +158,15 @@ namespace MonoDevelop.Services
 			gen.Emit (OpCodes.Ldarg_0);
 			gen.Emit (OpCodes.Ldftn, methodDispatch);
 			gen.Emit (OpCodes.Newobj, typeof(StatefulMessageHandler).GetConstructor (new Type[] {typeof(object), typeof(IntPtr)} ));
-			gen.Emit (OpCodes.Ldnull);
-			gen.Emit (OpCodes.Callvirt, typeof(SyncContext).GetMethod ("AsyncDispatch"));
+			gen.Emit (OpCodes.Ldloc, data);
 			
 			if (returnField != null) {
-				gen.Emit (OpCodes.Ldarg_0);
+				gen.Emit (OpCodes.Callvirt, typeof(SyncContext).GetMethod ("Dispatch"));
+				gen.Emit (OpCodes.Ldloc, data);
 				gen.Emit (OpCodes.Ldfld, returnField);
+			}
+			else {
+				gen.Emit (OpCodes.Callvirt, typeof(SyncContext).GetMethod ("AsyncDispatch"));
 			}
 			gen.Emit (OpCodes.Ret);
 			
@@ -163,6 +190,7 @@ namespace MonoDevelop.Services
 			gen.Emit (OpCodes.Ret);
 			typeBuilder.DefineMethodOverride (methodCreate, typeof(IDelegateFactory).GetMethod ("Create"));
 			
+			dataTypeBuilder.CreateType ();
 			return typeBuilder.CreateType ();
 		}
 		
@@ -185,4 +213,44 @@ namespace MonoDevelop.Services
 	{
 		Delegate Create (Delegate del, SyncContext ctx);
 	}
+	
+	
+	/* Sample class generated for the EventHandler delegate
+	
+	class __EventHandler_DelegateData
+	{
+		public object psender;
+		public EventArgs pargs;
+	}
+	
+	class __EventHandler_DelegateFactory: IDelegateFactory
+	{
+		EventHandler target;
+		SyncContext context;
+		
+		public Delegate Create (Delegate del, SyncContext ctx)
+		{
+			__EventHandler_DelegateFactory vthis = new __EventHandler_DelegateFactory ();
+			vthis.target = del;
+			vthis.context = ctx;
+			return new EventHandler (vthis.ProxyCall);
+		}
+		
+		public void ProxyCall (object sender, EventArgs args)
+		{
+			__EventHandler_DelegateData data = new __EventHandler_DelegateData ();
+			data.psender = sender;
+			data.pargs = args;
+			StatefulMessageHandler msg = new StatefulMessageHandler (Dispatch);
+			context.AsyncDispatch (msg, data);
+		}
+		
+		public void Dispatch (object obj)
+		{
+			__EventHandler_DelegateData data = (__EventHandler_DelegateData) obj;
+			target (data.psender, data.pargs);
+		}
+	}
+	
+	*/
 }

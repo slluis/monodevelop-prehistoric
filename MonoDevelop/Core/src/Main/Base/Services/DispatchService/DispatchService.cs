@@ -82,17 +82,8 @@ namespace MonoDevelop.Services
 		{
 			lock (arrGuiQueue) {
 				arrGuiQueue.Add (msg);
-				if (iIdle == 0) {
+				if (iIdle == 0)
 					iIdle = GLib.Idle.Add (handler);
-					/* This code is required because for some
-					 * reason the idle handler is run once
-					 * before being set, so you get a idle
-					 * handler that isnt running, but our code
-					 * thinks that it is.
-					 */
-					if (arrGuiQueue.Count == 0 && iIdle != 0)
-						iIdle = 0;
-				}
 			}
 		}
 		

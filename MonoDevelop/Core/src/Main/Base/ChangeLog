@@ -1,3 +1,16 @@
+2004-12-21  Lluis Sanchez Gual  <lluis@novell.com>
+
+	* Services/DispatchService/DispatchService.cs: Removed unneded check
+	for empty queue in QueueMessage. Not needed since all changes are now
+	done inside a lock.
+	* Services/DispatchService/SyncContext.cs: Fixed the delegate generator.
+	The implementation was wrong. Also added a sample generated class to
+	help understand what it does.
+	* Gui/Pads/OpenTaskView.cs: Keep track of added tasks. TaskService
+	events can be sent asynchronously, so when the event is handled,
+	there is no	guarantee that the state of the task service is the same
+	as when the event was raised.
+	
 2004-12-16  Lluis Sanchez Gual  <lluis@novell.com>
 
 	* Services/DispatchService/SyncContext.cs: Dispatch delegate calls
