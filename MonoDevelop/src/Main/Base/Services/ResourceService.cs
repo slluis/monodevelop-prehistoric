@@ -231,7 +231,7 @@ namespace MonoDevelop.Core.Services
 				throw new ResourceNotFoundException("string >" + name + "<");
 			}
 			
-			return s.Replace (@"\&", "||!|").Replace ("&", "_").Replace ("||!|", "&");;
+			return s.Replace (@"\&", "||!|").Replace ("&", "_").Replace ("||!|", "&");
 		}
 		
 		// use P/Invoke to be able to pass some NULL parameters

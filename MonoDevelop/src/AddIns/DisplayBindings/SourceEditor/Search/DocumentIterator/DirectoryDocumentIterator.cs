@@ -44,7 +44,7 @@ namespace MonoDevelop.TextEditor.Document
 					return null;
 				}
 				
-				return files[curIndex].ToString();;
+				return files[curIndex].ToString();
 			}
 		}
 				
