@@ -118,6 +118,11 @@ namespace Gdl
 			doc.WriteTo (writer);
 		}
 
+		public string[] GetLayouts (bool includeDefault)
+		{
+			return Layouts.ToArray (typeof (string)) as string[];
+		}
+
 		public bool LoadFromFile (string file)
 		{
 			if (doc != null) {

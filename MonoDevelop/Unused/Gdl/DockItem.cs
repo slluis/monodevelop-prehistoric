@@ -61,6 +61,7 @@ namespace Gdl
 			Name = name;
 			LongName = longName;
 			Behavior = behavior;
+			((Label) TabLabel).Markup = longName;
 		}
 		
 		public DockItem (string name, string longName, string stockid,
@@ -248,6 +249,8 @@ namespace Gdl
 		
 		public Widget TabLabel {
 			get {
+				if (tabLabel == null)
+					tabLabel = new Label ();
 				return tabLabel;
 			}
 			set {
