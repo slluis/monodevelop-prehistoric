@@ -7,16 +7,25 @@
 
       <p>This tutorial is your guide to installing MonoDevelop releases using official packages. If you would like to build MonoDevelop from snapshots, please see the 
 <a href="snapshot_install.aspx">snapshot tutorial</a>.</p>
-      <br /><br />
+      <p>Unless specified otherwise, build and install all tarball packages using the following 3 lines:
+<pre class="code">
+tar -xzf mypackage.tar.gz
+cd mypackage
+./configure --prefix=/usr
+make
+make install
+</pre>
+      </p>
       
 
       <div class="headlinebar">Getting Started: Preliminaries</div>
-      <p>There are some packages which are required before installing MonoDevelop. The following instructions guide you through installing them.
+      <p>There are some packages which are required before installing MonoDevelop. The following 
+      instructions guide you through installing them.
       </p>
 
       <br /><br />
       <b>1. ORBit2 2.8.3</b>
-      <p>Although newer versions of ORBit <i>may</i> work, they have been known to produce non-fatal crashes when MonoDevelop exits. If in doubt, <a href="http://ftp.gnome.org/pub/GNOME/sources/ORBit2/2.8/ORBit2-2.8.3.tar.gz">download ORBit 2.8.3</a>.
+      <p>Although newer versions of ORBit <i>may</i> work, they have been known to produce non-fatal crashes when MonoDevelop exits. If in doubt, <a href="http://ftp.gnome.org/pub/GNOME/sources/ORBit2/2.8/ORBit2-2.8.3.tar.gz">download ORBit 2.8.3</a>.</p>
 
       <br /><br />
       <b>2. GtkSourceView 0.7+</b>
@@ -73,7 +82,7 @@ Other binary packages are under development, and will be available soon.
 </p>
 
       
-      <br /><br />
+      <br /><br /><br />
       <div class="headlinebar">Installing MonoDevelop</div>      
       <p>The final step in this process is to build MonoDevelop itself. Download the 
 <a href="http://www.go-mono.com/archive/monodevelop-0.2.tar.gz">MonoDevelop 0.2</a> package.</p>
@@ -89,13 +98,13 @@ make install
 
       <p>Congratulations! You now have the latest copy of MonoDevelop installed. Don't forget to report 
 all the bugs you find.</p>
+      
       <br/><br/>
-
       <hr />
-
       <p>This document was written by <a href="mailto:steve@citygroup.ca">Steve Deobald</a> 
 and is licensed under the Creative Commons License. If this document contains errors or could 
 be improved, please let me know.</p>
+      
       <br /><br />
 
 <ccms:PageFooter runat="server"/>
