@@ -4,7 +4,7 @@
 <ccms:PageHeader runat="server"/>
     <div class="title">MonoDevelop Packages</div>
 
-    <p>Milestone releases can be found here as tarballs. We will also post any binary packages contributed by users.</p>
+    <p>Milestone releases can be found here as tarballs.</p>
     <br />
 
     <h3>MonoDevelop 0.6</h3>
