@@ -75,12 +75,21 @@ class MainClass
 		Console.ReadLine();
 	}
 */
+	static void PrintUsage ()
+	{
+		Console.WriteLine ("usage: test-parser.exe <file>");
+		Environment.Exit (0);
+	}
+
 	public static void Main (string[] args)
 	{
+		if (args.Length != 1)
+			PrintUsage ();
+
 //		PrettyPrintDirectories();
 		Parser p = new Parser();
+	
 		string fileName = args[0];
-		Console.WriteLine ("Converting : " + fileName);
 		p.Parse (new Lexer (new FileReader (fileName)));
 		if (p.Errors.count == 0) {
 			StreamReader sr = File.OpenText(fileName);
@@ -88,10 +97,7 @@ class MainClass
 			sr.Close();
 			PrettyPrintVisitor ppv = new PrettyPrintVisitor(content);
 			ppv.Visit(p.compilationUnit, null);
-			
 			Console.WriteLine(ppv.Text);
-			
-			Console.WriteLine(" done.");
 		} else {
 			Console.WriteLine (" Source code errors:");
 			foreach (ErrorInfo error in p.Errors.ErrorInformation)

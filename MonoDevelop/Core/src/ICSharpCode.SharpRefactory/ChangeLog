@@ -1,3 +1,10 @@
+2005-02-04  John Luke  <john.luke@gmail.com>
+
+	* src/Parser/AST/Modifier.cs: add Static to Class
+	* src/Parser/generated/cs.ATG: add Modifier.Static to TypeModifiers
+	* src/Parser/generated/Modifiers.cs: static & abstract or
+	static & sealed is invalid 
+
 2005-02-03  John Luke  <john.luke@gmail.com>
 
 	* Makefile.am: add PrettyPrintOptions.cs

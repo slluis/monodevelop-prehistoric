@@ -1,3 +1,5 @@
+using System;
+
 namespace ICSharpCode.SharpRefactory.Parser
 {
 	public class Modifiers
@@ -33,12 +35,17 @@ namespace ICSharpCode.SharpRefactory.Parser
 			Add(m.cur);
 		}
 		
-		public void Check(Modifier allowed)
+		// FIXME: probably need more flexible method
+		public void Check (Modifier allowed)
 		{
 			Modifier wrong = cur & (allowed ^ Modifier.All);
-			if (wrong != Modifier.None) {
-				parser.Error("modifier(s) " + wrong + " not allowed here");
-			}
+			if (wrong != Modifier.None)
+				parser.Error ("modifier(s) " + wrong + " not allowed here");
+
+			if ((cur & (Modifier.Sealed | Modifier.Static)) == (Modifier.Sealed | Modifier.Static))
+				parser.Error ("cannot be both static and sealed");
+			if ((cur & (Modifier.Abstract | Modifier.Static)) == (Modifier.Abstract | Modifier.Static))
+				parser.Error ("cannot be both static and abstract");
 		}
 	}
 }

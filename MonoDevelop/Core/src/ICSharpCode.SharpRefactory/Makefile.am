@@ -127,6 +127,9 @@ test: $(TEST)
 $(TEST): $(DLL) src/Main.cs
 	$(CSC) -out:$@ -r:$(DLL) src/Main.cs
 
+run-test: test
+	mono $(TEST) a.cs
+
 assemblydir = $(libdir)/monodevelop/bin
 assembly_DATA = $(DLL)
 

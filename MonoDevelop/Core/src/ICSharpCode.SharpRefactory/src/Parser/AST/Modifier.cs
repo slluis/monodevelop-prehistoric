@@ -29,7 +29,7 @@ namespace ICSharpCode.SharpRefactory.Parser
 		// Modifier scopes
 		None      = 0x0000,
 		
-		Classes                         = New | Public | Protected | Internal | Private | Abstract | Sealed,
+		Classes                         = New | Public | Protected | Internal | Private | Abstract | Sealed | Static,
 		Fields                          = New | Public | Protected | Internal | Private | Static   | Readonly | Volatile,
 		PropertysEventsMethods          = New | Public | Protected | Internal | Private | Static   | Virtual  | Sealed   | Override | Abstract | Extern,
 		Indexers                        = New | Public | Protected | Internal | Private | Virtual  | Sealed   | Override | Abstract | Extern,

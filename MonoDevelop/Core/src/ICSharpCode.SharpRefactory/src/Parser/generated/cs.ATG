@@ -927,6 +927,7 @@ TypeModifier<Modifiers m>
 	| "unsafe"                         (. m.Add(Modifier.Unsafe); .)
 	| "abstract"                       (. m.Add(Modifier.Abstract); .)
 	| "sealed"                         (. m.Add(Modifier.Sealed); .)
+	| "static"                         (. m.Add(Modifier.Static); .)
 .
 
 ClassType<out string name>             (. string qualident; name = "";.)
