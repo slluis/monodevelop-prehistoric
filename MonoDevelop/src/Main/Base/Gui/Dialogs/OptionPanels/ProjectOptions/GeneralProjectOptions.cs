@@ -16,72 +16,97 @@ using ICSharpCode.Core.Properties;
 using ICSharpCode.Core.Services;
 using ICSharpCode.Core.AddIns.Codons;
 
+using ICSharpCode.SharpDevelop.Gui.Components;
+using Gtk;
+using MonoDevelop.Gui.Widgets;
+
 namespace ICSharpCode.SharpDevelop.Gui.Dialogs.OptionPanels
-{/*
-	public class GeneralProjectOptions : AbstractOptionPanel
-	{
-		IProject project;
-		static FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.Services.GetService(typeof(FileUtilityService));
-		
-		public override void LoadPanelContents()
-		{
-			SetupFromXml(Path.Combine(PropertyService.DataDirectory, 
-			                          @"resources\panels\GeneralProjectOptions.xfrm"));
-			
-			((CheckBox)ControlDictionary["NewFilesOnLoadCheckBox"]).CheckedChanged += new EventHandler(AutoLoadCheckBoxCheckedChangeEvent);
-			(ControlDictionary["BrowseButton"]).Click += new EventHandler(BrowseFileEvent);
-			
-			this.project = (IProject)((IProperties)CustomizationObject).GetProperty("Project");
-			
-			ControlDictionary["ProjectNameTextBox"].Text        = project.Name;
-			ControlDictionary["ProjectDescriptionTextBox"].Text = project.Description;
-			
-			((CheckBox)ControlDictionary["EnableViewStateCheckBox"]).Checked = project.EnableViewState;
-			
-			switch (project.NewFileSearch) {
+{
+	// FIXME 
+	// - internationalize 
+	//   SetupFromXml(Path.Combine(PropertyService.DataDirectory, 
+	//                           @"resources\panels\GeneralProjectOptions.xfrm"));
+	// - Name entry can't be empty. It crashes with empty values.
+
+	public class GeneralProjectOptions : AbstractOptionPanel {
+
+		class GeneralProjectOptionsWidget : GladeWidgetExtract {
+
+			// Gtk Controls
+			[Glade.Widget] Entry ProjectNameEntry;
+			[Glade.Widget] TextView ProjectDescriptionTextView;
+			[Glade.Widget] CheckButton NewFilesOnLoadCheckButton;
+ 			[Glade.Widget] CheckButton AutoInsertNewFilesCheckButton;
+ 			[Glade.Widget] CheckButton EnableViewStateCheckButton;
+
+			IProject project;
+
+			public GeneralProjectOptionsWidget (IProperties CustomizationObject) : base ("Base.glade", "GeneralProjectOptionsPanel")
+			{
+				this.project = (IProject)((IProperties)CustomizationObject).GetProperty("Project");
+				
+				ProjectNameEntry.Text = project.Name;
+				ProjectDescriptionTextView.Buffer.Text = project.Description;
+				EnableViewStateCheckButton.Active = project.EnableViewState;
+				
+				switch (project.NewFileSearch) 
+				{
 				case NewFileSearch.None:
-					((CheckBox)ControlDictionary["NewFilesOnLoadCheckBox"]).Checked = ((CheckBox)ControlDictionary["AutoInsertNewFilesCheckBox"]).Checked = false;
+					NewFilesOnLoadCheckButton.Active = false; 
+					AutoInsertNewFilesCheckButton.Active = false;
 					break;
 				case NewFileSearch.OnLoad:
-					((CheckBox)ControlDictionary["NewFilesOnLoadCheckBox"]).Checked = true;
-					((CheckBox)ControlDictionary["AutoInsertNewFilesCheckBox"]).Checked = false;
+					NewFilesOnLoadCheckButton.Active = true; 
+					AutoInsertNewFilesCheckButton.Active = false;
 					break;
 				default:
-					((CheckBox)ControlDictionary["NewFilesOnLoadCheckBox"]).Checked = ((CheckBox)ControlDictionary["AutoInsertNewFilesCheckBox"]).Checked = true;
+					NewFilesOnLoadCheckButton.Active = true; 
+					AutoInsertNewFilesCheckButton.Active = true;
 					break;
+				}
+				
+				NewFilesOnLoadCheckButton.Clicked += new EventHandler(AutoLoadCheckBoxCheckedChangeEvent);
+				AutoLoadCheckBoxCheckedChangeEvent(null, null);
+			
+			}			
+		void AutoLoadCheckBoxCheckedChangeEvent(object sender, EventArgs e)
+		{
+ 			AutoInsertNewFilesCheckButton.Sensitive = NewFilesOnLoadCheckButton.Active;
+			if (NewFilesOnLoadCheckButton.Active == false) 
+			{
+				AutoInsertNewFilesCheckButton.Active = false;
 			}
-			AutoLoadCheckBoxCheckedChangeEvent(null, null);
+		}
+
+			
+			public void  Store (IProperties CustomizationObject)
+			{
+				project.Name                 = ProjectNameEntry.Text;
+				project.Description          = ProjectDescriptionTextView.Buffer.Text;
+				project.EnableViewState      = EnableViewStateCheckButton.Active;
+				
+				if (NewFilesOnLoadCheckButton.Active) {
+					project.NewFileSearch = AutoInsertNewFilesCheckButton.Active ?  NewFileSearch.OnLoadAutoInsert : NewFileSearch.OnLoad;
+				} else {
+					project.NewFileSearch = NewFileSearch.None;
+				}
+			}
+		}
+		
+		GeneralProjectOptionsWidget widget;
+
+		public override void LoadPanelContents()
+		{
+			Add (widget = new  GeneralProjectOptionsWidget ((IProperties) CustomizationObject));
 		}
 		
 		public override bool StorePanelContents()
 		{
-			project.Name                 = ControlDictionary["ProjectNameTextBox"].Text;
-			project.Description          = ControlDictionary["ProjectDescriptionTextBox"].Text;
-			
-			project.EnableViewState = ((CheckBox)ControlDictionary["EnableViewStateCheckBox"]).Checked;
-			
-			if (((CheckBox)ControlDictionary["NewFilesOnLoadCheckBox"]).Checked) {
-				project.NewFileSearch = ((CheckBox)ControlDictionary["AutoInsertNewFilesCheckBox"]).Checked ?  NewFileSearch.OnLoadAutoInsert : NewFileSearch.OnLoad;
-			} else {
-				project.NewFileSearch = NewFileSearch.None;
-			}
-			return true;
+			widget.Store ((IProperties) CustomizationObject);
+ 			return true;
 		}
 		
-		void AutoLoadCheckBoxCheckedChangeEvent(object sender, EventArgs e)
-		{
-			((CheckBox)ControlDictionary["AutoInsertNewFilesCheckBox"]).Enabled = ((CheckBox)ControlDictionary["NewFilesOnLoadCheckBox"]).Checked;
-		}
-		
-		void BrowseFileEvent(object sender, EventArgs e)
-		{
-			using (OpenFileDialog fdiag  = new OpenFileDialog()) {
-				fdiag.CheckFileExists = true;
-				
-				if (fdiag.ShowDialog() == DialogResult.OK) {
-					ControlDictionary["ProjectDocumentationLocationTextBox"].Text = fdiag.FileName;
-				}
-			}
-		}
-	}*/
+
+	}
 }
+
