@@ -29,8 +29,6 @@ namespace MonoDevelop.Gui.Utils
 			Gnome.IconLookupResultFlags result;
 			string icon = Gnome.Icon.LookupSync (iconTheme, thumbnailFactory, filename, "", Gnome.IconLookupFlags.None, out result);
 			Gdk.Pixbuf pix = GetPixbufForType (icon);
-			if (pix == null)
-				return null;
 			return pix.ScaleSimple (height, width, Gdk.InterpType.Bilinear);
 		}
 
@@ -43,7 +41,7 @@ namespace MonoDevelop.Gui.Utils
 				try {
 					p_filename = iconTheme.LookupIcon (type, 24, new Gnome.IconData (), out i);
 				} catch {
-					return null;
+					return new Gdk.Pixbuf ("../data/resources/icons/gnome-fs-regular.png");
 				}
 				bf = new Gdk.Pixbuf (p_filename);
 				iconHash [type] = bf;
