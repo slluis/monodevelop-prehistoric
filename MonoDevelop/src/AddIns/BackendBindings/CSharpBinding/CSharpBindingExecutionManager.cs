@@ -67,12 +67,15 @@ namespace CSharpBinding
 						break;
 				}
 				
-				if (parameters.CompileTarget != CompileTarget.WinExe && parameters.PauseConsoleOutput) {
-					psi = new ProcessStartInfo(Environment.GetEnvironmentVariable("ComSpec"), "/c " + runtimeStarter + "\"" + directory + exe + "\" " + args +  " & pause");
-				} else {
+				 // FIXME Pedro
+				runtimeStarter = "mono ";
+				
+				//if (parameters.CompileTarget != CompileTarget.WinExe && parameters.PauseConsoleOutput) {
+				//	psi = new ProcessStartInfo(Environment.GetEnvironmentVariable("ComSpec"), "/c " + runtimeStarter + "\"" + directory + exe + "\" " + args +  " & pause");
+				//} else {
 					psi = new ProcessStartInfo(runtimeStarter + "\"" + directory + exe + "\"");
 					psi.Arguments = args;
-				}
+				//}
 			}
 			
 			try {

@@ -7,7 +7,7 @@
 
 using System;
 using System.IO;
-//using System.Threading;
+using System.Threading;
 using System.Drawing;
 using System.Drawing.Printing;
 using System.Collections;
@@ -190,7 +190,8 @@ namespace ICSharpCode.SharpDevelop.Commands
 	
 	public class RunCommand : AbstractMenuCommand
 	{
-		void RunThread()
+		//void RunThread()
+		bool RunThread()
 		{
 			lock (Compile.CompileLockObject) {
 				TaskService taskService = (TaskService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(TaskService));
@@ -231,17 +232,19 @@ namespace ICSharpCode.SharpDevelop.Commands
 					messageService.ShowError(e, "Error while running");
 				}
 				statusBarService.SetMessage("${res:MainWindow.StatusBar.ReadyMessage}");
+				return false;
 			}
 		}
 		
 		public override void Run()
 		{
 			IProjectService projectService = (IProjectService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
-//			if (projectService.CurrentOpenCombine != null) {
+			if (projectService.CurrentOpenCombine != null) {
+				RunThread(); // TODO FIXME PEDRO
 				//Thread t = new Thread(new ThreadStart(RunThread));
 				//t.IsBackground  = true;
 				//t.Start();
-//			}
+			}
 		}
 	}
 	
