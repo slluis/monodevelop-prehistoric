@@ -126,6 +126,14 @@ SOURCES= \
 ./Gui/CompletionDatabaseWizard/ChooseLocationPanel.cs \
 ./Gui/ViewContentCollection.cs \
 ./Gui/IWorkbenchWindow.cs \
+./Gui/HtmlControl/IHTMLDocument2.cs \
+./Gui/HtmlControl/HtmlControl.cs \
+./Gui/HtmlControl/BrowserNavigateEventArgs.cs \
+./Gui/HtmlControl/IWebBrowser.cs \
+./Gui/HtmlControl/IHTMLElement.cs \
+./Gui/HtmlControl/IWebBrowserEvents.cs \
+./Gui/HtmlControl/MozillaControl.cs \
+./Gui/HtmlControl/ControlType.cs \
 ./Gui/Workbench/Layouts/SdiWorkspaceWindow.cs \
 ./Gui/Workbench/Layouts/SdiWorkspaceLayout.cs \
 ./Gui/Workbench/WorkbenchMemento.cs \
@@ -353,4 +361,5 @@ $(DLL): $(SOURCES)
 		/r:System.Data.dll /r:System.Web.Services.dll /define:LINUX \
 		/define:GTK /r:gtk-sharp.dll /r:gdk-sharp.dll /r:glib-sharp.dll \
 		/r:pango-sharp.dll \
+		/r:gtkmozembed-sharp.dll \
 		$(SOURCES)

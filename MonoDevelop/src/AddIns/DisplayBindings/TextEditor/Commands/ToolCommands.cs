@@ -27,7 +27,7 @@ using ICSharpCode.TextEditor.Document;
 using ICSharpCode.SharpDevelop.DefaultEditor.Gui.Editor;
 using ICSharpCode.TextEditor;
 using ICSharpCode.SharpDevelop.Gui;
-using MonoDevelop.Gui;
+using ICSharpCode.SharpDevelop.Gui.HtmlControl;
 using ICSharpCode.Core.Services;
 
 namespace ICSharpCode.SharpDevelop.DefaultEditor.Commands

@@ -17,7 +17,7 @@ using ICSharpCode.Core.Properties;
 using ICSharpCode.Core.Services;
 using ICSharpCode.Core.AddIns.Codons;
 using ICSharpCode.SharpDevelop.Gui;
-using MonoDevelop.Gui;
+using ICSharpCode.SharpDevelop.Gui.HtmlControl;
 
 namespace ICSharpCode.SharpDevelop.BrowserDisplayBinding
 {

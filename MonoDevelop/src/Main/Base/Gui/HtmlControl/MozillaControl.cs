@@ -10,7 +10,7 @@ using System;
 using GtkMozEmbed;
 using GtkMozEmbedSharp;
 
-namespace MonoDevelop.Gui
+namespace ICSharpCode.SharpDevelop.Gui.HtmlControl
 {
 	public class MozillaControl : EmbedWidget, IWebBrowser
 	{

@@ -14,9 +14,8 @@ using System.Runtime.CompilerServices;
 using ICSharpCode.SharpDevelop.Gui;
 using ICSharpCode.Core.Properties;
 using ICSharpCode.Core.Services;
-using MonoDevelop.Gui;
-using Gdk;
-using Gtk;
+using ICSharpCode.SharpDevelop.Gui.HtmlControl;
+using Gdk;using Gtk;
 using GtkSharp;
 using Pango;
 
@@ -83,7 +82,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 			//text = "\"No proper program contains an indication which as an operator-applied occurrence identifies an operator-defining occurrence which as an indication-applied occurrence identifies an indication-defining occurrence different from the one identified by the given indication as an indication- applied occurrence.\"\n   -- ALGOL 68 Report\n\n\n";
 			//text = "\"The '#pragma' command is specified in the ANSI standard to have an arbitrary implementation-defined effect. In the GNU C preprocessor, `#pragma' first attempts to run the game rogue; if that fails, it tries to run the game hack; if that fails, it tries to run GNU Emacs displaying the Tower of Hanoi; if that fails, it reports a fatal error. In any case, preprocessing does not continue.\"\n   --From an old GNU C Preprocessor document";
 			
-			Gtk.Function ScrollHandler = new Gtk.Function (ScrollDown);			hndlr = Timeout.Add (20, ScrollHandler);
+			Gtk.Function ScrollHandler = new Gtk.Function (ScrollDown);			hndlr = Timeout.Add (20, ScrollHandler);
 		}
 		
 		bool ScrollDown ()
@@ -178,7 +177,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 			nb.AppendPage (aatp.Control, new Label ("Authors"));
 			nb.AppendPage (changelog.Control, new Label ("ChangeLog"));
 			nb.AppendPage (vinfo, new Label ("Version Info"));
-			this.VBox.PackStart (nb);		
+			this.VBox.PackStart (nb);		
 			Gtk.Button close = new Gtk.Button (Gtk.Stock.Close);
 			close.Clicked += new EventHandler (OnCloseClicked);
 			close.Show ();
