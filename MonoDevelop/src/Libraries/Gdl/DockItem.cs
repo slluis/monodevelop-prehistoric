@@ -120,7 +120,7 @@ namespace Gdl
 		}
 		
 		public bool Locked {
-			get { return !((this.behavior & DockItemBehavior.Locked) != 0); }
+			get { return ((this.behavior & DockItemBehavior.Locked) != 0); }
 			set {
 				DockItemBehavior old_beh = this.behavior;
 				if (value)
@@ -164,7 +164,9 @@ namespace Gdl
 		}
 		
 		public bool GripShown {
-			get { return (this.HasGrip && !this.Locked && this.grip_shown); }
+			get {
+				return (this.HasGrip && !this.Locked && this.grip_shown);
+			}
 		}
 		
 		public bool CantClose {
@@ -281,6 +283,7 @@ namespace Gdl
 				child_allocation.Width = allocation.Width - 2 * (border_width + this.Style.XThickness);
 				child_allocation.Height = allocation.Height - 2 * (border_width + this.Style.YThickness);
 				
+				Console.WriteLine (this.GripShown);
 				if (this.GripShown) {
 					Gdk.Rectangle grip_alloc = child_allocation;
 					Gtk.Requisition grip_req = this.grip.SizeRequest ();
@@ -344,7 +347,7 @@ namespace Gdl
 				this.grip.ParentWindow = this.GdkWindow;
 		}
 		
-		protected override void OnStyleSet (Gtk.Style previous_style)
+		/*protected override void OnStyleSet (Gtk.Style previous_style)
 		{
 			if (this.IsRealized && !this.NoWindow) {
 				this.Style.SetBackground (this.GdkWindow, this.State);
@@ -352,7 +355,7 @@ namespace Gdl
 					this.GdkWindow.Clear ();
 				}
 			}
-		}
+		}*/
 		
 		protected override bool OnExposeEvent (Gdk.EventExpose evnt)
 		{

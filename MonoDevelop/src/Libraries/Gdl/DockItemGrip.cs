@@ -218,6 +218,7 @@ namespace Gdl
 		protected override void OnMapped ()
 		{
 			base.OnMapped ();
+			Console.WriteLine ("Mapping the grip");
 			if (this.title_window != null) {
 				this.title_window.Show ();
 			}
@@ -332,6 +333,9 @@ namespace Gdl
 					area.Width -= this.icon_pixbuf.Width + 1;
 				}
 				this.EllipsizeLayout (area.Width);
+				Console.WriteLine ("Text: |" + this.title_layout.Text + "|");
+			} else {
+				Console.WriteLine ("title_window was null");
 			}
 		}
 		

@@ -125,9 +125,13 @@ namespace Gdl
 		protected override void OnMapped ()
 		{
 			base.OnMapped ();
+			Console.WriteLine ("Mapping");
 			if (this.root != null) {
-				if (this.root.Visible && !this.root.IsMapped)
+				Console.WriteLine ("root.Visible = " + this.root.Visible);
+				if (this.root.Visible && !this.root.IsMapped) {
+					Console.WriteLine ("Mapping root");
 					this.root.Map ();
+				}
 			}
 		}
 		
@@ -151,8 +155,8 @@ namespace Gdl
 				foreach (DockObject item in this.Master.TopLevelDocks) {
 					if (item == this)
 						continue;
-					Console.WriteLine ("Showing: " + item.Name);
-					item.Show ();
+					if (item.IsAutomatic)
+						item.Show ();
 				}
 			}
 		}
@@ -288,7 +292,9 @@ gdl_dock_child_type (GtkContainer *container)
 		{
 			if (!(requestor is DockItem))
 				return;
+			Console.WriteLine ("requestor is a DockItem");
 			if (position == DockPlacement.Floating) {
+				Console.WriteLine ("Adding a floating dockitem");
 				DockItem item = requestor as DockItem;
 				int x = 0, y = 0, width = -1, height = 01;
 				if (user_data != null && user_data is Gdk.Rectangle) {
@@ -300,18 +306,25 @@ gdl_dock_child_type (GtkContainer *container)
 				}
 				AddFloatingItem (item, x, y, width, height);
 			} else if (this.root != null) {
+				Console.WriteLine ("root was not null, docking to root");
 				this.root.Docking (requestor, position, null);
 				//gdl_dock_set_title (dock /*this*/);
 			} else {
+				Console.WriteLine ("root is null, setting requestor to root");
 				this.root = requestor;
 				this.root.DockObjectFlags &= DockObjectFlags.Attached;
 				this.root.Parent = this;
 				((DockItem)this.root).ShowGrip ();
-				if (this.IsRealized)
+				if (this.IsRealized) {
+					Console.WriteLine ("realizing new root");
 					this.root.Realize ();
+				}
 				if (this.Visible && this.root.Visible) {
-					if (this.IsMapped)
+					Console.WriteLine ("root is visible");
+					if (this.IsMapped) {
+						Console.WriteLine ("mapping new root");
 						this.root.Map ();
+					}
 					this.root.QueueResize ();
 				}
 				//gdl_dock_set_title (dock /*this*/);
@@ -357,8 +370,10 @@ gdl_dock_child_type (GtkContainer *container)
 				return;
 			if (placement == DockPlacement.Floating)
 				AddFloatingItem (item, 0, 0, -1, -1);
-			else
+			else {
+				Console.WriteLine ("about to dock");
 				this.Docking (item, placement, null);
+			}
 		}
 		
 		public void AddFloatingItem (DockItem item, int x, int y, int width, int height)
