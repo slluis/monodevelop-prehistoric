@@ -174,7 +174,6 @@ namespace MonoDevelop.SourceEditor.Gui
 					triggerChar = iter.Char[0];
 					break;
 				}
-				Console.WriteLine ("Char[0] is: |{0}|", iter.Char[0]);
 				if (!triggerIter.Equals (TextIter.Zero))
 					break;
 				iter.BackwardChar ();
