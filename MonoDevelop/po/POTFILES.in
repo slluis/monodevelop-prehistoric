@@ -1,3 +1,6 @@
 [encoding: UTF-8]
 data/resources/glade/Base.glade
 src/Main/Base/Gui/Dialogs/CommonAboutDialog.cs
+src/Main/Base/Gui/Dialogs/NewProjectDialog.cs
+src/Main/Base/Gui/Dialogs/NewFileDialog.cs
+src/Main/Base/Gui/Dialogs/OptionPanels/EditTemplateDialog.cs

@@ -145,6 +145,7 @@ namespace MonoDevelop.Gui.Dialogs
 			nb.AppendPage (new AboutMonoDevelopTabPage (), new Label (GettextCatalog.GetString ("About MonoDevelop")));
 			//nb.AppendPage (aatp, new Label ("Authors"));
 			//nb.AppendPage (changelog, new Label ("ChangeLog"));
+
 			nb.AppendPage (vinfo, new Label (GettextCatalog.GetString ("Version Info")));
 			this.VBox.PackStart (nb);
 			this.AddButton (Gtk.Stock.Close, (int) ResponseType.Close);

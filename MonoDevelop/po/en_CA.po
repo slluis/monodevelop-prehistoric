@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: MonoDevelop 0.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-04-02 04:24-0500\n"
+"POT-Creation-Date: 2004-04-02 05:41-0500\n"
 "PO-Revision-Date: 2004-04-02 03:31-0500\n"
 "Last-Translator: Todd Berman <tberman@sevenl.net>\n"
 "Language-Team: Todd Berman <tberman@sevenl.net>\n"
@@ -360,6 +360,13 @@ msgstr ""
 msgid "radiobutton2"
 msgstr ""
 
-#: src/Main/Base/Gui/Dialogs/CommonAboutDialog.cs:129
+#: src/Main/Base/Gui/Dialogs/CommonAboutDialog.cs:128
+#: src/Main/Base/Gui/Dialogs/CommonAboutDialog.cs:145
 msgid "About MonoDevelop"
 msgstr "Aboot MonoDevelop"
+
+#. nb.AppendPage (aatp, new Label ("Authors"));
+#. nb.AppendPage (changelog, new Label ("ChangeLog"));
+#: src/Main/Base/Gui/Dialogs/CommonAboutDialog.cs:148
+msgid "Version Info"
+msgstr ""
