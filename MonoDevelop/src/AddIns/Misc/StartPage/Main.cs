@@ -20,7 +20,8 @@ namespace ICSharpCode.StartPage {
 				}
 			}
 //			if (SharpDevelopMain.CommandLineArgs != null) {
-				WorkbenchSingleton.Workbench.ShowView(new StartPageView());
+				//FIXME: commenting out until this actually works
+				//WorkbenchSingleton.Workbench.ShowView(new StartPageView());
 //			}
 		}
 	}
