@@ -32,7 +32,7 @@
 	  <child>
 	    <widget class="GtkLabel" id="extensionLabel">
 	      <property name="visible">True</property>
-	      <property name="label" translatable="yes">extensionLabel</property>
+	      <property name="label" translatable="yes">Extension</property>
 	      <property name="use_underline">True</property>
 	      <property name="use_markup">False</property>
 	      <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -64,7 +64,7 @@
 		<widget class="GtkButton" id="addGroupButton">
 		  <property name="visible">True</property>
 		  <property name="can_focus">True</property>
-		  <property name="label" translatable="yes">button6</property>
+		  <property name="label" translatable="yes">Add Group</property>
 		  <property name="use_underline">True</property>
 		  <property name="relief">GTK_RELIEF_NORMAL</property>
 		</widget>
@@ -79,7 +79,7 @@
 		<widget class="GtkButton" id="editGroupButton">
 		  <property name="visible">True</property>
 		  <property name="can_focus">True</property>
-		  <property name="label" translatable="yes">button1</property>
+		  <property name="label" translatable="yes">Edit Group</property>
 		  <property name="use_underline">True</property>
 		  <property name="relief">GTK_RELIEF_NORMAL</property>
 		</widget>
@@ -94,7 +94,7 @@
 		<widget class="GtkButton" id="removeGroupButton">
 		  <property name="visible">True</property>
 		  <property name="can_focus">True</property>
-		  <property name="label" translatable="yes">button2</property>
+		  <property name="label" translatable="yes">Remove Group</property>
 		  <property name="use_underline">True</property>
 		  <property name="relief">GTK_RELIEF_NORMAL</property>
 		</widget>
@@ -180,8 +180,8 @@
 		<widget class="GtkButton" id="removeButton">
 		  <property name="visible">True</property>
 		  <property name="can_focus">True</property>
-		  <property name="label" translatable="yes">button3</property>
-		  <property name="use_underline">True</property>
+		  <property name="label">gtk-remove</property>
+		  <property name="use_stock">True</property>
 		  <property name="relief">GTK_RELIEF_NORMAL</property>
 		</widget>
 		<packing>
@@ -196,7 +196,7 @@
 		<widget class="GtkButton" id="editButton">
 		  <property name="visible">True</property>
 		  <property name="can_focus">True</property>
-		  <property name="label" translatable="yes">button4</property>
+		  <property name="label" translatable="yes">Edit</property>
 		  <property name="use_underline">True</property>
 		  <property name="relief">GTK_RELIEF_NORMAL</property>
 		</widget>
@@ -212,8 +212,8 @@
 		<widget class="GtkButton" id="addButton">
 		  <property name="visible">True</property>
 		  <property name="can_focus">True</property>
-		  <property name="label" translatable="yes">button5</property>
-		  <property name="use_underline">True</property>
+		  <property name="label">gtk-add</property>
+		  <property name="use_stock">True</property>
 		  <property name="relief">GTK_RELIEF_NORMAL</property>
 		</widget>
 		<packing>
@@ -299,7 +299,7 @@
 	  <child>
 	    <widget class="GtkLabel" id="genOptions">
 	      <property name="visible">True</property>
-	      <property name="label" translatable="yes">&lt;b&gt;General Options-&lt;/b&gt;</property>
+	      <property name="label" translatable="yes">&lt;b&gt;General Options&lt;/b&gt;</property>
 	      <property name="use_underline">False</property>
 	      <property name="use_markup">True</property>
 	      <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -354,7 +354,7 @@
 		    <widget class="GtkCheckButton" id="enableCodeCompletionCheckBox">
 		      <property name="visible">True</property>
 		      <property name="can_focus">True</property>
-		      <property name="label" translatable="yes">Enable code _completion-</property>
+		      <property name="label" translatable="yes">Enable code _completion</property>
 		      <property name="use_underline">True</property>
 		      <property name="relief">GTK_RELIEF_NORMAL</property>
 		      <property name="active">False</property>
@@ -373,7 +373,7 @@
 		      <property name="visible">True</property>
 		      <property name="sensitive">False</property>
 		      <property name="can_focus">True</property>
-		      <property name="label" translatable="yes">Enable code _folding-</property>
+		      <property name="label" translatable="yes">Enable code _folding</property>
 		      <property name="use_underline">True</property>
 		      <property name="relief">GTK_RELIEF_NORMAL</property>
 		      <property name="active">False</property>
@@ -391,7 +391,7 @@
 		    <widget class="GtkCheckButton" id="enableDoublebufferingCheckBox">
 		      <property name="visible">True</property>
 		      <property name="can_focus">True</property>
-		      <property name="label" translatable="yes">Enable double buffering-</property>
+		      <property name="label" translatable="yes">Enable double buffering</property>
 		      <property name="use_underline">True</property>
 		      <property name="relief">GTK_RELIEF_NORMAL</property>
 		      <property name="active">False</property>
@@ -435,7 +435,7 @@
 	  <child>
 	    <widget class="GtkLabel" id="fontOptions">
 	      <property name="visible">True</property>
-	      <property name="label" translatable="yes">&lt;b&gt;Font-&lt;/b&gt;</property>
+	      <property name="label" translatable="yes">&lt;b&gt;Font&lt;/b&gt;</property>
 	      <property name="use_underline">False</property>
 	      <property name="use_markup">True</property>
 	      <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -636,7 +636,7 @@
 	  <child>
 	    <widget class="GtkLabel" id="encOptions">
 	      <property name="visible">True</property>
-	      <property name="label" translatable="yes">&lt;b&gt;File encoding-&lt;/b&gt;</property>
+	      <property name="label" translatable="yes">&lt;b&gt;File encoding&lt;/b&gt;</property>
 	      <property name="use_underline">False</property>
 	      <property name="use_markup">True</property>
 	      <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -690,7 +690,7 @@
 		  <child>
 		    <widget class="GtkLabel" id="encVBox">
 		      <property name="visible">True</property>
-		      <property name="label" translatable="yes">Choose _encoding-</property>
+		      <property name="label" translatable="yes">Choose _encoding</property>
 		      <property name="use_underline">True</property>
 		      <property name="use_markup">False</property>
 		      <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -769,7 +769,7 @@
 	  <child>
 	    <widget class="GtkLabel" id="markersLabel">
 	      <property name="visible">True</property>
-	      <property name="label" translatable="yes">&lt;b&gt; Markers- &lt;/b&gt;</property>
+	      <property name="label" translatable="yes">&lt;b&gt;Markers&lt;/b&gt;</property>
 	      <property name="use_underline">False</property>
 	      <property name="use_markup">True</property>
 	      <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -824,7 +824,7 @@
 		    <widget class="GtkCheckButton" id="showInvalidLinesCheckBox">
 		      <property name="visible">True</property>
 		      <property name="can_focus">True</property>
-		      <property name="label" translatable="yes">_Underline errors-</property>
+		      <property name="label" translatable="yes">_Underline errors</property>
 		      <property name="use_underline">True</property>
 		      <property name="relief">GTK_RELIEF_NORMAL</property>
 		      <property name="active">False</property>
@@ -842,7 +842,7 @@
 		    <widget class="GtkCheckButton" id="showLineNumberCheckBox">
 		      <property name="visible">True</property>
 		      <property name="can_focus">True</property>
-		      <property name="label" translatable="yes">Show _line numbers-</property>
+		      <property name="label" translatable="yes">Show _line numbers</property>
 		      <property name="use_underline">True</property>
 		      <property name="relief">GTK_RELIEF_NORMAL</property>
 		      <property name="active">False</property>
@@ -860,7 +860,7 @@
 		    <widget class="GtkCheckButton" id="showBracketHighlighterCheckBox">
 		      <property name="visible">True</property>
 		      <property name="can_focus">True</property>
-		      <property name="label" translatable="yes">Highlight _matching bracket-</property>
+		      <property name="label" translatable="yes">Highlight _matching bracket</property>
 		      <property name="use_underline">True</property>
 		      <property name="relief">GTK_RELIEF_NORMAL</property>
 		      <property name="active">False</property>
@@ -884,7 +884,7 @@
 			<widget class="GtkLabel" id="characterMarkersLabel">
 			  <property name="visible">True</property>
 			  <property name="sensitive">False</property>
-			  <property name="label" translatable="yes">Character Markers-</property>
+			  <property name="label" translatable="yes">Character Markers</property>
 			  <property name="use_underline">False</property>
 			  <property name="use_markup">False</property>
 			  <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -940,7 +940,7 @@
 				  <property name="visible">True</property>
 				  <property name="sensitive">False</property>
 				  <property name="can_focus">True</property>
-				  <property name="label" translatable="yes">Show _spaces-</property>
+				  <property name="label" translatable="yes">Show _spaces</property>
 				  <property name="use_underline">True</property>
 				  <property name="relief">GTK_RELIEF_NORMAL</property>
 				  <property name="active">False</property>
@@ -959,7 +959,7 @@
 				  <property name="visible">True</property>
 				  <property name="sensitive">False</property>
 				  <property name="can_focus">True</property>
-				  <property name="label" translatable="yes">Show _tabs-</property>
+				  <property name="label" translatable="yes">Show _tabs</property>
 				  <property name="use_underline">True</property>
 				  <property name="relief">GTK_RELIEF_NORMAL</property>
 				  <property name="active">False</property>
@@ -978,7 +978,7 @@
 				  <property name="visible">True</property>
 				  <property name="sensitive">False</property>
 				  <property name="can_focus">True</property>
-				  <property name="label" translatable="yes">Show _EOL markers-</property>
+				  <property name="label" translatable="yes">Show _EOL markers</property>
 				  <property name="use_underline">True</property>
 				  <property name="relief">GTK_RELIEF_NORMAL</property>
 				  <property name="active">False</property>
@@ -997,7 +997,7 @@
 				  <property name="visible">True</property>
 				  <property name="sensitive">False</property>
 				  <property name="can_focus">True</property>
-				  <property name="label" translatable="yes">Show _invalid lines-</property>
+				  <property name="label" translatable="yes">Show _invalid lines</property>
 				  <property name="use_underline">True</property>
 				  <property name="relief">GTK_RELIEF_NORMAL</property>
 				  <property name="active">False</property>
@@ -1062,7 +1062,7 @@
 	  <child>
 	    <widget class="GtkLabel" id="rulersLabel">
 	      <property name="visible">True</property>
-	      <property name="label" translatable="yes">&lt;b&gt; Rulers-&lt;/b&gt;</property>
+	      <property name="label" translatable="yes">&lt;b&gt;Rulers&lt;/b&gt;</property>
 	      <property name="use_underline">False</property>
 	      <property name="use_markup">True</property>
 	      <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -1117,7 +1117,7 @@
 		    <widget class="GtkCheckButton" id="showHRulerCheckBox">
 		      <property name="visible">True</property>
 		      <property name="can_focus">True</property>
-		      <property name="label" translatable="yes">Show _horizontal ruler-</property>
+		      <property name="label" translatable="yes">Show _horizontal ruler</property>
 		      <property name="use_underline">True</property>
 		      <property name="relief">GTK_RELIEF_NORMAL</property>
 		      <property name="active">False</property>
@@ -1135,13 +1135,13 @@
 		    <widget class="GtkHBox" id="hbox26">
 		      <property name="visible">True</property>
 		      <property name="homogeneous">False</property>
-		      <property name="spacing">0</property>
+		      <property name="spacing">3</property>
 
 		      <child>
 			<widget class="GtkCheckButton" id="showVRulerCheckBox">
 			  <property name="visible">True</property>
 			  <property name="can_focus">True</property>
-			  <property name="label" translatable="yes">Show _column ruler,-</property>
+			  <property name="label" translatable="yes">Show _column ruler,</property>
 			  <property name="use_underline">True</property>
 			  <property name="relief">GTK_RELIEF_NORMAL</property>
 			  <property name="active">False</property>
@@ -1158,7 +1158,7 @@
 		      <child>
 			<widget class="GtkLabel" id="atColumnLabel">
 			  <property name="visible">True</property>
-			  <property name="label" translatable="yes">at column- </property>
+			  <property name="label" translatable="yes">at column</property>
 			  <property name="use_underline">False</property>
 			  <property name="use_markup">False</property>
 			  <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -1305,7 +1305,7 @@
 		  <child>
 		    <widget class="GtkLabel" id="indentLabel">
 		      <property name="visible">True</property>
-		      <property name="label" translatable="yes">I_ndentations-</property>
+		      <property name="label" translatable="yes">I_ndentation</property>
 		      <property name="use_underline">True</property>
 		      <property name="use_markup">False</property>
 		      <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -1421,7 +1421,7 @@
 		      <child>
 			<widget class="GtkLabel" id="tabSizeLabel">
 			  <property name="visible">True</property>
-			  <property name="label" translatable="yes">_Tab size-</property>
+			  <property name="label" translatable="yes">_Tab size</property>
 			  <property name="use_underline">True</property>
 			  <property name="use_markup">False</property>
 			  <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -1464,7 +1464,7 @@
 		      <child>
 			<widget class="GtkLabel" id="indentSizeLabel">
 			  <property name="visible">True</property>
-			  <property name="label" translatable="yes">_Indentation size-</property>
+			  <property name="label" translatable="yes">_Indentation size</property>
 			  <property name="use_underline">True</property>
 			  <property name="use_markup">False</property>
 			  <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -1513,7 +1513,7 @@
 		    <widget class="GtkCheckButton" id="convertTabsToSpacesCheckBox">
 		      <property name="visible">True</property>
 		      <property name="can_focus">True</property>
-		      <property name="label" translatable="yes">C_onvert Tabs to Spaces-</property>
+		      <property name="label" translatable="yes">C_onvert Tabs to Spaces</property>
 		      <property name="use_underline">True</property>
 		      <property name="relief">GTK_RELIEF_NORMAL</property>
 		      <property name="active">False</property>
@@ -1558,7 +1558,7 @@
 	  <child>
 	    <widget class="GtkLabel" id="behaviourGroupBoxLabel">
 	      <property name="visible">True</property>
-	      <property name="label" translatable="yes">&lt;b&gt;Behavior-&lt;/b&gt;</property>
+	      <property name="label" translatable="yes">&lt;b&gt;Behavior&lt;/b&gt;</property>
 	      <property name="use_underline">False</property>
 	      <property name="use_markup">True</property>
 	      <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -1613,7 +1613,7 @@
 		    <widget class="GtkCheckButton" id="caretBehindEOLCheckBox">
 		      <property name="visible">True</property>
 		      <property name="can_focus">True</property>
-		      <property name="label" translatable="yes">_Can mouve caret behidn EOL-</property>
+		      <property name="label" translatable="yes">_Can move caret behind EOL</property>
 		      <property name="use_underline">True</property>
 		      <property name="relief">GTK_RELIEF_NORMAL</property>
 		      <property name="active">False</property>
@@ -1631,7 +1631,7 @@
 		    <widget class="GtkCheckButton" id="autoInsertTemplatesCheckBox">
 		      <property name="visible">True</property>
 		      <property name="can_focus">True</property>
-		      <property name="label" translatable="yes">_Automatic template insertion-</property>
+		      <property name="label" translatable="yes">_Automatic template insertion</property>
 		      <property name="use_underline">True</property>
 		      <property name="relief">GTK_RELIEF_NORMAL</property>
 		      <property name="active">False</property>
@@ -1649,7 +1649,7 @@
 		    <widget class="GtkCheckButton" id="autoinsertCurlyBraceCheckBox">
 		      <property name="visible">True</property>
 		      <property name="can_focus">True</property>
-		      <property name="label" translatable="yes">A_uto insert curly braces-</property>
+		      <property name="label" translatable="yes">A_uto insert curly braces</property>
 		      <property name="use_underline">True</property>
 		      <property name="relief">GTK_RELIEF_NORMAL</property>
 		      <property name="active">False</property>
@@ -1667,7 +1667,7 @@
 		    <widget class="GtkCheckButton" id="hideMouseCursorCheckBox">
 		      <property name="visible">True</property>
 		      <property name="can_focus">True</property>
-		      <property name="label" translatable="yes">_Hide mouse cursor shile typing-</property>
+		      <property name="label" translatable="yes">_Hide mouse cursor while typing</property>
 		      <property name="use_underline">True</property>
 		      <property name="relief">GTK_RELIEF_NORMAL</property>
 		      <property name="active">False</property>

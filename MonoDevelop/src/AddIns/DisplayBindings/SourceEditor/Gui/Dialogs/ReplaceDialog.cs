@@ -64,16 +64,8 @@ namespace MonoDevelop.Gui.Dialogs
 		
 		void InitDialog ()
 		{
-			label1.Text = stringParserService.Parse ("${res:Dialog.NewProject.SearchReplace.FindWhat}");
-			searchLocationLabel.Text = stringParserService.Parse ("${res:Dialog.NewProject.SearchReplace.SearchIn}");		
-			//findButton.Label = stringParserService.Parse ("${res:Dialog.NewProject.SearchReplace.FindNextButton}");			
-			//closeButton.Label = stringParserService.Parse ("${res:Global.CloseButtonText}");
 			findButton.UseUnderline = true;			
 			closeButton.UseUnderline = true;			
-			ignoreCaseCheckBox.Label = stringParserService.Parse ("${res:Dialog.NewProject.SearchReplace.CaseSensitive}");
-			searchWholeWordOnlyCheckBox.Label = stringParserService.Parse ("${res:Dialog.NewProject.SearchReplace.WholeWord}");
-			useSpecialSearchStrategyCheckBox.Label = stringParserService.Parse ("${res:Dialog.NewProject.SearchReplace.UseMethodLabel}");			
-			
 			
 			//set up the size groups
 			SizeGroup labels = new SizeGroup(SizeGroupMode.Horizontal);
@@ -99,9 +91,6 @@ namespace MonoDevelop.Gui.Dialogs
 			{
 				ReplaceDialogPointer = this.ReplaceDialogWidget;
 				// set the label properties
-				label2.Text = stringParserService.Parse ("${res:Dialog.NewProject.SearchReplace.ReplaceWith}");
-				//replaceButton.Label = stringParserService.Parse ("${res:Dialog.NewProject.SearchReplace.ReplaceButton}");
-				replaceAllButton.Label = stringParserService.Parse ("${res:Dialog.NewProject.SearchReplace.ReplaceAllButton}");
 				replaceButton.UseUnderline = true;
 				replaceAllButton.UseUnderline = true;
 				
@@ -116,7 +105,6 @@ namespace MonoDevelop.Gui.Dialogs
 			{
 				ReplaceDialogPointer = this.FindDialogWidget;
 				markAllButton.UseUnderline = true;
-				markAllButton.Label = stringParserService.Parse ("${res:Dialog.NewProject.SearchReplace.MarkAllButton}");
 			}
 			ReplaceDialogPointer.TransientFor = (Gtk.Window)WorkbenchSingleton.Workbench;
 		}
@@ -151,10 +139,10 @@ namespace MonoDevelop.Gui.Dialogs
 			useSpecialSearchStrategyCheckBox.Active  = SearchReplaceManager.SearchOptions.SearchStrategyType != SearchStrategyType.Normal;
 			useSpecialSearchStrategyCheckBox.Toggled += new EventHandler(SpecialSearchStrategyCheckBoxChangedEvent);
 			
-			Gtk.MenuItem tmpItem = new Gtk.MenuItem ("Wildcards");
+			Gtk.MenuItem tmpItem = new Gtk.MenuItem (GettextCatalog.GetString ("Wildcards"));
 			Gtk.Menu stratMenu = new Gtk.Menu ();
 			stratMenu.Append (tmpItem);
-			tmpItem = new Gtk.MenuItem (resourceService.GetString("Dialog.NewProject.SearchReplace.SearchStrategy.RegexSearch"));
+			tmpItem = new Gtk.MenuItem (GettextCatalog.GetString("Regular Expressions"));
 			stratMenu.Append (tmpItem);
 			specialSearchStrategyComboBox.Menu = stratMenu;
 		
@@ -170,11 +158,11 @@ namespace MonoDevelop.Gui.Dialogs
 			specialSearchStrategyComboBox.SetHistory (index);
 			
 			Gtk.Menu locMenu = new Gtk.Menu ();
-			tmpItem = new Gtk.MenuItem (resourceService.GetString("Global.Location.currentfile"));
+			tmpItem = new Gtk.MenuItem (GettextCatalog.GetString ("Current File"));
 			locMenu.Append (tmpItem);
-			tmpItem = new Gtk.MenuItem (resourceService.GetString("Global.Location.allopenfiles"));
+			tmpItem = new Gtk.MenuItem (GettextCatalog.GetString ("All Open Files"));
 			locMenu.Append (tmpItem);
-			tmpItem = new Gtk.MenuItem (resourceService.GetString("Global.Location.wholeproject"));
+			tmpItem = new Gtk.MenuItem (GettextCatalog.GetString ("Entire Project"));
 			locMenu.Append (tmpItem);
 			
 			searchLocationComboBox.Menu = locMenu;	
@@ -199,12 +187,12 @@ namespace MonoDevelop.Gui.Dialogs
 			ReplaceDialogPointer.DeleteEvent += new DeleteEventHandler (OnDeleted);
 			
 			if (replaceMode) {
-				ReplaceDialogPointer.Title = resourceService.GetString("Dialog.NewProject.SearchReplace.ReplaceDialogName");
+				ReplaceDialogPointer.Title = GettextCatalog.GetString ("Replace");
 				replaceButton.Clicked    += new EventHandler(ReplaceEvent);
 				replaceAllButton.Clicked += new EventHandler(ReplaceAllEvent);
 				replacePatternEntry.GtkEntry.Text = SearchReplaceManager.SearchOptions.ReplacePattern;
 			} else {
-				ReplaceDialogPointer.Title = resourceService.GetString("Dialog.NewProject.SearchReplace.FindDialogName");
+				ReplaceDialogPointer.Title = GettextCatalog.GetString ("Find");
 				markAllButton.Clicked    += new EventHandler(MarkAllEvent);
 			}
 			searchPatternEntry.GtkEntry.SelectRegion(0, searchPatternEntry.GtkEntry.Text.Length);

@@ -1,3 +1,10 @@
+2004-04-03  Todd Berman  <tberman@sevenl.net>
+
+	* Commands/ToolCommands.cs:
+	* Gui/Dialogs/ReplaceDialog.cs:
+	* Gui/Dialogs/EditTemplateGroupDialog.cs:
+	Gettextify
+
 2004-04-01  Todd Berman  <tberman@sevenl.net>
 
 	* CodeCompletion/TextUtilities.cs: if we are already caching the string

@@ -11,6 +11,8 @@ using System.IO;
 using MonoDevelop.Internal.Templates;
 using MonoDevelop.Core.Services;
 
+using MonoDevelop.Services;
+
 namespace MonoDevelop.EditorBindings.Gui.Dialogs
 {
 	public class EditTemplateGroupDialog : Gtk.Dialog 
@@ -56,7 +58,7 @@ namespace MonoDevelop.EditorBindings.Gui.Dialogs
 			// set up this actual dialog
 			this.Modal = true;
 			// FIXME: make this a resource in the resource file
-			this.Title = titlePrefix + "Code Group";
+			this.Title = String.Format (GettextCatalog.GetString ("{0} Code Group"), titlePrefix);
 			
 			// set up the dialog fields and add them
 			templateExtensionsTextBox = new Gtk.Entry();

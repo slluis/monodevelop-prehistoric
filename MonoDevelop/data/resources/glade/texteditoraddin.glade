@@ -374,7 +374,7 @@
 	      <child>
 		<widget class="GtkLabel" id="label1">
 		  <property name="visible">True</property>
-		  <property name="label" translatable="yes">label1</property>
+		  <property name="label" translatable="yes">Find:</property>
 		  <property name="use_underline">False</property>
 		  <property name="use_markup">False</property>
 		  <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -450,7 +450,7 @@
 	      <child>
 		<widget class="GtkLabel" id="label2">
 		  <property name="visible">True</property>
-		  <property name="label" translatable="yes">label2</property>
+		  <property name="label" translatable="yes">Replace:</property>
 		  <property name="use_underline">False</property>
 		  <property name="use_markup">False</property>
 		  <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -520,7 +520,7 @@
 	    <widget class="GtkCheckButton" id="ignoreCaseCheckBox">
 	      <property name="visible">True</property>
 	      <property name="can_focus">True</property>
-	      <property name="label" translatable="yes">checkbutton1</property>
+	      <property name="label" translatable="yes">Case sensitive</property>
 	      <property name="use_underline">True</property>
 	      <property name="relief">GTK_RELIEF_NORMAL</property>
 	      <property name="active">False</property>
@@ -538,7 +538,7 @@
 	    <widget class="GtkCheckButton" id="searchWholeWordOnlyCheckBox">
 	      <property name="visible">True</property>
 	      <property name="can_focus">True</property>
-	      <property name="label" translatable="yes">checkbutton2</property>
+	      <property name="label" translatable="yes">Whole words only</property>
 	      <property name="use_underline">True</property>
 	      <property name="relief">GTK_RELIEF_NORMAL</property>
 	      <property name="active">False</property>
@@ -562,7 +562,7 @@
 		<widget class="GtkCheckButton" id="useSpecialSearchStrategyCheckBox">
 		  <property name="visible">True</property>
 		  <property name="can_focus">True</property>
-		  <property name="label" translatable="yes">checkbutton4</property>
+		  <property name="label" translatable="yes">Use special search strategy:</property>
 		  <property name="use_underline">True</property>
 		  <property name="relief">GTK_RELIEF_NORMAL</property>
 		  <property name="active">False</property>
@@ -723,7 +723,7 @@
 	      <child>
 		<widget class="GtkLabel" id="label1">
 		  <property name="visible">True</property>
-		  <property name="label" translatable="yes">label1</property>
+		  <property name="label" translatable="yes">Find:</property>
 		  <property name="use_underline">False</property>
 		  <property name="use_markup">False</property>
 		  <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -799,7 +799,7 @@
 	      <child>
 		<widget class="GtkLabel" id="label6">
 		  <property name="visible">True</property>
-		  <property name="label" translatable="yes">label6</property>
+		  <property name="label" translatable="yes">Filemask:</property>
 		  <property name="use_underline">False</property>
 		  <property name="use_markup">False</property>
 		  <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -852,7 +852,7 @@
 	      <child>
 		<widget class="GtkLabel" id="label7">
 		  <property name="visible">True</property>
-		  <property name="label" translatable="yes">label7</property>
+		  <property name="label" translatable="yes">Directory:</property>
 		  <property name="use_underline">False</property>
 		  <property name="use_markup">False</property>
 		  <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -915,7 +915,7 @@
 	    <widget class="GtkCheckButton" id="includeSubdirectoriesCheckBox">
 	      <property name="visible">True</property>
 	      <property name="can_focus">True</property>
-	      <property name="label" translatable="yes">checkbutton1</property>
+	      <property name="label" translatable="yes">Recurse subdirectories</property>
 	      <property name="use_underline">True</property>
 	      <property name="relief">GTK_RELIEF_NORMAL</property>
 	      <property name="active">False</property>
@@ -933,7 +933,7 @@
 	    <widget class="GtkCheckButton" id="ignoreCaseCheckBox">
 	      <property name="visible">True</property>
 	      <property name="can_focus">True</property>
-	      <property name="label" translatable="yes">checkbutton1</property>
+	      <property name="label" translatable="yes">Case sensitive</property>
 	      <property name="use_underline">True</property>
 	      <property name="relief">GTK_RELIEF_NORMAL</property>
 	      <property name="active">False</property>
@@ -951,7 +951,7 @@
 	    <widget class="GtkCheckButton" id="searchWholeWordOnlyCheckBox">
 	      <property name="visible">True</property>
 	      <property name="can_focus">True</property>
-	      <property name="label" translatable="yes">checkbutton2</property>
+	      <property name="label" translatable="yes">Whole word only</property>
 	      <property name="use_underline">True</property>
 	      <property name="relief">GTK_RELIEF_NORMAL</property>
 	      <property name="active">False</property>
@@ -975,7 +975,7 @@
 		<widget class="GtkCheckButton" id="useSpecialSearchStrategyCheckBox">
 		  <property name="visible">True</property>
 		  <property name="can_focus">True</property>
-		  <property name="label" translatable="yes">checkbutton4</property>
+		  <property name="label" translatable="yes">Use special search strategy:</property>
 		  <property name="use_underline">True</property>
 		  <property name="relief">GTK_RELIEF_NORMAL</property>
 		  <property name="active">False</property>
@@ -1202,7 +1202,7 @@
 	      <child>
 		<widget class="GtkLabel" id="label1">
 		  <property name="visible">True</property>
-		  <property name="label" translatable="yes">label1</property>
+		  <property name="label" translatable="yes">Find:</property>
 		  <property name="use_underline">False</property>
 		  <property name="use_markup">False</property>
 		  <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -1278,7 +1278,7 @@
 	      <child>
 		<widget class="GtkLabel" id="label2">
 		  <property name="visible">True</property>
-		  <property name="label" translatable="yes">label2</property>
+		  <property name="label" translatable="yes">Replace:</property>
 		  <property name="use_underline">False</property>
 		  <property name="use_markup">False</property>
 		  <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -1353,7 +1353,7 @@
 	      <child>
 		<widget class="GtkLabel" id="label6">
 		  <property name="visible">True</property>
-		  <property name="label" translatable="yes">label6</property>
+		  <property name="label" translatable="yes">Filemask:</property>
 		  <property name="use_underline">False</property>
 		  <property name="use_markup">False</property>
 		  <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -1406,7 +1406,7 @@
 	      <child>
 		<widget class="GtkLabel" id="label7">
 		  <property name="visible">True</property>
-		  <property name="label" translatable="yes">label7</property>
+		  <property name="label" translatable="yes">Directory:</property>
 		  <property name="use_underline">False</property>
 		  <property name="use_markup">False</property>
 		  <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -1469,7 +1469,7 @@
 	    <widget class="GtkCheckButton" id="includeSubdirectoriesCheckBox">
 	      <property name="visible">True</property>
 	      <property name="can_focus">True</property>
-	      <property name="label" translatable="yes">checkbutton1</property>
+	      <property name="label" translatable="yes">Recurse subdirectories</property>
 	      <property name="use_underline">True</property>
 	      <property name="relief">GTK_RELIEF_NORMAL</property>
 	      <property name="active">False</property>
@@ -1487,7 +1487,7 @@
 	    <widget class="GtkCheckButton" id="ignoreCaseCheckBox">
 	      <property name="visible">True</property>
 	      <property name="can_focus">True</property>
-	      <property name="label" translatable="yes">checkbutton1</property>
+	      <property name="label" translatable="yes">Case sensitive</property>
 	      <property name="use_underline">True</property>
 	      <property name="relief">GTK_RELIEF_NORMAL</property>
 	      <property name="active">False</property>
@@ -1505,7 +1505,7 @@
 	    <widget class="GtkCheckButton" id="searchWholeWordOnlyCheckBox">
 	      <property name="visible">True</property>
 	      <property name="can_focus">True</property>
-	      <property name="label" translatable="yes">checkbutton2</property>
+	      <property name="label" translatable="yes">Whole word only</property>
 	      <property name="use_underline">True</property>
 	      <property name="relief">GTK_RELIEF_NORMAL</property>
 	      <property name="active">False</property>
@@ -1529,7 +1529,7 @@
 		<widget class="GtkCheckButton" id="useSpecialSearchStrategyCheckBox">
 		  <property name="visible">True</property>
 		  <property name="can_focus">True</property>
-		  <property name="label" translatable="yes">checkbutton4</property>
+		  <property name="label" translatable="yes">Use special search strategy:</property>
 		  <property name="use_underline">True</property>
 		  <property name="relief">GTK_RELIEF_NORMAL</property>
 		  <property name="active">False</property>
@@ -1608,18 +1608,6 @@
 	      <property name="expand">False</property>
 	      <property name="fill">False</property>
 	    </packing>
-	  </child>
-
-	  <child>
-	    <placeholder/>
-	  </child>
-
-	  <child>
-	    <placeholder/>
-	  </child>
-
-	  <child>
-	    <placeholder/>
 	  </child>
 	</widget>
 	<packing>
@@ -1768,7 +1756,7 @@
 	      <child>
 		<widget class="GtkLabel" id="label1">
 		  <property name="visible">True</property>
-		  <property name="label" translatable="yes">label1</property>
+		  <property name="label" translatable="yes">Find:</property>
 		  <property name="use_underline">False</property>
 		  <property name="use_markup">False</property>
 		  <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -1842,7 +1830,7 @@
 	    <widget class="GtkCheckButton" id="ignoreCaseCheckBox">
 	      <property name="visible">True</property>
 	      <property name="can_focus">True</property>
-	      <property name="label" translatable="yes">checkbutton1</property>
+	      <property name="label" translatable="yes">Case sensitive</property>
 	      <property name="use_underline">True</property>
 	      <property name="relief">GTK_RELIEF_NORMAL</property>
 	      <property name="active">False</property>
@@ -1860,7 +1848,7 @@
 	    <widget class="GtkCheckButton" id="searchWholeWordOnlyCheckBox">
 	      <property name="visible">True</property>
 	      <property name="can_focus">True</property>
-	      <property name="label" translatable="yes">checkbutton2</property>
+	      <property name="label" translatable="yes">Whole word only</property>
 	      <property name="use_underline">True</property>
 	      <property name="relief">GTK_RELIEF_NORMAL</property>
 	      <property name="active">False</property>
@@ -1884,7 +1872,7 @@
 		<widget class="GtkCheckButton" id="useSpecialSearchStrategyCheckBox">
 		  <property name="visible">True</property>
 		  <property name="can_focus">True</property>
-		  <property name="label" translatable="yes">checkbutton4</property>
+		  <property name="label" translatable="yes">Use special search strategy:</property>
 		  <property name="use_underline">True</property>
 		  <property name="relief">GTK_RELIEF_NORMAL</property>
 		  <property name="active">False</property>

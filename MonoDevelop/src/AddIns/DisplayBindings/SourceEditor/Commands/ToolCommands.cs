@@ -18,6 +18,7 @@ using MonoDevelop.Gui;
 using MonoDevelop.Gui.HtmlControl;
 using MonoDevelop.Core.Services;
 using MonoDevelop.SourceEditor.Gui;
+using MonoDevelop.Services;
 
 using Gtk;
 
@@ -26,7 +27,7 @@ namespace MonoDevelop.DefaultEditor.Commands
 	public class ColorDialog : ColorSelectionDialog
 	{
 		// FIXME: i18n
-		public ColorDialog () : base ("Insert a color hex string")
+		public ColorDialog () : base (GettextCatalog.GetString ("Insert a color hex string"))
 		{
 			this.ColorSelection.HasPalette = true;
 			this.ColorSelection.HasOpacityControl = false;		
