@@ -20,6 +20,13 @@ namespace ICSharpCode.SharpDevelop.Gui.Components
 	{
 		object caller;
 		ConditionCollection conditionCollection;
+
+		string key;
+
+		public string Key {
+			get { return key; }
+			set { key = value; }
+		}
 		
 		public SdMenuSeparator()
 		{

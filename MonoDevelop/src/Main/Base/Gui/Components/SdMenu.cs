@@ -21,6 +21,10 @@ namespace ICSharpCode.SharpDevelop.Gui.Components
 	public interface IStatusUpdate
 	{
 		void UpdateStatus();
+		string Key {
+			get;
+			set;
+		}
 	}
 	
 	public class SdMenu : Gtk.ImageMenuItem, IStatusUpdate
@@ -32,6 +36,13 @@ namespace ICSharpCode.SharpDevelop.Gui.Components
 		string localizedText = String.Empty;
 		public ArrayList SubItems = new ArrayList();
 		private Gtk.Menu subMenu = null;
+
+		private string key;
+
+		public string Key {
+			get { return key; }
+			set { key = value; }
+		}
 		
 		public SdMenu(ConditionCollection conditionCollection, object caller, string text) : base()
 		{
@@ -62,6 +73,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Components
 			Gtk.AccelGroup accel = new Gtk.AccelGroup ();
 			subMenu.AccelGroup = accel;
 			((Gtk.Window)WorkbenchSingleton.Workbench).AddAccelGroup (accel);
+			key = text;
 		}
 		
 		public void OnDropDown(object ob, System.EventArgs e)
@@ -84,9 +96,9 @@ namespace ICSharpCode.SharpDevelop.Gui.Components
 			}
 			
 			if (Visible) {
-				foreach (Gtk.Widget widg in ((Gtk.Menu)Submenu).Children) {
-					((Gtk.Menu)Submenu).Remove (widg);
-				}
+				//foreach (Gtk.Widget widg in ((Gtk.Menu)Submenu).Children) {
+				//	((Gtk.Menu)Submenu).Remove (widg);
+				//}
 				foreach (object item in SubItems) {
 					if (item is Gtk.MenuItem) {
 						if (item is IStatusUpdate) {
@@ -109,6 +121,13 @@ namespace ICSharpCode.SharpDevelop.Gui.Components
 		public void Append (Gtk.Widget item)
 		{
 			if (item.Parent == null) {
+				foreach (IStatusUpdate obj in subMenu.Children)
+				{
+					if (obj is SdMenuSeparator)
+						continue;
+					if (obj.Key == ((IStatusUpdate)item).Key)
+						return;
+				}
 				subMenu.Append (item);
 			}
 		}
