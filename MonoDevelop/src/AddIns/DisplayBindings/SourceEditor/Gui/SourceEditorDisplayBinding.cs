@@ -292,11 +292,13 @@ namespace MonoDevelop.SourceEditor.Gui
 		void IBookmarkOperations.PrevBookmark ()
 		{
 			se.Buffer.PrevBookmark ();
+			se.View.ScrollMarkOnscreen (se.Buffer.InsertMark);
 		}
 		
 		void IBookmarkOperations.NextBookmark ()
 		{
 			se.Buffer.NextBookmark ();
+			se.View.ScrollMarkOnscreen (se.Buffer.InsertMark);
 		}
 		
 		void IBookmarkOperations.ClearBookmarks ()
