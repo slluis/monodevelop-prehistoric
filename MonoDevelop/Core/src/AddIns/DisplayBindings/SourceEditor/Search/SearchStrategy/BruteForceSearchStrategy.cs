@@ -50,7 +50,7 @@ namespace MonoDevelop.TextEditor.Document
 								if (searchWord) {
 									int curp = textIterator.Position;
 									bool endw = !textIterator.MoveAhead (1);
-									endw = endw || Char.IsWhiteSpace (textIterator.Current);
+									endw = endw || SearchReplaceUtilities.IsWordSeparator (textIterator.Current);
 									textIterator.Position = curp;
 									if (endw) return startPositions[n];
 								}
@@ -83,7 +83,7 @@ namespace MonoDevelop.TextEditor.Document
 					compareIndex [freePos] = 1;
 					startPositions [freePos] = textIterator.Position;
 				}
-				wasWordStart = Char.IsWhiteSpace (c);
+				wasWordStart = SearchReplaceUtilities.IsWordSeparator (c);
 			}
 			
 			return -1;

@@ -25,20 +25,24 @@ namespace MonoDevelop.TextEditor.Document
 			}
 		}
 		
+		public static bool IsWordSeparator (char c)
+		{
+			return Char.IsWhiteSpace (c) || (Char.IsPunctuation (c) && c != '_');
+		}
 		
 		public static bool IsWholeWordAt(SourceEditorBuffer document, int offset, int length)
 		{
-			return (offset - 1 < 0 || Char.IsWhiteSpace(document.GetCharAt(offset - 1))) &&
-			       (offset + length + 1 >= document.Length || Char.IsWhiteSpace(document.GetCharAt(offset + length)));
+			return (offset - 1 < 0 || IsWordSeparator (document.GetCharAt(offset - 1))) &&
+			       (offset + length + 1 >= document.Length || IsWordSeparator (document.GetCharAt(offset + length)));
 		}
 
 		public static bool IsWholeWordAt (ITextIterator it, int length)
 		{
 			char c = it.GetCharRelative (-1);
-			if (c != char.MinValue && !Char.IsWhiteSpace (c)) return false;
+			if (c != char.MinValue && !IsWordSeparator (c)) return false;
 			
 			c = it.GetCharRelative (length);
-			return (c == char.MinValue || Char.IsWhiteSpace (c));
+			return (c == char.MinValue || IsWordSeparator (c));
 		}
 
 		/*public static int CalcCurrentOffset(IDocument document) 

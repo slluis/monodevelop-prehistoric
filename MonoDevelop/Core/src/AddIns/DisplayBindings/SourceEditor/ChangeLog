@@ -1,3 +1,10 @@
+2004-12-13  Lluis Sanchez Gual  <lluis@novell.com>
+
+	* Search/SearchReplaceUtilities.cs: 
+	* Search/SearchStrategy/BruteForceSearchStrategy.cs: Word boundaries
+	can be white spaces or punctuation chars. Added new method 
+	IsWordSeparator that checks both.
+
 2004-12-11  Alexandre Gomes <alexmipego@hotmail.com>
 	
 	* Gui/SourceEditorDisplayBinding.cs: Added support for the already
