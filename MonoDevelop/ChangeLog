@@ -4,6 +4,10 @@
 	* build/AddIns/AddIns/Misc/StartPage/Makefile.am:
 	remove dlls on make clean, bug #55386
 	* */AssemblyInfo.cs: bump to 0.2, add one for SourceEditor
+	* FAQS: add FAQ about regen'ing the CodeComplete db
+	* src/Main/Base/Gui/Dialogs/OptionPanels/ExternalToolPanel.cs:
+	remove some CWL's, weird whitespace fixes, use using () {} on
+	the FileSelection dialog
 
 2004-03-07  John Luke  <jluke@cfl.rr.com>
 

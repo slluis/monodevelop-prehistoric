@@ -30,3 +30,11 @@ ex. gnome-vfs2-devel-2.4.1-1.rpm
 Yes, via snapshots at http://devservices.go-mono.com/MonoDevelop/
 Hopefully now that subversion is 1.0 we will get our anonymous
 mirror of the repository up and going again.
+
+- How do I rebuild the Code Completion database?
+
+You can either remove the database itself or remove the
+reference to its location in the config file
+ex. rm ~/.config/MonoDevelop/CodeCompletionData/*.bin
+ex. edit ~/.config/MonoDevelop/MonoDevelopProperties.xml and
+remove the SharpDevelop.CodeCompletion.DataDirectory node

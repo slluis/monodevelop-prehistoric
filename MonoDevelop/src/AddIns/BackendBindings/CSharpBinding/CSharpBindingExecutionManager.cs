@@ -17,7 +17,6 @@ using System.Threading;
 
 using MonoDevelop.Internal.Project;
 using MonoDevelop.Gui;
-
 using MonoDevelop.Core.Services;
 using MonoDevelop.Services;
 
@@ -64,7 +63,7 @@ namespace CSharpBinding
 			
 			ProcessStartInfo psi;
 			if (parameters.ExecuteScript != null && parameters.ExecuteScript.Length > 0) {
-				Console.WriteLine("EXECUTE SCRIPT!!!!!!");
+				//Console.WriteLine("EXECUTE SCRIPT!!!!!!");
 				psi = new ProcessStartInfo("\"" + parameters.ExecuteScript + "\"");
 			} else {
 				string runtimeStarter = "mono ";
