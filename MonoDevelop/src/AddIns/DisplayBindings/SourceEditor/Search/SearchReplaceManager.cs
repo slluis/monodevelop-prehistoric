@@ -81,6 +81,7 @@ namespace ICSharpCode.TextEditor.Document
 					
 					textarea.Buffer.Insert(offset, SearchOptions.ReplacePattern);
 					textarea.Buffer.PlaceCursor (textarea.Buffer.GetIterAtOffset (offset + SearchOptions.ReplacePattern.Length));
+					textarea.View.ScrollMarkOnscreen (textarea.Buffer.InsertMark);
 				}
 			}
 			FindNext();
@@ -137,7 +138,7 @@ namespace ICSharpCode.TextEditor.Document
 				} else {
 					textArea = OpenTextArea(result.FileName); 
 					textArea.Buffer.PlaceCursor (textArea.Buffer.GetIterAtMark (textArea.Buffer.InsertMark));
-					
+					textArea.View.ScrollMarkOnscreen (textArea.Buffer.InsertMark);
 					string transformedPattern = result.TransformReplacePattern(SearchOptions.ReplacePattern);
 					find.Replace(result.Offset,
 					             result.Length, 
@@ -178,6 +179,7 @@ namespace ICSharpCode.TextEditor.Document
 				int endPos   = Math.Min(textArea.Buffer.Text.Length, startPos + result.Length);
 														textArea.Buffer.MoveMark ("insert", textArea.Buffer.GetIterAtOffset (endPos));
 				textArea.Buffer.MoveMark ("selection_bound", textArea.Buffer.GetIterAtOffset (startPos));
+				textArea.View.ScrollMarkOnscreen (textArea.Buffer.InsertMark);
 			}
 			
 			lastResult = result;
