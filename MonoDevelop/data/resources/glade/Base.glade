@@ -233,6 +233,7 @@
 	    <widget class="GtkButton" id="btn_new">
 	      <property name="visible">True</property>
 	      <property name="can_default">True</property>
+	      <property name="has_default">True</property>
 	      <property name="can_focus">True</property>
 	      <property name="label">gtk-new</property>
 	      <property name="use_stock">True</property>
@@ -263,7 +264,7 @@
 	      <property name="spacing">6</property>
 
 	      <child>
-		<widget class="GtkLabel" id="label6">
+		<widget class="GtkLabel" id="lbl_template">
 		  <property name="visible">True</property>
 		  <property name="label" translatable="yes">&lt;b&gt;Template&lt;/b&gt;</property>
 		  <property name="use_underline">False</property>
@@ -332,7 +333,7 @@
 			      <property name="window_placement">GTK_CORNER_TOP_LEFT</property>
 
 			      <child>
-				<widget class="GtkTreeView" id="treeview2">
+				<widget class="GtkTreeView" id="lst_template_types">
 				  <property name="visible">True</property>
 				  <property name="can_focus">True</property>
 				  <property name="headers_visible">False</property>
@@ -475,7 +476,7 @@
 		      <property name="column_spacing">6</property>
 
 		      <child>
-			<widget class="GtkLabel" id="lbl_project_name">
+			<widget class="GtkLabel" id="lbl_name">
 			  <property name="visible">True</property>
 			  <property name="label" translatable="yes">_Name:</property>
 			  <property name="use_underline">True</property>
@@ -487,7 +488,7 @@
 			  <property name="yalign">0.5</property>
 			  <property name="xpad">0</property>
 			  <property name="ypad">0</property>
-			  <property name="mnemonic_widget">txt_project_name</property>
+			  <property name="mnemonic_widget">txt_name</property>
 			</widget>
 			<packing>
 			  <property name="left_attach">0</property>
@@ -500,7 +501,7 @@
 		      </child>
 
 		      <child>
-			<widget class="GtkEntry" id="txt_project_name">
+			<widget class="GtkEntry" id="txt_name">
 			  <property name="visible">True</property>
 			  <property name="can_focus">True</property>
 			  <property name="editable">True</property>
@@ -521,7 +522,7 @@
 		      </child>
 
 		      <child>
-			<widget class="GtkLabel" id="lbl_project_location">
+			<widget class="GtkLabel" id="lbl_location">
 			  <property name="visible">True</property>
 			  <property name="label" translatable="yes">_Location:</property>
 			  <property name="use_underline">True</property>
@@ -533,7 +534,7 @@
 			  <property name="yalign">0.5</property>
 			  <property name="xpad">0</property>
 			  <property name="ypad">0</property>
-			  <property name="mnemonic_widget">combo-entry1</property>
+			  <property name="mnemonic_widget">combo_file</property>
 			</widget>
 			<packing>
 			  <property name="left_attach">0</property>
@@ -558,7 +559,7 @@
 			  <property name="yalign">0.5</property>
 			  <property name="xpad">0</property>
 			  <property name="ypad">0</property>
-			  <property name="mnemonic_widget">entry3</property>
+			  <property name="mnemonic_widget">txt_subdirectory</property>
 			</widget>
 			<packing>
 			  <property name="left_attach">0</property>
@@ -578,7 +579,7 @@
 			  <property name="modal">False</property>
 
 			  <child internal-child="entry">
-			    <widget class="GtkEntry" id="combo-entry1">
+			    <widget class="GtkEntry" id="combo_file">
 			      <property name="visible">True</property>
 			      <property name="can_focus">True</property>
 			      <property name="editable">True</property>
@@ -601,7 +602,7 @@
 		      </child>
 
 		      <child>
-			<widget class="GtkEntry" id="entry3">
+			<widget class="GtkEntry" id="txt_subdirectory">
 			  <property name="visible">True</property>
 			  <property name="can_focus">True</property>
 			  <property name="editable">True</property>
@@ -622,7 +623,7 @@
 		      </child>
 
 		      <child>
-			<widget class="GtkCheckButton" id="checkbutton1">
+			<widget class="GtkCheckButton" id="chk_combine_directory">
 			  <property name="visible">True</property>
 			  <property name="can_focus">True</property>
 			  <property name="label" translatable="yes">Create seperate c_ombine subdirectory</property>
