@@ -1,3 +1,9 @@
+2004-06-11  Lluis Sanchez Gual  <lluis@ximian.com>
+
+	* CodeCompletion/CompletionWindow.cs: Make sure that EndAtomicUndo is called
+	  when the completion list is empty. This should definitely fix the undo
+	  issue.
+
 2004-06-11  Todd Berman  <tberman@sevenl.net>
 
 	* CodeCompletion/CompletionWindow.cs: pretty sure this is the undo

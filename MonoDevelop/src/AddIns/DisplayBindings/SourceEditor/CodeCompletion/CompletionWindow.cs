@@ -259,6 +259,8 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 
 			TreeIter iter;
 			if (store.GetIterFirst (out iter) == false) {
+				listView.FocusOutEvent -= LostFocusListView;
+				control.buf.EndAtomicUndo ();
 				control.GrabFocus ();
 				return;
 			}
