@@ -1,3 +1,9 @@
+2004-07-01  Todd Berman  <tberman@off.net>
+
+	* CodeCompletion/CompletionWindow.cs: Sigh, this was an evil bug
+	to let slip, this will work far far better though. Now the completion
+	gui should go away properly.
+
 2004-06-29  Todd Berman  <tberman@off.net>
 
 	* Gui/SourceEditorDisplayBinding.cs: Removing that patch for now,

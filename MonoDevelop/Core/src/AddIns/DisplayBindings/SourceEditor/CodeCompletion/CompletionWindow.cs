@@ -242,9 +242,10 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 			this.Add (frame);
 			
 			listView.KeyPressEvent += new KeyPressEventHandler (ListKeypressEvent);
-			listView.FocusOutEvent += new FocusOutEventHandler (LostFocusListView);
+			this.FocusOutEvent += new FocusOutEventHandler (LostFocusListView);
+			this.AddEvents ((int) (Gdk.EventMask.LeaveNotifyMask));
 			listView.RowActivated += new RowActivatedHandler (ActivateItem);
-			listView.AddEvents ((int) (Gdk.EventMask.KeyPressMask | Gdk.EventMask.LeaveNotifyMask));
+			listView.AddEvents ((int) (Gdk.EventMask.KeyPressMask));
 		}
 	
 		/// <remarks>
@@ -367,7 +368,6 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 					control.buf.DropCompleteAhead ();
 					control.buf.CompleteAhead (data.CompletionString.Substring(inst));
 				}
-				
 				// This code is for sizing the treeview properly.
 				Gtk.TreePath path = store.GetPath (iter);
 				Gdk.Rectangle backRect = listView.GetBackgroundArea (path, (Gtk.TreeViewColumn)listView.Columns[0]);
