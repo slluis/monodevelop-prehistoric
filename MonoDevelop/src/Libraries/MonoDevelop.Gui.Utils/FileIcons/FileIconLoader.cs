@@ -29,7 +29,10 @@ namespace MonoDevelop.Gui.Utils
 			Gnome.IconLookupResultFlags result;
 			string icon;
 			try {
-				icon = Gnome.Icon.LookupSync (iconTheme, thumbnailFactory, filename, "", Gnome.IconLookupFlags.None, out result);
+				if (filename == "Documentation")
+					icon = "gnome-fs-regular";
+				else
+					icon = Gnome.Icon.LookupSync (iconTheme, thumbnailFactory, filename, "", Gnome.IconLookupFlags.None, out result);
 			} catch {
 				icon = "gnome-fs-regular";
 			}
