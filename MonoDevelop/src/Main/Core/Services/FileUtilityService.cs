@@ -148,29 +148,8 @@ namespace ICSharpCode.Core.Services
 		/// to the relative path absoulte.
 		/// </summary>
 		public string RelativeToAbsolutePath(string baseDirectoryPath, string relPath)
-		{
-			/*if (separators[0] != separators[1] && relPath.IndexOf(separators[1]) != -1) {
-				return relPath;
-			}*/
-			string[] bPath = baseDirectoryPath.Split(dir_sep);
-			string[] rPath = relPath.Split(dir_sep);
-			int indx = 0;
-		
-			for (; indx < rPath.Length; ++indx) {
-				if (!rPath[indx].Equals("..")) {
-					break;
-				}
-			}
-			
-			if (indx == 0) {
-				return baseDirectoryPath + separators[0] + String.Join(Path.DirectorySeparatorChar.ToString(), rPath);
-			}
-			
-			string erg = String.Join(Path.DirectorySeparatorChar.ToString(), bPath, 0, Math.Max(0, bPath.Length - indx));
-			
-			erg += separators[0] + String.Join(Path.DirectorySeparatorChar.ToString(), rPath, indx, rPath.Length-indx);
-			
-			return Path.GetFullPath (erg);
+		{			
+			return Path.GetFullPath (baseDirectoryPath + Path.DirectorySeparatorChar + relPath);
 		}
 		
 		/// <summary>
