@@ -1,3 +1,9 @@
+2004-04-20  Todd Berman  <tberman@sevenl.net>
+
+	* Commands/AutostartCommands.cs: Move stuff around so workbench memento
+	works.
+	* Gui/Workbench/DefaultWorkbench.cs: Same as above.
+
 2004-04-19  Todd Berman  <tberman@sevenl.net>
 
 	* Commands/AutostartCommands.cs: Match new ReflectionLayer api.

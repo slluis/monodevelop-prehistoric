@@ -396,14 +396,16 @@ namespace MonoDevelop.Gui
 		public IXmlConvertable CreateMemento()
 		{
 			WorkbenchMemento memento   = new WorkbenchMemento();
-			int x, y, width, height, depth;
-			GdkWindow.GetGeometry (out x, out y, out width, out height, out depth);
+			int x, y, width, height;
+			GetPosition (out x, out y);
+			GetSize (out width, out height);
 			if (GdkWindow.State == 0) {
 				memento.Bounds             = new Rectangle (x, y, width, height);
 			} else {
 				memento.Bounds = normalBounds;
 			}
 			memento.WindowState = GdkWindow.State;
+			Console.WriteLine (memento.WindowState);
 
 			memento.FullScreen         = fullscreen;
 			return memento;
@@ -417,11 +419,14 @@ namespace MonoDevelop.Gui
 				normalBounds = memento.Bounds;
 				Move (normalBounds.X, normalBounds.Y);
 				Resize (normalBounds.Width, normalBounds.Height);
+				Console.WriteLine (memento.WindowState);
 				if (memento.WindowState == Gdk.WindowState.Maximized) {
+					Console.WriteLine ("About to maximize");
 					Maximize ();
 				} else if (memento.WindowState == Gdk.WindowState.Iconified) {
 					Iconify ();
 				}
+				//GdkWindow.State = memento.WindowState;
 				FullScreen = memento.FullScreen;
 			}
 			Decorated = true;
@@ -491,7 +496,7 @@ namespace MonoDevelop.Gui
 		protected /*override*/ void OnClosing(object o, Gtk.DeleteEventArgs e)
 		{
 			if (Close()) {
-	                        propertyService.SetProperty("SharpDevelop.Workbench.WorkbenchMemento", WorkbenchSingleton.Workbench.CreateMemento());
+				//				propertyService.SetProperty("SharpDevelop.Workbench.WorkbenchMemento", WorkbenchSingleton.Workbench.CreateMemento());
 				Gtk.Application.Quit ();
 			} else {
 				e.RetVal = true;
@@ -527,12 +532,13 @@ namespace MonoDevelop.Gui
 			
 			// TODO : Dirty Files Dialog
 			//			foreach (IViewContent content in ViewContentCollection) {
-				//				if (content.IsDirty) {
-					//					MonoDevelop.Gui.Dialogs.DirtyFilesDialog dfd = new MonoDevelop.Gui.Dialogs.DirtyFilesDialog();
+			//				if (content.IsDirty) {
+			//					MonoDevelop.Gui.Dialogs.DirtyFilesDialog dfd = new MonoDevelop.Gui.Dialogs.DirtyFilesDialog();
 			//					e.Cancel = dfd.ShowDialog() == DialogResult.Cancel;
 			//					return;
 			//				}
 			//			}
+			propertyService.SetProperty("SharpDevelop.Workbench.WorkbenchMemento", WorkbenchSingleton.Workbench.CreateMemento());
 			OnClosed (null);
 			return true;
 		}

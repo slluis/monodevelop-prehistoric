@@ -32,20 +32,16 @@ namespace MonoDevelop.Commands
 {
 	public class InitializeWorkbenchCommand : AbstractCommand
 	{
-		const string workbenchMemento = "SharpDevelop.Workbench.WorkbenchMemento";
-		
+
 		public override void Run()
 		{
 			DefaultWorkbench w = new DefaultWorkbench();
 			WorkbenchSingleton.Workbench = w;
-			
 			w.InitializeWorkspace();
 			PropertyService propertyService = (PropertyService)ServiceManager.Services.GetService(typeof(PropertyService));
 			w.UpdateViews(null, null);
 			WorkbenchSingleton.CreateWorkspace();
 			((Gtk.Window)w).Visible = false;
-			w.SetMemento ((IXmlConvertable)propertyService.GetProperty (workbenchMemento, new WorkbenchMemento ()));
-			
 		}
 	}
 	
@@ -200,6 +196,7 @@ namespace MonoDevelop.Commands
 			}
 			
 			((Gtk.Window)WorkbenchSingleton.Workbench).ShowAll ();
+			WorkbenchSingleton.Workbench.SetMemento ((IXmlConvertable)propertyService.GetProperty (workbenchMemento, new WorkbenchMemento ()));
 			((Gtk.Window)WorkbenchSingleton.Workbench).Visible = true;
 			WorkbenchSingleton.Workbench.RedrawAllComponents ();
 		
