@@ -1,5 +1,10 @@
 2005-04-01	Christian Hergert	<christian.hergert@gmail.com>
 
+	* Commands/FileCommands.cs: Add Andrew's patch to ask if we want to
+	overwrite an existing file before actually doing it.
+
+2005-04-01	Christian Hergert	<christian.hergert@gmail.com>
+
 	* Services/ILoggingService.cs: Update the LogAppendedArgs and remove the
 	category.
 	* Services/DefaultLoggingService.cs: Remove the need for the StackTrace.

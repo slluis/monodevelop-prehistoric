@@ -167,7 +167,12 @@ namespace MonoDevelop.Commands
 							Runtime.MessageService.ShowMessage(String.Format (GettextCatalog.GetString ("File name {0} is invalid"), filename));
 							return;
 						}
-
+						// detect preexisting file
+						if(File.Exists(filename)){
+							if(!Runtime.MessageService.AskQuestion(String.Format (GettextCatalog.GetString ("File {0} already exists.  Overwrite?"), filename))){
+								return;
+							}
+						}
 					// save backup first
 					if((bool) Runtime.Properties.GetProperty ("SharpDevelop.CreateBackupCopy", false)) {
 						Runtime.FileUtilityService.ObservedSave (new NamedFileOperationDelegate(window.ViewContent.Save), filename + "~");
