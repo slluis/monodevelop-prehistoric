@@ -9,7 +9,8 @@ namespace Gdl
 	public delegate void DockItemDragEndHandler (DockItem o, bool cancelled);
 	
 	public class DockItem : DockObject
-	{		
+	{
+		private readonly float SplitRatio = 0.4f;
 		private Widget child = null;
 		private DockItemBehavior behavior = DockItemBehavior.Normal;
 		private Orientation orientation = Orientation.Vertical;
@@ -559,75 +560,99 @@ namespace Gdl
 		
 		public override bool OnDockRequest (int x, int y, ref DockRequest request)
 		{
-			Gdk.Rectangle alloc = Allocation;
-			int rel_x = x - alloc.X;
-			int rel_y = y - alloc.Y;
+			/* we get (x,y) in our allocation coordinates system */
 			
-			if (rel_x > 0 && rel_x < alloc.Width && rel_y > 0 && rel_y < alloc.Width) {
+			/* Get item's allocation. */
+			Gdk.Rectangle alloc = Allocation;
+
+			/* Get coordinates relative to our window. */
+			int relX = x - alloc.X;
+			int relY = y - alloc.Y;
+			
+			/* Location is inside. */
+			if (relX > 0 && relX < alloc.Width &&
+			    relY > 0 && relY < alloc.Width) {
+				int divider = -1;
+
+				/* these are for calculating the extra docking parameter */
 				Requisition other = DockItem.PreferredSize ((DockItem)request.Applicant);
 				Requisition my = DockItem.PreferredSize (this);
-				int divider = 0;
-				float rx = (float) rel_x / alloc.Width;
-				float ry = (float) rel_y / alloc.Height;
 				
-				if (rx < 0.4) {
+				/* Calculate location in terms of the available space (0-100%). */
+				float rx = (float) relX / alloc.Width;
+				float ry = (float) relY / alloc.Height;
+				
+				/* Determine dock location. */
+				if (rx < SplitRatio) {
 					request.Position = DockPlacement.Left;
 					divider = other.Width;
-				} else if (rx > (1 - 0.4)) {
+				} else if (rx > (1 - SplitRatio)) {
 					request.Position = DockPlacement.Right;
 					rx = 1 - rx;
 					divider = Math.Max (0, my.Width - other.Width);
-				} else if (ry < 0.4 && ry < rx) {
+				} else if (ry < SplitRatio && ry < rx) {
 					request.Position = DockPlacement.Top;
 					divider = other.Height;
-				} else if (ry > (1 - 0.4) && (1 - ry) < rx) {
+				} else if (ry > (1 - SplitRatio) && (1 - ry) < rx) {
 					request.Position = DockPlacement.Bottom;
 					divider = Math.Max (0, my.Height - other.Height);
-				} else
+				} else {
 					request.Position = DockPlacement.Center;
+				}
 				
-				Gdk.Rectangle req_rect = new Gdk.Rectangle ();
-				req_rect.X = 0;
-				req_rect.Y = 0;
-				req_rect.Width = alloc.Width;
-				req_rect.Height = alloc.Height;
+				/* Reset rectangle coordinates to entire item. */
+				Gdk.Rectangle reqRect = new Gdk.Rectangle ();
+				reqRect.X = 0;
+				reqRect.Y = 0;
+				reqRect.Width = alloc.Width;
+				reqRect.Height = alloc.Height;
 				
+				/* Calculate docking indicator rectangle size for new locations.
+				   Only do this when we're not over the item's current location. */
 				if (request.Applicant != this) {
 					switch (request.Position) {
 					case DockPlacement.Top:
-						req_rect.Height = (int)(req_rect.Height * 0.4);
+						reqRect.Height = (int)(reqRect.Height * SplitRatio);
 						break;
 					case DockPlacement.Bottom:
-						req_rect.Y += (int)(req_rect.Height * (1 - 0.4));
-						req_rect.Height = (int)(req_rect.Height * 0.4);
+						reqRect.Y += (int)(reqRect.Height * (1 - SplitRatio));
+						reqRect.Height = (int)(reqRect.Height * SplitRatio);
 						break;
 					case DockPlacement.Left:
-						req_rect.Width = (int)(req_rect.Width * 0.4);
+						reqRect.Width = (int)(reqRect.Width * SplitRatio);
 						break;
 					case DockPlacement.Right:
-						req_rect.X += (int)(req_rect.Width * (1 - 0.4));
-						req_rect.Width = (int)(req_rect.Width * 0.4);
+						reqRect.X += (int)(reqRect.Width * (1 - SplitRatio));
+						reqRect.Width = (int)(reqRect.Width * SplitRatio);
 						break;
 					case DockPlacement.Center:
-						req_rect.X = (int)(req_rect.Width * 0.2);
-						req_rect.Y = (int)(req_rect.Height * 0.2);
-						req_rect.Width = (int)(req_rect.Width * (1 - 0.2)) - req_rect.X;
-						req_rect.Height = (int)(req_rect.Height * (1 - 0.2)) - req_rect.Y;
+						reqRect.X = (int)(reqRect.Width * SplitRatio / 2);
+						reqRect.Y = (int)(reqRect.Height * SplitRatio / 2);
+						reqRect.Width = (int)(reqRect.Width * (1 - SplitRatio / 2)) - reqRect.X;
+						reqRect.Height = (int)(reqRect.Height * (1 - SplitRatio / 2)) - reqRect.Y;
 						break;
 					default:
 						break;
 					}
 				}
 				
-				req_rect.X += alloc.X;
-				req_rect.Y += alloc.Y;
+				/* adjust returned coordinates so they are have the same
+				   origin as our window */
+				reqRect.X += alloc.X;
+				reqRect.Y += alloc.Y;
+				
+				/* Set possible target location and return true. */
 				request.Target = this;
-				request.Rect = req_rect;
+
+				/* fill-in other dock information */
+				request.Rect = reqRect;
 				if (request.Position != DockPlacement.Center && divider >= 0)
 					request.Extra = divider;
+
 				return true;
+			} else { /* No docking possible at this location. */
+				return false;
 			}
-			return false;
 		}
 		
 		public override void OnDocked (DockObject requestor, DockPlacement position, object data)

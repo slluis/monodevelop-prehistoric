@@ -8,6 +8,7 @@ namespace Gdl
 {
 	public class Dock : DockObject
 	{
+		private readonly float SplitRatio = 0.3f;
 		private DockObject root = null;
 		private bool floating;
 		private Widget window;
@@ -295,58 +296,80 @@ namespace Gdl
 		
 		public override bool OnDockRequest (int x, int y, ref DockRequest request)
 		{
+			bool mayDock = false;
+		
+			/* we get (x,y) in our allocation coordinates system */
+			
+			/* Get dock size. */
 			Gdk.Rectangle alloc = Allocation;
 			int bw = (int)BorderWidth;
-			int rel_x = x - alloc.X;
-			int rel_y = y - alloc.Y;
-			DockRequest my_request = null;
-			bool may_dock = false;
-			
-			if (request != null)
-				my_request = request;
+
+			/* Get coordinates relative to our allocation area. */
+			int relX = x - alloc.X;
+			int relY = y - alloc.Y;
+
+			DockRequest myRequest = new DockRequest (request);
+
+			/* Check if coordinates are in GdlDock widget. */
+			if (relX > 0 && relX < alloc.Width &&
+			    relY > 0 && relY < alloc.Height) {
+			    
+				/* It's inside our area. */
+				mayDock = true;
+
+				/* Set docking indicator rectangle to the Dock size. */
+				Gdk.Rectangle reqRect = new Gdk.Rectangle ();
+				reqRect.X = alloc.X + bw;
+				reqRect.Y = alloc.Y + bw;
+				reqRect.Width = alloc.Width - 2 * bw;
+				reqRect.Height = alloc.Height - 2 * bw;
+				myRequest.Rect = reqRect;
 				
-			if (rel_x > 0 && rel_x < alloc.Width && rel_y > 0 && rel_y < alloc.Height) {
-				may_dock = true;
-				Gdk.Rectangle req_rect = new Gdk.Rectangle ();
-				req_rect.X = alloc.X + bw;
-				req_rect.Y = alloc.Y + bw;
-				req_rect.Width = alloc.Width - 2 * bw;
-				req_rect.Height = alloc.Height - 2 * bw;
-				my_request.Rect = req_rect;
-				
+				/* If Dock has no root item yet, set the dock
+				   itself as possible target. */
 				if (root == null) {
-					my_request.Position = DockPlacement.Top;
-					my_request.Target = this;
+					myRequest.Position = DockPlacement.Top;
+					myRequest.Target = this;
 				} else {
-					my_request.Target = root;
+					myRequest.Target = root;
 					
-					if (rel_x < bw) {
-						my_request.Position = DockPlacement.Left;
-						req_rect.Width = (int)(req_rect.Width * 0.3);
-						my_request.Rect = req_rect;
-					} else if (rel_x > alloc.Width - bw) {
-						my_request.Position = DockPlacement.Right;
-						req_rect.X += (int)(req_rect.Width * (1 - 0.3));
-						req_rect.Width = (int)(req_rect.Width * 0.3);
-						my_request.Rect = req_rect;
-					} else if (rel_y < bw) {
-						my_request.Position = DockPlacement.Top;
-						req_rect.Height = (int)(req_rect.Height * 0.3);
-						my_request.Rect = req_rect;
-					} else if (rel_y > alloc.Height - bw) {
-						my_request.Position = DockPlacement.Bottom;
-						req_rect.Y += (int)(req_rect.Height * (1 - 0.3));
-						req_rect.Height = (int)(req_rect.Height * 0.3);
-						my_request.Rect = req_rect;
+					/* See if it's in the BorderWidth band. */
+					if (relX < bw) {
+						myRequest.Position = DockPlacement.Left;
+						reqRect.Width = (int)(reqRect.Width * SplitRatio);
+						myRequest.Rect = reqRect;
+					} else if (relX > alloc.Width - bw) {
+						myRequest.Position = DockPlacement.Right;
+						reqRect.X += (int)(reqRect.Width * (1 - SplitRatio));
+						reqRect.Width = (int)(reqRect.Width * SplitRatio);
+						myRequest.Rect = reqRect;
+					} else if (relY < bw) {
+						myRequest.Position = DockPlacement.Top;
+						reqRect.Height = (int)(reqRect.Height * SplitRatio);
+						myRequest.Rect = reqRect;
+					} else if (relY > alloc.Height - bw) {
+						myRequest.Position = DockPlacement.Bottom;
+						reqRect.Y += (int)(reqRect.Height * (1 - SplitRatio));
+						reqRect.Height = (int)(reqRect.Height * SplitRatio);
+						myRequest.Rect = reqRect;
 					} else {
-						may_dock = root.OnDockRequest (x, y, ref my_request);
+						/* Otherwise try our children. */
+						/* give them allocation coordinates
+						   (we are a NoWindow widget) */
+						mayDock = root.OnDockRequest (x, y, ref myRequest);
 					}
 				}
 			}
 			
-			if (may_dock && request != null)
-				request = my_request;
-			return may_dock;
+			if (mayDock && request != null) {
+				request.Applicant = myRequest.Applicant;
+				request.Target = myRequest.Target;
+				request.Position = myRequest.Position;
+				request.Rect = myRequest.Rect;
+				request.Extra = myRequest.Extra;
+			}
+			
+			return mayDock;
 		}
 		
 		public override void OnDocked (DockObject requestor, DockPlacement position, object data)

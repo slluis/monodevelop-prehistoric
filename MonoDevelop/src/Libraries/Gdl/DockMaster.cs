@@ -293,8 +293,6 @@ namespace Gdl
 		
 		private void OnDragMotion (DockItem item, int rootX, int rootY)
 		{
-			Console.WriteLine ("DockMaster.OnDragMotion");
-		
 			Dock dock = null;
 			int winX, winY;
 			int x, y;
