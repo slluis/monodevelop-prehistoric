@@ -13,19 +13,18 @@ using System.Collections;
 using MonoDevelop.Core.AddIns;
 using MonoDevelop.Core.AddIns.Codons;
 using MonoDevelop.Core.AddIns.Conditions;
-
 using MonoDevelop.Core.Properties;
 using MonoDevelop.Core.Services;
-
 using MonoDevelop.Services;
 using MonoDevelop.Gui;
 using MonoDevelop.Gui.Components;
 using MonoDevelop.Gui.ErrorHandlers;
 using MonoDevelop.Gui.Dialogs;
 using MonoDevelop.Internal.Project;
-
 using MonoDevelop.Internal.ExternalTool;
 using MonoDevelop.Gui.Pads.ProjectBrowser;
+
+using Freedesktop.RecentFiles;
 
 namespace MonoDevelop.Commands
 {
@@ -97,9 +96,11 @@ namespace MonoDevelop.Commands
 				RPMItem[] items = new RPMItem[recentOpen.RecentProject.Length];
 				for (int i = 0; i < recentOpen.RecentProject.Length; ++i) {
 					string accelaratorKeyPrefix = i < 10 ? "&" + ((i + 1) % 10).ToString() + " " : "";
-					items[i] = new RPMItem(null, null, accelaratorKeyPrefix + recentOpen.RecentProject[i].ToString().Replace ("_", "__"), new EventHandler(LoadRecentProject));
-					items[i].Tag = recentOpen.RecentProject[i].ToString();
-					items[i].Description = String.Format (GettextCatalog.GetString ("load solution {0}"), recentOpen.RecentProject[i].ToString ());
+					RecentItem ri = recentOpen.RecentProject[i];
+					string label = ri.Private == null ? ri.ToString () : ri.Private;
+					items[i] = new RPMItem(null, null, accelaratorKeyPrefix + label.Replace ("_", "__"), new EventHandler(LoadRecentProject));
+					items[i].Tag = ri.ToString ();
+					items[i].Description = String.Format (GettextCatalog.GetString ("load solution {0}"), ri.ToString ());
 				}
 				return items;
 			}

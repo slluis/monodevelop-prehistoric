@@ -177,7 +177,7 @@ namespace MonoDevelop.Services
 			openCombineFileName = filename;
 			
 			IFileService fileService = (IFileService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IFileService));
-			fileService.RecentOpen.AddLastProject(filename);
+			fileService.RecentOpen.AddLastProject (filename, openCombine.Name);
 			
 			OnCombineOpened(new CombineEventArgs(openCombine));
 			openCombine.FileAddedToProject += new ProjectFileEventHandler (NotifyFileAddedToProject);
