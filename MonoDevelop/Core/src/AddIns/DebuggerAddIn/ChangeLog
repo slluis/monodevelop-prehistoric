@@ -1,5 +1,12 @@
 2005-02-25  Chris Toshok  <toshok@ximian.com>
 
+	* Gui/DebuggerVariablePad.cs (DebuggerVariablePad.add_data): fix
+	warning.
+	(DebuggerVariablePad.test_expand_row): Type.Type -> TypeInfo.Type.
+	(DebuggerVariablePad.add_object): same.
+
+2005-02-25  Chris Toshok  <toshok@ximian.com>
+
 	* Gui/DebuggerVariablePad.cs: track martin's debugger changes.
 
 2005-02-04  Chris Toshok  <toshok@ximian.com>

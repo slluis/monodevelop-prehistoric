@@ -149,7 +149,7 @@ namespace MonoDevelop.SourceEditor.Gui
 				return;
 			}
 
-			switch (obj.Type.Type.Kind) {
+			switch (obj.TypeInfo.Type.Kind) {
 			case TargetObjectKind.Array:
 				ITargetArrayObject array = (ITargetArrayObject) obj;
 				try {
@@ -194,7 +194,7 @@ namespace MonoDevelop.SourceEditor.Gui
 
 		void add_data (ITargetObject obj, TreeIter parent)
 		{
-			TreeIter iter = store.Append (parent);
+			/*TreeIter iter = */ store.Append (parent);
 			iters.Add (parent, obj);
 		}
 
@@ -202,9 +202,9 @@ namespace MonoDevelop.SourceEditor.Gui
 		{
 			AmbienceService amb = (AmbienceService)MonoDevelop.Core.Services.ServiceManager.GetService (typeof (AmbienceService));
 			store.SetValue (iter, 0, new GLib.Value (name));
-			store.SetValue (iter, 1, new GLib.Value (amb.CurrentAmbience.GetIntrinsicTypeName (obj.Type.Type.Name)));
+			store.SetValue (iter, 1, new GLib.Value (amb.CurrentAmbience.GetIntrinsicTypeName (obj.TypeInfo.Type.Name)));
 
-			switch (obj.Type.Type.Kind) {
+			switch (obj.TypeInfo.Type.Kind) {
 			case TargetObjectKind.Fundamental:
 				object contents = ((ITargetFundamentalObject) obj).Object;
 				store.SetValue (iter, 2, new GLib.Value (contents.ToString ()));
