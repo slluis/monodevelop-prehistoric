@@ -24,8 +24,6 @@ namespace MonoDevelop.AssemblyAnalyser
 		
 		public AssemblyAnalyserControl ()
 		{
-			this.Label = "Assembly Analyser Control";
-
 			this.resultDetailsView = new ResultDetailsView ();
 			this.assemblyTreeControl = new AssemblyTreeControl ();
 			this.resultListControl = new ResultListControl ();

@@ -117,7 +117,8 @@ namespace MonoDevelop.AssemblyAnalyser
 		
 		void ProjectServiceEndBuild (object sender, EventArgs e)
 		{
-			this.RefreshProjectAssemblies ();
+			Console.WriteLine ("refresh assemblies");
+			//this.RefreshProjectAssemblies ();
 		}
 		
 		AssemblyAnalyser CreateRemoteAnalyser ()

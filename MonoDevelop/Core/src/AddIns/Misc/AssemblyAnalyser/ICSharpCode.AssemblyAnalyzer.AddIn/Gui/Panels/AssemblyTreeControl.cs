@@ -20,8 +20,7 @@ namespace MonoDevelop.AssemblyAnalyser
 	public class AssemblyTreeControl : TreeView
 	{
 		TreeStore assembliesStore;
-		TreeNode assembliesNode;
-		ResultListControl resultListControl = new ResultListControl ();
+		ResultListControl resultListControl;
 		
 		public ResultListControl ResultListControl {
 			get {
@@ -34,12 +33,12 @@ namespace MonoDevelop.AssemblyAnalyser
 		
 		public AssemblyTreeControl ()
 		{
-			Console.WriteLine ("new assembly tree control");
 			//ClassBrowserIconsService classBrowserIconService = (ClassBrowserIconsService) ServiceManager.GetService (typeof (ClassBrowserIconsService));
 			assembliesStore = new TreeStore (typeof (string), typeof (ArrayList));
 			//assemblyTreeView.ImageList = classBrowserIconService.ImageList;
 			
 			assembliesStore.AppendValues ("AssembliesNode");
+			this.Model = assembliesStore;
 			this.Selection.Changed += AssemblyTreeViewSelectionChanged;
 			this.Show ();
 		}
@@ -86,6 +85,7 @@ namespace MonoDevelop.AssemblyAnalyser
 		
 		public void AnalyzeAssembly (AssemblyAnalyser current, string output)
 		{
+			Console.WriteLine ("analyze assembly called");
 		}
 		
 		public void AddAssembly (string assemblyFileName, ArrayList resolutions)

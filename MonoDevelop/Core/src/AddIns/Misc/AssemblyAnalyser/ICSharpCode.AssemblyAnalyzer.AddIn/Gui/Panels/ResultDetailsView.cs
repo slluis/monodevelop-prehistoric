@@ -10,39 +10,36 @@ using System.IO;
 using System.Drawing;
 
 using Gtk;
-using Gecko;
 
 using MonoDevelop.Gui;
 using MonoDevelop.Core;
 using MonoDevelop.Services;
-using MonoDevelop.BrowserDisplayBinding;
-using MonoDevelop.Gui.HtmlControl;
 using MonoDevelop.Core.Services;
 using MonoDevelop.AssemblyAnalyser.Rules;
 using MonoDevelop.Gui.Pads;
 
 namespace MonoDevelop.AssemblyAnalyser
 {
-	// it might be better to display with some simple
-	// labels, or even a DrawingArea
-	public class ResultDetailsView : MozillaControl
+	public class ResultDetailsView : Frame
 	{
 		Resolution  currentResolution;
+		Label title = new Label ();
+		Label desc = new Label ();
+		Label details = new Label ();
 
 		public ResultDetailsView()
 		{
-			Console.WriteLine ("new result details view");
-			PropertyService propertyService = (PropertyService) ServiceManager.GetService (typeof (PropertyService));
-			//htmlControl.CascadingStyleSheet = propertyService.DataDirectory + Path.DirectorySeparatorChar +
-			//                                  "resources" + Path.DirectorySeparatorChar +
-			//                                  "css" + Path.DirectorySeparatorChar +
-			//                                  "MsdnHelp.css";
+			VBox vbox = new VBox ();
 			
-			ClearContents();
-			this.OpenUri += new OpenUriHandler (HtmlControlBeforeNavigate);
-			this.Show ();
+			vbox.PackStart (title);
+			vbox.PackStart (desc);
+			vbox.PackStart (details);
+			
+			this.Add (vbox);
+			this.ShowAll ();
 		}
 		
+		/*
 		void HtmlControlBeforeNavigate(object sender, OpenUriArgs e)
 		{
 			e.RetVal = true;
@@ -55,10 +52,13 @@ namespace MonoDevelop.AssemblyAnalyser
 				GotoCurrentCause ();
 			}
 		}
+		*/
 		
 		public void ClearContents ()
 		{
-			this.Html = "<HTML><BODY></BODY></HTML>";
+			title.Text = "";
+			desc.Text = "";
+			details.Text = "";
 		}
 		
 		void GotoCurrentCause ()
@@ -90,7 +90,7 @@ namespace MonoDevelop.AssemblyAnalyser
 		{
 			this.currentResolution = resolution;
 			
-			this.Html = "<html><body>asdf test</body></html>";
+			this.title.Text = resolution.FailedRule.Description;
 			/*this.Html = @"<HTML><BODY ID='bodyID' CLASS='dtBODY'>
 			<DIV ID='nstext'>
 			<DL>" + stringParserService.Parse(resolution.FailedRule.Description)  + @"</DL>

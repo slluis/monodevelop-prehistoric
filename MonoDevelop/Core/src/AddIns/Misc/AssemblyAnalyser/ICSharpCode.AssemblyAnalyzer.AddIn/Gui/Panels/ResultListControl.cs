@@ -33,12 +33,12 @@ namespace MonoDevelop.AssemblyAnalyser
 		
 		public ResultListControl ()
 		{
-			Console.WriteLine ("new result list control");
 			store = new ListStore (typeof (string), typeof (string), typeof (string), typeof (string), typeof (string), typeof (Resolution));
-			this.AppendColumn ("Level", new CellRendererText (), "text", 0);
-			this.AppendColumn ("Certainty", new CellRendererText (), "text", 1);
-			this.AppendColumn ("Rule", new CellRendererText (), "text", 2);
-			this.AppendColumn ("Item", new CellRendererText (), "text", 3);
+			this.AppendColumn ("!", new CellRendererText (), "text", 0);
+			this.AppendColumn ("Level", new CellRendererText (), "text", 1);
+			this.AppendColumn ("Certainty", new CellRendererText (), "text", 2);
+			this.AppendColumn ("Rule", new CellRendererText (), "text", 3);
+			this.AppendColumn ("Item", new CellRendererText (), "text", 4);
 			this.Model = store;
 			this.HeadersVisible = true;
 			this.Show ();
@@ -91,8 +91,11 @@ namespace MonoDevelop.AssemblyAnalyser
 					string certainity = resolution.FailedRule.Certainty.ToString () + "%";
 					string text = resolution.FailedRule.Description;
 					string item = resolution.Item;
+					Console.WriteLine ("appending resolution");
 					store.AppendValues (critical, type, certainity, text, item, resolution);
 				}
+
+				this.Model = store;
 
 				IStatusBarService statusBarService = (IStatusBarService) ServiceManager.GetService (typeof (IStatusBarService));
 				if (resolutions.Count == 0) {

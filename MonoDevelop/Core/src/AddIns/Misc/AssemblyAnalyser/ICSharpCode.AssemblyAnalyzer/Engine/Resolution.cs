@@ -9,10 +9,7 @@ using System;
 using MonoDevelop.AssemblyAnalyser.Rules;
 
 namespace MonoDevelop.AssemblyAnalyser
-{
-	/// </summary>
-	/// <summary>
-	/// Description of Resolution.	
+{	
 	public class Resolution : System.MarshalByRefObject
 	{
 		IRule  failedRule;
@@ -41,14 +38,14 @@ namespace MonoDevelop.AssemblyAnalyser
 			}
 		}
 		
-		public Resolution(IRule failedRule, string text, string item)
+		public Resolution (IRule failedRule, string text, string item)
 		{
 			this.failedRule = failedRule;
 			this.text = text;
 			this.item = item;
 		}
 		
-		public Resolution(IRule failedRule, string text, string item, string[,] variables)
+		public Resolution (IRule failedRule, string text, string item, string[,] variables)
 		{
 			this.failedRule = failedRule;
 			this.text = text;

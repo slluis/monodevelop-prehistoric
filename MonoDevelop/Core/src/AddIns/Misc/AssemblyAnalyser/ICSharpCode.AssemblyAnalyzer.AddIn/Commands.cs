@@ -15,12 +15,12 @@ namespace MonoDevelop.AssemblyAnalyser
 {
 	public class ShowAssemblyAnalyser : AbstractMenuCommand
 	{
-		public override void Run()
+		public override void Run ()
 		{
 			if (AssemblyAnalyserView.AssemblyAnalyserViewInstance == null) {
-				WorkbenchSingleton.Workbench.ShowView(new AssemblyAnalyserView());
+				WorkbenchSingleton.Workbench.ShowView (new AssemblyAnalyserView ());
 			} else {
-				AssemblyAnalyserView.AssemblyAnalyserViewInstance.WorkbenchWindow.SelectWindow();
+				AssemblyAnalyserView.AssemblyAnalyserViewInstance.WorkbenchWindow.SelectWindow ();
 			}
 		}
 	}
