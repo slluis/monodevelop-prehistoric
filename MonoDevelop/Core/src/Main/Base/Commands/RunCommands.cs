@@ -58,7 +58,6 @@ namespace MonoDevelop.Commands
 				
 				TaskService taskService = (TaskService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(TaskService));
 				IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IProjectService));
-				ResourceService resourceService = (ResourceService)ServiceManager.GetService(typeof(IResourceService));
 				StringParserService stringParserService = (StringParserService)ServiceManager.GetService(typeof(StringParserService));
 				try {
 					if (projectService.CurrentOpenCombine != null) {
@@ -132,7 +131,6 @@ namespace MonoDevelop.Commands
 				CombineEntry.BuildErrors   = 0;
 				TaskService taskService = (TaskService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(TaskService));
 				IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IProjectService));
-				ResourceService resourceService = (ResourceService)ServiceManager.GetService(typeof(IResourceService));
 				StringParserService stringParserService = (StringParserService)ServiceManager.GetService(typeof(StringParserService));
 				try {
 					
@@ -264,7 +262,6 @@ namespace MonoDevelop.Commands
 			lock (Compile.CompileLockObject) {
 				TaskService taskService = (TaskService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(TaskService));
 				IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IProjectService));
-				ResourceService resourceService = (ResourceService)ServiceManager.GetService(typeof(IResourceService));
 				IStatusBarService statusBarService = (IStatusBarService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IStatusBarService));
 				
 				if (projectService.CurrentSelectedProject != null) {
@@ -297,7 +294,6 @@ namespace MonoDevelop.Commands
 			lock (Compile.CompileLockObject) {
 				TaskService taskService = (TaskService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(TaskService));
 				IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IProjectService));
-				ResourceService resourceService = (ResourceService)ServiceManager.GetService(typeof(IResourceService));
 				IStatusBarService statusBarService = (IStatusBarService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IStatusBarService));
 				
 				if (projectService.CurrentSelectedProject != null) {

@@ -25,7 +25,6 @@ namespace MonoDevelop.Gui.Dialogs
 	public class GacReferencePanel : Frame, IReferencePanel
 	{
 		SelectReferenceDialog selectDialog;
-		ResourceService resourceService = (ResourceService)ServiceManager.GetService(typeof(IResourceService));
 
 		TreeStore store;
 		TreeView  treeView;

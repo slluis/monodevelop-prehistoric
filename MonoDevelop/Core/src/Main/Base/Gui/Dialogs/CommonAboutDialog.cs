@@ -51,7 +51,7 @@ namespace MonoDevelop.Gui.Dialogs
 			this.Realized += new EventHandler (OnRealized);
 			this.ExposeEvent += new ExposeEventHandler (OnExposed);
 			
-			ResourceService resourceService = (ResourceService)ServiceManager.GetService(typeof(IResourceService));
+			ResourceService resourceService = (ResourceService)ServiceManager.GetService(typeof(ResourceService));
 			image = resourceService.GetBitmap ("Icons.AboutImage");
 			string trans = GettextCatalog.GetString ("translator-credits");
 			
@@ -140,7 +140,6 @@ namespace MonoDevelop.Gui.Dialogs
 		{
 			this.Title = GettextCatalog.GetString ("About MonoDevelop");
 			this.TransientFor = (Gtk.Window) WorkbenchSingleton.Workbench;
-			//ResourceService resourceService = (ResourceService) ServiceManager.Services.GetService(typeof (IResourceService));
 			aboutPictureScrollBox = new ScrollBox ();
 		
 			this.VBox.PackStart (aboutPictureScrollBox, false, false, 0);

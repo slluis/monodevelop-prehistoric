@@ -136,7 +136,7 @@ namespace MonoDevelop.Gui
 		{
 			Title = "MonoDevelop";
 			Console.WriteLine ("Creating DefaultWorkbench");
-			ResourceService resourceService = (ResourceService)ServiceManager.GetService(typeof(IResourceService));
+			ResourceService resourceService = (ResourceService)ServiceManager.GetService(typeof(ResourceService));
 		
 			windowChangeEventHandler = new EventHandler(OnActiveWindowChanged);
 
@@ -524,7 +524,6 @@ namespace MonoDevelop.Gui
 		void SetProjectTitle(object sender, ProjectEventArgs e)
 		{
 			UpdateMenu(null, null);
-			ResourceService resourceService = (ResourceService)ServiceManager.GetService(typeof(IResourceService));
 			if (e.Project != null) {
 				Title = String.Concat(e.Project.Name, " - ", "MonoDevelop");
 			} else {

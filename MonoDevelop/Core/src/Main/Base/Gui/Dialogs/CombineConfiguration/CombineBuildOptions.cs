@@ -32,8 +32,6 @@ namespace MonoDevelop.Gui.Dialogs.OptionPanels
 			// Services
 			StringParserService StringParserService = (StringParserService)ServiceManager.GetService (
 										typeof (StringParserService));
-			static ResourceService resourceService = (ResourceService)ServiceManager.GetService(
-										typeof(IResourceService));
 			static PropertyService propertyService = (PropertyService)ServiceManager.GetService(
 										typeof(PropertyService));
 			FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.GetService (typeof (FileUtilityService));

@@ -17,6 +17,7 @@ using MonoDevelop.Internal.Project;
 using MonoDevelop.TextEditor.Document;
 //using MonoDevelop.TextEditor.Util;
 using MonoDevelop.Gui.Widgets;
+using MonoDevelop.Services;
 
 using Gtk;
 
@@ -36,7 +37,6 @@ namespace MonoDevelop.Gui.Dialogs
 		
 		FileUtilityService fileUtilityService = (FileUtilityService) ServiceManager.GetService(typeof(FileUtilityService));
 		IconService iconService = (IconService) ServiceManager.GetService(typeof(IconService));
-		ResourceService resourceService = (ResourceService) ServiceManager.GetService(typeof(IResourceService));	
 		
 		IProject project;
 		int filesExported = 0;
@@ -62,7 +62,7 @@ namespace MonoDevelop.Gui.Dialogs
 			PropertyService propertyService = (PropertyService) ServiceManager.GetService (typeof (PropertyService));	
 			this.project = project;
 			
-			pathLabel.Text = resourceService.GetString ("Dialog.ExportProjectToHtml.FolderLabel");
+			pathLabel.Text = GettextCatalog.GetString ("Folder");
 			
 			//browseButton.Text = "...";
 			//browseButton.Click += new EventHandler(BrowseDirectories);
@@ -75,13 +75,13 @@ namespace MonoDevelop.Gui.Dialogs
 			SetSizeRequest (350, 88 + 6);
 			WindowPosition = WindowPosition.CenterOnParent;
 			
-			Title = resourceService.GetString ("Dialog.ExportProjectToHtml.DialogName");
+			Title = GettextCatalog.GetString ("Export Project to HTML");
 		}
 		
 		void BrowseDirectories (object sender, EventArgs e)
 		{
-			using (FolderDialog fd = new FolderDialog (resourceService.GetString ("Dialog.ExportProjectToHtml.SelectTargetDirInfo"))) {
-				if	(fd.Run () == (int) ResponseType.Ok) {
+			using (FolderDialog fd = new FolderDialog (GettextCatalog.GetString ("Select Target Directory"))) {
+				if (fd.Run () == (int) ResponseType.Ok) {
 					//pathTextBox.Text = fd.Path;
 				}
 				

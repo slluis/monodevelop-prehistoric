@@ -73,7 +73,6 @@ FILES= \
 ./Gui/Dialogs/OptionPanels/IDEOptions/LoadSavePanel.cs \
 ./Gui/Dialogs/OptionPanels/IDEOptions/SelectStylePanel.cs \
 ./Gui/Dialogs/OptionPanels/IDEOptions/CodeGenerationPanel.cs \
-./Gui/Dialogs/OptionPanels/IDEOptions/SelectCulturePanel.cs \
 ./Gui/Dialogs/OptionPanels/EditTemplateDialog.cs \
 ./Gui/Dialogs/OptionPanels/ExternalToolPanel.cs \
 ./Gui/Dialogs/OptionPanels/PropertyGridPanel.cs \

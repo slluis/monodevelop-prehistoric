@@ -8,7 +8,7 @@ namespace MonoDevelop.Gui
 	{
 		public PixbufList (params string [] resIcons) : base (resIcons.Length)
 		{
-			ResourceService rs = (ResourceService) ServiceManager.GetService (typeof (IResourceService));
+			ResourceService rs = (ResourceService) ServiceManager.GetService (typeof (ResourceService));
 			
 			foreach (string s in resIcons)
 				Add (rs.GetBitmap (s));

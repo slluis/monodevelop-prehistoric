@@ -32,7 +32,6 @@ namespace MonoDevelop.EditorBindings.Gui.Pads
 		Gtk.TextView textEditorControl;
 		Gtk.ScrolledWindow scroller;
 		//Panel       myPanel = new Panel();
-		ResourceService resourceService = (ResourceService)ServiceManager.GetService(typeof(IResourceService));
 		
 		public Gtk.Widget Control {
 			get {
@@ -70,7 +69,6 @@ namespace MonoDevelop.EditorBindings.Gui.Pads
 			scroller = new Gtk.ScrolledWindow ();
 			scroller.ShadowType = ShadowType.In;
 			scroller.Add (textEditorControl);
-			ResourceService resourceService = (ResourceService)ServiceManager.GetService(typeof(IResourceService));
 			
 			TaskService     taskService    = (TaskService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(TaskService));
 			IProjectService projectService = (IProjectService) ServiceManager.GetService (typeof(IProjectService));

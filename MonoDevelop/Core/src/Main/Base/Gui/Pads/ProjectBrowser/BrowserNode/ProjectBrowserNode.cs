@@ -27,7 +27,6 @@ namespace MonoDevelop.Gui.Pads.ProjectBrowser
 	{
 		readonly static string defaultContextMenuPath = "/SharpDevelop/Views/ProjectBrowser/ContextMenu/ProjectBrowserNode";
 		IProject project;
-		ResourceService resourceService = (ResourceService)ServiceManager.GetService(typeof(IResourceService));
 		
 		public override IProject Project {
 			get {

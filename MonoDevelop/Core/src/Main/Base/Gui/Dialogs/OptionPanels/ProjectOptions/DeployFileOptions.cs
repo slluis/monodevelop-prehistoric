@@ -203,7 +203,6 @@ namespace MonoDevelop.Gui.Dialogs.OptionPanels
 		}
 		
 		DeployFileOptionsWidget widget;
-		ResourceService resourceService = (ResourceService)ServiceManager.GetService(typeof(IResourceService));
 		
 		public override void LoadPanelContents()
 		{

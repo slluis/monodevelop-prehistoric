@@ -48,7 +48,6 @@ namespace MonoDevelop.Commands
 		public Gtk.MenuItem[] BuildSubmenu(ConditionCollection conditionCollection, object owner)
 		{
 			IFileService fileService = (IFileService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IFileService));
-			ResourceService resourceService = (ResourceService)ServiceManager.GetService(typeof(IResourceService));
 			StringParserService stringParserService = (StringParserService)ServiceManager.GetService(typeof(StringParserService));
 			
 			RecentOpen recentOpen = fileService.RecentOpen;
@@ -60,8 +59,6 @@ namespace MonoDevelop.Commands
 					string accelaratorKeyPrefix = i < 10 ? "&" + ((i + 1) % 10).ToString() + " " : "";
 					items[i] = new RFMItem(null, null, accelaratorKeyPrefix + recentOpen.RecentFile[i].ToString(), new EventHandler(LoadRecentFile));
 					items[i].Tag = recentOpen.RecentFile[i].ToString();
-					items[i].Description = stringParserService.Parse(resourceService.GetString("Dialog.Componnents.RichMenuItem.LoadFileDescription"),
-					                                          new string[,] { {"FILE", recentOpen.RecentFile[i].ToString()} });
 				}
 				return items;
 			}
@@ -92,7 +89,6 @@ namespace MonoDevelop.Commands
 		public Gtk.MenuItem[] BuildSubmenu(ConditionCollection conditionCollection, object owner)
 		{
 			IFileService fileService = (IFileService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IFileService));
-			ResourceService resourceService = (ResourceService)ServiceManager.GetService(typeof(IResourceService));
 			StringParserService stringParserService = (StringParserService)ServiceManager.GetService(typeof(StringParserService));
 			
 			RecentOpen recentOpen = fileService.RecentOpen;

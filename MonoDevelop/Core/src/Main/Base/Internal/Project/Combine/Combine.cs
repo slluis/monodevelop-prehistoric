@@ -56,7 +56,6 @@ namespace MonoDevelop.Internal.Project
 		
 		Hashtable configurations            = new Hashtable();
 		ArrayList combineExecuteDefinitions = new ArrayList();
-		IResourceService resourceService = (IResourceService)ServiceManager.GetService(typeof(IResourceService));
 		
 		[LocalizedProperty("${res:MonoDevelop.Internal.Project.Combine.ActiveConfiguration}",
 		                   Description = "${res:MonoDevelop.Internal.Project.Combine.ActiveConfiguration.Description}")]

@@ -88,7 +88,7 @@
                           class = "MonoDevelop.Commands.CompileAll"/>
                 <MenuItem id = "CombineBuildGroupSeparator" _label = "-" />
                 
-                <MenuItem id = "CombineAddMenu" _label = "${res:ProjectComponent.ContextMenu.AddMenu}" >
+                <MenuItem id = "CombineAddMenu" _label = "Add" >
 	                <MenuItem id = "AddNewProject"
 		                  _label = "Add New Project..."
 		                  icon  = "Icons.16x16.NewProjectIcon"
@@ -169,7 +169,7 @@
 		          icon  = "Icons.16x16.OpenFileIcon"
 		          class = "MonoDevelop.Commands.ProjectBrowser.OpenFileEvent"/>
 		<MenuItem id = "OpenSeparator" _label = "-" />
-                <MenuItem id = "Add" _label = "${res:ProjectComponent.ContextMenu.AddMenu}">
+                <MenuItem id = "Add" _label = "Add">
         		<MenuItem id = "NewFiles"
 		                  _label = "New _File" 
 		                  icon  = "Icons.16x16.NewDocumentIcon"
@@ -183,7 +183,7 @@
 		                  icon  = "Icons.16x16.NewFolderIcon"
 		                  class = "MonoDevelop.Commands.ProjectBrowser.NewFolderEvent"/>
         	</MenuItem>
-		<MenuItem id = "Include" _label = "${res:ProjectComponent.ContextMenu.IncludeMenu}">
+		<MenuItem id = "Include" _label = "Include">
 			<MenuItem id = "IncludeFileIn" _label = "bogus_label"
 			          class = "MonoDevelop.Commands.IncludeFilesBuilder" />
 			</MenuItem>
@@ -252,8 +252,8 @@
 	                  _label = "_Remove" 
 	                  icon  = "Icons.16x16.DeleteIcon"
 	                  class = "MonoDevelop.Commands.ProjectBrowser.RemoveEntryEvent"/>
-                <MenuItem id = "Re_name"
-	                  _label    = "${res:ProjectComponent.ContextMenu.Rename}" 
+                <MenuItem id = "Rename"
+	                  _label    = "Re_name" 
 	                  shortcut = "F2"
 	                  class    = "MonoDevelop.Commands.ProjectBrowser.RenameEntryEvent"/>
 		<!-- <MenuItem id = "RemoveRenameSeparator" _label = "-" /> -->
@@ -462,43 +462,43 @@
 		<ToolbarItem id = "Standard">
 			<ToolbarItem id = "New" 
 			             icon = "Icons.16x16.NewDocumentIcon" 
-			             tooltip = "${res:XML.MainMenu.FileMenu.New.File.Description}"
+			             _tooltip = "New File"
 			             class = "MonoDevelop.Commands.CreateNewFile"/>
 			<ToolbarItem id = "Open" 
 			             icon = "Icons.16x16.OpenFileIcon" 
-			             tooltip = "${res:XML.MainMenu.FileMenu.Open.File.Description}"
+			             _tooltip = "Open FIle"
 			             class = "MonoDevelop.Commands.OpenFile"/>
 			<Conditional activewindow="*" action="Disable">
 				<ToolbarItem id = "Save" 
 				             icon = "Icons.16x16.SaveIcon" 
-				             tooltip = "${res:XML.MainMenu.FileMenu.Save.Description}"
+				             _tooltip = "Save"
 				             class = "MonoDevelop.Commands.SaveFile"/>
 				             
 		                <ToolbarItem id = "SaveAll"
 			                     icon = "Icons.16x16.SaveAllIcon" 
-		                             tooltip = "${res:XML.MainMenu.FileMenu.SaveAll.Description}"
+		                             _tooltip = "Save All"
 		                             class = "MonoDevelop.Commands.SaveAllFiles"/>
 			</Conditional>
-			<ToolbarItem id = "Separator1" tooltip = "-"/>
+			<ToolbarItem id = "Separator1" _tooltip = "-"/>
 	                <!-- <Conditional activewindow="*" action="Disable">-->
 				<ToolbarItem id = "Cut" 
 				             icon = "Icons.16x16.CutIcon" 
-				             tooltip = "${res:XML.MainMenu.EditMenu.Cut.Description}"
+				             _tooltip = "Cut"
 				             class = "MonoDevelop.Commands.Cut"/>
 				<ToolbarItem id = "Copy" 
 				             icon = "Icons.16x16.CopyIcon" 
-				             tooltip = "${res:XML.MainMenu.EditMenu.Copy.Description}"
+				             _tooltip = "Copy"
 				             class = "MonoDevelop.Commands.Copy"/>
 				<ToolbarItem id = "Paste" 
 				             icon = "Icons.16x16.PasteIcon" 
-				             tooltip = "${res:XML.MainMenu.EditMenu.Paste.Description}"
+				             _tooltip = "Paste"
 				             class = "MonoDevelop.Commands.Paste"/>
-				<ToolbarItem id = "Delete" 
+				<ToolbarItem id = "Delete"
 				             icon = "Icons.16x16.DeleteIcon" 
-				             tooltip = "${res:XML.MainMenu.EditMenu.Delete.Description}"
+				             _tooltip = "Delete"
 				             class = "MonoDevelop.Commands.Delete"/>
 			<!-- </Conditional>-->
-			<ToolbarItem id = "CutSeparator" insertafter ="Delete" insertbefore ="Find" tooltip = "-"/>
+			<ToolbarItem id = "CutSeparator" insertafter ="Delete" insertbefore ="Find" _tooltip = "-"/>
 	                <!-- <Conditional action="Disable">
 	                	<Or>
 	                		<Condition activewindow="MonoDevelop.DefaultEditor.Gui.Editor.ITextAreaControlProvider"/>
@@ -506,7 +506,7 @@
 	                	</Or>
 			</Conditional> -->
 			
-			<ToolbarItem id = "CompileSeparator" insertafter = "ClearBookmarks" tooltip = "-"/>
+			<ToolbarItem id = "CompileSeparator" insertafter = "ClearBookmarks" _tooltip = "-"/>
 	                <Conditional action="Disable">
 	                	<Or>
 	                		<Condition activewindow="MonoDevelop.DefaultEditor.Gui.Editor.ITextAreaControlProvider"/>
@@ -514,16 +514,16 @@
 	                	</Or>
 		                <ToolbarItem id = "Compile"
 				             icon  = "Icons.16x16.BuildCombine"
-				             tooltip = "${res:XML.MainMenu.RunMenu.Compile.Description}"
+				             _tooltip = "Compile"
 				             class = "MonoDevelop.Commands.Compile"/>
 			
 				<ToolbarItem id = "BuildProject"
 				             icon  = "Icons.16x16.BuildCurrentSelectedProject"
-				             tooltip = "${res:XML.MainMenu.RunMenu.BuildProject.Description}"
+				             _tooltip = "Build Project"
 				             class = "MonoDevelop.Commands.BuildCurrentProject"/>
 				<ToolbarItem id = "Run"
 				             icon = "Icons.16x16.RunProgramIcon"
-				             tooltip = "${res:XML.MainMenu.RunMenu.Run.Description}"
+				             _tooltip = "Run"
 				             class = "MonoDevelop.Commands.RunCommand"/>
 			</Conditional>
 		</ToolbarItem>

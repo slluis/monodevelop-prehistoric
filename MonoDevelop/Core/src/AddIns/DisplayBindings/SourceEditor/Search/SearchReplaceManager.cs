@@ -173,7 +173,6 @@ namespace MonoDevelop.TextEditor.Document
 			ISearchResult result = find.FindNext(searchOptions);
 			
 			if (result == null) {
-				ResourceService resourceService = (ResourceService)ServiceManager.GetService(typeof(IResourceService));
 				MessageService.ShowMessage (GettextCatalog.GetString ("Not Found"));
 				find.Reset();
 			} else {

@@ -11,7 +11,7 @@
 
   <Extension path = "/MonoDevelop/ProjectTemplates">
     <ProjectTemplate id = "ILAsmConsoleProject"
-                     location = "templates/ILAsmConsoleProject.xpt"/>
+                     location = "templates/ILAsmConsoleProject.xpt.xml"/>
   </Extension>
 
   <Extension path = "/SharpDevelop/Workbench/ProjectOptions/ConfigurationProperties">

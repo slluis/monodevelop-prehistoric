@@ -35,7 +35,6 @@ namespace MonoDevelop.Gui.Dialogs
 		[Glade.Widget] Gtk.Notebook  mainBook;
 		GacReferencePanel gacRefPanel;
 
-		ResourceService resourceService = (ResourceService)ServiceManager.GetService(typeof(IResourceService));
 		IProject configureProject;
 		
 		public ArrayList ReferenceInformations {

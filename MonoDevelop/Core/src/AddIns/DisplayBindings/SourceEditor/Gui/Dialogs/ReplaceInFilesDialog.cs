@@ -27,7 +27,6 @@ namespace MonoDevelop.Gui.Dialogs
 {
 	public class ReplaceInFilesDialog
 	{
-		ResourceService resourceService = (ResourceService)ServiceManager.GetService(typeof(IResourceService));
 		IMessageService messageService  = (IMessageService)ServiceManager.GetService(typeof(IMessageService));
 		StringParserService stringParserService = (StringParserService)ServiceManager.GetService (typeof (StringParserService));
 		static PropertyService propertyService = (PropertyService)ServiceManager.GetService(typeof(PropertyService));

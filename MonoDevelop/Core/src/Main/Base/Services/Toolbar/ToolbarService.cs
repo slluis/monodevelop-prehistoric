@@ -18,6 +18,7 @@ using MonoDevelop.Core.AddIns.Codons;
 using MonoDevelop.Core.AddIns;
 
 using MonoDevelop.Core.Services;
+using MonoDevelop.Services;
 
 using Gtk;
 
@@ -26,7 +27,6 @@ namespace MonoDevelop.Services
 	public class ToolbarService : AbstractService
 	{
 		readonly static string toolBarPath     = "/SharpDevelop/Workbench/ToolBar";
-		
 		IAddInTreeNode node;
 		
 		public ToolbarService()
@@ -51,7 +51,7 @@ namespace MonoDevelop.Services
 			Gtk.Toolbar bar = new Gtk.Toolbar();
 			bar.ToolbarStyle = Gtk.ToolbarStyle.Icons;
 			
-			ResourceService resourceService = (ResourceService)ServiceManager.GetService(typeof(IResourceService));
+			ResourceService resourceService = (ResourceService)ServiceManager.GetService(typeof(ResourceService));
 			foreach (ToolbarItemCodon childCodon in codon.SubItems) {
 				SdToolbarCommand item = null;
 				
@@ -60,7 +60,7 @@ namespace MonoDevelop.Services
 						bar.AppendSpace();
 						continue;
 					} else {
-						item = new SdToolbarCommand(childCodon.Conditions, owner, childCodon.ToolTip);
+						item = new SdToolbarCommand(childCodon.Conditions, owner, GettextCatalog.GetString (childCodon.ToolTip));
 						Gtk.Image img = resourceService.GetImage(childCodon.Icon, Gtk.IconSize.LargeToolbar);
 						item.Add (img);
 						item.Relief = ReliefStyle.None;
@@ -74,12 +74,12 @@ namespace MonoDevelop.Services
 						item.ShowAll();
 					}
 				} else {
+					Console.WriteLine ("Tooltip was null");
 					continue;
 				}
 				if (childCodon.Class != null) {
 					((SdToolbarCommand)item).Command = (ICommand)childCodon.AddIn.CreateObject(childCodon.Class);
 				}
-				//bar.AppendItem(item.Text, item.Text, item.Text, item, new Gtk.SignalFunc(item.ToolbarClicked));
 				bar.AppendWidget (item, item.Text, item.Text);
 			}
 			return bar;

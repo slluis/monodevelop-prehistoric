@@ -11,6 +11,7 @@ using System.Diagnostics;
 using System.Collections;
 using System.Xml;
 
+using MonoDevelop.Services;
 using MonoDevelop.Core.Services;
 using MonoDevelop.Core.AddIns;
 using MonoDevelop.Core.Properties;
@@ -280,7 +281,6 @@ namespace MonoDevelop.Gui.Dialogs
 		void InitializeComponents()
 		{
 			PropertyService propertyService = (PropertyService)ServiceManager.GetService(typeof(PropertyService));
-			ResourceService resourceService = (ResourceService)ServiceManager.GetService(typeof(IResourceService));
 		
 			dialogPanel.Shadow = Gtk.ShadowType.None;
 		
@@ -289,13 +289,13 @@ namespace MonoDevelop.Gui.Dialogs
 			this.WindowPosition = WindowPosition.Center;
 			this.SetDefaultSize (640, 440);
 		
-			backButton = new ImageButton(Gtk.Stock.GoBack,resourceService.GetString ("Global.BackButtonText"));
+			backButton = new ImageButton(Gtk.Stock.GoBack, GettextCatalog.GetString("Back"));
 			backButton.Clicked   += new EventHandler(ShowPrevPanelEvent);
 			
-			nextButton = new ImageButton(Gtk.Stock.GoForward,resourceService.GetString("Global.NextButtonText"));
+			nextButton = new ImageButton(Gtk.Stock.GoForward, GettextCatalog.GetString ("Next"));
 			nextButton.Clicked   += new EventHandler(ShowNextPanelEvent);
 			
-			finishButton = new ImageButton(Gtk.Stock.Apply,resourceService.GetString("Dialog.WizardDialog.FinishButton"));
+			finishButton = new ImageButton(Gtk.Stock.Apply, GettextCatalog.GetString ("Finish"));
 			finishButton.Clicked   += new EventHandler(FinishEvent);
 
 			cancelButton = new Button (Gtk.Stock.Cancel);

@@ -216,7 +216,6 @@ namespace MonoDevelop.Gui
 		public void CloseWindow(bool force, bool fromMenu, int pageNum)
 		{
 			if (!force && ViewContent != null && ViewContent.IsDirty) {
-				ResourceService resourceService = (ResourceService)ServiceManager.GetService(typeof(IResourceService));
 				IMessageService messageService =(IMessageService)ServiceManager.GetService(typeof(IMessageService));
 				bool response = messageService.AskQuestion (GettextCatalog.GetString ("Do you want to save the current changes"));
 				

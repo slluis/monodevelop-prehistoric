@@ -35,7 +35,6 @@ namespace MonoDevelop.Gui.Dialogs
 		StringCollection replaceHistory = new StringCollection();
 		
 		// services
-		ResourceService resourceService = (ResourceService)ServiceManager.GetService(typeof(IResourceService));
 		static PropertyService propertyService = (PropertyService)ServiceManager.GetService(typeof(PropertyService));
 		static FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.GetService(typeof(FileUtilityService));
 		StringParserService stringParserService = (StringParserService)ServiceManager.GetService (typeof (StringParserService));

@@ -93,7 +93,6 @@ namespace MonoDevelop.Gui.Pads.ProjectBrowser
 				
 				string oldFoldername = folderName;
 				string newFoldername = Path.GetDirectoryName(oldFoldername) + Path.DirectorySeparatorChar + newName;
-				ResourceService resourceService = (ResourceService)ServiceManager.GetService(typeof(IResourceService));
 				
 				if (oldFoldername != newFoldername) {
 					try {
@@ -125,7 +124,6 @@ namespace MonoDevelop.Gui.Pads.ProjectBrowser
 			if (FolderName != null && FolderName.Length == 0) {
 				return false;
 			}
-			ResourceService resourceService = (ResourceService)ServiceManager.GetService(typeof(IResourceService));
 			StringParserService stringParserService = (StringParserService)ServiceManager.GetService(typeof(StringParserService));
 			
 			Gtk.MessageDialog dialog = new Gtk.MessageDialog ((Gtk.Window)WorkbenchSingleton.Workbench, Gtk.DialogFlags.DestroyWithParent, Gtk.MessageType.Question, Gtk.ButtonsType.OkCancel, String.Format (GettextCatalog.GetString ("Do you want to remove folder {0} from project {1}?"), Text, Project.Name));

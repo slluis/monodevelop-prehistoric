@@ -16,6 +16,7 @@ using System.Resources;
 using System.Diagnostics;
 using System.Xml;
 
+using MonoDevelop.Services;
 using MonoDevelop.Core.Services;
 using MonoDevelop.Core.AddIns;
 using MonoDevelop.Core.AddIns.Codons;
@@ -197,11 +198,8 @@ namespace MonoDevelop.Core.Services
 		public bool TestFileExists(string filename)
 		{
 			if (!File.Exists(filename)) {
-				IResourceService resourceService = (IResourceService)ServiceManager.GetService(typeof(IResourceService));
-				StringParserService stringParserService = (StringParserService)ServiceManager.GetService(typeof(StringParserService));
-				
 				IMessageService messageService =(IMessageService)ServiceManager.GetService(typeof(IMessageService));
-				messageService.ShowWarning(stringParserService.Parse(resourceService.GetString("Fileutility.CantFindFileError"), new string[,] { {"FILE",  filename} }));
+				messageService.ShowWarning(String.Format (GettextCatalog.GetString ("Can't find file {0}"), filename));
 				return false;
 			}
 			return true;
@@ -273,10 +271,9 @@ namespace MonoDevelop.Core.Services
 		
 		public FileOperationResult ObservedSave(FileOperationDelegate saveFile, string fileName, FileErrorPolicy policy)
 		{
-			IResourceService resourceService = (IResourceService)ServiceManager.GetService(typeof(IResourceService));
 			return ObservedSave(saveFile,
 			                    fileName,
-			                    resourceService.GetString("ICSharpCode.Services.FileUtilityService.CantSaveFileStandardText"),
+			                    GettextCatalog.GetString ("Unable to save file."),
 			                    policy);
 		}
 		
@@ -340,10 +337,9 @@ namespace MonoDevelop.Core.Services
 		
 		public FileOperationResult ObservedSave(NamedFileOperationDelegate saveFileAs, string fileName, FileErrorPolicy policy)
 		{
-			IResourceService resourceService = (IResourceService)ServiceManager.GetService(typeof(IResourceService));
 			return ObservedSave(saveFileAs,
 			                    fileName,
-			                    resourceService.GetString("ICSharpCode.Services.FileUtilityService.CantSaveFileStandardText"),
+			                    GettextCatalog.GetString ("Unable to save file."),
 			                    policy);
 		}
 		
@@ -394,10 +390,9 @@ namespace MonoDevelop.Core.Services
 		
 		public FileOperationResult ObservedLoad(FileOperationDelegate saveFile, string fileName, FileErrorPolicy policy)
 		{
-			IResourceService resourceService = (IResourceService)ServiceManager.GetService(typeof(IResourceService));
 			return ObservedLoad(saveFile,
 			                    fileName,
-			                    resourceService.GetString("ICSharpCode.Services.FileUtilityService.CantLoadFileStandardText"),
+			                    GettextCatalog.GetString ("Unable to save file."),
 			                    policy);
 		}
 		
@@ -430,10 +425,9 @@ namespace MonoDevelop.Core.Services
 		
 		public FileOperationResult ObservedLoad(NamedFileOperationDelegate saveFileAs, string fileName, FileErrorPolicy policy)
 		{
-			IResourceService resourceService = (IResourceService)ServiceManager.GetService(typeof(IResourceService));
 			return ObservedLoad(saveFileAs,
 			                    fileName,
-			                    resourceService.GetString("ICSharpCode.Services.FileUtilityService.CantLoadFileStandardText"),
+			                    GettextCatalog.GetString ("Unable to load file."),
 			                    policy);
 		}
 		

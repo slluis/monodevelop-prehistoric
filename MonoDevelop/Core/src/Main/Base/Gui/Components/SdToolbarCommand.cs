@@ -20,8 +20,6 @@ namespace MonoDevelop.Gui.Components
 {
 	public class SdToolbarCommand : Gtk.Button, IStatusUpdate
 	{
-		static StringParserService stringParserService = (StringParserService)ServiceManager.GetService(typeof(StringParserService));
-			
 		object caller;
 		ConditionCollection conditionCollection;
 		string description   = String.Empty;
@@ -55,26 +53,19 @@ namespace MonoDevelop.Gui.Components
 		
 		public SdToolbarCommand (string text) : base ()
 		{
-			ResourceService resourceService = (ResourceService)ServiceManager.GetService (typeof(IResourceService));
-			
-			if (text.StartsWith ("${")) {
-				localizedText = resourceService.GetString (text);
-			} else {
-				localizedText = text;
-			}
+			localizedText = text;
 
-			localizedText = localizedText.Replace ('&', '_');
 			Clicked += new EventHandler (ToolbarClicked);
 		}
-			
-		public SdToolbarCommand(ConditionCollection conditionCollection, object caller, string label) : this(stringParserService.Parse(label))
+		
+		public SdToolbarCommand(ConditionCollection conditionCollection, object caller, string label) : this(label)
 		{
 			this.caller              = caller;
 			this.conditionCollection = conditionCollection;
 			UpdateStatus();
 		}
 		
-		public SdToolbarCommand(ConditionCollection conditionCollection, object caller, string label, ICommand menuCommand) : this(stringParserService.Parse(label))
+		public SdToolbarCommand(ConditionCollection conditionCollection, object caller, string label, ICommand menuCommand) : this(label)
 		{
 			this.caller = caller;
 			this.conditionCollection = conditionCollection;
@@ -82,14 +73,14 @@ namespace MonoDevelop.Gui.Components
 			UpdateStatus();
 		}
 		
-		public SdToolbarCommand(ConditionCollection conditionCollection, object caller, string label, EventHandler handler) : this(stringParserService.Parse(label))
+		public SdToolbarCommand(ConditionCollection conditionCollection, object caller, string label, EventHandler handler) : this(label)
 		{
 			this.caller = caller;
 			this.conditionCollection = conditionCollection;
 			UpdateStatus();
 		}
 		
-		public SdToolbarCommand(object caller, string label, EventHandler handler) : this(stringParserService.Parse(label))
+		public SdToolbarCommand(object caller, string label, EventHandler handler) : this(label)
 		{
 			this.caller = caller;
 			UpdateStatus();

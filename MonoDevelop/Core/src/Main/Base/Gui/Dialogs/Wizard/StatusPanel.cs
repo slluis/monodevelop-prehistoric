@@ -13,6 +13,7 @@ using System.Collections;
 using System.ComponentModel;
 using System.Xml;
 
+using MonoDevelop.Services;
 using MonoDevelop.Core.Services;
 using MonoDevelop.Core.AddIns;
 using MonoDevelop.Core.Properties;
@@ -33,7 +34,7 @@ namespace MonoDevelop.Gui.Dialogs
 		Pango.FontDescription smallFont;
 		Pango.FontDescription normalFont;
 		Pango.FontDescription boldFont;
-		ResourceService resourceService = (ResourceService)ServiceManager.GetService(typeof(IResourceService));
+		ResourceService resourceService = (ResourceService)ServiceManager.GetService(typeof(ResourceService));
 		
 		public StatusPanel(WizardDialog wizard)
 		{
@@ -65,7 +66,7 @@ namespace MonoDevelop.Gui.Dialogs
 				GdkWindow.DrawPixbuf (gc, bitmap, 0, 0, 0, 0, -1, -1, Gdk.RgbDither.None, 0, 0);
 				smallFont.Weight = Pango.Weight.Normal;
 				ly.FontDescription = smallFont;
-				ly.SetText (resourceService.GetString("SharpDevelop.Gui.Dialogs.WizardDialog.StepsLabel"));
+				ly.SetText (GettextCatalog.GetString ("Steps"));
 				int lyWidth, lyHeight;
 				ly.GetSize (out lyWidth, out lyHeight);
 				int smallFontHeight = (int)(lyHeight/1024.0f);

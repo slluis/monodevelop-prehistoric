@@ -104,7 +104,7 @@ namespace MonoDevelop
 		}
 	
 		public void InitializeComponent() {
-			ResourceService resourceService = (ResourceService)ServiceManager.GetService(typeof(IResourceService));
+			ResourceService resourceService = (ResourceService)ServiceManager.GetService(typeof(ResourceService));
 
 			this.fixedcontainer = new Gtk.Fixed();
 			this.continueButton = new Gtk.Button();

@@ -18,12 +18,12 @@
 
   <Extension path = "/MonoDevelop/FileTemplates">
     <FileTemplate id = "EmptyNemerleFile"
-                  location = "templates/EmptyNemerleFile.xft"/>
+                  location = "templates/EmptyNemerleFile.xft.xml"/>
   </Extension>
 
   <Extension path = "/MonoDevelop/ProjectTemplates">
     <ProjectTemplate id = "EmptyNemerleProject"
-                     location = "templates/NemerleEmptyProject.xpt"/>
+                     location = "templates/NemerleEmptyProject.xpt.xml"/>
   </Extension>
 
   <Extension path = "/SharpDevelop/Workbench/ProjectOptions/ConfigurationProperties">

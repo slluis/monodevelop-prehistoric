@@ -59,7 +59,6 @@ namespace MonoDevelop.Gui.Pads
 		//Panel contentPanel = new Panel();
 		Gtk.Frame contentPanel;
 
-		ResourceService resourceService = (ResourceService)ServiceManager.GetService(typeof(IResourceService));
 		ClassInformationEventHandler changeClassInformationHandler = null;
 		Combine parseCombine;
 		ArrayList ImageList;

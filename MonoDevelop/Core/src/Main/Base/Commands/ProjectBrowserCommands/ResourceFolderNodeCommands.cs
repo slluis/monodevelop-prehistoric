@@ -64,8 +64,6 @@ namespace MonoDevelop.Commands.ProjectBrowser
 					}
 				
 					IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IProjectService));
-					ResourceService resourceService = (ResourceService)ServiceManager.GetService(typeof(IResourceService));
-				
 					foreach (string fileName in files) {
 						ProjectFile fileInformation = projectService.AddFileToProject(project, fileName, BuildAction.EmbedAsResource);
 					

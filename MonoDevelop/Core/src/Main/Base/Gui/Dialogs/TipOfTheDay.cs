@@ -18,7 +18,6 @@ namespace MonoDevelop.Gui.Dialogs
 {
 	public class TipOfTheDayWindow
 	{
- 		ResourceService resourceService = (ResourceService)ServiceManager.GetService (typeof (IResourceService));
  		PropertyService propertyService = (PropertyService)ServiceManager.GetService (typeof (PropertyService));
 
 		[Glade.Widget] Label categoryLabel;

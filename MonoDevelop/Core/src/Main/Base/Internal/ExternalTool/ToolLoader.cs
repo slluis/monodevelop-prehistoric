@@ -85,8 +85,7 @@ namespace MonoDevelop.Internal.ExternalTool
 				if (!LoadToolsFromStream(propertyService.DataDirectory +
 				                         Path.DirectorySeparatorChar + "options" + 
 				                         Path.DirectorySeparatorChar + TOOLFILE)) {
-					IResourceService resourceService = (IResourceService)ServiceManager.GetService(typeof(IResourceService));
-                	IMessageService messageService = (IMessageService)ServiceManager.GetService(typeof(IMessageService));
+					IMessageService messageService = (IMessageService)ServiceManager.GetService(typeof(IMessageService));
 					messageService.ShowWarning(GettextCatalog.GetString ("Can't load external tools configuration file"));
 				}
 			}

@@ -25,7 +25,7 @@ namespace MonoDevelop.Core.AddIns.Codons
 		[XmlMemberAttribute("icon")]
 		string icon        = null;
 		
-		[XmlMemberAttributeAttribute("tooltip")]
+		[XmlMemberAttributeAttribute("_tooltip")]
 		string toolTip     = null;
 		
 		ArrayList subItems = null;

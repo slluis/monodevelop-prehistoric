@@ -193,7 +193,6 @@ namespace MonoDevelop.Commands.ProjectBrowser
 			
 			if (baseFolderPath != null && baseFolderPath.Length > 0) {
 				FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.GetService(typeof(FileUtilityService));
-				ResourceService resourceService = (ResourceService)ServiceManager.GetService(typeof(IResourceService));
 				
 				string directoryName = fileUtilityService.GetDirectoryNameWithSeparator(baseFolderPath) + GettextCatalog.GetString("New Folder");
 				int    index         = -1;

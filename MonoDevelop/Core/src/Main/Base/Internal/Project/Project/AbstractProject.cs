@@ -506,7 +506,6 @@ namespace MonoDevelop.Internal.Project
 			doc.DocumentElement.AppendChild(configurationElement);
 			
 			FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.GetService(typeof(FileUtilityService));
-			IResourceService resourceService = (IResourceService)ServiceManager.GetService(typeof(IResourceService));
 			fileUtilityService.ObservedSave(new NamedFileOperationDelegate(doc.Save), 
 			                                fileName, 
                                                         GettextCatalog.GetString ("Can't save solution\nPlease check your file and directory permissions."), 
@@ -530,7 +529,6 @@ namespace MonoDevelop.Internal.Project
 				if (fdiag.Run() == (int)Gtk.ResponseType.Ok) {
 					string filename = fdiag.Filename;
 					SaveProject(filename);
-					IResourceService resourceService = (IResourceService)ServiceManager.GetService(typeof(IResourceService));
 					IMessageService messageService =(IMessageService)ServiceManager.GetService(typeof(IMessageService));
 					messageService.ShowMessage(filename, GettextCatalog.GetString ("Project saved"));
 				}

@@ -111,7 +111,6 @@ namespace MonoDevelop.Internal.Project
 				IProjectService   projectService   = (IProjectService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IProjectService));
 				IStatusBarService statusBarService = (IStatusBarService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IStatusBarService));
 				TaskService       taskService      = (TaskService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(TaskService));
-				IResourceService resourceService   = (IResourceService)ServiceManager.GetService(typeof(IResourceService));
 				
 				statusBarService.SetMessage(String.Format (GettextCatalog.GetString ("Compiling: {0}"), Project.Name));
 				LanguageBindingService languageBindingService = (LanguageBindingService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(LanguageBindingService));

@@ -54,7 +54,6 @@ namespace MonoDevelop.Gui.Dialogs
 			
 			public static Report operator+(Report r, Report s)
 			{
-				ResourceService resourceService = (ResourceService)ServiceManager.GetService(typeof(IResourceService));
 				Report tmpReport = new Report (GettextCatalog.GetString("total"), s.chars, s.words, s.lines);
 				
 				tmpReport.chars += r.chars;
@@ -326,7 +325,7 @@ namespace MonoDevelop.Gui.Dialogs
 			store.AppendValues ("", "", "", "");
 			resultListView.Model = store;
 			
-			ResourceService resourceService = (ResourceService) ServiceManager.GetService(typeof(IResourceService));
+			ResourceService resourceService = (ResourceService) ServiceManager.GetService(typeof(ResourceService));
 			this.Icon = resourceService.GetIcon ("Icons.16x16.FindIcon");
 			this.TransientFor = (Window) WorkbenchSingleton.Workbench;
 			

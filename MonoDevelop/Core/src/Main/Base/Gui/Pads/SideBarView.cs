@@ -19,7 +19,6 @@ namespace MonoDevelop.Gui.Pads
 {
 	public class SideBarView : IPadContent, IDisposable
 	{
-		ResourceService resourceService = (ResourceService)ServiceManager.GetService(typeof(IResourceService));
 		public Gtk.Widget Control {
 			get {
 				return null;
@@ -29,7 +28,7 @@ namespace MonoDevelop.Gui.Pads
 		
 		public string Title {
 			get {
-				return resourceService.GetString("MainWindow.Windows.ToolbarLabel");
+				return GettextCatalog.GetString ("Toolbox");
 			}
 		}
 		

@@ -48,8 +48,6 @@ namespace MonoDevelop.EditorBindings.Gui.OptionPanels
 				FileUtilityService)ServiceManager.GetService(typeof(FileUtilityService));
 			StringParserService StringParserService = (
 				StringParserService)ServiceManager.GetService (typeof (StringParserService));
-			ResourceService ResourceService = (
-				ResourceService)ServiceManager.GetService(typeof(IResourceService));
 			
 			// Gtk Controls
 			[Glade.Widget] Label markersLabel;

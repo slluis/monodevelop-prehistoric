@@ -98,11 +98,7 @@ namespace MonoDevelop.Core.Services
 						if (k > 0) {
 							switch (propertyName.Substring(0, k).ToUpper()) {
 								case "RES":
-									IResourceService resourceService = (IResourceService)ServiceManager.GetService(typeof(IResourceService));
-									if (resourceService != null) {
-											propertyValue = Parse(resourceService.GetString(propertyName.Substring(k + 1)), customTags);
-									}
-									break;
+									throw new Exception ("This syntax is deprecated and needs to be removed from the offending consumer");
 								case "PROPERTY":
 									PropertyService propertyService = (PropertyService)ServiceManager.GetService(typeof(PropertyService));
 									propertyValue = propertyService.GetProperty(propertyName.Substring(k + 1)).ToString();

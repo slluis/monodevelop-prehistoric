@@ -113,7 +113,6 @@ namespace MonoDevelop.Gui.Pads.ProjectBrowser
 				
 				string newname = Path.GetDirectoryName(oldname) + Path.DirectorySeparatorChar + newName;
 				if (oldname != newname) {
-					ResourceService resourceService = (ResourceService)ServiceManager.GetService(typeof(IResourceService));
 					try {
 						IFileService fileService = (IFileService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IFileService));
 						FileUtilityService fileUtilityService = (FileUtilityService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(FileUtilityService));
@@ -140,7 +139,6 @@ namespace MonoDevelop.Gui.Pads.ProjectBrowser
 		public override bool RemoveNode()
 		{
 			DateTime old = DateTime.Now;
-			ResourceService resourceService = (ResourceService)ServiceManager.GetService(typeof(IResourceService));
 			StringParserService stringParserService = (StringParserService)ServiceManager.GetService(typeof(StringParserService));
 			
 			using (MessageDialog dialog = new Gtk.MessageDialog ((Window) WorkbenchSingleton.Workbench, DialogFlags.DestroyWithParent, MessageType.Question, ButtonsType.YesNo, String.Format (GettextCatalog.GetString ("Are you sure you want to remove file {0} from project {1}?"), Path.GetFileName (((ProjectFile)userData).Name), Project.Name))) {

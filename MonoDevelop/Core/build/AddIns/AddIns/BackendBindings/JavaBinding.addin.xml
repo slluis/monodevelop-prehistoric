@@ -18,36 +18,36 @@
 
   <Extension path = "/MonoDevelop/FileTemplates">
     <FileTemplate id = "JavaApplet"
-                  location = "templates/JavaApplet.xft"/>
+                  location = "templates/JavaApplet.xft.xml"/>
     <FileTemplate id = "JavaApplication"
-                  location = "templates/JavaApplication.xft"/>
+                  location = "templates/JavaApplication.xft.xml"/>
     <FileTemplate id = "JavaDialog"
-                  location = "templates/JavaDialog.xft"/>
+                  location = "templates/JavaDialog.xft.xml"/>
     <FileTemplate id = "JavaFrame"
-                  location = "templates/JavaFrame.xft"/>
+                  location = "templates/JavaFrame.xft.xml"/>
     <FileTemplate id = "JavaOKDialog"
-                  location = "templates/JavaOKDialog.xft"/>
+                  location = "templates/JavaOKDialog.xft.xml"/>
     <FileTemplate id = "JavaPanel"
-                  location = "templates/JavaPanel.xft"/>
+                  location = "templates/JavaPanel.xft.xml"/>
     <FileTemplate id = "EmptyJavaFile"
-                  location = "templates/EmptyJavaFile.xft"/>
+                  location = "templates/EmptyJavaFile.xft.xml"/>
   </Extension>
 
   <Extension path = "/MonoDevelop/ProjectTemplates">
     <ProjectTemplate id = "EmptyJavaProject"
-                     location = "templates/EmptyJavaProject.xpt"/>
+                     location = "templates/EmptyJavaProject.xpt.xml"/>
     <ProjectTemplate id = "IkvmConsoleApplicationProject"
-                     location = "templates/IkvmConsoleApplicationProject.xpt"/>
+                     location = "templates/IkvmConsoleApplicationProject.xpt.xml"/>
     <ProjectTemplate id = "IkvmGladeApplicationProject"
-                     location = "templates/IkvmGladeApplicationProject.xpt"/>
+                     location = "templates/IkvmGladeApplicationProject.xpt.xml"/>
     <ProjectTemplate id = "IkvmGnomeApplicationProject"
-                     location = "templates/IkvmGnomeApplicationProject.xpt"/>
+                     location = "templates/IkvmGnomeApplicationProject.xpt.xml"/>
     <ProjectTemplate id = "IkvmGtkApplicationProject"
-                     location = "templates/IkvmGtkApplicationProject.xpt"/>
+                     location = "templates/IkvmGtkApplicationProject.xpt.xml"/>
     <ProjectTemplate id = "JavaApplicationProject"
-                     location = "templates/JavaApplicationProject.xpt"/>
+                     location = "templates/JavaApplicationProject.xpt.xml"/>
     <ProjectTemplate id = "JavaConsoleApplicationProject"
-                     location = "templates/JavaConsoleApplicationProject.xpt"/>
+                     location = "templates/JavaConsoleApplicationProject.xpt.xml"/>
   </Extension>
 
   <Extension path = "/SharpDevelop/Workbench/ProjectOptions/ConfigurationProperties">

@@ -1,3 +1,35 @@
+2004-07-01  Todd Berman  <tberman@off.net>
+
+	* *: This is a huge changeset, so instead of annotating in every
+	possible place, I will explain the changeset here.
+
+	First, ResourceService.GetString was removed as it is a call that
+	is used for translation purposes in #D, and we use gettext to
+	handle translation.
+
+	Then, IResourceService was removed as it is useless now (just had
+	a GetString call). All files were updated to not use IResourceService
+	and in many cases, the resource service was able to be completely
+	removed.
+
+	The StringParserService has a way of allowing ${res:key} strings to
+	be localized through the ResourceService.GetString. Because this
+	functionality was removed, and any use of it is an error now, I
+	made that throw an exception.
+
+	As it turns out, there was a lot of code that used ${res:key}, most
+	notably the new project/file template stuff. This was updated to allow
+	for translation properly, and no longer use ${res:key} style i18n.
+
+	There were a handful of other places that still used the ${res:}
+	syntax.
+
+	Right now, there is the possibility that there are still some missing.
+	If this is the case, an exception will be thrown and MD will crash/hang.
+	
+	Please report these situations as soon as possible so we can fix
+	them, and get 100% i18n coverage.
+
 2004-06-29  Todd Berman  <tberman@off.net>
 
 	* configure.in: remove dead directories.

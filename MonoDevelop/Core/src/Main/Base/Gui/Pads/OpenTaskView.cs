@@ -22,8 +22,6 @@ namespace MonoDevelop.Gui.Pads
 {
 	public class OpenTaskView : IPadContent
 	{
-		ResourceService resourceService = (ResourceService) ServiceManager.GetService (typeof (IResourceService));
-
 		ScrolledWindow sw;
 		Gtk.TreeView view;
 		ListStore store;

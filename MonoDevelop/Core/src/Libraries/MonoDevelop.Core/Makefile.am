@@ -14,7 +14,6 @@ FILES= \
 ./Services/PropertyService.cs \
 ./Services/ServiceManager.cs \
 ./Services/IService.cs \
-./Services/IResourceService.cs \
 ./Services/IStringTagProvider.cs \
 ./Services/SaveErrorChooseDialog.cs \
 ./AssemblyInfo.cs \

@@ -132,7 +132,6 @@ build/data/resources/Makefile
 build/data/options/Makefile
 build/data/resources/css/Makefile
 build/data/resources/icons/Makefile
-build/data/resources/languages/Makefile
 build/doc/Makefile
 build/AddIns/Makefile
 build/AddIns/AddIns/Makefile

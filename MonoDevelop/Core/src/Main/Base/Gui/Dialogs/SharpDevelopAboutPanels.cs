@@ -155,8 +155,6 @@ namespace MonoDevelop.Gui.Dialogs
 
 		public VersionInformationTabPage() : base (GType)
 		{
-			ResourceService resourceService = (ResourceService)ServiceManager.GetService(typeof(IResourceService));
-	
 			TreeView listView = new TreeView ();
 			listView.RulesHint = true;
 			listView.AppendColumn (GettextCatalog.GetString ("Name"), new CellRendererText (), "text", 0);

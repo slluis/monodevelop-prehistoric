@@ -36,7 +36,7 @@ namespace MonoDevelop.Gui.Pads.ProjectBrowser
 				return combine;
 			}
 		}
-		ResourceService resourceService = (ResourceService)ServiceManager.GetService(typeof(IResourceService));
+		
 		public CombineBrowserNode(Combine combine)
 		{
 			UserData     = combine;

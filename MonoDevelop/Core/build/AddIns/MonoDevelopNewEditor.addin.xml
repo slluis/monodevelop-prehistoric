@@ -120,18 +120,18 @@
 			
 				<ToolbarItem id = "Find"
 				             icon = "Icons.16x16.FindIcon" 
-				             tooltip = "${res:XML.MainMenu.SearchMenu.Find.Description}"
+				             _tooltip = "Find"
 				             class = "MonoDevelop.DefaultEditor.Commands.Find"/>
 				<ToolbarItem id = "FindNext"
 				             icon = "Icons.16x16.FindNextIcon"
-				             tooltip = "${res:XML.MainMenu.SearchMenu.FindNext.Description}"
+				             _tooltip = "Find Next"
 				             class = "MonoDevelop.DefaultEditor.Commands.FindNext"/>
 				<ToolbarItem id = "Replace"
 				             icon = "Icons.16x16.ReplaceIcon" 
-				             tooltip = "${res:XML.MainMenu.SearchMenu.Replace.Description}"
+				             _tooltip = "Replace"
 				             class = "MonoDevelop.DefaultEditor.Commands.Replace"/>	
 			</Conditional>             
-			<ToolbarItem id = "SearchSeparator" tooltip = "-"/>
+			<ToolbarItem id = "SearchSeparator" _tooltip = "-"/>
 			<Conditional activewindow="MonoDevelop.DefaultEditor.Gui.Editor.ITextEditorControlProvider" action="Disable">
 <!--				<ToolbarItem id = "Comment"
 				             icon = "Icons.16x16.CommentRegion" 
@@ -145,19 +145,19 @@
 <!--				<ToolbarItem id = "SearchSeparator2" tooltip = "-"/> -->
 				<ToolbarItem id = "ToggleBookmark"
 				             icon = "Icons.16x16.ToggleBookmark"
-				             tooltip = "${res:XML.MainMenu.SearchMenu.ToggleBookmark.Description}"
+				             _tooltip = "Toggle Bookmark"
 				             class = "MonoDevelop.EditorBindings.Commands.ToggleBookmark"/>
 				<ToolbarItem id = "PrevBookmark"
 				             icon = "Icons.16x16.GotoPrevbookmark"
-				             tooltip = "${res:XML.MainMenu.SearchMenu.PrevBookmark.Description}"
+				             _tooltip = "Previous Bookmark"
 				             class = "MonoDevelop.EditorBindings.Commands.PrevBookmark"/>
 				<ToolbarItem id = "NextBookmark"
 				             icon = "Icons.16x16.GotoNextbookmark"
-				             tooltip = "${res:XML.MainMenu.SearchMenu.NextBookmark.Description}"
+				             _tooltip = "Next Bookmark"
 				             class = "MonoDevelop.EditorBindings.Commands.NextBookmark"/>
 				<ToolbarItem id = "ClearBookmarks"
 				             icon = "Icons.16x16.ClearAllBookmarks"
-					     tooltip = "${res:XML.MainMenu.SearchMenu.ClrBookmark.Description}"
+					     _tooltip = "Clear Bookmarks"
 				             class = "MonoDevelop.EditorBindings.Commands.ClearBookmarks"/>
 			</Conditional>
 	</Extension>

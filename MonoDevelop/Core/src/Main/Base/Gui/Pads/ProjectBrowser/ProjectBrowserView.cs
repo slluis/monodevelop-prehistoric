@@ -40,7 +40,6 @@ namespace MonoDevelop.Gui.Pads.ProjectBrowser
 		Font               boldFont  = null;
 		//Panel contentPanel = new Panel();
 		Gtk.Frame contentPanel = new Gtk.Frame();
-		static ResourceService resourceService = (ResourceService)ServiceManager.GetService(typeof(IResourceService));
 		static FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.GetService(typeof(FileUtilityService));
 		static PropertyService propertyService = (PropertyService)ServiceManager.GetService(typeof(PropertyService));
 

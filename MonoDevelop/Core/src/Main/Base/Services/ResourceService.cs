@@ -35,7 +35,7 @@ namespace MonoDevelop.Core.Services
 		}
 	}
 	
-	public class ResourceService : AbstractService, IResourceService
+	public class ResourceService : AbstractService
 	{
 		readonly static string uiLanguageProperty = "CoreProperties.UILanguage";
 		
@@ -197,41 +197,6 @@ namespace MonoDevelop.Core.Services
 		{
 			return Load(resourceDirctory + Path.DirectorySeparatorChar + name + "." + language + ".resources");
 			
-		}
-		
-		/// <summary>
-		/// Returns a string from the resource database, it handles localization
-		/// transparent for the user.
-		/// </summary>
-		/// <returns>
-		/// The string in the (localized) resource database.
-		/// </returns>
-		/// <param name="name">
-		/// The name of the requested resource.
-		/// </param>
-		/// <exception cref="ResourceNotFoundException">
-		/// Is thrown when the GlobalResource manager can't find a requested resource.
-		/// </exception>
-		public string GetString(string name)
-		{
-			if (name.StartsWith ("${")) {
-				name = name.Substring (6);
-				name = name.Substring (0, name.Length - 1);
-			}
-			if (this.userStrings != null && this.userStrings[name] != null) {
-				return userStrings[name].ToString();
-			}
-			if (localStrings != null && localStrings[name] != null) {
-				return localStrings[name].ToString();
-			}
-			
-			string s = strings.GetString(name);
-			
-			if (s == null) {
-				throw new ResourceNotFoundException("string >" + name + "<");
-			}
-			
-			return s.Replace (@"\&", "||!|").Replace ("&", "_").Replace ("||!|", "&");
 		}
 		
 		// use P/Invoke to be able to pass some NULL parameters

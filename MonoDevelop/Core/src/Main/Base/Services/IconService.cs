@@ -34,11 +34,6 @@ namespace MonoDevelop.Core.Services {
 			InitializeIcons(AddInTreeSingleton.AddInTree.GetTreeNode("/Workspace/Icons"));
 		}
 		
-		public override void UnloadService()
-		{
-			base.UnloadService();
-		}
-		
 		public string GetImageForProjectType (string projectType)
 		{
 			if (projectFileHashtable [projectType] != null)

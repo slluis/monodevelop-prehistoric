@@ -49,7 +49,6 @@ namespace MonoDevelop.Gui.Dialogs {
 		[Glade.Widget] Gtk.TreeView lst_template_types;
 		[Glade.Widget] HBox hbox_template, hbox_for_browser;
 		
-		ResourceService     resourceService = (ResourceService)ServiceManager.GetService(typeof(IResourceService));
 		FileUtilityService  fileUtilityService = (FileUtilityService)ServiceManager.GetService(typeof(FileUtilityService));
 		StringParserService stringParserService = (StringParserService)ServiceManager.GetService(typeof(StringParserService));
 		PropertyService     propertyService = (PropertyService)ServiceManager.GetService(typeof(PropertyService));

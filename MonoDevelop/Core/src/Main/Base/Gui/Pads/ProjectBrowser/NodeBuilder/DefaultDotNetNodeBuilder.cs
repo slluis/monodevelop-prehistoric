@@ -50,7 +50,6 @@ namespace MonoDevelop.Gui.Pads.ProjectBrowser
 
 		public AbstractBrowserNode BuildProjectTreeNode(IProject project)
 		{
-			ResourceService resourceService = (ResourceService)ServiceManager.GetService(typeof(IResourceService));
 			IconService iconService = (IconService)ServiceManager.GetService(typeof(IconService));
 			ProjectBrowserNode projectNode = new ProjectBrowserNode(project);
 
@@ -216,8 +215,6 @@ namespace MonoDevelop.Gui.Pads.ProjectBrowser
 			AbstractBrowserNode parentNode = null;
 			string relativeFile = fileUtilityService.AbsoluteToRelativePath(project.BaseDirectory, projectFile.Name);
 			string fileName     = Path.GetFileName(projectFile.Name);
-			ResourceService resourceService = (ResourceService)ServiceManager.GetService(typeof(IResourceService));
-
 			parentNode = projectNode;
 
 			if(projectFile.DependsOn != String.Empty && projectFile.DependsOn != null) {

@@ -120,12 +120,12 @@ namespace MonoDevelop.Internal.Templates
 			created      = doc.DocumentElement.Attributes["Created"].InnerText;
 			lastmodified = doc.DocumentElement.Attributes["LastModified"].InnerText;
 			
-			name         = config["Name"].InnerText;
+			name         = GettextCatalog.GetString (config["_Name"].InnerText);
 			category     = config["Category"].InnerText;
 			languagename = config["LanguageName"].InnerText;
 			
-			if (config["Description"] != null) {
-				description  = config["Description"].InnerText;
+			if (config["_Description"] != null) {
+				description  = GettextCatalog.GetString (config["_Description"].InnerText);
 			}
 			
 			if (config["Icon"] != null) {

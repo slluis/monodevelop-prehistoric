@@ -223,7 +223,7 @@
 					<xs:element ref="Conditional"/>
 				</xs:choice>
 				<xs:attribute name="icon" type="xs:string" use="optional"/>
-				<xs:attribute name="tooltip" type="xs:string" use="optional"/>
+				<xs:attribute name="_tooltip" type="xs:string" use="optional"/>
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>

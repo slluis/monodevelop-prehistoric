@@ -43,7 +43,7 @@ namespace MonoDevelop.Gui.Dialogs
 		Button cancelButton;
 		Label infoLabel;
 
-		ResourceService iconService = (ResourceService)ServiceManager.GetService (typeof(IResourceService));
+		ResourceService iconService = (ResourceService)ServiceManager.GetService (typeof(ResourceService));
 		DispatchService dispatcher = (DispatchService)ServiceManager.GetService (typeof (DispatchService));
 		
 		public NewFileDialog () : base ()
@@ -164,12 +164,7 @@ namespace MonoDevelop.Gui.Dialogs
 
 			if (item != null)
 			{
-				ResourceService resourceService = (ResourceService)ServiceManager.GetService (typeof (IResourceService));
-                        	if (item.Description.StartsWith("${")) {
-                                	infoLabel.Text = resourceService.GetString (item.Description);
-                        	} else {
-                                	infoLabel.Text = item.Description;
-                        	}
+                                infoLabel.Text = item.Description;
 				okButton.Sensitive = true;
 			}
 		}
@@ -275,8 +270,7 @@ namespace MonoDevelop.Gui.Dialogs
 			public TemplateItem(FileTemplate template)
 			{
 				this.template = template;
-				StringParserService sps = (StringParserService)ServiceManager.GetService (typeof(StringParserService));
-				this.name = sps.Parse(template.Name);
+				this.name = template.Name;
 			}
 
 			public string Name {

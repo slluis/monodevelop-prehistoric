@@ -42,16 +42,9 @@ namespace MonoDevelop.Gui.Components
 			this.subMenu             = new Gtk.Menu ();
 			this.Submenu             = subMenu;
 
-			ResourceService resourceService = (ResourceService)ServiceManager.GetService (typeof (IResourceService));
 			
 			
-			if (text.StartsWith("${")) {
-				localizedText = resourceService.GetString (text);
-			} else {
-				localizedText = text;
-			}
-
-			localizedText = localizedText.Replace ('&', '_');
+			localizedText = text;
 
 			Gtk.AccelLabel label = new Gtk.AccelLabel (localizedText);
 			label.Xalign = 0;

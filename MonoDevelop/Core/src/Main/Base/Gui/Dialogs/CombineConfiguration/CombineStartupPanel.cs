@@ -10,6 +10,7 @@ using System.ComponentModel;
 using System.Drawing;
 using MonoDevelop.Core.AddIns.Codons;
 
+using MonoDevelop.Services;
 using MonoDevelop.Core.Properties;
 using MonoDevelop.Core.Services;
 using MonoDevelop.Internal.Project;
@@ -40,8 +41,6 @@ namespace MonoDevelop.Gui.Dialogs.OptionPanels
 			// Services
 			StringParserService StringParserService = (StringParserService)ServiceManager.GetService (
 										typeof (StringParserService));
-			static ResourceService resourceService = (ResourceService)ServiceManager.GetService(
-										typeof(IResourceService));
 			static PropertyService propertyService = (PropertyService)ServiceManager.GetService(
 										typeof(PropertyService));
 			Combine combine;
@@ -79,10 +78,8 @@ namespace MonoDevelop.Gui.Dialogs.OptionPanels
 				singleOptionMenu.Menu = singleMenu;
 
 				Menu actionMenu = new Menu ();
-				actionMenu.Append( new MenuItem (resourceService.GetString(
-								"Dialog.Options.CombineOptions.Startup.Action.None")));
-				actionMenu.Append( new MenuItem (resourceService.GetString(
-								"Dialog.Options.CombineOptions.Startup.Action.Execute")));
+				actionMenu.Append( new MenuItem (GettextCatalog.GetString ("None")));
+				actionMenu.Append( new MenuItem (GettextCatalog.GetString ("Execute")));
 				actionOptionMenu.Menu = actionMenu ;
 				actionOptionMenu.Changed += new EventHandler(OptionsChanged);
 
@@ -104,26 +101,20 @@ namespace MonoDevelop.Gui.Dialogs.OptionPanels
 					// add the previously saved execute definitions to the treeview list
 					for (int n = 0; n < combine.CombineExecuteDefinitions.Count; n++) {
 						edef = (CombineExecuteDefinition)combine.CombineExecuteDefinitions[n];
-						string action = edef.Type == EntryExecuteType.None ? resourceService.GetString(
-								"Dialog.Options.CombineOptions.Startup.Action.None") : resourceService.GetString(
-								"Dialog.Options.CombineOptions.Startup.Action.Execute");
+						string action = edef.Type == EntryExecuteType.None ? GettextCatalog.GetString ("None") : GettextCatalog.GetString ("Execute");
 						iter = store.AppendValues (edef.Entry.Name, action, edef);
 					}
 				} else {
 					// add an empty set of execute definitions
 					for (int n = 0; n < combine.Entries.Count; n++) {
 						edef = new CombineExecuteDefinition ((CombineEntry) combine.Entries[n],EntryExecuteType.None);
-						string action = edef.Type == EntryExecuteType.None ? resourceService.GetString(
-								"Dialog.Options.CombineOptions.Startup.Action.None") : resourceService.GetString(
-								"Dialog.Options.CombineOptions.Startup.Action.Execute");
+						string action = edef.Type == EntryExecuteType.None ? GettextCatalog.GetString ("None") : GettextCatalog.GetString ("Execute");
 						iter = store.AppendValues (edef.Entry.Name, action, edef);
 					}
 					
 					// tell the user we encountered and worked around an issue 
 					IMessageService messageService =(IMessageService)ServiceManager.GetService(typeof(IMessageService));
-					// FIXME: il8n this
-					messageService.ShowError(
-						"The Combine Execute Definitions for this Combine were invalid. A new empty set of Execute Definitions has been created.");
+					messageService.ShowError(GettextCatalog.GetString ("The Combine Execute Definitions for this Combine were invalid. A new empty set of Execute Definitions has been created."));
 				}
 					
  				entryTreeView.Selection.Changed += new EventHandler(SelectedEntryChanged);
@@ -206,9 +197,7 @@ namespace MonoDevelop.Gui.Dialogs.OptionPanels
 					break;
 				}
 				store.SetValue(selectedItem, 2, edef);
-				string action = edef.Type == EntryExecuteType.None ? resourceService.GetString(
-					"Dialog.Options.CombineOptions.Startup.Action.None") : resourceService.GetString(
-						"Dialog.Options.CombineOptions.Startup.Action.Execute");
+				string action = edef.Type == EntryExecuteType.None ? GettextCatalog.GetString ("None") : GettextCatalog.GetString ("Execute");
 				store.SetValue(selectedItem, 1, action);
 
 			}
@@ -227,8 +216,8 @@ namespace MonoDevelop.Gui.Dialogs.OptionPanels
 				
 				string txt = (string) store.GetValue(selectedItem,1);
 				
-				if (txt == resourceService.GetString("Dialog.Options.CombineOptions.Startup.Action.None")) {
-				actionOptionMenu.SetHistory (0);
+				if (txt == GettextCatalog.GetString ("None")) {
+					actionOptionMenu.SetHistory (0);
 				} else {
 					actionOptionMenu.SetHistory (1);
 				}

@@ -1,38 +1,38 @@
 monodevelopdir = $(prefix)/lib/monodevelop
 templatedir = $(monodevelopdir)/AddIns/AddIns/BackendBindings/templates
 
-template_DATA = CSharpSessionStateWebService.xft \
-CSharpWebService.xft \
-EmptyCSharpFile.xft \
-EmptyHTMLFile.xft \
-EmptyJavaFile.xft \
-EmptyNemerleFile.xft \
-EmptyResourceFile.xft \
-EmptyTextFile.xft \
-EmptyXMLFile.xft \
-GnomeSharpProgram.xft \
-GtkSharpWindow.xft \
-JavaApplet.xft \
-JavaApplication.xft \
-JavaDialog.xft \
-JavaFrame.xft \
-JavaOKDialog.xft \
-JavaPanel.xft \
-BlankCombine.xpt \
-ConsoleProject.xpt \
-EmptyJavaProject.xpt \
-EmptyProject.xpt \
-GladeSharpProject.xpt \
-GnomeSharpProject.xpt \
-GtkSharpProject.xpt \
-IkvmConsoleApplicationProject.xpt \
-IkvmGladeApplicationProject.xpt \
-IkvmGnomeApplicationProject.xpt \
-IkvmGtkApplicationProject.xpt \
-ILAsmConsoleProject.xpt \
-JavaApplicationProject.xpt \
-JavaConsoleApplicationProject.xpt \
-Library.xpt \
-NemerleEmptyProject.xpt 
+template_DATA = CSharpSessionStateWebService.xft.xml \
+CSharpWebService.xft.xml \
+EmptyCSharpFile.xft.xml \
+EmptyHTMLFile.xft.xml \
+EmptyJavaFile.xft.xml \
+EmptyNemerleFile.xft.xml \
+EmptyResourceFile.xft.xml \
+EmptyTextFile.xft.xml \
+EmptyXMLFile.xft.xml \
+GnomeSharpProgram.xft.xml \
+GtkSharpWindow.xft.xml \
+JavaApplet.xft.xml \
+JavaApplication.xft.xml \
+JavaDialog.xft.xml \
+JavaFrame.xft.xml \
+JavaOKDialog.xft.xml \
+JavaPanel.xft.xml \
+BlankCombine.xpt.xml \
+ConsoleProject.xpt.xml \
+EmptyJavaProject.xpt.xml \
+EmptyProject.xpt.xml \
+GladeSharpProject.xpt.xml \
+GnomeSharpProject.xpt.xml \
+GtkSharpProject.xpt.xml \
+IkvmConsoleApplicationProject.xpt.xml \
+IkvmGladeApplicationProject.xpt.xml \
+IkvmGnomeApplicationProject.xpt.xml \
+IkvmGtkApplicationProject.xpt.xml \
+ILAsmConsoleProject.xpt.xml \
+JavaApplicationProject.xpt.xml \
+JavaConsoleApplicationProject.xpt.xml \
+Library.xpt.xml \
+NemerleEmptyProject.xpt.xml
 
 EXTRA_DIST = $(template_DATA)

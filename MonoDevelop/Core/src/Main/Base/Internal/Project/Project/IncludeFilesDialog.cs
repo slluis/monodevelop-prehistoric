@@ -42,7 +42,6 @@ namespace MonoDevelop.Internal.Project
 		// regular members
 		StringCollection newFiles;
 		IProject         project;
-		IResourceService resourceService = (IResourceService)ServiceManager.GetService(typeof(IResourceService));
 		FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.GetService(typeof(FileUtilityService));
 		
 		public IncludeFilesDialog(IProject project, StringCollection newFiles)
