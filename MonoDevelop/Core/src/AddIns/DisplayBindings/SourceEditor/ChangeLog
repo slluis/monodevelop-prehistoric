@@ -1,3 +1,8 @@
+2004-12-11  Alexandre Gomes <alexmipego@hotmail.com>
+	
+	* Gui/SourceEditorDisplayBinding.cs: Added support for the already
+	implemented Indent and UnIndent selection.
+
 2004-12-10  Alexandre Gomes <alexmipego@hotmail.com>
 	
 	* Gui/SourceEditorDisplayBinding.cs:

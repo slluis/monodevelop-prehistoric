@@ -1,3 +1,9 @@
+2004-12-11  Alexandre Gomes <alexmipego@hotmail.com>
+	
+	* Commands/EditCommands.cs,
+	* Gui/ContentInterfaces/ICodeStyleOperations.cs: Added support and menu
+	entries for the already implemented Indent and UnIndent selection.
+
 2004-12-09  Todd Berman  <tberman@off.net>
 
 	* Gui/Pads/HelpBrowser/HelpViewer.cs: gtk# API changed again (thanks

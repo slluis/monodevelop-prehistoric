@@ -225,5 +225,50 @@ namespace MonoDevelop.Commands
 				}
 		}
 	}
+	
+	public class IndentSelection : AbstractMenuCommand
+	{
+		public override bool IsEnabled {
+			get {
+				IWorkbenchWindow window   = WorkbenchSingleton.Workbench.ActiveWorkbenchWindow;
+				IEditable        editable = window != null ? window.ActiveViewContent as IEditable : null;
+				if (editable != null) {
+					return true;
+				}
+				return false;
+			}
+		}
 		
+		public override void Run()
+		{
+				IWorkbenchWindow window   = WorkbenchSingleton.Workbench.ActiveWorkbenchWindow;
+				ICodeStyleOperations  styling = window != null ? window.ActiveViewContent as ICodeStyleOperations : null;
+				if (styling != null) {
+					styling.IndentSelection ();
+				}
+		}
+	}
+	
+	public class UnIndentSelection : AbstractMenuCommand
+	{
+		public override bool IsEnabled {
+			get {
+				IWorkbenchWindow window   = WorkbenchSingleton.Workbench.ActiveWorkbenchWindow;
+				IEditable        editable = window != null ? window.ActiveViewContent as IEditable : null;
+				if (editable != null) {
+					return true;
+				}
+				return false;
+			}
+		}
+		
+		public override void Run()
+		{
+				IWorkbenchWindow window   = WorkbenchSingleton.Workbench.ActiveWorkbenchWindow;
+				ICodeStyleOperations  styling = window != null ? window.ActiveViewContent as ICodeStyleOperations : null;
+				if (styling != null) {
+					styling.UnIndentSelection ();
+				}
+		}
+	}
 }

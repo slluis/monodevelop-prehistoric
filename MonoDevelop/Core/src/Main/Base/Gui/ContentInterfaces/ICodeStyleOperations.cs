@@ -3,5 +3,7 @@ namespace MonoDevelop.Gui {
 	public interface ICodeStyleOperations {
 		void CommentCode ();
 		void UncommentCode ();
+		void IndentSelection ();
+		void UnIndentSelection ();
 	}
 }

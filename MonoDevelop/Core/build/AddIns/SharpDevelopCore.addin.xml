@@ -711,7 +711,14 @@
 						shortcut = "Control|Alt|U"
 						_label = "_Uncomment Code"
 						class = "MonoDevelop.Commands.UncommentCode"/>
-
+					<MenuItem id = "IndentSelection"
+						shortcut = "Control|Alt|Home"
+						_label = "_Indent Selection"
+						class = "MonoDevelop.Commands.IndentSelection"/>
+					<MenuItem id = "UnIndentSelection"
+						shortcut = "Control|Alt|End"
+						_label = "_Unindent Selection"
+						class = "MonoDevelop.Commands.UnIndentSelection"/>
 		        </Conditional>
 	                <MenuItem id = "Separator5" _label = "-" />
 	                <Conditional action="Disable">

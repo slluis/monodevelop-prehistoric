@@ -380,6 +380,16 @@ namespace MonoDevelop.SourceEditor.Gui
 		{
 			se.Buffer.UncommentCode ();
 		}
+		
+		void ICodeStyleOperations.IndentSelection ()
+		{
+			se.View.IndentSelection ();
+		}
+		
+		void ICodeStyleOperations.UnIndentSelection ()
+		{
+			se.View.UnIndentSelection ();
+		}
 #endregion 
 #region IBookmarkOperations
 		void IBookmarkOperations.ToggleBookmark ()
