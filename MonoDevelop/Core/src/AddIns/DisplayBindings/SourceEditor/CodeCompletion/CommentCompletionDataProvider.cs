@@ -28,7 +28,6 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 	/// </summary>
 	public class CommentCompletionDataProvider : ICompletionDataProvider
 	{
-		static ClassBrowserIconsService classBrowserIconService = (ClassBrowserIconsService)ServiceManager.GetService(typeof(ClassBrowserIconsService));
 		static IParserService           parserService           = (IParserService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IParserService));
 		
 		int caretLineNumber;

@@ -24,7 +24,6 @@ namespace MonoDevelop.SourceEditor.InsightWindow
 {
 	public class IndexerInsightDataProvider : IInsightDataProvider
 	{
-		ClassBrowserIconsService classBrowserIconService = (ClassBrowserIconsService)ServiceManager.GetService(typeof(ClassBrowserIconsService));
 		AmbienceService          ambienceService = (AmbienceService)ServiceManager.GetService(typeof(AmbienceService));
 		
 		string              fileName = null;

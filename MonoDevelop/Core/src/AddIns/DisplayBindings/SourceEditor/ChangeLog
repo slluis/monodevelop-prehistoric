@@ -1,3 +1,12 @@
+2004-12-06  Lluis Sanchez Gual  <lluis@novell.com>
+
+	* InsightWindow/MethodInsightDataProvider.cs:
+	* InsightWindow/IndexerInsightDataProvider.cs:
+	* CodeCompletion/CodeCompletionData.cs:
+	* CodeCompletion/CommentCompletionDataProvider.cs:
+	* CodeCompletion/CodeCompletionDataProvider.cs: ClassBrowserIconsService
+	methods are now in IconService.
+
 2004-12-03  Alp Toker  <alp@atoker.com>
 
 	* CodeCompletion/CompletionListWindow.cs: Fix tooltip positioning.

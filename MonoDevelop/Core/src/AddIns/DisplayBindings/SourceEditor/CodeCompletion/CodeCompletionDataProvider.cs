@@ -33,7 +33,6 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 	/// </summary>
 	public class CodeCompletionDataProvider : ICompletionDataProvider
 	{
-		static ClassBrowserIconsService classBrowserIconService = (ClassBrowserIconsService)ServiceManager.GetService(typeof(ClassBrowserIconsService));
 //		static AmbienceService          ambienceService = (AmbienceService)ServiceManager.Services.GetService(typeof(AmbienceService));
 		Hashtable insertedElements           = new Hashtable();
 		Hashtable insertedPropertiesElements = new Hashtable();
