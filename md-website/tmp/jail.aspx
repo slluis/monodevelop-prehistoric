@@ -5,6 +5,7 @@
   <title>Does xsp jail me?</title>
 
 <script runat="server">
+
 void Page_Load()
 {
   label1.Text = "label text";
@@ -17,7 +18,7 @@ void Page_Load()
 
 <h2>does it jail me</h2>
 
-<label runat="server" id="label1" />
+<asp:label runat="server" id="label1"></asp:label>
 
 </body>
 </html>
