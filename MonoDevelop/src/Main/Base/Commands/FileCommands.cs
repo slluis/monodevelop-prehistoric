@@ -230,7 +230,7 @@ namespace MonoDevelop.Commands
 			using (Gtk.FileSelection fs = new Gtk.FileSelection (GettextCatalog.GetString ("File to Open"))) {
 				string defaultFolder = PropertyService.GetProperty(
 						"MonoDevelop.Gui.Dialogs.NewProjectDialog.DefaultPath", 
-					System.IO.Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal),
+					System.IO.Path.Combine(System.Environment.GetEnvironmentVariable ("HOME"),
 						"MonoDevelopProjects")).ToString();
 				fs.Complete (defaultFolder);
 				int response = fs.Run ();
@@ -302,7 +302,7 @@ namespace MonoDevelop.Commands
 				using (Gtk.FileSelection fs = new Gtk.FileSelection (GettextCatalog.GetString ("File to Open"))) {
 					string defaultFolder = PropertyService.GetProperty(
 						"MonoDevelop.Gui.Dialogs.NewProjectDialog.DefaultPath", 
-						System.IO.Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal),
+						System.IO.Path.Combine(System.Environment.GetEnvironmentVariable ("HOME"),
 							"MonoDevelopProjects")).ToString();
 					fs.Complete (defaultFolder);
 					int response = fs.Run ();

@@ -1,3 +1,7 @@
+2004-05-17  Todd Berman  <tberman@sevenl.net>
+
+	* prj2make-sharp-lib-Commands.cs: use HOME instead of Personal
+
 2004-04-25  Francisco "Paco" Martinez <paco@mfcon.com>
 	Files removed
 	* AssemblyInfo.cs -- This file is now generated in the build by

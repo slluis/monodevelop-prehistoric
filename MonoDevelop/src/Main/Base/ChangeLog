@@ -1,3 +1,11 @@
+2004-05-17  Todd Berman  <tberman@sevenl.net>
+
+	* Commands/ProjectBrowserCommands/CombineNodeCommands.cs:
+	* Commands/FileCommands.cs:
+	* Gui/Dialogs/NewProjectDialog.cs:
+	* Gui/Dialogs/OptionPanels/IDEOptions/LoadSavePanel.cs: change from
+	SpecialFolder.Personal to getenv ("HOME").
+
 2004-05-16  Todd Berman  <tberman@sevenl.net>
 
 	* Gui/Dialogs/ReferenceDialog/SelectReferenceDialog.cs: fix to use

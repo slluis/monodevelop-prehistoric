@@ -21,7 +21,7 @@ namespace MonoDevelop.Commands
 				SlnMaker slnMkObj = null;
 				string defaultFolder = PropertyService.GetProperty(
 						"MonoDevelop.Gui.Dialogs.NewProjectDialog.DefaultPath", 
-					System.IO.Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal),
+					System.IO.Path.Combine(System.Environment.GetEnvironmentVariable ("HOME"),
 						"MonoDevelopProjects")).ToString();
 				fs.Complete (defaultFolder);
 				int response = fs.Run ();

@@ -349,7 +349,7 @@ namespace MonoDevelop.Gui.Dialogs {
 			hbox_for_browser.PackStart (entry_location, true, true, 0);
 			
 			
-			entry_location.DefaultPath = propertyService.GetProperty ("MonoDevelop.Gui.Dialogs.NewProjectDialog.DefaultPath", fileUtilityService.GetDirectoryNameWithSeparator (Environment.GetFolderPath (Environment.SpecialFolder.Personal)) + "MonoDevelopProjects").ToString ();
+			entry_location.DefaultPath = propertyService.GetProperty ("MonoDevelop.Gui.Dialogs.NewProjectDialog.DefaultPath", fileUtilityService.GetDirectoryNameWithSeparator (Environment.GetEnvironmentVariable ("HOME")) + "MonoDevelopProjects").ToString ();
 			
 			PathChanged (null, null);
 			

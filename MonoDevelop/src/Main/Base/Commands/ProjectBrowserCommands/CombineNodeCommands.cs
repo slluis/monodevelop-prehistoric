@@ -100,7 +100,7 @@ namespace MonoDevelop.Commands.ProjectBrowser
 					StringParserService stringParserService = (StringParserService)ServiceManager.Services.GetService(typeof(StringParserService));
 					string defaultFolder = propertyService.GetProperty(
 						"MonoDevelop.Gui.Dialogs.NewProjectDialog.DefaultPath", 
-					System.IO.Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal),
+					System.IO.Path.Combine(System.Environment.GetEnvironmentVariable ("HOME"),
 						"MonoDevelopProjects")).ToString();
 					
 					fdiag.Complete (defaultFolder);
@@ -148,7 +148,7 @@ namespace MonoDevelop.Commands.ProjectBrowser
 				
 					string defaultFolder = propertyService.GetProperty(
 						"MonoDevelop.Gui.Dialogs.NewProjectDialog.DefaultPath", 
-					System.IO.Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal),
+					System.IO.Path.Combine(System.Environment.GetEnvironmentVariable ("HOME"),
 						"MonoDevelopProjects")).ToString();
 					
 					fdiag.Complete (defaultFolder);
