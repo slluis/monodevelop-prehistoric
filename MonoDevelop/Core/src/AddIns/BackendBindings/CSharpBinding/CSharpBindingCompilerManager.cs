@@ -354,7 +354,7 @@ namespace CSharpBinding
 				switch (lib.ReferenceType) {
 				case ReferenceType.Gac:
 					string pkg = sas.GetPackageFromFullName (lib.Reference);
-					if (pkg.Trim == String.Empty)
+					if (pkg.Trim () == String.Empty)
 						continue;
 					if (pkg == "MONO-SYSTEM") {
 						system_references.Add (Path.GetFileName (lib.GetReferencedFileName (project)));
