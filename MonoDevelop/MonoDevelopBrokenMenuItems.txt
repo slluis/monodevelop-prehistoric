@@ -35,8 +35,8 @@ Window
 	Split
 Help
 	Help Topics
-	Readme
-	Coding Style Guide
+	Readme // disabled 
+	Coding Style Guide // disabled
 	Web (this actually works, but there is a bug
 		in showing it sometimes)
 

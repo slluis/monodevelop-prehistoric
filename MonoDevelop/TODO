@@ -2,12 +2,16 @@ Editor
 ------
 - Get code-folding working (not implemented in #d).
 - printing support
+- parser segfaults of complex files
+- cut/copy is slow
 
 CodeCompletion
 --------------
 - Implement ctrl+space to ask for completion
 - Is enabled and it shouldnt be until the file is saved so we have an extension.
 - Backspace is caught by KeyReleaseEvent instead of KeyPressEvent
+- what to do in unsaved files
+- revert to old popup mechanism with an option for delayed popup
 
 Dock
 ----
@@ -37,6 +41,7 @@ Dialogs
 - Port dialogs (see README for HIG info)
 - Implement the remaining Option Dialogs (jba)
 - Glade and HIG-ification of dialogs
+- CodeCompletion generation exit and restart cleanly
 
 Help
 ----
