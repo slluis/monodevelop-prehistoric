@@ -153,7 +153,7 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 		
 		void ListSizeChanged (object obj, SizeAllocatedArgs args)
 		{
-//			UpdateDeclarationView ();
+			UpdateDeclarationView ();
 		}
 		
 		protected override void OnSelectionChanged ()
@@ -169,19 +169,16 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 			declarationviewwindow.Hide ();
 			declarationviewwindow.Clear ();
 			
-			// FIXME: This code is buggy, and generates a bad placement sometimes when you jump a lot.
-			// but it is better than 0,0
-			// This code is for sizing the treeview properly.
-			
 			if (List.GdkWindow == null) return;
 			Gdk.Rectangle rect = List.GetRowArea (List.Selection);
 			int listpos_x = 0, listpos_y = 0;
-			while (listpos_x == 0)
+			while (listpos_x == 0 || listpos_y == 0)
 				GetPosition (out listpos_x, out listpos_y);
 			int vert = listpos_y + rect.Y;
 			
-			int lvWidth, lvHeight;
-			this.GdkWindow.GetSize (out lvWidth, out lvHeight);
+			int lvWidth = 0, lvHeight = 0;
+			while (lvWidth == 0)
+				this.GdkWindow.GetSize (out lvWidth, out lvHeight);
 			if (vert >= listpos_y + lvHeight - 2) {
 				vert = listpos_y + lvHeight - rect.Height;
 			} else if (vert < listpos_y) {
@@ -191,12 +188,7 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 
 			ICompletionDataWithMarkup datawMarkup = data as ICompletionDataWithMarkup;
 
-			string descMarkup = String.Empty;
-
-			if (datawMarkup != null)
-				descMarkup = datawMarkup.DescriptionPango;
-			else
-				descMarkup = declarationviewwindow.DescriptionMarkup = data.Description;
+			string descMarkup = datawMarkup != null ? datawMarkup.DescriptionPango : data.Description;
 
 			declarationviewwindow.Realize ();
 

@@ -1,3 +1,9 @@
+2005-01-30  Todd Berman  <tberman@off.net>
+
+	* CodeCompletion/CompletionListWindow.cs: Small changes, make sure the
+	placement of the declaration view window is redone when the list size
+	is changed. Fixes bug #71974
+
 2005-01-29  Todd Berman  <tberman@off.net>
 
 	* Gui/SourceEditorView.cs: Only show "Breakpoint" if the
