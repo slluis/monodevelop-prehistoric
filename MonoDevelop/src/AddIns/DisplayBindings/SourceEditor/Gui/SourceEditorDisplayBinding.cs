@@ -73,7 +73,9 @@ namespace MonoDevelop.SourceEditor.Gui {
 			else
 				language = "text/plain";
 			
-			w.LoadString (language, content);
+			StringParserService sps = (StringParserService)ServiceManager.Services.GetService (typeof (StringParserService));
+			
+			w.LoadString (language, sps.Parse (content));
 			return w;
 		}	
 	}
