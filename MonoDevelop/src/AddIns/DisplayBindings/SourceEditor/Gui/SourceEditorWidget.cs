@@ -30,6 +30,8 @@ namespace MonoDevelop.SourceEditor.Gui
 			View = new SourceEditorView (Buffer, this);
 			Buffer.Highlight = true;
 			Buffer.View = View;
+			this.VscrollbarPolicy = PolicyType.Automatic;
+			this.HscrollbarPolicy = PolicyType.Automatic;
 			
 			View.SetMarkerPixbuf ("SourceEditorBookmark", new Gdk.Pixbuf (drag_icon_xpm));
 			View.SetMarkerPixbuf ("ExecutionMark", new Gdk.Pixbuf ("../data/resources/icons/ExecutionMarker.png"));
