@@ -56,6 +56,20 @@ namespace ICSharpCode.TextEditor.Document
 			}
 		}
 		
+		public int Length { get { return textBuffer.Length; } }
+		public string FullDocumentText { get { return textBuffer.GetText (0, textBuffer.Length); } }
+		
+		// doesnt this feel like java ;-)
+		public char GetCharAt (int p)
+		{
+			return textBuffer.GetCharAt (p);
+		}
+		
+		public bool IsWholeWordAt (int offset, int length)
+		{
+			return SearchReplaceUtilities.IsWholeWordAt (textBuffer, offset, length);
+		}
+		
 		public ForwardTextIterator(ITextBufferStrategy textBuffer, int endOffset)
 		{
 			Debug.Assert(textBuffer != null);

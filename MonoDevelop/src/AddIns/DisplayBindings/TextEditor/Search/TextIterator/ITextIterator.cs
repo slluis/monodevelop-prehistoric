@@ -16,13 +16,6 @@ namespace ICSharpCode.TextEditor.Document
 	public interface ITextIterator
 	{
 		/// <value>
-		/// The text buffer strategy
-		/// </value>
-		ITextBufferStrategy TextBuffer {
-			get;
-		}
-		
-		/// <value>
 		/// Gets the current char this is the same as 
 		/// GetCharRelative(0)
 		/// </value>
@@ -41,6 +34,13 @@ namespace ICSharpCode.TextEditor.Document
 			get;
 			set;
 		}
+		
+		int Length { get; }
+		
+		string FullDocumentText { get; }
+		
+		bool IsWholeWordAt (int offset, int length);
+		char GetCharAt (int p);
 		
 		/// <remarks>
 		/// Gets a char relative to the current position (negative values

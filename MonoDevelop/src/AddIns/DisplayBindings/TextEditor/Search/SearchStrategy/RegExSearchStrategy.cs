@@ -28,7 +28,7 @@ namespace ICSharpCode.TextEditor.Document
 		
 		public ISearchResult FindNext(ITextIterator textIterator, SearchOptions options)
 		{
-			string document = textIterator.TextBuffer.GetText(0, textIterator.TextBuffer.Length);
+			string document = textIterator.FullDocumentText;
 			
 			while (textIterator.MoveAhead(1)) {
 				Match m = regex.Match(document, textIterator.Position);

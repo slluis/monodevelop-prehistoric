@@ -53,7 +53,7 @@ namespace ICSharpCode.TextEditor.Document
 					j = overlap[j];
 				}
 				if (++j >= searchPattern.Length) {
-					if ((!options.SearchWholeWordOnly || SearchReplaceUtilities.IsWholeWordAt(textIterator.TextBuffer, textIterator.Position, searchPattern.Length))) {
+					if ((!options.SearchWholeWordOnly || textIterator.IsWholeWordAt (textIterator.Position, searchPattern.Length))) {
 						return textIterator.Position;
 					}
 					if (!textIterator.MoveAhead(j - overlap[j])) {
@@ -68,7 +68,7 @@ namespace ICSharpCode.TextEditor.Document
 		{
 			int offset = InternalFindNext(textIterator, options);
 			
-			if (offset + searchPattern.Length >= textIterator.TextBuffer.Length) {
+			if (offset + searchPattern.Length >= textIterator.Length) {
 				return FindNext(textIterator, options);
 			}
 			

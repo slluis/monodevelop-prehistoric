@@ -19,38 +19,32 @@ namespace ICSharpCode.TextEditor.Document
 	{
 		string searchPattern;
 		
-		bool MatchCaseSensitive(ITextBufferStrategy document, int offset, string pattern)
+		bool MatchCaseSensitive(ITextIterator iter, int offset, string pattern)
 		{
 			for (int i = 0; i < pattern.Length; ++i) {
-				if (offset + i >= document.Length || document.GetCharAt(offset + i) != pattern[i]) {
+				if (offset + i >= iter.Length || iter.GetCharAt(offset + i) != pattern[i]) {
 					return false;
 				}
 			}
 			return true;
 		}
 		
-		bool MatchCaseInsensitive(ITextBufferStrategy document, int offset, string pattern)
+		bool MatchCaseInsensitive(ITextIterator iter, int offset, string pattern)
 		{
 			for (int i = 0; i < pattern.Length; ++i) {
-				if (offset + i >= document.Length || Char.ToUpper(document.GetCharAt(offset + i)) != pattern[i]) {
+				if (offset + i >= iter.Length || Char.ToUpper(iter.GetCharAt(offset + i)) != pattern[i]) {
 					return false;
 				}
 			}
 			return true;
-		}
-		
-		bool IsWholeWordAt(ITextBufferStrategy document, int offset, int length)
-		{
-			return (offset - 1 < 0 || Char.IsWhiteSpace(document.GetCharAt(offset - 1))) &&
-			       (offset + length + 1 >= document.Length || Char.IsWhiteSpace(document.GetCharAt(offset + length)));
 		}
 		
 		int InternalFindNext(ITextIterator textIterator, SearchOptions options)
 		{
 			while (textIterator.MoveAhead(1)) {
-				if (options.IgnoreCase ? MatchCaseInsensitive(textIterator.TextBuffer, textIterator.Position, searchPattern) :
-				                         MatchCaseSensitive(textIterator.TextBuffer, textIterator.Position, searchPattern)) {
-					if (!options.SearchWholeWordOnly || IsWholeWordAt(textIterator.TextBuffer, textIterator.Position, searchPattern.Length)) {
+				if (options.IgnoreCase ? MatchCaseInsensitive(textIterator, textIterator.Position, searchPattern) :
+				                         MatchCaseSensitive(textIterator, textIterator.Position, searchPattern)) {
+					if (!options.SearchWholeWordOnly || textIterator.IsWholeWordAt (textIterator.Position, searchPattern.Length)) {
 						return textIterator.Position;
 					}
 				}

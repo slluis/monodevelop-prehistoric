@@ -82,7 +82,7 @@ namespace ICSharpCode.TextEditor.Document
 			}
 		}
 		
-		bool Match(ITextBufferStrategy document, 
+		bool Match(ITextIterator iter, 
 		           int  offset, 
 		           bool ignoreCase,
 		           int  programStart)
@@ -91,11 +91,11 @@ namespace ICSharpCode.TextEditor.Document
 			curMatchEndOffset = -1;
 			
 			for (int pc = programStart; pc < patternProgram.Count; ++pc) {
-				if (curOffset >= document.Length) {
+				if (curOffset >= iter.Length) {
 					return false;
 				}
 				
-				char    ch  = ignoreCase ? Char.ToUpper(document.GetCharAt(curOffset)) : document.GetCharAt(curOffset);
+				char    ch  = ignoreCase ? Char.ToUpper(iter.GetCharAt(curOffset)) : iter.GetCharAt(curOffset);
 				Command cmd = (Command)patternProgram[pc];
 				
 				switch (cmd.CommandType) {
@@ -105,8 +105,8 @@ namespace ICSharpCode.TextEditor.Document
 						}
 						break;
 					case CommandType.AnyZeroOrMore:
-						return Match(document, curOffset, ignoreCase, pc + 1) ||
-						       Match(document, curOffset + 1, ignoreCase, pc);
+						return Match(iter, curOffset, ignoreCase, pc + 1) ||
+						       Match(iter, curOffset + 1, ignoreCase, pc);
 					case CommandType.AnySingle:
 						break;
 					case CommandType.AnyDigit:
@@ -134,8 +134,8 @@ namespace ICSharpCode.TextEditor.Document
 		int InternalFindNext(ITextIterator textIterator, SearchOptions options)
 		{
 			while (textIterator.MoveAhead(1)) {
-				if (Match(textIterator.TextBuffer, textIterator.Position, options.IgnoreCase, 0)) {
-					if (!options.SearchWholeWordOnly || SearchReplaceUtilities.IsWholeWordAt(textIterator.TextBuffer, textIterator.Position, curMatchEndOffset - textIterator.Position)) {
+				if (Match(textIterator, textIterator.Position, options.IgnoreCase, 0)) {
+					if (!options.SearchWholeWordOnly || textIterator.IsWholeWordAt (textIterator.Position, curMatchEndOffset - textIterator.Position)) {
 						return textIterator.Position;
 					}
 				}
