@@ -1,3 +1,12 @@
+2005-03-30  John Luke  <john.luke@gmail.com>
+
+	* src/PrettyPrinter/PrettyPrintVisitor.cs:
+	* src/Parser/AST/TypeLevel/PropertyGetRegion.cs:
+	* src/Parser/AST/TypeLevel/PropertySetRegion.cs:
+	* src/Parser/generated/cs.ATG:
+	* src/Parser/generated/Parser.cs: allow Modifiers
+	on property get and set
+
 2005-03-26  John Luke  <john.luke@gmail.com>
 
 	* src/PrettyPrinter/PrettyPrintVisitor.cs

@@ -968,6 +968,14 @@ MemberModifier<Modifiers m>
 	| "volatile"                       (. m.Add(Modifier.Volatile); .)
 .
 
+AccessorModifier<Modifiers m>
+=
+   "internal"                         (. m.Add(Modifier.Internal); .)
+   | "public"                         (. m.Add(Modifier.Public); .)
+   | "protected"                      (. m.Add(Modifier.Protected); .)
+   | "private"                        (. m.Add(Modifier.Private); .)
+.
+
 StructMemberDecl<Modifiers m, ArrayList attributes>
 (.
 	string qualident = null;
@@ -1264,43 +1272,47 @@ EnumMemberDecl<out FieldDeclaration f>
 AccessorDecls<out PropertyGetRegion getBlock, out PropertySetRegion setBlock>
 (.
 	ArrayList attributes = new ArrayList(); 
+	Modifiers m = new Modifiers (this);
 	AttributeSection section;
 	getBlock = null;
 	setBlock = null; 
 .)
 =
 	{ AttributeSection<out section> (. attributes.Add(section); .) }
+	{ AccessorModifier<m> }
 	(
 		IF (IdentIsGet())
-			GetAccessorDecl<out getBlock, attributes>
-			[                       (. attributes = new ArrayList(); .)
+			GetAccessorDecl<out getBlock, attributes, m.Modifier>
+			[                       (. attributes = new ArrayList(); m = new Modifiers (this); .)
 				{ AttributeSection<out section> (. attributes.Add(section); .) }
-				SetAccessorDecl<out setBlock, attributes>
+				{ AccessorModifier<m> }
+				SetAccessorDecl<out setBlock, attributes, m.Modifier>
 			]
 		| IF (IdentIsSet())
-			SetAccessorDecl<out setBlock, attributes>
-			[                        (. attributes = new ArrayList(); .)
+			SetAccessorDecl<out setBlock, attributes, m.Modifier>
+			[                        (. attributes = new ArrayList(); m = new Modifiers (this); .)
 				{ AttributeSection<out section> (. attributes.Add(section); .) }
-				GetAccessorDecl<out getBlock, attributes>
+				{ AccessorModifier<m> }
+				GetAccessorDecl<out getBlock, attributes, m.Modifier>
 			]
 		| ident (. Error("get or set accessor declaration expected"); .)
 	)
 .
 
-GetAccessorDecl<out PropertyGetRegion getBlock, ArrayList attributes>
+GetAccessorDecl<out PropertyGetRegion getBlock, ArrayList attributes, Modifier m>
 (. Statement stmt = null; .)
 =
 	ident /* "get" is not a keyword */
 	(. if (t.val != "get") Error("get expected"); .)
-	( Block<out stmt> | ";" ) (. getBlock = new PropertyGetRegion((BlockStatement)stmt, attributes); .)
+	( Block<out stmt> | ";" ) (. getBlock = new PropertyGetRegion((BlockStatement)stmt, attributes, m); .)
 .
 
-SetAccessorDecl<out PropertySetRegion setBlock, ArrayList attributes>
+SetAccessorDecl<out PropertySetRegion setBlock, ArrayList attributes, Modifier m>
 (. Statement stmt = null; .)
 =
 	ident /* "set" is not a keyword */
 	(. if (t.val != "set") Error("set expected"); .)
-	( Block<out stmt> | ";" ) (. setBlock = new PropertySetRegion((BlockStatement)stmt, attributes); .)
+	( Block<out stmt> | ";" ) (. setBlock = new PropertySetRegion((BlockStatement)stmt, attributes, m); .)
 .
 
 EventAccessorDecls<out EventAddRegion addBlock, out EventRemoveRegion removeBlock>

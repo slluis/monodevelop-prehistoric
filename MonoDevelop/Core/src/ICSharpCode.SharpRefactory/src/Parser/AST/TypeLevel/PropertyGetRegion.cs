@@ -22,6 +22,7 @@ namespace ICSharpCode.SharpRefactory.Parser.AST
 {
 	public class PropertyGetRegion : AbstractNode
 	{
+		Modifier modifier;
 		BlockStatement block;
 		ArrayList      attributes;
 		
@@ -33,6 +34,12 @@ namespace ICSharpCode.SharpRefactory.Parser.AST
 				block = value;
 			}
 		}
+
+		public Modifier Modifier {
+			get { return modifier; }
+			set { modifier = value; }
+		}
+
 		public ArrayList Attributes {
 			get {
 				return attributes;
@@ -42,10 +49,15 @@ namespace ICSharpCode.SharpRefactory.Parser.AST
 			}
 		}
 		
-		public PropertyGetRegion(BlockStatement block, ArrayList attributes)
+		public PropertyGetRegion(BlockStatement block, ArrayList attributes) : this (block, attributes, Modifier.None)
+		{
+		}
+
+		public PropertyGetRegion(BlockStatement block, ArrayList attributes, Modifier m)
 		{
 			this.block = block;
 			this.attributes = attributes;
+			this.modifier = m;
 		}
 		
 		public override object AcceptVisitor(IASTVisitor visitor, object data)

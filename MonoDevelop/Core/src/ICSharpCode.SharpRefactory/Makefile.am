@@ -134,6 +134,9 @@ run-errors: $(TEST)
 run-tests: $(TEST)
 	MONO_PATH=../../../build/bin mono $(TEST) ./tests
 
+run-mcs-tests: $(TEST)
+	MONO_PATH=../../../build/bin mono $(TEST) ../../../../mcs/tests
+
 assemblydir = $(libdir)/monodevelop/bin
 assembly_DATA = $(DLL)
 

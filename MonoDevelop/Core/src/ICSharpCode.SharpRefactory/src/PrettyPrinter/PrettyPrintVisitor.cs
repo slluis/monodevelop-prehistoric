@@ -596,6 +596,7 @@ namespace ICSharpCode.SharpRefactory.PrettyPrinter
 		{
 			this.VisitAttributes(getRegion.Attributes, data);
 			outputFormatter.Indent();
+			VisitModifier(getRegion.Modifier);
 			outputFormatter.PrintIdentifier("get");
 			if (getRegion.Block == null) {
 				outputFormatter.PrintToken(Tokens.Semicolon);
@@ -617,6 +618,7 @@ namespace ICSharpCode.SharpRefactory.PrettyPrinter
 		{
 			this.VisitAttributes(setRegion.Attributes, data);
 			outputFormatter.Indent();
+			VisitModifier(setRegion.Modifier);
 			outputFormatter.PrintIdentifier("set");
 			if (setRegion.Block == null) {
 				outputFormatter.PrintToken(Tokens.Semicolon);
