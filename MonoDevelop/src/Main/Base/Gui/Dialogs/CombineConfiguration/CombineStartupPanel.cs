@@ -170,7 +170,7 @@ namespace MonoDevelop.Gui.Dialogs.OptionPanels
 						out selectedItem, (TreePath) entryTreeView.Selection.GetSelectedRows(out ls)[0]);
 					// swap it with the next one
 					TreeIter toSwap = selectedItem;
-					if(ls.IterNext(out toSwap))
+					if(ls.IterNext(ref toSwap))
 					{
 						((ListStore)ls).Swap(selectedItem, toSwap);
 					}
@@ -268,7 +268,7 @@ namespace MonoDevelop.Gui.Dialogs.OptionPanels
 					CombineExecuteDefinition edef = (CombineExecuteDefinition) store.GetValue(current, 2);					
 					combine.CombineExecuteDefinitions.Add(edef);
 					
-					store.IterNext(out current);	
+					store.IterNext(ref current);	
 				}
 				return true;
 			}		

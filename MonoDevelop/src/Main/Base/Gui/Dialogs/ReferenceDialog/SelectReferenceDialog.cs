@@ -48,7 +48,7 @@ namespace MonoDevelop.Gui.Dialogs
 				do {
 					//Debug.Assert(item.Tag != null);
 					referenceInformations.Add(refTreeStore.GetValue(looping_iter, 3));
-				} while (refTreeStore.IterNext (out looping_iter));
+				} while (refTreeStore.IterNext (ref looping_iter));
 				return referenceInformations;
 			}
 		}
@@ -128,7 +128,7 @@ namespace MonoDevelop.Gui.Dialogs
 					refTreeStore.Remove (ref looping_iter);
 					return;
 				}
-			} while (refTreeStore.IterNext (out looping_iter));
+			} while (refTreeStore.IterNext (ref looping_iter));
 		}
 		
 		public void AddReference(ReferenceType referenceType, string referenceName, string referenceLocation)
@@ -142,7 +142,7 @@ namespace MonoDevelop.Gui.Dialogs
 					}
 				} catch {
 				}
-			} while (refTreeStore.IterNext (out looping_iter));
+			} while (refTreeStore.IterNext (ref looping_iter));
 			
 			ProjectReference tag;
 			switch (referenceType) {
@@ -177,7 +177,7 @@ namespace MonoDevelop.Gui.Dialogs
 						break;
 				}
 				Gtk.TreeIter newIter = iter;
-				if (refTreeStore.IterNext (out newIter)) {
+				if (refTreeStore.IterNext (ref newIter)) {
 					ReferencesTreeView.Selection.SelectIter (newIter);
 					refTreeStore.Remove (ref iter);
 				} else {

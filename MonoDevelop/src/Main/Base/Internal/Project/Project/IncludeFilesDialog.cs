@@ -129,7 +129,7 @@ namespace MonoDevelop.Internal.Project
 				}
 				project.ProjectFiles.Add(finfo);
 				
-				store.IterNext(out current);
+				store.IterNext(ref current);
 			}
 			
 			IncludeFilesDialogWidget.Destroy();
@@ -158,7 +158,7 @@ namespace MonoDevelop.Internal.Project
  			for (int i = 0; i < store.IterNChildren() ; ++i) {
 				store.SetValue(current, 0, value);
 				
-				store.IterNext(out current);
+				store.IterNext(ref current);
 			}
 		}
 		

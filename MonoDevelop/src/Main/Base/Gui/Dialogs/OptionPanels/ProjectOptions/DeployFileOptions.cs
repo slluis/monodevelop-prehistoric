@@ -196,7 +196,7 @@ namespace MonoDevelop.Gui.Dialogs.OptionPanels
 											  project.BaseDirectory, 
 											  (string) store.GetValue(current, 1)));
 							}
-				store.IterNext(out current);
+				store.IterNext(ref current);
 			}
 			return true;
 			}

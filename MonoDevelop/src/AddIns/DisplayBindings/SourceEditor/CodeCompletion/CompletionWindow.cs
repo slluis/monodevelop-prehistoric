@@ -186,7 +186,7 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 					}
 				}
 				i++;
-			} while (store.IterNext (out iter) == true);
+			} while (store.IterNext (ref iter) == true);
 
 			if (lastSelected != -1) {
 				listView.Selection.UnselectAll ();

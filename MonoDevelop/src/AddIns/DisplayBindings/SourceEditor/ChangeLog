@@ -1,3 +1,9 @@
+2004-05-28  Todd Berman  <tberman@sevenl.net>
+
+	* Gui/OptionPanels/CodeTemplatePanel.cs:
+	* CodeCompletion/CompletionWindow.cs: update to reflect gtk-sharp api
+	out -> ref change
+
 2004-05-25  Todd Berman  <tberman@sevenl.net>
 
 	* Gui/SourceEditorView.cs: Update MonodocResolver for new changes.

@@ -58,7 +58,7 @@ namespace MonoDevelop.Gui.Pads
 					store.Remove (ref child_iter);
 					goto start;
 				}
-			} while (store.IterNext (out child_iter));
+			} while (store.IterNext (ref child_iter));
 		}
 
 		Hashtable populated = new Hashtable ();
@@ -75,7 +75,7 @@ namespace MonoDevelop.Gui.Pads
 			if (store.IterChildren (out iter, args.Iter)) {
 				do {
 					PopulateNode (iter);
-				} while (store.IterNext (out iter));
+				} while (store.IterNext (ref iter));
 			}
 			populated[node] = true;
 		}

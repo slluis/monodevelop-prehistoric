@@ -89,7 +89,7 @@ namespace MonoDevelop.Gui.Dialogs.OptionPanels
 				store.GetIterFirst(out first);
 				TreeIter current = first;
 				for (int i = 0; i < store.IterNChildren() - 1 ; ++i) {
-					store.IterNext(out current);
+					store.IterNext(ref current);
 					string name = fileUtilityService.RelativeToAbsolutePath(
 						project.BaseDirectory, "." + System.IO.Path.DirectorySeparatorChar + store.GetValue(current, 1));
 					int j = 0;

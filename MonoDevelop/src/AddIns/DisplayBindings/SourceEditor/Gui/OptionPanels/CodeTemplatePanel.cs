@@ -364,7 +364,7 @@ namespace MonoDevelop.EditorBindings.Gui.OptionPanels
 						// loop through items in the tree, adding each item to the template group
 						do {
 							CurrentTemplateGroup.Templates.Add(templateListView.Model.GetValue(current, 0)); 
-						} while(templateListView.Model.IterNext(out current));
+						} while(templateListView.Model.IterNext(ref current));
 					}
 				}
 			}

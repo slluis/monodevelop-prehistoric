@@ -89,7 +89,7 @@ namespace MonoDevelop.Gui.Dialogs
 					store.SetValue (looping_iter, 3, newstate);
 					return;
 				}
-			} while (store.IterNext (out looping_iter));
+			} while (store.IterNext (ref looping_iter));
 		}
 		
 		void PrintCache()

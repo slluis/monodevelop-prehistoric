@@ -202,7 +202,7 @@ namespace MonoDevelop.Gui.Dialogs.OptionPanels
 						out selectedItem, (TreePath) toolListBox.Selection.GetSelectedRows(out ls)[0]);
 					// swap it with the next one
 					TreeIter toSwap = selectedItem;
-					if (ls.IterNext (out toSwap))
+					if (ls.IterNext (ref toSwap))
 					{
 						((ListStore) ls).Swap (selectedItem, toSwap);
 					}
@@ -383,7 +383,7 @@ namespace MonoDevelop.Gui.Dialogs.OptionPanels
 					newlist.Add (tool);				 
 					
 					}
-					while (toolListBox.Model.IterNext (out current));
+					while (toolListBox.Model.IterNext (ref current));
 				}
 				
 				ToolLoader.Tool = newlist;
