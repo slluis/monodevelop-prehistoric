@@ -1,8 +1,15 @@
+2004-03-28  Todd Berman  <tberman@sevenl.net>
+
+	* Services/ParserService/DefaultParserService.cs: re-add try catch to
+	prevent exceptions from percolating up and blowing up. closes bug
+	#56128
+
 2004-03-28  John Luke  <jluke@cfl.rr.com>
 
 	* Services/ParserService/DefaultParserService.cs:
 	if filename == null don't switch on it
 
+>>>>>>> .r1284
 2004-03-27  Todd Berman  <tberman@sevenl.net>
 
 	* Commands/FileCommands: remove save as notification, as its useless

@@ -752,16 +752,16 @@ namespace MonoDevelop.Services
 		{
 			// added exception handling here to prevent silly parser exceptions from
 			// being thrown and corrupting the textarea control
-			//try {
+			try {
 				IParser parser = GetParser(fileName);
-				Console.WriteLine("Parse info : " + GetParseInformation(fileName).MostRecentCompilationUnit.Tag);
+				//Console.WriteLine("Parse info : " + GetParseInformation(fileName).MostRecentCompilationUnit.Tag);
 				if (parser != null) {
 					return parser.Resolve(this, expression, caretLineNumber, caretColumn, fileName, fileContent);
 				}
 				return null;
-			//} catch {
-//				return null;
-			//}
+			} catch {
+				return null;
+			}
 		}
 
 		protected void OnParseInformationAdded(ParseInformationEventArgs e)
