@@ -23,7 +23,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs.OptionPanels.CompletionDatabaseWi
 		
 		public override bool ReceiveDialogMessage(DialogMessage message)
 		{
-	    	return true;
+	    		return true;
 		}
 		
 		static PropertyService propertyService = (PropertyService)ServiceManager.Services.GetService(typeof(PropertyService));

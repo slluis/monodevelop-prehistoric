@@ -188,7 +188,10 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 				statusPanel.GdkWindow.InvalidateRect (new Rectangle (0, 0, 400, 400), true);
 				dialogPanel.Remove (dialogPanel.Child);
 			}
-			//Control panelControl = CurrentWizardPane.Control;
+			if (CurrentWizardPane.ToString () == "ICSharpCode.SharpDevelop.Gui.Dialogs.OptionPanels.CompletionDatabaseWizard.CreationFinishedPanel") {
+				Console.WriteLine ("This is an ugly hack for an even uglier bug, Restart MD now");
+				System.Environment.Exit (0);
+			}
 			dialogPanel.Add(CurrentWizardPane.Control);
 
 			this.ShowAll ();
@@ -228,15 +231,12 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 			int nextID = GetSuccessorNumber(this.ActivePanelNumber);
 			Debug.Assert(nextID < wizardPanels.Count && nextID >= 0);
 
-			//Console.WriteLine ("Inside ShowNextPanelEvent");
 			if (!CurrentWizardPane.ReceiveDialogMessage(DialogMessage.Next)) {
 				return;
 			}
 			CurrentWizardPane.ReceiveDialogMessage (DialogMessage.Next);
-			Console.WriteLine ("Past ReceiveDialogMessage call");
 			idStack.Push(activePanelNumber);
 			ActivatePanel(nextID);
-			Console.WriteLine ("Activating panel" + nextID);
 			CurrentWizardPane.ReceiveDialogMessage(DialogMessage.Activated);
 		}
 		
