@@ -61,11 +61,11 @@ the Mozilla development package for your OS. For example:
       <p>MonoDevelop will require the following mono packages to be installed, in this order:
       <ul>
 <li><a href="ftp://www-126.ibm.com/pub/icu/2.8/icu-2.8.tgz">International Components for Unicode 2.8</a></li>
-<li><a href="http://www.go-mono.com/archive/mono-0.91.tar.gz">mono 0.91</a></li>
-<li><a href="http://sourceforge.net/project/showfiles.php?group_id=40240">gtk-sharp 0.91</a></li>
-<li><a href="http://www.go-mono.com/archive/monodoc-0.14.tar.gz">monodoc 0.14</a></li>
-<li><a href="http://www.go-mono.com/archive/gtksourceview-sharp-0.2.tar.gz">gtksourceview-sharp 0.2</a></li>
-<li><a href="http://www.go-mono.com/archive/gecko-sharp-0.2.tar.gz">gecko-sharp 0.2</a></li>
+<li><a href="http://www.go-mono.com/archive/beta1/mono-0.91.tar.gz">mono 0.91</a></li>
+<li><a href="http://www.go-mono.com/archive/beta1/gtk-sharp-0.91.1.tar.gz">gtk-sharp 0.91.1</a></li>
+<li><a href="http://www.go-mono.com/archive/beta1/monodoc-0.15.tar.gz">monodoc 0.15</a></li>
+<li><a href="http://www.go-mono.com/archive/beta1/gtksourceview-sharp-0.2.tar.gz">gtksourceview-sharp 0.2</a></li>
+<li><a href="http://www.go-mono.com/archive/beta1/gecko-sharp-0.2.tar.gz">gecko-sharp 0.2</a></li>
       </ul></p>
       <p>When building from the source provided above, always use a prefix of `<tt>/usr</tt>'.</p>
       <p>Some packages are also available as prebuild binary packages (RPMs and DEBs). 
@@ -84,7 +84,7 @@ Other binary packages are under development, and will be available soon.
       <br /><br /><br />
       <div class="headlinebar">Installing MonoDevelop</div>      
       <p>The final step in this process is to build MonoDevelop itself. Download the 
-<a href="http://www.go-mono.com/archive/monodevelop-0.2.tar.gz">MonoDevelop 0.2</a> package.</p>
+<a href="http://www.go-mono.com/archive/beta1/monodevelop-0.3.tar.gz">MonoDevelop 0.3</a> package.</p>
 
 <pre class="code">
 export PKG_CONFIG_PATH="/usr/lib/pkgconfig"
