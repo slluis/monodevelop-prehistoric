@@ -1,6 +1,11 @@
+2004-04-12  Todd Berman  <tberman@sevenl.net>
+
+	* configure.in: bump to 0.18.99 gtk-sharp
+
 2004-04-11  Kevin Breit  <mrproper@ximian.com>
 
-        * /build/data/templates/file/CSharp/GtkSharpWindow.xft: Added a ; to fix a syntax error
+	* /build/data/templates/file/CSharp/GtkSharpWindow.xft: Added a ; to 
+	fix a syntax error
 
 2004-04-08  John Luke  <jluke@cfl.rr.com>
 
