@@ -101,7 +101,7 @@ namespace MonoDevelop.Gui
 		
 		public void SelectWindow()	
 		{
-			int toSelect = tabControl.PageNum (tabPage);
+			int toSelect = tabControl.PageNum (this);
 			tabControl.CurrentPage = toSelect;
 		}
 		
