@@ -191,6 +191,7 @@ class CodeCompletionDruid : Druid {
 		if (really) {
 			this.Destroy();
 			this.Canceled(this);
+			((Gtk.Window)WorkbenchSingleton.Workbench).Visible = true;
 		}
 	}
 }

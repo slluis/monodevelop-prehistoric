@@ -44,12 +44,16 @@ namespace MonoDevelop.Commands
 			w.SetMemento((IXmlConvertable)propertyService.GetProperty(workbenchMemento, new WorkbenchMemento()));
 			w.UpdateViews(null, null);
 			WorkbenchSingleton.CreateWorkspace();
+			((Gtk.Window)w).Visible = false;
 			
 		}
 	}
 	
 	public class StartCodeCompletionWizard : AbstractCommand
 	{
+
+		public static bool generatingCompletionData = false;
+
 		public override void Run()
 		{
 			PropertyService propertyService = (PropertyService)ServiceManager.Services.GetService(typeof(PropertyService));
@@ -58,6 +62,7 @@ namespace MonoDevelop.Commands
 			//Console.WriteLine("checking for existence of {0}", codeCompletionProxyFile);
 
 			if (!File.Exists (codeCompletionProxyFile)) {
+				generatingCompletionData = true;
 				RunWizard();
 				DefaultParserService parserService = (DefaultParserService)ServiceManager.Services.GetService(typeof(IParserService));
 				parserService.LoadProxyDataFile();
@@ -140,6 +145,12 @@ namespace MonoDevelop.Commands
 		
 		public override void Run()
 		{
+
+			if (StartCodeCompletionWizard.generatingCompletionData) {
+				Gtk.Application.Run ();
+				return;
+			}
+		
 			ReflectionClass reflectionClass = new ReflectionClass(typeof(object), null);
 			
 			// register string tag provider (TODO: move to add-in tree :)
@@ -189,6 +200,7 @@ namespace MonoDevelop.Commands
 			}
 			
 			((Gtk.Window)WorkbenchSingleton.Workbench).ShowAll ();
+			((Gtk.Window)WorkbenchSingleton.Workbench).Visible = true;
 			WorkbenchSingleton.Workbench.RedrawAllComponents ();
 		
 			// Give Gtk time to display the workbench window before showing the TOTD.

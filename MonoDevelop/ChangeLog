@@ -1,7 +1,12 @@
 2004-03-15  Todd Berman <tberman@sevenl.net>
 
 	* monodevelop.desktop: added some bugzilla info
-	* src/Main/Base/Gui/CompletionDatabaseWizard: added some titles
+	* src/Main/Base/Gui/CompletionDatabaseWizard/druis.cs: 
+		added some titles
+		fix cancel action.
+	* src/Main/Base/Commands/AutostartCommands.cs:
+		fix bug #55439, we now dont show the main gui when generating
+		the completion database.
 
 2004-03-12  Gustavo Giráldez  <gustavo.giraldez@gmx.net>
 
@@ -97,7 +102,8 @@
 2004-03-06  Martin Baulig  <martin@ximian.com>
 
 	* configure.in: AC_SUBST(debugger_prefix).
-	* src/Main/Base/Services/Makefile.am: Use full path name for Mono.Debugger.dll.
+	* src/Main/Base/Services/Makefile.am: Use full path name for 
+	Mono.Debugger.dll.
 
 	* src/Main/Base/Gui/Workbench/DefaultWorkbench.cs: connect to the
 	debugger's StoppedEvent.
@@ -111,16 +117,18 @@
 
 2004-03-05  John BouAntoun  <jba-mono@optusnet.com.au>
 	
-	* src/Main/Base/Gui/Components/OpenFileTab.cs : deleted (duplicates TabLabel)
-	* src/Main/Base/Commands/FileTabStripCommands.cs : deleted because OpenFileTab deleted
+	* src/Main/Base/Gui/Components/OpenFileTab.cs : deleted (duplicates 
+	TabLabel)
+	* src/Main/Base/Commands/FileTabStripCommands.cs : deleted because 
+	OpenFileTab deleted
 	* src/Main/Base/Makefile.am : removed file refs from compilation
 	* build/AddIns/SharpDevelopCore.addin: removed file refs from addins
 
 2004-03-05  John BouAntoun  <jba-mono@optusnet.com.au>
 	
-	* src/AddIns/DisplayBindings/SourceEditor/Gui/Dialogs/ReplaceDialog.cs : 
-	changed Gtk.Combo's to Gnome.Entry's to fix bug where MD would lock up with 
-	hidden "Not Found" Dialog popping up under the find dialog
+	* src/AddIns/DisplayBindings/SourceEditor/Gui/Dialogs/ReplaceDialog.cs :
+	changed Gtk.Combo's to Gnome.Entry's to fix bug where MD would lock up 
+	with hidden "Not Found" Dialog popping up under the find dialog
 	* src/AddIns/DisplayBindings/SourceEditor/Gui/Dialogs/ReplaceInFilesDialog.cs: 
 	as above
 	* data/resources/glade/texteditoraddin.glade : as above
@@ -138,10 +146,11 @@
 
 2004-03-05  John BouAntoun  <jba-mono@optusnet.com.au>
 
-	* src/Main/Base/Gui/Dialogs/ProjectOptionsDialog.cs : added configuration 
-	renaming
-	* src/Main/Base/Gui/Dialogs/TreeViewOptions.cs : made InitializeComponent 
-	virtual so ProjectOptionDialog could override (see above)
+	* src/Main/Base/Gui/Dialogs/ProjectOptionsDialog.cs : added 
+	configuration renaming
+	* src/Main/Base/Gui/Dialogs/TreeViewOptions.cs : made 
+	InitializeComponent virtual so ProjectOptionDialog could override (see
+	above)
 
 2004-03-04  Mike Kestner  <mkestner@ximian.com>
 
