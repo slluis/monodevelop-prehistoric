@@ -445,18 +445,15 @@ namespace Gdl
 			return obj;
 		}
 
-		// this appears to create objects from the xml
 		void RecursiveBuild (XmlNode parentNode, DockObject parent)
 		{
-			//Console.WriteLine ("RecursiveBuild: {0}, {1}", parentNode.Name, parent);
 			if (master == null || parentNode == null)
 				return;
 
 			DockObject obj;
 
-			// if parent is null, we should build toplevels
+			// FIXME: if parent is null, we should build toplevels
 			//if (parent == null)
-			//	parent = master.TopLevelDocks[0] as DockObject;
 
 			foreach (XmlNode node in parentNode.ChildNodes)
 			{
@@ -629,7 +626,6 @@ namespace Gdl
 			bool locked = ((CheckButton) sender).Active;
 			if (master != null)
 				master.Locked = locked ? 1 : 0;
-			//UpdateItemsModel ();
 		}
 
 		void MasterLockedNotifyCb (object sender, EventArgs a)

@@ -197,7 +197,7 @@ namespace Gdl
 			if (tooltips != null)
 				tooltips = null;
 			if (item != null) {
-				//TODO: Disconnect future signal handlers for notify.
+				// FIXME: Disconnect future signal handlers for notify.
 			}
 			item = null;
 			base.OnDestroyed ();
