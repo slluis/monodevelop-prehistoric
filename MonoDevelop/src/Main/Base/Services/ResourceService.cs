@@ -1,6 +1,6 @@
 ﻿// <file>
 //     <copyright see="prj:///doc/copyright.txt"/>
-//     <license see="prj:///doc/license.txt"/>
+//   license.txt"/>
 //     <owner name="Mike Krüger" email="mike@icsharpcode.net"/>
 //     <version value="$version"/>
 // </file>
@@ -14,6 +14,7 @@ using System.Drawing;
 using System.Diagnostics;
 using System.Reflection;
 using System.Xml;
+using System.Runtime.InteropServices;
 
 using ICSharpCode.Core.Properties;
 
@@ -46,7 +47,9 @@ namespace ICSharpCode.Core.Services
 		{
 			PropertyService propertyService = (PropertyService)ServiceManager.Services.GetService(typeof(PropertyService));
 			resourceDirctory = propertyService.DataDirectory + Path.DirectorySeparatorChar + "resources";
-			CreateStockMapping ();
+			// CreateStockMapping ();
+
+			MonoDevelop.Gui.Stock.CreateIconFactory ();
 		}
 		
 		Hashtable userStrings = null;
@@ -58,6 +61,8 @@ namespace ICSharpCode.Core.Services
 		Hashtable localStrings = null;
 		Hashtable localIcons   = null;
 
+
+/*
 		static Hashtable stockMappings = null;
 
 		static void CreateStockMapping ()
@@ -90,11 +95,11 @@ namespace ICSharpCode.Core.Services
 			stockMappings ["Icons.16x16.Information"] = Gtk.Stock.DialogInfo;
 			stockMappings ["Icons.16x16.Question"] = Gtk.Stock.DialogQuestion;
 		}
-
+*/		
 		void ChangeProperty(object sender, PropertyEventArgs e)
 		{
 			if (e.Key == uiLanguageProperty && e.OldValue != e.NewValue) {
-			    LoadLanguageResources();
+				LoadLanguageResources();
 			} 
 		}
 		void LoadLanguageResources()
@@ -257,6 +262,13 @@ namespace ICSharpCode.Core.Services
 			return s;
 		}
 		
+		// use P/Invoke to be able to pass some NULL parameters
+		[DllImport("libgtk-win32-2.0-0.dll")]
+		static extern IntPtr
+		gtk_icon_set_render_icon (IntPtr raw, IntPtr style, int direction,
+		                          int state, int size, IntPtr widget,
+		                          string detail);
+
 		/// <summary>
 		/// Returns a icon from the resource database, it handles localization
 		/// transparent for the user. In the resource database can be a bitmap
@@ -294,9 +306,30 @@ namespace ICSharpCode.Core.Services
 				return Icon.FromHandle(((Bitmap)iconobj).GetHicon());
 			}
 */			
-			Gdk.Pixbuf b = new Gdk.Pixbuf("../data/resources/icons/" + name);
-			return b;
+			// Gdk.Pixbuf b = new Gdk.Pixbuf("../data/resources/icons/" + name);
+			string stockid = MonoDevelop.Gui.Stock.GetStockId (name);
+			if (stockid != null)
+			{
+				Gtk.IconSet iconset = Gtk.IconFactory.LookupDefault (stockid);
+				if (iconset != null && iconset.Handle != IntPtr.Zero) {
+					// Gtk.IconFactory.Lookup never returns null, but
+					// the actual underlying GObject might be NULL
+					// (bug in Gtk#?)
+
+					// use P/Invoke to be able to pass some NULL parameters
+					IntPtr raw_ret = gtk_icon_set_render_icon
+						(iconset.Handle,
+						 Gtk.Widget.DefaultStyle.Handle,
+						 (int) Gtk.TextDirection.None,
+						 (int) Gtk.StateType.Normal,
+						 (int) Gtk.IconSize.Button,
+						 IntPtr.Zero, null);
+					return (Gdk.Pixbuf) GLib.Object.GetObject(raw_ret);
+				}
+			}
 			
+			// throw GLib.GException as the old code?
+			return null;
 		}
 		
 		/// <summary>
@@ -322,14 +355,20 @@ namespace ICSharpCode.Core.Services
 			}
 			Gdk.Pixbuf b = (Gdk.Pixbuf)icon.GetObject(name);
 			*/
-			Gdk.Pixbuf b = new Gdk.Pixbuf("../data/resources/icons/" + name);
-			
-			return b;
+
+			// Try stock icons first
+			Gdk.Pixbuf pix = GetIcon (name);
+			if (pix == null)
+			{
+				// Try loading directly from disk then
+				pix = new Gdk.Pixbuf("../data/resources/icons/" + name);
+			}
+			return pix;
 		}
 
 		public Gtk.Image GetImage (string name, Gtk.IconSize size)
 		{
-			string stock = (string)stockMappings[name];
+			string stock = (string) MonoDevelop.Gui.Stock.GetStockId (name);
 			if (stock != null)
 				return new Gtk.Image (stock, size);
 			return new Gtk.Image (GetBitmap (name));

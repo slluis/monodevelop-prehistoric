@@ -197,6 +197,7 @@ SOURCES= \
 ./Services/ParserService/AssemblyInformation.cs \
 ./Services/ParserService/ParseInformation.cs \
 ./Services/ResourceService.cs \
+./Services/StockIcons.cs \
 ./Services/MessageService.cs \
 ./Services/Toolbar/ToolbarService.cs \
 ./Internal/Undo/IUndoableOperation.cs \
