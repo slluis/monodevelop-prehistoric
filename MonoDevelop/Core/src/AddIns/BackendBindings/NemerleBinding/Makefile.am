@@ -21,9 +21,9 @@ build_sources = $(addprefix $(srcdir)/, $(FILES)) NemerleBindingExecutionService
 
 all: $(ASSEMBLY)
 
-$(ASSEMBLY): $(FILES) $(srcdir)/../../../../data/resources/glade/Nemerle.glade
+$(ASSEMBLY): $(FILES) $(srcdir)/Nemerle.glade
 	$(CSC) $(DLLS) $(build_sources) /out:$(ASSEMBLY) /target:library \
-	/resource:$(srcdir)/../../../../data/resources/glade/Nemerle.glade,Nemerle.glade \
+	/resource:$(srcdir)/Nemerle.glade,Nemerle.glade \
 	&& cp $(ASSEMBLY) ../../../../../build/AddIns/AddIns/BackendBindings/.
 
 assemblydir = $(libdir)/monodevelop/AddIns/AddIns/BackendBindings/
@@ -31,4 +31,4 @@ assembly_DATA = $(ASSEMBLY)
 
 CLEANFILES = $(ASSEMBLY) $(ASSEMBLY).mdb
 DISTCLEANFILES = NemerleBindingExecutionServices.cs
-EXTRA_DIST = $(FILES) NemerleBindingExecutionServices.cs.in
+EXTRA_DIST = $(FILES) NemerleBindingExecutionServices.cs.in Nemerle.glade

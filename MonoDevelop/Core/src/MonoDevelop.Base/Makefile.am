@@ -386,9 +386,9 @@ ASSEMBLY = MonoDevelop.Base.dll
 
 all: $(ASSEMBLY)
 
-$(ASSEMBLY): $(build_sources) ../../data/resources/glade/Base.glade
+$(ASSEMBLY): $(build_sources) $(srcdir)/Base.glade
 	$(CSC) $(MONO_POSIX_OEE) -codepage:utf8 /out:$(ASSEMBLY) /target:library $(DLLS) \
-		/resource:$(srcdir)/../../data/resources/glade/Base.glade,Base.glade \
+		/resource:$(srcdir)/Base.glade,Base.glade \
 		$(monodoc_libflags) \
 		$(build_sources) \
 	&& cp $(ASSEMBLY) ../../../build/bin/. \
@@ -403,5 +403,5 @@ assembly_DATA = $(ASSEMBLY) $(ASSEMBLY).config
 CLEANFILES = $(ASSEMBLY) $(ASSEMBLY).mdb
 DISTCLEANFILES = $(ASSEMBLY).config
 
-EXTRA_DIST = $(FILES) ./Services/process-icons.pl $(ASSEMBLY).config.in
+EXTRA_DIST = $(FILES) ./Services/process-icons.pl $(ASSEMBLY).config.in Base.glade
 

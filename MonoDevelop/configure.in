@@ -193,9 +193,6 @@ build/AddIns/AddIns/BackendBindings/templates/Makefile
 build/AddIns/AddIns/Misc/Makefile
 build/AddIns/AddIns/Misc/StartPage/Makefile
 build/AddIns/AddIns/Misc/Sonata/Makefile
-Core/data/Makefile
-Core/data/resources/Makefile
-Core/data/resources/glade/Makefile
 Core/src/AddIns/DebuggerAddIn/AssemblyInfo.cs
 Core/src/AddIns/DisplayBindings/SourceEditor/AssemblyInfo.cs
 Core/src/AddIns/Misc/StartPage/AssemblyInfo.cs

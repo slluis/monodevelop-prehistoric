@@ -39,9 +39,9 @@ build_sources = $(addprefix $(srcdir)/, $(FILES)) CSharpBindingExecutionManager.
 
 all: $(ASSEMBLY)
 
-$(ASSEMBLY): $(build_sources)
+$(ASSEMBLY): $(build_sources) $(srcdir)/CSharp.glade
 	$(CSC) /out:$(ASSEMBLY) /target:library $(DLLS) \
-		/resource:$(srcdir)/../../../../data/resources/glade/CSharp.glade,CSharp.glade \
+		/resource:$(srcdir)/CSharp.glade,CSharp.glade \
 		$(build_sources) \
 	&& cp $(ASSEMBLY) ../../../../../build/AddIns/AddIns/BackendBindings/.
 
@@ -52,5 +52,5 @@ CLEANFILES = $(ASSEMBLY) $(ASSEMBLY).mdb
 
 DISTCLEANFILES = CSharpBindingExecutionManager.cs
 
-EXTRA_DIST = $(FILES) CSharpBindingExecutionManager.cs.in
+EXTRA_DIST = $(FILES) CSharpBindingExecutionManager.cs.in CSharp.glade
 

@@ -60,7 +60,7 @@ AddIns/AddInSignatureException.cs
 build_sources = $(addprefix $(srcdir)/, $(FILES)) Services/GettextCatalog.cs
 
 RESOURCES = \
-../../data/resources/AddIn.xsd
+AddIn.xsd
 
 build_resources = $(addprefix $(srcdir)/, $(RESOURCES))
 
@@ -88,5 +88,5 @@ assembly_DATA = $(DLL)
 CLEANFILES = $(DLL) $(DLL).mdb
 DISTCLEANFILES = Services/GettextCatalog.cs
 
-EXTRA_DIST = $(FILES) Services/GettextCatalog.cs.in
+EXTRA_DIST = $(FILES) Services/GettextCatalog.cs.in AddIn.xsd
 

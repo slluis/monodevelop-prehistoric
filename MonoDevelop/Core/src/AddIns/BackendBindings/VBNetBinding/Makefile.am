@@ -43,10 +43,10 @@ build_sources = $(addprefix $(srcdir)/, $(FILES))
 
 all: $(ASSEMBLY)
 
-$(ASSEMBLY): $(build_sources)
+$(ASSEMBLY): $(build_sources) $(srcdir)/VB.glade
 	cd SharpRefactoryVB && make
 	$(CSC) /out:$(ASSEMBLY) /target:library $(DLLS) \
-		/resource:$(srcdir)/../../../../data/resources/glade/VB.glade,VB.glade \
+		/resource:$(srcdir)/VB.glade,VB.glade \
 		$(build_sources) \
 	&& cp $(ASSEMBLY) ../../../../../build/AddIns/AddIns/BackendBindings/.
 
@@ -57,5 +57,5 @@ CLEANFILES = $(ASSEMBLY) $(ASSEMBLY).mdb
 
 DISTCLEANFILES =
 
-EXTRA_DIST = $(FILES)
+EXTRA_DIST = $(FILES) VB.glade
 

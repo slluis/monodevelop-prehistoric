@@ -86,10 +86,10 @@ REFS = /r:System.Drawing.dll \
 
 all : $(DLL)
 
-$(DLL) : $(build_sources)
+$(DLL) : $(build_sources) $(srcdir)/EditorBindings.glade $(srcdir)/texteditoraddin.glade
 	$(CSC) $(build_sources) /debug /out:$(DLL) /t:library $(REFS) \
-	/resource:$(srcdir)/../../../../data/resources/glade/EditorBindings.glade,EditorBindings.glade \
-	/resource:$(srcdir)/../../../../data/resources/glade/texteditoraddin.glade,texteditoraddin.glade \
+	/resource:$(srcdir)/EditorBindings.glade,EditorBindings.glade \
+	/resource:$(srcdir)/texteditoraddin.glade,texteditoraddin.glade \
 	&& cp $(DLL) ../../../../../build/bin/. && cp $(DLL).config ../../../../../build/bin/.
 
 assemblydir = $(libdir)/monodevelop/bin
@@ -98,4 +98,4 @@ assembly_DATA = $(DLL) $(DLL).config
 CLEANFILES = $(DLL) $(DLL).mdb
 DISTCLEANFILES = $(DLL).config
 
-EXTRA_DIST = $(FILES) $(DLL).config.in
+EXTRA_DIST = $(FILES) $(DLL).config.in EditorBindings.glade texteditoraddin.glade

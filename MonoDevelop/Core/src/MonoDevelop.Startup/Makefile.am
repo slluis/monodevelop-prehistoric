@@ -21,7 +21,7 @@ $(DLL): $(build_sources)
 	$(CSC) /out:$(DLL) \
 		/define:GTK $(REFS) \
 		$(build_sources) \
-		/resource:../../data/resources/SplashScreen.png,SplashScreen.png \
+		/resource:SplashScreen.png,SplashScreen.png \
 	&& cp $(DLL) ../../../build/bin/.
 
 assemblydir = $(libdir)/monodevelop/bin
@@ -29,4 +29,4 @@ assembly_DATA = $(DLL)
 
 CLEANFILES=$(DLL) $(DLL).mdb
 
-EXTRA_DIST = $(FILES)
+EXTRA_DIST = $(FILES) SplashScreen.png
