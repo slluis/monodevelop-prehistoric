@@ -8,7 +8,7 @@ namespace MonoDevelop.Gui.HtmlControl
 	Guid(@"3050F1FF-98B5-11CF-BB82-00AA00BDCE0B"),
 	InterfaceType(ComInterfaceType.InterfaceIsDual)
 	]
-	interface IHTMLElement
+	public interface IHTMLElement
 	{
 		void SetAttribute(string strAttributeName, object AttributeValue, int lFlags);
 		
