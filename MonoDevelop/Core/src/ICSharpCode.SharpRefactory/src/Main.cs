@@ -11,97 +11,52 @@ using ICSharpCode.SharpRefactory.Parser;
 
 class MainClass
 {
-/*
-	public static StringCollection SearchDirectory(string directory, string filemask)
-	{
-		return SearchDirectory(directory, filemask, true);
-	}
-	
-	public static StringCollection SearchDirectory(string directory, string filemask, bool searchSubdirectories)
-	{
-		StringCollection collection = new StringCollection();
-		SearchDirectory(directory, filemask, collection, searchSubdirectories);
-		return collection;
-	}
-	
-	/// <summary>
-	/// Finds all files which are valid to the mask <code>filemask</code> in the path
-	/// <code>directory</code> and all subdirectories (if searchSubdirectories
-	/// is true. The found files are added to the StringCollection 
-	/// <code>collection</code>.
-	/// </summary>
-	static void SearchDirectory(string directory, string filemask, StringCollection collection, bool searchSubdirectories)
-	{
-		try {
-			string[] file = Directory.GetFiles(directory, filemask);
-			foreach (string f in file) {
-				collection.Add(f);
-			}
-			
-			if (searchSubdirectories) {
-				string[] dir = Directory.GetDirectories(directory);
-				foreach (string d in dir) {
-					SearchDirectory(d, filemask, collection, searchSubdirectories);
-				}
-			}
-		} catch (Exception) {
-		}
-	}
-	
-	static void PrettyPrintDirectories()
-	{
-		StringCollection files = SearchDirectory("C:\\b", "*.cs");
-		foreach (string fileName in files) {
-			Parser p = new Parser();
-			Console.Write("Converting : " + fileName);
-			p.Parse(new Lexer(new FileReader(fileName)));
-			if (p.Errors.count == 0) {
-				StreamReader sr = File.OpenText(fileName);
-				string content = sr.ReadToEnd();
-				sr.Close();
-				PrettyPrintVisitor ppv = new PrettyPrintVisitor(content);
-				ppv.Visit(p.compilationUnit, null);
-				
-				StreamWriter sw = new StreamWriter(fileName);
-				sw.Write(ppv.Text);
-				sw.Close();
-				
-				Console.WriteLine(" done.");
-			} else {
-				Console.Write(" Source code errors:");
-				Console.WriteLine(p.Errors.ErrorOutput);
-			}
-		}
-		Console.ReadLine();
-	}
-*/
 	static void PrintUsage ()
 	{
-		Console.WriteLine ("usage: test-parser.exe <file>");
+		Console.WriteLine ("usage: test-parser.exe <dir>");
 		Environment.Exit (0);
 	}
 
-	public static void Main (string[] args)
+	static void PrintFile (FileInfo file)
 	{
-		if (args.Length != 1)
-			PrintUsage ();
-
-//		PrettyPrintDirectories();
-		Parser p = new Parser();
-	
-		string fileName = args[0];
+		string fileName = file.FullName;
 		p.Parse (new Lexer (new FileReader (fileName)));
 		if (p.Errors.count == 0) {
-			StreamReader sr = File.OpenText(fileName);
-			string content = sr.ReadToEnd();
-			sr.Close();
-			PrettyPrintVisitor ppv = new PrettyPrintVisitor(content);
-			ppv.Visit(p.compilationUnit, null);
-			Console.WriteLine(ppv.Text);
-		} else {
-			Console.WriteLine (" Source code errors:");
+			ErrorVisitor ev = new ErrorVisitor();
+			ev.Visit(p.compilationUnit, null);
+		} else if (!errorMode) {
+			Console.WriteLine ("errors in {0}:", file.Name);
 			foreach (ErrorInfo error in p.Errors.ErrorInformation)
 				Console.WriteLine (error.ToString ());
 		}
 	}
+
+	static void PrintDir (DirectoryInfo dir)
+	{
+		foreach (FileInfo fi in dir.GetFiles ())
+			PrintFile (fi);
+	}
+
+	static Parser p;
+	static bool errorMode = false;
+
+	public static void Main (string[] args)
+	{
+		if (args.Length == 0 || !Directory.Exists (args[0]))
+			PrintUsage ();
+
+		if (args.Length == 2 && args[1] == "-e")
+			errorMode = true;
+
+		p = new Parser();
+		PrintDir (new DirectoryInfo (args[0]));
+	}
 }
+
+public class ErrorVisitor : AbstractASTVisitor
+{
+	public ErrorVisitor ()
+	{
+	}
+}
+
