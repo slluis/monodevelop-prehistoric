@@ -66,5 +66,8 @@ pad: $(MONOPAD)
 runpad: $(MONOPAD)
 	cd build/bin && mono MonoPad.exe
 
-run-profile:
-	cd build/bin && mono --profile SharpDevelop.exe
+run-profile: $(PROGRAM)
+	cd build/bin && mono -O=inline --profile SharpDevelop.exe
+
+profile-pad: $(MONOPAD)
+	cd build/bin && mono -O=inline --profile MonoPad.exe
