@@ -62,8 +62,10 @@ namespace MonoDevelop.Internal.Project
 		
 		public override object Deserialize (SerializationContext serCtx, object mapData, DataNode data)
 		{
+			string file = ((DataValue)data).Value;
+			if (file == "") return null;
 			string basePath = Path.GetDirectoryName (serCtx.BaseFile);
-			return Runtime.FileUtilityService.RelativeToAbsolutePath (basePath, ((DataValue)data).Value);
+			return Runtime.FileUtilityService.RelativeToAbsolutePath (basePath, file);
 		}
 	}
 }

@@ -1,3 +1,8 @@
+2005-01-14  Lluis Sanchez Gual  <lluis@novell.com>
+
+	* Makefile.am, AbstractProject.cs, Project.cs: Renamed AbstractProject.cs.
+	* Internal/Project/ProjectPathItemPropertyAttribute.cs: Ignore empty paths.
+
 2005-01-13  Todd Berman  <tberman@off.net>
 
 	* Internal/Project/Project/AbstractProject.cs: Actually start the

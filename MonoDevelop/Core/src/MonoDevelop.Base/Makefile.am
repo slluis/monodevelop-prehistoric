@@ -353,7 +353,7 @@ Internal/Project/Project/Collections/ProjectReferenceCollection.cs \
 Internal/Project/Project/UnknownProjectVersionException.cs \
 Internal/Project/Project/TypelibImporter.cs \
 Internal/Project/Project/AbstractProjectConfiguration.cs \
-Internal/Project/Project/AbstractProject.cs \
+Internal/Project/Project/Project.cs \
 Internal/Project/Project/DotNetProject.cs \
 Internal/Project/Project/DotNetProjectBinding.cs \
 Internal/Project/Project/DotNetProjectConfiguration.cs \
