@@ -62,7 +62,7 @@ namespace MonoDevelop.Commands
 				object recentOpenObj = propertyService.GetProperty("MonoDevelop.Gui.MainWindow.RecentOpen");
 				if (recentOpenObj is MonoDevelop.Services.RecentOpen) {
 					MonoDevelop.Services.RecentOpen recOpen = (MonoDevelop.Services.RecentOpen)recentOpenObj;
-					if (recOpen.RecentProject.Count > 0) { 
+					if (recOpen.RecentProject != null && recOpen.RecentProject.Length > 0) { 
 						projectService.OpenCombine(recOpen.RecentProject[0].ToString());
 					}
 				}

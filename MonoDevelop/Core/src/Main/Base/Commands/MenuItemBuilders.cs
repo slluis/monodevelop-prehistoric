@@ -52,10 +52,10 @@ namespace MonoDevelop.Commands
 			
 			RecentOpen recentOpen = fileService.RecentOpen;
 			
-			if (recentOpen.RecentFile.Count > 0) {
-				RFMItem[] items = new RFMItem[recentOpen.RecentFile.Count];
+			if (recentOpen.RecentFile != null && recentOpen.RecentFile.Length > 0) {
+				RFMItem[] items = new RFMItem[recentOpen.RecentFile.Length];
 				
-				for (int i = 0; i < recentOpen.RecentFile.Count; ++i) {
+				for (int i = 0; i < recentOpen.RecentFile.Length; ++i) {
 					string accelaratorKeyPrefix = i < 10 ? "&" + ((i + 1) % 10).ToString() + " " : "";
 					items[i] = new RFMItem(null, null, accelaratorKeyPrefix + recentOpen.RecentFile[i].ToString().Replace ("_", "__"), new EventHandler(LoadRecentFile));
 					items[i].Tag = recentOpen.RecentFile[i].ToString();
@@ -93,9 +93,9 @@ namespace MonoDevelop.Commands
 			
 			RecentOpen recentOpen = fileService.RecentOpen;
 			
-			if (recentOpen.RecentProject.Count > 0) {
-				RPMItem[] items = new RPMItem[recentOpen.RecentProject.Count];
-				for (int i = 0; i < recentOpen.RecentProject.Count; ++i) {
+			if (recentOpen.RecentProject != null && recentOpen.RecentProject.Length > 0) {
+				RPMItem[] items = new RPMItem[recentOpen.RecentProject.Length];
+				for (int i = 0; i < recentOpen.RecentProject.Length; ++i) {
 					string accelaratorKeyPrefix = i < 10 ? "&" + ((i + 1) % 10).ToString() + " " : "";
 					items[i] = new RPMItem(null, null, accelaratorKeyPrefix + recentOpen.RecentProject[i].ToString().Replace ("_", "__"), new EventHandler(LoadRecentProject));
 					items[i].Tag = recentOpen.RecentProject[i].ToString();

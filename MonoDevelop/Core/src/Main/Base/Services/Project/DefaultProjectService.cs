@@ -128,6 +128,9 @@ namespace MonoDevelop.Services
 				SaveCombine();
 				CloseCombine();
 			}
+
+			if (filename.StartsWith ("file://"))
+				filename = filename.Substring (7);
 				
 			if (!fileUtilityService.TestFileExists(filename)) {
 				return;

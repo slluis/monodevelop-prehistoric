@@ -12,13 +12,10 @@ using System.IO;
 using System.Xml;
 
 using MonoDevelop.Core.AddIns;
-
 using MonoDevelop.Core.Services;
-
 using MonoDevelop.Internal.Project;
 using MonoDevelop.Gui;
 using MonoDevelop.Core.AddIns.Codons;
-
 using MonoDevelop.Gui.Utils;
 
 namespace MonoDevelop.Services
@@ -37,10 +34,8 @@ namespace MonoDevelop.Services
 		
 		public RecentOpen RecentOpen {
 			get {
-				if (recentOpen == null) {
-					PropertyService propertyService = (PropertyService)ServiceManager.GetService(typeof(PropertyService));
-					recentOpen = (RecentOpen)propertyService.GetProperty("MonoDevelop.Gui.MainWindow.RecentOpen", new RecentOpen());
-				}
+				if (recentOpen == null)
+					recentOpen = new RecentOpen ();
 				return recentOpen;
 			}
 		}
@@ -116,6 +111,10 @@ namespace MonoDevelop.Services
 				return;
 
 			string origName = fileName;
+
+			if (fileName.StartsWith ("file://"))
+				fileName = fileName.Substring (7);
+
 			if (!fileName.StartsWith ("http://"))
 				fileName = System.IO.Path.GetFullPath (fileName);
 			

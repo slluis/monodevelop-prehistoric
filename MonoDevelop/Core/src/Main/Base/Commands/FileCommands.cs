@@ -395,7 +395,7 @@ namespace MonoDevelop.Commands
 				IFileService fileService = (IFileService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IFileService));
 				IMessageService messageService = (IMessageService) MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IMessageService));
 				
-				if (fileService.RecentOpen.RecentFile != null && fileService.RecentOpen.RecentFile.Count > 0 && messageService.AskQuestion(GettextCatalog.GetString ("Are you sure you want to clear recent files list?"), GettextCatalog.GetString ("Clear recent files")))
+				if (fileService.RecentOpen.RecentFile != null && fileService.RecentOpen.RecentFile.Length > 0 && messageService.AskQuestion(GettextCatalog.GetString ("Are you sure you want to clear recent files list?"), GettextCatalog.GetString ("Clear recent files")))
 				{
 					fileService.RecentOpen.ClearRecentFiles();
 				}
@@ -411,7 +411,7 @@ namespace MonoDevelop.Commands
 				IFileService fileService = (IFileService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IFileService));
 				IMessageService messageService = (IMessageService) MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IMessageService));
 				
-				if (fileService.RecentOpen.RecentProject != null && fileService.RecentOpen.RecentProject.Count > 0 && messageService.AskQuestion(GettextCatalog.GetString ("Are you sure you want to clear recent projects list?"), GettextCatalog.GetString ("Clear recent projects")))
+				if (fileService.RecentOpen.RecentProject != null && fileService.RecentOpen.RecentProject.Length > 0 && messageService.AskQuestion(GettextCatalog.GetString ("Are you sure you want to clear recent projects list?"), GettextCatalog.GetString ("Clear recent projects")))
 				{
 					fileService.RecentOpen.ClearRecentProjects();
 				}

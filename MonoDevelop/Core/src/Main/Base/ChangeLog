@@ -1,5 +1,15 @@
 2004-10-20  John Luke  <john.luke@gmail.com>
 
+	* Commands/MenuItemBuilders.cs:
+	* Commands/FileCommands.cs:
+	* Commands/AutostartCommands.cs:
+	* Services/File/RecentOpen.cs:
+	* Services/File/DefaultFileService.cs:
+	* Services/Project/DefaultProjectService.cs: enable new Recent Files stuff,
+	and small adjustments for it.
+
+2004-10-20  John Luke  <john.luke@gmail.com>
+
 	* Services/File/RecentFiles.cs: fix a bunch of bugs
 
 2004-10-20  John Luke  <john.luke@gmail.com>

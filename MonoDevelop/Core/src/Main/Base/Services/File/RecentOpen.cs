@@ -12,38 +12,38 @@ using System.Collections;
 using System.IO;
 
 using MonoDevelop.Core.Properties;
-
+using MonoDevelop.Gui.Utils;
 using MonoDevelop.Services;
+using Freedesktop.RecentFiles;
 
 namespace MonoDevelop.Services
 {
 	/// <summary>
-	/// This class handles the recent open files and the recent open project files of SharpDevelop
-	/// it checks, if the files exists at every creation, and if not it doesn't list them in the 
-	/// recent files, and they'll not be saved during the next option save.
+	/// This class handles the recent open files and the recent open project files of MonoDevelop
 	/// </summary>
-	public class RecentOpen : IXmlConvertable
+	public class RecentOpen
 	{
 		/// <summary>
 		/// This variable is the maximal length of lastfile/lastopen entries
 		/// must be > 0
 		/// </summary>
-		int MAX_LENGTH = 10;
+		const int MAX_LENGTH = 10;
 		
-		ArrayList lastfile    = new ArrayList();
-		ArrayList lastproject = new ArrayList();
+		RecentItem[] lastfile;
+		RecentItem[] lastproject;
+		RecentFiles recentFiles;
 		
 		public event EventHandler RecentFileChanged;
 		public event EventHandler RecentProjectChanged;
 		
-		public ArrayList RecentFile {
+		public RecentItem[] RecentFile {
 			get {
 				Debug.Assert(lastfile != null, "RecentOpen : set string[] LastFile (value == null)");
 				return lastfile;
 			}
 		}
 
-		public ArrayList RecentProject {
+		public RecentItem[] RecentProject {
 			get {
 				Debug.Assert(lastproject != null, "RecentOpen : set string[] LastProject (value == null)");
 				return lastproject;
@@ -66,134 +66,84 @@ namespace MonoDevelop.Services
 
 		public RecentOpen()
 		{
+			recentFiles = RecentFiles.GetInstance ();
+			UpdateLastFile ();
+			UpdateLastProject ();
 		}
 		
-		public RecentOpen(XmlElement element)
+		public void AddLastFile (string name)
 		{
-			XmlNodeList nodes = element["FILES"].ChildNodes;
-			
-			for (int i = 0; i < nodes.Count; ++i) {
-				if (File.Exists(nodes[i].InnerText)) {
-					lastfile.Add(nodes[i].InnerText);
+			if (lastfile != null && lastfile.Length >= MAX_LENGTH)
+			{
+				RecentItem oldestItem = lastfile[0];
+				for (int i = 1; i < lastfile.Length - 1; i ++)
+				{
+					// the lowest number is the oldest
+					if (lastfile[i].Timestamp < oldestItem.Timestamp)
+						oldestItem = lastfile[i];
 				}
+				recentFiles.RemoveItem (oldestItem);
 			}
-			
-			nodes  = element["PROJECTS"].ChildNodes;
-			
-			for (int i = 0; i < nodes.Count; ++i) {
-				if (File.Exists(nodes[i].InnerText)) {
-					lastproject.Add(nodes[i].InnerText);
-				}
-			}
-		}
-		
-		public void AddLastFile(string name) // TODO : improve 
-		{
-			for (int i = 0; i < lastfile.Count; ++i) {
-				if (lastfile[i].ToString() == name) {
-					lastfile.RemoveAt(i);
-				}
-			}
-			
-			while (lastfile.Count >= MAX_LENGTH) {
-				lastfile.RemoveAt(lastfile.Count - 1);
-			}
-			
-			if (lastfile.Count > 0) {
-				lastfile.Insert(0, name);
-			} else {
-				lastfile.Add(name);
-			}
-			
-			OnRecentFileChange();
+
+			recentFiles.AddItem (new RecentItem (new Uri (name), Vfs.GetMimeType (name), "MonoDevelop Files"));
+			UpdateLastFile ();
 		}
 		
 		public void ClearRecentFiles()
 		{
-			lastfile.Clear();
-			
+			lastfile = null;
+			recentFiles.ClearGroup ("MonoDevelop Files");
 			OnRecentFileChange();
 		}
 		
 		public void ClearRecentProjects()
 		{
-			lastproject.Clear();
-			
+			lastproject = null;
+			recentFiles.ClearGroup ("MonoDevelop Projects");
 			OnRecentProjectChange();
 		}
 		
-		public void AddLastProject(string name) // TODO : improve
+		public void AddLastProject (string name)
 		{
-			for (int i = 0; i < lastproject.Count; ++i) {
-				if (lastproject[i].ToString() == name) {
-					lastproject.RemoveAt(i);
+			if (lastproject != null && lastproject.Length >= MAX_LENGTH)
+			{
+				RecentItem oldestItem = lastproject[0];
+				for (int i = 1; i < lastproject.Length; i ++)
+				{
+					// the lowest number is the oldest
+					if (lastproject[i].Timestamp < oldestItem.Timestamp)
+						oldestItem = lastproject[i];
 				}
+				recentFiles.RemoveItem (oldestItem);
 			}
-			
-			while (lastproject.Count >= MAX_LENGTH) {
-				lastproject.RemoveAt(lastproject.Count - 1);
-			}
-			
-			if (lastproject.Count > 0) {
-				lastproject.Insert(0, name);
-			} else {
-				lastproject.Add(name);			
-			}
-			OnRecentProjectChange();
-		}
-		
-		public object FromXmlElement(XmlElement element)
-		{
-			return new RecentOpen(element);
-		}
-		
-		public XmlElement ToXmlElement(XmlDocument doc)
-		{
-			XmlElement recent = doc.CreateElement("RECENT");
-			
-			XmlElement lastfiles = doc.CreateElement("FILES");
-			foreach (string file in lastfile) {
-				XmlElement element = doc.CreateElement("FILE");
-				element.InnerText  = file;
-				lastfiles.AppendChild(element);
-			}
-			
-			XmlElement lastprojects = doc.CreateElement("PROJECTS");
-			foreach (string project in lastproject) {
-				XmlElement element = doc.CreateElement("PROJECT");
-				element.InnerText = project;
-				lastprojects.AppendChild(element);
-			}
-			
-			recent.AppendChild(lastfiles);
-			recent.AppendChild(lastprojects);
-			
-			return recent;
+
+			recentFiles.AddItem (new RecentItem (new Uri (name), Vfs.GetMimeType (name), "MonoDevelop Projects"));
+			UpdateLastProject ();
 		}
 		
 		public void FileRemoved(object sender, FileEventArgs e)
 		{
-			for (int i = 0; i < lastfile.Count; ++i) {
-				string file = lastfile[i].ToString();
-				if (e.FileName == file) {
-					lastfile.RemoveAt(i);
-					OnRecentFileChange();
-					break;
-				}
-			}
+			recentFiles.RemoveItem (new Uri (e.FileName));
+			UpdateLastFile ();
 		}
 		
 		public void FileRenamed(object sender, FileEventArgs e)
 		{
-			for (int i = 0; i < lastfile.Count; ++i) {
-				string file = lastfile[i].ToString();
-				if (e.SourceFile == file) {
-					lastfile.RemoveAt(i);
-					lastfile.Insert(i, e.TargetFile);
-					OnRecentFileChange();
-					break;
-				}
-			}
+			recentFiles.RenameItem (new Uri (e.FileName), new Uri (e.TargetFile));
+			UpdateLastFile ();
+		}
+
+		void UpdateLastFile ()
+		{
+			lastfile = recentFiles.GetItemsInGroup ("MonoDevelop Files");
+			OnRecentFileChange();
+		}
+
+		void UpdateLastProject ()
+		{
+			lastproject = recentFiles.GetItemsInGroup ("MonoDevelop Projects");
+			OnRecentFileChange();
 		}
 	}
 }
+
