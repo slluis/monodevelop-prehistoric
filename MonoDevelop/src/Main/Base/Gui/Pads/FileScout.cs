@@ -311,6 +311,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads
 				this.size = Math.Round ((double) fi.Length / 1024).ToString () + " KB";
 				this.lastModified = fi.LastWriteTime.ToString ();
 				FullName = System.IO.Path.GetFullPath (name); 
+				icon = FileIconLoader.GetPixbufForFile (FullName, 24, 24);
 			}
 		}
 		
