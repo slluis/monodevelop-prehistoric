@@ -1,3 +1,8 @@
+2005-03-04	Christian Hergert	<christian.hergert@gmail.com>
+
+	* Gui/Pads/FileScout/FileScout.cs: Fix race condition when adding files
+	to the pad.
+
 2005-02-26  Poul Andersen  <pba@mailme.dk>
 	* Services/MessageService.cs: Added ShowMessage(string message, Gtk.Window parent )
 	to ensure modal messagebox as window on top.

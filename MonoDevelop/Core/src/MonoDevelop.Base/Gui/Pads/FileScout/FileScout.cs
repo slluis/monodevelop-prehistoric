@@ -68,18 +68,20 @@ namespace MonoDevelop.Gui.Pads
 
 			foreach (string f in fb.Files)
 			{
-				if (!(System.IO.Path.GetFileName (f)).StartsWith ("."))
-				{
-					FileListItem it = new FileListItem (f);
-					filelister.ItemAdded (it);
-				}
-				else
-				{
-					if (!ignoreHidden)
+				if (System.IO.File.Exists(f)) {
+					if (!(System.IO.Path.GetFileName (f)).StartsWith ("."))
 					{
 						FileListItem it = new FileListItem (f);
 						filelister.ItemAdded (it);
-					
+					}
+					else
+					{
+						if (!ignoreHidden)
+						{
+							FileListItem it = new FileListItem (f);
+							filelister.ItemAdded (it);
+						
+						}
 					}
 				}
 			}
