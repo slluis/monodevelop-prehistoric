@@ -246,6 +246,24 @@ namespace MonoDevelop.SourceEditor.Gui
 			
 			return true;
 		}
+
+		void ScrollUp () {
+			ParentEditor.Vadjustment.Value -= (ParentEditor.Vadjustment.StepIncrement / 5);
+			if (ParentEditor.Vadjustment.Value < 0.0d)
+				ParentEditor.Vadjustment.Value = 0.0d;
+
+			ParentEditor.Vadjustment.ChangeValue();
+		}
+
+		void ScrollDown () {
+			double maxvalue = ParentEditor.Vadjustment.Upper - ParentEditor.Vadjustment.PageSize;
+
+			ParentEditor.Vadjustment.Value += (ParentEditor.Vadjustment.StepIncrement / 5);
+			if (ParentEditor.Vadjustment.Value > maxvalue)
+				ParentEditor.Vadjustment.Value = maxvalue;
+
+			ParentEditor.Vadjustment.ChangeValue();
+		}
 		
 		protected override bool OnKeyPressEvent (Gdk.EventKey evnt)
 		{
@@ -305,6 +323,12 @@ namespace MonoDevelop.SourceEditor.Gui
 					return true;
 				case Gdk.Key.l:
 					DeleteLine ();
+					return true;
+				case Gdk.Key.Up:
+					ScrollUp ();
+					return true;
+				case Gdk.Key.Down:
+					ScrollDown ();
 					return true;
 				}
 				break;

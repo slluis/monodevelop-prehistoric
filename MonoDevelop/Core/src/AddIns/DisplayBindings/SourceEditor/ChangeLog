@@ -1,3 +1,8 @@
+2005-02-10  Ben Motmans  <ben.motmans@gmail.com>
+
+	* Gui/SourceEditorView.cs: Added ScrollUp and ScrollDown methods
+	for ctrl-up/down keybinds
+
 2005-02-02  John Luke  <john.luke@gmail.com>
 
 	* EditorBindings.glade:
