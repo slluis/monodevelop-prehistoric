@@ -556,6 +556,7 @@
 		                        <MenuItem id = "CloseFile"
 		                                  label = "${res:XML.MainMenu.FileMenu.Close.File}" 
 		                                  description = "${res:XML.MainMenu.FileMenu.Close.File.Desription}"
+						  icon = "Icons.16x16.CloseIcon"
 						  shortcut = "Control|W"
 		                                  class ="ICSharpCode.SharpDevelop.Commands.CloseFile"/>
 	                        </Conditional>
@@ -563,6 +564,7 @@
 		                        <MenuItem id = "CloseCombine"
 		                                  label = "${res:XML.MainMenu.FileMenu.Close.Project}" 
 		                                  description = "${res:XML.MainMenu.FileMenu.Close.Project.Desription}"
+						  icon = "Icons.16x16.CloseCombineIcon"
 						  shortcut = "Control|Shift|W"
 		                                  class = "ICSharpCode.SharpDevelop.Commands.ClearCombine"/>
 		                </Conditional>

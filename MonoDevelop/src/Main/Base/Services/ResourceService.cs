@@ -64,6 +64,7 @@ namespace ICSharpCode.Core.Services
 		{
 			stockMappings = new Hashtable ();
 			stockMappings ["Icons.16x16.AboutIcon"] = Gnome.Stock.About;
+			stockMappings ["Icons.16x16.CloseIcon"] = Gtk.Stock.Close;
 			stockMappings ["Icons.16x16.CopyIcon"] = Gtk.Stock.Copy;
 			stockMappings ["Icons.16x16.CutIcon"] = Gtk.Stock.Cut;
 			stockMappings ["Icons.16x16.DeleteIcon"] = Gtk.Stock.Delete;
@@ -71,7 +72,7 @@ namespace ICSharpCode.Core.Services
 			stockMappings ["Icons.16x16.HelpIcon"] = Gtk.Stock.Help;
 			stockMappings ["Icons.16x16.NewDocumentIcon"] = Gtk.Stock.New;
 			stockMappings ["Icons.16x16.NextWindowIcon"] = Gtk.Stock.GoForward;
-			stockMappings ["Icons.16x16.OpenFile"] = Gtk.Stock.Open;
+			stockMappings ["Icons.16x16.OpenFileIcon"] = Gtk.Stock.Open;
 			stockMappings ["Icons.16x16.Options"] = Gtk.Stock.Preferences;
 			stockMappings ["Icons.16x16.PasteIcon"] = Gtk.Stock.Paste;
 			stockMappings ["Icons.16x16.PrevWindowIcon"] = Gtk.Stock.GoBack;
