@@ -118,7 +118,7 @@ namespace VBBinding {
 			return sb.ToString();
 		}
 		
-		public ICompilerResult CompileProject (ProjectFileCollection projectFiles, ProjectReferenceCollection references, DotNetProjectConfiguration configuration)
+		public ICompilerResult Compile (ProjectFileCollection projectFiles, ProjectReferenceCollection references, DotNetProjectConfiguration configuration, IProgressMonitor monitor)
 		{
 			VBCompilerParameters compilerparameters = (VBCompilerParameters) configuration.CompilationParameters;
 			if (compilerparameters == null) compilerparameters = new VBCompilerParameters ();
@@ -618,38 +618,7 @@ namespace VBBinding {
 			Process p = new Process();
 			p.StartInfo = si;
 			p.Start();
-			//FIXME: The glib.idle stuff is here because this *SHOULD* be
-			//a background thread calling back to the main thread.
-			//GLib.Idle.Add (new GLib.IdleHandler (setmsg));
-			setmsg ();
-			while (!p.HasExited) {
-				//GLib.Idle.Add (new GLib.IdleHandler (pulse));
-				pulse ();
-				System.Threading.Thread.Sleep (100);
-			}
-			//GLib.Idle.Add (new GLib.IdleHandler (done));
-			done ();
+			p.WaitForExit ();
 		}
-		
-		bool setmsg ()
-		{
-			((IStatusBarService)ServiceManager.GetService (typeof (IStatusBarService))).SetMessage ("Compiling...");
-			return false;
-		}
-
-		bool done ()
-		{
-			((SdStatusBar)Runtime.Gui.StatusBar.Control).Done ();
-			return false;
-		}
-
-		bool pulse () 
-		{
-			((SdStatusBar)Runtime.Gui.StatusBar.Control).Pulse ();
-			while (Gtk.Application.EventsPending ())
-				Gtk.Application.RunIteration ();
-			return false;
-		}
-		
 	}
 }
