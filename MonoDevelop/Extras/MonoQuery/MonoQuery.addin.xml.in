@@ -243,5 +243,12 @@
 		          class = "MonoQuery.Commands.MonoQueryRefreshCommand"/>		
 	</Extension>
 	
+	<Extension path = "/SharpDevelop/Workbench/Pads">
+		<Pad id = "MonoQuery.Pads.MonoQueryView" class = "MonoQuery.Pads.MonoQueryView"/>
+	</Extension>
+	
+	<Extension path = "/SharpDevelop/Workbench/Contexts/Edit">
+		<ContextPad id = "MonoQuery.Pads.MonoQueryView" />
+	</Extension>
 </AddIn>
 
