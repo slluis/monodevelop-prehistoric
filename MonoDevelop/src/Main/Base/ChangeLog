@@ -1,6 +1,9 @@
 2004-04-04  John Luke  <jluke@cfl.rr.com>
 
 	* Gui/Pads/FileScout.cs: use Gtk.Stock.Open for the icon
+	* Gui/Dialogs/SharpDevelopAboutPanels.cs: call Path.GetFullPath
+	on assembly location to get rid of '../AddIn/..' stuff
+	send the text to the X clipboard also
 
 2004-04-04  Todd Berman  <tberman@sevenl.net>
 

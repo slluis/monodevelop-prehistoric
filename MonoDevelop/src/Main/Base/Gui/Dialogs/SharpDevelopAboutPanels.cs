@@ -6,13 +6,11 @@
 // </file>
 
 using System;
-using System.Drawing;
-using Gtk;
-
 using System.IO;
 using System.Text;
 using System.Reflection;
 
+using Gtk;
 using MonoDevelop.Gui;
 using MonoDevelop.Core.Properties;
 using MonoDevelop.Core.Services;
@@ -202,7 +200,7 @@ namespace MonoDevelop.Gui.Dialogs
 				string loc;
 				
 				try {
-					loc = asm.Location;
+					loc = System.IO.Path.GetFullPath (asm.Location);
 				} catch (Exception) {
 					loc = GettextCatalog.GetString ("dynamic");
 				}
@@ -215,8 +213,6 @@ namespace MonoDevelop.Gui.Dialogs
 		
 		void CopyButtonClick(object o, EventArgs args)
 		{
-			clipboard = Clipboard.Get (Gdk.Atom.Intern ("CLIPBOARD", false));
-
 			StringBuilder versionInfo = new StringBuilder();
 			foreach (Assembly asm in AppDomain.CurrentDomain.GetAssemblies()) {
 				AssemblyName name = asm.GetName();
@@ -225,7 +221,7 @@ namespace MonoDevelop.Gui.Dialogs
 				versionInfo.Append(name.Version.ToString());
 				versionInfo.Append(",");
 				try {
-					versionInfo.Append(asm.Location);
+					versionInfo.Append(System.IO.Path.GetFullPath (asm.Location));
 				} catch (Exception) {
 					versionInfo.Append(GettextCatalog.GetString ("dynamic"));
 				}
@@ -233,6 +229,10 @@ namespace MonoDevelop.Gui.Dialogs
 				versionInfo.Append(Environment.NewLine);
 			}
 			
+			// set to both the X and normal clipboards
+			clipboard = Clipboard.Get (Gdk.Atom.Intern ("CLIPBOARD", false));
+			clipboard.SetText (versionInfo.ToString ());
+			clipboard = Clipboard.Get (Gdk.Atom.Intern ("PRIMARY", false));
 			clipboard.SetText (versionInfo.ToString ());
 		}
 	}
