@@ -1,3 +1,8 @@
+2005-01-31  Christian Hergert <chris@mosaix.net>
+
+	* Extras/MonoQuery/Gui/SqlQueryView/SqlQueryView.cs: Updated to new
+	ToolItem to fix compiler warning.
+
 2005-01-26  Christian Hergert <chris@mosaix.net>
 
 	* Extras/MonoQuery/Gui/Abstract/AbstractMonoQueryNode.cs:

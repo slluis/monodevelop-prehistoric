@@ -8,6 +8,7 @@ using GtkSourceView;
 using MonoQuery.Connection;
 using MonoDevelop;
 using MonoDevelop.Gui;
+using MonoDevelop.Services;
 
 namespace MonoQuery.Gui.SqlQueryView
 {
@@ -105,7 +106,7 @@ namespace MonoQuery.Gui.SqlQueryView
 			catch ( Exception err )
 			{
 				this.logView.Buffer.Text +=
-					  "\n Exception caught during query.             "
+					  "\n Exception caught during query."
 					+ "\n " + err.StackTrace;
 				this.notebook.Page = 0;
 			}
@@ -126,14 +127,15 @@ namespace MonoQuery.Gui.SqlQueryView
 		
 		public SqlQueryViewToolbar() : base()
 		{
-			this.ToolbarStyle = ToolbarStyle.Icons;
-			this.AppendItem (String.Empty, "Execute SQL Commands.",
-				String.Empty,
-				new Gtk.Image (Gtk.Stock.Execute, IconSize.SmallToolbar),
-				new Gtk.SignalFunc ( OnRun ));
+			this.ToolbarStyle = ToolbarStyle.BothHoriz;
+			Tooltips tips = new Tooltips();
+			Gtk.ToolButton execute = new Gtk.ToolButton( Gtk.Stock.Execute );
+			
+			execute.Clicked += new EventHandler( OnExecuteClicked );
+			Insert( execute, 0 );
 		}
 		
-		private void OnRun()
+		private void OnExecuteClicked( object sender, EventArgs args )
 		{
 			this.Run( this, new EventArgs() );
 		}
