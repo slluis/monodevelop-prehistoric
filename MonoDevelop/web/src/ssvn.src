@@ -5,7 +5,9 @@ instructions below.
 
 <h1>Using SVN</h1>
 	
-	This is a small tutorial for using SVN (subversion).
+	This is a small tutorial for using SVN (subversion). For more
+	svn usage information look at the <a href="http://svnbook.red-bean.com/">
+	subversion book</a>
 <p>
 <h2>Generating an SSH key</h2>
 <p>
