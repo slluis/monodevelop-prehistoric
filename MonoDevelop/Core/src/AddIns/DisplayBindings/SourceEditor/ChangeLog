@@ -1,5 +1,10 @@
 2005-01-26  Alexandre Gomes  <alexmipego@gmail.com>
 
+	* CodeCompletion/CompletationListWindow.cs: Fixed completion
+	window when near screen edges.
+
+2005-01-26  Alexandre Gomes  <alexmipego@gmail.com>
+
 	* CodeCompletion/CompletationListWindow.cs:
 	* CodeCompletion/ListWindow.cs: Closes bug #71686. Also makes
 	list sorted case-isensitive.

@@ -85,7 +85,20 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 			int tx, ty;
 			control.GdkWindow.GetOrigin (out tx, out ty);
 			
-			Move (tx + wx, ty + wy);
+			int x = tx + wx;
+			int y = ty + wy;
+			
+			int w, h;
+			GetSize (out w, out h);
+			
+			if ((x + w) > Screen.Width)
+				x = Screen.Width - w;
+			
+			if ((y + h) > Screen.Height)
+				y = y - rect.Height - h;
+							
+			Move (x, y);
+			
 			Show ();
 		}
 		
