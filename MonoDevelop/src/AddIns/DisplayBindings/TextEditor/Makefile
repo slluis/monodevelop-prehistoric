@@ -72,4 +72,5 @@ $(DLL): $(SOURCES)
 		/r:../../../../build/bin/SharpDevelop.Base.dll \
 		/r:System.DirectoryServices.dll /r:pango-sharp.dll \
 		/define:GTK /r:gtk-sharp.dll /r:gdk-sharp.dll \
+		/r:../../../../build/bin/MonoDevelop.Gui.dll \
 		$(SOURCES)

@@ -23,6 +23,7 @@ using ICSharpCode.Core.Services;
 using ICSharpCode.SharpDevelop.Internal.Project.Collections;
 using ICSharpCode.SharpDevelop.Internal.Project;
 using ICSharpCode.SharpDevelop.Services;
+using MonoDevelop.Gui;
 
 namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 {
@@ -73,7 +74,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 		}
 	}
 	
-	public class AuthorAboutTabPage : ICSharpCode.SharpDevelop.Gui.HtmlControl.HtmlControl
+	public class AuthorAboutTabPage : HtmlControl
 	{
 		public AuthorAboutTabPage()
 		{
@@ -102,7 +103,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 		}
 	}
 	
-	public class ChangeLogTabPage : ICSharpCode.SharpDevelop.Gui.HtmlControl.HtmlControl
+	public class ChangeLogTabPage : HtmlControl
 	{
 		public ChangeLogTabPage()
 		{
@@ -150,7 +151,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 	public class VersionInformationTabPage : VBox
 	{
 		private static GLib.GType type;
-		private TreeView listView;
+		private Gtk.TreeView listView;
 		private Button button;
 		private TreeStore store;
 		
@@ -163,7 +164,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 		{
 			ResourceService resourceService = (ResourceService)ServiceManager.Services.GetService(typeof(IResourceService));
 			
-			TreeView listView = new TreeView ();
+			listView = new Gtk.TreeView ();
 			listView.RulesHint = true;
 			listView.AppendColumn (resourceService.GetString("Dialog.About.VersionInfoTabName.NameColumn"), new CellRendererText (), "text", 0);
 			listView.AppendColumn (resourceService.GetString("Dialog.About.VersionInfoTabName.VersionColumn"), new CellRendererText (), "text", 1);

@@ -1,6 +1,6 @@
 using System;
 
-namespace ICSharpCode.SharpDevelop.Gui.HtmlControl
+namespace MonoDevelop.Gui
 {
 	public enum ControlType
 	{

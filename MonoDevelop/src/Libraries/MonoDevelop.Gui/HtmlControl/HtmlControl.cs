@@ -2,7 +2,7 @@ using System;
 using Gtk;
 using GtkSharp;
 
-namespace ICSharpCode.SharpDevelop.Gui.HtmlControl
+namespace MonoDevelop.Gui
 {
 	public class HtmlControl : Bin, IWebBrowserEvents
 	{

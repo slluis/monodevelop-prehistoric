@@ -17,6 +17,7 @@ using ICSharpCode.Core.AddIns.Codons;
 
 using ICSharpCode.SharpDevelop.Gui;
 using ICSharpCode.SharpDevelop.Gui.Dialogs;
+using MonoDevelop.Gui;
 
 namespace ICSharpCode.SharpDevelop.Commands
 {

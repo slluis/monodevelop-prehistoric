@@ -1,7 +1,7 @@
 using System;
 using System.Runtime.InteropServices;
 
-namespace ICSharpCode.SharpDevelop.Gui.HtmlControl
+namespace MonoDevelop.Gui
 {
 	[
 	InterfaceType(ComInterfaceType.InterfaceIsDual),
