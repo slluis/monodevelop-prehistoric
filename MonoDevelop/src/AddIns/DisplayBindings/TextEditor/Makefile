@@ -17,6 +17,7 @@ SOURCES = \
 ./Gui/OptionPanels/CodeTemplatePanel.cs \
 ./Gui/OptionPanels/BehaviorTextEditorPanel.cs \
 ./Gui/OptionPanels/MarkersTextEditorPanel.cs \
+./Gui/Dialogs/EditTemplateGroupDialog.cs \
 ./Gui/Dialogs/ExportProjectToHtmlDialog.cs \
 ./Gui/Dialogs/SortOptionsDialog.cs \
 ./Gui/Dialogs/ReplaceInFilesDialog.cs \
@@ -71,6 +72,7 @@ $(DLL): $(SOURCES) ../../../../data/resources/glade/texteditoraddin.glade
 		/r:../../../../build/bin/ICSharpCode.TextEditor.dll \
 		/r:../../../../build/bin/SharpDevelop.Base.dll \
 		/r:System.DirectoryServices.dll /r:pango-sharp.dll /r:glade-sharp.dll \
+		/r:MonoDevelop.Gui /r:glib-sharp.dll \
 		/resource:../../../../data/resources/glade/texteditoraddin.glade,texteditoraddin.glade \
 		/define:GTK /r:gtk-sharp.dll /r:gdk-sharp.dll \
 		$(SOURCES)

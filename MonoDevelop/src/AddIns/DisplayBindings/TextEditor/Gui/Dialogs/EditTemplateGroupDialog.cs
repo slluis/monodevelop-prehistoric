@@ -13,34 +13,34 @@ using ICSharpCode.Core.Services;
 
 namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 {
-	public class EditTemplateDialog : Gtk.Dialog 
+	public class EditTemplateGroupDialog : Gtk.Dialog 
 	{
-		CodeTemplate codeTemplate;
+		CodeTemplateGroup codeTemplateGroup;
+		string titlePrefix = string.Empty;
 		
 		// Gtk members
-		Gtk.Entry templateTextBox;
-		Gtk.Entry descriptionTextBox;
+		Gtk.Entry templateExtensionsTextBox;		
 		
 		// Services
 		StringParserService StringParserService = (StringParserService)ServiceManager.Services.GetService (typeof (StringParserService));
 		
-		public CodeTemplate CodeTemplate {
+		public CodeTemplateGroup CodeTemplateGroup {
 			get {
-				return codeTemplate;
+				return codeTemplateGroup;
 			}
 		}
 		
-		public EditTemplateDialog(CodeTemplate codeTemplate)
+		public EditTemplateGroupDialog(CodeTemplateGroup codeTemplateGroup, string titlePrefix)
 		{
-			this.codeTemplate = codeTemplate;
+			this.codeTemplateGroup = codeTemplateGroup;
+			this.titlePrefix = titlePrefix;
 			InitializeComponents();
 			this.ShowAll();
 		}
 		
 		void AcceptEvent(object sender, EventArgs e)
 		{
-			codeTemplate.Shortcut    = templateTextBox.Text;
-			codeTemplate.Description = descriptionTextBox.Text;
+			codeTemplateGroup.ExtensionStrings = templateExtensionsTextBox.Text.Split(';');
 			
 			// close the window
 			CancelEvent(sender, EventArgs.Empty);
@@ -55,36 +55,24 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 		{
 			// set up this actual dialog
 			this.Modal = true;
-			this.Title = StringParserService.Parse("${res:Dialog.Options.CodeTemplate.EditTemplateDialog.DialogName}");
+			// FIXME: make this a resource in the resource file
+			this.Title = titlePrefix + "Code Group";
 			
 			// set up the dialog fields and add them
-			templateTextBox = new Gtk.Entry();
-			descriptionTextBox = new Gtk.Entry();
-			descriptionTextBox.ActivatesDefault = true;
-			Gtk.Label label1 = new Gtk.Label(StringParserService.Parse("${res:Dialog.Options.CodeTemplate.EditTemplateDialog.DescriptionLabel}"));
-			Gtk.Label label2 = new Gtk.Label(StringParserService.Parse("${res:Dialog.Options.CodeTemplate.EditTemplateDialog.TemplateLabel}"));
-			label1.Xalign = 0;
-			label2.Xalign = 0;
-			templateTextBox.Text    = codeTemplate.Shortcut;
-			descriptionTextBox.Text = codeTemplate.Description;			
-			Gtk.SizeGroup sizeGroup1 = new Gtk.SizeGroup(Gtk.SizeGroupMode.Horizontal);
-			Gtk.SizeGroup sizeGroup2 = new Gtk.SizeGroup(Gtk.SizeGroupMode.Horizontal);			
-			sizeGroup1.AddWidget(templateTextBox);
-			sizeGroup1.AddWidget(descriptionTextBox);
-			sizeGroup2.AddWidget(label1);
-			sizeGroup2.AddWidget(label2);
+			templateExtensionsTextBox = new Gtk.Entry();
+			templateExtensionsTextBox.ActivatesDefault = true;
+			// FIXME: make this a resource in the resource file
+			Gtk.Label label1 = new Gtk.Label("Extensions (; seperated)");
+			
+			label1.Xalign = 0;			
+			templateExtensionsTextBox.Text    = string.Join(";", codeTemplateGroup.ExtensionStrings);
 			
 			// FIXME: make the labels both part of the same sizing group so they have the same left and right rows.
 			Gtk.HBox hBox1 = new Gtk.HBox(false, 6);
 			hBox1.PackStart(label1, false, false, 6);
-			hBox1.PackStart(descriptionTextBox, false, false, 6);
-			
-			Gtk.HBox hBox2 = new Gtk.HBox(false, 6);
-			hBox2.PackStart(label2, false, false, 6);
-			hBox2.PackStart(templateTextBox, false, false, 6);
+			hBox1.PackStart(templateExtensionsTextBox, false, false, 6);
 			
 			this.VBox.PackStart(hBox1, false, false, 6);
-			this.VBox.PackStart(hBox2, false, false, 6);
 			
 			// set up the buttons and add them
 			this.DefaultResponse = (int) Gtk.ResponseType.Ok;
@@ -94,7 +82,6 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 			cancelButton.Clicked += new EventHandler(CancelEvent);
 			this.AddActionWidget (cancelButton, Gtk.ResponseType.Cancel);
 			this.AddActionWidget (okButton, (int) Gtk.ResponseType.Ok);
-			
 		}
 	}
 }
