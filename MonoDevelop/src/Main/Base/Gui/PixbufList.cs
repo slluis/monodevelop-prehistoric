@@ -1,11 +1,19 @@
 using System.Collections;
-
+using ICSharpCode.Core.Services;
 using Gdk;
 
 namespace ICSharpCode.SharpDevelop.Gui
 {
 	public class PixbufList : ArrayList
 	{
+		public PixbufList (params string [] resIcons) : base (resIcons.Length)
+		{
+			ResourceService rs = (ResourceService) ServiceManager.Services.GetService (typeof (IResourceService));
+			
+			foreach (string s in resIcons)
+				Add (rs.GetBitmap (s));
+		}
+		
 		public new Pixbuf this[int idx] {
 			get {
 				return (Pixbuf) base[idx];

@@ -98,8 +98,8 @@ namespace ICSharpCode.TextEditor.Document
 			TaskService taskService = (TaskService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(TaskService));
 			taskService.NotifyTaskChange();
 			
-			//OpenTaskView taskView = WorkbenchSingleton.Workbench.GetPad(typeof(OpenTaskView)) as OpenTaskView;
-			//if (taskView != null) taskView.BringToFront();
+			OpenTaskView taskView = WorkbenchSingleton.Workbench.GetPad(typeof(OpenTaskView)) as OpenTaskView;
+			if (taskView != null) taskView.BringToFront();
 		}
 		
 		public static void ReplaceAll()

@@ -313,31 +313,10 @@ namespace CSharpBinding
 					continue;
 				}
 				
-				CompilerError error = new CompilerError();
+				CompilerError error = CreateErrorFromString (curLine);
 				
-				// try to match standard errors
-				Match match = normalError.Match(curLine);
-				if (match.Success) {
-					error.Column      = Int32.Parse(match.Result("${column}"));
-					error.Line        = Int32.Parse(match.Result("${line}"));
-					error.FileName    = Path.GetFullPath(match.Result("${file}"));
-					error.IsWarning   = match.Result("${error}") == "warning"; 
-					error.ErrorNumber = match.Result("${number}");
-					error.ErrorText   = match.Result("${message}");
-				} else {
-					match = generalError.Match(curLine); // try to match general csc errors
-					if (match.Success) {
-						error.IsWarning   = match.Result("${error}") == "warning"; 
-						error.ErrorNumber = match.Result("${number}");
-						error.ErrorText   = match.Result("${message}");
-					} else { // give up and skip the line
-						continue;
-//						error.IsWarning = false;
-//						error.ErrorText = curLine;
-					}
-				}
-				
-				cr.Errors.Add(error);
+				if (error != null)
+					cr.Errors.Add (error);
 			}
 			sr.Close();
 			return new DefaultCompilerResult(cr, compilerOutput.ToString());
@@ -356,6 +335,35 @@ namespace CSharpBinding
 			p.StartInfo = si;
 			p.Start();
 			p.WaitForExit();
+		}
+		
+		// Snatched from our codedom code :-).
+		static Regex regexError = new Regex (@"^(\s*(?<file>.*)\((?<line>\d*)(,(?<column>\d*))?\)\s+)*(?<level>\w+)\s*(?<number>.*):\s(?<message>.*)",
+			RegexOptions.Compiled | RegexOptions.ExplicitCapture);
+		private static CompilerError CreateErrorFromString(string error_string)
+		{
+			// When IncludeDebugInformation is true, prevents the debug symbols stats from braeking this.
+			if (error_string.StartsWith ("WROTE SYMFILE") ||
+			    error_string.StartsWith ("OffsetTable") ||
+			    error_string.StartsWith ("Compilation succeeded") ||
+			    error_string.StartsWith ("Compilation failed"))
+				return null;
+
+			CompilerError error = new CompilerError();
+
+			Match match=regexError.Match(error_string);
+			if (!match.Success) return null;
+			if (String.Empty != match.Result("${file}"))
+				error.FileName=match.Result("${file}");
+			if (String.Empty != match.Result("${line}"))
+				error.Line=Int32.Parse(match.Result("${line}"));
+			if (String.Empty != match.Result("${column}"))
+				error.Column=Int32.Parse(match.Result("${column}"));
+			if (match.Result("${level}")=="warning")
+				error.IsWarning=true;
+			error.ErrorNumber=match.Result("${number}");
+			error.ErrorText=match.Result("${message}");
+			return error;
 		}
 	}
 }

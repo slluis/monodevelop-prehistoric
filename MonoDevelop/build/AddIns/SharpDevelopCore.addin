@@ -385,12 +385,13 @@
 		       class = "ICSharpCode.SharpDevelop.Gui.Pads.ClassScout"/>
 		<Class id    = "FileScout" 
 		       class = "ICSharpCode.SharpDevelop.Gui.Pads.FileScout"/>
+		<Class id    = "OpenTaskView" 
+		       class = "ICSharpCode.SharpDevelop.Gui.Pads.OpenTaskView"/>
 <!--			   
 		<Class id    = "SideBar" 
 		       class = "ICSharpCode.SharpDevelop.Gui.Pads.SideBarView"/>
 		
-		<Class id    = "OpenTaskView" 
-		       class = "ICSharpCode.SharpDevelop.Gui.Pads.OpenTaskView"/>
+
 		<Class id    = "PropertyPad" 
 		       class = "ICSharpCode.SharpDevelop.Gui.Pads.PropertyPad"/>
 		       

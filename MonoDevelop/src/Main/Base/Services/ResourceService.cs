@@ -85,6 +85,10 @@ namespace ICSharpCode.Core.Services
 			stockMappings ["Icons.16x16.SaveAsIcon"] = Gtk.Stock.SaveAs;
 			stockMappings ["Icons.16x16.SaveIcon"] = Gtk.Stock.Save;
 			stockMappings ["Icons.16x16.UndoIcon"] = Gtk.Stock.Undo;
+			stockMappings ["Icons.16x16.Error"] = Gtk.Stock.DialogError;
+			stockMappings ["Icons.16x16.Warning"] = Gtk.Stock.DialogWarning;
+			stockMappings ["Icons.16x16.Information"] = Gtk.Stock.DialogInfo;
+			stockMappings ["Icons.16x16.Question"] = Gtk.Stock.DialogQuestion;
 		}
 
 		void ChangeProperty(object sender, PropertyEventArgs e)

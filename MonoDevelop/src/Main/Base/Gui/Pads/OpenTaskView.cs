@@ -14,25 +14,27 @@ using System.Diagnostics;
 using ICSharpCode.Core.Services;
 using ICSharpCode.SharpDevelop.Services;
 
+using GtkSharp;
+
 using ICSharpCode.Core.Properties;
 
-namespace ICSharpCode.SharpDevelop.Gui.Pads
-{
-/*	public class OpenTaskView : ListView, IPadContent
-	{
-		Panel     myPanel  = new Panel();
-		ResourceService resourceService = (ResourceService)ServiceManager.Services.GetService(typeof(IResourceService));
+namespace ICSharpCode.SharpDevelop.Gui.Pads {
+	public class OpenTaskView : IPadContent {
+		
+		ResourceService resourceService = (ResourceService) ServiceManager.Services.GetService (typeof (IResourceService));
+		Gtk.ScrolledWindow sw;
+		Gtk.TreeView view;
+		Gtk.ListStore store;
 		
 		public Gtk.Widget Control {
 			get {
-				return null;
-				// return myPanel; FIXME
+				return sw;
 			}
 		}
 		
 		public string Title {
 			get {
-				return resourceService.GetString("MainWindow.Windows.TaskList");
+				return resourceService.GetString ("MainWindow.Windows.TaskList");
 			}
 		}
 		
@@ -44,191 +46,134 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads
 		
 		public void RedrawContent()
 		{
-			line.Text        = resourceService.GetString("CompilerResultView.LineText");
-			description.Text = resourceService.GetString("CompilerResultView.DescriptionText");
-			file.Text        = resourceService.GetString("CompilerResultView.FileText");
-			path.Text        = resourceService.GetString("CompilerResultView.PathText");
-			OnTitleChanged(null);
-			OnIconChanged(null);
+			// FIXME
 		}
-		
-		ColumnHeader type        = new ColumnHeader();
-		ColumnHeader line        = new ColumnHeader();
-		ColumnHeader description = new ColumnHeader();
-		ColumnHeader file        = new ColumnHeader();
-		ColumnHeader path        = new ColumnHeader();
-		ToolTip taskToolTip = new ToolTip();
+
+		const int COL_TYPE = 0, COL_LINE = 1, COL_DESC = 2, COL_PATH = 3, COL_FILE = 4, COL_TASK = 5, COL_READ = 6, COL_MARKED = 7, COL_READ_WEIGHT = 8;
 		
 		public OpenTaskView()
 		{
+			TaskService taskService        = (TaskService) ServiceManager.Services.GetService (typeof(TaskService));
+			IProjectService projectService = (IProjectService) ServiceManager.Services.GetService (typeof(IProjectService));
 			
-			type.Text = "!";
-			
-			RedrawContent();
-			
-			Columns.Add(type);
-			Columns.Add(line);
-			Columns.Add(description);
-			Columns.Add(file);
-			Columns.Add(path);
-			
-			FullRowSelect = true;
-			AutoArrange = true;
-			Alignment   = ListViewAlignment.Left;
-			View = View.Details;
-			Dock = DockStyle.Fill;
-			GridLines  = true;
-			Activation = ItemActivation.OneClick;
-			OnResize(null);
-			
-			TaskService taskService        = (TaskService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(TaskService));
-			IProjectService projectService = (IProjectService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
-			
-			taskService.TasksChanged  += new EventHandler(ShowResults);
-			
-			projectService.EndBuild   += new EventHandler(SelectTaskView);
-			
-			projectService.CombineOpened += new CombineEventHandler(OnCombineOpen);
-			projectService.CombineClosed += new CombineEventHandler(OnCombineClosed);
-			
-			myPanel.Controls.Add(this);
-			
-			ImageList imglist = new ImageList();
-			imglist.ColorDepth = ColorDepth.Depth32Bit;
-			imglist.Images.Add(resourceService.GetBitmap("Icons.16x16.Error"));
-			imglist.Images.Add(resourceService.GetBitmap("Icons.16x16.Warning"));
-			imglist.Images.Add(resourceService.GetBitmap("Icons.16x16.Information"));
-			imglist.Images.Add(resourceService.GetBitmap("Icons.16x16.Question"));
-			this.SmallImageList = this.LargeImageList = imglist;
-			
-//			type.Width = 24;
-//			line.Width = 50;
-//			description.Width = 600;
-//			file.Width = 150;
-//			path.Width = 300;
-			
-			// Set up the delays for the ToolTip.
-			taskToolTip.InitialDelay = 500;
-			taskToolTip.ReshowDelay = 100;
-			taskToolTip.AutoPopDelay = 5000;
-//
-//			// Force the ToolTip text to be displayed whether or not the form is active.
-//			taskToolTip.ShowAlways   = false;
 
-			this.CreateControl();
+			
+			
+			store = new Gtk.ListStore (
+				typeof (string),     // stock id
+				typeof (int),        // line
+				typeof (string),     // desc
+				typeof (string),     // path
+				typeof (string),     // file
+				typeof (Task),       // task
+				typeof (bool),       // read?
+				typeof (bool),       // marked?
+				typeof (int));       // read? -- use Pango weight
+				
+			view = new Gtk.TreeView (store);
+			view.RulesHint = true;
+			AddColumns ();
+			
+			sw = new Gtk.ScrolledWindow ();
+			sw.Add (view);
+			
+			taskService.TasksChanged     += new EventHandler (ShowResults);
+			projectService.EndBuild      += new EventHandler (SelectTaskView);
+			projectService.CombineOpened += new CombineEventHandler (OnCombineOpen);
+			projectService.CombineClosed += new CombineEventHandler (OnCombineClosed);
+			view.RowActivated            += new RowActivatedHandler (OnRowActivated);
 		}
 		
-		protected override void Dispose(bool disposing)
+		string res (string s)
 		{
-//			if (disposing) {
-//				PropertyService propertyService = (PropertyService)ServiceManager.Services.GetService(typeof(PropertyService));
-//				propertyService.SetProperty("CompilerResultView.typeWidth", type.Width);
-//				propertyService.SetProperty("CompilerResultView.lineWidth", line.Width);
-//				propertyService.SetProperty("CompilerResultView.descriptionWidth", description.Width);
-//				propertyService.SetProperty("CompilerResultView.fileWidth", file.Width);
-//				propertyService.SetProperty("CompilerResultView.pathWidth", path.Width);
-//			}
-			base.Dispose(disposing);
+			return resourceService.GetString (s);
 		}
+		
+		void MarkupCol (Gtk.TreeViewColumn col)
+		{
+		}
+		
+		void AddColumns ()
+		{
+			Gtk.CellRendererPixbuf iconRender = new Gtk.CellRendererPixbuf ();
+			iconRender.StockSize = Gtk.IconSize.SmallToolbar;
+			
+			Gtk.CellRendererToggle toggleRender = new Gtk.CellRendererToggle ();
+			toggleRender.Toggled += new ToggledHandler (ItemToggled);
+			
+			Gtk.CellRendererText line = new Gtk.CellRendererText (), desc = new Gtk.CellRendererText () , path = new Gtk.CellRendererText (),
+			  file = new Gtk.CellRendererText ();
+			
+			view.AppendColumn ("!"                                        , iconRender   , "stock-id", COL_TYPE);
+			view.AppendColumn (""                                         , toggleRender , "active"  , COL_MARKED, "activatable", COL_READ);
+			view.AppendColumn (res ("CompilerResultView.LineText")        , line         , "text"    , COL_LINE, "weight", COL_READ_WEIGHT);
+			view.AppendColumn (res ("CompilerResultView.DescriptionText") , desc         , "text"    , COL_DESC, "weight", COL_READ_WEIGHT, "strikethrough", COL_MARKED);
+			view.AppendColumn (res ("CompilerResultView.PathText")        , path         , "text"    , COL_PATH, "weight", COL_READ_WEIGHT);
+			view.AppendColumn (res ("CompilerResultView.FileText")        , file         , "text"    , COL_FILE, "weight", COL_READ_WEIGHT);
+		}
+		
 		void OnCombineOpen(object sender, CombineEventArgs e)
 		{
-			Items.Clear();
+			store.Clear ();
 		}
 		
 		void OnCombineClosed(object sender, CombineEventArgs e)
 		{
-			Items.Clear();
+			store.Clear ();
 		}
 		
-		void SelectTaskView(object sender, EventArgs e)
+		public void Dispose ()
 		{
-			TaskService taskService = (TaskService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(TaskService));
+		}
+		
+		void SelectTaskView (object sender, EventArgs e)
+		{
+			TaskService taskService = (TaskService) ServiceManager.Services.GetService (typeof (TaskService));
 			if (taskService.Tasks.Count > 0) {
 				try {
-					Invoke(new EventHandler(SelectTaskView2));
+					PropertyService propertyService = (PropertyService) ServiceManager.Services.GetService (typeof (PropertyService));
+					if (WorkbenchSingleton.Workbench.WorkbenchLayout.IsVisible (this)) {
+						WorkbenchSingleton.Workbench.WorkbenchLayout.ActivatePad (this);
+					} else if ((bool) propertyService.GetProperty ("SharpDevelop.ShowTaskListAfterBuild", true)) {
+						WorkbenchSingleton.Workbench.WorkbenchLayout.ShowPad (this);
+						WorkbenchSingleton.Workbench.WorkbenchLayout.ActivatePad (this);
+					}
 				} catch {}
 			}
 		}
 		
-		void SelectTaskView2(object sender, EventArgs e)
+		void OnRowActivated (object o, RowActivatedArgs args)
 		{
-			PropertyService propertyService = (PropertyService)ServiceManager.Services.GetService(typeof(PropertyService));
-			if (WorkbenchSingleton.Workbench.WorkbenchLayout.IsVisible(this)) {
-				WorkbenchSingleton.Workbench.WorkbenchLayout.ActivatePad(this);
-			} else {
-				if ((bool)propertyService.GetProperty("SharpDevelop.ShowTaskListAfterBuild", true)) {
-					WorkbenchSingleton.Workbench.WorkbenchLayout.ShowPad(this);
-					WorkbenchSingleton.Workbench.WorkbenchLayout.ActivatePad(this);
-				}
+			Gtk.TreeIter iter;
+			if (store.GetIter (out iter, args.Path)) {
+				store.SetValue (iter, COL_READ, true);
+				store.SetValue (iter, COL_READ_WEIGHT, (int) Pango.Weight.Normal);
+				
+				((Task) store.GetValue (iter, COL_TASK)).JumpToPosition ();
 			}
-		}
-		
-		protected override void OnItemActivate(EventArgs e)
-		{
-			base.OnItemActivate(e);
-			
-			//if (FocusedItem != null) {
-			//	Task task = (Task)FocusedItem.Tag;
-			//	Debug.Assert(task != null);
-			//	task.JumpToPosition();
-			//}
-		}
-		protected override void OnMouseMove(MouseEventArgs e)
-		{
-			base.OnMouseMove(e);
-			ListViewItem item = base.GetItemAt(e.X, e.Y);
-			if (item != null) {
-				Task task = (Task)item.Tag;
-				taskToolTip.SetToolTip(this, task.Description);
-				taskToolTip.Active       = true;
-			} else {
-				taskToolTip.RemoveAll(); 
-				taskToolTip.Active       = false;
-			}
-		}
-		
-		protected override void OnResize(EventArgs e)
-		{
-			base.OnResize(e);
-			type.Width = 24;
-			line.Width = 50;
-			int w = Width - type.Width - line.Width;
-			file.Width = w * 15 / 100;
-			path.Width = w * 15 / 100;
-			description.Width = w - file.Width - path.Width - 5;
 		}
 		
 		public CompilerResults CompilerResults = null;
 		
-		void ShowResults2(object sender, EventArgs e)
+		public void ShowResults(object sender, EventArgs e)
 		{
-			Console.WriteLine("Create Open Task View Handle:" + base.Handle);
+			store.Clear ();
+			FileUtilityService fileUtilityService = (FileUtilityService) ServiceManager.Services.GetService (typeof (FileUtilityService));
+			TaskService taskService = (TaskService) ServiceManager.Services.GetService (typeof (TaskService));
 			
-			BeginUpdate();
-			Items.Clear();
-			FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.Services.GetService(typeof(FileUtilityService));
-			TaskService taskService = (TaskService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(TaskService));
-			foreach (Task task in taskService.Tasks) {
-				int imageIndex = 0;
-				switch (task.TaskType) {
-					case TaskType.Warning:
-						imageIndex = 1;
-						break;
-					case TaskType.Error:
-						imageIndex = 0;
-						break;
-					case TaskType.Comment:
-						imageIndex = 3;
-						break;
-					case TaskType.SearchResult:
-						imageIndex = 2;
-						break;
+			foreach (Task t in taskService.Tasks) {
+				string stock;
+				switch (t.TaskType) {
+					case TaskType.Warning      : stock = Gtk.Stock.DialogWarning  ; break;
+					case TaskType.Error        : stock = Gtk.Stock.DialogError    ; break;
+					case TaskType.Comment      : stock = Gtk.Stock.DialogInfo     ; break;
+					case TaskType.SearchResult : stock = Gtk.Stock.DialogQuestion ; break;
+					default                    : stock = null                     ; break;
 				}
 				
-				string tmpPath = task.FileName;
-				if (task.Project != null) {
-					tmpPath = fileUtilityService.AbsoluteToRelativePath(task.Project.BaseDirectory, task.FileName);
-				} 
+				string tmpPath = t.FileName;
+				if (t.Project != null)
+					tmpPath = fileUtilityService.AbsoluteToRelativePath (t.Project.BaseDirectory, t.FileName);
 				
 				string fileName = tmpPath;
 				string path     = tmpPath;
@@ -241,48 +186,47 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads
 					path = Path.GetDirectoryName(tmpPath);
 				} catch (Exception) {}
 				
-				ListViewItem item = new ListViewItem(new string[] {
-					String.Empty,
-					(task.Line + 1).ToString(),
-					task.Description,
+				store.AppendValues (
+					stock,
+					t.Line + 1,
+					t.Description,
+					path,
 					fileName,
-					path
-				});
-				item.ImageIndex = item.StateImageIndex = imageIndex;
-				item.Tag = task;
-				Items.Add(item);
+					t, false, false, (int) Pango.Weight.Bold);
 			}
-			EndUpdate();
+			SelectTaskView(null, null);
 		}
 		
-		public void ShowResults(object sender, EventArgs e)
+		protected virtual void OnTitleChanged (EventArgs e)
 		{
-			Invoke(new EventHandler(ShowResults2));
-//			SelectTaskView(null, null);
-		}
-		
-		protected virtual void OnTitleChanged(EventArgs e)
-		{
-			if (TitleChanged != null) {
+			if (TitleChanged != null)
 				TitleChanged(this, e);
-			}
 		}
-		protected virtual void OnIconChanged(EventArgs e)
-		{
-			if (IconChanged != null) {
-				IconChanged(this, e);
-			}
-		}
-		public event EventHandler TitleChanged;
-		public event EventHandler IconChanged;
 		
-		public new void BringToFront()
+		protected virtual void OnIconChanged (EventArgs e)
 		{
-			if (!WorkbenchSingleton.Workbench.WorkbenchLayout.IsVisible(this)) {
-				WorkbenchSingleton.Workbench.WorkbenchLayout.ShowPad(this);
+			if (IconChanged != null)
+				IconChanged (this, e);
+		}
+		
+		public event EventHandler TitleChanged, IconChanged;
+		
+		public void BringToFront ()
+		{
+			if (!WorkbenchSingleton.Workbench.WorkbenchLayout.IsVisible (this))
+				WorkbenchSingleton.Workbench.WorkbenchLayout.ShowPad (this);
+			
+			WorkbenchSingleton.Workbench.WorkbenchLayout.ActivatePad (this);
+		}
+		
+		private void ItemToggled (object o, ToggledArgs args)
+		{
+			Gtk.TreeIter iter;
+			if (store.GetIterFromString(out iter, args.Path)) {
+				bool val = (bool) store.GetValue(iter, COL_MARKED);
+				store.SetValue(iter, COL_MARKED, !val);
 			}
-			WorkbenchSingleton.Workbench.WorkbenchLayout.ActivatePad(this);
 		}
 
-	}*/
+	}
 }
