@@ -1,3 +1,8 @@
+2005-03-24  John Luke  <john.luke@gmail.com>
+
+	* DockLayout.cs (UpdateItemsModel): reduce chances of being stuck
+	endlessly in the loop, thanks to toshok for pointing me to it
+
 2005-03-17  John Luke  <john.luke@gmail.com>
 
 	* Dock.cs:

@@ -298,16 +298,18 @@ namespace Gdl
 					DockItem item = itemsModel.GetValue (iter, 3) as DockItem;
 					if (item != null) {
                 		// look for the object in the items list
-						foreach (DockItem di in items)
+						for (int i = 0; i < items.Count; i ++)
 						{
                     		// found, update data
-							if (item == di) {
+							if (item == items[i]) {
 								UpdateItemData (iter, item);
-								items.Remove (di);
+								items.RemoveAt (i);
 								valid = itemsModel.IterNext (ref iter);
 								goto walk_start;
 							}
 						}
+						// FIXME: not found, skip it?
+						valid = itemsModel.IterNext (ref iter);
 					}
 					else {
                 		// not a valid row
