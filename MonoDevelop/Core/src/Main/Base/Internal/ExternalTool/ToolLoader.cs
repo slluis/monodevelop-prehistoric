@@ -67,8 +67,7 @@ namespace MonoDevelop.Internal.ExternalTool
 				doc.DocumentElement.AppendChild(et.ToXmlElement(doc));
 			}
 			
-			FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.GetService(typeof(FileUtilityService));
-			fileUtilityService.ObservedSave(new NamedFileOperationDelegate(doc.Save), fileName, FileErrorPolicy.ProvideAlternative);
+			Runtime.FileUtilityService.ObservedSave(new NamedFileOperationDelegate(doc.Save), fileName, FileErrorPolicy.ProvideAlternative);
 		}
 		
 		/// <summary>
@@ -77,16 +76,12 @@ namespace MonoDevelop.Internal.ExternalTool
 		/// </summary>
 		static ToolLoader()
 		{
-			PropertyService propertyService = (PropertyService)ServiceManager.GetService(typeof(PropertyService));
-			FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.GetService(typeof(FileUtilityService));
-		
-			if (!LoadToolsFromStream(propertyService.ConfigDirectory + TOOLFILE)) {
+			if (!LoadToolsFromStream (Runtime.Properties.ConfigDirectory + TOOLFILE)) {
 				//Console.WriteLine("Tools: can't load user defaults, reading system defaults");
-				if (!LoadToolsFromStream(propertyService.DataDirectory +
+				if (!LoadToolsFromStream (Runtime.Properties.DataDirectory +
 				                         Path.DirectorySeparatorChar + "options" + 
 				                         Path.DirectorySeparatorChar + TOOLFILE)) {
-					IMessageService messageService = (IMessageService)ServiceManager.GetService(typeof(IMessageService));
-					messageService.ShowWarning(GettextCatalog.GetString ("Can't load external tools configuration file"));
+					Runtime.MessageService.ShowWarning(GettextCatalog.GetString ("Can't load external tools configuration file"));
 				}
 			}
 		}
@@ -97,8 +92,7 @@ namespace MonoDevelop.Internal.ExternalTool
 		/// </summary>
 		public static void SaveTools()
 		{
-			PropertyService propertyService = (PropertyService)ServiceManager.GetService(typeof(PropertyService));
-			WriteToolsToFile(propertyService.ConfigDirectory + TOOLFILE);
+			WriteToolsToFile (Runtime.Properties.ConfigDirectory + TOOLFILE);
 		}
 	}
 }

@@ -36,8 +36,7 @@ namespace MonoDevelop.Core.AddIns
 		
 		public override bool IsValid(object owner)
 		{
-			IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IProjectService));
-			IProject project = projectService.CurrentSelectedProject;
+			IProject project = Runtime.ProjectService.CurrentSelectedProject;
 			
 			if (activeproject == "*") {
 				return project != null;

@@ -51,7 +51,6 @@ namespace MonoDevelop.Services
 			Gtk.Toolbar bar = new Gtk.Toolbar();
 			bar.ToolbarStyle = Gtk.ToolbarStyle.Icons;
 			
-			ResourceService resourceService = (ResourceService)ServiceManager.GetService(typeof(ResourceService));
 			foreach (ToolbarItemCodon childCodon in codon.SubItems) {
 				SdToolbarCommand item = null;
 				
@@ -61,7 +60,7 @@ namespace MonoDevelop.Services
 						continue;
 					} else {
 						item = new SdToolbarCommand(childCodon.Conditions, owner, GettextCatalog.GetString (childCodon.ToolTip));
-						Gtk.Image img = resourceService.GetImage(childCodon.Icon, Gtk.IconSize.LargeToolbar);
+						Gtk.Image img = Runtime.Gui.Resources.GetImage(childCodon.Icon, Gtk.IconSize.LargeToolbar);
 						item.Add (img);
 						item.Relief = ReliefStyle.None;
 						

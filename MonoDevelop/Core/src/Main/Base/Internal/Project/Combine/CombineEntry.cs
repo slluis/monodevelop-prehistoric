@@ -106,14 +106,10 @@ namespace MonoDevelop.Internal.Project
 		public override void Build(bool doBuildAll)
 		{ // if you change something here look at the DefaultProjectService BeforeCompile method
 			if (doBuildAll || isDirty) {
-				StringParserService stringParserService = (StringParserService)ServiceManager.GetService(typeof(StringParserService));
-				stringParserService.Properties["Project"] = Name;
-				IProjectService   projectService   = (IProjectService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IProjectService));
-				IStatusBarService statusBarService = (IStatusBarService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IStatusBarService));
-				TaskService       taskService      = (TaskService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(TaskService));
+				Runtime.StringParserService.Properties["Project"] = Name;
+				TaskService taskService = Runtime.TaskService;
 				
-				statusBarService.SetMessage(String.Format (GettextCatalog.GetString ("Compiling: {0}"), Project.Name));
-				LanguageBindingService languageBindingService = (LanguageBindingService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(LanguageBindingService));
+				Runtime.Gui.StatusBar.SetMessage(String.Format (GettextCatalog.GetString ("Compiling: {0}"), Project.Name));
 				
 				// create output directory, if not exists
 				string outputDir = ((AbstractProjectConfiguration)project.ActiveConfiguration).OutputDirectory;
@@ -126,7 +122,7 @@ namespace MonoDevelop.Internal.Project
 					throw new ApplicationException("Can't create project output directory " + outputDir + " original exception:\n" + e.ToString());
 				}
 				
-				ILanguageBinding csc = languageBindingService.GetBindingPerLanguageName(project.ProjectType);
+				ILanguageBinding csc = Runtime.Languages.GetBindingPerLanguageName(project.ProjectType);
 				
 				AbstractProjectConfiguration conf = project.ActiveConfiguration as AbstractProjectConfiguration;
 
@@ -176,15 +172,13 @@ namespace MonoDevelop.Internal.Project
 		
 		public override void Execute()
 		{
-			LanguageBindingService languageBindingService = (LanguageBindingService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(LanguageBindingService));
-			ILanguageBinding binding = languageBindingService.GetBindingPerLanguageName(project.ProjectType);
+			ILanguageBinding binding = Runtime.Languages.GetBindingPerLanguageName(project.ProjectType);
 			if (binding == null) {
 				throw new ApplicationException("can't find language binding for project ");
 			}
-			TaskService taskService = (TaskService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(TaskService));
 			
-			if (taskService.Errors == 0) {
-				if (taskService.Warnings == 0 || project.ActiveConfiguration != null && ((AbstractProjectConfiguration)project.ActiveConfiguration).RunWithWarnings) {
+			if (Runtime.TaskService.Errors == 0) {
+				if (Runtime.TaskService.Warnings == 0 || project.ActiveConfiguration != null && ((AbstractProjectConfiguration)project.ActiveConfiguration).RunWithWarnings) {
 					project.CopyReferencesToOutputPath (true);
 					binding.Execute(project);
 				}
@@ -194,15 +188,12 @@ namespace MonoDevelop.Internal.Project
 
 		public override void Debug ()
 		{
-			LanguageBindingService langBindingServ = (LanguageBindingService)MonoDevelop.Core.Services.ServiceManager.GetService (typeof (LanguageBindingService));
-			ILanguageBinding binding = langBindingServ.GetBindingPerLanguageName (project.ProjectType);
+			ILanguageBinding binding = Runtime.Languages.GetBindingPerLanguageName (project.ProjectType);
 			if (binding == null) {
 				Console.WriteLine ("Language binding unknown");
 				return;
 			}
-			TaskService taskService = (TaskService)MonoDevelop.Core.Services.ServiceManager.GetService (typeof (TaskService));
-
-			if (taskService.Errors == 0)
+			if (Runtime.TaskService.Errors == 0)
 				binding.DebugProject (project);
 		}
 		
@@ -214,15 +205,13 @@ namespace MonoDevelop.Internal.Project
 		public override void GenerateMakefiles (Combine parentCombine)
 		{
 			Console.WriteLine ("Generating makefiles for " + Name);
-			LanguageBindingService languageBindingService = (LanguageBindingService)ServiceManager.GetService(typeof(LanguageBindingService));
-			ILanguageBinding langBinding = languageBindingService.GetBindingPerLanguageName(project.ProjectType);
+			ILanguageBinding langBinding = Runtime.Languages.GetBindingPerLanguageName(project.ProjectType);
 			langBinding.GenerateMakefile (project, parentCombine);
 		}
 
 		public override string GetOutputName ()
 		{
-			LanguageBindingService lbs = (LanguageBindingService)ServiceManager.GetService (typeof (LanguageBindingService));
-			ILanguageBinding langBinding = lbs.GetBindingPerLanguageName (project.ProjectType);
+			ILanguageBinding langBinding = Runtime.Languages.GetBindingPerLanguageName (project.ProjectType);
 			return System.IO.Path.GetFileName (langBinding.GetCompiledOutputName (project));
 		}
 	}

@@ -24,13 +24,12 @@ namespace MonoDevelop.Internal.Project
 		public void DeployProject(IProject project)
 		{
 			if (project.DeployInformation.DeployTarget.Length == 0) {
-				IMessageService messageService =(IMessageService)ServiceManager.GetService(typeof(IMessageService));
-				messageService.ShowError(GettextCatalog.GetString ("Can't deploy: no deployment target set"));
+				Runtime.MessageService.ShowError(GettextCatalog.GetString ("Can't deploy: no deployment target set"));
 				return;
 			}
 			try {
 				AbstractProjectConfiguration config = (AbstractProjectConfiguration)project.ActiveConfiguration;
-				FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.GetService(typeof(FileUtilityService));
+				FileUtilityService fileUtilityService = Runtime.FileUtilityService;
 				string assembly = fileUtilityService.GetDirectoryNameWithSeparator(config.OutputDirectory) + config.OutputAssembly;
 				
 				foreach (string  ext in extensions) {
@@ -41,8 +40,7 @@ namespace MonoDevelop.Internal.Project
 				}
 				throw new Exception("Assembly not found.");
 			} catch (Exception e) {
-				IMessageService messageService =(IMessageService)ServiceManager.GetService(typeof(IMessageService));
-				messageService.ShowError(e);
+				Runtime.MessageService.ShowError(e);
 			}
 		}
 	}

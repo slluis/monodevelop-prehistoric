@@ -113,9 +113,8 @@ namespace MonoDevelop.Services
 		public override void InitializeService()
 		{
 			base.InitializeService();
-			IFileService fileService = (IFileService)ServiceManager.GetService(typeof(IFileService));
-			fileService.FileRenamed += new FileEventHandler(CheckFileRename);
-			fileService.FileRemoved += new FileEventHandler(CheckFileRemove);
+			Runtime.FileService.FileRenamed += new FileEventHandler(CheckFileRename);
+			Runtime.FileService.FileRemoved += new FileEventHandler(CheckFileRemove);
 		}
 		
 		void CheckFileRemove(object sender, FileEventArgs e)

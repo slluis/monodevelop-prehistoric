@@ -49,8 +49,7 @@ namespace MonoDevelop.Internal.Parser
 
 			FullyQualifiedName = type.FullName;
 
-			MonodocService docservice = ((MonodocService)ServiceManager.GetService (typeof (MonodocService)));
-			XmlDocument docs = docservice != null ? docservice.GetHelpXml (FullyQualifiedName) : null;
+			XmlDocument docs = Runtime.Documentation != null ? Runtime.Documentation.GetHelpXml (FullyQualifiedName) : null;
 			if (docs != null) {
 				XmlNode node = docs.SelectSingleNode ("/Type/Docs/summary");
 				if (node != null) {

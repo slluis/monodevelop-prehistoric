@@ -18,7 +18,7 @@ namespace MonoDevelop.Services
 	public class DefaultStatusBarService : AbstractService, IStatusBarService
 	{
 		SdStatusBar statusBar = null;
-		StringParserService stringParserService = (StringParserService)ServiceManager.GetService(typeof(StringParserService));
+		StringParserService stringParserService = Runtime.StringParserService;
 		
 		public DefaultStatusBarService()
 		{
@@ -64,7 +64,6 @@ namespace MonoDevelop.Services
 		
 		public void SetInsertMode (bool insertMode)
 		{
-			StringParserService stringParserService = (StringParserService)ServiceManager.GetService(typeof(StringParserService));
 			statusBar.ModeStatusBarPanel.Push (1, insertMode ? GettextCatalog.GetString ("INS") : GettextCatalog.GetString ("OVR"));
 		}
 		

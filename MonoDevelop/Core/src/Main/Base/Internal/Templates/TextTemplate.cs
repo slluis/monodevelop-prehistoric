@@ -12,7 +12,7 @@ using System.Collections;
 using System.Collections.Specialized;
 using System.Diagnostics;
 
-using MonoDevelop.Core.Services;
+using MonoDevelop.Services;
 
 namespace MonoDevelop.Internal.Templates
 {
@@ -81,10 +81,7 @@ namespace MonoDevelop.Internal.Templates
 		
 		static TextTemplate()
 		{
-			FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.GetService(typeof(FileUtilityService));
-			PropertyService    propertyService    = (PropertyService)ServiceManager.GetService(typeof(PropertyService));
-			
-			StringCollection files = fileUtilityService.SearchDirectory(propertyService.DataDirectory + 
+			StringCollection files = Runtime.FileUtilityService.SearchDirectory (Runtime.Properties.DataDirectory + 
 			                            Path.DirectorySeparatorChar + "options" + 
 			                            Path.DirectorySeparatorChar + "textlib", "*.xml");
 			foreach (string file in files) {

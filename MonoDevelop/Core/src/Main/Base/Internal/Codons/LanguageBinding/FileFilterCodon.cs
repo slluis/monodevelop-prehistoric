@@ -10,7 +10,7 @@ using System.Collections;
 
 using MonoDevelop.Core.Properties;
 using MonoDevelop.Core.AddIns.Conditions;
-using MonoDevelop.Core.Services;
+using MonoDevelop.Services;
 
 namespace MonoDevelop.Core.AddIns.Codons
 {
@@ -50,8 +50,7 @@ namespace MonoDevelop.Core.AddIns.Codons
 			if (subItems.Count > 0) {
 				throw new ApplicationException("more than one level of file filters don't make sense!");
 			}
-			StringParserService stringParserService = (StringParserService)ServiceManager.GetService(typeof(StringParserService));
-			return stringParserService.Parse(filtername) + "|" + String.Join(";", extensions);
+			return Runtime.StringParserService.Parse(filtername) + "|" + String.Join(";", extensions);
 		}
 	}
 }

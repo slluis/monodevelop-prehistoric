@@ -56,11 +56,8 @@ namespace MonoDevelop.Internal.Templates
 		
 		public string CreateCombine(ProjectCreateInformation projectCreateInformation, string defaultLanguage)
 		{
-			FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.GetService(typeof(FileUtilityService));
-			StringParserService stringParserService = (StringParserService)ServiceManager.GetService(typeof(StringParserService));
-			
 			Combine newCombine     = new Combine();
-			string  newCombineName = stringParserService.Parse(name, new string[,] { 
+			string  newCombineName = Runtime.StringParserService.Parse(name, new string[,] { 
 				{"ProjectName", projectCreateInformation.ProjectName}
 			});
 			
@@ -93,7 +90,7 @@ namespace MonoDevelop.Internal.Templates
 			projectCreateInformation.ProjectBasePath = oldProjectPath;
 			
 			// Save combine
-			string combineLocation = fileUtilityService.GetDirectoryNameWithSeparator(projectCreateInformation.CombinePath) + newCombineName + ".cmbx";
+			string combineLocation = Runtime.FileUtilityService.GetDirectoryNameWithSeparator(projectCreateInformation.CombinePath) + newCombineName + ".cmbx";
 			newCombine.OutputDirectory = Path.Combine (Path.Combine (Path.GetDirectoryName (combineLocation), "build"), "bin");
 			if (File.Exists(combineLocation)) {
 				IMessageService messageService =(IMessageService)ServiceManager.GetService(typeof(IMessageService));

@@ -154,20 +154,16 @@ namespace MonoDevelop.Internal.Templates
 		
 		static FileTemplate()
 		{
-			FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.GetService(typeof(FileUtilityService));
-			PropertyService    propertyService    = (PropertyService)ServiceManager.GetService(typeof(PropertyService));
-			
 			LoadTemplates ((FileTemplateCodon[])(AddInTreeSingleton.AddInTree.GetTreeNode ("/MonoDevelop/FileTemplates").BuildChildItems (new object ()).ToArray (typeof (FileTemplateCodon))));
 		}
 
 		static void LoadTemplates (FileTemplateCodon[] codons)
 		{
-			IMessageService messageService = (IMessageService) ServiceManager.GetService (typeof (IMessageService));
 			foreach (FileTemplateCodon codon in codons) {
 				try {
 					LoadFileTemplate (codon.Location);
 				} catch (Exception e) {
-					messageService.ShowError (e, String.Format (GettextCatalog.GetString ("Error loading template file {0}"), codon.Location));
+					Runtime.MessageService.ShowError (e, String.Format (GettextCatalog.GetString ("Error loading template file {0}"), codon.Location));
 				}
 			}
 		}

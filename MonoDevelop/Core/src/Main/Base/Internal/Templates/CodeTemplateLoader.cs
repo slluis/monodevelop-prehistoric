@@ -86,8 +86,7 @@ namespace MonoDevelop.Internal.Templates
 				doc.DocumentElement.AppendChild(codeTemplateGroup.ToXmlElement(doc));
 			}
 			
-			FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.GetService(typeof(FileUtilityService));
-			fileUtilityService.ObservedSave(new NamedFileOperationDelegate(doc.Save), fileName, FileErrorPolicy.ProvideAlternative);
+			Runtime.FileUtilityService.ObservedSave(new NamedFileOperationDelegate(doc.Save), fileName, FileErrorPolicy.ProvideAlternative);
 		}
 		
 		/// <summary>
@@ -96,16 +95,12 @@ namespace MonoDevelop.Internal.Templates
 		/// </summary>
 		static CodeTemplateLoader()
 		{
-			PropertyService propertyService = (PropertyService)ServiceManager.GetService(typeof(PropertyService));
-			FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.GetService(typeof(FileUtilityService));
-			
-			if (!LoadTemplatesFromStream(Path.Combine(propertyService.ConfigDirectory, TemplateFileName))) {
+			if (!LoadTemplatesFromStream(Path.Combine(Runtime.Properties.ConfigDirectory, TemplateFileName))) {
 				Console.WriteLine("Templates: can't load user defaults, reading system defaults");
-				if (!LoadTemplatesFromStream(propertyService.DataDirectory + 
+				if (!LoadTemplatesFromStream(Runtime.Properties.DataDirectory + 
 				                             Path.DirectorySeparatorChar   + "options" +
 				                             Path.DirectorySeparatorChar   + TemplateFileName)) {
-					IMessageService messageService = (IMessageService)ServiceManager.GetService(typeof(IMessageService));
-					messageService.ShowWarning(GettextCatalog.GetString ("Can't load templates configuration file"));
+					Runtime.MessageService.ShowWarning(GettextCatalog.GetString ("Can't load templates configuration file"));
 				}
 			}
 		}
@@ -116,8 +111,7 @@ namespace MonoDevelop.Internal.Templates
 		/// </summary>
 		public static void SaveTemplates()
 		{
-			PropertyService propertyService = (PropertyService)ServiceManager.GetService(typeof(PropertyService));
-			WriteTemplatesToFile(Path.Combine(propertyService.ConfigDirectory, TemplateFileName));
+			WriteTemplatesToFile (Path.Combine (Runtime.Properties.ConfigDirectory, TemplateFileName));
 		}
 	}
 }

@@ -139,8 +139,7 @@ namespace MonoDevelop.Core.AddIns.Codons
 			Debug.Assert(newItem != null);
 			
 			if (Icon != null && newItem is SdMenuCommand) {
-				ResourceService resourceService = (ResourceService)ServiceManager.GetService(typeof(ResourceService));
-				((SdMenuCommand)newItem).Image = resourceService.GetImage(Icon, Gtk.IconSize.Menu);
+				((SdMenuCommand)newItem).Image = Runtime.Gui.Resources.GetImage(Icon, Gtk.IconSize.Menu);
 			}
 			
 			if (newItem is SdMenuCommand) {

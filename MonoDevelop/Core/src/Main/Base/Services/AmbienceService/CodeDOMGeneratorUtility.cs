@@ -18,7 +18,7 @@ namespace MonoDevelop.Services
 {
 	public class CodeDOMGeneratorUtility 
 	{
-		AmbienceService     ambienceService = (AmbienceService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(AmbienceService));
+		AmbienceService ambienceService = Runtime.Ambience;
 		
 		public CodeGeneratorOptions CreateCodeGeneratorOptions {
 			get {
@@ -27,8 +27,7 @@ namespace MonoDevelop.Services
 				options.BracingStyle             = ambienceService.CodeGenerationProperties.GetProperty("StartBlockOnSameLine", true) ? "Block" : "C";
 				options.ElseOnClosing            = ambienceService.CodeGenerationProperties.GetProperty("ElseOnClosing", true);
 				
-				PropertyService propertyService = (PropertyService)ServiceManager.GetService(typeof(PropertyService));
-				IProperties docProperties = ((IProperties)propertyService.GetProperty("MonoDevelop.TextEditor.Document.Document.DefaultDocumentAggregatorProperties", new DefaultProperties()));
+				IProperties docProperties = ((IProperties)Runtime.Properties.GetProperty("MonoDevelop.TextEditor.Document.Document.DefaultDocumentAggregatorProperties", new DefaultProperties()));
 				
 				if ((bool)docProperties.GetProperty("TabsToSpaces", false)) {
 					StringBuilder indentationString = new StringBuilder();

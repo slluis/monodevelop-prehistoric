@@ -106,8 +106,7 @@ namespace MonoDevelop.Services
 		public void JumpToPosition()
 		{
 			if (fileName != null && fileName.Length > 0) {
-				IFileService fileService = (IFileService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IFileService));
-				fileService.OpenFile(fileName,new FileOpeningFinished(OnFileOpened));
+				Runtime.FileService.OpenFile(fileName,new FileOpeningFinished(OnFileOpened));
 			}
 			
 //			CompilerResultListItem li = (CompilerResultListItem)OpenTaskView.FocusedItem;
@@ -129,8 +128,7 @@ namespace MonoDevelop.Services
 		
 		private void OnFileOpened()
 		{
-			IFileService fileService = (IFileService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IFileService));
-			IWorkbenchWindow window = fileService.GetOpenFile(fileName);
+			IWorkbenchWindow window = Runtime.FileService.GetOpenFile(fileName);
 			if (window == null) {
 				return;
 			}

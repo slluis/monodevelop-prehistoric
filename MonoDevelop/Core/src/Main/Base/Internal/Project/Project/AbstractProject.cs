@@ -56,7 +56,7 @@ namespace MonoDevelop.Internal.Project
 		protected ProjectReferenceCollection projectReferences = new ProjectReferenceCollection();
 		
 		protected DeployInformation deployInformation = new DeployInformation();
-		FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.GetService(typeof(FileUtilityService));
+		FileUtilityService fileUtilityService = Runtime.FileUtilityService;
 		
 		[Browsable(false)]
 		public string BaseDirectory {
@@ -73,11 +73,10 @@ namespace MonoDevelop.Internal.Project
 			}
 			set {
 				if (projectname != value && value != null && value.Length > 0) {
-					IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IProjectService));
-					if (!projectService.ExistsEntryWithName(value)) {
+					if (!Runtime.ProjectService.ExistsEntryWithName(value)) {
 						string oldName = projectname;
 						projectname = value;
-						projectService.OnRenameProject(new ProjectRenameEventArgs(this, oldName, value));
+						Runtime.ProjectService.OnRenameProject(new ProjectRenameEventArgs(this, oldName, value));
 						OnNameChanged(EventArgs.Empty);
 					}
 				}
@@ -190,8 +189,7 @@ namespace MonoDevelop.Internal.Project
 
 		public bool IsCompileable(string fileName)
 		{
-			LanguageBindingService languageBindingService = (LanguageBindingService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(LanguageBindingService));
-			return languageBindingService.GetBindingPerLanguageName(ProjectType).CanCompile(fileName);
+			return Runtime.Languages.GetBindingPerLanguageName (ProjectType).CanCompile(fileName);
 		}
 		
 		public void SearchNewFiles()
@@ -262,12 +260,10 @@ namespace MonoDevelop.Internal.Project
 			}
 			if (version == "1.0") {
 				string tempFile = Path.GetTempFileName();
-				IMessageService messageService =(IMessageService)ServiceManager.GetService(typeof(IMessageService));
-				messageService.ShowMessage(String.Format (GettextCatalog.GetString ("Old project file format found.\n It will be automatically converted to {0} information"), currentProjectFileVersion));
-				PropertyService propertyService = (PropertyService)ServiceManager.GetService(typeof(PropertyService));
+				Runtime.MessageService.ShowMessage(String.Format (GettextCatalog.GetString ("Old project file format found.\n It will be automatically converted to {0} information"), currentProjectFileVersion));
 				
 				ConvertXml.Convert(fileName,
-				                   propertyService.DataDirectory + Path.DirectorySeparatorChar +
+				                   Runtime.Properties.DataDirectory + Path.DirectorySeparatorChar +
 				                   "ConversionStyleSheets" + Path.DirectorySeparatorChar +
 				                   "ConvertPrjx10to11.xsl",
 				                   tempFile);
@@ -278,12 +274,12 @@ namespace MonoDevelop.Internal.Project
 					File.Delete(tempFile);
 					return;
 				} catch (Exception) {
-					messageService.ShowError(GettextCatalog.GetString ("Error writing the old project file.\nCheck if you have write permission on the project file (.prjx).\n A non persistent proxy project will be created but no changes will be saved.\nIt is better if you close MonoDevelop and correct the problem."));
+					Runtime.MessageService.ShowError(GettextCatalog.GetString ("Error writing the old project file.\nCheck if you have write permission on the project file (.prjx).\n A non persistent proxy project will be created but no changes will be saved.\nIt is better if you close MonoDevelop and correct the problem."));
 					if (File.Exists(tempFile)) {
 						doc.Load(tempFile);
 						File.Delete(tempFile);
 					} else {
-						messageService.ShowError("damn! (should never happen)");
+						Runtime.MessageService.ShowError("damn! (should never happen)");
 					}
 				}
 			}
@@ -505,11 +501,10 @@ namespace MonoDevelop.Internal.Project
 			
 			doc.DocumentElement.AppendChild(configurationElement);
 			
-			FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.GetService(typeof(FileUtilityService));
-			fileUtilityService.ObservedSave(new NamedFileOperationDelegate(doc.Save), 
-			                                fileName, 
-                                                        GettextCatalog.GetString ("Can't save solution\nPlease check your file and directory permissions."), 
-							FileErrorPolicy.ProvideAlternative);
+			Runtime.FileUtilityService.ObservedSave(new NamedFileOperationDelegate(doc.Save), 
+											fileName, 
+											GettextCatalog.GetString ("Can't save solution\nPlease check your file and directory permissions."), 
+											FileErrorPolicy.ProvideAlternative);
 		}
 		
 		public virtual string GetParseableFileContent(string fileName)
@@ -529,8 +524,7 @@ namespace MonoDevelop.Internal.Project
 				if (fdiag.Run() == (int)Gtk.ResponseType.Ok) {
 					string filename = fdiag.Filename;
 					SaveProject(filename);
-					IMessageService messageService =(IMessageService)ServiceManager.GetService(typeof(IMessageService));
-					messageService.ShowMessage(filename, GettextCatalog.GetString ("Project saved"));
+					Runtime.MessageService.ShowMessage(filename, GettextCatalog.GetString ("Project saved"));
 				}
 				
 				fdiag.Hide ();
@@ -545,8 +539,7 @@ namespace MonoDevelop.Internal.Project
 			}
 			foreach (ProjectReference projectReference in ProjectReferences) {
 				if (projectReference.ReferenceType == ReferenceType.Project) {
-					IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IProjectService));
-					ArrayList allProjects = Combine.GetAllProjects (projectService.CurrentOpenCombine);
+					ArrayList allProjects = Combine.GetAllProjects (Runtime.ProjectService.CurrentOpenCombine);
 					foreach (ProjectCombineEntry entry in allProjects)
 					{
 						IProject proj = entry.Project;

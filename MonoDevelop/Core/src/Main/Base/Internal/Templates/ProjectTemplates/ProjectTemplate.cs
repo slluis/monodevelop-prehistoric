@@ -35,8 +35,7 @@ namespace MonoDevelop.Internal.Templates
 		
 		public void Run(ProjectCreateInformation projectCreateInformation)
 		{
-			IFileService fileService = (IFileService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IFileService));
-			fileService.OpenFile(projectCreateInformation.ProjectBasePath + Path.DirectorySeparatorChar + fileName);
+			Runtime.FileService.OpenFile (projectCreateInformation.ProjectBasePath + Path.DirectorySeparatorChar + fileName);
 		}
 	}
 	
@@ -193,8 +192,7 @@ namespace MonoDevelop.Internal.Templates
 		
 		public void OpenCreatedCombine()
 		{
-			IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IProjectService));
-			projectService.OpenCombine(lastCombine);
+			Runtime.ProjectService.OpenCombine(lastCombine);
 			
 			foreach (OpenFileAction action in actions) {
 				action.Run(projectCreateInformation);
@@ -212,19 +210,16 @@ namespace MonoDevelop.Internal.Templates
 		
 		static ProjectTemplate()
 		{
-			FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.GetService(typeof(FileUtilityService));
-			PropertyService    propertyService    = (PropertyService)ServiceManager.GetService(typeof(PropertyService));
 			LoadTemplates ((ProjectTemplateCodon[])(AddInTreeSingleton.AddInTree.GetTreeNode ("/MonoDevelop/ProjectTemplates").BuildChildItems (new object ()).ToArray (typeof (ProjectTemplateCodon))));
 		}
 
 		static void LoadTemplates (ProjectTemplateCodon[] codons)
-                {
-			IMessageService messageService = (IMessageService) ServiceManager.GetService (typeof (IMessageService));
+		{
 			foreach (ProjectTemplateCodon codon in codons) {
 				try {
 					ProjectTemplates.Add (new ProjectTemplate (codon.Location));
 				} catch (Exception e) {
-					messageService.ShowError (e, String.Format (GettextCatalog.GetString ("Error loading template file {0}"), codon.Location));
+					Runtime.MessageService.ShowError (e, String.Format (GettextCatalog.GetString ("Error loading template file {0}"), codon.Location));
 				}
 			}
 		}

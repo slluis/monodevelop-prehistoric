@@ -229,18 +229,17 @@ namespace MonoDevelop.Services
 		
 		void SetDefaultCompletionFileLocation()
 		{
-			PropertyService propertyService = (PropertyService)ServiceManager.GetService(typeof(PropertyService));
-			FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.GetService (typeof (FileUtilityService));
+			PropertyService propertyService = Runtime.Properties;
 			string path = propertyService.GetProperty("SharpDevelop.CodeCompletion.DataDirectory", String.Empty).ToString();
 			if (path == String.Empty) {
-                        	path = Path.Combine (fileUtilityService.GetDirectoryNameWithSeparator(propertyService.ConfigDirectory), "CodeCompletionData");
+				path = Path.Combine (Runtime.FileUtilityService.GetDirectoryNameWithSeparator(propertyService.ConfigDirectory), "CodeCompletionData");
 				propertyService.SetProperty ("SharpDevelop.CodeCompletion.DataDirectory", path);
 				propertyService.SaveProperties ();
 			}
-                        if (!Directory.Exists (path))
-                                Directory.CreateDirectory (path);
+			if (!Directory.Exists (path))
+				Directory.CreateDirectory (path);
 
-			codeCompletionPath = fileUtilityService.GetDirectoryNameWithSeparator(path);
+			codeCompletionPath = Runtime.FileUtilityService.GetDirectoryNameWithSeparator(path);
 		}
 
 		public override void InitializeService()
@@ -255,7 +254,7 @@ namespace MonoDevelop.Services
 			coreDatabase = new AssemblyCodeCompletionDatabase (codeCompletionPath, coreName, this);
 			databases [CoreDB] = coreDatabase;
 			
-			IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IProjectService));
+			IProjectService projectService = Runtime.ProjectService;
 			projectService.CombineOpened += new CombineEventHandler(OnCombineOpened);
 			projectService.CombineClosed += new CombineEventHandler(OnCombineClosed);
 			projectService.FileRemovedFromProject += new ProjectFileEventHandler (OnProjectFilesChanged);
@@ -1048,9 +1047,8 @@ namespace MonoDevelop.Services
 			ICompilationUnitBase parserOutput = null;
 			
 			if (fileContent == null) {
-				IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IProjectService));
-				if (projectService.CurrentOpenCombine != null) {
-					ArrayList projects = Combine.GetAllProjects(projectService.CurrentOpenCombine);
+				if (Runtime.ProjectService.CurrentOpenCombine != null) {
+					ArrayList projects = Combine.GetAllProjects (Runtime.ProjectService.CurrentOpenCombine);
 					foreach (ProjectCombineEntry entry in projects) {
 						if (entry.Project.IsFileInProject(fileName)) {
 							fileContent = entry.Project.GetParseableFileContent(fileName);

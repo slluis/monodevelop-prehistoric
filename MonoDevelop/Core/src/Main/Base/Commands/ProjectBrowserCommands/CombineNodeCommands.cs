@@ -103,11 +103,9 @@ namespace MonoDevelop.Commands.ProjectBrowser
 		{
 			ProjectBrowserView browser = (ProjectBrowserView)Owner;
 			CombineBrowserNode node    = browser.SelectedNode as CombineBrowserNode;
-			PropertyService propertyService = (PropertyService)ServiceManager.GetService (typeof (PropertyService));
 			
 			if (node != null) {
 				using (FileSelector fdiag = new FileSelector (GettextCatalog.GetString ("Add a Project"))) {
-					StringParserService stringParserService = (StringParserService)ServiceManager.GetService(typeof(StringParserService));
 					fdiag.SelectMultiple = false;
 					if (fdiag.Run () == (int) Gtk.ResponseType.Ok) {
 						try {
@@ -143,12 +141,9 @@ namespace MonoDevelop.Commands.ProjectBrowser
 		{
 			ProjectBrowserView browser = (ProjectBrowserView)Owner;
 			CombineBrowserNode node    = browser.SelectedNode as CombineBrowserNode;
-			PropertyService propertyService = (PropertyService)ServiceManager.GetService (typeof (PropertyService));
 			
 			if (node != null) {
 				using (FileSelector fdiag = new FileSelector (GettextCatalog.GetString ("Add a Combine"))) {
-					StringParserService stringParserService = (StringParserService)ServiceManager.GetService(typeof(StringParserService));
-				
 					fdiag.SelectMultiple = false;
 					if (fdiag.Run () == (int) Gtk.ResponseType.Ok) {
 						try {

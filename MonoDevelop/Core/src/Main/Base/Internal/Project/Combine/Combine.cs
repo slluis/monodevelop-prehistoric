@@ -199,13 +199,9 @@ namespace MonoDevelop.Internal.Project
 		
 		public IProject LoadProject(string filename)
 		{
-			LanguageBindingService languageBindingService = (LanguageBindingService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(LanguageBindingService));
-			StringParserService stringParserService = (StringParserService)ServiceManager.GetService(typeof(StringParserService));
-			
-			ILanguageBinding binding = languageBindingService.GetBindingPerProjectFile(filename);
+			ILanguageBinding binding = Runtime.Languages.GetBindingPerProjectFile(filename);
 			if (binding == null) {
-				IMessageService messageService =(IMessageService)ServiceManager.GetService(typeof(IMessageService));
-				messageService.ShowError(String.Format (GettextCatalog.GetString ("Can't find language binding for {0}"), filename));
+				Runtime.MessageService.ShowError(String.Format (GettextCatalog.GetString ("Can't find language binding for {0}"), filename));
 				return null;
 			}
 			
@@ -230,7 +226,7 @@ namespace MonoDevelop.Internal.Project
 			
 			XmlNodeList nodes = root["Entries"].ChildNodes;
 			entries.Clear();
-			FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.GetService(typeof(FileUtilityService));
+			FileUtilityService fileUtilityService = Runtime.FileUtilityService;
 			eventsAllowed = false;
 			try {
 				foreach (XmlElement el in nodes) {
@@ -330,7 +326,7 @@ namespace MonoDevelop.Internal.Project
 			doc.DocumentElement.AppendChild(startupnode);
 						
 			XmlElement projectsnode = doc.CreateElement("Entries");
-			FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.GetService(typeof(FileUtilityService));
+			FileUtilityService fileUtilityService = Runtime.FileUtilityService;
 			
 			foreach (CombineEntry entry in entries) {
 				XmlElement el = doc.CreateElement("Entry");
@@ -380,8 +376,7 @@ namespace MonoDevelop.Internal.Project
 				if (fdiag.Run() == (int)Gtk.ResponseType.Ok) {
 					string filename = fdiag.Filename;
 					SaveCombine(filename);
-					IMessageService messageService =(IMessageService)ServiceManager.GetService(typeof(IMessageService));
-					messageService.ShowMessage(filename, GettextCatalog.GetString ("Combine saved"));
+					Runtime.MessageService.ShowMessage(filename, GettextCatalog.GetString ("Combine saved"));
 				}
 				
 				fdiag.Hide ();
@@ -626,14 +621,12 @@ namespace MonoDevelop.Internal.Project
 			try {
 				allProjects = TopologicalSort(allProjects);
 			} catch (CyclicBuildOrderException) {
-				IMessageService messageService =(IMessageService)ServiceManager.GetService(typeof(IMessageService));
-				messageService.ShowError(GettextCatalog.GetString ("Cyclic dependencies can not be built with this version.\nBut we are working on it."));
+				Runtime.MessageService.ShowError(GettextCatalog.GetString ("Cyclic dependencies can not be built with this version.\nBut we are working on it."));
 				return;
 			}
-			TaskService taskService = (TaskService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(TaskService));
 			foreach (ProjectCombineEntry entry in allProjects) {
 				entry.Build(doBuildAll);
-				if (taskService.Errors > 0) {
+				if (Runtime.TaskService.Errors > 0) {
 					break;
 				}
 			}
@@ -652,7 +645,7 @@ namespace MonoDevelop.Internal.Project
 					Console.WriteLine ("Dont know how to generate makefiles for " + entry);
 			}
 			
-			FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.GetService(typeof(FileUtilityService));
+			FileUtilityService fileUtilityService = Runtime.FileUtilityService;
 			string rel_outputdir = fileUtilityService.AbsoluteToRelativePath (path, outputdir);
 			
 			StreamWriter buildstream = new StreamWriter (Path.Combine (path, "make.sh"));

@@ -38,7 +38,7 @@ namespace MonoDevelop.Internal.Project
 		// regular members
 		StringCollection newFiles;
 		IProject         project;
-		FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.GetService(typeof(FileUtilityService));
+		FileUtilityService fileUtilityService = Runtime.FileUtilityService;
 		
 		public IncludeFilesDialog(IProject project, StringCollection newFiles)
 		{

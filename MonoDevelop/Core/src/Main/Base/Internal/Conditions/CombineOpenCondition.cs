@@ -33,8 +33,7 @@ namespace MonoDevelop.Core.AddIns
 		
 		public override bool IsValid(object owner)
 		{
-			IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IProjectService));
-			return projectService.CurrentOpenCombine != null || !isCombineOpen;
+			return Runtime.ProjectService.CurrentOpenCombine != null || !isCombineOpen;
 		}
 	}
 }

@@ -53,7 +53,7 @@ namespace MonoDevelop.Commands
 			
 			// load previous combine
 			if ((bool)Runtime.Properties.GetProperty("SharpDevelop.LoadPrevProjectOnStartup", false)) {
-	                        RecentOpen recentOpen = ((IFileService)MonoDevelop.Core.Services.ServiceManager.GetService (typeof (IFileService))).RecentOpen;
+				RecentOpen recentOpen = Runtime.FileService.RecentOpen;
 
 				if (recentOpen.RecentProject != null && recentOpen.RecentProject.Length > 0) { 
 					Runtime.ProjectService.OpenCombine(recentOpen.RecentProject[0].ToString());

@@ -1,5 +1,9 @@
 2004-12-06  Lluis Sanchez Gual  <lluis@novell.com>
 
+	* *.cs: Removed remaining calls to ServiceManager.GetService.
+
+2004-12-06  Lluis Sanchez Gual  <lluis@novell.com>
+
 	* Services/Runtime.cs: Root class that gives access to all services.
 	* Gui/GuiService.cs: Root class that gives access to some gui-related
 	services.

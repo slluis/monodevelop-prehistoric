@@ -112,8 +112,6 @@ namespace MonoDevelop.Services
 		//public void CreateQuickInsertMenu(TextBoxBase targetControl, Control popupControl, string[,] quickInsertMenuItems)		
 		public void CreateQuickInsertMenu(Gtk.Editable targetControl, Gtk.Button popupControl, string[,] quickInsertMenuItems)
 		{
-			StringParserService stringParserService = (StringParserService)ServiceManager.GetService(typeof(StringParserService));
-			
 			//CommandBarContextMenu contextMenu = new CommandBarContextMenu();
 			Gtk.Menu contextMenu = new Gtk.Menu();
 			for (int i = 0; i < quickInsertMenuItems.GetLength(0); ++i) {
@@ -121,7 +119,7 @@ namespace MonoDevelop.Services
 					contextMenu.Append(new SdMenuSeparator());
 				} else {
 					SdMenuCommand cmd = new SdMenuCommand(this,
-					                                      stringParserService.Parse(quickInsertMenuItems[i, 0]),
+					                                      Runtime.StringParserService.Parse (quickInsertMenuItems[i, 0]),
 					                                      new QuickInsertMenuHandler(targetControl, quickInsertMenuItems[i, 1]).EventHandler);
 					contextMenu.Append(cmd);
 				}

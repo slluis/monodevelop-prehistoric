@@ -120,7 +120,7 @@ namespace MonoDevelop.Services
 			}
 		}
 		
-		FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.GetService(typeof(FileUtilityService));
+		FileUtilityService fileUtilityService = Runtime.FileUtilityService;
 		
 		public void OpenCombine(string filename)
 		{
@@ -135,8 +135,7 @@ namespace MonoDevelop.Services
 			if (!fileUtilityService.TestFileExists(filename)) {
 				return;
 			}
-			IStatusBarService statusBarService = (IStatusBarService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IStatusBarService));
-			statusBarService.SetMessage(GettextCatalog.GetString ("Opening Combine..."));
+			Runtime.Gui.StatusBar.SetMessage(GettextCatalog.GetString ("Opening Combine..."));
 				
 			if (Path.GetExtension(filename).ToUpper() == ".PRJX") {
 				string validcombine = Path.ChangeExtension(filename, ".cmbx");
@@ -155,13 +154,12 @@ namespace MonoDevelop.Services
 			} else {
 				LoadCombine(filename);
 			}
-			statusBarService.SetMessage(GettextCatalog.GetString ("Ready"));
+			Runtime.Gui.StatusBar.SetMessage(GettextCatalog.GetString ("Ready"));
 		}
 		
 		void LoadCombine(string filename)
 		{
-			DispatchService dispatcher = (DispatchService)ServiceManager.GetService (typeof (DispatchService));
-			dispatcher.BackgroundDispatch (new StatefulMessageHandler (backgroundLoadCombine), filename);
+			Runtime.DispatchService.BackgroundDispatch (new StatefulMessageHandler (backgroundLoadCombine), filename);
 		}
 
 		void backgroundLoadCombine (object arg)
@@ -176,8 +174,7 @@ namespace MonoDevelop.Services
 			openCombine         = loadingCombine;
 			openCombineFileName = filename;
 			
-			IFileService fileService = (IFileService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IFileService));
-			fileService.RecentOpen.AddLastProject (filename, openCombine.Name);
+			Runtime.FileService.RecentOpen.AddLastProject (filename, openCombine.Name);
 			
 			OnCombineOpened(new CombineEventArgs(openCombine));
 			openCombine.FileAddedToProject += new ProjectFileEventHandler (NotifyFileAddedToProject);
@@ -257,8 +254,7 @@ namespace MonoDevelop.Services
 		{
 			if (openCombine != null) {
 				DoBeforeCompileAction();
-				TaskService taskService = (TaskService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(TaskService));
-				taskService.ClearTasks();
+				Runtime.TaskService.ClearTasks();
 				
 				openCombine.Build(false);
 			}
@@ -268,8 +264,7 @@ namespace MonoDevelop.Services
 		{
 			if (openCombine != null) {
 				DoBeforeCompileAction();
-				TaskService taskService = (TaskService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(TaskService));
-				taskService.ClearTasks();
+				Runtime.TaskService.ClearTasks();
 				
 				openCombine.Build(true);
 			}
@@ -278,15 +273,12 @@ namespace MonoDevelop.Services
 		ILanguageBinding BeforeCompile(IProject project)
 		{
 			DoBeforeCompileAction();
-			TaskService taskService = (TaskService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(TaskService));
-			StringParserService stringParserService = (StringParserService)ServiceManager.GetService(typeof(StringParserService));
 			
-			taskService.NotifyTaskChange();
+			Runtime.TaskService.NotifyTaskChange();
 			
 			// cut&pasted from CombineEntry.cs
-			stringParserService.Properties["Project"] = project.Name;
-			IStatusBarService statusBarService = (IStatusBarService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IStatusBarService));
-			statusBarService.SetMessage(String.Format (GettextCatalog.GetString ("Compiling {0}"), project.Name));
+			Runtime.StringParserService.Properties["Project"] = project.Name;
+			Runtime.Gui.StatusBar.SetMessage(String.Format (GettextCatalog.GetString ("Compiling {0}"), project.Name));
 			
 			string outputDir = ((AbstractProjectConfiguration)project.ActiveConfiguration).OutputDirectory;
 			try {
@@ -298,26 +290,24 @@ namespace MonoDevelop.Services
 				throw new ApplicationException("Can't create project output directory " + outputDir + " original exception:\n" + e.ToString());
 			}
 			// cut&paste EDND
-			LanguageBindingService languageBindingService = (LanguageBindingService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(LanguageBindingService));
-			return languageBindingService.GetBindingPerLanguageName(project.ProjectType);
+			return Runtime.Languages.GetBindingPerLanguageName(project.ProjectType);
 		}
 		
 		void AfterCompile(IProject project, ICompilerResult res)
 		{
 			// cut&pasted from CombineEntry.cs
-			TaskService taskService = (TaskService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(TaskService));
 			foreach (CompilerError err in res.CompilerResults.Errors) {
-				taskService.AddTask(new Task(project, err));
+				Runtime.TaskService.AddTask(new Task(project, err));
 			}
 			
-			if (taskService.Errors > 0) {
+			if (Runtime.TaskService.Errors > 0) {
 				++CombineEntry.BuildErrors;
 			} else {
 				++CombineEntry.BuildProjects;
 			}
 			
-			taskService.CompilerOutput = res.CompilerOutput;
-			taskService.NotifyTaskChange();
+			Runtime.TaskService.CompilerOutput = res.CompilerOutput;
+			Runtime.TaskService.NotifyTaskChange();
 		}
 		
 		public void RecompileProject(IProject project)
@@ -332,8 +322,7 @@ namespace MonoDevelop.Services
 		
 		void DoBeforeCompileAction()
 		{
-			PropertyService propertyService = (PropertyService)ServiceManager.GetService(typeof(PropertyService));
-			BeforeCompileAction action = (BeforeCompileAction)propertyService.GetProperty("SharpDevelop.Services.DefaultParserService.BeforeCompileAction", BeforeCompileAction.SaveAllFiles);
+			BeforeCompileAction action = (BeforeCompileAction)Runtime.Properties.GetProperty("SharpDevelop.Services.DefaultParserService.BeforeCompileAction", BeforeCompileAction.SaveAllFiles);
 			
 			switch (action) {
 				case BeforeCompileAction.Nothing:
@@ -343,8 +332,7 @@ namespace MonoDevelop.Services
 					foreach (IViewContent content in WorkbenchSingleton.Workbench.ViewContentCollection) {
 						if (content.ContentName != null && content.IsDirty) {
 							if (!save) {
-								IMessageService messageService =(IMessageService)ServiceManager.GetService(typeof(IMessageService));
-								if (messageService.AskQuestion(GettextCatalog.GetString ("Save changed files?"))) {
+								if (Runtime.MessageService.AskQuestion(GettextCatalog.GetString ("Save changed files?"))) {
 									save = true;
 								} else {
 									break;
@@ -471,10 +459,8 @@ namespace MonoDevelop.Services
 		public override void InitializeService()
 		{
 			base.InitializeService();
-			IFileService fileService = (IFileService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IFileService));
-			
-			fileService.FileRemoved += new FileEventHandler(CheckFileRemove);
-			fileService.FileRenamed += new FileEventHandler(CheckFileRename);
+			Runtime.FileService.FileRemoved += new FileEventHandler(CheckFileRemove);
+			Runtime.FileService.FileRenamed += new FileEventHandler(CheckFileRename);
 		}
 		
 		string MakeValidName(string str)
@@ -488,9 +474,7 @@ namespace MonoDevelop.Services
 		
 		void RestoreCombinePreferences(Combine combine, string combinefilename)
 		{
-			DispatchService dispatcher = (DispatchService)ServiceManager.GetService (typeof (DispatchService));
-			PropertyService propertyService = (PropertyService)ServiceManager.GetService(typeof(PropertyService));
-			string directory = propertyService.ConfigDirectory + "CombinePreferences";
+			string directory = Runtime.Properties.ConfigDirectory + "CombinePreferences";
 			if (!Directory.Exists(directory)) {
 				return;
 			}
@@ -507,11 +491,10 @@ namespace MonoDevelop.Services
 				XmlElement root = doc.DocumentElement;
 				string combinepath = Path.GetDirectoryName(combinefilename);
 				if (root["Files"] != null) {
-					IFileService fileService = (IFileService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IFileService));
 					foreach (XmlElement el in root["Files"].ChildNodes) {
 						string fileName = fileUtilityService.RelativeToAbsolutePath(combinepath, el.Attributes["filename"].InnerText);
 						if (File.Exists(fileName)) {
-							fileService.OpenFile (fileName);
+							Runtime.FileService.OpenFile (fileName);
 						}
 					}
 				}
@@ -533,7 +516,7 @@ namespace MonoDevelop.Services
 					foreach (IViewContent content in WorkbenchSingleton.Workbench.ViewContentCollection) {
 						if (content.ContentName != null &&
 							content.ContentName == name) {
-							dispatcher.GuiDispatch (new MessageHandler (content.WorkbenchWindow.SelectWindow));
+							Runtime.DispatchService.GuiDispatch (new MessageHandler (content.WorkbenchWindow.SelectWindow));
 							break;
 						}
 					}
@@ -543,8 +526,7 @@ namespace MonoDevelop.Services
 		
 		void SaveCombinePreferences(Combine combine, string combinefilename)
 		{
-			PropertyService propertyService = (PropertyService)ServiceManager.GetService(typeof(PropertyService));
-			string directory = propertyService.ConfigDirectory + "CombinePreferences";
+			string directory = Runtime.Properties.ConfigDirectory + "CombinePreferences";
 			if (!Directory.Exists(directory)) {
 				Directory.CreateDirectory(directory);
 			}
@@ -603,10 +585,9 @@ namespace MonoDevelop.Services
 		//********* own events
 		protected virtual void OnCombineOpened(CombineEventArgs e)
 		{
-			DispatchService dispatcher = (DispatchService)ServiceManager.GetService (typeof (DispatchService));
 			GenerateMakefiles ();
 			if (CombineOpened != null) {
-				dispatcher.GuiDispatch (new StatefulMessageHandler (dispatchOpened), e);
+				Runtime.DispatchService.GuiDispatch (new StatefulMessageHandler (dispatchOpened), e);
 				//CombineOpened(this, e);
 			}
 		}
@@ -633,8 +614,7 @@ namespace MonoDevelop.Services
 		protected virtual void OnCurrentProjectChanged(ProjectEventArgs e)
 		{
 			if (CurrentSelectedProject != null) {
-				StringParserService stringParserService = (StringParserService)ServiceManager.GetService(typeof(StringParserService));
-				stringParserService.Properties["PROJECTNAME"] = CurrentSelectedProject.Name;
+				Runtime.StringParserService.Properties["PROJECTNAME"] = CurrentSelectedProject.Name;
 			}
 			if (CurrentProjectChanged != null) {
 				CurrentProjectChanged(this, e);
@@ -662,8 +642,7 @@ namespace MonoDevelop.Services
 		
 		public string GetOutputAssemblyName(IProject project)
 		{
-			LanguageBindingService languageBindingService = (LanguageBindingService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(LanguageBindingService));
-			ILanguageBinding binding = languageBindingService.GetBindingPerLanguageName(project.ProjectType);
+			ILanguageBinding binding = Runtime.Languages.GetBindingPerLanguageName(project.ProjectType);
 			return binding.GetCompiledOutputName(project);
 		}
 		
