@@ -283,7 +283,8 @@ namespace MonoDevelop.Gui
 			};
 
 			string[] debugPads = new string[] {
-				"MonoDevelop.SourceEditor.Gui.DebuggerLocalsPad"
+				"MonoDevelop.SourceEditor.Gui.DebuggerLocalsPad",
+				"MonoDevelop.SourceEditor.Gui.DebuggerStackTracePad"
 			};
 
 			string[] editPads = new string[] {
