@@ -38,7 +38,6 @@ class T
 		di2.Add (new Button ("Button 2"));
 		dock.AddItem (di2, DockPlacement.Right);
 
-#if false
 		DockItem di3 = new DockItem ("item3", "Item #3 has accented characters",/* (áéíóúñ)",*/
 					     Gtk.Stock.Convert, DockItemBehavior.Normal |
 					     DockItemBehavior.CantClose);
@@ -64,7 +63,6 @@ class T
 		di3.DockTo (di, DockPlacement.Top);
 		di2.DockTo (di3, DockPlacement.Right);
 		di2.DockTo (di3, DockPlacement.Left);
-#endif
 		di2.DockTo (null, DockPlacement.Floating);
 
 		box = new HBox (true, 5);

@@ -47,7 +47,9 @@ namespace Gdl
 		{
 			if (Child != null)
 				Child.Unparent ();
-				
+			
+			Orientation = orientation;
+
 			/* create the container paned */
 			if (orientation == Orientation.Horizontal)
 				Child = new HPaned ();
@@ -164,7 +166,7 @@ namespace Gdl
 			
 			/* Location is inside. */
 			if (relX > 0 && relX < alloc.Width &&
-			    relY > 0 && relY < alloc.Width) {
+			    relY > 0 && relY < alloc.Height) {
 			    	int divider = -1;
 			    
 				/* It's inside our area. */

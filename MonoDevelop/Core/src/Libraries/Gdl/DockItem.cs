@@ -36,11 +36,11 @@ namespace Gdl
 		static DockItem ()
 		{
 			Rc.ParseString ("style \"gdl-dock-item-default\" {\n" +
-			                    "xthickness = 0\n" +
-			                    "ythickness = 0\n" + 
-			                    "}\n" + 
-			                    "class \"Gdl_DockItem\" " +
-			                    "style : gtk \"gdl-dock-item-default\"\n");
+						"xthickness = 0\n" +
+						"ythickness = 0\n" + 
+					"}\n" + 
+					"class \"Gdl_DockItem\" " +
+					"style : gtk \"gdl-dock-item-default\"\n");
 		}
 		
 		protected DockItem ()
@@ -600,9 +600,9 @@ namespace Gdl
 			
 			/* Location is inside. */
 			if (relX > 0 && relX < alloc.Width &&
-			    relY > 0 && relY < alloc.Width) {
+			    relY > 0 && relY < alloc.Height) {
 				int divider = -1;
-
+				
 				/* these are for calculating the extra docking parameter */
 				Requisition other = ((DockItem)request.Applicant).PreferredSize;
 				Requisition my = PreferredSize;
@@ -664,7 +664,7 @@ namespace Gdl
 					}
 				}
 				
-				/* adjust returned coordinates so they are have the same
+				/* adjust returned coordinates so they have the same
 				   origin as our window */
 				request.X += alloc.X;
 				request.Y += alloc.Y;
@@ -845,17 +845,11 @@ namespace Gdl
 		public virtual void SetOrientation (Orientation orientation)
 		{
 			if (Orientation != orientation) {
-				if (Child != null) {
-					//FIXME: Port this, prolly w/ reflection
-					            /*pspec = g_object_class_find_property (
-                G_OBJECT_GET_CLASS (item->child), "orientation");
-            if (pspec && pspec->value_type == GTK_TYPE_ORIENTATION)
-                g_object_set (G_OBJECT (item->child),
-                              "orientation", orientation,
-                              NULL);*/
-				}
-				//PORT THIS:
-				//        g_object_notify (G_OBJECT (item), "orientation");
+				this.orientation = orientation;
+				if (IsDrawable)
+					QueueDraw ();
+				QueueResize ();
+				EmitPropertyEvent ("orientation");
 			}
 		}
 		
