@@ -181,7 +181,7 @@ namespace MonoDevelop.SourceEditor.Gui
 
 			if (triggerIter.Equals (TextIter.Zero)) return;
 			triggerIter.ForwardChar ();
-			completionWindow = new CompletionWindow (this, ParentEditor.DisplayBinding.ContentName, new CodeCompletionDataProvider (true));
+			completionWindow = new CompletionWindow (this, ParentEditor.DisplayBinding.Project, ParentEditor.DisplayBinding.ContentName, new CodeCompletionDataProvider (true));
 			
 			completionWindow.ShowCompletionWindow (triggerChar, triggerIter, true);
 		}
@@ -304,7 +304,7 @@ namespace MonoDevelop.SourceEditor.Gui
 			case '.':
 				bool retval = base.OnKeyPressEvent (evnt);
 				if (EnableCodeCompletion) {
-					completionWindow = new CompletionWindow (this, ParentEditor.DisplayBinding.ContentName, new CodeCompletionDataProvider ());
+					completionWindow = new CompletionWindow (this, ParentEditor.DisplayBinding.Project, ParentEditor.DisplayBinding.ContentName, new CodeCompletionDataProvider ());
 					completionWindow.ShowCompletionWindow ((char)key, buf.GetIterAtMark (buf.InsertMark), false);
 				}
 				return retval;

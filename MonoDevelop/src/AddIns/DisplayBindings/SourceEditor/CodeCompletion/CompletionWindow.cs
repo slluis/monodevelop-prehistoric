@@ -11,6 +11,7 @@ using System.Collections;
 
 using Gtk;
 using MonoDevelop.SourceEditor.Gui;
+using MonoDevelop.Internal.Project;
 
 namespace MonoDevelop.SourceEditor.CodeCompletion
 {
@@ -28,6 +29,8 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 		int origOffset;
 		int num_in = 0;
 		DeclarationViewWindow declarationviewwindow = new DeclarationViewWindow ();
+		string fileName;
+		IProject project;
 		
 		string GetTypedString ()
 		{
@@ -281,8 +284,6 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 			//GdkWindow.Move (tx + wx, ty + wy);
 		}
 		
-		string fileName;
-		
 		public static new GLib.GType GType
 		{
 			get
@@ -296,9 +297,10 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 		/// <remarks>
 		/// Creates a new Completion window and puts it location under the caret
 		/// </remarks>
-		public CompletionWindow (SourceEditorView control, string fileName, ICompletionDataProvider completionDataProvider) : base (GType)
+		public CompletionWindow (SourceEditorView control, IProject project, string fileName, ICompletionDataProvider completionDataProvider) : base (GType)
 		{
 			this.fileName = fileName;
+			this.project = project;
 			this.completionDataProvider = completionDataProvider;
 			this.control = control;
 
@@ -340,7 +342,7 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 		
 		void FillList (bool firstTime, char ch)
 		{
-			ICompletionData[] completionData = completionDataProvider.GenerateCompletionData(fileName, control, ch, triggeringMark);
+			ICompletionData[] completionData = completionDataProvider.GenerateCompletionData(project, fileName, control, ch, triggeringMark);
 			if (completionData == null || completionData.Length == 0) {
 				return;
 			}

@@ -12,6 +12,7 @@ using System.Collections;
 
 using MonoDevelop.Core.Properties;
 using MonoDevelop.Internal.Templates;
+using MonoDevelop.Internal.Project;
 using MonoDevelop.SourceEditor.Gui;
 using Stock = MonoDevelop.Gui.Stock;
 
@@ -26,7 +27,7 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 			}
 		}
 		
-		public ICompletionData[] GenerateCompletionData(string fileName, SourceEditorView textArea, char charTyped, Gtk.TextMark triggerMark)
+		public ICompletionData[] GenerateCompletionData(IProject project, string fileName, SourceEditorView textArea, char charTyped, Gtk.TextMark triggerMark)
 		{
 			CodeTemplateGroup templateGroup = CodeTemplateLoader.GetTemplateGroupPerFilename(fileName);
 			if (templateGroup == null) {

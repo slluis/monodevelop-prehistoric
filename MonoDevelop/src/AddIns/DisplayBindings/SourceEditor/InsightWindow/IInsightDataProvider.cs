@@ -11,12 +11,13 @@ using System.Reflection;
 using System.Collections;
 
 using MonoDevelop.SourceEditor.Gui;
+using MonoDevelop.Internal.Project;
 
 namespace MonoDevelop.SourceEditor.InsightWindow
 {
 	public interface IInsightDataProvider
 	{
-		void SetupDataProvider(string fileName, SourceEditorView textArea);
+		void SetupDataProvider(IProject project, string fileName, SourceEditorView textArea);
 		
 		bool CaretOffsetChanged();
 		bool CharTyped();

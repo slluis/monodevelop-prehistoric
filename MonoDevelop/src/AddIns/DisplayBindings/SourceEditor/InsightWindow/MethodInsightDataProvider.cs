@@ -15,6 +15,7 @@ using MonoDevelop.Core.Properties;
 using MonoDevelop.Internal.Templates;
 using MonoDevelop.Services;
 using MonoDevelop.Internal.Parser;
+using MonoDevelop.Internal.Project;
 
 using MonoDevelop.SourceEditor.Gui;
 using MonoDevelop.SourceEditor.CodeCompletion;
@@ -50,7 +51,7 @@ namespace MonoDevelop.SourceEditor.InsightWindow
 		}
 		
 		int initialOffset;
-		public void SetupDataProvider(string fileName, SourceEditorView textArea)
+		public void SetupDataProvider(IProject project, string fileName, SourceEditorView textArea)
 		{
 			this.fileName = fileName;
 			this.textArea = textArea;
@@ -87,14 +88,14 @@ namespace MonoDevelop.SourceEditor.InsightWindow
 				}
 			}
 			IParserService parserService = (IParserService)ServiceManager.Services.GetService(typeof(IParserService));
-			ResolveResult results = parserService.Resolve(methodObject, caretLineNumber, caretColumn, fileName, text);
+			ResolveResult results = parserService.Resolve(project, methodObject, caretLineNumber, caretColumn, fileName, text);
 			
 			if (results != null && results.Type != null) {
 				if (contructorInsight) {
 					AddConstructors(results.Type);
 				} else {
-					foreach (IClass c in results.Type.ClassInheritanceTree) {
-						AddMethods(c, methodName, false);
+					foreach (IClass c in parserService.GetClassInheritanceTree (project, results.Type)) {
+ 						AddMethods(c, methodName, false);
 					}
 				}
 			}

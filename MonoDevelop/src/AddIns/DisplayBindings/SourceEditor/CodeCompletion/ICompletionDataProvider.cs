@@ -9,6 +9,7 @@ using System;
 using System.Drawing;
 using System.Reflection;
 using System.Collections;
+using MonoDevelop.Internal.Project;
 
 using Gdk;
 
@@ -16,6 +17,6 @@ using MonoDevelop.SourceEditor.Gui;
 
 namespace MonoDevelop.SourceEditor.CodeCompletion {
 	public interface ICompletionDataProvider {
-		ICompletionData[] GenerateCompletionData(string fileName, SourceEditorView textArea, char charTyped, Gtk.TextMark mark);
+		ICompletionData[] GenerateCompletionData(IProject project, string fileName, SourceEditorView textArea, char charTyped, Gtk.TextMark mark);
 	}
 }

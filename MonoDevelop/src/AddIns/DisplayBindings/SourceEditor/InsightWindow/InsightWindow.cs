@@ -15,6 +15,7 @@ using GtkSharp;
 
 using MonoDevelop.SourceEditor.Gui;
 using MonoDevelop.SourceEditor.CodeCompletion;
+using MonoDevelop.Internal.Project;
 
 namespace MonoDevelop.SourceEditor.InsightWindow
 {
@@ -28,6 +29,8 @@ namespace MonoDevelop.SourceEditor.InsightWindow
 		Gtk.Label current;
 		Gtk.Label max;
 		string description;
+		string fileName;
+		IProject project;
 
 		StringParserService StringParserService = (StringParserService)ServiceManager.Services.GetService (typeof (StringParserService)); 
 		
@@ -45,7 +48,7 @@ namespace MonoDevelop.SourceEditor.InsightWindow
 		
 		public void AddInsightDataProvider(IInsightDataProvider provider)
 		{
-			provider.SetupDataProvider(fileName, control);
+			provider.SetupDataProvider(project, fileName, control);
 			if (provider.InsightDataCount > 0) {
 				insightDataProviderStack.Push(new InsightDataProviderStackElement(provider));
 			}
@@ -105,17 +108,17 @@ namespace MonoDevelop.SourceEditor.InsightWindow
 
 			}
 		}
-		string fileName;
 		
 		static InsightWindow ()
 		{
 			type = RegisterGType (typeof (InsightWindow));
 		}
 		
-		public InsightWindow(SourceEditorView control, string fileName) : base (type)
+		public InsightWindow(SourceEditorView control, IProject project, string fileName) : base (type)
 		{
 			this.control             = control;
 			this.fileName = fileName;
+			this.project = project;
 			/*System.Drawing.Point caretPos  = control.ActiveTextAreaControl.TextArea.Caret.Position;
 			System.Drawing.Point visualPos = new System.Drawing.Point(control.ActiveTextAreaControl.TextArea.TextView.GetDrawingXPos(caretPos.Y, caretPos.X) + control.ActiveTextAreaControl.TextArea.TextView.DrawingPosition.X,
 			          (int)((1 + caretPos.Y) * control.ActiveTextAreaControl.TextArea.TextView.FontHeight) - control.ActiveTextAreaControl.TextArea.VirtualTop.Y - 1 + control.ActiveTextAreaControl.TextArea.TextView.DrawingPosition.Y);*/

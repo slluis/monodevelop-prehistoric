@@ -85,17 +85,6 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 		public string Description
 		{
 			get {
-				// get correct delegate description (when description is requested)
-				// in the classproxies aren't methods saved, therefore delegate methods
-				// must be get through the real class instead out of the proxy
-				//
-				// Mike
-				if (c is ClassProxy && c.ClassType == ClassType.Delegate) {
-					description = ambienceService.CurrentAmbience.Convert(parserService.GetClass(c.FullyQualifiedName));
-					pango_description = PangoAmbience.Convert(parserService.GetClass(c.FullyQualifiedName));
-					c = null;
-				}
-				
 				// don't give a description string, if no documentation or description is provided
 				if (description.Length + documentation.Length == 0) {
 					return null;
@@ -124,17 +113,6 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 		public string DescriptionPango
 		{
 			get {
-				// get correct delegate description (when description is requested)
-				// in the classproxies aren't methods saved, therefore delegate methods
-				// must be get through the real class instead out of the proxy
-				//
-				// Mike
-				if (c is ClassProxy && c.ClassType == ClassType.Delegate) {
-					description = ambienceService.CurrentAmbience.Convert(parserService.GetClass(c.FullyQualifiedName));
-					pango_description = PangoAmbience.Convert(parserService.GetClass(c.FullyQualifiedName));
-					c = null;
-				}
-				
 				// don't give a description string, if no documentation or description is provided
 				if (description.Length + documentation.Length == 0) {
 					return null;

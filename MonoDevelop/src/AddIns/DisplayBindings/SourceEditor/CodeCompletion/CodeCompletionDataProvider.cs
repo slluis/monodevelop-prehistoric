@@ -19,6 +19,7 @@ using MonoDevelop.Gui;
 using MonoDevelop.Internal.Templates;
 using MonoDevelop.Services;
 using MonoDevelop.Internal.Parser;
+using MonoDevelop.Internal.Project;
 
 using MonoDevelop.SourceEditor.Gui;
 using Stock = MonoDevelop.Gui.Stock;
@@ -55,7 +56,7 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 		
 		ArrayList completionData = null;
 		
-		public ICompletionData[] GenerateCompletionData(string fileName, SourceEditorView textArea, char charTyped, TextMark triggerMark)
+		public ICompletionData[] GenerateCompletionData(IProject project, string fileName, SourceEditorView textArea, char charTyped, TextMark triggerMark)
 		{
 			completionData = new ArrayList();
 			this.fileName = fileName;
@@ -81,18 +82,19 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 				return (ICompletionData[])completionData.ToArray (typeof (ICompletionData));
 			}
 			if (ctrlspace && charTyped != '.') {
-				AddResolveResults (parserService.CtrlSpace (parserService, caretLineNumber, caretColumn, fileName));
+				AddResolveResults (parserService.CtrlSpace (parserService, project, caretLineNumber, caretColumn, fileName));
 				return (ICompletionData[])completionData.ToArray (typeof (ICompletionData));
 			}
 			if (charTyped == ' ') {
 				if (expression == "using" || expression.EndsWith(" using") || expression.EndsWith("\tusing")|| expression.EndsWith("\nusing")|| expression.EndsWith("\rusing")) {
-					string[] namespaces = parserService.GetNamespaceList("");
+					string[] namespaces = parserService.GetNamespaceList(project, "", true);
 					AddResolveResults(new ResolveResult(namespaces));
 				}
 			} else {
 				//FIXME: I added the null check, #D doesnt need it, why do we?
 				if (fileName != null) {
-					results = parserService.Resolve(expression, 
+					results = parserService.Resolve(project,
+													expression, 
 													caretLineNumber,
 													caretColumn,
 													fileName,

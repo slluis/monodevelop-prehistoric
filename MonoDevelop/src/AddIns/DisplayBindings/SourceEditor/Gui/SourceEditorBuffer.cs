@@ -193,14 +193,19 @@ namespace MonoDevelop.SourceEditor.Gui
 		
 		public void LoadFile (string file, string mime)
 		{
-			LoadText (File.OpenText (file).ReadToEnd (), mime);		
+			StreamReader sr = File.OpenText (file);
+			LoadText (sr.ReadToEnd (), mime);		
+			sr.Close ();
 			Modified = false;
 		}
 		
 		public void LoadFile (string file)
 		{
-			using (NoUndo n = new NoUndo (this))
-				Text = File.OpenText (file).ReadToEnd ();
+			using (NoUndo n = new NoUndo (this)) {
+				StreamReader sr = File.OpenText (file);
+				Text = sr.ReadToEnd ();
+				sr.Close ();
+			}
 			
 			Modified = false;
 			ScrollToTop ();
