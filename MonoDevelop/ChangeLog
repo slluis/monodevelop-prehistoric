@@ -1,3 +1,7 @@
+2004-06-08 Iain McCoy <iain@mccoy.id.au>
+
+	* Makefile.am: don't clobber LD_LIBRARY_PATH in the make run target
+
 2004-06-07  John Luke  <jluke@cfl.rr.com>
 
 	* monodevelop.in: patch from Michael Levy <mlevy@wardium.homeip.net>
