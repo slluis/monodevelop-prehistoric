@@ -14,6 +14,7 @@ using Gtk;
 using GtkSharp;
 
 using MonoDevelop.GuiUtils;
+using MonoDevelop.EditorBindings.Properties;
 
 namespace MonoDevelop.SourceEditor.Gui {
 	public class SourceEditorDisplayBinding : IDisplayBinding {
@@ -91,6 +92,11 @@ namespace MonoDevelop.SourceEditor.Gui {
 			se.View.ToggleOverwrite += new EventHandler (CaretModeChanged);
 			
 			CaretModeChanged (null, null);
+			PropertiesChanged (null, null);
+			
+			PropertyService propertyService = (PropertyService) ServiceManager.Services.GetService (typeof (PropertyService));
+			IProperties properties2 = ((IProperties) propertyService.GetProperty("ICSharpCode.TextEditor.Document.Document.DefaultDocumentAggregatorProperties", new DefaultProperties()));
+			properties2.PropertyChanged += new PropertyEventHandler (PropertiesChanged);
 		}
 		
 		public void JumpTo (int line, int column)
@@ -252,6 +258,11 @@ namespace MonoDevelop.SourceEditor.Gui {
 			se.Buffer.ClearBookmarks ();
 		}
 #endregion
+		
+		void PropertiesChanged (object sender, PropertyEventArgs e)
+		{
+			se.View.ModifyFont (TextEditorProperties.Font);
+		}
 
 	}
 }

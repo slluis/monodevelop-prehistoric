@@ -7,4 +7,5 @@ $(DLL) : $(shell find . -name \*.cs)
 		/r:../../../../build/bin/MonoDevelop.Core.dll \
 		/r:../../../../build/bin/MonoDevelop.Base.dll \
 		/r:../../../../build/bin/MonoDevelop.Gui.Utils.dll \
+		/r:../../../../build/bin/MonoDevelop.EditorBindings.dll \
 		/r:System.Drawing.dll
