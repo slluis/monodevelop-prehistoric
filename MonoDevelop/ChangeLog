@@ -2,6 +2,11 @@
 
 	import ILAsmBinding from SD svn	
 
+	* configure.in: make hard dependencies in one check
+	and fail if any are missing, remove all the fluff at
+	the bottom because if its not there it should have 
+	already failed
+
 2004-04-12  Todd Berman  <tberman@sevenl.net>
 
 	* configure.in: bump to 0.18.99 gtk-sharp

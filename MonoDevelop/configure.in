@@ -27,38 +27,23 @@ if test "x$PKG_CONFIG" = "xno"; then
         AC_MSG_ERROR([You need to install pkg-config])
 fi
 
-dnl Find mono
+dnl hard dependencies
 MONO_REQUIRED_VERSION=0.31
-
-PKG_CHECK_MODULES(BASE_DEPENDENCIES, mono >= $MONO_REQUIRED_VERSION, enable_mono=yes, enable_mono=no)
-
-dnl Find gtk-sharp
 GTKSHARP_REQUIRED_VERSION=0.18.99
+GTKSOURCEVIEW_REQUIRED_VERSION=0.7
+GTKSOURCEVIEWSHARP_REQUIRED_VERSION=0.1
+GECKOSHARP_REQUIRED_VERSION=0.1
+GNOMEVFS_REQUIRED_VERSION=2.0
+MONODOC_REQUIRED_VERSION=0.12
 
-PKG_CHECK_MODULES(BASE_DEPENDENCIES, gtk-sharp >= $GTKSHARP_REQUIRED_VERSION, enable_gtksharp=yes, enable_gtksharp=no) 
+PKG_CHECK_MODULES(BASE_DEPENDENCIES, mono >= $MONO_REQUIRED_VERSION gtk-sharp >= $GTKSHARP_REQUIRED_VERSION gnome-sharp >= $GTKSHARP_REQUIRED_VERSION gtksourceview-1.0 >= $GTKSOURCEVIEW_REQUIRED_VERSION gtksourceview-sharp >= $GTKSOURCEVIEWSHARP_REQUIRED_VERSION gecko-sharp >= $GECKOSHARP_REQUIRED_VERSION gnome-vfs-2.0 >= $GNOMEVFS_REQUIRED_VERSION monodoc >= $MONODOC_REQUIRED_VERSION)
+
 gtksharp_prefix=`pkg-config --variable=prefix gtk-sharp`
 AC_SUBST(gtksharp_prefix)
-
-GTKSOURCEVIEW_REQUIRED_VERSION=0.7
-
-PKG_CHECK_MODULES(BASE_DEPENDENCIES, gtksourceview-1.0 >= $GTKSOURCEVIEW_REQUIRED_VERSION, enable_gtksourceview=yes, enable_gtksourceview=no)
-
-GTKSOURCEVIEWSHARP_REQUIRED_VERSION=0.1
-PKG_CHECK_MODULES(BASE_DEPENDENCIES, gtksourceview-sharp >= $GTKSOURCEVIEWSHARP_REQUIRED_VERSION, enable_gtksourceviewsharp=yes, enable_gtksourceviewsharp=no)
 GTKSOURCEVIEW_SHARP="`pkg-config --libs gtksourceview-sharp`"
 AC_SUBST(GTKSOURCEVIEW_SHARP)
-
-GECKOSHARP_REQUIRED_VERSION=0.1
-PKG_CHECK_MODULES(BASE_DEPENDENCIES, gecko-sharp >= $GECKOSHARP_REQUIRED_VERSION, enable_geckosharp=yes, enable_geckosharp=no)
-if test "x$enable_geckosharp" = "xno"; then
-        AC_MSG_ERROR([You need to install gecko-sharp])
-fi
 GECKO_SHARP="`pkg-config --libs gecko-sharp`"
 AC_SUBST(GECKO_SHARP)
-
-dnl find gnome-vfs
-GNOMEVFS_REQUIRED_VERSION=2.0
-PKG_CHECK_MODULES(BASE_DEPENDENCIES, gnome-vfs-2.0 >= $GNOMEVFS_REQUIRED_VERSION, enable_gnomevfs=yes, enable_gnomevfs=no)
 
 dnl GdlDock requirements and configuration
 GTK_REQUIRED=2.2.0
@@ -77,27 +62,11 @@ AC_SUBST(GLIB_GENMARSHAL)
 GLIB_MKENUMS="`$PKG_CONFIG --variable=glib_mkenums glib-2.0`"
 AC_SUBST(GLIB_MKENUMS)
 
-
-dnl should this be a hard dep?
-dnl ORBIT2_REQUIRED_VERSION=2.8.3
-
-dnl PKG_CHECK_MODULES(BASE_DEPENDENCIES, ORBit-2.0 >= $ORBIT2_REQUIRED_VERSION)
-
-dnl find mozilla-gtkmozembed
-MOZGTK_REQUIRED_VERSION=1.2
-PKG_CHECK_MODULES(BASE_DEPENDENCIES, mozilla-gtkmozembed >= $MOZGTK_REQUIRED_VERSION, enable_gtkmoz=yes, enable_gtkmoz=no)
-
 dnl find mono debugger
 MONO_DEBUGGER_REQUIRED_VERSION=0.6
 PKG_CHECK_MODULES(MONO_DEBUGGER, mono-debugger >= $MONO_DEBUGGER_REQUIRED_VERSION, enable_debugger=yes, enable_debugger=no)
 debugger_prefix=`pkg-config --variable=prefix mono-debugger`
 AC_SUBST(debugger_prefix)
-
-dnl find monodoc
-MONODOC_REQUIRED_VERSION=0.12
-PKG_CHECK_MODULES(MONODOC, monodoc >= $MONODOC_REQUIRED_VERSION, enable_monodoc=yes, enable_monodoc=no)
-monodoc_libflags=`pkg-config --libs monodoc`
-AC_SUBST(monodoc_libflags)
 
 MOZILLA_HOME="`$PKG_CONFIG --variable=libdir mozilla-gtkmozembed`"
 AC_SUBST(MOZILLA_HOME)
@@ -198,13 +167,6 @@ echo ""
 echo "   * Installation prefix = $prefix"
 echo "   * GNOME prefix = $gnome_prefix"
 echo ""
-echo "   * Gtk# $GTKSHARP_REQUIRED_VERSION: $enable_gtksharp"
-echo "   * gnomevfs $GNOMEVFS_REQUIRED_VERSION: $enable_gnomevfs"
-echo "   * gtkmozembed $MOZGTK_REQUIRED_VERSION: $enable_gtkmoz"
-echo "   * gtksourceview $GTKSOURCEVIEW_REQUIRED_VERSION: $enable_gtksourceview"
-echo "   * gtksourceview-sharp $GTKSOURCEVIEWSHARP_REQUIRED_VERSION: $enable_gtksourceviewsharp"
-echo "   * mono $MONO_REQUIRED_VERSION: $enable_mono"
-echo "   * monodoc $MONODOC_REQUIRED_VERSION: $enable_monodoc"
 echo "   * mono-debugger $MONO_DEBUGGER_REQUIRED_VERSION: $enable_debugger"
 echo ""
 echo "   NOTE: if any of the above say 'no' you may install the"
