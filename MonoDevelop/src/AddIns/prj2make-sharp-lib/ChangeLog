@@ -1,3 +1,18 @@
+2004-06-14  Francisco "Paco" Martinez <paco@mfcon.com>
+	
+	Changes to correctly specify GAC type references on imported projects from VS .NET csproj files
+
+	Files changed
+	* MdPrjHelper.cs 
+	* MsPrjHelper.cs
+	* Prj2MakeSharp.prjx -- modernized the GAC references
+	* PrjxInfo.cs
+	* Makefile.am -- include the added pkgconfiginvoker.cs file to the compilation 
+
+	Files added
+	* pkgconfiginvoker.cs -- This should be removed or depracated in future releases to avoid duplicity of
+	functionality
+
 2004-05-31  Francisco "Paco" Martinez <paco@mfcon.com>
 
 	* src/Addin/prj2make-sharp-lib/MsPrjHelper.cs: corrects problems with
