@@ -27,7 +27,7 @@ namespace ICSharpCode.SharpDevelop.Commands
 			PropertyService propertyService = (PropertyService)ServiceManager.Services.GetService(typeof(PropertyService));
 			TreeViewOptions optionsDialog = new TreeViewOptions((IProperties)propertyService.GetProperty("ICSharpCode.TextEditor.Document.Document.DefaultDocumentAggregatorProperties", new DefaultProperties()),
 			                                                           AddInTreeSingleton.AddInTree.GetTreeNode("/SharpDevelop/Dialogs/OptionsDialog"));
-										   			optionsDialog.ShowAll ();
+			//optionsDialog.ShowAll ();
 			//	optionsDialog.FormBorderStyle = FormBorderStyle.FixedDialog;
 				
 			//	optionsDialog.Owner = (Form)WorkbenchSingleton.Workbench;

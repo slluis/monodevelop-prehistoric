@@ -11,7 +11,6 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Collections;
 using System.ComponentModel;
-using System.Windows.Forms;
 using System.Xml;
 
 using ICSharpCode.Core.AddIns;
@@ -53,7 +52,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 	/// TreeView options are used, when more options will be edited (for something like
 	/// IDE Options + Plugin Options)
 	/// </summary>
-	public class TreeViewOptions : Gtk.Window
+	public class TreeViewOptions
 	{
 		//protected GradientHeaderPanel optionsPanelLabel;
 		
@@ -65,17 +64,19 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 		protected Font boldFont  = null;
 
 		Gtk.TreeStore treeStore;
-		Gtk.TreeView  treeView;
-		Gtk.Label     topLabel;
-		Gtk.Button    okButton;
-		Gtk.Button    cancelButton;
-		Gtk.Frame     optionPanel;
-
+		
+		[Glade.Widget] Gtk.TreeView  TreeView;
+		[Glade.Widget] Gtk.Label     optionTitle;
+		[Glade.Widget] Gtk.Button    okbutton;
+		[Glade.Widget] Gtk.Button    cancelbutton;
+		[Glade.Widget] Gtk.Notebook  mainBook;
+		[Glade.Widget] Gtk.Dialog    TreeViewOptionDialog;
+		
 		PixbufList    imglist;
-	
+		
 		ResourceService IconService = (ResourceService)ServiceManager.Services.GetService (typeof (IResourceService));
 		StringParserService StringParserService = (StringParserService)ServiceManager.Services.GetService (typeof (StringParserService));
-	
+		
 		public IProperties Properties {
 			get {
 				return properties;
@@ -89,90 +90,21 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 					return;
 				}
 			}
-			Hide ();
+			TreeViewOptionDialog.Hide ();
 			//DialogResult = DialogResult.OK;
 		}
 		
-		/*protected void ResetImageIndex(TreeNodeCollection nodes)
-		{
-			foreach (TreeNode node in nodes) {
-				if (node.Nodes.Count > 0) {
-					ResetImageIndex(node.Nodes);
-				} else {
-					node.ImageIndex         = 2;
-					node.SelectedImageIndex = 3;
-				}
-			}
-		}*/
-		
 		protected bool b = true;
-		
-		/*protected void BeforeExpandNode(object sender, TreeViewCancelEventArgs e)
-		{
-			if (!b) {
-				return;
-			}
-			b = false;
-			((TreeView)ControlDictionary["optionsTreeView"]).BeginUpdate();
-			// search first leaf node (leaf nodes have no children)
-			TreeNode node = e.Node.FirstNode;
-			while (node.Nodes.Count > 0) {
-				node = node.FirstNode;
-			}
-			((TreeView)ControlDictionary["optionsTreeView"]).CollapseAll();
-			node.EnsureVisible();
-			node.ImageIndex = 3;
-			((TreeView)ControlDictionary["optionsTreeView"]).EndUpdate();
-			SetOptionPanelTo(node);
-			b = true;
-		}*/
-		
-		/*protected void BeforeSelectNode(object sender, TreeViewCancelEventArgs e)
-		{
-			ResetImageIndex(((TreeView)ControlDictionary["optionsTreeView"]).Nodes);
-			if (b) {
-				CollapseOrExpandNode(e.Node);
-			}
-		}*/
-		
-		/*protected void HandleClick(object sender, EventArgs e)
-		{
-			if (((TreeView)ControlDictionary["optionsTreeView"]).GetNodeAt(((TreeView)ControlDictionary["optionsTreeView"]).PointToClient(Control.MousePosition)) == ((TreeView)ControlDictionary["optionsTreeView"]).SelectedNode && b) {
-				CollapseOrExpandNode(((TreeView)ControlDictionary["optionsTreeView"]).SelectedNode);
-			}
-		}*/
-		
-		/*void CollapseOrExpandNode(TreeNode node)
-		{
-			if (node.Nodes.Count > 0) {  // only folders
-				if (node.IsExpanded) {
-					node.Collapse();
-				}  else {
-					node.Expand();			
-				}
-			}
-		}*/
 		
 		protected void SetOptionPanelTo(IDialogPanelDescriptor descriptor)
 		{
 			if (descriptor != null && descriptor.DialogPanel != null) {
 				descriptor.DialogPanel.ReceiveDialogMessage(DialogMessage.Activated);
-				foreach (Gtk.Widget widg in optionPanel.Children) {
-					optionPanel.Remove (widg);
-				}
-				optionPanel.Add (descriptor.DialogPanel.Control);
-				topLabel.Text = descriptor.Label;
-				ShowAll ();
+				mainBook.CurrentPage = mainBook.PageNum (descriptor.DialogPanel.Control);
+				optionTitle.Text = descriptor.Label;
+				TreeViewOptionDialog.ShowAll ();
 			}
-		}
-		
-		/*void TreeMouseDown(object sender, MouseEventArgs e)
-		{
-			TreeNode node = ((TreeView)ControlDictionary["optionsTreeView"]).GetNodeAt(((TreeView)ControlDictionary["optionsTreeView"]).PointToClient(Control.MousePosition));
-			if (node != null) {
-				if (node.Nodes.Count == 0) ((TreeView)ControlDictionary["optionsTreeView"]).SelectedNode = node;
-			}
-		}*/
+		}		
 		
 		protected void AddNodes(object customizer, Gtk.TreeIter iter, ArrayList dialogPanelDescriptors)
 		{
@@ -180,6 +112,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 				if (descriptor.DialogPanel != null) { // may be null, if it is only a "path"
 					descriptor.DialogPanel.CustomizationObject = customizer;
 					OptionPanels.Add(descriptor.DialogPanel);
+					mainBook.AppendPage (descriptor.DialogPanel.Control, new Gtk.Label ("a"));
 				}
 			
 				Gtk.TreeIter i;
@@ -187,6 +120,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 					i = treeStore.AppendValues  (descriptor.Label, descriptor, imglist[2]);
 				} else {
 					i = treeStore.AppendValues(iter, descriptor.Label, descriptor, imglist[2]);
+				
 				}
 				if (descriptor.DialogPanelDescriptors != null) {
 					AddNodes(customizer, i, descriptor.DialogPanelDescriptors);
@@ -198,22 +132,20 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 		{
 			Gtk.TreeModel mdl;
 			Gtk.TreeIter  iter;
-			if (treeView.Selection.GetSelected (out mdl, out iter)) {
+			if (TreeView.Selection.GetSelected (out mdl, out iter)) {
 				if (treeStore.IterHasChild (iter)) {
 					Gtk.TreeIter new_iter;
 					treeStore.IterChildren (out new_iter, iter);
 					Gtk.TreePath new_path = treeStore.GetPath (new_iter);
-					treeView.CollapseAll ();
-					treeView.ExpandToPath (new_path);
-					treeView.Selection.SelectPath (new_path);
+					TreeView.CollapseAll ();
+					TreeView.ExpandToPath (new_path);
+					TreeView.Selection.SelectPath (new_path);
 				} else {
 					treeStore.Foreach (new Gtk.TreeModelForeachFunc (killArrows));
 					treeStore.SetValue (iter, 2, imglist[3]);
 					SetOptionPanelTo ((IDialogPanelDescriptor)treeStore.GetValue (iter, 1));
 				}
 			}
-			
-			//SetOptionPanelTo(((TreeView)ControlDictionary["optionsTreeView"]).SelectedNode);
 		}
 
 		bool killArrows (Gtk.TreeModel mdl, Gtk.TreePath path, Gtk.TreeIter iter)
@@ -229,47 +161,32 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 			imglist.Add(IconService.GetBitmap("Icons.16x16.OpenFolderBitmap"));
 			imglist.Add(IconService.GetBitmap("Icons.16x16.Empty") );
 			imglist.Add(IconService.GetBitmap("Icons.16x16.SelectionArrow"));
-			
-			//((TreeView)ControlDictionary["optionsTreeView"]).ImageList = imglist;
 		}
 		
-		/*protected void ShowOpenFolderIcon(object sender, TreeViewCancelEventArgs e)
-		{
-			if (e.Node.Nodes.Count > 0) {
-				e.Node.ImageIndex = e.Node.SelectedImageIndex = 1;
-			}
-		}*/
-		
-		/*protected void ShowClosedFolderIcon(object sender, TreeViewCancelEventArgs e)
-		{
-			if (e.Node.Nodes.Count > 0) {
-				e.Node.ImageIndex = e.Node.SelectedImageIndex = 0;
-			}
-		}*/
-		
-		public TreeViewOptions(IProperties properties, IAddInTreeNode node) : base ("Options...")
+		public TreeViewOptions(IProperties properties, IAddInTreeNode node)
 		{
 			this.properties = properties;
 			
-			this.Title = StringParserService.Parse("${res:Dialog.Options.TreeViewOptions.DialogName}");
+			Glade.XML treeViewXml = new Glade.XML (null, "Base.glade", "TreeViewOptionDialog", null);
+			treeViewXml.Autoconnect (this);
+		
+			TreeViewOptionDialog.Title = StringParserService.Parse("${res:Dialog.Options.TreeViewOptions.DialogName}");
 
 			InitImageList ();
 
 			this.InitializeComponent();
 			
-			//plainFont = new Font(((TreeView)ControlDictionary["optionsTreeView"]).Font, FontStyle.Regular);
-			//boldFont  = new Font(((TreeView)ControlDictionary["optionsTreeView"]).Font, FontStyle.Bold);
-			
 			if (node != null) {
 				AddNodes(properties, Gtk.TreeIter.Zero, node.BuildChildItems(this));
 			}
+			TreeView.GrabFocus ();
+			SelectNode (null, null);
 		}
 		
 		protected void InitializeComponent() 
 		{
-			
 			treeStore = new Gtk.TreeStore (typeof(string), typeof(IDialogPanelDescriptor), typeof (Gdk.Pixbuf));
-			treeView = new Gtk.TreeView (treeStore);
+			TreeView.Model = treeStore;
 
 			Gtk.TreeViewColumn column = new Gtk.TreeViewColumn ();
 			column.Title = "items";
@@ -286,62 +203,19 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 			
 			
 			Gtk.TreeViewColumn empty = new Gtk.TreeViewColumn ("a", new Gtk.CellRendererText (), "string", 0);
-			treeView.AppendColumn (empty);
+			TreeView.AppendColumn (empty);
 			empty.Visible = false;
-			treeView.ExpanderColumn = empty;
+			TreeView.ExpanderColumn = empty;
 						
-			treeView.AppendColumn (column);
-			treeView.HeadersVisible = false;
+			TreeView.AppendColumn (column);
+			TreeView.HeadersVisible = false;
 
-			Gtk.VBox mainbox = new Gtk.VBox (false, 2);
-			
-			Gtk.HBox dispbox = new Gtk.HBox (false, 2);
-
-			dispbox.PackStart (treeView);
-
-			Gtk.VBox vbox = new Gtk.VBox (false, 2);
-			
-			topLabel = new Gtk.Label ("");
-			vbox.PackStart (topLabel, false, false, 2);
-
-			optionPanel = new Gtk.Frame ();
-			optionPanel.Shadow = Gtk.ShadowType.None;
-			
-			vbox.PackStart (optionPanel);
-			
-			dispbox.PackStart (vbox);
-
-			mainbox.PackStart (dispbox);
-			
-			Gtk.HButtonBox buttonBox = new Gtk.HButtonBox ();
-			buttonBox.Layout = Gtk.ButtonBoxStyle.End;
-
-			okButton = new Gtk.Button (Gtk.Stock.Ok);
-			cancelButton = new Gtk.Button (Gtk.Stock.Cancel);
-
-			buttonBox.PackStart (okButton);
-			buttonBox.PackStart (cancelButton);
-
-			mainbox.PackStart (buttonBox, false, false, 2);
-
-			this.Add (mainbox);
-
-			okButton.Clicked += new EventHandler (AcceptEvent);
-			cancelButton.Clicked += new EventHandler (CancelEvent);
-			
-			//((TreeView)ControlDictionary["optionsTreeView"]).Click          += new EventHandler(HandleClick);
-			//((TreeView)ControlDictionary["optionsTreeView"]).AfterSelect    += new TreeViewEventHandler(SelectNode);
-			//((TreeView)ControlDictionary["optionsTreeView"]).BeforeSelect   += new TreeViewCancelEventHandler(BeforeSelectNode);
-			treeView.Selection.Changed += new EventHandler (SelectNode);
-			//((TreeView)ControlDictionary["optionsTreeView"]).BeforeExpand   += new TreeViewCancelEventHandler(BeforeExpandNode);
-			//((TreeView)ControlDictionary["optionsTreeView"]).BeforeExpand   += new TreeViewCancelEventHandler(ShowOpenFolderIcon);
-			//((TreeView)ControlDictionary["optionsTreeView"]).BeforeCollapse += new TreeViewCancelEventHandler(ShowClosedFolderIcon);
-			//((TreeView)ControlDictionary["optionsTreeView"]).MouseDown      += new MouseEventHandler(TreeMouseDown);
+			TreeView.Selection.Changed += new EventHandler (SelectNode);
 		}
 		
 		private void CancelEvent (object o, EventArgs args)
 		{
-			this.Hide ();
+			TreeViewOptionDialog.Hide ();
 		}
 	}
 }
