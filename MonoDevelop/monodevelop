@@ -26,4 +26,10 @@ MOZILLA_FIVE_HOME=$MOZILLA_HOME
 export MOZILLA_FIVE_HOME
 
 cd build/bin
-mono --debug ./MonoDevelop.exe $@
+
+if test -n "$MD_NO_DBG"; then
+	FLAGS=$MD_MONO_FLAGS
+else
+	FLAGS="$MD_MONO_FLAGS --debug"
+fi
+mono $FLAGS ./MonoDevelop.exe $@
