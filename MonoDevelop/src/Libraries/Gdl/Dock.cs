@@ -231,6 +231,18 @@ namespace Gdl
 				}
 			}
 		}
+
+		protected override void OnDestroyed ()
+		{
+			if (window != null) {
+				window.Destroy ();
+				floating = false;
+				window = null;
+			}
+			if (xorGC != null)
+				xorGC = null;
+			base.OnDestroyed ();
+		}
 		
 		protected override void OnAdded (Widget widget)
 		{
@@ -270,7 +282,7 @@ namespace Gdl
 		{
 			if (root != null)
 				return;
-			
+
 			if (IsAutomatic) {
 				Destroy ();
 			} else if (!IsAttached) {
@@ -544,7 +556,7 @@ namespace Gdl
 		private void floatingDelete (object o, DeleteEventArgs e)
 		{
 			if (root != null)
-				root.HideItem ();
+				((DockItem)root).HideItem ();
 			e.RetVal = true;
 		}
 	}
