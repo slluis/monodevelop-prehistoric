@@ -5,7 +5,6 @@
     <File name="./src/Main.cs" subtype="Code" buildaction="Exclude" dependson="" data="" />
     <File name="./src/CodeDOM/CodeDOMVisitor.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
     <File name="./src/Lexer/Lexer.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
-    <File name="./src/Lexer/Tokens.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
     <File name="./src/Lexer/Reader/FileReader.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
     <File name="./src/Lexer/Reader/IReader.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
     <File name="./src/Lexer/Reader/StringReader.cs" subtype="Code" buildaction="Compile" dependson="" data="" />

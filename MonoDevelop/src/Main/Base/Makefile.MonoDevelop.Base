@@ -129,9 +129,7 @@ SOURCES = \
 ./Gui/ErrorHandlers/GenericError.cs \
 ./Gui/HtmlControl/BrowserNavigateEventArgs.cs \
 ./Gui/HtmlControl/ControlType.cs \
-./Gui/HtmlControl/GtkHtmlControl.cs \
 ./Gui/HtmlControl/HtmlControl.cs \
-./Gui/HtmlControl/IEControl.cs \
 ./Gui/HtmlControl/IHTMLDocument2.cs \
 ./Gui/HtmlControl/IHTMLElement.cs \
 ./Gui/HtmlControl/IWebBrowser.cs \
@@ -403,12 +401,18 @@ SYSTEM_REFERENCES_BUILD = $(addprefix -r:, $(SYSTEM_REFERENCES))
 
 SYSTEM_REFERENCES_CHECK = $(addsuffix .check, $(SYSTEM_REFERENCES))
 
+PROJECT_REFERENCES = \
+"../../Libraries/MonoDevelop.Core/MonoDevelop.Core.dll" \
+"../../Libraries/MonoDevelop.Gui.Widgets/MonoDevelop.Gui.Widgets.dll"
+
+PROJECT_REFERENCES_BUILD = $(addprefix -r:, $(PROJECT_REFERENCES))
+
 MCS_OPTIONS = 
 
 all: MonoDevelop.Base.dll
 
 MonoDevelop.Base.dll: $(SOURCES) $(RESOURCES)
-	mcs $(MCS_OPTIONS) -target:library -out:"MonoDevelop.Base.dll" $(RESOURCES_BUILD) $(PKG_REFERENCES_BUILD) $(SYSTEM_REFERENCES_BUILD) $(SOURCES) \
+	mcs $(MCS_OPTIONS) -target:library -out:"MonoDevelop.Base.dll" $(RESOURCES_BUILD) $(PKG_REFERENCES_BUILD) $(PROJECT_REFERENCES_BUILD) $(SYSTEM_REFERENCES_BUILD) $(SOURCES) \
 	&& cp "MonoDevelop.Base.dll" ../../build/bin
 
 clean:

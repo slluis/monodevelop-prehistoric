@@ -37,7 +37,7 @@ namespace Gdl
 				return -1;
 			}
 			set {
-				if (int >= 0)
+				if (value >= 0)
 					this.LockUnlock (value > 0);
 			}
 		}
@@ -282,7 +282,7 @@ namespace Gdl
 			}
 			
 			if (objekt is Dock) {
-				if (this.toplevel_docks.Contains (objekt)
+				if (this.toplevel_docks.Contains (objekt))
 					this.toplevel_docks.Remove (objekt);
 				if (objekt == this.controller) {
 					DockObject new_controller = null;

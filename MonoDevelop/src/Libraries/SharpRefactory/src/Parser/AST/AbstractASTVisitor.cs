@@ -509,7 +509,7 @@ namespace ICSharpCode.SharpRefactory.Parser
 		public virtual object Visit(BinaryOperatorExpression binaryOperatorExpression, object data)
 		{
 			binaryOperatorExpression.Left.AcceptVisitor(this, data);
-			return binaryOperatorExpression.Right.AcceptVisitor(this, data);;
+			return binaryOperatorExpression.Right.AcceptVisitor(this, data);
 		}
 		public virtual object Visit(ParenthesizedExpression parenthesizedExpression, object data)
 		{

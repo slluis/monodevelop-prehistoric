@@ -131,9 +131,7 @@
     <File name="./Gui/ErrorHandlers/GenericError.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
     <File name="./Gui/HtmlControl/BrowserNavigateEventArgs.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
     <File name="./Gui/HtmlControl/ControlType.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
-    <File name="./Gui/HtmlControl/GtkHtmlControl.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
     <File name="./Gui/HtmlControl/HtmlControl.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
-    <File name="./Gui/HtmlControl/IEControl.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
     <File name="./Gui/HtmlControl/IHTMLDocument2.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
     <File name="./Gui/HtmlControl/IHTMLElement.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
     <File name="./Gui/HtmlControl/IWebBrowser.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
@@ -399,6 +397,8 @@
     <Reference type="Gac" refto="monodoc, Version=1.0.0.0, Culture=neutral, PublicKeyToken=0738eb9f132ed756" localcopy="True" />
     <Reference type="Gac" refto="pango-sharp, Version=1.0.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" localcopy="True" />
     <Reference type="Gac" refto="ICSharpCode.SharpZipLib, Version=0.6.0.0, Culture=neutral, PublicKeyToken=1b03e6acf1164f73" localcopy="True" />
+    <Reference type="Project" refto="MonoDevelop.Core" localcopy="True" />
+    <Reference type="Project" refto="MonoDevelop.Gui.Widgets" localcopy="True" />
   </References>
   <DeploymentInformation target="" script="" strategy="File" />
   <Configuration runwithwarnings="False" name="Debug">

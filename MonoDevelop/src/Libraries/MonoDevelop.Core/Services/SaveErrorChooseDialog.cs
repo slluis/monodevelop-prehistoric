@@ -5,7 +5,7 @@
 //     <version value="$version"/>
 // </file>
 
-#if !LINUX
+#if false
 
 using System;
 using System.IO;

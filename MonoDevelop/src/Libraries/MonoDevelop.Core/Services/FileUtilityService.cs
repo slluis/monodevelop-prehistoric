@@ -234,7 +234,7 @@ namespace MonoDevelop.Core.Services
 		public FileOperationResult ObservedSave(FileOperationDelegate saveFile, string fileName, string message, FileErrorPolicy policy)
 		{
 			Debug.Assert(IsValidFileName(fileName));
-#if !LINUX			
+#if false			
 			try {
 				saveFile();
 				return FileOperationResult.OK;
@@ -288,7 +288,7 @@ namespace MonoDevelop.Core.Services
 		public FileOperationResult ObservedSave(NamedFileOperationDelegate saveFileAs, string fileName, string message, FileErrorPolicy policy)
 		{
 			Debug.Assert(IsValidFileName(fileName));
-#if !LINUX
+#if false
 			try {
 				fileName = System.IO.Path.GetFullPath (fileName);
 				saveFileAs(fileName);
@@ -356,7 +356,7 @@ namespace MonoDevelop.Core.Services
 		public FileOperationResult ObservedLoad(FileOperationDelegate saveFile, string fileName, string message, FileErrorPolicy policy)
 		{
 			Debug.Assert(IsValidFileName(fileName));
-#if !LINUX
+#if false
 			try {
 				saveFile();
 				return FileOperationResult.OK;

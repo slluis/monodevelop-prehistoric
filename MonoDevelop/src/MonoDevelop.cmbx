@@ -14,6 +14,7 @@
     <Execute entry="ILAsmBinding" type="None" />
     <Execute entry="StartPage" type="None" />
     <Execute entry="Prj2MakeSharp" type="None" />
+    <Execute entry="Gdl" type="None" />
   </StartMode>
   <Entries>
     <Entry filename="./Libraries/SharpAssembly/SharpAssembly.prjx" />
@@ -30,6 +31,7 @@
     <Entry filename="./AddIns/BackendBindings/ILAsmBinding/ILAsmBinding.prjx" />
     <Entry filename="./AddIns/Misc/StartPage/StartPage.prjx" />
     <Entry filename="./AddIns/prj2make-sharp-lib/Prj2MakeSharp.prjx" />
+    <Entry filename="./Libraries/Gdl/Gdl.prjx" />
   </Entries>
   <Configurations active="Debug">
     <Configuration name="Release">
@@ -47,6 +49,7 @@
       <Entry name="ILAsmBinding" configurationname="Debug" build="False" />
       <Entry name="StartPage" configurationname="Debug" build="False" />
       <Entry name="Prj2MakeSharp" configurationname="Debug" build="False" />
+      <Entry name="Gdl" configurationname="Debug" build="False" />
     </Configuration>
     <Configuration name="Debug">
       <Entry name="SharpAssembly" configurationname="Debug" build="False" />
@@ -63,6 +66,7 @@
       <Entry name="ILAsmBinding" configurationname="Debug" build="False" />
       <Entry name="StartPage" configurationname="Debug" build="False" />
       <Entry name="Prj2MakeSharp" configurationname="Debug" build="False" />
+      <Entry name="Gdl" configurationname="Debug" build="False" />
     </Configuration>
   </Configurations>
 </Combine>

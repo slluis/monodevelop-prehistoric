@@ -86,7 +86,7 @@ namespace Gdl
 		public virtual void Reduce ()
 		{
 			if (!this.IsCompound)
-				return
+				return;
 				
 			Gdl.DockObject parent = this.ParentObject;
 			Gtk.Widget[] children = this.Children ();

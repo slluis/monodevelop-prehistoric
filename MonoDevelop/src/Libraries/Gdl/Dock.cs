@@ -261,7 +261,7 @@ gdl_dock_child_type (GtkContainer *container)
 						my_request.Rect = req_rect;
 					} else if (rel_y > alloc.Height - bw) {
 						my_request.Position = DockPlacement.Bottom;
-						req_rect.y += req_rect.Height * (1 - 0.3;
+						req_rect.y += req_rect.Height * (1 - 0.3);
 						req_rect.Height *= 0.3;
 						my_request.Rect = req_rect;
 					} else {

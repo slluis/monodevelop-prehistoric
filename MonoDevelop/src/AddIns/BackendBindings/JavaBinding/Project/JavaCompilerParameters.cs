@@ -46,7 +46,7 @@ namespace JavaBinding
 			public JavaRuntime runtime = JavaRuntime.Ikvm;		
 
 			[XmlAttribute("compilerpath")]
-			public string compilerpath  = "javac";		
+			public string compilerpath  = "gcj";		
 			
 			[XmlAttribute("genwarnings")]
 			public bool genwarnings = false;

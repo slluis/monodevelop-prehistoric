@@ -823,7 +823,7 @@ namespace ICSharpCode.SharpRefactory.Parser
 					if (ch == '\n') {
 						++line;
 						col = 1;
-						return sb.ToString();;
+						return sb.ToString();
 					} else {
 						sb.Append(ch);
 					}

@@ -5,7 +5,6 @@ SOURCES = \
 ./src/AssemblyInfo.cs \
 ./src/CodeDOM/CodeDOMVisitor.cs \
 ./src/Lexer/Lexer.cs \
-./src/Lexer/Tokens.cs \
 ./src/Lexer/Reader/FileReader.cs \
 ./src/Lexer/Reader/IReader.cs \
 ./src/Lexer/Reader/StringReader.cs \
