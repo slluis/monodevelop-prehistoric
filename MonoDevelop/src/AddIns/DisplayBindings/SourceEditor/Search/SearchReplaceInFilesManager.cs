@@ -24,6 +24,8 @@ namespace ICSharpCode.TextEditor.Document
 {
 	public class SearchReplaceInFilesManager
 	{
+		public static ReplaceInFilesDialog ReplaceDialog;
+
 		static IFind find                  = new DefaultFind();
 		static SearchOptions searchOptions = new SearchOptions("SharpDevelop.SearchAndReplace.SearchAndReplaceInFilesProperties");
 		

@@ -134,8 +134,19 @@ namespace ICSharpCode.SharpDevelop.DefaultEditor.Commands
 		public override void Run()
 		{
 			SetSearchPattern();
-			ReplaceInFilesDialog rd = new ReplaceInFilesDialog(false);
-			rd.ShowAll ();
+			if (SearchReplaceInFilesManager.ReplaceDialog != null) {
+				if (SearchReplaceInFilesManager.ReplaceDialog.replaceMode == false) {
+					//SearchReplaceInFilesManager.ReplaceDialog.SetSearchPattern(SearchReplaceInFilesManager.SearchOptions.SearchPattern);
+					SearchReplaceInFilesManager.ReplaceDialog.Present ();
+				} else {
+					SearchReplaceInFilesManager.ReplaceDialog.Destroy ();
+					ReplaceInFilesDialog rd = new ReplaceInFilesDialog (false);
+					rd.ShowAll ();
+				}
+			} else {
+				ReplaceInFilesDialog rd = new ReplaceInFilesDialog(false);
+				rd.ShowAll();
+			}
 		}
 	}
 	
@@ -144,8 +155,20 @@ namespace ICSharpCode.SharpDevelop.DefaultEditor.Commands
 		public override void Run()
 		{
 			FindInFiles.SetSearchPattern();
-			ReplaceInFilesDialog rd = new ReplaceInFilesDialog (true);
-			rd.ShowAll ();
+			
+			if (SearchReplaceInFilesManager.ReplaceDialog != null) {
+				if (SearchReplaceInFilesManager.ReplaceDialog.replaceMode == true) {
+					//SearchReplaceInFilesManager.ReplaceDialog.SetSearchPattern(SearchReplaceInFilesManager.SearchOptions.SearchPattern);
+					SearchReplaceInFilesManager.ReplaceDialog.Present ();
+				} else {
+					SearchReplaceInFilesManager.ReplaceDialog.Destroy ();
+					ReplaceInFilesDialog rd = new ReplaceInFilesDialog (true);
+					rd.ShowAll ();
+				}
+			} else {
+				ReplaceInFilesDialog rd = new ReplaceInFilesDialog(true);
+				rd.ShowAll();
+			}
 		}
 	}
 	

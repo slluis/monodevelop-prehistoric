@@ -18,6 +18,8 @@ using ICSharpCode.Core.Services;
 using ICSharpCode.SharpDevelop.Services;
 using ICSharpCode.TextEditor;
 
+using MonoDevelop.Gui.Widgets;
+
 using Glade;
 using Gtk;
 
@@ -29,7 +31,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 		IMessageService messageService  = (IMessageService)ServiceManager.Services.GetService(typeof(IMessageService));
 		StringParserService stringParserService = (StringParserService)ServiceManager.Services.GetService (typeof (StringParserService));
 		static PropertyService propertyService = (PropertyService)ServiceManager.Services.GetService(typeof(PropertyService));
-		bool replaceMode;
+		public bool replaceMode;
 
 		[Glade.Widget] Gtk.Combo searchPatternComboBox;
 		[Glade.Widget] Gtk.Combo replacePatternComboBox;
@@ -108,9 +110,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 				// set the label properties
 				label2.Text = stringParserService.Parse ("${res:Dialog.NewProject.SearchReplace.ReplaceWith}");
 				//replaceButton.Label = stringParserService.Parse ("${res:Dialog.NewProject.SearchReplace.ReplaceButton}");
-				replaceAllButton.Label = stringParserService.Parse ("${res:Dialog.NewProject.SearchReplace.ReplaceAllButton}");
-				replaceButton.UseUnderline = true;
-				replaceAllButton.UseUnderline = true;
+				//replaceButton.UseUnderline = true;
 				
 				// set te size groups to include the replace dialog
 				labels.AddWidget(label2);
@@ -134,7 +134,17 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 		{
 			// perform the standard closing windows event
 			OnClosed();
-			SearchReplaceManager.ReplaceDialog = null;
+			SearchReplaceInFilesManager.ReplaceDialog = null;
+		}
+
+		public void Present ()
+		{
+			ReplaceDialogPointer.Present ();
+		}
+
+		public void Destroy ()
+		{
+			ReplaceDialogPointer.Destroy ();
 		}
 
 		void CloseDialogEvent(object sender, EventArgs e)
@@ -146,6 +156,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 		public void ShowAll ()
 		{
 			ReplaceDialogPointer.ShowAll ();
+			SearchReplaceInFilesManager.ReplaceDialog = this;
 		}
 
 		public ReplaceInFilesDialog(bool replaceMode)
@@ -249,10 +260,14 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 		
 		void BrowseDirectoryEvent(object sender, EventArgs e)
 		{
-			//FolderDialog fd = new FolderDialog();
+			FolderDialog fd = new FolderDialog("Select directory");
 			//if (fd.DisplayDialog(resourceService.GetString("NewProject.SearchReplace.FindInFilesBrowseLabel")) == DialogResult.OK) {
 			//	ControlDictionary["directoryTextBox"].Text = fd.Path;
 			//}
+			if (fd.Run() == (int)Gtk.ResponseType.Ok)
+			{
+				directoryTextBox.Text = fd.Filename;
+			}
 		}
 		
 		void SearchLocationCheckBoxChangedEvent(object sender, EventArgs e)
