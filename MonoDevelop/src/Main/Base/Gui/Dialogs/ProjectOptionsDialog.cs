@@ -283,7 +283,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs {
 			}
 		}
 		
-		protected virtual void OnButtonRelease(object sender, Gtk.ButtonReleaseEventArgs e)
+		protected override void OnButtonRelease(object sender, Gtk.ButtonReleaseEventArgs e)
 		{	
 			// only interested in right mouse button click
 			if (e.Event.Button == 3) {

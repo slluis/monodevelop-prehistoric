@@ -180,6 +180,12 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs {
 		{
 			TreeViewOptionDialog.Hide ();
 		}
+		
+		// Glade tries to find this event (glade signal is wired to it)
+		protected virtual void OnButtonRelease(object sender, Gtk.ButtonReleaseEventArgs e)
+		{
+			// do nothing. this is need to wire up button release event for ProjectOptionsDialog
+		}
 
 	}
 }
