@@ -50,15 +50,12 @@ namespace MonoDevelop.DefaultEditor.Commands
 		}
 	}
 	
-	
 	public class HighlightingTypeBuilder : ISubmenuBuilder
 	{
-		
 		//TextEditorControl  control      = null;
 		//Gtk.MenuItem[] menuCommands = null;
-		
-		
-		public Gtk.MenuItem[] BuildSubmenu(ConditionCollection conditionCollection, object owner)
+			
+		public Gtk.MenuItem[] BuildSubmenu (ConditionCollection conditionCollection, object owner)
 		{
 			/*
 			control = (TextEditorControl)owner;
@@ -77,7 +74,7 @@ namespace MonoDevelop.DefaultEditor.Commands
 			return null;
 		}
 		
-		void ChangeSyntax(object sender, EventArgs e)
+		void ChangeSyntax (object sender, EventArgs e)
 		{
 			/*
 			if (control != null) {

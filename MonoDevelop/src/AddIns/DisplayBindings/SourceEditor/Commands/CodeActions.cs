@@ -19,9 +19,7 @@ using MonoDevelop.TextEditor.Document;
 using MonoDevelop.Gui;
 using MonoDevelop.TextEditor.Actions;
 using MonoDevelop.TextEditor;
-using SharpDevelop.Internal.Parser;
 using MonoDevelop.Services;
-
 using MonoDevelop.EditorBindings.FormattingStrategy;
 using MonoDevelop.SourceEditor.Gui;
 

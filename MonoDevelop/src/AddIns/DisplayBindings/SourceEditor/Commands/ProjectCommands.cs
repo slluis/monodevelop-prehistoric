@@ -6,18 +6,12 @@
 // </file>
 
 using System;
-using System.IO;
-using System.Collections;
-using System.Text;
 
-using MonoDevelop.Core.AddIns;
-using MonoDevelop.Core.Properties;
+using MonoDevelop.Services;
 using MonoDevelop.Core.AddIns.Codons;
 using MonoDevelop.Core.Services;
-using MonoDevelop.Services;
-using MonoDevelop.Gui.Dialogs;
-using MonoDevelop.TextEditor.Document;
 using MonoDevelop.Gui;
+using MonoDevelop.Gui.Dialogs;
 
 namespace MonoDevelop.DefaultEditor.Commands
 {
@@ -25,16 +19,15 @@ namespace MonoDevelop.DefaultEditor.Commands
 	{
 		public override void Run()
 		{
-			IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
+			IProjectService projectService = (IProjectService) MonoDevelop.Core.Services.ServiceManager.Services.GetService (typeof (IProjectService));
 			if (projectService.CurrentSelectedProject != null) {
-			/*
-				ExportProjectToHtmlDialog ephd = new ExportProjectToHtmlDialog (projectService.CurrentSelectedProject);
-				ephd.TransientFor = (Gtk.Window) WorkbenchSingleton.Workbench;
-				ephd.Run ();
-				ephd.Hide ();
-				ephd.Dispose();*/
+			
+				using (ExportProjectToHtmlDialog ephd = new ExportProjectToHtmlDialog (projectService.CurrentSelectedProject)) {
+					ephd.TransientFor = (Gtk.Window) WorkbenchSingleton.Workbench;
+					ephd.Run ();
+					ephd.Hide ();
+				}
 			}
 		}
 	}
-
 }

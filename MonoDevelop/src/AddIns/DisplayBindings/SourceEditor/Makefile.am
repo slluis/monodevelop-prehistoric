@@ -21,7 +21,8 @@ FILES = ./AssemblyInfo.cs \
 ./Gui/OptionPanels/MarkersTextEditorPanel.cs \
 ./Gui/OptionPanels/CodeTemplatePanel.cs \
 ./Gui/OptionPanels/GeneralTextEditorPanel.cs \
-./Gui/EditTemplateGroupDialog.cs \
+./Gui/Dialogs/EditTemplateGroupDialog.cs \
+./Gui/Dialogs/ExportProjectToHtmlDialog.cs \
 ./Gui/Dialogs/GotoLineNumberDialog.cs \
 ./Gui/Dialogs/ReplaceDialog.cs \
 ./Gui/Dialogs/ReplaceInFilesDialog.cs \

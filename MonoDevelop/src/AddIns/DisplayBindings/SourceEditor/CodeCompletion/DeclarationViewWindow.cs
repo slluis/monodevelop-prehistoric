@@ -11,15 +11,15 @@ using System.Reflection;
 using System.Collections;
 
 using Gtk;
-using GtkSharp;
 
 namespace MonoDevelop.SourceEditor.CodeCompletion
 {
-	public class DeclarationViewWindow : Gtk.Window
+	public class DeclarationViewWindow : Window
 	{
 		Label label;
 		
-		public string DescriptionMarkup {
+		public string DescriptionMarkup
+		{
 			get {
 				return label.Text;
 			}
@@ -32,9 +32,9 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 		
 		public DeclarationViewWindow () : base (WindowType.Popup)
 		{
-			Gtk.Frame frame = new Gtk.Frame ();
+			Frame frame = new Frame ();
 			frame.Add (label = new Label (""));
-			Add (frame);
+			this.Add (frame);
 		}
 	}
 }

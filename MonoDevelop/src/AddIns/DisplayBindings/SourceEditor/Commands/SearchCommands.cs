@@ -9,21 +9,17 @@ using System;
 using System.IO;
 using System.Threading;
 using System.Drawing;
-using System.Drawing.Printing;
 using System.Collections;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Text;
 
 using MonoDevelop.Core.AddIns;
-
 using MonoDevelop.Core.Properties;
 using MonoDevelop.Core.AddIns.Codons;
-
 using MonoDevelop.TextEditor;
 using MonoDevelop.TextEditor.Actions;
 using MonoDevelop.TextEditor.Document;
-
 using MonoDevelop.Gui.Dialogs;
 using MonoDevelop.Gui;
 using MonoDevelop.SourceEditor.Gui;
@@ -33,7 +29,8 @@ namespace MonoDevelop.DefaultEditor.Commands
 	
 	public abstract class AbstractEditActionMenuCommand : AbstractMenuCommand
 	{
-		public abstract IEditAction EditAction {
+		public abstract IEditAction EditAction
+		{
 			get;
 		}
 		
@@ -52,7 +49,7 @@ namespace MonoDevelop.DefaultEditor.Commands
 	
 	public class Find : AbstractMenuCommand
 	{
-		public static void SetSearchPattern()
+		public static void SetSearchPattern ()
 		{
 			IWorkbenchWindow window = WorkbenchSingleton.Workbench.ActiveWorkbenchWindow;
 
@@ -68,7 +65,6 @@ namespace MonoDevelop.DefaultEditor.Commands
 		
 		public override void Run()
 		{
-			
 			SetSearchPattern();
 			if (SearchReplaceManager.ReplaceDialog != null) {
 				if (SearchReplaceManager.ReplaceDialog.replaceMode == false) {
@@ -80,7 +76,7 @@ namespace MonoDevelop.DefaultEditor.Commands
 					rd.ShowAll ();
 				}
 			} else {
-				ReplaceDialog rd = new ReplaceDialog(false);
+				ReplaceDialog rd = new ReplaceDialog (false);
 				rd.ShowAll();
 			}
 		}
@@ -88,17 +84,17 @@ namespace MonoDevelop.DefaultEditor.Commands
 	
 	public class FindNext : AbstractMenuCommand
 	{
-		public override void Run()
+		public override void Run ()
 		{
-			SearchReplaceManager.FindNext();
+			SearchReplaceManager.FindNext ();
 		}
 	}
 	
 	public class Replace : AbstractMenuCommand
 	{
-		public override void Run()
+		public override void Run ()
 		{ 
-			Find.SetSearchPattern();
+			Find.SetSearchPattern ();
 			
 			if (SearchReplaceManager.ReplaceDialog != null) {
 				if (SearchReplaceManager.ReplaceDialog.replaceMode == true) {
@@ -118,7 +114,7 @@ namespace MonoDevelop.DefaultEditor.Commands
 	
 	public class FindInFiles : AbstractMenuCommand
 	{
-		public static void SetSearchPattern()
+		public static void SetSearchPattern ()
 		{
 			IWorkbenchWindow window = WorkbenchSingleton.Workbench.ActiveWorkbenchWindow;
 			if (window != null && window.ViewContent is SourceEditorDisplayBindingWrapper)
@@ -130,9 +126,9 @@ namespace MonoDevelop.DefaultEditor.Commands
 			}
 		}
 		
-		public override void Run()
+		public override void Run ()
 		{
-			SetSearchPattern();
+			SetSearchPattern ();
 			if (SearchReplaceInFilesManager.ReplaceDialog != null) {
 				if (SearchReplaceInFilesManager.ReplaceDialog.replaceMode == false) {
 					//SearchReplaceInFilesManager.ReplaceDialog.SetSearchPattern(SearchReplaceInFilesManager.SearchOptions.SearchPattern);
@@ -153,7 +149,7 @@ namespace MonoDevelop.DefaultEditor.Commands
 	{
 		public override void Run()
 		{
-			FindInFiles.SetSearchPattern();
+			FindInFiles.SetSearchPattern ();
 			
 			if (SearchReplaceInFilesManager.ReplaceDialog != null) {
 				if (SearchReplaceInFilesManager.ReplaceDialog.replaceMode == true) {
@@ -165,15 +161,15 @@ namespace MonoDevelop.DefaultEditor.Commands
 					rd.ShowAll ();
 				}
 			} else {
-				ReplaceInFilesDialog rd = new ReplaceInFilesDialog(true);
-				rd.ShowAll();
+				ReplaceInFilesDialog rd = new ReplaceInFilesDialog (true);
+				rd.ShowAll ();
 			}
 		}
 	}
 	
 	public class GotoLineNumber : AbstractMenuCommand
 	{
-		public override void Run()
+		public override void Run ()
 		{
 			if (!GotoLineNumberDialog.IsVisible)
 				using (GotoLineNumberDialog gnd = new GotoLineNumberDialog ())

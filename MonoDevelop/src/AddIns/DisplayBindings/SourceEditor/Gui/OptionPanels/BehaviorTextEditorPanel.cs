@@ -13,16 +13,14 @@ using MonoDevelop.Internal.ExternalTool;
 using MonoDevelop.Internal.Templates;
 using MonoDevelop.Core.Properties;
 using MonoDevelop.Core.AddIns.Codons;
-
 using MonoDevelop.Core.Services;
-
 using MonoDevelop.TextEditor;
 using MonoDevelop.TextEditor.Document;
 using MonoDevelop.Gui.Dialogs;
-
-using Gtk;
 using MonoDevelop.Gui.Widgets;
 using MonoDevelop.EditorBindings.FormattingStrategy;
+
+using Gtk;
 
 namespace MonoDevelop.EditorBindings.Gui.OptionPanels
 {
@@ -33,12 +31,12 @@ namespace MonoDevelop.EditorBindings.Gui.OptionPanels
 	{
 		BehaviorTextEditorPanelWidget widget;
 		
-		public override void LoadPanelContents()
+		public override void LoadPanelContents ()
 		{
 			Add (widget = new BehaviorTextEditorPanelWidget ((IProperties) CustomizationObject));
 		}
 		
-		public override bool StorePanelContents()
+		public override bool StorePanelContents ()
 		{
 			widget.Store ((IProperties) CustomizationObject);
 			return true;
@@ -51,27 +49,27 @@ namespace MonoDevelop.EditorBindings.Gui.OptionPanels
 				StringParserService)ServiceManager.Services.GetService (typeof (StringParserService));
 			
 			// GTK controls
-			[Glade.Widget] Label			tabsGroupBoxLabel;
-			[Glade.Widget] Label			behaviourGroupBoxLabel;
-			[Glade.Widget] Label			tabSizeLabel;
-			[Glade.Widget] Label			indentSizeLabel;
-			[Glade.Widget] Label			indentLabel;
-			[Glade.Widget] CheckButton		autoinsertCurlyBraceCheckBox;
-			[Glade.Widget] CheckButton		hideMouseCursorCheckBox;
-			[Glade.Widget] CheckButton		caretBehindEOLCheckBox;
-			[Glade.Widget] CheckButton		autoInsertTemplatesCheckBox;
-			[Glade.Widget] CheckButton		convertTabsToSpacesCheckBox;
-			[Glade.Widget] RadioButton              noneIndentStyle;
-			[Glade.Widget] RadioButton              automaticIndentStyle;
-			[Glade.Widget] RadioButton              smartIndentStyle;
-			[Glade.Widget] SpinButton               indentAndTabSizeSpinButton;
+			[Glade.Widget] Label tabsGroupBoxLabel;
+			[Glade.Widget] Label behaviourGroupBoxLabel;
+			[Glade.Widget] Label tabSizeLabel;
+			[Glade.Widget] Label indentSizeLabel;
+			[Glade.Widget] Label indentLabel;
+			[Glade.Widget] CheckButton autoinsertCurlyBraceCheckBox;
+			[Glade.Widget] CheckButton hideMouseCursorCheckBox;
+			[Glade.Widget] CheckButton caretBehindEOLCheckBox;
+			[Glade.Widget] CheckButton autoInsertTemplatesCheckBox;
+			[Glade.Widget] CheckButton convertTabsToSpacesCheckBox;
+			[Glade.Widget] RadioButton noneIndentStyle;
+			[Glade.Widget] RadioButton automaticIndentStyle;
+			[Glade.Widget] RadioButton smartIndentStyle;
+			[Glade.Widget] SpinButton indentAndTabSizeSpinButton;
 			
 			public BehaviorTextEditorPanelWidget (IProperties CustomizationObject) :  
 				base ("EditorBindings.glade", "BehaviorTextEditorPanel")
 			{
 				// Set up Text
 
-				//FIXME: i8n the following Labels
+				//FIXME: i18n the following Labels
 				noneIndentStyle.Label =      "None";
 				automaticIndentStyle.Label = "Automatic"; 
 				// FIXME: renable this when smart indent is back

@@ -14,7 +14,6 @@ using System.Text;
 using MonoDevelop.Core.AddIns;
 using MonoDevelop.Core.Properties;
 using MonoDevelop.Core.AddIns.Codons;
-
 using MonoDevelop.Gui.Dialogs;
 using MonoDevelop.TextEditor.Document;
 using MonoDevelop.TextEditor;

@@ -6,10 +6,7 @@
 // </file>
 
 using System;
-
 using MonoDevelop.SourceEditor.Gui;
-
-using Gdk;
 
 namespace MonoDevelop.TextEditor.Actions
 {
@@ -22,7 +19,8 @@ namespace MonoDevelop.TextEditor.Actions
 		/// <value>
 		/// An array of keys on which this edit action occurs.
 		/// </value>
-		Gdk.Key[] Keys {
+		Gdk.Key[] Keys
+		{
 			get;
 			set;
 		}
@@ -30,7 +28,7 @@ namespace MonoDevelop.TextEditor.Actions
 		/// <remarks>
 		/// When the key which is defined per XML is pressed, this method will be launched.
 		/// </remarks>
-		void Execute(SourceEditorView textArea);
+		void Execute (SourceEditorView textArea);
 	}
 	
 	/// <summary>
@@ -44,7 +42,8 @@ namespace MonoDevelop.TextEditor.Actions
 		/// <value>
 		/// An array of keys on which this edit action occurs.
 		/// </value>
-		public Gdk.Key[] Keys {
+		public Gdk.Key[] Keys
+		{
 			get {
 				return keys;
 			}
@@ -56,6 +55,6 @@ namespace MonoDevelop.TextEditor.Actions
 		/// <remarks>
 		/// When the key which is defined per XML is pressed, this method will be launched.
 		/// </remarks>
-		public abstract void Execute(SourceEditorView textArea);
+		public abstract void Execute (SourceEditorView textArea);
 	}		
 }

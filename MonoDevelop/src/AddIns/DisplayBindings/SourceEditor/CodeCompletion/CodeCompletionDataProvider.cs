@@ -46,8 +46,8 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 		{
 			//FIXME: THIS IS A HACK
 			string lang = "C#";
-			Console.WriteLine ("resolve " + lang);
-			Console.WriteLine ("nm " + fileName);
+			//Console.WriteLine ("resolve " + lang);
+			//Console.WriteLine ("nm " + fileName);
 			completionData = new ArrayList();
 			this.fileName = fileName;
 		
@@ -63,6 +63,7 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 			if (expression.Length == 0) {
 				return null;
 			}
+			
 			IParserService           parserService           = (IParserService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IParserService));
 			if (charTyped == ' ') {
 				if (expression == "using" || expression.EndsWith(" using") || expression.EndsWith("\tusing")|| expression.EndsWith("\nusing")|| expression.EndsWith("\rusing")) {
@@ -89,7 +90,7 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 			} else {
 				//FIXME: I added the null check, #D doesnt need it, why do we?
 				if (fileName != null) {
-					Console.WriteLine ("resolve " + lang);
+					//Console.WriteLine ("resolve " + lang);
 					results = parserService.Resolve(expression, 
 				                                caretLineNumber,
 				                                caretColumn,
@@ -100,10 +101,10 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 				}
 			}
 			
-			return (ICompletionData[])completionData.ToArray(typeof(ICompletionData));
+			return (ICompletionData[]) completionData.ToArray (typeof (ICompletionData));
 		}
 		
-		void AddResolveResults(ResolveResult results)
+		void AddResolveResults (ResolveResult results)
 		{
 			if (results != null) {
 				completionData.Capacity += results.Namespaces.Count +
@@ -111,31 +112,31 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 				
 				if (results.Namespaces != null && results.Namespaces.Count > 0) {
 					foreach (string s in results.Namespaces) {
-						completionData.Add(new CodeCompletionData(s, Stock.NameSpace));
+						completionData.Add (new CodeCompletionData (s, Stock.NameSpace));
 					}
 				}
 				if (results.Members != null && results.Members.Count > 0) {
 					foreach (object o in results.Members) {
 						if (o is IClass) {
-							completionData.Add(new CodeCompletionData((IClass)o));
+							completionData.Add (new CodeCompletionData ((IClass)o));
 						} else if (o is IProperty) {
-							IProperty property = (IProperty)o;
+							IProperty property = (IProperty) o;
 							if (property.Name != null && insertedPropertiesElements[property.Name] == null) {
-								completionData.Add(new CodeCompletionData(property));
+								completionData.Add (new CodeCompletionData (property));
 								insertedPropertiesElements[property.Name] = property;
 							}
 						} else if (o is IMethod) {
-							IMethod method = (IMethod)o;
+							IMethod method = (IMethod) o;
 							if (method.Name != null && insertedElements[method.Name] == null && !method.IsConstructor) {
-								completionData.Add(new CodeCompletionData(method));
+								completionData.Add (new CodeCompletionData(method));
 								insertedElements[method.Name] = method;
 							}
 						} else if (o is IField) {
-							completionData.Add(new CodeCompletionData((IField)o));
+							completionData.Add (new CodeCompletionData ((IField)o));
 						} else if (o is IEvent) {
-							IEvent e = (IEvent)o;
+							IEvent e = (IEvent) o;
 							if (e.Name != null && insertedEventElements[e.Name] == null) {
-								completionData.Add(new CodeCompletionData(e));
+								completionData.Add (new CodeCompletionData (e));
 								insertedEventElements[e.Name] = e;
 							}
 						}

@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Runtime.InteropServices;
 
 using MonoDevelop.Gui;
 using MonoDevelop.Internal.Project;
@@ -8,20 +9,19 @@ using MonoDevelop.Core.AddIns;
 using MonoDevelop.Core.Services;
 using MonoDevelop.Services;
 using MonoDevelop.Core.AddIns.Codons;
-using System.Runtime.InteropServices;
-
-using Gtk;
-using GtkSharp;
-
 using MonoDevelop.Gui.Utils;
 using MonoDevelop.EditorBindings.Properties;
 using MonoDevelop.EditorBindings.FormattingStrategy;
-
 using MonoDevelop.Services;
 
-namespace MonoDevelop.SourceEditor.Gui {
-	public class SourceEditorDisplayBinding : IDisplayBinding {
+using Gtk;
 
+namespace MonoDevelop.SourceEditor.Gui
+{
+	public class SourceEditorDisplayBinding : IDisplayBinding
+	{
+		StringParserService sps = (StringParserService) ServiceManager.Services.GetService (typeof (StringParserService));
+		
 		static SourceEditorDisplayBinding ()
 		{
 			GtkSourceView.Init ();
@@ -34,8 +34,10 @@ namespace MonoDevelop.SourceEditor.Gui {
 
 		public virtual bool CanCreateContentForMimeType (string mimetype)
 		{
-			if (mimetype == null) return false;
-			if (mimetype.StartsWith ("text")) return true;
+			if (mimetype == null)
+				return false;
+			if (mimetype.StartsWith ("text"))
+				return true;
 			return false;
 		}
 		
@@ -54,29 +56,18 @@ namespace MonoDevelop.SourceEditor.Gui {
 		
 		public virtual IViewContent CreateContentForLanguage (string language, string content)
 		{
-			SourceEditorDisplayBindingWrapper w = new SourceEditorDisplayBindingWrapper ();
-			
-			// HACK HACK
-			if (language == "C#")
-				language = "text/x-csharp";
-			else
-				language = "text/plain";
-			
-			w.LoadString (language, content);
-			return w;
+			return CreateContentForLanguage (language, content, null);
 		}
 		
 		public virtual IViewContent CreateContentForLanguage (string language, string content, string new_file_name)
 		{
 			SourceEditorDisplayBindingWrapper w = new SourceEditorDisplayBindingWrapper ();
 			
-			// HACK HACK
+			// FIXME
 			if (language == "C#")
 				language = "text/x-csharp";
 			else
 				language = "text/plain";
-			
-			StringParserService sps = (StringParserService)ServiceManager.Services.GetService (typeof (StringParserService));
 			
 			w.LoadString (language, sps.Parse (content));
 			return w;
@@ -128,13 +119,11 @@ namespace MonoDevelop.SourceEditor.Gui {
 		
 		public void JumpTo (int line, int column)
 		{
-			// NOTE: 0 based!
-			
+			// NOTE: 0 based!			
 			TextIter itr = se.Buffer.GetIterAtLine (line);
 			itr.LineOffset = column;
 			
-			se.Buffer.PlaceCursor (itr);
-			
+			se.Buffer.PlaceCursor (itr);		
 			se.View.ScrollMarkOnscreen (se.Buffer.InsertMark);
 			se.View.GrabFocus ();
 		}
@@ -161,8 +150,10 @@ namespace MonoDevelop.SourceEditor.Gui {
 			this.IsDirty = se.Buffer.Modified;
 		}
 		
-		public override bool IsReadOnly {
+		public override bool IsReadOnly
+		{
 			get {
+				// FIXME
 				return false;
 			}
 		}
@@ -196,8 +187,7 @@ namespace MonoDevelop.SourceEditor.Gui {
 		public void InsertAtCursor (string s)
 		{
 			se.Buffer.InsertAtCursor (s);
-			se.View.ScrollMarkOnscreen (se.Buffer.InsertMark);
-			
+			se.View.ScrollMarkOnscreen (se.Buffer.InsertMark);		
 		}
 		
 		public void LoadString (string mime, string val)
@@ -228,6 +218,7 @@ namespace MonoDevelop.SourceEditor.Gui {
 			se.Buffer.Redo ();
 		}
 #endregion
+
 #region Status Bar Handling
 		IStatusBarService statusBarService = (IStatusBarService) ServiceManager.Services.GetService (typeof (IStatusBarService));
 		
@@ -281,9 +272,7 @@ namespace MonoDevelop.SourceEditor.Gui {
 				iter.ForwardChar ();
 			}
 			
-			// NOTE: this is absurd, *I* should tell the status bar which numbers
-			// to print.
-			statusBarService.SetCaretPosition (col - 1, iter.Line, chr - 1);
+			statusBarService.SetCaretPosition (iter.Line + 1, col, chr);
 		}
 		
 		// This is false because we at first `toggle' it to set it to true
@@ -318,22 +307,27 @@ namespace MonoDevelop.SourceEditor.Gui {
 		
 		void PropertiesChanged (object sender, PropertyEventArgs e)
  		{
+ 			// FIXME: do these seperately
 			se.View.ModifyFont (TextEditorProperties.Font);
 			se.View.ShowLineNumbers = TextEditorProperties.ShowLineNumbers;
 			se.Buffer.CheckBrackets = TextEditorProperties.ShowMatchingBracket;
 			se.View.ShowMargin = TextEditorProperties.ShowVerticalRuler;
+			
 			if (TextEditorProperties.VerticalRulerRow > -1) {
 				se.View.Margin = (uint) TextEditorProperties.VerticalRulerRow;
 			} else {
 				se.View.Margin = (uint) 80;		// FIXME: should i be doing this on a bad vruller setting?
 			}
+			
 			if (TextEditorProperties.TabIndent > -1) {
 				se.View.TabsWidth = (uint) TextEditorProperties.TabIndent;
 			} else {
-				se.View.TabsWidth = (uint) 8;	// FIXME: should i be doing this on a bad tabindent setting?
+				se.View.TabsWidth = (uint) 4;	// FIXME: should i be doing this on a bad tabindent setting?
 			}
+			
 			se.View.InsertSpacesInsteadOfTabs = TextEditorProperties.ConvertTabsToSpaces;
 			se.View.AutoIndent = (TextEditorProperties.IndentStyle == IndentStyle.Auto);
+			
 			//System.Console.WriteLine(e.Key + " = " + e.NewValue + "(from " + e.OldValue + ")" );
 					// The items below can't be done (since there is no support for it in gtksourceview)
 					// CANTDO: show spaces				Key = "ShowSpaces"
@@ -347,9 +341,8 @@ namespace MonoDevelop.SourceEditor.Gui {
 					// TODO: Code Folding				Key = "EnableFolding"
 					// TODO: Double Buffering			Key = "DoubleBuffer"
 					// TODO: can move past EOL 			Key = "CursorBehindEOL"
-					// TODO: auot insert template		Key = "AutoInsertTemplates"	
+					// TODO: auto insert template		Key = "AutoInsertTemplates"	
 					// TODO: hide mouse while typing 	Key = "HideMouseCursor"
  		}
-
 	}
 }

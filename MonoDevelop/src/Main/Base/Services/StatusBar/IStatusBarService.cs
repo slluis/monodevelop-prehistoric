@@ -30,8 +30,8 @@ namespace MonoDevelop.Services
 		void SetMessage(string message);					
 		//void SetMessage(Image image, string message);
 		
-		void SetCaretPosition(int x, int y, int charOffset);
-		void SetInsertMode(bool insertMode);
+		void SetCaretPosition (int ln, int col, int ch);
+		void SetInsertMode (bool insertMode);
 		
 		void RedrawStatusbar();
 	}

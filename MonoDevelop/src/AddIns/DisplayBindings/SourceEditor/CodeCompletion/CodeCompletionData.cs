@@ -14,26 +14,28 @@ using System.IO;
 using SharpDevelop.Internal.Parser;
 using MonoDevelop.Services;
 using MonoDevelop.Core.Services;
-
 using MonoDevelop.SourceEditor.Gui;
 
-namespace MonoDevelop.SourceEditor.CodeCompletion {
-	class CodeCompletionData : ICompletionDataWithMarkup {
-		static ClassBrowserIconsService classBrowserIconService = (ClassBrowserIconsService)ServiceManager.Services.GetService(typeof(ClassBrowserIconsService));
-		static IParserService           parserService           = (IParserService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IParserService));
-		static AmbienceService          ambienceService = (AmbienceService)ServiceManager.Services.GetService(typeof(AmbienceService));
+namespace MonoDevelop.SourceEditor.CodeCompletion
+{
+	class CodeCompletionData : ICompletionDataWithMarkup
+	{
+		ClassBrowserIconsService classBrowserIconService = (ClassBrowserIconsService) ServiceManager.Services.GetService (typeof (ClassBrowserIconsService));
+		IParserService parserService = (IParserService) MonoDevelop.Core.Services.ServiceManager.Services.GetService (typeof (IParserService));
+		static AmbienceService ambienceService = (AmbienceService) ServiceManager.Services.GetService (typeof (AmbienceService));
 		
-		string   image;
-		int      overloads;
-		string   text;
-		string   description;
-		string   pango_description;
-		string   documentation;
-		string   completionString;
-		IClass   c;
-		bool     convertedDocumentation = false;
+		string image;
+		int overloads;
+		string text;
+		string description;
+		string pango_description;
+		string documentation;
+		string completionString;
+		IClass c;
+		bool convertedDocumentation = false;
 		
-		static IAmbience PangoAmbience {
+		static IAmbience PangoAmbience
+		{
 			get {
 				IAmbience asvc = ambienceService.CurrentAmbience;
 				asvc.ConversionFlags |= ConversionFlags.IncludePangoMarkup;
@@ -41,7 +43,8 @@ namespace MonoDevelop.SourceEditor.CodeCompletion {
 			}
 		}
 		
-		public int Overloads {
+		public int Overloads
+		{
 			get {
 				return overloads;
 			}
@@ -50,7 +53,8 @@ namespace MonoDevelop.SourceEditor.CodeCompletion {
 			}
 		}
 		
-		public string Image {
+		public string Image
+		{
 			get {
 				return image;
 			}
@@ -59,7 +63,8 @@ namespace MonoDevelop.SourceEditor.CodeCompletion {
 			}
 		}
 		
-		public string[] Text {
+		public string[] Text
+		{
 			get {
 				return new string[] { text };
 			}
@@ -67,7 +72,9 @@ namespace MonoDevelop.SourceEditor.CodeCompletion {
 				text = value[0];
 			}
 		}
-		public string Description {
+		
+		public string Description
+		{
 			get {
 				// get correct delegate description (when description is requested)
 				// in the classproxies aren't methods saved, therefore delegate methods
@@ -105,7 +112,8 @@ namespace MonoDevelop.SourceEditor.CodeCompletion {
 			}
 		}
 		
-		public string DescriptionPango {
+		public string DescriptionPango
+		{
 			get {
 				// get correct delegate description (when description is requested)
 				// in the classproxies aren't methods saved, therefore delegate methods
@@ -143,7 +151,7 @@ namespace MonoDevelop.SourceEditor.CodeCompletion {
 			}
 		}
 		
-		public CodeCompletionData(string s, string image)
+		public CodeCompletionData (string s, string image)
 		{
 			description = pango_description = documentation = String.Empty;
 			text = s;
@@ -151,7 +159,7 @@ namespace MonoDevelop.SourceEditor.CodeCompletion {
 			this.image = image;
 		}
 		
-		public CodeCompletionData(IClass c)
+		public CodeCompletionData (IClass c)
 		{
 			// save class (for the delegate description shortcut
 			this.c = c;
@@ -163,7 +171,7 @@ namespace MonoDevelop.SourceEditor.CodeCompletion {
 			documentation = c.Documentation;
 		}
 		
-		public CodeCompletionData(IMethod method)
+		public CodeCompletionData (IMethod method)
 		{
 			image  = classBrowserIconService.GetIcon(method);
 			text        = method.Name;
@@ -173,7 +181,7 @@ namespace MonoDevelop.SourceEditor.CodeCompletion {
 			documentation = method.Documentation;
 		}
 		
-		public CodeCompletionData(IField field)
+		public CodeCompletionData (IField field)
 		{
 			image  = classBrowserIconService.GetIcon(field);
 			text        = field.Name;
@@ -183,7 +191,7 @@ namespace MonoDevelop.SourceEditor.CodeCompletion {
 			documentation = field.Documentation;
 		}
 		
-		public CodeCompletionData(IProperty property)
+		public CodeCompletionData (IProperty property)
 		{
 			image  = classBrowserIconService.GetIcon(property);
 			text        = property.Name;
@@ -193,7 +201,7 @@ namespace MonoDevelop.SourceEditor.CodeCompletion {
 			documentation = property.Documentation;
 		}
 		
-		public CodeCompletionData(IEvent e)
+		public CodeCompletionData (IEvent e)
 		{
 			image  = classBrowserIconService.GetIcon(e);
 			text        = e.Name;
@@ -203,12 +211,12 @@ namespace MonoDevelop.SourceEditor.CodeCompletion {
 			documentation = e.Documentation;
 		}
 		
-		public void InsertAction(SourceEditorView control)
+		public void InsertAction (SourceEditorView control)
 		{
 			control.Buffer.InsertAtCursor (completionString);
 		}
 
-		public static string GetDocumentation(string doc)
+		public static string GetDocumentation (string doc)
 		{
 			System.IO.StringReader reader = new System.IO.StringReader("<docroot>" + doc + "</docroot>");
 			XmlTextReader xml   = new XmlTextReader(reader);
@@ -247,18 +255,24 @@ namespace MonoDevelop.SourceEditor.CodeCompletion {
 					} else if (xml.NodeType == XmlNodeType.Text) {
 						ret.Append(whitespace.Replace(xml.Value, " "));
 					}
-				} while(xml.Read());
+				} while (xml.Read ());
 			} catch {
 				return doc;
 			}
-			return ret.ToString();
+			return ret.ToString ();
 		}
 		
-		static string GetCref(string cref)
+		static string GetCref (string cref)
 		{
-			if (cref == null) return "";
-			if (cref.Length < 2) return cref;
-			if (cref.Substring(1, 1) == ":") return cref.Substring(2, cref.Length - 2);
+			if (cref == null)
+				return "";
+			
+			if (cref.Length < 2)
+				return cref;
+			
+			if (cref.Substring(1, 1) == ":")
+				return cref.Substring (2, cref.Length - 2);
+			
 			return cref;
 		}
 	

@@ -12,13 +12,15 @@ using System.Collections;
 
 using MonoDevelop.Core.Properties;
 using MonoDevelop.Internal.Templates;
-
 using MonoDevelop.SourceEditor.Gui;
 using Stock = MonoDevelop.Gui.Stock;
 
-namespace MonoDevelop.SourceEditor.CodeCompletion {
-	public class TemplateCompletionDataProvider : ICompletionDataProvider {
-		public Gdk.Pixbuf[] ImageList {
+namespace MonoDevelop.SourceEditor.CodeCompletion
+{
+	public class TemplateCompletionDataProvider : ICompletionDataProvider
+	{
+		public Gdk.Pixbuf[] ImageList
+		{
 			get {
 				return null;
 			}
@@ -42,19 +44,22 @@ namespace MonoDevelop.SourceEditor.CodeCompletion {
 		{
 			CodeTemplate template;
 			
-			public string Image {
+			public string Image
+			{
 				get {
 					return Stock.Method;
 				}
 			}
 			
-			public string[] Text {
+			public string[] Text
+			{
 				get {
 					return new string[] { template.Shortcut, template.Description };
 				}
 			}
 			
-			public string Description {
+			public string Description
+			{
 				get {
 					return template.Text;
 				}

@@ -22,7 +22,7 @@ namespace MonoDevelop.DefaultEditor.Commands
 {
 	public class CommentRegion : AbstractMenuCommand
 	{ 
-		public override void Run()
+		public override void Run ()
 		{
 			Console.WriteLine ("Not ported to the new editor yet");
 			/*

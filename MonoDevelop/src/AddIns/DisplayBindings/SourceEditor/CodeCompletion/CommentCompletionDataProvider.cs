@@ -20,11 +20,13 @@ using SharpDevelop.Internal.Parser;
 using MonoDevelop.SourceEditor.Gui;
 using Stock = MonoDevelop.Gui.Stock;
 
-namespace MonoDevelop.SourceEditor.CodeCompletion {
+namespace MonoDevelop.SourceEditor.CodeCompletion
+{
 	/// <summary>
 	/// Data provider for code completion.
 	/// </summary>
-	public class CommentCompletionDataProvider : ICompletionDataProvider {
+	public class CommentCompletionDataProvider : ICompletionDataProvider
+	{
 		static ClassBrowserIconsService classBrowserIconService = (ClassBrowserIconsService)ServiceManager.Services.GetService(typeof(ClassBrowserIconsService));
 		static IParserService           parserService           = (IParserService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IParserService));
 		
@@ -56,12 +58,12 @@ namespace MonoDevelop.SourceEditor.CodeCompletion {
 		/// <remarks>
 		/// Returns true, if the given coordinates (row, column) are in the region.
 		/// </remarks>
-		bool IsBetween(int row, int column, IRegion region)
+		bool IsBetween (int row, int column, IRegion region)
 		{
 			return row >= region.BeginLine && (row <= region.EndLine || region.EndLine == -1);
 		}
 		
-		public ICompletionData[] GenerateCompletionData(string fileName, SourceEditorView textArea, char charTyped)
+		public ICompletionData[] GenerateCompletionData (string fileName, SourceEditorView textArea, char charTyped)
 		{
 			/*caretLineNumber = textArea.Caret.Line;
 			caretColumn     = textArea.Caret.Column;
@@ -71,11 +73,11 @@ namespace MonoDevelop.SourceEditor.CodeCompletion {
 				return null;
 			}
 			*/
-			ArrayList completionData = new ArrayList();
+			ArrayList completionData = new ArrayList ();
 			/*foreach (string[] tag in commentTags) {
 				completionData.Add(new CommentCompletionData(tag[0], tag[1]));
 			}*/
-			return (ICompletionData[])completionData.ToArray(typeof(ICompletionData));
+			return (ICompletionData[])completionData.ToArray (typeof (ICompletionData));
 		}
 		
 		class CommentCompletionData : ICompletionData
@@ -83,32 +85,35 @@ namespace MonoDevelop.SourceEditor.CodeCompletion {
 			string text;
 			string description;
 			
-			public string Image {
+			public string Image
+			{
 				get {
 					return Stock.Method;
 				}
 			}
 			
-			public string[] Text {
+			public string[] Text
+			{
 				get {
 					return new string[] { text };
 				}
 			}
 			
-			public string Description {
+			public string Description
+			{
 				get {
 					return description;
 				}
 			}
 			
-			public void InsertAction(SourceEditorView control)
+			public void InsertAction (SourceEditorView control)
 			{
 				//((SharpDevelopTextAreaControl)control).ActiveTextAreaControl.TextArea.InsertString(text);
 			}
 			
-			public CommentCompletionData(string text, string description) 
+			public CommentCompletionData (string text, string description) 
 			{
-				this.text        = text;
+				this.text = text;
 				this.description = description;
 			}
 		}

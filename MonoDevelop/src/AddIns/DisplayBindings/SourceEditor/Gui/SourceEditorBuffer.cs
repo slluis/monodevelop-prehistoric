@@ -1,5 +1,4 @@
 using Gtk;
-using GtkSharp;
 using GLib;
 
 using MonoDevelop.Gui;
@@ -14,9 +13,10 @@ using System;
 using System.IO;
 using System.Runtime.InteropServices;
 	
-namespace MonoDevelop.SourceEditor.Gui {
-
-	public enum SourceMarkerType {
+namespace MonoDevelop.SourceEditor.Gui
+{
+	public enum SourceMarkerType
+	{
 		SourceEditorBookmark,
 		BreakpointMark,
 		ExecutionMark
@@ -24,10 +24,12 @@ namespace MonoDevelop.SourceEditor.Gui {
 
 	// This gives us a nice way to avoid the try/finally
 	// which is really long.
-	struct NoUndo : IDisposable {
+	struct NoUndo : IDisposable
+	{
 		SourceEditorBuffer b;
 		
-		public NoUndo (SourceEditorBuffer b) {
+		public NoUndo (SourceEditorBuffer b)
+		{
 			this.b = b;
 			b.BeginNotUndoableAction ();
 		}
@@ -40,10 +42,12 @@ namespace MonoDevelop.SourceEditor.Gui {
 	
 	// This gives us a nice way to avoid the try/finally
 	// which is really long.
-	struct AtomicUndo : IDisposable {
+	struct AtomicUndo : IDisposable
+	{
 		SourceEditorBuffer b;
 		
-		public AtomicUndo (SourceEditorBuffer b) {
+		public AtomicUndo (SourceEditorBuffer b)
+		{
 			this.b = b;
 			b.BeginUserAction ();
 		}
@@ -54,8 +58,8 @@ namespace MonoDevelop.SourceEditor.Gui {
 		}
 	}
 	
-	public class SourceEditorBuffer : SourceBuffer, IClipboardHandler {
-		
+	public class SourceEditorBuffer : SourceBuffer, IClipboardHandler
+	{	
 		SourceLanguagesManager slm = new SourceLanguagesManager ();
 		TextTag markup;
 		
@@ -97,7 +101,6 @@ namespace MonoDevelop.SourceEditor.Gui {
 		
 		public void LoadText (string text, string mime)
 		{
-			
 			SourceLanguage lang = slm.GetLanguageFromMimeType (mime);
 			if (lang != null) 
 				Language = lang;
@@ -125,43 +128,51 @@ namespace MonoDevelop.SourceEditor.Gui {
 		}
 
 #region IClipboardHandler
-		bool HasSelection {
+		bool HasSelection
+		{
 			get {
 				TextIter dummy, dummy2;
 				return GetSelectionBounds (out dummy, out dummy2);
 			}
 		}
 
-		public string GetSelectedText () {
+		public string GetSelectedText ()
+		{
 			if (HasSelection)
 			{
 				TextIter select1, select2;
 				GetSelectionBounds (out select1, out select2);
 				return GetText (select1, select2, true);
 			}
+			
 			return String.Empty;
 		}
 		
-		bool IClipboardHandler.EnableCut {
+		bool IClipboardHandler.EnableCut
+		{
 			get { return true; }
 		}
 		
-		bool IClipboardHandler.EnableCopy {
+		bool IClipboardHandler.EnableCopy
+		{
 			get { return true; }
 		}
 		
-		bool IClipboardHandler.EnablePaste {
+		bool IClipboardHandler.EnablePaste
+		{
 			get {
 				return true;
 				//return clipboard.WaitIsTextAvailable ();
 			}
 		}
 		
-		bool IClipboardHandler.EnableDelete {
+		bool IClipboardHandler.EnableDelete
+		{
 			get { return true; }
 		}
 		
-		bool IClipboardHandler.EnableSelectAll {
+		bool IClipboardHandler.EnableSelectAll
+		{
 			get { return true; }
 		}
 		
@@ -210,11 +221,10 @@ namespace MonoDevelop.SourceEditor.Gui {
 #region Bookmark Operations
 		
 		//
-		// Ok, the GtkSourceView people made this extremely dificult because they took over
-		// the TextMark type for their SourceMarker, So i have to marshall for them. It is annoying
-		// I filed a bug.
+		// GtkSourceView made this difficult because they took over
+		// the TextMark type for their SourceMarker, so we have to marshall manually. 
 		//
-		// Again, this is retarded
+		// http://bugzilla.gnome.org/show_bug.cgi?id=132525
 		//
 		[DllImport("gtksourceview-1.0")]
 		static extern IntPtr gtk_source_buffer_get_markers_in_region (IntPtr raw, ref Gtk.TextIter begin, ref Gtk.TextIter end);
@@ -286,7 +296,6 @@ namespace MonoDevelop.SourceEditor.Gui {
 				g_slist_free (lst);
 
 			return fnd_marker;
-
 		}
 
 		public void ToggleBookmark (int linenum)
@@ -309,11 +318,11 @@ namespace MonoDevelop.SourceEditor.Gui {
 			bool found_marker = false;
 			
 			//
-			// Ok, again, this is absurd. The problem is that the buffer owns the
+			// The problem is that the buffer owns the
 			// reference to the marker. So, if we use the nice Gtk# stuff, we get
 			// a problem when we dispose it later. Thus we must basically write this
-			// in C. It sucks. It really sucks.
-			//
+			// in C.
+			// FIXME: Is there a bug# for this?
 			
 			IntPtr current = lst;
 			while (current != IntPtr.Zero) {
@@ -336,12 +345,12 @@ namespace MonoDevelop.SourceEditor.Gui {
 				return;
 			
 			switch (type.ToString ()) {
-			case "ExecutionMark":
-				begin_line.LineOffset = 2;
-				break;
-			case "BreakpointMark":
-				begin_line.LineOffset = 1;
-				break;
+				case "ExecutionMark":
+					begin_line.LineOffset = 2;
+					break;
+				case "BreakpointMark":
+					begin_line.LineOffset = 1;
+					break;
 			}
 
 			gtk_source_buffer_create_marker (Handle, null, type.ToString (), ref begin_line);
@@ -509,7 +518,6 @@ namespace MonoDevelop.SourceEditor.Gui {
 		{
 			TextIter start = GetIterAtOffset (offset);
 			TextIter end = GetIterAtOffset (offset + length);
-
 			Delete (start, end);
 		}
 

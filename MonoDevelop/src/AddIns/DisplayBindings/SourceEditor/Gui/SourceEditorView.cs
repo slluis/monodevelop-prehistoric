@@ -1,10 +1,10 @@
 using Gtk;
-using GtkSharp;
 using Gdk;
 
 using System;
 using System.IO;
 using System.Runtime.InteropServices;
+
 using MonoDevelop.Core.AddIns.Conditions;
 using MonoDevelop.Core.AddIns;
 using MonoDevelop.Internal.Templates;
@@ -14,27 +14,30 @@ using MonoDevelop.SourceEditor.InsightWindow;
 using MonoDevelop.EditorBindings.Properties;
 using MonoDevelop.EditorBindings.FormattingStrategy;
 using MonoDevelop.Gui.Utils;
-
 using MonoDevelop.Services;
 
-namespace MonoDevelop.SourceEditor.Gui {
-	public class SourceEditorView : SourceView, IFormattableDocument {
-		
-		private static GLib.GType type;
-			
-		                SourceEditorBuffer buf;
-		public readonly SourceEditor       ParentEditor;
-
+namespace MonoDevelop.SourceEditor.Gui
+{
+	public class SourceEditorView : SourceView, IFormattableDocument
+	{	
+		private static GLib.GType gtype;
+		public readonly SourceEditor ParentEditor;
+		internal IFormattingStrategy fmtr;
+		SourceEditorBuffer buf;
 		int lineToMark = -1;
-
 		CompletionWindow completionWindow;
 		
-		static SourceEditorView ()
+		public static new GLib.GType GType
 		{
-			type = RegisterGType (typeof (SourceEditorView));
+			get
+			{
+				if (gtype == GLib.GType.Invalid)
+					gtype = RegisterGType (typeof (SourceEditorView));
+				return gtype;
+			}
 		}
 		
-		public SourceEditorView (SourceEditorBuffer buf, SourceEditor parent) : base (type)
+		public SourceEditorView (SourceEditorBuffer buf, SourceEditor parent) : base (GType)
 		{
 			this.ParentEditor = parent;
 			this.TabsWidth = 4;
@@ -54,7 +57,7 @@ namespace MonoDevelop.SourceEditor.Gui {
 			
 			if (e.Event.Window == GetWindow (Gtk.TextWindowType.Left)) {
 				int x, y;
-				WindowToBufferCoords (Gtk.TextWindowType.Left, (int)e.Event.X, (int)e.Event.Y, out x, out y);
+				WindowToBufferCoords (Gtk.TextWindowType.Left, (int) e.Event.X, (int) e.Event.Y, out x, out y);
 				TextIter line;
 				int top;
 
@@ -144,7 +147,7 @@ namespace MonoDevelop.SourceEditor.Gui {
 			switch ((char)key) {
 				case ' ':
 					if (1 == 1) {
-						string word = GetWordBeforeCaret();
+						string word = GetWordBeforeCaret ();
 						if (word != null) {
 							CodeTemplateGroup templateGroup = CodeTemplateLoader.GetTemplateGroupPerFilename(ParentEditor.DisplayBinding.ContentName);
 							
@@ -198,14 +201,14 @@ namespace MonoDevelop.SourceEditor.Gui {
 			return ++offset;
 		}
 
-		public string GetWordBeforeCaret()
+		public string GetWordBeforeCaret ()
 		{
 			int offset = buf.GetIterAtMark (buf.InsertMark).Offset;
 			int start = FindPrevWordStart (buf.Text, offset);
 			return buf.Text.Substring (start, offset - start);
 		}
 		
-		public int DeleteWordBeforeCaret()
+		public int DeleteWordBeforeCaret ()
 		{
 			int offset = buf.GetIterAtMark (buf.InsertMark).Offset;
 			int start = FindPrevWordStart (buf.Text, offset);
@@ -214,13 +217,14 @@ namespace MonoDevelop.SourceEditor.Gui {
 		}
 
 
-		public void InsertTemplate(CodeTemplate template)
+		public void InsertTemplate (CodeTemplate template)
 		{
-			int newCaretOffset   = buf.GetIterAtMark (buf.InsertMark).Offset;
-			string word = GetWordBeforeCaret().Trim();
-			if (word.Length > 0) {
-				newCaretOffset = DeleteWordBeforeCaret();
-			}
+			int newCaretOffset = buf.GetIterAtMark (buf.InsertMark).Offset;
+			string word = GetWordBeforeCaret ().Trim ();
+			
+			if (word.Length > 0)
+				newCaretOffset = DeleteWordBeforeCaret ();
+			
 			int finalCaretOffset = newCaretOffset;
 			
 			for (int i =0; i < template.Text.Length; ++i) {
@@ -244,6 +248,7 @@ namespace MonoDevelop.SourceEditor.Gui {
 						break;
 				}
 			}
+			
 			buf.PlaceCursor (buf.GetIterAtOffset (finalCaretOffset));
 		}
 
@@ -369,15 +374,22 @@ namespace MonoDevelop.SourceEditor.Gui {
 			Buffer.Insert (begin, txt);
 		}
 		
-		IndentStyle IFormattableDocument.IndentStyle {
+		IndentStyle IFormattableDocument.IndentStyle
+		{
 			get { return TextEditorProperties.IndentStyle; }
 		}
-		bool IFormattableDocument.AutoInsertCurlyBracket {
+		
+		bool IFormattableDocument.AutoInsertCurlyBracket
+		{
 			get { return TextEditorProperties.AutoInsertCurlyBracket; }
 		}
 		
-		string IFormattableDocument.TextContent { get { return Buffer.Text; } }
-		int IFormattableDocument.TextLength { get { return Buffer.EndIter.Offset; } }
+		string IFormattableDocument.TextContent
+		{ get { return Buffer.Text; } }
+		
+		int IFormattableDocument.TextLength
+		{ get { return Buffer.EndIter.Offset; } }
+		
 		char IFormattableDocument.GetCharAt (int offset)
 		{
 			TextIter it = Buffer.GetIterAtOffset (offset);
@@ -389,7 +401,8 @@ namespace MonoDevelop.SourceEditor.Gui {
 			Buffer.Insert (Buffer.GetIterAtOffset (offset), text);
 		}
 		
-		string IFormattableDocument.IndentString {
+		string IFormattableDocument.IndentString
+		{
 			get { return !InsertSpacesInsteadOfTabs ? "\t" : new string (' ', (int) TabsWidth); }
 		}
 		
@@ -401,16 +414,13 @@ namespace MonoDevelop.SourceEditor.Gui {
 			openingLine = offset == -1 ? -1 : Buffer.GetIterAtOffset (offset).Line;
 			return offset;
 		}
+		
 		void IFormattableDocument.GetLineLengthInfo (int ln, out int offset, out int len)
 		{
 			TextIter begin = Buffer.GetIterAtLine (ln);
 			offset = begin.Offset;
 			len = begin.CharsInLine;
 		}
-		
-		internal IFormattingStrategy fmtr;
-		
-
 #endregion
 	}
 }

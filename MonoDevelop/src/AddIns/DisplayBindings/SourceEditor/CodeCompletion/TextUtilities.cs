@@ -62,7 +62,8 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 			return true;
 		}
 		
-		public enum CharacterType {
+		public enum CharacterType
+		{
 			LetterDigitOrUnderscore,
 			WhiteSpace,
 			Other
@@ -75,7 +76,7 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 		/// </remarks>
 		public static string GetExpressionBeforeOffset(SourceEditorView textArea, int offset)
 		{
-			// HACK HACK we should actually use GtkTextIter's
+			// FIXME: we should actually use GtkTextIter's
 			string text = textArea.Buffer.Text;
 			
 			while (offset - 1 > 0) {
@@ -244,7 +245,7 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 */
 		static bool ScanLineComment(SourceEditorView document, int offset)
 		{
-			// HACK HACK: use iters
+			// FIXME: use iters
 			string text = document.Buffer.Text;
 			while (offset > 0 && offset < document.Buffer.Text.Length) {
 				char ch = text [offset];
@@ -265,14 +266,11 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 		
 		public static int SearchBracketBackward(SourceEditorView document, int offset, char openBracket, char closingBracket)
 		{
-			// HACK HACK: use iters
-			string text = document.Buffer.Text;
-			
-			int brackets = -1;
-			
+			// FIXME: use iters
+			string text = document.Buffer.Text;			
+			int brackets = -1;		
 			bool inString = false;
-			bool inChar   = false;
-			
+			bool inChar   = false;			
 			bool blockComment = false;
 			
 			while (offset >= 0 && offset < document.Buffer.Text.Length) {

@@ -16,23 +16,27 @@ namespace MonoDevelop.Gui.Components
 		Statusbar txtStatusBarPanel    = new Statusbar ();
 		Statusbar cursorStatusBarPanel = new Statusbar ();
 		Statusbar modeStatusBarPanel   = new Statusbar ();
+		bool cancelEnabled;
+		const int ctx = 1;
 		private static GLib.GType gtype;
 		
-		public Statusbar CursorStatusBarPanel {
+		/*
+		public Statusbar CursorStatusBarPanel
+		{
 			get {
 				return cursorStatusBarPanel;
 			}
-		}
+		}*/
 		
-		public Statusbar ModeStatusBarPanel {
+		public Statusbar ModeStatusBarPanel
+		{
 			get {
 				return modeStatusBarPanel;
 			}
 		}
-	
-		bool cancelEnabled;
 		
-		public bool CancelEnabled {
+		public bool CancelEnabled
+		{
 			get {
 				return cancelEnabled;
 			}
@@ -41,7 +45,8 @@ namespace MonoDevelop.Gui.Components
 			}
 		}
 
-		public static new GLib.GType GType {
+		public static new GLib.GType GType
+		{
 			get {
 				if (gtype == GLib.GType.Invalid)
 					gtype = RegisterGType (typeof (SdStatusBar));
@@ -66,57 +71,62 @@ namespace MonoDevelop.Gui.Components
 		
 		public void ShowErrorMessage(string message)
 		{
-			txtStatusBarPanel.Push (1, "Error : " + message);
+			txtStatusBarPanel.Push (ctx, "Error : " + message);
 		}
 		
 		public void ShowErrorMessage(Image image, string message)
 		{
-			txtStatusBarPanel.Push (1, "Error : " + message);
+			txtStatusBarPanel.Push (ctx, "Error : " + message);
 		}
 		
-		public void SetMessage(string message)
+		public void SetCursorPosition (int ln, int col, int ch)
 		{
-			txtStatusBarPanel.Push (1, message);
+			// FIXME: I18N
+			// FIXME: Properly space, perhaps 3 seperate Labels
+			cursorStatusBarPanel.Push (ctx, String.Format ("ln {0} col {1} ch {2}", ln, col, ch));
 		}
 		
-		public void SetMessage(Image image, string message)
+		public void SetMessage (string message)
 		{
-			txtStatusBarPanel.Push (1, message);
+			txtStatusBarPanel.Push (ctx, message);
+		}
+		
+		public void SetMessage (Image image, string message)
+		{
+			txtStatusBarPanel.Push (ctx, message);
 		}
 		
 		// Progress Monitor implementation
-		string oldMessage = null;
-		public void BeginTask(string name, int totalWork)
+		public void BeginTask (string name, int totalWork)
 		{
-			//oldMessage = txtStatusBarPanel.Pop (1);
-			SetMessage(name);
-			//statusProgressBar.Maximum = totalWork;
+			SetMessage (name);
 			this.Progress.Visible = true;
 		}
 		
-		public void Worked(int work, string status)
+		public void Worked (int work, string status)
 		{
 			this.Progress.Fraction = (double) work;
 			this.Progress.Text = status;
 		}
 		
-		public void Done()
+		public void Done ()
 		{
-			SetMessage(oldMessage);
-			oldMessage = null;
+			txtStatusBarPanel.Pop (ctx);
 			this.Progress.Visible = false;
 		}
 		
-		public bool Canceled {
+		public bool Canceled
+		{
 			get {
-				return oldMessage == null;
+				return true;
 			}
 			set {
-				Done();
+				Done ();
 			}
 		}
 		
-		public string TaskName {
+		public string TaskName
+		{
 			get {
 				return "";
 			}

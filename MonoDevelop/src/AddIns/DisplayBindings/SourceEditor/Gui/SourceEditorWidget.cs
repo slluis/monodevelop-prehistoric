@@ -1,27 +1,33 @@
 using Gtk;
-using GtkSharp;
-using Gdk;
 
 using System;
-using System.IO;
 using System.Runtime.InteropServices;
 	
-namespace MonoDevelop.SourceEditor.Gui {
-	public class SourceEditor : ScrolledWindow {
-		
+namespace MonoDevelop.SourceEditor.Gui
+{
+	public class SourceEditor : ScrolledWindow
+	{	
 		public readonly SourceEditorBuffer Buffer;
 		public readonly SourceEditorView View;
 		public readonly SourceEditorDisplayBindingWrapper DisplayBinding;
+		private static GLib.GType gtype;
 		
-		public SourceEditor (SourceEditorDisplayBindingWrapper bind) : base ()
+		public static new GLib.GType GType
+		{
+			get
+			{
+				if (gtype == GLib.GType.Invalid)
+					gtype = RegisterGType (typeof (SourceEditor));
+				return gtype;
+			}
+		}
+		
+		public SourceEditor (SourceEditorDisplayBindingWrapper bind) : base (GType)
 		{
 			ShadowType = Gtk.ShadowType.In;
 			DisplayBinding = bind;
-			Buffer = new SourceEditorBuffer ();
-			
+			Buffer = new SourceEditorBuffer ();	
 			View = new SourceEditorView (Buffer, this);
-			
-
 			Buffer.Highlight = true;
 			
 			View.SetMarkerPixbuf ("SourceEditorBookmark", new Gdk.Pixbuf (drag_icon_xpm));
@@ -41,7 +47,8 @@ namespace MonoDevelop.SourceEditor.Gui {
 			View.ClearExecutingAt (linenumber);
 		}
 
-		public string Text {
+		public string Text
+		{
 			get { return Buffer.Text; }
 			set { Buffer.Text = value; }
 		}

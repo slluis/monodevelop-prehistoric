@@ -56,28 +56,24 @@ namespace MonoDevelop.Services
 			}
 		}
 		
-		public void SetCaretPosition(int x, int y, int charOffset)
+		public void SetCaretPosition (int ln, int col, int ch)
 		{
-			StringParserService stringParserService = (StringParserService)ServiceManager.Services.GetService(typeof(StringParserService));
-			statusBar.CursorStatusBarPanel.Push (1, stringParserService.Parse("${res:StatusBarService.CursorStatusBarPanelText}", 
-			                                                                new string[,] { {"Line", String.Format("{0,-10}", y + 1)}, 
-			                                                                                {"Column", String.Format("{0,-5}", x + 1)}, 
-			                                                                                {"Character", String.Format("{0,-5}", charOffset + 1)}}));
+			statusBar.SetCursorPosition (ln, col, ch);                                                                  
 		}
 		
-		public void SetInsertMode(bool insertMode)
+		public void SetInsertMode (bool insertMode)
 		{
 			StringParserService stringParserService = (StringParserService)ServiceManager.Services.GetService(typeof(StringParserService));
 			statusBar.ModeStatusBarPanel.Push (1, insertMode ? stringParserService.Parse("${res:StatusBarService.CaretModes.Insert}") : stringParserService.Parse("${res:StatusBarService.CaretModes.Overwrite}"));
 		}
 		
-		public void ShowErrorMessage(string message)
+		public void ShowErrorMessage (string message)
 		{
 			Debug.Assert(statusBar != null);
 			statusBar.ShowErrorMessage(stringParserService.Parse(message));
 		}
 		
-		public void SetMessage(string message)
+		public void SetMessage (string message)
 		{
 			Debug.Assert(statusBar != null);
 			lastMessage = message;

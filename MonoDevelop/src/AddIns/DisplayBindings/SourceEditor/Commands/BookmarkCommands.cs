@@ -6,8 +6,10 @@ using MonoDevelop.Gui.Dialogs;
 using MonoDevelop.Gui;
 using MonoDevelop.Core.AddIns.Codons;
 
-namespace MonoDevelop.EditorBindings.Commands {
-	public class ToggleBookmark : AbstractMenuCommand {
+namespace MonoDevelop.EditorBindings.Commands
+{
+	public class ToggleBookmark : AbstractMenuCommand
+	{
 		public override void Run ()
 		{
 			IWorkbenchWindow window = WorkbenchSingleton.Workbench.ActiveWorkbenchWindow;
@@ -22,7 +24,8 @@ namespace MonoDevelop.EditorBindings.Commands {
 		}
 	}
 	
-	public class PrevBookmark : AbstractMenuCommand	{
+	public class PrevBookmark : AbstractMenuCommand
+	{
 		public override void Run ()
 		{
 			IWorkbenchWindow window = WorkbenchSingleton.Workbench.ActiveWorkbenchWindow;
@@ -37,7 +40,8 @@ namespace MonoDevelop.EditorBindings.Commands {
 		}
 	}
 		
-	public class NextBookmark : AbstractMenuCommand	{
+	public class NextBookmark : AbstractMenuCommand
+	{
 		public override void Run ()
 		{
 			IWorkbenchWindow window = WorkbenchSingleton.Workbench.ActiveWorkbenchWindow;
@@ -52,7 +56,8 @@ namespace MonoDevelop.EditorBindings.Commands {
 		}
 	}
 		
-	public class ClearBookmarks : AbstractMenuCommand {
+	public class ClearBookmarks : AbstractMenuCommand
+	{
 		public override void Run ()
 		{
 			IWorkbenchWindow window = WorkbenchSingleton.Workbench.ActiveWorkbenchWindow;

@@ -20,12 +20,12 @@ using MonoDevelop.Core.Services;
 using MonoDevelop.SourceEditor.Gui;
 
 using Gtk;
-using GtkSharp;
 
 namespace MonoDevelop.DefaultEditor.Commands
 {
 	public class ColorDialog : ColorSelectionDialog
 	{
+		// FIXME: i18n
 		public ColorDialog () : base ("Insert a color hex string")
 		{
 			this.ColorSelection.HasPalette = true;
