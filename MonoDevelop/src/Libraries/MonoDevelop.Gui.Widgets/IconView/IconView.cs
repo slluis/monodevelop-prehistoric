@@ -33,6 +33,12 @@ namespace MonoDevelop.Gui.Widgets {
 			userData.Add (itm, obj);
 		}
 		
+		public void AddIcon (string stock, Gtk.IconSize sz, string name, object obj)
+		{
+			int itm = iconList.AppendPixbuf (iconList.RenderIcon (stock, sz, ""), "/dev/null", name);
+			userData.Add (itm, obj);
+		}
+		
 		void HandleKeyPressed (object o, KeyPressEventArgs args)
 		{
 			if (CurrentlySelected == null)

@@ -129,7 +129,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs {
 			if (lst_template_types.Selection.GetSelected (out mdl, out iter)) {
 				TemplateView.Clear ();
 				foreach (TemplateItem item in ((Category)catStore.GetValue (iter, 1)).Templates) {
-					TemplateView.AddIcon (new Gtk.Image (item.Template.Icon, Gtk.IconSize.Button), item.Name, item.Template);
+					TemplateView.AddIcon (ResourceService.GetStockId (item.Template.Icon), Gtk.IconSize.Button, item.Name, item.Template);
 				}
 				
 				btn_new.Sensitive = false;
