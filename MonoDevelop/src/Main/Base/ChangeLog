@@ -7,6 +7,7 @@
 	* Gui/Dialogs/TipOfTheDay.cs: remove IDisposable and call Hide and Dispose
 	instead of Destroy on the window, remove some unneccesary public things
 	* Commands/HelpCommand.cs: revert addition of using () {} to tipoftheday
+	* Gui/Workbench/DefaultWorkbench.cs: uncomment memento restoring code
 
 2004-04-07  Todd Berman  <tberman@sevenl.net>
 

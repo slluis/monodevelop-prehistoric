@@ -411,14 +411,14 @@ namespace MonoDevelop.Gui
 		
 		public void SetMemento(IXmlConvertable xmlMemento)
 		{
-			/*if (xmlMemento != null) {
+			if (xmlMemento != null) {
 				WorkbenchMemento memento = (WorkbenchMemento)xmlMemento;
 				
 				normalBounds = memento.Bounds;
 				Move (normalBounds.X, normalBounds.Y);
 				Resize (normalBounds.Width, normalBounds.Height);
-				//FullScreen  = memento.FullScreen;
-			}*/
+				FullScreen = memento.FullScreen;
+			}
 			Decorated = true;
 		}
 		
