@@ -8,16 +8,16 @@
 using System.Reflection;
 using System.Runtime.CompilerServices;
 
-[assembly: AssemblyTitle("MonoDevelop.Core")]
-[assembly: AssemblyDescription("The MonoDevelop Core containing the AddInTree and service Subsystem")]
+[assembly: AssemblyTitle("MonoDevelop")]
+[assembly: AssemblyDescription("free C# IDE")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("MonoDevelop.Core")]
-[assembly: AssemblyCopyright("Mike Krueger 2000-2003")]
+[assembly: AssemblyProduct("MonoDevelop")]
+[assembly: AssemblyCopyright("Mike Krueger 2000")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
-[assembly: AssemblyVersion("0.2.0.0")]
+[assembly: AssemblyVersion("@VERSION@.0.0")]
 
 [assembly: AssemblyDelaySign(false)]
-//[assembly: AssemblyKeyFile("..\\src\\Main\\Core\\CoreKey.key")]
+[assembly: AssemblyKeyFile("")] // ..\\src\\SharpDevelop\\sharpdevelop.key

@@ -11,11 +11,9 @@ using System.IO;
 using System.Collections;
 
 using MonoDevelop.Core.AddIns;
-
 using MonoDevelop.Core.Properties;
 using MonoDevelop.Core.AddIns.Codons;
 using MonoDevelop.Core.Services;
-
 using MonoDevelop.Services;
 using MonoDevelop.Gui;
 using MonoDevelop.Gui.Dialogs;

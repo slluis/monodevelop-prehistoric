@@ -15,11 +15,9 @@ using System.ComponentModel;
 using System.Diagnostics;
 
 using MonoDevelop.Core.AddIns;
-
 using MonoDevelop.Core.Properties;
 using MonoDevelop.Core.AddIns.Codons;
 using MonoDevelop.Core.Services;
-
 using MonoDevelop.Services;
 using MonoDevelop.Gui;
 using MonoDevelop.Gui.Components;
@@ -40,14 +38,14 @@ namespace MonoDevelop.Commands.ProjectBrowser
 			if (node != null) {
 				NewProjectDialog npdlg = new NewProjectDialog(false);
 				if (npdlg.Run() == (int)Gtk.ResponseType.Ok) {
-					System.Console.WriteLine("inside if");
+					//System.Console.WriteLine("inside if");
 					int newNodeIndex = node.Nodes.Add(ProjectBrowserView.BuildProjectTreeNode((IProject)node.Combine.AddEntry(npdlg.NewProjectLocation)));
 					projectService.SaveCombine();
 					// expand to the new node
 					node.Nodes[newNodeIndex].Expand();
 				}
 			}			
-			System.Console.WriteLine("end");
+			//System.Console.WriteLine("end");
 		}
 	}
 		

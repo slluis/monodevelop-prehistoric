@@ -55,3 +55,5 @@ profile-pad: $(MONOPAD)
 EXTRA_DIST = $(bin_SCRIPTS) $(desktop_DATA) \
 	$(mimeinfo_DATA) $(pixmap_DATA) $(application_DATA) $(xdgmime_DATA)
 
+DISTCLEANFILES = monodevelop
+

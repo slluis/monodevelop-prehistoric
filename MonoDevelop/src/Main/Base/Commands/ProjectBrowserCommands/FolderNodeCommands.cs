@@ -12,6 +12,7 @@ using System.Drawing;
 using System.Drawing.Printing;
 using System.Collections;
 using System.Diagnostics;
+
 using MonoDevelop.Core.AddIns;
 using MonoDevelop.Core.Properties;
 using MonoDevelop.Core.AddIns.Codons;
@@ -41,6 +42,8 @@ namespace MonoDevelop.Commands.ProjectBrowser
 			
 			using (FileSelection fdiag  = new FileSelection ("Add a file")) {
 			fdiag.SelectMultiple = true;
+			string defaultPath = Path.Combine (Environment.GetEnvironmentVariable ("HOME"), "MonoDevelopProjects");
+			fdiag.Complete (defaultPath);
 			
 			int result = fdiag.Run ();
 			try {

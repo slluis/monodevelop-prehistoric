@@ -15,10 +15,8 @@ using System.ComponentModel;
 using System.Diagnostics;
 
 using MonoDevelop.Core.AddIns;
-
 using MonoDevelop.Core.Properties;
 using MonoDevelop.Core.AddIns.Codons;
-
 using MonoDevelop.Services;
 using MonoDevelop.Gui;
 using MonoDevelop.Gui.Components;
