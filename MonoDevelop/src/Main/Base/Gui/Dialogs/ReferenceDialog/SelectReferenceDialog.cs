@@ -173,10 +173,15 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 			//foreach (ListViewItem item in referencesListView.SelectedItems) {
 			//	itemsToDelete.Add(item);
 			//}
-			//
+			
 			//foreach (ListViewItem item in itemsToDelete) {
 			//	referencesListView.Items.Remove(item);
 			//}
+			Gtk.TreeIter iter;
+			Gtk.TreeModel mdl;
+			if (ReferencesTreeView.Selection.GetSelected (out mdl, out iter)) {
+				refTreeStore.Remove (ref iter);
+			}
 		}
 
 #if false
