@@ -75,10 +75,10 @@ namespace MonoDevelop.Gui.Widgets
 			entry = new Entry ();
 			entry.Activated += new EventHandler (OnEntryActivated);
 
-			HBox buttonbox = new HBox (false, 0);
-			buttonbox.PackStart (upbutton, false, false, 0);
-			buttonbox.PackStart (homebutton, false, false, 0);
-			buttonbox.PackStart (entry, true, true, 0);
+			Toolbar toolbar = new Toolbar ();
+			toolbar.AppendWidget (upbutton, GettextCatalog.GetString ("Up one level"), GettextCatalog.GetString ("Up one level"));
+			toolbar.AppendWidget (homebutton, GettextCatalog.GetString ("Home"), GettextCatalog.GetString ("Home"));
+			toolbar.AppendWidget (entry, GettextCatalog.GetString ("Location"), GettextCatalog.GetString ("Location"));
 
 			IProperties p = (IProperties) PropertyService.GetProperty ("SharpDevelop.UI.SelectStyleOptions", new DefaultProperties ());
 			ignoreHidden = !p.GetProperty ("MonoDevelop.Gui.FileScout.ShowHidden", false);
@@ -110,7 +110,7 @@ namespace MonoDevelop.Gui.Widgets
 
 			scrolledwindow.Add (tv);
 			this.Homogeneous = false;
-			this.PackStart (buttonbox, false, false, 0);
+			this.PackStart (toolbar, false, false, 0);
 			this.PackStart (scrolledwindow);
 			this.ShowAll ();
 			init = true;

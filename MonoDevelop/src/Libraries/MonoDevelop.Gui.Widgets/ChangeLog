@@ -1,3 +1,8 @@
+2004-06-07  John Luke  <jluke@cfl.rr.com>
+
+	* FileBrowser/FileBrowser.cs: use a toolbar with tooltips
+	instead of a hbuttonbox.
+
 2004-06-06  John Luke  <jluke@cfl.rr.com>
 
 	* TabLabel/TabLabel.cs: fix the size of the button to 18 so it is
