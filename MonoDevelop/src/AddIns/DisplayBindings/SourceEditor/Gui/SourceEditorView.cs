@@ -48,7 +48,7 @@ namespace MonoDevelop.SourceEditor.Gui {
 			if (!ShowLineMarkers)
 				return;
 
-			if (e.Event.window == GetWindow (Gtk.TextWindowType.Left) && e.Event.Button == 1) {
+			if (e.Event.Window == GetWindow (Gtk.TextWindowType.Left) && e.Event.Button == 1) {
 				int x, y;
 				WindowToBufferCoords (Gtk.TextWindowType.Left, (int)e.Event.X, (int)e.Event.Y, out x, out y);
 				TextIter line;

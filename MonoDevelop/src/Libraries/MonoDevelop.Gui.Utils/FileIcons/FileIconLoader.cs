@@ -36,7 +36,12 @@ namespace MonoDevelop.Gui.Utils
 			Gdk.Pixbuf bf = (Gdk.Pixbuf) iconHash [type];
 			if (bf == null) {
 				int i;
-				string p_filename = iconTheme.LookupIcon (type, 24, new Gnome.IconData (), out i);
+				string p_filename = "gnome-fs-regular";
+				try {
+					p_filename = iconTheme.LookupIcon (type, 24, new Gnome.IconData (), out i);
+				} catch {
+					return null;
+				}
 				bf = new Gdk.Pixbuf (p_filename);
 				iconHash [type] = bf;
 			}
