@@ -5,6 +5,11 @@
 
 2004-05-25  Lluis Sanchez Gual  <lluis@ximian.com>
 
+	* Services/File/DefaultFileService.cs: Enabled database regeneration for
+	  modified assemblies.
+
+2004-05-25  Lluis Sanchez Gual  <lluis@ximian.com>
+
 	* Commands/ProjectBrowserCommands/ReferenceFolderNodeCommands.cs:
 	  Removed call to IParserService.AddReferenceToCompletionLookup. The parser
 	  service now receives an event when a reference is added.

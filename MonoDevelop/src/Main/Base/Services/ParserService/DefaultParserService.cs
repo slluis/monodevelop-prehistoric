@@ -465,8 +465,7 @@ namespace MonoDevelop.Services
 			}
 			
 			foreach (CodeCompletionDatabase db in list) 
-				if (!(db is AssemblyCodeCompletionDatabase))
-					db.CheckModifiedFiles ();
+				db.CheckModifiedFiles ();
 		}
 		
 		void ConsumeParsingQueue ()
