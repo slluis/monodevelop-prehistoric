@@ -54,8 +54,11 @@ namespace CSharpBinding
 						switch (lib.ReferenceType) {
 						case ReferenceType.Gac:
 							string pkg = Runtime.SystemAssemblyService.GetPackageFromFullName (lib.Reference);
-							if (pkg.Trim () == String.Empty)
+							if (pkg.Trim () == String.Empty) {
+								string msg = String.Format (GettextCatalog.GetString ("{0} could not be found or is invalid."), lib.Reference);
+								Runtime.MessageService.ShowWarning (msg);
 								continue;
+							}
 							if (pkg == "MONO-SYSTEM") {
 								writer.WriteLine ("\"/r:" + Path.GetFileName (fileName) + "\"");
 							} else if (!pkg_references.Contains (pkg)) {

@@ -1,3 +1,8 @@
+2005-03-20  John Luke  <john.luke@gmail.com>
+
+	* CSharpBindingCompilerManager.cs: display warning on invalid
+	reference lookup, partial fix for bug #70645
+
 2005-03-07  Lluis Sanchez Gual  <lluis@novell.com>
 
 	* Parser/Resolver.cs: Track api changes.
