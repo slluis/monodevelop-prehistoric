@@ -20,8 +20,7 @@ namespace VBBinding.Parser
 	{
 	
 		public TParser() : base(){
-			//Keep this one for now, just as a basic verification of parser detection/loading
-			Console.WriteLine("Entering VB.NET parser");
+			//Console.WriteLine("Entering VB.NET parser");
 		}//constructor
 	
 		///<summary>IParser Interface</summary> 
