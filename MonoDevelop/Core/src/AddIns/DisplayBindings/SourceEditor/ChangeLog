@@ -1,7 +1,15 @@
 2004-12-07  Alexandre Gomes <alexmipego@hotmail.com>
 	
+	* Gui/SourceEditorDisplayBinding.cs:
+	* Gui/SourceEditorBuffer.cs: Keys 'Home' and 'End' while having
+	selected text now moves to Start/End of selection instead of Start/End
+	of insertmark line.
+	
+2004-12-07  Alexandre Gomes <alexmipego@hotmail.com>
+	
 	* Gui/SourceEditorDisplayBinding.cs,
-	* Gui/SourceEditorBuffer.cs: Added implementation for CommentCode and UncommentCode
+	* Gui/SourceEditorBuffer.cs: Added implementation for CommentCode and
+	UncommentCode
 
 2004-12-07  Lluis Sanchez Gual  <lluis@novell.com>
 

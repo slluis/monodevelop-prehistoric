@@ -265,6 +265,14 @@ namespace MonoDevelop.SourceEditor.Gui
 			switch (state) {
 			case Normal:
 				switch (key) {
+				case Gdk.Key.End:
+					if (buf.GotoSelectionEnd ())
+						return true;
+					break;
+				case Gdk.Key.Home:
+					if (buf.GotoSelectionStart ())
+						return true;
+					break;
 				case Gdk.Key.Tab:
 					if (IndentSelection ())
 						return true;

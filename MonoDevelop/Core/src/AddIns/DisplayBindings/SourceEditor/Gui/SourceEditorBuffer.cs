@@ -773,5 +773,31 @@ namespace MonoDevelop.SourceEditor.Gui
 			}			
 		}
 #endregion
+		
+		public bool GotoSelectionEnd ()
+		{
+			TextIter textStart;
+			TextIter textEnd;
+			if (GetSelectionBounds (out textStart, out textEnd))
+			{
+				MoveMark (SelectionBound, textEnd);
+				MoveMark (InsertMark, textEnd);
+				return true;
+			}
+			return false;
+		}
+		
+		public bool GotoSelectionStart ()
+		{
+			TextIter textStart;
+			TextIter textEnd;
+			if (GetSelectionBounds (out textStart, out textEnd))
+			{
+				MoveMark (SelectionBound, textStart);
+				MoveMark (InsertMark, textStart);
+				return true;
+			}
+			return false;
+		}
 	}
 }
