@@ -340,6 +340,7 @@
 
 	</Extension>
 	
+<!-- not using these, since the OpenFileTab has been removed (replaced with TabLabel) jba 5 march 2004
 	<Extension path = "/SharpDevelop/Workbench/OpenFileTab/ContextMenu">
                 <MenuItem id = "Close"
 	                  label = "${res:OpenFileTabEventHandler.ContextMenu.Close}" 
@@ -373,6 +374,7 @@
 		                  class = "ICSharpCode.SharpDevelop.Commands.TabStrip.CopyPathName"/>
 		</Conditional>
 	</Extension>
+-->
 
 	<Extension path = "/SharpDevelop/Workbench/FileFilter">
 		<FileFilter id = "AllFiles"

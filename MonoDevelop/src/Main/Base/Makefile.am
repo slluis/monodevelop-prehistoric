@@ -28,7 +28,6 @@ FILES= \
 ./Gui/AbstractViewContent.cs \
 ./Gui/Components/SdMenuSeparator.cs \
 ./Gui/Components/SharpMessageBox.cs \
-./Gui/Components/OpenFileTab.cs \
 ./Gui/Components/StatusBar/AxStatusBar.cs \
 ./Gui/Components/StatusBar/SdStatusBar.cs \
 ./Gui/Components/StatusBar/AxStatusBarPanel.cs \
@@ -141,7 +140,6 @@ FILES= \
 ./Gui/Workbench/Layouts/SdiWorkspaceLayout.cs \
 ./Gui/Workbench/WorkbenchMemento.cs \
 ./Gui/Workbench/DefaultWorkbench.cs \
-./Commands/FileTabStripCommands.cs \
 ./Commands/ClassBrowserCommands/ClassBrowserCommands.cs \
 ./Commands/FileCommands.cs \
 ./Commands/HelpCommands.cs \

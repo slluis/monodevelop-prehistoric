@@ -1,5 +1,12 @@
 2004-03-05  John BouAntoun  <jba-mono@optusnet.com.au>
 	
+	* src/Main/Base/Gui/Components/OpenFileTab.cs : deleted (duplicates TabLabel)
+	* src/Main/Base/Commands/FileTabStripCommands.cs : deleted because OpenFileTab deleted
+	* src/Main/Base/Makefile.am : removed file refs from compilation
+	* build/AddIns/SharpDevelopCore.addin: removed file refs from addins
+
+2004-03-05  John BouAntoun  <jba-mono@optusnet.com.au>
+	
 	* src/AddIns/DisplayBindings/SourceEditor/Gui/Dialogs/ReplaceDialog.cs : 
 	changed Gtk.Combo's to Gnome.Entry's to fix bug where MD would lock up with 
 	hidden "Not Found" Dialog popping up under the find dialog
