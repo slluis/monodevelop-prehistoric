@@ -12,11 +12,6 @@ SOURCES = \
 ./Gui/Editor/ErrorDrawer.cs \
 ./Gui/Editor/ITextAreaControlProvider.cs \
 ./Gui/Editor/TextEditorDisplayBinding.cs \
-./Gui/OptionPanels/GeneralTextEditorPanel.cs \
-./Gui/OptionPanels/CodeTemplatePanel.cs \
-./Gui/OptionPanels/BehaviorTextEditorPanel.cs \
-./Gui/OptionPanels/MarkersTextEditorPanel.cs \
-./Gui/Dialogs/EditTemplateGroupDialog.cs \
 ./Gui/Dialogs/ExportProjectToHtmlDialog.cs \
 ./Gui/Dialogs/SortOptionsDialog.cs \
 ./Gui/Dialogs/ReplaceInFilesDialog.cs \

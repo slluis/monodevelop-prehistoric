@@ -23,7 +23,7 @@ using ICSharpCode.SharpDevelop.Gui.Dialogs;
 using Gtk;
 using MonoDevelop.EditorBindings.FormattingStrategy;
 
-namespace ICSharpCode.SharpDevelop.DefaultEditor.Gui.OptionPanels
+namespace MonoDevelop.EditorBindings.Gui.OptionPanels
 {
 	/// <summary>
 	/// Summary description for Form8.

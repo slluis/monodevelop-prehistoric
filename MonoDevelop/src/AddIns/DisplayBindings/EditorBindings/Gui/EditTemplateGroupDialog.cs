@@ -11,7 +11,7 @@ using System.IO;
 using ICSharpCode.SharpDevelop.Internal.Templates;
 using ICSharpCode.Core.Services;
 
-namespace ICSharpCode.SharpDevelop.Gui.Dialogs
+namespace MonoDevelop.EditorBindings.Gui.Dialogs
 {
 	public class EditTemplateGroupDialog : Gtk.Dialog 
 	{

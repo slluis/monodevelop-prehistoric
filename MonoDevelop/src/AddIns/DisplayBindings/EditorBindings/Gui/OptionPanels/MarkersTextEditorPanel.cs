@@ -7,7 +7,6 @@
 
 using System;
 using System.IO;
-using System.Drawing;
 
 using ICSharpCode.TextEditor.Document;
 using ICSharpCode.SharpDevelop.Internal.ExternalTool;
@@ -19,7 +18,7 @@ using ICSharpCode.SharpDevelop.Gui.Dialogs;
 
 using Gtk;
 
-namespace ICSharpCode.SharpDevelop.DefaultEditor.Gui.OptionPanels
+namespace MonoDevelop.EditorBindings.Gui.OptionPanels
 {
 	/// <summary>
 	/// Summary description for Form9.
@@ -64,7 +63,7 @@ namespace ICSharpCode.SharpDevelop.DefaultEditor.Gui.OptionPanels
 			
 			lineMarkerStyleComboBoxMenu.Append(MenuItem.NewWithLabel(ResourceService.GetString("Dialog.Options.IDEOptions.TextEditor.Markers.LineViewerStyle.None")));
 			lineMarkerStyleComboBoxMenu.Append(MenuItem.NewWithLabel(ResourceService.GetString("Dialog.Options.IDEOptions.TextEditor.Markers.LineViewerStyle.FullRow")));
-			lineMarkerStyleComboBox.SetHistory((uint)(LineViewerStyle)((IProperties)CustomizationObject).GetProperty("LineViewerStyle", LineViewerStyle.None));
+			//lineMarkerStyleComboBox.SetHistory((uint)(LineViewerStyle)((IProperties)CustomizationObject).GetProperty("LineViewerStyle", LineViewerStyle.None));
 		}
 		
 		public override bool StorePanelContents()
@@ -84,7 +83,8 @@ namespace ICSharpCode.SharpDevelop.DefaultEditor.Gui.OptionPanels
 			} catch (Exception) {
 			}
 			
-			((IProperties)CustomizationObject).SetProperty("LineViewerStyle", (LineViewerStyle)lineMarkerStyleComboBox.History);
+			//FIXME: This is commented out for right now
+			//((IProperties)CustomizationObject).SetProperty("LineViewerStyle", (LineViewerStyle)lineMarkerStyleComboBox.History);
 			
 			return true;
 		}

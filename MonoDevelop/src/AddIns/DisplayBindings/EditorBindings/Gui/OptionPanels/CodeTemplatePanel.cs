@@ -15,15 +15,13 @@ using ICSharpCode.Core.Properties;
 using ICSharpCode.Core.AddIns.Codons;
 
 using ICSharpCode.Core.Services;
-
-using ICSharpCode.TextEditor;
-using ICSharpCode.TextEditor.Document;
 using ICSharpCode.SharpDevelop.Gui.Dialogs;
 
 using Gtk;
 using MonoDevelop.Gui.Widgets;
+using MonoDevelop.EditorBindings.Gui.Dialogs;
 
-namespace ICSharpCode.SharpDevelop.Gui.Dialogs.OptionPanels 
+namespace MonoDevelop.EditorBindings.Gui.OptionPanels 
 {
 	public class CodeTemplatePane : AbstractOptionPanel
 	{

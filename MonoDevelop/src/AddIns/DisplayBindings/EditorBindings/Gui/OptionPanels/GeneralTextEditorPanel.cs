@@ -21,7 +21,7 @@ using ICSharpCode.Core.Services;
 using ICSharpCode.Core.AddIns.Codons;
 using ICSharpCode.SharpDevelop.Gui.Dialogs;
 
-namespace ICSharpCode.SharpDevelop.DefaultEditor.Gui.OptionPanels
+namespace MonoDevelop.EditorBindings.Gui.OptionPanels
 {
 	/// <summary>
 	/// General texteditor options panelS.
