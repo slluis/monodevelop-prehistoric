@@ -23,6 +23,8 @@ namespace Gdl
 		private Hashtable locked_items = new Hashtable ();
 		private Hashtable unlocked_items = new Hashtable ();
 		
+		public DockMaster () { Console.WriteLine ("Creating a new DockMaster"); }
+		
 		public string DefaultTitle {
 			get { return default_title; }
 			set { default_title = value; }
@@ -236,13 +238,12 @@ namespace Gdl
                           G_CALLBACK (item_dock_cb), master);
 				*/
 			} else if (objekt is DockItem) {
+				Console.WriteLine ("HOOKING UP EVENTS");
+				DockItem dock_item = objekt as DockItem;
+				dock_item.DockItemDragBegin += new DockItemDragBeginHandler (DragBegin);
+				dock_item.DockItemMotion += new DockItemMotionHandler (DragMotion);
+				dock_item.DockItemDragEnd += new DockItemDragEndHandler (DragEnd);
 				/* PORT THIS:
-				        g_signal_connect (object, "dock_drag_begin",
-                          G_CALLBACK (gdl_dock_master_drag_begin), master);
-        g_signal_connect (object, "dock_drag_motion",
-                          G_CALLBACK (gdl_dock_master_drag_motion), master);
-        g_signal_connect (object, "dock_drag_end",
-                          G_CALLBACK (gdl_dock_master_drag_end), master);
         g_signal_connect (object, "dock",
                           G_CALLBACK (item_dock_cb), master);
         g_signal_connect (object, "detach",
@@ -303,6 +304,13 @@ namespace Gdl
 						this.controller = null;
 					}
 				}
+			}
+			
+			if (objekt is DockItem) {
+				DockItem dock_item = objekt as DockItem;
+				dock_item.DockItemDragBegin -= DragBegin;
+				dock_item.DockItemDragEnd -= DragEnd;
+				dock_item.DockItemMotion -= DragMotion;
 			}
 			
 			/*PORT THIS:

@@ -217,10 +217,15 @@ namespace Gdl
 		
 		public void Bind (DockMaster _master)
 		{
-			if (_master == null)
+			Console.WriteLine ("About to attempt a bind");
+			if (_master == null) {
+				Console.WriteLine ("passed master is null");
 				return;
-			if (master == _master)
+			}
+			if (master == _master) {
+				Console.WriteLine ("passed master is this master");
 				return;
+			}
 			if (master != null) {
 				Console.WriteLine ("Attempt to bind an already bound object");
 				return;

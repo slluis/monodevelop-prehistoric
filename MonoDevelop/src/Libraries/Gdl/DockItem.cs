@@ -4,6 +4,11 @@ using Gtk;
 
 namespace Gdl
 {
+
+	public delegate void DockItemMotionHandler (DockItem o, int x, int y);
+	public delegate void DockItemDragBeginHandler (DockItem o);
+	public delegate void DockItemDragEndHandler (DockItem o, bool cancel);
+	
 	public class DockItem : DockObject
 	{		
 		private Widget child = null;
@@ -202,7 +207,7 @@ namespace Gdl
 				return;
 			}
 			if (InDrag) {
-				DockDragEnd ();
+				DockDragEnd (true);
 			}
 			
 			if (widget != Child)
@@ -420,7 +425,7 @@ namespace Gdl
 				}
 			} else if (evnt.Type == Gdk.EventType.ButtonRelease && evnt.Button == 1) {
 				if (InDrag) {
-					DockDragEnd ();
+					DockDragEnd (false);
 					event_handled = true;
 				} else if (InPreDrag) {
 					DockObjectFlags &= ~(DockObjectFlags.InPreDrag);
@@ -462,15 +467,23 @@ namespace Gdl
 			int new_x = (int)evnt.XRoot;
 			int new_y = (int)evnt.YRoot;
 			
-			//PORT THIS:
-			//    g_signal_emit (item, gdl_dock_item_signals [DOCK_DRAG_MOTION], 0, new_x, new_y);
+			
+			OnMotion (new_x, new_y);
 			return true;
+		}
+		
+		public event DockItemMotionHandler DockItemMotion;
+				
+		protected void OnMotion (int x, int y)
+		{
+			if (DockItemMotion != null)
+				DockItemMotion (this, x, y);
 		}
 		
 		protected override bool OnKeyPressEvent (Gdk.EventKey evnt)
 		{
 			if (InDrag && evnt.Key == Gdk.Key.Escape) {
-				DockDragEnd ();
+				DockDragEnd (false);
 				return true;
 			}
 			return base.OnKeyPressEvent (evnt);
@@ -599,7 +612,6 @@ namespace Gdl
 				newParent.Add (requestor);
 				newParent.Add (this);
 			}
-			Console.WriteLine ("Done Adding");
 			
 			if (parent != null)
 				parent.Add (newParent);
@@ -656,18 +668,32 @@ namespace Gdl
 			
 			Grab.Add (this);
 			
-			//PORT THIS:
-			//g_signal_emit (item, gdl_dock_item_signals [DOCK_DRAG_BEGIN], 0);
+			OnDragBegin ();
 		}
 		
-		public void DockDragEnd ()
+		public event DockItemDragBeginHandler DockItemDragBegin;
+		
+		protected void OnDragBegin ()
+		{
+			if (DockItemDragBegin != null)
+				DockItemDragBegin (this);
+		}
+		
+		public void DockDragEnd (bool cancel)
 		{
 			Grab.Remove (Grab.Current);
 			
-			//PORT THIS:
-			//g_signal_emit (item, gdl_dock_item_signals [DOCK_DRAG_END], 0);
+			OnDragEnd (cancel);
 			
 			DockObjectFlags &= ~(DockObjectFlags.InDrag);
+		}
+		
+		public event DockItemDragEndHandler DockItemDragEnd;
+		
+		protected void OnDragEnd (bool cancel)
+		{
+			if (DockItemDragEnd != null)
+				DockItemDragEnd (this, cancel);
 		}
 		
 		private void ShowHideGrip ()

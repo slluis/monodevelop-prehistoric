@@ -38,7 +38,6 @@ namespace Gdl
 		
 		private void CreateChild (Orientation orientation)
 		{
-			Console.WriteLine ("DockPaned.CreateChild");
 			if (Child != null)
 				Child.Unparent ();
 				
@@ -92,8 +91,6 @@ namespace Gdl
 		
 		public override void Docking (DockObject requestor, DockPlacement position, object other_data)
 		{
-			Console.WriteLine ("DockPaned.Docking");
-		
 			if (Child == null)
 				return;
 			Paned paned = (Paned)Child;
@@ -126,7 +123,6 @@ namespace Gdl
 				}
 				break;
 			}
-			Console.WriteLine ("DONE: {0}", done);
 			if (!done) {
 				base.Docking (requestor, position, other_data);
 			} else {
