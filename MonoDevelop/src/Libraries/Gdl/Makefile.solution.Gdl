@@ -3,18 +3,21 @@
 
 OUTPUTDIR := ./build/bin
 
-all: depcheck __init Makefile.Gdl.all 
+all: depcheck __init Makefile.Gdl.all Makefile.DockTest.all 
 
 __init:
 	mkdir -p $(OUTPUTDIR)
 
-clean: Makefile.Gdl.clean 
+clean: Makefile.Gdl.clean Makefile.DockTest.clean 
 
-depcheck: Makefile.Gdl.depcheck 
+depcheck: Makefile.Gdl.depcheck Makefile.DockTest.depcheck 
 
 run: all
-	cd $(OUTPUTDIR) && mono Gdl.dll
+	cd $(OUTPUTDIR) && mono DockTest.exe
 
 Makefile.Gdl.%:
+	@cd ./ && $(MAKE) -f $(subst .$*,,$@) $*
+
+Makefile.DockTest.%:
 	@cd ./ && $(MAKE) -f $(subst .$*,,$@) $*
 
