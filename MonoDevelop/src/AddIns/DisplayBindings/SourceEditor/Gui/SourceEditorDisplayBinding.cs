@@ -282,7 +282,7 @@ namespace MonoDevelop.SourceEditor.Gui
 		}
 		
 		// WORKAROUND until we get this method returning char in gtk#
-		[DllImport("libgtk-win32-2.0-0.dll")]
+		[DllImport("libgtk-x11-2.0.so.0")]
 		static extern char gtk_text_iter_get_char (ref Gtk.TextIter raw);
 		
 		void UpdateLineCol ()

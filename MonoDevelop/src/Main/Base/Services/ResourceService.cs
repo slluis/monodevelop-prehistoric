@@ -235,7 +235,7 @@ namespace MonoDevelop.Core.Services
 		}
 		
 		// use P/Invoke to be able to pass some NULL parameters
-		[DllImport("libgtk-win32-2.0-0.dll")]
+		[DllImport("libgtk-x11-2.0.so.0")]
 		static extern IntPtr
 		gtk_icon_set_render_icon (IntPtr raw, IntPtr style, int direction,
 		                          int state, int size, IntPtr widget,

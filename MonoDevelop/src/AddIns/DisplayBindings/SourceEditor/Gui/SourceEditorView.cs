@@ -402,7 +402,7 @@ namespace MonoDevelop.SourceEditor.Gui
 		}
 		
 		// WORKAROUND until we get this method returning char in gtk#
-		[DllImport("libgtk-win32-2.0-0.dll")]
+		[DllImport("libgtk-x11-2.0.so.0")]
 		static extern char gtk_text_iter_get_char (ref Gtk.TextIter raw);
 		
 		void UnIndentLines (int y0, int y1)
@@ -464,7 +464,7 @@ namespace MonoDevelop.SourceEditor.Gui
 		}
 		
 		// Need the ref here
-		[DllImport("libgtk-win32-2.0-0.dll")]
+		[DllImport("libgtk-x11-2.0.so.0")]
 		static extern void gtk_text_buffer_delete (IntPtr raw, ref Gtk.TextIter start, ref Gtk.TextIter end);
 		
 		void IFormattableDocument.ReplaceLine (int ln, string txt)
