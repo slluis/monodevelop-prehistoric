@@ -152,6 +152,7 @@ namespace CSharpBinding
 				}
 				
 				writer.WriteLine("/nologo");
+				writer.WriteLine("/codepage:utf8");
 //				writer.WriteLine("/utf8output");
 //				writer.WriteLine("/w:" + compilerparameters.WarningLevel);;
 				
