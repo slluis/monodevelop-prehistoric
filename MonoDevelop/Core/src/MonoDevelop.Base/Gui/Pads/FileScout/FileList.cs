@@ -21,7 +21,7 @@ namespace MonoDevelop.Gui.Pads
 	{
 		private FileSystemWatcher watcher;
 		private ArrayList Items;
-		private Gtk.TreeStore store;
+		private Gtk.ListStore store;
 		private Gtk.Menu popmenu = null;
 		FileListItem selectedItem = null;
 		Gtk.TreeIter selectedIter;
@@ -29,7 +29,7 @@ namespace MonoDevelop.Gui.Pads
 		public FileList ()
 		{
 			Items = new ArrayList ();
-			store = new Gtk.TreeStore (typeof (string), typeof (string), typeof(string), typeof(FileListItem), typeof (Gdk.Pixbuf));
+			store = new Gtk.ListStore (typeof (string), typeof (string), typeof(string), typeof(FileListItem), typeof (Gdk.Pixbuf));
 			Model = store;
 
 			HeadersVisible = true;
