@@ -76,35 +76,23 @@ namespace ILAsmBinding
 
 		private void DoCompilation (string outstr, TempFileCollection tf, out StreamReader output, out StreamReader error)
 		{
-            		ProcessStartInfo si = new ProcessStartInfo (GetCompilerName (), outstr);
+			ProcessStartInfo si = new ProcessStartInfo (GetCompilerName (), outstr);
 			si.RedirectStandardOutput = true;
-            		si.RedirectStandardError = true;
+			si.RedirectStandardError = true;
 			si.UseShellExecute = false;
 			Process p = new Process ();
-            		p.StartInfo = si;
-            		p.Start ();
-
-			IStatusBarService sbs = (IStatusBarService)ServiceManager.GetService (typeof (IStatusBarService));
-			sbs.SetMessage ("Compiling...");
-
-			while (!p.HasExited) {
-				((SdStatusBar)sbs.Control).Pulse();
-				while (Gtk.Application.EventsPending ())
-					Gtk.Application.RunIteration ();
-				System.Threading.Thread.Sleep (100);
-			}
-
-			((SdStatusBar) sbs.Control).Done ();
+			p.StartInfo = si;
+			p.Start ();
+			p.WaitForExit ();
 
 			// FIXME: avoid having a full buffer
 			// perhaps read one line and append parsed output
 			// and then return cr at end 
 			output = p.StandardOutput;
 			error = p.StandardError;
-            		p.WaitForExit ();
         }
 		
-		public ICompilerResult Compile (ProjectFileCollection projectFiles, ProjectReferenceCollection references, DotNetProjectConfiguration configuration)
+		public ICompilerResult Compile (ProjectFileCollection projectFiles, ProjectReferenceCollection references, DotNetProjectConfiguration configuration, IProgressMonitor monitor)
 		{
 			ArrayList fileNames = new ArrayList();
 			

@@ -1,3 +1,8 @@
+2005-01-24  Lluis Sanchez Gual  <lluis@novell.com>
+
+	* ILAsmLanguageBinding.cs:
+	* ILAsmCompilerManager.cs: Use the new progress monitor API.
+
 2005-01-11  Lluis Sanchez Gual  <lluis@novell.com>
 
 	* ILAsmCompilerManager.cs:
