@@ -1,5 +1,11 @@
 2005-03-24  Chris Toshok  <toshok@ximian.com>
 
+	* Gui/DebuggerStackTracePad.cs, Gui/DebuggerLocalsPad.cs,
+	Gui/DebuggerThreadPad.cs, MonoDevelopDebugger.addin.xml: fix the
+	pad ids.
+
+2005-03-24  Chris Toshok  <toshok@ximian.com>
+
 	* MonoDevelopDebugger.addin.xml: Change all the namespaces to
 	MonoDevelop.Debugger.*
 

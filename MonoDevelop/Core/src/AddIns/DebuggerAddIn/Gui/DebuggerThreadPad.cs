@@ -124,7 +124,7 @@ namespace MonoDevelop.Debugger
 		}
 
 		public string Id {
-			get { return "MonoDevelop.SourceEditor.Gui.DebuggerThreadPad"; }
+			get { return "MonoDevelop.Debugger.DebuggerThreadPad"; }
 		}
 
 		public string DefaultPlacement {

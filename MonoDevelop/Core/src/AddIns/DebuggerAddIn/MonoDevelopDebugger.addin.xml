@@ -15,9 +15,9 @@
 	</Extension>
 
 	<Extension path = "/SharpDevelop/Workbench/Pads">
-		<Pad id = "MonoDevelop.Debugger.DebuggerLocalsPad" class = "MonoDevelop.Debugger.DebuggerLocalsPad"/>
+		<Pad id = "MonoDevelop.Debugger.DebuggerLocalsPad"     class = "MonoDevelop.Debugger.DebuggerLocalsPad"/>
 		<Pad id = "MonoDevelop.Debugger.DebuggerStackTracePad" class = "MonoDevelop.Debugger.DebuggerStackTracePad"/>
-		<Pad id = "MonoDevelop.SourceEditor.Gui.DebuggerThreadPad" class = "MonoDevelop.Debugger.DebuggerThreadPad"/>
+		<Pad id = "MonoDevelop.Debugger.DebuggerThreadPad"     class = "MonoDevelop.Debugger.DebuggerThreadPad"/>
 	</Extension>
 
 	<Extension path = "/SharpDevelop/Workbench/Contexts/Debug">

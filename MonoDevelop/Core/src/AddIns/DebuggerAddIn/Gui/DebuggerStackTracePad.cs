@@ -105,7 +105,7 @@ namespace MonoDevelop.Debugger
 		}
 
 		public string Id {
-			get { return "MonoDevelop.SourceEditor.Gui.DebuggeStackTracePad"; }
+			get { return "MonoDevelop.Debugger.DebuggerStackTracePad"; }
 		}
 
 		public string DefaultPlacement {
