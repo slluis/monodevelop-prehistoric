@@ -1,3 +1,12 @@
+2004-03-12  Gustavo Giráldez  <gustavo.giraldez@gmx.net>
+
+	* gdldock/sources/gdl/Makefile.am: Build libgdldock.so using
+	automake builtin rules for shared libraries instead of a hackish,
+	home made solution.
+
+	* configure.in: Add GDLDOCK_{CFLAGS,LIBS} variables for building
+	GdlDock.
+
 2004-03-05  John BouAntoun  <jba-mono@optusnet.com.au>
 	
 	* src/Main/Base/Commands/ProjectBrowserCommands/CombineNodeCommands.cs:

@@ -1,20 +1,17 @@
-srcdir = .
-
-CFLAGS = -g -Wall -O2
-LDFLAGS = -g -shared
-
-GLIB_GENMARSHAL = $(shell which glib-genmarshal)
-GLIB_MKENUMS = $(shell which glib-mkenums)
-
-GDL_REQUIREMENTS = gtk+-2.0 libglade-2.0 libxml-2.0
-GDL_DEPENDENCIES_CFLAGS = $(shell pkg-config --cflags $(GDL_REQUIREMENTS))
-GDL_DEPENDENCIES_LIBS = $(shell pkg-config --libs $(GDL_REQUIREMENTS))
-
 INCLUDES = \
 	-DG_LOG_DOMAIN=\"GdlDock\" -I..	-I.	\
 	-DGDL_GLADEDIR=\".\"			\
 	-DGDL_IMAGESDIR=\".\"			\
-	$(GDL_DEPENDENCIES_CFLAGS)
+	$(GDLDOCK_CFLAGS)
+
+gdldocklibdir = $(prefix)/lib/monodevelop/bin
+
+gdldocklib_LTLIBRARIES = libgdldock.la
+
+dist_gdldocklib_DATA = \
+	stock-close-12.png \
+	stock-menu-left-12.png \
+	stock-menu-right-12.png
 
 libgdldock_headers = \
 	gdl-dock-bar.h \
@@ -30,7 +27,7 @@ libgdldock_headers = \
 	gdl-dock-placeholder.h \
 	gdl-stock.h
 
-libgdldock_SOURCE = \
+libgdldock_la_SOURCES = \
 	$(libgdldock_headers) \
 	gdl-i18n.h \
 	gdl-dock-bar.c \
@@ -45,29 +42,34 @@ libgdldock_SOURCE = \
 	gdl-dock-layout.c \
 	gdl-dock-placeholder.c \
 	gdl-stock.c \
+	gdl-tools.h \
 	libgdltypebuiltins.c \
 	libgdlmarshal.c
 
-libgdldock_OBJECTS = $(filter-out %.h,$(patsubst %.c,%.o,$(libgdldock_SOURCE)))
+libgdldock_la_LIBADD = $(GDLDOCK_LIBS)
+libgdldock_la_LDFLAGS = -avoid-version
 
-GENERATED_SOURCE = \
+BUILT_SOURCES = \
 	libgdltypebuiltins.h \
 	libgdltypebuiltins.c \
 	libgdlmarshal.h \
 	libgdlmarshal.c
 
-all: libgdldock.so
+EXTRA_DIST = libgdlmarshal.list layout.glade
 
-$(libgdldock_OBJECTS): $(libgdldock_headers) libgdltypebuiltins.h libgdlmarshal.h
+CLEANFILES = $(BUILT_SOURCES)
 
-libgdldock.so: $(libgdldock_OBJECTS)
-	$(CC) $(LDFLAGS) -shared -fPIC -o libgdldock.so $+ && \
-	cp libgdldock.so ../../../build/bin && \
-	cp *.png ../../../build/bin
+# Install built library to build/bin
 
-%.o: %.c
-	$(CC) $(CFLAGS) $(INCLUDES) -c $<
-	
+# The `pwd` is a hack, but libtool wants an absolute path, and
+# top_builddir is apparently always relative to the current dir.
+# When we depend on Autoconf 2.53 we can use @abs_top_builddir@
+# instead.
+
+all-local:
+	$(LIBTOOL) --mode=install $(INSTALL) libgdldock.la `pwd`/$(top_builddir)/build/bin
+	$(INSTALL_DATA) $(dist_gdldocklib_DATA) $(top_builddir)/build/bin
+
 # enumerations code generation
 
 libgdltypebuiltins.c: $(libgdldock_headers)
@@ -115,15 +117,3 @@ libgdlmarshal.c: libgdlmarshal.h
 	&& cp xgen-gmc $(@F) \
 	&& rm -f xgen-gmc
 
-gdldocklibdir = $(prefix)/lib/monodevelop/bin
-gdldocklib_DATA = libgdldock.so stock-close-12.png \
-	stock-menu-left-12.png stock-menu-right-12.png
-
-clean:
-	rm -f libgdldock.so $(libgdldock_OBJECTS) $(GENERATED_SOURCE)
-
-CLEANFILES = libgdldock.so
-
-.PHONY: clean
-
-EXTRA_DIST = $(libgdldock_SOURCE) $(libgdldock_headers) stock-close-12.png stock-menu-left-12.png stock-menu-right-12.png libgdlmarshal.list gdl-tools.h
