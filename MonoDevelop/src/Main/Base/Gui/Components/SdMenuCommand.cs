@@ -116,7 +116,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Components
 		public void SetAccel (string[] keys)
 		{
 			Gdk.ModifierType mod = 0;
-			string accel_path = "<MonoDevelop>/MainWindow/" + this.Text;
+			string accel_path = "<MonoDevelop>/MainWindow/" + this.Text + keys[keys.Length - 1];
 			uint ckey = 0;
 			foreach (string key in keys) {
 				if (key == "Control") {
@@ -129,12 +129,10 @@ namespace ICSharpCode.SharpDevelop.Gui.Components
 					ckey = Gdk.Keyval.FromName (key);
 				}
 			}
-			if (Gtk.Accel.MapLookupEntry (accel_path, new Gtk.AccelKey()) ) {
-				Gtk.Accel.MapChangeEntry (accel_path, ckey, mod, true);
-			} else {
+			if (!Gtk.Accel.MapLookupEntry (accel_path, new Gtk.AccelKey()) ) {
 				Gtk.Accel.MapAddEntry (accel_path, ckey, mod);
+				this.AccelPath = accel_path;
 			}
-			this.AccelPath = accel_path;
 		}
 		
 		protected void OnClick(object o, EventArgs e)
