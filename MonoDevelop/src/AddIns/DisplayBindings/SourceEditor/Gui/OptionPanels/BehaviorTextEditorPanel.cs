@@ -131,6 +131,15 @@ namespace MonoDevelop.EditorBindings.Gui.OptionPanels
 							 "IndentStyle", IndentStyle.Smart))){
 					smartIndentStyle.Active = true;
 				}
+				
+				// FIXME: re-enable these when their options are implemented
+				autoinsertCurlyBraceCheckBox.Sensitive = false;
+				hideMouseCursorCheckBox.Sensitive = false;
+				caretBehindEOLCheckBox.Sensitive = false;
+				autoInsertTemplatesCheckBox.Sensitive = false;	// FIXME: there is no reason why this option couldn't ber wired in right now
+				noneIndentStyle.Sensitive = false;
+				automaticIndentStyle.Sensitive = false;
+				smartIndentStyle.Sensitive = false;
 			}
 
 			public void Store (IProperties CustomizationObject)

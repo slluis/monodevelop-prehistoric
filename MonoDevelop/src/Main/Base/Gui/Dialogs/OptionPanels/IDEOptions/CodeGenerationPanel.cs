@@ -61,6 +61,13 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs.OptionPanels {
 			
 				chk_doc_comments.Active       = p.GetProperty("GenerateDocumentComments", true);
 				chk_other_comments.Active     = p.GetProperty("GenerateAdditionalComments", true);
+				
+				chk_blk_on_same_line.Sensitive = false;
+				chk_else_on_same_line.Sensitive = false;
+				chk_blank_lines.Sensitive = false;
+				chk_full_type_names.Sensitive = false;
+				chk_doc_comments.Sensitive = false;
+				chk_other_comments.Sensitive = false;
 			}
 			
 			public void Store ()
