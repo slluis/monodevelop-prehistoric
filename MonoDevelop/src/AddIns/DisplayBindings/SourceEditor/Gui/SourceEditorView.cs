@@ -143,10 +143,10 @@ namespace MonoDevelop.SourceEditor.Gui
 		{
 			//remove the current line
 			TextIter iter = buf.GetIterAtMark (buf.InsertMark);
-			TextIter start_iter = buf.GetIterAtLine (iter.Line);
+			iter.LineOffset = 0;
 			TextIter end_iter = buf.GetIterAtLine (iter.Line);
-			end_iter.ForwardToLineEnd ();
-			buf.Delete (start_iter, end_iter);
+			end_iter.LineOffset = end_iter.CharsInLine;
+			buf.Delete (iter, end_iter);
 		}
 
 		void TriggerCodeComplete ()
