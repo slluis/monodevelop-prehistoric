@@ -1,3 +1,7 @@
+2004-03-03  Todd Berman  <tberman@sevenl.net>
+
+	* bunch o' files: Added first pass debugger support.
+
 2004-03-03 John BouAntoun  <jba-mono@optusnet.com.au>
 	* src/Main/Base/Internal/Project/Project/IncludeFilesDialog.cs : Changed ShowDialog() to do a Dialog.Run() instead of Dialog.ShowAll().
 	* src/Main/Base/Internal/Project/Project/AbstractProject.cs : removed comment that said to fix the IncludeFilesDialog

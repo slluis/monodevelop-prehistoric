@@ -19,6 +19,7 @@ using ICSharpCode.SharpDevelop.Internal.Project;
 using ICSharpCode.SharpDevelop.Gui;
 
 using ICSharpCode.Core.Services;
+using MonoDevelop.Services;
 
 namespace CSharpBinding
 {
@@ -27,6 +28,16 @@ namespace CSharpBinding
 	/// </summary>
 	public class CSharpBindingExecutionManager
 	{
+		public void Debug (IProject project)
+		{
+			FileUtilityService fileUtilityService = (FileUtilityService) ServiceManager.Services.GetService (typeof (FileUtilityService));
+			string directory = fileUtilityService.GetDirectoryNameWithSeparator(((CSharpCompilerParameters)project.ActiveConfiguration).OutputDirectory);
+			string exe = ((CSharpCompilerParameters)project.ActiveConfiguration).OutputAssembly + ".exe";
+
+			DebuggingService dbgr = (DebuggingService) ServiceManager.Services.GetService (typeof (DebuggingService));
+			dbgr.Run (new string[] { Path.Combine (directory, exe) } );
+		}
+
 		public void Execute(string filename)
 		{
 			string exe = Path.ChangeExtension(filename, ".exe");

@@ -408,6 +408,12 @@ namespace ICSharpCode.SharpDevelop.Internal.Project
 			StartProject(entrynum);
 		}
 
+		public void Debug ()
+		{
+			CombineEntry entry = (CombineEntry)entries[GetEntryNumber (startProject)];
+			entry.Debug ();
+		}
+
 		public void Execute()
 		{
 			if (singleStartup) {

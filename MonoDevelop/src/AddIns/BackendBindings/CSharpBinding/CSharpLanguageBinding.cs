@@ -45,6 +45,11 @@ namespace CSharpBinding
 			Debug.Assert(executionManager != null);
 			executionManager.Execute(project);
 		}
+
+		public void DebugProject (IProject project)
+		{
+			executionManager.Debug (project);
+		}
 		
 		public string GetCompiledOutputName(string fileName)
 		{

@@ -54,6 +54,8 @@
 		       class = "ICSharpCode.SharpDevelop.Services.AmbienceService"/>
 		<Class id    = "MenuService"
 		       class = "ICSharpCode.SharpDevelop.Services.MenuService"/>
+		<Class id    = "DebuggingService"
+		       class = "MonoDevelop.Services.DebuggingService"/>
 	</Extension>
 
 	<Extension path = "/SharpDevelop/Workbench/DisplayBindings">
@@ -744,7 +746,7 @@
 	        <MenuItem id = "Run" label = "${res:XML.MainMenu.RunMenu}">
 	                <Conditional action="Disable">
 	                	<Or>
-	                		<Condition activewindow="ICSharpCode.SharpDevelop.DefaultEditor.Gui.Editor.ITextAreaControlProvider"/>
+	                		<Condition activewindow="MonoDevelop.SourceEditor.Gui.SourceEditorDisplayBindingWrapper"/>
 	                		<Condition iscombineopen="True"/>
 	                	</Or>
 	                	
@@ -780,7 +782,11 @@
 		                          description = "${res:XML.MainMenu.RunMenu.Run.Description}" 
 		                          shortcut = "F5"
 		                          class = "ICSharpCode.SharpDevelop.Commands.RunCommand"/>
-			</Conditional>		                          
+
+				<MenuItem id = "DebugProject"
+		                          label = "Debug Project"
+			                  class = "MonoDevelop.Commands.DebugProject"/>
+			</Conditional> 
 	        </MenuItem>
 	                
 	        <MenuItem id = "Tools" 

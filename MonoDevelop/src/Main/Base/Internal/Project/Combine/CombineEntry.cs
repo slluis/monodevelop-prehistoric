@@ -19,6 +19,8 @@ using ICSharpCode.SharpDevelop.Gui;
 using ICSharpCode.SharpDevelop.Internal.Project;
 using ICSharpCode.SharpDevelop.Services;
 
+using MonoDevelop.Services;
+
 namespace ICSharpCode.SharpDevelop.Internal.Project
 {
 	public abstract class CombineEntry : IDisposable
@@ -66,6 +68,7 @@ namespace ICSharpCode.SharpDevelop.Internal.Project
 		public abstract void Build(bool doBuildAll);
 		public abstract void Execute();
 		public abstract void Save();
+		public abstract void Debug ();
 	}
 	
 	public class ProjectCombineEntry : CombineEntry
@@ -190,6 +193,20 @@ namespace ICSharpCode.SharpDevelop.Internal.Project
 			}
 
 		}
+
+		public override void Debug ()
+		{
+			LanguageBindingService langBindingServ = (LanguageBindingService)ICSharpCode.Core.Services.ServiceManager.Services.GetService (typeof (LanguageBindingService));
+			ILanguageBinding binding = langBindingServ.GetBindingPerLanguageName (project.ProjectType);
+			if (binding == null) {
+				Console.WriteLine ("Language binding unknown");
+				return;
+			}
+			TaskService taskService = (TaskService)ICSharpCode.Core.Services.ServiceManager.Services.GetService (typeof (TaskService));
+
+			if (taskService.Errors == 0)
+				binding.DebugProject (project);
+		}
 		
 		public override void Save()
 		{
@@ -231,6 +248,11 @@ namespace ICSharpCode.SharpDevelop.Internal.Project
 		{
 			combine.SaveCombine(System.IO.Path.GetFullPath (Filename));
 			combine.SaveAllProjects();
+		}
+
+		public override void Debug ()
+		{
+			combine.Debug ();
 		}
 	}
 }

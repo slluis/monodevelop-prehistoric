@@ -163,6 +163,7 @@ FILES= \
 ./Commands/AutostartCommands.cs \
 ./Commands/ToolsCommands.cs \
 ./Commands/MenuItemBuilders.cs \
+./Commands/DebuggerCommands.cs \
 ./Services/File/IFileService.cs \
 ./Services/File/DefaultFileService.cs \
 ./Services/File/FileEventArgs.cs \

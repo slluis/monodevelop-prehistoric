@@ -32,6 +32,8 @@ namespace ICSharpCode.SharpDevelop.Internal.Project
 		/// the file was compiled by the compiler object before.
 		/// </summary>
 		void Execute(string fileName);
+
+		void DebugProject (IProject project);
 		
 		/// <summary>
 		/// This function executes a project, the project is given as a parameter,
