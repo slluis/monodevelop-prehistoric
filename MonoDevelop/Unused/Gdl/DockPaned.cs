@@ -1,6 +1,7 @@
 // created on 07/06/2004 at 5:43 P
 
 using System;
+using System.Xml;
 using Gtk;
 
 namespace Gdl
@@ -11,6 +12,10 @@ namespace Gdl
 		private bool positionChanged = false;
 
 		protected DockPaned (IntPtr raw) : base (raw) { }
+
+		public DockPaned () : this (Orientation.Horizontal)
+		{
+		}
 
 		public DockPaned (Orientation orientation)
 		{
@@ -60,6 +65,17 @@ namespace Gdl
 												
 			Child.Parent = this;
 			Child.Show ();
+		}
+
+		// <paned orientation="horizontal" locked="no" position="226">
+		public override void FromXml (XmlNode node)
+		{
+			string orientation = node.Attributes["orientation"].Value;
+			this.Orientation = orientation == "horizontal" ? Orientation.Horizontal : Orientation.Vertical;
+			string locked = node.Attributes["locked"].Value;
+			this.Locked = locked == "no" ? false : true;
+			string position = node.Attributes["position"].Value;
+			this.Position = int.Parse (position);
 		}
 		
 		protected override void OnAdded (Widget widget)

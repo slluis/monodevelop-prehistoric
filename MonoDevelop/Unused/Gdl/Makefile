@@ -1,4 +1,5 @@
 CSC = mcs
+RUNTIME = mono
 GDL = MonoDevelop.Dock.dll
 TEST = dock-test.exe
 
@@ -26,11 +27,9 @@ FILES = AssemblyInfo.cs \
 	DockItem.cs \
 	DockPlaceholder.cs \
 	DockObject.cs \
-	DockParamFlags.cs \
 	Dock.cs \
 	DockPaned.cs \
-	DockItemBehavior.cs \
-	IPersistLayout.cs
+	DockItemBehavior.cs
 
 all: $(GDL) $(TEST)
 
@@ -45,5 +44,5 @@ $(TEST) : GdlDockTest.cs $(GDL)
 	$(CSC) -out:$@ -r:$(GDL) -pkg:gtk-sharp-2.0 GdlDockTest.cs -codepage:utf8
 
 run-test: $(TEST)
-	mono $(TEST)
+	$(RUNTIME) $(TEST)
 

@@ -1,5 +1,6 @@
 // project created on 04/06/2004 at 6:37 P
 using System;
+using System.Xml;
 using Gtk;
 
 namespace Gdl
@@ -126,6 +127,11 @@ namespace Gdl
 				stockid = value;
 				EmitPropertyEvent ("StockId");
 			}
+		}
+
+		public virtual void FromXml (XmlNode node)
+		{
+			Console.WriteLine ("override this: {0}", this.GetType ());
 		}
 
 		protected override void OnDestroyed ()
@@ -262,10 +268,8 @@ namespace Gdl
 			DockObjectFlags |= DockObjectFlags.InDetach;
 			OnDetached (recursive);
 			DetachedHandler handler = Detached;
-			if (handler != null) {
-				DetachedArgs args = new DetachedArgs (recursive);
-				handler (this, args);
-			}
+			if (handler != null)
+				handler (this, new DetachedArgs (recursive));
 			DockObjectFlags &= ~(DockObjectFlags.InDetach);
 
 			Thaw ();		
@@ -277,7 +281,7 @@ namespace Gdl
 				return;
 				
 			if (master == null) {
-				Console.WriteLine ("Dock operation requested in a non-bound object {}.", this);
+				Console.WriteLine ("Dock operation requested in a non-bound object {0}.", this);
 				Console.WriteLine ("This might break.");
 			}
 

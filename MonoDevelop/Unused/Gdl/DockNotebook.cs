@@ -1,6 +1,7 @@
 // created on 07/06/2004 at 5:44 P
 
 using System;
+using System.Xml;
 using Gtk;
 
 namespace Gdl
@@ -90,6 +91,17 @@ namespace Gdl
 		{
 			if (w is DockObject)
 				Dock ((DockObject)w, dockInfo.position, dockInfo.data);
+		}
+
+		public override void FromXml (XmlNode node)
+		{
+			string orientation = node.Attributes["orientation"].Value;
+			this.Orientation = orientation == "vertical" ? Orientation.Vertical : Orientation.Horizontal;
+			string locked = node.Attributes["locked"].Value;
+			this.Locked = locked == "no" ? false : true;
+			string page = node.Attributes["page"].Value;
+			// FIXME: after property?
+			this.Page = int.Parse (page);
 		}
 		
 		public override void OnDocked (DockObject requestor, DockPlacement position, object data)

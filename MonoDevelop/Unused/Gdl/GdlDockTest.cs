@@ -84,6 +84,13 @@ class T
 		box.PackEnd (button, false, true, 0);
 
 		app.ShowAll ();
+
+		// placeholders
+		DockPlaceholder ph1 = new DockPlaceholder ("ph1", dock, DockPlacement.Top, false);
+		DockPlaceholder ph2 = new DockPlaceholder ("ph2", dock, DockPlacement.Bottom, false);
+		DockPlaceholder ph3 = new DockPlaceholder ("ph3", dock, DockPlacement.Left, false);
+		DockPlaceholder ph4 = new DockPlaceholder ("ph4", dock, DockPlacement.Right, false);
+
 		Application.Run ();
 	}
 	

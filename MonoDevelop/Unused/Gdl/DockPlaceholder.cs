@@ -120,7 +120,7 @@ namespace Gdl
 		
 		public void DoExcursion ()
 		{
-			if (host != null && !Sticky && placementStack != null && host.IsCompound) {
+			if (host != null && !Sticky && placementStack != null && placementStack.Count > 0 && host.IsCompound) {
 				DockPlacement pos;
 				DockPlacement stack_pos = NextPlacement;
 				foreach (Widget child in host.Children) {

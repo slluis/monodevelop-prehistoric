@@ -129,7 +129,9 @@ namespace Gdl
 							layouts.Add (n.Attributes["name"].Value);
 					}
 					UpdateLayoutsModel ();
-					return true;
+					// FIXME: for testing load the default
+					return LoadLayout (null);
+					// return true;
 				}
 				else {
 					doc = null;	
@@ -395,19 +397,52 @@ namespace Gdl
 
 		DockObject SetupObject (XmlNode node)
 		{
+			DockObject obj = null;
+			// FIXME: notebooks don't get names ...
+			if (node.Name == "notebook") {
+				DockNotebook dn = new DockNotebook ();
+				//dn.Master = master;
+				dn.FromXml (node);
+				return dn;
+			}
+			// FIXME: paned don't get names ...
+			if (node.Name == "paned") {
+				DockPaned dp = new DockPaned ();
+				//dp.Master = master;
+				dp.FromXml (node);
+				return dp;
+			}
+
 			string name = node.Attributes["name"].Value;
-			Console.WriteLine (name);
-			return null;
+			Console.WriteLine ("node: {0} name: {1}", node.Name, name);
+
+			if (name != null && name.Length > 0) {
+				obj = master.GetObject (name);
+			}
+			else {
+				Console.WriteLine ("While loading layout: don't know how to create a dock object whose nick is '{0}'", name);
+			}
+
+			// FIXME: all sorts of unserialization stuff
+			if (obj != null)
+				obj.FromXml (node);
+
+			return obj;
 		}
 
+		// this appears to create objects from the xml
 		void RecursiveBuild (XmlNode parentNode, DockObject parent)
 		{
+			Console.WriteLine ("RecursiveBuild: {0}, {1}", parentNode.Name, parent);
 			if (master == null || parentNode == null)
 				return;
 
 			DockObject obj;
 
 			// if parent is null, we should build toplevels
+			//if (parent == null)
+			//	parent = master.TopLevelDocks[0] as DockObject;
+
 			foreach (XmlNode node in parentNode.ChildNodes)
 			{
 				obj = SetupObject (node);

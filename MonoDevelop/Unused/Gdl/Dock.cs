@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections;
+using System.Xml;
 using Gtk;
 
 namespace Gdl
@@ -166,6 +167,21 @@ namespace Gdl
 				if (floating && window != null && window is Window)
 					((Window)window).Resize (width, height);
 			}
+		}
+
+		// <dock name="__dock_1" floating="no" width="-1" height="-1" floatx="0" floaty="0">
+		public override void FromXml (XmlNode node)
+		{
+			string floating = node.Attributes["floating"].Value;
+			this.Floating = floating == "no" ? false : true;
+			string width = node.Attributes["width"].Value;
+			this.Width = int.Parse (width);
+			string height = node.Attributes["height"].Value;
+			this.Height = int.Parse (height);
+			string floatx = node.Attributes["floatx"].Value;
+			this.FloatX = int.Parse (floatx);
+			string floaty = node.Attributes["floaty"].Value;
+			this.FloatY = int.Parse (floaty);
 		}
 		
 		protected override void OnSizeRequested (ref Requisition requisition)

@@ -1,5 +1,6 @@
 // created on 06/06/2004 at 10:09 P
 using System;
+using System.Xml;
 using Gtk;
 
 namespace Gdl
@@ -304,6 +305,15 @@ namespace Gdl
 				invoker.Invoke (grip);
 			if (Child != null)
 				invoker.Invoke (Child);
+		}
+
+		// <item name="Item1" orientation="vertical" locked="no"/>
+		public override void FromXml (XmlNode node)
+		{
+			string orientation = node.Attributes["orientation"].Value;
+			this.Orientation = orientation == "vertical" ? Orientation.Vertical : Orientation.Horizontal;
+			string locked = node.Attributes["locked"].Value;
+			this.Locked = locked == "no" ? false : true;
 		}
 		
 		protected override void OnSizeRequested (ref Requisition requisition)
