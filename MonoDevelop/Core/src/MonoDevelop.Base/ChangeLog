@@ -2,6 +2,8 @@
 
 	* Gui/Dialogs/CommonAboutDialog.cs: use a timeout
 	to make scrolling a more constant speed
+	* Gui/Dialogs/SharpDevelopAboutPanels.cs: remove
+	a bunch of stale code
 
 2005-01-27  John Luke  <john.luke@gmail.com>
 
