@@ -1,4 +1,3 @@
-
 using System;
 using System.Collections;
 
@@ -25,7 +24,7 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 			{
 				ICompletionData d1 = x as ICompletionData;
 				ICompletionData d2 = y as ICompletionData;
-				return String.Compare (d1.Text[0], d2.Text[0]);
+				return String.Compare (d1.Text[0], d2.Text[0], true);
 			}
 		}
 		
@@ -44,6 +43,23 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 		public static void ShowWindow (char firstChar, TextIter trigIter, ICompletionDataProvider provider, SourceEditorView ctrl)
 		{
 			wnd.ShowListWindow (firstChar, trigIter, provider,  ctrl);
+			
+			// makes control-space in midle of words to work
+			TextBuffer buf = wnd.control.Buffer; 
+			string text = buf.GetText (trigIter, buf.GetIterAtMark (buf.InsertMark), false);
+			if (text.Length == 0)
+				return;
+			
+			wnd.PartialWord = text; 
+			//if there is only one matching result we take it by default
+			if (wnd.IsUniqueMatch)
+			{	
+				wnd.Hide ();
+			}
+			
+			wnd.updateWord ();
+			
+			wnd.PartialWord = wnd.CompleteWord;		
 		}
 		
 		void ShowListWindow (char firstChar, TextIter trigIter, ICompletionDataProvider provider, SourceEditorView ctrl)
@@ -88,17 +104,22 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 				wnd.Hide ();
 				
 			if ((ka & ListWindow.KeyAction.Complete) != 0) {
-				TextIter offsetIter = wnd.control.Buffer.GetIterAtMark (wnd.triggeringMark);
-				TextIter endIter = wnd.control.Buffer.GetIterAtOffset (offsetIter.Offset + wnd.PartialWord.Length);
-				wnd.control.Buffer.MoveMark (wnd.control.Buffer.InsertMark, offsetIter);
-				wnd.control.Buffer.Delete (ref offsetIter, ref endIter);
-				wnd.control.Buffer.InsertAtCursor (wnd.CompleteWord);
+				wnd.updateWord ();
 			}
 			
 			if ((ka & ListWindow.KeyAction.Ignore) != 0)
 				return true;
 				
 			return false;
+		}
+		
+		void updateWord ()
+		{
+			TextIter offsetIter = wnd.control.Buffer.GetIterAtMark (wnd.triggeringMark);
+			TextIter endIter = wnd.control.Buffer.GetIterAtOffset (offsetIter.Offset + wnd.PartialWord.Length);
+			wnd.control.Buffer.MoveMark (wnd.control.Buffer.InsertMark, offsetIter);
+			wnd.control.Buffer.Delete (ref offsetIter, ref endIter);
+			wnd.control.Buffer.InsertAtCursor (wnd.CompleteWord);
 		}
 		
 		public new void Hide ()

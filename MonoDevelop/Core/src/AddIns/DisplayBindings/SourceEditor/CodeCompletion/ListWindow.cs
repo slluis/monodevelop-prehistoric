@@ -66,6 +66,29 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 		public string PartialWord
 		{
 			get { return word.ToString (); }
+			set
+			{
+				string newword = value;
+				if (newword.Trim ().Length == 0)
+					return;
+				
+				word = new StringBuilder (newword);
+				curPos = newword.Length;
+				UpdateWordSelection ();
+			}
+		}
+		
+		public bool IsUniqueMatch
+		{
+			get
+			{
+				int pos = list.Selection;
+				pos ++;
+				if (provider.ItemCount > pos && provider.GetText (pos).ToLower ().StartsWith (PartialWord.ToLower ()) || !(provider.GetText (list.Selection).ToLower ().StartsWith (PartialWord.ToLower ())))
+					return false;
+				
+				return true;	
+			}
 		}
 		
 		protected ListWidget List

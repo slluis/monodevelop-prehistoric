@@ -1,3 +1,9 @@
+2005-01-26  Alexandre Gomes  <alexmipego@gmail.com>
+
+	* CodeCompletion/CompletationListWindow.cs:
+	* CodeCompletion/ListWindow.cs: Closes bug #71686. Also makes
+	list sorted case-isensitive.
+
 2005-01-25  Todd Berman  <tberman@off.net>
 
 	* Gui/SourceEditorDisplayBinding.cs: Use new
