@@ -42,7 +42,6 @@ namespace JavaBinding
 			if (compilerparameters == null) compilerparameters = new JavaCompilerParameters ();
 			
 			string outdir = configuration.OutputDirectory;
-			string exe = Path.Combine (outdir, configuration.OutputAssembly + ".class");
 			string options = "";
 
 			string compiler = GetCompilerName (compilerparameters);
@@ -138,7 +137,7 @@ namespace JavaBinding
 			string asm = Path.GetFileNameWithoutExtension (outclass);
 		
 			// sadly I dont think we can specify the output .class name
-			string args = String.Format ("{0} {1} -assembly:{2}", "*.class", "-reference:/usr/lib/IKVM.GNU.Classpath.dll", asm);
+			string args = String.Format ("{0} -assembly:{1}", "*.class", asm);
             ProcessStartInfo si = new ProcessStartInfo ("ikvmc", args);
             si.WorkingDirectory = outdir;
 			si.RedirectStandardOutput = true;
@@ -183,7 +182,7 @@ namespace JavaBinding
 				if (index1 < 0)
 					continue;				
 				
-				string s1 = next.Substring (0, index1);
+				//string s1 = next.Substring (0, index1);
 				string s2 = next.Substring (index1 + 6);									
 				int index2  = s2.IndexOf (":");				
 				int line = Int32.Parse (next.Substring (index1 + 6, index2));

@@ -14,7 +14,6 @@ Project/JavaCompilerParameters.cs \
 JavaBindingCompilerServices.cs \
 JavaCompiler.cs \
 JavaLanguageBinding.cs \
-FormatingStrategy/JavaFormattingStrategy.cs \
 ProjectTreeBuilder/JavaNodeBuilder.cs
 
 TEMPLATES = \

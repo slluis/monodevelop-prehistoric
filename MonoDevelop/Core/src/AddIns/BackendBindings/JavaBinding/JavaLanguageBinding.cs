@@ -25,9 +25,8 @@ namespace JavaBinding
 	/// </summary>
 	public class JavaLanguageBinding : ILanguageBinding
 	{
-		public const string LanguageName = "Java";
-		
-		JavaBindingCompilerServices   compilerServices  = new JavaBindingCompilerServices();
+		internal const string LanguageName = "Java";
+		JavaBindingCompilerServices compilerServices = new JavaBindingCompilerServices ();
 		
 		public JavaLanguageBinding ()
 		{

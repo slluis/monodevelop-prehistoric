@@ -1,3 +1,13 @@
+2005-01-16  John Luke  <john.luke@gmail.com>
+
+	* Makefile.am: remove FormattingStrategy from build
+	* JavaLanguageBinding.cs: make const LanguageName internal
+	* JavaBindingCompilerServices.cs: remove warnings
+	* ProjectTreeBuilder/JavaNodeBuilder.cs: remove some unused
+	code that caused warnings, use MonoDevelop.Services.Runtime
+	instead of old method of getting services
+	* TODO: add
+
 2005-01-11  Lluis Sanchez Gual  <lluis@novell.com>
 
 	* JavaBindingCompilerServices.cs:
