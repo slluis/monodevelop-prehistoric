@@ -14,7 +14,7 @@ using MonoDevelop.Core.Services;
 
 namespace MonoDevelop.Gui.Dialogs
 {
-	public class ViewGPLDialog 
+	public class ViewGPLDialog : IDisposable
 	{
 		[Glade.Widget] Gtk.TextView  view;
 		[Glade.Widget] Gtk.Dialog  GPLDialog;
@@ -34,6 +34,11 @@ namespace MonoDevelop.Gui.Dialogs
  				StreamReader streamReader = new StreamReader (filename);
  				view.Buffer.Text = streamReader.ReadToEnd ();
 			}
+		}
+
+		public void Dispose ()
+		{
+			GPLDialog.Dispose ();
 		}
 
 		protected void OnCloseButtonClicked(object sender, EventArgs e)

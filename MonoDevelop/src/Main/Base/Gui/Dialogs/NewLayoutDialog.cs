@@ -10,7 +10,7 @@ using MonoDevelop.Gui;
 
 namespace MonoDevelop.Gui.Dialogs
 {
-	public class NewLayoutDialog
+	public class NewLayoutDialog : IDisposable
 	{
 		IWorkbenchLayout wbLayout = WorkbenchSingleton.Workbench.WorkbenchLayout;
 		string[] existentLayouts;
@@ -33,6 +33,11 @@ namespace MonoDevelop.Gui.Dialogs
 
 			if (wbLayout != null)
 				existentLayouts = wbLayout.Layouts;
+		}
+
+		public void Dispose ()
+		{
+			newLayoutDialog.Dispose ();
 		}
 
 		void OnNameChanged (object obj, EventArgs args)

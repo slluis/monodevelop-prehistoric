@@ -39,7 +39,7 @@ namespace MonoDevelop.Commands
 	{
 		public override void Run()
 		{
-			ViewGPLDialog vgd = new ViewGPLDialog ();
+			using (ViewGPLDialog vgd = new ViewGPLDialog ());
 		}
 	}
 	
@@ -86,9 +86,9 @@ namespace MonoDevelop.Commands
 	{
 		public override void Run()
 		{
-			//FIXME: make this a dialog and use Run
-			TipOfTheDayWindow totdw = new TipOfTheDayWindow ();
-			totdw.Show ();
+			using (TipOfTheDayWindow totdw = new TipOfTheDayWindow ()) {
+				totdw.Show ();
+			}
 		}
 	}
 	

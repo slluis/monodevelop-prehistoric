@@ -3,7 +3,12 @@
 	* Gui/BrowserDisplayBinding/HtmlViewPane.cs:
 	* Gui/BrowserDisplayBinding/BrowserDisplayBinding.cs: small cleanups
 	* Commands/HelpCommands.cs: make sure dispose is called on the
-	tip of the day and about dialogs
+	tip of the day, about and viewgpl dialogs
+	* Commands/ToolsCommands.cs: make sure dispose is called for the
+	NewLayoutDialog
+	* Gui/Dialogs/NewLayoutDialog.cs: implement IDisposable
+	* Gui/Dialogs/ViewGplDialog.cs: implement IDisposable
+	* Gui/Dialogs/TipOfTheDayDialog.cs: implement IDisposable
 
 2004-04-04  Todd Berman  <tberman@sevenl.net>
 

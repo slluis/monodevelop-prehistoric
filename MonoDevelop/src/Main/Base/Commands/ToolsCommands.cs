@@ -47,8 +47,9 @@ namespace MonoDevelop.Commands
 	{
 		public override void Run()
 		{
-			NewLayoutDialog dlg = new NewLayoutDialog ();
-			dlg.Run ();
+			using (NewLayoutDialog dlg = new NewLayoutDialog ()) {
+				dlg.Run ();
+			}
 		}
 	}
 }

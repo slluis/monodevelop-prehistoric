@@ -10,15 +10,13 @@ using System.IO;
 using System.Xml;
 
 using Gtk;
-using GtkSharp;
-
 using MonoDevelop.Gui;
 using MonoDevelop.Core.Properties;
 using MonoDevelop.Core.Services;
 
 namespace MonoDevelop.Gui.Dialogs
 {
-	public class TipOfTheDayWindow
+	public class TipOfTheDayWindow : IDisposable
 	{
  		ResourceService resourceService = (ResourceService)ServiceManager.Services.GetService (typeof (IResourceService));
  		PropertyService propertyService = (PropertyService)ServiceManager.Services.GetService (typeof (PropertyService));
@@ -56,6 +54,11 @@ namespace MonoDevelop.Gui.Dialogs
 			
 			tipTextview.Buffer.Clear ();
 			tipTextview.Buffer.InsertAtCursor (tips[currentTip]);
+		}
+
+		public void Dispose ()
+		{
+			tipOfTheDayWindow.Dispose ();
 		}
 
 		private void ParseTips (XmlElement el)
