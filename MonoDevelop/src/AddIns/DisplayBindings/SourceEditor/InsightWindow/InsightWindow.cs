@@ -58,7 +58,7 @@ namespace MonoDevelop.SourceEditor.InsightWindow
 			set {
 				((InsightDataProviderStackElement)insightDataProviderStack.Peek()).currentData = value;
 				desc.Text = DataProvider.GetInsightData (CurrentData);
-				current.Text = CurrentData.ToString ();
+				current.Text = (CurrentData + 1).ToString ();
 				max.Text = DataProvider.InsightDataCount.ToString ();
 				ReshowWithInitialSize ();
 			}
