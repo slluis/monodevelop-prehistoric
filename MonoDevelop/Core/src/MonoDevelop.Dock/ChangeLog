@@ -1,3 +1,8 @@
+2005-03-13  John Luke  <john.luke@gmail.com>
+
+	* DockPaned.cs: fix little orientaion bug when
+	loading the layout
+
 2005-03-12  Todd Berman  <tberman@off.net>
 
 	* DockItemGrip.cs: use .SetMarkup, not .SetText

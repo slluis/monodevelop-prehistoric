@@ -14,12 +14,15 @@ namespace Gdl
 
 		public DockPaned () : this (Orientation.Horizontal)
 		{
+			// loading a layout from xml may need to change orientation later
+			this.PropertyChanged += new PropertyChangedHandler (OnPropertyChanged); 
 		}
 
 		public DockPaned (Orientation orientation)
 		{
+			this.Orientation = orientation;
 			DockObjectFlags &= ~(DockObjectFlags.Automatic);
-			CreateChild (orientation);
+			CreateChild ();
 		}
 		
 		public override bool HasGrip {
@@ -46,15 +49,13 @@ namespace Gdl
 			}
 		}
 		
-		private void CreateChild (Orientation orientation)
+		private void CreateChild ()
 		{
 			if (Child != null)
 				Child.Unparent ();
 			
-			Orientation = orientation;
-
 			/* create the container paned */
-			if (orientation == Orientation.Horizontal)
+			if (this.Orientation == Orientation.Horizontal)
 				Child = new HPaned ();
 			else
 				Child = new VPaned ();
@@ -267,6 +268,14 @@ namespace Gdl
 		void OnNotifyPosition (object sender, GLib.NotifyArgs a)
 		{
 			Master.EmitLayoutChangedEvent ();
+		}
+
+		void OnPropertyChanged (object sender, string name)
+		{
+			if (name == "orientation") {
+				CreateChild ();
+				this.PropertyChanged -= OnPropertyChanged;
+			}
 		}
 	}
 }
