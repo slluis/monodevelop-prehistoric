@@ -22,6 +22,8 @@ namespace MonoDevelop.SourceEditor.Gui {
 		                SourceEditorBuffer buf;
 		public readonly SourceEditor       ParentEditor;
 
+		int lineToMark = -1;
+
 		CompletionWindow completionWindow;
 		
 		static SourceEditorView ()
@@ -46,17 +48,48 @@ namespace MonoDevelop.SourceEditor.Gui {
 		{
 			if (!ShowLineMarkers)
 				return;
-
-			if (e.Event.Window == GetWindow (Gtk.TextWindowType.Left) && e.Event.Button == 1) {
+			
+			if (e.Event.Window == GetWindow (Gtk.TextWindowType.Left)) {
 				int x, y;
 				WindowToBufferCoords (Gtk.TextWindowType.Left, (int)e.Event.X, (int)e.Event.Y, out x, out y);
 				TextIter line;
 				int top;
 
 				GetLineAtY (out line, y, out top);
+				
+				if (e.Event.Button == 1) {
+					buf.ToggleBookmark (line.Line);
+				} else if (e.Event.Button == 3) {
+					Gtk.Menu popup = new Gtk.Menu ();
+					Gtk.CheckMenuItem bookmarkItem = Gtk.CheckMenuItem.NewWithLabel ("Bookmark");
+					Gtk.CheckMenuItem breakpointItem = Gtk.CheckMenuItem.NewWithLabel ("Breakpoint");
 
-				buf.ToggleBookmark (line.Line);
+					bookmarkItem.Active = buf.IsBookmarked (line.Line);
+					breakpointItem.Active = buf.IsBreakpoint (line.Line);
+
+					bookmarkItem.Toggled += new EventHandler (bookmarkToggled);
+					breakpointItem.Toggled += new EventHandler (breakpointToggled);
+					popup.Append (bookmarkItem);
+					popup.Append (breakpointItem);
+					popup.ShowAll ();
+					lineToMark = line.Line;
+					popup.Popup (null, null, null, IntPtr.Zero, 3, e.Event.Time);
+				}
 			}
+		}
+
+		public void bookmarkToggled (object o, EventArgs e)
+		{
+			if (lineToMark == -1) return;
+			buf.ToggleMark (lineToMark, SourceMarkerType.SourceEditorBookmark);
+			lineToMark = -1;
+		}
+
+		public void breakpointToggled (object o, EventArgs e)
+		{
+			if (lineToMark == -1) return;
+			buf.ToggleMark (lineToMark, SourceMarkerType.BreakpointMark);
+			lineToMark = -1;
 		}
 
 		public void SimulateKeyPress (ref Gdk.EventKey evnt)

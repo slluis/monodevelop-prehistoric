@@ -15,7 +15,12 @@ using System.IO;
 using System.Runtime.InteropServices;
 	
 namespace MonoDevelop.SourceEditor.Gui {
-	
+
+	public enum SourceMarkerType {
+		SourceEditorBookmark,
+		BreakpointMark
+	}
+
 	// This gives us a nice way to avoid the try/finally
 	// which is really long.
 	struct NoUndo : IDisposable {
@@ -222,6 +227,16 @@ namespace MonoDevelop.SourceEditor.Gui {
 		
 		public bool IsBookmarked (int linenum)
 		{
+			return IsMarked (linenum, SourceMarkerType.SourceEditorBookmark);
+		}
+
+		public bool IsBreakpoint (int linenum)
+		{
+			return IsMarked (linenum, SourceMarkerType.BreakpointMark);
+		}
+		
+		public bool IsMarked (int linenum, SourceMarkerType type)
+		{
 			TextIter insert = GetIterAtLine (linenum);
 			TextIter begin_line = insert, end_line = insert;
 			begin_line.LineOffset = 0;
@@ -240,7 +255,7 @@ namespace MonoDevelop.SourceEditor.Gui {
 				IntPtr nm = gtk_source_marker_get_marker_type (data);
 
 				string name = GLibSharp.Marshaller.PtrToStringGFree (nm);
-				if (name == "SourceEditorBookmark") {
+				if (name == type.ToString ()) {
 					fnd_marker = true;
 					break;
 				}
@@ -253,8 +268,13 @@ namespace MonoDevelop.SourceEditor.Gui {
 			return fnd_marker;
 
 		}
-		
+
 		public void ToggleBookmark (int linenum)
+		{
+			ToggleMark (linenum, SourceMarkerType.SourceEditorBookmark);
+		}
+		
+		public void ToggleMark (int linenum, SourceMarkerType type)
 		{
 			TextIter insert = GetIterAtLine (linenum);
 			TextIter begin_line = insert, end_line = insert;
@@ -281,7 +301,7 @@ namespace MonoDevelop.SourceEditor.Gui {
 				IntPtr data = gtksharp_slist_get_data (current);
 				IntPtr nm = gtk_source_marker_get_marker_type (data);
 				string name = GLibSharp.Marshaller.PtrToStringGFree (nm);
-				if (name == "SourceEditorBookmark") {
+				if (name == type.ToString ()) {
 					gtk_source_buffer_delete_marker (Handle, data);
 					found_marker = true;
 				}
@@ -295,7 +315,7 @@ namespace MonoDevelop.SourceEditor.Gui {
 			if (found_marker)
 				return;
 			
-			gtk_source_buffer_create_marker (Handle, null, "SourceEditorBookmark", ref begin_line);
+			gtk_source_buffer_create_marker (Handle, null, type.ToString (), ref begin_line);
 		}
 		
 		[DllImport("gtksourceview-1.0")]

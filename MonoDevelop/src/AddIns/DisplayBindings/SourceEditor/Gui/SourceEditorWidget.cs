@@ -25,6 +25,7 @@ namespace MonoDevelop.SourceEditor.Gui {
 			Buffer.Highlight = true;
 			
 			View.SetMarkerPixbuf ("SourceEditorBookmark", new Gdk.Pixbuf (drag_icon_xpm));
+			View.SetMarkerPixbuf ("BreakpointMark", new Gdk.Pixbuf ("../data/resources/icons/BreakPoint.png"));
 			
 			Add (View);
 		}
