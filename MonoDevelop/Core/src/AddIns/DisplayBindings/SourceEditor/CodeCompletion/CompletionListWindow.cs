@@ -145,7 +145,6 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 			int horiz = listpos_x + lvWidth + 2;
 
 			ICompletionDataWithMarkup datawMarkup = data as ICompletionDataWithMarkup;
-			declarationviewwindow.Destroy ();
 
 			string descMarkup;
 
@@ -161,7 +160,6 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 				descMarkup += "\n\n" + (odatawMarkup == null ? odata.Description : odatawMarkup.DescriptionPango);
 			}
 
-			declarationviewwindow = new DeclarationViewWindow ();
 			declarationviewwindow.DescriptionMarkup = descMarkup;
 
 			if (declarationviewwindow.DescriptionMarkup.Length == 0)
@@ -172,12 +170,14 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 
 			declarationviewwindow.ShowAll ();
 			declarationviewwindow.Multiple = (ccdata.Overloads != 0);
-			
+
+			//FIXME: GetSize returns the size /before/ the window was automatically shrunk
 			declarationviewwindow.GdkWindow.GetSize (out dvwWidth, out dvwHeight);
+
 			if (this.Screen.Width <= horiz + dvwWidth) {
 				horiz = listpos_x - dvwWidth - 10;
 			}
-		
+			
 			declarationviewwindow.Move (horiz, vert);
 		}
 		

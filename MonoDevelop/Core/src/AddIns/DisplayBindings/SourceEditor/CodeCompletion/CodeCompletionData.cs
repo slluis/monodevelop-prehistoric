@@ -56,7 +56,8 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 		public int Overloads
 		{
 			get {
-				return overloads;
+				//return overloads;
+				return overload_data.Count;
 			}
 			set {
 				overloads = value;
@@ -82,7 +83,13 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 				text = value[0];
 			}
 		}
-		
+		public string SimpleDescription
+		{
+			get {
+				return description;
+			}
+		}
+				
 		public string Description
 		{
 			get {
@@ -139,16 +146,19 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 			}
 		}
 
-		ArrayList overload_data = new ArrayList ();
+		Hashtable overload_data = new Hashtable ();
 
 		public CodeCompletionData[] GetOverloads ()
 		{
-			return (CodeCompletionData[]) overload_data.ToArray (typeof (CodeCompletionData));
+			return (CodeCompletionData[]) (new ArrayList (overload_data.Values)).ToArray (typeof (CodeCompletionData));
 		}
 
 		public void AddOverload (CodeCompletionData overload)
 		{
-			overload_data.Add (overload);
+			string desc = overload.SimpleDescription;
+
+			if (desc != description && !overload_data.Contains (desc))
+				overload_data[desc] = overload;
 		}
 		
 		public CodeCompletionData (string s, string image)
@@ -231,7 +241,7 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 			System.IO.StringReader reader = new System.IO.StringReader("<docroot>" + doc + "</docroot>");
 			XmlTextReader xml   = new XmlTextReader(reader);
 			StringBuilder ret   = new StringBuilder();
-			Regex whitespace    = new Regex(@"\s+", RegexOptions.Singleline);
+			Regex whitespace    = new Regex(@"(\s|\n)+", RegexOptions.Singleline);
 			
 			try {
 				xml.Read();
