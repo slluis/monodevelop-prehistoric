@@ -77,8 +77,12 @@ namespace Gdl
 			CreateChild (this.Orientation);
 			string locked = node.Attributes["locked"].Value;
 			this.Locked = locked == "no" ? false : true;
-			string position = node.Attributes["position"].Value;
-			this.Position = int.Parse (position);
+		}
+
+		public override void FromXmlAfter (XmlNode node)
+		{
+			// FIXME: still dont work
+			this.Position = int.Parse (node.Attributes["position"].Value);
 		}
 		
 		protected override void OnAdded (Widget widget)

@@ -462,7 +462,8 @@ namespace Gdl
 					if (obj is DockPlaceholder)
 						obj.Detach (false);
 
-					// FIXME: apply "after" parameters
+					// apply "after" parameters
+					obj.FromXmlAfter (node);
 
 					// add the object to the parent
 					if (parent != null) {

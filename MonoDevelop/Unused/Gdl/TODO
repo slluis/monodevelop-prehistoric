@@ -2,7 +2,6 @@
  - fix:
 (<unknown>:21016): Gtk-CRITICAL **: gtk_widget_send_expose: assertion `GTK_WIDGET_REALIZED (widget)' failed
  - proper license headers
- - remove DockParamFlags? it looks useless
  - improve de-serialization (also use ExportLayoutAttribute?)
- - "after" properties, ex. restoring Notebook.Page
+ - fix notebook.Position after
  - placeholders in layout store/restore

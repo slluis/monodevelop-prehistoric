@@ -132,7 +132,10 @@ namespace Gdl
 
 		public virtual void FromXml (XmlNode node)
 		{
-			Console.WriteLine ("override this: {0}", this.GetType ());
+		}
+
+		public virtual void FromXmlAfter (XmlNode node)
+		{
 		}
 
 		protected override void OnDestroyed ()

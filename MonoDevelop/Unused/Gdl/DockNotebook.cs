@@ -99,9 +99,11 @@ namespace Gdl
 			this.Orientation = orientation == "vertical" ? Orientation.Vertical : Orientation.Horizontal;
 			string locked = node.Attributes["locked"].Value;
 			this.Locked = locked == "no" ? false : true;
-			string page = node.Attributes["page"].Value;
-			// FIXME: after property?
-			this.Page = int.Parse (page);
+		}
+
+		public override void FromXmlAfter (XmlNode node)
+		{
+			this.Page = int.Parse (node.Attributes["page"].Value);
 		}
 		
 		public override void OnDocked (DockObject requestor, DockPlacement position, object data)
