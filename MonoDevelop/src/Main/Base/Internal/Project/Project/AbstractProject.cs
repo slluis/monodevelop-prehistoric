@@ -522,6 +522,7 @@ namespace ICSharpCode.SharpDevelop.Internal.Project
 				IMessageService messageService =(IMessageService)ServiceManager.Services.GetService(typeof(IMessageService));
 				messageService.ShowMessage(filename, resourceService.GetString("Internal.Project.DefaultProject.ProjectSavedMessage"));
 			}
+			fdiag.Destroy ();
 		}
 		
 		public void CopyReferencesToOutputPath(bool force)

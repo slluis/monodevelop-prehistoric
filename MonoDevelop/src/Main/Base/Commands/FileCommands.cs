@@ -194,26 +194,21 @@ namespace ICSharpCode.SharpDevelop.Commands
 				}
 				
 				if (content.ContentName == null) {
-					/*using (SaveFileDialog fdiag = new SaveFileDialog()) {
-						fdiag.OverwritePrompt = true;
-						fdiag.AddExtension    = true;
-						
-						fdiag.Filter          = String.Join("|", (string[])(AddInTreeSingleton.AddInTree.GetTreeNode("/SharpDevelop/Workbench/FileFilter").BuildChildItems(this)).ToArray(typeof(string)));
-						
-						if (fdiag.ShowDialog() == DialogResult.OK) {
-							string fileName = fdiag.FileName;
-							// currently useless, because the fdiag.FileName can't
-							// handle wildcard extensions :(
-							if (Path.GetExtension(fileName).StartsWith("?") || Path.GetExtension(fileName) == "*") {
-								fileName = Path.ChangeExtension(fileName, "");
-							}
-							if (fileUtilityService.ObservedSave(new NamedFileOperationDelegate(content.Save), fileName) == FileOperationResult.OK) {
-								IMessageService messageService =(IMessageService)ServiceManager.Services.GetService(typeof(IMessageService));
-								messageService.ShowMessage(fileName, "File saved");
-							}
+					Gtk.FileSelection fdiag = new Gtk.FileSelection ("Save File As...");
+					fdiag.Filename = System.Environment.GetEnvironmentVariable ("HOME");
+					if (fdiag.Run () == (int)Gtk.ResponseType.Ok) {
+						string fileName = fdiag.Filename;
+						// currently useless, because the fdiag.FileName can't
+						// handle wildcard extensions :(
+						if (Path.GetExtension(fileName).StartsWith("?") || Path.GetExtension(fileName) == "*") {
+							fileName = Path.ChangeExtension(fileName, "");
 						}
-					}*/
-					Console.WriteLine ("unported dialog in FileCommands.cs");
+						if (fileUtilityService.ObservedSave(new NamedFileOperationDelegate(content.Save), fileName) == FileOperationResult.OK) {
+							IMessageService messageService =(IMessageService)ServiceManager.Services.GetService(typeof(IMessageService));
+							messageService.ShowMessage(fileName, "File saved");
+						}
+					}
+					fdiag.Destroy ();
 				} else {
 					fileUtilityService.ObservedSave(new FileOperationDelegate(content.Save), content.ContentName);
 				}

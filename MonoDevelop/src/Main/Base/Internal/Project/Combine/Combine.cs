@@ -312,6 +312,7 @@ namespace ICSharpCode.SharpDevelop.Internal.Project
 				IMessageService messageService =(IMessageService)ServiceManager.Services.GetService(typeof(IMessageService));
 				messageService.ShowMessage(filename, resourceService.GetString("Internal.Project.Combine.CombineSavedMessage"));
 			}
+			fdiag.Destroy ();
 		}
 
 		public object AddEntry(string filename)
