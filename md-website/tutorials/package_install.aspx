@@ -82,7 +82,7 @@ Other binary packages are under development, and will be available soon.
 export PKG_CONFIG_PATH="/usr/lib/pkgconfig"
 tar -xjf monodevelop-0.2.tar.gz
 cd monodevelop-0.2
-./autogen.sh --prefix=/usr
+./configure --prefix=/usr
 make
 make install
 </pre>
