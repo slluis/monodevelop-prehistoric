@@ -1,5 +1,11 @@
 2005-03-15  John Luke  <john.luke@gmail.com>
 
+	* DockBar.cs:
+	* DockBarButton.cs: simplify by just using the
+	Clicked signal
+
+2005-03-15  John Luke  <john.luke@gmail.com>
+
 	* DockItemBehavior.cs: add NoGrip flag
 	* DockItem.cs:
 	* DockItemGrip.cs: hide/show the DockItemGrip based

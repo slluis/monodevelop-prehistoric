@@ -40,7 +40,7 @@ namespace Gdl
 			tooltips.SetTip (button, item.Name, item.Name);
 			item.DockBar = this;
 			item.DockBarButton = button;
-			button.DockButtonClicked += OnDockButtonClicked;
+			button.Clicked += OnDockButtonClicked;
 			this.ShowAll ();
 		}
 		
