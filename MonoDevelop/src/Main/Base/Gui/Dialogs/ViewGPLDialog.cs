@@ -29,7 +29,7 @@ namespace MonoDevelop.Gui.Dialogs
 			if (fileUtilityService.TestFileExists(filename)) {
 				Glade.XML gplDialog = new Glade.XML (null, "Base.glade", "GPLDialog", null);
 				gplDialog.Autoconnect (this);
-				GPLDialog.DefaultResponse = (int) ResponseType.Close;
+				GPLDialog.DefaultResponse = ResponseType.Close;
 				GPLDialog.TransientFor = (Gtk.Window) WorkbenchSingleton.Workbench;
  				StreamReader streamReader = new StreamReader (filename);
  				view.Buffer.Text = streamReader.ReadToEnd ();

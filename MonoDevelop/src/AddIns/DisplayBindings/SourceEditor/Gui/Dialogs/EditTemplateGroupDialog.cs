@@ -77,7 +77,7 @@ namespace MonoDevelop.EditorBindings.Gui.Dialogs
 			this.VBox.PackStart(hBox1, false, false, 6);
 			
 			// set up the buttons and add them
-			this.DefaultResponse = (int) Gtk.ResponseType.Ok;
+			this.DefaultResponse = Gtk.ResponseType.Ok;
 			Gtk.Button cancelButton = new Gtk.Button(Gtk.Stock.Cancel);
 			Gtk.Button okButton = new Gtk.Button(Gtk.Stock.Ok);
 			okButton.Clicked += new EventHandler(AcceptEvent);
