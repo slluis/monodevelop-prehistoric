@@ -68,5 +68,5 @@ $(DLL): $(SOURCES) ../../../../data/resources/glade/texteditoraddin.glade
 		/r:../../../../build/bin/MonoDevelop.Gui.Widgets.dll \
 		/r:glib-sharp.dll \
 		/resource:../../../../data/resources/glade/texteditoraddin.glade,texteditoraddin.glade \
-		/define:GTK /r:gtk-sharp.dll /r:gdk-sharp.dll \
+		/define:GTK /r:gtk-sharp.dll /r:gdk-sharp.dll /r:gnome-sharp.dll\
 		$(SOURCES)
