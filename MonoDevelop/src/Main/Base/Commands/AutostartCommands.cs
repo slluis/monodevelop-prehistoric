@@ -167,7 +167,7 @@ namespace ICSharpCode.SharpDevelop.Commands
 			
 			PropertyService propertyService = (PropertyService)ServiceManager.Services.GetService(typeof(PropertyService));
 			
-			idleEventHandler = new EventHandler(ShowTipOfTheDay);
+			//idleEventHandler = new EventHandler(ShowTipOfTheDay);
 			//Application.Idle += idleEventHandler;
 			
 			IProjectService projectService = (IProjectService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
@@ -211,6 +211,8 @@ namespace ICSharpCode.SharpDevelop.Commands
 #endif
 			
 			((Gtk.Window)WorkbenchSingleton.Workbench).ShowAll ();
+		
+			ShowTipOfTheDay (null, null);
 		
 			// finally run the workbench window ...
 			Gtk.Application.Run();

@@ -89,9 +89,7 @@ namespace ICSharpCode.SharpDevelop.Commands
 	{
 		public override void Run()
 		{
-			ResourceService resourceService = (ResourceService)ServiceManager.Services.GetService(typeof(IResourceService));
-			string didyouknowtext = resourceService.GetString("Dialog.TipOfTheDay.DidYouKnowText");	
-			TipOfTheDayDialog totdd = new TipOfTheDayDialog (didyouknowtext);
+			TipOfTheDayDialog totdd = new TipOfTheDayDialog ();
 			totdd.Run ();
 		}
 	}

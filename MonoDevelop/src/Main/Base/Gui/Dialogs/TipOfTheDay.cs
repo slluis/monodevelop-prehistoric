@@ -44,6 +44,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 
 			TextView view = new TextView ();
 			view.WrapMode = WrapMode.Word;
+			view.Editable = false;
 			buffer = view.Buffer;
 			buffer.InsertAtCursor(tips[curtip]);
 
@@ -72,17 +73,21 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
  		ResourceService resourceService = (ResourceService)ServiceManager.Services.GetService(typeof(IResourceService));
  		PropertyService propertyService = (PropertyService)ServiceManager.Services.GetService(typeof(PropertyService));
 
-		public TipOfTheDayDialog(string didyouknowtext) :  base ((Window) WorkbenchSingleton.Workbench,
-				                    DialogFlags.Modal,
+		public TipOfTheDayDialog() :  base ((Window) WorkbenchSingleton.Workbench,
+				                    DialogFlags.DestroyWithParent,
 				                    MessageType.Info,
 				                    ButtonsType.None,
-				                    didyouknowtext)
+				                    "")
 		{
+
+			this.Modal = false;
+
+			this.Title = resourceService.GetString ("Dialog.TipOfTheDay.DidYouKnowText");
+		
 			this.SetDefaultSize (320, 240);
 
 			viewTipsAtStartCheckBox = new CheckButton("Show tips at startup");
- 			viewTipsAtStartCheckBox.Active = propertyService.GetProperty(
-				"ICSharpCode.SharpDevelop.Gui.Dialog.TipOfTheDayView.ShowTipsAtStartup", true);
+ 			viewTipsAtStartCheckBox.Active = propertyService.GetProperty("ICSharpCode.SharpDevelop.Gui.Dialog.TipOfTheDayView.ShowTipsAtStartup", true);
 			this.AddActionWidget(viewTipsAtStartCheckBox, (int) UserDefinedResponseType.Show);
 
 			nextTipButton = (Button) this.AddButton ("_Next Tip", (int) UserDefinedResponseType.Next);
@@ -114,8 +119,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 				tipview.NextTip();
 				break;
 			case (int) UserDefinedResponseType.Show : 
-				propertyService.SetProperty("ICSharpCode.SharpDevelop.Gui.Dialog.TipOfTheDayView.ShowTipsAtStartup", 
-						viewTipsAtStartCheckBox.Active);
+				propertyService.SetProperty("ICSharpCode.SharpDevelop.Gui.Dialog.TipOfTheDayView.ShowTipsAtStartup", viewTipsAtStartCheckBox.Active);
 				break;
 			}
 		}
