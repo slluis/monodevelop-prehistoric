@@ -25,15 +25,11 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads
 		private FileSystemWatcher watcher;
 		private ItemCollection Items;
 		private Gtk.ListStore store;
-		private static Gnome.IconTheme theme;
-		private static Gnome.ThumbnailFactory tFactory;
 		
 //		private MagicMenus.PopupMenu menu = null;
 		
 		public FileList()
 		{
-			theme = new Gnome.IconTheme ();
-			tFactory = new Gnome.ThumbnailFactory (Gnome.ThumbnailSize.Normal);
 			Items = new ItemCollection(this);
 			ResourceManager resources = new ResourceManager("ProjectComponentResources", this.GetType().Module.Assembly);
 			FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.Services.GetService(typeof(FileUtilityService));
@@ -390,12 +386,14 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads
 
 			Gtk.Frame treef  = new Gtk.Frame();
 			Gtk.VBox utilVBox = new Gtk.VBox (false, 0);
-			Gtk.HBox hbox = new Gtk.HBox (false, 0);
+			Gtk.HBox hbox = new Gtk.HBox (false, 6);
 			pathEntry = new Gtk.Entry (fb.CurrentDir);
 			//pathEntry.Activated += new EventHandler (OnPathEntryActivated);
 			hbox.PackStart (pathEntry);
 			Gtk.Button homeButton = new Gtk.Button ();
-			homeButton.Child = new Gtk.Image (FileIconLoader.GetPixbufForType ("gnome-home"));
+			Gdk.Pixbuf pix = FileIconLoader.GetPixbufForType ("gnome-home");
+			homeButton.Child = new Gtk.Image (pix.ScaleSimple (20, 20, Gdk.InterpType.Bilinear));
+			homeButton.Relief = Gtk.ReliefStyle.None;
 			homeButton.Clicked += new EventHandler (OnHomeClicked);
 			hbox.PackStart (homeButton, false, false, 0);
 			utilVBox.PackStart (hbox, false, true, 0);
