@@ -107,7 +107,9 @@ namespace MonoDevelop.Gui {
 		}
 		
 		public void Remove() {
-			throw new NotImplementedException();
+			if (TreeView != null) {
+				TreeView.RemoveNode(this);
+			}
 		}
 
 		internal void SetTreeView(TreeView t) {
