@@ -106,6 +106,7 @@ namespace MonoDevelop.Gui.Dialogs
 				helpButtons.AddWidget(replaceHelpButton);
 				
 				replaceHelpButton.Sensitive = false;
+				ReplaceDialogPointer = this.ReplaceInFilesDialogWidget;
 			}
 			else
 			{
@@ -253,7 +254,21 @@ namespace MonoDevelop.Gui.Dialogs
 		
 		void BrowseDirectoryEvent(object sender, EventArgs e)
 		{
+			PropertyService PropertyService = (PropertyService)ServiceManager.Services.GetService (typeof (PropertyService));			
 			FolderDialog fd = new FolderDialog(GettextCatalog.GetString ("Select directory"));
+
+			// set up the dialog to point to currently selected folder, or the default projects folder
+			string defaultFolder = this.directoryTextBox.Text;	
+			if (defaultFolder == string.Empty || defaultFolder == null) {
+				// only use the bew project default path if there is no path set
+				defaultFolder =	PropertyService.GetProperty (
+						"MonoDevelop.Gui.Dialogs.NewProjectDialog.DefaultPath", 
+						System.IO.Path.Combine (
+							System.Environment.GetEnvironmentVariable ("HOME"),
+							"MonoDevelopProjects")).ToString ();
+			}
+			fd.Complete (defaultFolder);
+
 			if (fd.Run() == (int)Gtk.ResponseType.Ok)
 			{
 				directoryTextBox.Text = fd.Filename;

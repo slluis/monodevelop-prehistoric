@@ -1,3 +1,9 @@
+2004-06-10  John BouAntoun  <jba-mono@optusnet.com.au>
+	* Gui/Dialogs/ReplaceInFilesDialog.cs: Fix ReplaceInFilesDialog to 
+	make it show instead of crashing MD, also made the '...' browse 
+	button pick up current path or use default project path in the 
+	folder selection dialog it opens up.
+
 2004-06-10  Todd Berman  <tberman@sevenl.net>
 
 	* Gui/SourceEditorBuffer.cs: use the win32 dll name that gtk-sharp
