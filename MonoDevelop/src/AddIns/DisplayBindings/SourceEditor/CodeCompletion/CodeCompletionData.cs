@@ -209,7 +209,7 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 		
 		public void InsertAction(SourceEditorView control)
 		{
-			//((SharpDevelopTextAreaControl)control).ActiveTextAreaControl.TextArea.InsertString(completionString);
+			control.Buffer.InsertAtCursor (completionString);
 		}
 
 		public static string GetDocumentation(string doc)
