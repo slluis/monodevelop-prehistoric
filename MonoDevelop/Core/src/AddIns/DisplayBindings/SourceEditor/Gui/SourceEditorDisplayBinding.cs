@@ -518,6 +518,7 @@ namespace MonoDevelop.SourceEditor.Gui
 			
 			se.View.InsertSpacesInsteadOfTabs = TextEditorProperties.ConvertTabsToSpaces;
 			se.View.AutoIndent = (TextEditorProperties.IndentStyle == IndentStyle.Auto);
+			se.View.AutoInsertTemplates = TextEditorProperties.AutoInsertTemplates;
 			
 			//System.Console.WriteLine(e.Key + " = " + e.NewValue + "(from " + e.OldValue + ")" );
 					// The items below can't be done (since there is no support for it in gtksourceview)

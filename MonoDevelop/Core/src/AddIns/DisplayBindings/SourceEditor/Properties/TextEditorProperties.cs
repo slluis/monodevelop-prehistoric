@@ -272,6 +272,15 @@ namespace MonoDevelop.EditorBindings.Properties {
 				properties.SetProperty("AutoInsertCurlyBracket", value);
 			}
 		}
+
+		public static bool AutoInsertTemplates {
+			get {
+				return properties.GetProperty("AutoInsertTemplates", true);
+			}
+			set {
+				properties.SetProperty("AutoInsertTemplates", value);
+			}
+		}
 		
 		public static FontDescription Font {
 			get {

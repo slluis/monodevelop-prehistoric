@@ -31,10 +31,16 @@ namespace MonoDevelop.SourceEditor.Gui
 		int lineToMark = -1;
 		bool codeCompleteEnabled;
 		bool autoHideCompletionWindow = true;
+		bool autoInsertTemplates;
 
 		public bool EnableCodeCompletion {
 			get { return codeCompleteEnabled; }
 			set { codeCompleteEnabled = value; }
+		}
+
+		public bool AutoInsertTemplates {
+			get { return autoInsertTemplates; }
+			set { autoInsertTemplates = value; }
 		}
 		
 		public SourceEditorView (SourceEditorBuffer buf, SourceEditor parent)
@@ -306,21 +312,24 @@ namespace MonoDevelop.SourceEditor.Gui
 
 			switch ((char)key) {
 			case ' ':
-				string word = GetWordBeforeCaret ();
-				if (word != null) {
-					/*if (word.ToLower () == "new") {
-						if (EnableCodeCompletion) {
-							completionWindow = new CompletionWindow (this, ParentEditor.DisplayBinding.ContentName, new CodeCompletionDataProvider (true));
-							completionWindow.ShowCompletionWindow ((char)key, buf.GetIterAtMark (buf.InsertMark), true);
-						}
-					}*/
-					CodeTemplateGroup templateGroup = CodeTemplateLoader.GetTemplateGroupPerFilename(ParentEditor.DisplayBinding.ContentName);
+				if (AutoInsertTemplates)
+				{
+					string word = GetWordBeforeCaret ();
+					if (word != null) {
+						/*if (word.ToLower () == "new") {
+							if (EnableCodeCompletion) {
+								completionWindow = new CompletionWindow (this, ParentEditor.DisplayBinding.ContentName, new CodeCompletionDataProvider (true));
+								completionWindow.ShowCompletionWindow ((char)key, buf.GetIterAtMark (buf.InsertMark), true);
+							}
+						}*/
+						CodeTemplateGroup templateGroup = CodeTemplateLoader.GetTemplateGroupPerFilename(ParentEditor.DisplayBinding.ContentName);
 					
-					if (templateGroup != null) {
-						foreach (CodeTemplate template in templateGroup.Templates) {
-							if (template.Shortcut == word) {
-								InsertTemplate(template);
-								return false;
+						if (templateGroup != null) {
+							foreach (CodeTemplate template in templateGroup.Templates) {
+								if (template.Shortcut == word) {
+									InsertTemplate(template);
+									return false;
+								}
 							}
 						}
 					}

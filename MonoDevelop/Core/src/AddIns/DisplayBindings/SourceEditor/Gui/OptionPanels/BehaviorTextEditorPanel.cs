@@ -55,8 +55,6 @@ namespace MonoDevelop.EditorBindings.Gui.OptionPanels
 			[Glade.Widget] Label indentSizeLabel;
 			[Glade.Widget] Label indentLabel;
 			[Glade.Widget] CheckButton autoinsertCurlyBraceCheckBox;
-			[Glade.Widget] CheckButton hideMouseCursorCheckBox;
-			[Glade.Widget] CheckButton caretBehindEOLCheckBox;
 			[Glade.Widget] CheckButton autoInsertTemplatesCheckBox;
 			[Glade.Widget] CheckButton convertTabsToSpacesCheckBox;
 			[Glade.Widget] RadioButton noneIndentStyle;
@@ -67,15 +65,9 @@ namespace MonoDevelop.EditorBindings.Gui.OptionPanels
 			public BehaviorTextEditorPanelWidget (IProperties CustomizationObject) :  
 				base ("EditorBindings.glade", "BehaviorTextEditorPanel")
 			{
-				// Set up Text
-
 				// Set up Value
 				autoinsertCurlyBraceCheckBox.Active = ((IProperties)CustomizationObject).GetProperty(
 					"AutoInsertCurlyBracket", true);
-				hideMouseCursorCheckBox.Active      = ((IProperties)CustomizationObject).GetProperty(
-					"HideMouseCursor", true);
-				caretBehindEOLCheckBox.Active       = ((IProperties)CustomizationObject).GetProperty(
-					"CursorBehindEOL", false);
 				autoInsertTemplatesCheckBox.Active  = ((IProperties)CustomizationObject).GetProperty(
 					"AutoInsertTemplates", true);
 				convertTabsToSpacesCheckBox.Active  = ((IProperties)CustomizationObject).GetProperty(
@@ -104,10 +96,6 @@ namespace MonoDevelop.EditorBindings.Gui.OptionPanels
 				
 				// FIXME: re-enable these when their options are implemented
 				autoinsertCurlyBraceCheckBox.Sensitive = false;
-				hideMouseCursorCheckBox.Sensitive = false;
-				caretBehindEOLCheckBox.Sensitive = false;
-                // FIXME: there is no reason why this option couldn't ber wired in right now				
-                autoInsertTemplatesCheckBox.Sensitive = false;	
    				// FIXME: renable this when smart indent is back
 				//smartIndentStyle.Sensitive = false;
 			}
@@ -118,10 +106,6 @@ namespace MonoDevelop.EditorBindings.Gui.OptionPanels
 					"TabsToSpaces",           convertTabsToSpacesCheckBox.Active);
 				((IProperties)CustomizationObject).SetProperty(
 					"AutoInsertCurlyBracket", autoinsertCurlyBraceCheckBox.Active);
-				((IProperties)CustomizationObject).SetProperty(
-					"HideMouseCursor",        hideMouseCursorCheckBox.Active);
-				((IProperties)CustomizationObject).SetProperty(
-					"CursorBehindEOL",        caretBehindEOLCheckBox.Active);
 				((IProperties)CustomizationObject).SetProperty(
 					"AutoInsertTemplates",    autoInsertTemplatesCheckBox.Active);
 
