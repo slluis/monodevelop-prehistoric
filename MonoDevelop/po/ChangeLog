@@ -1,3 +1,7 @@
+2005-01-08  Christian Hergert <chris@mosaix.net>
+
+	* Added MonoQuery files to POTFILES.in
+
 2004-10-27  Vincent Daron <vdaron@ask.be>
 
 	* fr.po: updated.
