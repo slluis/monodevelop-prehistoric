@@ -1,3 +1,7 @@
+2004-05-29  Vladimir Vukicevic  <vladimir@pobox.com>
+
+	* Services/GettextCatalog.cs: fix marshalling issues and gettext
+
 2004-05-26  Todd Berman  <tberman@sevenl.net>
 
 	* Services/GettextCatalog.cs: oops, thats not what i wanted i guess.

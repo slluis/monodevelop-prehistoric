@@ -44,23 +44,39 @@ namespace MonoDevelop.Services
 		}
 	
 		[DllImport ("libmonodevelop")]
-		private static extern string intl_get_string (string str);
+		private static extern IntPtr intl_get_string (IntPtr sptr);
 	
 		public static string GetString (string str)
 		{
-			return intl_get_string (str);
+			IntPtr inptr = Marshal.StringToHGlobalAuto (str);
+			IntPtr sptr = intl_get_string (inptr);
+			Marshal.FreeHGlobal (inptr);
+			if (inptr == sptr)
+				return str;
+			else
+				return Marshal.PtrToStringAuto (sptr);
 		}
 	
 		[DllImport ("libmonodevelop")]
-		private static extern string intl_get_plural_string (string singular,
-								     string plural,
+		private static extern IntPtr intl_get_plural_string (IntPtr singular,
+								     IntPtr plural,
 								     int n);
 	
 		public static string GetPluralString (string singular,
 			    	 	              string plural,
 					              int n)
 		{
-			return intl_get_plural_string (singular, plural, n);
+			IntPtr singptr = Marshal.StringToHGlobalAuto (singular);
+			IntPtr plurptr = Marshal.StringToHGlobalAuto (plural);
+			IntPtr sptr = intl_get_plural_string (singptr, plurptr, n);
+			Marshal.FreeHGlobal (singptr);
+			Marshal.FreeHGlobal (plurptr);
+			if (sptr == singptr)
+				return singular;
+			else if (sptr == plurptr)
+				return plural;
+			else
+				return Marshal.PtrToStringAuto (sptr);
 		}
 	}
 }
