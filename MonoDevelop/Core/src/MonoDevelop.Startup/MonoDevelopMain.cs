@@ -200,22 +200,18 @@ namespace MonoDevelop
 				string file = fileToOpen;
 				if (file == null || file.Length == 0)
 					return false;
-				switch (System.IO.Path.GetExtension(file).ToUpper()) {
-				case ".CMBX":
-				case ".PRJX":
+				if (Runtime.ProjectService.IsCombineEntryFile (file)) {
 					try {
 						IProjectService projectService = (IProjectService)ServiceManager.GetService (typeof (IProjectService));
 						projectService.OpenCombine(file);
 					} catch (Exception e) {
 					}
-					break;
-				default:
+				} else {
 					try {
 						IFileService fileService = (IFileService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IFileService));
 						fileService.OpenFile(file);
 					} catch (Exception e) {
 					}
-					break;
 				}
 				((Gtk.Window)WorkbenchSingleton.Workbench).Present ();
 				return false;

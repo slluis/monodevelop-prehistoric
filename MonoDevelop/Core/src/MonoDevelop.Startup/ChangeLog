@@ -1,3 +1,7 @@
+2005-01-14  Lluis Sanchez Gual  <lluis@novell.com>
+
+	* MonoDevelopMain.cs: Use new api for checking for combine files.
+
 2004-12-03  John Luke  <john.luke@gmail.com>
 
 	* Dialogs/ExceptionDialog.cs: remove obsolete gtype stuff
