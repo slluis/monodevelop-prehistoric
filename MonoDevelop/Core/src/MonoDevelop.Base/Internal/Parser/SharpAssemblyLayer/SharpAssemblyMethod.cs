@@ -98,7 +98,7 @@ namespace MonoDevelop.Internal.Parser {
 			}
 			
 			uint offset = methodDef.Signature;
-			int size = assembly.LoadBlob(ref offset);
+			assembly.LoadBlob(ref offset);
 			offset += 1;  // skip calling convention
 			int numReturnTypes = assembly.LoadBlob(ref offset);
 					

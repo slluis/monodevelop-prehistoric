@@ -49,13 +49,12 @@ namespace MonoDevelop.Gui.Dialogs.OptionPanels
 				rendererToggle.Toggled += new ToggledHandler (ItemToggled);
 				includeTreeView.AppendColumn ("Choosen", rendererToggle, "active", 0);
 				includeTreeView.AppendColumn ("Name", new CellRendererText (), "text", 1);
-				TreeIter iter = new TreeIter ();
 				
 				foreach (ProjectFile info in project.ProjectFiles) {
 					if (info.BuildAction == BuildAction.Nothing || info.BuildAction == BuildAction.Compile) {
 						string name = Runtime.FileUtilityService.AbsoluteToRelativePath(
 							project.BaseDirectory, info.Name).Substring(2);
-						iter = store.AppendValues (info.BuildAction == BuildAction.Compile ? true : false, name);
+						store.AppendValues (info.BuildAction == BuildAction.Compile ? true : false, name);
 					}
 				}
 			}			
@@ -95,7 +94,7 @@ namespace MonoDevelop.Gui.Dialogs.OptionPanels
 						success = false;
 					}
 				}
-				return true;
+				return success;
 			}
 		}
 		

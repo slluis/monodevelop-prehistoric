@@ -77,7 +77,7 @@ namespace MonoDevelop.Commands.ProjectBrowser
 	{
 		public override void Run()
 		{
-			ProjectBrowserView browser = (ProjectBrowserView)Owner;
+/*			ProjectBrowserView browser = (ProjectBrowserView)Owner;
 			AbstractBrowserNode node   = browser.SelectedNode as AbstractBrowserNode;
 			AbstractBrowserNode projectNode = DefaultDotNetNodeBuilder.GetProjectNode(node);
 			bool bInitReferences = false;
@@ -85,7 +85,7 @@ namespace MonoDevelop.Commands.ProjectBrowser
 			if (node != null) {
 				Project project = ((ProjectBrowserNode)node.Parent).Project;
 			
-/*				using (AddWebReferenceDialog refDialog = new AddWebReferenceDialog(project)) {
+				using (AddWebReferenceDialog refDialog = new AddWebReferenceDialog(project)) {
 					if (refDialog.ShowDialog() == DialogResult.OK) {						
 						foreach(object objReference in refDialog.ReferenceInformations) {
 							if(objReference is ProjectReference) {
@@ -122,8 +122,8 @@ namespace MonoDevelop.Commands.ProjectBrowser
 						}
 						projectService.SaveCombine();						
 					}
-				}*/				
-			}
+				}
+			}*/
 		}
 	}
 }

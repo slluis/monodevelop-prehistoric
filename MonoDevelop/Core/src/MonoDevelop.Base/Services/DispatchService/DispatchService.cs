@@ -22,7 +22,6 @@ namespace MonoDevelop.Services
 		public override void InitializeService ()
 		{
 			guiContext = new GuiSyncContext ();
-			SyncContext.SetContext (guiContext);
 			
 			guiThreadId = AppDomain.GetCurrentThreadId();
 			

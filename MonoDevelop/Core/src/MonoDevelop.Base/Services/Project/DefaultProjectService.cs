@@ -286,7 +286,7 @@ namespace MonoDevelop.Services
 		{
 			if (openCombine == null) return NullAsyncOperation.Success;
 			if (currentRunOperation != null && !currentRunOperation.IsCompleted) return currentRunOperation;
-			IProgressMonitor monitor = Runtime.TaskService.GetRunProgressMonitor ();
+			IProgressMonitor monitor = new NullProgressMonitor ();
 			Runtime.DispatchService.ThreadDispatch (new StatefulMessageHandler (ExecuteActiveCombineAsync), monitor);
 			currentRunOperation = monitor.AsyncOperation;
 			return currentRunOperation;
@@ -308,7 +308,7 @@ namespace MonoDevelop.Services
 
 		public IAsyncOperation ExecuteProject (Project project)
 		{
-			IProgressMonitor monitor = Runtime.TaskService.GetRunProgressMonitor ();
+			IProgressMonitor monitor = new NullProgressMonitor ();
 			Runtime.DispatchService.ThreadDispatch (new StatefulMessageHandler (ExecuteProjectAsync), new object[] {project, monitor});
 			return monitor.AsyncOperation;
 		}
@@ -417,7 +417,7 @@ namespace MonoDevelop.Services
 			if (!project.NeedsBuilding) return NullAsyncOperation.Success;
 
 			BeforeCompile (project);
-			IProgressMonitor monitor = Runtime.TaskService.GetRunProgressMonitor ();
+			IProgressMonitor monitor = new NullProgressMonitor ();
 			Runtime.DispatchService.ThreadDispatch (new StatefulMessageHandler (BuildProjectAsync), new object[] {project, monitor});
 			return monitor.AsyncOperation;
 		}

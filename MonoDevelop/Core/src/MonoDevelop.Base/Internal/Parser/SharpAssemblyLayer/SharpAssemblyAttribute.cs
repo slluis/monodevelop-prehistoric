@@ -37,7 +37,6 @@ namespace MonoDevelop.Internal.Parser {
 			
 			if (attribute.IsMemberRef) {
 				MemberRef[] memberTable = assembly.Tables.MemberRef;
-				TypeRef[] typeRefTable  = assembly.Tables.TypeRef;
 				
 				sigOffset = memberTable[attribute.MemberIndex].Signature;
 				uint trIndex = memberTable[attribute.MemberIndex].Class;
@@ -76,7 +75,7 @@ namespace MonoDevelop.Internal.Parser {
 			try {
 			
 				// Get return types of positional arguments by inspecting the method signature
-				int size = assembly.Reader.LoadBlob(ref sigOffset);
+				assembly.Reader.LoadBlob(ref sigOffset);
 				sigOffset += 1;  // skip calling convention
 				int numReturnTypes = assembly.Reader.LoadBlob(ref sigOffset);
 						
@@ -145,7 +144,7 @@ namespace MonoDevelop.Internal.Parser {
 				ushort numnamed = binaryReader.ReadUInt16();
 				
 				for (int i = 0; i < numnamed; ++i) {
-					byte field_or_prop = binaryReader.ReadByte();
+					/*byte field_or_prop = */ binaryReader.ReadByte();
 					byte type = binaryReader.ReadByte();
 					
 					string typename = "";

@@ -437,7 +437,7 @@ namespace MonoDevelop.Gui
 		
 		public IWorkbenchWindow ShowView(IViewContent content)
 		{	
-			string title = "";
+			string title;
 			Gtk.Image mimeimage = null;
 			if (content.IsUntitled) {
 				title = content.UntitledName;

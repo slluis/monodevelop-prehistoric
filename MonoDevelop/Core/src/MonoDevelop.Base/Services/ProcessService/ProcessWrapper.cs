@@ -11,8 +11,8 @@ namespace MonoDevelop.Services
 	{
 		private Thread captureOutputThread;
 		private Thread captureErrorThread;
-		AutoResetEvent endEventOut = new AutoResetEvent (false);
-		AutoResetEvent endEventErr = new AutoResetEvent (false);
+		ManualResetEvent endEventOut = new ManualResetEvent (false);
+		ManualResetEvent endEventErr = new ManualResetEvent (false);
 		
 		public new void Start ()
 		{

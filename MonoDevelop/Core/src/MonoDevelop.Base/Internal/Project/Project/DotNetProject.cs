@@ -158,15 +158,15 @@ namespace MonoDevelop.Internal.Project
 							runtimeStarter, 
 							args, 
 							Path.GetDirectoryName (configuration.CompiledOutputName), 
-							configuration.PauseConsoleOutput, null);
+							true, configuration.PauseConsoleOutput, null);
 				else
 					// The use of 'sh' is a workaround. Looks like there is a bug
 					// in mono, Process can't start a "mono" process.
-					p = Runtime.ProcessService.StartProcess (
+					p = Runtime.ProcessService.StartConsoleProcess (
 							"sh", 
 							string.Format ("-c \"{0} {1}\"", runtimeStarter, args),
 							Path.GetDirectoryName (configuration.CompiledOutputName), 
-							monitor.Log, monitor.Log, null);
+							false, false, null);
 						
 				p.WaitForOutput ();
 				monitor.Log.WriteLine ("The application exited with code: {0}", p.ExitCode);

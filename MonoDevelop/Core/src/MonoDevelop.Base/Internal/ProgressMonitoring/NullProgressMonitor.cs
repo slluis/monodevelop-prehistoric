@@ -76,6 +76,8 @@ namespace MonoDevelop.Services
 			lock (this) {
 				if (done) return;
 				done = true;
+				if (waitEvent != null)
+					waitEvent.Set ();
 			}
 			if (completedEvent != null)
 				completedEvent (this);

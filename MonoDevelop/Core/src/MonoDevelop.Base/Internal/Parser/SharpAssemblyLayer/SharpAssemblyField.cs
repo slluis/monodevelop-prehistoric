@@ -89,7 +89,7 @@ namespace MonoDevelop.Internal.Parser {
 			
 			// field return type
 			uint sigOffset = field.Signature;
-			int sigSize = assembly.Reader.LoadBlob(ref sigOffset);
+			assembly.Reader.LoadBlob(ref sigOffset);
 			sigOffset++;  // skip field id
 			returnType = new SharpAssemblyReturnType(assembly, ref sigOffset);
 			

@@ -66,27 +66,54 @@ namespace MonoDevelop.Services
 			return p;
 		}
 		
-		public ProcessWrapper StartConsoleProcess (string command, string arguments, string workingDirectory, bool pauseBeforeExit, EventHandler exited) 
+		public ProcessWrapper StartConsoleProcess (string command, string arguments, string workingDirectory, bool externalConsole, bool pauseBeforeExit, EventHandler exited) 
 		{
-			string additionalCommands = "";
-			if (pauseBeforeExit)
-				additionalCommands = @"echo; read -p 'Press any key to continue...' -n1;";
-			ProcessStartInfo psi = new ProcessStartInfo("xterm",
-				String.Format (@"-e ""cd {3} ; '{0}' {1} ; {2}""", command, arguments, additionalCommands, workingDirectory));
-			psi.UseShellExecute = false;
-			psi.WorkingDirectory = workingDirectory;
-			psi.UseShellExecute  =  false;
-			
-			ProcessWrapper p = new ProcessWrapper();
-			
-			if (exited != null)
-				p.Exited += exited;
+			if (externalConsole) {
+				string additionalCommands = "";
+				if (pauseBeforeExit)
+					additionalCommands = @"echo; read -p 'Press any key to continue...' -n1;";
+				ProcessStartInfo psi = new ProcessStartInfo("xterm",
+					String.Format (@"-e ""cd {3} ; '{0}' {1} ; {2}""", command, arguments, additionalCommands, workingDirectory));
+				psi.UseShellExecute = false;
+				psi.WorkingDirectory = workingDirectory;
+				psi.UseShellExecute  =  false;
 				
-			p.StartInfo = psi;
-			p.Start();
-			return p;
+				ProcessWrapper p = new ProcessWrapper();
+				
+				if (exited != null)
+					p.Exited += exited;
+					
+				p.StartInfo = psi;
+				p.Start();
+				return p;
+			} else {
+				// This should create an vte pad instead, but an output panel will be enough until we can do it
+				IProgressMonitor monitor = Runtime.TaskService.GetOutputProgressMonitor ("Application Output", MonoDevelop.Gui.Stock.RunProgramIcon, true, true);
+				ProcessMonitor pm = new ProcessMonitor ();
+				pm.Exited = exited;
+				pm.Monitor = monitor;
+				return StartProcess (command, arguments, workingDirectory, monitor.Log, monitor.Log, new EventHandler (pm.OnExited));
+			}
 		}
 		
+	}
+	
+	class ProcessMonitor
+	{
+		public IProgressMonitor Monitor;
+		public EventHandler Exited;
+		
+		public void OnExited (object sender, EventArgs args)
+		{
+			ProcessWrapper p = (ProcessWrapper) sender;
+			try {
+				if (Exited != null)
+					Exited (sender, args);
+				p.WaitForOutput ();
+			} finally {
+				Monitor.Dispose ();
+			}
+		}
 	}
 	
 	class OutWriter

@@ -64,13 +64,11 @@ namespace MonoDevelop.Gui.Dialogs.OptionPanels
 				rendererToggle.Toggled += new ToggledHandler (ItemToggled);
 				includeTreeView.AppendColumn ("Choosen", rendererToggle, "active", 0);
 				includeTreeView.AppendColumn ("Name", new CellRendererText (), "text", 1);
-				TreeIter iter = new TreeIter ();
 				
 				foreach (ProjectFile info in project.ProjectFiles) {
 					if (info.BuildAction != BuildAction.Exclude) {
 						string name = fileUtilityService.AbsoluteToRelativePath(project.BaseDirectory, info.Name);
-						iter = store.AppendValues (
-							project.DeployInformation.IsFileExcluded(info.Name) ? true : false, name);
+						store.AppendValues (project.DeployInformation.IsFileExcluded(info.Name) ? true : false, name);
 					}
 				}
 

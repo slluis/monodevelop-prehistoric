@@ -48,7 +48,6 @@ namespace MonoDevelop.EditorBindings.Gui.Pads
 			base.EndTask ();
 		}
 		
-		[AsyncDispatch]
 		protected override void OnWriteLog (string text)
 		{
 			if (outputPad == null) throw GetDisposedException ();

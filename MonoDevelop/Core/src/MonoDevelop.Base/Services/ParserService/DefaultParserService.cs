@@ -151,8 +151,6 @@ namespace MonoDevelop.Services
 		}
 		
 		public string LoadAssemblyFromGac (string name) {
-			MethodInfo gac_get = typeof (System.Environment).GetMethod ("internalGetGacPath", BindingFlags.Static|BindingFlags.NonPublic);
-			
 			if (name == "mscorlib")
 				return typeof(object).Assembly.Location;
 				

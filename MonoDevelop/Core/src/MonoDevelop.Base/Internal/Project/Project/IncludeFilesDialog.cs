@@ -82,12 +82,11 @@ namespace MonoDevelop.Internal.Project
 			rendererToggle.Toggled += new ToggledHandler (ItemToggled);
 			IncludeFileListView.AppendColumn ("Choosen", rendererToggle, "active", 0);
 			IncludeFileListView.AppendColumn ("Name", new CellRendererText (), "text", 1);
-			TreeIter iter = new TreeIter ();
 			
 			// add the found files to the check list box						
 			foreach (string file in newFiles) {
 				string name = fileUtilityService.AbsoluteToRelativePath(project.BaseDirectory, file);
-				iter = store.AppendValues (false, name);
+				store.AppendValues (false, name);
 			}
 		}
 		

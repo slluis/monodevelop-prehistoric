@@ -86,8 +86,6 @@ namespace MonoDevelop.Gui.Pads
 
 		public TreeNode BuildClassTreeNode(Project p)
 		{
-			Type fus = typeof (FileUtilityService);
-			
 			GetCurrentAmbience();
 
 			TreeNode prjNode = new AbstractClassScoutNode(p.Name);

@@ -260,17 +260,34 @@ namespace MonoDevelop.Internal.Project
 				entry.Execute (monitor);
 			} else {
 				ArrayList list = new ArrayList ();
+				monitor.BeginTask ("Executing projects", 1);
 				foreach (CombineExecuteDefinition ced in combineExecuteDefinitions) {
-					if (ced.Type == EntryExecuteType.Execute)
-						list.Add (ced);
+					if (ced.Type != EntryExecuteType.Execute) continue;
+					
+					IProgressMonitor mm = new NullProgressMonitor ();
+					EntryStartData sd = new EntryStartData ();
+					sd.Monitor = mm;
+					sd.Entry = ced.Entry;
+					Runtime.DispatchService.ThreadDispatch (new StatefulMessageHandler (ExecuteEntryAsync), sd);
+					list.Add (mm.AsyncOperation);
 				}
-				monitor.BeginTask ("Executing projects", list.Count);
-				foreach (CombineExecuteDefinition ced in list) {
-					ced.Entry.Execute (monitor);
-					monitor.Step (1);
-				}
+				foreach (IAsyncOperation op in list)
+					op.WaitForCompleted ();
 				monitor.EndTask ();
 			}
+		}
+		
+		void ExecuteEntryAsync (object ob)
+		{
+			EntryStartData sd = (EntryStartData) ob;
+			using (sd.Monitor) {
+				sd.Entry.Execute (sd.Monitor);
+			}
+		}
+		
+		class EntryStartData {
+			public IProgressMonitor Monitor;
+			public CombineEntry Entry;
 		}
 		
 		/// <remarks>

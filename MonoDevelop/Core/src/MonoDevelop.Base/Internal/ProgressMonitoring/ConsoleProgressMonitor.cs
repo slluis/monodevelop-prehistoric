@@ -52,7 +52,7 @@ namespace MonoDevelop.Services
 			Console.WriteLine ("WARNING: " + message);
 		}
 		
-		public void ReportError (string message, Exception ex)
+		public override void ReportError (string message, Exception ex)
 		{
 			Console.WriteLine ("ERROR: " + message);
 			Console.WriteLine (ex);

@@ -45,8 +45,6 @@ namespace MonoDevelop.Commands.ProjectBrowser
 			using (FileSelector fdiag  = new FileSelector (GettextCatalog.GetString ("Add files"))) {
 				fdiag.SelectMultiple = true;
 				
-				string defaultPath = node.Project.BaseDirectory;
-				
 				int result = fdiag.Run ();
 				try {
 					if (result != (int) ResponseType.Ok)

@@ -415,7 +415,7 @@ namespace MonoDevelop.Services
 		{
 			for (int n=0; n<references.Count; n++) {
 				ReferenceEntry re = (ReferenceEntry) references[n];
-				if (((ReferenceEntry) references[n]).Uri == uri)
+				if (re.Uri == uri)
 					return true;
 			}
 			return false;
@@ -690,8 +690,6 @@ namespace MonoDevelop.Services
 			try {
 				IParseInformation parserInfo = parserService.DoParseFile ((string)fileName, null);
 				if (parserInfo != null) {
-					ICompilationUnit cu = (ICompilationUnit)parserInfo.BestCompilationUnit;
-					
 					ClassUpdateInformation res = UpdateFromParseInfo (parserInfo, fileName);
 					if (res != null) parserService.NotifyParseInfoChange (fileName, res);
 				}

@@ -124,7 +124,7 @@ namespace MonoDevelop.Internal.Parser {
 			if ((property.Flags & Property.FLAG_SPECIALNAME) == Property.FLAG_SPECIALNAME) modifiers |= ModifierEnum.SpecialName;
 			
 			uint offset = property.Type;
-			int sigSize = assembly.LoadBlob(ref offset);
+			assembly.LoadBlob(ref offset);
 			offset += 1; // skip calling convention
 			int paramCount = assembly.LoadBlob(ref offset);
 			

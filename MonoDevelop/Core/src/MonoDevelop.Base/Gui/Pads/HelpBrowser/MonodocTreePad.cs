@@ -47,7 +47,6 @@ namespace MonoDevelop.Gui.Pads
 
 			tree_view.ExpandRow (new TreePath ("0"), false);
 			TreeIter child_iter;
-			ArrayList itersToDrop = new ArrayList ();
 		start:
 			store.IterChildren (out child_iter, root_iter);
 			do {

@@ -149,7 +149,6 @@ namespace MonoDevelop.Gui.Dialogs {
 			if (TreeView.Selection.GetSelected (out mdl, out iter)) {
 				IConfiguration config = (IConfiguration) mdl.GetValue(iter, 1);
 				if (project.Configurations.Count > 1) {
-					bool newActiveConfig = project.ActiveConfiguration == config;
 					project.Configurations.Remove(config);
 					project.ActiveConfiguration = (IConfiguration)project.Configurations[0];
 					

@@ -83,13 +83,6 @@ namespace MonoDevelop.Gui.Dialogs
 		public static ProjectReference GenerateWebProxyDLL(Project project, ServiceDescription desc) {
 			ProjectReference refInfo = null;
 			
-			string serviceName = String.Empty;
-			if(desc.Services.Count > 0) {
-				serviceName = desc.Services[0].Name;
-			} else {
-				serviceName = "UnknownService";
-			}									
-								
 			string nmspace = GetNamespaceFromUri(desc.RetrievalUrl);
 			
 			StringBuilder savedir = new StringBuilder();
@@ -97,11 +90,8 @@ namespace MonoDevelop.Gui.Dialogs
 			savedir.Append(Path.DirectorySeparatorChar);
 			savedir.Append("WebReferences");			
 			// second, create the path if it doesn't exist
-			DirectoryInfo di;		
 			if(!Directory.Exists(savedir.ToString()))
-			{
-				di = Directory.CreateDirectory(savedir.ToString());
-			}
+				Directory.CreateDirectory(savedir.ToString());
 			
 			// generate the assembly
 			ServiceDescriptionImporter importer = new ServiceDescriptionImporter();
@@ -110,7 +100,7 @@ namespace MonoDevelop.Gui.Dialogs
 			CodeNamespace codeNamespace = new CodeNamespace(nmspace);
 			CodeCompileUnit codeUnit = new CodeCompileUnit();
 			codeUnit.Namespaces.Add(codeNamespace);
-			ServiceDescriptionImportWarnings warnings = importer.Import(codeNamespace, codeUnit);
+			importer.Import(codeNamespace, codeUnit);
 			
 			CodeDomProvider provider = new Microsoft.CSharp.CSharpCodeProvider();			
 			System.CodeDom.Compiler.ICodeCompiler compiler;
@@ -167,11 +157,8 @@ namespace MonoDevelop.Gui.Dialogs
 			savedir.Append(GetDirectoryFromUri(desc.RetrievalUrl) + Path.DirectorySeparatorChar + serviceName);
 			
 			// second, create the path if it doesn't exist
-			DirectoryInfo di;		
 			if(!Directory.Exists(savedir.ToString()))
-			{
-				di = Directory.CreateDirectory(savedir.ToString());
-			}
+				Directory.CreateDirectory(savedir.ToString());
 			
 			// generate the assembly
 			ServiceDescriptionImporter importer = new ServiceDescriptionImporter();
@@ -180,7 +167,7 @@ namespace MonoDevelop.Gui.Dialogs
 			CodeNamespace codeNamespace = new CodeNamespace(nmspace);
 			CodeCompileUnit codeUnit = new CodeCompileUnit();
 			codeUnit.Namespaces.Add(codeNamespace);
-			ServiceDescriptionImportWarnings warnings = importer.Import(codeNamespace, codeUnit);
+			importer.Import(codeNamespace, codeUnit);
 			
 			CodeDomProvider provider;
 			System.CodeDom.Compiler.ICodeGenerator generator;

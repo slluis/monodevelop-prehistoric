@@ -137,7 +137,7 @@ namespace MonoDevelop.Internal.Serialization
 				throw new ArgumentNullException ("entry");
 				
 			DataCollection col;
-			int i = FindData (itemPath + "/", out col, true);
+			FindData (itemPath + "/", out col, true);
 			col.List.Add (entry);
 		}
 		

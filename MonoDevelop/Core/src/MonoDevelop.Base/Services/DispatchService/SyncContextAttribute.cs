@@ -83,7 +83,14 @@ namespace MonoDevelop.Services
 
 			MsgData md = new MsgData ();
 			md.InMessage = msg;
-			syncContext.Dispatch (new StatefulMessageHandler (DispatchMessage), md);
+			SyncContext oldCtx = SyncContext.GetContext ();
+			try {
+				SyncContext.SetContext (syncContext);
+				syncContext.Dispatch (new StatefulMessageHandler (DispatchMessage), md);
+			} finally {
+				SyncContext.SetContext (oldCtx);
+			}
+			
 			return md.OutMessage;
 		}
 		

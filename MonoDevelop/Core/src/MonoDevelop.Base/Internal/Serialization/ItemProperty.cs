@@ -147,7 +147,6 @@ namespace MonoDevelop.Internal.Serialization
 		internal object GetValue (object obj)
 		{
 			if (member != null) {
-				object val;
 				FieldInfo field = member as FieldInfo;
 				if (field != null) return field.GetValue (obj);
 				else return ((PropertyInfo)member).GetValue (obj, null);

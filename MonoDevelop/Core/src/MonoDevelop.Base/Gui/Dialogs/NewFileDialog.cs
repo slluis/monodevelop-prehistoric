@@ -155,13 +155,11 @@ namespace MonoDevelop.Gui.Dialogs
 		// list view event handlers
 		void SelectedIndexChange(object sender, EventArgs e)
 		{
-			TreeModel mdl;
-			TreeIter iter;
 			FileTemplate item = (FileTemplate)TemplateView.CurrentlySelected;
 
 			if (item != null)
 			{
-                                infoLabel.Text = item.Description;
+				infoLabel.Text = item.Description;
 				okButton.Sensitive = true;
 			}
 		}
@@ -187,9 +185,6 @@ namespace MonoDevelop.Gui.Dialogs
 	
 		void OpenEvent(object sender, EventArgs e)
 		{
-			TreeModel mdl;
-			TreeIter iter;
-
 			//FIXME: we need to set this up
 			//PropertyService propertyService = (PropertyService)ServiceManager.Services.GetService(typeof(PropertyService));
 			//propertyService.SetProperty("Dialogs.NewProjectDialog.LargeImages", ((RadioButton)ControlDictionary["largeIconsRadioButton"]).Checked);

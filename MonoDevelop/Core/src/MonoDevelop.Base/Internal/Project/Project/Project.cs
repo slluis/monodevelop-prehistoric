@@ -309,7 +309,6 @@ namespace MonoDevelop.Internal.Project
 				monitor.BeginTask (String.Format (GettextCatalog.GetString ("Building Project: {0} Configuration: {1}"), Name, ActiveConfiguration.Name), 3);
 				
 				Runtime.StringParserService.Properties["Project"] = Name;
-				TaskService taskService = Runtime.TaskService;
 				
 				DoPreBuild (monitor);
 				

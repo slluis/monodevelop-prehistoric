@@ -24,13 +24,14 @@ namespace MonoDevelop.Commands
 	{
 		public override void Run()
 		{
-			string fileName = Runtime.FileUtilityService.SharpDevelopRootPath + 
+/*			string fileName = Runtime.FileUtilityService.SharpDevelopRootPath + 
 			              Path.DirectorySeparatorChar + "doc" +
 			              Path.DirectorySeparatorChar + "help" +
 			              Path.DirectorySeparatorChar + "sharpdevelop.chm";
 			//if (fileUtilityService.TestFileExists(fileName)) {
 			//	Help.ShowHelp((Gtk.Window)WorkbenchSingleton.Workbench, fileName);
 			//}
+*/
 		}
 	}
 	

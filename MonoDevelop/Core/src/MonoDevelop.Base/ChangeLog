@@ -1,3 +1,51 @@
+2005-01-25  Lluis Sanchez Gual <lluis@novell.com>
+	
+	* Services/DispatchService/DispatchService.cs: Don't set the gui sync
+	context here. The default context won't be always a safe context.
+	* Services/DispatchService/SyncContextAttribute.cs: Set the target
+	context when switching to a new context.
+	* Internal/ProgressMonitoring/BaseProgressMonitor.cs:
+	* Services/Tasks/OutputProgressMonitor.cs: OnWriteLog is now only called
+	internally, so no need for async.
+	* Services/ProcessService/ProcessService.cs: Added parameter to
+	StartConsoleProcess to allow running a console process inside MD.
+	* Services/ProcessService/ProcessWrapper.cs: More than one thread may
+	want to wait for the process, so use ManualResetEvent instead of
+	AutoResetEvent.
+	* Services/Project/DefaultProjectService.cs: Don't use output monitors
+	for project execution, since the project will create the output panel
+	when needed.
+	* Internal/Project/Project/DotNetProject.cs: Start processes using the
+	new StartConsoleProcess method.
+	* Internal/Project/Combine/Combine.cs: For multiple startup combines, run
+	all projects in parallel.
+	* Internal/ProgressMonitoring/NullProgressMonitor.cs: Set the wait event
+	when all is done.
+
+	* Commands/ProjectBrowserCommands/ReferenceFolderNodeCommands.cs:
+	* Commands/ProjectBrowserCommands/FolderNodeCommands.cs:
+	* Commands/HelpCommands.cs:
+	* Services/ParserService/DefaultParserService.cs:
+	* Services/ParserService/CodeCompletionDatabase.cs:
+	* Gui/Dialogs/DirtyFilesDialog.cs:
+	* Gui/Dialogs/ProjectOptionsDialog.cs:
+	* Gui/Dialogs/OptionPanels/ProjectOptions/CompileFileProjectOptions.cs:
+	* Gui/Dialogs/OptionPanels/ProjectOptions/DeployFileOptions.cs:
+	* Gui/Dialogs/NewFileDialog.cs:
+	* Gui/Dialogs/ReferenceDialog/WebReference.cs:
+	* Gui/Workbench/Layouts/SdiWorkspaceLayout.cs:
+	* Gui/Pads/ClassScout/NodeBuilder/DefaultDotNetClassScoutNodeBuilder.cs:
+	* Gui/Pads/HelpBrowser/MonodocTreePad.cs:
+	* Internal/Project/Project/IncludeFilesDialog.cs:
+	* Internal/Project/Project/Project.cs:
+	* Internal/ProgressMonitoring/ConsoleProgressMonitor.cs:
+	* Internal/Parser/SharpAssemblyLayer/SharpAssemblyMethod.cs:
+	* Internal/Parser/SharpAssemblyLayer/SharpAssemblyField.cs:
+	* Internal/Parser/SharpAssemblyLayer/SharpAssemblyAttribute.cs:
+	* Internal/Parser/SharpAssemblyLayer/SharpAssemblyProperty.cs:
+	* Internal/Serialization/DataCollection.cs:
+	* Internal/Serialization/ItemProperty.cs: Fix warnings.
+
 2005-01-24  Lluis Sanchez Gual <lluis@novell.com>
 
 	* Services/Project/DefaultProjectService.cs: Don't raise the combine

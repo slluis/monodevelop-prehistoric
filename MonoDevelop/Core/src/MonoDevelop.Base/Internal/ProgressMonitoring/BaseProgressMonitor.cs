@@ -56,7 +56,7 @@ namespace MonoDevelop.Services
 		{
 			progressTracker = new ProgressTracker ();
 			logger = new LogTextWriter ();
-			logger.TextWritten += new LogTextEventHandler (OnWriteLog);
+			logger.TextWritten += new LogTextEventHandler (WriteLogInternal);
 		}
 		
 		[AsyncDispatch]
@@ -241,8 +241,13 @@ namespace MonoDevelop.Services
 			if (cancelRequestedEvent != null)
 				cancelRequestedEvent (this);
 		}
-			
+		
 		[AsyncDispatch]
+		void WriteLogInternal (string text)
+		{
+			OnWriteLog (text);
+		}
+			
 		protected virtual void OnWriteLog (string text)
 		{
 		}

@@ -153,8 +153,8 @@ namespace MonoDevelop.Gui.Dialogs
 					NewCheckStatus (childIter);
 				bool lastsetting = (bool)tsFiles.GetValue (childIter, 1);
 				bool inconsistant = (bool)tsFiles.GetValue (childIter, 3);
-				bool anytrue, finalsetting;
-				anytrue = finalsetting = lastsetting;
+				bool anytrue;
+				anytrue = lastsetting;
 				while (tsFiles.IterNext (ref childIter)) {
 					if (tsFiles.IterHasChild (childIter))
 						NewCheckStatus (childIter);
