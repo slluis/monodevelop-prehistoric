@@ -362,7 +362,7 @@ $(DLL): $(SOURCES) ../../../data/resources/glade/Base.glade
 		/r:System.Data.dll /r:System.Web.Services.dll /define:LINUX \
 		/define:GTK /r:gtk-sharp.dll /r:gdk-sharp.dll /r:glib-sharp.dll \
 		/r:pango-sharp.dll \
-		/r:gtkmozembed-sharp.dll \
+		/r:../../../build/bin/gtkmozembed-sharp.dll \
 		/r:glade-sharp.dll \
 		/r:gnome-sharp.dll \
 		$(SOURCES)

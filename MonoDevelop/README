@@ -1,14 +1,19 @@
 This is a port of SharpDevelop to Gtk# and Mono.
-To compile simply run make, or 'make run' to compile and run it.
+
+To compile run the following command:
+make PREFIX=/usr/local
+
+(change /usr/local to the prefix Gtk# is installed to)
+
+To run MonoDevelop:
+./monodevelop
+
+EXAMPLE:
+make clean && make PREFIX=/usr && ./monodevelop
+
 You need Mono and Gtk# cvs, and ORBit2-2.8.3 or newer
 
-You will also need GtkMozEmbed# installed.  If you do not have a recent version. Do this once:
-cd ./gtkmozembed-sharp && ./autogen.sh --prefix=/usr/local && make && make install
-
-(replace /usr/local with the same prefix as the rest of Gtk#)
-
 Mono must be installed with ICU enabled.
-
 
 We are attempting to follow the HIG in certain areas especially, particularly dialogs.
 

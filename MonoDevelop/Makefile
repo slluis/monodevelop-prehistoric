@@ -1,9 +1,15 @@
 PROGRAM=build/bin/SharpDevelop.exe
 MONOPAD=build/bin/MonoPad.exe
+GTKMOZEMBED=build/bin/gtkmozembed-sharp.dll
 QMAKE=@ $(MAKE)
-$(PROGRAM): SharpDevelop.Base SharpDevelop.DefaultTexteditor CSharpBinding StartPage
+
+$(PROGRAM): $(GTKMOZEMBED) SharpDevelop.Base SharpDevelop.DefaultTexteditor CSharpBinding StartPage
 	@ echo Building $@
 	$(QMAKE) -C src/Main/StartUp
+
+$(GTKMOZEMBED):
+	@ echo Building $@
+	$(QMAKE) -C gtkmozembed-sharp
 
 $(MONOPAD): ICSharpCode.TextEditor
 	@ echo Building $@
