@@ -1,8 +1,8 @@
 # leave gdldock first
 # (mkdir ../../build/bin/ hack)
-SUBDIRS=gdldock gtkmozembed-sharp src build data
+SUBDIRS = gdldock gtkmozembed-sharp src build data
 
-bin_SCRIPTS=monodevelop
+bin_SCRIPTS = monodevelop
 
 all:
 
@@ -27,6 +27,10 @@ uninstall-hook:
 	update-mime-database $(gnome_data)/mime
 
 else
+
+install-data-hook:
+
+uninstall-hook:
 
 mimeinfodir = $(gnome_data)/mime-info
 mimeinfo_DATA = monodevelop.mime monodevelop.keys
