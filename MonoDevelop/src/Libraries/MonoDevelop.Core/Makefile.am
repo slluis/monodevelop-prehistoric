@@ -60,13 +60,10 @@ SOURCES= \
 
 DLL=../../../build/bin/MonoDevelop.Core.dll
 
-RESOURCES= \
-/resource:../../../data/resources/AddIn.xsd,AddIn.xsd \
-
 all: $(DLL)
 
 $(DLL): $(SOURCES)
-	@ mcs /debug /out:$(DLL) /target:library /r:System.Drawing.dll /define:LINUX \
-		$(RESOURCES) $(SOURCES)
+	@ mcs /debug /out:$(DLL) /target:library /r:System.Drawing.dll /define:LINUX /resource:../../../data/resources/AddIn.xsd,AddIn.xsd \
+	$(SOURCES)
 
 CLEANFILES=$(DLL)
