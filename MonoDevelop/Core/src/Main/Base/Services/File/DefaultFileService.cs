@@ -95,6 +95,9 @@ namespace MonoDevelop.Services
 				fileName = System.IO.Path.GetFullPath (fileName);
 			
 			//Debug.Assert(fileUtilityService.IsValidFileName(fileName));
+			if (fileUtilityService.IsDirectory (fileName)) {
+				return;
+			}
 			// test, if file fileName exists
 			if (!fileName.StartsWith("http://")) {
 				// test, if an untitled file should be opened

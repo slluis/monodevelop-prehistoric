@@ -1,3 +1,10 @@
+2004-07-02  Todd Berman  <tberman@off.net>
+
+	* Commands/FileCommands.cs: Dont use the FileFilters, as there are
+	not functional at the moment.
+	* Services/File/DefaultFileService.cs: don't attempt to load a
+	directory, as its never valid.
+
 2004-07-01  John Luke  <jluke@cfl.rr.com>
 
 	* Commands/AutoStartCommands.cs: remove old Code generation,

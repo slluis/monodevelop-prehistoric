@@ -58,11 +58,6 @@ namespace MonoDevelop.Core.Services
 			sharpDevelopRootPath = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) + Path.DirectorySeparatorChar + "..";
 		}
 		
-		public override void InitializeService()
-		{
-			base.InitializeService();
-		}
-		
 		public override void UnloadService()
 		{
 			base.UnloadService();
@@ -392,7 +387,7 @@ namespace MonoDevelop.Core.Services
 		{
 			return ObservedLoad(saveFile,
 			                    fileName,
-			                    GettextCatalog.GetString ("Unable to save file."),
+			                    GettextCatalog.GetString ("Unable to load file."),
 			                    policy);
 		}
 		

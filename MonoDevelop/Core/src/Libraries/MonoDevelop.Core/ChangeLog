@@ -1,3 +1,8 @@
+2004-07-02  Todd Berman  <tberman@off.net>
+
+	* Services/FileUtilityService.cs: remove some unneeded code, and
+	fix a string.
+
 2004-06-28  Todd Berman  <tberman@off.net>
 
 	* AddIns/AddIn.cs: Add a C.WL so you dont get weird errors without

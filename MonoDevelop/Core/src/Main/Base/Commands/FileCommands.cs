@@ -259,43 +259,40 @@ namespace MonoDevelop.Commands
 		
 		public override void Run()
 		{
-				string[] fileFilters  = (string[])(AddInTreeSingleton.AddInTree.GetTreeNode("/SharpDevelop/Workbench/FileFilter").BuildChildItems(this)).ToArray(typeof(string));
-				bool foundFilter      = false;
-				// search filter like in the current selected project
+			//string[] fileFilters  = (string[])(AddInTreeSingleton.AddInTree.GetTreeNode("/SharpDevelop/Workbench/FileFilter").BuildChildItems(this)).ToArray(typeof(string));
+			//bool foundFilter      = false;
+			// search filter like in the current selected project
+			/*
+			IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IProjectService));
+			
+			if (projectService.CurrentSelectedProject != null) {
+				LanguageBindingService languageBindingService = (LanguageBindingService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(LanguageBindingService));
 				
-				IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IProjectService));
-				
-				if (projectService.CurrentSelectedProject != null) {
-					LanguageBindingService languageBindingService = (LanguageBindingService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(LanguageBindingService));
-					
-					LanguageBindingCodon languageCodon = languageBindingService.GetCodonPerLanguageName(projectService.CurrentSelectedProject.ProjectType);
-					
-					for (int i = 0; !foundFilter && i < fileFilters.Length; ++i) {
-						for (int j = 0; !foundFilter && j < languageCodon.Supportedextensions.Length; ++j) {
-							if (fileFilters[i].IndexOf(languageCodon.Supportedextensions[j]) >= 0) {
-								break;
-							}
+				LanguageBindingCodon languageCodon = languageBindingService.GetCodonPerLanguageName(projectService.CurrentSelectedProject.ProjectType);
+				for (int i = 0; !foundFilter && i < fileFilters.Length; ++i) {
+					for (int j = 0; !foundFilter && j < languageCodon.Supportedextensions.Length; ++j) {
+						if (fileFilters[i].IndexOf(languageCodon.Supportedextensions[j]) >= 0) {
+							break;
 						}
 					}
 				}
-				
-				// search filter like in the current open file
-				if (!foundFilter) {
-					IWorkbenchWindow window = WorkbenchSingleton.Workbench.ActiveWorkbenchWindow;
-					if (window != null) {
-						for (int i = 0; i < fileFilters.Length; ++i) {
-							if (fileFilters[i].IndexOf(Path.GetExtension(window.ViewContent.ContentName == null ? window.ViewContent.UntitledName : window.ViewContent.ContentName)) >= 0) {
-								break;
-							}
+			}
+			
+			// search filter like in the current open file
+			if (!foundFilter) {
+				IWorkbenchWindow window = WorkbenchSingleton.Workbench.ActiveWorkbenchWindow;
+				if (window != null) {
+					for (int i = 0; i < fileFilters.Length; ++i) {
+						if (fileFilters[i].IndexOf(Path.GetExtension(window.ViewContent.ContentName == null ? window.ViewContent.UntitledName : window.ViewContent.ContentName)) >= 0) {
+							break;
 						}
 					}
 				}
-
-				using (FileSelector fs = new FileSelector (GettextCatalog.GetString ("File to Open"))) {
-					int response = fs.Run ();
-					fs.Hide ();
-					string name = fs.Filename;
-
+			}*/
+			using (FileSelector fs = new FileSelector (GettextCatalog.GetString ("File to Open"))) {
+				int response = fs.Run ();
+				fs.Hide ();
+				string name = fs.Filename;
 				if (response == (int)Gtk.ResponseType.Ok) {
 					IFileService fileService = (IFileService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IFileService));
 					IProjectService proj = (IProjectService)ServiceManager.GetService (typeof (IProjectService));
@@ -308,7 +305,7 @@ namespace MonoDevelop.Commands
 						fileService.OpenFile(name);
 						break;
 					}
-				}
+				}	
 			}
 		}
 	}
