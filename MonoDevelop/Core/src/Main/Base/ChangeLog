@@ -1,3 +1,12 @@
+2004-11-16  Todd Berman  <tberman@off.net>
+
+	* Internal/Project/Project/AbstractProject.cs: Make sure that
+	references of references are copied in properly. This code needs to
+	be refactored. However, this does work. We should basically be walking
+	through the references, for Project references, and calling out
+	to a helper function. I will rewrite this soon to be more robust
+	and less insane.
+
 2004-11-12  Todd Berman  <tberman@off.net>
 
 	* Gui/HtmlControl/MozillaControl: No gtype registration, fixes

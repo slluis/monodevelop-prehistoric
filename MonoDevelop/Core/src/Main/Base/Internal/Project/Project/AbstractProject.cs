@@ -544,6 +544,30 @@ namespace MonoDevelop.Internal.Project
 				return;
 			}
 			foreach (ProjectReference projectReference in ProjectReferences) {
+				if (projectReference.ReferenceType == ReferenceType.Project) {
+					IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IProjectService));
+					ArrayList allProjects = Combine.GetAllProjects (projectService.CurrentOpenCombine);
+					foreach (ProjectCombineEntry entry in allProjects)
+					{
+						IProject proj = entry.Project;
+						if (proj.Name != projectReference.Reference)
+							continue;
+						foreach (ProjectReference refrnc in proj.ProjectReferences)
+						{
+							if (refrnc.ReferenceType != ReferenceType.Gac && (refrnc.LocalCopy || force)) {
+								string referenceFileName = refrnc.GetReferencedFileName (proj);
+								string destinationFileName = fileUtilityService.GetDirectoryNameWithSeparator (config.OutputDirectory) + Path.GetFileName (referenceFileName);
+								try {
+									if (destinationFileName != referenceFileName) {
+										File.Copy (referenceFileName, destinationFileName, true);
+										if (File.Exists (referenceFileName + ".mdb"))
+											File.Copy (referenceFileName + ".mdb", destinationFileName + ".mdb", true);
+									}
+								} catch { }
+							}
+						}
+					}
+				}
 				if ((projectReference.LocalCopy || force) && projectReference.ReferenceType != ReferenceType.Gac) {
 					string referenceFileName   = projectReference.GetReferencedFileName(this);
 					string destinationFileName = fileUtilityService.GetDirectoryNameWithSeparator(config.OutputDirectory) + Path.GetFileName(referenceFileName);
