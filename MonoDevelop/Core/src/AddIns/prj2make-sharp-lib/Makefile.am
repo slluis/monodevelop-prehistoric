@@ -3,7 +3,7 @@ ASSEMBLY = prj2make-sharp-lib.dll
 ADDIN = $(srcdir)/prj2make-sharp-lib.addin.xml
 
 
-DLLS = $(BASE_DEPENDENCIES_LIBS) \
+DLLS = $(GTK_SHARP_LIBS) \
 	/r:../../../../build/bin/MonoDevelop.Base.dll \
 	/r:../../../../build/bin/MonoDevelop.Core.dll \
 	/r:../../../../build/bin/MonoDevelop.Gui.Widgets.dll

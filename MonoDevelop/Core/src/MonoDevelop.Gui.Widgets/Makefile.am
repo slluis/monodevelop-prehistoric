@@ -4,7 +4,9 @@ DLL = MonoDevelop.Gui.Widgets.dll
 REFERENCES = /r:System.Drawing \
 	/r:../../../build/bin/MonoDevelop.Core.dll \
 	/r:../../../build/bin/MonoDevelop.Gui.Utils.dll \
-	$(BASE_DEPENDENCIES_LIBS)
+	$(GTK_SHARP_LIBS) \
+	$(GLADE_SHARP_LIBS) \
+	$(GNOME_SHARP_LIBS)
 
 FILES = \
 Tree/TreeView.cs \

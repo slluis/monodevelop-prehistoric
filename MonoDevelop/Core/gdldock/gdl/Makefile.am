@@ -32,7 +32,7 @@ generated-stamp: $(API) $(build_customs)
 $(ASSEMBLY): $(build_sources) generated-stamp
 	mkdir -p ../../../build/bin
 	$(CSC) --unsafe -target:library \
-	@BASE_DEPENDENCIES_LIBS@ \
+	$(GTK_SHARP_LIBS) \
 	$(build_sources) generated/*.cs /out:$(ASSEMBLY) \
 	&& cp -p $(ASSEMBLY) ../../../build/bin/. \
 	&& cp -p $(ASSEMBLY).config ../../../build/bin/.

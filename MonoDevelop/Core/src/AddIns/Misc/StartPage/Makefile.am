@@ -11,7 +11,8 @@ DLL = MonoDevelop.StartPage.dll
 REFS = /r:System.Drawing \
 	/r:../../../../../build/bin/MonoDevelop.Core.dll \
 	/r:../../../../../build/bin/MonoDevelop.Base.dll \
-	$(BASE_DEPENDENCIES_LIBS)
+	$(GTK_SHARP_LIBS) \
+	$(GECKO_SHARP_LIBS)
 
 all: $(DLL)
 

@@ -82,7 +82,10 @@ REFS = /r:System.Drawing.dll \
 	/r:../../../../../build/bin/MonoDevelop.Base.dll \
 	/r:../../../../../build/bin/MonoDevelop.Gui.Utils.dll \
 	/r:../../../../../build/bin/MonoDevelop.Gui.Widgets.dll \
-	$(BASE_DEPENDENCIES_LIBS)
+	$(GTK_SHARP_LIBS) \
+	$(GLADE_SHARP_LIBS) \
+	$(GCONF_SHARP_LIBS) \
+	$(GTKSOURCEVIEW_SHARP_LIBS)
 
 all : $(DLL)
 

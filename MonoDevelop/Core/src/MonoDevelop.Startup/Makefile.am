@@ -15,7 +15,8 @@ REFS = /r:System.Drawing \
 	/r:../../../build/bin/MonoDevelop.Base.dll \
 	/r:Mono.Posix.dll \
 	/r:Mono.GetOptions.dll \
-	$(BASE_DEPENDENCIES_LIBS)
+	$(GTK_SHARP_LIBS) \
+	$(GNOME_SHARP_LIBS)
 
 $(DLL): $(build_sources)
 	$(CSC) /out:$(DLL) \

@@ -9,8 +9,9 @@ DLLS = /r:System.Drawing.dll \
 	/r:../../../../../build/bin/ICSharpCode.SharpRefactory.dll \
 	/r:../../../../../build/bin/ICSharpCode.SharpRefactory.VB.dll \
 	/r:../../../../../build/bin/ICSharpCode.SharpAssembly.dll \
-	/r:../../../../../build/bin/MonoDevelop.Gui.Widgets.dll  \
-	$(BASE_DEPENDENCIES_LIBS)
+	/r:../../../../../build/bin/MonoDevelop.Gui.Widgets.dll \
+	$(GTK_SHARP_LIBS) \
+	$(GLADE_SHARP_LIBS)
 
 FILES = \
 AssemblyInfo.cs \

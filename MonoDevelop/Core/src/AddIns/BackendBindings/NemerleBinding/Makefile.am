@@ -7,7 +7,8 @@ DLLS = /r:System.Drawing.dll \
 	/r:../../../../../build/bin/MonoDevelop.Base.dll \
 	/r:../../../../../build/bin/ICSharpCode.SharpRefactory.dll \
 	/r:../../../../../build/bin/MonoDevelop.Gui.Widgets.dll \
-	$(BASE_DEPENDENCIES_LIBS)
+	$(GTK_SHARP_LIBS) \
+	$(GLADE_SHARP_LIBS)
 
 FILES = \
 Gui/CodeGenerationPanel.cs \

@@ -2,7 +2,8 @@ DLL = MonoDevelop.Gui.Utils.dll
 
 REFERENCES = /r:System.Drawing \
 	/r:ICSharpCode.SharpZipLib \
-	$(BASE_DEPENDENCIES_LIBS)
+	$(GTK_SHARP_LIBS) \
+	$(GNOME_SHARP_LIBS)
 
 FILES = \
 FileIcons/FileIconLoader.cs \

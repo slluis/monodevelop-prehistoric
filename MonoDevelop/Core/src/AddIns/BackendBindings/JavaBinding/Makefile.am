@@ -6,7 +6,7 @@ DLLS = /r:System.Drawing.dll \
 	/r:../../../../../build/bin/MonoDevelop.SourceEditor.dll \
 	/r:../../../../../build/bin/MonoDevelop.Base.dll \
 	/r:../../../../../build/bin/MonoDevelop.Gui.Widgets.dll \
-	$(BASE_DEPENDENCIES_LIBS)
+	$(GTK_SHARP_LIBS)
 
 FILES = \
 Gui/ProjectConfigurationPropertyPanel.cs \
