@@ -47,6 +47,9 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads
 			Model = store;
 
 			HeadersVisible = true;
+			HeadersClickable = true;
+			Reorderable = true;
+			RulesHint = true;
 
 			Gtk.TreeViewColumn name_column = new Gtk.TreeViewColumn ();
 			name_column.Title = "File";
@@ -239,6 +242,10 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads
 			watcher.EnableRaisingEvents = true;
 			
 			foreach (string file in files) {
+				string filename = System.IO.Path.GetFileName(file);
+				if (filename != null && filename.Length > 0 && filename[0] == '.') {
+					continue;
+				}
 				FileInfo info = new FileInfo(file);
 				FileListItem fileItem = Items.Add(new FileListItem(file,
 					Math.Round((double)info.Length / 1024).ToString() + " KB",
