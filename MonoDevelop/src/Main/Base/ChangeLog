@@ -1,5 +1,12 @@
 2004-04-02  Todd Berman  <tberman@sevenl.net>
 
+	* Gui/Dialogs/NewProjectDialog.cs:
+	* Gui/Dialogs/CommonAboutDialog.cs:
+	* Gui/Dialogs/OptionPanels/EditTemplateDialog.cs:
+	* Gui/Dialogs/NewFileDialog.cs: gettextified
+
+2004-04-02  Todd Berman  <tberman@sevenl.net>
+
 	* Services/GettextCatalog.cs: changed to use static methods.
 	* Gui/Dialogs/CommonAboutDialog.cs: reflecting above change.
 

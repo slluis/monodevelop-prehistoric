@@ -10,6 +10,7 @@ using System.IO;
 
 using MonoDevelop.Internal.Templates;
 using MonoDevelop.Core.Services;
+using MonoDevelop.Services;
 
 namespace MonoDevelop.Gui.Dialogs
 {
@@ -55,14 +56,13 @@ namespace MonoDevelop.Gui.Dialogs
 		{
 			// set up this actual dialog
 			this.Modal = true;
-			this.Title = StringParserService.Parse("${res:Dialog.Options.CodeTemplate.EditTemplateDialog.DialogName}");
 			
 			// set up the dialog fields and add them
 			templateTextBox = new Gtk.Entry();
 			descriptionTextBox = new Gtk.Entry();
 			descriptionTextBox.ActivatesDefault = true;
-			Gtk.Label label1 = new Gtk.Label(StringParserService.Parse("${res:Dialog.Options.CodeTemplate.EditTemplateDialog.DescriptionLabel}"));
-			Gtk.Label label2 = new Gtk.Label(StringParserService.Parse("${res:Dialog.Options.CodeTemplate.EditTemplateDialog.TemplateLabel}"));
+			Gtk.Label label1 = new Gtk.Label(GettextCatalog.GetString ("_Description"));
+			Gtk.Label label2 = new Gtk.Label(GettextCatalog.GetString ("_Template"));
 			label1.Xalign = 0;
 			label2.Xalign = 0;
 			templateTextBox.Text    = codeTemplate.Shortcut;

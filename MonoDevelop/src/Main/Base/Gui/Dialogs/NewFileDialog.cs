@@ -48,7 +48,6 @@ namespace MonoDevelop.Gui.Dialogs
 		
 		public NewFileDialog () : base ()
 		{
-			this.Title = "New file";
 			this.TransientFor = (Window) WorkbenchSingleton.Workbench;
 			this.BorderWidth = 6;
 			this.HasSeparator = false;
@@ -82,7 +81,7 @@ namespace MonoDevelop.Gui.Dialogs
 					imglist.Add(bitmap);
 					tmp[entry.Key] = ++i;
 				} else {
-					Console.WriteLine("can't load bitmap " + entry.Key.ToString() + " using default");
+					Console.WriteLine(GettextCatalog.GetString ("Can't load bitmap {0} using default"), entry.Key.ToString ());
 				}
 			}
 			

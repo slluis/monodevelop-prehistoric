@@ -158,7 +158,7 @@ namespace MonoDevelop.Gui.Dialogs {
 		void PathChanged (object sender, EventArgs e)
 		{
 			ActivateIfReady ();
-			lbl_will_save_in.Text = resourceService.GetString("Dialog.NewProject.ProjectAtDescription") + " " + ProjectSolution;
+			lbl_will_save_in.Text = GettextCatalog.GetString("Dialog.NewProject.ProjectAtDescription") + " " + ProjectSolution;
 		}
 		
 		public bool IsFilenameAvailable(string fileName)
@@ -203,7 +203,7 @@ namespace MonoDevelop.Gui.Dialogs {
 			
 			//The one below seemed to be failing sometimes.
 			if(solution.IndexOfAny("$#@!%^&*/?\\|'\";:}{".ToCharArray()) > -1) {
-				messageService.ShowError("Illegal project name. \nOnly use letters, digits, space, '.' or '_'.");
+				messageService.ShowError(GettextCatalog.GetString ("Illegal project name. \nOnly use letters, digits, space, '.' or '_'."));
 				dialog.Respond(Gtk.ResponseType.Reject);
 				dialog.Hide();
 				return;
@@ -213,14 +213,14 @@ namespace MonoDevelop.Gui.Dialogs {
 				&& (!fileUtilityService.IsValidFileName (solution) || solution.IndexOf(System.IO.Path.DirectorySeparatorChar) >= 0)) ||
 			    !fileUtilityService.IsValidFileName(name)     || name.IndexOf(System.IO.Path.DirectorySeparatorChar) >= 0 ||
 			    !fileUtilityService.IsValidFileName(location)) {
-				messageService.ShowError("Illegal project name.\nOnly use letters, digits, space, '.' or '_'.");
+				messageService.ShowError(GettextCatalog.GetString ("Illegal project name.\nOnly use letters, digits, space, '.' or '_'."));
 				dialog.Respond(Gtk.ResponseType.Reject);
 				dialog.Hide();
 				return;
 			}
 
 			if(projService.ExistsEntryWithName(name)) {
-				messageService.ShowError("A Project with that name is already in your Project Space");
+				messageService.ShowError(GettextCatalog.GetString ("A Project with that name is already in your Project Space"));
 				dialog.Respond(Gtk.ResponseType.Reject);
 				dialog.Hide();
 				return;
@@ -277,7 +277,7 @@ namespace MonoDevelop.Gui.Dialogs {
 					NewCombineLocation = fileUtilityService.GetDirectoryNameWithSeparator(ProjectLocation) + ((TextBox)ControlDictionary["nameTextBox"]).Text + ".cmbx";
 					
 					if (File.Exists(NewCombineLocation)) {
-						DialogResult result = MessageBox.Show("Combine file " + NewCombineLocation + " already exists, do you want to overwrite\nthe existing file ?", "File already exists", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2);
+						DialogResult result = MessageBox.Show(String.Format (Gettext.GetString ("Combine file {0} already exists, do you want to overwrite\nthe existing file ?"), NewCombineLocation), Gettext.GetString ("File already exists"), MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2);
 						switch(result) {
 							case DialogResult.Yes:
 								cmb.SaveCombine(NewCombineLocation);
@@ -289,7 +289,7 @@ namespace MonoDevelop.Gui.Dialogs {
 						cmb.SaveCombine(NewCombineLocation);
 					}
 				} else {
-					MessageBox.Show(resourceService.GetString("Dialog.NewProject.EmptyProjectFieldWarning"), "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+					MessageBox.Show(GettextCatalog.GetString ("The project or source entry is empty, can't create project."), GettextCatalog.GetString ("Warning"), MessageBoxButtons.OK, MessageBoxIcon.Warning);
 				}
 #endif
 			}
@@ -347,12 +347,7 @@ namespace MonoDevelop.Gui.Dialogs {
 			TemplateView = new IconView ();
 			hbox_template.PackStart (TemplateView, true, true, 0);
 
-			//string label = stringParserService.Parse ("${res:Dialog.NewProject.NewSolutionLabelText}");
-			//label = stringParserService.Parse ("${res:Dialog.NewProject.LocationLabelText}");
-			//label = stringParserService.Parse ("${res:Dialog.NewProject.NameLabelText}");
-			//label = stringParserService.Parse ("${res:Dialog.NewProject.checkBox1Text}");
-			//label = stringParserService.Parse ("${res:Dialog.NewProject.autoCreateSubDirCheckBox}");
-			entry_location = new FolderEntry ("Combine Location");
+			entry_location = new FolderEntry (GettextCatalog.GetString ("Combine Location"));
 			hbox_for_browser.PackStart (entry_location, true, true, 0);
 			
 			
