@@ -32,8 +32,6 @@ namespace ICSharpCode.SharpDevelop.DefaultEditor.Gui.Editor
 		readonly static string contextMenuPath       = "/SharpDevelop/ViewContent/DefaultTextEditor/ContextMenu";
 		readonly static string editActionsPath       = "/AddIns/DefaultTextEditor/EditActions";
 		readonly static string formatingStrategyPath = "/AddIns/DefaultTextEditor/Formater";
-		uint timeout = 0;
-		char currentchar;
 				
 		public SharpDevelopTextAreaControl()
 		{
@@ -88,17 +86,7 @@ namespace ICSharpCode.SharpDevelop.DefaultEditor.Gui.Editor
 		InsightWindow insightWindow = null;
 		bool HandleKeyPress(char ch)
 		{
-			if (timeout != 0) {
-				Gtk.Timeout.Remove(timeout);
-			}
-			timeout = Gtk.Timeout.Add(700, new Gtk.Function(HandleKeyPressImpl));
-			currentchar = ch;
-			return false;
-		}
-		
-		bool HandleKeyPressImpl() {
 			CompletionWindow completionWindow;
-			char ch = currentchar;
 			
 			string fileName = FileName;
 			
