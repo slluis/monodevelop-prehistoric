@@ -392,7 +392,7 @@ namespace CSharpBinding
 				}
 				
 				stream.WriteLine ();
-				stream.WriteLine ("PKG_REFERENCES_BUILD = $(addprefix /pkg:, $(PKG_REFERENCES))");
+				stream.WriteLine ("PKG_REFERENCES_BUILD = $(addprefix -pkg:, $(PKG_REFERENCES))");
 				stream.WriteLine ();
 				stream.WriteLine ("PKG_REFERENCES_CHECK = $(addsuffix .pkgcheck, $(PKG_REFERENCES))");
 			}
@@ -408,7 +408,7 @@ namespace CSharpBinding
 						stream.WriteLine ();
 				}
 				stream.WriteLine ();
-				stream.WriteLine ("SYSTEM_REFERENCES_BUILD = $(addprefix /r:, $(SYSTEM_REFERENCES))");
+				stream.WriteLine ("SYSTEM_REFERENCES_BUILD = $(addprefix -r:, $(SYSTEM_REFERENCES))");
 				stream.WriteLine ();
 				stream.WriteLine ("SYSTEM_REFERENCES_CHECK = $(addsuffix .check, $(SYSTEM_REFERENCES))");
 				stream.WriteLine ();
@@ -425,7 +425,7 @@ namespace CSharpBinding
 				}
 				
 				stream.WriteLine ();
-				stream.WriteLine ("ASSEMBLY_REFERENCES_BUILD = $(addprefix /r:, $(ASSEMBLY_REFERENCES))");
+				stream.WriteLine ("ASSEMBLY_REFERENCES_BUILD = $(addprefix -r:, $(ASSEMBLY_REFERENCES))");
 				stream.WriteLine ();
 			}
 
@@ -440,19 +440,19 @@ namespace CSharpBinding
 				}
 				
 				stream.WriteLine ();
-				stream.WriteLine ("PROJECT_REFERENCES_BUILD = $(addprefix /r:, $(PROJECT_REFERENCES))");
+				stream.WriteLine ("PROJECT_REFERENCES_BUILD = $(addprefix -r:, $(PROJECT_REFERENCES))");
 				stream.WriteLine ();
 			}
 
 			stream.Write ("MCS_OPTIONS = ");
 			if (compilerparameters.UnsafeCode) {
-				stream.Write ("/unsafe ");
+				stream.Write ("-unsafe ");
 			}
 			if (compilerparameters.DefineSymbols != null && compilerparameters.DefineSymbols.Length > 0) {
-				stream.Write ("/define:" + '"' + compilerparameters.DefineSymbols + '"' + " ");
+				stream.Write ("-define:" + '"' + compilerparameters.DefineSymbols + '"' + " ");
 			}
 			if (compilerparameters.MainClass != null && compilerparameters.MainClass.Length > 0) {
-				stream.Write ("/main:" + compilerparameters.MainClass + " ");
+				stream.Write ("-main:" + compilerparameters.MainClass + " ");
 			}
 			stream.WriteLine ();
 			stream.WriteLine ();
@@ -467,7 +467,7 @@ namespace CSharpBinding
 				stream.WriteLine ();
 			}
 			
-			stream.Write ("\tmcs $(MCS_OPTIONS) /target:{0} /out:{1}", target, outputName);
+			stream.Write ("\tmcs $(MCS_OPTIONS) -target:{0} -out:{1}", target, outputName);
 			if (resources.Count > 0) {
 				stream.Write (" $(RESOURCES_BUILD)");
 			}

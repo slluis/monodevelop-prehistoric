@@ -1,3 +1,7 @@
+2004-05-18  Todd Berman  <tberman@sevenl.net>
+
+	* CSharpBindingCompilerManager.cs: change from /option to -option
+
 2004-05-16  Todd Berman  <tberman@sevenl.net>
 
 	* CSharpBindingCompilerManager.cs: output a much better makefile.
