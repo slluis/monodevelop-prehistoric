@@ -54,7 +54,7 @@ namespace ILAsmBinding
 		
 		[DefaultValue(CompilationTarget.Exe)]
 		[LocalizedProperty("Compilation Target",
-		                   Description = "The compilation target of the source code. (/DLL, /EXE)")]
+		                   Description = "The compilation target of the source code. (/dll, /exe)")]
 		public CompilationTarget CompilationTarget {
 			get {
 				return compilerOptions.compilationTarget;
@@ -89,7 +89,7 @@ namespace ILAsmBinding
 		public class CompilerOptions
 		{
 			[XmlAttribute("compilationTarget")]
-			internal CompilationTarget compilationTarget = CompilationTarget.Exe;
+			public CompilationTarget compilationTarget = CompilationTarget.Exe;
 			
 			[XmlAttribute("includeDebugInformation")]
 			internal bool includeDebugInformation = false;
@@ -98,12 +98,12 @@ namespace ILAsmBinding
 			{
 				StringBuilder options = new StringBuilder();
 				switch (compilationTarget) {
-					//case CompilationTarget.Dll:
-					//	options.Append("/DLL ");
-					//	break;
-					//case CompilationTarget.Exe:
-					//	options.Append("/EXE ");
-					//	break;
+					case ILAsmBinding.CompilationTarget.Dll:
+						options.Append("/dll ");
+						break;
+					case ILAsmBinding.CompilationTarget.Exe:
+						options.Append("/exe ");
+						break;
 					default:
 						throw new System.NotSupportedException("Unsupported compilation target : " + compilationTarget);
 				}

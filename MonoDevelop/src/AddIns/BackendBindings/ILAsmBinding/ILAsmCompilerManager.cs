@@ -14,6 +14,7 @@ using System.Text.RegularExpressions;
 using System.CodeDom.Compiler;
 using Gtk;
 
+using MonoDevelop.Gui.Components;
 using MonoDevelop.Services;
 using MonoDevelop.Core.Services;
 using MonoDevelop.Internal.Project;
@@ -49,8 +50,6 @@ namespace ILAsmBinding
 		ICompilerResult Compile(ILAsmCompilerParameters compilerparameters, string[] fileNames)
 		{
 			// TODO: No response file possible ? @FILENAME seems not to work.
-			string output = String.Empty;
-			string error  = String.Empty;
 			StringBuilder parameters = new StringBuilder();
 			foreach (string fileName in fileNames) {
 				parameters.Append('"');
@@ -59,21 +58,52 @@ namespace ILAsmBinding
 			}
 			
 			string outputFile = Path.GetFullPath(fileUtilityService.GetDirectoryNameWithSeparator(compilerparameters.OutputDirectory) + compilerparameters.OutputAssembly + ".exe");
-			parameters.Append("/OUTPUT=\"" + outputFile + "\"");
+			parameters.Append("/output:" + outputFile);
 			parameters.Append(" ");
 			parameters.Append(compilerparameters.CurrentCompilerOptions.GenerateOptions());
 			string compilerName = GetCompilerName();
 			string outstr = compilerName + " " + parameters.ToString();
 			
 			TempFileCollection tf = new TempFileCollection();
-			Executor.ExecWaitWithCapture(outstr, Path.GetFullPath(compilerparameters.OutputDirectory), tf, ref output, ref error);
-			
+			StreamReader output;
+			StreamReader error;
+			DoCompilation (outstr, tf, out output, out error);
 			ICompilerResult result = ParseOutput(tf, output);
 			
-			File.Delete(output);
-			File.Delete(error);
 			return result;
 		}
+
+		private void DoCompilation (string outstr, TempFileCollection tf, out StreamReader output, out StreamReader error)
+		{
+            string arguments = outstr;
+            string command = arguments;
+            ProcessStartInfo si = new ProcessStartInfo (command);
+			si.RedirectStandardOutput = true;
+            si.RedirectStandardError = true;
+			si.UseShellExecute = false;
+			Process p = new Process ();
+            p.StartInfo = si;
+            p.Start ();
+
+			IStatusBarService sbs = (IStatusBarService)ServiceManager.Services.GetService (typeof (IStatusBarService));
+			sbs.SetMessage ("Compiling...");
+
+			while (!p.HasExited) {
+				((SdStatusBar)sbs.ProgressMonitor).Pulse();
+				while (Gtk.Application.EventsPending ())
+					Gtk.Application.RunIteration ();
+				System.Threading.Thread.Sleep (100);
+			}
+
+			((SdStatusBar) sbs.ProgressMonitor).Done ();
+
+			// FIXME: avoid having a full buffer
+			// perhaps read one line and append parsed output
+			// and then return cr at end 
+			output = p.StandardOutput;
+			error = p.StandardError;
+            p.WaitForExit ();
+        }
 		
 		public ICompilerResult CompileFile(string fileName, ILAsmCompilerParameters compilerparameters)
 		{
@@ -112,11 +142,11 @@ namespace ILAsmBinding
 			return "ilasm";
 		}
 		
-		ICompilerResult ParseOutput(TempFileCollection tf, string file)
+		ICompilerResult ParseOutput(TempFileCollection tf, StreamReader sr)
 		{
 			StringBuilder compilerOutput = new StringBuilder();
 			
-			StreamReader sr = File.OpenText(file);
+			//StreamReader sr = File.OpenText(file);
 			
 			// skip fist whitespace line
 			sr.ReadLine();
