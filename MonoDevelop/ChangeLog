@@ -1,5 +1,9 @@
 2004-06-01  Todd Berman  <tberman@sevenl.net>
 
+	* monodevelop.in: patch from cmeadors to fix weird startup issue.
+
+2004-06-01  Todd Berman  <tberman@sevenl.net>
+
 	* configure.in: trust gtksourceview-sharp to check for gtksourceview.
 
 2004-05-30  Fawad Halim  <fawad@fawad.net>
