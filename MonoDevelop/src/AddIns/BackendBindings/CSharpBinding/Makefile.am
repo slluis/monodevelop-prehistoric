@@ -30,12 +30,12 @@ DLL = CSharpBinding.dll
 all: $(DLL)
 
 $(DLL): $(FILES)
-	@ mcs /debug /out:$(DLL) /target:library /r:System.Drawing.dll \
+	@ mcs /debug /out:$(DLL) /target:library /r:System.Drawing \
 		/r:../../../../build/bin/MonoDevelop.Core.dll \
 		/r:../../../../build/bin/MonoDevelop.SourceEditor.dll \
 		/r:../../../../build/bin/MonoDevelop.Base.dll \
 		/r:../../../../build/bin/ICSharpCode.SharpRefactory.dll \
-		/r:gtk-sharp.dll \
+		/r:gtk-sharp \
 		$(FILES) \
 	&& cp $(DLL) ../../../../build/AddIns/AddIns/BackendBindings/.
 

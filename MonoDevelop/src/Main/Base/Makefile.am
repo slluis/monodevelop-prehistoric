@@ -358,19 +358,19 @@ DLL = MonoDevelop.Base.dll
 all: $(DLL)
 
 $(DLL): $(FILES) ../../../data/resources/glade/Base.glade
-	@ mcs /debug /out:$(DLL) /target:library /r:System.Drawing.dll /r:ICSharpCode.SharpZipLib.dll \
+	@ mcs /debug /out:$(DLL) /target:library /r:System.Drawing /r:ICSharpCode.SharpZipLib.dll \
 		/r:../../../build/bin/ICSharpCode.SharpRefactory.dll /r:../../../build/bin/MonoDevelop.Core.dll \
 		/r:../../../build/bin/ICSharpCode.SharpAssembly.dll \
 		/r:../../../build/bin/MonoDevelop.Gui.Utils.dll \
 		/r:../../../build/bin/MonoDevelop.Gui.Widgets.dll \
 		/r:../../../build/bin/gdl-sharp.dll \
 		/resource:../../../data/resources/glade/Base.glade,Base.glade \
-		/r:System.Data.dll /r:System.Web.Services.dll /define:LINUX \
-		/define:GTK /r:gtk-sharp.dll /r:gdk-sharp.dll /r:glib-sharp.dll \
-		/r:pango-sharp.dll \
+		/r:System.Data /r:System.Web.Services /define:LINUX \
+		/define:GTK /r:gtk-sharp /r:gdk-sharp /r:glib-sharp \
+		/r:pango-sharp \
 		/r:../../../build/bin/gtkmozembed-sharp.dll \
-		/r:glade-sharp.dll \
-		/r:gnome-sharp.dll \
+		/r:glade-sharp \
+		/r:gnome-sharp \
 		$(FILES) \
 	&& cp $(DLL) ../../../build/bin/.
 

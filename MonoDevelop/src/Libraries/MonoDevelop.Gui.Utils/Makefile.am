@@ -1,5 +1,5 @@
 DLL = MonoDevelop.Gui.Utils.dll
-REFERENCES=/r:System.Drawing.dll /r:gtk-sharp.dll /r:gdk-sharp.dll /r:pango-sharp.dll /r:gnome-sharp.dll /r:glib-sharp.dll /r:glade-sharp.dll
+REFERENCES=/r:System.Drawing /r:gtk-sharp /r:gdk-sharp /r:pango-sharp /r:gnome-sharp /r:glib-sharp /r:glade-sharp
 
 FILES = ./FileIcons/FileIconLoader.cs \
 ./AssemblyInfo.cs \

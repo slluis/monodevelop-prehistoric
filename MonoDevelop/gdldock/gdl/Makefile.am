@@ -15,7 +15,7 @@ generated-stamp: gdl-api.xml
  
 $(ASSEMBLY): generated-stamp ../../build/bin
 	$(MCS) --unsafe --target library \
-	-r glib-sharp.dll -r gtk-sharp.dll -r gdk-sharp.dll \
+	-r glib-sharp -r gtk-sharp -r gdk-sharp \
 	--recurse '*.cs' -o $(ASSEMBLY) \
 	&& cp $(ASSEMBLY) ../../build/bin/.
 

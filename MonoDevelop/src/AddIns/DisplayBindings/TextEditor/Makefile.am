@@ -43,15 +43,15 @@ DLL=../../../../build/bin/MonoDevelop.DefaultTexteditor.dll
 all: $(DLL)
 
 $(DLL): $(FILES) ../../../../data/resources/glade/texteditoraddin.glade
-	@ mcs /debug /out:$(DLL) /target:library /r:System.Drawing.dll \
+	@ mcs /debug /out:$(DLL) /target:library /r:System.Drawing \
 		/r:../../../../build/bin/MonoDevelop.Core.dll \
 		/r:../../../../build/bin/MonoDevelop.Base.dll \
 		/r:../../../../build/bin/MonoDevelop.SourceEditor.dll \
-		/r:System.DirectoryServices.dll /r:pango-sharp.dll /r:glade-sharp.dll \
+		/r:System.DirectoryServices /r:pango-sharp /r:glade-sharp \
 		/r:../../../../build/bin/MonoDevelop.Gui.Widgets.dll \
-		/r:glib-sharp.dll \
+		/r:glib-sharp \
 		/resource:../../../../data/resources/glade/texteditoraddin.glade,texteditoraddin.glade \
-		/define:GTK /r:gtk-sharp.dll /r:gdk-sharp.dll /r:gnome-sharp.dll\
+		/define:GTK /r:gtk-sharp /r:gdk-sharp /r:gnome-sharp\
 		$(FILES)
 
 CLEANFILES=$(DLL)

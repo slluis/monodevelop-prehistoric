@@ -35,12 +35,12 @@ DLL = MonoDevelop.exe
 all: $(DLL)
 
 $(DLL): $(FILES)
-	@ mcs /debug /out:$(DLL) /r:System.Drawing.dll \
+	@ mcs /debug /out:$(DLL) /r:System.Drawing \
 		/r:../../../build/bin/MonoDevelop.Core.dll \
 		/r:../../../build/bin/MonoDevelop.Base.dll \
-		/r:glib-sharp.dll \
-		/define:GTK /r:gtk-sharp.dll /r:gdk-sharp.dll \
-		/r:gnome-sharp.dll \
+		/r:glib-sharp \
+		/define:GTK /r:gtk-sharp /r:gdk-sharp \
+		/r:gnome-sharp \
 		$(RESOURCES) $(FILES) \
 	&& cp $(DLL) ../../../build/bin/.
 

@@ -79,9 +79,9 @@ $(DLL) : $(FILES)
 		/r:../../../../build/bin/MonoDevelop.Base.dll \
 		/r:../../../../build/bin/MonoDevelop.Gui.Utils.dll \
 		/r:../../../../build/bin/MonoDevelop.Gui.Widgets.dll \
-		/r:pango-sharp.dll /r:gnome-sharp.dll /r:glade-sharp.dll \
-		/r:gconf-sharp.dll \
-		/r:System.Drawing.dll \
+		/r:pango-sharp /r:gnome-sharp /r:glade-sharp \
+		/r:gconf-sharp \
+		/r:System.Drawing \
 	&& cp $(DLL) ../../../../build/bin/.
 
 assemblydir = $(libdir)/monodevelop/bin

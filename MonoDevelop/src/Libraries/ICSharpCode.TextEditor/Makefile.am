@@ -98,11 +98,11 @@ FILES= \
 
 DLL=../../../build/bin/MonoDevelop.TextEditor.dll
 REFS= \
- /r:System.Drawing.dll \
- /r:gtk-sharp.dll \
- /r:glib-sharp.dll \
- /r:gdk-sharp.dll \
- /r:pango-sharp.dll
+ /r:System.Drawing \
+ /r:gtk-sharp \
+ /r:glib-sharp \
+ /r:gdk-sharp \
+ /r:pango-sharp
 # \
  #/r:../../../build/bin/MonoDevelop.SourceEditor.dll 
 all: $(DLL)
