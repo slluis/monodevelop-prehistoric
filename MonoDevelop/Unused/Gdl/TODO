@@ -1,6 +1,4 @@
  - restore size/position on de-iconify?
- - fix:
-(<unknown>:21016): Gtk-CRITICAL **: gtk_widget_send_expose: assertion `GTK_WIDGET_REALIZED (widget)' failed
  - proper license headers
  - improve de-serialization (also use ExportLayoutAttribute?)
  - fix notebook.Position after

@@ -46,7 +46,8 @@ namespace Gdl
 		
 		protected DockItem ()
 		{
-			WidgetFlags |= WidgetFlags.NoWindow;
+			// remove NoWindow flag
+			WidgetFlags &= ~(WidgetFlags.NoWindow);
 		
 			if (HasGrip) {
 				grip = new DockItemGrip (this);
