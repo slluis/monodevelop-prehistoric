@@ -15,6 +15,8 @@ using ICSharpCode.Core.Properties;
 using ICSharpCode.Core.Services;
 using ICSharpCode.SharpDevelop.Gui;
 
+using Gtk;
+
 namespace MonoDevelop.EditorBindings.Gui.Pads
 {
 	// Note: I moved the pads to this assembly, because I want no cyclic dll dependency
@@ -66,6 +68,7 @@ namespace MonoDevelop.EditorBindings.Gui.Pads
 			textEditorControl = new Gtk.TextView (buffer);
 			textEditorControl.Editable = false;
 			scroller = new Gtk.ScrolledWindow ();
+			scroller.ShadowType = ShadowType.In;
 			scroller.Add (textEditorControl);
 			ResourceService resourceService = (ResourceService)ServiceManager.Services.GetService(typeof(IResourceService));
 			

@@ -15,6 +15,7 @@ INCLUDES = \
 	$(GDL_DEPENDENCIES_CFLAGS)
 
 libgdldock_headers = \
+	gdl-dock-bar.h \
 	gdl-dock-object.h \
 	gdl-dock-master.h \
 	gdl-dock.h \
@@ -25,10 +26,12 @@ libgdldock_headers = \
 	gdl-dock-tablabel.h \
 	gdl-dock-layout.h \
 	gdl-dock-placeholder.h \
+	gdl-stock.h
 
 libgdldock_SOURCES = \
 	$(libgdldock_headers) \
 	gdl-i18n.h \
+	gdl-dock-bar.c \
 	gdl-dock-object.c \
 	gdl-dock-master.c \
 	gdl-dock.c \
@@ -39,6 +42,7 @@ libgdldock_SOURCES = \
 	gdl-dock-tablabel.c \
 	gdl-dock-layout.c \
 	gdl-dock-placeholder.c \
+	gdl-stock.c \
 	libgdltypebuiltins.c \
 	libgdlmarshal.c
 
@@ -56,11 +60,12 @@ $(libgdldock_OBJECTS): $(libgdldock_headers) libgdltypebuiltins.h libgdlmarshal.
 
 libgdldock.so: $(libgdldock_OBJECTS)
 	$(CC) $(LDFLAGS) -shared -fPIC -o libgdldock.so $+ && \
-	cp libgdldock.so ../../../build/bin
+	cp libgdldock.so ../../../build/bin && \
+	cp *.png ../../../build/bin
 
 %.o: %.c
 	$(CC) $(CFLAGS) $(INCLUDES) -c $<
-
+	
 # enumerations code generation
 
 libgdltypebuiltins.c: $(libgdldock_headers)

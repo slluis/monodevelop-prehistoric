@@ -18,6 +18,8 @@ using ICSharpCode.Core.Services;
 using ICSharpCode.SharpDevelop.Services;
 
 using Gtk;
+using Gdl;
+using GdlSharp;
 using MonoDevelop.Gui.Widgets;
 
 namespace ICSharpCode.SharpDevelop.Gui
@@ -34,22 +36,19 @@ namespace ICSharpCode.SharpDevelop.Gui
 		Window wbWindow;
 		Container rootWidget;
 		Container toolbarContainer;
-
+		Dock dock;
 		Notebook tabControl;
 
-		//FIXME: this is also an ugly hack
-		//VBox mainBox;
-		DockingManager dockManager;
 		//ICSharpCode.SharpDevelop.Gui.Components.OpenFileTab tabControl = new ICSharpCode.SharpDevelop.Gui.Components.OpenFileTab();
 
 		ArrayList _windows = new ArrayList ();
 
 		public IWorkbenchWindow ActiveWorkbenchwindow {
 			get {
-				if (tabControl == null || tabControl.CurrentPage < 0 || tabControl.CurrentPage >= tabControl.NPages)  {
+				/*if (tabControl == null || tabControl.CurrentPage < 0 || tabControl.CurrentPage >= tabControl.NPages)  {
 					return null;
-				}
-				return (IWorkbenchWindow)_windows[tabControl.CurrentPage];
+				}*/
+				return null;//(IWorkbenchWindow)_windows[tabControl.CurrentPage];
 			}
 		}
 		
@@ -77,10 +76,6 @@ namespace ICSharpCode.SharpDevelop.Gui
 			this.workbench = workbench;
 			wbWindow = (Window) workbench;
 			
-			Gtk.VBox mainBox = new VBox (false, 2);
-			tabControl = new Notebook();
-			tabControl.Scrollable = true;
-			
 			Gtk.VBox vbox = new VBox (false, 0);
 			rootWidget = vbox;
 
@@ -94,13 +89,22 @@ namespace ICSharpCode.SharpDevelop.Gui
 				vbox.PackStart(toolvbox, false, false, 0);
 			}
 			
-			vbox.PackStart(mainBox);
+			// Create the docking widget and add it to the window.
+			dock = new Dock ();
+			Gtk.HBox dockBox = new HBox (false, 5);
+			dockBox.PackStart (dock, true, true, 0);
+			vbox.PackStart (dockBox, true, true, 0);
+
+			// Create the notebook for the various documents.
+			tabControl = new Notebook ();
+			DockItem item = new DockItem ("Documents", "Documents",
+						      DockItemBehavior.Locked);
+			item.Add (tabControl);
+			item.ShowAll ();
+			dock.AddItem (item, DockPlacement.Center);
 
 			workbench.Add (vbox);
 			
-			//dockManager = new DockingManager(wbWindow);
-			dockManager = new DockingManager(mainBox, tabControl);
-
 /*
 			wbForm = (Form)workbench;
 			wbForm.Controls.Clear();
@@ -116,7 +120,7 @@ namespace ICSharpCode.SharpDevelop.Gui
 //			Control firstControl = null;
 */
 			IStatusBarService statusBarService = (IStatusBarService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(IStatusBarService));
-			mainBox.PackEnd (statusBarService.Control, false, true, 0);
+			vbox.PackEnd (statusBarService.Control, false, true, 0);
 /*			
 			wbForm.Add (statusBarService.Control);
 			((DefaultWorkbench)workbench).commandBarManager.CommandBars.Add(((DefaultWorkbench)workbench).TopMenu);
@@ -153,7 +157,7 @@ namespace ICSharpCode.SharpDevelop.Gui
 				Console.WriteLine("can't load docking configuration, version clash ?");
 			}
 			RedrawAllComponents();
-			//wbWindow.ShowAll ();
+			wbWindow.ShowAll ();
 		}
 
 		public Gtk.Widget LayoutWidget {
@@ -192,35 +196,35 @@ namespace ICSharpCode.SharpDevelop.Gui
 			};
 			
 			foreach (string typeName in leftContents) {
-				Content c = GetContent(typeName);
+				Content c = GetContent (typeName);
 				if (c != null) {
-					if (leftContent == null) {
-						leftContent = dockManager.AddContentWithState(c, DockState.Left) as WindowContent;
-					} else {
-						dockManager.AddContentToWindowContent(c, leftContent);
-					}
+					DockItem item = new DockItem (c.Title, c.Title, "gtk-execute",
+								      DockItemBehavior.Normal);
+					item.Add (c.Widget);
+					item.ShowAll ();
+					dock.AddItem (item, DockPlacement.Left);
 				}
 			}
 			
 			foreach (string typeName in bottomContents) {
-				Content c = GetContent(typeName);
+				Content c = GetContent (typeName);
 				if (c != null) {
-					if (bottomContent == null) {
-						bottomContent = dockManager.AddContentWithState(c, DockState.Bottom) as WindowContent;
-					} else {
-						dockManager.AddContentToWindowContent(c, bottomContent);
-					}
+					DockItem item = new DockItem (c.Title, c.Title, "gtk-execute",
+								      DockItemBehavior.Normal);
+					item.Add (c.Widget);
+					item.ShowAll ();
+					dock.AddItem (item, DockPlacement.Bottom);
 				}
 			}
 			
 			foreach (string typeName in rightContents) {
-				Content c = GetContent(typeName);
+				Content c = GetContent (typeName);
 				if (c != null) {
-					if (rightContent == null) {
-						rightContent = dockManager.AddContentWithState(c, DockState.Right) as WindowContent;
-					} else {
-						dockManager.AddContentToWindowContent(c, rightContent);
-					}
+					DockItem item = new DockItem (c.Title, c.Title, "gtk-execute",
+								      DockItemBehavior.Normal);
+					item.Add (c.Widget);
+					item.ShowAll ();
+					dock.AddItem (item, DockPlacement.Right);
 				}
 			}
 			//Console.WriteLine(" Default Layout created.");
@@ -266,27 +270,33 @@ namespace ICSharpCode.SharpDevelop.Gui
 	
 		public void ShowPad(IPadContent content)
 		{
-			// FIXME: GTKize			
-
+			Console.WriteLine ("ShowPad {0}", content.Title);
 			if (contentHash[content] == null) {
-				IProperties properties = (IProperties)propertyService.GetProperty("Workspace.ViewMementos", new DefaultProperties());
+				/*DockItem item = new DockItem (content.Title,
+							      content.Title,
+							      DockItemBehavior.Normal);
+				item.Add (content.Control);
+				item.ShowAll ();
+				dock.AddItem (item, DockPlacement.Top);*/
+			
+				/*IProperties properties = (IProperties)propertyService.GetProperty("Workspace.ViewMementos", new DefaultProperties());
 				//content.Control.Dock = DockStyle.None;
 				Content newContent;
 				if (content.Icon != null) {
 					//ImageList imgList = new ImageList();
 					//imgList.ColorDepth = ColorDepth.Depth32Bit;
-					IconService iconService = (IconService)ServiceManager.Services.GetService(typeof(IconService));
+					//IconService iconService = (IconService)ServiceManager.Services.GetService(typeof(IconService));
 					//imgList.Images.Add(iconService.GetBitmap(content.Icon));
 					//newContent = dockManager.Contents.Add(content.Control, content.Title, imgList, 0);
-					newContent = dockManager.Contents.Add(content.Control, content.Title, iconService.GetBitmap(content.Icon));
+					//newContent = dockManager.Contents.Add(content.Control, content.Title, iconService.GetBitmap(content.Icon));
 				} else {
-					newContent = dockManager.Contents.Add(content.Control, content.Title);
-				}
-				contentHash[content] = newContent;
+					//newContent = dockManager.Contents.Add(content.Control, content.Title);
+				}*/
+				contentHash[content] = new Content (content.Control, content.Title, null);
 			} else {
 				Content c = (Content)contentHash[content];
 				if (c != null) {
-					dockManager.ShowContent(c);
+					//dockManager.ShowContent(c);
 				}
 			}
 		}
@@ -310,7 +320,7 @@ namespace ICSharpCode.SharpDevelop.Gui
 			if (padContent != null) {
 				Content content = (Content)contentHash[padContent];
 				if (content != null) {
-					dockManager.HideContent(content);
+					//dockManager.HideContent(content);
 				}
 			}
 

@@ -135,6 +135,7 @@ namespace ICSharpCode.SharpDevelop.Gui
 		
 		public DefaultWorkbench() : base ("MonoDevelop")
 		{
+			Console.WriteLine ("Creating DefaultWorkbench");
 			ResourceService resourceService = (ResourceService)ServiceManager.Services.GetService(typeof(IResourceService));
 			// FIXME: edit the name in the resource
 			//Title = resourceService.GetString("MainWindow.DialogName");
@@ -268,6 +269,7 @@ namespace ICSharpCode.SharpDevelop.Gui
 		
 		public virtual void ShowPad(IPadContent content)
 		{
+			Console.WriteLine ("ShowPad : {0}", content);
 			PadContentCollection.Add(content);
 			
 			if (layout != null) {

@@ -361,6 +361,7 @@ $(DLL): $(SOURCES) ../../../data/resources/glade/Base.glade
 		/r:../../../build/bin/ICSharpCode.SharpAssembly.dll \
 		/r:../../../build/bin/MonoDevelop.Gui.Utils.dll \
 		/r:../../../build/bin/MonoDevelop.Gui.Widgets.dll \
+		/r:../../../build/bin/gdl-sharp.dll \
 		/resource:../../../data/resources/glade/Base.glade,Base.glade \
 		/r:System.Data.dll /r:System.Web.Services.dll /define:LINUX \
 		/define:GTK /r:gtk-sharp.dll /r:gdk-sharp.dll /r:glib-sharp.dll \

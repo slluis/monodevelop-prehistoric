@@ -14,6 +14,7 @@ using System.Diagnostics;
 using ICSharpCode.Core.Services;
 using ICSharpCode.SharpDevelop.Services;
 
+using Gtk;
 using GtkSharp;
 
 using ICSharpCode.Core.Properties;
@@ -75,6 +76,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads {
 			AddColumns ();
 			
 			sw = new Gtk.ScrolledWindow ();
+			sw.ShadowType = ShadowType.In;
 			sw.Add (view);
 			
 			taskService.TasksChanged     += new EventHandler (ShowResults);

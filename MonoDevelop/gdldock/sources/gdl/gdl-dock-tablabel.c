@@ -94,7 +94,8 @@ static guint dock_tablabel_signals [LAST_SIGNAL] = { 0 };
 
 /* ----- Private interface ----- */
 
-GDL_CLASS_BOILERPLATE (GdlDockTablabel, gdl_dock_tablabel, GtkBin, GTK_TYPE_BIN);
+GDL_CLASS_BOILERPLATE (GdlDockTablabel, gdl_dock_tablabel,
+                       GtkBin, GTK_TYPE_BIN);
 
 static void
 gdl_dock_tablabel_class_init (GdlDockTablabelClass *klass)

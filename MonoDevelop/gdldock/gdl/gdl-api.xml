@@ -21,7 +21,8 @@
     <enum name="DockItemFlags" cname="GdlDockItemFlags" type="enum" hidden="1">
       <member cname="GDL_DOCK_IN_DRAG" name="InDrag" value="1 &lt;&lt; GDL_DOCK_OBJECT_FLAGS_SHIFT" />
       <member cname="GDL_DOCK_IN_PREDRAG" name="InPredrag" value="1 &lt;&lt; (GDL_DOCK_OBJECT_FLAGS_SHIFT + 1)" />
-      <member cname="GDL_DOCK_USER_ACTION" name="UserAction" value="1 &lt;&lt; (GDL_DOCK_OBJECT_FLAGS_SHIFT + 2)" />
+      <member cname="GDL_DOCK_ICONIFIED" name="Iconified" value="1 &lt;&lt; (GDL_DOCK_OBJECT_FLAGS_SHIFT + 2)" />
+      <member cname="GDL_DOCK_USER_ACTION" name="UserAction" value="1 &lt;&lt; (GDL_DOCK_OBJECT_FLAGS_SHIFT + 3)" />
     </enum>
     <enum name="DockObjectFlags" cname="GdlDockObjectFlags" type="flags">
       <member cname="GDL_DOCK_AUTOMATIC" name="Automatic" value="1 &lt;&lt; 0" />
@@ -109,6 +110,19 @@
         </parameters>
       </method>
     </object>
+    <object name="DockBar" cname="GdlDockBar" parent="GtkVBox">
+      <field cname="dock" type="GdlDock*" />
+      <field cname="_priv" type="GdlDockBarPrivate*" />
+      <property name="Master" cname="master" type="GdlDockMaster" readable="true" writeable="true" />
+      <method name="GetType" cname="gdl_dock_bar_get_type" shared="true">
+        <return-type type="GType" />
+      </method>
+      <constructor cname="gdl_dock_bar_new">
+        <parameters>
+          <parameter type="GdlDock*" name="dock" />
+        </parameters>
+      </constructor>
+    </object>
     <object name="DockItem" cname="GdlDockItem" parent="GdlDockObject">
       <field cname="child" type="GtkWidget*" />
       <field cname="behavior" type="GdlDockItemBehavior" />
@@ -120,7 +134,6 @@
       <property name="Orientation" cname="orientation" type="GtkOrientation" readable="true" writeable="true" construct-only="true" />
       <property name="Resize" cname="resize" type="gboolean" readable="true" writeable="true" />
       <property name="Behavior" cname="behavior" type="GdlDockItemBehavior" readable="true" writeable="true" />
-      <property name="GripSize" cname="grip_size" type="guint" readable="true" writeable="true" />
       <property name="Locked" cname="locked" type="gboolean" readable="true" writeable="true" />
       <property name="PreferredWidth" cname="preferred_width" type="gint" readable="true" writeable="true" />
       <property name="PreferredHeight" cname="preferred_height" type="gint" readable="true" writeable="true" />
@@ -171,6 +184,9 @@
       <method name="HideItem" cname="gdl_dock_item_hide_item">
         <return-type type="void" />
       </method>
+      <method name="IconifyItem" cname="gdl_dock_item_iconify_item">
+        <return-type type="void" />
+      </method>
       <method name="Lock" cname="gdl_dock_item_lock">
         <return-type type="void" />
       </method>
@@ -178,6 +194,14 @@
         <parameters>
           <parameter type="const-gchar*" name="name" />
           <parameter type="const-gchar*" name="long_name" />
+          <parameter type="GdlDockItemBehavior" name="behavior" />
+        </parameters>
+      </constructor>
+      <constructor cname="gdl_dock_item_new_with_stock">
+        <parameters>
+          <parameter type="const-gchar*" name="name" />
+          <parameter type="const-gchar*" name="long_name" />
+          <parameter type="const-gchar*" name="stock_id" />
           <parameter type="GdlDockItemBehavior" name="behavior" />
         </parameters>
       </constructor>
@@ -218,8 +242,11 @@
         <return-type type="void" />
       </method>
     </object>
-    <object name="DockItemGrip" cname="GdlDockItemGrip" parent="GtkWidget">
+    <object name="DockItemGrip" cname="GdlDockItemGrip" parent="GtkContainer">
       <field cname="item" type="GdlDockItem*" />
+      <field cname="title_window" type="GdkWindow*" />
+      <field cname="_priv" type="GdlDockItemGripPrivate*" />
+      <property name="Item" cname="item" type="GdlDockItem" writeable="true" construct-only="true" />
       <signal name="Activate" cname="activate" when="LAST">
         <return-type type="GCclosureMarshalVoid_Void" />
         <parameters>
@@ -380,9 +407,11 @@
       <field cname="master" type="GObject*" />
       <field cname="name" type="gchar*" />
       <field cname="long_name" type="gchar*" />
+      <field cname="stock_id" type="gchar*" />
       <field cname="reduce_pending" type="gboolean" />
       <property name="Name" cname="name" type="gchar*" readable="true" writeable="true" construct-only="true" />
       <property name="LongName" cname="long_name" type="gchar*" readable="true" writeable="true" />
+      <property name="StockId" cname="stock_id" type="gchar*" readable="true" writeable="true" />
       <property name="Master" cname="master" type="GdlDockMaster" readable="true" writeable="true" construct-only="true" />
       <signal cname="detach" when="LAST" name="Detached">
         <return-type type="void" />
@@ -568,5 +597,15 @@
       <field cname="rect" type="GdkRectangle" />
       <field cname="extra" type="GValue" />
     </struct>
+    <class name="Global" cname="GdlGlobal">
+      <method name="StockInit" cname="gdl_stock_init" shared="true">
+        <return-type type="void" />
+      </method>
+    </class>
+    <object name="Stock" cname="GdlStock">
+      <static-string cname="GDL_STOCK_CLOSE" name="Close" value="gdl-close" />
+      <static-string cname="GDL_STOCK_MENU_LEFT" name="MenuLeft" value="gdl-menu-left" />
+      <static-string cname="GDL_STOCK_MENU_RIGHT" name="MenuRight" value="gdl-menu-right" />
+    </object>
   </namespace>
 </api>
