@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.IO;
-using System.Reflection;
 using System.Xml;
 using Gtk;
 
@@ -527,49 +526,15 @@ namespace Gdl
 			RecursiveBuild (node, null);
 		}
 
-		string GetXmlName (Type t)
-		{
-			switch (t.ToString ()) {
-				case "Gdl.Dock":
-					return "dock";
-				case "Gdl.DockItem":
-					return "item";
-				case "Gdl.DockNotebook":
-					return "notebook";
-				case "Gdl.DockPaned":
-					return "paned";
-				default:
-					return "object";
-			}
-		}
-
 		void ForeachObjectSave (DockObject obj, XmlNode parent)
 		{
 			if (obj == null)
 				return;
 
-			XmlElement element = doc.CreateElement (GetXmlName (obj.GetType ()));
-
-			// get object exported attributes
-			ArrayList exported = new ArrayList ();
-			PropertyInfo[] props = obj.GetType ().GetProperties (BindingFlags.Public | BindingFlags.Instance);
-			foreach (PropertyInfo p in props) {
-				if (p.IsDefined (typeof (ExportLayoutAttribute), true))
-					exported.Add (p);
-			}
-
-			foreach (PropertyInfo p in exported) {
-				if (p.PropertyType.IsSubclassOf (typeof (System.Enum)))
-					element.SetAttribute (p.Name.ToLower (), p.GetValue (obj, null).ToString ().ToLower ());
-				else if (p.PropertyType == typeof (bool))
-					element.SetAttribute (p.Name.ToLower (), ((bool) p.GetValue (obj, null)) ? "yes" : "no");
-				else
-					element.SetAttribute (p.Name.ToLower (), p.GetValue (obj, null).ToString ());
-			}
-
+			XmlElement element = obj.ToXml (doc);
 			parent.AppendChild (element);
 
-			// save placeholders for the object
+			// FIXME: save placeholders for the object
 			if (!(obj is DockPlaceholder)) {
 				//object list = this.Placeholders[obj];
 				//foreach (DockObject child in list)

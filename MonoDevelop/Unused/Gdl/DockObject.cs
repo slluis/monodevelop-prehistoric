@@ -1,5 +1,7 @@
 // project created on 04/06/2004 at 6:37 P
 using System;
+using System.Collections;
+using System.Reflection;
 using System.Xml;
 using Gtk;
 
@@ -136,6 +138,46 @@ namespace Gdl
 
 		public virtual void FromXmlAfter (XmlNode node)
 		{
+		}
+
+		string GetXmlName (Type t)
+		{
+			switch (t.ToString ()) {
+				case "Gdl.Dock":
+					return "dock";
+				case "Gdl.DockItem":
+					return "item";
+				case "Gdl.DockNotebook":
+					return "notebook";
+				case "Gdl.DockPaned":
+					return "paned";
+				default:
+					return "object";
+			}
+		}
+
+		public XmlElement ToXml (XmlDocument doc)
+		{
+			Type t = this.GetType ();
+			XmlElement element = doc.CreateElement (GetXmlName (t));
+
+			// get object exported attributes
+			ArrayList exported = new ArrayList ();
+			PropertyInfo[] props = t.GetProperties (BindingFlags.Public | BindingFlags.Instance);
+			foreach (PropertyInfo p in props) {
+				if (p.IsDefined (typeof (ExportLayoutAttribute), true))
+					exported.Add (p);
+			}
+
+			foreach (PropertyInfo p in exported) {
+				if (p.PropertyType.IsSubclassOf (typeof (System.Enum)))
+					element.SetAttribute (p.Name.ToLower (), p.GetValue (this, null).ToString ().ToLower ());
+				else if (p.PropertyType == typeof (bool))
+					element.SetAttribute (p.Name.ToLower (), ((bool) p.GetValue (this, null)) ? "yes" : "no");
+				else
+					element.SetAttribute (p.Name.ToLower (), p.GetValue (this, null).ToString ());
+			}
+			return element;
 		}
 
 		protected override void OnDestroyed ()

@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections;
+using System.Xml;
 using Gtk;
 
 namespace Gdl
@@ -52,6 +53,7 @@ namespace Gdl
 			}
 		}
 		
+		[ExportLayout]
 		public DockPlacement NextPlacement {
 			get {
 				if (placementStack != null && placementStack.Count != 0)
@@ -74,13 +76,19 @@ namespace Gdl
 				EmitPropertyEvent ("Sticky");
 			}
 		}
+
+		public override void FromXmlAfter (XmlNode node)
+		{
+			throw new NotImplementedException ();
+			// NextPlacement
+		}
 		
-		/*protected override void OnDestroyed ()
+		protected override void OnDestroyed ()
 		{
 			if (host != null)
 				OnDetached (false);
 			base.OnDestroyed ();
-		}*/
+		}
 		
 		protected override void OnAdded (Widget widget)
 		{

@@ -203,7 +203,6 @@ namespace Gdl
 			}
 			set {
 				SetOrientation (value);
-				EmitPropertyEvent ("Orientation");
 			}
 		}
 		

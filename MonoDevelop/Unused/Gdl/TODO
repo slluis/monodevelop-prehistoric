@@ -1,7 +1,8 @@
- - restore size/position on de-iconify?
  - proper license headers
  - improve de-serialization (also use ExportLayoutAttribute?)
  - fix notebook.Position after
  - placeholders in layout store/restore
- - occasional redraw issues:
-	http://www.xs4all.nl/~jeroen/screenshots/Screenshot-test.png
+ - docs
+
+potential new features
+ - restore size/position on de-iconify?
