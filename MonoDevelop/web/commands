@@ -2,3 +2,5 @@
 0,Screenshots,screenshots.html,screenshots.src
 0,Bug Reports,bugs.html,bugs.src
 0,Downloads,download.html,download.src
+1,AnonSVN,svn.html,svn.src
+1,SVN access,ssvn.html,ssvn.src
