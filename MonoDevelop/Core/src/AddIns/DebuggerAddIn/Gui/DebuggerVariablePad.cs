@@ -26,6 +26,11 @@ namespace MonoDevelop.SourceEditor.Gui
 		Gtk.TreeStore store;
 		bool is_locals_display;
 
+		const int NAME_COL = 0;
+		const int VALUE_COL = 1;
+		const int TYPE_COL = 2;
+		const int RAW_VIEW_COL = 3;
+
 		public DebuggerVariablePad (bool is_locals_display)
 		{
 			this.ShadowType = ShadowType.In;
@@ -34,7 +39,8 @@ namespace MonoDevelop.SourceEditor.Gui
 
 			store = new TreeStore (typeof (string),
 					       typeof (string),
-			                       typeof (string));
+			                       typeof (string),
+					       typeof (bool));
 
 			tree = new TreeView (store);
 			tree.RulesHint = true;
@@ -44,28 +50,28 @@ namespace MonoDevelop.SourceEditor.Gui
 			CellRenderer NameRenderer = new CellRendererText ();
 			NameCol.Title = "Name";
 			NameCol.PackStart (NameRenderer, true);
-			NameCol.AddAttribute (NameRenderer, "text", 0);
+			NameCol.AddAttribute (NameRenderer, "text", NAME_COL);
 			NameCol.Resizable = true;
 			NameCol.Alignment = 0.0f;
 			tree.AppendColumn (NameCol);
-
-			TreeViewColumn TypeCol = new TreeViewColumn ();
-			CellRenderer TypeRenderer = new CellRendererText ();
-			TypeCol.Title = "Type";
-			TypeCol.PackStart (TypeRenderer, true);
-			TypeCol.AddAttribute (TypeRenderer, "text", 1);
-			TypeCol.Resizable = true;
-			NameCol.Alignment = 0.0f;
-			tree.AppendColumn (TypeCol);
 
 			TreeViewColumn ValueCol = new TreeViewColumn ();
 			CellRenderer ValueRenderer = new CellRendererText ();
 			ValueCol.Title = "Value";
 			ValueCol.PackStart (ValueRenderer, true);
-			ValueCol.AddAttribute (ValueRenderer, "text", 2);
+			ValueCol.AddAttribute (ValueRenderer, "text", VALUE_COL);
 			ValueCol.Resizable = true;
 			NameCol.Alignment = 0.0f;
 			tree.AppendColumn (ValueCol);
+
+			TreeViewColumn TypeCol = new TreeViewColumn ();
+			CellRenderer TypeRenderer = new CellRendererText ();
+			TypeCol.Title = "Type";
+			TypeCol.PackStart (TypeRenderer, true);
+			TypeCol.AddAttribute (TypeRenderer, "text", TYPE_COL);
+			TypeCol.Resizable = true;
+			NameCol.Alignment = 0.0f;
+			tree.AppendColumn (TypeCol);
 
 			tree.TestExpandRow += new TestExpandRowHandler (test_expand_row);
 
@@ -143,7 +149,7 @@ namespace MonoDevelop.SourceEditor.Gui
 							break;
 						case TargetObjectKind.Class:
 							try {
-								add_class (parent, (ITargetClassObject)member_obj);
+								add_class (parent, (ITargetClassObject)member_obj, false);
 								inserted = true;
 							}
 							catch {
@@ -153,7 +159,7 @@ namespace MonoDevelop.SourceEditor.Gui
 							break;
 						case TargetObjectKind.Struct:
 							try {
-								add_struct (parent, (ITargetStructObject)member_obj);
+								add_struct (parent, (ITargetStructObject)member_obj, false);
 								inserted = true;
 							}
 							catch {
@@ -178,9 +184,55 @@ namespace MonoDevelop.SourceEditor.Gui
 			return inserted;
 		}
 
-		bool add_struct (TreeIter parent, ITargetStructObject sobj)
+		bool add_struct (TreeIter parent, ITargetStructObject sobj, bool raw_view)
 		{
 			bool inserted = false;
+
+#if NET_2_0
+			if (!raw_view) {
+				DebuggerTypeProxyAttribute pattr = GetDebuggerTypeProxyAttribute (sobj);
+				if (pattr != null) {
+					DebuggingService dbgr = (DebuggingService)ServiceManager.GetService (typeof (DebuggingService));
+					Mono.Debugger.StackFrame frame = dbgr.MainThread.CurrentFrame;
+	 				ITargetStructType proxy_type = frame.Language.LookupType (frame, pattr.ProxyTypeName) as ITargetStructType;
+					if (proxy_type == null)
+						proxy_type = frame.Language.LookupType (frame,
+											sobj.Type.Name + "+" + pattr.ProxyTypeName) as ITargetStructType;
+					if (proxy_type != null) {
+						string name = String.Format (".ctor({0})", sobj.Type.Name);
+						ITargetMethodInfo method = null;
+
+						foreach (ITargetMethodInfo m in proxy_type.Constructors) {
+							Console.WriteLine ("   " + m.FullName);
+							if (m.FullName == name)
+								method = m;
+						}
+
+						if (method != null) {
+							ITargetFunctionObject ctor = proxy_type.GetConstructor (frame, method.Index);
+							ITargetObject[] args = new ITargetObject[1];
+							args[0] = sobj;
+
+							ITargetStructObject proxy_obj = ctor.Type.InvokeStatic (frame, args, false) as ITargetStructObject;
+
+							if (proxy_obj != null) {
+								foreach (ITargetPropertyInfo prop in proxy_obj.Type.Properties) {
+									if (add_member (parent, proxy_obj, prop, false))
+										inserted = true;
+								}
+
+								TreeIter iter = store.Append (parent);
+								store.SetValue (iter, NAME_COL, new GLib.Value ("Raw View"));
+								store.SetValue (iter, RAW_VIEW_COL, new GLib.Value (true));
+								add_data (sobj, iter);
+
+								return true;
+							}
+						}
+					}
+				}
+			}
+#endif
 
 			foreach (ITargetFieldInfo field in sobj.Type.Fields) {
 				if (add_member (parent, sobj, field, true))
@@ -195,7 +247,7 @@ namespace MonoDevelop.SourceEditor.Gui
 			return inserted;
 		}
 
-		bool add_class (TreeIter parent, ITargetClassObject sobj)
+		bool add_class (TreeIter parent, ITargetClassObject sobj, bool raw_view)
 		{
 			bool inserted = false;
 
@@ -205,7 +257,7 @@ namespace MonoDevelop.SourceEditor.Gui
 				inserted = true;
 			}
 
-			if (add_struct (parent, sobj))
+			if (add_struct (parent, sobj, raw_view))
 				inserted = true;
 
 			return inserted;
@@ -220,7 +272,7 @@ namespace MonoDevelop.SourceEditor.Gui
 			}
 
 			TreeIter iter = store.Append (parent);
-			store.SetValue (iter, 2, new GLib.Value (message));
+			store.SetValue (iter, VALUE_COL, new GLib.Value (message));
 		}
 
 		void test_expand_row (object o, TestExpandRowArgs args)
@@ -256,8 +308,10 @@ namespace MonoDevelop.SourceEditor.Gui
 			case TargetObjectKind.Class:
 				ITargetClassObject cobj = (ITargetClassObject) obj;
 				try {
-					inserted = add_class (args.Iter, cobj);
-				} catch {
+					bool raw_view = (bool)store.GetValue (args.Iter, RAW_VIEW_COL);
+					inserted = add_class (args.Iter, cobj, raw_view);
+				} catch (Exception e) {
+				  Console.WriteLine (e);
 					add_message (args.Iter, "<can't display class>");
 					inserted = true;
 				}
@@ -268,7 +322,8 @@ namespace MonoDevelop.SourceEditor.Gui
 			case TargetObjectKind.Struct:
 				ITargetStructObject sobj = (ITargetStructObject) obj;
 				try {
-					inserted = add_struct (args.Iter, sobj);
+					bool raw_view = (bool)store.GetValue (args.Iter, RAW_VIEW_COL);
+					inserted = add_struct (args.Iter, sobj, raw_view);
 				} catch {
 					add_message (args.Iter, "<can't display struct>");
 					inserted = true;
@@ -298,6 +353,19 @@ namespace MonoDevelop.SourceEditor.Gui
 
 				if (attrs != null && attrs.Length > 0)
 					return (DebuggerBrowsableAttribute)attrs[0];
+			}
+
+			return null;
+		}
+
+		DebuggerTypeProxyAttribute GetDebuggerTypeProxyAttribute (ITargetObject obj)
+		{
+			if (obj.TypeInfo.Type.TypeHandle != null && obj.TypeInfo.Type.TypeHandle is Type) {
+				Type t = (Type)obj.TypeInfo.Type.TypeHandle;
+				object[] attrs = t.GetCustomAttributes (typeof (DebuggerTypeProxyAttribute), false);
+
+				if (attrs != null && attrs.Length > 0)
+					return (DebuggerTypeProxyAttribute)attrs[0];
 			}
 
 			return null;
@@ -390,25 +458,43 @@ namespace MonoDevelop.SourceEditor.Gui
 		void add_object (ITargetObject obj, string name, TreeIter iter)
 		{
 			AmbienceService amb = (AmbienceService)MonoDevelop.Core.Services.ServiceManager.GetService (typeof (AmbienceService));
-			store.SetValue (iter, 0, new GLib.Value (name));
-			store.SetValue (iter, 1, new GLib.Value (amb.CurrentAmbience.GetIntrinsicTypeName (obj.TypeInfo.Type.Name)));
+
+			store.SetValue (iter, NAME_COL, new GLib.Value (name));
+			if (obj == null) {
+				store.SetValue (iter, VALUE_COL, new GLib.Value ("null"));
+				return;
+			}
+			store.SetValue (iter, TYPE_COL, new GLib.Value (amb.CurrentAmbience.GetIntrinsicTypeName (obj.TypeInfo.Type.Name)));
 
 			switch (obj.TypeInfo.Type.Kind) {
 			case TargetObjectKind.Fundamental:
 				object contents = ((ITargetFundamentalObject) obj).Object;
-				store.SetValue (iter, 2, new GLib.Value (contents.ToString ()));
+				store.SetValue (iter, VALUE_COL, new GLib.Value (contents.ToString ()));
 				break;
-
 			case TargetObjectKind.Array:
 				add_data (obj, iter);
 				break;
 			case TargetObjectKind.Struct:
 			case TargetObjectKind.Class:
 #if NET_2_0
-				DebuggerDisplayAttribute dattr = GetDebuggerDisplayAttribute (obj);
-				if (dattr != null)
-					store.SetValue (iter, 2,
-							new GLib.Value (EvaluateDebuggerDisplay (obj, dattr.Value)));
+				try {
+					DebuggerDisplayAttribute dattr = GetDebuggerDisplayAttribute (obj);
+					if (dattr != null) {
+						store.SetValue (iter, VALUE_COL,
+								new GLib.Value (EvaluateDebuggerDisplay (obj, dattr.Value)));
+					}
+					else {
+						// call the object's ToString() method and stuff that in the Value field
+						store.SetValue (iter, VALUE_COL,
+								new GLib.Value (((ITargetStructObject)obj).PrintObject()));
+					}
+				}
+				catch (Exception e) {
+					Console.WriteLine ("getting object value failed: {0}", e);
+
+					store.SetValue (iter, VALUE_COL,
+							new GLib.Value (""));
+				}
 #endif
 				add_data (obj, iter);
 				break;

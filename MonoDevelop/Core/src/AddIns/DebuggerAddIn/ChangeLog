@@ -1,3 +1,27 @@
+2005-03-02  Chris Toshok  <toshok@ximian.com>
+
+	* Gui/DebuggerVariablePad.cs (DebuggerVariablePad.ctor): add a
+	field to the tree store so we can tell if a particular row
+	expansion is for the Raw View.  Also, reorder the tree columns so
+	that they're Name, Value, and Type.
+	(DebuggerVariablePad.add_member): pass false for @raw_view in both
+	add_class and add_struct.
+	(DebuggerVariablePad.add_struct): add handling for
+	DebuggerTypeProxyAttribute here.  we currently create the proxy
+	object in the inferior, but I'm not sure if we should be doing
+	that or create it in the debugger's address space.  Also only do
+	the debugger proxy stuff if @raw_view == false.  if it's == true,
+	expand as usual. When creating the Raw View row, set it's
+	RAW_VIEW_COL to true.
+	(DebuggerVariablePad.test_expand_row): get the value from
+	RAW_VIEW_COL and pass that along to add_struct/add_class.
+	(DebuggerVariablePad.GetDebuggerTypeProxyAttribute): new function.
+	(DebuggerVariablePad.add_object): deal with a null ITargetObject.
+	Also, use ITargetObject.PrintObject to call the object's
+	ToString() method if a DebuggerDisplay attribute isn't specified
+	- this doesn't work yet, as the mono debugger backend has it
+	stubbed out.
+
 2005-03-01  Chris Toshok  <toshok@ximian.com>
 
 	* Gui/DebuggerVariablePad.cs (DebuggerVariablePad.add_member):
