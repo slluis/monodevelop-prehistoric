@@ -1,22 +1,22 @@
 		[GLib.Signal("new_window")]
                 public event GtkMozEmbedSharp.NewWindowHandler NewWindow {
                         add {
-                                if (EventList["new_window"] == null)
-                                        Signals["new_window"] = new GtkMozEmbedSharp.voidObjectObjectuintSignal(this, Handle, "new_window", value, System.Type.GetType("GtkMozEmbedSharp.NewWindowArgs,gtkmozembed-sharp"));
+                                if (AfterHandlers["new_window"] == null)
+                                        AfterSignals["new_window"] = new GtkMozEmbedSharp.voidObjectObjectuintSignal (this, Handle, "new_window", value, System.Type.GetType("GtkMozEmbedSharp.NewWindowArgs,gtkmozembed-sharp"));
                                 else
-                                        ((GtkSharp.SignalCallback) Signals ["new_window"]).AddDelegate (value);
-                                EventList.AddHandler("new_window", value);
+                                        ((GtkSharp.SignalCallback) AfterSignals ["new_window"]).AddDelegate (value);
+                                AfterHandlers.AddHandler ("new_window", value);
                         }
                         remove {
-                                EventList.RemoveHandler("new_window", value);
-                                GtkSharp.SignalCallback cb = Signals ["new_window"] as GtkSharp.SignalCallback;
+                                AfterHandlers.RemoveHandler ("new_window", value);
+                                GtkSharp.SignalCallback cb = AfterSignals ["new_window"] as GtkSharp.SignalCallback;
                                 if (cb == null)
                                         return;
                                                                                 
                                 cb.RemoveDelegate (value);
                                                                                 
-                                if (EventList["new_window"] == null) {
-                                        Signals.Remove("new_window");
+                                if (AfterHandlers["new_window"] == null) {
+                                        AfterSignals.Remove("new_window");
                                         cb.Dispose ();
                                 }
                         }
