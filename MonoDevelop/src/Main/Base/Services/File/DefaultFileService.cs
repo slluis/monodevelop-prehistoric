@@ -67,23 +67,22 @@ namespace ICSharpCode.SharpDevelop.Services
 		{
 			if (fileName == null)
 				return;
-
+			string origName = fileName;
 			if (!fileName.StartsWith ("http://"))
 				fileName = System.IO.Path.GetFullPath (fileName);
 			
-			Debug.Assert(fileUtilityService.IsValidFileName(fileName));
-				
+			//Debug.Assert(fileUtilityService.IsValidFileName(fileName));
 			// test, if file fileName exists
 			if (!fileName.StartsWith("http://")) {
 				// test, if an untitled file should be opened
-				//if (!Path.IsPathRooted(fileName)) { 
+				if (!Path.IsPathRooted(origName)) { 
 					foreach (IViewContent content in WorkbenchSingleton.Workbench.ViewContentCollection) {
-						if (content.IsUntitled && content.UntitledName == fileName) {
+						if (content.IsUntitled && content.UntitledName == origName) {
 							content.WorkbenchWindow.SelectWindow();
 							return;
 						}
 					}
-				//} else 
+				} else 
 				if (!fileUtilityService.TestFileExists(fileName)) {
 					return;
 				}
