@@ -25,6 +25,11 @@ namespace Gdl
 
 		CheckButton locked_check;
 
+		private const int NAME_COL = 0;
+		private const int SHOW_COL = 1;
+		private const int LOCK_COL = 2;
+		private const int ITEM_COL = 3;
+
 		public DockLayout (Dock dock)
 		{
 			layouts = new ArrayList ();
@@ -247,9 +252,9 @@ namespace Gdl
 		{
 			// NAME, SHOW, LOCKED, ITEM
 			itemsModel = new ListStore (typeof (string), typeof (bool), typeof (bool), typeof (DockItem));
-			itemsModel.SetSortColumnId (0, SortType.Ascending);
+			itemsModel.SetSortColumnId (NAME_COL, SortType.Ascending);
 			layoutsModel = new ListStore (typeof (string), typeof (bool));
-			layoutsModel.SetSortColumnId (0, SortType.Ascending);
+			layoutsModel.SetSortColumnId (NAME_COL, SortType.Ascending);
 		}
 
 		void BuildDoc ()
@@ -319,9 +324,9 @@ namespace Gdl
 
 		void UpdateItemData (TreeIter iter, DockItem item)
 		{
-			itemsModel.SetValue (iter, 0, item.Name);
-			itemsModel.SetValue (iter, 1, item.IsAttached);
-			itemsModel.SetValue (iter, 2, item.Locked);
+			itemsModel.SetValue (iter, NAME_COL, item.Name);
+			itemsModel.SetValue (iter, SHOW_COL, item.IsAttached);
+			itemsModel.SetValue (iter, LOCK_COL, item.Locked);
 		}
 
 		void UpdateLayoutsModel ()
@@ -626,7 +631,7 @@ namespace Gdl
 			TreeIter iter;
 
 			if (((TreeView) sender).Selection.GetSelected (out model, out iter))
-				LoadLayout ((string) model.GetValue (iter, 0));
+				LoadLayout ((string) model.GetValue (iter, NAME_COL));
 		}
 
 		void DeleteLayoutCb (object sender, EventArgs a)
@@ -635,7 +640,7 @@ namespace Gdl
 			TreeIter iter;
 
 			if (((TreeView) sender).Selection.GetSelected (out model, out iter)) {
-				DeleteLayout ((string) model.GetValue (iter, 0));
+				DeleteLayout ((string) model.GetValue (iter, NAME_COL));
 				((ListStore)model).Remove (ref iter);
 			}
 		}
@@ -644,19 +649,22 @@ namespace Gdl
 		{
 			TreeIter iter;
 			if (itemsModel.GetIterFromString (out iter, a.Path)) {
-				bool show = (bool) itemsModel.GetValue (iter, 1);
-				DockItem item = itemsModel.GetValue (iter, 3) as DockItem;
+				bool show = (bool) itemsModel.GetValue (iter, SHOW_COL);
+				DockItem item = itemsModel.GetValue (iter, ITEM_COL) as DockItem;
 				if (show)
-					item.ShowItem ();
-				else
 					item.HideItem ();
+				else
+					item.ShowItem ();
+				UpdateItemsModel ();
 			}
 		}
 
 		void AllLockedToggledCb (object sender, EventArgs a)
 		{
+			bool locked = ((CheckButton) sender).Active;
 			if (master != null)
-				master.Locked = ((CheckButton) sender).Active ? 1 : 0;
+				master.Locked = locked ? 1 : 0;
+			//UpdateItemsModel ();
 		}
 
 		void MasterLockedNotifyCb (object sender, EventArgs a)
@@ -674,15 +682,15 @@ namespace Gdl
 		{
 			TreeIter iter;
 			layoutsModel.GetIterFromString (out iter, a.Path);
-			string name = (string) layoutsModel.GetValue (iter, 0);
+			string name = (string) layoutsModel.GetValue (iter, NAME_COL);
 
 			XmlNode node = FindLayout (name);
 			if (node == null)
 				return;
 			node.Attributes["name"].Value = a.NewText;
 
-			layoutsModel.SetValue (iter, 0, a.NewText);
-			layoutsModel.SetValue (iter, 1, true);
+			layoutsModel.SetValue (iter, NAME_COL, a.NewText);
+			layoutsModel.SetValue (iter, SHOW_COL, true);
 
 			SaveLayout (a.NewText);
 		}
