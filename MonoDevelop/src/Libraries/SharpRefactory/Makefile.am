@@ -1,5 +1,6 @@
+CSC = mcs /debug
+
 FILES = \
-./src/Lexer/Tokens.cs \
 ./src/Lexer/Reader/IReader.cs \
 ./src/Lexer/Reader/FileReader.cs \
 ./src/Lexer/Reader/StringReader.cs \
@@ -112,14 +113,16 @@ build_sources = $(addprefix $(srcdir)/, $(FILES))
 
 DLL = ICSharpCode.SharpRefactory.dll
 
+REFS = /r:System.Drawing.dll
+
 all: $(DLL)
 
 $(DLL): $(FILES)
-	@ mcs /debug /out:$(DLL) /target:library /r:System.Drawing.dll $(build_sources) \
+	@ $(CSC) /out:$(DLL) /target:library $(REFS) $(build_sources) \
 	&& cp $(DLL) ../../../build/bin/.
 
 test-parser.exe : $(DLL) src/Main.cs
-	@ mcs /debug /out:$@ /r:$(DLL) src/Main.cs
+	@ $(CSC) /out:$@ /r:$(DLL) src/Main.cs
 
 run : test-parser.exe
 	@ MONO_PATH=`dirname $(DLL)` mono --debug test-parser.exe $(TEST_SOURCE)

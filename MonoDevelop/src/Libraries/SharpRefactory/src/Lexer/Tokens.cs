@@ -7,7 +7,7 @@
 
 using System;
 
-namespace MonoDevelop.SharpRefactory.Parser
+namespace ICSharpCode.SharpRefactory.Parser
 {
 	public sealed class Tokens
 	{
