@@ -15,6 +15,7 @@ using GtkSharp;
 
 using MonoDevelop.GuiUtils;
 using MonoDevelop.EditorBindings.Properties;
+using MonoDevelop.EditorBindings.FormattingStrategy;
 
 namespace MonoDevelop.SourceEditor.Gui {
 	public class SourceEditorDisplayBinding : IDisplayBinding {
@@ -135,6 +136,7 @@ namespace MonoDevelop.SourceEditor.Gui {
 		{
 			se.Buffer.Save (fileName);
 			ContentName = fileName;
+			InitializeFormatter ();
 		}
 		
 		public override void Load (string fileName)
@@ -142,6 +144,18 @@ namespace MonoDevelop.SourceEditor.Gui {
 			se.Buffer.LoadFile (fileName, Vfs.GetMimeType (fileName));
 
 			ContentName = fileName;
+			InitializeFormatter ();
+		}
+		
+		public void InitializeFormatter()
+		{
+			IFormattingStrategy[] formater = (IFormattingStrategy[])(AddInTreeSingleton.AddInTree.GetTreeNode("/AddIns/DefaultTextEditor/Formater").BuildChildItems(this)).ToArray(typeof(IFormattingStrategy));
+			//Console.WriteLine("SET FORMATTER : " + formater[0]);
+			if (formater != null && formater.Length > 0) {
+//					formater[0].Document = Document;
+				se.View.fmtr = formater[0];
+			}
+
 		}
 		
 		public void LoadString (string mime, string val)

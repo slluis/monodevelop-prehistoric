@@ -41,6 +41,13 @@ namespace ICSharpCode.SharpDevelop.DefaultEditor.Conditions
 					return textcontent == ctrl.Document.HighlightingStrategy.Name;
 				}
 			}
+			
+			if (owner is IViewContent) {
+				IViewContent ctrl = (IViewContent) owner;
+				if (textcontent == "C#" && ctrl.ContentName.EndsWith (".cs"))
+					return true;
+			}
+			
 			return false;
 		}
 	}
