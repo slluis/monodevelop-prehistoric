@@ -48,7 +48,7 @@ namespace MonoDevelop.Gui
 		EventHandler contextChangedHandler;
 
 		public SdiWorkbenchLayout () {
-			contextChangedHandler = new EventHandler (onContextChanged);
+			contextChangedHandler = new EventHandler (OnContextChanged);
 		}
 		
 		public IWorkbenchWindow ActiveWorkbenchwindow {
@@ -94,7 +94,7 @@ namespace MonoDevelop.Gui
 			tabControl = new DragNotebook ();
 			tabControl.Scrollable = true;
 			tabControl.SwitchPage += new SwitchPageHandler (ActiveMdiChanged);
-			tabControl.OnTabsReordered += new TabsReorderedHandler (TabsReordered);
+			tabControl.TabsReordered += new TabsReorderedHandler (OnTabsReordered);
 			DockItem item = new DockItem ("Documents", "Documents",
 						      DockItemBehavior.Locked);
 			item.PreferredWidth = -2;
@@ -137,7 +137,7 @@ namespace MonoDevelop.Gui
 			workbench.ContextChanged += contextChangedHandler;
 		}
 
-		void TabsReordered (Widget widget, int oldPlacement, int newPlacement)
+		void OnTabsReordered (Widget widget, int oldPlacement, int newPlacement)
 		{
 			lock (workbench.ViewContentCollection) {
 				IViewContent content = workbench.ViewContentCollection[oldPlacement];
@@ -147,7 +147,7 @@ namespace MonoDevelop.Gui
 			}
 		}
 
-		void onContextChanged (object o, EventArgs e)
+		void OnContextChanged (object o, EventArgs e)
 		{
 			SwitchContext (workbench.Context);
 			workbench.UpdateMenu (null, null);
@@ -413,6 +413,7 @@ namespace MonoDevelop.Gui
 			TabLabel tabLabel = new TabLabel (new Label (), mimeimage != null ? mimeimage : new Gtk.Image (""));
 			tabLabel.Button.Clicked += new EventHandler (closeClicked);
 			tabLabel.Button.StateChanged += new StateChangedHandler (stateChanged);
+			tabLabel.ClearFlag (WidgetFlags.CanFocus);
 			SdiWorkspaceWindow sdiWorkspaceWindow = new SdiWorkspaceWindow(content, tabControl, tabLabel);
 
 			sdiWorkspaceWindow.CloseEvent += new EventHandler(CloseWindowEvent);

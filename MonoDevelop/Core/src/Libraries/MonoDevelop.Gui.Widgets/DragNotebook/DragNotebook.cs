@@ -1,186 +1,103 @@
-// created on 03/19/2004 at 20:45
-
-using System;
+using Gdk;
 using Gtk;
 using GtkSharp;
-using Gdk;
+using System;
 
-/*public class prueba
-{
-	public static void Main()
-	{
-		Application.Init ();
-		new Interfaz ();
-		Application.Run ();
-	}
-}*/
-namespace MonoDevelop.Gui.Widgets 
+namespace MonoDevelop.Gui.Widgets
 {
 
 	public delegate void TabsReorderedHandler (Widget widget, int oldPlacement, int newPlacement);
 
-	public class DragNotebook : Notebook {
-		protected bool draginprogress = false;
-		protected int srcpage;
-		protected double xstart;
-		protected double ystart;
-		protected Cursor cursor;
+	public class DragNotebook : Notebook
+    {
 
-		public DragNotebook ()
-		{
-			this.ButtonPressEvent += new ButtonPressEventHandler (ButtonPressCallback);
-			this.ButtonReleaseEvent += new ButtonReleaseEventHandler (ButtonReleaseCallback);
-			this.AddEvents ((Int32) (EventMask.AllEventsMask));
+		public event TabsReorderedHandler TabsReordered;
+
+		bool DragInProgress;
+
+		public DragNotebook () {
+			ButtonPressEvent += new ButtonPressEventHandler (OnButtonPress);
+			ButtonReleaseEvent += new ButtonReleaseEventHandler (OnButtonRelease);
+			AddEvents ((Int32) (EventMask.AllEventsMask));
 		}
-		
-		protected int FindTabAtNumPos (double absx, double absy)
-		{
-			PositionType tabpos;
-			int pagenum, xroot, yroot, maxx, maxy;
-			pagenum = 0;
-			Widget page, tab;
-			
-			tabpos = this.TabPos;
-			if (this.NPages == 0) {
-				return -1;
-			}
-			
-			page = this.GetNthPage (pagenum);
-			
+
+		int FindTabAtPosition (double cursorX, double cursorY) {
+
+			int    dragNotebookXRoot;
+			int    dragNotebookYRoot;
+			Widget page              = GetNthPage (0);
+			int    pageNumber        = 0;
+			Widget tab;
+			int    tabMaxX;
+			int    tabMaxY;
+			int    tabMinX;
+			int    tabMinY;
+
+			ParentWindow.GetOrigin (out dragNotebookXRoot, out dragNotebookYRoot);
+
 			while (page != null) {
-				tab = this.GetTabLabel (page);
-				
-				if (tab == null) {
+
+				if ((tab = GetTabLabel (page)) == null)
 					return -1;
-				}
-				
-				// if (!tab.Mapped)
-				// {
-				//	pagenum++;
-				//	continue;
-				// }
-				
-				tab.ParentWindow.GetOrigin (out xroot, out yroot);
-				
-				maxx = xroot + tab.Allocation.X + tab.Allocation.Width;
-				maxy = yroot + tab.Allocation.Y + tab.Allocation.Height;
-				
-				if ((tabpos == PositionType.Top || tabpos == PositionType.Bottom) && absx <= maxx) {
-					return pagenum;
-				}
-				else if ((tabpos == PositionType.Right || tabpos == PositionType.Left) && absx <= maxy) {
-					return pagenum;
-				}
-				
-				pagenum++;
-				page = this.GetNthPage (pagenum);
+
+				tabMinX = dragNotebookXRoot + tab.Allocation.X;
+				tabMaxX = tabMinX + tab.Allocation.Width;
+
+				tabMinY = dragNotebookYRoot + tab.Allocation.Y;
+				tabMaxY = tabMinY + tab.Allocation.Height;
+
+				if ((tabMinX <= cursorX) && (cursorX <= tabMaxX) &&
+					(tabMinY <= cursorY) && (cursorY <= tabMaxY))
+					return pageNumber;
+
+				page = GetNthPage (++pageNumber);
 			}
-			
+
 			return -1;
 		}
-		
-		public event TabsReorderedHandler OnTabsReordered;
-		
+
+		void MoveTab (int destinationPage) {
+
+			if (destinationPage >= 0 && destinationPage != CurrentPage) {
+				ReorderChild (CurrentPageWidget, destinationPage);
+
+				if (TabsReordered != null)
+					TabsReordered (CurrentPageWidget, CurrentPage, destinationPage);
+			}
+		}
+
 		[GLib.ConnectBefore]
-		protected void MotionNotifyCallback (object obj, MotionNotifyEventArgs args)
-		{
-			int curpage, pagenum;
-			
-			if (!draginprogress) {
-				//if (Gtk.Drag.CheckThreshold (this, (Int32) xstart, (Int32) ystart, (Int32) args.Event.XRoot, (Int32) args.Event.YRoot))
-				//{
-				curpage = this.CurrentPage;
-				DragStart (curpage, args.Event.Time);
-				//}
-				//else
-				//{
-				//	return;
-				//}
-			}
-			
-			pagenum = FindTabAtNumPos (args.Event.XRoot, args.Event.YRoot);
-			
-			MoveTab (pagenum);
+		void OnButtonPress (object obj, ButtonPressEventArgs args) {
+
+			if (DragInProgress)
+				return;
+
+			if (args.Event.Button == 1 && args.Event.Type == EventType.ButtonPress && FindTabAtPosition (args.Event.XRoot, args.Event.YRoot) >= 0)
+				MotionNotifyEvent += new MotionNotifyEventHandler (OnMotionNotify);
 		}
-		
-		protected void MoveTab (int destpagenum)
-		{
-			int curpagenum;
-			Widget curpage, tab;
-			
-			curpagenum = this.CurrentPage;
-			
-			if (destpagenum != curpagenum) {
-				curpage = this.GetNthPage (curpagenum);
-				tab = this.GetTabLabel (curpage);
-				this.ReorderChild (CurrentPageWidget, destpagenum);
-				if (OnTabsReordered != null) {
-					if (curpagenum == -1 || destpagenum == -1) {
-						return;
-					}
-					OnTabsReordered (CurrentPageWidget, curpagenum, destpagenum);
-				}
-			}
-		}
-		
-		protected void DragStart (int srcpage, uint time)
-		{
-			draginprogress = true;
-			
-			this.srcpage = srcpage;
-			
-			if (cursor == null) {
-				cursor = new Cursor (CursorType.Fleur);
-			}
-			
-			Grab.Add (this);
-			
-			if (!Pointer.IsGrabbed) {
-				Pointer.Grab (this.ParentWindow, false, EventMask.Button1MotionMask | EventMask.ButtonReleaseMask, null, cursor, time);						
-			}
-		}
-		
-		protected void DragStop ()
-		{
-			if (draginprogress) {
-				//OnTabsReordered();
-			}
-			
-			draginprogress = false;
-			srcpage = -1;
-			this.MotionNotifyEvent -= new MotionNotifyEventHandler (MotionNotifyCallback);
-		}
-		
-		protected void ButtonReleaseCallback (object obj, ButtonReleaseEventArgs args)
-		{
+
+		void OnButtonRelease (object obj, ButtonReleaseEventArgs args) {
 			if (Pointer.IsGrabbed) {
 				Pointer.Ungrab (args.Event.Time);
-				Gtk.Grab.Remove (this);
+				Grab.Remove (this);
 			}
-			
-			DragStop ();
+
+			MotionNotifyEvent -= new MotionNotifyEventHandler (OnMotionNotify);
+			DragInProgress = false;
 		}
-		
+
 		[GLib.ConnectBefore]
-		protected void ButtonPressCallback (object obj, ButtonPressEventArgs args) {
-			int tabpos;
-			
-			tabpos = FindTabAtNumPos (args.Event.XRoot, args.Event.YRoot);
-			
-			if (draginprogress) {
-				return;
+		void OnMotionNotify (object obj, MotionNotifyEventArgs args) {
+
+			if (!DragInProgress) {
+				DragInProgress = true;
+				Grab.Add (this);
+
+				if (!Pointer.IsGrabbed)
+					Pointer.Grab (ParentWindow, false, EventMask.Button1MotionMask | EventMask.ButtonReleaseMask, null, new Cursor (CursorType.Fleur), args.Event.Time);	
 			}
-			else {
-				srcpage = this.CurrentPage;
-			}
-			
-			xstart = args.Event.XRoot;
-			ystart = args.Event.YRoot;
-			
-			if (args.Event.Button == 1 && args.Event.Type == EventType.ButtonPress && tabpos >= 0) {
-					this.MotionNotifyEvent += new MotionNotifyEventHandler (MotionNotifyCallback);
-			}
+
+			MoveTab (FindTabAtPosition (args.Event.XRoot, args.Event.YRoot));
 		}
 	}
 }
-
