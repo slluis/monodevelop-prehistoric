@@ -20,7 +20,7 @@ FILES= \
 ./Gui/Pads/ClassScout/NodeBuilder/DefaultDotNetClassScoutNodeBuilder.cs \
 ./Gui/Pads/ClassScout/NodeBuilder/IClassScoutNodeBuilder.cs \
 ./Gui/Pads/ClassScout/BrowserNode/AbstractClassScoutNode.cs \
-./Gui/Pads/HelpBrowser/HelpBrowser.cs \
+./Gui/Pads/HelpBrowser/MonodocTreePad.cs \
 ./Gui/Pads/SideBarView.cs \
 ./Gui/AbstractPadContent.cs \
 ./Gui/ISecondaryViewContent.cs \
@@ -371,6 +371,7 @@ $(DLL): $(FILES) ../../../data/resources/glade/Base.glade
 		/r:glade-sharp \
 		/r:gnome-sharp \
 		/r:$(debugger_prefix)/lib/Mono.Debugger.dll \
+		$(monodoc_libflags) \
 		$(FILES) \
 	&& cp $(DLL) ../../../build/bin/.
 

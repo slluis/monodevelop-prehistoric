@@ -23,7 +23,7 @@ application_DATA = monodevelop.applications
 run: runmd
 
 runmd: $(PROGRAM)
-	cd build/bin && mono --debug MonoDevelop.exe
+	cd build/bin && MONO_PATH="`pkg-config --variable=libdir monodoc`/monodoc" mono --debug MonoDevelop.exe
 
 pad: $(MONOPAD)
 

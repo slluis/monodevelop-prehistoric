@@ -62,6 +62,12 @@ PKG_CHECK_MODULES(MONO_DEBUGGER, mono-debugger >= $MONO_DEBUGGER_REQUIRED_VERSIO
 debugger_prefix=`pkg-config --variable=prefix mono-debugger`
 AC_SUBST(debugger_prefix)
 
+dnl find monodoc
+MONODOC_REQUIRED_VERSION=0.12
+PKG_CHECK_MODULES(MONODOC, monodoc >= $MONODOC_REQUIRED_VERSION)
+monodoc_libflags=`pkg-config --libs monodoc`
+AC_SUBST(monodoc_libflags)
+
 MOZILLA_HOME="`$PKG_CONFIG --variable=libdir mozilla-gtkmozembed`"
 AC_SUBST(MOZILLA_HOME)
 

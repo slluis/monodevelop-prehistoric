@@ -391,6 +391,8 @@
 		       class = "MonoDevelop.Gui.Pads.FileScout"/>
 		<Class id    = "OpenTaskView" 
 		       class = "MonoDevelop.Gui.Pads.OpenTaskView"/>
+		<Class id    = "HelpBrowser"
+		       class = "MonoDevelop.Gui.Pads.HelpTree"/>
 <!--			   
 		<Class id    = "SideBar" 
 		       class = "MonoDevelop.Gui.Pads.SideBarView"/>

@@ -1,3 +1,10 @@
+2004-03-10  Todd Berman <tberman@sevenl.net>
+
+	* web/: removed.
+	* configure.in: check for monodoc.
+	* misc files: Added a help browser pad. right now it just lists nodes,
+	              no documentation is given.
+
 2004-03-09  Daniel Kornhauser  <dkor@alum.mit.edu>
 
         * BIG 750 file change: Reduced the namespace by mapping 

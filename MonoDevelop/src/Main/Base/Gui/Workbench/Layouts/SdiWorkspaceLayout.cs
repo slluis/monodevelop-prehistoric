@@ -129,6 +129,7 @@ namespace MonoDevelop.Gui
 			WindowContent bottomContent = null;
 			
 			string[] leftContents = new string[] {
+				"MonoDevelop.Gui.Pads.HelpTree",
 				"MonoDevelop.Gui.Pads.ProjectBrowser.ProjectBrowserView",
 				"MonoDevelop.Gui.Pads.ClassScout",
 				"MonoDevelop.Gui.Pads.FileScout",
