@@ -31,18 +31,26 @@ namespace MonoDevelop.Commands.ProjectBrowser
 	{
 		public override void Run()
 		{
-			IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
-			ProjectBrowserView browser = (ProjectBrowserView)Owner;
-			CombineBrowserNode node    = browser.SelectedNode as CombineBrowserNode;
+			IProjectService projectService = (IProjectService)ServiceManager.Services.GetService(typeof(IProjectService));
+			ProjectBrowserView browser     = (ProjectBrowserView)Owner;
+			CombineBrowserNode node        = browser.SelectedNode as CombineBrowserNode;
+			MessageService msg             = (MessageService)ServiceManager.Services.GetService (typeof (MessageService));
 			
 			if (node != null) {
 				NewProjectDialog npdlg = new NewProjectDialog(false);
 				if (npdlg.Run() == (int)Gtk.ResponseType.Ok) {
 					//System.Console.WriteLine("inside if");
-					int newNodeIndex = node.Nodes.Add(ProjectBrowserView.BuildProjectTreeNode((IProject)node.Combine.AddEntry(npdlg.NewProjectLocation)));
-					projectService.SaveCombine();
-					// expand to the new node
-					node.Nodes[newNodeIndex].Expand();
+					try 
+					{
+						int newNodeIndex = node.Nodes.Add(ProjectBrowserView.BuildProjectTreeNode((IProject)node.Combine.AddEntry(npdlg.NewProjectLocation)));
+						projectService.SaveCombine();
+						// expand to the new node
+						node.Nodes[newNodeIndex].Expand();
+					}
+					catch
+					{
+						msg.ShowError (GettextCatalog.GetString ("Invalid Project File"));
+					}
 				}
 			}			
 			//System.Console.WriteLine("end");
@@ -56,15 +64,23 @@ namespace MonoDevelop.Commands.ProjectBrowser
 			IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
 			ProjectBrowserView browser = (ProjectBrowserView)Owner;
 			CombineBrowserNode node    = browser.SelectedNode as CombineBrowserNode;
+			MessageService msg         = (MessageService)ServiceManager.Services.GetService (typeof (MessageService));
 			
 			if (node != null) {
 				NewProjectDialog npdlg = new NewProjectDialog(false);
 				if (npdlg.Run() == (int)Gtk.ResponseType.Ok) {
-					int newNodeIndex = node.Nodes.Add(ProjectBrowserView.BuildCombineTreeNode((Combine)node.Combine.AddEntry(npdlg.NewCombineLocation)));
-					projectService.SaveCombine();
-					
-					// expand to the new node
-					node.Nodes[newNodeIndex].Expand();
+					try 
+					{
+						int newNodeIndex = node.Nodes.Add(ProjectBrowserView.BuildCombineTreeNode((Combine)node.Combine.AddEntry(npdlg.NewCombineLocation)));
+						projectService.SaveCombine();
+						
+						// expand to the new node
+						node.Nodes[newNodeIndex].Expand();
+					}
+					catch
+					{
+						msg.ShowError (GettextCatalog.GetString ("Invalid Solution File"));
+					}
 				}
 			}
 		}
@@ -90,18 +106,24 @@ namespace MonoDevelop.Commands.ProjectBrowser
 					fdiag.Complete (defaultFolder);
 					fdiag.SelectMultiple = false;
 					if (fdiag.Run () == (int) Gtk.ResponseType.Ok) {
-						object obj = node.Combine.AddEntry(fdiag.Filename);
-						int newNodeIndex = -1;
-						if (obj is IProject) {
-							newNodeIndex = node.Nodes.Add(ProjectBrowserView.BuildProjectTreeNode((IProject)obj));
-						} else {
-							newNodeIndex = node.Nodes.Add(ProjectBrowserView.BuildCombineTreeNode((Combine)obj));
-						}
-						projectService.SaveCombine();
+						try {
+							object obj = node.Combine.AddEntry(fdiag.Filename);
+							int newNodeIndex = -1;
+							if (obj is IProject) {
+								newNodeIndex = node.Nodes.Add(ProjectBrowserView.BuildProjectTreeNode((IProject)obj));
+							} else {
+								newNodeIndex = node.Nodes.Add(ProjectBrowserView.BuildCombineTreeNode((Combine)obj));
+							}
+							projectService.SaveCombine();
 						
-						if (newNodeIndex > -1) {
-							// expand to the new node
-							node.Nodes[newNodeIndex].Expand();
+							if (newNodeIndex > -1) {
+								// expand to the new node
+								node.Nodes[newNodeIndex].Expand();
+							}
+						}
+						catch 
+						{
+							((MessageService)ServiceManager.Services.GetService (typeof (MessageService))).ShowError (GettextCatalog.GetString ("Invalid Project File"));
 						}
 					}
 
@@ -132,18 +154,24 @@ namespace MonoDevelop.Commands.ProjectBrowser
 					fdiag.Complete (defaultFolder);
 					fdiag.SelectMultiple = false;
 					if (fdiag.Run () == (int) Gtk.ResponseType.Ok) {
-						object obj = node.Combine.AddEntry(fdiag.Filename);
-						int newNodeIndex = -1;
-						if (obj is IProject) {
-							newNodeIndex = node.Nodes.Add(ProjectBrowserView.BuildProjectTreeNode((IProject)obj));
-						} else {
-							newNodeIndex = node.Nodes.Add(ProjectBrowserView.BuildCombineTreeNode((Combine)obj));
+						try {
+							object obj = node.Combine.AddEntry(fdiag.Filename);
+							int newNodeIndex = -1;
+							if (obj is IProject) {
+								newNodeIndex = node.Nodes.Add(ProjectBrowserView.BuildProjectTreeNode((IProject)obj));
+							} else {
+								newNodeIndex = node.Nodes.Add(ProjectBrowserView.BuildCombineTreeNode((Combine)obj));
+							}
+							projectService.SaveCombine();
+							
+							if (newNodeIndex > -1) {
+								// expand to the new node
+								node.Nodes[newNodeIndex].Expand();
+							}
 						}
-						projectService.SaveCombine();
-						
-						if (newNodeIndex > -1) {
-							// expand to the new node
-							node.Nodes[newNodeIndex].Expand();
+						catch 
+						{
+							((MessageService)ServiceManager.Services.GetService (typeof (MessageService))).ShowError (GettextCatalog.GetString ("Invalid Solution File"));
 						}
 					}
 

@@ -1,4 +1,9 @@
-2004-04-04  Todd Berman  <tberman@sevenl.net>
+2004-04-06  Todd Berman  <tberman@sevenl.net>
+
+	* Commands/ProjectBrowserCommands/CombineNodeCommands.cs: fix bug
+	#56429.
+
+2004-04-06  Todd Berman  <tberman@sevenl.net>
 
 	* Gui/Workbench/DefaultWorkbench.cs: register gtype. add message about
 	using proper ctor.
