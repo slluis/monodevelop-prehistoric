@@ -37,31 +37,20 @@ namespace ICSharpCode.SharpDevelop
 				return commandLineArgs;
 			}
 		}
-		
+
 		static void ShowErrorBox(object sender, ThreadExceptionEventArgs eargs)
 		{
-#if GTK
-			// FIXME: GTKize
-#else
-			DialogResult result = new ExceptionBox(eargs.Exception).ShowDialog();
+			ExceptionDialog ed;
 
-			DataObject dataObject = new DataObject();
-			dataObject.SetData(DataFormats.Text, eargs.Exception.ToString());
-			Clipboard.SetDataObject(dataObject, true);
-			
-			switch (result) {
-				case DialogResult.Ignore:
-					break;
-				case DialogResult.Abort:
-					Application.Exit();
-					break;
-				case DialogResult.Yes:
-					Process.Start("http://www.icsharpcode.net/OpenSource/SD/Forum/post.asp?method=Topic&FORUM_ID=5");
-					break;
-			}
-#endif
+			ed = new ExceptionDialog(eargs.Exception);
+			ed.AddButtonHandler(new ButtonHandler(DialogResultHandler));
+			ed.ShowAll();
 		}
-		
+
+		static void DialogResultHandler(ExceptionDialog ed, DialogResult dr) {
+			ed.Destroy();			
+		}
+
 		/// <summary>
 		/// Starts the core of SharpDevelop.
 		/// </summary>
@@ -82,31 +71,34 @@ namespace ICSharpCode.SharpDevelop
 						break;
 				}
 			}
-	
+
 			if (!noLogo) {
 				SplashScreenForm.SplashScreen.ShowAll ();
 				while (Gtk.Application.EventsPending()) {
 					Gtk.Application.RunIteration (false);
 				}
 			}
-			
+
 			bool ignoreDefaultPath = false;
 			string [] addInDirs = ICSharpCode.SharpDevelop.AddInSettingsHandler.GetAddInDirectories(out ignoreDefaultPath);
 			AddInTreeSingleton.SetAddInDirectories(addInDirs, ignoreDefaultPath);
 
-			//Application.ThreadException += new ThreadExceptionEventHandler(ShowErrorBox);
-			
 			ArrayList commands = null;
 			try {
 				ServiceManager.Services.AddService(new IconService());
 				ServiceManager.Services.AddService(new MessageService());
 				ServiceManager.Services.AddService(new ResourceService());
 				ServiceManager.Services.InitializeServicesSubsystem("/Workspace/Services");
-			
+
 				commands = AddInTreeSingleton.AddInTree.GetTreeNode("/Workspace/Autostart").BuildChildItems(null);
 				for (int i = 0; i < commands.Count - 1; ++i) {
 					((ICommand)commands[i]).Run();
 				}
+
+				// We don't have yet an alternative for Application.ThreadException
+				// How can we handle this?
+				// Application.ThreadException += new ThreadExceptionEventHandler(ShowErrorBox);
+
 			} catch (XmlException e) {
 				Console.WriteLine("Could not load XML :\n" + e.Message);
 				return;
@@ -118,12 +110,12 @@ namespace ICSharpCode.SharpDevelop
 					SplashScreenForm.SplashScreen.Hide();
 				}
 			}
-			
+
 			// run the last autostart command, this must be the workbench starting command
 			if (commands.Count > 0) {
 				((ICommand)commands[commands.Count - 1]).Run();
 			}
-			
+
 			// unloading services
 			ServiceManager.Services.UnloadAllServices();
 		}

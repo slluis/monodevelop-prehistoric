@@ -38,6 +38,7 @@ $(DLL): $(SOURCES)
 	@ mcs /debug /out:$(DLL) /r:System.Drawing.dll \
 		/r:../../../build/bin/ICSharpCode.Core.dll \
 		/r:../../../build/bin/SharpDevelop.Base.dll \
-		/define:GTK /r:gtk-sharp.dll /r:gdk-sharp.dll\
+		/r:glib-sharp.dll \
+		/define:GTK /r:gtk-sharp.dll /r:gdk-sharp.dll \
 		$(RESOURCES) $(SOURCES)
 
