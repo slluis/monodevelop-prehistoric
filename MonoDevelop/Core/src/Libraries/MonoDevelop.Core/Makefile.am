@@ -85,7 +85,8 @@ $(DLL): $(build_sources) $(build_resources)
 assemblydir = $(libdir)/monodevelop/bin
 assembly_DATA = $(DLL)
 
-CLEANFILES = $(DLL) Services/GettextCatalog.cs
+CLEANFILES = $(DLL) $(DLL).mdb
+DISTCLEANFILES = Services/GettextCatalog.cs
 
 EXTRA_DIST = $(FILES) Services/GettextCatalog.cs.in
 

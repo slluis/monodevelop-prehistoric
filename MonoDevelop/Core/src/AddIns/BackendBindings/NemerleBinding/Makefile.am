@@ -1,5 +1,4 @@
 
-CSC = mcs /debug
 ASSEMBLY = NemerleBinding.dll
 
 DLLS = /r:System.Drawing.dll \
@@ -30,6 +29,6 @@ $(ASSEMBLY): $(FILES) $(srcdir)/../../../../data/resources/glade/Nemerle.glade
 assemblydir = $(libdir)/monodevelop/AddIns/AddIns/BackendBindings/
 assembly_DATA = $(ASSEMBLY)
 
-CLEANFILES = $(ASSEMBLY)
+CLEANFILES = $(ASSEMBLY) $(ASSEMBLY).mdb
 DISTCLEANFILES = NemerleBindingExecutionServices.cs
 EXTRA_DIST = $(FILES) NemerleBindingExecutionServices.cs.in

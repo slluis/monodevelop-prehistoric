@@ -23,7 +23,7 @@ $(DLL): $(build_sources)
 startpagelibdir = $(libdir)/monodevelop/AddIns/AddIns/Misc/StartPage
 startpagelib_DATA = $(DLL)
 
-CLEANFILES=$(DLL)
+CLEANFILES=$(DLL) $(DLL).mdb
 
 EXTRA_DIST = $(FILES)
 

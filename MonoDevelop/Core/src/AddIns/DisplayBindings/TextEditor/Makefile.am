@@ -54,7 +54,7 @@ $(DLL): $(FILES) ../../../../data/resources/glade/texteditoraddin.glade
 		/define:GTK /r:gtk-sharp /r:gdk-sharp /r:gnome-sharp\
 		$(FILES)
 
-CLEANFILES=$(DLL)
+CLEANFILES=$(DLL) $(DLL).mdb
 
 EXTRA_DIST = $(FILES)
 

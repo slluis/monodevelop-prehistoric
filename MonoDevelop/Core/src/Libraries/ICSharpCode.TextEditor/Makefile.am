@@ -110,4 +110,4 @@ all: $(DLL)
 $(DLL): $(FILES)
 	@ mcs /debug /out:$@ /target:library $(REFS) /define:GTK /resource:data/syntaxmodes/SyntaxModes.xml,SyntaxModes.xml /resource:data/syntaxmodes/CSharp-Mode.xshd,CSharp-Mode.xshd /resource:data/Mode.xsd,Mode.xsd /resource:data/syntaxmodes/ASPX.xshd,ASPX.xshd /resource:data/syntaxmodes/BAT-Mode.xshd,BAT-Mode.xshd /resource:data/syntaxmodes/CPP-Mode.xshd,CPP-Modes.xshd /resource:data/syntaxmodes/Coco-Mode.xshd,Coco-Mode.xshd /resource:data/syntaxmodes/HTML-Mode.xshd,HTML-Mode.xshd /resource:data/syntaxmodes/Java-Mode.xshd,Java-Mode.xshd /resource:data/syntaxmodes/JavaScript-Mode.xshd,JavaScript-Mode.xshd /resource:data/syntaxmodes/PHP-Mode.xshd,PHP-Mode.xshd /resource:data/syntaxmodes/Tex-Mode.xshd,Tex-Mode.xshd /resource:data/syntaxmodes/VBNET-Mode.xshd,VBNET-Mode.xshd /resource:data/syntaxmodes/XML-Mode.xshd,XML-Mode.xshd /resource:data/RightArrow.cur,RightArrow.cur $(FILES)
 
-CLEANFILES=$(DLL)
+CLEANFILES=$(DLL) $(DLL).mdb

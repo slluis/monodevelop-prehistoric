@@ -1,5 +1,4 @@
 
-CSC = mcs /debug
 ASSEMBLY = ILAsmBinding.dll
 
 DLLS = /r:../../../../build/bin/MonoDevelop.Core.dll \
@@ -29,6 +28,6 @@ $(ASSEMBLY): $(build_sources)
 	$(CSC) $(build_sources) $(DLLS) /out:$(ASSEMBLY) /target:library \
 	&& cp $(ASSEMBLY) ../../../../build/AddIns/AddIns/BackendBindings/.
 
-CLEANFILES = $(ASSEMBLY)
+CLEANFILES = $(ASSEMBLY) $(ASSEMBLY).mdb
 EXTRA_DIST = $(FILES)
 

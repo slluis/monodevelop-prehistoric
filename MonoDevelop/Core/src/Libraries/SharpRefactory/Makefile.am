@@ -1,5 +1,3 @@
-CSC = mcs /debug
-
 FILES = \
 ./src/Lexer/Reader/IReader.cs \
 ./src/Lexer/Reader/FileReader.cs \
@@ -130,7 +128,7 @@ run : test-parser.exe
 assemblydir = $(libdir)/monodevelop/bin
 assembly_DATA = $(DLL)
 
-CLEANFILES = $(DLL)
+CLEANFILES = $(DLL) $(DLL).mdb
 
 EXTRA_DIST = $(FILES)
 

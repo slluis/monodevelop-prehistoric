@@ -36,7 +36,7 @@ $(DLL): $(build_sources)
 assemblydir = $(libdir)/monodevelop/bin
 assembly_DATA = $(DLL)
   
-CLEANFILES = $(DLL)
+CLEANFILES = $(DLL) $(DLL).mdb
 
 EXTRA_DIST = $(FILES)
 

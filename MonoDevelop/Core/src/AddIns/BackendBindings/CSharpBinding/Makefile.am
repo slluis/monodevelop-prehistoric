@@ -1,4 +1,3 @@
-CSC = mcs /debug
 ASSEMBLY = CSharpBinding.dll
 
 DLLS = /r:System.Drawing.dll \
@@ -49,7 +48,7 @@ $(ASSEMBLY): $(build_sources)
 csharpbindinglibdir = $(libdir)/monodevelop/AddIns/AddIns/BackendBindings
 csharpbindinglib_DATA = $(ASSEMBLY)
 
-CLEANFILES = $(ASSEMBLY)
+CLEANFILES = $(ASSEMBLY) $(ASSEMBLY).mdb
 
 DISTCLEANFILES = CSharpBindingExecutionManager.cs
 

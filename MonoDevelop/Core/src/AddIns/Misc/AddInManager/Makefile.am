@@ -1,5 +1,4 @@
 
-CSC = mcs /debug
 ASSEMBLY = AddInManager.dll
 ADDIN = AddInManager.addin.xml
 
@@ -23,5 +22,5 @@ $(ASSEMBLY): $(FILES)
 	&& cp $(ASSEMBLY) ../../../../build/AddIns/. \
 	&& cp $(ADDIN) ../../../../build/AddIns/.
 
-CLEANFILES = $(ASSEMBLY)
+CLEANFILES = $(ASSEMBLY) $(ASSEMBLY).mdb
 EXTRA_DIST = $(FILES) $(ADDIN)

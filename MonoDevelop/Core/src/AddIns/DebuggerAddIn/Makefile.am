@@ -1,5 +1,4 @@
 
-CSC = mcs /debug
 ASSEMBLY = MonoDevelop.Debugger.dll
 ADDIN = $(srcdir)/MonoDevelopDebugger.addin.xml
 
@@ -34,7 +33,7 @@ $(ASSEMBLY): $(build_sources) ../../../build/AddIns/$(ADDIN)
 assemblydir = $(libdir)/monodevelop/AddIns
 assembly_DATA = $(ASSEMBLY) $(ADDIN)
 
-CLEANFILES = $(ASSEMBLY)
+CLEANFILES = $(ASSEMBLY) $(ASSEMBLY).mdb
 
 else
 all:

@@ -1,5 +1,4 @@
 
-CSC = mcs /debug
 ASSEMBLY = SharpCoco.exe
 ATG = src/Coco.ATG
 
@@ -19,6 +18,6 @@ all: $(ASSEMBLY)
 $(ASSEMBLY): $(build_sources)
 	$(CSC) $(build_sources) /out:$(ASSEMBLY)
 
-CLEANFILES = $(ASSEMBLY)
+CLEANFILES = $(ASSEMBLY) $(ASSEMBLY).mdb
 EXTRA_DIST = $(FILES)
 

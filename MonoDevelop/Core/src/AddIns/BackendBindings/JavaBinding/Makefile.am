@@ -1,5 +1,4 @@
 
-CSC = mcs /debug
 ASSEMBLY = JavaBinding.dll
 
 DLLS = /r:System.Drawing.dll \
@@ -30,6 +29,6 @@ $(ASSEMBLY): $(FILES)
 assemblydir = $(libdir)/monodevelop/AddIns/AddIns/BackendBindings
 assembly_DATA = $(ASSEMBLY)
 
-CLEANFILES = $(ASSEMBLY)
+CLEANFILES = $(ASSEMBLY) $(ASSEMBLY).mdb
 EXTRA_DIST = $(FILES)
 

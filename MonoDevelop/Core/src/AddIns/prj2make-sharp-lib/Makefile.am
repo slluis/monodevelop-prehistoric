@@ -1,5 +1,4 @@
 
-CSC = mcs /debug
 ASSEMBLY = prj2make-sharp-lib.dll
 ADDIN = $(srcdir)/prj2make-sharp-lib.addin.xml
 
@@ -40,5 +39,5 @@ $(ASSEMBLY): $(build_sources) ../../../build/AddIns/$(ADDIN)
 assemblydir = $(libdir)/monodevelop/AddIns
 assembly_DATA = $(ASSEMBLY) $(ADDIN)
 
-CLEANFILES = $(ASSEMBLY)
+CLEANFILES = $(ASSEMBLY) $(ASSEMBLY).mdb
 

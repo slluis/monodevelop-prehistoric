@@ -1,5 +1,4 @@
 
-CSC = mcs /debug
 ASSEMBLY = MonoDevelop.Nunit.dll
 ADDIN = $(srcdir)/MonoDevelopNunit.addin.xml
 
@@ -41,7 +40,7 @@ $(ASSEMBLY): $(FILES)
 #addindir = $(libdir)/monodevelop/AddIns
 #addin_DATA = $(ASSEMBLY) $(ADDIN)
 
-CLEANFILES = $(ASSEMBLY)
+CLEANFILES = $(ASSEMBLY) $(ASSEMBLY).mdb
 
 EXTRA_DIST = $(FILES) $(ADDIN)
 

@@ -1,5 +1,4 @@
 
-CSC = mcs /debug
 ASSEMBLY = CsVbRefactory.dll
 
 FILES = ./CsVbRefactory/AssemblyInfo.cs \
@@ -48,7 +47,7 @@ build_sources = $(addprefix $(srcdir)/, $(FILES))
 
 DLLS = /r:System.Drawing
 
-CLEANFILES = $(ASSEMBLY)
+CLEANFILES = $(ASSEMBLY) $(ASSEMBLY).mdb
 
 EXTRA_DIST = $(FILES)
 
