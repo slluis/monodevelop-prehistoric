@@ -29,6 +29,7 @@ namespace MonoDevelop.Services
 		{
 			public FileOpeningFinished OnFileOpened;
 			public string FileName;
+			public bool BringToFront;
 		}
 		
 		public RecentOpen RecentOpen {
@@ -52,14 +53,17 @@ namespace MonoDevelop.Services
 		{
 			IDisplayBinding binding;
 			Project project;
+			bool select;
 			
-			public LoadFileWrapper(IDisplayBinding binding)
+			public LoadFileWrapper(IDisplayBinding binding, bool select)
 			{
+				this.select = select;
 				this.binding = binding;
 			}
 			
-			public LoadFileWrapper(IDisplayBinding binding, Project project)
+			public LoadFileWrapper(IDisplayBinding binding, Project project, bool select)
 			{
+				this.select = select;
 				this.binding = binding;
 				this.project = project;
 			}
@@ -72,23 +76,34 @@ namespace MonoDevelop.Services
 					newContent.HasProject = true;
 					newContent.Project = project;
 				}
-				WorkbenchSingleton.Workbench.ShowView(newContent);
+				WorkbenchSingleton.Workbench.ShowView (newContent, select);
 				Runtime.Gui.DisplayBindings.AttachSubWindows(newContent.WorkbenchWindow);
 			}
 		}
 		
 		public void OpenFile (string fileName)
 		{
+			OpenFile (fileName, true);
+		}
+		
+		public void OpenFile (string fileName, bool bringToFront)
+		{
 			FileInformation openFileInfo=new FileInformation();
 			openFileInfo.OnFileOpened=null;
 			openFileInfo.FileName=fileName;
+			openFileInfo.BringToFront = bringToFront;
 			Runtime.DispatchService.GuiDispatch (new StatefulMessageHandler (realOpenFile), openFileInfo);
 		}
 
-		public void OpenFile (string fileName, FileOpeningFinished OnFileOpened){
+		public void OpenFile (string fileName, FileOpeningFinished OnFileOpened) {
+			OpenFile (fileName, true, OnFileOpened);
+		}
+		
+		public void OpenFile (string fileName, bool bringToFront, FileOpeningFinished OnFileOpened){
 			FileInformation openFileInfo=new FileInformation();
 			openFileInfo.OnFileOpened=OnFileOpened;
 			openFileInfo.FileName=fileName;
+			openFileInfo.BringToFront = bringToFront;
 			Runtime.DispatchService.GuiDispatch (new StatefulMessageHandler (realOpenFile), openFileInfo);
 		}
 		
@@ -154,13 +169,13 @@ namespace MonoDevelop.Services
 				
 				if (combine != null && project != null)
 				{
-					if (Runtime.FileUtilityService.ObservedLoad(new NamedFileOperationDelegate(new LoadFileWrapper(binding, project).Invoke), fileName) == FileOperationResult.OK) {
+					if (Runtime.FileUtilityService.ObservedLoad(new NamedFileOperationDelegate(new LoadFileWrapper(binding, project, oFileInfo.BringToFront).Invoke), fileName) == FileOperationResult.OK) {
 						Runtime.FileService.RecentOpen.AddLastFile (fileName, project.Name);
 					}
 				}
 				else
 				{
-					if (Runtime.FileUtilityService.ObservedLoad(new NamedFileOperationDelegate(new LoadFileWrapper(binding, null).Invoke), fileName) == FileOperationResult.OK) {
+					if (Runtime.FileUtilityService.ObservedLoad(new NamedFileOperationDelegate(new LoadFileWrapper(binding, null, oFileInfo.BringToFront).Invoke), fileName) == FileOperationResult.OK) {
 						Runtime.FileService.RecentOpen.AddLastFile (fileName, null);
 					}
 				}
@@ -174,7 +189,7 @@ namespace MonoDevelop.Services
 						Gnome.Url.Show ("file://" + fileName);
 					}
 				} catch {
-					if (Runtime.FileUtilityService.ObservedLoad(new NamedFileOperationDelegate (new LoadFileWrapper (Runtime.Gui.DisplayBindings.LastBinding, null).Invoke), fileName) == FileOperationResult.OK) {
+					if (Runtime.FileUtilityService.ObservedLoad(new NamedFileOperationDelegate (new LoadFileWrapper (Runtime.Gui.DisplayBindings.LastBinding, null, oFileInfo.BringToFront).Invoke), fileName) == FileOperationResult.OK) {
 						Runtime.FileService.RecentOpen.AddLastFile (fileName, null);
 					}
 				}
@@ -208,7 +223,7 @@ namespace MonoDevelop.Services
 				}
 				newContent.UntitledName = defaultName;
 				newContent.IsDirty      = false;
-				WorkbenchSingleton.Workbench.ShowView(newContent);
+				WorkbenchSingleton.Workbench.ShowView(newContent, true);
 				
 				Runtime.Gui.DisplayBindings.AttachSubWindows(newContent.WorkbenchWindow);
 			} else {

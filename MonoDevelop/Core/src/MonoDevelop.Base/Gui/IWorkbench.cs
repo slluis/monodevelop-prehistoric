@@ -58,7 +58,7 @@ namespace MonoDevelop.Gui
 		/// <summary>
 		/// Inserts a new <see cref="IViewContent"/> object in the workspace.
 		/// </summary>
-		void ShowView(IViewContent content);
+		void ShowView (IViewContent content, bool bringToFront);
 		
 		/// <summary>
 		/// Inserts a new <see cref="IPadContent"/> object in the workspace.

@@ -194,10 +194,11 @@ namespace MonoDevelop.Internal.Templates
 		
 		public void OpenCreatedCombine()
 		{
-			Runtime.ProjectService.OpenCombine(lastCombine);
-			
-			foreach (OpenFileAction action in actions) {
-				action.Run(projectCreateInformation);
+			IAsyncOperation op = Runtime.ProjectService.OpenCombine (lastCombine);
+			op.WaitForCompleted ();
+			if (op.Success) {
+				foreach (OpenFileAction action in actions)
+					action.Run(projectCreateInformation);
 			}
 		}
 

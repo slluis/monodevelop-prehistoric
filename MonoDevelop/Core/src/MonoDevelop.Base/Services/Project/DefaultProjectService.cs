@@ -205,7 +205,7 @@ namespace MonoDevelop.Services
 			return format != null;
 		}
 		
-		public void OpenCombine(string filename)
+		public IAsyncOperation OpenCombine(string filename)
 		{
 			if (openCombine != null) {
 				SaveCombine();
@@ -215,25 +215,32 @@ namespace MonoDevelop.Services
 			if (filename.StartsWith ("file://"))
 				filename = filename.Substring (7);
 
-			Runtime.DispatchService.BackgroundDispatch (new StatefulMessageHandler (backgroundLoadCombine), filename);
+			IProgressMonitor monitor = Runtime.TaskService.GetLoadProgressMonitor ();
+			
+			object[] data = new object[] { filename, monitor };
+			Runtime.DispatchService.BackgroundDispatch (new StatefulMessageHandler (backgroundLoadCombine), data);
+			return monitor.AsyncOperation;
 		}
-
+		
 		void backgroundLoadCombine (object arg)
 		{
-			string filename = arg as string;
-			if (!fileUtilityService.TestFileExists(filename)) {
-				return;
-			}
+			object[] data = (object[]) arg;
+			string filename = data[0] as string;
+			IProgressMonitor monitor = data [1] as IProgressMonitor;
 			
-			string validcombine = Path.ChangeExtension (filename, ".cmbx");
-			
-			if (Path.GetExtension (filename).ToLower() != ".cmbx") {
-				if (File.Exists (validcombine))
-					filename = validcombine;
-			}
-			
-			IProgressMonitor monitor = Runtime.TaskService.GetLoadProgressMonitor ();
 			try {
+				if (!fileUtilityService.TestFileExists(filename)) {
+					monitor.ReportError (string.Format (GettextCatalog.GetString ("File not found: {0}"), filename), null);
+					return;
+				}
+				
+				string validcombine = Path.ChangeExtension (filename, ".cmbx");
+				
+				if (Path.GetExtension (filename).ToLower() != ".cmbx") {
+					if (File.Exists (validcombine))
+						filename = validcombine;
+				}
+			
 				CombineEntry entry = ReadFile (filename, monitor);
 				if (!(entry is Combine)) {
 					Combine loadingCombine = new Combine();
@@ -669,7 +676,7 @@ namespace MonoDevelop.Services
 					foreach (XmlElement el in root["Files"].ChildNodes) {
 						string fileName = fileUtilityService.RelativeToAbsolutePath(combinepath, el.Attributes["filename"].InnerText);
 						if (File.Exists(fileName)) {
-							Runtime.FileService.OpenFile (fileName);
+							Runtime.FileService.OpenFile (fileName, false);
 						}
 					}
 				}

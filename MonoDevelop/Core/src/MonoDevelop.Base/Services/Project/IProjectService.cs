@@ -121,7 +121,7 @@ namespace MonoDevelop.Services
 		/// <remarks>
 		/// Opens a new root combine, closes the old root combine automatically.
 		/// </remarks>
-		void OpenCombine(string filename);
+		IAsyncOperation OpenCombine (string filename);
 		
 		/// <remarks>
 		/// Saves the whole root combine.

@@ -33,9 +33,10 @@ namespace MonoDevelop.Services
 		/// Opens the file fileName in SharpDevelop (shows the file in
 		/// the workbench window)
 		/// </remarks>
-		void OpenFile(string fileName);
-		
-		void OpenFile(string fileName, FileOpeningFinished onFileOpened);
+		void OpenFile (string fileName);
+		void OpenFile (string fileName, bool bringToFront);
+		void OpenFile (string fileName, FileOpeningFinished onFileOpened);
+		void OpenFile (string fileName, bool bringToFront, FileOpeningFinished onFileOpened);
 		
 		/// <remarks>
 		/// Opens a new file with a given name, language and file content

@@ -267,7 +267,7 @@ namespace MonoDevelop.Gui
 			}
 		}
 		
-		public virtual void ShowView(IViewContent content)
+		public virtual void ShowView (IViewContent content, bool bringToFront)
 		{
 			Debug.Assert(layout != null);
 			ViewContentCollection.Add(content);
@@ -284,7 +284,9 @@ namespace MonoDevelop.Gui
 			
 			layout.ShowView(content);
 			
-			content.WorkbenchWindow.SelectWindow();
+			if (bringToFront)
+				content.WorkbenchWindow.SelectWindow();
+
 			ShowAll ();
 			RedrawAllComponents ();
 		}
