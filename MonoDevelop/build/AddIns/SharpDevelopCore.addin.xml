@@ -558,6 +558,8 @@
 			          icon = "Icons.16x16.OpenFileIcon"
 			          shortcut = "Control|O"
 			          class = "MonoDevelop.Commands.OpenFile"/>
+
+			<MenuItem id = "OpenSep" _label = "-"/>
 	                
 	                        <Conditional activewindow="*" action="Disable">
 		                        <MenuItem id = "CloseFile"

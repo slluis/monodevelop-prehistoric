@@ -365,17 +365,18 @@
 			             class = "MonoDevelop.EditorBindings.Gui.OptionPanels.BehaviorTextEditorPanel"/>
 		</DialogPanel>
 	</Extension>
-	
+
+<!--	
 	<Extension path = "/SharpDevelop/Workbench/MainMenu/Tools">
 		<Conditional activewindow="MonoDevelop.DefaultEditor.Gui.Editor.ITextEditorControlProvider" action="Disable">
-			<!--<MenuItem id = "InsertColor"
+			<MenuItem id = "InsertColor"
 			          insertafter = "Separator1" insertbefore = "Separator2"
 			          _label = "${res:XML.MainMenu.ToolMenu.InsColor}" 
 			          description = "${res:XML.MainMenu.ToolMenu.InsColor.Description}" 
-			          class = "MonoDevelop.DefaultEditor.Commands.ShowColorDialog"/> -->
+			          class = "MonoDevelop.DefaultEditor.Commands.ShowColorDialog"/>
 			<MenuItem id = "Separator2" _label = "-" />
 
-		<!--	<MenuItem id = "GenerateCodeAction"
+			<MenuItem id = "GenerateCodeAction"
 			          insertafter = "Separator2"
 			          _label = "${res:XML.MainMenu.ToolMenu.GenerateCode}" 
 			          description = "${res:XML.MainMenu.ToolMenu.GenerateCode.Description}" 
@@ -385,10 +386,10 @@
 			          description = "${res:XML.MainMenu.ToolMenu.QuickXmlDoc.Description}" 
 			          shortcut = "Control|Q"
 			          class = "MonoDevelop.DefaultEditor.Commands.QuickDocumentation"/> 
-			<MenuItem id = "Separator3" _label = "-" /> -->
+			<MenuItem id = "Separator3" _label = "-" />
 		</Conditional>
 	</Extension>
-	
+-->	
 	<Extension path = "/SharpDevelop/DefaultEditor/SearchAndReplace/WildcardHelpPath">
 		<MenuItem id    = "*Char"
 		          _label = "* Zero or more of any character" />
