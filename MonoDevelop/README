@@ -3,15 +3,17 @@ This is a port of SharpDevelop to Gtk# and Mono.
 Compiling and running
 ---------------------
 To compile run the following command:
-make PREFIX=/usr/local
 
-(change /usr/local to the prefix Gtk# is installed to)
+make
+
+If you do not have pkg-config set up right, you will need to
+set PREFIX to the prefix that Gtk# is installed in.
 
 To run MonoDevelop:
 ./monodevelop
 
 Example:
-make clean && make PREFIX=/usr && ./monodevelop
+make clean && make && ./monodevelop
 
 Dependencies
 ------------

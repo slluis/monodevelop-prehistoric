@@ -1,5 +1,6 @@
 MCS=mcs
 ASSEMBLY = ../build/bin/gtkmozembed-sharp.dll
+PREFIX ?= $(shell pkg-config --variable=prefix gapi)
 
 INCLUDE_APIS = \
 	$(PREFIX)/share/gapi/gdk-api.xml \
