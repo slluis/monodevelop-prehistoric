@@ -30,11 +30,8 @@ libmonodevelop.so: $(libmonodevelop_OBJECTS)
 %.o: %.c
 	$(CC) $(CFLAGS) $(INCLUDES) -c $<
 	
-monodeveloplibdir = $(prefix)/lib/monodevelop
-
-install-data-local: libmonodevelop.so
-	$(mkinstalldirs) $(DESTDIR)$(monodeveloplibdir)/bin
-	$(INSTALL_DATA) libgdldock.so $(DESTDIR)$(monodevelopdir)/bin/libmonodevelop.so
+monodeveloplibdir = $(prefix)/lib/monodevelop/bin
+monodeveloplib_DATA = libmonodevelop.so
 
 clean:
 	rm -f libmonodevelop.so $(libmonodevelop_OBJECTS)
