@@ -17,54 +17,40 @@ using ICSharpCode.Core.Services;
 using ICSharpCode.TextEditor;
 
 using Gtk;
+using Glade;
 
 namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 {
-	public class GotoLineNumberDialog : Dialog
+	public class GotoLineNumberDialog
 	{
 		public static bool IsVisible = false;
 	
-		Entry gotoEntry;
+		[Widget] Dialog GotoLineDialog;
+		[Widget] Entry line_number_entry;
 		
 		public GotoLineNumberDialog ()
 		{
-			this.Title = "Goto Line Number...";
-			this.BorderWidth = 6;
-			this.HasSeparator = false;
+			new Glade.XML (null, "texteditoraddin.glade", "GotoLineDialog", null).Autoconnect (this);
 			
-			VBox mainbox = new VBox (false, 2);
-			HBox entrybox = new HBox (false, 2);
-
-			ResourceService rs = (ResourceService)ServiceManager.Services.GetService (typeof (IResourceService));
-			string text = rs.GetString ("Dialog.GotoLineNumber.label1Text");
-			Label label = new Label (text.Replace ("&", ""));
-
-			gotoEntry = new Entry ();
-
-			entrybox.PackStart (label, false, false, 2);
-			entrybox.PackStart (gotoEntry, false, true, 2);
-			
-			Button okButton = new Button (Stock.JumpTo);
-			okButton.Clicked += new EventHandler (closeEvent);
-
-			Button cancelButton = new Button (Stock.Cancel);
-			cancelButton.Clicked += new EventHandler (cancelEvent);
-
-			this.ActionArea.PackStart (cancelButton);
-			this.ActionArea.PackStart (okButton);
-
-			mainbox.PackStart (entrybox);
-			
-			this.VBox.PackStart (mainbox);
-			this.ShowAll ();
+			GotoLineDialog.ShowAll ();
 		}
 		
-		void cancelEvent(object sender, EventArgs e)
+		public void Run ()
 		{
-			this.Hide();
+			GotoLineDialog.Run ();
 		}
 		
-		void closeEvent(object sender, EventArgs e)
+		public void Hide ()
+		{
+			GotoLineDialog.Hide ();
+		}
+		
+		void on_btn_close_clicked (object sender, EventArgs e)
+		{
+			GotoLineDialog.Hide ();
+		}
+		
+		void on_btn_go_to_line_clicked (object sender, EventArgs e)
 		{
 			try {
 				IWorkbenchWindow window = WorkbenchSingleton.Workbench.ActiveWorkbenchWindow;
@@ -73,14 +59,14 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 				if (window != null && window.ViewContent is ITextEditorControlProvider) {
 					TextEditorControl textarea = ((ITextEditorControlProvider)window.ViewContent).TextEditorControl;
 				
-					int i = Math.Min(textarea.Document.TotalNumberOfLines, Math.Max(1, Int32.Parse(gotoEntry.Text)));
+					int i = Math.Min(textarea.Document.TotalNumberOfLines, Math.Max(1, Int32.Parse(line_number_entry.Text)));
 					textarea.ActiveTextAreaControl.Caret.Line = i - 1;
 					textarea.ActiveTextAreaControl.ScrollToCaret();
 				}
 			} catch (Exception) {
 				
 			} finally {
-				this.Hide();
+				GotoLineDialog.Hide ();
 			}
 		}
 	}
