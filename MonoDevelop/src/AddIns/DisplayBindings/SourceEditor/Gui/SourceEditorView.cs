@@ -8,11 +8,14 @@ using System.Runtime.InteropServices;
 using ICSharpCode.Core.AddIns.Conditions;
 using ICSharpCode.Core.AddIns;
 using ICSharpCode.SharpDevelop.Internal.Templates;
+using ICSharpCode.Core.Services;
 using MonoDevelop.SourceEditor.CodeCompletion;
 using MonoDevelop.SourceEditor.InsightWindow;
 using MonoDevelop.EditorBindings.Properties;
 using MonoDevelop.EditorBindings.FormattingStrategy;
 using MonoDevelop.Gui.Utils;
+
+using MonoDevelop.Services;
 
 namespace MonoDevelop.SourceEditor.Gui {
 	public class SourceEditorView : SourceView, IFormattableDocument {
@@ -88,7 +91,10 @@ namespace MonoDevelop.SourceEditor.Gui {
 		public void breakpointToggled (object o, EventArgs e)
 		{
 			if (lineToMark == -1) return;
-			buf.ToggleMark (lineToMark, SourceMarkerType.BreakpointMark);
+			DebuggingService dbgr = (DebuggingService)ServiceManager.Services.GetService (typeof (DebuggingService));
+			bool canToggle = dbgr.ToggleBreakpoint (ParentEditor.DisplayBinding.ContentName, lineToMark);
+			if (canToggle)
+				buf.ToggleMark (lineToMark, SourceMarkerType.BreakpointMark);
 			lineToMark = -1;
 		}
 

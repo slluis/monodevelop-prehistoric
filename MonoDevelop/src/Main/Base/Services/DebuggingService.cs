@@ -69,6 +69,15 @@ namespace MonoDevelop.Services
 			breakpoints.Remove (key);
 		}
 
+		public bool ToggleBreakpoint (string filename, int linenum)
+		{
+			if (!breakpoints.ContainsKey (filename + ":" + linenum))
+				return AddBreakpoint (filename, linenum);
+			else
+				RemoveBreakpoint (filename, linenum);
+			return true;
+		}
+
 		public void ToggleRunning ()
 		{
 			if (!Debugging)
