@@ -30,7 +30,7 @@ namespace MonoDevelop.Gui {
 			}
 			set {
 				text = value;
-				OnNodesChanged ();
+				UpdateBacking ();
 			}
 		}
 		
@@ -40,6 +40,7 @@ namespace MonoDevelop.Gui {
 			}
 			set {
 				image = value;
+				UpdateBacking ();
 			}
 		}
 
@@ -69,6 +70,9 @@ namespace MonoDevelop.Gui {
 		
 		public void UpdateBacking ()
 		{
+			if (TreeView == null)
+				return;
+			
 			TreeView.Model.SetValue (TreeIter, 0, text);
 			TreeView.Model.SetValue (TreeIter, 1, image);
 		}
