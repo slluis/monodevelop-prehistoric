@@ -75,7 +75,7 @@ namespace MonoDevelop.Services
 		{
 			RecentItem ri = new RecentItem (new Uri (name), Vfs.GetMimeType (name), "MonoDevelop Files");
 			if (project == null)
-				ri.Private = String.Format ("{0}", Path.GetFileName (name));
+				ri.Private = Path.GetFileName (name);
 			else
 				ri.Private = String.Format ("{0} [{1}]", Path.GetFileName (name), project);
 
