@@ -1,3 +1,8 @@
+2004-12-09  Todd Berman  <tberman@off.net>
+
+	* Gui/Pads/HelpBrowser/HelpViewer.cs: gtk# API changed again (thanks
+	mikey!)
+
 2004-12-08  Everaldo Canuto  <everaldo_canuto@yahoo.com.br>
 
 	* Internal/Project/Combine/Combine.cs: Add support to multiple runtime

@@ -57,7 +57,7 @@ namespace MonoDevelop.Gui
 				int n;
 
 				while ((n = s.Read (buffer, 0, 8192)) != 0)
-					args.Handle.Write (buffer, new UIntPtr ((uint)n));
+					args.Handle.Write (buffer, (ulong)n);
 			}
 			args.Handle.Close (HTMLStreamStatus.Ok);
 		}
