@@ -4,64 +4,69 @@ using MonoDevelop.Services;
 
 namespace MonoDevelop.Gui.Widgets
 {
-	public class Navbar : Toolbar
+	public class Navbar : VBox
 	{
-		static GLib.GType gtype;
-		Button back = new Button ();
-		Button forward = new Button ();
-		Button stop = new Button ();
-		Button reload = new Button ();
-		Button go = new Button ();
-		Gnome.Entry address = new Gnome.Entry ("address");
+		Entry address;
 
-		public static new GLib.GType GType
+		const string uiInfo = 
+            "<toolbar>" +
+            "  <toolitem name=\"back\" action=\"back\" />" +
+            "  <toolitem name=\"forward\" action=\"forward\" />" +
+            "  <toolitem name=\"stop\" action=\"stop\" />" +
+            "  <toolitem name=\"reload\" action=\"reload\" />" +
+            "  <toolitem name=\"go\" action=\"go\" />" +
+            "</toolbar>";
+
+		public Navbar () : this (Gtk.IconSize.SmallToolbar)
 		{
-			get {
-				if (gtype == GLib.GType.Invalid)
-					gtype = RegisterGType (typeof (Navbar));
-				return gtype;
-			}
 		}
 
-		public Navbar () : base (GType)
+		public Navbar (Gtk.IconSize size)
 		{
-			back.Relief = ReliefStyle.None;
-			back.Add (new Image (Stock.GoBack, IconSize.SmallToolbar));
-			back.Clicked += OnBackClicked;
+			address = new Entry ("address");
+			// FIXME: this doesnt't seem to work yet
+			// address.Completion = new EntryCompletion ();
+			address.WidthChars = 50;
+			address.Activated += OnGoUrl;
 
-			forward.Relief = ReliefStyle.None;
-			forward.Add (new Image (Stock.GoForward, IconSize.SmallToolbar));
-			forward.Clicked += OnForwardClicked;
+			ActionEntry[] actions = new ActionEntry[]
+			{
+				new ActionEntry ("back", Gtk.Stock.GoBack, null, null, GettextCatalog.GetString ("Go back"), new EventHandler (OnBackClicked)),
+				new ActionEntry ("forward", Gtk.Stock.GoForward, null, null, GettextCatalog.GetString ("Go forward"), new EventHandler (OnForwardClicked)),
+				new ActionEntry ("stop", Gtk.Stock.Stop, null, null, GettextCatalog.GetString ("Stop loading"), new EventHandler (OnStopClicked)),
+				new ActionEntry ("reload", Gtk.Stock.Refresh, null, null, GettextCatalog.GetString ("Address"), new EventHandler (OnReloadClicked)),
+				new ActionEntry ("go", Gtk.Stock.Ok, null, null, GettextCatalog.GetString ("Load address"), new EventHandler (OnGoUrl))
+			};
 
-			stop.Relief = ReliefStyle.None;
-			stop.Add (new Image (Stock.Stop, IconSize.SmallToolbar));
-			stop.Clicked += OnStopClicked;
+			ActionGroup ag = new ActionGroup ("navbarGroup");
+			ag.Add (actions);
 
-			reload.Relief = ReliefStyle.None;
-			reload.Add (new Image (Stock.Refresh, IconSize.SmallToolbar));
-			reload.Clicked += OnReloadClicked;
+			UIManager uim = new UIManager ();
+			uim.InsertActionGroup (ag, 0);
+			uim.AddWidget += OnAddWidget;
+			uim.AddUiFromString (uiInfo);
 
-			go.Relief = ReliefStyle.None;
-			go.Add (new Image (Stock.Ok, IconSize.SmallToolbar));
-			go.Clicked += OnGoUrl;
+			ToolItem item = new ToolItem ();
+			item.Add (address);
+	
+			Toolbar tb = uim.GetWidget ("/ui/toolbar") as Toolbar;
+			tb.IconSize = size;
+			tb.Add (item);
+			this.ShowAll ();
+		}
 
-			address.GtkEntry.WidthChars = 50;
-			address.GtkEntry.Activated += OnGoUrl;
-
-			this.AppendWidget (back, GettextCatalog.GetString ("Go back"), "");
-			this.AppendWidget (forward, GettextCatalog.GetString ("Go forward"), "");
-			this.AppendWidget (stop, GettextCatalog.GetString ("Stop loading"), "");
-			this.AppendWidget (reload, GettextCatalog.GetString ("Reload page"), "");
-			this.AppendWidget (address, GettextCatalog.GetString ("Address"), "");
-			this.AppendWidget (go, GettextCatalog.GetString ("Load address"), "");
+		void OnAddWidget (object sender, AddWidgetArgs a)
+		{
+			a.Widget.Show ();
+			this.Add (a.Widget);
 		}
 
 		public string Url {
 			get {
-				return address.GtkEntry.Text;
+				return address.Text;
 			}
 			set {
-				address.GtkEntry.Text = value;
+				address.Text = value;
 			}
 		}
 

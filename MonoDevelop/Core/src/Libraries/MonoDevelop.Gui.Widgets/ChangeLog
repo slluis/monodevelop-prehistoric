@@ -2,6 +2,7 @@
 
 	* FileBrowser/FileBrowser.cs: port to GtkAction
 	some other small updates
+	* Navbar/Navbar.cs: port to GtkAction
 
 2004-12-01  John Luke  <john.luke@gmail.com>
 
