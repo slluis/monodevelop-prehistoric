@@ -91,3 +91,4 @@ src/AddIns/DisplayBindings/SourceEditor/Search/SearchReplaceInFilesManager.cs
 src/AddIns/DisplayBindings/SourceEditor/Search/SearchReplaceManager.cs
 src/AddIns/BackendBindings/CSharpBinding/Gui/CodeGenerationPanel.cs
 src/AddIns/BackendBindings/CSharpBinding/Gui/OutputOptionsPanel.cs
+src/AddIns/prj2make-sharp-lib/prj2make-sharp-lib.addin.xml
