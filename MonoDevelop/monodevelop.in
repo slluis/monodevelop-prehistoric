@@ -36,9 +36,9 @@ else
 fi
 
 if [ -n $PKG_CONFIG_PATH]; then
-	export PKG_CONFIG_PATH=$PKG_CONFIG_PATH:@gtksharp_prefix@
+	export PKG_CONFIG_PATH=$PKG_CONFIG_PATH:@gtksharp_prefix@/lib/pkgconfig/
 else
-	export PKG_CONFIG_PATH=@gtksharp_prefix@
+	export PKG_CONFIG_PATH=@gtksharp_prefix@/lib/pkgconfig/
 fi
 
 export MOZILLA_FIVE_HOME=$MOZILLA_HOME
