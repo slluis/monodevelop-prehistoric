@@ -33,7 +33,7 @@ generated-stamp: $(API) $(build_customs)
 	gapi-codegen --generate $(API) --include $(INCLUDE_APIS) --outdir=generated --customdir=$(srcdir) --assembly-name=gdl-sharp && touch generated-stamp
 
 $(ASSEMBLY): $(build_sources) generated-stamp
-	mkdir ../../build/bin
+	mkdir -p ../../build/bin
 	$(MCS) --unsafe --target library \
 	-r glib-sharp -r gtk-sharp -r gdk-sharp \
 	$(build_sources) generated/*.cs /out:$(ASSEMBLY) \

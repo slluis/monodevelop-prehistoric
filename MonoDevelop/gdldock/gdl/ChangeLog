@@ -1,3 +1,7 @@
+2004-03-28  Todd Berman  <tberman@sevenl.net>
+
+	* Makefile.am: this should be more forgiving
+
 2004-03-28  John Luke  <jluke@cfl.rr.com>
 
 	* Makefile.am: cleanup, and make it run only once
