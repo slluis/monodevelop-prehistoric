@@ -23,6 +23,11 @@ namespace MonoDevelop.Gui
 			get;
 			set;
 		}
+
+		bool ShowNotification {
+			get;
+			set;
+		}
 		
 		/// <summary>
 		/// The current view content which is shown inside this window.

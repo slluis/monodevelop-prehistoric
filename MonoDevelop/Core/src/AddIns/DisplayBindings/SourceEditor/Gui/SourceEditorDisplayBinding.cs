@@ -306,17 +306,20 @@ namespace MonoDevelop.SourceEditor.Gui
 			warnOverwrite = true;
 			editorBar.PackStart (reloadBar);
 			reloadBar.ShowAll ();
+			WorkbenchWindow.ShowNotification = true;
 		}
 		
 		void ClickedReload (object sender, EventArgs args)
 		{
 			editorBar.Remove (reloadBar);
 			Load (ContentName);
+			WorkbenchWindow.ShowNotification = false;
 		}
 		
 		void ClickedIgnore (object sender, EventArgs args)
 		{
 			editorBar.Remove (reloadBar);
+			WorkbenchWindow.ShowNotification = false;
 		}
 		
 		public void InitializeFormatter()

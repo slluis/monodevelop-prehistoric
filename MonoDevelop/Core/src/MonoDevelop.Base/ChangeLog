@@ -1,3 +1,11 @@
+2005-01-25  Todd Berman  <tberman@off.net>
+
+	* Gui/Workbench/Layouts/SdiWorkspaceWindow.cs: Add ShowNotification
+	and use it to make the tablabel blue.
+	* Gui/Components/SdMenuCheckBox.cs: Use markup instead of text, this
+	will allow the view menu item builder to show things properly.
+	* Gui/IWorkbenchWindow.cs: Add ShowNotification get; set;
+
 2005-01-25  Lluis Sanchez Gual  <lluis@novell.com>
 
 	* Internal/Project/Project/Project.cs: Honor ExternalConsole option

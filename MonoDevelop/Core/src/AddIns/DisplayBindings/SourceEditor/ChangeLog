@@ -1,3 +1,9 @@
+2005-01-25  Todd Berman  <tberman@off.net>
+
+	* Gui/SourceEditorDisplayBinding.cs: Use new
+	IWorkbenchWindow.ShowNotification for when a file has been modified
+	outside MD.
+
 2005-01-25  Lluis Sanchez Gual  <lluis@novell.com>
 
 	* Gui/Pads/CompilerMessageView.cs: 

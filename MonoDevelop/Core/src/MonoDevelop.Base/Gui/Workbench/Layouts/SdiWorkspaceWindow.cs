@@ -35,6 +35,8 @@ namespace MonoDevelop.Gui
 		
 		string myUntitledTitle     = null;
 		string _titleHolder = "";
+
+		bool show_notification = false;
 		
 		public Widget TabPage {
 			get {
@@ -42,6 +44,18 @@ namespace MonoDevelop.Gui
 			}
 			set {
 				tabPage = value;
+			}
+		}
+
+		public bool ShowNotification {
+			get {
+				return show_notification;
+			}
+			set {
+				if (show_notification != value) {
+					show_notification = value;
+					OnTitleChanged (null);
+				}
 			}
 		}
 		
@@ -58,10 +72,6 @@ namespace MonoDevelop.Gui
 					fileName = content.UntitledName;
 				}
 				
-//				if (fileName != null) {
-//					IconService iconService = (IconService)ServiceManager.Services.GetService(typeof(IconService));
-//					tabPage.ImageIndex = iconService.GetImageIndexForFile(fileName);
-//				}
 				OnTitleChanged(null);
 			}
 		}
@@ -284,7 +294,14 @@ namespace MonoDevelop.Gui
 		
 		protected virtual void OnTitleChanged(EventArgs e)
 		{
-			tabLabel.Label.Text = Title;
+			if (show_notification) {
+				tabLabel.Label.Markup = "<span foreground=\"blue\">" + Title + "</span>";
+				tabLabel.Label.UseMarkup = true;
+			} else {
+				tabLabel.Label.Text = Title;
+				tabLabel.Label.UseMarkup = false;
+			}
+			
 			try {
 				if (content.ContentName.IndexOfAny (new char[] { '*', '+'}) == -1) {
 					tabLabel.Icon.Pixbuf = FileIconLoader.GetPixbufForFile (content.ContentName, 16, 16);
