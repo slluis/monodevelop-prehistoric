@@ -12,7 +12,8 @@ DebuggerCommands.cs \
 DebuggingService.cs \
 Gui/DebuggerLocalsPad.cs \
 Gui/DebuggerVariablePad.cs \
-Gui/DebuggerStackTracePad.cs
+Gui/DebuggerStackTracePad.cs \
+Gui/DebuggerThreadPad.cs
 
 
 EXTRA_DIST = $(FILES) $(ADDIN)

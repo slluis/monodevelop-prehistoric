@@ -1,6 +1,11 @@
 2004-10-22  Chris Toshok  <toshok@ximian.com>
 
 	* Gui/Workbench/Layouts/SdiWorkspaceLayout.cs: add
+	DebuggerThreadPad.
+
+2004-10-22  Chris Toshok  <toshok@ximian.com>
+
+	* Gui/Workbench/Layouts/SdiWorkspaceLayout.cs: add
 	MonoDevelop.SourceEditor.Gui.DebuggerStackTracePad to the
 	debugPads.
 
