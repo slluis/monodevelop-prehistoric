@@ -14,168 +14,266 @@ using ICSharpCode.Core.Properties;
 using ICSharpCode.Core.Services;
 using ICSharpCode.SharpDevelop.Internal.Project;
 
+using Gtk;
+using MonoDevelop.Gui.Widgets;
+
 namespace ICSharpCode.SharpDevelop.Gui.Dialogs.OptionPanels
-{/*
+{
 	public class CombineStartupPanel : AbstractOptionPanel
 	{
-		static ResourceService resourceService = (ResourceService)ServiceManager.Services.GetService(typeof(IResourceService));
-		static PropertyService propertyService = (PropertyService)ServiceManager.Services.GetService(typeof(PropertyService));
+		// FIXME 
+		// - internationalize 
+		// propertyService.DataDirectory + @"\resources\panels\CombineStartupPanel.xfrm")
+		CombineStartupPanelWidget widget;
 		
-		Combine combine;
-		
-		public override bool ReceiveDialogMessage(DialogMessage message)
+		class CombineStartupPanelWidget : GladeWidgetExtract 
 		{
-			if (message == DialogMessage.OK) {
-				// write back singlestartup project
-				combine.SingleStartProjectName = ((ComboBox)ControlDictionary["singleComboBox"]).Text;
-				combine.SingleStartupProject   = ((RadioButton)ControlDictionary["singleRadioButton"]).Checked;
+			// Gtk Controls
+ 			[Glade.Widget] RadioButton singleRadioButton;
+ 			[Glade.Widget] RadioButton multipleRadioButton;
+ 			[Glade.Widget] OptionMenu singleOptionMenu;
+ 			[Glade.Widget] OptionMenu actionOptionMenu;
+   			[Glade.Widget] Button moveUpButton;
+ 			[Glade.Widget] Button moveDownButton;
+ 			[Glade.Widget] VBox multipleBox;			
+ 			[Glade.Widget] Gtk.TreeView entryTreeView;
+ 			public ListStore store;
+
+			// Services
+			static ResourceService resourceService = (ResourceService)ServiceManager.Services.GetService(
+										typeof(IResourceService));
+			static PropertyService propertyService = (PropertyService)ServiceManager.Services.GetService(
+										typeof(PropertyService));
+			Combine combine;
+
+			public  CombineStartupPanelWidget(IProperties CustomizationObject) : 
+				base ("Base.glade", "CombineStartupPanel")
+			{
+				this.combine = (Combine)((IProperties)CustomizationObject).GetProperty("Combine");
+
+				// Setting up RadioButtons
+				singleRadioButton.Active = combine.SingleStartupProject;
+				singleRadioButton.Clicked += new EventHandler(OnSingleRadioButtonClicked);
+				multipleRadioButton.Active = !combine.SingleStartupProject;
+				singleRadioButton.Clicked += new EventHandler(OptionsChanged);
+
+				// Setting up OptionMenus
+				Menu singleMenu = new Menu ();
+				for (int i =0;  i < combine.Entries.Count; i++)  {
+					CombineEntry entry = (CombineEntry) combine.Entries[i];
+					singleMenu.Append( new MenuItem(entry.Name));
+						
+					if (combine.SingleStartProjectName == entry.Name){
+						singleMenu.SetActive ( (uint) i);
+					}
+				}
+				singleOptionMenu.Menu = singleMenu;
+
+				Menu actionMenu = new Menu ();
+				actionMenu.Append( new MenuItem (resourceService.GetString(
+								"Dialog.Options.CombineOptions.Startup.Action.None")));
+				actionMenu.Append( new MenuItem (resourceService.GetString(
+								"Dialog.Options.CombineOptions.Startup.Action.Execute")));
+				actionOptionMenu.Menu = actionMenu ;
+				actionOptionMenu.Changed += new EventHandler(OptionsChanged);
+
+				// Populating entryTreeView					
+				CombineExecuteDefinition edef;
+ 				store = new ListStore (typeof(string), typeof(string), typeof(CombineExecuteDefinition) );
+				entryTreeView.Model = store;
+				
+				TreeIter iter = new TreeIter ();
+				entryTreeView.AppendColumn ("Entry", new CellRendererText (), "text", 0);
+				entryTreeView.AppendColumn ("Action", new CellRendererText (), "text", 1);
+				
+				// sanity check to ensure we had a proper execture definitions save last time rounf
+				if(combine.CombineExecuteDefinitions.Count == combine.Entries.Count) {
+					// add the previously saved execute definitions to the treeview list
+					for (int n = 0; n < combine.CombineExecuteDefinitions.Count; n++) {
+						edef = (CombineExecuteDefinition)combine.CombineExecuteDefinitions[n];
+						string action = edef.Type == EntryExecuteType.None ? resourceService.GetString(
+								"Dialog.Options.CombineOptions.Startup.Action.None") : resourceService.GetString(
+								"Dialog.Options.CombineOptions.Startup.Action.Execute");
+						iter = store.AppendValues (edef.Entry.Name, action, edef);
+					}
+				} else {
+					// add an empty set of execute definitions
+					for (int n = 0; n < combine.Entries.Count; n++) {
+						edef = new CombineExecuteDefinition ((CombineEntry) combine.Entries[n],EntryExecuteType.None);
+						string action = edef.Type == EntryExecuteType.None ? resourceService.GetString(
+								"Dialog.Options.CombineOptions.Startup.Action.None") : resourceService.GetString(
+								"Dialog.Options.CombineOptions.Startup.Action.Execute");
+						iter = store.AppendValues (edef.Entry.Name, action, edef);
+					}
+					
+					// tell the user we encountered and worked around an issue 
+					IMessageService messageService =(IMessageService)ServiceManager.Services.GetService(typeof(IMessageService));
+					// FIXME: il8n this
+					messageService.ShowError("The Combine Execute Definitions for this Combine were invalid. A new empty set of Execute Definitions has been created.");
+				}
+					
+ 				entryTreeView.Selection.Changed += new EventHandler(SelectedEntryChanged);
+				entryTreeView.Selection.SelectPath(new TreePath ("0"));
+				
+				// Setting up Buttons
+				moveUpButton.Clicked += new EventHandler(OnMoveUpButtonClicked);
+				moveDownButton.Clicked += new EventHandler(OnMoveDownButtonClicked);
+
+				OnSingleRadioButtonClicked(null, null);				
+			}
+						
+			protected void OnMoveUpButtonClicked(object sender, EventArgs e)
+			{
+				if(entryTreeView.Selection.CountSelectedRows() == 1)
+				{
+					TreeIter selectedItem;
+					TreeModel ls;				
+					((ListStore)entryTreeView.Model).GetIter(
+						out selectedItem, (TreePath) entryTreeView.Selection.GetSelectedRows(out ls)[0]);
+					// we know we have a selected item so get it's index
+					// use that to get the path of the item before it, and swap the two
+					int index = GetSelectedIndex(entryTreeView);
+					// only swap if at the top
+					if(index > 0)
+					{
+						TreeIter prev; 
+						if(entryTreeView.Model.GetIterFromString(out prev, (index - 1).ToString()))
+						{
+							((ListStore)ls).Swap(selectedItem, prev);
+						}
+					}
+				}
+			}
+			
+
+			protected void OnMoveDownButtonClicked(object sender, EventArgs e)
+			{
+				if(entryTreeView.Selection.CountSelectedRows() == 1)
+				{
+					TreeIter selectedItem;
+					TreeModel ls;				
+					((ListStore)entryTreeView.Model).GetIter(
+						out selectedItem, (TreePath) entryTreeView.Selection.GetSelectedRows(out ls)[0]);
+					// swap it with the next one
+					TreeIter toSwap = selectedItem;
+					if(ls.IterNext(out toSwap))
+					{
+						((ListStore)ls).Swap(selectedItem, toSwap);
+					}
+				}
+			}
+			
+			void OnSingleRadioButtonClicked(object sender, EventArgs e)
+			{
+				multipleBox.Sensitive = multipleRadioButton.Active;
+				singleOptionMenu.Sensitive = singleRadioButton.Active;
+			}
+			
+  	       		void OptionsChanged(object sender, EventArgs e)
+			{
+				if(entryTreeView.Selection.CountSelectedRows() == 0){
+					return;
+				}
+				TreeIter selectedItem;
+				TreeModel ls;				
+				((ListStore)entryTreeView.Model).GetIter(
+					out selectedItem, (TreePath) entryTreeView.Selection.GetSelectedRows(out ls)[0]);
+				store.SetValue(selectedItem, 1, actionOptionMenu.History);
+				
+				int index = GetSelectedIndex(entryTreeView);
+				CombineExecuteDefinition edef = (CombineExecuteDefinition) store.GetValue(selectedItem, 2);
+				switch (actionOptionMenu.History) {
+				case 0:
+					edef.Type = EntryExecuteType.None;
+					break;
+				case 1:
+					edef.Type = EntryExecuteType.Execute;
+					break;
+				default:
+					break;
+				}
+				store.SetValue(selectedItem, 2, edef);
+				string action = edef.Type == EntryExecuteType.None ? resourceService.GetString(
+					"Dialog.Options.CombineOptions.Startup.Action.None") : resourceService.GetString(
+						"Dialog.Options.CombineOptions.Startup.Action.Execute");
+				store.SetValue(selectedItem, 1, action);
+
+			}
+			
+			void SelectedEntryChanged(object sender, EventArgs e)
+			{
+				if(entryTreeView.Selection.CountSelectedRows() == 0){
+					return;
+				}
+				
+				TreeIter selectedItem;
+				TreeModel ls;				
+				
+				((ListStore)entryTreeView.Model).GetIter(
+					out selectedItem, (TreePath) entryTreeView.Selection.GetSelectedRows(out ls)[0]);
+				
+				string txt = (string) store.GetValue(selectedItem,1);
+				
+				if (txt == resourceService.GetString("Dialog.Options.CombineOptions.Startup.Action.None")) {
+				actionOptionMenu.SetHistory (0);
+				} else {
+					actionOptionMenu.SetHistory (1);
+				}
+			}
+			
+			// added this event to get the last select row index from gtk TreeView
+			int GetSelectedIndex(Gtk.TreeView tv)
+			{
+				if(entryTreeView.Selection.CountSelectedRows() == 1)
+				{
+					TreeIter selectedIter;
+					TreeModel lv;				
+					((ListStore)entryTreeView.Model).GetIter(
+						out selectedIter, (TreePath) entryTreeView.Selection.GetSelectedRows(out lv)[0]);
+					
+					// return index of first level node (since only 1 level list model)
+					return lv.GetPath(selectedIter).Indices[0];
+				}
+				else
+				{
+					return -1;
+				}
+			}
+
+			public bool Store()
+			{
+				//Menu singleMenu = (Menu) singleOptionMenu.Menu;
+				//MenuItem singleMenuItem = (MenuItem) singleMenu.Active;
+				//combine.SingleStartProjectName = singleMenuItem.Label;
+				combine.SingleStartupProject   = singleRadioButton.Active;
 				
 				// write back new combine execute definitions
 				combine.CombineExecuteDefinitions.Clear();
-				foreach (ListViewItem item in ((ListView)ControlDictionary["entryListView"]).Items) {
-					EntryExecuteType type = EntryExecuteType.None;
-					if (item.SubItems[1].Text == resourceService.GetString("Dialog.Options.CombineOptions.Startup.Action.Execute")) {
-						type = EntryExecuteType.Execute;
-					}
-					combine.CombineExecuteDefinitions.Add(new CombineExecuteDefinition(
-						combine.GetEntry(item.Text),
-						type
-					));
+				TreeIter first;
+				store.GetIterFirst(out first);
+				TreeIter current = first;
+				for (int i = 0; i < store.IterNChildren() ; ++i) {
+					
+					CombineExecuteDefinition edef = (CombineExecuteDefinition) store.GetValue(current, 2);					
+					combine.CombineExecuteDefinitions.Add(edef);
+					
+					store.IterNext(out current);	
 				}
-			}
-			return true;
+				return true;
+			}		
 		}
-		
-		void SetValues(object sender, EventArgs e)
+
+		public override void LoadPanelContents()
 		{
-			this.combine = (Combine)((IProperties)CustomizationObject).GetProperty("Combine");
-			
-			((RadioButton)ControlDictionary["singleRadioButton"]).Checked =  combine.SingleStartupProject;
-			((RadioButton)ControlDictionary["multipleRadioButton"]).Checked = !combine.SingleStartupProject;
-			
-			foreach (CombineEntry entry in combine.Entries)  {
-				((ComboBox)ControlDictionary["singleComboBox"]).Items.Add(entry.Name);
-			}
-			
-			((ComboBox)ControlDictionary["singleComboBox"]).SelectedIndex = combine.GetEntryNumber(combine.SingleStartProjectName);
-			
-			((RadioButton)ControlDictionary["singleRadioButton"]).CheckedChanged += new EventHandler(CheckedChanged);
-			
-			((ListView)ControlDictionary["entryListView"]).SelectedIndexChanged += new EventHandler(SelectedEntryChanged);
-			((ComboBox)ControlDictionary["actionComboBox"]).SelectedIndexChanged += new EventHandler(OptionsChanged);
-
-			ListViewItem item;
-			CombineExecuteDefinition edef;
-			for (int n = 0; n < combine.CombineExecuteDefinitions.Count; n++) {
-				edef = (CombineExecuteDefinition)combine.CombineExecuteDefinitions[n];
-				item = new ListViewItem(new string[] {
-					edef.Entry.Name,
-					edef.Type == EntryExecuteType.None ? resourceService.GetString("Dialog.Options.CombineOptions.Startup.Action.None") : resourceService.GetString("Dialog.Options.CombineOptions.Startup.Action.Execute")
-				});
-				item.Tag = edef;
-				((ListView)ControlDictionary["entryListView"]).Items.Add(item);
-			}
-			((Button)ControlDictionary["moveUpButton"]).Click += new EventHandler(OnClickMoveUpButton);
-			((Button)ControlDictionary["moveDownButton"]).Click += new EventHandler(OnClickMoveDownButtn);
-			CheckedChanged(null, null);
+			Add (widget = new  CombineStartupPanelWidget ((IProperties) CustomizationObject));
 		}
 
-		protected void OnClickMoveUpButton(object sender, EventArgs e)
+		public override bool StorePanelContents()
 		{
-			ListView.SelectedIndexCollection  indexs = ((ListView)ControlDictionary["entryListView"]).SelectedIndices;
-			if (indexs.Count == 0) {
-				return;
-			}
-			int index = indexs[0];
-			if (index == 0) {
-				return;
-			}
-
-			((ListView)ControlDictionary["entryListView"]).BeginUpdate();
-			ListViewItem item = ((ListView)ControlDictionary["entryListView"]).Items[index - 1];
-			((ListView)ControlDictionary["entryListView"]).Items.Remove(item);
-			((ListView)ControlDictionary["entryListView"]).Items.Insert(index, item);
-			((ListView)ControlDictionary["entryListView"]).EndUpdate();
-
-			combine.CombineExecuteDefinitions.Remove(item.Tag);
-			combine.CombineExecuteDefinitions.Insert(index, item.Tag);
-		}
-
-		protected void OnClickMoveDownButtn(object sender, EventArgs e)
-		{
-			ListView.SelectedIndexCollection  indexs = ((ListView)ControlDictionary["entryListView"]).SelectedIndices;
-			if (indexs.Count == 0) {
-				return;
-			}
-			int index = indexs[0];
-			if (index >= (((ListView)ControlDictionary["entryListView"]).Items.Count - 1)) {
-				return;
-			}
-			((ListView)ControlDictionary["entryListView"]).BeginUpdate();
-			ListViewItem item = ((ListView)ControlDictionary["entryListView"]).Items[index + 1];
-			((ListView)ControlDictionary["entryListView"]).Items.Remove(item);
-			((ListView)ControlDictionary["entryListView"]).Items.Insert(index, item);
-			((ListView)ControlDictionary["entryListView"]).EndUpdate();
-
-			combine.CombineExecuteDefinitions.Remove(item.Tag);
-			combine.CombineExecuteDefinitions.Insert(index, item.Tag);
-		}
-		
-		public CombineStartupPanel() : base(propertyService.DataDirectory + @"\resources\panels\CombineStartupPanel.xfrm")
-		{
-			CustomizationObjectChanged += new EventHandler(SetValues);
-		}
-		
-		void CheckedChanged(object sender, EventArgs e)
-		{
-			((Button)ControlDictionary["moveUpButton"]).Enabled = ((RadioButton)ControlDictionary["multipleRadioButton"]).Checked;
-			((Button)ControlDictionary["moveDownButton"]).Enabled = ((RadioButton)ControlDictionary["multipleRadioButton"]).Checked;
-			((ListView)ControlDictionary["entryListView"]).Enabled = ((RadioButton)ControlDictionary["multipleRadioButton"]).Checked;
-			((ComboBox)ControlDictionary["actionComboBox"]).Enabled = ((RadioButton)ControlDictionary["multipleRadioButton"]).Checked;
-
-			((ComboBox)ControlDictionary["singleComboBox"]).Enabled = ((RadioButton)ControlDictionary["singleRadioButton"]).Checked;
-		}
-		
-		void OptionsChanged(object sender, EventArgs e)
-		{
-			if (((ListView)ControlDictionary["entryListView"]).SelectedItems == null || 
-				((ListView)ControlDictionary["entryListView"]).SelectedItems.Count == 0) 
-				return;
-			ListViewItem item = ((ListView)ControlDictionary["entryListView"]).SelectedItems[0]; 
-			item.SubItems[1].Text = ((ComboBox)ControlDictionary["actionComboBox"]).SelectedItem.ToString();
-
-			int index = ((ListView)ControlDictionary["entryListView"]).SelectedIndices[0];
-			CombineExecuteDefinition edef = (CombineExecuteDefinition)combine.CombineExecuteDefinitions[index];
-
-			switch (((ComboBox)ControlDictionary["actionComboBox"]).SelectedIndex) {
-			case 0:
-				edef.Type = EntryExecuteType.None;
-				break;
-			case 1:
-				edef.Type = EntryExecuteType.Execute;
-				break;
-			default:
-				break;
-			}
-		}
-
-		void SelectedEntryChanged(object sender, EventArgs e)
-		{
-			if (((ListView)ControlDictionary["entryListView"]).SelectedItems == null ||
-				((ListView)ControlDictionary["entryListView"]).SelectedItems.Count == 0)
-				return;
-			ListViewItem item = ((ListView)ControlDictionary["entryListView"]).SelectedItems[0]; 
-			string       txt = item.SubItems[1].Text;
-			((ComboBox)ControlDictionary["actionComboBox"]).Items.Clear();
-			((ComboBox)ControlDictionary["actionComboBox"]).Items.Add(resourceService.GetString("Dialog.Options.CombineOptions.Startup.Action.None"));
-			((ComboBox)ControlDictionary["actionComboBox"]).Items.Add(resourceService.GetString("Dialog.Options.CombineOptions.Startup.Action.Execute"));
-			
-			if (txt == resourceService.GetString("Dialog.Options.CombineOptions.Startup.Action.None")) {
-				((ComboBox)ControlDictionary["actionComboBox"]).SelectedIndex = 0;
-			} else {
-				((ComboBox)ControlDictionary["actionComboBox"]).SelectedIndex = 1;
-			}
-		}
-	}*/
+		        bool success = widget.Store ();
+ 			return success;			
+	       	}	
+				
+	}
 }
 
