@@ -58,7 +58,7 @@ $(ASSEMBLY): $(FILES) $(srcdir)/Nemerle.glade
 assemblydir = $(libdir)/monodevelop/AddIns/BackendBindings/
 assembly_DATA = $(ASSEMBLY) $(ADDIN)
 
-templatedir = $(assemblydir)/templates.
+templatedir = $(assemblydir)/templates
 template_DATA = $(TEMPLATES)
 
 CLEANFILES = $(ASSEMBLY) $(ASSEMBLY).mdb
