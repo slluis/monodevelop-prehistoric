@@ -16,15 +16,17 @@ namespace AddInManager
 			this.BorderWidth = 12;
 			this.Title = GettextCatalog.GetString ("AddInManager");
 			this.TransientFor = (Window) WorkbenchSingleton.Workbench;
-			this.SetDefaultSize (300, 250);
+			this.SetDefaultSize (400, 350);
 
 			ScrolledWindow sw = new ScrolledWindow ();
+			sw.ShadowType = ShadowType.In;
 			TreeView tv = new TreeView ();
+			tv.RowActivated += new RowActivatedHandler (OnRowActivated);
 
 			CellRendererToggle toggle = new CellRendererToggle ();
 			toggle.Toggled += OnCellToggled;
 			tv.AppendColumn (GettextCatalog.GetString ("Enabled"), toggle, "active", 0);
-			tv.AppendColumn (GettextCatalog.GetString ("Title"), new CellRendererText (), "text", 1);
+			tv.AppendColumn (GettextCatalog.GetString ("AddIn Name"), new CellRendererText (), "text", 1);
 			tv.AppendColumn (GettextCatalog.GetString ("Version"), new CellRendererText (), "text", 2);
 			sw.Add (tv);
 
@@ -42,22 +44,27 @@ namespace AddInManager
 			AddInCollection addins = AddInTreeSingleton.AddInTree.AddIns;
 
 			foreach (AddIn a in addins)
-			{
 				store.AppendValues (true, a.Name, a.Version);
-			}
 		}
 
-		void OnCellToggled (object o, ToggledArgs args)
+		void OnCellToggled (object sender, ToggledArgs a)
 		{
-			CellRendererToggle toggle = (CellRendererToggle) o;
-                                                                                
-                        TreeIter iter;
-                        if (store.GetIterFromString(out iter, args.Path))
-                        {
-                                bool val = (bool) store.GetValue(iter, 0);
-                                store.SetValue (iter, 0, !val);
-                        }
+			TreeIter iter;
+			if (store.GetIterFromString (out iter, a.Path))
+				Toggle (iter);
+		}
 
+		void OnRowActivated (object sender, RowActivatedArgs a)
+		{
+			TreeIter iter;
+			if (store.GetIter (out iter, a.Path))
+				Toggle (iter);
+		}
+
+		void Toggle (TreeIter iter)
+		{
+			bool val = (bool) store.GetValue (iter, 0);
+			store.SetValue (iter, 0, !val);
 		}
 	}
 }

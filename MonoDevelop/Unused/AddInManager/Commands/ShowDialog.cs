@@ -8,7 +8,6 @@ namespace MonoDevelop.Commands
 	{
 		public override void Run ()
 		{
-			Console.WriteLine ("asdfsdfgfh");
 			using (AddInManagerDialog d = new AddInManagerDialog ()) {
 				d.Run ();
 				d.Hide ();
@@ -16,3 +15,4 @@ namespace MonoDevelop.Commands
 		}
 	}
 }
+
