@@ -35,6 +35,7 @@ namespace MonoDevelop.Internal.Project
 		string startProject  = null;
 		bool   singleStartup = true;
 		string path          = null;
+		string outputdir     = null;
 		
 		ArrayList entries       = new ArrayList();
 		
@@ -95,6 +96,16 @@ namespace MonoDevelop.Internal.Project
 			set {
 				singleStartup = value;
 				OnStartupPropertyChanged(null);
+			}
+		}
+
+		public string OutputDirectory 
+		{
+			get {
+				return outputdir;
+			}
+			set {
+				outputdir = value;
 			}
 		}
 		
@@ -221,6 +232,19 @@ namespace MonoDevelop.Internal.Project
 					ActiveConfiguration = cconf;
 				}
 			}
+
+			string mdCombineAddition = Path.ChangeExtension (filename, "mdsx");
+			if (File.Exists (mdCombineAddition)) {
+				doc.Load (mdCombineAddition);
+				root = doc.DocumentElement;
+				if (root["RelativeOutputPath"] != null && root["RelativeOutputPath"].InnerText != null) {
+					outputdir = fileUtilityService.RelativeToAbsolutePath(path, root["RelativeOutputPath"].InnerText);
+				} else {
+					outputdir = Path.Combine (path, Path.Combine ("build", "bin"));
+				}
+			} else {
+				outputdir = Path.Combine (path, Path.Combine ("build", "bin"));
+			}
 		}
 		
 		public void SaveCombine(string filename)
@@ -300,7 +324,19 @@ namespace MonoDevelop.Internal.Project
 			fileUtilityService.ObservedSave(new NamedFileOperationDelegate(doc.Save),
 			                                filename,
 			                                GettextCatalog.GetString ("Can't save solution\nPlease check your file and directory permissions."),
-							FileErrorPolicy.ProvideAlternative);
+											FileErrorPolicy.ProvideAlternative);
+
+			doc = new XmlDocument ();
+			doc.LoadXml ("<MonoDevelopSolution fileversion=\"1.0\"/>");
+			XmlElement outputElement = doc.CreateElement ("RelativeOutputPath");
+			outputElement.InnerText = fileUtilityService.AbsoluteToRelativePath(path, outputdir);
+			
+			doc.DocumentElement.AppendChild (outputElement);
+			fileUtilityService.ObservedSave (new NamedFileOperationDelegate (doc.Save),
+											 Path.ChangeExtension (filename, "mdsx"),
+											 GettextCatalog.GetString ("Can't save solution\nPlease check your file and directory permissions."),
+											 FileErrorPolicy.ProvideAlternative);
+			
 		}
 		
 		public void SaveCombineAs()
