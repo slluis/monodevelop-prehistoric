@@ -30,19 +30,67 @@ using ICSharpCode.SharpDevelop.Gui;
 using ICSharpCode.SharpDevelop.Gui.HtmlControl;
 using ICSharpCode.Core.Services;
 
+using Gtk;
+using GtkSharp;
+
 namespace ICSharpCode.SharpDevelop.DefaultEditor.Commands
 {
+	public class ColorDialog : ColorSelectionDialog
+	{
+		public ColorDialog () : base ("DON'T use this dialog it DOESN'T work correctly")
+		{
+			this.ColorSelection.HasPalette = true;
+			this.ColorSelection.HasOpacityControl = false;		
+		}
+		
+		public string ColorStr ()
+		{
+			Gdk.Color color = this.ColorSelection.CurrentColor;
+			StringBuilder s = new StringBuilder ();
+			ushort[] vals = { color.red, color.green, color.blue };
+			// debug line
+			// Console.WriteLine("r {0}, b {1}, g{2}", color.red, color.green, color.blue );
+			char[] hexchars = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'};
+			s.Append ("#FF");
+			foreach (ushort val in vals) {
+				/* Convert to a range of 0-255, then lookup the
+				 * digit for each half-byte */
+				byte rounded = (byte) (val >> 8);
+				s.Append (hexchars[(rounded & 0xf0) >> 4]);
+				s.Append (hexchars[rounded & 0x0f]);
+			}
+			return s.ToString ();
+		}
+	}
+
 	public class ShowColorDialog : AbstractMenuCommand
 	{
 		public override void Run()
 		{
+
 			IWorkbenchWindow window = WorkbenchSingleton.Workbench.ActiveWorkbenchWindow;
-			
 			if (window == null || !(window.ViewContent is ITextEditorControlProvider)) {
 				return;
 			}
 			TextEditorControl textarea = ((ITextEditorControlProvider)window.ViewContent).TextEditorControl;
-			
+			//FIXME:  
+			// - The return sting value is not the same choosen in the Dialog
+                        // - Return color name (not color value) if it IsKnownColor but it's still not implemented for System.Drawing.Color
+			ColorDialog dialog  = new ColorDialog ();
+			if ( dialog.Run () == (int) ResponseType.Ok) {
+				string ColorStr = dialog.ColorStr();
+				//string ColorStr = dialog.ColorSelection.CurrentColor.ToString();
+				textarea.Document.Insert(textarea.ActiveTextAreaControl.Caret.Offset, ColorStr);
+				int lineNumber = textarea.Document.GetLineNumberForOffset(textarea.ActiveTextAreaControl.Caret.Offset);
+				textarea.ActiveTextAreaControl.Caret.Column += ColorStr.Length;
+				textarea.Document.RequestUpdate(new TextAreaUpdate(TextAreaUpdateType.SingleLine, new Point(0, lineNumber)));
+				textarea.Document.CommitUpdate();
+				
+
+			};
+			dialog.Hide();
+
+
 			/*using (ColorDialog cd = new ColorDialog()) {
 				if (cd.ShowDialog() == DialogResult.OK) {
 					string colorstr = "#" + cd.Color.ToArgb().ToString("X");
@@ -193,3 +241,4 @@ namespace ICSharpCode.SharpDevelop.DefaultEditor.Commands
 	}
 
 }
+
