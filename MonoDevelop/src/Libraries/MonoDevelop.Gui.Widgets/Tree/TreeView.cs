@@ -38,7 +38,7 @@ namespace MonoDevelop.Gui.Widgets {
 			Gtk.CellRendererPixbuf pix_render = new Gtk.CellRendererPixbuf ();
 			complete_column.PackStart (pix_render, false);
 			complete_column.AddAttribute (pix_render, "stock_id", 1);
-			pix_render.StockSize = Gtk.IconSize.Button;
+			pix_render.StockSize = Gtk.IconSize.Menu;
 			// Sadly, gtk+ does not have support for stock being here :-(
 			complete_column.AddAttribute (pix_render, "pixbuf-expander-open", 3);
 			complete_column.AddAttribute (pix_render, "pixbuf-expander-closed", 4);
@@ -264,7 +264,7 @@ namespace MonoDevelop.Gui.Widgets {
 		
 		internal Gdk.Pixbuf RenderIcon (string stock_id)
 		{
-			return RenderIcon (stock_id, Gtk.IconSize.Button, "");
+			return RenderIcon (stock_id, Gtk.IconSize.Menu, "");
 		}
 	}
 	

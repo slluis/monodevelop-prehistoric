@@ -65,6 +65,9 @@ namespace ICSharpCode.SharpDevelop.Services
 		
 		public void OpenFile(string fileName)
 		{
+			if (fileName == null)
+				return;
+
 			if (!fileName.StartsWith ("http://"))
 				fileName = System.IO.Path.GetFullPath (fileName);
 			
