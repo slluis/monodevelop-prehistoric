@@ -13,17 +13,42 @@ namespace MonoDevelop.Gui.Widgets
 		Table internalTable;
 
 		ArrayList PropertyGridItems;
+
+		bool visible = true;
 		
 		public PropertyGridGroup (string header) : base (2, 2, false)
 		{
 			PropertyGridItems = new ArrayList ();
 			this.expandButton = new Button (".");
-			Attach (this.expandButton, 0, 1, 0, 1, Gtk.AttachOptions.Shrink, Gtk.AttachOptions.Shrink, 0, 0);
+			expandButton.Clicked += new EventHandler (OnExpandClicked);
 			this.header = new ELabel (header);
-			Attach (this.header, 1, 2, 0, 1, Gtk.AttachOptions.Fill, Gtk.AttachOptions.Shrink, 0, 0);
-
 			internalTable = new Gtk.Table (1, 2, true);
-			Attach (internalTable, 1, 2, 1, 2, Gtk.AttachOptions.Expand, Gtk.AttachOptions.Shrink, 0, 0);
+			Setup ();
+		}
+
+		void Setup ()
+		{
+			foreach (Gtk.Widget child in Children) {
+				Remove (child);
+			}
+			Attach (this.expandButton, 0, 1, 0, 1, Gtk.AttachOptions.Shrink, Gtk.AttachOptions.Shrink, 0, 0);
+			if (visible) {
+				Attach (this.header, 1, 2, 0, 1, Gtk.AttachOptions.Fill, Gtk.AttachOptions.Shrink, 0, 0);
+				Attach (internalTable, 1, 2, 1, 2, Gtk.AttachOptions.Expand, Gtk.AttachOptions.Shrink, 0, 0);
+			} else {
+				Attach (this.header, 1, 2, 0, 1);
+			}
+		}
+
+		void OnExpandClicked (object o, EventArgs e)
+		{
+			if (visible) {
+				visible = false;
+				Setup ();
+			} else {
+				visible = true;
+				Setup ();
+			}
 		}
 
 		public void AddGridItem (string name, Gtk.Widget editor)
