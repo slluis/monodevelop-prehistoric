@@ -34,13 +34,6 @@ SOURCES = ./CodeCompletion/CodeCompletionData.cs \
 ./Commands/ProjectCommands.cs \
 ./Commands/FormatCommands.cs \
 ./Commands/TextAreaContextmenuCommands.cs \
-./Search/SearchStrategy/RegExSearchStrategy.cs \
-./Search/SearchStrategy/KMPSearchStrategy.cs \
-./Search/SearchStrategy/ISearchStrategy.cs \
-./Search/SearchStrategy/WildcardSearchStrategy.cs \
-./Search/SearchStrategy/BruteForceSearchStrategy.cs \
-./Search/SearchOptions.cs \
-./Search/TextIterator/ITextIterator.cs \
 ./Properties/TextEditorProperties.cs \
 ./FormattingStrategy/DefaultFormattingStrategy.cs \
 ./FormattingStrategy/IndentStyle.cs \
