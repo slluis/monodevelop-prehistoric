@@ -1,5 +1,14 @@
 2004-06-23  Todd Berman  <tberman@off.net>
 
+	* Services/DispatchService/DispatchService.cs: change up a bit
+	to allow a void blah () delegate and a void blah (object) delegate.
+	Added overloads to hit those.
+	* Gui/Pads/ClassScout/ClassScout.cs: Update to new DispatchService
+	API.
+	* Gui/Dialogs/NewFileDialog.cs: Update to new DispatchService API.
+
+2004-06-23  Todd Berman  <tberman@off.net>
+
 	* Commands/FileCommands.cs: Cleanup a bit, move some code around.
 	* Gui/Dialogs/NewFileDialog.cs: Convert to using DispatchService.
 	This also tests the BackgroundDispatch method, which seems to be

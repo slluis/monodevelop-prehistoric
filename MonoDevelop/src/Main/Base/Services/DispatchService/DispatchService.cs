@@ -24,9 +24,20 @@ namespace MonoDevelop.Services
 			thrBackground.Start ();
 		}
 
-		public void GuiDispatch (MessageHandler cb, object state)
+		public void GuiDispatch (MessageHandler cb)
 		{
-			arrGuiQueue.Add (new MessageContainer (cb, state));
+			arrGuiQueue.Add (new GenericMessageContainer (cb));
+			UpdateIdle ();
+		}
+
+		public void GuiDispatch (StatefulMessageHandler cb, object state)
+		{
+			arrGuiQueue.Add (new StatefulMessageContainer (cb, state));
+			UpdateIdle ();
+		}
+
+		void UpdateIdle ()
+		{
 			if (iIdle == 0) {
 				iIdle = GLib.Idle.Add (new GLib.IdleHandler (guiDispatcher));
 				/* This code is required because for some
@@ -40,9 +51,14 @@ namespace MonoDevelop.Services
 			}
 		}
 
-		public void BackgroundDispatch (MessageHandler cb, object state)
+		public void BackgroundDispatch (MessageHandler cb)
 		{
-			arrBackgroundQueue.Add (new MessageContainer (cb, state));
+			arrBackgroundQueue.Add (new GenericMessageContainer (cb));
+		}
+
+		public void BackgroundDispatch (StatefulMessageHandler cb, object state)
+		{
+			arrBackgroundQueue.Add (new StatefulMessageContainer (cb, state));
 			//thrBackground.Resume ();
 		}
 
@@ -52,9 +68,9 @@ namespace MonoDevelop.Services
 				iIdle = 0;
 				return false;
 			}
-			MessageContainer msg = null;
+			GenericMessageContainer msg = null;
 			lock (arrGuiQueue) {
-				msg = (MessageContainer)arrGuiQueue[0];
+				msg = (GenericMessageContainer)arrGuiQueue[0];
 				arrGuiQueue.RemoveAt (0);
 			}
 			if (msg != null)
@@ -74,9 +90,9 @@ namespace MonoDevelop.Services
 					//thrBackground.Suspend ();
 					continue;
 				}
-				MessageContainer msg = null;
+				GenericMessageContainer msg = null;
 				lock (arrBackgroundQueue) {
-					msg = (MessageContainer)arrBackgroundQueue[0];
+					msg = (GenericMessageContainer)arrBackgroundQueue[0];
 					arrBackgroundQueue.RemoveAt (0);
 				}
 				if (msg != null)
@@ -85,20 +101,38 @@ namespace MonoDevelop.Services
 		}
 	}
 
-	public delegate void MessageHandler (object state);
+	public delegate void MessageHandler ();
+	public delegate void StatefulMessageHandler (object state);
 
-	class MessageContainer
+	class GenericMessageContainer
 	{
-		object data;
 		MessageHandler callback;
 
-		public MessageContainer (MessageHandler cb, object state)
+		protected GenericMessageContainer () { }
+
+		public GenericMessageContainer (MessageHandler cb)
+		{
+			callback = cb;
+		}
+
+		public virtual void Run ()
+		{
+			callback ();
+		}
+	}
+
+	class StatefulMessageContainer : GenericMessageContainer
+	{
+		object data;
+		StatefulMessageHandler callback;
+
+		public StatefulMessageContainer (StatefulMessageHandler cb, object state)
 		{
 			data = state;
 			callback = cb;
 		}
 		
-		public void Run ()
+		public override void Run ()
 		{
 			callback (data);
 		}

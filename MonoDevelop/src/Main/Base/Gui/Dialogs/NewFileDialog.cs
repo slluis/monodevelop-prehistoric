@@ -52,7 +52,7 @@ namespace MonoDevelop.Gui.Dialogs
 			this.BorderWidth = 6;
 			this.HasSeparator = false;
 			
-			dispatcher.BackgroundDispatch (new MessageHandler (InitializeTemplates), null);
+			dispatcher.BackgroundDispatch (new MessageHandler (InitializeTemplates));
 		}
 		
 		void InitializeView()
@@ -114,7 +114,7 @@ namespace MonoDevelop.Gui.Dialogs
 			return newcategory;
 		}
 		
-		void InitializeTemplates(object blank)
+		void InitializeTemplates()
 		{
 			foreach (FileTemplate template in FileTemplate.FileTemplates) {
 				TemplateItem titem = new TemplateItem(template);
@@ -135,7 +135,7 @@ namespace MonoDevelop.Gui.Dialogs
 				}
 				alltemplates.Add(titem);
 			}
-			dispatcher.GuiDispatch (new MessageHandler (InitializeComponents), null);
+			dispatcher.GuiDispatch (new MessageHandler (InitializeComponents));
 		}
 		
 		// tree view event handlers
@@ -292,7 +292,7 @@ namespace MonoDevelop.Gui.Dialogs
 			Destroy ();
 		}
 
-		void InitializeComponents(object blank)
+		void InitializeComponents()
 		{
 			
 			catStore = new Gtk.TreeStore (typeof(string), typeof(ArrayList), typeof(ArrayList), typeof(Gdk.Pixbuf));

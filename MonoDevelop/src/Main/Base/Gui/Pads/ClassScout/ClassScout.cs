@@ -150,7 +150,7 @@ namespace MonoDevelop.Gui.Pads
 		void OnClassInformationChanged(object sender, ClassInformationEventArgs e)
 		{
 			DispatchService dispatcher = (DispatchService)ServiceManager.Services.GetService (typeof (DispatchService));
-			dispatcher.GuiDispatch (new MessageHandler (ChangeClassInfo), e);
+			dispatcher.GuiDispatch (new StatefulMessageHandler (ChangeClassInfo), e);
 		}
 		
 		void ChangeClassInfo (object e)
