@@ -1408,16 +1408,7 @@
       </child>
 
       <child>
-	<widget class="GtkOptionMenu" id="option">
-	  <property name="visible">True</property>
-	  <property name="can_focus">True</property>
-	  <property name="history">-1</property>
-	</widget>
-	<packing>
-	  <property name="padding">0</property>
-	  <property name="expand">False</property>
-	  <property name="fill">False</property>
-	</packing>
+	<placeholder/>
       </child>
     </widget>
   </child>

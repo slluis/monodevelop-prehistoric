@@ -47,31 +47,37 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs.OptionPanels
 			Hashtable MenuToValue = new Hashtable ();
 			Hashtable ValueToMenu = new Hashtable ();
 			public Gtk.Menu ambienceMenu;
+			[Glade.Widget] public Gtk.OptionMenu option;
+			
+			
 			[Glade.Widget] public Gtk.CheckButton extensionButton;
 			[Glade.Widget] public Gtk.CheckButton hiddenButton;
-			[Glade.Widget] public Gtk.OptionMenu option;
+			
 					
 			public SelectStylePanelWidget () : base ("Base.glade", "SelectStylePanel")
 			{
-				ambienceMenu = new Gtk.Menu ();
-				option.Menu = ambienceMenu;
 				extensionButton.Active  = p.GetProperty("ICSharpCode.SharpDevelop.Gui.ProjectBrowser.ShowExtensions", true);
 				hiddenButton.Active  = p.GetProperty("ICSharpCode.SharpDevelop.Gui.FileScout.ShowHidden", false);
-				IAddInTreeNode treeNode = AddInTreeSingleton.AddInTree.GetTreeNode("/SharpDevelop/Workbench/Ambiences");
-				string active = p.GetProperty ("SharpDevelop.UI.CurrentAmbience", "CSharp");
-				
-				//FIXME: Yes, I know for is better here
-				uint im = 0;
-				foreach (IAddInTreeNode childNode in treeNode.ChildNodes.Values) 
-				{
-					Gtk.MenuItem i = Gtk.MenuItem.NewWithLabel (childNode.Codon.ID);
-					ambienceMenu.Append(i);
-					MenuToValue[i] = childNode.Codon.ID;
-					if (childNode.Codon.ID == active) {
-						option.SetHistory (im);
-					}
-					im++;
-				}
+
+// commented out by jba - 23 feb 04, deosn't seem to be used
+//				ambienceMenu = new Gtk.Menu ();
+//				option.Menu = ambienceMenu;
+//				IAddInTreeNode treeNode = AddInTreeSingleton.AddInTree.GetTreeNode("/SharpDevelop/Workbench/Ambiences");
+//				
+//				string active = p.GetProperty ("SharpDevelop.UI.CurrentAmbience", "CSharp");
+//				
+//				//FIXME: Yes, I know for is better here
+//				uint im = 0;
+//				foreach (IAddInTreeNode childNode in treeNode.ChildNodes.Values) 
+//				{
+//					Gtk.MenuItem i = Gtk.MenuItem.NewWithLabel (childNode.Codon.ID);
+//					ambienceMenu.Append(i);
+//					MenuToValue[i] = childNode.Codon.ID;
+//					if (childNode.Codon.ID == active) {
+//						option.SetHistory (im);
+//					}
+//					im++;
+//				}
 				
 			}
 			
@@ -79,7 +85,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs.OptionPanels
 			{
 				p.SetProperty("ICSharpCode.SharpDevelop.Gui.ProjectBrowser.ShowExtensions", extensionButton.Active);
 				p.SetProperty("ICSharpCode.SharpDevelop.Gui.FileScout.ShowHidden", hiddenButton.Active);
-				p.SetProperty("SharpDevelop.UI.CurrentAmbience", (string)MenuToValue[ambienceMenu.Active]);
+//				p.SetProperty("SharpDevelop.UI.CurrentAmbience", (string)MenuToValue[ambienceMenu.Active]);
 			}
 		}
 	}

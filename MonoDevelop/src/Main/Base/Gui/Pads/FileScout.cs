@@ -365,8 +365,9 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads
 			pathEntry.Text = fb.CurrentDir;
 			filelister.Clear ();
 
-			IProperties p = (IProperties) PropertyService.GetProperty ("SharpDevelop.UI.SelectStyleOptions", new DefaultProperties ());
+			PropertyService p = (PropertyService)ServiceManager.Services.GetService(typeof(PropertyService));
 			bool ignoreHidden = !p.GetProperty ("ICSharpCode.SharpDevelop.Gui.FileScout.ShowHidden", false);
+			fb.IgnoreHidden = ignoreHidden;
 
 			foreach (string f in fb.Files)
 			{

@@ -48,11 +48,24 @@ namespace MonoDevelop.Gui.Widgets
 			init = true;
 		}
 
-		/*public bool IgnoreHidden
+		// jba 23 feb 04 - reneabled this property to make the file browser obey the
+		// ignoreHidden property from the visual style option panel
+		public bool IgnoreHidden
 		{
 			get { return ignoreHidden; }
-			set { ignoreHidden = value; }
-		}*/
+			set {
+				/* for some reasont his code crashes (NullReferenceException on the Populate() call
+				if (ignoreHidden != value) {
+					ignoreHidden = value; 
+					// redraw folder list
+					System.Console.WriteLine("before poplate call");
+					Populate ();
+				}
+				*/
+				
+				ignoreHidden = value;
+			}
+		}
 
 		public Gtk.TreeView TreeView
 		{
