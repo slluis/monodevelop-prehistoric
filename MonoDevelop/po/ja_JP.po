@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: MonoDevelop 0.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-06-01 17:07-0400\n"
-"PO-Revision-Date: 2004-04-02 03:31-0500\n"
+"POT-Creation-Date: 2004-06-14 05:51+0900\n"
+"PO-Revision-Date: 2004-06-14 05:36+0900\n"
 "Last-Translator: Atsushi Enomoto <atsushi@ximian.com>\n"
 "Language-Team: Atsushi Enomoto <atsushi@ximian.com>\n"
 "MIME-Version: 1.0\n"
@@ -17,11 +17,11 @@ msgstr ""
 
 #: build/AddIns/SharpDevelopCore.addin.xml.h:1
 msgid "#CvsLib"
-msgstr ""
+msgstr "#CvsLib"
 
 #: build/AddIns/SharpDevelopCore.addin.xml.h:2
 msgid "#ZipLib"
-msgstr ""
+msgstr "#ZipLib"
 
 #: build/AddIns/SharpDevelopCore.addin.xml.h:3
 msgid "${res:Dialog.Options.CombineOptions.ConfigurationOptions}"
@@ -171,7 +171,7 @@ msgid "Add Files"
 msgstr "ファイルを追加"
 
 #: build/AddIns/SharpDevelopCore.addin.xml.h:39
-msgid "Add New Files"
+msgid "Add New File"
 msgstr "新しいファイルを追加"
 
 #: build/AddIns/SharpDevelopCore.addin.xml.h:40
@@ -219,426 +219,428 @@ msgid "Build"
 msgstr "ビルド"
 
 #: build/AddIns/SharpDevelopCore.addin.xml.h:51
+msgid "Build Properties"
+msgstr "プロパティのビルド"
+
+#: build/AddIns/SharpDevelopCore.addin.xml.h:52
 msgid "C#"
 msgstr "C#"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:52
+#: build/AddIns/SharpDevelopCore.addin.xml.h:53
 msgid "C# Corner"
 msgstr "C# Corner"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:53
+#: build/AddIns/SharpDevelopCore.addin.xml.h:54
 msgid "C# Help"
 msgstr "C# Help"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:54
+#: build/AddIns/SharpDevelopCore.addin.xml.h:55
 msgid "Choose Location"
 msgstr "場所を選択して下さい"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:55
+#: build/AddIns/SharpDevelopCore.addin.xml.h:56
 msgid "Clear Recent Files"
 msgstr "ファイルの履歴をクリア"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:56
+#: build/AddIns/SharpDevelopCore.addin.xml.h:57
 msgid "Clear Recent Solutions"
 msgstr "ソリューションの履歴をクリア"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:57
+#: build/AddIns/SharpDevelopCore.addin.xml.h:58
 msgid "Close All"
 msgstr "全て閉じる"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:58
+#: build/AddIns/SharpDevelopCore.addin.xml.h:59
 msgid "Close File"
 msgstr "ファイルを閉じる"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:59
+#: build/AddIns/SharpDevelopCore.addin.xml.h:60
 msgid "Close Solution"
 msgstr "ソリューションを閉じる"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:60
+#: build/AddIns/SharpDevelopCore.addin.xml.h:61
 #: build/AddIns/AddIns/BackendBindings/BackendBindings.addin.xml.h:4
 msgid "Code Generation"
 msgstr "コード生成方法"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:61
+#: build/AddIns/SharpDevelopCore.addin.xml.h:62
 msgid "Coding"
 msgstr "コーディング"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:62
+#: build/AddIns/SharpDevelopCore.addin.xml.h:63
 msgid "Common"
 msgstr "共通項目"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:63
+#: build/AddIns/SharpDevelopCore.addin.xml.h:64
 msgid "Community Forums"
 msgstr "コミュニティ フォーラム"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:64
+#: build/AddIns/SharpDevelopCore.addin.xml.h:65
 #: src/Main/Base/Commands/MenuItemBuilders.cs:301
 msgid "Compile"
 msgstr "コンパイル"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:65
+#: build/AddIns/SharpDevelopCore.addin.xml.h:66
 msgid "Compile All"
 msgstr "全てコンパイル"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:66
+#: build/AddIns/SharpDevelopCore.addin.xml.h:67
 msgid "Convert C# Project to VB.NET"
 msgstr "C#プロジェクトをVB.NETにコンバート"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:67
+#: build/AddIns/SharpDevelopCore.addin.xml.h:68
 #: build/AddIns/MonoDevelopNewEditor.addin.xml.h:32
 msgid "Copy"
 msgstr "コピー"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:68
+#: build/AddIns/SharpDevelopCore.addin.xml.h:69
 msgid "Create Database"
 msgstr "データベースの作成"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:69
+#: build/AddIns/SharpDevelopCore.addin.xml.h:70
 #: build/AddIns/MonoDevelopNewEditor.addin.xml.h:33
 msgid "Cut"
 msgstr "切り取り"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:70
+#: build/AddIns/SharpDevelopCore.addin.xml.h:71
 #: build/AddIns/MonoDevelopNewEditor.addin.xml.h:34
 #: src/Libraries/MonoDevelop.Gui.Widgets/FileBrowser/FileBrowser.cs:262
 msgid "Delete"
 msgstr "削除"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:71
+#: build/AddIns/SharpDevelopCore.addin.xml.h:72
 msgid "Delete Tab"
 msgstr "タブの削除"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:72
+#: build/AddIns/SharpDevelopCore.addin.xml.h:73
 msgid "Downloads"
 msgstr "ダウンロード中"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:73
+#: build/AddIns/SharpDevelopCore.addin.xml.h:74
 #: data/resources/glade/EditorBindings.glade.h:18
 msgid "Edit"
 msgstr "編集"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:74
-#, fuzzy
-msgid "Edit References"
-msgstr "参照の追加"
-
 #: build/AddIns/SharpDevelopCore.addin.xml.h:75
+msgid "Edit References"
+msgstr "参照の編集"
+
+#: build/AddIns/SharpDevelopCore.addin.xml.h:76
 msgid "ExportSignature"
 msgstr "シグネチャのエクスポート"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:76
+#: build/AddIns/SharpDevelopCore.addin.xml.h:77
 msgid "External Tools"
 msgstr "外部ツール"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:77
+#: build/AddIns/SharpDevelopCore.addin.xml.h:78
 #: src/Main/Base/Gui/Dialogs/WordCountDialog.cs:253
 #: src/Main/Base/Gui/Dialogs/WordCountDialog.cs:309
 #: src/Main/Base/Gui/Pads/OpenTaskView.cs:108
 msgid "File"
 msgstr "ファイル"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:78
+#: build/AddIns/SharpDevelopCore.addin.xml.h:79
 msgid "File..."
 msgstr "ファイル..."
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:79
+#: build/AddIns/SharpDevelopCore.addin.xml.h:80
 msgid "Finished"
 msgstr "完了"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:80
+#: build/AddIns/SharpDevelopCore.addin.xml.h:81
 msgid "Full Screen"
 msgstr "フルスクリーン"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:81
+#: build/AddIns/SharpDevelopCore.addin.xml.h:82
 #: build/AddIns/MonoDevelopNewEditor.addin.xml.h:38
 msgid "General"
 msgstr "一般"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:82
-#, fuzzy
-msgid "Generate Makefiles"
-msgstr "ファイルを削除"
-
 #: build/AddIns/SharpDevelopCore.addin.xml.h:83
+msgid "Generate Makefiles"
+msgstr "Makefileを生成"
+
+#: build/AddIns/SharpDevelopCore.addin.xml.h:84
 msgid "GotDotNet"
 msgstr "GotDotNet"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:84
+#: build/AddIns/SharpDevelopCore.addin.xml.h:85
 #: src/Main/Base/Gui/Pads/HelpBrowser/MonodocTreePad.cs:30
 msgid "Help"
 msgstr "ヘルプ"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:85
+#: build/AddIns/SharpDevelopCore.addin.xml.h:86
 msgid "Help..."
 msgstr "ヘルプ..."
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:86
-msgid "Integrated Projects"
-msgstr ""
-
 #: build/AddIns/SharpDevelopCore.addin.xml.h:87
+msgid "Integrated Projects"
+msgstr "統合されたプロジェクト"
+
+#: build/AddIns/SharpDevelopCore.addin.xml.h:88
 msgid "Layouts"
 msgstr "レイアウト"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:88
+#: build/AddIns/SharpDevelopCore.addin.xml.h:89
 msgid "Load/Save"
 msgstr "読み込み/保存"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:89
+#: build/AddIns/SharpDevelopCore.addin.xml.h:90
 msgid "Magic Library"
 msgstr "Magic Library"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:90
+#: build/AddIns/SharpDevelopCore.addin.xml.h:91
 msgid "Mono Project"
 msgstr "Monoプロジェクト"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:91
+#: build/AddIns/SharpDevelopCore.addin.xml.h:92
 msgid "MonoDevelop"
 msgstr "MonoDevelop"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:92
+#: build/AddIns/SharpDevelopCore.addin.xml.h:93
 msgid "MonoDevelop Options"
 msgstr "MonoDevelop オプション"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:93
+#: build/AddIns/SharpDevelopCore.addin.xml.h:94
 msgid "Move Item Down"
 msgstr "項目を下に移動"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:94
+#: build/AddIns/SharpDevelopCore.addin.xml.h:95
 msgid "Move Item up"
 msgstr "項目を上に移動"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:95
+#: build/AddIns/SharpDevelopCore.addin.xml.h:96
 msgid "Move Tab Down"
 msgstr "タブを下に移動"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:96
+#: build/AddIns/SharpDevelopCore.addin.xml.h:97
 msgid "Move Tab Up"
 msgstr "タブを上に移動"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:97
+#: build/AddIns/SharpDevelopCore.addin.xml.h:98
 msgid "NAnt"
 msgstr "NAnt"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:98
+#: build/AddIns/SharpDevelopCore.addin.xml.h:99
 msgid "NDoc"
 msgstr "NDoc"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:99
+#: build/AddIns/SharpDevelopCore.addin.xml.h:100
 msgid "New"
 msgstr "新規"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:100
+#: build/AddIns/SharpDevelopCore.addin.xml.h:101
 msgid "New File..."
 msgstr "新しいファイル..."
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:101
-#: src/Main/Base/Commands/ProjectBrowserCommands/FolderNodeCommands.cs:188
+#: build/AddIns/SharpDevelopCore.addin.xml.h:102
+#: src/Main/Base/Commands/ProjectBrowserCommands/FolderNodeCommands.cs:190
 msgid "New Folder"
 msgstr "新しいフォルダ"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:102
+#: build/AddIns/SharpDevelopCore.addin.xml.h:103
 msgid "New Solution/Project..."
 msgstr "新しいソリューション/プロジェクト..."
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:103
+#: build/AddIns/SharpDevelopCore.addin.xml.h:104
 msgid "New _File"
 msgstr "新しいファイル (_F)"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:104
+#: build/AddIns/SharpDevelopCore.addin.xml.h:105
 msgid "Next Window"
 msgstr "次のウィンドウ"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:105
+#: build/AddIns/SharpDevelopCore.addin.xml.h:106
 msgid "O_pen"
 msgstr "開く (_p)"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:106
+#: build/AddIns/SharpDevelopCore.addin.xml.h:107
 msgid "Open"
 msgstr "開く"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:107
+#: build/AddIns/SharpDevelopCore.addin.xml.h:108
 msgid "Open..."
 msgstr "開く..."
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:108
+#: build/AddIns/SharpDevelopCore.addin.xml.h:109
 #: build/AddIns/MonoDevelopNewEditor.addin.xml.h:46
 msgid "Paste"
 msgstr "貼り付け"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:109
+#: build/AddIns/SharpDevelopCore.addin.xml.h:110
 msgid "Preferences"
 msgstr "設定"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:110
+#: build/AddIns/SharpDevelopCore.addin.xml.h:111
 msgid "Previous Window"
 msgstr "前のウィンドウ"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:111
+#: build/AddIns/SharpDevelopCore.addin.xml.h:112
 msgid "Project _Options"
 msgstr "プロジェクト オプション (_P)"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:112
+#: build/AddIns/SharpDevelopCore.addin.xml.h:113
 msgid "Project options"
 msgstr "プロジェクト オプション"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:113
+#: build/AddIns/SharpDevelopCore.addin.xml.h:114
 msgid "Quit"
 msgstr "終了"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:114
+#: build/AddIns/SharpDevelopCore.addin.xml.h:115
 msgid "Re_name"
 msgstr "名前の変更 (_n)"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:115
+#: build/AddIns/SharpDevelopCore.addin.xml.h:116
 msgid "Rebuild Project"
 msgstr "プロジェクトの再ビルド"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:116
+#: build/AddIns/SharpDevelopCore.addin.xml.h:117
 msgid "Rebuild _Solution"
 msgstr "ソリューションの再ビルド"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:117
+#: build/AddIns/SharpDevelopCore.addin.xml.h:118
 msgid "Recent Files"
 msgstr "最近のファイル"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:118
+#: build/AddIns/SharpDevelopCore.addin.xml.h:119
 msgid "Recent Solutions"
 msgstr "最近のソリューション"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:119
+#: build/AddIns/SharpDevelopCore.addin.xml.h:120
 msgid "Redo"
 msgstr "やり直し"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:120
+#: build/AddIns/SharpDevelopCore.addin.xml.h:121
 msgid "Refresh"
 msgstr "最新の状態に更新"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:121
+#: build/AddIns/SharpDevelopCore.addin.xml.h:122
 msgid "Reload File"
 msgstr "ファイルの再ロード"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:122
+#: build/AddIns/SharpDevelopCore.addin.xml.h:123
 msgid "Remove"
 msgstr "削除"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:123
+#: build/AddIns/SharpDevelopCore.addin.xml.h:124
 #: src/Libraries/MonoDevelop.Gui.Widgets/FileBrowser/FileBrowser.cs:259
 msgid "Rename"
 msgstr "名前の変更"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:124
+#: build/AddIns/SharpDevelopCore.addin.xml.h:125
 msgid "Rename Tab"
 msgstr "タブ名の変更"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:125
+#: build/AddIns/SharpDevelopCore.addin.xml.h:126
 msgid "Reset Property"
 msgstr "プロパティをリセット"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:126
+#: build/AddIns/SharpDevelopCore.addin.xml.h:127
 msgid "Run"
 msgstr "実行"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:127
+#: build/AddIns/SharpDevelopCore.addin.xml.h:128
 msgid "Save All"
 msgstr "全て保存"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:128
+#: build/AddIns/SharpDevelopCore.addin.xml.h:129
 msgid "Save As..."
 msgstr "別名で保存..."
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:129
-#: data/resources/glade/Base.glade.h:55
+#: build/AddIns/SharpDevelopCore.addin.xml.h:130
+#: data/resources/glade/Base.glade.h:56
 msgid "Select All"
 msgstr "全て選択"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:130
+#: build/AddIns/SharpDevelopCore.addin.xml.h:131
 msgid "Send Us a Mail"
 msgstr "メールを送って下さい"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:131
+#: build/AddIns/SharpDevelopCore.addin.xml.h:132
 msgid "Set As Startup Project"
 msgstr "スタートアップ プロジェクトとして設定"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:132
+#: build/AddIns/SharpDevelopCore.addin.xml.h:133
 msgid "Set as active"
 msgstr "アクティブにする"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:133
+#: build/AddIns/SharpDevelopCore.addin.xml.h:134
 msgid "Setup"
 msgstr "セットアップ"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:134
+#: build/AddIns/SharpDevelopCore.addin.xml.h:135
 msgid "SharpDevelop"
 msgstr "SharpDevelop"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:135
+#: build/AddIns/SharpDevelopCore.addin.xml.h:136
 msgid "Show Description"
 msgstr "説明を表示"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:136
+#: build/AddIns/SharpDevelopCore.addin.xml.h:137
 msgid "Solution Options"
 msgstr "ソリューション オプション"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:137
+#: build/AddIns/SharpDevelopCore.addin.xml.h:138
 msgid "Solution/Project..."
 msgstr "ソリューション/プロジェクト..."
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:138
+#: build/AddIns/SharpDevelopCore.addin.xml.h:139
 msgid "Startup Properties"
 msgstr "スタートアップのプロパティ"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:139
+#: build/AddIns/SharpDevelopCore.addin.xml.h:140
 msgid "Tip of the Day..."
 msgstr "今日のTip..."
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:140
+#: build/AddIns/SharpDevelopCore.addin.xml.h:141
 msgid "Tools"
 msgstr "ツール"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:141
+#: build/AddIns/SharpDevelopCore.addin.xml.h:142
 msgid "Undo"
 msgstr "戻す"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:142
+#: build/AddIns/SharpDevelopCore.addin.xml.h:143
 msgid "Use Existing File"
 msgstr "既存のファイルを使用"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:143
-#: data/resources/glade/Base.glade.h:63
+#: build/AddIns/SharpDevelopCore.addin.xml.h:144
+#: data/resources/glade/Base.glade.h:64
 msgid "View"
 msgstr "ビュー"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:144
+#: build/AddIns/SharpDevelopCore.addin.xml.h:145
 msgid "Visual style"
 msgstr "ビジュアル スタイル"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:145
+#: build/AddIns/SharpDevelopCore.addin.xml.h:146
 msgid "Web"
 msgstr "Web"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:146
+#: build/AddIns/SharpDevelopCore.addin.xml.h:147
 msgid "Window"
 msgstr "ウィンドウ"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:147
+#: build/AddIns/SharpDevelopCore.addin.xml.h:148
 msgid "Word Count..."
 msgstr "単語数..."
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:148
+#: build/AddIns/SharpDevelopCore.addin.xml.h:149
 msgid "_Remove"
 msgstr "削除 (_R)"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:149
+#: build/AddIns/SharpDevelopCore.addin.xml.h:150
 msgid "_Save"
 msgstr "保存 (_S)"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:150
+#: build/AddIns/SharpDevelopCore.addin.xml.h:151
 #: build/AddIns/MonoDevelopNewEditor.addin.xml.h:58
 msgid "bogus_label"
 msgstr "バグの目印"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:151
+#: build/AddIns/SharpDevelopCore.addin.xml.h:152
 msgid "cshrp.net"
 msgstr "csharp.net"
 
@@ -859,9 +861,8 @@ msgid "${res:Dialog.Options.PrjOptions.OutputOptionsPanel.PanelName}"
 msgstr ""
 
 #: build/AddIns/AddIns/BackendBindings/BackendBindings.addin.xml.h:5
-#, fuzzy
 msgid "Compiler"
-msgstr "コンパイル"
+msgstr "コンパイラ"
 
 #: build/AddIns/AddIns/BackendBindings/BackendBindings.addin.xml.h:6
 #: src/AddIns/DisplayBindings/SourceEditor/Gui/Pads/CompilerMessageView.cs:45
@@ -952,316 +953,325 @@ msgid "<b>On Project Load</b>"
 msgstr "<b>プロジェクトの読み込み</b>"
 
 #: data/resources/glade/Base.glade.h:12
+msgid "<b>Output Directory</b>"
+msgstr "<b>出力ディレクトリ</b>"
+
+#: data/resources/glade/Base.glade.h:13
 msgid "<b>Project Information</b>"
 msgstr "<b>プロジェクトの情報</b>"
 
-#: data/resources/glade/Base.glade.h:13
+#: data/resources/glade/Base.glade.h:14
 msgid "<b>Save</b>"
 msgstr "<b>保存</b>"
 
-#: data/resources/glade/Base.glade.h:14
+#: data/resources/glade/Base.glade.h:15
 msgid "<b>Template</b>"
 msgstr "<b>テンプレート</b>"
 
-#: data/resources/glade/Base.glade.h:15
+#: data/resources/glade/Base.glade.h:16
 msgid "<span weight=\"bold\" size=\"x-large\">Title</span>"
 msgstr "<span weight=\"bold\" size=\"x-large\">タイトル</span>"
 
-#: data/resources/glade/Base.glade.h:16
+#: data/resources/glade/Base.glade.h:17
 msgid "Action"
 msgstr "アクション"
 
-#: data/resources/glade/Base.glade.h:17
+#: data/resources/glade/Base.glade.h:18
 msgid "Add References"
 msgstr "参照の追加"
 
-#: data/resources/glade/Base.glade.h:18
-#, fuzzy
-msgid "All Files"
-msgstr "全ての開いているファイル"
-
 #: data/resources/glade/Base.glade.h:19
+msgid "All Files"
+msgstr "全てのファイル"
+
+#: data/resources/glade/Base.glade.h:20
 msgid "Always create backup copy"
 msgstr "常にバックアップコピーを作成"
 
-#: data/resources/glade/Base.glade.h:20
+#: data/resources/glade/Base.glade.h:21
 msgid "Automaticly _include found files"
 msgstr "見つかったファイルを自動的に取り込む (_i)"
 
+#  FIXME: il8n this
 #. FIXME: il8n this
-#: data/resources/glade/Base.glade.h:21
+#: data/resources/glade/Base.glade.h:22
 #: src/Main/Base/Gui/Dialogs/ReferenceDialog/AssemblyReferencePanel.cs:27
 msgid "Browse"
 msgstr "ブラウズ"
 
-#: data/resources/glade/Base.glade.h:22
+#: data/resources/glade/Base.glade.h:23
 msgid "Build and run options"
 msgstr "ビルドと実行のオプション"
 
-#: data/resources/glade/Base.glade.h:23
+#: data/resources/glade/Base.glade.h:24
 msgid "BuildPanel"
 msgstr "BuildPanel"
 
-#: data/resources/glade/Base.glade.h:24
+#: data/resources/glade/Base.glade.h:25
 msgid "Cat_egories:"
 msgstr "カテゴリ(_e)"
 
-#: data/resources/glade/Base.glade.h:25
-#, fuzzy
-msgid "Clear Selection"
-msgstr "インデントの選択"
-
 #: data/resources/glade/Base.glade.h:26
+msgid "Clear Selection"
+msgstr "選択範囲のクリア"
+
+#: data/resources/glade/Base.glade.h:27
 msgid "CombineStartupPanel"
 msgstr "CombineStartupPanel"
 
-#: data/resources/glade/Base.glade.h:27
+#: data/resources/glade/Base.glade.h:28
 msgid "Compilation _target"
 msgstr "コンパイルのターゲット(_t)"
 
-#: data/resources/glade/Base.glade.h:28
+#: data/resources/glade/Base.glade.h:29
 msgid "CompileFileOptionsPanel"
 msgstr "CompileFileOptionsPanel"
 
-#: data/resources/glade/Base.glade.h:29
+#: data/resources/glade/Base.glade.h:30
 msgid "Create seperate c_ombine subdirectory"
 msgstr "コンバインのサブディレクトリを別に生成 (_o)"
 
-#: data/resources/glade/Base.glade.h:30
+#: data/resources/glade/Base.glade.h:31
 msgid "Creates a new C# Project"
 msgstr "新しいC#プロジェクトの作成"
 
-#: data/resources/glade/Base.glade.h:31
-#, fuzzy
-msgid "Default _solution location"
-msgstr "デフォルトのコンバイン 格納位置 (_c)"
-
 #: data/resources/glade/Base.glade.h:32
+msgid "Default _solution location"
+msgstr "デフォルトのソリューション格納位置 (_s)"
+
+#: data/resources/glade/Base.glade.h:33
 msgid "DeployFileOptionsPanel"
 msgstr "DeployFileOptionsPanel"
 
-#: data/resources/glade/Base.glade.h:33
+#: data/resources/glade/Base.glade.h:34
 msgid "Did you know that you can design lots of cool things with glade?"
 msgstr "gladeで数多くのcoolな設計ができることを知っていますか?"
 
-#: data/resources/glade/Base.glade.h:34
+#: data/resources/glade/Base.glade.h:35
 msgid "Did you know?"
 msgstr "知っていますか?"
 
-#: data/resources/glade/Base.glade.h:35
+#: data/resources/glade/Base.glade.h:36
 msgid "Enable _viewstate"
 msgstr "ViewStateを有効にする (_v)"
 
-#: data/resources/glade/Base.glade.h:36
+#: data/resources/glade/Base.glade.h:37
 msgid "ExternalToolPanel"
 msgstr "ExternalToolPanel"
 
-#: data/resources/glade/Base.glade.h:37
+#: data/resources/glade/Base.glade.h:38
 msgid "GNU GENERAL PUBLIC LICENSE"
 msgstr "GNU一般公開使用許諾"
 
-#: data/resources/glade/Base.glade.h:38
+#: data/resources/glade/Base.glade.h:39
 msgid "GeneralProjectOptionsPanel"
 msgstr "GeneralProjectOptionsPanel"
 
-#: data/resources/glade/Base.glade.h:39
+#: data/resources/glade/Base.glade.h:40
 msgid "Generate _additional comments"
 msgstr "追加のコメントを生成する (_a)"
 
-#: data/resources/glade/Base.glade.h:40
+#: data/resources/glade/Base.glade.h:41
 msgid "Generate _documentation comments"
 msgstr "ドキュメンテーション コメントを生成する (_d)"
 
-#: data/resources/glade/Base.glade.h:41
+#: data/resources/glade/Base.glade.h:42
 msgid "Include Found Files"
 msgstr "見つかったファイルを取り込む"
 
-#: data/resources/glade/Base.glade.h:42
+#: data/resources/glade/Base.glade.h:43
 msgid "Layout name:"
 msgstr "レイアウト名:"
 
-#: data/resources/glade/Base.glade.h:43
+#: data/resources/glade/Base.glade.h:44
 msgid "Line Terminator Style"
 msgstr "行末の形式"
 
-#: data/resources/glade/Base.glade.h:44
+#: data/resources/glade/Base.glade.h:45
 msgid "Load user-specific settings with the document"
 msgstr "ドキュメントにユーザー固有の設定をロードする"
 
-#: data/resources/glade/Base.glade.h:45
+#: data/resources/glade/Base.glade.h:46
 msgid "LoadSavePanel"
 msgstr "LoadSavePanel"
 
-#: data/resources/glade/Base.glade.h:46
+#: data/resources/glade/Base.glade.h:47
 msgid "Macintosh"
 msgstr "Macintosh"
 
-#: data/resources/glade/Base.glade.h:47
-#, fuzzy
-msgid "New Files"
-msgstr "新しいファイル (_F)"
-
 #: data/resources/glade/Base.glade.h:48
-#, fuzzy
-msgid "New Files Only"
-msgstr "新しいファイル (_F)"
+msgid "New Files"
+msgstr "新しいファイル"
 
 #: data/resources/glade/Base.glade.h:49
+msgid "New Files Only"
+msgstr "新しいファイルのみ"
+
+#: data/resources/glade/Base.glade.h:50
 msgid "New Solution"
 msgstr "新しいソリューション"
 
-#: data/resources/glade/Base.glade.h:50
+#: data/resources/glade/Base.glade.h:51
 msgid "New layout"
 msgstr "新しいレイアウト"
 
-#: data/resources/glade/Base.glade.h:51
+#: data/resources/glade/Base.glade.h:52
 msgid "Options"
 msgstr "オプション"
 
-#: data/resources/glade/Base.glade.h:52
+#: data/resources/glade/Base.glade.h:53
 msgid "Project _Subdirectory:"
 msgstr "プロジェクト サブディレクトリ (_S)"
 
-#: data/resources/glade/Base.glade.h:53
+#: data/resources/glade/Base.glade.h:54
 msgid "Project will be saved in: /dev/null"
 msgstr "プロジェクトは /dev/null に保存されます"
 
-#: data/resources/glade/Base.glade.h:54
+#: data/resources/glade/Base.glade.h:55
 msgid "Search for new _files on load"
 msgstr "ロード時に新しいファイルを探す (_f)"
 
-#: data/resources/glade/Base.glade.h:56
+#: data/resources/glade/Base.glade.h:57
 msgid "Show Extensions in project scout"
 msgstr "プロジェクト スカウトで拡張子を表示"
 
-#: data/resources/glade/Base.glade.h:57
+#: data/resources/glade/Base.glade.h:58
 msgid "Show _output pad when build starts"
 msgstr "ビルド開始時にアウトプット パッドを表示 (_o)"
 
-#: data/resources/glade/Base.glade.h:58
+#: data/resources/glade/Base.glade.h:59
 msgid "Show _task list pad if build finished with errors"
 msgstr "ビルドのエラー終了時にタスクリストパッドを表示 (_t)"
 
-#: data/resources/glade/Base.glade.h:59
+#: data/resources/glade/Base.glade.h:60
 msgid "Show hidden files and directories"
 msgstr "隠しファイル・隠しディレクトリを表示"
 
-#: data/resources/glade/Base.glade.h:60
+#: data/resources/glade/Base.glade.h:61
 msgid "Tip of the day"
 msgstr "今日のTip"
 
-#: data/resources/glade/Base.glade.h:61
+#: data/resources/glade/Base.glade.h:62
 msgid "Unix"
 msgstr "Unix"
 
-#: data/resources/glade/Base.glade.h:62
+#: data/resources/glade/Base.glade.h:63
 msgid "Use _Output Window"
 msgstr "アウトプットウィンドウを使う (_O)"
 
-#: data/resources/glade/Base.glade.h:64
+#: data/resources/glade/Base.glade.h:65
 msgid "Windows"
 msgstr "Windows"
 
-#: data/resources/glade/Base.glade.h:65
+#: data/resources/glade/Base.glade.h:66
 msgid "With _scriptfile"
 msgstr ""
 
-#: data/resources/glade/Base.glade.h:66
+#: data/resources/glade/Base.glade.h:67
 msgid "_Arguments"
 msgstr "引数 (_A)"
 
-#: data/resources/glade/Base.glade.h:67
+#: data/resources/glade/Base.glade.h:68
+#: src/Libraries/MonoDevelop.Gui.Widgets/FolderDialog/BaseFileEntry.cs:24
+msgid "_Browse..."
+msgstr "ブラウズ... (_B)"
+
+#: data/resources/glade/Base.glade.h:69
 msgid "_Command"
 msgstr "コマンド (_C)"
 
-#: data/resources/glade/Base.glade.h:68
+#: data/resources/glade/Base.glade.h:70
 msgid "_Deploy target:"
 msgstr "配置ターゲット (_D):"
 
-#: data/resources/glade/Base.glade.h:69
+#: data/resources/glade/Base.glade.h:71
 #: src/Main/Base/Gui/Dialogs/OptionPanels/EditTemplateDialog.cs:64
 msgid "_Description"
 msgstr "説明 (_D)"
 
-#: data/resources/glade/Base.glade.h:70
+#: data/resources/glade/Base.glade.h:72
 msgid "_Don't save changes to open documents "
 msgstr "開いているドキュメントは変更を保存しない (_D)"
 
-#: data/resources/glade/Base.glade.h:71
+#: data/resources/glade/Base.glade.h:73
 msgid "_Else on same line as closing bracket"
 msgstr "閉じ括弧と同じ行にelseを記述 (_E)"
 
-#: data/resources/glade/Base.glade.h:72
+#: data/resources/glade/Base.glade.h:74
 msgid "_Include files in compile run"
 msgstr "コンパイル実行時にファイルを取り込み (_I)"
 
-#: data/resources/glade/Base.glade.h:73
+#: data/resources/glade/Base.glade.h:75
 msgid "_Insert blank lines between members"
 msgstr "メンバーの間に空白を追加 (_I)"
 
-#: data/resources/glade/Base.glade.h:74
+#: data/resources/glade/Base.glade.h:76
 msgid "_Load previous solution on startup"
 msgstr "スタートアップ時に前回のソリューションを読み込む"
 
-#: data/resources/glade/Base.glade.h:75
+#: data/resources/glade/Base.glade.h:77
 msgid "_Location:"
 msgstr "位置(_L):"
 
-#: data/resources/glade/Base.glade.h:76
+#: data/resources/glade/Base.glade.h:78
 msgid "_Multiple Startup Project"
 msgstr "複数のスタートアップ プロジェクト (_M)"
 
-#: data/resources/glade/Base.glade.h:77
+#: data/resources/glade/Base.glade.h:79
 msgid "_Name"
 msgstr "名前 (_N)"
 
-#: data/resources/glade/Base.glade.h:78
+#: data/resources/glade/Base.glade.h:80
 msgid "_Name:"
 msgstr "名前(_N):"
 
-#: data/resources/glade/Base.glade.h:79
+#: data/resources/glade/Base.glade.h:81
 msgid "_Next Tip"
 msgstr "次のTip (_N)"
 
-#: data/resources/glade/Base.glade.h:80
+#: data/resources/glade/Base.glade.h:82
 msgid "_Project Files"
 msgstr "プロジェクト ファイル (_P)"
 
-#: data/resources/glade/Base.glade.h:81
+#: data/resources/glade/Base.glade.h:83
 msgid "_Prompt for Arguments"
 msgstr "引数を入力する (_P)"
 
-#: data/resources/glade/Base.glade.h:82
+#: data/resources/glade/Base.glade.h:84
 msgid "_Prompt to save changes to open documents"
 msgstr "開いているドキュメントへの変更の保存を問い合わせる (_P)"
 
-#: data/resources/glade/Base.glade.h:83
+#: data/resources/glade/Base.glade.h:85
 msgid "_Save Changes to open documents"
 msgstr "開いているドキュメントへの変更を保存する (_S)"
 
-#: data/resources/glade/Base.glade.h:84
+#: data/resources/glade/Base.glade.h:86
 msgid "_Show at startup"
 msgstr "スタートアップ時に表示 (_S)"
 
-#: data/resources/glade/Base.glade.h:85
+#: data/resources/glade/Base.glade.h:87
 msgid "_Single Startup Project"
 msgstr "単一のスタートアップ プロジェクト (_S)"
 
-#: data/resources/glade/Base.glade.h:86
+#: data/resources/glade/Base.glade.h:88
 msgid "_Start code block on the same line"
 msgstr "同一の行でコードブロックを開始 (_S)"
 
-#: data/resources/glade/Base.glade.h:87
+#: data/resources/glade/Base.glade.h:89
 msgid "_Title"
 msgstr "タイトル (_T)"
 
-#: data/resources/glade/Base.glade.h:88
+#: data/resources/glade/Base.glade.h:90
 msgid "_Use full type names"
 msgstr "型の完全名を使う (_U)"
 
-#: data/resources/glade/Base.glade.h:89
+#: data/resources/glade/Base.glade.h:91
 msgid "_Working Dir."
 msgstr "作業ディレクトリ(_W)"
+
+#: data/resources/glade/Base.glade.h:92
+msgid "cmbBuildOptions"
+msgstr ""
 
 #: data/resources/glade/CSharp.glade.h:4
 msgid "<b>Code Generation</b>"
@@ -1615,14 +1625,20 @@ msgstr "置換 (_R)"
 msgid "searchPatternEntry"
 msgstr ""
 
-#: src/Main/Base/Gui/Dialogs/CommonAboutDialog.cs:134
-#: src/Main/Base/Gui/Dialogs/CommonAboutDialog.cs:148
+#: src/Main/Base/Gui/Dialogs/CommonAboutDialog.cs:56
+msgid "translator-credits"
+msgstr "翻訳者クレジット"
+
+#: src/Main/Base/Gui/Dialogs/CommonAboutDialog.cs:141
+#: src/Main/Base/Gui/Dialogs/CommonAboutDialog.cs:155
 msgid "About MonoDevelop"
 msgstr "MonoDevelopについて"
 
+#  nb.AppendPage (aatp, new Label ("Authors"));
+#  nb.AppendPage (changelog, new Label ("ChangeLog"));
 #. nb.AppendPage (aatp, new Label ("Authors"));
 #. nb.AppendPage (changelog, new Label ("ChangeLog"));
-#: src/Main/Base/Gui/Dialogs/CommonAboutDialog.cs:152
+#: src/Main/Base/Gui/Dialogs/CommonAboutDialog.cs:159
 msgid "Version Info"
 msgstr "バージョン情報"
 
@@ -1831,6 +1847,7 @@ msgstr "(アクティブ)"
 msgid "Find .Net Assembly"
 msgstr ".NETアセンブリの検索"
 
+#  FIXME: il8n this
 #. FIXME: il8n this
 #: src/Main/Base/Gui/Dialogs/ReferenceDialog/AssemblyReferencePanel.cs:62
 #, csharp-format
@@ -1875,13 +1892,13 @@ msgid "Type"
 msgstr "型"
 
 #: src/Main/Base/Gui/Dialogs/ReferenceDialog/SelectReferenceDialog.cs:78
+#: src/Libraries/MonoDevelop.Gui.Widgets/FileBrowser/FileBrowser.cs:81
 msgid "Location"
 msgstr "位置"
 
 #: src/Main/Base/Gui/Dialogs/ReferenceDialog/SelectReferenceDialog.cs:94
-#, fuzzy
 msgid "Global Assembly Cache"
-msgstr "アセンブリ名 (_n)"
+msgstr "グローバル アセンブリ キャッシュ"
 
 #: src/Main/Base/Gui/Dialogs/ReferenceDialog/SelectReferenceDialog.cs:95
 msgid "Projects"
@@ -1955,7 +1972,7 @@ msgid "Current file"
 msgstr "現在のファイル"
 
 #: src/Main/Base/Gui/Dialogs/WordCountDialog.cs:341
-#: src/AddIns/DisplayBindings/SourceEditor/Gui/Dialogs/ReplaceInFilesDialog.cs:196
+#: src/AddIns/DisplayBindings/SourceEditor/Gui/Dialogs/ReplaceInFilesDialog.cs:197
 msgid "All open files"
 msgstr "全ての開いているファイル"
 
@@ -1969,7 +1986,7 @@ msgstr ""
 
 #: src/Main/Base/Gui/AbstractViewContent.cs:27
 msgid "Change me"
-msgstr ""
+msgstr "Change me"
 
 #: src/Main/Base/Gui/BrowserDisplayBinding/HtmlViewPane.cs:45
 msgid "Web Browser"
@@ -2214,7 +2231,7 @@ msgstr "説明"
 #: src/Main/Base/Gui/Pads/ProjectBrowser/BrowserNode/CombineBrowserNode.cs:67
 #, csharp-format
 msgid "Solution name may not contain any of the following characters: {0}"
-msgstr ""
+msgstr "ソリューション名には以下の文字を含むことは出来ません: {0}"
 
 #: src/Main/Base/Gui/Pads/ProjectBrowser/BrowserNode/CombineBrowserNode.cs:84
 #, csharp-format
@@ -2304,6 +2321,17 @@ msgstr "実装されていません"
 msgid "Are you sure that you want to reload the file?"
 msgstr "本当にファイルを再ロードしますか?"
 
+#  using (SaveFileDialog fdiag = new SaveFileDialog()) {
+#  fdiag.OverwritePrompt = true;
+#  fdiag.AddExtension    = true;
+#  string[] fileFilters  = (string[])(AddInTreeSingleton.AddInTree.GetTreeNode("/SharpDevelop/Workbench/FileFilter").BuildChildItems(this)).ToArray(typeof(string));
+#  fdiag.Filter          = String.Join("|", fileFilters);
+#  for (int i = 0; i < fileFilters.Length; ++i) {
+#  if (fileFilters[i].IndexOf(Path.GetExtension(window.ViewContent.ContentName == null ? window.ViewContent.UntitledName : window.ViewContent.ContentName)) >= 0) {
+#  fdiag.FilterIndex = i + 1;
+#  break;
+#  }
+#  }
 #.
 #. using (SaveFileDialog fdiag = new SaveFileDialog()) {
 #. fdiag.OverwritePrompt = true;
@@ -2533,32 +2561,36 @@ msgstr "プロジェクト {0} のコンパイル中にエラーが発生しま�
 msgid "Can't load external tools configuration file"
 msgstr "外部ツール構成ファイルがロードできませんでした"
 
-#: src/Main/Base/Internal/Project/Combine/Combine.cs:194
+#: src/Main/Base/Internal/Project/Combine/Combine.cs:200
 #, csharp-format
 msgid "Can't find language binding for {0}"
 msgstr "{0} の言語バインディングが見つかりません"
 
-#: src/Main/Base/Internal/Project/Combine/Combine.cs:346
-#: src/Main/Base/Internal/Project/Combine/Combine.cs:357
-#: src/Main/Base/Internal/Project/Project/AbstractProject.cs:509
+#: src/Main/Base/Internal/Project/Combine/Combine.cs:352
+#: src/Main/Base/Internal/Project/Combine/Combine.cs:363
+#: src/Main/Base/Internal/Project/Project/AbstractProject.cs:511
 msgid ""
 "Can't save solution\n"
 "Please check your file and directory permissions."
 msgstr ""
+"ソリューションを保存できません。\n"
+"ファイルとディレクトリの許可属性を確認してください。"
 
-#: src/Main/Base/Internal/Project/Combine/Combine.cs:364
+#: src/Main/Base/Internal/Project/Combine/Combine.cs:370
 msgid "Save Combine As..."
 msgstr "コンバインを別名で保存..."
 
-#: src/Main/Base/Internal/Project/Combine/Combine.cs:370
+#: src/Main/Base/Internal/Project/Combine/Combine.cs:376
 msgid "Combine saved"
 msgstr "コンバインを保存しました"
 
-#: src/Main/Base/Internal/Project/Combine/Combine.cs:612
+#: src/Main/Base/Internal/Project/Combine/Combine.cs:618
 msgid ""
 "Cyclic dependencies can not be built with this version.\n"
 "But we are working on it."
 msgstr ""
+"循環依存はこのバージョンでは解決できません。\n"
+"これは現在開発中です。"
 
 #: src/Main/Base/Internal/Project/Combine/CombineEntry.cs:116
 #, csharp-format
@@ -2608,35 +2640,36 @@ msgid ""
 "saved.\n"
 "It is better if you close MonoDevelop and correct the problem."
 msgstr ""
+"古いプロジェクトファイルへの書き込み時にエラーが発生しました。\n"
+"プロジェクトファイル(.prjx)への書き込み許可を確認してください。\n"
+"一時的なプロキシ プロジェクトを作成しますが、変更は保存されません。\n"
+"MonoDevelopを終了して問題を解決することをお勧めします。"
 
-#: src/Main/Base/Internal/Project/Project/AbstractProject.cs:524
+#: src/Main/Base/Internal/Project/Project/AbstractProject.cs:526
 msgid "Save Project As..."
 msgstr "プロジェクトを別名で保存..."
 
-#: src/Main/Base/Internal/Project/Project/AbstractProject.cs:532
+#: src/Main/Base/Internal/Project/Project/AbstractProject.cs:534
 msgid "Project saved"
 msgstr "プロジェクトを保存しました"
 
 #: src/Main/Base/Internal/Project/Project/Deployment/AssemblyDeploy.cs:29
 msgid "Can't deploy: no deployment target set"
-msgstr ""
+msgstr "デプロイできません。デプロイメント ターゲットが設定されていません。"
 
 #: src/Main/Base/Internal/Project/Project/Deployment/FileDeploy.cs:24
-msgid "Can't deploy: you forgot to specify a deployment script"
-msgstr ""
-
 #: src/Main/Base/Internal/Project/Project/Deployment/ScriptDeploy.cs:24
-msgid "Can't deply: you forgot to specify a deployment script"
-msgstr ""
+msgid "Can't deploy: you forgot to specify a deployment script"
+msgstr "デプロイできません。デプロイメント スクリプトが指定されていません。"
 
 #: src/Main/Base/Internal/Project/Project/Deployment/ScriptDeploy.cs:36
 msgid "Error while executing deploy script"
-msgstr ""
+msgstr "デプロイ スクリプトの実行中にエラーが発生しました"
 
 #: src/Main/Base/Internal/Project/Project/IncludeFilesDialog.cs:56
 #, csharp-format
 msgid "Found new files in {0}"
-msgstr ""
+msgstr "{0} で新しいファイルを発見しました"
 
 #: src/Main/Base/Internal/Templates/CodeTemplateLoader.cs:108
 msgid "Can't load templates configuration file"
@@ -2691,22 +2724,22 @@ msgstr ""
 msgid "Didnt match on mimetype: {0}, trying filename"
 msgstr "{0} はmime型にマッチしません。ファイル名で試行します。"
 
-#: src/Main/Base/Services/File/DefaultFileService.cs:247
+#: src/Main/Base/Services/File/DefaultFileService.cs:248
 #, csharp-format
 msgid "Can't remove directory {0}"
 msgstr "ディレクトリ {0} を削除できません"
 
-#: src/Main/Base/Services/File/DefaultFileService.cs:256
+#: src/Main/Base/Services/File/DefaultFileService.cs:257
 #, csharp-format
 msgid "Can't remove file {0}"
 msgstr "ファイル {0} を削除できません"
 
-#: src/Main/Base/Services/File/DefaultFileService.cs:271
+#: src/Main/Base/Services/File/DefaultFileService.cs:272
 #, csharp-format
 msgid "Can't rename directory {0}"
 msgstr "ディレクトリ {0} の名前を変更できません"
 
-#: src/Main/Base/Services/File/DefaultFileService.cs:280
+#: src/Main/Base/Services/File/DefaultFileService.cs:281
 #, csharp-format
 msgid "Can't rename file {0}"
 msgstr "ファイル {0} の名前を変更できません"
@@ -2715,11 +2748,11 @@ msgstr "ファイル {0} の名前を変更できません"
 msgid "Question"
 msgstr "質問"
 
-#: src/Main/Base/Services/ParserService/DefaultParserService.cs:193
+#: src/Main/Base/Services/ParserService/DefaultParserService.cs:197
 msgid "Generate code completion database"
 msgstr "コード補完データベースを生成する"
 
-#: src/Main/Base/Services/ParserService/DefaultParserService.cs:203
+#: src/Main/Base/Services/ParserService/DefaultParserService.cs:207
 msgid "Writing class"
 msgstr "クラスを出力中"
 
@@ -2738,16 +2771,24 @@ msgstr "変更されたファイルを保存しますか?"
 
 #: src/Main/Base/Services/StatusBar/DefaultStatusBarService.cs:68
 msgid "INS"
-msgstr ""
+msgstr "INS"
 
 #: src/Main/Base/Services/StatusBar/DefaultStatusBarService.cs:68
 msgid "OVR"
-msgstr ""
+msgstr "OVR"
 
 #: src/Main/Base/Services/ResourceNotFoundException.cs:20
 #, csharp-format
 msgid "Resource not found: {0}"
 msgstr "リソースが見つかりません: {0}"
+
+#: src/Libraries/MonoDevelop.Gui.Widgets/FileBrowser/FileBrowser.cs:79
+msgid "Up one level"
+msgstr "1レベル上へ"
+
+#: src/Libraries/MonoDevelop.Gui.Widgets/FileBrowser/FileBrowser.cs:80
+msgid "Home"
+msgstr "ホーム"
 
 #: src/Libraries/MonoDevelop.Gui.Widgets/FileBrowser/FileBrowser.cs:253
 msgid "Open with file browser"
@@ -2789,10 +2830,6 @@ msgstr "フォルダの削除"
 msgid "Could not delete folder '{0}'"
 msgstr "フォルダ '{0}' を削除できませんでした"
 
-#: src/Libraries/MonoDevelop.Gui.Widgets/FolderDialog/BaseFileEntry.cs:24
-msgid "_Browse..."
-msgstr "ブラウズ... (_B)"
-
 #: src/Libraries/MonoDevelop.Gui.Widgets/Navbar/Navbar.cs:51
 msgid "Go back"
 msgstr "戻る"
@@ -2827,12 +2864,12 @@ msgid "Insert a color hex string"
 msgstr "色を表す16進数を入力してください"
 
 #: src/AddIns/DisplayBindings/SourceEditor/Gui/Dialogs/ReplaceDialog.cs:142
-#: src/AddIns/DisplayBindings/SourceEditor/Gui/Dialogs/ReplaceInFilesDialog.cs:176
+#: src/AddIns/DisplayBindings/SourceEditor/Gui/Dialogs/ReplaceInFilesDialog.cs:177
 msgid "Wildcards"
 msgstr "ワイルドカード"
 
 #: src/AddIns/DisplayBindings/SourceEditor/Gui/Dialogs/ReplaceDialog.cs:145
-#: src/AddIns/DisplayBindings/SourceEditor/Gui/Dialogs/ReplaceInFilesDialog.cs:178
+#: src/AddIns/DisplayBindings/SourceEditor/Gui/Dialogs/ReplaceInFilesDialog.cs:179
 msgid "Regular Expressions"
 msgstr "正規表現"
 
@@ -2856,6 +2893,7 @@ msgstr "置換"
 msgid "Find"
 msgstr "検索"
 
+#  FIXME: make this a resource in the resource file
 #. FIXME: make this a resource in the resource file
 #: src/AddIns/DisplayBindings/SourceEditor/Gui/Dialogs/EditTemplateGroupDialog.cs:61
 #, csharp-format
@@ -2867,25 +2905,25 @@ msgstr "コードグループ {0}"
 msgid "Replace in Files"
 msgstr "ファイル内で置換..."
 
-#: src/AddIns/DisplayBindings/SourceEditor/Gui/Dialogs/ReplaceInFilesDialog.cs:194
+#: src/AddIns/DisplayBindings/SourceEditor/Gui/Dialogs/ReplaceInFilesDialog.cs:195
 msgid "Directories"
 msgstr "ディレクトリ"
 
-#: src/AddIns/DisplayBindings/SourceEditor/Gui/Dialogs/ReplaceInFilesDialog.cs:198
+#: src/AddIns/DisplayBindings/SourceEditor/Gui/Dialogs/ReplaceInFilesDialog.cs:199
 msgid "Whole project"
 msgstr "プロジェクト全体"
 
-#: src/AddIns/DisplayBindings/SourceEditor/Gui/Dialogs/ReplaceInFilesDialog.cs:256
+#: src/AddIns/DisplayBindings/SourceEditor/Gui/Dialogs/ReplaceInFilesDialog.cs:258
 msgid "Select directory"
 msgstr "ディレクトリを選択して下さい"
 
-#: src/AddIns/DisplayBindings/SourceEditor/Gui/Dialogs/ReplaceInFilesDialog.cs:294
-#: src/AddIns/DisplayBindings/SourceEditor/Gui/Dialogs/ReplaceInFilesDialog.cs:299
+#: src/AddIns/DisplayBindings/SourceEditor/Gui/Dialogs/ReplaceInFilesDialog.cs:309
+#: src/AddIns/DisplayBindings/SourceEditor/Gui/Dialogs/ReplaceInFilesDialog.cs:314
 #, csharp-format
 msgid "Invalid directory name: {0}"
 msgstr "無効なディレクトリ名です: {0}"
 
-#: src/AddIns/DisplayBindings/SourceEditor/Gui/Dialogs/ReplaceInFilesDialog.cs:304
+#: src/AddIns/DisplayBindings/SourceEditor/Gui/Dialogs/ReplaceInFilesDialog.cs:319
 #, csharp-format
 msgid "Invalid file mask: {0}"
 msgstr "無効なファイルマスクです: {0}"
@@ -2911,11 +2949,13 @@ msgstr "ソースエディタ"
 msgid "Search completed"
 msgstr "検索が完了しました"
 
+#  MessageBox.Show((Form)WorkbenchSingleton.Workbench, "Mark all done", "Finished");
 #. MessageBox.Show((Form)WorkbenchSingleton.Workbench, "Mark all done", "Finished");
 #: src/AddIns/DisplayBindings/SourceEditor/Search/SearchReplaceManager.cs:105
 msgid "Mark all completed"
 msgstr "全てのマークが完了しました"
 
+#  MessageBox.Show((Form)WorkbenchSingleton.Workbench, "Replace all done", "Finished");
 #. MessageBox.Show((Form)WorkbenchSingleton.Workbench, "Replace all done", "Finished");
 #: src/AddIns/DisplayBindings/SourceEditor/Search/SearchReplaceManager.cs:138
 msgid "Replace all finished"
@@ -2936,21 +2976,3 @@ msgstr "ライブラリ"
 #: src/AddIns/BackendBindings/CSharpBinding/Gui/OutputOptionsPanel.cs:100
 msgid "Select the directory in which the assembly will be created"
 msgstr "アセンブリが生成されるディレクトリを選択して下さい"
-
-#~ msgid "Add Reference"
-#~ msgstr "参照の追加"
-
-#~ msgid "button1"
-#~ msgstr "ボタン1"
-
-#~ msgid "button3"
-#~ msgstr "button3"
-
-#~ msgid "radiobutton1"
-#~ msgstr "radiobutton1"
-
-#~ msgid "radiobutton2"
-#~ msgstr "radiobutton2"
-
-#~ msgid "System Assemblies"
-#~ msgstr "システム アセンブリ"
