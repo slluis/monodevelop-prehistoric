@@ -182,7 +182,6 @@ namespace MonoDevelop.Gui.Pads
 					if (content is IPositionable) {
 						if (tag.Line > 0) {
 							((IPositionable)content).JumpTo(tag.Line - 1, 0);
-							content.Control.GrabFocus();
 						}
 					}
 				}

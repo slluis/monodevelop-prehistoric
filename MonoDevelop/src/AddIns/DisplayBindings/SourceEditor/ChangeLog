@@ -1,5 +1,11 @@
 2004-03-29  Todd Berman  <tberman@sevenl.net>
 
+	* Gui/SourceEditorDisplayBinding.cs: second half of the double clicking
+	not setting focus properly, in specific this is a gtk+ 2.4 regression,
+	bug filed: http://bugzilla.gnome.org/show_bug.cgi?id=138458
+
+2004-03-29  Todd Berman  <tberman@sevenl.net>
+
 	* Gui/SourceEditorDisplayBinding.cs: properly mark IsReadOnly
 
 2004-03-28  Todd Berman  <tberman@sevenl.net>

@@ -133,7 +133,18 @@ namespace MonoDevelop.SourceEditor.Gui
 			
 			se.Buffer.PlaceCursor (itr);		
 			se.View.ScrollMarkOnscreen (se.Buffer.InsertMark);
+			Gtk.Timeout.Add (20, new Gtk.Function (changeFocus));
+		}
+
+		//This code exists to workaround a gtk+ 2.4 regression/bug
+		//
+		//The gtk+ 2.4 treeview steals focus with double clicked
+		//row_activated.
+		// http://bugzilla.gnome.org/show_bug.cgi?id=138458
+		bool changeFocus ()
+		{
 			se.View.GrabFocus ();
+			return false;
 		}
 		
 		public void GotoMatchingBrace ()

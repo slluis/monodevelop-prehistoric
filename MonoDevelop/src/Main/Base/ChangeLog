@@ -1,5 +1,10 @@
 2004-03-29  Todd Berman  <tberman@sevenl.net>
 
+	* Gui/Pads/ClassScout/ClassScout.cs: partial fix to bug with double
+	clicking not setting focus properly.
+
+2004-03-29  Todd Berman  <tberman@sevenl.net>
+
 	* Commands/RunCommands.cs: When you run, you need to make sure the
 	compile completed properly.
 	* Gui/Workbench/Layouts/SdiWorkspaceWindow.cs: Mark file/project dirty
