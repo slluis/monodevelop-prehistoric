@@ -162,13 +162,13 @@ namespace MonoDevelop.Services
 				if (combine != null && project != null)
 				{
 					if (fileUtilityService.ObservedLoad(new NamedFileOperationDelegate(new LoadFileWrapper(binding, project).Invoke), fileName) == FileOperationResult.OK) {
-						fileService.RecentOpen.AddLastFile(fileName);
+						fileService.RecentOpen.AddLastFile (fileName, project.Name);
 					}
 				}
 				else
 				{
 					if (fileUtilityService.ObservedLoad(new NamedFileOperationDelegate(new LoadFileWrapper(binding, null).Invoke), fileName) == FileOperationResult.OK) {
-						fileService.RecentOpen.AddLastFile(fileName);
+						fileService.RecentOpen.AddLastFile (fileName, null);
 					}
 				}
 			} else {
@@ -182,7 +182,7 @@ namespace MonoDevelop.Services
 					}
 				} catch {
 					if (fileUtilityService.ObservedLoad(new NamedFileOperationDelegate (new LoadFileWrapper (displayBindingService.LastBinding, null).Invoke), fileName) == FileOperationResult.OK) {
-						fileService.RecentOpen.AddLastFile (fileName);
+						fileService.RecentOpen.AddLastFile (fileName, null);
 					}
 				}
 			}

@@ -71,12 +71,15 @@ namespace MonoDevelop.Services
 			UpdateLastProject ();
 		}
 		
-		// FIXME: store the Project name also
-		// so we can optionally display in the menu
-		// filename [Project]
-		public void AddLastFile (string name)
+		public void AddLastFile (string name, string project)
 		{
-			recentFiles.AddWithLimit (new RecentItem (new Uri (name), Vfs.GetMimeType (name), "MonoDevelop Files"), "MonoDevelop Files", MAX_LENGTH);
+			RecentItem ri = new RecentItem (new Uri (name), Vfs.GetMimeType (name), "MonoDevelop Files");
+			if (project == null)
+				ri.Private = String.Format ("{0}", Path.GetFileName (name));
+			else
+				ri.Private = String.Format ("{0} [{1}]", Path.GetFileName (name), project);
+
+			recentFiles.AddWithLimit (ri, "MonoDevelop Files", MAX_LENGTH);
 			UpdateLastFile ();
 		}
 		

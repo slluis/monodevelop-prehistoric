@@ -56,8 +56,10 @@ namespace MonoDevelop.Commands
 				
 				for (int i = 0; i < recentOpen.RecentFile.Length; ++i) {
 					string accelaratorKeyPrefix = i < 10 ? "&" + ((i + 1) % 10).ToString() + " " : "";
-					items[i] = new RFMItem(null, null, accelaratorKeyPrefix + recentOpen.RecentFile[i].ToString().Replace ("_", "__"), new EventHandler(LoadRecentFile));
-					items[i].Tag = recentOpen.RecentFile[i].ToString();
+					RecentItem ri = recentOpen.RecentFile[i];
+					string label = ri.Private == null ? ri.ToString () : ri.Private;
+					items[i] = new RFMItem (null, null, accelaratorKeyPrefix + label.Replace ("_", "__"), new EventHandler (LoadRecentFile));
+					items[i].Tag = ri.ToString ();
 				}
 				return items;
 			}

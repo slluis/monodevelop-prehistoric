@@ -9,6 +9,11 @@
 	* Services/Project/DefaultProjectService:
 	* Commands/MenuItemBuilders.cs: display project name for projects
 
+	* Services/File/DefaultFileService.cs:
+	* Services/File/RecentOpen.cs:
+	* Commands/MenuItemBuilders.cs:
+	* Commands/FileCommand.cs: display File [Project] or just File
+
 2004-11-01	Fawad Halim  <fawad@fawad.net>
 
 	* Internal/Parser/SharpAssemblyLayer/SharpAssemblyParameter.cs
