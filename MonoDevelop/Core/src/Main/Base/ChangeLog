@@ -1,3 +1,9 @@
+2004-11-11  Todd Berman  <tberman@off.net>
+
+	* src/Main/Base/Makefile.am: Add $(MONO_POSIX_OEE)
+	* src/Main/Base/Internal/Project/Combine/Combine.cs: #ifdef around
+	FileMode using. This should fix cvs HEAD users.
+
 2004-11-05  Levi Bard  <taktaktaktaktaktaktaktaktaktak@gmail.com>
 
 	* src/Main/Base/Internal/Parser/IParser.cs: Added

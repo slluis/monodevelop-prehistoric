@@ -375,7 +375,7 @@ ASSEMBLY = MonoDevelop.Base.dll
 all: $(ASSEMBLY)
 
 $(ASSEMBLY): $(build_sources) ../../../data/resources/glade/Base.glade
-	$(CSC) -codepage:utf8 /out:$(ASSEMBLY) /target:library $(DLLS) \
+	$(CSC) $(MONO_POSIX_OEE) -codepage:utf8 /out:$(ASSEMBLY) /target:library $(DLLS) \
 		/resource:$(srcdir)/../../../data/resources/glade/Base.glade,Base.glade \
 		$(monodoc_libflags) \
 		$(build_sources) \

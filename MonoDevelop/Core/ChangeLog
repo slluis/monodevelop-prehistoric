@@ -1,3 +1,7 @@
+2004-11-11  Todd Berman  <tberman@off.net>
+
+	* configure.in: Check for OEE Mono.Posix
+
 2004-11-05  Levi Bard  <taktaktaktaktaktaktaktaktaktak@gmail.com>
 
 	* *: Large changeset, adds project management, compilation, and

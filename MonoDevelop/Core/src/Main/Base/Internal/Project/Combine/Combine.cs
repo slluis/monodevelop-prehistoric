@@ -16,7 +16,11 @@ using System.CodeDom.Compiler;
 using System.ComponentModel;
 
 using Mono.Posix;
+#if MONO_POSIX_OEE
+using FileMode = Mono.Posix.FilePermissions;
+#else
 using FileMode = Mono.Posix.FileMode;
+#endif
 
 using MonoDevelop.Core.Services;
 
