@@ -18,87 +18,94 @@ using ICSharpCode.Core.Services;
 using ICSharpCode.Core.AddIns;
 
 using Gtk;
+using MonoDevelop.Gui;
 
-namespace ICSharpCode.SharpDevelop.Gui.Dialogs.OptionPanels
-{
-	public class CodeGenerationPanel : AbstractOptionPanel
-	{
-		// Gtk Controls
-		CheckButton generateAdditonalCommentsCheckBox;
-		CheckButton generateDocCommentsCheckBox;
-		CheckButton useFullTypeNamesCheckBox; 
-		CheckButton blankLinesBetweenMemberCheckBox;
-		CheckButton elseOnClosingCheckBox;
-		CheckButton startBlockOnTheSameLineCheckBox; 
+namespace ICSharpCode.SharpDevelop.Gui.Dialogs.OptionPanels {
+	public class CodeGenerationPanel : AbstractOptionPanel {
 		
-		// Services
-		StringParserService StringParserService = (StringParserService)ServiceManager.Services.GetService (typeof (StringParserService));
-		PropertyService PropertyService = (PropertyService)ServiceManager.Services.GetService (typeof (PropertyService));
-		static readonly string codeGenerationProperty = "SharpDevelop.UI.CodeGenerationOptions";
-		
-		public override void LoadPanelContents()
-		{
-			// set up the form controls instance
-			SetupPanelInstance();
+		class CodeGenerationPanelWidget : GladeWidgetExtract {
+			StringParserService StringParserService = (StringParserService)ServiceManager.Services.GetService (typeof (StringParserService));
 			
-			IProperties p = (IProperties)PropertyService.GetProperty(codeGenerationProperty, new DefaultProperties());
+			[Glade.Widget] Label hdr_code_generation_options;
 			
-			generateAdditonalCommentsCheckBox.Active = p.GetProperty("GenerateAdditionalComments", true);
-			generateDocCommentsCheckBox.Active       = p.GetProperty("GenerateDocumentComments", true);
-			useFullTypeNamesCheckBox.Active          = p.GetProperty("UseFullyQualifiedNames", true);
+			[Glade.Widget] CheckButton
+				chk_blk_on_same_line,
+				chk_else_on_same_line,
+				chk_blank_lines,
+				chk_full_type_names;
 			
-			blankLinesBetweenMemberCheckBox.Active   = p.GetProperty("BlankLinesBetweenMembers", true);
-			elseOnClosingCheckBox.Active             = p.GetProperty("ElseOnClosing", true);
-			startBlockOnTheSameLineCheckBox.Active   = p.GetProperty("StartBlockOnSameLine", true);
+			[Glade.Widget] Label hdr_comment_generation_options;
+			
+			[Glade.Widget] CheckButton
+				chk_doc_comments,
+				chk_other_comments;
+			
+			public CodeGenerationPanelWidget (IProperties p) : base ("Base.glade", "CodeGenerationOptionsPanel")
+			{
+				i18nizeHeader (hdr_code_generation_options, "${res:Dialog.Options.IDEOptions.CodeGenerationOptionsPanel.CodeGenerationOptionsGroupBox}");
+				i18nizeHeader (hdr_comment_generation_options, "${res:Dialog.Options.IDEOptions.CodeGenerationOptionsPanel.CommentGenerationOptionsGroupBox}");
+				
+				i18nize (chk_blk_on_same_line, "${res:Dialog.Options.IDEOptions.CodeGenerationOptionsPanel.StartBlockOnTheSameLineCheckBox}");
+				i18nize (chk_else_on_same_line, "${res:Dialog.Options.IDEOptions.CodeGenerationOptionsPanel.ElseOnClosingCheckBox}");
+				i18nize (chk_blank_lines, "${res:Dialog.Options.IDEOptions.CodeGenerationOptionsPanel.BlankLinesBetweenMembersCheckBox}");
+				i18nize (chk_full_type_names, "${res:Dialog.Options.IDEOptions.CodeGenerationOptionsPanel.UseFullTypeNamesCheckBox}");
+				
+				i18nize (chk_doc_comments, "${res:Dialog.Options.IDEOptions.CodeGenerationOptionsPanel.GenerateDocCommentsCheckBox}");
+				i18nize (chk_other_comments, "${res:Dialog.Options.IDEOptions.CodeGenerationOptionsPanel.GenerateAdditionalCommentsCheckBox}");
+				
+				chk_blk_on_same_line.Active   = p.GetProperty("StartBlockOnSameLine", true);
+				chk_else_on_same_line.Active  = p.GetProperty("ElseOnClosing", true);
+				chk_blank_lines.Active        = p.GetProperty("BlankLinesBetweenMembers", true);
+				chk_full_type_names.Active    = p.GetProperty("UseFullyQualifiedNames", true);
+			
+				chk_doc_comments.Active       = p.GetProperty("GenerateDocumentComments", true);
+				chk_other_comments.Active     = p.GetProperty("GenerateAdditionalComments", true);
+			}
+			
+			public void Store (IProperties p)
+			{
+				p.SetProperty ("StartBlockOnSameLine",       chk_blk_on_same_line.Active);
+				p.SetProperty ("ElseOnClosing",              chk_else_on_same_line.Active);
+				p.SetProperty ("BlankLinesBetweenMembers",   chk_blank_lines.Active);
+				p.SetProperty ("UseFullyQualifiedNames",     chk_full_type_names.Active);
+				
+				p.SetProperty ("GenerateDocumentComments",   chk_doc_comments.Active);
+				p.SetProperty ("GenerateAdditionalComments", chk_other_comments.Active);
+			}
+			
+			void i18nizeHeader (Label l, string key)
+			{
+				// TODO: use the real pango stuff
+				// otherwise, excaping is a problem
+				l.Markup = "<b>" + StringParserService.Parse (key) + "</b>";
+				
+			}
+			
+			void i18nize (CheckButton c, string key)
+			{
+				c.Label = StringParserService.Parse (key);
+			}
 		}
 		
-		public override bool StorePanelContents()
+		CodeGenerationPanelWidget widget;
+		
+		PropertyService PropertyService = (PropertyService)ServiceManager.Services.GetService (typeof (PropertyService));
+		const string codeGenerationProperty = "SharpDevelop.UI.CodeGenerationOptions";
+		
+		public override void LoadPanelContents ()
 		{
-			IProperties p = (IProperties)PropertyService.GetProperty(codeGenerationProperty, new DefaultProperties());
-			p.SetProperty("GenerateAdditionalComments", generateAdditonalCommentsCheckBox.Active);
-			p.SetProperty("GenerateDocumentComments",   generateDocCommentsCheckBox.Active);
-			p.SetProperty("UseFullyQualifiedNames",     useFullTypeNamesCheckBox.Active);
-			p.SetProperty("BlankLinesBetweenMembers",   blankLinesBetweenMemberCheckBox.Active);
-			p.SetProperty("ElseOnClosing",              elseOnClosingCheckBox.Active);
-			p.SetProperty("StartBlockOnSameLine",       startBlockOnTheSameLineCheckBox.Active);
+			IProperties p = (IProperties) PropertyService.GetProperty (codeGenerationProperty, new DefaultProperties ());
+			Add (widget = new CodeGenerationPanelWidget (p));
+		}
+		
+		public override bool StorePanelContents ()
+		{
+			IProperties p = (IProperties) PropertyService.GetProperty (codeGenerationProperty, new DefaultProperties ());
+			
+			widget.Store (p);
+			
 			PropertyService.SetProperty(codeGenerationProperty, p);
 			return true;
 		}
-		
-		private void SetupPanelInstance()
-		{
-			// instantiate all the controls in the first group
-			Gtk.Frame frame1 = new Gtk.Frame(StringParserService.Parse("${res:Dialog.Options.IDEOptions.CodeGenerationOptionsPanel.CodeGenerationOptionsGroupBox}"));
-			Gtk.VBox vBox1 = new Gtk.VBox(false,2);			
-			useFullTypeNamesCheckBox = CheckButton.NewWithLabel(StringParserService.Parse("${res:Dialog.Options.IDEOptions.CodeGenerationOptionsPanel.UseFullTypeNamesCheckBox}")); 
-			blankLinesBetweenMemberCheckBox = CheckButton.NewWithLabel(StringParserService.Parse("${res:Dialog.Options.IDEOptions.CodeGenerationOptionsPanel.BlankLinesBetweenMembersCheckBox}"));
-			elseOnClosingCheckBox = CheckButton.NewWithLabel(StringParserService.Parse("${res:Dialog.Options.IDEOptions.CodeGenerationOptionsPanel.ElseOnClosingCheckBox}"));
-			startBlockOnTheSameLineCheckBox = CheckButton.NewWithLabel(StringParserService.Parse("${res:Dialog.Options.IDEOptions.CodeGenerationOptionsPanel.StartBlockOnTheSameLineCheckBox}")); 
-			
-			// pack all controls in first group
-			vBox1.PackStart(startBlockOnTheSameLineCheckBox, false, false, 2);
-			vBox1.PackStart(elseOnClosingCheckBox, false, false, 2);
-			vBox1.PackStart(blankLinesBetweenMemberCheckBox, false, false, 2);
-			vBox1.PackStart(useFullTypeNamesCheckBox, false, false, 2);
-			frame1.Add(vBox1);
-			
-			// instantiate all the controls in the second group
-			Gtk.Frame frame2 = new Gtk.Frame(StringParserService.Parse("${res:Dialog.Options.IDEOptions.CodeGenerationOptionsPanel.CommentGenerationOptionsGroupBox}"));
-			Gtk.VBox vBox2 = new Gtk.VBox(false,2);			
-			generateAdditonalCommentsCheckBox = CheckButton.NewWithLabel(StringParserService.Parse("${res:Dialog.Options.IDEOptions.CodeGenerationOptionsPanel.GenerateAdditionalCommentsCheckBox}"));
-			generateDocCommentsCheckBox = CheckButton.NewWithLabel(StringParserService.Parse("${res:Dialog.Options.IDEOptions.CodeGenerationOptionsPanel.GenerateDocCommentsCheckBox}"));
-			
-			// pack all controls in second group
-			vBox2.PackStart(generateDocCommentsCheckBox, false, false, 2);
-			vBox2.PackStart(generateAdditonalCommentsCheckBox, false, false, 2);
-			frame2.Add(vBox2);
-			
-			// pack all the groups
-			Gtk.VBox mainBox = new Gtk.VBox(false,2);
-			mainBox.PackStart(frame1, false, false, 2);
-			mainBox.PackStart(frame2, false, false, 2);
-			this.Add(mainBox);
-		}
-
 	}
 }
