@@ -7,10 +7,24 @@ namespace Gdl
 {
 	public class DockNotebook : DockItem
 	{
+		private struct DockInfo
+		{
+			public DockPlacement position;
+			public object data;
+			
+			public DockInfo (DockPlacement position, object data)
+			{
+				this.position = position;
+				this.data = data;
+			}
+		}
 		
+		private DockInfo dockInfo;
+		private CallbackInvoker storedInvoker;
+
 		static DockNotebook ()
 		{
-			Gtk.Rc.ParseString ("style \"gdl-dock-notebook-default\" {\n" +
+			Rc.ParseString ("style \"gdl-dock-notebook-default\" {\n" +
 			                    "xthickness = 2\n" +
 			                    "ythickness = 2\n" +
 			                    "}\n" +
@@ -20,15 +34,15 @@ namespace Gdl
 		
 		public DockNotebook ()
 		{
-			this.Child = new Gtk.Notebook ();
-			this.Child.Parent = this;
-			((Gtk.Notebook)this.Child).TabPos = Gtk.PositionType.Bottom;
-			//((Gtk.Notebook)this.Child).SwitchPage += new Gtk.SwitchPageHandler (SwitchPageCb);
-			//((Gtk.Notebook)this.Child).ButtonPressEvent += new Gtk.ButtonPressEvent (ButtonPressCb);
-			//((Gtk.Notebook)this.Child).ButtonReleaseEvent += new Gtk.ButtonReleaseEvent (ButtonReleaseCb);
-			((Gtk.Notebook)this.Child).Scrollable = true;
-			this.Child.Show ();
-			this.DockObjectFlags &= DockObjectFlags.Automatic;
+			Child = new Notebook ();
+			Child.Parent = this;
+			((Notebook)Child).TabPos = PositionType.Bottom;
+			//((Notebook)Child).SwitchPage += new SwitchPageHandler (SwitchPageCb);
+			//((Notebook)Child).ButtonPressEvent += new ButtonPressEvent (ButtonPressCb);
+			//((Notebook)Child).ButtonReleaseEvent += new ButtonReleaseEvent (ButtonReleaseCb);
+			((Notebook)Child).Scrollable = true;
+			Child.Show ();
+			DockObjectFlags &= DockObjectFlags.Automatic;
 		}
 		
 		protected void SwitchPageHandler (object o, SwitchPageArgs e)
@@ -36,94 +50,83 @@ namespace Gdl
 			//Does this code need to be ported at all?
 		}
 		
-		protected override void OnAdded (Gtk.Widget widget)
+		protected override void OnAdded (Widget widget)
 		{
 			if (widget == null || !(widget is DockItem))
 				return;
-			this.Docking ((DockObject)widget, DockPlacement.Center, null);
+
+			Dock ((DockObject)widget, DockPlacement.Center, null);
 		}
 		
-		private CallbackInvoker stored_invoker;
-		protected override void ForAll (bool include_internals, CallbackInvoker invoker)
+		protected override void ForAll (bool includeInternals, CallbackInvoker invoker)
 		{
-			if (include_internals) {
-				base.ForAll (include_internals, invoker);
+			if (includeInternals) {
+				base.ForAll (includeInternals, invoker);
 			} else {
-				if (this.Child != null) {
-					stored_invoker = invoker;
-					((Gtk.Notebook)this.Child).Foreach (new Gtk.Callback (childForAll));
+				if (Child != null) {
+					storedInvoker = invoker;
+					((Notebook)Child).Foreach (new Callback (ChildForAll));
 				}
 			}
 		}
 		
-		private void childForAll (Gtk.Widget widget)
+		private void ChildForAll (Widget widget)
 		{
-			stored_invoker.Invoke (widget);
+			storedInvoker.Invoke (widget);
 		}
 		
-		protected struct DockInfo
-		{
-			public DockPlacement position;
-			public object other_data;
-			
-			public DockInfo (DockPlacement pos, object data)
-			{
-				position = pos;
-				other_data = data;
-			}
-		}
-		
-		private void dock_child (Widget w)
+		private void DockChild (Widget w)
 		{
 			if (w is DockObject)
-				this.Docking ((DockObject)w, stored_info.position, stored_info.other_data);
+				Dock ((DockObject)w, dockInfo.position, dockInfo.data);
 		}
 		
-		private DockInfo stored_info;
-		public override void Docking (DockObject requestor, DockPlacement position, object extra_data)
+		public override void OnDocked (DockObject requestor, DockPlacement position, object data)
 		{
+			/* we only add support for DockPlacement.Center docking
+			   strategy here... for the rest use our parent class' method */
 			if (position == DockPlacement.Center) {
+				/* we can only dock simple (not compound) items */
 				if (requestor.IsCompound) {
 					requestor.Freeze ();
-					stored_info = new DockInfo (position, extra_data);
-					requestor.Foreach (new Gtk.Callback (dock_child));
+					dockInfo = new DockInfo (position, data);
+					requestor.Foreach (new Callback (DockChild));
 					requestor.Thaw ();
 				} else {
-					DockItem requestor_item = requestor as DockItem;
-					if (requestor_item == null)
-						return;
-					Gtk.Widget label = requestor_item.TabLabel;
+					DockItem requestorItem = requestor as DockItem;
+					Widget label = requestorItem.TabLabel;
 					if (label == null) {
-						label = new Gtk.Label (requestor_item.LongName);
-						requestor_item.TabLabel = label;
+						label = new Label (requestorItem.LongName);
+						requestorItem.TabLabel = label;
 					}
-					int new_position = -1;
-					if (extra_data is Int32)
-						new_position = Convert.ToInt32 (extra_data);
-					Console.WriteLine (requestor_item + " --> " + requestor_item.Child + " <-- " + requestor_item.Child.Parent);
-					((Gtk.Notebook)this.Child).InsertPage (requestor, label, new_position);
+					
+					int tabPosition = -1;
+					if (data is Int32)
+						tabPosition = Convert.ToInt32 (data);
+					((Notebook)Child).InsertPage (requestor, label, tabPosition);
 					requestor.DockObjectFlags |= DockObjectFlags.Attached;
 				}
-			} else
-				base.Docking (requestor, position, extra_data);
+			} else {
+				base.OnDocked (requestor, position, data);
+			}
 		}
 		
-		public override void SetOrientation (Gtk.Orientation orientation)
+		public override void SetOrientation (Orientation orientation)
 		{
-			if (this.Child != null && this.Child is Gtk.Notebook) {
-				if (orientation == Gtk.Orientation.Horizontal)
-					((Gtk.Notebook)this.Child).TabPos = Gtk.PositionType.Top;
+			if (Child != null && Child is Notebook) {
+				if (orientation == Orientation.Horizontal)
+					((Notebook)Child).TabPos = PositionType.Top;
 				else
-					((Gtk.Notebook)this.Child).TabPos = Gtk.PositionType.Left;
+					((Notebook)Child).TabPos = PositionType.Left;
 			}
 			base.SetOrientation (orientation);
 		}
 		
-		public override bool ChildPlacement (DockObject child, ref DockPlacement position)
+		public override bool OnChildPlacement (DockObject child, ref DockPlacement position)
 		{
 			DockPlacement pos = DockPlacement.None;
-			if (this.Child != null) {
-				foreach (Gtk.Widget widget in ((Gtk.Notebook)this.Child).Children) {
+			if (Child != null) {
+				foreach (Widget widget in ((Notebook)Child).Children) {
 					if (widget == child) {
 						pos = DockPlacement.Center;
 						break;
@@ -137,27 +140,29 @@ namespace Gdl
 			return false;
 		}
 		
-		public override void Present (DockObject child)
+		public override void OnPresent (DockObject child)
 		{
-			int i = ((Gtk.Notebook)this.Child).PageNum (child);
-			if (i >= 0) {
-				((Gtk.Notebook)this.Child).CurrentPage = i;
-			}
-			base.Present (child);
+			Notebook nb = Child as Notebook;
+			
+			int i = nb.PageNum (child);
+			if (i >= 0)
+				nb.CurrentPage = i;
+
+			base.OnPresent (child);
 		}
 		
-		public override bool Reorder (DockObject requestor, DockPlacement new_position, object other_data)
+		public override bool OnReorder (DockObject requestor, DockPlacement position, object other_data)
 		{
 			bool handled = false;
 			int current_position, new_pos = -1;
 			
-			if (this.Child != null && new_position == DockPlacement.Center) {
-				current_position = ((Gtk.Notebook)this.Child).PageNum (requestor);
+			if (Child != null && position == DockPlacement.Center) {
+				current_position = ((Notebook)Child).PageNum (requestor);
 				if (current_position >= 0) {
 					handled = true;
 					if (other_data is Int32)
 						new_pos = Convert.ToInt32 (other_data);
-					((Gtk.Notebook)this.Child).ReorderChild (requestor, new_pos);
+					((Notebook)Child).ReorderChild (requestor, new_pos);
 				}
 			}
 			return handled;
@@ -168,8 +173,8 @@ namespace Gdl
 		}
 		
 		public int Page {
-			get { return ((Gtk.Notebook)this.Child).CurrentPage; }
-			set { ((Gtk.Notebook)this.Child).CurrentPage = value; }
+			get { return ((Notebook)Child).CurrentPage; }
+			set { ((Notebook)Child).CurrentPage = value; }
 		}
 		
 		public override bool HasGrip {

@@ -16,16 +16,16 @@ namespace Gdl
 		
 		public DockPlaceholder ()
 		{
-			this.Flags |= (int)Gtk.WidgetFlags.NoWindow;
-			this.Flags &= ~((int)Gtk.WidgetFlags.CanFocus);
+			Flags |= (int)WidgetFlags.NoWindow;
+			Flags &= ~((int)WidgetFlags.CanFocus);
 		}
 		
 		public DockPlaceholder (string name, DockObject objekt, DockPlacement position, bool sticky) : this ()
 		{
-			this.Sticky = sticky;
-			this.Name = name;
+			Sticky = sticky;
+			Name = name;
 			if (objekt != null) {
-				this.Attach (objekt);
+				Attach (objekt);
 				if (position == DockPlacement.None) {
 					position = DockPlacement.Center;
 				}
@@ -48,71 +48,71 @@ namespace Gdl
 		
 		public DockObject Host {
 			get { return host; }
-			set { this.Attach (value); }
+			set { Attach (value); }
 		}
 		
 		public DockPlacement NextPlacement {
 			get {
-				if (this.placement_stack != null && this.placement_stack.Count != 0)
-					return (DockPlacement)this.placement_stack[0];
+				if (placement_stack != null && placement_stack.Count != 0)
+					return (DockPlacement)placement_stack[0];
 				return DockPlacement.Center;
 			}
 			set { 
 				if (placement_stack == null)
 					placement_stack = new ArrayList ();
-				this.placement_stack.Insert (0, value);
+				placement_stack.Insert (0, value);
 			}
 		}
 		
-		protected override void OnAdded (Gtk.Widget widget)
+		protected override void OnAdded (Widget widget)
 		{
 			if (!(widget is DockItem))
 				return;
-			this.Docking ((DockItem)widget, this.NextPlacement, null);
+			Dock ((DockItem)widget, NextPlacement, null);
 		}
 		
-		public override void Detach (bool recursive)
+		public override void OnDetached (bool recursive)
 		{
-			this.DisconnectHost ();
-			this.placement_stack = null;
-			this.DockObjectFlags &= ~(DockObjectFlags.Attached);
+			DisconnectHost ();
+			placement_stack = null;
+			DockObjectFlags &= ~(DockObjectFlags.Attached);
 		}
 		
-		public override void Reduce ()
+		public override void OnReduce ()
 		{
 		}
 		
-		public override void Docking (DockObject requestor, DockPlacement position, object other_data)
+		public override void OnDocked (DockObject requestor, DockPlacement position, object data)
 		{
-			if (this.host != null) {
-				this.host.Docking (requestor, position, other_data);
+			if (host != null) {
+				host.Dock (requestor, position, data);
 			} else {
-				if (!this.IsBound) {
+				if (!IsBound) {
 					Console.WriteLine ("Attempt to dock a dock object to an unbound placeholder");
 					return;
 				}
-				this.Master.Controller.Docking (requestor, DockPlacement.Floating, null);
+				Master.Controller.Dock (requestor, DockPlacement.Floating, null);
 			}
 		}
 		
-		public override void Present (DockObject child)
+		public override void OnPresent (DockObject child)
 		{
 		}
 		
 		public void DoExcursion ()
 		{
-			if (this.host != null && !this.Sticky && this.placement_stack != null && this.host.IsCompound) {
+			if (host != null && !Sticky && placement_stack != null && host.IsCompound) {
 				DockPlacement pos;
-				DockPlacement stack_pos = this.NextPlacement;
-				foreach (Gtk.Widget child in this.host.Children) {
+				DockPlacement stack_pos = NextPlacement;
+				foreach (Widget child in host.Children) {
 					DockObject item = child as DockObject;
 					if (item == null)
 						continue;
 					pos = stack_pos;
 					
-					this.host.ChildPlacement (item, ref pos);
+					host.ChildPlacement (item, ref pos);
 					if (pos == stack_pos) {
-						this.placement_stack.RemoveAt (0);
+						placement_stack.RemoveAt (0);
 						DisconnectHost ();
 						ConnectHost (item);
 						
@@ -127,14 +127,14 @@ namespace Gdl
 		private void DisconnectHost ()
 		{
 			//Disconnect from host detach and dock events here.
-			this.host = null;
+			host = null;
 		}
 		
 		private void ConnectHost (DockObject new_host)
 		{
-			if (this.host != null)
+			if (host != null)
 				DisconnectHost ();
-			this.host = new_host;
+			host = new_host;
 			//Connect to host detach and dock events here.
 		}
 		
@@ -143,21 +143,21 @@ namespace Gdl
 			if (objekt == null)
 				return;
 			
-			if (!this.IsBound)
-				this.Bind(objekt.Master);
+			if (!IsBound)
+				Bind(objekt.Master);
 			
-			if (objekt.Master != this.Master)
+			if (objekt.Master != Master)
 				return;
 			
-			this.Freeze ();
+			Freeze ();
 			
-			if (this.host != null)
-				this.Detach (false);
+			if (host != null)
+				Detach (false);
 			
 			ConnectHost (objekt);
 			
-			this.DockObjectFlags |= DockObjectFlags.Attached;
-			this.Thaw ();
+			DockObjectFlags |= DockObjectFlags.Attached;
+			Thaw ();
 		}
 	}
 }

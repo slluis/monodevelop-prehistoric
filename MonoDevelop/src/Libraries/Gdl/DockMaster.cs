@@ -1,7 +1,6 @@
 // created on 05/06/2004 at 11:14 A
 using System;
 using System.Collections;
-
 using Gtk;
 
 namespace Gdl
@@ -9,66 +8,90 @@ namespace Gdl
 	public class DockMaster
 	{
 		private object obj;
-		private Hashtable dock_objects = new Hashtable ();
-		private ArrayList toplevel_docks = null;
+		private Hashtable dockObjects = new Hashtable ();
+		private ArrayList toplevelDocks = null;
 		private DockObject controller = null;
-		private int dock_number = 1;
+		private int dockNumber = 1;
 		private int number = 1;
-		private string default_title;
+		private string defaultTitle;
 		private Gdk.GC root_xor_gc;
-		private bool rect_drawn;
-		private Dock rect_owner;
-		private DockRequest drag_request;
+		private bool rectDrawn;
+		private Dock rectOwner;
+		private DockRequest dragRequest;
 		private uint idle_layout_changed_id;
-		private Hashtable locked_items = new Hashtable ();
-		private Hashtable unlocked_items = new Hashtable ();
+		private Hashtable lockedItems = new Hashtable ();
+		private Hashtable unlockedItems = new Hashtable ();
 		
-		public DockMaster () { Console.WriteLine ("Creating a new DockMaster"); }
+		public DockMaster () 
+		{
+			Console.WriteLine ("Creating a new DockMaster");
+		}
 		
 		public string DefaultTitle {
-			get { return default_title; }
-			set { default_title = value; }
+			get {
+				return defaultTitle;
+			}
+			set {
+				defaultTitle = value;
+			}
 		}
-				
+		
+		public int DockNumber {
+			get {
+				return dockNumber;
+			}
+			set {
+				dockNumber = value;
+			}
+		}
+		
+		public ICollection DockObjects {
+			get {
+				return dockObjects.Values;
+			}
+		}
+		
 		public int Locked {
 			get {
-				if (unlocked_items.Count == 0)
+				if (unlockedItems.Count == 0)
 					return 1;
-				if (locked_items.Count == 0)
+				if (lockedItems.Count == 0)
 					return 0;
 				return -1;
 			}
 			set {
 				if (value >= 0)
-					this.LockUnlock (value > 0);
+					LockUnlock (value > 0);
 			}
 		}
 		
 		public ArrayList TopLevelDocks {
-			get { return toplevel_docks; }
+			get {
+				return toplevelDocks;
+			}
 		}
 		
-		protected void foreach_lock_unlock (DockItem item, bool locked)
+		protected void ForeachLockUnlock (DockItem item, bool locked)
 		{
 			item.Locked = locked;
 			if (item.IsCompound) {
 				/*PORT THIS: Container.Foreach doesnt take the arg i need it to take.
 				        gtk_container_foreach (GTK_CONTAINER (item),
-                               (GtkCallback) foreach_lock_unlock,
+                               (GtkCallback) ForeachLockUnlock,
                                (gpointer) locked);*/
 			}
 		}
 		
 		public void LockUnlock (bool locked)
 		{
-			foreach (Gdl.Dock dock in toplevel_docks) {
+			foreach (Dock dock in toplevelDocks) {
 				if (dock.Root != null && dock.Root is DockItem)
-					foreach_lock_unlock ((DockItem)dock.Root, locked);
+					ForeachLockUnlock ((DockItem)dock.Root, locked);
 			}
 			/*PORT THIS:
 			    // just to be sure hidden items are set too
     gdl_dock_master_foreach (master,
-                             (GFunc) foreach_lock_unlock,
+                             (GFunc) ForeachLockUnlock,
                              (gpointer) locked);*/
 		}
 		
@@ -77,29 +100,32 @@ namespace Gdl
 		{
 			if (item == null)
 				return;
-			if (this.drag_request == null)
-				this.drag_request = new DockRequest ();
-			DockRequest request = this.drag_request;
+
+			if (dragRequest == null)
+				dragRequest = new DockRequest ();
+
+			DockRequest request = dragRequest;
 			request.Applicant = item;
 			request.Target = item;
 			request.Position = DockPlacement.Floating;
 			request.Extra = null;
-			this.rect_drawn = false;
-			this.rect_owner = null;
+			rectDrawn = false;
+			rectOwner = null;
 		}
 		
 		public void DragEnd (DockItem item, bool cancelled)
 		{
 			if (item == null)
 				return;
-			DockRequest request = this.drag_request;
+
+			DockRequest request = dragRequest;
 			if (item != request.Applicant)
 				return;
-			if (this.rect_drawn)
+			if (rectDrawn)
 				XorRect ();
 			if (cancelled || request.Applicant == request.Target)
 				return;
-			request.Target.Docking (request.Applicant, request.Position, request.Extra);
+			request.Target.Dock (request.Applicant, request.Position, request.Extra);
 			//emit LayoutChanged here
 		}
 		
@@ -107,7 +133,7 @@ namespace Gdl
 		{
 			if (item == null)
 				return;
-			DockRequest request = this.drag_request;
+			DockRequest request = dragRequest;
 			if (request.Applicant == item)
 				return;
 			DockRequest my_request = new DockRequest (request);
@@ -139,13 +165,13 @@ namespace Gdl
 				dock.GdkWindow.GetOrigin (out win_x, out win_y);
 				x = root_x - win_x;
 				y = root_y - win_y;
-				may_dock = dock.DockRequest (x, y, my_request);
+				may_dock = dock.OnDockRequest (x, y, my_request);
 			} else {
-				foreach (Dock top_dock in toplevel_docks) {
+				foreach (Dock top_dock in toplevelDocks) {
 					top_dock.GdkWindow.GetOrigin (out win_x, out win_y);
 					x = root_x - win_x;
 					y = root_y - win_y;
-					may_dock = top_dock.DockRequest (x, y, my_request);
+					may_dock = top_dock.OnDockRequest (x, y, my_request);
 					if (may_dock)
 						break;
 				}
@@ -168,78 +194,79 @@ namespace Gdl
 			      my_request.Rect.Y == request.Rect.Y &&
 			      my_request.Rect.Width == request.Rect.Width &&
 			      my_request.Rect.Height == request.Rect.Height &&
-			      dock == this.rect_owner)) {
-				if (this.rect_drawn) {
+			      dock == rectOwner)) {
+				if (rectDrawn) {
 					XorRect ();
 				}
 			}
 			
 			request = my_request;
-			this.rect_owner = dock;
+			rectOwner = dock;
 			
-			if (!this.rect_drawn) {
+			if (!rectDrawn) {
 				XorRect ();
 			}
 		}
 		
 		public void XorRect ()
 		{
-			if (this.drag_request == null)
+			if (dragRequest == null)
 				return;
-			this.rect_drawn = !(this.rect_drawn);
-			if (this.rect_owner != null) {
-				this.rect_owner.XorRect (this.drag_request.Rect);
+			rectDrawn = !(rectDrawn);
+			if (rectOwner != null) {
+				rectOwner.XorRect (dragRequest.Rect);
 				return;
 			}
 			
-			Gdk.Rectangle rect = this.drag_request.Rect;
+			Gdk.Rectangle rect = dragRequest.Rect;
 			Gdk.Window window = Gdk.Global.DefaultRootWindow;
-			if (this.root_xor_gc == null) {
+			if (root_xor_gc == null) {
 				Gdk.GCValues values = new Gdk.GCValues ();
 				values.Function = Gdk.Function.Invert;
 				values.SubwindowMode = Gdk.SubwindowMode.IncludeInferiors;
-				this.root_xor_gc = new Gdk.GC (window);
-				this.root_xor_gc.SetValues (values, Gdk.GCValuesMask.Function | Gdk.GCValuesMask.Subwindow);
+				root_xor_gc = new Gdk.GC (window);
+				root_xor_gc.SetValues (values, Gdk.GCValuesMask.Function | Gdk.GCValuesMask.Subwindow);
 			}
-			this.root_xor_gc.SetLineAttributes (1, Gdk.LineStyle.OnOffDash, Gdk.CapStyle.NotLast, Gdk.JoinStyle.Bevel);
-			this.root_xor_gc.SetDashes (1, new sbyte[] {1, 1}, 2);
-			window.DrawRectangle (this.root_xor_gc, false, rect.X, rect.Y, rect.Width, rect.Height);
-			this.root_xor_gc.SetDashes (0, new sbyte[] {1, 1}, 2);
-			window.DrawRectangle (this.root_xor_gc, false, rect.X + 1, rect.Y + 1, rect.Width - 2, rect.Height - 2);
+			root_xor_gc.SetLineAttributes (1, Gdk.LineStyle.OnOffDash, Gdk.CapStyle.NotLast, Gdk.JoinStyle.Bevel);
+			root_xor_gc.SetDashes (1, new sbyte[] {1, 1}, 2);
+			window.DrawRectangle (root_xor_gc, false, rect.X, rect.Y, rect.Width, rect.Height);
+			root_xor_gc.SetDashes (0, new sbyte[] {1, 1}, 2);
+			window.DrawRectangle (root_xor_gc, false, rect.X + 1, rect.Y + 1, rect.Width - 2, rect.Height - 2);
 		}
 		
-		public void Add (DockObject objekt)
+		public void Add (DockObject obj)
 		{
-			if (objekt == null)
+			if (obj == null)
 				return;
-			if (!objekt.IsAutomatic) {
-				if (objekt.Name == null)
-					objekt.Name = "__dock_" + this.number++;
-				DockObject found_object = (DockObject)this.dock_objects[objekt.Name];
-				if (found_object != null) {
+
+			if (!obj.IsAutomatic) {
+				if (obj.Name == null)
+					obj.Name = "__dock_" + number++;
+
+				DockObject foundObject = (DockObject)dockObjects[obj.Name];
+				if (foundObject != null)
 					Console.WriteLine ("Unable to add object, name taken");
-				} else {
-					this.dock_objects[objekt.Name] = objekt;
-				}
+				else
+					dockObjects[obj.Name] = obj;
 			}
 			
-			if (objekt is Dock) {
-				if (this.toplevel_docks == null) {
-					this.controller = objekt;
-					this.toplevel_docks = new ArrayList ();
+			if (obj is Dock) {
+				if (toplevelDocks == null) {
+					controller = obj;
+					toplevelDocks = new ArrayList ();
 				}
-				if (((Dock)objekt).Floating) {
-					this.toplevel_docks.Insert (0, objekt);
-				} else {
-					this.toplevel_docks.Add (objekt);
-				}
+				
+				if (((Dock)obj).Floating)
+					toplevelDocks.Insert (0, obj);
+				else
+					toplevelDocks.Add (obj);
+				
 				/* PORT THIS:
 				        g_signal_connect (object, "dock",
-                          G_CALLBACK (item_dock_cb), master);
+                          				  G_CALLBACK (item_dock_cb), master);
 				*/
-			} else if (objekt is DockItem) {
-				Console.WriteLine ("HOOKING UP EVENTS");
-				DockItem dock_item = objekt as DockItem;
+			} else if (obj is DockItem) {
+				DockItem dock_item = obj as DockItem;
 				dock_item.DockItemDragBegin += new DockItemDragBeginHandler (DragBegin);
 				dock_item.DockItemMotion += new DockItemMotionHandler (DragMotion);
 				dock_item.DockItemDragEnd += new DockItemDragEndHandler (DragEnd);
@@ -265,32 +292,32 @@ namespace Gdl
 			}
 		}
 		
-		public void Remove (DockObject objekt)
+		public void Remove (DockObject obj)
 		{
-			if (objekt == null)
+			if (obj == null)
 				return;
-			if (objekt is DockItem && ((DockItem)objekt).HasGrip) {
-				int locked = this.Locked;
-				if (this.locked_items.Contains (objekt)) {
-					this.locked_items.Remove (objekt);
-					if (this.Locked != locked) {
+			if (obj is DockItem && ((DockItem)obj).HasGrip) {
+				int locked = Locked;
+				if (lockedItems.Contains (obj)) {
+					lockedItems.Remove (obj);
+					if (Locked != locked) {
 						//g_object_notify (G_OBJECT (master /*this*/), "locked");
 					}
 				}
-				if (this.unlocked_items.Contains (objekt)) {
-					this.locked_items.Remove (objekt);
-					if (this.Locked != locked) {
+				if (unlockedItems.Contains (obj)) {
+					lockedItems.Remove (obj);
+					if (Locked != locked) {
 						//g_object_notify (G_OBJECT( master /*this*/), "locked");
 					}
 				}
 			}
 			
-			if (objekt is Dock) {
-				if (this.toplevel_docks.Contains (objekt))
-					this.toplevel_docks.Remove (objekt);
-				if (objekt == this.controller) {
+			if (obj is Dock) {
+				if (toplevelDocks.Contains (obj))
+					toplevelDocks.Remove (obj);
+				if (obj == controller) {
 					DockObject new_controller = null;
-					ArrayList reversed = toplevel_docks;
+					ArrayList reversed = toplevelDocks;
 					reversed.Reverse ();
 					foreach (DockObject item in reversed) {
 						if (!item.IsAutomatic) {
@@ -299,15 +326,15 @@ namespace Gdl
 						}
 					}
 					if (new_controller != null) {
-						this.controller = new_controller;
+						controller = new_controller;
 					} else {
-						this.controller = null;
+						controller = null;
 					}
 				}
 			}
 			
-			if (objekt is DockItem) {
-				DockItem dock_item = objekt as DockItem;
+			if (obj is DockItem) {
+				DockItem dock_item = obj as DockItem;
 				dock_item.DockItemDragBegin -= DragBegin;
 				dock_item.DockItemDragEnd -= DragEnd;
 				dock_item.DockItemMotion -= DragMotion;
@@ -316,15 +343,15 @@ namespace Gdl
 			/*PORT THIS:
     g_signal_handlers_disconnect_matched (object, G_SIGNAL_MATCH_DATA, 
                                           0, 0, NULL, NULL, master);*/
-			if (objekt.Name != null) {
-				if (this.dock_objects.Contains (objekt.Name)) {
-					this.dock_objects.Remove (objekt.Name);
+			if (obj.Name != null) {
+				if (dockObjects.Contains (obj.Name)) {
+					dockObjects.Remove (obj.Name);
 				}
 			}
 			
-			if (!objekt.IsAutomatic) {
-				if (this.idle_layout_changed_id == 0) {
-					this.idle_layout_changed_id = 0; //g_idle_add (idle_emit_layout_changed);
+			if (!obj.IsAutomatic) {
+				if (idle_layout_changed_id == 0) {
+					idle_layout_changed_id = 0; //g_idle_add (idle_emit_layout_changed);
 				}
 			}
 		}
@@ -333,20 +360,20 @@ namespace Gdl
 		{
 			if (name == null)
 				return null;
-			return (DockObject)this.dock_objects[name];
+			return (DockObject)dockObjects[name];
 		}
 		
 		public DockObject Controller {
-			get { return this.controller; }
+			get { return controller; }
 			set {
 				if (value != null) {
 					if (value.IsAutomatic)
 						Console.WriteLine ("New controller is automatic, only manual dock objects should be named controller");
-					if (!this.toplevel_docks.Contains (value))
-						this.Add (value);
-					this.controller = value;
+					if (!toplevelDocks.Contains (value))
+						Add (value);
+					controller = value;
 				} else {
-					this.controller = null;
+					controller = null;
 				}
 			}
 		}

@@ -1,14 +1,9 @@
 using System;
 using Gtk;
-using GtkSharp;
-using Gnome;
-using GnomeSharp;
 using Gdl;
 
 class T
 {
-	Program program;
-	
 	static void Main (string[] args)
 	{
 		new T (args);
@@ -16,42 +11,65 @@ class T
 	
 	T (string[] args)
 	{
-		//program = new Program ("test", "0.0", Modules.UI, args);
-		//App app = new App ("test", "Test for Gdl.Dock widget");
-		Gtk.Application.Init ();
-		Gtk.Window app = new Gtk.Window ("test");
-		app.SetDefaultSize (600, 450);
+		Application.Init ();
+		Window app = new Window ("test");
+		app.SetDefaultSize (400, 400);
 		app.DeleteEvent += new DeleteEventHandler (OnAppDelete);
 		
 		Dock dock = new Dock ();
 		//DockLayout layout = new DockLayout (dock);
 		
-		DockItem di = new DockItem ("item1", "Item #1", Gtk.Stock.Execute, DockItemBehavior.Normal);
-		di.Add (new Button ("test"));
-		dock.AddItem (di, DockPlacement.Center);
+		DockItem di = new DockItem ("item1", "Item #1", DockItemBehavior.Locked);
+		di.Add (CreateTextView ());
+		dock.AddItem (di, DockPlacement.Top);
 		
-		DockItem di2 = new DockItem ("item2", "Item #2", DockItemBehavior.Normal);
-		di2.Add (new Label ("test2"));
-		dock.AddItem (di2, DockPlacement.Center);
+		DockItem di2 = new DockItem ("item2", "Item #2 has some large title",
+					     Gtk.Stock.Execute, DockItemBehavior.Normal);
+		di2.Add (new Button ("Button 2"));
+		dock.AddItem (di2, DockPlacement.Right);
 		
-		/*DockItem di3 = new DockItem ("item3", "Item #3", DockItemBehavior.Normal);
-		di3.Add (new Label ("test3"));
-		dock.AddItem (di3, DockPlacement.Top);
+		DockItem di3 = new DockItem ("item3", "Item #3 has accented characters",/* (áéíóúñ)",*/
+					     Gtk.Stock.Convert, DockItemBehavior.Normal |
+					     DockItemBehavior.CantClose);
+		di3.Add (CreateTextView ());
+		dock.AddItem (di3, DockPlacement.Bottom);
 		
-		/*DockItem di4 = new DockItem ("item4", "Item #4", DockItemBehavior.Normal);
-		di4.Add (new Label ("test4"));
-		dock.AddItem (di4, DockPlacement.Center);*/
+		DockItem[] items = new DockItem[4];
+		items[0] = new DockItem ("item4", "Item #4", Gtk.Stock.JustifyFill,
+					 DockItemBehavior.Normal | DockItemBehavior.CantIconify);
+		items[0].Add (CreateTextView ());
+		dock.AddItem (items[0], DockPlacement.Bottom);
 		
+		for (int i = 1; i < 3; i++) {
+			string name = "Item #" + (i + 4);
+			items[i] = new DockItem (name, name, Gtk.Stock.New,
+						 DockItemBehavior.Normal);
+			items[i].Add (CreateTextView ());
+			items[i].Show ();
+
+	    		items[0].Dock (items[i], DockPlacement.Center, null);	    
+		}
+
 		app.Add (dock);
 		app.ShowAll ();
-		//if (dock.Root == null) {
-		//	Console.WriteLine ("Crap, dock.root is null");
-		//}
-		Gtk.Application.Run ();
+		Application.Run ();
+	}
+	
+	private Widget CreateTextView ()
+	{
+		ScrolledWindow sw = new ScrolledWindow (null, null);
+		sw.ShadowType = ShadowType.In;
+		sw.HscrollbarPolicy = PolicyType.Automatic;
+		sw.VscrollbarPolicy = PolicyType.Automatic;
+		TextView tv = new TextView ();
+		sw.Add (tv);
+		sw.ShowAll ();
+
+		return sw;
 	}
 	
 	private void OnAppDelete (object o, DeleteEventArgs args)
 	{
-		Gtk.Application.Quit ();
+		Application.Quit ();
 	}
 }
