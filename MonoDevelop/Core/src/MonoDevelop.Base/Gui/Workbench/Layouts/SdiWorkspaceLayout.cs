@@ -276,7 +276,7 @@ namespace MonoDevelop.Gui
 				}
 			}
 			
-			//Console.WriteLine(" Default Layout created.");
+			//Runtime.LoggingService.Info(" Default Layout created.");
 			dockLayout = new DockLayout (dock);
 			if (System.IO.File.Exists (configFile)) {
 				dockLayout.LoadFromFile (configFile);
@@ -291,7 +291,7 @@ namespace MonoDevelop.Gui
 		{
 			workbench.ContextChanged -= contextChangedHandler;
 
-			//Console.WriteLine("Call to SdiWorkSpaceLayout.Detach");
+			//Runtime.LoggingService.Info("Call to SdiWorkSpaceLayout.Detach");
 			dockLayout.SaveLayout (currentLayout);
 			dockLayout.SaveToFile (configFile);
 			rootWidget.Remove(((DefaultWorkbench)workbench).TopMenu);

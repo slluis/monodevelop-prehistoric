@@ -118,7 +118,7 @@ namespace MonoDevelop.Gui.Dialogs
 			#if false
 			System.Reflection.MethodInfo gac = typeof (System.Environment).GetMethod ("internalGetGacPath", System.Reflection.BindingFlags.Static|System.Reflection.BindingFlags.NonPublic);
 			if (gac == null) {
-				Console.WriteLine (GettextCatalog.GetString ("ERROR: non-mono runtime detected, please use the mono runtime for this piece of MonoDevelop for the time being"));
+				Runtime.LoggingService.Info (GettextCatalog.GetString ("ERROR: non-mono runtime detected, please use the mono runtime for this piece of MonoDevelop for the time being"));
 				Environment.Exit (1);
 			}
 			string gac_path = System.IO.Path.Combine ((string)gac.Invoke (null, null), "");

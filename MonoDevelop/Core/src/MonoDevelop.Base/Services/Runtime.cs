@@ -22,6 +22,7 @@ namespace MonoDevelop.Services
 		static LanguageBindingService languageBindingService;
 		static SystemAssemblyService systemAssemblyService;
 		static FileUtilityService fileUtilityService;
+		static ILoggingService loggingService;
 
 		public static ProcessService ProcessService {
 			get {
@@ -149,6 +150,15 @@ namespace MonoDevelop.Services
 				if (guiService == null)
 					guiService = new GuiService ();
 				return guiService;
+			}
+		}
+		
+		public static ILoggingService LoggingService {
+			get {
+				if (loggingService == null)
+					loggingService = new DefaultLoggingService();
+				
+				return loggingService;
 			}
 		}
 	}

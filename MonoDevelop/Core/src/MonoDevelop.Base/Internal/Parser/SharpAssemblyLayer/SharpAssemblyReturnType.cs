@@ -10,6 +10,7 @@ using System.Text;
 using System.Reflection;
 using System.Xml;
 
+using MonoDevelop.Services;
 using MonoDevelop.SharpAssembly.Metadata.Rows;
 using MonoDevelop.SharpAssembly.Metadata;
 using MonoDevelop.SharpAssembly.PE;
@@ -97,7 +98,7 @@ namespace MonoDevelop.Internal.Parser {
 						} else {
 							fullyQualifiedName = assembly.GetStringFromHeap(typeRefTable[index].Nspace) + "." + 
 						                                                assembly.GetStringFromHeap(typeRefTable[index].Name);
-						    Console.WriteLine("GetDataType: TypeRef not resolved!");
+						    Runtime.LoggingService.Info("GetDataType: TypeRef not resolved!");
 						}
 						declaredin = asm.GetRefAssemblyFor(index);
 					} else {
@@ -137,7 +138,7 @@ namespace MonoDevelop.Internal.Parser {
 					break;
 				
 				default:
-					Console.WriteLine("NOT supported: " + dt.ToString());
+					Runtime.LoggingService.Info("NOT supported: " + dt.ToString());
 					fullyQualifiedName += " NOT_SUPPORTED [" + dt.ToString() + "]";
 					break;
 			}
@@ -173,7 +174,7 @@ namespace MonoDevelop.Internal.Parser {
 			} else {
 				FullyQualifiedName = assembly.Reader.GetStringFromHeap(typeRefTable[index].Nspace) + "." + 
 			                                                assembly.Reader.GetStringFromHeap(typeRefTable[index].Name);
-			    Console.WriteLine("SharpAssemblyReturnType from TypeRef: TypeRef not resolved!");
+			    Runtime.LoggingService.Info("SharpAssemblyReturnType from TypeRef: TypeRef not resolved!");
 			}
 			declaredin = assembly.GetRefAssemblyFor(index);
 		}
@@ -184,7 +185,7 @@ namespace MonoDevelop.Internal.Parser {
 			try {
 				GetDataType(assembly, ref blobSignatureIndex);
 			} catch (Exception e) {
-				Console.WriteLine("Got exception in ReturnType creation: " + e.ToString());
+				Runtime.LoggingService.Info("Got exception in ReturnType creation: " + e.ToString());
 				FullyQualifiedName = "GOT_EXCEPTION";
 			}
 			

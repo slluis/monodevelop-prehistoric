@@ -178,7 +178,7 @@ namespace MonoDevelop.Internal.Project
 
 		public override void GenerateMakefiles (Combine parentCombine)
 		{
-			Console.WriteLine ("Generating makefiles for " + Name);
+			Runtime.LoggingService.Info ("Generating makefiles for " + Name);
 			languageBinding.GenerateMakefile (this, parentCombine);
 		}
 		

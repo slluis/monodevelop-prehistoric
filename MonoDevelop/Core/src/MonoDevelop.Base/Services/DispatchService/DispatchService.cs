@@ -173,14 +173,14 @@ namespace MonoDevelop.Services
 		
 		private void HandlerError (GenericMessageContainer msg)
 		{
-			Console.WriteLine (errormsg);
-			Console.WriteLine (msg.Exception);
+			Runtime.LoggingService.Info (errormsg);
+			Runtime.LoggingService.Info (msg.Exception);
 			if (msg.CallerStack != null) {
-				Console.WriteLine ("\nCaller stack:");
-				Console.WriteLine (msg.CallerStack);
+				Runtime.LoggingService.Info ("\nCaller stack:");
+				Runtime.LoggingService.Info (msg.CallerStack);
 			}
 			else
-				Console.WriteLine ("\n\nCaller stack not available. Define the environment variable MONODEVELOP_DISPATCH_DEBUG to enable caller stack capture.");
+				Runtime.LoggingService.Info ("\n\nCaller stack not available. Define the environment variable MONODEVELOP_DISPATCH_DEBUG to enable caller stack capture.");
 		}
 	}
 

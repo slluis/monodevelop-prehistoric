@@ -233,7 +233,7 @@ namespace MonoDevelop.Gui.Dialogs
 		
 		private SortType ReverseSort (SortType st)
 		{
-			//Console.WriteLine (st);
+			//Runtime.LoggingService.Info (st);
 			if (st == SortType.Ascending)
 				return SortType.Descending;
 			else

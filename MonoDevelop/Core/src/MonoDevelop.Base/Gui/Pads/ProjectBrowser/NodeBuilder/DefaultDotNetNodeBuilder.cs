@@ -333,7 +333,7 @@ namespace MonoDevelop.Gui.Pads.ProjectBrowser
 					break;
 #endif
 				default:
-					Console.WriteLine ("UNHANDLED TYPE {0}, DefaultDotNetNodeBuilder.cs", projectFile.Subtype);
+					Runtime.LoggingService.Info ("UNHANDLED TYPE {0}, DefaultDotNetNodeBuilder.cs", projectFile.Subtype);
 					// unknown file type
 					break;
 			}

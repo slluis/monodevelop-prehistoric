@@ -53,7 +53,7 @@ namespace MonoDevelop.Services {
 		
 		byte[] GetBytes(string fileName)
 		{
-			Console.WriteLine (fileName);
+			Runtime.LoggingService.Info (fileName);
 			FileStream fs = System.IO.File.OpenRead(fileName);
 			long size = fs.Length;
 			byte[] outArray = new byte[size];
@@ -70,7 +70,7 @@ namespace MonoDevelop.Services {
 //			TypeDef[] typeDefTable = (TypeDef[])assembly.MetadataTable.Tables[TypeDef.TABLE_ID];
 //			
 //			for (int i = 0; i < typeDefTable.Length; ++i) {
-//				Console.WriteLine("ADD " + i);
+//				Runtime.LoggingService.Info("ADD " + i);
 //				classes.Add(new SharpAssemblyClass(assembly, typeDefTable, i));
 //			}
 			
@@ -114,7 +114,7 @@ namespace MonoDevelop.Services {
 			} catch {
 			}
 			if(asm == null) {
-				Console.WriteLine ("Unable to load {0}", fileName);
+				Runtime.LoggingService.InfoFormat ("Unable to load {0}", fileName);
 				return;
 			}
 			foreach (Type type in asm.GetTypes()) {

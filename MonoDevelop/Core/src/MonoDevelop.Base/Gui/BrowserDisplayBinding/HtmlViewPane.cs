@@ -58,7 +58,7 @@ namespace MonoDevelop.BrowserDisplayBinding
 					GLib.Timeout.Add (50, new GLib.TimeoutHandler (checkFocus));
 					
 				} catch {
-					Console.WriteLine ("Gecko# tossed an exception");
+					Runtime.LoggingService.Info ("Gecko# tossed an exception");
 				}
 			}
 		}

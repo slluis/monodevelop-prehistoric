@@ -54,7 +54,7 @@ namespace MonoDevelop.Gui.Pads
 
 			public object GetService(Type serviceType)
 			{
-//				Console.WriteLine("REQUEST SERVICE : " + serviceType);
+//				Runtime.LoggingService.Info("REQUEST SERVICE : " + serviceType);
 				object o = container.GetService(serviceType);
 				
 				return o;
@@ -68,12 +68,12 @@ namespace MonoDevelop.Gui.Pads
 
 		protected override object GetService(Type serviceType)
 		{
-//			Console.WriteLine("service {0} requested from IDEContainer", serviceType);
+//			Runtime.LoggingService.Info("service {0} requested from IDEContainer", serviceType);
 			object service = base.GetService(serviceType);
 			if (service == null) {
 				service = serviceProvider.GetService(serviceType);
 			}
-//			Console.WriteLine("Returned  : " + service);
+//			Runtime.LoggingService.Info("Returned  : " + service);
 			return service;
 		}
 

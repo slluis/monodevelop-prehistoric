@@ -49,7 +49,7 @@ namespace MonoDevelop.Gui
 
 		void UrlRequested (object sender, UrlRequestedArgs args)
 		{
-			Console.WriteLine ("Image requested: " + args.Url);
+			Runtime.LoggingService.Info ("Image requested: " + args.Url);
 			Stream s = Runtime.Documentation.HelpTree.GetImage (args.Url);
 			
 			if (s != null) {

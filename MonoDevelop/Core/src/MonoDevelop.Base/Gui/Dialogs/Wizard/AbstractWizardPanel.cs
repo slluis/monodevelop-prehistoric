@@ -138,7 +138,7 @@ namespace MonoDevelop.Gui.Dialogs
 
 		public override bool ReceiveDialogMessage (DialogMessage a)
 		{
-			//Console.WriteLine ("In middle receive dialog message");
+			//Runtime.LoggingService.Info ("In middle receive dialog message");
 			return true;
 		}
 	}

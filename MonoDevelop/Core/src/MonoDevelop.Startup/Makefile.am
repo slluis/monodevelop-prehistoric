@@ -8,7 +8,7 @@ build_sources = $(addprefix $(srcdir)/, $(FILES))
 
 DLL = $(top_builddir)/build/bin/MonoDevelop.exe
 
-all: $(DLL)
+all: $(DLL) $(DLL).config
 
 REFS = /r:System.Drawing \
 	/r:$(top_builddir)/build/bin/MonoDevelop.Core.dll \
@@ -22,8 +22,11 @@ $(DLL): $(build_sources)
 	$(CSC) -out:$@ -define:GTK $(REFS) $(build_sources) \
 		-resource:$(srcdir)/SplashScreen.png,SplashScreen.png
 
+$(DLL).config: $(DLL)
+	cp $(CONFIG) $(DLL).config
+
 assemblydir = $(libdir)/monodevelop/bin
-assembly_DATA = $(DLL)           
+assembly_DATA = $(DLL) $(DLL).config
 
 CLEANFILES=$(DLL) $(DLL).mdb
 

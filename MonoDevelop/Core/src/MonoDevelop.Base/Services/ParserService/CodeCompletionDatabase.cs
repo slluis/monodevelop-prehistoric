@@ -122,7 +122,7 @@ namespace MonoDevelop.Services
 					currentGetTime = 0;
 					CloseReader ();
 					
-					Console.WriteLine ("Reading " + dataFile);
+					Runtime.LoggingService.Info ("Reading " + dataFile);
 					ifile = new FileStream (dataFile, FileMode.Open, FileAccess.Read, FileShare.Read);
 					BinaryFormatter bf = new BinaryFormatter ();
 					
@@ -150,7 +150,7 @@ namespace MonoDevelop.Services
 				catch (Exception ex)
 				{
 					if (ifile != null) ifile.Close ();
-					Console.WriteLine ("PIDB file '" + dataFile + "' couldn not be loaded: '" + ex.Message + "'. The file will be recreated");
+					Runtime.LoggingService.Info ("PIDB file '" + dataFile + "' couldn not be loaded: '" + ex.Message + "'. The file will be recreated");
 					rootNamespace = new NamespaceEntry ();
 					files = new Hashtable ();
 					references = new ArrayList ();
@@ -177,7 +177,7 @@ namespace MonoDevelop.Services
 				modified = false;
 				headers["Version"] = FORMAT_VERSION;
 							
-				Console.WriteLine ("Writing " + dataFile);
+				Runtime.LoggingService.Info ("Writing " + dataFile);
 				
 				string tmpDataFile = dataFile + ".tmp";
 				FileStream dfile = new FileStream (tmpDataFile, FileMode.Create, FileAccess.Write, FileShare.Write);
@@ -326,7 +326,7 @@ namespace MonoDevelop.Services
 		{
 			lock (rwlock)
 			{
-//				Console.WriteLine ("GET CLASS " + typeName + " in " + dataFile);
+//				Runtime.LoggingService.Info ("GET CLASS " + typeName + " in " + dataFile);
 				string[] path = typeName.Split ('.');
 				int len = path.Length - 1;
 				

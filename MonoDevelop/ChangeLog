@@ -1,3 +1,11 @@
+2005-04-01	Christian Hergert	<christian.hergert@gmail.com>
+
+	* contrib/: Add folder for external libraries
+	* contrib/log4net.dll: Apache Logging .NET Library
+	* contrib/log4net.license.txt: log4net license
+	* contrib/Makefile.am: Makefile for contrib libraries
+	* configure.in: Add the new Makefile.am files
+
 2005-03-13  John Luke  <john.luke@gmail.com>
 
 	* autogen.sh: remove libtool, autoheader, and aclocal

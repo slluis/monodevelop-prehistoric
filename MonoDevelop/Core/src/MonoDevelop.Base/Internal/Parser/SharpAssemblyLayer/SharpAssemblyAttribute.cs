@@ -11,6 +11,7 @@ using System.Reflection;
 using System.Xml;
 using System.IO;
 
+using MonoDevelop.Services;
 using MonoDevelop.SharpAssembly.Metadata.Rows;
 using MonoDevelop.SharpAssembly.Metadata;
 using MonoDevelop.SharpAssembly.PE;
@@ -43,7 +44,7 @@ namespace MonoDevelop.Internal.Parser {
 				
 				int table = assembly.Reader.GetCodedIndexTable(CodedIndex.MemberRefParent, ref trIndex);
 				if (table != 1) {
-					Console.WriteLine("SharpAssemblyAttribute: unsupported MemberRefParent coded index");
+					Runtime.LoggingService.Info("SharpAssemblyAttribute: unsupported MemberRefParent coded index");
 					return; // unsupported
 				}
 				
@@ -93,7 +94,7 @@ namespace MonoDevelop.Internal.Parser {
 				
 				ushort prolog = binaryReader.ReadUInt16();
 				if (prolog != 1) {
-					Console.WriteLine("SharpAssemblyAttribute: Wrong prolog in argument list");
+					Runtime.LoggingService.Info("SharpAssemblyAttribute: Wrong prolog in argument list");
 					return;
 				}
 				
@@ -113,11 +114,11 @@ namespace MonoDevelop.Internal.Parser {
 							}
 						}
 						
-						Console.WriteLine("Enum: return type = " + rettypename);
+						Runtime.LoggingService.Info("Enum: return type = " + rettypename);
 						
 						object argValue = GetFixedArg(argBlob, binaryReader, rettypename);
 						
-						Console.WriteLine("Enum: arg value = " + argValue.ToString());
+						Runtime.LoggingService.Info("Enum: arg value = " + argValue.ToString());
 						
 							foreach (IField field in underlyingClass.Fields) {
 								if (field is SharpAssemblyField) {
@@ -132,7 +133,7 @@ namespace MonoDevelop.Internal.Parser {
 												// if the value cannot be found
 						positionalArguments.Add(argValue.ToString());
 						
-						Console.WriteLine("Enum: no name found");
+						Runtime.LoggingService.Info("Enum: no name found");
 						
 					namefound: ;
 						
@@ -162,8 +163,8 @@ namespace MonoDevelop.Internal.Parser {
 				
 				binaryReader.Close();
 			} catch (Exception) {
-				Console.WriteLine("SharpAssemblyAttribute: Error loading arguments.");
-				//Console.WriteLine(e.ToString());
+				Runtime.LoggingService.Info("SharpAssemblyAttribute: Error loading arguments.");
+				//Runtime.LoggingService.Info(e.ToString());
 			}
 		}
 		
@@ -231,7 +232,7 @@ namespace MonoDevelop.Internal.Parser {
 				try {
 					ret += (string)de.Key + " = " + (string)de.Value + ", ";
 				} catch {
-					Console.WriteLine("error in namedArguments");
+					Runtime.LoggingService.Info("error in namedArguments");
 				}
 			}
 			

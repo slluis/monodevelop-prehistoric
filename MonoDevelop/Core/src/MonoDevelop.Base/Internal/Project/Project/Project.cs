@@ -260,7 +260,7 @@ namespace MonoDevelop.Internal.Project
 								File.Copy (referenceFileName + ".mdb", destinationFileName + ".mdb", true);
 						}
 					} catch (Exception e) {
-						Console.WriteLine("Can't copy reference file from {0} to {1} reason {2}", referenceFileName, destinationFileName, e);
+						Runtime.LoggingService.InfoFormat("Can't copy reference file from {0} to {1} reason {2}", referenceFileName, destinationFileName, e);
 					}
 				}
 			}

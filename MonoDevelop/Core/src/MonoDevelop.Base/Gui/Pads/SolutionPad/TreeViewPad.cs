@@ -229,18 +229,18 @@ namespace MonoDevelop.Gui.Pads
 		{
 			ITreeNavigator nav = GetSelectedNode ();
 			dragObject = nav.DataItem;
-			Console.WriteLine ("OnDragBegin");
+			Runtime.LoggingService.Info ("OnDragBegin");
 		}
 		
 		void OnDragDataGet (object o, Gtk.DragDataGetArgs args)
 		{
-			Console.WriteLine ("OnDragDataGet");
+			Runtime.LoggingService.Info ("OnDragDataGet");
 			args.SelectionData.Set (args.Context.Targets[0], 0, new byte[0]);
 		}
 		
 		void OnDragDataReceived (object o, Gtk.DragDataReceivedArgs args)
 		{
-			Console.WriteLine ("OnDragDataReceived " + args.X + " " + args.Y + " " + args.SelectionData.Length);
+			Runtime.LoggingService.Info ("OnDragDataReceived " + args.X + " " + args.Y + " " + args.SelectionData.Length);
 			
 			if (dragObject != null) {
 				bool res = CheckAndDrop (args.X, args.Y, true);
@@ -248,7 +248,7 @@ namespace MonoDevelop.Gui.Pads
 			} else {
 				if (args.SelectionData.Data.Length > 0) {
 					string fullData = System.Text.Encoding.UTF8.GetString (args.SelectionData.Data);
-					Console.WriteLine ("file:" + fullData);
+					Runtime.LoggingService.Info ("file:" + fullData);
 				}
 				Gtk.Drag.Finish (args.Context, false, true, args.Time);
 			}
@@ -256,18 +256,18 @@ namespace MonoDevelop.Gui.Pads
 		
 		void OnDragDrop (object o, Gtk.DragDropArgs args)
 		{
-			Console.WriteLine ("OnDragDrop " + args.X + " " + args.Y);
+			Runtime.LoggingService.Info ("OnDragDrop " + args.X + " " + args.Y);
 		}
 		
 		void OnDragEnd (object o, Gtk.DragEndArgs args)
 		{
 			dragObject = null;
-			Console.WriteLine ("OnDragEnd");
+			Runtime.LoggingService.Info ("OnDragEnd");
 		}
 		
 		void OnDragLeave (object sender, Gtk.DragLeaveArgs args)
 		{
-			Console.WriteLine ("OnDragLeave");
+			Runtime.LoggingService.Info ("OnDragLeave");
 		}
 		
 		[GLib.ConnectBefore]
@@ -291,7 +291,7 @@ namespace MonoDevelop.Gui.Pads
 			if (!store.GetIter (out iter, path)) return false;
 			
 			TreeNodeNavigator nav = new TreeNodeNavigator (this, iter);
-			Console.WriteLine ("Trying drop to " + nav.NodeName);
+			Runtime.LoggingService.Info ("Trying drop to " + nav.NodeName);
 			NodeBuilder[] chain = nav.BuilderChain;
 			bool foundHandler = false;
 			
@@ -300,7 +300,7 @@ namespace MonoDevelop.Gui.Pads
 				if (nb.CommandHandler.CanDropNode (dragObject, DragOperation.Copy)) {
 					foundHandler = true;
 					if (drop) {
-						Console.WriteLine ("Droping to " + nb);
+						Runtime.LoggingService.Info ("Droping to " + nb);
 						nb.CommandHandler.OnNodeDrop (dragObject, DragOperation.Copy);
 					}
 				}

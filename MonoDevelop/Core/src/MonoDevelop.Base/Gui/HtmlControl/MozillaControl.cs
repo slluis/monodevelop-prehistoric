@@ -83,7 +83,7 @@ namespace MonoDevelop.Gui.HtmlControl
 
 		public void InitializeWithBase (string base_uri)
 		{
-			//Console.WriteLine (base_uri);
+			//Runtime.LoggingService.Info (base_uri);
 			if (html.Length > 0)
 			{
 				this.RenderData (html, base_uri, "text/html");

@@ -74,7 +74,7 @@ namespace MonoDevelop.Gui.HtmlControl
 					((MozillaControl) control).LoadUrl (value);
 				}
 				else
-					Console.WriteLine ("unable to load url");
+					Runtime.LoggingService.Info ("unable to load url");
 			}
 		}
 		
@@ -115,7 +115,7 @@ namespace MonoDevelop.Gui.HtmlControl
 					this.control = new MozillaControl ();
 					((MozillaControl) this.control).Show ();
 					this.Add ((MozillaControl) this.control);
-					Console.WriteLine ("added MozillaControl to HtmlControl");
+					Runtime.LoggingService.Info ("added MozillaControl to HtmlControl");
 					break;
 				default:
 					throw new NotImplementedException (control_type.ToString ());
@@ -155,7 +155,7 @@ namespace MonoDevelop.Gui.HtmlControl
 			if (html.Length > 0) {
 				ApplyBody(html);
 			} else {
-				Console.WriteLine ("no html to apply");
+				Runtime.LoggingService.Info ("no html to apply");
 			}
 			UIActivate();
 			ApplyCascadingStyleSheet();
@@ -172,15 +172,15 @@ namespace MonoDevelop.Gui.HtmlControl
 				if (control != null) {
 					if (control_type == ControlType.GtkMozilla)
 					{
-						Console.WriteLine ("rendering");
+						Runtime.LoggingService.Info ("rendering");
 						((MozillaControl) control).Show ();
 						((MozillaControl) control).RenderData (val, "file://", "text/html");
-						Console.WriteLine ("rendered");
+						Runtime.LoggingService.Info ("rendered");
 						return;
 					}
 					else
 					{
-						Console.WriteLine ("not rendering with mozilla");
+						Runtime.LoggingService.Info ("not rendering with mozilla");
 					}
 					
 					IHTMLElement el    = null;
@@ -197,17 +197,17 @@ namespace MonoDevelop.Gui.HtmlControl
 					}
 					else
 					{
-						Console.WriteLine ("IHTMLElement is null");
+						Runtime.LoggingService.Info ("IHTMLElement is null");
 					}
 				}
 				else
 				{
-					Console.WriteLine ("control is null");
+					Runtime.LoggingService.Info ("control is null");
 				}
 			}
 			catch (Exception e)
 			{
-				Console.WriteLine (e.ToString ());
+				Runtime.LoggingService.Info (e.ToString ());
 			} 
 		}
 		

@@ -96,7 +96,7 @@ namespace MonoDevelop.Internal.Templates
 		static CodeTemplateLoader()
 		{
 			if (!LoadTemplatesFromStream(Path.Combine(Runtime.Properties.ConfigDirectory, TemplateFileName))) {
-				Console.WriteLine("Templates: can't load user defaults, reading system defaults");
+				Runtime.LoggingService.Info("Templates: can't load user defaults, reading system defaults");
 				if (!LoadTemplatesFromStream(Runtime.Properties.DataDirectory + 
 				                             Path.DirectorySeparatorChar   + "options" +
 				                             Path.DirectorySeparatorChar   + TemplateFileName)) {

@@ -17,6 +17,7 @@ using System.Xml;
 using System.Runtime.InteropServices;
 
 using MonoDevelop.Core.Properties;
+using MonoDevelop.Services;
 
 namespace MonoDevelop.Core.Services
 {
@@ -230,7 +231,7 @@ namespace MonoDevelop.Core.Services
 			catch (GLib.GException ex) {
 				// just discard the exception, the icon simply can't be
 				// loaded
-				Console.WriteLine ("Warning: can't load " + filename +
+				Runtime.LoggingService.InfoFormat("Warning: can't load " + filename +
 				                   " icon file");
 			}
 		}
@@ -252,7 +253,7 @@ namespace MonoDevelop.Core.Services
 			if (s != null)
 				return s;
 			
-			Console.WriteLine ("WARNING Could not find stock {0}", filename);
+			Runtime.LoggingService.InfoFormat("WARNING Could not find stock {0}", filename);
 			
 			return filename;
 		}

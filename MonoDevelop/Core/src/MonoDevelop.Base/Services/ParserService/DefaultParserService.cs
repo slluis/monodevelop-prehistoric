@@ -162,7 +162,7 @@ namespace MonoDevelop.Services
 				asm = Assembly.LoadWithPartialName (name);
 			}
 			if (asm == null) {
-				Console.WriteLine ("Could not find: " + name);
+				Runtime.LoggingService.Info ("Could not find: " + name);
 				return string.Empty;
 			}
 			
@@ -208,7 +208,7 @@ namespace MonoDevelop.Services
 						return;
 				}
 				catch (Exception ex) {
-					Console.WriteLine (ex);
+					Runtime.LoggingService.Info (ex);
 				}
 			}
 
@@ -686,7 +686,7 @@ namespace MonoDevelop.Services
 				}
 			} catch (Exception e) {
 				try {
-					Console.WriteLine(e.ToString());
+					Runtime.LoggingService.Info(e.ToString());
 				} catch {}
 			}
 		}
@@ -897,7 +897,7 @@ namespace MonoDevelop.Services
 		
 		public string SearchNamespace(Project project, IUsing usin, string partitialNamespaceName, bool caseSensitive)
 		{
-//			Console.WriteLine("SearchNamespace : >{0}<", partitialNamespaceName);
+//			Runtime.LoggingService.Info("SearchNamespace : >{0}<", partitialNamespaceName);
 			if (NamespaceExists(project, partitialNamespaceName, caseSensitive)) {
 				return partitialNamespaceName;
 			}
@@ -986,7 +986,7 @@ namespace MonoDevelop.Services
 		
 		public IClass SearchType(Project project, IUsing iusing, string partitialTypeName, bool caseSensitive)
 		{
-//			Console.WriteLine("Search type : >{0}<", partitialTypeName);
+//			Runtime.LoggingService.Info("Search type : >{0}<", partitialTypeName);
 			IClass c = GetClass(project, partitialTypeName, caseSensitive);
 			if (c != null) {
 				return c;
@@ -994,10 +994,10 @@ namespace MonoDevelop.Services
 			
 			foreach (string str in iusing.Usings) {
 				string possibleType = String.Concat(str, ".", partitialTypeName);
-//				Console.WriteLine("looking for " + possibleType);
+//				Runtime.LoggingService.Info("looking for " + possibleType);
 				c = GetClass(project, possibleType, caseSensitive);
 				if (c != null) {
-//					Console.WriteLine("Found!");
+//					Runtime.LoggingService.Info("Found!");
 					return c;
 				}
 			}
@@ -1007,10 +1007,10 @@ namespace MonoDevelop.Services
 			if (declaringNamespace != null) {
 				while (declaringNamespace.Length > 0) {
 					string className = String.Concat(declaringNamespace, ".", partitialTypeName);
-//					Console.WriteLine("looking for " + className);
+//					Runtime.LoggingService.Info("looking for " + className);
 					c = GetClass(project, className, caseSensitive);
 					if (c != null) {
-//						Console.WriteLine("Found!");
+//						Runtime.LoggingService.Info("Found!");
 						return c;
 					}
 					int index = declaringNamespace.IndexOf('.');
@@ -1028,10 +1028,10 @@ namespace MonoDevelop.Services
 					string className = null;
 					if (aliasString.Length > 0) {
 						className = String.Concat(entry.Value.ToString(), partitialTypeName.Remove(0, aliasString.Length));
-//						Console.WriteLine("looking for " + className);
+//						Runtime.LoggingService.Info("looking for " + className);
 						c = GetClass(project, className, caseSensitive);
 						if (c != null) {
-//							Console.WriteLine("Found!");
+//							Runtime.LoggingService.Info("Found!");
 							return c;
 						}
 					}
@@ -1240,7 +1240,7 @@ namespace MonoDevelop.Services
 			// being thrown and corrupting the textarea control
 			try {
 				IParser parser = GetParser(fileName);
-				//Console.WriteLine("Parse info : " + GetParseInformation(fileName).MostRecentCompilationUnit.Tag);
+				//Runtime.LoggingService.Info("Parse info : " + GetParseInformation(fileName).MostRecentCompilationUnit.Tag);
 				if (parser != null) {
 					return parser.Resolve(this, project, expression, caretLineNumber, caretColumn, fileName, fileContent);
 				}

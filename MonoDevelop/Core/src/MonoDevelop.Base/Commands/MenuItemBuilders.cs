@@ -173,8 +173,8 @@ namespace MonoDevelop.Commands
 			}
 			
 			// debug command and args
-			Console.WriteLine("command : " + command);
-			Console.WriteLine("args    : " + args);
+			Runtime.LoggingService.Info("command : " + command);
+			Runtime.LoggingService.Info("args    : " + args);
 			
 			// create the process
 			IProgressMonitor monitor = Runtime.TaskService.GetRunProgressMonitor ();
@@ -190,7 +190,7 @@ namespace MonoDevelop.Commands
 					p = Runtime.ProcessService.StartProcess (command, args, workingDirectory, null);
 
 				p.WaitForOutput ();
-				Console.WriteLine ("DONE");
+				Runtime.LoggingService.Info ("DONE");
 				
 				monitor.Log.WriteLine ();
 				if (p.ExitCode == 0) {
@@ -278,7 +278,7 @@ namespace MonoDevelop.Commands
 		
 		public Gtk.MenuItem[] BuildSubmenu(ConditionCollection conditionCollection, object owner)
 		{
-			Console.WriteLine (Environment.StackTrace);
+			Runtime.LoggingService.Info (Environment.StackTrace);
 			browser = (SolutionPad) owner;
 			ITreeNavigator nav = browser.GetSelectedNode ();
 			if (nav == null) return new Gtk.MenuItem[0];

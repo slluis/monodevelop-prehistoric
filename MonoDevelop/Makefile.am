@@ -1,4 +1,4 @@
-SUBDIRS = Core build po Extras
+SUBDIRS = contrib Core build po Extras
 
 bin_SCRIPTS = monodevelop
 

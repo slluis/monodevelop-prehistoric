@@ -11,6 +11,7 @@ using System.Text;
 using System.Reflection;
 using System.Xml;
 
+using MonoDevelop.Services;
 using MonoDevelop.SharpAssembly.Metadata.Rows;
 using MonoDevelop.SharpAssembly.Metadata;
 using MonoDevelop.SharpAssembly.PE;

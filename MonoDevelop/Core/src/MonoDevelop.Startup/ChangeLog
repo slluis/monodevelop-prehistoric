@@ -1,3 +1,8 @@
+2005-04-01	Christian Hergert	<christian.hergert@gmail.com>
+
+	* app.config: Add MonoDevelop.exe.config configuration file
+	* Makefile.am: Update to include the configuration file
+
 2005-03-10	Christian Hergert	<christian.hergert@gmail.com>
 
 	* MonoDevelopMain.cs: Update the splash screen percentages

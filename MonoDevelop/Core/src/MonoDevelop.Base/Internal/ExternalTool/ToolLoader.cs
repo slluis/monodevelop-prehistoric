@@ -77,7 +77,7 @@ namespace MonoDevelop.Internal.ExternalTool
 		static ToolLoader()
 		{
 			if (!LoadToolsFromStream (Runtime.Properties.ConfigDirectory + TOOLFILE)) {
-				//Console.WriteLine("Tools: can't load user defaults, reading system defaults");
+				//Runtime.LoggingService.Info("Tools: can't load user defaults, reading system defaults");
 				if (!LoadToolsFromStream (Runtime.Properties.DataDirectory +
 				                         Path.DirectorySeparatorChar + "options" + 
 				                         Path.DirectorySeparatorChar + TOOLFILE)) {

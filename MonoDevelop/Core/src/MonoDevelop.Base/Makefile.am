@@ -8,6 +8,7 @@ DLLS = /r:System.Drawing /r:ICSharpCode.SharpZipLib.dll \
 	/r:System.Data.dll /r:System.Web.Services.dll \
 	/r:$(top_builddir)/build/bin/MonoDevelop.Dock.dll \
 	/r:Mono.Posix.dll \
+	/r:$(top_builddir)/contrib/log4net.dll \
 	$(GTK_SHARP_LIBS) \
 	$(GNOME_SHARP_LIBS) \
 	$(GNOME_VFS_SHARP_LIBS) \
@@ -240,6 +241,8 @@ Services/DispatchService/SyncContext.cs \
 Services/DispatchService/SyncContextAttribute.cs \
 Services/DispatchService/SyncObject.cs \
 Services/Runtime.cs \
+Services/ILoggingService.cs \
+Services/DefaultLoggingService.cs \
 Internal/Undo/IUndoableOperation.cs \
 Internal/Undo/UndoStack.cs \
 Internal/Undo/UndoQueue.cs \

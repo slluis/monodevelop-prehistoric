@@ -454,7 +454,7 @@ namespace MonoDevelop.Internal.Project
 					projects.Add ((Project)entry);
 				}
 				else
-					Console.WriteLine ("Dont know how to generate makefiles for " + entry);
+					Runtime.LoggingService.Info ("Dont know how to generate makefiles for " + entry);
 			}
 			
 			string rel_outputdir = Runtime.FileUtilityService.AbsoluteToRelativePath (BaseDirectory, outputdir);

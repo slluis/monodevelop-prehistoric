@@ -61,7 +61,7 @@ namespace MonoDevelop.Services
 				catch {}
 				
 				if (asm == null) {
-					Console.WriteLine ("Could not load assembly: " + assemblyFile);
+					Runtime.LoggingService.Info ("Could not load assembly: " + assemblyFile);
 					return;
 				}
 			}
@@ -70,7 +70,7 @@ namespace MonoDevelop.Services
 				asm = FindAssembly (assemblyName);
 				
 				if (asm == null) {
-					Console.WriteLine ("Could not load assembly: " + assemblyName);
+					Runtime.LoggingService.Info ("Could not load assembly: " + assemblyName);
 					return;
 				}
 				
@@ -200,7 +200,7 @@ namespace MonoDevelop.Services
 			if (!File.Exists (checkFile) || version != FORMAT_VERSION) {
 				string dataFile = Path.Combine (baseDir, name + ".pidb");
 				File.Delete (dataFile);
-				Console.WriteLine ("Deleted " + dataFile);
+				Runtime.LoggingService.Info ("Deleted " + dataFile);
 			}
 		}
 	}

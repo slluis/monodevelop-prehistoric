@@ -10,6 +10,7 @@ using System.Text;
 using System.IO;
 using System.Xml;
 
+using MonoDevelop.Services;
 using MonoDevelop.SharpAssembly.Metadata.Rows;
 using MonoDevelop.SharpAssembly.Metadata;
 using MonoDevelop.SharpAssembly.PE;
@@ -132,7 +133,7 @@ namespace MonoDevelop.Internal.Parser {
 					}
 					binReader.Close();
 				} catch {
-					Console.WriteLine("SharpAssemblyField: Error reading constant value");
+					Runtime.LoggingService.Info("SharpAssemblyField: Error reading constant value");
 				}
 			}
 		}

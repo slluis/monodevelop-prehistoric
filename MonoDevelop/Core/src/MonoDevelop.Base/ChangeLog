@@ -1,3 +1,64 @@
+2005-04-01	Christian Hergert	<christian.hergert@gmail.com>
+
+	* Commands/VBConverter/ConvertBuffer.cs: Convert to use new Logging
+	framework.
+	* Commands/MenuItemBuilders.cs
+	* Commands/AutostartCommands.cs
+	* Services/DefaultLoggingService.cs
+	* Services/DispatchService/DispatchService.cs
+	* Services/ILoggingService.cs: New logging service to help make debugging
+	and information logging easy.
+	* Services/Runtime.cs: Add logging service to Runtime.
+	* Services/DisplayBinding/DisplayBindingService.cs: Convert to new Logging
+	framework.
+	* Services/ResourceService.cs
+	* Services/ParserService/DefaultParserService.cs
+	* Services/ParserService/AssemblyInformation.cs
+	* Services/ParserService/AssemblyCodeCompletionDatabase.cs
+	* Services/ParserService/CodeCompletionDatabase.cs
+	* Gui/Workbench/Layouts/SdiWorkspaceLayout.cs
+	* Gui/Workbench/DefaultWorkbench.cs
+	* Gui/Dialogs/Wizard/WizardDialog.cs
+	* Gui/Dialogs/Wizard/AbstractWizardPanel.cs
+	* Gui/Dialogs/WordCountDialog.cs
+	* Gui/Dialogs/NewFileDialog.cs
+	* Gui/Dialogs/ReferenceDialog/AssemblyReferencePanel.cs
+	* Gui/Dialogs/ReferenceDialog/GacReferencePanel.cs
+	* Gui/Pads/SolutionPad/TreeViewPad.cs
+	* Gui/Pads/PropertyPad/PropertyPad.cs
+	* Gui/Pads/ProjectBrowser/BrowserNode/ProjectBrowserNode.cs
+	* Gui/Pads/ProjectBrowser/BrowserNode/DirectoryNode.cs
+	* Gui/Pads/ProjectBrowser/NodeBuilder/DefaultDotNetNodeBuilder.cs
+	* Gui/Pads/HelpBrowser/MonodocTreePad.cs
+	* Gui/Pads/HelpBrowser/HelpViewer.cs
+	* Gui/Pads/FileScout/FileList.cs
+	* Gui/BrowserDisplayBinding/HtmlViewPane.cs
+	* Gui/HtmlControl/HtmlControl.cs
+	* Gui/HtmlControl/MozillaControl.cs
+	* Makefile.am: Add new LoggingService files to build files
+	* Internal/ExternalTool/ToolLoader.cs: Update to new Logging Service
+	framework.
+	* Internal/Project/Project/DotNetProject.cs
+	* Internal/Project/Project/IncludeFilesDialog.cs
+	* Internal/Project/Project/Project.cs
+	* Internal/Project/Combine/Combine.cs
+	* Internal/ProgressMonitoring/ConsoleProgressMonitor.cs
+	* Internal/ProgressMonitoring/BaseProgressMonitor.cs
+	* Internal/Parser/SharpAssemblyLayer/SharpAssemblyParameter.cs
+	* Internal/Parser/SharpAssemblyLayer/SharpAssemblyMethod.cs
+	* Internal/Parser/SharpAssemblyLayer/SharpAssemblyReturnType.cs
+	* Internal/Parser/SharpAssemblyLayer/SharpAssemblyEvent.cs
+	* Internal/Parser/SharpAssemblyLayer/SharpAssemblyAttribute.cs
+	* Internal/Parser/SharpAssemblyLayer/SharpAssemblyField.cs
+	* Internal/Parser/SharpAssemblyLayer/SharpAssemblyProperty.cs
+	* Internal/Parser/SharpAssemblyLayer/SharpAssemblyClass.cs
+	* Internal/Templates/CodeTemplateLoader.cs
+
+2005-03-31  Christian Hergert  <christian.hergert@gmail.com>
+
+	* MonoDevelopCore.addin.xml: Use proper stock icon names for
+	solution and class pads.
+
 2005-03-22  John Luke  <john.luke@gmail.com>
 
 	* Internal/Project/Project/DotNetProject.cs: Release configuration

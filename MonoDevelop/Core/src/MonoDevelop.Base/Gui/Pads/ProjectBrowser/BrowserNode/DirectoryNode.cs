@@ -76,7 +76,7 @@ namespace MonoDevelop.Gui.Pads.ProjectBrowser
 					try {
 						ProjectBrowserView.MoveCopyFile(file, this, effect == DragDropEffects.Move, false);
 					} catch (Exception ex) {
-						Console.WriteLine(ex.ToString());
+						Runtime.LoggingService.Info(ex.ToString());
 					}
 				}
 			} else {

@@ -216,6 +216,7 @@ Extras/MonoQuery/Makefile
 Extras/MonoQuery/MonoQuery.addin.xml
 Extras/MonoDeveloperExtensions/Makefile
 Extras/JavaBinding/Makefile
+contrib/Makefile
 ])
 
 echo ""
