@@ -139,6 +139,16 @@ namespace MonoDevelop.SourceEditor.Gui
 			Gtk.Global.PropagateEvent (this, evnt);
 		}
 
+		void DeleteLine ()
+		{
+			//remove the current line
+			TextIter iter = buf.GetIterAtMark (buf.InsertMark);
+			TextIter start_iter = buf.GetIterAtLine (iter.Line);
+			TextIter end_iter = buf.GetIterAtLine (iter.Line);
+			end_iter.ForwardToLineEnd ();
+			buf.Delete (start_iter, end_iter);
+		}
+
 		void TriggerCodeComplete ()
 		{
 			TextIter iter = buf.GetIterAtMark (buf.InsertMark);
@@ -191,12 +201,18 @@ namespace MonoDevelop.SourceEditor.Gui
 						if (UnIndentSelection ())
 							return true;
 						break;
+					case Gdk.Key.Delete:
+						DeleteLine ();
+						return true;
 				}
 				break;
 			case Control:
 				switch (key) {
 					case Gdk.Key.space:
 						TriggerCodeComplete ();
+						return true;
+					case Gdk.Key.l:
+						DeleteLine ();
 						return true;
 				}
 				break;
