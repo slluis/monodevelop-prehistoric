@@ -13,7 +13,7 @@ generated-stamp: gtkmozembed-api.xml
 	 	gapi-codegen --generate gtkmozembed-api.xml --include $(INCLUDE_APIS) --outdir=generated --customdir=. --assembly-name=gtkmozembed-sharp && touch generated-stamp
 
 $(ASSEMBLY): generated-stamp
-	$(MCS) --unsafe --target library -L @prefix@/lib \
+	$(MCS) --unsafe --target library \
 	-r glib-sharp.dll -r gtk-sharp.dll -r gdk-sharp.dll \
 	--recurse '*.cs' -o $(ASSEMBLY)
  

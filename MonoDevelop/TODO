@@ -16,7 +16,6 @@
 - When too many tabs are opened they go out for the window and don't show
 - printing support
 - some keywords should be bold when highlighted
-- make fonts choice persist (after restarting)
 - organize this list (Bugzilla maybe?)
 - switch to a proper build system (mbuild or auto*?)
 - Allow show hidden (.*) files/directories in the file browser.

@@ -1,5 +1,7 @@
 This is a port of SharpDevelop to Gtk# and Mono.
 
+Compiling and running
+---------------------
 To compile run the following command:
 make PREFIX=/usr/local
 
@@ -8,13 +10,25 @@ make PREFIX=/usr/local
 To run MonoDevelop:
 ./monodevelop
 
-EXAMPLE:
+Example:
 make clean && make PREFIX=/usr && ./monodevelop
 
+Dependencies
+------------
 You need Mono and Gtk# cvs, and ORBit2-2.8.3 or newer
 
 Mono must be installed with ICU enabled.
 
+References
+----------
+SharpDevelop Tech Notes
+http://www.icsharpcode.net/TechNotes/
+
 We are attempting to follow the HIG in certain areas especially, particularly dialogs.
 
 You can find a copy of the HIG at http://developer.gnome.org/projects/gup/hig/1.0/
+
+Discussion, Bugs, Patches
+-------------------------
+monodevelop-list@lists.ximian.com (questions and discussion)
+http://bugzilla.ximian.com (bugs and patches)

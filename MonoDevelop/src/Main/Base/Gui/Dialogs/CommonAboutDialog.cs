@@ -6,15 +6,12 @@
 // </file>
 
 using System;
-using System.Resources;
-using System.IO;
-using System.Reflection;
-using System.Runtime.CompilerServices;
 
 using ICSharpCode.SharpDevelop.Gui;
 using ICSharpCode.Core.Properties;
 using ICSharpCode.Core.Services;
-using ICSharpCode.SharpDevelop.Gui.HtmlControl;
+//using ICSharpCode.SharpDevelop.Gui.HtmlControl;
+
 using Gdk;
 using Gtk;
 using GtkSharp;
@@ -30,36 +27,8 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 		int scroll = -220;
 		uint hndlr;
 		Pango.Font font;
-		Drawable dr;
 		bool initial = true;
-		Gdk.GC gc;
-		
-		public int ScrollY {
-			get {
-				return scroll;
-			}
-			set {
-				scroll = value;
-			}
-		}
-		
-		public Pixbuf Image {
-			get {
-				return image;
-			}
-			set {
-				image = value;
-			}
-		}
-		
-		public string ScrollText {
-			get {
-				return text;
-			}
-			set {
-				text =  value;
-			}
-		}
+		Pango.Layout layout;
 		
 		internal uint Handler
 		{
@@ -78,9 +47,9 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 			this.ExposeEvent += new ExposeEventHandler (OnExposed);
 			
 			ResourceService resourceService = (ResourceService)ServiceManager.Services.GetService(typeof(IResourceService));
-			this.Image = resourceService.GetBitmap ("Icons.AboutImage");
+			image = resourceService.GetBitmap ("Icons.AboutImage");
 			
-			text = "Ported and developed by:\nTodd Berman\nPedro Abelleira Seco\nJohn Luke\nDaniel Kornhauser\norph\nnricciar\njba\nBen Maurer";
+			text = "<b>Ported and developed by:</b>\nTodd Berman\nPedro Abelleira Seco\nJohn Luke\nDaniel Kornhauser\norph\nnricciar\njba\nBen Maurer";
 			
 			//text = "\"The most successful method of programming is to begin a program as simply as possible, test it, and then add to the program until it performs the required job.\"\n    -- PDP8 handbook, Pg 9-64\n\n\n";
 			//text = "\"The primary purpose of the DATA statement is to give names to constants; instead of referring to pi as 3.141592653589793 at every\n appearance, the variable PI can be given that value with a DATA statement and used instead of the longer form of the constant. This also simplifies modifying the program, should the value of pi change.\"\n    -- FORTRAN manual for Xerox computers\n\n\n";
@@ -104,26 +73,14 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 		private void DrawImage ()
 		{
 			if (image != null) {
-				dr.DrawPixbuf (gc, Image, 0, 0, 0, 0, -1, -1, RgbDither.Normal,  0,  0);
-				
+				this.GdkWindow.DrawPixbuf (this.Style.BackgroundGC (StateType.Normal), image, 0, 0, 0, 0, -1, -1, RgbDither.Normal,  0,  0);
 			}
 		}
 		
 		private void DrawText ()
 		{
-			Pango.Layout layout = new Pango.Layout (this.PangoContext);
-			// FIXME: this seems wrong but works
-			layout.Width = 253952;
-			layout.Wrap = Pango.WrapMode.Word;
-			FontDescription fd = FontDescription.FromString ("Tahoma 10");
-			layout.FontDescription = fd;
-			layout.SetText (text);
-			dr.DrawLayout (gc, 200, 0 - scroll, layout);
-
-			//Console.WriteLine (layout.Size);
-			//Console.WriteLine (layout.Width);
-			//Console.WriteLine (layout.LineCount);
-				
+			this.GdkWindow.DrawLayout (this.Style.TextGC (StateType.Normal), 200, 0 - scroll, layout);
+	
 			if (scroll > 220 ) {
 				scroll = -scroll;
 			}
@@ -137,10 +94,14 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 
 		protected void OnRealized (object o, EventArgs args)
 		{
-			int xoff;
-			int yoff;
-			this.GdkWindow.GetInternalPaintInfo (out dr, out xoff, out yoff);
-			gc = new Gdk.GC (dr);	
+			layout = new Pango.Layout (this.PangoContext);
+			Console.WriteLine (this.GdkWindow.Size);
+			// FIXME: this seems wrong but works
+			layout.Width = 253952;
+			layout.Wrap = Pango.WrapMode.Word;
+			FontDescription fd = FontDescription.FromString ("Tahoma 10");
+			layout.FontDescription = fd;
+			layout.SetMarkup (text);	
 		}
 	}
 	
@@ -152,12 +113,6 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 		AuthorAboutTabPage aatp;
 		//ChangeLogTabPage changelog;
 		ScrollBox aboutPictureScrollBox;
-		
-		public ScrollBox ScrollBox {
-			get {
-				return (ScrollBox) aboutPictureScrollBox;
-			}
-		}
 		
 		static PropertyService propertyService = (PropertyService)ServiceManager.Services.GetService(typeof(PropertyService));
 		
@@ -195,7 +150,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 		public new int Run ()
 		{
 			int tmp = base.Run ();
-			Timeout.Remove (ScrollBox.Handler);
+			Timeout.Remove (aboutPictureScrollBox.Handler);
 			return tmp;
 		}
 		
