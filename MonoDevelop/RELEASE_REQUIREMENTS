@@ -11,3 +11,4 @@ Here is the short list of features to finish before the preview release
   what exactly #D does with unsaved files (need someone with windows to play
   around)
 ~ Fix HtmlControl cause its busted
+~ Why the hell is new file showing up as Ctrl+O?!?
