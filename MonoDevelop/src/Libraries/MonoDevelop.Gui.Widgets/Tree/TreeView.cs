@@ -103,6 +103,7 @@ namespace MonoDevelop.Gui.Widgets {
 			}
 			set {			
 				Selection.SelectIter (value.TreeIter);
+				this.ScrollToCell (store.GetPath (value.TreeIter), null, false, 0, 0);
 			}
 		}
 		
