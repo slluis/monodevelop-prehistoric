@@ -37,7 +37,7 @@ namespace MonoDevelop.Gui.Dialogs {
 		{
 			this.project = project;
 			this.configurationNode = configurationNode;
-			this.Title = StringParserService.Parse("${res:Dialog.Options.ProjectOptions.DialogName}");
+			this.Title = GettextCatalog.GetString ("Project Options");
 			
 			properties = new DefaultProperties();
 			properties.SetProperty("Project", project);
@@ -56,13 +56,13 @@ namespace MonoDevelop.Gui.Dialogs {
 		
 		void AddConfigurationNodes()
 		{
-			configurationTreeNode = treeStore.AppendValues (StringParserService.Parse("${res:Dialog.Options.ProjectOptions.ConfigurationsNodeName}"), null);
+			configurationTreeNode = treeStore.AppendValues (GettextCatalog.GetString ("Configurations"), null);
 			
 			foreach (IConfiguration config in project.Configurations) {
 				Gtk.TreeIter newNode ;
 				
 				if (config == project.ActiveConfiguration) {
-					newNode = treeStore.AppendValues (configurationTreeNode, config.Name + " (Active)", config);
+					newNode = treeStore.AppendValues (configurationTreeNode, config.Name + " " + GettextCatalog.GetString ("(Active)"), config);
 					//newNode.NodeFont = boldFont;
 				} else {
 					newNode = treeStore.AppendValues (configurationTreeNode, config.Name, config); 
@@ -173,7 +173,7 @@ namespace MonoDevelop.Gui.Dialogs {
 						// determine if this is the active config
 						IConfiguration config = (IConfiguration) treeStore.GetValue(node, 1);
 						if (project.ActiveConfiguration == config) {
-							treeStore.SetValue(node, 0, config.Name + " (Active)");
+							treeStore.SetValue(node, 0, config.Name + " " + GettextCatalog.GetString ("(Active)"));
 						} else {
 							treeStore.SetValue(node, 0, config.Name);
 						}
@@ -206,7 +206,7 @@ namespace MonoDevelop.Gui.Dialogs {
 					// see if it's the active columne (if so remove the active text on the end) before editing
 					if (project.ActiveConfiguration == config) {
 						string name = (string) mdl.GetValue(iter, 0);
-						name = name.Replace(" (Active)", string.Empty);
+						name = name.Replace(" " + GettextCatalog.GetString ("(Active)"), string.Empty);
 						mdl.SetValue(iter, 0, name);
 					}
 					

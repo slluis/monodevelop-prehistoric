@@ -10,6 +10,7 @@ using System.IO;
 using System.Text;
 using MonoDevelop.Internal.Project;
 using MonoDevelop.Core.Services;
+using MonoDevelop.Services;
 
 using Gtk;
 
@@ -23,7 +24,7 @@ namespace MonoDevelop.Gui.Dialogs
 		{
 			this.selectDialog = selectDialog;
 			// FIXME: il8n this
-			Gtk.Button browseButton = new Gtk.Button("Browse");
+			Gtk.Button browseButton = new Gtk.Button(GettextCatalog.GetString ("Browse"));
 			browseButton.Clicked += new EventHandler(SelectReferenceDialog);
 			PackStart(browseButton, false, false, 6);
 			ShowAll();
@@ -33,7 +34,7 @@ namespace MonoDevelop.Gui.Dialogs
 		{
 			// FIXME: il8n the dialog name
 			StringParserService stringParserService = (StringParserService)ServiceManager.Services.GetService(typeof(StringParserService));
-			using (FileSelection fdiag = new FileSelection("Find .Net Assembly")) {
+			using (FileSelection fdiag = new FileSelection(GettextCatalog.GetString ("Find .Net Assembly"))) {
 			// FIXME: this should only allow dll's and exe's
 			// fdiag.Complete("*");
 				fdiag.SelectMultiple = true;
@@ -58,7 +59,7 @@ namespace MonoDevelop.Gui.Dialogs
 						} else {
 							IMessageService messageService =(IMessageService)ServiceManager.Services.GetService(typeof(IMessageService));
 							// FIXME: il8n this
-							messageService.ShowError("File " + file + "is not a valid .Net Assembly");
+							messageService.ShowError(String.Format (GettextCatalog.GetString ("File {0} is not a valid .Net Assembly"), file));
 						}
 					}
 				}

@@ -150,7 +150,7 @@ namespace MonoDevelop.Gui.Dialogs {
 			TreeViewOptionDialog.TransientFor = (Gtk.Window)WorkbenchSingleton.Workbench;
 			TreeViewOptionDialog.WindowPosition = Gtk.WindowPosition.CenterOnParent;
 		
-			TreeViewOptionDialog.Title = StringParserService.Parse("${res:Dialog.Options.TreeViewOptions.DialogName}");
+			TreeViewOptionDialog.Title = GettextCatalog.GetString ("MonoDevelop options");
 
 			this.InitializeComponent();
 			

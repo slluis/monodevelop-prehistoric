@@ -30,8 +30,8 @@ namespace MonoDevelop.Gui.Dialogs {
 			
 			store = new TreeStore (typeof (string), typeof (string), typeof(IProject));
 			treeView = new TreeView (store);
-			treeView.AppendColumn (resourceService.GetString ("Dialog.SelectReferenceDialog.ProjectReferencePanel.NameHeader"), new CellRendererText (), "text", 0);
-			treeView.AppendColumn (resourceService.GetString ("Dialog.SelectReferenceDialog.ProjectReferencePanel.DirectoryHeader"), new CellRendererText (), "text", 1);
+			treeView.AppendColumn (GettextCatalog.GetString ("Project Name"), new CellRendererText (), "text", 0);
+			treeView.AppendColumn (GettextCatalog.GetString ("Project Directory"), new CellRendererText (), "text", 1);
 			
 			
 			PopulateListView ();

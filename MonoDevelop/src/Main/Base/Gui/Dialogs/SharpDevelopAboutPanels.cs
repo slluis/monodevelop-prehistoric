@@ -49,7 +49,7 @@ namespace MonoDevelop.Gui.Dialogs
 			buildTextBox.Text   = v.Revision + "." + v.Build;
 			
 			ResourceService resourceService = (ResourceService)ServiceManager.Services.GetService(typeof(IResourceService));
-			versionLabel.Text = resourceService.GetString("Dialog.About.label1Text");
+			versionLabel.Text = GettextCatalog.GetString("Version");
 			
 			//versionLabel.TabIndex = 1;
 			hbox.PackStart (versionLabel, false, false, 10);
@@ -57,7 +57,7 @@ namespace MonoDevelop.Gui.Dialogs
 			//versionTextBox.TabIndex = 4;
 			hbox.PackStart (versionTextBox, false, false, 10);
 			
-			buildLabel.Text = resourceService.GetString("Dialog.About.label2Text");
+			buildLabel.Text = GettextCatalog.GetString("Build");
 			//buildLabel.TabIndex = 2;
 			hbox.PackStart (buildLabel, false, false, 10);
 			
@@ -65,7 +65,7 @@ namespace MonoDevelop.Gui.Dialogs
 			hbox.PackStart (buildTextBox, false, false, 10);
 			this.PackStart (hbox, false, false, 5);
 			
-			sponsorLabel.Text = "Released under the GNU General Public license.";
+			sponsorLabel.Text = GettextCatalog.GetString ("Released under the GNU General Public license.");
 				               // "Sponsored by AlphaSierraPapa\n" +
 			                   // "                   http://www.AlphaSierraPapa.com";
 			//sponsorLabel.TabIndex = 8;
@@ -172,9 +172,9 @@ namespace MonoDevelop.Gui.Dialogs
 	
 			TreeView listView = new TreeView ();
 			listView.RulesHint = true;
-			listView.AppendColumn (resourceService.GetString("Dialog.About.VersionInfoTabName.NameColumn"), new CellRendererText (), "text", 0);
-			listView.AppendColumn (resourceService.GetString("Dialog.About.VersionInfoTabName.VersionColumn"), new CellRendererText (), "text", 1);
-			listView.AppendColumn (resourceService.GetString("Dialog.About.VersionInfoTabName.PathColumn"), new CellRendererText (), "text", 2);
+			listView.AppendColumn (GettextCatalog.GetString ("Name"), new CellRendererText (), "text", 0);
+			listView.AppendColumn (GettextCatalog.GetString ("Version"), new CellRendererText (), "text", 1);
+			listView.AppendColumn (GettextCatalog.GetString ("Path"), new CellRendererText (), "text", 2);
 			
 			FillListView ();
 			ScrolledWindow sw = new ScrolledWindow ();
@@ -204,7 +204,7 @@ namespace MonoDevelop.Gui.Dialogs
 				try {
 					loc = asm.Location;
 				} catch (Exception) {
-					loc = "dynamic";
+					loc = GettextCatalog.GetString ("dynamic");
 				}
 				
 				store.AppendValues (name.Name, name.Version.ToString(), loc);
@@ -227,7 +227,7 @@ namespace MonoDevelop.Gui.Dialogs
 				try {
 					versionInfo.Append(asm.Location);
 				} catch (Exception) {
-					versionInfo.Append("dynamic");
+					versionInfo.Append(GettextCatalog.GetString ("dynamic"));
 				}
 				
 				versionInfo.Append(Environment.NewLine);

@@ -6,3 +6,13 @@ src/Main/Base/Gui/Dialogs/NewFileDialog.cs
 src/Main/Base/Gui/Dialogs/OptionPanels/EditTemplateDialog.cs
 src/Main/Base/Gui/Dialogs/OptionPanels/ExternalToolPanel.cs
 src/Main/Base/Gui/Dialogs/OptionPanels/IDEOptions/BuildPanel.cs
+src/Main/Base/Gui/Dialogs/OptionPanels/ProjectOptions/CompileFileProjectOptions.cs
+src/Main/Base/Gui/Dialogs/OptionPanels/ProjectOptions/DeployFileOptions.cs
+src/Main/Base/Gui/Dialogs/ProjectOptionsDialog.cs
+src/Main/Base/Gui/Dialogs/ReferenceDialog/AssemblyReferencePanel.cs
+src/Main/Base/Gui/Dialogs/ReferenceDialog/GacReferencePanel.cs
+src/Main/Base/Gui/Dialogs/ReferenceDialog/ProjectReferencePanel.cs
+src/Main/Base/Gui/Dialogs/ReferenceDialog/SelectReferenceDialog.cs
+src/Main/Base/Gui/Dialogs/SharpDevelopAboutPanels.cs
+src/Main/Base/Gui/Dialogs/TreeViewOptions.cs
+src/Main/Base/Gui/Dialogs/WordCountDialog.cs

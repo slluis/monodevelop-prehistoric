@@ -17,6 +17,7 @@ using MonoDevelop.Internal.Project;
 using MonoDevelop.Core.Services;
 using MonoDevelop.Core.Properties;
 using MonoDevelop.Gui.Components;
+using MonoDevelop.Services;
 
 using Gtk;
 using MonoDevelop.Gui.Widgets;
@@ -49,8 +50,6 @@ namespace MonoDevelop.Gui.Dialogs.OptionPanels
 			{
 				this.project = (IProject)((IProperties)CustomizationObject).GetProperty("Project");	
 				
-				includeLabel.Text =  StringParserService.Parse(
-					"${res:Dialog.Options.PrjOptions.CompileFile.IncludeGroupBox}");
 				includeLabel.UseUnderline = true;
 				store = new ListStore (typeof(bool), typeof(string));
 				includeTreeView.Selection.Mode = SelectionMode.None;
@@ -100,12 +99,11 @@ namespace MonoDevelop.Gui.Dialogs.OptionPanels
 					if (j < project.ProjectFiles.Count) {
 						project.ProjectFiles[j].BuildAction = (bool) store.GetValue(current, 0) ? BuildAction.Compile : BuildAction.Nothing;
 					} else {
-						string message = "File " + name + " not found in " + project.Name;
 						MessageDialog dialog = new MessageDialog ((Window) WorkbenchSingleton.Workbench, 
 								DialogFlags.DestroyWithParent,
 								MessageType.Error, 
 								ButtonsType.Close, 
-								message);	
+								String.Format (GettextCatalog.GetString ("File {0} not found in {1}."), name, project.Name));
 						dialog.Run ();
 						dialog.Hide ();
 						dialog.Dispose ();

@@ -1,4 +1,20 @@
-2004-04-02  Todd berman  <tberman@sevenl.net>
+2004-04-02  Todd Berman  <tberman@sevenl.net>
+
+	* Gui/Dialogs/SharpDevelopAboutPanels.cs:
+	* Gui/Dialogs/ProjectOptionsDialog.cs:
+	* Gui/Dialogs/WordCountDialog.cs:
+	* Gui/Dialogs/TreeViewOptions.cs:
+	* Gui/Dialogs/OptionPanels/ProjectOptions/CompileFileProjectOptions.cs:
+	* Gui/Dialogs/OptionPanels/ProjectOptions/GeneralProjectOptions.cs:
+	* Gui/Dialogs/OptionPanels/ProjectOptions/DeployFileOptions.cs:
+	* Gui/Dialogs/ReferenceDialog/SelectReferenceDialog.cs:
+	* Gui/Dialogs/ReferenceDialog/AssemblyReferencePanel.cs:
+	* Gui/Dialogs/ReferenceDialog/ProjectReferencePanel.cs:
+	* Gui/Dialogs/ReferenceDialog/GacReferencePanel.cs:
+	gettextify, this finishes Gui/Dialogs/* that we use currently i think.
+
+
+2004-04-02  Todd Berman  <tberman@sevenl.net>
 
 	* Gui/Dialogs/OptionPanels/ExternalToolPanel.cs:
 	* Gui/Dialogs/OptionPanels/IDEOptions/LoadSavePanel.cs:

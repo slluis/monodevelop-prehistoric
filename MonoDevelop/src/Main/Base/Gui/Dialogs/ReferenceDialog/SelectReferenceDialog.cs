@@ -13,6 +13,7 @@ using System.ComponentModel;
 
 using MonoDevelop.Internal.Project;
 using MonoDevelop.Core.Services;
+using MonoDevelop.Services;
 
 using Gtk;
 
@@ -69,14 +70,12 @@ namespace MonoDevelop.Gui.Dialogs
 			Glade.XML refXML = new Glade.XML (null, "Base.glade", "AddReferenceDialog", null);
 			refXML.Autoconnect (this);
 			
-			AddReferenceDialog.Title = resourceService.GetString("Dialog.SelectReferenceDialog.DialogName");
-			
 			refTreeStore = new Gtk.TreeStore (typeof (string), typeof(string), typeof(string), typeof(ProjectReference));
 			ReferencesTreeView.Model = refTreeStore;
 
-			ReferencesTreeView.AppendColumn (resourceService.GetString("Dialog.SelectReferenceDialog.ReferenceHeader"), new CellRendererText (), "text", 0);
-			ReferencesTreeView.AppendColumn (resourceService.GetString ("Dialog.SelectReferenceDialog.TypeHeader"), new CellRendererText (), "text", 1);
-			ReferencesTreeView.AppendColumn (resourceService.GetString ("Dialog.SelectReferenceDialog.LocationHeader"), new CellRendererText (), "text", 2);
+			ReferencesTreeView.AppendColumn (GettextCatalog.GetString("Reference Name"), new CellRendererText (), "text", 0);
+			ReferencesTreeView.AppendColumn (GettextCatalog.GetString ("Type"), new CellRendererText (), "text", 1);
+			ReferencesTreeView.AppendColumn (GettextCatalog.GetString ("Location"), new CellRendererText (), "text", 2);
 			
 			gacRefPanel = new GacReferencePanel (this);
 			
@@ -92,10 +91,10 @@ namespace MonoDevelop.Gui.Dialogs
 				}
 			}
 			mainBook.RemovePage (mainBook.CurrentPage);
-			mainBook.AppendPage (gacRefPanel, new Gtk.Label ("System Assemblies"));
-			mainBook.AppendPage (new ProjectReferencePanel (this), new Gtk.Label (resourceService.GetString("Dialog.SelectReferenceDialog.ProjectTabPage")));			
+			mainBook.AppendPage (gacRefPanel, new Gtk.Label (GettextCatalog.GetString ("System Assemblies")));
+			mainBook.AppendPage (new ProjectReferencePanel (this), new Gtk.Label (GettextCatalog.GetString ("Projects")));
 			// FIXME il8n the assembly tab name			
-			mainBook.AppendPage (new AssemblyReferencePanel (this), new Gtk.Label (".Net Assembly"));
+			mainBook.AppendPage (new AssemblyReferencePanel (this), new Gtk.Label (GettextCatalog.GetString (".Net Assembly")));
 			//comTabPage.Controls.Add(new COMReferencePanel(this));
 			AddReferenceDialog.ShowAll ();
 		}

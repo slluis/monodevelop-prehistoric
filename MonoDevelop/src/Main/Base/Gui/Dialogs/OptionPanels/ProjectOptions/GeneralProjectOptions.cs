@@ -54,25 +54,9 @@ namespace MonoDevelop.Gui.Dialogs.OptionPanels
 			{
 				this.project = (IProject)((IProperties)CustomizationObject).GetProperty("Project");
 
-				nameLabel.Text = StringParserService.Parse(
-					"${res:Dialog.Options.PrjOptions.General.ProjectNameLabel}");
 				nameLabel.UseUnderline = true;
 				
-				descriptionLabel.Text = StringParserService.Parse(
-					"${res:Dialog.Options.PrjOptions.General.ProjectDescriptionLabel}");
 				descriptionLabel.UseUnderline = true;
-
-				// FIXME: il8n this
-				informationHeaderLabel.Markup = "<b>" + "Project Information" + "</b>";
-				// FIXME: il8n this
-				onProjectLoadHeaderLabel.Markup = "<b>" + "On Project Load" + "</b>";
-
-				newFilesOnLoadCheckButton.Label = StringParserService.Parse(
-					"${res:Dialog.Options.PrjOptions.General.SearchNewFileOnLoadCheckBox}");
-				autoInsertNewFilesCheckButton.Label = StringParserService.Parse(
-					"${res:Dialog.Options.PrjOptions.General.AutoIncludeFilesCheckBox}");
-				enableViewStateCheckButton.Label = StringParserService.Parse(
-					"${res:Dialog.Options.PrjOptions.General.ViewStateCheckBox}" );
 
 				projectNameEntry.Text = project.Name;
 				projectDescriptionTextView.Buffer.Text = project.Description;

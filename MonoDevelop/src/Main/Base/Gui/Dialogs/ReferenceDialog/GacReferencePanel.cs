@@ -14,6 +14,7 @@ using MSjogren.GacTool.FusionNative;
 using MonoDevelop.Internal.Project;
 
 using MonoDevelop.Core.Services;
+using MonoDevelop.Services;
 
 using Gtk;
 
@@ -35,7 +36,7 @@ namespace MonoDevelop.Gui.Dialogs
 			treeView = new TreeView (store);
 
 			TreeViewColumn firstColumn = new TreeViewColumn ();
-			firstColumn.Title = resourceService.GetString ("Dialog.SelectReferenceDialog.GacReferencePanel.ReferenceHeader");
+			firstColumn.Title = GettextCatalog.GetString ("Reference Name");
 			CellRendererToggle tog_render = new CellRendererToggle ();
 			tog_render.Toggled += new Gtk.ToggledHandler (AddReference);
 			firstColumn.PackStart (tog_render, false);
@@ -46,8 +47,8 @@ namespace MonoDevelop.Gui.Dialogs
 			firstColumn.AddAttribute (text_render, "text", 0);
 			
 			treeView.AppendColumn (firstColumn);
-			treeView.AppendColumn (resourceService.GetString ("Dialog.SelectReferenceDialog.GacReferencePanel.VersionHeader"), new CellRendererText (), "text", 1);
-			treeView.AppendColumn (resourceService.GetString ("Dialog.SelectReferenceDialog.GacReferencePanel.PathHeader"), new CellRendererText (), "text", 2);
+			treeView.AppendColumn (GettextCatalog.GetString ("Version"), new CellRendererText (), "text", 1);
+			treeView.AppendColumn (GettextCatalog.GetString ("Path"), new CellRendererText (), "text", 2);
 		
 			
 			PrintCache();
@@ -122,7 +123,7 @@ namespace MonoDevelop.Gui.Dialogs
 			//FIXME: gac.
 			System.Reflection.MethodInfo gac = typeof (System.Environment).GetMethod ("internalGetGacPath", System.Reflection.BindingFlags.Static|System.Reflection.BindingFlags.NonPublic);
 			if (gac == null) {
-				Console.WriteLine ("ERROR: non-mono runtime detected, please use the mono runtime for this piece of MonoDevelop for the time being");
+				Console.WriteLine (GettextCatalog.GetString ("ERROR: non-mono runtime detected, please use the mono runtime for this piece of MonoDevelop for the time being"));
 				Environment.Exit (1);
 			}
 			string gac_path = System.IO.Path.Combine ((string)gac.Invoke (null, null), "");

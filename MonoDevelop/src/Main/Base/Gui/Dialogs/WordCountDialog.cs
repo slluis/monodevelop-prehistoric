@@ -55,7 +55,7 @@ namespace MonoDevelop.Gui.Dialogs
 			public static Report operator+(Report r, Report s)
 			{
 				ResourceService resourceService = (ResourceService)ServiceManager.Services.GetService(typeof(IResourceService));
-				Report tmpReport = new Report (resourceService.GetString ("Dialog.WordCountDialog.TotalText"), s.chars, s.words, s.lines);
+				Report tmpReport = new Report (GettextCatalog.GetString("total"), s.chars, s.words, s.lines);
 				
 				tmpReport.chars += r.chars;
 				tmpReport.words += r.words;
@@ -97,7 +97,7 @@ namespace MonoDevelop.Gui.Dialogs
 					IWorkbenchWindow window = WorkbenchSingleton.Workbench.ActiveWorkbenchWindow;
 					if (window != null) {
 						if (window.ViewContent.ContentName == null) {
-							messageService.ShowWarning ("${res:Dialog.WordCountDialog.SaveTheFileWarning}");
+							messageService.ShowWarning (GettextCatalog.GetString ("You must save the file"));
 						} else {
 							Report r = GetReport(window.ViewContent.ContentName);
 							if (r != null) items.Add(r);
@@ -111,10 +111,10 @@ namespace MonoDevelop.Gui.Dialogs
 				if (WorkbenchSingleton.Workbench.ViewContentCollection.Count > 0) {
 					bool dirty = false;
 					
-					total = new Report (stringParserService.Parse ("${res:Dialog.WordCountDialog.TotalText}"), 0, 0, 0);
+					total = new Report (GettextCatalog.GetString ("total"), 0, 0, 0);
 					foreach (IViewContent content in WorkbenchSingleton.Workbench.ViewContentCollection) {
 						if (content.ContentName == null) {
-							messageService.ShowWarning ("${res:Dialog.WordCountDialog.SaveAllFileWarning}");
+							messageService.ShowWarning (GettextCatalog.GetString ("You must save the file"));
 							continue;
 						} else {
 							Report r = GetReport(content.ContentName);
@@ -129,7 +129,7 @@ namespace MonoDevelop.Gui.Dialogs
 					}
 					
 					if (dirty) {
-						messageService.ShowWarning ("${res:Dialog.WordCountDialog.DirtyWarning}");
+						messageService.ShowWarning (GettextCatalog.GetString ("Unsaved changed to open files were not included in counting"));
 					}
 					
 					store.AppendValues ("", "", "", "");
@@ -142,10 +142,10 @@ namespace MonoDevelop.Gui.Dialogs
 					IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
 					
 					if (projectService.CurrentOpenCombine == null) {
-						messageService.ShowError ("${res:Dialog.WordCountDialog.MustBeInProtectedModeWarning}");
+						messageService.ShowError (GettextCatalog.GetString ("You must be in project mode"));
 						break;
 					}
-					total = new Report (stringParserService.Parse ("${res:Dialog.WordCountDialog.TotalText}"), 0, 0, 0);
+					total = new Report (GettextCatalog.GetString ("total"), 0, 0, 0);
 					CountCombine(projectService.CurrentOpenCombine, ref total);
 					store.AppendValues ("", "", "", "");
 					//string[] allItems = all.ToListItem ();
@@ -250,23 +250,19 @@ namespace MonoDevelop.Gui.Dialogs
 		void SortEvt (object sender, EventArgs e)
 		{
 			TreeViewColumn col = (TreeViewColumn) sender;
+			string file = GettextCatalog.GetString ("File");
+			string chars = GettextCatalog.GetString ("Chars");
+			string words = GettextCatalog.GetString ("Words");
+			string lines = GettextCatalog.GetString ("Lines");
 			
-			switch (col.Title) {
-				case "file":
+			if (file == col.Title)
 					store.SetSortColumnId (0, ReverseSort (col.SortOrder));
-					break;
-				case "Chars":
+			else if (chars == col.Title)
 					store.SetSortColumnId (1, ReverseSort (col.SortOrder));
-					break;
-				case "Words":
+			else if (words == col.Title)
 					store.SetSortColumnId (2, ReverseSort (col.SortOrder));
-					break;
-				case "Lines":
+			else if (lines == col.Title)
 					store.SetSortColumnId (3, ReverseSort (col.SortOrder));
-					break;
-				default:
-					break;
-			}
 			
 			//UpdateList ((TreeViewColumn)e.Column);
 		}
@@ -293,7 +289,7 @@ namespace MonoDevelop.Gui.Dialogs
 		void InitializeComponents()
 		{
 			this.SetDefaultSize (300, 300);
-			this.Title = "Word Count";
+			this.Title = GettextCatalog.GetString ("Word Count");
 			Button startButton = new Button (Gtk.Stock.Execute);
 			startButton.Clicked += new EventHandler (startEvent);
 
@@ -309,19 +305,19 @@ namespace MonoDevelop.Gui.Dialogs
 			resultListView = new TreeView ();
 			resultListView.RulesHint = true;
 
-			TreeViewColumn fileColumn = new TreeViewColumn ("file", new CellRendererText (), "text", 0);
+			TreeViewColumn fileColumn = new TreeViewColumn (GettextCatalog.GetString ("File"), new CellRendererText (), "text", 0);
 			fileColumn.Clicked += new EventHandler (SortEvt);
 			resultListView.AppendColumn (fileColumn);
 			
-			TreeViewColumn charsColumn = new TreeViewColumn ("Chars", new CellRendererText (), "text", 1);
+			TreeViewColumn charsColumn = new TreeViewColumn (GettextCatalog.GetString ("Chars"), new CellRendererText (), "text", 1);
 			charsColumn.Clicked += new EventHandler (SortEvt);
 			resultListView.AppendColumn (charsColumn);
 			
-			TreeViewColumn wordsColumn = new TreeViewColumn ("Words", new CellRendererText (), "text", 2);
+			TreeViewColumn wordsColumn = new TreeViewColumn (GettextCatalog.GetString ("Words"), new CellRendererText (), "text", 2);
 			wordsColumn.Clicked += new EventHandler (SortEvt);
 			resultListView.AppendColumn (wordsColumn);
 			
-			TreeViewColumn linesColumn = new TreeViewColumn ("Lines", new CellRendererText (), "text", 3);
+			TreeViewColumn linesColumn = new TreeViewColumn (GettextCatalog.GetString ("Lines"), new CellRendererText (), "text", 3);
 			linesColumn.Clicked += new EventHandler (SortEvt);
 			resultListView.AppendColumn (linesColumn);
 			
@@ -334,15 +330,15 @@ namespace MonoDevelop.Gui.Dialogs
 			this.TransientFor = (Window) WorkbenchSingleton.Workbench;
 			
 			HBox hbox = new HBox (false, 0);
-			Label l = new Label ("_Count where");
+			Label l = new Label (GettextCatalog.GetString ("_Count where"));
 			hbox.PackStart (l);
 			
 			OptionMenu locationComboBox = new OptionMenu ();
 			locationComboBox.Changed += new EventHandler (OnOptionChanged);
 			Menu m = new Menu ();
-			m.Append (new MenuItem (stringParserService.Parse ("${res:Global.Location.currentfile}")));
-			m.Append (new MenuItem (stringParserService.Parse ("${res:Global.Location.allopenfiles}")));
-			m.Append (new MenuItem (stringParserService.Parse ("${res:Global.Location.wholeproject}")));
+			m.Append (new MenuItem (GettextCatalog.GetString ("Current file")));
+			m.Append (new MenuItem (GettextCatalog.GetString ("All open files")));
+			m.Append (new MenuItem (GettextCatalog.GetString ("Whole solution")));
 			locationComboBox.Menu = m;
 			hbox.PackStart (locationComboBox);
 			
