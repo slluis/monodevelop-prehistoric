@@ -85,7 +85,11 @@ namespace MonoDevelop
 			// File.Delete (socket_filename);
 			
 			string name = Assembly.GetEntryAssembly ().GetName ().Name;
-			string version = Assembly.GetEntryAssembly ().GetName ().Version.Major + + "." + Assembly.GetEntryAssembly ().GetName ().Version.Minor;
+			string version = Assembly.GetEntryAssembly ().GetName ().Version.Major + "." + Assembly.GetEntryAssembly ().GetName ().Version.Minor;
+			if (Assembly.GetEntryAssembly ().GetName ().Version.Build != 0)
+				version += "." + Assembly.GetEntryAssembly ().GetName ().Version.Build;
+			if (Assembly.GetEntryAssembly ().GetName ().Version.Revision != 0)
+				version += "." + Assembly.GetEntryAssembly ().GetName ().Version.Revision;
 
 			Gnome.Program program = new Gnome.Program (name, version, Gnome.Modules.UI, remainingArgs);
 			Gdk.Threads.Init();

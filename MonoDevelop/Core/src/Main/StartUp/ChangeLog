@@ -1,3 +1,8 @@
+2004-09-18  Todd Berman  <tberman@off.net>
+
+	* MonoDevelopMain.cs: Check if Build and Revision are not 0, and if
+	so, use them as well when building the version #.
+
 2004-08-07  Todd Berman  <tberman@off.net>
 
 	* AssemblyInfo.cs.in: Use new ASSEMBLY_VERSION variable.
