@@ -1,0 +1,16 @@
+2005-02-18  John Luke  <john.luke@gmail.com>
+
+	* Gdl.mdsx
+	* Gdl.cmbx
+	* Makefile.Gdl
+	* Makefile.solution.Gdl
+	* make.sh
+	* DockTest.cmbx: these were broken
+	just kill it unless someone puts back a working project
+
+	* DockItemGrip.cs
+	* DockPlaceholder.cs
+	* DockItem.cs
+	* DockBar.cs: use WidgetFlags
+
+	* Makefile: use this to build for now

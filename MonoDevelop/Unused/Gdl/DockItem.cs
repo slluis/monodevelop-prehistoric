@@ -45,7 +45,7 @@ namespace Gdl
 		
 		protected DockItem ()
 		{
-			Flags |= (int)WidgetFlags.NoWindow;
+			WidgetFlags |= WidgetFlags.NoWindow;
 		
 			if (HasGrip) {
 				grip = new DockItemGrip (this);
@@ -411,7 +411,7 @@ namespace Gdl
 		
 		protected override void OnRealized ()
 		{
-			Flags |= (int)WidgetFlags.Realized;
+			WidgetFlags |= WidgetFlags.Realized;
 			
 			Gdk.WindowAttr attributes = new Gdk.WindowAttr ();
 			attributes.X = Allocation.X;

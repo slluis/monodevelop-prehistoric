@@ -20,13 +20,13 @@ namespace Gdl
 		
 		protected DockItemGrip ()
 		{
-			Flags |= (int)WidgetFlags.NoWindow;
+			WidgetFlags |= WidgetFlags.NoWindow;
 			
 			Widget.PushCompositeChild ();
 			closeButton = new Button ();
 			Widget.PopCompositeChild ();
 			
-			closeButton.Flags &= ~(int)WidgetFlags.CanFocus;
+			closeButton.WidgetFlags &= ~WidgetFlags.CanFocus;
 			closeButton.Parent = this;
 			closeButton.Relief = ReliefStyle.None;
 			closeButton.Show ();
@@ -41,7 +41,7 @@ namespace Gdl
 			iconifyButton = new Button ();
 			Widget.PopCompositeChild ();
 			
-			iconifyButton.Flags &= ~(int)(WidgetFlags.CanFocus);
+			iconifyButton.WidgetFlags &= ~WidgetFlags.CanFocus;
 			iconifyButton.Parent = this;
 			iconifyButton.Relief = ReliefStyle.None;
 			iconifyButton.Show ();

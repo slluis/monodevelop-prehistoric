@@ -76,7 +76,7 @@ namespace Gdl
 			DockObject controller = item.Master.Controller;
 			item.DockBar = null;
 			// remove Iconified flag
-			item.Flags |= (int) DockObjectFlags.Iconified;
+			item.WidgetFlags &= ~DockObjectFlags.Iconified;
 			item.Show ();
 			this.RemoveItem (item);
 			controller.QueueResize ();

@@ -19,8 +19,8 @@ namespace Gdl
 		public DockPlaceholder (string name, DockObject obj,
 					DockPlacement position, bool sticky)
 		{
-			Flags |= (int)WidgetFlags.NoWindow;
-			Flags &= ~((int)WidgetFlags.CanFocus);
+			WidgetFlags |= WidgetFlags.NoWindow;
+			WidgetFlags &= ~WidgetFlags.CanFocus;
 
 			Sticky = sticky;
 			Name = name;
