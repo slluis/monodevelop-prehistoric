@@ -211,8 +211,10 @@ namespace ICSharpCode.SharpDevelop.Commands
 		public override void Run()
 		{
 			Gtk.FileSelection fs = new Gtk.FileSelection ("File to Open");
+			fs.Complete (Environment.GetEnvironmentVariable ("HOME"));
 			int response = fs.Run ();
 			string name = fs.Filename;
+			fs.Hide ();
 			fs.Destroy ();
 
 //			fdiag.AddExtension    = true;
@@ -292,6 +294,7 @@ namespace ICSharpCode.SharpDevelop.Commands
 				}
 
 				Gtk.FileSelection fs = new Gtk.FileSelection ("File to Open");
+				fs.Complete (Environment.GetEnvironmentVariable ("HOME"));
 				int response = fs.Run ();
 				string name = fs.Filename;
 				fs.Destroy ();
