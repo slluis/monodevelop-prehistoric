@@ -31,25 +31,21 @@ using MonoDevelop.Core.AddIns;
 namespace MonoDevelop.Services
 {
 
-	public class GettextCatalog : AbstractService
+	public class GettextCatalog
 	{
-
-		public GettextCatalog () : this ("monodevelop")
-		{
-		}
 
 		[DllImport ("libmonodevelop")]
 		private static extern void intl_init (string package);
 	
-		public GettextCatalog (string package)
+		static GettextCatalog ()
 		{
-			intl_init (package);
+			intl_init ("monodevelop");
 		}
 	
 		[DllImport ("libmonodevelop")]
 		private static extern string intl_get_string (string str);
 	
-		public string GetString (string str)
+		public static string GetString (string str)
 		{
 			return intl_get_string (str);
 		}
@@ -59,9 +55,9 @@ namespace MonoDevelop.Services
 								     string plural,
 								     int n);
 	
-		public string GetPluralString (string singular,
-					       string plural,
-					       int n)
+		public static string GetPluralString (string singular,
+			    	 	              string plural,
+					              int n)
 		{
 			return intl_get_plural_string (singular, plural, n);
 		}

@@ -1,3 +1,7 @@
 2004-04-02  Todd Berman  <tberman@sevenl.net>
 
+	* SharpDevelopCore.addin: removing, moving to static methods.
+
+2004-04-02  Todd Berman  <tberman@sevenl.net>
+
 	* SharpDevelopCore.addin: adding GettextCatalog as a service.

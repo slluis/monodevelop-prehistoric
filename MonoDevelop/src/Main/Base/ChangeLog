@@ -1,5 +1,10 @@
 2004-04-02  Todd Berman  <tberman@sevenl.net>
 
+	* Services/GettextCatalog.cs: changed to use static methods.
+	* Gui/Dialogs/CommonAboutDialog.cs: reflecting above change.
+
+2004-04-02  Todd Berman  <tberman@sevenl.net>
+
 	* Makefile.am: Added GettextCatalog.cs
 	* Services/GettextCatalog.cs: imported from muine, modified a bit.
 	* Gui/Dialogs/CommonAboutDialog.cs: added gettext translatable title
