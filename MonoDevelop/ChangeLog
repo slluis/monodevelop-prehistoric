@@ -1,3 +1,27 @@
+2004-03-22  Iñigo Illán <kodeport AT terra.es>
+
+	* Base/Gui/Pads/ProjectBrowser/BrowserNode/FileNode.cs:
+	Make ActivateItem call OpenFileFromProject instead OpenFile
+
+	* Base/Services/File/IFileService.cs:
+	Add OpenFileProject specification
+
+	* Base/Services/File/DefaultFileService.cs:
+	LoadFileWrapper can manage files from projects.
+	Implement OpenFile to manage project files and rename it to
+	OpenFileProject	OpenFile now calls OpenFileProject
+
+	* Base/Gui/IViewContent.cs:
+	Add HasProject,	ProjectName and	PathRelativeToProject
+	properties
+
+	* Base/Gui/AbstractViewContent.cs:
+	Implement HasProject, ProjectName, PathRelativeToProject properties
+
+	* Base/Services/Project/DefaultProjectService.cs:
+	Call OpenFileFromProject instead OpenFile when restoring
+	the combine state
+	
 2004-03-21  John Luke  <jluke@cfl.rr.com>
 
 	* docs/WritingAddins.html: initial addin quick guide

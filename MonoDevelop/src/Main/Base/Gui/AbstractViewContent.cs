@@ -13,9 +13,12 @@ namespace MonoDevelop.Gui
 	{
 		string untitledName = "";
 		string contentName  = null;
+		string projectname = null;
+		string pathrelativetoproject = null;
 		
 		bool   isDirty  = false;
 		bool   isViewOnly = false;
+		bool   hasproject = false;
 
 		public override string TabPageLabel {
 			get { return "Change me"; }
@@ -71,6 +74,18 @@ namespace MonoDevelop.Gui
 			}
 		}
 		
+		public bool HasProject
+		{
+			get
+			{
+				return hasproject;
+			}
+			set
+			{
+				hasproject = value;
+			}
+		}
+		
 		public virtual void Save()
 		{
 			OnBeforeSave(EventArgs.Empty);
@@ -83,7 +98,46 @@ namespace MonoDevelop.Gui
 		}
 		
 		public abstract void Load(string fileName);
-				
+
+		public string ProjectName
+		{
+			get
+			{
+				return projectname;
+			}
+			set
+			{
+				if (!HasProject && value != null && value != "")
+				{
+					HasProject = true;
+				}
+				projectname = value;
+			}
+		}
+		
+		public string PathRelativeToProject
+		{
+			get
+			{
+				return pathrelativetoproject;
+			}
+			set
+			{
+				if (value != null && value != "")
+				{
+					if (!HasProject)
+					{
+						HasProject = true;
+					}
+					if (ProjectName == null)
+					{
+						ProjectName = "";
+					}
+				}
+				pathrelativetoproject = value;
+			}
+		}
+
 		protected virtual void OnDirtyChanged(EventArgs e)
 		{
 			if (DirtyChanged != null) {

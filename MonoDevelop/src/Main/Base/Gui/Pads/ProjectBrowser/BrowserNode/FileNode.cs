@@ -89,9 +89,26 @@ namespace MonoDevelop.Gui.Pads.ProjectBrowser
 		
 		public override void ActivateItem()
 		{
+			string relativepath;
+			int index;
+
 			if (userData != null && userData is ProjectFile) {
 				IFileService fileService = (IFileService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IFileService));
-				fileService.OpenFile(((ProjectFile)userData).Name);
+
+				if ((index = ((ProjectFile) userData).Name.IndexOf (this.Project.BaseDirectory)) == 0)
+				{
+					relativepath = ((ProjectFile) userData).Name.Substring(this.Project.BaseDirectory.Length);
+					if (relativepath.StartsWith(Path.DirectorySeparatorChar.ToString()))
+					{
+						relativepath = relativepath.Substring(1);
+					}					 
+				}
+				else
+				{
+					relativepath = System.IO.Path.GetFileName(((ProjectFile)userData).Name);
+				}
+				
+				fileService.OpenFileFromProject(((ProjectFile)userData).Name, this.Combine.Name, relativepath); // System.IO.Path.GetFileName(((ProjectFile)userData).Name));
 			}
 		}
 		

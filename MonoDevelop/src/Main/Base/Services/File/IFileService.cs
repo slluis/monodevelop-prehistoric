@@ -36,6 +36,10 @@ namespace MonoDevelop.Services
 		void OpenFile(string fileName);
 		
 		/// <remarks>
+		/// Opens the file filename in MonoDevelop atached to projectname 
+		void OpenFileFromProject (string filename, string projectname, string pathrelativetoproject);
+		
+		/// <remarks>
 		/// Opens a new file with a given name, language and file content
 		/// in the workbench window.
 		/// </remarks>

@@ -65,6 +65,14 @@ namespace MonoDevelop.Gui
 		}
 		
 		/// <summary>
+		/// If this property return true the content has been opened from a project
+		/// </summary>
+		bool HasProject {
+			get;
+			set;
+		}
+		
+		/// <summary>
 		/// Saves this content to the last load/save location.
 		/// </summary>
 		void Save();
@@ -82,6 +90,23 @@ namespace MonoDevelop.Gui
 		string TabPageLabel {
 			get;
 		}
+		
+		/// <summary>
+		/// The name of the project the content is attached to
+		/// </summary>
+		string ProjectName {
+			get;
+			set;
+		}
+		
+		/// <summary>
+		/// The path relative to the project
+		/// </summary>
+		string PathRelativeToProject {
+			get;
+			set;
+		}
+		
 		/// <summary>
 		/// Is called each time the name for the content has changed.
 		/// </summary>

@@ -48,22 +48,36 @@ namespace MonoDevelop.Services
 		class LoadFileWrapper
 		{
 			IDisplayBinding binding;
+			string projectname, pathrelativetoproject;
 			
 			public LoadFileWrapper(IDisplayBinding binding)
 			{
 				this.binding = binding;
 			}
 			
+			public LoadFileWrapper(IDisplayBinding binding, string projectname, string pathrelativetoproject)
+			{
+				this.binding = binding;
+				this.projectname = projectname;
+				this.pathrelativetoproject = pathrelativetoproject;
+			}
+			
 			public void Invoke(string fileName)
 			{
 				IViewContent newContent = binding.CreateContentForFile(fileName);
+				if (projectname != null && projectname != "" &&  pathrelativetoproject != null && pathrelativetoproject != "")
+				{ 
+					newContent.HasProject = true;
+					newContent.ProjectName = projectname;
+					newContent.PathRelativeToProject = pathrelativetoproject;
+				}
 				WorkbenchSingleton.Workbench.ShowView(newContent);
 				DisplayBindingService displayBindingService = (DisplayBindingService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(DisplayBindingService));
 				displayBindingService.AttachSubWindows(newContent.WorkbenchWindow);
 			}
 		}
 		
-		public void OpenFile(string fileName)
+		public void OpenFileFromProject (string fileName, string projectname, string pathrelativetoproject)
 		{
 			if (fileName == null)
 				return;
@@ -102,18 +116,23 @@ namespace MonoDevelop.Services
 			IDisplayBinding binding = displayBindingService.GetBindingPerFileName(fileName);
 			
 			if (binding != null) {
-				if (fileUtilityService.ObservedLoad(new NamedFileOperationDelegate(new LoadFileWrapper(binding).Invoke), fileName) == FileOperationResult.OK) {
+				if (fileUtilityService.ObservedLoad(new NamedFileOperationDelegate(new LoadFileWrapper(binding, projectname, pathrelativetoproject).Invoke), fileName) == FileOperationResult.OK) {
 					fileService.RecentOpen.AddLastFile(fileName);
 				}
 			} else {
 				try {
 					Gnome.Url.Show ("file://" + fileName);
 				} catch {
-					if (fileUtilityService.ObservedLoad(new NamedFileOperationDelegate (new LoadFileWrapper (displayBindingService.LastBinding).Invoke), fileName) == FileOperationResult.OK) {
+					if (fileUtilityService.ObservedLoad(new NamedFileOperationDelegate (new LoadFileWrapper (displayBindingService.LastBinding, null, null).Invoke), fileName) == FileOperationResult.OK) {
 						fileService.RecentOpen.AddLastFile (fileName);
 					}
 				}
 			}
+		}
+		
+		public void OpenFile (string filename)
+		{
+			this.OpenFileFromProject (filename, null, null);
 		}
 		
 		public void NewFile(string defaultName, string language, string content)

@@ -495,7 +495,24 @@ namespace MonoDevelop.Services
 					foreach (XmlElement el in root["Files"].ChildNodes) {
 						string fileName = fileUtilityService.RelativeToAbsolutePath(combinepath, el.Attributes["filename"].InnerText);
 						if (File.Exists(fileName)) {
-							fileService.OpenFile(fileName);
+							string relativepath;
+
+							if (!Path.IsPathRooted(el.Attributes["filename"].InnerText) && !el.Attributes["filename"].InnerText.StartsWith (".."))
+							{
+								if (el.Attributes["filename"].InnerText.IndexOf ("." + Path.DirectorySeparatorChar.ToString()) == 0)
+								{
+            						relativepath = el.Attributes["filename"].InnerText.Substring(2);
+								}
+								else
+								{
+									relativepath = el.Attributes["filename"].InnerText;
+								}
+							}
+            				else
+							{
+								relativepath = System.IO.Path.GetFileName (fileName);
+							}
+							fileService.OpenFileFromProject (fileName, combine.Name, relativepath);
 						}
 					}
 				}
