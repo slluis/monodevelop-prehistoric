@@ -182,7 +182,8 @@ namespace MonoDevelop.SourceEditor.Gui
 				iter.BackwardChar ();
 			} while (iter.LineOffset != 0);
 
-			if (triggerIter.Equals (TextIter.Zero)) return;
+			if (triggerIter.Equals (TextIter.Zero))
+				return;
 			triggerIter.ForwardChar ();
 			
 //			CompletionWindow.ShowWindow (triggerChar, triggerIter, true, new CodeCompletionDataProvider (true), this);
@@ -325,7 +326,7 @@ namespace MonoDevelop.SourceEditor.Gui
 				
 			case '.':
 				bool retval = base.OnKeyPressEvent (evnt);
-				if (EnableCodeCompletion) {
+				if (EnableCodeCompletion && PeekCharIsWhitespace ()) {
 //					CompletionWindow.ShowWindow ((char)key, buf.GetIterAtMark (buf.InsertMark), false, new CodeCompletionDataProvider (), this);
 					CompletionListWindow.ShowWindow ((char)key, buf.GetIterAtMark (buf.InsertMark), new CodeCompletionDataProvider (), this);
 				}
@@ -611,6 +612,17 @@ namespace MonoDevelop.SourceEditor.Gui
 			TextIter begin = Buffer.GetIterAtLine (ln);
 			offset = begin.Offset;
 			len = begin.CharsInLine;
+		}
+
+		bool PeekCharIsWhitespace ()
+		{
+			TextIter start = buf.GetIterAtMark (buf.InsertMark);
+			TextIter end = buf.GetIterAtLine (start.Line);
+			end.LineOffset = start.LineOffset + 1;
+			string text = buf.GetText (start, end, true);
+			if (text.Length == 1)
+				return System.Char.IsWhiteSpace (text[0]);
+			return true;
 		}
 #endregion
 	}
