@@ -375,10 +375,10 @@ namespace MonoDevelop.SourceEditor.Gui
 		[DllImport("gtksourceview-1.0")]
 		static extern void gtk_source_buffer_delete_marker(IntPtr raw, IntPtr marker);
 		
-		[DllImport("glibsharpglue")]
+		[DllImport("glibsharpglue-2")]
 		static extern IntPtr gtksharp_slist_get_data (IntPtr l);
 
-		[DllImport("glibsharpglue")]
+		[DllImport("glibsharpglue-2")]
 		static extern IntPtr gtksharp_slist_get_next (IntPtr l);
 		
 		[DllImport("gtksourceview-1.0")]
@@ -700,6 +700,7 @@ namespace MonoDevelop.SourceEditor.Gui
 			GetSelectionBounds (out textStart, out textEnd);
 			if (textStart.Line == textEnd.Line)
 			{ // all the code is in one line, just comment the select text
+				textStart.LineOffset = 0;
 				Insert (ref textStart, commentTag);
 			}
 			else
@@ -732,6 +733,7 @@ namespace MonoDevelop.SourceEditor.Gui
 			GetSelectionBounds (out textStart, out textEnd);
 			if (textStart.Line == textEnd.Line)
 			{ // all the code is in one line, just umcomment is text starts with comment tag
+				textStart.LineOffset = 0;
 				textEnd = textStart;
 				textEnd.ForwardChars (commentTag.Length);
 				if (textStart.GetText (textEnd) == commentTag)

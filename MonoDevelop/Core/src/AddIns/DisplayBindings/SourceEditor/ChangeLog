@@ -1,3 +1,8 @@
+2004-12-14  Todd Berman  <tberman@off.net>
+	
+	* Gui/SourceEditorBuffer.cs: Single line commenting changed a bit.
+	Fixed bug #70574.
+
 2004-12-13  Lluis Sanchez Gual  <lluis@novell.com>
 
 	* Search/SearchReplaceUtilities.cs: 

@@ -705,11 +705,11 @@
 			                <MenuItem id = "Separator4" _label = "-" />
 					<MenuItem id = "CommentCode"
 						shortcut = "Control|Alt|C"
-						_label = "C_omment Code"
+						_label = "C_omment Line(s)"
 						class = "MonoDevelop.Commands.CommentCode"/>
 					<MenuItem id = "UncommentCode"
 						shortcut = "Control|Alt|U"
-						_label = "_Uncomment Code"
+						_label = "_Uncomment Line(s)"
 						class = "MonoDevelop.Commands.UncommentCode"/>
 					<MenuItem id = "IndentSelection"
 						shortcut = "Control|Alt|Home"
