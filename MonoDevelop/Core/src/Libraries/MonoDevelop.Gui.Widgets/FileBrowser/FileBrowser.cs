@@ -46,7 +46,7 @@ namespace MonoDevelop.Gui.Widgets
 
 		private PerformingTask performingtask = PerformingTask.None;
 		private ArrayList files = new ArrayList ();
-		private Hashtable hiddenfolders = new Hashtable ();
+		private ArrayList hiddenfolders = new ArrayList ();
 
 		PropertyService PropertyService = (PropertyService) ServiceManager.GetService (typeof (PropertyService));
 
@@ -447,20 +447,17 @@ namespace MonoDevelop.Gui.Widgets
 
 			if (System.IO.File.Exists (CurrentDir + System.IO.Path.DirectorySeparatorChar + ".hidden"))
 			{
-				StreamReader stream =  new StreamReader (CurrentDir + System.IO.Path.DirectorySeparatorChar + ".hidden");
-				string foldertohide = stream.ReadLine ();
-
-				while (foldertohide != null)
-				{
-					hiddenfolders.Add (foldertohide, foldertohide);
-					foldertohide = stream.ReadLine ();
+				using (StreamReader stream =  new StreamReader (System.IO.Path.Combine (CurrentDir, ".hidden"))) {
+					string foldertohide;
+					while ((foldertohide = stream.ReadLine ()) != null) {
+						hiddenfolders.Add (foldertohide);
+						foldertohide = stream.ReadLine ();
+					}
 				}
-
-				stream.Close ();
 			}			
 		}
 
-		private Boolean NotHidden (string folder)
+		private bool NotHidden (string folder)
 		{
 			return !hiddenfolders.Contains (folder);
 		} 

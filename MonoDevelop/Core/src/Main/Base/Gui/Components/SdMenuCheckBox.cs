@@ -48,7 +48,7 @@ namespace MonoDevelop.Gui.Components
 			Gtk.AccelLabel child = new Gtk.AccelLabel (label);
 			child.Xalign = 0;
 			child.UseUnderline = true;
-			Child = child;
+			((Gtk.Container)this).Child = child;
 			child.AccelWidget = this;
 		}
 	

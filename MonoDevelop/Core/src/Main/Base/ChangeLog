@@ -1,3 +1,8 @@
+2004-09-25  Peter Johanson  <latexer@gentoo.org>
+
+	* Gui/Components/SdMenuCheckBox.cs: Workaround released gtk# 1.0.2
+	interaction with 1.1.1.
+
 2004-08-10  Todd Berman  <tberman@off.net>
 
 	* Gui/Dialogs/CombineConfiguration/CombineStartupPanel.cs: fix left

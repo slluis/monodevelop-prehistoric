@@ -540,8 +540,14 @@ namespace CSharpBinding
 			//return fileUtilityService.GetDirectoryNameWithSeparator(System.Runtime.InteropServices.RuntimeEnvironment.GetRuntimeDirectory()) + 
 			//       "csc.exe";
 			string ret = fileUtilityService.GetDirectoryNameWithSeparator(System.Runtime.InteropServices.RuntimeEnvironment.GetRuntimeDirectory());
-			ret = ret.Substring(0, ret.Length - 4);
-			ret = ret + "bin/mcs";
+			// Interop between mono 1.0.x and mono 1.1.x
+			if (ret.IndexOf("mono/1.0") == -1) {
+				ret = ret.Substring(0, ret.Length - 4);
+				ret = ret + "bin/mcs";
+			} else {
+				ret = ret.Substring(0, ret.Length - 13);
+				ret = ret + "bin/mcs";
+			}
 			return ret;
 			
 		}
