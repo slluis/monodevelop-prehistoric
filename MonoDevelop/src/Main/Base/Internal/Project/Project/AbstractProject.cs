@@ -458,6 +458,7 @@ namespace ICSharpCode.SharpDevelop.Internal.Project
 		
 		public virtual void SaveProject(string fileName)
 		{
+			fileName = System.IO.Path.GetFullPath (fileName);
 			basedirectory = Path.GetDirectoryName(fileName);
 			XmlDocument doc = new XmlDocument();
 			doc.LoadXml("<Project/>");

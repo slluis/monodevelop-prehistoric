@@ -229,7 +229,7 @@ namespace ICSharpCode.SharpDevelop.Internal.Project
 		
 		public override void Save()
 		{
-			combine.SaveCombine(Filename);
+			combine.SaveCombine(System.IO.Path.GetFullPath (Filename));
 			combine.SaveAllProjects();
 		}
 	}

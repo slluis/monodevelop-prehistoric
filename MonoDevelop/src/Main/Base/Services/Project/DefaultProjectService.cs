@@ -176,7 +176,7 @@ namespace ICSharpCode.SharpDevelop.Services
 		
 		void Save(string fileName)
 		{
-			openCombineFileName = fileName;
+			openCombineFileName = System.IO.Path.GetFullPath (fileName);
 			openCombine.SaveCombine(fileName);
 			openCombine.SaveAllProjects();
 		}
