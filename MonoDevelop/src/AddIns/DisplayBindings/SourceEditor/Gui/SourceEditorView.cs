@@ -161,6 +161,9 @@ namespace MonoDevelop.SourceEditor.Gui
 			char triggerChar = '\0';
 			TextIter triggerIter = TextIter.Zero;
 			do {
+				if (iter.Char == null || iter.Char.Length == 0) {
+					break;
+				}
 				switch (iter.Char[0]) {
 				case ' ':
 				case '\t':
@@ -171,6 +174,7 @@ namespace MonoDevelop.SourceEditor.Gui
 					triggerChar = iter.Char[0];
 					break;
 				}
+				Console.WriteLine ("Char[0] is: |{0}|", iter.Char[0]);
 				if (!triggerIter.Equals (TextIter.Zero))
 					break;
 				iter.BackwardChar ();
