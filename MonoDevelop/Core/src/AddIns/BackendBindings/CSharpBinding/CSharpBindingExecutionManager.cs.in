@@ -65,8 +65,11 @@ namespace CSharpBinding
 			
 			ProcessStartInfo psi;
 			if (parameters.ExecuteScript != null && parameters.ExecuteScript.Length > 0) {
-				//Console.WriteLine("EXECUTE SCRIPT!!!!!!");
-				psi = new ProcessStartInfo("\"" + parameters.ExecuteScript + "\"");
+				string additionalCommands = "";
+				if (parameters.PauseConsoleOutput)
+					additionalCommands = @"echo; read -p 'press any key to continue...' -n1;";
+				psi = new ProcessStartInfo("xterm",
+					String.Format (@"-e ""cd {3} ; '{0}' {1} ; {2}""", parameters.ExecuteScript, args, additionalCommands, project.BaseDirectory));
 				psi.UseShellExecute = false;
 			} else {
 				string runtimeStarter = "mono --debug ";
