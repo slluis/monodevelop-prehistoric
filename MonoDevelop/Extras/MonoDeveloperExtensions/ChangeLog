@@ -1,0 +1,6 @@
+2005-02-12  Lluis Sanchez Gual  <lluis@novell.com>
+
+	* MonoProject.cs: Don't try to parse errors from the stdout, only
+	from stderr.
+	* MonoMakefileFormat.cs: In GetValidFormatName, keep the file path.
+

@@ -43,7 +43,7 @@ namespace MonoDeveloper
 		
 		public string GetValidFormatName (string fileName)
 		{
-			return "Makefile";
+			return Path.Combine (Path.GetDirectoryName (fileName), "Makefile");
 		}
 		
 		public bool CanReadFile (string file)

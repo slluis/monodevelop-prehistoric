@@ -142,7 +142,7 @@ namespace MonoDeveloper
 			tw.ChainWriter (output);
 			tw.ChainWriter (monitor.Log);
 			
-			ProcessWrapper proc = Runtime.ProcessService.StartProcess ("make", "PROFILE=" + conf.Profile, conf.OutputDirectory, tw, tw, null);
+			ProcessWrapper proc = Runtime.ProcessService.StartProcess ("make", "PROFILE=" + conf.Profile, conf.OutputDirectory, monitor.Log, tw, null);
 			proc.WaitForOutput ();
 			
 			CompilerResults cr = new CompilerResults (null);			
