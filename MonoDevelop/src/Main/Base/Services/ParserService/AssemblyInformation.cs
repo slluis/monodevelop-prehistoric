@@ -94,7 +94,17 @@ namespace MonoDevelop.Services {
 			//FIXME: Re-enable this code when the mono bug goes away, 0.32
 			//hopefully
 			//System.Reflection.Assembly asm = nonLocking ? Assembly.Load(GetBytes(fileName)) : Assembly.LoadFrom(fileName);
-			System.Reflection.Assembly asm = Assembly.LoadFrom (fileName);
+			Assembly asm = null;
+			try {
+				asm = Assembly.LoadFrom (fileName);
+				if (asm == null)
+					Assembly.LoadWithPartialName (Path.GetFileNameWithoutExtension (fileName));
+			} catch {
+			}
+			if(asm == null) {
+				Console.WriteLine ("Unable to load {0}", fileName);
+				return;
+			}
 			foreach (Type type in asm.GetTypes()) {
 				if (!type.FullName.StartsWith("<") && !type.IsSpecialName && type.IsPublic) {
 					classes.Add(new ReflectionClass(type));

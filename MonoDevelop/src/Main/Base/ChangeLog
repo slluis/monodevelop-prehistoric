@@ -1,5 +1,10 @@
 2004-05-01  Todd Berman  <tberman@sevenl.net>
 
+	* Gui/Dialogs/TreeViewOptions.cs: notify main window that gui effecting
+	changes may have occured, update the menu.
+
+2004-05-01  Todd Berman  <tberman@sevenl.net>
+
 	* Gui/Pads/OpenTaskView.cs: Fix gtk+2.4 regression.
 	* Services/ParserService/DefaultParserService.cs: load assemblies
 	out of the GAC for indexing.

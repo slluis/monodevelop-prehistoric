@@ -58,6 +58,7 @@ namespace MonoDevelop.Gui.Dialogs {
 				if (!pane.ReceiveDialogMessage (DialogMessage.OK))
 					return;
 			}
+			WorkbenchSingleton.Workbench.UpdateMenu (null, null);
 			TreeViewOptionDialog.Hide ();
 		}
 	
@@ -178,6 +179,7 @@ namespace MonoDevelop.Gui.Dialogs {
 		
 		private void CancelEvent (object o, EventArgs args)
 		{
+			WorkbenchSingleton.Workbench.UpdateMenu (null, null);
 			TreeViewOptionDialog.Hide ();
 		}
 		

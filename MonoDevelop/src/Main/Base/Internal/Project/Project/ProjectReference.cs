@@ -97,9 +97,9 @@ namespace MonoDevelop.Internal.Project
 					return reference;
 				
 				case ReferenceType.Gac: 
-					return GetPathToGACAssembly(this);
+					//return GetPathToGACAssembly(this);
 					// TODO: gac on linux
-					//return reference;
+					return reference;
 				case ReferenceType.Project:
 					IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
 					string projectOutputLocation   = projectService.GetOutputAssemblyName(reference);
