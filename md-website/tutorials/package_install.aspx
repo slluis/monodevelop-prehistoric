@@ -76,6 +76,8 @@ binary packages only exist for these modules:
       <ul>
          <li>mono</li>
          <li>ICU (`icu' and `libicu26')</li>
+	 <li>gtk-sharp</li>
+	 <li>monodoc</li>
       </ul>
 Other binary packages are under development, and will be available soon.
 </p>

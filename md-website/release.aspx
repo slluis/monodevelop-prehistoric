@@ -10,7 +10,7 @@
     <h3>MonoDevelop 0.3</h3>
     <ul>
 	<li><a href="/release_notes/0.3.html">Release notes</a></li>
-	<li><a href="http://go-mono.com/archive/monodevelop-0.3.tar.gz">Tarball package</a></li>
+	<li><a href="http://go-mono.com/archive/beta1/monodevelop-0.3.tar.gz">Tarball package</a></li>
     </ul>
 
     <h3>MonoDevelop 0.2</h3>
