@@ -224,7 +224,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 		protected void OnClosed()
 		{
 			SaveHistoryValues();
-			
+			SearchReplaceManager.ReplaceDialog = null;
 		}
 		
 		void OnDeleted (object o, DeleteEventArgs args)
@@ -443,6 +443,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 		public void ShowAll()
 		{
 			ReplaceDialogPointer.ShowAll();
+			searchPatternComboBox.Entry.SelectRegion (0, searchPatternComboBox.Entry.Text.Length);
 		}
 		#endregion
 	}

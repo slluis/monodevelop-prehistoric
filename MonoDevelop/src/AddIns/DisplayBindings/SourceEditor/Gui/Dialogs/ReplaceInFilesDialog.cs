@@ -158,6 +158,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 		{
 			ReplaceDialogPointer.ShowAll ();
 			SearchReplaceInFilesManager.ReplaceDialog = this;
+			searchPatternComboBox.Entry.SelectRegion (0, searchPatternComboBox.Entry.Text.Length);
 		}
 
 		public ReplaceInFilesDialog(bool replaceMode)
