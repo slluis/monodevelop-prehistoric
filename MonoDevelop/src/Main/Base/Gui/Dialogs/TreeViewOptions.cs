@@ -112,7 +112,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 			if (descriptor != null && descriptor.DialogPanel != null) {
 				descriptor.DialogPanel.ReceiveDialogMessage(DialogMessage.Activated);
 				mainBook.CurrentPage = mainBook.PageNum (descriptor.DialogPanel.Control);
-				optionTitle.Text = descriptor.Label;
+				optionTitle.Markup = "<b>" + descriptor.Label + "</b>";
 				TreeViewOptionDialog.ShowAll ();
 			}
 		}		
@@ -122,6 +122,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 			foreach (IDialogPanelDescriptor descriptor in dialogPanelDescriptors) {
 				if (descriptor.DialogPanel != null) { // may be null, if it is only a "path"
 					descriptor.DialogPanel.CustomizationObject = customizer;
+					((Gtk.Frame)descriptor.DialogPanel.Control).Shadow = Gtk.ShadowType.None;
 					OptionPanels.Add(descriptor.DialogPanel);
 					mainBook.AppendPage (descriptor.DialogPanel.Control, new Gtk.Label ("a"));
 				}
