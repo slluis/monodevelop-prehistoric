@@ -39,11 +39,6 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs {
 			this.configurationNode = configurationNode;
 			this.Title = StringParserService.Parse("${res:Dialog.Options.ProjectOptions.DialogName}");
 			
-			//((TreeView)ControlDictionary["optionsTreeView"]).MouseUp        += new MouseEventHandler(TreeViewMouseUp);
-			//((TreeView)ControlDictionary["optionsTreeView"]).AfterLabelEdit += new NodeLabelEditEventHandler(AfterLabelEdit);
-			
-			//((TreeView)ControlDictionary["optionsTreeView"]).Font = boldFont;
-			
 			properties = new DefaultProperties();
 			properties.SetProperty("Project", project);
 			

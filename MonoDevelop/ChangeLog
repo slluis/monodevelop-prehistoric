@@ -1,3 +1,11 @@
+2004-03-07  John Luke  <jluke@cfl.rr.com>
+
+	* src/Main/Base/Makefile.am:
+	* src/Main/Base/Gui/FolderDialog.cs: remove because it is
+	implemented in MonoDevelop.Gui.Widgets instead
+	* build/data/templates/project/CSharp/GnomeSharpProject.xpt:
+	fix so it builds
+
 2004-03-07  Todd Berman  <tberman@sevenl.net>
 
 	* src/Main/Base/Gui/Workbench/DefaultWorkbench.cs:

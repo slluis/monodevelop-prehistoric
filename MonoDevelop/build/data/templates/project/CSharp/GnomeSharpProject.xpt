@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <Template originator   = "John Luke"
           created      = "01/03/2004"
-          lastModified = "02/25/2004">
+          lastModified = "03/08/2004">
 	
 	<!-- Template Header -->
 	<TemplateConfiguration>
@@ -40,49 +40,32 @@
 				<File name="Main.cs"><![CDATA[// project created on ${Date} at ${Time}
 using System;
 
-class MainClass
+public class MainClass
 {
-	public static void Main(string[] args)
+	public static void Main (string[] args)
 	{
-		new MyWindow ();
+		new MyProgram (args);
 	}
 }]]></File>
 			<File name="MyProgram.cs"><![CDATA[using System;
 using Gtk;
-using GtkSharp;
 using Gnome;
-using GnomeSharp;
 
-public class MyProgram : Program
+public class MyProgram
 {
-	static GLib.GType gtype;
-	
-	public static new GLib.GType GType
+	public MyProgram (string [] args)
 	{
-		get
-		{
-			if (gtype == GLib.GType.Invalid)
-				gtype = RegisterGType (typeof (MyProgram));
-			return gtype;
-		}
-	}
-	
-	public MyProgram () : base (GType)
-	{
-	}
-	
-	public MyProgram (string [] args) : base ("MyProgram", "0.0", Modules.UI, args)
-	{
+		Program program = new Program ("MyProgram", "0.0", Modules.UI, args);
 		App app = new App ("MyProgram", "MyWindow");
 		app.SetDefaultSize (400, 300);
 		app.DeleteEvent += new DeleteEventHandler (OnAppDelete);
 		app.ShowAll ();
-		this.Run ();
+		program.Run ();
 	}
 	
 	private void OnAppDelete (object o, DeleteEventArgs args)
 	{
-		this.Quit ();
+		Application.Quit ();
 	}
 }]]></File>
 			<File name="AssemblyInfo.cs"><![CDATA[using System.Reflection;

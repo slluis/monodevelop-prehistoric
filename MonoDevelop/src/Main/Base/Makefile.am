@@ -60,7 +60,6 @@ FILES= \
 ./Gui/Dialogs/OptionPanels/EditTemplateDialog.cs \
 ./Gui/Dialogs/OptionPanels/ExternalToolPanel.cs \
 ./Gui/Dialogs/OptionPanels/PropertyGridPanel.cs \
-./Gui/Dialogs/FolderDialog.cs \
 ./Gui/Dialogs/TreeViewOptions.cs \
 ./Gui/Dialogs/WordCountDialog.cs \
 ./Gui/Dialogs/SharpDevelopAboutPanels.cs \
