@@ -795,10 +795,64 @@ namespace CSharpBinding.Parser
 				}
 			}
 		}
+
+		public ArrayList IsAsResolve (IParserService parserService, string expression, int caretLine, int caretColumn, string fileName, string fileContent)
+		{
+			ArrayList result = new ArrayList ();
+			this.parserService = parserService;
+			this.caretLine = caretLine;
+			this.caretColumn = caretColumn;
+			
+			IParseInformation parseInfo = parserService.GetParseInformation (fileName);
+			ICSharpCode.SharpRefactory.Parser.AST.CompilationUnit fcu = parseInfo.MostRecentCompilationUnit.Tag as ICSharpCode.SharpRefactory.Parser.AST.CompilationUnit;
+			if (fcu == null)
+				return null;
+			ICSharpCode.SharpRefactory.Parser.Parser p = new ICSharpCode.SharpRefactory.Parser.Parser ();
+			Lexer l = new Lexer (new StringReader (expression));
+			Expression expr = p.ParseExpression(l);
+			if (expr == null)
+				return null;
+
+			lookupTableVisitor = new LookupTableVisitor ();
+			lookupTableVisitor.Visit (fcu, null);
+
+			TypeVisitor typeVisitor = new TypeVisitor (this);
+
+			CSharpVisitor csharpVisitor = new CSharpVisitor ();
+			cu = (ICompilationUnit)csharpVisitor.Visit (fcu, null);
+			if (cu != null) {
+				callingClass = GetInnermostClass ();
+			}
+
+			IReturnType type = expr.AcceptVisitor (typeVisitor, null) as IReturnType;
+			if (type == null || type.PointerNestingLevel != 0) {
+				fcu = parserService.ParseFile (fileName, fileContent).MostRecentCompilationUnit.Tag as ICSharpCode.SharpRefactory.Parser.AST.CompilationUnit;
+				lookupTableVisitor.Visit (fcu, null);
+				cu = (ICompilationUnit)csharpVisitor.Visit (fcu, null);
+
+				if (cu != null) {
+					callingClass = GetInnermostClass ();
+				}
+				type = expr.AcceptVisitor (typeVisitor, null) as IReturnType;
+				if (type == null)
+					return null;
+			}
+			if (type.ArrayDimensions != null && type.ArrayDimensions.Length > 0)
+				type = new ReturnType ("System.Array");
+
+			IClass returnClass = SearchType (type.FullyQualifiedName, cu);
+			if (returnClass == null)
+				return null;
+
+			foreach (IClass iclass in returnClass.ClassInheritanceTree) {
+				if (!result.Contains (iclass))
+					result.Add (iclass);
+			}
+			return result;
+		}
 		
 		public ArrayList CtrlSpace(IParserService parserService, int caretLine, int caretColumn, string fileName)
 		{
-			Console.WriteLine ("Inside CtrlSpace");
 			ArrayList result = new ArrayList();
 			this.parserService = parserService;
 			IParseInformation parseInfo = parserService.GetParseInformation(fileName);

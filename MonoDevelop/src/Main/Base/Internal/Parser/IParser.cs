@@ -136,7 +136,8 @@ namespace MonoDevelop.Internal.Parser
 		                      int caretColumn, 
 		                      string fileName,
 		                      string fileContent);
-		
+
+		ArrayList IsAsResolve (IParserService parserService, string expression, int caretLineNumber, int caretColumn, string fileName, string fileContent);
 		
 		ArrayList CtrlSpace(IParserService parserService, int caretLine, int caretColumn, string fileName);
 	}

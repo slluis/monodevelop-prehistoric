@@ -1,3 +1,9 @@
+2004-04-24  Todd Berman  <tberman@sevenl.net>
+
+	* Parser/Parser.cs: new IsAsResolver passthrough.
+	* Parser/Resolver.cs: new IsAsResolver to manage some (limited)
+	completion there.
+
 2004-04-23  John Luke  <jluke@cfl.rr.com>
 
 	* CsharpBindingCompilerManager.cs: add /codepage:utf8

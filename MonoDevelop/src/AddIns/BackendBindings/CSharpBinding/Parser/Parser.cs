@@ -93,6 +93,11 @@ namespace CSharpBinding.Parser
 		{
 			return new Resolver().CtrlSpace(parserService, caretLine, caretColumn, fileName);
 		}
+
+		public ArrayList IsAsResolve (IParserService parserService, string expression, int caretLineNumber, int caretColumn, string fileName, string fileContent)
+		{
+			return new Resolver ().IsAsResolve (parserService, expression, caretLineNumber, caretColumn, fileName, fileContent);
+		}
 		
 		public ResolveResult Resolve(IParserService parserService, string expression, int caretLineNumber, int caretColumn, string fileName, string fileContent)
 		{

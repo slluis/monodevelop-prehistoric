@@ -1,3 +1,8 @@
+2004-04-24  Todd Berman  <tberman@sevenl.net>
+
+	* CodeCompletion/CodeCompletionDataProvider.cs: hook into is/as resolve
+	method.
+
 2004-04-23  Todd Berman  <tberman@sevenl.net>
 
 	* Gui/SourceEditorBuffer.cs: add a check for a 0 length iter.Char

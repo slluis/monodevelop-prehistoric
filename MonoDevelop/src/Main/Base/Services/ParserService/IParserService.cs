@@ -68,6 +68,7 @@ namespace MonoDevelop.Services
 		                      int caretColumn,
 		                      string fileName,
 		                      string fileContent);
+		ArrayList IsAsResolve (string expression, int caretLineNumber, int caretColumn, string fileName, string fileContent);
 		ArrayList CtrlSpace(IParserService parserService, int caretLine, int caretColumn, string fileName);
 		void AddReferenceToCompletionLookup(IProject project, ProjectReference reference);
 

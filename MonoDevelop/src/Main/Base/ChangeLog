@@ -1,3 +1,9 @@
+2004-04-24  Todd Berman  <tberman@sevenl.net>
+
+	* Services/ParserService/DefaultParserService.cs:
+	* Services/ParserService/IParserService.cs:
+	* Internal/Parser/IParser.cs: add stubbing for IsAsResolver
+
 2004-04-22  Todd Berman  <tberman@sevenl.net>
 
 	* Gui/Components/SdMenu.cs: check for children, if none, hide menu.
