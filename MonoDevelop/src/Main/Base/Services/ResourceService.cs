@@ -63,22 +63,26 @@ namespace ICSharpCode.Core.Services
 		static void CreateStockMapping ()
 		{
 			stockMappings = new Hashtable ();
-			stockMappings["Icons.16x16.DeleteIcon"] = Gtk.Stock.Delete;
-			stockMappings["Icons.16x16.OpenFile"] = Gtk.Stock.Open;
-			stockMappings["Icons.16x16.SaveIcon"] = Gtk.Stock.Save;
-			stockMappings["Icons.16x16.SaveAsIcon"] = Gtk.Stock.SaveAs;
-			stockMappings["Icons.16x16.PasteIcon"] = Gtk.Stock.Paste;
-			stockMappings["Icons.16x16.CopyIcon"] = Gtk.Stock.Copy;
-			stockMappings["Icons.16x16.CutIcon"] = Gtk.Stock.Cut;
-			stockMappings["Icons.16x16.QuitIcon"] = Gtk.Stock.Quit;
-			stockMappings["Icons.16x16.UndoIcon"] = Gtk.Stock.Undo;
-			stockMappings["Icons.16x16.RedoIcon"] = Gtk.Stock.Redo;
-			stockMappings["Icons.16x16.RunProgramIcon"] = Gtk.Stock.Execute;
-			stockMappings["Icons.16x16.NextWindowIcon"] = Gtk.Stock.GoForward;
-			stockMappings["Icons.16x16.PrevWindowIcon"] = Gtk.Stock.GoBack;
-			stockMappings["Icons.16x16.HelpIcon"] = Gtk.Stock.Help;
-			stockMappings["Icons.16x16.FindIcon"] = Gtk.Stock.Find;
-			stockMappings["Icons.16x16.ReplaceIcon"] = Gtk.Stock.FindAndReplace;
+			stockMappings ["Icons.16x16.AboutIcon"] = Gnome.Stock.About;
+			stockMappings ["Icons.16x16.CopyIcon"] = Gtk.Stock.Copy;
+			stockMappings ["Icons.16x16.CutIcon"] = Gtk.Stock.Cut;
+			stockMappings ["Icons.16x16.DeleteIcon"] = Gtk.Stock.Delete;
+			stockMappings ["Icons.16x16.FindIcon"] = Gtk.Stock.Find;
+			stockMappings ["Icons.16x16.HelpIcon"] = Gtk.Stock.Help;
+			stockMappings ["Icons.16x16.NewDocumentIcon"] = Gtk.Stock.New;
+			stockMappings ["Icons.16x16.NextWindowIcon"] = Gtk.Stock.GoForward;
+			stockMappings ["Icons.16x16.OpenFile"] = Gtk.Stock.Open;
+			stockMappings ["Icons.16x16.Options"] = Gtk.Stock.Preferences;
+			stockMappings ["Icons.16x16.PasteIcon"] = Gtk.Stock.Paste;
+			stockMappings ["Icons.16x16.PrevWindowIcon"] = Gtk.Stock.GoBack;
+			stockMappings ["Icons.16x16.Print"] = Gtk.Stock.Print;
+			stockMappings ["Icons.16x16.QuitIcon"] = Gtk.Stock.Quit;
+			stockMappings ["Icons.16x16.RedoIcon"] = Gtk.Stock.Redo;
+			stockMappings ["Icons.16x16.ReplaceIcon"] = Gtk.Stock.FindAndReplace;
+			stockMappings ["Icons.16x16.RunProgramIcon"] = Gtk.Stock.Execute;
+			stockMappings ["Icons.16x16.SaveAsIcon"] = Gtk.Stock.SaveAs;
+			stockMappings ["Icons.16x16.SaveIcon"] = Gtk.Stock.Save;
+			stockMappings ["Icons.16x16.UndoIcon"] = Gtk.Stock.Undo;
 		}
 
 		void ChangeProperty(object sender, PropertyEventArgs e)
