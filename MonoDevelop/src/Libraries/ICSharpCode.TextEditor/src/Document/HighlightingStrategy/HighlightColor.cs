@@ -106,10 +106,7 @@ namespace ICSharpCode.TextEditor.Document
 		Color ParseColorString(string colorName)
 		{
 			string[] cNames = colorName.Split('*');
-			PropertyInfo myPropInfo = typeof(System.Drawing.SystemColors).GetProperty(cNames[0], BindingFlags.Public | 
-			                                                                                     BindingFlags.Instance | 
-			                                                                                     BindingFlags.Static);
-			Color c = (Color)myPropInfo.GetValue(null, null);
+			Color c = Color.FromName (cNames [0]);
 			
 			if (cNames.Length == 2) {
 				// hack : can't figure out how to parse doubles with '.' (culture info might set the '.' to ',')
