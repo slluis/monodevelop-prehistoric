@@ -68,7 +68,12 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 
 		protected override bool OnKeyPressEvent (ref Gdk.EventKey e)
 		{
-			if ((char)e.Key == '.') {
+			switch ((char)e.Key) {
+			case '.':
+			case ' ':
+			case ';':
+			case '(':
+			case '[':
 				control.SimulateKeyPress (ref e);
 				LostFocusListView (null, null);
 				return true;
@@ -209,7 +214,7 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 			Gdk.Rectangle rect = control.GetIterLocation (control.Buffer.GetIterAtMark (control.Buffer.InsertMark));
 
 			int wx, wy;
-			control.BufferToWindowCoords (Gtk.TextWindowType.Widget, rect.X, rect.Y + rect.Height, out wx, out wy);
+			control.BufferToWindowCoords (Gtk.TextWindowType.Widget, rect.X + rect.Width, rect.Y + rect.Height, out wx, out wy);
 			
 			int tx, ty;
 			control.GdkWindow.GetOrigin(out tx, out ty);
