@@ -411,21 +411,27 @@ namespace MonoDevelop.SourceEditor.Gui {
 
 		public int Length
 		{
-			get { return Text.Length; }
+			get { return EndIter.Offset + 1; }
 		}
 
 		public char GetCharAt (int offset)
 		{
 			if (offset < 0)
 				offset = 0;
-			Console.WriteLine ("[GetCharAt] ({0})", offset);
-			return Text[offset];
+			TextIter begin_iter = GetIterAtOffset (offset);
+			TextIter next_iter = begin_iter;
+			next_iter.ForwardChar ();
+			string text = GetText (begin_iter, next_iter, true);
+			if (text != null && text.Length >= 1)
+				return text[0];
+			return ' ';
 		}
 
 		public string GetText (int start, int length)
 		{
-			Console.WriteLine ("[GetText] ({0}) -- ({1})", start, length);
-			return Text.Substring (start, length);
+			TextIter begin_iter = GetIterAtOffset (start);
+			TextIter end_iter = GetIterAtOffset (start + length);
+			return GetText (begin_iter, end_iter, true);
 		}
 
 		public void Insert (int offset, string text)
