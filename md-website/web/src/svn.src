@@ -1,0 +1,31 @@
+            <h1>Anonymous SVN Access</h1>
+            <p>The anonymous mirror is up at:</p>
+            <p><code>svn://207.44.131.184/svn/monodevelop</code> </p>
+            <h3>Checking out the sources</h3>
+            <p>I recommend downloading 0.36 and running the following
+command to
+checkout: </p>
+            <p><code>svn co
+svn://207.44.131.184/svn/monodevelop/trunk/MonoDevelop</code> </p>
+            <p>This will create a MonoDevelop folder underneath the
+current directory. </p>
+            <h3>Dependencies</h3>
+            <p>To build MonoDevelop you will need mono from cvs, and
+gtk-sharp from
+cvs. You can get more info <a href="http://www.go-mono.com">http://www.go-mono.com</a>
+on installing mono/mcs
+from cvs. </p>
+            <p>You will also need gtkmozembed-sharp. This is contained
+inside our
+repository, and is built using a standard autogen / make / make
+install. Your prefix should be the same as your gtk-sharp prefix
+(ie, if
+gtk-sharp.dll is at /usr/lib/gtk-sharp.dll use /usr as your prefix for
+gtkmozembed-sharp) </p>
+            <h3>Building from source</h3>
+            <p>After installing gtkmozembed-sharp you can make MD with
+a standard make
+command, followed by ./monodevelop. </p>
+            <p>Happy Hacking :) </p>
+            <p>--Todd </p>
+			<p>NB. This is an extract from a posting to the MonoDevelop-List, by Todd Berman on 14 Jan 2004.</p>

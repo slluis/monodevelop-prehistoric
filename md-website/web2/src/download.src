@@ -1,0 +1,141 @@
+At this time, no downloads are available, we are working hard to change that though.
+<p>
+If you have received subversion access from Todd or Miguel, please read the 
+instructions below.
+<p>
+
+<h1>Using SVN</h1>
+	
+	This is a small tutorial for using SVN (subversion).
+<p>
+<h2>Generating an SSH key</h2>
+<p>
+	If you are using SSH version 2, please generate your key using:
+<p>
+
+<pre>
+	ssh-keygen -t rsa
+</pre>
+<p>
+	And mail <a href="mailto:miguel@ximian.com">miguel</a> the 
+	id_rsa.pub file.
+<p>
+	If you are using SSH version 1, run:
+<pre>
+	ssh-keygen
+</pre>
+
+<p>
+	And mail <a href="mailto:miguel@ximian.com">miguel</a> your 
+	identity.pub file.
+<p>
+	If you are using SSH from SSH Communications Security (they offer
+	a free SSH client for personal use), you have to use OpenSSH to
+	convert your public key to the required format. You have to use 
+	OpenSSH's ssh-keygen program and write the following:
+<p>
+<pre>
+	ssh-keygen -i -f id_XXX.pub > my_public_key.pub
+</pre>
+	
+	where the file id_XXX.pub is your public key file, 
+	normally located under ~/.ssh/ or ~/.ssh2/.
+	Send to <a href="mailto:miguel@ximian.com">miguel</a> the 
+	my_public_key.pub file. 
+
+<p>
+	The *exact* format for this file must be:
+<p>
+<pre>
+	ssh-rsa XXXXX....
+</pre>
+<p>
+	You will need subversion and SSH.  Windows users can get SSH by
+	installing Cygwin (<a
+	href="http://www.cygwin.com">http://www.cygwin.com</a>).
+<p>
+	Unix users will probably have SSH installed already. Subversion can be
+	obtained from <a href="http://subversion.tigris.org/">the official 
+	subversion website</a> for both Windows and Unix. 
+<p>
+
+
+<h2>Checking out the sources</h2>
+<p>
+	To checkout the sources for the first time use the command:
+<p>
+	Note: You should be running 0.35.1 (latest) of svn before attempting
+	anything here.
+<p>
+<pre>
+	svn co svn+ssh://mono-cvs.ximian.com/svn/monodevelop/trunk/MonoDevelop
+</pre>
+	
+	If you have a different username on mono-cvs and the local computer
+	you can do the following:
+<p>
+<pre>
+
+	svn co svn+ssh://username@mono-cvs.ximian.com/svn/monodevelop/trunk/MonoDevelop
+</pre>
+<p>
+	before checking out.
+<p>
+<h2>Updating your sources</h2>
+<p>
+	You can update your repository to the latest copy of MonoDevelop by
+	running the following command:
+<p>
+<pre>
+	svn up
+</pre>
+
+<p>
+	from inside your repository.
+<p>
+<h2>Committing your work</h2>
+<p>
+	Before you commit anything, you should first update to the latest
+	sources by following the updating directions. After you are up to date
+	you need to run a:
+<p>
+<pre>
+	svn add filename
+</pre>
+<p>
+	for every file that you have created. You can get a list of these files
+	by running:
+
+<p>
+<pre>
+	svn status
+</pre>
+<p>
+	After all the files are added, run:
+<p>
+<pre>
+	svn commit
+</pre>
+<p>
+	to commit your changes.
+<p>
+
+<h1>Keeping track of changes.</h1>
+<p>
+	We provide one e-mail based mechanism to keep track of
+	changes to the code base:
+	
+	<ul>
+<li><a href="mailto:monodevelop-patches-list-request@lists.ximian.com">
+		  monodevelop-patches-list@lists.ximian.com</a>: This mailing list receives
+		  in patch form all the changes that are being made to SVN.
+	</ul>
+<p>
+	We hope to offer LXR and Bonsai in the future as well.
+<p>
+	To subscribe, send an email message to
+	monodevelop-patches-list-request@lists.ximian.com and in the body of the
+	message put `subscribe'.
+<p>
+	This will send you an email message every time the author of a patch submits
+	a patch for review. 

@@ -1,0 +1,198 @@
+<html><head><title>MonoDevelop 0.1 Release Bible</title>
+<style type="text/css">
+h1 {
+color: #efefef;
+font-size: 14pt;
+font-family: "Trebuchet MS";
+
+border: 0;
+
+margin: 0;
+
+padding: 1em;
+
+background: #666666;
+}
+
+h2, h4, h5, h6 {
+font-family: Verdana,sans-serif;
+font-weight: bold;
+}
+
+h3, h4, h5, h5 {
+margin-left: 1em;
+}
+
+h2, h3 {
+font-size: 18px;
+}
+
+h2 {
+padding: 3px;
+color: #000000;
+}
+
+h3 {
+font-size: 13px;
+border-bottom: 2px solid #dddddd;
+}
+
+body, table {
+background-color: #ffffff;
+font-family: Verdana, sans-serif; font-size: 12px;
+color: black;
+margin: 0;
+padding: 0;
+border: 0;
+       margin-left: 20%;
+       margin-right: 20%;
+}
+
+p,lu,li {
+margin-left: 2em;
+margin-right: 2em;
+}
+
+img {
+border: 0;
+vertical-align: top;
+}
+.code-xml, .code-csharp
+{
+	margin:15px;
+	padding:15px;
+	font-size: small;
+	font-family: "Courier New", Courier;
+	background:whitesmoke;
+	border: solid 1px silver;
+	line-height:110%;
+}
+
+.shell { border-style: solid; background: #000000; color: #bbbbbb;
+	#777777; border-width:
+	1px; padding: 2pt; 
+	margin-left: 4em;
+	margin-right: 4em;
+}
+
+</style>
+<script src="MonoDevelop-0.1-Notes_files/prettyprint.js" type="text/javascript">
+</script></head>
+<body onload="paintColors();">
+
+<h1>MonoDevelop 0.1</h1>
+
+	<p>Well, it's finally time for the first MonoDevelop release. You
+	can find always current info <a href="http://www.monodevelop.com/">
+	here</a>. There is also a nice tutorial
+	<a href="http://www.monodevelop.com/tutorial.aspx">here</a>.
+
+</p><h2>Installing MonoDevelop</h2>
+	
+	<h3>Getting setup</h3>
+
+	<p>You will need the latest version of mono built with ICU support.</p>
+
+	<p>You can download MonoDevelop 0.1 from <a href="http://www.go-mono.com/archive/monodevelop-0.1.tar.gz">here</a>. The <a href="http://www.go-mono.com/download.html">go-mono</a> site might also have rpms for your distro.</p>
+
+	<p>If you decide to build MonoDevelop from a tarball, you can build
+	it with the following command lines.</p>
+
+	<pre class="shell">	tar zxvf monodevelop-0.1.tar.gz
+	cd monodevelop-0.1
+	./configure
+	make
+	make install
+	</pre>
+
+	<p>By default MonoDevelop will install with a /usr/local prefix.</p>
+
+	<p>MonoDevelop should now appear in your Applications menu, and
+	a `monodevelop' shell script is installed into your $(prefix)/bin
+	directory.</p>
+	
+<h2>Features</h2>
+
+	<h3>Text Editor</h3>
+
+	<p>MonoDevelop has a customized version of <a href="http://gtksourceview.sf.net/">gtksourceview</a> for a text
+	editor. We have extended it inside the MonoDevelop codebase using C#.
+	It currently supports Syntax Highlighting, Code Completion, and Code 
+	Templates among other features.</p>
+	
+	<h3>Project Support</h3>
+
+	<p>MonoDevelop also has fairly comprehensive project support. It
+	supports creating multi-project projects, compilation from inside
+	the editor, execution from inside the editor. The project format
+	is currently compatible with the SharpDevelop project format.</p>
+
+	<h3>Class Browser</h3>
+
+	<p>When you have a project open, MonoDevelop will automatically
+	identify the project's classes, methods, and properties available
+	in your project, and create a tree for you to browse.</p>
+
+	<h3>Searching</h3>
+
+	<p>MonoDevelop has an advanced find/replace setup. It supports finding
+	across one file, all open documents, all documents in a directory,
+	and all documents in a project. It also supports various permutations
+	of finding, including wildcard and regular expressions.</p>
+	
+	<h3>Docking Widgetry</h3>
+
+	<p>MonoDevelop uses a C library called gdl-dock (current exists in
+	gnome.org's cvs). This allows us to do some fairly advanced docking,
+	including dragging dock items into a new window, dragging them on
+	top of each other. Gdl-dock also supports hiding and iconifying
+	docked items.</p>
+
+	<h3>Embedded HTML viewer</h3>
+
+	<p>MonoDevelop currently supports an embedded html viewer thanks to
+	gtkmozembed-sharp. Eventually this functionality will be used to
+	facilitate ASP.NET work.</p>
+
+<h2>Coming Soon</h2>
+
+	<h3>Debugging</h3>
+
+	<p>Work is underway to embed the mono debugger into MonoDevelop
+	and offer integrated debugging.</p>
+
+	<h3>Enhanced Project Support</h3>
+
+	<p>We are working towards adding the ability to use standard autotools
+	components to ease the build and distribution process.</p>
+
+	<h3>Enhanced Code Completion</h3>
+
+	<p>There is a plan in the works to vastly improve our code completion.
+	We are still doing some speculative work as to what the best approach
+	is.</p>
+
+<h2>Credits</h2>
+
+	<h3>Contributors</h3>
+
+	<p>Alex Graveley, Ben Maurer, Daniel Kornhauser, Gustavo Giraldez,
+	Iain McCoy, Inigo Illan, Jeroen Zwartepoorte, Jon Wood, John BouAnton,
+	John Luke, Miguel de Icaza, David Ricciardi, Pedro Abelleira Seco,
+	and Todd Berman.</p>
+
+	<p>This list is not complete, it is missing some contributions sent
+	in to the list and via our bugzilla. Your work is still greatly
+	appreciated.</p>
+
+	<h3>Thanks</h3>
+
+	<p>All of our wonderful testers who put up with the insane
+	dependencies, the constant breakage and still managed to post
+	nice bug reports.</p>
+
+	<p>Mike Krueger and the rest of the AlphaSierraPapa team for giving
+	us a great codebase to start from.</p>
+
+	<p>Duncan Mak, who put together the release packages for us</p>
+</body></html>

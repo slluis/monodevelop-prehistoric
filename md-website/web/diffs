@@ -1,0 +1,401 @@
+Index: template.html.in
+===================================================================
+--- template.html.in	(revision 504)
++++ template.html.in	(working copy)
+@@ -1,10 +1,10 @@
+ <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+ <html>
+ <head>
+-<title>#TITLE#</title>
+-<link rel="icon" href="../MonoIcon.png" type="image/png">
++  <title>#TITLE#</title>
++  <link rel="icon" href="../MonoIcon.png" type="image/png">
+ <!-- background-image: url("images/bgsquares.gif");  -->
+-<style type="text/css">
++  <style type="text/css">
+ <!--
+    body { font-family: "trebuchet ms", lucida, verdana, helvetica; 
+           
+@@ -39,79 +39,76 @@
+ 	}
+ 
+ // --> 
+-</style>
++  </style>
++</head>
++<body style="background-color: rgb(85, 85, 85); color: rgb(0, 0, 0);">
+ #CSS#
+ #SCRIPT#
+-</head>
+-<body bgcolor="#555555" text="#000000">
+-
+ <table cellpadding="0" cellspacing="0" border="0" width="100%">
++  <tbody>
+     <tr>
+-        <td><img src="images/pixel.gif" alt=""></td><!-- left border
+-        -->
+-	<td colspan="4">
+-	<table>
+-	  <tr>
+-	    <td>
+-               <a href="http://www.go-mono.com"><img
+-        src="images/mono-new.gif" alt="mono-logo" border="0"></a>
+-	    </td>
+-	    <td>
+-              <a class="topmenu" href="download.html">Downloads</a> | 
+-              <a class="topmenu" href="screenshots.html">Screenshots</a> | 
+-              <a class="topmenu" href="bugs.html">Bugs</a> |
+-	      <a class="topmenu" href="http://www.go-mono.com">Go-Mono</a>
+-	    </td>
+-	  </tr>
+-	</table>
+-	</td>
+-        <td><img src="images/pixel.gif" alt=""></td><!-- right border
+-        -->
+-    </tr>
++      <td><img src="images/pixel.gif" alt=""></td>
++<!-- left border
++        --> <td colspan="4">
++      <table>
++        <tbody>
++          <tr>
++            <td> <a href="http://www.go-mono.com"><img
++ src="images/mono-new.gif" alt="mono-logo" border="0"></a> </td>
++            <td> <a class="topmenu" href="download.html">Downloads</a>
++| <a class="topmenu" href="screenshots.html">Screenshots</a> | <a
++ class="topmenu" href="bugs.html">Bugs</a> | <a class="topmenu"
++ href="http://www.go-mono.com">Go-Mono</a> </td>
++          </tr>
++        </tbody>
++      </table>
++      </td>
++      <td><img src="images/pixel.gif" alt=""></td>
++<!-- right border
++        --> </tr>
+     <tr>
+-        <td><img src="images/pixel.gif" width="1" height="1" alt=""></td>
+-        <td colspan="3" bgcolor="black"><img src="images/pixel.gif"
+-        height="2" alt=""></td>
+-        <td bgcolor="black"><img src="images/pixel.gif" width="1" alt=""></td>
+-	     <td><img src="images/pixel.gif" alt=""></td>
++      <td><img src="images/pixel.gif" width="1" height="1" alt=""></td>
++      <td colspan="3" bgcolor="black"><img src="images/pixel.gif"
++ height="2" alt=""></td>
++      <td bgcolor="black"><img src="images/pixel.gif" width="1" alt=""></td>
++      <td><img src="images/pixel.gif" alt=""></td>
+     </tr>
+     <tr>
+-        <td width="100"><img src="images/pixel.gif" alt=""></td>
+-        <td valign="top">
+-            <table cellpadding="2" valign="top" cellspacing="0" border="0">
+-                #MENU#
+-            </table>
+-	     </td>
+-        <td bgcolor="black" width="1"><img src="images/pixel.gif"
+-        width="1" alt=""></td>
+-        <td bgcolor="white" align="left" width="80%" valign="top">
+-            <table cellpadding="16">
+-              <tr><td>
+-                #CONTENT#
+-	           </td></tr>
+-            </table>
+-	</td>
+-        <td bgcolor="black"><img src="images/pixel.gif" width="1" alt=""></td>
+-        <td width="100"><img src="images/pixel.gif" alt=""></td>
++      <td width="100"><img src="images/pixel.gif" alt=""></td>
++      <td valign="top"> #MENU#
++      <table cellpadding="2" valign="top" cellspacing="0" border="0">
++      </table>
++      </td>
++      <td bgcolor="black" width="1"><img src="images/pixel.gif"
++ width="1" alt=""></td>
++      <td bgcolor="white" align="left" width="80%" valign="top">
++      <table cellpadding="16">
++        <tbody>
++          <tr>
++            <td> #CONTENT# </td>
++          </tr>
++        </tbody>
++      </table>
++      </td>
++      <td bgcolor="black"><img src="images/pixel.gif" width="1" alt=""></td>
++      <td width="100"><img src="images/pixel.gif" alt=""></td>
+     </tr>
+     <tr>
+-        <td colspan="2">
+-            <img src="images/pixel.gif" alt=""></td>
+-        <td colspan="2" bgcolor="black"><img src="images/pixel.gif"
+-        height="1" alt=""></td>
+-        <td bgcolor="black"><img src="images/pixel.gif" width="1" alt=""></td>
+-        <td><img src="images/pixel.gif" alt=""></td>
++      <td colspan="2"> <img src="images/pixel.gif" alt=""></td>
++      <td colspan="2" bgcolor="black"><img src="images/pixel.gif"
++ height="1" alt=""></td>
++      <td bgcolor="black"><img src="images/pixel.gif" width="1" alt=""></td>
++      <td><img src="images/pixel.gif" alt=""></td>
+     </tr>
+-
+     <tr>
+-      <td colspan="2"></td>
+-      <td colspan="2" align="center">
+-	  <a class="footnote" href="mailto:webmaster@go-mono.com">webmaster@go-mono.com</a>
++      <td colspan="2"><br>
+       </td>
+-      <td colspan="2"></td>
++      <td colspan="2" align="center"> <a class="footnote"
++ href="mailto:webmaster@go-mono.com">webmaster@go-mono.com</a> </td>
++      <td colspan="2"><br>
++      </td>
+     </tr>
+-  </tr>
++  </tbody>
+ </table>
+-
+ </body>
+ </html>
+Index: src/features.src
+===================================================================
+--- src/features.src	(working copy)
++++ src/features.src	(working copy)
+@@ -0,0 +1,9 @@
++<h1>IDE Features</h1>
++<p>At present the core features include the following:
++	<ul>
++		<li>C# Text Editor with Code Completion</li>
++		<li>Debugger</li>
++		<li>Help Integration</li>
++		<li>Gtk# Forms Designer</li>
++	</ul>
++</p>
+Index: src/lists.src
+===================================================================
+--- src/lists.src	(working copy)
++++ src/lists.src	(working copy)
+@@ -0,0 +1,29 @@
++<h1>Mailing Lists</h1>
++            <h2>MonoDevelop Lists</h2>
++            <p>The following mailing lists have been set for
++MonoDevelop. All lists provide subscribe, unsubscribe, and archive
++options.</p>
++            <p>
++            <table border="1">
++              <tbody>
++                <tr>
++                  <td> <b><a
++ href="http://lists.ximian.com/mailman/listinfo/Monodevelop-bugs">Monodevelop-bugs</a></b>
++                  </td>
++                  <td> <i>[no description available]</i> </td>
++                </tr>
++                <tr>
++                  <td> <b><a
++ href="http://lists.ximian.com/mailman/listinfo/monodevelop-list">monodevelop-list</a></b>
++                  </td>
++                  <td> MonoDevelop discussion mailing list. </td>
++                </tr>
++                <tr>
++                  <td> <b><a
++ href="http://lists.ximian.com/mailman/listinfo/Monodevelop-patches-list">Monodevelop-patches-list</a></b>
++                  </td>
++                  <td> <i>[no description available]</i> </td>
++                </tr>
++              </tbody>
++            </table>
++            </p>
+\ No newline at end of file
+Index: src/bugs.src
+===================================================================
+--- src/bugs.src	(revision 504)
++++ src/bugs.src	(working copy)
+@@ -1,19 +1,19 @@
+-MonoDevelop is a very new project and, as such, still very much incomplete. 
+-Thus, please refrain from reporting obviously unported features, as these 
+-are known bugs, please however do report all bugs in anything that 
++<h1>Bugs</h1>
++MonoDevelop is a very new project and, as such, still very much incomplete.
++Thus, please refrain from reporting obviously unported features, as these
++are known bugs, please however do report all bugs in anything that
+ should be working and isn't.
+ <br/>
+ <br/>
+ 
+-<h1>Bug reporting</h1>
++<h2>Bug reporting</h2>
+ <p>
+ 	To report bugs you need to create a <a
+ 	href="http://bugzilla.ximian.com/createaccount.cgi">Bugzilla
+ 	Account</a>.  
+ <p>
+ <a name="goodbugreport"/>
+-<h2>How to make good bug reports</h2>
+-<p>
++<h3>How to make good bug reports</h3>
+ 	<ol>
+ <li>Submit a test case, the smaller it is, the better
+ <p>
+Index: src/news_and_status.src
+===================================================================
+--- src/news_and_status.src	(working copy)
++++ src/news_and_status.src	(working copy)
+@@ -0,0 +1,4 @@
++<h1>News and Status</h1>
++This page contains all the major news items concerning the project, as well as its current status.
++<h2>Jan 11th, 2004: MonoDevelop Website is Up</h2>
++MonoDevelop website is created. Watch this space!
+Index: src/feedback.src
+===================================================================
+--- src/feedback.src	(working copy)
++++ src/feedback.src	(working copy)
+@@ -0,0 +1,2 @@
++<h1>Feedback</h1>
++<p>Currently the best way to provide feedback on MonoDevelop is through the <a href="lists.html">Mailing Lists</a>.</p>
+\ No newline at end of file
+Index: src/goals.src
+===================================================================
+--- src/goals.src	(working copy)
++++ src/goals.src	(working copy)
+@@ -0,0 +1,37 @@
++<h1>Project Goals</h1>
++            <ul>
++              <li>To create a best of breed development environment for
++Unix systems for C# and Mono. </li>
++              <li>Since its written in Gtk#, and we like Gtk# and we
++get good support from Gtk#, most likely it will add functionality to
++improve the Gtk# experience. </li>
++              <li>To drift as little as possible from the main
++SharpDevelop: we want ideally to merge the code back (through ifdefs,
++conditional compilation, interfaces, whatever) to maximize the
++contributions and maximize the development speed.
++                <p>So a big focus has been to keep in mind that we want
++to merge with the main effort eventually. </p>
++              </li>
++              <li>Today the IDE is a simple IDE and on Unix does not do
++GUI design (that is limited to SharpDevelop), but we want to add a GUI
++designer, and I know Ximian wants to have someone doing this.
++                <p>Before MonoDevelop, we were thinking `standalone',
++but now it makes sense to integrate. </p>
++              </li>
++              <li>We want to integrate the tools we have been building
++so far, so things like MonoDoc, NUnit-Gtk and the debugger should
++target MonoDevelop. </li>
++            </ul>
++            <p>In my personal opinion, the MonoDevelop/Gtk# components
++do not
++necessarily need to be portable to Windows, and we should use and
++exploit as much as the Linux, Gnome, Gtk, Freedesktop have to offer and
++not limit ourselves. </p>
++            <p>If people in the future want to run MonoDevelop/Gtk# on
++Windows as the
++standard base, am sure we can find the right spot to isolate the
++Unix-isms from the Windows-isms (hey, its been moved from one side to
++the other, and it was not hard, so it is not likely to be hard the
++other way either). </p>
++            <p>Miguel. </p>
++			<p>NB. This is an extract from a posting to the MonoDevelop-List, by Miguel de Incaza on 08 Jan 2004.</p>
+Index: src/svn.src
+===================================================================
+--- src/svn.src	(revision 504)
++++ src/svn.src	(working copy)
+@@ -1,2 +1,31 @@
+-We are in the process of setting up an anonymous SVN mirror<br/>
+-As soon as one is available, the information will be available<br/>
++            <h1>Anonymous SVN Access</h1>
++            <p>The anonymous mirror is up at:</p>
++            <p><code>svn://207.44.131.184/svn/monodevelop</code> </p>
++            <h3>Checking out the sources</h3>
++            <p>I recommend downloading 0.36 and running the following
++command to
++checkout: </p>
++            <p><code>svn co
++svn://207.44.131.184/svn/monodevelop/trunk/MonoDevelop</code> </p>
++            <p>This will create a MonoDevelop folder underneath the
++current directory. </p>
++            <h3>Dependencies</h3>
++            <p>To build MonoDevelop you will need mono from cvs, and
++gtk-sharp from
++cvs. You can get more info <a href="http://www.go-mono.com">http://www.go-mono.com</a>
++on installing mono/mcs
++from cvs. </p>
++            <p>You will also need gtkmozembed-sharp. This is contained
++inside our
++repository, and is built using a standard autogen / make / make
++install. Your prefix should be the same as your gtk-sharp prefix
++(ie, if
++gtk-sharp.dll is at /usr/lib/gtk-sharp.dll use /usr as your prefix for
++gtkmozembed-sharp) </p>
++            <h3>Building from source</h3>
++            <p>After installing gtkmozembed-sharp you can make MD with
++a standard make
++command, followed by ./monodevelop. </p>
++            <p>Happy Hacking :) </p>
++            <p>--Todd </p>
++			<p>NB. This is an extract from a posting to the MonoDevelop-List, by Todd Berman on 14 Jan 2004.</p>
+Index: src/index.src
+===================================================================
+--- src/index.src	(revision 504)
++++ src/index.src	(working copy)
+@@ -1,11 +1,9 @@
+-MonoDevelop is a port of <a href="http://www.icsharpcode.net/OpenSource/SD/" target="_new">
+-SharpDevelop</a> to Gtk#.
+-<p>
+-
+-MonoDevelop is in the very early stages of development right now, and progressing quickly. 
+-This page and the mailing lists will contain all major updates
+-<p>
+-
+-
+-<h2>Jan 11th, 2004: MonoDevelop Website is Up</h2>
+-MonoDevelop website is created. Watch this space!
++<h1>Welcome!</h1>
++<p>MonoDevelop is in the very early stages of development right now, and progressing quickly. The <a href="news_and_status.html">News and Status</a> page and the <a href="lists.html">Mailing Lists</a> will contain all major updates.</p>
++<h2>What is MonoDevelop?</h2>
++<p>MonoDevelop is a project to port <a href="http://www.icsharpcode.net/OpenSource/SD/" target="_new">
++SharpDevelop</a> to Gtk#. See the <a href="goals.html">Goals</a> and <a href="features.html">Features</a> pages for more information.</p>
++<h2>How can I get MonoDevelop?</h2>
++<p>Go to the <a href="downloads.html">Getting Started</a> page for instructions on getting MonoDevelop binaries/sources.</p>
++<h2>How can I contribute?</h2>
++<p><a href="contributing.html">Sending SVN Diffs</a> and <a href="bugs.html">Filing Bug Reports</a> is a good way to start. Your <a href="comments_and_suggestions.html">Comments and Suggestions</a> are also very welcome.</p>
+Index: src/download.src
+===================================================================
+--- src/download.src	(revision 504)
++++ src/download.src	(working copy)
+@@ -1 +1,2 @@
+-Currently there are no downloads outside of the anonymous SVN repository.
++<h1>Downloads</h1>
++Currently there are no downloads outside of the <a href="ssvn.html">SVN</a> and <a href="svn.html">Anonymous SVN</a> Repositories.
+Index: src/contributing.src
+===================================================================
+--- src/contributing.src	(working copy)
++++ src/contributing.src	(working copy)
+@@ -0,0 +1,3 @@
++<h1>Contributing</h1>
++<p>If you want to contribute, get the <a href="svn.html">sources</a> and just send a svn diff to
++this list, or potentially file a bug if its a bugfix.</p>
+Index: src/getting_started.src
+===================================================================
+--- src/getting_started.src	(working copy)
++++ src/getting_started.src	(working copy)
+@@ -0,0 +1,3 @@
++<h1>Getting Started</h1>
++<p>To build MonoDevelop from source, go to the <a href="ssvn.html">SVN</a> and <a href="svn.html">Anonymous SVN</a> Repositories section and follow the instructions there.</p>
++<p>Currently, there are no binary or source tarball downloads.</p>
+Index: src/why.src
+===================================================================
+--- src/why.src	(working copy)
++++ src/why.src	(working copy)
+@@ -0,0 +1,16 @@
++<h1>Why MonoDevelop?</h1>
++            <p>Today Linux is lacking good development tools. There are
++some good
++efforts, but we wanted something that would work fine with C#. </p>
++            <p>There were various efforts to create a Gtk# based
++development
++environment (Scaffold, Sugar, torkar's, csharp-develop) and a couple of
++others. </p>
++            <p>We knew that SharpDevelop was the best thing out there
++for C# and we
++initially wanted to get the intellisense widget ported, then we would
++deffer to others the creation of the IDE. </p>
++            <p>But soon the hackers realized that it was relatively
++easy to port the
++whole thing, and the process started. </p>
++			<p>NB. This is an extract from a posting to the MonoDevelop-List, by Miguel de Incaza on 08 Jan 2004.</p>

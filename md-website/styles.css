@@ -1,0 +1,92 @@
+body { margin-left: 0px;
+       margin-right: 0px;
+       margin-top: 0px;
+       margin-bottom: 10px;
+       padding-bottom: 10px;
+       font-family: Verdana, Lucida, Helvetica, sans-serif;
+       font-size: 10pt;
+       background: #fafafa; }
+
+p { margin-bottom: 11px;
+    margin-top: 3px; 
+    padding-left: 10px;
+    width: 93%; }
+
+#header { background-color: #dcdcdc; }
+
+#left-nav { position: absolute;
+	    top: 62px;
+	    left: 15px;
+	    margin-top: 10px;
+	    font-size: 12pt; }
+
+#left-nav ul { margin-left: 0px;
+	       margin-top: 0px;
+               padding-left: 0px;
+}
+
+#left-nav li { list-style: none; } 
+
+#left-nav li a:link { color: black; 
+		      text-decoration: none; }
+
+#left-nav li a:hover { color: #686481; 
+		       text-decoration: underline; }
+
+#left-nav li a:active { color: #e6e4e7;
+			text-decoration: underline; }
+
+#left-nav li a:visited { color: black; 
+			 text-decoration: none; }
+
+#content { margin-top: 10px;
+	   margin-left: 120px; }
+
+.title { width: 300px;
+         font-size: 18pt; 
+         margin-top: 0px;
+         margin-bottom: 10px;
+         border-bottom: thin solid #686481; }
+
+.headlinebar { font-size: 14pt; }
+
+.headlinebar a:link { color: black;                    
+                      text-decoration: none; }                      
+
+.headlinebar a:link { color: black;
+                      text-decoration: none; }
+                      
+.headlinebar a:link { color: black;
+                      text-decoration: none; }
+                      
+.headlinebar a:link { color: black;
+                      text-decoration: none; }
+                      
+.news_header { font-size: 14pt;
+               font-weight: bold; }
+               
+.image_frame { float: center;
+	       background-color: #dedfde;
+	       border: thin solid #cecbce;
+	       padding-left: 5px;
+	       padding-right: 5px;
+	       padding-top: 5px; 
+               padding-bottom: 5px;
+	       display: table;
+	       margin: 0 auto;
+	       text-align: center; }
+
+* html .image_frame {
+  white-space:nowrap;
+  width:20px; }
+
+img { border: 0; }
+
+.image_caption { margin: 0 auto; }
+
+.feature { padding-left: 10px;
+           margin-top: 10px;
+	   margin-bottom: 20px; }
+
+.feature img { padding-right: 20px;
+	       padding-left: 20px; }

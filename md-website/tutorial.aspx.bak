@@ -1,0 +1,38 @@
+<%@ Register TagPrefix="ccms" TagName="PageHeader" src="include/header.ascx" %>
+<%@ Register TagPrefix="ccms" TagName="PageFooter" src="include/footer.ascx" %>
+
+<ccms:PageHeader runat="server"/>      
+      
+      <div class="title">"Hello World" Tutorial</div>
+
+      <p>This tutorial is intended to take you through all the necessary steps to get an updated copy of MonoDevelop, build it with all its dependencies, and write "Hello World" with it.
+      </p>
+
+      <div class="headlinebar">Getting Started</div>
+      <p>There are some packages which are required before building MonoDevelop. The following instructions guide you through installing them.
+      </p>
+
+      <b>1. <a href="http://oss.software.ibm.com/icu/">International Components for Unicode (ICU)</a></b><br />
+      <p>MonoDevelop requires ICU for internationalization. At the time of this writing, it cannot be assumed MonoDevelop will be stable without ICU. Since mono (2.) should be built with ICU support, we'll install it first.</p>
+      <ul>
+         <li>Download the <a href="ftp://www-126.ibm.com/pub/icu/2.8/icu-2.8.tgz">ICU 2.8 tarball</a>.</li>
+	 <li>Unpack and install the tarball by typing:
+	    
+	    <pre class="console" xmlns="http://www.w3.org/1999/xhtml"><table width="100%" border="0" cellspacing="0" cellpadding="3"><tr><td><table width="100%" border="0" cellspacing="0" cellpadding="0" height="100%"><tr><td bgcolor="#555555"><img src="source-id:5:xhtml:html/en/images/empty.png" width="1" height="1" /></td><td bgcolor="#555555"><img src="source-id:5:xhtml:html/en/images/empty.png" width="1" height="1" /></td><td bgcolor="#555555"><img src="source-id:5:xhtml:html/en/images/empty.png" width="1" height="1" /></td></tr><tr><td bgcolor="#c0c0c0"></td><td width="100%" bgcolor="#efefef"><table width="100%" border="0" cellspacing="0" cellpadding="0"><tr><td bgcolor="#ffffff"><table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td bgcolor="#999999"><pre>
+	    </pre></td></tr></table></td></tr></table></td><td bgcolor="#999999"><img src="source-id:5:xhtml:html/en/images/empty.png" width="1" height="1" /></td></tr><tr><td bgcolor="#555555"><img src="source-id:5:xhtml:html/en/images/empty.png" width="1" height="1" /></td><td bgcolor="#555555"><img src="source-id:5:xhtml:html/en/images/empty.png" width="1" height="1" /></td><td bgcolor="#555555"><img src="source-id:5:xhtml:html/en/images/empty.png" width="1" height="1" /></td></tr></table></td></tr></table></pre>
+	    
+	    <pre>tar -xzf icu-2.8.tgz
+cd icu/source
+chmod +x runConfigureICU configure install-sh
+./runConfigureICU --disable-64bit-libs
+make &amp;&amp; make install</pre>
+	 </li>
+      </ul>
+      <p>If you have any difficulties installing ICU, refer to <a href="http://oss.software.ibm.com/cvs/icu/~checkout~/icu/readme.html?tag=release-2-8">icu/readme.html</a>.</p>
+
+      <b>Mono 0.30.1 or higher</b>
+
+	       
+
+
+<ccms:PageFooter runat="server"/>
