@@ -441,7 +441,7 @@ namespace MonoDevelop.SourceEditor.Gui
 					/* use our visitor to convert from MD's AST to types that
 					 * facilitate evaluation by the debugger */
 					visitor = new DebuggerASTVisitor ();
-					dbgr_expr = (Expression)e.AcceptVisitor (visitor, null);
+					dbgr_expr = (Expression)ast_expr.AcceptVisitor (visitor, null);
 
 					/* finally, resolve and evaluate the expression */
 					dbgr_expr = dbgr_expr.Resolve (ctx);

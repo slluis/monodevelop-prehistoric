@@ -1,5 +1,10 @@
 2005-03-15  Chris Toshok  <toshok@ximian.com>
 
+	* Gui/DebuggerVariablePad.cs: never commit code before trying to
+	compile it.
+
+2005-03-15  Chris Toshok  <toshok@ximian.com>
+
 	* Makefile.am (DLLS): add ICSharpCode.SharpRefactory.dll
 	(FILES): remove CSharpTokenizer.cs, CSharpExpressionParser.cs, and
 	MyTextReader.cs.  Add DebuggerASTVisitor.cs
