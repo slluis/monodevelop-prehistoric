@@ -22,6 +22,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 	public class WordCountDialog : Dialog
 	{
 		static GLib.GType gtype;
+		ScrolledWindow scrolledwindow;
 		TreeView resultListView;
 		TreeStore store;
 		ArrayList items;
@@ -301,6 +302,10 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 			
 			this.AddButton (Stock.Cancel, (int) ResponseType.Cancel);
 			
+			scrolledwindow = new ScrolledWindow();
+			scrolledwindow.VscrollbarPolicy = PolicyType.Automatic;
+			scrolledwindow.HscrollbarPolicy = PolicyType.Never;
+			
 			resultListView = new TreeView ();
 			resultListView.RulesHint = true;
 
@@ -341,8 +346,9 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 			locationComboBox.Menu = m;
 			hbox.PackStart (locationComboBox);
 			
+			scrolledwindow.Add(resultListView);
 			this.VBox.PackStart (hbox, false, true, 0);
-			this.VBox.PackStart (resultListView, true, true, 6);
+			this.VBox.PackStart (scrolledwindow, true, true, 6);
 		}
 		
 		private void OnOptionChanged (object o, EventArgs args)

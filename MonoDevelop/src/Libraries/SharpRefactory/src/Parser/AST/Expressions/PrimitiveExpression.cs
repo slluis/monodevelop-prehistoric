@@ -33,7 +33,7 @@ namespace ICSharpCode.SharpRefactory.Parser.AST {
 			this.stringValue = stringValue;
 		}
 		
-		static NumberFormatInfo nfi = new CultureInfo( "en-US", false ).NumberFormat;
+		static NumberFormatInfo nfi = CultureInfo.InvariantCulture.NumberFormat;
 
 		public override object AcceptVisitor(IASTVisitor visitor, object data)
 		{
