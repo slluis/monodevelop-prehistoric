@@ -250,9 +250,7 @@ namespace Gdl
 			if (newHost != null)
 				ConnectHost (newHost);
 
-			#if DEBUG
 			PrintPlacementStack ();
-			#endif
 		}
 
 		void OnHostDocked (object sender, DockedArgs a)
@@ -265,18 +263,15 @@ namespace Gdl
 					DoExcursion ();
 			}
 
-			#if DEBUG
 			PrintPlacementStack ();
-			#endif
 		}
 
-		#if DEBUG
+		[System.Diagnostics.Conditional ("DEBUG")]
 		void PrintPlacementStack ()
 		{
 			Console.WriteLine ("-- {0} count {1}", host.Name, placementStack.Count);
 			foreach (object o in placementStack.ToArray ())
 				Console.WriteLine (o);
 		}
-		#endif
 	}
 }

@@ -1,3 +1,7 @@
+2005-03-13  Todd Berman  <tberman@off.net>
+
+	* DockPlaceholder.cs: Use Conditional instead of #if
+
 2005-03-13  John Luke  <john.luke@gmail.com>
 
 	* DockNotebook.cs: not Automatic
