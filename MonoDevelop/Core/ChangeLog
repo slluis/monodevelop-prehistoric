@@ -1,3 +1,7 @@
+2005-01-13  Christian Hergert <chris@mosaix.net>
+
+	* AUTHORS: Added christian and ankit
+
 2004-12016  David Dollar  <ddollar@grepninja.org>
 
 	* configure.in: Remove the second gtk-sharp prefix check that was

@@ -12,6 +12,7 @@ Connection/Abstract/AbstractMonoQueryConnectionWrapper.cs \
 Connection/Interface/IConnection.cs \
 Connection/Npgsql/NpgsqlConnectionWrapper.cs \
 Connection/Mysql/MysqlConnectionWrapper.cs \
+Connection/Sqlite/SqliteConnectionWrapper.cs \
 Exceptions/Abstract/MonoQueryAbstractException.cs \
 Exceptions/ConnectionStringException.cs \
 Exceptions/ExecuteProcedureException.cs \
@@ -41,6 +42,7 @@ REFS = /r:$(top_builddir)/build/bin/MonoDevelop.Core.dll \
        /r:Npgsql.dll \
        /r:System.Data.dll \
        /r:ByteFX.Data.dll \
+       /r:Mono.Data.SqliteClient \
        $(GTK_SHARP_LIBS) \
        $(GLADE_SHARP_LIBS) \
        $(GCONF_SHARP_LIBS) \
