@@ -30,6 +30,8 @@ dnl Find gtk-sharp
 GTKSHARP_REQUIRED_VERSION=0.17
 
 PKG_CHECK_MODULES(BASE_DEPENDENCIES, gtk-sharp >= $GTKSHARP_REQUIRED_VERSION, enable_gtksharp=yes, enable_gtksharp=no) 
+gtksharp_prefix=`pkg-config --variable=prefix gtk-sharp`
+AC_SUBST(gtksharp_prefix)
 
 GTKSOURCEVIEW_REQUIRED_VERSION=0.7
 

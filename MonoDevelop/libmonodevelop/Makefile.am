@@ -25,7 +25,7 @@ $(libmonodevelop_OBJECTS): $(libmonodevelop_headers)
 
 libmonodevelop.so: $(libmonodevelop_OBJECTS)
 	$(CC) $(LDFLAGS) -shared -fPIC -o libmonodevelop.so $+ && \
-	cp libmonodevelop.so ../build/bin 
+	cp libmonodevelop.so ../build/bin/.
 
 %.o: %.c
 	$(CC) $(CFLAGS) $(INCLUDES) -c $<

@@ -2,9 +2,9 @@ MCS=mcs
 ASSEMBLY = ../build/bin/gtkmozembed-sharp.dll
 
 INCLUDE_APIS = \
-	@prefix@/share/gapi/gdk-api.xml \
-	@prefix@/share/gapi/gtk-api.xml \
-	@prefix@/share/gapi/atk-api.xml
+	@gtksharp_prefix@/share/gapi/gdk-api.xml \
+	@gtksharp_prefix@/share/gapi/gtk-api.xml \
+	@gtksharp_prefix@/share/gapi/atk-api.xml
 			
 all: generated-stamp $(ASSEMBLY)
 

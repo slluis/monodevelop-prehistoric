@@ -3,9 +3,9 @@ RUNTIME = mono
 ASSEMBLY = ../../build/bin/gdl-sharp.dll
 
 INCLUDE_APIS = \
-	@prefix@/share/gapi/gdk-api.xml \
-	@prefix@/share/gapi/gtk-api.xml \
-	@prefix@/share/gapi/atk-api.xml
+	@gtksharp_prefix@/share/gapi/gdk-api.xml \
+	@gtksharp_prefix@/share/gapi/gtk-api.xml \
+	@gtksharp_prefix@/share/gapi/atk-api.xml
 			
 all: generated-stamp $(ASSEMBLY)
 
@@ -19,7 +19,7 @@ $(ASSEMBLY): generated-stamp ../../build/bin
 	--recurse '*.cs' -o $(ASSEMBLY)
 
 ../../build/bin:
-	../..//mkinstalldirs ../../build/bin
+	mkdir ../../build/bin
 
 gdldocklibdir = $(prefix)/lib/monodevelop
 
