@@ -57,7 +57,7 @@ namespace MonoDevelop.SourceEditor.Gui {
 			if (language == "C#")
 				language = "text/x-csharp";
 			else
-				language = null;
+				language = "text/plain";
 			
 			w.LoadString (language, content);
 			return w;
@@ -71,7 +71,7 @@ namespace MonoDevelop.SourceEditor.Gui {
 			if (language == "C#")
 				language = "text/x-csharp";
 			else
-				language = null;
+				language = "text/plain";
 			
 			w.LoadString (language, content);
 			return w;

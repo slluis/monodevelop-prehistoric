@@ -72,7 +72,10 @@ namespace MonoDevelop.SourceEditor.Gui {
 		
 		public void LoadText (string text, string mime)
 		{
-			Language = slm.GetLanguageFromMimeType (mime);
+			
+			SourceLanguage lang = slm.GetLanguageFromMimeType (mime);
+			if (lang != null) 
+				Language = lang;
 			
 			using (NoUndo n = new NoUndo (this))
 				Text = text;

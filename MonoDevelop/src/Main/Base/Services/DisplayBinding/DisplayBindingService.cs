@@ -52,7 +52,7 @@ namespace ICSharpCode.SharpDevelop.Services
 					}
 				}
 			}
-			Console.WriteLine ("Didnt match on mimetype, trying filename");
+			Console.WriteLine ("Didnt match on mimetype: " + mimetype + ", trying filename");
 			foreach (DisplayBindingCodon binding in bindings) {
 				if (binding.DisplayBinding != null && binding.DisplayBinding.CanCreateContentForFile(filename)) {
 					return binding;
