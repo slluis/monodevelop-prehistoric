@@ -110,7 +110,6 @@ namespace MonoDevelop.Commands.ProjectBrowser
 			NewFileDialog nfd = new NewFileDialog ();
 			if (nfd.Run() == (int)Gtk.ResponseType.Ok) {
 				IWorkbenchWindow window = WorkbenchSingleton.Workbench.ActiveWorkbenchWindow;
-					
 				int count = 1;
 					
 				string baseName  = Path.GetFileNameWithoutExtension(window.ViewContent.UntitledName);
@@ -146,6 +145,8 @@ namespace MonoDevelop.Commands.ProjectBrowser
 				parentNode.Project.ProjectFiles.Add(newFileInformation);
 					
 				newNode.EnsureVisible();
+				browser.StealFocus ();
+				Console.WriteLine (((Gtk.Window)WorkbenchSingleton.Workbench).Focus);
 				browser.SelectedNode = newNode;
 				browser.StartLabelEdit();
 					

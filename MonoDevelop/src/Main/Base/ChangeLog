@@ -1,5 +1,12 @@
 2004-06-02  Todd Berman  <tberman@sevenl.net>
 
+	* Commands/ProjectBrowserCommands/FolderNodeCommands.cs: call new func.
+	* Gui/Dialogs/NewFileDialog.cs: remove dead code
+	* Gui/Pads/ProjectBrowser/ProjectBrowserView.cs: add function that
+	worksaround the gtk+ 2.4 regression workaround.
+
+2004-06-02  Todd Berman  <tberman@sevenl.net>
+
 	* Gui/Dialogs/CommonAboutDialog.cs: This is actually how translator
 	credits are supposed to work. Update the po and go ahead and
 	translate the string "translator_credits" to include what you want

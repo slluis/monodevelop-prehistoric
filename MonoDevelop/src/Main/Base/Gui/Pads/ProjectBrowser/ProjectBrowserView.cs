@@ -76,22 +76,8 @@ namespace MonoDevelop.Gui.Pads.ProjectBrowser
 			EndUpdate();
 		}
 		
-		static ProjectBrowserView()
-		{
-			//projectBrowserImageList = new ImageList();
-			//projectBrowserImageList.ColorDepth = ColorDepth.Depth32Bit;
-		}
-
 		public ProjectBrowserView() : base (true, TreeNodeComparer.GtkProjectNode)
 		{
-			//LabelEdit     = true;
-			//AllowDrop     = true;
-			//HideSelection = false;
-			//Dock          = DockStyle.Fill;
-			
-			//ImageList = projectBrowserImageList;
-			//LabelEdit = false;
-
 			WorkbenchSingleton.Workbench.ActiveWorkbenchWindowChanged += new EventHandler(ActiveWindowChanged);
 			IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
 
@@ -99,12 +85,6 @@ namespace MonoDevelop.Gui.Pads.ProjectBrowser
 			projectService.CombineClosed += new CombineEventHandler(CloseCombine);
 			propertyService.PropertyChanged += new PropertyEventHandler (TrackPropertyChange);
 
-			//PlainFont = new Font(Font, FontStyle.Regular);
-			//boldFont  = new Font(Font, FontStyle.Bold);
-
-			//Font = boldFont;
-			//contentPanel.Controls.Add(this);
-			
 			Gtk.ScrolledWindow sw = new Gtk.ScrolledWindow ();
 			sw.Add(this);
 			contentPanel = new Gtk.Frame();
@@ -266,9 +246,19 @@ namespace MonoDevelop.Gui.Pads.ProjectBrowser
 			if (null != cbn)
 				cbn.BeforeLabelEdit ();
 			if (selectedNode != null && selectedNode.CanLabelEdited) {
-				//LabelEdit = true;
 				selectedNode.BeginEdit ();
 			}
+		}
+
+		public void StealFocus ()
+		{
+			Gtk.Timeout.Add (20, new Gtk.Function (wantFocus));
+		}
+		bool wantFocus ()
+		{
+			GrabFocus ();
+			((AbstractBrowserNode)SelectedNode).BeginEdit ();
+			return false;
 		}
 
 		/// <summary>

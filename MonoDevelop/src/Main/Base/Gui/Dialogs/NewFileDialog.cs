@@ -338,9 +338,6 @@ namespace MonoDevelop.Gui.Dialogs
 
 			TreeViewColumn catColumn = new TreeViewColumn ();
 			catColumn.Title = "categories";
-			//CellRendererPixbuf cat_pix_render = new CellRendererPixbuf ();
-			//catColumn.PackStart (cat_pix_render, false);
-			//catColumn.AddAttribute (cat_pix_render, "pixbuf", 3);
 			
 			CellRendererText cat_text_render = new CellRendererText ();
 			catColumn.PackStart (cat_text_render, true);
@@ -355,11 +352,9 @@ namespace MonoDevelop.Gui.Dialogs
 			templateColumn.AddAttribute (tmpl_text_render, "text", 0);
 			templateView.AppendColumn (templateColumn);
 
-			//okButton = new Gtk.Button ("Create");
 			okButton = new Button (Gtk.Stock.New);
 			okButton.Clicked += new EventHandler (OpenEvent);
 
-			//cancelButton = new Gtk.Button ("Cancel");
 			cancelButton = new Button (Gtk.Stock.Close);
 			cancelButton.Clicked += new EventHandler (cancelClicked);
 
@@ -388,33 +383,10 @@ namespace MonoDevelop.Gui.Dialogs
 			cat_imglist.Add(iconService.GetBitmap("Icons.16x16.ClosedFolderBitmap"));
 	
 			catView.Selection.Changed += new EventHandler (CategoryChange);
-			//templateView.Selection.Changed += new EventHandler (SelectedIndexChange);
 			TemplateView.IconSelected += new EventHandler(SelectedIndexChange);
 			TemplateView.IconDoubleClicked += new EventHandler(OpenEvent);
-
-			//ControlDictionary["openButton"].Click += new EventHandler(OpenEvent);
 			
 			PropertyService propertyService = (PropertyService)ServiceManager.Services.GetService(typeof(PropertyService));
-			//((RadioButton)ControlDictionary["largeIconsRadioButton"]).Checked = propertyService.GetProperty("Dialogs.NewProjectDialog.LargeImages", true);
-			//((RadioButton)ControlDictionary["largeIconsRadioButton"]).CheckedChanged += new EventHandler(CheckedChange);
-			//((RadioButton)ControlDictionary["largeIconsRadioButton"]).FlatStyle = FlatStyle.Standard;
-			//((RadioButton)ControlDictionary["largeIconsRadioButton"]).Image  = IconService.GetBitmap("Icons.16x16.LargeIconsIcon");
-			
-			//((RadioButton)ControlDictionary["smallIconsRadioButton"]).Checked = !propertyService.GetProperty("Dialogs.NewProjectDialog.LargeImages", true);
-			//((RadioButton)ControlDictionary["smallIconsRadioButton"]).CheckedChanged += new EventHandler(CheckedChange);
-			//((RadioButton)ControlDictionary["smallIconsRadioButton"]).FlatStyle = FlatStyle.Standard;
-			//((RadioButton)ControlDictionary["smallIconsRadioButton"]).Image  = IconService.GetBitmap("Icons.16x16.SmallIconsIcon");
-			
-		
-			//ToolTip tooltip = new ToolTip();
-			//tooltip.SetToolTip(ControlDictionary["largeIconsRadioButton"], StringParserService.Parse("${res:Global.LargeIconToolTip}"));
-			//tooltip.SetToolTip(ControlDictionary["smallIconsRadioButton"], StringParserService.Parse("${res:Global.SmallIconToolTip}"));
-			//tooltip.Active = true;
-			//Owner         = (Form)WorkbenchSingleton.Workbench;
-			//StartPosition = FormStartPosition.CenterParent;
-			//Icon          = null;
-			
-			//CheckedChange(this, EventArgs.Empty);
 		}
 	}
 }
