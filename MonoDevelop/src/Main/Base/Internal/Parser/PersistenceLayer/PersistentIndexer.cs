@@ -14,6 +14,21 @@ namespace MonoDevelop.Internal.Parser
 	[Serializable]
 	public sealed class PersistentIndexer : AbstractIndexer
 	{
+		public static PersistentIndexer Resolve (IIndexer source, ITypeResolver typeResolver)
+		{
+			PersistentIndexer ind = new PersistentIndexer();
+			ind.FullyQualifiedName = source.FullyQualifiedName;
+			ind.Documentation = source.Documentation;
+			ind.modifiers = source.Modifiers;
+			ind.returnType = PersistentReturnType.Resolve (source.ReturnType, typeResolver);
+
+			foreach (IParameter p in source.Parameters)
+				ind.parameters.Add (PersistentParameter.Resolve (p, typeResolver));
+
+			ind.region = source.Region;
+			return ind;
+		}
+		
 		public static PersistentIndexer Read (BinaryReader reader, INameDecoder nameTable)
 		{
 			PersistentIndexer ind = new PersistentIndexer();

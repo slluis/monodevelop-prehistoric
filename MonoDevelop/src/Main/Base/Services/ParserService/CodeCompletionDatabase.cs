@@ -611,7 +611,10 @@ namespace MonoDevelop.Services
 		{
 			IParseInformation parserInfo = parserService.DoParseFile ((string)fileName, null);
 			ICompilationUnit cu = (ICompilationUnit)parserInfo.BestCompilationUnit;
-			ClassUpdateInformation res = UpdateClassInformation (cu.Classes, fileName);
+
+			ClassCollection resolved = parserService.ResolveTypes (project, cu, cu.Classes);
+			ClassUpdateInformation res = UpdateClassInformation (resolved, fileName);
+			
 			parserService.NotifyParseInfoChange (fileName, res);
 		}
 	}

@@ -14,6 +14,16 @@ namespace MonoDevelop.Internal.Parser
 	[Serializable]
 	public sealed class PersistentParameter : AbstractParameter
 	{
+		public static PersistentParameter Resolve (IParameter source, ITypeResolver typeResolver)
+		{
+			PersistentParameter par = new PersistentParameter ();
+			par.name = source.Name;
+			par.documentation = source.Documentation;
+			par.modifier = source.Modifier;
+			par.returnType = PersistentReturnType.Resolve (source.ReturnType, typeResolver);
+			return par;
+		}
+		
 		public static PersistentParameter Read (BinaryReader reader, INameDecoder nameTable)
 		{
 			PersistentParameter par = new PersistentParameter ();

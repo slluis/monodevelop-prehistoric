@@ -24,6 +24,41 @@ namespace MonoDevelop.Internal.Parser
 			}
 		}
 
+		public static PersistentClass Resolve (IClass sclass, ITypeResolver typeResolver)
+		{
+			PersistentClass cls = new PersistentClass ();
+			
+			cls.FullyQualifiedName = sclass.FullyQualifiedName;
+			cls.Documentation = sclass.Documentation;
+			
+			cls.modifiers          = sclass.Modifiers;
+			cls.classType          = sclass.ClassType;
+
+			foreach (string t in sclass.BaseTypes)
+				cls.baseTypes.Add (typeResolver.Resolve (t));
+			
+			foreach (IClass c in sclass.InnerClasses)
+				cls.innerClasses.Add (PersistentClass.Resolve (c,typeResolver));
+
+			foreach (IField f in sclass.Fields)
+				cls.fields.Add (PersistentField.Resolve (f, typeResolver));
+
+			foreach (IProperty p in sclass.Properties)
+				cls.properties.Add (PersistentProperty.Resolve (p, typeResolver));
+
+			foreach (IMethod m in sclass.Methods)
+				cls.methods.Add (PersistentMethod.Resolve (m, typeResolver));
+
+			foreach (IEvent e in sclass.Events)
+				cls.events.Add (PersistentEvent.Resolve (e, typeResolver));
+
+			foreach (IIndexer i in sclass.Indexer)
+				cls.indexer.Add (PersistentIndexer.Resolve (i, typeResolver));
+			
+			cls.region = sclass.Region;
+			return cls;
+		}
+		
 		public static PersistentClass Read (BinaryReader reader, INameDecoder nameTable)
 		{
 			PersistentClass cls = new PersistentClass ();

@@ -14,6 +14,17 @@ namespace MonoDevelop.Internal.Parser
 	[Serializable]
 	public sealed class PersistentField : AbstractField
 	{
+		public static PersistentField Resolve (IField source, ITypeResolver typeResolver)
+		{
+			PersistentField field = new PersistentField ();
+			field.FullyQualifiedName = source.FullyQualifiedName;
+			field.Documentation = source.Documentation;
+			field.modifiers = source.Modifiers;
+			field.returnType = PersistentReturnType.Resolve (source.ReturnType, typeResolver);
+			field.region = source.Region;
+			return field;
+		}
+		
 		public static PersistentField Read (BinaryReader reader, INameDecoder nameTable)
 		{
 			PersistentField field = new PersistentField ();

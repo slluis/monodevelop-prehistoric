@@ -15,6 +15,21 @@ namespace MonoDevelop.Internal.Parser
 	[Serializable]
 	public sealed class PersistentMethod : AbstractMethod
 	{
+		public static PersistentMethod Resolve (IMethod source, ITypeResolver typeResolver)
+		{
+			PersistentMethod met = new PersistentMethod ();
+			met.FullyQualifiedName = source.FullyQualifiedName;
+			met.Documentation = source.Documentation;
+			met.modifiers = source.Modifiers;
+			met.returnType = PersistentReturnType.Resolve (source.ReturnType, typeResolver);
+			
+			foreach (IParameter p in source.Parameters)
+				met.parameters.Add (PersistentParameter.Resolve (p, typeResolver));
+
+			met.region = source.Region;
+			return met;
+		}
+		
 		public static PersistentMethod Read (BinaryReader reader, INameDecoder nameTable)
 		{
 			PersistentMethod met = new PersistentMethod ();

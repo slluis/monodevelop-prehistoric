@@ -32,6 +32,19 @@ namespace MonoDevelop.Internal.Parser
 			}
 		}
 		
+		public static PersistentProperty Resolve (IProperty source, ITypeResolver typeResolver)
+		{
+			PersistentProperty pro = new PersistentProperty ();
+			pro.FullyQualifiedName = source.FullyQualifiedName;
+			pro.Documentation = source.Documentation;
+			pro.modifiers = source.Modifiers;
+			pro.returnType = PersistentReturnType.Resolve (source.ReturnType, typeResolver);
+			pro.canGet = source.CanGet;
+			pro.canSet = source.CanSet;
+			pro.region = source.Region;
+			return pro;
+		}
+		
 		public static PersistentProperty Read (BinaryReader reader, INameDecoder nameTable)
 		{
 			PersistentProperty pro = new PersistentProperty ();

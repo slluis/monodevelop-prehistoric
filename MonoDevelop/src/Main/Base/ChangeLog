@@ -1,3 +1,16 @@
+2004-05-26  Lluis Sanchez Gual  <lluis@ximian.com>
+
+	* Services/ParserService/DefaultParserService.cs: Type names for fields,
+	  parameters, base classes and so on come unresolved from the parser
+	  (without namespace information). They must be resolved before adding them
+	  to the database. This is done through the method ResolveTypes.
+	* CodeCompletionDatabase.cs: Resolve type names before adding the class to
+	  the database.
+	* PersistentIndexer.cs, PersistentParameter.cs, PersistentMethod.cs,
+	  PersistentReturnType.cs, PersistentEvent.cs, PersistentField.cs,
+	  PersistentProperty.cs, PersistentClass.cs: Added method for resolving
+	  the type names.
+
 2004-05-25  Todd Berman  <tberman@sevenl.net>
 
 	* Services/ParserService/DefaultParserService.cs: create the directory

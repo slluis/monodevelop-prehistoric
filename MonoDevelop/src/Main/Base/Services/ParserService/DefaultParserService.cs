@@ -50,6 +50,30 @@ namespace MonoDevelop.Services
 			public WaitCallback ParseCallback;
 		}
 
+		class CompilationUnitTypeResolver: ITypeResolver
+		{
+			public IClass CallingClass;
+			IProject project;
+			ICompilationUnit unit;
+			DefaultParserService parserService;
+			
+			public CompilationUnitTypeResolver (IProject project, ICompilationUnit unit, DefaultParserService parserService)
+			{
+				this.project = project;
+				this.unit = unit;
+				this.parserService = parserService;
+			}
+			
+			public string Resolve (string typeName)
+			{
+				IClass c = parserService.SearchType (project, typeName, CallingClass, unit);
+				if (c != null)
+					return c.FullyQualifiedName;
+				else
+					return typeName;
+			}
+		}
+		
 		Hashtable lastUpdateSize = new Hashtable();
 		Hashtable parsings = new Hashtable ();
 		
@@ -526,7 +550,8 @@ namespace MonoDevelop.Services
 						ProjectCodeCompletionDatabase db = GetProjectDatabase (viewContent.Project);
 						if (db != null) {
 							ICompilationUnit cu = (ICompilationUnit)parseInformation.BestCompilationUnit;
-							ClassUpdateInformation res = db.UpdateClassInformation (cu.Classes, fileName);
+							ClassCollection resolved = ResolveTypes (viewContent.Project, cu, cu.Classes);
+							ClassUpdateInformation res = db.UpdateClassInformation (resolved, fileName);
 							NotifyParseInfoChange (fileName, res);
 						}
 						lastUpdateSize[fileName] = text.GetHashCode();
@@ -693,6 +718,45 @@ namespace MonoDevelop.Services
 			return null;
 		}
 
+		/// <remarks>
+		/// use the usings and the name of the namespace to find a class
+		/// </remarks>
+		public IClass SearchType (IProject project, string name, IClass callingClass, ICompilationUnit unit)
+		{
+			if (name == null || name == String.Empty)
+				return null;
+				
+			IClass c;
+			c = GetClass(project, name);
+			if (c != null)
+				return c;
+
+			if (unit != null) {
+				foreach (IUsing u in unit.Usings) {
+					if (u != null) {
+						c = SearchType(project, u, name);
+						if (c != null) {
+							return c;
+						}
+					}
+				}
+			}
+			if (callingClass == null) {
+				return null;
+			}
+			string fullname = callingClass.FullyQualifiedName;
+			string[] namespaces = fullname.Split(new char[] {'.'});
+			string curnamespace = namespaces[0] + '.';
+			for (int i = 1; i < namespaces.Length; ++i) {
+				c = GetClass(project, curnamespace + name);
+				if (c != null) {
+					return c;
+				}
+				curnamespace += namespaces[i] + '.';
+			}
+			return null;
+		}
+		
 		public IClass SearchType(IProject project, IUsing iusing, string partitialTypeName)
 		{
 			return SearchType(project, iusing, partitialTypeName, true);
@@ -753,6 +817,19 @@ namespace MonoDevelop.Services
 			}
 			
 			return null;
+		}
+		
+		public ClassCollection ResolveTypes (IProject project, ICompilationUnit unit, ClassCollection types)
+		{
+			CompilationUnitTypeResolver tr = new CompilationUnitTypeResolver (project, unit, this);
+			
+			ClassCollection col = new ClassCollection ();
+			foreach (IClass c in types) {
+				tr.CallingClass = c;
+				col.Add (PersistentClass.Resolve (c, tr));
+			}
+				
+			return col;
 		}
 		
 		public IEnumerable GetClassInheritanceTree (IProject project, IClass cls)
@@ -1113,5 +1190,10 @@ namespace MonoDevelop.Services
 		{
 			get { return modified; }
 		}
+	}
+	
+	public interface ITypeResolver
+	{
+		string Resolve (string typeName);
 	}
 }

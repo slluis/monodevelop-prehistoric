@@ -13,6 +13,17 @@ namespace MonoDevelop.Internal.Parser
 	[Serializable]
 	public sealed class PersistentReturnType : AbstractReturnType
 	{
+		public static PersistentReturnType Resolve (IReturnType source, ITypeResolver typeResolver)
+		{
+			if (source == null) return null;
+			
+			PersistentReturnType rt = new PersistentReturnType ();
+			rt.FullyQualifiedName = typeResolver.Resolve (source.FullyQualifiedName);
+			rt.pointerNestingLevel = source.PointerNestingLevel;
+			rt.arrayDimensions = source.ArrayDimensions;
+			return rt;
+		}
+
 		public static PersistentReturnType Read (BinaryReader reader, INameDecoder nameTable)
 		{
 			if (PersistentHelper.ReadNull (reader)) return null;

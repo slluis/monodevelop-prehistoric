@@ -14,6 +14,17 @@ namespace MonoDevelop.Internal.Parser
 	[Serializable]
 	public sealed class PersistentEvent : AbstractEvent
 	{
+		public static PersistentEvent Resolve (IEvent source, ITypeResolver typeResolver)
+		{
+			PersistentEvent ev = new PersistentEvent();
+			ev.FullyQualifiedName = source.FullyQualifiedName;
+			ev.Documentation = source.Documentation;
+			ev.modifiers = source.Modifiers;
+			ev.returnType = PersistentReturnType.Resolve (source.ReturnType, typeResolver);
+			ev.region = source.Region;
+			return ev;
+		}
+		
 		public static PersistentEvent Read (BinaryReader reader, INameDecoder nameTable)
 		{
 			PersistentEvent ev = new PersistentEvent();
