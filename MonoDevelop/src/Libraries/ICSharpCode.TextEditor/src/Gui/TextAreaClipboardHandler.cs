@@ -42,9 +42,10 @@ namespace ICSharpCode.TextEditor
 			}
 		}
 	
-		/*
+		
 		public bool EnablePaste {
 			get {
+				//FIXME: This should make sure pastable data is somewhere on the clipboard.
 				// Clipboard.GetDataObject may throw an exception...
 				try {
 					//IDataObject data = Clipboard.GetDataObject();
@@ -53,8 +54,9 @@ namespace ICSharpCode.TextEditor
 					Console.WriteLine("Got exception while enablepaste : " + e);
 					return false;
 				}
+				return true;
 			}
-		}*/
+		}
 		
 		public bool EnableDelete {
 			get {

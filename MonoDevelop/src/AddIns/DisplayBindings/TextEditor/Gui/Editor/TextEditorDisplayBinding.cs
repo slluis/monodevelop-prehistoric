@@ -358,102 +358,57 @@ namespace ICSharpCode.SharpDevelop.DefaultEditor.Gui.Editor
 #region ICSharpCode.SharpDevelop.Gui.IClipboardHandler interface implementation
 		public bool EnableCut {
 			get {
-#if GTK
-				// FIXME: GTKize
-#else
 				return textAreaControl.ActiveTextAreaControl.TextArea.ClipboardHandler.EnableCut;
-#endif
-				return true;
 			}
 		}
 		
 		public bool EnableCopy {
 			get {
-#if GTK
-				// FIXME: GTKize
-#else
 				return textAreaControl.ActiveTextAreaControl.TextArea.ClipboardHandler.EnableCopy;
-#endif
-				return true;
 			}
 		}
 		
 		public bool EnablePaste {
 			get {
-#if GTK
-				// FIXME: GTKize
-#else
 				return textAreaControl.ActiveTextAreaControl.TextArea.ClipboardHandler.EnablePaste;
-#endif
-				return true;
 			}
 		}
 		
 		public bool EnableDelete {
 			get {
-#if GTK
-				// FIXME: GTKize
-#else
 				return textAreaControl.ActiveTextAreaControl.TextArea.ClipboardHandler.EnableDelete;
-#endif
-				return true;
 			}
 		}
 		
 		public bool EnableSelectAll {
 			get {
-#if GTK
-				// FIXME: GTKize
-#else
 				return textAreaControl.ActiveTextAreaControl.TextArea.ClipboardHandler.EnableSelectAll;
-#endif
-				return true;
 			}
 		}
 		
 		public void SelectAll(object sender, System.EventArgs e)
 		{
-#if GTK
-			// FIXME: GTKize
-#else
 			textAreaControl.ActiveTextAreaControl.TextArea.ClipboardHandler.SelectAll(sender, e);
-#endif
 		}
 		
 		public void Delete(object sender, System.EventArgs e)
 		{
-#if GTK
-			// FIXME: GTKize
-#else
 			textAreaControl.ActiveTextAreaControl.TextArea.ClipboardHandler.Delete(sender, e);
-#endif
 		}
 		
 		public void Paste(object sender, System.EventArgs e)
 		{
-#if GTK
-			// FIXME: GTKize
-#else
 			textAreaControl.ActiveTextAreaControl.TextArea.ClipboardHandler.Paste(sender, e);
-#endif
 		}
 		
 		public void Copy(object sender, System.EventArgs e)
 		{
-#if GTK
-			// FIXME: GTKize
-#else
 			textAreaControl.ActiveTextAreaControl.TextArea.ClipboardHandler.Copy(sender, e);
-#endif
 		}
 		
 		public void Cut(object sender, System.EventArgs e)
 		{
-#if GTK
-			// FIXME: GTKize
-#else
 			textAreaControl.ActiveTextAreaControl.TextArea.ClipboardHandler.Cut(sender, e);
-#endif
 		}
 #endregion
 	}
