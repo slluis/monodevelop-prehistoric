@@ -1,3 +1,10 @@
+2005-02-28  John Luke  <john.luke@gmail.com>
+
+	* DockBarButton.cs: new Button wrapper
+	* DockBar.cs: fix iconfiy/uniconify
+	* DockItem.cs: add item to dockbar on iconify
+	* DockItemGrip.cs: fix warning by adding new to Item prop
+
 2005-02-18  John Luke  <john.luke@gmail.com>
 
 	* Gdl.mdsx

@@ -10,6 +10,7 @@ FILES = AssemblyInfo.cs \
 	DockNotebook.cs \
 	DockRequest.cs \
 	DockBar.cs \
+	DockBarButton.cs \
 	DockLayout.cs \
 	DockPlacement.cs \
 	DetachedHandler.cs \
@@ -22,7 +23,7 @@ FILES = AssemblyInfo.cs \
 	DockPaned.cs \
 	DockItemBehavior.cs
 
-all: $(GDL)
+all: $(GDL) $(TEST)
 
 clean:
 	rm -f $(GDL) $(GDL).mdb

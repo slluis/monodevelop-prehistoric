@@ -13,8 +13,7 @@ namespace Gdl
 		
 		public DockBar (Dock dock)
 		{
-			Console.WriteLine ("new dockbar");
-			master = dock.Master;
+			this.Attach (dock.Master);
 		}
 		
 		public DockMaster Master {
@@ -29,11 +28,8 @@ namespace Gdl
 		public void AddItem (DockItem item)
 		{
 			Console.WriteLine ("adding item to dockbar");
-			Button button = new Button ();
-			button.Relief = ReliefStyle.None;
-			Image image = new Image (item.StockId, IconSize.SmallToolbar);
-			button.Add (image);
-			button.Clicked += OnDockButtonClicked;
+			DockBarButton button = new DockBarButton (item);
+			button.DockButtonClicked += OnDockButtonClicked;
 			// check if already there
 			tooltips.SetTip (button, item.Name, item.Name);
 			item.DockBar = this;
@@ -44,7 +40,11 @@ namespace Gdl
 		
 		public void Attach (DockMaster master)
 		{
+			if (this.master != null)
+				master.LayoutChanged -= OnLayoutChanged;
+
 			this.master = master;
+			master.DockBar = this;
 			master.LayoutChanged += OnLayoutChanged;
 		}
 		
@@ -72,14 +72,11 @@ namespace Gdl
 		
 		void OnDockButtonClicked (object o, EventArgs args)
 		{
-			DockItem item = (DockItem) o;  //FIXME: o is a Button
-			DockObject controller = item.Master.Controller;
+			DockItem item = ((DockBarButton) o).DockItem;
 			item.DockBar = null;
-			// remove Iconified flag
-			item.WidgetFlags &= ~DockObjectFlags.Iconified;
-			item.Show ();
+			item.ShowItem ();
 			this.RemoveItem (item);
-			controller.QueueResize ();
+			item.Master.Controller.QueueResize ();
 		}
 	}
 }

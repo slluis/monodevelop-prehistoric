@@ -18,7 +18,6 @@ namespace Gdl
 		private int dragoffX = 0;
 		private int dragoffY = 0;
 		private Menu menu = null;
-		private DockBar dockBar;
 		private DockItemGrip grip;
 		private Button dockButton;
 		private uint gripSize;
@@ -107,10 +106,10 @@ namespace Gdl
 		
 		public DockBar DockBar {
 			get {
-				return dockBar;
+				return Master.DockBar;
 			}
 			set {
-				dockBar = value;	
+				Master.DockBar = value;	
 			}
 		}
 		
@@ -907,6 +906,7 @@ namespace Gdl
 		{
 			DockObjectFlags |= DockObjectFlags.Iconified;
 			HideItem ();
+			Master.DockBar.AddItem (this);
 		}
 		
 		public void ShowItem ()

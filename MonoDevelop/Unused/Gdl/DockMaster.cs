@@ -11,6 +11,7 @@ namespace Gdl
 		private Hashtable dockObjects = new Hashtable ();
 		private ArrayList toplevelDocks = new ArrayList ();
 		private DockObject controller = null;
+		private DockBar dockBar;
 		private int dockNumber = 1;
 		private int number = 1;
 		private string defaultTitle;
@@ -69,6 +70,15 @@ namespace Gdl
 		public ArrayList TopLevelDocks {
 			get {
 				return toplevelDocks;
+			}
+		}
+
+		internal DockBar DockBar {
+			get {
+				return dockBar;
+			}
+			set {
+				dockBar = value;
 			}
 		}
 		
@@ -145,6 +155,7 @@ namespace Gdl
 				 * (since it should be added to the items model) */
 				if (!item.IsAutomatic) {
 					// FIXME: Emit a LayoutChanged event?
+					EmitLayoutChangedEvent ();
 				}
 			}
 		}
@@ -233,7 +244,8 @@ namespace Gdl
 		
 		internal void EmitLayoutChangedEvent ()
 		{
-			// FIXME: emit the LayoutChanged event here.
+			if (LayoutChanged != null)
+				LayoutChanged (this, EventArgs.Empty);
 		}
 		
 		private void OnItemDetached (object o, DetachedArgs args)

@@ -72,7 +72,7 @@ namespace Gdl
 			}
 		}
 		
-		public DockItem Item {
+		public new DockItem Item {
 			get {
 				return item;
 			}
