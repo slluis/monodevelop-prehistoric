@@ -116,12 +116,20 @@
       most are functional.</p>
 
     <p>The Control+Space keybinding has been greatly improved in this release.
-      Now, local variables are included in the completion list.</p>
+      Local variables are now included in the completion list.</p>
     
     <h3>Java project support</h3>
     
     <p>MonoDevelop's support of Java projects has greatly improved. 
-      !!Jluke, can we get some more info here?!!
+	We now use <a href="http://weblog.ikvm.net">ikvm</a> and 
+	<a href="http://gcc.gnu.org/java/">gcj</a> by default to write ECMA 
+	compliant Common Language Runtime applications (including GNOME
+	applications via Gtk#) in the Java language, using completely
+	free software and instead of depending on an external compiler and
+	runtime.  Ikvm is expected to be included with the 0.32 mono
+	release, otherwise it will require some manual setup. 
+	See <a href="http://advogato.org/person/jluke/diary.html?start=5">here</a>
+	for more information.
     </p>
 
     <h3>Nemerle project support</h3>
@@ -135,7 +143,7 @@
     <p>There has been some discussion, which has resulted in
       <a href="http://primates.ximian.com/~miguel/texts/md-build.html">this</a>
       beta document to start describing a new build setup. Note, there is no
-      intention of breaking compatability with #D or #D projects.</p>
+      intention of breaking compatibility with SharpDevelop or SharpDevelop projects.</p>
     
     <h2>Credits</h2>
     
@@ -149,6 +157,10 @@
     <p>This list is not complete, it is missing some contributions sent
       in to the list and via our bugzilla. Your work is still greatly
       appreciated.</p>
+
+	<h3>Translators</h3>
+	<p>Atsushi Eno - Japanese<br />
+	Vincent Daron - French</p>
     
     <h3>Thanks</h3>
     
@@ -161,7 +173,7 @@
       nice bug reports.</p>
     
     <p>Mike Krueger and the rest of the AlphaSierraPapa team for giving
-      us a great codebase to start from.</p>
+      us a great codebase to start from, and continuing improvements.</p>
     
     <p>Duncan Mak, who put together the release packages for us</p>
   </body>
