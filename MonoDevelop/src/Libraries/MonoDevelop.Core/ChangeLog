@@ -1,5 +1,9 @@
 2004-05-26  Todd Berman  <tberman@sevenl.net>
 
+	* Services/GettextCatalog.cs: oops, thats not what i wanted i guess.
+
+2004-05-26  Todd Berman  <tberman@sevenl.net>
+
 	* Services/GettextCatalog.cs: change to string marshaling to prevent
 	leaks.
 
