@@ -25,7 +25,7 @@ build_sources = $(addprefix $(srcdir)/, $(FILES))
 ../../../build/AddIns/$(ADDIN):
 	cp $(ADDIN) ../../../build/AddIns/.
 
-$(ASSEMBLY): $(build_sources) $(ADDIN)
+$(ASSEMBLY): $(build_sources) ../../../build/AddIns/$(ADDIN)
 	$(CSC) /out:$(ASSEMBLY) /target:library \
 	$(build_sources) $(DLLS)\
 	&& cp $(ASSEMBLY) ../../../build/AddIns/

@@ -1,3 +1,7 @@
+2004-03-24  John Luke  <jluke@cfl.rr.com>
+
+	* Makefile.am: addin was not being cp'd to build/AddIns/.
+
 2004-03-22  John Luke  <jluke@cfl.rr.com>
 
 	* Makefile.am: move FILES and EXTRA_DIST outside of if block
