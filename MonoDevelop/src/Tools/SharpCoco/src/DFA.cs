@@ -792,10 +792,10 @@ public class DFA {
 		int i, j;
 		int[] startTab = new int[CharClass.charSetSize];
 		string dir = System.Environment.CurrentDirectory;
-		string fr = dir + "\\Scanner.frame";
+		string fr = Path.Combine (dir, "Scanner.frame");
 		if (!File.Exists(fr)) {
 			string frameDir = Environment.GetEnvironmentVariable("crframes");
-			if (frameDir != null) fr = frameDir.Trim() + "\\Scanner.frame";
+			if (frameDir != null) fr = Path.Combine (frameDir.Trim(), "Scanner.frame");
 			if (!File.Exists(fr)) Errors.Exception("-- Cannot find Scanner.frame");
 		}
 		try {
