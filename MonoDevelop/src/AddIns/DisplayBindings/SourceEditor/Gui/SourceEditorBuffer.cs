@@ -316,8 +316,14 @@ namespace MonoDevelop.SourceEditor.Gui {
 			if (found_marker)
 				return;
 			
-			if (type.ToString () == "ExecutionMark")
+			switch (type.ToString ()) {
+			case "ExecutionMark":
+				begin_line.LineOffset = 2;
+				break;
+			case "BreakpointMark":
 				begin_line.LineOffset = 1;
+				break;
+			}
 
 			gtk_source_buffer_create_marker (Handle, null, type.ToString (), ref begin_line);
 		}

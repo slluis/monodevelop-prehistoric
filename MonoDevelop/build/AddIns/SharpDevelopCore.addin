@@ -785,6 +785,7 @@
 
 				<MenuItem id = "DebugProject"
 		                          label = "Debug Project"
+				          shortcut = "Control|F5"
 			                  class = "MonoDevelop.Commands.DebugProject"/>
 			</Conditional> 
 	        </MenuItem>
