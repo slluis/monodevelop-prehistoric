@@ -1,3 +1,9 @@
+2004-07-12  John Luke  <jluke@cfl.rr.com>
+
+	* Gui/Dialogs/NewProjectDialog.cs: catch an IOException when
+	creating a project with the name of an existing file
+	should fix bug #61034
+
 2004-07-05  Todd Berman  <tberman@off.net>
 
 	* Commands/MenuItemBuilders.cs: properly escape filename with

@@ -233,6 +233,10 @@ namespace MonoDevelop.Gui.Dialogs {
 				{
 					System.IO.Directory.CreateDirectory (ProjectSolution);
 				}
+				catch (IOException ioException)
+				{
+					messageService.ShowError (String.Format (GettextCatalog.GetString ("Could not create file {0}. File already exists."), ProjectSolution));
+				}
 				catch (UnauthorizedAccessException accessException)
 				{
 					messageService.ShowError (String.Format (GettextCatalog.GetString ("You do not have permission to create to {0}"), ProjectSolution));
