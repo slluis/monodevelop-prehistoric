@@ -15,11 +15,10 @@ FILES = \
 ./Gui/OutputPanel.cs \
 ./Project/NemerleParameters.cs \
 ./Project/NemerleProject.cs \
-./NemerleBindingExecutionServices.cs \
 ./NemerleBindingCompilerServices.cs \
 ./NemerleLanguageBinding.cs 
 
-build_sources = $(addprefix $(srcdir)/, $(FILES))
+build_sources = $(addprefix $(srcdir)/, $(FILES)) NemerleBindingExecutionServices.cs
 
 all: $(ASSEMBLY)
 
@@ -32,4 +31,5 @@ assemblydir = $(libdir)/monodevelop/AddIns/AddIns/BackendBindings/
 assembly_DATA = $(ASSEMBLY)
 
 CLEANFILES = $(ASSEMBLY)
-EXTRA_DIST = $(FILES)
+DISTCLEANFILES = NemerleBindingExecutionServices.cs
+EXTRA_DIST = $(FILES) NemerleBindingExecutionServices.cs.in

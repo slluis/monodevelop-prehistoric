@@ -1,3 +1,11 @@
+2004-07-06  Todd Berman  <tberman@off.net>
+
+	* NemerleBindingExecutionServices.cs: removed.
+	* NemerleBindingExecutionServices.cs.in: Added.
+	* Makefile.am: adjusted.
+	This patch is from Marcin Krzyzanowski <krzak@pld-linux.org> and it
+	fixes mint vs mono issues at runtime.
+
 2004-06-26  Pawel Rozanski  <tokugawa@afn.no-ip.org>
 
 	* NemerleBindingCompilerServices.cs: add GenerateMakefile method.

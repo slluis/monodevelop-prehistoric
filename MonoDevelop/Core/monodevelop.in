@@ -50,19 +50,19 @@ cd $MD_BIN_PATH
 
 case x$1 in
     x--profile)
-    mono --profile ./MonoDevelop.exe $@
+    @RUNTIME@ --profile ./MonoDevelop.exe $@
 	exit 0
     ;;
     x--debug)
-    mono --debug ./MonoDevelop.exe $@
+    @RUNTIME@ --debug ./MonoDevelop.exe $@
 	exit 0
     ;;
 	x--trace)
-    mono --trace ./MonoDevelop.exe $@
+    @RUNTIME@ --trace ./MonoDevelop.exe $@
 	exit 0;
 	;;
 esac
 
 # should not use --debug when we are more stable
-mono --debug ./MonoDevelop.exe $@
+@RUNTIME@ ./MonoDevelop.exe $@
 

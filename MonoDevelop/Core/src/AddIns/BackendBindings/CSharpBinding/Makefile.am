@@ -29,7 +29,6 @@ FILES = \
 ./Parser/Resolver.cs \
 ./Parser/Parser.cs \
 ./Parser/ExpressionFinder.cs \
-./CSharpBindingExecutionManager.cs \
 ./CSharpAmbience.cs \
 ./Project/CSharpProject.cs \
 ./Project/CSharpCompilerParameters.cs \
@@ -37,7 +36,7 @@ FILES = \
 ./FormattingStrategy/CSharpFormattingStrategy.cs \
 ./CSharpBindingCompilerManager.cs
 
-build_sources = $(addprefix $(srcdir)/, $(FILES))
+build_sources = $(addprefix $(srcdir)/, $(FILES)) CSharpBindingExecutionManager.cs
 
 all: $(ASSEMBLY)
 
@@ -52,5 +51,7 @@ csharpbindinglib_DATA = $(ASSEMBLY)
 
 CLEANFILES = $(ASSEMBLY)
 
-EXTRA_DIST = $(FILES)
+DISTCLEANFILES = CSharpBindingExecutionManager.cs
+
+EXTRA_DIST = $(FILES) CSharpBindingExecutionManager.cs.in
 

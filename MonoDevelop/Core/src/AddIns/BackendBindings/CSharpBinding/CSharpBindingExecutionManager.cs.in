@@ -41,7 +41,8 @@ namespace CSharpBinding
 		public void Execute(string filename)
 		{
 			string exe = Path.ChangeExtension(filename, ".exe");
-			ProcessStartInfo psi = new ProcessStartInfo("mono", "--debug " + exe);
+			
+			ProcessStartInfo psi = new ProcessStartInfo("@RUNTIME@ " + exe);
 			psi.WorkingDirectory = Path.GetDirectoryName(exe);
 			psi.UseShellExecute = false;
 			try {

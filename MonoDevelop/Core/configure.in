@@ -12,9 +12,14 @@ AM_PATH_GLIB_2_0
 AC_PATH_PROG(MONO, mono)
 AC_PATH_PROG(MCS, mcs)
 AC_PATH_PROG(XDGMIME, update-mime-database, no)
+
 if test "x$MONO" = "x" ; then
-  AC_MSG_ERROR([Can't find "mono" in your PATH])
+  AC_PATH_PROG(MINT, mint)
+  if test "x$MINT" = "x" ; then
+	AC_MSG_ERROR([Can't find "mono" or "mint" in your PATH])
+  fi
 fi
+
 if test "x$MCS" = "x" ; then
   AC_MSG_ERROR([Can't find "mcs" in your PATH])
 fi
@@ -28,12 +33,37 @@ if test "x$PKG_CONFIG" = "xno"; then
 fi
 
 dnl unmanaged hard dependencies
-MONO_REQUIRED_VERSION=1.0
 GNOMEVFS_REQUIRED_VERSION=2.0
 PKG_CHECK_MODULES(UNMANAGED_DEPENDENCIES,
-mono >= $MONO_REQUIRED_VERSION
 gnome-vfs-2.0 >= $GNOMEVFS_REQUIRED_VERSION
 )
+
+MONO_REQUIRED_VERSION=1.0
+PKG_CHECK_MODULES(UNMANAGED_DEPENDENCIES_MONO,mono >= $MONO_REQUIRED_VERSION, has_mono=true, has_mono=false)
+PKG_CHECK_MODULES(UNMANAGED_DEPENDENCIES_MINT,mint >= $MONO_REQUIRED_VERSION, has_mint=true, has_mint=false)
+
+if test "x$has_mono" = "xtrue"; then
+    if test `uname -s` = "Darwin"; then
+	AC_PATH_PROG(RUNTIME, mono, no)
+	AC_PATH_PROG(CSC, mcs, no)
+	LIB_PREFIX=
+	LIB_SUFFIX=.dylib
+    else
+	AC_PATH_PROG(RUNTIME, mono, no)
+	AC_PATH_PROG(CSC, mcs, no)
+	RUNTIME="$RUNTIME --debug"
+	LIB_PREFIX=.so
+	LIB_SUFFIX=
+    fi
+else
+    if test "x$has_mint" = "xtrue"; then
+	AC_PATH_PROG(RUNTIME, mint, no)
+	AC_PATH_PROG(CSC, mcs, no)
+	LIB_PREFIX=.so
+	LIB_SUFFIX=
+    fi
+fi
+
 
 dnl hard dependencies
 GTKSHARP_REQUIRED_VERSION=1.0
@@ -94,21 +124,6 @@ AC_SUBST(GETTEXT_PACKAGE)
 AC_DEFINE_UNQUOTED(GETTEXT_PACKAGE,"$GETTEXT_PACKAGE", [Gettext package])
 AM_GLIB_GNU_GETTEXT
 
-dnl Plateform test and LIBEXT settings
-case "x${host_os}" in
-  x)
-    LIB_PREFIX=
-    LIB_SUFFIX=
-    ;;
-  xlinux*)
-    LIB_PREFIX=.so
-    LIB_SUFFIX=
-    ;;
-  x*darwin*)
-    LIB_SUFFIX=.dylib
-    LIB_PREFIX=
-    ;;
-esac
 AC_SUBST(LIB_SUFFIX)
 AC_SUBST(LIB_PREFIX)
 
@@ -176,6 +191,8 @@ monodevelop
 po/Makefile.in
 src/AddIns/prj2make-sharp-lib/Makefile
 src/AddIns/prj2make-sharp-lib/AssemblyInfo.cs
+src/AddIns/BackendBindings/NemerleBinding/NemerleBindingExecutionServices.cs
+src/AddIns/BackendBindings/CSharpBinding/CSharpBindingExecutionManager.cs
 ])
 
 echo "---"

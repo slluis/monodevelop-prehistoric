@@ -43,7 +43,7 @@ endif
 run: runmd
 
 runmd: $(PROGRAM)
-	cd build/bin && LD_LIBRARY_PATH=`echo "$(LD_LIBRARY_PATH):$(MOZILLA_HOME)" | sed 's/^://g'` mono --debug MonoDevelop.exe
+	cd build/bin && LD_LIBRARY_PATH=`echo "$(LD_LIBRARY_PATH):$(MOZILLA_HOME)" | sed 's/^://g'` $(RUNTIME) MonoDevelop.exe
 
 pad: $(MONOPAD)
 

@@ -31,7 +31,7 @@ namespace NemerleBinding
 			
 			if (p.ExecuteScript == String.Empty)
 			{
-				exe	= "mono --debug";
+				exe	= "@RUNTIME@ ";
 			} else
 			{
 				exe = p.ExecuteScript;

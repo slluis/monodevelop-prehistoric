@@ -125,7 +125,7 @@ test-parser.exe : $(DLL) src/Main.cs
 	@ $(CSC) /out:$@ /r:$(DLL) src/Main.cs
 
 run : test-parser.exe
-	@ MONO_PATH=`dirname $(DLL)` mono --debug test-parser.exe $(TEST_SOURCE)
+	@ MONO_PATH=`dirname $(DLL)` $(RUNTIME) test-parser.exe $(TEST_SOURCE)
 
 assemblydir = $(libdir)/monodevelop/bin
 assembly_DATA = $(DLL)

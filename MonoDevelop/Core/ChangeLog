@@ -1,5 +1,12 @@
 2004-07-05  Todd Berman  <tberman@off.net>
 
+	* configure.in:
+	* Makefile.am:
+	* monodevelop.in: Patch from Marcin Krzyzanowski <krzak@pld-linux.org>
+	to fix mint issues.
+
+2004-07-05  Todd Berman  <tberman@off.net>
+
 	* Makefile.ams: remove libdir == $(prefix)/lib assumption. Patch from
 	Marcin Krzyzanowski <krzak@pld-linux.org>
 
