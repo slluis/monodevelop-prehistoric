@@ -73,7 +73,7 @@ $(DLL): $(build_sources) $(srcdir)/$(GLADEFILE)
 
 CLEANFILES = $(DLL) $(DLL).mdb $(ADDIN_BUILD)/$(ADDIN)
 
-EXTRA_DIST = $(FILES) $(SQLITE_FILES) $(ADDIN)
+EXTRA_DIST = $(FILES) $(ADDIN)
 
 monoquerydir = $(libdir)/monodevelop/AddIns/MonoQuery
 monoquery_DATA = $(DLL) $(ADDIN_BUILD)/$(ADDIN)
