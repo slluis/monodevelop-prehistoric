@@ -8,7 +8,7 @@
       <div class="image_frame">
         <div class="image">
           <a href="/images/screenshots/newshot.png" target="_blank">
-            <img src="/images/screenshots/newshot.png" alt="" />
+            <img src="/images/screenshots/thumbnails/newshot.png" alt="" />
           </a>
         </div>
         <div class="image_caption">
