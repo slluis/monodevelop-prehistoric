@@ -5,6 +5,7 @@ AM_MAINTAINER_MODE
 
 AM_DISABLE_STATIC
 AM_PROG_LIBTOOL
+AC_PROG_INTLTOOL
 
 AC_PATH_PROG(MONO, mono)
 AC_PATH_PROG(MCS, mcs)
@@ -111,12 +112,20 @@ fi
 AM_CONDITIONAL(ENABLE_DEBUGGER, test "x$enable_debugger" = "xyes")
 AM_CONDITIONAL(ENABLE_XDGMIME, test "x$enable_xdgmime" = "xyes")
 
+dnl Intl
+ALL_LINGUAS="en_CA"
+GETTEXT_PACKAGE=monodevelop
+AC_SUBST(GETTEXT_PACKAGE)
+AC_DEFINE_UNQUOTED(GETTEXT_PACKAGE,"$GETTEXT_PACKAGE", [Gettext package])
+AM_GLIB_GNU_GETTEXT
+
 AC_OUTPUT([
 Makefile
 gdldock/Makefile
 gdldock/gdl/Makefile
 gdldock/sources/Makefile
 gdldock/sources/gdl/Makefile
+libmonodevelop/Makefile
 src/Makefile
 src/AddIns/Makefile
 src/AddIns/BackendBindings/Makefile
@@ -173,6 +182,7 @@ src/Libraries/MonoDevelop.Gui.Widgets/AssemblyInfo.cs
 src/Libraries/MonoDevelop.Gui.Utils/AssemblyInfo.cs
 src/Libraries/MonoDevelop.Core/AssemblyInfo.cs
 monodevelop
+po/Makefile.in
 ])
 
 echo "---"

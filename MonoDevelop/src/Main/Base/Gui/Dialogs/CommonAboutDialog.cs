@@ -10,6 +10,7 @@ using System;
 using MonoDevelop.Gui;
 using MonoDevelop.Core.Properties;
 using MonoDevelop.Core.Services;
+using MonoDevelop.Services;
 //using MonoDevelop.Gui.HtmlControl;
 
 using Gdk;
@@ -118,13 +119,14 @@ namespace MonoDevelop.Gui.Dialogs
 		ScrollBox aboutPictureScrollBox;
 		
 		static PropertyService propertyService = (PropertyService)ServiceManager.Services.GetService(typeof(PropertyService));
+		static GettextCatalog gettext = (GettextCatalog)ServiceManager.Services.GetService (typeof (GettextCatalog));
 		
 		static CommonAboutDialog ()
 		{
 			type = RegisterGType (typeof (CommonAboutDialog));
 		}
 		
-		public CommonAboutDialog() : base ("About MonoDevelop", (Gtk.Window) WorkbenchSingleton.Workbench, DialogFlags.DestroyWithParent)
+		public CommonAboutDialog() : base (gettext.GetString ("About MonoDevelop"), (Gtk.Window) WorkbenchSingleton.Workbench, DialogFlags.DestroyWithParent)
 		{
 			ResourceService resourceService = (ResourceService) ServiceManager.Services.GetService(typeof (IResourceService));
 			aboutPictureScrollBox = new ScrollBox ();

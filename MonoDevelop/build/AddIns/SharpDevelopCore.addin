@@ -30,6 +30,8 @@
 	</Extension>
 	
 	<Extension path = "/Workspace/Services">
+		<Class id    = "GettextCatalog"
+		       class = "MonoDevelop.Services.GettextCatalog"/>
 		<Class id    = "MonodocService"
 		       class = "MonoDevelop.Services.MonodocService"/>
 		<Class id    = "ProjectService"

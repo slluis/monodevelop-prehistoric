@@ -94,8 +94,8 @@ namespace MonoDevelop.Gui.Dialogs.OptionPanels
  					"${res:Dialog.Options.IDEOptions.LoadSaveOptions.LineTerminatorStyleGroupBox}");
  				windowsRadioButton.Label = StringParserService.Parse(
  					"${res:Dialog.Options.IDEOptions.LoadSaveOptions.WindowsRadioButton}");
- 				macintoshRadioButton.Label = StringParserService.Parse(
- 					"${res:Dialog.Options.IDEOptions.LoadSaveOptions.MacintoshRadioButton}");
+ 				//macintoshRadioButton.Label = StringParserService.Parse(
+ 				//	"${res:Dialog.Options.IDEOptions.LoadSaveOptions.MacintoshRadioButton}");
  				unixRadioButton.Label = StringParserService.Parse(
  					"${res:Dialog.Options.IDEOptions.LoadSaveOptions.UnixRadioButton}");
 				

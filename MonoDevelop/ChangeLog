@@ -1,3 +1,10 @@
+2004-04-02  Todd Berman  <tberman@sevenl.net>
+
+	* configure.in: added po/Makefile.in.in, and other gettext related
+	stuff. added libmonodevelop/Makefile
+	* Makefile.am: added po and libmonodevelop to subdirs
+	* autogen.sh: added intltoolize to autogen.sh
+
 2004-03-31  Todd Berman  <tberman@sevenl.net>
 
 	* configure.in: bumping to 0.3

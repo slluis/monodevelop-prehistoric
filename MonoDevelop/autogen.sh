@@ -36,6 +36,12 @@ test -z "$srcdir" && srcdir=.
   NO_AUTOMAKE=yes
 }
 
+(intltoolize --version) < /dev/null > /dev/null 2>&1 || {
+  echo
+  echo "**Error**: You must have \`intltoolize' installed to compile MonoDevelop."
+  DIE=1
+}
+
 
 # if no automake, don't bother testing for aclocal
 test -n "$NO_AUTOMAKE" || (aclocal --version) < /dev/null > /dev/null 2>&1 || {
@@ -90,6 +96,11 @@ fi
 echo "Running automake --gnu $am_opt ..."
 automake --add-missing --gnu $am_opt ||
   { echo "**Error**: automake failed."; exit 1; }
+
+echo "Running intltoolize ..."
+intltoolize --force ||
+  { echo "**Error**: intltoolize failed."; exit 1; }
+
 echo "Running autoconf ..."
 WANT_AUTOCONF="2.5" autoconf || { echo "**Error**: autoconf failed."; exit 1; }
 

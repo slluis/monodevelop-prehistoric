@@ -1,6 +1,6 @@
 # leave gdldock first
 # (mkdir ../../build/bin/ hack)
-SUBDIRS = gdldock src build data
+SUBDIRS = gdldock libmonodevelop src build data po
 
 bin_SCRIPTS = monodevelop
 

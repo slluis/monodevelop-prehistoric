@@ -1,3 +1,12 @@
+2004-04-02  Todd Berman  <tberman@sevenl.net>
+
+	* Makefile.am: Added GettextCatalog.cs
+	* Services/GettextCatalog.cs: imported from muine, modified a bit.
+	* Gui/Dialogs/CommonAboutDialog.cs: added gettext translatable title
+	to test .cs translations.
+	* Gui/Dialogs/OptionPanels/IDEOptions/LoadSavePanel.cs: modified to 
+	test .glade translations 
+
 2004-04-01  John Luke  <jluke@cfl.rr.com>
 	
 	* Internal/ExternalTool/ExternalTool.cs:
