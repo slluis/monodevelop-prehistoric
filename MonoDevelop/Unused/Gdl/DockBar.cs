@@ -48,14 +48,23 @@ namespace Gdl
 		
 		public void RemoveItem (DockItem item)
 		{
-			// check if there
-			this.Remove (item.DockBarButton);
+			// we can only remove if it is there
+			foreach (DockBarButton dbb in this.Children) {
+				if (dbb == item.DockBarButton) {
+					this.Remove (item.DockBarButton);
+					return;
+				}
+			}
 		}
 		
 		void UpdateDockItems ()
 		{
-			foreach (DockItem item in master.DockObjects)
+			foreach (object o in master.DockObjects)
 			{
+				DockItem item = o as DockItem;
+				if (item == null)
+					continue;
+
 				if (item.Iconified)
 					this.AddItem (item);
 				else

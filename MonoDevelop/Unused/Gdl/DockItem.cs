@@ -906,7 +906,8 @@ namespace Gdl
 		{
 			DockObjectFlags |= DockObjectFlags.Iconified;
 			HideItem ();
-			Master.DockBar.AddItem (this);
+			//Master.DockBar.AddItem (this);
+			Master.EmitLayoutChangedEvent ();
 		}
 		
 		public void ShowItem ()

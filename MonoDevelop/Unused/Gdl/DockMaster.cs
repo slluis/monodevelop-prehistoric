@@ -115,7 +115,7 @@ namespace Gdl
 			if (obj == null)
 				return;
 
-			if (!obj.IsAutomatic) {
+			//if (!obj.IsAutomatic) {
 				/* create a name for the object if it doesn't have one */
 				if (obj.Name == null)
 					obj.Name = "__dock_" + number++;
@@ -125,7 +125,7 @@ namespace Gdl
 					Console.WriteLine ("Unable to add object, name \"{0}\" taken", obj.Name);
 				else
 					dockObjects.Add (obj.Name, obj);
-			}
+			//}
 			
 			if (obj is Dock) {
 				/* if this is the first toplevel we are adding, name it controller */
