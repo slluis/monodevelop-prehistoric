@@ -279,10 +279,10 @@ namespace ICSharpCode.SharpDevelop.Gui
 			UpdateMenu(null, null);
 			
 			foreach (IViewContent content in workbenchContentCollection) {
-				//content.RedrawContent();
+				content.RedrawContent();
 			}
 			foreach (IPadContent content in viewContentCollection) {
-				//content.RedrawContent();
+				content.RedrawContent();
 			}
 			layout.RedrawAllComponents();
 			//statusBarManager.RedrawStatusbar();
