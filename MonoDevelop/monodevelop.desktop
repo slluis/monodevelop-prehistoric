@@ -11,3 +11,6 @@ StartupNotify=true
 Terminal=false
 Type=Application
 Categories=Application;Development;
+X-GNOME-Bugzilla-Bugzilla=Ximian
+X-GNOME-Bugzilla-Product=MonoDevelop
+X-GNOME-Bugzilla-OtherBinaries=monodevelop

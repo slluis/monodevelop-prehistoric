@@ -12,6 +12,7 @@ class MethodSelectionPage : DruidPageStandard {
 	internal RadioButton download;
 	
 	internal MethodSelectionPage(CodeCompletionDruid druid) : base() {
+		Title = "Generation Method";
 		generateDatabase = new RadioButton("Generate a code completion database");
 		useExisting = new RadioButton(generateDatabase, "Use a code completion database already on this computer");
 		download = new RadioButton(generateDatabase, "Download a code completion database");
@@ -28,6 +29,7 @@ class GenerateDatabasePage : DetailsPageBase {
 	internal RadioButton light;
 	
 	internal GenerateDatabasePage(CodeCompletionDruid druid) : base(druid) {
+		Title = "Select Generation Style";
 		heavy = new RadioButton("Heavy process");
 		light = new RadioButton(heavy, "Light process");
 		AppendItem("", heavy, "This process is slower and more memory-intensive than the light process, but will enable faster code completion");
@@ -39,6 +41,7 @@ class UseExistingPage : DetailsPageBase {
 	internal MonoDevelop.Gui.Widgets.FolderEntry filename;
 	
 	internal UseExistingPage(CodeCompletionDruid druid) : base(druid) {
+		Title = "Existing Database Location";
 		filename = new FolderEntry("Select code completion database");
 		filename.DefaultPath = System.IO.Directory.GetCurrentDirectory();
 		AppendItem("Where is the code completion database you would like to copy", filename, "");
@@ -49,6 +52,7 @@ class DownloadPage : DetailsPageBase {
 	internal Gtk.Entry uri;
 	
 	internal DownloadPage(CodeCompletionDruid druid) : base(druid) {
+		Title = "Download Database";
 		uri = new Gtk.Entry();
 		AppendItem("Where would you like to download the code completion database from?", uri, "");
 	}
@@ -184,7 +188,6 @@ class CodeCompletionDruid : Druid {
 	{
 		MessageService messageService = (MessageService)ServiceManager.Services.GetService(typeof(MessageService));
 		bool really = messageService.AskQuestion("Are you sure you want to skip database creation? You will not have code completion functionality.", "Are you sure?");
-		Console.WriteLine("Really? " + really);
 		if (really) {
 			this.Destroy();
 			this.Canceled(this);
