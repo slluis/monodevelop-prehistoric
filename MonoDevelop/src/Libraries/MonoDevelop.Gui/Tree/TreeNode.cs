@@ -30,6 +30,7 @@ namespace MonoDevelop.Gui {
 			}
 			set {
 				text = value;
+				OnNodesChanged ();
 			}
 		}
 		
