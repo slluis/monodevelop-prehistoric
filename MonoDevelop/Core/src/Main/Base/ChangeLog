@@ -1,3 +1,7 @@
+2004-12-07  Todd Berman  <tberman@off.net>
+
+	* Gui/Pads/HelpBrowser/HelpViewer.cs: Update to new gtk# api.
+
 2004-12-07  Lluis Sanchez Gual  <lluis@novell.com>
 
 	* Services/DispatchService/DispatchService.cs: Made some method non-static.
