@@ -1,7 +1,7 @@
 // <file>
 //     <copyright see="prj:///doc/copyright.txt"/>
 //     <license see="prj:///doc/license.txt"/>
-//     <owner name="Mike KrÃÂ¼ger" email="mike@icsharpcode.net"/>
+//     <owner name="Mike KrÃ?Â¼ger" email="mike@icsharpcode.net"/>
 //     <version value="$version"/>
 // </file>
 
@@ -22,6 +22,8 @@ using MonoDevelop.Core.Services;
 using MonoDevelop.Gui.Components;
 
 using MonoDevelop.Services;
+
+using GLib;
 
 namespace MonoDevelop.Gui
 {
@@ -45,6 +47,8 @@ namespace MonoDevelop.Gui
 		Rectangle       normalBounds       = new Rectangle(0, 0, 640, 480);
 		
 		private IWorkbenchLayout layout = null;
+
+		static GType gtype;
 		
 		protected static PropertyService propertyService = (PropertyService)ServiceManager.Services.GetService(typeof(PropertyService));
 
@@ -118,9 +122,22 @@ namespace MonoDevelop.Gui
 				return layout.ActiveWorkbenchwindow;
 			}
 		}
-		
-		public DefaultWorkbench() : base ("MonoDevelop")
+
+		public static new GLib.GType GType
 		{
+			get
+			{
+				if (gtype == GLib.GType.Invalid)
+					gtype = RegisterGType (typeof (DefaultWorkbench));
+				return gtype;
+			}
+		}
+
+		//FIXME: When it becomes possible, set this ctor to change ctor
+		//to the windowtype ctor with WindowType.TopLevel
+		public DefaultWorkbench() : base (GType)
+		{
+			Title = "MonoDevelop";
 			Console.WriteLine ("Creating DefaultWorkbench");
 			ResourceService resourceService = (ResourceService)ServiceManager.Services.GetService(typeof(IResourceService));
 			// FIXME: edit the name in the resource

@@ -1,3 +1,10 @@
+2004-04-04  Todd Berman  <tberman@sevenl.net>
+
+	* Gui/Workbench/DefaultWorkbench.cs: register gtype. add message about
+	using proper ctor.
+	* Gui/BrowserDisplayBinding/HtmlViewPane.cs: remove useless event
+	box.
+
 2004-04-04  John Luke  <jluke@cfl.rr.com>
 
 	* Gui/BrowserDisplayBinding/HtmlViewPane.cs:

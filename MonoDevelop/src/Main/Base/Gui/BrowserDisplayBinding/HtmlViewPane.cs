@@ -133,7 +133,6 @@ namespace MonoDevelop.BrowserDisplayBinding
 	public class HtmlViewPane : Gtk.Frame
 	{
 		MozillaControl htmlControl = null;
-		public Gtk.EventBox catcher = null;
 		
 		VBox topPanel = new VBox (false, 2);
 		Toolbar toolBar = new Toolbar ();
@@ -205,10 +204,8 @@ namespace MonoDevelop.BrowserDisplayBinding
 			htmlControl.NetStart += new EventHandler (OnNetStart);
 			htmlControl.NetStop += new EventHandler (OnNetStop);
 			htmlControl.ShowAll ();
-
-			catcher = new Gtk.EventBox ();
-			catcher.Add (htmlControl);
-			mainbox.PackStart (catcher);
+			
+			mainbox.PackStart (htmlControl);
 
 			status = new Statusbar ();
 			status.HasResizeGrip  = false;
