@@ -373,9 +373,12 @@ namespace ICSharpCode.SharpRefactory.Parser
 				}
 			}
 			
-			double d = 0;
+			long d = 0;
 			// FIXME: http://bugzilla.ximian.com/show_bug.cgi?id=72221
-			if (!Double.TryParse(digit, ishex ? NumberStyles.HexNumber : NumberStyles.Integer, null, out d)) {
+			try {
+				d = long.Parse (digit, ishex ? NumberStyles.HexNumber : NumberStyles.Integer);
+			}
+			catch {
 				errors.Error(y, x, String.Format("Can't parse integral constant {0}", digit));
 				return new Token(Tokens.Literal, x, y, stringValue.ToString(), 0);
 			}

@@ -92,7 +92,7 @@ $(ASSEMBLY): $(build_sources) $(srcdir)/CSharp.glade
 parse: $(PARSE)
 
 $(PARSE): parse.cs $(ASSEMBLY)
-	$(CSC) -out:$@ parse.cs $(DLLS) -r:../../../../../build/AddIns/BackendBindings/$(ASSEMBLY)
+	$(CSC) -out:$@ parse.cs $(DLLS) -r:$(ASSEMBLY)
 
 run-parse-test: $(PARSE)
 	MONO_PATH=../../../../../build/AddIns/BackendBindings/:../../../../../build/bin/ mono $(PARSE) .

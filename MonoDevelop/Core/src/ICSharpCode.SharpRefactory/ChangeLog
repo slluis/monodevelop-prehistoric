@@ -1,3 +1,8 @@
+2005-03-25  John Luke  <john.luke@gmail.com>
+
+	* src/Lexer/Lexer.cs: workaround SD code that
+	depends on .NET 1.1 apparent bug, see bug #72221
+
 2005-02-04  John Luke  <john.luke@gmail.com>
 
 	* src/Parser/AST/Modifier.cs: add Static to Class
