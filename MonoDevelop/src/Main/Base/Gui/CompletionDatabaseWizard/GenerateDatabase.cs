@@ -107,7 +107,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs.OptionPanels.CompletionDatabaseWi
 			// is it really necessary to restart here?
 			Console.WriteLine ("******************************************************************************");
 			Console.WriteLine ("Attempting to restart MonoDevelop, if you get any exceptions, restart manually");
-			Console.WriteLine ("******************************************************************************"
+			Console.WriteLine ("******************************************************************************");
 			System.Diagnostics.Process.Start("MonoDevelop.exe");
 			Gtk.Application.Quit ();
 
