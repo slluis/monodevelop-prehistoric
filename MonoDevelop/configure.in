@@ -111,7 +111,6 @@ src/AddIns/DisplayBindings/SourceEditor/Makefile
 src/AddIns/Misc/Makefile
 src/AddIns/Misc/StartPage/Makefile
 src/AddIns/DebuggerAddIn/Makefile
-src/AddIns/Nunit/Makefile
 src/Main/Makefile
 src/Main/Base/Makefile
 src/Main/StartUp/Makefile
