@@ -133,7 +133,7 @@ namespace ICSharpCode.SharpDevelop.Gui
 			}
 		}
 		
-		public DefaultWorkbench() : base ("SharpDevelop")
+		public DefaultWorkbench() : base ("MonoDevelop")
 		{
 			ResourceService resourceService = (ResourceService)ServiceManager.Services.GetService(typeof(IResourceService));
 			Title = resourceService.GetString("MainWindow.DialogName");
