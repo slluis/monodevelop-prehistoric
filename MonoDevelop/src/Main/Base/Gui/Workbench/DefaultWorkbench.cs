@@ -618,11 +618,6 @@ namespace MonoDevelop.Gui
 			}
 		}
 		
-		// this method simply copies over the enabled state of the toolbar,
-		// this assumes that no item is inserted or removed.
-		// TODO : make this method more add-in tree like, currently with Windows.Forms
-		//        toolbars this is not possible. (drawing fragments, slow etc.)
-		
 		void CreateToolBars()
 		{
 			if (ToolBars == null) {

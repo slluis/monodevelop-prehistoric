@@ -18,7 +18,7 @@ using MonoDevelop.Core.Services;
 
 namespace MonoDevelop.Gui.Components
 {
-	public class SdToolbarCommand : Gtk.Image, IStatusUpdate
+	public class SdToolbarCommand : Gtk.Button, IStatusUpdate
 	{
 		static StringParserService stringParserService = (StringParserService)ServiceManager.Services.GetService(typeof(StringParserService));
 			
@@ -56,7 +56,7 @@ namespace MonoDevelop.Gui.Components
 		public SdToolbarCommand (string text) : base ()
 		{
 			ResourceService resourceService = (ResourceService)ServiceManager.Services.GetService (typeof(IResourceService));
-
+			
 			if (text.StartsWith ("${")) {
 				localizedText = resourceService.GetString (text);
 			} else {
@@ -64,8 +64,9 @@ namespace MonoDevelop.Gui.Components
 			}
 
 			localizedText = localizedText.Replace ('&', '_');
+			Clicked += new EventHandler (ToolbarClicked);
 		}
-		
+			
 		public SdToolbarCommand(ConditionCollection conditionCollection, object caller, string label) : this(stringParserService.Parse(label))
 		{
 			this.caller              = caller;
@@ -95,12 +96,12 @@ namespace MonoDevelop.Gui.Components
 		}
 		
 		// To be called from ToolbarService
-		public void ToolbarClicked() {
+		public void ToolbarClicked(object o, EventArgs e) {
 			if (menuCommand != null) {
 				menuCommand.Run();
 			}
 		}
-				
+
 		public virtual void UpdateStatus()
 		{
 			if (conditionCollection != null) {

@@ -61,13 +61,16 @@ namespace MonoDevelop.Services
 						continue;
 					} else {
 						item = new SdToolbarCommand(childCodon.Conditions, owner, childCodon.ToolTip);
-						Gtk.Image img = resourceService.GetImage(childCodon.Icon, Gtk.IconSize.Menu);
-						if (img.StorageType == Gtk.ImageType.Stock) {
-							item.Stock = img.Stock;
-							item.IconSize = (int)Gtk.IconSize.Menu;
-						} else {
-							item.Pixbuf = img.Pixbuf;
-						}
+						Gtk.Image img = resourceService.GetImage(childCodon.Icon, Gtk.IconSize.LargeToolbar);
+						item.Add (img);
+						item.Relief = ReliefStyle.None;
+						
+						//if (img.StorageType == Gtk.ImageType.Stock) {
+						//	item.Stock = img.Stock;
+						//	item.IconSize = (int)Gtk.IconSize.SmallToolbar;
+						//} else {
+						//	item.Pixbuf = img.Pixbuf;
+						//}
 						item.ShowAll();
 					}
 				} else {
@@ -76,7 +79,8 @@ namespace MonoDevelop.Services
 				if (childCodon.Class != null) {
 					((SdToolbarCommand)item).Command = (ICommand)childCodon.AddIn.CreateObject(childCodon.Class);
 				}
-				bar.AppendItem(item.Text, item.Text, item.Text, item, new Gtk.SignalFunc(item.ToolbarClicked));
+				//bar.AppendItem(item.Text, item.Text, item.Text, item, new Gtk.SignalFunc(item.ToolbarClicked));
+				bar.AppendWidget (item, item.Text, item.Text);
 			}
 			return bar;
 		}

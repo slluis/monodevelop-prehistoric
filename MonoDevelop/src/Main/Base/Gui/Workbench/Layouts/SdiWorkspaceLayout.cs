@@ -42,7 +42,7 @@ namespace MonoDevelop.Gui
 		
 		Window wbWindow;
 		Container rootWidget;
-		Container toolbarContainer;
+		VBox toolbarContainer;
 		Dock dock;
 		DockLayout dockLayout;
 		Notebook tabControl;
@@ -75,12 +75,14 @@ namespace MonoDevelop.Gui
 
 			vbox.PackStart (workbench.TopMenu, false, false, 0);
 			if (workbench.ToolBars != null) {
-				VBox toolvbox = new VBox (false, 0);
-				toolbarContainer = toolvbox;
+				toolbarContainer = new VBox (false, 0);
 				for (int i = 0; i < workbench.ToolBars.Length; i++) {
-					toolvbox.PackStart (workbench.ToolBars[i], false, false, 0);
+					Gtk.HandleBox toolHandleBox = new Gtk.HandleBox ();
+					toolHandleBox.Shadow = Gtk.ShadowType.None;
+					toolHandleBox.Add (workbench.ToolBars[i]);
+					vbox.PackStart (toolHandleBox, false, false, 0);
 				}
-				vbox.PackStart(toolvbox, false, false, 0);
+				//vbox.PackStart(toolbarContainer, false, false, 0);
 			}
 			
 			// Create the docking widget and add it to the window.

@@ -1,5 +1,16 @@
 2004-04-17  Todd Berman  <tberman@sevenl.net>
 
+	* Services/Toolbar/ToolbarService.cs:
+	* Gui/Workbench/Layouts/SdiWorkspaceLayout.cs:
+	* Gui/Workbench/DefaultWorkbench.cs:
+	* Gui/Components/SdToolbarCommand.cs:
+	Fixup the entire toolbar scheme to actually *work* properly.
+	This is only temporary, as the entire toolbar setup is going to be
+	rewritten again to support arbitrary widgetry, proper saving/loading of
+	toolbars tied to layouts, etc, etc.
+
+2004-04-17  Todd Berman  <tberman@sevenl.net>
+
 	* Gui/Components/SdMenu.cs:
 	* Commands/MenuItemBuilders.cs:
 	Fix the menu system so we dont rebuild the menu's from scratch every
