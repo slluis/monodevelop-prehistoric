@@ -31,7 +31,7 @@
 	<li>Create a bug in <a href="http://bugzilla.ximian.com/">bugzilla.ximian.com</a> and attach the patch to the bug.  If you're patching against a pre-existing bug, just attach to the bug.</li>
       </ol>
 
-      <b>Working on the Website:</b>
+      <div class="headlinebar">Working on the Website:</div>
       <p>
         We are always looking for help on developing the Monodevelop web site.  If you're
         interested, please contact mrproper at ximian dot com.  Currently,
