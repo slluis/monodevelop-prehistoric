@@ -311,6 +311,14 @@ VB.Project.UserControl \
 VB.Project.WebProject \
 gnome-fs-regular.png \
 BreakPoint.png \
-ExecutionMarker.png
+ExecutionMarker.png \
+MonoQuery.Addconnection \
+MonoQuery.Connect \
+MonoQuery.Database \
+MonoQuery.Disconnect \
+MonoQuery.Procedure \
+MonoQuery.Table \
+MonoQuery.Tables \
+MonoQuery.View
 
 EXTRA_DIST = $(icons_DATA)

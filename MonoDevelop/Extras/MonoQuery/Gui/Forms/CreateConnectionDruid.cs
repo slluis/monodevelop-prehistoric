@@ -230,6 +230,7 @@ namespace MonoQuery.Gui
 					MonoQueryNodeConnection node = new MonoQueryNodeConnection( conn );
 					if ( (node as MonoDevelop.Gui.Widgets.TreeNode) != null ) {
 						rootNode.Nodes.Add( node as MonoDevelop.Gui.Widgets.TreeNode );
+						node.Expand();
 					}
 				} else {
 					service.ShowMessage( GettextCatalog.GetString(

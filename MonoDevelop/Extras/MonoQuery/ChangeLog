@@ -1,4 +1,8 @@
 2005-01-08  Christian Hergert <chris@mosaix.net>
+
+	* Fixed druid to expand the connection after building
+
+2005-01-08  Christian Hergert <chris@mosaix.net>
 	
 	* Following Makefile.am fixes
 	* Copy .addin.xml if it changes
