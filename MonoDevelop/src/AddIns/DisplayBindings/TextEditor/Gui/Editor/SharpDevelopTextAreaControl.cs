@@ -226,7 +226,7 @@ namespace ICSharpCode.SharpDevelop.DefaultEditor.Gui.Editor
 		{
 			try {
 				IFormattingStrategy[] formater = (IFormattingStrategy[])(AddInTreeSingleton.AddInTree.GetTreeNode(formatingStrategyPath).BuildChildItems(this)).ToArray(typeof(IFormattingStrategy));
-				Console.WriteLine("SET FORMATTER : " + formater[0]);
+				//Console.WriteLine("SET FORMATTER : " + formater[0]);
 				if (formater != null && formater.Length > 0) {
 //					formater[0].Document = Document;
 					Document.FormattingStrategy = formater[0];

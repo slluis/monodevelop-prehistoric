@@ -394,9 +394,10 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads
 			pathEntry = new Gtk.Entry (fb.CurrentDir);
 			//pathEntry.Activated += new EventHandler (OnPathEntryActivated);
 			hbox.PackStart (pathEntry);
-			Gtk.Button homeButton = new Gtk.Button ("Home");
+			Gtk.Button homeButton = new Gtk.Button ();
+			homeButton.Child = new Gtk.Image (FileIconLoader.GetPixbufForType ("gnome-home"));
 			homeButton.Clicked += new EventHandler (OnHomeClicked);
-			hbox.PackStart (homeButton);
+			hbox.PackStart (homeButton, false, false, 0);
 			utilVBox.PackStart (hbox, false, true, 0);
 			utilVBox.PackStart (fb);
 			treef.Add(utilVBox);
