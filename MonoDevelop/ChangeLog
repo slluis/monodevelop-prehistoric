@@ -1,3 +1,14 @@
+2004-03-19  John Luke  <jluke@cfl.rr.com>
+
+	* src/Main/Base/Gui/IProgressMonitor.cs:
+	* src/Main/Base/Gui/CompletionDatabaseWizard/GenerateDatabase.cs:
+	* src/Main/Base/Services/StatusBar/IStatusBarService.cs:
+	* src/Main/Base/Services/StatusBar/DefaultStatusBarService.cs:
+	* src/Main/Base/Commands/FileCommands.cs:
+	* src/Main/Base/Gui/Components/StatusBar/SdStatusBar.cs:
+	use double instead of casting to int everywhere
+	and implement ProgressBar
+
 2004-03-19  Iñigo Illán <kodeport AT terra.es>
 	* src/Main/Base/Commands/FileCommands.cs:
 	ask if you want to really delete recent files/projects list.

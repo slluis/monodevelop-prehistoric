@@ -27,8 +27,8 @@ namespace MonoDevelop.Services
 		
 		void ShowErrorMessage(string message);
 		
-		void SetMessage(string message);					
-		//void SetMessage(Image image, string message);
+		void SetMessage (string message);					
+		void SetMessage (Gtk.Image image, string message);
 		
 		void SetCaretPosition (int ln, int col, int ch);
 		void SetInsertMode (bool insertMode);

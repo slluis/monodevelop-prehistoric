@@ -15,10 +15,10 @@ namespace MonoDevelop.Gui.Dialogs.OptionPanels.CompletionDatabaseWizard
 			this.DiscreteBlocks = (uint)totalWork;
 		}
 				
-		public void Worked(int work, string status)
+		public void Worked(double work, string status)
 		{
-			double f = (double)work / this.DiscreteBlocks;
-			Console.WriteLine("% is {0}", f);
+			double f = work / this.DiscreteBlocks;
+			//Console.WriteLine("% is {0}", f);
 			this.Fraction = f;
 		}
 		public void Done()

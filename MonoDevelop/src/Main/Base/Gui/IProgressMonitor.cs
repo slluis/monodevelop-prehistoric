@@ -13,9 +13,9 @@ namespace MonoDevelop.Gui
 	/// </summary>
 	public interface IProgressMonitor 
 	{
-		void BeginTask(string name, int totalWork);
+		void BeginTask (string name, int totalWork);
 		
-		void Worked(int work, string status);
+		void Worked (double work, string status);
 		
 		void Done();
 		

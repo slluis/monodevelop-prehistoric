@@ -58,7 +58,7 @@ namespace MonoDevelop.Services
 		
 		public void SetCaretPosition (int ln, int col, int ch)
 		{
-			statusBar.SetCursorPosition (ln, col, ch);                                                                  
+			statusBar.SetCursorPosition (ln, col, ch);
 		}
 		
 		public void SetInsertMode (bool insertMode)
@@ -83,6 +83,7 @@ namespace MonoDevelop.Services
 		public void SetMessage(Gtk.Image image, string message)
 		{
 			Debug.Assert(statusBar != null);
+			lastMessage = message;
 			statusBar.SetMessage(image, stringParserService.Parse(message));
 		}
 		

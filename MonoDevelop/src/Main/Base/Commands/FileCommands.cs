@@ -281,10 +281,6 @@ namespace MonoDevelop.Commands
 					for (int i = 0; !foundFilter && i < fileFilters.Length; ++i) {
 						for (int j = 0; !foundFilter && j < languageCodon.Supportedextensions.Length; ++j) {
 							if (fileFilters[i].IndexOf(languageCodon.Supportedextensions[j]) >= 0) {
-#if !GTK
-								fdiag.FilterIndex = i + 1;
-								foundFilter       = true;
-#endif
 								break;
 							}
 						}
@@ -335,13 +331,9 @@ namespace MonoDevelop.Commands
 	{
 		public override void Run()
 		{			
-			#if GTK
 			if (((DefaultWorkbench)WorkbenchSingleton.Workbench).Close()) {
 				Gtk.Application.Quit();
 			}
-			#else
-			((Form)WorkbenchSingleton.Workbench).Close();
-			#endif
 		}
 	}
 	

@@ -54,8 +54,7 @@ namespace MonoDevelop.Gui.Components
 			}
 		}
 		
-		// FIXME: actually use a Progressbar
-		public SdStatusBar(IStatusBarService manager) : base (false, true, PreferencesType.Never)
+		public SdStatusBar(IStatusBarService manager) : base (true, true, PreferencesType.Never)
 		{
 			txtStatusBarPanel.HasResizeGrip = false;
 			this.PackStart (txtStatusBarPanel);
@@ -103,9 +102,9 @@ namespace MonoDevelop.Gui.Components
 			this.Progress.Visible = true;
 		}
 		
-		public void Worked (int work, string status)
+		public void Worked (double work, string status)
 		{
-			this.Progress.Fraction = (double) work;
+			this.Progress.Fraction = work;
 			this.Progress.Text = status;
 		}
 		

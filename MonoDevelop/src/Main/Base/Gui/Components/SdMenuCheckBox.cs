@@ -66,9 +66,6 @@ namespace MonoDevelop.Gui.Components
 		
 		protected void OnClick(object o, EventArgs e)
 		{
-#if !GTK
-			base.OnClick(e);
-#endif
 			if (menuCommand != null) {
 				menuCommand.IsChecked = Active;
 			}
@@ -81,11 +78,7 @@ namespace MonoDevelop.Gui.Components
 				this.Sensitive = failedAction != ConditionFailedAction.Disable;
 				this.Visible = failedAction != ConditionFailedAction.Exclude;
 			}
-#if GTK
-			// FIXME: GTKize
-#else
-			Text = stringParserService.Parse(localizedText);
-#endif
+
 			if (menuCommand != null) {
 				Active = menuCommand.IsChecked;
 			}

@@ -130,9 +130,6 @@ namespace MonoDevelop.Gui.Components
 		
 		protected void OnClick(object o, EventArgs e)
 		{
-#if !GTK
-			base.OnClick(e);
-#endif
 			if (menuCommand != null) {
 				menuCommand.Run();
 			}
@@ -149,11 +146,6 @@ namespace MonoDevelop.Gui.Components
 				Sensitive = ((IMenuCommand)menuCommand).IsEnabled;
 				ShowAll ();
 			}
-#if GTK
-			// FIXME: GTKize
-#else
-			Text = stringParserService.Parse(localizedText);
-#endif
 		}
 	}
 }
