@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <Template originator   = "John Luke"
           created      = "01/03/2004"
-          lastModified = "01/03/2004">
+          lastModified = "02/25/2004">
 	
 	<!-- Template Header -->
 	<TemplateConfiguration>
@@ -53,14 +53,19 @@ using Gtk;
 using GtkSharp;
 
 public class MyWindow : Window {
-	static GLib.GType type;
+	static GLib.GType gtype;
 	
-	static MyWindow ()
+	public static new GLib.GType GType
 	{
-		type = RegisterGType (typeof (MyWindow));
+		get
+		{
+			if (gtype == GLib.GType.Invalid)
+				gtype = RegisterGType (typeof (MyWindow));
+			return gtype;
+		}
 	}
 	
-	public MyWindow () : base (type)
+	public MyWindow () : base (GType)
 	{
 		this.Title = "MyWindow";
 		this.SetDefaultSize (400, 300);

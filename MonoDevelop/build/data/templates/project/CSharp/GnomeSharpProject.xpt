@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <Template originator   = "John Luke"
           created      = "01/03/2004"
-          lastModified = "01/03/2004">
+          lastModified = "02/25/2004">
 	
 	<!-- Template Header -->
 	<TemplateConfiguration>
@@ -55,14 +55,19 @@ using GnomeSharp;
 
 public class MyProgram : Program
 {
-	static GLib.GType type;
+	static GLib.GType gtype;
 	
-	static MyProgram ()
+	public static new GLib.GType GType
 	{
-		type = RegisterGType (typeof (MyProgram));
+		get
+		{
+			if (gtype == GLib.GType.Invalid)
+				gtype = RegisterGType (typeof (MyProgram));
+			return gtype;
+		}
 	}
 	
-	public MyProgram () : base (type)
+	public MyProgram () : base (GType)
 	{
 	}
 	
