@@ -9,10 +9,8 @@ using System;
 using System.Text.RegularExpressions;
 
 using ICSharpCode.Core.Properties;
-using ICSharpCode.SharpDevelop.Internal.Undo;
 
-namespace ICSharpCode.TextEditor.Document
-{
+namespace MonoDevelop.EditorBindings.Search {
 	public class RegExSearchStrategy : ISearchStrategy
 	{
 		Regex regex = null;
@@ -26,7 +24,7 @@ namespace ICSharpCode.TextEditor.Document
 			regex = new Regex(options.SearchPattern, regexOptions);
 		}
 		
-		public ISearchResult FindNext(ITextIterator textIterator, SearchOptions options)
+		public SearchResult FindNext(ITextIterator textIterator, SearchOptions options)
 		{
 			string document = textIterator.FullDocumentText;
 			
@@ -37,7 +35,7 @@ namespace ICSharpCode.TextEditor.Document
 				} else {
 					int delta = m.Index - textIterator.Position;
 					if (delta <= 0 || textIterator.MoveAhead(delta)) {
-						return new DefaultSearchResult(m.Index, m.Length);
+						return new SearchResult (m.Index, m.Length);
 					} else {
 						return null;
 					}

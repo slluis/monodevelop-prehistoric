@@ -7,14 +7,27 @@
 
 using System;
 using System.IO;
-using System.Drawing;
 
 using ICSharpCode.Core.Services;
 using ICSharpCode.Core.Properties;
-using ICSharpCode.SharpDevelop.Internal.Undo;
 
-namespace ICSharpCode.TextEditor.Document
-{
+namespace MonoDevelop.EditorBindings.Search {
+
+	public enum DocumentIteratorType {
+		None,
+		CurrentDocument,
+		AllOpenFiles,
+		WholeCombine,
+		Directory // only used for search in files
+	}
+	
+	public enum SearchStrategyType {
+		None,
+		Normal,
+		RegEx,
+		Wildcard
+	}
+	
 	public class SearchOptions
 	{
 		static PropertyService propertyService = (PropertyService)ServiceManager.Services.GetService(typeof(PropertyService));

@@ -16,24 +16,10 @@ using ICSharpCode.SharpDevelop.Services;
 using ICSharpCode.SharpDevelop.Gui.Dialogs;
 using ICSharpCode.SharpDevelop.DefaultEditor.Gui.Editor;
 using ICSharpCode.TextEditor;
+using MonoDevelop.EditorBindings.Search;
 
 namespace ICSharpCode.TextEditor.Document
 {
-	public enum DocumentIteratorType {
-		None,
-		CurrentDocument,
-		AllOpenFiles,
-		WholeCombine,
-		Directory // only used for search in files
-	}
-	
-	public enum SearchStrategyType {
-		None,
-		Normal,
-		RegEx,
-		Wildcard
-	}
-	
 	public class SearchReplaceManager
 	{
 		public static ReplaceDialog ReplaceDialog     = null;

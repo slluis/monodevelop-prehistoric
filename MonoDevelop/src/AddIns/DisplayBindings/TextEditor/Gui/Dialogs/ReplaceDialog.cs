@@ -21,6 +21,7 @@ using ICSharpCode.SharpDevelop.Services;
 //using ICSharpCode.XmlForms;
 //using ICSharpCode.SharpDevelop.Gui.XmlForms;
 using ICSharpCode.TextEditor;
+using MonoDevelop.EditorBindings.Search;
 
 using Gtk;
 using Glade;

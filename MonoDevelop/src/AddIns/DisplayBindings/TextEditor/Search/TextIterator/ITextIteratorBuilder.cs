@@ -7,6 +7,7 @@
 
 using System;
 using System.Collections;
+using MonoDevelop.EditorBindings.Search;
 
 namespace ICSharpCode.TextEditor.Document
 {

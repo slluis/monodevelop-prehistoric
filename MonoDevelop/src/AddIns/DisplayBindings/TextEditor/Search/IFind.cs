@@ -10,6 +10,7 @@ using System.Collections;
 using System.Diagnostics;
 
 using ICSharpCode.SharpDevelop.Gui;
+using MonoDevelop.EditorBindings.Search;
 
 namespace ICSharpCode.TextEditor.Document
 {

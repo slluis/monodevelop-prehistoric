@@ -6,13 +6,8 @@
 // </file>
 
 using System;
-using System.Drawing;
 
-using ICSharpCode.Core.Properties;
-using ICSharpCode.SharpDevelop.Internal.Undo;
-
-namespace ICSharpCode.TextEditor.Document
-{
+namespace MonoDevelop.EditorBindings.Search {
 	/// <summary>
 	/// This interface is the basic interface which all 
 	/// search algorithms must implement.
@@ -24,12 +19,21 @@ namespace ICSharpCode.TextEditor.Document
 		/// update their pattern information. This method will be called 
 		/// before the FindNext function.
 		/// </remarks>
-		void CompilePattern(SearchOptions options);
+		void CompilePattern (SearchOptions options);
 		
 		/// <remarks>
 		/// The find next method should search the next occurrence of the 
 		/// compiled pattern in the text using the textIterator and options.
 		/// </remarks>
-		ISearchResult FindNext(ITextIterator textIterator, SearchOptions options);
+		SearchResult FindNext (ITextIterator textIterator, SearchOptions options);
+	}
+	
+	public class SearchResult {
+		public readonly int Position, Length;
+		public SearchResult (int pos, int len)
+		{
+			this.Position = pos;
+			this.Length = len;
+		}
 	}
 }

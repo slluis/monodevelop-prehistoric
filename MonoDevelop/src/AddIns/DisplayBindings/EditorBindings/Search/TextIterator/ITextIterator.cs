@@ -8,8 +8,7 @@
 using System;
 using System.Collections;
 
-namespace ICSharpCode.TextEditor.Document
-{
+namespace MonoDevelop.EditorBindings.Search {
 	/// <summary>
 	/// This iterator iterates on a text buffer strategy.
 	/// </summary>

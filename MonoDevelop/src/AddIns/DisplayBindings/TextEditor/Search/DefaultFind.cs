@@ -9,6 +9,7 @@ using System.Collections;
 using System.Diagnostics;
 
 using ICSharpCode.SharpDevelop.Gui;
+using MonoDevelop.EditorBindings.Search;
 
 namespace ICSharpCode.TextEditor.Document
 {
@@ -59,13 +60,14 @@ namespace ICSharpCode.TextEditor.Document
 			}
 		}
 		
-		ISearchResult CreateNamedSearchResult(ISearchResult pos)
+		ISearchResult CreateNamedSearchResult(SearchResult pos)
 		{
-			if (info == null || pos == null) {
+			if (info == null || pos == null)
 				return null;
-			}
-			pos.ProvidedDocumentInformation = info;
-			return pos;
+			
+			DefaultSearchResult res = new DefaultSearchResult (pos.Position, pos.Length);
+			res.ProvidedDocumentInformation = info;
+			return res;
 		}
 		
 		public void Reset()

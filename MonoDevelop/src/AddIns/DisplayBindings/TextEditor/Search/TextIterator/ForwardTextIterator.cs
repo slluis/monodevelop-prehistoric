@@ -9,6 +9,8 @@ using System;
 using System.Diagnostics;
 using System.Collections;
 
+using MonoDevelop.EditorBindings.Search;
+
 namespace ICSharpCode.TextEditor.Document
 {
 	public class ForwardTextIterator : ITextIterator

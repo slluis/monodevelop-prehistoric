@@ -8,10 +8,8 @@
 using System;
 
 using ICSharpCode.Core.Properties;
-using ICSharpCode.SharpDevelop.Internal.Undo;
 
-namespace ICSharpCode.TextEditor.Document
-{
+namespace MonoDevelop.EditorBindings.Search {
 	/// <summary>
 	///  Only for fallback purposes.
 	/// </summary>
@@ -57,10 +55,10 @@ namespace ICSharpCode.TextEditor.Document
 			searchPattern = options.IgnoreCase ? options.SearchPattern.ToUpper() : options.SearchPattern;
 		}
 		
-		public ISearchResult FindNext(ITextIterator textIterator, SearchOptions options)
+		public SearchResult FindNext(ITextIterator textIterator, SearchOptions options)
 		{
-			int offset = InternalFindNext(textIterator, options);
-			return offset >= 0 ? new DefaultSearchResult(offset, searchPattern.Length) : null;
+			int offset = InternalFindNext (textIterator, options);
+			return offset >= 0 ? new SearchResult (offset, searchPattern.Length) : null;
 		}
 	}
 }

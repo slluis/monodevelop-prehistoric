@@ -7,8 +7,7 @@
 
 using System;
 
-namespace ICSharpCode.TextEditor.Document
-{
+namespace MonoDevelop.EditorBindings.Search {
 	/// <summary>
 	/// Implements the Knuth, Morris, Pratt searching algorithm.
 	/// </summary>
@@ -64,7 +63,7 @@ namespace ICSharpCode.TextEditor.Document
 			}			
 		}
 		
-		public ISearchResult FindNext(ITextIterator textIterator, SearchOptions options)
+		public SearchResult FindNext(ITextIterator textIterator, SearchOptions options)
 		{
 			int offset = InternalFindNext(textIterator, options);
 			
@@ -72,7 +71,7 @@ namespace ICSharpCode.TextEditor.Document
 				return FindNext(textIterator, options);
 			}
 			
-			return offset >= 0 ? new DefaultSearchResult(offset, searchPattern.Length) : null;
+			return offset >= 0 ? new SearchResult (offset, searchPattern.Length) : null;
 		}
 	}
 }

@@ -11,6 +11,7 @@ using System.Collections;
 using ICSharpCode.SharpDevelop.Gui;
 using ICSharpCode.SharpDevelop.DefaultEditor.Gui.Editor;
 using ICSharpCode.TextEditor;
+using MonoDevelop.EditorBindings.Search;
 
 namespace ICSharpCode.TextEditor.Document
 {

@@ -9,10 +9,8 @@ using System;
 using System.Collections;
 
 using ICSharpCode.Core.Properties;
-using ICSharpCode.SharpDevelop.Internal.Undo;
 
-namespace ICSharpCode.TextEditor.Document
-{
+namespace MonoDevelop.EditorBindings.Search {
 	/// <summary>
 	/// Implements a wildcard search strategy.
 	/// 
@@ -148,10 +146,10 @@ namespace ICSharpCode.TextEditor.Document
 			CompilePattern(options.SearchPattern, options.IgnoreCase);
 		}
 		
-		public ISearchResult FindNext(ITextIterator textIterator, SearchOptions options)
+		public SearchResult FindNext(ITextIterator textIterator, SearchOptions options)
 		{
 			int offset = InternalFindNext(textIterator, options);
-			return offset >= 0 ? new DefaultSearchResult(offset, curMatchEndOffset - offset) : null;
+			return offset >= 0 ? new SearchResult (offset, curMatchEndOffset - offset) : null;
 		}
 	}
 }
