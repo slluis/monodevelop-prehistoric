@@ -1,5 +1,9 @@
 2004-04-09  Todd Berman  <tberman@sevenl.net>
 
+	* Gui/Dialogs/SharpDevelopAboutPanels.cs: closing per bug #55955.
+
+2004-04-09  Todd Berman  <tberman@sevenl.net>
+
 	* Gui/Components/SdStatusBar.cs: Add pulsing.
 
 2004-04-09  Pawel Rozanski  <tokugawa@afn.no-ip.org>

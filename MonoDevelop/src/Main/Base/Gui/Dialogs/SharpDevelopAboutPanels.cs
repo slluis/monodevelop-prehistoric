@@ -168,10 +168,10 @@ namespace MonoDevelop.Gui.Dialogs
 			this.PackStart (sw);
 			
 			HBox hbox = new HBox (false, 0);
-			button = new Button (Gtk.Stock.Copy);
-			button.Clicked += new EventHandler(CopyButtonClick);
+			//button = new Button (Gtk.Stock.Copy);
+			//button.Clicked += new EventHandler(CopyButtonClick);
 			hbox.PackStart (new Label (), false, true, 3);
-			hbox.PackStart (button, false, false, 3);
+			//hbox.PackStart (button, false, false, 3);
 			hbox.PackStart (new Label (), false, true, 3);
 			this.PackStart (hbox, false, false, 6);
 			
