@@ -3,7 +3,7 @@ displaying Gtk# widget.  Currently it is display only,
 but may someday be used as part of ASP.NET ide support.
 
 To add support for a platform or Html Renderer:
-1) class must be able to be packed into a Gtk.Bin
+1) class must be able to be packed into a Gtk.Frame
 2) implement IWebBrowser interface
 
 for example:

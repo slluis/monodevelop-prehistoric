@@ -28,29 +28,40 @@ class HtmlTest
 		Toolbar tbar = new Toolbar ();
 		tbar.ToolbarStyle = ToolbarStyle.Icons;
 		
-		Button back = new Button (Stock.GoBack);
+		Button back = new Button ();
+		back.Child = new Image (Stock.GoBack, IconSize.SmallToolbar);
+		back.Relief = ReliefStyle.None;
 		back.Clicked += new EventHandler (OnBackClicked);
 		tbar.AppendWidget (back, "Go Back", "");
 
-		Button forward = new Button (Stock.GoForward);
+		Button forward = new Button ();
+		forward.Child = new Image (Stock.GoForward, IconSize.SmallToolbar);
+		forward.Relief = ReliefStyle.None;
 		forward.Clicked += new EventHandler (OnForwardClicked);
 		tbar.AppendWidget (forward, "Go Forward", "");
 		
-		Button stop = new Button (Stock.Stop);
+		Button stop = new Button ();
+		stop.Child = new Image (Stock.Stop, IconSize.SmallToolbar);
+		stop.Relief = ReliefStyle.None;
 		stop.Clicked += new EventHandler (OnStopClicked);
 		tbar.AppendWidget (stop, "Stop", "");
 
-		Button refresh = new Button (Stock.Refresh);
+		Button refresh = new Button ();
+		refresh.Child = new Image (Stock.Refresh, IconSize.SmallToolbar);
+		refresh.Relief = ReliefStyle.None;
 		refresh.Clicked += new EventHandler (OnRefreshClicked);
 		tbar.AppendWidget (refresh, "Refresh", "");
 		
 		vbox.PackStart (tbar, false, true, 0);
 
 		url = new Entry ();
+		url.WidthChars = 50;
 		url.Activated += new EventHandler (OnUrlActivated);
 		tbar.AppendWidget (url, "Location", "");
 
-		go = new Button (Stock.Ok);
+		go = new Button ();
+		go.Child = new Image (Stock.Ok, IconSize.SmallToolbar);
+		go.Relief = ReliefStyle.None;
 		go.Clicked += new EventHandler (OnGoClicked);
 		tbar.AppendWidget (go, "Go", "");
 

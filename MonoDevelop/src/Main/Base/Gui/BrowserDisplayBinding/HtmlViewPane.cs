@@ -1,12 +1,11 @@
 // <file>
 //     <copyright see="prj:///doc/copyright.txt"/>
 //     <license see="prj:///doc/license.txt"/>
-//     <owner name="Mike Krüger" email="mike@icsharpcode.net"/>
+//     <owner name="Mike Krger" email="mike@icsharpcode.net"/>
 //     <version value="$version"/>
 // </file>
 
 using System;
-using System.Drawing;
 using Gtk;
 using GtkSharp;
 
@@ -113,28 +112,38 @@ namespace ICSharpCode.SharpDevelop.BrowserDisplayBinding
 				
 				//toolBar.Dock = DockStyle.None;
 				
-				Button toolBarBack = new Button (Gtk.Stock.GoBack);
+				Button toolBarBack = new Button ();
+				toolBarBack.Child = new Image (Stock.GoBack, IconSize.SmallToolbar);
+				toolBarBack.Relief = ReliefStyle.None;
 				toolBarBack.Clicked += new EventHandler (OnBackClicked);
-				Button toolBarForward = new Button (Gtk.Stock.GoForward);
+				
+				Button toolBarForward = new Button ();
+				toolBarForward.Child = new Image (Stock.GoForward, IconSize.SmallToolbar);
+				toolBarForward.Relief = ReliefStyle.None;
 				toolBarForward.Clicked += new EventHandler (OnForwardClicked);
-				Button toolBarStop = new Button (Gtk.Stock.Stop);
+				
+				Button toolBarStop = new Button ();
+				toolBarStop.Child = new Image (Stock.Stop, IconSize.SmallToolbar);
+				toolBarStop.Relief = ReliefStyle.None;
 				toolBarStop.Clicked += new EventHandler (OnStopClicked);
-				Button toolBarRefresh = new Button (Gtk.Stock.Refresh);
+				
+				Button toolBarRefresh = new Button ();
+				toolBarRefresh.Child = new Image (Stock.Refresh, IconSize.SmallToolbar);
+				toolBarRefresh.Relief = ReliefStyle.None;
 				toolBarRefresh.Clicked += new EventHandler (OnRefreshClicked);
 			
+				urlTextBox.WidthChars = 50;
+				urlTextBox.Activated += new EventHandler (OnEntryActivated);
+				
 				toolBar.ToolbarStyle = ToolbarStyle.Icons;
 				toolBar.IconSize = IconSize.SmallToolbar;
 				toolBar.AppendWidget (toolBarBack, "Go Back", "");
 				toolBar.AppendWidget (toolBarForward, "Go Forward", "");
 				toolBar.AppendWidget (toolBarStop, "Stop Loading", "");
-				toolBar.AppendWidget (toolBarRefresh, "Refresh", "");
-				toolBar.AppendWidget (urlTextBox, "URL", "");
+				toolBar.AppendWidget (toolBarRefresh, "Reload page", "");
+				toolBar.AppendWidget (urlTextBox, "Location", "");
 				
 				topPanel.PackStart (toolBar);
-				
-				urlTextBox.Activated += new EventHandler (OnEntryActivated);
-				
-				//topPanel.Add (urlTextBox);
 				mainbox.PackStart (topPanel, false, false, 2);
 			} 
 			
