@@ -1,5 +1,4 @@
  - proper license headers
- - improve de-serialization (also use ExportLayoutAttribute?)
  - fix notebook.Position after
  - placeholders in layout store/restore
  - docs

@@ -30,7 +30,8 @@ FILES = AssemblyInfo.cs \
 	Dock.cs \
 	DockPaned.cs \
 	DockItemBehavior.cs \
-	ExportLayoutAttribute.cs
+	ExportAttribute.cs \
+	AfterAttribute.cs
 
 all: $(GDL) $(TEST)
 

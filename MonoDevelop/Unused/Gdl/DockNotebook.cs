@@ -93,19 +93,6 @@ namespace Gdl
 				Dock ((DockObject)w, dockInfo.position, dockInfo.data);
 		}
 
-		public override void FromXml (XmlNode node)
-		{
-			string orientation = node.Attributes["orientation"].Value;
-			this.Orientation = orientation == "vertical" ? Orientation.Vertical : Orientation.Horizontal;
-			string locked = node.Attributes["locked"].Value;
-			this.Locked = locked == "no" ? false : true;
-		}
-
-		public override void FromXmlAfter (XmlNode node)
-		{
-			this.Page = int.Parse (node.Attributes["page"].Value);
-		}
-		
 		public override void OnDocked (DockObject requestor, DockPlacement position, object data)
 		{
 			/* we only add support for DockPlacement.Center docking
@@ -197,7 +184,8 @@ namespace Gdl
 			get { return true; }
 		}
 		
-		[ExportLayout]
+		[After]
+		[Export]
 		public int Page {
 			get { return ((Notebook)Child).CurrentPage; }
 			set { ((Notebook)Child).CurrentPage = value; }

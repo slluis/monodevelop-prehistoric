@@ -33,7 +33,8 @@ namespace Gdl
 			}
 		}
 		
-		[ExportLayout]
+		[After]
+		[Export]
 		public int Position {
 			get {
 				if (Child != null && Child is Paned) {
@@ -67,22 +68,6 @@ namespace Gdl
 			Child.Show ();
 		}
 
-		// <paned orientation="horizontal" locked="no" position="226">
-		public override void FromXml (XmlNode node)
-		{
-			string orientation = node.Attributes["orientation"].Value;
-			this.Orientation = orientation == "horizontal" ? Orientation.Horizontal : Orientation.Vertical;
-			CreateChild (this.Orientation);
-			string locked = node.Attributes["locked"].Value;
-			this.Locked = locked == "no" ? false : true;
-		}
-
-		public override void FromXmlAfter (XmlNode node)
-		{
-			// FIXME: still dont work
-			this.Position = int.Parse (node.Attributes["position"].Value);
-		}
-		
 		protected override void OnAdded (Widget widget)
 		{
 			if (Child == null)

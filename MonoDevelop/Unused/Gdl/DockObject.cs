@@ -18,6 +18,8 @@ namespace Gdl
 		private string longName;
 		private string stockid;
 		private bool reducePending;
+
+		private PropertyInfo[] publicProps;
 		
 		public event DetachedHandler Detached;
 		public event DockedHandler Docked;
@@ -101,7 +103,7 @@ namespace Gdl
 			}
 		}
 		
-		[ExportLayout]
+		[Export]
 		public new string Name {
 			get {
 				return name;
@@ -132,12 +134,53 @@ namespace Gdl
 			}
 		}
 
-		public virtual void FromXml (XmlNode node)
-		{
+		private PropertyInfo[] PublicProps {
+			get {
+				if (publicProps == null)
+					publicProps = this.GetType ().GetProperties (BindingFlags.Public | BindingFlags.Instance);
+				return publicProps;
+			}
 		}
 
-		public virtual void FromXmlAfter (XmlNode node)
+		void SetPropertyValue (string property, string val, bool after)
 		{
+			foreach (PropertyInfo p in PublicProps) {
+				if (after) {
+					if (p.IsDefined (typeof (AfterAttribute), true))
+						SetPropertyValue (p, property, val);
+				}
+				else {
+					if (!p.IsDefined (typeof (AfterAttribute), true))
+						SetPropertyValue (p, property, val);
+				}
+			}
+		}
+
+		void SetPropertyValue (PropertyInfo pi, string property, string val)
+		{
+			if (property != pi.Name.ToLower ())
+				return;
+
+			if (pi.PropertyType.IsSubclassOf (typeof (System.Enum)))
+				pi.SetValue (this, Enum.Parse (pi.PropertyType, val, true), null);
+			else if (pi.PropertyType == typeof (bool))
+				pi.SetValue (this, val == "no" ? false : true, null);
+			else if (pi.PropertyType == typeof (int))
+				pi.SetValue (this, int.Parse (val), null);
+			else
+				pi.SetValue (this, val, null);
+		}
+
+		public void FromXml (XmlNode node)
+		{
+			foreach (XmlAttribute att in node.Attributes)
+				SetPropertyValue (att.Name, att.Value, false);
+		}
+
+		public void FromXmlAfter (XmlNode node)
+		{
+			foreach (XmlAttribute att in node.Attributes)
+				SetPropertyValue (att.Name, att.Value, true);
 		}
 
 		string GetXmlName (Type t)
@@ -163,9 +206,8 @@ namespace Gdl
 
 			// get object exported attributes
 			ArrayList exported = new ArrayList ();
-			PropertyInfo[] props = t.GetProperties (BindingFlags.Public | BindingFlags.Instance);
-			foreach (PropertyInfo p in props) {
-				if (p.IsDefined (typeof (ExportLayoutAttribute), true))
+			foreach (PropertyInfo p in PublicProps) {
+				if (p.IsDefined (typeof (ExportAttribute), true))
 					exported.Add (p);
 			}
 

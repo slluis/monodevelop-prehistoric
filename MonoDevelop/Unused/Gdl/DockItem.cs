@@ -176,7 +176,7 @@ namespace Gdl
 			}
 		}
 		
-		[ExportLayout]
+		[Export]
 		public bool Locked {
 			get {
 				return ((behavior & DockItemBehavior.Locked) != 0);
@@ -196,7 +196,7 @@ namespace Gdl
 			}
 		}
 		
-		[ExportLayout]
+		[Export]
 		public Orientation Orientation {
 			get {
 				return orientation;
@@ -309,15 +309,6 @@ namespace Gdl
 				invoker.Invoke (Child);
 		}
 
-		// <item name="Item1" orientation="vertical" locked="no"/>
-		public override void FromXml (XmlNode node)
-		{
-			string orientation = node.Attributes["orientation"].Value;
-			this.Orientation = orientation == "vertical" ? Orientation.Vertical : Orientation.Horizontal;
-			string locked = node.Attributes["locked"].Value;
-			this.Locked = locked == "no" ? false : true;
-		}
-		
 		protected override void OnSizeRequested (ref Requisition requisition)
 		{
 			requisition.Width = ((int)BorderWidth + Style.XThickness) * 2;

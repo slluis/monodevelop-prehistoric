@@ -53,7 +53,8 @@ namespace Gdl
 			}
 		}
 		
-		[ExportLayout]
+		[After]
+		[Export]
 		public DockPlacement NextPlacement {
 			get {
 				if (placementStack != null && placementStack.Count != 0)
@@ -77,12 +78,6 @@ namespace Gdl
 			}
 		}
 
-		public override void FromXmlAfter (XmlNode node)
-		{
-			throw new NotImplementedException ();
-			// NextPlacement
-		}
-		
 		protected override void OnDestroyed ()
 		{
 			if (host != null)

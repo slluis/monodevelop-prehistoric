@@ -86,7 +86,7 @@ namespace Gdl
 			DockObjectFlags |= DockObjectFlags.Attached;
 		}
 		
-		[ExportLayout]
+		[Export]
 		public bool Floating {
 			get {
 				return floating;
@@ -96,7 +96,7 @@ namespace Gdl
 			}
 		}
 
-		[ExportLayout]
+		[Export]
 		public int FloatX {
 			get {
 				return floatX;
@@ -108,7 +108,7 @@ namespace Gdl
 			}
 		}
 		
-		[ExportLayout]
+		[Export]
 		public int FloatY {
 			get {
 				return floatY;
@@ -120,7 +120,7 @@ namespace Gdl
 			}
 		}
 		
-		[ExportLayout]
+		[Export]
 		public int Height {
 			get {
 				return height;
@@ -164,7 +164,7 @@ namespace Gdl
 			}
 		}
 		
-		[ExportLayout]
+		[Export]
 		public int Width {
 			get { return width; }
 			set {
@@ -174,21 +174,6 @@ namespace Gdl
 			}
 		}
 
-		// <dock name="__dock_1" floating="no" width="-1" height="-1" floatx="0" floaty="0">
-		public override void FromXml (XmlNode node)
-		{
-			string floating = node.Attributes["floating"].Value;
-			this.Floating = floating == "no" ? false : true;
-			string width = node.Attributes["width"].Value;
-			this.Width = int.Parse (width);
-			string height = node.Attributes["height"].Value;
-			this.Height = int.Parse (height);
-			string floatx = node.Attributes["floatx"].Value;
-			this.FloatX = int.Parse (floatx);
-			string floaty = node.Attributes["floaty"].Value;
-			this.FloatY = int.Parse (floaty);
-		}
-		
 		protected override void OnSizeRequested (ref Requisition requisition)
 		{
 			requisition.Width = 2 * (int)BorderWidth;
