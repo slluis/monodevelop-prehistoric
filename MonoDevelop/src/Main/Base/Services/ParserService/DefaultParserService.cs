@@ -255,20 +255,21 @@ namespace ICSharpCode.SharpDevelop.Services
 
 		public void LoadProxyDataFile()
 		{
-			if (!File.Exists(codeCompletionProxyFile)) {
+			if (!File.Exists (codeCompletionProxyFile))
 				return;
-			}
-			BinaryReader reader = new BinaryReader(new BufferedStream(new FileStream(codeCompletionProxyFile, FileMode.Open, FileAccess.Read, FileShare.Read)));
-			while (true) {
-				try {
-					ClassProxy newProxy = new ClassProxy(reader);
-					classProxies.Add(newProxy);
-					AddClassToNamespaceList(newProxy);
-				} catch (Exception) {
-					break;
+			
+			using (FileStream fs = File.OpenRead (codeCompletionProxyFile)) {
+				BinaryReader reader = new BinaryReader (fs);
+				while (true) {
+					try {
+						ClassProxy newProxy = new ClassProxy(reader);
+						classProxies.Add(newProxy);
+						AddClassToNamespaceList(newProxy);
+					} catch (Exception) {
+						break;
+					}
 				}
 			}
-			reader.Close();
 		}
 		
 		void LoadThread()
