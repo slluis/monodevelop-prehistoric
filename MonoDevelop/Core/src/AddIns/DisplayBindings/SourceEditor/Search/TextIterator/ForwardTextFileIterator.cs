@@ -114,9 +114,10 @@ namespace MonoDevelop.TextEditor.Document
 			if (reader.Modified)
 			{
 				string fileBackup = Path.GetTempFileName ();
-				File.Move (fileName, fileBackup);
+				File.Copy (fileName, fileBackup, true);
 				
 				try {
+					File.Delete (fileName);
 					reader.SaveToFile (fileName);
 					reader.Close ();
 				}

@@ -1,3 +1,16 @@
+2004-09-18  Lluis Sanchez Gual  <lluis@ximian.com>
+
+	* Gui/SourceEditorView.cs: Use the new completion window.
+	* CodeCompletion/CompletionListWindow.cs: New completion window for the
+	source editor.
+	* CodeCompletion/ListWindow.cs: The list window from which
+	CompletionListWindow inherits.
+	* Search/SearchReplaceInFilesManager.cs: Catch exceptions during search and
+	replace, and show an error message in this case.
+	* Search/TextIterator/ForwardTextFileIterator.cs: File.Move does not allow
+	overwriting files. Changed to Copy.
+	* Makefile.am: Added new files.
+
 2004-08-07  Todd Berman  <tberman@off.net>
 
 	* AssemblyInfo.cs.in: Use new ASSEMBLY_VERSION variable.

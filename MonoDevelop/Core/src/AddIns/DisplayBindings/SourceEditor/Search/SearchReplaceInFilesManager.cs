@@ -37,6 +37,7 @@ namespace MonoDevelop.TextEditor.Document
 		static DateTime timer;
 		static bool searching;
 		static bool cancelled;
+		static string searchError;
 		
 		public static SearchOptions SearchOptions {
 			get {
@@ -121,8 +122,13 @@ namespace MonoDevelop.TextEditor.Document
 		{
 			TaskService taskService = (TaskService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(TaskService));
 			string msg;
-			if (cancelled) msg = GettextCatalog.GetString ("Search cancelled.");
-			else msg = string.Format (GettextCatalog.GetString ("Search completed. {0} matches found in {1} files."), find.MatchCount, find.SearchedFileCount);
+			if (searchError != null)
+				msg = string.Format (GettextCatalog.GetString ("The search could not be finished: {0}"), searchError);
+			else if (cancelled)
+				msg = GettextCatalog.GetString ("Search cancelled.");
+			else
+				msg = string.Format (GettextCatalog.GetString ("Search completed. {0} matches found in {1} files."), find.MatchCount, find.SearchedFileCount);
+				
 			taskService.AddTask (new Task(null, msg, -1, -1));
 			
 			// present the taskview to show the search results
@@ -166,16 +172,26 @@ namespace MonoDevelop.TextEditor.Document
 		{
 			DispatchService dispatcher = (DispatchService)ServiceManager.GetService (typeof (DispatchService));
 			searching = true;
+			searchError = null;
 			
-			while (!cancelled) {
-				ISearchResult result = find.FindNext(searchOptions);
-				if (result == null) {
+			while (!cancelled) 
+			{
+				try
+				{
+					ISearchResult result = find.FindNext(searchOptions);
+					if (result == null) {
+						break;
+					}
+					
+					find.Replace(result, result.TransformReplacePattern(SearchOptions.ReplacePattern));
+					
+					dispatcher.GuiDispatch (new StatefulMessageHandler (DisplaySearchResultCallback), result);
+				}
+				catch (Exception ex) 
+				{
+					searchError = ex.Message;
 					break;
 				}
-				
-				find.Replace(result, result.TransformReplacePattern(SearchOptions.ReplacePattern));
-				
-				dispatcher.GuiDispatch (new StatefulMessageHandler (DisplaySearchResultCallback), result);
 			}
 			
 			dispatcher.GuiDispatch (new MessageHandler (FinishSearchInFiles));
@@ -207,14 +223,24 @@ namespace MonoDevelop.TextEditor.Document
 		{
 			DispatchService dispatcher = (DispatchService)ServiceManager.GetService (typeof (DispatchService));
 			searching = true;
+			searchError = null;
 			
-			while (!cancelled) {
-				ISearchResult result = find.FindNext (searchOptions);
-				if (result == null) {
+			while (!cancelled) 
+			{
+				try
+				{
+					ISearchResult result = find.FindNext (searchOptions);
+					if (result == null) {
+						break;
+					}
+	
+					dispatcher.GuiDispatch (new StatefulMessageHandler (DisplaySearchResultCallback), result);
+				}
+				catch (Exception ex)
+				{
+					searchError = ex.Message;
 					break;
 				}
-
-				dispatcher.GuiDispatch (new StatefulMessageHandler (DisplaySearchResultCallback), result);
 			}
 			
 			dispatcher.GuiDispatch (new MessageHandler (FinishSearchInFiles));

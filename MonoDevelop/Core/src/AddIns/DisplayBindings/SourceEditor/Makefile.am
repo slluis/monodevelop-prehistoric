@@ -4,6 +4,8 @@ FILES = ./AssemblyInfo.cs \
 ./CodeCompletion/CodeCompletionData.cs \
 ./CodeCompletion/ICompletionData.cs \
 ./CodeCompletion/CompletionWindow.cs \
+./CodeCompletion/CompletionListWindow.cs \
+./CodeCompletion/ListWindow.cs \
 ./CodeCompletion/TextUtilities.cs \
 ./CodeCompletion/TemplateCompletionDataProvider.cs \
 ./CodeCompletion/CommentCompletionDataProvider.cs \

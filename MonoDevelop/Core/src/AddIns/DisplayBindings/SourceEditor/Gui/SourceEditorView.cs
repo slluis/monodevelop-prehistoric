@@ -31,6 +31,7 @@ namespace MonoDevelop.SourceEditor.Gui
 		public SourceEditorBuffer buf;
 		int lineToMark = -1;
 		bool codeCompleteEnabled;
+		bool autoHideCompletionWindow = true;
 
 		public static new GLib.GType GType
 		{
@@ -57,13 +58,34 @@ namespace MonoDevelop.SourceEditor.Gui
 			ShowLineNumbers = true;
 			ShowLineMarkers = true;
 			ButtonPressEvent += new ButtonPressEventHandler (buttonPress);
+			FocusOutEvent += new FocusOutEventHandler (OnFocusOut);
 			buf.PlaceCursor (buf.StartIter);
 			GrabFocus ();
-
+			buf.MarkSet += new MarkSetHandler (BufferMarkSet);
+			buf.Changed += new EventHandler (BufferChanged);
 		}
-
+		
+		void BufferMarkSet (object s, MarkSetArgs a)
+		{
+			if (autoHideCompletionWindow && a.Mark.Name == "insert")
+				CompletionListWindow.HideWindow ();
+		}
+		
+		void OnFocusOut (object s, FocusOutEventArgs args)
+		{
+			CompletionListWindow.HideWindow ();
+		}
+		
+		void BufferChanged (object s, EventArgs args)
+		{
+			if (autoHideCompletionWindow)
+				CompletionListWindow.HideWindow ();
+		}
+		
 		void buttonPress (object o, ButtonPressEventArgs e)
 		{
+			CompletionListWindow.HideWindow ();
+			
 			if (!ShowLineMarkers)
 				return;
 			
@@ -95,7 +117,7 @@ namespace MonoDevelop.SourceEditor.Gui
 				}
 			}
 		}
-
+		
 		public void bookmarkToggled (object o, EventArgs e)
 		{
 			if (lineToMark == -1) return;
@@ -170,7 +192,8 @@ namespace MonoDevelop.SourceEditor.Gui
 			if (triggerIter.Equals (TextIter.Zero)) return;
 			triggerIter.ForwardChar ();
 			
-			CompletionWindow.ShowWindow (triggerChar, triggerIter, true, new CodeCompletionDataProvider (true), this);
+//			CompletionWindow.ShowWindow (triggerChar, triggerIter, true, new CodeCompletionDataProvider (true), this);
+			CompletionListWindow.ShowWindow (triggerChar, triggerIter, new CodeCompletionDataProvider (true), this);
 		}
 
 		bool MonodocResolver ()
@@ -222,6 +245,17 @@ namespace MonoDevelop.SourceEditor.Gui
 		}
 		
 		protected override bool OnKeyPressEvent (Gdk.EventKey evnt)
+		{
+			if (CompletionListWindow.ProcessKeyEvent (evnt))
+				return true;
+			
+			autoHideCompletionWindow = false;
+			bool res = ProcessPressEvent (evnt);
+			autoHideCompletionWindow = true;
+			return res;
+		}
+		
+		bool ProcessPressEvent (Gdk.EventKey evnt)
 		{
 			Gdk.Key key = evnt.Key;
 			uint state = (uint)evnt.State;
@@ -291,7 +325,8 @@ namespace MonoDevelop.SourceEditor.Gui
 			case '.':
 				bool retval = base.OnKeyPressEvent (evnt);
 				if (EnableCodeCompletion) {
-					CompletionWindow.ShowWindow ((char)key, buf.GetIterAtMark (buf.InsertMark), false, new CodeCompletionDataProvider (), this);
+//					CompletionWindow.ShowWindow ((char)key, buf.GetIterAtMark (buf.InsertMark), false, new CodeCompletionDataProvider (), this);
+					CompletionListWindow.ShowWindow ((char)key, buf.GetIterAtMark (buf.InsertMark), new CodeCompletionDataProvider (), this);
 				}
 				return retval;
 				/*case '(':
