@@ -278,7 +278,8 @@ namespace MonoDevelop.Services
 				if (IsRunning)
 					return String.Empty;
 
-				if (proc.CurrentFrame.SourceAddress.MethodSource.IsDynamic)
+				  if (proc.CurrentFrame.SourceAddress == null /* there's no source for this frame */
+				      || proc.CurrentFrame.SourceAddress.MethodSource.IsDynamic)
 					return String.Empty;
 
 				return proc.CurrentFrame.SourceAddress.MethodSource.SourceFile.FileName;
@@ -288,6 +289,9 @@ namespace MonoDevelop.Services
 		public int CurrentLineNumber {
 			get {
 				if (IsRunning)
+					return -1;
+
+				if (proc.CurrentFrame.SourceAddress == null /* there's no source for this frame */)
 					return -1;
 
 				return proc.CurrentFrame.SourceAddress.Row;
