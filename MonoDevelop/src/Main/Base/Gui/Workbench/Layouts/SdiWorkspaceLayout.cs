@@ -46,10 +46,10 @@ namespace ICSharpCode.SharpDevelop.Gui
 
 		public IWorkbenchWindow ActiveWorkbenchwindow {
 			get {
-				/*if (tabControl == null || tabControl.CurrentPage < 0 || tabControl.CurrentPage >= tabControl.NPages)  {
+				if (tabControl == null || tabControl.CurrentPage < 0 || tabControl.CurrentPage >= tabControl.NPages)  {
 					return null;
-				}*/
-				return null;//(IWorkbenchWindow)_windows[tabControl.CurrentPage];
+				}
+				return (IWorkbenchWindow)_windows[tabControl.CurrentPage];
 			}
 		}
 		
