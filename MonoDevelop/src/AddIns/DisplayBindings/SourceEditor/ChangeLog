@@ -1,3 +1,10 @@
+2004-06-10  John BouAntoun  <jba-mono@optusnet.com.au>
+	* Gui/SourceEditorBuffer.cs Added g_utf8_validate check to LoadText, 
+	refactored LoadText and LoadFile usage
+	* Search/DefaultFind.cs Added check for empty string .Text property
+	of a source buffer in find routine. BuildTextIterator hangs on 
+	empty strings for some reason
+
 2004-06-06  John Luke  <jluke@cfl.rr.com>
 
 	* Gui/SourceEditorWidget.cs: set PolicyType.Automatic for scrolling

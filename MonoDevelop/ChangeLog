@@ -1,3 +1,7 @@
+2004-06-10 John Bouantoun (jba-mono@optusnet.com.au)
+	* Numerous *.prjx in MonoDevelop solution: Changed them to not
+	search folders for new files on load.
+
 2004-06-08 Iain McCoy <iain@mccoy.id.au>
 
 	* Makefile.am: don't clobber LD_LIBRARY_PATH in the make run target

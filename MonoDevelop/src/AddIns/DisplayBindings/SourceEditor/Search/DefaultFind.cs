@@ -110,7 +110,9 @@ namespace MonoDevelop.TextEditor.Document
 			if (documentIterator.MoveForward()) {
 				info = documentIterator.Current;
 				// document is valid for searching -> set iterator & fileName
-				if (info != null && info.TextBuffer != null && info.EndOffset >= 0 && info.EndOffset < info.TextBuffer.Length) {
+				// add check to make sure text != string.Empty since this was causing BuildTextIterator to hang (JBA)
+				if (info != null && info.TextBuffer != null && info.TextBuffer.Text != string.Empty && info.EndOffset >= 0 && info.EndOffset < info.TextBuffer.Length) {
+					// TODO: figure out why BuildTextIterator hangs if info.TextBUffer.Text is empty string
 					textIterator = textIteratorBuilder.BuildTextIterator(info);
 				} else {
 					textIterator = null;

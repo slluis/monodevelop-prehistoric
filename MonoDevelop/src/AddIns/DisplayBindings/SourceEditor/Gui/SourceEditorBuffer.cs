@@ -195,42 +195,52 @@ namespace MonoDevelop.SourceEditor.Gui
 		{
 			StreamReader sr = System.IO.File.OpenText (file);
 			LoadText (sr.ReadToEnd (), mime);		
-			sr.Close ();
-			Modified = false;
+			sr.Close ();			
 		}
 		
 		public void LoadFile (string file)
 		{
+			//Debug
+			Console.WriteLine("LoadFile (\"" +  file + "\")");
 			using (NoUndo n = new NoUndo (this)) {
 				StreamReader sr = System.IO.File.OpenText (file);
-				Text = sr.ReadToEnd ();
+				LoadText(sr.ReadToEnd ());
 				sr.Close ();
 			}
-			
-			Modified = false;
-			ScrollToTop ();
 		}
+
+		// needed to make sure the text is valid
+		[DllImport("glib-2.0")]
+		static extern bool g_utf8_validate(string text, int textLength, IntPtr end);
 		
 		public void LoadText (string text, string mime)
 		{
 			SourceLanguage lang = slm.GetLanguageFromMimeType (mime);
 			if (lang != null) 
 				Language = lang;
-			
-			using (NoUndo n = new NoUndo (this))
-				Text = text;
-			
-			Modified = false;
-			ScrollToTop ();
+
+			LoadText(text);
 		}
 		
+
+		//
+		// NOTE: Text is set to null if the file could not be loaded (i.e. not valid utf8 text
+		//
 		public void LoadText (string text)
 		{
-			using (NoUndo n = new NoUndo (this))
-				Text = text;
-			
+			if (g_utf8_validate (text, text.Length, IntPtr.Zero))
+			{
+				using (NoUndo n = new NoUndo (this))
+					Text = text;
+			}
+			else
+			{
+				using (NoUndo n = new NoUndo (this))
+					Text = null;
+			}
+
 			Modified = false;
-			ScrollToTop ();
+			ScrollToTop ();			
 		}
 
 		void ScrollToTop ()
@@ -668,7 +678,12 @@ namespace MonoDevelop.SourceEditor.Gui
 		{
 			SourceEditorBuffer buff = new SourceEditorBuffer ();
 			buff.LoadFile (filename);
-			return buff;
+			// don't return a buffer that couldn't load the file
+			if (buff.Text == null) {
+				return null;
+			} else {
+				return buff;
+			}
 		}
 
 #endregion
