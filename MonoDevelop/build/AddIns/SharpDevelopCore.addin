@@ -876,7 +876,8 @@
 	                <MenuItem id = "Separator2" label = "-" />
 	                <MenuItem id = "Web" label = "${res:XML.MainMenu.HelpMenu.WebMenu}">
 	                        <!-- <MenuItem id = "ASP" label = "&amp;AlphaSierraPapa" icon = "Icons.16x16.WebSearchIcon" description = "Visit my sponsors" link = "http://www.alphasierrapapa.com/" /> -->
-	                        <!-- <MenuItem id = "SharpDevelop" label = "SharpDevelop">
+	                        <MenuItem id = "MonoDevelop" label = "MonoDevelop" icon = "Icons.16x16.WebSearchIcon" link = "http://www.monodevelop.com" />
+				<!-- <MenuItem id = "SharpDevelop" label = "SharpDevelop">
 	                        	<MenuItem id = "Downloads" label = "Downloads" icon = "Icons.16x16.WebSearchIcon" link = "http://www.icsharpcode.net/opensource/sd/download/" />
 	                        	<MenuItem id = "Forum" label = "Community Forums" icon = "Icons.16x16.WebSearchIcon" link = "http://www.icsharpcode.net/opensource/sd/forum/" />
 	                        	<MenuItem id = "Announcement" label = "Announcement List" icon = "Icons.16x16.WebSearchIcon" link = "http://www.icsharpcode.net/opensource/sd/announcementlist.asp" />
