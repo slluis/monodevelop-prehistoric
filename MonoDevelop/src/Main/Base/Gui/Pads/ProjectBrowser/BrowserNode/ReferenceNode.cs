@@ -88,39 +88,9 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads.ProjectBrowser
 		/// </summary>
 		public override bool RemoveNode()
 		{
-			string question = String.Empty;
+			
+			// TODO: Should we place a dialog here. There was one, but that is excessive.
 			ProjectReference referenceInformation = (ProjectReference)UserData;
-			ResourceService resourceService = (ResourceService)ServiceManager.Services.GetService(typeof(IResourceService));
-			StringParserService stringParserService = (StringParserService)ServiceManager.Services.GetService(typeof(StringParserService));
-			
-			switch(referenceInformation.ReferenceType) {
-				case ReferenceType.Typelib:
-					question = resourceService.GetString("ProjectComponent.RemoveReference.RemoveAssemblyQuestion");
-					break;
-				case ReferenceType.Assembly:
-					question = resourceService.GetString("ProjectComponent.RemoveReference.RemoveAssemblyQuestion");
-					break;
-				case ReferenceType.Project:
-					question = resourceService.GetString("ProjectComponent.RemoveReference.RemoveProjectQuestion");
-					break;
-				case ReferenceType.Gac:
-					question = resourceService.GetString("ProjectComponent.RemoveReference.RemoveGacAssembyQuestion");
-					break;
-				default:
-					Debug.Assert(false, "Unknown reference type");
-					break;
-			}
-			
-			/*int ret = new SharpMessageBox(resourceService.GetString("ProjectComponent.RemoveReference.Title"),
-			                              stringParserService.Parse(question, new string[,] { {"REFERENCE", Text}}),
-								          resourceService.GetString("Global.RemoveButtonText"), 
-									      resourceService.GetString("Global.CancelButtonText")).ShowMessageBox();*/
-			Console.WriteLine ("Unported Dialog in ReferenceNode.cs");
-			int ret = -1;
-			
-			if (ret == 1 || ret == -1) {
-				return false;
-			}
 		
 			Project.ProjectReferences.Remove(referenceInformation);
 			
