@@ -21,7 +21,7 @@ using Mono.Debugger.Languages;
  * exceptions, now we error out silently, this needs a real solution.
  */
 
-namespace MonoDevelop.Services
+namespace MonoDevelop.Debugger
 {
 
 	public class DebuggingService : AbstractService, IDebuggingService
@@ -34,17 +34,17 @@ namespace MonoDevelop.Services
 
 		IProgressMonitor current_monitor;
 
+#if NET_2_0
+		DebugAttributeHandler attr_handler;
+#endif
 		public DebuggingService()
 		{
 			DebuggerBackend.Initialize ();
+#if NET_2_0
+			attr_handler = new DebugAttributeHandler();
+#endif
 		}
 
-                public IProgressMonitor GetDebugProgressMonitor ()
-                {
-                        current_monitor = Runtime.TaskService.GetOutputProgressMonitor ("Debug Output", MonoDevelop.Gui.Stock.OutputIcon, true, true);
-			return current_monitor;
-                }
-		
 		void Cleanup ()
 		{
 			if (!Debugging)
@@ -55,6 +55,9 @@ namespace MonoDevelop.Services
 			backend.Dispose ();
 			backend = null;
 			current_monitor = null;
+#if NET_2_0
+			attr_handler = null;
+#endif
 			proc = null;
 		}
 
@@ -63,6 +66,26 @@ namespace MonoDevelop.Services
 			Cleanup ();
 			base.UnloadService ();
 		}
+
+#if NET_2_0
+		public DebugAttributeHandler AttributeHandler {
+			get {
+				return attr_handler;
+			}
+		}
+#endif
+
+		public IProgressMonitor DebugProgressMonitor {
+			get {
+				if (current_monitor != null)
+					return current_monitor;
+
+				current_monitor = Runtime.TaskService.GetOutputProgressMonitor ("Debug Output",
+									MonoDevelop.Gui.Stock.OutputIcon,
+									true, true);
+				return current_monitor;
+			}
+                }
 
 		private bool Debugging {
 			get {
@@ -424,4 +447,5 @@ namespace MonoDevelop.Services
 			}
 		}
 	}
+
 }

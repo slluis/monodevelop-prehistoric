@@ -11,19 +11,19 @@
 
 	<Extension path="/Workspace/Services">
 		<Class id = "DebuggingService"
-		    class = "MonoDevelop.Services.DebuggingService"/>
+		    class = "MonoDevelop.Debugger.DebuggingService"/>
 	</Extension>
 
 	<Extension path = "/SharpDevelop/Workbench/Pads">
-		<Pad id = "MonoDevelop.SourceEditor.Gui.DebuggerLocalsPad" class = "MonoDevelop.SourceEditor.Gui.DebuggerLocalsPad"/>
-		<Pad id = "MonoDevelop.SourceEditor.Gui.DebuggerStackTracePad" class = "MonoDevelop.SourceEditor.Gui.DebuggerStackTracePad"/>
-		<Pad id = "MonoDevelop.SourceEditor.Gui.DebuggerThreadPad" class = "MonoDevelop.SourceEditor.Gui.DebuggerThreadPad"/>
+		<Pad id = "MonoDevelop.Debugger.DebuggerLocalsPad" class = "MonoDevelop.Debugger.DebuggerLocalsPad"/>
+		<Pad id = "MonoDevelop.Debugger.DebuggerStackTracePad" class = "MonoDevelop.Debugger.DebuggerStackTracePad"/>
+		<Pad id = "MonoDevelop.SourceEditor.Gui.DebuggerThreadPad" class = "MonoDevelop.Debugger.DebuggerThreadPad"/>
 	</Extension>
 
 	<Extension path = "/SharpDevelop/Workbench/Contexts/Debug">
-		<ContextPad id = "MonoDevelop.SourceEditor.Gui.DebuggerLocalsPad" />
-		<ContextPad id = "MonoDevelop.SourceEditor.Gui.DebuggerStackTracePad" />
-		<ContextPad id = "MonoDevelop.SourceEditor.Gui.DebuggerThreadPad" />
+		<ContextPad id = "MonoDevelop.Debugger.DebuggerLocalsPad" />
+		<ContextPad id = "MonoDevelop.Debugger.DebuggerStackTracePad" />
+		<ContextPad id = "MonoDevelop.Debugger.DebuggerThreadPad" />
 	</Extension>
 
 	<Extension path="/SharpDevelop/Workbench/MainMenu/Run">
@@ -31,7 +31,7 @@
 		          _label = "Debug Project"
 		          insertafter = "Run"
 		          shortcut = "Control|F5"
-		          class = "MonoDevelop.Commands.DebugProject"/>
+		          class = "MonoDevelop.Debugger.Commands.DebugProject"/>
 	</Extension>
 
 	<Extension path="/SharpDevelop/Workbench/MainMenu">
@@ -40,23 +40,23 @@
 					<MenuItem id = "ToggleRunning"
 						  _label = "Pause/Resume"
 						  shortcut = "Control|F8"
-						  class = "MonoDevelop.Commands.ToggleRunning"/>
+						  class = "MonoDevelop.Debugger.Commands.ToggleRunning"/>
 	
 					<MenuItem id = "DebugKillApplication"
 						  _label = "Kill Application"
-						  class = "MonoDevelop.Commands.KillApplication"/>
+						  class = "MonoDevelop.Debugger.Commands.KillApplication"/>
 		
 					<MenuItem id = "DebugSep1" _label = "-" />
 		
 					<MenuItem id = "DebugStepOver"
 						  _label = "Step Over"
 					          shortcut = "F11"
-						  class = "MonoDevelop.Commands.StepOver"/>
+						  class = "MonoDevelop.Debugger.Commands.StepOver"/>
 		
 					<MenuItem id = "DebugStepInto"
 					          _label = "Step Into"
 					          shortcut = "Control|F11"
-					          class = "MonoDevelop.Commands.StepInto"/>
+					          class = "MonoDevelop.Debugger.Commands.StepInto"/>
 			</MenuItem>
 		</Conditional>
 	</Extension>

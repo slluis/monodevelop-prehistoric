@@ -8,7 +8,7 @@ using System.Globalization;
 using Mono.Debugger;
 using Mono.Debugger.Languages;
 
-namespace Debugger.Frontend
+namespace MonoDevelop.Debugger
 {
 	public enum LocationType
 	{

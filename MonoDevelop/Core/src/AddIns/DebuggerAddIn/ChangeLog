@@ -1,3 +1,28 @@
+2005-03-24  Chris Toshok  <toshok@ximian.com>
+
+	* MonoDevelopDebugger.addin.xml: Change all the namespaces to
+	MonoDevelop.Debugger.*
+
+	* Gui/DebuggerVariablePad.cs
+	(DebuggerVariablePad.GetDebuggerTypeProxyAttribute,
+	DebuggerVariablePad.GetDebuggerDisplayAttribute): make use of
+	DebugAttributeHandler.
+
+	* Makefile.am (FILES): add DebugAttributeHandler.cs
+
+	* DebuggerCommands.cs (DebugProject.Run): rescan debugger
+	attributes when we start a debugging session.
+
+	* DebugAttributeHandler.cs: new file, encapsulate all the debug
+	attribute handling here (as much as is possible, anyway).
+
+	* DebuggingService.cs: add attribute handler stuff, and change
+	GetDebugProgressMonitor() to a property (DebugProgressMonitor).
+
+	* *.cs, Gui/*.cs: change namespace to MonoDevelop.Debugger.*.
+	
+	* DebuggerASTVisitor.cs: wrap this file with #if NET_2_0.
+
 2005-03-23  Chris Toshok  <toshok@ximian.com>
 
 	* Gui/DebuggerThreadPad.cs, Gui/DebuggerStackTracePad.cs,

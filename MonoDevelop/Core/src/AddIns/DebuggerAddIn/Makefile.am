@@ -16,6 +16,7 @@ DebuggingService.cs \
 EvaluationContext.cs \
 Expression.cs \
 DebuggerASTVisitor.cs \
+DebugAttributeHandler.cs \
 Gui/DebuggerLocalsPad.cs \
 Gui/DebuggerVariablePad.cs \
 Gui/DebuggerStackTracePad.cs \

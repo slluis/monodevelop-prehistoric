@@ -13,7 +13,7 @@ using MonoDevelop.Core.Services;
 using MonoDevelop.Services;
 using MonoDevelop.Gui;
 
-namespace MonoDevelop.SourceEditor.Gui
+namespace MonoDevelop.Debugger
 {
 	public class DebuggerThreadPad : Gtk.ScrolledWindow, IPadContent
 	{

@@ -1,3 +1,4 @@
+#if NET_2_0
 using System;
 using System.Text;
 using System.Collections;
@@ -6,7 +7,7 @@ using System.Diagnostics;
 using RefParser = ICSharpCode.SharpRefactory.Parser;
 using AST = ICSharpCode.SharpRefactory.Parser.AST;
 
-namespace Debugger.Frontend
+namespace MonoDevelop.Debugger
 {
 	public class DebuggerASTVisitor : RefParser.AbstractASTVisitor
 	{
@@ -133,3 +134,4 @@ namespace Debugger.Frontend
 
 	}
 }
+#endif

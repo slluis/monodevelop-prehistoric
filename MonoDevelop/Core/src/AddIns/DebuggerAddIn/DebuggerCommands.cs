@@ -4,7 +4,7 @@ using MonoDevelop.Core.AddIns.Codons;
 using MonoDevelop.Services;
 using MonoDevelop.Core.Services;
 
-namespace MonoDevelop.Commands
+namespace MonoDevelop.Debugger.Commands
 {
 
 	public class ToggleRunning : AbstractMenuCommand
@@ -64,7 +64,12 @@ namespace MonoDevelop.Commands
 					}
 					//					if (projServ.BeforeStartProject != null)
 					//						projServ.BeforeStartProject (projServ, null);
-					projServ.CurrentOpenCombine.Debug (dbgr.GetDebugProgressMonitor ());
+
+#if NET_2_0
+					dbgr.AttributeHandler.Rescan();
+#endif
+
+					projServ.CurrentOpenCombine.Debug (dbgr.DebugProgressMonitor);
 				//} catch {
 				//	IMessageService msgServ = (IMessageService)ServiceManager.Services.GetService (typeof (IMessageService));
 				//	msgServ.ShowError ("Can't execute the debugger");

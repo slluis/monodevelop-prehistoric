@@ -1,7 +1,7 @@
 using System;
 using MonoDevelop.Gui;
 
-namespace MonoDevelop.SourceEditor.Gui
+namespace MonoDevelop.Debugger
 {
 	public class DebuggerLocalsPad : DebuggerVariablePad, IPadContent
 	{

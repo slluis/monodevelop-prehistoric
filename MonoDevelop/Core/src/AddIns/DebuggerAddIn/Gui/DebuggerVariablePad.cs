@@ -18,9 +18,7 @@ using MonoDevelop.Services;
 using RefParse = ICSharpCode.SharpRefactory.Parser;
 using AST = ICSharpCode.SharpRefactory.Parser.AST;
 
-using Debugger.Frontend;
-
-namespace MonoDevelop.SourceEditor.Gui
+namespace MonoDevelop.Debugger
 {
 	public class DebuggerVariablePad : Gtk.ScrolledWindow
 	{
@@ -194,9 +192,10 @@ namespace MonoDevelop.SourceEditor.Gui
 
 #if NET_2_0
 			if (!raw_view) {
-				DebuggerTypeProxyAttribute pattr = GetDebuggerTypeProxyAttribute (sobj);
+				DebuggingService dbgr = (DebuggingService)ServiceManager.GetService (typeof (DebuggingService));
+				DebuggerTypeProxyAttribute pattr = GetDebuggerTypeProxyAttribute (dbgr, sobj);
+
 				if (pattr != null) {
-					DebuggingService dbgr = (DebuggingService)ServiceManager.GetService (typeof (DebuggingService));
 					Mono.Debugger.StackFrame frame = dbgr.MainThread.CurrentFrame;
 	 				ITargetStructType proxy_type = frame.Language.LookupType (frame, pattr.ProxyTypeName) as ITargetStructType;
 					if (proxy_type == null)
@@ -362,28 +361,18 @@ namespace MonoDevelop.SourceEditor.Gui
 			return null;
 		}
 
-		DebuggerTypeProxyAttribute GetDebuggerTypeProxyAttribute (ITargetObject obj)
+		DebuggerTypeProxyAttribute GetDebuggerTypeProxyAttribute (DebuggingService dbgr, ITargetObject obj)
 		{
-			if (obj.TypeInfo.Type.TypeHandle != null && obj.TypeInfo.Type.TypeHandle is Type) {
-				Type t = (Type)obj.TypeInfo.Type.TypeHandle;
-				object[] attrs = t.GetCustomAttributes (typeof (DebuggerTypeProxyAttribute), false);
-
-				if (attrs != null && attrs.Length > 0)
-					return (DebuggerTypeProxyAttribute)attrs[0];
-			}
+			if (obj.TypeInfo.Type.TypeHandle != null && obj.TypeInfo.Type.TypeHandle is Type)
+				return dbgr.AttributeHandler.GetDebuggerTypeProxyAttribute ((Type)obj.TypeInfo.Type.TypeHandle);
 
 			return null;
 		}
 
-		DebuggerDisplayAttribute GetDebuggerDisplayAttribute (ITargetObject obj)
+		DebuggerDisplayAttribute GetDebuggerDisplayAttribute (DebuggingService dbgr, ITargetObject obj)
 		{
-			if (obj.TypeInfo.Type.TypeHandle != null && obj.TypeInfo.Type.TypeHandle is Type) {
-				Type t = (Type)obj.TypeInfo.Type.TypeHandle;
-				object[] attrs = t.GetCustomAttributes (typeof (DebuggerDisplayAttribute), false);
-
-				if (attrs != null && attrs.Length > 0)
-					return (DebuggerDisplayAttribute)attrs[0];
-			}
+			if (obj.TypeInfo.Type.TypeHandle != null && obj.TypeInfo.Type.TypeHandle is Type)
+			  return dbgr.AttributeHandler.GetDebuggerDisplayAttribute ((Type)obj.TypeInfo.Type.TypeHandle);
 
 			return null;
 		}
@@ -494,7 +483,8 @@ namespace MonoDevelop.SourceEditor.Gui
 			case TargetObjectKind.Class:
 #if NET_2_0
 				try {
-					DebuggerDisplayAttribute dattr = GetDebuggerDisplayAttribute (obj);
+					DebuggingService dbgr = (DebuggingService)ServiceManager.GetService (typeof (DebuggingService));
+					DebuggerDisplayAttribute dattr = GetDebuggerDisplayAttribute (dbgr, obj);
 					if (dattr != null) {
 						store.SetValue (iter, VALUE_COL,
 								new GLib.Value (EvaluateDebuggerDisplay (obj, dattr.Value)));
