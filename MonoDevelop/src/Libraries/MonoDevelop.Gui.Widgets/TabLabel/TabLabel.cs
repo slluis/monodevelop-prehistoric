@@ -15,16 +15,16 @@ namespace MonoDevelop.Gui.Widgets
 		public TabLabel (Label label, Gtk.Image icon) : base (GType)
 		{
 			this.icon = icon;
-			this.Add (icon);
+			this.PackStart (icon, false, true, 2);
 
 			title = label;
-			this.Add (title);
+			this.PackStart (title, false, true, 0);
 			
 			btn = new Button ();
-			btn.Child = new Gtk.Image ("../data/resources/icons/MonoDevelop.Close.png");
+			btn.Add (new Gtk.Image ("../data/resources/icons/MonoDevelop.Close.png"));
 			btn.Relief = ReliefStyle.None;
 			btn.RequestSize = new Size (16, 16);
-			this.Add (btn);
+			this.PackStart (btn, true, true, 2);
 
 			this.ShowAll ();
 		}

@@ -36,7 +36,7 @@ monodeveloplib_DATA = libmonodevelop.so
 clean:
 	rm -f libmonodevelop.so $(libmonodevelop_OBJECTS)
 
-CLEANFILES= ../build/bin/libmonodevelop.so
+CLEANFILES= ../build/bin/libmonodevelop.so libmonodevelop.so
 
 .PHONY: clean
 

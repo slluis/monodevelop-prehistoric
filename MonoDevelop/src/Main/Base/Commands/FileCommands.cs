@@ -211,7 +211,7 @@ namespace ICSharpCode.SharpDevelop.Commands
 		public override void Run()
 		{
 			Gtk.FileSelection fs = new Gtk.FileSelection ("File to Open");
-			fs.Complete (Environment.GetEnvironmentVariable ("HOME"));
+			fs.Complete (System.IO.Path.Combine (Environment.GetEnvironmentVariable ("HOME"), "MonoDevelopProjects"));
 			int response = fs.Run ();
 			string name = fs.Filename;
 			fs.Hide ();
@@ -294,7 +294,7 @@ namespace ICSharpCode.SharpDevelop.Commands
 				}
 
 				Gtk.FileSelection fs = new Gtk.FileSelection ("File to Open");
-				fs.Complete (Environment.GetEnvironmentVariable ("HOME"));
+				fs.Complete (System.IO.Path.Combine (Environment.GetEnvironmentVariable ("HOME"), "MonoDevelopProjects"));
 				int response = fs.Run ();
 				string name = fs.Filename;
 				fs.Destroy ();
