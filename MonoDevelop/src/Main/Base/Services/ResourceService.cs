@@ -327,8 +327,6 @@ namespace ICSharpCode.Core.Services
 						       Gtk.IconSize iconSize)
 		{
 			try {
-				Gdk.Pixbuf pixbuf = new Gdk.Pixbuf ("../data/resources/icons/" + filename);
-
 				Gtk.IconSet iconSet = iconFactory.Lookup (stockId);
 				if (iconSet == null) {
 					iconSet = new Gtk.IconSet ();
@@ -336,7 +334,7 @@ namespace ICSharpCode.Core.Services
 				}
 
 				Gtk.IconSource source = new Gtk.IconSource ();
-				source.Pixbuf = pixbuf;
+				source.Filename = Path.GetFullPath (Path.Combine ("../data/resources/icons", filename));
 				source.Size = iconSize;
 				iconSet.AddSource (source);
 
