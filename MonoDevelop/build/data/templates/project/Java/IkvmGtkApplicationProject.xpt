@@ -1,15 +1,15 @@
 <?xml version="1.0"?>
-<Template originator   = "Shinsaku Nakagawa" 
-          created      = "03/27/2003"
+<Template originator   = "John Luke" 
+          created      = "04/06/2004"
           lastModified = "04/06/2004">
 	
 	<!-- Template Header -->
 	<TemplateConfiguration>
-		<Name>Java Console Project</Name>
+		<Name>IKVM Gtk# Project</Name>
 		<Category>Java</Category>
 		<Icon>Java.Project.DOSProject</Icon>
 		<LanguageName>Java</LanguageName>
-		<Description>Create a console Java project</Description>
+		<Description>Create a Gtk# Java project with IKVM</Description>
 	</TemplateConfiguration>
 	
 	<!-- Actions -->
@@ -24,7 +24,8 @@
 		</Options>
 		
 		<Project name = "${ProjectName}" directory = ".">
-			<Options Target = "Class" PauseConsoleOutput = "False" ClassPath = "" MainClass ="application" />
+			<!-- FIXME: do not hardcode these -->
+			<Options Target = "Class" PauseConsoleOutput = "False" ClassPath = "/usr/lib/gtk-sharp.jar:/usr/lib/glib-sharp.jar:/usr/lib/atk-sharp.jar:/usr/lib/mscorlib.jar:." MainClass ="application" />
 	
 			<Files>
 				<File name = "application.java">
@@ -33,10 +34,16 @@
  *
  * created on ${Date} at ${Time}
  */
+import cli.Gtk.*;
 
 public class application {
-    public static void main(String[] args) {
-        System.out.println("Hello, World!");
+    public static void main (String[] args) {
+        Application.Init ();
+		Window w = new Window ("Hello Mono with Java#");
+		Button b = new Button ("Click me");
+		w.Add (b);
+		w.ShowAll ();
+		Application.Run ();
     }
 }]]></File>		
 			</Files>

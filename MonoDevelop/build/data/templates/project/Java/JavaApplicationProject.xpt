@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <Template originator   = "Gary Gray" 
           created      = "09/05/2001"
-          lastModified = "02/01/2003">
+          lastModified = "04/06/2004">
 	
 	<!-- Template Header -->
 	<TemplateConfiguration>
@@ -24,7 +24,7 @@
 		</Options>
 		
 		<Project name = "${ProjectName}" directory = ".">
-			<Options Target = "Class" PauseConsoleOutput = "False" ClassPath = "abc" MainClass ="application" />
+			<Options Target = "Class" PauseConsoleOutput = "False" ClassPath = "" MainClass ="application" />
 	
 			<Files>
 				<File name = "application.java">
