@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <Template Originator="John Luke" 
-          Language="GtkSharpWindow" Created="1/02/2001" LastModified="1/02/2003">
+          Language="GtkSharpWindow" Created="1/02/2004" LastModified="2/25/2004">
 	
 	<TemplateConfiguration>
 		<Name>Gtk# Window</Name>
@@ -21,12 +21,19 @@ namespace MyWindow
 {
 	public class CreatedWindow : Window
 	{
-		static GLib.GType type;
+		static GLib.GType gtype;
 		
-		static CreatedWindow ()
+		public static new GLib.GType GType
 		{
-			type = RegisterGType (typeof (CreatedWindow));		}
-		public CreatedWindow () : base (type)
+			get
+			{
+				if (gtype == GLib.GType.Invalid)
+					gtype = RegisterGType (typeof (CreatedWindow));
+				return gtype;
+			}
+		}
+
+		public CreatedWindow () : base (GType)
 		{
 		}
 	}

@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <Template Originator="John Luke" 
-          Language="GnomeSharpProgram" Created="1/02/2001" LastModified="1/02/2003">
+          Language="GnomeSharpProgram" Created="1/02/2004" LastModified="2/25/2004">
 	
 	<TemplateConfiguration>
 		<Name>Gnome# Program</Name>
@@ -21,12 +21,20 @@ namespace MyProgram
 {
 	public class CreatedProgram : Program
 	{
-		static GLib.GType type;
+		static GLib.GType gtype;
 		
-		static CreatedProgram ()
+		public static new GLib.GType GType
 		{
-			type = RegisterGType (typeof (CreatedProgram));		}
-		public CreatedProgram () : base (type)
+			get
+			{
+				if (gtype == GLib.GType.Invalid)
+					type = RegisterGType (typeof (CreatedProgram));
+				return gtype;
+			}
+		}
+
+
+		public CreatedProgram () : base (GType)
 		{
 		}
 	}
