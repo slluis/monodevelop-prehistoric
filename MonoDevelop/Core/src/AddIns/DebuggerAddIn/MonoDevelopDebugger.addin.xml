@@ -14,13 +14,16 @@
 		    class = "MonoDevelop.Services.DebuggingService"/>
 	</Extension>
 
-	<Extension path="/SharpDevelop/Workbench/Views">
-		<Class id    = "DebuggerLocalsPad"
-		       class = "MonoDevelop.SourceEditor.Gui.DebuggerLocalsPad"/>
-		<Class id    = "DebuggerStackTracePad"
-		       class = "MonoDevelop.SourceEditor.Gui.DebuggerStackTracePad"/>
-		<Class id    = "DebuggerThreadPad"
-		       class = "MonoDevelop.SourceEditor.Gui.DebuggerThreadPad"/>
+	<Extension path = "/SharpDevelop/Workbench/Pads">
+		<Pad id = "MonoDevelop.SourceEditor.Gui.DebuggerLocalsPad" class = "MonoDevelop.SourceEditor.Gui.DebuggerLocalsPad"/>
+		<Pad id = "MonoDevelop.SourceEditor.Gui.DebuggerStackTracePad" class = "MonoDevelop.SourceEditor.Gui.DebuggerStackTracePad"/>
+		<Pad id = "MonoDevelop.SourceEditor.Gui.DebuggerThreadPad" class = "MonoDevelop.SourceEditor.Gui.DebuggerThreadPad"/>
+	</Extension>
+
+	<Extension path = "/SharpDevelop/Workbench/Contexts/Debug">
+		<ContextPad id = "MonoDevelop.SourceEditor.Gui.DebuggerLocalsPad" />
+		<ContextPad id = "MonoDevelop.SourceEditor.Gui.DebuggerStackTracePad" />
+		<ContextPad id = "MonoDevelop.SourceEditor.Gui.DebuggerThreadPad" />
 	</Extension>
 
 	<Extension path="/SharpDevelop/Workbench/MainMenu/Run">
@@ -57,5 +60,5 @@
 			</MenuItem>
 		</Conditional>
 	</Extension>
-</AddIn	>
+</AddIn>
 

@@ -1,3 +1,7 @@
+2005-03-14  Lluis Sanchez Gual <lluis@novell.com>
+
+	* MonoDevelopDebugger.addin.xml: Use the new syntax for defining pads.
+
 2005-03-02  Chris Toshok  <toshok@ximian.com>
 
 	* Gui/DebuggerVariablePad.cs (DebuggerVariablePad.ctor): add a
