@@ -43,6 +43,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs {
 			b.Clicked += new EventHandler (AddReference);
 			
 			PackEnd (b, false, false, 0);
+			ShowAll ();
 		}
 		
 		void AddReference (TreeModel model, TreePath path, TreeIter iter)

@@ -55,6 +55,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 			sc.AddWithViewport (treeView);
 			this.Add (sc);
 			Shadow = ShadowType.None;
+			ShowAll ();
 		}
 		
 		public void AddReference(object sender, GtkSharp.ToggledArgs e)
