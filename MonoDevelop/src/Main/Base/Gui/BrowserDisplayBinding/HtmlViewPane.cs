@@ -8,6 +8,7 @@
 using System;
 using Gtk;
 using GtkSharp;
+using GtkMozEmbed;
 
 using ICSharpCode.SharpDevelop.Internal.Undo;
 using System.Drawing.Printing;
@@ -20,10 +21,56 @@ using ICSharpCode.SharpDevelop.Gui.HtmlControl;
 
 namespace ICSharpCode.SharpDevelop.BrowserDisplayBinding
 {
-	public class BrowserPane : AbstractViewContent
+	public class BrowserPane : AbstractViewContent, ISecondaryViewContent
 	{	
 		protected HtmlViewPane htmlViewPane;
+		protected IViewContent parent;
 		string title;
+
+		public void Selected ()
+		{
+		}
+
+		public void Deselected ()
+		{
+		}
+
+		public void NotifyBeforeSave ()
+		{
+		}
+
+		public override string TabPageLabel
+		{
+			get {
+				return "Web Browser";
+			}
+		}
+		
+		public void BaseContentChanged ()
+		{
+			//FIXME: This is a hack
+			if (parent.Control.GetType ().ToString () == "MonoDevelop.SourceEditor.Gui.SourceEditor")
+			{
+				try {
+					htmlViewPane.MozillaControl.OpenStream ("file://", "text/html");
+					htmlViewPane.MozillaControl.AppendData (((Gtk.TextView)((Gtk.ScrolledWindow)parent.Control).Children[0]).Buffer.Text);
+					htmlViewPane.MozillaControl.CloseStream ();
+					Gtk.Timeout.Add (50, new Gtk.Function (checkFocus));
+					
+				} catch {
+					Console.WriteLine ("gtkmozembed tossed an exception");
+				}
+			}
+		}
+
+		public bool checkFocus ()
+		{
+			if (((Gtk.ScrolledWindow)parent.Control).Children[0].HasFocus == false) {
+				((Gtk.ScrolledWindow)parent.Control).Children[0].GrabFocus ();
+				return false;
+			}
+			return true;
+		}
 
 		public override Widget Control {
 			get {
@@ -45,7 +92,17 @@ namespace ICSharpCode.SharpDevelop.BrowserDisplayBinding
 			}
 		}
 		
-		protected BrowserPane(bool showNavigation) //: base (type)
+		public BrowserPane (bool showNavigation, IViewContent parent) : this (showNavigation)
+		{
+			this.parent = parent;
+		}
+
+		void onFocused (object o, EventArgs e)
+		{
+			Console.WriteLine ("aa");
+		}
+
+		public BrowserPane(bool showNavigation) //: base (type)
 		{
 			htmlViewPane = new HtmlViewPane(showNavigation);
 			htmlViewPane.MozillaControl.Title += new EventHandler (OnTitleChanged);
@@ -79,6 +136,7 @@ namespace ICSharpCode.SharpDevelop.BrowserDisplayBinding
 	public class HtmlViewPane : Gtk.Frame
 	{
 		MozillaControl htmlControl = null;
+		public Gtk.EventBox catcher = null;
 		
 		VBox   topPanel   = new VBox (false, 2);
 		Toolbar toolBar    = new Toolbar ();
@@ -154,7 +212,9 @@ namespace ICSharpCode.SharpDevelop.BrowserDisplayBinding
 			htmlControl.NetStop += new EventHandler (OnNetStop);
 			htmlControl.ShowAll ();
 
-			mainbox.PackStart (htmlControl);
+			catcher = new Gtk.EventBox ();
+			catcher.Add (htmlControl);
+			mainbox.PackStart (catcher);
 
 			status = new Statusbar ();
 			mainbox.PackStart (status, false, true, 0);

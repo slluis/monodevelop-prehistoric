@@ -91,9 +91,9 @@ namespace MonoDevelop.SourceEditor.Gui {
 			}
 		}
 		
-		public override string TabPageText {
+		public override string TabPageLabel {
 			get {
-				return "${res:FormsDesigner.DesignTabPages.SourceTabPage}";
+				return "Source Editor";
 			}
 		}
 		
@@ -228,6 +228,7 @@ namespace MonoDevelop.SourceEditor.Gui {
 		{
 			// gedit also hooks this event, but do we need it?
 			UpdateLineCol ();
+			OnContentChanged (null);
 		}
 		
 		// WORKAROUND until we get this method returning char in gtk#

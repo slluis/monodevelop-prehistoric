@@ -34,9 +34,6 @@ namespace ICSharpCode.SharpDevelop.Gui
 		/// The text on the tab page when more than one view content
 		/// is attached to a single window.
 		/// </summary>
-		string TabPageText {
-			get;
-		}
 		
 		/// <summary>
 		/// Reinitializes the content. (Re-initializes all add-in tree stuff)

@@ -16,6 +16,10 @@ namespace ICSharpCode.SharpDevelop.Gui
 		
 		bool   isDirty  = false;
 		bool   isViewOnly = false;
+
+		public override string TabPageLabel {
+			get { return "Change me"; }
+		}
 		
 		public virtual string UntitledName {
 			get {
@@ -100,9 +104,17 @@ namespace ICSharpCode.SharpDevelop.Gui
 				BeforeSave(this, e);
 			}
 		}
+
+		protected virtual void OnContentChanged (EventArgs e)
+		{
+			if (ContentChanged != null) {
+				ContentChanged (this, e);
+			}
+		}
 		
 		public event EventHandler ContentNameChanged;
 		public event EventHandler DirtyChanged;
 		public event EventHandler BeforeSave;
+		public event EventHandler ContentChanged;
 	}
 }

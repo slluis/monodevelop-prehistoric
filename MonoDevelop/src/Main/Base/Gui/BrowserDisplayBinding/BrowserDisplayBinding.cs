@@ -16,10 +16,13 @@ using ICSharpCode.Core.Properties;
 using ICSharpCode.Core.AddIns.Codons;
 using ICSharpCode.SharpDevelop.Gui;
 
+using MonoDevelop.Gui.Utils;
+
 namespace ICSharpCode.SharpDevelop.BrowserDisplayBinding
 {
-	public class BrowserDisplayBinding : IDisplayBinding
+	public class BrowserDisplayBinding : IDisplayBinding, ISecondaryDisplayBinding
 	{
+
 		public bool CanCreateContentForFile(string fileName)
 		{
 			return fileName.StartsWith("http") || fileName.StartsWith("ftp");
@@ -56,6 +59,20 @@ namespace ICSharpCode.SharpDevelop.BrowserDisplayBinding
 		public IViewContent CreateContentForLanguage(string languageName, string content, string new_file_name)
 		{
 			return null;
+		}
+
+		public bool CanAttachTo (IViewContent parent)
+		{
+			string filename = parent.ContentName;
+			string mimetype = Vfs.GetMimeType (filename);
+			if (mimetype == "text/html")
+				return true;
+			return false;
+		}
+
+		public ISecondaryViewContent CreateSecondaryViewContent (IViewContent parent)
+		{
+			return new BrowserPane (false, parent);
 		}
 	}
 }

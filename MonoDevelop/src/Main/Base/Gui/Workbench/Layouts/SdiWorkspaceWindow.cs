@@ -10,6 +10,8 @@ using System.Collections;
 using System.IO;
 using Gtk;
 
+using Gdl;
+
 using ICSharpCode.Core.Services;
 using ICSharpCode.SharpDevelop.Services;
 
@@ -18,11 +20,14 @@ using MonoDevelop.Gui.Widgets;
 
 namespace ICSharpCode.SharpDevelop.Gui
 {
-	public class SdiWorkspaceWindow : IWorkbenchWindow
+	public class SdiWorkspaceWindow : Dock, IWorkbenchWindow
 	{
 		Notebook   viewTabControl = null;
 		IViewContent content;
 		ArrayList    subViewContents = null;
+
+		DockItem mainItem;
+		ArrayList    subDockItems = null;
 		
 		TabLabel tabLabel;
 		Widget    tabPage;
@@ -100,7 +105,7 @@ namespace ICSharpCode.SharpDevelop.Gui
 			tabControl.CurrentPage = toSelect;
 		}
 		
-		public SdiWorkspaceWindow(IViewContent content, Notebook tabControl, TabLabel tabLabel)
+		public SdiWorkspaceWindow(IViewContent content, Notebook tabControl, TabLabel tabLabel) : base ()
 		{
 			this.tabControl = tabControl;
 			this.content = content;
@@ -112,6 +117,12 @@ namespace ICSharpCode.SharpDevelop.Gui
 			content.ContentNameChanged += new EventHandler(SetTitleEvent);
 			content.DirtyChanged       += new EventHandler(SetTitleEvent);
 			content.BeforeSave         += new EventHandler(BeforeSave);
+			content.ContentChanged     += new EventHandler (OnContentChanged);
+
+			mainItem = new DockItem (content.TabPageLabel, content.TabPageLabel, DockItemBehavior.Locked | DockItemBehavior.CantClose | DockItemBehavior.CantIconify);
+			mainItem.Add (content.Control);
+			mainItem.ShowAll ();
+			AddItem (mainItem, DockPlacement.Center);
 			SetTitleEvent(null, null);
 		}
 		
@@ -142,11 +153,11 @@ namespace ICSharpCode.SharpDevelop.Gui
 			if (content == null) {
 				return;
 			}
-			
+		
 			string newTitle = "";
 			if (content.ContentName == null) {
 				if (myUntitledTitle == null) {
-					string baseName  = Path.GetFileNameWithoutExtension(content.UntitledName);
+					string baseName  = System.IO.Path.GetFileNameWithoutExtension(content.UntitledName);
 					int    number    = 1;
 					bool   found     = true;
 					while (found) {
@@ -167,7 +178,7 @@ namespace ICSharpCode.SharpDevelop.Gui
 				}
 				newTitle = myUntitledTitle;
 			} else {
-				newTitle = Path.GetFileName(content.ContentName);
+				newTitle = System.IO.Path.GetFileName(content.ContentName);
 			}
 			
 			if (content.IsDirty) {
@@ -186,6 +197,17 @@ namespace ICSharpCode.SharpDevelop.Gui
 			content.ContentNameChanged -= new EventHandler(SetTitleEvent);
 			content.DirtyChanged       -= new EventHandler(SetTitleEvent);
 			content.BeforeSave         -= new EventHandler(BeforeSave);
+			content.ContentChanged     -= new EventHandler (OnContentChanged);
+		}
+
+		public void OnContentChanged (object o, EventArgs e)
+		{
+			if (subViewContents != null) {
+				foreach (ISecondaryViewContent subContent in subViewContents)
+				{
+					subContent.BaseContentChanged ();
+				}
+			}
 		}
 		
 		public void CloseWindow(bool force, bool fromMenu, int pageNum)
@@ -233,7 +255,20 @@ namespace ICSharpCode.SharpDevelop.Gui
 		
 		public void AttachSecondaryViewContent(ISecondaryViewContent subViewContent)
 		{
-
+			if (subViewContents == null) {
+				subViewContents = new ArrayList ();
+				subDockItems = new ArrayList ();
+			}
+	
+			mainItem.Behavior = DockItemBehavior.CantClose | DockItemBehavior.CantIconify;
+			subViewContents.Add (subViewContent);
+			DockItem dockitem = new DockItem (subViewContent.TabPageLabel, subViewContent.TabPageLabel, DockItemBehavior.CantClose | DockItemBehavior.CantIconify);
+			dockitem.Add (subViewContent.Control);
+			subViewContent.Control.ShowAll ();
+			dockitem.ShowAll ();
+			subDockItems.Add (dockitem);
+			AddItem (dockitem, DockPlacement.Bottom);
+			OnContentChanged (null, null);
 		}
 		
 		int oldIndex = -1;

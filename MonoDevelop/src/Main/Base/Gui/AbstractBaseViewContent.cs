@@ -28,7 +28,7 @@ namespace ICSharpCode.SharpDevelop.Gui
 			}
 		}
 		
-		public virtual string TabPageText {
+		public virtual string TabPageLabel {
 			get {
 				return "Abstract Content";
 			}

@@ -317,14 +317,14 @@ namespace ICSharpCode.SharpDevelop.Gui
 			TabLabel tabLabel = new TabLabel (new Label (), new Gtk.Image (""));
 			tabLabel.Button.Clicked += new EventHandler (closeClicked);
 			tabLabel.Button.StateChanged += new StateChangedHandler (stateChanged);
-			tabControl.AppendPage (content.Control, tabLabel);
-
 			SdiWorkspaceWindow sdiWorkspaceWindow = new SdiWorkspaceWindow(content, tabControl, tabLabel);
 
 			sdiWorkspaceWindow.CloseEvent += new EventHandler(CloseWindowEvent);
-			sdiWorkspaceWindow.SwitchView(tabControl.Children.Length - 1);
+			//sdiWorkspaceWindow.SwitchView(tabControl.Children.Length - 1);
 			_windows.Add (sdiWorkspaceWindow);
-			
+		
+			tabControl.AppendPage (sdiWorkspaceWindow, tabLabel);
+		
 			if (tabControl.NPages > 1)
 				tabControl.ShowTabs = true;
 			tabControl.ShowAll();

@@ -79,6 +79,9 @@ namespace ICSharpCode.SharpDevelop.Gui
 		/// </summary>
 		void Load(string fileName);
 		
+		string TabPageLabel {
+			get;
+		}
 		/// <summary>
 		/// Is called each time the name for the content has changed.
 		/// </summary>
@@ -91,5 +94,7 @@ namespace ICSharpCode.SharpDevelop.Gui
 		event EventHandler DirtyChanged;
 		
 		event EventHandler BeforeSave;
+
+		event EventHandler ContentChanged;
 	}
 }
