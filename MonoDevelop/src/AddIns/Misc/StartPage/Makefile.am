@@ -15,3 +15,5 @@ $(DLL): $(SOURCES)
 		/r:../../../../build/bin/gtkmozembed-sharp.dll \
 		/r:gtk-sharp.dll \
 		$(SOURCES)
+
+CLEANFILES=$(DLL)

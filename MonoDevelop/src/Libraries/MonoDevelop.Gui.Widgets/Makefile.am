@@ -9,3 +9,4 @@ super-docker: */*.cs
 $(DLL): */*.cs *.cs
 	@ mcs /debug /out:$(DLL) /target:library $(REFERENCES) /recurse:*.cs
 
+CLEANFILES=$(DLL)

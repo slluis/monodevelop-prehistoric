@@ -25,8 +25,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads
 		private FileSystemWatcher watcher;
 		private ItemCollection Items;
 		private Gtk.ListStore store;
-		
-//		private MagicMenus.PopupMenu menu = null;
+		private Gtk.Menu popmenu = null;
 		
 		public FileList()
 		{
@@ -76,9 +75,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads
 //			menu.MenuCommands.Add(new MagicMenus.MenuCommand("Delete file", new EventHandler(deleteFiles)));
 //			menu.MenuCommands.Add(new MagicMenus.MenuCommand("Rename", new EventHandler(renameFile)));
 			
-			try {
-				watcher = new FileSystemWatcher();
-			} catch {}
+			watcher = new FileSystemWatcher ();
 			
 			if(watcher != null) {
 				watcher.NotifyFilter = NotifyFilters.FileName;
@@ -164,10 +161,10 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads
 		
 		void deleteFiles(object sender, EventArgs e)
 		{
-/*			IMessageService messageService =(IMessageService)ServiceManager.Services.GetService(typeof(IMessageService));
+			IMessageService messageService =(IMessageService)ServiceManager.Services.GetService(typeof(IMessageService));
 			
 			if (messageService.AskQuestion("Are you sure ?", "Delete files")) {
-				foreach(FileListItem fileItem in SelectedItems)
+				/*foreach(FileListItem fileItem in SelectedItems)
 				{
 					try {
 						File.Delete(fileItem.FullName);
@@ -175,69 +172,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads
 						messageService.ShowError(ex, "Couldn't delete file '" + Path.GetFileName(fileItem.FullName) + "'");
 						break;
 					}
-				}
-			}
-*/
-		}
-		
-/*		protected override void OnMouseUp(MouseEventArgs e)
-		{
-			base.OnMouseUp(e);
-			
-			ListViewItem itemUnderMouse = GetItemAt(PointToScreen(new Point(e.X, e.Y)).X, PointToScreen(new Point(e.X, e.Y)).Y);
-			
-			if(e.Button == MouseButtons.Right && this.SelectedItems.Count > 0) {
-//				menu.TrackPopup(PointToScreen(new Point(e.X, e.Y)));
-			}
-		}
-		
-		protected override void OnAfterLabelEdit(LabelEditEventArgs e)
-		{
-			base.OnAfterLabelEdit(e);
-			
-			if(e.Label == null) {
-				e.CancelEdit = true;
-				return;
-			}
-			
-			string filename = ((FileListItem)Items[e.Item]).FullName;
-			string newname = Path.GetDirectoryName(filename) + Path.DirectorySeparatorChar + e.Label;
-			
-			try {
-				File.Move(filename, newname);
-				((FileListItem)Items[e.Item]).FullName = newname;
-			} catch(Exception ex) {
-				e.CancelEdit = true;
-				IMessageService messageService =(IMessageService)ServiceManager.Services.GetService(typeof(IMessageService));
-				messageService.ShowError(ex, "Rename failed");
-			}
-		}
-*/		
-		public void ShowFilesInPath(string path)
-		{
-			string[] files;
-			Items.Clear();
-		
-			try {
-				files = Directory.GetFiles(path);
-			} catch (Exception) {
-				return;
-			}
-			
-			watcher.Path = path;
-			//watcher.EnableRaisingEvents = true;
-			
-			foreach (string file in files) {
-				string filename = System.IO.Path.GetFileName(file);
-				if (filename != null && filename.Length > 0 && filename[0] == '.') {
-					continue;
-				}
-				FileInfo info = new FileInfo(file);
-			
-				FileListItem fileItem = Items.Add(new FileListItem(file,
-					Math.Round((double)info.Length / 1024).ToString() + " KB",
-					info.LastWriteTime.ToString()
-				));
+				}*/
 			}
 		}
 		
@@ -373,8 +308,6 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads
 			//OnIconChanged(null);
 		}
 		
-		//Splitter      splitter1     = new Splitter();
-		
 		FileList   filelister = new FileList();
 		FileBrowser fb = new FileBrowser ();
 		Gtk.Entry pathEntry;
@@ -409,7 +342,6 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads
 			Pack1(treef, true, true);
 			Pack2(listf, true, true);
 
-			//OnDirChanged (fb, new EventArgs ());
 			fb.TreeView.Selection.SelectPath (new Gtk.TreePath ("0"));
 		}
 

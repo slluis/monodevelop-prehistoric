@@ -117,4 +117,6 @@ libgdlmarshal.c: libgdlmarshal.h
 clean:
 	rm -f libgdldock.so $(libgdldock_OBJECTS) $(GENERATED_SOURCES)
 
+CLEANFILES= ../../../build/bin/libgdldock.so ../../../build/bin/*.png
+
 .PHONY: clean

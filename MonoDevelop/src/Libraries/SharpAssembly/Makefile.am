@@ -73,3 +73,5 @@ all: $(DLL)
 
 $(DLL): $(SOURCES)
 	@ mcs /debug /out:$(DLL) /target:library $(SOURCES)
+
+CLEANFILES=$(DLL)

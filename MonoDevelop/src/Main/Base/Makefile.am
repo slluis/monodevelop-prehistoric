@@ -373,3 +373,5 @@ $(DLL): $(SOURCES) ../../../data/resources/glade/Base.glade
 
 Services/StockIcons.cs : ./Services/process-icons.pl
 	perl  -x../../../build/data/resources/icons -w ./Services/process-icons.pl > $@
+
+CLEANFILES=$(DLL)

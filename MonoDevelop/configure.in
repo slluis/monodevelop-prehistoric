@@ -1,0 +1,68 @@
+AC_INIT(README)
+AC_CANONICAL_SYSTEM
+AM_INIT_AUTOMAKE(monodevelop, 0.1)
+AM_MAINTAINER_MODE
+AM_PROG_LIBTOOL
+
+AC_PATH_PROG(MONO, mono)
+AC_PATH_PROG(MCS, mcs)
+if test "x$MONO" = "x" ; then
+  AC_MSG_ERROR([Can't find "mono" in your PATH])
+fi
+if test "x$MCS" = "x" ; then
+  AC_MSG_ERROR([Can't find "mcs" in your PATH])
+fi
+AC_SUBST(PATH)
+AC_SUBST(LD_LIBRARY_PATH)
+
+dnl Find pkg-config
+AC_PATH_PROG(PKG_CONFIG, pkg-config, no)
+if test "x$PKG_CONFIG" = "xno"; then
+        AC_MSG_ERROR([You need to install pkg-config])
+fi
+
+dnl Find mono
+MONO_REQUIRED_VERSION=0.30
+
+PKG_CHECK_MODULES(BASE_DEPENDENCIES, mono >= $MONO_REQUIRED_VERSION)
+
+dnl Find gtk-sharp
+GTKSHARP_REQUIRED_VERSION=0.16
+
+PKG_CHECK_MODULES(BASE_DEPENDENCIES, gtk-sharp >= $GTKSHARP_REQUIRED_VERSION) 
+
+GTKSOURCEVIEW_REQUIRED_VERSION=0.7
+
+PKG_CHECK_MODULES(BASE_DEPENDENCIES, gtksourceview-1.0 >= $GTKSOURCEVIEW_REQUIRED_VERSION)
+
+MOZILLA_HOME="`$PKG_CONFIG --variable=libdir mozilla-gtkmozembed`"
+AC_SUBST(MOZILLA_HOME)
+
+AC_OUTPUT([
+Makefile
+gdldock/Makefile
+gdldock/gdl/Makefile
+gdldock/sources/Makefile
+gdldock/sources/gdl/Makefile
+gtkmozembed-sharp/Makefile
+src/Makefile
+src/AddIns/Makefile
+src/AddIns/BackendBindings/Makefile
+src/AddIns/BackendBindings/CSharpBinding/Makefile
+src/AddIns/DisplayBindings/Makefile
+src/AddIns/DisplayBindings/SourceEditor/Makefile
+src/AddIns/DisplayBindings/TextEditor/Makefile
+src/AddIns/Misc/Makefile
+src/AddIns/Misc/StartPage/Makefile
+src/Main/Makefile
+src/Main/Base/Makefile
+src/Main/StartUp/Makefile
+src/Libraries/Makefile
+src/Libraries/ICSharpCode.TextEditor/Makefile
+src/Libraries/MonoDevelop.Core/Makefile
+src/Libraries/MonoDevelop.Gui.Utils/Makefile
+src/Libraries/MonoDevelop.Gui.Widgets/Makefile
+src/Libraries/SharpAssembly/Makefile
+src/Libraries/SharpRefactory/Makefile
+monodevelop
+])

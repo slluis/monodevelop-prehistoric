@@ -1,11 +1,10 @@
 MCS=mcs
 ASSEMBLY = ../build/bin/gtkmozembed-sharp.dll
-PREFIX ?= $(shell pkg-config --variable=prefix gapi)
 
 INCLUDE_APIS = \
-	$(PREFIX)/share/gapi/gdk-api.xml \
-	$(PREFIX)/share/gapi/gtk-api.xml \
-	$(PREFIX)/share/gapi/atk-api.xml
+	@prefix@/share/gapi/gdk-api.xml \
+	@prefix@/share/gapi/gtk-api.xml \
+	@prefix@/share/gapi/atk-api.xml
 			
 all: generated-stamp $(ASSEMBLY)
 
@@ -18,7 +17,4 @@ $(ASSEMBLY): generated-stamp
 	-r glib-sharp.dll -r gtk-sharp.dll -r gdk-sharp.dll \
 	--recurse '*.cs' -o $(ASSEMBLY)
  
-clean:
-	rm -f generated-stamp
-	rm -rf generated
- 
+CLEANFILES=$(ASSEMBLY) generated-stamp generated

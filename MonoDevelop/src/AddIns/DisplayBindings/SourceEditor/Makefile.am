@@ -11,3 +11,5 @@ $(DLL) : $(shell find . -name \*.cs)
 		/r:pango-sharp.dll /r:gnome-sharp.dll /r:glade-sharp.dll \
 		/r:gconf-sharp.dll \
 		/r:System.Drawing.dll
+
+CLEANFILES=$(DLL)

@@ -118,3 +118,5 @@ test-parser.exe : $(DLL) src/Main.cs
 
 run : test-parser.exe
 	@ MONO_PATH=`dirname $(DLL)` mono --debug test-parser.exe $(TEST_SOURCE)
+
+CLEANFILES=$(DLL)

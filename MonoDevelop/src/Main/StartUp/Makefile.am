@@ -43,3 +43,4 @@ $(DLL): $(SOURCES)
 		/r:gnome-sharp.dll \
 		$(RESOURCES) $(SOURCES)
 
+CLEANFILES=$(DLL)
