@@ -70,7 +70,7 @@ namespace MonoDevelop.Gui.Dialogs
 			long numWords = 0;
 			long numChars = 0;
 			
-			if (!File.Exists(filename)) return null;
+			if (!System.IO.File.Exists(filename)) return null;
 			
 			FileStream istream = new FileStream(filename, FileMode.Open, FileAccess.Read, FileShare.Read);
 			StreamReader sr = new StreamReader(istream);

@@ -155,11 +155,11 @@ namespace MonoDevelop.Gui.Dialogs
 			
 			//IDocument document = new DocumentFactory ().CreateDocument ();
 			//document.HighlightingStrategy = HighlightingStrategyFactory.CreateHighlightingStrategyForFile (fileName);
-			StreamReader stream = File.OpenText (fileName);
+			StreamReader stream = System.IO.File.OpenText (fileName);
 			//document.TextContent = stream.ReadToEnd ();
 			stream.Close ();
 			
-			curFileStream = File.CreateText (System.IO.Path.Combine (targetPath, targetFile));
+			curFileStream = System.IO.File.CreateText (System.IO.Path.Combine (targetPath, targetFile));
 			curFileStream.Write ("<html>\r\n");
 			curFileStream.Write ("<head>\r\n");
 			curFileStream.Write ("<link rel=\"stylesheet\" type=\"text/css\" href=\"sdcss.css\">\r\n");
@@ -264,7 +264,7 @@ namespace MonoDevelop.Gui.Dialogs
 		
 		void WriteIndexTable (string fileName, string name, ArrayList nameList, Hashtable table)
 		{
-			curIndexStreamStack.Push (File.CreateText(fileName));
+			curIndexStreamStack.Push (System.IO.File.CreateText(fileName));
 			StreamWriter curIndexStream = (StreamWriter) curIndexStreamStack.Peek();
 			
 			curIndexStream.Write ("<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0 Transitional//EN\">\r\n");
@@ -310,7 +310,7 @@ namespace MonoDevelop.Gui.Dialogs
 				} else if (entry.Value is ProjectFile) {
 					ProjectFile fInfo = (ProjectFile) entry.Value;
 					DateTime time = Directory.GetLastAccessTime (fInfo.Name);
-					FileStream reader = File.OpenRead (fInfo.Name);
+					FileStream reader = System.IO.File.OpenRead (fInfo.Name);
 					long size = reader.Length;
 					reader.Close ();
 					
@@ -383,7 +383,7 @@ namespace MonoDevelop.Gui.Dialogs
 		void CreateCSS (string targetPath)
 		{
 			//lock (this) {
-				StreamWriter sw = File.CreateText (System.IO.Path.Combine (targetPath, "sdcss.css"));
+				StreamWriter sw = System.IO.File.CreateText (System.IO.Path.Combine (targetPath, "sdcss.css"));
 				sw.Write ("div.code\r\n");
 				sw.Write ("{\r\n");
 				sw.Write ("	background-color: rgb(255,255,255);\r\n");

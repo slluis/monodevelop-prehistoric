@@ -193,7 +193,7 @@ namespace MonoDevelop.SourceEditor.Gui
 		
 		public void LoadFile (string file, string mime)
 		{
-			StreamReader sr = File.OpenText (file);
+			StreamReader sr = System.IO.File.OpenText (file);
 			LoadText (sr.ReadToEnd (), mime);		
 			sr.Close ();
 			Modified = false;
@@ -202,7 +202,7 @@ namespace MonoDevelop.SourceEditor.Gui
 		public void LoadFile (string file)
 		{
 			using (NoUndo n = new NoUndo (this)) {
-				StreamReader sr = File.OpenText (file);
+				StreamReader sr = System.IO.File.OpenText (file);
 				Text = sr.ReadToEnd ();
 				sr.Close ();
 			}

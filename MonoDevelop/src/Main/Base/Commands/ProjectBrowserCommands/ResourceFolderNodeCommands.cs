@@ -55,7 +55,7 @@ namespace MonoDevelop.Commands.ProjectBrowser
 						return;
 				
 					foreach (string file in files) {
-						if (! File.Exists (file)) {
+						if (!System.IO.File.Exists (file)) {
 							IMessageService messageService = (IMessageService) ServiceManager.Services.GetService (typeof (IMessageService));
 							messageService.ShowError (String.Format (GettextCatalog.GetString ("Resource file '{0}' does not exist"), file));
 							goto show_dialog;

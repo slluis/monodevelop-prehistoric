@@ -66,7 +66,7 @@ namespace MonoDevelop.Gui.Dialogs.OptionPanels.CompletionDatabaseWizard {
 			Stream s = null;
 
 			try {
-				s = File.OpenRead(compressedFile);
+				s = System.IO.File.OpenRead(compressedFile);
 				
 				ProgressHolder ph = new ProgressHolder();
 				ph.currentProgress = maxAmount / 2;
@@ -76,7 +76,7 @@ namespace MonoDevelop.Gui.Dialogs.OptionPanels.CompletionDatabaseWizard {
 				ph.s = s;
 				Decompressor archive = Decompressor.Load(SourceUri.ToString());
 				archive.Extract(new ReportingStream(s, new ReadNotification(updateProgress), ph), completionDir);
-				File.Delete(compressedFile);
+				System.IO.File.Delete(compressedFile);
 			} catch (Exception e) {
 				throw new Exception("Could not extract archive " + compressedFile + " of type " + Decompressor.GetTypeFromString(SourceUri.ToString()), e);
 			} finally {

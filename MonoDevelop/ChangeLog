@@ -1,3 +1,23 @@
+2004-06-02  Jeroen Zwartepoorte  <jeroen@xs4all.nl>
+
+	* src/AddIns/DisplayBindings/SourceEditor/Gui/Dialogs/
+	ExportProjectToHtmlDialog.cs:
+	* src/AddIns/DisplayBindings/SourceEditor/Gui/SourceEditorBuffer.cs:
+	* src/Main/Base/Commands/ProjectBrowserCommands/
+	ResourceFolderNodeCommands.cs: 
+	* src/Main/Base/Commands/ProjectBrowserCommands/FolderNodeCommands.cs:
+	* src/Main/Base/Gui/CompletionDatabaseWizard/UseExistingGenerator.cs:
+	* src/Main/Base/Gui/CompletionDatabaseWizard/DownloadGenerator.cs:
+	* src/Main/Base/Gui/Workbench/Layouts/SdiWorkspaceLayout.cs:
+	* src/Main/Base/Gui/Dialogs/SplashScreen.cs:
+	* src/Main/Base/Gui/Dialogs/NewProjectDialog.cs:
+	* src/Main/Base/Gui/Dialogs/WordCountDialog.cs:
+	* src/Main/Base/Gui/Dialogs/OptionPanels/ProjectOptions/
+	DeployFileOptions.cs:
+	
+	s/File/System.IO.File/ to make MD compile with the jeroen-gtk-2-4
+	branch of gtk-sharp (in GTK+-2.4, there's a Gtk.File class now).
+
 2004-06-01  Todd Berman  <tberman@sevenl.net>
 
 	* monodevelop.in: patch from cmeadors to fix weird startup issue.

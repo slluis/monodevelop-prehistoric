@@ -60,7 +60,7 @@ namespace MonoDevelop.Gui.Dialogs {
 					a = System.IO.Path.Combine (Environment.GetEnvironmentVariable ("HOME"), a.Substring (1));
 				}
 				
-				if (File.Exists (a))
+				if (System.IO.File.Exists (a))
 				{
 					requestedFileList.Add (a);
 					return;

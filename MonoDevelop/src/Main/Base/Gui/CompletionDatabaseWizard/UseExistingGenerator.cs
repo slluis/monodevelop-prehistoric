@@ -25,7 +25,7 @@ namespace MonoDevelop.Gui.Dialogs.OptionPanels.CompletionDatabaseWizard
 				throw new PathNotCodeCompletionDatabaseException(Path + " is not a valid file name\n");
 			if (!Directory.Exists(Path))
 				throw new PathNotCodeCompletionDatabaseException("Directory " + Path + " does not exist");
-			if (!File.Exists(fileUtilityService.GetDirectoryNameWithSeparator(Path) + "CodeCompletionProxyDataV02.bin"))
+			if (!System.IO.File.Exists(fileUtilityService.GetDirectoryNameWithSeparator(Path) + "CodeCompletionProxyDataV02.bin"))
 				throw new PathNotCodeCompletionDatabaseException(Path + " does not contain valid code completion data");
 
 			PropertyService propertyService = (PropertyService)ServiceManager.Services.GetService(typeof(PropertyService));

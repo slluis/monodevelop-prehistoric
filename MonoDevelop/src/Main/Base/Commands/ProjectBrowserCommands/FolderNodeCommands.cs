@@ -122,7 +122,7 @@ namespace MonoDevelop.Commands.ProjectBrowser
 					
 				// if it is already in the project, or it does exists we try to get a name that is
 				// untitledName + Numer + extension
-				while (node.Project.IsFileInProject(fileName) || File.Exists(fileName)) {
+				while (node.Project.IsFileInProject(fileName) || System.IO.File.Exists(fileName)) {
 					fileName = fileUtilityService.GetDirectoryNameWithSeparator(baseFolderPath) + baseName + count.ToString() + extension;
 					++count;
 				}

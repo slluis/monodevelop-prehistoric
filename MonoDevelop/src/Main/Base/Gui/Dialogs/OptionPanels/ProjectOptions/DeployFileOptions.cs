@@ -163,7 +163,7 @@ namespace MonoDevelop.Gui.Dialogs.OptionPanels
 					}
 				}
 				
-				if (!File.Exists(deployScriptEntry.Text)) {
+				if (!System.IO.File.Exists(deployScriptEntry.Text)) {
 					MessageDialog dialog = new MessageDialog ((Window) WorkbenchSingleton.Workbench, 
 							DialogFlags.DestroyWithParent,
 							MessageType.Error, 

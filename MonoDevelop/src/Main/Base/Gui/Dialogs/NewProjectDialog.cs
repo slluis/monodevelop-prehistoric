@@ -172,7 +172,7 @@ namespace MonoDevelop.Gui.Dialogs {
 		{
 			project.ProjectFiles.Add (new ProjectFile(filename));
 			
-			StreamWriter sr = File.CreateText (filename);
+			StreamWriter sr = System.IO.File.CreateText (filename);
 			sr.Write(stringParserService.Parse(content, new string[,] { {"PROJECT", txt_name.Text}, {"FILE", System.IO.Path.GetFileName(filename)}}));
 			sr.Close();
 			

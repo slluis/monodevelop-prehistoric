@@ -314,7 +314,7 @@ namespace MonoDevelop.Gui
 				
 			//Console.WriteLine(" Default Layout created.");
 			dockLayout = new DockLayout (dock);
-			if (File.Exists (configFile)) {
+			if (System.IO.File.Exists (configFile)) {
 				dockLayout.LoadFromFile (configFile);
 			} else {
 				dockLayout.LoadFromFile ("../data/options/DefaultEditingLayout.xml");
