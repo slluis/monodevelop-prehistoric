@@ -10,3 +10,4 @@ Here is the short list of features to finish before the preview release
 ~ Figure out why the code completion works on unsaved files to a point, and
   what exactly #D does with unsaved files (need someone with windows to play
   around)
+~ Fix HtmlControl cause its busted
