@@ -1,3 +1,12 @@
+2004-04-27  John Luke  <jluke@cfl.rr.com>
+
+	* Gui/Pads/FileScout.cs: kill
+	* Gui/Pads/FileScout/FileScout.cs
+	* Gui/Pads/FileScout/FileList.cs
+	* Gui/Pads/FileScout/FileListItem.cs: split these up, remove
+	unneeded/used code, implement File.Delete popup
+	* Makefile.am: account for new files
+
 2004-04-25  John Luke  <jluke@cfl.rr.com>
 	
 	* Gui/Dialogs/WordCountDialog.cs: use ShadowType.in
