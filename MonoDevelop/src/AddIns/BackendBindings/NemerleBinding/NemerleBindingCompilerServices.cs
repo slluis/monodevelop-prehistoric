@@ -18,43 +18,55 @@ namespace NemerleBinding
 			public CompilerResultsParser() : base (new TempFileCollection ())
 			{
 			}
-
-			public void Parse(string l)
+			
+			bool SetErrorType(CompilerError error, string t)
 			{
-				if ((l.IndexOf(".n:") < 0) &&
-					(l.IndexOf(":0:0:") < 0))
-					return;				
-
-				CompilerError error = new CompilerError();
-
-				int s1 = l.IndexOf(':')+1;
-				int s2 = l.IndexOf(':',s1)+1;
-				int s3 = l.IndexOf(':',s2)+1;
-				int s4 = l.IndexOf(':',s3)+1;
-
-				error.FileName  = l.Substring(0, s1-1);
-				error.Line   	= Int32.Parse(l.Substring(s1, s2-s1-1));
-				error.Column    = Int32.Parse(l.Substring(s2, s3-s2-1));
-				error.ErrorNumber = String.Empty;
-				error.ErrorText = "";
-				switch(l.Substring(s3+1, s4-s3-2))
+				switch(t)
 				{
 					case "error":
 						error.IsWarning = false;
-						break;
-						case "warning":
+						return true;
+					case "warning":
 						error.IsWarning = true;
-						break;
+						return true;
 					case "hint":
 						error.IsWarning = true;
-						error.ErrorText = "hint: ";
-						break;
+						error.ErrorNumber = "COMMENT";
+						return true;
 					default:
-						error.IsWarning = false;
-						error.ErrorText = "unknown: ";
-						break;
+						return false;
 				}
-				error.ErrorText += l.Substring(s4+1);
+			}
+
+			public void Parse(string l)
+			{
+				CompilerError error = new CompilerError();
+				error.ErrorNumber = String.Empty;
+
+				char [] delim = {':'};
+				string [] s = l.Split(delim, 5);
+				
+				if (SetErrorType(error, s[0]))
+				{
+					error.ErrorText = l.Substring(l.IndexOf(s[0]+": ") + s[0].Length+2);
+					error.FileName  = "";
+					error.Line      = 0;
+					error.Column    = 0;
+				} else
+				if ((s.Length >= 4)  && SetErrorType(error, s[3].Substring(1)))
+				{
+					error.ErrorText = l.Substring(l.IndexOf(s[3]+": ") + s[3].Length+2);
+					error.FileName  = s[0];
+					error.Line      = int.Parse(s[1]);
+					error.Column    = int.Parse(s[2]);
+				} else
+				{
+					error.ErrorText = l;
+					error.FileName  = "";
+					error.Line      = 0;
+					error.Column    = 0;
+					error.IsWarning = false;					
+				}
 				Errors.Add(error);
 			}
 
@@ -180,7 +192,7 @@ namespace NemerleBinding
 				System.Threading.Thread.Sleep (100);
 			}
 			
-			CompilerResultsParser cr = new CompilerResultsParser();			
+			CompilerResultsParser cr = new CompilerResultsParser();	
 			while ((l = p.StandardOutput.ReadLine()) != null)
 			{
 				((SdStatusBar)sbs.ProgressMonitor).Pulse();
@@ -192,7 +204,7 @@ namespace NemerleBinding
 			
 			if  ((l = p.StandardError.ReadLine()) != null)
 			{
-				cr.Parse(":0:0: error: " + ncc + " execution problem");
+				cr.Parse("error: " + ncc + " execution problem");
 			}
 			
 			return cr.GetResult();
