@@ -24,7 +24,7 @@ make install
       </p>
 
       <b>1. ORBit2 2.8.3</b>
-      <p>Although newer and older versions of ORBit <i>may</i> work, they have been known to produce non-fatal and data-safe crashes when MonoDevelop exits. If in doubt, <a href="http://ftp.gnome.org/pub/GNOME/sources/ORBit2/2.8/ORBit2-2.8.3.tar.gz">download ORBit 2.8.3</a>. Note, if you have a newer version installed, it would be best to keep it as other pieces of your system may depend on it, and these crashes will never effect your data.</p>
+      <p>Although newer and older versions of ORBit <i>may</i> work, they have been known to produce non-fatal and data-safe crashes when MonoDevelop exits. If in doubt, leave your system as is. Note, if you have a newer/older version installed, it would be best to keep it as other pieces of your system may depend on it, and these crashes will never effect your data. It is just a crash on shutdown, and can be ignored</p>
 
       <br /><br />
       <b>2. GtkSourceView 0.7+</b>
@@ -59,7 +59,7 @@ the Mozilla development package for your OS. For example:
       <b>4. Install Mono</b><br />
       <p>MonoDevelop will require the following mono packages to be installed, in this order:
       <ul>
-<li><a href="ftp://www-126.ibm.com/pub/icu/2.8/icu-2.8.tgz">International Components for Unicode 2.8</a></li>
+<li><a href="ftp://www-126.ibm.com/pub/icu/2.6/icu-2.6.tgz">International Components for Unicode 2.6 or greater</a></li>
 <li><a href="http://www.go-mono.com/archive/beta1/mono-0.91.tar.gz">mono 0.91</a></li>
 <li><a href="http://www.go-mono.com/archive/beta1/gtk-sharp-0.91.1.tar.gz">gtk-sharp 0.91.1</a></li>
 <li><a href="http://www.go-mono.com/archive/beta1/monodoc-0.15.tar.gz">monodoc 0.15</a></li>
