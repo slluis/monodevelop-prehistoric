@@ -70,6 +70,12 @@ namespace MonoDevelop.EditorBindings.Gui.OptionPanels
 				base ("EditorBindings.glade", "BehaviorTextEditorPanel")
 			{
 				// Set up Text
+
+				//FIXME: i8n the following Labels
+				noneIndentStyle.Label =      "None";
+				automaticIndentStyle.Label = "Automatic"; 
+				smartIndentStyle.Label =     "Smart";
+
 				tabsGroupBoxLabel.Markup = "<b>" + StringParserService.Parse(
 					"${res:Dialog.Options.IDEOptions.TextEditor.Behaviour.TabsGroupBox}")  + "</b>";
 				tabSizeLabel.TextWithMnemonic = StringParserService.Parse(
@@ -103,7 +109,7 @@ namespace MonoDevelop.EditorBindings.Gui.OptionPanels
 					"AutoInsertTemplates", true);
 				convertTabsToSpacesCheckBox.Active  = ((IProperties)CustomizationObject).GetProperty(
 					"TabsToSpaces", false);
-				
+
 				//FIXME: Only one of these should be selected to hold the value
 				indentAndTabSizeSpinButton.Value  = ((IProperties)CustomizationObject).GetProperty(
 					"TabIndent", 4);
