@@ -13,6 +13,41 @@
     <File name="./CodeCompletion/ICompletionDataProvider.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
     <File name="./CodeCompletion/TemplateCompletionDataProvider.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
     <File name="./CodeCompletion/TextUtilities.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name="./Codons/EditActionCodon.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name="./Commands/BookmarkCommands.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name="./Commands/CodeActions.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name="./Commands/CommentRegionCommand.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name="./Commands/FoldingCommands.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name="./Commands/FormatCommands.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name="./Commands/IEditAction.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name="./Commands/ProjectCommands.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name="./Commands/SearchCommands.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name="./Commands/TextAreaContextmenuCommands.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name="./Commands/ToolCommands.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name="./FormattingStrategy/DefaultFormattingStrategy.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name="./FormattingStrategy/IFormattableDocument.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name="./FormattingStrategy/IFormattingStrategy.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name="./FormattingStrategy/IndentStyle.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name="./Gui/EditTemplateGroupDialog.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name="./Gui/Dialogs/ExportProjectToHtmlDialog.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name="./Gui/Dialogs/GotoLineNumberDialog.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name="./Gui/OptionPanels/BehaviorTextEditorPanel.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name="./Gui/OptionPanels/CodeTemplatePanel.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name="./Gui/OptionPanels/GeneralTextEditorPanel.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name="./Gui/OptionPanels/MarkersTextEditorPanel.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name="./Gui/Pads/CompilerMessageView.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name="./InsightWindow/IInsightDataProvider.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name="./InsightWindow/IndexerInsightDataProvider.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name="./InsightWindow/InsightWindow.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name="./InsightWindow/MethodInsightDataProvider.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name="./Properties/TextEditorProperties.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name="./Search/SearchOptions.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name="./Search/SearchStrategy/BruteForceSearchStrategy.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name="./Search/SearchStrategy/ISearchStrategy.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name="./Search/SearchStrategy/KMPSearchStrategy.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name="./Search/SearchStrategy/RegExSearchStrategy.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name="./Search/SearchStrategy/WildcardSearchStrategy.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name="./Search/TextIterator/ITextIterator.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
   </Contents>
   <References />
   <DeploymentInformation target="" script="" strategy="File" />
