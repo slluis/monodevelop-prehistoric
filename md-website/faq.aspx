@@ -9,6 +9,22 @@
 
       <div class="headlinebar">FAQ</div>
 
+<p><a name="gdb" />How do I get a backtrace with gdb?</p>
+<p>
+<ol>
+  <li>Add the following to ~/.gdbinit:<br />
+  <pre>
+handle SIGPWR nostop noprint pass
+handle SIGXCPU nostop noprint pass
+  </pre>
+  </li>
+  <li>cd /usr/lib/monodevelop/bin</li>
+  <li>gdb mono</li>
+  <li>run MonoDevelop.exe</li>
+  <li>thread apply all bt</li>
+</ol>
+</p>
+
 <p><a name="mimetype_gnome26" />How do I add mimetypes in gnome 2.6?</p>
 
 <p>First you copy monodevelop.xml to $(gnome_prefix)/share/mime/packages. Then you run update-mime-database $(gnome_prefix)/share/mime. On fedora, and many other distros $gnome_prefix is /usr, so you do:</p>
