@@ -40,12 +40,11 @@ namespace MonoDevelop.Commands.ProjectBrowser
 			}
 			
 			AbstractBrowserNode node = (AbstractBrowserNode)browser.SelectedNode;
-			PropertyService props = (PropertyService)ServiceManager.Services.GetService (typeof (PropertyService));
 			
 			using (FileSelection fdiag  = new FileSelection (GettextCatalog.GetString ("Add a file"))) {
 				fdiag.SelectMultiple = true;
 				
-				string defaultPath = props.GetProperty ("MonoDevelop.Project.AddFilePath", node.Project.BaseDirectory);
+				string defaultPath = node.Project.BaseDirectory;
 				
 				fdiag.Complete(defaultPath);
 				
@@ -83,7 +82,6 @@ namespace MonoDevelop.Commands.ProjectBrowser
 								}
 							}
 						}
-						props.SetProperty ("MonoDevelop.Project.AddFilePath", System.IO.Path.GetDirectoryName (file));
 					}
 				} finally {
 					fdiag.Hide ();

@@ -396,11 +396,13 @@ namespace MonoDevelop.Gui.Pads
 		
 		public bool Run ()
 		{
-			if (_cb == null) {
-				Console.WriteLine ("We would have crashed here");
-				return false;
+			try {
+				return _cb (_data);
 			}
-			return _cb (_data);
+			catch (Exception e) {
+				Console.WriteLine ("Caught an exception in IdleWork.Run: " + e.ToString ());
+			}
+			return false;
 		}
 	}
 }

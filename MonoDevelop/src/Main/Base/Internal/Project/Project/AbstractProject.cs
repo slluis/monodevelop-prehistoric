@@ -219,8 +219,8 @@ namespace MonoDevelop.Internal.Project
 					!file.EndsWith ("make.sh") &&
 					!file.EndsWith ("~") &&
 					!file.StartsWith (".") &&
-					!Path.GetDirectoryName(file).EndsWith("CVS") &&
-					!Path.GetDirectoryName(file).EndsWith(".svn") &&
+					!(Path.GetDirectoryName(sfile).IndexOf("CVS") != -1) &&
+					!(Path.GetDirectoryName(sfile).IndexOf(".svn") != -1) &&
 					!file.StartsWith ("Makefile") &&
 					!Path.GetDirectoryName(file).EndsWith("ProjectDocumentation")) {
 
