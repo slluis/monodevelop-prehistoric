@@ -1,7 +1,11 @@
 2004-06-10  John BouAntoun  <jba-mono@optusnet.com.au>
-	* Gui/SourceEditorBuffer.cs Added g_utf8_validate check to LoadText, 
+	* Gui/Dialogs/GotoLineNumberDialog.cs: made dialog close on pressing
+	escape key.
+
+2004-06-10  John BouAntoun  <jba-mono@optusnet.com.au>
+	* Gui/SourceEditorBuffer.cs: Added g_utf8_validate check to LoadText, 
 	refactored LoadText and LoadFile usage
-	* Search/DefaultFind.cs Added check for empty string .Text property
+	* Search/DefaultFind.cs: Added check for empty string .Text property
 	of a source buffer in find routine. BuildTextIterator hangs on 
 	empty strings for some reason
 

@@ -27,6 +27,7 @@ namespace MonoDevelop.Gui.Dialogs
 		public GotoLineNumberDialog ()
 		{
 			new Glade.XML (null, "texteditoraddin.glade", "GotoLineDialog", null).Autoconnect (this);
+			GotoLineDialog.Close += new EventHandler(on_btn_close_clicked);
 		}
 		
 		public void Run ()
