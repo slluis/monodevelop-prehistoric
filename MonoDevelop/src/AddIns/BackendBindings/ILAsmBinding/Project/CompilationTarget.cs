@@ -1,6 +1,6 @@
 using System;
 
-namespace MonoDevelop.ILAsmBinding
+namespace ILAsmBinding
 {
 	public enum CompilationTarget
 	{

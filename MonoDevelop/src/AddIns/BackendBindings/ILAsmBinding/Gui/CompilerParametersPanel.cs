@@ -16,7 +16,7 @@ using MonoDevelop.Core.Services;
 using MonoDevelop.Core.Properties;
 using MonoDevelop.Core.AddIns.Codons;
 
-namespace MonoDevelop.ILAsmBinding
+namespace ILAsmBinding
 {
 	public class CompilerParametersPanel : AbstractOptionPanel
 	{

@@ -19,7 +19,7 @@ using MonoDevelop.Core.Services;
 using MonoDevelop.Internal.Project;
 using MonoDevelop.Gui;
 
-namespace MonoDevelop.ILAsmBinding
+namespace ILAsmBinding
 {
 	/// <summary>
 	/// Description of ILAsmCompilerManager.	

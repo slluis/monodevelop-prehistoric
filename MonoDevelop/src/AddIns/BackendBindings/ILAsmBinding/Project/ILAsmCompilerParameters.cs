@@ -14,7 +14,7 @@ using System.ComponentModel;
 using MonoDevelop.Gui.Components;
 using MonoDevelop.Internal.Project;
 
-namespace MonoDevelop.ILAsmBinding
+namespace ILAsmBinding
 {
 	/// <summary>
 	/// This class handles project specific compiler parameters

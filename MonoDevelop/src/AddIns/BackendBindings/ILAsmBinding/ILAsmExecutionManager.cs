@@ -21,7 +21,7 @@ using MonoDevelop.Gui;
 using MonoDevelop.Services;
 using MonoDevelop.Core.Services;
 
-namespace MonoDevelop.ILAsmBinding
+namespace ILAsmBinding
 {
 	/// <summary>
 	/// This class describes the main functionalaty of a language codon

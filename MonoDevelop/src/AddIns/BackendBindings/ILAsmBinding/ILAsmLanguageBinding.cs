@@ -20,7 +20,7 @@ using MonoDevelop.Internal.Project;
 using MonoDevelop.Internal.Templates;
 using MonoDevelop.Gui;
 
-namespace MonoDevelop.ILAsmBinding
+namespace ILAsmBinding
 {
 	public class ILAsmLanguageBinding : ILanguageBinding
 	{

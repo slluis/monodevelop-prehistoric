@@ -15,7 +15,7 @@ using System.Xml;
 using MonoDevelop.Internal.Project;
 using MonoDevelop.Internal.Templates;
 
-namespace MonoDevelop.ILAsmBinding
+namespace ILAsmBinding
 {
 	public class ILAsmProject : AbstractProject
 	{
