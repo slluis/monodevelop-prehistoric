@@ -67,7 +67,7 @@ CLEANFILES = $(BUILT_SOURCES)
 # Install built library to build/bin
 
 all-local:
-	$(LIBTOOL) --mode=install $(INSTALL) libgdldock.la @abs_top_builddir@/build/bin
+	$(LIBTOOL) --mode=install $(INSTALL) libgdldock.la "@abs_top_builddir@/build/bin"
 	$(INSTALL_DATA) $(dist_gdldocklib_cruft) $(top_builddir)/build/bin
 
 # enumerations code generation
