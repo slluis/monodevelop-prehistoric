@@ -1,3 +1,10 @@
+2004-11-02  John Luke  <john.luke@gmail.com>
+
+	* Services/File/RecentOpen.cs: use simpler RecentFiles AddWithLimit
+	* Services/File/RecentFiles.cs: sort and return items in the right order
+	among some other incremental improvements, should also fix bug #68999
+	* Commands/AutoStartCommands.cs: revert Todds workaround from yesterday
+
 2004-11-01	Fawad Halim  <fawad@fawad.net>
 
 	* Internal/Parser/SharpAssemblyLayer/SharpAssemblyParameter.cs

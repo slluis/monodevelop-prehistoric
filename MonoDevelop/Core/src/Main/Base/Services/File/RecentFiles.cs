@@ -30,6 +30,10 @@ using System.Xml.Serialization;
 // implementation of the freedesktop.org Recent Files spec
 // http://freedesktop.org/Standards/recent-file-spec/recent-file-spec-0.2.html
 
+// Note: the file may not exist, apps should account for that themselves
+
+// Lets keep things sorted as we go, and reverse before saving it.
+
 namespace Freedesktop.RecentFiles
 {
 	// Currently using XmlSerializer to read/write the recent files list
@@ -59,7 +63,6 @@ namespace Freedesktop.RecentFiles
         [XmlElement ("RecentItem")]
         public RecentItem[] RecentItems;
 
-		// FIXME: maybe not write until Save () is called manually
 		public void AddItem (RecentItem item)
 		{
 			if (RecentItems == null)
@@ -96,6 +99,26 @@ namespace Freedesktop.RecentFiles
 			Save ();
 		}
 
+		// ensure that that only max items are kept in group 
+		public void AddWithLimit (RecentItem item, string group, int max)
+		{
+			if (max < 1)
+				throw new ArgumentException ("max must be > 0");
+
+			// we add it first in case the Uri is already there
+			AddItem (item);
+
+			// then we adjust for the limit
+			RecentItem[] inGroup = GetItemsInGroup (group);
+			if (inGroup.Length > max)
+			{
+				while (inGroup.Length > max) {
+					RemoveItem (GetOldestItem (inGroup));
+					inGroup = GetItemsInGroup (group);
+				}
+			}
+		}
+
 		public void Clear ()
 		{
 			RecentItems = null;
@@ -130,26 +153,6 @@ namespace Freedesktop.RecentFiles
 			Save ();
 		}
 
-/*
-		private void ClearMissing ()
-		{
-			ArrayList list = new ArrayList ();
-			foreach (RecentItem ri in RecentItems)
-			{
-				// we cant test !file:// Uris can we?
-				if (!ri.Uri.StartsWith ("file://"))
-					list.Add (ri);
-				else if (File.Exists (ri.Uri.Substring (7)))
-					list.Add (ri);
-			}
-
-			RecentItem[] items = new RecentItem [list.Count];
-			list.CopyTo (items);
-			RecentItems = items;
-			Save ();
-		}
-*/
-
 		private void EmitChangedEvent ()
 		{
 			if (Changed != null)
@@ -163,6 +166,7 @@ namespace Freedesktop.RecentFiles
 				XmlTextReader reader = new XmlTextReader (RecentFileStore);
 				RecentFiles rf = (RecentFiles) serializer.Deserialize (reader);
 				reader.Close ();
+				rf.Sort ();
 				return rf;
 			}
 			catch (IOException e)
@@ -183,9 +187,6 @@ namespace Freedesktop.RecentFiles
 			if (RecentItems == null)
 				return null;
 
-			// disable for now
-			// ClearMissing ();
-
 			ArrayList list = new ArrayList ();
 			foreach (RecentItem ri in RecentItems)
 			{
@@ -201,17 +202,49 @@ namespace Freedesktop.RecentFiles
 			return items;
 		}
 
+		public RecentItem[] GetMostRecentInGroup (int count, string group)
+		{
+			if (count < 1)
+				throw new ArgumentException ("count must be > 0");
+
+			RecentItem[] inGroup = GetItemsInGroup (group);
+			return GetMostRecent (count, inGroup);
+		}
+
+		public RecentItem[] GetMostRecent (int count)
+		{
+			if (count < 1)
+				throw new ArgumentException ("count must be > 0");
+
+			return GetMostRecent (count, RecentItems);
+		}
+
+		// return the last X items in newest to oldest order
+		private RecentItem[] GetMostRecent (int count, RecentItem[] items)
+		{
+			if (count >= items.Length)
+			{
+				return items;
+			}
+			else
+			{
+				RecentItem[] countedItems = new RecentItem[count];
+				// get the last count items
+				Array.Copy (items, items.Length - count - 1, countedItems, 0, count);
+
+				return countedItems;
+			}
+		}
+
+		public static RecentItem GetOldestItem (RecentItem[] items)
+		{
+			return items[items.Length - 1];
+		}
+
 		public RecentItem OldestItem
 		{
 			get {
-				RecentItem item = RecentItems[0];
-				for (int i = 1; i < RecentItems.Length; i ++)
-				{
-					// the lowest number is the oldest
-					if (RecentItems[i].Timestamp < item.Timestamp)
-						item = RecentItems[i];
-				}
-				return item;
+				return RecentItems[0];
 			}
 		}
 
@@ -229,10 +262,16 @@ namespace Freedesktop.RecentFiles
 				}
 				else if (ri.Uri == item.Uri)
 				{
-					// remove the groups
-					foreach (string g in item.Groups)
-						ri.RemoveGroup (g);
-					l.Add (ri);
+					if (ri.Groups != null)
+					{
+						// remove the groups
+						if (item.Groups != null)
+						{
+							foreach (string g in item.Groups)
+								ri.RemoveGroup (g);
+						}
+						l.Add (ri);
+					}
 				}
 				else
 				{
@@ -277,9 +316,15 @@ namespace Freedesktop.RecentFiles
 			}
 		}
 
+		// FIXME: only append new items, instead of re-writing
 		// Save implies EmitChangedEvent (otherwise why would we save?)
 		private void Save ()
 		{
+			// make sure we are in order
+			this.Sort ();
+			// but we need to write in oldest-to-newest order
+			Array.Reverse (RecentItems);
+
 			// if we specifically set Encoding UTF 8 here it writes the BOM
 			// which confuses others (egg-recent-files) I guess
 			XmlTextWriter writer = new XmlTextWriter (new StreamWriter (RecentFileStore));
@@ -287,6 +332,16 @@ namespace Freedesktop.RecentFiles
 			serializer.Serialize (writer, this);
 			writer.Close ();
 			EmitChangedEvent ();
+
+			// back to normal
+			this.Sort ();
+		}
+
+		// this gives us the items in newest-to-oldest order
+		public void Sort ()
+		{
+			if (RecentItems != null)
+				Array.Sort (RecentItems);
 		}
 
 		public override string ToString ()
@@ -310,7 +365,7 @@ namespace Freedesktop.RecentFiles
 		}
     }
 
-    public class RecentItem
+    public class RecentItem : IComparable
 	{
         [XmlElement ("URI")]
         public string Uri;
@@ -378,6 +433,21 @@ namespace Freedesktop.RecentFiles
 
 			foreach (string s in groups)
 				AddGroup (s);
+		}
+
+		// we want newer items first
+		public int CompareTo (object item)
+		{
+			RecentItem other = item as RecentItem;
+			if (other == null)
+				throw new ArgumentException ("item is not of type " + typeof (RecentItem));
+
+			if (this.Timestamp == other.Timestamp)
+				return 0;
+			else if (this.Timestamp < other.Timestamp)
+				return 1; // older
+			else
+				return -1; // newer
 		}
 
 		public static int NewTimestamp

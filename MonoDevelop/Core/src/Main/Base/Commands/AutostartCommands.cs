@@ -62,7 +62,7 @@ namespace MonoDevelop.Commands
 	                        RecentOpen recentOpen = ((IFileService)MonoDevelop.Core.Services.ServiceManager.GetService (typeof (IFileService))).RecentOpen;
 
 				if (recentOpen.RecentProject != null && recentOpen.RecentProject.Length > 0) { 
-					projectService.OpenCombine(recentOpen.RecentProject[recentOpen.RecentProject.Length - 1].ToString());
+					projectService.OpenCombine(recentOpen.RecentProject[0].ToString());
 				}
 			}
 			

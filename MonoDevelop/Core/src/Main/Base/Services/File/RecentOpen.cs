@@ -73,19 +73,7 @@ namespace MonoDevelop.Services
 		
 		public void AddLastFile (string name)
 		{
-			if (lastfile != null && lastfile.Length >= MAX_LENGTH)
-			{
-				RecentItem oldestItem = lastfile[0];
-				for (int i = 1; i < lastfile.Length - 1; i ++)
-				{
-					// the lowest number is the oldest
-					if (lastfile[i].Timestamp < oldestItem.Timestamp)
-						oldestItem = lastfile[i];
-				}
-				recentFiles.RemoveItem (oldestItem);
-			}
-
-			recentFiles.AddItem (new RecentItem (new Uri (name), Vfs.GetMimeType (name), "MonoDevelop Files"));
+			recentFiles.AddWithLimit (new RecentItem (new Uri (name), Vfs.GetMimeType (name), "MonoDevelop Files"), "MonoDevelop Files", MAX_LENGTH);
 			UpdateLastFile ();
 		}
 		
@@ -105,19 +93,7 @@ namespace MonoDevelop.Services
 		
 		public void AddLastProject (string name)
 		{
-			if (lastproject != null && lastproject.Length >= MAX_LENGTH)
-			{
-				RecentItem oldestItem = lastproject[0];
-				for (int i = 1; i < lastproject.Length; i ++)
-				{
-					// the lowest number is the oldest
-					if (lastproject[i].Timestamp < oldestItem.Timestamp)
-						oldestItem = lastproject[i];
-				}
-				recentFiles.RemoveItem (oldestItem);
-			}
-
-			recentFiles.AddItem (new RecentItem (new Uri (name), Vfs.GetMimeType (name), "MonoDevelop Projects"));
+			recentFiles.AddWithLimit (new RecentItem (new Uri (name), Vfs.GetMimeType (name), "MonoDevelop Projects"), "MonoDevelop Projects", MAX_LENGTH);
 			UpdateLastProject ();
 		}
 		
