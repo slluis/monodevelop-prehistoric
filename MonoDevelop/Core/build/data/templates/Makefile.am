@@ -1,1 +1,1 @@
-SUBDIRS = file project
+SUBDIRS = project

@@ -143,6 +143,7 @@ namespace MonoDevelop
 			// unloading services
 			File.Delete (socket_filename);
 			ServiceManager.UnloadAllServices();
+			System.Environment.Exit (0);
 		}
 
 		static string fileToOpen = String.Empty;

@@ -1,3 +1,10 @@
+2004-06-28  Todd Berman  <tberman@off.net>
+
+	* AddIns/AddIn.cs: Add a C.WL so you dont get weird errors without
+	some more info.
+	* Makefile.am: fixup makefile so that if the AddIn.xsd changes, the
+	assembly is rebuilt.
+
 2004-06-23  Todd Berman  <tberman@off.net>
 
 	* Services/ServiceManager.cs: protected ctor added.

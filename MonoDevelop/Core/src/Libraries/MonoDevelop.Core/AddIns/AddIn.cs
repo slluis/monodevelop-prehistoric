@@ -172,6 +172,7 @@ namespace MonoDevelop.Core.AddIns
 			if (errors != null) {
 				ReportErrors(fileName);
 				errors = null;
+				Console.WriteLine (fileName + " was malformed, returning");
 				return;
 			}
 			

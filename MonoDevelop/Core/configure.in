@@ -134,10 +134,6 @@ build/data/resources/css/Makefile
 build/data/resources/icons/Makefile
 build/data/resources/languages/Makefile
 build/data/templates/Makefile
-build/data/templates/file/Makefile
-build/data/templates/file/CSharp/Makefile
-build/data/templates/file/SharpDevelop/Makefile
-build/data/templates/file/Nemerle/Makefile
 build/data/templates/project/Makefile
 build/data/templates/project/CSharp/Makefile
 build/data/templates/project/Java/Makefile
@@ -148,6 +144,7 @@ build/doc/Makefile
 build/AddIns/Makefile
 build/AddIns/AddIns/Makefile
 build/AddIns/AddIns/BackendBindings/Makefile
+build/AddIns/AddIns/BackendBindings/templates/Makefile
 build/AddIns/AddIns/Misc/Makefile
 build/AddIns/AddIns/Misc/StartPage/Makefile
 build/AddIns/AddIns/Misc/Sonata/Makefile

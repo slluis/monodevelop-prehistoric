@@ -13,6 +13,27 @@
 		<Class id    = "CSharp"
 		       class = "MonoDevelop.Services.CSharpAmbience"/>
 	</Extension>
+
+	<Extension path = "/MonoDevelop/FileTemplates">
+		<FileTemplate id = "SessionState"
+		              location = "templates/CSharpSessionStateWebService.xft"/>
+		<FileTemplate id = "WebService"
+		              location = "templates/CSharpWebService.xft"/>
+		<FileTemplate id = "Empty"
+		              location = "templates/EmptyCSharpFile.xft"/>
+		<FileTemplate id = "GnomeSharpProgram"
+		              location = "templates/GnomeSharpProgram.xft"/>
+		<FileTemplate id = "GtkSharpWindow"
+		              location = "templates/GtkSharpWindow.xft"/>
+		<FileTemplate id = "EmptyHTMLFile"
+		              location = "templates/EmptyHTMLFile.xft"/>
+		<FileTemplate id = "EmptyResourceFile"
+		              location = "templates/EmptyResourceFile.xft"/>
+		<FileTemplate id = "EmptyTextFile"
+		              location = "templates/EmptyTextFile.xft"/>
+		<FileTemplate id = "EmptyXMLFile"
+		              location = "templates/EmptyXMLFile.xft"/>
+	</Extension>
 	
 	<Extension path = "/SharpDevelop/Workbench/FileFilter">
 		<FileFilter id = "CSharp"

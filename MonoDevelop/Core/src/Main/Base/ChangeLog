@@ -1,3 +1,14 @@
+2004-06-28  Todd Berman  <tberman@off.net>
+
+	* Internal/Codons/Templates/FileTemplateCodon.cs: add new codon for
+	handling file templates.
+	* Internal/Templates/FileTemplate.cs: Use the new codon based system
+	instead of the old find files that end in .xft system. This means
+	that you can now specify file templates in the addin.xml files and
+	it brings us one step closer to being able to split off the backend
+	bindings properly. (You will only see templates for bindings you have
+	installed).
+
 2004-06-26  Todd Berman  <tberman@off.net>
 
 	* Gui/Dialogs/DirtyFilesDialog.cs: small layout fixes.

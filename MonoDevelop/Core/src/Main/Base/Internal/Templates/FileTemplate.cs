@@ -16,6 +16,9 @@ using System.Reflection;
 using MonoDevelop.Core.Services;
 using MonoDevelop.Services;
 
+using MonoDevelop.Core.AddIns;
+using MonoDevelop.Core.AddIns.Codons;
+
 namespace MonoDevelop.Internal.Templates
 {
 	/// <summary>
@@ -153,16 +156,18 @@ namespace MonoDevelop.Internal.Templates
 		{
 			FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.GetService(typeof(FileUtilityService));
 			PropertyService    propertyService    = (PropertyService)ServiceManager.GetService(typeof(PropertyService));
-			IMessageService    messageService     = (IMessageService)ServiceManager.GetService(typeof(IMessageService));
 			
-			StringCollection files = fileUtilityService.SearchDirectory(propertyService.DataDirectory + 
-			                            Path.DirectorySeparatorChar + "templates" + 
-			                            Path.DirectorySeparatorChar + "file", "*.xft");
-			foreach (string file in files) {
+			LoadTemplates ((FileTemplateCodon[])(AddInTreeSingleton.AddInTree.GetTreeNode ("/MonoDevelop/FileTemplates").BuildChildItems (new object ()).ToArray (typeof (FileTemplateCodon))));
+		}
+
+		static void LoadTemplates (FileTemplateCodon[] codons)
+		{
+			IMessageService messageService = (IMessageService) ServiceManager.GetService (typeof (IMessageService));
+			foreach (FileTemplateCodon codon in codons) {
 				try {
-					LoadFileTemplate(file);
-				} catch(Exception e) {
-					messageService.ShowError(e, String.Format (GettextCatalog.GetString ("Error loading template file {0}"), file));
+					LoadFileTemplate (codon.Location);
+				} catch (Exception e) {
+					messageService.ShowError (e, String.Format (GettextCatalog.GetString ("Error loading template file {0}"), codon.Location));
 				}
 			}
 		}

@@ -16,6 +16,23 @@
                 extensions = "*.java"/>
   </Extension>
 
+  <Extension path = "/MonoDevelop/FileTemplates">
+    <FileTemplate id = "JavaApplet"
+                  location = "templates/JavaApplet.xft"/>
+    <FileTemplate id = "JavaApplication"
+                  location = "templates/JavaApplication.xft"/>
+    <FileTemplate id = "JavaDialog"
+                  location = "templates/JavaDialog.xft"/>
+    <FileTemplate id = "JavaFrame"
+                  location = "templates/JavaFrame.xft"/>
+    <FileTemplate id = "JavaOKDialog"
+                  location = "templates/JavaOKDialog.xft"/>
+    <FileTemplate id = "JavaPanel"
+                  location = "templates/JavaPanel.xft"/>
+    <FileTemplate id = "EmptyJavaFile"
+                  location = "templates/EmptyJavaFile.xft"/>
+  </Extension>
+
   <Extension path = "/SharpDevelop/Workbench/ProjectOptions/ConfigurationProperties">
     <Conditional activeproject = "Java">
       <DialogPanel id = "JavaProjectPanel"

@@ -242,6 +242,7 @@ FILES= \
 ./Internal/Codons/MenuItems/AbstractMenuCommand.cs \
 ./Internal/Codons/MenuItems/ICheckableMenuCommand.cs \
 ./Internal/Codons/MenuItems/MenuItemCodon.cs \
+./Internal/Codons/Templates/FileTemplateCodon.cs \
 ./Internal/DataStructures/PriorityQueue.cs \
 ./Internal/Parser/IRegion.cs \
 ./Internal/Parser/ICompilationUnitBase.cs \

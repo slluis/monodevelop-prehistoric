@@ -1,3 +1,7 @@
+2004-06-28  Todd Berman  <tberman@off.net>
+
+	* MonoDevelopMain.cs: add Exit (0); and poof, issues are gone.
+
 2004-05-24  Todd Berman  <tberman@sevenl.net>
 
 	* Makefile.am: add Mono.Posix reference
