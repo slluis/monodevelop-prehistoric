@@ -141,13 +141,14 @@ namespace Gdl
 				
 				Layout.GetPixelSize (out width, out height);
 				
+				height = Math.Max (height, closeButton.Allocation.Height);
+				height = Math.Max (height, iconifyButton.Allocation.Height);
+
 				if (closeButton.Visible) {
-					height = Math.Max (height, closeButton.Allocation.Height);
 					area.Width -= closeButton.Allocation.Width;
 				}
 				
 				if (iconifyButton.Visible) {
-					height = Math.Max (height, iconifyButton.Allocation.Height);
 					area.Width -= iconifyButton.Allocation.Width;
 				}
 				
@@ -181,15 +182,27 @@ namespace Gdl
 				Title = item.LongName;
 				break;
 			case "Behavior":
-				if (!item.CantClose)
-					closeButton.Show ();
-				else
-					closeButton.Hide ();
+				bool cursor = false;
 
-				if (!item.CantIconify)
-					iconifyButton.Show ();
-				else
+				if (item.CantClose) {
+					closeButton.Hide ();
+				}
+				else {
+					closeButton.Show ();
+					cursor = true;
+				}
+
+				if (item.CantIconify) {
 					iconifyButton.Hide ();
+				}
+				else {
+					iconifyButton.Show ();
+					cursor = true;
+				}
+
+				if (!cursor && titleWindow != null)
+					titleWindow.Cursor = null;
+
 				break;
 			default:
 				break;
@@ -297,7 +310,11 @@ namespace Gdl
 					Gdk.WindowAttributesType.Noredir));
 
 				titleWindow.UserData = Handle;
-				titleWindow.Cursor = new Gdk.Cursor (Display, Gdk.CursorType.Hand2);
+
+				if (item.CantClose || item.CantIconify)
+					titleWindow.Cursor = null;
+				else
+					titleWindow.Cursor = new Gdk.Cursor (Display, Gdk.CursorType.Hand2);
 			}
 		}
 		
@@ -333,19 +350,13 @@ namespace Gdl
 			requisition.Width = (int)BorderWidth * 2;
 			requisition.Height = (int)BorderWidth * 2;
 
-			if (closeButton.Visible) {
-				Requisition childReq = closeButton.SizeRequest ();
-				requisition.Width += childReq.Width;
-				requisition.Height = Math.Max (requisition.Height,
-							       childReq.Height);
-			}
+			Requisition childReq = closeButton.SizeRequest ();
+			requisition.Width += childReq.Width;
+			requisition.Height = Math.Max (requisition.Height, childReq.Height);
 			
-			if (iconifyButton.Visible) {
-				Requisition childReq = iconifyButton.SizeRequest ();
-				requisition.Width += childReq.Width;
-				requisition.Height = Math.Max (requisition.Height,
-							       childReq.Height);
-			}
+			childReq = iconifyButton.SizeRequest ();
+			requisition.Width += childReq.Width;
+			requisition.Height = Math.Max (requisition.Height, childReq.Height);
 			
 			if (Icon != null) {
 				requisition.Width += icon.Width + 1;
@@ -404,33 +415,29 @@ namespace Gdl
 				childAlloc.X = allocation.X + allocation.Width - bw;
 			childAlloc.Y = allocation.Y + bw;
 			
-			if (closeButton.Visible) {
-				Requisition buttonReq = closeButton.SizeRequest ();
+			Requisition buttonReq = closeButton.SizeRequest ();
 
-				if (Direction != TextDirection.Rtl) 
-					childAlloc.X -= buttonReq.Width;
-				childAlloc.Width = buttonReq.Width;
-				childAlloc.Height = buttonReq.Height;
+			if (Direction != TextDirection.Rtl) 
+				childAlloc.X -= buttonReq.Width;
+			childAlloc.Width = buttonReq.Width;
+			childAlloc.Height = buttonReq.Height;
 				
-				closeButton.SizeAllocate (childAlloc);
+			closeButton.SizeAllocate (childAlloc);
 				
-				if (Direction == TextDirection.Rtl)
-					childAlloc.X += buttonReq.Width;
-			}
+			if (Direction == TextDirection.Rtl)
+				childAlloc.X += buttonReq.Width;
 			
-			if (iconifyButton.Visible) {
-				Requisition buttonReq = iconifyButton.SizeRequest ();
+			buttonReq = iconifyButton.SizeRequest ();
 				
-				if (Direction != TextDirection.Rtl)
-					childAlloc.X -= buttonReq.Width;
-				childAlloc.Width = buttonReq.Width;
-				childAlloc.Height = buttonReq.Height;
+			if (Direction != TextDirection.Rtl)
+				childAlloc.X -= buttonReq.Width;
+			childAlloc.Width = buttonReq.Width;
+			childAlloc.Height = buttonReq.Height;
 				
-				iconifyButton.SizeAllocate (childAlloc);
+			iconifyButton.SizeAllocate (childAlloc);
 				
-				if (Direction == TextDirection.Rtl)
-					childAlloc.X += buttonReq.Width;
-			}
+			if (Direction == TextDirection.Rtl)
+				childAlloc.X += buttonReq.Width;
 			
 			if (TitleWindow != null) {
 				layout.SetMarkup (title);

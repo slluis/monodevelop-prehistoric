@@ -17,5 +17,6 @@ namespace Gdl
 		CantDockCenter = 1 << 8,
 		CantClose = 1 << 9,
 		CantIconify = 1 << 10,
+		NoGrip = 1 << 11,
 	}
 }

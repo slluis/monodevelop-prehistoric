@@ -96,7 +96,7 @@ namespace MonoDevelop.Gui
 			tabControl.SwitchPage += new SwitchPageHandler (ActiveMdiChanged);
 			tabControl.TabsReordered += new TabsReorderedHandler (OnTabsReordered);
 			DockItem item = new DockItem ("Documents", "Documents",
-						      DockItemBehavior.Locked);
+						      DockItemBehavior.Locked | DockItemBehavior.NoGrip);
 			item.PreferredWidth = -2;
 			item.PreferredHeight = -2;
 			item.Add (tabControl);

@@ -89,11 +89,11 @@ namespace Gdl
 		}
 		
 		public bool CantClose {
-			get { return ((Behavior & DockItemBehavior.CantClose) != 0); }
+			get { return ((Behavior & DockItemBehavior.CantClose) != 0) || Locked; }
 		}
 		
 		public bool CantIconify {
-			get { return ((Behavior & DockItemBehavior.CantIconify) != 0); }
+			get { return ((Behavior & DockItemBehavior.CantIconify) != 0) || Locked; }
 		}
 		
 		public new Widget Child {
@@ -122,11 +122,11 @@ namespace Gdl
 		}
 		
 		public bool GripShown {
-			get { return (HasGrip && !Locked && grip.Visible); }
+			get { return HasGrip; }
 		}
 		
 		public virtual bool HasGrip {
-			get { return true; }
+			get { return !NoGrip; }
 		}
 		
 		public bool Iconified {
@@ -163,6 +163,16 @@ namespace Gdl
 						Master.EmitLayoutChangedEvent ();
 					EmitPropertyEvent ("Locked");
 				}
+			}
+		}
+
+		public bool NoGrip {
+			get { return ((behavior & DockItemBehavior.NoGrip) != 0); }
+			set {
+				if (value)
+					behavior |= DockItemBehavior.NoGrip;
+				else
+					behavior &= ~(DockItemBehavior.NoGrip);
 			}
 		}
 		
@@ -442,7 +452,7 @@ namespace Gdl
 		
 		protected override bool OnButtonPressEvent (Gdk.EventButton evnt)
 		{
-			if (!EventInGripWindow (evnt) || Locked)
+			if (!EventInGripWindow (evnt))
 				return false;
 			
 			bool eventHandled = false;
@@ -463,7 +473,7 @@ namespace Gdl
 			}
 			
 			/* Left mousebutton click on dockitem. */
-			if (evnt.Button == 1 && evnt.Type == Gdk.EventType.ButtonPress) {
+			if (!Locked && evnt.Button == 1 && evnt.Type == Gdk.EventType.ButtonPress) {
 				/* Set in_drag flag, grab pointer and call begin drag operation. */
 				if (inHandle) {
 					startX = (int)evnt.X;
@@ -473,7 +483,7 @@ namespace Gdl
 					grip.TitleWindow.Cursor = cursor;
 					eventHandled = true;
 				}
-			} else if (evnt.Type == Gdk.EventType.ButtonRelease && evnt.Button == 1) {
+			} else if (!Locked && evnt.Type == Gdk.EventType.ButtonRelease && evnt.Button == 1) {
 				if (InDrag) {
 					/* User dropped widget somewhere. */
 					EndDrag (false);
@@ -726,14 +736,15 @@ namespace Gdl
 				mitem.Activated += new EventHandler (ItemHideCb);
 				menu.Append (mitem);
 
-				// Lock menuitem -- need to be able to unlock
-				//mitem = new MenuItem ("Lock");
-				//mitem.Activated += new EventHandler (ItemLockCb);
-				//menu.Append (mitem);
+				// Lock menuitem
+				CheckMenuItem citem = new CheckMenuItem ("Lock");
+				citem.Active = this.Locked;
+				citem.Toggled += ItemLockCb;
+				menu.Append (citem);
 			}
+
 			menu.ShowAll ();
 			menu.Popup (null, null, null, IntPtr.Zero, button, time);
-			
 		}
 		
 		private void ItemHideCb (object o, EventArgs e)
@@ -741,9 +752,9 @@ namespace Gdl
 			HideItem ();
 		}
 
-		private void ItemLockCb (object o, EventArgs e)
+		private void ItemLockCb (object sender, EventArgs a)
 		{
-			this.Locked = true;
+			this.Locked = ((CheckMenuItem)sender).Active;
 		}
 		
 		private void StartDrag ()
@@ -780,7 +791,17 @@ namespace Gdl
 		
 		private void ShowHideGrip ()
 		{
+			DetachMenu (this, null);
+
 			if (grip != null) {
+				Gdk.Cursor cursor = null;
+
+				if (GripShown && !Locked)
+					cursor = new Gdk.Cursor (Display, Gdk.CursorType.Hand2);
+
+				if (grip.TitleWindow != null)
+					grip.TitleWindow.Cursor = cursor;
+
 				if (GripShown)
 					grip.Show ();
 				else

@@ -1,5 +1,12 @@
 2005-03-15  John Luke  <john.luke@gmail.com>
 
+	* DockItemBehavior.cs: add NoGrip flag
+	* DockItem.cs:
+	* DockItemGrip.cs: hide/show the DockItemGrip based
+	on NoGrip flag, not Locked status and update for that
+
+2005-03-15  John Luke  <john.luke@gmail.com>
+
 	* DockItem.cs: add comment about saving position
 	* DockPaned.cs: override OnChildPlacement
 

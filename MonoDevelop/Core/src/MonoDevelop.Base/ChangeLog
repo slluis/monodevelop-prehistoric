@@ -1,3 +1,8 @@
+2005-03-15  John Luke  <john.luke@gmail.com>
+
+	* Gui/Workbench/Layout/SdiWorkspaceLayout.cs: add NoGrip flags
+	to the documents section to match new dock API
+
 2005-03-15  Lluis Sanchez Gual <lluis@novell.com>
 
 	* Pads/SolutionPad/TreeViewPad.cs: implemented ITreeBuilder.UpdateAll()
