@@ -56,6 +56,7 @@ namespace MonoDevelop.EditorBindings.Gui.OptionPanels
 // 			[Glade.Widget] OptionMenu textEncodingComboBox;
 			[Glade.Widget] FontPicker fontNameDisplayTextBox;
 			[Glade.Widget] VBox encodingBox;
+			[Glade.Widget] RadioButton use_monospace, use_sans, use_cust;
 			
 			public GeneralTextEditorPanelWidget (IProperties CustomizationObject) :  base ("EditorBindings.glade", "GeneralTextEditorPanel")
 			{
@@ -80,8 +81,28 @@ namespace MonoDevelop.EditorBindings.Gui.OptionPanels
 					"${res:Dialog.Options.IDEOptions.TextEditor.General.DoubleBufferCheckBox}");
  				enableDoublebufferingCheckBox.Active = ((IProperties) CustomizationObject).GetProperty(
 					"DoubleBuffer", true);
-
-				fontNameDisplayTextBox.FontName = ((IProperties) CustomizationObject).GetProperty("DefaultFont", "Courier 12").ToString();
+					
+				string font_name = ((IProperties) CustomizationObject).GetProperty("DefaultFont", "__default_monospace").ToString ();
+				
+				switch (font_name) {
+				case "__default_monospace":
+					use_monospace.Active = true;
+					fontNameDisplayTextBox.Sensitive = false;
+					break;
+				case "__default_sans":
+					use_sans.Active = true;
+					fontNameDisplayTextBox.Sensitive = false;
+					break;
+				default:
+					use_cust.Active = true;
+					fontNameDisplayTextBox.Sensitive = true;
+					fontNameDisplayTextBox.FontName = font_name;
+					break;
+				}
+				
+				use_monospace.Toggled += new EventHandler (ItemToggled);
+				use_sans.Toggled += new EventHandler (ItemToggled);
+				use_cust.Toggled += new EventHandler (ItemToggled);
 				
 // 				encVBox.TextWithMnemonic = StringParserService.Parse(
 // 					"${res:Dialog.Options.IDEOptions.TextEditor.General.FontGroupBox.FileEncodingLabel}");
@@ -116,18 +137,26 @@ namespace MonoDevelop.EditorBindings.Gui.OptionPanels
 					"EnableCodeCompletion", enableCodeCompletionCheckBox.Active);
 				((IProperties) CustomizationObject).SetProperty (
 					"EnableFolding", enableFoldingCheckBox.Active);
+				
+				string font_name;
+				if (use_monospace.Active)
+					font_name = "__default_monospace";
+				else if (use_sans.Active)
+					font_name = "__default_sans";
+				else
+					font_name = fontNameDisplayTextBox.FontName;
+				
 				((IProperties) CustomizationObject).SetProperty (
-					"DefaultFont", fontNameDisplayTextBox.FontName);
+					"DefaultFont", font_name);
 // 				Console.WriteLine (CharacterEncodings.GetEncodingByIndex (selectedIndex).CodePage);
 // 				((IProperties) CustomizationObject).SetProperty (
 // 					"Encoding",CharacterEncodings.GetEncodingByIndex (selectedIndex).CodePage);
 			}
 			
-// 			private void OnOptionChanged (object o, EventArgs args)
-// 			{
-// 				Console.WriteLine (selectedIndex);
-// 				selectedIndex = ((OptionMenu) o).History;
-// 			}
+ 			void ItemToggled (object o, EventArgs args)
+			{
+				fontNameDisplayTextBox.Sensitive = use_cust.Active;
+			}
 
 		}
 	}

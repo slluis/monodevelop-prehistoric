@@ -266,11 +266,16 @@ namespace MonoDevelop.EditorBindings.Properties {
 		
 		public static FontDescription Font {
 			get {
-				string s = properties.GetProperty ("DefaultFont", "ack");
-				if (s == "ack")
-					return new Gtk.Label ("").Style.FontDescription;
+				string s = properties.GetProperty ("DefaultFont", "__default_monospace");
 				
-				return FontDescription.FromString (s);
+				switch (s) {
+				case "__default_monospace":
+					return FontDescription.FromString ((string) new GConf.Client ().Get ("/desktop/gnome/interface/monospace_font_name"));
+				case "__default_sans":
+					return new Gtk.Label ("").Style.FontDescription;
+				default:
+					return FontDescription.FromString (s);
+				}
 			}
 			set {
 				properties.SetProperty ("DefaultFont", value.ToString ());
