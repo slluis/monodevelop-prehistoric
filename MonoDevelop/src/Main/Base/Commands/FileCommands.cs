@@ -408,8 +408,12 @@ namespace MonoDevelop.Commands
 		{			
 			try {
 				IFileService fileService = (IFileService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IFileService));
+				IMessageService messageService = (IMessageService) MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IMessageService));
 				
-				fileService.RecentOpen.ClearRecentFiles();
+				if (fileService.RecentOpen.RecentFile != null && fileService.RecentOpen.RecentFile.Count > 0 && messageService.AskQuestion("Are you sure you want to clear recent files list?", "Clear recent files"))
+				{
+					fileService.RecentOpen.ClearRecentFiles();
+				}
 			} catch {}
 		}
 	}
@@ -420,8 +424,12 @@ namespace MonoDevelop.Commands
 		{			
 			try {
 				IFileService fileService = (IFileService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IFileService));
+				IMessageService messageService = (IMessageService) MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IMessageService));
 				
-				fileService.RecentOpen.ClearRecentProjects();
+				if (fileService.RecentOpen.RecentProject != null && fileService.RecentOpen.RecentProject.Count > 0 && messageService.AskQuestion("Are you sure you want to clear recent projects list?", "Clear recent projects"))
+				{
+					fileService.RecentOpen.ClearRecentProjects();
+				}
 			} catch {}
 		}
 	}

@@ -1,3 +1,7 @@
+2004-03-19  Iñigo Illán <kodeport AT terra.es>
+	* src/Main/Base/Commands/FileCommands.cs:
+	ask if you want to really delete recent files/projects list.
+
 2004-03-18  John Luke  <jluke@cfl.rr.com>
 
 	* src/Main/Base/Gui/Pads/HelpBrowser/HelpViewer.cs:
