@@ -104,7 +104,7 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 						Console.WriteLine(e.ToString());
 					}
 				}
-				return (description + (overloads > 0 ? " (+" + overloads + " overloads)" : String.Empty) + "\n" + documentation).Trim ();
+				return (description + "\n" + documentation).Trim ();
 			}
 			set {
 				description = value;
@@ -132,7 +132,7 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 						Console.WriteLine(e.ToString());
 					}
 				}
-				return (pango_description + (overloads > 0 ? " (+" + overloads + " overloads)" : String.Empty) + "\n" + documentation).Trim ();
+				return (pango_description + "\n" + documentation).Trim ();
 			}
 			set {
 				description = value;
@@ -231,7 +231,7 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 			System.IO.StringReader reader = new System.IO.StringReader("<docroot>" + doc + "</docroot>");
 			XmlTextReader xml   = new XmlTextReader(reader);
 			StringBuilder ret   = new StringBuilder();
-			Regex whitespace    = new Regex(@"\s+");
+			Regex whitespace    = new Regex(@"\s+", RegexOptions.Singleline);
 			
 			try {
 				xml.Read();
@@ -269,15 +269,6 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 			} catch {
 				Console.WriteLine ("DocBoom");
 				return doc;
-			}
-			int i = 45;
-			while (i < ret.Length) {
-				while (ret[i] != ' ') {
-					i++;
-					if (i >= ret.Length) return ret.ToString ();
-				}
-				ret.Insert (i, '\n');
-				i += 45;
 			}
 			return ret.ToString ();
 		}

@@ -154,7 +154,9 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 			else
 				descMarkup = declarationviewwindow.DescriptionMarkup = data.Description;
 
-			foreach (CodeCompletionData odata in ((CodeCompletionData) data).GetOverloads ()) {
+			CodeCompletionData ccdata = (CodeCompletionData) data;
+
+			foreach (CodeCompletionData odata in ccdata.GetOverloads ()) {
 				ICompletionDataWithMarkup odatawMarkup = odata as ICompletionDataWithMarkup;
 				descMarkup += "\n\n" + (odatawMarkup == null ? odata.Description : odatawMarkup.DescriptionPango);
 			}
@@ -169,6 +171,7 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 			declarationviewwindow.Move (this.Screen.Width+1, vert);
 
 			declarationviewwindow.ShowAll ();
+			declarationviewwindow.Multiple = (ccdata.Overloads != 0);
 			
 			declarationviewwindow.GdkWindow.GetSize (out dvwWidth, out dvwHeight);
 			if (this.Screen.Width <= horiz + dvwWidth) {

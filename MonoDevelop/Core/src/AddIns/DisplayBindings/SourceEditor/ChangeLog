@@ -1,3 +1,12 @@
+2004-11-24  Alp Toker  <alp@atoker.com>
+
+	* CodeCompletion/CodeCompletionData.cs:
+	* CodeCompletion/CompletionListWindow.cs:
+	* CodeCompletion/DeclarationViewWindow.cs:
+	Fix wrapping of completion documentation.
+	Remove redundant overload count.
+	Add arrow UI hint for selecting an overloaded method.
+
 2004-11-23  Alp Toker  <alp@atoker.com>
 
 	* CodeCompletion/CodeCompletionData.cs:
