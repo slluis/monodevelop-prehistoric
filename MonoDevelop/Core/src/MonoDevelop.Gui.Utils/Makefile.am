@@ -8,7 +8,6 @@ REFERENCES = /r:System.Drawing \
 FILES = \
 FileIcons/FileIconLoader.cs \
 AssemblyInfo.cs \
-VFS/Vfs.cs \
 ReportingStream/ReportingStream.cs \
 DirectoryArchive/Decompressor.cs \
 DirectoryArchive/TarDecompressor.cs \

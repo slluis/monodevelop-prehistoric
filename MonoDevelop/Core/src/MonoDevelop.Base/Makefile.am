@@ -10,6 +10,7 @@ DLLS = /r:System.Drawing /r:ICSharpCode.SharpZipLib.dll \
 	/r:Mono.Posix.dll \
 	$(GTK_SHARP_LIBS) \
 	$(GNOME_SHARP_LIBS) \
+	$(GNOME_VFS_SHARP_LIBS) \
 	$(GECKO_SHARP_LIBS) \
 	$(GLADE_SHARP_LIBS) \
 	$(GTKHTML_SHARP_LIBS) \

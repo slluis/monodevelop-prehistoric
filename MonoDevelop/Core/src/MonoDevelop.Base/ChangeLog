@@ -1,3 +1,10 @@
+2005-01-27  John Luke  <john.luke@gmail.com>
+
+	* Makefile.am: 
+	* Services/File/RecentOpen.cs:
+	* Services/File/DefaultFileService.cs:
+	* Gui/BrowserDisplayBinding/BrowserDisplayBinding.cs: use Gnome.Vfs
+
 2005-01-27  Lluis Sanchez Gual  <lluis@novell.com>
 
 	* Gui/IWorkbench.cs:

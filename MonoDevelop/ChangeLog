@@ -1,3 +1,7 @@
+2005-01-26  John Luke  <john.luke@gmail.com>
+
+	* configure.in: check for gnome-vfs
+
 2005-01-14  Lluis Sanchez Gual  <lluis@novell.com>
 
 	* configure.in: Removed some obsolete files from build.

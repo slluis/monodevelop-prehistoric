@@ -13,7 +13,6 @@ using MonoDevelop.Internal.Undo;
 using MonoDevelop.Core.Properties;
 using MonoDevelop.Core.AddIns.Codons;
 using MonoDevelop.Gui;
-using MonoDevelop.Gui.Utils;
 
 namespace MonoDevelop.BrowserDisplayBinding
 {
@@ -61,7 +60,7 @@ namespace MonoDevelop.BrowserDisplayBinding
 		public bool CanAttachTo (IViewContent parent)
 		{
 			string filename = parent.ContentName;
-			string mimetype = Vfs.GetMimeType (filename);
+			string mimetype = Gnome.Vfs.MimeType.GetMimeTypeForUri (filename);
 			if (mimetype == "text/html")
 				return true;
 			return false;

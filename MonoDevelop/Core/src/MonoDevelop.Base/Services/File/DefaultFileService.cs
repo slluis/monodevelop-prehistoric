@@ -10,6 +10,7 @@ using System.Collections;
 using System.Diagnostics;
 using System.IO;
 using System.Xml;
+using Vfs = Gnome.Vfs.Vfs;
 
 using MonoDevelop.Core.AddIns;
 using MonoDevelop.Core.Services;
@@ -181,13 +182,13 @@ namespace MonoDevelop.Services
 				}
 			} else {
 				try {
-					string mimetype = Vfs.GetMimeType (fileName);
-					Console.WriteLine ("About to MimeApp.Exec on mimetype: " + mimetype);
-					if (mimetype != null) {
-						MimeApplication.Exec (mimetype, fileName);
-					} else {
+					// FIXME: this doesn't seem finished yet in Gtk#
+					//MimeType mimetype = new MimeType (new Uri ("file://" + fileName));
+					//if (mimetype != null) {
+					//	mimetype.DefaultAction.Launch ();
+					//} else {
 						Gnome.Url.Show ("file://" + fileName);
-					}
+					//}
 				} catch {
 					if (Runtime.FileUtilityService.ObservedLoad(new NamedFileOperationDelegate (new LoadFileWrapper (Runtime.Gui.DisplayBindings.LastBinding, null, oFileInfo.BringToFront).Invoke), fileName) == FileOperationResult.OK) {
 						Runtime.FileService.RecentOpen.AddLastFile (fileName, null);

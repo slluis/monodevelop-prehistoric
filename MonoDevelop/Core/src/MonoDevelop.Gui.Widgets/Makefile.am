@@ -6,7 +6,8 @@ REFERENCES = /r:System.Drawing \
 	/r:$(top_builddir)/build/bin/MonoDevelop.Gui.Utils.dll \
 	$(GTK_SHARP_LIBS) \
 	$(GLADE_SHARP_LIBS) \
-	$(GNOME_SHARP_LIBS)
+	$(GNOME_SHARP_LIBS) \
+	$(GNOME_VFS_SHARP_LIBS)
 
 FILES = \
 Tree/TreeView.cs \

@@ -1,3 +1,8 @@
+2005-01-26  John Luke  <john.luke@gmail.com>
+
+	* Vfs/Vfs.cs: kill
+	* Makefile.am: remove old vfs stuff in favor of Gtk#
+
 2005-01-12  Todd Berman  <tberman@off.net>
 	
 	* FileIcons/FileIconLoader.cs: Workaround weird return values.

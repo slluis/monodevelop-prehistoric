@@ -13,7 +13,6 @@ using System.Reflection;
 using System.CodeDom.Compiler;
 
 using MonoDevelop.Internal.Project;
-
 using MonoDevelop.Core.Services;
 using MonoDevelop.Core.AddIns;
 using MonoDevelop.Core.AddIns.Codons;
@@ -50,7 +49,7 @@ namespace MonoDevelop.Services
 		
 		public DisplayBindingCodon GetCodonPerFileName(string filename)
 		{
-			string mimetype = MonoDevelop.Gui.Utils.Vfs.GetMimeType (filename);
+			string mimetype = Gnome.Vfs.MimeType.GetMimeTypeForUri (filename);
 			if (!filename.StartsWith ("http")) {
 				foreach (DisplayBindingCodon binding in bindings) {
 					if (binding.DisplayBinding != null && binding.DisplayBinding.CanCreateContentForMimeType (mimetype)) {

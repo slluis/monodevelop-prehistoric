@@ -82,6 +82,7 @@ REFS = /r:System.Drawing.dll \
 	/r:$(top_builddir)/build/bin/MonoDevelop.Gui.Utils.dll \
 	/r:$(top_builddir)/build/bin/MonoDevelop.Gui.Widgets.dll \
 	$(GTK_SHARP_LIBS) \
+	$(GNOME_VFS_SHARP_LIBS) \
 	$(GLADE_SHARP_LIBS) \
 	$(GCONF_SHARP_LIBS) \
 	$(GTKSOURCEVIEW_SHARP_LIBS)

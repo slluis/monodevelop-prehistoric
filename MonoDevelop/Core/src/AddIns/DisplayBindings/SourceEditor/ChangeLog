@@ -1,3 +1,8 @@
+2005-01-26  John Luke  <john.luke@gmail.com>
+
+	* Makefile.am:
+	* Gui/SourceEditorDisplayBinding.cs: use Gnome.Vfs
+
 2005-01-26  Todd Berman  <tberman@off.net>
 
 	* CodeCompletion/CompletionListWindow.cs:

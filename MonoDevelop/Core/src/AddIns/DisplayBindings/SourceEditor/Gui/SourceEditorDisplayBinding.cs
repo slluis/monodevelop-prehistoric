@@ -277,7 +277,7 @@ namespace MonoDevelop.SourceEditor.Gui
 				warnOverwrite = false;
 				editorBar.Remove (reloadBar);
 			}
-			se.Buffer.LoadFile (fileName, Vfs.GetMimeType (fileName));
+			se.Buffer.LoadFile (fileName, Gnome.Vfs.MimeType.GetMimeTypeForUri (fileName));
 			ContentName = fileName;
 			InitializeFormatter ();
 		}
