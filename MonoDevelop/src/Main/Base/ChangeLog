@@ -1,5 +1,9 @@
 2004-04-11  Todd Berman  <tberman@sevenl.net>
 
+	* Gui/Workbench/WorkbenchMemento.cs: fix potential nullrefs.
+
+2004-04-11  Todd Berman  <tberman@sevenl.net>
+
 	* Commands/AutostartCommands.cs: reorganize the SetMemento so it works
 	better.
 	* Gui/Workbench/WorkbenchMemento.cs: readd windowstate.

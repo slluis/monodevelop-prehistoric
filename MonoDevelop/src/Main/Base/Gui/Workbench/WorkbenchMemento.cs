@@ -65,17 +65,20 @@ namespace MonoDevelop.Gui
 		/// </summary>
 		public WorkbenchMemento()
 		{
-			//windowstate = FormWindowState.Maximized;
+			windowstate = 0;
 			bounds      = new Rectangle(0, 0, 640, 480);
 			fullscreen  = false;
 		}
 		
 		WorkbenchMemento(XmlElement element)
 		{
-			string[] boundstr = element.Attributes["bounds"].InnerText.Split(new char [] { ',' });
+			if (element.Attributes["bounds"] != null) {
+				string[] boundstr = element.Attributes["bounds"].InnerText.Split(new char [] { ',' });
+				
+				bounds = new Rectangle(Int32.Parse(boundstr[0]), Int32.Parse(boundstr[1]), 
+									   Int32.Parse(boundstr[2]), Int32.Parse(boundstr[3]));
+			}
 			
-			bounds = new Rectangle(Int32.Parse(boundstr[0]), Int32.Parse(boundstr[1]), 
-			                       Int32.Parse(boundstr[2]), Int32.Parse(boundstr[3]));
 			if (element.Attributes["formwindowstate"] != null) {
 				windowstate = (Gdk.WindowState)Enum.Parse(typeof(Gdk.WindowState), element.Attributes["formwindowstate"].InnerText);
 			}
@@ -83,8 +86,10 @@ namespace MonoDevelop.Gui
 			/*if (element.Attributes["defaultformwindowstate"] != null) {
 				defaultwindowstate = (FormWindowState)Enum.Parse(typeof(FormWindowState), element.Attributes["defaultformwindowstate"].InnerText);
 			}*/
-			
-			fullscreen  = Boolean.Parse(element.Attributes["fullscreen"].InnerText);
+
+			if (element.Attributes["fullscreen"] != null) {
+				fullscreen  = Boolean.Parse(element.Attributes["fullscreen"].InnerText);
+			}
 		}
 
 		public object FromXmlElement(XmlElement element)
