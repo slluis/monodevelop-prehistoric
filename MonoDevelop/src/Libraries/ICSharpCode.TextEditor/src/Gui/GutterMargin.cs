@@ -60,9 +60,13 @@ namespace ICSharpCode.TextEditor
 		
 		public override void Paint(Gdk.Drawable wnd, System.Drawing.Rectangle rect)
 		{
+			int one_width = (int) textArea.TextView.GetWidth ('w');
+			
 			using (Gdk.GC gc = new Gdk.GC (wnd)) {
 			using (Pango.Layout ly = new Pango.Layout (TextArea.PangoContext)) {
 				ly.FontDescription = FontContainer.DefaultFont;
+				ly.Width = drawingPosition.Width;
+				ly.Alignment = Pango.Alignment.Right;
 				
 				HighlightColor lineNumberPainterColor = textArea.Document.HighlightingStrategy.GetColorFor("LineNumbers");
 				
@@ -85,7 +89,7 @@ namespace ICSharpCode.TextEditor
 					int curLine = y + textArea.TextView.FirstVisibleLine;
 					if (curLine < textArea.Document.TotalNumberOfLines) {
 						ly.SetText ((curLine + 1).ToString ());
-						wnd.DrawLayout (gc, drawingPosition.X, ypos, ly);
+						wnd.DrawLayout (gc, drawingPosition.X + drawingPosition.Width - one_width, ypos, ly);
 					}
 				}
 			}}
