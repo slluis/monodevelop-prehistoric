@@ -53,7 +53,8 @@ namespace JavaBinding
 		
 		public void GenerateMakefile (Project project, Combine parentCombine)
 		{
-			throw new NotImplementedException ();
+			// FIXME: dont abort for now
+			// throw new NotImplementedException ();
 		}
 		
 		public object CreateCompilationParameters (XmlElement projectOptions)

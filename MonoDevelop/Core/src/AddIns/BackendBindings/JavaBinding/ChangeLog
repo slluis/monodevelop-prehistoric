@@ -2,11 +2,14 @@
 
 	* Makefile.am: remove FormattingStrategy from build
 	* JavaLanguageBinding.cs: make const LanguageName internal
+	comment out NotImplementedException for GenerateMakefile
+	so it doesn't abort MD when running
 	* JavaBindingCompilerServices.cs: remove warnings
 	* ProjectTreeBuilder/JavaNodeBuilder.cs: remove some unused
 	code that caused warnings, use MonoDevelop.Services.Runtime
 	instead of old method of getting services
 	* TODO: add
+	* template/Ikvm*.xft: Target "Exe" or "WinExe" instead of "Class"
 
 2005-01-11  Lluis Sanchez Gual  <lluis@novell.com>
 

@@ -25,7 +25,7 @@
 		
 		<Project name = "${ProjectName}" directory = ".">
 			<!-- FIXME: do not hardcode these -->
-			<Options Target = "Class" PauseConsoleOutput = "False" ClassPath = "/usr/lib/gtk-sharp.jar:/usr/lib/glade-sharp.jar:/usr/lib/glib-sharp.jar:/usr/lib/atk-sharp.jar:/usr/lib/mscorlib.jar:." MainClass ="application" />
+			<Options Target = "WinExe" PauseConsoleOutput = "False" ClassPath = "/usr/lib/gtk-sharp.jar:/usr/lib/glade-sharp.jar:/usr/lib/glib-sharp.jar:/usr/lib/atk-sharp.jar:/usr/lib/mscorlib.jar:." MainClass ="application" />
 	
 			<Files>
 				<File name = "application.java">
