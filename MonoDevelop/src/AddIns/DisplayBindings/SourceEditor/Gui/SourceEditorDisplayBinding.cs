@@ -12,8 +12,7 @@ using ICSharpCode.Core.AddIns.Codons;
 using Gtk;
 
 namespace MonoDevelop.SourceEditor.Gui {
-	public class SourceEditorDisplayBinding : IDisplayBinding
-	{
+	public class SourceEditorDisplayBinding : IDisplayBinding {
 		
 		public virtual bool CanCreateContentForFile (string fileName)
 		{
@@ -165,8 +164,7 @@ namespace MonoDevelop.SourceEditor.Gui {
 		
 		public bool EnablePaste {
 			get {
-				// TODO: how do i know if there is data?
-				return true;
+				return clipboard.WaitIsTextAvailable ();
 			}
 		}
 		
