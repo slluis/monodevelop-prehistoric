@@ -111,7 +111,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs.OptionPanels
 				// make the location text box and button
 				Gtk.HBox hBox1 = new Gtk.HBox(false,2);
 				projectLocationTextBox = new Gnome.FileEntry ("", "Choose Location");
-				// FIXME:: make this button sensitive again when the FOlderDialog is implemented
+				projectLocationTextBox.DirectoryEntry = true;
 				hBox1.PackStart(projectLocationTextBox, true, true, 2);
 			loadPrevProjectCheckBox = new Gtk.CheckButton (StringParserService.Parse("${res:Dialog.Options.IDEOptions.ProjectAndCombineOptions.LoadPrevProjectCheckBox}"));
 			// pack them all
