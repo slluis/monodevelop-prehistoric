@@ -20,6 +20,7 @@ namespace MonoDevelop.Gui
 		ScrolledWindow scroller = new ScrolledWindow ();
 
 		MonodocService mds;
+		IStatusBarService statusBarService = (IStatusBarService)        MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IStatusBarService));
 
 		public override Gtk.Widget Control {
 			get { return scroller; }
@@ -31,12 +32,20 @@ namespace MonoDevelop.Gui
 
 		public HelpViewer ()
 		{
-
 			mds = (MonodocService)ServiceManager.Services.GetService (typeof (MonodocService));
 	
-	                html_viewer.LinkClicked += new LinkClickedHandler (LinkClicked);
-	                html_viewer.UrlRequested += new UrlRequestedHandler (UrlRequested);
+			html_viewer.LinkClicked += new LinkClickedHandler (LinkClicked);
+			html_viewer.UrlRequested += new UrlRequestedHandler (UrlRequested);
+			html_viewer.OnUrl += new OnUrlHandler (OnUrl);
 			scroller.Add (html_viewer);
+		}
+
+		void OnUrl (object sender, OnUrlArgs args)
+		{
+			if (args.Url == null)
+				statusBarService.SetMessage ("");
+			else
+				statusBarService.SetMessage (args.Url);
 		}
 
 		void UrlRequested (object sender, UrlRequestedArgs args)
