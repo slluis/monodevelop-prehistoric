@@ -1,0 +1,40 @@
+<html>
+  <head>
+    <title>MonoDevelop source map</title>
+  <head>
+
+  <body>
+    <h3>Introduction</h3>
+	<p>Sometimes it can be hard to find your way around the MonoDevelop
+	source tree.  This is intended as a brief description on where and
+	what things are, and a couple tips to find things.</p>
+    <h3>Terms</h3>
+	<p>AddIn - similar to a plugin<br />
+	Service - provides widgets, events, etc. to the various other parts<br />
+	Codon -<br />
+	Command -<br />
+	Pads -<br />
+	Wizard -<br />
+	OptionPanel -<br /> 
+	View -<br /> 
+	</p>
+    <h3>Map</h3>
+	<p>MonoDevelop.Core - contains the bare necessities for the IDE.  It
+	has no external dependencies and is located at <code>src/Libraries/MonoDevelop.Core/</code></p>
+	<p>MonoDevelop.Base - contains the base of the IDE.  It begins to
+	depend on Gtk/GNOME at this point and is located at <code>src/Main/Base/</code></p>
+	<p>AddIns - various plugins that add to the IDE's functionality are
+	located at <code>src/AddIns/</code> See also the AddIns guide.</p>
+	<h3>Last resort</h3>
+	<p>Sometimes its still can be confusing so running something like
+	the two below commands can be used as a last resort to find things.
+	</p><p>
+	<code>find . -name '*TypeName*.cs'</code>
+	</p><p>
+	<code>find . -name '*.cs' | xargs grep TypeName</code>
+	</p>
+    <h3>Credits and Errata</h3>
+    <p>Send comments to <a href="mailto:jluke@cfl.rr.com">jluke@cfl.rr.com</a> or the <a href="mailto:monodevelop-list@lists.ximian.com">monodevelop mailing list</a>.</p>
+	<p>Last updated March 24, 2004</p>
+  </body>
+</html>
