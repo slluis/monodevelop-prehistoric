@@ -56,11 +56,10 @@ namespace MonoDevelop.Gui {
 
 		public virtual void Clear() 
 		{
-			foreach (TreeNode node in list) {
-				Removed(node);
+			ArrayList tmp = (ArrayList)list.Clone();
+			foreach (TreeNode node in tmp) {
+				Remove(node);
 			}
-
-			list.Clear();
 		}
 		
 		public bool Contains(TreeNode node) 
