@@ -33,6 +33,10 @@ class T
 					     DockItemBehavior.CantClose);
 		di3.Add (CreateTextView ());
 		dock.AddItem (di3, DockPlacement.Bottom);
+
+		DockItem di4 = new DockItem ("itemfloat", "Floating Item", Gtk.Stock.Convert, DockItemBehavior.Normal);
+		di4.Add (new Label ("Floating dockitem"));
+		dock.AddFloatingItem (di4, 10, 10, 200, 200);
 		
 		DockItem[] items = new DockItem[4];
 		items[0] = new DockItem ("item4", "Item #4", Gtk.Stock.JustifyFill,

@@ -24,12 +24,21 @@ namespace Gdl
 		public Dock () : this (null, false)
 		{
 		}
-		
-		public Dock (Dock original, bool _float)
+
+		public Dock (Dock original, bool _float) : this (original, _float, 0, 0, -1, -1)
 		{
+		}
+
+		public Dock (Dock original, bool _float, int x, int y, int _width, int _height)
+		{
+			float_x = x;
+			float_y = y;
+			width = _width;
+			height = _height;
 			SetFlag (WidgetFlags.NoWindow);
-			if (original != null)
-				Master = original.Master;
+			if (original != null) {
+				Bind (original.Master);
+			}
 			this.floating = _float;
 			if (Master == null) {
 				DockObjectFlags &= ~(DockObjectFlags.Automatic);
@@ -193,7 +202,7 @@ namespace Gdl
 			base.OnShown ();
 
 			if (floating && window != null)
-				window.Show ();
+				window.ShowAll ();
 
 			if (IsController) {
 				foreach (DockObject item in Master.TopLevelDocks) {
@@ -336,7 +345,7 @@ namespace Gdl
 			if (position == DockPlacement.Floating) {
 				Console.WriteLine ("Adding a floating dockitem");
 				DockItem item = requestor as DockItem;
-				int x = 0, y = 0, width = -1, height = 01;
+				int x = 0, y = 0, width = -1, height = -1;
 				if (data != null && data is Gdk.Rectangle) {
 					Gdk.Rectangle rect = (Gdk.Rectangle)data;
 					x = rect.X;
@@ -422,12 +431,10 @@ namespace Gdl
 		
 		public void AddFloatingItem (DockItem item, int x, int y, int width, int height)
 		{
-			Gdl.Dock dock = new Dock (this, true);
-			dock.Width = width;
-			dock.Height = height;
-			dock.FloatX = x;
-			dock.FloatY = y;
-			
+			if (this.Master == null) {
+				Console.WriteLine ("something is seriously fucked here");
+			}
+			Gdl.Dock dock = new Dock (this, true, x, y, width, height);
 			if (Visible) {
 				dock.Show ();
 				if (IsMapped)
@@ -523,9 +530,9 @@ namespace Gdl
 			((Window)window).Title = title;
 		}
 
+		[GLib.ConnectBefore]
 		private void floatingConfigure (object o, ConfigureEventArgs e)
 		{
-			Console.WriteLine ("inside configure");
 			float_x = e.Event.X;
 			float_y = e.Event.Y;
 			width = e.Event.Width;

@@ -328,6 +328,7 @@ namespace Gdl
 		{
 			if (master == null) {
 				Console.WriteLine ("Passed master is null");
+				Console.WriteLine (System.Environment.StackTrace);
 				return;
 			}
 			if (this.master == master) {
