@@ -87,13 +87,13 @@ namespace ILAsmBinding
 			sbs.SetMessage ("Compiling...");
 
 			while (!p.HasExited) {
-				((SdStatusBar)sbs.ProgressMonitor).Pulse();
+				((SdStatusBar)sbs.Control).Pulse();
 				while (Gtk.Application.EventsPending ())
 					Gtk.Application.RunIteration ();
 				System.Threading.Thread.Sleep (100);
 			}
 
-			((SdStatusBar) sbs.ProgressMonitor).Done ();
+			((SdStatusBar) sbs.Control).Done ();
 
 			// FIXME: avoid having a full buffer
 			// perhaps read one line and append parsed output
