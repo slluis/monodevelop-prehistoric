@@ -390,7 +390,8 @@ Services/StockIcons.cs : ./Services/process-icons.pl ../../../build/data/resourc
 assemblydir = $(libdir)/monodevelop/bin
 assembly_DATA = $(ASSEMBLY) $(ASSEMBLY).config
 
-CLEANFILES = $(ASSEMBLY) $(ASSEMBLY).config
+CLEANFILES = $(ASSEMBLY)
+DISTCLEANFILES = $(ASSEMBLY).config
 
 EXTRA_DIST = $(FILES) ./Services/process-icons.pl $(ASSEMBLY).config.in
 
