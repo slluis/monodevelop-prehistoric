@@ -375,11 +375,13 @@ namespace MonoDevelop.Services
 								bool updated = false;
 								lock (parsings) {
 									string text = editable.Text;
+									if (text != null) {
 									
-									if (lastUpdateSize[fileName] == null || (int)lastUpdateSize[fileName] != text.GetHashCode()) {
-										parseInformation = ParseFile(fileName, text);
-										lastUpdateSize[fileName] = text.GetHashCode();
-										updated = true;
+										if (lastUpdateSize[fileName] == null || (int)lastUpdateSize[fileName] != text.GetHashCode()) {
+											parseInformation = ParseFile(fileName, text);
+											lastUpdateSize[fileName] = text.GetHashCode();
+											updated = true;
+										}
 									} 
 								}
 								if (updated) {
