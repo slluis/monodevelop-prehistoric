@@ -353,7 +353,7 @@ DLL=../../../build/bin/SharpDevelop.Base.dll
 
 all: $(DLL)
 
-$(DLL): $(SOURCES)
+$(DLL): $(SOURCES) ../../../data/resources/glade/Base.glade
 	mcs /debug /out:$(DLL) /target:library /r:System.Drawing.dll /r:ICSharpCode.SharpZipLib.dll \
 		/r:../../../build/bin/ICSharpCode.SharpRefactory.dll /r:../../../build/bin/ICSharpCode.Core.dll \
 		/r:../../../build/bin/ICSharpCode.SharpAssembly.dll /r:System.Windows.Forms.dll \
@@ -364,4 +364,5 @@ $(DLL): $(SOURCES)
 		/r:pango-sharp.dll \
 		/r:gtkmozembed-sharp.dll \
 		/r:glade-sharp.dll \
+		/r:gnome-sharp.dll \
 		$(SOURCES)
