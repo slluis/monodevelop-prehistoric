@@ -134,10 +134,8 @@ namespace ICSharpCode.SharpDevelop.DefaultEditor.Commands
 		public override void Run()
 		{
 			SetSearchPattern();
-			//using (ReplaceInFilesDialog rd = new ReplaceInFilesDialog(false)) {
-			//	rd.Owner = (Form)WorkbenchSingleton.Workbench;
-			//	rd.ShowDialog();
-			//}
+			ReplaceInFilesDialog rd = new ReplaceInFilesDialog(false);
+			rd.ShowAll ();
 		}
 	}
 	

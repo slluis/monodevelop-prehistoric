@@ -41,9 +41,9 @@ namespace MonoDevelop.SourceEditor.InsightWindow
 			IIndexer method = methods[number];
 			IAmbience conv = ambienceService.CurrentAmbience;
 			conv.ConversionFlags = ConversionFlags.StandardConversionFlags;
-			return conv.Convert(method) + 
-			       "\n" + 
-			       CodeCompletionData.GetDocumentation(method.Documentation); // new (by G.B.)
+			return conv.Convert(method);// + 
+			       //"\n" + 
+			       //CodeCompletionData.GetDocumentation(method.Documentation); // new (by G.B.)
 		}
 		
 		int initialOffset;
@@ -61,11 +61,8 @@ namespace MonoDevelop.SourceEditor.InsightWindow
 			int caretLineNumber      = initialIter.Line + 1;
 			int caretColumn          = initialIter.LineOffset + 1;
 			IParserService parserService = (IParserService)ServiceManager.Services.GetService(typeof(IParserService));
-			ResolveResult results = parserService.Resolve(methodObject,
-			                                              caretLineNumber,
-			                                              caretColumn,
-			                                              fileName,
-			                                              textArea.Buffer.Text);
+			ResolveResult results = parserService.Resolve(methodObject, caretLineNumber, caretColumn, fileName, textArea.Buffer.Text);
+			Console.WriteLine ("not null");
 			if (results != null && results.Type != null) {
 				foreach (IClass c in results.Type.ClassInheritanceTree) {
 					foreach (IIndexer indexer in c.Indexer) {

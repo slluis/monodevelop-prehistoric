@@ -18,36 +18,158 @@ using ICSharpCode.Core.Services;
 using ICSharpCode.SharpDevelop.Services;
 using ICSharpCode.TextEditor;
 
+using Glade;
+using Gtk;
+
 namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 {
-	public class ReplaceInFilesDialog //: BaseSharpDevelopForm
-	{/*
+	public class ReplaceInFilesDialog
+	{
 		ResourceService resourceService = (ResourceService)ServiceManager.Services.GetService(typeof(IResourceService));
 		IMessageService messageService  = (IMessageService)ServiceManager.Services.GetService(typeof(IMessageService));
+		StringParserService stringParserService = (StringParserService)ServiceManager.Services.GetService (typeof (StringParserService));
 		static PropertyService propertyService = (PropertyService)ServiceManager.Services.GetService(typeof(PropertyService));
 		bool replaceMode;
+
+		[Glade.Widget] Gtk.Combo searchPatternComboBox;
+		[Glade.Widget] Gtk.Combo replacePatternComboBox;
+		[Glade.Widget] Gtk.Button findHelpButton;
+		[Glade.Widget] Gtk.Button findButton;
+		[Glade.Widget] Gtk.Button markAllButton;
+		[Glade.Widget] Gtk.Button closeButton;
+		[Glade.Widget] Gtk.Button replaceButton;
+		[Glade.Widget] Gtk.Button replaceAllButton;
+		[Glade.Widget] Gtk.Button replaceHelpButton;
+		[Glade.Widget] Gtk.CheckButton ignoreCaseCheckBox;
+		[Glade.Widget] Gtk.CheckButton searchWholeWordOnlyCheckBox;
+		[Glade.Widget] Gtk.CheckButton useSpecialSearchStrategyCheckBox;
+		[Glade.Widget] Gtk.OptionMenu specialSearchStrategyComboBox;
+		[Glade.Widget] Gtk.OptionMenu searchLocationComboBox;
+		[Glade.Widget] Gtk.Label label1;
+		[Glade.Widget] Gtk.Label label2;
+		[Glade.Widget] Gtk.Label searchLocationLabel;
+		[Glade.Widget] Gtk.Dialog FindInFilesDialogWidget;
+		[Glade.Widget] Gtk.Dialog ReplaceInFilesDialogWidget;
+
+		[Glade.Widget] Gtk.CheckButton includeSubdirectoriesCheckBox;
+		[Glade.Widget] Gtk.Entry fileMaskTextBox;
+		[Glade.Widget] Gtk.Entry directoryTextBox;
+		[Glade.Widget] Gtk.Button browseButton;
+		[Glade.Widget] Gtk.Label label6;
+		[Glade.Widget] Gtk.Label label7;
 		
+		Gtk.Dialog ReplaceDialogPointer;
+		
+		void InitDialog ()
+		{
+			label1.Text = stringParserService.Parse ("${res:Dialog.NewProject.SearchReplace.FindWhat}");
+			searchLocationLabel.Text = stringParserService.Parse ("${res:Dialog.NewProject.SearchReplace.SearchIn}");		
+			//findButton.Label = stringParserService.Parse ("${res:Dialog.NewProject.SearchReplace.FindNextButton}");			
+			//closeButton.Label = stringParserService.Parse ("${res:Global.CloseButtonText}");
+			findButton.UseUnderline = true;			
+			closeButton.UseUnderline = true;			
+			ignoreCaseCheckBox.Label = stringParserService.Parse ("${res:Dialog.NewProject.SearchReplace.CaseSensitive}");
+			searchWholeWordOnlyCheckBox.Label = stringParserService.Parse ("${res:Dialog.NewProject.SearchReplace.WholeWord}");
+			useSpecialSearchStrategyCheckBox.Label = stringParserService.Parse ("${res:Dialog.NewProject.SearchReplace.UseMethodLabel}");			
+			
+			
+			//set up the size groups
+			SizeGroup labels = new SizeGroup(SizeGroupMode.Horizontal);
+			SizeGroup combos = new SizeGroup(SizeGroupMode.Horizontal);
+			SizeGroup options = new SizeGroup(SizeGroupMode.Horizontal);
+			SizeGroup helpButtons = new SizeGroup(SizeGroupMode.Horizontal);
+			SizeGroup checkButtons = new SizeGroup(SizeGroupMode.Horizontal);
+			labels.AddWidget(label1);			
+			combos.AddWidget(searchPatternComboBox);
+			helpButtons.AddWidget(findHelpButton);
+			checkButtons.AddWidget(ignoreCaseCheckBox);
+			checkButtons.AddWidget(searchWholeWordOnlyCheckBox);
+			checkButtons.AddWidget(useSpecialSearchStrategyCheckBox);
+			checkButtons.AddWidget(searchLocationLabel);
+			options.AddWidget(specialSearchStrategyComboBox);
+			options.AddWidget(searchLocationComboBox);
+			
+			// set button sensitivity
+			findHelpButton.Sensitive = false;
+			
+			// set replace dialog properties 
+			if(replaceMode)
+			{
+				ReplaceDialogPointer = this.ReplaceInFilesDialogWidget;
+				// set the label properties
+				label2.Text = stringParserService.Parse ("${res:Dialog.NewProject.SearchReplace.ReplaceWith}");
+				//replaceButton.Label = stringParserService.Parse ("${res:Dialog.NewProject.SearchReplace.ReplaceButton}");
+				replaceAllButton.Label = stringParserService.Parse ("${res:Dialog.NewProject.SearchReplace.ReplaceAllButton}");
+				replaceButton.UseUnderline = true;
+				replaceAllButton.UseUnderline = true;
+				
+				// set te size groups to include the replace dialog
+				labels.AddWidget(label2);
+				combos.AddWidget(replacePatternComboBox);
+				helpButtons.AddWidget(replaceHelpButton);
+				
+				replaceHelpButton.Sensitive = false;
+			}
+			else
+			{
+				ReplaceDialogPointer = this.FindInFilesDialogWidget;
+			}
+		}
+
+		protected void OnClosed()
+		{
+			//SaveHistoryValues();
+		}
+		
+		void OnDeleted (object o, DeleteEventArgs args)
+		{
+			// perform the standard closing windows event
+			OnClosed();
+			SearchReplaceManager.ReplaceDialog = null;
+		}
+
+		void CloseDialogEvent(object sender, EventArgs e)
+		{
+			ReplaceDialogPointer.Hide();
+			OnClosed ();
+		}
+
+		public void ShowAll ()
+		{
+			ReplaceDialogPointer.ShowAll ();
+		}
+
 		public ReplaceInFilesDialog(bool replaceMode)
 		{
 			this.replaceMode = replaceMode;
 			FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.Services.GetService(typeof(FileUtilityService));
+			string dialogName = (replaceMode) ? "ReplaceInFilesDialogWidget" : "FindInFilesDialogWidget";
+			Glade.XML glade = new XML (null, "texteditoraddin.glade", dialogName, null);
+			glade.Autoconnect (this);
+			InitDialog ();
+			/*
 			if (replaceMode) {
 				this.SetupFromXml(propertyService.DataDirectory + @"\resources\dialogs\ReplaceInFilesDialog.xfrm");
 				ControlDictionary["replacePatternComboBox"].Text = SearchReplaceInFilesManager.SearchOptions.ReplacePattern;
 				ControlDictionary["replaceHelpButton"].Enabled = false;
 			} else {
 				this.SetupFromXml(propertyService.DataDirectory + @"\resources\dialogs\FindInFilesDialog.xfrm");
-			}
+			}*/
 			
-			ControlDictionary["findHelpButton"].Enabled = false;
-			ControlDictionary["searchPatternComboBox"].Text = SearchReplaceInFilesManager.SearchOptions.SearchPattern;
+			//ControlDictionary["findHelpButton"].Enabled = false;
+			//ControlDictionary["searchPatternComboBox"].Text = SearchReplaceInFilesManager.SearchOptions.SearchPattern;
 			
-			AcceptButton = (Button)ControlDictionary["findButton"];
-			CancelButton = (Button)ControlDictionary["closeButton"];
+			//AcceptButton = (Button)ControlDictionary["findButton"];
+			//CancelButton = (Button)ControlDictionary["closeButton"];
+			Gtk.MenuItem tmpItem;
+			Gtk.Menu stratMenu = new Gtk.Menu ();
+			tmpItem = new Gtk.MenuItem (resourceService.GetString("Dialog.NewProject.SearchReplace.SearchStrategy.WildcardSearch"));
+			stratMenu.Append (tmpItem);
+			tmpItem = new Gtk.MenuItem (resourceService.GetString("Dialog.NewProject.SearchReplace.SearchStrategy.RegexSearch"));
+			stratMenu.Append (tmpItem);
+			specialSearchStrategyComboBox.Menu = stratMenu;
 			
-			((ComboBox)ControlDictionary["specialSearchStrategyComboBox"]).Items.Add(resourceService.GetString("Dialog.NewProject.SearchReplace.SearchStrategy.WildcardSearch"));
-			((ComboBox)ControlDictionary["specialSearchStrategyComboBox"]).Items.Add(resourceService.GetString("Dialog.NewProject.SearchReplace.SearchStrategy.RegexSearch"));
-			int index = 0;
+			uint index = 0;
 			switch (SearchReplaceManager.SearchOptions.SearchStrategyType) {
 				case SearchStrategyType.Normal:
 				case SearchStrategyType.Wildcard:
@@ -56,11 +178,16 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 					index = 1;
 					break;
 			}
- 			((ComboBox)ControlDictionary["specialSearchStrategyComboBox"]).SelectedIndex = index;
+ 			specialSearchStrategyComboBox.SetHistory (index);
 			
-			((ComboBox)ControlDictionary["searchLocationComboBox"]).Items.Add(resourceService.GetString("Global.Location.directories"));
-			((ComboBox)ControlDictionary["searchLocationComboBox"]).Items.Add(resourceService.GetString("Global.Location.allopenfiles"));
-			((ComboBox)ControlDictionary["searchLocationComboBox"]).Items.Add(resourceService.GetString("Global.Location.wholeproject"));
+			Gtk.Menu locMenu = new Gtk.Menu ();
+			tmpItem = new Gtk.MenuItem (resourceService.GetString("Global.Location.directories"));
+			locMenu.Append (tmpItem);
+			tmpItem = new Gtk.MenuItem (resourceService.GetString("Global.Location.allopenfiles"));
+			locMenu.Append (tmpItem);
+			tmpItem = new Gtk.MenuItem (resourceService.GetString("Global.Location.wholeproject"));
+			locMenu.Append (tmpItem);
+			searchLocationComboBox.Menu = locMenu;
 						
 			index = 0;
 			switch (SearchReplaceInFilesManager.SearchOptions.DocumentIteratorType) {
@@ -72,23 +199,25 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 					break;
 			}
 			
-			((ComboBox)ControlDictionary["searchLocationComboBox"]).SelectedIndex = index;
-			((ComboBox)ControlDictionary["searchLocationComboBox"]).SelectedIndexChanged += new EventHandler(SearchLocationCheckBoxChangedEvent);
+			searchLocationComboBox.SetHistory (index);
 			
-			((CheckBox)ControlDictionary["useSpecialSearchStrategyCheckBox"]).CheckedChanged += new EventHandler(SpecialSearchStrategyCheckBoxChangedEvent);
+			searchLocationComboBox.Changed += new EventHandler(SearchLocationCheckBoxChangedEvent);
 			
-			ControlDictionary["directoryTextBox"].Text = SearchReplaceInFilesManager.SearchOptions.SearchDirectory;
-			ControlDictionary["fileMaskTextBox"].Text = SearchReplaceInFilesManager.SearchOptions.FileMask;
-			((CheckBox)ControlDictionary["includeSubdirectoriesCheckBox"]).Checked = SearchReplaceInFilesManager.SearchOptions.SearchSubdirectories;
+			useSpecialSearchStrategyCheckBox.Toggled += new EventHandler(SpecialSearchStrategyCheckBoxChangedEvent);
 			
-			ControlDictionary["browseButton"].Click += new EventHandler(BrowseDirectoryEvent);
+			directoryTextBox.Text = SearchReplaceInFilesManager.SearchOptions.SearchDirectory;
+			fileMaskTextBox.Text = SearchReplaceInFilesManager.SearchOptions.FileMask;
+			includeSubdirectoriesCheckBox.Active = SearchReplaceInFilesManager.SearchOptions.SearchSubdirectories;
 			
-			ControlDictionary["findButton"].Click += new EventHandler(FindEvent);
+			browseButton.Clicked += new EventHandler(BrowseDirectoryEvent);
+			findButton.Clicked += new EventHandler(FindEvent);
 			
 			if (replaceMode) {
-				ControlDictionary["replaceAllButton"].Click += new EventHandler(ReplaceEvent);
+				replaceAllButton.Clicked += new EventHandler(ReplaceEvent);
 			}
 			
+			ReplaceDialogPointer.Close += new EventHandler (CloseDialogEvent);
+			ReplaceDialogPointer.DeleteEvent += new DeleteEventHandler (OnDeleted);
 			
 			SearchLocationCheckBoxChangedEvent(null, null);
 			SpecialSearchStrategyCheckBoxChangedEvent(null, null);
@@ -110,35 +239,35 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 		
 		void BrowseDirectoryEvent(object sender, EventArgs e)
 		{
-			FolderDialog fd = new FolderDialog();
-			if (fd.DisplayDialog(resourceService.GetString("NewProject.SearchReplace.FindInFilesBrowseLabel")) == DialogResult.OK) {
-				ControlDictionary["directoryTextBox"].Text = fd.Path;
-			}
+			//FolderDialog fd = new FolderDialog();
+			//if (fd.DisplayDialog(resourceService.GetString("NewProject.SearchReplace.FindInFilesBrowseLabel")) == DialogResult.OK) {
+			//	ControlDictionary["directoryTextBox"].Text = fd.Path;
+			//}
 		}
 		
 		void SearchLocationCheckBoxChangedEvent(object sender, EventArgs e)
 		{
-			bool enableDirectorySearch = ((ComboBox)ControlDictionary["searchLocationComboBox"]).SelectedIndex == 0;
-			ControlDictionary["fileMaskTextBox"].Enabled = enableDirectorySearch;
-			ControlDictionary["directoryTextBox"].Enabled = enableDirectorySearch;
-			ControlDictionary["browseButton"].Enabled = enableDirectorySearch;
-			ControlDictionary["includeSubdirectoriesCheckBox"].Enabled = enableDirectorySearch;
+			bool enableDirectorySearch = searchLocationComboBox.History == 0;
+			fileMaskTextBox.Sensitive = enableDirectorySearch;
+			directoryTextBox.Sensitive = enableDirectorySearch;
+			browseButton.Sensitive = enableDirectorySearch;
+			includeSubdirectoriesCheckBox.Sensitive = enableDirectorySearch;
 		}
 		
 		void SpecialSearchStrategyCheckBoxChangedEvent(object sender, EventArgs e)
 		{
-			CheckBox cb = (CheckBox)ControlDictionary["useSpecialSearchStrategyCheckBox"];
-			if (cb != null) {
-				ControlDictionary["specialSearchStrategyComboBox"].Enabled = cb.Checked;
-			}
+			//CheckBox cb = (CheckBox)ControlDictionary["useSpecialSearchStrategyCheckBox"];
+			//if (cb != null) {
+				specialSearchStrategyComboBox.Sensitive = useSpecialSearchStrategyCheckBox.Active;
+			//}
 		}
 		
 		bool SetupSearchReplaceInFilesManager()
 		{
 			FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.Services.GetService(typeof(FileUtilityService));
 			
-			string directoryName = ControlDictionary["directoryTextBox"].Text;
-			string fileMask      = ControlDictionary["fileMaskTextBox"].Text;
+			string directoryName = directoryTextBox.Text;
+			string fileMask      = fileMaskTextBox.Text;
 			if (fileMask == null || fileMask.Length == 0) {
 				fileMask = "*";
 			}
@@ -166,18 +295,18 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 				SearchReplaceInFilesManager.SearchOptions.FileMask        = fileMask;
 			}
 			SearchReplaceInFilesManager.SearchOptions.SearchDirectory = directoryName;
-			SearchReplaceInFilesManager.SearchOptions.SearchSubdirectories = ((CheckBox)ControlDictionary["includeSubdirectoriesCheckBox"]).Checked;
+			SearchReplaceInFilesManager.SearchOptions.SearchSubdirectories = includeSubdirectoriesCheckBox.Active;
 			
-			SearchReplaceInFilesManager.SearchOptions.SearchPattern  = ControlDictionary["searchPatternComboBox"].Text;
+			SearchReplaceInFilesManager.SearchOptions.SearchPattern  = searchPatternComboBox.Entry.Text;
 			if (replaceMode) {
-				SearchReplaceInFilesManager.SearchOptions.ReplacePattern = ControlDictionary["replacePatternComboBox"].Text;
+				SearchReplaceInFilesManager.SearchOptions.ReplacePattern = replacePatternComboBox.Entry.Text;
 			}
 			
-			SearchReplaceInFilesManager.SearchOptions.IgnoreCase          = !((CheckBox)ControlDictionary["ignoreCaseCheckBox"]).Checked;
-			SearchReplaceInFilesManager.SearchOptions.SearchWholeWordOnly = ((CheckBox)ControlDictionary["searchWholeWordOnlyCheckBox"]).Checked;
+			SearchReplaceInFilesManager.SearchOptions.IgnoreCase          = !ignoreCaseCheckBox.Active;
+			SearchReplaceInFilesManager.SearchOptions.SearchWholeWordOnly = searchWholeWordOnlyCheckBox.Active;
 			
-			if (((CheckBox)ControlDictionary["useSpecialSearchStrategyCheckBox"]).Checked) {
-				switch (((ComboBox)ControlDictionary["specialSearchStrategyComboBox"]).SelectedIndex) {
+			if (useSpecialSearchStrategyCheckBox.Active) {
+				switch (specialSearchStrategyComboBox.History) {
 					case 0:
 						SearchReplaceInFilesManager.SearchOptions.SearchStrategyType = SearchStrategyType.Wildcard;
 						break;
@@ -189,7 +318,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 				SearchReplaceInFilesManager.SearchOptions.SearchStrategyType = SearchStrategyType.Normal;
 			}
 			
-			switch (((ComboBox)ControlDictionary["searchLocationComboBox"]).SelectedIndex) {
+			switch (searchLocationComboBox.History) {
 				case 0:
 					SearchReplaceInFilesManager.SearchOptions.DocumentIteratorType = DocumentIteratorType.Directory;
 					break;
@@ -202,6 +331,5 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 			}
 			return true;
 		}
-		*/
 	}
 }
