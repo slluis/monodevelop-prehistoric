@@ -1,3 +1,7 @@
+2005-03-10  Todd Berman  <tberman@off.net>
+
+	* Gui/Dialogs/SplashScreen.cs: Use an alignment, not labels.
+
 2005-03-10	Christian Hergert	<christian.hergert@gmail.com>
 
 	* Gui/Dialogs/SplashScreen.cs: Add progress bar with status

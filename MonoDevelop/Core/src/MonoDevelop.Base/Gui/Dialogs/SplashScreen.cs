@@ -30,11 +30,11 @@ namespace MonoDevelop.Gui.Dialogs {
 			image.Show ();
 
 			HBox hbox = new HBox();
-			hbox.PackStart(new Label("    "), false, false, 0);
+			Alignment align = new Alignment (0.5f, 1.0f, 0.90f, 1.0f);
 			progress = new ProgressBar();
 			progress.Fraction = 0.00;
-			hbox.PackStart(progress, true, true, 0);
-			hbox.PackStart(new Label("    "), false, false, 0);
+			align.Add (progress);
+			hbox.PackStart (align, true, true, 0);
 			hbox.ShowAll();
 
 			vbox = new VBox();
