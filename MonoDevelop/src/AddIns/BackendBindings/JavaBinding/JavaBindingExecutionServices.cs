@@ -51,22 +51,22 @@ namespace JavaBinding
 			string javaExec;
 			switch (parameters.Runtime) {
 				case JavaRuntime.Ikvm:
-					javaExec = "xterm -e \"ikvm -classpath " + parameters.ClassPath + " " + mainClass + ";read -p 'press any key to continue...' -n1\"";
+					javaExec = "-e \"ikvm -classpath " + parameters.ClassPath + " " + mainClass + ";read -p 'press any key to continue...' -n1\"";
 				break;
 				// FIXME: need to both compile with ikvmc
 				// and then run with mono
 				case JavaRuntime.Mono:
-					javaExec = "xterm -e \"ikvm -classpath " + parameters.ClassPath + " " + mainClass + ";read -p 'press any key to continue...' -n1\"";
+					javaExec = "-e \"ikvm -classpath " + parameters.ClassPath + " " + mainClass + ";read -p 'press any key to continue...' -n1\"";
 					break;
 				case JavaRuntime.Java:
-					javaExec = "xterm -e \"java -classpath " + parameters.ClassPath + " " + mainClass + ";read -p 'press any key to continue...' -n1\"";
+					javaExec = "-e \"java -classpath " + parameters.ClassPath + " " + mainClass + ";read -p 'press any key to continue...' -n1\"";
 					break;
 				default:
-					javaExec = "xterm -e \"ikvm -classpath " + parameters.ClassPath + " " + mainClass + ";read -p 'press any key to continue...' -n1\"";
+					javaExec = "-e \"ikvm -classpath " + parameters.ClassPath + " " + mainClass + ";read -p 'press any key to continue...' -n1\"";
 					break;
 			}
 
-			ProcessStartInfo psi = new ProcessStartInfo(javaExec);
+			ProcessStartInfo psi = new ProcessStartInfo("xterm", javaExec);
 
             try {
                 psi.WorkingDirectory = Path.GetDirectoryName (directory);
