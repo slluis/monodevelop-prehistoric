@@ -86,7 +86,7 @@ namespace MonoDevelop.Gui.Widgets
 			tv.Model = store;
 
 			tv.RowActivated += new RowActivatedHandler (OnRowActivated);
-			tv.ButtonReleaseEvent += new ButtonReleaseEventHandler (OnButtonReleaseEvent);
+			tv.PopupMenu += new PopupMenuHandler (OnPopupMenu);			
 
 			scrolledwindow.Add (tv);
 			this.Homogeneous = false;
@@ -210,23 +210,19 @@ namespace MonoDevelop.Gui.Widgets
 			}
 		}
 		
-		// FIXME: implement .PopupMenu event instead
-		private void OnButtonReleaseEvent (object o, ButtonReleaseEventArgs args)
+		private void OnPopupMenu (object o, PopupMenuArgs args)
 		{
- 			if (args.Event.Button == 3)
-			{
-				 Gtk.Menu menu = new Menu ();
-				 Gtk.MenuItem openfilebrowser = new MenuItem ("Open with file browser");
-				 openfilebrowser.Activated += new EventHandler (OpenFileBrowser);
+			 Menu menu = new Menu ();
+			 MenuItem openfilebrowser = new MenuItem ("Open with file browser");
+			 openfilebrowser.Activated += new EventHandler (OpenFileBrowser);
 
-				 Gtk.MenuItem openterminal = new MenuItem ("Open with terminal");
-				 openterminal.Activated += new EventHandler (OpenTerminal);
+			 MenuItem openterminal = new MenuItem ("Open with terminal");
+			 openterminal.Activated += new EventHandler (OpenTerminal);
 
-				 menu.Append (openterminal);
-				 menu.Append (openfilebrowser);
-				 menu.Popup (null, null, null, IntPtr.Zero, 3, Global.CurrentEventTime);
-				 menu.ShowAll ();
-			}
+			 menu.Append (openterminal);
+			 menu.Append (openfilebrowser);
+			 menu.Popup (null, null, null, IntPtr.Zero, 3, Global.CurrentEventTime);
+			 menu.ShowAll ();
 		}
 		
 		private void OpenFileBrowser (object o, EventArgs args)

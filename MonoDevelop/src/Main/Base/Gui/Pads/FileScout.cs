@@ -315,7 +315,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads
 		public FileScout()
 		{
 			fb.DirectoryChangedEvent += new DirectoryChangedEventHandler (OnDirChanged);
-			filelister.RowActivated += new Gtk.RowActivatedHandler(FileSelected);
+			filelister.RowActivated += new Gtk.RowActivatedHandler (FileSelected);
 
 			Gtk.Frame treef  = new Gtk.Frame ();
 			treef.Add (fb);
@@ -359,33 +359,36 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads
 			}
 		}
 
-		void FileSelected(object sender, Gtk.RowActivatedArgs e)
+		void FileSelected (object sender, Gtk.RowActivatedArgs e)
 		{
 			IProjectService projectService = (IProjectService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
 			IFileService    fileService    = (IFileService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(IFileService));
 			FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.Services.GetService(typeof(FileUtilityService));
 
 			Gtk.TreeIter iter;
-			if (filelister.Model.GetIterFirst(out iter) == false) {
-				return;
-			}
-			do {
-				if (filelister.Selection.IterIsSelected(iter) == false) {
-					continue;
-				} 
-				FileList.FileListItem item = (FileList.FileListItem)filelister.Model.GetValue(iter, 3);
-				switch (System.IO.Path.GetExtension(item.FullName)) {
+			Gtk.TreeModel model;
+
+			// we are not using SelectMultiple
+			// nor can more than one be activated here
+			if (filelister.Selection.GetSelected (out model, out iter))
+			{
+				FileList.FileListItem item = (FileList.FileListItem) filelister.Model.GetValue (iter, 3);
+
+				//FIXME: use mimetypes not extensions
+				// also change to Project tab when its a project
+				switch (System.IO.Path.GetExtension (item.FullName)) {
 					case ".cmbx":
 					case ".prjx":
-						projectService.OpenCombine(item.FullName);
+						projectService.OpenCombine (item.FullName);
 						break;
 					default:
-						Console.WriteLine (item.FullName);
-						fileService.OpenFile(item.FullName);
+						//Console.WriteLine (item.FullName);
+						fileService.OpenFile (item.FullName);
 						break;
 				}
-			} while (filelister.Model.IterNext(out iter) == true);
+			}
 		}
+
 /*
 		protected virtual void OnTitleChanged(EventArgs e)
 		{
