@@ -15,5 +15,16 @@
           MonoDevelop source code with the class viewer
         </div>
       </div>
+      <br />
+      <div class="image_frame">
+        <div class="image">
+          <a href="/images/screenshots/nemerle-experiemental.png" target="_blank">
+	   <img src="/images/screenshots/thumbnails/nemerle-experiemental.png" alt="" />
+          </a>
+        </div>
+        <div class="image_caption">
+          Experimental support for the Nemerle language
+        </div>
+      </div>
       
 <ccms:PageFooter runat="server"/>
