@@ -76,6 +76,7 @@ src/Main/Base/Services/StatusBar/DefaultStatusBarService.cs
 src/Main/Base/Services/ResourceNotFoundException.cs
 src/Libraries/MonoDevelop.Gui.Widgets/FileBrowser/FileBrowser.cs
 src/Libraries/MonoDevelop.Gui.Widgets/FolderDialog/BaseFileEntry.cs
+src/Libraries/MonoDevelop.Gui.Widgets/Navbar/Navbar.cs
 src/Libraries/MonoDevelop.Gui.Widgets/Tree/TreeNodeCollection.cs
 src/AddIns/DisplayBindings/SourceEditor/Commands/ToolCommands.cs
 src/AddIns/DisplayBindings/SourceEditor/Gui/Dialogs/ReplaceDialog.cs
