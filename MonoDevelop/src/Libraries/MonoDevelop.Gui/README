@@ -1,0 +1,7 @@
+Here are some custom widgets that could be reused externally
+they should live under the MonoDevelop.Gui namespace
+and not conflict with Gtk# names
+
+i.e.
+MyCustomWidget should not be ambigous when using both
+MonoDevelop.Gui and Gtk or Gnome

@@ -1,0 +1,20 @@
+<AddIn name        = "#develop highlighting editor"
+       author      = "Georg Brandl"
+       copyright   = "GPL"
+       url         = "http://www.icsharpcode.net"
+       description = "Editor for highlighting styles in #develop"
+       version     = "1.0.0">
+	
+	<Runtime>
+		<Import assembly="SharpDevelop.HighlightingEditor.dll"/>
+	</Runtime>
+
+	<Extension path = "/SharpDevelop/Dialogs/OptionsDialog/TextEditorOptions">
+		<DialogPanel id = "EditHighlighting"
+		             label = "${res:Dialog.Options.TextEditorOptions.EditHighlighting.PanelName}"
+			     	 insertafter = "Behavior"
+			     	 insertbefore = "VBSpecificOptions"
+		             class = "ICSharpCode.SharpDevelop.Gui.Dialogs.OptionPanels.EditHighlightingPanel"/>
+	</Extension>
+	
+</AddIn>

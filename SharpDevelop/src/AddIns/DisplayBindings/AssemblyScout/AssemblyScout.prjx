@@ -1,0 +1,60 @@
+<Project name="AssemblyScout" description="" newfilesearch="None" enableviewstate="True" version="1.1" projecttype="C#">
+  <Contents>
+    <File name=".\build.bat" subtype="Code" buildaction="Exclude" dependson="" data="" />
+    <File name=".\ModuleDefinition.xml" subtype="Code" buildaction="Exclude" dependson="" data="" />
+    <File name=".\src\AssemblyInfo.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\src\AssemblyTree.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\src\SourceView.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\src\ILDasmView.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\src\SearchPanel.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\src\Nodes\AssemblyTreeNode.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\src\Nodes\TypeNode.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\src\Nodes\FolderNode.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\src\Nodes\MethodNode.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\src\AssemblyScoutBinding.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\src\XmlView.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\src\tabcontrol.xml" subtype="Code" buildaction="Exclude" dependson="" data="" />
+    <File name=".\src\xml2html.xsl" subtype="Code" buildaction="Exclude" dependson="" data="" />
+    <File name=".\src\gx\class.gif" subtype="Code" buildaction="Exclude" dependson="" data="" />
+    <File name=".\src\gx\event.gif" subtype="Code" buildaction="Exclude" dependson="" data="" />
+    <File name=".\src\gx\leer.gif" subtype="Code" buildaction="Exclude" dependson="" data="" />
+    <File name=".\src\gx\method.gif" subtype="Code" buildaction="Exclude" dependson="" data="" />
+    <File name=".\src\gx\private_field.gif" subtype="Code" buildaction="Exclude" dependson="" data="" />
+    <File name=".\src\gx\private_method.gif" subtype="Code" buildaction="Exclude" dependson="" data="" />
+    <File name=".\src\gx\property.gif" subtype="Code" buildaction="Exclude" dependson="" data="" />
+    <File name=".\src\InfoView.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\src\Nodes\MemberNode.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\src\AssemblyScoutCommand.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\src\TempProject.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\src\ExtendedPropPanel.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\src\AssemblyScoutViewContent.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\src\Nodes\ResourceNode.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\src\AssemblyScoutOptionPanel.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\src\AssemblyScoutCommands.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+  </Contents>
+  <References>
+    <Reference type="Assembly" refto="..\..\..\..\bin\ICSharpCode.Core.dll" localcopy="False" />
+    <Reference type="Assembly" refto="..\..\..\..\bin\SharpDevelop.Base.dll" localcopy="False" />
+    <Reference type="Assembly" refto="..\..\..\..\bin\MagicLibrary.DLL" localcopy="False" />
+    <Reference type="Assembly" refto="..\..\..\..\bin\ICSharpCode.SharpAssembly.dll" localcopy="False" />
+    <Reference type="Assembly" refto="..\..\..\..\bin\ICSharpCode.XmlForms.dll" localcopy="False" />
+  </References>
+  <DeploymentInformation target="" script="" strategy="File" />
+  <Configuration runwithwarnings="False" name="Debug">
+    <CodeGeneration runtime="MsNet" compiler="Csc" warninglevel="4" includedebuginformation="True" optimize="False" unsafecodeallowed="True" generateoverflowchecks="True" mainclass="" target="Library" definesymbols="" generatexmldocumentation="False" win32Icon="" />
+    <Execution commandlineparameters="" consolepause="False" />
+    <Output directory=".\" assembly="AssemblyScout" executeScript="" executeBeforeBuild="" executeAfterBuild="" />
+  </Configuration>
+  <Configurations active="Debug">
+    <Configuration runwithwarnings="False" name="Debug">
+      <CodeGeneration runtime="MsNet" compiler="Csc" warninglevel="4" includedebuginformation="True" optimize="False" unsafecodeallowed="True" generateoverflowchecks="True" mainclass="" target="Library" definesymbols="" generatexmldocumentation="False" win32Icon="" />
+      <Execution commandlineparameters="" consolepause="False" />
+      <Output directory=".\" assembly="AssemblyScout" executeScript="" executeBeforeBuild="" executeAfterBuild="" />
+    </Configuration>
+    <Configuration runwithwarnings="False" name="Release">
+      <CodeGeneration runtime="MsNet" compiler="Csc" warninglevel="4" includedebuginformation="True" optimize="True" unsafecodeallowed="True" generateoverflowchecks="True" mainclass="" target="Exe" definesymbols="" generatexmldocumentation="False" win32Icon="" />
+      <Execution commandlineparameters="" consolepause="True" />
+      <Output directory=".\" assembly="AssemblyScout" executeScript="" executeBeforeBuild="" executeAfterBuild="" />
+    </Configuration>
+  </Configurations>
+</Project>

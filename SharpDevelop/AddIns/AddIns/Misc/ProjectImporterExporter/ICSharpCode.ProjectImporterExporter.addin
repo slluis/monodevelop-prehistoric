@@ -1,0 +1,22 @@
+<AddIn name        = "Project Importer/Exporter"
+       author      = "Mike Krueger"
+       copyright   = "GPL"
+       url         = "unknown"
+       description = "imports/exports forgein project files"
+       version     = "1.0.0">
+
+	<Runtime>
+		<Import assembly="ICSharpCode.ProjectImporterExporter.dll"/>
+	</Runtime>
+	<Extension path = "/SharpDevelop/Workbench/MainMenu/File">
+	                <MenuItem id = "ImportSeparator" insertafter="SaveAll" insertbefore="PrintSeparator" label = "-" />
+	                <MenuItem id = "ImportProject"
+				  label = "${res:XML.MainMenu.FileMenu.ImportSolution}" 
+				  description = "${res:XML.MainMenu.FileMenu.ImportSolution.Description}"
+	                          class = "ICSharpCode.SharpDevelop.ProjectImportExporter.Commands.ImportProjectCommand" />
+	                <MenuItem id = "ExportProject"
+				  label = "${res:XML.MainMenu.FileMenu.ExportSolution}" 
+				  description = "${res:XML.MainMenu.FileMenu.ExportSolution.Description}"
+	                          class = "ICSharpCode.SharpDevelop.ProjectImportExporter.Commands.ExportProjectCommand" />
+	</Extension>
+</AddIn>

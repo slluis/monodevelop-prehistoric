@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<metadata>
+  <attr path="/api/namespace/object[@cname='GtkMozEmbed']" name="name">EmbedWidget</attr>
+  <attr path="/api/namespace/object[@cname='GtkMozEmbed']" name="disabledefaultconstructor">1</attr>
+  <attr path="/api/namespace/object[@cname='GtkMozEmbed']/constructor[@cname='gtk_moz_embed_new']" name="hidden">1</attr>
+  <attr path="/api/namespace/object[@cname='GtkMozEmbed']/method[@name='ReloadFlagsGetType']" name="hidden">1</attr>
+  <attr path="/api/namespace/object[@cname='GtkMozEmbed']/method[@name='ProgressFlagsGetType']" name="hidden">1</attr>
+  <attr path="/api/namespace/object[@cname='GtkMozEmbed']/method[@name='StatusEnumsGetType']" name="hidden">1</attr>
+  <attr path="/api/namespace/object[@cname='GtkMozEmbed']/method[@name='ChromeFlagsGetType']" name="hidden">1</attr>
+  <attr path="/api/namespace/object[@cname='GtkMozEmbed']/method[@name='GetTitle']" name="name">GetGeckoTitle</attr>
+  <attr path="/api/namespace/object[@cname='GtkMozEmbed']/method[@name='GetLocation']" name="name">GetGeckoLocation</attr>
+  <attr path="/api/namespace/object[@cname='GtkMozEmbed']/method[@name='GetJsStatus']" name="name">GetGeckoJsStatus</attr>
+  <attr path="/api/namespace/object[@cname='GtkMozEmbed']/method[@name='GetLinkMessage']" name="name">GetGeckoLinkMessage</attr>
+  <attr path="/api/namespace/object[@cname='GtkMozEmbed']/signal[@cname='new_window']" name="hidden">1</attr>
+  <attr path="/api/namespace/object[@cname='GtkMozEmbedSingle']/signal[@cname='new_window_orphan']" name="hidden">1</attr>
+</metadata>

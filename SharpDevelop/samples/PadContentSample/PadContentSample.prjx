@@ -1,0 +1,24 @@
+<Project name="PadContentSample" description="erzeugt ein C# Konsolenprojekt" newfilesearch="None" enableviewstate="True" version="1.1" projecttype="C#">
+  <Contents>
+    <File name=".\Main.cs" subtype="Code" buildaction="Compile" />
+    <File name=".\AssemblyInfo.cs" subtype="Code" buildaction="Compile" />
+    <File name=".\MainPlugin.addin" subtype="Code" buildaction="Nothing" />
+  </Contents>
+  <References>
+    <Reference type="Assembly" refto="..\..\AddIns\SharpDevelop.Base.dll" />
+    <Reference type="Assembly" refto="..\..\bin\SharpDevelop.exe" />
+  </References>
+  <DeploymentInformation target="" script="" strategy="File" />
+  <Configurations active="Debug">
+    <Configuration runwithwarnings="False" name="Debug">
+      <CodeGeneration warninglevel="4" includedebuginformation="True" optimize="True" unsafecodeallowed="False" generateoverflowchecks="True" mainclass="" target="Library" definesymbols="" generatexmldocumentation="False" win32Icon="" />
+      <Execution commandlineparameters="" consolepause="True" />
+      <Output directory=".\" assembly="PadContentSample" />
+    </Configuration>
+    <Configuration runwithwarnings="False" name="Release">
+      <CodeGeneration warninglevel="4" includedebuginformation="True" optimize="True" unsafecodeallowed="False" generateoverflowchecks="True" mainclass="" target="Exe" definesymbols="" generatexmldocumentation="False" win32Icon="" />
+      <Execution commandlineparameters="" consolepause="True" />
+      <Output directory=".\" assembly="SharpDevelopAddInSample" />
+    </Configuration>
+  </Configurations>
+</Project>

@@ -1,0 +1,24 @@
+<AddIn name        = "New Class Wizard"
+       author      = "Don Kackman"
+       copyright   = "unknown"
+       url         = "unknown"
+       description = "newclasswizard"
+       version     = "1.0.0">
+
+	<Runtime>
+		<Import assembly="NewClassWizard.dll"/>
+	</Runtime>
+	
+	<Extension path = "/SharpDevelop/Templates/File/NewClassWizard">
+		<DialogPanel id = "ClassProperties"
+		             label = "Class Properties"
+		             class = "NewClassWizard.ClassPropertiesPanel"/>
+		<DialogPanel id = "Interfaces"
+		             label = "Interfaces"
+		             class = "NewClassWizard.InterfacesPanel"/>
+		<DialogPanel id = "CodeOptions"
+		             label = "Code Options"
+		             class = "NewClassWizard.CodeOptionsPanel"/>
+	</Extension>
+</AddIn>
+

@@ -1,0 +1,34 @@
+<AddIn name        = "DrC# Interactions"
+       author      = "Rice University C# PLT"
+       copyright   = "Rice University"
+       url         = "www.owlnet.rice.edu/~mgricken/drcs/"
+       description = "DrC# Interactions Panel"
+       version     = "1.0.0">
+<!-- disabled for 0.97	
+	<Runtime>
+		<Import assembly="DrCSPlugin.dll"/>
+	</Runtime>
+
+	<Extension path = "/SharpDevelop/Workbench/Views">
+				<Class id    = "Rice.Drcsharp" 
+				       class = "Rice.Drcsharp.InteractionsPlugin"/>
+	</Extension>
+	-->
+<!--
+	<Extension path = "/SharpDevelop/Workbench/ToolBar">
+				                
+			<ToolbarItem id = "InteractionsToolbarItems"
+                                insertafter = "Combine">
+				<ToolbarItem id = "Stop"
+				    icon = "Icons.16x16.BrowserRefresh"
+				        tooltip = "Restart the DrC# Interpreter"
+			            class = "Rice.Drcsharp.Commands.StopToolbarHandler"/>
+			        <ToolbarItem id = "Clear"
+			             icon = "Icons.16x16.DeleteIcon"
+			             tooltip = "Clear the DrC# Interactions Window"
+			             class = "Rice.Drcsharp.Commands.ClearToolbarHandler"/>
+			</ToolbarItem>
+	</Extension>
+-->
+
+</AddIn>

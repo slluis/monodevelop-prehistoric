@@ -1,0 +1,15 @@
+2003-11-23  John Luke  <jluke@cfl.rr.com>
+
+	* Makefile.am: remove sources from SUBDIRS
+	* autogen.sh: run configure by default
+	* configure.in: no need to output api/Makefile
+	* api/*: no longer used
+	* gtkmozembed/Single.custom: comment out signals temporarily
+	* gtkmozembed/GtkMozEmbed.metadata: add here, and port to XPath style
+	* gtkmozembed/Makefile.am: update to use gapi-fixup
+		and generate the sources
+	* sources/GtkMozEmbed.metadata: remove
+	* sources/Makefile.am: run gapi-parser unconditionally
+	* sources/gtkmozembed-sharp-sources.xml: add sources file
+	* sources/gtkmozembed-sharp.sources: remove
+	

@@ -1,0 +1,2381 @@
+using System.Drawing;
+using System.Collections;
+using System.Collections.Specialized;
+using System.Text;
+using ICSharpCode.SharpRefactory.Parser.AST.VB;
+using ICSharpCode.SharpRefactory.Parser.VB;
+
+COMPILER VBNET
+
+private string assemblyName = null;
+public CompilationUnit compilationUnit;
+private ArrayList importedNamespaces = null;
+private Stack withStatements;
+
+public string ContainingAssembly
+{
+	set { assemblyName = value; }
+}
+
+Token t
+{
+	get {
+		return lexer.Token;
+	}
+}
+Token la
+{
+	get {
+		return lexer.LookAhead;
+	}
+}
+
+/* Return the n-th token after the current lookahead token */
+void StartPeek()
+{
+	lexer.StartPeek();
+}
+
+Token Peek()
+{
+	return lexer.Peek();
+}
+
+Token Peek (int n)
+{
+	lexer.StartPeek();
+	Token x = la;
+	while (n > 0) {
+		x = lexer.Peek();
+		n--;
+	}
+	return x;
+}
+
+public void Error(string s)
+{
+	if (errDist >= minErrDist) {
+		errors.Error(la.line, la.col, s);
+	}
+	errDist = 0;
+}
+
+/*
+	True, if "." is followed by an ident
+*/
+bool DotAndIdent () {
+	return la.kind == Tokens.Dot && Peek(1).kind == Tokens.Identifier;
+}
+
+bool IsNotClosingParenthesis() {
+	return la.kind != Tokens.CloseParenthesis;
+}
+
+/*
+	True, if ident is followed by "="
+*/
+bool IdentAndAsgn () {
+	if(la.kind == Tokens.Identifier) {
+		if(Peek(1).kind == Tokens.Assign) return true;
+		if(Peek(1).kind == Tokens.Colon && Peek(2).kind == Tokens.Assign) return true;
+	}
+	return false;
+}
+
+/*
+	True, if ident is followed by "=" or by ":" and "="
+*/
+bool IsNamedAssign() {
+	if(Peek(1).kind == Tokens.Assign) return true;
+	if(Peek(1).kind == Tokens.NamedAssign) return true;
+	return false;
+}
+
+bool IsObjectCreation() {
+	return Peek(1).kind == Tokens.New;
+}
+
+/*
+	True, if "<" is followed by the ident "assembly" or "module"
+*/
+bool IsGlobalAttrTarget () {
+	Token pt = Peek(1);
+	return la.kind == Tokens.LessThan && ( pt.val.ToLower() == "assembly" || pt.val.ToLower() == "module");
+}
+
+/*
+	True if the next token is a "(" and is followed by "," or ")"
+*/
+bool IsDims()
+{
+	int peek = Peek(1).kind;
+	return la.kind == Tokens.OpenParenthesis &&
+		( peek == Tokens.CloseParenthesis || peek == Tokens.Comma);
+}
+
+/*
+	True, if the comma is not a trailing one,
+	like the last one in: a, b, c,
+*/
+bool NotFinalComma() {
+	int peek = Peek(1).kind;
+	return la.kind == Tokens.Comma &&
+		   peek != Tokens.CloseCurlyBrace && peek != Tokens.CloseSquareBracket;
+}
+
+/*
+	True, if the next token is "Else" and this one
+	if followed by "If"
+*/
+bool IsElseIf()
+{
+	int peek = Peek(1).kind;
+	return la.kind == Tokens.Else && peek == Tokens.If;
+}
+
+/*
+	True if the next token is goto and this one is
+	followed by minus ("-"), this is allowd in on
+	error clauses
+*/
+bool IsNegativeLabelName()
+{
+	int peek = Peek(1).kind;
+	return la.kind == Tokens.GoTo && peek == Tokens.Minus;
+}
+
+/*
+	True if the next statement is a "Resume next" statement
+*/
+bool IsResumeNext()
+{
+	int peek = Peek(1).kind;
+	return la.kind == Tokens.Resume && peek == Tokens.Next;
+}
+
+/*
+	True, if ident/literal integer is followed by ":"
+*/
+bool IsLabel() {
+	return (la.kind == Tokens.Identifier || la.kind == Tokens.LiteralInteger)
+			&& Peek(1).kind == Tokens.Colon;
+}
+
+bool IsAssignment ()
+{
+	return IdentAndAsgn();
+}
+
+/*
+	True, if lookahead is a local attribute target specifier,
+	i.e. one of "event", "return", "field", "method",
+	"module", "param", "property", or "type"
+*/
+bool IsLocalAttrTarget () {
+	// TODO
+	return false;
+}
+
+TOKENS
+	/*----- terminal classes -----*/
+	/* EOF is 0 */
+	EOL
+	ident
+	LiteralString
+	LiteralCharacter
+	LiteralInteger
+	LiteralDouble
+	LiteralSingle
+	LiteralDecimal
+	LiteralDate
+	
+	/*----- special character -----*/
+	"."
+	"="
+	":="
+	","
+	":"
+	"+"
+	"-"
+	"*"
+	"/"
+	"\\"
+	"&"
+	
+	"{"
+	"}"
+	
+	"["
+	"]"
+	
+	"("
+	")"
+	
+	">"
+	"<"
+	
+	"<>"
+	">="
+	"<="
+	
+	"<<"
+	">>"
+	
+	"+="
+	"^="
+	"-="
+	"*="
+	"/="
+	"\\="
+	"<<="
+	">>="
+	
+	/*----- VB.NET keywords -----*/
+	"AddHandler"
+	"AddressOf"
+	"Alias"
+	"And"
+	"AndAlso"
+	"Ansi"
+	"As"
+	"Assembly"
+	"Auto"
+	"Binary"
+	"Boolean"
+	"ByRef"
+	"Byte"
+	"ByVal"
+	"Call"
+	"Case"
+	"Catch"
+	"CBool"
+	"CByte"
+	"CChar"
+	"CDate"
+	"CDbl"
+	"CDec"
+	"Char"
+	"CInt"
+	"Class"
+	"CLng"
+	"CObj"
+	"Compare"
+	"Const"
+	"CShort"
+	"CSng"
+	"CStr"
+	"CType"
+	"Date"
+	"Decimal"
+	"Declare"
+	"Default"
+	"Delegate"
+	"Dim"
+	"DirectCast"
+	"Do"
+	"Double"
+	"Each"
+	"Else"
+	"ElseIf"
+	"End"
+	"EndIf"
+	"Enum"
+	"Erase"
+	"Error"
+	"Event"
+	"Exit"
+	"Explicit"
+	"False"
+	"Finally"
+	"For"
+	"Friend"
+	"Function"
+	"Get"
+	"GetType"
+	"GoSub"
+	"GoTo"
+	"Handles"
+	"If"
+	"Implements"
+	"Imports"
+	"In"
+	"Inherits"
+	"Integer"
+	"Interface"
+	"Is"
+	"Let"
+	"Lib"
+	"Like"
+	"Long"
+	"Loop"
+	"Me"
+	"Mod"
+	"Module"
+	"MustInherit"
+	"MustOverride"
+	"MyBase"
+	"MyClass"
+	"Namespace"
+	"New"
+	"Next"
+	"Not"
+	"Nothing"
+	"NotInheritable"
+	"NotOverridable"
+	"Object"
+	"Off"
+	"On"
+	"Option"
+	"Optional"
+	"Or"
+	"OrElse"
+	"Overloads"
+	"Overridable"
+	"Override"
+	"Overrides"
+	"ParamArray"
+	"Preserve"
+	"Private"
+	"Property"
+	"Protected"
+	"Public"
+	"RaiseEvent"
+	"ReadOnly"
+	"ReDim"
+	"RemoveHandler"
+	"Resume"
+	"Return"
+	"Select"
+	"Set"
+	"Shadows"
+	"Shared"
+	"Short"
+	"Single"
+	"Static"
+	"Step"
+	"Stop"
+	"Strict"
+	"String"
+	"Structure"
+	"Sub"
+	"SyncLock"
+	"Text"
+	"Then"
+	"Throw"
+	"To"
+	"True"
+	"Try"
+	"TypeOf"
+	"Unicode"
+	"Until"
+	"Variant"
+	"Wend"
+	"When"
+	"While"
+	"With"
+	"WithEvents"
+	"WriteOnly"
+	"Xor"
+	
+PRODUCTIONS
+
+VBNET
+	(.
+		compilationUnit = new CompilationUnit();
+		withStatements = new Stack();
+	.) =
+	{ OptionStmt }
+	{ ImportsStmt}
+	{ IF (IsGlobalAttrTarget()) GlobalAttributeSection }
+	{ NamespaceMemberDecl }
+	EOF
+	.
+
+OptionStmt (. INode node = null; bool val = true; .) =
+	"Option" (. Point startPos = t.Location; .)
+	(
+		"Explicit" OptionValue<ref val>
+		(. node = new OptionExplicitDeclaration(val); .)
+		|
+		"Strict" OptionValue<ref val>
+		(. node = new OptionStrictDeclaration(val); .)
+		|
+		"Compare" ( "Binary" (. node = new OptionCompareDeclaration(CompareType.Binary); .)
+				  | "Text" (. node = new OptionCompareDeclaration(CompareType.Text); .)
+				  )
+	)
+	EndOfStmt
+	(.
+		node.StartLocation = startPos;
+		node.EndLocation   = t.Location;
+		compilationUnit.AddChild(node);
+	.)
+	.
+
+OptionValue<ref bool val> =
+	(
+		"On" (. val = true; .)
+	|
+		"Off" (. val = true; .)
+	)
+	.
+
+EndOfStmt =
+	(
+		EOL
+	|
+		":"
+	)
+	.
+
+ImportsStmt
+	(.
+		ArrayList importClauses = new ArrayList();
+		importedNamespaces = new ArrayList();
+		object importClause;
+	.) =
+	"Imports"
+	(.
+		Point startPos = t.Location;
+		ImportsStatement importsStatement = new ImportsStatement(null);
+	.)
+	ImportClause<out importClause> (. importClauses.Add(importClause); .)
+	{
+		"," ImportClause<out importClause> (. importClauses.Add(importClause); .)
+	}
+	EndOfStmt
+	(.
+		importsStatement.ImportClauses = importClauses;
+		importsStatement.StartLocation = startPos;
+		importsStatement.EndLocation   = t.Location;
+		compilationUnit.AddChild(importsStatement);
+	.)
+	.
+
+ImportClause<out object importClause>
+	(.
+		string qualident = null;
+		string aliasident = null;
+		importClause = null;
+	.) =
+	[ IF (IsAssignment()) ident (. aliasident = t.val;  .) "=" ]
+	Qualident<out qualident>
+	(.
+		if (qualident != null && qualident.Length > 0) {
+			if (aliasident != null) {
+				importClause = new ImportsAliasDeclaration(aliasident, qualident);
+			} else {
+				importedNamespaces.Add(qualident);
+				importClause = new ImportsDeclaration(qualident);
+			}
+		}
+	.)
+	.
+
+/* 6.4.2 */
+NamespaceMemberDecl
+	(.
+		Modifiers m = new Modifiers(this);
+		AttributeSection section;
+		ArrayList attributes = new ArrayList();
+		string qualident;
+	.) =
+	"Namespace"
+	(.
+		Point startPos = t.Location;
+	.)
+	Qualident<out qualident>
+	(.
+		INode node =  new NamespaceDeclaration(qualident);
+		node.StartLocation = startPos;
+		compilationUnit.AddChild(node);
+		compilationUnit.BlockStart(node);
+	.)
+	EOL
+	NamespaceBody
+	(.
+		node.EndLocation = t.Location;
+		compilationUnit.BlockEnd();
+	.)
+	|
+	{ AttributeSection<out section> (. attributes.Add(section); .) }
+	{ TypeModifier<m> } NonModuleDeclaration<m, attributes>
+	.
+
+/* 6.4.2 */
+NonModuleDeclaration<Modifiers m, ArrayList attributes>
+			(.
+				string name = String.Empty;
+				ArrayList names = null;
+			.) =
+	(. /* TODO m.Check(Modifier.classes); */ .)
+	/* Spec, 7.5 */
+	"Class"
+					(. TypeDeclaration newType = new TypeDeclaration();
+						compilationUnit.AddChild(newType);
+						compilationUnit.BlockStart(newType);
+						newType.StartLocation = t.Location;
+						newType.Type = Types.Class;
+						newType.Modifier = m.Modifier;
+						newType.Attributes = attributes;
+					.)
+	ident			 (. newType.Name = t.val; .) 
+	EndOfStmt
+	[ ClassBaseType<out name> (. newType.BaseType = name; .) ]
+	{ TypeImplementsClause<out names> (. newType.BaseInterfaces = names; .) }
+	ClassBody
+	(.
+		newType.EndLocation = t.EndLocation;
+		compilationUnit.BlockEnd();
+	.)
+	| "Module"
+					(. TypeDeclaration newType = new TypeDeclaration();
+						compilationUnit.AddChild(newType);
+						compilationUnit.BlockStart(newType);
+						newType.StartLocation = t.Location;
+						newType.Type = Types.Module;
+						newType.Modifier = m.Modifier;
+						newType.Attributes = attributes;
+					.)
+	ident			 (. newType.Name = t.val; .) 
+	EOL
+	ModuleBody
+	(.
+		newType.EndLocation = t.EndLocation;
+		compilationUnit.BlockEnd();
+	.)
+	| "Structure"
+					(. TypeDeclaration newType = new TypeDeclaration();
+						compilationUnit.AddChild(newType);
+						compilationUnit.BlockStart(newType);
+						newType.StartLocation = t.Location;
+						newType.Type = Types.Structure;
+						newType.Modifier = m.Modifier;
+						newType.Attributes = attributes;
+						ArrayList baseInterfaces = new ArrayList();
+					.)
+	ident			 (. newType.Name = t.val; .) 
+	EOL { TypeImplementsClause<out baseInterfaces> }
+	StructureBody
+	(.
+		newType.EndLocation = t.EndLocation;
+		compilationUnit.BlockEnd();
+	.)
+	| /* 7.4 */
+	"Enum"
+					(. TypeDeclaration newType = new TypeDeclaration();
+						compilationUnit.AddChild(newType);
+						compilationUnit.BlockStart(newType);
+						newType.StartLocation = t.Location;
+						newType.Type = Types.Enum;
+						newType.Modifier = m.Modifier;
+						newType.Attributes = attributes;
+					.)
+	ident			 (. newType.Name = t.val; .) 
+	[ "As" PrimitiveTypeName<out name> (. newType.BaseType = name; .) ]
+	EOL
+	EnumBody
+	(.
+		newType.EndLocation = t.EndLocation;
+		compilationUnit.BlockEnd();
+	.)
+	| /* 7.8 */
+	"Interface"
+					(. TypeDeclaration newType = new TypeDeclaration();
+						compilationUnit.AddChild(newType);
+						compilationUnit.BlockStart(newType);
+						newType.StartLocation = t.Location;
+						newType.Type = Types.Interface;
+						newType.Modifier = m.Modifier;
+						newType.Attributes = attributes;
+						ArrayList baseInterfaces = new ArrayList();
+					.)
+	ident			 (. newType.Name = t.val; .) 
+	EndOfStmt { InterfaceBase<out baseInterfaces> (. newType.BaseInterfaces = baseInterfaces; .) }
+	InterfaceBody
+	(.
+		newType.EndLocation = t.EndLocation;
+		compilationUnit.BlockEnd();
+	.)
+	| /* 7.10 */
+	"Delegate"
+	(.
+		DelegateDeclaration delegateDeclr = new DelegateDeclaration();
+		ArrayList p = null;
+		TypeReference type = null;
+		delegateDeclr.StartLocation = t.Location;
+		delegateDeclr.Modifier = m.Modifier;
+		delegateDeclr.Attributes = attributes;
+	.)
+	(
+		"Sub" ident (. delegateDeclr.Name = t.val; .)
+		[ "(" [ FormalParameterList<out p> ] ")" (. delegateDeclr.Parameters = p; .) ]
+		|
+		"Function" ident (. delegateDeclr.Name = t.val; .)
+		[ "(" [ FormalParameterList<out p> ] ")" (. delegateDeclr.Parameters = p; .) ]
+		[ "As" TypeName<out type> (. delegateDeclr.ReturnType = type; .)]
+	)
+	EOL
+	(.
+		delegateDeclr.EndLocation = t.EndLocation;
+		compilationUnit.AddChild(delegateDeclr);
+	.)
+	.
+
+NamespaceBody =
+	{ NamespaceMemberDecl }
+	"End" "Namespace"
+	EOL
+	.
+
+ClassBody
+	(. AttributeSection section; .) =
+	{
+		(.
+			ArrayList attributes = new ArrayList();
+			Modifiers m = new Modifiers(this);
+		.)
+		{ AttributeSection<out section> (. attributes.Add(section); .) }
+		{ MemberModifier<m> }
+		ClassMemberDecl<m, attributes>
+	}
+	"End" "Class"
+	EOL
+	.
+
+StructureBody
+	(. AttributeSection section; .) =
+	{
+		(.
+			ArrayList attributes = new ArrayList();
+			Modifiers m = new Modifiers(this);
+		.)
+		{ AttributeSection<out section> (. attributes.Add(section); .) }
+		{ MemberModifier<m> }
+		StructureMemberDecl<m, attributes>
+	}
+	"End" "Structure"
+	EOL
+	.
+
+/* 7.7.1 */
+ModuleBody
+	(. AttributeSection section; .) =
+	{
+		(.
+			ArrayList attributes = new ArrayList();
+			Modifiers m = new Modifiers(this);
+		.)
+		{ AttributeSection<out section> (. attributes.Add(section); .) }
+		{ MemberModifier<m> }
+		ClassMemberDecl<m, attributes>
+	}
+	"End" "Module"
+	EOL
+	.
+
+EnumBody
+	(. FieldDeclaration f; .) =
+	{
+		EnumMemberDecl<out f> (. compilationUnit.AddChild(f); .)
+	}
+	"End" "Enum"
+	EOL
+	.
+
+InterfaceBody =
+	{ InterfaceMemberDecl }
+	"End" "Interface"
+	EOL
+	.
+
+/*
+	The information provided in the spec is wrong
+	for interface declarations
+*/
+InterfaceMemberDecl
+	(.
+		TypeReference type =null;
+		ArrayList p = null;
+		AttributeSection section;
+		Modifiers mod = new Modifiers(this);
+		ArrayList attributes = new ArrayList();
+		ArrayList parameters = new ArrayList();
+		string name;
+	.) =
+	{ AttributeSection<out section>			(. attributes.Add(section); .) }
+	/* this is different to c#: not only the Shadows modifier is allowed,
+	   also member modifiers like overloads etc.
+	*/
+	{ MemberModifier<mod> }
+	/* TODO: check validy of modifiers */
+	(
+		"Event" ident (. name = t.val; .)
+		[ "(" [ FormalParameterList<out p> ] ")" ]
+		[ "As" TypeName<out type> ]
+		EOL
+		(.
+			EventDeclaration ed = new EventDeclaration(type, mod.Modifier, p, attributes, name, null);
+			compilationUnit.AddChild(ed);
+			ed.EndLocation = t.EndLocation;
+		.)
+		|
+		"Sub" ident (. name = t.val; .)
+		[ "(" [ FormalParameterList<out p> ] ")" ]
+		EOL
+		(.
+			MethodDeclaration md = new MethodDeclaration(name, mod.Modifier, null, p, attributes);
+			md.EndLocation = t.EndLocation;
+			compilationUnit.AddChild(md);
+		.)
+		|
+		"Function" ident (. name = t.val; .)
+		[ "(" [ FormalParameterList<out p> ] ")" ]
+		[ "As" TypeName<out type> ]
+		(.
+			MethodDeclaration md = new MethodDeclaration(name, mod.Modifier, type, p, attributes);
+			md.EndLocation = t.EndLocation;
+			compilationUnit.AddChild(md);
+		.)
+		EOL
+		|
+		"Property" ident	(. name = t.val; .)
+		[ "(" [ FormalParameterList<out p> ] ")" ]
+		[ "As" TypeName<out type> ]
+		EOL
+		(.
+			PropertyDeclaration pd = new PropertyDeclaration(name, type, mod.Modifier, attributes);
+			pd.Parameters = p;
+			pd.EndLocation = t.EndLocation;
+			compilationUnit.AddChild(pd);
+		.)
+		| /* enums ARE allowed in interfaces */
+		"Enum"
+			(. TypeDeclaration newType = new TypeDeclaration();
+				compilationUnit.AddChild(newType);
+				compilationUnit.BlockStart(newType);
+				newType.StartLocation = t.Location;
+				newType.Type = Types.Enum;
+				newType.Modifier = mod.Modifier;
+				newType.Attributes = attributes;
+			.)
+		ident			 (. newType.Name = t.val; .) 
+		[ "As" PrimitiveTypeName<out name> (. newType.BaseType = name; .) ]
+		EOL
+		EnumBody
+		(.
+			newType.EndLocation = t.EndLocation;
+			compilationUnit.BlockEnd();
+		.)
+	)
+	| /* inner type declarations */
+	NonModuleDeclaration<mod, attributes>
+	.
+
+/* 7.4.1 */
+EnumMemberDecl<out FieldDeclaration f>
+	(.
+		Expression expr = null;
+		ArrayList attributes = new ArrayList();
+		AttributeSection section = null;
+		VariableDeclaration varDecl = null;
+	.) =
+	{ AttributeSection<out section> (. attributes.Add(section); .) }
+	ident
+	(.
+		f = new FieldDeclaration(attributes);
+		varDecl = new VariableDeclaration(t.val);
+		f.Fields.Add(varDecl);
+		f.StartLocation = t.Location;
+	.)
+	[ "=" Expr<out expr> (. varDecl.Initializer = expr; .) ]
+	EOL
+	.
+
+ClassMemberDecl<Modifiers m, ArrayList attributes> =
+	StructureMemberDecl<m, attributes>
+	.
+
+ClassBaseType<out string name>
+	(.
+		TypeReference type;
+		name = String.Empty;
+	.) =
+	"Inherits"
+	TypeName<out type> (. name = type.Type; .)
+	EOL
+	.
+
+/* 7.6.1 */
+StructureMemberDecl<Modifiers m, ArrayList attributes>
+	(.
+		TypeReference type = null;
+		ArrayList p = null;
+		Statement stmt = null;
+		ArrayList variableDeclarators = new ArrayList();
+	.)=
+	NonModuleDeclaration<m, attributes>
+	| /* 9.2.1 */
+	"Sub"
+	(. Point startPos = t.Location; .)
+	(
+		(.
+			string name = String.Empty;
+			MethodDeclaration methodDeclaration;
+			HandlesClause handlesClause = null;
+			ImplementsClause implementsClause = null;
+		.)
+		ident			(. name = t.val; .)
+		[ "(" [ FormalParameterList<out p> ] ")" ]
+		[
+			(
+				ImplementsClause<out implementsClause>
+				|
+				HandlesClause<out handlesClause>
+			)
+		]
+		EOL
+		(.
+			methodDeclaration = new MethodDeclaration(name, m.Modifier,  null, p, attributes);
+			methodDeclaration.StartLocation = startPos;
+			methodDeclaration.EndLocation   = t.EndLocation;
+			
+			methodDeclaration.HandlesClause = handlesClause;
+			methodDeclaration.ImplementsClause = implementsClause;
+			
+			compilationUnit.AddChild(methodDeclaration);
+			compilationUnit.BlockStart(methodDeclaration);
+		.)
+		Block<out stmt>
+		(.
+			compilationUnit.BlockEnd();
+			methodDeclaration.Body  = (BlockStatement)stmt;
+		.)
+		"End" "Sub" EOL
+		/* 9.3 */
+		| "New" [ "(" [ FormalParameterList<out p> ] ")" ]
+		/* TODO: check for valid modifiers */
+		EOL
+		Block<out stmt>
+		"End" "Sub" EOL
+		(.
+			ConstructorDeclaration cd = new ConstructorDeclaration("New", m.Modifier, p, attributes); 
+			cd.StartLocation = startPos;
+			cd.Body = (BlockStatement)stmt;
+			cd.EndLocation   = t.EndLocation;
+		.)
+	)
+	|
+	/* 9.2.1 */
+	"Function"
+	(.
+		string name = String.Empty;
+		Point startPos = t.Location;
+		MethodDeclaration methodDeclaration;
+		HandlesClause handlesClause = null;
+		ImplementsClause implementsClause = null;
+	.)
+	ident			(. name = t.val; .)
+	[ "("	[ FormalParameterList<out p> ] ")" ]
+	["As" TypeName<out type> ]
+	[
+		(
+			ImplementsClause<out implementsClause>
+			|
+			HandlesClause<out handlesClause>
+		)
+	]
+	EOL
+	(.
+		methodDeclaration = new MethodDeclaration(name, m.Modifier,  type, p, attributes);
+		methodDeclaration.StartLocation = startPos;
+		methodDeclaration.EndLocation   = t.EndLocation;
+		
+		methodDeclaration.HandlesClause = handlesClause;
+		methodDeclaration.ImplementsClause = implementsClause;
+		
+		compilationUnit.AddChild(methodDeclaration);
+		compilationUnit.BlockStart(methodDeclaration);
+	.)
+	Block<out stmt>
+	(.
+		compilationUnit.BlockEnd();
+		methodDeclaration.Body  = (BlockStatement)stmt;
+	.)
+	"End" "Function" EOL
+	|
+	/* 9.2.2. */
+	"Declare"
+	(.
+		Point startPos = t.Location;
+		CharsetModifier charsetModifer = CharsetModifier.None;
+		string library = String.Empty;
+		string alias = String.Empty;
+		string name = String.Empty;
+	.)
+	[Charset<out charsetModifer> ]
+	(
+			"Sub"
+			ident					(. name = t.val; .)
+			"Lib" LiteralString		(. library = t.val; .)
+			["Alias" LiteralString	(. alias = t.val; .)]
+			[ "("	[ FormalParameterList<out p> ] ")" ]
+			EOL
+			(.
+				DeclareDeclaration declareDeclaration = new DeclareDeclaration(name, m.Modifier, null, p, attributes, library, alias, charsetModifer);
+				declareDeclaration.StartLocation = startPos;
+				declareDeclaration.EndLocation   = t.EndLocation;
+				compilationUnit.AddChild(declareDeclaration);
+			.)
+		|
+			"Function" 
+			ident					(. name = t.val; .)
+			"Lib" LiteralString		(. library = t.val; .)
+			["Alias" LiteralString	(. alias = t.val; .)]
+			[ "("	[ FormalParameterList<out p> ] ")" ]
+			["As" TypeName<out type> ]
+			EOL
+			(.
+				DeclareDeclaration declareDeclaration = new DeclareDeclaration(name, m.Modifier, type, p, attributes, library, alias, charsetModifer);
+				declareDeclaration.StartLocation = startPos;
+				declareDeclaration.EndLocation   = t.EndLocation;
+				compilationUnit.AddChild(declareDeclaration);
+			.)
+		)
+	|
+	/* 9. 4 */
+	"Event"
+	(.
+		Point startPos = t.Location;
+		EventDeclaration eventDeclaration;
+		string name = String.Empty;
+		ImplementsClause implementsClause = null;
+	.)
+	ident (. name= t.val; .)
+	(
+		"As" TypeName<out type>
+		|
+		[ "("	[ FormalParameterList<out p> ] ")" ]
+	)
+	[ ImplementsClause<out implementsClause> ]
+	(.
+		eventDeclaration = new EventDeclaration(type, m.Modifier, p, attributes, name, implementsClause);
+		eventDeclaration.StartLocation = startPos;
+		eventDeclaration.EndLocation = t.EndLocation;
+		compilationUnit.AddChild(eventDeclaration);
+	.)
+	EOL
+	| /* 9.6 */
+	(. Point startPos = t.Location; .)
+	[ "Dim" ]
+	(.
+		m.Check(Modifier.Fields);
+		FieldDeclaration fd = new FieldDeclaration(attributes, type, m.Modifier);
+		fd.StartLocation = startPos; 
+	.)
+	VariableDeclarator<variableDeclarators>
+	{ "," VariableDeclarator<variableDeclarators> }
+	EOL
+	(.
+		fd.EndLocation = t.EndLocation;
+		fd.Fields = variableDeclarators;
+		compilationUnit.AddChild(fd);
+	.)
+	| /* 9.4 */
+	(. m.Check(Modifier.Constant); .)
+	"Const"
+	(.
+		FieldDeclaration fd = new FieldDeclaration(attributes, type, m.Modifier);
+		fd.StartLocation = t.Location;
+		ArrayList constantDeclarators = new ArrayList();
+	.)
+	ConstantDeclarator<constantDeclarators>
+	{ "," ConstantDeclarator<constantDeclarators> }
+	(.
+		fd.EndLocation = t.Location;
+	.)
+	EOL
+	(.
+		fd.EndLocation = t.EndLocation;
+		compilationUnit.AddChild(fd);
+	.)
+	| /* 9.7 */
+	"Property"
+	(.
+		Point startPos = t.Location;
+		ImplementsClause implementsClause = null;
+	.)
+	ident
+	[ "("	[ FormalParameterList<out p> ] ")" ]
+	[ "As" TypeName<out type> ]
+	[ ImplementsClause<out implementsClause> ]
+	EOL
+	(.
+		PropertyDeclaration pDecl = new PropertyDeclaration(t.val, type, m.Modifier, attributes);
+		pDecl.StartLocation = startPos;
+		pDecl.EndLocation   = t.Location;
+		pDecl.BodyStart   = t.Location;
+		pDecl.TypeReference = type;
+		pDecl.ImplementsClause = implementsClause;
+		pDecl.Parameters = p;
+		PropertyGetRegion getRegion;
+		PropertySetRegion setRegion;
+	.)
+	AccessorDecls<out getRegion, out setRegion> 
+	"End" "Property"
+	EOL
+	(.
+		pDecl.GetRegion = getRegion;
+		pDecl.SetRegion = setRegion;
+		pDecl.BodyEnd = t.EndLocation;
+		compilationUnit.AddChild(pDecl);
+	.)
+	.
+
+/* 9.7 */
+AccessorDecls<out PropertyGetRegion getBlock, out PropertySetRegion setBlock>
+	(.
+		ArrayList attributes = new ArrayList(); 
+		AttributeSection section;
+		getBlock = null;
+		setBlock = null; 
+	.) =
+	{ AttributeSection<out section> (. attributes.Add(section); .) }
+	(
+		GetAccessorDecl<out getBlock, attributes>
+		[
+			(. attributes = new ArrayList(); .)
+			{ AttributeSection<out section> (. attributes.Add(section); .) }
+			SetAccessorDecl<out setBlock, attributes>
+		]
+		|
+		SetAccessorDecl<out setBlock, attributes>
+		[
+			(. attributes = new ArrayList(); .)
+			{ AttributeSection<out section> (. attributes.Add(section); .) }
+			GetAccessorDecl<out getBlock, attributes>
+		]
+	)
+	.
+
+/* 9.7.1 */
+GetAccessorDecl<out PropertyGetRegion getBlock, ArrayList attributes>
+	(. Statement stmt = null; .) =
+	"Get"
+	EOL
+	Block<out stmt>
+	(.
+		getBlock = new PropertyGetRegion((BlockStatement)stmt, attributes);
+	.)
+	"End" "Get"
+	EOL
+	.
+
+/* 9.7.2 */
+SetAccessorDecl<out PropertySetRegion setBlock, ArrayList attributes>
+	(.
+		Statement stmt = null;
+		ArrayList p = null;
+	.) =
+	"Set"
+	[ "("	[ FormalParameterList<out p> ] ")" ]
+	EOL
+	Block<out stmt>
+	(.
+		setBlock = new PropertySetRegion((BlockStatement)stmt, attributes);
+		setBlock.Parameters = p;
+	.)
+	"End" "Set"
+	EOL
+	.
+
+/* 9.5 */
+ConstantDeclarator<ArrayList constantDeclaration>
+	(.
+		Expression expr = null;
+		TypeReference type = null;
+		string name = String.Empty;
+	.) =
+	ident				(. name = t.val; .)
+	["As" TypeName<out type> ]
+	"=" Expr<out expr>
+	(.
+		VariableDeclaration f = new VariableDeclaration(name, expr);
+		f.Type = type;
+		constantDeclaration.Add(f);
+	.)
+	.
+
+/* 9.6 */
+VariableDeclarator<ArrayList fieldDeclaration>
+	(.
+		Expression expr = null;
+		TypeReference type = null;
+		ObjectCreateExpression oce = null;
+	.) =
+	ident /* TODO ArrayTypeModifers */
+	(.
+		VariableDeclaration f = new VariableDeclaration(t.val);
+	.)
+	(
+			IF(IsObjectCreation()) "As" ObjectCreateExpression<out oce>
+			(.
+				f.Initializer = oce;
+				if(oce.CreateType != null) {
+					f.Type = oce.CreateType;
+				}
+			.)
+		|
+			[ "As" TypeName<out type> (. f.Type = type; .) ]
+			[ "=" VariableInitializer<out expr> (. f.Initializer = expr; .) ]
+	)
+	(. fieldDeclaration.Add(f); .)
+	.
+
+/* 9.6.3 */
+VariableInitializer<out Expression initializerExpression>
+	(.
+		initializerExpression = null;
+	.) =
+	Expr<out initializerExpression>
+	| ArrayInitializer<out initializerExpression>
+	.
+
+/* 9.6.3.4 */
+ArrayInitializer<out Expression outExpr>
+	(.
+		Expression expr = null;
+		ArrayInitializerExpression initializer = new ArrayInitializerExpression();
+	.) =
+	"{"
+	[
+		VariableInitializer<out expr>
+		(.
+			initializer.CreateExpressions.Add(expr);
+		.)
+		{
+			IF (NotFinalComma()) "," VariableInitializer<out expr>
+			(. initializer.CreateExpressions.Add(expr); .)
+		}
+	]
+	"}" (. outExpr = initializer; .)
+	.
+
+Charset<out CharsetModifier charsetModifier>
+	(. charsetModifier = CharsetModifier.None; .) =
+	| "Ansi"		(. charsetModifier = CharsetModifier.ANSI; .)
+	| "Auto"		(. charsetModifier = CharsetModifier.Auto; .)
+	| "Unicode"		(. charsetModifier = CharsetModifier.ANSI; .)
+	.
+
+/* 9.2.6 */
+HandlesClause<out HandlesClause handlesClause>
+	(.
+		handlesClause = new HandlesClause();
+		string name;
+	.) =
+	"Handles" EventMemberSpecifier<out name>	(. handlesClause.EventNames.Add(name); .)
+	{ "," EventMemberSpecifier<out name>		(. handlesClause.EventNames.Add(name); .) }
+	.
+
+/* 7.8.1 */
+InterfaceBase <out ArrayList bases>
+	(.
+		TypeReference type;
+		bases = new ArrayList();
+	.) =
+	"Inherits"
+	TypeName<out type> (. bases.Add(type); .)
+	{
+		","
+		TypeName<out type> (. bases.Add(type); .)
+	}
+	EOL
+	.
+
+/* 7.2 */
+TypeImplementsClause<out ArrayList baseInterfaces>
+	(.
+		baseInterfaces = new ArrayList();
+		TypeReference type = null;
+	.) =
+	"Implements" TypeName<out type>
+	(.
+		baseInterfaces.Add(type);
+	.)
+	{
+		"," TypeName<out type>
+		(. baseInterfaces.Add(type); .)
+	}
+	EndOfStmt
+	.
+
+/* 9.1 */
+ImplementsClause<out ImplementsClause clause>
+	(.
+		clause = new ImplementsClause();
+		string typename = String.Empty;
+		string first;
+	.) =
+	"Implements" ident (. first = t.val; .) "." Qualident<out typename> (. ((ImplementsClause)clause).BaseMembers.Add(first + "." + typename); .)
+	{ "," ident (. first = t.val; .) "." Qualident<out typename> (. ((ImplementsClause)clause).BaseMembers.Add(first + "." + typename); .) }
+		.
+
+EventMemberSpecifier<out string name>
+	(. string type; name = String.Empty; .) =
+	ident (. type = t.val; .)
+	"."
+	ident (. name =  type + "." + t.val; .)
+	| "MyBase" "." ident (. name = "MyBase." + t.val; .)
+	.
+
+Expr<out Expression expr>
+	(. expr = new Expression(); .) =
+	UnaryExpr<out expr>
+	(
+		ConditionalOrExpr<ref expr>
+		| (. AssignmentOperatorType op; Expression val; .) AssignmentOperator<out op> Expr<out val> (. expr = new AssignmentExpression(expr, op, val); .)
+	)
+	.
+
+UnaryExpr<out Expression uExpr> 
+	(.
+		Expression expr;
+		UnaryOperatorType uop = UnaryOperatorType.None;
+		bool isUOp = false;
+	.)
+	=
+	{ 	"+" 		(. uop = UnaryOperatorType.Plus; isUOp = true; .)
+		| "-" 		(. uop = UnaryOperatorType.Minus; isUOp = true; .)
+		| "Not"		(. uop = UnaryOperatorType.Not;  isUOp = true;.)
+		| "*" 		(. uop = UnaryOperatorType.Star;  isUOp = true;.)
+	}
+	SimpleExpr<out expr>
+		(.
+			if (isUOp) {
+				uExpr = new UnaryOperatorExpression(expr, uop);
+			} else {
+				uExpr = expr;
+			}
+		.)
+	.
+
+AssignmentOperator<out AssignmentOperatorType op>
+	(. op = AssignmentOperatorType.None; .) =
+	"="		(. op = AssignmentOperatorType.Assign; .)
+	| "+="	(. op = AssignmentOperatorType.Add; .)
+	| "-="	(. op = AssignmentOperatorType.Subtract; .)
+	| "*="	(. op = AssignmentOperatorType.Multiply; .)
+	| "/="	(. op = AssignmentOperatorType.Divide; .)
+	| "\\="	(. op = AssignmentOperatorType.DivideInteger; .)
+	| "^="	(. op = AssignmentOperatorType.Power; .)
+	| "<<="	(. op = AssignmentOperatorType.ShiftLeft; .)
+	| ">>="	(. op = AssignmentOperatorType.ShiftRight; .)
+	.
+
+/* 11.4 */
+SimpleExpr<out Expression pexpr>
+	(.
+		Expression expr;
+		TypeReference type = null;
+		ObjectCreateExpression oce = null;
+		string name = String.Empty;
+		pexpr = null;
+	.) =
+	(
+		/* 11.4.1 */ 
+		LiteralString							(.pexpr = new PrimitiveExpression(t.literalValue, t.val);  .)
+		| LiteralCharacter						(.pexpr = new PrimitiveExpression(t.literalValue, t.val);  .)
+		| LiteralSingle							(.pexpr = new PrimitiveExpression(t.literalValue, t.val);  .)
+		| LiteralDouble							(.pexpr = new PrimitiveExpression(t.literalValue, t.val);  .)
+		| LiteralInteger						(.pexpr = new PrimitiveExpression(t.literalValue, t.val);  .)
+		| LiteralDate							(.pexpr = new PrimitiveExpression(t.literalValue, t.val);  .)
+		/* True, False and Nothing are handled as literals in the spec */
+		| "True"											(.pexpr = new PrimitiveExpression(true, "true");  .)
+		| "False"											(.pexpr = new PrimitiveExpression(false, "false"); .)
+		| "Nothing"											(.pexpr = new PrimitiveExpression(null, "null");  .)
+		| /* 11.4.2 */ "(" Expr<out expr> ")" 				(. pexpr = new ParenthesizedExpression(expr); .)
+		| /* 11.4.4 */ ident								(. pexpr = new IdentifierExpression(t.val); .)
+		| (. string val = String.Empty; .) PrimitiveTypeName<out val>
+		"." ident	(. pexpr = new FieldReferenceExpression(new TypeReferenceExpression(val), t.val); .)
+		| "Me"												(. pexpr = new ThisReferenceExpression(); .)
+		| (. Expression retExpr = null; .)
+			( "MyBase"										(. retExpr = new BaseReferenceExpression(); .)
+			| "MyClass"										(. retExpr = new ClassReferenceExpression(); .)
+			)
+			"." ident										(. retExpr = new FieldReferenceExpression(retExpr, t.val); .)
+		| ObjectCreateExpression<out oce>					(. pexpr = oce; .)
+		| /* 11.11 */ ( "DirectCast" | "CType" ) "(" Expr<out expr> "," TypeName<out type> ")"	(. pexpr = new CastExpression(type, expr); .)
+		| /* 11.11 */ CastTarget<out type> "(" Expr<out expr> ")"	(. pexpr = new CastExpression(type, expr); .)
+		| /* 11.4.5 */ "AddressOf" Expr<out expr>			(. pexpr = new AddressOfExpression(expr); .)
+		| /* 11.5.1 */ "GetType" "(" TypeName<out type> ")"	(. pexpr = new GetTypeExpression(type); .)
+		| /* 11.5.2 */ "TypeOf" Expr<out expr> "Is" TypeName<out type> (. pexpr = new TypeOfExpression(expr, type); .)
+	)
+	{
+		 "." IdentifierOrKeyword<out name> (. pexpr = new FieldReferenceExpression(pexpr, name);.)
+		| "("                        (. ArrayList parameters = new ArrayList(); .)
+			[ Argument<out expr>     (. parameters.Add(expr); .)
+			{ "," Argument<out expr> (. parameters.Add(expr); .)
+			} ] ")"                  (. pexpr = new InvocationExpression(pexpr, parameters); .)
+	}
+	.
+
+/* 11.11 */
+CastTarget<out TypeReference type>
+	(.
+		type = null;
+	.) =
+	"CBool"		(. type = new TypeReference("System.Boolean"); .)
+	| "CByte"	(. type = new TypeReference("System.Byte"); .)
+	| "CChar"	(. type = new TypeReference("System.Char"); .)
+	| "CDate"	(. type = new TypeReference("System.DateTime"); .)
+	| "CDec"	(. type = new TypeReference("System.Decimal"); .)
+	| "CDbl"	(. type = new TypeReference("System.Double"); .)
+	| "CInt"	(. type = new TypeReference("System.Int32"); .)
+	| "CLng"	(. type = new TypeReference("System.64"); .)
+	| "CObj"	(. type = new TypeReference("System.Object"); .)
+	| "CShort"	(. type = new TypeReference("System.Int16"); .)
+	| "CSng"	(. type = new TypeReference("System.Single"); .)
+	| "CStr"	(. type = new TypeReference("System.String"); .)
+	.
+
+ConditionalOrExpr<ref Expression outExpr>
+	(. Expression expr; .) =
+	ConditionalAndExpr<ref outExpr>  { "OrElse" UnaryExpr<out expr> ConditionalAndExpr<ref expr> (.  outExpr = new BinaryOperatorExpression(outExpr, BinaryOperatorType.BooleanOr, expr);  .) }
+	.
+
+ConditionalAndExpr<ref Expression outExpr>
+	(. Expression expr; .) =
+	InclusiveOrExpr<ref outExpr>  { "AndAlso" UnaryExpr<out expr> InclusiveOrExpr<ref expr> (.  outExpr = new BinaryOperatorExpression(outExpr, BinaryOperatorType.BooleanAnd, expr);  .) }
+	.
+
+InclusiveOrExpr<ref Expression outExpr>
+	(. Expression expr; .) =
+	ExclusiveOrExpr<ref outExpr>  { "Xor" UnaryExpr<out expr> ExclusiveOrExpr<ref expr> (.  outExpr = new BinaryOperatorExpression(outExpr, BinaryOperatorType.BitwiseOr, expr);  .) }
+	.
+
+ExclusiveOrExpr<ref Expression outExpr>
+	(. Expression expr; .) =
+	AndExpr<ref outExpr>  { "Or" UnaryExpr<out expr> AndExpr<ref expr> (.  outExpr = new BinaryOperatorExpression(outExpr, BinaryOperatorType.ExclusiveOr, expr);  .) }
+	.
+
+AndExpr<ref Expression outExpr>
+	(. Expression expr; .)
+	=
+	EqualityExpr<ref outExpr> { "And" UnaryExpr<out expr> EqualityExpr<ref expr> (.  outExpr = new BinaryOperatorExpression(outExpr, BinaryOperatorType.BitwiseAnd, expr);  .) }
+	.
+
+EqualityExpr<ref Expression outExpr>
+	(.
+		Expression expr;
+		BinaryOperatorType op = BinaryOperatorType.None;
+	.) =
+	RelationalExpr<ref outExpr>
+	{
+		(
+			"<>"   (. op = BinaryOperatorType.InEquality; .)
+			| "=" (. op = BinaryOperatorType.Equality; .)
+		)
+		UnaryExpr<out expr> RelationalExpr<ref expr> (.  outExpr = new BinaryOperatorExpression(outExpr, op, expr);  .) 
+	}
+	.
+
+RelationalExpr<ref Expression outExpr>
+	(.
+		Expression expr;
+		BinaryOperatorType op = BinaryOperatorType.None;
+	.)
+	=
+	ShiftExpr<ref outExpr>
+	{
+		(
+			"<"    (. op = BinaryOperatorType.LessThan; .)
+			| ">"  (. op = BinaryOperatorType.GreaterThan; .)
+			| "<=" (. op = BinaryOperatorType.LessThanOrEqual; .)
+			| ">=" (. op = BinaryOperatorType.GreaterThanOrEqual; .)
+		)
+		UnaryExpr<out expr> ShiftExpr<ref expr> (.  outExpr = new BinaryOperatorExpression(outExpr, op, expr);  .)
+		|
+		/* 11.5.3 */
+		"Is" (. op = BinaryOperatorType.IS; .)
+		Expr<out expr> (.  outExpr = new BinaryOperatorExpression(outExpr, op, expr); .)
+	}
+	.
+
+ShiftExpr<ref Expression outExpr>
+	(.
+		Expression expr;
+		BinaryOperatorType op = BinaryOperatorType.None;
+	.) =
+	AdditiveExpr<ref outExpr> 
+	{
+		(
+			"<<"   (. op = BinaryOperatorType.ShiftLeft; .)
+			| ">>" (. op = BinaryOperatorType.ShiftRight; .)
+		)
+		UnaryExpr<out expr> AdditiveExpr<ref expr> (.  outExpr = new BinaryOperatorExpression(outExpr, op, expr);  .) 
+	}
+	.
+
+AdditiveExpr<ref Expression outExpr>
+	(.
+		Expression expr;
+		BinaryOperatorType op = BinaryOperatorType.None;
+	.) =
+	MultiplicativeExpr<ref outExpr>
+	{
+		(
+			"+"   (. op = BinaryOperatorType.Add; .)
+			| "-" (. op = BinaryOperatorType.Subtract; .)
+		)
+		UnaryExpr<out expr> MultiplicativeExpr<ref expr> (.  outExpr = new BinaryOperatorExpression(outExpr, op, expr);  .)
+	}
+	.
+
+MultiplicativeExpr<ref Expression outExpr>
+	(.
+		Expression expr;
+		BinaryOperatorType op = BinaryOperatorType.None;
+	.) =
+	{
+		(
+			"*"   (. op = BinaryOperatorType.Multiply; .)
+			| "/" (. op = BinaryOperatorType.Divide; .)
+			| "\\" (. op = BinaryOperatorType.DivideInteger; .)
+			| "Mod" (. op = BinaryOperatorType.Modulus; .)
+		) 
+		UnaryExpr<out expr> (. outExpr = new BinaryOperatorExpression(outExpr, op, expr); .) 
+	}
+	.
+	
+ObjectCreateExpression<out ObjectCreateExpression oce>
+	(.
+		TypeReference type = null;
+		ArrayList arguments = null;
+		oce = null;
+	.) =
+	"New" TypeName<out type>
+	["("
+		[ ArgumentList<out arguments> ]
+	")"
+	]
+	(.
+		oce = new ObjectCreateExpression(type, arguments);
+	.)
+	.
+
+/* 9.3.2 */
+ArgumentList<out ArrayList arguments>
+	(.
+		arguments = new ArrayList();
+		Expression expr = null;
+	.) =
+	[
+		Argument<out expr>			(. arguments.Add(expr); .)
+		{
+			","
+			Argument<out expr>		(. arguments.Add(expr); .)
+		}
+	]
+	.
+
+/* Spec, 11.8 */
+Argument<out Expression argumentexpr>
+	(.
+		Expression expr;
+		argumentexpr = null;
+		string name;
+	.) =
+	IF(IsNamedAssign()) ident (. name = t.val;  .) ":=" Expr<out expr>
+	(.
+		argumentexpr = new NamedArgumentExpression(name, expr);
+	.)
+	|
+	Expr<out argumentexpr>
+	.
+
+/* 7.1. */
+TypeName<out TypeReference typeref>
+	(.
+		int[] rank = null;
+	.) =
+	NonArrayTypeName<out typeref>
+	ArrayTypeModifiers<out rank>
+	(.
+		typeref = new TypeReference(typeref.Type, rank);
+	.)
+	.
+	
+/* 7.1 */
+NonArrayTypeName<out TypeReference typeref>
+	(.
+		string name;
+		typeref = null;
+	.) =
+	Qualident<out name> (. typeref = new TypeReference(name); .)
+	| "Object" (. typeref = new TypeReference("Object"); .)
+	| PrimitiveTypeName<out name> (. typeref = new TypeReference(name); .)
+	.
+
+/* 7.9 */
+ArrayTypeModifiers<out int[] arrayModifiers>
+	(.
+		ArrayList r = new ArrayList();
+		int i = 0;
+	.) =
+	{	IF (IsDims())
+		"("
+		[ RankList <out i>]
+		(.
+			r.Add(i);
+		.)
+		")"
+	}
+	(.
+		arrayModifiers = new int[r.Count];
+		r.CopyTo(arrayModifiers);
+	.)
+	.
+
+/* 7.9 */
+RankList<out int i>
+	(. i = 0; .) =
+	(. i = 1; .)
+	{ "," (. ++i; .) }
+	.
+
+GlobalAttributeSection =
+	(. Point startPos = t.Location; .)
+	"<" ("Assembly" | "Module")
+		(.
+			string attributeTarget = t.val;
+			ArrayList attributes = new ArrayList();
+			ICSharpCode.SharpRefactory.Parser.AST.VB.Attribute attribute;
+		.)
+	":" Attribute<out attribute> (. attributes.Add(attribute); .)
+	{ IF (NotFinalComma()) "," Attribute<out attribute> (. attributes.Add(attribute); .)}
+	[ "," ]
+	">"
+	EndOfStmt
+		(.
+			AttributeSection section = new AttributeSection(attributeTarget, attributes);
+			section.StartLocation = startPos;
+			section.EndLocation = t.EndLocation;
+			compilationUnit.AddChild(section);
+		.)
+	.
+
+/* Spec, 5. */
+Attribute<out ICSharpCode.SharpRefactory.Parser.AST.VB.Attribute attribute>
+	(. string qualident; .) =
+	Qualident<out qualident>
+		(.
+			ArrayList positional = new ArrayList();
+			ArrayList named      = new ArrayList();
+			string name = qualident;
+		.)
+	[ AttributeArguments<ref positional, ref named> ]
+	(.
+		attribute  = new ICSharpCode.SharpRefactory.Parser.AST.VB.Attribute(name, positional, named);
+	.)
+	.
+
+/* Spec, 5.2.2 */
+AttributeArguments<ref ArrayList positional, ref ArrayList named>
+	(.
+		bool nameFound = false;
+		string name = "";
+		Expression expr;
+	.) =
+	"("
+	[
+		IF (IsNotClosingParenthesis()) ( 
+			[
+				IF (IsNamedAssign()) (. nameFound = true; .)
+				IdentifierOrKeyword<out name>
+				( ":=" | "=" )
+			] Expr<out expr>
+				(.
+					if(name == "") positional.Add(expr);
+					else { named.Add(new NamedArgumentExpression(name, expr)); name = ""; }
+				.)
+			{
+				","
+					(
+						IF (IsNamedAssign())	(. nameFound = true; .)
+						IdentifierOrKeyword<out name>
+						(":=" | "=" )
+						| (. if (nameFound) Error("no positional argument after named argument"); .)
+					) Expr<out expr>	(. 	if(name == "") positional.Add(expr);
+											else { named.Add(new NamedArgumentExpression(name, expr)); name = ""; }
+										.)
+			}
+		)
+	]
+	")"
+	.
+
+/* Spec, 5. */
+AttributeSection<out AttributeSection section>
+	(.
+		string attributeTarget = "";
+		ArrayList attributes = new ArrayList();
+		ICSharpCode.SharpRefactory.Parser.AST.VB.Attribute attribute;
+		
+	.) =
+	"<" (. Point startPos = t.Location; .)
+	[ IF (IsLocalAttrTarget())
+		( "Event"		(. attributeTarget = "event";.)
+		| "Return"		(. attributeTarget = "return";.)
+		| ident
+			(.
+				string val = t.val.ToLower();
+				if (val != "field"	|| val != "method" ||
+					val != "module" || val != "param"  ||
+					val != "property" || val != "type")
+				Error("attribute target specifier (event, return, field," +
+						"method, module, param, property, or type) expected");
+				attributeTarget = t.val;
+			.)
+		) ":" 
+	]
+	Attribute<out attribute>	(. attributes.Add(attribute); .)
+	{ IF (NotFinalComma()) "," Attribute<out attribute> (. attributes.Add(attribute); .) }
+	[ "," ]
+	">"
+		(.
+			section = new AttributeSection(attributeTarget, attributes);
+			section.StartLocation = startPos;
+			section.EndLocation = t.EndLocation;
+		.)
+	.
+
+FormalParameterList<out ArrayList parameter>
+	(.
+		parameter = new ArrayList();
+		ParameterDeclarationExpression p;
+		AttributeSection section;
+		ArrayList attributes = new ArrayList();
+	.) =
+	{ AttributeSection<out section> (.attributes.Add(section); .) }
+	(
+		FixedParameter<out p>
+		(.
+			bool paramsFound = false;
+			p.Attributes = attributes;
+			parameter.Add(p);
+		.)
+		{
+			","	(. attributes = new ArrayList(); if (paramsFound) Error("params array must be at end of parameter list"); .)
+			{ AttributeSection<out section> (.attributes.Add(section); .) }
+			(
+				FixedParameter<out p>	(. p.Attributes = attributes; parameter.Add(p); .)
+				| ParameterArray<out p>	(. paramsFound = true; p.Attributes = attributes; parameter.Add(p); .)
+			)
+		}
+		| ParameterArray<out p>	(. p.Attributes = attributes; parameter.Add(p); .)
+	)
+	.
+
+FixedParameter<out ParameterDeclarationExpression p>
+	(.
+		TypeReference type = null;
+		ParamModifiers mod = ParamModifiers.ByVal;
+		Expression expr = null;
+		p = null;
+	.) =
+	[
+		"ByRef"		(. mod = ParamModifiers.ByRef; .)
+		| "ByVal"	(. mod = ParamModifiers.ByVal; .)
+	]
+	ident[ "As" TypeName<out type> ]
+	(.
+		p = new ParameterDeclarationExpression(type, t.val, mod);
+	.)
+	| "Optional"	(. mod = ParamModifiers.Optional; .)
+	ident [ "As" TypeName<out type> ] [ "=" Expr<out expr> ]
+	(.
+		p = new ParameterDeclarationExpression(type, t.val, mod, expr);
+	.)
+	.
+
+ParameterArray<out ParameterDeclarationExpression p>
+	(. TypeReference type = null; .) =
+	"ParamArray" ident [ "As" TypeName<out type> ]
+	(.
+		p = new ParameterDeclarationExpression(type, t.val, ParamModifiers.Params);
+	.)
+	.
+
+/* 10.1 */
+Block<out Statement stmt>
+	=
+	(.
+		BlockStatement blockStmt = new BlockStatement();
+		blockStmt.StartLocation = t.Location;
+		compilationUnit.BlockStart(blockStmt);
+	.)
+	{ Statement EndOfStmt }
+	(.
+		stmt = blockStmt;
+		blockStmt.EndLocation = t.EndLocation;
+		compilationUnit.BlockEnd();
+	.)
+	.
+
+Statement
+	(.
+		Statement stmt;
+		string label = String.Empty;
+	.) =
+	/* FIXME FIXME int labels don't work */
+	IF (IsLabel()) LabelName<out label>
+	(. compilationUnit.AddChild(new LabelStatement(t.val)); .)
+	":" [ Statement ]
+	| EmbeddedStatement<out stmt> (. compilationUnit.AddChild(stmt); .)
+	| LocalDeclarationStatement<out stmt>
+	.
+
+/* 10.2 */
+LocalDeclarationStatement<out Statement statement>
+	(.
+		Modifiers m = new Modifiers(this);
+		ArrayList vars = new ArrayList();
+		LocalVariableDeclaration localVariableDeclaration;
+		bool dimfound = false;
+	.) =
+	{
+		MemberModifier<m>
+		| "Const" 	(. m.Add(Modifier.Constant); .)
+		| "Static"	(. m.Add(Modifier.Static); .)
+		| "Dim"		(. dimfound = true;.)
+	}
+	(.
+		if(dimfound && (m.Modifier & Modifier.Constant) != 0) {
+			Error("Dim is not allowed on constants.");
+		}
+		localVariableDeclaration = new LocalVariableDeclaration(m.Modifier);
+		localVariableDeclaration.StartLocation = t.Location;
+	.)
+	VariableDeclarator<vars>
+	{ "," VariableDeclarator<vars> }
+	(.
+		localVariableDeclaration.Variables = vars;
+		statement = localVariableDeclaration;
+	.)
+	.
+
+EmbeddedStatement<out Statement statement>
+	(.
+		Statement embeddedStatement = null;
+		statement = null;
+		Expression expr = null;
+		string name = String.Empty;
+		TypeReference type = null;
+		ArrayList p = null;
+	.) =
+	/* StatementExpr<out statement> EndOfStmt */
+	"Exit"				(. ExitType exitType = ExitType.None; .)
+		(
+		"Sub"				(. exitType = ExitType.Sub; .)
+		|
+		"Function"			(. exitType = ExitType.Function; .)
+		|
+		"Property"			(. exitType = ExitType.Property; .)
+		|
+		"Do"				(. exitType = ExitType.Do; .)
+		|
+		"For"				(. exitType = ExitType.For; .)
+		|
+		"Try"				(. exitType = ExitType.Try; .)
+		|
+		"While"				(. exitType = ExitType.While; .)
+		)
+	(. statement = new ExitStatement(exitType); .)
+	| TryStatement<out statement>
+	| /* 10.10.1.3 */
+	"Throw" [ Expr<out expr> ]				(. statement = new ThrowStatement(expr); .)
+	| /* 10.11 */
+	"Return" [ Expr<out expr> ] 			(. statement = new ReturnStatement(expr); .)
+	| /* 10.4 */
+	"SyncLock" Expr<out expr> EndOfStmt Block<out embeddedStatement>
+	"End" "SyncLock" 						(. statement = new LockStatement(expr, embeddedStatement); .)
+	| /* 10.5.1 */
+	"RaiseEvent" ident (. name = t.val; .)
+	[ "(" [ FormalParameterList<out p> ] ")" ]
+	(. RaiseEventStatement res = new RaiseEventStatement(name, p); .)
+	| /* 10.3 */
+	WithStatement<out statement>
+	| /* 10.5.2 */
+	"AddHandler" (. Expression handlerExpr = null; .)
+	Expr<out expr> "," Expr<out handlerExpr>
+	(.
+		statement = new AddHandlerStatement(expr, handlerExpr);
+	.)
+	| /* 10.5.2 */
+	"RemoveHandler" (. Expression handlerExpr = null; .)
+	Expr<out expr> "," Expr<out handlerExpr>
+	(.
+		statement = new RemoveHandlerStatement(expr, handlerExpr);
+	.)
+	| /* 10.9.1 */
+	"While" Expr<out expr> EndOfStmt
+	Block<out embeddedStatement> "End" "While"
+	(.
+		statement = new WhileStatement(expr, embeddedStatement);
+	.)
+	| /* 10.9.1 */
+	"Do"
+	(.
+		ConditionType conditionType = ConditionType.None;
+	.)
+	(
+		WhileOrUntil<out conditionType> Expr<out expr> EndOfStmt
+		Block<out embeddedStatement>
+		"Loop"
+		(.
+			statement = new DoLoopStatement(expr, embeddedStatement, conditionType, ConditionPosition.Start);
+		.)
+		|
+		EndOfStmt
+		Block<out embeddedStatement>
+		"Loop" WhileOrUntil<out conditionType> Expr<out expr>
+		(.
+			statement = new DoLoopStatement(expr, embeddedStatement, conditionType, ConditionPosition.End);
+		.)
+	)
+	| "For"
+	(
+		(.
+			Expression group = null;
+		.)
+		/* 10.9.3  */
+		"Each" ident (. name = t.val; .) [ "As" TypeName<out type> ]
+		"In" Expr<out group> EndOfStmt
+		Block<out embeddedStatement>
+		"Next" [ Expr<out expr> ]
+		(.
+			statement = new ForeachStatement(type, name, group, embeddedStatement, expr);
+		.)
+		| /* 10.9.2 */
+		(.
+			Expression start = null;
+			Expression end = null;
+			Expression step = null;
+			Expression nextExpr = null;
+			ArrayList nextExpressions = null;
+		.)
+		ident (. name = t.val; .) [ "As" TypeName<out type> ]
+		"=" Expr<out start> "To" Expr<out end> [ "Step" Expr<out step> ]
+		EndOfStmt Block<out embeddedStatement>
+		"Next"
+		[
+			Expr<out nextExpr> (. nextExpressions = new ArrayList(); nextExpressions.Add(nextExpr); .) 
+			{ "," Expr<out nextExpr> (. nextExpressions.Add(nextExpr); .) }
+		]
+		(.
+			statement = new ForStatement(name, type, start, end, step, embeddedStatement, nextExpressions);
+		.)
+	)
+	| /* 10.10.2.1 */
+	"Error" Expr<out expr> 				(. statement = new ErrorStatement(expr); .)
+	| /* 10.12.1 */
+	"ReDim" (. ReDimClause clause = null; .) [ "Preserve" ]
+	ReDimClause<out clause>
+	(.
+		ArrayList clauses = new ArrayList();
+		clauses.Add(clause);
+		ReDimStatement reDimStatement = new ReDimStatement(clauses);
+	.)
+	{ "," ReDimClause<out clause> (. clauses.Add(clause); .) }
+	| /* 10.12.2 */
+	"Erase"	
+	Expr<out expr>
+	(.
+		ArrayList arrays = new ArrayList();
+		arrays.Add(expr);
+		EraseStatement eraseStatement = new EraseStatement(arrays);
+		
+	.)
+	{ "," Expr<out expr> (. arrays.Add(expr); .) }
+	(. statement = eraseStatement; .)
+	| /* 10.11 */
+	"Stop" (. statement = new StopStatement(); .)
+	| /* 10.8.1 */
+	"If" Expr<out expr> [ "Then"]
+	(	/* multiline if statement */
+		EndOfStmt Block<out embeddedStatement>
+		(.
+			ArrayList elseIfSections = new ArrayList();
+			IfStatement ifStatement = new IfStatement(expr, embeddedStatement);
+		.)
+		{
+			(
+				IF(IsElseIf()) "Else" "If"
+				| "ElseIf"
+			)
+			(. Expression condition = null; Statement block = null; .)
+			Expr<out condition> [ "Then"] EndOfStmt
+			Block<out block>
+			(.
+				ElseIfSection elseIfSection = new ElseIfSection(condition, block);
+				elseIfSections.Add(elseIfSection);
+			.)
+		}
+		[
+			"Else" EndOfStmt
+			Block<out embeddedStatement>
+			(.
+				ifStatement.EmbeddedElseStatement = embeddedStatement;
+			.)
+		] "End" "If"
+		(.
+			ifStatement.ElseIfStatements = elseIfSections;
+			statement = ifStatement;
+		.)
+		| /* singleline if statement */
+		EmbeddedStatement<out embeddedStatement>
+		(.
+			SimpleIfStatement ifStatement = new SimpleIfStatement(expr);
+			ArrayList statements = new ArrayList();
+			statements.Add(embeddedStatement);
+			ifStatement.Statements = statements;
+		.)
+		{ ":" EmbeddedStatement<out embeddedStatement> (. statements.Add(embeddedStatement); .) }
+		[
+			"Else" EmbeddedStatement<out embeddedStatement>
+			(.
+				ArrayList elseStatements = new ArrayList();
+				elseStatements.Add(embeddedStatement);
+				ifStatement.ElseStatements = elseStatements;
+			.)
+			{
+				":" EmbeddedStatement<out embeddedStatement>
+				(. elseStatements.Add(embeddedStatement); .)
+			}
+		]
+		(. statement = ifStatement; .)
+	)
+	| /* 10.8.2 */
+	"Select" [ "Case" ] Expr<out expr> EndOfStmt
+	(. ArrayList selectSections = new ArrayList(); .)
+	{
+		(. ArrayList caseClauses = null; .)
+		"Case" CaseClauses<out caseClauses> EndOfStmt
+		(.
+			SelectSection selectSection = new SelectSection();
+			selectSection.CaseClauses = caseClauses;
+			compilationUnit.BlockStart(selectSection);
+		.)
+		{ Statement EndOfStmt { Statement EndOfStmt } }
+		(.
+			compilationUnit.BlockEnd();
+			selectSections.Add(selectSection);
+		.)
+	}
+	(. statement = new SelectStatement(expr, selectSections); .)
+	"End" "Select"
+	| (. OnErrorStatement onErrorStatement = null; .)
+	OnErrorStatement<out onErrorStatement> (. statement = onErrorStatement; .)
+	| (. GoToStatement goToStatement = null; .)
+	GoToStatement<out goToStatement> (. statement = goToStatement; .)
+	| (. ResumeStatement resumeStatement = null; .)
+	ResumeStatement<out resumeStatement> (. statement = resumeStatement; .)
+	.
+
+/* 10.2.2 */
+OnErrorStatement<out OnErrorStatement stmt>
+	(.
+		stmt = null;
+		GoToStatement goToStatement = null;
+	.)
+	=
+	"On" "Error"
+	(
+		IF(IsNegativeLabelName())"GoTo" "-" LiteralInteger
+		(.
+			long intLabel = Int64.Parse(t.val);
+			if(intLabel != 1) {
+				Error("invalid label in on error statement.");
+			}
+			stmt = new OnErrorStatement(new GoToStatement((intLabel * -1).ToString()));
+		.)
+		| GoToStatement<out goToStatement>
+		(.
+			string val = goToStatement.LabelName;
+			
+			// check if val is numeric, if that is the case
+			// make sure that it is 0
+			try {
+				long intLabel = Int64.Parse(val);
+				if(intLabel != 0) {
+					Error("invalid label in on error statement.");
+				}
+			} catch {
+			}
+			stmt = new OnErrorStatement(goToStatement);
+		.)
+		| "Resume" "Next"
+		(.
+			stmt = new OnErrorStatement(new ResumeStatement(true));
+		.)
+	)
+	.
+
+/* 10.11 */
+GoToStatement<out GoToStatement goToStatement>
+	(.
+		string label = String.Empty;
+	.)
+	=
+	"GoTo" LabelName<out label>
+	(.
+		goToStatement = new GoToStatement(label);
+	.)
+	.
+
+/* 10.1 */
+LabelName<out string name>
+	(.
+		name = String.Empty;
+	.) =
+	ident 				(. name = t.val; .)
+	| LiteralInteger	(. name = t.val; .)
+	.
+
+/* 12.12.1 */
+ReDimClause<out ReDimClause clause>
+	(.
+		Expression initializer = null;
+		string name = String.Empty;
+	.) =
+	Qualident<out name>
+	(.
+		clause = new ReDimClause(name);
+	.)
+	"(" Expr<out initializer>
+	(.
+		clause.Initializers = new ArrayList();
+		clause.Initializers.Add(initializer);
+	.)
+	{ "," Expr<out initializer> (. clause.Initializers.Add(initializer); .) }
+	")"
+	.
+
+/* 10.10.2.2 */
+ResumeStatement<out ResumeStatement resumeStatement>
+	(.
+		resumeStatement = null;
+		string label = String.Empty;
+	.) =
+	IF(IsResumeNext())
+	"Resume" "Next" 				(. resumeStatement = new ResumeStatement(true); .)
+	| "Resume" LabelName<out label>	(. resumeStatement = new ResumeStatement(label); .)
+	.
+
+/* 18.8.2 */
+CaseClauses<out ArrayList caseClauses>
+	(.
+		caseClauses = null;
+		CaseClause caseClause = null;
+	.) =
+	CaseClause<out caseClause>
+	(.
+		caseClauses = new ArrayList();
+		caseClauses.Add(caseClause);
+	.)
+	{ "," CaseClause<out caseClause> (. caseClauses.Add(caseClause); .) }
+	.
+
+/* 19.8.2 */
+CaseClause<out CaseClause caseClause>
+	(.
+		Expression expr = null;
+		Expression sexpr = null;
+		BinaryOperatorType op = BinaryOperatorType.None;
+		caseClause = null;
+	.) =
+	"Else"
+	(. caseClause = new CaseClause(true); .)
+	|
+	[ "Is" ] 
+	(
+		"<"		(. op = BinaryOperatorType.LessThan; .)
+		| ">"	(. op = BinaryOperatorType.GreaterThan; .)
+		| "<="	(. op = BinaryOperatorType.LessThanOrEqual; .)
+		| ">="	(. op = BinaryOperatorType.GreaterThanOrEqual; .)
+		| "="	(. op = BinaryOperatorType.Equality; .)
+		| "<>"	(. op = BinaryOperatorType.InEquality; .)
+	)
+	Expr<out expr>
+	(.
+		caseClause = new CaseClause(op, expr);
+	.)
+	| Expr<out expr> [ "To" Expr<out sexpr> ]
+	(.
+		caseClause = new CaseClause(expr, sexpr);
+	.)
+	.
+
+/* 10.9.1 */
+WhileOrUntil<out ConditionType conditionType>
+	(. conditionType = ConditionType.None; .) =
+	"While"		(. conditionType = ConditionType.While; .)
+	| "Until"	(. conditionType = ConditionType.Until; .)
+	.
+
+/* 10.3 */
+WithStatement<out Statement withStatement>
+	(.
+		Statement blockStmt = null;
+		Expression expr = null;
+	.) =
+	"With" Expr<out expr> EndOfStmt
+	(.
+		withStatement = new WithStatement(expr);
+		withStatements.Push(withStatement);
+	.)
+	Block<out blockStmt>
+	(.
+		withStatements.Pop();
+	.)
+	"End" "With"
+	.
+	
+/* 10.10.1 */
+TryStatement<out Statement tryStatement>
+	(.
+		Statement blockStmt = null, finallyStmt = null;
+		ArrayList catchClauses = null;
+	.) =
+	"Try" EndOfStmt
+	Block<out blockStmt>
+	(
+		CatchClauses<out catchClauses>
+		[ "Finally" EndOfStmt Block<out finallyStmt> ]
+		| "Finally" EndOfStmt Block<out finallyStmt>
+	)
+	"End" "Try"
+	(.
+		tryStatement = new TryCatchStatement(blockStmt, catchClauses, finallyStmt);
+	.)
+	.
+
+/* 10.10.1.2 */
+CatchClauses<out ArrayList catchClauses>
+	(.
+		catchClauses = new ArrayList();
+		TypeReference type = null;
+		Statement blockStmt = null;
+		Expression expr = null;
+		string name = String.Empty;
+	.) =
+	{
+		"Catch"
+		[ ident (. name = t.val; .) "As" TypeName<out type> ]
+		[ "When" Expr<out expr> ]
+		EndOfStmt
+		Block<out blockStmt>
+		(. catchClauses.Add(new CatchClause(type, name, blockStmt, expr)); .)
+	}
+	.
+
+/* 4.7 */
+Qualident<out string qualident>
+	(. string name = String.Empty; .) =
+	ident	(. qualident = t.val; .)
+	{ IF (DotAndIdent()) "." IdentifierOrKeyword<out name> (. qualident += "." + name; .) }
+	.
+
+/* 2.2 */
+IdentifierOrKeyword<out string name>
+	(.
+		name = String.Empty;
+	.) =
+	ident				(. name = t.val; .)
+	| "AddHandler"		(. name = t.val; .)
+	| "AddressOf"		(. name = t.val; .)
+	| "Alias"			(. name = t.val; .)
+	| "And"				(. name = t.val; .)
+	| "AndAlso"			(. name = t.val; .)
+	| "Ansi"			(. name = t.val; .)
+	| "As"				(. name = t.val; .)
+	| "Assembly"		(. name = t.val; .)
+	| "Auto"			(. name = t.val; .)
+	| "Boolean"			(. name = t.val; .)
+	| "ByRef"			(. name = t.val; .)
+	| "Byte"			(. name = t.val; .)
+	| "ByVal"			(. name = t.val; .)
+	| "Call"			(. name = t.val; .)
+	| "Case"			(. name = t.val; .)
+	| "Catch"			(. name = t.val; .)
+	| "CBool"			(. name = t.val; .)
+	| "CByte"			(. name = t.val; .)
+	| "CChar"			(. name = t.val; .)
+	| "CDate"			(. name = t.val; .)
+	| "CDbl"			(. name = t.val; .)
+	| "CDec"			(. name = t.val; .)
+	| "Char"			(. name = t.val; .)
+	| "CInt"			(. name = t.val; .)
+	| "Class"			(. name = t.val; .)
+	| "CLng"			(. name = t.val; .)
+	| "CObj"			(. name = t.val; .)
+	| "Const"			(. name = t.val; .)
+	| "CShort"			(. name = t.val; .)
+	| "CSng"			(. name = t.val; .)
+	| "CStr"			(. name = t.val; .)
+	| "CType"			(. name = t.val; .)
+	| "Date"			(. name = t.val; .)
+	| "Decimal"			(. name = t.val; .)
+	| "Declare"			(. name = t.val; .)
+	| "Default"			(. name = t.val; .)
+	| "Delegate"		(. name = t.val; .)
+	| "Dim"				(. name = t.val; .)
+	| "DirectCast"		(. name = t.val; .)
+	| "Do"				(. name = t.val; .)
+	| "Double"			(. name = t.val; .)
+	| "Each"			(. name = t.val; .)
+	| "Else"			(. name = t.val; .)
+	| "ElseIf"			(. name = t.val; .)
+	| "End"				(. name = t.val; .)
+	| "EndIf"			(. name = t.val; .)
+	| "Enum"			(. name = t.val; .)
+	| "Erase"			(. name = t.val; .)
+	| "Error"			(. name = t.val; .)
+	| "Event"			(. name = t.val; .)
+	| "Exit"			(. name = t.val; .)
+	| "False"			(. name = t.val; .)
+	| "Finally"			(. name = t.val; .)
+	| "For"				(. name = t.val; .)
+	| "Friend"			(. name = t.val; .)
+	| "Function"		(. name = t.val; .)
+	| "Get"				(. name = t.val; .)
+	| "GetType"			(. name = t.val; .)
+	| "GoSub"			(. name = t.val; .)
+	| "GoTo"			(. name = t.val; .)
+	| "Handles"			(. name = t.val; .)
+	| "If"				(. name = t.val; .)
+	| "Implements"		(. name = t.val; .)
+	| "Imports"			(. name = t.val; .)
+	| "In"				(. name = t.val; .)
+	| "Inherits"		(. name = t.val; .)
+	| "Integer"			(. name = t.val; .)
+	| "Interface"		(. name = t.val; .)
+	| "Is"				(. name = t.val; .)
+	| "Let"				(. name = t.val; .)
+	| "Lib"				(. name = t.val; .)
+	| "Like"			(. name = t.val; .)
+	| "Long"			(. name = t.val; .)
+	| "Loop"			(. name = t.val; .)
+	| "Me"				(. name = t.val; .)
+	| "Mod"				(. name = t.val; .)
+	| "Module"			(. name = t.val; .)
+	| "MustInherit"		(. name = t.val; .)
+	| "MustOverride"	(. name = t.val; .)
+	| "MyBase"			(. name = t.val; .)
+	| "MyClass"			(. name = t.val; .)
+	| "Namespace"		(. name = t.val; .)
+	| "New"				(. name = t.val; .)
+	| "Next"			(. name = t.val; .)
+	| "Not"				(. name = t.val; .)
+	| "Nothing"			(. name = t.val; .)
+	| "NotInheritable"	(. name = t.val; .)
+	| "NotOverridable"	(. name = t.val; .)
+	| "Object"			(. name = t.val; .)
+	| "On"				(. name = t.val; .)
+	| "Option"			(. name = t.val; .)
+	| "Optional"		(. name = t.val; .)
+	| "Or"				(. name = t.val; .)
+	| "OrElse"			(. name = t.val; .)
+	| "Overloads"		(. name = t.val; .)
+	| "Overridable"		(. name = t.val; .)
+	| "Overrides"		(. name = t.val; .)
+	| "ParamArray"		(. name = t.val; .)
+	| "Preserve"		(. name = t.val; .)
+	| "Private"			(. name = t.val; .)
+	| "Property"		(. name = t.val; .)
+	| "Protected"		(. name = t.val; .)
+	| "Public"			(. name = t.val; .)
+	| "RaiseEvent"		(. name = t.val; .)
+	| "ReadOnly"		(. name = t.val; .)
+	| "ReDim"			(. name = t.val; .)
+	| "RemoveHandler"	(. name = t.val; .)
+	| "Resume"			(. name = t.val; .)
+	| "Return"			(. name = t.val; .)
+	| "Select"			(. name = t.val; .)
+	| "Set"				(. name = t.val; .)
+	| "Shadows"			(. name = t.val; .)
+	| "Shared"			(. name = t.val; .)
+	| "Short"			(. name = t.val; .)
+	| "Single"			(. name = t.val; .)
+	| "Static"			(. name = t.val; .)
+	| "Step"			(. name = t.val; .)
+	| "Stop"			(. name = t.val; .)
+	| "String"			(. name = t.val; .)
+	| "Structure"		(. name = t.val; .)
+	| "Sub"				(. name = t.val; .)
+	| "SyncLock"		(. name = t.val; .)
+	| "Then"			(. name = t.val; .)
+	| "Throw"			(. name = t.val; .)
+	| "To"				(. name = t.val; .)
+	| "True"			(. name = t.val; .)
+	| "Try"				(. name = t.val; .)
+	| "TypeOf"			(. name = t.val; .)
+	| "Unicode"			(. name = t.val; .)
+	| "Until"			(. name = t.val; .)
+	| "Variant"			(. name = t.val; .)
+	| "Wend"			(. name = t.val; .)
+	| "When"			(. name = t.val; .)
+	| "While"			(. name = t.val; .)
+	| "With"			(. name = t.val; .)
+	| "WithEvents"		(. name = t.val; .)
+	| "WriteOnly"		(. name = t.val; .)
+	| "Xor"				(. name = t.val; .)
+	.
+
+/* 7.3 */
+PrimitiveTypeName<out string type>
+	(. type = String.Empty; .) =
+	"Boolean"		(. type = "Boolean"; .)
+	| "Date"		(. type = "Date"; .)
+	| "Char"		(. type = "Char"; .)
+	| "String"		(. type = "String"; .)
+	| "Decimal"		(. type = "Decimal"; .)
+	| "Byte"		(. type = "Byte"; .)
+	| "Short"		(. type = "Short"; .)
+	| "Integer"		(. type = "Integer"; .)
+	| "Long"		(. type = "Long"; .)
+	| "Single"		(. type = "Single"; .)
+	| "Double"		(. type = "Double"; .)
+	.
+
+TypeModifier<Modifiers m>
+	= "Public"			(. m.Add(Modifier.Public); .)
+	| "Protected"		(. m.Add(Modifier.Protected); .)
+	| "Friend"			(. m.Add(Modifier.Friend); .)
+	| "Private"			(. m.Add(Modifier.Private); .)
+	| "Shared"			(. m.Add(Modifier.Shared); .)
+	| "Shadows"			(. m.Add(Modifier.Shadows); .)
+	| "MustInherit"		(. m.Add(Modifier.MustInherit); .)
+	| "NotInheritable"	(. m.Add(Modifier.NotInheritable); .)
+	.
+
+MemberModifier<Modifiers m> =
+	"MustInherit"		(.m.Add(Modifier.MustInherit);.)
+	|"Default"			(.m.Add(Modifier.Default);.)
+	|"Friend"			(.m.Add(Modifier.Friend);.)
+	|"Shadows"			(.m.Add(Modifier.Shadows);.)
+	|"Override"			(.m.Add(Modifier.Override);.)
+	|"Private"			(.m.Add(Modifier.Private);.)
+	|"Protected"		(.m.Add(Modifier.Protected);.)
+	|"Public"			(.m.Add(Modifier.Public);.)
+	|"NotInheritable"	(.m.Add(Modifier.NotInheritable);.)
+	|"NotOverridable"	(.m.Add(Modifier.NotOverridable);.)
+	|"Shared"			(.m.Add(Modifier.Shared);.)
+	|"Overridable"		(.m.Add(Modifier.Overridable);.)
+	|"Overloads"		(.m.Add(Modifier.Overloads);.)
+	| "ReadOnly"		(.m.Add(Modifier.Readonly);.)
+	| "WriteOnly"		(.m.Add(Modifier.Writeonly);.)
+	.
+
+END VBNET.

@@ -1,0 +1,17 @@
+<AddIn name        = "Typed Collection Wizard"
+       author      = "Mike Krueger"
+       copyright   = "GPL"
+       url         = "unknown"
+       description = "Creates a typed collection"
+       version     = "1.0.0">
+
+	<Runtime>
+		<Import assembly="TypedCollectionWizard.dll"/>
+	</Runtime>
+	
+	<Extension path = "/SharpDevelop/Templates/File/TypedCollection">
+		<DialogPanel id = "CollectionGenerator"
+			     label = "Typed Collection"
+		             class = "TypedCollectionGenerator.TypedCollectionWizardPanel"/>
+	</Extension>
+</AddIn>

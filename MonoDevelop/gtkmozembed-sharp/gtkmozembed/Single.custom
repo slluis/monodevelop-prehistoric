@@ -1,0 +1,25 @@
+/*
+	[GLib.Signal("new_window_orphan")]
+		public event GtkMozEmbedSharp.NewWindowOrphanHandler NewWindowOrphan {
+			add {
+				if (EventList["new_window_orphan"] == null)
+					Signals["new_window_orphan"] = new GtkMozEmbedSharp.voidObjectObjectuintSignal(this, Handle, "new_window_orphan", value, System.Type.GetType("GtkMozEmbedSharp.NewWindowOrphanArgs,gtkmozembed-sharp"));
+				else
+					((GtkSharp.SignalCallback) Signals ["new_window_orphan"]).AddDelegate (value);
+				EventList.AddHandler("new_window_orphan", value);
+			}
+			remove {
+				EventList.RemoveHandler("new_window_orphan", value);
+				GtkSharp.SignalCallback cb = Signals ["new_window_orphan"] as GtkSharp.SignalCallback;
+				if (cb == null)
+					return;
+
+				cb.RemoveDelegate (value);
+
+				if (EventList["new_window_orphan"] == null) {
+					Signals.Remove("new_window_orphan");
+					cb.Dispose ();
+				}
+			}
+		}
+*/

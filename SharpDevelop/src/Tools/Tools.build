@@ -1,0 +1,141 @@
+<?xml version="1.0"?>
+
+<project name = "SharpDevelop - Tools" default = "build" basedir = ".">
+	<property name = "toolsdir" value="${bindir}/tools"/>
+	<property name = "nprofdir" value="${bindir}/nprof"/>
+	<property name = "nantdir"  value="${bindir}/nant"/>
+	<property name = "ndocdir"  value="${bindir}/ndoc"/>
+	<property name = "nunitdir" value="${bindir}/nunit"/>
+	
+	<target name = "build">
+		<mkdir dir = "${toolsdir}"/>
+		<copy todir = "${toolsdir}">
+            		<fileset basedir = "${bindir}">
+            			<includes name = "ICSharpCode.SharpZipLib.dll"/>
+			</fileset>
+		</copy>
+		
+		<!-- compile resasm -->
+		<echo message = "Building ResourceAssembler"/>
+		<csc 
+			target = "exe" 
+			output = "${toolsdir}/ResourceAssembler.exe" 
+			debug  = "${debug}">
+			
+			<sources basedir="ResourceAssembler">
+				<includes name="**/*.cs"/>
+			</sources>
+		</csc>
+		
+		<echo message="Building LocalizationDbToResFile"/>
+		<csc 
+			target = "exe" 
+			output = "${toolsdir}/LocalizationDbToResFile.exe" 
+			debug  = "False">
+			
+			<sources basedir="LocalizationDbToResFile">
+				<includes name="**/*.cs"/>
+			</sources>
+		</csc>
+		
+		<echo message="Building LocalizationXmlToResFile"/>
+		<csc 
+			target = "exe" 
+			output = "${toolsdir}/LocalizationXmlToResFile.exe" 
+			debug  = "False">
+			
+			<sources basedir="LocalizationXmlToResFile">
+				<includes name="**/*.cs"/>
+			</sources>
+		</csc>
+		
+		<!-- compile help browser app -->
+		<echo message="Building HelpConverter"/>
+		<csc 
+			target = "exe" 
+			output = "${toolsdir}/HelpConverter.exe" 
+			debug  = "${debug}">
+			
+			<sources basedir="HelpConverter">
+				<includes name="**/*.cs"/>
+			</sources>
+			
+			<references basedir="${bindir}">
+				<includes name="ICSharpCode.SharpZipLib.dll"/>
+			</references>
+			
+		</csc>
+		
+		<!-- compile help browser app -->
+		<echo message="Building SharpCoco"/>
+		<csc 
+			target = "exe" 
+			output = "${toolsdir}/SharpCoco.exe" 
+			debug  = "${debug}">
+			
+			<sources basedir="SharpCoco/src">
+				<includes name="**/*.cs"/>
+			</sources>
+		</csc>
+			
+		<echo message = "Copying nprof"/>
+		<mkdir dir = "${nprofdir}"/>
+		<copy todir = "${nprofdir}">
+            		<fileset basedir = "nprof/bin">
+            			<includes name = "*.*"/>
+			</fileset>
+		</copy>
+		
+		<echo message = "Copying nunit"/>
+		<mkdir dir = "${nunitdir}"/>
+		<copy todir = "${nunitdir}">
+            		<fileset basedir = "nunit21/bin">
+            			<includes name = "*.*"/>
+			</fileset>
+		</copy>
+		
+		<echo message = "Copying nant"/>
+		<mkdir dir = "${nantdir}"/>
+		<copy todir = "${nantdir}">
+            		<fileset basedir = "nant/bin">
+            			<includes name = "*.*"/>
+			</fileset>
+		</copy>
+
+		<echo message = "Copying ndoc"/>
+		<mkdir dir = "${ndocdir}"/>
+		<copy todir = "${ndocdir}">
+			<fileset basedir = "ndoc/bin">
+				<includes name = "*.*"/>
+			</fileset>
+		</copy>
+
+		<echo message = "Building mini setup"/>
+		<csc
+			target = "exe" 
+			output = "${toolsdir}/MiniSetup.exe" 
+			debug  = "${debug}">
+			
+			<sources basedir="MiniSetup">
+				<includes name="**/*.cs"/>
+			</sources>
+		</csc>
+		
+		<echo message="Executing setup"/>
+		<exec program="${toolsdir}/MiniSetup.exe"/>
+	</target>
+	
+	<target name="clean">
+		<delete verbose="true" >
+			<fileset basedir="${bindir}">
+				<includes name="../doc/help/SharpDevelopHelp.zip" />
+			</fileset>
+		</delete>
+
+		<delete dir="${nantdir}"  failonerror="false"/>
+		<delete dir="${nunitdir}" failonerror="false"/>
+		<delete dir="${nprofdir}" failonerror="false"/>
+		<delete dir="${ndocdir}"  failonerror="false"/>
+		<delete dir="${toolsdir}" failonerror="false"/>
+	</target>	
+</project>

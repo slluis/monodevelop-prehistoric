@@ -1,0 +1,16 @@
+<Combine fileversion="1.0" name="SharpCoco" description="">
+  <StartMode startupentry="SharpCoco" single="True">
+    <Execute entry="SharpCoco" type="None" />
+  </StartMode>
+  <Entries>
+    <Entry filename=".\src\SharpCoco.prjx" />
+  </Entries>
+  <Configurations active="Debug">
+    <Configuration name="Release">
+      <Entry name="SharpCoco" configurationname="Debug" build="False" />
+    </Configuration>
+    <Configuration name="Debug">
+      <Entry name="SharpCoco" configurationname="Debug" build="False" />
+    </Configuration>
+  </Configurations>
+</Combine>

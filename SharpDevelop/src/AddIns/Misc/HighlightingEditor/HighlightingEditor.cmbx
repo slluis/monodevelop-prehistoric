@@ -1,0 +1,16 @@
+<Combine fileversion="1.0" name="HighlightingEditor" description="">
+  <StartMode startupentry="HighlightingEditor" single="True">
+    <Execute entry="HighlightingEditor" type="None" />
+  </StartMode>
+  <Entries>
+    <Entry filename=".\HighlightingEditor.prjx" />
+  </Entries>
+  <Configurations active="Debug">
+    <Configuration name="Release">
+      <Entry name="HighlightingEditor" configurationname="Debug" build="False" />
+    </Configuration>
+    <Configuration name="Debug">
+      <Entry name="HighlightingEditor" configurationname="Debug" build="False" />
+    </Configuration>
+  </Configurations>
+</Combine>

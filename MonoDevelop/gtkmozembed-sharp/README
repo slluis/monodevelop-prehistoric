@@ -1,0 +1,16 @@
+This is gtkmozembed-sharp.  To use it, you need two things:
+
+1) A working mozilla build.
+   Note, the build *must* use gtk2.  You can do this by adding:
+   ac_add_options --enable-default-toolkit=gtk2
+   to your .mozconfig file.
+
+   Also note, this needs gtk2.  The Win32 version of mozilla doesn't
+   even touch gtk.  Therefore, this will *not* work on Win32.  It might,
+   however.  Someone enterprising needs to try it.
+
+2) The CVS release of gtk-sharp.  There was a bug in the generator
+   which is now fixed.  gtk-sharp also needs to be installed.
+
+There is a small test app included.  It should be enough to get
+one started.  Note, this is just gtkmozembed, not an XPCOM binding.

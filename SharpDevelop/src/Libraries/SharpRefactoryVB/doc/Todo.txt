@@ -1,0 +1,8 @@
+There is still a lot to do, this is supposed to be
+a place for special notes.
+
++ NamedAssign token: there can be a space between the ":" and the "="
++ Modifiers: correct values for Class, Members etc.
+  (don't forget interface declarations !)
++ find a solution for the "end" statement
++ array type modifiers behind identifiers

@@ -1,0 +1,91 @@
+AC_INIT(README)
+AC_CANONICAL_SYSTEM
+AM_INIT_AUTOMAKE(gtkmozembed, 0.1)
+AM_MAINTAINER_MODE
+AM_PROG_LIBTOOL
+
+dnl AC_MSG_CHECKING([whether we're compiling from CVS])
+dnl if test -f "$srcdir/.cvs_version" ; then
+dnl 	from_cvs=yes
+dnl else
+dnl 	from_cvs=no
+dnl fi
+dnl AC_MSG_RESULT($from_cvs)
+
+dnl if test "x$from_cvs" = "xyes" ; then
+	dnl AC_PATH_PROG(GAPI_CODEGEN, gapi_codegen.exe, no)
+	dnl if test "x$GAPI_CODEGEN" != "xno"; then
+	dnl 	gtksharp_path=`dirname $GAPI_CODEGEN`
+	dnl 	GTKSHARP_PREFIX=`dirname $gtksharp_path`
+	dnl 	have_gtk=yes
+	dnl else
+		dnl AC_MSG_WARN([Cannot find gtk-sharp, the GUI won't be build])
+		dnl have_gtk=no
+	dnl 	GTKSHARP_PREFIX=PREFIX
+	dnl fi
+dnl else
+	dnl have_gtk=yes
+dnl fi
+dnl AC_SUBST(GTKSHARP_PREFIX)
+
+dnl AM_CONDITIONAL(USE_GAPI_CODEGEN, test x$from_cvs = xyes)
+
+AC_PATH_PROG(MONO, mono)
+AC_PATH_PROG(MCS, mcs)
+if test "x$MONO" = "x" ; then
+  AC_MSG_ERROR([Can't find "mono" in your PATH])
+fi
+if test "x$MCS" = "x" ; then
+  AC_MSG_ERROR([Can't find "mcs" in your PATH])
+fi
+AC_SUBST(PATH)
+AC_SUBST(LD_LIBRARY_PATH)
+
+dnl Find pkg-config
+AC_PATH_PROG(PKG_CONFIG, pkg-config, no)
+if test "x$PKG_CONFIG" = "xno"; then
+        AC_MSG_ERROR([You need to install pkg-config])
+fi
+
+dnl Find mono
+MONO_REQUIRED_VERSION=0.29
+
+PKG_CHECK_MODULES(BASE_DEPENDENCIES, mono >= $MONO_REQUIRED_VERSION)
+
+dnl Find gtk-sharp
+GTKSHARP_REQUIRED_VERSION=0.15
+
+PKG_CHECK_MODULES(BASE_DEPENDENCIES, gtk-sharp >= $GTKSHARP_REQUIRED_VERSION) 
+
+dnl Find GTK
+dnl BUILD_GTK_CFLAGS=`$PKG_CONFIG --cflags gtk+-2.0`
+dnl BUILD_GTK_LIBS=`$PKG_CONFIG --libs gtk+-2.0`
+dnl AC_SUBST(BUILD_GTK_CFLAGS)
+dnl AC_SUBST(BUILD_GTK_LIBS)
+
+dnl GTK_REQUIRED_VERSION=2.0.0
+
+dnl PKG_CHECK_MODULES(BASE_DEPENDENCIES, gtk+-2.0 >= $GTK_REQUIRED_VERSION gmodule-2.0 >= $GTK_REQUIRED_VERSION) 
+
+dnl AC_SUBST(BASE_DEPENDENCIES_CFLAGS)
+dnl AC_SUBST(BASE_DEPENDENCIES_LIBS)
+
+dnl Find Mozilla
+dnl AC_ARG_WITH(mozilla-headers,
+dnl        [  --with-mozilla-headers  Specify location of MOZILLA headers],
+dnl        [MOZ_CFLAGS="-I$withval"],
+dnl        [MOZ_CFLAGS="-I/usr/include/mozilla"])
+                                                                                
+dnl AC_ARG_WITH(mozilla-libs,
+dnl        [  --with-mozilla-libs     Specify location of MOZILLA libs],
+dnl        [MOZ_LIBS="-L$withval"],
+dnl        [MOZ_LIBS="-L/usr/lib/mozilla"])
+
+dnl AC_SUBST(MOZ_LIBS)
+dnl AC_SUBST(MOZ_CFLAGS)
+
+
+AC_OUTPUT([
+Makefile
+gtkmozembed/Makefile
+])

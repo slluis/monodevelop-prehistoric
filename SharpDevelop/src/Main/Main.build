@@ -1,0 +1,94 @@
+<?xml version="1.0"?>
+
+<project name="SharpDevelop - Main" default="build" basedir=".">
+	
+	<target name="build">
+		
+		<echo message = "Building SharpDevelop Core"/>
+		<csc 
+			target = "library" 
+			output = "${bindir}/ICSharpCode.Core.dll" 
+			debug  = "${debug}">
+			
+			<sources basedir = "Core">
+				<includes name = "**/*.cs"/>
+			</sources>
+			
+			<resources basedir = "${resourcesdir}">
+				<includes name = "AddIn.xsd"/>
+			</resources>
+		</csc>
+		
+		<echo message = "Building SharpDevelop Base"/>
+		<csc 
+			target = "library" 
+			output = "${bindir}/SharpDevelop.Base.dll" 
+			debug  = "${debug}">
+			
+			<sources basedir = "Base">
+				<includes name = "**/*.cs"/>
+			</sources>
+			
+			<references basedir="${bindir}">
+				<!-- 3rd party assemblies -->
+				<includes name = "Interop.SHDocVw.dll"/>
+				<includes name = "MagicLibrary.DLL"/>
+				<includes name = "CommandBar.dll"/>
+				
+				<!-- #Develop libraries -->
+				<includes name = "ICSharpCode.SharpZipLib.dll"/>
+				<includes name = "ICSharpCode.SharpUnit.dll"/>
+				<includes name = "ICSharpCode.SharpAssembly.dll"/>
+				<includes name = "ICSharpCode.SharpRefactory.dll"/>
+				<includes name = "ICSharpCode.XmlForms.dll"/>
+				
+				<!-- #Develop parts -->
+				<includes name = "ICSharpCode.Core.dll"/>
+			</references>
+		</csc>
+
+		<echo message = "Building SharpDevelop Startup Executable"/>
+		<csc 
+			target    = "${startuptarget}" 
+			output    = "${bindir}/SharpDevelop.exe" 
+			win32icon = "${resourcesdir}/SharpDevelop.ico"
+			debug     = "${debug}">
+			
+			<sources basedir="StartUp">
+				<includes name="**/*.cs"/>
+			</sources>
+			
+			<resources basedir="${resourcesdir}">
+				<includes name="BitmapResources.resources"/>
+				<includes name="StringResources.resources"/>
+				<includes name="SplashScreen.png"/>
+			</resources>
+			
+			<references basedir="${bindir}">
+				<includes name="ICSharpCode.Core.dll"/>
+				<includes name="SharpDevelop.Base.dll"/>
+			</references>
+		</csc>
+		<copy todir = "${bindir}">
+			<fileset basedir = "StartUp">
+				<includes name = "SharpDevelop.exe.manifest"/>
+			</fileset>
+		</copy>
+	</target>
+	
+	<target name = "clean">
+	    <delete verbose = "true" >
+			<fileset basedir = "${bindir}">
+				<includes name = "ICSharpCode.Core.dll"/>
+				<includes name = "SharpDevelop.Base.dll"/>
+				<includes name = "SharpDevelop.exe"/>
+				<includes name = "SharpDevelop.exe.manifest"/>
+				
+				<!-- debug info -->
+				<includes name = "ICSharpCode.Core.pdb"/>
+				<includes name = "SharpDevelop.Base.pdb"/>
+				<includes name = "SharpDevelop.pdb"/>
+			</fileset>
+		</delete>
+	</target>
+</project>

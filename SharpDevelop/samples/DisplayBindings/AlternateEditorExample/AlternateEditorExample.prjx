@@ -1,0 +1,26 @@
+<Project name="AlternateEditorExample" description="creates an empty C# project" newfilesearch="None" enableviewstate="True" version="1.1" projecttype="C#">
+  <Contents>
+    <File name=".\AlternateEditorExample.addin" subtype="Code" buildaction="Nothing" />
+    <File name=".\src\AlternateEditorExample.cs" subtype="Code" buildaction="Compile" />
+    <File name=".\src\AlternateEditorContent.cs" subtype="Code" buildaction="Compile" />
+    <File name="..\src" subtype="Directory" buildaction="Nothing" />
+  </Contents>
+  <References>
+    <Reference type="Assembly" refto="..\..\..\bin\SharpDevelop.exe" />
+    <Reference type="Assembly" refto="..\..\..\AddIns\SharpDevelop.DefaultTexteditor.dll" />
+    <Reference type="Assembly" refto="..\..\..\AddIns\SharpDevelop.Base.dll" />
+  </References>
+  <DeploymentInformation target="" script="" strategy="File" />
+  <Configurations active="Debug">
+    <Configuration runwithwarnings="False" name="Debug">
+      <CodeGeneration warninglevel="4" includedebuginformation="True" optimize="True" unsafecodeallowed="False" generateoverflowchecks="True" mainclass="" target="Library" definesymbols="" generatexmldocumentation="False" win32Icon="" />
+      <Execution commandlineparameters="" consolepause="True" />
+      <Output directory=".\" assembly="AlternateEditorExample" />
+    </Configuration>
+    <Configuration runwithwarnings="False" name="Release">
+      <CodeGeneration warninglevel="4" includedebuginformation="True" optimize="True" unsafecodeallowed="False" generateoverflowchecks="True" mainclass="" target="Exe" definesymbols="" generatexmldocumentation="False" win32Icon="" />
+      <Execution commandlineparameters="" consolepause="True" />
+      <Output directory=".\" assembly="AlternateEditorExample" />
+    </Configuration>
+  </Configurations>
+</Project>

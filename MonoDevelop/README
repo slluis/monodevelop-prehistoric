@@ -1,0 +1,16 @@
+This is a port of the #Develop editor widget to Gtk#/Mono.
+To compile simply run make, or 'make run' to compile and run it.
+You need Mono 0.29 and Gtk# cvs.
+
+
+
+Very under development
+
+The SharpDevelop folder is a 098source unzip.
+
+The src folder is our modified sources
+We are attempting to follow as CLOSE as possible the #D directory structure.
+
+We are also attempting to minimize repeated sources by building as much as 
+possible out of the source files in the SharpDevelop folder, for an example, 
+look at the src/Libraries/SharpAssembly/Makefile

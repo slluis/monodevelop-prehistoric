@@ -1,0 +1,12 @@
+Here is the short list of features to finish before the preview release
+-----------------------------------------------------------------------
+
+~ Scouts
+~ Docking Manager
+~ Run/Compile single source files/projects
+~ SearchManager stuff (find, replace, etc)
+~ CodeComplete generation exit and reload cleanly
+~ Parser segfault in complex files gone
+~ Figure out why the code completion works on unsaved files to a point, and
+  what exactly #D does with unsaved files (need someone with windows to play
+  around)

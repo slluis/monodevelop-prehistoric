@@ -1,0 +1,36 @@
+<Project name="ResourceEditor" description="" newfilesearch="None" enableviewstate="True" version="1.1" projecttype="C#">
+  <Contents>
+    <File name=".\build.bat" subtype="Code" buildaction="Exclude" dependson="" data="" />
+    <File name=".\Icons.16x16.ResourceFileIcon.png" subtype="Code" buildaction="Exclude" dependson="" data="" />
+    <File name=".\ModuleDefinition.xml" subtype="Code" buildaction="Exclude" dependson="" data="" />
+    <File name=".\DisplayDefinition.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\ResourceEdit\BitmapView.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\ResourceEdit\EditEntry.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\ResourceEdit\RenameEntry.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\ResourceEdit\ResourceClipboardHandler.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\ResourceEdit\ResourceEdit.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\ResourceEdit\BinaryView.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+  </Contents>
+  <References>
+    <Reference type="Assembly" refto="..\..\..\..\bin\SharpDevelop.Base.dll" localcopy="False" />
+    <Reference type="Assembly" refto="..\..\..\..\bin\ICSharpCode.Core.dll" localcopy="False" />
+  </References>
+  <DeploymentInformation target="" script="" strategy="File" />
+  <Configuration runwithwarnings="False" name="Debug">
+    <CodeGeneration runtime="MsNet" compiler="Csc" warninglevel="4" includedebuginformation="True" optimize="True" unsafecodeallowed="True" generateoverflowchecks="True" mainclass="" target="Library" definesymbols="" generatexmldocumentation="False" win32Icon="" />
+    <Execution commandlineparameters="" consolepause="False" />
+    <Output directory="..\..\..\..\AddIns\AddIns\DisplayBindings" assembly="ResourceEditor" executeBeforeBuild="" executeAfterBuild="" />
+  </Configuration>
+  <Configurations active="Debug">
+    <Configuration runwithwarnings="False" name="Debug">
+      <CodeGeneration runtime="MsNet" compiler="Csc" warninglevel="4" includedebuginformation="True" optimize="True" unsafecodeallowed="True" generateoverflowchecks="True" mainclass="" target="Library" definesymbols="" generatexmldocumentation="False" win32Icon="" />
+      <Execution commandlineparameters="" consolepause="False" />
+      <Output directory="..\..\..\..\AddIns\AddIns\DisplayBindings" assembly="ResourceEditor" executeBeforeBuild="" executeAfterBuild="" />
+    </Configuration>
+    <Configuration runwithwarnings="False" name="Release">
+      <CodeGeneration runtime="MsNet" compiler="Csc" warninglevel="4" includedebuginformation="True" optimize="True" unsafecodeallowed="True" generateoverflowchecks="True" mainclass="" target="Exe" definesymbols="" generatexmldocumentation="False" win32Icon="" />
+      <Execution commandlineparameters="" consolepause="True" />
+      <Output directory="..\..\..\..\AddIns\AddIns\DisplayBindings" assembly="ResourceEditor" executeBeforeBuild="" executeAfterBuild="" />
+    </Configuration>
+  </Configurations>
+</Project>

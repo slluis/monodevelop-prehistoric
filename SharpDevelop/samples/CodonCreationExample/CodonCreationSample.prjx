@@ -1,0 +1,36 @@
+<Project version="1.1" name="CodonCreationSample" projecttype="C#" description="erzeugt ein C# Konsolenprojekt" enableviewstate="True">
+  <Contents>
+    <File name=".\Main.cs" subtype="Code" buildaction="Compile">
+    </File>
+    <File name=".\AssemblyInfo.cs" subtype="Code" buildaction="Compile">
+    </File>
+    <File name=".\MainPlugin.addin" subtype="Code" buildaction="Nothing">
+    </File>
+    <File name=".\TestCodon.cs" subtype="Code" buildaction="Compile">
+    </File>
+  </Contents>
+  <References>
+    <Reference type="Assembly" refto="..\..\bin\SharpDevelop.exe" />
+    <Reference type="Assembly" refto="..\..\AddIns\SharpDevelop.Base.dll" />
+  </References>
+  <Configurations active="Debug">
+    <Configuration name="Debug" description="">
+      <Output directory=".\" assembly="SharpDevelopAddInSample2">
+      </Output>
+      <CodeGeneration warninglevel="4" includedebuginformation="True" optimize="True" unsafecodeallowed="False" generateoverflowchecks="True" mainclass="" target="Library" definesymbols="" generatexmldocumentation="False" win32Icon="">
+      </CodeGeneration>
+      <Execution consolepause="True" runwithwarnings="False" commandlineparameters="">
+      </Execution>
+    </Configuration>
+    <Configuration name="Release" description="">
+      <Output directory=".\" assembly="SharpDevelopAddInSample">
+      </Output>
+      <CodeGeneration warninglevel="4" includedebuginformation="True" optimize="True" unsafecodeallowed="False" generateoverflowchecks="True" mainclass="" target="Exe" definesymbols="" generatexmldocumentation="False" win32Icon="">
+      </CodeGeneration>
+      <Execution consolepause="True" runwithwarnings="False" commandlineparameters="">
+      </Execution>
+    </Configuration>
+  </Configurations>
+  <DeploymentInformation target="" script="" strategy="File">
+  </DeploymentInformation>
+</Project>

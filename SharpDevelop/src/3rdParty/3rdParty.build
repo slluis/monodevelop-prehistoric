@@ -1,0 +1,62 @@
+<?xml version="1.0"?>
+
+<project name="SharpDevelop - 3rdParty" default="build" basedir=".">
+	<property name = "3rdpartydir" value="${addindir}/3rdparty"/>
+	<property name = "drC#dir"     value="${3rdpartydir}/DrCS"/>
+
+	<target name="build">
+		<mkdir dir = "${addindir}/3rdparty"/>
+		
+		<echo message = "Building Dr.C#"/>
+		<mkdir dir = "${drC#dir}"/>
+		<csc 
+			target = "library" 
+			output = "${bindir}/DrcsInterpreter.dll" 
+			debug  = "${debug}">
+			
+			<sources basedir="DrCS/DrcsInterpreter">
+				<includes name="**/*.cs"/>
+				<excludes name="MainTest.cs"/>
+				<excludes name="Tests/**/*.cs"/>
+			</sources>
+		</csc>
+		
+		<csc 
+			target = "library" 
+			output = "${drC#dir}/DrCSPlugin.dll" 
+			debug  = "${debug}">
+			
+			<sources basedir="DrCS/DrCSPlugin">
+				<includes name="**/*.cs"/>
+			</sources>
+			
+			<references basedir="${bindir}">
+				<includes name="ICSharpCode.Core.dll"/>
+				<includes name="SharpDevelop.Base.dll"/>
+				<includes name="ICSharpCode.TextEditor.dll"/>
+				
+				<includes name="DrcsInterpreter.dll"/>
+			</references>
+		</csc>
+		
+		<copy todir = "${drC#dir}">
+            		<fileset basedir = "DrCS/DrCSPlugin">
+            			<includes name = "DrCSPlugin.addin"/>
+			</fileset>
+		</copy>
+	</target>
+
+	<target name="clean">
+	    <delete verbose = "true" >
+			<fileset basedir = "${bindir}">
+				<includes name = "DrcsInterpreter.dll"/>
+				
+				<!-- debug info -->
+				<includes name = "DrcsInterpreter.pdb"/>
+			</fileset>
+			
+		</delete>		
+		<delete dir = "${drC#dir}" failonerror = "false"/>
+	</target>
+</project>
+

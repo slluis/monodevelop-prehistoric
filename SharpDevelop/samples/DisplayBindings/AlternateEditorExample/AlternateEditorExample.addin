@@ -1,0 +1,19 @@
+<AddIn name        = "Alternate editor example"
+       author      = "Mike Krueger"
+       copyright   = "GPL"
+       url         = "http://www.icsharpcode.net"
+       description = "An example of how to replace the standard SharpDevelop editor"
+       version     = "1.0.0">
+       
+	<Runtime>
+		<Import assembly="AlternateEditorExample.dll"/>
+	</Runtime>
+
+	<Extension path = "/SharpDevelop/Workbench/DisplayBindings">
+		<DisplayBinding id    = "AlternateEditor"
+		       insertbefore = "Text"
+		       supportedformats = "Text Files,Source Files"
+		       class = "AlternateEditorExample.AlternateEditorExample" />
+	</Extension>
+
+</AddIn>

@@ -1,0 +1,6 @@
+- make sure it works for more than the about box
+- ChangeLogTabPage crashes (in xml/xsl/html)
+- StyleSheets
+- finish and test IEControl (volunteers?)
+- decide how to build properly
+- fairly slow

@@ -1,0 +1,130 @@
+<?xml version="1.0"?>
+
+<project name="SharpDevelop - AddIns" default="build" basedir=".">
+	<property name = "miscaddindir" value="${addindir}/AddIns/Misc"/>
+	
+	<target name="build">
+		<!-- compile RegExToolkit -->
+		<echo message = "Building RegExTk"/>
+		<csc 
+			target = "library" 
+			output = "${miscaddindir}/RegExpTk/RegExpTk.dll" 
+			debug  = "${debug}">
+			
+			<sources basedir="RegExpTk">
+				<includes name="**/*.cs"/>
+			</sources>
+			
+			<references basedir="${bindir}">
+				<includes name="ICSharpCode.Core.dll"/>
+				<includes name="ICSharpCode.TextEditor.dll"/>
+				<includes name="SharpDevelop.Base.dll"/>
+				<includes name="ICSharpCode.XmlForms.dll"/>
+				<includes name="CSharpParser.dll"/>
+				<includes name="CommandBar.dll"/>
+			</references>
+		</csc>
+		
+		<!-- compile StartPage AddIn -->
+		<echo message = "Building StartPage AddIn"/>
+		<csc 
+			target = "library" 
+			output = "${miscaddindir}/StartPage/ICSharpCode.StartPage.dll" 
+			debug  = "${debug}">
+			
+			<sources basedir = "StartPage">
+				<includes name = "**/*.cs"/>
+			</sources>
+			
+			<resources basedir = "StartPage">
+				<includes name = "gradient.png"/>
+				<includes name = "start.png"/>
+				<includes name = "top.png"/>
+			</resources>
+			
+			<references basedir = "${bindir}">
+				<includes name = "ICSharpCode.Core.dll"/>
+				<includes name = "SharpDevelop.Base.dll"/>
+			</references>
+		</csc>
+
+		<!-- compile FiletypeRegisterer AddIn -->
+		<echo message = "Building FiletypeRegisterer AddIn"/>
+		<csc 
+			target = "library" 
+			output = "${miscaddindir}/FiletypeRegisterer/ICSharpCode.FiletypeRegisterer.dll" 
+			debug  = "${debug}">
+			
+			<sources basedir = "FiletypeRegisterer">
+				<includes name = "**/*.cs"/>
+			</sources>
+			
+			<references basedir = "${bindir}">
+				<includes name = "ICSharpCode.Core.dll"/>
+				<includes name = "ICSharpCode.XmlForms.dll"/>
+				<includes name = "SharpDevelop.Base.dll"/>
+			</references>
+		</csc>
+
+		<!-- compile HighlightingEditor AddIn -->
+		<echo message = "Building Highlighting Editor AddIn"/>
+		<csc 
+			target = "library" 
+			output = "${miscaddindir}/HighlightingEditor/SharpDevelop.HighlightingEditor.dll" 
+			debug  = "${debug}">
+			
+			<sources basedir = "HighlightingEditor">
+				<includes name = "**/*.cs"/>
+			</sources>
+			
+			<references basedir = "${bindir}">
+				<includes name = "ICSharpCode.Core.dll"/>
+				<includes name = "ICSharpCode.XmlForms.dll"/>
+				<includes name = "SharpDevelop.Base.dll"/>
+				<includes name = "MagicLibrary.dll"/>
+				<includes name = "ICSharpCode.TextEditor.dll"/>
+			</references>
+		</csc>
+		
+		<!-- compile Project importer/exporter AddIn -->
+		<echo message = "Building Project importer/exporter AddIn"/>
+		<csc 
+			target = "library" 
+			output = "${miscaddindir}/ProjectImporterExporter/ICSharpCode.ProjectImporterExporter.dll" 
+			debug  = "${debug}">
+			
+			<sources basedir = "ProjectImporterExporter/src">
+				<includes name = "**/*.cs"/>
+			</sources>
+			<resources basedir = "ProjectImporterExporter/data">
+				<includes name = "ImportProjectDialog.xfrm"/>
+				<includes name = "ExportProjectDialog.xfrm"/>
+				<includes name = "*.xsl"/>
+			</resources>
+			<references basedir = "${bindir}">
+				<includes name = "ICSharpCode.Core.dll"/>
+				<includes name = "SharpDevelop.Base.dll"/>
+				<includes name = "ICSharpCode.XmlForms.dll"/>
+			</references>
+		</csc>
+	</target>
+
+	<target name = "clean">
+	        <delete verbose = "true" >
+			<fileset basedir = "${miscaddindir}">
+				<includes name = "RegExpTk/RegExpTk.dll"/>
+				<includes name = "StartPage/ICSharpCode.StartPage.dll"/>
+				<includes name = "FiletypeRegisterer/ICSharpiode.FiletypeRegisterer.dll"/>
+				<includes name = "HighlightingEditor/SharpDevelop.HighlightingEditor.dll"/>
+				<includes name = "ProjectImporterExporter/ICSharpCode.ProjectImporterExporter.dll"/>
+				
+				<!-- debug info -->
+				<includes name = "RegExpTk/RegExpTk.pdb"/>
+				<includes name = "StartPage/ICSharpCode.StartPage.pdb"/>
+				<includes name = "FiletypeRegisterer/ICSharpCode.FiletypeRegisterer.pdb"/>
+				<includes name = "HighlightingEditor/SharpDevelop.HighlightingEditor.pdb"/>
+				<includes name = "ProjectImporterExporter/ICSharpCode.ProjectImporterExporter.pdb"/>
+			</fileset>
+		</delete>
+	</target>
+</project>

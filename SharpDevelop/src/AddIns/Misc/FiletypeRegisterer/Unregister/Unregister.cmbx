@@ -1,0 +1,16 @@
+<Combine fileversion="1.0" name="Unregister" description="">
+  <StartMode startupentry="Unregister" single="True">
+    <Execute entry="Unregister" type="None" />
+  </StartMode>
+  <Entries>
+    <Entry filename=".\Unregister.prjx" />
+  </Entries>
+  <Configurations active="Debug">
+    <Configuration name="Release">
+      <Entry name="Unregister" configurationname="Debug" build="False" />
+    </Configuration>
+    <Configuration name="Debug">
+      <Entry name="Unregister" configurationname="Debug" build="False" />
+    </Configuration>
+  </Configurations>
+</Combine>

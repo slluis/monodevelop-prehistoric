@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<Template Originator="John Luke" 
+          Language="GnomeSharpProgram" Created="1/02/2001" LastModified="1/02/2003">
+	
+	<TemplateConfiguration>
+		<Name>Gnome# Program</Name>
+		<Icon>C#.File.Form</Icon>
+		<Category>C#</Category>
+		<LanguageName>C#</LanguageName>
+		<Description>creates a Gnome# program</Description>
+	</TemplateConfiguration>
+	
+	<TemplateFiles>
+		<File DefaultExtension=".cs" DefaultName="CreatedProgram">
+<![CDATA[// created on ${Date} at ${Time}
+using System;
+using Gnome;
+using GnomeSharp;
+
+namespace MyProgram
+{
+	public class CreatedProgram : Program
+	{
+		static GLib.GType type;
+		
+		static CreatedProgram ()
+		{
+			type = RegisterGType (typeof (CreatedProgram));		}
+		public CreatedProgram () : base (type)
+		{
+		}
+	}
+}
+]]></File>
+	</TemplateFiles>
+	
+	<FileOptions/>
+	
+</Template>

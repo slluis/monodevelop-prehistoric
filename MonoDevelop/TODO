@@ -1,0 +1,39 @@
+- Test the functionality of the CreateCombineDialog vs the #D on Windows
+- Get code-folding working (it's only drawn, at the moment). It seems not
+  being implemented in the original #d, though.
+- Implement various menu items
+- Port dialogs to Gtk# (Please keep it as #D of a way as possible)
+- Convert all the icon code to Pixbuf instead of System.Drawing stuff (mostly done, I think)
+- HtmlControl (jluke)
+- Implement the remaining Option Dialogs. The framework is already ported (jba).
+- After the project pad is ported, we need to write a new Docker widget thing.
+  more docs later. Have to change the implementation of the docking manager.
+  Currently is a rough non-docking implementation in the file
+  src/Main/Base/Gui/Workbench/Layouts/DockingManager.cs, wich can be used as a
+  template for a more advanced one.
+- Project pad doesnt show extensions when the option is selected
+- Project pad doesnt update when the option is changed (Most likely code in
+  multiple places)
+- Implement binding with monodoc to allow InsightWindow to work properly (jluke)
+- Implement Help Scout (jluke/others)
+- Tie Help Scout to monodoc (jluke)
+- When too many tabs are opened they go out for the window and don't show
+- cross platform printing support (check AbiWord for ideas maybe)
+- HIGify (or at least improve the look) of dialogs
+	http://developer.gnome.org/projects/gup/hig/
+- some keywords should be bold when highlighted
+- make fonts choice persist (after restarting)
+
+---- Bugs in the File->New->File... Dialog
+
+- It doesnt save settings like the #D one (last category/template). (Blair)
+- Anything that triggers a Wizard does *not* work until the wizard is fixed.
+
+---- Bugs in Code Completion --- There are a lot, so only the big ones for now.
+
+- Is enabled and it shouldnt be until the file is saved so we have an extension.
+- Backspace doesnt work? why? (it's catched by KeyReleaseEvent, instead of 
+  Press, I don't know why we don't catch the Press event)
+- Lots more...
+
+(Read also the samples/MonoPad/TODO file for bugs related to textarea alone)

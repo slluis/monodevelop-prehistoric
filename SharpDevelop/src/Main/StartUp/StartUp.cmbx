@@ -1,0 +1,16 @@
+<Combine fileversion="1.0" name="StartUp" description="">
+  <StartMode startupentry="StartUp" single="True">
+    <Execute entry="StartUp" type="None" />
+  </StartMode>
+  <Entries>
+    <Entry filename=".\StartUp.prjx" />
+  </Entries>
+  <Configurations active="Debug">
+    <Configuration name="Release">
+      <Entry name="StartUp" configurationname="Debug" build="False" />
+    </Configuration>
+    <Configuration name="Debug">
+      <Entry name="StartUp" configurationname="Debug" build="False" />
+    </Configuration>
+  </Configurations>
+</Combine>
