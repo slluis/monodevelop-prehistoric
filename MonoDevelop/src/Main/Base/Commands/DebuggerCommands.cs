@@ -31,6 +31,16 @@ namespace MonoDevelop.Commands
 		}
 	}
 
+	public class StepInto : AbstractMenuCommand
+	{
+		public override void Run ()
+		{
+			DebuggingService dbgr = (DebuggingService)ServiceManager.Services.GetService (typeof (DebuggingService));
+
+			dbgr.StepInto ();
+		}
+	}
+
 	public class DebugProject : AbstractMenuCommand
 	{
 

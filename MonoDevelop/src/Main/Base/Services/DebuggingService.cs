@@ -15,6 +15,11 @@ using ICSharpCode.SharpDevelop.Gui;
 
 using Mono.Debugger;
 
+/*
+ * Some places we should be doing some error handling we used to toss
+ * exceptions, now we error out silently, this needs a real solution.
+ */
+
 namespace MonoDevelop.Services
 {
 
@@ -124,7 +129,8 @@ namespace MonoDevelop.Services
 				}
 				breakpoints [key] = loc.InsertBreakpoint (proc, point);
 				if (breakpoints [key] == null)
-					throw new Exception ("Couldn't insert breakpoint " + key);
+					//throw new Exception ("Couldn't insert breakpoint " + key);
+					return;
 			}
 
 			proc.TargetEvent += new TargetEventHandler (target_event);
@@ -185,7 +191,8 @@ namespace MonoDevelop.Services
 		public void Pause ()
 		{
 			if (!Debugging)
-				throw new Exception ("Debugger not running.");
+				//throw new Exception ("Debugger not running.");
+				return;
 
 			if (proc.IsStopped)
 				return;
@@ -196,7 +203,8 @@ namespace MonoDevelop.Services
 		public void Resume ()
 		{
 			if (!Debugging)
-				throw new Exception ("Debugger not running.");
+				//throw new Exception ("Debugger not running.");
+				return;
 
 			if (!proc.IsStopped)
 				return;
@@ -227,10 +235,12 @@ namespace MonoDevelop.Services
 		public void StepInto ()
 		{
 			if (!Debugging)
-				throw new Exception ("Can't step without running debugger.");
+				//throw new Exception ("Can't step without running debugger.");
+				return;
 
 			if (IsRunning)
-				throw new Exception ("Can't step unless paused.");
+				//throw new Exception ("Can't step unless paused.");
+				return;
 
 			proc.StepLine (false);
 		}
@@ -238,10 +248,12 @@ namespace MonoDevelop.Services
 		public void StepOver ()
 		{
 			if (!Debugging)
-				throw new Exception ("Can't step without running debugger.");
+				//throw new Exception ("Can't step without running debugger.");
+				return;
 
 			if (IsRunning)
-				throw new Exception ("Can't step unless paused.");
+				//throw new Exception ("Can't step unless paused.");
+				return;
 
 			proc.NextLine (false);
 		}

@@ -15,7 +15,7 @@ using MonoDevelop.Services;
 
 namespace MonoDevelop.SourceEditor.Gui
 {
-	public class DebuggerVariablePad : Gtk.Frame
+	public class DebuggerVariablePad : Gtk.ScrolledWindow
 	{
 		StackFrame current_frame;
 
@@ -25,7 +25,7 @@ namespace MonoDevelop.SourceEditor.Gui
 
 		public DebuggerVariablePad (bool is_locals_display)
 		{
-			this.Shadow = ShadowType.None;
+			this.ShadowType = ShadowType.In;
 
 			this.is_locals_display = is_locals_display;
 

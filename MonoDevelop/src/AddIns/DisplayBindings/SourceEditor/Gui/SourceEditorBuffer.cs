@@ -77,11 +77,8 @@ namespace MonoDevelop.SourceEditor.Gui {
 
 		public void UnMarkupLine (int line)
 		{
-			TextIter begin_line = GetIterAtLine (line);
-			TextIter end_line = begin_line;
-			begin_line.LineOffset = 0;
-			end_line.ForwardToLineEnd ();
-			RemoveTag (markup, begin_line, end_line);
+			ClearMarks (SourceMarkerType.ExecutionMark);
+			RemoveTag (markup, StartIter, EndIter);
 		}
 
 		public void LoadFile (string file, string mime)

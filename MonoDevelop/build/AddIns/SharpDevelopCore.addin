@@ -797,11 +797,20 @@
 
 			<MenuItem id = "ToggleRunning"
 				  label = "Pause/Resume"
+			          shortcut = "Control|F8"
 				  class = "MonoDevelop.Commands.ToggleRunning"/>
+
+			<MenuItem id = "DebugSep1" label = "-" />
 
 			<MenuItem id = "DebugStepOver"
 				  label = "Step Over"
+			          shortcut = "F11"
 				  class = "MonoDevelop.Commands.StepOver"/>
+
+			<MenuItem id = "DebugStepInto"
+			          label = "Step Into"
+			          shortcut = "Control|F11"
+			          class = "MonoDevelop.Commands.StepInto"/>
 		
 		</MenuItem>
         
