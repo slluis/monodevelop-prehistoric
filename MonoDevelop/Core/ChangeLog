@@ -1,3 +1,7 @@
+2004-06-29  Todd Berman  <tberman@off.net>
+
+	* configure.in: remove dead directories.
+
 2004-06-24  John Luke  <jluke@cfl.rr.com>
 
 	fix all the projects and generated makefiles

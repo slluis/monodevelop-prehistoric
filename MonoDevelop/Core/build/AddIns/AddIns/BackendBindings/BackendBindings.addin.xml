@@ -34,6 +34,23 @@
 		<FileTemplate id = "EmptyXMLFile"
 		              location = "templates/EmptyXMLFile.xft"/>
 	</Extension>
+
+	<Extension path = "/MonoDevelop/ProjectTemplates">
+		<ProjectTemplate id = "ConsoleProject"
+		                 location = "templates/ConsoleProject.xpt"/>
+		<ProjectTemplate id = "EmptyProject"
+		                 location = "templates/EmptyProject.xpt"/>
+		<ProjectTemplate id = "GladeSharpProject"
+		                 location = "templates/GladeSharpProject.xpt"/>
+		<ProjectTemplate id = "GnomeSharpProject"
+		                 location = "templates/GnomeSharpProject.xpt"/>
+		<ProjectTemplate id = "GtkSharpProject"
+		                 location = "templates/GtkSharpProject.xpt"/>
+		<ProjectTemplate id = "Library"
+		                 location = "templates/Library.xpt"/>
+		<ProjectTemplate id = "BlankCombine"
+		                 location = "templates/BlankCombine.xpt"/>
+	</Extension>
 	
 	<Extension path = "/SharpDevelop/Workbench/FileFilter">
 		<FileFilter id = "CSharp"

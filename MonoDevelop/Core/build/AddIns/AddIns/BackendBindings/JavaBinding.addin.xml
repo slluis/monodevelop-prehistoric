@@ -33,6 +33,23 @@
                   location = "templates/EmptyJavaFile.xft"/>
   </Extension>
 
+  <Extension path = "/MonoDevelop/ProjectTemplates">
+    <ProjectTemplate id = "EmptyJavaProject"
+                     location = "templates/EmptyJavaProject.xpt"/>
+    <ProjectTemplate id = "IkvmConsoleApplicationProject"
+                     location = "templates/IkvmConsoleApplicationProject.xpt"/>
+    <ProjectTemplate id = "IkvmGladeApplicationProject"
+                     location = "templates/IkvmGladeApplicationProject.xpt"/>
+    <ProjectTemplate id = "IkvmGnomeApplicationProject"
+                     location = "templates/IkvmGnomeApplicationProject.xpt"/>
+    <ProjectTemplate id = "IkvmGtkApplicationProject"
+                     location = "templates/IkvmGtkApplicationProject.xpt"/>
+    <ProjectTemplate id = "JavaApplicationProject"
+                     location = "templates/JavaApplicationProject.xpt"/>
+    <ProjectTemplate id = "JavaConsoleApplicationProject"
+                     location = "templates/JavaConsoleApplicationProject.xpt"/>
+  </Extension>
+
   <Extension path = "/SharpDevelop/Workbench/ProjectOptions/ConfigurationProperties">
     <Conditional activeproject = "Java">
       <DialogPanel id = "JavaProjectPanel"

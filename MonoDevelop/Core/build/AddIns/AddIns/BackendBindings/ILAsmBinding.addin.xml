@@ -9,6 +9,11 @@
     <Import assembly = "ILAsmBinding.dll"/>
   </Runtime>
 
+  <Extension path = "/MonoDevelop/ProjectTemplates">
+    <ProjectTemplate id = "ILAsmConsoleProject"
+                     location = "templates/ILAsmConsoleProject.xpt"/>
+  </Extension>
+
   <Extension path = "/SharpDevelop/Workbench/ProjectOptions/ConfigurationProperties">
     <Conditional activeproject = "ILAsm">
       <DialogPanel id = "ILAsmCompilerParametersPanel"

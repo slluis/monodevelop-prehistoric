@@ -21,6 +21,11 @@
                   location = "templates/EmptyNemerleFile.xft"/>
   </Extension>
 
+  <Extension path = "/MonoDevelop/ProjectTemplates">
+    <ProjectTemplate id = "EmptyNemerleProject"
+                     location = "templates/NemerleEmptyProject.xpt"/>
+  </Extension>
+
   <Extension path = "/SharpDevelop/Workbench/ProjectOptions/ConfigurationProperties">
     <Conditional activeproject = "Nemerle">
       <DialogPanel id = "NemerleCodeGenerationPanel"

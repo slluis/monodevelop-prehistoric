@@ -38,6 +38,7 @@
 			<xs:element ref="Class"/>
 			<xs:element ref="MenuItem"/>
 			<xs:element ref="FileTemplate"/>
+			<xs:element ref="ProjectTemplate"/>
 		</xs:choice>
 		<xs:attribute name="path" type="xs:string" use="required"/>
 	</xs:complexType>
@@ -131,6 +132,14 @@
 		</xs:complexContent>
 	</xs:complexType>
 	<xs:element name="FileTemplate" type="FileTemplate"/>
+	<xs:complexType name="ProjectTemplate">
+		<xs:complexContent>
+			<xs:extension base="AbstractCodon">
+				<xs:attribute name="location" type="xs:string" use="required"/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="ProjectTemplate" type="ProjectTemplate"/>
 	<xs:complexType name="DialogPanel">
 		<xs:complexContent>
 			<xs:extension base="AbstractCodon">

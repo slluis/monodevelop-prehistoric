@@ -1,3 +1,11 @@
+2004-06-29  Todd Berman  <tberman@off.net>
+
+	* Internal/Codons/Templates/ProjectTemplateCodon.cs: new codon for
+	project templates.
+	* Internal/Templates/ProjectTemplates/ProjectTemplate.cs: convert to
+	using new codon based system.
+	* Makefile.am: add new file.
+
 2004-06-28  Todd Berman  <tberman@off.net>
 
 	* Gui/Workbench/Layouts/SdiWorkspaceWindow.cs: make sure everything is

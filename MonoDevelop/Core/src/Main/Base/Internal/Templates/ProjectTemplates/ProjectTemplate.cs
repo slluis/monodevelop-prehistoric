@@ -19,6 +19,9 @@ using MonoDevelop.Core.Services;
 using MonoDevelop.Services;
 using MonoDevelop.Gui.Dialogs;
 
+using MonoDevelop.Core.AddIns;
+using MonoDevelop.Core.AddIns.Codons;
+
 namespace MonoDevelop.Internal.Templates
 {
 	public class OpenFileAction
@@ -211,16 +214,17 @@ namespace MonoDevelop.Internal.Templates
 		{
 			FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.GetService(typeof(FileUtilityService));
 			PropertyService    propertyService    = (PropertyService)ServiceManager.GetService(typeof(PropertyService));
-			StringCollection files = fileUtilityService.SearchDirectory(propertyService.DataDirectory + 
-			                                                            Path.DirectorySeparatorChar + "templates" +
-			                                                            Path.DirectorySeparatorChar + "project", "*.xpt");
-			foreach (string fileName in files) {
+			LoadTemplates ((ProjectTemplateCodon[])(AddInTreeSingleton.AddInTree.GetTreeNode ("/MonoDevelop/ProjectTemplates").BuildChildItems (new object ()).ToArray (typeof (ProjectTemplateCodon))));
+		}
+
+		static void LoadTemplates (ProjectTemplateCodon[] codons)
+                {
+			IMessageService messageService = (IMessageService) ServiceManager.GetService (typeof (IMessageService));
+			foreach (ProjectTemplateCodon codon in codons) {
 				try {
-					ProjectTemplates.Add(new ProjectTemplate(fileName));
+					ProjectTemplates.Add (new ProjectTemplate (codon.Location));
 				} catch (Exception e) {
-					IResourceService resourceService = (IResourceService)ServiceManager.GetService(typeof(IResourceService));
-					IMessageService messageService =(IMessageService)ServiceManager.GetService(typeof(IMessageService));
-					messageService.ShowError(e, resourceService.GetString("Internal.Templates.ProjectTemplate.LoadingError") + "\n(" + fileName + ")\n");
+					messageService.ShowError (e, String.Format (GettextCatalog.GetString ("Error loading template file {0}"), codon.Location));
 				}
 			}
 		}
