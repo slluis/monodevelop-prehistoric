@@ -12,14 +12,14 @@ using MonoDevelop.Gui;
 using MonoDevelop.TextEditor;
 
 using MonoDevelop.SourceEditor.Gui;
-using SourceEditor = MonoDevelop.SourceEditor.Gui.SourceEditor;
+using SourceEditor_ = MonoDevelop.SourceEditor.Gui.SourceEditor;
 
 namespace MonoDevelop.TextEditor.Document
 {
 	public class CurrentDocumentIterator : IDocumentIterator
 	{
 		bool         didRead = false;
-		SourceEditor curDocument = null;
+		SourceEditor_ curDocument = null;
 		
 		public CurrentDocumentIterator() 
 		{
@@ -43,7 +43,7 @@ namespace MonoDevelop.TextEditor.Document
 				if (!SearchReplaceUtilities.IsTextAreaSelected) {
 					return null;
 				}
-				curDocument = ((SourceEditor) ((SourceEditorDisplayBindingWrapper)WorkbenchSingleton.Workbench.ActiveWorkbenchWindow.ViewContent).Control);
+				curDocument = ((SourceEditor_) ((SourceEditorDisplayBindingWrapper)WorkbenchSingleton.Workbench.ActiveWorkbenchWindow.ViewContent).Control);
 				return new EditorDocumentInformation(curDocument, CurrentFileName);
 			}
 		}

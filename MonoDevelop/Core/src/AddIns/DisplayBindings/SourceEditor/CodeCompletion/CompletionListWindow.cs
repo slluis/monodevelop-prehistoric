@@ -12,7 +12,7 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 	public class CompletionListWindow : ListWindow, IListDataProvider
 	{
 		string fileName;
-		IProject project;
+		Project project;
 		SourceEditorView control;
 		TextMark triggeringMark;
 		ICompletionData[] completionData;

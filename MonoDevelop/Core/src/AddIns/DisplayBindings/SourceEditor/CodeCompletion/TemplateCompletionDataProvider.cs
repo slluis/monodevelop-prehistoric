@@ -27,7 +27,7 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 			}
 		}
 		
-		public ICompletionData[] GenerateCompletionData(IProject project, string fileName, SourceEditorView textArea, char charTyped, Gtk.TextMark triggerMark)
+		public ICompletionData[] GenerateCompletionData(Project project, string fileName, SourceEditorView textArea, char charTyped, Gtk.TextMark triggerMark)
 		{
 			CodeTemplateGroup templateGroup = CodeTemplateLoader.GetTemplateGroupPerFilename(fileName);
 			if (templateGroup == null) {

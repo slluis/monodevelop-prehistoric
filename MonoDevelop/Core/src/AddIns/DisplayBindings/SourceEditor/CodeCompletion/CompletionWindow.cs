@@ -30,7 +30,7 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 		int num_in = 0;
 		DeclarationViewWindow declarationviewwindow = new DeclarationViewWindow ();
 		string fileName;
-		IProject project;
+		Project project;
 
 		static CompletionWindow wnd;
 

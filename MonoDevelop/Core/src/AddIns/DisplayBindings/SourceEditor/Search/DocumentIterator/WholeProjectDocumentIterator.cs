@@ -16,7 +16,7 @@ using MonoDevelop.Services;
 using MonoDevelop.TextEditor;
 
 using MonoDevelop.SourceEditor.Gui;
-using SourceEditor = MonoDevelop.SourceEditor.Gui.SourceEditor;
+using SourceEditor_ = MonoDevelop.SourceEditor.Gui.SourceEditor;
 
 namespace MonoDevelop.TextEditor.Document
 {
@@ -49,13 +49,13 @@ namespace MonoDevelop.TextEditor.Document
 					++curIndex;
 					return Current;
 				}
-				SourceEditor document;
+				SourceEditor_ document;
 				string fileName = files[curIndex].ToString();
 				foreach (IViewContent content in WorkbenchSingleton.Workbench.ViewContentCollection) {
 					// WINDOWS DEPENDENCY : ToUpper
 					if (content.ContentName != null &&
 						content.ContentName.ToUpper() == fileName.ToUpper()) {
-						document = (SourceEditor) (((SourceEditorDisplayBindingWrapper)content).Control);
+						document = (SourceEditor_) (((SourceEditorDisplayBindingWrapper)content).Control);
 						return new EditorDocumentInformation(document, fileName);
 					}
 				}
@@ -78,7 +78,7 @@ namespace MonoDevelop.TextEditor.Document
 		}
 		
 		
-		void AddFiles(IProject project)
+		void AddFiles(Project project)
 		{
 			foreach (ProjectFile file in project.ProjectFiles) {
 				if (file.BuildAction == BuildAction.Compile &&
@@ -91,10 +91,10 @@ namespace MonoDevelop.TextEditor.Document
 		void AddFiles(Combine combine)
 		{
 			foreach (CombineEntry entry in combine.Entries) {
-				if (entry is ProjectCombineEntry) {
-					AddFiles(((ProjectCombineEntry)entry).Project);
-				} else {
-					AddFiles(((CombineCombineEntry)entry).Combine);
+				if (entry is Project) {
+					AddFiles ((Project)entry);
+				} else if (entry is Combine) {
+					AddFiles ((Combine)entry);
 				}
 			}
 		}

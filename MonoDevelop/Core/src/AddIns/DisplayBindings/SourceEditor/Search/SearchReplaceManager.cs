@@ -17,7 +17,7 @@ using MonoDevelop.Gui.Dialogs;
 using MonoDevelop.TextEditor;
 
 using MonoDevelop.SourceEditor.Gui;
-using SourceEditor = MonoDevelop.SourceEditor.Gui.SourceEditor;
+using SourceEditor_ = MonoDevelop.SourceEditor.Gui.SourceEditor;
 
 namespace MonoDevelop.TextEditor.Document
 {
@@ -73,7 +73,7 @@ namespace MonoDevelop.TextEditor.Document
 		public static void Replace()
 		{
 			if (WorkbenchSingleton.Workbench.ActiveWorkbenchWindow != null) {
-				SourceEditor textarea = (SourceEditor) ((SourceEditorDisplayBindingWrapper)WorkbenchSingleton.Workbench.ActiveWorkbenchWindow.ViewContent).Control;
+				SourceEditor_ textarea = (SourceEditor_) ((SourceEditorDisplayBindingWrapper)WorkbenchSingleton.Workbench.ActiveWorkbenchWindow.ViewContent).Control;
 				string text = textarea.Buffer.GetSelectedText ();
 				if (text.ToLower () == SearchOptions.SearchPattern.ToLower ()) {
 					int offset = textarea.Buffer.GetLowerSelectionBounds ();
@@ -90,9 +90,9 @@ namespace MonoDevelop.TextEditor.Document
 		
 		public static void MarkAll()
 		{
-			SourceEditor textArea = null;
+			SourceEditor_ textArea = null;
 			if (WorkbenchSingleton.Workbench.ActiveWorkbenchWindow != null) {
-				textArea = (SourceEditor) ((SourceEditorDisplayBindingWrapper)WorkbenchSingleton.Workbench.ActiveWorkbenchWindow.ViewContent).Control;
+				textArea = (SourceEditor_) ((SourceEditorDisplayBindingWrapper)WorkbenchSingleton.Workbench.ActiveWorkbenchWindow.ViewContent).Control;
 				textArea.Buffer.PlaceCursor (textArea.Buffer.GetIterAtMark (textArea.Buffer.InsertMark));
 			}
 			find.Reset();
@@ -122,9 +122,9 @@ namespace MonoDevelop.TextEditor.Document
 		
 		public static void ReplaceAll()
 		{
-			SourceEditor textArea = null;
+			SourceEditor_ textArea = null;
 			if (WorkbenchSingleton.Workbench.ActiveWorkbenchWindow != null) {
-				textArea = (SourceEditor) ((SourceEditorDisplayBindingWrapper)WorkbenchSingleton.Workbench.ActiveWorkbenchWindow.ViewContent).Control;
+				textArea = (SourceEditor_) ((SourceEditorDisplayBindingWrapper)WorkbenchSingleton.Workbench.ActiveWorkbenchWindow.ViewContent).Control;
 				textArea.Buffer.PlaceCursor (textArea.Buffer.GetIterAtMark (textArea.Buffer.InsertMark));
 			}
 			find.Reset();
@@ -161,7 +161,7 @@ namespace MonoDevelop.TextEditor.Document
 				if (find.DocumentIterator.CurrentFileName != lastResult.FileName)
 					find.Reset ();
 				else {
-					SourceEditor textArea = OpenTextArea(lastResult.FileName);
+					SourceEditor_ textArea = OpenTextArea(lastResult.FileName);
 					if (lastResult != null && textArea.Buffer.GetIterAtMark (textArea.Buffer.InsertMark).Offset != lastResult.Offset + lastResult.Length) {
 						find.Reset();
 					}
@@ -177,7 +177,7 @@ namespace MonoDevelop.TextEditor.Document
 				MessageService.ShowMessage (GettextCatalog.GetString ("Not Found"));
 				find.Reset();
 			} else {
-				SourceEditor textArea = OpenTextArea(result.FileName);
+				SourceEditor_ textArea = OpenTextArea(result.FileName);
 				
 				int startPos = Math.Min(textArea.Buffer.Text.Length, Math.Max(0, result.Offset));
 				int endPos   = Math.Min(textArea.Buffer.Text.Length, startPos + result.Length);
@@ -189,7 +189,7 @@ namespace MonoDevelop.TextEditor.Document
 			lastResult = result;
 		}
 		
-		static SourceEditor OpenTextArea(string fileName) 
+		static SourceEditor_ OpenTextArea(string fileName) 
 		{
 			if (fileName != null) {
 				IFileService fileService = (IFileService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IFileService));
@@ -200,7 +200,7 @@ namespace MonoDevelop.TextEditor.Document
 			while (Gtk.Application.EventsPending ())
 				Gtk.Application.RunIteration ();
 			
-			return (SourceEditor) ((SourceEditorDisplayBindingWrapper)WorkbenchSingleton.Workbench.ActiveWorkbenchWindow.ViewContent).Control;
+			return (SourceEditor_) ((SourceEditorDisplayBindingWrapper)WorkbenchSingleton.Workbench.ActiveWorkbenchWindow.ViewContent).Control;
 		}
 	}	
 }

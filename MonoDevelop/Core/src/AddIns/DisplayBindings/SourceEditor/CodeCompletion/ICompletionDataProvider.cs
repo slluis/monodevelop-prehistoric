@@ -17,6 +17,6 @@ using MonoDevelop.SourceEditor.Gui;
 
 namespace MonoDevelop.SourceEditor.CodeCompletion {
 	public interface ICompletionDataProvider {
-		ICompletionData[] GenerateCompletionData(IProject project, string fileName, SourceEditorView textArea, char charTyped, Gtk.TextMark mark);
+		ICompletionData[] GenerateCompletionData(Project project, string fileName, SourceEditorView textArea, char charTyped, Gtk.TextMark mark);
 	}
 }

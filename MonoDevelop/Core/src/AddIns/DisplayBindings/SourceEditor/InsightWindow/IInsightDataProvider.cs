@@ -17,7 +17,7 @@ namespace MonoDevelop.SourceEditor.InsightWindow
 {
 	public interface IInsightDataProvider
 	{
-		void SetupDataProvider(IProject project, string fileName, SourceEditorView textArea);
+		void SetupDataProvider(Project project, string fileName, SourceEditorView textArea);
 		
 		bool CaretOffsetChanged();
 		bool CharTyped();

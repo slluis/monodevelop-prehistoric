@@ -47,7 +47,7 @@ namespace MonoDevelop.SourceEditor.InsightWindow
 		}
 		
 		int initialOffset;
-		public void SetupDataProvider(IProject project, string fileName, SourceEditorView textArea)
+		public void SetupDataProvider(Project project, string fileName, SourceEditorView textArea)
 		{
 			this.fileName = fileName;
 			this.textArea = textArea;

@@ -12,18 +12,18 @@ using System.Collections;
 using MonoDevelop.Gui;
 
 using MonoDevelop.SourceEditor.Gui;
-using SourceEditor = MonoDevelop.SourceEditor.Gui.SourceEditor;
+using SourceEditor_ = MonoDevelop.SourceEditor.Gui.SourceEditor;
 
 namespace MonoDevelop.TextEditor.Document
 {
 	public class EditorDocumentInformation: IDocumentInformation
 	{
-		SourceEditor        document;
+		SourceEditor_        document;
 		SourceEditorBuffer  textBuffer;
 		string              fileName;
 		int                 currentOffset;
 		
-		public EditorDocumentInformation (SourceEditor document, string fileName)
+		public EditorDocumentInformation (SourceEditor_ document, string fileName)
 		{
 			this.document   = document;
 			this.textBuffer = document.Buffer;

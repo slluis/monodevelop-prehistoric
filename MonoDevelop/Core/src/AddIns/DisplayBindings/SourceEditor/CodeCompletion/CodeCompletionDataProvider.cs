@@ -54,7 +54,7 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 		
 		ArrayList completionData = null;
 		
-		public ICompletionData[] GenerateCompletionData(IProject project, string fileName, SourceEditorView textArea, char charTyped, TextMark triggerMark)
+		public ICompletionData[] GenerateCompletionData(Project project, string fileName, SourceEditorView textArea, char charTyped, TextMark triggerMark)
 		{
 			completionData = new ArrayList();
 			this.fileName = fileName;

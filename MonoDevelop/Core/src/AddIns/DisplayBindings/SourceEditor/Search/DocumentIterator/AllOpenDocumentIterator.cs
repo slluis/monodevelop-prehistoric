@@ -12,7 +12,7 @@ using MonoDevelop.Gui;
 using MonoDevelop.TextEditor;
 
 using MonoDevelop.SourceEditor.Gui;
-using SourceEditor = MonoDevelop.SourceEditor.Gui.SourceEditor;
+using SourceEditor_ = MonoDevelop.SourceEditor.Gui.SourceEditor;
 
 namespace MonoDevelop.TextEditor.Document
 {
@@ -45,7 +45,7 @@ namespace MonoDevelop.TextEditor.Document
 				if (!SearchReplaceUtilities.IsTextAreaSelected) {
 					return null;
 				}
-				SourceEditor document = (SourceEditor) (((SourceEditorDisplayBindingWrapper)WorkbenchSingleton.Workbench.ActiveWorkbenchWindow.ViewContent).Control);
+				SourceEditor_ document = (SourceEditor_) (((SourceEditorDisplayBindingWrapper)WorkbenchSingleton.Workbench.ActiveWorkbenchWindow.ViewContent).Control);
 				return new EditorDocumentInformation(document,
 				                                       CurrentFileName);
 			}

@@ -30,7 +30,7 @@ namespace MonoDevelop.SourceEditor.InsightWindow
 		Gtk.Label max;
 		string description;
 		string fileName;
-		IProject project;
+		Project project;
 
 		StringParserService StringParserService = (StringParserService)ServiceManager.GetService (typeof (StringParserService)); 
 		
@@ -114,7 +114,7 @@ namespace MonoDevelop.SourceEditor.InsightWindow
 			type = RegisterGType (typeof (InsightWindow));
 		}
 		
-		public InsightWindow(SourceEditorView control, IProject project, string fileName) : base (type)
+		public InsightWindow(SourceEditorView control, Project project, string fileName) : base (type)
 		{
 			this.control             = control;
 			this.fileName = fileName;

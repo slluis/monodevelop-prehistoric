@@ -63,7 +63,7 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 			return row >= region.BeginLine && (row <= region.EndLine || region.EndLine == -1);
 		}
 		
-		public ICompletionData[] GenerateCompletionData (IProject project, string fileName, SourceEditorView textArea, char charTyped, Gtk.TextMark triggerMark)
+		public ICompletionData[] GenerateCompletionData (Project project, string fileName, SourceEditorView textArea, char charTyped, Gtk.TextMark triggerMark)
 		{
 			/*caretLineNumber = textArea.Caret.Line;
 			caretColumn     = textArea.Caret.Column;

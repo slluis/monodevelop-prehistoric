@@ -38,7 +38,7 @@ namespace MonoDevelop.Gui.Dialogs
 		FileUtilityService fileUtilityService = (FileUtilityService) ServiceManager.GetService(typeof(FileUtilityService));
 		IconService iconService = (IconService) ServiceManager.GetService(typeof(IconService));
 		
-		IProject project;
+		Project project;
 		int filesExported = 0;
 		
 		int FilesExported
@@ -57,7 +57,7 @@ namespace MonoDevelop.Gui.Dialogs
 			cancelButton.Clicked += new EventHandler (StopThread);
 		}
 
-		public ExportProjectToHtmlDialog (IProject project)
+		public ExportProjectToHtmlDialog (Project project)
 		{
 			PropertyService propertyService = (PropertyService) ServiceManager.GetService (typeof (PropertyService));	
 			this.project = project;
