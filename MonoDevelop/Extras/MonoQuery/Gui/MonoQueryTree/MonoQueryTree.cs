@@ -35,7 +35,7 @@ using RS = MonoDevelop.Core.Services.ResourceService;
 		///</summary>			
 		public MonoQueryTree() : base()
 		{		
-			IconService iconService = (IconService)ServiceManager.GetService(typeof(IconService));
+//			IconService iconService = (IconService)ServiceManager.GetService(typeof(IconService));
 			
 			this.menuService = (MenuService)ServiceManager.GetService(typeof(MenuService));
 			

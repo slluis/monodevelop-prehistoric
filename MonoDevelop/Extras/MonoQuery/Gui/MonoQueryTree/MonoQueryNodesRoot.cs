@@ -32,7 +32,7 @@ namespace MonoQuery.Gui.TreeView
 		{
 			get
 			{
-				StringParserService stringParserService = (StringParserService)ServiceManager.GetService(typeof(StringParserService));
+//				StringParserService stringParserService = (StringParserService)ServiceManager.GetService(typeof(StringParserService));
 				return GettextCatalog.GetString( "Database Connections" ); 
 			}
 		}
@@ -117,7 +117,7 @@ namespace MonoQuery.Gui.TreeView
 				}
 				IMessageService messageService =(IMessageService)ServiceManager.GetService(typeof(IMessageService));
 				messageService.ShowError( e.Message );															
-			}*/	
+			}*/
 		}
 		
 		/// <summary>
@@ -200,7 +200,7 @@ namespace MonoQuery.Gui.TreeView
 			}
 		}
 						
-		public MonoQueryNodeConnection( IConnection dataConnection ) : base( null )
+		public MonoQueryNodeConnection( IConnection dataConnection ) : base()
 		{								
 			this.pConnection = dataConnection;
 			this.Image = "md-mono-query-database";

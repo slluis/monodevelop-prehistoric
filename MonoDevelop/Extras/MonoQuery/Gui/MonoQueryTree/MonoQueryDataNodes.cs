@@ -139,8 +139,8 @@ namespace MonoQuery.Gui.TreeView
 		/// </summary>
 		protected override MonoQuerySchemaClassCollection OnExecute( CancelEventArgs e )
 		{
-			MonoQuerySchemaClassCollection tmp = this.SchemaClass.GetSchemaParameters();
-			MonoQueryParameterCollection parameters = null;			
+//			MonoQuerySchemaClassCollection tmp = this.SchemaClass.GetSchemaParameters();
+//			MonoQueryParameterCollection parameters = null;			
 			MonoQuerySchemaClassCollection returnValue = null;
 			
 //			if ( tmp.Count == 1 && tmp[0] is MonoQueryNotSupported )

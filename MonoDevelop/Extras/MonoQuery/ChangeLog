@@ -1,3 +1,13 @@
+2005-01-08  Christian Hergert <chris@mosaix.net>
+	
+	* Following Makefile.am fixes
+	* Copy .addin.xml if it changes
+	* Fix setup to work if layout changes in the future
+	* If .addin.xml changes, only copy addin and not rebuild the dll
+	* Get package references from configure rather than statically
+	* Added files with GetString to the PO .in file
+	* Fixed a few warnings from build stage
+	
 2005-01-06  Christian Hergert <chris@mosaix.net>
 
 	* Initial creation of MonoQuery AddIn

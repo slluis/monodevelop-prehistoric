@@ -541,7 +541,7 @@ namespace MonoQuery.SchemaClass
 		
 		public MonoQueryNotSupported( IConnection connection, string catalogName, string schemaName, string ownerName, string name  ) : base(connection, catalogName, schemaName, ownerName, name )
 		{			
-			StringParserService stringParserService = (StringParserService)ServiceManager.GetService(typeof(StringParserService));
+//			StringParserService stringParserService = (StringParserService)ServiceManager.GetService(typeof(StringParserService));
 			this.pName += " " + GettextCatalog.GetString( "Not Supported" )  + " " + connection.Provider;			
 
 		}
@@ -615,7 +615,7 @@ namespace MonoQuery.SchemaClass
 		
 		public MonoQueryViews( IConnection connection, string catalogName, string schemaName, string ownerName, string name  ) : base(connection, catalogName, schemaName, ownerName, name )
 		{			
-			StringParserService stringParserService = (StringParserService)ServiceManager.GetService(typeof(StringParserService));
+//			StringParserService stringParserService = (StringParserService)ServiceManager.GetService(typeof(StringParserService));
 			this.pName = GettextCatalog.GetString( "Views" );
 		}
 		
@@ -651,7 +651,7 @@ namespace MonoQuery.SchemaClass
 		
 		public MonoQueryProcedures( IConnection connection, string catalogName, string schemaName, string ownerName, string name  ) : base(connection, catalogName, schemaName, ownerName, name )
 		{			
-			StringParserService stringParserService = (StringParserService)ServiceManager.GetService(typeof(StringParserService));
+//			StringParserService stringParserService = (StringParserService)ServiceManager.GetService(typeof(StringParserService));
 			this.pName = GettextCatalog.GetString( "Procedures" );
 		}
 		

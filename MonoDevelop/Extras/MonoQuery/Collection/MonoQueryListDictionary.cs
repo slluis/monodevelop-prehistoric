@@ -49,7 +49,7 @@ namespace MonoQuery.Collections {
 	   }
 	
 	   protected override void OnInsert( object key, object value )  {
-	      StringParserService stringParserService = (StringParserService)ServiceManager.GetService(typeof(StringParserService));
+//	      StringParserService stringParserService = (StringParserService)ServiceManager.GetService(typeof(StringParserService));
 	      if ( !(key is string) )
 	         throw new ArgumentException( GettextCatalog.GetString( "Wrong Key Type" ), "key" );
 	
@@ -58,13 +58,13 @@ namespace MonoQuery.Collections {
 	   }
 	
 	   protected override void OnRemove( object key, object value )  {
-		StringParserService stringParserService = (StringParserService)ServiceManager.GetService(typeof(StringParserService));
+//		StringParserService stringParserService = (StringParserService)ServiceManager.GetService(typeof(StringParserService));
 	      if ( !(key is string) )
 	         throw new ArgumentException( GettextCatalog.GetString( "Wrong Key Type" ), "key" );
 	      }
 	
 	   protected override void OnSet( object key, object oldValue, object newValue )  {
-		  StringParserService stringParserService = (StringParserService)ServiceManager.GetService(typeof(StringParserService));	 
+//		  StringParserService stringParserService = (StringParserService)ServiceManager.GetService(typeof(StringParserService));	 
 	 	  if (!(key is string) )
 	         throw new ArgumentException( GettextCatalog.GetString( "Wrong Key Type" ), "key" );
 	
@@ -73,7 +73,7 @@ namespace MonoQuery.Collections {
 	   }
 	
 	   protected override void OnValidate( object key, object value )  {
-		  StringParserService stringParserService = (StringParserService)ServiceManager.GetService(typeof(StringParserService));	   	
+//		  StringParserService stringParserService = (StringParserService)ServiceManager.GetService(typeof(StringParserService));	   	
 	      if ( !(key is string) )
 	         throw new ArgumentException( GettextCatalog.GetString( "Wrong Key Type" ), "key" );
 	   	

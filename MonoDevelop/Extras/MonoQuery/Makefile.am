@@ -1,7 +1,3 @@
-
-monoquerydir = $(libdir)/monodevelop/AddIns/MonoQuery
-monoquery_DATA = $(ASSEMBLY) MonoQuery.addin.xml
-
 FILES = \
 AssemblyInfo.cs \
 Codons/MonoQueryConnectionCodon.cs \
@@ -37,43 +33,43 @@ Gui/Forms/CreateConnectionDruid.cs \
 Gui/SqlQueryView/SqlQueryView.cs \
 Services/MonoQueryService.cs
 
-ASSEMBLY = MonoQuery.dll
+build_sources = $(addprefix $(srcdir)/, $(FILES))
 
-REFERENCES = \
-System.Data \
-Npgsql \
-ByteFX.Data \
-../../build/bin/MonoDevelop.Base.dll \
-../../build/bin/MonoDevelop.Core.dll \
-../../build/bin/MonoDevelop.Gui.Widgets.dll
+REFS = /r:$(top_builddir)/build/bin/MonoDevelop.Core.dll \
+       /r:$(top_builddir)/build/bin/MonoDevelop.Base.dll \
+       /r:$(top_builddir)/build/bin/MonoDevelop.Gui.Widgets.dll \
+       /r:Npgsql.dll \
+       /r:System.Data.dll \
+       /r:ByteFX.Data.dll \
+       $(GTK_SHARP_LIBS) \
+       $(GLADE_SHARP_LIBS) \
+       $(GCONF_SHARP_LIBS) \
+       $(GTKSOURCEVIEW_SHARP_LIBS)
 
-RESOURCES = \
-Gui/Forms/Glade/monoquery.glade
+ADDIN = MonoQuery.addin.xml
 
-PACKAGES = \
-gtk-sharp-2.0 \
-gnome-sharp-2.0 \
-glade-sharp-2.0 \
-gtksourceview-sharp
+ADDIN_BUILD = $(top_builddir)/build/AddIns/MonoQuery
 
-BUILD_SOURCES = $(addprefix $(srcdir)/, $(FILES))
-BUILD_REFERENCES = $(addprefix /r:, $(REFERENCES))
-BUILD_PACKAGES = $(addprefix /pkg:, $(PACKAGES))
-BUILD_RESOURCES = $(addprefix /resource:, $(RESOURCES))
+DLL = MonoQuery.dll
 
-all: $(ASSEMBLY)
+DLL_BUILD = $(top_builddir)/build/AddIns/MonoQuery
 
-$(ASSEMBLY): mkdirs $(BUILD_SOURCES) ../../build/AddIns/MonoQuery/MonoQuery.addin.xml
-	mcs -out:MonoQuery.dll -target:library $(BUILD_SOURCES) \
-	$(BUILD_REFERENCES) $(BUILD_PACKAGES) $(BUILD_RESOURCES) \
-	&& cp MonoQuery.dll ../../build/AddIns/MonoQuery/
+all: $(DLL_BUILD)/$(DLL) $(ADDIN_BUILD)/$(ADDIN)
 
-../../build/AddIns/MonoQuery/MonoQuery.addin.xml:
-	cp MonoQuery.addin.xml ../../build/AddIns/MonoQuery/
+$(ADDIN_BUILD)/$(ADDIN): $(srcdir)/$(ADDIN)
+	mkdir -p $(ADDIN_BUILD)
+	cp $(srcdir)/$(ADDIN) $(ADDIN_BUILD)/$(ADDIN)
 
-mkdirs:
-	mkdir -p ../../build/AddIns/MonoQuery
+$(DLL): $(build_sources) $(srcdir)/$(GLADEFILE)
+	mcs -target:library -out:$(DLL) $(build_sources) $(REFS)
 
-CLEANFILES=$(ASSEMBLY) $(ASSEMBLY).mdb
+$(DLL_BUILD)/$(DLL): $(srcdir)/$(DLL)
+	mkdir -p $(DLL_BUILD)
+	cp $(srcdir)/$(DLL) $(DLL_BUILD)/$(DLL)
 
-EXTRADIST=$(FILES) MonoQuery.addin.xml
+CLEANFILES=$(DLL) $(DLL_BUILD)/$(DLL) $(ADDIN_BUILD)/$(ADDIN)
+
+EXTRADIST=$(FILES)
+
+monoquerydir = $(libdir)/monodevelop/AddIns/MonoQuery
+monoquery_DATA = $(DLL_BUILD)/$(DLL) $(ADDIN_BUILD)/$(ADDIN)
