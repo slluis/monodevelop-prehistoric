@@ -1,5 +1,10 @@
 2004-05-26  Todd Berman  <tberman@sevenl.net>
 
+	* Internal/Project/Combine/Combine.cs: fix nullref when you dont
+	have a valid single startup project name set.
+
+2004-05-26  Todd Berman  <tberman@sevenl.net>
+
 	* Gui/Dialogs/ReferenceDialog/SelectReferenceDialog.cs: fix up
 	per edd's suggestions. Now we select a valid node if possible when
 	you remove, and the remove button is only sensitive when an iter is

@@ -685,7 +685,10 @@ namespace MonoDevelop.Internal.Project
 			if (!SingleStartupProject) {
 				stream.WriteLine ("\t@echo `run'ning multiple startup projects is not yet support");
 			} else {
-				stream.WriteLine ("\tcd $(OUTPUTDIR) && mono {0}", GetEntry (SingleStartProjectName).GetOutputName ());
+				if (SingleStartProjectName != null && GetEntry (SingleStartProjectName) != null)
+					stream.WriteLine ("\tcd $(OUTPUTDIR) && mono {0}", GetEntry (SingleStartProjectName).GetOutputName ());
+				else
+					stream.WriteLine ("\t@echo No startup project defined");
 			}
 			stream.WriteLine ();
 
