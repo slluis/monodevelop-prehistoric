@@ -72,37 +72,37 @@
 	<Extension path = "/SharpDevelop/Workbench/ProjectOptions/ConfigurationProperties">
 		<Conditional activeproject="C#">
 			<DialogPanel id = "CSharpCodeGenerationPanel"
-			             label = "${res:Dialog.Options.PrjOptions.CodeGenerationPanel.PanelName}"
+			             _label = "${res:Dialog.Options.PrjOptions.CodeGenerationPanel.PanelName}"
 			             class = "CSharpBinding.CodeGenerationPanel"/>
 			<DialogPanel id = "CSharpOutputOptionsPanel"
-			             label = "${res:Dialog.Options.PrjOptions.OutputOptionsPanel.PanelName}"
+			             _label = "${res:Dialog.Options.PrjOptions.OutputOptionsPanel.PanelName}"
 			             class = "CSharpBinding.OutputOptionsPanel"/>
 <!-- not able to choose runtime in MD (jba 4 march 04)
 			<DialogPanel id = "CSharpRuntimeCompilerPanel"
-			             label = "Runtime/Compiler"
+			             _label = "Runtime/Compiler"
 			             class = "CSharpBinding.ChooseRuntimePanel"/>	-->
 		</Conditional>
 <!--		<Conditional activeproject="VBNET">
 			<DialogPanel id = "VBCodeGenerationPanel"
-			             label = "${res:Dialog.Options.PrjOptions.CodeGenerationPanel.PanelName}"
+			             _label = "${res:Dialog.Options.PrjOptions.CodeGenerationPanel.PanelName}"
 			             class = "VBBinding.CodeGenerationPanel"/>
 			<DialogPanel id = "VBOutputOptionsPanel"
-			             label = "${res:Dialog.Options.PrjOptions.OutputOptionsPanel.PanelName}"
+			             _label = "${res:Dialog.Options.PrjOptions.OutputOptionsPanel.PanelName}"
 			             class = "VBBinding.OutputOptionsPanel"/>
 			<DialogPanel id = "VBDOCConfigurationPanel"
-			             label = "VB.DOC"
+			             _label = "VB.DOC"
 			             class = "VBBinding.VBDOCConfigurationPanel"/>
 		</Conditional>-->
 <!--ORIGINAL #D COMMENT		<Conditional activeproject="JScript">
 			<DialogPanel id = "JScriptProjectPanel"
-			             label = "${res:Dialog.Options.PrjOptions.CodeGenerationPanel.PanelName}"
+			             _label = "${res:Dialog.Options.PrjOptions.CodeGenerationPanel.PanelName}"
 			             class = "JScriptBinding.ProjectConfigurationPropertyPanel"/>
 	
 		</Conditional> -->
 
 		<Conditional activeproject="Java">
 			<DialogPanel id = "JavaProjectPanel"
-			             label = "${res:Dialog.Options.PrjOptions.CodeGenerationPanel.PanelName}"
+			             _label = "${res:Dialog.Options.PrjOptions.CodeGenerationPanel.PanelName}"
 			             class = "JavaBinding.ProjectConfigurationPropertyPanel"/>
 	
 		</Conditional>
@@ -111,8 +111,8 @@
 
 	<Extension path = "/SharpDevelop/Dialogs/OptionsDialog/TextEditorOptions">
 <!--		<DialogPanel id = "VBSpecificOptions"
-		             label = "${res:Dialog.Options.IDEOptions.TextEditor.VB.PanelName}"
-			     	 insertafter = "Behavior"
+		             _label = "${res:Dialog.Options.IDEOptions.TextEditor.VB.PanelName}"
+			     insertafter = "Behavior"
 		             class = "VBBinding.TextEditorOptionsPanel"/>-->
 	</Extension>
 		

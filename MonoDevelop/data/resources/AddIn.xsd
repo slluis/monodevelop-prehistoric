@@ -129,7 +129,7 @@
 					<xs:element ref="DialogPanel"/>
 					<xs:element ref="Condition"/>
 				</xs:choice>
-				<xs:attribute name="label" type="xs:string" use="required"/>
+				<xs:attribute name="_label" type="xs:string" use="required"/>
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
@@ -178,7 +178,7 @@
 					<xs:element ref="MenuItem"/>
 					<xs:element ref="Conditional"/>
 				</xs:choice>
-				<xs:attribute name="label" type="xs:string" use="required"/>
+				<xs:attribute name="_label" type="xs:string" use="required"/>
 				<xs:attribute name="description" type="xs:string" use="optional"/>
 				<xs:attribute name="icon" type="xs:string" use="optional"/>
 				<xs:attribute name="shortcut" type="xs:string" use="optional"/>

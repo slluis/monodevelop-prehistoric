@@ -11,12 +11,14 @@ using System.Reflection;
 using MonoDevelop.Core.AddIns.Conditions;
 using MonoDevelop.Core.Services;
 
+using MonoDevelop.Services;
+
 namespace MonoDevelop.Core.AddIns.Codons
 {
 	[CodonNameAttribute("DialogPanel")]
 	public class DialogPanelCodon : AbstractCodon
 	{
-		[XmlMemberAttribute("label", IsRequired=true)]
+		[XmlMemberAttribute("_label", IsRequired=true)]
 		string label       = null;
 		
 		public string Label {
@@ -39,12 +41,12 @@ namespace MonoDevelop.Core.AddIns.Codons
 			
 			if (subItems == null || subItems.Count == 0) {				
 				if (Class != null) {
-					newItem = new DefaultDialogPanelDescriptor(ID, stringParserService.Parse(Label), (IDialogPanel)AddIn.CreateObject(Class));
+					newItem = new DefaultDialogPanelDescriptor(ID, GettextCatalog.GetString (Label), (IDialogPanel)AddIn.CreateObject(Class));
 				} else {
-					newItem = new DefaultDialogPanelDescriptor(ID, stringParserService.Parse(Label));
+					newItem = new DefaultDialogPanelDescriptor(ID, GettextCatalog.GetString (Label));
 				}
 			} else {
-				newItem = new DefaultDialogPanelDescriptor(ID, stringParserService.Parse(Label), subItems);
+				newItem = new DefaultDialogPanelDescriptor(ID, GettextCatalog.GetString (Label), subItems);
 			}
 			return newItem;
 		}

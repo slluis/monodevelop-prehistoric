@@ -20,30 +20,30 @@
 	</Extension>
 
 	<Extension path="/SharpDevelop/Workbench/MainMenu">
-		<MenuItem id = "DebugMenuThing" label = "Debug" insertafter = "View" insertbefore = "Tools">
+		<MenuItem id = "DebugMenuThing" _label = "Debug" insertafter = "View" insertbefore = "Tools">
 			<MenuItem id = "DebugProject"
-	                          label = "Debug Project"
+	                          _label = "Debug Project"
 			          shortcut = "Control|F5"
 		                  class = "MonoDevelop.Commands.DebugProject"/>
 
 			<MenuItem id = "ToggleRunning"
-				  label = "Pause/Resume"
+				  _label = "Pause/Resume"
 			          shortcut = "Control|F8"
 				  class = "MonoDevelop.Commands.ToggleRunning"/>
 
 			<MenuItem id = "DebugKillApplication"
-				  label = "Kill Application"
+				  _label = "Kill Application"
 				  class = "MonoDevelop.Commands.KillApplication"/>
 
-			<MenuItem id = "DebugSep1" label = "-" />
+			<MenuItem id = "DebugSep1" _label = "-" />
 
 			<MenuItem id = "DebugStepOver"
-				  label = "Step Over"
+				  _label = "Step Over"
 			          shortcut = "F11"
 				  class = "MonoDevelop.Commands.StepOver"/>
 
 			<MenuItem id = "DebugStepInto"
-			          label = "Step Into"
+			          _label = "Step Into"
 			          shortcut = "Control|F11"
 			          class = "MonoDevelop.Commands.StepInto"/>
 		</MenuItem>

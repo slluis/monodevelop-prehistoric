@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: MonoDevelop 0.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-04-02 15:07-0500\n"
+"POT-Creation-Date: 2004-04-04 09:38-0400\n"
 "PO-Revision-Date: 2004-04-02 03:31-0500\n"
 "Last-Translator: Todd Berman <tberman@sevenl.net>\n"
 "Language-Team: Todd Berman <tberman@sevenl.net>\n"
@@ -16,11 +16,874 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
+#: build/AddIns/SharpDevelopCore.addin.xml.h:1
+msgid "#CvsLib"
+msgstr ""
+
+#: build/AddIns/SharpDevelopCore.addin.xml.h:2
+msgid "#ZipLib"
+msgstr ""
+
+#: build/AddIns/SharpDevelopCore.addin.xml.h:3
+msgid "${res:Dialog.Options.CombineOptions.CommonOptions}"
+msgstr ""
+
+#: build/AddIns/SharpDevelopCore.addin.xml.h:4
+msgid "${res:Dialog.Options.CombineOptions.ConfigurationOptions}"
+msgstr ""
+
+#: build/AddIns/SharpDevelopCore.addin.xml.h:5
+msgid "${res:Dialog.Options.CombineOptions.Configurations.PanelName}"
+msgstr ""
+
+#: build/AddIns/SharpDevelopCore.addin.xml.h:6
+msgid "${res:Dialog.Options.CombineOptions.Dependencies.PanelName}"
+msgstr ""
+
+#: build/AddIns/SharpDevelopCore.addin.xml.h:7
+msgid "${res:Dialog.Options.CombineOptions.Startup.PanelName}"
+msgstr ""
+
+#: build/AddIns/SharpDevelopCore.addin.xml.h:8
+msgid "${res:Dialog.Options.ExternalToolsText}"
+msgstr ""
+
+#: build/AddIns/SharpDevelopCore.addin.xml.h:9
+msgid "${res:Dialog.Options.IDEOptions.CodeGenerationOptionsPanel.Title}"
+msgstr ""
+
+#: build/AddIns/SharpDevelopCore.addin.xml.h:10
+msgid "${res:Dialog.Options.IDEOptions.CodingOptionsText}"
+msgstr ""
+
+#: build/AddIns/SharpDevelopCore.addin.xml.h:11
+msgid "${res:Dialog.Options.IDEOptions.HelpGeneratingPanelText}"
+msgstr ""
+
+#: build/AddIns/SharpDevelopCore.addin.xml.h:12
+msgid "${res:Dialog.Options.IDEOptions.LoadSaveOptions.PanelName}"
+msgstr ""
+
+#: build/AddIns/SharpDevelopCore.addin.xml.h:13
+msgid "${res:Dialog.Options.IDEOptions.SelectCulture.PanelName}"
+msgstr ""
+
+#: build/AddIns/SharpDevelopCore.addin.xml.h:14
+msgid "${res:Dialog.Options.IDEOptions.SelectVisualStyle.PanelName}"
+msgstr ""
+
+#: build/AddIns/SharpDevelopCore.addin.xml.h:15
+msgid "${res:Dialog.Options.IDEOptions.ToolsOptionsText}"
+msgstr ""
+
+#: build/AddIns/SharpDevelopCore.addin.xml.h:16
+msgid "${res:Dialog.Options.PrjOptions.CompileFile.PanelName}"
+msgstr ""
+
+#: build/AddIns/SharpDevelopCore.addin.xml.h:17
+msgid "${res:Dialog.Options.PrjOptions.DeployFile.PanelName}"
+msgstr ""
+
+#: build/AddIns/SharpDevelopCore.addin.xml.h:18
+msgid "${res:Dialog.Options.ProjectOptionsText}"
+msgstr ""
+
+#: build/AddIns/SharpDevelopCore.addin.xml.h:19
+msgid "${res:Dialog.Options.TreeViewOptions.SharpDevelopOptionsText}"
+msgstr ""
+
+#: build/AddIns/SharpDevelopCore.addin.xml.h:20
+msgid ""
+"${res:Dialog.Wizards.CodeCompletionDatabaseWizard.ChooseLocationPanel.Title}"
+msgstr ""
+
+#: build/AddIns/SharpDevelopCore.addin.xml.h:21
+msgid ""
+"${res:Dialog.Wizards.CodeCompletionDatabaseWizard.CreateDatabasePanel.Title}"
+msgstr ""
+
+#: build/AddIns/SharpDevelopCore.addin.xml.h:22
+msgid "${res:Dialog.Wizards.CodeCompletionDatabaseWizard.SetupPanel.Title}"
+msgstr ""
+
+#: build/AddIns/SharpDevelopCore.addin.xml.h:23
+msgid ""
+"${res:Dialog.Wizards.CodeCompletionDatabaseWizard.UseExistingFilePanel.Title}"
+msgstr ""
+
+#: build/AddIns/SharpDevelopCore.addin.xml.h:24
+msgid "${res:MonoDevelop.Gui.Pads.PropertyPad.ContextMenu.Reset}"
+msgstr ""
+
+#: build/AddIns/SharpDevelopCore.addin.xml.h:25
+msgid "${res:MonoDevelop.Gui.Pads.PropertyPad.ContextMenu.ShowDescription}"
+msgstr ""
+
+#: build/AddIns/SharpDevelopCore.addin.xml.h:26
+msgid "${res:OpenFileTabEventHandler.ContextMenu.Close}"
+msgstr ""
+
+#: build/AddIns/SharpDevelopCore.addin.xml.h:27
+msgid "${res:OpenFileTabEventHandler.ContextMenu.SaveAs}"
+msgstr ""
+
+#: build/AddIns/SharpDevelopCore.addin.xml.h:28
+msgid "${res:OpenFileTabEventHandler.ContextMenu.Save}"
+msgstr ""
+
+#: build/AddIns/SharpDevelopCore.addin.xml.h:29
+msgid "${res:OpenFileTabEventHandler.CopyPathName}"
+msgstr ""
+
+#: build/AddIns/SharpDevelopCore.addin.xml.h:30
+msgid "${res:ProjectComponent.ContextMenu.AddCombine}"
+msgstr ""
+
+#: build/AddIns/SharpDevelopCore.addin.xml.h:31
+msgid "${res:ProjectComponent.ContextMenu.AddFiles}"
+msgstr ""
+
+#: build/AddIns/SharpDevelopCore.addin.xml.h:32
+msgid "${res:ProjectComponent.ContextMenu.AddMenu}"
+msgstr ""
+
+#: build/AddIns/SharpDevelopCore.addin.xml.h:33
+msgid "${res:ProjectComponent.ContextMenu.AddNewCombine}"
+msgstr ""
+
+#: build/AddIns/SharpDevelopCore.addin.xml.h:34
+msgid "${res:ProjectComponent.ContextMenu.AddNewProject}"
+msgstr ""
+
+#: build/AddIns/SharpDevelopCore.addin.xml.h:35
+msgid "${res:ProjectComponent.ContextMenu.AddProject}"
+msgstr ""
+
+#: build/AddIns/SharpDevelopCore.addin.xml.h:36
+msgid "${res:ProjectComponent.ContextMenu.AddReference}"
+msgstr ""
+
+#: build/AddIns/SharpDevelopCore.addin.xml.h:37
+msgid "${res:ProjectComponent.ContextMenu.AddResourceFile}"
+msgstr ""
+
+#: build/AddIns/SharpDevelopCore.addin.xml.h:38
+msgid "${res:ProjectComponent.ContextMenu.CombineOptions}"
+msgstr ""
+
+#: build/AddIns/SharpDevelopCore.addin.xml.h:39
+msgid "${res:ProjectComponent.ContextMenu.Deploy}"
+msgstr ""
+
+#: build/AddIns/SharpDevelopCore.addin.xml.h:40
+msgid "${res:ProjectComponent.ContextMenu.GenerateDocumentation}"
+msgstr ""
+
+#: build/AddIns/SharpDevelopCore.addin.xml.h:41
+msgid "${res:ProjectComponent.ContextMenu.IncludeMenu}"
+msgstr ""
+
+#: build/AddIns/SharpDevelopCore.addin.xml.h:42
+msgid "${res:ProjectComponent.ContextMenu.NewFiles}"
+msgstr ""
+
+#: build/AddIns/SharpDevelopCore.addin.xml.h:43
+msgid "${res:ProjectComponent.ContextMenu.NewFolder}"
+msgstr ""
+
+#: build/AddIns/SharpDevelopCore.addin.xml.h:44
+msgid "${res:ProjectComponent.ContextMenu.Open}"
+msgstr ""
+
+#: build/AddIns/SharpDevelopCore.addin.xml.h:45
+msgid "${res:ProjectComponent.ContextMenu.Options}"
+msgstr ""
+
+#: build/AddIns/SharpDevelopCore.addin.xml.h:46
+msgid "${res:ProjectComponent.ContextMenu.Remove}"
+msgstr ""
+
+#: build/AddIns/SharpDevelopCore.addin.xml.h:47
+msgid "${res:ProjectComponent.ContextMenu.Rename}"
+msgstr ""
+
+#: build/AddIns/SharpDevelopCore.addin.xml.h:48
+msgid "${res:ProjectComponent.ContextMenu.RunTests}"
+msgstr ""
+
+#: build/AddIns/SharpDevelopCore.addin.xml.h:49
+msgid "${res:ProjectComponent.ContextMenu.SetAsStartupProject}"
+msgstr ""
+
+#: build/AddIns/SharpDevelopCore.addin.xml.h:50
+msgid "${res:ProjectComponent.ContextMenu.ViewDocumentation}"
+msgstr ""
+
+#: build/AddIns/SharpDevelopCore.addin.xml.h:51
+msgid "${res:SideBarComponent.ContextMenu.AddTab}"
+msgstr ""
+
+#: build/AddIns/SharpDevelopCore.addin.xml.h:52
+msgid "${res:SideBarComponent.ContextMenu.DeleteTabItem}"
+msgstr ""
+
+#: build/AddIns/SharpDevelopCore.addin.xml.h:53
+msgid "${res:SideBarComponent.ContextMenu.DeleteTab}"
+msgstr ""
+
+#: build/AddIns/SharpDevelopCore.addin.xml.h:54
+msgid "${res:SideBarComponent.ContextMenu.MoveTabDown}"
+msgstr ""
+
+#: build/AddIns/SharpDevelopCore.addin.xml.h:55
+msgid "${res:SideBarComponent.ContextMenu.MoveTabItemDown}"
+msgstr ""
+
+#: build/AddIns/SharpDevelopCore.addin.xml.h:56
+msgid "${res:SideBarComponent.ContextMenu.MoveTabItemUp}"
+msgstr ""
+
+#: build/AddIns/SharpDevelopCore.addin.xml.h:57
+msgid "${res:SideBarComponent.ContextMenu.MoveTabUp}"
+msgstr ""
+
+#: build/AddIns/SharpDevelopCore.addin.xml.h:58
+msgid "${res:SideBarComponent.ContextMenu.RenameTabItem}"
+msgstr ""
+
+#: build/AddIns/SharpDevelopCore.addin.xml.h:59
+msgid "${res:SideBarComponent.ContextMenu.RenameTab}"
+msgstr ""
+
+#: build/AddIns/SharpDevelopCore.addin.xml.h:60
+msgid "${res:XML.MainMenu.EditMenu.Copy}"
+msgstr ""
+
+#: build/AddIns/SharpDevelopCore.addin.xml.h:61
+msgid "${res:XML.MainMenu.EditMenu.Cut}"
+msgstr ""
+
+#: build/AddIns/SharpDevelopCore.addin.xml.h:62
+#: build/AddIns/MonoDevelopNewEditor.addin.xml.h:8
+msgid "${res:XML.MainMenu.EditMenu.Delete}"
+msgstr ""
+
+#: build/AddIns/SharpDevelopCore.addin.xml.h:63
+msgid "${res:XML.MainMenu.EditMenu.Paste}"
+msgstr ""
+
+#: build/AddIns/SharpDevelopCore.addin.xml.h:64
+msgid "${res:XML.MainMenu.EditMenu.Redo}"
+msgstr ""
+
+#: build/AddIns/SharpDevelopCore.addin.xml.h:65
+msgid "${res:XML.MainMenu.EditMenu.SelectAll}"
+msgstr ""
+
+#: build/AddIns/SharpDevelopCore.addin.xml.h:66
+msgid "${res:XML.MainMenu.EditMenu.Undo}"
+msgstr ""
+
+#: build/AddIns/SharpDevelopCore.addin.xml.h:67
+msgid "${res:XML.MainMenu.EditMenu.WordCount}"
+msgstr ""
+
+#: build/AddIns/SharpDevelopCore.addin.xml.h:68
+msgid "${res:XML.MainMenu.EditMenu}"
+msgstr ""
+
+#: build/AddIns/SharpDevelopCore.addin.xml.h:69
+msgid "${res:XML.MainMenu.FileMenu.ClearRecentFiles}"
+msgstr ""
+
+#: build/AddIns/SharpDevelopCore.addin.xml.h:70
+msgid "${res:XML.MainMenu.FileMenu.ClearRecentProjects}"
+msgstr ""
+
+#: build/AddIns/SharpDevelopCore.addin.xml.h:71
+msgid "${res:XML.MainMenu.FileMenu.Close.File}"
+msgstr ""
+
+#: build/AddIns/SharpDevelopCore.addin.xml.h:72
+msgid "${res:XML.MainMenu.FileMenu.Close.Project}"
+msgstr ""
+
+#: build/AddIns/SharpDevelopCore.addin.xml.h:73
+msgid "${res:XML.MainMenu.FileMenu.CloseAll}"
+msgstr ""
+
+#: build/AddIns/SharpDevelopCore.addin.xml.h:74
+#: build/AddIns/MonoDevelopNewEditor.addin.xml.h:25
+msgid "${res:XML.MainMenu.FileMenu.Close}"
+msgstr ""
+
+#: build/AddIns/SharpDevelopCore.addin.xml.h:75
+msgid "${res:XML.MainMenu.FileMenu.Exit}"
+msgstr ""
+
+#: build/AddIns/SharpDevelopCore.addin.xml.h:76
+msgid "${res:XML.MainMenu.FileMenu.New.File}"
+msgstr ""
+
+#: build/AddIns/SharpDevelopCore.addin.xml.h:77
+msgid "${res:XML.MainMenu.FileMenu.New.Project}"
+msgstr ""
+
+#: build/AddIns/SharpDevelopCore.addin.xml.h:78
+msgid "${res:XML.MainMenu.FileMenu.New}"
+msgstr ""
+
+#: build/AddIns/SharpDevelopCore.addin.xml.h:79
+msgid "${res:XML.MainMenu.FileMenu.Open.File}"
+msgstr ""
+
+#: build/AddIns/SharpDevelopCore.addin.xml.h:80
+msgid "${res:XML.MainMenu.FileMenu.Open.Project}"
+msgstr ""
+
+#: build/AddIns/SharpDevelopCore.addin.xml.h:81
+msgid "${res:XML.MainMenu.FileMenu.Open}"
+msgstr ""
+
+#: build/AddIns/SharpDevelopCore.addin.xml.h:82
+msgid "${res:XML.MainMenu.FileMenu.PrintPreview}"
+msgstr ""
+
+#: build/AddIns/SharpDevelopCore.addin.xml.h:83
+msgid "${res:XML.MainMenu.FileMenu.Print}"
+msgstr ""
+
+#: build/AddIns/SharpDevelopCore.addin.xml.h:84
+msgid "${res:XML.MainMenu.FileMenu.RecentFiles}"
+msgstr ""
+
+#: build/AddIns/SharpDevelopCore.addin.xml.h:85
+msgid "${res:XML.MainMenu.FileMenu.RecentProjects}"
+msgstr ""
+
+#: build/AddIns/SharpDevelopCore.addin.xml.h:86
+msgid "${res:XML.MainMenu.FileMenu.Reload}"
+msgstr ""
+
+#: build/AddIns/SharpDevelopCore.addin.xml.h:87
+msgid "${res:XML.MainMenu.FileMenu.SaveAll}"
+msgstr ""
+
+#: build/AddIns/SharpDevelopCore.addin.xml.h:88
+#: build/AddIns/MonoDevelopNewEditor.addin.xml.h:26
+msgid "${res:XML.MainMenu.FileMenu.SaveAs}"
+msgstr ""
+
+#: build/AddIns/SharpDevelopCore.addin.xml.h:89
+#: build/AddIns/MonoDevelopNewEditor.addin.xml.h:27
+msgid "${res:XML.MainMenu.FileMenu.Save}"
+msgstr ""
+
+#: build/AddIns/SharpDevelopCore.addin.xml.h:90
+msgid "${res:XML.MainMenu.FileMenu}"
+msgstr ""
+
+#: build/AddIns/SharpDevelopCore.addin.xml.h:91
+msgid "${res:XML.MainMenu.HelpMenu.About}"
+msgstr ""
+
+#: build/AddIns/SharpDevelopCore.addin.xml.h:92
+msgid "${res:XML.MainMenu.HelpMenu.GPL}"
+msgstr ""
+
+#: build/AddIns/SharpDevelopCore.addin.xml.h:93
+msgid "${res:XML.MainMenu.HelpMenu.ReadMe}"
+msgstr ""
+
+#: build/AddIns/SharpDevelopCore.addin.xml.h:94
+msgid "${res:XML.MainMenu.HelpMenu.StyleGuide}"
+msgstr ""
+
+#: build/AddIns/SharpDevelopCore.addin.xml.h:95
+msgid "${res:XML.MainMenu.HelpMenu.Tips}"
+msgstr ""
+
+#: build/AddIns/SharpDevelopCore.addin.xml.h:96
+msgid "${res:XML.MainMenu.HelpMenu.Topics}"
+msgstr ""
+
+#: build/AddIns/SharpDevelopCore.addin.xml.h:97
+msgid "${res:XML.MainMenu.HelpMenu.WebMenu}"
+msgstr ""
+
+#: build/AddIns/SharpDevelopCore.addin.xml.h:98
+msgid "${res:XML.MainMenu.HelpMenu}"
+msgstr ""
+
+#: build/AddIns/SharpDevelopCore.addin.xml.h:99
+msgid "${res:XML.MainMenu.PluginMenu.Manager}"
+msgstr ""
+
+#: build/AddIns/SharpDevelopCore.addin.xml.h:100
+msgid "${res:XML.MainMenu.PluginMenu}"
+msgstr ""
+
+#: build/AddIns/SharpDevelopCore.addin.xml.h:101
+msgid "${res:XML.MainMenu.ProjectMenu.Deploy}"
+msgstr ""
+
+#: build/AddIns/SharpDevelopCore.addin.xml.h:102
+msgid "${res:XML.MainMenu.ProjectMenu.Options}"
+msgstr ""
+
+#: build/AddIns/SharpDevelopCore.addin.xml.h:103
+msgid "${res:XML.MainMenu.ProjectMenu.RunTests}"
+msgstr ""
+
+#: build/AddIns/SharpDevelopCore.addin.xml.h:104
+msgid "${res:XML.MainMenu.ProjectMenu}"
+msgstr ""
+
+#: build/AddIns/SharpDevelopCore.addin.xml.h:105
+msgid "${res:XML.MainMenu.RunMenu.BuildProject}"
+msgstr ""
+
+#: build/AddIns/SharpDevelopCore.addin.xml.h:106
+msgid "${res:XML.MainMenu.RunMenu.CompileAll}"
+msgstr ""
+
+#: build/AddIns/SharpDevelopCore.addin.xml.h:107
+msgid "${res:XML.MainMenu.RunMenu.Compile}"
+msgstr ""
+
+#: build/AddIns/SharpDevelopCore.addin.xml.h:108
+msgid "${res:XML.MainMenu.RunMenu.RebuildProject}"
+msgstr ""
+
+#: build/AddIns/SharpDevelopCore.addin.xml.h:109
+msgid "${res:XML.MainMenu.RunMenu.Run}"
+msgstr ""
+
+#: build/AddIns/SharpDevelopCore.addin.xml.h:110
+msgid "${res:XML.MainMenu.RunMenu}"
+msgstr ""
+
+#: build/AddIns/SharpDevelopCore.addin.xml.h:111
+msgid "${res:XML.MainMenu.ToolMenu.ConvertBufferToVBNET}"
+msgstr ""
+
+#: build/AddIns/SharpDevelopCore.addin.xml.h:112
+msgid "${res:XML.MainMenu.ToolMenu.Options}"
+msgstr ""
+
+#: build/AddIns/SharpDevelopCore.addin.xml.h:113
+msgid "${res:XML.MainMenu.ToolMenu}"
+msgstr ""
+
+#: build/AddIns/SharpDevelopCore.addin.xml.h:114
+msgid "${res:XML.MainMenu.ViewMenu.FullScreen}"
+msgstr ""
+
+#: build/AddIns/SharpDevelopCore.addin.xml.h:115
+msgid "${res:XML.MainMenu.ViewMenu}"
+msgstr ""
+
+#: build/AddIns/SharpDevelopCore.addin.xml.h:116
+msgid "${res:XML.MainMenu.WindowMenu.NxtWindow}"
+msgstr ""
+
+#: build/AddIns/SharpDevelopCore.addin.xml.h:117
+msgid "${res:XML.MainMenu.WindowMenu.PrvWindow}"
+msgstr ""
+
+#: build/AddIns/SharpDevelopCore.addin.xml.h:118
+msgid "${res:XML.MainMenu.WindowMenu}"
+msgstr ""
+
+#: build/AddIns/SharpDevelopCore.addin.xml.h:119
+msgid "&AlphaSierraPapa"
+msgstr ""
+
+#: build/AddIns/SharpDevelopCore.addin.xml.h:120
+#: build/AddIns/MonoDevelopNewEditor.addin.xml.h:53
+#: build/AddIns/AddIns/Misc/StartPage/StartPage.addin.xml.h:2
+#: src/AddIns/DebuggerAddIn/MonoDevelopDebugger.addin.xml.h:1
+msgid "-"
+msgstr ""
+
+#: build/AddIns/SharpDevelopCore.addin.xml.h:121
+msgid "Add Web Reference"
+msgstr ""
+
+#: build/AddIns/SharpDevelopCore.addin.xml.h:122
+msgid "Announcement List"
+msgstr ""
+
+#: build/AddIns/SharpDevelopCore.addin.xml.h:123
+#: src/Main/Base/Gui/Dialogs/SharpDevelopAboutPanels.cs:60
+msgid "Build"
+msgstr ""
+
+#: build/AddIns/SharpDevelopCore.addin.xml.h:124
+msgid "C#"
+msgstr ""
+
+#: build/AddIns/SharpDevelopCore.addin.xml.h:125
+msgid "C# Corner"
+msgstr ""
+
+#: build/AddIns/SharpDevelopCore.addin.xml.h:126
+msgid "C# Help"
+msgstr ""
+
+#: build/AddIns/SharpDevelopCore.addin.xml.h:127
+msgid "Community Forums"
+msgstr ""
+
+#: build/AddIns/SharpDevelopCore.addin.xml.h:128
+msgid "Convert C# Project to VB.NET"
+msgstr ""
+
+#: build/AddIns/SharpDevelopCore.addin.xml.h:129
+msgid "Downloads"
+msgstr ""
+
+#: build/AddIns/SharpDevelopCore.addin.xml.h:130
+msgid "ExportSignature"
+msgstr ""
+
+#: build/AddIns/SharpDevelopCore.addin.xml.h:131
+msgid "Finished"
+msgstr ""
+
+#: build/AddIns/SharpDevelopCore.addin.xml.h:132
+msgid "General"
+msgstr ""
+
+#: build/AddIns/SharpDevelopCore.addin.xml.h:133
+msgid "GotDotNet"
+msgstr ""
+
+#: build/AddIns/SharpDevelopCore.addin.xml.h:134
+msgid "Integrated Projects"
+msgstr ""
+
+#: build/AddIns/SharpDevelopCore.addin.xml.h:135
+msgid "Layouts"
+msgstr ""
+
+#: build/AddIns/SharpDevelopCore.addin.xml.h:136
+msgid "Magic Library"
+msgstr ""
+
+#: build/AddIns/SharpDevelopCore.addin.xml.h:137
+msgid "Mono Project"
+msgstr "The Mono Project"
+
+#: build/AddIns/SharpDevelopCore.addin.xml.h:138
+#, fuzzy
+msgid "MonoDevelop"
+msgstr "Aboot MonoDevelop"
+
+#: build/AddIns/SharpDevelopCore.addin.xml.h:139
+msgid "NAnt"
+msgstr ""
+
+#: build/AddIns/SharpDevelopCore.addin.xml.h:140
+msgid "NDoc"
+msgstr ""
+
+#: build/AddIns/SharpDevelopCore.addin.xml.h:141
+msgid "New"
+msgstr ""
+
+#: build/AddIns/SharpDevelopCore.addin.xml.h:142
+msgid "Refresh"
+msgstr ""
+
+#: build/AddIns/SharpDevelopCore.addin.xml.h:143
+msgid "Remove"
+msgstr ""
+
+#: build/AddIns/SharpDevelopCore.addin.xml.h:144
+#: src/Libraries/MonoDevelop.Gui.Widgets/FileBrowser/FileBrowser.cs:259
+msgid "Rename"
+msgstr ""
+
+#: build/AddIns/SharpDevelopCore.addin.xml.h:145
+msgid "Send Us a Mail"
+msgstr ""
+
+#: build/AddIns/SharpDevelopCore.addin.xml.h:146
+msgid "Set as active"
+msgstr ""
+
+#: build/AddIns/SharpDevelopCore.addin.xml.h:147
+msgid "SharpDevelop"
+msgstr ""
+
+#: build/AddIns/SharpDevelopCore.addin.xml.h:148
+#: build/AddIns/MonoDevelopNewEditor.addin.xml.h:57
+msgid "bogus_label"
+msgstr ""
+
+#: build/AddIns/SharpDevelopCore.addin.xml.h:149
+msgid "cshrp.net"
+msgstr ""
+
+#: build/AddIns/MonoDevelopNewEditor.addin.xml.h:1
+msgid "# Any single digit"
+msgstr ""
+
+#: build/AddIns/MonoDevelopNewEditor.addin.xml.h:2
+msgid "${res:Dialog.Options.CodeTemplatesText}"
+msgstr ""
+
+#: build/AddIns/MonoDevelopNewEditor.addin.xml.h:3
+msgid "${res:Dialog.Options.IDEOptions.TextEditor.Behaviour.PanelName}"
+msgstr ""
+
+#: build/AddIns/MonoDevelopNewEditor.addin.xml.h:4
+msgid "${res:Dialog.Options.IDEOptions.TextEditor.General.PanelName}"
+msgstr ""
+
+#: build/AddIns/MonoDevelopNewEditor.addin.xml.h:5
+msgid "${res:Dialog.Options.IDEOptions.TextEditor.Markers.PanelName}"
+msgstr ""
+
+#: build/AddIns/MonoDevelopNewEditor.addin.xml.h:6
+msgid "${res:Dialog.Options.IDEOptions.TextEditorOptionsText}"
+msgstr ""
+
+#: build/AddIns/MonoDevelopNewEditor.addin.xml.h:7
+msgid "${res:ProjectComponent.ContextMenu.HtmlExport}"
+msgstr ""
+
+#: build/AddIns/MonoDevelopNewEditor.addin.xml.h:9
+msgid "${res:XML.MainMenu.EditMenu.FoldingMenu.ShowDefinitions}"
+msgstr ""
+
+#: build/AddIns/MonoDevelopNewEditor.addin.xml.h:10
+msgid "${res:XML.MainMenu.EditMenu.FoldingMenu.ToggleAllFoldings}"
+msgstr ""
+
+#: build/AddIns/MonoDevelopNewEditor.addin.xml.h:11
+msgid "${res:XML.MainMenu.EditMenu.FoldingMenu.ToggleFolding}"
+msgstr ""
+
+#: build/AddIns/MonoDevelopNewEditor.addin.xml.h:12
+msgid "${res:XML.MainMenu.EditMenu.FoldingMenu}"
+msgstr ""
+
+#: build/AddIns/MonoDevelopNewEditor.addin.xml.h:13
+msgid "${res:XML.MainMenu.EditMenu.FormatMenu.Capitalize}"
+msgstr ""
+
+#: build/AddIns/MonoDevelopNewEditor.addin.xml.h:14
+msgid "${res:XML.MainMenu.EditMenu.FormatMenu.InvertCase}"
+msgstr ""
+
+#: build/AddIns/MonoDevelopNewEditor.addin.xml.h:15
+msgid "${res:XML.MainMenu.EditMenu.FormatMenu.LdSpace2Tab}"
+msgstr ""
+
+#: build/AddIns/MonoDevelopNewEditor.addin.xml.h:16
+msgid "${res:XML.MainMenu.EditMenu.FormatMenu.LdTab2Space}"
+msgstr ""
+
+#: build/AddIns/MonoDevelopNewEditor.addin.xml.h:17
+msgid "${res:XML.MainMenu.EditMenu.FormatMenu.LowerCase}"
+msgstr ""
+
+#: build/AddIns/MonoDevelopNewEditor.addin.xml.h:18
+msgid "${res:XML.MainMenu.EditMenu.FormatMenu.RlWs}"
+msgstr ""
+
+#: build/AddIns/MonoDevelopNewEditor.addin.xml.h:19
+msgid "${res:XML.MainMenu.EditMenu.FormatMenu.RtWs}"
+msgstr ""
+
+#: build/AddIns/MonoDevelopNewEditor.addin.xml.h:20
+msgid "${res:XML.MainMenu.EditMenu.FormatMenu.SortLines}"
+msgstr ""
+
+#: build/AddIns/MonoDevelopNewEditor.addin.xml.h:21
+msgid "${res:XML.MainMenu.EditMenu.FormatMenu.Space2Tab}"
+msgstr ""
+
+#: build/AddIns/MonoDevelopNewEditor.addin.xml.h:22
+msgid "${res:XML.MainMenu.EditMenu.FormatMenu.Tab2Space}"
+msgstr ""
+
+#: build/AddIns/MonoDevelopNewEditor.addin.xml.h:23
+msgid "${res:XML.MainMenu.EditMenu.FormatMenu.UpperCase}"
+msgstr ""
+
+#: build/AddIns/MonoDevelopNewEditor.addin.xml.h:24
+msgid "${res:XML.MainMenu.EditMenu.FormatMenu}"
+msgstr ""
+
+#: build/AddIns/MonoDevelopNewEditor.addin.xml.h:28
+msgid "${res:XML.MainMenu.SearchMenu.ClrBookmark}"
+msgstr ""
+
+#: build/AddIns/MonoDevelopNewEditor.addin.xml.h:29
+msgid "${res:XML.MainMenu.SearchMenu.FindInFiles}"
+msgstr ""
+
+#: build/AddIns/MonoDevelopNewEditor.addin.xml.h:30
+msgid "${res:XML.MainMenu.SearchMenu.FindNext}"
+msgstr ""
+
+#: build/AddIns/MonoDevelopNewEditor.addin.xml.h:31
+msgid "${res:XML.MainMenu.SearchMenu.Find}"
+msgstr ""
+
+#: build/AddIns/MonoDevelopNewEditor.addin.xml.h:32
+msgid "${res:XML.MainMenu.SearchMenu.GotoBrace}"
+msgstr ""
+
+#: build/AddIns/MonoDevelopNewEditor.addin.xml.h:33
+msgid "${res:XML.MainMenu.SearchMenu.GotoLineNr}"
+msgstr ""
+
+#: build/AddIns/MonoDevelopNewEditor.addin.xml.h:34
+msgid "${res:XML.MainMenu.SearchMenu.NextBookmark}"
+msgstr ""
+
+#: build/AddIns/MonoDevelopNewEditor.addin.xml.h:35
+msgid "${res:XML.MainMenu.SearchMenu.PrevBookmark}"
+msgstr ""
+
+#: build/AddIns/MonoDevelopNewEditor.addin.xml.h:36
+msgid "${res:XML.MainMenu.SearchMenu.ReplaceInFiles}"
+msgstr ""
+
+#: build/AddIns/MonoDevelopNewEditor.addin.xml.h:37
+msgid "${res:XML.MainMenu.SearchMenu.Replace}"
+msgstr ""
+
+#: build/AddIns/MonoDevelopNewEditor.addin.xml.h:38
+msgid "${res:XML.MainMenu.SearchMenu.ToggleBookmark}"
+msgstr ""
+
+#: build/AddIns/MonoDevelopNewEditor.addin.xml.h:39
+msgid "${res:XML.MainMenu.SearchMenu}"
+msgstr ""
+
+#: build/AddIns/MonoDevelopNewEditor.addin.xml.h:40
+msgid "${res:XML.MainMenu.ToolMenu.GenerateCode}"
+msgstr ""
+
+#: build/AddIns/MonoDevelopNewEditor.addin.xml.h:41
+msgid "${res:XML.MainMenu.ToolMenu.InsColor}"
+msgstr ""
+
+#: build/AddIns/MonoDevelopNewEditor.addin.xml.h:42
+msgid "${res:XML.MainMenu.ToolMenu.QuickXmlDoc}"
+msgstr ""
+
+#: build/AddIns/MonoDevelopNewEditor.addin.xml.h:43
+msgid "${res:XML.MainMenu.WindowMenu.Split}"
+msgstr ""
+
+#: build/AddIns/MonoDevelopNewEditor.addin.xml.h:44
+msgid "${res:XML.TextAreaContextMenu.BufferOptions}"
+msgstr ""
+
+#: build/AddIns/MonoDevelopNewEditor.addin.xml.h:45
+msgid "${res:XML.TextAreaContextMenu.CommentUncommentSelection}"
+msgstr ""
+
+#: build/AddIns/MonoDevelopNewEditor.addin.xml.h:46
+msgid "${res:XML.TextAreaContextMenu.Copy}"
+msgstr ""
+
+#: build/AddIns/MonoDevelopNewEditor.addin.xml.h:47
+msgid "${res:XML.TextAreaContextMenu.Cut}"
+msgstr ""
+
+#: build/AddIns/MonoDevelopNewEditor.addin.xml.h:48
+msgid "${res:XML.TextAreaContextMenu.FileMode}"
+msgstr ""
+
+#: build/AddIns/MonoDevelopNewEditor.addin.xml.h:49
+msgid "${res:XML.TextAreaContextMenu.Indent}"
+msgstr ""
+
+#: build/AddIns/MonoDevelopNewEditor.addin.xml.h:50
+msgid "${res:XML.TextAreaContextMenu.Paste}"
+msgstr ""
+
+#: build/AddIns/MonoDevelopNewEditor.addin.xml.h:51
+msgid "${res:XML.TextAreaContextMenu.UncommentSelection}"
+msgstr ""
+
+#: build/AddIns/MonoDevelopNewEditor.addin.xml.h:52
+msgid "* Zero or more of any character"
+msgstr ""
+
+#: build/AddIns/MonoDevelopNewEditor.addin.xml.h:54
+msgid "? Any single character"
+msgstr ""
+
+#: build/AddIns/MonoDevelopNewEditor.addin.xml.h:55
+msgid "[!] Any one character not in the set"
+msgstr ""
+
+#: build/AddIns/MonoDevelopNewEditor.addin.xml.h:56
+msgid "[] Any one character in the set"
+msgstr ""
+
+#: build/AddIns/AddIns/BackendBindings/BackendBindings.addin.xml.h:1
+msgid "${res:Dialog.Options.IDEOptions.TextEditor.VB.PanelName}"
+msgstr ""
+
+#: build/AddIns/AddIns/BackendBindings/BackendBindings.addin.xml.h:2
+msgid "${res:Dialog.Options.PrjOptions.CodeGenerationPanel.PanelName}"
+msgstr ""
+
+#: build/AddIns/AddIns/BackendBindings/BackendBindings.addin.xml.h:3
+msgid "${res:Dialog.Options.PrjOptions.OutputOptionsPanel.PanelName}"
+msgstr ""
+
+#: build/AddIns/AddIns/BackendBindings/BackendBindings.addin.xml.h:4
+msgid "Runtime/Compiler"
+msgstr ""
+
+#: build/AddIns/AddIns/BackendBindings/BackendBindings.addin.xml.h:5
+msgid "VB.DOC"
+msgstr ""
+
+#: build/AddIns/AddIns/Misc/StartPage/StartPage.addin.xml.h:1
+msgid "${res:XML.MainMenu.ViewMenu.ShowStartPage}"
+msgstr ""
+
+#: src/AddIns/DebuggerAddIn/MonoDevelopDebugger.addin.xml.h:2
+msgid "Debug"
+msgstr ""
+
+#: src/AddIns/DebuggerAddIn/MonoDevelopDebugger.addin.xml.h:3
+msgid "Debug Project"
+msgstr ""
+
+#: src/AddIns/DebuggerAddIn/MonoDevelopDebugger.addin.xml.h:4
+msgid "Kill Application"
+msgstr ""
+
+#: src/AddIns/DebuggerAddIn/MonoDevelopDebugger.addin.xml.h:5
+msgid "Pause/Resume"
+msgstr ""
+
+#: src/AddIns/DebuggerAddIn/MonoDevelopDebugger.addin.xml.h:6
+msgid "Step Into"
+msgstr ""
+
+#: src/AddIns/DebuggerAddIn/MonoDevelopDebugger.addin.xml.h:7
+msgid "Step Over"
+msgstr ""
+
 #: data/resources/glade/Base.glade.h:1
 msgid "   "
 msgstr ""
 
-#: data/resources/glade/Base.glade.h:2
+#: data/resources/glade/Base.glade.h:2 data/resources/glade/CSharp.glade.h:1
+#: data/resources/glade/EditorBindings.glade.h:1
 msgid "    "
 msgstr ""
 
@@ -28,11 +891,13 @@ msgstr ""
 msgid " > "
 msgstr ""
 
-#: data/resources/glade/Base.glade.h:4
+#: data/resources/glade/Base.glade.h:4 data/resources/glade/CSharp.glade.h:2
+#: data/resources/glade/texteditoraddin.glade.h:1
 msgid "*"
 msgstr ""
 
-#: data/resources/glade/Base.glade.h:5
+#: data/resources/glade/Base.glade.h:5 data/resources/glade/CSharp.glade.h:3
+#: data/resources/glade/texteditoraddin.glade.h:2
 msgid "..."
 msgstr ""
 
@@ -369,6 +1234,362 @@ msgstr ""
 msgid "radiobutton2"
 msgstr ""
 
+#: data/resources/glade/CSharp.glade.h:4
+msgid "<b>Code Generation</b>"
+msgstr ""
+
+#: data/resources/glade/CSharp.glade.h:5
+msgid "<b>Execute scripts </b>"
+msgstr ""
+
+#: data/resources/glade/CSharp.glade.h:6
+msgid "<b>Output</b>"
+msgstr ""
+
+#: data/resources/glade/CSharp.glade.h:7
+msgid "<b>Warnings</b>"
+msgstr ""
+
+#: data/resources/glade/CSharp.glade.h:8
+msgid "Allow '_unsafe' code"
+msgstr ""
+
+#: data/resources/glade/CSharp.glade.h:9
+msgid "Assembly _name"
+msgstr ""
+
+#: data/resources/glade/CSharp.glade.h:10
+msgid "CodeGenerationPanel"
+msgstr ""
+
+#: data/resources/glade/CSharp.glade.h:11
+msgid "Compile _Target"
+msgstr ""
+
+#: data/resources/glade/CSharp.glade.h:12
+msgid "Define S_ymbols"
+msgstr ""
+
+#: data/resources/glade/CSharp.glade.h:13
+msgid "Emit _debugging information"
+msgstr ""
+
+#: data/resources/glade/CSharp.glade.h:14
+msgid "Enable _optimizations"
+msgstr ""
+
+#: data/resources/glade/CSharp.glade.h:15
+msgid "Execute Command"
+msgstr ""
+
+#: data/resources/glade/CSharp.glade.h:16
+msgid "Generate _xml documentation"
+msgstr ""
+
+#: data/resources/glade/CSharp.glade.h:17
+msgid "Output _path"
+msgstr ""
+
+#: data/resources/glade/CSharp.glade.h:18
+msgid "OutputOptionsPanel"
+msgstr ""
+
+#: data/resources/glade/CSharp.glade.h:19
+msgid "Paramet_ers"
+msgstr ""
+
+#: data/resources/glade/CSharp.glade.h:20
+msgid "Pause _console output"
+msgstr ""
+
+#: data/resources/glade/CSharp.glade.h:21
+msgid "Treat warnings as _errors"
+msgstr ""
+
+#: data/resources/glade/CSharp.glade.h:22
+msgid "_After Build"
+msgstr ""
+
+#: data/resources/glade/CSharp.glade.h:23
+msgid "_Before build"
+msgstr ""
+
+#: data/resources/glade/CSharp.glade.h:24
+msgid "_Generate overflow checks"
+msgstr ""
+
+#: data/resources/glade/CSharp.glade.h:25
+msgid "_Main Class"
+msgstr ""
+
+#: data/resources/glade/CSharp.glade.h:26
+msgid "_Warning Level"
+msgstr ""
+
+#: data/resources/glade/EditorBindings.glade.h:2
+msgid "&"
+msgstr ""
+
+#: data/resources/glade/EditorBindings.glade.h:3
+msgid "<b>Behavior</b>"
+msgstr ""
+
+#: data/resources/glade/EditorBindings.glade.h:4
+msgid "<b>File encoding</b>"
+msgstr ""
+
+#: data/resources/glade/EditorBindings.glade.h:5
+msgid "<b>Font</b>"
+msgstr ""
+
+#: data/resources/glade/EditorBindings.glade.h:6
+msgid "<b>General Options</b>"
+msgstr ""
+
+#: data/resources/glade/EditorBindings.glade.h:7
+msgid "<b>Markers</b>"
+msgstr ""
+
+#: data/resources/glade/EditorBindings.glade.h:8
+msgid "<b>Rulers</b>"
+msgstr ""
+
+#: data/resources/glade/EditorBindings.glade.h:9
+msgid "<b>Tabs</b>"
+msgstr ""
+
+#: data/resources/glade/EditorBindings.glade.h:10
+msgid "A_uto insert curly braces"
+msgstr ""
+
+#: data/resources/glade/EditorBindings.glade.h:11
+msgid "Add Group"
+msgstr ""
+
+#: data/resources/glade/EditorBindings.glade.h:12
+msgid "Automatic"
+msgstr ""
+
+#: data/resources/glade/EditorBindings.glade.h:13
+msgid "BehaviorTextEditorPanel"
+msgstr ""
+
+#: data/resources/glade/EditorBindings.glade.h:14
+msgid "C_onvert Tabs to Spaces"
+msgstr ""
+
+#: data/resources/glade/EditorBindings.glade.h:15
+msgid "Character Markers"
+msgstr ""
+
+#: data/resources/glade/EditorBindings.glade.h:16
+msgid "Choose _encoding"
+msgstr ""
+
+#: data/resources/glade/EditorBindings.glade.h:17
+msgid "CodeTemplatePane"
+msgstr ""
+
+#: data/resources/glade/EditorBindings.glade.h:18
+msgid "Edit"
+msgstr ""
+
+#: data/resources/glade/EditorBindings.glade.h:19
+msgid "Edit Group"
+msgstr ""
+
+#: data/resources/glade/EditorBindings.glade.h:20
+msgid "Enable code _completion"
+msgstr ""
+
+#: data/resources/glade/EditorBindings.glade.h:21
+msgid "Enable code _folding"
+msgstr ""
+
+#: data/resources/glade/EditorBindings.glade.h:22
+msgid "Enable double buffering"
+msgstr ""
+
+#: data/resources/glade/EditorBindings.glade.h:23
+msgid "Extension"
+msgstr ""
+
+#: data/resources/glade/EditorBindings.glade.h:24
+msgid "GeneralTextEditorPanel"
+msgstr ""
+
+#: data/resources/glade/EditorBindings.glade.h:25
+msgid "Highlight _matching bracket"
+msgstr ""
+
+#: data/resources/glade/EditorBindings.glade.h:26
+msgid "I_ndentation"
+msgstr ""
+
+#: data/resources/glade/EditorBindings.glade.h:27
+msgid "MarkersTextEditorPanel"
+msgstr ""
+
+#: data/resources/glade/EditorBindings.glade.h:28
+msgid "None"
+msgstr ""
+
+#: data/resources/glade/EditorBindings.glade.h:29
+msgid "Remove Group"
+msgstr ""
+
+#: data/resources/glade/EditorBindings.glade.h:30
+msgid "Show _EOL markers"
+msgstr ""
+
+#: data/resources/glade/EditorBindings.glade.h:31
+msgid "Show _column ruler,"
+msgstr ""
+
+#: data/resources/glade/EditorBindings.glade.h:32
+msgid "Show _horizontal ruler"
+msgstr ""
+
+#: data/resources/glade/EditorBindings.glade.h:33
+msgid "Show _invalid lines"
+msgstr ""
+
+#: data/resources/glade/EditorBindings.glade.h:34
+msgid "Show _line numbers"
+msgstr ""
+
+#: data/resources/glade/EditorBindings.glade.h:35
+msgid "Show _spaces"
+msgstr ""
+
+#: data/resources/glade/EditorBindings.glade.h:36
+msgid "Show _tabs"
+msgstr ""
+
+#: data/resources/glade/EditorBindings.glade.h:37
+msgid "Use default _monospace font"
+msgstr ""
+
+#: data/resources/glade/EditorBindings.glade.h:38
+msgid "Use default _sans-serif font"
+msgstr ""
+
+#: data/resources/glade/EditorBindings.glade.h:39
+msgid "_Automatic template insertion"
+msgstr ""
+
+#: data/resources/glade/EditorBindings.glade.h:40
+msgid "_Can move caret behind EOL"
+msgstr ""
+
+#: data/resources/glade/EditorBindings.glade.h:41
+msgid "_Hide mouse cursor while typing"
+msgstr ""
+
+#: data/resources/glade/EditorBindings.glade.h:42
+msgid "_Indentation size"
+msgstr ""
+
+#: data/resources/glade/EditorBindings.glade.h:43
+msgid "_Tab size"
+msgstr ""
+
+#: data/resources/glade/EditorBindings.glade.h:44
+msgid "_Underline errors"
+msgstr ""
+
+#: data/resources/glade/EditorBindings.glade.h:45
+msgid "_Use cusom font:"
+msgstr ""
+
+#: data/resources/glade/EditorBindings.glade.h:46
+msgid "at column"
+msgstr ""
+
+#: data/resources/glade/EditorBindings.glade.h:47
+msgid "if (foo) Console.WriteLine (\"foo!\");"
+msgstr ""
+
+#: data/resources/glade/texteditoraddin.glade.h:3
+msgid ">"
+msgstr ""
+
+#: data/resources/glade/texteditoraddin.glade.h:4
+msgid "Case sensitive"
+msgstr ""
+
+#: data/resources/glade/texteditoraddin.glade.h:5
+msgid "Directory:"
+msgstr ""
+
+#: data/resources/glade/texteditoraddin.glade.h:6
+msgid "Filemask:"
+msgstr ""
+
+#: data/resources/glade/texteditoraddin.glade.h:7
+msgid "Find Dialog"
+msgstr ""
+
+#: data/resources/glade/texteditoraddin.glade.h:8
+msgid "Find:"
+msgstr ""
+
+#: data/resources/glade/texteditoraddin.glade.h:9
+msgid "Go to Line"
+msgstr ""
+
+#: data/resources/glade/texteditoraddin.glade.h:10
+msgid "R_eplace All"
+msgstr ""
+
+#: data/resources/glade/texteditoraddin.glade.h:11
+msgid "Recurse subdirectories"
+msgstr ""
+
+#: data/resources/glade/texteditoraddin.glade.h:12
+msgid "Replace Dialog"
+msgstr ""
+
+#: data/resources/glade/texteditoraddin.glade.h:13
+msgid "Replace:"
+msgstr ""
+
+#: data/resources/glade/texteditoraddin.glade.h:14
+msgid "Search in:"
+msgstr ""
+
+#: data/resources/glade/texteditoraddin.glade.h:15
+msgid "Use special search strategy:"
+msgstr ""
+
+#: data/resources/glade/texteditoraddin.glade.h:16
+msgid "Whole word only"
+msgstr ""
+
+#: data/resources/glade/texteditoraddin.glade.h:17
+msgid "Whole words only"
+msgstr ""
+
+#: data/resources/glade/texteditoraddin.glade.h:18
+msgid "_Go to Line"
+msgstr ""
+
+#: data/resources/glade/texteditoraddin.glade.h:19
+msgid "_Line Number:"
+msgstr ""
+
+#: data/resources/glade/texteditoraddin.glade.h:20
+msgid "_Mark All"
+msgstr ""
+
+#: data/resources/glade/texteditoraddin.glade.h:21
+msgid "_Replace"
+msgstr ""
+
+#: data/resources/glade/texteditoraddin.glade.h:22
+msgid "searchPatternEntry"
+msgstr ""
+
 #: src/Main/Base/Gui/Dialogs/CommonAboutDialog.cs:128
 #: src/Main/Base/Gui/Dialogs/CommonAboutDialog.cs:145
 msgid "About MonoDevelop"
@@ -521,6 +1742,7 @@ msgid "New Tool"
 msgstr ""
 
 #: src/Main/Base/Gui/Dialogs/OptionPanels/ExternalToolPanel.cs:351
+#: src/AddIns/DisplayBindings/SourceEditor/Gui/OptionPanels/CodeTemplatePanel.cs:161
 msgid "Control not found!"
 msgstr ""
 
@@ -636,10 +1858,6 @@ msgstr ""
 msgid ".Net Assembly"
 msgstr ""
 
-#: src/Main/Base/Gui/Dialogs/SharpDevelopAboutPanels.cs:60
-msgid "Build"
-msgstr ""
-
 #: src/Main/Base/Gui/Dialogs/SharpDevelopAboutPanels.cs:68
 msgid "Released under the GNU General Public license."
 msgstr ""
@@ -711,6 +1929,7 @@ msgid "Current file"
 msgstr ""
 
 #: src/Main/Base/Gui/Dialogs/WordCountDialog.cs:340
+#: src/AddIns/DisplayBindings/SourceEditor/Gui/Dialogs/ReplaceInFilesDialog.cs:196
 msgid "All open files"
 msgstr ""
 
@@ -973,6 +2192,7 @@ msgid "Line"
 msgstr ""
 
 #: src/Main/Base/Gui/Pads/OpenTaskView.cs:107
+#: src/AddIns/DisplayBindings/SourceEditor/Gui/OptionPanels/CodeTemplatePanel.cs:117
 msgid "Description"
 msgstr ""
 
@@ -1040,7 +2260,8 @@ msgid "Solution"
 msgstr ""
 
 #: src/Main/Base/Gui/Workbench/DefaultWorkbench.cs:536
-#: src/Main/Base/Commands/RunCommands.cs:240
+#: src/Main/Base/Commands/RunCommands.cs:242
+#: src/Main/Base/Services/Project/DefaultProjectService.cs:155
 msgid "Ready"
 msgstr ""
 
@@ -1213,20 +2434,20 @@ msgid "{0} errors, {1} warnings"
 msgstr ""
 
 #: src/Main/Base/Commands/RunCommands.cs:75
-#: src/Main/Base/Commands/RunCommands.cs:149
+#: src/Main/Base/Commands/RunCommands.cs:150
 #, csharp-format
 msgid "Language binding {0} can't compile {1}"
 msgstr ""
 
 #: src/Main/Base/Commands/RunCommands.cs:89
-#: src/Main/Base/Commands/RunCommands.cs:163
+#: src/Main/Base/Commands/RunCommands.cs:164
 msgid "No source file for compilation found. Please save unsaved files"
 msgstr ""
 
 #: src/Main/Base/Commands/RunCommands.cs:93
-#: src/Main/Base/Commands/RunCommands.cs:167
-#: src/Main/Base/Commands/RunCommands.cs:280
-#: src/Main/Base/Commands/RunCommands.cs:314
+#: src/Main/Base/Commands/RunCommands.cs:168
+#: src/Main/Base/Commands/RunCommands.cs:282
+#: src/Main/Base/Commands/RunCommands.cs:316
 #, csharp-format
 msgid ""
 "---------------------- Done ----------------------\n"
@@ -1234,31 +2455,31 @@ msgid ""
 "Build: {0} succeeded, {1} failed\n"
 msgstr ""
 
-#: src/Main/Base/Commands/RunCommands.cs:96
-#: src/Main/Base/Commands/RunCommands.cs:170
+#: src/Main/Base/Commands/RunCommands.cs:97
+#: src/Main/Base/Commands/RunCommands.cs:172
 msgid "Error while compiling"
 msgstr ""
 
-#: src/Main/Base/Commands/RunCommands.cs:205
+#: src/Main/Base/Commands/RunCommands.cs:207
 msgid "Executing"
 msgstr ""
 
-#: src/Main/Base/Commands/RunCommands.cs:218
+#: src/Main/Base/Commands/RunCommands.cs:220
 msgid ""
 "Cannot execute Run command, cannot find startup project.\n"
 "Please define a startup project for the combine in the combine properties."
 msgstr ""
 
-#: src/Main/Base/Commands/RunCommands.cs:231
+#: src/Main/Base/Commands/RunCommands.cs:233
 msgid "No runnable executable found."
 msgstr ""
 
-#: src/Main/Base/Commands/RunCommands.cs:238
+#: src/Main/Base/Commands/RunCommands.cs:240
 msgid "Error while running"
 msgstr ""
 
-#: src/Main/Base/Commands/RunCommands.cs:283
-#: src/Main/Base/Commands/RunCommands.cs:317
+#: src/Main/Base/Commands/RunCommands.cs:285
+#: src/Main/Base/Commands/RunCommands.cs:319
 #, csharp-format
 msgid "Error while compiling project {0}"
 msgstr ""
@@ -1300,8 +2521,9 @@ msgid "Compiling: {0}"
 msgstr ""
 
 #: src/Main/Base/Internal/Project/Combine/CombineEntry.cs:132
+#, csharp-format
 msgid ""
-"------ Build started: Project: ${Project} Configuration: ${Config} ------\n"
+"------ Build started: Project: {0} Configuration: {1} ------\n"
 "\n"
 "Performing main compilation...\n"
 msgstr ""
@@ -1315,7 +2537,7 @@ msgstr ""
 #: src/Main/Base/Internal/Project/Combine/CombineEntry.cs:174
 #, csharp-format
 msgid ""
-"Build complete -- ${0} errors, ${1} warnings\n"
+"Build complete -- {0} errors, {1} warnings\n"
 "\n"
 msgstr ""
 
@@ -1404,4 +2626,246 @@ msgstr ""
 msgid ""
 "Project file {0} already exists, do you want to overwrite\n"
 "the existing file ?"
+msgstr ""
+
+#: src/Main/Base/Services/DisplayBinding/DisplayBindingService.cs:61
+#, csharp-format
+msgid "Didnt match on mimetype: {0}, trying filename"
+msgstr ""
+
+#: src/Main/Base/Services/File/DefaultFileService.cs:246
+#, csharp-format
+msgid "Can't remove directory {0}"
+msgstr ""
+
+#: src/Main/Base/Services/File/DefaultFileService.cs:255
+#, csharp-format
+msgid "Can't remove file {0}"
+msgstr ""
+
+#: src/Main/Base/Services/File/DefaultFileService.cs:270
+#, csharp-format
+msgid "Can't rename directory {0}"
+msgstr ""
+
+#: src/Main/Base/Services/File/DefaultFileService.cs:279
+#, csharp-format
+msgid "Can't rename file {0}"
+msgstr ""
+
+#: src/Main/Base/Services/MessageService.cs:100
+msgid "Question"
+msgstr ""
+
+#: src/Main/Base/Services/ParserService/DefaultParserService.cs:164
+msgid "Generate code completion database"
+msgstr ""
+
+#: src/Main/Base/Services/ParserService/DefaultParserService.cs:188
+msgid "Writing class"
+msgstr ""
+
+#: src/Main/Base/Services/Project/DefaultProjectService.cs:136
+#, fuzzy
+msgid "Opening Combine..."
+msgstr "New Combine, eh?"
+
+#: src/Main/Base/Services/Project/DefaultProjectService.cs:277
+#, csharp-format
+msgid "Compiling {0}"
+msgstr ""
+
+#: src/Main/Base/Services/Project/DefaultProjectService.cs:335
+msgid "Save changed files?"
+msgstr ""
+
+#: src/Main/Base/Services/StatusBar/DefaultStatusBarService.cs:68
+msgid "INS"
+msgstr ""
+
+#: src/Main/Base/Services/StatusBar/DefaultStatusBarService.cs:68
+msgid "OVR"
+msgstr ""
+
+#: src/Main/Base/Services/ResourceNotFoundException.cs:20
+#, csharp-format
+msgid "Resource not found: {0}"
+msgstr ""
+
+#: src/Libraries/MonoDevelop.Gui.Widgets/FileBrowser/FileBrowser.cs:253
+msgid "Open with file browser"
+msgstr ""
+
+#: src/Libraries/MonoDevelop.Gui.Widgets/FileBrowser/FileBrowser.cs:256
+msgid "Open with terminal"
+msgstr ""
+
+#: src/Libraries/MonoDevelop.Gui.Widgets/FileBrowser/FileBrowser.cs:262
+msgid "Delete"
+msgstr ""
+
+#: src/Libraries/MonoDevelop.Gui.Widgets/FileBrowser/FileBrowser.cs:265
+msgid "Create new folder"
+msgstr ""
+
+#: src/Libraries/MonoDevelop.Gui.Widgets/FileBrowser/FileBrowser.cs:328
+#, csharp-format
+msgid "Cannot enter '{0}' folder"
+msgstr ""
+
+#: src/Libraries/MonoDevelop.Gui.Widgets/FileBrowser/FileBrowser.cs:364
+#, csharp-format
+msgid "Could not rename folder '{0}' to '{1}'"
+msgstr ""
+
+#: src/Libraries/MonoDevelop.Gui.Widgets/FileBrowser/FileBrowser.cs:382
+#, csharp-format
+msgid "Could not create new folder '{0}'"
+msgstr ""
+
+#: src/Libraries/MonoDevelop.Gui.Widgets/FileBrowser/FileBrowser.cs:404
+msgid "Are you sure you want to delete this folder?"
+msgstr ""
+
+#: src/Libraries/MonoDevelop.Gui.Widgets/FileBrowser/FileBrowser.cs:404
+msgid "Delete folder"
+msgstr ""
+
+#: src/Libraries/MonoDevelop.Gui.Widgets/FileBrowser/FileBrowser.cs:414
+#, csharp-format
+msgid "Could not delete folder '{0}'"
+msgstr ""
+
+#: src/Libraries/MonoDevelop.Gui.Widgets/FolderDialog/BaseFileEntry.cs:24
+msgid "_Browse..."
+msgstr ""
+
+#: src/Libraries/MonoDevelop.Gui.Widgets/Tree/TreeNodeCollection.cs:171
+msgid "Attempt to remove a non node from the tree"
+msgstr ""
+
+#. FIXME: i18n
+#: src/AddIns/DisplayBindings/SourceEditor/Commands/ToolCommands.cs:30
+msgid "Insert a color hex string"
+msgstr ""
+
+#: src/AddIns/DisplayBindings/SourceEditor/Gui/Dialogs/ReplaceDialog.cs:142
+#: src/AddIns/DisplayBindings/SourceEditor/Gui/Dialogs/ReplaceInFilesDialog.cs:176
+msgid "Wildcards"
+msgstr ""
+
+#: src/AddIns/DisplayBindings/SourceEditor/Gui/Dialogs/ReplaceDialog.cs:145
+#: src/AddIns/DisplayBindings/SourceEditor/Gui/Dialogs/ReplaceInFilesDialog.cs:178
+msgid "Regular Expressions"
+msgstr ""
+
+#: src/AddIns/DisplayBindings/SourceEditor/Gui/Dialogs/ReplaceDialog.cs:161
+msgid "Current File"
+msgstr ""
+
+#: src/AddIns/DisplayBindings/SourceEditor/Gui/Dialogs/ReplaceDialog.cs:163
+msgid "All Open Files"
+msgstr ""
+
+#: src/AddIns/DisplayBindings/SourceEditor/Gui/Dialogs/ReplaceDialog.cs:165
+msgid "Entire Project"
+msgstr ""
+
+#: src/AddIns/DisplayBindings/SourceEditor/Gui/Dialogs/ReplaceDialog.cs:190
+msgid "Replace"
+msgstr ""
+
+#: src/AddIns/DisplayBindings/SourceEditor/Gui/Dialogs/ReplaceDialog.cs:195
+msgid "Find"
+msgstr ""
+
+#. FIXME: make this a resource in the resource file
+#: src/AddIns/DisplayBindings/SourceEditor/Gui/Dialogs/EditTemplateGroupDialog.cs:61
+#, csharp-format
+msgid "{0} Code Group"
+msgstr ""
+
+#. set the label properties
+#: src/AddIns/DisplayBindings/SourceEditor/Gui/Dialogs/ReplaceInFilesDialog.cs:99
+msgid "Replace in Files"
+msgstr ""
+
+#: src/AddIns/DisplayBindings/SourceEditor/Gui/Dialogs/ReplaceInFilesDialog.cs:194
+msgid "Directories"
+msgstr ""
+
+#: src/AddIns/DisplayBindings/SourceEditor/Gui/Dialogs/ReplaceInFilesDialog.cs:198
+msgid "Whole project"
+msgstr ""
+
+#: src/AddIns/DisplayBindings/SourceEditor/Gui/Dialogs/ReplaceInFilesDialog.cs:256
+msgid "Select directory"
+msgstr ""
+
+#: src/AddIns/DisplayBindings/SourceEditor/Gui/Dialogs/ReplaceInFilesDialog.cs:294
+#: src/AddIns/DisplayBindings/SourceEditor/Gui/Dialogs/ReplaceInFilesDialog.cs:299
+#, csharp-format
+msgid "Invalid directory name: {0}"
+msgstr ""
+
+#: src/AddIns/DisplayBindings/SourceEditor/Gui/Dialogs/ReplaceInFilesDialog.cs:304
+#, csharp-format
+msgid "Invalid file mask: {0}"
+msgstr ""
+
+#: src/AddIns/DisplayBindings/SourceEditor/Gui/OptionPanels/CodeTemplatePanel.cs:113
+#: src/AddIns/DisplayBindings/SourceEditor/Gui/OptionPanels/CodeTemplatePanel.cs:129
+msgid "Template"
+msgstr ""
+
+#: src/AddIns/DisplayBindings/SourceEditor/Gui/OptionPanels/CodeTemplatePanel.cs:181
+msgid "New "
+msgstr ""
+
+#: src/AddIns/DisplayBindings/SourceEditor/Gui/OptionPanels/CodeTemplatePanel.cs:194
+msgid "Edit "
+msgstr ""
+
+#: src/AddIns/DisplayBindings/SourceEditor/Gui/Pads/CompilerMessageView.cs:45
+msgid "Output"
+msgstr ""
+
+#: src/AddIns/DisplayBindings/SourceEditor/Gui/SourceEditorDisplayBinding.cs:108
+msgid "Source Editor"
+msgstr ""
+
+#: src/AddIns/DisplayBindings/SourceEditor/Search/SearchReplaceInFilesManager.cs:117
+msgid "Search completed"
+msgstr ""
+
+#. MessageBox.Show((Form)WorkbenchSingleton.Workbench, "Mark all done", "Finished");
+#: src/AddIns/DisplayBindings/SourceEditor/Search/SearchReplaceManager.cs:105
+msgid "Mark all completed"
+msgstr ""
+
+#. MessageBox.Show((Form)WorkbenchSingleton.Workbench, "Replace all done", "Finished");
+#: src/AddIns/DisplayBindings/SourceEditor/Search/SearchReplaceManager.cs:138
+msgid "Replace all finished"
+msgstr ""
+
+#. FIXME: This needs to be a msg or whatever
+#. MessageBox.Show((Form)WorkbenchSingleton.Workbench,
+#. resourceService.GetString("Dialog.NewProject.SearchReplace.SearchStringNotFound"),
+#. "Not Found",
+#. MessageBoxButtons.OK,
+#. MessageBoxIcon.Information);
+#: src/AddIns/DisplayBindings/SourceEditor/Search/SearchReplaceManager.cs:173
+msgid "Not Found"
+msgstr ""
+
+#: src/AddIns/BackendBindings/CSharpBinding/Gui/CodeGenerationPanel.cs:63
+msgid "Executable"
+msgstr ""
+
+#: src/AddIns/BackendBindings/CSharpBinding/Gui/CodeGenerationPanel.cs:65
+msgid "Library"
+msgstr ""
+
+#: src/AddIns/BackendBindings/CSharpBinding/Gui/OutputOptionsPanel.cs:100
+msgid "Select the directory in which the assembly will be created"
 msgstr ""

@@ -1,7 +1,13 @@
+2004-04-04  Todd Berman  <tberman@sevenl.net>
+
+	* Internal/Codons/MenuItems/MenuItemCodon.cs:
+	* Internal/Codons/DialogPanelCodon.cs: change label to _label and
+	gettext it
+
 2004-04-04  Nick Drochak  <ndrochak@gol.com>
- 
+
 	* Gui/Dialogs/NewProjectDialog.cs: On double click of icon when there
-        is an illegal or empty solution name, do not hide dialog.
+	is an illegal or empty solution name, do not hide dialog.
 
 2004-04-03  Todd Berman  <tberman@sevenl.net>
 

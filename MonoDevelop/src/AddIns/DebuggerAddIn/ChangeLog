@@ -1,3 +1,10 @@
+2004-04-04  Todd Berman  <tberman@sevenl.net>
+
+	* Makefile.am: change to .addin.xml for i18n
+	* MonoDevelopDebugger.addin.xml: mv
+	* MonoDevelopDebugger.addin: rm
+
+
 2004-03-29  Todd Berman  <tberman@sevenl.net>
 
 	* Gui/DebuggerVariablePad.cs: use AmbienceService to convert from

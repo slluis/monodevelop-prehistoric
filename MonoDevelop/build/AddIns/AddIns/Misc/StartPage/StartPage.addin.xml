@@ -13,11 +13,11 @@
 		<MenuItem id = "ShowStartPage"
 		          insertafter  = "ViewItemsSeparator"
 			  insertbefore = "StartPageSeparator"
-		          label = "${res:XML.MainMenu.ViewMenu.ShowStartPage}" 
+		          _label = "${res:XML.MainMenu.ViewMenu.ShowStartPage}" 
 		          class = "MonoDevelop.StartPage.ShowStartPageCommand"/>
 		<MenuItem id = "StartPageSeparator"
 				  insertbefore = "FullScreen"
-				  label = "-"/>
+				  _label = "-"/>
 	</Extension> -->
 	
 	<!-- TODO: Conditional to reflect Settings option -->

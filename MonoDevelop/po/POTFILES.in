@@ -1,4 +1,9 @@
 [encoding: UTF-8]
+build/AddIns/SharpDevelopCore.addin.xml
+build/AddIns/MonoDevelopNewEditor.addin.xml
+build/AddIns/AddIns/BackendBindings/BackendBindings.addin.xml
+build/AddIns/AddIns/Misc/StartPage/StartPage.addin.xml
+src/AddIns/DebuggerAddIn/MonoDevelopDebugger.addin.xml
 data/resources/glade/Base.glade
 data/resources/glade/CSharp.glade
 data/resources/glade/EditorBindings.glade

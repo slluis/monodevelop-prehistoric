@@ -85,7 +85,7 @@ namespace MonoDevelop.Core.AddIns
 			StringCollection retryList  = null;
 			
 			if (ignoreDefaultCoreDirectory == false) {
-				addInFiles = fileUtilityService.SearchDirectory(defaultCoreDirectory, "*.addin");
+				addInFiles = fileUtilityService.SearchDirectory(defaultCoreDirectory, "*.addin.xml");
 				retryList  = InsertAddIns(addInFiles);
 			}
 			else
@@ -93,7 +93,7 @@ namespace MonoDevelop.Core.AddIns
 			
 			if (addInDirectories != null) {
 				foreach(string path in addInDirectories) {
-					addInFiles = fileUtilityService.SearchDirectory(path, "*.addin");
+					addInFiles = fileUtilityService.SearchDirectory(path, "*.addin.xml");
 					StringCollection partialRetryList  = InsertAddIns(addInFiles);
 					if (partialRetryList.Count != 0) {
 						string [] retryListArray = new string[partialRetryList.Count];

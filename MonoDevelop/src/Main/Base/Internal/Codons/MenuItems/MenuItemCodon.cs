@@ -26,7 +26,7 @@ namespace MonoDevelop.Core.AddIns.Codons
 	[CodonName("MenuItem")]
 	public class MenuItemCodon : AbstractCodon
 	{
-		[XmlMemberAttribute("label", IsRequired=true)]
+		[XmlMemberAttribute("_label", IsRequired=true)]
 		string label       = null;
 		
 		[XmlMemberAttribute("description")]
@@ -102,14 +102,15 @@ namespace MonoDevelop.Core.AddIns.Codons
 			if (Label == "-") {
 				newItem = new SdMenuSeparator(conditions, owner);
 			} else  if (Link != null) {
-				newItem = new SdMenuCommand(conditions, null, Label,  Link.StartsWith("http") ? (IMenuCommand)new GotoWebSite(Link) : (IMenuCommand)new GotoLink(Link));
+			  newItem = new SdMenuCommand(conditions, null, GettextCatalog.GetString (Label),  Link.StartsWith("http") ? (IMenuCommand)new GotoWebSite(Link) : (IMenuCommand)new GotoLink(Link));
 			} else {
 				object o = null;
 				if (Class != null) {
 					o = AddIn.CreateObject(Class);
 				}
 				if (o != null) {
-					if (o is IMenuCommand) {
+				  Label = GettextCatalog.GetString (Label);
+				  if (o is IMenuCommand) {
 						IMenuCommand menuCommand = (IMenuCommand)o;
 						menuCommand.Owner = owner;
 						if (o is ICheckableMenuCommand) {
