@@ -151,6 +151,7 @@ namespace MonoDevelop.SourceEditor.Gui
 		{
 			TextIter iter = se.Buffer.GetIterAtMark (se.Buffer.InsertMark);
 			if (Source.IterFindMatchingBracket (ref iter)) {
+				iter.ForwardChar ();
 				se.Buffer.PlaceCursor (iter);
 				se.View.ScrollMarkOnscreen (se.Buffer.InsertMark);
 			}
