@@ -83,7 +83,8 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 			foreach (ProjectReference refInfo in configureProject.ProjectReferences) {
 				switch (refInfo.ReferenceType) {
 					case ReferenceType.Assembly:
-						AddAssemblyReference (refInfo);
+					case ReferenceType.Project:
+						AddNonGacReference (refInfo);
 						break;
 					case ReferenceType.Gac:
 						AddGacReference (refInfo);
@@ -99,7 +100,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 			AddReferenceDialog.ShowAll ();
 		}
 
-		void AddAssemblyReference (ProjectReference refInfo)
+		void AddNonGacReference (ProjectReference refInfo)
 		{
 			refTreeStore.AppendValues (System.IO.Path.GetFileName (refInfo.Reference), refInfo.ReferenceType.ToString (), System.IO.Path.GetFullPath (refInfo.GetReferencedFileName (configureProject)), refInfo);
 		}
