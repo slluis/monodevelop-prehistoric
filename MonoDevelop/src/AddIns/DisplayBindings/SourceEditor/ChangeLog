@@ -1,5 +1,21 @@
 2004-06-21  Todd Berman  <tberman@off.net>
 
+	* Gui/SourceEditorView.cs:
+	* CodeCompletion/CompletionWindow.cs:
+	Refactor to use one static instance of the completion window across
+	the entire app instead of recreating it every time. Now it is accessed
+	via:
+	
+	CompletionWindow.ShowWindow (args);
+	
+	Everything should be functionally the same for the end user.
+	* CodeCompletion/CodeCompletionDataProvider.cs:
+	restyle, cleanup formatting.
+	* MonoDevelop.SourceEditor.dll.config:
+	Add gtksourceview-1.0 -> libgtksourceview-1.0.so.0 mapping.
+
+2004-06-21  Todd Berman  <tberman@off.net>
+
 	* CodeCompletion/CompletionWindow.cs: Small code cleanups.
 
 2004-06-11  Lluis Sanchez Gual  <lluis@ximian.com>

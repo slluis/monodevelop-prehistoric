@@ -30,19 +30,7 @@ namespace MonoDevelop.SourceEditor.Gui
 		internal IFormattingStrategy fmtr;
 		public SourceEditorBuffer buf;
 		int lineToMark = -1;
-		CompletionWindow completionWnd;
 		bool codeCompleteEnabled;
-
-		CompletionWindow completionWindow {
-			set {
-				if (completionWnd != null) {
-					completionWnd.Destroy ();
-					completionWnd = null;
-				}
-				completionWnd = value;
-			}
-			get { return completionWnd; }
-		}
 
 		public static new GLib.GType GType
 		{
@@ -181,9 +169,8 @@ namespace MonoDevelop.SourceEditor.Gui
 
 			if (triggerIter.Equals (TextIter.Zero)) return;
 			triggerIter.ForwardChar ();
-			completionWindow = new CompletionWindow (this, ParentEditor.DisplayBinding.Project, ParentEditor.DisplayBinding.ContentName, new CodeCompletionDataProvider (true));
 			
-			completionWindow.ShowCompletionWindow (triggerChar, triggerIter, true);
+			CompletionWindow.ShowWindow (triggerChar, triggerIter, true, new CodeCompletionDataProvider (true), this);
 		}
 
 		bool MonodocResolver ()
@@ -304,8 +291,7 @@ namespace MonoDevelop.SourceEditor.Gui
 			case '.':
 				bool retval = base.OnKeyPressEvent (evnt);
 				if (EnableCodeCompletion) {
-					completionWindow = new CompletionWindow (this, ParentEditor.DisplayBinding.Project, ParentEditor.DisplayBinding.ContentName, new CodeCompletionDataProvider ());
-					completionWindow.ShowCompletionWindow ((char)key, buf.GetIterAtMark (buf.InsertMark), false);
+					CompletionWindow.ShowWindow ((char)key, buf.GetIterAtMark (buf.InsertMark), false, new CodeCompletionDataProvider (), this);
 				}
 				return retval;
 				/*case '(':

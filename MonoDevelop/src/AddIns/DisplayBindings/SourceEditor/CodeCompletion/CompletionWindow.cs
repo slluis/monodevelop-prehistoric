@@ -18,7 +18,6 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 	public class CompletionWindow : Window
 	{
 		const  int  DeclarationIndent  = 1;
-		private static GLib.GType gtype;
 		TreeViewColumn complete_column;
 		
 		ICompletionDataProvider completionDataProvider;
@@ -31,6 +30,13 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 		DeclarationViewWindow declarationviewwindow = new DeclarationViewWindow ();
 		string fileName;
 		IProject project;
+
+		static CompletionWindow wnd;
+
+		static CompletionWindow ()
+		{
+			wnd = new CompletionWindow ();
+		}
 		
 		string GetTypedString ()
 		{
@@ -70,10 +76,7 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 				case ';':
 				case '(':
 				case '[':
-					//case (char) Gdk.Key.Return:
-					//case (char) Gdk.Key.ISO_Enter:
-					//case (char) Gdk.Key.Key_3270_Enter:
-					//case (char) Gdk.Key.KP_Enter:
+				case ',':
 					control.SimulateKeyPress (ref e);
 					LostFocusListView (null, null);
 					return true;
@@ -140,7 +143,6 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 							LostFocusListView (null, null);
 						}
 						
-						//control.Buffer.InsertAtCursor (val.ToString ());
 						ex.RetVal = true;
 						return;
 					} else {
@@ -156,7 +158,7 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 			ex.RetVal = true;
 		}
 
-		public bool ShuffleSelection (bool magic)
+		bool ShuffleSelection (bool magic)
 		{
 			// select the current typed word
 			int lastSelected = -1;
@@ -240,7 +242,6 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 			this.Add (frame);
 			
 			listView.KeyPressEvent += new KeyPressEventHandler (ListKeypressEvent);
-			//listView.KeyReleaseEvent += new KeyReleaseEventHandler(ListKeyreleaseEvent);
 			listView.FocusOutEvent += new FocusOutEventHandler (LostFocusListView);
 			listView.RowActivated += new RowActivatedHandler (ActivateItem);
 			listView.AddEvents ((int) (Gdk.EventMask.KeyPressMask | Gdk.EventMask.LeaveNotifyMask));
@@ -249,8 +250,18 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 		/// <remarks>
 		/// Shows the filled completion window, if it has no items it isn't shown.
 		/// </remarks>
-		public void ShowCompletionWindow (char firstChar, TextIter trigIter, bool magic)
+		public static void ShowWindow (char firstChar, TextIter trigIter, bool magic, ICompletionDataProvider provider, SourceEditorView ctrl)
 		{
+			wnd.ShowCompletionWindow (firstChar, trigIter, magic, provider, ctrl);
+		}
+
+		void ShowCompletionWindow (char firstChar, TextIter trigIter, bool magic, ICompletionDataProvider provider, SourceEditorView ctrl)
+		{
+			this.completionDataProvider = provider;
+			this.control = ctrl;
+			this.fileName = ctrl.ParentEditor.DisplayBinding.ContentName;
+			this.project = ctrl.ParentEditor.DisplayBinding.Project;
+			this.store.Clear ();
 			control.buf.StartAtomicUndo ();
 			triggeringMark = control.Buffer.CreateMark (null, trigIter, true);
 			origOffset = trigIter.Offset;
@@ -264,6 +275,7 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 				return;
 			}
 
+			listView.Selection.Changed -= new EventHandler (RowActivated);
 			if (magic) {
 				if (ShuffleSelection (true))
 					return;
@@ -276,47 +288,20 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 			
 			int tx, ty;
 			control.GdkWindow.GetOrigin (out tx, out ty);
-			//Console.WriteLine ("Moving to: " + (tx + wx) + " . " + (ty + wy));
-			//System.Threading.Thread.Sleep (50);
+			
 			ShowAll ();
 			Move (tx + wx, ty + wy);
 			Present ();
+			listView.GrabFocus ();
 			listView.Selection.Changed += new EventHandler (RowActivated);
 			RowActivated (null, null);
-			//GdkWindow.Move (tx + wx, ty + wy);
-		}
-		
-		public static new GLib.GType GType
-		{
-			get
-			{
-				if (gtype == GLib.GType.Invalid)
-					gtype = RegisterGType (typeof (CompletionWindow));
-				return gtype;
-			}
 		}
 		
 		/// <remarks>
 		/// Creates a new Completion window and puts it location under the caret
 		/// </remarks>
-		public CompletionWindow (SourceEditorView control, IProject project, string fileName, ICompletionDataProvider completionDataProvider) : base (GType)
+		CompletionWindow () : base (Gtk.WindowType.Toplevel)
 		{
-			this.fileName = fileName;
-			this.project = project;
-			this.completionDataProvider = completionDataProvider;
-			this.control = control;
-
-			InitializeControls ();
-		}
-		
-		/// <remarks>
-		/// Creates a new Completion window at a given location
-		/// </remarks>
-		CompletionWindow (SourceEditorView control, Point location, ICompletionDataProvider completionDataProvider) : base (GType)
-		{
-			this.completionDataProvider = completionDataProvider;
-			this.control = control;
-
 			InitializeControls ();
 		}
 		
@@ -339,8 +324,8 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 			control.buf.EndAtomicUndo ();
 			listView.FocusOutEvent -= LostFocusListView;
 			control.HasFocus = true;
-			declarationviewwindow.Destroy ();
-			this.Destroy ();
+			declarationviewwindow.HideAll ();
+			this.Hide ();
 		}
 		
 		void FillList (bool firstTime, char ch)
@@ -382,7 +367,7 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 					control.buf.DropCompleteAhead ();
 					control.buf.CompleteAhead (data.CompletionString.Substring(inst));
 				}
-					
+				
 				// This code is for sizing the treeview properly.
 				Gtk.TreePath path = store.GetPath (iter);
 				Gdk.Rectangle backRect = listView.GetBackgroundArea (path, (Gtk.TreeViewColumn)listView.Columns[0]);

@@ -45,14 +45,13 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 		bool ctrlspace;
 
 		public CodeCompletionDataProvider() : this (false)
-			{
-			}
+		{
+		}
 			
-			public CodeCompletionDataProvider (bool ctrl) 
-			{
-				this.ctrlspace = ctrl;
-			}
-			
+		public CodeCompletionDataProvider (bool ctrl) 
+		{
+			this.ctrlspace = ctrl;
+		}
 		
 		ArrayList completionData = null;
 		
@@ -93,16 +92,10 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 			} else {
 				//FIXME: I added the null check, #D doesnt need it, why do we?
 				if (fileName != null) {
-					results = parserService.Resolve(project,
-													expression, 
-													caretLineNumber,
-													caretColumn,
-													fileName,
-													textArea.Buffer.Text);
+					results = parserService.Resolve(project, expression, caretLineNumber, caretColumn, fileName, textArea.Buffer.Text);
 					AddResolveResults(results);
 				}
 			}
-			
 			return (ICompletionData[]) completionData.ToArray (typeof (ICompletionData));
 		}
 		
