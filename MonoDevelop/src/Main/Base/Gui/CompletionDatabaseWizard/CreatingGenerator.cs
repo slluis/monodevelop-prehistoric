@@ -17,7 +17,7 @@ namespace MonoDevelop.Gui.Dialogs.OptionPanels.CompletionDatabaseWizard
 		{
 			FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.Services.GetService(typeof(FileUtilityService));
 			PropertyService propertyService = (PropertyService)ServiceManager.Services.GetService(typeof(PropertyService));
-			string path = fileUtilityService.GetDirectoryNameWithSeparator(propertyService.ConfigDirectory) + "CodeCompletionData";
+			string path = Path.Combine (fileUtilityService.GetDirectoryNameWithSeparator(propertyService.ConfigDirectory), "CodeCompletionData");
 			if (!Directory.Exists (path))
 				Directory.CreateDirectory (path);
 			propertyService.SetProperty ("SharpDevelop.CodeCompletion.DataDirectory", path);

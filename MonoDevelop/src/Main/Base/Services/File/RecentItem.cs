@@ -29,7 +29,7 @@ namespace MonoDevelop.Services
 			// TODO: uri sanity check
 			this.uri = uri;
 			this.mime = Vfs.GetMimeType (uri);
-			DateTime now = DateTime.Now.ToUniversalTime ();
+			DateTime now = DateTime.UtcNow;
 			this.timestamp = ((int) (now - epoch).TotalSeconds).ToString ();
 		}
 

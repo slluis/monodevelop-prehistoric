@@ -32,6 +32,7 @@ class GenerateDatabasePage : DetailsPageBase {
 		Title = "Select Generation Style";
 		heavy = new RadioButton("Heavy process");
 		light = new RadioButton(heavy, "Light process");
+
 		AppendItem("", heavy, "This process is slower and more memory-intensive than the light process, but will enable faster code completion");
 		AppendItem("", light, "This process will take less time and memory to produce the code completion database, but code completion will be slower");
 	}
@@ -164,7 +165,7 @@ class CodeCompletionDruid : Druid {
 	internal DruidPageEdge GetEndPage()
 	{
 		DruidPageEdge page = new DruidPageEdge(EdgePosition.Finish);
-		page.Text = "Click Accept to start the database creation process";
+		page.Text = "Click Apply to start the database creation process";
 		page.BackClicked += new BackClickedHandler(GoToPrev);
 		page.FinishClicked += new FinishClickedHandler(EndOfWizard);
 		return page;

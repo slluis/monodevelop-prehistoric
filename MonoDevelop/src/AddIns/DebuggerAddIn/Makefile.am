@@ -1,8 +1,12 @@
+
+CSC = mcs /debug
+
 if ENABLE_DEBUGGER
 
-all: $(DLL)
+all: $(ASSEMBLY)
 
-DLL = MonoDevelop.Debugger.dll
+ASSEMBLY = MonoDevelop.Debugger.dll
+ADDIN = MonoDevelopDebugger.addin
 
 FILES = \
 DebuggerCommands.cs \
@@ -12,17 +16,26 @@ Gui/DebuggerVariablePad.cs
 
 build_sources = $(addprefix $(srcdir)/, $(FILES))
 
-../../../build/AddIns/MonoDevelopDebugger.addin:
-	cp MonoDevelopDebugger.addin ../../../build/AddIns/
+../../../build/AddIns/$(ADDIN):
+	cp $(ADDIN) ../../../build/AddIns/.
 
-MonoDevelop.Debugger.dll: $(build_sources) ../../../build/AddIns/MonoDevelopDebugger.addin
-	mcs /out:$(DLL) /target:library \
-	/r:gtk-sharp \
-	/r:glib-sharp \
+$(ASSEMBLY): $(build_sources) $(ADDIN)
+	$(CSC) /out:$(ASSEMBLY) /target:library \
+	/r:gtk-sharp /r:glib-sharp \
 	/r:$(debugger_prefix)/lib/Mono.Debugger.dll \
 	/r:../../../build/bin/MonoDevelop.Base.dll \
 	/r:../../../build/bin/MonoDevelop.Core.dll \
 	$(build_sources) \
-	&& cp $(DLL) ../../../build/AddIns/
+	&& cp $(ASSEMBLY) ../../../build/AddIns/
+
+assemblydir = $(libdir)/monodevelop/AddIns
+assembly_DATA = $(ASSEMBLY) $(ADDIN)
+
+CLEANFILES = $(ASSEMBLY)
+
+EXTRA_DIST = $(FILES) MonoDevelopDebugger.addin
+
 else
+all:
+
 endif
