@@ -18,132 +18,150 @@ using MonoDevelop.Gui.Widgets;
 
 namespace MonoDevelop.Gui.Dialogs.OptionPanels
 {
-
-	public enum LineTerminatorStyle {
-		Windows,
-		Macintosh,
-		Unix
-	}
-	
 	/// <summary>
 	/// Summary description for Form1.
 	/// </summary>
+	
 	public class LoadSavePanel : AbstractOptionPanel
 	{
 		//FIXME: Add mneumonics for Window, Macintosh and Unix Radio Buttons. 
 		//       Remove mneumonic from terminator label.
 
-		class LoadSavePanelWidget : GladeWidgetExtract 
-		{
-			
-			//
-			// Gtk controls
-			//
-			
-			[Glade.Widget] public Gtk.CheckButton loadUserDataCheckBox;
-			[Glade.Widget] public Gtk.CheckButton createBackupCopyCheckBox;
-			[Glade.Widget] public Gtk.RadioButton windowsRadioButton, macintoshRadioButton, unixRadioButton;
-			[Glade.Widget] public Gtk.Label load, save, terminator;			
-			
-			public LoadSavePanelWidget () : base ("Base.glade", "LoadSavePanel")
-			{
-				
-			}
-		}		
-		
-		public LoadSavePanel () : base ()
-		{
-		}
-
-		public override Gtk.Image Icon {
-			get {
-				return new Gtk.Image (Gtk.Stock.SaveAs, Gtk.IconSize.Button);
-			}
-		}
-		
-		// services needed
-		StringParserService StringParserService = (StringParserService)ServiceManager.Services.GetService (typeof (StringParserService));
-		PropertyService PropertyService = (PropertyService)ServiceManager.Services.GetService (typeof (PropertyService));
-		
 		LoadSavePanelWidget widget;
 		
 		public override void LoadPanelContents()
 		{
 			Add (widget = new LoadSavePanelWidget ());
-			
- 			SetupPanelInstance();
-			
- 			//
- 			// load the data
-		        //
-			widget.loadUserDataCheckBox.Active = PropertyService.GetProperty ("SharpDevelop.LoadDocumentProperties", true);
-			widget.createBackupCopyCheckBox.Active = PropertyService.GetProperty ("SharpDevelop.CreateBackupCopy", false);
-
-			if (LineTerminatorStyle.Windows.Equals (
-				    PropertyService.GetProperty ("SharpDevelop.LineTerminatorStyle", LineTerminatorStyle.Unix)))  {
-				widget.windowsRadioButton.Active = true;}
-			else if  (LineTerminatorStyle.Macintosh.Equals (
-					  PropertyService.GetProperty ("SharpDevelop.LineTerminatorStyle", LineTerminatorStyle.Unix)))  {
-				widget.macintoshRadioButton.Active = true;}
-			else if (LineTerminatorStyle.Unix.Equals (
-					 PropertyService.GetProperty ("SharpDevelop.LineTerminatorStyle", LineTerminatorStyle.Unix))) {
-				widget.unixRadioButton.Active = true;}
-			// Finish here
-			
-			// FIXME: renable all terminatore style radio buttons when they're implemented
-			widget.unixRadioButton.Sensitive = false;
-			widget.macintoshRadioButton.Sensitive = false;
-			widget.windowsRadioButton.Sensitive = false;
-			widget.terminator.Sensitive = false;
-
 		}
 		
 		public override bool StorePanelContents()
+		{			
+			bool succes = widget.Store();
+			return succes;
+		}
+		
+		class LoadSavePanelWidget : GladeWidgetExtract 
 		{
- 			PropertyService.SetProperty ("SharpDevelop.LoadDocumentProperties", widget.loadUserDataCheckBox.Active);
- 			PropertyService.SetProperty ("SharpDevelop.CreateBackupCopy",       widget.createBackupCopyCheckBox.Active);
-			if (widget.windowsRadioButton.Active) {
-				PropertyService.SetProperty ("SharpDevelop.LineTerminatorStyle", LineTerminatorStyle.Windows);} 
-			else if (widget.macintoshRadioButton.Active) {
-				PropertyService.SetProperty ("SharpDevelop.LineTerminatorStyle", LineTerminatorStyle.Macintosh);} 
-			else if (widget.unixRadioButton.Active){
-				PropertyService.SetProperty ("SharpDevelop.LineTerminatorStyle", LineTerminatorStyle.Unix);}
+			//
+			// Gtk controls
+			//
+			[Glade.Widget] public Gnome.FileEntry projectLocationTextBox;
+			[Glade.Widget] public Gtk.CheckButton loadUserDataCheckButton;
+			[Glade.Widget] public Gtk.CheckButton createBackupCopyCheckButton;
+			[Glade.Widget] public Gtk.CheckButton loadPrevProjectCheckButton;
+			[Glade.Widget] public Gtk.RadioButton windowsRadioButton; 
+			[Glade.Widget] public Gtk.RadioButton macintoshRadioButton;
+			[Glade.Widget] public Gtk.RadioButton unixRadioButton;
+			[Glade.Widget] public Gtk.Label loadLabel;		
+			[Glade.Widget] public Gtk.Label saveLabel;
+			[Glade.Widget] public Gtk.Label terminatorLabel;	
+			[Glade.Widget] public Gtk.Label locationLabel;
 			
-			return true;
-		}
-		
-		#region jba added methods
-		
-		private void SetupPanelInstance()
-		{
- 			//
- 			// set up the load options
- 			//
-			widget.load.Markup = "<b> " + StringParserService.Parse(
-				"${res:Dialog.Options.IDEOptions.LoadSaveOptions.LoadLabel}") + " </b>";
- 			widget.loadUserDataCheckBox.Label = StringParserService.Parse(
-				"${res:Dialog.Options.IDEOptions.LoadSaveOptions.LoadUserDataCheckBox}");
- 			//
- 			// setup the save options
- 			//			
- 			widget.save.Markup = "<b> " + StringParserService.Parse(
-				"${res:Dialog.Options.IDEOptions.LoadSaveOptions.SaveLabel}")+ "</b>";
- 			// the backup checkbox
- 			widget.createBackupCopyCheckBox.Label =StringParserService.Parse(
-				"${res:Dialog.Options.IDEOptions.LoadSaveOptions.CreateBackupCopyCheckBox}");
- 			// the terminator label 
- 			widget.terminator.TextWithMnemonic  = StringParserService.Parse(
-				"${res:Dialog.Options.IDEOptions.LoadSaveOptions.LineTerminatorStyleGroupBox}");
- 			// the terminator radiobutton
-			widget.windowsRadioButton.Label = StringParserService.Parse(
-				"${res:Dialog.Options.IDEOptions.LoadSaveOptions.WindowsRadioButton}");
-			widget.macintoshRadioButton.Label = StringParserService.Parse(
-				"${res:Dialog.Options.IDEOptions.LoadSaveOptions.MacintoshRadioButton}");
-			widget.unixRadioButton.Label = StringParserService.Parse(
-				"${res:Dialog.Options.IDEOptions.LoadSaveOptions.UnixRadioButton}");
-		}
-		
-		#endregion
+			// services needed
+			StringParserService StringParserService = (StringParserService)ServiceManager.Services.GetService (
+				typeof (StringParserService));
+			PropertyService PropertyService = (PropertyService)ServiceManager.Services.GetService (
+				typeof (PropertyService));
+			FileUtilityService FileUtilityService = (FileUtilityService)ServiceManager.Services.GetService (
+				typeof (FileUtilityService));
+			MessageService MessageService = (MessageService)ServiceManager.Services.GetService (
+				typeof (MessageService));
+
+			public enum LineTerminatorStyle {
+				Windows,
+				Macintosh,
+				Unix
+			}
+			
+			public LoadSavePanelWidget () : base ("Base.glade", "LoadSavePanel")
+			{
+				//
+				// load the internationalized strings.
+				//
+				loadLabel.Markup = "<b> " + StringParserService.Parse(
+					"${res:Dialog.Options.IDEOptions.LoadSaveOptions.LoadLabel}") + " </b>";
+				saveLabel.Markup = "<b> " + StringParserService.Parse(
+					"${res:Dialog.Options.IDEOptions.LoadSaveOptions.SaveLabel}")+ "</b>";
+				
+				loadUserDataCheckButton.Label = StringParserService.Parse(
+					"${res:Dialog.Options.IDEOptions.LoadSaveOptions.LoadUserDataCheckBox}");
+				loadPrevProjectCheckButton.Label = StringParserService.Parse(
+					"${res:Dialog.Options.IDEOptions.ProjectAndCombineOptions.LoadPrevProjectCheckBox}");
+				createBackupCopyCheckButton.Label =StringParserService.Parse(
+					"${res:Dialog.Options.IDEOptions.LoadSaveOptions.CreateBackupCopyCheckBox}");
+				
+ 				terminatorLabel.TextWithMnemonic  = StringParserService.Parse(
+ 					"${res:Dialog.Options.IDEOptions.LoadSaveOptions.LineTerminatorStyleGroupBox}");
+ 				windowsRadioButton.Label = StringParserService.Parse(
+ 					"${res:Dialog.Options.IDEOptions.LoadSaveOptions.WindowsRadioButton}");
+ 				macintoshRadioButton.Label = StringParserService.Parse(
+ 					"${res:Dialog.Options.IDEOptions.LoadSaveOptions.MacintoshRadioButton}");
+ 				unixRadioButton.Label = StringParserService.Parse(
+ 					"${res:Dialog.Options.IDEOptions.LoadSaveOptions.UnixRadioButton}");
+				
+				projectLocationTextBox.GtkEntry.Text = PropertyService.GetProperty(
+					"MonoDevelop.Gui.Dialogs.NewProjectDialog.DefaultPath", 
+					System.IO.Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal),
+							"MonoDevelopProjects")).ToString();
+				projectLocationTextBox.DirectoryEntry = true;
+				locationLabel.TextWithMnemonic = StringParserService.Parse(
+					"${res:Dialog.Options.IDEOptions.ProjectAndCombineOptions.ProjectLocationLabel}");
+				//
+				// setup the properties
+				//
+				loadUserDataCheckButton.Active = PropertyService.GetProperty (
+					"SharpDevelop.LoadDocumentProperties", true);
+				createBackupCopyCheckButton.Active = PropertyService.GetProperty (
+					"SharpDevelop.CreateBackupCopy", false);
+				loadPrevProjectCheckButton.Active = (bool) PropertyService.GetProperty(
+					"SharpDevelop.LoadPrevProjectOnStartup", false);
+				
+				if (LineTerminatorStyle.Windows.Equals (
+					    PropertyService.GetProperty (
+						    "SharpDevelop.LineTerminatorStyle", LineTerminatorStyle.Unix)))  {
+					windowsRadioButton.Active = true;}
+				else if  (LineTerminatorStyle.Macintosh.Equals (
+						  PropertyService.GetProperty 
+						  ("SharpDevelop.LineTerminatorStyle", LineTerminatorStyle.Unix)))  {
+					macintoshRadioButton.Active = true;}
+				else if (LineTerminatorStyle.Unix.Equals (
+						 PropertyService.GetProperty (
+							 "SharpDevelop.LineTerminatorStyle", LineTerminatorStyle.Unix))) {
+					unixRadioButton.Active = true;}
+				
+				// FIXME: renable all terminator style radio buttons when they're implemented.
+				unixRadioButton.Sensitive = false;
+				macintoshRadioButton.Sensitive = false;
+				windowsRadioButton.Sensitive = false;
+				terminatorLabel.Sensitive = false;
+			}
+			
+			public bool Store () 
+			{
+				PropertyService.SetProperty("SharpDevelop.LoadPrevProjectOnStartup", loadPrevProjectCheckButton.Active);
+				PropertyService.SetProperty ("SharpDevelop.LoadDocumentProperties",  loadUserDataCheckButton.Active);
+				PropertyService.SetProperty ("SharpDevelop.CreateBackupCopy",        createBackupCopyCheckButton.Active);
+				
+				if (windowsRadioButton.Active) {
+					PropertyService.SetProperty ("SharpDevelop.LineTerminatorStyle", LineTerminatorStyle.Windows);} 
+				else if (macintoshRadioButton.Active) {
+					PropertyService.SetProperty ("SharpDevelop.LineTerminatorStyle", LineTerminatorStyle.Macintosh);} 
+				else if (unixRadioButton.Active){
+					PropertyService.SetProperty ("SharpDevelop.LineTerminatorStyle", LineTerminatorStyle.Unix);}
+				
+				// check for correct settings
+				string projectPath = projectLocationTextBox.GtkEntry.Text;
+				if (projectPath.Length > 0) {
+					if (!FileUtilityService.IsValidFileName(projectPath)) {
+						MessageService.ShowError("Invalid project path specified");
+						return false;
+					}
+				}
+				PropertyService.SetProperty("MonoDevelop.Gui.Dialogs.NewProjectDialog.DefaultPath", projectPath);
+				
+				return true;
+			}
+		}		
 	}
 }
 

@@ -29,8 +29,6 @@ namespace MonoDevelop.Gui.Dialogs.OptionPanels
 
 		// service instances needed
 		PropertyService PropertyService = (PropertyService)ServiceManager.Services.GetService (typeof (PropertyService));
-		FileUtilityService FileUtilityService = (FileUtilityService)ServiceManager.Services.GetService (typeof (FileUtilityService));
-		MessageService MessageService = (MessageService)ServiceManager.Services.GetService (typeof (MessageService));
 		
 		ProjectAndCombinePanelWidget widget;
 		const string projectAndCombineProperty = "SharpDevelop.UI.ProjectAndCombineOptions";
@@ -42,55 +40,35 @@ namespace MonoDevelop.Gui.Dialogs.OptionPanels
 		
 		public override bool StorePanelContents()
 		{
-
-			// check for correct settings
-			string projectPath = widget.projectLocationTextBox.GtkEntry.Text;
-			if (projectPath.Length > 0) {
-				if (!FileUtilityService.IsValidFileName(projectPath)) {
-					MessageService.ShowError("Invalid project path specified");
-					return false;
-				}
-			}
-			PropertyService.SetProperty("MonoDevelop.Gui.Dialogs.NewProjectDialog.DefaultPath", projectPath);
-
 			widget.Store ();
 			return true;
 		}
 		
-		
 		public class ProjectAndCombinePanelWidget :  GladeWidgetExtract 
 		{
-			// service instances needed
-			StringParserService StringParserService = (StringParserService)ServiceManager.Services.GetService (typeof (StringParserService));
-			PropertyService PropertyService = (PropertyService)ServiceManager.Services.GetService (typeof (PropertyService));
-
 			//
 			// Gtk controls
 			//
-			[Glade.Widget] public Gnome.FileEntry projectLocationTextBox;
-			[Glade.Widget] public Gtk.RadioButton saveChangesRadioButton, promptChangesRadioButton, noSaveRadioButton;
-			[Glade.Widget] public Gtk.CheckButton loadPrevProjectCheckBox, showTaskListCheckBox, showOutputCheckBox;
-			[Glade.Widget] public Gtk.Label locationLabel, settingsLabel, buildAndRunOptionsLabel;   
+
+			[Glade.Widget] public Gtk.RadioButton saveChangesRadioButton;
+			[Glade.Widget] public Gtk.RadioButton promptChangesRadioButton; 
+			[Glade.Widget] public Gtk.RadioButton noSaveRadioButton;
+			[Glade.Widget] public Gtk.CheckButton showTaskListCheckBox;
+			[Glade.Widget] public Gtk.CheckButton showOutputCheckBox;
+			[Glade.Widget] public Gtk.Label settingsLabel;
+			[Glade.Widget] public Gtk.Label buildAndRunOptionsLabel;   
+
+			// service instances needed
+			StringParserService StringParserService = (StringParserService)ServiceManager.Services.GetService (
+				typeof (StringParserService));
+			PropertyService PropertyService = (PropertyService)ServiceManager.Services.GetService (
+				typeof (PropertyService));
 
 			public  ProjectAndCombinePanelWidget () : base ("Base.glade", "ProjectAndCombinePanel")
 			{
-				
-				settingsLabel.Markup = "<b> " + StringParserService.Parse(
-					"${res:Dialog.Options.IDEOptions.ProjectAndCombineOptions.SettingsGroupBox}") + "</b>";
-				//
-				// set up the Project Settings options
-				//
-				locationLabel.TextWithMnemonic = StringParserService.Parse(
-					"${res:Dialog.Options.IDEOptions.ProjectAndCombineOptions.ProjectLocationLabel}");
-				//projectLocationTextBox = new Gnome.FileEntry ("", "Choose Location");
-				projectLocationTextBox.DirectoryEntry = true;
-				loadPrevProjectCheckBox.Label = StringParserService.Parse(
-				"${res:Dialog.Options.IDEOptions.ProjectAndCombineOptions.LoadPrevProjectCheckBox}");
 			        //
-			        // setup the save options
+			        // getting internationalized strings
 			        //
-				buildAndRunOptionsLabel.Markup = "<b> " + StringParserService.Parse(
-					"${res:Dialog.Options.IDEOptions.ProjectAndCombineOptions.BuildAndRunGroupBox}") + "</b>";
 				saveChangesRadioButton.Label = StringParserService.Parse(
 					"${res:Dialog.Options.IDEOptions.ProjectAndCombineOptions.SaveChangesRadioButton}");
 				promptChangesRadioButton.Label = StringParserService.Parse(
@@ -101,19 +79,15 @@ namespace MonoDevelop.Gui.Dialogs.OptionPanels
 					"${res:Dialog.Options.IDEOptions.ProjectAndCombineOptions.ShowOutputPadCheckBox}");
 				showTaskListCheckBox.Label = StringParserService.Parse(
 					"${res:Dialog.Options.IDEOptions.ProjectAndCombineOptions.ShowTaskListPadCheckBox}");
-				// read properties
-				projectLocationTextBox.GtkEntry.Text = PropertyService.GetProperty(
-					"MonoDevelop.Gui.Dialogs.NewProjectDialog.DefaultPath", 
-					System.IO.Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal),
-							"MonoDevelopProjects")).ToString();
+				//
+				// reading properties
+				//
 				BeforeCompileAction action = (BeforeCompileAction) PropertyService.GetProperty(
 					"SharpDevelop.Services.DefaultParserService.BeforeCompileAction", 
 					BeforeCompileAction.SaveAllFiles);
 				saveChangesRadioButton.Active = action.Equals(BeforeCompileAction.SaveAllFiles);
 				promptChangesRadioButton.Active = action.Equals(BeforeCompileAction.PromptForSave);
 				noSaveRadioButton.Active = action.Equals(BeforeCompileAction.Nothing);
-				loadPrevProjectCheckBox.Active = (bool)PropertyService.GetProperty(
-					"SharpDevelop.LoadPrevProjectOnStartup", false);
 				showTaskListCheckBox.Active = (bool)PropertyService.GetProperty(
 					"SharpDevelop.ShowTaskListAfterBuild", true);
 				showOutputCheckBox.Active = (bool)PropertyService.GetProperty(
@@ -134,7 +108,6 @@ namespace MonoDevelop.Gui.Dialogs.OptionPanels
 							BeforeCompileAction.Nothing);
 				}
 				
-				PropertyService.SetProperty("SharpDevelop.LoadPrevProjectOnStartup", loadPrevProjectCheckBox.Active);
 				PropertyService.SetProperty("SharpDevelop.ShowTaskListAfterBuild", showTaskListCheckBox.Active);
 				PropertyService.SetProperty("SharpDevelop.ShowOutputWindowAtBuild", showOutputCheckBox.Active);
 			}
