@@ -8,7 +8,7 @@
 using System;
 using System.IO;
 
-namespace MonoDevelop.SharpRefactory.Parser
+namespace ICSharpCode.SharpRefactory.Parser
 {
 	public class StringReader : IReader
 	{

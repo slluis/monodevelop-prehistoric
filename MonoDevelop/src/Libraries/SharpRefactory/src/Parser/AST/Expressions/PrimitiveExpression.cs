@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using System.Globalization;
 
-namespace MonoDevelop.SharpRefactory.Parser.AST {
+namespace ICSharpCode.SharpRefactory.Parser.AST {
 	
 	public class PrimitiveExpression : Expression
 	{
@@ -33,7 +33,7 @@ namespace MonoDevelop.SharpRefactory.Parser.AST {
 			this.stringValue = stringValue;
 		}
 		
-		static NumberFormatInfo nfi = CultureInfo.InvariantCulture.NumberFormat;
+		static NumberFormatInfo nfi = new CultureInfo( "en-US", false ).NumberFormat;
 
 		public override object AcceptVisitor(IASTVisitor visitor, object data)
 		{

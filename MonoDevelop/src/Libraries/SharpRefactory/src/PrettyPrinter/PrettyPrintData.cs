@@ -17,10 +17,10 @@
 
 using System;
 using System.Text;
-using MonoDevelop.SharpRefactory.Parser;
-using MonoDevelop.SharpRefactory.Parser.AST;
+using ICSharpCode.SharpRefactory.Parser;
+using ICSharpCode.SharpRefactory.Parser.AST;
 
-namespace MonoDevelop.SharpRefactory.PrettyPrinter
+namespace ICSharpCode.SharpRefactory.PrettyPrinter
 {
 	/*
 	public class PrettyPrintData

@@ -1,7 +1,7 @@
 using System;
-using MonoDevelop.SharpRefactory.Parser.AST;
+using ICSharpCode.SharpRefactory.Parser.AST;
 
-namespace MonoDevelop.SharpRefactory.Parser
+namespace ICSharpCode.SharpRefactory.Parser
 {
 	public interface IASTVisitor
 	{
@@ -80,6 +80,7 @@ namespace MonoDevelop.SharpRefactory.Parser
 		object Visit(ThisReferenceExpression thisReferenceExpression, object data);
 		object Visit(BaseReferenceExpression baseReferenceExpression, object data);
 		object Visit(ObjectCreateExpression objectCreateExpression, object data);
+		object Visit(ArrayCreationParameter arrayCreationParameter, object data);
 		object Visit(ArrayCreateExpression arrayCreateExpression, object data);
 		object Visit(ParameterDeclarationExpression parameterDeclarationExpression, object data);
 		object Visit(FieldReferenceExpression fieldReferenceExpression, object data);

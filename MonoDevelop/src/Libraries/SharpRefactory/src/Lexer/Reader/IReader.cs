@@ -5,7 +5,7 @@
 //     <version value="$version"/>
 // </file>
 
-namespace MonoDevelop.SharpRefactory.Parser
+namespace ICSharpCode.SharpRefactory.Parser
 {
 	public interface IReader
 	{

@@ -11,18 +11,21 @@ using System.Drawing;
 using System.Diagnostics;
 using System.Globalization;
 using System.Text;
-using MonoDevelop.SharpRefactory.Parser;
+using ICSharpCode.SharpRefactory.Parser;
 
-namespace MonoDevelop.SharpRefactory.Parser {
-	public struct Token {
-		public readonly int kind;
+namespace ICSharpCode.SharpRefactory.Parser
+{
+	public class Token
+	{
+		public int kind;
 		
-		public readonly int col;
-		public readonly int line;
+		public int col;
+		public int line;
 		
-		public readonly object literalValue;
-		public readonly string val;
-
+		public object literalValue = null;
+		public string val;
+		public Token  next;
+		
 		public Point EndLocation {
 			get {
 				return new Point(col + val.Length, line);
@@ -34,14 +37,21 @@ namespace MonoDevelop.SharpRefactory.Parser {
 			}
 		}
 		
+		public Token()
+		{
+		}
+		
 		public Token(int kind)
 		{
 			this.kind = kind;
-			this.col  = 0;
-			this.line = 0;
-			this.val  = null;
-			this.literalValue = null;
 		}
+		
+//		public Token(Tokens kind, int col, int line)
+//		{
+//			this.kind = kind;
+//			this.col  = col;
+//			this.line = line;
+//		}
 		
 		public Token(int kind, int col, int line, string val)
 		{
@@ -49,7 +59,6 @@ namespace MonoDevelop.SharpRefactory.Parser {
 			this.col  = col;
 			this.line = line;
 			this.val  = val;
-			this.literalValue = null;
 		}
 		
 		public Token(int kind, int col, int line, string val, object literalValue)
@@ -62,30 +71,24 @@ namespace MonoDevelop.SharpRefactory.Parser {
 		}
 	}
 	
-
-	
 	public class Lexer
 	{
 		IReader reader;
-		static  Hashtable keywords = new Hashtable();
 		
 		int col  = 1;
 		int line = 1;
 		
-		Errors errors   = new Errors();
-		class TokenLink {
-			public Token t;
-			public TokenLink next;
-			
-			public TokenLink (Token t) { this.t = t; }
+		Errors         errors   = new Errors();
+		SpecialTracker specialTracker = new SpecialTracker();
+		Token          lastToken = null;
+		Token          curToken  = null;
+		Token          peekToken = null;
+		
+		public SpecialTracker SpecialTracker {
+			get {
+				return specialTracker;
+			}
 		}
-		
-//		SpecialTracker specialTracker = new SpecialTracker();
-		
-		TokenLink lastToken = null;
-		TokenLink curToken  = null;
-		TokenLink peekToken = null;
-		TokenLink reuse;
 		
 		public Errors Errors {
 			get {
@@ -95,13 +98,13 @@ namespace MonoDevelop.SharpRefactory.Parser {
 		
 		public Token Token {
 			get {
-				return lastToken.t;
+				return lastToken;
 			}
 		}
 		
 		public Token LookAhead {
 			get {
-				return curToken.t;
+				return curToken;
 			}
 		}
 		
@@ -113,132 +116,30 @@ namespace MonoDevelop.SharpRefactory.Parser {
 		public Token Peek()
 		{
 			if (peekToken.next == null) {
-				if (reuse != null) {
-					reuse.t = Next ();
-					peekToken.next = reuse;
-					reuse = null;
-				} else
-					peekToken.next = new TokenLink (Next());
+				peekToken.next = Next();
+				specialTracker.InformToken(peekToken.next.kind);
 			}
-				
 			peekToken = peekToken.next;
-			return peekToken.t;
+			return peekToken;
 		}
 		
 		public Token NextToken()
 		{
 			if (curToken == null) {
-				curToken = new TokenLink (Next());
-				return curToken.t;
+				curToken = Next();
+				specialTracker.InformToken(curToken.kind);
+				return curToken;
 			}
-			
-			reuse = lastToken;
-			// make sure we dont keep a chain around
-			if (reuse != null)
-				reuse.next = null;
 			
 			lastToken = curToken;
 			
 			if (curToken.next == null) {
-				
-				if (reuse != null) {
-					reuse.t = Next ();
-					curToken.next = reuse;
-					reuse = null;
-				} else
-					curToken.next = new TokenLink (Next());
+				curToken.next = Next();
+				specialTracker.InformToken(curToken.next.kind);
 			}
 			
 			curToken  = curToken.next;
-			return curToken.t;
-		}
-
-		
-		static string[] keywordStrings = {
-			"abstract",
-			"as",
-			"base",
-			"bool",
-			"break",
-			"byte",
-			"case",
-			"catch",
-			"char",
-			"checked",
-			"class",
-			"const",
-			"continue",
-			"decimal",
-			"default",
-			"delegate",
-			"do",
-			"double",
-			"else",
-			"enum",
-			"event",
-			"explicit",
-			"extern",
-			"false",
-			"finally",
-			"fixed",
-			"float",
-			"for",
-			"foreach",
-			"goto",
-			"if",
-			"implicit",
-			"in",
-			"int",
-			"interface",
-			"internal",
-			"is",
-			"lock",
-			"long",
-			"namespace",
-			"new",
-			"null",
-			"object",
-			"operator",
-			"out",
-			"override",
-			"params",
-			"private",
-			"protected",
-			"public",
-			"readonly",
-			"ref",
-			"return",
-			"sbyte",
-			"sealed",
-			"short",
-			"sizeof",
-			"stackalloc",
-			"static",
-			"string",
-			"struct",
-			"switch",
-			"this",
-			"throw",
-			"true",
-			"try",
-			"typeof",
-			"uint",
-			"ulong",
-			"unchecked",
-			"unsafe",
-			"ushort",
-			"using",
-			"virtual",
-			"void",
-			"volatile",
-			"while",
-		};
-		
-		static Lexer()
-		{
-			for (int i = 0 ; i < keywordStrings.Length; ++i) {
-				keywords.Add(keywordStrings[i], i + Tokens.Abstract);
-			}
+			return curToken;
 		}
 		
 		public Lexer(IReader reader)
@@ -255,7 +156,7 @@ namespace MonoDevelop.SharpRefactory.Parser {
 					++col;
 					
 					if (ch == '\n') {
-//						specialTracker.AddEndOfLine();
+						specialTracker.AddEndOfLine();
 						++line;
 						col = 1;
 					}
@@ -266,8 +167,8 @@ namespace MonoDevelop.SharpRefactory.Parser {
 					int x = col;
 					int y = line;
 					string s = ReadIdent(ch);
-					if (keywords[s] != null) {
-						return new Token((int)keywords[s], x, y, s);
+					if (Keywords.IsKeyword(s)) {
+						return new Token(Keywords.GetToken(s), x, y, s);
 					}
 					return new Token(Tokens.Identifier, x, y, s);
 				}
@@ -283,10 +184,11 @@ namespace MonoDevelop.SharpRefactory.Parser {
 						continue;
 					}
 				} else if (ch == '#') {
+					Point start = new Point(col, line);
 					++col;
 					string directive = ReadIdent('#');
 					string argument  = ReadToEOL();
-//					this.specialTracker.AddPreProcessingDirective(directive, argument);
+					this.specialTracker.AddPreProcessingDirective(directive, argument, start, new Point(start.X + directive.Length + argument.Length, start.Y));
 					continue;
 				}
 				
@@ -317,7 +219,7 @@ namespace MonoDevelop.SharpRefactory.Parser {
 				Token token = ReadOperator(ch);
 				
 				// try error recovery :)
-				if (token.kind == -1) {
+				if (token == null) {
 					return Next();
 				}
 				return token;
@@ -326,27 +228,18 @@ namespace MonoDevelop.SharpRefactory.Parser {
 			return new Token(Tokens.EOF, col, line, String.Empty);
 		}
 		
-		const int max_id_size = 512;
-		char [] id_builder = new char [max_id_size];
-		
 		string ReadIdent(char ch)
 		{
-			int pos = 0;
-			
-			id_builder [pos ++] = ch;
+			StringBuilder s = new StringBuilder(ch.ToString());
 			++col;
 			while (!reader.Eos() && (Char.IsLetterOrDigit(ch = reader.GetNext()) || ch == '_')) {
-				if (pos == max_id_size) {
-					errors.Error(col, line, "identifier too long");
-				}
-				
-				id_builder [pos ++] = ch;
+				s.Append(ch.ToString());
 				++col;
 			}
 			if (!reader.Eos()) {
 				reader.UnGet();
 			}
-			return new String (id_builder, 0, pos);
+			return s.ToString();
 		}
 		
 		Token ReadDigit(char ch, int x)
@@ -354,6 +247,8 @@ namespace MonoDevelop.SharpRefactory.Parser {
 			int y = line;
 			++col;
 			StringBuilder sb = new StringBuilder(ch.ToString());
+			StringBuilder prefix = new StringBuilder();
+			StringBuilder suffix = new StringBuilder();
 			
 			bool ishex      = false;
 			bool isunsigned = false;
@@ -371,6 +266,7 @@ namespace MonoDevelop.SharpRefactory.Parser {
 					++col;
 				}
 				ishex = true;
+				prefix.Append("0x");
 			} else {
 				while (Char.IsDigit(reader.Peek())) {
 					sb.Append(reader.GetNext());
@@ -408,29 +304,35 @@ namespace MonoDevelop.SharpRefactory.Parser {
 			}
 			
 			if (Char.ToUpper(reader.Peek()) == 'F') { // float value
+				suffix.Append(reader.Peek());
 				reader.GetNext();
 				++col;
 				isfloat = true;
 			} else if (Char.ToUpper(reader.Peek()) == 'M') { // double type suffix (obsolete, double is default)
+				suffix.Append(reader.Peek());
 				reader.GetNext();
 				++col;
 				isdouble = true;
 			} else if (Char.ToUpper(reader.Peek()) == 'D') { // decimal value
+				suffix.Append(reader.Peek());
 				reader.GetNext();
 				++col;
 				isdecimal = true;
 			} else if (!isdouble) {
 				if (Char.ToUpper(reader.Peek()) == 'U') {
+					suffix.Append(reader.Peek());
 					reader.GetNext();
 					++col;
 					isunsigned = true;
 				}
 				
 				if (Char.ToUpper(reader.Peek()) == 'L') {
+					suffix.Append(reader.Peek());
 					reader.GetNext();
 					++col;
 					islong = true;
 					if (!isunsigned && Char.ToUpper(reader.Peek()) == 'U') {
+						suffix.Append(reader.Peek());
 						reader.GetNext();
 						++col;
 						isunsigned = true;
@@ -439,74 +341,67 @@ namespace MonoDevelop.SharpRefactory.Parser {
 			}
 			
 			string digit = sb.ToString();
+			string stringValue = String.Concat(prefix.ToString(), digit, suffix.ToString());
 			if (isfloat) {
 				try {
 					NumberFormatInfo numberFormatInfo = new NumberFormatInfo();
 					numberFormatInfo.CurrencyDecimalSeparator = ".";
-					return new Token(Tokens.Literal, x, y, digit, Single.Parse(digit, numberFormatInfo));
+					return new Token(Tokens.Literal, x, y, stringValue, Single.Parse(digit, numberFormatInfo));
 				} catch (Exception) {
 					errors.Error(y, x, String.Format("Can't parse float {0}", digit));
-					return new Token(Tokens.Literal, x, y, digit, 0f);
+					return new Token(Tokens.Literal, x, y, stringValue, 0f);
 				}
 			}
 			if (isdecimal) {
 				try {
 					NumberFormatInfo numberFormatInfo = new NumberFormatInfo();
 					numberFormatInfo.CurrencyDecimalSeparator = ".";
-					return new Token(Tokens.Literal, x, y, digit, Decimal.Parse(digit, numberFormatInfo));
+					return new Token(Tokens.Literal, x, y, stringValue, Decimal.Parse(digit, numberFormatInfo));
 				} catch (Exception) {
 					errors.Error(y, x, String.Format("Can't parse decimal {0}", digit));
-					return new Token(Tokens.Literal, x, y, digit, 0m);
+					return new Token(Tokens.Literal, x, y, stringValue, 0m);
 				}
 			}
 			if (isdouble) {
 				try {
 					NumberFormatInfo numberFormatInfo = new NumberFormatInfo();
 					numberFormatInfo.CurrencyDecimalSeparator = ".";
-					return new Token(Tokens.Literal, x, y, digit, Double.Parse(digit, numberFormatInfo));
+					return new Token(Tokens.Literal, x, y, stringValue, Double.Parse(digit, numberFormatInfo));
 				} catch (Exception) {
 					errors.Error(y, x, String.Format("Can't parse double {0}", digit));
-					return new Token(Tokens.Literal, x, y, digit, 0d);
+					return new Token(Tokens.Literal, x, y, stringValue, 0d);
 				}
 			}
 			if (islong) {
 				if (isunsigned) {
 					try {
-						return new Token(Tokens.Literal, x, y, digit, UInt64.Parse(digit, ishex ? NumberStyles.HexNumber : NumberStyles.Number));
+						return new Token(Tokens.Literal, x, y, stringValue, UInt64.Parse(digit, ishex ? NumberStyles.HexNumber : NumberStyles.Number));
 					} catch (Exception) {
 						errors.Error(y, x, String.Format("Can't parse unsigned long {0}", digit));
-						return new Token(Tokens.Literal, x, y, digit, 0UL);
+						return new Token(Tokens.Literal, x, y, stringValue, 0UL);
 					}
 				} else {
 					try {
-						return new Token(Tokens.Literal, x, y, digit, Int64.Parse(digit, ishex ? NumberStyles.HexNumber : NumberStyles.Number));
+						return new Token(Tokens.Literal, x, y, stringValue, Int64.Parse(digit, ishex ? NumberStyles.HexNumber : NumberStyles.Number));
 					} catch (Exception) {
 						errors.Error(y, x, String.Format("Can't parse long {0}", digit));
-						return new Token(Tokens.Literal, x, y, digit, 0L);
+						return new Token(Tokens.Literal, x, y, stringValue, 0L);
 					}
 				}
 			} else {
 				if (isunsigned) {
 					try {
-						return new Token(Tokens.Literal, x, y, digit, UInt32.Parse(digit, ishex ? NumberStyles.HexNumber : NumberStyles.Number));
+						return new Token(Tokens.Literal, x, y, stringValue, UInt32.Parse(digit, ishex ? NumberStyles.HexNumber : NumberStyles.Number));
 					} catch (Exception) {
 						errors.Error(y, x, String.Format("Can't parse unsigned int {0}", digit));
-						return new Token(Tokens.Literal, x, y, digit, 0U);
+						return new Token(Tokens.Literal, x, y, stringValue, 0U);
 					}
 				} else {
 					try {
-						return new Token(Tokens.Literal, x, y, digit, Int32.Parse(digit, ishex ? NumberStyles.HexNumber : NumberStyles.Number));
+						return new Token(Tokens.Literal, x, y, stringValue, Int32.Parse(digit, ishex ? NumberStyles.HexNumber : NumberStyles.Number));
 					} catch (Exception) {
-						try {
-							return new Token(Tokens.Literal, x, y, digit, Int64.Parse(digit, ishex ? NumberStyles.HexNumber : NumberStyles.Number));
-						} catch {}
-							
-						try {
-							return new Token(Tokens.Literal, x, y, digit, UInt64.Parse(digit, ishex ? NumberStyles.HexNumber : NumberStyles.Number));
-						} catch {}
-						
 						errors.Error(y, x, String.Format("Can't parse int {0}", digit));
-						return new Token(Tokens.Literal, x, y, digit, 0);
+						return new Token(Tokens.Literal, x, y, stringValue, 0);
 					}
 				}
 			}
@@ -548,7 +443,14 @@ namespace MonoDevelop.SharpRefactory.Parser {
 			int y = line;
 			char ch = '\0';
 			StringBuilder s = new StringBuilder();
-			while (!reader.Eos() && (ch = reader.GetNext()) != '"') {
+			while (!reader.Eos()) {
+				ch = reader.GetNext();
+				if (ch == '"') {
+					if (reader.Peek() != '"') {
+						break;
+					}
+					reader.GetNext();
+				}
 				++col;
 				if (ch == '\n') {
 					++line;
@@ -886,7 +788,7 @@ namespace MonoDevelop.SharpRefactory.Parser {
 					return new Token(Tokens.OpenCurlyBrace, x, y, "{");
 				default:
 					--col;
-					return new Token (-1);
+					return null;
 			}
 		}
 		
@@ -934,33 +836,21 @@ namespace MonoDevelop.SharpRefactory.Parser {
 		
 		void ReadSingleLineComment(CommentType commentType)
 		{
-			if (!reader.Eos()) {
-				char ch = reader.GetNext();
-				while (!reader.Eos()) {
-					if (ch == '\n') {
-						++line;
-						col = 1;
-						return;
-					}
-					ch = reader.GetNext();
-					++col;
-				}
-			}
-//			specialTracker.StartComment(commentType, new Point(line, col));
-//			specialTracker.AddString(ReadToEOL());
-//			specialTracker.FinishComment();
+			specialTracker.StartComment(commentType, new Point(line, col));
+			specialTracker.AddString(ReadToEOL());
+			specialTracker.FinishComment();
 		}
 		
 		void ReadMultiLineComment()
 		{
-//			specialTracker.StartComment(CommentType.Block, new Point(line, col));
+			specialTracker.StartComment(CommentType.Block, new Point(line, col));
 			int x = col;
 			int y = line;
 			while (!reader.Eos()) {
 				char ch;
 				switch (ch = reader.GetNext()) {
 					case '\n':
-//						specialTracker.AddChar('\n');
+						specialTracker.AddChar('\n');
 						++line;
 						col = 1;
 						break;
@@ -970,19 +860,19 @@ namespace MonoDevelop.SharpRefactory.Parser {
 							case '/':
 								reader.GetNext();
 								++col;
-//								specialTracker.FinishComment();
+								specialTracker.FinishComment();
 								return;
 							default:
-//								specialTracker.AddChar('*');
+								specialTracker.AddChar('*');
 								continue;
 						}
 					default:
-//						specialTracker.AddChar(ch);
+						specialTracker.AddChar(ch);
 						++col;
 						break;
 				}
 			}
-//			specialTracker.FinishComment();
+			specialTracker.FinishComment();
 		}
 	}
 }

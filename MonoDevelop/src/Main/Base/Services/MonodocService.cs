@@ -1,4 +1,5 @@
 using System;
+using System.Xml;
 
 using Monodoc;
 
@@ -21,6 +22,8 @@ namespace MonoDevelop.Services
 			get { return helpTree; }
 		}
 
+		//public XmlDocument GetHelpXml (string type) {
+		//	return helpTree.GetHelpXml ("T:" + type);
+		//}
 	}
-
 }

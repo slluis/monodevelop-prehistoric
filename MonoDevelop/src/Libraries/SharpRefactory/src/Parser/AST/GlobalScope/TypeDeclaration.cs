@@ -19,7 +19,7 @@ using System;
 using System.Collections;
 using System.Collections.Specialized;
 
-namespace MonoDevelop.SharpRefactory.Parser.AST
+namespace ICSharpCode.SharpRefactory.Parser.AST
 {
 	public class TypeDeclaration : AbstractNode
 	{

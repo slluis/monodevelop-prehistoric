@@ -19,7 +19,7 @@ using System;
 using System.Drawing;
 using System.Collections;
 
-namespace MonoDevelop.SharpRefactory.Parser.AST
+namespace ICSharpCode.SharpRefactory.Parser.AST
 {
 	public class EventDeclaration : AbstractNode
 	{
@@ -122,8 +122,9 @@ namespace MonoDevelop.SharpRefactory.Parser.AST
 		public EventDeclaration()
 		{}
 		
-		public EventDeclaration(ArrayList attributes)
+		public EventDeclaration(Modifier modifier, ArrayList attributes)
 		{
+			this.modifier = modifier;
 			this.attributes = attributes;
 		}
 		

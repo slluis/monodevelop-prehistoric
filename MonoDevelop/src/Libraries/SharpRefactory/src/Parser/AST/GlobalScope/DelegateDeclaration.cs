@@ -18,7 +18,7 @@
 using System;
 using System.Collections;
 
-namespace MonoDevelop.SharpRefactory.Parser.AST
+namespace ICSharpCode.SharpRefactory.Parser.AST
 {
 	public class DelegateDeclaration : AbstractNode
 	{
@@ -72,15 +72,6 @@ namespace MonoDevelop.SharpRefactory.Parser.AST
 				attributes = value;
 			}
 		}
-		
-//		public DelegateDeclaration(string name, Modifier modifier, TypeReference returnType, ArrayList parameters, ArrayList attributes)
-//		{
-//			this.name = name;
-//			this.modifier = modifier;
-//			this.returnType = returnType;
-//			this.parameters = parameters;
-//			this.attributes = attributes;
-//		}
 		
 		public override object AcceptVisitor(IASTVisitor visitor, object data)
 		{

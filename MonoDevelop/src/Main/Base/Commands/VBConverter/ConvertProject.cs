@@ -26,8 +26,8 @@ using MonoDevelop.Internal.Project;
 using MonoDevelop.Gui.Dialogs;
 using MonoDevelop.Services;
 
-using MonoDevelop.SharpRefactory.PrettyPrinter;
-using MonoDevelop.SharpRefactory.Parser;
+using ICSharpCode.SharpRefactory.PrettyPrinter;
+using ICSharpCode.SharpRefactory.Parser;
 
 namespace MonoDevelop.Commands
 {

@@ -1,6 +1,6 @@
 using System;
 
-namespace MonoDevelop.SharpRefactory.Parser
+namespace ICSharpCode.SharpRefactory.Parser
 {
 	[Flags]
 	public enum Modifier

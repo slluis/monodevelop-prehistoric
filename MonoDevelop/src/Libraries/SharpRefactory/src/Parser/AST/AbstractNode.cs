@@ -21,12 +21,12 @@ using System.Drawing;
 
 using System.Collections;
 
-namespace MonoDevelop.SharpRefactory.Parser.AST
+namespace ICSharpCode.SharpRefactory.Parser.AST
 {
 	public abstract class AbstractNode : INode
 	{
 		INode     parent;
-		ArrayList children;
+		ArrayList children = new ArrayList();
 		Hashtable specials;
 		Point     startLocation;
 		Point     endLocation;
@@ -69,17 +69,12 @@ namespace MonoDevelop.SharpRefactory.Parser.AST
 		
 		public ArrayList Children {
 			get {
-				if (children == null)
-					return children = new ArrayList (1);
 				return children;
 			}
 		}
 		
 		public virtual void AddChild(INode childNode)
 		{
-			if (children == null)
-				children = new ArrayList ();
-			
 			children.Add(childNode);
 		}
 		
@@ -90,9 +85,6 @@ namespace MonoDevelop.SharpRefactory.Parser.AST
 		
 		public object AcceptChildren(IASTVisitor visitor, object data)
 		{
-			if (children == null)
-				return data;
-			
 			foreach (INode child in children) {
 				if (child != null) {
 					child.AcceptVisitor(visitor, data);

@@ -4,7 +4,7 @@ using System.CodeDom;
 using System.Collections;
 using System.Drawing;
 
-namespace MonoDevelop.SharpRefactory.Parser
+namespace ICSharpCode.SharpRefactory.Parser
 {
 	public class Comment
 	{
@@ -45,5 +45,12 @@ namespace MonoDevelop.SharpRefactory.Parser
 			this.comment       = comment;
 			this.startPosition = startPosition;
 		}
+		
+		public override string ToString()
+		{
+			return String.Format("[Comment: CommentType = {0}]",
+			                     CommentType);
+		}
+		
 	}
 }

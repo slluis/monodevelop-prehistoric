@@ -1,7 +1,7 @@
 using System;
 using System.Collections;
 
-namespace MonoDevelop.SharpRefactory.Parser.AST 
+namespace ICSharpCode.SharpRefactory.Parser.AST 
 {
 	public class CastExpression : Expression
 	{
@@ -25,6 +25,11 @@ namespace MonoDevelop.SharpRefactory.Parser.AST
 			set {
 				expression = value;
 			}
+		}
+		
+		public CastExpression(TypeReference castTo)
+		{
+			this.castTo = castTo;
 		}
 		
 		public CastExpression(TypeReference castTo, Expression expression)

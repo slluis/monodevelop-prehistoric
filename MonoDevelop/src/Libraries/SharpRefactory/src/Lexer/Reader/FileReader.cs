@@ -8,7 +8,7 @@
 using System;
 using System.IO;
 
-namespace MonoDevelop.SharpRefactory.Parser
+namespace ICSharpCode.SharpRefactory.Parser
 {
 	public class FileReader : IReader
 	{
@@ -17,7 +17,6 @@ namespace MonoDevelop.SharpRefactory.Parser
 		
 		public FileReader(string filename)
 		{
-			Console.WriteLine("open file name " + filename);
 			StreamReader sreader = File.OpenText(filename);
 			file = sreader.ReadToEnd();
 			sreader.Close();

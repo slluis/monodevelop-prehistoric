@@ -1,8 +1,8 @@
 using System;
 using System.Collections;
-using MonoDevelop.SharpRefactory.Parser.AST;
+using ICSharpCode.SharpRefactory.Parser.AST;
 
-namespace MonoDevelop.SharpRefactory.Parser
+namespace ICSharpCode.SharpRefactory.Parser
 {
 	public abstract class AbstractASTVisitor : IASTVisitor
 	{
@@ -17,10 +17,12 @@ namespace MonoDevelop.SharpRefactory.Parser
 			}
 		}
 		
-#region MonoDevelop.SharpRefactory.Parser.IASTVisitor interface implementation
+#region ICSharpCode.SharpRefactory.Parser.IASTVisitor interface implementation
 		public virtual object Visit(INode node, object data)
 		{
 			Console.WriteLine("Warning: INode visited");
+			Console.WriteLine("Visitor was: " + this.GetType());
+			Console.WriteLine("Node was : " + node.GetType());
 			return node.AcceptChildren(this, data);
 		}
 		
@@ -72,8 +74,8 @@ namespace MonoDevelop.SharpRefactory.Parser
 			return data;
 		}
 #endregion
-		
-#region Global Scope
+
+#region Type level
 		public virtual object Visit(VariableDeclaration variableDeclaration, object data)
 		{
 			if (variableDeclaration.Initializer != null) {
@@ -340,22 +342,19 @@ namespace MonoDevelop.SharpRefactory.Parser
 		public virtual object Visit(ForStatement forStatement, object data)
 		{
 			object ret = data;
-			if (forStatement.Initializers != null) { 
+			if (forStatement.Initializers != null) {
 				foreach(INode n in forStatement.Initializers) {
-					if (n != null) n.AcceptVisitor(this, data);
+					n.AcceptVisitor(this, data);
 				}
 			}
-			
 			if (forStatement.Condition != null) {
 				ret = forStatement.Condition.AcceptVisitor(this, data);
 			}
-			
 			if (forStatement.Iterator != null) {
 				foreach(INode n in forStatement.Iterator) {
-					if (n != null) n.AcceptVisitor(this, data);
+					n.AcceptVisitor(this, data);
 				}
 			}
-			
 			if (forStatement.EmbeddedStatement == null) {
 				return ret;
 			}
@@ -449,11 +448,18 @@ namespace MonoDevelop.SharpRefactory.Parser
 		}
 		public virtual object Visit(TryCatchStatement tryCatchStatement, object data)
 		{
+			if (tryCatchStatement == null) {
+				return data;
+			}
 			if (tryCatchStatement.StatementBlock != null) {
 				tryCatchStatement.StatementBlock.AcceptVisitor(this, data);
 			}
-			foreach (CatchClause catchClause in tryCatchStatement.CatchClauses) {
-				catchClause.StatementBlock.AcceptVisitor(this, data);
+			if (tryCatchStatement.CatchClauses != null) {
+				foreach (CatchClause catchClause in tryCatchStatement.CatchClauses) {
+					if (catchClause != null) {
+						catchClause.StatementBlock.AcceptVisitor(this, data);
+					}
+				}
 			}
 			if (tryCatchStatement.FinallyBlock != null) {
 				return tryCatchStatement.FinallyBlock.AcceptVisitor(this, data);
@@ -587,11 +593,22 @@ namespace MonoDevelop.SharpRefactory.Parser
 			}
 			return data;
 		}
+		
+		public virtual object Visit(ArrayCreationParameter arrayCreationParameter, object data)
+		{
+			if (arrayCreationParameter.Expressions != null) {
+				foreach (Expression e in arrayCreationParameter.Expressions) {
+					e.AcceptVisitor(this, data);
+				}
+			}
+			return data;
+		}
+		
 		public virtual object Visit(ArrayCreateExpression arrayCreateExpression, object data)
 		{
 			if (arrayCreateExpression.Parameters != null) {
-				foreach (Expression p in arrayCreateExpression.Parameters) {
-					p.AcceptVisitor(this, data);
+				foreach (INode node in arrayCreateExpression.Parameters) {
+					node.AcceptVisitor(this, data);
 				}
 			}
 			if (arrayCreateExpression.ArrayInitializer != null) {

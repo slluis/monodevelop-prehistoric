@@ -1,0 +1,15 @@
+2004-04-21  Todd Berman <tberman@sevenl.net>
+
+	* Parser/Parser.cs:
+	* Parser/CSharpVisitor.cs:
+	* Parser/Resolver.cs:
+	* Parser/TypeVisitor.cs:
+	* Parser/SharpDevelopTree/Indexer.cs:
+	* Parser/SharpDevelopTree/Method.cs:
+	* Parser/SharpDevelopTree/Event.cs:
+	* Parser/SharpDevelopTree/ReturnType.cs:
+	* Parser/SharpDevelopTree/Field.cs:
+	* Parser/SharpDevelopTree/Property.cs:
+	* Parser/SharpDevelopTree/Constructor.cs:
+	* Parser/SharpDevelopTree/Class.cs: changes to reflect brand spankin
+	new parser. (from #D)

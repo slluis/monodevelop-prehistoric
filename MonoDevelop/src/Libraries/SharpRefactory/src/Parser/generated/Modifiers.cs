@@ -1,4 +1,4 @@
-namespace MonoDevelop.SharpRefactory.Parser
+namespace ICSharpCode.SharpRefactory.Parser
 {
 	public class Modifiers
 	{

@@ -12,8 +12,8 @@ using System.Drawing;
 using MonoDevelop.Services;
 using SharpDevelop.Internal.Parser;
 using CSharpBinding.Parser.SharpDevelopTree;
-using MonoDevelop.SharpRefactory.Parser.AST;
-using MonoDevelop.SharpRefactory.Parser;
+using ICSharpCode.SharpRefactory.Parser.AST;
+using ICSharpCode.SharpRefactory.Parser;
 
 namespace CSharpBinding.Parser
 {
@@ -96,7 +96,7 @@ namespace CSharpBinding.Parser
 			this.parserService = parserService;
 			IParseInformation parseInfo = parserService.GetParseInformation (fileName, fileContent);
 			
-			MonoDevelop.SharpRefactory.Parser.AST.CompilationUnit fileCompilationUnit = parseInfo.MostRecentCompilationUnit.Tag as MonoDevelop.SharpRefactory.Parser.AST.CompilationUnit;
+			ICSharpCode.SharpRefactory.Parser.AST.CompilationUnit fileCompilationUnit = parseInfo.MostRecentCompilationUnit.Tag as ICSharpCode.SharpRefactory.Parser.AST.CompilationUnit;
 			if (fileCompilationUnit == null) {
 //				MonoDevelop.SharpRefactory.Parser.Parser fileParser = new MonoDevelop.SharpRefactory.Parser.Parser();
 //				fileParser.Parse(new Lexer(new StringReader(fileContent)));
@@ -106,7 +106,7 @@ namespace CSharpBinding.Parser
 			
 			
 			Lexer l = new Lexer(new StringReader(expression));
-			MonoDevelop.SharpRefactory.Parser.Parser p = new MonoDevelop.SharpRefactory.Parser.Parser();
+			ICSharpCode.SharpRefactory.Parser.Parser p = new ICSharpCode.SharpRefactory.Parser.Parser();
 			Expression expr = p.ParseExpression(l);
 			
 			

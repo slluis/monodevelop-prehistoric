@@ -19,7 +19,7 @@ using System;
 using System.Threading;
 using System.Collections;
 
-namespace MonoDevelop.SharpRefactory.Parser.AST
+namespace ICSharpCode.SharpRefactory.Parser.AST
 {
 	public class CompilationUnit : AbstractNode
 	{

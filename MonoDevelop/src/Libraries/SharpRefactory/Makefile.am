@@ -96,6 +96,8 @@ FILES = \
 ./src/Parser/generated/Modifiers.cs \
 ./src/Parser/generated/Parser.cs \
 ./src/Parser/generated/Error.cs \
+./src/Parser/generated/keywordlist/Tokens.cs \
+./src/Parser/generated/keywordlist/Keywords.cs \
 ./src/PrettyPrinter/OutputFormatter.cs \
 ./src/PrettyPrinter/PrettyPrintVisitor.cs \
 ./src/PrettyPrinter/PrettyPrintUtil.cs \

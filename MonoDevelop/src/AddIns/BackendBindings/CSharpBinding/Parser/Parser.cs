@@ -8,7 +8,7 @@ using System;
 using MonoDevelop.Services;
 using SharpDevelop.Internal.Parser;
 using CSharpBinding.Parser.SharpDevelopTree;
-using MonoDevelop.SharpRefactory.Parser;
+using ICSharpCode.SharpRefactory.Parser;
 
 namespace CSharpBinding.Parser
 {
@@ -24,7 +24,7 @@ namespace CSharpBinding.Parser
 		
 		public ICompilationUnitBase Parse(string fileName)
 		{
-			MonoDevelop.SharpRefactory.Parser.Parser p = new MonoDevelop.SharpRefactory.Parser.Parser();
+			ICSharpCode.SharpRefactory.Parser.Parser p = new ICSharpCode.SharpRefactory.Parser.Parser();
 			
 			p.Parse(new Lexer(new FileReader(fileName)));
 			
@@ -36,7 +36,7 @@ namespace CSharpBinding.Parser
 		
 		public ICompilationUnitBase Parse(string fileName, string fileContent)
 		{
-			MonoDevelop.SharpRefactory.Parser.Parser p = new MonoDevelop.SharpRefactory.Parser.Parser();
+			ICSharpCode.SharpRefactory.Parser.Parser p = new ICSharpCode.SharpRefactory.Parser.Parser();
 			p.Parse(new Lexer(new StringReader(fileContent)));
 			
 			CSharpVisitor visitor = new CSharpVisitor();

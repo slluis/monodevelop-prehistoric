@@ -4,7 +4,7 @@ using System.CodeDom;
 using System.Collections;
 using System.Drawing;
 
-namespace MonoDevelop.SharpRefactory.Parser
+namespace ICSharpCode.SharpRefactory.Parser
 {
 	public class SpecialTracker
 	{
@@ -20,6 +20,11 @@ namespace MonoDevelop.SharpRefactory.Parser
 			}
 		}
 		
+		public void InformToken(int kind)
+		{
+			currentSpecials.Add(kind);
+		}
+		
 		public ArrayList RetrieveSpecials()
 		{
 			ArrayList tmp = currentSpecials;
@@ -32,9 +37,9 @@ namespace MonoDevelop.SharpRefactory.Parser
 			currentSpecials.Add(new BlankLine());
 		}
 		
-		public void AddPreProcessingDirective(string cmd, string arg)
+		public void AddPreProcessingDirective(string cmd, string arg, Point start, Point end)
 		{
-			currentSpecials.Add(new PreProcessingDirective(cmd, arg));
+			currentSpecials.Add(new PreProcessingDirective(cmd, arg, start, end));
 		}
 		
 		// used for comment tracking

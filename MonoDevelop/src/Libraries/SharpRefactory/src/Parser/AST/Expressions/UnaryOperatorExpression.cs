@@ -1,7 +1,7 @@
 using System;
 using System.Collections;
 
-namespace MonoDevelop.SharpRefactory.Parser.AST 
+namespace ICSharpCode.SharpRefactory.Parser.AST 
 {
 	public class UnaryOperatorExpression : Expression
 	{
@@ -23,6 +23,11 @@ namespace MonoDevelop.SharpRefactory.Parser.AST
 			set {
 				op = value;
 			}
+		}
+		
+		public UnaryOperatorExpression(UnaryOperatorType op)
+		{
+			this.op    = op;
 		}
 		
 		public UnaryOperatorExpression(Expression expression, UnaryOperatorType op)

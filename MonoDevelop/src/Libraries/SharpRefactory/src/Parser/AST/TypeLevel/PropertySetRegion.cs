@@ -18,7 +18,7 @@
 using System;
 using System.Collections;
 
-namespace MonoDevelop.SharpRefactory.Parser.AST
+namespace ICSharpCode.SharpRefactory.Parser.AST
 {
 	public class PropertySetRegion : AbstractNode
 	{

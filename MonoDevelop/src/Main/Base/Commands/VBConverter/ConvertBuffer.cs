@@ -26,8 +26,8 @@ using MonoDevelop.Internal.Project;
 using MonoDevelop.Gui.Dialogs;
 using MonoDevelop.Services;
 
-using MonoDevelop.SharpRefactory.PrettyPrinter;
-using MonoDevelop.SharpRefactory.Parser;
+using ICSharpCode.SharpRefactory.PrettyPrinter;
+using ICSharpCode.SharpRefactory.Parser;
 
 namespace MonoDevelop.Commands
 {
@@ -40,7 +40,7 @@ namespace MonoDevelop.Commands
 			if (window != null && window.ViewContent is IEditable) {
 				
 				Parser p = new Parser();
-				p.Parse(new Lexer(new MonoDevelop.SharpRefactory.Parser.StringReader(((IEditable)window.ViewContent).Text)));
+				p.Parse(new Lexer(new ICSharpCode.SharpRefactory.Parser.StringReader(((IEditable)window.ViewContent).Text)));
 				
 				if (p.Errors.count > 0) {
 					IMessageService messageService =(IMessageService)ServiceManager.Services.GetService(typeof(IMessageService));

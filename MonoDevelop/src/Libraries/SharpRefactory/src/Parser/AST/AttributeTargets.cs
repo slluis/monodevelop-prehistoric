@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using System.Text;
 
-namespace MonoDevelop.SharpRefactory.Parser
+namespace ICSharpCode.SharpRefactory.Parser
 {
 	[Flags]
 	public enum AttributeTarget

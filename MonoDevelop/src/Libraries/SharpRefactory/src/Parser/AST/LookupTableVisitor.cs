@@ -2,9 +2,9 @@ using System;
 using System.Drawing;
 using System.Collections;
 
-using MonoDevelop.SharpRefactory.Parser.AST;
+using ICSharpCode.SharpRefactory.Parser.AST;
 
-namespace MonoDevelop.SharpRefactory.Parser
+namespace ICSharpCode.SharpRefactory.Parser
 {
 	public class LocalLookupVariable
 	{
@@ -71,7 +71,13 @@ namespace MonoDevelop.SharpRefactory.Parser
 			            foreachStatement.VariableName,
 			            foreachStatement.StartLocation,
 			            foreachStatement.EndLocation);
-			return data;
+			if (foreachStatement.Expression != null) {
+				foreachStatement.Expression.AcceptVisitor(this, data);
+			}
+			if (foreachStatement.EmbeddedStatement == null) {
+				return data;
+			}
+			return foreachStatement.EmbeddedStatement.AcceptVisitor(this, data);
 		}
 	}
 }
