@@ -304,56 +304,23 @@ namespace MonoDevelop.SourceEditor.Gui {
 		
 		void PropertiesChanged (object sender, PropertyEventArgs e)
  		{
-			string switchVal = (e != null) ? e.Key : null;
-			switch(switchVal)
-			{
-				case null:
-				case "DefaultFont":
-					// font
-					se.View.ModifyFont (TextEditorProperties.Font);
-					break;
-				
-				case "ShowLineNumbers":
-					// show line numbers
-					se.View.ShowLineNumbers = TextEditorProperties.ShowLineNumbers;
-					break;
-				
-				case "ShowBracketHighlight":
-					// hilight matching bracket
-					se.Buffer.CheckBrackets = TextEditorProperties.ShowMatchingBracket;
-					break;
-				
-				case "ShowVRuler":
-				case "VRulerRow":
-					// show column ruler after n cols
-					se.View.ShowMargin = TextEditorProperties.ShowVerticalRuler;
-					if (TextEditorProperties.VerticalRulerRow > -1) {
-						se.View.Margin = (uint) TextEditorProperties.VerticalRulerRow;
-					} else {
-						se.View.Margin = (uint) 80;		// FIXME: should i be doing this on a bad vruller setting?
-					}
-					break;
-				
-				case "IndentationSize":
-				case "TabIndent":
-					// tab width
-					if (TextEditorProperties.TabIndent > -1) {
-						se.View.TabsWidth = (uint) TextEditorProperties.TabIndent;
-					} else {
-						se.View.TabsWidth = (uint) 8;	// FIXME: should i be doing this on a bad tabindent setting?
-					}
-					break;
-					
-				case "TabsToSpaces":
-					// convert tabs to spaces
-					se.View.InsertSpacesInsteadOfTabs = TextEditorProperties.ConvertTabsToSpaces;
-					break;
-				case "IndentStyle":
-					// FIXME: should also be able to handle Smart indent, for now treating smart as None					
-					se.View.AutoIndent = (TextEditorProperties.IndentStyle == IndentStyle.Auto);
-					break;
-				default:
-					System.Console.WriteLine(e.Key + " = " + e.NewValue + "(from " + e.OldValue + ")" );
+			se.View.ModifyFont (TextEditorProperties.Font);
+			se.View.ShowLineNumbers = TextEditorProperties.ShowLineNumbers;
+			se.Buffer.CheckBrackets = TextEditorProperties.ShowMatchingBracket;
+			se.View.ShowMargin = TextEditorProperties.ShowVerticalRuler;
+			if (TextEditorProperties.VerticalRulerRow > -1) {
+				se.View.Margin = (uint) TextEditorProperties.VerticalRulerRow;
+			} else {
+				se.View.Margin = (uint) 80;		// FIXME: should i be doing this on a bad vruller setting?
+			}
+			if (TextEditorProperties.TabIndent > -1) {
+				se.View.TabsWidth = (uint) TextEditorProperties.TabIndent;
+			} else {
+				se.View.TabsWidth = (uint) 8;	// FIXME: should i be doing this on a bad tabindent setting?
+			}
+			se.View.InsertSpacesInsteadOfTabs = TextEditorProperties.ConvertTabsToSpaces;
+			se.View.AutoIndent = (TextEditorProperties.IndentStyle == IndentStyle.Auto);
+			//System.Console.WriteLine(e.Key + " = " + e.NewValue + "(from " + e.OldValue + ")" );
 					// The items below can't be done (since there is no support for it in gtksourceview)
 					// CANTDO: show spaces				Key = "ShowSpaces"
 					// CANTDO: show tabs				Key = "ShowTabs"
@@ -368,8 +335,6 @@ namespace MonoDevelop.SourceEditor.Gui {
 					// TODO: can move past EOL 			Key = "CursorBehindEOL"
 					// TODO: auot insert template		Key = "AutoInsertTemplates"	
 					// TODO: hide mouse while typing 	Key = "HideMouseCursor"
-				break;
-			}
  		}
 
 	}
