@@ -66,6 +66,7 @@ namespace MonoDevelop
 			string socket_filename = "/tmp/md-" + Environment.GetEnvironmentVariable ("USER") + "-socket";
 			listen_socket = new Socket (AddressFamily.Unix, SocketType.Stream, ProtocolType.IP);
 			EndPoint ep = new UnixEndPoint (socket_filename);
+
 			if (File.Exists (socket_filename)) {
 				try {
 					listen_socket.Connect (ep);
@@ -86,15 +87,7 @@ namespace MonoDevelop
 		
 			SplashScreenForm.SetCommandLineArgs(remainingArgs);
 			
-			foreach (string parameter in SplashScreenForm.GetParameterList()) {
-				switch (parameter.ToUpper()) {
-					case "NOLOGO":
-						noLogo = true;
-						break;
-				}
-			}
-
-			if (!noLogo) {
+			if (!options.nologo) {
 				SplashScreenForm.SplashScreen.ShowAll ();
 				RunMainLoop ();
 			}
@@ -118,8 +111,7 @@ namespace MonoDevelop
 					RunMainLoop ();
 				}
 
-				// We don't have yet an alternative for Application.ThreadException
-				// How can we handle this?
+				// no alternative for Application.ThreadException?
 				// Application.ThreadException += new ThreadExceptionEventHandler(ShowErrorBox);
 
 			} catch (XmlException e) {

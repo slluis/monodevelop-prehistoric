@@ -1,5 +1,10 @@
 2004-07-01  John Luke  <jluke@cfl.rr.com>
 
+	* MonoDevelopMain.cs: implement nologo
+	* MonoDevelopOptions.cs: add -f and --nologo args
+
+2004-07-01  John Luke  <jluke@cfl.rr.com>
+
 	* AssemblyInfo.cs.in: clean up and add some informaition used below
 	* Makefile.am: add Mono.GetOptions reference and new file
 	* MonoDevelopOptions.cs: new file for handling options
