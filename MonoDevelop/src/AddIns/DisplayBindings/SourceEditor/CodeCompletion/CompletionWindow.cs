@@ -108,7 +108,6 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 			int capitalizationIndex = -1;
 			
 			string typedString = GetTypedString ();
-			Console.WriteLine (typedString);
 			TreeIter iter;
 			int i = 0;
 			store.GetIterFirst (out iter);
