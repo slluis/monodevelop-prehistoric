@@ -875,31 +875,27 @@
 	                          link = "home://../doc/CodingStyleGuide.pdf" /> -->
 	                <MenuItem id = "Separator2" label = "-" />
 	                <MenuItem id = "Web" label = "${res:XML.MainMenu.HelpMenu.WebMenu}">
-	                        <MenuItem id = "ASP" label = "&amp;AlphaSierraPapa" icon = "Icons.16x16.WebSearchIcon" description = "Visit my sponsors" link = "http://www.alphasierrapapa.com/" />
-	                        <MenuItem id = "SharpDevelop" label = "SharpDevelop">
+	                        <!-- <MenuItem id = "ASP" label = "&amp;AlphaSierraPapa" icon = "Icons.16x16.WebSearchIcon" description = "Visit my sponsors" link = "http://www.alphasierrapapa.com/" /> -->
+	                        <!-- <MenuItem id = "SharpDevelop" label = "SharpDevelop">
 	                        	<MenuItem id = "Downloads" label = "Downloads" icon = "Icons.16x16.WebSearchIcon" link = "http://www.icsharpcode.net/opensource/sd/download/" />
 	                        	<MenuItem id = "Forum" label = "Community Forums" icon = "Icons.16x16.WebSearchIcon" link = "http://www.icsharpcode.net/opensource/sd/forum/" />
 	                        	<MenuItem id = "Announcement" label = "Announcement List" icon = "Icons.16x16.WebSearchIcon" link = "http://www.icsharpcode.net/opensource/sd/announcementlist.asp" />
 	                        	<MenuItem id = "Mail" label = "Send Us a Mail" icon = "Icons.16x16.WebSearchIcon" link = "http://www.icsharpcode.net/opensource/sd/ContactUs.asp" />
-	                        </MenuItem>
+	                        </MenuItem> -->
 	                        <MenuItem id = "C#" label = "C#">
 	                        	<MenuItem id = "cshrp.net" label = "cshrp.net" icon = "Icons.16x16.WebSearchIcon" link = "http://www.cshrp.net/" />
 	                        	<MenuItem id = "C# Help" label = "C# Help" icon = "Icons.16x16.WebSearchIcon" link = "http://www.csharphelp.com" />
 	                        	<MenuItem id = "C# Corner" label = "C# Corner" icon = "Icons.16x16.WebSearchIcon" link = "http://www.c-sharpcorner.com" />
 		                        <MenuItem id = "GotDotNet" label = "GotDotNet" icon = "Icons.16x16.WebSearchIcon" description = "Visit one of the best NET sites on the web" link = "http://www.gotdotnet.com/" />
 	                        </MenuItem>
-	                        <MenuItem id = "IntegratedProjects" label = "Integrated Projects">
+	                        <!-- <MenuItem id = "IntegratedProjects" label = "Integrated Projects">
 	                        	<MenuItem id = "Magic Library" label = "Magic Library" icon = "Icons.16x16.WebSearchIcon" description = "One of the best .NET control libraries around." link = "http://www.dotnetmagic.com" />
 	                        	<MenuItem id = "NAnt" label = "NAnt" icon = "Icons.16x16.WebSearchIcon" description = "THE .NET building tool." link = "http://nant.sourceforge.net/" />
 	                        	<MenuItem id = "NDoc" label = "NDoc" icon = "Icons.16x16.WebSearchIcon" description = "I used the NDoc as the SharpDevelop documentation generator. Look out it is cool." link = "http://ndoc.sourceforge.net/" />
 	                        	<MenuItem id = "#ZipLib" label = "#ZipLib" icon = "Icons.16x16.WebSearchIcon" description = "I used the NDoc as the SharpDevelop documentation generator. Look out it is cool." link = "http://www.icsharpcode.net/OpenSource/NZipLib" />
 	                        	<MenuItem id = "#CvsLib" label = "#CvsLib" icon = "Icons.16x16.WebSearchIcon" description = "I used the NDoc as the SharpDevelop documentation generator. Look out it is cool." link = "http://www.icsharpcode.net/OpenSource/NetCvsLib" />
-	                        </MenuItem>
-	                        <MenuItem id = "NETPlatforms" label = ".NET Platforms">
-		                        <MenuItem id = "DotGNU"  label = "DotGNU" icon = "Icons.16x16.WebSearchIcon" description = "The GNU .NET implementation" link = "http://www.dotgnu.org" />
-		                        <MenuItem id = "Mono"    label = "Mono Project" icon = "Icons.16x16.WebSearchIcon" description = "A free .NET implementation effort, worth visiting" link = "http://www.go-mono.com" />
-		                        <MenuItem id = "MSNET"    label = "MS .NET" icon = "Icons.16x16.WebSearchIcon" description = "The first .NET implementation" link = "http://msdn.microsoft.com/net" />
-	                        </MenuItem>
+	                        </MenuItem> -->
+		                <MenuItem id = "Mono"    label = "Mono Project" icon = "Icons.16x16.WebSearchIcon" description = "A free .NET implementation effort, worth visiting" link = "http://www.go-mono.com" />
 	                </MenuItem>
 	                <MenuItem id = "Separator3" label = "-" />
 	                <MenuItem id = "About"
