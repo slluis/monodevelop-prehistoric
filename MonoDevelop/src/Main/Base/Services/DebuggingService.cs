@@ -115,29 +115,9 @@ namespace MonoDevelop.Services
 		{
 			this.proc = process;
 
-			string[] keys = new string [breakpoints.Keys.Count];
-			breakpoints.Keys.CopyTo (keys, 0);
-			foreach (string key in keys) {
-				Breakpoint point = CreateBreakpoint (key);
-				string[] toks = point.Name.Split (':');
-				string filename = toks [0];
-				int linenumber = Int32.Parse (toks [1]);
-				SourceLocation loc = backend.FindLocation(filename, linenumber);
-				if (loc == null) {
-					Console.WriteLine ("Couldn't find breakpoint location " + key + " " + backend.Modules.Length);
-					return;
-				}
-				breakpoints [key] = loc.InsertBreakpoint (proc, point);
-				if (breakpoints [key] == null)
-					//throw new Exception ("Couldn't insert breakpoint " + key);
-					return;
-			}
-
 			proc.TargetEvent += new TargetEventHandler (target_event);
 
 			Gtk.Timeout.Add (1, new Gtk.Function (EmitStarted));
-
-			proc.Continue (false);
 		}
 
 		private void target_event (object sender, TargetEventArgs args)
@@ -157,8 +137,33 @@ namespace MonoDevelop.Services
 			}
 		}
 
+		void insert_breakpoints ()
+		{
+			string[] keys = new string [breakpoints.Keys.Count];
+			breakpoints.Keys.CopyTo (keys, 0);
+			foreach (string key in keys) {
+				Breakpoint point = CreateBreakpoint (key);
+				string[] toks = point.Name.Split (':');
+				string filename = toks [0];
+				int linenumber = Int32.Parse (toks [1]);
+				SourceLocation loc = backend.FindLocation(filename, linenumber);
+				if (loc == null) {
+					Console.WriteLine ("Couldn't find breakpoint location " + key + " " + backend.Modules.Length);
+					return;
+				}
+				breakpoints [key] = loc.InsertBreakpoint (proc, point);
+				if (breakpoints [key] == null)
+					//throw new Exception ("Couldn't insert breakpoint " + key);
+					return;
+			}
+		}
+
 		bool EmitStarted ()
 		{
+			insert_breakpoints ();
+
+			proc.Continue (false);
+
 			if (StartedEvent != null)
 				StartedEvent (this, new EventArgs ());
 
