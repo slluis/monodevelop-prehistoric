@@ -160,13 +160,11 @@ namespace ICSharpCode.TextEditor
 		void VScrollBarValueChanged(object sender, EventArgs e)
 		{
 			textArea.VirtualTop = new System.Drawing.Point((int)textArea.VirtualTop.X, (int)vScrollBar.Value);
-			textArea.Invalidate();
 		}
 		
 		void HScrollBarValueChanged(object sender, EventArgs e)
 		{
 			textArea.VirtualTop = new System.Drawing.Point((int)hScrollBar.Value, textArea.VirtualTop.Y);
-			textArea.Invalidate();
 		}
 		
 #if GTK

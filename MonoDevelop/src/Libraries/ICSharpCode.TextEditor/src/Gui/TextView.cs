@@ -322,7 +322,7 @@ namespace ICSharpCode.TextEditor
 				return 0f;
 			}
 			float wordWidth = MeasureString(font, word);
-			g.DrawRectangle(gc, true, new Gdk.Rectangle((int) Math.Abs(position.X), (int) Math.Abs(position.Y), (int) Math.Abs(wordWidth), (int) Math.Abs(FontHeight)));
+			g.DrawRectangle(gc, true, new Gdk.Rectangle((int) Math.Abs(position.X), (int) position.Y, (int) Math.Abs(wordWidth), (int) Math.Abs(FontHeight)));
 			using (Gdk.GC tgc = new Gdk.GC(g)) {
 				tgc.Copy(gc);
 				tgc.RgbFgColor = new Gdk.Color(foreColor);
