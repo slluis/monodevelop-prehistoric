@@ -468,7 +468,7 @@ addin_DATA = $(ADDIN)
 optionsdir = $(libdir)/monodevelop/data/options
 options_DATA = $(OPTIONS)
 
-CLEANFILES = $(ASSEMBLY) $(ASSEMBLY).mdb
+CLEANFILES = $(ASSEMBLY) $(ASSEMBLY).mdb $(build_OPTIONS)
 DISTCLEANFILES = $(CONFIG)
 
 EXTRA_DIST = $(FILES) ./Services/process-icons.pl $(CONFIG).in Base.glade $(ADDIN) $(OPTIONS)
