@@ -4,7 +4,7 @@
 
 DIE=0
 
-PKG_NAME=MonoDevelop
+PKG_NAME=MonoDevelop-Debugger
 WANT_AUTOCONF="2.5"
 srcdir=`dirname $0`
 test -z "$srcdir" && srcdir=.
@@ -80,10 +80,6 @@ WANT_AUTOCONF="2.5" autoconf || { echo "**Error**: autoconf failed."; exit 1; }
 conf_flags="--enable-maintainer-mode --enable-compile-warnings"
 
 if test x$NOCONFIGURE = x; then
-  echo Running Core/autogen.sh "$@" ...
-  cd $srcdir/Core && NOCONFIGURE=yes ./autogen.sh "$@" && cd - > /dev/null 2>&1
-  echo Running Extras/DebuggerAddIn/autogen.sh "$@" ...
-  cd $srcdir/Extras/DebuggerAddIn && NOCONFIGURE=yes ./autogen.sh "$@" && cd - > /dev/null 2>&1
   echo Running $srcdir/configure $conf_flags "$@" ...
   $srcdir/configure $conf_flags "$@" \
   && echo Now type \`make\' to compile $PKG_NAME || exit 1

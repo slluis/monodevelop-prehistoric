@@ -1,0 +1,61 @@
+AC_INIT([monodevelop-debugger], 0.5.99, README)
+AC_CONFIG_AUX_DIR(.)
+AM_INIT_AUTOMAKE([1.9 tar-ustar])
+AM_MAINTAINER_MODE
+
+AC_PATH_PROG(MONO, mono)
+AC_PATH_PROG(MCS, mcs)
+
+if test "x$MONO" = "x" ; then
+  AC_PATH_PROG(MINT, mint)
+  if test "x$MINT" = "x" ; then
+    AC_MSG_ERROR([Can't find "mono" or "mint" in your PATH])
+  fi
+fi
+
+if test "x$MCS" = "x" ; then
+  AC_MSG_ERROR([Can't find "mcs" in your PATH])
+fi
+
+MONO_REQUIRED_VERSION=1.0
+
+PKG_CHECK_MODULES(UNMANAGED_DEPENDENCIES_MONO,mono >= $MONO_REQUIRED_VERSION, has_mono=true, has_mono=false)
+PKG_CHECK_MODULES(UNMANAGED_DEPENDENCIES_MINT,mint >= $MONO_REQUIRED_VERSION, has_mint=true, has_mint=false)
+
+if test "x$has_mono" = "xtrue"; then
+ if test `uname -s` = "Darwin"; then
+   AC_PATH_PROG(RUNTIME, mono, no)
+   AC_PATH_PROG(CSC, mcs, no)
+   LIB_PREFIX=
+   LIB_SUFFIX=.dylib
+ else
+   AC_PATH_PROG(RUNTIME, mono, no)
+   AC_PATH_PROG(CSC, mcs, no)
+   LIB_PREFIX=.so
+   LIB_SUFFIX=
+ fi
+else
+  if test "x$has_mint" = "xtrue"; then
+    AC_PATH_PROG(RUNTIME, mint, no)
+    AC_PATH_PROG(CSC, mcs, no)
+    LIB_PREFIX=.so
+    LIB_SUFFIX=
+  fi
+fi
+
+GTKSHARP_REQUIRED_VERSION=1.0
+
+PKG_CHECK_MODULES(BASE_DEPENDENCIES, gnome-sharp-2.0 >= $GTKSHARP_REQUIRED_VERSION glade-sharp-2.0 >= $GTKSHARP_REQUIRED_VERSION gconf-sharp-2.0 >= $GTKSHARP_REQUIRED_VERSION gtkhtml-sharp-2.0 >= $GTKSHARP_REQUIRED_VERSION)
+AC_SUBST(BASE_DEPENDENCIES_LIBS)
+
+dnl find mono debugger
+dnl MONO_DEBUGGER_REQUIRED_VERSION=0.9
+dnl PKG_CHECK_MODULES(MONO_DEBUGGER, mono-debugger >= $MONO_DEBUGGER_REQUIRED_VERSION, enable_debugger=yes, enable_debugger=no)
+dnl AC_SUBST(MONO_DEBUGGER_LIBS)
+enable_debugger=no
+
+AM_CONDITIONAL(ENABLE_DEBUGGER, test "x$enable_debugger" = "xyes")
+
+AC_OUTPUT([
+Makefile
+])

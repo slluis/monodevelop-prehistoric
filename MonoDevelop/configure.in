@@ -1,8 +1,9 @@
-AC_INIT(README)
-AM_INIT_AUTOMAKE(monodevelop, 0.5.1)
+AC_INIT([monodevelop], 0.5.99, README)
+AM_INIT_AUTOMAKE([1.9 tar-ustar])
 AM_MAINTAINER_MODE
 
 AC_CONFIG_SUBDIRS(Core)
+AC_CONFIG_SUBDIRS(Extras/DebuggerAddIn)
 
 AC_OUTPUT([
 Makefile

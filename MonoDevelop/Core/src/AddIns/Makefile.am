@@ -1,1 +1,1 @@
-SUBDIRS = DisplayBindings BackendBindings Misc DebuggerAddIn prj2make-sharp-lib
+SUBDIRS = DisplayBindings BackendBindings Misc prj2make-sharp-lib
