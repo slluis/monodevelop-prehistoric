@@ -74,7 +74,7 @@ namespace ICSharpCode.TextEditor.Document
 			if (WorkbenchSingleton.Workbench.ActiveWorkbenchWindow != null) {
 				SourceEditor textarea = (SourceEditor) ((SourceEditorDisplayBindingWrapper)WorkbenchSingleton.Workbench.ActiveWorkbenchWindow.ViewContent).Control;
 				string text = textarea.Buffer.GetSelectedText ();
-				if (text == SearchOptions.SearchPattern) {
+				if (text.ToLower () == SearchOptions.SearchPattern.ToLower ()) {
 					int offset = textarea.Buffer.GetLowerSelectionBounds ();
 					
 					((IClipboardHandler)textarea.Buffer).Delete (null, null);
