@@ -20,126 +20,124 @@ using ICSharpCode.SharpDevelop.Services;
 
 //using System.Windows.Forms;
 using Gtk;
+using MonoDevelop.Gui.Widgets;
 
 namespace ICSharpCode.SharpDevelop.Gui.Dialogs.OptionPanels
 {
 	public class ProjectAndCombinePanel : AbstractOptionPanel
 	{
-		//
-		// Gtk controls
-		//
-		Gnome.FileEntry projectLocationTextBox;
-		Gtk.RadioButton saveChangesRadioButton;
-		Gtk.RadioButton promptChangesRadioButton;
-		Gtk.RadioButton noSaveRadioButton;
-		Gtk.CheckButton loadPrevProjectCheckBox;
-		Gtk.CheckButton showTaskListCheckBox;
-		Gtk.CheckButton showOutputCheckBox;
-		
 		// service instances needed
-		StringParserService StringParserService = (StringParserService)ServiceManager.Services.GetService (typeof (StringParserService));
 		PropertyService PropertyService = (PropertyService)ServiceManager.Services.GetService (typeof (PropertyService));
 		FileUtilityService FileUtilityService = (FileUtilityService)ServiceManager.Services.GetService (typeof (FileUtilityService));
 		MessageService MessageService = (MessageService)ServiceManager.Services.GetService (typeof (MessageService));
-		
+		ProjectAndCombinePanelWidget widget;
+		const string projectAndCombineProperty = "SharpDevelop.UI.ProjectAndCombineOptions";
+
 		public override void LoadPanelContents()
 		{
-			// set up the form controls instance
-			SetupPanelInstance();
-			
-			// read properties
-			projectLocationTextBox.GtkEntry.Text = PropertyService.GetProperty("ICSharpCode.SharpDevelop.Gui.Dialogs.NewProjectDialog.DefaultPath", System.IO.Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "SharpDevelop Projects")).ToString();
-			
-			BeforeCompileAction action = (BeforeCompileAction)PropertyService.GetProperty("SharpDevelop.Services.DefaultParserService.BeforeCompileAction", BeforeCompileAction.SaveAllFiles);
-			
-			saveChangesRadioButton.Active = action.Equals(BeforeCompileAction.SaveAllFiles);
-			promptChangesRadioButton.Active = action.Equals(BeforeCompileAction.PromptForSave);
-			noSaveRadioButton.Active = action.Equals(BeforeCompileAction.Nothing);
-			
-			loadPrevProjectCheckBox.Active = (bool)PropertyService.GetProperty("SharpDevelop.LoadPrevProjectOnStartup", false);
-
-			showTaskListCheckBox.Active = (bool)PropertyService.GetProperty("SharpDevelop.ShowTaskListAfterBuild", true);
-			showOutputCheckBox.Active = (bool)PropertyService.GetProperty("SharpDevelop.ShowOutputWindowAtBuild", true);
-			
+			IProperties p = (IProperties) PropertyService.GetProperty (projectAndCombineProperty, new DefaultProperties ());
+			Add (widget = new  ProjectAndCombinePanelWidget (p));
 		}
 		
 		public override bool StorePanelContents()
 		{
+			IProperties p = (IProperties) PropertyService.GetProperty (projectAndCombineProperty, new DefaultProperties ());
+
 			// check for correct settings
-			string projectPath = projectLocationTextBox.GtkEntry.Text;
+			string projectPath = widget.projectLocationTextBox.GtkEntry.Text;
 			if (projectPath.Length > 0) {
 				if (!FileUtilityService.IsValidFileName(projectPath)) {
 					MessageService.ShowError("Invalid project path specified");
 					return false;
 				}
 			}
-			
-			// set properties
-			PropertyService.SetProperty("ICSharpCode.SharpDevelop.Gui.Dialogs.NewProjectDialog.DefaultPath", projectPath);
-			
-			if (saveChangesRadioButton.Active) {
-				PropertyService.SetProperty("SharpDevelop.Services.DefaultParserService.BeforeCompileAction", BeforeCompileAction.SaveAllFiles);
-			} else if (promptChangesRadioButton.Active) {
-				PropertyService.SetProperty("SharpDevelop.Services.DefaultParserService.BeforeCompileAction", BeforeCompileAction.PromptForSave);
-			} else if (noSaveRadioButton.Active) {
-				PropertyService.SetProperty("SharpDevelop.Services.DefaultParserService.BeforeCompileAction", BeforeCompileAction.Nothing);
-			}
-			
-			PropertyService.SetProperty("SharpDevelop.LoadPrevProjectOnStartup", loadPrevProjectCheckBox.Active);
-			
-			PropertyService.SetProperty("SharpDevelop.ShowTaskListAfterBuild", showTaskListCheckBox.Active);
-			PropertyService.SetProperty("SharpDevelop.ShowOutputWindowAtBuild", showOutputCheckBox.Active);
-			
+			p.SetProperty("ICSharpCode.SharpDevelop.Gui.Dialogs.NewProjectDialog.DefaultPath", projectPath);
+
+			widget.Store (p);
+			PropertyService.SetProperty(projectAndCombineProperty, p);
 			return true;
 		}
 		
 		
-		private void SetupPanelInstance()
+		public class ProjectAndCombinePanelWidget :  GladeWidgetExtract 
 		{
-			Gtk.Frame frame1 = new Gtk.Frame(StringParserService.Parse("${res:Dialog.Options.IDEOptions.ProjectAndCombineOptions.SettingsGroupBox}"));
+			// service instances needed
+			StringParserService StringParserService = (StringParserService)ServiceManager.Services.GetService (typeof (StringParserService));
+
 			//
-			// set up the Project Settings options
+			// Gtk controls
 			//
-			// instantiate all the controls
-			Gtk.VBox vBox1 = new Gtk.VBox(false,2);
-			Gtk.Label label1 = new Gtk.Label(StringParserService.Parse("${res:Dialog.Options.IDEOptions.ProjectAndCombineOptions.ProjectLocationLabel}"));
-				// make the location text box and button
-				Gtk.HBox hBox1 = new Gtk.HBox(false,2);
-				projectLocationTextBox = new Gnome.FileEntry ("", "Choose Location");
+			[Glade.Widget] public Gnome.FileEntry projectLocationTextBox;
+			[Glade.Widget] public Gtk.RadioButton saveChangesRadioButton, promptChangesRadioButton, noSaveRadioButton;
+			[Glade.Widget] public Gtk.CheckButton loadPrevProjectCheckBox, showTaskListCheckBox, showOutputCheckBox;
+			[Glade.Widget] public Gtk.Label locationLabel, settingsLabel, buildAndRunOptionsLabel;   
+
+			public  ProjectAndCombinePanelWidget (IProperties p) : base ("Base.glade", "ProjectAndCombinePanel")
+			{
+				
+				settingsLabel.Markup = "<b> " + StringParserService.Parse(
+					"${res:Dialog.Options.IDEOptions.ProjectAndCombineOptions.SettingsGroupBox}") + "</b>";
+				//
+				// set up the Project Settings options
+				//
+				locationLabel.TextWithMnemonic = StringParserService.Parse(
+					"${res:Dialog.Options.IDEOptions.ProjectAndCombineOptions.ProjectLocationLabel}");
+				//projectLocationTextBox = new Gnome.FileEntry ("", "Choose Location");
 				projectLocationTextBox.DirectoryEntry = true;
-				hBox1.PackStart(projectLocationTextBox, true, true, 2);
-			loadPrevProjectCheckBox = new Gtk.CheckButton (StringParserService.Parse("${res:Dialog.Options.IDEOptions.ProjectAndCombineOptions.LoadPrevProjectCheckBox}"));
-			// pack them all
-			vBox1.PackStart(label1, false, false, 2);
-			vBox1.PackStart(hBox1, false, false, 2);
-			vBox1.PackStart(loadPrevProjectCheckBox, false, false, 2);
-			frame1.Add(vBox1);
+				loadPrevProjectCheckBox.Label = StringParserService.Parse(
+				"${res:Dialog.Options.IDEOptions.ProjectAndCombineOptions.LoadPrevProjectCheckBox}");
+			        //
+			        // setup the save options
+			        //
+				buildAndRunOptionsLabel.Markup = "<b> " + StringParserService.Parse(
+					"${res:Dialog.Options.IDEOptions.ProjectAndCombineOptions.BuildAndRunGroupBox}") + "</b>";
+				saveChangesRadioButton.Label = StringParserService.Parse(
+					"${res:Dialog.Options.IDEOptions.ProjectAndCombineOptions.SaveChangesRadioButton}");
+				promptChangesRadioButton.Label = StringParserService.Parse(
+					"${res:Dialog.Options.IDEOptions.ProjectAndCombineOptions.PromptToSaveRadioButton}");
+				noSaveRadioButton.Label = StringParserService.Parse(
+					"${res:Dialog.Options.IDEOptions.ProjectAndCombineOptions.DontSaveRadioButton}");
+				showOutputCheckBox.Label = StringParserService.Parse(
+					"${res:Dialog.Options.IDEOptions.ProjectAndCombineOptions.ShowOutputPadCheckBox}");
+				showTaskListCheckBox.Label = StringParserService.Parse(
+					"${res:Dialog.Options.IDEOptions.ProjectAndCombineOptions.ShowTaskListPadCheckBox}");
+				// read properties
+				projectLocationTextBox.GtkEntry.Text = p.GetProperty(
+					"ICSharpCode.SharpDevelop.Gui.Dialogs.NewProjectDialog.DefaultPath", 
+					System.IO.Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal),
+							"SharpDevelop Projects")).ToString();
+				BeforeCompileAction action = (BeforeCompileAction) p.GetProperty(
+					"SharpDevelop.Services.DefaultParserService.BeforeCompileAction", 
+					BeforeCompileAction.SaveAllFiles);
+				saveChangesRadioButton.Active = action.Equals(BeforeCompileAction.SaveAllFiles);
+				promptChangesRadioButton.Active = action.Equals(BeforeCompileAction.PromptForSave);
+				noSaveRadioButton.Active = action.Equals(BeforeCompileAction.Nothing);
+				loadPrevProjectCheckBox.Active = (bool)p.GetProperty(
+					"SharpDevelop.LoadPrevProjectOnStartup", false);
+				showTaskListCheckBox.Active = (bool)p.GetProperty(
+					"SharpDevelop.ShowTaskListAfterBuild", true);
+				showOutputCheckBox.Active = (bool)p.GetProperty(
+					"SharpDevelop.ShowOutputWindowAtBuild", true);
+			}
 			
-			//
-			// setup the save options
-			//
-			//instantiate all the controls
-			Gtk.Frame frame2 = new Gtk.Frame(StringParserService.Parse("${res:Dialog.Options.IDEOptions.ProjectAndCombineOptions.BuildAndRunGroupBox}"));
-			Gtk.VBox vBox2 = new Gtk.VBox(false, 2);
-			saveChangesRadioButton = new RadioButton(StringParserService.Parse("${res:Dialog.Options.IDEOptions.ProjectAndCombineOptions.SaveChangesRadioButton}"));
-			promptChangesRadioButton = new RadioButton(saveChangesRadioButton, StringParserService.Parse("${res:Dialog.Options.IDEOptions.ProjectAndCombineOptions.PromptToSaveRadioButton}"));
-			noSaveRadioButton = new RadioButton (promptChangesRadioButton, StringParserService.Parse("${res:Dialog.Options.IDEOptions.ProjectAndCombineOptions.DontSaveRadioButton}"));
-			showOutputCheckBox = new CheckButton (StringParserService.Parse("${res:Dialog.Options.IDEOptions.ProjectAndCombineOptions.ShowOutputPadCheckBox}"));;
-			showTaskListCheckBox = new CheckButton (StringParserService.Parse("${res:Dialog.Options.IDEOptions.ProjectAndCombineOptions.ShowTaskListPadCheckBox}"));
-			// pack them all
-			vBox2.PackStart(saveChangesRadioButton, false, false, 2);
-			vBox2.PackStart(promptChangesRadioButton, false, false, 2);
-			vBox2.PackStart(noSaveRadioButton, false, false, 2);
-			vBox2.PackStart(showOutputCheckBox, false, false, 2);
-			vBox2.PackStart(showTaskListCheckBox, false, false, 2);
-			frame2.Add(vBox2);
-			
-			// create the main box
-			Gtk.VBox mainBox = new Gtk.VBox(false, 2);
-			mainBox.PackStart(frame1, false, false, 2);
-			mainBox.PackStart(frame2, false, false, 2);
-			
-			this.Add(mainBox);		
-		}		
+			public void Store (IProperties p)
+			{
+				// set properties
+				if (saveChangesRadioButton.Active) {
+					p.SetProperty("SharpDevelop.Services.DefaultParserService.BeforeCompileAction", 
+							BeforeCompileAction.SaveAllFiles);
+				} else if (promptChangesRadioButton.Active) {
+					p.SetProperty("SharpDevelop.Services.DefaultParserService.BeforeCompileAction", 
+							BeforeCompileAction.PromptForSave);
+				} else if (noSaveRadioButton.Active) {
+					p.SetProperty("SharpDevelop.Services.DefaultParserService.BeforeCompileAction", 
+							BeforeCompileAction.Nothing);
+				}
+				
+				p.SetProperty("SharpDevelop.LoadPrevProjectOnStartup", loadPrevProjectCheckBox.Active);
+				p.SetProperty("SharpDevelop.ShowTaskListAfterBuild", showTaskListCheckBox.Active);
+				p.SetProperty("SharpDevelop.ShowOutputWindowAtBuild", showOutputCheckBox.Active);
+			}
+		}
 	}
 }
