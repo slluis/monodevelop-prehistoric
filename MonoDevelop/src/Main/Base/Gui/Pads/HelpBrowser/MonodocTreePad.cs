@@ -33,9 +33,9 @@ namespace MonoDevelop.Gui.Pads
 			tree_view = new TreeView ();
 
 			tree_view.AppendColumn ("name_col", new CellRendererText (), "text", 0);
-	                tree_view.RowExpanded += new Gtk.RowExpandedHandler (RowExpanded);
-        	        tree_view.Selection.Changed += new EventHandler (RowActivated);
-
+			tree_view.RowExpanded += new Gtk.RowExpandedHandler (RowExpanded);
+			tree_view.Selection.Changed += new EventHandler (RowActivated);
+			
 			store = new TreeStore (typeof (string), typeof (Node));
 			root_iter = store.AppendValues (GettextCatalog.GetString ("Mono Documentation"), mds.HelpTree);
 
@@ -49,6 +49,16 @@ namespace MonoDevelop.Gui.Pads
 			scroller.Add (tree_view);
 
 			tree_view.ExpandRow (new TreePath ("0"), false);
+			TreeIter child_iter;
+			ArrayList itersToDrop = new ArrayList ();
+		start:
+			store.IterChildren (out child_iter, root_iter);
+			do {
+				if (!store.IterHasChild (child_iter)) {
+					store.Remove (ref child_iter);
+					goto start;
+				}
+			} while (store.IterNext (out child_iter));
 		}
 
 		Hashtable populated = new Hashtable ();

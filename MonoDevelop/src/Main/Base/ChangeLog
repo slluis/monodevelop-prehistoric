@@ -1,3 +1,9 @@
+2004-04-30  Todd Berman  <tberman@sevenl.net>
+
+	* Gui/Pads/HelpBrowser/MonodocTreePad.cs: Hide doc nodes without
+	any docs. This is an ugly ugly solution, but it works. Feel free
+	to replace it with something better that looks nice.
+
 2004-04-29  Todd Berman  <tberman@sevenl.net>
 
 	* Services/ParserService/DefaultParserService.cs: commenting out
