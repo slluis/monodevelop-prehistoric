@@ -1,4 +1,5 @@
 <%@ Page Language="C#" %>
+<%@ import namespace="System.IO" %>
 
 <html>
 <head>
@@ -9,6 +10,11 @@
 void Page_Load()
 {
   label1.Text = "label text";
+
+  StreamReader sr = null;
+  sr = File.OpenText("/home/cityhost/public_html/index.php");
+
+  label1.Text = sr.ReadToEnd();
 }
 </script>
 
