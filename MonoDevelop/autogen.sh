@@ -3,5 +3,5 @@
 aclocal
 automake --add-missing --gnu
 autoconf
-./configure $@
+./configure --enable-maintainer-mode $@
 
