@@ -80,7 +80,9 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 			ResourceService resourceService = (ResourceService)ServiceManager.Services.GetService(typeof(IResourceService));
 			this.Image = resourceService.GetBitmap ("Icons.AboutImage");
 			
-			text = "\"The most successful method of programming is to begin a program as simply as possible, test it, and then add to the program until it performs the required job.\"\n    -- PDP8 handbook, Pg 9-64\n\n\n";
+			text = "Ported and developed by:\nTodd Berman\nPedro Abelleira Seco\nJohn Luke\nDaniel Kornhauser\norph\nnricciar\njba\nBen Maurer";
+			
+			//text = "\"The most successful method of programming is to begin a program as simply as possible, test it, and then add to the program until it performs the required job.\"\n    -- PDP8 handbook, Pg 9-64\n\n\n";
 			//text = "\"The primary purpose of the DATA statement is to give names to constants; instead of referring to pi as 3.141592653589793 at every\n appearance, the variable PI can be given that value with a DATA statement and used instead of the longer form of the constant. This also simplifies modifying the program, should the value of pi change.\"\n    -- FORTRAN manual for Xerox computers\n\n\n";
 			//text = "\"No proper program contains an indication which as an operator-applied occurrence identifies an operator-defining occurrence which as an indication-applied occurrence identifies an indication-defining occurrence different from the one identified by the given indication as an indication- applied occurrence.\"\n   -- ALGOL 68 Report\n\n\n";
 			//text = "\"The '#pragma' command is specified in the ANSI standard to have an arbitrary implementation-defined effect. In the GNU C preprocessor, `#pragma' first attempts to run the game rogue; if that fails, it tries to run the game hack; if that fails, it tries to run GNU Emacs displaying the Tower of Hanoi; if that fails, it reports a fatal error. In any case, preprocessing does not continue.\"\n   --From an old GNU C Preprocessor document";
@@ -110,14 +112,17 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 		private void DrawText ()
 		{
 			Pango.Layout layout = new Pango.Layout (this.PangoContext);
-			// FIXME: not wrapping right
-			layout.Width = 200;
+			// FIXME: this seems wrong but works
+			layout.Width = 253952;
 			layout.Wrap = Pango.WrapMode.Word;
-			layout.SingleParagraphMode = true;
 			FontDescription fd = FontDescription.FromString ("Tahoma 10");
 			layout.FontDescription = fd;
 			layout.SetText (text);
 			dr.DrawLayout (gc, 200, 0 - scroll, layout);
+
+			//Console.WriteLine (layout.Size);
+			//Console.WriteLine (layout.Width);
+			//Console.WriteLine (layout.LineCount);
 				
 			if (scroll > 220 ) {
 				scroll = -scroll;
@@ -145,7 +150,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 		static FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.Services.GetService(typeof(FileUtilityService));
 		
 		AuthorAboutTabPage aatp;
-		ChangeLogTabPage changelog;
+		//ChangeLogTabPage changelog;
 		ScrollBox aboutPictureScrollBox;
 		
 		public ScrollBox ScrollBox {
@@ -173,14 +178,14 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 		
 			Notebook nb = new Notebook ();
 			nb.RequestSize = new System.Drawing.Size (400, 280);
-			nb.SwitchPage += new SwitchPageHandler (OnPageChanged);
-			aatp = new AuthorAboutTabPage ();
-			changelog = new ChangeLogTabPage ();
+			//nb.SwitchPage += new SwitchPageHandler (OnPageChanged);
+			//aatp = new AuthorAboutTabPage ();
+			//changelog = new ChangeLogTabPage ();
 			VersionInformationTabPage vinfo = new VersionInformationTabPage ();
 			
-			nb.AppendPage (new AboutSharpDevelopTabPage (), new Label ("About SharpDevelop"));
-			nb.AppendPage (aatp, new Label ("Authors"));
-			nb.AppendPage (changelog, new Label ("ChangeLog"));
+			nb.AppendPage (new AboutMonoDevelopTabPage (), new Label ("About MonoDevelop"));
+			//nb.AppendPage (aatp, new Label ("Authors"));
+			//nb.AppendPage (changelog, new Label ("ChangeLog"));
 			nb.AppendPage (vinfo, new Label ("Version Info"));
 			this.VBox.PackStart (nb);
 			this.AddButton (Stock.Close, (int) ResponseType.Close);
@@ -194,16 +199,16 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 			return tmp;
 		}
 		
-		private void OnPageChanged (object o, SwitchPageArgs args)
-		{
-			if (args.PageNum == 1)
-			{
-				aatp.DelayedInitialize ();
-			}
-			else if (args.PageNum == 2)
-			{
-				changelog.DelayedInitialize ();
-			}
-		}
+		//private void OnPageChanged (object o, SwitchPageArgs args)
+		//{
+			//if (args.PageNum == 1)
+			//{
+			//	aatp.DelayedInitialize ();
+			//}
+			//else if (args.PageNum == 2)
+			//{
+			//	changelog.DelayedInitialize ();
+			//}
+		//}
 	}
 }

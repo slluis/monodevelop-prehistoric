@@ -26,7 +26,7 @@ using ICSharpCode.SharpDevelop.Services;
 
 namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 {
-	public class AboutSharpDevelopTabPage : VBox
+	public class AboutMonoDevelopTabPage : VBox
 	{
 		static GLib.GType type;
 		Label      buildLabel   = new Label ();
@@ -35,12 +35,12 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 		Label    versionTextBox = new Label ();
 		Label      sponsorLabel   = new Label ();
 		
-		static AboutSharpDevelopTabPage ()
+		static AboutMonoDevelopTabPage ()
 		{
-			type = RegisterGType (typeof (AboutSharpDevelopTabPage));
+			type = RegisterGType (typeof (AboutMonoDevelopTabPage));
 		}
 		
-		public AboutSharpDevelopTabPage() : base (type)
+		public AboutMonoDevelopTabPage() : base (type)
 		{
 			HBox hbox = new HBox (false, 0);
 			Version v = Assembly.GetEntryAssembly().GetName().Version;
@@ -64,9 +64,9 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 			hbox.PackStart (buildTextBox, false, false, 10);
 			this.PackStart (hbox, false, false, 5);
 			
-			sponsorLabel.Text = "Released under the GNU General Public license.\n\n" + 
-				                "Sponsored by AlphaSierraPapa\n" +
-			                    "                   http://www.AlphaSierraPapa.com";
+			sponsorLabel.Text = "Released under the GNU General Public license.";
+				               // "Sponsored by AlphaSierraPapa\n" +
+			                   // "                   http://www.AlphaSierraPapa.com";
 			//sponsorLabel.TabIndex = 8;
 			this.PackStart (sponsorLabel, false, false, 5);
 			this.ShowAll ();
