@@ -20,6 +20,7 @@ namespace MonoDevelop.Gui {
 		{
 			iconList = new IconList (100, null, 0);
 			iconList.IconSelected += new IconSelectedHandler (HandleIconSelected);
+			iconList.KeyPressEvent += new KeyPressEventHandler (HandleKeyPressed);
 			
 			this.Add (iconList);
 			this.WidthRequest = 350;
@@ -32,16 +33,25 @@ namespace MonoDevelop.Gui {
 			userData.Add (itm, obj);
 		}
 		
+		void HandleKeyPressed (object o, KeyPressEventArgs args)
+		{
+			if (CurrentlySelected == null)
+				return;
+			
+			if (args.Event.Key == Gdk.Key.Return && IconDoubleClicked != null)
+				IconDoubleClicked (this, EventArgs.Empty);
+		}
+		
 		void HandleIconSelected (object o, IconSelectedArgs args)
 		{
 			CurrentlySelected = userData [args.Num];
 			
 			if (IconSelected != null)
-				IconSelected (this, new EventArgs ());
+				IconSelected (this, EventArgs.Empty);
 
 			if (args.Event != null && args.Event.Type == Gdk.EventType.TwoButtonPress)
 				if (IconDoubleClicked != null)
-					IconDoubleClicked (this, new EventArgs ());
+					IconDoubleClicked (this, EventArgs.Empty);
 		}
 
 		public void Clear ()
