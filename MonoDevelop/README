@@ -37,7 +37,7 @@ ORBit2 >= 2.8.3
 gnome-vfs >= 2.0
 monodoc >= 0.12
 mono debugger >= 0.6
-gtksourceview >= 0.7
+gtksourceview >= 0.7 (0.9.x is only for GNOME 2.4 and 2.6 users)
 gtksourceview-sharp from mono's cvs
 (gtksourceview is available on Red Carpet,
 on many of the OpenCarpet channels.)
