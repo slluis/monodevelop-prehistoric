@@ -96,11 +96,11 @@ namespace MonoDevelop.SourceEditor.Gui
 		IEditable, IPositionable, IBookmarkOperations, IDebuggableEditor, ICodeStyleOperations
 	{
 
-		//internal FileSystemWatcher fsw;
+		internal FileSystemWatcher fsw;
 	
 		internal SourceEditor se;
 
-		/*void UpdateFSW (object o, EventArgs e)
+		void UpdateFSW (object o, EventArgs e)
 		{
 			if (ContentName == null || ContentName.Length == 0)
 				return;
@@ -113,17 +113,24 @@ namespace MonoDevelop.SourceEditor.Gui
 
 		private void OnFileChanged (object o, FileSystemEventArgs e)
 		{
+			if (isSaving)
+				return;
 			DispatchService dispatcher = (DispatchService)ServiceManager.GetService (typeof (DispatchService));
 			dispatcher.GuiDispatch (new StatefulMessageHandler (realFileChanged), e);
 		}
 
+		MessageDialog ReloadFileDialog;
 		void realFileChanged (object evnt)
 		{
 			FileSystemEventArgs e = (FileSystemEventArgs)evnt;
 			if (e.ChangeType == WatcherChangeTypes.Changed) {
-				MessageDialog msg = new MessageDialog ((Gtk.Window)WorkbenchSingleton.Workbench, DialogFlags.Modal, MessageType.Question, ButtonsType.YesNo, String.Format (GettextCatalog.GetString ("The file {0} has been changed outside of MonoDevelop. Would you like to reload the file?"), ContentName));
-				msg.Response += new Gtk.ResponseHandler (Responded);
-				msg.ShowAll ();
+				//To prevent more than one being shown at a
+				//time, check if this is not null.
+				if (ReloadFileDialog != null)
+					return;
+				ReloadFileDialog = new MessageDialog ((Gtk.Window)WorkbenchSingleton.Workbench, DialogFlags.Modal, MessageType.Question, ButtonsType.YesNo, String.Format (GettextCatalog.GetString ("The file {0} has been changed outside of MonoDevelop. Would you like to reload the file?"), ContentName));
+				ReloadFileDialog.Response += new Gtk.ResponseHandler (Responded);
+				ReloadFileDialog.ShowAll ();
 			}
 		}
 
@@ -131,8 +138,11 @@ namespace MonoDevelop.SourceEditor.Gui
 		{
 			if (e.ResponseId == ResponseType.Yes)
 				Load (ContentName);
-			((Gtk.Window)o).Hide ();
-		}*/
+			ReloadFileDialog.Hide ();
+			ReloadFileDialog.Response -= new Gtk.ResponseHandler (Responded);
+			ReloadFileDialog.Destroy ();
+			ReloadFileDialog = null;
+		}
 
 		public void ExecutingAt (int line)
 		{
@@ -163,7 +173,7 @@ namespace MonoDevelop.SourceEditor.Gui
 			se.Buffer.MarkSet += new MarkSetHandler (OnMarkSet);
 			se.Buffer.Changed += new EventHandler (OnChanged);
 			se.View.ToggleOverwrite += new EventHandler (CaretModeChanged);
-			//ContentNameChanged += new EventHandler (UpdateFSW);
+			ContentNameChanged += new EventHandler (UpdateFSW);
 			
 			CaretModeChanged (null, null);
 			PropertiesChanged (null, null);
@@ -171,9 +181,9 @@ namespace MonoDevelop.SourceEditor.Gui
 			PropertyService propertyService = (PropertyService) ServiceManager.GetService (typeof (PropertyService));
 			IProperties properties2 = ((IProperties) propertyService.GetProperty("MonoDevelop.TextEditor.Document.Document.DefaultDocumentAggregatorProperties", new DefaultProperties()));
 			properties2.PropertyChanged += new PropertyEventHandler (PropertiesChanged);
-		/*	fsw = new FileSystemWatcher ();
+			fsw = new FileSystemWatcher ();
 			fsw.Changed += new FileSystemEventHandler (OnFileChanged);
-			UpdateFSW (null, null);*/
+			UpdateFSW (null, null);
 		}
 
 		public void JumpTo (int line, int column)
@@ -212,10 +222,10 @@ namespace MonoDevelop.SourceEditor.Gui
 		{
 		}
 		
-		/*public override void Dispose()
+		public override void Dispose()
 		{
 			fsw.Dispose ();
-		}*/
+		}
 		
 		void OnModifiedChanged (object o, EventArgs e)
 		{
@@ -229,19 +239,23 @@ namespace MonoDevelop.SourceEditor.Gui
 			}
 		}
 		
+		bool isSaving = false;
 		public override void Save (string fileName)
 		{
+			isSaving = true;
 			se.Buffer.Save (fileName);
 			ContentName = fileName;
 			InitializeFormatter ();
+			isSaving = false;
 		}
 		
 		public override void Load (string fileName)
 		{
+			isSaving = true;
 			se.Buffer.LoadFile (fileName, Vfs.GetMimeType (fileName));
-
 			ContentName = fileName;
 			InitializeFormatter ();
+			isSaving = false;
 		}
 		
 		public void InitializeFormatter()

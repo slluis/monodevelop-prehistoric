@@ -1,4 +1,9 @@
 2004-12-14  Todd Berman  <tberman@off.net>
+
+	* Gui/SourceEditorDisplayBinding.cs: Finish off some code to detect
+	if a source file is changed externally, so it can be reloaded.
+
+2004-12-14  Todd Berman  <tberman@off.net>
 	
 	* Gui/SourceEditorBuffer.cs: Single line commenting changed a bit.
 	Fixed bug #70574.
