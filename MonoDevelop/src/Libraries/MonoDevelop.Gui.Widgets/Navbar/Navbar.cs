@@ -12,7 +12,7 @@ namespace MonoDevelop.Gui.Widgets
 		Button stop = new Button ();
 		Button reload = new Button ();
 		Button go = new Button ();
-		Entry address = new Entry ();
+		Gnome.Entry address = new Gnome.Entry ("address");
 
 		public static new GLib.GType GType
 		{
@@ -45,8 +45,8 @@ namespace MonoDevelop.Gui.Widgets
 			go.Add (new Image (Stock.Ok, IconSize.SmallToolbar));
 			go.Clicked += OnGoUrl;
 
-			address.WidthChars = 50;
-			address.Activated += OnGoUrl;
+			address.GtkEntry.WidthChars = 50;
+			address.GtkEntry.Activated += OnGoUrl;
 
 			this.AppendWidget (back, GettextCatalog.GetString ("Go back"), "");
 			this.AppendWidget (forward, GettextCatalog.GetString ("Go forward"), "");
@@ -58,10 +58,10 @@ namespace MonoDevelop.Gui.Widgets
 
 		public string Url {
 			get {
-				return address.Text;
+				return address.GtkEntry.Text;
 			}
 			set {
-				address.Text = value;
+				address.GtkEntry.Text = value;
 			}
 		}
 

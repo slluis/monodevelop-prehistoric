@@ -1,4 +1,9 @@
 2004-04-13  John Luke  <jluke@cfl.rr.com>
+
+	* Navbar/Navbar.cs: switch the address entry to Gnome.Entry
+	so we get a little history
+
+2004-04-13  John Luke  <jluke@cfl.rr.com>
 	
 	* Navbar/Navbar.cs: add a navbar control for the web browser
 	removes the clutter in that area
