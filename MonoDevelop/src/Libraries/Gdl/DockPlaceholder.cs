@@ -44,7 +44,7 @@ namespace Gdl
 		
 		public DockObject Host {
 			get { return host; }
-			set { this.Attach (value) }
+			set { this.Attach (value); }
 		}
 		
 		public DockPlacement NextPlacement {
@@ -96,7 +96,7 @@ namespace Gdl
 			if (this.host != null && !this.Sticky && this.placement_stack != null && this.host.IsCompound) {
 				DockPlacement pos;
 				DockPlacement stack_pos = this.NextPlacement;
-				foreach (Gtk.Widget child = this.host.Children) {
+				foreach (Gtk.Widget child in this.host.Children) {
 					DockObject item = child as DockObject;
 					if (item == null)
 						continue;

@@ -23,9 +23,9 @@ namespace Gdl
 			this.Child = new Gtk.Notebook ();
 			this.Child.Parent = this;
 			((Gtk.Notebook)this.Child).TabPos = Gtk.PositionType.Bottom;
-			((Gtk.Notebook)this.Child).SwitchPage += new Gtk.SwitchPageHandler (SwitchPageCb);
-			((Gtk.Notebook)this.Child).ButtonPressEvent += new Gtk.ButtonPressEvent (ButtonPressCb);
-			((Gtk.Notebook)this.Child).ButtonReleaseEvent += new Gtk.ButtonReleaseEvent (ButtonReleaseCb);
+			//((Gtk.Notebook)this.Child).SwitchPage += new Gtk.SwitchPageHandler (SwitchPageCb);
+			//((Gtk.Notebook)this.Child).ButtonPressEvent += new Gtk.ButtonPressEvent (ButtonPressCb);
+			//((Gtk.Notebook)this.Child).ButtonReleaseEvent += new Gtk.ButtonReleaseEvent (ButtonReleaseCb);
 			((Gtk.Notebook)this.Child).Scrollable = true;
 			this.Child.Show ();
 			this.DockObjectFlags &= DockObjectFlags.Automatic;
@@ -50,7 +50,6 @@ namespace Gdl
 				base.ForAll (include_internals, invoker);
 			} else {
 				if (this.Child != null) {
-					Console.WriteLine ("Missing a foreach here we prolly need");
 					stored_invoker = invoker;
 					lock (stored_invoker) {
 						((Gtk.Notebook)this.Child).Foreach (new Gtk.Callback (childForall));
@@ -101,17 +100,17 @@ namespace Gdl
 						label = new Gtk.Label (requestor_item.LongName);
 						requestor_item.TabLabel = label;
 					}
-					int position = -1;
+					int new_position = -1;
 					if (extra_data is Int32)
-						position = Convert.ToInt32 (extra_data);
-					((Gtk.Notebook)this.Child).InsertPage (requestor, label, position);
+						new_position = Convert.ToInt32 (extra_data);
+					((Gtk.Notebook)this.Child).InsertPage (requestor, label, new_position);
 					requestor.DockObjectFlags |= DockObjectFlags.Attached;
 				}
 			} else
 				base.Dock (requestor, position, extra_data);
 		}
 		
-		public override SetOrientation (Gtk.Orientation orientation)
+		public override void SetOrientation (Gtk.Orientation orientation)
 		{
 			if (this.Child != null && this.Child is Gtk.Notebook) {
 				if (orientation == Gtk.Orientation.Horizontal)

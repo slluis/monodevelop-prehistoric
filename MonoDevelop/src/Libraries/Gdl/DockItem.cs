@@ -170,7 +170,7 @@ namespace Gdl
 			get { return ((this.Behavior & DockItemBehavior.CantIconify) != 0); }
 		}
 		
-		protected override OnAdded (Gtk.Widget widget)
+		protected override void OnAdded (Gtk.Widget widget)
 		{
 			if (widget is DockObject) {
 				Console.WriteLine ("You can't add a DockObject to a DockItem");
@@ -184,7 +184,7 @@ namespace Gdl
 			this.Child = widget;
 		}
 		
-		protected override OnRemoved (Gtk.Widget widget)
+		protected override void OnRemoved (Gtk.Widget widget)
 		{
 			if (this.grip == widget) {
 				bool grip_was_visible = widget.Visible;
@@ -262,7 +262,7 @@ namespace Gdl
 			this.SetSizeRequest (requisition.Width, requisition.Height);
 		}
 		
-		protected override OnSizeAllocated (ref Gdk.Rectangle allocation)
+		protected override void OnSizeAllocated (ref Gdk.Rectangle allocation)
 		{
 			this.Allocation = allocation;
 			if (this.IsRealized) {
@@ -296,7 +296,7 @@ namespace Gdl
 			}
 		}
 		
-		protected override OnMapped ()
+		protected override void OnMapped ()
 		{
 			this.Flags |= (int)Gtk.WidgetFlags.Mapped;
 			this.GdkWindow.Show ();
@@ -306,7 +306,7 @@ namespace Gdl
 				this.grip.Map ();
 		}
 		
-		protected override OnUnmapped ()
+		protected override void OnUnmapped ()
 		{
 			this.Flags &= ~((int)Gtk.WidgetFlags.Mapped);
 			this.GdkWindow.Hide ();
@@ -314,7 +314,7 @@ namespace Gdl
 				this.grip.Unmap ();
 		}
 		
-		protected override OnRealized ()
+		protected override void OnRealized ()
 		{
 			this.Flags |= (int)Gtk.WidgetFlags.Realized;
 			Gdk.WindowAttr attributes;
@@ -339,7 +339,7 @@ namespace Gdl
 				this.grip.ParentWindow = this.GdkWindow;
 		}
 		
-		protected override OnStyleSet (Gtk.Style previous_style)
+		protected override void OnStyleSet (Gtk.Style previous_style)
 		{
 			if (this.IsRealized && !this.NoWindow) {
 				this.Style.SetBackground (this.GdkWindow, this.State);
@@ -455,10 +455,12 @@ namespace Gdl
 			return base.OnKeyPressEvent (evnt);
 		}
 		
-		protected static PreferredSize (DockItem item, ref Gdk.Rectangle req)
+		protected static Gtk.Requisition PreferredSize (DockItem item)
 		{
+			Gtk.Requisition req;
 			req.Width = Math.Max (item.preferred_width, item.Allocation.Width);
 			req.Height = Math.Max (item.preferred_height, item.Allocation.Height);
+			return req;
 		}
 		
 		public override bool DockRequest (int x, int y, DockRequest request)
@@ -478,7 +480,7 @@ namespace Gdl
 				if (rx < 0.4) {
 					request.Position = DockPlacement.Left;
 					divider = other.Width;
-				} else if (rx > (1 - 0.4) {
+				} else if (rx > (1 - 0.4)) {
 					request.Position = DockPlacement.Right;
 					rx = 1 - rx;
 					divider = Math.Max (0, my.Width - other.Width);
@@ -531,8 +533,8 @@ namespace Gdl
 				if (request.Position != DockPlacement.Center && divider >= 0)
 					request.Extra = divider;
 				return true;
-			} else
-				return false;
+			}
+			return false;
 		}
 		
 		public override void Dock (DockObject requestor, DockPlacement position, object other_data)
