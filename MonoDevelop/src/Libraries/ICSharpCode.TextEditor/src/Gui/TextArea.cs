@@ -495,7 +495,7 @@ namespace ICSharpCode.TextEditor
 			}
 			
 			int currentLineNr = Caret.Line;
-			int delta = Document.FormattingStrategy.FormatLine(this, currentLineNr, Document.PositionToOffset(Caret.Position), ch);
+			int delta = Document.FormattingStrategy.FormatLine(Document, currentLineNr, Document.PositionToOffset(Caret.Position), ch);
 			
 			motherTextEditorControl.EndUpdate();
 			if (delta != 0) {

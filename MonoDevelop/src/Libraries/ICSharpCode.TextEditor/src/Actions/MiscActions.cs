@@ -339,17 +339,18 @@ namespace ICSharpCode.TextEditor.Actions
 		/// <param name="textArea">The <see cref="ItextArea"/> which is used for callback purposes</param>
 		public override void Execute(TextArea textArea)
 		{
-			if (textArea.Document.ReadOnly) {
+			IDocument d = textArea.Document;
+			
+			if (d.ReadOnly)
 				return;
-			}
+			
 			textArea.BeginUpdate();
 			if (textArea.SelectionManager.HasSomethingSelected) {
-				foreach (ISelection selection in textArea.SelectionManager.SelectionCollection) {
-					textArea.Document.FormattingStrategy.IndentLines(textArea, selection.StartPosition.Y, selection.EndPosition.Y);
-				}
-			} else {
-				textArea.Document.FormattingStrategy.IndentLines(textArea, 0, textArea.Document.TotalNumberOfLines - 1);
-			}
+				foreach (ISelection selection in textArea.SelectionManager.SelectionCollection)
+					d.FormattingStrategy.IndentLines (d, selection.StartPosition.Y, selection.EndPosition.Y);
+			} else
+				d.FormattingStrategy.IndentLines (d, 0, textArea.Document.TotalNumberOfLines - 1);
+			
 			textArea.EndUpdate();
 			//textArea.Refresh();
 		}
@@ -484,15 +485,17 @@ namespace ICSharpCode.TextEditor.Actions
 		/// <param name="textArea">The <see cref="ItextArea"/> which is used for callback purposes</param>
 		public override void Execute(TextArea textArea)
 		{
-			if (textArea.Document.ReadOnly) {
+			IDocument d = textArea.Document;
+			
+			if (d.ReadOnly)
 				return;
-			}
+			
 			textArea.BeginUpdate();
 			textArea.InsertChar('\n');
 			
 			++textArea.Caret.Line;
 			int curLineNr = textArea.Caret.Line;
-			textArea.Caret.Column = textArea.Document.FormattingStrategy.FormatLine(textArea, curLineNr, textArea.Caret.Offset, '\n');
+			textArea.Caret.Column = d.FormattingStrategy.FormatLine (d, curLineNr, textArea.Caret.Offset, '\n');
 			textArea.SetDesiredColumn();
 			
 			textArea.Document.UpdateQueue.Clear();

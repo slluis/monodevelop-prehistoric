@@ -25,24 +25,24 @@ namespace ICSharpCode.SharpDevelop.DefaultEditor
 	/// </summary>
 	public class XmlFormattingStrategy : DefaultFormattingStrategy
 	{
-		public override int FormatLine(TextArea textArea, int lineNr, int caretOffset, char charTyped) // used for comment tag formater/inserter
+		public override int FormatLine(IDocument d, int lineNr, int caretOffset, char charTyped) // used for comment tag formater/inserter
 		{
 			try {
 				if (charTyped == '>') {
 					StringBuilder stringBuilder = new StringBuilder();
-					int offset = Math.Min(caretOffset - 2, textArea.Document.TextLength - 1);
+					int offset = Math.Min(caretOffset - 2, d.TextLength - 1);
 					while (true) {
 						if (offset < 0) {
 							break;
 						}
-						char ch = textArea.Document.GetCharAt(offset);
+						char ch = d.GetCharAt(offset);
 						if (ch == '<') {
 							string reversedTag = stringBuilder.ToString().Trim();
 							if (!reversedTag.StartsWith("/") && !reversedTag.EndsWith("/")) {
 								bool validXml = true;
 								try {
 									XmlDocument doc = new XmlDocument();
-									doc.LoadXml(textArea.Document.TextContent);
+									doc.LoadXml(d.TextContent);
 								} catch (Exception) {
 									validXml = false;
 								}
@@ -54,7 +54,7 @@ namespace ICSharpCode.SharpDevelop.DefaultEditor
 									}
 									string tagString = tag.ToString();
 									if (tagString.Length > 0) {
-										textArea.Document.Insert(caretOffset, "</" + tagString + ">");
+										d.Insert(caretOffset, "</" + tagString + ">");
 									}
 								}
 							}
@@ -67,7 +67,7 @@ namespace ICSharpCode.SharpDevelop.DefaultEditor
 			} catch (Exception e) { // Insanity check
 				Debug.Assert(false, e.ToString());
 			}
-			return charTyped == '\n' ? IndentLine(textArea, lineNr) : 0;
+			return charTyped == '\n' ? IndentLine(d, lineNr) : 0;
 		}
 	}	
 }

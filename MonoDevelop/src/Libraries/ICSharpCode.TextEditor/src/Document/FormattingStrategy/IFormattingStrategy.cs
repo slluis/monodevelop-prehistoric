@@ -10,15 +10,13 @@ using System.Collections;
 using System.Drawing;
 using System.Text;
 
-namespace ICSharpCode.TextEditor.Document
-{
+namespace ICSharpCode.TextEditor.Document {
 	/// <summary>
 	/// This interface handles the auto and smart indenting and formating
 	/// in the document while  you type. Language bindings could overwrite this 
 	/// interface and define their own indentation/formating.
 	/// </summary>
-	public interface IFormattingStrategy
-	{
+	public interface IFormattingStrategy {
 		/// <summary>
 		/// This function formats a specific line after <code>ch</code> is pressed.
 		/// </summary>
@@ -27,7 +25,7 @@ namespace ICSharpCode.TextEditor.Document
 		/// of bytes (e.g. the number of bytes inserted before the caret, or
 		/// removed, if this number is negative)
 		/// </returns>
-		int FormatLine(TextArea textArea, int line, int caretOffset, char charTyped);
+		int FormatLine (IDocument d, int line, int caretOffset, char charTyped);
 		
 		/// <summary>
 		/// This function sets the indentation level in a specific line
@@ -35,11 +33,11 @@ namespace ICSharpCode.TextEditor.Document
 		/// <returns>
 		/// the number of inserted characters.
 		/// </returns>
-		int IndentLine(TextArea textArea, int line);
+		int IndentLine (IDocument d, int line);
 		
 		/// <summary>
 		/// This function sets the indentlevel in a range of lines.
 		/// </summary>
-		void IndentLines(TextArea textArea, int begin, int end);
+		void IndentLines (IDocument d, int begin, int end);
 	}	
 }

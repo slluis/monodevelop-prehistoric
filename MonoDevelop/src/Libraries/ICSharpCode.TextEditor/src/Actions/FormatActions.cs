@@ -14,12 +14,10 @@ namespace ICSharpCode.TextEditor.Actions
 {
 	public abstract class AbstractLineFormatAction : AbstractEditAction
 	{
-		protected TextArea textArea;
 		abstract protected void Convert(IDocument document, int startLine, int endLine);
 		
 		public override void Execute(TextArea textArea)
 		{
-			this.textArea = textArea;
 			textArea.BeginUpdate();
 			if (textArea.SelectionManager.HasSomethingSelected) {
 				foreach (ISelection selection in textArea.SelectionManager.SelectionCollection) {
@@ -36,12 +34,10 @@ namespace ICSharpCode.TextEditor.Actions
 	
 	public abstract class AbstractSelectionFormatAction : AbstractEditAction
 	{
-		protected TextArea textArea;
 		abstract protected void Convert(IDocument document, int offset, int length);
 		
 		public override void Execute(TextArea textArea)
 		{
-			this.textArea = textArea;
 			textArea.BeginUpdate();
 			if (textArea.SelectionManager.HasSomethingSelected) {
 				foreach (ISelection selection in textArea.SelectionManager.SelectionCollection) {
@@ -228,7 +224,7 @@ namespace ICSharpCode.TextEditor.Actions
 	{
 		protected override void Convert(IDocument document, int startLine, int endLine)
 		{
-			document.FormattingStrategy.IndentLines(textArea, startLine, endLine);
+			document.FormattingStrategy.IndentLines(document, startLine, endLine);
 		}
 	}
 }
