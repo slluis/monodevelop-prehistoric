@@ -54,6 +54,8 @@ namespace MonoDevelop.Gui.Dialogs
 		[Glade.Widget] Gtk.Button browseButton;
 		[Glade.Widget] Gtk.Label label6;
 		[Glade.Widget] Gtk.Label label7;
+		[Glade.Widget] Gtk.Button stopButton;
+
 		
 		Gtk.Dialog ReplaceDialogPointer;
 		
@@ -205,6 +207,8 @@ namespace MonoDevelop.Gui.Dialogs
 			
 			browseButton.Clicked += new EventHandler(BrowseDirectoryEvent);
 			findButton.Clicked += new EventHandler(FindEvent);
+
+			stopButton.Clicked += new EventHandler(StopEvent);
 			
 			searchPatternEntry.Text = SearchReplaceInFilesManager.SearchOptions.SearchPattern;
 			
@@ -226,7 +230,14 @@ namespace MonoDevelop.Gui.Dialogs
 			if (SetupSearchReplaceInFilesManager ())
 				SearchReplaceInFilesManager.FindAll ();
 		}
+
+		void StopEvent (object sender, EventArgs e)
+		{
+			if (SetupSearchReplaceInFilesManager ())
+				SearchReplaceInFilesManager.CancelSearch();
+		}
 		
+						
 		void ReplaceEvent(object sender, EventArgs e)
 		{
 			if (SetupSearchReplaceInFilesManager ())
@@ -248,7 +259,7 @@ namespace MonoDevelop.Gui.Dialogs
 							System.Environment.GetEnvironmentVariable ("HOME"),
 							"Projects")).ToString ();
 			}
-
+			fd.SetFilename( defaultFolder );
 			if (fd.Run() == (int)Gtk.ResponseType.Ok)
 			{
 				directoryTextBox.Text = fd.Filename;
@@ -270,6 +281,11 @@ namespace MonoDevelop.Gui.Dialogs
 			specialSearchStrategyComboBox.Sensitive = useSpecialSearchStrategyCheckBox.Active;
 		}
 		
+		public void SetSearchPattern(string pattern)
+		{
+			searchPatternEntry.Text  = pattern;
+		}
+
 		bool SetupSearchReplaceInFilesManager()
 		{
 			FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.GetService(typeof(FileUtilityService));
@@ -337,6 +353,12 @@ namespace MonoDevelop.Gui.Dialogs
 					break;
 			}
 			return true;
+		}
+		
+		public Gtk.Dialog DialogPointer {
+			get {
+				return ReplaceDialogPointer;
+			}
 		}
 	}
 }

@@ -101,8 +101,7 @@ namespace MonoDevelop.TextEditor.Document
 				ISearchResult result = SearchReplaceManager.find.FindNext(searchOptions);
 				
 				if (result == null) {
-					//MessageBox.Show((Form)WorkbenchSingleton.Workbench, "Mark all done", "Finished");
-					MessageService.ShowMessage (GettextCatalog.GetString ("Mark all completed"));
+					Runtime.MessageService.ShowMessage(GettextCatalog.GetString ("Mark all completed"), DialogPointer ); 
 					find.Reset();
 					return;
 				} else {
@@ -134,8 +133,7 @@ namespace MonoDevelop.TextEditor.Document
 				ISearchResult result = SearchReplaceManager.find.FindNext(SearchReplaceManager.searchOptions);
 				
 				if (result == null) {
-					//MessageBox.Show((Form)WorkbenchSingleton.Workbench, "Replace all done", "Finished");
-					MessageService.ShowMessage (string.Format (GettextCatalog.GetString ("Replace all finished. {0} matches found."), find.MatchCount));
+					Runtime.MessageService.ShowMessage( string.Format (GettextCatalog.GetString ("Replace all finished. {0} matches found."), find.MatchCount), DialogPointer );
 					find.Reset();
 					return;
 				} else {
@@ -174,7 +172,7 @@ namespace MonoDevelop.TextEditor.Document
 			ISearchResult result = find.FindNext(searchOptions);
 			
 			if (result == null) {
-				MessageService.ShowMessage (GettextCatalog.GetString ("Not Found"));
+				Runtime.MessageService.ShowMessage(GettextCatalog.GetString ("Search string not Found:") + "\n" + SearchOptions.SearchPattern, DialogPointer ); 
 				find.Reset();
 			} else {
 				SourceEditor_ textArea = OpenTextArea(result.FileName);
@@ -202,5 +200,16 @@ namespace MonoDevelop.TextEditor.Document
 			
 			return ((SourceEditorDisplayBindingWrapper)WorkbenchSingleton.Workbench.ActiveWorkbenchWindow.ViewContent).Editor;
 		}
+		
+		public static Gtk.Dialog DialogPointer 
+		{
+			get {
+				if ( ReplaceDialog != null ) { 
+					return ReplaceDialog.DialogPointer;
+				}
+				return null;
+			}
+		}
+		
 	}	
 }

@@ -220,7 +220,7 @@ namespace MonoDevelop.TextEditor.Document
 			FinishSearchInFiles ();
 		}
 		
-		static void CancelSearch ()
+		public static void CancelSearch ()
 		{
 			if (!searching) return;
 			cancelled = true;
@@ -234,5 +234,16 @@ namespace MonoDevelop.TextEditor.Document
 				
 			cancelled = false;
 		}
+
+		public static Gtk.Dialog DialogPointer
+		{
+			get {
+				if ( ReplaceDialog != null ){ 
+					return ReplaceDialog.DialogPointer;
+				}
+				return null;
+			}
+		}
+		
 	}
 }

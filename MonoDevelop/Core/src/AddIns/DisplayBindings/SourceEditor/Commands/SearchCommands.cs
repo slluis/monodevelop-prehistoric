@@ -126,13 +126,16 @@ namespace MonoDevelop.DefaultEditor.Commands
 					SearchReplaceInFilesManager.SearchOptions.SearchPattern = selectedText.Split ('\n')[0];
 			}
 		}
+
 		
+				
+								
 		public override void Run ()
 		{
 			SetSearchPattern ();
 			if (SearchReplaceInFilesManager.ReplaceDialog != null) {
 				if (SearchReplaceInFilesManager.ReplaceDialog.replaceMode == false) {
-					//SearchReplaceInFilesManager.ReplaceDialog.SetSearchPattern(SearchReplaceInFilesManager.SearchOptions.SearchPattern);
+					SearchReplaceInFilesManager.ReplaceDialog.SetSearchPattern(SearchReplaceInFilesManager.SearchOptions.SearchPattern);
 					SearchReplaceInFilesManager.ReplaceDialog.Present ();
 				} else {
 					SearchReplaceInFilesManager.ReplaceDialog.Destroy ();
@@ -154,7 +157,7 @@ namespace MonoDevelop.DefaultEditor.Commands
 			
 			if (SearchReplaceInFilesManager.ReplaceDialog != null) {
 				if (SearchReplaceInFilesManager.ReplaceDialog.replaceMode == true) {
-					//SearchReplaceInFilesManager.ReplaceDialog.SetSearchPattern(SearchReplaceInFilesManager.SearchOptions.SearchPattern);
+					SearchReplaceInFilesManager.ReplaceDialog.SetSearchPattern(SearchReplaceInFilesManager.SearchOptions.SearchPattern);
 					SearchReplaceInFilesManager.ReplaceDialog.Present ();
 				} else {
 					SearchReplaceInFilesManager.ReplaceDialog.Destroy ();

@@ -1,3 +1,7 @@
+2005-02-26  Poul Andersen  <pba@mailme.dk>
+	* Services/MessageService.cs: Added ShowMessage(string message, Gtk.Window parent )
+	to ensure modal messagebox as window on top.
+
 2005-02-20  John Luke  <john.luke@gmail.com>
 
 	* Gui/Components/SharpMessageBox.cs

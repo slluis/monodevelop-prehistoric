@@ -411,5 +411,12 @@ namespace MonoDevelop.Gui.Dialogs
 			searchPatternEntry.SelectRegion (0, searchPatternEntry.Text.Length);
 		}
 		#endregion
+		
+		public Gtk.Dialog DialogPointer
+		{
+			get {
+				return ReplaceDialogPointer;
+			}
+		}
 	}
 }

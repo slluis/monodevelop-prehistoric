@@ -1,3 +1,14 @@
+2005-02-26  Poul Andersen  <pba@mailme.dk>
+	* Gui/Dialogs/ReplaceDialog.cs: Added property DialogPointer.
+	* Gui/Dialogs/ReplaceInFilesDialog.cs: Added property DialogPointer.
+	Added StopButton for search in files.
+	* Commands/SearchCommands.cs: Added call to SetSearchPattern to ensure
+	selected text in the editor is used for searching.
+	* Search/SearchReplaceManager.cs: Changed MessageBoxes to call 
+	Runtime.Service... using new "window on top" modal dialog box.
+	* Search/SearchReplaceInFilesManager.cs: Added property DialogPointer
+	* texteditoraddin.glade: Added Stop Button for Find in Files.
+
 2005-02-26  John Luke  <john.luke@gmail.com>
 
 	* Gui/SourceEditorWidget.cs: dont always set Highlight=true

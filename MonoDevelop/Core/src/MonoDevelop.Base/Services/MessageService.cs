@@ -12,6 +12,7 @@ using MonoDevelop.Gui;
 using MonoDevelop.Core.AddIns;
 using MonoDevelop.Core.Properties;
 using MonoDevelop.Services;
+using Gtk;
 
 namespace MonoDevelop.Core.Services
 {
@@ -143,6 +144,17 @@ namespace MonoDevelop.Core.Services
 		public void ShowMessage(string message, string caption)
 		{
 			Gtk.MessageDialog md = new Gtk.MessageDialog ((Gtk.Window) WorkbenchSingleton.Workbench, Gtk.DialogFlags.Modal | Gtk.DialogFlags.DestroyWithParent, Gtk.MessageType.Info, Gtk.ButtonsType.Ok, message);
+			md.Response += new Gtk.ResponseHandler(OnMessageResponse);
+			md.ShowAll ();
+		}
+
+		public void ShowMessage(string message, Gtk.Window parent )
+		{
+			Gtk.MessageDialog md = new Gtk.MessageDialog ((Gtk.Window) WorkbenchSingleton.Workbench, Gtk.DialogFlags.Modal | Gtk.DialogFlags.DestroyWithParent, Gtk.MessageType.Info, Gtk.ButtonsType.Ok, message );
+			if ( parent != null )
+			{
+				md.TransientFor = parent;
+			}
 			md.Response += new Gtk.ResponseHandler(OnMessageResponse);
 			md.ShowAll ();
 		}
