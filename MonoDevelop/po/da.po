@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: MonoDevelop 0.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-05-26 15:01+0200\n"
+"POT-Creation-Date: 2004-05-31 17:50-0400\n"
 "PO-Revision-Date: 2004-05-27 15:21+0200\n"
 "Last-Translator: Martin Willemoes Hansen <mwh@sysrq.dk>\n"
 "Language-Team: Martin Willemoes Hansen <mwh@sysrq.dk>\n"
@@ -189,139 +189,140 @@ msgid "Add New Solution..."
 msgstr "Tilføj ny løsning..."
 
 #: build/AddIns/SharpDevelopCore.addin.xml.h:43
-msgid "Add Reference"
-msgstr "Tilføj reference"
-
-#: build/AddIns/SharpDevelopCore.addin.xml.h:44
 msgid "Add Resource"
 msgstr "Tilføj ressource"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:45
+#: build/AddIns/SharpDevelopCore.addin.xml.h:44
 msgid "Add Tab"
 msgstr "Tilføj side"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:46
+#: build/AddIns/SharpDevelopCore.addin.xml.h:45
 msgid "Add Web Reference"
 msgstr "Tilføj webreference"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:47
+#: build/AddIns/SharpDevelopCore.addin.xml.h:46
 msgid "Add existing Solution"
 msgstr "Tilføj eksisterende løsning"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:48
+#: build/AddIns/SharpDevelopCore.addin.xml.h:47
 msgid "Add existing _Project"
 msgstr "Tilføj eksisterende _projekt"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:49
+#: build/AddIns/SharpDevelopCore.addin.xml.h:48
 msgid "Announcement List"
 msgstr "Annonceringsliste"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:50
+#: build/AddIns/SharpDevelopCore.addin.xml.h:49
 msgid "Buil_d Project"
 msgstr "By_g projekt"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:51
+#: build/AddIns/SharpDevelopCore.addin.xml.h:50
 msgid "Build"
 msgstr "Byg"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:52
+#: build/AddIns/SharpDevelopCore.addin.xml.h:51
 msgid "C#"
 msgstr ""
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:53
+#: build/AddIns/SharpDevelopCore.addin.xml.h:52
 msgid "C# Corner"
 msgstr "C# hjørne"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:54
+#: build/AddIns/SharpDevelopCore.addin.xml.h:53
 msgid "C# Help"
 msgstr "C# hjælp"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:55
+#: build/AddIns/SharpDevelopCore.addin.xml.h:54
 msgid "Choose Location"
 msgstr "Vælg placering"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:56
+#: build/AddIns/SharpDevelopCore.addin.xml.h:55
 msgid "Clear Recent Files"
 msgstr "Fjern seneste filer"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:57
+#: build/AddIns/SharpDevelopCore.addin.xml.h:56
 msgid "Clear Recent Solutions"
 msgstr "Fjern seneste løsninger"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:58
+#: build/AddIns/SharpDevelopCore.addin.xml.h:57
 msgid "Close All"
 msgstr "Luk alle"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:59
+#: build/AddIns/SharpDevelopCore.addin.xml.h:58
 msgid "Close File"
 msgstr "Luk fil"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:60
+#: build/AddIns/SharpDevelopCore.addin.xml.h:59
 msgid "Close Solution"
 msgstr "Luk løsning"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:61
+#: build/AddIns/SharpDevelopCore.addin.xml.h:60
 #: build/AddIns/AddIns/BackendBindings/BackendBindings.addin.xml.h:4
 msgid "Code Generation"
 msgstr "Kodegenerering"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:62
+#: build/AddIns/SharpDevelopCore.addin.xml.h:61
 msgid "Coding"
 msgstr "Kodning"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:63
+#: build/AddIns/SharpDevelopCore.addin.xml.h:62
 msgid "Common"
 msgstr "Fælles"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:64
+#: build/AddIns/SharpDevelopCore.addin.xml.h:63
 msgid "Community Forums"
 msgstr "Fællesskabsfora"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:65
+#: build/AddIns/SharpDevelopCore.addin.xml.h:64
 #: src/Main/Base/Commands/MenuItemBuilders.cs:301
 msgid "Compile"
 msgstr "Kompilér"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:66
+#: build/AddIns/SharpDevelopCore.addin.xml.h:65
 msgid "Compile All"
 msgstr "Kompilér alle"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:67
+#: build/AddIns/SharpDevelopCore.addin.xml.h:66
 msgid "Convert C# Project to VB.NET"
 msgstr "Konverter C# projekt til VB.NET projekt"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:68
+#: build/AddIns/SharpDevelopCore.addin.xml.h:67
 #: build/AddIns/MonoDevelopNewEditor.addin.xml.h:32
 msgid "Copy"
 msgstr "Kopier"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:69
+#: build/AddIns/SharpDevelopCore.addin.xml.h:68
 msgid "Create Database"
 msgstr "Lav database"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:70
+#: build/AddIns/SharpDevelopCore.addin.xml.h:69
 #: build/AddIns/MonoDevelopNewEditor.addin.xml.h:33
 msgid "Cut"
 msgstr "Klip"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:71
+#: build/AddIns/SharpDevelopCore.addin.xml.h:70
 #: build/AddIns/MonoDevelopNewEditor.addin.xml.h:34
 #: src/Libraries/MonoDevelop.Gui.Widgets/FileBrowser/FileBrowser.cs:262
 msgid "Delete"
 msgstr "Slet"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:72
+#: build/AddIns/SharpDevelopCore.addin.xml.h:71
 msgid "Delete Tab"
 msgstr "Slet side"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:73
+#: build/AddIns/SharpDevelopCore.addin.xml.h:72
 msgid "Downloads"
 msgstr "Overføringer"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:74
+#: build/AddIns/SharpDevelopCore.addin.xml.h:73
 #: data/resources/glade/EditorBindings.glade.h:18
 msgid "Edit"
 msgstr "Editer"
+
+#: build/AddIns/SharpDevelopCore.addin.xml.h:74
+#, fuzzy
+msgid "Edit References"
+msgstr "Tilføj referencer"
 
 #: build/AddIns/SharpDevelopCore.addin.xml.h:75
 msgid "ExportSignature"
@@ -433,7 +434,7 @@ msgid "New File..."
 msgstr "Ny fil..."
 
 #: build/AddIns/SharpDevelopCore.addin.xml.h:101
-#: src/Main/Base/Commands/ProjectBrowserCommands/FolderNodeCommands.cs:190
+#: src/Main/Base/Commands/ProjectBrowserCommands/FolderNodeCommands.cs:188
 msgid "New Folder"
 msgstr "Ny folder"
 
@@ -1852,8 +1853,8 @@ msgid ""
 "ERROR: non-mono runtime detected, please use the mono runtime for this piece "
 "of MonoDevelop for the time being"
 msgstr ""
-"FEJL: ikke-mono-runtime detekteret, indtil videre brug venligst "
-"mono-runtime'en for denne del af MonoDevelop"
+"FEJL: ikke-mono-runtime detekteret, indtil videre brug venligst mono-"
+"runtime'en for denne del af MonoDevelop"
 
 #: src/Main/Base/Gui/Dialogs/ReferenceDialog/ProjectReferencePanel.cs:33
 msgid "Project Name"
@@ -2022,16 +2023,16 @@ msgid ""
 "This process is slower and more memory-intensive than the light process, but "
 "will enable faster code completion"
 msgstr ""
-"Denne proces er langsommere og mere hukommelsesintensiv end den lette proces, men "
-"kodefærdiggørelsen vil blive hurtigere"
+"Denne proces er langsommere og mere hukommelsesintensiv end den lette "
+"proces, men kodefærdiggørelsen vil blive hurtigere"
 
 #: src/Main/Base/Gui/CompletionDatabaseWizard/druid.cs:38
 msgid ""
 "This process will take less time and memory to produce the code completion "
 "database, but code completion will be slower"
 msgstr ""
-"Denne proces vil tage mindre tid og hukommelse for at producere kodefærdiggørelses-"
-"databasen, men kodefærdiggørelsen vil blive langsommere"
+"Denne proces vil tage mindre tid og hukommelse for at producere "
+"kodefærdiggørelses-databasen, men kodefærdiggørelsen vil blive langsommere"
 
 #: src/Main/Base/Gui/CompletionDatabaseWizard/druid.cs:46
 msgid "Existing Database Location"
@@ -2067,7 +2068,8 @@ msgid ""
 "This druid will guide you through the process of creating a code completion "
 "database"
 msgstr ""
-"Denne druide leder dig igennem procesen med at generere en kodefærdiggørelsesdatabase"
+"Denne druide leder dig igennem procesen med at generere en "
+"kodefærdiggørelsesdatabase"
 
 #: src/Main/Base/Gui/CompletionDatabaseWizard/druid.cs:169
 msgid "Click Apply to start the database creation process"
@@ -2104,8 +2106,7 @@ msgstr "Annulléring er ikke tilgængelig"
 #: src/Main/Base/Gui/CompletionDatabaseWizard/GenerateDatabase.cs:63
 msgid "This type of code completion database generator can not be canceled"
 msgstr ""
-"Denne type af kodefærdiggørelsesdatabase-generator "
-"kan ikke blive annulléret"
+"Denne type af kodefærdiggørelsesdatabase-generator kan ikke blive annulléret"
 
 #: src/Main/Base/Gui/CompletionDatabaseWizard/GenerateDatabase.cs:89
 msgid "Code completion database druid"
@@ -2208,22 +2209,27 @@ msgstr "Linje"
 msgid "Description"
 msgstr "Beskrivelse"
 
-#: src/Main/Base/Gui/Pads/ProjectBrowser/BrowserNode/CombineBrowserNode.cs:75
+#: src/Main/Base/Gui/Pads/ProjectBrowser/BrowserNode/CombineBrowserNode.cs:67
+#, csharp-format
+msgid "Solution name may not contain any of the following characters: {0}"
+msgstr ""
+
+#: src/Main/Base/Gui/Pads/ProjectBrowser/BrowserNode/CombineBrowserNode.cs:84
 #, csharp-format
 msgid "Solution {0}"
 msgstr "Løsning {0}"
 
-#: src/Main/Base/Gui/Pads/ProjectBrowser/BrowserNode/CombineBrowserNode.cs:78
+#: src/Main/Base/Gui/Pads/ProjectBrowser/BrowserNode/CombineBrowserNode.cs:87
 #, csharp-format
 msgid "Solution {0} (1 entry)"
 msgstr "Løsning {0} (1 indtastning)"
 
-#: src/Main/Base/Gui/Pads/ProjectBrowser/BrowserNode/CombineBrowserNode.cs:81
+#: src/Main/Base/Gui/Pads/ProjectBrowser/BrowserNode/CombineBrowserNode.cs:90
 #, csharp-format
 msgid "Solution {0} ({1} entries)"
 msgstr "Løsning {0} ({1} indtastninger)"
 
-#: src/Main/Base/Gui/Pads/ProjectBrowser/BrowserNode/CombineBrowserNode.cs:100
+#: src/Main/Base/Gui/Pads/ProjectBrowser/BrowserNode/CombineBrowserNode.cs:109
 #, csharp-format
 msgid "Do you really want to remove solution {0} from solution {1}?"
 msgstr "Vil du virkelig fjerne løsning {0} fra løsning {1}?"
@@ -2239,8 +2245,7 @@ msgid ""
 "The file name you have chosen contains illegal characters. Please choose a "
 "different file name."
 msgstr ""
-"Dit valgte filnavn indeholder illegale tegn. Vælg venligst et "
-"andet filnavn."
+"Dit valgte filnavn indeholder illegale tegn. Vælg venligst et andet filnavn."
 
 #: src/Main/Base/Gui/Pads/ProjectBrowser/BrowserNode/DirectoryNode.cs:131
 #, csharp-format
@@ -2423,19 +2428,19 @@ msgstr "Tilføj et projekt"
 msgid "Add a Combine"
 msgstr "Tilføj en combine"
 
-#: src/Main/Base/Commands/ProjectBrowserCommands/FolderNodeCommands.cs:45
+#: src/Main/Base/Commands/ProjectBrowserCommands/FolderNodeCommands.cs:44
 msgid "Add a file"
 msgstr "Tilføj en fil"
 
-#: src/Main/Base/Commands/ProjectBrowserCommands/FolderNodeCommands.cs:65
+#: src/Main/Base/Commands/ProjectBrowserCommands/FolderNodeCommands.cs:64
 msgid "The file is outside the project directory, what should I do?"
 msgstr "Filen er uden for projektetfolderen, hvad skal jeg gøre?"
 
-#: src/Main/Base/Commands/ProjectBrowserCommands/FolderNodeCommands.cs:67
+#: src/Main/Base/Commands/ProjectBrowserCommands/FolderNodeCommands.cs:66
 msgid "_Move"
 msgstr "_Flyt"
 
-#: src/Main/Base/Commands/ProjectBrowserCommands/FolderNodeCommands.cs:82
+#: src/Main/Base/Commands/ProjectBrowserCommands/FolderNodeCommands.cs:81
 msgid ""
 "An error occurred while attempt to move/copy that file. Please check your "
 "permissions."
@@ -2471,8 +2476,7 @@ msgstr "Sprogbinding {0} kan ikke kompileres {1}"
 #: src/Main/Base/Commands/RunCommands.cs:164
 msgid "No source file for compilation found. Please save unsaved files"
 msgstr ""
-"Ingen kildekodefil fundet for kompileringen, "
-"Gem venligst ikke-gemte filer"
+"Ingen kildekodefil fundet for kompileringen, Gem venligst ikke-gemte filer"
 
 #: src/Main/Base/Commands/RunCommands.cs:93
 #: src/Main/Base/Commands/RunCommands.cs:168
@@ -2503,7 +2507,8 @@ msgid ""
 "Please define a startup project for the combine in the combine properties."
 msgstr ""
 "Kan ikke eksekvere kør kommandoen, kan ikke finde opstartsprojekt.\n"
-"Definer venligst et opstartsprojekt for denne combine i indstillinger for combine."
+"Definer venligst et opstartsprojekt for denne combine i indstillinger for "
+"combine."
 
 #: src/Main/Base/Commands/RunCommands.cs:233
 msgid "No runnable executable found."
@@ -2523,13 +2528,13 @@ msgstr "Fejl under kompilering af projekt {0}"
 msgid "Can't load external tools configuration file"
 msgstr "Kan ikke indlæse eksternt værktøjs-konfigurations-fil"
 
-#: src/Main/Base/Internal/Project/Combine/Combine.cs:195
+#: src/Main/Base/Internal/Project/Combine/Combine.cs:194
 #, csharp-format
 msgid "Can't find language binding for {0}"
 msgstr "Kan ikke finde sprogbinding for {0}"
 
-#: src/Main/Base/Internal/Project/Combine/Combine.cs:347
-#: src/Main/Base/Internal/Project/Combine/Combine.cs:358
+#: src/Main/Base/Internal/Project/Combine/Combine.cs:346
+#: src/Main/Base/Internal/Project/Combine/Combine.cs:357
 #: src/Main/Base/Internal/Project/Project/AbstractProject.cs:509
 msgid ""
 "Can't save solution\n"
@@ -2538,15 +2543,15 @@ msgstr ""
 "Kan ikke gemme løsning\n"
 "Kontroller venligst dine fil og folder rettigheder."
 
-#: src/Main/Base/Internal/Project/Combine/Combine.cs:365
+#: src/Main/Base/Internal/Project/Combine/Combine.cs:364
 msgid "Save Combine As..."
 msgstr "Gem combine som..."
 
-#: src/Main/Base/Internal/Project/Combine/Combine.cs:371
+#: src/Main/Base/Internal/Project/Combine/Combine.cs:370
 msgid "Combine saved"
 msgstr "Combine gemt"
 
-#: src/Main/Base/Internal/Project/Combine/Combine.cs:613
+#: src/Main/Base/Internal/Project/Combine/Combine.cs:612
 msgid ""
 "Cyclic dependencies can not be built with this version.\n"
 "But we are working on it."
@@ -2558,7 +2563,6 @@ msgstr ""
 #, csharp-format
 msgid "Compiling: {0}"
 msgstr "Kompilere: {0}"
-
 
 #: src/Main/Base/Internal/Project/Combine/CombineEntry.cs:134
 #, csharp-format
@@ -2715,11 +2719,11 @@ msgstr "Kan ikke omdøbe fil {0}"
 msgid "Question"
 msgstr "Spørgsmål"
 
-#: src/Main/Base/Services/ParserService/DefaultParserService.cs:184
+#: src/Main/Base/Services/ParserService/DefaultParserService.cs:193
 msgid "Generate code completion database"
 msgstr "Generer kodefærdiggørelsesdatabase"
 
-#: src/Main/Base/Services/ParserService/DefaultParserService.cs:194
+#: src/Main/Base/Services/ParserService/DefaultParserService.cs:203
 msgid "Writing class"
 msgstr "Skriver klasse"
 
@@ -2936,3 +2940,6 @@ msgstr "Bibliotek"
 #: src/AddIns/BackendBindings/CSharpBinding/Gui/OutputOptionsPanel.cs:100
 msgid "Select the directory in which the assembly will be created"
 msgstr "Vælg folderen hvori assembly'en vil blive oprettet"
+
+#~ msgid "Add Reference"
+#~ msgstr "Tilføj reference"

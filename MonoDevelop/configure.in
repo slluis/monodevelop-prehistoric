@@ -28,7 +28,7 @@ if test "x$PKG_CONFIG" = "xno"; then
 fi
 
 dnl unmanaged hard dependencies
-MONO_REQUIRED_VERSION=0.91.99
+MONO_REQUIRED_VERSION=0.95
 GTKSOURCEVIEW_REQUIRED_VERSION=0.7
 GNOMEVFS_REQUIRED_VERSION=2.0
 PKG_CHECK_MODULES(UNMANAGED_DEPENDENCIES,
@@ -38,10 +38,10 @@ gnome-vfs-2.0 >= $GNOMEVFS_REQUIRED_VERSION
 )
 
 dnl hard dependencies
-GTKSHARP_REQUIRED_VERSION=0.91.99
-GTKSOURCEVIEWSHARP_REQUIRED_VERSION=0.2
-GECKOSHARP_REQUIRED_VERSION=0.2
-MONODOC_REQUIRED_VERSION=0.14
+GTKSHARP_REQUIRED_VERSION=0.93
+GTKSOURCEVIEWSHARP_REQUIRED_VERSION=0.3
+GECKOSHARP_REQUIRED_VERSION=0.4
+MONODOC_REQUIRED_VERSION=0.16
 
 PKG_CHECK_MODULES(BASE_DEPENDENCIES,
 gtk-sharp >= $GTKSHARP_REQUIRED_VERSION
@@ -161,7 +161,6 @@ build/AddIns/AddIns/Misc/StartPage/Makefile
 data/Makefile
 data/resources/Makefile
 data/resources/glade/Makefile
-help/Makefile
 src/AddIns/DebuggerAddIn/AssemblyInfo.cs
 src/AddIns/DisplayBindings/SourceEditor/AssemblyInfo.cs
 src/AddIns/Misc/StartPage/AssemblyInfo.cs
@@ -184,7 +183,7 @@ echo "   * GNOME prefix = $gnome_prefix"
 echo ""
 dnl echo "   * mono-debugger $MONO_DEBUGGER_REQUIRED_VERSION: $enable_debugger"
 echo "   * mono-debugger 0.6: Has been disabled in this release, will be fixed"
-echo "     for 0.4."
+echo "     as soon as possible."
 echo ""
 echo "   NOTE: if any of the above say 'no' you may install the"
 echo "         corresponding development packages for them, and"
