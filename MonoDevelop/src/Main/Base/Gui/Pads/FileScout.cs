@@ -409,6 +409,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads
 			Pack2(listf, true, true);
 
 			//OnDirChanged (fb, new EventArgs ());
+			fb.TreeView.Selection.SelectPath (new Gtk.TreePath ("0"));
 		}
 
 		void OnHomeClicked (object sender, EventArgs args)

@@ -13,6 +13,7 @@ namespace MonoDevelop.Gui.Widgets
 		private string currentDir;
 		private bool ignoreHidden;
 		private string[] files;
+		private bool init = false;
 
 		public FileBrowser () : base (GType)
 		{
@@ -33,6 +34,7 @@ namespace MonoDevelop.Gui.Widgets
 
 			this.Add (tv);
 			this.ShowAll ();
+			init = true;
 		}
 
 		public bool IgnoreHidden
@@ -55,7 +57,12 @@ namespace MonoDevelop.Gui.Widgets
 
 		public string[] Files
 		{
-			get { return files; }
+			get {
+				if (files == null) {
+					return new string [0];
+				}
+				return files; 
+			}
 		}
 
 		public static new GLib.GType GType
@@ -93,6 +100,8 @@ namespace MonoDevelop.Gui.Widgets
 					store.AppendValues (d.Name);
 				}
 			}
+			if (init == true)
+				tv.Selection.SelectPath (new Gtk.TreePath ("0"));
 		}
 
 		private void OnSelectionChanged (object o, EventArgs args)
