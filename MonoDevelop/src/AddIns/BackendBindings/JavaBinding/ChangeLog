@@ -1,10 +1,14 @@
 2004-04-09  John Luke  <jluke@cfl.rr.com>
 
-	* JavaBindingCompilerService.cs: account for classpath when compiling
-	* Gui/ProjectConfigurationPropertyPanel.cs: rough port, needs major HIG love
+	* JavaBindingCompilerService.cs: account for classpath when compiling,
+	work with gcj or javac, cleanup old code
+	* Gui/ProjectConfigurationPropertyPanel.cs: rough port, needs major HIG love,
+	cleanup, add RadioButtons to select from gcj and javac
 	* JavaBindingExecutionService.cs: use ikvm instead of java runtime
 	* Parser/*: make a copy of the CSharpBinding/Parser in case I am crazy enough
 	to port the parser to work with Java (not built yet)
+	* Project/JavaCompilerParameters.cs: add javac/gcj .Compiler property,
+	fix CompilerPath from being hardcoded
 
 2004-03-25  John Luke  <jluke@cfl.rr.com>
 	

@@ -120,37 +120,26 @@ namespace JavaBinding
 
 			TempFileCollection  tf = new TempFileCollection ();			
 			
-			//string CurrentDir = Directory.GetCurrentDirectory();
-			//Directory.SetCurrentDirectory(compilerparameters.OutputDirectory);
-			
-			//string outstr = compilerparameters.CompilerPath + "" + files + " -classpath " + compilerparameters.ClassPath + options;
-			//string outstr = compilerparameters.CompilerPath + "" + files + " -classpath " + compilerparameters.ClassPath + options;
+
+			string compiler = compilerparameters.Compiler;
+			if (compiler == "gcj")
+				compiler = "gcj -C"; // compile to bytecode
 
 			// FIXME: maybe just send javac command to vte
 			// we don't seem to have task support anyways
 			string outstr;
+			//FIXME re-enable options
+			//FIXME re-enable compilerPath
 			if (compilerparameters.ClassPath == "") {
-				outstr = compilerparameters.CompilerPath + files + options;			
+				outstr = compiler + files;			
 			} else {
-				outstr = compilerparameters.CompilerPath + " -classpath " + compilerparameters.ClassPath + files + options;
+				outstr = compiler + " -classpath " + compilerparameters.ClassPath + files;
 			}
 			DoCompilation (outstr, tf, ref output, ref error);
 			//Executor.ExecWaitWithCapture(outstr, tf, ref error , ref output);			
 			ICompilerResult cr = ParseOutput (tf, output);			
 			File.Delete(output);
 			File.Delete(error);
-			
-			//Directory.SetCurrentDirectory(CurrentDir);			
-			
-//			TempFileCollection  tf = new TempFileCollection ();
-//			string output = "";
-//			string error  = "";
-//			//string outstr = compilerparameters.CompilerPath + " " + compilerparameters.OutputDirectory+"untitled.java -classpath " + compilerparameters.ClassPath + options;
-//			string outstr = compilerparameters.CompilerPath + " " + compilerparameters.OutputDirectory + finfo.Name;					
-//			Executor.ExecWaitWithCapture(outstr, tf, ref error , ref output);												
-//			CompilerResults cr = ParseOutput(tf, output);
-//			File.Delete(output);
-//			File.Delete(error);
 			
 			return cr;
 		}

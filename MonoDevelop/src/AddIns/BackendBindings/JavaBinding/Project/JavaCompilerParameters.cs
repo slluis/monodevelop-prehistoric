@@ -39,6 +39,9 @@ namespace JavaBinding
 			[XmlAttribute("classpath")]
 			public string         classpath = String.Empty;
 			
+			[XmlAttribute ("compiler")]
+			public string compiler  = "javac";		
+
 			[XmlAttribute("compilerpath")]
 			public string         compilerpath  = "javac";		
 			
@@ -57,12 +60,6 @@ namespace JavaBinding
 		
 		Execution      execution      = new Execution();
 
-		public override string OutputDirectory {
-			get {
-				return base.OutputDirectory.Substring (0, base.OutputDirectory.Length - 4);
-			}
-		}
-		
 		public bool GenWarnings {
 			get {
 				return codeGeneration.genwarnings;
@@ -80,12 +77,19 @@ namespace JavaBinding
 				codeGeneration.classpath = value;
 			}
 		}
+
+		public string Compiler {
+			get {
+				return codeGeneration.compiler;
+			}
+			set {
+				codeGeneration.compiler = value;
+			}
+		}
 		
 		public string CompilerPath {
 			get {
-				//return codeGeneration.compilerpath;
-				//FIXME
-				return "javac";
+				return codeGeneration.compilerpath;
 			}
 			set {
 				codeGeneration.compilerpath = value;

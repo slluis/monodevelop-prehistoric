@@ -47,7 +47,8 @@ namespace JavaBinding
 			
 			string CurrentDir = Directory.GetCurrentDirectory();
 			Directory.SetCurrentDirectory (parameters.OutputDirectory);
-			ProcessStartInfo psi = new ProcessStartInfo("xterm -e \"ikvm -classpath " + parameters.ClassPath + " " + mainClass + ";read -p 'press any key to continue...' -n1\"");
+			string javaExec = "xterm -e \"ikvm -classpath " + parameters.ClassPath + " " + mainClass + ";read -p 'press any key to continue...' -n1\"";
+			ProcessStartInfo psi = new ProcessStartInfo(javaExec);
 
             try {
                 psi.WorkingDirectory = Path.GetDirectoryName (directory);
