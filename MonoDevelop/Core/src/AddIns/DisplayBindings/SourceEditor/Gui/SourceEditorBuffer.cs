@@ -88,13 +88,15 @@ namespace MonoDevelop.SourceEditor.Gui
 			get { return underlineErrors; }
 			set {
 				underlineErrors = value;
+				/* still too broken to leave on
 				if (underlineErrors) {
 					points = new ArrayList ();
 					ps.ParseInformationChanged += (ParseInformationEventHandler) Runtime.DispatchService.GuiDispatch (new ParseInformationEventHandler (ParseChanged));
 				}
 				else {
-					ps.ParseInformationChanged -= (ParseInformationEventHandler) Runtime.DispatchService.GuiDispatch (new ParseInformationEventHandler (ParseChanged));
+					ps.ParseInformationChanged -= ParseChanged;
 				}
+				*/
 			}
 		}
 
