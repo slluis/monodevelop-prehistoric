@@ -39,6 +39,22 @@ namespace MonoDevelop.Internal.Project
 		[ItemProperty ("localcopy")]
 		bool localCopy = true;
 		
+		public ProjectReference ()
+		{
+		}
+		
+		public ProjectReference(ReferenceType referenceType, string reference)
+		{
+			this.referenceType = referenceType;
+			this.reference     = reference;
+		}
+		
+		public ProjectReference (Project referencedProject)
+		{
+			referenceType = ReferenceType.Project;
+			reference = referencedProject.Name;
+		}
+		
 		bool IsAssembly {
 			get {
 				return referenceType == ReferenceType.Assembly;
@@ -105,16 +121,6 @@ namespace MonoDevelop.Internal.Project
 				default:
 					throw new NotImplementedException("unknown reference type : " + ReferenceType);
 			}
-		}
-		
-		public ProjectReference()
-		{
-		}
-		
-		public ProjectReference(ReferenceType referenceType, string reference)
-		{
-			this.referenceType = referenceType;
-			this.reference     = reference;
 		}
 		
 		DataCollection ICustomDataItem.Serialize (ITypeSerializer handler)

@@ -113,6 +113,14 @@ namespace MonoDevelop.Services
 			arrBackgroundQueue.Add (new StatefulMessageContainer (cb, state, false));
 			//thrBackground.Resume ();
 		}
+		
+		public void ThreadDispatch (StatefulMessageHandler cb, object state)
+		{
+			StatefulMessageContainer smc = new StatefulMessageContainer (cb, state, false);
+			Thread t = new Thread (new ThreadStart (smc.Run));
+			t.IsBackground = true;
+			t.Start ();
+		}
 
 		private bool guiDispatcher ()
 		{

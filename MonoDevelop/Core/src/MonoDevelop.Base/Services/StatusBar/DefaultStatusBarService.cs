@@ -15,7 +15,7 @@ using MonoDevelop.Services;
 
 namespace MonoDevelop.Services
 {
-	public class DefaultStatusBarService : GuiSyncAbstractService, IStatusBarService, IProgressMonitor
+	public class DefaultStatusBarService : GuiSyncAbstractService, IStatusBarService
 	{
 		SdStatusBar statusBar = null;
 		StringParserService stringParserService = Runtime.StringParserService;
@@ -40,42 +40,24 @@ namespace MonoDevelop.Services
 			}
 		}
 		
-		public IProgressMonitor ProgressMonitor {
-			get { 
-				Debug.Assert(statusBar != null);
-				return this;
-			}
-		}
-		
-
-		void IProgressMonitor.BeginTask (string name, int totalWork)
+		public void BeginProgress (string name)
 		{
-			statusBar.BeginTask (name, totalWork);
+			statusBar.BeginProgress (name);
 		}
 		
-		void IProgressMonitor.Worked (double work, string status)
+		public void SetProgressFraction (double work)
 		{
-			statusBar.Worked (work, status);
+			statusBar.SetProgressFraction (work);
 		}
 		
-		void IProgressMonitor.Pulse ()
+		public void Pulse ()
 		{
 			statusBar.Pulse ();
 		}
 		
-		void IProgressMonitor.Done()
+		public void EndProgress ()
 		{
-			statusBar.Done ();
-		}
-		
-		bool IProgressMonitor.Canceled {
-			get { return statusBar.Canceled; }
-			set { statusBar.Canceled = value; }
-		}
-		
-		string IProgressMonitor.TaskName {
-			get { return statusBar.TaskName; }
-			set { statusBar.TaskName = value; }
+			statusBar.EndProgress ();
 		}
 		
 		public bool CancelEnabled {
@@ -88,6 +70,17 @@ namespace MonoDevelop.Services
 			}
 		}
 		
+		public IStatusIcon ShowStatusIcon (Gtk.Image image)
+		{
+			return statusBar.ShowStatusIcon (image);
+		}
+		
+		public void HideStatusIcon (IStatusIcon icon)
+		{
+			statusBar.HideStatusIcon (icon);
+		}
+		
+		
 		[AsyncDispatch]
 		public void SetCaretPosition (int ln, int col, int ch)
 		{
@@ -97,7 +90,7 @@ namespace MonoDevelop.Services
 		[AsyncDispatch]
 		public void SetInsertMode (bool insertMode)
 		{
-			statusBar.ModeStatusBarPanel.Push (1, insertMode ? GettextCatalog.GetString ("INS") : GettextCatalog.GetString ("OVR"));
+			statusBar.SetModeStatus (insertMode ? GettextCatalog.GetString ("INS") : GettextCatalog.GetString ("OVR"));
 		}
 		
 		[AsyncDispatch]
@@ -125,33 +118,5 @@ namespace MonoDevelop.Services
 		
 		bool   wasError    = false;
 		string lastMessage = "";
-		
-		[AsyncDispatch]
-		public void RedrawStatusbar()
-		{
-			if (wasError) {
-				ShowErrorMessage(lastMessage);
-			} else {
-				SetMessage(lastMessage);
-			}
-		}
-		
-		[AsyncDispatch]
-		public void Update()
-		{
-			Debug.Assert(statusBar != null);
-			/*statusBar.Clear ();
-			statusBar.Clear ();
-			
-			foreach (StatusBarContributionItem item in Items) {
-				if (item.Control != null) {
-					statusBar.Add (item.Control);
-				} else if (item.Panel != null) {
-					statusBar.Add (item.Panel);
-				} else {
-					throw new ApplicationException ("StatusBarContributionItem " + item.ItemID + " has no Control or Panel defined.");
-				}
-			}*/
-		}
 	}
 }

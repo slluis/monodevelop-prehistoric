@@ -11,6 +11,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Xml;
 using System.CodeDom.Compiler;
+using System.Threading;
 
 using MonoDevelop.Gui;
 using MonoDevelop.Internal.Project;
@@ -39,9 +40,14 @@ namespace MonoDevelop.Services
 		DataContext dataContext = new DataContext ();
 		ProjectBindingCodon[] projectBindings;
 		
+		IAsyncOperation currentBuildOperation;
+		IAsyncOperation currentRunOperation;
+		
 		FileFormatManager formatManager = new FileFormatManager ();
 		IFileFormat defaultProjectFormat = new PrjxFileFormat ();
 		IFileFormat defaultCombineFormat = new CmbxFileFormat ();
+		
+		ICompilerResult lastResult = new DefaultCompilerResult ();
 			
 		public Project CurrentSelectedProject {
 			get {
@@ -72,6 +78,10 @@ namespace MonoDevelop.Services
 			set {
 				openCombine = value;
 			}
+		}
+		
+		public ICompilerResult LastCompilerResult {
+			get { return lastResult; }
 		}
 		
 		bool IsDirtyFileInCombine {
@@ -114,14 +124,14 @@ namespace MonoDevelop.Services
 				SaveCombinePreferences(CurrentOpenCombine);
 		}
 		
-		public CombineEntry ReadFile (string file)
+		public CombineEntry ReadFile (string file, IProgressMonitor monitor)
 		{
 			IFileFormat format = formatManager.GetFileFormat (file);
 
 			if (format == null)
 				throw new InvalidOperationException ("Unknown file format: " + file);
 			
-			CombineEntry obj = format.ReadFile (file) as CombineEntry;
+			CombineEntry obj = format.ReadFile (file, monitor) as CombineEntry;
 			if (obj == null)
 				throw new InvalidOperationException ("Invalid file format: " + file);
 				
@@ -129,7 +139,7 @@ namespace MonoDevelop.Services
 			return obj;
 		}
 		
-		public void WriteFile (string file, CombineEntry entry)
+		public void WriteFile (string file, CombineEntry entry, IProgressMonitor monitor)
 		{
 			IFileFormat format = entry.FileFormat;
 			if (format == null) {
@@ -141,7 +151,7 @@ namespace MonoDevelop.Services
 					throw new InvalidOperationException ("FileFormat not provided for combine entry '" + entry.Name + "'");
 			}
 
-			format.WriteFile (file, entry);
+			format.WriteFile (file, entry, monitor);
 		}
 		
 		public Project CreateSingleFileProject (string file)
@@ -204,16 +214,7 @@ namespace MonoDevelop.Services
 
 			if (filename.StartsWith ("file://"))
 				filename = filename.Substring (7);
-				
-			Runtime.Gui.StatusBar.SetMessage(GettextCatalog.GetString ("Opening Combine..."));
 
-			LoadCombine (filename);
-			
-			Runtime.Gui.StatusBar.SetMessage(GettextCatalog.GetString ("Ready"));
-		}
-		
-		void LoadCombine(string filename)
-		{
 			Runtime.DispatchService.BackgroundDispatch (new StatefulMessageHandler (backgroundLoadCombine), filename);
 		}
 
@@ -231,32 +232,43 @@ namespace MonoDevelop.Services
 					filename = validcombine;
 			}
 			
-			CombineEntry entry = ReadFile (filename);
-			if (!(entry is Combine)) {
-				Combine loadingCombine = new Combine();
-				loadingCombine.Entries.Add (entry);
-				loadingCombine.Name = entry.Name;
-				loadingCombine.Save (validcombine);
-				entry = loadingCombine;
-			}
+			using (IProgressMonitor monitor = Runtime.TaskService.GetLoadProgressMonitor ()) {
+				CombineEntry entry = ReadFile (filename, monitor);
+				if (!(entry is Combine)) {
+					Combine loadingCombine = new Combine();
+					loadingCombine.Entries.Add (entry);
+					loadingCombine.Name = entry.Name;
+					loadingCombine.Save (validcombine, monitor);
+					entry = loadingCombine;
+				}
+			
+				openCombine = (Combine) entry;
+				
+				Runtime.FileService.RecentOpen.AddLastProject (filename, openCombine.Name);
+				
+				OnCombineOpened(new CombineEventArgs(openCombine));
+				openCombine.FileAddedToProject += new ProjectFileEventHandler (NotifyFileAddedToProject);
+				openCombine.FileRemovedFromProject += new ProjectFileEventHandler (NotifyFileRemovedFromProject);
+				openCombine.FileChangedInProject += new ProjectFileEventHandler (NotifyFileChangedInProject);
+				openCombine.ReferenceAddedToProject += new ProjectReferenceEventHandler (NotifyReferenceAddedToProject);
+				openCombine.ReferenceRemovedFromProject += new ProjectReferenceEventHandler (NotifyReferenceRemovedFromProject);
 		
-			openCombine = (Combine) entry;
-			
-			Runtime.FileService.RecentOpen.AddLastProject (filename, openCombine.Name);
-			
-			OnCombineOpened(new CombineEventArgs(openCombine));
-			openCombine.FileAddedToProject += new ProjectFileEventHandler (NotifyFileAddedToProject);
-			openCombine.FileRemovedFromProject += new ProjectFileEventHandler (NotifyFileRemovedFromProject);
-			openCombine.FileChangedInProject += new ProjectFileEventHandler (NotifyFileChangedInProject);
-			openCombine.ReferenceAddedToProject += new ProjectReferenceEventHandler (NotifyReferenceAddedToProject);
-			openCombine.ReferenceRemovedFromProject += new ProjectReferenceEventHandler (NotifyReferenceRemovedFromProject);
-	
-			RestoreCombinePreferences (CurrentOpenCombine);
+				RestoreCombinePreferences (CurrentOpenCombine);
+				monitor.ReportSuccess (GettextCatalog.GetString ("Combine loaded."));
+			}
 		}
 		
 		public void SaveCombine()
 		{
-			openCombine.Save ();
+			IProgressMonitor monitor = Runtime.TaskService.GetSaveProgressMonitor ();
+			try {
+				openCombine.Save (monitor);
+				monitor.ReportSuccess (GettextCatalog.GetString ("Combine saved."));
+			} catch (Exception ex) {
+				monitor.ReportError (GettextCatalog.GetString ("Save failed."), ex);
+			} finally {
+				monitor.Dispose ();
+			}
 		}
 		
 		public void MarkFileDirty (string filename)
@@ -269,36 +281,204 @@ namespace MonoDevelop.Services
 			}
 		}
 
-		public void CompileCombine()
+		public IAsyncOperation ExecuteActiveCombine ()
 		{
-			if (openCombine != null) {
-				DoBeforeCompileAction();
-				Runtime.TaskService.ClearTasks();
-				
-				openCombine.Build ();
+			if (openCombine == null) return NullAsyncOperation.Success;
+			if (currentRunOperation != null && !currentRunOperation.IsCompleted) return currentRunOperation;
+			IProgressMonitor monitor = Runtime.TaskService.GetRunProgressMonitor ();
+			Runtime.DispatchService.ThreadDispatch (new StatefulMessageHandler (ExecuteActiveCombineAsync), monitor);
+			currentRunOperation = monitor.AsyncOperation;
+			return currentRunOperation;
+		}
+		
+		void ExecuteActiveCombineAsync (object ob)
+		{
+			IProgressMonitor monitor = (IProgressMonitor) ob;
+
+			OnBeforeStartProject ();
+			try {
+				openCombine.Execute (monitor);
+			} catch (Exception ex) {
+				monitor.ReportError (GettextCatalog.GetString ("Execution failed."), ex);
+			} finally {
+				monitor.Dispose ();
+			}
+		}
+
+		public IAsyncOperation ExecuteProject (Project project)
+		{
+			IProgressMonitor monitor = Runtime.TaskService.GetRunProgressMonitor ();
+			Runtime.DispatchService.ThreadDispatch (new StatefulMessageHandler (ExecuteProjectAsync), new object[] {project, monitor});
+			return monitor.AsyncOperation;
+		}
+		
+		void ExecuteProjectAsync (object ob)
+		{
+			object[] data = (object[]) ob;
+			Project project = (Project) data[0];
+			IProgressMonitor monitor = (IProgressMonitor) data[1];
+			OnBeforeStartProject ();
+			try {
+				project.Execute (monitor);
+			} catch (Exception ex) {
+				monitor.ReportError (GettextCatalog.GetString ("Execution failed."), ex);
+			} finally {
+				monitor.Dispose ();
 			}
 		}
 		
-		public void RecompileAll()
+		class ProjectOperationHandler {
+			public Project Project;
+			public void Run (IAsyncOperation op) { Project.Dispose (); }
+		}
+		
+		public IAsyncOperation BuildFile (string file)
 		{
-			if (openCombine != null) {
-				DoBeforeCompileAction();
-				Runtime.TaskService.ClearTasks();
-				
-				openCombine.Clean ();
-				openCombine.Build ();
+			Project tempProject = CreateSingleFileProject (file);
+			if (tempProject != null) {
+				IAsyncOperation aop = BuildProject (tempProject);
+				ProjectOperationHandler h = new ProjectOperationHandler ();
+				h.Project = tempProject;
+				aop.Completed += new OperationHandler (h.Run);
+				return aop;
+			} else {
+				Runtime.MessageService.ShowError (string.Format (GettextCatalog.GetString ("The current file {0} can't be compiled."), file));
+				return NullAsyncOperation.Failure;
 			}
+		}
+		
+		public IAsyncOperation ExecuteFile (string file)
+		{
+			Project tempProject = CreateSingleFileProject (file);
+			if (tempProject != null) {
+				IAsyncOperation aop = ExecuteProject (tempProject);
+				ProjectOperationHandler h = new ProjectOperationHandler ();
+				h.Project = tempProject;
+				aop.Completed += new OperationHandler (h.Run);
+				return aop;
+			} else {
+				Runtime.MessageService.ShowError(GettextCatalog.GetString ("No runnable executable found."));
+				return NullAsyncOperation.Failure;
+			}
+		}
+	
+		public IAsyncOperation BuildActiveCombine ()
+		{
+			if (openCombine == null || !openCombine.NeedsBuilding) return NullAsyncOperation.Success;
+			if (currentBuildOperation != null && !currentBuildOperation.IsCompleted) return currentBuildOperation;
+			
+			DoBeforeCompileAction();
+			
+			IProgressMonitor monitor = Runtime.TaskService.GetBuildProgressMonitor ();			
+			Runtime.DispatchService.ThreadDispatch (new StatefulMessageHandler (BuildActiveCombineAsync), monitor);
+			currentBuildOperation = monitor.AsyncOperation;
+			return currentBuildOperation;
+		}
+		
+		void BuildActiveCombineAsync (object ob)
+		{
+			IProgressMonitor monitor = (IProgressMonitor) ob;
+			try {
+				BeginBuild ();
+				ICompilerResult result = openCombine.Build (monitor);
+				BuildDone (monitor, result);
+			} catch (Exception ex) {
+				monitor.ReportError (GettextCatalog.GetString ("Build failed."), ex);
+			} finally {
+				monitor.Dispose ();
+			}
+		}
+		
+		public IAsyncOperation RebuildActiveCombine()
+		{
+			if (openCombine == null) return NullAsyncOperation.Success;
+			openCombine.Clean ();
+			return BuildActiveCombine ();
+		}
+		
+		public IAsyncOperation BuildActiveProject ()
+		{
+			if (CurrentSelectedProject == null) {
+				Runtime.MessageService.ShowError (GettextCatalog.GetString ("Active project not set."));
+				return NullAsyncOperation.Failure;
+			}
+				
+			return BuildProject (CurrentSelectedProject);
+		}
+		
+		public IAsyncOperation RebuildActiveProject ()
+		{
+			return RebuildProject (CurrentSelectedProject);
+		}
+		
+		public IAsyncOperation BuildProject (Project project)
+		{
+			if (!project.NeedsBuilding) return NullAsyncOperation.Success;
+
+			BeforeCompile (project);
+			IProgressMonitor monitor = Runtime.TaskService.GetRunProgressMonitor ();
+			Runtime.DispatchService.ThreadDispatch (new StatefulMessageHandler (BuildProjectAsync), new object[] {project, monitor});
+			return monitor.AsyncOperation;
+		}
+		
+		public void BuildProjectAsync (object ob)
+		{
+			object[] data = (object[]) ob;
+			Project project = (Project) data [0];
+			IProgressMonitor monitor = (IProgressMonitor) data [1];
+			ICompilerResult result = null;
+			try {
+				BeginBuild ();
+				result = project.Build (monitor);
+				BuildDone (monitor, result);
+			} catch (Exception ex) {
+				monitor.ReportError (GettextCatalog.GetString ("Build failed."), ex);
+			} finally {
+				monitor.Dispose ();
+			}
+		}
+		
+		public IAsyncOperation RebuildProject (Project project)
+		{
+			project.Clean ();
+			return BuildProject (project);
+		}
+		
+		void BeginBuild ()
+		{
+			Runtime.TaskService.ClearTasks();
+			OnStartBuild ();
+		}
+		
+		void BuildDone (IProgressMonitor monitor, ICompilerResult result)
+		{
+			lastResult = result;
+			monitor.Log.WriteLine ();
+			monitor.Log.WriteLine (String.Format (GettextCatalog.GetString ("---------------------- Done ----------------------")));
+			
+			foreach (CompilerError err in result.CompilerResults.Errors) {
+				Runtime.TaskService.AddTask (new Task(null, err));
+			}
+			
+			if (result.ErrorCount == 0 && result.WarningCount == 0 && lastResult.FailedBuildCount == 0) {
+				monitor.ReportSuccess (GettextCatalog.GetString ("Build successful."));
+			} else if (result.ErrorCount == 0 && result.WarningCount > 0) {
+				monitor.ReportWarning (String.Format (GettextCatalog.GetString ("Build: {0} errors, {1} warnings."), result.ErrorCount, result.WarningCount));
+			} else if (result.ErrorCount > 0) {
+				monitor.ReportError (String.Format (GettextCatalog.GetString ("Build: {0} errors, {1} warnings."), result.ErrorCount, result.WarningCount), null);
+			} else {
+				monitor.ReportError (String.Format (GettextCatalog.GetString ("Build failed.")), null);
+			}
+			
+			OnEndBuild (lastResult.FailedBuildCount == 0);
 		}
 		
 		void BeforeCompile (Project project)
 		{
 			DoBeforeCompileAction();
 			
-			Runtime.TaskService.NotifyTaskChange();
-			
 			// cut&pasted from CombineEntry.cs
 			Runtime.StringParserService.Properties["Project"] = project.Name;
-			Runtime.Gui.StatusBar.SetMessage(String.Format (GettextCatalog.GetString ("Compiling {0}"), project.Name));
 			
 			string outputDir = ((AbstractProjectConfiguration)project.ActiveConfiguration).OutputDirectory;
 			try {
@@ -309,36 +489,6 @@ namespace MonoDevelop.Services
 			} catch (Exception e) {
 				throw new ApplicationException("Can't create project output directory " + outputDir + " original exception:\n" + e.ToString());
 			}
-		}
-		
-		void AfterCompile (Project project, ICompilerResult res)
-		{
-			// cut&pasted from CombineEntry.cs
-			foreach (CompilerError err in res.CompilerResults.Errors) {
-				Runtime.TaskService.AddTask(new Task(project, err));
-			}
-			
-			if (Runtime.TaskService.Errors > 0) {
-				++CombineEntry.BuildErrors;
-			} else {
-				++CombineEntry.BuildProjects;
-			}
-			
-			Runtime.TaskService.CompilerOutput = res.CompilerOutput;
-			Runtime.TaskService.NotifyTaskChange();
-		}
-		
-		public void RecompileProject(Project project)
-		{
-			project.Clean ();
-			BeforeCompile (project);
-			AfterCompile(project, project.Compile ());
-		}
-		
-		public void CompileProject(Project project)
-		{
-			BeforeCompile (project);
-			AfterCompile(project, project.Compile ());
 		}
 		
 		void DoBeforeCompileAction()
@@ -656,21 +806,23 @@ namespace MonoDevelop.Services
 				}
 			}
 		}
-	
-		public void OnStartBuild()
+		
+		
+		void OnStartBuild()
 		{
 			if (StartBuild != null) {
 				StartBuild(this, null);
 			}
 		}
 		
-		public void OnEndBuild(bool success)
+		void OnEndBuild (bool success)
 		{
 			if (EndBuild != null) {
 				EndBuild(success);
 			}
 		}
-		public void OnBeforeStartProject()
+		
+		void OnBeforeStartProject()
 		{
 			if (BeforeStartProject != null) {
 				BeforeStartProject(this, null);

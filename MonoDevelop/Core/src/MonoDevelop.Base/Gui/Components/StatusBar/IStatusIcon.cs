@@ -1,5 +1,5 @@
 //
-// IFileFormat.cs
+// IStatusIcon.cs
 //
 // Author:
 //   Lluis Sanchez Gual
@@ -26,21 +26,15 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-
 using System;
-using MonoDevelop.Services;
+using Gtk;
 
-namespace MonoDevelop.Internal.Project
+namespace MonoDevelop.Gui.Components
 {
-	public interface IFileFormat
+	public interface IStatusIcon
 	{
-		string Name { get; }
-		string GetValidFormatName (string fileName);
-		
-		bool CanReadFile (string file);
-		bool CanWriteFile (object obj);
-		
-		void WriteFile (string file, object obj, IProgressMonitor monitor);
-		object ReadFile (string file, IProgressMonitor monitor);
+		string ToolTip { get; set; }
+		Image Image { get; set; }
+		EventBox EventBox { get; }
 	}
 }

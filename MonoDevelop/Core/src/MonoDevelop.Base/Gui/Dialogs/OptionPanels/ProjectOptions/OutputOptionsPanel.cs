@@ -36,6 +36,7 @@ namespace MonoDevelop.Gui.Dialogs.OptionPanels
 			[Glade.Widget] Entry executeScriptEntry;
 			[Glade.Widget] Entry executeAfterEntry;
 			[Glade.Widget] CheckButton pauseConsoleOutputCheckButton;			
+			[Glade.Widget] CheckButton externalConsoleCheckButton;			
 			[Glade.Widget] Button browseButton;
 			[Glade.Widget] Button browseButton2;
 			[Glade.Widget] Button browseButton3;
@@ -50,6 +51,7 @@ namespace MonoDevelop.Gui.Dialogs.OptionPanels
 				browseButton2.Clicked += new EventHandler (SelectFile4);
 				browseButton3.Clicked += new EventHandler (SelectFile3);
 				browseButton4.Clicked += new EventHandler (SelectFile2);
+				externalConsoleCheckButton.Toggled += new EventHandler (ExternalConsoleToggle);
 				
 				assemblyNameEntry.Text = configuration.OutputAssembly;
 				outputDirectoryEntry.Text = configuration.OutputDirectory;
@@ -58,6 +60,7 @@ namespace MonoDevelop.Gui.Dialogs.OptionPanels
  				executeBeforeEntry.Text   = configuration.ExecuteBeforeBuild;
  				executeAfterEntry.Text    = configuration.ExecuteAfterBuild;
 				
+ 				externalConsoleCheckButton.Active = configuration.ExternalConsole;
  				pauseConsoleOutputCheckButton.Active = configuration.PauseConsoleOutput;
 			}
 
@@ -83,6 +86,7 @@ namespace MonoDevelop.Gui.Dialogs.OptionPanels
 				configuration.ExecuteBeforeBuild = executeBeforeEntry.Text;
 				configuration.ExecuteAfterBuild = executeAfterEntry.Text;
 				configuration.ExecuteScript = executeScriptEntry.Text;
+ 				configuration.ExternalConsole = externalConsoleCheckButton.Active;
 				configuration.PauseConsoleOutput = pauseConsoleOutputCheckButton.Active;
 				return true;
 			}
@@ -137,6 +141,17 @@ namespace MonoDevelop.Gui.Dialogs.OptionPanels
 					}
 
 					fdiag.Hide ();
+				}
+			}
+			
+			void ExternalConsoleToggle (object sender, EventArgs e)
+			{
+				if (externalConsoleCheckButton.Active) {
+	 				pauseConsoleOutputCheckButton.Sensitive = true;
+					pauseConsoleOutputCheckButton.Active = true;
+				} else {
+	 				pauseConsoleOutputCheckButton.Sensitive = false;
+					pauseConsoleOutputCheckButton.Active = false;
 				}
 			}
 		}

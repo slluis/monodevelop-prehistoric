@@ -248,7 +248,7 @@ namespace MonoDevelop.Gui.Pads
 				path = Path.GetDirectoryName(tmpPath);
 			} catch (Exception) {}
 			
-			TreeIter iter = store.AppendValues (
+			store.AppendValues (
 				stock,
 				t.Line + 1,
 				t.Description,

@@ -109,21 +109,16 @@ namespace MonoDevelop.Gui
 			foreach (IViewContent content in workbench.ViewContentCollection)
 				ShowView (content);
 
-			// create DockItems for all the pads
-			foreach (IPadContent content in workbench.PadContentCollection)
-			{
-				item = new DockItem (content.ToString (),
-				                     content.Title,
-				                     content.Icon,
-				                     DockItemBehavior.Normal);
-				item.Add (content.Control);
-				item.ShowAll ();
-				dock.AddItem (item, DockPlacement.Left);
-			}
 			// by default, the active pad collection is the full set
 			// will be overriden in CreateDefaultLayout() below
 			activePadCollection = workbench.PadContentCollection;
 
+			// create DockItems for all the pads
+			foreach (IPadContent content in workbench.PadContentCollection)
+			{
+				AddPad (content, DockPlacement.Left, false);
+			}
+			
 			// FIXME: GTKize
 			tabControl.SwitchPage += new SwitchPageHandler(ActiveMdiChanged);
 			//tabControl.SelectionChanged += new EventHandler(ActiveMdiChanged);
@@ -271,7 +266,7 @@ namespace MonoDevelop.Gui
 				"MonoDevelop.Gui.Pads.PropertyPad",
 				"MonoDevelop.Gui.Pads.OpenTaskView",
 				"MonoDevelop.Gui.Pads.HelpTree",
-				"MonoDevelop.EditorBindings.Gui.Pads.CompilerMessageView",
+//				"MonoDevelop.EditorBindings.Gui.Pads.CompilerMessageView",
 				//"MonoDevelop.Gui.Pads.TerminalPad",
 				"MonoDevelop.Gui.Pads.HelpBrowser",
 				"MonoQuery.Pads.MonoQueryView"
@@ -342,12 +337,59 @@ namespace MonoDevelop.Gui
 			wbWindow.Remove(rootWidget);
 			activePadCollection = null;
 		}
+		
+		void AddPad (IPadContent content, DockPlacement placement, bool extraPad)
+		{
+			DockItem item = new DockItem (content.ToString (),
+								 content.Title,
+								 content.Icon,
+								 DockItemBehavior.Normal);
+								 
+			Gtk.Label label = item.Tablabel as Gtk.Label;
+			label.UseMarkup = true;
+
+			item.Add (content.Control);
+			item.ShowAll ();
+			content.TitleChanged += new EventHandler (UpdatePad);
+			content.IconChanged += new EventHandler (UpdatePad);
+			
+			if (extraPad) {
+				DockItem ot = dock.GetItemByName ("MonoDevelop.Gui.Pads.OpenTaskView"); 
+				if (ot != null && ot.IsAttached) {
+					item.DockTo (ot, DockPlacement.Center, 0);
+				}
+				else {
+					ot = dock.GetItemByName ("Documents"); 
+					item.DockTo (ot, DockPlacement.Bottom, 0);
+				}
+			}
+			else
+				dock.AddItem (item, placement);
+
+			if (!activePadCollection.Contains (content))
+				activePadCollection.Add (content);
+		}
+		
+		void UpdatePad (object source, EventArgs args)
+		{
+			IPadContent content = (IPadContent) source;
+			DockItem item = GetDockItem (content);
+			if (item != null) {
+				Gtk.Label label = item.Tablabel as Gtk.Label;
+				label.Markup = content.Title;
+				item.LongName = content.Title;
+				item.StockId = content.Icon;
+			}
+		}
 
 		public void ShowPad (IPadContent content)
 		{
 			DockItem item = GetDockItem (content);
 			if (item != null)
 				item.ShowItem();
+			else {
+				AddPad (content, DockPlacement.Bottom, true);
+			}
 		}
 		
 		public bool IsVisible (IPadContent padContent)

@@ -359,21 +359,21 @@ namespace MonoDevelop.Services
 						// before the parse job is executed
 						
 						file.LastParseTime = fi.LastWriteTime;
-						parserService.QueueParseJob (new WaitCallback (ParseCallback), file.FileName);
+						parserService.QueueParseJob (new JobCallback (ParseCallback), file.FileName);
 					}
 				}
 			}
 		}
 		
-		void ParseCallback (object ob)
+		void ParseCallback (object ob, IProgressMonitor monitor)
 		{
 			lock (rwlock)
 			{
-				ParseFile ((string)ob);
+				ParseFile ((string)ob, monitor);
 			}
 		}
 		
-		protected virtual void ParseFile (string fileName)
+		protected virtual void ParseFile (string fileName, IProgressMonitor monitor)
 		{
 		}
 		
@@ -382,7 +382,7 @@ namespace MonoDevelop.Services
 			lock (rwlock)
 			{
 				foreach (FileEntry fe in files.Values) 
-					ParseFile (fe.FileName);
+					ParseFile (fe.FileName, null);
 			}
 		}
 		
@@ -683,14 +683,20 @@ namespace MonoDevelop.Services
 			}
 		}
 		
-		protected override void ParseFile (string fileName)
+		protected override void ParseFile (string fileName, IProgressMonitor monitor)
 		{
-			IParseInformation parserInfo = parserService.DoParseFile ((string)fileName, null);
-			if (parserInfo != null) {
-				ICompilationUnit cu = (ICompilationUnit)parserInfo.BestCompilationUnit;
-				
-				ClassUpdateInformation res = UpdateFromParseInfo (parserInfo, fileName);
-				if (res != null) parserService.NotifyParseInfoChange (fileName, res);
+			if (monitor != null) monitor.BeginTask ("Parsing file: " + Path.GetFileName (fileName), 1);
+			
+			try {
+				IParseInformation parserInfo = parserService.DoParseFile ((string)fileName, null);
+				if (parserInfo != null) {
+					ICompilationUnit cu = (ICompilationUnit)parserInfo.BestCompilationUnit;
+					
+					ClassUpdateInformation res = UpdateFromParseInfo (parserInfo, fileName);
+					if (res != null) parserService.NotifyParseInfoChange (fileName, res);
+				}
+			} finally {
+				if (monitor != null) monitor.EndTask ();
 			}
 		}
 		
@@ -841,21 +847,29 @@ namespace MonoDevelop.Services
 			get { return assemblyName; }
 		}
 		
-		protected override void ParseFile (string fileName)
+		protected override void ParseFile (string fileName, IProgressMonitor parentMonitor)
 		{
-			if (useExternalProcess)
-			{
-				string dbgen = Path.Combine (AppDomain.CurrentDomain.BaseDirectory, "dbgen.exe");
-				Process proc = Process.Start ("mono " + dbgen, "\"" + baseDir + "\" \"" + assemblyName + "\"");
-				proc.WaitForExit ();
-				Read ();
-			}
-			else
-			{
-				Console.WriteLine ("Parsing assembly: " + fileName);
-				AssemblyInformation ainfo = new AssemblyInformation();
-				ainfo.Load (fileName, false);
-				UpdateClassInformation (ainfo.Classes, fileName);
+			IProgressMonitor monitor = parentMonitor;
+			if (parentMonitor == null) monitor = parserService.GetParseProgressMonitor ();
+			
+			try {
+				monitor.BeginTask ("Parsing assembly: " + Path.GetFileName (fileName), 1);
+				if (useExternalProcess)
+				{
+					string dbgen = Path.Combine (AppDomain.CurrentDomain.BaseDirectory, "dbgen.exe");
+					Process proc = Process.Start ("mono " + dbgen, "\"" + baseDir + "\" \"" + assemblyName + "\"");
+					proc.WaitForExit ();
+					Read ();
+				}
+				else
+				{
+					AssemblyInformation ainfo = new AssemblyInformation();
+					ainfo.Load (fileName, false);
+					UpdateClassInformation (ainfo.Classes, fileName);
+				}
+			} finally {
+				monitor.EndTask ();
+				if (parentMonitor == null) monitor.Dispose ();
 			}
 		}
 		

@@ -1,5 +1,5 @@
 //
-// ProjectPathItemProperty.cs
+// ConsoleProgressMonitor.cs
 //
 // Author:
 //   Lluis Sanchez Gual
@@ -28,46 +28,34 @@
 
 using System;
 using System.IO;
-using MonoDevelop.Internal.Serialization;
-using MonoDevelop.Services;
 
-namespace MonoDevelop.Internal.Project
+namespace MonoDevelop.Services
 {
-	public class ProjectPathItemProperty: ItemPropertyAttribute
+	public class ConsoleProgressMonitor: NullProgressMonitor
 	{
-		public ProjectPathItemProperty ()
+		public override void BeginTask (string name, int totalWork)
 		{
-			SerializationDataType = typeof (PathDataType);
+			Console.WriteLine ("*** " + name);
 		}
 		
-		public ProjectPathItemProperty (string name): base (name)
-		{
-			SerializationDataType = typeof (PathDataType);
-		}
-	}
-	
-	public class PathDataType: PrimitiveDataType
-	{
-		public PathDataType (Type type): base (type)
-		{
-		}
-
-		public override DataNode Serialize (SerializationContext serCtx, object mapData, object value)
-		{
-			if (value == null || ((string)value).Length == 0) return null;
-			string basePath = Path.GetDirectoryName (serCtx.BaseFile);
-			string file = Runtime.FileUtilityService.AbsoluteToRelativePath (basePath, value.ToString ());
-			return new DataValue (Name, file);
+		public override TextWriter Log {
+			get { return Console.Out; }
 		}
 		
-		public override object Deserialize (SerializationContext serCtx, object mapData, DataNode data)
+		public override void ReportSuccess (string message)
 		{
-			string file = ((DataValue)data).Value;
-			if (file == "") return "";
-			string basePath = Path.GetDirectoryName (serCtx.BaseFile);
-			return Runtime.FileUtilityService.RelativeToAbsolutePath (basePath, file);
+			Console.WriteLine (message);
+		}
+		
+		public override void ReportWarning (string message)
+		{
+			Console.WriteLine ("WARNING: " + message);
+		}
+		
+		public void ReportError (string message, Exception ex)
+		{
+			Console.WriteLine ("ERROR: " + message);
+			Console.WriteLine (ex);
 		}
 	}
 }
-
-

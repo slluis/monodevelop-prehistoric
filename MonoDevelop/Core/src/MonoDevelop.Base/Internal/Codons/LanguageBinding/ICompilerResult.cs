@@ -30,6 +30,14 @@ namespace MonoDevelop.Internal.Project
 			get;
 		}
 		
+		int WarningCount  { get; }
+		
+		int ErrorCount { get; }
+		
+		int BuildCount { get; }
+		
+		int FailedBuildCount { get; }
+		
 		/// <summary>
 		/// The console output of the compiler as string.
 		/// </summary>

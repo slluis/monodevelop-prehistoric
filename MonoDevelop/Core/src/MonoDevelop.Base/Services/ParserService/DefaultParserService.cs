@@ -54,7 +54,7 @@ namespace MonoDevelop.Services
 		class ParsingJob
 		{
 			public object Data;
-			public WaitCallback ParseCallback;
+			public JobCallback ParseCallback;
 		}
 
 		class CompilationUnitTypeResolver: ITypeResolver
@@ -185,7 +185,7 @@ namespace MonoDevelop.Services
 			while (Gtk.Application.EventsPending ())
 				Gtk.Application.RunIteration ();
 
-			if (progressMonitor.Canceled)
+			if (progressMonitor.IsCancelRequested)
 				return false;
 			else
 				return true;
@@ -194,7 +194,7 @@ namespace MonoDevelop.Services
 		public void GenerateCodeCompletionDatabase(string createPath, IProgressMonitor progressMonitor)
 		{
 			if (progressMonitor != null)
-				progressMonitor.BeginTask(GettextCatalog.GetString ("Generate code completion database"), assemblyList.Length);
+				progressMonitor.BeginTask(GettextCatalog.GetString ("Generating database"), assemblyList.Length);
 
 			for (int i = 0; i < assemblyList.Length; ++i)
 			{
@@ -204,7 +204,7 @@ namespace MonoDevelop.Services
 					db.Write ();
 					
 					if (progressMonitor != null)
-						progressMonitor.Worked(i, GettextCatalog.GetString ("Writing class"));
+						progressMonitor.Step (1);
 						
 					if (!ContinueWithProcess (progressMonitor))
 						return;
@@ -215,7 +215,7 @@ namespace MonoDevelop.Services
 			}
 
 			if (progressMonitor != null) {
-				progressMonitor.Done();
+				progressMonitor.Dispose ();
 			}
 		}
 		
@@ -263,6 +263,14 @@ namespace MonoDevelop.Services
 			projectService.ReferenceRemovedFromProject += new ProjectReferenceEventHandler (OnProjectReferencesChanged);
 		}
 		
+		internal IProgressMonitor GetParseProgressMonitor ()
+		{
+			if (Runtime.TaskService == null) {
+				return new ConsoleProgressMonitor ();
+			}
+			return Runtime.TaskService.GetBackgroundProgressMonitor ("Code Completion Database Generation", "Icons.16x16.RunProgramIcon");
+		}
+			
 		internal CodeCompletionDatabase GetDatabase (string uri)
 		{
 			return GetDatabase (null, uri);
@@ -500,7 +508,7 @@ namespace MonoDevelop.Services
 			}
 		}
 		
-		internal void QueueParseJob (WaitCallback callback, object data)
+		internal void QueueParseJob (JobCallback callback, object data)
 		{
 			ParsingJob job = new ParsingJob ();
 			job.ParseCallback = callback;
@@ -606,23 +614,34 @@ namespace MonoDevelop.Services
 		
 		void ConsumeParsingQueue ()
 		{
-			int pending;
-			do {
-				ParsingJob job = null;
-				lock (parseQueue)
-				{
-					if (parseQueue.Count > 0)
-						job = (ParsingJob) parseQueue.Dequeue ();
+			int pending = 0;
+			IProgressMonitor monitor = null;
+			
+			try {
+				do {
+					if (pending > 5 && monitor == null) {
+						monitor = GetParseProgressMonitor ();
+						monitor.BeginTask ("Generating database", 0);
+					}
+					
+					ParsingJob job = null;
+					lock (parseQueue)
+					{
+						if (parseQueue.Count > 0)
+							job = (ParsingJob) parseQueue.Dequeue ();
+					}
+					
+					if (job != null)
+						job.ParseCallback (job.Data, monitor);
+					
+					lock (parseQueue)
+						pending = parseQueue.Count;
+					
 				}
-				
-				if (job != null)
-					job.ParseCallback (job.Data);
-				
-				lock (parseQueue)
-					pending = parseQueue.Count;
-				
+				while (pending > 0);
+			} finally {
+				if (monitor != null) monitor.Dispose ();
 			}
-			while (pending > 0);
 		}
 		
 		
@@ -1376,4 +1395,6 @@ namespace MonoDevelop.Services
 	{
 		string Resolve (string typeName);
 	}
+	
+	public delegate void JobCallback (object data, IProgressMonitor monitor);
 }

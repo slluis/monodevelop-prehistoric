@@ -12,6 +12,7 @@ using System.Xml;
 using MonoDevelop.Internal.Templates;
 using MonoDevelop.Internal.Project;
 using MonoDevelop.Gui;
+using MonoDevelop.Services;
 
 namespace MonoDevelop.Internal.Project
 {
@@ -33,7 +34,7 @@ namespace MonoDevelop.Internal.Project
 		/// </returns>
 		bool CanCompile(string fileName);
 		
-		ICompilerResult Compile (ProjectFileCollection projectFiles, ProjectReferenceCollection references, DotNetProjectConfiguration configuration);
+		ICompilerResult Compile (ProjectFileCollection projectFiles, ProjectReferenceCollection references, DotNetProjectConfiguration configuration, IProgressMonitor monitor);
 		
 		void GenerateMakefile (Project project, Combine parentCombine);
 		

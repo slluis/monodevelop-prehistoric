@@ -1,3 +1,78 @@
+2005-01-24  Lluis Sanchez Gual  <lluis@novell.com>
+
+	* Services/ParserService/DefaultParserService.cs:
+	* Services/ParserService/CodeCompletionDatabase.cs:
+	* Commands/ProjectBrowserCommands/CombineNodeCommands.cs:
+	* Gui/Pads/TerminalPad.cs:
+	* Gui/BrowserDisplayBinding/HtmlViewPane.cs:
+	* Internal/Codons/LanguageBinding/ILanguageBinding.cs:
+	* Internal/Project/PrjxFileFormat.cs:
+	* Internal/Project/CmbxFileFormat.cs:
+	* Internal/Project/IFileFormat.cs:
+	* Internal/Project/Project/DotNetProject.cs:
+	* Internal/Project/Project/Project.cs:
+	* Internal/Project/Combine/Combine.cs:
+	* Internal/Project/Combine/CombineEntry.cs:
+	* Internal/Templates/ProjectTemplates/CombineDescriptor.cs:
+	* Internal/Templates/ProjectTemplates/ProjectDescriptor.cs:
+	* Commands/MenuItemBuilders.cs: Use the new progress monitor API.
+	
+	* Internal/ProcessMonitoring/*: New progress monitoring classes.
+	
+	* Commands/RunCommands.cs: Factorized a lot of common code into
+	ProjectService.cs.
+	
+	* Services/DispatchService/DispatchService.cs: Added new ThreadDispatch
+	method, which dispatches the call in a new thread (and does not queue the
+	call, like BackgroundDispatch).
+	
+	* Services/ProcessService/ProcessService.cs: StartProcess now returns
+	a reference to the started process. Added a StartProcess methods that
+	writes the output in a text writer.
+	Added StartConsoleProcess method which runs a process in an xterm.
+	
+	* Services/ProcessService/ProcessWrapper.cs: Added WaitForOutput method
+	which blocks until all process output has been read.
+	
+	* Services/Project/DefaultProjectService.cs: Use the new progress
+	monitor API. Factorized here some methods from RunCommands.cs.
+	
+	* IProjectService.cs: Added new methods for building and running projects.
+	Removed some event methods that are now handled internally.
+	
+	* Services/StatusBar/IStatusBarService.cs:
+	* Services/StatusBar/DefaultStatusBarService.cs: Simplified. All progress
+	monitoring is now done by TaskService. Added API for managing the progress
+	bar and showing and hiding the icons.
+	
+	* Gui/Workbench/Layouts/SdiWorkspaceLayout.cs: Allow dynamic addition of
+	new pads.
+	
+	* Gui/Workbench/Layouts/SdiWorkspaceWindow.cs: Sanity fix.
+	
+	* Base.glade:
+	* Internal/Project/Project/AbstractProjectConfiguration.cs:
+	* Gui/Dialogs/OptionPanels/ProjectOptions/OutputOptionsPanel.cs: Added
+	option for chosing bewteen internal or external output window.
+	
+	* Gui/Components/StatusBar/SdStatusBar.cs: Don't use AppBar any more, and
+	use something that allows more flexibility. Added support for icons.
+	
+	* Internal/Codons/LanguageBinding/DefaultCompilerResult.cs: Added new
+	properties: WarningCount, ErrorCount, BuildCount, FailedBuildCount.
+	
+	* Internal/Project/ProjectPathItemPropertyAttribute.cs: Minor fix.
+	
+	* Internal/Project/Project/ProjectReference.cs: Added new useful
+	constructors.
+	
+	* Gui/Pads/ProjectBrowser/BrowserNode/FileNode.cs:
+	* Gui/Pads/ProjectBrowser/ProjectBrowserView.cs:
+	* Gui/Pads/ProjectBrowser/NodeBuilder/DefaultDotNetNodeBuilder.cs:
+	* Gui/Pads/OpenTaskView.cs: Fix warnings.
+	
+	* Makefile.am: Added new files.
+
 2005-01-18  Lluis Sanchez Gual  <lluis@novell.com>
 
 	* Internal/Project/CmbxFileFormat.cs: Fix hang when the entry list

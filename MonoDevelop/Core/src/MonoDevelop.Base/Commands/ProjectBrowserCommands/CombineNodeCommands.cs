@@ -49,15 +49,18 @@ namespace MonoDevelop.Commands.ProjectBrowser
 		{
 			try 
 			{
-				int newNodeIndex = node.Nodes.Add(ProjectBrowserView.BuildProjectTreeNode((Project)node.Combine.AddEntry(npdlg.NewProjectLocation)));
+				int newNodeIndex;
+				using (IProgressMonitor monitor = Runtime.TaskService.GetLoadProgressMonitor ()) {
+					newNodeIndex = node.Nodes.Add(ProjectBrowserView.BuildProjectTreeNode((Project)node.Combine.AddEntry(npdlg.NewProjectLocation, monitor)));
+				}
 				Runtime.ProjectService.SaveCombine ();
 			// expand to the new node
 				node.Nodes[newNodeIndex].Expand();
 			}
-			catch
-			{
+			catch {
 				Runtime.MessageService.ShowError (GettextCatalog.GetString ("Invalid Project File"));
 			}
+			
 			npdlg = null;
 		}	
 	}
@@ -83,7 +86,10 @@ namespace MonoDevelop.Commands.ProjectBrowser
 		{
 			try 
 			{
-				int newNodeIndex = node.Nodes.Add(ProjectBrowserView.BuildCombineTreeNode((Combine)node.Combine.AddEntry(npdlg.NewCombineLocation)));
+				int newNodeIndex;
+				using (IProgressMonitor monitor = Runtime.TaskService.GetLoadProgressMonitor ()) {
+					newNodeIndex = node.Nodes.Add(ProjectBrowserView.BuildCombineTreeNode((Combine)node.Combine.AddEntry(npdlg.NewCombineLocation, monitor)));
+				}
 				Runtime.ProjectService.SaveCombine ();
 				
 				// expand to the new node
@@ -109,7 +115,10 @@ namespace MonoDevelop.Commands.ProjectBrowser
 					fdiag.SelectMultiple = false;
 					if (fdiag.Run () == (int) Gtk.ResponseType.Ok) {
 						try {
-							object obj = node.Combine.AddEntry(fdiag.Filename);
+							object obj;
+							using (IProgressMonitor monitor = Runtime.TaskService.GetLoadProgressMonitor ()) {
+								obj = node.Combine.AddEntry (fdiag.Filename, monitor);
+							}
 							int newNodeIndex = -1;
 							if (obj is Project) {
 								newNodeIndex = node.Nodes.Add(ProjectBrowserView.BuildProjectTreeNode((Project)obj));
@@ -147,7 +156,10 @@ namespace MonoDevelop.Commands.ProjectBrowser
 					fdiag.SelectMultiple = false;
 					if (fdiag.Run () == (int) Gtk.ResponseType.Ok) {
 						try {
-							object obj = node.Combine.AddEntry(fdiag.Filename);
+							object obj;
+							using (IProgressMonitor monitor = Runtime.TaskService.GetLoadProgressMonitor ()) {
+								obj = node.Combine.AddEntry (fdiag.Filename, monitor);
+							}
 							int newNodeIndex = -1;
 							if (obj is Project) {
 								newNodeIndex = node.Nodes.Add(ProjectBrowserView.BuildProjectTreeNode((Project)obj));

@@ -42,6 +42,7 @@ Gui/Pads/ClassScout/BrowserNode/AbstractClassScoutNode.cs \
 Gui/Pads/HelpBrowser/MonodocTreePad.cs \
 Gui/Pads/HelpBrowser/HelpViewer.cs \
 Gui/Pads/SideBarView.cs \
+Gui/Pads/DefaultMonitorPad.cs \
 Gui/AbstractPadContent.cs \
 Gui/ISecondaryViewContent.cs \
 Gui/IViewContent.cs \
@@ -51,6 +52,7 @@ Gui/Components/SdMenuSeparator.cs \
 Gui/Components/SharpMessageBox.cs \
 Gui/Components/StatusBar/AxStatusBar.cs \
 Gui/Components/StatusBar/SdStatusBar.cs \
+Gui/Components/StatusBar/IStatusIcon.cs \
 Gui/Components/StatusBar/AxStatusBarPanel.cs \
 Gui/Components/LocalizedPropertyGrid/LocalizedPropertyDescriptor.cs \
 Gui/Components/LocalizedPropertyGrid/LocalizedObject.cs \
@@ -64,7 +66,6 @@ Gui/Components/SdMenu.cs \
 Gui/Components/SdMenuCheckBox.cs \
 Gui/Components/SdMenuCommand.cs \
 Gui/Components/SdToolbarCommand.cs \
-Gui/IProgressMonitor.cs \
 Gui/WorkbenchWindowCollection.cs \
 Gui/WorkbenchSingleton.cs \
 Gui/IMementoCapable.cs \
@@ -182,6 +183,9 @@ Services/DisplayBinding/DisplayBindingService.cs \
 Services/LanguageBinding/LanguageBindingService.cs \
 Services/Tasks/TaskService.cs \
 Services/Tasks/Task.cs \
+Services/Tasks/BackgroundProgressMonitor.cs \
+Services/Tasks/OutputProgressMonitor.cs \
+Services/Tasks/StatusProgressMonitor.cs \
 Services/AmbienceService/AmbienceService.cs \
 Services/AmbienceService/AmbienceReflectionDecorator.cs \
 Services/AmbienceService/AbstractAmbience.cs \
@@ -339,6 +343,15 @@ Internal/Parser/PersistenceLayer/PersistentClass.cs \
 Internal/Parser/IMethod.cs \
 Internal/Parser/IComment.cs \
 Internal/Parser/ICompilationUnit.cs \
+Internal/ProgressMonitoring/AggregatedProgressMonitor.cs \
+Internal/ProgressMonitoring/BaseProgressMonitor.cs \
+Internal/ProgressMonitoring/ConsoleProgressMonitor.cs \
+Internal/ProgressMonitoring/IAsyncOperation.cs \
+Internal/ProgressMonitoring/IProgressMonitor.cs \
+Internal/ProgressMonitoring/LogTextWriter.cs \
+Internal/ProgressMonitoring/NullProgressMonitor.cs \
+Internal/ProgressMonitoring/NullAsyncOperation.cs \
+Internal/ProgressMonitoring/ProgressTracker.cs \
 Internal/Project/PrjxFileFormat.cs \
 Internal/Project/CmbxFileFormat.cs \
 Internal/Project/IFileFormat.cs \

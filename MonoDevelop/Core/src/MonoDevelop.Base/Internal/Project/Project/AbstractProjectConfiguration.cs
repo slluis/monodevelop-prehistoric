@@ -45,6 +45,9 @@ namespace MonoDevelop.Internal.Project
 		[ItemProperty ("Execution/commandlineparameters", DefaultValue = "")]
 		public string commandLineParameters = String.Empty;
 		
+		[ItemProperty ("Execution/externalconsole", DefaultValue=false)]
+		public bool externalConsole = false;
+
 		[ItemProperty ("Execution/consolepause")]
 		public bool pauseconsoleoutput = true;
 
@@ -85,6 +88,11 @@ namespace MonoDevelop.Internal.Project
 		public string CommandLineParameters {
 			get { return commandLineParameters; }
 			set { commandLineParameters = value; }
+		}
+		
+		public bool ExternalConsole {
+			get { return externalConsole; }
+			set { externalConsole = value; }
 		}
 		
 		public bool PauseConsoleOutput {

@@ -12,13 +12,93 @@ using MonoDevelop.Core.Services;
 using MonoDevelop.Gui;
 using MonoDevelop.Gui.Pads;
 using MonoDevelop.Internal.Project;
+using MonoDevelop.EditorBindings.Gui.Pads;
 
 namespace MonoDevelop.Services
 {
-	public class TaskService : AbstractService
+	public class TaskService : GuiSyncAbstractService
 	{
 		ArrayList tasks  = new ArrayList();
 		string    compilerOutput = String.Empty;
+		
+		ArrayList outputMonitors = new ArrayList ();
+		int monitorId = 0;
+		
+		
+		/******************************/
+		
+		public IProgressMonitor GetBuildProgressMonitor ()
+		{
+			bool front = (bool) Runtime.Properties.GetProperty ("SharpDevelop.ShowOutputWindowAtBuild", true);
+			return new AggregatedProgressMonitor (
+				GetOutputProgressMonitor ("Build Output", MonoDevelop.Gui.Stock.BuildCombine, front, true),
+				GetStatusProgressMonitor ("Building...", MonoDevelop.Gui.Stock.BuildCombine, false)
+			);
+		}
+		
+		public IProgressMonitor GetRunProgressMonitor ()
+		{
+			return GetOutputProgressMonitor ("Application Output", MonoDevelop.Gui.Stock.RunProgramIcon, true, true);
+		}
+		
+		public IProgressMonitor GetLoadProgressMonitor ()
+		{
+			return GetStatusProgressMonitor ("Loading...", Stock.OpenFileIcon, true);
+		}
+		
+		public IProgressMonitor GetSaveProgressMonitor ()
+		{
+			return GetStatusProgressMonitor ("Saving...", Stock.SaveIcon, true);
+		}
+		
+		
+		/******************************/
+		
+		
+		public IProgressMonitor GetStatusProgressMonitor (string title, string icon, bool showErrorDialogs)
+		{
+			return new StatusProgressMonitor (title, icon, showErrorDialogs);
+		}
+		
+		public IProgressMonitor GetBackgroundProgressMonitor (string title, string icon)
+		{
+			return new BackgroundProgressMonitor (title, icon);
+		}
+		
+		public IProgressMonitor GetOutputProgressMonitor (string title, string icon, bool bringToFront, bool allowMonitorReuse)
+		{
+			if (allowMonitorReuse) {
+				DefaultMonitorPad pad = null;
+				lock (outputMonitors) {
+					// Look for an available pad
+					for (int n=0; n<outputMonitors.Count; n++) {
+						DefaultMonitorPad mpad = (DefaultMonitorPad) outputMonitors [n];
+						if (mpad.Title == title) {
+							pad = mpad;
+							outputMonitors.RemoveAt (n);
+							break;
+						}
+					}
+				}
+				if (pad != null) {
+					if (bringToFront) pad.BringToFront ();
+					return new OutputProgressMonitor (pad, title, icon);
+				}
+			}
+			
+			DefaultMonitorPad defMonitor = new DefaultMonitorPad (title, icon);
+			defMonitor.Id = (monitorId++).ToString ();
+			Runtime.Gui.Workbench.ShowPad (defMonitor);
+			if (bringToFront) defMonitor.BringToFront ();
+			return new OutputProgressMonitor (defMonitor, title, icon);
+		}
+		
+		internal void ReleasePad (DefaultMonitorPad pad)
+		{
+			lock (outputMonitors) {
+				outputMonitors.Add (pad);
+			}
+		}
 		
 		[FreeDispatch]
 		public ICollection Tasks {

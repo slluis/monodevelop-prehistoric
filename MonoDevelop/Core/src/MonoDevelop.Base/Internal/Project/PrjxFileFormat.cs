@@ -55,7 +55,7 @@ namespace MonoDevelop.Internal.Project
 			return obj is Project;
 		}
 		
-		public void WriteFile (string file, object node)
+		public void WriteFile (string file, object node, IProgressMonitor monitor)
 		{
 			Project project = node as Project;
 			if (project == null)
@@ -63,15 +63,19 @@ namespace MonoDevelop.Internal.Project
 
 			StreamWriter sw = new StreamWriter (file);
 			try {
+				monitor.BeginTask (string.Format (GettextCatalog.GetString("Saving project: {0}"), file), 1);
 				XmlDataSerializer ser = new XmlDataSerializer (Runtime.ProjectService.DataContext);
 				ser.SerializationContext.BaseFile = file;
 				ser.Serialize (sw, project, typeof(Project));
+			} catch (Exception ex) {
+				monitor.ReportError (string.Format (GettextCatalog.GetString ("Could not save project: {0}"), file), ex);
 			} finally {
+				monitor.EndTask ();
 				sw.Close ();
 			}
 		}
 		
-		public object ReadFile (string fileName)
+		public object ReadFile (string fileName, IProgressMonitor monitor)
 		{
 			XmlTextReader reader = new XmlTextReader (new StreamReader (fileName));
 			reader.MoveToContent ();
@@ -84,7 +88,6 @@ namespace MonoDevelop.Internal.Project
 			
 			if (version == "1.0") {
 				string tempFile = Path.GetTempFileName();
-				Runtime.MessageService.ShowMessage(String.Format ("Old project file format found.\n It will be automatically converted to the current format"));
 				
 				ConvertXml.Convert(fileName,
 				                   Runtime.Properties.DataDirectory + Path.DirectorySeparatorChar +
@@ -98,8 +101,10 @@ namespace MonoDevelop.Internal.Project
 				File.Delete (tempFile);
 				reader = new XmlTextReader (new StringReader (fdata));
 				projectReader = new ProjectReaderV1 (serializer);
+				monitor.ReportWarning (string.Format (GettextCatalog.GetString ("The format of the project '{0}' is an old file format. It will be automatically converted to the current format."), fileName));
 			}
 			else if (version == "1.1") {
+				monitor.ReportWarning (string.Format (GettextCatalog.GetString ("The format of the project '{0}' is an old file format. It will be automatically converted to the current format."), fileName));
 				projectReader = new ProjectReaderV1 (serializer);
 			}
 			else if (version == "2.0") {
@@ -107,11 +112,16 @@ namespace MonoDevelop.Internal.Project
 			}
 			
 			try {
+				monitor.BeginTask (string.Format (GettextCatalog.GetString ("Loading project: {0}"), fileName), 1);
 				if (projectReader != null)
 					return projectReader.ReadProject (reader);
 				else
 					throw new UnknownProjectVersionException (version);
+			} catch (Exception ex) {
+				monitor.ReportError (string.Format (GettextCatalog.GetString ("Could not load project: {0}"), fileName), ex);
+				throw;
 			} finally {
+				monitor.EndTask ();
 				reader.Close ();
 			}
 		}

@@ -1,5 +1,5 @@
 //
-// ProjectPathItemProperty.cs
+// BackgroundProgressMonitor.cs
 //
 // Author:
 //   Lluis Sanchez Gual
@@ -26,48 +26,38 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
+
 using System;
 using System.IO;
-using MonoDevelop.Internal.Serialization;
-using MonoDevelop.Services;
+using MonoDevelop.Gui.Components;
+using Gtk;
 
-namespace MonoDevelop.Internal.Project
+namespace MonoDevelop.Services
 {
-	public class ProjectPathItemProperty: ItemPropertyAttribute
+	internal class BackgroundProgressMonitor: BaseProgressMonitor
 	{
-		public ProjectPathItemProperty ()
+		string title;
+		IStatusIcon icon;
+		
+		public BackgroundProgressMonitor (string title, string iconName)
 		{
-			SerializationDataType = typeof (PathDataType);
+			this.title = title;
+			Image img = Runtime.Gui.Resources.GetImage (iconName, Gtk.IconSize.Menu);
+			icon = Runtime.Gui.StatusBar.ShowStatusIcon (img);
 		}
 		
-		public ProjectPathItemProperty (string name): base (name)
+		protected override void OnProgressChanged ()
 		{
-			SerializationDataType = typeof (PathDataType);
-		}
-	}
-	
-	public class PathDataType: PrimitiveDataType
-	{
-		public PathDataType (Type type): base (type)
-		{
-		}
-
-		public override DataNode Serialize (SerializationContext serCtx, object mapData, object value)
-		{
-			if (value == null || ((string)value).Length == 0) return null;
-			string basePath = Path.GetDirectoryName (serCtx.BaseFile);
-			string file = Runtime.FileUtilityService.AbsoluteToRelativePath (basePath, value.ToString ());
-			return new DataValue (Name, file);
+			if (UnknownWork)
+				icon.ToolTip = string.Format ("{0}\n{1}", title, CurrentTask);
+			else
+				icon.ToolTip = string.Format ("{0} ({1}%)\n{2}", title, (int)(GlobalWork * 100), CurrentTask);
 		}
 		
-		public override object Deserialize (SerializationContext serCtx, object mapData, DataNode data)
+		public override void Dispose()
 		{
-			string file = ((DataValue)data).Value;
-			if (file == "") return "";
-			string basePath = Path.GetDirectoryName (serCtx.BaseFile);
-			return Runtime.FileUtilityService.RelativeToAbsolutePath (basePath, file);
+			base.Dispose ();
+			Runtime.Gui.StatusBar.HideStatusIcon (icon);
 		}
 	}
 }
-
-

@@ -1,5 +1,5 @@
 //
-// ProjectPathItemProperty.cs
+// LogTextWriter.cs
 //
 // Author:
 //   Lluis Sanchez Gual
@@ -26,48 +26,40 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
+
 using System;
 using System.IO;
-using MonoDevelop.Internal.Serialization;
-using MonoDevelop.Services;
+using System.Text;
 
-namespace MonoDevelop.Internal.Project
+namespace MonoDevelop.Services
 {
-	public class ProjectPathItemProperty: ItemPropertyAttribute
-	{
-		public ProjectPathItemProperty ()
-		{
-			SerializationDataType = typeof (PathDataType);
-		}
-		
-		public ProjectPathItemProperty (string name): base (name)
-		{
-			SerializationDataType = typeof (PathDataType);
-		}
-	}
+	public delegate void LogTextEventHandler (string writtenText);
 	
-	public class PathDataType: PrimitiveDataType
+	internal class LogTextWriter: TextWriter
 	{
-		public PathDataType (Type type): base (type)
-		{
-		}
-
-		public override DataNode Serialize (SerializationContext serCtx, object mapData, object value)
-		{
-			if (value == null || ((string)value).Length == 0) return null;
-			string basePath = Path.GetDirectoryName (serCtx.BaseFile);
-			string file = Runtime.FileUtilityService.AbsoluteToRelativePath (basePath, value.ToString ());
-			return new DataValue (Name, file);
+		public override Encoding Encoding {
+			get { return Encoding.Default; }
 		}
 		
-		public override object Deserialize (SerializationContext serCtx, object mapData, DataNode data)
+		public override void Close ()
 		{
-			string file = ((DataValue)data).Value;
-			if (file == "") return "";
-			string basePath = Path.GetDirectoryName (serCtx.BaseFile);
-			return Runtime.FileUtilityService.RelativeToAbsolutePath (basePath, file);
+			if (Closed != null)
+				Closed (this, null);
 		}
+		
+		public override void Write (char value)
+		{
+			if (TextWritten != null)
+				TextWritten (value.ToString ());
+		}
+		
+		public override void Write (string value)
+		{
+			if (TextWritten != null)
+				TextWritten (value);
+		}
+		
+		public event LogTextEventHandler TextWritten;
+		public event EventHandler Closed;
 	}
 }
-
-

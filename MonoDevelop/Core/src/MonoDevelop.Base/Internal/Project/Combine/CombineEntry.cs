@@ -25,9 +25,6 @@ namespace MonoDevelop.Internal.Project
 {
 	public abstract class CombineEntry : ICustomDataItem, IDisposable
 	{
-		public static int BuildProjects = 0;
-		public static int BuildErrors   = 0;
-		
 		[ItemProperty ("Configurations")]
 		[ItemProperty ("Configuration", ValueType=typeof(IConfiguration), Scope=1)]
 		ArrayList configurations = new ArrayList();
@@ -94,15 +91,15 @@ namespace MonoDevelop.Internal.Project
 			set {}
 		}
 		
-		public virtual void Save (string fileName)
+		public virtual void Save (string fileName, IProgressMonitor monitor)
 		{
 			FileName = fileName;
-			Save ();
+			Save (monitor);
 		}
 		
-		public virtual void Save ()
+		public virtual void Save (IProgressMonitor monitor)
 		{
-			Runtime.ProjectService.WriteFile (FileName, this);
+			Runtime.ProjectService.WriteFile (FileName, this, monitor);
 		}
 		
 		internal void SetParentCombine (Combine combine)
@@ -186,9 +183,9 @@ namespace MonoDevelop.Internal.Project
 		}
 		
 		public abstract void Clean ();
-		public abstract void Build ();
-		public abstract void Execute();
-		public abstract void Debug ();
+		public abstract ICompilerResult Build (IProgressMonitor monitor);
+		public abstract void Execute (IProgressMonitor monitor);
+		public abstract void Debug (IProgressMonitor monitor);
 		public abstract string GetOutputFileName ();
 		public abstract bool NeedsBuilding { get; set; }
 		

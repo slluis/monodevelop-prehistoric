@@ -56,6 +56,8 @@ namespace MonoDevelop.Services
 			get;
 		}
 		
+		ICompilerResult LastCompilerResult { get; }
+		
 		DataContext DataContext {
 			get;
 		}
@@ -64,9 +66,9 @@ namespace MonoDevelop.Services
 			get;
 		}
 		
-		CombineEntry ReadFile (string file);
+		CombineEntry ReadFile (string file, IProgressMonitor monitor);
 
-		void WriteFile (string file, CombineEntry entry);
+		void WriteFile (string file, CombineEntry entry, IProgressMonitor monitor);
 		
 		/// <remarks>
 		/// Closes the root combine
@@ -81,23 +83,40 @@ namespace MonoDevelop.Services
 		/// <remarks>
 		/// Compile the root combine.
 		/// </remarks>
-		void CompileCombine();
+		IAsyncOperation BuildActiveCombine();
 		
 		/// <remarks>
 		/// Compile the root combine. Forces Recompile for all projects.
 		/// </remarks>
-		void RecompileAll();
+		IAsyncOperation RebuildActiveCombine();
+		
+		/// <remarks>
+		/// Compiles the active project, if the project isn't dirty this
+		/// method does nothing
+		/// </remarks>
+		IAsyncOperation BuildActiveProject ();
+		
+		/// <remarks>
+		/// Compiles the active project (forced!)
+		/// </remarks>
+		IAsyncOperation RebuildActiveProject ();
 		
 		/// <remarks>
 		/// Compiles a specific project, if the project isn't dirty this
 		/// method does nothing
 		/// </remarks>
-		void CompileProject(Project project);
+		IAsyncOperation BuildProject (Project project);
 		
 		/// <remarks>
 		/// Compiles a specific project (forced!)
 		/// </remarks>
-		void RecompileProject(Project project);
+		IAsyncOperation RebuildProject (Project project);
+		
+		IAsyncOperation BuildFile (string file);
+		
+		IAsyncOperation ExecuteActiveCombine ();
+		IAsyncOperation ExecuteProject (Project project);
+		IAsyncOperation ExecuteFile (string sourceFile);
 		
 		/// <remarks>
 		/// Opens a new root combine, closes the old root combine automatically.
@@ -120,21 +139,6 @@ namespace MonoDevelop.Services
 		/// in the next compiler run.
 		/// </remarks>
 		void MarkFileDirty(string filename);
-		
-		/// <remarks>
-		/// Only to be called by the compile actions.
-		/// </remarks>
-		void OnStartBuild();
-		
-		/// <remarks>
-		/// Only to be called by the compile actions.
-		/// </remarks>
-		void OnEndBuild(bool success);
-		
-		/// <remarks>
-		/// Only to be called by the compile actions.
-		/// </remarks>
-		void OnBeforeStartProject();
 		
 		/// <remarks>
 		/// Removes a file from it's project(s)

@@ -143,73 +143,67 @@ namespace MonoDevelop.Commands
 		void ToolEvt(object sender, EventArgs e)
 		{
 			SdMenuCommand item = (SdMenuCommand)sender;
-			StringParserService stringParserService = Runtime.StringParserService;
 			
 			for (int i = 0; i < ToolLoader.Tool.Count; ++i) {
 				if (item.Text == ToolLoader.Tool[i].ToString()) {
-					
 					ExternalTool tool = (ExternalTool)ToolLoader.Tool[i];
-					// set the command
-					string command = tool.Command;
-					// set the args
-					string args = stringParserService.Parse(tool.Arguments);
-					// prompt for args if needed
-					if (tool.PromptForArguments) {
-						args = Runtime.MessageService.GetTextResponse(String.Format (GettextCatalog.GetString ("Enter any arguments you want to use while launching tool, {0}:"), tool.MenuCommand), String.Format (GettextCatalog.GetString ("Command Arguments for {0}"), tool.MenuCommand), args);
-							
-						// if user selected cancel string will be null
-						if (args == null) {
-							args = stringParserService.Parse(tool.Arguments);
-						}
-					}
-					
-					// debug command and args
-					Console.WriteLine("command : " + command);
-					Console.WriteLine("args    : " + args);
-					
-					// create the process
-					try {
-						string workingDirectory = stringParserService.Parse(tool.InitialDirectory);
-						if (tool.UseOutputPad)
-							Runtime.ProcessService.StartProcess (command, args, workingDirectory, new ProcessEventHandler (OnStdOut), new ProcessEventHandler (OnStdErr), new EventHandler (OnExited));
-						else
-							Runtime.ProcessService.StartProcess (command, args, workingDirectory, new EventHandler (OnExited));
-					} catch (Exception ex) {
-						Runtime.MessageService.ShowError(ex, String.Format (GettextCatalog.GetString ("External program execution failed.\nError while starting:\n '{0} {1}'"), command, args));
-					}
+					Runtime.DispatchService.BackgroundDispatch (new StatefulMessageHandler (RunTool), tool);
 					break;
 				}
 			}
 		}
 		
-		private void OnStdOut (object sender, string s)
+		private void RunTool (object ob)
 		{
-			lock (Runtime.TaskService.CompilerOutput)
-			{
-				Runtime.TaskService.CompilerOutput += s + Environment.NewLine;
-			}
-		}
-		
-		private void OnStdErr (object sender, string s)
-		{
-			lock (Runtime.TaskService.CompilerOutput)
-			{
-				Runtime.TaskService.CompilerOutput += s + Environment.NewLine;
-			}
-		}
-		
-		private void OnExited (object sender, EventArgs e)
-		{
-			ProcessWrapper wrapper = (ProcessWrapper)sender;
+			StringParserService stringParserService = Runtime.StringParserService;
+			ExternalTool tool = (ExternalTool) ob;
 			
-			lock (Runtime.TaskService.CompilerOutput)
-			{ 
-				if (wrapper.ExitCode == 0) {
-					Runtime.TaskService.CompilerOutput += string.Format("{0}Process {1} has completed succesfully.{0}", Environment.NewLine, wrapper.ProcessName); 
-				} else {
-					Runtime.TaskService.CompilerOutput += string.Format("{0}Process {1} has exited with errorcode {2}.{0}", Environment.NewLine, wrapper.ProcessName, wrapper.ExitCode);
+			// set the command
+			string command = tool.Command;
+			// set the args
+			string args = stringParserService.Parse(tool.Arguments);
+			// prompt for args if needed
+			if (tool.PromptForArguments) {
+				args = Runtime.MessageService.GetTextResponse(String.Format (GettextCatalog.GetString ("Enter any arguments you want to use while launching tool, {0}:"), tool.MenuCommand), String.Format (GettextCatalog.GetString ("Command Arguments for {0}"), tool.MenuCommand), args);
+					
+				// if user selected cancel string will be null
+				if (args == null) {
+					args = stringParserService.Parse(tool.Arguments);
 				}
-			}		
+			}
+			
+			// debug command and args
+			Console.WriteLine("command : " + command);
+			Console.WriteLine("args    : " + args);
+			
+			// create the process
+			IProgressMonitor monitor = Runtime.TaskService.GetRunProgressMonitor ();
+			monitor.Log.WriteLine ("Running: {0} {1} ...", command, args);
+			monitor.Log.WriteLine ();
+			
+			try {
+				ProcessWrapper p;
+				string workingDirectory = stringParserService.Parse(tool.InitialDirectory);
+				if (tool.UseOutputPad)
+					p = Runtime.ProcessService.StartProcess (command, args, workingDirectory, monitor.Log, monitor.Log, null);
+				else
+					p = Runtime.ProcessService.StartProcess (command, args, workingDirectory, null);
+
+				p.WaitForOutput ();
+				Console.WriteLine ("DONE");
+				
+				monitor.Log.WriteLine ();
+				if (p.ExitCode == 0) {
+					monitor.Log.WriteLine ("Process '{0}' has completed succesfully.", p.ProcessName); 
+				} else {
+					monitor.Log.WriteLine ("Process '{0}' has exited with errorcode {1}.", p.ProcessName, p.ExitCode);
+				}
+				
+			} catch (Exception ex) {
+				monitor.ReportError (String.Format (GettextCatalog.GetString ("External program execution failed.\nError while starting:\n '{0} {1}'"), command, args), ex);
+			} finally {
+				monitor.Dispose ();
+			}
 		}
 	}
 	

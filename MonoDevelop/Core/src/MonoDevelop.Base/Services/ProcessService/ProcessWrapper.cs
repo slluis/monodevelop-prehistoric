@@ -11,8 +11,10 @@ namespace MonoDevelop.Services
 	{
 		private Thread captureOutputThread;
 		private Thread captureErrorThread;
+		AutoResetEvent endEventOut = new AutoResetEvent (false);
+		AutoResetEvent endEventErr = new AutoResetEvent (false);
 		
-		public void Start ()
+		public new void Start ()
 		{
 			base.Start ();
 			
@@ -31,34 +33,38 @@ namespace MonoDevelop.Services
 			captureErrorThread.Abort ();
 		}
 		
+		public void WaitForOutput ()
+		{
+			WaitForExit ();
+			WaitHandle.WaitAll (new WaitHandle[] {endEventOut, endEventErr});
+		}
+		
 		private void CaptureOutput ()
 		{
 			string s;
 
-			while (OutputStreamChanged != null)
+			if (OutputStreamChanged != null)
 			{
 				while ((s = StandardOutput.ReadLine()) != null) {
 					if (OutputStreamChanged != null)
 						OutputStreamChanged (this, s);
 				}
-				
-				Thread.Sleep (100);				
 			}
+			endEventOut.Set ();
 		}
 		
 		private void CaptureError ()
 		{
 			string s;
 			
-			while (ErrorStreamChanged != null)
+			if (ErrorStreamChanged != null)
 			{
 				while ((s = StandardError.ReadLine()) != null) {
 					if (ErrorStreamChanged != null)
 						ErrorStreamChanged (this, s);
 				}					
-					
-				Thread.Sleep (100);
 			}
+			endEventErr.Set ();
 		}
 	
 		public event ProcessEventHandler OutputStreamChanged;

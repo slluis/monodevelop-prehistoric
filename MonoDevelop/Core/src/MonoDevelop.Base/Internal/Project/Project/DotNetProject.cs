@@ -98,7 +98,7 @@ namespace MonoDevelop.Internal.Project
 			return new DotNetProjectConfiguration ();
 		}
 		
-		protected override ICompilerResult DoBuild ()
+		protected override ICompilerResult DoBuild (IProgressMonitor monitor)
 		{
 			DotNetProjectConfiguration conf = (DotNetProjectConfiguration) ActiveConfiguration;
 			foreach (ProjectFile finfo in ProjectFiles) {
@@ -110,7 +110,7 @@ namespace MonoDevelop.Internal.Project
 				}
 			}
 
-			ICompilerResult res = languageBinding.Compile (ProjectFiles, ProjectReferences, conf);
+			ICompilerResult res = languageBinding.Compile (ProjectFiles, ProjectReferences, conf, monitor);
 			CopyReferencesToOutputPath (false);
 			return res;
 		}
@@ -121,7 +121,7 @@ namespace MonoDevelop.Internal.Project
 			return conf.CompiledOutputName;
 		}
 		
-		public override void Debug ()
+		public override void Debug (IProgressMonitor monitor)
 		{
 			if (Runtime.TaskService.Errors != 0) return;
 
@@ -130,44 +130,46 @@ namespace MonoDevelop.Internal.Project
 				Runtime.DebuggingService.Run (new string[] { configuration.CompiledOutputName } );
 		}
 
-		protected override void DoExecute ()
+		protected override void DoExecute (IProgressMonitor monitor)
 		{
 			CopyReferencesToOutputPath (true);
 			
 			DotNetProjectConfiguration configuration = (DotNetProjectConfiguration) ActiveConfiguration;
-			string args = configuration.CommandLineParameters;
+			monitor.Log.WriteLine ("Running " + configuration.CompiledOutputName + " ...");
 			
-			ProcessStartInfo psi;
-			string runtimeStarter = "mono --debug ";
+			string runtimeStarter = "/home/lluis/install/bin/mono";
 			
 			switch (configuration.NetRuntime) {
 				case NetRuntime.Mono:
-					runtimeStarter = "mono --debug ";
+					runtimeStarter = "/home/lluis/install/bin/mono";
 					break;
 				case NetRuntime.MonoInterpreter:
-					runtimeStarter = "mint ";
+					runtimeStarter = "mint";
 					break;
 			}
 			
-			string additionalCommands = "";
-			if (configuration.PauseConsoleOutput)
-				additionalCommands = @"echo; read -p 'press any key to continue...' -n1;";
-
-			psi = new ProcessStartInfo("xterm",
-				string.Format (
-				@"-e ""{0} '{1}' {2} ; {3}""",
-				runtimeStarter, configuration.CompiledOutputName, args, additionalCommands));
-			psi.UseShellExecute = false;
+			string args = string.Format (@"--debug {0} {1}", configuration.CompiledOutputName, configuration.CommandLineParameters);
 			
 			try {
-				psi.WorkingDirectory = Path.GetDirectoryName (configuration.CompiledOutputName);
-				psi.UseShellExecute  =  false;
+				ProcessWrapper p;
 				
-				Process p = new Process();
-				p.StartInfo = psi;
-				p.Start();
-			} catch (Exception) {
-				throw new ApplicationException("Can not execute " + "\"" + configuration.CompiledOutputName + "\"\n(Try restarting MonoDevelop or start your app manually)");
+				if (configuration.ExternalConsole)
+					p = Runtime.ProcessService.StartConsoleProcess (
+							runtimeStarter, 
+							args, 
+							Path.GetDirectoryName (configuration.CompiledOutputName), 
+							configuration.PauseConsoleOutput, null);
+				else
+					p = Runtime.ProcessService.StartProcess (
+							runtimeStarter, 
+							args, 
+							Path.GetDirectoryName (configuration.CompiledOutputName), 
+							monitor.Log, monitor.Log, null);
+						
+				p.WaitForOutput ();
+				monitor.Log.WriteLine ("The application exited with code: {0}", p.ExitCode);
+			} catch (Exception ex) {
+				monitor.ReportError ("Can not execute " + "\"" + configuration.CompiledOutputName + "\"\n(Try restarting MonoDevelop or start your app manually)", ex);
 			}
 		}
 

@@ -197,9 +197,9 @@ namespace MonoDevelop.Internal.Project
 			}
 		}
 		
-		public static Project LoadProject (string filename)
+		public static Project LoadProject (string filename, IProgressMonitor monitor)
 		{
-			Project prj = Runtime.ProjectService.ReadFile (filename) as Project;
+			Project prj = Runtime.ProjectService.ReadFile (filename, monitor) as Project;
 			if (prj == null)
 				throw new InvalidOperationException ("Invalid project file: " + filename);
 			
@@ -229,7 +229,7 @@ namespace MonoDevelop.Internal.Project
 
 				if (fdiag.Run() == (int)Gtk.ResponseType.Ok) {
 					string filename = fdiag.Filename;
-					Save (filename);
+					Save (filename, new ConsoleProgressMonitor ());
 					Runtime.MessageService.ShowMessage(filename, GettextCatalog.GetString ("Project saved"));
 				}
 				
@@ -301,46 +301,39 @@ namespace MonoDevelop.Internal.Project
 			isDirty = true;
 		}
 		
-		public override void Build ()
+		public override ICompilerResult Build (IProgressMonitor monitor)
 		{
-			Compile ();
-		}
-		
-		public ICompilerResult Compile ()
-		{
-			if (isDirty) {
+			if (!isDirty) return new DefaultCompilerResult (new CompilerResults (null), "");
+			
+			try {
+				monitor.BeginTask (String.Format (GettextCatalog.GetString ("Building Project: {0} Configuration: {1}"), Name, ActiveConfiguration.Name), 3);
+				
 				Runtime.StringParserService.Properties["Project"] = Name;
 				TaskService taskService = Runtime.TaskService;
 				
-				Runtime.Gui.StatusBar.SetMessage(String.Format (GettextCatalog.GetString ("Compiling: {0}"), Name));
+				DoPreBuild (monitor);
 				
-				DoPreBuild ();
+				monitor.Step (1);
+				monitor.Log.WriteLine (String.Format ("Performing main compilation..."));
 				
-				taskService.CompilerOutput += String.Format (GettextCatalog.GetString ("------ Build started: Project: {0} Configuration: {1} ------\n\nPerforming main compilation...\n"), Name, ActiveConfiguration.Name);
+				ICompilerResult res = DoBuild (monitor);
 				
-				ICompilerResult res = DoBuild ();
+				monitor.Step (1);
 				
-				DoPostBuild ();
+				DoPostBuild (monitor);
 				
 				isDirty = false;
-				foreach (System.CodeDom.Compiler.CompilerError err in res.CompilerResults.Errors) {
-					isDirty = true;
-					taskService.AddTask(new Task(this, err));
-				}
 				
-				if (taskService.Errors > 0) {
-					++CombineEntry.BuildErrors;
-				} else {
-					++CombineEntry.BuildProjects;
-				}
+				monitor.Step (1);
+				monitor.Log.WriteLine (String.Format (GettextCatalog.GetString ("Build complete -- {0} errors, {1} warnings"), res.ErrorCount, res.WarningCount));
 				
-				taskService.CompilerOutput += String.Format (GettextCatalog.GetString ("Build complete -- {0} errors, {1} warnings\n\n"), taskService.Errors.ToString (), taskService.Warnings.ToString ());
 				return res;
+			} finally {
+				monitor.EndTask ();
 			}
-			return new DefaultCompilerResult (new CompilerResults (null), "");
 		}
 		
-		protected virtual void DoPreBuild ()
+		protected virtual void DoPreBuild (IProgressMonitor monitor)
 		{
 			AbstractProjectConfiguration conf = ActiveConfiguration as AbstractProjectConfiguration;
 				
@@ -355,42 +348,42 @@ namespace MonoDevelop.Internal.Project
 				throw new ApplicationException("Can't create project output directory " + outputDir + " original exception:\n" + e.ToString());
 			}
 			
-			if (conf != null && File.Exists(conf.ExecuteBeforeBuild)) {
-				Runtime.TaskService.CompilerOutput += String.Format (GettextCatalog.GetString ("Execute : {0}"), conf.ExecuteBeforeBuild);
+			if (conf != null && conf.ExecuteBeforeBuild != "" && File.Exists(conf.ExecuteBeforeBuild)) {
+				monitor.Log.WriteLine (String.Format (GettextCatalog.GetString ("Executing: {0}"), conf.ExecuteBeforeBuild));
 				ProcessStartInfo ps = new ProcessStartInfo(conf.ExecuteBeforeBuild);
 				ps.UseShellExecute = false;
 				ps.RedirectStandardOutput = true;
-				ps.WorkingDirectory = Path.GetDirectoryName(conf.ExecuteBeforeBuild);
 				Process process = new Process();
 				process.StartInfo = ps;
 				process.Start();
-				Runtime.TaskService.CompilerOutput += process.StandardOutput.ReadToEnd();
+				monitor.Log.Write (process.StandardOutput.ReadToEnd());
+				monitor.Log.WriteLine ();
 			}
 		}
 		
-		protected virtual ICompilerResult DoBuild ()
+		protected virtual ICompilerResult DoBuild (IProgressMonitor monitor)
 		{
 			return new DefaultCompilerResult (new CompilerResults (null), "");
 		}
 		
-		protected virtual void DoPostBuild ()
+		protected virtual void DoPostBuild (IProgressMonitor monitor)
 		{
 			AbstractProjectConfiguration conf = ActiveConfiguration as AbstractProjectConfiguration;
 
-			if (conf != null && File.Exists(conf.ExecuteAfterBuild)) {
-				Runtime.TaskService.CompilerOutput += String.Format (GettextCatalog.GetString ("Execute : {0}"), conf.ExecuteAfterBuild);
+			if (conf != null && conf.ExecuteAfterBuild != "" && File.Exists(conf.ExecuteAfterBuild)) {
+				monitor.Log.WriteLine ();
+				monitor.Log.WriteLine (String.Format (GettextCatalog.GetString ("Executing: {0}"), conf.ExecuteAfterBuild));
 				ProcessStartInfo ps = new ProcessStartInfo(conf.ExecuteAfterBuild);
 				ps.UseShellExecute = false;
 				ps.RedirectStandardOutput = true;
-				ps.WorkingDirectory = Path.GetDirectoryName(conf.ExecuteAfterBuild);
 				Process process = new Process();
 				process.StartInfo = ps;
 				process.Start();
-				Runtime.TaskService.CompilerOutput += process.StandardOutput.ReadToEnd();
+				monitor.Log.Write (process.StandardOutput.ReadToEnd());
 			}
 		}
 		
-		public override void Execute()
+		public override void Execute (IProgressMonitor monitor)
 		{
 			if (Runtime.TaskService.Errors != 0) return;
 			
@@ -400,24 +393,16 @@ namespace MonoDevelop.Internal.Project
 				
 			string args = configuration.CommandLineParameters;
 			
-			ProcessStartInfo psi;
 			if (configuration.ExecuteScript != null && configuration.ExecuteScript.Length > 0) {
-				string additionalCommands = "";
-				if (configuration.PauseConsoleOutput)
-					additionalCommands = @"echo; read -p 'press any key to continue...' -n1;";
-				psi = new ProcessStartInfo("xterm",
-					String.Format (@"-e ""cd {3} ; '{0}' {1} ; {2}""", configuration.ExecuteScript, args, additionalCommands, BaseDirectory));
-				psi.UseShellExecute = false;
-				Process p = new Process ();
-				p.StartInfo = psi;
-				p.Start ();
+				ProcessWrapper p = Runtime.ProcessService.StartProcess (configuration.ExecuteScript, args, BaseDirectory, monitor.Log, monitor.Log, null);
+				p.WaitForOutput ();
 			} else {
-				DoExecute ();
+				DoExecute (monitor);
 			}
 		}
 		
 		
-		protected virtual void DoExecute ()
+		protected virtual void DoExecute (IProgressMonitor monitor)
 		{
 		}
 		

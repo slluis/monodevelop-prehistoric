@@ -206,7 +206,7 @@ namespace MonoDevelop.BrowserDisplayBinding
 				System.Threading.Thread.Sleep (100);
 				return true;
 			}
-			status.Done ();
+			status.EndProgress ();
 			Runtime.Gui.StatusBar.SetMessage (GettextCatalog.GetString ("Done."));
 			return false;
 		}

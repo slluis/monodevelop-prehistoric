@@ -78,29 +78,32 @@ namespace MonoDevelop.Internal.Templates
 
 			// Create sub projects
 			foreach (ProjectDescriptor projectDescriptor in projectDescriptors) {
-				newCombine.AddEntry(projectDescriptor.CreateProject(projectCreateInformation, defaultLanguage));
+				newCombine.AddEntry(projectDescriptor.CreateProject(projectCreateInformation, defaultLanguage), null);
 			}
 			
 			// Create sub combines
 			foreach (CombineDescriptor combineDescriptor in combineDescriptors) {
-				newCombine.AddEntry(combineDescriptor.CreateCombine(projectCreateInformation, defaultLanguage));
+				newCombine.AddEntry(combineDescriptor.CreateCombine(projectCreateInformation, defaultLanguage), null);
 			}
 			
 			projectCreateInformation.CombinePath = oldCombinePath;
 			projectCreateInformation.ProjectBasePath = oldProjectPath;
 			
 			// Save combine
-			string combineLocation = Runtime.FileUtilityService.GetDirectoryNameWithSeparator(projectCreateInformation.CombinePath) + newCombineName + ".cmbx";
-			if (File.Exists(combineLocation)) {
-				IMessageService messageService =(IMessageService)ServiceManager.GetService(typeof(IMessageService));
-				if (messageService.AskQuestion(String.Format (GettextCatalog.GetString ("Solution file {0} already exists, do you want to overwrite\nthe existing file ?"), combineLocation))) {
-					newCombine.Save (combineLocation);
+			using (IProgressMonitor monitor = Runtime.TaskService.GetSaveProgressMonitor ()) {
+				string combineLocation = Runtime.FileUtilityService.GetDirectoryNameWithSeparator(projectCreateInformation.CombinePath) + newCombineName + ".cmbx";
+				if (File.Exists(combineLocation)) {
+					IMessageService messageService =(IMessageService)ServiceManager.GetService(typeof(IMessageService));
+					if (messageService.AskQuestion(String.Format (GettextCatalog.GetString ("Solution file {0} already exists, do you want to overwrite\nthe existing file ?"), combineLocation))) {
+						newCombine.Save (combineLocation, monitor);
+					}
+				} else {
+					newCombine.Save (combineLocation, monitor);
 				}
-			} else {
-				newCombine.Save (combineLocation);
+			
+				newCombine.Dispose();
+				return combineLocation;
 			}
-			newCombine.Dispose();
-			return combineLocation;
 		}
 		
 		public static CombineDescriptor CreateCombineDescriptor(XmlElement element)

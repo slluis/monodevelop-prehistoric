@@ -529,7 +529,6 @@ namespace MonoDevelop.Gui.Pads.ProjectBrowser
 			string newfilename = alreadyInPlace ? filename : Runtime.FileUtilityService.GetDirectoryNameWithSeparator(baseDirectory) + name;
 
 			string oldrelativename = Runtime.FileUtilityService.AbsoluteToRelativePath(baseDirectory, filename);
-			string newrelativename = Runtime.FileUtilityService.AbsoluteToRelativePath(baseDirectory, newfilename);
 
 			AbstractBrowserNode oldparent = DefaultDotNetNodeBuilder.GetPath(oldrelativename, GetRootProjectNode(node), false);          // TODO : change this for more projects
 			AbstractBrowserNode newparent = node;

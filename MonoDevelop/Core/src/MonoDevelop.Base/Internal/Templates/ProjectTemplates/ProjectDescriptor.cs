@@ -149,12 +149,15 @@ namespace MonoDevelop.Internal.Templates
 			// Save project
 			string projectLocation = fileUtilityService.GetDirectoryNameWithSeparator(projectCreateInformation.ProjectBasePath) + newProjectName + ".prjx";
 			
-			if (File.Exists(projectLocation)) {
-				if (Runtime.MessageService.AskQuestion(String.Format (GettextCatalog.GetString ("Project file {0} already exists, do you want to overwrite\nthe existing file ?"), projectLocation),  GettextCatalog.GetString ("File already exists"))) {
-					project.Save (projectLocation);
+			
+			using (IProgressMonitor monitor = Runtime.TaskService.GetSaveProgressMonitor ()) {
+				if (File.Exists(projectLocation)) {
+					if (Runtime.MessageService.AskQuestion(String.Format (GettextCatalog.GetString ("Project file {0} already exists, do you want to overwrite\nthe existing file ?"), projectLocation),  GettextCatalog.GetString ("File already exists"))) {
+						project.Save (projectLocation, monitor);
+					}
+				} else {
+					project.Save (projectLocation, monitor);
 				}
-			} else {
-				project.Save (projectLocation);
 			}
 			
 			return projectLocation;

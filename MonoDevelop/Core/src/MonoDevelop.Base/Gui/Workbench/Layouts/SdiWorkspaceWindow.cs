@@ -214,32 +214,25 @@ namespace MonoDevelop.Gui
 		public void CloseWindow(bool force, bool fromMenu, int pageNum)
 		{
 			if (!force && ViewContent != null && ViewContent.IsDirty) {
-				bool response = Runtime.MessageService.AskQuestion (GettextCatalog.GetString ("Do you want to save the current changes"));
 				
-				switch (response) {
-					case true:
-						if (content.ContentName == null) {
-							while (true) {
-								new MonoDevelop.Commands.SaveFileAs().Run();
-								if (ViewContent.IsDirty) {
-									if (Runtime.MessageService.AskQuestion(GettextCatalog.GetString ("Do you really want to discard your changes ?"))) {
-										break;
-									}
-								} else {
+				bool save = Runtime.MessageService.AskQuestion (GettextCatalog.GetString ("Do you want to save the current changes"));
+				
+				if (save) {
+					if (content.ContentName == null) {
+						while (true) {
+							new MonoDevelop.Commands.SaveFileAs().Run();
+							if (ViewContent.IsDirty) {
+								if (Runtime.MessageService.AskQuestion(GettextCatalog.GetString ("Do you really want to discard your changes ?"))) {
 									break;
 								}
+							} else {
+								break;
 							}
-							
-						} else {
-							Runtime.FileUtilityService.ObservedSave(new FileOperationDelegate(ViewContent.Save), ViewContent.ContentName , FileErrorPolicy.ProvideAlternative);
 						}
-						break;
-					case false:
-						break;
 						
-					default:
-						// considering this to be Cancel
-						return;
+					} else {
+						Runtime.FileUtilityService.ObservedSave(new FileOperationDelegate(ViewContent.Save), ViewContent.ContentName , FileErrorPolicy.ProvideAlternative);
+					}
 				}
 			}
 			if (fromMenu == true) {

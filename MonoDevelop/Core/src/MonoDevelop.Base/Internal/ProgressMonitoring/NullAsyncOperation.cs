@@ -1,5 +1,5 @@
 //
-// ProjectPathItemProperty.cs
+// NullAsyncOperation.cs
 //
 // Author:
 //   Lluis Sanchez Gual
@@ -26,48 +26,42 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
+
 using System;
-using System.IO;
-using MonoDevelop.Internal.Serialization;
-using MonoDevelop.Services;
 
-namespace MonoDevelop.Internal.Project
+namespace MonoDevelop.Services
 {
-	public class ProjectPathItemProperty: ItemPropertyAttribute
+	public class NullAsyncOperation: IAsyncOperation
 	{
-		public ProjectPathItemProperty ()
+		public static NullAsyncOperation Success = new NullAsyncOperation (true);
+		public static NullAsyncOperation Failure = new NullAsyncOperation (false);
+		
+		bool success;
+		
+		private NullAsyncOperation (bool success)
 		{
-			SerializationDataType = typeof (PathDataType);
+			this.success = success;
 		}
 		
-		public ProjectPathItemProperty (string name): base (name)
+		public void Cancel ()
 		{
-			SerializationDataType = typeof (PathDataType);
-		}
-	}
-	
-	public class PathDataType: PrimitiveDataType
-	{
-		public PathDataType (Type type): base (type)
-		{
-		}
-
-		public override DataNode Serialize (SerializationContext serCtx, object mapData, object value)
-		{
-			if (value == null || ((string)value).Length == 0) return null;
-			string basePath = Path.GetDirectoryName (serCtx.BaseFile);
-			string file = Runtime.FileUtilityService.AbsoluteToRelativePath (basePath, value.ToString ());
-			return new DataValue (Name, file);
 		}
 		
-		public override object Deserialize (SerializationContext serCtx, object mapData, DataNode data)
+		public void WaitForCompleted ()
 		{
-			string file = ((DataValue)data).Value;
-			if (file == "") return "";
-			string basePath = Path.GetDirectoryName (serCtx.BaseFile);
-			return Runtime.FileUtilityService.RelativeToAbsolutePath (basePath, file);
+		}
+		
+		public bool IsCompleted {
+			get { return true; }
+		}
+		
+		bool IAsyncOperation.Success {
+			get { return success; }
+		}
+		
+		public event OperationHandler Completed {
+			add { value (this); }
+			remove {}
 		}
 	}
 }
-
-

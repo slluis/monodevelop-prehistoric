@@ -27,6 +27,7 @@
 //
 
 using System;
+using System.Collections;
 using System.IO;
 using System.Xml;
 using MonoDevelop.Services;
@@ -55,7 +56,7 @@ namespace MonoDevelop.Internal.Project
 			return obj is Combine;
 		}
 		
-		public void WriteFile (string file, object node)
+		public void WriteFile (string file, object node, IProgressMonitor monitor)
 		{
 			Combine combine = node as Combine;
 			if (combine == null)
@@ -63,17 +64,21 @@ namespace MonoDevelop.Internal.Project
 
 			StreamWriter sw = new StreamWriter (file);
 			try {
+				monitor.BeginTask (string.Format (GettextCatalog.GetString("Saving combine: {0}"), file), 1);
 				XmlTextWriter tw = new XmlTextWriter (sw);
 				tw.Formatting = Formatting.Indented;
 				DataSerializer serializer = new DataSerializer (Runtime.ProjectService.DataContext, file);
-				CombineWriterV2 combineWriter = new CombineWriterV2 (serializer);
+				CombineWriterV2 combineWriter = new CombineWriterV2 (serializer, monitor);
 				combineWriter.WriteCombine (tw, combine);
+			} catch (Exception ex) {
+				monitor.ReportError (string.Format (GettextCatalog.GetString ("Could not save combine: {0}"), file), ex);
 			} finally {
+				monitor.EndTask ();
 				sw.Close ();
 			}
 		}
 		
-		public object ReadFile (string file)
+		public object ReadFile (string file, IProgressMonitor monitor)
 		{
 			XmlTextReader reader = new XmlTextReader (new StreamReader (file));
 			reader.MoveToContent ();
@@ -85,9 +90,9 @@ namespace MonoDevelop.Internal.Project
 			ICombineReader combineReader = null;
 			
 			if (version == "1.0")
-				combineReader = new CombineReaderV1 (serializer);
+				combineReader = new CombineReaderV1 (serializer, monitor);
 			else if (version == "2.0")
-				combineReader = new CombineReaderV2 (serializer);
+				combineReader = new CombineReaderV2 (serializer, monitor);
 			
 			try {
 				if (combineReader != null)
@@ -109,13 +114,15 @@ namespace MonoDevelop.Internal.Project
 		Combine combine;
 		string file;
 		DataSerializer serializer;
+		IProgressMonitor monitor;
 		
-		public CombineReaderV1 (DataSerializer serializer)
+		public CombineReaderV1 (DataSerializer serializer, IProgressMonitor monitor)
 		{
 			this.serializer = serializer;
 			this.file = serializer.SerializationContext.BaseFile;
 			combine = new Combine ();
 			combine.FileName = file;
+			this.monitor = monitor;
 		}
 		
 		public Combine ReadCombine (XmlReader reader)
@@ -141,12 +148,14 @@ namespace MonoDevelop.Internal.Project
 				if (reader.IsEmptyElement) { reader.Skip(); return null; }
 				string basePath = Path.GetDirectoryName (file);
 				reader.ReadStartElement ();
+				monitor.BeginTask (string.Format (GettextCatalog.GetString("Loading combine: {0}"), combine.FileName), 1);
 				while (MoveToNextElement (reader)) {
 					string nodefile = reader.GetAttribute ("filename");
 					nodefile = Runtime.FileUtilityService.RelativeToAbsolutePath (basePath, nodefile);
-					combine.Entries.Add ((CombineEntry) Runtime.ProjectService.ReadFile (nodefile));
+					combine.Entries.Add ((CombineEntry) Runtime.ProjectService.ReadFile (nodefile, monitor));
 					reader.Skip ();
 				}
+				monitor.EndTask ();
 				reader.ReadEndElement ();
 				return null;
 			} else if (reader.LocalName == "Configurations") {
@@ -167,11 +176,13 @@ namespace MonoDevelop.Internal.Project
 	{
 		DataSerializer serializer;
 		Combine combine = new Combine ();
+		IProgressMonitor monitor;
 		
-		public CombineReaderV2 (DataSerializer serializer)
+		public CombineReaderV2 (DataSerializer serializer, IProgressMonitor monitor)
 		{
 			this.serializer = serializer;
 			combine.FileName = serializer.SerializationContext.BaseFile;
+			this.monitor = monitor;
 		}
 		
 		public Combine ReadCombine (XmlReader reader)
@@ -187,12 +198,25 @@ namespace MonoDevelop.Internal.Project
 				if (reader.IsEmptyElement) { reader.Skip(); return null; }
 				string basePath = Path.GetDirectoryName (combine.FileName);
 				reader.ReadStartElement ();
+				
+				ArrayList files = new ArrayList ();
 				while (MoveToNextElement (reader)) {
 					string nodefile = reader.GetAttribute ("filename");
 					nodefile = Runtime.FileUtilityService.RelativeToAbsolutePath (basePath, nodefile);
-					combine.Entries.Add ((CombineEntry) Runtime.ProjectService.ReadFile (nodefile));
+					files.Add (nodefile);
 					reader.Skip ();
 				}
+				
+				monitor.BeginTask (string.Format (GettextCatalog.GetString("Loading combine: {0}"), combine.FileName), files.Count);
+				try {
+					foreach (string nodefile in files) {
+						combine.Entries.Add ((CombineEntry) Runtime.ProjectService.ReadFile (nodefile, monitor));
+						monitor.Step (1);
+					}
+				} finally {
+					monitor.EndTask ();
+				}
+				
 				reader.ReadEndElement ();
 				return null;
 			}
@@ -205,10 +229,12 @@ namespace MonoDevelop.Internal.Project
 	{
 		Combine combine;
 		DataSerializer serializer;
+		IProgressMonitor monitor;
 		
-		public CombineWriterV2 (DataSerializer serializer)
+		public CombineWriterV2 (DataSerializer serializer, IProgressMonitor monitor)
 		{
 			this.serializer = serializer;
+			this.monitor = monitor;
 		}
 
 		public void WriteCombine (XmlWriter writer, Combine combine)
@@ -227,7 +253,7 @@ namespace MonoDevelop.Internal.Project
 				writer.WriteStartElement ("Entry");
 				writer.WriteAttributeString ("filename", entry.RelativeFileName);
 				writer.WriteEndElement ();
-				Runtime.ProjectService.WriteFile (entry.FileName, entry);
+				Runtime.ProjectService.WriteFile (entry.FileName, entry, monitor);
 			}
 			writer.WriteEndElement ();
 		}

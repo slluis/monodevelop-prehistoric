@@ -123,8 +123,6 @@ namespace MonoDevelop.Gui.Pads.ProjectBrowser
 		/// </summary>
 		public override bool RemoveNode()
 		{
-			DateTime old = DateTime.Now;
-			
 			bool yes = Runtime.MessageService.AskQuestion (String.Format (GettextCatalog.GetString ("Are you sure you want to remove file {0} from project {1}?"), Path.GetFileName (((ProjectFile)userData).Name), Project.Name));
 			if (!yes)
 				return false;

@@ -207,7 +207,6 @@ namespace MonoDevelop.Gui.Pads.ProjectBrowser
 			// only works for relative paths right now!
 			AbstractBrowserNode parentNode = null;
 			string relativeFile = Runtime.FileUtilityService.AbsoluteToRelativePath(project.BaseDirectory, projectFile.Name);
-			string fileName     = Path.GetFileName(projectFile.Name);
 			parentNode = projectNode;
 
 			if(projectFile.DependsOn != String.Empty && projectFile.DependsOn != null) {
@@ -252,8 +251,6 @@ namespace MonoDevelop.Gui.Pads.ProjectBrowser
 						if (directoryName.StartsWith(".")) {
 							directoryName =  directoryName.Substring(2);
 						}
-
-						string parentDirectory = Path.GetFileName(directoryName);
 
 						AbstractBrowserNode currentPathNode;
 						currentPathNode = GetPath(directoryName, parentNode, false);
@@ -418,33 +415,8 @@ namespace MonoDevelop.Gui.Pads.ProjectBrowser
 		{
 			parentNode.Nodes.Clear();
 			foreach (ProjectReference referenceInformation in project.ProjectReferences) {
-				string name = null;
-				switch (referenceInformation.ReferenceType) {
-					case ReferenceType.Typelib:
-						int index = referenceInformation.Reference.IndexOf("|");
-						if (index > 0) {
-							name = referenceInformation.Reference.Substring(0, index);
-						} else {
-							name = referenceInformation.Reference;
-						}
-						break;
-					case ReferenceType.Project:
-						name = referenceInformation.Reference;
-						break;
-					case ReferenceType.Assembly:
-						name = Path.GetFileName(referenceInformation.Reference);
-						break;
-					case ReferenceType.Gac:
-						name = referenceInformation.Reference.Split(',')[0];
-						break;
-					default:
-						throw new NotImplementedException("reference type : " + referenceInformation.ReferenceType);
-				}
-
 				AbstractBrowserNode newReferenceNode = new ReferenceNode (referenceInformation);
-				
 				newReferenceNode.Image = Stock.Reference;
-
 				parentNode.Nodes.Add (newReferenceNode);
 			}
 		}

@@ -208,29 +208,16 @@ namespace MonoDevelop.Internal.Project
 				conf.SetCombine (this);
 		}
 
-		public override void Save ()
+		public override void Save (IProgressMonitor monitor)
 		{
-			base.Save ();
+			base.Save (monitor);
 			GenerateMakefiles ();
 		}
-		
-		public void SaveCombineAs ()
-		{
-			using (FileSelector fdiag = new FileSelector (GettextCatalog.GetString ("Save Combine As..."))) {
-				//fdiag.Filename = System.Environment.GetEnvironmentVariable ("HOME");
-				if (fdiag.Run() == (int)Gtk.ResponseType.Ok) {
-					string filename = fdiag.Filename;
-					Save (filename);
-					Runtime.MessageService.ShowMessage(filename, GettextCatalog.GetString ("Combine saved"));
-				}
-				
-				fdiag.Hide ();
-			}
-		}
 
-		public CombineEntry AddEntry (string filename)
+		public CombineEntry AddEntry (string filename, IProgressMonitor monitor)
 		{
-			CombineEntry entry = Runtime.ProjectService.ReadFile (filename);
+			if (monitor == null) monitor = new NullProgressMonitor ();
+			CombineEntry entry = Runtime.ProjectService.ReadFile (filename, monitor);
 			Entries.Add (entry);
 			return entry;
 		}
@@ -260,22 +247,29 @@ namespace MonoDevelop.Internal.Project
 			OnEntryRemoved (new CombineEntryEventArgs (entry));
 		}
 		
-		public override void Debug ()
+		public override void Debug (IProgressMonitor monitor)
 		{
 			CombineEntry entry = Entries [startProject];
-			entry.Debug ();
+			entry.Debug (monitor);
 		}
 
-		public override void Execute()
+		public override void Execute (IProgressMonitor monitor)
 		{
 			if (singleStartup) {
 				CombineEntry entry = (CombineEntry) Entries [startProject];
-				entry.Execute();
+				entry.Execute (monitor);
 			} else {
+				ArrayList list = new ArrayList ();
 				foreach (CombineExecuteDefinition ced in combineExecuteDefinitions) {
 					if (ced.Type == EntryExecuteType.Execute)
-						ced.Entry.Execute ();
+						list.Add (ced);
 				}
+				monitor.BeginTask ("Executing projects", list.Count);
+				foreach (CombineExecuteDefinition ced in list) {
+					ced.Entry.Execute (monitor);
+					monitor.Step (1);
+				}
+				monitor.EndTask ();
 			}
 		}
 		
@@ -357,20 +351,36 @@ namespace MonoDevelop.Internal.Project
 				entry.Clean ();
 		}
 		
-		public override void Build ()
+		public override ICompilerResult Build (IProgressMonitor monitor)
 		{
 			CombineEntryCollection allProjects = GetAllProjects ();
+			monitor.BeginTask ("Building Combine " + Name, allProjects.Count);
 			try {
-				allProjects = TopologicalSort(allProjects);
-			} catch (CyclicBuildOrderException) {
-				Runtime.MessageService.ShowError(GettextCatalog.GetString ("Cyclic dependencies can not be built with this version.\nBut we are working on it."));
-				return;
-			}
-			foreach (Project entry in allProjects) {
-				entry.Build ();
-				if (Runtime.TaskService.Errors > 0) {
-					break;
+				CompilerResults cres = new CompilerResults (null);
+				
+				try {
+					allProjects = TopologicalSort(allProjects);
+				} catch (CyclicBuildOrderException) {
+					monitor.ReportError (GettextCatalog.GetString ("Cyclic dependencies can not be built with this version.\nBut we are working on it."), null);
+					return new DefaultCompilerResult (cres, "", 1, 1);
 				}
+				
+				int builds = 0;
+				int failedBuilds = 0;
+				
+				foreach (Project entry in allProjects) {
+					ICompilerResult res = entry.Build (monitor);
+					builds++;
+					cres.Errors.AddRange (res.CompilerResults.Errors);
+					monitor.Step (1);
+					if (res.ErrorCount > 0) {
+						failedBuilds++;
+						break;
+					}
+				}
+				return new DefaultCompilerResult (cres, "", builds, failedBuilds);
+			} finally {
+				monitor.EndTask ();
 			}
 		}
 
