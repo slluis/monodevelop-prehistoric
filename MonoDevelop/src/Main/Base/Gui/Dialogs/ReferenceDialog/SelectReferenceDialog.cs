@@ -91,9 +91,8 @@ namespace MonoDevelop.Gui.Dialogs
 				}
 			}
 			mainBook.RemovePage (mainBook.CurrentPage);
-			mainBook.AppendPage (gacRefPanel, new Gtk.Label (GettextCatalog.GetString ("System Assemblies")));
+			mainBook.AppendPage (gacRefPanel, new Gtk.Label (GettextCatalog.GetString ("Global Assembly Cache")));
 			mainBook.AppendPage (new ProjectReferencePanel (this), new Gtk.Label (GettextCatalog.GetString ("Projects")));
-			// FIXME il8n the assembly tab name			
 			mainBook.AppendPage (new AssemblyReferencePanel (this), new Gtk.Label (GettextCatalog.GetString (".Net Assembly")));
 			//comTabPage.Controls.Add(new COMReferencePanel(this));
 			AddReferenceDialog.ShowAll ();
@@ -106,8 +105,8 @@ namespace MonoDevelop.Gui.Dialogs
 
 		void AddGacReference (ProjectReference refInfo)
 		{
-			gacRefPanel.SignalRefChange (System.IO.Path.GetFullPath (refInfo.GetReferencedFileName (configureProject)), true);
-			refTreeStore.AppendValues (System.IO.Path.GetFileName (refInfo.Reference), refInfo.ReferenceType.ToString (), System.IO.Path.GetFullPath (refInfo.GetReferencedFileName (configureProject)), refInfo);
+			gacRefPanel.SignalRefChange (refInfo.Reference, true);
+			refTreeStore.AppendValues (refInfo.Reference, refInfo.ReferenceType.ToString (), refInfo.Reference, refInfo);
 		}
 
 		public void RemoveReference (ReferenceType referenceType, string referenceName, string referenceLocation)

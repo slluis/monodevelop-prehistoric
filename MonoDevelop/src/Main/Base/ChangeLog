@@ -1,3 +1,14 @@
+2004-04-29  Todd Berman  <tberman@sevenl.net>
+
+	* Gui/Dialogs/OptionPanels/ExternalToolPanel.cs: fix up to match gtk#
+	from cvs.
+	* Gui/Dialogs/ReferenceDialog/SelectReferenceDialog.cs:
+	* Gui/Dialogs/ReferenceDialog/GacReferencePanel.cs:
+	Now we actually pull assemblies from the gac.
+	NOTE: Until gtk-sharp, and other libraries actually start using the gac
+	it will not be possible to add a proper gac reference to them.
+	This will be fixed on their end by beta1 however.
+
 2004-04-28  Todd Berman  <tberman@sevenl.net>
 
 	* Internal/Project/Project/AbstractProject.cs: Actually make that check

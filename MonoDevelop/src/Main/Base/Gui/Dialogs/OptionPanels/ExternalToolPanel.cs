@@ -296,7 +296,7 @@ namespace MonoDevelop.Gui.Dialogs.OptionPanels
 					foreach(TreeIter toDelete in selectedIters) {
 						TreeIter itr = toDelete;
 						toolListBoxItemCount --;
-						((ListStore)lv).Remove(out itr);
+						((ListStore)lv).Remove(ref itr);
 					}
 					 
 					if (toolListBoxItemCount == 0) {

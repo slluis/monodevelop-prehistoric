@@ -1,4 +1,4 @@
-﻿// <file>
+// <file>
 //     <copyright see="prj:///doc/copyright.txt"/>
 //     <license see="prj:///doc/license.txt"/>
 //     <owner name="Mike Krüger" email="mike@icsharpcode.net"/>
@@ -15,6 +15,8 @@ using MonoDevelop.Internal.Project;
 
 using MonoDevelop.Core.Services;
 using MonoDevelop.Services;
+
+using System.IO;
 
 using Gtk;
 
@@ -61,7 +63,6 @@ namespace MonoDevelop.Gui.Dialogs
 		
 		public void AddReference(object sender, Gtk.ToggledArgs e)
 		{
-			//foreach (ListViewItem item in SelectedItems) {
 			Gtk.TreeIter iter;
 			store.GetIterFromString (out iter, e.Path);
 			if ((bool)store.GetValue (iter, 3) == false) {
@@ -73,8 +74,8 @@ namespace MonoDevelop.Gui.Dialogs
 			} else {
 				store.SetValue (iter, 3, false);
 				selectDialog.RemoveReference (ReferenceType.Gac,
-				                             (string)store.GetValue (iter, 0),
-							     (string)store.GetValue (iter, 2));
+											  (string)store.GetValue (iter, 0),
+											  (string)store.GetValue (iter, 2));
 			}
 		}
 
@@ -115,28 +116,22 @@ namespace MonoDevelop.Gui.Dialogs
 				Items.Add(item);
 			}
 #endif
-			//FIXME: Oh wow this is *hackery* but it will work
-			//FIXME: on mono alone. well, this tosses xplatform
-			//FIXME: out the window a hell of a lot more than
-			//FIXME: gnome or not ;)
-			//FIXME: This needs to change once mono gets a real
-			//FIXME: gac.
 			System.Reflection.MethodInfo gac = typeof (System.Environment).GetMethod ("internalGetGacPath", System.Reflection.BindingFlags.Static|System.Reflection.BindingFlags.NonPublic);
 			if (gac == null) {
 				Console.WriteLine (GettextCatalog.GetString ("ERROR: non-mono runtime detected, please use the mono runtime for this piece of MonoDevelop for the time being"));
 				Environment.Exit (1);
 			}
 			string gac_path = System.IO.Path.Combine ((string)gac.Invoke (null, null), "");
-			string[] assemblies = System.IO.Directory.GetFiles (gac_path, "*.dll");
-			foreach (string assembly in assemblies) {
-				try {
-					System.Reflection.AssemblyName an = System.Reflection.AssemblyName.GetAssemblyName (assembly);
-
-					string name = an.Name;
-					string ver = an.Version.ToString ();
+			DirectoryInfo d = new DirectoryInfo (System.IO.Path.Combine (System.IO.Path.Combine (gac_path, "mono"), "gac"));
+			foreach (DirectoryInfo namedDir in d.GetDirectories ()) {
+				foreach (DirectoryInfo assemblyDir in namedDir.GetDirectories ()) {
+					FileInfo[] files = assemblyDir.GetFiles ("*.dll");
+					try {
+						System.Reflection.AssemblyName an = System.Reflection.AssemblyName.GetAssemblyName (files[0].FullName);
 					
-					store.AppendValues (name, ver, assembly, false, an.FullName);
-				} catch {
+						store.AppendValues (an.Name, an.Version.ToString (), System.IO.Path.GetFileName (files[0].FullName), false, an.FullName);
+					} catch {
+					}
 				}
 			}
 		}
