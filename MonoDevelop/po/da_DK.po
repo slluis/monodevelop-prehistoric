@@ -398,7 +398,7 @@ msgstr ""
 
 #: build/AddIns/SharpDevelopCore.addin.xml.h:92
 msgid "MonoDevelop Options"
-msgstr "MonoDevelop indstillinger"
+msgstr "Indstillinger for MonoDevelop"
 
 #: build/AddIns/SharpDevelopCore.addin.xml.h:93
 msgid "Move Item Down"
@@ -476,11 +476,11 @@ msgstr "Forige vindue"
 
 #: build/AddIns/SharpDevelopCore.addin.xml.h:111
 msgid "Project _Options"
-msgstr "Pr_ojekt indstillinger"
+msgstr "Indstillinger for Pr_ojekt"
 
 #: build/AddIns/SharpDevelopCore.addin.xml.h:112
 msgid "Project options"
-msgstr "Project indstillinger"
+msgstr "Indstillinger for Projekt"
 
 #: build/AddIns/SharpDevelopCore.addin.xml.h:113
 msgid "Quit"
@@ -578,7 +578,7 @@ msgstr "Vis beskrivelse"
 
 #: build/AddIns/SharpDevelopCore.addin.xml.h:136
 msgid "Solution Options"
-msgstr "Løsningsindstillinger"
+msgstr "Indstillinger for Løsning"
 
 #: build/AddIns/SharpDevelopCore.addin.xml.h:137
 msgid "Solution/Project..."
@@ -586,7 +586,7 @@ msgstr "Løsning/Projekt..."
 
 #: build/AddIns/SharpDevelopCore.addin.xml.h:138
 msgid "Startup Properties"
-msgstr "Opstartsindstillinger"
+msgstr "Indstillinger for Opstart"
 
 #: build/AddIns/SharpDevelopCore.addin.xml.h:139
 msgid "Tip of the Day..."
@@ -748,7 +748,7 @@ msgstr "Opførsel"
 
 #: build/AddIns/MonoDevelopNewEditor.addin.xml.h:28
 msgid "Buffer Options"
-msgstr "Mellemlagerindstillinger"
+msgstr "Indstillinger for Mellemlager"
 
 #: build/AddIns/MonoDevelopNewEditor.addin.xml.h:29
 msgid "Clear Bookmarks"
@@ -928,11 +928,11 @@ msgstr ""
 
 #: data/resources/glade/Base.glade.h:6
 msgid "<b>Code generation options</b>"
-msgstr "Kodegenererings-indstillinger"
+msgstr "Indstillinger for kodegenererings"
 
 #: data/resources/glade/Base.glade.h:7
 msgid "<b>Comment generation options</b>"
-msgstr "Kommentargenerereings-indstillinger"
+msgstr "Indstillinger for kommentargenerereing"
 
 #: data/resources/glade/Base.glade.h:8
 msgid "<b>Include</b>"
@@ -994,7 +994,7 @@ msgstr ""
 
 #: data/resources/glade/Base.glade.h:22
 msgid "Build and run options"
-msgstr "Byg og kør indstillinger"
+msgstr "Indstillinger for byg og kør"
 
 #: data/resources/glade/Base.glade.h:23
 msgid "BuildPanel"
@@ -1808,7 +1808,7 @@ msgstr "Udrulningsscript eksistere ikke"
 
 #: src/Main/Base/Gui/Dialogs/ProjectOptionsDialog.cs:40
 msgid "Project Options"
-msgstr "Projektindstillinger"
+msgstr "Indstillinger for projekt"
 
 #: src/Main/Base/Gui/Dialogs/ProjectOptionsDialog.cs:59
 msgid "Configurations"
@@ -1898,7 +1898,7 @@ msgstr "dynamik"
 
 #: src/Main/Base/Gui/Dialogs/TreeViewOptions.cs:154
 msgid "MonoDevelop options"
-msgstr "MonoDevelop-indstillinger"
+msgstr "Indstillinger for MonoDevelop"
 
 #: src/Main/Base/Gui/Dialogs/WordCountDialog.cs:58
 #: src/Main/Base/Gui/Dialogs/WordCountDialog.cs:114
@@ -2503,7 +2503,7 @@ msgid ""
 "Please define a startup project for the combine in the combine properties."
 msgstr ""
 "Kan ikke eksekvere kør kommandoen, kan ikke finde opstartsprojekt.\n"
-"Definer venligst et opstartsprojekt for denne combine i combineindstillingerne."
+"Definer venligst et opstartsprojekt for denne combine i indstillinger for combine."
 
 #: src/Main/Base/Commands/RunCommands.cs:233
 msgid "No runnable executable found."
