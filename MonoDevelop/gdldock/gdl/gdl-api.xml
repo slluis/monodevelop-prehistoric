@@ -17,6 +17,8 @@
       <member cname="GDL_DOCK_ITEM_BEH_CANT_DOCK_LEFT" name="CantDockLeft" value="1 &lt;&lt; 6" />
       <member cname="GDL_DOCK_ITEM_BEH_CANT_DOCK_RIGHT" name="CantDockRight" value="1 &lt;&lt; 7" />
       <member cname="GDL_DOCK_ITEM_BEH_CANT_DOCK_CENTER" name="CantDockCenter" value="1 &lt;&lt; 8" />
+      <member cname="GDL_DOCK_ITEM_BEH_CANT_CLOSE" name="CantClose" value="1 &lt;&lt; 9" />
+      <member cname="GDL_DOCK_ITEM_BEH_CANT_ICONIFY" name="CantIconify" value="1 &lt;&lt; 10" />
     </enum>
     <enum name="DockItemFlags" cname="GdlDockItemFlags" type="enum" hidden="1">
       <member cname="GDL_DOCK_IN_DRAG" name="InDrag" value="1 &lt;&lt; GDL_DOCK_OBJECT_FLAGS_SHIFT" />
