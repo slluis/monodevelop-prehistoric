@@ -41,8 +41,6 @@ namespace ICSharpCode.SharpDevelop.Commands
 		public override void Run()
 		{
 			ViewGPLDialog vgd = new ViewGPLDialog();
-			vgd.Run ();
-			vgd.Hide ();
 		}
 	}
 	

@@ -15,9 +15,12 @@ using ICSharpCode.Core.Services;
 
 namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 {
-	public class ViewGPLDialog : Dialog 
+	public class ViewGPLDialog 
 	{
-		public ViewGPLDialog () : base ("GNU GENERAL PUBLIC LICENSE", (Window) WorkbenchSingleton.Workbench, DialogFlags.DestroyWithParent)
+		[Glade.Widget] Gtk.TextView  view;
+		[Glade.Widget] Gtk.Dialog  GPLDialog;
+
+		public ViewGPLDialog () 
 		{
 			FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.Services.GetService(typeof(FileUtilityService));
 			string filename = fileUtilityService.SharpDevelopRootPath + 
@@ -25,25 +28,18 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 			System.IO.Path.DirectorySeparatorChar + "license.txt";
 			
 			if (fileUtilityService.TestFileExists(filename)) {
-				this.BorderWidth = 6;
-				this.DefaultResponse = (int) ResponseType.Close;
-				this.HasSeparator = false;	
-				this.SetDefaultSize (600, 400);
-				this.AddButton (Stock.Close, (int) ResponseType.Close);
-				
-				ScrolledWindow sw = new  ScrolledWindow ();
-				sw.SetPolicy (PolicyType.Automatic, PolicyType.Automatic);
-				
-				TextView view = new TextView ();
-				view.Editable = false;
-				view.CursorVisible = false;
-				StreamReader streamReader = new StreamReader (filename);
-				view.Buffer.Text = streamReader.ReadToEnd ();
-
-				sw.Add (view);
-				this.VBox.PackStart(sw);
-				this.ShowAll ();
+				Glade.XML gplDialog = new Glade.XML (null, "Base.glade", "GPLDialog", null);
+				gplDialog.Autoconnect (this);
+				GPLDialog.DefaultResponse = (int) ResponseType.Close;
+ 				StreamReader streamReader = new StreamReader (filename);
+ 				view.Buffer.Text = streamReader.ReadToEnd ();
 			}
 		}
+
+		protected void OnCloseButtonClicked(object sender, EventArgs e)
+		{
+			GPLDialog.Hide();	
+		}
+
 	}
 }
