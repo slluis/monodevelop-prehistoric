@@ -182,9 +182,6 @@ namespace ICSharpCode.SharpDevelop.Commands
 				}
 			}
 			
-#if GTK
-			// FIXME: GTKize
-#else
 			foreach (string file in SplashScreenForm.GetRequestedFileList()) {
 				switch (System.IO.Path.GetExtension(file).ToUpper()) {
 					case ".CMBX":
@@ -207,7 +204,6 @@ namespace ICSharpCode.SharpDevelop.Commands
 						break;
 				}
 			}
-#endif
 			
 			((Gtk.Window)WorkbenchSingleton.Workbench).ShowAll ();
 			WorkbenchSingleton.Workbench.RedrawAllComponents ();

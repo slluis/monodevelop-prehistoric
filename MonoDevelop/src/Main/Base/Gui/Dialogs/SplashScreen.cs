@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using System.Collections;
 using System.Reflection;
 using Gtk;
@@ -52,17 +53,27 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs {
 			
 			foreach (string arg in args)
 			{
-				if (arg[0] == '-' || arg[0] == '/') {
+				string a = arg;
+				// this does not yet work with relative paths
+				if (a[0] == '~')
+				{
+					a = System.IO.Path.Combine (Environment.GetEnvironmentVariable ("HOME"), a.Substring (1));
+				}
+				
+				if (File.Exists (a))
+				{
+					requestedFileList.Add (a);
+					return;
+				}
+	
+				if (a[0] == '-' || a[0] == '/') {
 					int markerLength = 1;
 					
-					if (arg.Length >= 2 && arg[0] == '-' && arg[1] == '-') {
+					if (a.Length >= 2 && a[0] == '-' && a[1] == '-') {
 						markerLength = 2;
 					}
 					
-					parameterList.Add(arg.Substring(markerLength));
-				}
-				else {
-					requestedFileList.Add(arg);
+					parameterList.Add(a.Substring (markerLength));
 				}
 			}
 		}

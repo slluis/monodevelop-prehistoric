@@ -7,15 +7,9 @@
 
 using System;
 using System.IO;
-using System.Diagnostics;
-using System.Reflection;
-using System.Drawing;
 using System.Collections;
-using System.Resources;
 using System.Xml;
 using System.Threading;
-using System.Runtime.Remoting;
-using System.Security.Policy;
 
 using ICSharpCode.Core.Properties;
 using ICSharpCode.Core.AddIns.Codons;
