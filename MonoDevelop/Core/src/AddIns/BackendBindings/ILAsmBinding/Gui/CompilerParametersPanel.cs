@@ -22,6 +22,8 @@ namespace ILAsmBinding
 	public class CompilerParametersPanel : AbstractOptionPanel
 	{
 		ILAsmCompilerParameters compilerParameters = null;
+		DotNetProjectConfiguration configuration;
+		
 		Entry outputPath = new Entry ();
 		Entry assemblyName = new Entry ();
 		RadioButton exeTarget = new RadioButton ("exe");
@@ -30,7 +32,8 @@ namespace ILAsmBinding
 		
 		public override void LoadPanelContents()
 		{
-			this.compilerParameters = (ILAsmCompilerParameters)((IProperties)CustomizationObject).GetProperty("Config");
+			configuration = (DotNetProjectConfiguration)((IProperties)CustomizationObject).GetProperty("Config");
+			compilerParameters = (ILAsmCompilerParameters) configuration.CompilationParameters;
 			
 			dllTarget = new RadioButton (exeTarget, "dll");
 			SetupUI ();
@@ -40,13 +43,13 @@ namespace ILAsmBinding
 		
 		public override bool StorePanelContents()
 		{
-			compilerParameters.AssemblyName = assemblyName.Text;
-			compilerParameters.OutputPath = outputPath.Text;
-			compilerParameters.IncludeDebugInformation = debug.Active;
+			configuration.OutputAssembly = assemblyName.Text;
+			configuration.OutputDirectory = outputPath.Text;
+			configuration.DebugMode = debug.Active;
 			if (exeTarget.Active)
-				compilerParameters.CompilationTarget = CompilationTarget.Exe;
+				configuration.CompileTarget = CompileTarget.Exe;
 			else
-				compilerParameters.CompilationTarget = CompilationTarget.Dll;
+				configuration.CompileTarget = CompileTarget.Library;
 				
 			return true;
 		}
@@ -73,13 +76,13 @@ namespace ILAsmBinding
 
 		void RestoreValues ()
 		{
-			assemblyName.Text = compilerParameters.AssemblyName;
-			outputPath.Text = compilerParameters.OutputPath;
-			if (compilerParameters.CompilationTarget == CompilationTarget.Exe)
+			assemblyName.Text = configuration.OutputAssembly;
+			outputPath.Text = configuration.OutputDirectory;
+			if (configuration.CompileTarget == CompileTarget.Exe)
 				exeTarget.Active = true;
 			else
 				dllTarget.Active = true;
-			debug.Active = compilerParameters.IncludeDebugInformation;
+			debug.Active = configuration.DebugMode;
 		}
 	}
 }

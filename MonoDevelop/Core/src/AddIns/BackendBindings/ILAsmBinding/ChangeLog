@@ -1,3 +1,16 @@
+2005-01-11  Lluis Sanchez Gual  <lluis@novell.com>
+
+	* ILAsmCompilerManager.cs:
+	* Gui/CompilerParametersPanel.cs:
+	* ILAsmBinding.addin.xml:
+	* ILAsmLanguageBinding.cs: Follow architecture changes.
+	
+	* Project/ILAsmProject.cs: Removed. Not needed any more.
+	* Project/ILAsmCompilerParameters.cs: All parameters have been moved to
+	DotNetProjectConfiguration.
+	* Project/CompilationTarget.cs: Moved to Monodevelop.Base.
+	* Makefile.am: Updated.
+	
 2004-12-13  Lluis Sanchez Gual  <lluis@novell.com>
 
 	* ILAsmCompilerManager.cs: StatusBarService.ProgressMonitor is not a

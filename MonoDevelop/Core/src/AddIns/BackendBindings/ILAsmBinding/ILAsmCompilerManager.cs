@@ -29,25 +29,12 @@ namespace ILAsmBinding
 	{
 		FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.GetService(typeof(FileUtilityService));
 		
-		public string GetCompiledOutputName(string fileName)
-		{
-			return Path.ChangeExtension(fileName, ".exe");
-		}
-		
-		public string GetCompiledOutputName(IProject project)
-		{
-			ILAsmProject p = (ILAsmProject)project;
-			ILAsmCompilerParameters compilerparameters = (ILAsmCompilerParameters)p.ActiveConfiguration;
-			string exe  = fileUtilityService.GetDirectoryNameWithSeparator(compilerparameters.OutputDirectory) + compilerparameters.OutputAssembly + ".exe";
-			return exe;
-		}
-		
 		public bool CanCompile(string fileName)
 		{
 			return Path.GetExtension(fileName).ToUpper() == ".IL";
 		}
 		
-		ICompilerResult Compile(ILAsmCompilerParameters compilerparameters, string[] fileNames)
+		ICompilerResult Compile (DotNetProjectConfiguration configuration, string[] fileNames)
 		{
 			// TODO: No response file possible ? @FILENAME seems not to work.
 			StringBuilder parameters = new StringBuilder();
@@ -57,11 +44,25 @@ namespace ILAsmBinding
 				parameters.Append("\" ");
 			}
 			
-			string outputFile = Path.GetFullPath(fileUtilityService.GetDirectoryNameWithSeparator(compilerparameters.OutputDirectory) + compilerparameters.OutputAssembly + ".exe");
+			string outputFile = configuration.CompiledOutputName;
 			Console.WriteLine (outputFile);
 			parameters.Append("/out:" + outputFile);
 			parameters.Append(" ");
-			parameters.Append(compilerparameters.CurrentCompilerOptions.GenerateOptions());
+			
+			switch (configuration.CompileTarget) {
+				case CompileTarget.Library:
+					parameters.Append("/dll ");
+					break;
+				case CompileTarget.Exe:
+					parameters.Append("/exe ");
+					break;
+				default:
+					throw new System.NotSupportedException("Unsupported compilation target : " + configuration.CompileTarget);
+			}
+			
+			if (configuration.DebugMode)
+				parameters.Append("/DEBUG ");
+				
 			string outstr = parameters.ToString();
 			
 			TempFileCollection tf = new TempFileCollection();
@@ -103,22 +104,11 @@ namespace ILAsmBinding
             		p.WaitForExit ();
         }
 		
-		public ICompilerResult CompileFile(string fileName, ILAsmCompilerParameters compilerparameters)
+		public ICompilerResult Compile (ProjectFileCollection projectFiles, ProjectReferenceCollection references, DotNetProjectConfiguration configuration)
 		{
-			compilerparameters.OutputDirectory = Path.GetDirectoryName(fileName);
-			compilerparameters.OutputAssembly  = Path.GetFileNameWithoutExtension(fileName);
-			
-			return Compile(compilerparameters, new string[] { fileName });
-		}
-		
-		public ICompilerResult CompileProject(IProject project)
-		{
-			ILAsmProject            p                  = (ILAsmProject)project;
-			ILAsmCompilerParameters compilerparameters = (ILAsmCompilerParameters)p.ActiveConfiguration;
-			
 			ArrayList fileNames = new ArrayList();
 			
-			foreach (ProjectFile finfo in p.ProjectFiles) {
+			foreach (ProjectFile finfo in projectFiles) {
 				if (finfo.Subtype != Subtype.Directory) {
 					switch (finfo.BuildAction) {
 						case BuildAction.Compile:
@@ -132,7 +122,7 @@ namespace ILAsmBinding
 				}
 			}
 			
-			return Compile(compilerparameters, (string[])fileNames.ToArray(typeof(string)));
+			return Compile (configuration, (string[])fileNames.ToArray(typeof(string)));
 		}
 		
 		string GetCompilerName()

@@ -19,6 +19,7 @@ using Gtk;
 using MonoDevelop.Internal.Project;
 using MonoDevelop.Internal.Templates;
 using MonoDevelop.Gui;
+using MonoDevelop.Services;
 
 namespace ILAsmBinding
 {
@@ -26,52 +27,17 @@ namespace ILAsmBinding
 	{
 		public const string LanguageName = "ILAsm";
 		
-		ILAsmExecutionManager executionManager = new ILAsmExecutionManager();
 		ILAsmCompilerManager  compilerManager  = new ILAsmCompilerManager();
+		
+		public ILAsmLanguageBinding ()
+		{
+			Runtime.ProjectService.DataContext.IncludeType (typeof(ILAsmCompilerParameters));
+		}
 		
 		public string Language {
 			get {
 				return LanguageName;
 			}
-		}
-		
-		public void Execute(string filename)
-		{
-			Execute (filename, false);
-		}
-	
-		public void Execute(string filename, bool debug)
-		{
-			Debug.Assert(executionManager != null);
-			executionManager.Execute(filename, debug);
-		}
-		
-		public void Execute (IProject project)
-		{
-			Execute (project, false);
-		}
-
-		public void DebugProject (IProject project)
-		{
-			Execute (project, true);
-		}
-
-		public void Execute(IProject project, bool debug)
-		{
-			Debug.Assert(executionManager != null);
-			executionManager.Execute(project, debug);
-		}
-		
-		public string GetCompiledOutputName(string fileName)
-		{
-			Debug.Assert(compilerManager != null);
-			return compilerManager.GetCompiledOutputName(fileName);
-		}
-		
-		public string GetCompiledOutputName(IProject project)
-		{
-			Debug.Assert(compilerManager != null);
-			return compilerManager.GetCompiledOutputName(project);
 		}
 		
 		public bool CanCompile(string fileName)
@@ -80,33 +46,20 @@ namespace ILAsmBinding
 			return compilerManager.CanCompile(fileName);
 		}
 		
-		public ICompilerResult CompileFile(string fileName)
+		public ICompilerResult Compile (ProjectFileCollection projectFiles, ProjectReferenceCollection references, DotNetProjectConfiguration configuration)
 		{
 			Debug.Assert(compilerManager != null);
-			ILAsmCompilerParameters param = new ILAsmCompilerParameters();
-			param.OutputAssembly = Path.ChangeExtension(fileName, ".exe");
-			return compilerManager.CompileFile(fileName, param);
+			return compilerManager.Compile (projectFiles, references, configuration);
 		}
 		
-		public ICompilerResult CompileProject(IProject project)
+		public void GenerateMakefile (Project project, Combine parentCombine)
 		{
-			Debug.Assert(compilerManager != null);
-			return compilerManager.CompileProject(project);
+			// Not supported
 		}
 		
-		public ICompilerResult RecompileProject(IProject project)
+		public object CreateCompilationParameters (XmlElement projectOptions)
 		{
-			return CompileProject(project);
-		}
-		
-		public IProject CreateProject(ProjectCreateInformation info, XmlElement projectOptions)
-		{
-			return new ILAsmProject(info, projectOptions);
-		}
-
-		public void GenerateMakefile (IProject project, Combine parentCombine)
-		{
-			throw new NotImplementedException ();
+			return new ILAsmCompilerParameters();
 		}
 		
 		// source: irc

@@ -9,13 +9,10 @@ DLLS = /r:$(top_builddir)/build/bin/MonoDevelop.Core.dll \
 
 FILES = \
 Gui/CompilerParametersPanel.cs \
-Project/CompilationTarget.cs \
-Project/ILAsmProject.cs \
 Project/ILAsmCompilerParameters.cs \
 ILAsmCompilerManager.cs \
 AssemblyInfo.cs \
-ILAsmLanguageBinding.cs \
-ILAsmExecutionManager.cs
+ILAsmLanguageBinding.cs
 
 TEMPLATES = \
 ILAsmConsoleProject.xpt.xml

@@ -15,7 +15,7 @@
   </Extension>
 
   <Extension path = "/SharpDevelop/Workbench/ProjectOptions/ConfigurationProperties">
-    <Conditional activeproject = "ILAsm">
+    <Conditional activelanguage = "ILAsm">
       <DialogPanel id = "ILAsmCompilerParametersPanel"
                    _label = "Compiler"
                    class = "ILAsmBinding.CompilerParametersPanel"/>
