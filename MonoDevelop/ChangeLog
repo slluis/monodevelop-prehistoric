@@ -1,3 +1,9 @@
+2004-06-02  Martin Willemoes Hansen  <mwh@sysrq.dk>
+
+	* AUTHORS: Added Atsushi, Martin, Antonio, Andre & Maurício who 
+	made translations.
+	* src/Main/Base/Gui/Dialogs/CommonAboutDialog.cs: Ditto
+
 2004-06-02  Jeroen Zwartepoorte  <jeroen@xs4all.nl>
 
 	* src/AddIns/DisplayBindings/SourceEditor/Gui/Dialogs/
