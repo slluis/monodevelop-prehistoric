@@ -76,6 +76,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 			//((TreeView)ControlDictionary["categoryTreeView"]).Select();
 			pathEntry.Text = propertyService.GetProperty("ICSharpCode.SharpDevelop.Gui.Dialogs.NewProjectDialog.DefaultPath", fileUtilityService.GetDirectoryNameWithSeparator(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal)) + "MonoDevelopProjects").ToString();
 			//Icon = null;
+			ShowAll ();
 		}
 		
 		void InitializeView()
@@ -426,8 +427,8 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 			TemplateView.PopulateTable();
 			viewbox.PackStart(TemplateView, true, true,0);
 
-			this.ActionArea.PackStart (cancelButton);
-			this.ActionArea.PackStart (okButton);
+			this.AddActionWidget (cancelButton, (int)Gtk.ResponseType.Cancel);
+			this.AddActionWidget (okButton, (int)Gtk.ResponseType.Ok);
 
 			Table entryTable = new Table (3, 3, false);
 			entryTable.RowSpacing = 6;			

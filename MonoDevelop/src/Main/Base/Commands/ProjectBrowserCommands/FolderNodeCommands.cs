@@ -109,8 +109,8 @@ namespace ICSharpCode.SharpDevelop.Commands.ProjectBrowser
 				return;
 			}
 			
-			/*using (NewFileDialog nfd = new NewFileDialog()) {
-				if (nfd.ShowDialog() == DialogResult.OK) {
+			using (NewFileDialog nfd = new NewFileDialog()) {
+				if (nfd.Run() == (int)Gtk.ResponseType.Ok) {
 					IWorkbenchWindow window = WorkbenchSingleton.Workbench.ActiveWorkbenchWindow;
 					
 					int count = 1;
@@ -154,7 +154,7 @@ namespace ICSharpCode.SharpDevelop.Commands.ProjectBrowser
 					IProjectService projectService = (IProjectService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
 					projectService.SaveCombine();
 				}
-			}*/
+			}
 		}
 	}
 	

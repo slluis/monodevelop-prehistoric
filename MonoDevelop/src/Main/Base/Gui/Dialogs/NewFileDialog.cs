@@ -68,6 +68,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 			} catch (Exception e) {
 				Console.WriteLine(e.ToString());
 			}
+			ShowAll ();
 		}
 		
 		void InitializeView()
@@ -386,8 +387,8 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 			TemplateView.PopulateTable();
 			viewbox.PackStart(TemplateView, true, true,0);
 
-			this.ActionArea.Add (cancelButton);
-			this.ActionArea.Add (okButton);
+			this.AddActionWidget (cancelButton, (int)Gtk.ResponseType.Cancel);
+			this.AddActionWidget (okButton, (int)Gtk.ResponseType.Ok);
 
 			this.VBox.PackStart (viewbox);
 			this.VBox.PackStart (infoLabelFrame, false, false, 6);

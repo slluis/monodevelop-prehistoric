@@ -34,16 +34,17 @@ namespace ICSharpCode.SharpDevelop.Commands.ProjectBrowser
 	{
 		public override void Run()
 		{
+			Console.WriteLine ("A");
 			IProjectService projectService = (IProjectService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
 			ProjectBrowserView browser = (ProjectBrowserView)Owner;
 			CombineBrowserNode node    = browser.SelectedNode as CombineBrowserNode;
 			
 			if (node != null) {
-		//		NewProjectDialog npdlg = new NewProjectDialog(false);
-		//		if (npdlg.ShowDialog() == DialogResult.OK) {
-		//			node.Nodes.Add(ProjectBrowserView.BuildProjectTreeNode((IProject)node.Combine.AddEntry(npdlg.NewProjectLocation)));
-		//			projectService.SaveCombine();
-		//		}
+				NewProjectDialog npdlg = new NewProjectDialog(false);
+				if (npdlg.Run() == (int)Gtk.ResponseType.Ok) {
+					node.Nodes.Add(ProjectBrowserView.BuildProjectTreeNode((IProject)node.Combine.AddEntry(npdlg.NewProjectLocation)));
+					projectService.SaveCombine();
+				}
 			}
 		}
 	}
@@ -52,16 +53,17 @@ namespace ICSharpCode.SharpDevelop.Commands.ProjectBrowser
 	{
 		public override void Run()
 		{
+			Console.WriteLine ("A");
 			IProjectService projectService = (IProjectService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
 			ProjectBrowserView browser = (ProjectBrowserView)Owner;
 			CombineBrowserNode node    = browser.SelectedNode as CombineBrowserNode;
 			
 			if (node != null) {
-			//	NewProjectDialog npdlg = new NewProjectDialog(false);
-			//	if (npdlg.ShowDialog() == DialogResult.OK) {
-			//		node.Nodes.Add(ProjectBrowserView.BuildCombineTreeNode((Combine)node.Combine.AddEntry(npdlg.NewCombineLocation)));
-			//		projectService.SaveCombine();
-			//	}
+				NewProjectDialog npdlg = new NewProjectDialog(false);
+				if (npdlg.Run() == (int)Gtk.ResponseType.Ok) {
+					node.Nodes.Add(ProjectBrowserView.BuildCombineTreeNode((Combine)node.Combine.AddEntry(npdlg.NewCombineLocation)));
+					projectService.SaveCombine();
+				}
 			}
 		}
 	}
@@ -70,6 +72,7 @@ namespace ICSharpCode.SharpDevelop.Commands.ProjectBrowser
 	{
 		public override void Run()
 		{
+			Console.WriteLine ("A");
 			IProjectService projectService = (IProjectService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
 			ProjectBrowserView browser = (ProjectBrowserView)Owner;
 			CombineBrowserNode node    = browser.SelectedNode as CombineBrowserNode;
@@ -99,6 +102,7 @@ namespace ICSharpCode.SharpDevelop.Commands.ProjectBrowser
 	{
 		public override void Run()
 		{
+			Console.WriteLine ("A");
 			IProjectService projectService = (IProjectService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
 			ProjectBrowserView browser = (ProjectBrowserView)Owner;
 			CombineBrowserNode node    = browser.SelectedNode as CombineBrowserNode;
@@ -128,6 +132,7 @@ namespace ICSharpCode.SharpDevelop.Commands.ProjectBrowser
 	{
 		public override void Run()
 		{
+			Console.WriteLine ("A");
 			IProjectService projectService = (IProjectService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
 			ProjectBrowserView browser = (ProjectBrowserView)Owner;
 			CombineBrowserNode node    = browser.SelectedNode as CombineBrowserNode;

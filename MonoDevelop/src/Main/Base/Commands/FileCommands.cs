@@ -40,7 +40,7 @@ namespace ICSharpCode.SharpDevelop.Commands
 			IProjectService projectService = (IProjectService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
 			
 			NewProjectDialog npdlg = new NewProjectDialog(true);
-			npdlg.ShowAll ();
+			npdlg.Run ();
 		}
 	}
 	
