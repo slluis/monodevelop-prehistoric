@@ -1,3 +1,8 @@
+2005-03-09  John Luke  <john.luke@gmail.com>
+
+	* Gui/SourceEditorDisplayBinding.cs: only
+	UpdateFSW if File.Exists, otherwise we would crash
+
 2005-03-07  Lluis Sanchez Gual  <lluis@novell.com>
 
 	* Gui/SourceEditorWidget.cs: Properly dispose the widget.

@@ -109,7 +109,7 @@ namespace MonoDevelop.SourceEditor.Gui
 		
 		void UpdateFSW (object o, EventArgs e)
 		{
-			if (ContentName == null || ContentName.Length == 0)
+			if (ContentName == null || ContentName.Length == 0 || !File.Exists (ContentName))
 				return;
 
 			fsw.EnableRaisingEvents = false;
