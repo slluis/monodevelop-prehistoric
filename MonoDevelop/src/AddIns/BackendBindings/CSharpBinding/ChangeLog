@@ -1,5 +1,9 @@
 2004-04-28  Todd Berman  <tberman@sevenl.net>
 
+	* CSharpBindingCompilerManager.cs: add code for project references.
+
+2004-04-28  Todd Berman  <tberman@sevenl.net>
+
 	* CSharpBindingCompilerManger.cs: add code for assembly references
 	and embeding resources.
 

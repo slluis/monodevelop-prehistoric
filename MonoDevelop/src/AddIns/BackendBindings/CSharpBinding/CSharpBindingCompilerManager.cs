@@ -303,6 +303,7 @@ namespace CSharpBinding
 			ArrayList compile_files = new ArrayList ();
 			ArrayList gac_references = new ArrayList ();
 			ArrayList assembly_references = new ArrayList ();
+			ArrayList project_references = new ArrayList ();
 			ArrayList resources = new ArrayList ();
 			
 			foreach (ProjectFile finfo in project.ProjectFiles) {
@@ -332,6 +333,20 @@ namespace CSharpBinding
 					string assembly_fileName = lib.GetReferencedFileName (project);
 					string rel_path_to = fileUtilityService.AbsoluteToRelativePath (project.BaseDirectory, Path.GetDirectoryName (assembly_fileName));
 					assembly_references.Add (Path.Combine (rel_path_to, Path.GetFileName (assembly_fileName)));
+					break;
+				case ReferenceType.Project:
+					string project_fileName = lib.GetReferencedFileName (project);
+					IProjectService prjService = (IProjectService)ServiceManager.Services.GetService (typeof (IProjectService));
+					ArrayList allProjects = Combine.GetAllProjects(prjService.CurrentOpenCombine);
+					
+					foreach (ProjectCombineEntry projectEntry in allProjects) {
+						if (projectEntry.Project.Name == lib.Reference) {
+							string project_base_dir = fileUtilityService.AbsoluteToRelativePath (project.BaseDirectory, projectEntry.Project.BaseDirectory);
+							
+							string project_output_fileName = prjService.GetOutputAssemblyName (projectEntry.Project);
+							project_references.Add (Path.Combine (project_base_dir, Path.GetFileName (project_output_fileName)));
+						}
+					}
 					break;
 				}
 			}
@@ -383,11 +398,24 @@ namespace CSharpBinding
 			stream.WriteLine ("ASSEMBLY_REFERENCES_BUILD = $(addprefix /r:, $(ASSEMBLY_REFERENCES))");
 			stream.WriteLine ();
 
+			stream.WriteLine ("PROJECT_REFERENCES = \\");
+			for (int i = 0; i < project_references.Count; i++) {
+				stream.Write (project_references[i]);
+				if (i != project_references.Count - 1)
+					stream.WriteLine (" \\");
+				else
+					stream.WriteLine ();
+			}
+
+			stream.WriteLine ();
+			stream.WriteLine ("PROJECT_REFERENCES_BUILD = $(addprefix /r:, $(PROJECT_REFERENCES))");
+			stream.WriteLine ();
+
 			stream.WriteLine ("all: " + outputName);
 			stream.WriteLine ();
 			
 			stream.WriteLine (outputName + ": $(SOURCES) $(RESOURCES)");
-			stream.WriteLine ("\tmcs /target:{0} /out:{1} $(RESOURCES_BUILD) $(GAC_REFERENCES_BUILD) $(ASSEMBLY_REFERENCES_BUILD) $(SOURCES)", target, outputName);
+			stream.WriteLine ("\tmcs /target:{0} /out:{1} $(RESOURCES_BUILD) $(GAC_REFERENCES_BUILD) $(ASSEMBLY_REFERENCES_BUILD) $(PROJECT_REFERENCES_BUILD) $(SOURCES)", target, outputName);
 			
 			stream.Flush ();
 			stream.Close ();
