@@ -136,6 +136,7 @@ namespace MonoDevelop.Prj2Make
     			slash = "\\";
     		}
     
+    		string origDir = Directory.GetCurrentDirectory();
     		try
     		{
     			string d = Path.GetDirectoryName(slnFile);
@@ -360,6 +361,10 @@ namespace MonoDevelop.Prj2Make
     		{
     			Console.WriteLine("EXCEPTION: {0}\n", e);
     			return "";
+    		}
+    		finally
+    		{
+    			Directory.SetCurrentDirectory(origDir);
     		}
     		
    			return MakefileBuilder.ToString();

@@ -187,7 +187,8 @@ namespace MonoDevelop.Prj2Make
 			{
 				slash = "\\";
 			}
-    
+    		
+    		string origDir = Directory.GetCurrentDirectory();
 			try
 			{
 				string d = Path.GetDirectoryName(slnFile);
@@ -432,6 +433,10 @@ namespace MonoDevelop.Prj2Make
 				Console.WriteLine("EXCEPTION: {0}\n", e);
 				return "";
 			}
+			finally
+			{
+				Directory.SetCurrentDirectory(origDir);
+			}
 		}
 		
 		public void CreatePrjxFromCsproj(string csprojFileName)
@@ -511,6 +516,7 @@ namespace MonoDevelop.Prj2Make
 			
 			Console.WriteLine(String.Format("Will create combine filename:{0}", cmbxFileName));
 
+			string origDir = Directory.GetCurrentDirectory();
 			try
 			{
 				string d = Path.GetDirectoryName(slnFileName);
@@ -615,6 +621,10 @@ namespace MonoDevelop.Prj2Make
 				Console.WriteLine("EXCEPTION: {0}\n", e);
 				return;
 			}
+			finally
+			{
+				Directory.SetCurrentDirectory(origDir);
+			}
 		}
 
 		protected MonoDevelop.Prj2Make.Schema.Prjx.Reference[] GetReferences(MonoDevelop.Prj2Make.Schema.Csproj.Reference[] References)
@@ -627,13 +637,25 @@ namespace MonoDevelop.Prj2Make
 					MonoDevelop.Prj2Make.PkgConfigInvoker.GetPkgVariableValue("mono", "libdir").TrimEnd(),
 					"mono/1.0");
 
-			string strBasePathMono2_0 = Path.Combine(
-					MonoDevelop.Prj2Make.PkgConfigInvoker.GetPkgVariableValue("mono", "libdir").TrimEnd(),
-					"mono/2.0");
-
+//			string strBasePathMono2_0 = Path.Combine(
+//					MonoDevelop.Prj2Make.PkgConfigInvoker.GetPkgVariableValue("mono", "libdir").TrimEnd(),
+//					"mono/2.0");
+//
 			string strBasePathGtkSharp = Path.Combine(
-					MonoDevelop.Prj2Make.PkgConfigInvoker.GetPkgVariableValue("mono", "libdir").TrimEnd(),
+					MonoDevelop.Prj2Make.PkgConfigInvoker.GetPkgVariableValue("gtk-sharp", "libdir").TrimEnd(),
 					"mono/gtk-sharp");
+
+			string strBasePathGtkSharp2_0 = Path.Combine(
+					MonoDevelop.Prj2Make.PkgConfigInvoker.GetPkgVariableValue("gtk-sharp-2.0", "libdir").TrimEnd(),
+					"mono/gtk-sharp-2.0");
+
+			string strBasePathGeckoSharp = Path.Combine(
+					MonoDevelop.Prj2Make.PkgConfigInvoker.GetPkgVariableValue("gecko-sharp", "libdir").TrimEnd(),
+					"mono/gecko-sharp");
+
+			string strBasePathGeckoSharp2_0 = Path.Combine(
+					MonoDevelop.Prj2Make.PkgConfigInvoker.GetPkgVariableValue("gecko-sharp-2.0", "libdir").TrimEnd(),
+					"mono/gecko-sharp-2.0");
 
 			if(References != null && References.Length > 0)
 			{
@@ -650,7 +672,7 @@ namespace MonoDevelop.Prj2Make
 				MonoDevelop.Prj2Make.Schema.Prjx.Reference rfOut = new MonoDevelop.Prj2Make.Schema.Prjx.Reference();
 				string strRefFileName;
 
-				if(rf.Package == null || rf.Package.CompareTo("") == 0)
+				if(rf.Package == null || rf.Package.Length == 0)
 				{
 					bool bIsWhereExpected = false;
 
@@ -667,31 +689,40 @@ namespace MonoDevelop.Prj2Make
 								rfOut.type = MonoDevelop.Prj2Make.Schema.Prjx.ReferenceType.Gac;
 								rfOut.localcopy = MonoDevelop.Prj2Make.Schema.Prjx.ReferenceLocalcopy.True;
 								bIsWhereExpected = true;
+								// increment the iterator value
+								theReferences[i++] = rfOut;
+								continue;
 							} catch (Exception exc) {
 								Console.WriteLine ("Error doing Assembly.LoadFrom with File: {0}\nErr Msg: {1}",
 									strRefFileName,
 									exc.Message );
 							}
 						}
-
-						strRefFileName = Path.Combine (strBasePathMono2_0, Path.GetFileName("System.Xml.dll"));
-
-						// Test to see if file exist in GAC location
-						if(System.IO.File.Exists(strRefFileName) == true) {
-							try {
-								rfOut.refto = System.Reflection.Assembly.LoadFrom(strRefFileName).FullName;
-								rfOut.type = MonoDevelop.Prj2Make.Schema.Prjx.ReferenceType.Gac;
-								rfOut.localcopy = MonoDevelop.Prj2Make.Schema.Prjx.ReferenceLocalcopy.True;
-								bIsWhereExpected = true;
-							} catch (Exception exc) {
-								Console.WriteLine ("Error doing Assembly.LoadFrom with File: {0}\nErr Msg: {1}",
-									strRefFileName,
-									exc.Message );
-							}
-						}
-					} else {
+					} else {					
+						//////////////////////////
+						// Check on Mono 1.0
 						strRefFileName = Path.Combine (strBasePathMono1_0, Path.GetFileName(rf.HintPath));
 
+						// Test to see if file exist in GAC location
+						if(System.IO.File.Exists(strRefFileName) == true) {
+							try {
+								rfOut.refto = System.Reflection.Assembly.LoadFrom(strRefFileName).FullName;
+								rfOut.type = MonoDevelop.Prj2Make.Schema.Prjx.ReferenceType.Gac;
+								rfOut.localcopy = MonoDevelop.Prj2Make.Schema.Prjx.ReferenceLocalcopy.True;
+								bIsWhereExpected = true;
+								// increment the iterator value
+								theReferences[i++] = rfOut;
+								continue;
+							} catch (Exception exc) {
+								Console.WriteLine ("Error doing Assembly.LoadFrom with File: {0}\nErr Msg: {1}",
+									strRefFileName,
+									exc.Message );
+							}
+						}
+
+						//////////////////////////
+						// Check on Gtk# 2.0
+						strRefFileName = Path.Combine (strBasePathGtkSharp2_0, Path.GetFileName(rf.HintPath));
 
 						// Test to see if file exist in GAC location
 						if(System.IO.File.Exists(strRefFileName) == true) {
@@ -700,6 +731,9 @@ namespace MonoDevelop.Prj2Make
 								rfOut.type = MonoDevelop.Prj2Make.Schema.Prjx.ReferenceType.Gac;
 								rfOut.localcopy = MonoDevelop.Prj2Make.Schema.Prjx.ReferenceLocalcopy.True;
 								bIsWhereExpected = true;
+								// increment the iterator value
+								theReferences[i++] = rfOut;
+								continue;
 							} catch (Exception exc) {
 								Console.WriteLine ("Error doing Assembly.LoadFrom with File: {0}\nErr Msg: {1}",
 									strRefFileName,
@@ -707,22 +741,8 @@ namespace MonoDevelop.Prj2Make
 							}
 						}
 
-						strRefFileName = Path.Combine (strBasePathMono2_0, Path.GetFileName(rf.HintPath));
-
-						// Test to see if file exist in GAC location
-						if(System.IO.File.Exists(strRefFileName) == true) {
-							try {
-								rfOut.refto = System.Reflection.Assembly.LoadFrom(strRefFileName).FullName;
-								rfOut.type = MonoDevelop.Prj2Make.Schema.Prjx.ReferenceType.Gac;
-								rfOut.localcopy = MonoDevelop.Prj2Make.Schema.Prjx.ReferenceLocalcopy.True;
-								bIsWhereExpected = true;
-							} catch (Exception exc) {
-								Console.WriteLine ("Error doing Assembly.LoadFrom with File: {0}\nErr Msg: {1}",
-									strRefFileName,
-									exc.Message );
-							}
-						}
-
+						//////////////////////////
+						// Check on Gtk# 1.0
 						strRefFileName = Path.Combine (strBasePathGtkSharp, Path.GetFileName(rf.HintPath));
 
 						// Test to see if file exist in GAC location
@@ -732,6 +752,51 @@ namespace MonoDevelop.Prj2Make
 								rfOut.type = MonoDevelop.Prj2Make.Schema.Prjx.ReferenceType.Gac;
 								rfOut.localcopy = MonoDevelop.Prj2Make.Schema.Prjx.ReferenceLocalcopy.True;
 								bIsWhereExpected = true;
+								// increment the iterator value
+								theReferences[i++] = rfOut;
+								continue;
+							} catch (Exception exc) {
+								Console.WriteLine ("Error doing Assembly.LoadFrom with File: {0}\nErr Msg: {1}",
+									strRefFileName,
+									exc.Message );
+							}
+						}
+						
+						//////////////////////////
+						// Check on Gecko# 2.0
+						strRefFileName = Path.Combine (strBasePathGeckoSharp2_0, Path.GetFileName(rf.HintPath));
+
+						// Test to see if file exist in GAC location
+						if(System.IO.File.Exists(strRefFileName) == true) {
+							try {
+								rfOut.refto = System.Reflection.Assembly.LoadFrom(strRefFileName).FullName;
+								rfOut.type = MonoDevelop.Prj2Make.Schema.Prjx.ReferenceType.Gac;
+								rfOut.localcopy = MonoDevelop.Prj2Make.Schema.Prjx.ReferenceLocalcopy.True;
+								bIsWhereExpected = true;
+								// increment the iterator value
+								theReferences[i++] = rfOut;
+								continue;
+							} catch (Exception exc) {
+								Console.WriteLine ("Error doing Assembly.LoadFrom with File: {0}\nErr Msg: {1}",
+									strRefFileName,
+									exc.Message );
+							}
+						}
+
+						//////////////////////////
+						// Check on Gecko# 1.0
+						strRefFileName = Path.Combine (strBasePathGeckoSharp, Path.GetFileName(rf.HintPath));
+
+						// Test to see if file exist in GAC location
+						if(System.IO.File.Exists(strRefFileName) == true) {
+							try {
+								rfOut.refto = System.Reflection.Assembly.LoadFrom(strRefFileName).FullName;
+								rfOut.type = MonoDevelop.Prj2Make.Schema.Prjx.ReferenceType.Gac;
+								rfOut.localcopy = MonoDevelop.Prj2Make.Schema.Prjx.ReferenceLocalcopy.True;
+								bIsWhereExpected = true;
+								// increment the iterator value
+								theReferences[i++] = rfOut;
+								continue;
 							} catch (Exception exc) {
 								Console.WriteLine ("Error doing Assembly.LoadFrom with File: {0}\nErr Msg: {1}",
 									strRefFileName,
@@ -744,11 +809,11 @@ namespace MonoDevelop.Prj2Make
 							rfOut.refto = Path.GetFileName(rf.HintPath);
 							rfOut.type = MonoDevelop.Prj2Make.Schema.Prjx.ReferenceType.Gac;
 							rfOut.localcopy = MonoDevelop.Prj2Make.Schema.Prjx.ReferenceLocalcopy.True;
+							// increment the iterator value
+							theReferences[i++] = rfOut;
+							continue;
 						}
 					}
-
-					// increment the iterator value
-					theReferences[i++] = rfOut;
 				}
 				else
 				{
@@ -864,7 +929,7 @@ namespace MonoDevelop.Prj2Make
 			ExecutionObj.consolepause = "True";
 
 			// OutputObj member population
-			OutputObj.directory = ConfigBlock.OutputPath;
+			OutputObj.directory = ConfigBlock.OutputPath.Replace("\\", "/");
 			OutputObj.assembly = AssemblyName;
 			OutputObj.executeScript = "";
 			OutputObj.executeBeforeBuild = "";
