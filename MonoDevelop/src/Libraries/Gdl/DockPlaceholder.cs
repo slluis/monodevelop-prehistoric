@@ -16,8 +16,8 @@ namespace Gdl
 		
 		public DockPlaceholder ()
 		{
-			this.Flags |= Gtk.WidgetFlags.NoWindow;
-			this.Flags &= ~(Gtk.WidgetFlags.CanFocus);
+			this.Flags |= (int)Gtk.WidgetFlags.NoWindow;
+			this.Flags &= ~((int)Gtk.WidgetFlags.CanFocus);
 		}
 		
 		public DockPlaceholder (string name, DockObject objekt, DockPlacement position, bool sticky) : this ()
@@ -26,7 +26,7 @@ namespace Gdl
 			this.Name = name;
 			if (objekt != null) {
 				this.Attach (objekt);
-				if (positition == DockPlacement.None) {
+				if (position == DockPlacement.None) {
 					position = DockPlacement.Center;
 				}
 				NextPlacement = position;
@@ -35,6 +35,10 @@ namespace Gdl
 				}
 				DoExcursion ();
 			}
+		}
+		
+		public DockPlaceholder (DockObject objekt, bool sticky) : this (objekt.Name, objekt, DockPlacement.None, sticky)
+		{
 		}
 		
 		public bool Sticky {
@@ -60,7 +64,7 @@ namespace Gdl
 		{
 			if (!(widget is DockItem))
 				return;
-			this.Dock (widget, this.NextPlacement, null);
+			this.Docking ((DockItem)widget, this.NextPlacement, null);
 		}
 		
 		public override void Detach (bool recursive)
@@ -74,16 +78,16 @@ namespace Gdl
 		{
 		}
 		
-		public override void Dock (DockObject requestor, DockPlacement position, object other_data)
+		public override void Docking (DockObject requestor, DockPlacement position, object other_data)
 		{
 			if (this.host != null) {
-				this.host.Dock (requestor, position, other_data);
+				this.host.Docking (requestor, position, other_data);
 			} else {
 				if (!this.IsBound) {
 					Console.WriteLine ("Attempt to dock a dock object to an unbound placeholder");
 					return;
 				}
-				this.Master.Controller.Dock (requestor, DockPlacement.Floating, null);
+				this.Master.Controller.Docking (requestor, DockPlacement.Floating, null);
 			}
 		}
 		

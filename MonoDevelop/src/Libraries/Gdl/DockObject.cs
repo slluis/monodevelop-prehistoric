@@ -19,7 +19,7 @@ namespace Gdl
 		private string stock_id;
 		private bool reduce_pending;
 		
-		public string Name {
+		public new string Name {
 			get { return name; }
 			set { name = value; }
 		}
@@ -44,24 +44,24 @@ namespace Gdl
 			}
 		}
 		
-		public virtual void Show ()
+		protected override void OnShown ()
 		{
 			if (this.IsCompound) {
 				foreach (Gtk.Widget child in this.Children) {
 					child.Show ();
 				}
 			}
-			base.Show ();
+			base.OnShown ();
 		}
 		
-		public virtual void Hide ()
+		protected override void OnHidden ()
 		{
 			if (this.IsCompound) {
 				foreach (Gtk.Widget child in this.Children) {
 					child.Hide ();
 				}
 			}
-			base.Hide ();
+			base.OnHidden ();
 		}
 		
 		public virtual void Detach (bool recursive)
@@ -89,7 +89,7 @@ namespace Gdl
 				return;
 				
 			Gdl.DockObject parent = this.ParentObject;
-			Gtk.Widget[] children = this.Children ();
+			Gtk.Widget[] children = this.Children;
 			if (children.Length <= 1) {
 				if (parent != null)
 					parent.Freeze ();
@@ -111,9 +111,12 @@ namespace Gdl
 			}
 		}
 		
-		public abstract bool DockRequest (int x, int y, DockRequest request);
+		public virtual bool DockRequest (int x, int y, DockRequest request)
+		{
+			return false;
+		}
 		
-		public virtual void Dock (Gdl.DockObject requestor, DockPlacement position, object other_data)
+		public virtual void Docking (Gdl.DockObject requestor, DockPlacement position, object other_data)
 		{
 			Gdl.DockObject parent;
 			if (requestor == null)
@@ -126,7 +129,7 @@ namespace Gdl
 				Console.WriteLine ("Dock operation requested in a non-bound object.");
 				Console.WriteLine ("This might break.");
 			}
-			if (!requestor.IsBound ())
+			if (!requestor.IsBound)
 				requestor.Bind (this.master);
 			if (requestor.Master != this.master) {
 				Console.WriteLine ("Cannot complete dock as they belong to different masters.");
@@ -149,14 +152,20 @@ namespace Gdl
 			this.Thaw ();
 		}
 		
-		public abstract bool Reorder (DockObject child, DockPlacement new_position, object other_data);
+		public virtual bool Reorder (DockObject child, DockPlacement new_position, object other_data)
+		{
+			return false;
+		}
 		
 		public virtual void Present (DockObject child)
 		{
 			this.Show ();
 		}
 		
-		public abstract bool ChildPlacement (DockObject child, ref DockPlacement placement);
+		public virtual bool ChildPlacement (DockObject child, ref DockPlacement placement)
+		{
+			return false;
+		}
 		
 		public virtual bool IsCompound {
 			get {
@@ -170,7 +179,7 @@ namespace Gdl
 				while (parent != null && !(parent is DockObject)) {
 					parent = parent.Parent;
 				}
-				return parent != null ? parent : null;
+				return parent != null ? (DockObject)parent : null;
 			}
 		}
 		
@@ -212,7 +221,7 @@ namespace Gdl
 				return;
 			if (this.master == _master)
 				return;
-			if (this._master != null) {
+			if (this.master != null) {
 				Console.WriteLine ("Attempt to bind an already bound object");
 				return;
 			}

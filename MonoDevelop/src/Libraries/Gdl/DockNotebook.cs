@@ -40,7 +40,7 @@ namespace Gdl
 		{
 			if (widget == null || !(widget is DockItem))
 				return;
-			this.Dock ((DockObject)widget, DockPlacement.Center, null);
+			this.Docking ((DockObject)widget, DockPlacement.Center, null);
 		}
 		
 		private CallbackInvoker stored_invoker;
@@ -51,9 +51,7 @@ namespace Gdl
 			} else {
 				if (this.Child != null) {
 					stored_invoker = invoker;
-					lock (stored_invoker) {
-						((Gtk.Notebook)this.Child).Foreach (new Gtk.Callback (childForall));
-					}
+					((Gtk.Notebook)this.Child).Foreach (new Gtk.Callback (childForAll));
 				}
 			}
 		}
@@ -77,19 +75,18 @@ namespace Gdl
 		
 		private void dock_child (Widget w)
 		{
-			this.Dock (w, stored_info.position, stored_info.other_data);
+			if (w is DockObject)
+				this.Docking ((DockObject)w, stored_info.position, stored_info.other_data);
 		}
 		
 		private DockInfo stored_info;
-		protected override void Dock (DockObject requestor, DockPlacement position, object extra_data)
+		public override void Docking (DockObject requestor, DockPlacement position, object extra_data)
 		{
 			if (position == DockPlacement.Center) {
 				if (requestor.IsCompound) {
 					requestor.Freeze ();
 					stored_info = new DockInfo (position, extra_data);
-					lock (stored_info) {
-						requestor.Foreach (new Gtk.Callback (dock_child));
-					}
+					requestor.Foreach (new Gtk.Callback (dock_child));
 					requestor.Thaw ();
 				} else {
 					DockItem requestor_item = requestor as DockItem;
@@ -107,7 +104,7 @@ namespace Gdl
 					requestor.DockObjectFlags |= DockObjectFlags.Attached;
 				}
 			} else
-				base.Dock (requestor, position, extra_data);
+				base.Docking (requestor, position, extra_data);
 		}
 		
 		public override void SetOrientation (Gtk.Orientation orientation)
@@ -148,7 +145,7 @@ namespace Gdl
 			base.Present (child);
 		}
 		
-		public bool Reorder (DockObject requestor, DockPlacement new_position, object other_data)
+		public override bool Reorder (DockObject requestor, DockPlacement new_position, object other_data)
 		{
 			bool handled = false;
 			int current_position, new_pos = -1;

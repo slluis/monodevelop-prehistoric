@@ -25,7 +25,7 @@ namespace Gdl
 			this.close_button = new Gtk.Button ();
 			Widget.PopCompositeChild ();
 			
-			this.close_button.Flags |= ~(Gtk.WidgetFlags.CanFocus);
+			this.close_button.Flags |= ~((int)Gtk.WidgetFlags.CanFocus);
 			this.close_button.Parent = this;
 			this.close_button.Relief = Gtk.ReliefStyle.None;
 			this.close_button.Show ();
@@ -40,7 +40,7 @@ namespace Gdl
 			this.iconify_button = new Gtk.Button ();
 			Widget.PopCompositeChild ();
 			
-			this.iconify_button.Flags |= ~(Gtk.WidgetFlags.CanFocus);
+			this.iconify_button.Flags |= ~((int)Gtk.WidgetFlags.CanFocus);
 			this.iconify_button.Parent = this;
 			this.iconify_button.Relief = Gtk.ReliefStyle.None;
 			this.iconify_button.Show ();
@@ -81,7 +81,7 @@ namespace Gdl
 		public Gdk.Rectangle GetTitleArea ()
 		{
 			Gdk.Rectangle area;
-			int border = this.BorderWidth;
+			int border = (int)this.BorderWidth;
 			int alloc_height, alloc_width;
 			
 			area.Width = (this.Allocation.Width - 2 * border);
@@ -128,7 +128,7 @@ namespace Gdl
 			}
 		}
 		
-		protected void OnExposeEvent (Gdk.EventExpose evnt)
+		protected override bool OnExposeEvent (Gdk.EventExpose evnt)
 		{
 			Gdk.Rectangle title_area = this.GetTitleArea ();
 			Gdk.Rectangle expose_area;
@@ -147,13 +147,13 @@ namespace Gdl
 				
 				title_area.Width -= pixbuf_rect.Width - 1;
 				pixbuf_rect.Y = title_area.Y + (title_area.Height - pixbuf_rect.Height) / 2;
-				if (evnt.Area.Intersect (ref pixbuf_rect, out expose_area)) {
+				if (evnt.Area.Intersect (pixbuf_rect, out expose_area)) {
 					Gdk.GC gc = this.Style.BackgroundGC (this.State);
 					this.GdkWindow.DrawPixbuf (gc, this.icon_pixbuf, 0, 0, pixbuf_rect.X, pixbuf_rect.Y, pixbuf_rect.Width, pixbuf_rect.Height, Gdk.RgbDither.None, 0, 0);
 				}
 			}
-			
-			if (title_area.Intersect (ref evnt.Area, out expose_area)) {
+
+			if (title_area.Intersect (evnt.Area, out expose_area)) {
 				int layout_width, layout_height, text_x, text_y;
 				this.title_layout.GetPixelSize (out layout_width, out layout_height);
 				if (this.Direction == Gtk.TextDirection.Rtl)
@@ -161,10 +161,10 @@ namespace Gdl
 				else
 					text_x = title_area.X;
 				text_y = title_area.Y + (title_area.Height - layout_height) / 2;
-				Gtk.Style.PaintLayout (this.Style, this.GdkWindow, this.State, true, ref expose_area, this, null, text_x, text_y, this.title_layout);
+				Gtk.Style.PaintLayout (this.Style, this.GdkWindow, this.State, true, expose_area, this, null, text_x, text_y, this.title_layout);
 			}
 			
-			base.OnExposeEvent (evnt);
+			return base.OnExposeEvent (evnt);
 		}
 		
 		private void CloseClicked (object o, EventArgs e)
@@ -183,7 +183,7 @@ namespace Gdl
 		{
 			base.OnRealized ();
 			if (this.title_window == null) {
-				Gdk.WindowAttr attributes;
+				Gdk.WindowAttr attributes = new Gdk.WindowAttr ();
 				
 				this.EnsureTitleAndIconPixbuf ();
 				
@@ -231,8 +231,8 @@ namespace Gdl
 		
 		protected override void OnSizeRequested (ref Gtk.Requisition requisition)
 		{
-			requisition.Width = this.BorderWidth * 2;
-			requisition.Height = this.BorderWidth * 2;
+			requisition.Width = (int)this.BorderWidth * 2;
+			requisition.Height = (int)this.BorderWidth * 2;
 			
 			this.EnsureTitleAndIconPixbuf ();
 			
@@ -278,7 +278,7 @@ namespace Gdl
 			Pango.LayoutLine line = this.title_layout.GetLine (0);
 			string text = this.title_layout.Text;
 			if (line.XToIndex (width * 1024, out x, out empty)) {
-				this.title_layout.Text = text.Substring (0, x) + "...";
+				this.title_layout.SetText (text.Substring (0, x) + "...");
 			}
 		}
 		
@@ -288,13 +288,13 @@ namespace Gdl
 			Gdk.Rectangle child_allocation;
 			
 			if (this.Direction == Gtk.TextDirection.Rtl)
-				child_allocation.X = allocation.X + this.BorderWidth;
+				child_allocation.X = allocation.X + (int)this.BorderWidth;
 			else
-				child_allocation.X = allocation.X + allocation.Width - this.BorderWidth;
-			child_allocation.Y = allocation.Y + this.BorderWidth;
+				child_allocation.X = allocation.X + allocation.Width - (int)this.BorderWidth;
+			child_allocation.Y = allocation.Y + (int)this.BorderWidth;
 			
 			if (this.close_button.Visible) {
-				Gdk.Rectangle button_requisition = this.close_button.SizeRequest ();
+				Gtk.Requisition button_requisition = this.close_button.SizeRequest ();
 				if (this.Direction != Gtk.TextDirection.Rtl) 
 					child_allocation.X -= button_requisition.Width;
 				
@@ -308,7 +308,7 @@ namespace Gdl
 			}
 			
 			if (this.iconify_button.Visible) {
-				Gdk.Rectangle button_requisition = this.iconify_button.SizeRequest ();
+				Gtk.Requisition button_requisition = this.iconify_button.SizeRequest ();
 				if (this.Direction != Gtk.TextDirection.Rtl)
 					child_allocation.X -= button_requisition.Width;
 				
@@ -323,7 +323,7 @@ namespace Gdl
 			
 			if (this.title_window != null) {
 				this.EnsureTitleAndIconPixbuf ();
-				this.title_layout.Text = this.title;
+				this.title_layout.SetText (this.title);
 				Gdk.Rectangle area = this.GetTitleArea ();
 				this.title_window.MoveResize (area.X, area.Y, area.Width, area.Height);
 				if (this.icon_pixbuf != null) {

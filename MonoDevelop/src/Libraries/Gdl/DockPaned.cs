@@ -8,6 +8,11 @@ namespace Gdl
 	public class DockPaned : Gdl.DockItem
 	{
 		private bool position_changed = false;
+
+		public DockPaned (Gtk.Orientation orientation)
+		{
+			//JUST A STUB need porting
+		}
 		
 		public override bool HasGrip {
 			get { return false; }
@@ -64,14 +69,12 @@ namespace Gdl
 				pos = item.Orientation == Gtk.Orientation.Vertical ? DockPlacement.Right : DockPlacement.Bottom;
 			
 			if (pos != DockPlacement.None)
-				this.Dock (item, pos, null);
+				this.Docking (item, pos, null);
 		}
 		
-		protected override void OnAdded (Gtk.Widget widget)
+		private void childForAll (Gtk.Widget widget)
 		{
-			if (widget == null || !(widget is DockItem))
-				return;
-			this.Dock ((DockObject)widget, DockPlacement.Center, null);
+			stored_invoker.Invoke (widget);
 		}
 		
 		private CallbackInvoker stored_invoker;
@@ -82,9 +85,7 @@ namespace Gdl
 			} else {
 				if (this.Child != null) {
 					stored_invoker = invoker;
-					lock (stored_invoker) {
-						((Gtk.Paned)this.Child).Foreach (new Gtk.Callback (childForall));
-					}
+					((Gtk.Paned)this.Child).Foreach (new Gtk.Callback (childForAll));
 				}
 			}
 		}

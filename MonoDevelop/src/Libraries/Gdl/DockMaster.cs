@@ -93,7 +93,7 @@ namespace Gdl
 				XorRect ();
 			if (cancelled || request.Applicant == request.Target)
 				return;
-			request.Target.Dock (request.Applicant, request.Position, request.Extra);
+			request.Target.Docking (request.Applicant, request.Position, request.Extra);
 			//emit LayoutChanged here
 		}
 		
@@ -108,12 +108,12 @@ namespace Gdl
 			int win_x, win_y;
 			int x, y;
 			Dock dock = null;
-			bool may_dock;
+			bool may_dock = false;
 			
 			Gdk.Window window = Gdk.Window.AtPointer (out win_x, out win_y);
 			if (window != null) {
-				IntPtr widg = window.GetUserData ();
-				if (widg != null) {
+				IntPtr widg = window.UserData;
+				if (widg != IntPtr.Zero) {
 					Gtk.Widget widget = GLib.Object.GetObject (widg, false) as Gtk.Widget;
 					if (widget != null) {
 						while (widget != null && (!(widget is Dock) || (widget is DockObject && ((DockObject)widget).Master == this)))
@@ -146,10 +146,9 @@ namespace Gdl
 			}
 			if (!may_dock) {
 				dock = null;
-				Gtk.Requisition req;
+				Gtk.Requisition req = DockItem.PreferredSize ((DockItem)request.Applicant);
 				my_request.Target = Dock.GetTopLevel (request.Applicant);
 				my_request.Position = DockPlacement.Floating;
-				((DockItem)request.Applicant).PreferredSize (out req);
 				Gdk.Rectangle rect = new Gdk.Rectangle ();
 				rect.Width = req.Width;
 				rect.Height = req.Height;
@@ -210,7 +209,7 @@ namespace Gdl
 			if (!objekt.IsAutomatic) {
 				if (objekt.Name == null)
 					objekt.Name = "__dock_" + this.number++;
-				DockObject found_object = this.dock_objects[objekt.Name];
+				DockObject found_object = (DockObject)this.dock_objects[objekt.Name];
 				if (found_object != null) {
 					Console.WriteLine ("Unable to add object, name taken");
 				} else {
@@ -265,7 +264,7 @@ namespace Gdl
 		{
 			if (objekt == null)
 				return;
-			if (objekt is DockItem && objekt.HasGrip) {
+			if (objekt is DockItem && ((DockItem)objekt).HasGrip) {
 				int locked = this.Locked;
 				if (this.locked_items.Contains (objekt)) {
 					this.locked_items.Remove (objekt);
@@ -286,7 +285,9 @@ namespace Gdl
 					this.toplevel_docks.Remove (objekt);
 				if (objekt == this.controller) {
 					DockObject new_controller = null;
-					foreach (DockObject item in this.toplevel_docks.Reverse ()) {
+					ArrayList reversed = toplevel_docks;
+					reversed.Reverse ();
+					foreach (DockObject item in reversed) {
 						if (!item.IsAutomatic) {
 							new_controller = item;
 							break;

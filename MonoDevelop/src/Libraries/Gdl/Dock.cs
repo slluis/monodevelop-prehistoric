@@ -88,11 +88,11 @@ namespace Gdl
 			}
 		}
 		
-		protected void OnSizeRequested (ref Gtk.Requisition requisition)
+		protected override void OnSizeRequested (ref Gtk.Requisition requisition)
 		{
-			int border_width = this.BorderWidth;
+			int border_width = (int)this.BorderWidth;
 			if (this.root != null && this.root.Visible)
-				this.root.SizeRequest (requisition);
+				this.root.SetSizeRequest (requisition.Width, requisition.Height);
 			else {
 				requisition.Width = 0;
 				requisition.Height = 0;
@@ -102,9 +102,9 @@ namespace Gdl
 			requisition.Height += 2 * border_width;
 		}
 		
-		protected void OnSizeAllocated (ref Gdk.Rectangle allocation)
+		protected override void OnSizeAllocated (Gdk.Rectangle allocation)
 		{
-			int border_width = this.BorderWidth;
+			int border_width = (int)this.BorderWidth;
 			allocation.X += border_width;
 			allocation.Y += border_width;
 			allocation.Width = Math.Max (1, allocation.Width - 2 * border_width);
@@ -114,7 +114,7 @@ namespace Gdl
 				this.root.SizeAllocate (allocation);
 		}
 		
-		protected void OnMapped ()
+		protected override void OnMapped ()
 		{
 			base.OnMapped ();
 			if (this.root != null) {
@@ -123,7 +123,7 @@ namespace Gdl
 			}
 		}
 		
-		protected void OnUnmapped ()
+		protected override void OnUnmapped ()
 		{
 			base.OnUnmapped ();
 			if (this.root != null) {
@@ -134,9 +134,9 @@ namespace Gdl
 				window.Unmap ();
 		}
 		
-		public override void Show ()
+		protected override void OnShown ()
 		{
-			base.Show ();
+			base.OnShown ();
 			if (this.floating && this.window != null)
 				this.window.Show ();
 			/*PORT:
@@ -148,9 +148,9 @@ namespace Gdl
 			*/
 		}
 		
-		public override void Hide ()
+		protected override void OnHidden ()
 		{
-			base.Hide ();
+			base.OnHidden ();
 			if (this.floating && this.window != null)
 				this.window.Hide ();
 			/*PORT:
@@ -184,7 +184,7 @@ namespace Gdl
 		
 		protected override void ForAll (bool include_internals, CallbackInvoker invoker)
 		{
-			if (this.root)
+			if (this.root != null)
 				invoker.Invoke (this.root);
 		}
 		
@@ -213,7 +213,7 @@ gdl_dock_child_type (GtkContainer *container)
 				if (this.floating)
 					this.Hide ();
 				else {
-					if (this.Parent && this.Parent is Gtk.Container)
+					if (this.Parent != null && this.Parent is Gtk.Container)
 						((Gtk.Container)this.Parent).Remove (this);
 				}
 			}
@@ -222,7 +222,7 @@ gdl_dock_child_type (GtkContainer *container)
 		public override bool DockRequest (int x, int y, DockRequest request)
 		{
 			Gdk.Rectangle alloc = this.Allocation;
-			uint bw = this.BorderWidth;
+			int bw = (int)this.BorderWidth;
 			int rel_x = x - alloc.X;
 			int rel_y = y - alloc.Y;
 			DockRequest my_request = null;
@@ -248,21 +248,21 @@ gdl_dock_child_type (GtkContainer *container)
 					
 					if (rel_x < bw) {
 						my_request.Position = DockPlacement.Left;
-						req_rect.Width *= 0.3;
+						req_rect.Width = (int)(req_rect.Width * 0.3);
 						my_request.Rect = req_rect;
 					} else if (rel_x > alloc.Width - bw) {
 						my_request.Position = DockPlacement.Right;
-						req_rect.X += req_rect.Width * (1 - 0.3);
-						req_rect.Width *= 0.3;
+						req_rect.X += (int)(req_rect.Width * (1 - 0.3));
+						req_rect.Width = (int)(req_rect.Width * 0.3);
 						my_request.Rect = req_rect;
 					} else if (rel_y < bw) {
 						my_request.Position = DockPlacement.Top;
-						req_rect.Height *= 0.3;
+						req_rect.Height = (int)(req_rect.Height * 0.3);
 						my_request.Rect = req_rect;
 					} else if (rel_y > alloc.Height - bw) {
 						my_request.Position = DockPlacement.Bottom;
-						req_rect.y += req_rect.Height * (1 - 0.3);
-						req_rect.Height *= 0.3;
+						req_rect.Y += (int)(req_rect.Height * (1 - 0.3));
+						req_rect.Height = (int)(req_rect.Height * 0.3);
 						my_request.Rect = req_rect;
 					} else {
 						may_dock = this.root.DockRequest (x, y, my_request);
@@ -275,26 +275,23 @@ gdl_dock_child_type (GtkContainer *container)
 			return may_dock;
 		}
 		
-		public override void Dock (DockObject requestor, DockPlacement position, object user_data)
+		public override void Docking (DockObject requestor, DockPlacement position, object user_data)
 		{
 			if (!(requestor is DockItem))
 				return;
 			if (position == DockPlacement.Floating) {
 				DockItem item = requestor as DockItem;
-				int x, y, width, height;
+				int x = 0, y = 0, width = -1, height = 01;
 				if (user_data != null && user_data is Gdk.Rectangle) {
-					Gdk.Rectangle rect = user_data as Gdk.Rectangle;
+					Gdk.Rectangle rect = (Gdk.Rectangle)user_data;
 					x = rect.X;
 					y = rect.Y;
 					width = rect.Width;
 					height = rect.Height;
-				} else {
-					x = y = 0;
-					width = height = -1;
 				}
 				AddFloatingItem (item, x, y, width, height);
 			} else if (this.root != null) {
-				this.root.Dock (requestor, position, null);
+				this.root.Docking (requestor, position, null);
 				//gdl_dock_set_title (dock /*this*/);
 			} else {
 				this.root = requestor;
@@ -317,7 +314,7 @@ gdl_dock_child_type (GtkContainer *container)
 			bool handled = false;
 			if (this.floating && new_position == DockPlacement.Floating && this.root == requestor) {
 				if (other_data != null && other_data is Gdk.Rectangle) {
-					Gdk.Rectangle rect = other_data as Gdk.Rectangle;
+					Gdk.Rectangle rect = (Gdk.Rectangle)other_data;
 					if (this.window != null && this.window is Gtk.Window) {
 						((Gtk.Window)this.window).Move (rect.X, rect.Y);
 						handled = true;
@@ -327,7 +324,7 @@ gdl_dock_child_type (GtkContainer *container)
 			return handled;
 		}
 		
-		public override bool ChildPlacement (DockObject child, DockPlacement placement)
+		public override bool ChildPlacement (DockObject child, ref DockPlacement placement)
 		{
 			bool retval = true;
 			if (this.root == child) {
@@ -352,7 +349,7 @@ gdl_dock_child_type (GtkContainer *container)
 			if (placement == DockPlacement.Floating)
 				AddFloatingItem (item, 0, 0, -1, -1);
 			else
-				this.Dock (item, null);
+				this.Docking (item, placement, null);
 		}
 		
 		public void AddFloatingItem (DockItem item, int x, int y, int width, int height)
@@ -375,9 +372,9 @@ gdl_dock_child_type (GtkContainer *container)
 		{
 			if (name == null)
 				return null;
-			DockObject found = DockMaster.GetObject (name);
+			DockObject found = this.Master.GetObject (name);
 			if (found != null && found is DockItem)
-				return found;
+				return (DockItem)found;
 			return null;
 		}
 		
@@ -385,9 +382,9 @@ gdl_dock_child_type (GtkContainer *container)
 		{
 			if (name == null)
 				return null;
-			DockObject found = DockMaster.GetObject (name);
+			DockObject found = this.Master.GetObject (name);
 			if (found != null && found is DockPlaceholder)
-				return found;
+				return (DockPlaceholder)found;
 			return null;
 		}
 		
@@ -398,6 +395,7 @@ gdl_dock_child_type (GtkContainer *container)
     gdl_dock_master_foreach (GDL_DOCK_OBJECT_GET_MASTER (dock),
                              (GFunc) _gdl_dock_foreach_build_list, &list);
                              */
+                             return null;
 			}
 		}
 		
@@ -406,7 +404,7 @@ gdl_dock_child_type (GtkContainer *container)
 			DockObject parent = obj;
 			while (parent != null && !(parent is Gdl.Dock))
 				parent = parent.ParentObject;
-			return parent;
+			return (Dock)parent;
 		}
 		
 		public void XorRect (Gdk.Rectangle rect)

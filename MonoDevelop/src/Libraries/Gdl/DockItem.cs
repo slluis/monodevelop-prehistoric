@@ -9,7 +9,7 @@ namespace Gdl
 		private Gtk.Widget child = null;
 		private DockItemBehavior behavior = DockItemBehavior.Normal;
 		private Gtk.Orientation orientation = Gtk.Orientation.Horizontal;
-		private uint resize = 1;
+		private bool resize = false;
 		private int dragoff_x = 0;
 		private int dragoff_y = 0;
 		private Gtk.Menu menu = null;
@@ -64,6 +64,11 @@ namespace Gdl
 		public Gtk.Widget TabLabel {
 			get { return this.tab_label; }
 			set { this.tab_label = value; }
+		}
+		
+		public new Gtk.Widget Child {
+			get { return this.child; }
+			set { this.child = value; }
 		}
 		
 		public virtual bool HasGrip {
@@ -195,7 +200,7 @@ namespace Gdl
 				return;
 			}
 			if (this.InDrag) {
-				this.DragEnd (true);
+				this.DockDragEnd ();
 			}
 			
 			if (widget != this.Child)
@@ -217,13 +222,13 @@ namespace Gdl
 				invoker.Invoke (this.Child);
 		}
 		
-		protected void OnSizeRequested (ref Gtk.Requisition requisition)
+		protected override void OnSizeRequested (ref Gtk.Requisition requisition)
 		{
 			Gtk.Requisition child_requisition = new Gtk.Requisition ();
 			Gtk.Requisition grip_requisition = new Gtk.Requisition ();
 			
-			if (this.Child)
-				child_requistion = this.Child.SizeRequest ();
+			if (this.Child != null)
+				child_requisition = this.Child.SizeRequest ();
 			else {
 				child_requisition.Width = 0;
 				child_requisition.Height = 0;
@@ -257,19 +262,19 @@ namespace Gdl
 					requisition.Width = 0;
 				}
 			}
-			requisition.Width += (this.BorderWidth + this.Style.XThickness) * 2;
-			requisition.Width += (this.BorderWidth + this.Style.YThickness) * 2;
+			requisition.Width += ((int)this.BorderWidth + this.Style.XThickness) * 2;
+			requisition.Width += ((int)this.BorderWidth + this.Style.YThickness) * 2;
 			this.SetSizeRequest (requisition.Width, requisition.Height);
 		}
 		
-		protected override void OnSizeAllocated (ref Gdk.Rectangle allocation)
+		protected override void OnSizeAllocated (Gdk.Rectangle allocation)
 		{
 			this.Allocation = allocation;
 			if (this.IsRealized) {
 				this.GdkWindow.MoveResize (allocation.X, allocation.Y, allocation.Width, allocation.Height);
 			}
 			if (this.Child != null && this.Child.Visible) {
-				int border_width = this.BorderWidth;
+				int border_width = (int)this.BorderWidth;
 				Gdk.Rectangle child_allocation = new Gdk.Rectangle ();
 				child_allocation.X = border_width + this.Style.XThickness;
 				child_allocation.Y = border_width + this.Style.YThickness;
@@ -292,7 +297,7 @@ namespace Gdl
 						this.grip.SizeAllocate (grip_alloc);
 					}
 				}
-				this.Child.SizeAllocate (grip_alloc);
+				this.Child.SizeAllocate (child_allocation);
 			}
 		}
 		
@@ -317,7 +322,7 @@ namespace Gdl
 		protected override void OnRealized ()
 		{
 			this.Flags |= (int)Gtk.WidgetFlags.Realized;
-			Gdk.WindowAttr attributes;
+			Gdk.WindowAttr attributes = new Gdk.WindowAttr ();
 			attributes.X = this.Allocation.X;
 			attributes.Y = this.Allocation.Y;
 			attributes.Height = this.Allocation.Height;
@@ -326,7 +331,7 @@ namespace Gdl
 			attributes.Wclass = Gdk.WindowClass.InputOutput;
 			attributes.visual = this.Visual;
 			attributes.colormap = this.Colormap;
-			attributes.EventMask = (this.Events | Gdk.EventMask.ExposureMask | Gdk.EventMask.Button1MotionMask | Gdk.EventMask.ButtonPressMask | Gdk.EventMask.ButtonReleaseMask);
+			attributes.EventMask = (int)(this.Events | Gdk.EventMask.ExposureMask | Gdk.EventMask.Button1MotionMask | Gdk.EventMask.ButtonPressMask | Gdk.EventMask.ButtonReleaseMask);
 			Gdk.WindowAttributesType attributes_mask = Gdk.WindowAttributesType.X | Gdk.WindowAttributesType.Y | Gdk.WindowAttributesType.Colormap | Gdk.WindowAttributesType.Visual;
 			this.GdkWindow = new Gdk.Window (this.ParentWindow, attributes, (int)attributes_mask);
 			this.GdkWindow.UserData = this.Handle;
@@ -352,7 +357,7 @@ namespace Gdl
 		protected override bool OnExposeEvent (Gdk.EventExpose evnt)
 		{
 			if (this.Drawable && evnt.Window == this.GdkWindow) {
-				Gtk.Style.PaintBox (this.GdkWindow, this.State, Gtk.ShadowType.None, evnt.Area, this, "dockitem", 0, 0, -1, -1);
+				Gtk.Style.PaintBox (this.Style, this.GdkWindow, this.State, Gtk.ShadowType.None, evnt.Area, this, "dockitem", 0, 0, -1, -1);
 				base.OnExposeEvent (evnt);
 			}
 			return false;
@@ -390,16 +395,16 @@ namespace Gdl
 			
 			if (evnt.Button == 1 && evnt.Type == Gdk.EventType.ButtonPress) {
 				if (in_handle) {
-					this.start_x = evnt.X;
-					this.start_y = evnt.Y;
+					this.start_x = (int)evnt.X;
+					this.start_y = (int)evnt.Y;
 					this.DockObjectFlags |= DockObjectFlags.InPreDrag;
-					cursor = new Gdk.Cursor (this.Display, (int)Gdk.CursorType.Fleur);
+					cursor = new Gdk.Cursor (this.Display, Gdk.CursorType.Fleur);
 					this.grip.TitleWindow.Cursor = cursor;
 					event_handled = true;
 				}
 			} else if (evnt.Type == Gdk.EventType.ButtonRelease && evnt.Button == 1) {
 				if (this.InDrag) {
-					this.DragEnd (false);
+					this.DockDragEnd ();
 					event_handled = true;
 				} else if (this.InPreDrag) {
 					this.DockObjectFlags &= ~(DockObjectFlags.InPreDrag);
@@ -407,11 +412,11 @@ namespace Gdl
 				}
 				
 				if (this.grip.TitleWindow != null) {
-					cursor = new Gdk.Cursor (this.Display, (int)Gdk.CursorType.Hand2);
+					cursor = new Gdk.Cursor (this.Display, Gdk.CursorType.Hand2);
 					this.grip.TitleWindow.Cursor = cursor;
 				}
 			} else if (evnt.Button == 3 && evnt.Type == Gdk.EventType.ButtonPress && in_handle) {
-				this.PopupMenu (evnt.Button, evnt.Time);
+				this.DockPopupMenu (evnt.Button, evnt.Time);
 				event_handled = true;
 			}
 			return event_handled;
@@ -427,19 +432,19 @@ namespace Gdl
 			if (!EventInGripWindow (evnt))
 				return false;
 			if (this.InPreDrag) {
-				if (Gtk.Drag.CheckThreshold (this, this.start_x, this.start_y, evnt.X, evnt.Y)) {
+				if (Gtk.Drag.CheckThreshold (this, this.start_x, this.start_y, (int)evnt.X, (int)evnt.Y)) {
 					this.DockObjectFlags &= ~(DockObjectFlags.InPreDrag);
 					this.dragoff_x = this.start_x;
 					this.dragoff_y = this.start_y;
-					this.DragStart ();
+					this.DockDragStart ();
 				}
 			}
 			
 			if (!this.InDrag)
 				return false;
 			
-			int new_x = evnt.XRoot;
-			int new_y = evnt.YRoot;
+			int new_x = (int)evnt.XRoot;
+			int new_y = (int)evnt.YRoot;
 			
 			//PORT THIS:
 			//    g_signal_emit (item, gdl_dock_item_signals [DOCK_DRAG_MOTION], 0, new_x, new_y);
@@ -449,13 +454,13 @@ namespace Gdl
 		protected override bool OnKeyPressEvent (Gdk.EventKey evnt)
 		{
 			if (this.InDrag && evnt.Key == Gdk.Key.Escape) {
-				this.DragEnd (true);
+				this.DockDragEnd ();
 				return true;
 			}
 			return base.OnKeyPressEvent (evnt);
 		}
 		
-		protected static Gtk.Requisition PreferredSize (DockItem item)
+		public static Gtk.Requisition PreferredSize (DockItem item)
 		{
 			Gtk.Requisition req;
 			req.Width = Math.Max (item.preferred_width, item.Allocation.Width);
@@ -470,10 +475,9 @@ namespace Gdl
 			int rel_y = y - alloc.Y;
 			
 			if (rel_x > 0 && rel_x < alloc.Width && rel_y > 0 && rel_y < alloc.Width) {
-				Gdk.Rectangle other, my;
-				int divider;
-				DockItem.PreferredSize (request.Applicant, ref other);
-				DockItem.PreferredSize (this, ref my);
+				Gtk.Requisition other = DockItem.PreferredSize ((DockItem)request.Applicant);
+				Gtk.Requisition my = DockItem.PreferredSize (this);
+				int divider = 0;
 				float rx = (float) rel_x / alloc.Width;
 				float ry = (float) rel_y / alloc.Height;
 				
@@ -502,24 +506,24 @@ namespace Gdl
 				if (request.Applicant != this) {
 					switch (request.Position) {
 					case DockPlacement.Top:
-						req_rect.Height *= 0.4;
+						req_rect.Height = (int)(req_rect.Height * 0.4);
 						break;
 					case DockPlacement.Bottom:
-						req_rect.Y += req_rect.Height * (1 - 0.4);
-						req_rect.Height *= 0.4;
+						req_rect.Y += (int)(req_rect.Height * (1 - 0.4));
+						req_rect.Height = (int)(req_rect.Height * 0.4);
 						break;
 					case DockPlacement.Left:
-						req_rect.Width *= 0.4;
+						req_rect.Width = (int)(req_rect.Width * 0.4);
 						break;
 					case DockPlacement.Right:
-						req_rect.X += req_rect.Width * (1 - 0.4);
-						req_rect.Width *= 0.4;
+						req_rect.X += (int)(req_rect.Width * (1 - 0.4));
+						req_rect.Width = (int)(req_rect.Width * 0.4);
 						break;
 					case DockPlacement.Center:
-						req_rect.X = req_rect.Width * 0.2;
-						req_rect.Y = req_rect.Height * 0.2;
-						req_rect.Width = (req_rect.Width * (1 - 0.2)) - req_rect.X;
-						req_rect.Height = (req_rect.Height * (1 - 0.2)) - req_rect.Y;
+						req_rect.X = (int)(req_rect.Width * 0.2);
+						req_rect.Y = (int)(req_rect.Height * 0.2);
+						req_rect.Width = (int)(req_rect.Width * (1 - 0.2)) - req_rect.X;
+						req_rect.Height = (int)(req_rect.Height * (1 - 0.2)) - req_rect.Y;
 						break;
 					default:
 						break;
@@ -537,7 +541,7 @@ namespace Gdl
 			return false;
 		}
 		
-		public override void Dock (DockObject requestor, DockPlacement position, object other_data)
+		public override void Docking (DockObject requestor, DockPlacement position, object other_data)
 		{
 			DockObject new_parent = null;
 			bool add_ourselves_first;
@@ -600,7 +604,7 @@ namespace Gdl
 				((DockItem)item).menu = null;
 		}
 		
-		public void PopupMenu (int button, int time)
+		public void DockPopupMenu (uint button, uint time)
 		{
 			if (this.menu == null) {
 				this.menu = new Gtk.Menu ();
@@ -611,7 +615,8 @@ namespace Gdl
 				this.menu.Append (mitem);
 			}
 			this.menu.ShowAll ();
-			this.menu.Popup (null, null, null, null, button, time);
+			this.menu.Popup (null, null, null, IntPtr.Zero, button, time);
+			
 		}
 		
 		private void ItemHideCb (object o, EventArgs e)
@@ -619,7 +624,7 @@ namespace Gdl
 			this.HideItem ();
 		}
 		
-		public void DragStart ()
+		public void DockDragStart ()
 		{
 			Gdk.Cursor fleur = new Gdk.Cursor (Gdk.CursorType.Fleur);
 			
@@ -634,7 +639,7 @@ namespace Gdl
 			//g_signal_emit (item, gdl_dock_item_signals [DOCK_DRAG_BEGIN], 0);
 		}
 		
-		public void DragEnd ()
+		public void DockDragEnd ()
 		{
 			Gtk.Grab.Remove (Gtk.Grab.Current);
 			
@@ -667,7 +672,7 @@ namespace Gdl
 				this.dragoff_x = this.dragoff_y = 0;
 				((Dock)this.Master.Controller).AddFloatingItem (this, 0, 0, -1, -1);
 			} else
-				target.Dock (item, position, null);
+				target.Docking (this, position, null);
 		}
 		
 		public virtual void SetOrientation (Gtk.Orientation orientation)
@@ -729,6 +734,25 @@ namespace Gdl
 			this.Thaw ();
 		}
 		
+		public void HideItem (Gtk.Widget widget)
+		{
+			if (!(widget is DockItem))
+				return;
+			DockItem item = widget as DockItem;
+			if (!(item.IsAttached))
+				return;
+			if (!(item.IsAutomatic))
+				item.ph = new DockPlaceholder (this, false);
+			
+			item.Freeze ();
+			if (item.IsCompound) {
+				item.Foreach (new Gtk.Callback (HideItem));
+			}
+			
+			item.Detach (true);
+			item.Thaw ();
+		}
+		
 		public void IconifyItem ()
 		{
 			this.DockObjectFlags |= DockObjectFlags.Iconified;
@@ -744,7 +768,7 @@ namespace Gdl
 				this.ph = null;
 			} else if (this.IsBound) {
 				if (this.Master.Controller != null) {
-					this.Master.Controller.Dock (this, DockPlacement.Floating, null);
+					this.Master.Controller.Docking (this, DockPlacement.Floating, null);
 				}
 			}
 		}
@@ -755,7 +779,7 @@ namespace Gdl
 			
 			if (reference != null && reference.IsAttached) {
 				if (reference is DockPlaceholder) {
-					this.ph = reference;
+					this.ph = (DockPlaceholder)reference;
 				} else {
 					this.ph = new DockPlaceholder (reference, true);
 				}

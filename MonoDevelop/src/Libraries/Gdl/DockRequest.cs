@@ -23,6 +23,10 @@ namespace Gdl
 			this.extra = copy.Extra;
 		}
 		
+		public DockRequest ()
+		{
+		}
+		
 		public DockObject Applicant {
 			get { return applicant; }
 			set { applicant = value; }
