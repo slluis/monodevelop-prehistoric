@@ -40,21 +40,20 @@ namespace ICSharpCode.SharpDevelop.Commands.ProjectBrowser
 				IProject project = ((ProjectBrowserNode)node.Parent).Project;
 				IParserService parserService = (IParserService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(IParserService));
 				
-				using (SelectReferenceDialog selDialog = new SelectReferenceDialog(project)) {
-					if (selDialog.ShowDialog() == DialogResult.OK) {
+				SelectReferenceDialog selDialog = new SelectReferenceDialog(project);
+				if (selDialog.Run() == (int)Gtk.ResponseType.Ok) {
 						
-						foreach (ProjectReference refInfo in selDialog.ReferenceInformations) {
-							project.ProjectReferences.Add(refInfo);
-							parserService.AddReferenceToCompletionLookup(project, refInfo);
-						}
-						
-						DefaultDotNetNodeBuilder.InitializeReferences(node, project);
-						IProjectService projectService = (IProjectService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
-						projectService.SaveCombine();
+					foreach (ProjectReference refInfo in selDialog.ReferenceInformations) {
+						project.ProjectReferences.Add(refInfo);
+						parserService.AddReferenceToCompletionLookup(project, refInfo);
 					}
+					
+					DefaultDotNetNodeBuilder.InitializeReferences(node, project);
+					IProjectService projectService = (IProjectService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
+					projectService.SaveCombine();
 				}
-				node.Expand();
 			}
+			node.Expand();
 		}
 	}
 	

@@ -10,11 +10,11 @@ using System.Drawing;
 using System.Collections;
 using System.Diagnostics;
 using System.ComponentModel;
-using System.Windows.Forms;
 
 using ICSharpCode.SharpDevelop.Internal.Project;
 using ICSharpCode.Core.Services;
 
+using Gtk;
 
 namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 {
@@ -26,8 +26,9 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 	/// <summary>
 	/// Summary description for Form2.
 	/// </summary>
-	public class SelectReferenceDialog : System.Windows.Forms.Form
+	public class SelectReferenceDialog
 	{
+#if false
 		private System.Windows.Forms.ListView referencesListView;
 		private System.Windows.Forms.Button selectButton;
 		private System.Windows.Forms.Button removeButton;
@@ -47,40 +48,71 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 		/// Required designer variable.
 		/// </summary>
 		private System.ComponentModel.Container components = null;
+#endif
+
+		               Gtk.TreeStore refTreeStore;
+		[Glade.Widget] Gtk.Dialog    AddReferenceDialog;
+		[Glade.Widget] Gtk.TreeView  ReferencesTreeView;
+		[Glade.Widget] Gtk.Button    okbutton;
+		[Glade.Widget] Gtk.Button    cancelbutton;
+		[Glade.Widget] Gtk.Button    RemoveReferencesButton;
+		[Glade.Widget] Gtk.Notebook  mainBook;
+
 		ResourceService resourceService = (ResourceService)ServiceManager.Services.GetService(typeof(IResourceService));
 		IProject configureProject;
 		
 		public ArrayList ReferenceInformations {
 			get {
 				ArrayList referenceInformations = new ArrayList();
-				foreach (ListViewItem item in referencesListView.Items) {
-					Debug.Assert(item.Tag != null);
-					referenceInformations.Add(item.Tag);
-				}
+				Gtk.TreeIter looping_iter;
+				refTreeStore.GetIterFirst (out looping_iter);
+				do {
+					//Debug.Assert(item.Tag != null);
+					referenceInformations.Add(refTreeStore.GetValue(looping_iter, 3));
+				} while (refTreeStore.IterNext (out looping_iter));
 				return referenceInformations;
 			}
+		}
+
+		public int Run ()
+		{
+			return AddReferenceDialog.Run ();
 		}
 		
 		public SelectReferenceDialog(IProject configureProject)
 		{
 			this.configureProject = configureProject;
 			
-			InitializeComponent();
+			Glade.XML refXML = new Glade.XML (null, "Base.glade", "AddReferenceDialog", null);
+			refXML.Autoconnect (this);
 			
-			gacTabPage.Controls.Add(new GacReferencePanel(this));
-			projectTabPage.Controls.Add(new ProjectReferencePanel(this));
-			browserTabPage.Controls.Add(new AssemblyReferencePanel(this));
+			AddReferenceDialog.Title = resourceService.GetString("Dialog.SelectReferenceDialog.DialogName");
 			
-			comTabPage.Controls.Add(new COMReferencePanel(this));
+			refTreeStore = new Gtk.TreeStore (typeof (string), typeof(string), typeof(string), typeof(ProjectReference));
+			ReferencesTreeView.Model = refTreeStore;
+
+			ReferencesTreeView.AppendColumn (resourceService.GetString("Dialog.SelectReferenceDialog.ReferenceHeader"), new CellRendererText (), "text", 0);
+			ReferencesTreeView.AppendColumn (resourceService.GetString ("Dialog.SelectReferenceDialog.TypeHeader"), new CellRendererText (), "text", 1);
+			ReferencesTreeView.AppendColumn (resourceService.GetString ("Dialog.SelectReferenceDialog.LocationHeader"), new CellRendererText (), "text", 2);
+			
+			//InitializeComponent();
+			
+			//gacTabPage.Controls.Add(new GacReferencePanel(this));
+			//projectTabPage.Controls.Add(new ProjectReferencePanel(this));
+			//browserTabPage.Controls.Add(new AssemblyReferencePanel(this));
+			
+			//comTabPage.Controls.Add(new COMReferencePanel(this));
 		}
 		
 		public void AddReference(ReferenceType referenceType, string referenceName, string referenceLocation)
 		{
-			foreach (ListViewItem item in referencesListView.Items) {
-				if (referenceLocation == item.SubItems[2].Text && referenceName == item.Text ) {
+			Gtk.TreeIter looping_iter;
+			refTreeStore.GetIterFirst (out looping_iter);
+			do {
+				if (referenceLocation == (string)refTreeStore.GetValue (looping_iter, 2) && referenceName == (string)refTreeStore.GetValue (looping_iter, 0)) {
 					return;
 				}
-			}
+			} while (refTreeStore.IterNext (out looping_iter));
 			
 			foreach (ProjectReference refInfo in configureProject.ProjectReferences) {
 				if (refInfo.ReferenceType == referenceType) {
@@ -103,42 +135,42 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 					}
 				}
 			}
-			ListViewItem newItem = new ListViewItem(new string[] {referenceName, referenceType.ToString(), referenceLocation});
+			ProjectReference tag;
 			switch (referenceType) {
 				case ReferenceType.Typelib:
-					newItem.Tag = new ProjectReference(referenceType, referenceName + "|" + referenceLocation);
+					tag = new ProjectReference(referenceType, referenceName + "|" + referenceLocation);
 					break;
 				case ReferenceType.Project:
-					newItem.Tag = new ProjectReference(referenceType, referenceName);
+					tag = new ProjectReference(referenceType, referenceName);
 					break;
 				default:
-					newItem.Tag = new ProjectReference(referenceType, referenceLocation);
+					tag = new ProjectReference(referenceType, referenceLocation);
 					break;
 					
 			}
-			
-			referencesListView.Items.Add(newItem);
+			refTreeStore.AppendValues (referenceName, referenceType.ToString (), referenceLocation, tag);
 		}
 		
 		void SelectReference(object sender, EventArgs e)
 		{
-			IReferencePanel refPanel = (IReferencePanel)referenceTabControl.SelectedTab.Controls[0];
-			refPanel.AddReference(null, null);
+			//IReferencePanel refPanel = (IReferencePanel)referenceTabControl.SelectedTab.Controls[0];
+			//refPanel.AddReference(null, null);
 		}
 		
 		void RemoveReference(object sender, EventArgs e)
 		{
-			ArrayList itemsToDelete = new ArrayList();
+			//ArrayList itemsToDelete = new ArrayList();
 			
-			foreach (ListViewItem item in referencesListView.SelectedItems) {
-				itemsToDelete.Add(item);
-			}
-			
-			foreach (ListViewItem item in itemsToDelete) {
-				referencesListView.Items.Remove(item);
-			}
+			//foreach (ListViewItem item in referencesListView.SelectedItems) {
+			//	itemsToDelete.Add(item);
+			//}
+			//
+			//foreach (ListViewItem item in itemsToDelete) {
+			//	referencesListView.Items.Remove(item);
+			//}
 		}
-		
+
+#if false
 		/// <summary>
 		/// Clean up any resources being used.
 		/// </summary>
@@ -318,5 +350,6 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 			this.referenceTabControl.ResumeLayout(false);
 			this.ResumeLayout(false);
 		}
+#endif
 	}
 }

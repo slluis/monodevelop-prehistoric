@@ -6,11 +6,11 @@
 // </file>
 
 using System;
-using System.Windows.Forms;
+//using System.Windows.Forms;
 
 namespace ICSharpCode.SharpDevelop.Gui.ErrorDialogs
 {
-	public class LoadingError : System.Windows.Forms.Form 
+/*	public class LoadingError : System.Windows.Forms.Form 
 	{
 		private System.ComponentModel.Container components;
 		private System.Windows.Forms.Button button1;
@@ -82,5 +82,5 @@ namespace ICSharpCode.SharpDevelop.Gui.ErrorDialogs
 			this.Controls.Add(label3);
 			this.Controls.Add(label1);
 		}
-	}
+	}*/
 }
