@@ -19,8 +19,8 @@ namespace MonoDevelop
 	}
 	public delegate void ButtonHandler(ExceptionDialog eb, DialogResult dr);
 	
-	public class ExceptionDialog:Gtk.Window {
-	
+	public class ExceptionDialog : Gtk.Window
+	{
 		private Gtk.Fixed fixedcontainer;
 		private Gtk.Button continueButton;
 		private Gtk.Button ignoreButton;
@@ -33,14 +33,8 @@ namespace MonoDevelop
 		private Gtk.Image image;
 		private Exception exceptionThrown;
 		private ButtonHandler buttonhandler;
-		static GLib.GType type;
 
-
-		static ExceptionDialog() {
-			type = RegisterGType(typeof(ExceptionDialog));
-		}
-
-		public ExceptionDialog(Exception e):base(type)
+		public ExceptionDialog (Exception e) : base ("Exception raised error")
 		{
 				this.exceptionThrown = e;
 				InitializeComponent();
@@ -193,7 +187,6 @@ namespace MonoDevelop
 			//
 			// this
 			//
-			this.Title = "Exception raised error";
 			this.Resizable = false;
 			this.WindowPosition = Gtk.WindowPosition.Center;
 			this.Add(fixedcontainer);

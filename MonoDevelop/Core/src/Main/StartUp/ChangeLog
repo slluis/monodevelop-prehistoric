@@ -1,3 +1,9 @@
+2004-12-03  John Luke  <john.luke@gmail.com>
+
+	* Dialogs/ExceptionDialog.cs: remove obsolete gtype stuff
+	* MonoDevelopMain.cs: comment out unused code
+	* Makefile.am: remove ExceptionDialog from build
+
 2004-09-18  Todd Berman  <tberman@off.net>
 
 	* MonoDevelopMain.cs: Check if Build and Revision are not 0, and if

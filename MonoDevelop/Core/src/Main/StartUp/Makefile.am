@@ -4,7 +4,6 @@ FILES= \
 MonoDevelopMain.cs \
 MonoDevelopOptions.cs \
 Dialogs/AddInTreeSettingsHandler.cs \
-Dialogs/ExceptionBox.cs \
 AssemblyInfo.cs
 
 build_sources = $(addprefix $(srcdir)/, $(FILES))

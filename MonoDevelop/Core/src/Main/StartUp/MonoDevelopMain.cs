@@ -41,6 +41,8 @@ namespace MonoDevelop
 			}
 		}
 
+/* unused code
+
 		static void ShowErrorBox(object sender, ThreadExceptionEventArgs eargs)
 		{
 			ExceptionDialog ed;
@@ -53,6 +55,7 @@ namespace MonoDevelop
 		static void DialogResultHandler(ExceptionDialog ed, DialogResult dr) {
 			ed.Destroy();			
 		}
+*/
 
 		/// <summary>
 		/// Starts the core of MonoDevelop.
