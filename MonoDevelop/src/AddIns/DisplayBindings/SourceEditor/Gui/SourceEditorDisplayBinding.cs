@@ -226,9 +226,15 @@ namespace MonoDevelop.SourceEditor.Gui
 		}
 		
 		string cachedText;
+		GLib.IdleHandler bouncingDelegate;
+		
 		public string Text {
 			get {
-				GLib.Idle.Add (new GLib.IdleHandler (BounceAndGrab));
+				if (bouncingDelegate == null)
+					bouncingDelegate = new GLib.IdleHandler (BounceAndGrab);
+				if (needsUpdate) {
+					GLib.Idle.Add (bouncingDelegate);
+				}
 				return cachedText;
 			}
 			set { se.Buffer.Text = value; }
@@ -239,6 +245,7 @@ namespace MonoDevelop.SourceEditor.Gui
 		{
 			if (needsUpdate) {
 				cachedText = se.Buffer.Text;
+				needsUpdate = false;
 			}
 			return false;
 		}
@@ -261,7 +268,6 @@ namespace MonoDevelop.SourceEditor.Gui
 		{
 			// 99% of the time, this is the insertion point
 			UpdateLineCol ();
-			needsUpdate = true;
 		}
 		
 		void OnChanged (object o, EventArgs e)
