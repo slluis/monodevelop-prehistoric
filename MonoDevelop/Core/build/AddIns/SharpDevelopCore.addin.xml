@@ -466,7 +466,7 @@
 			             class = "MonoDevelop.Commands.CreateNewFile"/>
 			<ToolbarItem id = "Open" 
 			             icon = "Icons.16x16.OpenFileIcon" 
-			             _tooltip = "Open FIle"
+			             _tooltip = "Open File"
 			             class = "MonoDevelop.Commands.OpenFile"/>
 			<Conditional activewindow="*" action="Disable">
 				<ToolbarItem id = "Save" 
