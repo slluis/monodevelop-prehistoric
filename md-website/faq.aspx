@@ -71,6 +71,19 @@ you have installed:</p>
 of that package and rerun ./configure.
 </p>
 </div>
+<br />
+<div class="faq">
+  <div class="question">
+    MonoDevelop doesn't work right with my window manager. Why?
+  </div>
+  <p>MonoDevelop has been primarily tested on GNOME with the Metacity
+  window manager.  It also appears to work with KDE and XFCE default window
+  managers.  Currently MonoDevelop is expected to work with any window manager
+  that is compliant with <a href="http://freedesktop.org/Standards/wm-spec">EWMH spec</a>.  If your window manager is not, or you are experiencing problems
+  please follow it up on <a href="http://bugzilla.ximian.com/show_bug.cgi?id=60455">http://bugzilla.ximian.com/show_bug.cgi?id=60455</a> with as much detail as
+  possible. Two crucial pieces of info would be: does any other GTK application
+  also have this problem and does any other Gtk# application have this problem.
+</div>
 <br/>
 <div class="headlinebar">Known Issues</div>
 
