@@ -107,7 +107,7 @@ $(DLL) : $(build_sources) $(srcdir)/EditorBindings.glade $(srcdir)/texteditoradd
 assemblydir = $(libdir)/monodevelop/bin
 assembly_DATA = $(DLL) $(DLL).config
 
-addindir = $(libdir)/monodevelop/AddIn
+addindir = $(libdir)/monodevelop/AddIns
 addin_DATA = $(ADDIN)
 
 CLEANFILES = $(DLL) $(DLL).mdb
