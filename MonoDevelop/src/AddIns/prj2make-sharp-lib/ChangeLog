@@ -1,3 +1,8 @@
+2004-05-31  Francisco "Paco" Martinez <paco@mfcon.com>
+
+	* src/Addin/prj2make-sharp-lib/MsPrjHelper.cs: corrects problems with
+	the import of items flag as content so it will not try to build those
+
 2004-05-17  Todd Berman  <tberman@sevenl.net>
 
 	* prj2make-sharp-lib-Commands.cs: use HOME instead of Personal
