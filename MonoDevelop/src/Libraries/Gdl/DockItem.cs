@@ -352,8 +352,7 @@ namespace Gdl
 			Style = Style.Attach (GdkWindow);
 			Style.SetBackground (GdkWindow, State);
 			
-			// FIXME: Throws NullReferenceException.
-			//GdkWindow.SetBackPixmap (null, true);
+			GdkWindow.SetBackPixmap (null, true);
 			
 			if (Child != null)
 				Child.ParentWindow = GdkWindow;
