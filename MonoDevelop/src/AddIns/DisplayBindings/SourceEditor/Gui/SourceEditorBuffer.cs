@@ -408,7 +408,7 @@ namespace MonoDevelop.SourceEditor.Gui
 				IntPtr data = gtksharp_slist_get_data (current);
 				IntPtr nm = gtk_source_marker_get_marker_type (data);
 
-				string name = GLibSharp.Marshaller.PtrToStringGFree (nm);
+				string name = GLib.Marshaller.PtrToStringGFree (nm);
 				if (name == type.ToString ()) {
 					fnd_marker = true;
 					break;
@@ -453,7 +453,7 @@ namespace MonoDevelop.SourceEditor.Gui
 				
 				IntPtr data = gtksharp_slist_get_data (current);
 				IntPtr nm = gtk_source_marker_get_marker_type (data);
-				string name = GLibSharp.Marshaller.PtrToStringGFree (nm);
+				string name = GLib.Marshaller.PtrToStringGFree (nm);
 				if (name == type.ToString ()) {
 					gtk_source_buffer_delete_marker (Handle, data);
 					found_marker = true;
@@ -507,7 +507,7 @@ namespace MonoDevelop.SourceEditor.Gui
 					return;
 				
 				IntPtr nm = gtk_source_marker_get_marker_type (prevMarker);
-				string name = GLibSharp.Marshaller.PtrToStringGFree (nm);
+				string name = GLib.Marshaller.PtrToStringGFree (nm);
 				if (name == "SourceEditorBookmark") {
 					gtk_source_buffer_get_iter_at_marker (Handle, ref loc, prevMarker);
 					
@@ -550,7 +550,7 @@ namespace MonoDevelop.SourceEditor.Gui
 					return;
 				
 				IntPtr nm = gtk_source_marker_get_marker_type (nextMarker);
-				string name = GLibSharp.Marshaller.PtrToStringGFree (nm);
+				string name = GLib.Marshaller.PtrToStringGFree (nm);
 				if (name == "SourceEditorBookmark") {
 					gtk_source_buffer_get_iter_at_marker (Handle, ref loc, nextMarker);
 					
@@ -582,7 +582,7 @@ namespace MonoDevelop.SourceEditor.Gui
 				
 				IntPtr data = gtksharp_slist_get_data (current);
 				IntPtr nm = gtk_source_marker_get_marker_type (data);
-				string name = GLibSharp.Marshaller.PtrToStringGFree (nm);
+				string name = GLib.Marshaller.PtrToStringGFree (nm);
 				if (name == type.ToString ())
 					gtk_source_buffer_delete_marker (Handle, data);
 				
