@@ -10,7 +10,7 @@ Here is the short list of features to finish before the preview release
 ~ Figure out why the code completion works on unsaved files to a point, and
   what exactly #D does with unsaved files (need someone with windows to play
   around)
-~ Fix HtmlControl cause its busted
+~ Finish HtmlControl
 ~ Why the hell is new file showing up as Ctrl+O?!?
 ~ Revert back to the old popup mechanism (immediate) and have an option
   'autopopup on/off' to control if it comes up or requires a ctrl+space to popup
