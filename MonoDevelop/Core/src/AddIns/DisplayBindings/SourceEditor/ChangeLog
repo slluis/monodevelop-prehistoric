@@ -1,5 +1,11 @@
 2005-01-11  Lluis Sanchez Gual  <lluis@novell.com>
 
+	* Gui/SourceEditorDisplayBinding.cs: Use a different method for detecting
+	that a file change event is the result of a save operation (the current
+	doesn't work if the that event is delayed).
+
+2005-01-11  Lluis Sanchez Gual  <lluis@novell.com>
+
 	* Gui/Dialogs/ExportProjectToHtmlDialog.cs:
 	* InsightWindow/MethodInsightDataProvider.cs:
 	* InsightWindow/InsightWindow.cs:

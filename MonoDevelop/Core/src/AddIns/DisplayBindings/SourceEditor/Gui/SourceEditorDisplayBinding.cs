@@ -100,12 +100,16 @@ namespace MonoDevelop.SourceEditor.Gui
 	
 		internal SourceEditor se;
 
+		object fileSaveLock = new object ();
+		DateTime lastSaveTime;
+		
 		void UpdateFSW (object o, EventArgs e)
 		{
 			if (ContentName == null || ContentName.Length == 0)
 				return;
 
 			fsw.EnableRaisingEvents = false;
+			lastSaveTime = File.GetLastWriteTime (ContentName);
 			fsw.Path = Path.GetDirectoryName (ContentName);
 			fsw.Filter = Path.GetFileName (ContentName);
 			fsw.EnableRaisingEvents = true;
@@ -113,8 +117,10 @@ namespace MonoDevelop.SourceEditor.Gui
 
 		private void OnFileChanged (object o, FileSystemEventArgs e)
 		{
-			if (isSaving)
-				return;
+			lock (fileSaveLock) {
+				if (lastSaveTime == File.GetLastWriteTime (ContentName))
+					return;
+			}
 			DispatchService dispatcher = (DispatchService)ServiceManager.GetService (typeof (DispatchService));
 			dispatcher.GuiDispatch (new StatefulMessageHandler (realFileChanged), e);
 		}
@@ -239,23 +245,21 @@ namespace MonoDevelop.SourceEditor.Gui
 			}
 		}
 		
-		bool isSaving = false;
 		public override void Save (string fileName)
 		{
-			isSaving = true;
-			se.Buffer.Save (fileName);
+			lock (fileSaveLock) {
+				se.Buffer.Save (fileName);
+				lastSaveTime = File.GetLastWriteTime (fileName);
+			}
 			ContentName = fileName;
 			InitializeFormatter ();
-			isSaving = false;
 		}
 		
 		public override void Load (string fileName)
 		{
-			isSaving = true;
 			se.Buffer.LoadFile (fileName, Vfs.GetMimeType (fileName));
 			ContentName = fileName;
 			InitializeFormatter ();
-			isSaving = false;
 		}
 		
 		public void InitializeFormatter()
