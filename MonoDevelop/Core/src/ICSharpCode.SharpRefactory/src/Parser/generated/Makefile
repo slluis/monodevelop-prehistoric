@@ -1,4 +1,7 @@
 
+SHARPCOCO = mono ../../../../Tools/SharpCoco/SharpCoco.exe
+
 all:
-	mono SharpCoco.exe -namespace ICSharpCode.SharpRefactory.Parser cs.ATG
+	$(SHARPCOCO) -namespace ICSharpCode.SharpRefactory.Parser cs.ATG
 	rm -f Parser.old.cs
+
