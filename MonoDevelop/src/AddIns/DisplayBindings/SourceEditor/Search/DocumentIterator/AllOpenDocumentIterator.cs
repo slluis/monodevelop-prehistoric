@@ -11,6 +11,8 @@ using System.Collections;
 using ICSharpCode.SharpDevelop.Gui;
 using ICSharpCode.TextEditor;
 
+using MonoDevelop.SourceEditor.Gui;
+
 namespace ICSharpCode.TextEditor.Document
 {
 	public class AllOpenDocumentIterator : IDocumentIterator
@@ -42,10 +44,9 @@ namespace ICSharpCode.TextEditor.Document
 				if (!SearchReplaceUtilities.IsTextAreaSelected) {
 					return null;
 				}
-				//IDocument document = (((ITextEditorControlProvider)WorkbenchSingleton.Workbench.ActiveWorkbenchWindow.ViewContent).TextEditorControl).Document;
-				//return new ProvidedDocumentInformation(document,
-				//                                       CurrentFileName);
-				return null;
+				SourceEditor document = (SourceEditor) (((SourceEditorDisplayBindingWrapper)WorkbenchSingleton.Workbench.ActiveWorkbenchWindow.ViewContent).Control);
+				return new ProvidedDocumentInformation(document,
+				                                       CurrentFileName);
 			}
 		}
 		
