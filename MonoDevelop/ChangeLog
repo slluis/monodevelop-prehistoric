@@ -1,3 +1,7 @@
+2004-04-25  Atsushi Enomoto  <atsushi@ximian.com>
+
+	* configure.in: ja_JP.po support.
+
 2004-04-19  Todd Berman  <tberman@sevenl.net>
 
 	* configure.in: bump the monodoc dep to 0.13.99
