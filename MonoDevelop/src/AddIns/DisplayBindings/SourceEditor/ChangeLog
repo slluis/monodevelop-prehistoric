@@ -1,5 +1,10 @@
 2004-03-25  Todd Berman  <tberman@sevenl.net>
 
+	* CodeCompletion/CompletionWindow.cs: fix bug that didnt allow you to
+	enter shift+p or shift+n.
+
+2004-03-25  Todd Berman  <tberman@sevenl.net>
+
 	* CodeCompletion/CompletionWindow.cs: fix bug where the first item
 	in the list was never being touched due to a for loop miscue.
 

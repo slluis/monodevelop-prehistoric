@@ -47,22 +47,39 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 
 		protected override bool OnKeyPressEvent (Gdk.EventKey e)
 		{
-			switch ((char)e.Key) {
-			case '.':
-			case ' ':
-			case ';':
-			case '(':
-			case '[':
-				control.SimulateKeyPress (ref e);
-				LostFocusListView (null, null);
-				return true;
-			case (char) Gdk.Key.BackSpace:
-				control.SimulateKeyPress (ref e);
-				insertLength--;
-				if (insertLength == -1) {
+			uint state = (uint)e.State;
+			state &= 1101u;
+
+			switch (state) {
+			case 0: //NORMAL
+				switch ((char)e.Key) {
+				case '.':
+				case ' ':
+				case ';':
+				case '(':
+				case '[':
+					control.SimulateKeyPress (ref e);
 					LostFocusListView (null, null);
+					return true;
+				case (char) Gdk.Key.BackSpace:
+					control.SimulateKeyPress (ref e);
+					insertLength--;
+					if (insertLength == -1) {
+						LostFocusListView (null, null);
+					}
+					return true;
 				}
-				return true;
+				break;
+			case 1: //SHIFT
+				switch ((char)e.Key) {
+				case 'P':
+				case 'N':
+					KeyPressEventArgs fake_args = new KeyPressEventArgs ();
+					fake_args.Args = new object[] { e };
+					ListKeypressEvent (null, fake_args);
+					return true;
+				}
+				break;
 			}
 			return base.OnKeyPressEvent (e);
 		}
@@ -84,7 +101,7 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 					LostFocusListView (null, null);
 					ex.RetVal = true;
 					return;
-					
+
 				default:
 					if (val != '_' && !Char.IsLetterOrDigit (val)) {
 						if (listView.Selection.CountSelectedRows () > 0) {
