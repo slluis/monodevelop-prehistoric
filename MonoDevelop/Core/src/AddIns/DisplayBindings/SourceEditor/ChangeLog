@@ -1,3 +1,10 @@
+2004-07-05  John Luke  <jluke@cfl.rr.com>
+
+	* Gui/SourceEditorDisplayBinding.cs:
+	* Gui/SourceEditorView.cs: remove pinvokes where possible
+	anything that needs to be done in unmanaged code needs to go
+	to gtksourceview-sharp, except g_utf8_validate for now
+
 2004-07-01  Todd Berman  <tberman@off.net>
 
 	* CodeCompletion/CompletionWindow.cs: Fix bug #61020, by marking the

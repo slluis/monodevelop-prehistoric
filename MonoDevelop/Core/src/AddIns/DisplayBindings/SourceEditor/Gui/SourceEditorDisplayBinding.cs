@@ -323,10 +323,6 @@ namespace MonoDevelop.SourceEditor.Gui
 			needsUpdate = true;
 		}
 		
-		// WORKAROUND until we get this method returning char in gtk#
-		[DllImport("libgtk-win32-2.0-0.dll")]
-		static extern char gtk_text_iter_get_char (ref Gtk.TextIter raw);
-		
 		void UpdateLineCol ()
 		{
 			int col = 1; // first char == 1
@@ -339,8 +335,9 @@ namespace MonoDevelop.SourceEditor.Gui
 			
 			iter.LineOffset = 0;
 			
-			while (! iter.Equal (start)) {
-				char c = gtk_text_iter_get_char (ref iter);
+			while (!iter.Equal (start))
+			{
+				char c = iter.Char.ToCharArray ()[0];
 				
 				if (c == '\t')
 					col += (tab_size - (col % tab_size));

@@ -458,17 +458,13 @@ namespace MonoDevelop.SourceEditor.Gui
 			}
 		}
 		
-		// WORKAROUND until we get this method returning char in gtk#
-		[DllImport("libgtk-win32-2.0-0.dll")]
-		static extern char gtk_text_iter_get_char (ref Gtk.TextIter raw);
-		
 		void UnIndentLines (int y0, int y1)
 		{
 			for (int l = y0; l <= y1; l ++) {
 				TextIter start = Buffer.GetIterAtLine (l);
 				TextIter end = start;
 				
-				char c = gtk_text_iter_get_char (ref end);
+				char c = start.Char.ToCharArray ()[0];
 				
 				if (c == '\t') {
 					end.ForwardChar ();
@@ -478,7 +474,7 @@ namespace MonoDevelop.SourceEditor.Gui
 					int cnt = 0;
 					int max = (int) TabsWidth;
 					
-					while (cnt <= max && gtk_text_iter_get_char (ref end) == ' ' && ! end.EndsLine ()) {
+					while (cnt <= max && end.Char.ToCharArray ()[0] == ' ' && ! end.EndsLine ()) {
 						cnt ++;
 						end.ForwardChar ();
 					}
@@ -520,17 +516,13 @@ namespace MonoDevelop.SourceEditor.Gui
 			Buffer.EndUserAction ();
 		}
 		
-		// Need the ref here
-		[DllImport("libgtk-x11-2.0.so.0")]
-		static extern void gtk_text_buffer_delete (IntPtr raw, ref Gtk.TextIter start, ref Gtk.TextIter end);
-		
 		void IFormattableDocument.ReplaceLine (int ln, string txt)
 		{
 			TextIter begin = Buffer.GetIterAtLine (ln);
 			TextIter end = begin;
 			end.ForwardToLineEnd ();
 			
-			gtk_text_buffer_delete (Buffer.Handle, ref begin, ref end);
+			Buffer.Delete (begin, end);
 			Buffer.Insert (begin, txt);
 		}
 		
@@ -553,7 +545,7 @@ namespace MonoDevelop.SourceEditor.Gui
 		char IFormattableDocument.GetCharAt (int offset)
 		{
 			TextIter it = Buffer.GetIterAtOffset (offset);
-			return gtk_text_iter_get_char (ref it);
+			return it.Char.ToCharArray ()[0];
 		}
 		
 		void IFormattableDocument.Insert (int offset, string text)
