@@ -25,10 +25,19 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 		public string DescriptionMarkup
 		{
 			get {
-				return headlabel.Text + "\n" + bodylabel.Text;
+			 	if (bodylabel.Text == "")
+					return headlabel.Text;
+				else
+					return headlabel.Text + "\n" + bodylabel.Text;
 			}
 			
 			set {
+				if (value == null) {
+					headlabel.Markup = "";
+					bodylabel.Markup = "";
+					return;
+				}
+
 				string[] parts = value.Split (newline, 2);
 				headlabel.Markup = parts[0].Trim (whitespace);
 				bodylabel.Markup = (parts.Length == 2 ? parts[1].Trim (whitespace) : String.Empty);
