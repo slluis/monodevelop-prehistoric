@@ -358,7 +358,8 @@
 		</Conditional>
                 <MenuItem id = "SaveAs"
 	                  label = "${res:OpenFileTabEventHandler.ContextMenu.SaveAs}" 
-	                  class = "ICSharpCode.SharpDevelop.Commands.TabStrip.SaveFileAsTab"/>
+	                  icon  = "Icons.16x16.SaveAsIcon"
+			  class = "ICSharpCode.SharpDevelop.Commands.TabStrip.SaveFileAsTab"/>
 
 		<MenuItem id = "SaveSeparator" label = "-" />
                 <Conditional action="Disable">
@@ -584,7 +585,8 @@
 		                          shortcut = "Control|S"
 		                          class = "ICSharpCode.SharpDevelop.Commands.SaveFile"/>
 		                <MenuItem id = "SaveAs"
-		                          label = "${res:XML.MainMenu.FileMenu.SaveAs}" 
+		                          label = "${res:XML.MainMenu.FileMenu.SaveAs}"
+					  icon = "Icons.16x16.SaveAsIcon"
 		                          description = "${res:XML.MainMenu.FileMenu.SaveAs.Description}"
 		                          class = "ICSharpCode.SharpDevelop.Commands.SaveFileAs"/>
 		                <MenuItem id = "SaveAll"

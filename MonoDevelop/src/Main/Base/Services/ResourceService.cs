@@ -46,6 +46,7 @@ namespace ICSharpCode.Core.Services
 		{
 			PropertyService propertyService = (PropertyService)ServiceManager.Services.GetService(typeof(PropertyService));
 			resourceDirctory = propertyService.DataDirectory + Path.DirectorySeparatorChar + "resources";
+			CreateStockMapping ();
 		}
 		
 		Hashtable userStrings = null;
@@ -56,7 +57,21 @@ namespace ICSharpCode.Core.Services
 		
 		Hashtable localStrings = null;
 		Hashtable localIcons   = null;
-		
+
+		static Hashtable stockMappings = null;
+
+		static void CreateStockMapping ()
+		{
+			stockMappings = new Hashtable ();
+			stockMappings["Icons.16x16.DeleteIcon"] = Gtk.Stock.Delete;
+			stockMappings["Icons.16x16.OpenFile"] = Gtk.Stock.Open;
+			stockMappings["Icons.16x16.SaveIcon"] = Gtk.Stock.Save;
+			stockMappings["Icons.16x16.SaveAsIcon"] = Gtk.Stock.SaveAs;
+			stockMappings["Icons.16x16.PasteIcon"] = Gtk.Stock.Paste;
+			stockMappings["Icons.16x16.CopyIcon"] = Gtk.Stock.Copy;
+			stockMappings["Icons.16x16.CutIcon"] = Gtk.Stock.Cut;
+		}
+
 		void ChangeProperty(object sender, PropertyEventArgs e)
 		{
 			if (e.Key == uiLanguageProperty && e.OldValue != e.NewValue) {
@@ -261,8 +276,6 @@ namespace ICSharpCode.Core.Services
 			}
 */			
 			Gdk.Pixbuf b = new Gdk.Pixbuf("../data/resources/icons/" + name);
-			Debug.Assert(b != null, "Resource " + name);
-			
 			return b;
 			
 		}
@@ -291,9 +304,16 @@ namespace ICSharpCode.Core.Services
 			Gdk.Pixbuf b = (Gdk.Pixbuf)icon.GetObject(name);
 			*/
 			Gdk.Pixbuf b = new Gdk.Pixbuf("../data/resources/icons/" + name);
-			Debug.Assert(b != null, "Resource " + name);
 			
 			return b;
+		}
+
+		public Gtk.Image GetImage (string name, Gtk.IconSize size)
+		{
+			string stock = (string)stockMappings[name];
+			if (stock != null)
+				return new Gtk.Image (stock, size);
+			return new Gtk.Image (GetBitmap (name));
 		}
 	}
 }

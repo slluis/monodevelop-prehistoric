@@ -138,7 +138,7 @@ namespace ICSharpCode.Core.AddIns.Codons
 			
 			if (Icon != null && newItem is SdMenuCommand) {
 				ResourceService resourceService = (ResourceService)ServiceManager.Services.GetService(typeof(IResourceService));
-				((SdMenuCommand)newItem).Image = new Gtk.Image(resourceService.GetBitmap(Icon));
+				((SdMenuCommand)newItem).Image = resourceService.GetImage(Icon, Gtk.IconSize.Menu);
 			}
 			
 			if (newItem is SdMenuCommand) {
