@@ -18,7 +18,7 @@ make clean && make && ./monodevelop
 
 Dependencies
 ------------
-You need Mono and Gtk# cvs, and ORBit2-2.8.3 or newer
+You need Mono >=0.30 and Gtk# cvs, and ORBit2-2.8.3 or newer
 
 Mono must be installed with ICU enabled.
 
@@ -34,4 +34,6 @@ You can find a copy of the HIG at http://developer.gnome.org/projects/gup/hig/1.
 Discussion, Bugs, Patches
 -------------------------
 monodevelop-list@lists.ximian.com (questions and discussion)
-http://bugzilla.ximian.com (bugs and patches)
+monodevelop-patches-list@lists.ximian.com (track commits to MonoDevelop)
+monodevelop-bugs@lists.ximian.com (track MonoDevelop bugzilla component)
+http://bugzilla.ximian.com (submit bugs and patches here)
