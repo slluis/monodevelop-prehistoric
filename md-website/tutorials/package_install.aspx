@@ -32,15 +32,15 @@ make install
       </p>
 
       <br /><br />
-      <b>1. GtkSourceView 0.7+</b>
-      <p>You may download a binary package for your distribution if it provides version 0.7 or higher. 
+      <b>1. GtkSourceView 1.0+</b>
+      <p>You may download a binary package for your distribution if it provides version 1.0 or higher. On computers without gtk+ 2.4, you will need to download and install 1.0.1
 Otherwise, download the 
-<a href="http://ftp.acc.umu.se/pub/gnome/sources/gtksourceview/0.7/gtksourceview-0.7.0.tar.gz">official 
+<a href="http://ftp.acc.umu.se/pub/gnome/sources/gtksourceview/1.0/gtksourceview-1.0.0.tar.gz">official 
 tarball (0.7)</a>. 
 The `<tt>./configure</tt>' line is a little more involved than usual. Use the example below:
 <pre class="code">
-tar -xzf gtksourceview-0.7.0.tar.gz
-cd gtksourceview-0.7.0
+tar -xzf gtksourceview-1.0.0.tar.gz
+cd gtksourceview-1.0.0
 ./configure --prefix=`pkg-config --variable=prefix ORBit-2.0`
 make
 make install
@@ -65,11 +65,11 @@ the Mozilla development package for your OS. For example:
       <p>MonoDevelop will require the following mono packages to be installed, in this order:
       <ul>
 <li><a href="ftp://www-126.ibm.com/pub/icu/2.6/icu-2.6.tgz">International Components for Unicode 2.6 or greater</a></li>
-<li><a href="http://www.go-mono.com/archive/beta2/mono-0.95.tar.gz">mono 0.95</a></li>
-<li><a href="http://www.go-mono.com/archive/beta2/gtk-sharp-0.93.tar.gz">gtk-sharp 0.93</a></li>
-<li><a href="http://www.go-mono.com/archive/beta2/monodoc-0.16.tar.gz">monodoc 0.16</a></li>
-<li><a href="http://www.go-mono.com/archive/beta2/gtksourceview-sharp-0.3.tar.gz">gtksourceview-sharp 0.3</a></li>
-<li><a href="http://www.go-mono.com/archive/beta2/gecko-sharp-0.4.tar.gz">gecko-sharp 0.4</a></li>
+<li><a href="http://www.go-mono.com/archive/1.0/mono-1.0.tar.gz">mono 1.0</a></li>
+<li><a href="http://www.go-mono.com/archive/1.0/gtk-sharp-1.0.tar.gz">gtk-sharp 1.0</a></li>
+<li><a href="http://www.go-mono.com/archive/1.0/monodoc-1.0.tar.gz">monodoc 1.0</a></li>
+<li><a href="http://www.go-mono.com/archive/1.0/gtksourceview-sharp-0.5.tar.gz">gtksourceview-sharp 0.5</a></li>
+<li><a href="http://www.go-mono.com/archive/1.0/gecko-sharp-0.5.tar.gz">gecko-sharp 0.5</a></li>
       </ul></p>
       <p>When building from the source provided above, always use a prefix of `<tt>/usr</tt>'.</p>
       <p>Some packages are also available as prebuild binary packages (RPMs and DEBs). 
@@ -91,12 +91,12 @@ for RedHat, Fedora, Suse, and Debian. They are also available through Ximian's
       <br /><br /><br />
       <div class="headlinebar">Installing MonoDevelop</div>      
       <p>The final step in this process is to build MonoDevelop itself. Download the 
-<a href="http://www.go-mono.com/archive/beta2/monodevelop-0.4.tar.gz">MonoDevelop 0.4</a> package.</p>
+<a href="http://www.go-mono.com/archive/1.0/monodevelop-0.5.tar.gz">MonoDevelop 0.5</a> package.</p>
 
 <pre class="code">
 export PKG_CONFIG_PATH="/usr/lib/pkgconfig"
-tar -xjf monodevelop-0.4.tar.gz
-cd monodevelop-0.4
+tar -xjf monodevelop-0.5.tar.gz
+cd monodevelop-0.5
 ./configure --prefix=/usr
 make
 make install

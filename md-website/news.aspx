@@ -5,6 +5,11 @@
 
   <div class="title">News</div>
 
+  <div class="news_header">June 30, 2004: MonoDevelop 0.5 Released</div>
+  <p>MonoDevelop 0.5 released. Release notes are available
+  <a href="/release_notes/0.5.html">here</a>. Packages are available in the
+  mono redcarpet channel. This release is primarily a bugfix release.</p>
+
   <div class="news_header">June 18, 2004: MonoDevelop article</div>
   <p>Paul Ferrill wrote an <a href="http://www.newsforge.com/programming/04/06/12/1649241.shtml">article</a> about MonoDevelop for NewsForge.</p>
 

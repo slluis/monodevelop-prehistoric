@@ -7,6 +7,12 @@
       
       <br />
       <p>Coming soon.</p>
+
+      <p>For now, the trunk can be checked out with the command line</p>
+
+      <tt>svn co svn://www.monodevelop.com/svn/monodevelop/trunk/MonoDevelop</tt>
+
+      <p>SVN HEAD is generally buildable without any issues, if you have any problems doing so, ask your questions on the mailing list, or #monodevelop on irc.gimp.net.</p>
      
       <br/><br/>
       <hr width="90%" />
