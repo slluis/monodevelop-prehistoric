@@ -872,8 +872,8 @@
 	                          description = "${res:XML.MainMenu.HelpMenu.Tips.Description}" 
 	                          class = "MonoDevelop.Commands.ViewTipOfTheDay" />
 	                
-	                <MenuItem id = "Separator1" _label = "-" />
-<!--	                <MenuItem id = "ViewGPL"
+<!--	                <MenuItem id = "Separator1" _label = "-" />
+	                <MenuItem id = "ViewGPL"
 	                          _label = "${res:XML.MainMenu.HelpMenu.GPL}" 
 	                          icon = "Icons.16x16.CopyLeftIcon" 
 	                          description = "${res:XML.MainMenu.HelpMenu.GPL.Description}" 
