@@ -1,3 +1,7 @@
+2004-04-30  Todd Berman  <tberman@sevenl.net>
+
+	* CodeCompletion/CompletionWindow.cs: properly handle enter.
+
 2004-04-29  Todd Berman  <tberman@sevenl.net>
 
 	* Gui/OptionPanels/CodeTemplatePanel.cs: match gtk-sharp from cvs.

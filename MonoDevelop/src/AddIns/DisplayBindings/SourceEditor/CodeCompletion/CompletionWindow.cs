@@ -67,13 +67,23 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 				case ';':
 				case '(':
 				case '[':
+					//case (char) Gdk.Key.Return:
+					//case (char) Gdk.Key.ISO_Enter:
+					//case (char) Gdk.Key.Key_3270_Enter:
+					//case (char) Gdk.Key.KP_Enter:
+					control.SimulateKeyPress (ref e);
+					LostFocusListView (null, null);
+					return true;
+					
 				case (char) Gdk.Key.Return:
 				case (char) Gdk.Key.ISO_Enter:
 				case (char) Gdk.Key.Key_3270_Enter:
 				case (char) Gdk.Key.KP_Enter:
-					control.SimulateKeyPress (ref e);
-					LostFocusListView (null, null);
+					KeyPressEventArgs fake_args = new KeyPressEventArgs ();
+					fake_args.Args = new object[] { e };
+					ListKeypressEvent (null, fake_args);
 					return true;
+					
 				case (char) Gdk.Key.BackSpace:
 					num_in--;
 					control.SimulateKeyPress (ref e);
