@@ -108,7 +108,8 @@ automake --add-missing --gnu $am_opt ||
 echo "Running autoconf ..."
 WANT_AUTOCONF="2.5" autoconf || { echo "**Error**: autoconf failed."; exit 1; }
 
-conf_flags="--enable-maintainer-mode --enable-compile-warnings"
+
+conf_flags="--enable-maintainer-mode --enable-compile-warnings" #--enable-iso-c
 
 if test x$NOCONFIGURE = x; then
   echo Running $srcdir/configure $conf_flags "$@" ...

@@ -1,7 +1,6 @@
-AC_INIT([monodevelop], 0.5.99, README)
-AC_CONFIG_AUX_DIR(.)
+AC_INIT(README)
 AC_CANONICAL_SYSTEM
-AM_INIT_AUTOMAKE([1.9 tar-ustar])
+AM_INIT_AUTOMAKE(monodevelop, 0.5.1)
 AM_MAINTAINER_MODE
 
 AM_DISABLE_STATIC
@@ -10,7 +9,7 @@ AC_PROG_INTLTOOL([0.25])
 
 AM_PATH_GLIB_2_0
 
-ASSEMBLY_VERSION=0.5.99.0
+ASSEMBLY_VERSION=0.5.1.0
 
 AC_PATH_PROG(MONO, mono)
 AC_PATH_PROG(MCS, mcs)
@@ -99,6 +98,12 @@ AC_SUBST(GLIB_GENMARSHAL)
 GLIB_MKENUMS="`$PKG_CONFIG --variable=glib_mkenums glib-2.0`"
 AC_SUBST(GLIB_MKENUMS)
 
+dnl find mono debugger
+dnl MONO_DEBUGGER_REQUIRED_VERSION=0.9
+dnl PKG_CHECK_MODULES(MONO_DEBUGGER, mono-debugger >= $MONO_DEBUGGER_REQUIRED_VERSION, enable_debugger=yes, enable_debugger=no)
+dnl AC_SUBST(MONO_DEBUGGER_LIBS)
+enable_debugger=no
+
 MOZILLA_HOME="`$PKG_CONFIG --variable=libdir mozilla-gtkmozembed`"
 AC_SUBST(MOZILLA_HOME)
 
@@ -116,6 +121,7 @@ else
 enable_xdgmime="yes"
 fi
 
+AM_CONDITIONAL(ENABLE_DEBUGGER, test "x$enable_debugger" = "xyes")
 AM_CONDITIONAL(ENABLE_XDGMIME, test "x$enable_xdgmime" = "xyes")
 
 AC_ARG_ENABLE(update-mimedb,
@@ -159,6 +165,7 @@ src/AddIns/DisplayBindings/SourceEditor/MonoDevelop.SourceEditor.dll.config
 src/AddIns/Misc/Makefile
 src/AddIns/Misc/StartPage/Makefile
 src/AddIns/Misc/Sonata/Makefile
+src/AddIns/DebuggerAddIn/Makefile
 src/Main/Makefile
 src/Main/Base/Makefile
 src/Main/Base/MonoDevelop.Base.dll.config
@@ -190,6 +197,7 @@ build/AddIns/AddIns/Misc/Sonata/Makefile
 data/Makefile
 data/resources/Makefile
 data/resources/glade/Makefile
+src/AddIns/DebuggerAddIn/AssemblyInfo.cs
 src/AddIns/DisplayBindings/SourceEditor/AssemblyInfo.cs
 src/AddIns/Misc/StartPage/AssemblyInfo.cs
 src/Main/StartUp/AssemblyInfo.cs
