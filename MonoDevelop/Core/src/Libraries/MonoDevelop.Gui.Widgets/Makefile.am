@@ -1,6 +1,4 @@
 
-MCS = mcs -debug
-
 DLL = MonoDevelop.Gui.Widgets.dll
 
 REFERENCES = /r:System.Drawing \
@@ -32,7 +30,7 @@ build_sources = $(addprefix $(srcdir)/, $(FILES))
 all: $(DLL)
 
 $(DLL): $(build_sources)
-	$(MCS) /debug /out:$(DLL) /target:library $(REFERENCES) $(build_sources) \
+	$(CSC) /debug /out:$(DLL) /target:library $(REFERENCES) $(build_sources) \
 	&& cp $(DLL) ../../../build/bin/.
 
 assemblydir = $(libdir)/monodevelop/bin

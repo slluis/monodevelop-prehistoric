@@ -1,5 +1,3 @@
-MCS = mcs
-RUNTIME = mono
 ASSEMBLY = gdl-sharp.dll
 
 API = gdl-api.xml
@@ -33,7 +31,7 @@ generated-stamp: $(API) $(build_customs)
 
 $(ASSEMBLY): $(build_sources) generated-stamp
 	mkdir -p ../../build/bin
-	$(MCS) --unsafe --target library \
+	$(CSC) --unsafe -target:library \
 	@BASE_DEPENDENCIES_LIBS@ \
 	$(build_sources) generated/*.cs /out:$(ASSEMBLY) \
 	&& cp -p $(ASSEMBLY) ../../build/bin/. \

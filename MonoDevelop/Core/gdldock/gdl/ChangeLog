@@ -1,3 +1,10 @@
+2004-10-16  John Luke  <john.luke@gmail.com>
+
+	* Makefile.am: remove MCS and RUNTIME
+	use $(CSC) from configure.in
+	use -target:library syntax instead of --target library
+	allows make CSC=foo to work consistently
+
 2004-05-16  Todd Berman  <tberman@sevenl.net>
 
 	* Makefile.am: use safer library referencing
