@@ -1,3 +1,7 @@
+2004-04-29  Todd Berman  <tberman@sevenl.net>
+
+	* Gui/OptionPanels/CodeTemplatePanel.cs: match gtk-sharp from cvs.
+
 2004-04-28  Pawel Rozanski  <tokugawa@afn.no-ip.org>
 
 	* Gui/SourceEditorDisplayBinding.cs: added a case for setting mime for

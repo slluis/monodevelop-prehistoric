@@ -1,5 +1,11 @@
 2004-04-29  Todd Berman  <tberman@sevenl.net>
 
+	* Services/ParserService/DefaultParserService.cs: commenting out
+	a GC.Collect () per lluis' instructions, this results in monodevelops
+	cpu usage at idle going from 20% to 2%. Good stuff :)
+
+2004-04-29  Todd Berman  <tberman@sevenl.net>
+
 	* Gui/Dialogs/OptionPanels/ExternalToolPanel.cs: fix up to match gtk#
 	from cvs.
 	* Gui/Dialogs/ReferenceDialog/SelectReferenceDialog.cs:

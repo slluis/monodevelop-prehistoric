@@ -401,7 +401,7 @@ namespace MonoDevelop.Services
 					} catch {}
 				}
 				Thread.Sleep(500); // not required
-				System.GC.Collect();
+				//System.GC.Collect();
 			}
 		}
 		

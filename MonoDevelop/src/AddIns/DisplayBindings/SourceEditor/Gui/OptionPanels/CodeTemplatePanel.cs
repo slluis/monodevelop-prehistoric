@@ -239,7 +239,7 @@ namespace MonoDevelop.EditorBindings.Gui.OptionPanels
 				// now delete each item in that list
 				foreach(TreeIter toDelete in selectedIters) {
 					TreeIter itr = toDelete;					
-					((ListStore)lv).Remove(out itr);
+					((ListStore)lv).Remove(ref itr);
 				}
 				
 				StoreTemplateGroup();
