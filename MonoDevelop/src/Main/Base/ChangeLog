@@ -1,8 +1,13 @@
+2004-05-04  Pawel Rozanski  <tokugawa@afn.no-ip.org>
+
+	* Makefile.am: Services/StockIcons.cs update is triggered by a changes
+	in build/data/resources/icons dir
+
 2004-05-03  Francisco "Paco" Martinez  <paco@mfcon.com>
 
 	* Gui/Dialogs/CommonAboutDialog.cs: Added Paco Martinez name to the
 	list of authors
-	
+
 2004-05-02  Todd Berman  <tberman@sevenl.net>
 
 	* Services/Project/IProjectService.cs
