@@ -78,8 +78,11 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 		/// </remarks>
 		public static string GetExpressionBeforeOffset(SourceEditorView textArea, int offset)
 		{
+			// HACK HACK we should actually use GtkTextIter's
+			string text = textArea.Buffer.Text;
+			
 			while (offset - 1 > 0) {
-				switch (textArea.Buffer.Text[offset - 1]) {
+				switch (text [offset - 1]) {
 					case '}':
 						goto done;
 //						offset = SearchBracketBackward(document, offset - 2, '{','}');
@@ -98,30 +101,30 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 					case '\'':
 						return "'a'";
 					case '>':
-						if (textArea.Buffer.Text[offset - 2] == '-') {
+						if (text [offset - 2] == '-') {
 							offset -= 2;
 							break;
 						}
 						goto done;
 					default:
-						if (Char.IsWhiteSpace(textArea.Buffer.Text[offset - 1])) {
+						if (Char.IsWhiteSpace (text [offset - 1])) {
 							--offset;
 							break;
 						}
 						int start = offset - 1;
-						if (!IsLetterDigitOrUnderscore(textArea.Buffer.Text[start])) {
+						if (!IsLetterDigitOrUnderscore (text [start])) {
 							goto done;
 						}
 						
-						while (start > 0 && IsLetterDigitOrUnderscore(textArea.Buffer.Text[start - 1])) {
+						while (start > 0 && IsLetterDigitOrUnderscore (text[start - 1])) {
 							--start;
 						}
 						
-						Console.WriteLine("{0} -- {1}", offset, start);
+						//Console.WriteLine("{0} -- {1}", offset, start);
 						Gtk.TextIter startIter = textArea.Buffer.GetIterAtOffset (start);
 						Gtk.TextIter endIter = textArea.Buffer.GetIterAtOffset (offset);
 						string word = textArea.Buffer.GetText (startIter, endIter, false).Trim();
-						Console.WriteLine("word >{0}<", word);
+						//Console.WriteLine("word >{0}<", word);
 						switch (word) {
 							case "ref":
 							case "out":
@@ -143,7 +146,7 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 //			Console.WriteLine("ofs : {0} cart:{1}", offset, document.Caret.Offset);
 //			Console.WriteLine("return:" + document.GetText(offset, document.Caret.Offset - offset).Trim());
 			Gtk.TextIter start_Iter = textArea.Buffer.GetIterAtMark (textArea.Buffer.InsertMark);
-			Gtk.TextIter offset_Iter = textArea.Buffer.GetIterAtOffset (start_Iter.Offset - offset);
+			Gtk.TextIter offset_Iter = textArea.Buffer.GetIterAtOffset (offset);
 			return textArea.Buffer.GetText (start_Iter, offset_Iter, false ).Trim();
 		}
 		
@@ -244,8 +247,10 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 */
 		static bool ScanLineComment(SourceEditorView document, int offset)
 		{
+			// HACK HACK: use iters
+			string text = document.Buffer.Text;
 			while (offset > 0 && offset < document.Buffer.Text.Length) {
-				char ch = document.Buffer.Text[offset];
+				char ch = text [offset];
 				switch (ch) {
 					case '\r':
 					case '\n':
@@ -263,6 +268,9 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 		
 		public static int SearchBracketBackward(SourceEditorView document, int offset, char openBracket, char closingBracket)
 		{
+			// HACK HACK: use iters
+			string text = document.Buffer.Text;
+			
 			int brackets = -1;
 			
 			bool inString = false;
@@ -271,16 +279,16 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 			bool blockComment = false;
 			
 			while (offset >= 0 && offset < document.Buffer.Text.Length) {
-				char ch = document.Buffer.Text[offset];
+				char ch = text [offset];
 				switch (ch) {
 					case '/':
 						if (blockComment) {
-							if (document.Buffer.Text[offset + 1]== '*') {
+							if (text [offset + 1]== '*') {
 								blockComment = false;
 							}
 						}
-						if (!inString && !inChar && offset + 1 < document.Buffer.Text.Length) {
-							if (offset > 0 && document.Buffer.Text[offset - 1] == '*') {
+						if (!inString && !inChar && offset + 1 < text.Length) {
+							if (offset > 0 && text [offset - 1] == '*') {
 								blockComment = true;
 							}
 						}
