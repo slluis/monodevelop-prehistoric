@@ -388,7 +388,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads
 			Gtk.VBox utilVBox = new Gtk.VBox (false, 0);
 			Gtk.HBox hbox = new Gtk.HBox (false, 6);
 			pathEntry = new Gtk.Entry (fb.CurrentDir);
-			//pathEntry.Activated += new EventHandler (OnPathEntryActivated);
+			pathEntry.Activated += new EventHandler (OnPathEntryActivated);
 			hbox.PackStart (pathEntry);
 			Gtk.Button homeButton = new Gtk.Button ();
 			Gdk.Pixbuf pix = FileIconLoader.GetPixbufForType ("gnome-home");
