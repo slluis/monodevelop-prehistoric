@@ -2,6 +2,16 @@
 
 	* Base.glade: update to newer glade format
 
+	* Commands/ToolsCommands.cs:
+	* Commands/FileCommands.cs:
+	* Gui/Workbench/Layouts/SdiWorkspaceLayout.cs:
+	* Gui/Dialogs/CombineConfiguration/CombineStartupPanel.cs:
+	* Gui/Dialogs/OptionPanels/IDEOptions/SelectStylePanel.cs:
+	* Base.glade:
+	* Internal/Parser/SharpAssemblyLayer/SharpAssemblyAttribute.cs:
+	* Internal/Templates/ProjectTemplates/ProjectTemplate.cs:
+	use ComboBox instead of OptioMenu and fix a bunch of little warnings
+
 2005-01-27  Lluis Sanchez Gual  <lluis@novell.com>
 
 	* Services/ParserService/CodeCompletionDatabase.cs: Moved classes to

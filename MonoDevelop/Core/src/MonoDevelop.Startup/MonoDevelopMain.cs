@@ -94,10 +94,9 @@ namespace MonoDevelop
 			if (Assembly.GetEntryAssembly ().GetName ().Version.Revision != 0)
 				version += "." + Assembly.GetEntryAssembly ().GetName ().Version.Revision;
 
-			Gnome.Program program = new Gnome.Program (name, version, Gnome.Modules.UI, remainingArgs);
+			new Gnome.Program (name, version, Gnome.Modules.UI, remainingArgs);
 			Gdk.Threads.Init();
 			commandLineArgs = remainingArgs;
-			bool noLogo = false;
 		
 			SplashScreenForm.SetCommandLineArgs(remainingArgs);
 			

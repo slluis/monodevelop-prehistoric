@@ -179,7 +179,7 @@ namespace MonoDevelop.Internal.Templates
 				IProperties customizer = new DefaultProperties();
 				customizer.SetProperty("ProjectCreateInformation", projectCreateInformation);
 				customizer.SetProperty("ProjectTemplate", this);
-				WizardDialog wizard = new WizardDialog("Project Wizard", customizer, wizardpath);
+				//WizardDialog wizard = new WizardDialog("Project Wizard", customizer, wizardpath);
 				//if (wizard.ShowDialog() == DialogResult.OK) {
 				//	lastCombine = combineDescriptor.CreateCombine(projectCreateInformation, this.languagename);
 				//} else {

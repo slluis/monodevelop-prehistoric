@@ -502,7 +502,7 @@ namespace MonoDevelop.Prj2Make
 			int i = 0;
 			FileStream fsOut = null;
 			XmlSerializer xmlSer = null;
-			StringBuilder MakefileBuilder = new StringBuilder();
+			//StringBuilder MakefileBuilder = new StringBuilder();
 			MonoDevelop.Prj2Make.Schema.Cmbx.Combine cmbxObj = new MonoDevelop.Prj2Make.Schema.Cmbx.Combine();
 			cmbxFileName = String.Format ("{0}.cmbx",
 				Path.Combine(Path.GetDirectoryName(slnFileName),

@@ -24,17 +24,17 @@ namespace MonoDevelop.Commands
 {
 	public class CreateNewProject : AbstractMenuCommand
 	{
-		public override void Run()
+		public override void Run ()
 		{
-			NewProjectDialog npdlg = new NewProjectDialog(true);
+			new NewProjectDialog (true);
 		}
 	}
 	
 	public class CreateNewFile : AbstractMenuCommand
 	{
-		public override void Run()
+		public override void Run ()
 		{
-			NewFileDialog nfd = new NewFileDialog ();
+			new NewFileDialog ();
 		}
 	}
 	

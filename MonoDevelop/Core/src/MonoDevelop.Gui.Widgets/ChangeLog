@@ -2,6 +2,8 @@
 
 	* Makefile.am:
 	* FileBrowser/FileBrowser.cs: use Gnome.Vfs
+	* FolderDialog/BaseFileEntry.cs: add new keyword
+	to prevent warning
 
 2005-01-27  Lluis Sanchez Gual  <lluis@novell.com>
 

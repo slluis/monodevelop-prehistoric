@@ -437,13 +437,10 @@ namespace MonoDevelop.Gui
 		
 		public IWorkbenchWindow ShowView(IViewContent content)
 		{	
-			string title;
 			Gtk.Image mimeimage = null;
 			if (content.IsUntitled) {
-				title = content.UntitledName;
 				mimeimage = new Gtk.Image (FileIconLoader.GetPixbufForType ("gnome-fs-regular").ScaleSimple (16, 16, Gdk.InterpType.Bilinear));
 			} else {
-				title = Path.GetFileName (content.ContentName);
 				mimeimage = new Gtk.Image (FileIconLoader.GetPixbufForFile (content.ContentName, 16, 16));
 			}
 			

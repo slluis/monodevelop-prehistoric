@@ -23,14 +23,8 @@ namespace MonoDevelop.Commands
 	{
 		public override void Run()
 		{
-			TreeViewOptions optionsDialog = new TreeViewOptions((IProperties)Runtime.Properties.GetProperty("MonoDevelop.TextEditor.Document.Document.DefaultDocumentAggregatorProperties", new DefaultProperties()),
+			new TreeViewOptions((IProperties)Runtime.Properties.GetProperty("MonoDevelop.TextEditor.Document.Document.DefaultDocumentAggregatorProperties", new DefaultProperties()),
 			                                                           AddInTreeSingleton.AddInTree.GetTreeNode("/SharpDevelop/Dialogs/OptionsDialog"));
-			//optionsDialog.ShowAll ();
-			//	optionsDialog.FormBorderStyle = FormBorderStyle.FixedDialog;
-				
-			//	optionsDialog.Owner = (Form)WorkbenchSingleton.Workbench;
-			//	optionsDialog.ShowDialog();
-			//}
 		}
 	}
 	

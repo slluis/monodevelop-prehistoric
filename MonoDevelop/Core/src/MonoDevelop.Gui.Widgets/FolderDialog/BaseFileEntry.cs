@@ -37,7 +37,7 @@ namespace MonoDevelop.Gui.Widgets {
 			set { default_path = value; }
 		}
 		
-		public string Path {
+		public new string Path {
 			get { return System.IO.Path.Combine (default_path, text.Text); }
 		}
 		

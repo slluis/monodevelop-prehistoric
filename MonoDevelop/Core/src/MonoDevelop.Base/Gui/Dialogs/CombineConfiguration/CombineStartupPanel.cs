@@ -30,8 +30,8 @@ namespace MonoDevelop.Gui.Dialogs.OptionPanels
 			[Glade.Widget] Label ActionLabel;
  			[Glade.Widget] RadioButton singleRadioButton;
  			[Glade.Widget] RadioButton multipleRadioButton;
- 			[Glade.Widget] OptionMenu singleOptionMenu;
- 			[Glade.Widget] OptionMenu actionOptionMenu;
+ 			[Glade.Widget] ComboBox singleCombo;
+ 			[Glade.Widget] ComboBox actionCombo;
    			[Glade.Widget] Button moveUpButton;
  			[Glade.Widget] Button moveDownButton;
  			[Glade.Widget] VBox multipleBox;			
@@ -49,32 +49,38 @@ namespace MonoDevelop.Gui.Dialogs.OptionPanels
 				singleRadioButton.Active = combine.SingleStartupProject;
 				singleRadioButton.Clicked += new EventHandler(OnSingleRadioButtonClicked);
 				multipleRadioButton.Active = !combine.SingleStartupProject;
-				singleRadioButton.Clicked += new EventHandler(OptionsChanged);
+				//singleRadioButton.Clicked += new EventHandler(OptionsChanged);
 
 				// Setting up OptionMenus
-				Menu singleMenu = new Menu ();
-				for (int i =0;  i < combine.Entries.Count; i++)  {
+				ListStore store = new ListStore (typeof (string));
+				int active = -1;
+				for (int i = 0;  i < combine.Entries.Count; i++)  {
 					CombineEntry entry = (CombineEntry) combine.Entries[i];
-					singleMenu.Append( new MenuItem(entry.Name));
-						
-					if (combine.SingleStartProjectName == entry.Name){
-						singleMenu.SetActive ( (uint) i);
-					}
-				}
-				singleOptionMenu.Menu = singleMenu;
+					store.AppendValues (entry.Name);
 
-				Menu actionMenu = new Menu ();
-				actionMenu.Append( new MenuItem (GettextCatalog.GetString ("None")));
-				actionMenu.Append( new MenuItem (GettextCatalog.GetString ("Execute")));
-				actionOptionMenu.Menu = actionMenu ;
-				actionOptionMenu.Changed += new EventHandler(OptionsChanged);
+					if (combine.SingleStartProjectName == entry.Name)
+						active = i;
+				}
+				singleCombo.Model = store;
+
+				CellRendererText cr = new CellRendererText ();
+				singleCombo.PackStart (cr, true);
+				singleCombo.AddAttribute (cr, "text", 0);
+				singleCombo.Active = active;
+
+				store = new ListStore (typeof (string));
+				store.AppendValues (GettextCatalog.GetString ("None"));
+				store.AppendValues (GettextCatalog.GetString ("Execute"));
+				actionCombo.Model = store;
+				actionCombo.PackStart (cr, true);
+				actionCombo.AddAttribute (cr, "text", 0);
+				actionCombo.Changed += new EventHandler(OptionsChanged);
 
 				// Populating entryTreeView					
 				CombineExecuteDefinition edef;
  				store = new ListStore (typeof(string), typeof(string), typeof(CombineExecuteDefinition) );
 				entryTreeView.Model = store;
 				
-				TreeIter iter = new TreeIter ();
  				string entryHeader = Runtime.StringParserService.Parse("Entry");
  				entryTreeView.AppendColumn (entryHeader, new CellRendererText (), "text", 0);
  				string actionHeader = Runtime.StringParserService.Parse( "Action");
@@ -86,14 +92,14 @@ namespace MonoDevelop.Gui.Dialogs.OptionPanels
 					for (int n = 0; n < combine.CombineExecuteDefinitions.Count; n++) {
 						edef = (CombineExecuteDefinition)combine.CombineExecuteDefinitions[n];
 						string action = edef.Type == EntryExecuteType.None ? GettextCatalog.GetString ("None") : GettextCatalog.GetString ("Execute");
-						iter = store.AppendValues (edef.Entry.Name, action, edef);
+						store.AppendValues (edef.Entry.Name, action, edef);
 					}
 				} else {
 					// add an empty set of execute definitions
 					for (int n = 0; n < combine.Entries.Count; n++) {
 						edef = new CombineExecuteDefinition ((CombineEntry) combine.Entries[n],EntryExecuteType.None);
 						string action = edef.Type == EntryExecuteType.None ? GettextCatalog.GetString ("None") : GettextCatalog.GetString ("Execute");
-						iter = store.AppendValues (edef.Entry.Name, action, edef);
+						store.AppendValues (edef.Entry.Name, action, edef);
 					}
 					
 					// tell the user we encountered and worked around an issue 
@@ -154,55 +160,48 @@ namespace MonoDevelop.Gui.Dialogs.OptionPanels
 			void OnSingleRadioButtonClicked(object sender, EventArgs e)
 			{
 				multipleBox.Sensitive = multipleRadioButton.Active;
-				singleOptionMenu.Sensitive = singleRadioButton.Active;
+				singleCombo.Sensitive = singleRadioButton.Active;
 			}
 			
-  	       		void OptionsChanged(object sender, EventArgs e)
+  	       	void OptionsChanged (object sender, EventArgs e)
 			{
-				if(entryTreeView.Selection.CountSelectedRows() == 0){
-					return;
-				}
-				TreeIter selectedItem;
-				TreeModel ls;				
-				((ListStore)entryTreeView.Model).GetIter(
-					out selectedItem, (TreePath) entryTreeView.Selection.GetSelectedRows(out ls)[0]);
+				TreeIter iter;
+				TreeModel model;				
+				ComboBox combo = sender as ComboBox;
 				
-				int index = GetSelectedIndex(entryTreeView);
-				CombineExecuteDefinition edef = (CombineExecuteDefinition) store.GetValue(selectedItem, 2);
-				switch (actionOptionMenu.History) {
-				case 0:
-					edef.Type = EntryExecuteType.None;
-					break;
-				case 1:
-					edef.Type = EntryExecuteType.Execute;
-					break;
-				default:
-					break;
-				}
-				store.SetValue(selectedItem, 2, edef);
-				string action = edef.Type == EntryExecuteType.None ? GettextCatalog.GetString ("None") : GettextCatalog.GetString ("Execute");
-				store.SetValue(selectedItem, 1, action);
+				if (entryTreeView.Selection.GetSelected (out model, out iter))
+				{
+					CombineExecuteDefinition edef = (CombineExecuteDefinition) model.GetValue (iter, 2);
+					switch (combo.Active) {
+						case 0:
+							edef.Type = EntryExecuteType.None;
+							break;
+						case 1:
+							edef.Type = EntryExecuteType.Execute;
+							break;
+						default:
+							break;
+					}
 
+					model.SetValue (iter, 2, edef);
+					string action = edef.Type == EntryExecuteType.None ? GettextCatalog.GetString ("None") : GettextCatalog.GetString ("Execute");
+					model.SetValue (iter, 1, action);
+				}
 			}
 			
 			void SelectedEntryChanged(object sender, EventArgs e)
 			{
-				if(entryTreeView.Selection.CountSelectedRows() == 0){
-					return;
-				}
-				
-				TreeIter selectedItem;
-				TreeModel ls;				
-				
-				((ListStore)entryTreeView.Model).GetIter(
-					out selectedItem, (TreePath) entryTreeView.Selection.GetSelectedRows(out ls)[0]);
-				
-				string txt = (string) store.GetValue(selectedItem,1);
-				
-				if (txt == GettextCatalog.GetString ("None")) {
-					actionOptionMenu.SetHistory (0);
-				} else {
-					actionOptionMenu.SetHistory (1);
+				TreeIter iter;
+				TreeModel model;				
+				TreeSelection selection = sender as TreeSelection;
+
+				if (selection.GetSelected (out model, out iter))
+				{
+					string txt = (string) model.GetValue (iter, 1);
+					if (txt == GettextCatalog.GetString ("None"))
+						actionCombo.Active = 0;
+					else
+						actionCombo.Active = 1;
 				}
 			}
 			
@@ -227,7 +226,7 @@ namespace MonoDevelop.Gui.Dialogs.OptionPanels
 
 			public bool Store()
 			{
-				combine.SingleStartProjectName = ((CombineEntry)combine.Entries[singleOptionMenu.History]).Name;
+				combine.SingleStartProjectName = ((CombineEntry)combine.Entries[singleCombo.Active]).Name;
 				combine.SingleStartupProject   = singleRadioButton.Active;
 				
 				// write back new combine execute definitions

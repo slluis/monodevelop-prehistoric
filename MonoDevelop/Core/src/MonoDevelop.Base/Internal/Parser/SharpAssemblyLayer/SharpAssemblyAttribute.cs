@@ -79,7 +79,7 @@ namespace MonoDevelop.Internal.Parser {
 				sigOffset += 1;  // skip calling convention
 				int numReturnTypes = assembly.Reader.LoadBlob(ref sigOffset);
 						
-				SharpAssemblyReturnType dummy = new SharpAssemblyReturnType(assembly, ref sigOffset);
+				new SharpAssemblyReturnType(assembly, ref sigOffset);
 				
 				SharpAssemblyReturnType[] returnTypes = new SharpAssemblyReturnType[numReturnTypes];
 				for (int i = 0; i < returnTypes.Length; ++i) {
