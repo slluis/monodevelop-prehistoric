@@ -6,7 +6,8 @@
 
 2004-04-13  John Luke  <jluke@cfl.rr.com>
 
-	* Gui/BrowserDisplayBinding/HtmlViewPane.cs: use Navbar control
+	* Gui/BrowserDisplayBinding/HtmlViewPane.cs: use Navbar control,
+	use StatusBarService for messages and a Progress monitor
 
 2004-04-11  Todd Berman  <tberman@sevenl.net>
 

@@ -102,7 +102,7 @@ namespace MonoDevelop.Gui.Components
 			SetMessage (name);
 			this.Progress.Visible = true;
 		}
-		
+
 		public void Worked (double work, string status)
 		{
 			this.Progress.Fraction = work;
@@ -112,6 +112,7 @@ namespace MonoDevelop.Gui.Components
 		public void Done ()
 		{
 			txtStatusBarPanel.Pop (ctx);
+			this.Progress.Fraction = 0.0;
 			this.Progress.Visible = false;
 		}
 

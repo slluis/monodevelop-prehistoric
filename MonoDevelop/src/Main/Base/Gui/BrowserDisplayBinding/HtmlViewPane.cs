@@ -14,6 +14,7 @@ using MonoDevelop.Core.Properties;
 using MonoDevelop.Core.Services;
 using MonoDevelop.Core.AddIns.Codons;
 using MonoDevelop.Gui;
+using MonoDevelop.Gui.Components;
 using MonoDevelop.Gui.Widgets;
 using MonoDevelop.Gui.HtmlControl;
 using MonoDevelop.Services;
@@ -134,12 +135,13 @@ namespace MonoDevelop.BrowserDisplayBinding
 	public class HtmlViewPane : Gtk.Frame
 	{
 		MozillaControl htmlControl = null;
+		IStatusBarService statusbarService = (IStatusBarService) ServiceManager.Services.GetService (typeof (IStatusBarService));
+		SdStatusBar status;
 		
 		VBox topPanel = new VBox (false, 2);
 		Navbar nav = new Navbar ();
-		Statusbar status;
 		
-		bool isHandleCreated = false;
+		bool loading = false;
 		static GLib.GType gtype;
 		
 		public MozillaControl MozillaControl {
@@ -162,6 +164,7 @@ namespace MonoDevelop.BrowserDisplayBinding
 		{
 			Shadow = Gtk.ShadowType.In;
 			VBox mainbox = new VBox (false, 2);
+			status = (SdStatusBar) statusbarService.ProgressMonitor;
 			
 			if (showNavigation) {
 				
@@ -182,11 +185,6 @@ namespace MonoDevelop.BrowserDisplayBinding
 			htmlControl.ShowAll ();
 			
 			mainbox.PackStart (htmlControl);
-
-			status = new Statusbar ();
-			status.HasResizeGrip  = false;
-			mainbox.PackStart (status, false, true, 0);
-			
 			this.Add (mainbox);
 			this.ShowAll ();
 		}
@@ -198,7 +196,6 @@ namespace MonoDevelop.BrowserDisplayBinding
 		
 		public void CreatedWebBrowserHandle(object sender, EventArgs evArgs) 
 		{
-			isHandleCreated = true;
 		}
 		
 		public void Navigate(string name)
@@ -209,12 +206,26 @@ namespace MonoDevelop.BrowserDisplayBinding
 
 		private void OnNetStart (object o, EventArgs args)
 		{
-			status.Push (1, GettextCatalog.GetString ("Loading..."));
+			statusbarService.SetMessage (GettextCatalog.GetString ("Loading..."));
+			loading = true;
+			GLib.Idle.Add (new GLib.IdleHandler (Pulse));
+		}
+
+		bool Pulse ()
+		{
+			if (loading) {
+				status.Pulse ();
+				System.Threading.Thread.Sleep (100);
+				return true;
+			}
+			status.Done ();
+			statusbarService.SetMessage (GettextCatalog.GetString ("Done."));
+			return false;
 		}
 
 		private void OnNetStop (object o, EventArgs args)
 		{
-			status.Push (1, GettextCatalog.GetString ("Done."));
+			loading = false;
 		}
 
 		void OnLocationChanged (object o, EventArgs args)
