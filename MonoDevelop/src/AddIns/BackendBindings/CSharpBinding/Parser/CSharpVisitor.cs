@@ -122,6 +122,7 @@ namespace CSharpBinding.Parser
 					c.BaseTypes.Add(type);
 				}
 			}
+			Console.WriteLine (c);
 			currentClass.Push(c);
 			object ret = typeDeclaration.AcceptChildren(this, data);
 			currentClass.Pop();
@@ -138,7 +139,7 @@ namespace CSharpBinding.Parser
 		{
 			DefaultRegion region     = GetRegion(methodDeclaration.StartLocation, methodDeclaration.EndLocation);
 			DefaultRegion bodyRegion = GetRegion(methodDeclaration.EndLocation, methodDeclaration.Body != null ? methodDeclaration.Body.EndLocation : new Point(-1, -1));
-//			Console.WriteLine(region + " --- " + bodyRegion);
+			//			Console.WriteLine(region + " --- " + bodyRegion);
 			ReturnType type = new ReturnType(methodDeclaration.TypeReference);
 			Class c       = (Class)currentClass.Peek();
 			

@@ -34,7 +34,7 @@ namespace MonoDevelop.Internal.Parser
 
 		public virtual bool IsConstructor {
 			get {
-				return returnType == null || Name == "#ctor";
+				return returnType == null || Name == "ctor";
 			}
 		}
 

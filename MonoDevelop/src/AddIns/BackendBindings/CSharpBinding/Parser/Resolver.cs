@@ -191,6 +191,8 @@ namespace CSharpBinding.Parser
 				return new ResolveResult(namespaces, classes);
 			}
 			Console.WriteLine("Returning Result!");
+			if (returnClass.FullyQualifiedName == "System.Void")
+				return null;
 			return new ResolveResult(returnClass, ListMembers(new ArrayList(), returnClass));
 		}
 		

@@ -50,9 +50,6 @@ namespace MonoDevelop.Internal.Parser
 				if (matched)
 					return node;
 			}
-			Console.WriteLine ("Info:");
-			Console.WriteLine (s);
-			Console.WriteLine ("No match found - {2}.{0} {1}", methodBase.Name, GetParamList (methodBase), methodBase.DeclaringType.FullName);
 			return null;
 		}
 		

@@ -14,7 +14,7 @@ namespace JavaBinding.Parser.SharpDevelopTree
 		
 		public Constructor(Modifier m, IRegion region, IRegion bodyRegion)
 		{
-			FullyQualifiedName = "#ctor";
+			FullyQualifiedName = "ctor";
 			this.region     = region;
 			this.bodyRegion = bodyRegion;
 			modifiers = (ModifierEnum)m;
