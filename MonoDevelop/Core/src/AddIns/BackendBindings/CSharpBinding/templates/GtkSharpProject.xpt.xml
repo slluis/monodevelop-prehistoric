@@ -39,8 +39,9 @@
 using System;
 using Gtk;
 
-class MainClass {
-	public static void Main(string[] args)
+class MainClass
+{
+	public static void Main (string[] args)
 	{
 		Application.Init ();
 		new MyWindow ();
@@ -50,8 +51,8 @@ class MainClass {
 			<File name="MyWindow.cs"><![CDATA[using System;
 using Gtk;
 
-public class MyWindow : Window {
-	
+public class MyWindow : Window
+{	
 	public MyWindow () : base ("MyWindow")
 	{
 		this.SetDefaultSize (400, 300);
@@ -59,9 +60,10 @@ public class MyWindow : Window {
 		this.ShowAll ();
 	}
 	
-	void OnMyWindowDelete (object o, DeleteEventArgs args)
+	void OnMyWindowDelete (object sender, DeleteEventArgs a)
 	{
 		Application.Quit ();
+		a.RetVal = true;
 	}
 }]]></File>
 			<File name="AssemblyInfo.cs"><![CDATA[using System.Reflection;

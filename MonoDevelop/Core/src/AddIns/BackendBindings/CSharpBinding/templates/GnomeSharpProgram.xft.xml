@@ -15,13 +15,12 @@
 <![CDATA[// created on ${Date} at ${Time}
 using System;
 using Gnome;
-using GnomeSharp;
 
 namespace MyProgram
 {
 	public class CreatedProgram : Program
 	{
-		public CreatedProgram () : base ("ChangeMe", "0.1", Gnome.Modules.Info, new string[0])
+		public CreatedProgram (string[] args) : base ("ChangeMe", "0.1", Gnome.Modules.Info, args)
 		{
 		}
 	}
