@@ -94,7 +94,9 @@ namespace MonoDevelop.Services
 			type        = error.IsWarning ? TaskType.Warning : TaskType.Error;
 			column      = error.Column - 1;
 			line        = error.Line - 1;
-			description = error.ErrorText + "(" + error.ErrorNumber + ")";
+			description = error.ErrorText;
+			if (error.ErrorNumber != String.Empty)
+				description += "(" + error.ErrorNumber + ")";
 			fileName    = error.FileName;
 		}
 		
