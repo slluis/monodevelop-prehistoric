@@ -25,6 +25,11 @@
 - make fonts choice persist (after restarting)
 - organize this list
 - switch to a proper build system
+- Allow show hidden (.*) files/directories in the file browser.
+- Make the completion window asynchronous to don't stop edititing when not
+  needed.
+- Figure out how to print the textarea char markers in pango, as it rejectes
+  the original #d ones.
 
 ---- Bugs in the File->New->File... Dialog
 
