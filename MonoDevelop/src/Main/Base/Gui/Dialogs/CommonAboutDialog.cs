@@ -83,7 +83,8 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 			//text = "\"No proper program contains an indication which as an operator-applied occurrence identifies an operator-defining occurrence which as an indication-applied occurrence identifies an indication-defining occurrence different from the one identified by the given indication as an indication- applied occurrence.\"\n   -- ALGOL 68 Report\n\n\n";
 			//text = "\"The '#pragma' command is specified in the ANSI standard to have an arbitrary implementation-defined effect. In the GNU C preprocessor, `#pragma' first attempts to run the game rogue; if that fails, it tries to run the game hack; if that fails, it tries to run GNU Emacs displaying the Tower of Hanoi; if that fails, it reports a fatal error. In any case, preprocessing does not continue.\"\n   --From an old GNU C Preprocessor document";
 			
-			Gtk.Function ScrollHandler = new Gtk.Function (ScrollDown);			hndlr = Timeout.Add (20, ScrollHandler);
+			Gtk.Function ScrollHandler = new Gtk.Function (ScrollDown);
+			hndlr = Timeout.Add (30, ScrollHandler);
 		}
 		
 		bool ScrollDown ()
@@ -179,10 +180,9 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 			nb.AppendPage (changelog, new Label ("ChangeLog"));
 			nb.AppendPage (vinfo, new Label ("Version Info"));
 			this.VBox.PackStart (nb);
-			Gtk.Button close = new Gtk.Button (Gtk.Stock.Close);
-			close.Clicked += new EventHandler (OnCloseClicked);
+			Button close = new Button (Stock.Close);
 			close.Show ();
-			this.ActionArea.Add (close);
+			this.AddButton (close, (int) ResponseType.Close);
 			this.ShowAll ();
 		}
 		
@@ -191,12 +191,6 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 			int tmp = base.Run ();
 			Timeout.Remove (ScrollBox.Handler);
 			return tmp;
-		}
-		
-		private void OnCloseClicked (object o, EventArgs args)
-		{
-			this.Hide ();
-			this.Dispose ();
 		}
 		
 		private void OnPageChanged (object o, SwitchPageArgs args)

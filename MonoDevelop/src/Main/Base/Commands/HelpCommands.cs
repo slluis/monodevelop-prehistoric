@@ -46,34 +46,9 @@ namespace ICSharpCode.SharpDevelop.Commands
 	{
 		public override void Run()
 		{
-			FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.Services.GetService(typeof(FileUtilityService));
-			string filename = fileUtilityService.SharpDevelopRootPath + 
-			Path.DirectorySeparatorChar + "doc" +
-			Path.DirectorySeparatorChar + "license.txt";
-			if (fileUtilityService.TestFileExists(filename)) {
-				Dialog hd = new Dialog ("GNU GENERAL PUBLIC LICENSE",  (Gtk.Window) WorkbenchSingleton.Workbench , DialogFlags.DestroyWithParent);	
-				hd.SetDefaultSize (600, 400);
-				hd.AddButton (Stock.Ok,(int) ResponseType.Ok);
-				
-				ScrolledWindow sw = new  ScrolledWindow ();
-				sw.SetPolicy (PolicyType.Automatic, Gtk.PolicyType.Automatic);
-				
-				TextView view = new TextView ();
-				TextBuffer buffer = view.Buffer;
-				StreamReader streamReader = new StreamReader(filename);
-				buffer.InsertAtCursor(streamReader.ReadToEnd());
-
-				sw.Add (view);
-				hd.VBox.PackStart(sw);
-				hd.ShowAll();
-				hd.Run ();
-				hd.Hide ();
-				hd.Dispose ();
-			}
-		//	using (ViewGPLDialog totdd = new ViewGPLDialog()) {
-		//		totdd.Owner = (Form)WorkbenchSingleton.Workbench;
-		//		totdd.ShowDialog();
-		//	}
+			ViewGPLDialog vgd = new ViewGPLDialog();
+			vgd.Run ();
+			vgd.Hide ();
 		}
 	}
 	
@@ -133,7 +108,6 @@ namespace ICSharpCode.SharpDevelop.Commands
 			CommonAboutDialog ad = new CommonAboutDialog("About SharpDevelop", (Window) WorkbenchSingleton.Workbench, DialogFlags.DestroyWithParent);
 			ad.Run ();
 			ad.Hide ();
-			ad.Dispose ();
 		}
 	}
 }

@@ -7,37 +7,43 @@
 
 using System;
 using System.IO;
-using System.Drawing;
-using System.ComponentModel;
-using System.Windows.Forms;
+using Gtk;
 using System.Resources;
 
 using ICSharpCode.Core.Properties;
-
 using ICSharpCode.Core.Services;
-using ICSharpCode.SharpDevelop.Gui.XmlForms;
-
-//using ICSharpCode.XmlForms;
 
 namespace ICSharpCode.SharpDevelop.Gui.Dialogs
-{/*
-	public class ViewGPLDialog : BaseSharpDevelopForm 
+{
+	public class ViewGPLDialog : Dialog 
 	{
-		public ViewGPLDialog()
+		public ViewGPLDialog () : base ("GNU GENERAL PUBLIC LICENSE", (Window) WorkbenchSingleton.Workbench, DialogFlags.DestroyWithParent)
 		{
-			base.SetupFromXml(Path.Combine(PropertyService.DataDirectory, @"resources\dialogs\ViewGPLDialog.xfrm"));
-			LoadGPL();
-		}
-		
-		void LoadGPL()
-		{
-			string filename = FileUtilityService.SharpDevelopRootPath + 
-			                  Path.DirectorySeparatorChar + "doc" +
-			                  Path.DirectorySeparatorChar + "license.txt";
-			if (FileUtilityService.TestFileExists(filename)) {
-				RichTextBox licenseRichTextBox = (RichTextBox)ControlDictionary["licenseRichTextBox"];
-				licenseRichTextBox.LoadFile(filename, RichTextBoxStreamType.PlainText);
+			FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.Services.GetService(typeof(FileUtilityService));
+			string filename = fileUtilityService.SharpDevelopRootPath + 
+			System.IO.Path.DirectorySeparatorChar + "doc" +
+			System.IO.Path.DirectorySeparatorChar + "license.txt";
+			
+			if (fileUtilityService.TestFileExists(filename)) {
+				this.BorderWidth = 6;
+				this.DefaultResponse = (int) ResponseType.Close;
+				this.HasSeparator = false;	
+				this.SetDefaultSize (600, 400);
+				this.AddButton (Stock.Close, (int) ResponseType.Close);
+				
+				ScrolledWindow sw = new  ScrolledWindow ();
+				sw.SetPolicy (PolicyType.Automatic, PolicyType.Automatic);
+				
+				TextView view = new TextView ();
+				view.Editable = false;
+				view.CursorVisible = false;
+				StreamReader streamReader = new StreamReader (filename);
+				view.Buffer.Text = streamReader.ReadToEnd ();
+
+				sw.Add (view);
+				this.VBox.PackStart(sw);
+				this.ShowAll ();
 			}
 		}
-	}*/
+	}
 }

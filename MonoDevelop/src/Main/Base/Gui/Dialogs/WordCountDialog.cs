@@ -291,11 +291,10 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 			this.Title = "Word Count";
 			Button startButton = new Button (Stock.Execute);
 			startButton.Clicked += new EventHandler (startEvent);
-			this.ActionArea.Add (startButton);
+			this.AddButton (startButton, 7);
 			
 			Button cancelButton = new Button (Stock.Cancel);
-			cancelButton.Clicked += new EventHandler (OnCancelClicked);
-			this.ActionArea.Add (cancelButton);
+			this.AddButton (cancelButton, (int) ResponseType.Cancel);
 			
 			resultListView = new TreeView ();
 			resultListView.RulesHint = true;
@@ -344,11 +343,6 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 		private void OnOptionChanged (object o, EventArgs args)
 		{
 			selectedIndex = ((OptionMenu) o).History;
-		}
-		
-		private void OnCancelClicked (object o, EventArgs args)
-		{
-			this.Hide ();
 		}
 	}
 }
