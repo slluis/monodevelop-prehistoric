@@ -260,6 +260,9 @@ namespace MonoDevelop.Gui.Pads.ProjectBrowser
 		public void StartLabelEdit()
 		{
 			AbstractBrowserNode selectedNode = (AbstractBrowserNode)SelectedNode;
+			CombineBrowserNode cbn = SelectedNode as CombineBrowserNode;
+			if (null != cbn)
+				cbn.BeforeLabelEdit ();
 			if (selectedNode != null && selectedNode.CanLabelEdited) {
 				//LabelEdit = true;
 				selectedNode.BeginEdit ();

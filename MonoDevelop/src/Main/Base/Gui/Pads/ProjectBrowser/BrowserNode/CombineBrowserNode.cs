@@ -58,6 +58,7 @@ namespace MonoDevelop.Gui.Pads.ProjectBrowser
 			if (newName != null && newName.Trim().Length > 0) {
 				combine.Name = newName;
 			}
+			UpdateCombineName (null, EventArgs.Empty);
 		}
 		
 		public override void UpdateNaming()

@@ -1,3 +1,10 @@
+2004-04-07  Nick Drochak  <ndrochak@gol.com>
+
+	* Gui/Pads/ProjectBrowser/ProjectBrowserView.cs: Before the actual edit
+	have node un-munge the text it wraps around the combine name.
+	* Gui/Pads/ProjectBrowser/BrowserNode/CombineBrowserNode.cs: Re-munge
+	name with number of entries after the combine name changes.
+
 2004-04-06  Todd Berman  <tberman@sevenl.net>
 
 	* Commands/FileCommands.cs: Combine the open solution/file into one
