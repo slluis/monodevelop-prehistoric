@@ -1,4 +1,9 @@
-2004-04-27  Todd Berman  <tberman@sevenl.net>
+2004-04-28  Todd Berman  <tberman@sevenl.net>
+
+	* Internal/Project/Project/AbstractProject.cs: For now, dont ask
+	to add new Makefiles.
+
+2004-04-28  Todd Berman  <tberman@sevenl.net>
 
 	* Commands/RunCommands.c:
 	* Services/Project/DefaultProjectService.cs: 

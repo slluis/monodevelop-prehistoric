@@ -216,6 +216,7 @@ namespace MonoDevelop.Internal.Project
 				     !file.StartsWith (".") &&
 				     !Path.GetDirectoryName(file).EndsWith("CVS") &&
 				     !Path.GetDirectoryName(file).EndsWith(".svn") &&
+					 !file.StartsWith ("Makefile") &&
 				     !Path.GetDirectoryName(file).EndsWith("ProjectDocumentation")) {
 
 					newFiles.Add(file);
