@@ -9,7 +9,7 @@
 
       <div class="headlinebar">FAQ</div>
 
-<p>How do I add mimetypes in gnome 2.6?</p>
+<p><a name="mimetype_gnome26" />How do I add mimetypes in gnome 2.6?</p>
 
 <p>First you copy monodevelop.xml to $(gnome_prefix)/share/mime/packages. Then you run update-mime-database $(gnome_prefix)/share/mime. On fedora, and many other distros $gnome_prefix is /usr, so you do:</p>
 <pre class="code">cp monodevelop.xml /usr/share/mime/packages
@@ -18,12 +18,12 @@ update-mime-database /usr/share/mime</pre>
 <pre class="code">find /usr/share/mime -type f -exec chmod 644 {} \;</pre>
 <p>With a user who has permissions to do so.</p>
 <br/>
-<p>Where do I get gecko-sharp.pc?</p>
+<p><a name="gecko-sharp" />Where do I get gecko-sharp.pc?</p>
 
 <p>gecko-sharp.pc can be found in the gtkmozembed-sharp CVS module in the Mono
 CVS repository.</p>
 <br/>
-<p>Why aren't my C# files syntax highlighted?</p>
+<p><a name="syntax_highlighting" />Why aren't my C# files syntax highlighted?</p>
        
 <p>GNOME doesn't recognize *.cs files as the text/x-csharp
 mimetype.  gtksourceview-sharp tries to set this up automatically,
@@ -73,5 +73,8 @@ http://developer.gnome.org/projects/gup/hig/1.0/
 <li><a href="http://developers.sun.com/solaris/articles/integrating_gnome.html
 ">Integrating with GNOME (a little out of date)</a></li>
 </ul>	    
+
+
+<br /><br /><br /><br /><br /><br /><br /><br />
 
 <ccms:PageFooter runat="server"/>
