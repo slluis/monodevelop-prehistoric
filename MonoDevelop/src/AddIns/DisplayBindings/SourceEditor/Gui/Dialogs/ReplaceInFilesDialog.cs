@@ -262,13 +262,11 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 		void BrowseDirectoryEvent(object sender, EventArgs e)
 		{
 			FolderDialog fd = new FolderDialog("Select directory");
-			//if (fd.DisplayDialog(resourceService.GetString("NewProject.SearchReplace.FindInFilesBrowseLabel")) == DialogResult.OK) {
-			//	ControlDictionary["directoryTextBox"].Text = fd.Path;
-			//}
 			if (fd.Run() == (int)Gtk.ResponseType.Ok)
 			{
 				directoryTextBox.Text = fd.Filename;
 			}
+			fd.Hide ();
 		}
 		
 		void SearchLocationCheckBoxChangedEvent(object sender, EventArgs e)
