@@ -1,3 +1,7 @@
+2004-08-07  Todd Berman  <tberman@sevenl.net>
+
+	* AssemblyInfo.cs.in: Use new ASSEMBLY_VERSION variable.
+
 2004-03-31  Todd Berman  <tberman@sevenl.net>
 
 	* Makefile.am: change from $(GECKO_SHARP) to @GECKO_SHARP@ for bugfix

@@ -1,6 +1,6 @@
 AC_INIT(README)
 AC_CANONICAL_SYSTEM
-AM_INIT_AUTOMAKE(monodevelop, 0.6)
+AM_INIT_AUTOMAKE(monodevelop, 0.5.1)
 AM_MAINTAINER_MODE
 
 AM_DISABLE_STATIC
@@ -8,6 +8,8 @@ AM_PROG_LIBTOOL
 AC_PROG_INTLTOOL([0.25])
 
 AM_PATH_GLIB_2_0
+
+ASSEMBLY_VERSION=0.5.1.0
 
 AC_PATH_PROG(MONO, mono)
 AC_PATH_PROG(MCS, mcs)
@@ -95,9 +97,10 @@ GLIB_MKENUMS="`$PKG_CONFIG --variable=glib_mkenums glib-2.0`"
 AC_SUBST(GLIB_MKENUMS)
 
 dnl find mono debugger
-MONO_DEBUGGER_REQUIRED_VERSION=0.9
-PKG_CHECK_MODULES(MONO_DEBUGGER, mono-debugger >= $MONO_DEBUGGER_REQUIRED_VERSION, enable_debugger=yes, enable_debugger=no)
-AC_SUBST(MONO_DEBUGGER_LIBS)
+dnl MONO_DEBUGGER_REQUIRED_VERSION=0.9
+dnl PKG_CHECK_MODULES(MONO_DEBUGGER, mono-debugger >= $MONO_DEBUGGER_REQUIRED_VERSION, enable_debugger=yes, enable_debugger=no)
+dnl AC_SUBST(MONO_DEBUGGER_LIBS)
+enable_debugger=no
 
 MOZILLA_HOME="`$PKG_CONFIG --variable=libdir mozilla-gtkmozembed`"
 AC_SUBST(MOZILLA_HOME)
@@ -125,6 +128,7 @@ AM_GLIB_GNU_GETTEXT
 
 AC_SUBST(LIB_SUFFIX)
 AC_SUBST(LIB_PREFIX)
+AC_SUBST(ASSEMBLY_VERSION)
 
 AC_OUTPUT([
 Makefile
@@ -200,7 +204,7 @@ echo ""
 echo "   * Installation prefix = $prefix"
 echo "   * GNOME prefix = $gnome_prefix"
 echo ""
-echo "   * mono-debugger $MONO_DEBUGGER_REQUIRED_VERSION: $enable_debugger"
+echo "   * mono-debugger: disabled in this release."
 echo ""
 echo "   NOTE: if any of the above say 'no' you may install the"
 echo "         corresponding development packages for them, and"

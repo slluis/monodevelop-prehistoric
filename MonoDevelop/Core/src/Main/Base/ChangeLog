@@ -1,3 +1,7 @@
+2004-08-07  Todd Berman  <tberman@off.net>
+
+	* AssemblyInfo.cs.in: Use new ASSEMBLY_VERSION variable.
+
 2004-07-28  Fawad Halim <fawad@fawad.net>
 
 	* Services/File/DefaultFileService.cs: Added inner class FileInformation as a container for File Opening information. Overloaded OpenFile to accept a delegate to call after File Opening.

@@ -1,3 +1,7 @@
+2004-08-07  Todd Berman  <tberman@off.net>
+
+	* AssemblyInfo.cs.in: Use new ASSEMBLY_VERSION variable.
+
 2004-07-02  Todd Berman  <tberman@off.net>
 
 	* FileIcons/FileIconLoader.cs: add a try catch that makes sure the
