@@ -41,6 +41,21 @@ namespace MonoDevelop.Gui.Widgets
 			set { ignoreHidden = value; }
 		}
 
+		public Gtk.TreeView TreeView
+		{
+			get { return tv; }
+		}
+
+		public string CurrentDir
+		{
+			get { return System.IO.Path.GetFullPath (currentDir); }
+		}
+
+		public string[] Files
+		{
+			get { return files; }
+		}
+
 		public static new GLib.GType GType
 		{
 			get
