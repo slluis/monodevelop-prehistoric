@@ -1,3 +1,8 @@
+2004-12-26  John Luke  <john.luke@gmail.com>
+
+	* Glue.cs: remove IsGtk24 which was never used, and is
+	no longer useful
+
 2004-08-07  Todd Berman  <tberman@off.net>
 
 	* AssemblyInfo.cs.in: Use new ASSEMBLY_VERSION variable.
