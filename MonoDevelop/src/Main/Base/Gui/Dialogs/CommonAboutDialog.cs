@@ -118,7 +118,7 @@ namespace MonoDevelop.Gui.Dialogs
 		//ChangeLogTabPage changelog;
 		ScrollBox aboutPictureScrollBox;
 		
-		static PropertyService propertyService = (PropertyService)ServiceManager.Services.GetService(typeof(PropertyService));
+		//static PropertyService propertyService = (PropertyService)ServiceManager.Services.GetService(typeof(PropertyService));
 		
 		public static new GLib.GType GType
 		{
@@ -133,7 +133,7 @@ namespace MonoDevelop.Gui.Dialogs
 		{
 			this.Title = GettextCatalog.GetString ("About MonoDevelop");
 			this.TransientFor = (Gtk.Window) WorkbenchSingleton.Workbench;
-			ResourceService resourceService = (ResourceService) ServiceManager.Services.GetService(typeof (IResourceService));
+			//ResourceService resourceService = (ResourceService) ServiceManager.Services.GetService(typeof (IResourceService));
 			aboutPictureScrollBox = new ScrollBox ();
 		
 			this.VBox.PackStart (aboutPictureScrollBox);

@@ -23,11 +23,10 @@ namespace MonoDevelop.Gui.Dialogs
 	public class AboutMonoDevelopTabPage : VBox
 	{
 		static GLib.GType gtype;
-		Label      versionLabel   = new Label ();
-		Label    versionTextBox = new Label ();
-		Label      sponsorLabel   = new Label ();
-		Label      licenseLabel   = new Label ();
-		Label      copyrightLabel   = new Label ();
+		Label versionLabel = new Label ();
+		Label sponsorLabel = new Label ();
+		Label licenseLabel = new Label ();
+		Label copyrightLabel = new Label ();
 		
 		public static new GLib.GType GType
 		{
@@ -42,20 +41,28 @@ namespace MonoDevelop.Gui.Dialogs
 		public AboutMonoDevelopTabPage() : base (GType)
 		{
 			Version v = Assembly.GetEntryAssembly().GetName().Version;
-			versionTextBox.Text = v.Major + "." + v.Minor;
-			versionLabel.Markup = String.Format ("<b>{0}</b>", GettextCatalog.GetString("Version"));
+			versionLabel.Markup = String.Format ("<b>{0}</b>\n    {1}", GettextCatalog.GetString("Version"), v.Major + "." + v.Minor);
+			HBox hboxVersion = new HBox ();
+			hboxVersion.PackStart (versionLabel, false, false, 5);
 			
 			//FIXME why do they align in the center always
+			HBox hboxLicense = new HBox ();
 			licenseLabel.Markup = String.Format ("<b>License</b>\n    {0}", GettextCatalog.GetString ("Released under the GNU General Public license."));
-			// FIXME should this be translated
-			sponsorLabel.Markup = "<b>Sponsors</b>\n    SharpDevelop is sponsored by AlphaSierraPapa\n    <span foreground=\"blue\">http://www.AlphaSierraPapa.com</span>\n    <span foreground=\"blue\">http://icsharpcode.net/opensource/sd</span>";
-			copyrightLabel.Markup = "<b>Copyright</b>\n    (c) 2000-2003 by icsharpcode.net\n    (c) 2004 by MonoDevelop contributors";
+			hboxLicense.PackStart (licenseLabel, false, false, 5);
 
-			this.PackStart (versionLabel, false, true, 0);
-			this.PackStart (versionTextBox, false, true, 0);
-			this.PackStart (licenseLabel, false, true, 5);
-			this.PackStart (copyrightLabel, false, true, 5);
-			this.PackStart (sponsorLabel, false, true, 5);
+			// FIXME should this be translated
+			HBox hboxSponsor = new HBox ();
+			sponsorLabel.Markup = "<b>Sponsors</b>\n    SharpDevelop is sponsored by AlphaSierraPapa\n    <span foreground=\"blue\">http://www.AlphaSierraPapa.com</span>\n    <span foreground=\"blue\">http://icsharpcode.net/opensource/sd</span>";
+			hboxSponsor.PackStart (sponsorLabel, false, false, 5);
+
+			HBox hboxCopyright = new HBox ();
+			copyrightLabel.Markup = "<b>Copyright</b>\n    (c) 2000-2003 by icsharpcode.net\n    (c) 2004 by MonoDevelop contributors";
+			hboxCopyright.PackStart (copyrightLabel, false, false, 5);
+
+			this.PackStart (hboxVersion, false, true, 0);
+			this.PackStart (hboxLicense, false, true, 5);
+			this.PackStart (hboxCopyright, false, true, 5);
+			this.PackStart (hboxSponsor, false, true, 5);
 			this.ShowAll ();
 		}
 	}
