@@ -42,6 +42,8 @@ namespace MonoDevelop.SourceEditor.Gui
 				return true;
 			if (mimetype == "application/x-config")
 				return true;
+			if (mimetype == "application/x-aspx")
+				return true;
 			return false;
 		}
 		

@@ -91,7 +91,7 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 				TextIter offsetIter = wnd.control.Buffer.GetIterAtMark (wnd.triggeringMark);
 				TextIter endIter = wnd.control.Buffer.GetIterAtOffset (offsetIter.Offset + wnd.PartialWord.Length);
 				wnd.control.Buffer.MoveMark (wnd.control.Buffer.InsertMark, offsetIter);
-				wnd.control.Buffer.Delete (offsetIter, endIter);
+				wnd.control.Buffer.Delete (ref offsetIter, ref endIter);
 				wnd.control.Buffer.InsertAtCursor (wnd.CompleteWord);
 			}
 			

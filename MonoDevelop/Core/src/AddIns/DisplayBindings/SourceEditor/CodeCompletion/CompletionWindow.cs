@@ -59,7 +59,7 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 			TextIter offsetIter = control.Buffer.GetIterAtMark (triggeringMark);
 			if (startIter.Offset > offsetIter.Offset) {
 				int newPos = offsetIter.Offset;
-				control.Buffer.Delete (offsetIter, startIter);
+				control.Buffer.Delete (ref offsetIter, ref startIter);
 				control.Buffer.MoveMark (control.Buffer.InsertMark, control.Buffer.GetIterAtOffset (newPos));
 			}
 		}

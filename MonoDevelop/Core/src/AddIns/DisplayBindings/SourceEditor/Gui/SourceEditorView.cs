@@ -161,7 +161,7 @@ namespace MonoDevelop.SourceEditor.Gui
 			iter.LineOffset = 0;
 			TextIter end_iter = buf.GetIterAtLine (iter.Line);
 			end_iter.LineOffset = end_iter.CharsInLine;
-			buf.Delete (iter, end_iter);
+			buf.Delete (ref iter, ref end_iter);
 		}
 
 		void TriggerCodeComplete ()
@@ -374,7 +374,9 @@ namespace MonoDevelop.SourceEditor.Gui
 		{
 			int offset = buf.GetIterAtMark (buf.InsertMark).Offset;
 			int start = FindPrevWordStart (buf.Text, offset);
-			buf.Delete (buf.GetIterAtOffset (start), buf.GetIterAtOffset (offset));
+			TextIter startIter = buf.GetIterAtOffset (start);
+			TextIter offsetIter = buf.GetIterAtOffset (offset);
+			buf.Delete (ref startIter, ref offsetIter);
 			return start;
 		}
 
@@ -489,7 +491,7 @@ namespace MonoDevelop.SourceEditor.Gui
 			for (int l = y0; l <= y1; l ++) {
 				TextIter it = Buffer.GetIterAtLine (l);
 				if (!it.EndsLine())
-					Buffer.Insert (it, indent);
+					Buffer.Insert (ref it, indent);
 			}
 		}
 		
@@ -503,7 +505,7 @@ namespace MonoDevelop.SourceEditor.Gui
 				
 				if (c == '\t') {
 					end.ForwardChar ();
-					buf.Delete (start, end);
+					buf.Delete (ref start, ref end);
 					
 				} else if (c == ' ') {
 					int cnt = 0;
@@ -517,7 +519,7 @@ namespace MonoDevelop.SourceEditor.Gui
 					if (cnt == 0)
 						return;
 					
-					buf.Delete (start, end);
+					buf.Delete (ref start, ref end);
 				}
 			}
 		}
@@ -557,8 +559,8 @@ namespace MonoDevelop.SourceEditor.Gui
 			TextIter end = begin;
 			end.ForwardToLineEnd ();
 			
-			Buffer.Delete (begin, end);
-			Buffer.Insert (begin, txt);
+			Buffer.Delete (ref begin, ref end);
+			Buffer.Insert (ref begin, txt);
 		}
 		
 		IndentStyle IFormattableDocument.IndentStyle
@@ -585,7 +587,8 @@ namespace MonoDevelop.SourceEditor.Gui
 		
 		void IFormattableDocument.Insert (int offset, string text)
 		{
-			Buffer.Insert (Buffer.GetIterAtOffset (offset), text);
+			TextIter insertIter = Buffer.GetIterAtOffset (offset);
+			Buffer.Insert (ref insertIter, text);
 		}
 		
 		string IFormattableDocument.IndentString

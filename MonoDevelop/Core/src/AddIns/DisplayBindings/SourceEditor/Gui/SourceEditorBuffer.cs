@@ -166,14 +166,17 @@ namespace MonoDevelop.SourceEditor.Gui
 			if (GetIterAtMark (complete_end).Offset == 0)
 				return;
 			RemoveTag (complete_ahead, GetIterAtMark (InsertMark), GetIterAtMark (complete_end));
-			Delete (GetIterAtMark (InsertMark), GetIterAtMark (complete_end));
+			TextIter insertIter = GetIterAtMark (InsertMark);
+			TextIter completionEnd = GetIterAtMark (complete_end);
+			Delete (ref insertIter, ref completionEnd);
 			MoveMark (complete_end, GetIterAtOffset (0));
 		}
 
 		public void CompleteAhead (string what)
 		{
 			DropCompleteAhead ();
-			InsertWithTags (GetIterAtMark (InsertMark), what, new TextTag[] 
+			TextIter insertIter = GetIterAtMark (InsertMark);
+			InsertWithTags (ref insertIter, what, new TextTag[] 
 							{ complete_ahead });
 			TextIter it = GetIterAtMark (InsertMark);
 			MoveMark (complete_end, it);
@@ -645,7 +648,7 @@ namespace MonoDevelop.SourceEditor.Gui
 		public void Insert (int offset, string text)
 		{
 			TextIter put = GetIterAtOffset (offset);
-			Insert (put, text);
+			Insert (ref put, text);
 		}
 
 		public int GetLowerSelectionBounds ()
@@ -663,7 +666,7 @@ namespace MonoDevelop.SourceEditor.Gui
 		{
 			TextIter start = GetIterAtOffset (offset);
 			TextIter end = GetIterAtOffset (offset + length);
-			Delete (start, end);
+			Delete (ref start, ref end);
 		}
 
 		public void Replace (int offset, int length, string pattern)
