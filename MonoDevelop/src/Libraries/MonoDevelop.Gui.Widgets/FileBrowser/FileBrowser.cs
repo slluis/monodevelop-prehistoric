@@ -56,13 +56,14 @@ namespace MonoDevelop.Gui.Widgets
 		{
 			store.Clear ();
 			// seems unnecessary
-			// store.AppendValues (".");
+			store.AppendValues (".");
+
 			if (currentDir != "/")
 				store.AppendValues ("..");
 
 			DirectoryInfo di = new DirectoryInfo (currentDir);
 			DirectoryInfo[] dirs = di.GetDirectories ();
-			
+	
 			foreach (DirectoryInfo d in dirs)
 			{
 				if (ignoreHidden)
@@ -81,9 +82,11 @@ namespace MonoDevelop.Gui.Widgets
 		{
 			TreeIter iter;
 			TreeModel model;
-			tv.Selection.GetSelected (out model, out iter);
-			string selection = (string) model.GetValue (iter, 0);
-			files = Directory.GetFiles (System.IO.Path.Combine (currentDir, selection));
+			if (tv.Selection.GetSelected (out model, out iter))
+			{
+				string selection = (string) store.GetValue (iter, 0);
+				files = Directory.GetFiles (System.IO.Path.Combine (currentDir, selection));
+			}
 		}
 
 		private void OnRowActivated (object o, RowActivatedArgs args)
@@ -91,8 +94,12 @@ namespace MonoDevelop.Gui.Widgets
 			TreeIter iter;
 			store.GetIter (out iter, args.Path);
 			string file = (string) store.GetValue (iter, 0);
-			currentDir = System.IO.Path.Combine (currentDir, file);
-			Populate ();
+			string newDir = System.IO.Path.Combine (currentDir, file);
+			if (Directory.Exists (newDir))
+			{
+				currentDir = newDir;
+				Populate ();
+			}
 		}
 	}
 }

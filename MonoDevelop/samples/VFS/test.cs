@@ -8,9 +8,10 @@ class T
 	{
 		Vfs.Init ();
 		Console.WriteLine (Vfs.Initialized);
-		string test_file = Path.Combine (Environment.CurrentDirectory, "test.txt");
+		string test_file = Path.Combine (Environment.CurrentDirectory, "test.cs");
 		if (File.Exists (test_file))
 		{
+
 			string mt = Vfs.GetMimeType (test_file);
 			Console.WriteLine (Vfs.IsKnownType (mt));
 			string icon = Vfs.GetIcon (mt);
