@@ -62,15 +62,17 @@ namespace MonoDevelop.SourceEditor.Gui
 		{
 			SourceEditorDisplayBindingWrapper w = new SourceEditorDisplayBindingWrapper ();
 			
+			Console.WriteLine ("*************");
+			Console.WriteLine (language);
 			//FIXME
-			switch (language) {
+			switch (language.ToUpper ()) {
 				case "C#":
 					language = "text/x-csharp";
 					break;
-				case "Java":
+				case "JAVA":
 					language = "text/x-java";
 					break;
-				//case language "VB":
+				//case language "VBNET":
 				//	language = "text/x-vbnet";
 				//	break;
 				default:
