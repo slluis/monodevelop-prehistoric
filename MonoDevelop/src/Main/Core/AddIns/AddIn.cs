@@ -236,7 +236,7 @@ namespace ICSharpCode.Core.AddIns
 		/// Autoinitialized all fields of the customizer object to the values
 		/// in the codonNode using the XmlMemberAttributeAttribute.
 		/// </summary>
-		void AutoInitializeAttributes(object customizer, XmlNode codonNode)
+		void AutoInitializeAttributes(object customizer, XmlElement codonNode)
 		{
 			Type currentType = customizer.GetType();
 			while (currentType != typeof(object)) {
@@ -248,7 +248,7 @@ namespace ICSharpCode.Core.AddIns
 					
 					if (codonAttribute != null) {
 						// get value from xml file
-						XmlNode node = codonNode.SelectSingleNode("@" + codonAttribute.Name);
+						XmlNode node = codonNode.Attributes [codonAttribute.Name];
 						
 						// check if its required
 						if (node == null && codonAttribute.IsRequired) {
@@ -274,7 +274,7 @@ namespace ICSharpCode.Core.AddIns
 					
 					if (codonArrayAttribute != null) {
 						// get value from xml file
-						XmlNode node = codonNode.SelectSingleNode("@" + codonArrayAttribute.Name);
+						XmlNode node = codonNode.Attributes [codonArrayAttribute.Name];
 						
 						// check if its required
 						if (node == null && codonArrayAttribute.IsRequired) {
