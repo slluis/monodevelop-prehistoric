@@ -543,6 +543,7 @@ namespace ICSharpCode.SharpRefactory.Parser
 		}
 		public virtual object Visit(AssignmentExpression assignmentExpression, object data)
 		{
+			if (assignmentExpression.Left == null || assignmentExpression.Right == null) return null;
 			assignmentExpression.Left.AcceptVisitor(this, data);
 			return assignmentExpression.Right.AcceptVisitor(this, data);
 		}

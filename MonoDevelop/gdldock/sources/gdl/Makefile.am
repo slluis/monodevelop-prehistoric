@@ -53,7 +53,6 @@ libgdldock_la_SOURCES = \
 	libgdlmarshal.c
 
 libgdldock_la_LIBADD = $(GDLDOCK_LIBS)
-libgdldock_la_LDFLAGS = -avoid-version
 
 BUILT_SOURCES = \
 	libgdltypebuiltins.h \

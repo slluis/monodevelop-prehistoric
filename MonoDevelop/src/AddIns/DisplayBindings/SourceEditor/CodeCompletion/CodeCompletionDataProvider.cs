@@ -1,7 +1,7 @@
 // <file>
 //     <copyright see="prj:///doc/copyright.txt"/>
 //     <license see="prj:///doc/license.txt"/>
-//     <owner name="Mike KrÃƒÂ¼ger" email="mike@icsharpcode.net"/>
+//     <owner name="Mike KrÃ?Â¼ger" email="mike@icsharpcode.net"/>
 //     <version value="$version"/>
 // </file>
 
@@ -41,6 +41,17 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 		int caretLineNumber;
 		int caretColumn;
 		string fileName;
+		bool ctrlspace;
+
+		public CodeCompletionDataProvider() : this (false)
+			{
+			}
+			
+			public CodeCompletionDataProvider (bool ctrl) 
+			{
+				this.ctrlspace = ctrl;
+			}
+			
 		
 		ArrayList completionData = null;
 
@@ -62,6 +73,10 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 			IExpressionFinder expressionFinder = parserService.GetExpressionFinder(fileName);
 			string expression    = expressionFinder == null ? TextUtilities.GetExpressionBeforeOffset(textArea, insertIter.Offset) : expressionFinder.FindExpression(textArea.Buffer.GetText(textArea.Buffer.StartIter, insertIter, true), insertIter.Offset - 2);
 			if (expression == null) return null;
+			if (ctrlspace && charTyped != '.') {
+				AddResolveResults (parserService.CtrlSpace (parserService, caretLineNumber, caretColumn, fileName));
+				return (ICompletionData[])completionData.ToArray (typeof (ICompletionData));
+			}
 			if (charTyped == ' ') {
 				if (expression == "using" || expression.EndsWith(" using") || expression.EndsWith("\tusing")|| expression.EndsWith("\nusing")|| expression.EndsWith("\rusing")) {
 					string[] namespaces = parserService.GetNamespaceList("");

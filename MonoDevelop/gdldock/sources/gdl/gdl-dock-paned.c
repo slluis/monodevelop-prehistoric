@@ -559,10 +559,10 @@ gdl_dock_paned_dock (GdlDockObject    *object,
     switch (GDL_DOCK_ITEM (object)->orientation) {
         case GTK_ORIENTATION_HORIZONTAL:
             if (!paned->child1 && position == GDL_DOCK_LEFT) {
-                gtk_paned_pack1 (paned, GTK_WIDGET (requestor), wresize, FALSE);
+                gtk_paned_pack1 (paned, GTK_WIDGET (requestor), FALSE, FALSE);
                 done = TRUE;
             } else if (!paned->child2 && position == GDL_DOCK_RIGHT) {
-                gtk_paned_pack2 (paned, GTK_WIDGET (requestor), wresize, FALSE);
+                gtk_paned_pack2 (paned, GTK_WIDGET (requestor), TRUE, FALSE);
                 done = TRUE;
             }
             break;

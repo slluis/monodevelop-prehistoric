@@ -151,20 +151,19 @@ namespace MonoDevelop.SourceEditor.Gui
 
 		void TriggerCodeComplete ()
 		{
+			
 			TextIter iter = buf.GetIterAtMark (buf.InsertMark);
-			char triggerChar = '.';
+			char triggerChar = '\0';
 			TextIter triggerIter = TextIter.Zero;
 			do {
-				//FIXME: This code is placeholder until you can
-				//just switch on iter.Char
-				string s = buf.GetText (iter, buf.GetIterAtOffset (iter.Offset + 1), true);
-				switch (s) {
-				case " ":
+				switch (iter.Char[0]) {
+				case ' ':
+				case '\t':
+				case '.':
+				case '(':
+				case '[':
 					triggerIter = iter;
-					triggerChar = ' ';
-					break;
-				case ".":
-					triggerIter = iter;
+					triggerChar = iter.Char[0];
 					break;
 				}
 				if (!triggerIter.Equals (TextIter.Zero))
@@ -174,8 +173,8 @@ namespace MonoDevelop.SourceEditor.Gui
 
 			if (triggerIter.Equals (TextIter.Zero)) return;
 			triggerIter.ForwardChar ();
-			completionWindow = new CompletionWindow (this, ParentEditor.DisplayBinding.ContentName, new CodeCompletionDataProvider ());
-
+			completionWindow = new CompletionWindow (this, ParentEditor.DisplayBinding.ContentName, new CodeCompletionDataProvider (true));
+			
 			completionWindow.ShowCompletionWindow (triggerChar, triggerIter, true);
 		}
 		
@@ -219,56 +218,60 @@ namespace MonoDevelop.SourceEditor.Gui
 			}
 
 			switch ((char)key) {
-				case ' ':
-					if (1 == 1) {
-						string word = GetWordBeforeCaret ();
-						if (word != null) {
-							CodeTemplateGroup templateGroup = CodeTemplateLoader.GetTemplateGroupPerFilename(ParentEditor.DisplayBinding.ContentName);
-							
-							if (templateGroup != null) {
-								foreach (CodeTemplate template in templateGroup.Templates) {
-									if (template.Shortcut == word) {
-										InsertTemplate(template);
-										return false;
-									}
-								}
+			case ' ':
+				string word = GetWordBeforeCaret ();
+				if (word != null) {
+					//if (word.ToLower () == "new") {
+					//	if (EnableCodeCompletion) {
+					//		completionWindow = new CompletionWindow (this, ParentEditor.DisplayBinding.ContentName, new CodeCompletionDataProvider (true));
+					//		completionWindow.ShowCompletionWindow ((char)key, buf.GetIterAtMark (buf.InsertMark), false);
+					//	}
+					//}
+					CodeTemplateGroup templateGroup = CodeTemplateLoader.GetTemplateGroupPerFilename(ParentEditor.DisplayBinding.ContentName);
+					
+					if (templateGroup != null) {
+						foreach (CodeTemplate template in templateGroup.Templates) {
+							if (template.Shortcut == word) {
+								InsertTemplate(template);
+								return false;
 							}
 						}
 					}
-					goto case '.';
-
-				case '.':
-					bool retval = base.OnKeyPressEvent (evnt);
-					if (EnableCodeCompletion) {
-						completionWindow = new CompletionWindow (this, ParentEditor.DisplayBinding.ContentName, new CodeCompletionDataProvider ());
-						completionWindow.ShowCompletionWindow ((char)key, buf.GetIterAtMark (buf.InsertMark), false);
-					}
-					return retval;
+				}
+				goto case '.';
+				
+			case '.':
+				bool retval = base.OnKeyPressEvent (evnt);
+				if (EnableCodeCompletion) {
+					completionWindow = new CompletionWindow (this, ParentEditor.DisplayBinding.ContentName, new CodeCompletionDataProvider ());
+					completionWindow.ShowCompletionWindow ((char)key, buf.GetIterAtMark (buf.InsertMark), false);
+				}
+				return retval;
 				/*case '(':
-					try {
-						InsightWindow insightWindow = new InsightWindow(this, ParentEditor.DisplayBinding.ContentName);
-						
-						insightWindow.AddInsightDataProvider(new MethodInsightDataProvider());
-						insightWindow.ShowInsightWindow();
-					} catch (Exception e) {
-						Console.WriteLine("EXCEPTION: " + e);
-					}
-					break;
-				case '[':
-					try {
-						InsightWindow insightWindow = new InsightWindow(this, ParentEditor.DisplayBinding.ContentName);
-						
-						insightWindow.AddInsightDataProvider(new IndexerInsightDataProvider());
-						insightWindow.ShowInsightWindow();
-					} catch (Exception e) {
-						Console.WriteLine("EXCEPTION: " + e);
-					}
-					break;*/
+				  try {
+				  InsightWindow insightWindow = new InsightWindow(this, ParentEditor.DisplayBinding.ContentName);
+				  
+				  insightWindow.AddInsightDataProvider(new MethodInsightDataProvider());
+				  insightWindow.ShowInsightWindow();
+				  } catch (Exception e) {
+				  Console.WriteLine("EXCEPTION: " + e);
+				  }
+				  break;
+				  case '[':
+				  try {
+				  InsightWindow insightWindow = new InsightWindow(this, ParentEditor.DisplayBinding.ContentName);
+				  
+				  insightWindow.AddInsightDataProvider(new IndexerInsightDataProvider());
+				  insightWindow.ShowInsightWindow();
+				  } catch (Exception e) {
+				  Console.WriteLine("EXCEPTION: " + e);
+				  }
+				  break;*/
 			}
-		
+			
 			return base.OnKeyPressEvent (evnt);
 		}
-
+		
 		public int FindPrevWordStart (string doc, int offset)
 		{
 			for ( offset-- ; offset >= 0 ; offset--)
