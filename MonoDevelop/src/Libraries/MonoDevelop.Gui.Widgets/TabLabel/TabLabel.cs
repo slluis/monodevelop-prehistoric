@@ -3,8 +3,6 @@ using System.Drawing;
 using Gtk;
 using Gdk;
 
-using ICSharpCode.Core.Services;
-
 namespace MonoDevelop.Gui.Widgets
 {
 	public class TabLabel : HBox
@@ -27,6 +25,7 @@ namespace MonoDevelop.Gui.Widgets
 			btn.Relief = ReliefStyle.None;
 			btn.RequestSize = new Size (16, 16);
 			this.Add (btn);
+
 			this.ShowAll ();
 		}
 		
