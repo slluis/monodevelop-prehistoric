@@ -109,8 +109,7 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 		
 		void ListSizeChanged (object obj, SizeAllocatedArgs args)
 		{
-			Console.WriteLine ("ListSizeChanged");
-			UpdateDeclarationView ();
+//			UpdateDeclarationView ();
 		}
 		
 		protected override void OnSelectionChanged ()
