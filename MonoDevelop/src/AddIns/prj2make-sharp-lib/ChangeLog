@@ -1,4 +1,9 @@
 2004-04-25  Francisco "Paco" Martinez <paco@mfcon.com>
+	Files removed
+	* AssemblyInfo.cs -- This file is now generated in the build by
+		AssemblyInfo.cs.in
+
+2004-04-25  Francisco "Paco" Martinez <paco@mfcon.com>
 	
 	Files changed
 	* ChangeLog  -- Edited to better reflect the files included in the original import into the repository.
