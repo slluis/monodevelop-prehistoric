@@ -73,19 +73,21 @@ namespace MonoDevelop.SourceEditor.Gui
 		AtomicUndo atomic_undo;
 		SourceEditorView view;
 		int highlightLine = -1;
+		bool underlineErrors = true;
+		ArrayList points;
+
+		IParserService ps = (IParserService)ServiceManager.GetService (typeof (IParserService));
 
 		public SourceEditorView View
 		{
-			get {
-				return view;
-			}
-			set {
-				view = value;
-			}
+			get { return view; }
+			set { view = value; }
 		}
-		
-		
-		IParserService ps = (IParserService)ServiceManager.GetService (typeof (IParserService));
+
+		public bool UnderlineErrors {
+			get { return underlineErrors; }
+			set { underlineErrors = value; }
+		}
 
 		public SourceEditorBuffer (SourceEditorView view) : this ()
 		{
@@ -101,54 +103,58 @@ namespace MonoDevelop.SourceEditor.Gui
 			complete_ahead.Foreground = "grey";
 			TagTable.Add (complete_ahead);
 			compilation_error = new TextTag ("compilation_error");
-			compilation_error.Underline = Pango.Underline.Single;
+			compilation_error.Underline = Pango.Underline.Error;
 			TagTable.Add (compilation_error);
 			complete_end = CreateMark (null, StartIter, true);
 			highlightLineTag = new TextTag ("highlightLine");
 			highlightLineTag.Background = "lightgrey";
 			TagTable.Add (highlightLineTag);
-			//ps.ParseInformationChanged += new ParseInformationEventHandler (parseChanged);
+
+			points = new ArrayList ();
+			ps.ParseInformationChanged += new ParseInformationEventHandler (ParseChanged);
+			GLib.Timeout.Add (50, new GLib.TimeoutHandler (DrawErrors));
 		}
 		
-			ArrayList points = new ArrayList ();
-		public void parseChanged (object o, ParseInformationEventArgs e)
+		public void ParseChanged (object o, ParseInformationEventArgs e)
 		{
 			if (view != null) {
-				if (view.ParentEditor.DisplayBinding.ContentName == e.FileName){
+				if (view.ParentEditor.DisplayBinding.ContentName == e.FileName) {
 					if (e.ParseInformation.MostRecentCompilationUnit.ErrorsDuringCompile) {
 						string[] errors = e.ParseInformation.MostRecentCompilationUnit.ErrorOutput.Split ('\n');
 						foreach (string error in errors) {
 							string[] pieces = error.Split (' ');
-							if (pieces.Length == 1) continue;
-							Console.WriteLine ("line: {0} col: {1}", pieces[2], pieces[4]);
+							if (pieces.Length == 1)
+								continue;
 							int[] point = new int[2];
 							point[0] = Convert.ToInt32 (pieces[2]) - 1;
-							point[1] = Convert.ToInt32 (pieces[4]);
+							point[1] = Convert.ToInt32 (pieces[4]) - 1;
 							points.Add (point);
 						}
-						GLib.Idle.Add (new GLib.IdleHandler (addMarkup));
 					}
 					else {
-						//Clear errors
+						points.Clear ();
 					}
 				}
 			}
 		}
 
-		bool addMarkup ()
+		bool DrawErrors ()
 		{
+			// FIXME: clear old ones nicer
+			RemoveTag (compilation_error, StartIter, EndIter);
+			if (!underlineErrors)
+				return true;
+
 			foreach (int[] point in points) {
-				Console.WriteLine ("line: {0} col: {1}", point[0], point[1]);
-				TextIter start = GetIterAtLine (point[0]);
-				Console.WriteLine (start.Line);
-				//start.LineOffset = point[1] - 1;
-				Console.WriteLine (start.Line);
+				//Console.WriteLine ("Error is line: {0} col: {1}", point[0], point[1]);
+				// FIXME: maybe we can be more precise
+				TextIter start = GetIterAtLineOffset (point[0], point[1]);
 				TextIter end = start;
 				end.ForwardToLineEnd ();
 				ApplyTag (compilation_error, start, end);
 			}
-			points.Clear ();
-			return false;
+
+			return true;
 		}		
 		
 		public void MarkupLine (int linenumber)
@@ -325,7 +331,6 @@ namespace MonoDevelop.SourceEditor.Gui
 		{
 			get {
 				return true;
-				//return clipboard.WaitIsTextAvailable ();
 			}
 		}
 		

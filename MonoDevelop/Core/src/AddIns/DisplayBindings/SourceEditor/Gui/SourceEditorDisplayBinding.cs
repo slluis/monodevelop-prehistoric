@@ -519,6 +519,7 @@ namespace MonoDevelop.SourceEditor.Gui
 			se.View.InsertSpacesInsteadOfTabs = TextEditorProperties.ConvertTabsToSpaces;
 			se.View.AutoIndent = (TextEditorProperties.IndentStyle == IndentStyle.Auto);
 			se.View.AutoInsertTemplates = TextEditorProperties.AutoInsertTemplates;
+			se.Buffer.UnderlineErrors = TextEditorProperties.UnderlineErrors;
 			
 			//System.Console.WriteLine(e.Key + " = " + e.NewValue + "(from " + e.OldValue + ")" );
 					// The items below can't be done (since there is no support for it in gtksourceview)
@@ -526,7 +527,6 @@ namespace MonoDevelop.SourceEditor.Gui
 					// CANTDO: show tabs				Key = "ShowTabs"
 					// CANTDO eol makers				Key = "ShowEOLMarkers"
 					// CANTDO: show horizontal ruler	Key = "ShowHRuler"		
-					// CANDO in pango1.4: underline errors			Key = "ShowErrors"
 					// DONOTDO: auto insert braces		Key = "AutoInsertCurlyBracket"
 					// TODO: Show Invalid Lines			Key = "ShowInvalidLines"
 					// TODO: Code Folding				Key = "EnableFolding"
@@ -536,3 +536,4 @@ namespace MonoDevelop.SourceEditor.Gui
  		}
 	}
 }
+

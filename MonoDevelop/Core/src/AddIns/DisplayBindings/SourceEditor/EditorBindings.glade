@@ -845,7 +845,7 @@
 		  <property name="spacing">6</property>
 
 		  <child>
-		    <widget class="GtkCheckButton" id="showInvalidLinesCheckBox">
+		    <widget class="GtkCheckButton" id="showErrorsCheckBox">
 		      <property name="visible">True</property>
 		      <property name="can_focus">True</property>
 		      <property name="label" translatable="yes">_Underline errors</property>
@@ -1023,7 +1023,7 @@
 			      </child>
 
 			      <child>
-				<widget class="GtkCheckButton" id="showErrorsCheckBox">
+				<widget class="GtkCheckButton" id="showInvalidLinesCheckBox">
 				  <property name="visible">True</property>
 				  <property name="sensitive">False</property>
 				  <property name="can_focus">True</property>

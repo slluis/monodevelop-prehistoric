@@ -281,6 +281,15 @@ namespace MonoDevelop.EditorBindings.Properties {
 				properties.SetProperty("AutoInsertTemplates", value);
 			}
 		}
+
+		public static bool UnderlineErrors {
+			get {
+				return properties.GetProperty("ShowErrors", true);
+			}
+			set {
+				properties.SetProperty("ShowErrors", value);
+			}
+		}
 		
 		public static FontDescription Font {
 			get {

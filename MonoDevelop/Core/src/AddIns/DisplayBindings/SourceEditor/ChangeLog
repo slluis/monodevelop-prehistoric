@@ -1,6 +1,17 @@
 2005-01-31  John Luke  <john.luke@gmail.com>
 
 	* EditorBindings.glade:
+	* Gui/SourceEditorBuffer.cs:
+	* Gui/SourceEditorView.cs:
+	* Gui/OptionPanels/MarkersTextEditorPanel.cs:
+	* Gui/SourceEditorDisplayBinding.cs:
+	* Properties/TextEditorProperties.cs:
+	finish off underlining of errors, seems to
+	work alright
+
+2005-01-31  John Luke  <john.luke@gmail.com>
+
+	* EditorBindings.glade:
 	* Gui/SourceEditorView.cs:
 	* Gui/OptionPanels/BehaviorTextEditorPanel.cs:
 	* Gui/SourceEditorDisplayBinding.cs:
