@@ -2,12 +2,12 @@
     "http://www.w3c.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html>
   <head>
-    <link rel="stylesheet" media="screen" href="styles.css" type="text/css" />
+    <link rel="stylesheet" media="screen" href="/styles.css" type="text/css" />
     <title>MonoDevelop Homepage</title>
   </head>
   <body>
     <div id="header">
-      <img src="images/mono-develop.png" alt=""/>
+      <img src="/images/mono-develop.png" alt=""/>
     </div>
     <div id="left-nav">
       <ul>
