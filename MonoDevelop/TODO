@@ -23,6 +23,7 @@
 	http://developer.gnome.org/projects/gup/hig/
 - some keywords should be bold when highlighted
 - make fonts choice persist (after restarting)
+- organize this list
 
 ---- Bugs in the File->New->File... Dialog
 
