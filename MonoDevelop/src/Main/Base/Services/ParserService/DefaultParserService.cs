@@ -103,7 +103,45 @@ namespace MonoDevelop.Services
 				return assemblyList;
 			}
 		}
+		
+		string LoadAssemblyFromGac (string name) {
+			MethodInfo gac_get = typeof (System.Environment).GetMethod ("internalGetGacPath", BindingFlags.Static|BindingFlags.NonPublic);
+			
+			if (gac_get == null)
+				return String.Empty;
+			
+			string use_name = name;
+			string asmb_path;
+			string [] canidates;
 
+			if (name == "mscorlib")
+				return Path.Combine ((string) gac_get.Invoke (null, null), name + ".dll");
+            
+			if (name.EndsWith (".dll"))
+				use_name = name.Substring (0, name.Length - 4);
+			
+			asmb_path = Path.Combine (Path.Combine (Path.Combine ((string) gac_get.Invoke (null, null), "mono"), "gac"), use_name);
+            
+			if (!Directory.Exists (asmb_path))
+				return String.Empty;
+			
+			canidates = Directory.GetDirectories (asmb_path, GetSysVersion () + "*");
+			if (canidates.Length == 0)
+				canidates = Directory.GetDirectories (asmb_path);
+			if (canidates.Length == 0)
+				return String.Empty;
+			
+			return Path.Combine (canidates [0], use_name + ".dll");
+		}
+		
+		string sys_version;
+		string GetSysVersion () {
+			if (sys_version != null)
+				return sys_version;
+			sys_version = typeof (object).Assembly.GetName ().Version.ToString ();
+			return sys_version;
+		}
+		
 		/// <remarks>
 		/// The initialize method writes the location of the code completion proxy
 		/// file to this string.
@@ -167,11 +205,11 @@ namespace MonoDevelop.Services
 			// convert all assemblies
 			for (int i = 0; i < assemblyList.Length; ++i) {
 				try {
-					FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.Services.GetService(typeof(FileUtilityService));
-					string path = fileUtilityService.GetDirectoryNameWithSeparator(System.Runtime.InteropServices.RuntimeEnvironment.GetRuntimeDirectory());
-
+					//FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.Services.GetService(typeof(FileUtilityService));
+					//string path = fileUtilityService.GetDirectoryNameWithSeparator(System.Runtime.InteropServices.RuntimeEnvironment.GetRuntimeDirectory());
+					
 					AssemblyInformation frameworkAssemblyInformation = new AssemblyInformation();
-					frameworkAssemblyInformation.Load(String.Concat(path, assemblyList[i], ".dll"), false);
+					frameworkAssemblyInformation.Load(LoadAssemblyFromGac (assemblyList[i]), false);
 					// create all class proxies
 					foreach (IClass newClass in frameworkAssemblyInformation.Classes) {
 						ClassProxy newProxy = new ClassProxy(newClass);

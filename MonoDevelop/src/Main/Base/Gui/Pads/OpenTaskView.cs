@@ -61,7 +61,7 @@ namespace MonoDevelop.Gui.Pads {
 			
 			
 			store = new Gtk.ListStore (
-				typeof (string),     // stock id
+				typeof (Gdk.Pixbuf), // image
 				typeof (int),        // line
 				typeof (string),     // desc
 				typeof (string),     // path
@@ -93,7 +93,6 @@ namespace MonoDevelop.Gui.Pads {
 		void AddColumns ()
 		{
 			Gtk.CellRendererPixbuf iconRender = new Gtk.CellRendererPixbuf ();
-			iconRender.StockSize = Gtk.IconSize.SmallToolbar;
 			
 			Gtk.CellRendererToggle toggleRender = new Gtk.CellRendererToggle ();
 			toggleRender.Toggled += new ToggledHandler (ItemToggled);
@@ -101,7 +100,7 @@ namespace MonoDevelop.Gui.Pads {
 			Gtk.CellRendererText line = new Gtk.CellRendererText (), desc = new Gtk.CellRendererText () , path = new Gtk.CellRendererText (),
 			  file = new Gtk.CellRendererText ();
 			
-			view.AppendColumn ("!"                                        , iconRender   , "stock-id", COL_TYPE);
+			view.AppendColumn ("!"                                        , iconRender   , "pixbuf", COL_TYPE);
 			view.AppendColumn (""                                         , toggleRender , "active"  , COL_MARKED, "activatable", COL_READ);
 			view.AppendColumn (GettextCatalog.GetString ("Line")        , line         , "text"    , COL_LINE, "weight", COL_READ_WEIGHT);
 			view.AppendColumn (GettextCatalog.GetString ("Description") , desc         , "text"    , COL_DESC, "weight", COL_READ_WEIGHT, "strikethrough", COL_MARKED);
@@ -159,19 +158,19 @@ namespace MonoDevelop.Gui.Pads {
 			TaskService taskService = (TaskService) ServiceManager.Services.GetService (typeof (TaskService));
 			
 			foreach (Task t in taskService.Tasks) {
-				string stock;
+				Gdk.Pixbuf stock;
 				switch (t.TaskType) {
 					case TaskType.Warning:
-						stock = Gtk.Stock.DialogWarning;
+						stock = sw.RenderIcon (Gtk.Stock.DialogWarning, Gtk.IconSize.SmallToolbar, "");
 						break;
 					case TaskType.Error:
-						stock = Gtk.Stock.DialogError;
+						stock = sw.RenderIcon (Gtk.Stock.DialogError, Gtk.IconSize.SmallToolbar, "");
 						break;
 					case TaskType.Comment:
-						stock = Gtk.Stock.DialogInfo;
+						stock = sw.RenderIcon (Gtk.Stock.DialogInfo, Gtk.IconSize.SmallToolbar, "");
 						break;
 					case TaskType.SearchResult:
-						stock = Gtk.Stock.DialogQuestion;
+						stock = sw.RenderIcon (Gtk.Stock.DialogQuestion, Gtk.IconSize.SmallToolbar, "");
 						break;
 					default:
 						stock = null;
