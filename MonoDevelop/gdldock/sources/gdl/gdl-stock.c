@@ -26,8 +26,6 @@
 #include <gtk/gtkiconfactory.h>
 #include "gdl-stock.h"
 
-#define GDL_IMAGESDIR "."
-
 static GtkIconFactory *gdl_stock_factory = NULL;
 
 static struct {

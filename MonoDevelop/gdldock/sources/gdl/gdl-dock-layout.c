@@ -35,7 +35,6 @@
 #include "gdl-tools.h"
 #include "gdl-dock-placeholder.h"
 
-#define GDL_GLADEDIR "."
 
 /* ----- Private variables ----- */
 

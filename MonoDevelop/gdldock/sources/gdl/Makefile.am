@@ -11,7 +11,9 @@ GDL_DEPENDENCIES_CFLAGS = $(shell pkg-config --cflags $(GDL_REQUIREMENTS))
 GDL_DEPENDENCIES_LIBS = $(shell pkg-config --libs $(GDL_REQUIREMENTS))
 
 INCLUDES = \
-	-DG_LOG_DOMAIN=\"GdlDock\" -I..	-I. \
+	-DG_LOG_DOMAIN=\"GdlDock\" -I..	-I.	\
+	-DGDL_GLADEDIR=\".\"			\
+	-DGDL_IMAGESDIR=\".\"			\
 	$(GDL_DEPENDENCIES_CFLAGS)
 
 libgdldock_headers = \
