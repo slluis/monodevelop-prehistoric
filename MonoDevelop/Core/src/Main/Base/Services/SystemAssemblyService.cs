@@ -35,7 +35,10 @@ namespace MonoDevelop.Services {
 			base.InitializeService ();
 			//Pull up assemblies from the installed mono system.
 			string prefix = Path.GetDirectoryName (typeof (int).Assembly.Location);
-			foreach (string assembly in Directory.GetFiles (Path.Combine (Path.Combine (prefix, "mono"), "1.0"), "*.dll")) {
+			if (prefix.IndexOf ("mono/1.0") == -1) {
+				prefix = Path.Combine (Path.Combine (prefix, "mono"), "1.0");
+			}
+			foreach (string assembly in Directory.GetFiles (prefix, "*.dll")) {
 				AddAssembly (assembly, "MONO-SYSTEM");
 			}
 	
