@@ -152,7 +152,7 @@ namespace MonoDevelop.BrowserDisplayBinding
 		{
 			Shadow = Gtk.ShadowType.In;
 			VBox mainbox = new VBox (false, 2);
-			status = (SdStatusBar) Runtime.Gui.StatusBar.ProgressMonitor;
+			status = (SdStatusBar) Runtime.Gui.StatusBar.Control;
 			
 			if (showNavigation) {
 				
