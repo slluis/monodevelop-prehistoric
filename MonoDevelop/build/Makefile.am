@@ -1,8 +1,6 @@
 SUBDIRS = data AddIns doc
 
-CLEANFILES = bin/*
-
 all:
 
-clean:
+clean-local:
 	rm -rf bin

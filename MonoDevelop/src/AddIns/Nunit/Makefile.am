@@ -30,7 +30,10 @@ build_sources = $(addprefix $(srcdir)/, $(FILES))
 
 all: $(ASSEMBLY)
 
-$(ASSEMBLY): ../../../build/AddIns/$(ADDIN) $(FILES)
+../../../build/AddIns/$(ADDIN): $(ADDIN)
+	cp $(ADDIN) ../../../build/AddIns/MonoDevelopNunit.addin
+
+$(ASSEMBLY): $(FILES)
 	$(CSC) $(DLLS) $(build_sources) /out:$(ASSEMBLY) /target:library \
 	&& cp $(ASSEMBLY) ../../../build/AddIns/.
 
