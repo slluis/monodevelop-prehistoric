@@ -5,7 +5,7 @@
 
       <div class="title">User-submitted Screenshots</div>
       
-      <p>This page holds any user-submitted screenshots we've received. If a screenshot highlights a MonoDevelop feature, it may be added to the <a href="screenshots.aspx">official screenshot page</a>. If you would like your screenshot on this page, <a href="mailto:steve@citygroup.ca">mail steve</a>. In the near future, this page will be replaced with a mono-powered wiki.</p>
+      <p>This page holds any user-submitted screenshots we've received. If a screenshot highlights a MonoDevelop feature, it may be added to the <a href="screenshots.aspx">official screenshot page</a>. If you would like your screenshot on this page, mail <a href="mailto:steve@citygroup.ca">steve</a> or <a href="mrproper@ximian.com">Kevin</a>. In the near future, this page will be replaced with a mono-powered wiki.</p>
       <br />
       
       <div class="image_frame">
