@@ -19,25 +19,24 @@
 
 	<Extension path = "/SharpDevelop/Views/ProjectBrowser/ContextMenu">
 		<!-- AddIn to the Project Add Menu -->
-		<Conditional ownerstate="ProjectSelected">
+		<!-- <Conditional ownerstate="ProjectSelected">
 			<MenuItem id = "ExportToHtml"
 			          insertafter = "GenerateDocumentation"
 			          insertbefore = "Separator5"
 			          label = "${res:ProjectComponent.ContextMenu.HtmlExport}"
 			          class = "ICSharpCode.SharpDevelop.DefaultEditor.Commands.ExportProjectToHtml"/>
-		</Conditional>
+		</Conditional> -->
 	</Extension>
 	
-	<Extension path = "/SharpDevelop/Workbench/MainMenu/Project">
-		<!-- AddIn to the Project Add Menu -->
-		<!-- <Conditional activeproject="*">
+	<!-- <Extension path = "/SharpDevelop/Workbench/MainMenu/Project">
+		<Conditional activeproject="*">
 			<MenuItem id = "ExportToHtml"
 			          insertafter = "GenerateDocumentation"
 			          insertbefore = "Separator2"
 			          label = "${res:ProjectComponent.ContextMenu.HtmlExport}"
 			          class = "ICSharpCode.SharpDevelop.DefaultEditor.Commands.ExportProjectToHtml"/>
-		</Conditional> -->
-	</Extension>
+		</Conditional>
+	</Extension> -->
 	
 	<Extension path = "/SharpDevelop/Views/ProjectBrowser/ContextMenu/ProjectBrowserNode">
 		<!-- AddIn to the project browser context menu -->
@@ -115,7 +114,7 @@
 	<Extension path = "/SharpDevelop/Workbench/ToolBar/Standard">
 			<Conditional action="Disable">
 				<Or>
-					<Condition activewindow="ICSharpCode.SharpDevelop.DefaultEditor.Gui.Editor.ITextEditorControlProvider"/>
+					<Condition activewindow="MonoDevelop.SourceEditor.Gui.SourceEditorDisplayBindingWrapper"/>
 					<Condition openproject="*"/>
 				</Or>
 			
