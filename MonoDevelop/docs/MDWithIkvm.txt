@@ -1,0 +1,27 @@
+
+MonoDevelop supports the Java langauge by using IKVM which is distributed
+with mono.  To use it you need to do the following.
+
+Install at least the following
+mono
+mono-ikvm
+ikvm
+
+(Assume prefix=/usr and permission to write to /usr/lib)
+cd /usr/lib
+ikvmstub /usr/lib/mscorlib.dll
+ikvmstub (other assemblies you will use)
+ex. /usr/lib/mono/gtk-sharp/gtk-sharp.dll
+
+run MonoDevelop
+new Console Java Project
+verify Classpath is correct for the project by:
+  right clicking on project
+  project options
+  under Configurations, Debug, Code Generation
+ex. usr/lib/mscorlib.jar:.
+compile and run
+see "Hello World"
+
+Thats it.
+
