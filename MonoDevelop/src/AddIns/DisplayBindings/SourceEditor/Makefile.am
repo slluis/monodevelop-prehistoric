@@ -83,11 +83,8 @@ $(DLL) : $(SOURCES)
 		/r:gconf-sharp.dll \
 		/r:System.Drawing.dll
 
-monodeveloplibdir = $(prefix)/lib/monodevelop
-
-install-data-local: $(DLL)
-	$(mkinstalldirs) $(DESTDIR)$(monodeveloplibdir)/bin
-	$(INSTALL_DATA) $(DLL) $(DESTDIR)$(monodeveloplibdir)/bin/MonoDevelop.SourceEditor.dll
+assemblydir = $(libdir)/monodevelop/bin
+assembly_DATA = $(DLL)
 
 CLEANFILES=$(DLL)
 

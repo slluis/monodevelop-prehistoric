@@ -43,12 +43,10 @@ $(DLL): $(SOURCES)
 		/r:gnome-sharp.dll \
 		$(RESOURCES) $(SOURCES)
 
-monodeveloplibdir = $(prefix)/lib/monodevelop
-           
-install-data-local: $(DLL)
-	$(mkinstalldirs) $(DESTDIR)$(monodeveloplibdir)/bin
-	$(INSTALL_DATA) $(DLL) $(DESTDIR)$(monodeveloplibdir)/bin/MonoDevelop.exe
+assemblydir = $(libdir)/monodevelop/bin
+assembly_DATA = $(DLL)           
 
 CLEANFILES=$(DLL)
 
 EXTRA_DIST = $(SOURCES)
+

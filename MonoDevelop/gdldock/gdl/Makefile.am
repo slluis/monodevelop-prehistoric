@@ -21,11 +21,8 @@ $(ASSEMBLY): generated-stamp ../../build/bin
 ../../build/bin:
 	mkdir ../../build/bin
 
-gdldocklibdir = $(prefix)/lib/monodevelop
-
-install-data-local: $(ASSEMBLY)
-	$(mkinstalldirs) $(DESTDIR)$(gdldocklibdir)/bin
-	$(INSTALL_DATA) $(ASSEMBLY) $(DESTDIR)$(gdldocklibdir)/bin/gdl-sharp.dll
+gdldocklibdir = $(prefix)/lib/monodevelop/bin
+gdldocklib_DATA = $(ASSEMBLY)
  
 clean:
 	rm -f $(ASSEMBLY)
@@ -35,3 +32,4 @@ clean:
 CLEANFILES=$(ASSEMBLY) generated-stamp generated
 
 EXTRA_DIST = gdl-api.xml Gdl.metadata DockItemFlags.cs DockParamFlags.cs
+

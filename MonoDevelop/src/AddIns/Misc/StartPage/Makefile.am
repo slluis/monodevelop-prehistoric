@@ -16,13 +16,10 @@ $(DLL): $(SOURCES)
 		/r:gtk-sharp.dll \
 		$(SOURCES)
 
-monodeveloplibdir = $(prefix)/lib/monodevelop
-startpagelibdir = $(monodeveloplibdir)/AddIns/AddIns/Misc/StartPage
-
-install-data-local: $(DLL)
-	$(mkinstalldirs) $(DESTDIR)$(startpagelibdir)
-	$(INSTALL_DATA) $(DLL) $(DESTDIR)$(startpagelibdir)/MonoDevelop.StartPage.dll
+startpagelibdir = $(libdir)/monodevelop/AddIns/AddIns/Misc/StartPage
+startpagelib_DATA = $(DLL)
 
 CLEANFILES=$(DLL)
 
 EXTRA_DIST = $(SOURCES)
+

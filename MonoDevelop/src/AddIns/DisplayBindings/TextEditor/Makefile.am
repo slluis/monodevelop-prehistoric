@@ -57,3 +57,4 @@ $(DLL): $(SOURCES) ../../../../data/resources/glade/texteditoraddin.glade
 CLEANFILES=$(DLL)
 
 EXTRA_DIST = $(SOURCES)
+

@@ -17,12 +17,10 @@ $(ASSEMBLY): generated-stamp
 	-r glib-sharp.dll -r gtk-sharp.dll -r gdk-sharp.dll \
 	--recurse '*.cs' -o $(ASSEMBLY)
 
-monodeveloplibdir = $(prefix)/lib/monodevelop
-
-install-data-local: $(ASSEMBLY)
-	$(mkinstalldirs) $(DESTDIR)$(monodeveloplibdir)/bin
-	$(INSTALL_DATA) $(ASSEMBLY) $(DESTDIR)$(monodeveloplibdir)/bin/gtkmozembed-sharp.dll
+assemblydir = $(prefix)/lib/monodevelop/bin
+assembly_DATA = $(ASSEMBLY)
  
 CLEANFILES=$(ASSEMBLY) generated-stamp generated
 
 EXTRA_DIST = GtkMozEmbed.metadata gtkmozembed-api.xml EmbedWidget.custom Single.custom NewWindow_delegate.cs NewWindow_handler.cs NewWindowOrphan_handler.cs
+

@@ -11,12 +11,10 @@ all: $(DLL)
 $(DLL): $(SOURCES)
 	@ mcs /debug /out:$(DLL) /target:library $(REFERENCES) $(SOURCES)
 
-monodeveloplibdir = $(prefix)/lib/monodevelop
+assemblydir = $(libdir)/monodevelop/bin
+assembly_DATA = $(DLL)
   
-install-data-local: $(DLL)
-	$(mkinstalldirs) $(DESTDIR)$(monodeveloplibdir)/bin
-	$(INSTALL_DATA) $(DLL) $(DESTDIR)$(monodeveloplibdir)/bin/MonoDevelop.Gui.Utils.dll
-
 CLEANFILES=$(DLL)
 
 EXTRA_DIST = $(SOURCES)
+

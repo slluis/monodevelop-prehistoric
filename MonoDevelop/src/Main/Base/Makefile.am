@@ -374,12 +374,10 @@ $(DLL): $(SOURCES) ../../../data/resources/glade/Base.glade
 Services/StockIcons.cs : ./Services/process-icons.pl
 	perl  -x../../../build/data/resources/icons -w ./Services/process-icons.pl > $@
 
-monodeveloplibdir = $(prefix)/lib/monodevelop
-  
-install-data-local: $(DLL)
-	$(mkinstalldirs) $(DESTDIR)$(monodeveloplibdir)/bin
-	$(INSTALL_DATA) $(DLL) $(DESTDIR)$(monodeveloplibdir)/bin/MonoDevelop.Base.dll
+assemblydir = $(libdir)/monodevelop/bin
+assembly_DATA = $(DLL)
 
 CLEANFILES=$(DLL)
 
 EXTRA_DIST = $(SOURCES) ./Services/process-icons.pl
+
