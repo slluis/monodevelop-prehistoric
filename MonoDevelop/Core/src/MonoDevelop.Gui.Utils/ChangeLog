@@ -1,3 +1,8 @@
+2005-01-12  Todd Berman  <tberman@off.net>
+	
+	* FileIcons/FileIconLoader.cs: Workaround weird return values.
+	Patch from Mart <mart@karu15.ee>
+
 2004-12-26  John Luke  <john.luke@gmail.com>
 
 	* Glue.cs: remove IsGtk24 which was never used, and is
