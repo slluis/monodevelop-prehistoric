@@ -95,7 +95,7 @@ for RedHat, Fedora, Suse, and Debian. They are also available through Ximian's
 
 <pre class="code">
 export PKG_CONFIG_PATH="/usr/lib/pkgconfig"
-tar -xjf monodevelop-0.5.1.tar.gz
+tar -xzf monodevelop-0.5.1.tar.gz
 cd monodevelop-0.5.1
 ./configure --prefix=/usr
 make
