@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fr_FR\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-05-02 01:19-0400\n"
+"POT-Creation-Date: 2004-05-03 22:58-0400\n"
 "PO-Revision-Date: 2004-04-18 20:52-0400\n"
 "Last-Translator: Vincent Daron <vdaron@ask.be>\n"
 "Language-Team: Françcais <fr@li.org>\n"
@@ -1979,7 +1979,7 @@ msgid "Web Browser"
 msgstr "Butineur Internet"
 
 #: src/Main/Base/Gui/BrowserDisplayBinding/HtmlViewPane.cs:209
-#: src/Main/Base/Gui/Pads/ClassScout/ClassScout.cs:142
+#: src/Main/Base/Gui/Pads/ClassScout/ClassScout.cs:149
 msgid "Loading..."
 msgstr "Chargement en cours..."
 
@@ -2200,7 +2200,7 @@ msgstr ""
 msgid "Classes"
 msgstr "Classes"
 
-#: src/Main/Base/Gui/Pads/ClassScout/ClassScout.cs:353
+#: src/Main/Base/Gui/Pads/ClassScout/ClassScout.cs:360
 msgid "No class builder found"
 msgstr "Aucun constructeurs de classe trouvés"
 
@@ -2743,12 +2743,12 @@ msgstr "Écriture de la classe"
 msgid "Opening Combine..."
 msgstr "Ouverture de la solution..."
 
-#: src/Main/Base/Services/Project/DefaultProjectService.cs:277
+#: src/Main/Base/Services/Project/DefaultProjectService.cs:278
 #, csharp-format
 msgid "Compiling {0}"
 msgstr "Compilation de {0}"
 
-#: src/Main/Base/Services/Project/DefaultProjectService.cs:335
+#: src/Main/Base/Services/Project/DefaultProjectService.cs:336
 msgid "Save changed files?"
 msgstr "Sauver les fichiers modifiés"
 

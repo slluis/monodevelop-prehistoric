@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: MonoDevelop 0.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-05-02 01:19-0400\n"
+"POT-Creation-Date: 2004-05-03 22:58-0400\n"
 "PO-Revision-Date: 2004-04-02 03:31-0500\n"
 "Last-Translator: Todd Berman <tberman@sevenl.net>\n"
 "Language-Team: Todd Berman <tberman@sevenl.net>\n"
@@ -1974,7 +1974,7 @@ msgid "Web Browser"
 msgstr ""
 
 #: src/Main/Base/Gui/BrowserDisplayBinding/HtmlViewPane.cs:209
-#: src/Main/Base/Gui/Pads/ClassScout/ClassScout.cs:142
+#: src/Main/Base/Gui/Pads/ClassScout/ClassScout.cs:149
 msgid "Loading..."
 msgstr ""
 
@@ -2179,7 +2179,7 @@ msgstr ""
 msgid "Classes"
 msgstr ""
 
-#: src/Main/Base/Gui/Pads/ClassScout/ClassScout.cs:353
+#: src/Main/Base/Gui/Pads/ClassScout/ClassScout.cs:360
 msgid "No class builder found"
 msgstr ""
 
@@ -2682,12 +2682,12 @@ msgstr ""
 msgid "Opening Combine..."
 msgstr "New Combine, eh?"
 
-#: src/Main/Base/Services/Project/DefaultProjectService.cs:277
+#: src/Main/Base/Services/Project/DefaultProjectService.cs:278
 #, csharp-format
 msgid "Compiling {0}"
 msgstr ""
 
-#: src/Main/Base/Services/Project/DefaultProjectService.cs:335
+#: src/Main/Base/Services/Project/DefaultProjectService.cs:336
 msgid "Save changed files?"
 msgstr ""
 
