@@ -127,9 +127,6 @@ Core/src/MonoDevelop.Base/Internal/ExternalTool/ExternalTool.cs
 Core/src/MonoDevelop.Base/Internal/Templates/ProjectTemplates/ProjectTemplate.cs
 Core/src/MonoDevelop.Core/Services/FileUtilityService.cs
 Core/src/MonoDevelop.Gui.Widgets/FileSelector/FileSelector.cs
-Extras/PythonBinding/Gui/CompilerParametersPanel.cs
-Extras/PythonBinding/templates/PythonConsoleProject.xpt.xml
-Extras/PythonBinding/templates/PythonGtkProject.xpt.xml
 Extras/MonoQuery/Gui/Forms/CreateConnectionDruid.cs
 Extras/MonoQuery/Gui/MonoQueryTree/MonoQueryNodesRoot.cs
 Extras/MonoQuery/MonoQueryView.cs
