@@ -1,3 +1,10 @@
+2004-04-07  John Luke  <jluke@cfl.rr.com>
+
+	* Gui/Dialogs/CommonAboutDialog.cs:
+	* Gui/Dialogs/SharpDevelopAboutPanels.cs: rearrange the copyright, license,
+	sponsorship, and version information.  Add back info about SharpDevelop and
+	AlphaSierraPapa
+
 2004-04-07  Todd Berman  <tberman@sevenl.net>
 
 	* Commands/ProjectBrowserCommands/FolderNodeCommands: Incorporate bug

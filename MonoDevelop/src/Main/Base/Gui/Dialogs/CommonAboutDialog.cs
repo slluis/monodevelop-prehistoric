@@ -131,9 +131,6 @@ namespace MonoDevelop.Gui.Dialogs
 			aboutPictureScrollBox = new ScrollBox ();
 		
 			this.VBox.PackStart (aboutPictureScrollBox);
-			Label copyright = new Label ("(c) 2000-2003 by icsharpcode.net");
-			copyright.Justify = Justification.Left;
-			this.VBox.PackStart (copyright, false, true, 0);
 		
 			Notebook nb = new Notebook ();
 			nb.SetSizeRequest (400, 280);

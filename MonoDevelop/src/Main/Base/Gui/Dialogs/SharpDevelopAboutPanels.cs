@@ -23,11 +23,11 @@ namespace MonoDevelop.Gui.Dialogs
 	public class AboutMonoDevelopTabPage : VBox
 	{
 		static GLib.GType gtype;
-		Label      buildLabel   = new Label ();
-		Label    buildTextBox = new Label ();
 		Label      versionLabel   = new Label ();
 		Label    versionTextBox = new Label ();
 		Label      sponsorLabel   = new Label ();
+		Label      licenseLabel   = new Label ();
+		Label      copyrightLabel   = new Label ();
 		
 		public static new GLib.GType GType
 		{
@@ -41,33 +41,21 @@ namespace MonoDevelop.Gui.Dialogs
 		
 		public AboutMonoDevelopTabPage() : base (GType)
 		{
-			HBox hbox = new HBox (false, 0);
 			Version v = Assembly.GetEntryAssembly().GetName().Version;
 			versionTextBox.Text = v.Major + "." + v.Minor;
-			buildTextBox.Text   = v.Revision + "." + v.Build;
+			versionLabel.Markup = String.Format ("<b>{0}</b>", GettextCatalog.GetString("Version"));
 			
-			ResourceService resourceService = (ResourceService)ServiceManager.Services.GetService(typeof(IResourceService));
-			versionLabel.Text = GettextCatalog.GetString("Version");
-			
-			//versionLabel.TabIndex = 1;
-			hbox.PackStart (versionLabel, false, false, 10);
-			
-			//versionTextBox.TabIndex = 4;
-			hbox.PackStart (versionTextBox, false, false, 10);
-			
-			buildLabel.Text = GettextCatalog.GetString("Build");
-			//buildLabel.TabIndex = 2;
-			hbox.PackStart (buildLabel, false, false, 10);
-			
-			//buildTextBox.TabIndex = 3;
-			hbox.PackStart (buildTextBox, false, false, 10);
-			this.PackStart (hbox, false, false, 5);
-			
-			sponsorLabel.Text = GettextCatalog.GetString ("Released under the GNU General Public license.");
-				               // "Sponsored by AlphaSierraPapa\n" +
-			                   // "                   http://www.AlphaSierraPapa.com";
-			//sponsorLabel.TabIndex = 8;
-			this.PackStart (sponsorLabel, false, false, 5);
+			//FIXME why do they align in the center always
+			licenseLabel.Markup = String.Format ("<b>License</b>\n    {0}", GettextCatalog.GetString ("Released under the GNU General Public license."));
+			// FIXME should this be translated
+			sponsorLabel.Markup = "<b>Sponsors</b>\n    SharpDevelop is sponsored by AlphaSierraPapa\n    <span foreground=\"blue\">http://www.AlphaSierraPapa.com</span>\n    <span foreground=\"blue\">http://icsharpcode.net/opensource/sd</span>";
+			copyrightLabel.Markup = "<b>Copyright</b>\n    (c) 2000-2003 by icsharpcode.net\n    (c) 2004 by MonoDevelop contributors";
+
+			this.PackStart (versionLabel, false, true, 0);
+			this.PackStart (versionTextBox, false, true, 0);
+			this.PackStart (licenseLabel, false, true, 5);
+			this.PackStart (copyrightLabel, false, true, 5);
+			this.PackStart (sponsorLabel, false, true, 5);
 			this.ShowAll ();
 		}
 	}
