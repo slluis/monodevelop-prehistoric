@@ -11,19 +11,31 @@ else
 	exit 1
 fi
  
-GDLDOCKPATH=$(pwd)/build/bin
+MD_BIN_PATH=@prefix@/lib/monodevelop/bin
 
-LD_LIBRARY_PATH=$MOZILLA_HOME:$GDLDOCK_PATH:$LD_LIBRARY_PATH
+LD_LIBRARY_PATH=$MOZILLA_HOME:$MD_BIN_PATH:$LD_LIBRARY_PATH
 export LD_LIBRARY_PATH
  
 MOZILLA_FIVE_HOME=$MOZILLA_HOME
 export MOZILLA_FIVE_HOME
 
-cd @prefix@/lib/monodevelop/bin
+cd $MD_BIN_PATH
 
-if test -n "$MD_NO_DBG"; then
-	FLAGS=$MD_MONO_FLAGS
-else
-	FLAGS="$MD_MONO_FLAGS --debug"
-fi
-mono $FLAGS ./MonoDevelop.exe $@
+case x$1 in
+    x--profile)
+    mono --profile ./MonoDevelop.exe $@
+	exit 0
+    ;;
+    x--debug)
+    mono --debug ./MonoDevelop.exe $@
+	exit 0
+    ;;
+	x--trace)
+    mono --trace ./MonoDevelop.exe $@
+	exit 0;
+	;;
+esac
+
+# should not use --debug when we are more stable
+mono --debug ./MonoDevelop.exe $@
+
