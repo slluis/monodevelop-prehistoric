@@ -10,10 +10,17 @@ using System.Collections;
 using ICSharpCode.Core.Services;
 using ICSharpCode.Core.AddIns;
 
+using ICSharpCode.SharpDevelop.Services;
+using ICSharpCode.SharpDevelop.Gui;
+
 using Mono.Debugger;
 
 namespace MonoDevelop.Services
 {
+
+	public interface IDebuggableEditor {
+		void ExecutingAt (int lineNumber);
+	}
 
 	public class DebuggingService : AbstractService
 	{
@@ -142,6 +149,14 @@ namespace MonoDevelop.Services
 			string[] toks = point.Name.Split (':');
 			string filename = toks [0];
 			int linenumber = Int32.Parse (toks [1]);
+
+			IFileService fs = (IFileService)ServiceManager.Services.GetService (typeof (IFileService));
+			fs.OpenFile (filename);
+
+			if (WorkbenchSingleton.Workbench.ActiveWorkbenchWindow is IDebuggableEditor)
+			{
+				((IDebuggableEditor)WorkbenchSingleton.Workbench.ActiveWorkbenchWindow).ExecutingAt (linenumber);
+			}	
 
 			BreakpointHitArgs args = new BreakpointHitArgs (filename, linenumber);
 			BreakpointHit (this, args);

@@ -98,6 +98,12 @@ namespace MonoDevelop.SourceEditor.Gui {
 			lineToMark = -1;
 		}
 
+		public void ExecutingAt (int linenumber)
+		{
+			buf.ClearMarks (SourceMarkerType.ExecutionMark);
+			buf.ToggleMark (linenumber, SourceMarkerType.ExecutionMark);	
+		}
+
 		public void SimulateKeyPress (ref Gdk.EventKey evnt)
 		{
 			Gtk.Global.PropagateEvent (this, evnt);

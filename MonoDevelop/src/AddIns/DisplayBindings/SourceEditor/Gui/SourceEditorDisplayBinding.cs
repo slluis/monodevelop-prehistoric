@@ -17,6 +17,8 @@ using MonoDevelop.Gui.Utils;
 using MonoDevelop.EditorBindings.Properties;
 using MonoDevelop.EditorBindings.FormattingStrategy;
 
+using MonoDevelop.Services;
+
 namespace MonoDevelop.SourceEditor.Gui {
 	public class SourceEditorDisplayBinding : IDisplayBinding {
 
@@ -81,9 +83,14 @@ namespace MonoDevelop.SourceEditor.Gui {
 	}
 	
 	public class SourceEditorDisplayBindingWrapper : AbstractViewContent,
-		IEditable, IPositionable, IBookmarkOperations
+		IEditable, IPositionable, IBookmarkOperations, IDebuggableEditor
 	{
 		internal SourceEditor se;
+	
+		public void ExecutingAt (int line)
+		{
+			se.ExecutingAt (line);
+		}
 		
 		public override Gtk.Widget Control {
 			get {

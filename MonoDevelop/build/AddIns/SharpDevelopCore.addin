@@ -30,6 +30,8 @@
 	</Extension>
 	
 	<Extension path = "/Workspace/Services">
+		<Class id    = "DebuggingService"
+		       class = "MonoDevelop.Services.DebuggingService"/>
 		<Class id    = "ProjectService"
 		       class = "ICSharpCode.SharpDevelop.Services.DefaultProjectService"/>
 		<Class id    = "FileService"
@@ -54,8 +56,6 @@
 		       class = "ICSharpCode.SharpDevelop.Services.AmbienceService"/>
 		<Class id    = "MenuService"
 		       class = "ICSharpCode.SharpDevelop.Services.MenuService"/>
-		<Class id    = "DebuggingService"
-		       class = "MonoDevelop.Services.DebuggingService"/>
 	</Extension>
 
 	<Extension path = "/SharpDevelop/Workbench/DisplayBindings">

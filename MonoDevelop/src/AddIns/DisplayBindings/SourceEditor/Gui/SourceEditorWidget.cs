@@ -26,10 +26,16 @@ namespace MonoDevelop.SourceEditor.Gui {
 			
 			View.SetMarkerPixbuf ("SourceEditorBookmark", new Gdk.Pixbuf (drag_icon_xpm));
 			View.SetMarkerPixbuf ("BreakpointMark", new Gdk.Pixbuf ("../data/resources/icons/BreakPoint.png"));
+			View.SetMarkerPixbuf ("ExecutionMark", new Gdk.Pixbuf ("../data/resources/icons/ExecutionMarker.png"));
 			
 			Add (View);
 		}
-		
+
+		public void ExecutingAt (int linenumber)
+		{
+			View.ExecutingAt (linenumber);
+		}		
+
 		public string Text {
 			get { return Buffer.Text; }
 			set { Buffer.Text = value; }

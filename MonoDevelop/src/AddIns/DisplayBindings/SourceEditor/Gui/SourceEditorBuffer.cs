@@ -18,7 +18,8 @@ namespace MonoDevelop.SourceEditor.Gui {
 
 	public enum SourceMarkerType {
 		SourceEditorBookmark,
-		BreakpointMark
+		BreakpointMark,
+		ExecutionMark
 	}
 
 	// This gives us a nice way to avoid the try/finally
@@ -403,8 +404,13 @@ namespace MonoDevelop.SourceEditor.Gui {
 			
 			PlaceCursor (loc);
 		}
-		
+
 		public void ClearBookmarks ()
+		{
+			ClearMarks (SourceMarkerType.SourceEditorBookmark);
+		}
+		
+		public void ClearMarks (SourceMarkerType type)
 		{
 			TextIter begin = StartIter;
 			TextIter end = EndIter;
@@ -416,7 +422,7 @@ namespace MonoDevelop.SourceEditor.Gui {
 				IntPtr data = gtksharp_slist_get_data (current);
 				IntPtr nm = gtk_source_marker_get_marker_type (data);
 				string name = GLibSharp.Marshaller.PtrToStringGFree (nm);
-				if (name == "SourceEditorBookmark")
+				if (name == type.ToString ())
 					gtk_source_buffer_delete_marker (Handle, data);
 				
 				current = gtksharp_slist_get_next (current);
