@@ -33,6 +33,17 @@ namespace MonoDevelop.Services
 			this.timestamp = ((int) (now - epoch).TotalSeconds).ToString ();
 		}
 
+		// update the group and timestamp
+		public void Update (bool project)
+		{
+			DateTime now = DateTime.UtcNow;
+			this.timestamp = ((int) (now - epoch).TotalSeconds).ToString ();
+			if (project)
+				this.group = "MonoDevelop Projects";
+			else
+				this.group = "MonoDevelop Files";
+		}
+
 		public string Mime
 		{
 			get { return mime; }
@@ -51,6 +62,7 @@ namespace MonoDevelop.Services
 		public string Group
 		{
 			get { return group; }
+			set { group = value; }
 		}
 	}
 }

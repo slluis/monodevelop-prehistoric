@@ -17,32 +17,26 @@ namespace MonoDevelop.Services
 {
 	public class FdoRecentFiles
 	{
-		// The document should be stored in "~/.recently-used",
-
-		// and it should contain no more than 500 items.
-		int totalMaxLength = 500;
-
 		// MD only wants to save last 10 in its group
-		int maxLength = 10;                                            
-        ArrayList lastfile = new ArrayList();
-        ArrayList lastproject = new ArrayList();
+        ArrayList lastFiles = new ArrayList (10); // max 10
+        ArrayList lastProjects = new ArrayList (10); // max 10
+        ArrayList allRecents = new ArrayList (10); // max 500
 
-		XmlDocument doc;
+		XPathDocument doc;
 
 		public event EventHandler RecentFileChanged;
         public event EventHandler RecentProjectChanged;
 
 		public FdoRecentFiles ()
 		{
-			string recentFile = Environment.GetEnvironmentVariable ("HOME");
-			recentFile = Path.Combine (recentFile, ".recently_used");
-			Console.WriteLine (recentFile);
+			// The document should be stored in "~/.recently-used",
+			string recentFile = Path.Combine (Environment.GetEnvironmentVariable ("HOME"), ".recently_used");
+			//Console.WriteLine (recentFile);
 
 			if (File.Exists (recentFile))
 			{
 				// use POSIX lockf ()
-				doc = new XmlDocument ();
-				doc.Load (recentFile);
+				doc = new XPathDocument (recentFile);
 
 				XPathNavigator nav = doc.CreateNavigator ();
 				XPathNodeIterator xni = nav.Select ("/RecentFiles/RecentItem");
@@ -55,8 +49,8 @@ namespace MonoDevelop.Services
 				// create it
 			}
 
-			FileSystemWatcher watcher = new FileSystemWatcher (recentFile);
-			watcher.Changed += new FileSystemEventHandler (OnWatcherChanged);
+			//FileSystemWatcher watcher = new FileSystemWatcher (recentFile);
+			//watcher.Changed += new FileSystemEventHandler (OnWatcherChanged);
 		}
 
 		void OnWatcherChanged (object o, FileSystemEventArgs args)
@@ -86,7 +80,7 @@ namespace MonoDevelop.Services
 		{
             get
 			{
-				return lastfile;
+				return lastFiles;
             }
         }
                                                                        
@@ -94,7 +88,7 @@ namespace MonoDevelop.Services
 		{
             get
 			{
-                return lastproject;
+                return lastProjects;
             }
         }
 
@@ -104,24 +98,54 @@ namespace MonoDevelop.Services
 		{
 			// uri must be unique
 			// or just update timestamp and group
+			foreach (RecentItem recentItem in allRecents)
+			{
+				if (recentItem.Uri == file_uri)
+				{
+					recentItem.Update (false);
+					lastFiles.Add (recentItem);
+					return;
+				}
+			}
+
 			RecentItem ri = new RecentItem (file_uri);
+			ri.Group = "MonoDevelop Files";
+			lastFiles.Add (ri);
 		}
 
 		public void AddProject (string file_uri)
 		{
 			// uri must be unique
 			// or just update timestamp and group
+			foreach (RecentItem recentItem in allRecents)
+			{
+				if (recentItem.Uri == file_uri)
+				{
+					recentItem.Update (true);
+					lastProjects.Add (recentItem);
+					return;
+				}
+			}
+
 			RecentItem ri = new RecentItem (file_uri);
+			ri.Group = "MonoDevelop Projects";
+			lastProjects.Add (ri);
 		}
 
 		// spec doesn't mention removal
 		public void ClearFiles ()
 		{
+			lastFiles.Clear ();
+			// remove from allRecents
+			// write the file
 		}
 
 		// spec doesn't mention removal
 		public void ClearProjects ()
 		{
+			lastProjects.Clear ();
+			// remove from allRecents
+			// write the file
 		}
 	}
 }
