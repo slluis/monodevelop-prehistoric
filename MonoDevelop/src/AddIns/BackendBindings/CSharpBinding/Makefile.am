@@ -42,7 +42,7 @@ build_sources = $(addprefix $(srcdir)/, $(FILES))
 all: $(ASSEMBLY)
 
 $(ASSEMBLY): $(build_sources)
-	@ $(CSC) /out:$(ASSEMBLY) /target:library \
+	@ $(CSC) /out:$(ASSEMBLY) /target:library $(DLLS) \
 		/resource:$(srcdir)/../../../../data/resources/glade/CSharp.glade,CSharp.glade \
 		$(build_sources) \
 	&& cp $(ASSEMBLY) ../../../../build/AddIns/AddIns/BackendBindings/.
