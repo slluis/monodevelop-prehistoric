@@ -28,6 +28,18 @@
       </div>
 
       <br /><br />
+
+      <div class="image_frame">
+	<div class="image">
+	  <a href="/images/screenshots/macosx.jpg" target="_blank">
+	    <img src="/images/screenshots/thumbnails/macosx.jpg" alt="" />
+	  </a>
+	</div>
+	<div class="image_caption">
+	  MonoDevelop running on MacOS X
+	</div>
+	</div>
+      </div>
       <p>Unedited user-submitted screenshots are <a href="user-screenshots.aspx">also available here</a>.</p>
       
 <ccms:PageFooter runat="server"/>
