@@ -11,7 +11,6 @@ namespace MonoDevelop.SourceEditor.Gui {
 		public readonly SourceEditorBuffer Buffer;
 		SourceView sv;
 		
-
 		public SourceEditor ()
 		{
 			Buffer = new SourceEditorBuffer ();
@@ -26,8 +25,6 @@ namespace MonoDevelop.SourceEditor.Gui {
 			
 			Add (sv);
 		}
-
-
 		
 		public string Text {
 			get { return Buffer.Text; }

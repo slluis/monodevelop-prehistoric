@@ -62,7 +62,7 @@ namespace MonoDevelop.SourceEditor.Gui {
 	}
 	
 	public class SourceEditorDisplayBindingWrapper : AbstractViewContent,
-		IEditable, IClipboardHandler
+		IEditable
 	{
 		internal SourceEditor se;
 		
@@ -122,7 +122,7 @@ namespace MonoDevelop.SourceEditor.Gui {
 		
 #region IEditable
 		public IClipboardHandler ClipboardHandler {
-			get { return this; }
+			get { return se.Buffer; }
 		}
 		
 		public string Text {
@@ -140,76 +140,6 @@ namespace MonoDevelop.SourceEditor.Gui {
 			se.Buffer.Redo ();
 		}
 #endregion
-#region IClipboardHandler
-		//
-		// TODO: All of this ;-)
-		//
-		
-		bool HasSelection {
-			get {
-				TextIter dummy, dummy2;
-				return se.Buffer.GetSelectionBounds (out dummy, out dummy2);
-			}
-		}
-		
-		public bool EnableCut {
-			get { return HasSelection; }
-		}
-		
-		public bool EnableCopy {
-			get { return HasSelection; }
-		}
-		
-		public bool EnablePaste {
-			get {
-				return clipboard.WaitIsTextAvailable ();
-			}
-		}
-		
-		public bool EnableDelete {
-			get { return HasSelection; }
-		}
-		
-		public bool EnableSelectAll {
-			get { return true; }
-		}
-		
-		public void Cut (object sender, EventArgs e)
-		{
-			se.Buffer.CutClipboard (clipboard, true);
-		}
-		
-		public void Copy (object sender, EventArgs e)
-		{
-			se.Buffer.CopyClipboard (clipboard);
-		}
-		
-		public void Paste (object sender, EventArgs e)
-		{
-			se.Buffer.PasteClipboard (clipboard);
-		}
-		
-		public void Delete (object sender, EventArgs e)
-		{
-			se.Buffer.DeleteSelection (true, true);
-		}
-		
-		public void SelectAll (object sender, EventArgs e)
-		{
-			// Sadly, this is not in our version of the bindings:
-			//
-			//gtk_text_view_select_all (GtkWidget *widget,
-			//			  gboolean select)
-			//{
-			//	gtk_text_buffer_get_bounds (buffer, &start_iter, &end_iter);
-			//	gtk_text_buffer_move_mark_by_name (buffer, "insert", &start_iter);
-			//	gtk_text_buffer_move_mark_by_name (buffer, "selection_bound", &end_iter);
-			
-			se.Buffer.MoveMark ("insert", se.Buffer.StartIter);
-			se.Buffer.MoveMark ("selection_bound", se.Buffer.EndIter);
-		}
-		
-		Gtk.Clipboard clipboard = Gtk.Clipboard.Get (Gdk.Atom.Intern ("CLIPBOARD", false));
-#endregion
+
 	}
 }
