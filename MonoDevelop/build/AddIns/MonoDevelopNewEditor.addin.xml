@@ -13,7 +13,7 @@
 	
 	<Extension path = "/SharpDevelop/Dialogs/OptionsDialog/CodingOptions">
 		<DialogPanel id = "CodeTemplates"
-		             _label = "${res:Dialog.Options.CodeTemplatesText}"
+		             _label = "Code Templates"
 		             class = "MonoDevelop.EditorBindings.Gui.OptionPanels.CodeTemplatePane"/>
 	</Extension>
 
@@ -56,57 +56,57 @@
 
 	<Extension path = "/SharpDevelop/ViewContent/DefaultTextEditor/ContextMenu">
 		<MenuItem id = "Cut"
-		          _label = "${res:XML.TextAreaContextMenu.Cut}"
+		          _label = "Cut"
 		          icon = "Icons.16x16.CutIcon"
 		          shortcut = "Control|X"
 		          class = "MonoDevelop.Commands.Cut"/>
 		<MenuItem id = "Copy"
-		          _label = "${res:XML.TextAreaContextMenu.Copy}"
+		          _label = "Copy"
 		          icon = "Icons.16x16.CopyIcon"
 		          shortcut = "Control|C"
 		          class = "MonoDevelop.Commands.Copy"/>
 		<MenuItem id = "Paste"
-		          _label = "${res:XML.TextAreaContextMenu.Paste}"
+		          _label = "Paste"
 		          icon = "Icons.16x16.PasteIcon"
 		          shortcut = "Control|V"
 		          class = "MonoDevelop.Commands.Paste"/>
 		<MenuItem id = "Delete"
-		          _label = "${res:XML.MainMenu.EditMenu.Delete}"
+		          _label = "Delete"
 		          icon = "Icons.16x16.DeleteIcon"
 		          class = "MonoDevelop.Commands.Delete"/>
 		<MenuItem id = "Separator1" _label = "-" />
 		<MenuItem id = "Save"
-		          _label = "${res:XML.MainMenu.FileMenu.Save}"
+		          _label = "Save"
 		          icon = "Icons.16x16.SaveIcon"
 		          shortcut = "Control|S"
 		          class = "MonoDevelop.Commands.SaveFile"/>
 		<MenuItem id = "SaveAs"
-		          _label = "${res:XML.MainMenu.FileMenu.SaveAs}"
+		          _label = "Save As"
 		          class = "MonoDevelop.Commands.SaveFileAs"/>
 		<MenuItem id = "File"
-		          _label = "${res:XML.MainMenu.FileMenu.Close}"
+		          _label = "Close"
 		          class ="MonoDevelop.Commands.CloseFile"/>
 		<MenuItem id = "Separator2" _label = "-" />
 		<MenuItem id = "Comment"
 		          icon  = "Icons.16x16.CommentRegion"
-		          _label = "${res:XML.TextAreaContextMenu.CommentUncommentSelection}"
+		          _label = "Toggle Comments"
 		          class= "MonoDevelop.DefaultEditor.Commands.CommentRegion"/>
 <!--		<MenuItem id = "Uncomment"
 		          icon  = "Icons.16x16.UnCommentRegion"
                   _label = "${res:XML.TextAreaContextMenu.UncommentSelection}"
 		          class= "MonoDevelop.DefaultEditor.Commands.UncommentRegion"/>-->
 		<MenuItem id = "Indent"
-		          _label = "${res:XML.TextAreaContextMenu.Indent}"
+		          _label = "Indent Selection"
 		          shortcut = "Control|I"
 		          class = "MonoDevelop.DefaultEditor.Commands.IndentSelection" />
 		
-		<MenuItem id = "FileMode" _label = "${res:XML.TextAreaContextMenu.FileMode}">
+		<MenuItem id = "FileMode" _label = "Highlighting Mode">
 			<MenuItem id = "HighlightBuilder" _label = "bogus_label" class = "MonoDevelop.DefaultEditor.Commands.HighlightingTypeBuilder" />
 		</MenuItem>
 		
 		<MenuItem id = "Separator3" _label = "-" />
 		<MenuItem id = "Options"
-		          _label = "${res:XML.TextAreaContextMenu.BufferOptions}"
+		          _label = "Buffer Options"
 		          icon = "Icons.16x16.PropertiesIcon"
 		          class ="MonoDevelop.DefaultEditor.Commands.ShowBufferOptions"/>
 	</Extension>
@@ -164,7 +164,7 @@
 	
 	
 	<Extension path = "/SharpDevelop/Workbench/MainMenu">
-	        <MenuItem id = "Search" insertafter ="View" insertbefore ="Tools" _label = "${res:XML.MainMenu.SearchMenu}">
+	        <MenuItem id = "Search" insertafter ="View" insertbefore ="Tools" _label = "Search">
 	                <Conditional action="Disable">
 		                <Or>
 		                	<Condition openwindow="MonoDevelop.DefaultEditor.Gui.Editor.ITextEditorControlProvider"/>
@@ -172,19 +172,19 @@
 		                </Or>
 		                
 		                <MenuItem id = "Find"
-		                          _label = "${res:XML.MainMenu.SearchMenu.Find}" 
+		                          _label = "Find..." 
 		                          icon = "Icons.16x16.FindIcon" 
 		                          description = "${res:XML.MainMenu.SearchMenu.Find.Description}" 
 		                          shortcut = "Control|F" 
 		                          class = "MonoDevelop.DefaultEditor.Commands.Find"/>
 		                <MenuItem id = "FindNext"
-		                          _label = "${res:XML.MainMenu.SearchMenu.FindNext}" 
+		                          _label = "Find Next" 
 		                          icon = "Icons.16x16.FindNextIcon" 
 		                          description = "${res:XML.MainMenu.SearchMenu.FindNext.Description}" 
 		                          shortcut = "F3"
 		                          class = "MonoDevelop.DefaultEditor.Commands.FindNext"/>
 		                <MenuItem id = "Replace"
-		                          _label = "${res:XML.MainMenu.SearchMenu.Replace}" 
+		                          _label = "Replace..." 
 		                          icon = "Icons.16x16.ReplaceIcon" 
 		                          description = "${res:XML.MainMenu.SearchMenu.Replace.Description}" 
 		                          shortcut = "Control|R"
@@ -193,12 +193,12 @@
 		        
 		        <MenuItem id = "SearchSeparator" _label = "-" />
 	                <MenuItem id = "FindInFiles"
-	                          _label = "${res:XML.MainMenu.SearchMenu.FindInFiles}" 
+	                          _label = "Find In Files..." 
 	                          icon = "Icons.16x16.FindInFiles" 
 	                          description = "${res:XML.MainMenu.SearchMenu.FindInFiles.Description}" 
 	                          class = "MonoDevelop.DefaultEditor.Commands.FindInFiles"/>
 	                <MenuItem id = "ReplaceInFiles"
-	                          _label = "${res:XML.MainMenu.SearchMenu.ReplaceInFiles}" 
+	                          _label = "Replace In Files..." 
 	                          icon = "Icons.16x16.ReplaceInFiles" 
 	                          description = "${res:XML.MainMenu.SearchMenu.ReplaceInFiles.Description}" 
 	                          class = "MonoDevelop.DefaultEditor.Commands.ReplaceInFiles"/>
@@ -207,37 +207,37 @@
 	                <Conditional activewindow="MonoDevelop.DefaultEditor.Gui.Editor.ITextEditorControlProvider" action="Disable">
 			        
 		                <MenuItem id = "ToggleBookmark"
-		                          _label = "${res:XML.MainMenu.SearchMenu.ToggleBookmark}" 
+		                          _label = "Toggle Bookmark" 
 		                          description = "${res:XML.MainMenu.SearchMenu.ToggleBookmark.Description}" 
 		                          shortcut = "Control|F2"
 		                          icon = "Icons.16x16.ToggleBookmark"
 		                          class = "MonoDevelop.EditorBindings.Commands.ToggleBookmark"/>
 		                <MenuItem id = "PrevBookmark"
-		                          _label = "${res:XML.MainMenu.SearchMenu.PrevBookmark}" 
+		                          _label = "Previous Bookmark" 
 		                          description = "${res:XML.MainMenu.SearchMenu.PrevBookmark.Description}" 
 		                          shortcut = "Alt|F2"
 		                          icon = "Icons.16x16.GotoPrevbookmark"
 		                          class = "MonoDevelop.EditorBindings.Commands.PrevBookmark"/>
 		                <MenuItem id = "NextBookmark"
-		                          _label = "${res:XML.MainMenu.SearchMenu.NextBookmark}" 
+		                          _label = "Next Bookmark" 
 		                          description = "${res:XML.MainMenu.SearchMenu.NextBookmark.Description}" 
 		                          shortcut = "F2" 
 		                          icon = "Icons.16x16.GotoNextbookmark"
 		                          class = "MonoDevelop.EditorBindings.Commands.NextBookmark"/>
 		                <MenuItem id = "ClearBookmarks"
-		                          _label = "${res:XML.MainMenu.SearchMenu.ClrBookmark}" 
+		                          _label = "Clear Bookmarks" 
 		                          description = "${res:XML.MainMenu.SearchMenu.ClrBookmark.Description}"
 		                          icon = "Icons.16x16.ClearAllBookmarks"
 		                          class = "MonoDevelop.EditorBindings.Commands.ClearBookmarks"/>
 		                <MenuItem id = "Separator2" _label = "-" />
 		                <MenuItem id = "GotoLineNr"
-		                          _label = "${res:XML.MainMenu.SearchMenu.GotoLineNr}" 
+		                          _label = "Goto Line..." 
 		                          description = "${res:XML.MainMenu.SearchMenu.GotoLineNr.Description}" 
 		                          shortcut = "Control|G"
 		                          class = "MonoDevelop.DefaultEditor.Commands.GotoLineNumber"/>
 		                <MenuItem id = "Separator3" _label = "-" />
 		                <MenuItem id = "GotoBrace"
-		                          _label = "${res:XML.MainMenu.SearchMenu.GotoBrace}" 
+		                          _label = "Goto Matching Brace" 
 		                          description = "${res:XML.MainMenu.SearchMenu.GotoBrace.Description}" 
 		                          shortcut = "Control|B"
 		                          class = "MonoDevelop.DefaultEditor.Commands.GotoMatchingBrace"/>
@@ -339,13 +339,13 @@
 
 	<Extension path = "/SharpDevelop/ViewContent/DefaultTextEditor/OptionsDialog">
 		<DialogPanel id = "General"
-		             _label = "${res:Dialog.Options.IDEOptions.TextEditor.General.PanelName}"
+		             _label = "General"
 		             class = "MonoDevelop.EditorBindings.Gui.OptionPanels.GeneralTextEditorPanel"/>
 		<DialogPanel id = "Markers"
-		             _label = "${res:Dialog.Options.IDEOptions.TextEditor.Markers.PanelName}"
+		             _label = "Markers and Rulers"
 		             class = "MonoDevelop.EditorBindings.Gui.OptionPanels.MarkersTextEditorPanel"/>
 		<DialogPanel id = "Behavior"
-		             _label = "${res:Dialog.Options.IDEOptions.TextEditor.Behaviour.PanelName}"
+		             _label = "Behavior"
 		             class = "MonoDevelop.EditorBindings.Gui.OptionPanels.BehaviorTextEditorPanel"/>
 	</Extension>
 	
@@ -353,15 +353,15 @@
 		<DialogPanel id    = "TextEditorOptions"
 		             insertafter = "CodingOptions"
 		             insertbefore = "ToolsOptions"
-		             _label = "${res:Dialog.Options.IDEOptions.TextEditorOptionsText}">
+		             _label = "Text Editor">
 			<DialogPanel id = "General"
-			             _label = "${res:Dialog.Options.IDEOptions.TextEditor.General.PanelName}"
+			             _label = "General"
 			             class = "MonoDevelop.EditorBindings.Gui.OptionPanels.GeneralTextEditorPanel"/>
 			<DialogPanel id = "Markers"
-			             _label = "${res:Dialog.Options.IDEOptions.TextEditor.Markers.PanelName}"
+			             _label = "Markers And Rulers"
 			             class = "MonoDevelop.EditorBindings.Gui.OptionPanels.MarkersTextEditorPanel"/>
 			<DialogPanel id = "Behavior"
-			             _label = "${res:Dialog.Options.IDEOptions.TextEditor.Behaviour.PanelName}"
+			             _label = "Behavior"
 			             class = "MonoDevelop.EditorBindings.Gui.OptionPanels.BehaviorTextEditorPanel"/>
 		</DialogPanel>
 	</Extension>
