@@ -49,13 +49,11 @@ namespace ICSharpCode.SharpDevelop.DefaultEditor.Gui.OptionPanels
 // 			int encoding = Encoding.UTF8.CodePage;
 // 			int selectedIndex = 0;
 			
-			[Glade.Widget] Label genOptions, fontOptions, textFontLabel;
+			[Glade.Widget] Label genOptions, fontOptions;
 // 					encOptions, encVBox; // if you uncoment change to "," above 
 			[Glade.Widget] CheckButton enableCodeCompletionCheckBox, 
-					enableFoldingCheckBox, enableDoublebufferingCheckBox, 
-					enableAAFontRenderingCheckBox;
+					enableFoldingCheckBox, enableDoublebufferingCheckBox;
 // 			[Glade.Widget] OptionMenu textEncodingComboBox;
-			[Glade.Widget] Button browseButton;
 			[Glade.Widget] FontPicker fontNameDisplayTextBox;
 			[Glade.Widget] VBox encodingBox;
 			
@@ -83,18 +81,7 @@ namespace ICSharpCode.SharpDevelop.DefaultEditor.Gui.OptionPanels
  				enableDoublebufferingCheckBox.Active = ((IProperties) CustomizationObject).GetProperty(
 					"DoubleBuffer", true);
 
-  				textFontLabel.TextWithMnemonic = StringParserService.Parse(
- 					"${res:Dialog.Options.IDEOptions.TextEditor.General.TextfontLabel}");
-
 				fontNameDisplayTextBox.FontName = ((IProperties) CustomizationObject).GetProperty("DefaultFont", "Courier 12").ToString();
-				browseButton.Label =  StringParserService.Parse(
-					"${res:Dialog.Options.IDEOptions.TextEditor.General.SelectButtonText}");
-				browseButton.Clicked += new EventHandler(SelectEvent);
-				
-				enableAAFontRenderingCheckBox.Label =  StringParserService.Parse(
-					"${res:Dialog.Options.IDEOptions.TextEditor.General.AntialiasedFontCheckBox}");
-				enableAAFontRenderingCheckBox.Active = ((IProperties) CustomizationObject).GetProperty(
-					"UseAntiAliasFont", false);
 				
 // 				encVBox.TextWithMnemonic = StringParserService.Parse(
 // 					"${res:Dialog.Options.IDEOptions.TextEditor.General.FontGroupBox.FileEncodingLabel}");
@@ -126,8 +113,6 @@ namespace ICSharpCode.SharpDevelop.DefaultEditor.Gui.OptionPanels
 				((IProperties) CustomizationObject).SetProperty (
 					"DoubleBuffer", enableDoublebufferingCheckBox.Active);
 				((IProperties) CustomizationObject).SetProperty (
-					"UseAntiAliasFont", enableAAFontRenderingCheckBox.Active);
-				((IProperties) CustomizationObject).SetProperty (
 					"EnableCodeCompletion", enableCodeCompletionCheckBox.Active);
 				((IProperties) CustomizationObject).SetProperty (
 					"EnableFolding", enableFoldingCheckBox.Active);
@@ -144,10 +129,6 @@ namespace ICSharpCode.SharpDevelop.DefaultEditor.Gui.OptionPanels
 // 				selectedIndex = ((OptionMenu) o).History;
 // 			}
 
-			private void SelectEvent(object sender, EventArgs e)
-			{
-				fontNameDisplayTextBox.Click();
-			}
 		}
 	}
 }
