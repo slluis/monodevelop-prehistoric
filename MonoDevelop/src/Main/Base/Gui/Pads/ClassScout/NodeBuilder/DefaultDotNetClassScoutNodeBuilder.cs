@@ -66,8 +66,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads
 					foreach (TreeNode nd in node.Nodes) {
 						if (nd.Text == c.Name) {
 							nd.Remove ();
-							if (node.Nodes.Count == 0 && c.Namespace.EndsWith (node.Text))
-								node.Remove ();
+							DropPhantomNamespaces (c.Namespace, parentNode.Nodes);
 							return;
 						}
 					}
@@ -210,6 +209,17 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads
 			}
 			
 			return classNode;
+		}
+
+		public void DropPhantomNamespaces (string dir, TreeNodeCollection root)
+		{
+			string[] full_path = dir.Split (new char[] { '.' });
+			for (int i = full_path.Length - 1; i != -1; i--)
+			{
+				TreeNode node = GetNodeByPath (String.Join (".", full_path, 0, i + 1), root, false);
+				if (node != null && node.Nodes.Count == 0)
+					node.Remove ();
+			}
 		}
 		
 		static public TreeNode GetNodeByPath(string directory, TreeNodeCollection root, bool create)
