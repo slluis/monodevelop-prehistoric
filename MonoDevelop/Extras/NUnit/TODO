@@ -1,5 +1,7 @@
 load assembly/run context menus
+use Runtime.TaskService.GetStatusProgressMonitor for reporting progress
 proper threading
+run tests out of MD process
 
 viewing results
 save the results to xml
