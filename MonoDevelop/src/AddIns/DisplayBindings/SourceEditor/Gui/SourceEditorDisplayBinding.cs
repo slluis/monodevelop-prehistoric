@@ -200,6 +200,17 @@ namespace MonoDevelop.SourceEditor.Gui {
 		
 		public void SelectAll (object sender, EventArgs e)
 		{
+			// Sadly, this is not in our version of the bindings:
+			//
+			//gtk_text_view_select_all (GtkWidget *widget,
+			//			  gboolean select)
+			//{
+			//	gtk_text_buffer_get_bounds (buffer, &start_iter, &end_iter);
+			//	gtk_text_buffer_move_mark_by_name (buffer, "insert", &start_iter);
+			//	gtk_text_buffer_move_mark_by_name (buffer, "selection_bound", &end_iter);
+			
+			se.buffer.MoveMark ("insert", se.buffer.StartIter);
+			se.buffer.MoveMark ("selection_bound", se.buffer.EndIter);
 		}
 		
 		Gtk.Clipboard clipboard = Gtk.Clipboard.Get (Gdk.Atom.Intern("CLIPBOARD", false));
