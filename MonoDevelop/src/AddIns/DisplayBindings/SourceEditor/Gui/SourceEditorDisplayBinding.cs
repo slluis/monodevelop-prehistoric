@@ -26,16 +26,33 @@ namespace MonoDevelop.SourceEditor.Gui {
 		public virtual IViewContent CreateContentForFile (string fileName)
 		{
 			SourceEditorDisplayBindingWrapper w = new SourceEditorDisplayBindingWrapper ();
+			
 			w.Load (fileName);
 		}
 		
 		public virtual IViewContent CreateContentForLanguage (string language, string content)
 		{
+			SourceEditorDisplayBindingWrapper w = new SourceEditorDisplayBindingWrapper ();
+			
+			// HACK HACK
+			if (language == "C#")
+				language = "text/x-csharp";
+			else
+				language = null;
+			
 			w.LoadString (language, content);
 		}
 		
 		public virtual IViewContent CreateContentForLanguage (string language, string content, string new_file_name)
 		{
+			SourceEditorDisplayBindingWrapper w = new SourceEditorDisplayBindingWrapper ();
+			
+			// HACK HACK
+			if (language == "C#")
+				language = "text/x-csharp";
+			else
+				language = null;
+			
 			w.LoadString (language, content);
 		}	
 	}
@@ -46,7 +63,7 @@ namespace MonoDevelop.SourceEditor.Gui {
 		
 		public override Gtk.Widget Control {
 			get {
-				return textAreaControl;
+				return se;
 			}
 		}
 		
@@ -58,6 +75,7 @@ namespace MonoDevelop.SourceEditor.Gui {
 		
 		public SourceEditorDisplayBindingWrapper ()
 		{
+			se = new SourceEditor ();
 		}
 		
 		public override void RedrawContent()
@@ -80,6 +98,18 @@ namespace MonoDevelop.SourceEditor.Gui {
 		
 		public override void Load (string fileName)
 		{
+			if (fileName.EndsWith (".cs"))
+				se.Load (fileName, "text/x-csharp");
+			else
+				se.Load (fileName);
+		}
+		
+		public void LoadString (string mime, string val)
+		{
+			if (mime != null)
+				se.LoadText (val, mime);
+			else
+				se.LoadText (val);
 		}
 	}
 }

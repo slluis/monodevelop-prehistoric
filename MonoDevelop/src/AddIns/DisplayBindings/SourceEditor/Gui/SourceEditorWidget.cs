@@ -30,10 +30,21 @@ namespace MonoDevelop.SourceEditor.Gui {
 			LoadText (File.OpenText (file).ReadToEnd (), mime);
 		}
 		
+		
+		public void LoadFile (string file)
+		{
+			sb.Text = File.OpenText (file).ReadToEnd ();
+		}
+		
 		public void LoadText (string text, string mime)
 		{
 			sb.Text = text;
 			sb.Language = slm.GetLanguageFromMimeType (mime);
+		}
+		
+		public void LoadText (string text)
+		{
+			sb.Text = text;
 		}
 		
 		public string Text { get { return sb.Text; } }
