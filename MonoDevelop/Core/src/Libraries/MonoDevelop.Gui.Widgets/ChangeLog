@@ -1,5 +1,10 @@
 2004-12-01  John Luke  <john.luke@gmail.com>
 
+	* FileBrowser/FileBrowser.cs: port to GtkAction
+	some other small updates
+
+2004-12-01  John Luke  <john.luke@gmail.com>
+
 	* FileSelector/FileSelector.cs: modified patch
 	from Rubens Ramos <rubensr@users.sourceforge.net>
 	to use the default path from the property service

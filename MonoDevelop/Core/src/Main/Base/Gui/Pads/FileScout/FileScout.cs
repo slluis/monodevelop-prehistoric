@@ -47,6 +47,7 @@ namespace MonoDevelop.Gui.Pads
 			treef.Add (fb);
 
 			Gtk.ScrolledWindow listsw = new Gtk.ScrolledWindow ();
+			listsw.ShadowType = Gtk.ShadowType.In;
 			listsw.Add (filelister);
 			
 			this.Pack1 (treef, true, true);

@@ -31,8 +31,8 @@ namespace MonoDevelop.Gui.Widgets
 	public class FileBrowser : VBox
 	{
 		public DirectoryChangedEventHandler DirectoryChangedEvent;
-		private static GLib.GType gtype;
 
+		Gtk.UIManager uiManager;
 		private Gtk.TreeView tv;
 		private Gtk.ScrolledWindow scrolledwindow;
 		private Gtk.Button upbutton, homebutton;
@@ -50,7 +50,13 @@ namespace MonoDevelop.Gui.Widgets
 
 		PropertyService PropertyService = (PropertyService) ServiceManager.GetService (typeof (PropertyService));
 
-		public FileBrowser () : base (GType)
+		const string uiInfo = 
+			"<toolbar name=\"toolbar\">" +
+			"  <toolitem name=\"goUp\" action=\"goUp\" />" +
+			"  <toolitem name=\"home\" action=\"home\" />" +
+			"</toolbar>";
+
+		public FileBrowser ()
 		{
 			if (!Vfs.Initialized) {
 				Vfs.Init ();
@@ -61,24 +67,25 @@ namespace MonoDevelop.Gui.Widgets
 			scrolledwindow = new ScrolledWindow ();
 			scrolledwindow.VscrollbarPolicy = PolicyType.Automatic;
 			scrolledwindow.HscrollbarPolicy = PolicyType.Automatic;
+			scrolledwindow.ShadowType = ShadowType.In;
 
-			homebutton = new Button ();
-			homebutton.Add (new Image (Stock.Home, IconSize.SmallToolbar));
-			homebutton.Relief = ReliefStyle.None;
-			homebutton.Clicked += new EventHandler (OnHomeClicked);
+			ActionEntry[] actions = new ActionEntry[]
+			{
+				new ActionEntry ("goUp", Gtk.Stock.GoUp, null, null, GettextCatalog.GetString ("Up one level"), new EventHandler (OnUpClicked)),
+				new ActionEntry ("home", Gtk.Stock.Home, null, null, GettextCatalog.GetString ("Home"), new EventHandler (OnHomeClicked))
+			};
 
-			upbutton = new Button ();
-			upbutton.Add (new Image (Stock.GoUp, IconSize.SmallToolbar));
-			upbutton.Relief = ReliefStyle.None;
-			upbutton.Clicked += new EventHandler (OnUpClicked);
+			ActionGroup actionGroup = new ActionGroup ("navbar");
+			actionGroup.Add (actions);
 
-			entry = new Entry ();
-			entry.Activated += new EventHandler (OnEntryActivated);
+			uiManager = new UIManager ();
+			uiManager.InsertActionGroup (actionGroup, 0);
+			uiManager.AddWidget += new AddWidgetHandler (OnUIAdd);
+			uiManager.AddUiFromString (uiInfo);
 
-			Toolbar toolbar = new Toolbar ();
-			toolbar.AppendWidget (upbutton, GettextCatalog.GetString ("Up one level"), GettextCatalog.GetString ("Up one level"));
-			toolbar.AppendWidget (homebutton, GettextCatalog.GetString ("Home"), GettextCatalog.GetString ("Home"));
-			toolbar.AppendWidget (entry, GettextCatalog.GetString ("Location"), GettextCatalog.GetString ("Location"));
+			Toolbar tb = uiManager.GetWidget ("/ui/toolbar") as Toolbar;
+			tb.IconSize = Gtk.IconSize.SmallToolbar;
+			AddLocationEntry (tb);
 
 			IProperties p = (IProperties) PropertyService.GetProperty ("SharpDevelop.UI.SelectStyleOptions", new DefaultProperties ());
 			ignoreHidden = !p.GetProperty ("MonoDevelop.Gui.FileScout.ShowHidden", false);
@@ -101,7 +108,7 @@ namespace MonoDevelop.Gui.Widgets
 			tv.AppendColumn (directorycolumn);
 
 			store = new ListStore (typeof (Gdk.Pixbuf), typeof (string));
-			CurrentDir = Environment.GetEnvironmentVariable ("HOME");
+			CurrentDir = Environment.GetFolderPath (Environment.SpecialFolder.Personal);
 			tv.Model = store;
 
 			tv.RowActivated += new RowActivatedHandler (OnRowActivated);
@@ -110,8 +117,7 @@ namespace MonoDevelop.Gui.Widgets
 
 			scrolledwindow.Add (tv);
 			this.Homogeneous = false;
-			this.PackStart (toolbar, false, false, 0);
-			this.PackStart (scrolledwindow);
+			this.PackEnd (scrolledwindow);
 			this.ShowAll ();
 			init = true;
 		}
@@ -122,17 +128,11 @@ namespace MonoDevelop.Gui.Widgets
 		{
 			get { return ignoreHidden; }
 			set {
-				/* for some reasont his code crashes (NullReferenceException on the Populate() call
 				if (ignoreHidden != value) {
 					ignoreHidden = value; 
 					// redraw folder list
-					System.Console.WriteLine("before poplate call");
 					Populate ();
 				}
-				*/
-				
-				ignoreHidden = value;
-				Populate ();
 			}
 		}
 
@@ -157,16 +157,6 @@ namespace MonoDevelop.Gui.Widgets
 			}
 		}
 
-		public static new GLib.GType GType
-		{
-			get
-			{
-				if (gtype == GLib.GType.Invalid)
-					gtype = RegisterGType (typeof (FileBrowser));
-				return gtype;
-			}
-		}
-
 		public void SelectFirst ()
 		{
 			tv.Selection.SelectPath (new TreePath ("0"));
@@ -176,7 +166,7 @@ namespace MonoDevelop.Gui.Widgets
 		{
 			store.Clear ();
 
-			// FIXME: never turns back on
+			ToolButton upbutton = uiManager.GetWidget ("/ui/toolbar/goUp") as Gtk.ToolButton;
 			if (System.IO.Path.GetPathRoot (CurrentDir) == CurrentDir)
 				upbutton.Sensitive = false;
 			else if (upbutton.Sensitive == false)
@@ -189,7 +179,7 @@ namespace MonoDevelop.Gui.Widgets
 			{
 				if (ignoreHidden)
 				{
-					if (!d.Name.StartsWith (".") && NotHidden(d.Name))
+					if (!d.Name.StartsWith (".") && NotHidden (d.Name))
 						store.AppendValues (FileIconLoader.GetPixbufForFile (System.IO.Path.Combine (CurrentDir, d.Name), 24, 24), d.Name);
 				}
 				else
@@ -209,7 +199,7 @@ namespace MonoDevelop.Gui.Widgets
 			{
 				if (ignoreHidden)
 				{
-					if (NotHidden (System.IO.Path.GetFileName(filesaux[cont])))
+					if (NotHidden (System.IO.Path.GetFileName (filesaux[cont])))
 					{
 						files.Add (filesaux[cont]);
 					}
@@ -224,22 +214,18 @@ namespace MonoDevelop.Gui.Widgets
 		private void OnRowActivated (object o, RowActivatedArgs args)
 		{
 			TreeIter iter;
-			store.GetIter (out iter, args.Path);
-			string file = (string) store.GetValue (iter, 1);
-			string newDir = System.IO.Path.Combine (currentDir, file);
-
-			if (Directory.Exists (newDir))
+			if (store.GetIter (out iter, args.Path))
 			{
-				CurrentDir = newDir;
+				string newDir = System.IO.Path.Combine (currentDir, (string) store.GetValue (iter, 1));
+				if (Directory.Exists (newDir))
+					CurrentDir = newDir;
 			}
 		}
 		
 		private void OnButtonRelease (object o, ButtonReleaseEventArgs args)
 		{
 			if (args.Event.Button == 3)
-			{
 				ShowPopup ();
-			}	
 		}
 
 		private void OnPopupMenu (object o, PopupMenuArgs args)
@@ -249,6 +235,7 @@ namespace MonoDevelop.Gui.Widgets
 
 		private void ShowPopup ()
 		{
+			// FIXME: port to Action API
 			Menu menu = new Menu ();
 			MenuItem openfilebrowser = new MenuItem (GettextCatalog.GetString ("Open with file browser"));
 			openfilebrowser.Activated += new EventHandler (OpenFileBrowser);
@@ -272,7 +259,7 @@ namespace MonoDevelop.Gui.Widgets
 			menu.Append (new MenuItem ());
 			menu.Append (openterminal);
 			menu.Append (openfilebrowser);
-			menu.Popup (null, null, null, IntPtr.Zero, 3, Global.CurrentEventTime);
+			menu.Popup ();
 			menu.ShowAll ();
 		}
 		
@@ -316,17 +303,15 @@ namespace MonoDevelop.Gui.Widgets
 		
 		private void OnHomeClicked (object o, EventArgs args)
 		{
-			CurrentDir = Environment.GetEnvironmentVariable ("HOME");
+			CurrentDir = Environment.GetFolderPath (Environment.SpecialFolder.Personal);
 		}
 
 		private void OnEntryActivated (object sender, EventArgs args)
 		{
 			if (Directory.Exists (entry.Text.Trim ()))
-				CurrentDir = entry.Text;
+				CurrentDir = entry.Text.Trim ();
 			else
-			{
     			messageService.ShowError (null, String.Format (GettextCatalog.GetString ("Cannot enter '{0}' folder"), entry.Text));
-			}
 		}
 
 		private void OnDirRename (object o, EventArgs args)
@@ -461,6 +446,22 @@ namespace MonoDevelop.Gui.Widgets
 		{
 			return !hiddenfolders.Contains (folder);
 		} 
+
+		void OnUIAdd (object sender, AddWidgetArgs a)
+		{
+			a.Widget.Show ();
+			this.PackStart (a.Widget, false, true, 0);
+		}
+
+		void AddLocationEntry (Toolbar tb)
+		{
+			entry = new Entry ();
+			entry.Activated += new EventHandler (OnEntryActivated);
+			entry.Show ();
+			ToolItem item = new ToolItem ();
+			item.Add (entry);
+			tb.Add (item);
+		}
 	}
 }
 
