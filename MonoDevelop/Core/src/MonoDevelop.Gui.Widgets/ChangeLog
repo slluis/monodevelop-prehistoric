@@ -1,3 +1,8 @@
+2005-03-15  John Luke  <john.luke@gmail.com>
+
+	* FileBrowser/FileBrowser.cs: make enum internal
+	so it will compile with latest mcs
+
 2005-01-31  John Luke  <john.luke@gmail.com>
 
 	* FileBrowser/FileBrowser.cs: use ToolItem

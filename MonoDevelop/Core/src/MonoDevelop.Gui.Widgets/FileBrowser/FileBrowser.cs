@@ -22,7 +22,7 @@ namespace MonoDevelop.Gui.Widgets
 {
 	public delegate void DirectoryChangedEventHandler (string path);
 
-	private enum PerformingTask
+	enum PerformingTask
 	{
 		None,
 		Renaming,
