@@ -13,18 +13,16 @@ using Gtk;
 
 namespace MonoDevelop.AssemblyAnalyser
 {
-	/// <summary>
-	/// Description of AssemblyAnalyserControl.	
-	/// </summary>
 	public class AssemblyAnalyserControl : Frame
 	{
-		//VPanel splitter2;
 		Notebook tabControl;
+		NotebookPage assembliesTabPage;
+
+		VSeparator splitter;
+		VSeparator splitter2;
+
 		MonoDevelop.AssemblyAnalyser.ResultListControl resultListControl;
-		//VPane splitter;
 		MonoDevelop.AssemblyAnalyser.AssemblyTreeControl assemblyTreeControl;
-		Frame panel;
-		//NotebookPage assembliesTabPage;
 		MonoDevelop.AssemblyAnalyser.ResultDetailsView resultDetailsView;
 		
 		public AssemblyAnalyserControl()
@@ -53,102 +51,25 @@ namespace MonoDevelop.AssemblyAnalyser
 			assemblyTreeControl.PrintAllResolutions();
 		}
 		
-		#region Windows Forms Designer generated code
-		/// <summary>
-		/// This method is required for Windows Forms designer support.
-		/// Do not change the method contents inside the source code editor. The Forms designer might
-		/// not be able to load this method if it was changed manually.
-		/// </summary>
 		private void InitializeComponent() {
+			this.Label = "Assembly Analyser Control";
+			VBox vbox = new VBox ();
+
 			this.resultDetailsView = new MonoDevelop.AssemblyAnalyser.ResultDetailsView();
-			//this.assembliesTabPage = new NotebookPage();
-			this.panel = new Frame ();
 			this.assemblyTreeControl = new MonoDevelop.AssemblyAnalyser.AssemblyTreeControl();
-			//this.splitter = new VPane ();
 			this.resultListControl = new MonoDevelop.AssemblyAnalyser.ResultListControl();
+			vbox.PackStart (this.resultDetailsView);
+			vbox.PackStart (this.assemblyTreeControl);
+			vbox.PackStart (this.resultListControl);
+
+			//this.assembliesTabPage = new NotebookPage();
+			this.splitter = new VSeparator ();
 			this.tabControl = new Notebook();
-			//this.splitter2 = new VPane();
+			this.splitter2 = new VSeparator ();
 /*
-			this.resultDetailsView.Dock = System.Windows.Forms.DockStyle.Bottom;
-			this.resultDetailsView.Location = new System.Drawing.Point(0, 304);
-			this.resultDetailsView.Name = "resultDetailsView";
-			this.resultDetailsView.Size = new System.Drawing.Size(544, 200);
-			this.resultDetailsView.TabIndex = 1;
-			// 
-			// assembliesTabPage
-			// 
-			this.assembliesTabPage.Controls.Add(this.assemblyTreeControl);
-			this.assembliesTabPage.Location = new System.Drawing.Point(4, 22);
-			this.assembliesTabPage.Name = "assembliesTabPage";
-			this.assembliesTabPage.Size = new System.Drawing.Size(192, 478);
-			this.assembliesTabPage.TabIndex = 0;
-			this.assembliesTabPage.Text = "Assemblies";
-			// 
-			// panel
-			// 
-			this.panel.Controls.Add(this.resultListControl);
-			this.panel.Controls.Add(this.splitter2);
-			this.panel.Controls.Add(this.resultDetailsView);
-			this.panel.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.panel.Location = new System.Drawing.Point(204, 0);
-			this.panel.Name = "panel";
-			this.panel.Size = new System.Drawing.Size(544, 504);
-			this.panel.TabIndex = 2;
-			// 
-			// assemblyTreeControl
-			// 
-			this.assemblyTreeControl.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.assemblyTreeControl.Location = new System.Drawing.Point(0, 0);
-			this.assemblyTreeControl.Name = "assemblyTreeControl";
-			this.assemblyTreeControl.Size = new System.Drawing.Size(192, 478);
-			this.assemblyTreeControl.TabIndex = 0;
-			// 
-			// splitter
-			// 
-			this.splitter.Location = new System.Drawing.Point(200, 0);
-			this.splitter.Name = "splitter";
-			this.splitter.Size = new System.Drawing.Size(4, 504);
-			this.splitter.TabIndex = 1;
-			this.splitter.TabStop = false;
-			// 
-			// resultListControl
-			// 
-			this.resultListControl.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.resultListControl.Location = new System.Drawing.Point(0, 0);
-			this.resultListControl.Name = "resultListControl";
-			this.resultListControl.Size = new System.Drawing.Size(544, 300);
-			this.resultListControl.TabIndex = 3;
 			this.resultListControl.Load += new System.EventHandler(this.ResultListControlLoad);
-			// 
-			// tabControl
-			// 
-			this.tabControl.Controls.Add(this.assembliesTabPage);
-			this.tabControl.Dock = System.Windows.Forms.DockStyle.Left;
-			this.tabControl.Location = new System.Drawing.Point(0, 0);
-			this.tabControl.Name = "tabControl";
-			this.tabControl.SelectedIndex = 0;
-			this.tabControl.Size = new System.Drawing.Size(200, 504);
-			this.tabControl.TabIndex = 0;
-			// 
-			// splitter2
-			// 
-			this.splitter2.Dock = System.Windows.Forms.DockStyle.Bottom;
-			this.splitter2.Location = new System.Drawing.Point(0, 300);
-			this.splitter2.Name = "splitter2";
-			this.splitter2.Size = new System.Drawing.Size(544, 4);
-			this.splitter2.TabIndex = 2;
-			this.splitter2.TabStop = false;
-			// 
-			// AssemblyAnalyserControl
-			// 
-			this.Controls.Add(this.panel);
-			this.Controls.Add(this.splitter);
-			this.Controls.Add(this.tabControl);
-			this.Name = "AssemblyAnalyserControl";
-			this.Size = new System.Drawing.Size(748, 504);
 */
 		}
-		#endregion
 		
 		void ResultListControlLoad(object sender, System.EventArgs e)
 		{

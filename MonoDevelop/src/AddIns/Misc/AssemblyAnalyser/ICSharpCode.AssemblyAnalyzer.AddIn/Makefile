@@ -7,7 +7,7 @@ REFS = \
 	-pkg:gtk-sharp \
 	-pkg:gecko-sharp \
 	/r:System.Drawing.dll \
-	/r:../../../../../build/bin/ICSharpCode.AssemblyAnalyser.dll \
+	/r:../../../../../build/AddIns/ICSharpCode.AssemblyAnalyser.dll \
 	/r:../../../../../build/bin/MonoDevelop.Core.dll \
 	/r:../../../../../build/bin/MonoDevelop.Base.dll
 

@@ -13,14 +13,12 @@ using Gtk;
 
 using MonoDevelop.Core.Services;
 using MonoDevelop.Services;
+
 namespace MonoDevelop.AssemblyAnalyser
 {
-	/// <summary>
-	/// Description of AssemblyTreeControl.	
-	/// </summary>
 	public class AssemblyTreeControl : TreeView
 	{
-		TreeView assemblyTreeView;
+		TreeStore assembliesStore;
 		TreeNode assembliesNode;
 		ResultListControl resultListControl;
 		
@@ -35,9 +33,9 @@ namespace MonoDevelop.AssemblyAnalyser
 		
 		public AssemblyTreeControl()
 		{
-			InitializeComponent();
 			StringParserService stringParserService = (StringParserService)ServiceManager.Services.GetService(typeof(StringParserService));
 			ClassBrowserIconsService classBrowserIconService = (ClassBrowserIconsService)ServiceManager.Services.GetService(typeof(ClassBrowserIconsService));
+			assembliesStore = new TreeStore (typeof (string));
 			//assemblyTreeView.ImageList = classBrowserIconService.ImageList;
 			
 			//assembliesNode = new TreeNode(stringParserService.Parse("${res:MonoDevelop.AssemblyAnalyser.AssemblyTreeControl.AssembliesNode}"));
@@ -46,6 +44,7 @@ namespace MonoDevelop.AssemblyAnalyser
 			//assemblyTreeView.AfterCollapse += new TreeViewEventHandler(AssemblyTreeViewAfterCollapse);
 			//assemblyTreeView.AfterExpand += new TreeViewEventHandler(AssemblyTreeViewAfterExpand);
 			//assemblyTreeView.AfterSelect += new TreeViewEventHandler(AssemblyTreeViewAfterSelect);
+			this.Selection.Changed += AssemblyTreeViewSelectionChanged;
 		}
 		
 /*		
@@ -62,65 +61,43 @@ namespace MonoDevelop.AssemblyAnalyser
 				assembliesNode.ImageIndex = assembliesNode.SelectedImageIndex = 1;
 			}
 		}
-		
-		void AssemblyTreeViewAfterSelect(object sender, TreeViewEventArgs e)
-		{
-			if (e.Node.Tag == null) {
-				PrintAllResolutions();
-			} else {
-				this.resultListControl.PrintReport((ArrayList)e.Node.Tag);
-			}
-		}
 */
 		
-		public void PrintAllResolutions()
+		void AssemblyTreeViewSelectionChanged (object sender, EventArgs e)
 		{
-			ArrayList allResolutions = new ArrayList();
+			TreeIter iter;
+			TreeModel model;
+
+			if (this.Selection.GetSelected (out model, out iter))
+			{
+				this.resultListControl.PrintReport ((ArrayList) model.GetValue (iter, 1));
+			}
+			else
+			{
+				PrintAllResolutions ();
+			}
+		}
+		
+		public void PrintAllResolutions ()
+		{
+			ArrayList allResolutions = new ArrayList ();
 			//foreach (TreeNode node in assembliesNode.Nodes) {
 			//	allResolutions.AddRange((ArrayList)node.Tag);
 			//}
-			this.resultListControl.PrintReport(allResolutions);
+			this.resultListControl.PrintReport (allResolutions);
 		}
 		
 		public void ClearContents()
 		{
-			Console.WriteLine("CLEAR CONTENTS");
-			//assembliesNode.Nodes.Clear();
+			//Console.WriteLine("CLEAR CONTENTS");
+			assembliesStore.Clear ();
 		}
 		
-		public void AddAssembly(string assemblyFileName, ArrayList resolutions)
+		public void AddAssembly (string assemblyFileName, ArrayList resolutions)
 		{
-			//TreeNode newNode = new TreeNode(Path.GetFileName(assemblyFileName));
-			//newNode.Tag = resolutions;
+			assembliesStore.AppendValues (System.IO.Path.GetFileName (assemblyFileName), resolutions);
 			//newNode.ImageIndex = newNode.SelectedImageIndex = 2;
-			//assembliesNode.Nodes.Add(newNode);
 			//assembliesNode.Expand();
 		}
-		
-		#region Windows Forms Designer generated code
-		/// <summary>
-		/// This method is required for Windows Forms designer support.
-		/// Do not change the method contents inside the source code editor. The Forms designer might
-		/// not be able to load this method if it was changed manually.
-		/// </summary>
-		private void InitializeComponent() {
-			this.assemblyTreeView = new TreeView ();
-/*
-			this.assemblyTreeView.HideSelection = false;
-			this.assemblyTreeView.ImageIndex = -1;
-			this.assemblyTreeView.Location = new System.Drawing.Point(0, 0);
-			this.assemblyTreeView.Name = "assemblyTreeView";
-			this.assemblyTreeView.SelectedImageIndex = -1;
-			this.assemblyTreeView.Size = new System.Drawing.Size(292, 266);
-			this.assemblyTreeView.TabIndex = 0;
-			// 
-			// AssemblyTreeControl
-			// 
-			this.Controls.Add(this.assemblyTreeView);
-			this.Name = "AssemblyTreeControl";
-			this.Size = new System.Drawing.Size(292, 266);
-*/
-		}
-		#endregion
 	}
 }

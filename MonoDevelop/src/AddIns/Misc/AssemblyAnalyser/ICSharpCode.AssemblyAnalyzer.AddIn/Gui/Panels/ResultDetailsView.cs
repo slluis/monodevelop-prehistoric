@@ -22,22 +22,14 @@ using MonoDevelop.Gui.Pads;
 
 namespace MonoDevelop.AssemblyAnalyser
 {
-	/// <summary>
-	/// Description of ResultDetailsView.	
-	/// </summary>
+	// it might be better to display with some simple
+	// labels, or even a DrawingArea
 	public class ResultDetailsView : MozillaControl
 	{
-		MozillaControl htmlControl;
 		Resolution  currentResolution;
+
 		public ResultDetailsView()
 		{
-			//
-			// The InitializeComponent() call is required for Windows Forms designer support.
-			//
-			InitializeComponent();
-			
-			htmlControl = new MozillaControl ();
-			//htmlControl.Dock = DockStyle.Fill;
 			PropertyService propertyService = (PropertyService)ServiceManager.Services.GetService(typeof(PropertyService));
 			//htmlControl.CascadingStyleSheet = propertyService.DataDirectory + Path.DirectorySeparatorChar +
 			//                                  "resources" + Path.DirectorySeparatorChar +
@@ -45,8 +37,7 @@ namespace MonoDevelop.AssemblyAnalyser
 			//                                  "MsdnHelp.css";
 			
 			ClearContents();
-			htmlControl.OpenUri += new OpenUriHandler (HtmlControlBeforeNavigate);
-			this.Add (htmlControl);
+			this.OpenUri += new OpenUriHandler (HtmlControlBeforeNavigate);
 		}
 		
 		void HtmlControlBeforeNavigate(object sender, OpenUriArgs e)
@@ -64,7 +55,7 @@ namespace MonoDevelop.AssemblyAnalyser
 		
 		public void ClearContents()
 		{
-			htmlControl.Html = "<HTML><BODY></BODY></HTML>";
+			this.Html = "<HTML><BODY></BODY></HTML>";
 		}
 		
 		void GotoCurrentCause()
@@ -91,7 +82,7 @@ namespace MonoDevelop.AssemblyAnalyser
 			this.currentResolution = resolution;
 			StringParserService stringParserService = (StringParserService)ServiceManager.Services.GetService(typeof(StringParserService));
 			
-			htmlControl.Html = @"<HTML><BODY ID='bodyID' CLASS='dtBODY'>
+			this.Html = @"<HTML><BODY ID='bodyID' CLASS='dtBODY'>
 			<DIV ID='nstext'>
 			<DL>" + stringParserService.Parse(resolution.FailedRule.Description)  + @"</DL>
 			<H4 CLASS='dtH4'>" + stringParserService.Parse("${res:MonoDevelop.AssemblyAnalyser.ResultDetailsView.DescriptionLabel}") + @"</H4>
@@ -101,20 +92,5 @@ namespace MonoDevelop.AssemblyAnalyser
 			" + (CanGoto(resolution) ? stringParserService.Parse("<A HREF=\"help://gotocause\">${res:MonoDevelop.AssemblyAnalyser.ResultDetailsView.JumpToSourceCodeLink}</A>") : "") + @"
 			</DIV></BODY></HTML>";
 		}
-		
-		#region Windows Forms Designer generated code
-		/// <summary>
-		/// This method is required for Windows Forms designer support.
-		/// Do not change the method contents inside the source code editor. The Forms designer might
-		/// not be able to load this method if it was changed manually.
-		/// </summary>
-		private void InitializeComponent() {
-			// 
-			// ResultDetailsView
-			// 
-			this.Name = "ResultDetailsView";
-			//this.SetDefaultSize (292, 266);
-		}
-		#endregion
 	}
 }

@@ -32,11 +32,21 @@ namespace MonoDevelop.AssemblyAnalyser
 		
 		AppDomain        analyserDomain  = null;
 		AssemblyAnalyser currentAnalyser = null;
+
+		public override string TabPageLabel {
+			get { return GettextCatalog.GetString ("Assembly Analyzer"); }
+		}
+
+		public override string ContentName {
+			get { return GettextCatalog.GetString ("Assembly Analyzer"); }
+		}
+
 		public override Widget Control {
 			get {
 				return assemblyAnalyserControl;
 			}
 		}
+
 		public override bool IsViewOnly {
 			get {
 				return true;
@@ -48,8 +58,8 @@ namespace MonoDevelop.AssemblyAnalyser
 				return false;
 			}
 		}
-		
-		public AssemblyAnalyserView() //: base("Assembly Analyser")
+
+		public AssemblyAnalyserView()
 		{
 			AssemblyAnalyserViewInstance = this;
 			assemblyAnalyserControl = new AssemblyAnalyserControl();
@@ -64,13 +74,16 @@ namespace MonoDevelop.AssemblyAnalyser
 			if (currentAnalyser == null) {
 				currentAnalyser = CreateRemoteAnalyser();
 			}
+
 			IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
 			ArrayList projectCombineEntries = Combine.GetAllProjects(projectService.CurrentOpenCombine);
 			assemblyAnalyserControl.ClearContents();
+
 			foreach (ProjectCombineEntry projectEntry in projectCombineEntries) {
 				string outputAssembly = projectService.GetOutputAssemblyName(projectEntry.Project);
 				assemblyAnalyserControl.AnalyzeAssembly(currentAnalyser, outputAssembly);
 			}
+
 			assemblyAnalyserControl.PrintAllResolutions();
 		}
 		
@@ -88,7 +101,7 @@ namespace MonoDevelop.AssemblyAnalyser
 			
 			IStatusBarService statusBarService = (IStatusBarService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IStatusBarService));
 			
-			statusBarService.SetMessage("${res:MainWindow.StatusBar.ReadyMessage}");
+			statusBarService.SetMessage(GettextCatalog.GetString ("Ready"));
 			AssemblyAnalyserViewInstance = null;
 		}
 		

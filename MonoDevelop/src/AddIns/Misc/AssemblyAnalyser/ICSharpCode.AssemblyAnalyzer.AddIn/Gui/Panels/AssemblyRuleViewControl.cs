@@ -10,44 +10,12 @@ using Gtk;
 
 namespace MonoDevelop.AssemblyAnalyser
 {
-	/// <summary>
-	/// Description of AssemblyRuleViewControl.	
-	/// </summary>
+	// seems to be a plain TreeView
 	public class AssemblyRuleViewControl : TreeView
 	{
-		TreeView ruleTreeView;
 		public AssemblyRuleViewControl()
 		{
-			//
-			// The InitializeComponent() call is required for Windows Forms designer support.
-			//
-			InitializeComponent();
-			
+			Console.WriteLine ("new assembly rule view tree");
 		}
-		
-		#region Windows Forms Designer generated code
-		/// <summary>
-		/// This method is required for Windows Forms designer support.
-		/// Do not change the method contents inside the source code editor. The Forms designer might
-		/// not be able to load this method if it was changed manually.
-		/// </summary>
-		private void InitializeComponent() {
-			this.ruleTreeView = new TreeView ();
-/*
-			this.ruleTreeView.ImageIndex = -1;
-			this.ruleTreeView.Location = new System.Drawing.Point(0, 0);
-			this.ruleTreeView.Name = "ruleTreeView";
-			this.ruleTreeView.SelectedImageIndex = -1;
-			this.ruleTreeView.Size = new System.Drawing.Size(292, 266);
-			this.ruleTreeView.TabIndex = 0;
-			// 
-			// AssemblyRuleViewControl
-			// 
-			this.Controls.Add(this.ruleTreeView);
-			this.Name = "AssemblyRuleViewControl";
-			this.Size = new System.Drawing.Size(292, 266);
-*/
-		}
-		#endregion
 	}
 }
