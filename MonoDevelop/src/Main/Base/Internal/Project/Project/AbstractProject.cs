@@ -210,6 +210,9 @@ namespace MonoDevelop.Internal.Project
 				     extension != ".EXE" &&
 				     extension != ".CMBX" &&
 				     extension != ".PRJX" &&
+				     extension != ".SWP" &&
+				     !file.EndsWith ("~") &&
+				     !file.StartsWith (".") &&
 				     !Path.GetDirectoryName(file).EndsWith("CVS") &&
 				     !Path.GetDirectoryName(file).EndsWith(".svn") &&
 				     !Path.GetDirectoryName(file).EndsWith("ProjectDocumentation")) {
