@@ -27,7 +27,6 @@ SOURCES = \
 ./Codons/EditActionCodon.cs \
 ./Commands/ToolCommands.cs \
 ./Commands/TextAreaContextmenuCommands.cs \
-./Commands/BookmarkCommands.cs \
 ./Commands/FormatCommands.cs \
 ./Commands/ProjectCommands.cs \
 ./Commands/SearchCommands.cs \

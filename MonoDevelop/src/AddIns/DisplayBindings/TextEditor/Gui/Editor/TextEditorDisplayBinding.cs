@@ -92,7 +92,8 @@ namespace ICSharpCode.SharpDevelop.DefaultEditor.Gui.Editor
 		}	
 	}
 	
-	public class TextEditorDisplayBindingWrapper : AbstractViewContent, IMementoCapable, IPrintable, IEditable, IPositionable, ITextEditorControlProvider, IParseInformationListener, IClipboardHandler
+	public class TextEditorDisplayBindingWrapper : AbstractViewContent, IMementoCapable, IPrintable, IEditable, IPositionable, ITextEditorControlProvider, IParseInformationListener, IClipboardHandler,
+		IBookmarkOperations
 	{
 		public SharpDevelopTextAreaControl textAreaControl = new SharpDevelopTextAreaControl();
 
@@ -426,6 +427,13 @@ namespace ICSharpCode.SharpDevelop.DefaultEditor.Gui.Editor
 		{
 			textAreaControl.ActiveTextAreaControl.TextArea.ClipboardHandler.Cut(sender, e);
 		}
+#endregion
+		
+#region IBookmarkOperations
+		void IBookmarkOperations.ToggleBookmark () { new ICSharpCode.TextEditor.Actions.ToggleBookmark     ().Execute (TextEditorControl.ActiveTextAreaControl.TextArea); }
+		void IBookmarkOperations.PrevBookmark ()   { new ICSharpCode.TextEditor.Actions.GotoPrevBookmark   ().Execute (TextEditorControl.ActiveTextAreaControl.TextArea); }
+		void IBookmarkOperations.NextBookmark ()   { new ICSharpCode.TextEditor.Actions.GotoNextBookmark   ().Execute (TextEditorControl.ActiveTextAreaControl.TextArea); }
+		void IBookmarkOperations.ClearBookmarks () { new ICSharpCode.TextEditor.Actions.ClearAllBookmarks  ().Execute (TextEditorControl.ActiveTextAreaControl.TextArea); }
 #endregion
 	}
 }

@@ -12,6 +12,7 @@
 	<Runtime>
 		<Import assembly="../bin/MonoDevelop.TextEditor.dll"/>
 		<Import assembly="../bin/MonoDevelop.DefaultTexteditor.dll"/>
+		<Import assembly="../bin/MonoDevelop.EditorBindings.dll"/>
 	</Runtime>
 	
 	<Extension path = "/SharpDevelop/Dialogs/OptionsDialog/CodingOptions">
@@ -150,19 +151,19 @@
 				<ToolbarItem id = "ToggleBookmark"
 				             icon = "Icons.16x16.ToggleBookmark"
 				             tooltip = "${res:XML.MainMenu.SearchMenu.ToggleBookmark.Description}"
-				             class = "ICSharpCode.SharpDevelop.DefaultEditor.Commands.ToggleBookmark"/>
+				             class = "MonoDevelop.EditorBindings.Commands.ToggleBookmark"/>
 				<ToolbarItem id = "PrevBookmark"
 				             icon = "Icons.16x16.GotoPrevbookmark"
 				             tooltip = "${res:XML.MainMenu.SearchMenu.PrevBookmark.Description}"
-				             class = "ICSharpCode.SharpDevelop.DefaultEditor.Commands.PrevBookmark"/>
+				             class = "MonoDevelop.EditorBindings.Commands.PrevBookmark"/>
 				<ToolbarItem id = "NextBookmark"
 				             icon = "Icons.16x16.GotoNextbookmark"
 				             tooltip = "${res:XML.MainMenu.SearchMenu.NextBookmark.Description}"
-				             class = "ICSharpCode.SharpDevelop.DefaultEditor.Commands.NextBookmark"/>
+				             class = "MonoDevelop.EditorBindings.Commands.NextBookmark"/>
 				<ToolbarItem id = "ClearBookmarks"
 				             icon = "Icons.16x16.ClearAllBookmarks"
 					     tooltip = "${res:XML.MainMenu.SearchMenu.ClrBookmark.Description}"
-				             class = "ICSharpCode.SharpDevelop.DefaultEditor.Commands.ClearBookmarks"/>
+				             class = "MonoDevelop.EditorBindings.Commands.ClearBookmarks"/>
 			</Conditional>
 	</Extension>
 	
@@ -215,24 +216,24 @@
 		                          description = "${res:XML.MainMenu.SearchMenu.ToggleBookmark.Description}" 
 		                          shortcut = "Control|F2"
 		                          icon = "Icons.16x16.ToggleBookmark"
-		                          class = "ICSharpCode.SharpDevelop.DefaultEditor.Commands.ToggleBookmark"/>
+		                          class = "MonoDevelop.EditorBindings.Commands.ToggleBookmark"/>
 		                <MenuItem id = "PrevBookmark"
 		                          label = "${res:XML.MainMenu.SearchMenu.PrevBookmark}" 
 		                          description = "${res:XML.MainMenu.SearchMenu.PrevBookmark.Description}" 
 		                          shortcut = "Alt|F2"
 		                          icon = "Icons.16x16.GotoPrevbookmark"
-		                          class = "ICSharpCode.SharpDevelop.DefaultEditor.Commands.PrevBookmark"/>
+		                          class = "MonoDevelop.EditorBindings.Commands.PrevBookmark"/>
 		                <MenuItem id = "NextBookmark"
 		                          label = "${res:XML.MainMenu.SearchMenu.NextBookmark}" 
 		                          description = "${res:XML.MainMenu.SearchMenu.NextBookmark.Description}" 
 		                          shortcut = "F2" 
 		                          icon = "Icons.16x16.GotoNextbookmark"
-		                          class = "ICSharpCode.SharpDevelop.DefaultEditor.Commands.NextBookmark"/>
+		                          class = "MonoDevelop.EditorBindings.Commands.NextBookmark"/>
 		                <MenuItem id = "ClearBookmarks"
 		                          label = "${res:XML.MainMenu.SearchMenu.ClrBookmark}" 
 		                          description = "${res:XML.MainMenu.SearchMenu.ClrBookmark.Description}"
 		                          icon = "Icons.16x16.ClearAllBookmarks"
-		                          class = "ICSharpCode.SharpDevelop.DefaultEditor.Commands.ClearBookmarks"/>
+		                          class = "MonoDevelop.EditorBindings.Commands.ClearBookmarks"/>
 		                <MenuItem id = "Separator2" label = "-" />
 		                <MenuItem id = "GotoLineNr"
 		                          label = "${res:XML.MainMenu.SearchMenu.GotoLineNr}" 

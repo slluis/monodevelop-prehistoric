@@ -3,7 +3,7 @@ MONOPAD=build/bin/MonoPad.exe
 GTKMOZEMBED=build/bin/gtkmozembed-sharp.dll
 QMAKE=@ $(MAKE)
 
-$(PROGRAM): $(GTKMOZEMBED) MonoDevelop.Base MonoDevelop.DefaultTexteditor SourceEditor CSharpBinding StartPage
+$(PROGRAM): $(GTKMOZEMBED) MonoDevelop.Base MonoDevelop.EditorBindings MonoDevelop.DefaultTexteditor SourceEditor CSharpBinding StartPage
 	@ echo Building $@
 	$(QMAKE) -C src/Main/StartUp
 
@@ -63,6 +63,10 @@ SourceEditor :
 	@ echo Building $@
 	$(QMAKE) -C src/AddIns/DisplayBindings/SourceEditor
 
+MonoDevelop.EditorBindings :
+	@ echo Building $@
+	$(QMAKE) -C src/AddIns/DisplayBindings/EditorBindings
+	
 clean:
 	find ./build/ -name '*.dll' | xargs rm -f
 	find ./build/ -name '*.exe' | xargs rm -f

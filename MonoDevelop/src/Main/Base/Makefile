@@ -91,6 +91,7 @@ SOURCES= \
 ./Gui/Dialogs/InputBox.cs \
 ./Gui/Dialogs/NewFileDialog.cs \
 ./Gui/Dialogs/ProjectOptionsDialog.cs \
+./Gui/ContentInterfaces/IBookmarkOperations.cs \
 ./Gui/ContentInterfaces/IClipboardHandler.cs \
 ./Gui/ContentInterfaces/IPrintable.cs \
 ./Gui/ContentInterfaces/IPositionable.cs \
