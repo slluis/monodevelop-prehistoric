@@ -107,17 +107,13 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads.ProjectBrowser
 			CombineEntry removeEntry = null;
 			StringParserService stringParserService = (StringParserService)ServiceManager.Services.GetService(typeof(StringParserService));
 			
-			/*int ret = new SharpMessageBox(resourceService.GetString("ProjectComponent.RemoveProject.Title"),
-										  stringParserService.Parse(resourceService.GetString("ProjectComponent.RemoveProject.Question"), new string[,] { {"COMBINE", cmb.Name}, {"PROJECT", project.Name}}),  
-										  resourceService.GetString("Global.RemoveButtonText"), 
-										  resourceService.GetString("Global.CancelButtonText")
-										  ).ShowMessageBox();*/
-										  			Console.WriteLine ("Unported Dialog in ProjectBrowserNode.cs");
-													int ret = 1;
-			if (ret == 1 || ret == -1) {
+			Gtk.MessageDialog dialog = new Gtk.MessageDialog ((Gtk.Window)WorkbenchSingleton.Workbench, Gtk.DialogFlags.DestroyWithParent, Gtk.MessageType.Question, Gtk.ButtonsType.OkCancel, stringParserService.Parse(resourceService.GetString("ProjectComponent.RemoveProject.Question"), new string[,] { {"COMBINE", cmb.Name}, {"PROJECT", project.Name}})); 
+													if (dialog.Run() != (int)Gtk.ResponseType.Ok) {
+				dialog.Destroy ();
 				return false;
 			}
-					
+			dialog.Destroy ();
+			
 			// remove combineentry
 			foreach (CombineEntry entry in cmb.Entries) {
 				if (entry is ProjectCombineEntry) {
