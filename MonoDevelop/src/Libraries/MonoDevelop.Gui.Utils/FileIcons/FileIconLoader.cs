@@ -48,6 +48,9 @@ namespace MonoDevelop.Gui.Utils
 				string p_filename = "gnome-fs-regular";
 				try {
 					p_filename = iconTheme.LookupIcon (type, 24, new Gnome.IconData (), out i);
+					if (p_filename == "") {
+						return new Gdk.Pixbuf ("../data/resources/icons/gnome-fs-regular.png");
+					}
 				} catch {
 					return new Gdk.Pixbuf ("../data/resources/icons/gnome-fs-regular.png");
 				}

@@ -1,3 +1,9 @@
+2004-04-12  Kristian Rietveld  <kris@gtk.org>
+
+	* FileIcons/FileIconLoader.cs: if LookupIcon returns an empty string,
+	but doesn't throw an exception, also return a pixbuf of
+	gnome-fs-regular.
+
 2004-03-29  Todd Berman  <tberman@sevenl.net>
 
 	* FileIcons/FileIconLoader.cs: fix from richard torkar to workaround a
