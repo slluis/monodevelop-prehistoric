@@ -42,7 +42,6 @@ PKG_CHECK_MODULES(BASE_DEPENDENCIES, gtksourceview-1.0 >= $GTKSOURCEVIEW_REQUIRE
 GTKSOURCEVIEWSHARP_REQUIRED_VERSION=0.1
 PKG_CHECK_MODULES(BASE_DEPENDENCIES, gtksourceview-sharp >= $GTKSOURCEVIEWSHARP_REQUIRED_VERSION, enable_gtksourceviewsharp=yes, enable_gtksourceviewsharp=no)
 GTKSOURCEVIEW_SHARP="`pkg-config --libs gtksourceview-sharp`"
-echo This is it: _ ${GTKSOURCEVIEW_SHARP} _
 AC_SUBST(GTKSOURCEVIEW_SHARP)
 
 dnl find gnome-vfs
@@ -162,7 +161,7 @@ echo "   * gtksourceview $GTKSOURCEVIEW_REQUIRED_VERSION: $enable_gtksourceview"
 echo "   * gtksourceview-sharp $GTKSOURCEVIEWSHARP_REQUIRED_VERSION: $enable_gtksourceviewsharp"
 echo "   * mono $MONO_REQUIRED_VERSION: $enable_mono"
 echo "   * monodoc $MONODOC_REQUIRED_VERSION: $enable_monodoc"
-echo "   * mono debugger $MONO_DEBUGGER_REQUIRED_VERSION: $enable_debugger"
+echo "   * mono-debugger $MONO_DEBUGGER_REQUIRED_VERSION: $enable_debugger"
 echo ""
 echo "   NOTE: if any of the above say 'no' you may install the"
 echo "         corresponding development packages for them, and"
