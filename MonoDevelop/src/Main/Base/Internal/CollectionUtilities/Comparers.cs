@@ -68,44 +68,8 @@ namespace System {
 
 namespace System.Collections.Specialized
 {
-	///<summary>
-	///Compares TreeNodes by ImageIndex, SelectedImageIndex then Text properties
-	///Intended to be used in sorters that group TreeNodes by their icon and sort them by text
-	///</summary>
-	[Serializable]
-	public class ProjectNodeComparer : IComparer
-	{
-		public int Compare(object x, object y)
-		{
-			if (x.GetType() == y.GetType()) {
-				if (x is NamedFolderNode) {
-					return ((NamedFolderNode)x).SortPriority - ((NamedFolderNode)y).SortPriority;
-				}
-				return ((TreeNode)x).Text.CompareTo(((TreeNode)y).Text);
-			}
-			if (x is FileNode) {
-				return 1;
-			} else if (y is FileNode) {
-				return -1;
-			}
-			if (x is DirectoryNode) {
-				return 1;
-			} else if (y is DirectoryNode) {
-				return -1;
-			}
-			return TreeNodeComparer.Default.Compare(x, y);
-		}
-	}
-	
-	///<summary>
-	///Compares TreeNodes by ImageIndex, SelectedImageIndex then Text properties
-	///Intended to be used in sorters that group TreeNodes by their icon and sort them by text
-	///</summary>
-	[Serializable]
-	public class TreeNodeComparer : IComparer {
+	public class TreeNodeComparer {
 		
-		public static IComparer Default    = new TreeNodeComparer();
-		public static IComparer ProjectNode = new ProjectNodeComparer();
 		public static Gtk.TreeIterCompareFunc GtkProjectNode = new Gtk.TreeIterCompareFunc (GtkProjectNodeComparer);
 		public static Gtk.TreeIterCompareFunc GtkDefault = new Gtk.TreeIterCompareFunc (GtkDefaultComparer);
 			
@@ -141,26 +105,6 @@ namespace System.Collections.Specialized
 			TreeNode y = (TreeNode) ts.GetValue (b, 2);
 			
 			return x.Text.CompareTo (y.Text);
-		}
-		
-		protected TreeNodeComparer() {}
-		
-		public int Compare(TreeNode x, TreeNode y) {
-			// FIXME
-			//int cmp = x.ImageIndex - y.ImageIndex;
-			//if(cmp == 0) {
-//				cmp = x.SelectedImageIndex - y.SelectedImageIndex;
-//				if(cmp == 0) {
-//					cmp = x.Text.CompareTo(y.Text);
-//				}
-			//}
-			
-//			return cmp;
-			return x.Text.CompareTo(y.Text);
-		}
-		
-		int IComparer.Compare(object x, object y) {
-			return Compare((TreeNode)x, (TreeNode)y);
 		}
 	}
 }

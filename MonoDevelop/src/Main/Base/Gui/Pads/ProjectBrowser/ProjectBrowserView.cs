@@ -411,26 +411,6 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads.ProjectBrowser
 				((AbstractBrowserNode)e.Node).BeforeCollapse();
 			}
 		}
-
-		protected override void OnAfterLabelEdit(NodeLabelEditEventArgs e)
-		{
-			base.OnAfterLabelEdit(e);
-			AbstractBrowserNode node = (AbstractBrowserNode)e.Node;
-			LabelEdit = false;
-			
-			// we set the label ourself
-			node.AfterLabelEdit(e.Label);
-			
-			e.CancelEdit = true;
-			
-			if(node.Parent != null) {
-				SortUtility.QuickSort(node.Parent.Nodes, TreeNodeComparer.ProjectNode);
-			}
-			
-			// save changes
-			IProjectService projectService = (IProjectService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
-			projectService.SaveCombine();
-		}
 */	
 		
 		//static ImageList projectBrowserImageList  = null;
@@ -514,10 +494,6 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads.ProjectBrowser
 			}
 			node.DoDragDrop(e.Data, e.Effect);
 			IProjectService projectService = (IProjectService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
-			
-			if(node.Parent != null) {
-				SortUtility.QuickSort(node.Parent.Nodes, TreeNodeComparer.ProjectNode);
-			}
 			
 			projectService.SaveCombine();
 		}
