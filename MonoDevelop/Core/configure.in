@@ -51,7 +51,6 @@ if test "x$has_mono" = "xtrue"; then
     else
 	AC_PATH_PROG(RUNTIME, mono, no)
 	AC_PATH_PROG(CSC, mcs, no)
-	RUNTIME="$RUNTIME --debug"
 	LIB_PREFIX=.so
 	LIB_SUFFIX=
     fi
