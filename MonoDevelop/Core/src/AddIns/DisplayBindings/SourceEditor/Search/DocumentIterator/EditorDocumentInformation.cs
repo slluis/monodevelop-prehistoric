@@ -12,6 +12,7 @@ using System.Collections;
 using MonoDevelop.Gui;
 
 using MonoDevelop.SourceEditor.Gui;
+using SourceEditor = MonoDevelop.SourceEditor.Gui.SourceEditor;
 
 namespace MonoDevelop.TextEditor.Document
 {

@@ -1,3 +1,13 @@
+2004-10-12  Gert Driesen <drieseng@users.sourceforge.net>
+
+	* Commands/SearchCommands.cs: use alias to work around mcs change
+	* Search/SearchReplaceManager.cs
+	* Search/DocumentIterator/EditorDocumentInformation.cs
+	* Search/DocumentIterator/CurrentDocumentIterator.cs
+	* Search/DocumentIterator/DirectoryDocumentIterator.cs
+	* Search/DocumentIterator/WholeProjectDocumentIterator.cs
+	* Search/DocumentIterator/AllOpenDocumentIterator.cs
+
 2004-10-04  Todd Berman  <tberman@off.net>
 
 	* Gui/SourceEditorView.cs:

@@ -16,6 +16,7 @@ using MonoDevelop.Services;
 using MonoDevelop.TextEditor;
 
 using MonoDevelop.SourceEditor.Gui;
+using SourceEditor = MonoDevelop.SourceEditor.Gui.SourceEditor;
 
 namespace MonoDevelop.TextEditor.Document
 {

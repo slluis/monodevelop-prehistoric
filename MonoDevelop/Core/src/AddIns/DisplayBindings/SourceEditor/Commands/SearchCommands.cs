@@ -23,6 +23,7 @@ using MonoDevelop.TextEditor.Document;
 using MonoDevelop.Gui.Dialogs;
 using MonoDevelop.Gui;
 using MonoDevelop.SourceEditor.Gui;
+using SourceEditor = MonoDevelop.SourceEditor.Gui.SourceEditor;
 
 namespace MonoDevelop.DefaultEditor.Commands
 {
