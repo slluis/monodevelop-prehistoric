@@ -51,7 +51,7 @@ SOURCES = ./CodeCompletion/CodeCompletionData.cs \
 all : $(DLL)
 
 $(DLL) : $(SOURCES)
-	mcs $(SOURCES) /out:$(DLL) /t:library \
+	mcs $(SOURCES) /debug /out:$(DLL) /t:library \
 	/resource:../../../../data/resources/glade/EditorBindings.glade,EditorBindings.glade \
 	/resource:../../../../data/resources/glade/texteditoraddin.glade,texteditoraddin.glade \
 	 /r:gtk-sharp /r:gdk-sharp $(GTKSOURCEVIEW_SHARP) /r:glib-sharp \

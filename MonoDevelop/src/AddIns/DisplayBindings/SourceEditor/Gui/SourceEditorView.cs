@@ -7,6 +7,7 @@ using System.IO;
 using System.Runtime.InteropServices;
 using ICSharpCode.Core.AddIns.Conditions;
 using ICSharpCode.Core.AddIns;
+using ICSharpCode.SharpDevelop.Internal.Templates;
 using MonoDevelop.SourceEditor.CodeCompletion;
 using MonoDevelop.SourceEditor.InsightWindow;
 using MonoDevelop.EditorBindings.Properties;
@@ -39,6 +40,7 @@ namespace MonoDevelop.SourceEditor.Gui {
 			ShowLineNumbers = true;
 			ShowLineMarkers = true;
 			ButtonPressEvent += new ButtonPressEventHandler (buttonPress);
+			buf.PlaceCursor (buf.StartIter);
 		}
 
 		void buttonPress (object o, ButtonPressEventArgs e)
@@ -90,8 +92,24 @@ namespace MonoDevelop.SourceEditor.Gui {
 			}
 
 			switch ((char)key) {
-				//FIXME: ' ' needs to do extra parsing
 				case ' ':
+					if (1 == 1) {
+						string word = GetWordBeforeCaret();
+						if (word != null) {
+							CodeTemplateGroup templateGroup = CodeTemplateLoader.GetTemplateGroupPerFilename(ParentEditor.DisplayBinding.ContentName);
+							
+							if (templateGroup != null) {
+								foreach (CodeTemplate template in templateGroup.Templates) {
+									if (template.Shortcut == word) {
+										InsertTemplate(template);
+										return false;
+									}
+								}
+							}
+						}
+					}
+					goto case '.';
+
 				case '.':
 					completionWindow = new CompletionWindow (this, ParentEditor.DisplayBinding.ContentName, new CodeCompletionDataProvider ());
 					completionWindow.ShowCompletionWindow ((char)key);
@@ -121,7 +139,66 @@ namespace MonoDevelop.SourceEditor.Gui {
 		
 			return base.OnKeyPressEvent (ref evnt);
 		}
+
+		public int FindPrevWordStart (string doc, int offset)
+		{
+			for ( offset-- ; offset >= 0 ; offset--)
+			{
+				if (Char.IsWhiteSpace (doc, offset)) break;
+			}
+			return ++offset;
+		}
+
+		public string GetWordBeforeCaret()
+		{
+			int offset = buf.GetIterAtMark (buf.InsertMark).Offset;
+			int start = FindPrevWordStart (buf.Text, offset);
+			return buf.Text.Substring (start, offset - start);
+		}
 		
+		public int DeleteWordBeforeCaret()
+		{
+			int offset = buf.GetIterAtMark (buf.InsertMark).Offset;
+			int start = FindPrevWordStart (buf.Text, offset);
+			buf.Delete (buf.GetIterAtOffset (start), buf.GetIterAtOffset (offset));
+			return start;
+		}
+
+
+		public void InsertTemplate(CodeTemplate template)
+		{
+			int newCaretOffset   = buf.GetIterAtMark (buf.InsertMark).Offset;
+			string word = GetWordBeforeCaret().Trim();
+			if (word.Length > 0) {
+				newCaretOffset = DeleteWordBeforeCaret();
+			}
+			int finalCaretOffset = newCaretOffset;
+			
+			for (int i =0; i < template.Text.Length; ++i) {
+				switch (template.Text[i]) {
+					case '|':
+						finalCaretOffset = newCaretOffset;
+						break;
+					case '\r':
+						break;
+					case '\t':
+						buf.InsertAtCursor ('\t'.ToString ());
+						newCaretOffset++;
+						break;
+					case '\n':
+						buf.InsertAtCursor ('\n'.ToString ());
+						newCaretOffset++;
+						break;
+					default:
+						buf.InsertAtCursor (template.Text[i].ToString ());
+						newCaretOffset++;
+						break;
+				}
+			}
+			buf.PlaceCursor (buf.GetIterAtOffset (finalCaretOffset));
+		}
+
+
 #region Indentation
 		public bool IndentSelection ()
 		{
