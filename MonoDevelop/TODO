@@ -7,11 +7,10 @@ Editor
 
 CodeCompletion
 --------------
-- Implement ctrl+space to ask for completion
 - Is enabled and it shouldnt be until the file is saved so we have an extension.
 - Backspace is caught by KeyReleaseEvent instead of KeyPressEvent
 - what to do in unsaved files
-- revert to old popup mechanism with an option for delayed popup
+- Add option for autopopup on/off and a ctrl+space keybinding
 
 Dock
 ----
@@ -36,7 +35,6 @@ AddIns
 
 Dialogs
 -------
-- Test the functionality of the CreateCombineDialog vs the #D on Windows
 - Implement menu items (see MonoDevelopBrokenMenuItems.txt)
 - Port dialogs (see README for HIG info)
 - Implement the remaining Option Dialogs (jba)
