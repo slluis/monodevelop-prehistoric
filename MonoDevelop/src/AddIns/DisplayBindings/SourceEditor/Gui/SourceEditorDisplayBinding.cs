@@ -98,7 +98,9 @@ namespace MonoDevelop.SourceEditor.Gui {
 			TextIter itr = se.Buffer.GetIterAtLine (line);
 			itr.LineOffset = column;
 			
-			se.Buffer.MoveMark (se.Buffer.InsertMark, itr);
+			se.Buffer.MoveMark (se.Buffer.InsertMark,     itr);
+			se.Buffer.MoveMark (se.Buffer.SelectionBound, itr);
+			
 			se.View.ScrollMarkOnscreen (se.Buffer.InsertMark);
 		}
 		

@@ -19,6 +19,9 @@ using ICSharpCode.TextEditor;
 using Gtk;
 using Glade;
 
+// TODO: this dialog should be moved to the core, as it has no deps
+// on this binding.
+
 namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 {
 	public class GotoLineNumberDialog
@@ -56,12 +59,10 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 				IWorkbenchWindow window = WorkbenchSingleton.Workbench.ActiveWorkbenchWindow;
 				
 				
-				if (window != null && window.ViewContent is ITextEditorControlProvider) {
-					TextEditorControl textarea = ((ITextEditorControlProvider)window.ViewContent).TextEditorControl;
-				
-					int i = Math.Min(textarea.Document.TotalNumberOfLines, Math.Max(1, Int32.Parse(line_number_entry.Text)));
-					textarea.ActiveTextAreaControl.Caret.Line = i - 1;
-					textarea.ActiveTextAreaControl.ScrollToCaret();
+				if (window != null && window.ViewContent is IPositionable) {			
+					int l = Math.Max (0, Int32.Parse(line_number_entry.Text) - 1);
+					
+					((IPositionable) window.ViewContent).JumpTo (l, 0);
 				}
 			} catch (Exception) {
 				
