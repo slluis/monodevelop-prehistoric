@@ -113,7 +113,7 @@ namespace MonoDevelop.SourceEditor.Gui {
 					completionWindow = new CompletionWindow (this, ParentEditor.DisplayBinding.ContentName, new CodeCompletionDataProvider ());
 					completionWindow.ShowCompletionWindow ((char)key);
 					break;
-				case '(':
+				/*case '(':
 					try {
 						InsightWindow insightWindow = new InsightWindow(this, ParentEditor.DisplayBinding.ContentName);
 						
@@ -132,7 +132,7 @@ namespace MonoDevelop.SourceEditor.Gui {
 					} catch (Exception e) {
 						Console.WriteLine("EXCEPTION: " + e);
 					}
-					break;
+					break;*/
 			}
 		
 			return base.OnKeyPressEvent (evnt);
