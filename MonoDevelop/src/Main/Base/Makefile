@@ -133,6 +133,7 @@ SOURCES= \
 ./Gui/HtmlControl/IHTMLElement.cs \
 ./Gui/HtmlControl/IWebBrowserEvents.cs \
 ./Gui/HtmlControl/MozillaControl.cs \
+./Gui/HtmlControl/ControlType.cs \
 ./Gui/Workbench/Layouts/SdiWorkspaceWindow.cs \
 ./Gui/Workbench/Layouts/SdiWorkspaceLayout.cs \
 ./Gui/Workbench/WorkbenchMemento.cs \

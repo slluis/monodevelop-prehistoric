@@ -1,34 +1,34 @@
 using System;
-using System.Threading;
-using System.IO;
 using Gtk;
 using GtkSharp;
 
 namespace ICSharpCode.SharpDevelop.Gui.HtmlControl
 {
-	public class HtmlControl : Widget, IWebBrowserEvents
+	public class HtmlControl : Bin, IWebBrowserEvents
 	{
-		public const int OLEIVERB_UIACTIVATE = -4;
+		private static GLib.GType type;
 				
-		IWebBrowser control = null;
-		//AxHost.ConnectionPointCookie cookie;
-		
+		IWebBrowser control = null;	
 		string url           = "";
 		string html          = "";
 		string cssStyleSheet = "";
-		bool windows;
 		bool initialized     = false;
+		ControlType control_type;
 		
-		public HtmlControl() //: base("8856f961-340a-11d0-a96b-00c04fd705a2")
+		static HtmlControl ()
+		{
+			type = RegisterGType (typeof (HtmlControl));
+		}
+		
+		public HtmlControl () : base (type)
 		{
 			if ((int) Environment.OSVersion.Platform != 128)
 			{
-				windows = true;
-				//Console.WriteLine ("using IE for HtmlControl");
+				control_type = ControlType.IE;
 			}
 			else
 			{
-				//Console.WriteLine ("using Mozilla for HtmlControl");
+				control_type = ControlType.GtkMozilla;
 			}
 			
 			AttachInterfaces ();
@@ -66,7 +66,7 @@ namespace ICSharpCode.SharpDevelop.Gui.HtmlControl
 		public string Url {
 			set {
 				this.url = value;
-				if (!windows)
+				if (control_type == ControlType.GtkMozilla)
 					((MozillaControl) control).LoadUrl (value);
 			}
 		}
@@ -74,7 +74,7 @@ namespace ICSharpCode.SharpDevelop.Gui.HtmlControl
 		public string Html {
 			set {
 				this.html = value;
-				if (windows)
+				if (control_type == ControlType.IE)
 					ApplyBody(html);
 			}
 		}
@@ -97,25 +97,26 @@ namespace ICSharpCode.SharpDevelop.Gui.HtmlControl
 		
 		protected void AttachInterfaces()
 		{
-			try {
-				if (windows)
-				{
+			switch (control_type) {
+				case ControlType.IE:
 					this.control = (IWebBrowser)this.GetOcx();
-				}
-				else
-				{
+					//this.Add ((IEControl) this.control);
+					break;
+				case ControlType.GtkMozilla:
 					this.control = new MozillaControl ();
 					//Console.WriteLine ("new MozillaControl");
 					((MozillaControl) this.control).Show ();
-				}
-			} catch {
+					this.Add ((MozillaControl) this.control);
+					break;
+				default:
+					throw new NotImplementedException (control_type.ToString ());
 			}
 		}
 		
 		protected IHTMLDocument2 GetOcx ()
 		{
 			return null;
-			//if (windows)
+			//if (control_type == ControlType.IE)
 				//GetOcx ();
 		}
 		
@@ -158,7 +159,7 @@ namespace ICSharpCode.SharpDevelop.Gui.HtmlControl
 		{
 		    try {
 				if (control != null) {
-					if (!windows)
+					if (control_type == ControlType.GtkMozilla)
 					{
 						((MozillaControl) control).RenderData (val, "file://", "text/html");
 						return;
@@ -197,18 +198,46 @@ namespace ICSharpCode.SharpDevelop.Gui.HtmlControl
 				}
 			}
 		}
+
+		public void GoBack ()
+		{
+			control.GoBack ();
+		}
+
+		public void GoForward ()
+		{
+			control.GoForward ();
+		}
+
+		public void Stop ()
+		{
+			control.Stop ();
+		}
+
+		public void Refresh ()
+		{
+			control.Refresh ();
+		}
 		
 		public Gtk.Widget Control
 		{
 			get
 			{
-				if (windows)
+				switch (control_type) {
+				case ControlType.IE:
+					// return (IEControl) control;
 					return null; //FIXME
-				else
-				{	
+				case ControlType.GtkMozilla:
 					return (MozillaControl) control;
+				default:
+					throw new NotImplementedException (control_type.ToString ());
 				}
 			}
+		}
+		
+		public ControlType HtmlType
+		{
+			set { control_type = value; }
 		}
 		
 		public event BrowserNavigateEventHandler BeforeNavigate;

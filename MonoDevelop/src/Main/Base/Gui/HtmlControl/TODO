@@ -1,6 +1,8 @@
-- make sure it works for more than the about box
 - ChangeLogTabPage crashes (in xml/xsl/html)
 - StyleSheets
-- finish and test IEControl (volunteers?)
+- finish and test IEControl or Windows Mozilla version (volunteers?)
 - decide how to build properly
 - fairly slow
+- ASP.NET stuff
+- HtmlControl : Gtk.Bin
+- events

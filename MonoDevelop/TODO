@@ -24,6 +24,7 @@
 - some keywords should be bold when highlighted
 - make fonts choice persist (after restarting)
 - organize this list
+- switch to a proper build system
 
 ---- Bugs in the File->New->File... Dialog
 

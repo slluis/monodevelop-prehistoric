@@ -1,5 +1,5 @@
 //
-// MozillaControl - An Html widget that uses GtkMozEmbed#
+// GtkHtmlControl - An Html widget that uses libgtkhtml3
 //
 // Author: John Luke  <jluke@cfl.rr.com>
 //
@@ -7,29 +7,26 @@
 //
 
 using System;
-using GtkMozEmbed;
-using GtkMozEmbedSharp;
+using Gtk;
+using GtkSharp;
 
 namespace ICSharpCode.SharpDevelop.Gui.HtmlControl
 {
-	public class MozillaControl : EmbedWidget, IWebBrowser
+	public class GtkHtmlControl : EmbedWidget, IWebBrowser
 	{
 		private static GLib.GType type;
 		
-		static MozillaControl ()
+		static GtkHtmlControl ()
 		{
-			type = RegisterGType (typeof (MozillaControl));
+			type = RegisterGType (typeof (GtkHtmlControl));
 		}
 		
-		//FIXME: pick a better path, one of the Environment dirs
-		public MozillaControl () : base (type)
+		public GtkHtmlControl () : base (type)
 		{
-			EmbedWidget.SetProfilePath ("/tmp", "MonoDevelop");
 		}
 		
 		public void GoHome ()
 		{
-			LoadUrl ("about:blank");
 		}
 		
 		public void GoSearch ()
@@ -38,23 +35,18 @@ namespace ICSharpCode.SharpDevelop.Gui.HtmlControl
 		
 		public void Navigate (string Url, ref object Flags, ref object targetFrame, ref object postData, ref object headers)
 		{
-			// TODO: what is all that other crap for
-			LoadUrl (Url);
 		}
 		
 		public void Refresh ()
 		{
-			this.Reload ((int) ReloadFlags.Reloadnormal);
 		}
 		
 		public void Refresh2 ()
 		{
-			this.Reload ((int) ReloadFlags.Reloadnormal);
 		}
 		
 		public void Stop ()
 		{
-			this.StopLoad ();
 		}
 		
 		public void GetApplication ()
