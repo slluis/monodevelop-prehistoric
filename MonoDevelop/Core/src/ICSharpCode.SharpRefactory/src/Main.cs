@@ -21,11 +21,16 @@ class MainClass
 	{
 		string fileName = file.FullName;
 		p.Parse (new Lexer (new FileReader (fileName)));
+
 		if (p.Errors.count == 0) {
 			ErrorVisitor ev = new ErrorVisitor();
 			ev.Visit(p.compilationUnit, null);
-		} else if (!errorMode) {
-			Console.WriteLine ("errors in {0}:", file.Name);
+		}
+
+		if (p.Errors.count == 0 && errorMode) {
+			Console.WriteLine ("no errors in {0}", file.Name);
+		} else if (p.Errors.count > 0 && !errorMode) {
+			Console.WriteLine ("errors in {0}", file.Name);
 			foreach (ErrorInfo error in p.Errors.ErrorInformation)
 				Console.WriteLine (error.ToString ());
 		}
