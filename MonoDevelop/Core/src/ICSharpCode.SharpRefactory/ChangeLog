@@ -1,3 +1,10 @@
+2005-03-26  John Luke  <john.luke@gmail.com>
+
+	* tests: remove unused stuff
+	* src/Parser/generated/Parser.cs:
+	* src/Parser/generated/cs.ATG: fix comment
+	about get, set, add, remove (they are not keywords)
+
 2005-03-25  John Luke  <john.luke@gmail.com>
 
 	* src/Lexer/Lexer.cs: workaround SD code that

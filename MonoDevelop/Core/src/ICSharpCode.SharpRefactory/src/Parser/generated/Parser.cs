@@ -1823,8 +1823,7 @@ out addBlock, out removeBlock);
 
 #line  1028 "cs.ATG" 
 			compilationUnit.BlockEnd();
-			
-			eventDecl.AddRegion = addBlock;
+				                                           eventDecl.AddRegion = addBlock;
 			eventDecl.RemoveRegion = removeBlock;
 			
 		} else if (
@@ -3765,7 +3764,7 @@ out finallyStmt);
 
 #line  1644 "cs.ATG" 
 		tryStatement = new TryCatchStatement(blockStmt, catchClauses, finallyStmt);
-			
+		
 	}
 
 	void ResourceAcquisition(
