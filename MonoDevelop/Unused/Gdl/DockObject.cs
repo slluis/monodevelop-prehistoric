@@ -99,6 +99,7 @@ namespace Gdl
 			}
 		}
 		
+		[ExportLayout]
 		public new string Name {
 			get {
 				return name;

@@ -195,6 +195,7 @@ namespace Gdl
 			get { return true; }
 		}
 		
+		[ExportLayout]
 		public int Page {
 			get { return ((Notebook)Child).CurrentPage; }
 			set { ((Notebook)Child).CurrentPage = value; }

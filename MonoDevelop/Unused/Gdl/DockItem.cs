@@ -177,6 +177,7 @@ namespace Gdl
 			}
 		}
 		
+		[ExportLayout]
 		public bool Locked {
 			get {
 				return ((behavior & DockItemBehavior.Locked) != 0);
@@ -196,6 +197,7 @@ namespace Gdl
 			}
 		}
 		
+		[ExportLayout]
 		public Orientation Orientation {
 			get {
 				return orientation;

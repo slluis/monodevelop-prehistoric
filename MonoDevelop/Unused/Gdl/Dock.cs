@@ -86,6 +86,7 @@ namespace Gdl
 			DockObjectFlags |= DockObjectFlags.Attached;
 		}
 		
+		[ExportLayout]
 		public bool Floating {
 			get {
 				return floating;
@@ -94,7 +95,8 @@ namespace Gdl
 				floating = value;
 			}
 		}
-		
+
+		[ExportLayout]
 		public int FloatX {
 			get {
 				return floatX;
@@ -106,6 +108,7 @@ namespace Gdl
 			}
 		}
 		
+		[ExportLayout]
 		public int FloatY {
 			get {
 				return floatY;
@@ -117,6 +120,7 @@ namespace Gdl
 			}
 		}
 		
+		[ExportLayout]
 		public int Height {
 			get {
 				return height;
@@ -160,6 +164,7 @@ namespace Gdl
 			}
 		}
 		
+		[ExportLayout]
 		public int Width {
 			get { return width; }
 			set {

@@ -29,7 +29,8 @@ FILES = AssemblyInfo.cs \
 	DockObject.cs \
 	Dock.cs \
 	DockPaned.cs \
-	DockItemBehavior.cs
+	DockItemBehavior.cs \
+	ExportLayoutAttribute.cs
 
 all: $(GDL) $(TEST)
 

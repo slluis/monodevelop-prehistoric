@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.IO;
+using System.Reflection;
 using System.Xml;
 using Gtk;
 
@@ -20,6 +21,7 @@ namespace Gdl
 		Widget itemsUI, layoutsUI;
 		DockMaster master = null;
 		ArrayList layouts;
+		Hashtable placeholders;
 
 		CheckButton locked_check;
 
@@ -60,6 +62,14 @@ namespace Gdl
 				if (rootNode == null && doc != null)
 					rootNode = doc.SelectSingleNode ("/dock-layout");
 				return rootNode;
+			}
+		}
+
+		private Hashtable Placeholders {
+			get {
+				if (placeholders == null)
+					placeholders = new Hashtable ();
+				return placeholders;
 			}
 		}
 
@@ -200,12 +210,12 @@ namespace Gdl
 				this.RootNode.RemoveChild (node);
 
 			// create the new node
-			XmlNode newNode = doc.CreateNode (XmlNodeType.Element, "layout", null);
-			((XmlElement) newNode).SetAttribute ("name", name);
-			this.RootNode.AppendChild (newNode);
+			XmlElement element = doc.CreateElement ("layout");
+			element.SetAttribute ("name", name);
+			this.RootNode.AppendChild (element);
 
 			// save the layout
-			Save (node);
+			Save (element);
 			dirty = true;
 			// notify dirty
 		}
@@ -240,8 +250,7 @@ namespace Gdl
 		{
 			doc = new XmlDocument ();
 			doc.CreateXmlDeclaration ("1.0", null, null);
-			XmlNode root = doc.CreateNode (XmlNodeType.Element, "dock-layout", null);
-			doc.AppendChild (root);
+			doc.AppendChild (doc.CreateElement ("dock-layout"));
 		}
 
 		XmlNode FindLayout (string name)
@@ -510,10 +519,48 @@ namespace Gdl
 			RecursiveBuild (node, null);
 		}
 
-		void ForeachObjectSave (DockObject obj)
+		string GetXmlName (Type t)
+		{
+			switch (t.ToString ()) {
+				case "Gdl.Dock":
+					return "dock";
+				case "Gdl.DockItem":
+					return "item";
+				case "Gdl.DockNotebook":
+					return "notebook";
+				case "Gdl.DockPaned":
+					return "paned";
+				default:
+					return "object";
+			}
+		}
+
+		void ForeachObjectSave (DockObject obj, XmlNode parent)
 		{
 			if (obj == null)
 				return;
+
+			XmlElement element = doc.CreateElement (GetXmlName (obj.GetType ()));
+
+			// get object exported attributes
+			ArrayList exported = new ArrayList ();
+			PropertyInfo[] props = obj.GetType ().GetProperties (BindingFlags.Public | BindingFlags.Instance);
+			foreach (PropertyInfo p in props) {
+				if (p.IsDefined (typeof (ExportLayoutAttribute), true))
+					exported.Add (p);
+			}
+
+			foreach (PropertyInfo p in exported)
+				element.SetAttribute (p.Name.ToLower (), p.GetValue (obj, null).ToString ());
+
+			parent.AppendChild (element);
+
+			// save placeholders for the object
+			if (!(obj is DockPlaceholder)) {
+				//object list = this.Placeholders[obj];
+				//foreach (DockObject child in list)
+				//	ForeachObjectSave (child);
+			}
 
 			// recurse the object if appropriate
 			if (obj.IsCompound) {
@@ -522,7 +569,7 @@ namespace Gdl
 				{
 					child = w as DockObject;
 					if (child != null)
-						ForeachObjectSave (child);
+						ForeachObjectSave (child, element);
 				}
 			}
 		}
@@ -530,12 +577,22 @@ namespace Gdl
 		void AddPlaceholder (DockObject obj, Hashtable placeholders)
 		{
 			if (obj is DockPlaceholder) {
-				Console.WriteLine ("AddPlaceholder");
+				// FIXME:
+				// add the current placeholder to the list of placeholders for that host
 			}
 		}
 
 		void Save (XmlNode node)
 		{
+			// FIXME: implement this?
+			// build the placeholder's hash: the hash keeps lists of
+			// placeholders associated to each object, so that we can save the
+			// placeholders when we are saving the object (since placeholders
+			// don't show up in the normal widget hierarchy)
+
+			// save the layout recursively
+			foreach (DockObject o in master.TopLevelDocks)
+				ForeachObjectSave (o, node);
 		}
 
 		bool IdleSave ()

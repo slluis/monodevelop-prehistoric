@@ -34,6 +34,7 @@ namespace Gdl
 			}
 		}
 		
+		[ExportLayout]
 		public int Position {
 			get {
 				if (Child != null && Child is Paned) {
