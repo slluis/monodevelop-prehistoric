@@ -19,7 +19,6 @@ namespace MonoDevelop.Gui.Pads
 {
 	public class FileList : Gtk.TreeView
 	{
-		private static GLib.GType gtype;
 		private FileSystemWatcher watcher;
 		private ArrayList Items;
 		private Gtk.TreeStore store;
@@ -27,17 +26,7 @@ namespace MonoDevelop.Gui.Pads
 		FileListItem selectedItem = null;
 		Gtk.TreeIter selectedIter;
 		
-		public static new GLib.GType GType
-		{
-			get
-			{
-				if (gtype == GLib.GType.Invalid)
-					gtype = RegisterGType (typeof (FileList));
-				return gtype;
-			}	
-		}
-
-		public FileList() : base (GType)
+		public FileList ()
 		{
 			Items = new ArrayList ();
 			FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.GetService(typeof(FileUtilityService));

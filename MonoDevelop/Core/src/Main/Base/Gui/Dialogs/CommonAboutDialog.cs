@@ -21,7 +21,6 @@ namespace MonoDevelop.Gui.Dialogs
 {
 	public class ScrollBox : DrawingArea
 	{
-		static GLib.GType gtype;
 		Pixbuf image;
 		string text;
 		int scroll = -220;
@@ -35,17 +34,7 @@ namespace MonoDevelop.Gui.Dialogs
 			get { return hndlr; }
 		}
 		
-		public static new GLib.GType GType
-		{
-			get
-			{
-				if (gtype == GLib.GType.Invalid)
-					gtype = RegisterGType (typeof (ScrollBox));
-				return gtype;
-			}
-		}
-		
-		public ScrollBox() : base (GType)
+		public ScrollBox ()
 		{
 			this.SetSizeRequest (400, 220);
 			this.Realized += new EventHandler (OnRealized);
@@ -118,7 +107,6 @@ namespace MonoDevelop.Gui.Dialogs
 	
 	public class CommonAboutDialog : Dialog
 	{
-		static GLib.GType gtype;
 		static FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.GetService(typeof(FileUtilityService));
 		
 		AuthorAboutTabPage aatp;
@@ -127,16 +115,7 @@ namespace MonoDevelop.Gui.Dialogs
 		
 		//static PropertyService propertyService = (PropertyService)ServiceManager.Services.GetService(typeof(PropertyService));
 		
-		public static new GLib.GType GType
-		{
-			get {
-				if (gtype == GLib.GType.Invalid)
-					gtype = RegisterGType (typeof (CommonAboutDialog));
-				return gtype;
-			}
-		}
-		
-		public CommonAboutDialog () : base (GType)
+		public CommonAboutDialog ()
 		{
 			this.Title = GettextCatalog.GetString ("About MonoDevelop");
 			this.TransientFor = (Gtk.Window) WorkbenchSingleton.Workbench;

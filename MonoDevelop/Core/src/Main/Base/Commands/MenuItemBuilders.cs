@@ -238,10 +238,10 @@ namespace MonoDevelop.Commands
 				item.Description = GettextCatalog.GetString ("Activate this window");
 				if (i + 1 <= 9) {
 					string accel_path = "<MonoDevelop>/MainWindow/OpenContents_" + (i + 1).ToString ();
-					if (!Gtk.Accel.MapLookupEntry (accel_path, new Gtk.AccelKey ())) {
-						Gtk.Accel.MapAddEntry (accel_path, Gdk.Keyval.FromName ((i + 1).ToString ()), Gdk.ModifierType.Mod1Mask);
+					if (!Gtk.AccelMap.LookupEntry (accel_path, new Gtk.AccelKey ())) {
+						Gtk.AccelMap.AddEntry (accel_path, Gdk.Keyval.FromName ((i + 1).ToString ()), Gdk.ModifierType.Mod1Mask);
 					} else {
-						Gtk.Accel.MapChangeEntry (accel_path, Gdk.Keyval.FromName ((i + 1).ToString()), Gdk.ModifierType.Mod1Mask, true);
+						Gtk.AccelMap.ChangeEntry (accel_path, Gdk.Keyval.FromName ((i + 1).ToString()), Gdk.ModifierType.Mod1Mask, true);
 					}
 					item.AccelPath = accel_path;
 				}

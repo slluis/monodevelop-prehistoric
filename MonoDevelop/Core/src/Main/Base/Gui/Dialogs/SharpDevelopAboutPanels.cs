@@ -22,23 +22,12 @@ namespace MonoDevelop.Gui.Dialogs
 {
 	public class AboutMonoDevelopTabPage : VBox
 	{
-		static GLib.GType gtype;
 		Label versionLabel = new Label ();
 		Label sponsorLabel = new Label ();
 		Label licenseLabel = new Label ();
 		Label copyrightLabel = new Label ();
 		
-		public static new GLib.GType GType
-		{
-			get
-			{
-				if (gtype == GLib.GType.Invalid)
-					gtype = RegisterGType (typeof (AboutMonoDevelopTabPage));
-				return gtype;
-			}
-		}
-		
-		public AboutMonoDevelopTabPage() : base (GType)
+		public AboutMonoDevelopTabPage ()
 		{
 			Version v = Assembly.GetEntryAssembly().GetName().Version;
 			versionLabel.Markup = String.Format ("<b>{0}</b>\n    {1}", GettextCatalog.GetString("Version"), v.Major + "." + v.Minor);
@@ -137,23 +126,12 @@ namespace MonoDevelop.Gui.Dialogs
 	
 	public class VersionInformationTabPage : VBox
 	{
-		private static GLib.GType gtype;
 		private TreeView listView;
 		private Button button;
 		private TreeStore store;
 		private Clipboard clipboard;
 		
-		public static new GLib.GType GType
-		{
-			get
-			{
-				if (gtype == GLib.GType.Invalid)
-					gtype = RegisterGType (typeof (VersionInformationTabPage));
-				return gtype;
-			}
-		}
-
-		public VersionInformationTabPage() : base (GType)
+		public VersionInformationTabPage ()
 		{
 			TreeView listView = new TreeView ();
 			listView.RulesHint = true;

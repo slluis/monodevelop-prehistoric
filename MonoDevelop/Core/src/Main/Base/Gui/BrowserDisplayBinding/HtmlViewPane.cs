@@ -142,7 +142,6 @@ namespace MonoDevelop.BrowserDisplayBinding
 		Navbar nav = new Navbar ();
 		
 		bool loading = false;
-		static GLib.GType gtype;
 		
 		public MozillaControl MozillaControl {
 			get {
@@ -150,17 +149,7 @@ namespace MonoDevelop.BrowserDisplayBinding
 			}
 		}
 		
-		public static new GLib.GType GType
-		{
-			get
-			{
-				if (gtype == GLib.GType.Invalid)
-					gtype = RegisterGType (typeof (HtmlViewPane));
-				return gtype;
-			}
-		}
-		
-		public HtmlViewPane(bool showNavigation) : base (GType)
+		public HtmlViewPane (bool showNavigation)
 		{
 			Shadow = Gtk.ShadowType.In;
 			VBox mainbox = new VBox (false, 2);

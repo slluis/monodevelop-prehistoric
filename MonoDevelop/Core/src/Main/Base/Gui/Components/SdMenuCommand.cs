@@ -113,8 +113,8 @@ namespace MonoDevelop.Gui.Components
 					ckey = Gdk.Keyval.FromName (key);
 				}
 			}
-			if (!Gtk.Accel.MapLookupEntry (accel_path, new Gtk.AccelKey()) ) {
-				Gtk.Accel.MapAddEntry (accel_path, ckey, mod);
+			if (!Gtk.AccelMap.LookupEntry (accel_path, new Gtk.AccelKey()) ) {
+				Gtk.AccelMap.AddEntry (accel_path, ckey, mod);
 				this.AccelPath = accel_path;
 			}
 		}

@@ -21,13 +21,12 @@ namespace MonoDevelop.Gui.Dialogs
 {
 	public class WordCountDialog : Dialog
 	{
-		static GLib.GType gtype;
 		ScrolledWindow scrolledwindow;
 		TreeView resultListView;
 		TreeStore store;
+		ComboBox locationComboBox;
 		ArrayList items;
 		Report total;
-		int selectedIndex = 0;
 		
 		StringParserService stringParserService = (StringParserService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(StringParserService));
 		MessageService messageService = (MessageService)MonoDevelop.Core.Services.ServiceManager.GetService (typeof(MessageService));
@@ -91,7 +90,7 @@ namespace MonoDevelop.Gui.Dialogs
 			items = new ArrayList();
 			total = null;
 			
-			switch (selectedIndex) {
+			switch (locationComboBox.Active) {
 				case 0: {// current file
 					IWorkbenchWindow window = WorkbenchSingleton.Workbench.ActiveWorkbenchWindow;
 					if (window != null) {
@@ -266,17 +265,7 @@ namespace MonoDevelop.Gui.Dialogs
 			//UpdateList ((TreeViewColumn)e.Column);
 		}
 		
-		public static new GLib.GType GType
-		{
-			get
-			{
-				if (gtype == GLib.GType.Invalid)
-					gtype = RegisterGType (typeof (WordCountDialog));
-				return gtype;
-			}
-		}
-		
-		public WordCountDialog() : base (GType)
+		public WordCountDialog ()
 		{
 			this.BorderWidth = 6;
 			this.TransientFor = (Window) WorkbenchSingleton.Workbench;
@@ -333,23 +322,16 @@ namespace MonoDevelop.Gui.Dialogs
 			Label l = new Label (GettextCatalog.GetString ("_Count where"));
 			hbox.PackStart (l);
 			
-			OptionMenu locationComboBox = new OptionMenu ();
-			locationComboBox.Changed += new EventHandler (OnOptionChanged);
-			Menu m = new Menu ();
-			m.Append (new MenuItem (GettextCatalog.GetString ("Current file")));
-			m.Append (new MenuItem (GettextCatalog.GetString ("All open files")));
-			m.Append (new MenuItem (GettextCatalog.GetString ("Whole solution")));
-			locationComboBox.Menu = m;
+			locationComboBox = ComboBox.NewText ();
+			locationComboBox.AppendText (GettextCatalog.GetString ("Current file"));
+			locationComboBox.AppendText (GettextCatalog.GetString ("All open files"));
+			locationComboBox.AppendText (GettextCatalog.GetString ("Whole solution"));
 			hbox.PackStart (locationComboBox);
 			
 			scrolledwindow.Add(resultListView);
 			this.VBox.PackStart (hbox, false, true, 0);
 			this.VBox.PackStart (scrolledwindow, true, true, 6);
 		}
-		
-		private void OnOptionChanged (object o, EventArgs args)
-		{
-			selectedIndex = ((OptionMenu) o).History;
-		}
 	}
 }
+

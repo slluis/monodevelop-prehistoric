@@ -1,3 +1,14 @@
+2004-12-03  John Luke  <john.luke@cfl.rr.com>
+
+	* Commands/MenuItemBuilders.cs:
+	* Gui/Components/SdMenuCommand.cs: use AccelMap instead of Accel.Map*
+	* Gui/Dialogs/SharpDevelopAboutPanels.cs: 
+	* Gui/Dialogs/CommonAboutDialog.cs:
+	* Gui/Dialogs/WordCountDialog.cs:
+	* Gui/Pads/FileScout/FileList.cs:
+	* Gui/BrowserDisplayBinding/HtmlViewPane.cs: remove obsolete GType stuff,
+	use ComboBox instead of obsolete OptionMenu
+
 2004-12-03  Lluis Sanchez Gual  <lluis@novell.com>
 
 	* Gui/Pads/ClassScout/NodeBuilder/DefaultDotNetClassScoutNodeBuilder.cs:
