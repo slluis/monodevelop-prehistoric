@@ -23,7 +23,7 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 		ICompletionDataProvider completionDataProvider;
 		SourceEditorView control;
 		TreeView listView;
-		TreeStore store;
+		ListStore store;
 		TextMark triggeringMark;
 		int origOffset;
 		int num_in = 0;
@@ -67,6 +67,10 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 				case ';':
 				case '(':
 				case '[':
+				case (char) Gdk.Key.Return:
+				case (char) Gdk.Key.ISO_Enter:
+				case (char) Gdk.Key.Key_3270_Enter:
+				case (char) Gdk.Key.KP_Enter:
 					control.SimulateKeyPress (ref e);
 					LostFocusListView (null, null);
 					return true;
@@ -114,7 +118,9 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 
 				default:
 					if (val != '_' && !Char.IsLetterOrDigit (val)) {
-						if (listView.Selection.CountSelectedRows () > 0) {
+						TreeModel mdl;
+						TreeIter itr;
+						if (listView.Selection.GetSelected (out mdl, out itr)) {
 							ActivateItem (null, null);
 						} else {
 							LostFocusListView (null, null);
@@ -181,6 +187,10 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 					return true;
 				}
 			}
+			if (numOfHits == 0) {
+				control.buf.DropCompleteAhead ();
+				listView.Selection.UnselectAll ();
+			}
 			return false;
 		}
 		
@@ -191,7 +201,7 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 			SkipTaskbarHint = true;
 			TypeHint = Gdk.WindowTypeHint.Dialog;
 			
-			store = new Gtk.TreeStore (typeof (string), typeof (Gdk.Pixbuf), typeof(ICompletionData));
+			store = new Gtk.ListStore (typeof (string), typeof (Gdk.Pixbuf), typeof(ICompletionData));
 			listView = new Gtk.TreeView (store);
 			listView.HeadersVisible = false;
 
@@ -298,10 +308,9 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 		
 		void ActivateItem (object sender, RowActivatedArgs e)
 		{
-			if (listView.Selection.CountSelectedRows () > 0) {
-				TreeModel foo;
-				TreeIter iter;
-				listView.Selection.GetSelected (out foo, out iter);
+			TreeModel foo;
+			TreeIter iter;
+			if (listView.Selection.GetSelected (out foo, out iter)) {
 				ICompletionData data = (ICompletionData) store.GetValue (iter, 2);
 				control.buf.DropCompleteAhead ();
 				DeleteInsertion ();

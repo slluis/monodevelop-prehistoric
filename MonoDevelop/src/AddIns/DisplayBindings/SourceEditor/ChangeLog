@@ -1,5 +1,11 @@
 2004-04-24  Todd Berman  <tberman@sevenl.net>
 
+	* CodeCompletion/CompletionWindow.cs: make sure to properly handle
+	people typing things other than whats in our window (that is legal
+	too... (for now ;) )).
+
+2004-04-24  Todd Berman  <tberman@sevenl.net>
+
 	* CodeCompletion/CodeCompletionDataProvider.cs: hook into is/as resolve
 	method.
 
