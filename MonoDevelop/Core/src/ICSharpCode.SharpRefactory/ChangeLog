@@ -1,5 +1,12 @@
 2005-03-26  John Luke  <john.luke@gmail.com>
 
+	* src/PrettyPrinter/PrettyPrintVisitor.cs
+	* src/Parser/AST/AbstractASTVisitor.cs
+	* src/Parser/AST/IASTVisitor.cs: add Errors to AbstractASTVisitor
+	so we can report more errors correctly 
+
+2005-03-26  John Luke  <john.luke@gmail.com>
+
 	* Makefile.am: clean up test and add errors and tests
 	target to run both positive and negative tests.
 	* src/Main.cs: simplify and dont use PrettyPrintVisitor

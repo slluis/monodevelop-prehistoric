@@ -27,19 +27,12 @@ namespace ICSharpCode.SharpRefactory.PrettyPrinter
 {
 	public class PrettyPrintVisitor : AbstractASTVisitor
 	{
-		Errors  errors = new Errors();
 		OutputFormatter outputFormatter;
 		PrettyPrintOptions prettyPrintOptions = new PrettyPrintOptions();
 		
 		public string Text {
 			get {
 				return outputFormatter.Text;
-			}
-		}
-		
-		public Errors Errors {
-			get {
-				return errors;
 			}
 		}
 		
@@ -56,7 +49,7 @@ namespace ICSharpCode.SharpRefactory.PrettyPrinter
 		
 		public override object Visit(INode node, object data)
 		{
-			errors.Error(-1, -1, String.Format("Visited INode (should NEVER HAPPEN)"));
+			Errors.Error(-1, -1, String.Format("Visited INode (should NEVER HAPPEN)"));
 			Console.WriteLine("Visitor was: " + this.GetType());
 			Console.WriteLine("Node was : " + node.GetType());
 			return node.AcceptChildren(this, data);

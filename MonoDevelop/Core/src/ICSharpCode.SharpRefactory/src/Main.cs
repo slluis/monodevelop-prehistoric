@@ -38,8 +38,14 @@ class MainClass
 
 	static void PrintDir (DirectoryInfo dir)
 	{
-		foreach (FileInfo fi in dir.GetFiles ())
+		if (dir.Name.StartsWith ("."))
+			return;
+		Console.WriteLine ("entering {0}", dir.Name);
+		foreach (FileInfo fi in dir.GetFiles ("*.cs"))
 			PrintFile (fi);
+
+		foreach (DirectoryInfo di in dir.GetDirectories ())
+			PrintDir (di);
 	}
 
 	static Parser p;

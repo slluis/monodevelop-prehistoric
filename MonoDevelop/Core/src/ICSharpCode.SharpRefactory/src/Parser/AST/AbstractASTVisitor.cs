@@ -6,6 +6,7 @@ namespace ICSharpCode.SharpRefactory.Parser
 {
 	public abstract class AbstractASTVisitor : IASTVisitor
 	{
+		Errors errors = new Errors ();
 		protected Stack blockStack = new Stack();
 		
 		public BlockStatement CurrentBlock {
@@ -15,6 +16,11 @@ namespace ICSharpCode.SharpRefactory.Parser
 				}
 				return (BlockStatement)blockStack.Peek();
 			}
+		}
+
+		public Errors Errors {
+			get { return errors; }
+			set { errors = value; }
 		}
 		
 #region ICSharpCode.SharpRefactory.Parser.IASTVisitor interface implementation

@@ -5,6 +5,12 @@ namespace ICSharpCode.SharpRefactory.Parser
 {
 	public interface IASTVisitor
 	{
+		// Errors
+		Errors Errors {
+			get;
+			set;
+		}
+
 		object Visit(INode node, object data);
 		
 		object Visit(CompilationUnit compilationUnit, object data);
