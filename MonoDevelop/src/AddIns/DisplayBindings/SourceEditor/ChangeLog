@@ -1,3 +1,8 @@
+2004-04-12  Nick Drochak <ndrochak@gol.com>
+
+	* Gui/SourceEditorView.cs: Use white space already on the line to
+	indent the 2nd and following lines of an inserted template.
+
 2004-04-10  Todd Berman  <tberman@sevenl.net>
 
 	* Gui/SourceEditorView.cs: fix logic bug.

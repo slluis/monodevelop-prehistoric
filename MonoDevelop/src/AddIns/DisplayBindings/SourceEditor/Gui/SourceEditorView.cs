@@ -293,15 +293,27 @@ namespace MonoDevelop.SourceEditor.Gui
 			return start;
 		}
 
-
+		public string GetLeadingWhiteSpace (int line) {
+			string lineText = ((IFormattableDocument)this).GetLineAsString (line);
+			int index = 0;
+			while (index < lineText.Length && Char.IsWhiteSpace (lineText[index])) {
+    				index++;
+    			}
+ 	   		return index > 0 ? lineText.Substring (0, index) : "";
+		}
+		
 		public void InsertTemplate (CodeTemplate template)
 		{
-			int newCaretOffset = buf.GetIterAtMark (buf.InsertMark).Offset;
+			TextIter iter = buf.GetIterAtMark (buf.InsertMark);
+			int newCaretOffset = iter.Offset;
 			string word = GetWordBeforeCaret ().Trim ();
-			
+			int beginLine = iter.Line;
+			int endLine = beginLine;
 			if (word.Length > 0)
 				newCaretOffset = DeleteWordBeforeCaret ();
 			
+			string leadingWhiteSpace = GetLeadingWhiteSpace (beginLine);
+
 			int finalCaretOffset = newCaretOffset;
 			
 			for (int i =0; i < template.Text.Length; ++i) {
@@ -318,12 +330,17 @@ namespace MonoDevelop.SourceEditor.Gui
 					case '\n':
 						buf.InsertAtCursor ('\n'.ToString ());
 						newCaretOffset++;
+						endLine++;
 						break;
 					default:
 						buf.InsertAtCursor (template.Text[i].ToString ());
 						newCaretOffset++;
 						break;
 				}
+			}
+			
+			if (endLine > beginLine) {
+				IndentLines (beginLine+1, endLine, leadingWhiteSpace);
 			}
 			
 			buf.PlaceCursor (buf.GetIterAtOffset (finalCaretOffset));
@@ -369,8 +386,11 @@ namespace MonoDevelop.SourceEditor.Gui
 		
 		void IndentLines (int y0, int y1)
 		{
-			string indent = InsertSpacesInsteadOfTabs ? new string (' ', (int) TabsWidth) : "\t";
-			
+			IndentLines (y0, y1, InsertSpacesInsteadOfTabs ? new string (' ', (int) TabsWidth) : "\t");
+		}
+
+		void IndentLines (int y0, int y1, string indent)
+		{
 			for (int l = y0; l <= y1; l ++)
 				Buffer.Insert (Buffer.GetIterAtLine (l), indent);
 		}
