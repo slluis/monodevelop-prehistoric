@@ -27,7 +27,7 @@ namespace Gdl
 			get { return default_title; }
 			set { default_title = value; }
 		}
-		
+				
 		public int Locked {
 			get {
 				if (unlocked_items.Count == 0)
@@ -40,6 +40,10 @@ namespace Gdl
 				if (value >= 0)
 					this.LockUnlock (value > 0);
 			}
+		}
+		
+		public ArrayList TopLevelDocks {
+			get { return toplevel_docks; }
 		}
 		
 		protected void foreach_lock_unlock (DockItem item, bool locked)

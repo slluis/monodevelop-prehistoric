@@ -352,7 +352,5 @@ namespace Gdl
 				invoker.Invoke (this.iconify_button);
 			}
 		}
-		
-		
 	}
 }

@@ -11,7 +11,15 @@ namespace Gdl
 	
 		public Dock ()
 		{
+			this.Flags |= (int)Gtk.WidgetFlags.NoWindow;
 			this.DockObjectFlags &= ~(DockObjectFlags.Automatic);
+			if (this.Master == null) {
+				this.Bind (new DockMaster ());
+			}
+			if (this.floating) {
+				//Need code here to handle floating shit.
+			}
+			this.DockObjectFlags |= DockObjectFlags.Attached;
 		}
 		
 		public Dock (Dock original, bool _floating) : this ()
@@ -92,7 +100,7 @@ namespace Gdl
 		{
 			int border_width = (int)this.BorderWidth;
 			if (this.root != null && this.root.Visible)
-				this.root.SetSizeRequest (requisition.Width, requisition.Height);
+				requisition = this.root.SizeRequest ();
 			else {
 				requisition.Width = 0;
 				requisition.Height = 0;
@@ -139,13 +147,14 @@ namespace Gdl
 			base.OnShown ();
 			if (this.floating && this.window != null)
 				this.window.Show ();
-			/*PORT:
-			    if (GDL_DOCK_IS_CONTROLLER (dock)) {
-        gdl_dock_master_foreach_toplevel (GDL_DOCK_OBJECT_GET_MASTER (dock),
-                                          FALSE, (GFunc) gdl_dock_foreach_automatic,
-                                          gtk_widget_show);
-    			}
-			*/
+			if (this.IsController) {
+				foreach (DockObject item in this.Master.TopLevelDocks) {
+					if (item == this)
+						continue;
+					Console.WriteLine ("Showing: " + item.Name);
+					item.Show ();
+				}
+			}
 		}
 		
 		protected override void OnHidden ()
@@ -428,6 +437,12 @@ gdl_dock_child_type (GtkContainer *container)
 		
 		private bool IsController {
 			get {
+				if (this.Master == null) {
+					Console.WriteLine ("Master is null");
+					return false;
+				}
+				if (this.Master.Controller == null)
+					Console.WriteLine ("Master.Controller is null");
 				return (this.Master.Controller == this); 
 			}
 		}
