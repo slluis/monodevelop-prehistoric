@@ -10,19 +10,8 @@ namespace MonoDevelop.SourceEditor.Gui
 		public readonly SourceEditorBuffer Buffer;
 		public readonly SourceEditorView View;
 		public readonly SourceEditorDisplayBindingWrapper DisplayBinding;
-		private static GLib.GType gtype;
 		
-		public static new GLib.GType GType
-		{
-			get
-			{
-				if (gtype == GLib.GType.Invalid)
-					gtype = RegisterGType (typeof (SourceEditor));
-				return gtype;
-			}
-		}
-		
-		public SourceEditor (SourceEditorDisplayBindingWrapper bind) : base (GType)
+		public SourceEditor (SourceEditorDisplayBindingWrapper bind)
 		{
 			ShadowType = Gtk.ShadowType.In;
 			DisplayBinding = bind;

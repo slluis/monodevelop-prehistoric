@@ -58,7 +58,6 @@ namespace MonoDevelop.TextEditor.Document
 					++curIndex;
 					return Current;
 				}
-				SourceEditor_ document;
 				string fileName = files[curIndex].ToString();
 				return new FileDocumentInformation(fileName, 0);
 			}

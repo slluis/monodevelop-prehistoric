@@ -207,7 +207,7 @@ namespace MonoDevelop.SourceEditor.Gui
 			
 			se.Buffer.PlaceCursor (itr);		
 			se.View.ScrollMarkOnscreen (se.Buffer.InsertMark);
-			Gtk.Timeout.Add (20, new Gtk.Function (changeFocus));
+			GLib.Timeout.Add (20, changeFocus);
 		}
 
 		//This code exists to workaround a gtk+ 2.4 regression/bug

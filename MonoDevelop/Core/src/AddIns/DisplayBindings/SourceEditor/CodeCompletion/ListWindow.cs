@@ -356,8 +356,6 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 			
 			int ypos = margin;
 			int lineWidth = winWidth - margin*2;
-			int count = win.DataProvider.ItemCount;
-			
 			int xpos = margin + padding;
 				
 			int n = 0;

@@ -13,11 +13,9 @@ using System.ComponentModel;
 using MonoDevelop.Gui;
 using MonoDevelop.TextEditor.Document;
 using MonoDevelop.Core.Properties;
-
 using MonoDevelop.Core.Services;
 using MonoDevelop.Services;
 using MonoDevelop.TextEditor;
-
 using MonoDevelop.Gui.Widgets;
 
 using Glade;
@@ -28,12 +26,10 @@ namespace MonoDevelop.Gui.Dialogs
 	public class ReplaceInFilesDialog
 	{
 		IMessageService messageService  = (IMessageService)ServiceManager.GetService(typeof(IMessageService));
-		StringParserService stringParserService = (StringParserService)ServiceManager.GetService (typeof (StringParserService));
-		static PropertyService propertyService = (PropertyService)ServiceManager.GetService(typeof(PropertyService));
 		public bool replaceMode;
 
-		[Glade.Widget] Gnome.Entry searchPatternEntry;
-		[Glade.Widget] Gnome.Entry replacePatternEntry;
+		[Glade.Widget] Gtk.Entry searchPatternEntry;
+		[Glade.Widget] Gtk.Entry replacePatternEntry;
 		[Glade.Widget] Gtk.Button findHelpButton;
 		[Glade.Widget] Gtk.Button findButton;
 		[Glade.Widget] Gtk.Button markAllButton;
@@ -44,8 +40,8 @@ namespace MonoDevelop.Gui.Dialogs
 		[Glade.Widget] Gtk.CheckButton ignoreCaseCheckBox;
 		[Glade.Widget] Gtk.CheckButton searchWholeWordOnlyCheckBox;
 		[Glade.Widget] Gtk.CheckButton useSpecialSearchStrategyCheckBox;
-		[Glade.Widget] Gtk.OptionMenu specialSearchStrategyComboBox;
-		[Glade.Widget] Gtk.OptionMenu searchLocationComboBox;
+		[Glade.Widget] Gtk.ComboBox specialSearchStrategyComboBox;
+		[Glade.Widget] Gtk.ComboBox searchLocationComboBox;
 		[Glade.Widget] Gtk.Label label1;
 		[Glade.Widget] Gtk.Label label2;
 		[Glade.Widget] Gtk.Label searchLocationLabel;
@@ -87,19 +83,24 @@ namespace MonoDevelop.Gui.Dialogs
 			checkButtons.AddWidget(searchLocationLabel);
 			options.AddWidget(specialSearchStrategyComboBox);
 			options.AddWidget(searchLocationComboBox);
+
+			searchPatternEntry.Completion = new EntryCompletion ();
+			searchPatternEntry.Completion.Model = new ListStore (typeof (string));
+			searchPatternEntry.Completion.TextColumn = 0;
 			
 			// set button sensitivity
 			findHelpButton.Sensitive = false;
 			
 			// set replace dialog properties 
-			if(replaceMode)
+			if (replaceMode)
 			{
-				// set the label properties
+				replacePatternEntry.Completion = new EntryCompletion ();
+				replacePatternEntry.Completion.Model = new ListStore (typeof (string));
+				replacePatternEntry.Completion.TextColumn = 0;
+
 				label2.Text = GettextCatalog.GetString ("Replace in Files");
-				//replaceButton.Label = stringParserService.Parse ("${res:Dialog.NewProject.SearchReplace.ReplaceButton}");
-				//replaceButton.UseUnderline = true;
 				
-				// set te size groups to include the replace dialog
+				// set the size groups to include the replace dialog
 				labels.AddWidget(label2);
 				combos.AddWidget(replacePatternEntry);
 				helpButtons.AddWidget(replaceHelpButton);
@@ -146,40 +147,26 @@ namespace MonoDevelop.Gui.Dialogs
 		{
 			ReplaceDialogPointer.ShowAll ();
 			SearchReplaceInFilesManager.ReplaceDialog = this;
-			searchPatternEntry.GtkEntry.SelectRegion (0, searchPatternEntry.GtkEntry.Text.Length);
+			searchPatternEntry.SelectRegion (0, searchPatternEntry.Text.Length);
 		}
 
-		public ReplaceInFilesDialog(bool replaceMode)
+		public ReplaceInFilesDialog (bool replaceMode)
 		{
 			this.replaceMode = replaceMode;
-			FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.GetService(typeof(FileUtilityService));
 			string dialogName = (replaceMode) ? "ReplaceInFilesDialogWidget" : "FindInFilesDialogWidget";
 			Glade.XML glade = new XML (null, "texteditoraddin.glade", dialogName, null);
 			glade.Autoconnect (this);
 			InitDialog ();
-			/*
-			if (replaceMode) {
-				this.SetupFromXml(propertyService.DataDirectory + @"\resources\dialogs\ReplaceInFilesDialog.xfrm");
-				ControlDictionary["replacePatternEntry"].Text = SearchReplaceInFilesManager.SearchOptions.ReplacePattern;
-				ControlDictionary["replaceHelpButton"].Enabled = false;
-			} else {
-				this.SetupFromXml(propertyService.DataDirectory + @"\resources\dialogs\FindInFilesDialog.xfrm");
-			}*/
+
+			CellRendererText cr = new CellRendererText ();
+			Gtk.ListStore store = new ListStore (typeof (string));
+			store.AppendValues (GettextCatalog.GetString ("Wildcards"));
+			store.AppendValues (GettextCatalog.GetString ("Regular Expressions"));
+			specialSearchStrategyComboBox.Model = store;
+			specialSearchStrategyComboBox.PackStart (cr, true);
+			specialSearchStrategyComboBox.AddAttribute (cr, "text", 0);
 			
-			//ControlDictionary["findHelpButton"].Enabled = false;
-			//ControlDictionary["searchPatternEntry"].Text = SearchReplaceInFilesManager.SearchOptions.SearchPattern;
-			
-			//AcceptButton = (Button)ControlDictionary["findButton"];
-			//CancelButton = (Button)ControlDictionary["closeButton"];
-			Gtk.MenuItem tmpItem;
-			Gtk.Menu stratMenu = new Gtk.Menu ();
-			tmpItem = new Gtk.MenuItem (GettextCatalog.GetString ("Wildcards"));
-			stratMenu.Append (tmpItem);
-			tmpItem = new Gtk.MenuItem (GettextCatalog.GetString ("Regular Expressions"));
-			stratMenu.Append (tmpItem);
-			specialSearchStrategyComboBox.Menu = stratMenu;
-			
-			uint index = 0;
+			int index = 0;
 			switch (SearchReplaceManager.SearchOptions.SearchStrategyType) {
 				case SearchStrategyType.Normal:
 				case SearchStrategyType.Wildcard:
@@ -188,16 +175,15 @@ namespace MonoDevelop.Gui.Dialogs
 					index = 1;
 					break;
 			}
- 			specialSearchStrategyComboBox.SetHistory (index);
+	 		specialSearchStrategyComboBox.Active = index;
 			
-			Gtk.Menu locMenu = new Gtk.Menu ();
-			tmpItem = new Gtk.MenuItem (GettextCatalog.GetString ("Directories"));
-			locMenu.Append (tmpItem);
-			tmpItem = new Gtk.MenuItem (GettextCatalog.GetString ("All open files"));
-			locMenu.Append (tmpItem);
-			tmpItem = new Gtk.MenuItem (GettextCatalog.GetString ("Whole project"));
-			locMenu.Append (tmpItem);
-			searchLocationComboBox.Menu = locMenu;
+			store = new ListStore (typeof (string));
+			store.AppendValues (GettextCatalog.GetString ("Directories"));
+			store.AppendValues (GettextCatalog.GetString ("All open files"));
+			store.AppendValues (GettextCatalog.GetString ("Whole project"));
+			searchLocationComboBox.Model = store;
+			searchLocationComboBox.PackStart (cr, true);
+			searchLocationComboBox.AddAttribute (cr, "text", 0);
 						
 			index = 0;
 			switch (SearchReplaceInFilesManager.SearchOptions.DocumentIteratorType) {
@@ -209,10 +195,8 @@ namespace MonoDevelop.Gui.Dialogs
 					break;
 			}
 			
-			searchLocationComboBox.SetHistory (index);
-			
+			searchLocationComboBox.Active = index;
 			searchLocationComboBox.Changed += new EventHandler(SearchLocationCheckBoxChangedEvent);
-			
 			useSpecialSearchStrategyCheckBox.Toggled += new EventHandler(SpecialSearchStrategyCheckBoxChangedEvent);
 			
 			directoryTextBox.Text = SearchReplaceInFilesManager.SearchOptions.SearchDirectory;
@@ -222,39 +206,37 @@ namespace MonoDevelop.Gui.Dialogs
 			browseButton.Clicked += new EventHandler(BrowseDirectoryEvent);
 			findButton.Clicked += new EventHandler(FindEvent);
 			
-			searchPatternEntry.GtkEntry.Text = SearchReplaceInFilesManager.SearchOptions.SearchPattern;
+			searchPatternEntry.Text = SearchReplaceInFilesManager.SearchOptions.SearchPattern;
 			
 			if (replaceMode) {
 				replaceAllButton.Clicked += new EventHandler(ReplaceEvent);
-				replacePatternEntry.GtkEntry.Text = SearchReplaceInFilesManager.SearchOptions.ReplacePattern;
+				replacePatternEntry.Text = SearchReplaceInFilesManager.SearchOptions.ReplacePattern;
 			}
 			
 			ReplaceDialogPointer.Close += new EventHandler (CloseDialogEvent);
 			closeButton.Clicked += new EventHandler (CloseDialogEvent);
 			ReplaceDialogPointer.DeleteEvent += new DeleteEventHandler (OnDeleted);
 			
-			SearchLocationCheckBoxChangedEvent(null, null);
-			SpecialSearchStrategyCheckBoxChangedEvent(null, null);
+			SearchLocationCheckBoxChangedEvent (null, null);
+			SpecialSearchStrategyCheckBoxChangedEvent (null, null);
 		}
 		
-		void FindEvent(object sender, EventArgs e)
+		void FindEvent (object sender, EventArgs e)
 		{
-			if (SetupSearchReplaceInFilesManager()) {
-				SearchReplaceInFilesManager.FindAll();
-			}
+			if (SetupSearchReplaceInFilesManager ())
+				SearchReplaceInFilesManager.FindAll ();
 		}
 		
 		void ReplaceEvent(object sender, EventArgs e)
 		{
-			if (SetupSearchReplaceInFilesManager()) {
-				SearchReplaceInFilesManager.ReplaceAll();
-			}
+			if (SetupSearchReplaceInFilesManager ())
+				SearchReplaceInFilesManager.ReplaceAll ();
 		}
 		
-		void BrowseDirectoryEvent(object sender, EventArgs e)
+		void BrowseDirectoryEvent (object sender, EventArgs e)
 		{
 			PropertyService PropertyService = (PropertyService)ServiceManager.GetService (typeof (PropertyService));			
-			FolderDialog fd = new FolderDialog(GettextCatalog.GetString ("Select directory"));
+			FolderDialog fd = new FolderDialog (GettextCatalog.GetString ("Select directory"));
 
 			// set up the dialog to point to currently selected folder, or the default projects folder
 			string defaultFolder = this.directoryTextBox.Text;	
@@ -276,19 +258,16 @@ namespace MonoDevelop.Gui.Dialogs
 		
 		void SearchLocationCheckBoxChangedEvent(object sender, EventArgs e)
 		{
-			bool enableDirectorySearch = searchLocationComboBox.History == 0;
+			bool enableDirectorySearch = searchLocationComboBox.Active == 0;
 			fileMaskTextBox.Sensitive = enableDirectorySearch;
 			directoryTextBox.Sensitive = enableDirectorySearch;
 			browseButton.Sensitive = enableDirectorySearch;
 			includeSubdirectoriesCheckBox.Sensitive = enableDirectorySearch;
 		}
 		
-		void SpecialSearchStrategyCheckBoxChangedEvent(object sender, EventArgs e)
+		void SpecialSearchStrategyCheckBoxChangedEvent (object sender, EventArgs e)
 		{
-			//CheckBox cb = (CheckBox)ControlDictionary["useSpecialSearchStrategyCheckBox"];
-			//if (cb != null) {
-				specialSearchStrategyComboBox.Sensitive = useSpecialSearchStrategyCheckBox.Active;
-			//}
+			specialSearchStrategyComboBox.Sensitive = useSpecialSearchStrategyCheckBox.Active;
 		}
 		
 		bool SetupSearchReplaceInFilesManager()
@@ -326,16 +305,15 @@ namespace MonoDevelop.Gui.Dialogs
 			SearchReplaceInFilesManager.SearchOptions.SearchDirectory = directoryName;
 			SearchReplaceInFilesManager.SearchOptions.SearchSubdirectories = includeSubdirectoriesCheckBox.Active;
 			
-			SearchReplaceInFilesManager.SearchOptions.SearchPattern  = searchPatternEntry.GtkEntry.Text;
-			if (replaceMode) {
-				SearchReplaceInFilesManager.SearchOptions.ReplacePattern = replacePatternEntry.GtkEntry.Text;
-			}
+			SearchReplaceInFilesManager.SearchOptions.SearchPattern  = searchPatternEntry.Text;
+			if (replaceMode)
+				SearchReplaceInFilesManager.SearchOptions.ReplacePattern = replacePatternEntry.Text;
 			
 			SearchReplaceInFilesManager.SearchOptions.IgnoreCase          = !ignoreCaseCheckBox.Active;
 			SearchReplaceInFilesManager.SearchOptions.SearchWholeWordOnly = searchWholeWordOnlyCheckBox.Active;
 			
 			if (useSpecialSearchStrategyCheckBox.Active) {
-				switch (specialSearchStrategyComboBox.History) {
+				switch (specialSearchStrategyComboBox.Active) {
 					case 0:
 						SearchReplaceInFilesManager.SearchOptions.SearchStrategyType = SearchStrategyType.Wildcard;
 						break;
@@ -347,7 +325,7 @@ namespace MonoDevelop.Gui.Dialogs
 				SearchReplaceInFilesManager.SearchOptions.SearchStrategyType = SearchStrategyType.Normal;
 			}
 			
-			switch (searchLocationComboBox.History) {
+			switch (searchLocationComboBox.Active) {
 				case 0:
 					SearchReplaceInFilesManager.SearchOptions.DocumentIteratorType = DocumentIteratorType.Directory;
 					break;

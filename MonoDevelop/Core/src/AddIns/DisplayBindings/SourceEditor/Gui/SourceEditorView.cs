@@ -25,7 +25,6 @@ namespace MonoDevelop.SourceEditor.Gui
 {
 	public class SourceEditorView : SourceView, IFormattableDocument
 	{	
-		private static GLib.GType gtype;
 		public readonly SourceEditor ParentEditor;
 		internal IFormattingStrategy fmtr;
 		public SourceEditorBuffer buf;
@@ -33,22 +32,12 @@ namespace MonoDevelop.SourceEditor.Gui
 		bool codeCompleteEnabled;
 		bool autoHideCompletionWindow = true;
 
-		public static new GLib.GType GType
-		{
-			get
-			{
-				if (gtype == GLib.GType.Invalid)
-					gtype = RegisterGType (typeof (SourceEditorView));
-				return gtype;
-			}
-		}
-
 		public bool EnableCodeCompletion {
 			get { return codeCompleteEnabled; }
 			set { codeCompleteEnabled = value; }
 		}
 		
-		public SourceEditorView (SourceEditorBuffer buf, SourceEditor parent) : base (GType)
+		public SourceEditorView (SourceEditorBuffer buf, SourceEditor parent)
 		{
 			this.ParentEditor = parent;
 			this.TabsWidth = 4;
@@ -260,7 +249,7 @@ namespace MonoDevelop.SourceEditor.Gui
 			Gdk.Key key = evnt.Key;
 			uint state = (uint)evnt.State;
 			state &= 1101u;
-			const uint Normal = 0, Shift = 1, Control = 4, ShiftControl = 5, Alt = 8;
+			const uint Normal = 0, Shift = 1, Control = 4; /*ShiftControl = 5, Alt = 8*/
 			
 			switch (state) {
 			case Normal:

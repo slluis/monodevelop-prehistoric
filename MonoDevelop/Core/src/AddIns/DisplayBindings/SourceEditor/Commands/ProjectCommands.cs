@@ -15,6 +15,7 @@ using MonoDevelop.Gui.Dialogs;
 
 namespace MonoDevelop.DefaultEditor.Commands
 {
+/*
 	public class ExportProjectToHtml : AbstractMenuCommand
 	{
 		public override void Run()
@@ -30,4 +31,5 @@ namespace MonoDevelop.DefaultEditor.Commands
 			}
 		}
 	}
+*/
 }

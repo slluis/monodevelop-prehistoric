@@ -8,19 +8,17 @@
 using System;
 using System.IO;
 using System.Collections;
+using Gtk;
 
-using MonoDevelop.Internal.ExternalTool;
-using MonoDevelop.Internal.Templates;
 using MonoDevelop.Core.Properties;
 using MonoDevelop.Core.AddIns.Codons;
-
 using MonoDevelop.Core.Services;
-using MonoDevelop.Services;
-using MonoDevelop.Gui.Dialogs;
-
-using Gtk;
-using MonoDevelop.Gui.Widgets;
 using MonoDevelop.EditorBindings.Gui.Dialogs;
+using MonoDevelop.Gui.Dialogs;
+using MonoDevelop.Gui.Widgets;
+using MonoDevelop.Internal.ExternalTool;
+using MonoDevelop.Internal.Templates;
+using MonoDevelop.Services;
 
 namespace MonoDevelop.EditorBindings.Gui.OptionPanels 
 {
@@ -32,10 +30,7 @@ namespace MonoDevelop.EditorBindings.Gui.OptionPanels
 			int       currentSelectedGroup = -1;
 			
 			// Services
-			StringParserService StringParserService = (StringParserService)ServiceManager.GetService (typeof (StringParserService));
-			PropertyService PropertyService = (PropertyService)ServiceManager.GetService(typeof(PropertyService));
 			MessageService MessageService = (MessageService)ServiceManager.GetService(typeof(MessageService));					
-			
 			// Gtk widgets
 			[Glade.Widget] Label extensionLabel;
 			[Glade.Widget] Gtk.TreeView templateListView;
@@ -48,8 +43,7 @@ namespace MonoDevelop.EditorBindings.Gui.OptionPanels
 			[Glade.Widget] Button removeGroupButton;
 			TextBuffer templateTextBuffer = new TextBuffer(null);
 			[Glade.Widget] Gtk.TextView templateTextView;
-			[Glade.Widget] OptionMenu groupOptionMenu;
-			Menu groupMenu;
+			[Glade.Widget] ComboBox groupCombo;
 			
 			public CodeTemplateGroup CurrentTemplateGroup {
 				get {
@@ -122,8 +116,6 @@ namespace MonoDevelop.EditorBindings.Gui.OptionPanels
 			// function to render the cell
 			void TemplateListViewCellDataFunc(TreeViewColumn column, CellRenderer renderer, TreeModel model, TreeIter iter)
 			{
-				string toWrite = string.Empty;
-				
 				CodeTemplate codeTemplate = ((ListStore)model).GetValue(iter, 0) as CodeTemplate;
 				
 				if(column.Title == GettextCatalog.GetString ("Template"))
@@ -144,7 +136,7 @@ namespace MonoDevelop.EditorBindings.Gui.OptionPanels
 				bool groupsEmpty   = templateGroups.Count != 0;
 				
 				SetEnabledStatus(groupSelected, addButton, editButton, removeButton, templateListView, templateTextView);
-				SetEnabledStatus(groupsEmpty, groupOptionMenu, extensionLabel);
+				SetEnabledStatus(groupsEmpty, groupCombo, extensionLabel);
 				if (groupSelected) {
 					bool oneItemSelected = templateListView.Selection.CountSelectedRows() == 1;
 					bool isItemSelected  = templateListView.Selection.CountSelectedRows() > 0;
@@ -168,7 +160,7 @@ namespace MonoDevelop.EditorBindings.Gui.OptionPanels
 	#region GroupComboBox event handler
 			void SetGroupSelection(object sender, EventArgs e)
 			{
-				currentSelectedGroup = groupOptionMenu.History;
+				currentSelectedGroup = groupCombo.Active;
 				BuildListView();
 			}		
 			
@@ -181,7 +173,7 @@ namespace MonoDevelop.EditorBindings.Gui.OptionPanels
 				if(ShowEditTemplateGroupDialog(ref templateGroup, GettextCatalog.GetString ("New "))) {
 					templateGroups.Add(templateGroup);
 					FillGroupOptionMenu();
-					groupOptionMenu.SetHistory((uint) templateGroups.Count - 1);
+					groupCombo.Active = (int) templateGroups.Count - 1;
 					SetEnabledStatus();
 				}
 			}
@@ -189,12 +181,12 @@ namespace MonoDevelop.EditorBindings.Gui.OptionPanels
 			void EditGroupEvent(object sender, EventArgs e)
 			{
 				
-				int index = groupOptionMenu.History;
+				int index = groupCombo.Active;
 				CodeTemplateGroup templateGroup = (CodeTemplateGroup) templateGroups[index];
 				if(ShowEditTemplateGroupDialog(ref templateGroup, GettextCatalog.GetString ("Edit "))) {
 					templateGroups[index] = templateGroup;
 					FillGroupOptionMenu();
-					groupOptionMenu.SetHistory((uint)index);
+					groupCombo.Active = index;
 					SetEnabledStatus();
 				}
 			}
@@ -206,7 +198,7 @@ namespace MonoDevelop.EditorBindings.Gui.OptionPanels
 					if (templateGroups.Count == 0) {
 						currentSelectedGroup = -1;
 					} else {
-						groupOptionMenu.SetHistory((uint) Math.Min(currentSelectedGroup, templateGroups.Count - 1));
+						groupCombo.Active = (int) Math.Min(currentSelectedGroup, templateGroups.Count - 1);
 					}
 					FillGroupOptionMenu();
 					BuildListView();
@@ -309,24 +301,22 @@ namespace MonoDevelop.EditorBindings.Gui.OptionPanels
 			
 			void FillGroupOptionMenu()
 			{
-				groupOptionMenu.Changed -= new EventHandler(SetGroupSelection);
+				groupCombo.Changed -= new EventHandler(SetGroupSelection);
 				
-				// remove the menu items
-				groupOptionMenu.RemoveMenu();
-				groupMenu = new Menu();
+				ListStore store = new ListStore (typeof (string));
 				
+				foreach (CodeTemplateGroup templateGroup in templateGroups)
+					store.AppendValues (String.Join (";", templateGroup.ExtensionStrings));
 				
-				foreach (CodeTemplateGroup templateGroup in templateGroups) {					
-					groupMenu.Append(new Gtk.MenuItem (String.Join(";", templateGroup.ExtensionStrings)));					
-				}
+				groupCombo.Model = store;
+				CellRendererText cr = new CellRendererText ();
+				groupCombo.PackStart (cr, true);
+				groupCombo.AddAttribute (cr, "text", 0);
+
+				if (currentSelectedGroup >= 0)
+					groupCombo.Active = (int) currentSelectedGroup;
 				
-				groupMenu.ShowAll();
-				groupOptionMenu.Menu = groupMenu;
-				if (currentSelectedGroup >= 0) {
-					groupOptionMenu.SetHistory((uint)currentSelectedGroup);
-				}
-				
-				groupOptionMenu.Changed += new EventHandler(SetGroupSelection);
+				groupCombo.Changed += new EventHandler(SetGroupSelection);
 			}
 			
 			void IndexChange(object sender, System.EventArgs e)

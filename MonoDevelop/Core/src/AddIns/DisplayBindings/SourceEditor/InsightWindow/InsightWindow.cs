@@ -21,7 +21,6 @@ namespace MonoDevelop.SourceEditor.InsightWindow
 {
 	public class InsightWindow : Window
 	{
-		static GLib.GType type;
 		SourceEditorView  control;
 		Stack             insightDataProviderStack = new Stack();
 
@@ -109,12 +108,7 @@ namespace MonoDevelop.SourceEditor.InsightWindow
 			}
 		}
 		
-		static InsightWindow ()
-		{
-			type = RegisterGType (typeof (InsightWindow));
-		}
-		
-		public InsightWindow(SourceEditorView control, Project project, string fileName) : base (type)
+		public InsightWindow (SourceEditorView control, Project project, string fileName) : base (WindowType.Popup)
 		{
 			this.control             = control;
 			this.fileName = fileName;
@@ -237,7 +231,7 @@ namespace MonoDevelop.SourceEditor.InsightWindow
 
 		protected void BeforeShow ()
 		{
-			string methodCountMessage = null;
+			//string methodCountMessage = null;
 			if (DataProvider == null || DataProvider.InsightDataCount < 1) {
 				description = "Unknown Method";
 			} else {
@@ -245,7 +239,7 @@ namespace MonoDevelop.SourceEditor.InsightWindow
 					StringParserService stringParserService = (StringParserService)ServiceManager.GetService(typeof(StringParserService));
 					stringParserService.Properties["CurrentMethodNumber"]  = (CurrentData + 1).ToString();
 					stringParserService.Properties["NumberOfTotalMethods"] = DataProvider.InsightDataCount.ToString();
-					methodCountMessage = stringParserService.Parse("${res:MonoDevelop.DefaultEditor.Gui.Editor.InsightWindow.NumberOfText}");
+					//methodCountMessage = stringParserService.Parse("${res:MonoDevelop.DefaultEditor.Gui.Editor.InsightWindow.NumberOfText}");
 				}
 				
 				//I know this call looks stupid, but really it isnt.

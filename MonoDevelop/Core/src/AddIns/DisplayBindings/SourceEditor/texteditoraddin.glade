@@ -421,24 +421,16 @@
 	      </child>
 
 	      <child>
-		<widget class="GnomeEntry" id="searchPatternEntry">
+		<widget class="GtkEntry" id="searchPatternEntry">
 		  <property name="visible">True</property>
-		  <property name="max_saved">20</property>
-
-		  <child internal-child="entry">
-		    <widget class="GtkEntry" id="entry7">
-		      <property name="visible">True</property>
-		      <property name="can_focus">True</property>
-		      <property name="has_focus">True</property>
-		      <property name="editable">True</property>
-		      <property name="visibility">True</property>
-		      <property name="max_length">0</property>
-		      <property name="text" translatable="yes"></property>
-		      <property name="has_frame">True</property>
-		      <property name="invisible_char">*</property>
-		      <property name="activates_default">True</property>
-		    </widget>
-		  </child>
+		  <property name="can_focus">True</property>
+		  <property name="editable">True</property>
+		  <property name="visibility">True</property>
+		  <property name="max_length">0</property>
+		  <property name="text" translatable="yes"></property>
+		  <property name="has_frame">True</property>
+		  <property name="invisible_char">*</property>
+		  <property name="activates_default">False</property>
 		</widget>
 		<packing>
 		  <property name="padding">0</property>
@@ -498,23 +490,16 @@
 	      </child>
 
 	      <child>
-		<widget class="GnomeEntry" id="replacePatternEntry">
+		<widget class="GtkEntry" id="replacePatternEntry">
 		  <property name="visible">True</property>
-		  <property name="max_saved">20</property>
-
-		  <child internal-child="entry">
-		    <widget class="GtkEntry" id="entry9">
-		      <property name="visible">True</property>
-		      <property name="can_focus">True</property>
-		      <property name="editable">True</property>
-		      <property name="visibility">True</property>
-		      <property name="max_length">0</property>
-		      <property name="text" translatable="yes"></property>
-		      <property name="has_frame">True</property>
-		      <property name="invisible_char">*</property>
-		      <property name="activates_default">False</property>
-		    </widget>
-		  </child>
+		  <property name="can_focus">True</property>
+		  <property name="editable">True</property>
+		  <property name="visibility">True</property>
+		  <property name="max_length">0</property>
+		  <property name="text" translatable="yes"></property>
+		  <property name="has_frame">True</property>
+		  <property name="invisible_char">*</property>
+		  <property name="activates_default">False</property>
 		</widget>
 		<packing>
 		  <property name="padding">0</property>
@@ -610,10 +595,8 @@
 	      </child>
 
 	      <child>
-		<widget class="GtkOptionMenu" id="specialSearchStrategyComboBox">
+		<widget class="GtkComboBox" id="specialSearchStrategyComboBox">
 		  <property name="visible">True</property>
-		  <property name="can_focus">True</property>
-		  <property name="history">-1</property>
 		</widget>
 		<packing>
 		  <property name="padding">0</property>
@@ -657,10 +640,8 @@
 	      </child>
 
 	      <child>
-		<widget class="GtkOptionMenu" id="searchLocationComboBox">
+		<widget class="GtkComboBox" id="searchLocationComboBox">
 		  <property name="visible">True</property>
-		  <property name="can_focus">True</property>
-		  <property name="history">-1</property>
 		</widget>
 		<packing>
 		  <property name="padding">0</property>
@@ -782,24 +763,16 @@
 	      </child>
 
 	      <child>
-		<widget class="GnomeEntry" id="searchPatternEntry">
+		<widget class="GtkEntry" id="searchPatternEntry">
 		  <property name="visible">True</property>
-		  <property name="max_saved">20</property>
-
-		  <child internal-child="entry">
-		    <widget class="GtkEntry" id="entry11">
-		      <property name="visible">True</property>
-		      <property name="can_focus">True</property>
-		      <property name="has_focus">True</property>
-		      <property name="editable">True</property>
-		      <property name="visibility">True</property>
-		      <property name="max_length">0</property>
-		      <property name="text" translatable="yes"></property>
-		      <property name="has_frame">True</property>
-		      <property name="invisible_char">*</property>
-		      <property name="activates_default">True</property>
-		    </widget>
-		  </child>
+		  <property name="can_focus">True</property>
+		  <property name="editable">True</property>
+		  <property name="visibility">True</property>
+		  <property name="max_length">0</property>
+		  <property name="text" translatable="yes"></property>
+		  <property name="has_frame">True</property>
+		  <property name="invisible_char">*</property>
+		  <property name="activates_default">False</property>
 		</widget>
 		<packing>
 		  <property name="padding">0</property>
@@ -1036,10 +1009,8 @@
 	      </child>
 
 	      <child>
-		<widget class="GtkOptionMenu" id="specialSearchStrategyComboBox">
+		<widget class="GtkComboBox" id="specialSearchStrategyComboBox">
 		  <property name="visible">True</property>
-		  <property name="can_focus">True</property>
-		  <property name="history">-1</property>
 		</widget>
 		<packing>
 		  <property name="padding">0</property>
@@ -1083,10 +1054,8 @@
 	      </child>
 
 	      <child>
-		<widget class="GtkOptionMenu" id="searchLocationComboBox">
+		<widget class="GtkComboBox" id="searchLocationComboBox">
 		  <property name="visible">True</property>
-		  <property name="can_focus">True</property>
-		  <property name="history">-1</property>
 		</widget>
 		<packing>
 		  <property name="padding">0</property>
@@ -1279,24 +1248,16 @@
 	      </child>
 
 	      <child>
-		<widget class="GnomeEntry" id="searchPatternEntry">
+		<widget class="GtkEntry" id="searchPatternEntry">
 		  <property name="visible">True</property>
-		  <property name="max_saved">20</property>
-
-		  <child internal-child="entry">
-		    <widget class="GtkEntry" id="entry3">
-		      <property name="visible">True</property>
-		      <property name="can_focus">True</property>
-		      <property name="has_focus">True</property>
-		      <property name="editable">True</property>
-		      <property name="visibility">True</property>
-		      <property name="max_length">0</property>
-		      <property name="text" translatable="yes"></property>
-		      <property name="has_frame">True</property>
-		      <property name="invisible_char">*</property>
-		      <property name="activates_default">True</property>
-		    </widget>
-		  </child>
+		  <property name="can_focus">True</property>
+		  <property name="editable">True</property>
+		  <property name="visibility">True</property>
+		  <property name="max_length">0</property>
+		  <property name="text" translatable="yes"></property>
+		  <property name="has_frame">True</property>
+		  <property name="invisible_char">*</property>
+		  <property name="activates_default">False</property>
 		</widget>
 		<packing>
 		  <property name="padding">0</property>
@@ -1356,23 +1317,16 @@
 	      </child>
 
 	      <child>
-		<widget class="GnomeEntry" id="replacePatternEntry">
+		<widget class="GtkEntry" id="replacePatternEntry">
 		  <property name="visible">True</property>
-		  <property name="max_saved">20</property>
-
-		  <child internal-child="entry">
-		    <widget class="GtkEntry" id="entry5">
-		      <property name="visible">True</property>
-		      <property name="can_focus">True</property>
-		      <property name="editable">True</property>
-		      <property name="visibility">True</property>
-		      <property name="max_length">0</property>
-		      <property name="text" translatable="yes"></property>
-		      <property name="has_frame">True</property>
-		      <property name="invisible_char">*</property>
-		      <property name="activates_default">False</property>
-		    </widget>
-		  </child>
+		  <property name="can_focus">True</property>
+		  <property name="editable">True</property>
+		  <property name="visibility">True</property>
+		  <property name="max_length">0</property>
+		  <property name="text" translatable="yes"></property>
+		  <property name="has_frame">True</property>
+		  <property name="invisible_char">*</property>
+		  <property name="activates_default">False</property>
 		</widget>
 		<packing>
 		  <property name="padding">0</property>
@@ -1609,10 +1563,8 @@
 	      </child>
 
 	      <child>
-		<widget class="GtkOptionMenu" id="specialSearchStrategyComboBox">
+		<widget class="GtkComboBox" id="specialSearchStrategyComboBox">
 		  <property name="visible">True</property>
-		  <property name="can_focus">True</property>
-		  <property name="history">-1</property>
 		</widget>
 		<packing>
 		  <property name="padding">0</property>
@@ -1656,10 +1608,8 @@
 	      </child>
 
 	      <child>
-		<widget class="GtkOptionMenu" id="searchLocationComboBox">
+		<widget class="GtkComboBox" id="searchLocationComboBox">
 		  <property name="visible">True</property>
-		  <property name="can_focus">True</property>
-		  <property name="history">-1</property>
 		</widget>
 		<packing>
 		  <property name="padding">0</property>
@@ -1852,27 +1802,16 @@
 	      </child>
 
 	      <child>
-		<widget class="GnomeEntry" id="searchPatternEntry">
+		<widget class="GtkEntry" id="searchPatternEntry">
 		  <property name="visible">True</property>
-		  <property name="max_saved">20</property>
-		  <accessibility>
-		    <atkproperty name="AtkObject::accessible_name" translatable="yes">searchPatternEntry</atkproperty>
-		  </accessibility>
-
-		  <child internal-child="entry">
-		    <widget class="GtkEntry" id="combo-entry3">
-		      <property name="visible">True</property>
-		      <property name="can_focus">True</property>
-		      <property name="has_focus">True</property>
-		      <property name="editable">True</property>
-		      <property name="visibility">True</property>
-		      <property name="max_length">0</property>
-		      <property name="text" translatable="yes"></property>
-		      <property name="has_frame">True</property>
-		      <property name="invisible_char">*</property>
-		      <property name="activates_default">True</property>
-		    </widget>
-		  </child>
+		  <property name="can_focus">True</property>
+		  <property name="editable">True</property>
+		  <property name="visibility">True</property>
+		  <property name="max_length">0</property>
+		  <property name="text" translatable="yes"></property>
+		  <property name="has_frame">True</property>
+		  <property name="invisible_char">*</property>
+		  <property name="activates_default">False</property>
 		</widget>
 		<packing>
 		  <property name="padding">0</property>
@@ -1968,10 +1907,8 @@
 	      </child>
 
 	      <child>
-		<widget class="GtkOptionMenu" id="specialSearchStrategyComboBox">
+		<widget class="GtkComboBox" id="specialSearchStrategyComboBox">
 		  <property name="visible">True</property>
-		  <property name="can_focus">True</property>
-		  <property name="history">-1</property>
 		</widget>
 		<packing>
 		  <property name="padding">0</property>
@@ -2015,10 +1952,8 @@
 	      </child>
 
 	      <child>
-		<widget class="GtkOptionMenu" id="searchLocationComboBox">
+		<widget class="GtkComboBox" id="searchLocationComboBox">
 		  <property name="visible">True</property>
-		  <property name="can_focus">True</property>
-		  <property name="history">-1</property>
 		</widget>
 		<packing>
 		  <property name="padding">0</property>

@@ -11,15 +11,14 @@ using System.Collections;
 using System.Text;
 using Gtk;
 using Gnome;
-using MonoDevelop.Gui.Widgets;
 using Pango;
 
-using MonoDevelop.Internal.ExternalTool;
 using MonoDevelop.Core.Properties;
 using MonoDevelop.Core.Services;
-
 using MonoDevelop.Core.AddIns.Codons;
+using MonoDevelop.Internal.ExternalTool;
 using MonoDevelop.Gui.Dialogs;
+using MonoDevelop.Gui.Widgets;
 
 namespace MonoDevelop.EditorBindings.Gui.OptionPanels
 {
@@ -28,7 +27,6 @@ namespace MonoDevelop.EditorBindings.Gui.OptionPanels
 	/// </summary>
 	public class GeneralTextEditorPanel : AbstractOptionPanel
 	{
-
 		GeneralTextEditorPanelWidget widget;
 		
 		public override void LoadPanelContents()
@@ -53,7 +51,7 @@ namespace MonoDevelop.EditorBindings.Gui.OptionPanels
 // 					encOptions, encVBox; // if you uncoment change to "," above 
 			[Glade.Widget] CheckButton enableCodeCompletionCheckBox, 
 					enableFoldingCheckBox, enableDoublebufferingCheckBox;
-// 			[Glade.Widget] OptionMenu textEncodingComboBox;
+// 			[Glade.Widget] ComboBox textEncodingComboBox;
 			[Glade.Widget] FontPicker fontNameDisplayTextBox;
 			[Glade.Widget] VBox encodingBox;
 			[Glade.Widget] RadioButton use_monospace, use_sans, use_cust;

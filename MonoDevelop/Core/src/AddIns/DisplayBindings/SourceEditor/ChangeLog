@@ -3,10 +3,30 @@
 	* EditorBindings.glade:
 	* texteditoraddin.glade: update to new glade format
 
+	* EditorBindings.glade:
+	* texteditoraddin.glade:
+	* CodeCompletion/ListWindow.cs:
+	* Gui/SourceEditorBuffer.cs:
+	* Gui/SourceEditorDisplayBinding.cs
+	* Gui/SourceEditorWidget.cs:
+	* Gui/SourceEditorView.cs:
+	* Gui/Dialogs/ReplaceDialog.cs:
+	* Gui/Dialogs/ReplaceInFilesDialog.cs:
+	* Gui/OptionPanels/CodeTemplatePanel.cs:
+	* Gui/OptionPanels/GeneralTextEditorPanel.cs:
+	* InsightWindow/InsightWindow.cs:
+	* Search/DocumentIterator/DirectoryDocumentIterator.cs:
+	use ComboBox instead of OptionMenus
+	use Gtk.Entry w/completion instead of Gnome.Entry
+	remove obselete warnings, etc.
+
+	* Makefile.am: remove Html from build
+	* Commands/ProjectCommands.cs: comment out that
+	* Gui/Dialogs/ExportProjectToHtmlDialog.cs: kill this
+
 2005-01-26  Christian Hergert <chris@mosaix.net>
-                                                                                                                                                             
-        * Gui/SourceEditorView.cs: Fix for new ShowView method in
-        DefaultWorkbench.
+	* Gui/SourceEditorView.cs: Fix for new ShowView method in
+	DefaultWorkbench.
 
 2005-01-26  John Luke  <john.luke@gmail.com>
 

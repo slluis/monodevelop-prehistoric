@@ -249,7 +249,7 @@ namespace MonoDevelop.SourceEditor.Gui
 			PlaceCursor (StartIter);
 			if (View != null) {
 				View.ScrollMarkOnscreen (InsertMark);
-				Gtk.Timeout.Add (20, new Gtk.Function (changeFocus));
+				GLib.Timeout.Add (20, changeFocus);
 			}
 		}
 
@@ -511,7 +511,7 @@ namespace MonoDevelop.SourceEditor.Gui
 			int ln = loc.Line;
 			
 			IntPtr prevMarker = gtk_source_buffer_get_prev_marker (Handle, ref loc);
-			IntPtr firstMarker = prevMarker;
+			//IntPtr firstMarker = prevMarker;
 			bool first = true;
 			while (true) {
 				// Thats a wrap!
@@ -554,7 +554,7 @@ namespace MonoDevelop.SourceEditor.Gui
 			int ln = loc.Line;
 			
 			IntPtr nextMarker = gtk_source_buffer_get_next_marker (Handle, ref loc);
-			IntPtr firstMarker = nextMarker;
+			//IntPtr firstMarker = nextMarker;
 			bool first = true;
 			while (true) {
 				// Thats a wrap!
