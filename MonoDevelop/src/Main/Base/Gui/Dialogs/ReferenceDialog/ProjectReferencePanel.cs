@@ -16,7 +16,7 @@ using ICSharpCode.SharpDevelop.Services;
 
 namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 {
-	public class ProjectReferencePanel : ListView, IReferencePanel
+	public class ProjectReferencePanel : ListView//, IReferencePanel
 	{
 		SelectReferenceDialog selectDialog;
 		

@@ -18,7 +18,7 @@ using ICSharpCode.Core.Services;
 
 namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 {
-	public class AssemblyReferencePanel : Panel, IReferencePanel
+	public class AssemblyReferencePanel : Panel//, IReferencePanel
 	{
 		SelectReferenceDialog selectDialog;
 		

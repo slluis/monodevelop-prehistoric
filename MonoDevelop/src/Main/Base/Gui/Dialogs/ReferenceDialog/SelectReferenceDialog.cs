@@ -20,7 +20,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 {
 	public interface IReferencePanel
 	{
-		void AddReference(object sender, EventArgs e);
+		void AddReference(object sender, GtkSharp.ToggledArgs e);
 	}
 	
 	/// <summary>
@@ -114,6 +114,18 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 			
 			//comTabPage.Controls.Add(new COMReferencePanel(this));
 			AddReferenceDialog.ShowAll ();
+		}
+		
+		public void RemoveReference (ReferenceType referenceType, string referenceName, string referenceLocation)
+		{
+			Gtk.TreeIter looping_iter;
+			refTreeStore.GetIterFirst (out looping_iter);
+			do {
+				if (referenceLocation == (string)refTreeStore.GetValue (looping_iter, 2) && referenceName == (string)refTreeStore.GetValue (looping_iter, 0)) {
+					refTreeStore.Remove (ref looping_iter);
+					return;
+				}
+			} while (refTreeStore.IterNext (out looping_iter));
 		}
 		
 		public void AddReference(ReferenceType referenceType, string referenceName, string referenceLocation)

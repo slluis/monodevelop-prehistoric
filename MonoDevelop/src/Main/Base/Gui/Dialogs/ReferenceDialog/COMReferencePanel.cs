@@ -20,7 +20,7 @@ using ICSharpCode.Core.Services;
 
 namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 {
-	public class COMReferencePanel : ListView, IReferencePanel
+	public class COMReferencePanel : ListView//, IReferencePanel
 	{
 		private enum RegKind
 		{

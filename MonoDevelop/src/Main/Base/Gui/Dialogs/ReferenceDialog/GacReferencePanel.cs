@@ -31,12 +31,13 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 		{
 			this.selectDialog = selectDialog;
 			
-			store = new TreeStore (typeof (string), typeof (string), typeof(string), typeof(bool));
+			store = new TreeStore (typeof (string), typeof (string), typeof(string), typeof(bool), typeof(string));
 			treeView = new TreeView (store);
 
 			TreeViewColumn firstColumn = new TreeViewColumn ();
 			firstColumn.Title = resourceService.GetString ("Dialog.SelectReferenceDialog.GacReferencePanel.ReferenceHeader");
 			CellRendererToggle tog_render = new CellRendererToggle ();
+			tog_render.Toggled += new GtkSharp.ToggledHandler (AddReference);
 			firstColumn.PackStart (tog_render, false);
 			firstColumn.AddAttribute (tog_render, "active", 3);
 
@@ -56,13 +57,23 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 			Shadow = ShadowType.None;
 		}
 		
-		public void AddReference(object sender, EventArgs e)
+		public void AddReference(object sender, GtkSharp.ToggledArgs e)
 		{
-		//	foreach (ListViewItem item in SelectedItems) {
-		//		selectDialog.AddReference(ReferenceType.Gac,
-		//		                          item.Text,
-		//		                          item.Tag.ToString());
-		//	}
+			//foreach (ListViewItem item in SelectedItems) {
+			Gtk.TreeIter iter;
+			store.GetIterFromString (out iter, e.Path);
+			if ((bool)store.GetValue (iter, 3) == false) {
+				store.SetValue (iter, 3, true);
+				selectDialog.AddReference(ReferenceType.Gac,
+				                          (string)store.GetValue (iter, 0),
+				                          (string)store.GetValue (iter, 2));
+				
+			} else {
+				store.SetValue (iter, 3, false);
+				selectDialog.RemoveReference (ReferenceType.Gac,
+				                             (string)store.GetValue (iter, 0),
+							     (string)store.GetValue (iter, 2));
+			}
 		}		
 		
 		void PrintCache()
@@ -110,7 +121,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 					string name = an.Name;
 					string ver = an.Version.ToString ();
 					
-					store.AppendValues (name, ver, assembly, false);
+					store.AppendValues (name, ver, assembly, false, an.FullName);
 				} catch {
 				}
 			}
