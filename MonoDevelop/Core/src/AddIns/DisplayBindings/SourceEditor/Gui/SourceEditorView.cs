@@ -620,8 +620,10 @@ namespace MonoDevelop.SourceEditor.Gui
 			TextIter end = buf.GetIterAtLine (start.Line);
 			end.LineOffset = start.LineOffset + 1;
 			string text = buf.GetText (start, end, true);
+			// if it is not whitespace or the start of a comment
+			// we disable completion except for by ctl+space
 			if (text.Length == 1)
-				return System.Char.IsWhiteSpace (text[0]);
+				return System.Char.IsWhiteSpace (text[0]) || text[0] == '/';
 			return true;
 		}
 #endregion
