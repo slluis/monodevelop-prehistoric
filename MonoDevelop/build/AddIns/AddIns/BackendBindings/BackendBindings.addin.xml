@@ -72,10 +72,10 @@
 	<Extension path = "/SharpDevelop/Workbench/ProjectOptions/ConfigurationProperties">
 		<Conditional activeproject="C#">
 			<DialogPanel id = "CSharpCodeGenerationPanel"
-			             _label = "${res:Dialog.Options.PrjOptions.CodeGenerationPanel.PanelName}"
+			             _label = "Code Generation"
 			             class = "CSharpBinding.CodeGenerationPanel"/>
 			<DialogPanel id = "CSharpOutputOptionsPanel"
-			             _label = "${res:Dialog.Options.PrjOptions.OutputOptionsPanel.PanelName}"
+			             _label = "Output"
 			             class = "CSharpBinding.OutputOptionsPanel"/>
 <!-- not able to choose runtime in MD (jba 4 march 04)
 			<DialogPanel id = "CSharpRuntimeCompilerPanel"
@@ -102,7 +102,7 @@
 
 		<Conditional activeproject="Java">
 			<DialogPanel id = "JavaProjectPanel"
-			             _label = "${res:Dialog.Options.PrjOptions.CodeGenerationPanel.PanelName}"
+			             _label = "Code Generation"
 			             class = "JavaBinding.ProjectConfigurationPropertyPanel"/>
 	
 		</Conditional>
