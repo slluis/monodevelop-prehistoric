@@ -45,3 +45,4 @@
 	* Makefile.am: remove old mime stuff, use UPDATE_MIME_DB
 	variable from configure
 
+Test
