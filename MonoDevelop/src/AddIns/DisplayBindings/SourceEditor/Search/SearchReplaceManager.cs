@@ -89,11 +89,11 @@ namespace ICSharpCode.TextEditor.Document
 		
 		public static void MarkAll()
 		{
-			//TextEditorControl textArea = null;
-			/*if (WorkbenchSingleton.Workbench.ActiveWorkbenchWindow != null) {
-				textArea = ((ITextEditorControlProvider)WorkbenchSingleton.Workbench.ActiveWorkbenchWindow.ViewContent).TextEditorControl;
-				textArea.ActiveTextAreaControl.TextArea.SelectionManager.ClearSelection();
-			}*/
+			SourceEditor textArea = null;
+			if (WorkbenchSingleton.Workbench.ActiveWorkbenchWindow != null) {
+				textArea = (SourceEditor) ((SourceEditorDisplayBindingWrapper)WorkbenchSingleton.Workbench.ActiveWorkbenchWindow.ViewContent).Control;
+				textArea.Buffer.PlaceCursor (textArea.Buffer.GetIterAtMark (textArea.Buffer.InsertMark));
+			}
 			find.Reset();
 			find.SearchStrategy.CompilePattern(searchOptions);
 			while (true) {
@@ -104,14 +104,16 @@ namespace ICSharpCode.TextEditor.Document
 					find.Reset();
 					return;
 				} else {
-					/*textArea = OpenTextArea(result.FileName); 
+					textArea = OpenTextArea(result.FileName); 
 					
-					textArea.ActiveTextAreaControl.Caret.Position = textArea.Document.OffsetToPosition(result.Offset);
-					int lineNr = textArea.Document.GetLineNumberForOffset(result.Offset);
+					Gtk.TextIter resultIter = textArea.Buffer.GetIterAtOffset (result.Offset);
+					textArea.Buffer.PlaceCursor (resultIter);
 					
-					if (!textArea.Document.BookmarkManager.IsMarked(lineNr)) {
-						textArea.Document.BookmarkManager.ToggleMarkAt(lineNr);
-					}*/
+					int lineNr = resultIter.Line;
+					
+					if (!textArea.Buffer.IsBookmarked(lineNr)) {
+						textArea.Buffer.ToggleBookmark(lineNr);
+					}
 				}
 			}
 		}

@@ -210,6 +210,40 @@ namespace MonoDevelop.SourceEditor.Gui {
 			ToggleBookmark (GetIterAtMark (InsertMark).Line);
 		}
 		
+		public bool IsBookmarked (int linenum)
+		{
+			TextIter insert = GetIterAtLine (linenum);
+			TextIter begin_line = insert, end_line = insert;
+			begin_line.LineOffset = 0;
+
+			while (! end_line.EndsLine ())
+				end_line.ForwardChar ();
+			
+			IntPtr lst = gtk_source_buffer_get_markers_in_region (Handle, ref begin_line, ref end_line);
+
+			bool fnd_marker = false;
+			
+			IntPtr current = lst;
+			while (current != IntPtr.Zero)
+			{
+				IntPtr data = gtksharp_slist_get_data (current);
+				IntPtr nm = gtk_source_marker_get_marker_type (data);
+
+				string name = GLibSharp.Marshaller.PtrToStringGFree (nm);
+				if (name == "SourceEditorBookmark") {
+					fnd_marker = true;
+					break;
+				}
+				current = gtksharp_slist_get_next (current);
+			}
+
+			if (lst != IntPtr.Zero)
+				g_slist_free (lst);
+
+			return fnd_marker;
+
+		}
+		
 		public void ToggleBookmark (int linenum)
 		{
 			TextIter insert = GetIterAtLine (linenum);
