@@ -277,7 +277,9 @@ namespace Gdl
 			requisition.Height = ((int)BorderWidth + Style.YThickness) * 2;
 		
 			Requisition childReq;
-			if (Child != null && Child.Visible) {
+			// If our child is not visible, we still request its size, since
+			// we won't have any useful hint for our size otherwise.
+			if (Child != null) {
 				childReq = Child.SizeRequest ();
 			} else {
 				childReq.Width = 0;
@@ -290,26 +292,28 @@ namespace Gdl
 			if (Orientation == Orientation.Horizontal) {
 				if (GripShown) {
 					gripReq = grip.SizeRequest ();
-					requisition.Width += gripReq.Width;
+					requisition.Width = gripReq.Width;
 				}
 				
 				if (Child != null) {
 					requisition.Width += childReq.Width;
-					requisition.Height += Math.Max (childReq.Height,
+					requisition.Height = Math.Max (childReq.Height,
 									gripReq.Height);
 				}
 			} else {
 				if (GripShown) {
 					gripReq = grip.SizeRequest ();
-					requisition.Height += gripReq.Height;
+					requisition.Height = gripReq.Height;
 				}
 				
 				if (Child != null) {
-					requisition.Width += Math.Max (childReq.Width,
-								       gripReq.Width);
+					requisition.Width = childReq.Width;
 					requisition.Height += childReq.Height;
 				}
 			}
+
+			requisition.Width += (int) (this.BorderWidth + this.Style.XThickness) * 2;
+			requisition.Height += (int) (this.BorderWidth + this.Style.XThickness) * 2;
 		}
 		
 		protected override void OnSizeAllocated (Gdk.Rectangle allocation)

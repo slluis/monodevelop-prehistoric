@@ -176,33 +176,29 @@ namespace Gdl
 
 		protected override void OnSizeRequested (ref Requisition requisition)
 		{
-			requisition.Width = 2 * (int)BorderWidth;
-			requisition.Height = 2 * (int)BorderWidth;
-
 			// make request to root
-			if (root != null && root.Visible) {
-				Requisition rootReq = root.SizeRequest ();
-				requisition.Width += rootReq.Width;
-				requisition.Height += rootReq.Height;
-			}			
+			if (root != null && root.Visible)
+				requisition = root.SizeRequest ();
+			else
+				requisition.Width = requisition.Height = 0;
+
+			requisition.Width += 2 * (int)BorderWidth;
+			requisition.Height += 2 * (int)BorderWidth;
 		}
 		
 		protected override void OnSizeAllocated (Gdk.Rectangle allocation)
 		{
 			base.OnSizeAllocated (allocation);
 		
-			if (root != null && root.Visible) {
-				int bw = (int)BorderWidth;
-				Gdk.Rectangle childAlloc;
-			
-				// reduce allocation by border width
-				childAlloc.X = allocation.X + bw;
-				childAlloc.Y = allocation.Y + bw;
-				childAlloc.Width = Math.Max (1, allocation.Width - 2 * bw);
-				childAlloc.Height = Math.Max (1, allocation.Height - 2 * bw);
-			
-				root.SizeAllocate (childAlloc);
-			}
+			// reduce allocation by border width
+			int bw = (int)BorderWidth;
+			allocation.X += bw;
+			allocation.Y += bw;
+			allocation.Width = Math.Max (1, allocation.Width - 2 * bw);
+			allocation.Height = Math.Max (1, allocation.Height - 2 * bw);
+
+			if (root != null && root.Visible)
+				root.SizeAllocate (allocation);
 		}
 		
 		protected override void OnMapped ()

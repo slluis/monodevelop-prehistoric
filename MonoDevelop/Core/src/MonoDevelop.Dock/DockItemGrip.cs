@@ -351,18 +351,23 @@ namespace Gdl
 			requisition.Width = (int)BorderWidth * 2;
 			requisition.Height = (int)BorderWidth * 2;
 
+			// ensure_title_and_icon_pixbuf (grip);
+			int layoutHeight, layoutWidth;
+			this.Layout.GetPixelSize (out layoutWidth, out layoutHeight);
+
 			Requisition childReq = closeButton.SizeRequest ();
 			requisition.Width += childReq.Width;
-			requisition.Height = Math.Max (requisition.Height, childReq.Height);
+			layoutHeight = Math.Max (requisition.Height, childReq.Height);
 			
 			childReq = iconifyButton.SizeRequest ();
 			requisition.Width += childReq.Width;
-			requisition.Height = Math.Max (requisition.Height, childReq.Height);
+			layoutHeight = Math.Max (requisition.Height, childReq.Height);
+
+			requisition.Height = layoutHeight;
 			
 			if (Icon != null) {
 				requisition.Width += icon.Width + 1;
-				requisition.Height = Math.Max (requisition.Height,
-							       icon.Height);
+				requisition.Height = Math.Max (requisition.Height, icon.Height);
 			}
 		}
 		
