@@ -42,7 +42,7 @@ namespace MonoDevelop.Gui.Dialogs
 					
 			tipOfTheDayWindow.TypeHint = Gdk.WindowTypeHint.Dialog;
 
-			noshowCheckbutton.Active = propertyService.GetProperty ("MonoDevelop.Gui.Dialog.TipOfTheDayView.ShowTipsAtStartup", true);
+			noshowCheckbutton.Active = propertyService.GetProperty ("MonoDevelop.Gui.Dialog.TipOfTheDayView.ShowTipsAtStartup", false);
 			noshowCheckbutton.Toggled += new EventHandler (OnNoshow);
 			nextButton.Clicked += new EventHandler (OnNext);
 			closeButton.Clicked += new EventHandler (OnClose);

@@ -1,5 +1,9 @@
 2004-04-01  Todd Berman  <tberman@sevenl.net>
 
+	* Gui/Dialogs/TipOfTheDay.cs: make same change here.
+
+2004-04-01  Todd Berman  <tberman@sevenl.net>
+
 	* Commands/AutostartCommands.cs: default to false for ShowToTD
 
 2004-03-31  Todd Berman  <tberman@sevenl.net>
