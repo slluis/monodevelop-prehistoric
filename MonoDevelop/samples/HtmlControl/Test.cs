@@ -6,9 +6,10 @@ using ICSharpCode.SharpDevelop.Gui.HtmlControl;
 class HtmlTest
 {
 	Window win;
-	HtmlControl html;
+	MozillaControl html;
 	Button go;
 	Entry url;
+	Statusbar status;
 	
 	static void Main ()
 	{
@@ -65,21 +66,18 @@ class HtmlTest
 		go.Clicked += new EventHandler (OnGoClicked);
 		tbar.AppendWidget (go, "Go", "");
 
-		html = new HtmlControl ();
+		html = new MozillaControl ();
+		html.NetStart += new EventHandler (OnNetStart);
+		html.NetStop += new EventHandler (OnNetStop);
+		html.Title += new EventHandler (OnTitleChanged);
 		//html.Control.Title += new EventHandler (OnHtmlTitle);
 		// this loads html from a string
 		html.Html = "<html><body>testing</body></html>";
 		
-		// this loads html from a Url
-		// html.Url = "http://localhost";
-		
-		// set the stylesheet
-		html.CascadingStyleSheet = "";
-		
 		html.ShowAll ();
 		vbox.PackStart (html, true, true, 0);
 
-		Statusbar status = new Statusbar ();
+		status = new Statusbar ();
 		vbox.PackStart (status, false, true, 0);
 		
 		win.Add (vbox);
@@ -92,9 +90,24 @@ class HtmlTest
 		Application.Quit ();
 	}
 
+	void OnNetStart (object o, EventArgs args)
+	{
+		status.Push (1, "Loading ...");
+	}
+
+	void OnNetStop (object o, EventArgs args)
+	{
+		status.Push (1, "Done.");
+	}
+
+	void OnTitleChanged (object o, EventArgs args)
+	{
+		win.Title = html.GeckoTitle;
+	}
+
 	void OnGoClicked (object o, EventArgs args)
 	{
-		html.Url = url.Text;
+		html.LoadUrl (url.Text);
 	}
 
 	void OnUrlActivated (object o, EventArgs args)

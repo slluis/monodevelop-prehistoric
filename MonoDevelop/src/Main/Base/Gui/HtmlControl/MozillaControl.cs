@@ -15,6 +15,7 @@ namespace ICSharpCode.SharpDevelop.Gui.HtmlControl
 	public class MozillaControl : EmbedWidget, IWebBrowser
 	{
 		private static GLib.GType type;
+		private string html;
 		
 		static MozillaControl ()
 		{
@@ -72,6 +73,20 @@ namespace ICSharpCode.SharpDevelop.Gui.HtmlControl
 		public IHTMLDocument2 GetDocument ()
 		{
 			return null;
+		}
+
+		public string Html
+		{
+			get { return html; }
+			set { html = value; }
+		}
+
+		public void DelayedInitialize ()
+		{
+			if (html.Length > 0)
+			{
+				this.RenderData (html, "file://", "text/html");
+			}
 		}
 	}
 }

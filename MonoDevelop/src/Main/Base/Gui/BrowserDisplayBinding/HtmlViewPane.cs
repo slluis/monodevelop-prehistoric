@@ -77,17 +77,18 @@ namespace ICSharpCode.SharpDevelop.BrowserDisplayBinding
 	
 	public class HtmlViewPane : Gtk.Frame
 	{
-		HtmlControl htmlControl = null;
+		MozillaControl htmlControl = null;
 		
 		VBox   topPanel   = new VBox (false, 2);
 		Toolbar toolBar    = new Toolbar ();
 		Entry urlTextBox = new Entry ();
+		Statusbar status;
 		
 		bool   isHandleCreated  = false;
 		string lastUrl     = null;
 		static GLib.GType type;
 		
-		public HtmlControl HtmlControl {
+		public MozillaControl MozillaControl {
 			get {
 				return htmlControl;
 			}
@@ -147,10 +148,16 @@ namespace ICSharpCode.SharpDevelop.BrowserDisplayBinding
 				mainbox.PackStart (topPanel, false, false, 2);
 			} 
 			
-			htmlControl = new HtmlControl ();
+			htmlControl = new MozillaControl ();
+			htmlControl.NetStart += new EventHandler (OnNetStart);
+			htmlControl.NetStop += new EventHandler (OnNetStop);
+			htmlControl.Title += new EventHandler (OnTitleChanged);
 			htmlControl.ShowAll ();
 
 			mainbox.PackStart (htmlControl);
+
+			status = new Statusbar ();
+			mainbox.PackStart (status, false, true, 0);
 			
 			this.Add (mainbox);
 			this.ShowAll ();
@@ -163,7 +170,7 @@ namespace ICSharpCode.SharpDevelop.BrowserDisplayBinding
 		
 		void OnEntryActivated (object o, EventArgs args)
 		{
-			htmlControl.Url = urlTextBox.Text;
+			htmlControl.LoadUrl (urlTextBox.Text);
 		}
 		
 		public void CreatedWebBrowserHandle(object sender, EventArgs evArgs) 
@@ -177,7 +184,22 @@ namespace ICSharpCode.SharpDevelop.BrowserDisplayBinding
 		public void Navigate(string name)
 		{
 			urlTextBox.Text = name;
-			htmlControl.Url = name;
+			htmlControl.LoadUrl (name);
+		}
+
+		private void OnNetStart (object o, EventArgs args)
+		{
+			status.Push (1, "Loading...");
+		}
+
+		private void OnNetStop (object o, EventArgs args)
+		{
+			status.Push (1, "Done.");
+		}
+
+		private void OnTitleChanged (object o, EventArgs args)
+		{
+			Console.WriteLine ("title: " + htmlControl.GeckoTitle); 
 		}
 		
 		private void OnBackClicked (object o, EventArgs args)
