@@ -62,7 +62,7 @@ namespace ICSharpCode.SharpDevelop.DefaultEditor.Gui.Editor
 		
 		void SelectionChanged(object sender, EventArgs e)
 		{
-			//((DefaultWorkbench)WorkbenchSingleton.Workbench).UpdateToolbars();
+			((DefaultWorkbench)WorkbenchSingleton.Workbench).UpdateMenu(null, null);
 		}
 		
 		void GenerateEditActions()

@@ -65,13 +65,6 @@ namespace ICSharpCode.SharpDevelop.Gui.Components
 			ResourceService resourceService = (ResourceService)ServiceManager.Services.GetService (typeof(IResourceService));
 			StringParserService parserService = (StringParserService)ServiceManager.Services.GetService (typeof(StringParserService));
 
-			//if (text.StartsWith ("${")) {
-			//	localizedText = resourceService.GetString (text);
-			//} else {
-			//	localizedText = text;
-			//}
-
-			//localizedText = localizedText.Replace ('&', '_');
 			localizedText = parserService.Parse (text);
 
 			Gtk.AccelLabel label = new Gtk.AccelLabel (localizedText);
@@ -154,6 +147,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Components
 			}
 			if (menuCommand != null && menuCommand is IMenuCommand) {
 				Sensitive = ((IMenuCommand)menuCommand).IsEnabled;
+				ShowAll ();
 			}
 #if GTK
 			// FIXME: GTKize

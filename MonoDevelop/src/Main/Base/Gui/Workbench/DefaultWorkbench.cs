@@ -261,8 +261,8 @@ namespace ICSharpCode.SharpDevelop.Gui
 			layout.ShowView(content);
 			
 			content.WorkbenchWindow.SelectWindow();
-			RedrawAllComponents ();
 			ShowAll ();
+			RedrawAllComponents ();
 		}
 		
 		public virtual void ShowPad(IPadContent content)
