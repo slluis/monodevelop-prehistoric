@@ -30,6 +30,7 @@ namespace MonoDevelop.Commands.ProjectBrowser
 {
 	public class AddFilesToProject : AbstractMenuCommand
 	{
+		
 		public override void Run()
 		{
 			ProjectBrowserView browser = (ProjectBrowserView)Owner;
@@ -39,43 +40,54 @@ namespace MonoDevelop.Commands.ProjectBrowser
 			}
 			
 			AbstractBrowserNode node = (AbstractBrowserNode)browser.SelectedNode;
+			PropertyService props = (PropertyService)ServiceManager.Services.GetService (typeof (PropertyService));
 			
 			using (FileSelection fdiag  = new FileSelection (GettextCatalog.GetString ("Add a file"))) {
-			fdiag.SelectMultiple = true;
-			string defaultPath = Path.Combine (Environment.GetEnvironmentVariable ("HOME"), "MonoDevelopProjects");
-			fdiag.Complete (defaultPath);
-			
-			int result = fdiag.Run ();
-			try {
-				if (result != (int) ResponseType.Ok)
-					return;
+				fdiag.SelectMultiple = true;
 				
-				foreach (string file in fdiag.Selections) {
-					if (file.StartsWith(node.Project.BaseDirectory)) {
-						ProjectBrowserView.MoveCopyFile (file, node, true, true);
-					} else {
-						using (MessageDialog md = new MessageDialog (
-							(Window) WorkbenchSingleton.Workbench,
-							DialogFlags.Modal | DialogFlags.DestroyWithParent,
-							MessageType.Question, ButtonsType.None,
-							GettextCatalog.GetString ("The file is outside the project directory, what should I do?"))) {
-							md.AddButton (Gtk.Stock.Copy, 1);
-							md.AddButton (GettextCatalog.GetString ("_Move"), 2);
-							md.AddButton (Gtk.Stock.Cancel, ResponseType.Cancel);
-						
-							int ret = md.Run ();
-							md.Hide ();
-						
-							if (ret < 0)
-								return;
-						
-							ProjectBrowserView.MoveCopyFile (file, node, ret == 2, false);
+				string defaultPath = props.GetProperty ("MonoDevelop.Project.AddFilePath", node.Project.BaseDirectory);
+				
+				fdiag.Complete(defaultPath);
+				
+				int result = fdiag.Run ();
+				try {
+					if (result != (int) ResponseType.Ok)
+						return;
+					
+					foreach (string file in fdiag.Selections) {
+						if (file.StartsWith(node.Project.BaseDirectory)) {
+							ProjectBrowserView.MoveCopyFile (file, node, true, true);
+						} else {
+							using (MessageDialog md = new MessageDialog (
+																		 (Window) WorkbenchSingleton.Workbench,
+																		 DialogFlags.Modal | DialogFlags.DestroyWithParent,
+																		 MessageType.Question, ButtonsType.None,
+																		 GettextCatalog.GetString ("The file is outside the project directory, what should I do?"))) {
+								md.AddButton (Gtk.Stock.Copy, 1);
+								md.AddButton (GettextCatalog.GetString ("_Move"), 2);
+								md.AddButton (Gtk.Stock.Cancel, ResponseType.Cancel);
+								
+								int ret = md.Run ();
+								md.Hide ();
+								
+								if (ret < 0)
+									return;
+
+								try 
+								{
+									ProjectBrowserView.MoveCopyFile (file, node, ret == 2, false);
+								}
+								catch 
+								{
+									((MessageService)ServiceManager.Services.GetService (typeof (MessageService))).ShowError (GettextCatalog.GetString ("An error occurred while attempt to move/copy that file. Please check your permissions."));
+								}
+							}
 						}
+						props.SetProperty ("MonoDevelop.Project.AddFilePath", System.IO.Path.GetDirectoryName (file));
 					}
+				} finally {
+					fdiag.Hide ();
 				}
-			} finally {
-				fdiag.Hide ();
-			}
 			}
 		}
 	}

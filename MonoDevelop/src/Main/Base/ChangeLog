@@ -1,3 +1,10 @@
+2004-04-07  Todd Berman  <tberman@sevenl.net>
+
+	* Commands/ProjectBrowserCommands/FolderNodeCommands: Incorporate bug
+	fix for bug #56275 based on a patch from eddie tejeda
+	<eddie AT nailchipper DOT com>. Also fix an exception that could
+	occur when the file already exists in the target directory.
+
 2004-04-07  Nick Drochak  <ndrochak@gol.com>
 
 	* Gui/Pads/ProjectBrowser/ProjectBrowserView.cs: Before the actual edit
