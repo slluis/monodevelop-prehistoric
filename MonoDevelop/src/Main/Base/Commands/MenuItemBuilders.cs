@@ -29,8 +29,22 @@ using MonoDevelop.Gui.Pads.ProjectBrowser;
 
 namespace MonoDevelop.Commands
 {
+
+	public interface ISubmenuItem
+	{
+	}
+	
 	public class RecentFilesMenuBuilder : ISubmenuBuilder
 	{
+
+		class RFMItem : SdMenuCommand, ISubmenuItem {
+			public RFMItem (ConditionCollection a, object b, string c) : base (a, b, c) {
+			}
+			public RFMItem (ConditionCollection a, object b, string c, EventHandler d) : base (a, b, c, d) {
+			}
+		}
+		
+		
 		public Gtk.MenuItem[] BuildSubmenu(ConditionCollection conditionCollection, object owner)
 		{
 			IFileService fileService = (IFileService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IFileService));
@@ -40,11 +54,11 @@ namespace MonoDevelop.Commands
 			RecentOpen recentOpen = fileService.RecentOpen;
 			
 			if (recentOpen.RecentFile.Count > 0) {
-				SdMenuCommand[] items = new SdMenuCommand[recentOpen.RecentFile.Count];
+				RFMItem[] items = new RFMItem[recentOpen.RecentFile.Count];
 				
 				for (int i = 0; i < recentOpen.RecentFile.Count; ++i) {
 					string accelaratorKeyPrefix = i < 10 ? "&" + ((i + 1) % 10).ToString() + " " : "";
-					items[i] = new SdMenuCommand(null, null, accelaratorKeyPrefix + recentOpen.RecentFile[i].ToString(), new EventHandler(LoadRecentFile));
+					items[i] = new RFMItem(null, null, accelaratorKeyPrefix + recentOpen.RecentFile[i].ToString(), new EventHandler(LoadRecentFile));
 					items[i].Tag = recentOpen.RecentFile[i].ToString();
 					items[i].Description = stringParserService.Parse(resourceService.GetString("Dialog.Componnents.RichMenuItem.LoadFileDescription"),
 					                                          new string[,] { {"FILE", recentOpen.RecentFile[i].ToString()} });
@@ -52,10 +66,10 @@ namespace MonoDevelop.Commands
 				return items;
 			}
 			
-			SdMenuCommand defaultMenu = new SdMenuCommand(null, null, GettextCatalog.GetString("recent files"));
+			RFMItem defaultMenu = new RFMItem(null, null, GettextCatalog.GetString("recent files"));
 			defaultMenu.Sensitive = false;
 			
-			return new SdMenuCommand[] { defaultMenu };
+			return new RFMItem[] { defaultMenu };
 		}
 		
 		void LoadRecentFile(object sender, EventArgs e)
@@ -68,6 +82,13 @@ namespace MonoDevelop.Commands
 	
 	public class RecentProjectsMenuBuilder : ISubmenuBuilder
 	{
+		class RPMItem : SdMenuCommand, ISubmenuItem {
+			public RPMItem (ConditionCollection a, object b, string c) : base (a, b, c) {
+			}
+			public RPMItem (ConditionCollection a, object b, string c, EventHandler d) : base (a, b, c, d) {
+			}
+		}
+		
 		public Gtk.MenuItem[] BuildSubmenu(ConditionCollection conditionCollection, object owner)
 		{
 			IFileService fileService = (IFileService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IFileService));
@@ -77,20 +98,20 @@ namespace MonoDevelop.Commands
 			RecentOpen recentOpen = fileService.RecentOpen;
 			
 			if (recentOpen.RecentProject.Count > 0) {
-				SdMenuCommand[] items = new SdMenuCommand[recentOpen.RecentProject.Count];
+				RPMItem[] items = new RPMItem[recentOpen.RecentProject.Count];
 				for (int i = 0; i < recentOpen.RecentProject.Count; ++i) {
 					string accelaratorKeyPrefix = i < 10 ? "&" + ((i + 1) % 10).ToString() + " " : "";
-					items[i] = new SdMenuCommand(null, null, accelaratorKeyPrefix + recentOpen.RecentProject[i].ToString(), new EventHandler(LoadRecentProject));
+					items[i] = new RPMItem(null, null, accelaratorKeyPrefix + recentOpen.RecentProject[i].ToString(), new EventHandler(LoadRecentProject));
 					items[i].Tag = recentOpen.RecentProject[i].ToString();
 					items[i].Description = String.Format (GettextCatalog.GetString ("load solution {0}"), recentOpen.RecentProject[i].ToString ());
 				}
 				return items;
 			}
 			
-			SdMenuCommand defaultMenu = new SdMenuCommand(null, null, GettextCatalog.GetString ("recent solutions"));
+			RPMItem defaultMenu = new RPMItem(null, null, GettextCatalog.GetString ("recent solutions"));
 			defaultMenu.Sensitive = false;
 			
-			return new SdMenuCommand[] { defaultMenu };
+			return new RPMItem[] { defaultMenu };
 		}
 		void LoadRecentProject(object sender, EventArgs e)
 		{
@@ -111,12 +132,17 @@ namespace MonoDevelop.Commands
 	
 	public class ToolMenuBuilder : ISubmenuBuilder
 	{
+		class TMItem : SdMenuCommand, ISubmenuItem {
+			public TMItem (ConditionCollection a, object b, string c, EventHandler d) : base (a, b, c, d) {
+			}
+		}
+		
 		public Gtk.MenuItem[] BuildSubmenu(ConditionCollection conditionCollection, object owner)
 		{
 			//			IconMenuStyle iconMenuStyle = (IconMenuStyle)propertyService.GetProperty("IconMenuItem.IconMenuStyle", IconMenuStyle.VSNet);
-			SdMenuCommand[] items = new SdMenuCommand[ToolLoader.Tool.Count];
+			TMItem[] items = new TMItem[ToolLoader.Tool.Count];
 			for (int i = 0; i < ToolLoader.Tool.Count; ++i) {
-				SdMenuCommand item = new SdMenuCommand(null, null, ToolLoader.Tool[i].ToString(), new EventHandler(ToolEvt));
+				TMItem item = new TMItem(null, null, ToolLoader.Tool[i].ToString(), new EventHandler(ToolEvt));
 				item.Description = GettextCatalog.GetString ("Start tool") + " " + String.Join(String.Empty, ToolLoader.Tool[i].ToString().Split('&'));
 				items[i] = item;
 			}
@@ -179,7 +205,7 @@ namespace MonoDevelop.Commands
 	public class OpenContentsMenuBuilder : ISubmenuBuilder
 	{
 				
-		class MyMenuItem : SdMenuCheckBox
+		class MyMenuItem : SdMenuCheckBox, ISubmenuItem
 		{
 			public MyMenuItem(string name) : base(null, null, name)
 			{
@@ -199,12 +225,11 @@ namespace MonoDevelop.Commands
 			if (contentCount == 0) {
 				return new Gtk.MenuItem[] {};
 			}
-			Gtk.MenuItem[] items = new Gtk.MenuItem[contentCount + 1];
-			items[0] = new SdMenuSeparator(null, null);
+			Gtk.MenuItem[] items = new Gtk.MenuItem[contentCount];
 			for (int i = 0; i < contentCount; ++i) {
 				IViewContent content = (IViewContent)WorkbenchSingleton.Workbench.ViewContentCollection[i];
 				
-				SdMenuCheckBox item = new MyMenuItem(content.WorkbenchWindow.Title);
+				MyMenuItem item = new MyMenuItem(content.WorkbenchWindow.Title);
 				item.Tag = content.WorkbenchWindow;
 				if (WorkbenchSingleton.Workbench.ActiveWorkbenchWindow == content.WorkbenchWindow) {
 					item.Active = true;
@@ -222,7 +247,7 @@ namespace MonoDevelop.Commands
 						item.AccelPath = accel_path;
 					}
 				}
-				items[i + 1] = item;
+				items[i] = item;
 			}
 			return items;
 		}
@@ -235,7 +260,7 @@ namespace MonoDevelop.Commands
 		MyMenuItem includeInCompileItem;
 		MyMenuItem includeInDeployItem;
 		
-		class MyMenuItem : SdMenuCheckBox
+		class MyMenuItem : SdMenuCheckBox, ISubmenuItem
 		{
 			IncludeFilesBuilder builder;
 			
@@ -326,7 +351,7 @@ namespace MonoDevelop.Commands
 	
 	public class ViewMenuBuilder : ISubmenuBuilder
 	{
-		class MyMenuItem : SdMenuCheckBox
+		class MyMenuItem : SdMenuCheckBox, ISubmenuItem
 		{
 			IPadContent padContent;
 			
@@ -352,6 +377,7 @@ namespace MonoDevelop.Commands
 				}
 				Active = IsPadVisible;
 			}
+			
 			public override  void UpdateStatus()
 			{
 				base.UpdateStatus();
@@ -370,13 +396,13 @@ namespace MonoDevelop.Commands
 				}
 			}
 			
-			return (Gtk.MenuItem[])items.ToArray(typeof(Gtk.MenuItem));
+			return (MyMenuItem[])items.ToArray(typeof(MyMenuItem));
 		}
 	}
 
 	public class LayoutsMenuBuilder : ISubmenuBuilder
 	{
-		class MyMenuItem : SdMenuCheckBox
+		class MyMenuItem : SdMenuCheckBox, ISubmenuItem
 		{
 			string layoutName;
 			
@@ -397,6 +423,7 @@ namespace MonoDevelop.Commands
 			{
 				WorkbenchSingleton.Workbench.WorkbenchLayout.CurrentLayout = layoutName;
 			}
+			
 			public override  void UpdateStatus()
 			{
 				base.UpdateStatus();
@@ -416,7 +443,7 @@ namespace MonoDevelop.Commands
 				}
 			}
 			
-			return (Gtk.MenuItem[]) items.ToArray (typeof (Gtk.MenuItem));
+			return (MyMenuItem[]) items.ToArray (typeof (MyMenuItem));
 		}
 	}
 }

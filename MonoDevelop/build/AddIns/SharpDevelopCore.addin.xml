@@ -856,6 +856,7 @@
 		                          description = "${res:XML.MainMenu.FileMenu.CloseAll.Description}"
 		                          class = "MonoDevelop.Commands.CloseAllWindows" />
 					</Conditional>
+<MenuItem id = "contentSep" _label = "-" />
 	                <MenuItem id = "ContentBuilder" _label = "bogus_label" class="MonoDevelop.Commands.OpenContentsMenuBuilder"/>
 	        </MenuItem> 
 	        

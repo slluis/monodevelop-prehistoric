@@ -16,6 +16,8 @@ using MonoDevelop.Core.Services;
 using MonoDevelop.Core.AddIns.Conditions;
 using MonoDevelop.Core.AddIns.Codons;
 
+using MonoDevelop.Commands;
+
 namespace MonoDevelop.Gui.Components
 {
 	public interface IStatusUpdate
@@ -85,7 +87,10 @@ namespace MonoDevelop.Gui.Components
 			
 			if (Visible) {
 				foreach (Gtk.Widget widg in ((Gtk.Menu)Submenu).Children) {
-					((Gtk.Menu)Submenu).Remove (widg);
+					if (widg is ISubmenuItem) {
+						((Gtk.Menu)Submenu).Remove (widg);
+						widg.Destroy ();
+					}
 				}
 				foreach (object item in SubItems) {
 					if (item is Gtk.MenuItem) {
@@ -94,12 +99,13 @@ namespace MonoDevelop.Gui.Components
 						}
 						Append((Gtk.MenuItem)item);
 					} else {
+						int location = SubItems.IndexOf (item);
 						ISubmenuBuilder submenuBuilder = (ISubmenuBuilder)item;
 						Gtk.MenuItem[] items = submenuBuilder.BuildSubmenu(conditionCollection, caller);
 						foreach (Gtk.MenuItem menuItem in items) {
-							Append (menuItem);
+							subMenu.Insert (menuItem, location);
+							location++;
 						}
-						
 					}
 				}
 				ShowAll ();

@@ -1,3 +1,13 @@
+2004-04-17  Todd Berman  <tberman@sevenl.net>
+
+	* Gui/Components/SdMenu.cs:
+	* Commands/MenuItemBuilders.cs:
+	Fix the menu system so we dont rebuild the menu's from scratch every
+	time you use them. This should speed using the menu's up a lot.
+	The only trick is new SubmenuItemBuilders need to create menu types
+	with the ISubmenuItem interface so we can tell that they are built
+	and not static.
+
 2004-04-16  John Luke  <jluke@cfl.rr.com>
 
 	* Gui/Dialogs/SharpDevelopAboutPanels.cs: align the labels to
