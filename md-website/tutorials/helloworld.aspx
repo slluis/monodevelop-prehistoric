@@ -9,9 +9,9 @@
       <ul>
          <li>Run MonoDevelop from its svn directory using `<tt>make run &amp;</tt>'.</li>
 	 <li>Create a new Combine (project container) using <tt>File -&gt; New -&gt; Combine...</tt>. You should be presented with a dialog like this; fill the textboxes in a similar manner and choose "GtkSharp Project".<br />
-	 <div align="center"><a href="/images/tutorial/tutorial1.png" target="_blank"><img src="images/tutorial/tutorial1sm.png" /></a></div><br/></li>
+	 <div align="center"><a href="/images/tutorial/tutorial1.png" target="_blank"><img src="/images/tutorial/tutorial1sm.png" /></a></div><br/></li>
 	 <li>Open `Main.cs' and `MyWindow.cs' from the file browser on the left. If you do not see the appropriate list of files, click the `.' in the directory browser.<br />
-	 <div align="center"><a href="/images/tutorial/tutorial2.png" target="_blank"><img src="images/tutorial/tutorial2sm.png" /></a></div><br /></li>
+	 <div align="center"><a href="/images/tutorial/tutorial2.png" target="_blank"><img src="/images/tutorial/tutorial2sm.png" /></a></div><br /></li>
 	 <li>Modify `MyWindow.cs' to look like the following file:<br />
 
 <pre class="code">
