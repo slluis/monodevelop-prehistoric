@@ -108,7 +108,9 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs.OptionPanels.CompletionDatabaseWi
 			Console.WriteLine ("******************************************************************************");
 			Console.WriteLine ("Attempting to restart MonoDevelop, if you get any exceptions, restart manually");
 			Console.WriteLine ("******************************************************************************");
-			System.Diagnostics.Process.Start("MonoDevelop.exe");
+			// not everyone can run .exe's directly
+			System.Diagnostics.ProcessStartInfo psi = new System.Diagnostics.ProcessStartInfo ("mono", "./MonoDevelop.exe");
+			System.Diagnostics.Process.Start (psi);
 			Gtk.Application.Quit ();
 
 		}

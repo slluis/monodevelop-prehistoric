@@ -14,17 +14,22 @@ namespace ICSharpCode.SharpDevelop.Gui.HtmlControl
 {
 	public class MozillaControl : EmbedWidget, IWebBrowser
 	{
-		private static GLib.GType type;
+		private static GLib.GType gtype;
 		private string html;
 		private string css;
 		
-		static MozillaControl ()
+		public static new GLib.GType GType
 		{
-			type = RegisterGType (typeof (MozillaControl));
+			get
+			{
+				if (gtype == GLib.GType.Invalid)
+					gtype = RegisterGType (typeof (MozillaControl));
+				return gtype;
+			}
 		}
 		
 		//FIXME: pick a better path, one of the Environment dirs
-		public MozillaControl () : base (type)
+		public MozillaControl () : base (GType)
 		{
 			EmbedWidget.SetProfilePath ("/tmp", "MonoDevelop");
 		}

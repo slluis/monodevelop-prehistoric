@@ -1,3 +1,9 @@
+- Why do I get "** ERROR **: Must shutdown ORB from main thread"
+  when exiting MonoDevelop?
+
+There was a bug in ORBit2 2.8.2 and lower.  Please upgrade ORBit2
+if you do not want to see this error anymore.
+
 - Why aren't my C# files syntax highlighted?
 
 GNOME doesn't recognize *.cs files as the text/x-csharp
@@ -18,3 +24,9 @@ ex. export PKG_CONFIG_PATH=/usr/local/lib/pkgconfig:$PKG_CONFIG_PATH
 install a newer version or the development counterpart
 of that package and rerun ./configure
 ex. gnome-vfs2-devel-2.4.1-1.rpm
+
+- Is there anonymous access to the source?
+
+Yes, via snapshots at http://devservices.go-mono.com/MonoDevelop/
+Hopefully now that subversion is 1.0 we will get our anonymous
+mirror of the repository up and going again.
