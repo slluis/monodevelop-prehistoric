@@ -243,7 +243,6 @@ namespace MonoDevelop.Prj2Make
 							// compiler to assist in finding non-fullyqualified assembly references.
 							if(m_bIsMcs == true)
 							{
-								MonoDevelop.Core // SystemAssemblyService
 								string strlibDir = PkgConfigInvoker.GetPkgVariableValue("mono", "libdir");
 
 								if (strlibDir != null)
