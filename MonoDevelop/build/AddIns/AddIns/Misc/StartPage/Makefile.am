@@ -1,0 +1,7 @@
+
+monodevelopdir = $(prefix)/lib/monodevelop
+startpagedir = $(monodevelopdir)/AddIns/AddIns/Misc/StartPage
+
+startpage_DATA = MonoDevelop.StartPage.dll StartPage.addin
+
+EXTRA_DIST = $(startpage_DATA)

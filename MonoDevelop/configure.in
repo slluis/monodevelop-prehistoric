@@ -72,5 +72,14 @@ src/Libraries/MonoDevelop.Gui.Utils/Makefile
 src/Libraries/MonoDevelop.Gui.Widgets/Makefile
 src/Libraries/SharpAssembly/Makefile
 src/Libraries/SharpRefactory/Makefile
+build/Makefile
+build/data/Makefile
+build/data/resources/Makefile
+build/data/resources/icons/Makefile
+build/AddIns/Makefile
+build/AddIns/AddIns/Makefile
+build/AddIns/AddIns/BackendBindings/Makefile
+build/AddIns/AddIns/Misc/Makefile
+build/AddIns/AddIns/Misc/StartPage/Makefile
 monodevelop
 ])

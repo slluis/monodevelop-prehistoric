@@ -1,4 +1,4 @@
-SUBDIRS=gdldock gtkmozembed-sharp src
+SUBDIRS=gdldock gtkmozembed-sharp src build
 
 bin_SCRIPTS=monodevelop
 
