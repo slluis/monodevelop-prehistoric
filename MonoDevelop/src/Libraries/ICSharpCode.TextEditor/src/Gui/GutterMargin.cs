@@ -64,7 +64,15 @@ namespace ICSharpCode.TextEditor
 		public override void Paint(Gdk.Drawable wnd, System.Drawing.Rectangle rect)
 		{
 			using (Gdk.GC gc = new Gdk.GC (wnd)) {
+			using (Pango.Layout ly = new Pango.Layout (TextArea.PangoContext)) {
+				ly.FontDescription = FontContainer.DefaultFont;
+				
 				HighlightColor lineNumberPainterColor = textArea.Document.HighlightingStrategy.GetColorFor("LineNumbers");
+				Gdk.Color bg = new Gdk.Color (lineNumberPainterColor.BackgroundColor);
+				Gdk.Color fg_text = new Gdk.Color (lineNumberPainterColor.Color);
+				Gdk.Color fg_rect = TextArea.Style.White;
+				
+				
 				//FIXME: This doesnt allow different fonts and what not
 				int fontHeight = TextArea.TextView.FontHeight;
 		
@@ -73,20 +81,18 @@ namespace ICSharpCode.TextEditor
 					System.Drawing.Rectangle backgroundRectangle = new System.Drawing.Rectangle(drawingPosition.X, ypos, drawingPosition.Width, fontHeight);
 					//if (rect.IntersectsWith(backgroundRectangle)) {
 						
-						gc.RgbBgColor = new Gdk.Color (lineNumberPainterColor.BackgroundColor);
-						gc.RgbFgColor = TextArea.Style.White;
+						gc.RgbBgColor = bg;
+						gc.RgbFgColor = fg_rect;
 						wnd.DrawRectangle (gc, true, backgroundRectangle);
 						int curLine = y + textArea.TextView.FirstVisibleLine;
 						if (curLine < textArea.Document.TotalNumberOfLines) {
-							gc.RgbFgColor = new Gdk.Color (lineNumberPainterColor.Color);
-							Pango.Layout ly = new Pango.Layout (TextArea.PangoContext);
-							ly.FontDescription = FontContainer.DefaultFont;
+							gc.RgbFgColor = fg_text;
 							ly.SetText ((curLine + 1).ToString ());
 							wnd.DrawLayout (gc, drawingPosition.X, ypos, ly);
 						}
 					//}
 				}
-			}
+			}}
 		}
 	}
 }
