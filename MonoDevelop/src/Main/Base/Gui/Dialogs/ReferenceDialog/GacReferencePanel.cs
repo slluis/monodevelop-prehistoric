@@ -10,57 +10,64 @@ using System.Text;
 using System.Drawing;
 using System.Collections;
 using System.ComponentModel;
-using System.Windows.Forms;
 using MSjogren.GacTool.FusionNative;
 using ICSharpCode.SharpDevelop.Internal.Project;
 
 using ICSharpCode.Core.Services;
 
+using Gtk;
+
 namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 {
-	public class GacReferencePanel : ListView, IReferencePanel
+	public class GacReferencePanel : Frame, IReferencePanel
 	{
 		SelectReferenceDialog selectDialog;
 		ResourceService resourceService = (ResourceService)ServiceManager.Services.GetService(typeof(IResourceService));
+
+		TreeStore store;
+		TreeView  treeView;
 		
 		public GacReferencePanel(SelectReferenceDialog selectDialog)
 		{
 			this.selectDialog = selectDialog;
 			
-			ColumnHeader referenceHeader = new ColumnHeader();
-			referenceHeader.Text  = resourceService.GetString("Dialog.SelectReferenceDialog.GacReferencePanel.ReferenceHeader");
-			referenceHeader.Width = 160;
-			Columns.Add(referenceHeader);
+			store = new TreeStore (typeof (string), typeof (string), typeof(string), typeof(bool));
+			treeView = new TreeView (store);
+
+			TreeViewColumn firstColumn = new TreeViewColumn ();
+			firstColumn.Title = resourceService.GetString ("Dialog.SelectReferenceDialog.GacReferencePanel.ReferenceHeader");
+			CellRendererToggle tog_render = new CellRendererToggle ();
+			firstColumn.PackStart (tog_render, false);
+			firstColumn.AddAttribute (tog_render, "active", 3);
+
+			CellRendererText text_render = new CellRendererText ();
+			firstColumn.PackStart (text_render, true);
+			firstColumn.AddAttribute (text_render, "text", 0);
 			
-			ColumnHeader versionHeader = new ColumnHeader();
-			versionHeader.Text  = resourceService.GetString("Dialog.SelectReferenceDialog.GacReferencePanel.VersionHeader");
-			versionHeader.Width = 70;
-			Columns.Add(versionHeader);
-			
-			ColumnHeader pathHeader = new ColumnHeader();
-			pathHeader.Text  = resourceService.GetString("Dialog.SelectReferenceDialog.GacReferencePanel.PathHeader");
-			pathHeader.Width = 100;
-			Columns.Add(pathHeader);
-			
-			View = View.Details;
-			Dock = DockStyle.Fill;
-			FullRowSelect = true;
-			ItemActivate += new EventHandler(AddReference);
+			treeView.AppendColumn (firstColumn);
+			treeView.AppendColumn (resourceService.GetString ("Dialog.SelectReferenceDialog.GacReferencePanel.VersionHeader"), new CellRendererText (), "text", 1);
+			treeView.AppendColumn (resourceService.GetString ("Dialog.SelectReferenceDialog.GacReferencePanel.PathHeader"), new CellRendererText (), "text", 2);
+		
 			
 			PrintCache();
+			ScrolledWindow sc = new ScrolledWindow ();
+			sc.AddWithViewport (treeView);
+			this.Add (sc);
+			Shadow = ShadowType.None;
 		}
 		
 		public void AddReference(object sender, EventArgs e)
 		{
-			foreach (ListViewItem item in SelectedItems) {
-				selectDialog.AddReference(ReferenceType.Gac,
-				                          item.Text,
-				                          item.Tag.ToString());
-			}
+		//	foreach (ListViewItem item in SelectedItems) {
+		//		selectDialog.AddReference(ReferenceType.Gac,
+		//		                          item.Text,
+		//		                          item.Tag.ToString());
+		//	}
 		}		
 		
 		void PrintCache()
 		{
+#if false
 			IApplicationContext applicationContext = null;
 			IAssemblyEnum assemblyEnum = null;
 			IAssemblyName assemblyName = null;
@@ -81,6 +88,31 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 				ListViewItem item = new ListViewItem(new string[] {aName, aVersion});
 				item.Tag = sb.ToString();
 				Items.Add(item);
+			}
+#endif
+			//FIXME: Oh wow this is *hackery* but it will work
+			//FIXME: on mono alone. well, this tosses xplatform
+			//FIXME: out the window a hell of a lot more than
+			//FIXME: gnome or not ;)
+			//FIXME: This needs to change once mono gets a real
+			//FIXME: gac.
+			System.Reflection.MethodInfo gac = typeof (System.Environment).GetMethod ("internalGetGacPath", System.Reflection.BindingFlags.Static|System.Reflection.BindingFlags.NonPublic);
+			if (gac == null) {
+				Console.WriteLine ("ERROR: non-mono runtime detected, please use the mono runtime for this piece of MonoDevelop for the time being");
+				Environment.Exit (1);
+			}
+			string gac_path = System.IO.Path.Combine ((string)gac.Invoke (null, null), "");
+			string[] assemblies = System.IO.Directory.GetFiles (gac_path, "*.dll");
+			foreach (string assembly in assemblies) {
+				try {
+					System.Reflection.AssemblyName an = System.Reflection.AssemblyName.GetAssemblyName (assembly);
+
+					string name = an.Name;
+					string ver = an.Version.ToString ();
+					
+					store.AppendValues (name, ver, assembly, false);
+				} catch {
+				}
 			}
 		}
 	}
