@@ -32,21 +32,21 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 		StringParserService stringParserService = (StringParserService)ServiceManager.Services.GetService (typeof (StringParserService));
 		
 		Gtk.Combo searchPatternComboBox;
+		Gtk.Combo replacePatternComboBox;
 		Gtk.Button findHelpButton;
 		Gtk.Button findButton;
 		Gtk.Button markAllButton;
 		Gtk.Button closeButton;
+		Gtk.Button replaceButton;
+		Gtk.Button replaceAllButton;
+		Gtk.Button replaceHelpButton;
 		Gtk.CheckButton ignoreCaseCheckBox;
 		Gtk.CheckButton searchWholeWordOnlyCheckBox;
 		Gtk.CheckButton useSpecialSearchStrategyCheckBox;
 		Gtk.OptionMenu specialSearchStrategyComboBox;
 		Gtk.OptionMenu searchLocationComboBox;
 		
-		void InitDialogForReplace ()
-		{
-		}
-
-		void InitDialogForFind ()
+		void InitDialog ()
 		{
 			Gtk.Label findWhat = new Gtk.Label (stringParserService.Parse ("${res:Dialog.NewProject.SearchReplace.FindWhat}"));
 			Gtk.Label searchIn = new Gtk.Label (stringParserService.Parse ("${res:Dialog.NewProject.SearchReplace.SearchIn}"));
@@ -60,12 +60,25 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 			useSpecialSearchStrategyCheckBox = new Gtk.CheckButton (stringParserService.Parse ("${res:Dialog.NewProject.SearchReplace.UseMethodLabel}"));
 			specialSearchStrategyComboBox = new Gtk.OptionMenu ();
 			searchLocationComboBox = new Gtk.OptionMenu ();
+
+			if (replaceMode) {
+				findButton = new Gtk.Button (stringParserService.Parse ("${res:Dialog.NewProject.SearchReplace.FindNextButton}"));
+				replacePatternComboBox = new Gtk.Combo ();
+				replaceButton = new Gtk.Button (stringParserService.Parse ("${res:Dialog.NewProject.SearchReplace.ReplaceButton}"));
+				replaceAllButton = new Gtk.Button (stringParserService.Parse ("${res:Dialog.NewProject.SearchReplace.ReplaceAllButton}"));
+				replaceHelpButton = new Gtk.Button (">");
+			}
 			
 			Gtk.HBox mainbox = new Gtk.HBox (false, 2);
 			Gtk.VButtonBox btnbox = new Gtk.VButtonBox ();
 			btnbox.PackStart (findButton);
-			btnbox.PackStart (markAllButton);
-			btnbox.PackStart (closeButton);
+			if (replaceMode) {
+				btnbox.PackStart (replaceButton);
+				btnbox.PackStart (replaceAllButton);
+			} else {
+				btnbox.PackStart (markAllButton);
+			}
+			btnbox.PackEnd (closeButton);
 
 			Gtk.VBox controlbox = new Gtk.VBox (false, 2);
 			Gtk.HBox findbox = new Gtk.HBox (false, 2);
@@ -73,6 +86,15 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 			findbox.PackStart (searchPatternComboBox);
 			findbox.PackStart (findHelpButton, false, false, 2);
 			controlbox.PackStart (findbox);
+
+			if (replaceMode) {
+				Gtk.HBox replaceBox = new Gtk.HBox (false, 2);
+				replaceBox.PackStart (new Gtk.Label (stringParserService.Parse ("${res:Dialog.NewProject.SearchReplace.ReplaceWith}")) , false, false, 2);
+				replaceBox.PackStart (replacePatternComboBox);
+				replaceHelpButton.Sensitive = false;
+				replaceBox.PackStart (replaceHelpButton, false, false, 2);
+				controlbox.PackStart (replaceBox);
+			}
 
 			Gtk.HBox optionbox = new Gtk.HBox (false, 2);
 			Gtk.VBox checkbox = new Gtk.VBox (false, 2);
@@ -102,14 +124,15 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 		public ReplaceDialog(bool replaceMode) : base ("Find")
 		{
 			this.replaceMode = replaceMode;
-			if (replaceMode) {
+			InitDialog ();
+			/*if (replaceMode) {
 				//this.SetupFromXml(Path.Combine(propertyService.DataDirectory, @"resources\dialogs\ReplaceDialog.xfrm"));
 				//ControlDictionary["replaceHelpButton"].Enabled = false;
 				InitDialogForReplace ();
 			} else {
 				InitDialogForFind ();
 				//this.SetupFromXml(Path.Combine(propertyService.DataDirectory, @"resources\dialogs\FindDialog.xfrm"));
-			}
+			}*/
 			
 			findHelpButton.Sensitive = false;
 			//AcceptButton = (Button)ControlDictionary["findButton"];
@@ -167,10 +190,10 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 			closeButton.Clicked += new EventHandler(CloseDialogEvent);
 			
 			if (replaceMode) {
-				//this.Text = resourceService.GetString("Dialog.NewProject.SearchReplace.ReplaceDialogName");
-				//ControlDictionary["replaceButton"].Click    += new EventHandler(ReplaceEvent);
-				//ControlDictionary["replaceAllButton"].Click += new EventHandler(ReplaceAllEvent);
-				//ControlDictionary["replacePatternComboBox"].Text = SearchReplaceManager.SearchOptions.ReplacePattern;
+				this.Title = resourceService.GetString("Dialog.NewProject.SearchReplace.ReplaceDialogName");
+				replaceButton.Clicked    += new EventHandler(ReplaceEvent);
+				replaceAllButton.Clicked += new EventHandler(ReplaceAllEvent);
+				replacePatternComboBox.Entry.Text = SearchReplaceManager.SearchOptions.ReplacePattern;
 			} else {
 				this.Title = resourceService.GetString("Dialog.NewProject.SearchReplace.FindDialogName");
 				markAllButton.Clicked    += new EventHandler(MarkAllEvent);
@@ -202,7 +225,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 		{
 			SearchReplaceManager.SearchOptions.SearchPattern  = searchPatternComboBox.Entry.Text;
 			if (replaceMode) {
-				//SearchReplaceManager.SearchOptions.ReplacePattern = ControlDictionary["replacePatternComboBox"].Text;
+				SearchReplaceManager.SearchOptions.ReplacePattern = replacePatternComboBox.Entry.Text;
 			}
 			
 			SearchReplaceManager.SearchOptions.IgnoreCase          = !ignoreCaseCheckBox.Active;

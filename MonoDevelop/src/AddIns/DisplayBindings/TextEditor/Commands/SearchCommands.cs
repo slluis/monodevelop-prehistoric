@@ -72,11 +72,10 @@ namespace ICSharpCode.SharpDevelop.DefaultEditor.Commands
 			Find.SetSearchPattern();
 			
 			if (SearchReplaceManager.ReplaceDialog != null) {
-			//	SearchReplaceManager.ReplaceDialog.SetSearchPattern(SearchReplaceManager.SearchOptions.SearchPattern);
+				SearchReplaceManager.ReplaceDialog.SetSearchPattern(SearchReplaceManager.SearchOptions.SearchPattern);
 			} else {
-			//	ReplaceDialog rd = new ReplaceDialog(true);
-			//	rd.Owner = (Form)WorkbenchSingleton.Workbench;
-			//	rd.Show();
+				ReplaceDialog rd = new ReplaceDialog(true);
+				rd.ShowAll();
 			}
 		}
 	}
