@@ -47,15 +47,13 @@ namespace ICSharpCode.SharpDevelop.DefaultEditor.Commands
 		
 		public override void Run()
 		{
-//FIXME: the // at the start of the line are mine --Todd
 			SetSearchPattern();
-//			if (SearchReplaceManager.ReplaceDialog != null) {
-			//	SearchReplaceManager.ReplaceDialog.SetSearchPattern(SearchReplaceManager.SearchOptions.SearchPattern);
-//			} else {
-			//	ReplaceDialog rd = new ReplaceDialog(false);
-			//	rd.Owner = (Form)WorkbenchSingleton.Workbench;
-			//	rd.Show();
-//			}
+			if (SearchReplaceManager.ReplaceDialog != null) {
+				SearchReplaceManager.ReplaceDialog.SetSearchPattern(SearchReplaceManager.SearchOptions.SearchPattern);
+			} else {
+				ReplaceDialog rd = new ReplaceDialog(false);
+				rd.ShowAll();
+			}
 		}
 	}
 	

@@ -23,36 +23,112 @@ using ICSharpCode.TextEditor;
 
 namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 {
-	public class ReplaceDialog //: BaseSharpDevelopForm
-	{/*
+	public class ReplaceDialog : Gtk.Window
+	{
 		bool replaceMode;
 		ResourceService resourceService = (ResourceService)ServiceManager.Services.GetService(typeof(IResourceService));
 		static PropertyService propertyService = (PropertyService)ServiceManager.Services.GetService(typeof(PropertyService));
 		static FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.Services.GetService(typeof(FileUtilityService));
+		StringParserService stringParserService = (StringParserService)ServiceManager.Services.GetService (typeof (StringParserService));
 		
-		public ReplaceDialog(bool replaceMode)
+		Gtk.Combo searchPatternComboBox;
+		Gtk.Button findHelpButton;
+		Gtk.Button findButton;
+		Gtk.Button markAllButton;
+		Gtk.Button closeButton;
+		Gtk.CheckButton ignoreCaseCheckBox;
+		Gtk.CheckButton searchWholeWordOnlyCheckBox;
+		Gtk.CheckButton useSpecialSearchStrategyCheckBox;
+		Gtk.OptionMenu specialSearchStrategyComboBox;
+		Gtk.OptionMenu searchLocationComboBox;
+		
+		void InitDialogForReplace ()
+		{
+		}
+
+		void InitDialogForFind ()
+		{
+			Gtk.Label findWhat = new Gtk.Label (stringParserService.Parse ("${res:Dialog.NewProject.SearchReplace.FindWhat}"));
+			Gtk.Label searchIn = new Gtk.Label (stringParserService.Parse ("${res:Dialog.NewProject.SearchReplace.SearchIn}"));
+			searchPatternComboBox = new Gtk.Combo ();
+			findHelpButton = new Gtk.Button (">");
+			findButton = new Gtk.Button (stringParserService.Parse ("${res:Dialog.NewProject.SearchReplace.FindNextButton}"));
+			markAllButton = new Gtk.Button (stringParserService.Parse ("${res:Dialog.NewProject.SearchReplace.MarkAllButton}"));
+			closeButton = new Gtk.Button (stringParserService.Parse ("${res:Global.CloseButtonText}"));
+			ignoreCaseCheckBox = new Gtk.CheckButton (stringParserService.Parse ("${res:Dialog.NewProject.SearchReplace.CaseSensitive}"));
+			searchWholeWordOnlyCheckBox = new Gtk.CheckButton (stringParserService.Parse ("${res:Dialog.NewProject.SearchReplace.WholeWord}"));
+			useSpecialSearchStrategyCheckBox = new Gtk.CheckButton (stringParserService.Parse ("${res:Dialog.NewProject.SearchReplace.UseMethodLabel}"));
+			specialSearchStrategyComboBox = new Gtk.OptionMenu ();
+			searchLocationComboBox = new Gtk.OptionMenu ();
+			
+			Gtk.HBox mainbox = new Gtk.HBox (false, 2);
+			Gtk.VButtonBox btnbox = new Gtk.VButtonBox ();
+			btnbox.PackStart (findButton);
+			btnbox.PackStart (markAllButton);
+			btnbox.PackStart (closeButton);
+
+			Gtk.VBox controlbox = new Gtk.VBox (false, 2);
+			Gtk.HBox findbox = new Gtk.HBox (false, 2);
+			findbox.PackStart (findWhat, false, false, 2);
+			findbox.PackStart (searchPatternComboBox);
+			findbox.PackStart (findHelpButton, false, false, 2);
+			controlbox.PackStart (findbox);
+
+			Gtk.HBox optionbox = new Gtk.HBox (false, 2);
+			Gtk.VBox checkbox = new Gtk.VBox (false, 2);
+
+			checkbox.PackStart (ignoreCaseCheckBox);
+			checkbox.PackStart (searchWholeWordOnlyCheckBox);
+			optionbox.PackStart (checkbox);
+
+			Gtk.VBox searchInBox = new Gtk.VBox (false, 2);
+			searchInBox.PackStart (searchIn);
+			searchInBox.PackStart (searchLocationComboBox);
+			optionbox.PackStart (searchInBox);
+
+			controlbox.PackStart (optionbox);
+
+			Gtk.HBox strategyBox = new Gtk.HBox (false, 2);
+			strategyBox.PackStart (useSpecialSearchStrategyCheckBox);
+			strategyBox.PackStart (specialSearchStrategyComboBox);
+			controlbox.PackStart (strategyBox);
+
+			mainbox.PackStart (controlbox);
+			mainbox.PackStart (btnbox, false, false, 2);
+
+			this.Add (mainbox);
+		}
+		
+		public ReplaceDialog(bool replaceMode) : base ("Find")
 		{
 			this.replaceMode = replaceMode;
 			if (replaceMode) {
-				this.SetupFromXml(Path.Combine(propertyService.DataDirectory, @"resources\dialogs\ReplaceDialog.xfrm"));
-				ControlDictionary["replaceHelpButton"].Enabled = false;
+				//this.SetupFromXml(Path.Combine(propertyService.DataDirectory, @"resources\dialogs\ReplaceDialog.xfrm"));
+				//ControlDictionary["replaceHelpButton"].Enabled = false;
+				InitDialogForReplace ();
 			} else {
-				this.SetupFromXml(Path.Combine(propertyService.DataDirectory, @"resources\dialogs\FindDialog.xfrm"));
+				InitDialogForFind ();
+				//this.SetupFromXml(Path.Combine(propertyService.DataDirectory, @"resources\dialogs\FindDialog.xfrm"));
 			}
 			
-			ControlDictionary["findHelpButton"].Enabled = false;
-			AcceptButton = (Button)ControlDictionary["findButton"];
-			CancelButton = (Button)ControlDictionary["closeButton"];
+			findHelpButton.Sensitive = false;
+			//AcceptButton = (Button)ControlDictionary["findButton"];
+			//CancelButton = (Button)ControlDictionary["closeButton"];
 			
-			((CheckBox)ControlDictionary["ignoreCaseCheckBox"]).Checked          = !SearchReplaceManager.SearchOptions.IgnoreCase;
-			((CheckBox)ControlDictionary["searchWholeWordOnlyCheckBox"]).Checked = SearchReplaceManager.SearchOptions.SearchWholeWordOnly;
+			ignoreCaseCheckBox.Active = !SearchReplaceManager.SearchOptions.IgnoreCase;
+			searchWholeWordOnlyCheckBox.Active = SearchReplaceManager.SearchOptions.SearchWholeWordOnly;
 			
-			((CheckBox)ControlDictionary["useSpecialSearchStrategyCheckBox"]).Checked  = SearchReplaceManager.SearchOptions.SearchStrategyType != SearchStrategyType.Normal;
-			((CheckBox)ControlDictionary["useSpecialSearchStrategyCheckBox"]).CheckedChanged += new EventHandler(SpecialSearchStrategyCheckBoxChangedEvent);
+			useSpecialSearchStrategyCheckBox.Active  = SearchReplaceManager.SearchOptions.SearchStrategyType != SearchStrategyType.Normal;
+			useSpecialSearchStrategyCheckBox.Toggled += new EventHandler(SpecialSearchStrategyCheckBoxChangedEvent);
 			
-			((ComboBox)ControlDictionary["specialSearchStrategyComboBox"]).Items.Add("Wildcards");
-			((ComboBox)ControlDictionary["specialSearchStrategyComboBox"]).Items.Add(resourceService.GetString("Dialog.NewProject.SearchReplace.SearchStrategy.RegexSearch"));
-			int index = 0;
+			Gtk.MenuItem tmpItem = new Gtk.MenuItem ("Wildcards");
+			Gtk.Menu stratMenu = new Gtk.Menu ();
+			stratMenu.Append (tmpItem);
+			tmpItem = new Gtk.MenuItem (resourceService.GetString("Dialog.NewProject.SearchReplace.SearchStrategy.RegexSearch"));
+			stratMenu.Append (tmpItem);
+			specialSearchStrategyComboBox.Menu = stratMenu;
+		
+			uint index = 0;
 			switch (SearchReplaceManager.SearchOptions.SearchStrategyType) {
 				case SearchStrategyType.Normal:
 				case SearchStrategyType.Wildcard:
@@ -61,11 +137,17 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 					index = 1;
 					break;
 			}
- 			((ComboBox)ControlDictionary["specialSearchStrategyComboBox"]).SelectedIndex = index;
+			specialSearchStrategyComboBox.SetHistory (index);
 			
-			((ComboBox)ControlDictionary["searchLocationComboBox"]).Items.Add(resourceService.GetString("Global.Location.currentfile"));
-			((ComboBox)ControlDictionary["searchLocationComboBox"]).Items.Add(resourceService.GetString("Global.Location.allopenfiles"));
-			((ComboBox)ControlDictionary["searchLocationComboBox"]).Items.Add(resourceService.GetString("Global.Location.wholeproject"));
+			Gtk.Menu locMenu = new Gtk.Menu ();
+			tmpItem = new Gtk.MenuItem (resourceService.GetString("Global.Location.currentfile"));
+			locMenu.Append (tmpItem);
+			tmpItem = new Gtk.MenuItem (resourceService.GetString("Global.Location.allopenfiles"));
+			locMenu.Append (tmpItem);
+			tmpItem = new Gtk.MenuItem (resourceService.GetString("Global.Location.wholeproject"));
+			locMenu.Append (tmpItem);
+			
+			searchLocationComboBox.Menu = locMenu;
 			
 			index = 0;
 			switch (SearchReplaceManager.SearchOptions.DocumentIteratorType) {
@@ -76,58 +158,58 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 					SearchReplaceManager.SearchOptions.DocumentIteratorType = DocumentIteratorType.CurrentDocument;
 					break;
 			}
-			((ComboBox)ControlDictionary["searchLocationComboBox"]).SelectedIndex = index;
+			searchLocationComboBox.SetHistory (index);
 			
-			ControlDictionary["searchPatternComboBox"].Text  = SearchReplaceManager.SearchOptions.SearchPattern;
+			searchPatternComboBox.Entry.Text  = SearchReplaceManager.SearchOptions.SearchPattern;
 			
 			// insert event handlers
-			ControlDictionary["findButton"].Click  += new EventHandler(FindNextEvent);
-			ControlDictionary["closeButton"].Click += new EventHandler(CloseDialogEvent);
+			findButton.Clicked  += new EventHandler(FindNextEvent);
+			closeButton.Clicked += new EventHandler(CloseDialogEvent);
 			
 			if (replaceMode) {
-				this.Text = resourceService.GetString("Dialog.NewProject.SearchReplace.ReplaceDialogName");
-				ControlDictionary["replaceButton"].Click    += new EventHandler(ReplaceEvent);
-				ControlDictionary["replaceAllButton"].Click += new EventHandler(ReplaceAllEvent);
-				ControlDictionary["replacePatternComboBox"].Text = SearchReplaceManager.SearchOptions.ReplacePattern;
+				//this.Text = resourceService.GetString("Dialog.NewProject.SearchReplace.ReplaceDialogName");
+				//ControlDictionary["replaceButton"].Click    += new EventHandler(ReplaceEvent);
+				//ControlDictionary["replaceAllButton"].Click += new EventHandler(ReplaceAllEvent);
+				//ControlDictionary["replacePatternComboBox"].Text = SearchReplaceManager.SearchOptions.ReplacePattern;
 			} else {
-				this.Text = resourceService.GetString("Dialog.NewProject.SearchReplace.FindDialogName");
-				ControlDictionary["markAllButton"].Click    += new EventHandler(MarkAllEvent);
+				this.Title = resourceService.GetString("Dialog.NewProject.SearchReplace.FindDialogName");
+				markAllButton.Clicked    += new EventHandler(MarkAllEvent);
 			}
 			
-				ControlDictionary["replacePatternComboBox"].Visible = false;
-				ControlDictionary["replaceAllButton"].Visible       = false;
-				ControlDictionary["replacePatternLabel"].Visible    = false;
-				ControlDictionary["replacePatternButton"].Visible   = false;
-				ControlDictionary["replaceButton"].Text             = resourceService.GetString("Dialog.NewProject.SearchReplace.ToggleReplaceModeButton");
-				ClientSize = new Size(ClientSize.Width, ClientSize.Height - 32);
+				//ControlDictionary["replacePatternComboBox"].Visible = false;
+				//ControlDictionary["replaceAllButton"].Visible       = false;
+				//ControlDictionary["replacePatternLabel"].Visible    = false;
+				//ControlDictionary["replacePatternButton"].Visible   = false;
+				//ControlDictionary["replaceButton"].Text             = resourceService.GetString("Dialog.NewProject.SearchReplace.ToggleReplaceModeButton");
+				//ClientSize = new Size(ClientSize.Width, ClientSize.Height - 32);
 			
 			SpecialSearchStrategyCheckBoxChangedEvent(null, null);
 			SearchReplaceManager.ReplaceDialog     = this;
 		}
 		
-		protected override void OnClosed(EventArgs e)
+		protected void OnClosed(EventArgs e)
 		{
-			base.OnClosed(e);
+			//base.OnClosed(e);
 			SearchReplaceManager.ReplaceDialog     = null;
 		}
 		
 		public void SetSearchPattern(string pattern)
 		{
-			ControlDictionary["searchPatternComboBox"].Text  = pattern;
+			searchPatternComboBox.Entry.Text  = pattern;
 		}
 		
 		void SetupSearchReplaceManager()
 		{
-			SearchReplaceManager.SearchOptions.SearchPattern  = ControlDictionary["searchPatternComboBox"].Text;
+			SearchReplaceManager.SearchOptions.SearchPattern  = searchPatternComboBox.Entry.Text;
 			if (replaceMode) {
-				SearchReplaceManager.SearchOptions.ReplacePattern = ControlDictionary["replacePatternComboBox"].Text;
+				//SearchReplaceManager.SearchOptions.ReplacePattern = ControlDictionary["replacePatternComboBox"].Text;
 			}
 			
-			SearchReplaceManager.SearchOptions.IgnoreCase          = !((CheckBox)ControlDictionary["ignoreCaseCheckBox"]).Checked;
-			SearchReplaceManager.SearchOptions.SearchWholeWordOnly = ((CheckBox)ControlDictionary["searchWholeWordOnlyCheckBox"]).Checked;
+			SearchReplaceManager.SearchOptions.IgnoreCase          = !ignoreCaseCheckBox.Active;
+			SearchReplaceManager.SearchOptions.SearchWholeWordOnly = searchWholeWordOnlyCheckBox.Active;
 			
-			if (((CheckBox)ControlDictionary["useSpecialSearchStrategyCheckBox"]).Checked) {
-				switch (((ComboBox)ControlDictionary["specialSearchStrategyComboBox"]).SelectedIndex) {
+			if (useSpecialSearchStrategyCheckBox.Active) {
+				switch (specialSearchStrategyComboBox.History) {
 					case 0:
 						SearchReplaceManager.SearchOptions.SearchStrategyType = SearchStrategyType.Wildcard;
 						break;
@@ -139,7 +221,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 				SearchReplaceManager.SearchOptions.SearchStrategyType = SearchStrategyType.Normal;
 			}
 			
-			switch (((ComboBox)ControlDictionary["searchLocationComboBox"]).SelectedIndex) {
+			switch (searchLocationComboBox.History) {
 				case 0:
 					SearchReplaceManager.SearchOptions.DocumentIteratorType = DocumentIteratorType.CurrentDocument;
 					break;
@@ -154,81 +236,81 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 		
 		void FindNextEvent(object sender, EventArgs e)
 		{
-			if (ControlDictionary["searchPatternComboBox"].Text.Length == 0) {
+			if (searchPatternComboBox.Entry.Text.Length == 0) {
 				return;
 			}
 			
 			try {
-				Cursor = Cursors.WaitCursor;
+				//Cursor = Cursors.WaitCursor;
 				SetupSearchReplaceManager();
 				SearchReplaceManager.FindNext();
-				this.Focus();
+				//this.Focus();
 			}
 			finally {
-				Cursor = Cursors.Default;
+				//Cursor = Cursors.Default;
 			}
 		}
 		
 		void ReplaceEvent(object sender, EventArgs e)
 		{
-			if (ControlDictionary["searchPatternComboBox"].Text.Length == 0) {
+			if (searchPatternComboBox.Entry.Text.Length == 0) {
 				return;
 			}
 			
 			try {
-				Cursor = Cursors.WaitCursor;
+				//Cursor = Cursors.WaitCursor;
 				
 				SetupSearchReplaceManager();
 				SearchReplaceManager.Replace();
 			}
 			finally {
-				Cursor = Cursors.Default;
+				//Cursor = Cursors.Default;
 			}
 		}
 		
 		void ReplaceAllEvent(object sender, EventArgs e)
 		{
-			if (ControlDictionary["searchPatternComboBox"].Text.Length == 0) {
+			if (searchPatternComboBox.Entry.Text.Length == 0) {
 				return;
 			}
 			
 			try {
-				Cursor = Cursors.WaitCursor;
+				//Cursor = Cursors.WaitCursor;
 				
 				SetupSearchReplaceManager();
 				SearchReplaceManager.ReplaceAll();
 			} finally {
-				Cursor = Cursors.Default;
+				//Cursor = Cursors.Default;
 			}
 		}
 		
 		void MarkAllEvent(object sender, EventArgs e)
 		{
-			if (ControlDictionary["searchPatternComboBox"].Text.Length == 0) {
+			if (searchPatternComboBox.Entry.Text.Length == 0) {
 				return;
 			}
 			
 			try {
-				Cursor = Cursors.WaitCursor;
+				//Cursor = Cursors.WaitCursor;
 				
 				SetupSearchReplaceManager();
 				SearchReplaceManager.MarkAll();			
 			} finally {
-				Cursor = Cursors.Default;
+				//Cursor = Cursors.Default;
 			}
 		}
 		
 		void CloseDialogEvent(object sender, EventArgs e)
 		{
-			Close();
+			Hide();
+			OnClosed (null);
 		}
 		
 		void SpecialSearchStrategyCheckBoxChangedEvent(object sender, EventArgs e)
 		{
-			CheckBox cb = (CheckBox)ControlDictionary["useSpecialSearchStrategyCheckBox"];
-			if (cb != null) {
-				ControlDictionary["specialSearchStrategyComboBox"].Enabled = cb.Checked;
+			if (useSpecialSearchStrategyCheckBox != null) {
+				specialSearchStrategyComboBox.Sensitive = useSpecialSearchStrategyCheckBox.Active;
 			}
-		}*/
+		}
 	}
 }
