@@ -5,7 +5,7 @@
 	
 	<!-- Template Header -->
 	<TemplateConfiguration>
-		<Name>Empty App</Name>
+		<Name>Empty Project</Name>
 		<Category>C#</Category>
 		<Icon>C#.Project.EmptyProject</Icon>
 		<LanguageName>C#</LanguageName>
