@@ -637,7 +637,7 @@
 	                	          class = "MonoDevelop.Commands.ClearRecentFiles" />
 	                </MenuItem>
 	                
-	                <MenuItem id = "RecentProjects" attribute = "RecentProjects" _label = "Recent _Solutions">
+	                <MenuItem id = "RecentProjects" attribute = "RecentProjects" _label = "Recent Solu_tions">
 	                	<MenuItem id = "RecentProjectsBuilder" _label = "bogus_label" class = "MonoDevelop.Commands.RecentProjectsMenuBuilder" />
 	                	<MenuItem id = "RecentProjectsSeparator" _label = "-" />
 	                	<MenuItem id = "ClearRecentFiles" 

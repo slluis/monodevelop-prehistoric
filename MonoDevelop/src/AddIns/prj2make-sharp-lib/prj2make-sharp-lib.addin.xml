@@ -13,7 +13,7 @@
 		<MenuItem id = "ImportSolution"
 			 insertafter="ImportSeparator"
 			 insertbefore="RecentSeparator"
-		          _label = "Import VS Project"
+		          _label = "_Import VS Project"
 			  description = "Imports solutions created with MS Visual Studio"
 		          class = "MonoDevelop.Commands.ImportPrj"/>
 	</Extension>
