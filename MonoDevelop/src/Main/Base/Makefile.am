@@ -53,7 +53,7 @@ FILES= \
 ./Gui/Dialogs/OptionPanels/ProjectOptions/CompileFileProjectOptions.cs \
 ./Gui/Dialogs/OptionPanels/ProjectOptions/DeployFileOptions.cs \
 ./Gui/Dialogs/OptionPanels/ProjectOptions/GeneralProjectOptions.cs \
-./Gui/Dialogs/OptionPanels/IDEOptions/ProjectAndCombinePanel.cs \
+./Gui/Dialogs/OptionPanels/IDEOptions/BuildPanel.cs \
 ./Gui/Dialogs/OptionPanels/IDEOptions/LoadSavePanel.cs \
 ./Gui/Dialogs/OptionPanels/IDEOptions/SelectStylePanel.cs \
 ./Gui/Dialogs/OptionPanels/IDEOptions/CodeGenerationPanel.cs \

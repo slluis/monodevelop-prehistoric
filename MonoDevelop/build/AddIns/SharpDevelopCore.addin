@@ -419,9 +419,10 @@
 			<DialogPanel id = "LoadSave"
 			             label = "${res:Dialog.Options.IDEOptions.LoadSaveOptions.PanelName}"
 			             class = "MonoDevelop.Gui.Dialogs.OptionPanels.LoadSavePanel"/>
-			<DialogPanel id = "ProjectAndCombine"
-			             label = "${res:Dialog.Options.IDEOptions.ProjectAndCombineOptions.PanelName}"
-			             class = "MonoDevelop.Gui.Dialogs.OptionPanels.ProjectAndCombinePanel"/>
+			<!--  i8n the file -->
+			<DialogPanel id = "Build"
+			             label = "Build"
+			             class = "MonoDevelop.Gui.Dialogs.OptionPanels.BuildPanel"/>
 		</DialogPanel>
 		<DialogPanel id    = "CodingOptions"
 		             label = "${res:Dialog.Options.IDEOptions.CodingOptionsText}">
