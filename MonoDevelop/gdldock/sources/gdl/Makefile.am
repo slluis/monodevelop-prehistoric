@@ -5,6 +5,7 @@ INCLUDES = \
 	$(GDLDOCK_CFLAGS)
 
 gdldocklibdir = $(prefix)/lib/monodevelop/bin
+gdldocklib_DATA = $(dist_gdldocklib)
 
 gdldocklib_LTLIBRARIES = libgdldock.la
 
