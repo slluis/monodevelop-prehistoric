@@ -108,8 +108,7 @@ namespace MonoDevelop.Services
 		{
 			if (CurrentOpenCombine != null) {
 				if (saveCombinePreferencies)
-				  SaveCombinePreferences(CurrentOpenCombine, openCombineFileName);
-				
+					SaveCombinePreferences(CurrentOpenCombine, openCombineFileName);
 				Combine closedCombine = CurrentOpenCombine;
 				CurrentSelectedProject = null;
 				CurrentOpenCombine = CurrentSelectedCombine = null;
@@ -590,6 +589,7 @@ namespace MonoDevelop.Services
 		//********* own events
 		protected virtual void OnCombineOpened(CombineEventArgs e)
 		{
+			GenerateMakefiles ();
 			if (CombineOpened != null) {
 				CombineOpened(this, e);
 			}
@@ -597,6 +597,7 @@ namespace MonoDevelop.Services
 		
 		protected virtual void OnCombineClosed(CombineEventArgs e)
 		{
+			GenerateMakefiles ();
 			if (CombineClosed != null) {
 				CombineClosed(this, e);
 			}
@@ -622,6 +623,7 @@ namespace MonoDevelop.Services
 		
 		public virtual void OnRenameProject(ProjectRenameEventArgs e)
 		{
+			GenerateMakefiles ();
 			if (ProjectRenamed != null) {
 				ProjectRenamed(this, e);
 			}
@@ -702,6 +704,7 @@ namespace MonoDevelop.Services
 		
 		protected virtual void OnFileRemovedFromProject (ProjectFileEventArgs e)
 		{
+			GenerateMakefiles ();
 			if (FileRemovedFromProject != null) {
 				FileRemovedFromProject(this, e);
 			}
@@ -709,6 +712,7 @@ namespace MonoDevelop.Services
 
 		protected virtual void OnFileAddedToProject (ProjectFileEventArgs e)
 		{
+			GenerateMakefiles ();
 			if (FileAddedToProject != null) {
 				FileAddedToProject (this, e);
 			}
@@ -716,6 +720,7 @@ namespace MonoDevelop.Services
 		
 		protected virtual void OnReferenceRemovedFromProject (ProjectReferenceEventArgs e)
 		{
+			GenerateMakefiles ();
 			if (ReferenceRemovedFromProject != null) {
 				ReferenceRemovedFromProject (this, e);
 			}
@@ -723,6 +728,7 @@ namespace MonoDevelop.Services
 		
 		protected virtual void OnReferenceAddedToProject (ProjectReferenceEventArgs e)
 		{
+			GenerateMakefiles ();
 			if (ReferenceAddedToProject != null) {
 				ReferenceAddedToProject (this, e);
 			}
@@ -766,7 +772,8 @@ namespace MonoDevelop.Services
 
 		public void GenerateMakefiles ()
 		{
-			openCombine.GenerateMakefiles ();
+			if (openCombine != null)
+				openCombine.GenerateMakefiles ();
 		}
 		
 		public event ProjectFileEventHandler FileRemovedFromProject;
