@@ -36,6 +36,9 @@ Library.xpt.xml \
 NemerleEmptyProject.xpt.xml \
 NemerleGtkSharpProject.xpt.xml \
 NemerleGtkSharpWindow.xft.xml \
-AppConfigFile.xft.xml
+AppConfigFile.xft.xml \
+EmptyVBFile.xft.xml \
+EmptyVBProject.xpt.xml \
+VBConsoleApplicationProject.xpt.xml
 
 EXTRA_DIST = $(template_DATA)

@@ -1,0 +1,20 @@
+<Combine fileversion="1.0" name="VBNetBinding" description="">
+  <StartMode startupentry="VBNetBinding" single="True">
+    <Execute entry="VBNetBinding" type="None" />
+    <Execute entry="SharpRefactoryVB" type="None" />
+  </StartMode>
+  <Entries>
+    <Entry filename="./VBNetBinding.prjx" />
+    <Entry filename="./SharpRefactoryVB/src/SharpRefactoryVB.prjx" />
+  </Entries>
+  <Configurations active="Debug">
+    <Configuration name="Release">
+      <Entry name="VBNetBinding" configurationname="Debug" build="False" />
+      <Entry name="SharpRefactoryVB" configurationname="Debug" build="False" />
+    </Configuration>
+    <Configuration name="Debug">
+      <Entry name="VBNetBinding" configurationname="Debug" build="False" />
+      <Entry name="SharpRefactoryVB" configurationname="Debug" build="False" />
+    </Configuration>
+  </Configurations>
+</Combine>

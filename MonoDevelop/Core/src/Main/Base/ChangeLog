@@ -1,3 +1,10 @@
+2004-11-05  Levi Bard  <taktaktaktaktaktaktaktaktaktak@gmail.com>
+
+	* src/Main/Base/Internal/Parser/IParser.cs: Added
+	HandlesFileExtension() for selection among multiple parsers
+	* src/Main/Base/Services/ParserService/DefaultParserService.cs: Added
+	parser selection using IParser.HandlesFileExtension()
+
 2004-11-02  John Luke  <john.luke@gmail.com>
 
 	* Services/File/RecentOpen.cs: use simpler RecentFiles AddWithLimit

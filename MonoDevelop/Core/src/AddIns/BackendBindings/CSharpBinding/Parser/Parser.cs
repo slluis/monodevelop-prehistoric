@@ -113,6 +113,12 @@ namespace CSharpBinding.Parser
 		{
 			return new Resolver (project).MonodocResolver (parserService, expression, caretLineNumber, caretColumn, fileName, fileContent);
 		}
+
+
+		public bool HandlesFileExtension(string fileExtension){
+			if(fileExtension == null) return false;
+			return (fileExtension.ToLower() == ".cs");
+		}
 		
 		///////// IParser Interface END
 	}

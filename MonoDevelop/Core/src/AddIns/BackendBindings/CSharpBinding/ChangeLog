@@ -3,6 +3,11 @@
 	* CSharpBindingCompilerManager.cs: Use SAS for assembly detection.
 	This doesnt seem to break anything for me.
 
+2004-11-05  Levi Bard  <taktaktaktaktaktaktaktaktaktak@gmail.com>
+      
+      * Parser/Parser.cs: Added HandlesFileExtension to work with new
+      IParser
+
 2004-11-01  Todd Berman  <tberman@off.net>
 
 	* CSharpBindingExecutionManager.cs.in: Add fu to actually properly run

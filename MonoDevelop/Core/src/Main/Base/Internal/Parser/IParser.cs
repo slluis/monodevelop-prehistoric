@@ -126,6 +126,7 @@ namespace MonoDevelop.Internal.Parser
 		
 		ICompilationUnitBase Parse(string fileName);
 		ICompilationUnitBase Parse(string fileName, string fileContent);
+		bool HandlesFileExtension(string fileExtension);
 		
 		/// <summary>
 		/// Resolves an expression.

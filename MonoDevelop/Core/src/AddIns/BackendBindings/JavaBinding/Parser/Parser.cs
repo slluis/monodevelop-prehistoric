@@ -98,6 +98,13 @@ namespace JavaBinding.Parser
 		{
 			return new Resolver().Resolve(parserService, expression, caretLineNumber, caretColumn, fileName, fileContent);
 		}
+
+
+		public bool HandlesFileExtension(string fileExtension){
+			if(fileExtension == null) return false;
+			return (fileExtension.ToLower() == ".java");
+		}
+
 		
 		///////// IParser Interface END
 	}

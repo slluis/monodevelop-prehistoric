@@ -157,6 +157,8 @@ src/AddIns/BackendBindings/CSharpBinding/Makefile
 src/AddIns/BackendBindings/JavaBinding/Makefile
 src/AddIns/BackendBindings/ILAsmBinding/Makefile
 src/AddIns/BackendBindings/NemerleBinding/Makefile
+src/AddIns/BackendBindings/VBNetBinding/Makefile
+src/AddIns/BackendBindings/VBNetBinding/SharpRefactoryVB/Makefile
 src/AddIns/DisplayBindings/Makefile
 src/AddIns/DisplayBindings/SourceEditor/Makefile
 src/AddIns/DisplayBindings/SourceEditor/MonoDevelop.SourceEditor.dll.config

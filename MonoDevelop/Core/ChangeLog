@@ -1,3 +1,8 @@
+2004-11-05  Levi Bard  <taktaktaktaktaktaktaktaktaktak@gmail.com>
+
+	* *: Large changeset, adds project management, compilation, and
+	rudimentary code completion support for vb.net
+
 2004-10-27  Todd Berman  <tberman@off.net>
 
 	* configure.in: Make sure a valid gnome prefix is returned, error out

@@ -1,0 +1,283 @@
+<Project name="SharpRefactoryVB" standardNamespace="NewProject" description="" newfilesearch="None" enableviewstate="True" version="1.1" projecttype="C#">
+  <Contents>
+    <File name=".\AssemblyInfo.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\Main.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\Parser\AST\AbstractASTVisitor.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\Parser\AST\AbstractNode.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\Parser\AST\CompilationUnit.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\Parser\AST\Enums.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\Parser\AST\IASTVisitor.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\Parser\AST\INode.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\Parser\generated\Parser.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\Parser\generated\VBNET.ATG" subtype="Code" buildaction="Nothing" dependson="" data="" />
+    <File name=".\Parser\AST\GlobalScope\OptionStrictDeclaration.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\Parser\AST\GlobalScope\ImportsAliasDeclaration.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\Parser\AST\GlobalScope\ImportsStatement.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\Parser\AST\GlobalScope\OptionExplicitDeclaration.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\Parser\AST\GlobalScope\OptionCompareDeclaration.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\Parser\AST\GlobalScope\ImportsDeclaration.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\Parser\AST\GlobalScope\TypeDeclaration.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\Parser\AST\GlobalScope\NamespaceDeclaration.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\Parser\AST\Expressions\NamedArgumentExpression.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\Parser\AST\Expressions\Expression.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\Parser\AST\GlobalScope\AttributeDeclaration.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\Parser\AST\Modifier.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\SharpRefactory.prjx~" subtype="Code" buildaction="Exclude" dependson="" data="" />
+    <File name=".\Lexer\Lexer.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\Parser\generated\keywordlist\Tokens.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\Lexer\Reader\FileReader.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\Lexer\Reader\IReader.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\Lexer\Reader\StringReader.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\Lexer\Specials\Comment.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\Lexer\Specials\CommentType.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\Lexer\Specials\NewLine.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\Lexer\Specials\PreProcessingDirective.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\Lexer\Specials\SpecialTracker.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\Parser\generated\buildparser.cmd" subtype="Code" buildaction="Exclude" dependson="" data="" />
+    <File name=".\Parser\generated\cs.ATG" subtype="Code" buildaction="Exclude" dependson="" data="" />
+    <File name=".\Parser\generated\Parser.frame" subtype="Code" buildaction="Exclude" dependson="" data="" />
+    <File name=".\Parser\generated\ParserUtil.cs" subtype="Code" buildaction="Exclude" dependson="" data="" />
+    <File name=".\Parser\generated\Scanner.frame" subtype="Code" buildaction="Exclude" dependson="" data="" />
+    <File name=".\Parser\generated\trace.txt" subtype="Code" buildaction="Exclude" dependson="" data="" />
+    <File name=".\Parser\generated\keywordlist\Keywords.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\Parser\generated\Errors.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\Parser\generated\Modifiers.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\Parser\generated\keywordlist\.KewordList.tokens.swp" subtype="Code" buildaction="Exclude" dependson="" data="" />
+    <File name=".\Parser\generated\keywordlist\.KewordList.upper.swp" subtype="Code" buildaction="Exclude" dependson="" data="" />
+    <File name=".\Parser\generated\keywordlist\BuildKeywords.cs" subtype="Code" buildaction="Exclude" dependson="" data="" />
+    <File name=".\Parser\generated\keywordlist\KeywordList.txt" subtype="Code" buildaction="Nothing" dependson="" data="" />
+    <File name=".\Parser\AST\TypeLevel\TypeReference.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\Parser\AST\Expressions\AssignmentExpression.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\Parser\AST\Expressions\UnaryOperatorExpression.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\Parser\AST\Expressions\BinaryOperatorExpression.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\Parser\AST\Expressions\PrimitiveExpression.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\Parser\AST\Expressions\ThisReferenceExpression.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\Parser\AST\Expressions\BaseReferenceExpression.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\Parser\AST\Expressions\InvocationExpression.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\Parser\AST\Expressions\IdentifierExpression.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\Parser\AST\Expressions\ParenthesizedExpression.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\Parser\AST\Expressions\TypeReferenceExpression.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\Parser\AST\Expressions\ObjectCreateExpression.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\.svn\text-base\AssemblyInfo.cs.svn-base" subtype="Code" buildaction="Exclude" dependson="" data="" />
+    <File name=".\.svn\text-base\Main.cs.svn-base" subtype="Code" buildaction="Exclude" dependson="" data="" />
+    <File name=".\.svn\text-base\SharpRefactory.prjx.svn-base" subtype="Code" buildaction="Exclude" dependson="" data="" />
+    <File name=".\.svn\wcprops\AssemblyInfo.cs.svn-work" subtype="Code" buildaction="Exclude" dependson="" data="" />
+    <File name=".\.svn\wcprops\Main.cs.svn-work" subtype="Code" buildaction="Exclude" dependson="" data="" />
+    <File name=".\.svn\wcprops\SharpRefactory.prjx.svn-work" subtype="Code" buildaction="Exclude" dependson="" data="" />
+    <File name=".\Lexer\.svn\text-base\Keywords.cs.svn-base" subtype="Code" buildaction="Exclude" dependson="" data="" />
+    <File name=".\Lexer\.svn\text-base\Lexer.cs.svn-base" subtype="Code" buildaction="Exclude" dependson="" data="" />
+    <File name=".\Lexer\.svn\text-base\Tokens.cs.svn-base" subtype="Code" buildaction="Exclude" dependson="" data="" />
+    <File name=".\Lexer\.svn\wcprops\Keywords.cs.svn-work" subtype="Code" buildaction="Exclude" dependson="" data="" />
+    <File name=".\Lexer\.svn\wcprops\Lexer.cs.svn-work" subtype="Code" buildaction="Exclude" dependson="" data="" />
+    <File name=".\Lexer\.svn\wcprops\Tokens.cs.svn-work" subtype="Code" buildaction="Exclude" dependson="" data="" />
+    <File name=".\Lexer\Reader\.svn\text-base\FileReader.cs.svn-base" subtype="Code" buildaction="Exclude" dependson="" data="" />
+    <File name=".\Lexer\Reader\.svn\text-base\IReader.cs.svn-base" subtype="Code" buildaction="Exclude" dependson="" data="" />
+    <File name=".\Lexer\Reader\.svn\text-base\StringReader.cs.svn-base" subtype="Code" buildaction="Exclude" dependson="" data="" />
+    <File name=".\Lexer\Reader\.svn\wcprops\FileReader.cs.svn-work" subtype="Code" buildaction="Exclude" dependson="" data="" />
+    <File name=".\Lexer\Reader\.svn\wcprops\IReader.cs.svn-work" subtype="Code" buildaction="Exclude" dependson="" data="" />
+    <File name=".\Lexer\Reader\.svn\wcprops\StringReader.cs.svn-work" subtype="Code" buildaction="Exclude" dependson="" data="" />
+    <File name=".\Lexer\Specials\.svn\text-base\Comment.cs.svn-base" subtype="Code" buildaction="Exclude" dependson="" data="" />
+    <File name=".\Lexer\Specials\.svn\text-base\CommentType.cs.svn-base" subtype="Code" buildaction="Exclude" dependson="" data="" />
+    <File name=".\Lexer\Specials\.svn\text-base\NewLine.cs.svn-base" subtype="Code" buildaction="Exclude" dependson="" data="" />
+    <File name=".\Lexer\Specials\.svn\text-base\PreProcessingDirective.cs.svn-base" subtype="Code" buildaction="Exclude" dependson="" data="" />
+    <File name=".\Lexer\Specials\.svn\text-base\SpecialTracker.cs.svn-base" subtype="Code" buildaction="Exclude" dependson="" data="" />
+    <File name=".\Lexer\Specials\.svn\wcprops\Comment.cs.svn-work" subtype="Code" buildaction="Exclude" dependson="" data="" />
+    <File name=".\Lexer\Specials\.svn\wcprops\CommentType.cs.svn-work" subtype="Code" buildaction="Exclude" dependson="" data="" />
+    <File name=".\Lexer\Specials\.svn\wcprops\NewLine.cs.svn-work" subtype="Code" buildaction="Exclude" dependson="" data="" />
+    <File name=".\Lexer\Specials\.svn\wcprops\PreProcessingDirective.cs.svn-work" subtype="Code" buildaction="Exclude" dependson="" data="" />
+    <File name=".\Lexer\Specials\.svn\wcprops\SpecialTracker.cs.svn-work" subtype="Code" buildaction="Exclude" dependson="" data="" />
+    <File name=".\Parser\AST\.svn\text-base\AbstractASTVisitor.cs.svn-base" subtype="Code" buildaction="Exclude" dependson="" data="" />
+    <File name=".\Parser\AST\.svn\text-base\AbstractNode.cs.svn-base" subtype="Code" buildaction="Exclude" dependson="" data="" />
+    <File name=".\Parser\AST\.svn\text-base\CompilationUnit.cs.svn-base" subtype="Code" buildaction="Exclude" dependson="" data="" />
+    <File name=".\Parser\AST\.svn\text-base\Enums.cs.svn-base" subtype="Code" buildaction="Exclude" dependson="" data="" />
+    <File name=".\Parser\AST\.svn\text-base\IASTVisitor.cs.svn-base" subtype="Code" buildaction="Exclude" dependson="" data="" />
+    <File name=".\Parser\AST\.svn\text-base\INode.cs.svn-base" subtype="Code" buildaction="Exclude" dependson="" data="" />
+    <File name=".\Parser\AST\.svn\text-base\Modifier.cs.svn-base" subtype="Code" buildaction="Exclude" dependson="" data="" />
+    <File name=".\Parser\AST\.svn\wcprops\AbstractASTVisitor.cs.svn-work" subtype="Code" buildaction="Exclude" dependson="" data="" />
+    <File name=".\Parser\AST\.svn\wcprops\AbstractNode.cs.svn-work" subtype="Code" buildaction="Exclude" dependson="" data="" />
+    <File name=".\Parser\AST\.svn\wcprops\CompilationUnit.cs.svn-work" subtype="Code" buildaction="Exclude" dependson="" data="" />
+    <File name=".\Parser\AST\.svn\wcprops\Enums.cs.svn-work" subtype="Code" buildaction="Exclude" dependson="" data="" />
+    <File name=".\Parser\AST\.svn\wcprops\IASTVisitor.cs.svn-work" subtype="Code" buildaction="Exclude" dependson="" data="" />
+    <File name=".\Parser\AST\.svn\wcprops\INode.cs.svn-work" subtype="Code" buildaction="Exclude" dependson="" data="" />
+    <File name=".\Parser\AST\.svn\wcprops\Modifier.cs.svn-work" subtype="Code" buildaction="Exclude" dependson="" data="" />
+    <File name=".\Parser\AST\Expressions\.svn\text-base\AssignmentExpression.cs.svn-base" subtype="Code" buildaction="Exclude" dependson="" data="" />
+    <File name=".\Parser\AST\Expressions\.svn\text-base\BaseReferenceExpression.cs.svn-base" subtype="Code" buildaction="Exclude" dependson="" data="" />
+    <File name=".\Parser\AST\Expressions\.svn\text-base\BinaryOperatorExpression.cs.svn-base" subtype="Code" buildaction="Exclude" dependson="" data="" />
+    <File name=".\Parser\AST\Expressions\.svn\text-base\Expression.cs.svn-base" subtype="Code" buildaction="Exclude" dependson="" data="" />
+    <File name=".\Parser\AST\Expressions\.svn\text-base\FieldReferenceExpression.cs.svn-base" subtype="Code" buildaction="Exclude" dependson="" data="" />
+    <File name=".\Parser\AST\Expressions\.svn\text-base\IdentifierExpression.cs.svn-base" subtype="Code" buildaction="Exclude" dependson="" data="" />
+    <File name=".\Parser\AST\Expressions\.svn\text-base\InvocationExpression.cs.svn-base" subtype="Code" buildaction="Exclude" dependson="" data="" />
+    <File name=".\Parser\AST\Expressions\.svn\text-base\NamedParameterExpression.cs.svn-base" subtype="Code" buildaction="Exclude" dependson="" data="" />
+    <File name=".\Parser\AST\Expressions\.svn\text-base\ObjectCreateExpression.cs.svn-base" subtype="Code" buildaction="Exclude" dependson="" data="" />
+    <File name=".\Parser\AST\Expressions\.svn\text-base\ParenthesizedExpression.cs.svn-base" subtype="Code" buildaction="Exclude" dependson="" data="" />
+    <File name=".\Parser\AST\Expressions\.svn\text-base\PrimitiveExpression.cs.svn-base" subtype="Code" buildaction="Exclude" dependson="" data="" />
+    <File name=".\Parser\AST\Expressions\.svn\text-base\ThisReferenceExpression.cs.svn-base" subtype="Code" buildaction="Exclude" dependson="" data="" />
+    <File name=".\Parser\AST\Expressions\.svn\text-base\TypeReferenceExpression.cs.svn-base" subtype="Code" buildaction="Exclude" dependson="" data="" />
+    <File name=".\Parser\AST\Expressions\.svn\text-base\UnaryOperatorExpression.cs.svn-base" subtype="Code" buildaction="Exclude" dependson="" data="" />
+    <File name=".\Parser\AST\Expressions\.svn\wcprops\AssignmentExpression.cs.svn-work" subtype="Code" buildaction="Exclude" dependson="" data="" />
+    <File name=".\Parser\AST\Expressions\.svn\wcprops\BaseReferenceExpression.cs.svn-work" subtype="Code" buildaction="Exclude" dependson="" data="" />
+    <File name=".\Parser\AST\Expressions\.svn\wcprops\BinaryOperatorExpression.cs.svn-work" subtype="Code" buildaction="Exclude" dependson="" data="" />
+    <File name=".\Parser\AST\Expressions\.svn\wcprops\Expression.cs.svn-work" subtype="Code" buildaction="Exclude" dependson="" data="" />
+    <File name=".\Parser\AST\Expressions\.svn\wcprops\FieldReferenceExpression.cs.svn-work" subtype="Code" buildaction="Exclude" dependson="" data="" />
+    <File name=".\Parser\AST\Expressions\.svn\wcprops\IdentifierExpression.cs.svn-work" subtype="Code" buildaction="Exclude" dependson="" data="" />
+    <File name=".\Parser\AST\Expressions\.svn\wcprops\InvocationExpression.cs.svn-work" subtype="Code" buildaction="Exclude" dependson="" data="" />
+    <File name=".\Parser\AST\Expressions\.svn\wcprops\NamedParameterExpression.cs.svn-work" subtype="Code" buildaction="Exclude" dependson="" data="" />
+    <File name=".\Parser\AST\Expressions\.svn\wcprops\ObjectCreateExpression.cs.svn-work" subtype="Code" buildaction="Exclude" dependson="" data="" />
+    <File name=".\Parser\AST\Expressions\.svn\wcprops\ParenthesizedExpression.cs.svn-work" subtype="Code" buildaction="Exclude" dependson="" data="" />
+    <File name=".\Parser\AST\Expressions\.svn\wcprops\PrimitiveExpression.cs.svn-work" subtype="Code" buildaction="Exclude" dependson="" data="" />
+    <File name=".\Parser\AST\Expressions\.svn\wcprops\ThisReferenceExpression.cs.svn-work" subtype="Code" buildaction="Exclude" dependson="" data="" />
+    <File name=".\Parser\AST\Expressions\.svn\wcprops\TypeReferenceExpression.cs.svn-work" subtype="Code" buildaction="Exclude" dependson="" data="" />
+    <File name=".\Parser\AST\Expressions\.svn\wcprops\UnaryOperatorExpression.cs.svn-work" subtype="Code" buildaction="Exclude" dependson="" data="" />
+    <File name=".\Parser\AST\GlobalScope\.svn\text-base\AttributeDeclaration.cs.svn-base" subtype="Code" buildaction="Exclude" dependson="" data="" />
+    <File name=".\Parser\AST\GlobalScope\.svn\text-base\DebugVisitor.cs.svn-base" subtype="Code" buildaction="Exclude" dependson="" data="" />
+    <File name=".\Parser\AST\GlobalScope\.svn\text-base\ImportsAliasClause.cs.svn-base" subtype="Code" buildaction="Exclude" dependson="" data="" />
+    <File name=".\Parser\AST\GlobalScope\.svn\text-base\ImportsClause.cs.svn-base" subtype="Code" buildaction="Exclude" dependson="" data="" />
+    <File name=".\Parser\AST\GlobalScope\.svn\text-base\ImportsDeclaration.cs.svn-base" subtype="Code" buildaction="Exclude" dependson="" data="" />
+    <File name=".\Parser\AST\GlobalScope\.svn\text-base\NamespaceDeclaration.cs.svn-base" subtype="Code" buildaction="Exclude" dependson="" data="" />
+    <File name=".\Parser\AST\GlobalScope\.svn\text-base\OptionCompareDeclaration.cs.svn-base" subtype="Code" buildaction="Exclude" dependson="" data="" />
+    <File name=".\Parser\AST\GlobalScope\.svn\text-base\OptionExplicitDeclaration.cs.svn-base" subtype="Code" buildaction="Exclude" dependson="" data="" />
+    <File name=".\Parser\AST\GlobalScope\.svn\text-base\OptionStrictDeclaration.cs.svn-base" subtype="Code" buildaction="Exclude" dependson="" data="" />
+    <File name=".\Parser\AST\GlobalScope\.svn\text-base\TypeDeclaration.cs.svn-base" subtype="Code" buildaction="Exclude" dependson="" data="" />
+    <File name=".\Parser\AST\GlobalScope\.svn\wcprops\AttributeDeclaration.cs.svn-work" subtype="Code" buildaction="Exclude" dependson="" data="" />
+    <File name=".\Parser\AST\GlobalScope\.svn\wcprops\DebugVisitor.cs.svn-work" subtype="Code" buildaction="Exclude" dependson="" data="" />
+    <File name=".\Parser\AST\GlobalScope\.svn\wcprops\ImportsAliasClause.cs.svn-work" subtype="Code" buildaction="Exclude" dependson="" data="" />
+    <File name=".\Parser\AST\GlobalScope\.svn\wcprops\ImportsClause.cs.svn-work" subtype="Code" buildaction="Exclude" dependson="" data="" />
+    <File name=".\Parser\AST\GlobalScope\.svn\wcprops\ImportsDeclaration.cs.svn-work" subtype="Code" buildaction="Exclude" dependson="" data="" />
+    <File name=".\Parser\AST\GlobalScope\.svn\wcprops\NamespaceDeclaration.cs.svn-work" subtype="Code" buildaction="Exclude" dependson="" data="" />
+    <File name=".\Parser\AST\GlobalScope\.svn\wcprops\OptionCompareDeclaration.cs.svn-work" subtype="Code" buildaction="Exclude" dependson="" data="" />
+    <File name=".\Parser\AST\GlobalScope\.svn\wcprops\OptionExplicitDeclaration.cs.svn-work" subtype="Code" buildaction="Exclude" dependson="" data="" />
+    <File name=".\Parser\AST\GlobalScope\.svn\wcprops\OptionStrictDeclaration.cs.svn-work" subtype="Code" buildaction="Exclude" dependson="" data="" />
+    <File name=".\Parser\AST\GlobalScope\.svn\wcprops\TypeDeclaration.cs.svn-work" subtype="Code" buildaction="Exclude" dependson="" data="" />
+    <File name=".\Parser\AST\TypeLevel\.svn\text-base\TypeReference.cs.svn-base" subtype="Code" buildaction="Exclude" dependson="" data="" />
+    <File name=".\Parser\AST\TypeLevel\.svn\wcprops\TypeReference.cs.svn-work" subtype="Code" buildaction="Exclude" dependson="" data="" />
+    <File name=".\Parser\generated\.svn\prop-base\BuildKeywords.pdb.svn-base" subtype="Code" buildaction="Exclude" dependson="" data="" />
+    <File name=".\Parser\generated\.svn\prop-base\SharpCoco.exe.svn-base" subtype="Code" buildaction="Exclude" dependson="" data="" />
+    <File name=".\Parser\generated\.svn\props\BuildKeywords.pdb.svn-work" subtype="Code" buildaction="Exclude" dependson="" data="" />
+    <File name=".\Parser\generated\.svn\props\SharpCoco.exe.svn-work" subtype="Code" buildaction="Exclude" dependson="" data="" />
+    <File name=".\Parser\generated\.svn\text-base\BuildKeywords.pdb.svn-base" subtype="Code" buildaction="Exclude" dependson="" data="" />
+    <File name=".\Parser\generated\.svn\text-base\buildparser.cmd.svn-base" subtype="Code" buildaction="Exclude" dependson="" data="" />
+    <File name=".\Parser\generated\.svn\text-base\Error.cs.svn-base" subtype="Code" buildaction="Exclude" dependson="" data="" />
+    <File name=".\Parser\generated\.svn\text-base\Modifiers.cs.svn-base" subtype="Code" buildaction="Exclude" dependson="" data="" />
+    <File name=".\Parser\generated\.svn\text-base\Parser.cs.svn-base" subtype="Code" buildaction="Exclude" dependson="" data="" />
+    <File name=".\Parser\generated\.svn\text-base\Parser.frame.svn-base" subtype="Code" buildaction="Exclude" dependson="" data="" />
+    <File name=".\Parser\generated\.svn\text-base\Scanner.frame.svn-base" subtype="Code" buildaction="Exclude" dependson="" data="" />
+    <File name=".\Parser\generated\.svn\text-base\SharpCoco.exe.svn-base" subtype="Code" buildaction="Exclude" dependson="" data="" />
+    <File name=".\Parser\generated\.svn\text-base\trace.txt.svn-base" subtype="Code" buildaction="Exclude" dependson="" data="" />
+    <File name=".\Parser\generated\.svn\text-base\VBNET.ATG.svn-base" subtype="Code" buildaction="Exclude" dependson="" data="" />
+    <File name=".\Parser\generated\.svn\wcprops\BuildKeywords.pdb.svn-work" subtype="Code" buildaction="Exclude" dependson="" data="" />
+    <File name=".\Parser\generated\.svn\wcprops\buildparser.cmd.svn-work" subtype="Code" buildaction="Exclude" dependson="" data="" />
+    <File name=".\Parser\generated\.svn\wcprops\Error.cs.svn-work" subtype="Code" buildaction="Exclude" dependson="" data="" />
+    <File name=".\Parser\generated\.svn\wcprops\Modifiers.cs.svn-work" subtype="Code" buildaction="Exclude" dependson="" data="" />
+    <File name=".\Parser\generated\.svn\wcprops\Parser.cs.svn-work" subtype="Code" buildaction="Exclude" dependson="" data="" />
+    <File name=".\Parser\generated\.svn\wcprops\Parser.frame.svn-work" subtype="Code" buildaction="Exclude" dependson="" data="" />
+    <File name=".\Parser\generated\.svn\wcprops\Scanner.frame.svn-work" subtype="Code" buildaction="Exclude" dependson="" data="" />
+    <File name=".\Parser\generated\.svn\wcprops\SharpCoco.exe.svn-work" subtype="Code" buildaction="Exclude" dependson="" data="" />
+    <File name=".\Parser\generated\.svn\wcprops\trace.txt.svn-work" subtype="Code" buildaction="Exclude" dependson="" data="" />
+    <File name=".\Parser\generated\.svn\wcprops\VBNET.ATG.svn-work" subtype="Code" buildaction="Exclude" dependson="" data="" />
+    <File name=".\Parser\generated\keywordlist\.svn\prop-base\BuildKeywords.exe.svn-base" subtype="Code" buildaction="Exclude" dependson="" data="" />
+    <File name=".\Parser\generated\keywordlist\.svn\prop-base\BuildKeywords.pdb.svn-base" subtype="Code" buildaction="Exclude" dependson="" data="" />
+    <File name=".\Parser\generated\keywordlist\.svn\props\BuildKeywords.exe.svn-work" subtype="Code" buildaction="Exclude" dependson="" data="" />
+    <File name=".\Parser\generated\keywordlist\.svn\props\BuildKeywords.pdb.svn-work" subtype="Code" buildaction="Exclude" dependson="" data="" />
+    <File name=".\Parser\generated\keywordlist\.svn\text-base\BuildKeywords.cs.svn-base" subtype="Code" buildaction="Exclude" dependson="" data="" />
+    <File name=".\Parser\generated\keywordlist\.svn\text-base\BuildKeywords.exe.svn-base" subtype="Code" buildaction="Exclude" dependson="" data="" />
+    <File name=".\Parser\generated\keywordlist\.svn\text-base\BuildKeywords.pdb.svn-base" subtype="Code" buildaction="Exclude" dependson="" data="" />
+    <File name=".\Parser\generated\keywordlist\.svn\text-base\KewordList.list.svn-base" subtype="Code" buildaction="Exclude" dependson="" data="" />
+    <File name=".\Parser\generated\keywordlist\.svn\text-base\KewordList.tokens.svn-base" subtype="Code" buildaction="Exclude" dependson="" data="" />
+    <File name=".\Parser\generated\keywordlist\.svn\text-base\KewordList.txt.svn-base" subtype="Code" buildaction="Exclude" dependson="" data="" />
+    <File name=".\Parser\generated\keywordlist\.svn\text-base\KewordList.upper.svn-base" subtype="Code" buildaction="Exclude" dependson="" data="" />
+    <File name=".\Parser\generated\keywordlist\.svn\wcprops\BuildKeywords.cs.svn-work" subtype="Code" buildaction="Exclude" dependson="" data="" />
+    <File name=".\Parser\generated\keywordlist\.svn\wcprops\BuildKeywords.exe.svn-work" subtype="Code" buildaction="Exclude" dependson="" data="" />
+    <File name=".\Parser\generated\keywordlist\.svn\wcprops\BuildKeywords.pdb.svn-work" subtype="Code" buildaction="Exclude" dependson="" data="" />
+    <File name=".\Parser\generated\keywordlist\.svn\wcprops\KewordList.list.svn-work" subtype="Code" buildaction="Exclude" dependson="" data="" />
+    <File name=".\Parser\generated\keywordlist\.svn\wcprops\KewordList.tokens.svn-work" subtype="Code" buildaction="Exclude" dependson="" data="" />
+    <File name=".\Parser\generated\keywordlist\.svn\wcprops\KewordList.txt.svn-work" subtype="Code" buildaction="Exclude" dependson="" data="" />
+    <File name=".\Parser\generated\keywordlist\.svn\wcprops\KewordList.upper.svn-work" subtype="Code" buildaction="Exclude" dependson="" data="" />
+    <File name=".\Lexer\Keywords.cs" subtype="Code" buildaction="Exclude" dependson="" data="" />
+    <File name=".\Parser\AST\GlobalScope\DebugVisitor.cs" subtype="Code" buildaction="Exclude" dependson="" data="" />
+    <File name=".\Parser\AST\TypeLevel\FieldDeclaration.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\Parser\AST\TypeLevel\VariableDeclaration.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\Parser\AST\Expressions\ParameterDeclarationExpression.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\Parser\AST\Statements\Statement.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\Parser\AST\TypeLevel\MethodDeclaration.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\Parser\AST\Statements\BlockStatement.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\Parser\AST\Statements\EndStatement.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\Parser\AST\Statements\ExitStatement.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\Parser\AST\TypeLevel\HandlesClause.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\Parser\AST\TypeLevel\ImplementsClause.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\Parser\AST\TypeLevel\DeclareDeclaration.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\Parser\AST\TypeLevel\EventDeclaration.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\Parser\AST\Expressions\ArrayInitializerExpression.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\Parser\AST\TypeLevel\PropertyDeclaration.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\Parser\AST\TypeLevel\PropertyGetRegion.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\Parser\AST\TypeLevel\PropertySetRegion.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\Parser\AST\Statements\TryCatchStatement.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\Parser\AST\Statements\ThrowStatement.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\Parser\AST\Statements\ReturnStatement.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\Parser\AST\Statements\LockStatement.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\Parser\AST\Statements\RaiseEventStatement.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\Parser\AST\Statements\WithStatement.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\Parser\AST\GlobalScope\DelegateDeclaration.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\Parser\AST\Statements\AddHandlerStatement.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\Parser\AST\Expressions\AddressOfExpression.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\Parser\AST\Statements\RemoveHandlerStatement.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\Parser\AST\Expressions\GetTypeExpression.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\Parser\AST\Expressions\CastExpression.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\Parser\AST\Statements\WhileStatement.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\Parser\AST\Statements\DoLoopStatement.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\Parser\AST\Statements\ForeachStatement.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\Parser\AST\Statements\ForStatement.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\Parser\AST\Statements\LocalVariableDeclaration.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\Parser\AST\Statements\ErrorStatement.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\Parser\AST\Statements\EraseStatements.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\Parser\AST\Statements\StopStatement.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\Parser\AST\Statements\IfStatement.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\Parser\AST\Statements\SelectStatement.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\Parser\AST\Expressions\ClassReferenceExpression.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\Parser\AST\Expressions\TypeOfExpression.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\Parser\AST\Statements\ReDimStatement.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\Parser\AST\TypeLevel\ConstructorDeclaration.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\Parser\AST\Statements\GoToStatement.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\Parser\AST\Statements\OnErrorStatement.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\Parser\AST\Statements\ResumeStatement.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\Parser\AST\Statements\LabelStatement.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\Parser\AST\Expressions\StatementExpression.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\Parser\generated\ParamModifiers.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\Parser\AST\Expressions\FieldReferenceOrInvocationExpression.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\Parser\AST\Expressions\LoopControlVariableExpression.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\Parser\AST\Expressions\ArrayCreateExpression.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\CodeDOM\CodeDOMVisitor.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\Parser\AST\LookupTableVisitor.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\CSharpConverter\CSharpVisitor.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\Parser\generated\keywordlist\BuildKeywords.pl" subtype="Code" buildaction="Nothing" dependson="" data="" />
+    <File name=".\Lexer\Specials\TagComment.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+  </Contents>
+  <References />
+  <DeploymentInformation target="" script="" strategy="File" />
+  <Configuration runwithwarnings="False" name="Release">
+    <CodeGeneration runtime="MsNet" compiler="Csc" compilerversion="" warninglevel="4" nowarn="" includedebuginformation="True" optimize="True" unsafecodeallowed="False" generateoverflowchecks="True" mainclass="" target="Library" definesymbols="" generatexmldocumentation="False" win32Icon="" noconfig="False" nostdlib="False" />
+    <Execution commandlineparameters="" consolepause="True" />
+    <Output directory="..\..\..\..\bin" assembly="ICSharpCode.SharpRefactoryVB" executeScript="..\..\..\..\bin\SharpDevelop.exe" executeBeforeBuild=".\Parser\generated\buildparser.cmd" executeAfterBuild="" executeBeforeBuildArguments="" executeAfterBuildArguments="" />
+  </Configuration>
+  <Configurations active="Release">
+    <Configuration runwithwarnings="False" name="Debug">
+      <CodeGeneration runtime="MsNet" compiler="Csc" compilerversion="" warninglevel="4" nowarn="" includedebuginformation="True" optimize="True" unsafecodeallowed="False" generateoverflowchecks="True" mainclass="" target="Library" definesymbols="" generatexmldocumentation="False" win32Icon="" noconfig="False" nostdlib="False" />
+      <Execution commandlineparameters="" consolepause="True" />
+      <Output directory="..\..\..\..\bin" assembly="ICSharpCode.SharpRefactoryVB" executeScript="..\..\..\..\bin\SharpDevelop.exe" executeBeforeBuild=".\Parser\generated\buildparser.cmd" executeAfterBuild="" executeBeforeBuildArguments="" executeAfterBuildArguments="" />
+    </Configuration>
+    <Configuration runwithwarnings="False" name="Release">
+      <CodeGeneration runtime="MsNet" compiler="Csc" compilerversion="" warninglevel="4" nowarn="" includedebuginformation="True" optimize="True" unsafecodeallowed="False" generateoverflowchecks="True" mainclass="" target="Library" definesymbols="" generatexmldocumentation="False" win32Icon="" noconfig="False" nostdlib="False" />
+      <Execution commandlineparameters="" consolepause="True" />
+      <Output directory="..\..\..\..\bin" assembly="ICSharpCode.SharpRefactoryVB" executeScript="..\..\..\..\bin\SharpDevelop.exe" executeBeforeBuild=".\Parser\generated\buildparser.cmd" executeAfterBuild="" executeBeforeBuildArguments="" executeAfterBuildArguments="" />
+    </Configuration>
+    <Configuration runwithwarnings="False" name="WithoutParserGeneration">
+      <CodeGeneration runtime="MsNet" compiler="Csc" compilerversion="" warninglevel="4" nowarn="" includedebuginformation="True" optimize="True" unsafecodeallowed="False" generateoverflowchecks="True" mainclass="" target="Library" definesymbols="" generatexmldocumentation="False" win32Icon="" noconfig="False" nostdlib="False" />
+      <Execution commandlineparameters="" consolepause="True" />
+      <Output directory="..\..\..\..\bin" assembly="ICSharpCode.SharpRefactoryVB" executeScript="..\..\..\..\bin\SharpDevelop.exe" executeBeforeBuild="" executeAfterBuild="" executeBeforeBuildArguments="" executeAfterBuildArguments="" />
+    </Configuration>
+    <Configuration runwithwarnings="False" name="Exe">
+      <CodeGeneration runtime="MsNet" compiler="Csc" compilerversion="" warninglevel="4" nowarn="" includedebuginformation="True" optimize="True" unsafecodeallowed="False" generateoverflowchecks="True" mainclass="" target="Exe" definesymbols="" generatexmldocumentation="False" win32Icon="" noconfig="False" nostdlib="False" />
+      <Execution commandlineparameters="" consolepause="True" />
+      <Output directory="..\bin\Debug" assembly="ICSharpCode.SharpRefactoryVB" executeScript="..\..\..\..\bin\SharpDevelop.exe" executeBeforeBuild=".\Parser\generated\buildparser.cmd" executeAfterBuild="" executeBeforeBuildArguments="" executeAfterBuildArguments="" />
+    </Configuration>
+  </Configurations>
+</Project>

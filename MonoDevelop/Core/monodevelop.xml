@@ -12,7 +12,7 @@
     <comment xml:lang="en">Nemerle source</comment>
     <glob pattern="*.n"/>
   </mime-type>
-  <mime-type type="text/x-vbnet">
+  <mime-type type="text/x-vb">
     <comment xml:lang="en">VB source</comment>
     <glob pattern="*.vb"/>
   </mime-type>

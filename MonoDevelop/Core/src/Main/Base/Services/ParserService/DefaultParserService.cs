@@ -1150,13 +1150,13 @@ namespace MonoDevelop.Services
 		public virtual IParser GetParser(string fileName)
 		{
 			// HACK: I'm too lazy to do it 'right'
+			// HACK: Still a hack, but extensible
 			if (fileName != null) {
-				if (Path.GetExtension(fileName).ToUpper() == ".CS") {
-					return parser[0];
+				foreach(IParser p in parser){
+					if(p.HandlesFileExtension(Path.GetExtension(fileName))){
+						return p;
+					}
 				}
-				//if (Path.GetExtension(fileName).ToUpper() == ".VB") {
-				//	return parser[1];
-				//}
 			}
 			return null;
 		}

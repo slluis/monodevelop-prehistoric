@@ -1,3 +1,8 @@
+2004-11-05  Levi Bard  <taktaktaktaktaktaktaktaktaktak@gmail.com>
+
+	* Parser/Parser.cs: Added HandlesFileExtension() to work with new
+	IParser
+
 2004-07-05  John Luke  <jluke@cfl.rr.com>
 
 	* *.cs: cleanup everything
