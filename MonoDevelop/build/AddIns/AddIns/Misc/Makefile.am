@@ -1,1 +1,1 @@
-SUBDIRS = StartPage Sonata
+SUBDIRS = StartPage

@@ -66,11 +66,6 @@ CLEANFILES = $(BUILT_SOURCES)
 
 # Install built library to build/bin
 
-# The `pwd` is a hack, but libtool wants an absolute path, and
-# top_builddir is apparently always relative to the current dir.
-# When we depend on Autoconf 2.53 we can use @abs_top_builddir@
-# instead.
-
 all-local:
 	$(LIBTOOL) --mode=install $(INSTALL) libgdldock.la @abs_top_builddir@/build/bin
 	$(INSTALL_DATA) $(dist_gdldocklib_cruft) $(top_builddir)/build/bin
