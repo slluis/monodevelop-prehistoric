@@ -1,10 +1,3 @@
-2004-11-23  Alp Toker  <alp@atoker.com>
-
-	* src/AddIns/DisplayBindings/SourceEditor/CodeCompletion/CodeCompletionData.cs:
-	* src/AddIns/DisplayBindings/SourceEditor/CodeCompletion/CompletionListWindow.cs:
-	* src/AddIns/DisplayBindings/SourceEditor/CodeCompletion/CodeCompletionDataProvider.cs:
-	Initial code completion support for overloaded methods.
-
 2004-11-12  Todd Berman  <tberman@off.net>
 
 	* configure.in: Require 0.6.99 (HEAD SVN) gtksourceview-sharp.
