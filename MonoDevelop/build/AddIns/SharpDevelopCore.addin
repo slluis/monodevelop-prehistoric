@@ -757,7 +757,7 @@
 		                <MenuItem id = "CompileAll"
 		                          label = "${res:XML.MainMenu.RunMenu.CompileAll}" 
 		                          description = "${res:XML.MainMenu.RunMenu.CompileAll.Description}" 
-		                          shortcut = "Alt|F8"
+		                          shortcut = "Control|F8"
 		                          class = "ICSharpCode.SharpDevelop.Commands.CompileAll"/>
 		                <MenuItem id = "Separator1" label = "-" />
 			                <!-- <Conditional activeproject="*">
