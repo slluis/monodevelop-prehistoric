@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using Gtk;
 
 using MonoDevelop.Services;
@@ -31,39 +32,39 @@ namespace MonoDevelop.Gui.Widgets
 			string tmp = (string) propertyService.GetProperty (LastPathProperty);
 			if (tmp != null && tmp.Length > 0)
 			{
-				int start = tmp.IndexOf (':') + 1;
-				lastPath = tmp.Substring (start).Trim ();
+				if (tmp.EndsWith ("/"))
+					lastPath = String.Format ("{0}", tmp.Trim ());
+				else
+					lastPath = String.Format ("{0}/", tmp.Trim ());
 			}
 			else
 			{
-				// FIXME: use ~/DefaultPath
+				// FIXME: use ~/DefaultPath?
 				lastPath = Environment.GetEnvironmentVariable ("HOME");
 			}
 
-			// FIXME: surely there is a better way to set the dir
-			// this way is horrible
-			this.Complete (lastPath);
+			// Set the dir here, must end in "/" to work right
+			this.Filename = lastPath;
 
 			// Basically need to track if the directory has
 			// been changed in the simplest way possible
-			this.DirList.RowActivated += OnDirectoryChanged;
-			this.HistoryPulldown.Changed += OnOptionChanged;
-			// FIXME: tab-completion dir changes? and others?
+			// I think that this always changes when the dir does
+			this.HistoryPulldown.Changed += OnOptionListChanged;
 		}
 
-		void OnDirectoryChanged (object o, RowActivatedArgs args)
-		{
-			UpdateLastDir ();
-		}
-
-		void OnOptionChanged (object o, EventArgs args)
+		void OnOptionListChanged (object o, EventArgs args)
 		{
 			UpdateLastDir ();
 		}
 
 		void UpdateLastDir ()
 		{
-			lastPath = this.SelectionText.Text;
+			if (this.Filename.EndsWith ("/") || Directory.Exists (this.Filename))
+				lastPath = this.Filename;
+			else
+				lastPath = System.IO.Path.GetDirectoryName (this.Filename);
+		
+			// Console.WriteLine ("storing: {0}", lastPath);
 			// FIXME: find a way to only set this once per-dialog
 			propertyService.SetProperty (LastPathProperty, lastPath);
 		}
