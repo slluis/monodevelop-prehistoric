@@ -3,6 +3,16 @@
     <File name="./Gui/SourceEditorDisplayBinding.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
     <File name="./Gui/SourceEditorWidget.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
     <File name="./Gui/SourceEditorBuffer.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name="./Gui/SourceEditorView.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name="./CodeCompletion/CodeCompletionData.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name="./CodeCompletion/CodeCompletionDataProvider.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name="./CodeCompletion/CommentCompletionDataProvider.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name="./CodeCompletion/CompletionWindow.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name="./CodeCompletion/DeclarationViewWindow.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name="./CodeCompletion/ICompletionData.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name="./CodeCompletion/ICompletionDataProvider.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name="./CodeCompletion/TemplateCompletionDataProvider.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name="./CodeCompletion/TextUtilities.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
   </Contents>
   <References />
   <DeploymentInformation target="" script="" strategy="File" />
