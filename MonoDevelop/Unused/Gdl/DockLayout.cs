@@ -9,8 +9,11 @@ namespace Gdl
 	public class DockLayout
 	{
 		XmlDocument doc;
+		XmlNode rootNode;
+
 		ListStore itemsModel;
 		ListStore layoutsModel;
+
 		bool dirty = false;
 		bool idleSavePending = false;
 
@@ -50,6 +53,14 @@ namespace Gdl
 			set { master = value; }
 		}
 
+		private XmlNode RootNode {
+			get {
+				if (rootNode == null && doc != null)
+					rootNode = doc.SelectSingleNode ("/dock-layout");
+				return rootNode;
+			}
+		}
+
 		public Widget UI {
 			get { return ConstructUI ();}
 		}
@@ -82,7 +93,7 @@ namespace Gdl
 
 			XmlNode node = FindLayout (name);
 			if (node != null) {
-				doc.RemoveChild (node);
+				this.RootNode.RemoveChild (node);
 				dirty = true;
 				// notify dirty
 			}
@@ -108,7 +119,13 @@ namespace Gdl
 				doc = new XmlDocument ();
 				doc.Load (file);
 				// minimum validation: test root element
-				if (doc.SelectSingleNode ("/dock-layout") != null) {
+				if (this.RootNode != null) {
+					// FIXME: I cheated here
+					foreach (XmlNode n in this.RootNode.ChildNodes)
+					{
+						if (n.Name == "layout")
+							layouts.Add (n.Attributes["name"].Value);
+					}
 					UpdateLayoutsModel ();
 					return true;
 				}
@@ -173,17 +190,15 @@ namespace Gdl
 			if (name == null || name.Length < 1)
 				name = "__default__";
 
-			XmlNode root = doc.SelectSingleNode ("/dock-layout");
-
 			// delete any previous node with the same name
 			XmlNode node = FindLayout (name);
 			if (node != null)
-				root.RemoveChild (node);
+				this.RootNode.RemoveChild (node);
 
 			// create the new node
 			XmlNode newNode = doc.CreateNode (XmlNodeType.Element, "layout", null);
 			((XmlElement) newNode).SetAttribute ("name", name);
-			root.AppendChild (newNode);
+			this.RootNode.AppendChild (newNode);
 
 			// save the layout
 			Save (node);
@@ -246,7 +261,6 @@ namespace Gdl
 
 			// build items list
 			ArrayList items = new ArrayList ();
-    		//gdl_dock_master_foreach (master, BuildList, out items);
 			foreach (object o in master.DockObjects) {
 				if (o is DockItem)
 					items.Add (o);
@@ -256,6 +270,7 @@ namespace Gdl
 			// update items model data after a layout load
     		if (itemsModel.GetIterFirst (out iter)) {
 				bool valid = true;
+			walk_start:
 				while (valid) {
 					DockItem item = itemsModel.GetValue (iter, 3) as DockItem;
 					if (item != null) {
@@ -264,14 +279,11 @@ namespace Gdl
 						{
                     		// found, update data
 							if (item == di) {
-								itemsModel.SetValue (iter, 0, item.Name);
-								itemsModel.SetValue (iter, 1, item.IsAttached);
-								itemsModel.SetValue (iter, 2, item.Locked);
+								UpdateItemData (iter, item);
+								items.Remove (di);
+								valid = itemsModel.IterNext (ref iter);
+								goto walk_start;
 							}
-
-                    		// remove the item from the linked list and keep on walking the model
-							items.Remove (di);
-                    		valid = itemsModel.IterNext (ref iter);
 						}
 					}
 					else {
@@ -286,6 +298,13 @@ namespace Gdl
 				itemsModel.AppendValues (ditem.Name, ditem.IsAttached, ditem.Locked, ditem);
 		}
 
+		void UpdateItemData (TreeIter iter, DockItem item)
+		{
+			itemsModel.SetValue (iter, 0, item.Name);
+			itemsModel.SetValue (iter, 1, item.IsAttached);
+			itemsModel.SetValue (iter, 2, item.Locked);
+		}
+
 		void UpdateLayoutsModel ()
 		{
 			if (master == null || layoutsModel == null)
@@ -293,9 +312,10 @@ namespace Gdl
 
 			// build layouts list
 			layoutsModel.Clear ();
-    		ArrayList items = this.Layouts;
-			foreach (string s in items)
-				layoutsModel.AppendValues (s, true);
+			foreach (string s in this.Layouts) {
+				//if (s != "__default__")
+					layoutsModel.AppendValues (s, true);
+			}
 		}
 
 		Notebook ConstructUI ()
@@ -373,6 +393,8 @@ namespace Gdl
 
 		DockObject SetupObject (XmlNode node)
 		{
+			string name = node.Attributes["name"].Value;
+			Console.WriteLine (name);
 			return null;
 		}
 
@@ -432,7 +454,12 @@ namespace Gdl
 
 		void ForeachToplevelDetach (DockObject obj)
 		{
-			//((Container)obj).Foreach (ForeachDetach);
+			DockObject child;
+			foreach (Widget w in obj.Children) {
+				child = w as DockObject;
+				if (w != null)
+					ForeachDetach (child);
+			}
 		}
 
 		void Load (XmlNode node)
@@ -441,7 +468,8 @@ namespace Gdl
 				return;
 
 			// start by detaching all items from the toplevels
-			//gdl_dock_master_foreach_toplevel (master, TRUE, (GFunc) gdl_dock_layout_foreach_toplevel_detach, NULL);
+			foreach (DockObject o in master.TopLevelDocks)
+					ForeachToplevelDetach (o);
 
 			RecursiveBuild (node, null);
 		}
@@ -453,13 +481,20 @@ namespace Gdl
 
 			// recurse the object if appropriate
 			if (obj.IsCompound) {
-				//obj.Foreach (ForeachObjectSave)
+				DockObject child;
+				foreach (Widget w in obj.Children)
+				{
+					child = w as DockObject;
+					if (child != null)
+						ForeachObjectSave (child);
+				}
 			}
 		}
 
 		void AddPlaceholder (DockObject obj, Hashtable placeholders)
 		{
 			if (obj is DockPlaceholder) {
+				Console.WriteLine ("AddPlaceholder");
 			}
 		}
 
