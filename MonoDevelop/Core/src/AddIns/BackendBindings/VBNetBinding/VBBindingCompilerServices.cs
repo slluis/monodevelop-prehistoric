@@ -700,13 +700,13 @@ namespace VBBinding {
 
 		bool done ()
 		{
-			((SdStatusBar)((IStatusBarService)ServiceManager.GetService (typeof (IStatusBarService))).ProgressMonitor).Done ();
+			((SdStatusBar)Runtime.Gui.StatusBar.Control).Done ();
 			return false;
 		}
 
 		bool pulse () 
 		{
-			((SdStatusBar)((IStatusBarService)ServiceManager.GetService (typeof (IStatusBarService))).ProgressMonitor).Pulse ();
+			((SdStatusBar)Runtime.Gui.StatusBar.Control).Pulse ();
 			while (Gtk.Application.EventsPending ())
 				Gtk.Application.RunIteration ();
 			return false;
