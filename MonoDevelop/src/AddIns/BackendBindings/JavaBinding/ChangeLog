@@ -1,3 +1,11 @@
+2004-04-09  John Luke  <jluke@cfl.rr.com>
+
+	* JavaBindingCompilerService.cs: account for classpath when compiling
+	* Gui/ProjectConfigurationPropertyPanel.cs: rough port, needs major HIG love
+	* JavaBindingExecutionService.cs: use ikvm instead of java runtime
+	* Parser/*: make a copy of the CSharpBinding/Parser in case I am crazy enough
+	to port the parser to work with Java (not built yet)
+
 2004-03-25  John Luke  <jluke@cfl.rr.com>
 	
 	import from SD and make it build with our

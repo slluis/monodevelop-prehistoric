@@ -126,7 +126,14 @@ namespace JavaBinding
 			//string outstr = compilerparameters.CompilerPath + "" + files + " -classpath " + compilerparameters.ClassPath + options;
 			//string outstr = compilerparameters.CompilerPath + "" + files + " -classpath " + compilerparameters.ClassPath + options;
 
-			string outstr = compilerparameters.CompilerPath + " " + files + options;			
+			// FIXME: maybe just send javac command to vte
+			// we don't seem to have task support anyways
+			string outstr;
+			if (compilerparameters.ClassPath == "") {
+				outstr = compilerparameters.CompilerPath + files + options;			
+			} else {
+				outstr = compilerparameters.CompilerPath + " -classpath " + compilerparameters.ClassPath + files + options;
+			}
 			DoCompilation (outstr, tf, ref output, ref error);
 			//Executor.ExecWaitWithCapture(outstr, tf, ref error , ref output);			
 			ICompilerResult cr = ParseOutput (tf, output);			

@@ -8,15 +8,11 @@
 using System;
 using System.IO;
 using System.Diagnostics;
-using System.Collections;
 using System.Reflection;
-using System.Resources;
-using System.Xml;
-using System.CodeDom.Compiler;
-using System.Threading;
 
 using MonoDevelop.Internal.Project;
 using MonoDevelop.Gui;
+using MonoDevelop.Gui.Pads;
 using MonoDevelop.Core.Services;
 
 namespace JavaBinding
@@ -47,36 +43,51 @@ namespace JavaBinding
 			JavaCompilerParameters parameters = (JavaCompilerParameters)project.ActiveConfiguration;
 			FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.Services.GetService(typeof(FileUtilityService));
 			string directory = fileUtilityService.GetDirectoryNameWithSeparator(((JavaCompilerParameters)project.ActiveConfiguration).OutputDirectory);
+			string mainClass = ((JavaCompilerParameters) project.ActiveConfiguration).MainClass;
 			
 			string CurrentDir = Directory.GetCurrentDirectory();
-			Directory.SetCurrentDirectory(parameters.OutputDirectory);
-			ProcessStartInfo psi;
-			if(((JavaCompilerParameters)project.ActiveConfiguration).MainClass==null) {
-					//FIXME:
-				psi = new ProcessStartInfo("xterm -e \"java " + ((JavaCompilerParameters)project.ActiveConfiguration).OutputAssembly + ";read -p 'press any key to continue...' -n1\"");
-			} else {
-				if (parameters.PauseConsoleOutput) {
-					//FIXME:
-					psi = new ProcessStartInfo("xterm -e \"java " + ((JavaCompilerParameters)project.ActiveConfiguration).MainClass + ";read -p 'press any key to continue...' -n1\"");
-				} else {
-					//FIXME:
-					psi = new ProcessStartInfo("xterm -e \"java " + ((JavaCompilerParameters)project.ActiveConfiguration).MainClass + ";read -p 'press any key to continue...' -n1\"");
-				}
+			Directory.SetCurrentDirectory (parameters.OutputDirectory);
+			ProcessStartInfo psi = new ProcessStartInfo("xterm -e \"ikvm -classpath " + parameters.ClassPath + " " + mainClass + ";read -p 'press any key to continue...' -n1\"");
+
+            try {
+                psi.WorkingDirectory = Path.GetDirectoryName (directory);
+                psi.UseShellExecute = false;
+
+                Process p = new Process ();
+                p.StartInfo = psi;
+                p.Start ();
+            } catch (Exception) {
+                throw new ApplicationException ("Can not execute " + "\"" + directory + mainClass + "\"\n(Try restarting MonoDevelop or start your app manually)");
+            }
+
+/*
+			//FIXME: find out how to set the working dir better
+			TerminalPad outputPad = (TerminalPad) WorkbenchSingleton.Workbench.GetPad (typeof (TerminalPad));
+			outputPad.RunCommand ("cd " + parameters.OutputDirectory);
+
+			string runtime = "ikvm"; // make it project.RuntimeOptions or so
+			switch (runtime) {
+				// is this even supposed to work with CLI binaries?
+				//case "java": // use an installed jre
+				//	outputPad.RunCommand ("java -classpath " + parameters.ClassPath + " "  + ((JavaCompilerParameters) project.ActiveConfiguration).MainClass);
+				//	break;
+				case "ikvm": // JIT to Java then JIT to mono
+					outputPad.RunCommand ("ikvm -classpath " + parameters.ClassPath + " "  + ((JavaCompilerParameters) project.ActiveConfiguration).MainClass);
+					break;
+				default: // run compiled to exe with mono
+					string command = "ikvmc -reference:/usr/lib/classpath.dll " + ((JavaCompilerParameters) project.ActiveConfiguration).MainClass + ".class ";
+					string[] allJars = parameters.ClassPath.Split (':');
+					foreach (string jar in allJars)
+					{
+						if (jar != ".")
+							command += jar + " ";
+					}
+					outputPad.RunCommand (command);
+					outputPad.RunCommand ("mono " + ((JavaCompilerParameters) project.ActiveConfiguration).MainClass + ".exe");
+					break;
 			}
-			
-			try {
-				psi.WorkingDirectory = parameters.OutputDirectory;
-				psi.UseShellExecute = false;
-			
-				Process p = new Process();
-				p.StartInfo = psi;
-				p.Start();
-			} catch (Exception) {
-				throw new ApplicationException("Can not execute");
-			}
-			
-			Directory.SetCurrentDirectory(CurrentDir);		
+			outputPad.RunCommand ("cd -");
+*/				
 		}
-				
 	}
 }
