@@ -178,6 +178,8 @@ namespace MonoDevelop
 		{
 			lock (fileToOpen) {
 				string file = fileToOpen;
+				if (file == null || file.Length == 0)
+					return false;
 				switch (System.IO.Path.GetExtension(file).ToUpper()) {
 				case ".CMBX":
 				case ".PRJX":

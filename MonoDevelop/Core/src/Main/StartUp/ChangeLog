@@ -1,3 +1,7 @@
+2004-07-01  Todd Berman  <tberman@off.net>
+
+	* MonoDevelopMain.cs: Dont attempt to load 0 length filenames.
+
 2004-06-28  Todd Berman  <tberman@off.net>
 
 	* MonoDevelopMain.cs: add Exit (0); and poof, issues are gone.
