@@ -61,13 +61,13 @@ namespace ICSharpCode.SharpDevelop.Services
 			//CreateContextMenu(owner, addInTreePath).Show(parent, new Point(x, y));
 			CreateContextMenu(owner, addInTreePath).Popup(null, null, null, IntPtr.Zero, 0, Gtk.Global.CurrentEventTime);
 		}
-		/*
+		
 		class QuickInsertMenuHandler
 		{
-			TextBoxBase targetControl;
+			Gtk.Editable targetControl;
 			string      text;
 			
-			public QuickInsertMenuHandler(TextBoxBase targetControl, string text)
+			public QuickInsertMenuHandler(Gtk.Editable targetControl, string text)
 			{
 				this.targetControl = targetControl;
 				this.text          = text;
@@ -80,46 +80,55 @@ namespace ICSharpCode.SharpDevelop.Services
 			}
 			void PopupMenuHandler(object sender, EventArgs e)
 			{
-				targetControl.SelectedText += text;
+				// insert at current cursor position, deleting any selections
+				int tempInt = targetControl.Position;
+				targetControl.DeleteSelection();
+				targetControl.InsertText(text, ref tempInt);
 			}
 		}
 		
 		class QuickInsertHandler
 		{
-			Control               popupControl;
-			CommandBarContextMenu quickInsertMenu;
+			Gtk.Button               popupControl;
+			Gtk.Menu quickInsertMenu;
 			
-			public QuickInsertHandler(Control popupControl, CommandBarContextMenu quickInsertMenu)
+			//public QuickInsertHandler(Control popupControl, CommandBarContextMenu quickInsertMenu)
+			public QuickInsertHandler(Gtk.Button popupControl, Gtk.Menu quickInsertMenu)
 			{
 				this.popupControl    = popupControl;
 				this.quickInsertMenu = quickInsertMenu;
 				
-				popupControl.Click += new EventHandler(showQuickInsertMenu);
+				popupControl.Clicked += new EventHandler(showQuickInsertMenu);
 			}
 			
 			void showQuickInsertMenu(object sender, EventArgs e)
 			{
-				Point cords = new Point(popupControl.Width, 0);
-				quickInsertMenu.Show(popupControl, cords);
+				//Point cords = new Point(popupControl.Width, 0);
+				//quickInsertMenu.Show(popupControl, cords);
+				quickInsertMenu.Popup(null, null, null, IntPtr.Zero, 0, Gtk.Global.CurrentEventTime);
 			}
 		}
 		
-		public void CreateQuickInsertMenu(TextBoxBase targetControl, Control popupControl, string[,] quickInsertMenuItems)
+		//public void CreateQuickInsertMenu(TextBoxBase targetControl, Control popupControl, string[,] quickInsertMenuItems)		
+		public void CreateQuickInsertMenu(Gtk.Editable targetControl, Gtk.Button popupControl, string[,] quickInsertMenuItems)
 		{
 			StringParserService stringParserService = (StringParserService)ServiceManager.Services.GetService(typeof(StringParserService));
 			
-			CommandBarContextMenu contextMenu = new CommandBarContextMenu();
+			//CommandBarContextMenu contextMenu = new CommandBarContextMenu();
+			Gtk.Menu contextMenu = new Gtk.Menu();
 			for (int i = 0; i < quickInsertMenuItems.GetLength(0); ++i) {
 				if (quickInsertMenuItems[i, 0] == "-") {
-					contextMenu.Items.Add(new SdMenuSeparator());
+					contextMenu.Append(new SdMenuSeparator());
 				} else {
 					SdMenuCommand cmd = new SdMenuCommand(this,
 					                                      stringParserService.Parse(quickInsertMenuItems[i, 0]),
 					                                      new QuickInsertMenuHandler(targetControl, quickInsertMenuItems[i, 1]).EventHandler);
-					contextMenu.Items.Add(cmd);
+					contextMenu.Append(cmd);
 				}
 			}
 			new QuickInsertHandler(popupControl, contextMenu);
-		}*/
+			
+			contextMenu.ShowAll();
+		}
 	}
 }

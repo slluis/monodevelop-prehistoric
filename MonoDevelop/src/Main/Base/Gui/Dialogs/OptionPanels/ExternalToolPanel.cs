@@ -13,6 +13,7 @@ using Gtk;
 using ICSharpCode.SharpDevelop.Internal.ExternalTool;
 using ICSharpCode.Core.Properties;
 using ICSharpCode.Core.Services;
+using ICSharpCode.SharpDevelop.Services;
 using ICSharpCode.Core.AddIns.Codons;
 
 namespace ICSharpCode.SharpDevelop.Gui.Dialogs.OptionPanels
@@ -89,8 +90,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs.OptionPanels
 		StringParserService StringParserService = (StringParserService)ServiceManager.Services.GetService (typeof (StringParserService));
 		PropertyService PropertyService = (PropertyService)ServiceManager.Services.GetService(typeof(PropertyService));
 		MessageService MessageService = (MessageService)ServiceManager.Services.GetService(typeof(MessageService));
-// FIXME: when menu service is created
-//		MenuService MenuService = (MenuService)ServiceManager.Services.GetService(typeof(MenuService));
+		MenuService MenuService = (MenuService)ServiceManager.Services.GetService(typeof(MenuService));
 		
 		public override void LoadPanelContents()
 		{
@@ -115,15 +115,13 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs.OptionPanels
 				0);
 			
 			
-// FIXME: when menu service is created
-//			MenuService.CreateQuickInsertMenu(argumentTextBox,
-//			                                  argumentQuickInsertButton,
-//			                                  argumentQuickInsertMenu);
+			MenuService.CreateQuickInsertMenu(argumentTextBox,
+			                                  argumentQuickInsertButton,
+			                                  argumentQuickInsertMenu);
 			
-// FIXME: when menu service is created
-//			MenuService.CreateQuickInsertMenu(workingDirTextBox,
-//			                                  workingDirQuickInsertButton,
-//			                                  workingDirInsertMenu);
+			MenuService.CreateQuickInsertMenu(workingDirTextBox,
+			                                  workingDirQuickInsertButton,
+			                                  workingDirInsertMenu);
 			
 			toolListBox.Selection.Changed += new EventHandler(selectEvent);
 			
@@ -206,7 +204,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs.OptionPanels
 			vBox1.PackEnd(moveUpButton, false, false, 2);			
 			
 			HBox hBox1 = new HBox(false, 2);
-			hBox1.PackStart(toolListBox, false, true, 2);
+			hBox1.PackStart(toolListBox, false, true, 4);
 			hBox1.PackStart(vBox1, false, false, 2);
 			
 			Table table1 = new Table(4, 3, false);
