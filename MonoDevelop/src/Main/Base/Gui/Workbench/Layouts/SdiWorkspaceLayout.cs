@@ -401,7 +401,7 @@ namespace MonoDevelop.Gui
 		public IWorkbenchWindow ShowView(IViewContent content)
 		{	
 			string title = "";
-			Gtk.Image mimeimage;
+			Gtk.Image mimeimage = null;
 			if (content.IsUntitled) {
 				title = content.UntitledName;
 				mimeimage = new Gtk.Image (FileIconLoader.GetPixbufForType ("gnome-fs-regular").ScaleSimple (16, 16, Gdk.InterpType.Bilinear));
@@ -410,13 +410,12 @@ namespace MonoDevelop.Gui
 				mimeimage = new Gtk.Image (FileIconLoader.GetPixbufForFile (content.ContentName, 16, 16));
 			}
 			
-			TabLabel tabLabel = new TabLabel (new Label (), new Gtk.Image (""));
+			TabLabel tabLabel = new TabLabel (new Label (), mimeimage != null ? mimeimage : new Gtk.Image (""));
 			tabLabel.Button.Clicked += new EventHandler (closeClicked);
 			tabLabel.Button.StateChanged += new StateChangedHandler (stateChanged);
 			SdiWorkspaceWindow sdiWorkspaceWindow = new SdiWorkspaceWindow(content, tabControl, tabLabel);
 
 			sdiWorkspaceWindow.CloseEvent += new EventHandler(CloseWindowEvent);
-			//sdiWorkspaceWindow.SwitchView(tabControl.Children.Length - 1);
 			tabControl.AppendPage (sdiWorkspaceWindow, tabLabel);
 		
 			if (tabControl.NPages > 1)

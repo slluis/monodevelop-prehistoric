@@ -114,7 +114,7 @@ namespace MonoDevelop.Gui.Widgets
 				curpage = this.GetNthPage (curpagenum);
 				tab = this.GetTabLabel (curpage);
 				this.ReorderChild (CurrentPageWidget, destpagenum);
-				if (OnTabsReordered != null)
+				if (OnTabsReordered != null && destpagenum != -1 && curpagenum != -1)
 					OnTabsReordered (CurrentPageWidget, curpagenum, destpagenum);
 			}
 		}

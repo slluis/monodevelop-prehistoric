@@ -1,5 +1,10 @@
 2004-06-18  Todd Berman  <tberman@sevenl.net>
 
+	* DragNotebook/DragNotebook.cs: dont emit the event if either the old
+	placement or the new is -1, as it isnt a real reorder.
+
+2004-06-18  Todd Berman  <tberman@sevenl.net>
+
 	* DragNotebook/DragNotebook.cs: add an event that gets fired when
 	a tab is reordered.
 	* TabLabel/TabLabel.cs: try to make this widget unfocusable (untested)

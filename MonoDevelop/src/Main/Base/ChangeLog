@@ -1,5 +1,10 @@
 2004-06-18  Todd Berman  <tberman@off.net>
 
+	* Gui/Workbench/Layouts/SdiWorkspaceLayout.cs: cleanups, and a small
+	icon related fixup.
+
+2004-06-18  Todd Berman  <tberman@off.net>
+
 	* Commands/MenuItemBuilders.cs: clean up accel path code.
 	* Gui/Workbench/Layouts/SdiWorkspaceLayout.cs: reduce code complexity
 	by removing the extra ArrayList. Also properly use the tab reordering
