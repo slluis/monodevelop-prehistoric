@@ -1,13 +1,13 @@
 <?xml version="1.0"?>
 <Template originator   = "Pawel Rozanski"
           created      = "04/04/2004"
-          lastModified = "04/04/2004">
+          lastModified = "05/04/2004">
 
 	<!-- Template Header -->
 	<TemplateConfiguration>
 		<Name>Empty Nemerle project</Name>
 		<Category>Nemerle</Category>
-		<Icon>C#.Project.EmptyProject</Icon>
+		<Icon>Nemerle.Project.EmptyProject</Icon>
 		<LanguageName>Nemerle</LanguageName>
 		<Description>Empty Nemerle project</Description>
 	</TemplateConfiguration>

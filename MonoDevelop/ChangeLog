@@ -1,3 +1,17 @@
+2004-05-04  Pawel Rozanski  <tokugawa@afn.no-ip.org>
+
+	* build/AddIns/AddIns/BackendBindings/BackendBindings.addin.xml:
+	* build/data/templates/file/Nemerle/EmptyNemerleFile.xft:
+	* build/data/templates/project/Nemerle/EmptyProject.xpt:
+	Nemerle projects use Nemerle icons now
+
+	* build/data/resources/icons/Makefile.am:
+	* build/data/resources/icons/Nemerle.ProjectIcon:
+	* build/data/resources/icons/Nemerle.Project.EmptyProject:
+	* build/data/resources/icons/Nemerle.File.EmptyFile:
+	* build/data/resources/icons/Nemerle.FileIcon:
+	first Nemerle icons from Piotr Modrzyk
+
 2004-05-02  Todd Berman  <tberman@sevenl.net>
 
 	* build/AddIns/Makefile.am:

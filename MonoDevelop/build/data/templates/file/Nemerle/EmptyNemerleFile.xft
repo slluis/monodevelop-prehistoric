@@ -2,11 +2,11 @@
 <Template Originator   = "Pawel Rozanski"
 	  Language     = "Nemerle"
           Created      = "04/04/2004"
-          LastModified = "04/04/2004">
+          LastModified = "05/04/2004">
 	  
 	<TemplateConfiguration>
 		<Name>Empty Nemerle file</Name>
-		<Icon>C#.File.EmptyFile</Icon>
+		<Icon>Nemerle.File.EmptyFile</Icon>
 		<Category>Nemerle</Category>
 		<LanguageName>Nemerle</LanguageName>
 		<Description>Empty Nemerle file</Description>

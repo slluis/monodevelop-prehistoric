@@ -288,6 +288,10 @@ JScript.Project.ServiceProject \
 JScript.Project.UserControl \
 JScript.Project.WebProject \
 MonoDevelop.Close.png \
+Nemerle.File.EmptyFile \
+Nemerle.FileIcon \
+Nemerle.Project.EmptyProject \
+Nemerle.ProjectIcon \
 VB.File.EmptyFile \
 VB.File.Form \
 VB.File.FullFile \
