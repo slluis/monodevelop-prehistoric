@@ -1,5 +1,10 @@
 2004-06-24  Todd Berman  <tberman@off.net>
 
+	* Commands/ProjectBrowserCommands/CombineNodeCommands.cs: set dialog
+	to null after we are done with it.
+
+2004-06-24  Todd Berman  <tberman@off.net>
+
 	* Gui/Dialogs/NewSolutionDialog.cs:
 	* Commands/ProjectBrowserCommands/CombineNodeCommands.cs:
 	* Commands/FileCommands.cs: convert to using new async dispatcher

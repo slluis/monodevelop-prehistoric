@@ -62,7 +62,8 @@ namespace MonoDevelop.Commands.ProjectBrowser
 			{
 				msg.ShowError (GettextCatalog.GetString ("Invalid Project File"));
 			}
-		}			
+			npdlg = null;
+		}	
 	}
 		
 	public class AddNewCombineToCombine : AbstractMenuCommand
@@ -94,12 +95,13 @@ namespace MonoDevelop.Commands.ProjectBrowser
 				projectService.SaveCombine();
 				
 				// expand to the new node
-				node.Nodes[newNodeIndex].Expand();
+				\node.Nodes[newNodeIndex].Expand();
 			}
 			catch
 			{
 				msg.ShowError (GettextCatalog.GetString ("Invalid Solution File"));
 			}
+			npdlg = null;
 		}
 	}
 	
