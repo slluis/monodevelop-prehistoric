@@ -5,7 +5,15 @@
 
       <div class="title">Installation Tutorial</div>
 
-      <p>This tutorial is your guide to installing MonoDevelop releases using official packages. If you would like to build MonoDevelop from snapshots, please see the 
+      <p>Before reading any further, please consider installing MonoDevelop
+      from binary pacakges. This is most likely far easier for you in the
+      short term, and better for you in the long term. MonoDevelop packages
+      are available from the redcarpet mono channel, or from
+      <a href="http://www.go-mono.com/download.html">go-mono.com</a>.</p>
+
+      <p>Most likely, this is the path you want to take.</p>
+
+      <p>This tutorial is your guide to installing MonoDevelop releases using official tarball packages. If you would like to build MonoDevelop from snapshots, please see the 
 <a href="snapshot_install.aspx">snapshot tutorial</a>.</p>
       <p>Unless specified otherwise, build and install all tarball packages using:
 <pre class="code">
@@ -57,32 +65,33 @@ the Mozilla development package for your OS. For example:
       <p>MonoDevelop will require the following mono packages to be installed, in this order:
       <ul>
 <li><a href="ftp://www-126.ibm.com/pub/icu/2.6/icu-2.6.tgz">International Components for Unicode 2.6 or greater</a></li>
-<li><a href="http://www.go-mono.com/archive/beta1/mono-0.91.tar.gz">mono 0.91</a></li>
-<li><a href="http://www.go-mono.com/archive/beta1/gtk-sharp-0.91.1.tar.gz">gtk-sharp 0.91.1</a></li>
-<li><a href="http://www.go-mono.com/archive/beta1/monodoc-0.15.tar.gz">monodoc 0.15</a></li>
-<li><a href="http://www.go-mono.com/archive/beta1/gtksourceview-sharp-0.2.tar.gz">gtksourceview-sharp 0.2</a></li>
-<li><a href="http://www.go-mono.com/archive/beta1/gecko-sharp-0.3.tar.gz">gecko-sharp 0.3</a></li>
+<li><a href="http://www.go-mono.com/archive/beta2/mono-0.95.tar.gz">mono 0.95</a></li>
+<li><a href="http://www.go-mono.com/archive/beta2/gtk-sharp-0.93.tar.gz">gtk-sharp 0.93</a></li>
+<li><a href="http://www.go-mono.com/archive/beta2/monodoc-0.16.tar.gz">monodoc 0.16</a></li>
+<li><a href="http://www.go-mono.com/archive/beta2/gtksourceview-sharp-0.3.tar.gz">gtksourceview-sharp 0.3</a></li>
+<li><a href="http://www.go-mono.com/archive/beta2/gecko-sharp-0.4.tar.gz">gecko-sharp 0.4</a></li>
       </ul></p>
       <p>When building from the source provided above, always use a prefix of `<tt>/usr</tt>'.</p>
       <p>Some packages are also available as prebuild binary packages (RPMs and DEBs). 
 Binary packages can be found at <a href="http://www.go-mono.com/download.html">mono download page</a> 
 for RedHat, Fedora, Suse, and Debian. They are also available through Ximian's 
-<a href="http://www.ximian.com/products/redcarpet/">Red Carpet</a>, in the `mono' channel. Currently, 
-binary packages only exist for these modules:
+<a href="http://www.ximian.com/products/redcarpet/">Red Carpet</a>, in the `mono' channel. Currently, binary packages exist for these modules for most distros:
       <ul>
          <li>mono</li>
          <li>ICU (`icu' and `libicu26')</li>
 	 <li>gtk-sharp</li>
 	 <li>monodoc</li>
+	 <li>gecko-sharp</li>
+	 <li>gtksourceview-sharp</li>
+	 <li>monodevelop</li>
       </ul>
-Other binary packages are under development, and will be available soon.
 </p>
 
       
       <br /><br /><br />
       <div class="headlinebar">Installing MonoDevelop</div>      
       <p>The final step in this process is to build MonoDevelop itself. Download the 
-<a href="http://www.go-mono.com/archive/beta1/monodevelop-0.3.tar.gz">MonoDevelop 0.3</a> package.</p>
+<a href="http://www.go-mono.com/archive/beta2/monodevelop-0.4.tar.gz">MonoDevelop 0.3</a> package.</p>
 
 <pre class="code">
 export PKG_CONFIG_PATH="/usr/lib/pkgconfig"

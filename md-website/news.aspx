@@ -5,6 +5,11 @@
 
   <div class="title">News</div>
 
+  <div class="news_header">June 1, 2004: MonoDevelop 0.4 Released</div>
+  <p>MonoDevelop 0.4 released. Release notes available
+  <a href="/release_notes/0.4.html">here</a>. Packages are available in the
+  mono redcarpet channel.</p>
+
   <div class="news_header">May 4, 2004: MonoDevelop 0.3 Released</div>
   <p>MonoDevelop 0.3 is released. Read about it and download it from the
   <a href="/release.aspx">releases page</a> and the 0.3 <a href="/release_notes/0.3.html">release notes</a>.</p>

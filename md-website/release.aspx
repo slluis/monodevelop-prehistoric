@@ -7,6 +7,12 @@
     <p>Milestone releases can be found here as tarballs. We will also post any binary packages contributed by users.</p>
     <br />
 
+    <h3>MonoDevelop 0.4</h3>
+    <ul>
+        <li><a href="/release_notes/0.4.html">Release notes</a></li>
+        <li><a href="http://go-mono.com/archive/beta2/monodevelop-0.4.tar.gz">Tarball package</a></lie>
+    </ul>
+
     <h3>MonoDevelop 0.3</h3>
     <ul>
 	<li><a href="/release_notes/0.3.html">Release notes</a></li>
