@@ -54,14 +54,14 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 			
 		
 		ArrayList completionData = null;
-
+		
 		public ICompletionData[] GenerateCompletionData(string fileName, SourceEditorView textArea, char charTyped, TextMark triggerMark)
 		{
 			completionData = new ArrayList();
 			this.fileName = fileName;
-		
+			
 			Gtk.TextIter insertIter = textArea.Buffer.GetIterAtMark (triggerMark);
-		
+			
 			// the parser works with 1 based coordinates
 			
 			caretLineNumber      = insertIter.Line + 1;
@@ -86,17 +86,17 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 				//FIXME: I added the null check, #D doesnt need it, why do we?
 				if (fileName != null) {
 					results = parserService.Resolve(expression, 
-				                                caretLineNumber,
-				                                caretColumn,
-				                                fileName,
-				                                textArea.Buffer.Text);
+													caretLineNumber,
+													caretColumn,
+													fileName,
+													textArea.Buffer.Text);
 					AddResolveResults(results);
 				}
 			}
 			
 			return (ICompletionData[]) completionData.ToArray (typeof (ICompletionData));
 		}
-
+		
 		void AddResolveResults(ICollection list) 
 		{
 			if (list == null) {
