@@ -85,7 +85,6 @@ SOURCES= \
 ./src/Document/DefaultDocument.cs \
 ./src/Document/IDocument.cs \
 ./src/Document/AbstractSegment.cs \
-./src/Document/FormattingStrategy/DefaultFormattingStrategy.cs \
 ./src/Document/TextBufferStrategy/StringTextBufferStrategy.cs \
 ./src/Document/TextBufferStrategy/GapTextBufferStrategy.cs \
 ./src/Document/TextBufferStrategy/ITextBufferStrategy.cs \

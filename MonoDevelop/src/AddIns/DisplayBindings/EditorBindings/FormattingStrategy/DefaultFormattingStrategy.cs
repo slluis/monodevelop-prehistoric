@@ -7,7 +7,6 @@
 
 using System;
 using System.Collections;
-using System.Drawing;
 using System.Text;
 using MonoDevelop.EditorBindings.FormattingStrategy;
 
