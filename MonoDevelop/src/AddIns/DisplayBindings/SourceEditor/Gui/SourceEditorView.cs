@@ -419,6 +419,11 @@ namespace MonoDevelop.SourceEditor.Gui
 				return false;
 			
 			int y0 = begin.Line, y1 = end.Line;
+
+			// If last line isn't selected, it's illogical to indent it.
+			if (end.StartsLine())
+				y1--;
+
 			if (y0 == y1)
 				return false;
 			
@@ -437,6 +442,11 @@ namespace MonoDevelop.SourceEditor.Gui
 				return false;
 			
 			int y0 = begin.Line, y1 = end.Line;
+
+			// If last line isn't selected, it's illogical to indent it.
+			if (end.StartsLine())
+				y1--;
+
 			if (y0 == y1)
 				return false;
 			
@@ -455,8 +465,11 @@ namespace MonoDevelop.SourceEditor.Gui
 
 		void IndentLines (int y0, int y1, string indent)
 		{
-			for (int l = y0; l <= y1; l ++)
-				Buffer.Insert (Buffer.GetIterAtLine (l), indent);
+			for (int l = y0; l <= y1; l ++) {
+				TextIter it = Buffer.GetIterAtLine (l);
+				if (!it.EndsLine())
+					Buffer.Insert (it, indent);
+			}
 		}
 		
 		// WORKAROUND until we get this method returning char in gtk#
