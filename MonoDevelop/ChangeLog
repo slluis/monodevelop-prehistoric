@@ -1,3 +1,8 @@
+2004-03-05  John BouAntoun  <jba-mono@optusnet.com.au>
+
+	* src/Main/Base/Gui/Dialogs/ProjectOptionsDialog.cs : added configuration renaming
+	* src/Main/Base/Gui/Dialogs/TreeViewOptions.cs : made InitializeComponent virtual so ProjectOptionDialog could override (see above)
+
 2004-03-04  Mike Kestner  <mkestner@ximian.com>
 
 	* Main/Base/Services/DebuggingService.cs : add CurrentFilename and
@@ -30,6 +35,7 @@
 		Gladed CodeGenerationPanel
 
 2004-03-04 John BouAntoun  <jba-mono@optusnet.com.au>
+	
 	* src/Main/Base/Gui/Dialogs/ProjectOptionsDialog.cs: 
 		enabled context menu's for project configurations
 	* src/Main/Base/Gui/Dialogs/TreeViewOptions.cs: 

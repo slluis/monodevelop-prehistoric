@@ -166,7 +166,8 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs {
 			SelectNode (null, null);
 		}
 		
-		protected void InitializeComponent () 
+		// this is virtual so that inheriting classes can extend (for example to make the text cell editable)
+		protected virtual void InitializeComponent () 
 		{
 			treeStore = new Gtk.TreeStore (typeof (string), typeof (IDialogPanelDescriptor));
 			

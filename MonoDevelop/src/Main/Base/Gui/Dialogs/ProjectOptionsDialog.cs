@@ -28,6 +28,8 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs {
 		
 		IAddInTreeNode configurationNode;
 		Gtk.TreeIter configurationTreeNode;
+		Gtk.CellRendererText textRenderer;		// used to set an editable node
+		Gtk.TreeViewColumn textColumn;			// used to set an editable node
 	
 		StringParserService StringParserService = (StringParserService)ServiceManager.Services.GetService (typeof(StringParserService));
 		
@@ -79,6 +81,35 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs {
 			}
 		}
 		
+		// override base method so that we can make the text cell render editable 
+		protected override void InitializeComponent () 
+		{
+			treeStore = new Gtk.TreeStore (typeof (string), typeof (IDialogPanelDescriptor));
+			
+			TreeView.Model = treeStore;
+			// need editable text cell so we can rename configs
+			textRenderer = new Gtk.CellRendererText ();			
+			textRenderer.Edited += new Gtk.EditedHandler (HandleOnEdit);
+			textColumn = TreeView.AppendColumn ("", textRenderer , "text", 0);
+			TreeView.Selection.Changed += new EventHandler (SelectNode);
+		}
+		
+		// handle the cell edit event
+		void HandleOnEdit (object o, Gtk.EditedArgs e)
+		{
+			// stop editability
+			textRenderer.Editable = false;			
+			
+			Gtk.TreeIter iter;
+			if (! treeStore.GetIterFromString (out iter, e.Path)) {
+				throw new Exception("Error calculating iter for path in project options dialog: " + e.Path);
+			}
+			
+			AfterLabelEdit(iter, e.NewText);
+		}
+		
+		#region context menu commands
+		
 		public void AddProjectConfiguration()
 		{
 			int    number  = -1;
@@ -100,29 +131,29 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs {
 			} while (duplicateNumber);
 			
 			// append new configuration node to the configurationTreeNode
-			IConfiguration newConfig = (IConfiguration)project.ActiveConfiguration.Clone();
+			IConfiguration newConfig = (IConfiguration) project.ActiveConfiguration.Clone();
 			newConfig.Name = newName;			
 			Gtk.TreeIter newNode = treeStore.AppendValues (configurationTreeNode, newConfig.Name , newConfig);
 			
 			// add the config to the project
-			project.Configurations.Add(newConfig);
-			properties.SetProperty("Config", newConfig);
+			project.Configurations.Add (newConfig);
+			properties.SetProperty ("Config", newConfig);
 			
 			// add the child nodes to this new config
-			AddNodes(properties, newNode, configurationNode.BuildChildItems(newConfig));			
+			AddNodes (properties, newNode, configurationNode.BuildChildItems(newConfig));			
 			
-			// select the new config's first child
-			Gtk.TreeIter newChild;
-			if (treeStore.IterNthChild(out newChild, newNode, 0)) {
-				SelectSpecificNode(newChild);
-			}
+			//select new config node and set it for renaming
+			Gtk.TreePath newPath = treeStore.GetPath (newNode);
+			TreeView.ExpandToPath (newPath);
+			TreeView.Selection.SelectPath (newPath);
+			RenameProjectConfiguration();
 		}
 		
 		public void RemoveProjectConfiguration()
 		{	
 			Gtk.TreeModel mdl;
 			Gtk.TreeIter  iter;
-			if (TreeView.Selection.GetSelected (out mdl, out iter)) {					
+			if (TreeView.Selection.GetSelected (out mdl, out iter)) {
 				IConfiguration config = (IConfiguration) mdl.GetValue(iter, 1);
 				if (project.Configurations.Count > 1) {
 					bool newActiveConfig = project.ActiveConfiguration == config;
@@ -131,7 +162,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs {
 					
 					if (((Gtk.TreeStore)mdl).Remove(ref iter)) {
 						UpdateBoldConfigurationNode();
-						SelectSpecificNode(configurationTreeNode);						
+						SelectSpecificNode(configurationTreeNode);
 					}
 				}
 			}
@@ -171,39 +202,60 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs {
 		
 		public void RenameProjectConfiguration()
 		{
-			// FIXME: have no idea if this is possible
-			//((TreeView)ControlDictionary["optionsTreeView"]).LabelEdit    = true;
-			//((TreeView)ControlDictionary["optionsTreeView"]).SelectedNode.BeginEdit();
+			Gtk.TreeModel mdl;
+			Gtk.TreeIter  iter;
+			if (TreeView.Selection.GetSelected (out mdl, out iter)) {
+				// make sure the node is a config node
+				IConfiguration config = mdl.GetValue(iter, 1) as IConfiguration;
+				if (config != null) {
+					// see if it's the active columne (if so remove the active text on the end) before editing
+					if (project.ActiveConfiguration == config) {
+						string name = (string) mdl.GetValue(iter, 0);
+						name = name.Replace(" (Active)", string.Empty);
+						mdl.SetValue(iter, 0, name);
+					}
+					
+					// make the cell editable
+					textRenderer.Editable = true;
+					TreeView.SetCursor (mdl.GetPath(iter), textColumn, true);
+					//TreeView.GrabFocus ();
+				}
+			}
 		}
 		
-		/*void AfterLabelEdit(object sender, NodeLabelEditEventArgs e)
+		void AfterLabelEdit(Gtk.TreeIter iter, string newLabel)
 		{
-			//((TreeView)ControlDictionary["optionsTreeView"]).LabelEdit = false;
-			
 			// canceled edit (or empty name)
-			if (e.Label == null || e.Label.Length == 0) {
+			if (newLabel == null || newLabel.Length == 0) {
+				UpdateBoldConfigurationNode();
 				return;
 			}
 			
-			bool duplicateLabel       = false;
+			bool duplicateLabel = false;
 			foreach (IConfiguration config in project.Configurations) {
-				if (e.Label == config.Name) {
+				if (newLabel == config.Name) {
 					duplicateLabel = true;
 					break;
 				}
 			}
-			e.CancelEdit = true;
 			
+			// set the new label
 			if (!duplicateLabel) {
-				e.Node.Text = e.Label;
-				((IConfiguration)e.Node.Tag).Name = e.Label;
+				IConfiguration config = (IConfiguration) treeStore.GetValue(iter, 1);
+				config.Name = newLabel;
+				treeStore.SetValue(iter, 1, config);
+				treeStore.SetValue(iter, 0, newLabel);
 			}
-		}*/
+			
+			// if got this far then someone tried to edit a label, so reset the active string (in case it was removed)
+			UpdateBoldConfigurationNode();
+		}
+		#endregion 
+		
+		#region context menu setup
 		
 		static string configNodeMenu = "/SharpDevelop/Workbench/ProjectOptions/ConfigNodeMenu";
 		static string selectConfigNodeMenu = "/SharpDevelop/Workbench/ProjectOptions/SelectedConfigMenu";
-		
-		#region context menu presentation methods
 		
 		// override select node to allow config and config child nodes (braches) to be selected
 		protected override void SelectNode(object sender, EventArgs e)
