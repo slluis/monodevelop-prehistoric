@@ -5,6 +5,12 @@
 //     <version value="$version"/>
 // </file>
 
+//
+//
+// FIX ME
+// We need to do the compile in the background
+//
+
 using System;
 using System.IO;
 using System.Threading;
@@ -48,7 +54,7 @@ namespace ICSharpCode.SharpDevelop.Commands
 		
 		void CompileThread()
 		{
-			lock (Compile.CompileLockObject) {
+			//lock (Compile.CompileLockObject) {
 				CombineEntry.BuildProjects = 0;
 				CombineEntry.BuildErrors   = 0;
 				
@@ -93,7 +99,7 @@ namespace ICSharpCode.SharpDevelop.Commands
 					messageService.ShowError(e, "Error while compiling");
 				}
 				projectService.OnEndBuild();
-			}
+			//}
 		}
 		
 		public void RunWithWait()
@@ -110,6 +116,7 @@ namespace ICSharpCode.SharpDevelop.Commands
 				if (projectService.CurrentOpenCombine != null) {
 					taskService.CompilerOutput = String.Empty;
 					projectService.OnStartBuild();
+					RunWithWait();
 					//Thread t = new Thread(new ThreadStart(CompileThread));
 					//t.IsBackground  = true;
 					//t.Start();
@@ -175,14 +182,15 @@ namespace ICSharpCode.SharpDevelop.Commands
 //			if (Monitor.TryEnter(Compile.CompileLockObject)) {
 				TaskService taskService = (TaskService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(TaskService));
 				IProjectService projectService = (IProjectService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
-//				if (projectService.CurrentOpenCombine != null) {
+				if (projectService.CurrentOpenCombine != null) {
 	
 					taskService.CompilerOutput = String.Empty;
 					projectService.OnStartBuild();
+					CompileThread ();
 					//Thread t = new Thread(new ThreadStart(CompileThread));
 					//t.IsBackground  = true;
 					//t.Start();
-//				}
+				}
 //				Monitor.Exit(Compile.CompileLockObject);
 //			}
 		}
@@ -241,6 +249,7 @@ namespace ICSharpCode.SharpDevelop.Commands
 			IProjectService projectService = (IProjectService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
 			if (projectService.CurrentOpenCombine != null) {
 				RunThread(); // TODO FIXME PEDRO
+				
 				//Thread t = new Thread(new ThreadStart(RunThread));
 				//t.IsBackground  = true;
 				//t.Start();
