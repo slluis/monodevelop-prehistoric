@@ -56,9 +56,6 @@ namespace CSharpBinding
 				configuration = (DotNetProjectConfiguration)((IProperties)CustomizationObject).GetProperty("Config");
 				compilerParameters = (CSharpCompilerParameters) configuration.CompilationParameters;
 				
-				// FIXME: Enable when mcs has this feature
-				generateXmlOutputCheckButton.Sensitive = false;
-
 				ListStore store = new ListStore (typeof (string));
 				store.AppendValues (GettextCatalog.GetString ("Executable"));
 				store.AppendValues (GettextCatalog.GetString ("Library"));
