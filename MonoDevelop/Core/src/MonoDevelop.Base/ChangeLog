@@ -1,5 +1,10 @@
 2005-02-10  Todd Berman  <tberman@off.net>
 
+	* Internal/Project/Combine/Combine.cs: Don't generate makefiles on
+	Save.
+
+2005-02-10  Todd Berman  <tberman@off.net>
+
 	* Services/Project/DefaultProjectService.cs: Moved, see below.
 	* Services/Project/ProjectService.cs:
 	* Makefile.am:

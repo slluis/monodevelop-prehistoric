@@ -216,7 +216,7 @@ namespace MonoDevelop.Internal.Project
 				if (entry is Combine || entry is Project)
 					entry.Save (monitor);
 			}
-			GenerateMakefiles ();
+			//GenerateMakefiles ();
 		}
 
 		public CombineEntry AddEntry (string filename, IProgressMonitor monitor)
