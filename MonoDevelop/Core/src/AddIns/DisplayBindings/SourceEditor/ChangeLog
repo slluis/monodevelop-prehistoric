@@ -1,5 +1,11 @@
 2005-02-22  John Luke  <john.luke@gmail.com>
 
+	* CodeCompletion/CodeCompletionDataProvider.cs:
+	track the added Classes so we dont add them twice to the
+	completion list, I think it should fix bug 72941
+
+2005-02-22  John Luke  <john.luke@gmail.com>
+
 	* Gui/SourceEditorView.cs (ScrollDown): don't change the
 	value above maxvalue, fixes a little stutter I noticed
 

@@ -34,6 +34,7 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 	public class CodeCompletionDataProvider : ICompletionDataProvider
 	{
 //		static AmbienceService          ambienceService = (AmbienceService)ServiceManager.Services.GetService(typeof(AmbienceService));
+		Hashtable insertedClasses = new Hashtable ();
 		Hashtable insertedElements           = new Hashtable();
 		Hashtable insertedPropertiesElements = new Hashtable();
 		Hashtable insertedEventElements      = new Hashtable();
@@ -108,7 +109,11 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 				if (o is string) {
 					completionData.Add(new CodeCompletionData(o.ToString(), Stock.NameSpace));
 				} else if (o is IClass) {
-					completionData.Add(new CodeCompletionData((IClass)o));
+					IClass iclass = (IClass) o;
+					if (iclass.Name != null && insertedClasses[iclass.Name] == null) {
+						completionData.Add(new CodeCompletionData((IClass)o));
+						insertedClasses[iclass.Name] = iclass;
+					}
 				} else if (o is IProperty) {
 					IProperty property = (IProperty)o;
 					if (property.Name != null && insertedPropertiesElements[property.Name] == null) {
