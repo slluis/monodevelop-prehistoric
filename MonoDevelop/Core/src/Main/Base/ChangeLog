@@ -1,3 +1,8 @@
+2004-10-21  Chris Toshok  <toshok@ximian.com>
+
+	* Gui/Workbench/DefaultWorkbench.cs: don't try to open
+	cur_dbgFilename if it's String.Empty.
+
 2004-10-20  John Luke  <john.luke@gmail.com>
 
 	* Commands/MenuItemBuilders.cs:

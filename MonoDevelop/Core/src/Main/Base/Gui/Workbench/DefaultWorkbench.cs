@@ -206,10 +206,12 @@ namespace MonoDevelop.Gui
 				cur_dbgFilename = dbgr.CurrentFilename;
 				cur_dbgLineNumber = dbgr.CurrentLineNumber - 1;
 
-				IFileService fs = (IFileService)ServiceManager.GetService (typeof (IFileService));
-				fs.OpenFile (cur_dbgFilename);
-				if (ActiveWorkbenchWindow.ViewContent is IDebuggableEditor) 
-					((IDebuggableEditor)ActiveWorkbenchWindow.ViewContent).ExecutingAt (cur_dbgLineNumber);
+				if (cur_dbgFilename != String.Empty) {
+					IFileService fs = (IFileService)ServiceManager.GetService (typeof (IFileService));
+					fs.OpenFile (cur_dbgFilename);
+					if (ActiveWorkbenchWindow.ViewContent is IDebuggableEditor) 
+						((IDebuggableEditor)ActiveWorkbenchWindow.ViewContent).ExecutingAt (cur_dbgLineNumber);
+				}
 			}
 		}
 
