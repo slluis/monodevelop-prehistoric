@@ -96,7 +96,7 @@ AM_CONDITIONAL(ENABLE_DEBUGGER, test "x$enable_debugger" = "xyes")
 AM_CONDITIONAL(ENABLE_XDGMIME, test "x$enable_xdgmime" = "xyes")
 
 dnl Intl
-ALL_LINGUAS="en_CA"
+ALL_LINGUAS="en_CA fr"
 GETTEXT_PACKAGE=monodevelop
 AC_SUBST(GETTEXT_PACKAGE)
 AC_DEFINE_UNQUOTED(GETTEXT_PACKAGE,"$GETTEXT_PACKAGE", [Gettext package])

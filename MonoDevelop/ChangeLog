@@ -1,3 +1,8 @@
+2004-04-19  Todd Berman  <tberman@sevenl.net>
+
+	* configure.in: add french translation
+	* po/fr.po: add french translation from Vincent Daron
+
 2004-04-12  John Luke  <jluke@cfl.rr.com>
 
 	import ILAsmBinding from SD svn	
