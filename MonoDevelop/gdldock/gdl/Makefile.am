@@ -13,10 +13,13 @@ generated-stamp: gdl-api.xml
 	gapi-fixup --api=gdl-api.xml --metadata=Gdl.metadata && \
 	gapi-codegen --generate gdl-api.xml --include $(INCLUDE_APIS) --outdir=generated --customdir=. --assembly-name=gdl-sharp && touch generated-stamp
  
-$(ASSEMBLY): generated-stamp
+$(ASSEMBLY): generated-stamp ../../build/bin
 	$(MCS) --unsafe --target library \
 	-r glib-sharp.dll -r gtk-sharp.dll -r gdk-sharp.dll \
 	--recurse '*.cs' -o $(ASSEMBLY)
+
+../../build/bin:
+	../..//mkinstalldirs ../../build/bin
 
 gdldocklibdir = $(prefix)/lib/monodevelop
 
@@ -30,3 +33,5 @@ clean:
 	rm -rf generated
 
 CLEANFILES=$(ASSEMBLY) generated-stamp generated
+
+EXTRA_DIST = gdl-api.xml Gdl.metadata DockItemFlags.cs DockParamFlags.cs

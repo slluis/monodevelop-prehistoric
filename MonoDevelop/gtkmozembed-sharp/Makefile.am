@@ -24,3 +24,5 @@ install-data-local: $(ASSEMBLY)
 	$(INSTALL_DATA) $(ASSEMBLY) $(DESTDIR)$(monodeveloplibdir)/bin/gtkmozembed-sharp.dll
  
 CLEANFILES=$(ASSEMBLY) generated-stamp generated
+
+EXTRA_DIST = GtkMozEmbed.metadata gtkmozembed-api.xml EmbedWidget.custom Single.custom NewWindow_delegate.cs NewWindow_handler.cs NewWindowOrphan_handler.cs

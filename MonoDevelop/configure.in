@@ -59,14 +59,12 @@ src/AddIns/BackendBindings/Makefile
 src/AddIns/BackendBindings/CSharpBinding/Makefile
 src/AddIns/DisplayBindings/Makefile
 src/AddIns/DisplayBindings/SourceEditor/Makefile
-src/AddIns/DisplayBindings/TextEditor/Makefile
 src/AddIns/Misc/Makefile
 src/AddIns/Misc/StartPage/Makefile
 src/Main/Makefile
 src/Main/Base/Makefile
 src/Main/StartUp/Makefile
 src/Libraries/Makefile
-src/Libraries/ICSharpCode.TextEditor/Makefile
 src/Libraries/MonoDevelop.Core/Makefile
 src/Libraries/MonoDevelop.Gui.Utils/Makefile
 src/Libraries/MonoDevelop.Gui.Widgets/Makefile
@@ -81,5 +79,8 @@ build/AddIns/AddIns/Makefile
 build/AddIns/AddIns/BackendBindings/Makefile
 build/AddIns/AddIns/Misc/Makefile
 build/AddIns/AddIns/Misc/StartPage/Makefile
+data/Makefile
+data/resources/Makefile
+data/resources/glade/Makefile
 monodevelop
 ])

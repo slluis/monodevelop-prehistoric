@@ -16,7 +16,6 @@ SOURCES = \
 ./Gui/Dialogs/SortOptionsDialog.cs \
 ./Gui/Dialogs/ReplaceInFilesDialog.cs \
 ./Gui/Dialogs/ReplaceDialog.cs \
-./Gui/Dialogs/GotoLineNumberDialog.cs \
 ./Conditions/TextContentCondition.cs \
 ./Actions.cs \
 ./Search/DocumentIterator/ProvidedDocumentInformation.cs \
@@ -56,3 +55,5 @@ $(DLL): $(SOURCES) ../../../../data/resources/glade/texteditoraddin.glade
 		$(SOURCES)
 
 CLEANFILES=$(DLL)
+
+EXTRA_DIST = $(SOURCES)

@@ -81,3 +81,5 @@ install-data-local: $(DLL)
 	$(INSTALL_DATA) $(DLL) $(DESTDIR)$(monodeveloplibdir)/bin/ICSharpCode.SharpAssembly.dll
 
 CLEANFILES=$(DLL)
+
+EXTRA_DIST = $(SOURCES)

@@ -126,3 +126,5 @@ install-data-local: $(DLL)
 	$(INSTALL_DATA) $(DLL) $(DESTDIR)$(monodeveloplibdir)/bin/ICSharpCode.SharpRefactory.dll
 
 CLEANFILES=$(DLL)
+
+EXTRA_DIST = $(SOURCES)

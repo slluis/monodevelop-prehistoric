@@ -1,1 +1,1 @@
-SUBDIRS=SourceEditor
+SUBDIRS = SourceEditor

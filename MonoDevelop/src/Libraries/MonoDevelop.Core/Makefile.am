@@ -73,3 +73,5 @@ install-data-local: $(DLL)
 	$(INSTALL_DATA) $(DLL) $(DESTDIR)$(monodeveloplibdir)/bin/MonoDevelop.Core.dll
 
 CLEANFILES=$(DLL)
+
+EXTRA_DIST = $(SOURCES)

@@ -24,3 +24,5 @@ install-data-local: $(DLL)
 	$(INSTALL_DATA) $(DLL) $(DESTDIR)$(startpagelibdir)/MonoDevelop.StartPage.dll
 
 CLEANFILES=$(DLL)
+
+EXTRA_DIST = $(SOURCES)

@@ -1,4 +1,4 @@
-SUBDIRS=gdldock gtkmozembed-sharp src build
+SUBDIRS=gdldock gtkmozembed-sharp src build data
 
 bin_SCRIPTS=monodevelop
 
@@ -22,3 +22,5 @@ run-profile: $(PROGRAM)
 
 profile-pad: $(MONOPAD)
 	cd build/bin && mono -O=inline --profile MonoPad.exe
+
+EXTRA_DIST = $(bin_SCRIPTS) $(desktop_DATA)

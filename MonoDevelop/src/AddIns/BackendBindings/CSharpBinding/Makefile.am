@@ -46,3 +46,5 @@ install-data-local: $(DLL)
 	$(INSTALL_DATA) $(DLL) $(DESTDIR)$(csharpbindinglibdir)/CSharpBinding.dll
 
 CLEANFILES=$(DLL)
+
+EXTRA_DIST = $(SOURCES)

@@ -381,3 +381,5 @@ install-data-local: $(DLL)
 	$(INSTALL_DATA) $(DLL) $(DESTDIR)$(monodeveloplibdir)/bin/MonoDevelop.Base.dll
 
 CLEANFILES=$(DLL)
+
+EXTRA_DIST = $(SOURCES) ./Services/process-icons.pl

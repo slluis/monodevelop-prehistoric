@@ -302,3 +302,5 @@ VB.Project.Library \
 VB.Project.ServiceProject \
 VB.Project.UserControl \
 VB.Project.WebProject
+
+EXTRA_DIST = $(icons_DATA)

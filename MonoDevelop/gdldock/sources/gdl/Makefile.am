@@ -128,3 +128,5 @@ clean:
 CLEANFILES= ../../../build/bin/libgdldock.so ../../../build/bin/*.png
 
 .PHONY: clean
+
+EXTRA_DIST = $(libgdldock_SOURCE) $(libgdldock_headers) stock-close-12.png stock-menu-left-12.png stock-menu-right-12.png libgdlmarshal.list gdl-tools.h
