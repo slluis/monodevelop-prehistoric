@@ -14,6 +14,15 @@ namespace Gdl
 		private Rectangle rect;
 		private object extra;
 		
+		public DockRequest (DockRequest copy)
+		{
+			this.applicant = copy.Applicant;
+			this.target = copy.Target;
+			this.position = copy.Position;
+			this.rect = copy.Rect;
+			this.extra = copy.Extra;
+		}
+		
 		public DockObject Applicant {
 			get { return applicant; }
 			set { applicant = value; }

@@ -1,12 +1,25 @@
 // created on 05/06/2004 at 11:21 A
 
 using System;
+using System.Collections;
 using Gtk;
 
 namespace Gdl
 {
 	public class Dock : DockObject
 	{
+	
+		public Dock ()
+		{
+			this.DockObjectFlags &= ~(DockObjectFlags.Automatic);
+		}
+		
+		public Dock (Dock original, bool _floating) : this ()
+		{
+			this.Master = original.Master;
+			this.floating = _floating;
+		}
+		
 		private DockObject root = null;
 		private bool floating;
 		private Widget window;
@@ -16,6 +29,11 @@ namespace Gdl
 		private int width = -1;
 		private int height = -1;
 		private Gdk.GC xor_gc;
+
+		public DockObject Root {
+			get { return root; }
+			set { root = value; }
+		}
 		
 		public bool Floating {
 			get { return floating; }
@@ -257,8 +275,157 @@ gdl_dock_child_type (GtkContainer *container)
 			return may_dock;
 		}
 		
-		private void AddItem (DockItem item, DockPlacement placement)
+		public override void Dock (DockObject requestor, DockPlacement position, object user_data)
 		{
+			if (!(requestor is DockItem))
+				return;
+			if (position == DockPlacement.Floating) {
+				DockItem item = requestor as DockItem;
+				int x, y, width, height;
+				if (user_data != null && user_data is Gdk.Rectangle) {
+					Gdk.Rectangle rect = user_data as Gdk.Rectangle;
+					x = rect.X;
+					y = rect.Y;
+					width = rect.Width;
+					height = rect.Height;
+				} else {
+					x = y = 0;
+					width = height = -1;
+				}
+				AddFloatingItem (item, x, y, width, height);
+			} else if (this.root != null) {
+				this.root.Dock (requestor, position, null);
+				//gdl_dock_set_title (dock /*this*/);
+			} else {
+				this.root = requestor;
+				this.root.DockObjectFlags &= DockObjectFlags.Attached;
+				this.root.Parent = this;
+				((DockItem)this.root).ShowGrip ();
+				if (this.IsRealized)
+					this.root.Realize ();
+				if (this.Visible && this.root.Visible) {
+					if (this.IsMapped)
+						this.root.Map ();
+					this.root.QueueResize ();
+				}
+				//gdl_dock_set_title (dock /*this*/);
+			}
+		}
+		
+		public override bool Reorder (DockObject requestor, DockPlacement new_position, object other_data)
+		{
+			bool handled = false;
+			if (this.floating && new_position == DockPlacement.Floating && this.root == requestor) {
+				if (other_data != null && other_data is Gdk.Rectangle) {
+					Gdk.Rectangle rect = other_data as Gdk.Rectangle;
+					if (this.window != null && this.window is Gtk.Window) {
+						((Gtk.Window)this.window).Move (rect.X, rect.Y);
+						handled = true;
+					}
+				}
+			}
+			return handled;
+		}
+		
+		public override bool ChildPlacement (DockObject child, DockPlacement placement)
+		{
+			bool retval = true;
+			if (this.root == child) {
+				if (placement == DockPlacement.None || placement == DockPlacement.Floating)
+					placement = DockPlacement.Top;
+			} else
+				retval = false;
+				
+			return retval;
+		}
+		
+		public override void Present (DockObject child)
+		{
+			if (this.floating && this.window != null && this.window is Gtk.Window)
+				((Gtk.Window)this.window).Present ();
+		}
+		
+		public void AddItem (DockItem item, DockPlacement placement)
+		{
+			if (item == null)
+				return;
+			if (placement == DockPlacement.Floating)
+				AddFloatingItem (item, 0, 0, -1, -1);
+			else
+				this.Dock (item, null);
+		}
+		
+		public void AddFloatingItem (DockItem item, int x, int y, int width, int height)
+		{
+			Gdl.Dock new_dock = new Dock (this, true);
+			new_dock.Width = width;
+			new_dock.Height = height;
+			new_dock.FloatX = x;
+			new_dock.FloatY = y;
+			if (this.Visible) {
+				new_dock.Show ();
+				if (this.IsMapped)
+					new_dock.Map ();
+				new_dock.QueueResize ();
+			}
+			new_dock.AddItem (item, DockPlacement.Top);
+		}
+		
+		public DockItem GetItemByName (string name)
+		{
+			if (name == null)
+				return null;
+			DockObject found = DockMaster.GetObject (name);
+			if (found != null && found is DockItem)
+				return found;
+			return null;
+		}
+		
+		public DockPlaceholder GetPlaceholderByName (string name)
+		{
+			if (name == null)
+				return null;
+			DockObject found = DockMaster.GetObject (name);
+			if (found != null && found is DockPlaceholder)
+				return found;
+			return null;
+		}
+		
+		public ArrayList NamedItems {
+			get {
+				/*PORT THIS:
+				
+    gdl_dock_master_foreach (GDL_DOCK_OBJECT_GET_MASTER (dock),
+                             (GFunc) _gdl_dock_foreach_build_list, &list);
+                             */
+			}
+		}
+		
+		public static Dock GetTopLevel (DockObject obj)
+		{
+			DockObject parent = obj;
+			while (parent != null && !(parent is Gdl.Dock))
+				parent = parent.ParentObject;
+			return parent;
+		}
+		
+		public void XorRect (Gdk.Rectangle rect)
+		{
+			if (this.xor_gc == null) {
+				if (this.IsRealized) {
+					Gdk.GCValues values = new Gdk.GCValues ();
+					values.Function = Gdk.Function.Invert;
+					values.SubwindowMode = Gdk.SubwindowMode.IncludeInferiors;
+					this.xor_gc = new Gdk.GC (this.GdkWindow);
+					this.xor_gc.SetValues (values, Gdk.GCValuesMask.Function | Gdk.GCValuesMask.Subwindow);
+				} else
+					return;
+			}
+			xor_gc.SetLineAttributes (1, Gdk.LineStyle.OnOffDash, Gdk.CapStyle.NotLast, Gdk.JoinStyle.Bevel);
+			xor_gc.SetDashes (1, new sbyte[] { 1, 1}, 2);
+			this.GdkWindow.DrawRectangle (xor_gc, false, rect.X, rect.Y, rect.Width, rect.Height);
+			xor_gc.SetDashes (0, new sbyte[] { 1, 1}, 2);
+			this.GdkWindow.DrawRectangle (xor_gc, false, rect.X + 1, rect.Y + 1, rect.Width - 2, rect.Height - 2);
 		}
 		
 		private bool IsController {
