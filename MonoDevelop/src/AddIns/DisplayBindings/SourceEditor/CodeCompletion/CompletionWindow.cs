@@ -198,7 +198,7 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 				listView.ScrollToCell (path, null, false, 0, 0);
 				if (magic && numOfHits == 1) {
 					ActivateItem (null, null);
-					Destroy ();
+					LostFocusListView (null, null);
 					return true;
 				}
 			}
