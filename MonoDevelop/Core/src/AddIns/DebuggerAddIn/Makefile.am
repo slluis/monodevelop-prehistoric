@@ -11,7 +11,9 @@ FILES = \
 DebuggerCommands.cs \
 DebuggingService.cs \
 Gui/DebuggerLocalsPad.cs \
-Gui/DebuggerVariablePad.cs
+Gui/DebuggerVariablePad.cs \
+Gui/DebuggerStackTracePad.cs
+
 
 EXTRA_DIST = $(FILES) $(ADDIN)
 

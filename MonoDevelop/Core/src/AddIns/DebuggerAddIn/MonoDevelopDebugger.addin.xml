@@ -17,6 +17,8 @@
 	<Extension path="/SharpDevelop/Workbench/Views">
 		<Class id    = "DebuggerLocalsPad"
 		       class = "MonoDevelop.SourceEditor.Gui.DebuggerLocalsPad"/>
+		<Class id    = "DebuggerStackTracePad"
+		       class = "MonoDevelop.SourceEditor.Gui.DebuggerStackTracePad"/>
 	</Extension>
 
 	<Extension path="/SharpDevelop/Workbench/MainMenu/Run">
