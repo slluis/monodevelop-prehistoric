@@ -72,22 +72,19 @@ FILES = ./AssemblyInfo.cs \
 
 build_sources = $(addprefix $(srcdir)/, $(FILES))
 
+REFS = /r:System.Drawing.dll \
+	/r:../../../../build/bin/MonoDevelop.Core.dll \
+	/r:../../../../build/bin/MonoDevelop.Base.dll \
+	/r:../../../../build/bin/MonoDevelop.Gui.Utils.dll \
+	/r:../../../../build/bin/MonoDevelop.Gui.Widgets.dll \
+	$(BASE_DEPENDENCIES_LIBS)
+
 all : $(DLL)
 
 $(DLL) : $(build_sources)
-	mcs $(build_sources) /debug /out:$(DLL) /t:library \
+	mcs $(build_sources) /debug /out:$(DLL) /t:library $(REFS) \
 	/resource:$(srcdir)/../../../../data/resources/glade/EditorBindings.glade,EditorBindings.glade \
 	/resource:$(srcdir)/../../../../data/resources/glade/texteditoraddin.glade,texteditoraddin.glade \
-		/r:../../../../build/bin/MonoDevelop.Core.dll \
-		/r:../../../../build/bin/MonoDevelop.Base.dll \
-		/r:../../../../build/bin/MonoDevelop.Gui.Utils.dll \
-		/r:../../../../build/bin/MonoDevelop.Gui.Widgets.dll \
-		@GTKSHARP@ \
-		@GLADESHARP@ \
-		@GNOMESHARP@ \
-		@GCONFSHARP@ \
-		$(GTKSOURCEVIEW_SHARP) \
-		/r:System.Drawing \
 	&& cp $(DLL) ../../../../build/bin/.
 
 assemblydir = $(libdir)/monodevelop/bin

@@ -8,12 +8,8 @@ DLLS = /r:System.Drawing /r:ICSharpCode.SharpZipLib.dll \
 	/r:../../../build/bin/MonoDevelop.Gui.Utils.dll \
 	/r:../../../build/bin/MonoDevelop.Gui.Widgets.dll \
 	/r:System.Data /r:System.Web.Services \
-	@GTKSHARP@ \
 	/r:../../../build/bin/gdl-sharp.dll \
-	@GLADESHARP@ \
-	@GNOMESHARP@ \
-	@GTKHTMLSHARP@ \
-	$(GECKO_SHARP) $(MONODOC)
+	$(BASE_DEPENDENCIES_LIBS)
 
 FILES= \
 ./Gui/Pads/ProjectBrowser/ProjectBrowserView.cs \

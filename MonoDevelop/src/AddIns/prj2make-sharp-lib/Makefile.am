@@ -4,9 +4,7 @@ ASSEMBLY = prj2make-sharp-lib.dll
 ADDIN = $(srcdir)/prj2make-sharp-lib.addin.xml
 
 
-DLLS = /r:gdk-sharp.dll \
-	/r:glib-sharp.dll \
-	/r:gtk-sharp.dll /r:pango-sharp.dll \
+DLLS = $(BASE_DEPENDENCIES_LIBS) \
 	/r:../../../build/bin/MonoDevelop.Base.dll \
 	/r:../../../build/bin/MonoDevelop.Core.dll
 

@@ -3,7 +3,10 @@ MCS = mcs -debug
 
 DLL = MonoDevelop.Gui.Widgets.dll
 
-REFERENCES = /r:System.Drawing @GTKSHARP@ @GNOMESHARP@ @GLADESHARP@ /r:../../../build/bin/MonoDevelop.Core.dll /r:../../../build/bin/MonoDevelop.Gui.Utils.dll
+REFERENCES = /r:System.Drawing \
+	/r:../../../build/bin/MonoDevelop.Core.dll \
+	/r:../../../build/bin/MonoDevelop.Gui.Utils.dll \
+	$(BASE_DEPENDENCIES_LIBS)
 
 FILES = ./Tree/TreeView.cs \
 ./Tree/TreeNodeCollection.cs \

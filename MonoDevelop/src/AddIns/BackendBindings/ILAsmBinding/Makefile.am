@@ -6,7 +6,7 @@ DLLS = /r:../../../../build/bin/MonoDevelop.Core.dll \
 	/r:../../../../build/bin/MonoDevelop.Base.dll \
 	/r:../../../../build/bin/MonoDevelop.SourceEditor.dll \
 	/r:../../../../build/bin/MonoDevelop.Gui.Widgets.dll \
-	@GTKSHARP@
+	$(BASE_DEPENDENCIES_LIBS)
 
 FILES = \
 ./Gui/CompilerParametersPanel.cs \

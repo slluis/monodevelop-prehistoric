@@ -7,7 +7,7 @@ DLLS = /r:System.Drawing.dll \
 	/r:../../../../build/bin/MonoDevelop.SourceEditor.dll \
 	/r:../../../../build/bin/MonoDevelop.Base.dll \
 	/r:../../../../build/bin/MonoDevelop.Gui.Widgets.dll \
-	@GTKSHARP@
+	$(BASE_DEPENDENCIES_LIBS)
 
 FILES = ./Gui/ProjectConfigurationPropertyPanel.cs \
 ./Project/JavaCompilerParameters.cs \

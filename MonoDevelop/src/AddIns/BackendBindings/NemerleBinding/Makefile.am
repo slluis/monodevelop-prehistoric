@@ -8,8 +8,7 @@ DLLS = /r:System.Drawing.dll \
 	/r:../../../../build/bin/MonoDevelop.Base.dll \
 	/r:../../../../build/bin/ICSharpCode.SharpRefactory.dll \
 	/r:../../../../build/bin/MonoDevelop.Gui.Widgets.dll \
-	@GTKSHARP@ \
-	@GLADESHARP@
+	$(BASE_DEPENDENCIES_LIBS)
 
 FILES = \
 ./Gui/CodeGenerationPanel.cs \

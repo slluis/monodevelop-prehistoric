@@ -12,13 +12,14 @@ DLL = MonoDevelop.exe
 
 all: $(DLL)
 
+REFS = /r:System.Drawing \
+	/r:../../../build/bin/MonoDevelop.Core.dll \
+	/r:../../../build/bin/MonoDevelop.Base.dll \
+	$(BASE_DEPENDENCIES_LIBS)
+
 $(DLL): $(build_sources)
-	mcs /debug /out:$(DLL) /r:System.Drawing \
-		/r:../../../build/bin/MonoDevelop.Core.dll \
-		/r:../../../build/bin/MonoDevelop.Base.dll \
-		/define:GTK \
-		@GTKSHARP@ \
-		@GNOMESHARP@ \
+	mcs /debug /out:$(DLL) \
+		/define:GTK $(REFS) \
 		$(build_sources) \
 		/resource:$(BASEDIR)/data/resources/StringResources.resources,StringResources.resources \
 		/resource:$(BASEDIR)/data/resources/SplashScreen.png,SplashScreen.png \

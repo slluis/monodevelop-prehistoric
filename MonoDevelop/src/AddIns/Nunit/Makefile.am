@@ -4,9 +4,9 @@ ASSEMBLY = MonoDevelop.Nunit.dll
 ADDIN = $(srcdir)/MonoDevelopNunit.addin.xml
 
 DLLS = /r:NUnit.Framework.dll \
-	@GTKSHARP@ \
 	/r:../../../build/bin/MonoDevelop.Core.dll \
-	/r:../../../build/bin/MonoDevelop.Base.dll
+	/r:../../../build/bin/MonoDevelop.Base.dll \
+	$(BASE_DEPENDENCIES_LIBS)
 
 FILES = AssemblyInfo.cs \
 ./Commands/NunitCommands.cs \
