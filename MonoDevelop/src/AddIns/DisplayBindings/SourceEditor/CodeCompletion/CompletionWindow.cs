@@ -229,6 +229,7 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 		/// </remarks>
 		public void ShowCompletionWindow (char firstChar, TextIter trigIter, bool magic)
 		{
+			control.buf.StartAtomicUndo ();
 			triggeringMark = control.Buffer.CreateMark (null, trigIter, true);
 			origOffset = trigIter.Offset;
 			FillList (true, firstChar);
@@ -316,6 +317,7 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 			declarationviewwindow.HideAll ();
 			this.Hide ();
 			control.buf.DropCompleteAhead ();
+			control.buf.EndAtomicUndo ();
 		}
 		
 		void FillList (bool firstTime, char ch)

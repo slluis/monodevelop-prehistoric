@@ -64,6 +64,7 @@ namespace MonoDevelop.SourceEditor.Gui
 		TextTag markup;
 		TextTag complete_ahead;
 		TextMark complete_end;
+		AtomicUndo atomic_undo;
 		
 		public SourceEditorBuffer () : base (new SourceTagTable ())
 		{
@@ -109,6 +110,16 @@ namespace MonoDevelop.SourceEditor.Gui
 			MoveMark (complete_end, it);
 			it.BackwardChars (what.Length);
 			PlaceCursor (it);
+		}
+
+		public void StartAtomicUndo ()
+		{
+			atomic_undo = new AtomicUndo (this);
+		}
+
+		public void EndAtomicUndo ()
+		{
+			atomic_undo.Dispose ();
 		}
 		
 		public void LoadFile (string file, string mime)

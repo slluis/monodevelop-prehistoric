@@ -1,6 +1,12 @@
 2004-04-09  Todd Berman  <tberman@sevenl.net>
 
 	* Gui/SourceEditorBuffer.cs:
+	* CodeCompletionCompletionWindow.cs:
+	add atomic undo on code completion, cause its scary now.
+
+2004-04-09  Todd Berman  <tberman@sevenl.net>
+
+	* Gui/SourceEditorBuffer.cs:
 	* Gui/SourceEditorView.cs:
 	* CodeCompletion/ICompletionData.cs:
 	* CodeCompletion/CodeCompletionData.cs:
