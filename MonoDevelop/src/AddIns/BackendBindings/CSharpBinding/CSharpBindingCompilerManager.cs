@@ -416,6 +416,12 @@ namespace CSharpBinding
 			if (compilerparameters.UnsafeCode) {
 				stream.Write ("/unsafe ");
 			}
+			if (compilerparameters.DefineSymbols != null && compilerparameters.DefineSymbols.Length > 0) {
+				stream.Write ("/define:" + '"' + compilerparameters.DefineSymbols + '"' + " ");
+			}
+			if (compilerparameters.MainClass != null && compilerparameters.MainClass.Length > 0) {
+				stream.Write ("/main:" + compilerparameters.MainClass + " ");
+			}
 			stream.WriteLine ();
 			stream.WriteLine ();
 

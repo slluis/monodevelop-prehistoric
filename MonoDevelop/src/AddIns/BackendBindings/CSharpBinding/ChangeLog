@@ -1,5 +1,9 @@
 2004-05-08  Todd Berman  <tberman@sevenl.net>
 
+	* CSharpBindingCompilerManager.cs: output /define and /main properly.
+
+2004-05-08  Todd Berman  <tberman@sevenl.net>
+
 	* CSharpBindingCompilerManager.cs: output /unsafe properly.
 
 2004-04-29  Todd Berman  <tberman@sevenl.net>
