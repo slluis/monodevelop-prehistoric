@@ -7,25 +7,19 @@
 
 using System;
 using System.Collections;
-using System.ComponentModel;
-using System.Drawing;
-using System.Reflection;
-using System.Resources;
-using System.Xml;
 using System.IO;
 
 using ICSharpCode.Core.Services;
 using ICSharpCode.SharpDevelop.Services;
-
 using ICSharpCode.SharpDevelop.Gui.Components;
 using ICSharpCode.SharpDevelop.Gui;
 using ICSharpCode.Core.Properties;
-
 using ICSharpCode.Core.AddIns;
 using ICSharpCode.SharpDevelop.Internal.Templates;
 using ICSharpCode.SharpDevelop.Gui.XmlForms;
-using MonoDevelop.Gui;
+
 using Gtk;
+using MonoDevelop.Gui;
 
 namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 {
@@ -100,9 +94,6 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 					//item.ImageIndex = (int)icons[item.Template.Icon];
 				}
 			}
-			
-			//((ListView)ControlDictionary["templateListView"]).LargeImageList = imglist;
-			//((ListView)ControlDictionary["templateListView"]).SmallImageList = smalllist;
 			
 			InsertCategories(TreeIter.Zero, categories);
 			PropertyService propertyService = (PropertyService)ServiceManager.Services.GetService(typeof(PropertyService));

@@ -81,7 +81,7 @@ class HtmlTest
 		
 		win.Add (vbox);
 		win.ShowAll ();
-		html.InitializeWithBase ("file://");
+		html.InitializeWithBase ("file://" + Environment.CurrentDirectory);
 	}
 
 	void OnWinDelete (object o, DeleteEventArgs args)
