@@ -45,7 +45,7 @@ make
 make install
 </pre>
 
-
+      <br />
       <b>3. <a href="http://www.mozilla.org/unix/gtk-embedding.html">gtkmozembed</a></b>
       <p>gtkmozembed can generally be found as (or in) a package for your OS. For example:<br />
           <ul><li>Debian: `mozilla-dev'</li>
@@ -53,7 +53,7 @@ make install
 	  <li>FreeBSD: `mozilla-gtkmozembed'</li></ul>
       I have yet to find an official tarball for gtkmozembed, but I haven't looked very hard. If you know of one, please <a href="mailto:steve@citygroup.ca">let me know</a>.
       </p>
-      <br />
+      <br /><br />
 
       <b>4. <a href="http://gtksourceview.sourceforge.net/">GtkSourceView 0.7</a></b>
       <p>GtkSourceView is a widget for displaying sourcecode (imagine that). Since MonoDevelop uses gtksourcevew-sharp, and this is only a wrapper, we must first install GtkSourceView. You may download a binary package for your distribution if it provides version 0.7 or higher. Otherwise, download the <a href="http://ftp.acc.umu.se/pub/gnome/sources/gtksourceview/0.7/gtksourceview-0.7.0.tar.gz">official tarball (0.7)</a>. Then install:</p>
@@ -66,9 +66,9 @@ make
 make install
 </pre>
 
-
+      <br />
       <b>5. <a href="http://www.go-mono.com/download.html">Mono 0.31</a>, gtk-sharp, monodoc, gtksourceview-sharp, gtkmozembed-sharp, debugger</b>
-
+      <br /><br />
       <i>Note: For current svn snapshots, it is highly recommended you use a packaged copy of mono 0.31. CVS mono may be used, but we don't guarantee it will work. Compile cvs modules to a prefix of `<tt>/usr</tt>', since this is where RPMs, DEBs, and ebuilds will put your mono package.</i>
 
       <p>Though you may use a pre-packaged copy of the runtime, gtk-sharp, gtksourceview-sharp, et al <b>must</b> be compiled from CVS.</p>
