@@ -30,7 +30,7 @@ namespace JavaBinding
 		public void Execute(string filename)
 		{
 			string exe = Path.GetFileNameWithoutExtension(filename);
-			ProcessStartInfo psi = new ProcessStartInfo(Environment.GetEnvironmentVariable("ComSpec"), "/c java " + "\"" + exe + "\"" + " & pause");
+			ProcessStartInfo psi = new ProcessStartInfo(Environment.GetEnvironmentVariable("ComSpec"), "/c java\"" + " & pause");
 			psi.WorkingDirectory = Path.GetDirectoryName(filename);
 			psi.UseShellExecute = false;
 			try {
@@ -38,7 +38,7 @@ namespace JavaBinding
 				p.StartInfo = psi;
 				p.Start();
 			} catch (Exception) {
-				throw new ApplicationException("Can't execute " + "\"" + exe + "\"\n(.NET bug? Try restaring SD or manual start)");
+				throw new ApplicationException("Can not execute " + "\"" + exe + "\"\n(Try restarting MonoDevelop or manual start)");
 			}
 		}
 		
@@ -52,24 +52,31 @@ namespace JavaBinding
 			Directory.SetCurrentDirectory(parameters.OutputDirectory);
 			ProcessStartInfo psi;
 			if(((JavaCompilerParameters)project.ActiveConfiguration).MainClass==null) {
-				psi = new ProcessStartInfo(Environment.GetEnvironmentVariable("ComSpec"), "/c java " + ((JavaCompilerParameters)project.ActiveConfiguration).OutputAssembly +  " & pause");
+					//FIXME:
+				psi = new ProcessStartInfo("java " + ((JavaCompilerParameters)project.ActiveConfiguration).OutputAssembly);
 			} else {
 				if (parameters.PauseConsoleOutput) {
-					psi = new ProcessStartInfo(Environment.GetEnvironmentVariable("ComSpec"), "/c java " + ((JavaCompilerParameters)project.ActiveConfiguration).MainClass +  " & pause");
+					//FIXME:
+					psi = new ProcessStartInfo("java " + ((JavaCompilerParameters)project.ActiveConfiguration).MainClass);
 				} else {
-					psi = new ProcessStartInfo(Environment.GetEnvironmentVariable("ComSpec"), "/c java " + ((JavaCompilerParameters)project.ActiveConfiguration).MainClass);
+					//FIXME:
+					psi = new ProcessStartInfo("java " + ((JavaCompilerParameters)project.ActiveConfiguration).MainClass);
 				}
 			}
 			
 			try {
+				Console.WriteLine ("*******************");
+				Console.WriteLine (parameters.OutputDirectory);
+				Console.WriteLine (psi.WorkingDirectory);
 				psi.WorkingDirectory = parameters.OutputDirectory;
 				psi.UseShellExecute = false;
 			
 				Process p = new Process();
 				p.StartInfo = psi;
 				p.Start();
-			} catch (Exception) {
-				throw new ApplicationException("Can't execute");
+			} catch (Exception e) {
+				Console.WriteLine (e.ToString ());
+				throw new ApplicationException("Can not execute");
 			}
 			
 			Directory.SetCurrentDirectory(CurrentDir);		

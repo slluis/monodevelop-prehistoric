@@ -18,6 +18,7 @@ using MonoDevelop.Core.Services;
 using MonoDevelop.Internal.Project;
 using MonoDevelop.Gui;
 using MonoDevelop.Gui.Pads.ProjectBrowser;
+using MonoDevelop.Gui.Widgets;
 
 namespace JavaBinding
 {
@@ -34,10 +35,9 @@ namespace JavaBinding
 		
 		public AbstractBrowserNode BuildProjectTreeNode(IProject project)
 		{
-/*
 			ProjectBrowserNode projectNode = new ProjectBrowserNode(project);
 			
-			projectNode.IconImage = iconService.GetImageForProjectType(project.ProjectType);
+			//projectNode.IconImage = iconService.GetImageForProjectType(project.ProjectType);
 			
 			// create 'empty' directories			
 			for (int i = 0; i < project.ProjectFiles.Count; ++i) {
@@ -54,8 +54,8 @@ namespace JavaBinding
 					AbstractBrowserNode currentPathNode = GetPath(directoryName, projectNode, true);
 					
 					DirectoryNode newFolderNode  = new DirectoryNode(project.ProjectFiles[i].Name);
-					newFolderNode.OpenedImage = resourceService.GetBitmap("Icons.16x16.OpenFolderBitmap");
-					newFolderNode.ClosedImage = resourceService.GetBitmap("Icons.16x16.ClosedFolderBitmap");
+					//newFolderNode.OpenedImage = resourceService.GetBitmap ("Icons.16x16.OpenFolderBitmap");
+					//newFolderNode.ClosedImage = resourceService.GetBitmap ("Icons.16x16.ClosedFolderBitmap");
 					
 					currentPathNode.Nodes.Add(newFolderNode);
 				
@@ -88,11 +88,8 @@ namespace JavaBinding
 			}
 			
 			return projectNode;
-*/
-			return null;
 		}
 
-/*		
 		AbstractBrowserNode GetNodeFromCollection (TreeNodeCollection collection, string title)
 		{
 			foreach (AbstractBrowserNode node in collection) {
@@ -102,7 +99,6 @@ namespace JavaBinding
 			}
 			return null;
 		}
-*/
 		
 		public AbstractBrowserNode GetPath(string filename, AbstractBrowserNode root, bool create)
 		{

@@ -19,7 +19,7 @@ namespace JavaBinding
 {
 	
 	/// <summary>
-	/// This class describes a C Sharp project and it compilation options.
+	/// This class describes a Java project and it compilation options.
 	/// </summary>
 	public class JavaProject : AbstractProject
 	{		

@@ -6,6 +6,7 @@
 // </file>
 
 using System;
+using System.Diagnostics;
 using System.IO;
 using System.CodeDom.Compiler;
 
@@ -64,7 +65,9 @@ namespace JavaBinding
 		{
 			return Path.ChangeExtension(fileName, ".class");
 		}
+
 		FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.Services.GetService(typeof(FileUtilityService));
+
 		public string GetCompiledOutputName(IProject project)
 		{
 			JavaProject p = (JavaProject)project;
@@ -122,10 +125,11 @@ namespace JavaBinding
 			
 			//string outstr = compilerparameters.CompilerPath + "" + files + " -classpath " + compilerparameters.ClassPath + options;
 			//string outstr = compilerparameters.CompilerPath + "" + files + " -classpath " + compilerparameters.ClassPath + options;
+
 			string outstr = compilerparameters.CompilerPath + " " + files + options;			
-			Executor.ExecWaitWithCapture(outstr, tf, ref error , ref output);			
-			ICompilerResult cr = ParseOutput(tf, output);			
-			
+			DoCompilation (outstr, tf, ref output, ref error);
+			//Executor.ExecWaitWithCapture(outstr, tf, ref error , ref output);			
+			ICompilerResult cr = ParseOutput (tf, output);			
 			File.Delete(output);
 			File.Delete(error);
 			
@@ -143,6 +147,23 @@ namespace JavaBinding
 			
 			return cr;
 		}
+
+		private void DoCompilation (string outstr, TempFileCollection tf, ref string output, ref string error)
+		{
+			output = Path.GetTempFileName ();
+            error = Path.GetTempFileName ();
+
+            string arguments = outstr + " > " + output + " 2> " + error;
+            string command = arguments;
+            ProcessStartInfo si = new ProcessStartInfo("/bin/sh -c \"" + command + "\"");
+			si.RedirectStandardOutput = true;
+            si.RedirectStandardError = true;
+			si.UseShellExecute = false;
+			Process p = new Process ();
+            p.StartInfo = si;
+            p.Start ();
+            p.WaitForExit ();
+        }
 		
 		ICompilerResult ParseOutput(TempFileCollection tf, string file)
 		{

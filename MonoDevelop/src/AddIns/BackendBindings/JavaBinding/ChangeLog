@@ -2,3 +2,4 @@
 	
 	import from SD and make it build with our
 	namespaces and SourceEditor
+	change to work like CSharpBinding 

@@ -23,7 +23,11 @@ FILES = ./Gui/ProjectConfigurationPropertyPanel.cs \
 all: $(ASSEMBLY)
 
 $(ASSEMBLY): $(FILES)
-	$(CSC) $(DLLS) $(FILES) /out:$(ASSEMBLY) /target:library
+	$(CSC) $(DLLS) $(FILES) /out:$(ASSEMBLY) /target:library \
+	&& cp $(ASSEMBLY) ../../../../build/AddIns/AddIns/BackendBindings/.
+
+assemblydir = $(libdir)/monodevelop/AddIns/AddIns/BackendBindings/
+assembly_DATA = $(ASSEMBLY)
 
 CLEANFILES = $(ASSEMBLY)
 EXTRA_DIST = $(FILES) $(ADDIN)

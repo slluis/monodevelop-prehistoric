@@ -40,7 +40,7 @@ namespace JavaBinding
 			public string         classpath = String.Empty;
 			
 			[XmlAttribute("compilerpath")]
-			public string         compilerpath  = "javac.exe";		
+			public string         compilerpath  = "javac";		
 			
 			[XmlAttribute("genwarnings")]
 			public bool genwarnings = false;
@@ -77,7 +77,9 @@ namespace JavaBinding
 		
 		public string CompilerPath {
 			get {
-				return codeGeneration.compilerpath;
+				//return codeGeneration.compilerpath;
+				//FIXME
+				return "javac";
 			}
 			set {
 				codeGeneration.compilerpath = value;
