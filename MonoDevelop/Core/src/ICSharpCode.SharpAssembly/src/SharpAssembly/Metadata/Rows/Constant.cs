@@ -56,7 +56,7 @@ namespace MonoDevelop.SharpAssembly.Metadata.Rows {
 		public override void LoadRow()
 		{
 			type = binaryReader.ReadByte();
-			byte paddingZero = binaryReader.ReadByte();
+			/*byte paddingZero =*/ binaryReader.ReadByte();
 //			if (paddingZero != 0) {
 //				Console.WriteLine("padding zero != 0");
 //			}

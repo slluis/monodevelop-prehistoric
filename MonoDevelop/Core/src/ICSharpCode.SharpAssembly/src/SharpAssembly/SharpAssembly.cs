@@ -42,7 +42,7 @@ namespace MonoDevelop.SharpAssembly.Assembly
 			Console.WriteLine("#Assembly: Initializing");
 		
 			string mscorlibasm = typeof(System.Object).Assembly.Location;
-			SharpAssembly mscorlib = LoadFrom(mscorlibasm);  // the constructor adds the assembly to the pool
+			/*SharpAssembly mscorlib = */LoadFrom(mscorlibasm);  // the constructor adds the assembly to the pool
 		}
 		
 		Hashtable references = new Hashtable();
