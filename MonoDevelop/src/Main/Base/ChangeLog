@@ -1,4 +1,8 @@
-2004-03-31  Todd berman  <tberman@sevenl.net>
+2004-03-31  Todd Berman  <tberman@sevenl.net>
+
+	* Gui/Dialogs/CommonAboutDialog.cs: adding miguel :)
+
+2004-03-31  Todd Berman  <tberman@sevenl.net>
 
 	* Internal/Project/AbstractProject.cs: dont include *.swp, *~ or .* in
 	search for new files. closes bug #56282.
