@@ -153,6 +153,8 @@ make run &amp;
 
       <p>At this point, you have the choice of either `<tt>make install</tt>' or (preferrably) '<tt>make run</tt>'. Since there is a good chance you'll download a new copy of MonoDevelop tomorrow, we recommend using `<tt>make run</tt>' for now. </p>
 
+      <hr />
+
       <p>This document was written by Steve Deobald (steve [at] citygroup.ca) and is licensed under the GNU Free Documentation License, Version 1.1 or any later version published by the Free Software Foundation. If this document contains errors or could be improved, please let me know.</p>
       <br /><br />
 
