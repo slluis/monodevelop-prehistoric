@@ -1,0 +1,160 @@
+<?xml version="1.0"?>
+<Template originator   = "Erik Dasque"
+          created      = "03/10/2004"
+          lastModified = "03/11/2004">
+	
+	<!-- Template Header -->
+	<TemplateConfiguration>
+		<Name>GladeSharp Project</Name>
+		<Category>C#</Category>
+		<Icon>C#.Project.Form</Icon>
+		<LanguageName>C#</LanguageName>
+		<Description>a Glade# project with one window and button</Description>
+	</TemplateConfiguration>
+	
+	<!-- Actions -->
+	<Actions>
+		<Open filename = "Main.cs"/>
+	</Actions>
+	
+	<!-- Template Content -->
+	<Combine name = "${ProjectName}" directory = ".">
+		<Options>
+			<StartupProject>${ProjectName}</StartupProject>
+		</Options>
+		
+		<Project name = "${ProjectName}" directory = ".">
+			<Options/>
+			
+			<References>
+				<Reference type="Gac" refto="gtk-sharp.dll" />
+				<Reference type="Gac" refto="gdk-sharp.dll" />
+				<Reference type="Gac" refto="glib-sharp.dll" />
+				<Reference type="Gac" refto="glade-sharp.dll" />
+				<Reference type="Gac" refto="pango-sharp.dll" />
+				<Reference type="Gac" refto="System.Drawing.dll" />
+				<Reference type="Gac" refto="glade-sharp.dll" />
+			</References>
+		
+			<Files>
+				<File name="Main.cs">
+<![CDATA[// project created on ${Date} at ${Time}
+        using System;
+	using Gtk;
+        using Glade;
+        using GtkSharp;
+
+        public class GladeTest
+        {
+                public static void Main (string[] args)
+                {
+                        new GladeTest(args);
+                }
+
+                /* If you want to access the glade objects you have to "import" them.
+                 * This is not required, but else you can only work with the
+                 * pre-defined signal handlers */
+                [Glade.Widget]      
+                Button button1;
+
+                public GladeTest (string[] args) 
+                {
+                        Application.Init();
+
+                        /* This loads the glade file glade.glade, 
+                         * selects window1 and connects it to the current object,
+                         * which is the class GladeTest here. */
+                        Glade.XML gxml = new Glade.XML (null,"file.glade", "window1", null);
+                        gxml.Autoconnect (this);
+
+                        button1.BorderWidth=10;
+
+                        Application.Run();
+                }
+
+                /* Connect the Signals defined in Glade */
+                public void OnWindowDeleteEvent (object o, DeleteEventArgs args) 
+                {
+                        Application.Quit ();
+                        args.RetVal = true;
+                }
+    
+                public void OnButtonClickedEvent (System.Object obj, EventArgs e) 
+                {
+                        Console.WriteLine ("Word !");
+                }
+        }
+
+]]>
+</File>
+<File name="file.glade"><![CDATA[<?xml version="1.0" standalone="no"?> <!--*- mode: xml -*-->
+<!DOCTYPE glade-interface SYSTEM "http://glade.gnome.org/glade-2.0.dtd">
+ 
+<glade-interface>
+<requires lib="gnome"/>
+ 
+<widget class="GtkWindow" id="window1">
+  <property name="visible">True</property>
+  <property name="title" translatable="yes">Glade Window</property>
+ <property name="window_position">GTK_WIN_POS_CENTER</property>
+  <property name="modal">False</property>
+  <property name="default_width">256</property>
+  <property name="default_height">256</property>
+  <property name="type">GTK_WINDOW_TOPLEVEL</property>
+  <property name="resizable">True</property>
+  <property name="destroy_with_parent">False</property>
+  <signal name="delete_event" handler="OnWindowDeleteEvent" last_modification_time="${Date} ${Time}"/>
+ 
+  <child>
+    <widget class="GtkButton" id="button1">
+      <property name="visible">True</property>
+      <property name="can_focus">True</property>
+      <property name="label" translatable="yes">Hello !</property>
+      <property name="use_underline">True</property>
+      <property name="relief">GTK_RELIEF_NORMAL</property>
+      <signal name="clicked" handler="OnButtonClickedEvent" last_modification_time="${Date} ${Time}"/>
+    </widget>
+  </child>
+</widget>
+ 
+</glade-interface>
+
+]]></File>
+	
+			<File name="AssemblyInfo.cs"><![CDATA[using System.Reflection;
+using System.Runtime.CompilerServices;
+
+// Information about this assembly is defined by the following
+// attributes.
+//
+// change them to the information which is associated with the assembly
+// you compile.
+
+[assembly: AssemblyTitle("")]
+[assembly: AssemblyDescription("")]
+[assembly: AssemblyConfiguration("")]
+[assembly: AssemblyCompany("")]
+[assembly: AssemblyProduct("")]
+[assembly: AssemblyCopyright("")]
+[assembly: AssemblyTrademark("")]
+[assembly: AssemblyCulture("")]
+
+// The assembly version has following format :
+//
+// Major.Minor.Build.Revision
+//
+// You can specify all values by your own or you can build default build and revision
+// numbers with the '*' character (the default):
+
+[assembly: AssemblyVersion("1.0.*")]
+
+// The following attributes specify the key for the sign of your assembly. See the
+// .NET Framework documentation for more information about signing.
+// This is not required, if you don't want signing let these attributes like they're.
+[assembly: AssemblyDelaySign(false)]
+[assembly: AssemblyKeyFile("")]
+]]></File>
+			</Files>
+		</Project>
+	</Combine>
+</Template>
