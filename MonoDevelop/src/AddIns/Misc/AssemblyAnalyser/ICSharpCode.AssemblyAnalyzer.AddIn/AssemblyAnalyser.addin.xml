@@ -1,5 +1,5 @@
 <AddIn
-	name        = "Assembly Analyzer"
+	name        = "Assembly Analyser"
 	author      = "Mike Krueger"
 	copyright   = "GPL"
 	url         = "http://www.icsharpcode.net"
@@ -14,11 +14,13 @@
 		<Conditional iscombineopen="True" action="Disable">
 			<MenuItem
 				id           = "AssemblyAnalyser"
-				insertafter  = "ShowStartPage"
-				insertbefore = "StartPageSeparator"
-				label        = "${res:XML.MainMenu.ViewMenu.AssemblyAnalyser}"
+				_label       = "AssemblyAnalyser"
 				class        = "MonoDevelop.AssemblyAnalyser.ShowAssemblyAnalyser"
 			/>
+				<!--
+				insertafter  = "ShowStartPage"
+				insertbefore = "StartPageSeparator"
+				-->
 		</Conditional>
 	</Extension>
 </AddIn>

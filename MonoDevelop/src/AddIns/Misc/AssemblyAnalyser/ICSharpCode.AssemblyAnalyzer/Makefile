@@ -1,5 +1,5 @@
 
-ASSEMBLY = ICSharpCode.AssemblyAnalyzer.dll
+ASSEMBLY = ICSharpCode.AssemblyAnalyser.dll
 CSC = mcs /debug
 
 FILES = \
@@ -75,4 +75,4 @@ all: $(ASSEMBLY)
 
 $(ASSEMBLY): $(FILES)
 	$(CSC) /out:$(ASSEMBLY) /target:library $(FILES) \
-	&& cp $(ASSEMBLY) ../../../../../build/bin/.
+	&& cp $(ASSEMBLY) ../../../../../build/AddIns/.
