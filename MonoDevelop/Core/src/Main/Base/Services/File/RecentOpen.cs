@@ -123,13 +123,22 @@ namespace MonoDevelop.Services
 		
 		public void FileRemoved(object sender, FileEventArgs e)
 		{
+			if (e.IsDirectory)
+				return;
+			
 			recentFiles.RemoveItem (new Uri (e.FileName));
 			UpdateLastFile ();
 		}
 		
 		public void FileRenamed(object sender, FileEventArgs e)
 		{
-			recentFiles.RenameItem (new Uri (e.FileName), new Uri (e.TargetFile));
+			if (e.IsDirectory)
+				return;
+			
+			if (e.FileName == null)
+				recentFiles.RenameItem (new Uri (e.SourceFile), new Uri (e.TargetFile));
+			else
+				recentFiles.RenameItem (new Uri (e.FileName), new Uri (e.TargetFile));
 			UpdateLastFile ();
 		}
 

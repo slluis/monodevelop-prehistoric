@@ -1,3 +1,10 @@
+2004-11-01  Todd Berman  <tberman@off.net>
+
+	* Services/File/RecentOpen.cs: Properly handle if the renaming occurs
+	on a Directory, or if it is using SourceFile instead of FileName.
+
+	Need to investigate why SourceFile and FileName both exist.
+
 2004-10-29  Todd Berman  <tberman@off.net>
 
 	* Commands/FileCommands: Fix SaveAs.
