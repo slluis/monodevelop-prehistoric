@@ -75,6 +75,7 @@ namespace ICSharpCode.Core.Services
 			stockMappings ["Icons.16x16.OpenFileIcon"] = Gtk.Stock.Open;
 			stockMappings ["Icons.16x16.Options"] = Gtk.Stock.Preferences;
 			stockMappings ["Icons.16x16.PasteIcon"] = Gtk.Stock.Paste;
+			stockMappings ["Icons.16x16.PreView"] = Gtk.Stock.PrintPreview;
 			stockMappings ["Icons.16x16.PrevWindowIcon"] = Gtk.Stock.GoBack;
 			stockMappings ["Icons.16x16.Print"] = Gtk.Stock.Print;
 			stockMappings ["Icons.16x16.QuitIcon"] = Gtk.Stock.Quit;
