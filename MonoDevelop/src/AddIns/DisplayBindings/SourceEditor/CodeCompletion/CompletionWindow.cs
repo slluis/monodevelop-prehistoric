@@ -56,7 +56,9 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 		void ListKeyreleaseEvent(object sender, KeyReleaseEventArgs ex) {
 			if (ex.Event.Key == Gdk.Key.BackSpace) {
 				//Console.WriteLine("Got BackSpace on key release");
-				//new ICSharpCode.TextEditor.Actions.Backspace().Execute(control.ActiveTextAreaControl.TextArea);
+				TextIter insertIter = control.Buffer.GetIterAtMark (control.Buffer.InsertMark);
+				TextIter oneCharBackIter = control.Buffer.GetIterAtOffset (insertIter.Offset == 0 ? insertIter.Offset : insertIter.Offset- 1);
+				control.Buffer.Delete (insertIter, oneCharBackIter);
 				if (insertLength > 0) {
 					--insertLength;
 				} else {
@@ -152,7 +154,6 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 		
 		void InitializeControls()
 		{
-			RequestSize = new Size (340, 210 - 85);
 			Decorated = false;
 			SkipPagerHint = true;
 			SkipTaskbarHint = true;
@@ -177,6 +178,7 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 			listView.AppendColumn (complete_column);
 
 			Gtk.ScrolledWindow scroller = new Gtk.ScrolledWindow ();
+			scroller.HscrollbarPolicy = Gtk.PolicyType.Never;
 			scroller.Add (listView);
 
 			Gtk.Frame frame = new Gtk.Frame ();
@@ -208,9 +210,14 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 			//Point visualPos = new Point(control.ActiveTextAreaControl.TextArea.TextView.GetDrawingXPos(caretPos.Y, caretPos.X) + control.ActiveTextAreaControl.TextArea.TextView.DrawingPosition.X,
 			//          (int)((1 + caretPos.Y) * control.ActiveTextAreaControl.TextArea.TextView.FontHeight) - control.ActiveTextAreaControl.TextArea.VirtualTop.Y - 1 + control.ActiveTextAreaControl.TextArea.TextView.DrawingPosition.Y);
 
+			Gdk.Rectangle rect = control.GetIterLocation (control.Buffer.GetIterAtMark (control.Buffer.InsertMark));
+
+			int wx, wy;
+			control.BufferToWindowCoords (Gtk.TextWindowType.Widget, rect.x, rect.y + rect.height, out wx, out wy);
+			
 			int tx, ty;
-			//control.ActiveTextAreaControl.TextArea.GdkWindow.GetOrigin(out tx, out ty);
-			//Move(tx + visualPos.X, ty + visualPos.Y);
+			control.GdkWindow.GetOrigin(out tx, out ty);
+			Move(tx + wx, ty + wy);
 			listView.Selection.Changed += new EventHandler (RowActivated);
 			ShowAll ();
 		}
@@ -286,21 +293,23 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 	
 			if (listView.Selection.GetSelected (out model, out iter)){
 				ICompletionData data = (ICompletionData) store.GetValue (iter, 2);
+				if (data == null)
+					return;
+				//This code is for sizing the treeview properly.
+				Gtk.TreePath path = store.GetPath (iter);
+				Gdk.Rectangle backRect = listView.GetBackgroundArea (path, (Gtk.TreeViewColumn)listView.Columns[0]);
+
+				listView.HeightRequest = (backRect.height * 5) + 2;
 				
 				//FIXME: This code is buggy, and generates a bad placement sometimes when you jump a lot. but it is better than 0,0
 				
-				Gtk.TreePath path = store.GetPath (iter);
-				Gdk.Rectangle rect;
-				rect = listView.GetCellArea (path, (Gtk.TreeViewColumn)listView.Columns[0]);
+				Gdk.Rectangle rect = listView.GetCellArea (path, (Gtk.TreeViewColumn)listView.Columns[0]);
 
-				int x, y;
-				listView.TreeToWidgetCoords (rect.x, rect.y, out x, out y);
-				
 				int listpos_x, listpos_y;
 				GetPosition (out listpos_x, out listpos_y);
 				int vert = listpos_y + rect.y;
 
-				if (vert > listpos_y + listView.GdkWindow.Size.Height) {
+				if (vert >= listpos_y + listView.GdkWindow.Size.Height - 2) {
 					vert = listpos_y + listView.GdkWindow.Size.Height - rect.height;
 				} else if (vert < listpos_y) {
 					vert = listpos_y;
