@@ -8,5 +8,5 @@ addin_DATA = MonoDevelopNewEditor.addin SharpDevelopCore.addin
 EXTRA_DIST = $(addin_DATA)
 
 # for conditionally built addins
-CLEANFILES = MonoDevelopDebugger.addin MonoDevelopDebugger.dll
+CLEANFILES = MonoDevelopDebugger.addin MonoDevelop.Debugger.dll
 

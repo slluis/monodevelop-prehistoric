@@ -14,6 +14,11 @@ DebuggingService.cs \
 Gui/DebuggerLocalsPad.cs \
 Gui/DebuggerVariablePad.cs
 
+DLLS = /r:gtk-sharp /r:glib-sharp \
+	/r:$(debugger_prefix)/lib/Mono.Debugger.dll \
+	/r:../../../build/bin/MonoDevelop.Base.dll \
+	/r:../../../build/bin/MonoDevelop.Core.dll
+
 build_sources = $(addprefix $(srcdir)/, $(FILES))
 
 ../../../build/AddIns/$(ADDIN):
@@ -21,11 +26,7 @@ build_sources = $(addprefix $(srcdir)/, $(FILES))
 
 $(ASSEMBLY): $(build_sources) $(ADDIN)
 	$(CSC) /out:$(ASSEMBLY) /target:library \
-	/r:gtk-sharp /r:glib-sharp \
-	/r:$(debugger_prefix)/lib/Mono.Debugger.dll \
-	/r:../../../build/bin/MonoDevelop.Base.dll \
-	/r:../../../build/bin/MonoDevelop.Core.dll \
-	$(build_sources) \
+	$(build_sources) $(DLLS)\
 	&& cp $(ASSEMBLY) ../../../build/AddIns/
 
 assemblydir = $(libdir)/monodevelop/AddIns
