@@ -1,3 +1,9 @@
+2004-04-16  John Luke  <jluke@cfl.rr.com>
+
+	* JavaBindingCompilerService.cs:
+	rework error parsing to work off of Streams instead of temp files
+	allows javac errors to work, gcj maybe not	
+
 2004-04-09  John Luke  <jluke@cfl.rr.com>
 
 	* JavaBindingCompilerService.cs: account for classpath when compiling,

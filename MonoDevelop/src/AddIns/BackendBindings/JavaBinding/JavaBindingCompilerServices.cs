@@ -27,8 +27,6 @@ namespace JavaBinding
 		
 		public ICompilerResult CompileFile(string filename)
 		{
-			string output = "";
-			string error  = "";
 			string options = "";
 			
 			JavaCompilerParameters cparam = new JavaCompilerParameters();
@@ -51,12 +49,10 @@ namespace JavaBinding
 			TempFileCollection  tf = new TempFileCollection();					
 			
 			string outstr = "javac \"" + filename + "\" -classpath " + cparam.ClassPath + options;
-			Executor.ExecWaitWithCapture(outstr, tf, ref error , ref output);
-			
-			ICompilerResult cr = ParseOutput(tf, output);
-			
-			File.Delete(output);
-			File.Delete(error);
+			//Executor.ExecWaitWithCapture(outstr, tf, ref error , ref output);
+			StreamReader output, error;
+			DoCompilation (outstr, tf, out output, out error);
+			ICompilerResult cr = ParseOutput (tf, error);
 			
 			return cr;	
 		}
@@ -104,8 +100,8 @@ namespace JavaBinding
 			
 			options += " -encoding utf8 ";
 			
-			string output = "";
-			string error  = "";
+			//string output = "";
+			//string error  = "";
 			string files  = "";
 			
 			foreach (ProjectFile finfo in p.ProjectFiles) {
@@ -135,41 +131,42 @@ namespace JavaBinding
 			} else {
 				outstr = compiler + " -classpath " + compilerparameters.ClassPath + files;
 			}
-			DoCompilation (outstr, tf, ref output, ref error);
+			StreamReader output;
+			StreamReader error;
+			DoCompilation (outstr, tf, out output, out error);
 			//Executor.ExecWaitWithCapture(outstr, tf, ref error , ref output);			
-			ICompilerResult cr = ParseOutput (tf, output);			
-			File.Delete(output);
-			File.Delete(error);
+			ICompilerResult cr = ParseOutput (tf, error);			
 			
 			return cr;
 		}
 
-		private void DoCompilation (string outstr, TempFileCollection tf, ref string output, ref string error)
+		private void DoCompilation (string outstr, TempFileCollection tf, out StreamReader output, out StreamReader error)
 		{
-			output = Path.GetTempFileName ();
-            error = Path.GetTempFileName ();
-
-            string arguments = outstr + " > " + output + " 2> " + error;
+            string arguments = outstr;
             string command = arguments;
-            ProcessStartInfo si = new ProcessStartInfo("/bin/sh -c \"" + command + "\"");
+            ProcessStartInfo si = new ProcessStartInfo (command);
 			si.RedirectStandardOutput = true;
             si.RedirectStandardError = true;
 			si.UseShellExecute = false;
 			Process p = new Process ();
             p.StartInfo = si;
             p.Start ();
+			output = p.StandardOutput;
+			error = p.StandardError;
             p.WaitForExit ();
         }
 		
-		ICompilerResult ParseOutput(TempFileCollection tf, string file)
+		ICompilerResult ParseOutput(TempFileCollection tf, StreamReader errorStream)
 		{
 			string compilerOutput = "";		
-			StreamReader sr = new StreamReader(file, System.Text.Encoding.Default);
+			StreamReader sr = errorStream;
+			
 			CompilerResults cr = new CompilerResults(tf);
 			
 			while (true) 
 				{
-				string next = sr.ReadLine();									
+				string next = sr.ReadLine ();
+				Console.WriteLine (next);
 				
 				if (next == null)
 					break;
