@@ -30,15 +30,17 @@ namespace MonoDevelop.Gui.Utils
 			string icon = Gnome.Icon.LookupSync (iconTheme, thumbnailFactory, filename, "", Gnome.IconLookupFlags.None, out result);
 			Gdk.Pixbuf big_pixbuf = (Gdk.Pixbuf) iconHash [icon];
 			if (big_pixbuf == null) {
-				int i;
-				string p_filename = iconTheme.LookupIcon (icon, 24, new Gnome.IconData (), out i);
-				big_pixbuf = new Gdk.Pixbuf (p_filename);
+				big_pixbuf = GetPixbufForType (icon);
 				iconHash [icon] = big_pixbuf;
 			}
 			return big_pixbuf.ScaleSimple (height, width, Gdk.InterpType.Bilinear);
 		}
-	
 
+		public static Gdk.Pixbuf GetPixbufForType (string type)
+		{
+			int i;
+			string p_filename = iconTheme.LookupIcon (type, 24, new Gnome.IconData (), out i);
+			return new Gdk.Pixbuf (p_filename);
+		}
 	}
-
 }
