@@ -311,7 +311,10 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 					declarationviewwindow = new DeclarationViewWindow ();
 					declarationviewwindow.DescriptionMarkup = data.Description;
 				}
-				
+			
+				if (declarationviewwindow.DescriptionMarkup.Length == 0)
+					return;
+			
 				declarationviewwindow.ShowAll ();
 				if (listView.Screen.Width <= horiz + declarationviewwindow.GdkWindow.FrameExtents.Width) {
 					horiz = listpos_x - declarationviewwindow.GdkWindow.FrameExtents.Width - 10;

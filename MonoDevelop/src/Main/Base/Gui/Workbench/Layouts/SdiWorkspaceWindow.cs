@@ -14,6 +14,8 @@ using Gtk;
 using ICSharpCode.Core.Services;
 using ICSharpCode.SharpDevelop.Services;
 
+using MonoDevelop.Gui.Utils;
+
 namespace ICSharpCode.SharpDevelop.Gui
 {
 	public class SdiWorkspaceWindow : IWorkbenchWindow
@@ -23,8 +25,9 @@ namespace ICSharpCode.SharpDevelop.Gui
 		ArrayList    subViewContents = null;
 		
 		Label     tabLabel;
+		Image     tabMimeType;
 		Widget    tabPage;
-		Notebook tabControl;
+		Notebook  tabControl;
 		
 		string myUntitledTitle     = null;
 		string _titleHolder = "";
@@ -117,11 +120,12 @@ namespace ICSharpCode.SharpDevelop.Gui
 			tabControl.CurrentPage = toSelect;
 		}
 		
-		public SdiWorkspaceWindow(IViewContent content, Notebook tabControl, Label label)
+		public SdiWorkspaceWindow(IViewContent content, Notebook tabControl, Label label, Image type)
 		{
 			this.tabControl = tabControl;
 			this.content = content;
 			this.tabLabel = label;
+			this.tabMimeType = type;
 			this.tabPage = content.Control;
 			
 			IconService iconService = (IconService)ServiceManager.Services.GetService(typeof(IconService));
@@ -321,6 +325,13 @@ namespace ICSharpCode.SharpDevelop.Gui
 		protected virtual void OnTitleChanged(EventArgs e)
 		{
 			tabLabel.Text = Title;
+			try {
+				if (content.ContentName.IndexOfAny (new char[] { '*', '+'}) == -1) {
+					tabMimeType.Pixbuf = FileIconLoader.GetPixbufForFile (content.ContentName, 16, 16);
+				}
+			} catch {
+				tabMimeType.Pixbuf = FileIconLoader.GetPixbufForType ("gnome-fs-regular").ScaleSimple (16, 16, Gdk.InterpType.Bilinear);
+			}
 			if (TitleChanged != null) {
 				TitleChanged(this, e);
 			}

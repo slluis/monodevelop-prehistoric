@@ -21,6 +21,7 @@ using Gtk;
 using Gdl;
 using GdlSharp;
 using MonoDevelop.Gui.Widgets;
+using MonoDevelop.Gui.Utils;
 
 namespace ICSharpCode.SharpDevelop.Gui
 {	
@@ -82,6 +83,8 @@ namespace ICSharpCode.SharpDevelop.Gui
 			// Create the notebook for the various documents.
 			tabControl = new Notebook ();
 			tabControl.Scrollable = true;
+			tabControl.ShowTabs = false;
+			tabControl.SwitchPage += new SwitchPageHandler (ActiveMdiChanged);
 			DockItem item = new DockItem ("Documents", "Documents",
 						      DockItemBehavior.Locked);
 			item.Add (tabControl);
@@ -309,10 +312,13 @@ namespace ICSharpCode.SharpDevelop.Gui
 			
 
 			string title = "";
+			Gtk.Image mimeimage;
 			if (content.IsUntitled) {
 				title = content.UntitledName;
+				mimeimage = new Gtk.Image (FileIconLoader.GetPixbufForType ("gnome-fs-regular").ScaleSimple (16, 16, Gdk.InterpType.Bilinear));
 			} else {
 				title = Path.GetFileName (content.ContentName);
+				mimeimage = new Gtk.Image (FileIconLoader.GetPixbufForFile (content.ContentName, 16, 16));
 			}
 			
 			HBox hbox = new HBox (false, 3);
@@ -325,18 +331,21 @@ namespace ICSharpCode.SharpDevelop.Gui
 			btn.StateChanged += new StateChangedHandler (stateChanged);
 			
 			Label label = new Label (title);
+			hbox.PackStart (mimeimage);
 			hbox.PackStart (label, false, false, 0);
 			hbox.PackEnd (btn, false, false, 0);
 		
 			hbox.ShowAll ();
 			tabControl.AppendPage (content.Control, hbox);
 
-			SdiWorkspaceWindow sdiWorkspaceWindow = new SdiWorkspaceWindow(content, tabControl, label);
+			SdiWorkspaceWindow sdiWorkspaceWindow = new SdiWorkspaceWindow(content, tabControl, label, mimeimage);
 
 			sdiWorkspaceWindow.CloseEvent += new EventHandler(CloseWindowEvent);
 			sdiWorkspaceWindow.SwitchView(tabControl.Children.Length - 1);
 			_windows.Add (sdiWorkspaceWindow);
 			
+			if (tabControl.NPages > 1)
+				tabControl.ShowTabs = true;
 			tabControl.ShowAll();
 			return sdiWorkspaceWindow;
 		}
@@ -365,13 +374,20 @@ namespace ICSharpCode.SharpDevelop.Gui
 		public void RemoveTab (int pageNum) {
 			tabControl.RemovePage (pageNum);
 			_windows.RemoveAt (pageNum);
+			if (tabControl.NPages == 1)
+				tabControl.ShowTabs = false;
 		}
 		
-		void ActiveMdiChanged(object sender, EventArgs e)
+		void ActiveMdiChanged(object sender, SwitchPageArgs e)
 		{
-			if (ActiveWorkbenchWindowChanged != null) {
-				ActiveWorkbenchWindowChanged(this, e);
+			try {
+				((Gtk.Window)WorkbenchSingleton.Workbench).Title = ActiveWorkbenchwindow.ViewContent.ContentName + " - MonoDevelop";
+			} catch {
+				((Gtk.Window)WorkbenchSingleton.Workbench).Title = "MonoDevelop";
 			}
+			/*if (ActiveWorkbenchWindowChanged != null) {
+				ActiveWorkbenchWindowChanged(this, e);
+			}*/
 		}
 		
 		public event EventHandler ActiveWorkbenchWindowChanged;

@@ -9,7 +9,7 @@
 		<Import assembly="MonoDevelop.StartPage.dll"/>
 	</Runtime>
 
-	<Extension path = "/SharpDevelop/Workbench/MainMenu/View">
+	<!-- <Extension path = "/SharpDevelop/Workbench/MainMenu/View">
 		<MenuItem id = "ShowStartPage"
 		          insertafter  = "ViewItemsSeparator"
 			  insertbefore = "StartPageSeparator"
@@ -18,7 +18,7 @@
 		<MenuItem id = "StartPageSeparator"
 				  insertbefore = "FullScreen"
 				  label = "-"/>
-	</Extension>
+	</Extension> -->
 	
 	<!-- TODO: Conditional to reflect Settings option -->
 	<Extension path = "/Workspace/Autostart">
