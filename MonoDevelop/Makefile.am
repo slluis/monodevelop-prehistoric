@@ -10,6 +10,9 @@ desktop_DATA = monodevelop.desktop
 pixmapdir = $(datadir)/pixmaps
 pixmap_DATA = monodevelop.png
 
+mimeinfodir = $(datadir)/mime-info
+mimeinfo_DATA = monodevelop.mime
+
 run: runmd
 
 runmd: $(PROGRAM)
@@ -26,5 +29,6 @@ run-profile: $(PROGRAM)
 profile-pad: $(MONOPAD)
 	cd build/bin && mono -O=inline --profile MonoPad.exe
 
-EXTRA_DIST = $(bin_SCRIPTS) $(desktop_DATA) $(pixmap_DATA) KNOWN_ISSUES
+EXTRA_DIST = $(bin_SCRIPTS) $(desktop_DATA) \
+	$(mimeinfo_DATA) $(pixmap_DATA) KNOWN_ISSUES
 
