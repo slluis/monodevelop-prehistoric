@@ -42,7 +42,9 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 							   "tipOfTheDayWindow",
 							   null);
 			totdXml.Autoconnect (this);
-			
+					
+			tipOfTheDayWindow.TypeHint = Gdk.WindowTypeHint.Dialog;
+
 			noshowCheckbutton.Active = propertyService.GetProperty ("ICSharpCode.SharpDevelop.Gui.Dialog.TipOfTheDayView.ShowTipsAtStartup", true);
 			noshowCheckbutton.Toggled += new EventHandler (OnNoshow);
 			nextButton.Clicked += new EventHandler (OnNext);
