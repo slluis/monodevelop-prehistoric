@@ -33,11 +33,11 @@ namespace MonoDevelop.Gui.Widgets
 	{
 		public DirectoryChangedEventHandler DirectoryChangedEvent;
 
-		Gtk.UIManager uiManager;
+		private static Tooltips tips = new Tooltips ();
 		private Gtk.TreeView tv;
 		private Gtk.ScrolledWindow scrolledwindow;
-		private Gtk.Button upbutton, homebutton;
-		private Gtk.Entry entry;
+		private Gtk.ToolButton goUp, goHome;
+		private ToolbarEntry entry;
 		private IMessageService messageService;
 		private Gtk.CellRendererText text_render;
 		private ListStore store;
@@ -50,12 +50,6 @@ namespace MonoDevelop.Gui.Widgets
 		private ArrayList hiddenfolders = new ArrayList ();
 
 		PropertyService PropertyService = (PropertyService) ServiceManager.GetService (typeof (PropertyService));
-
-		const string uiInfo = 
-			"<toolbar name=\"toolbar\">" +
-			"  <toolitem name=\"goUp\" action=\"goUp\" />" +
-			"  <toolitem name=\"home\" action=\"home\" />" +
-			"</toolbar>";
 
 		public FileBrowser ()
 		{
@@ -70,23 +64,25 @@ namespace MonoDevelop.Gui.Widgets
 			scrolledwindow.HscrollbarPolicy = PolicyType.Automatic;
 			scrolledwindow.ShadowType = ShadowType.In;
 
-			ActionEntry[] actions = new ActionEntry[]
-			{
-				new ActionEntry ("goUp", Gtk.Stock.GoUp, null, null, GettextCatalog.GetString ("Up one level"), new EventHandler (OnUpClicked)),
-				new ActionEntry ("home", Gtk.Stock.Home, null, null, GettextCatalog.GetString ("Home"), new EventHandler (OnHomeClicked))
-			};
+			Toolbar toolbar = new Toolbar ();
+			toolbar.IconSize = IconSize.SmallToolbar;
 
-			ActionGroup actionGroup = new ActionGroup ("navbar");
-			actionGroup.Add (actions);
+			goUp = new ToolButton (Stock.GoUp);
+			goUp.Clicked += new EventHandler (OnGoUpClicked);
+			goUp.SetTooltip (tips, GettextCatalog.GetString ("Go up"), "Go up");
+			toolbar.Insert (goUp, -1);
 
-			uiManager = new UIManager ();
-			uiManager.InsertActionGroup (actionGroup, 0);
-			uiManager.AddWidget += new AddWidgetHandler (OnUIAdd);
-			uiManager.AddUiFromString (uiInfo);
+			goHome = new ToolButton (Stock.Home);
+			goHome.Clicked += new EventHandler (OnGoHomeClicked);
+			goHome.SetTooltip (tips, GettextCatalog.GetString ("Home"), "Home");
+			toolbar.Insert (goHome, -1);
 
-			Toolbar tb = uiManager.GetWidget ("/ui/toolbar") as Toolbar;
-			tb.IconSize = Gtk.IconSize.SmallToolbar;
-			AddLocationEntry (tb);
+			entry = new ToolbarEntry ();
+			entry.Activated += new EventHandler (OnEntryActivated);
+			entry.SetTooltip (tips, GettextCatalog.GetString ("Location"), "");
+			toolbar.Insert (entry, -1);
+			toolbar.ShowAll ();
+			this.PackStart (toolbar, false, true, 0);
 
 			IProperties p = (IProperties) PropertyService.GetProperty ("SharpDevelop.UI.SelectStyleOptions", new DefaultProperties ());
 			ignoreHidden = !p.GetProperty ("MonoDevelop.Gui.FileScout.ShowHidden", false);
@@ -167,11 +163,10 @@ namespace MonoDevelop.Gui.Widgets
 		{
 			store.Clear ();
 
-			ToolButton upbutton = uiManager.GetWidget ("/ui/toolbar/goUp") as Gtk.ToolButton;
 			if (System.IO.Path.GetPathRoot (CurrentDir) == CurrentDir)
-				upbutton.Sensitive = false;
-			else if (upbutton.Sensitive == false)
-				upbutton.Sensitive = true;
+				goUp.Sensitive = false;
+			else if (goUp.Sensitive == false)
+				goUp.Sensitive = true;
 
 			DirectoryInfo di = new DirectoryInfo (CurrentDir);
 			DirectoryInfo[] dirs = di.GetDirectories ();
@@ -296,13 +291,13 @@ namespace MonoDevelop.Gui.Widgets
 			}
 		}
 		
-		private void OnUpClicked (object o, EventArgs args)
+		private void OnGoUpClicked (object o, EventArgs args)
 		{
 			if (System.IO.Path.GetPathRoot (CurrentDir) != CurrentDir)
 				CurrentDir = System.IO.Path.Combine (CurrentDir, "..");
 		}
 		
-		private void OnHomeClicked (object o, EventArgs args)
+		private void OnGoHomeClicked (object o, EventArgs args)
 		{
 			CurrentDir = Environment.GetFolderPath (Environment.SpecialFolder.Personal);
 		}
@@ -448,21 +443,40 @@ namespace MonoDevelop.Gui.Widgets
 			return !hiddenfolders.Contains (folder);
 		} 
 
-		void OnUIAdd (object sender, AddWidgetArgs a)
-		{
-			a.Widget.Show ();
-			this.PackStart (a.Widget, false, true, 0);
-		}
-
 		void AddLocationEntry (Toolbar tb)
 		{
-			entry = new Entry ();
-			entry.Activated += new EventHandler (OnEntryActivated);
-			entry.Show ();
-			ToolItem item = new ToolItem ();
-			item.Add (entry);
-			tb.Add (item);
 		}
+	}
+
+	public class ToolbarEntry : ToolItem
+	{
+		Entry entry;
+
+		public ToolbarEntry () : base ()
+		{
+			entry = new Entry ();
+			entry.Activated += new EventHandler (OnActivated);
+			this.Add (entry);
+			entry.Show ();
+			this.ShowAll ();
+		}
+
+		protected void OnActivated (object sender, EventArgs a)
+		{
+			if (Activated != null)
+				Activated (this, EventArgs.Empty);
+		}
+
+		public string Text {
+			get {
+				return entry.Text;
+			}
+			set {
+				entry.Text = value;
+			}
+		}
+
+		public event EventHandler Activated;
 	}
 }
 
