@@ -348,7 +348,6 @@ namespace Freedesktop.RecentFiles
 
 		private void AddGroup (string group)
 		{
-			Console.WriteLine ("add group");
 			if (this.Groups == null)
 			{
 				Groups = new string[] {group};

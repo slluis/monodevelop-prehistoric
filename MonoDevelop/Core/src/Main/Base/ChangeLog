@@ -1,3 +1,7 @@
+2004-10-28  Todd Berman  <tberman@off.net>
+
+	* Services/File/RecentFiles.cs: Remove C.WL
+
 2004-10-27  Todd Berman  <tberman@off.net>
 
 	* Commands/AutoStartCommands.cs: Fix the Load Previous Project on
