@@ -32,7 +32,7 @@ namespace ICSharpCode.TextEditor.Document
 		static PropertyService      propertyService = (PropertyService)ServiceManager.Services.GetService(typeof(PropertyService));
 		
 		static string              currentFileName = String.Empty;
-		static SourceEditor        currentDocument = null;
+		static SourceEditorBuffer  currentDocument = null;
 		
 		public static SearchOptions SearchOptions {
 			get {
@@ -67,22 +67,20 @@ namespace ICSharpCode.TextEditor.Document
 			TaskService taskService = (TaskService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(TaskService));
 			
 			// check if the current document is up to date
-			if (currentFileName != result.FileName) {
+			//if (currentFileName != result.FileName) {
 				// if not, create new document
 				currentFileName = result.FileName;
-				currentDocument = result.CreateDocument(); 
-			}
+				currentDocument = SourceEditorBuffer.CreateTextBufferFromFile (result.FileName);
+			//}
 			
 			// get line out of the document and display it in the task list
-			//int lineNumber = currentDocument.GetLineNumberForOffset(Math.Min(currentDocument.TextLength, result.Offset));
-			TextIter resultIter = currentDocument.Buffer.GetIterAtOffset (result.Offset);
+			TextIter resultIter = currentDocument.GetIterAtOffset (result.Offset);
 			int lineNumber = resultIter.Line;
 
 			TextIter start_line = resultIter, end_line = resultIter;
 			start_line.LineOffset = 0;
 			end_line.ForwardToLineEnd ();
-			//LineSegment line = currentDocument.GetLineSegment(lineNumber);
-			taskService.Tasks.Add(new Task(result.FileName, currentDocument.Buffer.GetText(start_line.Offset, end_line.Offset - start_line.Offset), resultIter.LineOffset, lineNumber));
+			taskService.Tasks.Add(new Task(result.FileName, currentDocument.GetText(start_line.Offset, end_line.Offset - start_line.Offset), resultIter.LineOffset, lineNumber));
 		}
 		
 		static bool InitializeSearchInFiles()
