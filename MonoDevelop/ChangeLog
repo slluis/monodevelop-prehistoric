@@ -5,6 +5,7 @@
 	Updated to match latest svn, 
 	fixed character encoding,
 	more translations.
+	* po/README: Added some notes on how to do a l10n.
 
 2004-05-25  Fawad Halim <fawad@fawad.net>
 
