@@ -1,5 +1,10 @@
 2004-05-18  Todd Berman  <tberman@sevenl.net>
 
+	* CSharpBindingCompilerManager.cs: add a warning to the top of the
+	makefiles.
+
+2004-05-18  Todd Berman  <tberman@sevenl.net>
+
 	* CSharpBindingCompilerManager.cs: change from /option to -option
 
 2004-05-16  Todd Berman  <tberman@sevenl.net>
