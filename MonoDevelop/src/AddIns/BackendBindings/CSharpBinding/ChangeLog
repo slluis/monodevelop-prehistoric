@@ -1,3 +1,7 @@
+2004-03-31  Todd Berman <tberman@sevenl.net>
+
+	* Makefile.am: i think this fixed nick's bug.
+
 2004-03-28  John Luke  <jluke@cfl.rr.com>
 
 	* Parser/Resolver.cs: comment some CWL's that were causing exceptions

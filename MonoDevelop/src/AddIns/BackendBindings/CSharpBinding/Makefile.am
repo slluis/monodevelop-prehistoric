@@ -8,7 +8,8 @@ DLLS = /r:System.Drawing.dll \
 	/r:../../../../build/bin/ICSharpCode.SharpRefactory.dll \
 	/r:../../../../build/bin/MonoDevelop.Gui.Widgets.dll  \
 	/r:gtk-sharp \
-	/r:glade-sharp
+	/r:glade-sharp \
+	$(GTKSOURCEVIEW_SHARP) 
 
 FILES = \
 ./Gui/ChooseRuntimePanel.cs \
