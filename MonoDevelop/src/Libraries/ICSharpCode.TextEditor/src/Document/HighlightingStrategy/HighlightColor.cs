@@ -24,9 +24,11 @@ namespace ICSharpCode.TextEditor.Document
 	{
 		bool   systemColor     = false;
 		string systemColorName = null;
+		double systemColorFactor = 1.0;
 		
 		bool   systemBgColor     = false;
 		string systemBgColorName = null;
+		double systemBgColorFactor = 1.0;
 		
 		Color  color;
 		Color  backgroundcolor = System.Drawing.Color.WhiteSmoke;
@@ -75,7 +77,7 @@ namespace ICSharpCode.TextEditor.Document
 				if (!systemBgColor) {
 					return backgroundcolor;
 				}
-				return ParseColorString(systemBgColorName);
+				return ParseColorString(systemBgColorName, systemBgColorFactor);
 			}
 		}
 		
@@ -87,7 +89,7 @@ namespace ICSharpCode.TextEditor.Document
 				if (!systemColor) {
 					return color;
 				}
-				return ParseColorString(systemColorName);
+				return ParseColorString(systemColorName, systemColorFactor);
 			}
 		}
 		
@@ -103,16 +105,10 @@ namespace ICSharpCode.TextEditor.Document
 			}
 		}
 		
-		Color ParseColorString(string colorName)
+		Color ParseColorString(string colorName, double factor)
 		{
-			string[] cNames = colorName.Split('*');
-			Color c = Color.FromName (cNames [0]);
-			
-			if (cNames.Length == 2) {
-				// hack : can't figure out how to parse doubles with '.' (culture info might set the '.' to ',')
-				double factor = Double.Parse(cNames[1]) / 100;
-				c = Color.FromArgb((int)((double)c.R * factor), (int)((double)c.G * factor), (int)((double)c.B * factor));
-			}
+			Color c = Color.FromName (colorName);
+			c = Color.FromArgb((int)((double)c.R * factor), (int)((double)c.G * factor), (int)((double)c.B * factor));
 			
 			return c;
 		}
@@ -137,7 +133,10 @@ namespace ICSharpCode.TextEditor.Document
 					color = ParseColor(c);
 				} else if (c.StartsWith("SystemColors.")) {
 					systemColor     = true;
-					systemColorName = c.Substring("SystemColors.".Length);
+					string [] cNames = c.Substring ("SystemColors.".Length).Split('*');
+					systemColorName = cNames [0];
+					// hack : can't figure out how to parse doubles with '.' (culture info might set the '.' to ',')
+					if (cNames.Length == 2) systemColorFactor = Double.Parse(cNames[1]) / 100;
 				} else {
 					color = (Color)(Color.GetType()).InvokeMember(c, BindingFlags.GetProperty, null, Color, new object[0]);
 				}
@@ -152,7 +151,10 @@ namespace ICSharpCode.TextEditor.Document
 					backgroundcolor = ParseColor(c);
 				} else if (c.StartsWith("SystemColors.")) {
 					systemBgColor     = true;
-					systemBgColorName = c.Substring("SystemColors.".Length);
+					string [] cNames = c.Substring ("SystemColors.".Length).Split('*');
+					systemBgColorName = cNames [0];
+					// hack : can't figure out how to parse doubles with '.' (culture info might set the '.' to ',')
+					if (cNames.Length == 2) systemBgColorFactor = Double.Parse(cNames[1]) / 100;
 				} else {
 					backgroundcolor = (Color)(Color.GetType()).InvokeMember(c, BindingFlags.GetProperty, null, Color, new object[0]);
 				}
@@ -184,7 +186,10 @@ namespace ICSharpCode.TextEditor.Document
 					color = ParseColor(c);
 				} else if (c.StartsWith("SystemColors.")) {
 					systemColor     = true;
-					systemColorName = c.Substring("SystemColors.".Length);
+					string [] cNames = c.Substring ("SystemColors.".Length).Split('*');
+					systemColorName = cNames [0];
+					// hack : can't figure out how to parse doubles with '.' (culture info might set the '.' to ',')
+					if (cNames.Length == 2) systemColorFactor = Double.Parse(cNames[1]) / 100;
 				} else {
 					color = (Color)(Color.GetType()).InvokeMember(c, BindingFlags.GetProperty, null, Color, new object[0]);
 				}
@@ -198,7 +203,11 @@ namespace ICSharpCode.TextEditor.Document
 					backgroundcolor = ParseColor(c);
 				} else if (c.StartsWith("SystemColors.")) {
 					systemBgColor     = true;
-					systemBgColorName = c.Substring("SystemColors.".Length);
+					string [] cNames = c.Substring ("SystemColors.".Length).Split('*');
+					systemBgColorName = cNames [0];
+					// hack : can't figure out how to parse doubles with '.' (culture info might set the '.' to ',')
+					if (cNames.Length == 2) systemBgColorFactor = Double.Parse(cNames[1]) / 100;
+					
 				} else {
 					backgroundcolor = (Color)(Color.GetType()).InvokeMember(c, BindingFlags.GetProperty, null, Color, new object[0]);
 				}
@@ -241,10 +250,16 @@ namespace ICSharpCode.TextEditor.Document
 			hasBackground  = true;
 			
 			this.systemColor  = true;
-			systemColorName   = systemColor;
+			string [] cNames = systemColor.Split('*');
+			systemColorName = cNames [0];
+			// hack : can't figure out how to parse doubles with '.' (culture info might set the '.' to ',')
+			if (cNames.Length == 2) systemColorFactor = Double.Parse(cNames[1]) / 100;
 		
 			systemBgColor     = true;
-			systemBgColorName = systemBackgroundColor;
+			cNames = systemBackgroundColor.Split('*');
+			systemBgColorName = cNames [0];
+			// hack : can't figure out how to parse doubles with '.' (culture info might set the '.' to ',')
+			if (cNames.Length == 2) systemBgColorFactor = Double.Parse(cNames[1]) / 100;
 			
 			this.bold         = bold;
 			this.italic       = italic;
