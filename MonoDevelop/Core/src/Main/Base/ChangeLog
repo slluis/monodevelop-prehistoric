@@ -1,3 +1,8 @@
+2004-10-12  Gert Driesen  <drieseng@users.sourceforge.net>
+
+	* Internal/Parser/SharpAssemblyLayer/SharpAssemblyClass.cs:
+	use alias to workaround mcs change
+
 2004-10-07  Todd Berman  <tberman@off.net>
 
 	* Internal/Project/Project/AbstractProject.cs: Make sure to copy the
