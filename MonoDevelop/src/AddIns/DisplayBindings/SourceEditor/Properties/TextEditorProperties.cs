@@ -59,7 +59,7 @@ namespace MonoDevelop.EditorBindings.Properties {
 		
 		public static IndentStyle IndentStyle {
 			get {
-				return (IndentStyle)properties.GetProperty ("IndentStyle", IndentStyle.Smart);
+				return (IndentStyle)properties.GetProperty ("IndentStyle", IndentStyle.Auto);
 			}
 			set {
 				properties.SetProperty ("IndentStyle", value);

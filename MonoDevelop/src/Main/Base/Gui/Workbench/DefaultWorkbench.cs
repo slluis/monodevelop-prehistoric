@@ -454,9 +454,8 @@ namespace ICSharpCode.SharpDevelop.Gui
 				}
 			} else {
 				foreach (IViewContent content in ViewContentCollection) {
-					// WINDOWS DEPENDENCY : ToUpper
 					if (content.ContentName != null &&
-					    content.ContentName.ToUpper() == e.FileName.ToUpper()) {
+					    content.ContentName == e.FileName) {
 						content.WorkbenchWindow.CloseWindow(true, true, 0);
 						return;
 					}
@@ -474,9 +473,8 @@ namespace ICSharpCode.SharpDevelop.Gui
 				}
 			} else {
 				foreach (IViewContent content in ViewContentCollection) {
-					// WINDOWS DEPENDENCY : ToUpper
 					if (content.ContentName != null &&
-					    content.ContentName.ToUpper() == e.SourceFile.ToUpper()) {
+					    content.ContentName == e.SourceFile) {
 						content.ContentName = e.TargetFile;
 						return;
 					}
