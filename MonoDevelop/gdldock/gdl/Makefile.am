@@ -36,7 +36,8 @@ $(ASSEMBLY): $(build_sources) generated-stamp
 	$(MCS) --unsafe --target library \
 	-r glib-sharp -r gtk-sharp -r gdk-sharp \
 	$(build_sources) generated/*.cs /out:$(ASSEMBLY) \
-	&& cp -p $(ASSEMBLY) ../../build/bin/.
+	&& cp -p $(ASSEMBLY) ../../build/bin/. \
+	&& cp -p $(ASSEMBLY).config ../../build/bin/.
 
 gdldocklibdir = $(prefix)/lib/monodevelop/bin
 gdldocklib_DATA = $(ASSEMBLY)
@@ -46,5 +47,5 @@ clean-local:
 
 CLEANFILES = $(ASSEMBLY) generated-stamp $(API)
 
-EXTRA_DIST = $(RAWAPI) $(METADATA) $(FILES) $(CUSTOM_FILES)
+EXTRA_DIST = $(RAWAPI) $(METADATA) $(FILES) $(CUSTOM_FILES) $(ASSEMBLY).config
 
