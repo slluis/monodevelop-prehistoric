@@ -30,7 +30,7 @@ namespace CSharpBinding
 		public void Execute(string filename)
 		{
 			string exe = Path.ChangeExtension(filename, ".exe");
-			ProcessStartInfo psi = new ProcessStartInfo(Environment.GetEnvironmentVariable("ComSpec"), "/c " + "\"" + exe + "\"" + " & pause");
+			ProcessStartInfo psi = new ProcessStartInfo("mono", "--debug " + exe);
 			psi.WorkingDirectory = Path.GetDirectoryName(exe);
 			psi.UseShellExecute = false;
 			try {
@@ -54,9 +54,9 @@ namespace CSharpBinding
 			ProcessStartInfo psi;
 			if (parameters.ExecuteScript != null && parameters.ExecuteScript.Length > 0) {
 				Console.WriteLine("EXECUTE SCRIPT!!!!!!");
-			psi = new ProcessStartInfo("\"" + parameters.ExecuteScript + "\"");
+				psi = new ProcessStartInfo("\"" + parameters.ExecuteScript + "\"");
 			} else {
-				string runtimeStarter = String.Empty;
+				string runtimeStarter = "mono ";
 				
 				switch (parameters.NetRuntime) {
 					case NetRuntime.Mono:
@@ -67,20 +67,20 @@ namespace CSharpBinding
 						break;
 				}
 				
-				 // FIXME Pedro
-				runtimeStarter = "mono ";
-				
-				//if (parameters.CompileTarget != CompileTarget.WinExe && parameters.PauseConsoleOutput) {
-				//	psi = new ProcessStartInfo(Environment.GetEnvironmentVariable("ComSpec"), "/c " + runtimeStarter + "\"" + directory + exe + "\" " + args +  " & pause");
-				//} else {
-					psi = new ProcessStartInfo(runtimeStarter + "\"" + directory + exe + "\"");
-					psi.Arguments = args;
-				//}
+				if (parameters.CompileTarget != CompileTarget.WinExe && parameters.PauseConsoleOutput) {
+					psi = new ProcessStartInfo("gnome-terminal",
+						string.Format (
+						@"-x bash -c ""{0} '{1}{2}' {3} ; echo; read -p 'press any key to continue...' -n1""",
+						runtimeStarter, directory, exe, args));
+				} else {
+					psi = new ProcessStartInfo(runtimeStarter, "\"" + directory + exe + "\" " + args);
+				}
 			}
 			
 			try {
 				psi.WorkingDirectory = Path.GetDirectoryName(directory);
 				psi.UseShellExecute  =  false;
+				Console.WriteLine (psi.Arguments);
 				
 				Process p = new Process();
 				p.StartInfo = psi;

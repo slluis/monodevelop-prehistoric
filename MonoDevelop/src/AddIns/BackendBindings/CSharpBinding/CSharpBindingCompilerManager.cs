@@ -262,9 +262,6 @@ namespace CSharpBinding
 			
 			
 			StreamReader t = File.OpenText(responseFileName);
-			StreamWriter w = new StreamWriter("/home/pedro/mirame");
-			w.Write(t.ReadToEnd());
-			w.Close();
 			
 			//Executor.ExecWaitWithCapture(outstr,  tf, ref output, ref error);
 			DoCompilation(outstr, tf, ref output, ref error);
