@@ -1,3 +1,11 @@
+2005-03-13  John Luke  <john.luke@gmail.com>
+
+	* configure.in: remove gdkdock & c-related stuff
+	add Core/src/MonoDevelop.Dock/Makefile output
+	* Core/gdldock: kill
+	* Core/src/Makefile.am: add MonoDevelop.Dock
+	* Core/Makefile.am: remove gdldock
+
 2005-03-12  Todd Berman  <tberman@off.net>
 
 	* configure.in: push/branch 0.6

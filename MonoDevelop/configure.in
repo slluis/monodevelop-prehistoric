@@ -1,14 +1,9 @@
 AC_INIT([monodevelop], 0.6, [monodevelop-list@lists.ximian.com])
 AC_PREREQ(2.53)
-AC_CANONICAL_SYSTEM
 AM_INIT_AUTOMAKE([1.9 tar-ustar])
 AM_MAINTAINER_MODE
 
-AM_DISABLE_STATIC
-AM_PROG_LIBTOOL
 AC_PROG_INTLTOOL([0.25])
-
-AM_PATH_GLIB_2_0
 
 ASSEMBLY_VERSION=0.6.0.0
 
@@ -40,12 +35,6 @@ AC_PATH_PROG(PKG_CONFIG, pkg-config, no)
 if test "x$PKG_CONFIG" = "xno"; then
         AC_MSG_ERROR([You need to install pkg-config])
 fi
-
-dnl unmanaged hard dependencies
-GNOMEVFS_REQUIRED_VERSION=2.0
-PKG_CHECK_MODULES(UNMANAGED_DEPENDENCIES,
-gnome-vfs-2.0 >= $GNOMEVFS_REQUIRED_VERSION
-)
 
 MONO_REQUIRED_VERSION=1.0
 PKG_CHECK_MODULES(UNMANAGED_DEPENDENCIES_MONO,mono >= $MONO_REQUIRED_VERSION, has_mono=true, has_mono=false)
@@ -101,23 +90,6 @@ AC_SUBST(MONODOC_LIBS)
 
 gtksharp_prefix="`$PKG_CONFIG --variable=prefix gtk-sharp-2.0`"
 AC_SUBST(gtksharp_prefix)
-
-dnl GdlDock requirements and configuration
-GTK_REQUIRED=2.2.0
-LIBXML_REQUIRED=2.2.8
-LIBGLADE_REQUIRED=2.0.0
-PKG_CHECK_MODULES(GDLDOCK, 
-	gtk+-2.0 >= $GTK_REQUIRED 
-	libglade-2.0 >= $LIBGLADE_REQUIRED
-	libxml-2.0 >= $LIBXML_REQUIRED)
-AC_SUBST(GDLDOCK_CFLAGS)
-AC_SUBST(GDLDOCK_LIBS)
-
-dnl marshal and enum generators
-GLIB_GENMARSHAL="`$PKG_CONFIG --variable=glib_genmarshal glib-2.0`"
-AC_SUBST(GLIB_GENMARSHAL)
-GLIB_MKENUMS="`$PKG_CONFIG --variable=glib_mkenums glib-2.0`"
-AC_SUBST(GLIB_MKENUMS)
 
 dnl deal with the mono debugger
 MONO_DEBUGGER_REQUIRED_VERSION=0.9
@@ -198,11 +170,6 @@ AC_SUBST(SQLITE_XML)
 AC_OUTPUT([
 Makefile
 Core/Makefile
-Core/gdldock/Makefile
-Core/gdldock/gdl/Makefile
-Core/gdldock/sources/Makefile
-Core/gdldock/sources/gdl/Makefile
-Core/gdldock/gdl/gdl-sharp.dll.config
 Core/src/Makefile
 Core/src/AddIns/Makefile
 Core/src/AddIns/BackendBindings/Makefile
@@ -219,6 +186,7 @@ Core/src/MonoDevelop.Base/Makefile
 Core/src/MonoDevelop.Base/MonoDevelop.Base.dll.config
 Core/src/MonoDevelop.Startup/Makefile
 Core/src/MonoDevelop.Core/Makefile
+Core/src/MonoDevelop.Dock/Makefile
 Core/src/MonoDevelop.Gui.Utils/Makefile
 Core/src/MonoDevelop.Gui.Utils/MonoDevelop.Gui.Utils.dll.config
 Core/src/MonoDevelop.Gui.Widgets/Makefile

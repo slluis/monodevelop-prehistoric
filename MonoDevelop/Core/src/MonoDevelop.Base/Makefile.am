@@ -6,7 +6,7 @@ DLLS = /r:System.Drawing /r:ICSharpCode.SharpZipLib.dll \
 	/r:$(top_builddir)/build/bin/MonoDevelop.Gui.Utils.dll \
 	/r:$(top_builddir)/build/bin/MonoDevelop.Gui.Widgets.dll \
 	/r:System.Data.dll /r:System.Web.Services.dll \
-	/r:$(top_builddir)/build/bin/gdl-sharp.dll \
+	/r:$(top_builddir)/build/bin/MonoDevelop.Dock.dll \
 	/r:Mono.Posix.dll \
 	$(GTK_SHARP_LIBS) \
 	$(GNOME_SHARP_LIBS) \

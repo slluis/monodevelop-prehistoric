@@ -1,1 +1,1 @@
-SUBDIRS= gdldock src
+SUBDIRS = src

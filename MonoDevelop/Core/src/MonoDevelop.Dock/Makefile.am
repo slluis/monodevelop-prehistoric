@@ -1,6 +1,5 @@
-CSC = mcs
 RUNTIME = mono
-GDL = MonoDevelop.Dock.dll
+DOCK = ../../../build/bin/MonoDevelop.Dock.dll
 TEST = dock-test.exe
 
 GLADE = layout.glade
@@ -9,7 +8,10 @@ IMAGES = stock-close-12.png stock-menu-left-12.png stock-menu-right-12.png
 
 RESOURCES = -resource:$(GLADE) -resource:stock-close-12.png -resource:stock-menu-left-12.png -resource:stock-menu-right-12.png
 
-REFS = -pkg:gtk-sharp-2.0 -pkg:glade-sharp-2.0
+assemblydir = $(libdir)/monodevelop/bin
+assembly_DATA = $(DOCK)
+
+REFS = $(GTK_SHARP_LIBS) $(GLADE_SHARP_LIBS)
 
 FILES = AssemblyInfo.cs \
 	DockedHandler.cs \
@@ -33,18 +35,19 @@ FILES = AssemblyInfo.cs \
 	ExportAttribute.cs \
 	AfterAttribute.cs
 
-all: $(GDL) $(TEST)
+TEST_FILES = GdlDockTest.cs
 
-clean:
-	rm -f $(GDL) $(GDL).mdb
-	rm -f $(TEST) $(TEST).mdb
+all: $(DOCK) $(TEST)
 
-$(GDL): $(FILES) $(GLADE) $(IMAGES)
-	$(CSC) -out:$@ -target:library $(FILES) $(RESOURCES) $(REFS) \
-	&& cp $(GDL) ../../build/bin/.
+CLEANFILES = $(DOCK) $(DOCK).mdb $(TEST) $(TEST).mdb
+EXTRA_DIST = $(FILES) $(GLADE) $(IMAGES) $(TEST_FILES)
 
-$(TEST) : GdlDockTest.cs $(GDL)
-	$(CSC) -out:$@ -r:$(GDL) -pkg:gtk-sharp-2.0 GdlDockTest.cs -codepage:utf8
+$(DOCK): $(FILES) $(GLADE) $(IMAGES)
+	mkdir -p ../../../build/bin/
+	$(CSC) -out:$@ -target:library $(FILES) $(RESOURCES) $(REFS)
+
+$(TEST) : $(TEST_FILES) $(DOCK)
+	$(CSC) -out:$@ -r:$(DOCK) -pkg:gtk-sharp-2.0 $(TEST_FILES) -codepage:utf8
 
 run-test: $(TEST)
 	$(RUNTIME) $(TEST)

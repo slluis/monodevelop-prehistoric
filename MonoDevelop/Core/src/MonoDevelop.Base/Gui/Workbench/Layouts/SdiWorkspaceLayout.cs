@@ -338,7 +338,7 @@ namespace MonoDevelop.Gui
 								 content.Icon,
 								 DockItemBehavior.Normal);
 								 
-			Gtk.Label label = item.Tablabel as Gtk.Label;
+			Gtk.Label label = item.TabLabel as Gtk.Label;
 			label.UseMarkup = true;
 
 			item.Add (content.Control);
@@ -349,11 +349,11 @@ namespace MonoDevelop.Gui
 			if (extraPad) {
 				DockItem ot = dock.GetItemByName ("MonoDevelop.Gui.Pads.OpenTaskView"); 
 				if (ot != null && ot.IsAttached) {
-					item.DockTo (ot, DockPlacement.Center, 0);
+					item.DockTo (ot, DockPlacement.Center);
 				}
 				else {
 					ot = dock.GetItemByName ("Documents"); 
-					item.DockTo (ot, DockPlacement.Bottom, 0);
+					item.DockTo (ot, DockPlacement.Bottom);
 				}
 			}
 			else
@@ -368,7 +368,7 @@ namespace MonoDevelop.Gui
 			IPadContent content = (IPadContent) source;
 			DockItem item = GetDockItem (content);
 			if (item != null) {
-				Gtk.Label label = item.Tablabel as Gtk.Label;
+				Gtk.Label label = item.TabLabel as Gtk.Label;
 				label.Markup = content.Title;
 				item.LongName = content.Title;
 				item.StockId = content.Icon;
