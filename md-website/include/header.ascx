@@ -26,6 +26,8 @@
 	<li><a href="/faq.aspx">FAQ</a></li>
       </ul>
       <br />
-      <img src="http://www.cityhost.ca/images/cityhost-button.png" />
+      <a href="http://www.cityhost.ca/">
+         <img src="http://www.cityhost.ca/images/cityhost-button.png" border='0' />
+      </a>
     </div>
     <div id="content">
