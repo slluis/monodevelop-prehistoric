@@ -30,7 +30,7 @@ so far, so things like MonoDoc, NUnit-Gtk and the debugger should
 target MonoDevelop. </li>
             </ul>
 
-	<p>To see some of the current features, visit the <a href="/features.aspx">features page</a>.</p>
+	<p>To see some of the current features, visit the <a href="/index.aspx">features page</a>.</p>
 
 	<div class="headlinebar">License Information</div>
 	<p>
