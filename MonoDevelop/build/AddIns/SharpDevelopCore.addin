@@ -862,14 +862,14 @@
 	                          description = "${res:XML.MainMenu.HelpMenu.GPL.Description}" 
 	                          class = "ICSharpCode.SharpDevelop.Commands.ViewGPL" />
 	                          
-	                <MenuItem id = "ViewReadme"
+	              <!--  <MenuItem id = "ViewReadme"
 	                          label       = "${res:XML.MainMenu.HelpMenu.ReadMe}" 
 	                          description = "${res:XML.MainMenu.HelpMenu.ReadMe.Description}" 
 	                          link        = "home://../doc/ReadMe.html" />
 	                <MenuItem id = "ViewStyleguide"
 	                          label = "${res:XML.MainMenu.HelpMenu.StyleGuide}" 
 	                          description = "${res:XML.MainMenu.HelpMenu.StyleGuide.Description}" 
-	                          link = "home://../doc/CodingStyleGuide.pdf" />
+	                          link = "home://../doc/CodingStyleGuide.pdf" /> -->
 	                <MenuItem id = "Separator2" label = "-" />
 	                <MenuItem id = "Web" label = "${res:XML.MainMenu.HelpMenu.WebMenu}">
 	                        <MenuItem id = "ASP" label = "&amp;AlphaSierraPapa" icon = "Icons.16x16.WebSearchIcon" description = "Visit my sponsors" link = "http://www.alphasierrapapa.com/" />
