@@ -1,5 +1,11 @@
 2004-05-26  Todd Berman  <tberman@sevenl.net>
 
+	* Services/ProjectService/DefaultProjectService.cs: move the call to
+	GenerateMakefiles when the solution is closed to somewhere that
+	actually generates a makefile.
+
+2004-05-26  Todd Berman  <tberman@sevenl.net>
+
 	* Internal/Project/Combine/Combine.cs: actually tested with a solution
 	with 2 projects in it, one that references the other. It works now,
 	building, cleaning, running, etc.

@@ -109,6 +109,7 @@ namespace MonoDevelop.Services
 			if (CurrentOpenCombine != null) {
 				if (saveCombinePreferencies)
 					SaveCombinePreferences(CurrentOpenCombine, openCombineFileName);
+				GenerateMakefiles ();
 				Combine closedCombine = CurrentOpenCombine;
 				CurrentSelectedProject = null;
 				CurrentOpenCombine = CurrentSelectedCombine = null;
@@ -597,7 +598,6 @@ namespace MonoDevelop.Services
 		
 		protected virtual void OnCombineClosed(CombineEventArgs e)
 		{
-			GenerateMakefiles ();
 			if (CombineClosed != null) {
 				CombineClosed(this, e);
 			}
