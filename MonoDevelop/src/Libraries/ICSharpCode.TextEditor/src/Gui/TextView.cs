@@ -106,8 +106,6 @@ namespace ICSharpCode.TextEditor
 		{
 			using (Gdk.GC backgroundGC = new Gdk.GC(g)) {
 			using (Gdk.GC gc = new Gdk.GC(g)) {
-			using (Gdk.GC text_gc = new Gdk.GC(g)) {
-				text_gc.Copy(gc);
 			
 			int horizontalDelta = (int)(textArea.VirtualTop.X * GetWidth(g, ' '));
 			if (horizontalDelta > 0) {
@@ -123,13 +121,13 @@ namespace ICSharpCode.TextEditor
 				                                        fontHeight);
 				if (rect.IntersectsWith(lineRectangle)) {
 					int currentLine = FirstVisibleLine + y;
-					PaintDocumentLine(g, gc, backgroundGC, text_gc, currentLine, lineRectangle);
+					PaintDocumentLine(g, gc, backgroundGC, currentLine, lineRectangle);
 				}
 			}
-			}}} // using
+			}} // using
 		}
 		
-		void PaintDocumentLine(Gdk.Drawable g, Gdk.GC gc, Gdk.GC backgroundGC, Gdk.GC text_gc, int lineNumber, System.Drawing.Rectangle lineRectangle)
+		void PaintDocumentLine(Gdk.Drawable g, Gdk.GC gc, Gdk.GC backgroundGC, int lineNumber, System.Drawing.Rectangle lineRectangle)
 		{
 			HighlightBackground background = (HighlightBackground)textArea.Document.HighlightingStrategy.GetColorFor("DefaultColor");
 			//Brush               backgroundBrush = textArea.Sensitive ? new SolidBrush(background.BackgroundColor) : SystemBrushes.InactiveBorder;
@@ -187,7 +185,7 @@ namespace ICSharpCode.TextEditor
 								                new Gdk.Rectangle((int) Math.Round(physicalXPos), lineRectangle.Y, (int) Math.Round(spaceWidth), lineRectangle.Height));
 							}
 							if (TextEditorProperties.ShowSpaces) {
-								DrawSpaceMarker(g, text_gc, spaceMarkerColor.Color, physicalXPos, lineRectangle.Y);
+								DrawSpaceMarker(g, spaceMarkerColor.Color, physicalXPos, lineRectangle.Y);
 							}
 							
 							physicalXPos += spaceWidth;
@@ -231,10 +229,10 @@ namespace ICSharpCode.TextEditor
 								gc.RgbFgColor = new Gdk.Color(selectionColor.BackgroundColor);
 								//gc.RgbBgColor = new Gdk.Color(selectionColor.BackgroundColor);
 								
-								physicalXPos += DrawDocumentWord(g, word, new PointF(physicalXPos, lineRectangle.Y), currentWord.Font, selectionColor.HasForgeground ? selectionColor.Color : currentWord.Color, gc, text_gc);
+								physicalXPos += DrawDocumentWord(g, word, new PointF(physicalXPos, lineRectangle.Y), currentWord.Font, selectionColor.HasForgeground ? selectionColor.Color : currentWord.Color, gc);
 							} else {
 								if (ColumnRange.NoColumn.Equals(selectionRange)  /* || selectionRange.StartColumn > logicalColumn + word.Length || selectionRange.EndColumn  - 1 <= logicalColumn */) {
-									physicalXPos += DrawDocumentWord(g, word, new PointF(physicalXPos, lineRectangle.Y), currentWord.Font, currentWord.Color, backgroundGC, text_gc);
+									physicalXPos += DrawDocumentWord(g, word, new PointF(physicalXPos, lineRectangle.Y), currentWord.Font, currentWord.Color, backgroundGC);
 								} else {
 									int offset1 = Math.Min(word.Length, Math.Max(0, selectionRange.StartColumn - logicalColumn ));
 									int offset2 = Math.Max(offset1, Math.Min(word.Length, selectionRange.EndColumn - logicalColumn));
@@ -248,7 +246,7 @@ namespace ICSharpCode.TextEditor
 									                                      new PointF(physicalXPos, lineRectangle.Y),
 									                                      currentWord.Font,
 									                                      currentWord.Color,
-									                                      backgroundGC, text_gc);
+									                                      backgroundGC);
 																	gc.RgbFgColor = new Gdk.Color(selectionColor.Color);
 									gc.RgbFgColor = new Gdk.Color(selectionColor.BackgroundColor);
 									//gc.RgbBgColor = new Gdk.Color(selectionColor.BackgroundColor);
@@ -258,14 +256,14 @@ namespace ICSharpCode.TextEditor
 									                                      new PointF(physicalXPos, lineRectangle.Y),
 									                                      currentWord.Font,
 									                                      selectionColor.HasForgeground ? selectionColor.Color : currentWord.Color,
-									                                      gc, text_gc);
+									                                      gc);
 							
 									physicalXPos += DrawDocumentWord(g,
 									                                      word3,
 									                                      new PointF(physicalXPos, lineRectangle.Y),
 									                                      currentWord.Font,
 									                                      currentWord.Color,
-									                                      backgroundGC, text_gc);
+									                                      backgroundGC);
 								}
 							}
 							
@@ -318,16 +316,18 @@ namespace ICSharpCode.TextEditor
 			}
 		}
 		
-		float DrawDocumentWord(Gdk.Drawable g, string word, PointF position, Pango.FontDescription font, System.Drawing.Color foreColor, Gdk.GC gc, Gdk.GC text_gc)
+		float DrawDocumentWord(Gdk.Drawable g, string word, PointF position, Pango.FontDescription font, System.Drawing.Color foreColor, Gdk.GC gc)
 		{
 			if (word == null || word.Length == 0) {
 				return 0f;
 			}
 			float wordWidth = MeasureString(font, word);
 			g.DrawRectangle(gc, true, new Gdk.Rectangle((int) Math.Abs(position.X), (int) Math.Abs(position.Y), (int) Math.Abs(wordWidth), (int) Math.Abs(FontHeight)));
-			
-			text_gc.RgbFgColor = new Gdk.Color(foreColor);
-			return DrawString(g, text_gc, position.X, position.Y, word);
+			using (Gdk.GC tgc = new Gdk.GC(g)) {
+				tgc.Copy(gc);
+				tgc.RgbFgColor = new Gdk.Color(foreColor);
+				return DrawString(g, tgc, position.X, position.Y, word);
+			}
 		}
 		void DrawCaret(Gdk.Drawable g, Gdk.GC gc, PointF point) {
 			TextArea.Caret.PhysicalPosition = new Gdk.Point((int)point.X, (int)point.Y);
@@ -555,13 +555,15 @@ namespace ICSharpCode.TextEditor
 			}
 		}
 		
-		void DrawSpaceMarker(Gdk.Drawable g, Gdk.GC gc, System.Drawing.Color color, float x, float y)
+		void DrawSpaceMarker(Gdk.Drawable g, System.Drawing.Color color, float x, float y)
 		{
 			HighlightColor spaceMarkerColor = textArea.Document.HighlightingStrategy.GetColorFor("SpaceMarker");
 			//g.DrawString("\u00B7", spaceMarkerColor.Font, new SolidBrush(color), x, y, measureStringFormat);
-			gc.RgbFgColor = new Gdk.Color(spaceMarkerColor.Color);
-			//DrawString(g, gc, x, y, "\u00B7");
-			DrawString(g, gc, x, y, " ");
+            using (Gdk.GC gc = new Gdk.GC(g)) {
+				gc.RgbFgColor = new Gdk.Color(spaceMarkerColor.Color);
+				//DrawString(g, gc, x, y, "\u00B7");
+				DrawString(g, gc, x, y, " ");
+			}
 			
 		}
 		
