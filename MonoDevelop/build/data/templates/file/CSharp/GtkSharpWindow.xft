@@ -15,7 +15,7 @@
 <![CDATA[// created on ${Date} at ${Time}
 using System;
 using Gtk;
-using GtkSharp
+using GtkSharp;
 
 namespace MyWindow
 {
