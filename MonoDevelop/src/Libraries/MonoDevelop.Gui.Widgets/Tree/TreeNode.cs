@@ -200,7 +200,6 @@ namespace MonoDevelop.Gui.Widgets {
 		{
 			TreeView.text_render.Editable = TreeView.canEdit;
 			TreeView.SetCursor (TreePath, TreeView.complete_column, true);
-			TreeView.GrabFocus ();
 		}
 		
 		public void Sort ()
