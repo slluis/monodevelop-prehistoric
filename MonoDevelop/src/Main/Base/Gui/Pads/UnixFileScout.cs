@@ -368,7 +368,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads
 			//filetree.Size = new System.Drawing.Size(184, 157);
 			//filetree.TabIndex = 1;
 			//filetree.AfterSelect += new TreeViewEventHandler(DirectorySelected);
-			filetree.RowActivated += new GtkSharp.RowActivatedHandler(OnRowActivated);
+			filetree.Selection.Changed += new EventHandler(OnDirChanged);
 			//ImageList imglist = new ImageList();
 			//imglist.ColorDepth = ColorDepth.Depth32Bit;
 			/*imglist.Images.Add(resourceService.GetBitmap("Icons.16x16.ClosedFolderBitmap"));
@@ -421,7 +421,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads
 			Pack2(listf, true, true);
 		}
 		
-		void OnRowActivated(object sender, GtkSharp.RowActivatedArgs args) 
+		void OnDirChanged(object sender, EventArgs args) 
 /*		void DirectorySelected(object sender, TreeViewEventArgs e)*/
 		{
 			filelister.ShowFilesInPath(filetree.NodePath + System.IO.Path.DirectorySeparatorChar);
