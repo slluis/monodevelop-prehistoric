@@ -18,13 +18,13 @@
 - Implement Help Scout (jluke/others)
 - Tie Help Scout to monodoc (jluke)
 - When too many tabs are opened they go out for the window and don't show
-- cross platform printing support (check AbiWord for ideas maybe)
+- printing support
 - HIGify (or at least improve the look) of dialogs
 	http://developer.gnome.org/projects/gup/hig/
 - some keywords should be bold when highlighted
 - make fonts choice persist (after restarting)
-- organize this list
-- switch to a proper build system
+- organize this list (Bugzilla maybe?)
+- switch to a proper build system (mbuild or auto*?)
 - Allow show hidden (.*) files/directories in the file browser.
 - Figure out how to print the textarea char markers in pango, as it rejectes
   the original #d ones.
