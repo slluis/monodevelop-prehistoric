@@ -24,16 +24,12 @@ namespace MonoDevelop.Gui.Dialogs
 	{
 		Pixbuf image;
 		int scroll = -220;
-		IdleHandler hndlr;
 		Pango.Font font;
 		bool initial = true;
 		Pango.Layout layout;
-		
-		internal IdleHandler Handler
-		{
-			get { return hndlr; }
-		}
 
+		internal uint TimerHandle;
+		
 		string[] authors = new string[]
 		{
 			"Todd Berman",
@@ -66,8 +62,7 @@ namespace MonoDevelop.Gui.Dialogs
 			
 			image = Runtime.Gui.Resources.GetBitmap ("Icons.AboutImage");
 			
-			hndlr = new GLib.IdleHandler (ScrollDown);
-			GLib.Idle.Add (hndlr);
+			TimerHandle = GLib.Timeout.Add (50, new TimeoutHandler (ScrollDown));
 		}
 
 		string CreditText {
@@ -153,14 +148,9 @@ namespace MonoDevelop.Gui.Dialogs
 		
 			Notebook nb = new Notebook ();
 			nb.SetSizeRequest (400, 280);
-			//nb.SwitchPage += new SwitchPageHandler (OnPageChanged);
-			//aatp = new AuthorAboutTabPage ();
-			//changelog = new ChangeLogTabPage ();
 			VersionInformationTabPage vinfo = new VersionInformationTabPage ();
 			
 			nb.AppendPage (new AboutMonoDevelopTabPage (), new Label (GettextCatalog.GetString ("About MonoDevelop")));
-			//nb.AppendPage (aatp, new Label ("Authors"));
-			//nb.AppendPage (changelog, new Label ("ChangeLog"));
 
 			nb.AppendPage (vinfo, new Label (GettextCatalog.GetString ("Version Info")));
 			this.VBox.PackStart (nb, true, true, 0);
@@ -171,7 +161,8 @@ namespace MonoDevelop.Gui.Dialogs
 		public new int Run ()
 		{
 			int tmp = base.Run ();
-			GLib.Idle.Remove (aboutPictureScrollBox.Handler);
+			// FIXME: remove?
+			//GLib.Timeout.Remove (timerHandle);
 			return tmp;
 		}
 	}
