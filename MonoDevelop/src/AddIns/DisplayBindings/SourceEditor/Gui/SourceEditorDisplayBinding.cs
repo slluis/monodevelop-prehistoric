@@ -7,7 +7,6 @@ using MonoDevelop.Internal.Project;
 using MonoDevelop.Core.Properties;
 using MonoDevelop.Core.AddIns;
 using MonoDevelop.Core.Services;
-using MonoDevelop.Services;
 using MonoDevelop.Core.AddIns.Codons;
 using MonoDevelop.Gui.Utils;
 using MonoDevelop.EditorBindings.Properties;

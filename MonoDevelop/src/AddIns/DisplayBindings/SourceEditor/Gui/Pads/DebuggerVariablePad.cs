@@ -11,7 +11,6 @@ using Mono.Debugger.Languages;
 
 using MonoDevelop.Core.Services;
 using MonoDevelop.Services;
-using MonoDevelop.Services;
 
 namespace MonoDevelop.SourceEditor.Gui
 {
