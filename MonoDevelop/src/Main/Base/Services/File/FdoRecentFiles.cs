@@ -98,28 +98,30 @@ namespace ICSharpCode.SharpDevelop.Services
             }
         }
 
+		// new entries seem to go on top
+		// but it is not explicitly stated as so
 		public void AddFile (string file_uri)
 		{
 			// uri must be unique
 			// or just update timestamp and group
+			RecentItem ri = new RecentItem (file_uri);
 		}
 
 		public void AddProject (string file_uri)
 		{
 			// uri must be unique
 			// or just update timestamp and group
+			RecentItem ri = new RecentItem (file_uri);
 		}
 
 		// spec doesn't mention removal
 		public void ClearFiles ()
 		{
-
 		}
 
 		// spec doesn't mention removal
 		public void ClearProjects ()
 		{
-
 		}
 	}
 }

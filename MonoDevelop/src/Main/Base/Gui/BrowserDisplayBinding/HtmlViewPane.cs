@@ -217,6 +217,7 @@ namespace ICSharpCode.SharpDevelop.BrowserDisplayBinding
 			mainbox.PackStart (catcher);
 
 			status = new Statusbar ();
+			status.HasResizeGrip  = false;
 			mainbox.PackStart (status, false, true, 0);
 			
 			this.Add (mainbox);

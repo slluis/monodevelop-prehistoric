@@ -1,3 +1,9 @@
+2004-03-05  John Luke  <jluke@cfl.rr.com>
+	
+	* src/Main/Base/Gui/Dialogs/ReferenceDialog/AssemblyReferencePanel.cs:
+	apply patch from djj734@mail.usask.ca (Doug) to fix adding a .NET
+	assembly reference by using GetFullPath, bug #55192
+
 2004-03-05  Mike Kestner  <mkestner@ximian.com>
 
 	* Main/Base/Services/DebuggingService.cs : add StepInto and

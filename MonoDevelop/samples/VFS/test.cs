@@ -1,6 +1,6 @@
 using System;
 using System.IO;
-using MonoDevelop.GuiUtils;
+using MonoDevelop.Gui.Utils;
 
 class T
 {
@@ -11,7 +11,6 @@ class T
 		string test_file = Path.Combine (Environment.CurrentDirectory, "test.cs");
 		if (File.Exists (test_file))
 		{
-
 			string mt = Vfs.GetMimeType (test_file);
 			Console.WriteLine (Vfs.IsKnownType (mt));
 			string icon = Vfs.GetIcon (mt);

@@ -50,7 +50,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 				foreach (string file in selectedFiles) {
 					bool isAssembly = true;
 					try	{
-						System.Reflection.AssemblyName.GetAssemblyName(System.IO.Path.GetFileName(file));
+						System.Reflection.AssemblyName.GetAssemblyName(System.IO.Path.GetFullPath (file));
 					} catch (Exception assemblyExcep) {
 						isAssembly = false;
 					}
