@@ -1,3 +1,26 @@
+2005-01-11  Lluis Sanchez Gual  <lluis@novell.com>
+
+	* VBCompilerPanel.cs:
+	* Gui/ChooseRuntimePanel.cs:
+	* Gui/VBDocConfigurationPanel.cs:
+	* Gui/CodeGenerationPanel.cs:
+	* VBNetBinding.addin.xml:
+	* ProjectNodeBuilder.cs:
+	* Parser/Parser.cs:
+	* Parser/Resolver.cs:
+	* VBBindingCompilerServices.cs:
+	* VBLanguageBinding.cs: Follow architecture changes.
+
+	* Gui/OutputOptionsPanel.cs:
+	* VB.glade: Removed dialog now implemented in Monodevelop.Base.
+	
+	* Project/VBCompilerParameters.cs: Moved some parameters and enum
+	definitions to DotNetProjectConfiguration.
+	
+	* Project/VBProject.cs:
+	* VBBindingExecutionServices.cs: Removed. Not needed any more.
+	* Makefile.am: Updated.
+
 2004-12-13  Lluis Sanchez Gual  <lluis@novell.com>
 
 	* VBBindingCompilerServices.cs: StatusBarService.ProgressMonitor is not a

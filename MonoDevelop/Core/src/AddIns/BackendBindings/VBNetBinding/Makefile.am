@@ -17,10 +17,8 @@ FILES = \
 AssemblyInfo.cs \
 VBAmbience.cs \
 VBBindingCompilerServices.cs \
-VBBindingExecutionServices.cs \
 VBLanguageBinding.cs \
 Gui/CodeGenerationPanel.cs \
-Gui/OutputOptionsPanel.cs \
 Parser/ExpressionFinder.cs \
 Parser/Parser.cs \
 Parser/Resolver.cs \
@@ -37,8 +35,7 @@ Parser/SharpDevelopTree/Method.cs \
 Parser/SharpDevelopTree/Parameter.cs \
 Parser/SharpDevelopTree/Property.cs \
 Parser/SharpDevelopTree/ReturnType.cs \
-Project/VBCompilerParameters.cs \
-Project/VBProject.cs
+Project/VBCompilerParameters.cs
 
 TEMPLATES = \
 templates/EmptyVBFile.xft.xml \

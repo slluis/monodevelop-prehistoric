@@ -31,7 +31,8 @@ namespace VBBinding
 		/// </summary>
 		public static bool IsFileIncluded(string filename, VBProject project)
 		{
-			VBCompilerParameters compilerparameters = (VBCompilerParameters)project.ActiveConfiguration;
+			DotNetProjectConfiguration config = (DotNetProjectConfiguration) project.ActiveConfiguration;
+			VBCompilerParameters compilerparameters = (VBCompilerParameters) config.CompilationParameters;
 			return Array.IndexOf(compilerparameters.VBDOCFiles, filename) == -1;
 		}
 		
@@ -75,7 +76,8 @@ namespace VBBinding
 		
 		void SetValues(object sender, EventArgs e)
 		{
-			this.compilerParameters = (VBCompilerParameters)((IProperties)CustomizationObject).GetProperty("Config");
+			DotNetProjectConfiguration config = (DotNetProjectConfiguration) ((IProperties)CustomizationObject).GetProperty("Config");
+			compilerParameters = (VBCompilerParameters) config.CompilationParameters;
 			project = (VBProject)((IProperties)CustomizationObject).GetProperty("Project");
 			
 			((TextBox)ControlDictionary["OutputFileTextBox"]).Text = compilerParameters.VBDOCOutputFile;

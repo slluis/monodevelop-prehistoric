@@ -34,7 +34,7 @@
 	</Extension>
   
   <Extension path = "/SharpDevelop/Workbench/ProjectOptions/ConfigurationProperties">
-    <Conditional activeproject = "VBNet">
+    <Conditional activelanguage = "VBNet">
       <DialogPanel id = "VBNetCodeGenerationPanel"
                    _label = "Code Generation"
                    class = "VBBinding.CodeGenerationPanel"/>
@@ -42,15 +42,15 @@
   </Extension>
   
   <Extension path = "/SharpDevelop/Workbench/ProjectOptions/ConfigurationProperties">
-    <Conditional activeproject = "VBNet">
+    <Conditional activelanguage = "VBNet">
       <DialogPanel id = "VBNetOutputOptionsPanel"
                    _label = "Output Options"
-                   class = "VBBinding.OutputOptionsPanel"/>
+                   class = "MonoDevelop.Gui.Dialogs.OptionPanels.OutputOptionsPanel"/>
     </Conditional>
   </Extension>
 
   <!-- <Extension path = "/SharpDevelop/Workbench/ProjectOptions/ConfigurationProperties">
-    <Conditional activeproject = "VBNet">
+    <Conditional activelanguage = "VBNet">
       <DialogPanel id = "VBNetChooseRuntimePanel"
                    _label = "Choose Runtime"
                    class = "VBBinding.ChooseRuntimePanel"/>

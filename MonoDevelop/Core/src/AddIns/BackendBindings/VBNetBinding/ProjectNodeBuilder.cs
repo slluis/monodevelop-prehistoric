@@ -29,12 +29,13 @@ namespace VBBinding
 		FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.GetService(typeof(FileUtilityService));
 		IconService iconService = (IconService)ServiceManager.GetService(typeof(IconService));
 		
-		public bool CanBuildProjectTree(IProject project)
+		public bool CanBuildProjectTree(Project project)
 		{
-			return project.ProjectType == VBLanguageBinding.LanguageName;
+			DotNetProject dp = project as DotNetProject; 
+			return dp != null && dp.LanguageName == VBLanguageBinding.LanguageName;
 		}
 		
-		public AbstractBrowserNode BuildProjectTreeNode(IProject project)
+		public AbstractBrowserNode BuildProjectTreeNode(Project project)
 		{
 			ProjectBrowserNode projectNode = new ProjectBrowserNode(project);
 			

@@ -25,6 +25,7 @@ namespace VBBinding
 	public class CodeGenerationPanel : AbstractOptionPanel
 	{
 		VBCompilerParameters compilerParameters = null;
+		DotNetProjectConfiguration configuration;
 	
 		/*
 		
@@ -125,6 +126,7 @@ namespace VBBinding
 			StringParserService StringParserService = (StringParserService)ServiceManager.GetService (
 				typeof (StringParserService));
 
+			DotNetProjectConfiguration configuration;
 			VBCompilerParameters compilerParameters = null;
 			
 			//static PropertyService propertyService = (PropertyService)ServiceManager.Services.GetService(typeof(PropertyService));
@@ -132,7 +134,8 @@ namespace VBBinding
 
  			public  CodeGenerationPanelWidget(IProperties CustomizationObject) : base ("VB.glade", "CodeGenerationPanel")
  			{	
- 				compilerParameters=(VBCompilerParameters)((IProperties)CustomizationObject).GetProperty("Config");
+				configuration = (DotNetProjectConfiguration)((IProperties)CustomizationObject).GetProperty("Config");
+				compilerParameters = (VBCompilerParameters) configuration.CompilationParameters;
 				SetValues();
 				//CustomizationObjectChanged += new EventHandler(SetValues);
  			}
@@ -157,7 +160,7 @@ namespace VBBinding
 // 									 "${res:Dialog.Options.PrjOptions.Configuration.CompileTarget.Module}")));
 
 				CompileTargetOptionMenu.Menu=CompileTargetMenu;
-				CompileTargetOptionMenu.SetHistory ( (uint) compilerParameters.CompileTarget);
+				CompileTargetOptionMenu.SetHistory ( (uint) configuration.CompileTarget);
 				//CompileTargetOptionMenu.Active=(int)compilerParameters.CompileTarget;
 
 				symbolsEntry.Text = compilerParameters.DefineSymbols;
@@ -168,7 +171,7 @@ namespace VBBinding
 				enableOptimizationCheckButton.Active       = compilerParameters.Optimize;
 				allowUnsafeCodeCheckButton.Active          = compilerParameters.UnsafeCode;
 				generateOverflowChecksCheckButton.Active   = compilerParameters.GenerateOverflowChecks;
-				warningsAsErrorsCheckButton.Active         = ! compilerParameters.RunWithWarnings;
+				warningsAsErrorsCheckButton.Active         = ! configuration.RunWithWarnings;
 				warningLevelSpinButton.Value               = compilerParameters.WarningLevel;		
 			} 
 
@@ -180,7 +183,7 @@ namespace VBBinding
 					return true;
 				}
 				//compilerParameters.CompileTarget =  (CompileTarget)  CompileTargetOptionMenu.History;
-				compilerParameters.CompileTarget=(CompileTarget)CompileTargetOptionMenu.History;
+				configuration.CompileTarget=(CompileTarget)CompileTargetOptionMenu.History;
 				compilerParameters.DefineSymbols =  symbolsEntry.Text;
 				compilerParameters.MainClass     =  mainClassEntry.Text;
 
@@ -189,7 +192,7 @@ namespace VBBinding
 				compilerParameters.Optimize                 = enableOptimizationCheckButton.Active;
 				compilerParameters.UnsafeCode               = allowUnsafeCodeCheckButton.Active;
 				compilerParameters.GenerateOverflowChecks   = generateOverflowChecksCheckButton.Active;
-				compilerParameters.RunWithWarnings          = ! warningsAsErrorsCheckButton.Active;
+				configuration.RunWithWarnings          = ! warningsAsErrorsCheckButton.Active;
 
 				compilerParameters.WarningLevel = warningLevelSpinButton.ValueAsInt;
 

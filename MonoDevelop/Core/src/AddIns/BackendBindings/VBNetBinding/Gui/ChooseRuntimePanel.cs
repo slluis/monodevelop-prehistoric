@@ -23,7 +23,9 @@ namespace VBBinding
 {
 	public class ChooseRuntimePanel : AbstractOptionPanel
 	{
-		VBCompilerParameters config = null;
+		VBCompilerParameters parameters;
+		DotNetProjectConfiguration configuration;
+		
 		// FIXME: set the right rb groups
 		RadioButton monoRadioButton;
 		RadioButton mintRadioButton;
@@ -109,14 +111,15 @@ namespace VBBinding
 		
 		public override void LoadPanelContents()
 		{
-			this.config = (VBCompilerParameters)((IProperties)CustomizationObject).GetProperty("Config");
+			configuration = (DotNetProjectConfiguration)((IProperties)CustomizationObject).GetProperty("Config");
+			parameters = (VBCompilerParameters) configuration.CompilationParameters;
 			
 			msnetRadioButton.Active = config.NetRuntime == NetRuntime.MsNet;
 			monoRadioButton.Active  = config.NetRuntime == NetRuntime.Mono;
 			mintRadioButton.Active  = config.NetRuntime == NetRuntime.MonoInterpreter;
 			
-			vbcRadioButton.Active = config.VBCompiler == VBCompiler.Vbc;
-			mbasRadioButton.Active = config.VBCompiler == VBCompiler.Mbas;
+			vbcRadioButton.Active = parameters.VBCompiler == VBCompiler.Vbc;
+			mbasRadioButton.Active = parameters.VBCompiler == VBCompiler.Mbas;
 		}
 		
 		public override bool StorePanelContents()
@@ -128,7 +131,7 @@ namespace VBBinding
 			} else {
 				config.NetRuntime =  NetRuntime.MonoInterpreter;
 			}
-			config.VBCompiler = vbcRadioButton.Active ? VBCompiler.Vbc : VBCompiler.Mbas;
+			parameters.VBCompiler = vbcRadioButton.Active ? VBCompiler.Vbc : VBCompiler.Mbas;
 			
 			return true;
 		}

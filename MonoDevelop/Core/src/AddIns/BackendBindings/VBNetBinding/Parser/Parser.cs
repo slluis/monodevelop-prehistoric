@@ -121,22 +121,22 @@ namespace VBBinding.Parser
 		
 		
 		
-		public ArrayList CtrlSpace(IParserService parserService,IProject proj, int caretLine, int caretColumn, string fileName)
+		public ArrayList CtrlSpace(IParserService parserService,Project proj, int caretLine, int caretColumn, string fileName)
 		{
 			return new Resolver(proj).CtrlSpace(parserService, caretLine, caretColumn, fileName);
 		}
 		
-		public ResolveResult Resolve(IParserService parserService,IProject proj, string expression, int caretLineNumber, int caretColumn, string fileName, string fileContent)
+		public ResolveResult Resolve(IParserService parserService,Project proj, string expression, int caretLineNumber, int caretColumn, string fileName, string fileContent)
 		{
 			return new Resolver(proj).Resolve(parserService,expression, caretLineNumber, caretColumn, fileName, fileContent);
 		}
 		
-		public ArrayList IsAsResolve (IParserService parserService, IProject project, string expression, int caretLineNumber, int caretColumn, string fileName, string fileContent)
+		public ArrayList IsAsResolve (IParserService parserService, Project project, string expression, int caretLineNumber, int caretColumn, string fileName, string fileContent)
 		{
 			return new Resolver (project).IsAsResolve (parserService, expression, caretLineNumber, caretColumn, fileName, fileContent);
 		}
 		
-		public string MonodocResolver (IParserService parserService, IProject project, string expression, int caretLineNumber, int caretColumn, string fileName, string fileContent)
+		public string MonodocResolver (IParserService parserService, Project project, string expression, int caretLineNumber, int caretColumn, string fileName, string fileContent)
 		{
 			return new Resolver (project).MonodocResolver (parserService, expression, caretLineNumber, caretColumn, fileName, fileContent);
 		}

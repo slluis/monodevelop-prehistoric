@@ -29,7 +29,8 @@ namespace VBBinding
 			SetupFromXml(Path.Combine(PropertyService.DataDirectory, 
 			                          @"resources\panels\VBCompilerPanel.xfrm"));
 			
-			this.config = (VBCompilerParameters)((IProperties)CustomizationObject).GetProperty("Config");
+			DotNetProjectConfiguration cfg = (DotNetProjectConfiguration)((IProperties)CustomizationObject).GetProperty("Config");
+			config = (VBCompilerParameters) cfg.CompilationParameters;
 			
 			FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.Services.GetService(typeof(FileUtilityService));
 			((ComboBox)ControlDictionary["compilerVersionComboBox"]).Items.Add("Standard");

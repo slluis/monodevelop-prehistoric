@@ -35,33 +35,6 @@ namespace VBBinding {
 		FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.GetService(typeof(FileUtilityService));
 		PropertyService propertyService       = (PropertyService)ServiceManager.GetService(typeof(PropertyService));
 		
-		public string GetCompiledOutputName(string fileName)
-		{
-			return Path.ChangeExtension(fileName, ".exe");
-		}
-		
-		public string GetCompiledOutputName(IProject project)
-		{
-			VBProject p = (VBProject)project;
-			VBCompilerParameters compilerparameters = (VBCompilerParameters)p.ActiveConfiguration;
-			/* switch(compilerparameters.CompileTarget){
-				case CompileTarget.Exe:
-					System.Console.WriteLine("EXE");
-					break;
-				case CompileTarget.Library:
-					System.Console.WriteLine("Library!");
-					break;
-				case CompileTarget.WinExe:
-					System.Console.WriteLine("WinEXE");
-					break;
-				default:
-					System.Console.WriteLine("Unknown case: " + compilerparameters.CompileTarget);
-					break;
-			}
-			*/
-			return fileUtilityService.GetDirectoryNameWithSeparator(compilerparameters.OutputDirectory) + compilerparameters.OutputAssembly + (compilerparameters.CompileTarget == CompileTarget.Library ? ".dll" : ".exe");
-		}
-		
 		public bool CanCompile(string fileName)
 		{
 			return Path.GetExtension(fileName) == ".vb";
@@ -77,7 +50,7 @@ namespace VBBinding {
 			return "mbas";
 		}
 		
-		string GenerateOptions(VBCompilerParameters compilerparameters, string outputFileName)
+		string GenerateOptions (DotNetProjectConfiguration configuration, VBCompilerParameters compilerparameters, string outputFileName)
 		{
 			StringBuilder sb = new StringBuilder();
 			
@@ -86,7 +59,7 @@ namespace VBBinding {
 			sb.Append("-nologo");sb.Append(Environment.NewLine);
 			sb.Append("-utf8output");sb.Append(Environment.NewLine);
 			
-//			if (compilerparameters.Debugmode) {
+//			if (compilerparameters.DebugMode) {
 //				sb.Append("--debug+");sb.Append(Environment.NewLine);
 //				sb.Append("--debug:full");sb.Append(Environment.NewLine);
 //			}
@@ -125,7 +98,7 @@ namespace VBBinding {
 				sb.Append("-imports:");sb.Append(compilerparameters.Imports);sb.Append(Environment.NewLine);
 			}
 			
-			switch (compilerparameters.CompileTarget) {
+			switch (configuration.CompileTarget) {
 				case CompileTarget.Exe:
 					sb.Append("-target:exe");
 					break;
@@ -139,65 +112,33 @@ namespace VBBinding {
 					sb.Append("-target:module");
 					break;
 				default:
-					throw new NotSupportedException("unknown compile target:" + compilerparameters.CompileTarget);
+					throw new NotSupportedException("unknown compile target:" + configuration.CompileTarget);
 			}
 			sb.Append(Environment.NewLine);
 			return sb.ToString();
 		}
 		
-		public ICompilerResult CompileFile(string filename)
+		public ICompilerResult CompileProject (ProjectFileCollection projectFiles, ProjectReferenceCollection references, DotNetProjectConfiguration configuration)
 		{
-			//System.Console.WriteLine("CompileFile " + filename);
-			string output = "";
-			string error  = "";
-			string exe = Path.ChangeExtension(filename, ".exe");
-			VBCompilerParameters compilerparameters = new VBCompilerParameters();
-			string stdResponseFileName = propertyService.DataDirectory + Path.DirectorySeparatorChar + "vb.rsp";
+			VBCompilerParameters compilerparameters = (VBCompilerParameters) configuration.CompilationParameters;
+			if (compilerparameters == null) compilerparameters = new VBCompilerParameters ();
 			
-			string responseFileName = Path.GetTempFileName();
-			
-			StreamWriter writer = new StreamWriter(responseFileName);
-			writer.WriteLine(GenerateOptions(compilerparameters, exe));
-			writer.WriteLine(String.Concat('"', filename, '"'));
-			writer.Close();
-			
-			string compilerName = GetCompilerName(compilerparameters.VBCompilerVersion);
-			string outstr = String.Concat(compilerName, " @", responseFileName); //, " @", stdResponseFileName);
-			
-			TempFileCollection  tf = new TempFileCollection ();
-			//Executor.ExecWaitWithCapture(outstr, tf, ref output, ref error);
-			DoCompilation(outstr,tf,ref output, ref error);
-			
-			ICompilerResult result = ParseOutput(tf, output);
-			
-			File.Delete(responseFileName);
-			File.Delete(output);
-			File.Delete(error);
-			WriteManifestFile(exe);
-			return result;
-		}
-		
-		public ICompilerResult CompileProject(IProject project)
-		{
-			//System.Console.WriteLine("CompileProject ");
-			VBProject p = (VBProject)project;
-			VBCompilerParameters compilerparameters = (VBCompilerParameters)p.ActiveConfiguration;
-			string exe       = fileUtilityService.GetDirectoryNameWithSeparator(compilerparameters.OutputDirectory) + compilerparameters.OutputAssembly + (compilerparameters.CompileTarget == CompileTarget.Library ? ".dll" : ".exe");
+			string exe = configuration.CompiledOutputName;
 			string responseFileName = Path.GetTempFileName();
 			string stdResponseFileName = String.Concat(propertyService.DataDirectory, Path.DirectorySeparatorChar, "vb.rsp");
 			StreamWriter writer = new StreamWriter(responseFileName);
 			
 			//Console.WriteLine(GenerateOptions(compilerparameters,exe));	
-			writer.WriteLine(GenerateOptions(compilerparameters, exe));
+			writer.WriteLine(GenerateOptions (configuration, compilerparameters, exe));
 			
-			foreach (ProjectReference lib in p.ProjectReferences) {
-				string fileName = lib.GetReferencedFileName(p);
+			foreach (ProjectReference lib in references) {
+				string fileName = lib.GetReferencedFileName();
 				//Console.WriteLine(String.Concat("-r:",fileName));
 				writer.WriteLine(String.Concat("-r:", fileName));
 			}
 			
 			// write source files and embedded resources
-			foreach (ProjectFile finfo in p.ProjectFiles) {
+			foreach (ProjectFile finfo in projectFiles) {
 				if (finfo.Subtype != Subtype.Directory) {
 					switch (finfo.BuildAction) {
 						case BuildAction.Compile:
@@ -233,12 +174,10 @@ namespace VBBinding {
 			ICompilerResult result = ParseOutput(tf, output);
 			ParseOutput(tf,error);
 			
-			project.CopyReferencesToOutputPath(false);
-			
 			File.Delete(responseFileName);
 			File.Delete(output);
 			File.Delete(error);
-			if (compilerparameters.CompileTarget != CompileTarget.Library) {
+			if (configuration.CompileTarget != CompileTarget.Library) {
 				WriteManifestFile(exe);
 			}
 			return result;
@@ -406,20 +345,20 @@ namespace VBBinding {
 			return error;
 		}
 		
-		public void GenerateMakefile (IProject project, Combine parentCombine)
+		public void GenerateMakefile (Project project, Combine parentCombine)
 		{
 			StreamWriter stream = new StreamWriter (Path.Combine (project.BaseDirectory, "Makefile." + project.Name.Replace (" ", "")));
 
-			VBProject p = (VBProject)project;
-			VBCompilerParameters compilerparameters = (VBCompilerParameters)p.ActiveConfiguration;
+			DotNetProjectConfiguration configuration = (DotNetProjectConfiguration) project.ActiveConfiguration;
+			VBCompilerParameters compilerparameters = (VBCompilerParameters) configuration.CompilationParameters;
 			
 			//special case for module?
-			string outputName = compilerparameters.OutputAssembly + (compilerparameters.CompileTarget == CompileTarget.Library ? ".dll" : ".exe");
+			string outputName = configuration.CompiledOutputName;
 
 			string target = "";
 			string relativeOutputDir = fileUtilityService.AbsoluteToRelativePath (project.BaseDirectory, parentCombine.OutputDirectory);
 
-			switch (compilerparameters.CompileTarget) {
+			switch (configuration.CompileTarget) {
 			case CompileTarget.Exe:
 				target = "exe";
 				break;
@@ -462,26 +401,26 @@ namespace VBBinding {
 				case ReferenceType.Gac:
 					string pkg = sas.GetPackageFromFullName (lib.Reference);
 					if (pkg == "MONO-SYSTEM") {
-						system_references.Add (Path.GetFileName (lib.GetReferencedFileName (project)));
+						system_references.Add (Path.GetFileName (lib.GetReferencedFileName ()));
 					} else if (!pkg_references.Contains (pkg)) {
 						pkg_references.Add (pkg);
 					}
 					break;
 				case ReferenceType.Assembly:
-					string assembly_fileName = lib.GetReferencedFileName (project);
+					string assembly_fileName = lib.GetReferencedFileName ();
 					string rel_path_to = fileUtilityService.AbsoluteToRelativePath (project.BaseDirectory, Path.GetDirectoryName (assembly_fileName));
 					assembly_references.Add (Path.Combine (rel_path_to, Path.GetFileName (assembly_fileName)));
 					break;
 				case ReferenceType.Project:
-					string project_fileName = lib.GetReferencedFileName (project);
+					string project_fileName = lib.GetReferencedFileName ();
 					IProjectService prjService = (IProjectService)ServiceManager.GetService (typeof (IProjectService));
-					ArrayList allProjects = Combine.GetAllProjects(prjService.CurrentOpenCombine);
+					CombineEntryCollection allProjects = prjService.CurrentOpenCombine.GetAllProjects();
 					
-					foreach (ProjectCombineEntry projectEntry in allProjects) {
-						if (projectEntry.Project.Name == lib.Reference) {
-							string project_base_dir = fileUtilityService.AbsoluteToRelativePath (project.BaseDirectory, projectEntry.Project.BaseDirectory);
+					foreach (Project projectEntry in allProjects) {
+						if (projectEntry.Name == lib.Reference) {
+							string project_base_dir = fileUtilityService.AbsoluteToRelativePath (project.BaseDirectory, projectEntry.BaseDirectory);
 							
-							string project_output_fileName = prjService.GetOutputAssemblyName (projectEntry.Project);
+							string project_output_fileName = projectEntry.GetOutputFileName ();
 							project_references.Add (Path.Combine (project_base_dir, Path.GetFileName (project_output_fileName)));
 						}
 					}

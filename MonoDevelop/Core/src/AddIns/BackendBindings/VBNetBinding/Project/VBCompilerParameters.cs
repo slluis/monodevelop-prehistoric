@@ -11,168 +11,102 @@ using System.Diagnostics;
 using System.ComponentModel;
 
 using MonoDevelop.Internal.Project;
+using MonoDevelop.Internal.Serialization;
 
 namespace VBBinding {
-	
-	public enum CompileTarget
-	{
-		Exe,
-		WinExe,
-		Library,
-		Module
-	};
 	
 	public enum VBCompiler {
 		Vbc,
 		Mbas
 	};
 	
-	public enum NetRuntime {
-		Mono,
-		MonoInterpreter,
-		MsNet
-	};
-	
 	/// <summary>
 	/// This class handles project specific compiler parameters
 	/// </summary>
-	public class VBCompilerParameters : AbstractProjectConfiguration
+	public class VBCompilerParameters
 	{
-		[XmlNodeName("CodeGeneration")]
-		class CodeGeneration 
-		{
-			[XmlAttribute("compilerversion")]
-			public string vbCompilerVersion = String.Empty;
-			
-			[XmlAttribute("runtime")]
-			public NetRuntime netRuntime         = NetRuntime.Mono;
-			
-			[XmlAttribute("compiler")]
-			public VBCompiler vbCompiler = VBCompiler.Mbas;
-			
-			[XmlAttribute("warninglevel")]
-			public int  warninglevel       = 4;
-			
-			[XmlAttribute("nowarn")]
-			public string noWarnings      = String.Empty;
-			
-			//[XmlAttribute("includedebuginformation")]
-			//public bool debugmode = false;
-			
-			[XmlAttribute("optimize")]
-			public bool optimize = true;
-			
-			[XmlAttribute("unsafecodeallowed")]
-			public bool unsafecode         = false;
-			
-			[XmlAttribute("generateoverflowchecks")]
-			public bool generateOverflowChecks = true;
-			
-			[XmlAttribute("rootnamespace")]
-			public string rootnamespace = String.Empty;
-			
-			[XmlAttribute("mainclass")]
-			public string mainclass = null;
-			
-			[XmlAttribute("target")]
-			public CompileTarget  compiletarget = CompileTarget.Exe;
-			
-			[XmlAttribute("definesymbols")]
-			public string definesymbols = String.Empty;
-			
-			[XmlAttribute("generatexmldocumentation")]
-			public bool generateXmlDocumentation = false;
-			
-			[XmlAttribute("optionexplicit")]
-			public bool optionExplicit = true;
-			
-			[XmlAttribute("optionstrict")]
-			public bool optionStrict = false;
-			
-			[ConvertToRelativePathAttribute()]
-			[XmlAttribute("win32Icon")]
-			public string win32Icon = String.Empty;
-			
-			[XmlAttribute("imports")]
-			public string imports = String.Empty;
-		}
+		[ItemProperty("compilerversion")]
+		string vbCompilerVersion = String.Empty;
 		
-		[XmlNodeName("Execution")]
-		class Execution
-		{
-			[XmlAttribute("consolepause")]
-			public bool pauseconsoleoutput = true;
-			
-			[XmlAttribute("commandlineparameters")]
-			public string commandLineParameters = String.Empty;
-			
-		}
+		[ItemProperty("compiler")]
+		VBCompiler vbCompiler = VBCompiler.Mbas;
 		
-		[XmlNodeName("VBDOC")]
-		class VBDOC
-		{
-			[XmlAttribute("outputfile")]
-			[ConvertToRelativePathAttribute()]
-			public string outputfile = String.Empty;
-			
-			[XmlAttribute("filestoparse")]
-			public string filestoparse = String.Empty;
-			
-			[XmlAttribute("commentprefix")]
-			public string commentprefix = "'";
-		}
+		[ItemProperty("warninglevel")]
+		int  warninglevel       = 4;
 		
-		CodeGeneration codeGeneration = new CodeGeneration();
-		VBDOC		   vbdoc		  = new VBDOC();
-		Execution      execution      = new Execution();
+		[ItemProperty("nowarn")]
+		string noWarnings      = String.Empty;
+		
+		[ItemProperty("optimize")]
+		bool optimize = true;
+		
+		[ItemProperty("unsafecodeallowed")]
+		bool unsafecode         = false;
+		
+		[ItemProperty("generateoverflowchecks")]
+		bool generateOverflowChecks = true;
+		
+		[ItemProperty("rootnamespace")]
+		string rootnamespace = String.Empty;
+		
+		[ItemProperty("mainclass")]
+		string mainclass = null;
+		
+		[ItemProperty("definesymbols")]
+		string definesymbols = String.Empty;
+		
+		[ItemProperty("generatexmldocumentation")]
+		bool generateXmlDocumentation = false;
+		
+		[ItemProperty("optionexplicit")]
+		bool optionExplicit = true;
+		
+		[ItemProperty("optionstrict")]
+		bool optionStrict = false;
+		
+		[ProjectPathItemProperty("win32Icon")]
+		string win32Icon = String.Empty;
+		
+		[ItemProperty("imports")]
+		string imports = String.Empty;
+		
+		[ProjectPathItemProperty("VBDOC-outputfile")]
+		string outputfile = String.Empty;
+		
+		[ItemProperty("VBDOC-filestoparse")]
+		string filestoparse = String.Empty;
+		
+		[ItemProperty("VBDOC-commentprefix")]
+		string commentprefix = "'";
 		
 		[Browsable(false)]
 		public string VBCompilerVersion
 		{
 			get {
-				return codeGeneration.vbCompilerVersion;
+				return vbCompilerVersion;
 			}
 			set {
-				codeGeneration.vbCompilerVersion = value;
+				vbCompilerVersion = value;
 			}
 		} 
 		
 		[Browsable(false)]
 		public VBCompiler VBCompiler {
 			get {
-				return codeGeneration.vbCompiler;
+				return vbCompiler;
 			}
 			set {
-				codeGeneration.vbCompiler = value;
+				vbCompiler = value;
 			}
 		}
 		
-		[Browsable(false)]
-		public NetRuntime NetRuntime {
-			get {
-				return codeGeneration.netRuntime;
-			}
-			set {
-				codeGeneration.netRuntime = value;
-			}
-		}
-		
-		public string CommandLineParameters
-		{
-			get {
-				return execution.commandLineParameters;
-			}
-			set {
-				execution.commandLineParameters = value;
-			}
-		}
 		public bool GenerateOverflowChecks
 		{
 			get {
-				return codeGeneration.generateOverflowChecks;
+				return generateOverflowChecks;
 			}
 			set {
-				codeGeneration.generateOverflowChecks = value;
+				generateOverflowChecks = value;
 			}
 		}
 		
@@ -182,10 +116,10 @@ namespace VBBinding {
 //		                   Description = "${res:BackendBindings.CompilerOptions.CodeGeneration.UnsafeCode.Description}")]
 		public bool UnsafeCode {
 			get {
-				return codeGeneration.unsafecode;
+				return unsafecode;
 			}
 			set {
-				codeGeneration.unsafecode = value;
+				unsafecode = value;
 			}
 		}
 		
@@ -195,10 +129,10 @@ namespace VBBinding {
 //		                   Description = "${res:BackendBindings.CompilerOptions.CodeGeneration.GenerateXmlDocumentation.Description}")]
 		public bool GenerateXmlDocumentation {
 			get {
-				return codeGeneration.generateXmlDocumentation;
+				return generateXmlDocumentation;
 			}
 			set {
-				codeGeneration.generateXmlDocumentation = value;
+				generateXmlDocumentation = value;
 			}
 		}
 		
@@ -209,160 +143,121 @@ namespace VBBinding {
 //		                   Description = "${res:BackendBindings.CompilerOptions.WarningAndErrorCategory.WarningLevel.Description}")]
 		public int WarningLevel {
 			get {
-				return codeGeneration.warninglevel;
+				return warninglevel;
 			}
 			set {
-				codeGeneration.warninglevel = value;
+				warninglevel = value;
 			}
 		}
 		
 		public string Imports
 		{
 			get {
-				return codeGeneration.imports;
+				return imports;
 			}
 			set {
-				codeGeneration.imports = value;
+				imports = value;
 			}
 		}
 		
 		public string Win32Icon
 		{
 			get {
-				return codeGeneration.win32Icon;
+				return win32Icon;
 			}
 			set {
-				codeGeneration.win32Icon = value;
+				win32Icon = value;
 			}
 		}
 		
 		public string RootNamespace
 		{
 			get {
-				return codeGeneration.rootnamespace;
+				return rootnamespace;
 			}
 			set {
-				codeGeneration.rootnamespace = value;
+				rootnamespace = value;
 			}
 		}
 		
 		public string DefineSymbols
 		{
 			get {
-				return codeGeneration.definesymbols;
+				return definesymbols;
 			}
 			set {
-				codeGeneration.definesymbols = value;
+				definesymbols = value;
 			}
 		}
-		
-		public bool PauseConsoleOutput
-		{
-			get {
-				return execution.pauseconsoleoutput;
-			}
-			set {
-				execution.pauseconsoleoutput = value;
-			}
-		}
-		
-		//public bool Debugmode
-		//{
-		//	get {
-		//		return codeGeneration.debugmode;
-		//	}
-		//	set {
-		//		codeGeneration.debugmode = value;
-		//	}
-		//}
 		
 		public bool Optimize
 		{
 			get {
-				return codeGeneration.optimize;
+				return optimize;
 			}
 			set {
-				codeGeneration.optimize = value;
+				optimize = value;
 			}
 		}
 		
 		public string MainClass
 		{
 			get {
-				return codeGeneration.mainclass;
+				return mainclass;
 			}
 			set {
-				codeGeneration.mainclass = value;
-			}
-		}
-		
-		public CompileTarget CompileTarget
-		{
-			get {
-				return codeGeneration.compiletarget;
-			}
-			set {
-				codeGeneration.compiletarget = value;
+				mainclass = value;
 			}
 		}
 		
 		public bool OptionExplicit
 		{
 			get {
-				return codeGeneration.optionExplicit;
+				return optionExplicit;
 			}
 			set {
-				codeGeneration.optionExplicit = value;
+				optionExplicit = value;
 			}
 		}
 		
 		public bool OptionStrict
 		{
 			get {
-				return codeGeneration.optionStrict;
+				return optionStrict;
 			}
 			set {
-				codeGeneration.optionStrict = value;
+				optionStrict = value;
 			}
 		}
 		
 		public string VBDOCOutputFile
 		{
 			get {
-				return vbdoc.outputfile;
+				return outputfile;
 			}
 			set {
-				vbdoc.outputfile = value;
+				outputfile = value;
 			}
 		}
 		
 		public string[] VBDOCFiles
 		{
 			get {
-				return vbdoc.filestoparse.Split(';');
+				return filestoparse.Split(';');
 			}
 			set {
-				vbdoc.filestoparse = System.String.Join(";", value);
+				filestoparse = System.String.Join(";", value);
 			}
 		}
 		
 		public string VBDOCCommentPrefix
 		{
 			get {
-				return vbdoc.commentprefix;
+				return commentprefix;
 			}
 			set {
-				vbdoc.commentprefix = value;
+				commentprefix = value;
 			}
-		}
-		
-		public VBCompilerParameters()
-		{
-		}
-		
-		public VBCompilerParameters(string name)
-		{
-			this.name = name;
 		}
 	}
 }
