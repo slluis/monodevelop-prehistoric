@@ -75,7 +75,7 @@
 				<File name="Main.cs">
 <![CDATA[// project created on ${Date} at ${Time}
         using System;
-	using Gtk;
+        using Gtk;
         using Glade;
         using GtkSharp;
 
