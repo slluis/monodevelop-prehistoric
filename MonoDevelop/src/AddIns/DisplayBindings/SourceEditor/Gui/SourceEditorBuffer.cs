@@ -208,7 +208,7 @@ namespace MonoDevelop.SourceEditor.Gui
 		}
 
 		// needed to make sure the text is valid
-		[DllImport("glib-2.0")]
+		[DllImport("libglib-2.0-0.dll")]
 		static extern bool g_utf8_validate(string text, int textLength, IntPtr end);
 		
 		public void LoadText (string text, string mime)

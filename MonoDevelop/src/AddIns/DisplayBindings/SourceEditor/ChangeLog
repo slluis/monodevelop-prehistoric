@@ -1,3 +1,12 @@
+2004-06-10  Todd Berman  <tberman@sevenl.net>
+
+	* Gui/SourceEditorBuffer.cs: use the win32 dll name that gtk-sharp
+	uses for coherence.
+	* Makefile.am: properly install .dll.config
+	* MonoDevelop.SourceEditor.dll.config: new mapping file
+	* Search/DocumentIterator/WholeProjectDocumentIterator.cs: remove
+	warning
+
 2004-06-10  John BouAntoun  <jba-mono@optusnet.com.au>
 	* Gui/Dialogs/GotoLineNumberDialog.cs: made dialog close on pressing
 	escape key.

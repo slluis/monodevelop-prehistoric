@@ -85,11 +85,11 @@ $(DLL) : $(build_sources)
 	mcs $(build_sources) /debug /out:$(DLL) /t:library $(REFS) \
 	/resource:$(srcdir)/../../../../data/resources/glade/EditorBindings.glade,EditorBindings.glade \
 	/resource:$(srcdir)/../../../../data/resources/glade/texteditoraddin.glade,texteditoraddin.glade \
-	&& cp $(DLL) ../../../../build/bin/.
+	&& cp $(DLL) ../../../../build/bin/. && cp $(DLL).config ../../../../build/bin/.
 
 assemblydir = $(libdir)/monodevelop/bin
-assembly_DATA = $(DLL)
+assembly_DATA = $(DLL) $(DLL).config
 
 CLEANFILES = $(DLL)
 
-EXTRA_DIST = $(FILES)
+EXTRA_DIST = $(FILES) $(DLL).config
