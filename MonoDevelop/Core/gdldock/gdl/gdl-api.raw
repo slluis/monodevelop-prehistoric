@@ -47,8 +47,8 @@
       <member cname="GDL_DOCK_FLOATING" name="Floating"/>
     </enum>
     <object name="Dock" cname="GdlDock" parent="GdlDockObject">
-      <field cname="root" type="GdlDockObject*"/>
-      <field cname="_priv" type="GdlDockPrivate*"/>
+      <field name="Root" cname="root" type="GdlDockObject*"/>
+      <field name="Priv" cname="_priv" type="GdlDockPrivate*"/>
       <property name="Floating" cname="floating" type="gboolean" readable="true" writeable="true" construct-only="true"/>
       <property name="DefaultTitle" cname="default_title" type="gchar*" readable="true" writeable="true"/>
       <property name="Width" cname="width" type="gint" readable="true" writeable="true" construct-only="true"/>
@@ -61,12 +61,6 @@
           <parameter type="GdlDock*" name="dock"/>
         </parameters>
       </signal>
-      <virtual_method name="LayoutChanged" cname="layout_changed">
-        <return-type type="void"/>
-        <parameters>
-          <parameter type="GdlDock*" name="dock"/>
-        </parameters>
-      </virtual_method>
       <method name="AddFloatingItem" cname="gdl_dock_add_floating_item">
         <return-type type="void"/>
         <parameters>
@@ -120,8 +114,8 @@
       </method>
     </object>
     <object name="DockBar" cname="GdlDockBar" parent="GtkVBox">
-      <field cname="dock" type="GdlDock*"/>
-      <field cname="_priv" type="GdlDockBarPrivate*"/>
+      <field name="Dock" cname="dock" type="GdlDock*"/>
+      <field name="Priv" cname="_priv" type="GdlDockBarPrivate*"/>
       <property name="Master" cname="master" type="GdlDockMaster" readable="true" writeable="true"/>
       <method name="GetType" cname="gdl_dock_bar_get_type" shared="true">
         <return-type type="GType"/>
@@ -133,13 +127,13 @@
       </constructor>
     </object>
     <object name="DockItem" cname="GdlDockItem" parent="GdlDockObject">
-      <field cname="child" type="GtkWidget*"/>
-      <field cname="behavior" type="GdlDockItemBehavior"/>
-      <field cname="orientation" type="GtkOrientation"/>
-      <field cname="resize" bits="1" type="guint"/>
-      <field cname="dragoff_x" type="gint"/>
-      <field cname="dragoff_y" type="gint"/>
-      <field cname="fromoutside* /GdlDockItemPrivate* _priv" type="accesible"/>
+      <field name="Child" cname="child" type="GtkWidget*"/>
+      <field name="Behavior" cname="behavior" type="GdlDockItemBehavior"/>
+      <field name="Orientation" cname="orientation" type="GtkOrientation"/>
+      <field name="Resize" cname="resize" bits="1" type="guint"/>
+      <field name="DragoffX" cname="dragoff_x" type="gint"/>
+      <field name="DragoffY" cname="dragoff_y" type="gint"/>
+      <field name="Fromoutside" cname="fromoutside* /GdlDockItemPrivate* _priv" type="accesible"/>
       <property name="Orientation" cname="orientation" type="GtkOrientation" readable="true" writeable="true" construct-only="true"/>
       <property name="Resize" cname="resize" type="gboolean" readable="true" writeable="true"/>
       <property name="Behavior" cname="behavior" type="GdlDockItemBehavior" readable="true" writeable="true"/>
@@ -167,17 +161,11 @@
           <parameter type="gboolean" name="cancelled"/>
         </parameters>
       </signal>
-      <virtual_method name="DockDragBegin" cname="dock_drag_begin">
+      <virtual_method name="SetOrientation" cname="set_orientation">
         <return-type type="void"/>
         <parameters>
           <parameter type="GdlDockItem*" name="item"/>
-        </parameters>
-      </virtual_method>
-      <virtual_method name="DockDragEnd" cname="dock_drag_end">
-        <return-type type="void"/>
-        <parameters>
-          <parameter type="GdlDockItem*" name="item"/>
-          <parameter type="gboolean" name="cancelled"/>
+          <parameter type="GtkOrientation" name="orientation"/>
         </parameters>
       </virtual_method>
       <method name="Bind" cname="gdl_dock_item_bind">
@@ -265,9 +253,9 @@
       </method>
     </object>
     <object name="DockItemGrip" cname="GdlDockItemGrip" parent="GtkContainer">
-      <field cname="item" type="GdlDockItem*"/>
-      <field cname="title_window" type="GdkWindow*"/>
-      <field cname="_priv" type="GdlDockItemGripPrivate*"/>
+      <field name="Item" cname="item" type="GdlDockItem*"/>
+      <field name="TitleWindow" cname="title_window" type="GdkWindow*"/>
+      <field name="Priv" cname="_priv" type="GdlDockItemGripPrivate*"/>
       <property name="Item" cname="item" type="GdlDockItem" writeable="true" construct-only="true"/>
       <method name="GetType" cname="gdl_dock_item_grip_get_type" shared="true">
         <return-type type="GType"/>
@@ -279,9 +267,9 @@
       </constructor>
     </object>
     <object name="DockLayout" cname="GdlDockLayout" parent="GObject">
-      <field cname="dirty" type="gboolean"/>
-      <field cname="master" type="GdlDockMaster*"/>
-      <field cname="_priv" type="GdlDockLayoutPrivate*"/>
+      <field name="Dirty" cname="dirty" type="gboolean"/>
+      <field name="Master" cname="master" type="GdlDockMaster*"/>
+      <field name="Priv" cname="_priv" type="GdlDockLayoutPrivate*"/>
       <property name="Master" cname="master" type="GdlDockMaster" readable="true" writeable="true"/>
       <property name="Dirty" cname="dirty" type="gboolean" readable="true"/>
       <method name="Attach" cname="gdl_dock_layout_attach">
@@ -351,11 +339,11 @@
       </method>
     </object>
     <object name="DockMaster" cname="GdlDockMaster" parent="GObject">
-      <field cname="dock_objects" type="GHashTable*"/>
-      <field cname="toplevel_docks" type="GList*"/>
-      <field cname="controller" type="GdlDockObject*"/>
-      <field cname="dock_number" type="gint"/>
-      <field cname="_priv" type="GdlDockMasterPrivate*"/>
+      <field name="DockObjects" cname="dock_objects" type="GHashTable*"/>
+      <field name="ToplevelDocks" cname="toplevel_docks" type="GList*"/>
+      <field name="Controller" cname="controller" type="GdlDockObject*"/>
+      <field name="DockNumber" cname="dock_number" type="gint"/>
+      <field name="Priv" cname="_priv" type="GdlDockMasterPrivate*"/>
       <property name="DefaultTitle" cname="default_title" type="gchar*" readable="true" writeable="true"/>
       <property name="Locked" cname="locked" type="gint" readable="true" writeable="true"/>
       <signal name="LayoutChanged" cname="layout_changed" when="LAST">
@@ -364,12 +352,6 @@
           <parameter type="GdlDockMaster*" name="master"/>
         </parameters>
       </signal>
-      <virtual_method name="LayoutChanged" cname="layout_changed">
-        <return-type type="void"/>
-        <parameters>
-          <parameter type="GdlDockMaster*" name="master"/>
-        </parameters>
-      </virtual_method>
       <method name="Add" cname="gdl_dock_master_add">
         <return-type type="void"/>
         <parameters>
@@ -424,13 +406,13 @@
       <constructor cname="gdl_dock_notebook_new"/>
     </object>
     <object name="DockObject" cname="GdlDockObject" parent="GtkContainer">
-      <field cname="flags" type="GdlDockObjectFlags"/>
-      <field cname="freeze_count" type="gint"/>
-      <field cname="master" type="GObject*"/>
-      <field cname="name" type="gchar*"/>
-      <field cname="long_name" type="gchar*"/>
-      <field cname="stock_id" type="gchar*"/>
-      <field cname="reduce_pending" type="gboolean"/>
+      <field name="Flags" cname="flags" type="GdlDockObjectFlags"/>
+      <field name="FreezeCount" cname="freeze_count" type="gint"/>
+      <field name="Master" cname="master" type="GObject*"/>
+      <field name="Name" cname="name" type="gchar*"/>
+      <field name="LongName" cname="long_name" type="gchar*"/>
+      <field name="StockId" cname="stock_id" type="gchar*"/>
+      <field name="ReducePending" cname="reduce_pending" type="gboolean"/>
       <property name="Name" cname="name" type="gchar*" readable="true" writeable="true" construct-only="true"/>
       <property name="LongName" cname="long_name" type="gchar*" readable="true" writeable="true"/>
       <property name="StockId" cname="stock_id" type="gchar*" readable="true" writeable="true"/>
@@ -451,11 +433,10 @@
           <parameter type="GValue*" name="other_data"/>
         </parameters>
       </signal>
-      <virtual_method name="Detach" cname="detach">
+      <virtual_method name="Reduce" cname="reduce">
         <return-type type="void"/>
         <parameters>
           <parameter type="GdlDockObject*" name="object"/>
-          <parameter type="gboolean" name="recursive"/>
         </parameters>
       </virtual_method>
       <virtual_method name="DockRequest" cname="dock_request">
@@ -474,6 +455,13 @@
           <parameter type="GdlDockObject*" name="child"/>
           <parameter type="GdlDockPlacement" name="new_position"/>
           <parameter type="GValue*" name="other_data"/>
+        </parameters>
+      </virtual_method>
+      <virtual_method name="Present" cname="present">
+        <return-type type="void"/>
+        <parameters>
+          <parameter type="GdlDockObject*" name="object"/>
+          <parameter type="GdlDockObject*" name="child"/>
         </parameters>
       </virtual_method>
       <virtual_method name="ChildPlacement" cname="child_placement">
@@ -584,7 +572,7 @@
       </method>
     </object>
     <object name="DockPaned" cname="GdlDockPaned" parent="GdlDockItem">
-      <field cname="position_changed" type="gboolean"/>
+      <field name="PositionChanged" cname="position_changed" type="gboolean"/>
       <property name="Position" cname="position" type="guint" readable="true" writeable="true"/>
       <method name="GetType" cname="gdl_dock_paned_get_type" shared="true">
         <return-type type="GType"/>
@@ -596,7 +584,7 @@
       </constructor>
     </object>
     <object name="DockPlaceholder" cname="GdlDockPlaceholder" parent="GdlDockObject">
-      <field cname="_priv" type="GdlDockPlaceholderPrivate*"/>
+      <field name="Priv" cname="_priv" type="GdlDockPlaceholderPrivate*"/>
       <property name="Sticky" cname="sticky" type="gboolean" readable="true" writeable="true" construct-only="true"/>
       <property name="Host" cname="host" type="GdlDockObject" readable="true" writeable="true"/>
       <property name="NextPlacement" cname="next_placement" type="GdlDockPlacement" readable="true" writeable="true"/>
@@ -619,12 +607,12 @@
       </constructor>
     </object>
     <object name="DockTablabel" cname="GdlDockTablabel" parent="GtkBin">
-      <field cname="drag_handle_size" type="guint"/>
-      <field cname="item" type="GtkWidget*"/>
-      <field cname="event_window" type="GdkWindow*"/>
-      <field cname="active" type="gboolean"/>
-      <field cname="drag_start_event" type="GdkEventButton"/>
-      <field cname="pre_drag" type="gboolean"/>
+      <field name="DragHandleSize" cname="drag_handle_size" type="guint"/>
+      <field name="Item" cname="item" type="GtkWidget*"/>
+      <field name="EventWindow" cname="event_window" type="GdkWindow*"/>
+      <field name="Active" cname="active" type="gboolean"/>
+      <field name="DragStartEvent" cname="drag_start_event" type="GdkEventButton"/>
+      <field name="PreDrag" cname="pre_drag" type="gboolean"/>
       <property name="Item" cname="item" type="GdlDockItem" readable="true" writeable="true"/>
       <signal name="ButtonPressedHandle" cname="button_pressed_handle" when="LAST">
         <return-type type="void"/>
@@ -633,13 +621,6 @@
           <parameter type="GdkEventButton*" name="event"/>
         </parameters>
       </signal>
-      <virtual_method name="ButtonPressedHandle" cname="button_pressed_handle">
-        <return-type type="void"/>
-        <parameters>
-          <parameter type="GdlDockTablabel*" name="tablabel"/>
-          <parameter type="GdkEventButton*" name="event"/>
-        </parameters>
-      </virtual_method>
       <method name="Activate" cname="gdl_dock_tablabel_activate">
         <return-type type="void"/>
       </method>
@@ -656,11 +637,11 @@
       </constructor>
     </object>
     <struct name="DockRequest" cname="GdlDockRequest">
-      <field cname="applicant" type="GdlDockObject*"/>
-      <field cname="target" type="GdlDockObject*"/>
-      <field cname="position" type="GdlDockPlacement"/>
-      <field cname="rect" type="GdkRectangle"/>
-      <field cname="extra" type="GValue"/>
+      <field name="Applicant" cname="applicant" type="GdlDockObject*"/>
+      <field name="Target" cname="target" type="GdlDockObject*"/>
+      <field name="Position" cname="position" type="GdlDockPlacement"/>
+      <field name="Rect" cname="rect" type="GdkRectangle"/>
+      <field name="Extra" cname="extra" type="GValue"/>
     </struct>
     <class name="Global" cname="GdlGlobal">
       <method name="StockInit" cname="gdl_stock_init" shared="true">
