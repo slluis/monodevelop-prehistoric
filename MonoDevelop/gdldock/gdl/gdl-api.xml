@@ -5,7 +5,7 @@
         Please DO NOT MODIFY THIS FILE, modify .metadata files instead.
 
 -->
-  <namespace name="Gdl" library="gdl-1">
+  <namespace name="Gdl" library="gdldock">
     <enum name="DockItemBehavior" cname="GdlDockItemBehavior" type="flags">
       <member cname="GDL_DOCK_ITEM_BEH_NORMAL" name="Normal" />
       <member cname="GDL_DOCK_ITEM_BEH_NEVER_FLOATING" name="NeverFloating" value="1 &lt;&lt; 0" />
@@ -222,6 +222,9 @@
       <field cname="item" type="GdlDockItem*" />
       <signal name="Activate" cname="activate" when="LAST">
         <return-type type="GCclosureMarshalVoid_Void" />
+        <parameters>
+          <parameter name="inst" type="GdlDockItemGrip*" />
+        </parameters>
       </signal>
       <method name="GetType" cname="gdl_dock_item_grip_get_type" shared="true">
         <return-type type="GType" />

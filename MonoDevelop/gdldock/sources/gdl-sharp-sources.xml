@@ -1,6 +1,6 @@
 <gapi-parser-input>
   <api filename="../gdl/gdl-api.xml">
-    <library name="gdl-1">
+    <library name="gdldock">
       <namespace name="Gdl">
         <dir>gdl</dir>
       </namespace>

@@ -30,12 +30,13 @@
 #include <libxml/parser.h>
 #include <gtk/gtk.h>
 #include <glade/glade.h>
-#include <libgnome/gnome-macros.h>
 
 #include "gdl-dock-layout.h"
 #include "gdl-tools.h"
 #include "gdl-dock-placeholder.h"
 
+
+#define GDL_GLADEDIR "."
 
 /* ----- Private variables ----- */
 
@@ -110,7 +111,7 @@ static void     gdl_dock_layout_build_models    (GdlDockLayout      *layout);
 
 /* ----- Private implementation ----- */
 
-GNOME_CLASS_BOILERPLATE (GdlDockLayout, gdl_dock_layout, GObject, G_TYPE_OBJECT);
+GDL_CLASS_BOILERPLATE (GdlDockLayout, gdl_dock_layout, GObject, G_TYPE_OBJECT);
 
 static void
 gdl_dock_layout_class_init (GdlDockLayoutClass *klass)
