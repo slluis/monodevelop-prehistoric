@@ -8,14 +8,13 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fr_FR\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-07-05 17:07-0400\n"
-"PO-Revision-Date: 2004-04-18 20:52-0400\n"
-"Last-Translator: Vincent Daron <vdaron@ask.be>\n"
+"POT-Creation-Date: 2004-10-27 22:04+0200\n"
+"PO-Revision-Date: 2004-10-27 22:05+0200\n"
+"Last-Translator: Vincent Daron <vincent@daron.be>\n"
 "Language-Team: Françcais <fr@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
-"X-Generator: KBabel 1.3\n"
+"Content-Transfer-Encoding: 8bit"
 
 #: build/AddIns/SharpDevelopCore.addin.xml.h:1
 msgid "#CvsLib"
@@ -206,7 +205,6 @@ msgid "Build"
 msgstr "Compilation"
 
 #: build/AddIns/SharpDevelopCore.addin.xml.h:47
-#, fuzzy
 msgid "Build Project"
 msgstr "Compiler le projet"
 
@@ -330,9 +328,8 @@ msgid "GotDotNet"
 msgstr "GotDotNet"
 
 #: build/AddIns/SharpDevelopCore.addin.xml.h:76
-#, fuzzy
 msgid "Include"
-msgstr "<b>Inclure</b>"
+msgstr "Inclure"
 
 #: build/AddIns/SharpDevelopCore.addin.xml.h:77
 msgid "Integrated Projects"
@@ -387,9 +384,8 @@ msgid "N_ew Solution/Project..."
 msgstr "Nouv_elle Solution/Projet..."
 
 #: build/AddIns/SharpDevelopCore.addin.xml.h:90
-#, fuzzy
 msgid "New File"
-msgstr "Nouveaux Fichiers"
+msgstr "Nouveau Fichier"
 
 #: build/AddIns/SharpDevelopCore.addin.xml.h:91
 #: src/Main/Base/Commands/ProjectBrowserCommands/FolderNodeCommands.cs:197
@@ -405,9 +401,8 @@ msgid "O_pen"
 msgstr "_Ouvrir"
 
 #: build/AddIns/SharpDevelopCore.addin.xml.h:94
-#, fuzzy
-msgid "Open FIle"
-msgstr "Tous les fichiers ouverts"
+msgid "Open File"
+msgstr "Ouvrir un fichier"
 
 #: build/AddIns/SharpDevelopCore.addin.xml.h:95
 #: build/AddIns/MonoDevelopNewEditor.addin.xml.h:46
@@ -464,9 +459,8 @@ msgid "Reset Property"
 msgstr "Réinitialiser la propriété"
 
 #: build/AddIns/SharpDevelopCore.addin.xml.h:108
-#, fuzzy
 msgid "Run"
-msgstr "E_xécuter"
+msgstr "Exécuter"
 
 #: build/AddIns/SharpDevelopCore.addin.xml.h:109
 #: build/AddIns/MonoDevelopNewEditor.addin.xml.h:50
@@ -478,7 +472,6 @@ msgid "Save A_ll"
 msgstr "Sauver tout"
 
 #: build/AddIns/SharpDevelopCore.addin.xml.h:111
-#, fuzzy
 msgid "Save All"
 msgstr "Sauver tout"
 
@@ -792,9 +785,8 @@ msgid "Buffer Options"
 msgstr "Options du tampon"
 
 #: build/AddIns/MonoDevelopNewEditor.addin.xml.h:29
-#, fuzzy
 msgid "Clear Bookmarks"
-msgstr "Effa_cer les favoris"
+msgstr "Effacer les favoris"
 
 #: build/AddIns/MonoDevelopNewEditor.addin.xml.h:30
 msgid "Close"
@@ -814,9 +806,8 @@ msgid "Find"
 msgstr "Chercher"
 
 #: build/AddIns/MonoDevelopNewEditor.addin.xml.h:37
-#, fuzzy
 msgid "Find Next"
-msgstr "_Suivant"
+msgstr "Suivant"
 
 #: build/AddIns/MonoDevelopNewEditor.addin.xml.h:38
 msgid "Find _Next"
@@ -843,12 +834,10 @@ msgid "Markers and Rulers"
 msgstr "Marqueurs et règles"
 
 #: build/AddIns/MonoDevelopNewEditor.addin.xml.h:45
-#, fuzzy
 msgid "Next Bookmark"
 msgstr "Signet suivant"
 
 #: build/AddIns/MonoDevelopNewEditor.addin.xml.h:47
-#, fuzzy
 msgid "Previous Bookmark"
 msgstr "Signet précédent"
 
@@ -870,7 +859,6 @@ msgid "Text Editor"
 msgstr "Éditeur"
 
 #: build/AddIns/MonoDevelopNewEditor.addin.xml.h:53
-#, fuzzy
 msgid "Toggle Bookmark"
 msgstr "Ajouter/Retirer un signet"
 
@@ -891,32 +879,26 @@ msgid "_Clear Bookmarks"
 msgstr "Effa_cer les favoris"
 
 #: build/AddIns/MonoDevelopNewEditor.addin.xml.h:58
-#, fuzzy
 msgid "_Find..."
-msgstr "Chercher..."
+msgstr "_Chercher..."
 
 #: build/AddIns/MonoDevelopNewEditor.addin.xml.h:59
-#, fuzzy
 msgid "_Goto Line..."
-msgstr "Aller à la ligne..."
+msgstr "Aller à la li_gne..."
 
 #: build/AddIns/MonoDevelopNewEditor.addin.xml.h:60
-#, fuzzy
 msgid "_Next Bookmark"
-msgstr "Signet suivant"
+msgstr "Sig_net suivant"
 
 #: build/AddIns/MonoDevelopNewEditor.addin.xml.h:61
-#, fuzzy
 msgid "_Previous Bookmark"
-msgstr "Signet précédent"
+msgstr "Signet _précédent"
 
 #: build/AddIns/MonoDevelopNewEditor.addin.xml.h:62
-#, fuzzy
 msgid "_Replace..."
-msgstr "Remplacer..."
+msgstr "_Remplacer..."
 
 #: build/AddIns/MonoDevelopNewEditor.addin.xml.h:63
-#, fuzzy
 msgid "_Search"
 msgstr "Chercher"
 
@@ -1103,7 +1085,6 @@ msgid "Did you know?"
 msgstr "Le saviez-vous ?"
 
 #: data/resources/glade/Base.glade.h:36
-#, fuzzy
 msgid "Enable _viewstate"
 msgstr "Activer _viewstate"
 
@@ -1732,10 +1713,15 @@ msgstr "Un projet avec ce nom existe déjà dans votre solution"
 
 #: src/Main/Base/Gui/Dialogs/NewProjectDialog.cs:238
 #, csharp-format
+msgid "Could not create file {0}. File already exists."
+msgstr "Impossible de créer le fichier {0}. Il existe déjà."
+
+#: src/Main/Base/Gui/Dialogs/NewProjectDialog.cs:242
+#, csharp-format
 msgid "You do not have permission to create to {0}"
 msgstr "Vous ne pouvez pas créer dans {0}"
 
-#: src/Main/Base/Gui/Dialogs/NewProjectDialog.cs:316
+#: src/Main/Base/Gui/Dialogs/NewProjectDialog.cs:320
 msgid "Combine Location"
 msgstr "Chemin de la solution"
 
@@ -2141,7 +2127,7 @@ msgstr ""
 msgid "Classes"
 msgstr "Classes"
 
-#: src/Main/Base/Gui/Pads/ClassScout/ClassScout.cs:352
+#: src/Main/Base/Gui/Pads/ClassScout/ClassScout.cs:359
 msgid "No class builder found"
 msgstr "Aucun constructeurs de classe trouvés"
 
@@ -2169,7 +2155,7 @@ msgstr "Description"
 #: src/Main/Base/Gui/Pads/ProjectBrowser/BrowserNode/CombineBrowserNode.cs:66
 #, csharp-format
 msgid "Solution name may not contain any of the following characters: {0}"
-msgstr ""
+msgstr "Le nom de la solution ne peut contenir aucun de ces caractères : {0}"
 
 #: src/Main/Base/Gui/Pads/ProjectBrowser/BrowserNode/CombineBrowserNode.cs:82
 #, csharp-format
@@ -2240,9 +2226,9 @@ msgstr "Références"
 msgid "Solution"
 msgstr "Solution"
 
-#: src/Main/Base/Gui/Workbench/DefaultWorkbench.cs:537
+#: src/Main/Base/Gui/Workbench/DefaultWorkbench.cs:539
 #: src/Main/Base/Commands/RunCommands.cs:240
-#: src/Main/Base/Services/Project/DefaultProjectService.cs:155
+#: src/Main/Base/Services/Project/DefaultProjectService.cs:158
 msgid "Ready"
 msgstr "Prêt"
 
@@ -2347,7 +2333,7 @@ msgstr "Entrez les différents paramètres de l'outil, {0}."
 #: src/Main/Base/Commands/MenuItemBuilders.cs:166
 #, csharp-format
 msgid "Command Arguments for {0}"
-msgstr ""
+msgstr "Arguments de la commande {0}"
 
 #: src/Main/Base/Commands/MenuItemBuilders.cs:193
 #, csharp-format
@@ -2427,7 +2413,7 @@ msgstr "{0} erreurs, {1} avertissements"
 
 #: src/Main/Base/Commands/RunCommands.cs:74
 #: src/Main/Base/Commands/RunCommands.cs:148
-#, fuzzy, csharp-format
+#, csharp-format
 msgid "Language binding {0} can't compile {1}"
 msgstr "Gestionnnaire de {0} ne peux compiler {1}"
 
@@ -2487,7 +2473,7 @@ msgid "Can't load external tools configuration file"
 msgstr "Impossible de charger le fichier  de configuration des outils"
 
 #: src/Main/Base/Internal/Project/Combine/Combine.cs:203
-#, fuzzy, csharp-format
+#, csharp-format
 msgid "Can't find language binding for {0}"
 msgstr "Impossible de trouver un gestionnaire pour le language {0}"
 
@@ -2657,24 +2643,24 @@ msgstr ""
 #: src/Main/Base/Services/DisplayBinding/DisplayBindingService.cs:61
 #, csharp-format
 msgid "Didnt match on mimetype: {0}, trying filename"
-msgstr ""
+msgstr "ne corresponds pas au type de ficher: {0}, essaye le nom de fichier"
 
-#: src/Main/Base/Services/File/DefaultFileService.cs:233
+#: src/Main/Base/Services/File/DefaultFileService.cs:261
 #, csharp-format
 msgid "Can't remove directory {0}"
 msgstr "Impossible de retirer le répertoire {0}"
 
-#: src/Main/Base/Services/File/DefaultFileService.cs:242
+#: src/Main/Base/Services/File/DefaultFileService.cs:270
 #, csharp-format
 msgid "Can't remove file {0}"
 msgstr "Impossible de retirer le fichier {0}"
 
-#: src/Main/Base/Services/File/DefaultFileService.cs:257
+#: src/Main/Base/Services/File/DefaultFileService.cs:285
 #, csharp-format
 msgid "Can't rename directory {0}"
 msgstr "Impossible de renommer le répertoire {0}"
 
-#: src/Main/Base/Services/File/DefaultFileService.cs:266
+#: src/Main/Base/Services/File/DefaultFileService.cs:294
 #, csharp-format
 msgid "Can't rename file {0}"
 msgstr "Impossible de renommer le fichier {0}"
@@ -2691,16 +2677,16 @@ msgstr "Générer la base de données de complétion"
 msgid "Writing class"
 msgstr "Écriture de la classe"
 
-#: src/Main/Base/Services/Project/DefaultProjectService.cs:136
+#: src/Main/Base/Services/Project/DefaultProjectService.cs:139
 msgid "Opening Combine..."
 msgstr "Ouverture de la solution..."
 
-#: src/Main/Base/Services/Project/DefaultProjectService.cs:286
+#: src/Main/Base/Services/Project/DefaultProjectService.cs:289
 #, csharp-format
 msgid "Compiling {0}"
 msgstr "Compilation de {0}"
 
-#: src/Main/Base/Services/Project/DefaultProjectService.cs:344
+#: src/Main/Base/Services/Project/DefaultProjectService.cs:347
 msgid "Save changed files?"
 msgstr "Sauver les fichiers modifiés"
 
@@ -2723,7 +2709,6 @@ msgid "Up one level"
 msgstr "Niveau supérieur"
 
 #: src/Libraries/MonoDevelop.Gui.Widgets/FileBrowser/FileBrowser.cs:80
-#, fuzzy
 msgid "Home"
 msgstr "Dossier Personel"
 
@@ -2869,52 +2854,56 @@ msgstr "Nouveau "
 msgid "Edit "
 msgstr "Édit "
 
-#: src/AddIns/DisplayBindings/SourceEditor/Gui/SourceEditorDisplayBinding.cs:151
+#: src/AddIns/DisplayBindings/SourceEditor/Gui/SourceEditorDisplayBinding.cs:153
 msgid "Source Editor"
 msgstr "Éditeur"
 
-#: src/AddIns/DisplayBindings/SourceEditor/Search/SearchReplaceInFilesManager.cs:81
+#: src/AddIns/DisplayBindings/SourceEditor/Search/SearchReplaceInFilesManager.cs:82
 #, csharp-format
 msgid "Match at offset {0}"
-msgstr ""
+msgstr "Correspondance trouvée en {0}"
 
-#: src/AddIns/DisplayBindings/SourceEditor/Search/SearchReplaceInFilesManager.cs:124
-#, fuzzy
+#: src/AddIns/DisplayBindings/SourceEditor/Search/SearchReplaceInFilesManager.cs:126
+#, csharp-format
+msgid "The search could not be finished: {0}"
+msgstr "La recherche n'a pu etre exécutée: {0}"
+
+#: src/AddIns/DisplayBindings/SourceEditor/Search/SearchReplaceInFilesManager.cs:128
 msgid "Search cancelled."
-msgstr "Recherche terminée"
+msgstr "Recherche annulée"
 
-#: src/AddIns/DisplayBindings/SourceEditor/Search/SearchReplaceInFilesManager.cs:125
+#: src/AddIns/DisplayBindings/SourceEditor/Search/SearchReplaceInFilesManager.cs:130
 #, csharp-format
 msgid "Search completed. {0} matches found in {1} files."
-msgstr ""
+msgstr "Recherche terminée. {0} occurences trouvées dans {1} fichiers."
 
-#: src/AddIns/DisplayBindings/SourceEditor/Search/SearchReplaceInFilesManager.cs:147
-#: src/AddIns/DisplayBindings/SourceEditor/Search/SearchReplaceInFilesManager.cs:188
+#: src/AddIns/DisplayBindings/SourceEditor/Search/SearchReplaceInFilesManager.cs:153
+#: src/AddIns/DisplayBindings/SourceEditor/Search/SearchReplaceInFilesManager.cs:204
 msgid "There is a search already in progress. Do you want to cancel it?"
-msgstr ""
+msgstr "Il y a déjà une recherche en cours. Voulez-vous l'annuler ?"
 
-#: src/AddIns/DisplayBindings/SourceEditor/Search/SearchReplaceInFilesManager.cs:157
+#: src/AddIns/DisplayBindings/SourceEditor/Search/SearchReplaceInFilesManager.cs:163
 #, csharp-format
 msgid "Replacing '{0}' in {1}."
-msgstr ""
+msgstr "Remplacement de '{0}' dans {1} en cours."
 
-#: src/AddIns/DisplayBindings/SourceEditor/Search/SearchReplaceInFilesManager.cs:198
+#: src/AddIns/DisplayBindings/SourceEditor/Search/SearchReplaceInFilesManager.cs:214
 #, csharp-format
 msgid "Looking for '{0}' in {1}."
-msgstr ""
+msgstr "Recherche de '{0}' dans {1}."
 
 #. MessageBox.Show((Form)WorkbenchSingleton.Workbench, "Mark all done", "Finished");
-#: src/AddIns/DisplayBindings/SourceEditor/Search/SearchReplaceManager.cs:104
+#: src/AddIns/DisplayBindings/SourceEditor/Search/SearchReplaceManager.cs:105
 msgid "Mark all completed"
 msgstr "Marquage terminé"
 
 #. MessageBox.Show((Form)WorkbenchSingleton.Workbench, "Replace all done", "Finished");
-#: src/AddIns/DisplayBindings/SourceEditor/Search/SearchReplaceManager.cs:137
-#, fuzzy, csharp-format
+#: src/AddIns/DisplayBindings/SourceEditor/Search/SearchReplaceManager.cs:138
+#, csharp-format
 msgid "Replace all finished. {0} matches found."
-msgstr "Remplacement terminé"
+msgstr "Remplacement terminé. {0} occurences trouvées."
 
-#: src/AddIns/DisplayBindings/SourceEditor/Search/SearchReplaceManager.cs:176
+#: src/AddIns/DisplayBindings/SourceEditor/Search/SearchReplaceManager.cs:177
 msgid "Not Found"
 msgstr "Non trouvé"
 
@@ -2927,459 +2916,275 @@ msgid "Library"
 msgstr "Librairie"
 
 #: src/AddIns/BackendBindings/CSharpBinding/Gui/OutputOptionsPanel.cs:75
-#, fuzzy
 msgid "Invalid assembly name specified"
-msgstr "Cible de déploiement spécifiée invalide"
+msgstr "Nom d'assemblage invalide"
 
 #: src/AddIns/BackendBindings/CSharpBinding/Gui/OutputOptionsPanel.cs:80
-#, fuzzy
 msgid "Invalid output directory specified"
-msgstr "Cible de déploiement spécifiée invalide"
+msgstr "Répertoire de destination invalide"
 
 #: src/AddIns/BackendBindings/CSharpBinding/Gui/OutputOptionsPanel.cs:97
 msgid "Select the directory in which the assembly will be created"
-msgstr "Sélectionnez le répertoire ou doit être sauvé l'assembly"
+msgstr "Sélectionnez le répertoire ou doit être sauvé l'assemblage"
 
 #: src/AddIns/prj2make-sharp-lib/prj2make-sharp-lib.addin.xml.h:2
-#, fuzzy
-msgid "_Import VS Project"
-msgstr "Le projet Mono"
+msgid "_Import Visual Studio .NET Project"
+msgstr "Importer un projet Visual Studio .NET"
 
 #: build/AddIns/AddIns/BackendBindings/templates/BlankCombine.xpt.xml.h:1
-#, fuzzy
 msgid "A blank solution"
-msgstr "Charger la solution {0}"
+msgstr "Une solution vide"
 
 #: build/AddIns/AddIns/BackendBindings/templates/BlankCombine.xpt.xml.h:2
-#, fuzzy
 msgid "Blank Solution"
-msgstr "Solution"
+msgstr "Solution vide"
 
 #: build/AddIns/AddIns/BackendBindings/templates/ConsoleProject.xpt.xml.h:1
-#, fuzzy
 msgid "Console Project"
-msgstr "Le projet Mono"
+msgstr "Projet console"
 
 #: build/AddIns/AddIns/BackendBindings/templates/ConsoleProject.xpt.xml.h:2
-#, fuzzy
 msgid "Creates a new console project."
-msgstr "Créer un nouveau projet C#"
+msgstr "Créer un nouveau projet console en C#"
 
 #: build/AddIns/AddIns/BackendBindings/templates/CSharpSessionStateWebService.xft.xml.h:1
 msgid "Creates a secure C# Web Service, using SessionState"
-msgstr ""
+msgstr "Créer un Service Web C# sécurisé en utilisant SessionState"
 
 #: build/AddIns/AddIns/BackendBindings/templates/CSharpSessionStateWebService.xft.xml.h:2
 msgid "Secure C# Web Service"
-msgstr ""
+msgstr "Service Web sécurisé en C#"
 
 #: build/AddIns/AddIns/BackendBindings/templates/CSharpWebService.xft.xml.h:1
 msgid "C# Web Service"
-msgstr ""
+msgstr "Service Web en C#"
 
 #: build/AddIns/AddIns/BackendBindings/templates/CSharpWebService.xft.xml.h:2
-#, fuzzy
 msgid "Creates a C# Web Service."
-msgstr "Créer un nouveau projet C#"
+msgstr "Créer un nouveau Service Web en C#"
 
 #: build/AddIns/AddIns/BackendBindings/templates/EmptyCSharpFile.xft.xml.h:1
-#, fuzzy
 msgid "Creates an empty C# file."
-msgstr "Créer un nouveau projet C#"
+msgstr "Créer un nouveau fichier C#"
 
 #: build/AddIns/AddIns/BackendBindings/templates/EmptyCSharpFile.xft.xml.h:2
 msgid "Empty File"
-msgstr ""
+msgstr "Fichier vide"
 
 #: build/AddIns/AddIns/BackendBindings/templates/EmptyHTMLFile.xft.xml.h:1
 msgid "Creates an empty HTML file."
-msgstr ""
+msgstr "Créer un fichier HTML vide"
 
 #: build/AddIns/AddIns/BackendBindings/templates/EmptyHTMLFile.xft.xml.h:2
 msgid "Empty HTML File"
-msgstr ""
+msgstr "Fichier HTML vide"
 
 #: build/AddIns/AddIns/BackendBindings/templates/EmptyJavaFile.xft.xml.h:1
 msgid "Creates an empty Java file."
-msgstr ""
+msgstr "Crée un fichier java vide."
 
 #: build/AddIns/AddIns/BackendBindings/templates/EmptyJavaFile.xft.xml.h:2
 msgid "Empty Java File"
-msgstr ""
+msgstr "Fichier Java vide"
 
 #: build/AddIns/AddIns/BackendBindings/templates/EmptyJavaProject.xpt.xml.h:1
 msgid "Creates an empty Java solution."
-msgstr ""
+msgstr "Crée une solution java vide"
 
 #: build/AddIns/AddIns/BackendBindings/templates/EmptyJavaProject.xpt.xml.h:2
-#, fuzzy
 msgid "Empty Java Project"
-msgstr "Ajouter un nouveau projet..."
+msgstr "Projet java vide"
 
 #: build/AddIns/AddIns/BackendBindings/templates/EmptyNemerleFile.xft.xml.h:1
-msgid "Empty Nemerle file"
-msgstr ""
+msgid "Creates an empty Nemerle file"
+msgstr "Créer un nouveau projet Nemerle"
+
+#: build/AddIns/AddIns/BackendBindings/templates/EmptyNemerleFile.xft.xml.h:2
+msgid "Empty file"
+msgstr "Fichier vide"
 
 #: build/AddIns/AddIns/BackendBindings/templates/EmptyProject.xpt.xml.h:1
-#, fuzzy
 msgid "Creates an empty C# project."
-msgstr "Créer un nouveau projet C#"
+msgstr "Crée un nouveau projet C# vide."
 
 #: build/AddIns/AddIns/BackendBindings/templates/EmptyProject.xpt.xml.h:2
-#, fuzzy
+#: build/AddIns/AddIns/BackendBindings/templates/NemerleEmptyProject.xpt.xml.h:2
 msgid "Empty Project"
-msgstr "Tout le projet"
+msgstr "Projet vide"
 
 #: build/AddIns/AddIns/BackendBindings/templates/EmptyResourceFile.xft.xml.h:1
 msgid "Creates an empty resource file."
-msgstr ""
+msgstr "Crée un fichier de resource vide."
 
 #: build/AddIns/AddIns/BackendBindings/templates/EmptyResourceFile.xft.xml.h:2
-#, fuzzy
 msgid "Empty Resource File"
-msgstr "Ressources"
+msgstr "Fichier de resource vide"
 
 #: build/AddIns/AddIns/BackendBindings/templates/EmptyTextFile.xft.xml.h:1
 msgid "Creates an empty text file."
-msgstr ""
+msgstr "Crée un fichier texte vide."
 
 #: build/AddIns/AddIns/BackendBindings/templates/EmptyTextFile.xft.xml.h:2
 msgid "Empty Text File"
-msgstr ""
+msgstr "Fichier Texte vide"
 
 #: build/AddIns/AddIns/BackendBindings/templates/EmptyXMLFile.xft.xml.h:1
-#, fuzzy
 msgid "Creates an empty XML file."
-msgstr "Créer un nouveau répertoire"
+msgstr "Crée un nouveau fichier XML vide."
 
 #: build/AddIns/AddIns/BackendBindings/templates/EmptyXMLFile.xft.xml.h:2
 msgid "Empty XML File"
-msgstr ""
+msgstr "Fichier XML vide"
 
 #: build/AddIns/AddIns/BackendBindings/templates/GladeSharpProject.xpt.xml.h:1
-#, fuzzy
 msgid "Glade# Project"
-msgstr "Compiler le projet"
+msgstr "Projet Glade#"
 
 #: build/AddIns/AddIns/BackendBindings/templates/GladeSharpProject.xpt.xml.h:2
 msgid "a Glade# project with one window and button"
-msgstr ""
+msgstr "un projet Glade avec une fenetre un et bouton"
 
 #: build/AddIns/AddIns/BackendBindings/templates/GnomeSharpProgram.xft.xml.h:1
-#, fuzzy
 msgid "Creates a Gnome# program."
-msgstr "Créer un nouveau projet C#"
+msgstr "Créer un nouveau projet Gnome#"
 
 #: build/AddIns/AddIns/BackendBindings/templates/GnomeSharpProgram.xft.xml.h:2
 msgid "Gnome# Program"
-msgstr ""
+msgstr "Programme Gnome#"
 
 #: build/AddIns/AddIns/BackendBindings/templates/GnomeSharpProject.xpt.xml.h:1
-#, fuzzy
 msgid "Creates a Gnome# project"
-msgstr "Créer un nouveau projet C#"
+msgstr "Créer un projet Gnome#"
 
 #: build/AddIns/AddIns/BackendBindings/templates/GnomeSharpProject.xpt.xml.h:2
-#, fuzzy
 msgid "Gnome# Project"
-msgstr "Le projet Mono"
+msgstr "Projet Gnome#"
 
 #: build/AddIns/AddIns/BackendBindings/templates/GtkSharpProject.xpt.xml.h:1
-#, fuzzy
 msgid "Creates a Gtk# project."
-msgstr "Créer un nouveau projet C#"
+msgstr "Créer un projet Gtk#"
 
 #: build/AddIns/AddIns/BackendBindings/templates/GtkSharpProject.xpt.xml.h:2
-#, fuzzy
 msgid "Gtk# Project"
-msgstr "Projets"
+msgstr "Projet Gtk#"
 
 #: build/AddIns/AddIns/BackendBindings/templates/GtkSharpWindow.xft.xml.h:1
 msgid "Creates a top-level Gtk# window."
-msgstr ""
+msgstr "Crée une fenetre Gtk#"
 
 #: build/AddIns/AddIns/BackendBindings/templates/GtkSharpWindow.xft.xml.h:2
-#, fuzzy
 msgid "Gtk# Window"
-msgstr "Fenêtre _suivante"
+msgstr "Fenêtre Gtk#"
 
 #: build/AddIns/AddIns/BackendBindings/templates/IkvmConsoleApplicationProject.xpt.xml.h:1
-#, fuzzy
 msgid "Create a console Java project with IKVM"
-msgstr "Créer un nouveau projet C#"
+msgstr "Crée un projet console Java avec IKVM"
 
 #: build/AddIns/AddIns/BackendBindings/templates/IkvmConsoleApplicationProject.xpt.xml.h:2
-#, fuzzy
 msgid "IKVM Console Project"
-msgstr "Le projet Mono"
+msgstr "Projet console IKVM"
 
 #: build/AddIns/AddIns/BackendBindings/templates/IkvmGladeApplicationProject.xpt.xml.h:1
 msgid "Create a Glade# Java project with IKVM"
-msgstr ""
+msgstr "Crée un projet Glade# Java avec IKVM"
 
 #: build/AddIns/AddIns/BackendBindings/templates/IkvmGladeApplicationProject.xpt.xml.h:2
-#, fuzzy
 msgid "IKVM Glade# Project"
-msgstr "Ajouter un nouveau projet..."
+msgstr "Projet Glade# IKVM"
 
 #: build/AddIns/AddIns/BackendBindings/templates/IkvmGnomeApplicationProject.xpt.xml.h:1
-#, fuzzy
 msgid "Create a Gnome# Java project with IKVM"
-msgstr "Créer un nouveau projet C#"
+msgstr "Crée un projet Gnome# Java avec IKVM"
 
 #: build/AddIns/AddIns/BackendBindings/templates/IkvmGnomeApplicationProject.xpt.xml.h:2
-#, fuzzy
 msgid "IKVM Gnome# Project"
-msgstr "Le projet Mono"
+msgstr "Projet Gnome# IKVM"
 
 #: build/AddIns/AddIns/BackendBindings/templates/IkvmGtkApplicationProject.xpt.xml.h:1
 msgid "Create a Gtk# Java project with IKVM"
-msgstr ""
+msgstr "Crée un projet Gtk# Java avec IKVM"
 
 #: build/AddIns/AddIns/BackendBindings/templates/IkvmGtkApplicationProject.xpt.xml.h:2
-#, fuzzy
 msgid "IKVM Gtk# Project"
-msgstr "Le projet Mono"
+msgstr "Projet Gtk#  IKVM"
 
 #: build/AddIns/AddIns/BackendBindings/templates/ILAsmConsoleProject.xpt.xml.h:1
-#, fuzzy
 msgid "ILAsm Console Project"
-msgstr "Le projet Mono"
+msgstr "Projet ILAsm Console"
 
 #: build/AddIns/AddIns/BackendBindings/templates/JavaApplet.xft.xml.h:1
-#, fuzzy
 msgid "Creates an AWT Applet"
-msgstr "Créer un nouveau projet C#"
+msgstr "Crée une applet AWT"
 
 #: build/AddIns/AddIns/BackendBindings/templates/JavaApplet.xft.xml.h:2
 msgid "Java AWT Applet"
-msgstr ""
+msgstr "Applet Java AWT"
 
 #: build/AddIns/AddIns/BackendBindings/templates/JavaApplicationProject.xpt.xml.h:1
-#, fuzzy
 msgid "Creates an AWT project."
-msgstr "Créer un nouveau projet C#"
+msgstr "Crée un projet AWT"
 
 #: build/AddIns/AddIns/BackendBindings/templates/JavaApplicationProject.xpt.xml.h:2
-#, fuzzy
 msgid "Java AWT Project"
-msgstr "Ajouter un nouveau projet..."
+msgstr "Projet Java AWT"
 
 #: build/AddIns/AddIns/BackendBindings/templates/JavaApplication.xft.xml.h:1
 msgid "Creates an AWT application."
-msgstr ""
+msgstr "Créer une application AWT"
 
 #: build/AddIns/AddIns/BackendBindings/templates/JavaApplication.xft.xml.h:2
-#, fuzzy
 msgid "Java AWT Application"
-msgstr "Tuer l'application"
+msgstr "Application Java AWT"
 
 #: build/AddIns/AddIns/BackendBindings/templates/JavaConsoleApplicationProject.xpt.xml.h:1
-#, fuzzy
 msgid "Create a console Java project"
-msgstr "Créer un nouveau projet C#"
+msgstr "Créer un nouveau projet java console"
 
 #: build/AddIns/AddIns/BackendBindings/templates/JavaConsoleApplicationProject.xpt.xml.h:2
-#, fuzzy
 msgid "Java Console Project"
-msgstr "Le projet Mono"
+msgstr "Projet Console Java"
 
 #: build/AddIns/AddIns/BackendBindings/templates/JavaDialog.xft.xml.h:1
 msgid "Creates an AWT dialog."
-msgstr ""
+msgstr "Créer une boite de dialogue AWT"
 
 #: build/AddIns/AddIns/BackendBindings/templates/JavaDialog.xft.xml.h:2
 msgid "Java AWT Dialog"
-msgstr ""
+msgstr "Boite de dialogue Java AWT"
 
 #: build/AddIns/AddIns/BackendBindings/templates/JavaFrame.xft.xml.h:1
-#, fuzzy
 msgid "Creates an AWT Frame"
-msgstr "Créer un nouveau projet C#"
+msgstr "Créer une vue AWT"
 
 #: build/AddIns/AddIns/BackendBindings/templates/JavaFrame.xft.xml.h:2
 msgid "Java AWT Frame"
-msgstr ""
+msgstr "Frame Java AWT"
 
 #: build/AddIns/AddIns/BackendBindings/templates/JavaOKDialog.xft.xml.h:1
 msgid "Creates an AWT OK Dialog."
-msgstr ""
+msgstr "Crée une boite de dialogue \"OK\" AWT"
 
 #: build/AddIns/AddIns/BackendBindings/templates/JavaOKDialog.xft.xml.h:2
 msgid "Java AWT OK Dialog"
-msgstr ""
+msgstr "Boite de dialogue \"OK\" Java AWT"
 
 #: build/AddIns/AddIns/BackendBindings/templates/JavaPanel.xft.xml.h:1
 msgid "Creates an AWT panel."
-msgstr ""
+msgstr "Crée un Panel AWT"
 
 #: build/AddIns/AddIns/BackendBindings/templates/JavaPanel.xft.xml.h:2
 msgid "Java AWT Panel"
-msgstr ""
+msgstr "Panel Java AWT"
 
 #: build/AddIns/AddIns/BackendBindings/templates/Library.xpt.xml.h:1
-#, fuzzy
 msgid "C# Library"
-msgstr "Librairie"
+msgstr "Librairie C#"
 
 #: build/AddIns/AddIns/BackendBindings/templates/Library.xpt.xml.h:2
 msgid "Creates an empty C# class library"
-msgstr ""
+msgstr "Crée une librarie vide C#"
 
 #: build/AddIns/AddIns/BackendBindings/templates/NemerleEmptyProject.xpt.xml.h:1
-#, fuzzy
-msgid "Empty Nemerle project"
-msgstr "Tout le projet"
+msgid "Creates an empty Nemerle project"
+msgstr "Créer un nouveau projet Nemrle"
 
-#~ msgid "Compiler"
-#~ msgstr "Compiler"
-
-#~ msgid "Runtime/Compiler"
-#~ msgstr "Runtime / Compilateur"
-
-#~ msgid ""
-#~ "Combine file {0} already exists, do you want to overwrite\n"
-#~ "the existing file ?"
-#~ msgstr ""
-#~ "le fichier {0} existe déjà, voulez-vous écraser\n"
-#~ "le fichier existant ?"
-
-#~ msgid "The project or source entry is empty, can't create project."
-#~ msgstr "Erreur lors de la création du projet, l'entrée du projet est vide"
-
-#~ msgid "Warning"
-#~ msgstr "Avertissement"
-
-#~ msgid "Extracted more of the archive"
-#~ msgstr "Extraire plus de l'archive"
-
-#~ msgid "Downloading database"
-#~ msgstr "Télécharger la base de données"
-
-#~ msgid "Downloaded more of {0}"
-#~ msgstr "Télécharger plus de {0}"
-
-#~ msgid "Generation Method"
-#~ msgstr "Méthode de génération"
-
-#~ msgid "Generate a code completion database"
-#~ msgstr "Générer une base de données de complétion"
-
-#~ msgid "Use a code completion database already on this computer"
-#~ msgstr ""
-#~ "Utiliser une base de données de complétion existante sur cet ordinateur"
-
-#~ msgid "Download a code completion database"
-#~ msgstr "Télécharger une base de données de complétion"
-
-#~ msgid "Select Generation Style"
-#~ msgstr "Sélectionner le style de génération"
-
-#~ msgid "Heavy process"
-#~ msgstr "Processus long"
-
-#~ msgid "Light process"
-#~ msgstr "Processus court"
-
-#~ msgid ""
-#~ "This process is slower and more memory-intensive than the light process, "
-#~ "but will enable faster code completion"
-#~ msgstr ""
-#~ "Ce processus est plus lent et consomme plus de mémoire que le processus "
-#~ "lent, mais l'autocompletion en sera plus rapide"
-
-#~ msgid ""
-#~ "This process will take less time and memory to produce the code "
-#~ "completion database, but code completion will be slower"
-#~ msgstr ""
-#~ "Ce processus prendra moins de temps pour générer la base de données de "
-#~ "complétion, mais l'autocompletion en sera plus lente"
-
-#~ msgid "Existing Database Location"
-#~ msgstr "Localisation de la base de données"
-
-#~ msgid "Select code completion database"
-#~ msgstr "Sélectionner une base de données de complétion"
-
-#~ msgid "Where is the code completion database you would like to copy"
-#~ msgstr "Ou se trouve la base de données que vous voulez copier"
-
-#~ msgid "Download Database"
-#~ msgstr "Télécharger la base de données"
-
-#~ msgid "Where would you like to download the code completion database from?"
-#~ msgstr "D'où voulez-vous downloader la base de données de complétion"
-
-#~ msgid "That Uri is invalid: {0}"
-#~ msgstr "Cette Url est invalide: {0}"
-
-#~ msgid ""
-#~ "That Uri appears not to refer to a file with a known compression type"
-#~ msgstr ""
-#~ "Cette url ne semble pas pointer sur un fichier avec un format de "
-#~ "compression connu."
-
-#~ msgid ""
-#~ "This druid will guide you through the process of creating a code "
-#~ "completion database"
-#~ msgstr ""
-#~ "Ce compagnon va vous guider dans le processus de création d'une base de "
-#~ "donnée de complétion"
-
-#~ msgid "Click Apply to start the database creation process"
-#~ msgstr "Cliquez sur Appliquer pour démarrer le processus de création"
-
-#~ msgid ""
-#~ "Are you sure you want to skip database creation? You will not have code "
-#~ "completion functionality."
-#~ msgstr ""
-#~ "Êtes-vous sur de vouloir éviter la création de base de données ? La "
-#~ "complétion automatique de code ne sera pas disponible"
-
-#~ msgid "Are you sure?"
-#~ msgstr "Êtes-vous sur?"
-
-#~ msgid "Code completion database generator"
-#~ msgstr "Génération de la base de données de complétion"
-
-#~ msgid "Creating database..."
-#~ msgstr "Créer la base de données..."
-
-#~ msgid "Cancel"
-#~ msgstr "Annuler"
-
-#~ msgid "Cancelling not available"
-#~ msgstr "Impossible d'annuler"
-
-#~ msgid "This type of code completion database generator can not be canceled"
-#~ msgstr "Ce type de génération de base de données ne peux être annulé"
-
-#~ msgid "Code completion database druid"
-#~ msgstr "Guide de base de données de complétion"
-
-#~ msgid ""
-#~ "Attempting to restart MonoDevelop, if you get any exceptions, restart "
-#~ "manually"
-#~ msgstr ""
-#~ "Essais de redémarrage de Monodevelop, si une exception se produit, "
-#~ "redémarrermanuellement"
-
-#~ msgid "Referencing existing database"
-#~ msgstr "Référencement d'une base de données existante"
-
-#~ msgid "Referenced existing database"
-#~ msgstr "Base de données existante référencée"
-
-#~ msgid "Add a file"
-#~ msgstr "Ajouter un fichier"
-
-#~ msgid "Can't deply: you forgot to specify a deployment script"
-#~ msgstr ""
-#~ "Déploiement impossible: Vous avez oublié de spécifié un script de "
-#~ "déploiement"
-
-#~ msgid "Add Reference"
-#~ msgstr "Ajouter une référence"
-
-#~ msgid "System Assemblies"
-#~ msgstr "Assemblies Systèmes"
