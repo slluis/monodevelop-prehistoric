@@ -11,15 +11,12 @@ desktop_DATA = monodevelop.desktop
 run: runmd
 
 runmd: $(PROGRAM)
-	./monodevelop
+	cd build/bin && mono --debug MonoDevelop.exe
 
 pad: $(MONOPAD)
 
 runpad: $(MONOPAD)
 	cd build/bin && mono MonoPad.exe
-
-newed : $(PROGRAM)
-	NEW_EDITOR=true ./monodevelop
 
 run-profile: $(PROGRAM)
 	cd build/bin && mono -O=inline --profile MonoDevelop.exe

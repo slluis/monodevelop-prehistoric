@@ -10,10 +10,14 @@ make
 (you need to pass the prefix where gtk# is located)
 
 To run MonoDevelop:
-./monodevelop
+make run
 
 Example:
-make clean && make && ./monodevelop
+make clean && make && make run
+
+Installing
+----------
+make install
 
 Dependencies
 ------------
