@@ -1,3 +1,7 @@
+2004-04-29  Todd Berman  <tberman@sevenl.net>
+
+	* CSharpBindingCompilerManager.cs: add a clean target
+
 2004-04-28  Todd Berman  <tberman@sevenl.net>
 
 	* CSharpBindingExecutionManager.cs: People running apps from the IDE

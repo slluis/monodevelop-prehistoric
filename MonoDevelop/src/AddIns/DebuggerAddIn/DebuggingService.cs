@@ -219,7 +219,7 @@ namespace MonoDevelop.Services
 
 			backend = new DebuggerBackend ();
 			backend.ThreadManager.InitializedEvent += new ThreadEventHandler (initialized_event);
-			backend.Run (ProcessStart.Create (null, argv));
+			backend.Run (new ProcessStart (null, argv));
 		}
 
 		public void Stop ()

@@ -18,7 +18,9 @@ EXTRA_DIST = $(FILES) $(ADDIN)
 
 if ENABLE_DEBUGGER
 
-all: $(ASSEMBLY)
+#all: $(ASSEMBLY)
+all:
+
 
 build_sources = $(addprefix $(srcdir)/, $(FILES))
 

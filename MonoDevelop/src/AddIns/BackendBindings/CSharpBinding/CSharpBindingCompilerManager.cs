@@ -359,6 +359,7 @@ namespace CSharpBinding
 				else
 					stream.WriteLine ();
 			}
+			stream.WriteLine ();
 
 			stream.WriteLine ("RESOURCES = \\");
 			for (int i = 0; i < resources.Count; i++) {
@@ -416,6 +417,10 @@ namespace CSharpBinding
 			
 			stream.WriteLine (outputName + ": $(SOURCES) $(RESOURCES)");
 			stream.WriteLine ("\tmcs /target:{0} /out:{1} $(RESOURCES_BUILD) $(GAC_REFERENCES_BUILD) $(ASSEMBLY_REFERENCES_BUILD) $(PROJECT_REFERENCES_BUILD) $(SOURCES)", target, outputName);
+
+			stream.WriteLine ();
+			stream.WriteLine ("clean:");
+			stream.WriteLine ("\trm -f {0}", outputName);
 			
 			stream.Flush ();
 			stream.Close ();

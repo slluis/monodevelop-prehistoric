@@ -1,9 +1,14 @@
+2004-04-29  Todd Berman  <tberman@sevenl.net>
+
+	* Makefile.am: dont build debugger for now. will add info in configure
+	soon
+	* DebuggingService.cs: bring up to speed with debugger from cvs.
+
 2004-04-04  Todd Berman  <tberman@sevenl.net>
 
 	* Makefile.am: change to .addin.xml for i18n
 	* MonoDevelopDebugger.addin.xml: mv
 	* MonoDevelopDebugger.addin: rm
-
 
 2004-03-29  Todd Berman  <tberman@sevenl.net>
 
