@@ -1,3 +1,9 @@
+2004-10-07  Todd Berman  <tberman@off.net>
+
+	* Servers/MessageService.cs: Fix a little (but important) bug with
+	ShowMessage not properly working. Now you can actually *close* the
+	window. Pretty good.
+
 2004-10-06  Todd Berman  <tberman@off.net>
 
 	* Services/ParserService/CodeCompletionDatabase.cs: Check to see if

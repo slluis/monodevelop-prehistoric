@@ -163,15 +163,14 @@ namespace MonoDevelop.Core.Services
 		void realShowMessage (object state)
 		{
 			string message = state as string;
-			using (Gtk.MessageDialog md = new Gtk.MessageDialog ((Gtk.Window) WorkbenchSingleton.Workbench, Gtk.DialogFlags.Modal | Gtk.DialogFlags.DestroyWithParent, Gtk.MessageType.Info, Gtk.ButtonsType.Ok, message)) {
-				md.Response += new Gtk.ResponseHandler(OnMessageResponse);
-				md.ShowAll ();
-			}
+			Gtk.MessageDialog md = new Gtk.MessageDialog ((Gtk.Window) WorkbenchSingleton.Workbench, Gtk.DialogFlags.Modal | Gtk.DialogFlags.DestroyWithParent, Gtk.MessageType.Info, Gtk.ButtonsType.Ok, message);
+			md.Response += new Gtk.ResponseHandler(OnMessageResponse);
+			md.ShowAll ();
 		}
 
 		void OnMessageResponse (object o, Gtk.ResponseArgs e)
 		{
-			((Gtk.Dialog)o).Hide ();
+			((Gtk.MessageDialog)o).Hide ();
 		}
 		
 		// call this method to show a dialog and get a response value
