@@ -21,8 +21,7 @@ namespace ICSharpCode.SharpDevelop.DefaultEditor.Gui.Editor
 		static SharpDevelopTextEditorProperties()
 		{
 			IProperties properties2 = ((IProperties)propertyService.GetProperty("ICSharpCode.TextEditor.Document.Document.DefaultDocumentAggregatorProperties", new DefaultProperties()));
-			//FontContainer.DefaultFont = FontContainer.ParseFont(properties2.GetProperty("DefaultFont", new System.Drawing.Font("Courier New", 10).ToString()));
-			FontContainer.DefaultFont = FontDescription.FromString ("Courier 10 Pitch, 10"); // FIXME PEDRO
+			FontContainer.DefaultFont = FontContainer.ParseFont(properties2.GetProperty("DefaultFont", FontDescription.FromString ("Courier New 10").ToString ()));
 			properties2.PropertyChanged += new PropertyEventHandler(CheckFontChange);
 		}
 		
