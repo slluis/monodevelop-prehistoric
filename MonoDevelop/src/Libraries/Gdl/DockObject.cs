@@ -4,6 +4,8 @@ using Gtk;
 
 namespace Gdl
 {
+	public delegate void PropertyChangedHandler (object o, string name);
+
 	public class DockObject : Container
 	{	
 		private DockObjectFlags flags = DockObjectFlags.Automatic;
@@ -16,6 +18,7 @@ namespace Gdl
 		
 		public event DetachedHandler Detached;
 		public event DockedHandler Docked;
+		public event PropertyChangedHandler PropertyChanged;
 
 		protected DockObject (IntPtr raw) : base (raw) { }
 		protected DockObject () : base () { }
@@ -26,6 +29,7 @@ namespace Gdl
 			}
 			set {
 				flags = value;
+				EmitPropertyEvent ("DockObjectFlags");
 			}
 		}
 		
@@ -77,6 +81,7 @@ namespace Gdl
 			}
 			set {
 				longName = value;
+				EmitPropertyEvent ("LongName");
 			}
 		}
 		
@@ -89,6 +94,7 @@ namespace Gdl
 					Bind (master);
 				else
 					Unbind ();
+				EmitPropertyEvent ("Master");
 			}
 		}
 		
@@ -98,6 +104,7 @@ namespace Gdl
 			}
 			set {
 				name = value;
+				EmitPropertyEvent ("Name");
 			}
 		}
 		
@@ -110,12 +117,14 @@ namespace Gdl
 				return parent != null ? (DockObject)parent : null;
 			}
 		}
+
 		public string StockId {
 			get {
 				return stockid;
 			}
 			set {
 				stockid = value;
+				EmitPropertyEvent ("StockId");
 			}
 		}
 
@@ -297,9 +306,10 @@ namespace Gdl
 			/* notify interested parties that an object has been docked. */
 			if (position != DockPlacement.None) {
 				OnDocked (requestor, position, data);
-				if (Docked != null) {
+				DockedHandler handler = Docked;
+				if (handler != null) {
 					DockedArgs args = new DockedArgs (requestor, position);
-					Docked (this, args);
+					handler (this, args);
 				}
 			}
 			
@@ -377,6 +387,16 @@ namespace Gdl
 				_master.Remove (this);
 				//g_object_notify (G_OBJECT (object) /*this*/, "master");
 			}
+		}
+		
+		protected void EmitPropertyEvent (string name)
+		{
+			// Make a local assignment of the handler here to prevent
+			// any race conditions if the PropertyChanged value changes
+			// to null after the != null check.
+			PropertyChangedHandler handler = PropertyChanged;
+			if (handler != null)
+				handler (this, name);
 		}
 	}
 }

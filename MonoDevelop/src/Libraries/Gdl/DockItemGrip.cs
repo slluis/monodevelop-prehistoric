@@ -3,141 +3,197 @@
 using System;
 using Gtk;
 
-//FIXME: Hook up the event notifyin stuff here.
-
 namespace Gdl
 {
 	public class DockItemGrip : Container
 	{
 		private DockItem item;
-		private Gdk.Window title_window;
-		private Button close_button;
-		private Button iconify_button;
+		private Gdk.Window titleWindow;
+		private Button closeButton;
+		private Button iconifyButton;
 		private Tooltips tooltips;
-		private bool icon_pixbuf_valid = false;
-		private Gdk.Pixbuf icon_pixbuf = null;
+		private Gdk.Pixbuf icon = null;
 		private string title;
-		private Pango.Layout title_layout = null;
+		private Pango.Layout layout = null;
 
 		protected DockItemGrip (IntPtr raw) : base (raw) { }
 		
-		public DockItemGrip ()
+		protected DockItemGrip ()
 		{
 			Flags |= (int)WidgetFlags.NoWindow;
 			
 			Widget.PushCompositeChild ();
-			close_button = new Button ();
+			closeButton = new Button ();
 			Widget.PopCompositeChild ();
 			
-			close_button.Flags &= ~(int)WidgetFlags.CanFocus;
-			close_button.Parent = this;
-			close_button.Relief = ReliefStyle.None;
-			close_button.Show ();
+			closeButton.Flags &= ~(int)WidgetFlags.CanFocus;
+			closeButton.Parent = this;
+			closeButton.Relief = ReliefStyle.None;
+			closeButton.Show ();
 			
 			Image image = new Image (Gdl.Stock.Close, IconSize.Menu);
-			close_button.Add (image);
+			closeButton.Add (image);
 			image.Show ();
 			
-			close_button.Clicked += new EventHandler (CloseClicked);
+			closeButton.Clicked += new EventHandler (CloseClicked);
 			
 			Widget.PushCompositeChild ();
-			iconify_button = new Button ();
+			iconifyButton = new Button ();
 			Widget.PopCompositeChild ();
 			
-			iconify_button.Flags &= ~(int)(WidgetFlags.CanFocus);
-			iconify_button.Parent = this;
-			iconify_button.Relief = ReliefStyle.None;
-			iconify_button.Show ();
+			iconifyButton.Flags &= ~(int)(WidgetFlags.CanFocus);
+			iconifyButton.Parent = this;
+			iconifyButton.Relief = ReliefStyle.None;
+			iconifyButton.Show ();
 			
 			image = new Image (Gdl.Stock.MenuLeft, IconSize.Menu);
-			iconify_button.Add (image);
+			iconifyButton.Add (image);
 			image.Show ();
 			
-			iconify_button.Clicked += new EventHandler (IconifyClicked);
+			iconifyButton.Clicked += new EventHandler (IconifyClicked);
 			
 			tooltips = new Tooltips ();
-			tooltips.SetTip (iconify_button, "Iconify", "Iconify this dock");
-			tooltips.SetTip (close_button, "Close", "Close this dock");
+			tooltips.SetTip (iconifyButton, "Iconify", "Iconify this dock");
+			tooltips.SetTip (closeButton, "Close", "Close this dock");
 		}
 		
 		public DockItemGrip (DockItem item) : this ()
 		{
+			if (item == null)
+				throw new ArgumentNullException ("A valid DockItem must be given");
 			Item = item;
 		}
 		
+		private Gdk.Pixbuf Icon {
+			get {
+				if (icon == null && item.StockId != null)
+					icon = RenderIcon (item.StockId, IconSize.Menu, "");
+				return icon;
+			}
+		}
+		
 		public DockItem Item {
-			get { return item; }
+			get {
+				return item;
+			}
 			set {
-				//hookup notify stuff here
 				item = value;
-				if (!(item.CantClose) && close_button != null)
-					close_button.Show ();
-				if (!(item.CantIconify) && iconify_button != null)
-					iconify_button.Show ();
+				item.PropertyChanged += OnPropertyChanged;
+				
+				if (!item.CantClose)
+					closeButton.Show ();
+				else
+					closeButton.Hide ();
+
+				if (!item.CantIconify)
+					iconifyButton.Show ();
+				else
+					iconifyButton.Hide ();
+
+				icon = null;
+				layout = null;
+				title = null;
+			}
+		}
+		
+		private Pango.Layout Layout {
+			get {
+				if (layout == null) {
+					layout = CreatePangoLayout (Title);
+					layout.SingleParagraphMode = true;
+				}
+				return layout;
+			}
+		}
+		
+		private string Title {
+			get {
+				if (title == null) {
+					if (item.LongName != null)
+						title = item.LongName;
+					else
+						title = "";
+				}
+				return title;
+			}
+			set {
+				title = value;
+				if (layout != null)
+					layout.SetText (Title);
+			}
+		}
+		
+		private Gdk.Rectangle TitleArea {
+			get {
+				Gdk.Rectangle area;
+				int bw = (int)BorderWidth;
+				int height, width;
+				
+				area.Width = Allocation.Width - 2 * bw;
+				
+				Layout.GetPixelSize (out width, out height);
+				
+				if (closeButton.Visible) {
+					height = Math.Max (height, closeButton.Allocation.Height);
+					area.Width -= closeButton.Allocation.Width;
+				}
+				
+				if (iconifyButton.Visible) {
+					height = Math.Max (height, iconifyButton.Allocation.Height);
+					area.Width -= iconifyButton.Allocation.Width;
+				}
+				
+				area.X = Allocation.X + bw;
+				area.Y = Allocation.Y + bw;
+				area.Height = height;
+				
+				if (Direction == TextDirection.Rtl)
+					area.X += (Allocation.Width - 2 * bw) - area.Width;
+					
+				return area;
 			}
 		}
 		
 		public Gdk.Window TitleWindow {
-			get { return title_window; }
-			set { title_window = value; }
+			get {
+				return titleWindow;
+			}
+			set {
+				titleWindow = value;
+			}
 		}
 		
-		public Gdk.Rectangle GetTitleArea ()
+		private void OnPropertyChanged (object o, string name)
 		{
-			Gdk.Rectangle area;
-			int border = (int)BorderWidth;
-			int alloc_height, alloc_width;
-			
-			area.Width = (Allocation.Width - 2 * border);
-			
-			title_layout.GetPixelSize (out alloc_width, out alloc_height);
-			
-			if (close_button.Visible) {
-				alloc_height = Math.Max (alloc_height, close_button.Allocation.Height);
-				area.Width -= close_button.Allocation.Width;
-			}
-			if (iconify_button.Visible) {
-				alloc_height = Math.Max (alloc_height, iconify_button.Allocation.Height);
-				area.Width -= close_button.Allocation.Width;
-			}
-			
-			area.X = Allocation.X + border;
-			area.Y = Allocation.Y + border;
-			area.Height = alloc_height;
-			
-			if (Direction == TextDirection.Rtl)
-				area.X += (Allocation.Width - 2 * border) - area.Width;
-				
-			return area;
-		}
-		
-		private void EnsureTitleAndIconPixbuf ()
-		{
-			if (title == null) {
-				title = item.LongName;
-				if (title == null)
-					title = "";
-			}
-			
-			if (!icon_pixbuf_valid) {
-				if (item.StockId != null) {
-					icon_pixbuf = RenderIcon (item.StockId, IconSize.Menu, "");
-				}
-				icon_pixbuf_valid = true;
-			}
-			
-			if (title_layout == null) {
-				title_layout = CreatePangoLayout (title);
-				title_layout.SingleParagraphMode = true;
+			switch (name) {
+			case "StockId":
+				icon = RenderIcon (item.StockId, IconSize.Menu, "");
+				break;
+			case "LongName":
+				Title = item.LongName;
+				break;
+			case "Behavior":
+				if (!item.CantClose)
+					closeButton.Show ();
+				else
+					closeButton.Hide ();
+
+				if (!item.CantIconify)
+					iconifyButton.Show ();
+				else
+					iconifyButton.Hide ();
+				break;
+			default:
+				break;
 			}
 		}
 
 		/*protected override void OnDestroyed ()
 		{
-			if (title_layout != null)
-				title_layout = null;
-			if (icon_pixbuf != null)
-				icon_pixbuf = null;
+			if (layout != null)
+				layout = null;
+			if (icon != null)
+				icon = null;
 			if (tooltips != null)
 				tooltips = null;
 			if (item != null) {
@@ -149,38 +205,47 @@ namespace Gdl
 	
 		protected override bool OnExposeEvent (Gdk.EventExpose evnt)
 		{
-			Gdk.Rectangle title_area = GetTitleArea ();
-			Gdk.Rectangle expose_area;
+			Gdk.Rectangle titleArea = TitleArea;
+			Gdk.Rectangle exposeArea;
 			
-			if (icon_pixbuf != null) {
-				Gdk.Rectangle pixbuf_rect;
-				pixbuf_rect.Width = icon_pixbuf.Width;
-				pixbuf_rect.Height = icon_pixbuf.Height;
+			if (Icon != null) {
+				Gdk.Rectangle pixbufRect;
+				pixbufRect.Width = icon.Width;
+				pixbufRect.Height = icon.Height;
 				
 				if (Direction == TextDirection.Rtl) {
-					pixbuf_rect.X = title_area.X + title_area.Width - pixbuf_rect.Width;
+					pixbufRect.X = titleArea.X + titleArea.Width - pixbufRect.Width;
 				} else {
-					pixbuf_rect.X = title_area.X;
-					title_area.X += pixbuf_rect.Width + 1;
+					pixbufRect.X = titleArea.X;
+					titleArea.X += pixbufRect.Width + 1;
 				}
 				
-				title_area.Width -= pixbuf_rect.Width - 1;
-				pixbuf_rect.Y = title_area.Y + (title_area.Height - pixbuf_rect.Height) / 2;
-				if (evnt.Area.Intersect (pixbuf_rect, out expose_area)) {
+				titleArea.Width -= pixbufRect.Width - 1;
+				pixbufRect.Y = titleArea.Y + (titleArea.Height - pixbufRect.Height) / 2;
+
+				if (evnt.Area.Intersect (pixbufRect, out exposeArea)) {
 					Gdk.GC gc = Style.BackgroundGC (State);
-					GdkWindow.DrawPixbuf (gc, icon_pixbuf, 0, 0, pixbuf_rect.X, pixbuf_rect.Y, pixbuf_rect.Width, pixbuf_rect.Height, Gdk.RgbDither.None, 0, 0);
+					GdkWindow.DrawPixbuf (gc, icon, 0, 0, pixbufRect.X,
+							      pixbufRect.Y, pixbufRect.Width,
+							      pixbufRect.Height, Gdk.RgbDither.None,
+							      0, 0);
 				}
 			}
 
-			if (title_area.Intersect (evnt.Area, out expose_area)) {
-				int layout_width, layout_height, text_x, text_y;
-				title_layout.GetPixelSize (out layout_width, out layout_height);
+			if (titleArea.Intersect (evnt.Area, out exposeArea)) {
+				int width, height, textX, textY;
+				Layout.GetPixelSize (out width, out height);
+				
 				if (Direction == TextDirection.Rtl)
-					text_x = title_area.X + title_area.Width - layout_width;
+					textX = titleArea.X + titleArea.Width - width;
 				else
-					text_x = title_area.X;
-				text_y = title_area.Y + (title_area.Height - layout_height) / 2;
-				Style.PaintLayout (Style, GdkWindow, State, true, expose_area, this, null, text_x, text_y, title_layout);
+					textX = titleArea.X;
+
+				textY = titleArea.Y + (titleArea.Height - height) / 2;
+	
+				Style.PaintLayout (Style, GdkWindow, State, true,
+						   exposeArea, this, null, textX,
+						   textY, layout);
 			}
 			
 			return base.OnExposeEvent (evnt);
@@ -194,19 +259,17 @@ namespace Gdl
 		private void IconifyClicked (object o, EventArgs e)
 		{
 			item.IconifyItem ();
-			iconify_button.InButton = false;
-			iconify_button.Leave ();
+			iconifyButton.InButton = false;
+			iconifyButton.Leave ();
 		}
 		
 		protected override void OnRealized ()
 		{
 			base.OnRealized ();
-			if (title_window == null) {
+
+			if (titleWindow == null) {
 				Gdk.WindowAttr attributes = new Gdk.WindowAttr ();
-				
-				EnsureTitleAndIconPixbuf ();
-				
-				Gdk.Rectangle area = GetTitleArea ();
+				Gdk.Rectangle area = TitleArea;
 				
 				attributes.X = area.X;
 				attributes.Y = area.Y;
@@ -215,36 +278,45 @@ namespace Gdl
 				attributes.WindowType = Gdk.WindowType.Temp;
 				attributes.Wclass = Gdk.WindowClass.InputOnly;
 				attributes.OverrideRedirect = true;
-				attributes.EventMask = (int) (Events | Gdk.EventMask.ButtonPressMask | Gdk.EventMask.ButtonReleaseMask | Gdk.EventMask.ButtonMotionMask);
-				title_window = new Gdk.Window (ParentWindow, attributes, (int) (Gdk.WindowAttributesType.X | Gdk.WindowAttributesType.Y | Gdk.WindowAttributesType.Noredir));
-				title_window.UserData = Handle;
-				title_window.Cursor = new Gdk.Cursor (Display, Gdk.CursorType.Hand2);
+				attributes.EventMask = (int) (Events |
+					Gdk.EventMask.ButtonPressMask |
+					Gdk.EventMask.ButtonReleaseMask |
+					Gdk.EventMask.ButtonMotionMask);
+	
+				titleWindow = new Gdk.Window (ParentWindow, attributes,
+					(int) (Gdk.WindowAttributesType.X |
+					Gdk.WindowAttributesType.Y |
+					Gdk.WindowAttributesType.Noredir));
+
+				titleWindow.UserData = Handle;
+				titleWindow.Cursor = new Gdk.Cursor (Display, Gdk.CursorType.Hand2);
 			}
 		}
 		
 		protected override void OnUnrealized ()
 		{
-			if (title_window != null) {
-				title_window.UserData = IntPtr.Zero;
-				title_window.Destroy ();
-				title_window = null;
+			if (titleWindow != null) {
+				titleWindow.UserData = IntPtr.Zero;
+				titleWindow.Destroy ();
+				titleWindow = null;
 			}
+
 			base.OnUnrealized ();
 		}
 		
 		protected override void OnMapped ()
 		{
 			base.OnMapped ();
-			if (title_window != null) {
-				title_window.Show ();
-			}
+
+			if (titleWindow != null)
+				titleWindow.Show ();
 		}
 		
 		protected override void OnUnmapped ()
 		{
-			if (title_window != null) {
-				title_window.Hide ();
-			}
+			if (titleWindow != null)
+				titleWindow.Hide ();
+
 			base.OnUnmapped ();
 		}
 		
@@ -253,103 +325,104 @@ namespace Gdl
 			requisition.Width = (int)BorderWidth * 2;
 			requisition.Height = (int)BorderWidth * 2;
 
-			EnsureTitleAndIconPixbuf ();
-			
-			if (close_button.Visible) {
-				Requisition childReq = close_button.SizeRequest ();
+			if (closeButton.Visible) {
+				Requisition childReq = closeButton.SizeRequest ();
 				requisition.Width += childReq.Width;
 				requisition.Height = Math.Max (requisition.Height,
 							       childReq.Height);
 			}
 			
-			if (iconify_button.Visible) {
-				Requisition childReq = iconify_button.SizeRequest ();
+			if (iconifyButton.Visible) {
+				Requisition childReq = iconifyButton.SizeRequest ();
 				requisition.Width += childReq.Width;
 				requisition.Height = Math.Max (requisition.Height,
 							       childReq.Height);
 			}
 			
-			if (icon_pixbuf != null) {
-				requisition.Width += icon_pixbuf.Width + 1;
+			if (Icon != null) {
+				requisition.Width += icon.Width + 1;
 				requisition.Height = Math.Max (requisition.Height,
-							       icon_pixbuf.Height);
+							       icon.Height);
 			}
 		}
 		
 		private void EllipsizeLayout (int width)
 		{
 			if (width <= 0) {
-				title_layout.SetText ("");
+				layout.SetText ("");
 				return;
 			}
 			
 			int w, h, ell_w, ell_h, x, empty;
-			title_layout.GetPixelSize (out w, out h);
+			layout.GetPixelSize (out w, out h);
 			if (w <= width) return;
 			
-			Pango.Layout ell = title_layout.Copy ();
+			Pango.Layout ell = layout.Copy ();
 			ell.SetText ("...");
 			ell.GetPixelSize (out ell_w, out ell_h);
 			if (width < ell_w) {
-				title_layout.SetText ("");
+				layout.SetText ("");
 				return;
 			}
 			
 			width -= ell_w;
-			Pango.LayoutLine line = title_layout.GetLine (0);
-			string text = title_layout.Text;
+			Pango.LayoutLine line = layout.GetLine (0);
+			string text = layout.Text;
 			if (line.XToIndex (width * 1024, out x, out empty)) {
-				title_layout.SetText (text.Substring (0, x) + "...");
+				layout.SetText (text.Substring (0, x) + "...");
 			}
 		}
 		
 		protected override void OnSizeAllocated (Gdk.Rectangle allocation)
 		{
 			base.OnSizeAllocated (allocation);
-			Gdk.Rectangle child_allocation;
+
+			Gdk.Rectangle childAlloc;
+			int bw = (int)BorderWidth;
 			
 			if (Direction == TextDirection.Rtl)
-				child_allocation.X = allocation.X + (int)BorderWidth;
+				childAlloc.X = allocation.X + bw;
 			else
-				child_allocation.X = allocation.X + allocation.Width - (int)BorderWidth;
-			child_allocation.Y = allocation.Y + (int)BorderWidth;
+				childAlloc.X = allocation.X + allocation.Width - bw;
+			childAlloc.Y = allocation.Y + bw;
 			
-			if (close_button.Visible) {
-				Requisition button_requisition = close_button.SizeRequest ();
+			if (closeButton.Visible) {
+				Requisition buttonReq = closeButton.SizeRequest ();
+
 				if (Direction != TextDirection.Rtl) 
-					child_allocation.X -= button_requisition.Width;
+					childAlloc.X -= buttonReq.Width;
+				childAlloc.Width = buttonReq.Width;
+				childAlloc.Height = buttonReq.Height;
 				
-				child_allocation.Width = button_requisition.Width;
-				child_allocation.Height = button_requisition.Height;
-				
-				close_button.SizeAllocate (child_allocation);
+				closeButton.SizeAllocate (childAlloc);
 				
 				if (Direction == TextDirection.Rtl)
-					child_allocation.X += button_requisition.Width;
+					childAlloc.X += buttonReq.Width;
 			}
 			
-			if (iconify_button.Visible) {
-				Requisition button_requisition = iconify_button.SizeRequest ();
+			if (iconifyButton.Visible) {
+				Requisition buttonReq = iconifyButton.SizeRequest ();
+				
 				if (Direction != TextDirection.Rtl)
-					child_allocation.X -= button_requisition.Width;
+					childAlloc.X -= buttonReq.Width;
+				childAlloc.Width = buttonReq.Width;
+				childAlloc.Height = buttonReq.Height;
 				
-				child_allocation.Width = button_requisition.Width;
-				child_allocation.Height = button_requisition.Height;
-				
-				iconify_button.SizeAllocate (child_allocation);
+				iconifyButton.SizeAllocate (childAlloc);
 				
 				if (Direction == TextDirection.Rtl)
-					child_allocation.X += button_requisition.Width;
+					childAlloc.X += buttonReq.Width;
 			}
 			
-			if (title_window != null) {
-				EnsureTitleAndIconPixbuf ();
-				title_layout.SetText (title);
-				Gdk.Rectangle area = GetTitleArea ();
-				title_window.MoveResize (area.X, area.Y, area.Width, area.Height);
-				if (icon_pixbuf != null) {
-					area.Width -= icon_pixbuf.Width + 1;
-				}
+			if (TitleWindow != null) {
+				layout.SetText (title);
+
+				Gdk.Rectangle area = TitleArea;
+				titleWindow.MoveResize (area.X, area.Y,area.Width, area.Height);
+				
+				if (Icon != null)
+					area.Width -= icon.Width + 1;
+				
 				EllipsizeLayout (area.Width);
 			}
 		}
@@ -367,8 +440,8 @@ namespace Gdl
 		protected override void ForAll (bool include_internals, CallbackInvoker invoker)
 		{
 			if (include_internals) {
-				invoker.Invoke (close_button);
-				invoker.Invoke (iconify_button);
+				invoker.Invoke (closeButton);
+				invoker.Invoke (iconifyButton);
 			}
 		}
 	}

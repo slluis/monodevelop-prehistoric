@@ -16,9 +16,19 @@ class T
 		app.SetDefaultSize (400, 400);
 		app.DeleteEvent += new DeleteEventHandler (OnAppDelete);
 		
-		Dock dock = new Dock ();
-		//DockLayout layout = new DockLayout (dock);
+		Box table = new VBox (false, 5);
+		table.BorderWidth = 10;
+		app.Add (table);
 		
+		Dock dock = new Dock ();		
+		//DockLayout layout = new DockLayout (dock);
+		//DockBar dockbar = new DockBar (dock);
+		
+		Box box = new HBox (false, 5);
+		//box.PackStart (dockbar, false, false, 0);
+		box.PackEnd (dock, true, true, 0);
+		table.PackStart (box, true, true, 0);
+
 		DockItem di = new DockItem ("item1", "Item #1", DockItemBehavior.Locked);
 		di.Add (CreateTextView ());
 		dock.AddItem (di, DockPlacement.Top);
@@ -31,13 +41,9 @@ class T
 		DockItem di3 = new DockItem ("item3", "Item #3 has accented characters",/* (áéíóúñ)",*/
 					     Gtk.Stock.Convert, DockItemBehavior.Normal |
 					     DockItemBehavior.CantClose);
-		di3.Add (CreateTextView ());
+		di3.Add (new Button ("Button 3"));
 		dock.AddItem (di3, DockPlacement.Bottom);
 
-		DockItem di4 = new DockItem ("itemfloat", "Floating Item", Gtk.Stock.Convert, DockItemBehavior.Normal);
-		di4.Add (new Label ("Floating dockitem"));
-		dock.AddFloatingItem (di4, 10, 10, 200, 200);
-		
 		DockItem[] items = new DockItem[4];
 		items[0] = new DockItem ("item4", "Item #4", Gtk.Stock.JustifyFill,
 					 DockItemBehavior.Normal | DockItemBehavior.CantIconify);
@@ -57,8 +63,23 @@ class T
 		di3.DockTo (di, DockPlacement.Top);
 		di2.DockTo (di3, DockPlacement.Right);
 		di2.DockTo (di3, DockPlacement.Left);
+		di2.DockTo (null, DockPlacement.Floating);
 
-		app.Add (dock);
+		box = new HBox (true, 5);
+		table.PackEnd (box, false, false, 0);
+		
+		Button button = new Button (Gtk.Stock.Save);
+		button.Clicked += OnSaveLayout;
+		box.PackEnd (button, false, true, 0);
+		
+		button = new Button ("Layout Manager");
+		button.Clicked += OnRunLayoutManager;
+		box.PackEnd (button, false, true, 0);
+
+		button = new Button ("Dump XML");
+		button.Clicked += OnDumpXML;
+		box.PackEnd (button, false, true, 0);
+
 		app.ShowAll ();
 		Application.Run ();
 	}
@@ -74,6 +95,18 @@ class T
 		sw.ShowAll ();
 
 		return sw;
+	}
+	
+	private void OnSaveLayout (object o, EventArgs args)
+	{
+	}
+	
+	private void OnRunLayoutManager (object o, EventArgs args)
+	{
+	}
+	
+	private void OnDumpXML (object o, EventArgs args)
+	{
 	}
 	
 	private void OnAppDelete (object o, DeleteEventArgs args)

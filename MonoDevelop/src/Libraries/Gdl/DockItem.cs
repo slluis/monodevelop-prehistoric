@@ -74,14 +74,10 @@ namespace Gdl
 				DockItemBehavior oldBehavior = behavior;
 				behavior = value;
 				if (((oldBehavior ^ behavior) & DockItemBehavior.Locked) != 0) {
-					/* PORT THIS:
-					                if (GDL_DOCK_OBJECT_GET_MASTER (item))
-                    g_signal_emit_by_name (GDL_DOCK_OBJECT_GET_MASTER (item),
-                                           "layout_changed");
-                g_object_notify (g_object, "locked");
-                gdl_dock_item_showhide_grip (item);
-                */
-                		}
+					if (Master != null)
+						Master.EmitLayoutChangedEvent ();
+				}
+				EmitPropertyEvent ("Behavior");
 			}
 		}
 		
@@ -165,17 +161,16 @@ namespace Gdl
 				return ((behavior & DockItemBehavior.Locked) != 0);
 			}
 			set {
-				DockItemBehavior old_beh = behavior;
+				DockItemBehavior oldBehavior = behavior;
 				if (value)
 					behavior |= DockItemBehavior.Locked;
 				else
 					behavior &= ~(DockItemBehavior.Locked);
-				if ((old_beh ^ behavior) != 0) {
-					//PORT THIS:
-					//gdl_dock_item_showhide_grip (item /*this*/);
-					//g_object_notify (g_object, "behavior");
-					//if (GDL_DOCK_OBJECT_GET_MASTER (item))
-					//    g_signal_emit_by_name (GDL_DOCK_OBJECT_GET_MASTER (item)), "layout_changed");
+
+				if ((oldBehavior ^ behavior) != 0) {
+					if (Master != null)
+						Master.EmitLayoutChangedEvent ();
+					EmitPropertyEvent ("Locked");
 				}
 			}
 		}
@@ -186,6 +181,7 @@ namespace Gdl
 			}
 			set {
 				SetOrientation (value);
+				EmitPropertyEvent ("Orientation");
 			}
 		}
 		
@@ -214,6 +210,7 @@ namespace Gdl
 			set {
 				resize = value;
 				QueueResize ();
+				EmitPropertyEvent ("Resize");
 			}
 		}
 		

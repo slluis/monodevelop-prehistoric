@@ -377,5 +377,10 @@ namespace Gdl
 				}
 			}
 		}
+		
+		internal void EmitLayoutChangedEvent ()
+		{
+			// FIXME: emit the LayoutChanged event here.
+		}
 	}
 }
