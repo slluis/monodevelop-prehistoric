@@ -314,7 +314,7 @@
                                   class ="ICSharpCode.SharpDevelop.DefaultEditor.Commands.ConvertLeadingSpacesToTabs"/>
         		</Conditional>
                 </MenuItem>
-                <MenuItem insertafter = "Format" insertbefore = "Separator3" id = "Folding" label = "${res:XML.MainMenu.EditMenu.FoldingMenu}">
+                <!-- <MenuItem insertafter = "Format" insertbefore = "Separator3" id = "Folding" label = "${res:XML.MainMenu.EditMenu.FoldingMenu}">
 	                <Conditional activewindow="ICSharpCode.SharpDevelop.DefaultEditor.Gui.Editor.ITextEditorControlProvider" action="Disable">
 	                        <MenuItem id          = "ToggleFolding"
         	                          label       = "${res:XML.MainMenu.EditMenu.FoldingMenu.ToggleFolding}"
@@ -332,7 +332,7 @@
        					  shortcut    = "Shift|Control|P"
 	                                  class       = "ICSharpCode.SharpDevelop.DefaultEditor.Commands.ShowDefinitionsOnly"/>
         		</Conditional>
-                </MenuItem>
+                </MenuItem> -->
                 <MenuItem insertafter = "Separator2" insertbefore = "SelectAll" id = "Separator3" label = "-" />
 	</Extension>
 
