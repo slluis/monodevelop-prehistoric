@@ -211,6 +211,10 @@ namespace ICSharpCode.SharpDevelop.Commands
 			((Gtk.Window)WorkbenchSingleton.Workbench).ShowAll ();
 			WorkbenchSingleton.Workbench.RedrawAllComponents ();
 		
+			// Give Gtk time to display the workbench window before showing the TOTD.
+			while (Gtk.Application.EventsPending ())
+				Gtk.Application.RunIteration ();
+		
 			ShowTipOfTheDay (null, null);
 		
 			// finally run the workbench window ...

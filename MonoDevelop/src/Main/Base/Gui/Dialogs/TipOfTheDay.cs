@@ -21,108 +21,85 @@ using ICSharpCode.Core.Services;
 
 namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 {
-	public class TipOfTheDayView : Frame
+	public class TipOfTheDayWindow
 	{
+ 		ResourceService resourceService = (ResourceService)ServiceManager.Services.GetService (typeof (IResourceService));
+ 		PropertyService propertyService = (PropertyService)ServiceManager.Services.GetService (typeof (PropertyService));
 
-		TextBuffer buffer;
+		[Glade.Widget] Label categoryLabel;
+		[Glade.Widget] TextView tipTextview;
+		[Glade.Widget] CheckButton noshowCheckbutton;
+		[Glade.Widget] Button nextButton;
+		[Glade.Widget] Button closeButton;
+		[Glade.Widget] Window tipOfTheDayWindow;
+
 		string[] tips;
-		int curtip = 0;
-		ResourceService resourceService = (ResourceService)ServiceManager.Services.GetService(typeof(IResourceService));
-		
-		public TipOfTheDayView(XmlElement el) : base ()
-		{
+		int currentTip = 0;
 
+		public TipOfTheDayWindow ()
+		{
+			Glade.XML totdXml = new Glade.XML (null, "Base.glade",
+							   "tipOfTheDayWindow",
+							   null);
+			totdXml.Autoconnect (this);
+			
+			noshowCheckbutton.Active = propertyService.GetProperty ("ICSharpCode.SharpDevelop.Gui.Dialog.TipOfTheDayView.ShowTipsAtStartup", true);
+			noshowCheckbutton.Toggled += new EventHandler (OnNoshow);
+			nextButton.Clicked += new EventHandler (OnNext);
+			closeButton.Clicked += new EventHandler (OnClose);
+			tipOfTheDayWindow.DeleteEvent += new DeleteEventHandler (OnDelete);
+
+ 			XmlDocument doc = new XmlDocument();
+ 			doc.Load (propertyService.DataDirectory +
+				  System.IO.Path.DirectorySeparatorChar + "options" +
+				  System.IO.Path.DirectorySeparatorChar + "TipsOfTheDay.xml");
+			ParseTips (doc.DocumentElement);
+			
+			tipTextview.Buffer.Clear ();
+			tipTextview.Buffer.InsertAtCursor (tips[currentTip]);
+		}
+
+		private void ParseTips (XmlElement el)
+		{
+ 			StringParserService stringParserService = (StringParserService)ServiceManager.Services.GetService (typeof (StringParserService));
  			XmlNodeList nodes = el.ChildNodes;
- 			StringParserService stringParserService = (StringParserService)ServiceManager.Services.GetService(typeof(StringParserService));
  			tips = new string[nodes.Count];
 			
- 			for (int i = 0; i < nodes.Count; ++i) {
- 				tips[i] = stringParserService.Parse(nodes[i].InnerText);
+ 			for (int i = 0; i < nodes.Count; i++) {
+ 				tips[i] = stringParserService.Parse (nodes[i].InnerText);
  			}
 			
- 			curtip = (new Random().Next()) % nodes.Count;
-
-			TextView view = new TextView ();
-			view.WrapMode = WrapMode.Word;
-			view.Editable = false;
-			buffer = view.Buffer;
-			buffer.InsertAtCursor(tips[curtip]);
-
-			this.Add(view);
-			
+ 			currentTip = (new Random ().Next ()) % nodes.Count;
 		}
-		
-		public void NextTip()
+
+		public void OnNoshow (object obj, EventArgs args)
 		{
-			buffer.Clear();
- 			curtip = (curtip + 1) % tips.Length;
-			buffer.InsertAtCursor(tips[curtip]);
+			propertyService.SetProperty ("ICSharpCode.SharpDevelop.Gui.Dialog.TipOfTheDayView.ShowTipsAtStartup",
+						    noshowCheckbutton.Active);
 		}
-	}
-	
-	public class TipOfTheDayDialog  : MessageDialog
-	{
 
-		enum UserDefinedResponseType {Next=1, Show}
-
- 		CheckButton viewTipsAtStartCheckBox;
- 		Button   closeButton;
- 		Button   nextTipButton;
-		
- 		TipOfTheDayView tipview;
- 		ResourceService resourceService = (ResourceService)ServiceManager.Services.GetService(typeof(IResourceService));
- 		PropertyService propertyService = (PropertyService)ServiceManager.Services.GetService(typeof(PropertyService));
-
-		public TipOfTheDayDialog() :  base ((Window) WorkbenchSingleton.Workbench,
-				                    DialogFlags.DestroyWithParent,
-				                    MessageType.Info,
-				                    ButtonsType.None,
-				                    "")
+		public void OnNext (object obj, EventArgs args)
 		{
-
-			this.Modal = false;
-
-			this.Title = resourceService.GetString ("Dialog.TipOfTheDay.DidYouKnowText");
-		
-			this.SetDefaultSize (320, 240);
-
-			viewTipsAtStartCheckBox = new CheckButton("Show tips at startup");
- 			viewTipsAtStartCheckBox.Active = propertyService.GetProperty("ICSharpCode.SharpDevelop.Gui.Dialog.TipOfTheDayView.ShowTipsAtStartup", true);
-			this.AddActionWidget(viewTipsAtStartCheckBox, (int) UserDefinedResponseType.Show);
-
-			nextTipButton = (Button) this.AddButton ("_Next Tip", (int) UserDefinedResponseType.Next);
-			closeButton = (Button) this.AddButton (Stock.Close, (int) ResponseType.Close);
-			
- 			FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.Services.GetService(typeof(FileUtilityService));
- 			PropertyService propertyService = (PropertyService)ServiceManager.Services.GetService(typeof(PropertyService));
-			
- 			XmlDocument doc = new XmlDocument();
- 			doc.Load(propertyService.DataDirectory +
- 			         System.IO.Path.DirectorySeparatorChar + "options" +
- 			         System.IO.Path.DirectorySeparatorChar + "TipsOfTheDay.xml" );
- 			tipview = new TipOfTheDayView(doc.DocumentElement);
-
-			this.Response += new ResponseHandler (HandleResponse);
-
- 			this.VBox.PackStart(tipview);
-			this.ShowAll();
+			tipTextview.Buffer.Clear ();
+			currentTip = ++currentTip % tips.Length;
+			tipTextview.Buffer.InsertAtCursor (tips[currentTip]);
 		}
 
-		public void HandleResponse (object sender, ResponseArgs e)
+		public void OnClose (object obj, EventArgs args)
 		{
-			switch (e.ResponseId) 
-			{
-			case (int) ResponseType.Close : 
-				this.Hide ();
-				break;
-			case (int) UserDefinedResponseType.Next : 
-				tipview.NextTip();
-				break;
-			case (int) UserDefinedResponseType.Show : 
-				propertyService.SetProperty("ICSharpCode.SharpDevelop.Gui.Dialog.TipOfTheDayView.ShowTipsAtStartup", viewTipsAtStartCheckBox.Active);
-				break;
-			}
+			tipOfTheDayWindow.Destroy ();
 		}
-		
+
+		public void OnDelete (object obj, DeleteEventArgs args)
+		{
+			tipOfTheDayWindow.Destroy ();
+		}
+
+		public void Show ()
+		{
+			tipOfTheDayWindow.TransientFor = (Window) WorkbenchSingleton.Workbench;
+			tipOfTheDayWindow.WindowPosition = WindowPosition.CenterOnParent;
+			tipOfTheDayWindow.ShowAll ();
+		}
 	}
 }

@@ -87,8 +87,8 @@ namespace ICSharpCode.SharpDevelop.Commands
 	{
 		public override void Run()
 		{
-			TipOfTheDayDialog totdd = new TipOfTheDayDialog ();
-			totdd.Run ();
+			TipOfTheDayWindow totdw = new TipOfTheDayWindow ();
+			totdw.Show ();
 		}
 	}
 	
