@@ -1,3 +1,7 @@
+2004-03-04  Mike Kestner  <mkestner@ximian.com>
+
+	* Main/Base/Services/DebuggingService.cs (Run): ignore if running
+
 2004-03-03 John BouAntoun  <jba-mono@optusnet.com.au>
 	* src/Main/Base/Commands/ProjectOptionsCommands.cs : enabled all the projections command actions
 	* src/Main/Base/Gui/Dialogs/ProjectOptionsDialog.cs : added code to display the configuration options nodes

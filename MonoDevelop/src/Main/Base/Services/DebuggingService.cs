@@ -91,6 +91,9 @@ namespace MonoDevelop.Services
 
 		public void Run (string[] argv)
 		{
+			if (Debugging)
+				return;
+
 			backend = new DebuggerBackend ();
 			foreach (string key in breakpoints.Keys) {
 				Breakpoint point = CreateBreakpoint (key);
