@@ -408,6 +408,9 @@ namespace MonoDevelop.Internal.Project
 				psi = new ProcessStartInfo("xterm",
 					String.Format (@"-e ""cd {3} ; '{0}' {1} ; {2}""", configuration.ExecuteScript, args, additionalCommands, BaseDirectory));
 				psi.UseShellExecute = false;
+				Process p = new Process ();
+				p.StartInfo = psi;
+				p.Start ();
 			} else {
 				DoExecute ();
 			}
