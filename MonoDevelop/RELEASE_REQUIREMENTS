@@ -12,3 +12,5 @@ Here is the short list of features to finish before the preview release
 ~ Finish HtmlControl
 ~ Revert back to the old popup mechanism (immediate) and have an option
   'autopopup on/off' to control if it comes up or requires a ctrl+space to popup
+~ Fixing the cut/copy bug made selection really really slow. This *needs* to be
+  fixed asap
