@@ -860,8 +860,6 @@ namespace ICSharpCode.SharpRefactory.Parser
 		void ReadMultiLineComment()
 		{
 			specialTracker.StartComment(CommentType.Block, new Point(line, col));
-			int x = col;
-			int y = line;
 			while (!reader.Eos()) {
 				char ch;
 				switch (ch = reader.GetNext()) {

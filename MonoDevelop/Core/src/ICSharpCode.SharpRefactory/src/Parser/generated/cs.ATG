@@ -978,7 +978,7 @@ StructMemberDecl<Modifiers m, ArrayList attributes>
 .)
 =
 	/*--- constant declaration: */         (. m.Check(Modifier.Constants); .)
-	"const"                                (.Point startPos = t.Location; .)
+	"const"
 	Type<out type> ident                   (. FieldDeclaration fd = new FieldDeclaration(attributes, type, m.Modifier | Modifier.Const);
 	                                          VariableDeclaration f = new VariableDeclaration(t.val);
 	                                          fd.Fields.Add(f);
@@ -1549,7 +1549,7 @@ EmbeddedStatement<out Statement statement>
 	  [ Expr<out expr> ] ";"
 	  [ ForIterator<out iterator> ] ")"
 	  EmbeddedStatement<out embeddedStatement> (. statement = new ForStatement(initializer, expr, iterator, embeddedStatement); .)
-	| "foreach" "(" Type<out type> ident     (. string varName = t.val; Point start = t.Location;.)
+	| "foreach" "(" Type<out type> ident     (. string varName = t.val; .)
 	"in" Expr<out expr> ")"
 	EmbeddedStatement<out embeddedStatement> (.  statement = new ForeachStatement(type, varName , expr, embeddedStatement); 
 	                                             statement.EndLocation = t.EndLocation;
@@ -1790,7 +1790,7 @@ PrimaryExpr<out Expression pexpr>
 			"bool"   | "byte"   | "char" | "decimal" | "double"
 			| "float"  | "int"    | "long" | "object"  | "sbyte"
 			| "short"  | "string" | "uint" | "ulong"   | "ushort"
-		) (. string val = t.val; t.val = "" .) "." ident (. pexpr = new FieldReferenceExpression(new TypeReferenceExpression(val), t.val); .)
+		) (. string val = t.val; t.val = ""; .) "." ident (. pexpr = new FieldReferenceExpression(new TypeReferenceExpression(val), t.val); .)
 		/*--- this access: */
 		| "this"                              (. pexpr = new ThisReferenceExpression(); .)
 		/*--- base access: */

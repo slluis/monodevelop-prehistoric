@@ -1677,9 +1677,6 @@ Modifiers m, ArrayList attributes) {
 #line  980 "cs.ATG" 
 			m.Check(Modifier.Constants); 
 			lexer.NextToken();
-
-#line  981 "cs.ATG" 
-			Point startPos = t.Location; 
 			Type(
 #line  982 "cs.ATG" 
 out type);
@@ -3423,7 +3420,7 @@ out type);
 			Expect(1);
 
 #line  1552 "cs.ATG" 
-			string varName = t.val; Point start = t.Location;
+			string varName = t.val; 
 			Expect(80);
 			Expr(
 #line  1553 "cs.ATG" 
