@@ -30,8 +30,13 @@ namespace MonoDevelop.Internal.Project
 		[DataItem ("Entry")]
 		public class Config 
 		{
-			[ItemProperty ("name")]
 			string entryName;
+			
+			[ItemProperty ("name")]
+			string EntryName {
+				get { return Entry != null ? Entry.Name : entryName; }
+				set { entryName = value; }
+			}
 			
 			public CombineEntry entry;
 			

@@ -1,6 +1,5 @@
 using System;
 using System.Collections;
-using MonoDevelop.Gui.Pads.ProjectBrowser;
 using MonoDevelop.Gui.Widgets;
 
 namespace System {
@@ -70,7 +69,6 @@ namespace System.Collections.Specialized
 	[Serializable]
 	public class TreeNodeComparer : IComparer {
 		
-		public static Gtk.TreeIterCompareFunc GtkProjectNode = new Gtk.TreeIterCompareFunc (GtkProjectNodeComparer);
 		public static Gtk.TreeIterCompareFunc GtkDefault = new Gtk.TreeIterCompareFunc (GtkDefaultComparer);
 		public static IComparer Default = new TreeNodeComparer ();
 
@@ -86,32 +84,6 @@ namespace System.Collections.Specialized
 			return cmp;
 		}
 
-			
-		static int GtkProjectNodeComparer (Gtk.TreeModel model, Gtk.TreeIter a, Gtk.TreeIter b)
-		{
-			Gtk.TreeStore ts = (Gtk.TreeStore) model;
-			TreeNode x = (TreeNode) ts.GetValue (a, 2);
-			TreeNode y = (TreeNode) ts.GetValue (b, 2);
-			
-			if (x.GetType () == y.GetType ()) {
-				if (x is NamedFolderNode) {
-					return ((NamedFolderNode)x).SortPriority - ((NamedFolderNode)y).SortPriority;
-				}
-				return x.Text.CompareTo(y.Text);
-			}
-			if (x is FileNode) {
-				return 1;
-			} else if (y is FileNode) {
-				return -1;
-			}
-			if (x is DirectoryNode) {
-				return 1;
-			} else if (y is DirectoryNode) {
-				return -1;
-			}
-			return x.Text.CompareTo(y.Text);
-		}
-		
 		static int GtkDefaultComparer (Gtk.TreeModel model, Gtk.TreeIter a, Gtk.TreeIter b)
 		{
 			Gtk.TreeStore ts = (Gtk.TreeStore) model;

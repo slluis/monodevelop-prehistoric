@@ -38,7 +38,7 @@ namespace MonoDevelop.Commands.ProjectBrowser
 			if (project == null) return;
 			
 			Combine combine = nav.GetParentDataItem (typeof(Combine), false) as Combine;
-			combine.SingleStartProjectName = project.Name;
+			combine.StartupEntry = project;
 			combine.SingleStartupProject = true;
 			Runtime.ProjectService.SaveCombine ();
 		}

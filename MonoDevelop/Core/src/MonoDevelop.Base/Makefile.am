@@ -17,18 +17,6 @@ DLLS = /r:System.Drawing /r:ICSharpCode.SharpZipLib.dll \
 	$(MONODOC_LIBS)
 
 FILES= \
-Gui/Pads/ProjectBrowser/ProjectBrowserView.cs \
-Gui/Pads/ProjectBrowser/NodeBuilder/DefaultDotNetNodeBuilder.cs \
-Gui/Pads/ProjectBrowser/NodeBuilder/IProjectNodeBuilder.cs \
-Gui/Pads/ProjectBrowser/BrowserNode/ProjectBrowserNode.cs \
-Gui/Pads/ProjectBrowser/BrowserNode/FolderNode.cs \
-Gui/Pads/ProjectBrowser/BrowserNode/AbstractBrowserNode.cs \
-Gui/Pads/ProjectBrowser/BrowserNode/FileNode.cs \
-Gui/Pads/ProjectBrowser/BrowserNode/ReferenceNode.cs \
-Gui/Pads/ProjectBrowser/BrowserNode/CombineBrowserNode.cs \
-Gui/Pads/ProjectBrowser/BrowserNode/DragDropUtil.cs \
-Gui/Pads/ProjectBrowser/BrowserNode/DirectoryNode.cs \
-Gui/Pads/ProjectBrowser/BrowserNode/NamedFolderNode.cs \
 Gui/Pads/OpenTaskView.cs \
 Gui/Pads/TreeViewMemento.cs \
 Gui/Pads/FileScout/FileList.cs \
@@ -36,10 +24,6 @@ Gui/Pads/FileScout/FileListItem.cs \
 Gui/Pads/FileScout/FileScout.cs \
 Gui/Pads/PropertyPad/PropertyPadCommands.cs \
 Gui/Pads/PropertyPad/PropertyPad.cs \
-Gui/Pads/ClassScout/ClassScout.cs \
-Gui/Pads/ClassScout/NodeBuilder/DefaultDotNetClassScoutNodeBuilder.cs \
-Gui/Pads/ClassScout/NodeBuilder/IClassScoutNodeBuilder.cs \
-Gui/Pads/ClassScout/BrowserNode/AbstractClassScoutNode.cs \
 Gui/Pads/ClassPad/ClassData.cs \
 Gui/Pads/ClassPad/ClassNodeBuilder.cs \
 Gui/Pads/ClassPad/CombineNodeBuilder.cs \

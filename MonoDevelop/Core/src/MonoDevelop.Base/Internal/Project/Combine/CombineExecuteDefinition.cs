@@ -16,13 +16,19 @@ namespace MonoDevelop.Internal.Project
 	
 	public class CombineExecuteDefinition
 	{
+		Combine combine;
 		CombineEntry combineEntry;
 		
 		[ItemProperty ("type")]
 		EntryExecuteType type = EntryExecuteType.None;
 
-		[ItemProperty]
-		string entry;
+		string entryName;
+		
+		[ItemProperty ("entry")]
+		string EntryName {
+			get { return Entry != null ? Entry.Name : entryName; }
+			set { entryName = value; }
+		}
 		
 		public CombineExecuteDefinition()
 		{
@@ -36,14 +42,18 @@ namespace MonoDevelop.Internal.Project
 		
 		internal void SetCombine (Combine cmb)
 		{
-			combineEntry = cmb.Entries [entry];
+			combine = cmb;
 		}
 		
 		public CombineEntry Entry {
-			get { return combineEntry; }
+			get {
+				if (combineEntry == null)
+					combineEntry = combine.Entries [entryName];
+				return combineEntry;
+			}
 			set {
 				combineEntry = value; 
-				entry = value != null ? value.Name : null;
+				entryName = value != null ? value.Name : null;
 			}
 		}
 		

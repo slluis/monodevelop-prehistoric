@@ -58,7 +58,7 @@ namespace MonoDevelop.Gui.Dialogs.OptionPanels
 					CombineEntry entry = (CombineEntry) combine.Entries[i];
 					tmpStore.AppendValues (entry.Name);
 
-					if (combine.SingleStartProjectName == entry.Name)
+					if (combine.StartupEntry == entry)
 						active = i;
 				}
 				singleCombo.Model = tmpStore;
@@ -226,7 +226,7 @@ namespace MonoDevelop.Gui.Dialogs.OptionPanels
 
 			public bool Store()
 			{
-				combine.SingleStartProjectName = ((CombineEntry)combine.Entries[singleCombo.Active]).Name;
+				combine.StartupEntry = (CombineEntry) combine.Entries [singleCombo.Active];
 				combine.SingleStartupProject   = singleRadioButton.Active;
 				
 				// write back new combine execute definitions

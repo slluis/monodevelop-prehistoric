@@ -23,7 +23,6 @@ using MonoDevelop.Gui.Dialogs;
 using MonoDevelop.Internal.Project;
 
 using MonoDevelop.Internal.ExternalTool;
-using MonoDevelop.Gui.Pads.ProjectBrowser;
 
 namespace MonoDevelop.Commands
 {

@@ -22,7 +22,7 @@ using MonoDevelop.Gui.ErrorHandlers;
 using MonoDevelop.Gui.Dialogs;
 using MonoDevelop.Internal.Project;
 using MonoDevelop.Internal.ExternalTool;
-using MonoDevelop.Gui.Pads.ProjectBrowser;
+using MonoDevelop.Gui.Pads;
 
 using Freedesktop.RecentFiles;
 
@@ -264,51 +264,38 @@ namespace MonoDevelop.Commands
 	
 	public class IncludeFilesBuilder : ISubmenuBuilder
 	{
-		public ProjectBrowserView browser;
+		public SolutionPad browser;
 		
-		MyMenuItem includeInCompileItem;
-		MyMenuItem includeInDeployItem;
+		SdMenuCheckBox includeInCompileItem;
+		SdMenuCheckBox includeInDeployItem;
 		
 		class MyMenuItem : SdMenuCheckBox, ISubmenuItem
 		{
-			IncludeFilesBuilder builder;
-			
-			public MyMenuItem(IncludeFilesBuilder builder, string name, EventHandler handler) : base(null, null, name)
+			public MyMenuItem(string name) : base(null, null, name)
 			{
-				base.Toggled += handler;
-				this.builder = builder;
-			}
-			
-			public override void UpdateStatus()
-			{
-				base.UpdateStatus();
-				if (builder == null) {
-					return;
-				}
-				AbstractBrowserNode node = builder.browser.SelectedNode as AbstractBrowserNode;
-				
-				if (node == null) {
-					return;
-				}
-				
-				ProjectFile finfo = node.UserData as ProjectFile;
-				if (finfo == null) {
-					builder.includeInCompileItem.Sensitive = builder.includeInCompileItem.Sensitive = false;
-				} else {
-					if (!builder.includeInCompileItem.Sensitive) {
-						builder.includeInCompileItem.Sensitive = builder.includeInCompileItem.Sensitive = true;
-					}
-					builder.includeInCompileItem.Active = finfo.BuildAction == BuildAction.Compile;
-					builder.includeInDeployItem.Active  = !node.Project.DeployInformation.IsFileExcluded(finfo.Name);
-				}
 			}
 		}
 		
 		public Gtk.MenuItem[] BuildSubmenu(ConditionCollection conditionCollection, object owner)
 		{
-			browser = (ProjectBrowserView)owner;
-			includeInCompileItem = new MyMenuItem(this, GettextCatalog.GetString ("Compile"), new EventHandler(ChangeCompileInclude));
-			includeInDeployItem  = new MyMenuItem(this, GettextCatalog.GetString ("Deploy"), new EventHandler(ChangeDeployInclude));
+			Console.WriteLine (Environment.StackTrace);
+			browser = (SolutionPad) owner;
+			ITreeNavigator nav = browser.GetSelectedNode ();
+			if (nav == null) return new Gtk.MenuItem[0];
+
+			ProjectFile finfo = nav.DataItem as ProjectFile;
+			if (finfo == null) return new Gtk.MenuItem[0];
+			
+			Project project = (Project) nav.GetParentDataItem (typeof(Project), false);
+
+			includeInCompileItem = new MyMenuItem (GettextCatalog.GetString ("Compile"));
+			includeInDeployItem  = new MyMenuItem (GettextCatalog.GetString ("Deploy"));
+			
+			includeInCompileItem.Active = finfo.BuildAction == BuildAction.Compile;
+			includeInDeployItem.Active  = !project.DeployInformation.IsFileExcluded (finfo.Name);
+			
+			includeInCompileItem.Toggled += new EventHandler (ChangeCompileInclude);
+			includeInDeployItem.Toggled += new EventHandler (ChangeDeployInclude);
 			
 			return new Gtk.MenuItem[] {
 				includeInCompileItem,
@@ -316,15 +303,12 @@ namespace MonoDevelop.Commands
 			};
 			
 		}
-		void ChangeCompileInclude(object sender, EventArgs e)
+		void ChangeCompileInclude (object sender, EventArgs e)
 		{
-			AbstractBrowserNode node = browser.SelectedNode as AbstractBrowserNode;
+			ITreeNavigator nav = browser.GetSelectedNode ();
+			if (nav == null) return;
 			
-			if (node == null) {
-				return;
-			}
-			
-			ProjectFile finfo = node.UserData as ProjectFile;
+			ProjectFile finfo = nav.DataItem as ProjectFile;
 			if (finfo != null) {
 				if (finfo.BuildAction == BuildAction.Compile) {
 					finfo.BuildAction = BuildAction.Nothing;
@@ -337,18 +321,16 @@ namespace MonoDevelop.Commands
 		
 		void ChangeDeployInclude(object sender, EventArgs e)
 		{
-			AbstractBrowserNode node = browser.SelectedNode as AbstractBrowserNode;
+			ITreeNavigator nav = browser.GetSelectedNode ();
+			if (nav == null) return;
 			
-			if (node == null) {
-				return;
-			}
-			
-			ProjectFile finfo = node.UserData as ProjectFile;
+			ProjectFile finfo = nav.DataItem as ProjectFile;
 			if (finfo != null) {
-				if (node.Project.DeployInformation.IsFileExcluded(finfo.Name)) {
-					node.Project.DeployInformation.RemoveExcludedFile(finfo.Name);
+				Project project = (Project) nav.GetParentDataItem (typeof(Project), false);
+				if (project.DeployInformation.IsFileExcluded (finfo.Name)) {
+					project.DeployInformation.RemoveExcludedFile (finfo.Name);
 				} else {
-					node.Project.DeployInformation.AddExcludedFile(finfo.Name);
+					project.DeployInformation.AddExcludedFile (finfo.Name);
 				}
 			}
 			Runtime.ProjectService.SaveCombine();

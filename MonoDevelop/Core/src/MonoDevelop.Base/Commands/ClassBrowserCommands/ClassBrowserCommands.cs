@@ -33,7 +33,7 @@ namespace MonoDevelop.Commands.ClassScoutCommands
 	{
 		public override void Run()
 		{
-			ClassScout browser = Owner as ClassScout;
+/*			ClassScout browser = Owner as ClassScout;
 			if (browser == null) {
 				return;
 			}
@@ -42,7 +42,7 @@ namespace MonoDevelop.Commands.ClassScoutCommands
 			if (node != null) {
 				Runtime.MessageService.ShowWarning(GettextCatalog.GetString ("Not implemented"));
 			}
-		}
+*/		}
 	}
 
 }

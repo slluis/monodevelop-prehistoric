@@ -41,7 +41,8 @@ namespace MonoDevelop.Internal.Project
 		string description = null;
 		
 		[ItemProperty ("StartMode/startupentry")]
-		string startProject  = null;
+		string startEntryName;
+		CombineEntry startupEntry;
 		
 		[ItemProperty ("StartMode/single")]
 		bool   singleStartup = true;
@@ -73,14 +74,14 @@ namespace MonoDevelop.Internal.Project
 			}
 		}
 		
-		[Browsable(false)]
-		public string SingleStartProjectName {
+		public CombineEntry StartupEntry {
 			get {
-				return startProject;
+				if (startupEntry == null && startEntryName != null)
+					startupEntry = Entries [startEntryName];
+				return startupEntry;
 			}
 			set {
-				if (Entries [value] == null) throw new ArgumentException ("Invalid entry name");
-				startProject = value;
+				startupEntry = value;
 				OnStartupPropertyChanged(null);
 			}
 		}
@@ -157,8 +158,8 @@ namespace MonoDevelop.Internal.Project
 		
 		internal void NotifyEntryAdded (CombineEntry entry)
 		{
-			if (startProject == null)
-				startProject = entry.Name;
+			if (StartupEntry == null)
+				StartupEntry = entry;
 			
 			if (Configurations.Count == 0) {
 				foreach (IConfiguration pconf in entry.Configurations) {
@@ -199,6 +200,14 @@ namespace MonoDevelop.Internal.Project
 				combine.ReferenceRemovedFromProject += referenceRemovedFromProjectHandler;
 				combine.ReferenceAddedToProject += referenceAddedToProjectHandler;
 			}
+		}
+		
+		public override DataCollection Serialize (ITypeSerializer handler)
+		{
+			if (StartupEntry != null)
+				startEntryName = StartupEntry.Name;
+
+			return base.Serialize (handler);
 		}
 		
 		public override void Deserialize (ITypeSerializer handler, DataCollection data)
@@ -278,15 +287,15 @@ namespace MonoDevelop.Internal.Project
 		
 		public override void Debug (IProgressMonitor monitor)
 		{
-			CombineEntry entry = Entries [startProject];
-			entry.Debug (monitor);
+			if (StartupEntry != null)
+				StartupEntry.Debug (monitor);
 		}
 
 		public override void Execute (IProgressMonitor monitor)
 		{
 			if (singleStartup) {
-				CombineEntry entry = (CombineEntry) Entries [startProject];
-				entry.Execute (monitor);
+				if (StartupEntry != null)
+					StartupEntry.Execute (monitor);
 			} else {
 				ArrayList list = new ArrayList ();
 				monitor.BeginTask ("Executing projects", 1);
@@ -499,8 +508,8 @@ namespace MonoDevelop.Internal.Project
 			if (!SingleStartupProject) {
 				stream.WriteLine ("\t@echo `run'ning multiple startup projects is not yet support");
 			} else {
-				if (SingleStartProjectName != null && Entries [SingleStartProjectName] != null)
-					stream.WriteLine ("\tcd $(OUTPUTDIR) && $(RUNTIME) {0}", ((Project)Entries [SingleStartProjectName]).GetOutputFileName ());
+				if (StartupEntry != null)
+					stream.WriteLine ("\tcd $(OUTPUTDIR) && $(RUNTIME) {0}", ((Project)StartupEntry).GetOutputFileName ());
 				else
 					stream.WriteLine ("\t@echo No startup project defined");
 			}

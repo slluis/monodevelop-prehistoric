@@ -1,3 +1,23 @@
+2005-03-19  Lluis Sanchez Gual  <lluis@novell.com>
+
+	* Commands/MenuItemBuilders.cs: Fixed Include/Compile and Deploy options.
+	* Commands/ProjectOptionsCommands.cs:
+	* Commands/ClassBrowserCommands/ClassBrowserCommands.cs:
+	* Internal/CollectionUtilities/Comparers.cs:
+	Removed reference to old project pad.
+	* Commands/ProjectBrowserCommands/ProjectNodeCommands.cs: 
+	* Gui/Dialogs/CombineConfiguration/CombineStartupPanel.cs:
+	Use new StartupEntry property instead of SingleStartProjectName.
+	* Gui/Pads/ProjectPad/ProjectFileNodeBuilder.cs: Use the correct
+	menu path.
+	* Makefile.am: Removed old solution pads.
+	* Internal/Project/Combine/Combine.cs: Added StartupEntry property
+	which replaces SingleStartProjectName. Storing the name made project
+	renaming complex to handle.
+	* Internal/Project/Combine/CombineExecuteDefinition.cs:
+	* Internal/Project/Combine/CombineConfiguration.cs: Serialize the
+	real entry name, which may have changed.
+
 2005-03-19  Lluis Sanchez Gual <lluis@novell.com>
 
 	* Commands/MenuItemBuilders.cs: Removed wrong check.
