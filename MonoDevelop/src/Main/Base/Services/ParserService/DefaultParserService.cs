@@ -132,6 +132,16 @@ namespace ICSharpCode.SharpDevelop.Services
 				this.myClass           = c;
 			}
 		}
+
+		private bool ContinueWithProcess(IProgressMonitor progressMonitor)
+		{
+			while (Gtk.Application.EventsPending ())
+				Gtk.Application.RunIteration ();
+			if (progressMonitor.Canceled)
+				return false;
+			else
+				return true;
+		}
 		
 		public void GenerateCodeCompletionDatabaseFast(string createPath, IProgressMonitor progressMonitor)
 		{
@@ -167,10 +177,14 @@ namespace ICSharpCode.SharpDevelop.Services
 					if (progressMonitor != null) {
 						progressMonitor.Worked(i, "Writing database...");
 					}
+					if (!ContinueWithProcess(progressMonitor))
+						return;
 				} catch (Exception e) {
 					Console.WriteLine(e.ToString());
 				}
 				System.GC.Collect();
+				if (!ContinueWithProcess(progressMonitor))
+					return;
 			}
 
 			classWriter.Close();
@@ -204,6 +218,8 @@ namespace ICSharpCode.SharpDevelop.Services
 					Console.WriteLine(e.ToString());
 				}
 				System.GC.Collect();
+				if (!ContinueWithProcess(progressMonitor))
+					return;
 			}
 					
 			// create all class proxies
@@ -216,6 +232,8 @@ namespace ICSharpCode.SharpDevelop.Services
 				if (progressMonitor != null) {
 					progressMonitor.Worked(assemblyList.Length + (i * assemblyList.Length) / frameworkAssemblyInformation.Classes.Count, "Generating database...");
 				}
+				if (!ContinueWithProcess(progressMonitor))
+					return;
 			}
 
 			// write all classes and proxies to the disc
@@ -232,6 +250,8 @@ namespace ICSharpCode.SharpDevelop.Services
 				if (progressMonitor != null) {
 					progressMonitor.Worked(2 * assemblyList.Length + (i * assemblyList.Length) / frameworkAssemblyInformation.Classes.Count, "Writing database...");
 				}
+				if (!ContinueWithProcess(progressMonitor))
+					return;
 			}
 
 			classWriter.Close();

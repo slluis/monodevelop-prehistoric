@@ -21,6 +21,7 @@ using ICSharpCode.Core.AddIns.Codons;
 using ICSharpCode.SharpDevelop.Services;
 using ICSharpCode.SharpDevelop.Gui;
 using ICSharpCode.SharpDevelop.Gui.Dialogs;
+using ICSharpCode.SharpDevelop.Gui.Dialogs.OptionPanels.CompletionDatabaseWizard;
 using ICSharpCode.SharpDevelop.Gui.ErrorHandlers;
 
 using SA = ICSharpCode.SharpAssembly.Assembly;
@@ -49,13 +50,21 @@ namespace ICSharpCode.SharpDevelop.Commands
 	
 	public class StartCodeCompletionWizard : AbstractCommand
 	{
+		private string CreateCodeCompletionDir()
+		{
+			FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.Services.GetService(typeof(FileUtilityService));
+			PropertyService propertyService = (PropertyService)ServiceManager.Services.GetService(typeof(PropertyService));
+			string path = propertyService.ConfigDirectory + System.IO.Path.DirectorySeparatorChar + "CodeCompletionData";
+			if (!Directory.Exists(path))
+				Directory.CreateDirectory(path);
+			propertyService.SetProperty ("SharpDevelop.CodeCompletion.DataDirectory", path);
+			propertyService.SaveProperties ();
+			return fileUtilityService.GetDirectoryNameWithSeparator(path);
+		}
 		public override void Run()
 		{
-			PropertyService propertyService = (PropertyService)ServiceManager.Services.GetService(typeof(PropertyService));
-			string path = propertyService.GetProperty("SharpDevelop.CodeCompletion.DataDirectory", String.Empty).ToString();
-			FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.Services.GetService(typeof(FileUtilityService));
-			string codeCompletionTemp = fileUtilityService.GetDirectoryNameWithSeparator(path);
-			string codeCompletionProxyFile = codeCompletionTemp + "CodeCompletionProxyDataV02.bin";
+			string path = CreateCodeCompletionDir();
+			string codeCompletionProxyFile = path + "CodeCompletionProxyDataV02.bin";
 
 			if (!File.Exists(codeCompletionProxyFile)) {
 				RunWizard();
@@ -66,29 +75,11 @@ namespace ICSharpCode.SharpDevelop.Commands
 		
 		void RunWizard()
 		{
-			IProperties customizer = new DefaultProperties();
-			
 			if (SplashScreenForm.SplashScreen.Visible) {
 				SplashScreenForm.SplashScreen.Hide();
 			}
-			PropertyService propertyService = (PropertyService)ServiceManager.Services.GetService(typeof(PropertyService));
 			
-			customizer.SetProperty("SharpDevelop.CodeCompletion.DataDirectory",
-			                       propertyService.GetProperty("SharpDevelop.CodeCompletion.DataDirectory", String.Empty));
-			
-			WizardDialog wizard = new WizardDialog("Initialize Code Completion Database", customizer, "/SharpDevelop/CompletionDatabaseWizard");
-			propertyService.SetProperty("SharpDevelop.CodeCompletion.DataDirectory", customizer.GetProperty("SharpDevelop.CodeCompletion.DataDirectory", String.Empty));
-			
-			wizard.Run ();
-			wizard.Hide ();
-			wizard.Destroy ();
-
-			// restart  & exit 
-			ServiceManager.Services.UnloadAllServices();
-			// FIXME: handle this elegantly
-			// is it really necessary to restart here?
-			//System.Diagnostics.Process.Start(Path.Combine (Application.StartupPath, "SharpDevelop.exe"));
-			Gtk.Application.Quit ();
+			(new GenerateDatabase()).Start();
 		}
 	}
 	
