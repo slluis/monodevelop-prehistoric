@@ -1,0 +1,47 @@
+<Project name="CsVbRefactory" description="" newfilesearch="None" enableviewstate="True" version="1.1" projecttype="C#">
+  <Contents>
+    <File name=".\AssemblyInfo.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\Parser" subtype="Directory" buildaction="Compile" dependson="" data="" />
+    <File name=".\Parser\AST" subtype="Directory" buildaction="Compile" dependson="" data="" />
+    <File name=".\Parser\AST\AbstractNode.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\Parser\AST\INode.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\Parser\Visitors\IASTVisitor.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\Parser\Visitors\AbstractASTVisitor.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\Parser\AST\Enums.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\Parser\AST\CSharp" subtype="Directory" buildaction="Compile" dependson="" data="" />
+    <File name=".\Parser\AST\VBNet" subtype="Directory" buildaction="Compile" dependson="" data="" />
+    <File name=".\Parser\AST\General" subtype="Directory" buildaction="Compile" dependson="" data="" />
+    <File name=".\Parser\AST\CSharp\Expressions" subtype="Directory" buildaction="Compile" dependson="" data="" />
+    <File name=".\Parser\AST\CSharp\Statements" subtype="Directory" buildaction="Compile" dependson="" data="" />
+    <File name=".\Parser\AST\VBNet\Expressions" subtype="Directory" buildaction="Compile" dependson="" data="" />
+    <File name=".\Parser\AST\VBNet\Statements" subtype="Directory" buildaction="Compile" dependson="" data="" />
+    <File name=".\Parser\AST\General\Expressions" subtype="Directory" buildaction="Compile" dependson="" data="" />
+    <File name=".\Parser\AST\General\GlobalScope" subtype="Directory" buildaction="Compile" dependson="" data="" />
+    <File name=".\Parser\AST\General\Statements" subtype="Directory" buildaction="Compile" dependson="" data="" />
+    <File name=".\Parser\AST\General\GlobalScope\UsingDeclaration.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\Parser\AST\General\GlobalScope\UsingAliasDeclaration.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\Parser\AST\General\GlobalScope\TypeReference.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\Parser\Visitors" subtype="Directory" buildaction="Compile" dependson="" data="" />
+    <File name=".\Parser\AST\General\GlobalScope\NamespaceDeclaration.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\Parser\AST\General\GlobalScope\DelegateDeclaration.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+  </Contents>
+  <References />
+  <DeploymentInformation target="" script="" strategy="File" />
+  <Configuration runwithwarnings="False" name="Debug">
+    <CodeGeneration runtime="MsNet" compiler="Csc" warninglevel="4" nowarn="" includedebuginformation="True" optimize="True" unsafecodeallowed="False" generateoverflowchecks="True" mainclass="" target="Library" definesymbols="" generatexmldocumentation="False" win32Icon="" />
+    <Execution commandlineparameters="" consolepause="False" />
+    <Output directory="..\bin\Debug" assembly="CsVbRefactory" executeScript="" executeBeforeBuild="" executeAfterBuild="" />
+  </Configuration>
+  <Configurations active="Debug">
+    <Configuration runwithwarnings="False" name="Debug">
+      <CodeGeneration runtime="MsNet" compiler="Csc" warninglevel="4" nowarn="" includedebuginformation="True" optimize="True" unsafecodeallowed="False" generateoverflowchecks="True" mainclass="" target="Library" definesymbols="" generatexmldocumentation="False" win32Icon="" />
+      <Execution commandlineparameters="" consolepause="False" />
+      <Output directory="..\bin\Debug" assembly="CsVbRefactory" executeScript="" executeBeforeBuild="" executeAfterBuild="" />
+    </Configuration>
+    <Configuration runwithwarnings="False" name="Release">
+      <CodeGeneration runtime="MsNet" compiler="Csc" warninglevel="4" nowarn="" includedebuginformation="True" optimize="True" unsafecodeallowed="False" generateoverflowchecks="True" mainclass="" target="Library" definesymbols="" generatexmldocumentation="False" win32Icon="" />
+      <Execution commandlineparameters="" consolepause="False" />
+      <Output directory="..\bin\Release" assembly="CsVbRefactory" executeScript="" executeBeforeBuild="" executeAfterBuild="" />
+    </Configuration>
+  </Configurations>
+</Project>
