@@ -1,0 +1,12 @@
+gdldock/sources/gdl/gdl-dock-bar.c
+gdldock/sources/gdl/gdl-dock-item-grip.c
+gdldock/sources/gdl/gdl-dock-item.c
+gdldock/sources/gdl/gdl-dock-layout.c
+gdldock/sources/gdl/gdl-dock-master.c
+gdldock/sources/gdl/gdl-dock-notebook.c
+gdldock/sources/gdl/gdl-dock-object.c
+gdldock/sources/gdl/gdl-dock-paned.c
+gdldock/sources/gdl/gdl-dock-placeholder.c
+gdldock/sources/gdl/gdl-dock-tablabel.c
+gdldock/sources/gdl/gdl-dock.c
+gdldock/sources/gdl/layout.glade

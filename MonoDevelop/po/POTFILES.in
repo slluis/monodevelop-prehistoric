@@ -3,18 +3,6 @@ data/resources/glade/Base.glade
 data/resources/glade/CSharp.glade
 data/resources/glade/EditorBindings.glade
 data/resources/glade/texteditoraddin.glade
-gdldock/sources/gdl/gdl-dock-bar.c
-gdldock/sources/gdl/gdl-dock-item-grip.c
-gdldock/sources/gdl/gdl-dock-item.c
-gdldock/sources/gdl/gdl-dock-layout.c
-gdldock/sources/gdl/gdl-dock-master.c
-gdldock/sources/gdl/gdl-dock-notebook.c
-gdldock/sources/gdl/gdl-dock-object.c
-gdldock/sources/gdl/gdl-dock-paned.c
-gdldock/sources/gdl/gdl-dock-placeholder.c
-gdldock/sources/gdl/gdl-dock-tablabel.c
-gdldock/sources/gdl/gdl-dock.c
-gdldock/sources/gdl/layout.glade
 src/Main/Base/Gui/Dialogs/CommonAboutDialog.cs
 src/Main/Base/Gui/Dialogs/NewProjectDialog.cs
 src/Main/Base/Gui/Dialogs/NewFileDialog.cs
@@ -84,3 +72,6 @@ src/Main/Base/Services/ResourceNotFoundException.cs
 src/Libraries/MonoDevelop.Gui.Widgets/FileBrowser/FileBrowser.cs
 src/Libraries/MonoDevelop.Gui.Widgets/FolderDialog/BaseFileEntry.cs
 src/Libraries/MonoDevelop.Gui.Widgets/Tree/TreeNodeCollection.cs
+src/AddIns/DisplayBindings/SourceEditor/Commands/ToolCommands.cs
+src/AddIns/DisplayBindings/SourceEditor/Gui/Dialogs/ReplaceDialog.cs
+src/AddIns/DisplayBindings/SourceEditor/Gui/Dialogs/EditTemplateGroupDialog.cs

@@ -90,8 +90,9 @@ namespace MonoDevelop.Commands
 							}
 						}
 					}
-					taskService.CompilerOutput += String.Format (GettextCatalog.GetString ("---------------------- Done ----------------------\n\nBuild: ${0} succeeded, ${1} failed\n"), CombineEntry.BuildProjects.ToString (), CombineEntry.BuildErrors.ToString ());
+					taskService.CompilerOutput += String.Format (GettextCatalog.GetString ("---------------------- Done ----------------------\n\nBuild: {0} succeeded, {1} failed\n"), CombineEntry.BuildProjects.ToString (), CombineEntry.BuildErrors.ToString ());
 				} catch (Exception e) {
+					Console.WriteLine (e);
 					IMessageService messageService =(IMessageService)ServiceManager.Services.GetService(typeof(IMessageService));
 					messageService.ShowError(e, GettextCatalog.GetString ("Error while compiling"));
 				}
@@ -164,8 +165,9 @@ namespace MonoDevelop.Commands
 							}
 						}
 					}
-					taskService.CompilerOutput += String.Format (GettextCatalog.GetString ("---------------------- Done ----------------------\n\nBuild: ${0} succeeded, ${1} failed\n"), CombineEntry.BuildProjects.ToString(), CombineEntry.BuildErrors.ToString());
+					taskService.CompilerOutput += String.Format (GettextCatalog.GetString ("---------------------- Done ----------------------\n\nBuild: {0} succeeded, {1} failed\n"), CombineEntry.BuildProjects.ToString(), CombineEntry.BuildErrors.ToString());
 				} catch (Exception e) {
+					Console.WriteLine (e);
 					IMessageService messageService =(IMessageService)ServiceManager.Services.GetService(typeof(IMessageService));
 					messageService.ShowError(e, GettextCatalog.GetString ("Error while compiling"));
 				}
@@ -277,7 +279,7 @@ namespace MonoDevelop.Commands
 			
 						projectService.OnStartBuild();
 						projectService.CompileProject(projectService.CurrentSelectedProject);
-						taskService.CompilerOutput += String.Format (GettextCatalog.GetString ("---------------------- Done ----------------------\n\nBuild: ${0} succeeded, ${1} failed\n"), CombineEntry.BuildProjects.ToString(), CombineEntry.BuildErrors.ToString());
+						taskService.CompilerOutput += String.Format (GettextCatalog.GetString ("---------------------- Done ----------------------\n\nBuild: {0} succeeded, {1} failed\n"), CombineEntry.BuildProjects.ToString(), CombineEntry.BuildErrors.ToString());
 					} catch (Exception e) {
 						IMessageService messageService =(IMessageService)ServiceManager.Services.GetService(typeof(IMessageService));
 						messageService.ShowError(e, String.Format (GettextCatalog.GetString ("Error while compiling project {0}"), projectService.CurrentSelectedProject.Name));
@@ -311,7 +313,7 @@ namespace MonoDevelop.Commands
 				
 						projectService.OnStartBuild();
 						projectService.RecompileProject(projectService.CurrentSelectedProject);
-						taskService.CompilerOutput += String.Format (GettextCatalog.GetString ("---------------------- Done ----------------------\n\nBuild: ${0} succeeded, ${1} failed\n"), CombineEntry.BuildProjects.ToString(), CombineEntry.BuildErrors.ToString());
+						taskService.CompilerOutput += String.Format (GettextCatalog.GetString ("---------------------- Done ----------------------\n\nBuild: {0} succeeded, {1} failed\n"), CombineEntry.BuildProjects.ToString(), CombineEntry.BuildErrors.ToString());
 					} catch (Exception e) {
 						IMessageService messageService =(IMessageService)ServiceManager.Services.GetService(typeof(IMessageService));
 						messageService.ShowError(e, String.Format (GettextCatalog.GetString ("Error while compiling project {0}"), projectService.CurrentSelectedProject.Name));

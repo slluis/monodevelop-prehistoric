@@ -129,7 +129,7 @@ namespace MonoDevelop.Internal.Project
 				
 				AbstractProjectConfiguration conf = project.ActiveConfiguration as AbstractProjectConfiguration;
 
-				taskService.CompilerOutput += String.Format (GettextCatalog.GetString ("------ Build started: Project: ${Project} Configuration: ${Config} ------\n\nPerforming main compilation...\n"), Project.Name, Project.ActiveConfiguration.Name);
+				taskService.CompilerOutput += String.Format (GettextCatalog.GetString ("------ Build started: Project: {0} Configuration: {1} ------\n\nPerforming main compilation...\n"), Project.Name, Project.ActiveConfiguration.Name);
 				
 				if (conf != null && File.Exists(conf.ExecuteBeforeBuild)) {
 					taskService.CompilerOutput += String.Format (GettextCatalog.GetString ("Execute : {0}"), conf.ExecuteBeforeBuild);
@@ -171,7 +171,7 @@ namespace MonoDevelop.Internal.Project
 					++BuildProjects;
 				}
 				
-				taskService.CompilerOutput += String.Format (GettextCatalog.GetString ("Build complete -- ${0} errors, ${1} warnings\n\n"), taskService.Errors.ToString (), taskService.Warnings.ToString ());
+				taskService.CompilerOutput += String.Format (GettextCatalog.GetString ("Build complete -- {0} errors, {1} warnings\n\n"), taskService.Errors.ToString (), taskService.Warnings.ToString ());
 			}
 		}
 		
