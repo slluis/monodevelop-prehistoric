@@ -1,5 +1,5 @@
 
-monodevelopdir = $(prefix)/lib/monodevelop
+monodevelopdir = $(libdir)/monodevelop
 mdoptionsdir = $(monodevelopdir)/data/options
 mdoptions_DATA = DefaultEditingLayout.xml \
 	MonoDevelopProperties.xml \

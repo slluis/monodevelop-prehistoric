@@ -1,5 +1,5 @@
 
-monodevelopdir = $(prefix)/lib/monodevelop
+monodevelopdir = $(libdir)/monodevelop
 startpagedir = $(monodevelopdir)/AddIns/AddIns/Misc/StartPage
 
 startpage_DATA = StartPage.addin.xml

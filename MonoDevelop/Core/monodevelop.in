@@ -27,7 +27,7 @@ else
 	exit 1
 fi
  
-MD_BIN_PATH=@prefix@/lib/monodevelop/bin
+MD_BIN_PATH=@libdir@/monodevelop/bin
 
 if [ -n $LD_LIBRARY_PATH ]; then
 	export LD_LIBRARY_PATH=$MOZILLA_HOME:$MD_BIN_PATH:$LD_LIBRARY_PATH
@@ -36,9 +36,9 @@ else
 fi
 
 if [ -n $PKG_CONFIG_PATH ]; then
-	export PKG_CONFIG_PATH=$PKG_CONFIG_PATH:@gtksharp_prefix@/lib/pkgconfig/
+	export PKG_CONFIG_PATH=$PKG_CONFIG_PATH:@libdir@/pkgconfig/
 else
-	export PKG_CONFIG_PATH=@gtksharp_prefix@/lib/pkgconfig/
+	export PKG_CONFIG_PATH=@libdir@/pkgconfig/
 fi
 
 export MOZILLA_FIVE_HOME=$MOZILLA_HOME

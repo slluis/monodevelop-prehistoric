@@ -1,6 +1,6 @@
 SUBDIRS = AddIns
 
-monodevelopdir = $(prefix)/lib/monodevelop
+monodevelopdir = $(libdir)/monodevelop
 addindir = $(monodevelopdir)/AddIns
 
 addin_DATA = MonoDevelopNewEditor.addin.xml SharpDevelopCore.addin.xml

@@ -1,5 +1,5 @@
 
-monodevelopdir = $(prefix)/lib/monodevelop
+monodevelopdir = $(libdir)/monodevelop
 iconsdir = $(monodevelopdir)/data/resources/icons
 
 icons_DATA = C\#.File.EmptyFile \

@@ -1,4 +1,4 @@
-monodevelopdir = $(prefix)/lib/monodevelop
+monodevelopdir = $(libdir)/monodevelop
 templatedir = $(monodevelopdir)/AddIns/AddIns/BackendBindings/templates
 
 template_DATA = CSharpSessionStateWebService.xft.xml \

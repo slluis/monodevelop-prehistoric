@@ -4,7 +4,7 @@ INCLUDES = \
 	-DGDL_IMAGESDIR=\"$(srcdir)/.\"			\
 	$(GDLDOCK_CFLAGS)
 
-gdldocklibdir = $(prefix)/lib/monodevelop/bin
+gdldocklibdir = $(libdir)/monodevelop/bin
 gdldocklib_DATA = $(dist_gdldocklib)
 
 gdldocklib_LTLIBRARIES = libgdldock.la

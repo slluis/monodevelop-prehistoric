@@ -1,5 +1,10 @@
 2004-07-05  Todd Berman  <tberman@off.net>
 
+	* Makefile.ams: remove libdir == $(prefix)/lib assumption. Patch from
+	Marcin Krzyzanowski <krzak@pld-linux.org>
+
+2004-07-05  Todd Berman  <tberman@off.net>
+
 	* configure.in:
 	* Makefile.am:
 	* libmonodevelop: Removed libmonodevelop.

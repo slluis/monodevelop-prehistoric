@@ -1,7 +1,7 @@
 
 SUBDIRS = templates
 
-monodevelopdir = $(prefix)/lib/monodevelop
+monodevelopdir = $(libdir)/monodevelop
 backendbindingsdir = $(monodevelopdir)/AddIns/AddIns/BackendBindings
 
 backendbindings_DATA = BackendBindings.addin.xml ILAsmBinding.addin.xml JavaBinding.addin.xml NemerleBinding.addin.xml
