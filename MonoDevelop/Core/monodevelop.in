@@ -49,18 +49,18 @@ set -- $ARGS
 cd $MD_BIN_PATH
 
 case x$1 in
-    x--profile)
-    @RUNTIME@ --profile ./MonoDevelop.exe $@
-	exit 0
-    ;;
-    x--debug)
-    @RUNTIME@ --debug ./MonoDevelop.exe $@
-	exit 0
-    ;;
+	x--profile)
+		@RUNTIME@ --profile ./MonoDevelop.exe $@
+		exit 0
+		;;
+	x--debug)
+		@RUNTIME@ --debug ./MonoDevelop.exe $@
+		exit 0
+		;;
 	x--trace)
-    @RUNTIME@ --trace ./MonoDevelop.exe $@
-	exit 0;
-	;;
+		@RUNTIME@ --trace ./MonoDevelop.exe $@
+		exit 0;
+		;;
 esac
 
 # should not use --debug when we are more stable
