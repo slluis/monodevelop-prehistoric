@@ -19,7 +19,12 @@ using MonoDevelop.EditorBindings.FormattingStrategy;
 
 namespace MonoDevelop.SourceEditor.Gui {
 	public class SourceEditorDisplayBinding : IDisplayBinding {
-		
+
+		static SourceEditorDisplayBinding ()
+		{
+			GtkSourceView.Init ();
+		}
+
 		public virtual bool CanCreateContentForFile (string fileName)
 		{
 			return false;
