@@ -1,3 +1,11 @@
+2004-03-05  John BouAntoun  <jba-mono@optusnet.com.au>
+	
+	* src/Main/Base/Commands/ProjectBrowserCommands/CombineNodeCommands.cs:
+	Made it so adding any new nodes to projectbrowserview 
+	(i.e. adding new or existing projects or combines to it) expands
+	to the added nodes. bug #54725
+	Also fixed bug where could not add a new project to combine
+
 2004-03-11  John Luke  <jluke@cfl.rr.com>
 
 	* src/AddIns/DisplayBindings/SourceEditor/:

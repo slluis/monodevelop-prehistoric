@@ -38,14 +38,16 @@ namespace MonoDevelop.Commands.ProjectBrowser
 			CombineBrowserNode node    = browser.SelectedNode as CombineBrowserNode;
 			
 			if (node != null) {
-				NewProjectDialog npdlg;
-				int response;				
-				while( (response = (npdlg = new NewProjectDialog(false)).Run())  == (int)Gtk.ResponseType.Reject ) 				
-					if (response /*npdlg.Run()*/ == (int)Gtk.ResponseType.Ok) {
-					node.Nodes.Add(ProjectBrowserView.BuildProjectTreeNode((IProject)node.Combine.AddEntry(npdlg.NewProjectLocation)));
+				NewProjectDialog npdlg = new NewProjectDialog(false);
+				if (npdlg.Run() == (int)Gtk.ResponseType.Ok) {
+					System.Console.WriteLine("inside if");
+					int newNodeIndex = node.Nodes.Add(ProjectBrowserView.BuildProjectTreeNode((IProject)node.Combine.AddEntry(npdlg.NewProjectLocation)));
 					projectService.SaveCombine();
+					// expand to the new node
+					node.Nodes[newNodeIndex].Expand();
 				}
-			}
+			}			
+			System.Console.WriteLine("end");
 		}
 	}
 		
@@ -60,8 +62,11 @@ namespace MonoDevelop.Commands.ProjectBrowser
 			if (node != null) {
 				NewProjectDialog npdlg = new NewProjectDialog(false);
 				if (npdlg.Run() == (int)Gtk.ResponseType.Ok) {
-					node.Nodes.Add(ProjectBrowserView.BuildCombineTreeNode((Combine)node.Combine.AddEntry(npdlg.NewCombineLocation)));
+					int newNodeIndex = node.Nodes.Add(ProjectBrowserView.BuildCombineTreeNode((Combine)node.Combine.AddEntry(npdlg.NewCombineLocation)));
 					projectService.SaveCombine();
+					
+					// expand to the new node
+					node.Nodes[newNodeIndex].Expand();
 				}
 			}
 		}
@@ -74,19 +79,32 @@ namespace MonoDevelop.Commands.ProjectBrowser
 			IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
 			ProjectBrowserView browser = (ProjectBrowserView)Owner;
 			CombineBrowserNode node    = browser.SelectedNode as CombineBrowserNode;
+			PropertyService propertyService = (PropertyService)ServiceManager.Services.GetService (typeof (PropertyService));
 			
 			if (node != null) {
 				using (Gtk.FileSelection fdiag = new Gtk.FileSelection ("Add a Project")) {
 					StringParserService stringParserService = (StringParserService)ServiceManager.Services.GetService(typeof(StringParserService));
+					string defaultFolder = propertyService.GetProperty(
+						"MonoDevelop.Gui.Dialogs.NewProjectDialog.DefaultPath", 
+					System.IO.Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal),
+						"MonoDevelopProjects")).ToString();
+					
+					fdiag.Complete (defaultFolder);
 					fdiag.SelectMultiple = false;
 					if (fdiag.Run () == (int) Gtk.ResponseType.Ok) {
 						object obj = node.Combine.AddEntry(fdiag.Filename);
+						int newNodeIndex = -1;
 						if (obj is IProject) {
-							node.Nodes.Add(ProjectBrowserView.BuildProjectTreeNode((IProject)obj));
+							newNodeIndex = node.Nodes.Add(ProjectBrowserView.BuildProjectTreeNode((IProject)obj));
 						} else {
-							node.Nodes.Add(ProjectBrowserView.BuildCombineTreeNode((Combine)obj));
+							newNodeIndex = node.Nodes.Add(ProjectBrowserView.BuildCombineTreeNode((Combine)obj));
 						}
 						projectService.SaveCombine();
+						
+						if (newNodeIndex > -1) {
+							// expand to the new node
+							node.Nodes[newNodeIndex].Expand();
+						}
 					}
 
 					fdiag.Hide ();
@@ -102,19 +120,33 @@ namespace MonoDevelop.Commands.ProjectBrowser
 			IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
 			ProjectBrowserView browser = (ProjectBrowserView)Owner;
 			CombineBrowserNode node    = browser.SelectedNode as CombineBrowserNode;
+			PropertyService propertyService = (PropertyService)ServiceManager.Services.GetService (typeof (PropertyService));
 			
 			if (node != null) {
 				using (Gtk.FileSelection fdiag = new Gtk.FileSelection ("Add a Combine")) {
 					StringParserService stringParserService = (StringParserService)ServiceManager.Services.GetService(typeof(StringParserService));
+				
+					string defaultFolder = propertyService.GetProperty(
+						"MonoDevelop.Gui.Dialogs.NewProjectDialog.DefaultPath", 
+					System.IO.Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal),
+						"MonoDevelopProjects")).ToString();
+					
+					fdiag.Complete (defaultFolder);
 					fdiag.SelectMultiple = false;
 					if (fdiag.Run () == (int) Gtk.ResponseType.Ok) {
 						object obj = node.Combine.AddEntry(fdiag.Filename);
+						int newNodeIndex = -1;
 						if (obj is IProject) {
-							node.Nodes.Add(ProjectBrowserView.BuildProjectTreeNode((IProject)obj));
+							newNodeIndex = node.Nodes.Add(ProjectBrowserView.BuildProjectTreeNode((IProject)obj));
 						} else {
-							node.Nodes.Add(ProjectBrowserView.BuildCombineTreeNode((Combine)obj));
+							newNodeIndex = node.Nodes.Add(ProjectBrowserView.BuildCombineTreeNode((Combine)obj));
 						}
 						projectService.SaveCombine();
+						
+						if (newNodeIndex > -1) {
+							// expand to the new node
+							node.Nodes[newNodeIndex].Expand();
+						}
 					}
 
 					fdiag.Hide ();
