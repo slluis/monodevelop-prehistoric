@@ -43,8 +43,8 @@ namespace MonoDevelop.Gui.Dialogs
 		Button cancelButton;
 		Label infoLabel;
 
-		//IconService iconService = (IconService)ServiceManager.Services.GetService (typeof(IconService));
 		ResourceService iconService = (ResourceService)ServiceManager.Services.GetService (typeof(IResourceService));
+		DispatchService dispatcher = (DispatchService)ServiceManager.Services.GetService (typeof (DispatchService));
 		
 		public NewFileDialog () : base ()
 		{
@@ -52,16 +52,7 @@ namespace MonoDevelop.Gui.Dialogs
 			this.BorderWidth = 6;
 			this.HasSeparator = false;
 			
-			try {
-				InitializeComponents();
-				InitializeTemplates();
-				InitializeView();
-				
-				//((TreeView)ControlDictionary["categoryTreeView"]).Select();
-			} catch (Exception e) {
-				Console.WriteLine(e.ToString());
-			}
-			ShowAll ();
+			dispatcher.BackgroundDispatch (new MessageHandler (InitializeTemplates), null);
 		}
 		
 		void InitializeView()
@@ -86,22 +77,16 @@ namespace MonoDevelop.Gui.Dialogs
 			}
 			
 			icons = tmp;
-			foreach (TemplateItem item in alltemplates) {
-				if (item.Template.Icon == null) {
-					//item.ImageIndex = 0;
-				} else {
-					//item.ImageIndex = (int)icons[item.Template.Icon];
-				}
-			}
 			
 			InsertCategories(TreeIter.Zero, categories);
-			PropertyService propertyService = (PropertyService)ServiceManager.Services.GetService(typeof(PropertyService));
+			//PropertyService propertyService = (PropertyService)ServiceManager.Services.GetService(typeof(PropertyService));
 			/*for (int j = 0; j < categories.Count; ++j) {
 				if (((Category)categories[j]).Name == propertyService.GetProperty("Dialogs.NewFileDialog.LastSelectedCategory", "C#")) {
 					((TreeView)ControlDictionary["categoryTreeView"]).SelectedNode = (TreeNode)((TreeView)ControlDictionary["categoryTreeView"]).Nodes[j];
 					break;
 				}
 			}*/
+			ShowAll ();
 		}
 		
 		void InsertCategories(TreeIter node, ArrayList catarray)
@@ -129,7 +114,7 @@ namespace MonoDevelop.Gui.Dialogs
 			return newcategory;
 		}
 		
-		void InitializeTemplates()
+		void InitializeTemplates(object blank)
 		{
 			foreach (FileTemplate template in FileTemplate.FileTemplates) {
 				TemplateItem titem = new TemplateItem(template);
@@ -150,11 +135,7 @@ namespace MonoDevelop.Gui.Dialogs
 				}
 				alltemplates.Add(titem);
 			}
-		}
-		
-		bool FixCatIcons (TreeModel mdl, TreePath path, TreeIter iter) {
-			((TreeStore)mdl).SetValue (iter, 3, cat_imglist[1]);
-			return false;
+			dispatcher.GuiDispatch (new MessageHandler (InitializeComponents), null);
 		}
 		
 		// tree view event handlers
@@ -163,8 +144,6 @@ namespace MonoDevelop.Gui.Dialogs
 			TreeModel mdl;
 			TreeIter  iter;
 			if (catView.Selection.GetSelected (out mdl, out iter)) {
-				((TreeStore)mdl).Foreach (new TreeModelForeachFunc (FixCatIcons));
-				((TreeStore)mdl).SetValue (iter, 3, cat_imglist[0]);
 				//templateStore.Clear ();
                                 TemplateView.Clear ();
 				foreach (TemplateItem item in (ArrayList)((Gtk.TreeStore)mdl).GetValue (iter, 2)) {
@@ -193,12 +172,6 @@ namespace MonoDevelop.Gui.Dialogs
                         	}
 				okButton.Sensitive = true;
 			}
-//			if (templateView.Selection.GetSelected (out mdl, out iter)) {
-//				StringParserService sps = (StringParserService)ServiceManager.Services.GetService (typeof(StringParserService));
-//				string text = sps.Parse (((FileTemplate)((Gtk.TreeStore)mdl).GetValue (iter, 1)).Description);
-//				infoLabel.Text = text;
-//				okButton.Sensitive = true;
-//			}
 		}
 		
 		// button events
@@ -232,13 +205,12 @@ namespace MonoDevelop.Gui.Dialogs
 			//if (templateView.Selection.GetSelected (out mdl, out iter)) {
 			if (TemplateView.CurrentlySelected != null) {
 				FileTemplate item = (FileTemplate)TemplateView.CurrentlySelected;
-				//FileTemplate item = (FileTemplate)((Gtk.TreeStore)mdl).GetValue (iter, 1);
 				
 				if (item.WizardPath != null) {
-					IProperties customizer = new DefaultProperties();
-					customizer.SetProperty("Template", item);
-					customizer.SetProperty("Creator",  this);
-					WizardDialog wizard = new WizardDialog("File Wizard", customizer, item.WizardPath);
+					//IProperties customizer = new DefaultProperties();
+					//customizer.SetProperty("Template", item);
+					//customizer.SetProperty("Creator",  this);
+					//WizardDialog wizard = new WizardDialog("File Wizard", customizer, item.WizardPath);
 					//if (wizard.ShowDialog() == DialogResult.OK) {
 						//DialogResult = DialogResult.OK;
 					//}
@@ -248,11 +220,13 @@ namespace MonoDevelop.Gui.Dialogs
 					}
 				}
 				
-				Respond ((int)Gtk.ResponseType.Ok);
-				Hide ();
+				Destroy ();
+				if (WorkbenchSingleton.Workbench.ActiveWorkbenchWindow != null) {
+					WorkbenchSingleton.Workbench.ActiveWorkbenchWindow.SelectWindow();
+				}
 			}
 		}
-		
+
 		/// <summary>
 		///  Represents a category
 		/// </summary>
@@ -315,10 +289,10 @@ namespace MonoDevelop.Gui.Dialogs
 		}
 
 		void cancelClicked (object o, EventArgs e) {
-			Hide ();
+			Destroy ();
 		}
-		
-		void InitializeComponents()
+
+		void InitializeComponents(object blank)
 		{
 			
 			catStore = new Gtk.TreeStore (typeof(string), typeof(ArrayList), typeof(ArrayList), typeof(Gdk.Pixbuf));
@@ -362,14 +336,9 @@ namespace MonoDevelop.Gui.Dialogs
 			Frame infoLabelFrame = new Frame();
 			infoLabelFrame.Add(infoLabel);
 
-			//VBox mainbox = new VBox (false, 5);
-			//mainbox.BorderWidth = 5;
-			//mainbox.Spacing = 5;
-			
 			HBox viewbox = new HBox (false, 6);
 			swindow1.Add(catView);
 			viewbox.PackStart (swindow1,false,true,0);
-			//viewbox.PackStart (templateView);
 			viewbox.PackStart(TemplateView, true, true,0);
 
 			this.AddActionWidget (cancelButton, (int)Gtk.ResponseType.Cancel);
@@ -381,12 +350,10 @@ namespace MonoDevelop.Gui.Dialogs
 			cat_imglist = new PixbufList();
 			cat_imglist.Add(iconService.GetBitmap("Icons.16x16.OpenFolderBitmap"));
 			cat_imglist.Add(iconService.GetBitmap("Icons.16x16.ClosedFolderBitmap"));
-	
 			catView.Selection.Changed += new EventHandler (CategoryChange);
 			TemplateView.IconSelected += new EventHandler(SelectedIndexChange);
 			TemplateView.IconDoubleClicked += new EventHandler(OpenEvent);
-			
-			PropertyService propertyService = (PropertyService)ServiceManager.Services.GetService(typeof(PropertyService));
+			InitializeView ();
 		}
 	}
 }

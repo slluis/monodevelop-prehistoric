@@ -1,5 +1,13 @@
 2004-06-23  Todd Berman  <tberman@off.net>
 
+	* Commands/FileCommands.cs: Cleanup a bit, move some code around.
+	* Gui/Dialogs/NewFileDialog.cs: Convert to using DispatchService.
+	This also tests the BackgroundDispatch method, which seems to be
+	working fine. Now New File will no longer lock up the GUI at all.
+	Also cleanup misc code, and unused pieces.
+
+2004-06-23  Todd Berman  <tberman@off.net>
+
 	* Gui/Pads/ClassScout/ClassScout.cs: use DispatchService instead of
 	IdleWork stuff.
 	* Services/DispatchService/DispatchService.cs: new service, used to
