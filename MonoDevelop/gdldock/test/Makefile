@@ -1,8 +1,10 @@
+ASSEMBLY = ../../build/bin/GdkDockTest.exe
+
 all:
-	mcs -g GdlDockTest.cs /r:gtk-sharp.dll /r:../../build/bin/gdl-sharp.dll /r:gnome-sharp.dll -o GdlDockTest.exe
+	mcs -g GdlDockTest.cs /r:gtk-sharp.dll /r:../../build/bin/gdl-sharp.dll /r:gnome-sharp.dll -o $(ASSEMBLY)
 
 run:
-	MONO_PATH="../../build/bin" mono --debug GdlDockTest.exe
+	LD_LIBRARY_PATH="../../build/bin" mono --debug $(ASSEMBLY)
 
 clean:
-	rm -f GdlDockTest.exe
+	rm -f $(ASSEMBLY)
