@@ -154,6 +154,7 @@ namespace MonoDevelop.Gui.Dialogs
 		private TreeView listView;
 		private Button button;
 		private TreeStore store;
+		private Clipboard clipboard;
 		
 		public static new GLib.GType GType
 		{
@@ -168,7 +169,7 @@ namespace MonoDevelop.Gui.Dialogs
 		public VersionInformationTabPage() : base (GType)
 		{
 			ResourceService resourceService = (ResourceService)ServiceManager.Services.GetService(typeof(IResourceService));
-			
+	
 			TreeView listView = new TreeView ();
 			listView.RulesHint = true;
 			listView.AppendColumn (resourceService.GetString("Dialog.About.VersionInfoTabName.NameColumn"), new CellRendererText (), "text", 0);
@@ -214,6 +215,8 @@ namespace MonoDevelop.Gui.Dialogs
 		
 		void CopyButtonClick(object o, EventArgs args)
 		{
+			clipboard = Clipboard.Get (Gdk.Atom.Intern ("CLIPBOARD", false));
+
 			StringBuilder versionInfo = new StringBuilder();
 			foreach (Assembly asm in AppDomain.CurrentDomain.GetAssemblies()) {
 				AssemblyName name = asm.GetName();
@@ -230,7 +233,7 @@ namespace MonoDevelop.Gui.Dialogs
 				versionInfo.Append(Environment.NewLine);
 			}
 			
-			//Clipboard.SetDataObject(new DataObject(System.Windows.Forms.DataFormats.Text, versionInfo.ToString()), true);
+			clipboard.SetText (versionInfo.ToString ());
 		}
 	}
 }
