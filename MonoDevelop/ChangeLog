@@ -1,3 +1,7 @@
+2005-01-14  Lluis Sanchez Gual  <lluis@novell.com>
+
+	* configure.in: Removed some obsolete files from build.
+
 2005-01-11  John Luke  <john.luke@gmail.com>
 
 	* monodevelop.applications:
