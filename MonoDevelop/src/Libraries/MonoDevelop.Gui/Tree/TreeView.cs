@@ -25,10 +25,10 @@ namespace MonoDevelop.Gui {
 			complete_column.AddAttribute (pix_render, "pixbuf", 1);
 			
 			Gtk.CellRendererText text_render = new Gtk.CellRendererText ();
-			text_render.Editable = canEdit;
-			if (canEdit) {
-				text_render.Edited += new GtkSharp.EditedHandler (OnEdit);
-			}
+			//text_render.Editable = canEdit;
+			//if (canEdit) {
+			//	text_render.Edited += new GtkSharp.EditedHandler (OnEdit);
+			//}
 			complete_column.PackStart (text_render, true);
 			complete_column.AddAttribute (text_render, "text", 0);
 	

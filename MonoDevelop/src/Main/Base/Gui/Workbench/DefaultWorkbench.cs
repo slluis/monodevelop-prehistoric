@@ -138,27 +138,14 @@ namespace ICSharpCode.SharpDevelop.Gui
 			ResourceService resourceService = (ResourceService)ServiceManager.Services.GetService(typeof(IResourceService));
 			Title = resourceService.GetString("MainWindow.DialogName");
 		
-#if GTK
 			windowChangeEventHandler = new EventHandler(OnActiveWindowChanged);
 
 			DefaultWidth = normalBounds.Width;
 			DefaultHeight = normalBounds.Height;
 
 			DeleteEvent += new GtkSharp.DeleteEventHandler (OnClosing);
-
-
 			this.Icon = resourceService.GetBitmap ("Icons.SharpDevelopIcon");
 			this.WindowPosition = Gtk.WindowPosition.None;
-			// FIXME: GTKize
-#else		
-			Icon = resourceService.GetIcon("Icons.SharpDevelopIcon");
-			
-			windowChangeEventHandler = new EventHandler(OnActiveWindowChanged);
-			
-			StartPosition = FormStartPosition.Manual;
-						
-			AllowDrop      = true;
-#endif
 		}
 		
 		public void InitializeWorkspace()
@@ -544,7 +531,6 @@ namespace ICSharpCode.SharpDevelop.Gui
 			}
 		}
 
-#if GTK
 		private Gtk.Toolbar[] toolbars = null;
 		public Gtk.Toolbar[] ToolBars {
 			get {
@@ -554,12 +540,6 @@ namespace ICSharpCode.SharpDevelop.Gui
 				toolbars = value;
 			}
 		}
-#else
-		//Commandbar crap
-		public CommandBarManager commandBarManager = new CommandBarManager();
-		public CommandBar   TopMenu  = null;
-		public CommandBar[] ToolBars = null;
-#endif
 		
 		public IPadContent GetPad(Type type)
 		{
@@ -577,14 +557,15 @@ namespace ICSharpCode.SharpDevelop.Gui
 			foreach (object item in items) {
 				TopMenu.Append ((Gtk.Widget)item);
 			}
+			UpdateMenu (null, null);
 		}
 		
 		public void UpdateMenu(object sender, EventArgs e)
 		{
 			// update menu
 			foreach (object o in TopMenu.Children) {
-				if (o is IStatusUpdate) {
-					((IStatusUpdate)o).UpdateStatus();
+				if (o is SdMenu) {
+					((SdMenu)o).OnDropDown(null, null);
 				}
 			}
 			

@@ -64,7 +64,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Components
 			((Gtk.Window)WorkbenchSingleton.Workbench).AddAccelGroup (accel);
 		}
 		
-		protected void OnDropDown(object ob, System.EventArgs e)
+		public void OnDropDown(object ob, System.EventArgs e)
 		{
 			/*foreach (object o in ((Gtk.Menu)Submenu).Children) {
 			
@@ -79,8 +79,8 @@ namespace ICSharpCode.SharpDevelop.Gui.Components
 		{
 			if (conditionCollection != null) {
 				ConditionFailedAction failedAction = conditionCollection.GetCurrentConditionFailedAction(caller);
-				this.Sensitive = failedAction != ConditionFailedAction.Disable;
-				this.Visible = failedAction != ConditionFailedAction.Exclude;
+				this.Sensitive = (failedAction != ConditionFailedAction.Disable);
+				this.Visible = (failedAction != ConditionFailedAction.Exclude);
 			}
 			
 			if (Visible) {
@@ -103,13 +103,11 @@ namespace ICSharpCode.SharpDevelop.Gui.Components
 				}
 				ShowAll ();
 			}
-			//Text = stringParserService.Parse(localizedText);
 		}
 
 		public void Append (Gtk.Widget item)
 		{
-			if (item.Parent == null) // FIXME: lamehack
-				subMenu.Append (item);
+			subMenu.Append (item);
 		}
 	}
 }

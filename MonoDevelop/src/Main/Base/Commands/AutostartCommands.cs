@@ -211,6 +211,7 @@ namespace ICSharpCode.SharpDevelop.Commands
 #endif
 			
 			((Gtk.Window)WorkbenchSingleton.Workbench).ShowAll ();
+			WorkbenchSingleton.Workbench.RedrawAllComponents ();
 		
 			ShowTipOfTheDay (null, null);
 		
