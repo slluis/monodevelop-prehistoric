@@ -266,15 +266,7 @@ namespace MonoDevelop.Commands
 		
 		public override void Run()
 		{
-#if !GTK
-			using (OpenFileDialog fdiag  = new OpenFileDialog()) {
-				fdiag.AddExtension    = true;
-#endif
-				
 				string[] fileFilters  = (string[])(AddInTreeSingleton.AddInTree.GetTreeNode("/SharpDevelop/Workbench/FileFilter").BuildChildItems(this)).ToArray(typeof(string));
-#if !GTK
-				fdiag.Filter          = String.Join("|", fileFilters);
-#endif
 				bool foundFilter      = false;
 				// search filter like in the current selected project
 				
@@ -317,6 +309,7 @@ namespace MonoDevelop.Commands
 							"MonoDevelopProjects")).ToString();
 					fs.Complete (defaultFolder);
 					int response = fs.Run ();
+					fs.Hide ();
 					string name = fs.Filename;
 
 				if (response == (int)Gtk.ResponseType.Ok) {
