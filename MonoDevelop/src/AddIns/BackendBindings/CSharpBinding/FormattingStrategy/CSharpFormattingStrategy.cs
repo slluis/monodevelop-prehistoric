@@ -32,11 +32,13 @@ namespace CSharpBinding.FormattingStrategy {
 		protected override int SmartIndentLine (IFormattableDocument d, int lineNr)
 		{
 			if (lineNr > 0) {
-				string  lineAboveText = d.GetLineAsString (lineNr - 1).Trim ();
-				string  curLineText = d.GetLineAsString (lineNr).Trim ();
+				string  lineAboveText = d.GetLineAsString (lineNr - 1);
+				string  trimlineAboveText = lineAboveText.Trim ();
+				string  curLineText = d.GetLineAsString (lineNr);
+				string  trimcurLineText = curLineText.Trim ();
 				
-				if ((lineAboveText.EndsWith (")") && curLineText.StartsWith ("{")) ||       // after for, while, etc.
-				    (lineAboveText.EndsWith ("else") && curLineText.StartsWith ("{")))      // after else
+				if ((trimlineAboveText.EndsWith (")") && trimcurLineText.StartsWith ("{")) ||       // after for, while, etc.
+				    (trimlineAboveText.EndsWith ("else") && trimcurLineText.StartsWith ("{")))      // after else
 				{
 					string indentation = GetIndentation (d, lineNr - 1);
 					d.ReplaceLine (lineNr, indentation + curLineText);
@@ -44,7 +46,7 @@ namespace CSharpBinding.FormattingStrategy {
 				}
 				
 				// indent closing bracket.
-				if (curLineText.StartsWith ("}")) {
+				if (trimcurLineText.StartsWith ("}")) {
 					int openLine;
 					int closingBracketOffset = d.GetClosingBraceForLine (lineNr, out openLine);
 					
@@ -73,7 +75,7 @@ namespace CSharpBinding.FormattingStrategy {
 					
 					// special handling for switch statement formatting.
 					if (closingBracketLineText.StartsWith ("switch")) {
-						if (! (lineAboveText.StartsWith ("break;") || lineAboveText.StartsWith ("goto") || lineAboveText.StartsWith ("return")))
+						if (! (trimlineAboveText.StartsWith ("break;") || trimlineAboveText.StartsWith ("goto") || trimlineAboveText.StartsWith ("return")))
 							indentation += d.IndentString;
 					}
 					indentation += d.IndentString;
