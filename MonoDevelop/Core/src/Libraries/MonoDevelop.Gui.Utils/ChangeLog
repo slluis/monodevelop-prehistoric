@@ -1,3 +1,8 @@
+2004-07-02  Todd Berman  <tberman@off.net>
+
+	* FileIcons/FileIconLoader.cs: add a try catch that makes sure the
+	pixbuf is loaded properly. If it isnt, return a basic pixbuf.
+
 2004-06-30  John Luke  <jluke@cfl.rr.com>
 
 	* Glue.cs: add IsGtk24 property for potential FileChooser hack

@@ -54,7 +54,11 @@ namespace MonoDevelop.Gui.Utils
 				} catch {
 					return new Gdk.Pixbuf ("../data/resources/icons/gnome-fs-regular.png");
 				}
-				bf = new Gdk.Pixbuf (p_filename);
+				try {
+					bf = new Gdk.Pixbuf (p_filename);
+				} catch {
+					bf = new Gdk.Pixbuf ("../data/resources/icons/gnome-fs-regular.png");
+				}
 				iconHash [type] = bf;
 			}
 			return bf;
