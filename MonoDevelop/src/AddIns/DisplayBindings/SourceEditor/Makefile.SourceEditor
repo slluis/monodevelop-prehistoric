@@ -104,7 +104,7 @@ all: MonoDevelop.SourceEditor.dll
 
 MonoDevelop.SourceEditor.dll: $(SOURCES)
 	mcs $(MCS_OPTIONS) -target:library -out:"MonoDevelop.SourceEditor.dll" $(PKG_REFERENCES_BUILD) $(PROJECT_REFERENCES_BUILD) $(SYSTEM_REFERENCES_BUILD) $(SOURCES) \
-	&& cp "MonoDevelop.SourceEditor.dll" ../../../build/bin
+	&& cp "MonoDevelop.SourceEditor.dll" ../../../build/bin/.
 
 clean:
 	rm -f MonoDevelop.SourceEditor.dll

@@ -35,7 +35,7 @@ all: MonoDevelop.Gui.Utils.dll
 
 MonoDevelop.Gui.Utils.dll: $(SOURCES)
 	mcs $(MCS_OPTIONS) -target:library -out:"MonoDevelop.Gui.Utils.dll" $(PKG_REFERENCES_BUILD) $(SYSTEM_REFERENCES_BUILD) $(SOURCES) \
-	&& cp "MonoDevelop.Gui.Utils.dll" ../../build/bin
+	&& cp "MonoDevelop.Gui.Utils.dll" ../../build/bin/.
 
 clean:
 	rm -f MonoDevelop.Gui.Utils.dll

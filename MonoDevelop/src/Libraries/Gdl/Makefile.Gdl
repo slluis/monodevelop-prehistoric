@@ -33,7 +33,7 @@ all: Gdl.dll
 
 Gdl.dll: $(SOURCES)
 	mcs $(MCS_OPTIONS) -target:library -out:"Gdl.dll" $(PKG_REFERENCES_BUILD) $(SOURCES) \
-	&& cp "Gdl.dll" ./build/bin/.
+	&& cp "Gdl.dll" ../../build/bin/.
 
 clean:
 	rm -f Gdl.dll

@@ -47,14 +47,6 @@ SOURCES = \
 ./Gui/BrowserDisplayBinding/HTMLInterfaces.cs \
 ./Gui/BrowserDisplayBinding/HtmlViewPane.cs \
 ./Gui/BrowserDisplayBinding/SHDocVw.cs \
-./Gui/CompletionDatabaseWizard/CreateDBGenerator.cs \
-./Gui/CompletionDatabaseWizard/CreatingGenerator.cs \
-./Gui/CompletionDatabaseWizard/DownloadGenerator.cs \
-./Gui/CompletionDatabaseWizard/Exceptions.cs \
-./Gui/CompletionDatabaseWizard/GenerateDatabase.cs \
-./Gui/CompletionDatabaseWizard/IDatabaseGenerator.cs \
-./Gui/CompletionDatabaseWizard/UseExistingGenerator.cs \
-./Gui/CompletionDatabaseWizard/druid.cs \
 ./Gui/Components/SdMenu.cs \
 ./Gui/Components/SdMenuCheckBox.cs \
 ./Gui/Components/SdMenuCommand.cs \
@@ -137,7 +129,6 @@ SOURCES = \
 ./Gui/HtmlControl/MozillaControl.cs \
 ./Gui/Pads/OpenTaskView.cs \
 ./Gui/Pads/SideBarView.cs \
-./Gui/Pads/TerminalPad.cs \
 ./Gui/Pads/TreeViewMemento.cs \
 ./Gui/Pads/ClassScout/ClassScout.cs \
 ./Gui/Pads/ClassScout/BrowserNode/AbstractClassScoutNode.cs \
@@ -371,7 +362,8 @@ SOURCES = \
 ./Services/Tasks/Task.cs \
 ./Services/Tasks/TaskService.cs \
 ./Services/Toolbar/ToolbarService.cs \
-./Gui/Dialogs/CombineConfiguration/CombineBuildOptions.cs
+./Gui/Dialogs/CombineConfiguration/CombineBuildOptions.cs \
+./Services/DispatchService/DispatchService.cs
 
 RESOURCES = \
 ../../../data/resources/glade/Base.glade
@@ -403,7 +395,11 @@ SYSTEM_REFERENCES_CHECK = $(addsuffix .check, $(SYSTEM_REFERENCES))
 
 PROJECT_REFERENCES = \
 "../../Libraries/MonoDevelop.Core/MonoDevelop.Core.dll" \
-"../../Libraries/MonoDevelop.Gui.Widgets/MonoDevelop.Gui.Widgets.dll"
+"../../Libraries/MonoDevelop.Gui.Utils/MonoDevelop.Gui.Utils.dll" \
+"../../Libraries/MonoDevelop.Gui.Widgets/MonoDevelop.Gui.Widgets.dll" \
+"../../Libraries/Gdl/Gdl.dll" \
+"../../Libraries/SharpAssembly/ICSharpCode.SharpAssembly.dll" \
+"../../Libraries/SharpRefactory/ICSharpCode.SharpRefactory.dll"
 
 PROJECT_REFERENCES_BUILD = $(addprefix -r:, $(PROJECT_REFERENCES))
 
@@ -413,7 +409,7 @@ all: MonoDevelop.Base.dll
 
 MonoDevelop.Base.dll: $(SOURCES) $(RESOURCES)
 	mcs $(MCS_OPTIONS) -target:library -out:"MonoDevelop.Base.dll" $(RESOURCES_BUILD) $(PKG_REFERENCES_BUILD) $(PROJECT_REFERENCES_BUILD) $(SYSTEM_REFERENCES_BUILD) $(SOURCES) \
-	&& cp "MonoDevelop.Base.dll" ../../build/bin
+	&& cp "MonoDevelop.Base.dll" ../../build/bin/.
 
 clean:
 	rm -f MonoDevelop.Base.dll

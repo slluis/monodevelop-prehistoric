@@ -3,14 +3,14 @@
 
 OUTPUTDIR := ./build/bin
 
-all: depcheck __init Makefile.SharpAssembly.all Makefile.SharpRefactory.all Makefile.MonoDevelop.Core.all Makefile.MonoDevelop.Gui.Utils.all Makefile.MonoDevelop.Gui.Widgets.all Makefile.MonoDevelop.Base.all Makefile.MonoDevelop.all Makefile.SourceEditor.all Makefile.CSharpBinding.all Makefile.JavaBinding.all Makefile.NemerleBinding.all Makefile.ILAsmBinding.all Makefile.StartPage.all Makefile.Prj2MakeSharp.all Makefile.Gdl.all 
+all: depcheck __init Makefile.SharpAssembly.all Makefile.SharpRefactory.all Makefile.MonoDevelop.Core.all Makefile.MonoDevelop.Gui.Utils.all Makefile.MonoDevelop.Gui.Widgets.all Makefile.Gdl.all Makefile.MonoDevelop.Base.all Makefile.MonoDevelop.all Makefile.SourceEditor.all Makefile.CSharpBinding.all Makefile.JavaBinding.all Makefile.NemerleBinding.all Makefile.ILAsmBinding.all Makefile.StartPage.all Makefile.Prj2MakeSharp.all 
 
 __init:
 	mkdir -p $(OUTPUTDIR)
 
-clean: Makefile.SharpAssembly.clean Makefile.SharpRefactory.clean Makefile.MonoDevelop.Core.clean Makefile.MonoDevelop.Gui.Utils.clean Makefile.MonoDevelop.Gui.Widgets.clean Makefile.MonoDevelop.Base.clean Makefile.MonoDevelop.clean Makefile.SourceEditor.clean Makefile.CSharpBinding.clean Makefile.JavaBinding.clean Makefile.NemerleBinding.clean Makefile.ILAsmBinding.clean Makefile.StartPage.clean Makefile.Prj2MakeSharp.clean Makefile.Gdl.clean 
+clean: Makefile.SharpAssembly.clean Makefile.SharpRefactory.clean Makefile.MonoDevelop.Core.clean Makefile.MonoDevelop.Gui.Utils.clean Makefile.MonoDevelop.Gui.Widgets.clean Makefile.Gdl.clean Makefile.MonoDevelop.Base.clean Makefile.MonoDevelop.clean Makefile.SourceEditor.clean Makefile.CSharpBinding.clean Makefile.JavaBinding.clean Makefile.NemerleBinding.clean Makefile.ILAsmBinding.clean Makefile.StartPage.clean Makefile.Prj2MakeSharp.clean 
 
-depcheck: Makefile.SharpAssembly.depcheck Makefile.SharpRefactory.depcheck Makefile.MonoDevelop.Core.depcheck Makefile.MonoDevelop.Gui.Utils.depcheck Makefile.MonoDevelop.Gui.Widgets.depcheck Makefile.MonoDevelop.Base.depcheck Makefile.MonoDevelop.depcheck Makefile.SourceEditor.depcheck Makefile.CSharpBinding.depcheck Makefile.JavaBinding.depcheck Makefile.NemerleBinding.depcheck Makefile.ILAsmBinding.depcheck Makefile.StartPage.depcheck Makefile.Prj2MakeSharp.depcheck Makefile.Gdl.depcheck 
+depcheck: Makefile.SharpAssembly.depcheck Makefile.SharpRefactory.depcheck Makefile.MonoDevelop.Core.depcheck Makefile.MonoDevelop.Gui.Utils.depcheck Makefile.MonoDevelop.Gui.Widgets.depcheck Makefile.Gdl.depcheck Makefile.MonoDevelop.Base.depcheck Makefile.MonoDevelop.depcheck Makefile.SourceEditor.depcheck Makefile.CSharpBinding.depcheck Makefile.JavaBinding.depcheck Makefile.NemerleBinding.depcheck Makefile.ILAsmBinding.depcheck Makefile.StartPage.depcheck Makefile.Prj2MakeSharp.depcheck 
 
 run: all
 	cd $(OUTPUTDIR) && mono MonoDevelop.exe
@@ -29,6 +29,9 @@ Makefile.MonoDevelop.Gui.Utils.%:
 
 Makefile.MonoDevelop.Gui.Widgets.%:
 	@cd ./Libraries/MonoDevelop.Gui.Widgets && $(MAKE) -f $(subst .$*,,$@) $*
+
+Makefile.Gdl.%:
+	@cd ./Libraries/Gdl && $(MAKE) -f $(subst .$*,,$@) $*
 
 Makefile.MonoDevelop.Base.%:
 	@cd ./Main/Base && $(MAKE) -f $(subst .$*,,$@) $*
@@ -56,7 +59,4 @@ Makefile.StartPage.%:
 
 Makefile.Prj2MakeSharp.%:
 	@cd ./AddIns/prj2make-sharp-lib && $(MAKE) -f $(subst .$*,,$@) $*
-
-Makefile.Gdl.%:
-	@cd ./Libraries/Gdl && $(MAKE) -f $(subst .$*,,$@) $*
 

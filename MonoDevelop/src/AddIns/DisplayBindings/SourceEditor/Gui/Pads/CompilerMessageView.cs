@@ -153,12 +153,14 @@ namespace MonoDevelop.EditorBindings.Gui.Pads
 				TitleChanged(this, e);
 			}
 		}
+
 		protected virtual void OnIconChanged(EventArgs e)
 		{
 			if (IconChanged != null) {
 				IconChanged(this, e);
 			}
 		}
+
 		public event EventHandler TitleChanged;
 		public event EventHandler IconChanged;
 

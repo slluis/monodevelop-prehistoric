@@ -75,7 +75,7 @@ all: ICSharpCode.SharpAssembly.dll
 
 ICSharpCode.SharpAssembly.dll: $(SOURCES)
 	mcs $(MCS_OPTIONS) -target:library -out:"ICSharpCode.SharpAssembly.dll" $(SOURCES) \
-	&& cp "ICSharpCode.SharpAssembly.dll" ../../build/bin
+	&& cp "ICSharpCode.SharpAssembly.dll" ../../build/bin/.
 
 clean:
 	rm -f ICSharpCode.SharpAssembly.dll

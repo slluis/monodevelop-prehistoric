@@ -34,7 +34,7 @@ all: MonoDevelop.StartPage.dll
 
 MonoDevelop.StartPage.dll: $(SOURCES)
 	mcs $(MCS_OPTIONS) -target:library -out:"MonoDevelop.StartPage.dll" $(PKG_REFERENCES_BUILD) $(PROJECT_REFERENCES_BUILD) $(SYSTEM_REFERENCES_BUILD) $(SOURCES) \
-	&& cp "MonoDevelop.StartPage.dll" ../../../build/bin
+	&& cp "MonoDevelop.StartPage.dll" ../../../build/bin/.
 
 clean:
 	rm -f MonoDevelop.StartPage.dll

@@ -16,7 +16,6 @@ using MonoDevelop.Services;
 
 using Gtk;
 using Gdl;
-using GdlSharp;
 using MonoDevelop.Gui.Widgets;
 using MonoDevelop.Gui.Utils;
 

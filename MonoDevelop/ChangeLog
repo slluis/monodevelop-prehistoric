@@ -1,3 +1,8 @@
+2004-06-24  John Luke  <jluke@cfl.rr.com>
+
+	fix all the projects and generated makefiles
+	(add/remove needed files, add refs)
+
 2004-06-23  Todd Berman  <tberman@off.net>
 
 	* *.cs: Lots of changes to reflect the ServiceManager change.

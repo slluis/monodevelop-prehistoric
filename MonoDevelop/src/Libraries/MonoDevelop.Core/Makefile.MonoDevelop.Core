@@ -75,7 +75,7 @@ all: MonoDevelop.Core.dll
 
 MonoDevelop.Core.dll: $(SOURCES)
 	mcs $(MCS_OPTIONS) -target:library -out:"MonoDevelop.Core.dll" $(SYSTEM_REFERENCES_BUILD) $(SOURCES) \
-	&& cp "MonoDevelop.Core.dll" ../../build/bin
+	&& cp "MonoDevelop.Core.dll" ../../build/bin/.
 
 clean:
 	rm -f MonoDevelop.Core.dll
