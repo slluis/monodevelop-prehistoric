@@ -23,7 +23,7 @@ using RS = MonoDevelop.Core.Services.ResourceService;
 	///<summary>
 	/// This class shows all databases connections in a treeview. 
 	///</summary>	
-	public class MonoQueryTree : TreeView
+	public class MonoQueryTree : MonoDevelop.Gui.Widgets.TreeView
 	{									
 //		private System.Windows.Forms.ImageList pNodeImages;
 		private MenuService menuService = null;
