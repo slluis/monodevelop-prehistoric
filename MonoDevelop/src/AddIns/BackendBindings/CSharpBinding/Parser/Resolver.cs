@@ -146,17 +146,17 @@ namespace CSharpBinding.Parser
 			cu = (ICompilationUnit)cSharpVisitor.Visit(fileCompilationUnit, null);
 			if (cu != null) {
 				callingClass = GetInnermostClass();
-				Console.WriteLine("CallingClass is " + callingClass == null ? "null" : callingClass.Name);
+				//Console.WriteLine("CallingClass is " + callingClass == null ? "null" : callingClass.Name);
 			}
-			Console.WriteLine("expression = " + expr.ToString());
+			//Console.WriteLine("expression = " + expr.ToString());
 			IReturnType type = expr.AcceptVisitor(typeVisitor, null) as IReturnType;
-			Console.WriteLine("type visited");
+			//Console.WriteLine("type visited");
 			if (type == null || type.PointerNestingLevel != 0) {
 //				Console.WriteLine("Type == null || type.PointerNestingLevel != 0");
 				if (type != null) {
-					Console.WriteLine("PointerNestingLevel is " + type.PointerNestingLevel);
+					//Console.WriteLine("PointerNestingLevel is " + type.PointerNestingLevel);
 				} else {
-					Console.WriteLine("Type == null");
+					//Console.WriteLine("Type == null");
 				}
 				//// when type is null might be file needs to be reparsed - some vars were lost
 				fileCompilationUnit=parserService.ParseFile(fileName, fileContent).MostRecentCompilationUnit.Tag 

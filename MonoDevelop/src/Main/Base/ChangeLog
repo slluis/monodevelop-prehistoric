@@ -1,3 +1,8 @@
+2004-03-28  John Luke  <jluke@cfl.rr.com>
+
+	* Services/ParserService/DefaultParserService.cs:
+	if filename == null don't switch on it
+
 2004-03-27  Todd Berman  <tberman@sevenl.net>
 
 	* Commands/FileCommands: remove save as notification, as its useless
