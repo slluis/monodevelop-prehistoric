@@ -129,7 +129,7 @@ namespace MonoDevelop.Gui
 			activePadCollection = workbench.PadContentCollection;
 
 			// FIXME: GTKize
-			//tabControl.SwitchPage += new EventHandler(ActiveMdiChanged);
+			tabControl.SwitchPage += new SwitchPageHandler(ActiveMdiChanged);
 			//tabControl.SelectionChanged += new EventHandler(ActiveMdiChanged);
 			
 			CreateDefaultLayout();
@@ -473,9 +473,9 @@ namespace MonoDevelop.Gui
 			} catch {
 				((Gtk.Window)WorkbenchSingleton.Workbench).Title = "MonoDevelop";
 			}
-			/*if (ActiveWorkbenchWindowChanged != null) {
+			if (ActiveWorkbenchWindowChanged != null) {
 				ActiveWorkbenchWindowChanged(this, e);
-			}*/
+			}
 		}
 		
 		public event EventHandler ActiveWorkbenchWindowChanged;
