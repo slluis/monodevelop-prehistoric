@@ -408,7 +408,7 @@
 		<Pad id = "MonoDevelop.Gui.Pads.OpenTaskView" class = "MonoDevelop.Gui.Pads.OpenTaskView"/>
 		<Pad id = "MonoDevelop.Gui.Pads.HelpTree" class = "MonoDevelop.Gui.Pads.HelpTree"/>
 
-		<SolutionPad id = "MonoDevelop.Gui.Pads.ProjectPad" defaultPlacement = "Left" _label = "Solution" icon = "Icons.16x16.CombineIcon">
+		<SolutionPad id = "MonoDevelop.Gui.Pads.ProjectPad" defaultPlacement = "Left" _label = "Solution" icon = "md-combine-icon">
 			<PadOption id = "ShowAllFiles" _label = "Show All Files" defaultValue = "False" />
 			<NodeBuilder id = "Combine" class = "MonoDevelop.Gui.Pads.ProjectPad.CombineNodeBuilder"/>
 			<NodeBuilder id = "Project" class = "MonoDevelop.Gui.Pads.ProjectPad.ProjectNodeBuilder"/>
@@ -419,7 +419,7 @@
 			<NodeBuilder id = "ResourceFolder" class = "MonoDevelop.Gui.Pads.ProjectPad.ResourceFolderNodeBuilder"/>
 		</SolutionPad>
 
-		<SolutionPad id = "MonoDevelop.Gui.Pads.ClassPad" defaultPlacement = "Left" _label = "Classes" icon = "Icons.16x16.Class">
+		<SolutionPad id = "MonoDevelop.Gui.Pads.ClassPad" defaultPlacement = "Left" _label = "Classes" icon = "md-class">
 			<PadOption id = "NestedNamespaces" _label = "Nested namespaces" defaultValue = "True" />
 			<PadOption id = "ShowProjects" _label = "Show project structure" defaultValue = "True" />
 			<PadOption id = "GroupByAccess" _label = "Group members by access" defaultValue = "False" />
