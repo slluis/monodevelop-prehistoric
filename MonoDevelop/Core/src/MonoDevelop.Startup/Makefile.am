@@ -22,7 +22,7 @@ $(DLL): $(build_sources)
 	$(CSC) /out:$(DLL) \
 		/define:GTK $(REFS) \
 		$(build_sources) \
-		/resource:SplashScreen.png,SplashScreen.png \
+		/resource:$(srcdir)/SplashScreen.png,SplashScreen.png \
 	&& cp $(DLL) $(top_builddir)/build/bin/.
 
 assemblydir = $(libdir)/monodevelop/bin

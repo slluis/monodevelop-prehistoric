@@ -1,7 +1,7 @@
-AC_INIT(README)
+AC_INIT([monodevelop], 0.5.99, [monodevelop-list@lists.ximian.com])
 AC_PREREQ(2.53)
 AC_CANONICAL_SYSTEM
-AM_INIT_AUTOMAKE(monodevelop, 0.5.1)
+AM_INIT_AUTOMAKE([1.9 tar-ustar])
 AM_MAINTAINER_MODE
 
 AM_DISABLE_STATIC
