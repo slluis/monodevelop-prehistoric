@@ -4,6 +4,8 @@
 
 DIE=0
 
+PKG_NAME=MonoDevelop
+
 srcdir=`dirname $0`
 test -z "$srcdir" && srcdir=.
 
