@@ -35,7 +35,10 @@ $(DLL): $(FILES)
 		/r:../../../../build/bin/MonoDevelop.SourceEditor.dll \
 		/r:../../../../build/bin/MonoDevelop.Base.dll \
 		/r:../../../../build/bin/ICSharpCode.SharpRefactory.dll \
+		/r:../../../../build/bin/MonoDevelop.Gui.Widgets.dll  \
 		/r:gtk-sharp \
+		/r:glade-sharp \
+		/resource:../../../../data/resources/glade/CSharp.glade,CSharp.glade \
 		$(FILES) \
 	&& cp $(DLL) ../../../../build/AddIns/AddIns/BackendBindings/.
 
