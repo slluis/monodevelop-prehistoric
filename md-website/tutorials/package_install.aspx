@@ -51,9 +51,8 @@ the Mozilla development package for your OS. For example:
             <li>Debian: `mozilla-dev'</li>
             <li>RedHat: `mozilla-devel'</li>
 	    <li>FreeBSD: `mozilla-gtkmozembed'</li>
+            <li>Tarball: <a href="http://ftp.mozilla.org/pub/mozilla.org/mozilla/releases/">ftp.mozilla.com</a></li>
          </ul>
-      I have yet to find an official tarball for gtkmozembed. If you know of one, please 
-<a href="mailto:steve@citygroup.ca">let me know</a>.
       </p>
 
       <br /><br />
