@@ -94,8 +94,9 @@ namespace CSharpBinding
 			
 			void SelectFolder(object sender, EventArgs e)
 			{
+				ResourceService res = (ResourceService)ServiceManager.Services.GetService (typeof (ResourceService));
 				using (FileSelection fdiag = new FileSelection (
-					"${res:Dialog.Options.PrjOptions.Configuration.FolderBrowserDescription}")) {
+					res.GetString ("${res:Dialog.Options.PrjOptions.Configuration.FolderBrowserDescription}"))) {
 					if (fdiag.Run () == (int) ResponseType.Ok) {
 						outputDirectoryEntry.Text = fdiag.Filename;
 					}

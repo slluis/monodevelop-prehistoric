@@ -1,3 +1,7 @@
+2004-04-01  Todd Berman  <tberman@sevenl.net>
+
+	* Gui/OutputOptionsPanel.cs: parse resource string, closes bug #56325
+
 2004-03-31  Todd Berman  <tberman@sevenl.net>
 
 	* CSharpBindingExecutionManager.cs: dont test CompileTarget, for now
