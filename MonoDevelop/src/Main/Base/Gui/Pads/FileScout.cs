@@ -38,10 +38,6 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads
 			ResourceManager resources = new ResourceManager("ProjectComponentResources", this.GetType().Module.Assembly);
 			FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.Services.GetService(typeof(FileUtilityService));
 			
-			//Columns.Add("File", 100, HorizontalAlignment.Left);
-			//Columns.Add("Size", -2, HorizontalAlignment.Right);
-			//Columns.Add("Last modified", -2, HorizontalAlignment.Left);
-			
 			store = new Gtk.ListStore (typeof (string), typeof (string), typeof(string), typeof(FileListItem), typeof (Gdk.Pixbuf));
 			Model = store;
 
@@ -80,7 +76,6 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads
 			AppendColumn(size_column);
 			AppendColumn(modi_column);
 
-			
 //			menu = new MagicMenus.PopupMenu();
 //			menu.MenuCommands.Add(new MagicMenus.MenuCommand("Delete file", new EventHandler(deleteFiles)));
 //			menu.MenuCommands.Add(new MagicMenus.MenuCommand("Rename", new EventHandler(renameFile)));
@@ -108,7 +103,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads
 			// TODO
 		}
 		
-		void Clear() {
+		internal void Clear() {
 			store.Clear();
 		}
 		
@@ -385,6 +380,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads
 		
 		FileList   filelister = new FileList();
 		FileBrowser fb = new FileBrowser ();
+		Gtk.Entry pathEntry;
 
 		public FileScout()
 		{
@@ -392,7 +388,17 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads
 			filelister.RowActivated += new GtkSharp.RowActivatedHandler(FileSelected);
 
 			Gtk.Frame treef  = new Gtk.Frame();
-			treef.Add(fb);
+			Gtk.VBox utilVBox = new Gtk.VBox (false, 0);
+			Gtk.HBox hbox = new Gtk.HBox (false, 0);
+			pathEntry = new Gtk.Entry (fb.CurrentDir);
+			//pathEntry.Activated += new EventHandler (OnPathEntryActivated);
+			hbox.PackStart (pathEntry);
+			Gtk.Button homeButton = new Gtk.Button ("Home");
+			homeButton.Clicked += new EventHandler (OnHomeClicked);
+			hbox.PackStart (homeButton);
+			utilVBox.PackStart (hbox, false, true, 0);
+			utilVBox.PackStart (fb);
+			treef.Add(utilVBox);
 			
 			Gtk.ScrolledWindow listsw = new Gtk.ScrolledWindow ();
 			listsw.Add(filelister);
@@ -402,9 +408,27 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads
 			Pack1(treef, true, true);
 			Pack2(listf, true, true);
 		}
+
+		void OnHomeClicked (object sender, EventArgs args)
+		{
+			fb.CurrentDir = Environment.GetEnvironmentVariable ("HOME");
+			OnDirChanged (sender, args);
+		}
+
+		void OnPathEntryActivated (object sender, EventArgs args)
+		{
+			if (Directory.Exists (pathEntry.Text))
+			{
+				fb.CurrentDir = pathEntry.Text;
+				OnDirChanged (sender, args);
+			}
+		}
 		
 		void OnDirChanged(object sender, EventArgs args) 
 		{
+			pathEntry.Text = fb.CurrentDir;
+			filelister.Clear ();
+
 			foreach (string f in fb.Files)
 			{
 				//FIXME: hack to ignore . files

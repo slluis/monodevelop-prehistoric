@@ -22,7 +22,7 @@ namespace MonoDevelop.Gui.Widgets
 
 			tv = new Gtk.TreeView ();
 			tv.RulesHint = true;
-			tv.AppendColumn ("Name", new CellRendererText (), "text", 0);
+			tv.AppendColumn ("Directories", new CellRendererText (), "text", 0);
 			store = new ListStore (typeof (string));
 			currentDir = Environment.GetEnvironmentVariable ("HOME");
 			Populate ();
@@ -49,6 +49,8 @@ namespace MonoDevelop.Gui.Widgets
 		public string CurrentDir
 		{
 			get { return System.IO.Path.GetFullPath (currentDir); }
+			set { currentDir = value;
+				  Populate (); }
 		}
 
 		public string[] Files
