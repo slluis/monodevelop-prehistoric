@@ -18,7 +18,7 @@ namespace MonoDevelop.Gui.Dialogs {
 			}
 		}		
 		
-		public SplashScreenForm() : base ("Splash")
+		public SplashScreenForm() : base (Gtk.WindowType.Popup)
 		{
 			this.Decorated = false;
 			this.WindowPosition = WindowPosition.Center;

@@ -1,3 +1,8 @@
+2004-05-10  Todd Berman  <tberman@sevenl.net>
+
+	* Gui/Workbench/DefaultWorkbench.cs: Attempt non-metacity toplevel fix
+	* Gui/Dialogs/SplashScreen.cs: explicity set this to popup
+
 2004-05-09  Todd Berman  <tberman@sevenl.net>
 
 	* Gui/Workbench/Layouts/SdiWorkspaceLayout.cs: use DragNotebook

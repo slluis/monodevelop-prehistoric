@@ -123,25 +123,11 @@ namespace MonoDevelop.Gui
 			}
 		}
 
-		public static new GLib.GType GType
-		{
-			get
-			{
-				if (gtype == GLib.GType.Invalid)
-					gtype = RegisterGType (typeof (DefaultWorkbench));
-				return gtype;
-			}
-		}
-
-		//FIXME: When it becomes possible, set this ctor to change ctor
-		//to the windowtype ctor with WindowType.TopLevel
-		public DefaultWorkbench() : base (GType)
+		public DefaultWorkbench() : base (Gtk.WindowType.Toplevel)
 		{
 			Title = "MonoDevelop";
 			Console.WriteLine ("Creating DefaultWorkbench");
 			ResourceService resourceService = (ResourceService)ServiceManager.Services.GetService(typeof(IResourceService));
-			// FIXME: edit the name in the resource
-			//Title = resourceService.GetString("MainWindow.DialogName");
 		
 			windowChangeEventHandler = new EventHandler(OnActiveWindowChanged);
 
