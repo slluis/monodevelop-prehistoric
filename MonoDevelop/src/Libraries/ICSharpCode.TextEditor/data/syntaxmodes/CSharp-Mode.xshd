@@ -90,7 +90,7 @@
 			    <Key word = "&amp;" />
 		  	</KeyWords>
 		  
-			<KeyWords name = "AccessKeywords" bold="true" italic="false" color="Black">
+			<KeyWords name = "AccessKeywords" bold="true" italic="false" color="Blue">
 				<Key word = "this" />
 				<Key word = "base" />
 			</KeyWords>
@@ -238,7 +238,7 @@
 			    <Key word = "remove" />
 			</KeyWords>
 		  
-			<KeyWords name = "Literals" bold="true" italic="false" color="Black">
+			<KeyWords name = "Literals" bold="true" italic="false" color="Blue">
 			    <Key word = "null" />
 			    <Key word = "value" />
 			</KeyWords>
