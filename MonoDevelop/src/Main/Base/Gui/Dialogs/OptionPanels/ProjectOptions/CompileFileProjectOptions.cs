@@ -47,6 +47,7 @@ namespace MonoDevelop.Gui.Dialogs.OptionPanels
 				
 				includeLabel.UseUnderline = true;
 				store = new ListStore (typeof(bool), typeof(string));
+				store.SetSortColumnId (1, SortType.Ascending);
 				includeTreeView.Selection.Mode = SelectionMode.None;
 				includeTreeView.Model = store;
 				CellRendererToggle rendererToggle = new CellRendererToggle ();
