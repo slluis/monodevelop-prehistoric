@@ -25,13 +25,13 @@
 	</Extension>
 
 	<Extension path="/SharpDevelop/Workbench/MainMenu/Tools">
-		<MenuItem id = "NunitMenu" label = "NUnit" insertafter = "ExternalTools" insertbefore = "Options">
+		<MenuItem id = "NunitMenu" _label = "NUnit" insertafter = "ExternalTools" insertbefore = "Options">
 			<MenuItem id = "LoadTestAssembly"
-	                  label = "Load Assembly"
+	                  _label = "Load Assembly"
 			          shortcut = ""
 		              class = "MonoDevelop.Commands.NunitLoadAssembly" />
 			<MenuItem id = "NunitRunTests"
-	                  label = "Run Tests"
+	                  _label = "Run Tests"
 			          shortcut = ""
 		              class = "MonoDevelop.Commands.NunitRunTests" />
 		</MenuItem>
