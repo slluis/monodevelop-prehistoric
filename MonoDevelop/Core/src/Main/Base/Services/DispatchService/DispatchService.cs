@@ -38,22 +38,24 @@ namespace MonoDevelop.Services
 
 		public void GuiDispatch (MessageHandler cb)
 		{
-			arrGuiQueue.Add (new GenericMessageContainer (cb, false));
-			UpdateIdle ();
+			QueueMessage (new GenericMessageContainer (cb, false));
 		}
 
 		public void GuiDispatch (StatefulMessageHandler cb, object state)
 		{
-			arrGuiQueue.Add (new StatefulMessageContainer (cb, state, false));
-			UpdateIdle ();
+			QueueMessage (new StatefulMessageContainer (cb, state, false));
 		}
 
 		public void GuiSyncDispatch (MessageHandler cb)
 		{
+			if (IsGuiThread) {
+				cb ();
+				return;
+			}
+
 			GenericMessageContainer mc = new GenericMessageContainer (cb, true);
 			lock (mc) {
-				arrGuiQueue.Add (mc);
-				UpdateIdle ();
+				QueueMessage (mc);
 				Monitor.Wait (mc);
 			}
 			if (mc.Exception != null)
@@ -62,28 +64,35 @@ namespace MonoDevelop.Services
 		
 		public void GuiSyncDispatch (StatefulMessageHandler cb, object state)
 		{
+			if (IsGuiThread) {
+				cb (state);
+				return;
+			}
+
 			StatefulMessageContainer mc = new StatefulMessageContainer (cb, state, true);
 			lock (mc) {
-				arrGuiQueue.Add (mc);
-				UpdateIdle ();
+				QueueMessage (mc);
 				Monitor.Wait (mc);
 			}
 			if (mc.Exception != null)
 				throw new Exception (errormsg, mc.Exception);
 		}
 
-		void UpdateIdle ()
+		void QueueMessage (object msg)
 		{
-			if (iIdle == 0) {
-				iIdle = GLib.Idle.Add (handler);
-				/* This code is required because for some
-				 * reason the idle handler is run once
-				 * before being set, so you get a idle
-				 * handler that isnt running, but our code
-				 * thinks that it is.
-				 */
-				if (arrGuiQueue.Count == 0 && iIdle != 0)
-					iIdle = 0;
+			lock (arrGuiQueue) {
+				arrGuiQueue.Add (msg);
+				if (iIdle == 0) {
+					iIdle = GLib.Idle.Add (handler);
+					/* This code is required because for some
+					 * reason the idle handler is run once
+					 * before being set, so you get a idle
+					 * handler that isnt running, but our code
+					 * thinks that it is.
+					 */
+					if (arrGuiQueue.Count == 0 && iIdle != 0)
+						iIdle = 0;
+				}
 			}
 		}
 		
@@ -116,12 +125,13 @@ namespace MonoDevelop.Services
 
 		private bool guiDispatcher ()
 		{
-			if (arrGuiQueue.Count == 0) {
-				iIdle = 0;
-				return false;
-			}
-			GenericMessageContainer msg = null;
+			GenericMessageContainer msg;
+			
 			lock (arrGuiQueue) {
+				if (arrGuiQueue.Count == 0) {
+					iIdle = 0;
+					return false;
+				}
 				msg = (GenericMessageContainer)arrGuiQueue[0];
 				arrGuiQueue.RemoveAt (0);
 			}
@@ -132,11 +142,13 @@ namespace MonoDevelop.Services
 				else if (msg.Exception != null)
 					HandlerError (msg);
 			}
-			
-			if (arrGuiQueue.Count == 0) {
-				iIdle = 0;
-				return false;
+			lock (arrGuiQueue) {
+				if (arrGuiQueue.Count == 0) {
+					iIdle = 0;
+					return false;
+				}
 			}
+
 			return true;
 		}
 

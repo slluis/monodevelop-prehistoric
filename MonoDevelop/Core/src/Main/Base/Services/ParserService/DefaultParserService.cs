@@ -653,25 +653,23 @@ namespace MonoDevelop.Services
 					
 				IParseInformation parseInformation = null;
 				bool updated = false;
-				lock (parsings) {
-				
-					if (lastUpdateSize[fileName] == null || (int)lastUpdateSize[fileName] != text.GetHashCode()) {
-						parseInformation = DoParseFile(fileName, text);
-						if (parseInformation == null) return;
-						
-						if (viewContent.Project != null) {
-							ProjectCodeCompletionDatabase db = GetProjectDatabase (viewContent.Project);
-							ClassUpdateInformation res = db.UpdateFromParseInfo (parseInformation, fileName);
-							if (res != null) NotifyParseInfoChange (fileName, res);
-						}
-						else {
-							SimpleCodeCompletionDatabase db = GetSingleFileDatabase (fileName);
-							db.UpdateFromParseInfo (parseInformation);
-						}
-
-						lastUpdateSize[fileName] = text.GetHashCode();
-						updated = true;
+			
+				if (lastUpdateSize[fileName] == null || (int)lastUpdateSize[fileName] != text.GetHashCode()) {
+					parseInformation = DoParseFile(fileName, text);
+					if (parseInformation == null) return;
+					
+					if (viewContent.Project != null) {
+						ProjectCodeCompletionDatabase db = GetProjectDatabase (viewContent.Project);
+						ClassUpdateInformation res = db.UpdateFromParseInfo (parseInformation, fileName);
+						if (res != null) NotifyParseInfoChange (fileName, res);
 					}
+					else {
+						SimpleCodeCompletionDatabase db = GetSingleFileDatabase (fileName);
+						db.UpdateFromParseInfo (parseInformation);
+					}
+
+					lastUpdateSize[fileName] = text.GetHashCode();
+					updated = true;
 				}
 				if (updated && parseInformation != null && editable is IParseInformationListener) {
 					((IParseInformationListener)editable).ParseInformationUpdated(parseInformation);
