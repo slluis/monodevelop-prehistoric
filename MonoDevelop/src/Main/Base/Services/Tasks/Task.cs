@@ -81,7 +81,10 @@ namespace MonoDevelop.Services
 		
 		public Task(string fileName, string description, int column, int line)
 		{
-			type = TaskType.SearchResult;
+			if (fileName != null)
+				type = TaskType.SearchResult;
+			else
+				type = TaskType.Comment;
 			this.fileName    = fileName;
 			this.description = description.Trim();
 			this.column      = column;

@@ -32,6 +32,15 @@ namespace MonoDevelop.TextEditor.Document
 			       (offset + length + 1 >= document.Length || Char.IsWhiteSpace(document.GetCharAt(offset + length)));
 		}
 
+		public static bool IsWholeWordAt (ITextIterator it, int length)
+		{
+			char c = it.GetCharRelative (-1);
+			if (c != char.MinValue && !Char.IsWhiteSpace (c)) return false;
+			
+			c = it.GetCharRelative (length);
+			return (c == char.MinValue || Char.IsWhiteSpace (c));
+		}
+
 		/*public static int CalcCurrentOffset(IDocument document) 
 		{
 //			TODO:

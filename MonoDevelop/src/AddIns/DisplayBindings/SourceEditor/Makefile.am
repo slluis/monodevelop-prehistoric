@@ -44,7 +44,9 @@ FILES = ./AssemblyInfo.cs \
 ./FormattingStrategy/IFormattingStrategy.cs \
 ./FormattingStrategy/IFormattableDocument.cs \
 ./Codons/EditActionCodon.cs \
-./Search/DocumentIterator/ProvidedDocumentInformation.cs \
+./Search/DocumentIterator/IDocumentInformation.cs \
+./Search/DocumentIterator/EditorDocumentInformation.cs \
+./Search/DocumentIterator/FileDocumentInformation.cs \
 ./Search/DocumentIterator/DirectoryDocumentIterator.cs \
 ./Search/DocumentIterator/AllOpenDocumentIterator.cs \
 ./Search/DocumentIterator/IDocumentIterator.cs \
@@ -65,9 +67,9 @@ FILES = ./AssemblyInfo.cs \
 ./Search/SearchReplaceUtilities.cs \
 ./Search/IFind.cs \
 ./Search/TextIterator/ITextIterator.cs \
-./Search/TextIterator/ITextIteratorBuilder.cs \
-./Search/TextIterator/ForwardTextIteratorBuilder.cs \
+./Search/TextIterator/ForwardTextFileIterator.cs \
 ./Search/TextIterator/ForwardTextIterator.cs \
+./Search/TextIterator/ExtendedStreamReader.cs \
 ./Search/ITextBufferStrategy.cs
 
 build_sources = $(addprefix $(srcdir)/, $(FILES))

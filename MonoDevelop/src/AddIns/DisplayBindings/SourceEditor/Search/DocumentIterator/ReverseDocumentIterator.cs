@@ -24,7 +24,7 @@ namespace MonoDevelop.TextEditor.Document
 			}
 		}
 		
-		public ProvidedDocumentInformation Current {
+		public IDocumentInformation Current {
 			get {
 				return documentIterator.Current;
 			}

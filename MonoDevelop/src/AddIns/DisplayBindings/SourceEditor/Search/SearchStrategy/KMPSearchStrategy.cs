@@ -53,7 +53,7 @@ namespace MonoDevelop.TextEditor.Document
 					j = overlap[j];
 				}
 				if (++j >= searchPattern.Length) {
-					if ((!options.SearchWholeWordOnly || SearchReplaceUtilities.IsWholeWordAt(textIterator.TextBuffer, textIterator.Position, searchPattern.Length))) {
+					if ((!options.SearchWholeWordOnly || SearchReplaceUtilities.IsWholeWordAt(textIterator, searchPattern.Length))) {
 						return textIterator.Position;
 					}
 					if (!textIterator.MoveAhead(j - overlap[j])) {
@@ -66,13 +66,19 @@ namespace MonoDevelop.TextEditor.Document
 		
 		public ISearchResult FindNext(ITextIterator textIterator, SearchOptions options)
 		{
-			int offset = InternalFindNext(textIterator, options);
+			int pos = textIterator.Position;
 			
-			if (offset + searchPattern.Length >= textIterator.TextBuffer.Length) {
-				return FindNext(textIterator, options);
+			int offset = InternalFindNext(textIterator, options);
+			if (offset == -1) return null;
+			
+			if (textIterator.GetCharRelative (searchPattern.Length) == char.MinValue) {
+				if (pos != offset)
+					return FindNext(textIterator, options);
+				else
+					return null;
 			}
 			
-			return offset >= 0 ? new DefaultSearchResult(offset, searchPattern.Length) : null;
+			return new DefaultSearchResult(offset, searchPattern.Length);
 		}
 	}
 }

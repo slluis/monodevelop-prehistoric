@@ -29,7 +29,7 @@ namespace MonoDevelop.TextEditor.Document
 		/// <value>
 		/// Gets the current document information
 		/// </value>
-		ProvidedDocumentInformation CurrentDocumentInformation {
+		IDocumentInformation CurrentDocumentInformation {
 			get;
 		}
 		
@@ -41,21 +41,12 @@ namespace MonoDevelop.TextEditor.Document
 			set;
 		}
 		
-		/// <value>
-		/// The text iterator builder which builds ITextIterator objects
-		/// for the find.
-		/// </value>
-		ITextIteratorBuilder TextIteratorBuilder {
-			get;
-			set;
-		}
-		
 		/// <remarks>
 		/// Does a replace in the current document information. This
 		/// is the only method which should be used for doing replacements
 		/// in a searched document.
 		/// </remarks>
-		void Replace(int offset, int length, string pattern);
+		void Replace (ISearchResult result, string pattern);
 		
 		/// <remarks>
 		/// Finds next pattern.
@@ -71,5 +62,11 @@ namespace MonoDevelop.TextEditor.Document
 		/// Resets the find object to the original state.
 		/// </remarks>
 		void Reset();
+		
+		void Cancel ();
+		
+		int SearchedFileCount { get; }
+		
+		int MatchCount { get; }
 	}
 }

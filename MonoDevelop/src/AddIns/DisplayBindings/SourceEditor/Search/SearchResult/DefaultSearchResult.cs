@@ -18,19 +18,19 @@ namespace MonoDevelop.TextEditor.Document
 {
 	public class DefaultSearchResult : ISearchResult
 	{
-		ProvidedDocumentInformation providedDocumentInformation;
+		IDocumentInformation documentInformation;
 		int    offset;
 		int    length;
 		
 		public string FileName {
 			get {
-				return providedDocumentInformation.FileName;
+				return documentInformation.FileName;
 			}
 		}
 		
-		public ProvidedDocumentInformation ProvidedDocumentInformation {
+		public IDocumentInformation DocumentInformation {
 			set {
-				providedDocumentInformation = value;
+				documentInformation = value;
 			}
 		}
 		
@@ -49,11 +49,6 @@ namespace MonoDevelop.TextEditor.Document
 		public virtual string TransformReplacePattern(string pattern)
 		{
 			return pattern;
-		}
-		
-		public SourceEditor CreateDocument()
-		{
-			return providedDocumentInformation.CreateDocument();
 		}
 		
 		public DefaultSearchResult(int offset, int length)

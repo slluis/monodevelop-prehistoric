@@ -52,7 +52,6 @@ namespace MonoDevelop.TextEditor.Document
 		
 		static SearchReplaceManager()
 		{
-			find.TextIteratorBuilder = new ForwardTextIteratorBuilder();
 			searchOptions.SearchStrategyTypeChanged   += new EventHandler(InitializeSearchStrategy);
 			searchOptions.DocumentIteratorTypeChanged += new EventHandler(InitializeDocumentIterator);
 			InitializeDocumentIterator(null, null);
@@ -135,17 +134,12 @@ namespace MonoDevelop.TextEditor.Document
 				
 				if (result == null) {
 					//MessageBox.Show((Form)WorkbenchSingleton.Workbench, "Replace all done", "Finished");
-					MessageService.ShowMessage (GettextCatalog.GetString ("Replace all finished"));
+					MessageService.ShowMessage (string.Format (GettextCatalog.GetString ("Replace all finished. {0} matches found."), find.MatchCount));
 					find.Reset();
 					return;
 				} else {
-					textArea = OpenTextArea(result.FileName); 
-					textArea.Buffer.PlaceCursor (textArea.Buffer.GetIterAtMark (textArea.Buffer.InsertMark));
-					textArea.View.ScrollMarkOnscreen (textArea.Buffer.InsertMark);
 					string transformedPattern = result.TransformReplacePattern(SearchOptions.ReplacePattern);
-					find.Replace(result.Offset,
-					             result.Length, 
-					             transformedPattern);
+					find.Replace (result, transformedPattern);
 				}
 			}
 		}
@@ -159,6 +153,22 @@ namespace MonoDevelop.TextEditor.Document
 				return;
 			}
 			
+			// Restart the search if the file or cursor position has changed
+			// since the last FindNext.
+			
+			if (lastResult != null) {
+				if (find.DocumentIterator.CurrentFileName != lastResult.FileName)
+					find.Reset ();
+				else {
+					SourceEditor textArea = OpenTextArea(lastResult.FileName);
+					if (lastResult != null && textArea.Buffer.GetIterAtMark (textArea.Buffer.InsertMark).Offset != lastResult.Offset + lastResult.Length) {
+						find.Reset();
+					}
+				}
+			}
+			else
+				find.Reset ();
+				
 			find.SearchStrategy.CompilePattern(searchOptions);
 			ISearchResult result = find.FindNext(searchOptions);
 			
@@ -169,9 +179,6 @@ namespace MonoDevelop.TextEditor.Document
 			} else {
 				SourceEditor textArea = OpenTextArea(result.FileName);
 				
-				if (lastResult != null  && lastResult.FileName == result.FileName && textArea.Buffer.GetIterAtMark (textArea.Buffer.InsertMark).Offset != lastResult.Offset + lastResult.Length) {
-					find.Reset();
-				}
 				int startPos = Math.Min(textArea.Buffer.Text.Length, Math.Max(0, result.Offset));
 				int endPos   = Math.Min(textArea.Buffer.Text.Length, startPos + result.Length);
 				textArea.Buffer.MoveMark ("insert", textArea.Buffer.GetIterAtOffset (endPos));
@@ -188,6 +195,10 @@ namespace MonoDevelop.TextEditor.Document
 				IFileService fileService = (IFileService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IFileService));
 				fileService.OpenFile(fileName);
 			}
+			
+			// Make sure the file is loaded
+			while (Gtk.Application.EventsPending ())
+				Gtk.Application.RunIteration ();
 			
 			return (SourceEditor) ((SourceEditorDisplayBindingWrapper)WorkbenchSingleton.Workbench.ActiveWorkbenchWindow.ViewContent).Control;
 		}

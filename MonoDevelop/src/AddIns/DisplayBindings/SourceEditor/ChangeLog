@@ -1,3 +1,84 @@
+2004-06-26  Lluis Sanchez Gual  <lluis@ximian.com>
+
+	* Search/SearchReplaceManager.cs: Make sure the search starts at the current
+	  cursor position.
+	  
+	* Search/SearchReplaceUtilities.cs: Added IsWholeWordAt() method, to be
+	  reused from all search strategies.
+	  
+	* Search/SearchResult/ISearchResult.cs,
+	  Search/SearchResult/DefaultSearchResult.cs: Removed unused 
+	  CreateDocument(). The documentInformation now returns and interface: 
+	  IDocumentInformation.
+	  
+	* Search/SearchStrategy/KMPSearchStrategy.cs,
+	  Search/SearchStrategy/WildcardSearchStrategy.cs,
+	  Search/SearchStrategy/RegExSearchStrategy.cs:
+	  Removed SourceEditorBuffer dependency. Everything is done through the 
+	  text iterator.
+	  
+	* Search/SearchStrategy/BruteForceSearchStrategy.cs: Implemented a more 
+	  efficient search algorithm.
+	  
+	* Search/DocumentIterator/IDocumentInformation.cs: New interface that
+	  represents a file to be searched. The SourceEditorBuffer dependency has
+	  been removed so the file don't need to be loaded.
+	  
+	* Search/DocumentIterator/CurrentDocumentIterator.cs,
+	  Search/DocumentIterator/AllOpenDocumentIterator.cs: Current property
+	  now returns a EditorDocumentInformation instance.
+	  
+	* Search/DocumentIterator/EditorDocumentInformation.cs: New File. Document 
+	  information for a file opened in the editor.
+	  
+	* Search/DocumentIterator/DirectoryDocumentIterator.cs: Current property
+	  now returns a FileDocumentInformation instance.
+	  
+	* Search/DocumentIterator/WholeProjectDocumentIterator.cs: Current property
+	  now returns a EditorDocumentInformation if the file is opened, or 
+	  FileDocumentInformation otherwise.
+	  
+	* Search/DocumentIterator/IDocumentIterator.cs,
+	  Search/DocumentIterator/ReverseDocumentIterator.cs: Current now returns a
+	  IDocumentInformation.
+	  
+	* Search/DocumentIterator/ProvidedDocumentInformation.cs: Removed.
+	
+	* Search/DocumentIterator/FileDocumentInformation.cs: New File. Document
+	  information for a file not opened in the editor.
+	  
+	* Search/DefaultFind.cs: Removed ITextIteratorBuilder dependency. Text
+	  iterators are now created through the IDocumentInformation instance.
+	  Added support for cancellation. 
+	  Do replacements through the textIterator instead of the document.
+	  
+	* Search/SearchReplaceInFilesManager.cs: Do the search in a background
+	  thread.
+	  
+	* Search/IFind.cs: Removed ITextIteratorBuilder dependency. Added Cancel(),
+	  SearchedFileCount and MatchCount.
+	
+	* Search/TextIterator/ITextIteratorBuilder.cs,
+	  Search/TextIterator/ForwardTextIteratorBuilder.cs: Removed. Iterator 
+	  creation is now done through the IDocumentInformation instance.
+	  
+	* Search/TextIterator/ExtendedStreamReader.cs: Extends StreamReader to
+	  allow position change and modification of the stream (adapted from the
+	  one in mcs).
+	  
+	* Search/TextIterator/ForwardTextIterator.cs: GetCharRelative now returns
+	  Char.MinValue if the relative position is out of the text limits.
+	  Added ReadToEnd and Replace. Other minor fixes.
+	  
+	* Search/TextIterator/ForwardTextFileIterator.cs: New iterator for files
+	  in disk. It uses and extended StreamReader to search directly from the
+	  disk file.
+	  
+	* Search/TextIterator/ITextIterator.cs: Removed SourceEditorBuffer
+	  dependency.
+	  
+	* Makefile.am: Updated.
+
 2004-06-22  Todd Berman  <tberman@off.net>
 
 	* CodeCompletion/CompletionWindow.cs: Changed from Destroy to

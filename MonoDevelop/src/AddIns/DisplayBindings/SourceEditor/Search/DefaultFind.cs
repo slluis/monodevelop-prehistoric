@@ -17,21 +17,14 @@ namespace MonoDevelop.TextEditor.Document
 		ISearchStrategy             searchStrategy      = null;
 		IDocumentIterator           documentIterator    = null;
 		ITextIterator               textIterator        = null;
-		ITextIteratorBuilder        textIteratorBuilder = null;
-		ProvidedDocumentInformation info = null;
+		IDocumentInformation        info = null;
+		bool						cancelled;
+		int							searchedFiles;
+		int							matches;
 		
-		public ProvidedDocumentInformation CurrentDocumentInformation {
+		public IDocumentInformation CurrentDocumentInformation {
 			get {
 				return info;
-			}
-		}
-		
-		public ITextIteratorBuilder TextIteratorBuilder {
-			get {
-				return textIteratorBuilder;
-			}
-			set {
-				textIteratorBuilder = value;
 			}
 		}
 		
@@ -59,12 +52,20 @@ namespace MonoDevelop.TextEditor.Document
 			}
 		}
 		
+		public int SearchedFileCount {
+			get { return searchedFiles; }
+		}
+		
+		public int MatchCount {
+			get { return matches; }
+		}
+		
 		ISearchResult CreateNamedSearchResult(ISearchResult pos)
 		{
 			if (info == null || pos == null) {
 				return null;
 			}
-			pos.ProvidedDocumentInformation = info;
+			pos.DocumentInformation = info;
 			return pos;
 		}
 		
@@ -72,14 +73,16 @@ namespace MonoDevelop.TextEditor.Document
 		{
 			documentIterator.Reset();
 			textIterator = null;
+			cancelled = false;
+			searchedFiles = 0;
+			matches = 0;
 		}
 		
-		public void Replace(int offset, int length, string pattern)
+		public void Replace (ISearchResult result, string pattern)
 		{
 			if (CurrentDocumentInformation != null && TextIterator != null) {
-				CurrentDocumentInformation.Replace(offset, length, pattern);
-				CurrentDocumentInformation.SaveBuffer();
-				TextIterator.InformReplace(offset, length, pattern.Length);
+				TextIterator.Position = result.Offset;
+				TextIterator.Replace (result.Length, pattern);
 			}
 		}
 		
@@ -88,39 +91,41 @@ namespace MonoDevelop.TextEditor.Document
 			// insanity check
 			Debug.Assert(searchStrategy      != null);
 			Debug.Assert(documentIterator    != null);
-			Debug.Assert(textIteratorBuilder != null);
 			Debug.Assert(options             != null);
 			
-			if (info != null && textIterator != null && documentIterator.CurrentFileName != null) {
-				if (info.FileName != documentIterator.CurrentFileName) { // create new iterator, if document changed
-					info         = documentIterator.Current;
-					textIterator = textIteratorBuilder.BuildTextIterator(info);
-				} else { // old document -> initialize iterator position to caret pos
-					textIterator.Position = info.CurrentOffset;
+			while (!cancelled)
+			{
+				if (info != null && textIterator != null && documentIterator.CurrentFileName != null) {
+					if (info.FileName != documentIterator.CurrentFileName) { // create new iterator, if document changed
+						info         = documentIterator.Current;
+						textIterator = info.GetTextIterator ();
+					} 
+
+					ISearchResult result = CreateNamedSearchResult(searchStrategy.FindNext(textIterator, options));
+					if (result != null) {
+						matches++;
+						return result;
+					}
 				}
 				
-				ISearchResult result = CreateNamedSearchResult(searchStrategy.FindNext(textIterator, options));
-				if (result != null) {
-					info.CurrentOffset = textIterator.Position;
-					return result;
+				if (textIterator != null) textIterator.Close ();
+					
+				// not found or first start -> move forward to the next document
+				if (documentIterator.MoveForward()) {
+					searchedFiles++;
+					info = documentIterator.Current;
+					textIterator = info.GetTextIterator ();
 				}
+				else
+					cancelled = true;
 			}
-			
-			// not found or first start -> move forward to the next document
-			if (documentIterator.MoveForward()) {
-				info = documentIterator.Current;
-				// document is valid for searching -> set iterator & fileName
-				// add check to make sure text != string.Empty since this was causing BuildTextIterator to hang (JBA)
-				if (info != null && info.TextBuffer != null && info.TextBuffer.Text != string.Empty && info.EndOffset >= 0 && info.EndOffset < info.TextBuffer.Length) {
-					// TODO: figure out why BuildTextIterator hangs if info.TextBUffer.Text is empty string
-					textIterator = textIteratorBuilder.BuildTextIterator(info);
-				} else {
-					textIterator = null;
-				}
-				
-				return FindNext(options);
-			}
+			cancelled = false;
 			return null;
+		}
+		
+		public void Cancel ()
+		{
+			cancelled = true;
 		}
 	}
 }

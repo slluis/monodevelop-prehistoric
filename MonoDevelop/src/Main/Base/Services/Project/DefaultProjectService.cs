@@ -254,8 +254,7 @@ namespace MonoDevelop.Services
 			if (openCombine != null) {
 				DoBeforeCompileAction();
 				TaskService taskService = (TaskService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(TaskService));
-				taskService.Tasks.Clear();
-				taskService.NotifyTaskChange();
+				taskService.ClearTasks();
 				
 				openCombine.Build(false);
 			}
@@ -266,8 +265,7 @@ namespace MonoDevelop.Services
 			if (openCombine != null) {
 				DoBeforeCompileAction();
 				TaskService taskService = (TaskService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(TaskService));
-				taskService.Tasks.Clear();
-				taskService.NotifyTaskChange();
+				taskService.ClearTasks();
 				
 				openCombine.Build(true);
 			}
@@ -305,7 +303,7 @@ namespace MonoDevelop.Services
 			// cut&pasted from CombineEntry.cs
 			TaskService taskService = (TaskService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(TaskService));
 			foreach (CompilerError err in res.CompilerResults.Errors) {
-				taskService.Tasks.Add(new Task(project, err));
+				taskService.AddTask(new Task(project, err));
 			}
 			
 			if (taskService.Errors > 0) {

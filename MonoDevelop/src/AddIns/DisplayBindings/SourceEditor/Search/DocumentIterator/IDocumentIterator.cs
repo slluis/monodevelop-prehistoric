@@ -24,7 +24,7 @@ namespace MonoDevelop.TextEditor.Document
 		/// usually creates a new ProvidedDocumentInformation object which can
 		/// be time consuming
 		/// </value>
-		ProvidedDocumentInformation Current {
+		IDocumentInformation Current {
 			get;
 		}
 		

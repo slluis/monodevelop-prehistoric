@@ -1,3 +1,16 @@
+2004-06-26  Lluis Sanchez Gual  <lluis@ximian.com>
+
+	* Commands/RunCommands.cs, Services/Project/DefaultProjectService.cs,
+	  Internal/Project/Combine/CombineEntry.cs:
+	  reflect changes in the TaskService.
+	* Services/Tasks/Task.cs: Set comment type if the task do not refer to
+	  a file.
+	* Services/Tasks/TaskService.cs: Don't allow direct manipulation of the
+	  task list, everything must be done through the TaskService api.
+	  Added new TaskAdded event.
+	* Gui/Pads/OpenTaskView.cs: Use the new TaskAdded event, instead of loading
+	  the full list at every change.
+
 2004-06-25  Todd Berman  <tberman@off.net>
 
 	* Services/Project/DefaultProjectService.cs: When restoring combine

@@ -81,6 +81,7 @@ namespace MonoDevelop.Gui.Pads
 			sw.Add (view);
 			
 			taskService.TasksChanged     += new EventHandler (ShowResults);
+			taskService.TaskAdded        += new TaskEventHandler (TaskAdded);
 			projectService.EndBuild      += new EventHandler (SelectTaskView);
 			projectService.CombineOpened += new CombineEventHandler (OnCombineOpen);
 			projectService.CombineClosed += new CombineEventHandler (OnCombineClosed);
@@ -197,56 +198,66 @@ namespace MonoDevelop.Gui.Pads
 		
 		public CompilerResults CompilerResults = null;
 		
-		public void ShowResults(object sender, EventArgs e)
+		public void ShowResults (object sender, EventArgs e)
 		{
 			store.Clear ();
-			FileUtilityService fileUtilityService = (FileUtilityService) ServiceManager.GetService (typeof (FileUtilityService));
 			TaskService taskService = (TaskService) ServiceManager.GetService (typeof (TaskService));
 			
 			foreach (Task t in taskService.Tasks) {
-				Gdk.Pixbuf stock;
-				switch (t.TaskType) {
-					case TaskType.Warning:
-						stock = sw.RenderIcon (Gtk.Stock.DialogWarning, Gtk.IconSize.SmallToolbar, "");
-						break;
-					case TaskType.Error:
-						stock = sw.RenderIcon (Gtk.Stock.DialogError, Gtk.IconSize.SmallToolbar, "");
-						break;
-					case TaskType.Comment:
-						stock = sw.RenderIcon (Gtk.Stock.DialogInfo, Gtk.IconSize.SmallToolbar, "");
-						break;
-					case TaskType.SearchResult:
-						stock = sw.RenderIcon (Gtk.Stock.DialogQuestion, Gtk.IconSize.SmallToolbar, "");
-						break;
-					default:
-						stock = null;
-						break;
-				}
-				
-				string tmpPath = t.FileName;
-				if (t.Project != null)
-					tmpPath = fileUtilityService.AbsoluteToRelativePath (t.Project.BaseDirectory, t.FileName);
-				
-				string fileName = tmpPath;
-				string path     = tmpPath;
-				
-				try {
-					fileName = Path.GetFileName(tmpPath);
-				} catch (Exception) {}
-				
-				try {
-					path = Path.GetDirectoryName(tmpPath);
-				} catch (Exception) {}
-				
-				store.AppendValues (
-					stock,
-					t.Line + 1,
-					t.Description,
-					path,
-					fileName,
-					t, false, false, (int) Pango.Weight.Bold);
+				AddTask (t);
 			}
 			SelectTaskView(null, null);
+		}
+		
+		void TaskAdded (object sender, TaskEventArgs e)
+		{
+			AddTask (e.Task);
+		}
+		
+		public void AddTask (Task t)
+		{
+			FileUtilityService fileUtilityService = (FileUtilityService) ServiceManager.GetService (typeof (FileUtilityService));
+			Gdk.Pixbuf stock;
+			switch (t.TaskType) {
+				case TaskType.Warning:
+					stock = sw.RenderIcon (Gtk.Stock.DialogWarning, Gtk.IconSize.SmallToolbar, "");
+					break;
+				case TaskType.Error:
+					stock = sw.RenderIcon (Gtk.Stock.DialogError, Gtk.IconSize.SmallToolbar, "");
+					break;
+				case TaskType.Comment:
+					stock = sw.RenderIcon (Gtk.Stock.DialogInfo, Gtk.IconSize.SmallToolbar, "");
+					break;
+				case TaskType.SearchResult:
+					stock = sw.RenderIcon (Gtk.Stock.DialogQuestion, Gtk.IconSize.SmallToolbar, "");
+					break;
+				default:
+					stock = null;
+					break;
+			}
+			
+			string tmpPath = t.FileName;
+			if (t.Project != null)
+				tmpPath = fileUtilityService.AbsoluteToRelativePath (t.Project.BaseDirectory, t.FileName);
+			
+			string fileName = tmpPath;
+			string path     = tmpPath;
+			
+			try {
+				fileName = Path.GetFileName(tmpPath);
+			} catch (Exception) {}
+			
+			try {
+				path = Path.GetDirectoryName(tmpPath);
+			} catch (Exception) {}
+			
+			TreeIter iter = store.AppendValues (
+				stock,
+				t.Line + 1,
+				t.Description,
+				path,
+				fileName,
+				t, false, false, (int) Pango.Weight.Bold);
 		}
 		
 		protected virtual void OnTitleChanged (EventArgs e)

@@ -6,7 +6,7 @@
 // </file>
 
 using System;
-
+using System.Globalization;
 using MonoDevelop.Core.Properties;
 using MonoDevelop.Internal.Undo;
 
@@ -21,42 +21,71 @@ namespace MonoDevelop.TextEditor.Document
 	{
 		string searchPattern;
 		
-		bool MatchCaseSensitive(SourceEditorBuffer document, int offset, string pattern)
-		{
-			for (int i = 0; i < pattern.Length; ++i) {
-				if (offset + i >= document.Length || document.GetCharAt(offset + i) != pattern[i]) {
-					return false;
-				}
-			}
-			return true;
-		}
-		
-		bool MatchCaseInsensitive(SourceEditorBuffer document, int offset, string pattern)
-		{
-			for (int i = 0; i < pattern.Length; ++i) {
-				if (offset + i >= document.Length || Char.ToUpper(document.GetCharAt(offset + i)) != pattern[i]) {
-					return false;
-				}
-			}
-			return true;
-		}
-		
-		bool IsWholeWordAt(SourceEditorBuffer document, int offset, int length)
-		{
-			return (offset - 1 < 0 || Char.IsWhiteSpace(document.GetCharAt(offset - 1))) &&
-			       (offset + length + 1 >= document.Length || Char.IsWhiteSpace(document.GetCharAt(offset + length)));
-		}
-		
 		int InternalFindNext(ITextIterator textIterator, SearchOptions options)
 		{
-			while (textIterator.MoveAhead(1)) {
-				if (options.IgnoreCase ? MatchCaseInsensitive(textIterator.TextBuffer, textIterator.Position, searchPattern) :
-				                         MatchCaseSensitive(textIterator.TextBuffer, textIterator.Position, searchPattern)) {
-					if (!options.SearchWholeWordOnly || IsWholeWordAt(textIterator.TextBuffer, textIterator.Position, searchPattern.Length)) {
-						return textIterator.Position;
+			int[] compareIndex = new int [searchPattern.Length];
+			int[] startPositions = new int [searchPattern.Length];
+			int maxPoss = 0;
+			bool ignoreCase = options.IgnoreCase;
+			bool searchWord = options.SearchWholeWordOnly;
+			CultureInfo cinfo = CultureInfo.InvariantCulture;
+			int patternLength = searchPattern.Length;
+			bool wasWordStart = true;
+			
+			char first = searchPattern[0];
+
+			while (textIterator.MoveAhead(1))
+			{
+				char c = textIterator.Current;
+				if (ignoreCase) c = Char.ToUpper (c, cinfo);
+				
+				int freePos = -1;
+				for (int n=0; n<maxPoss; n++) 
+				{
+					int pos = compareIndex[n];
+					if (pos != 0) {
+						if (searchPattern[pos] == c) {
+							pos++;
+							if (pos == patternLength) {
+								if (searchWord) {
+									int curp = textIterator.Position;
+									bool endw = !textIterator.MoveAhead (1);
+									endw = endw || Char.IsWhiteSpace (textIterator.Current);
+									textIterator.Position = curp;
+									if (endw) return startPositions[n];
+								}
+								else
+									return startPositions[n];
+							}
+							else {
+								compareIndex[n] = pos;
+								continue;
+							}
+						}
+						compareIndex[n] = 0;
+						if (n == maxPoss-1)
+							maxPoss = n;
 					}
+					
+					if (freePos == -1)
+						freePos = pos;
 				}
+				
+				if (c == first && (!searchWord || wasWordStart)) {
+					if (patternLength == 1)
+						return textIterator.Position;
+						
+					if (freePos == -1) {			
+						freePos = maxPoss;
+						maxPoss++;
+					}
+
+					compareIndex [freePos] = 1;
+					startPositions [freePos] = textIterator.Position;
+				}
+				wasWordStart = Char.IsWhiteSpace (c);
 			}
+			
 			return -1;
 		}
 		
@@ -72,3 +101,4 @@ namespace MonoDevelop.TextEditor.Document
 		}
 	}
 }
+;

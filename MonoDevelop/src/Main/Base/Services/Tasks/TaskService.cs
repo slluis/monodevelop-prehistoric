@@ -19,7 +19,7 @@ namespace MonoDevelop.Services
 		ArrayList tasks  = new ArrayList();
 		string    compilerOutput = String.Empty;
 		
-		public ArrayList Tasks {
+		public ICollection Tasks {
 			get {
 				return tasks;
 			}
@@ -63,6 +63,32 @@ namespace MonoDevelop.Services
 			}
 		}
 		
+		public void AddTask (Task task)
+		{
+			tasks.Add (task);
+			
+			switch (task.TaskType) {
+				case TaskType.Warning:
+					++warnings;
+					break;
+				case TaskType.Error:
+					++errors;
+					break;
+				default:
+					++comments;
+					break;
+			}
+			
+			OnTaskAdded (new TaskEventArgs (task));
+		}
+		
+		public void ClearTasks ()
+		{
+			tasks.Clear ();
+			warnings = errors = comments = 0;
+			OnTasksChanged (null);
+		}
+		
 		protected virtual void OnCompilerOutputChanged(EventArgs e)
 		{
 			if (CompilerOutputChanged != null) {
@@ -74,6 +100,13 @@ namespace MonoDevelop.Services
 		{
 			if (TasksChanged != null) {
 				TasksChanged(this, e);
+			}
+		}
+		
+		protected virtual void OnTaskAdded (TaskEventArgs e)
+		{
+			if (TaskAdded != null) {
+				TaskAdded (this, e);
 			}
 		}
 		
@@ -119,25 +152,28 @@ namespace MonoDevelop.Services
 		
 		public void NotifyTaskChange()
 		{
-			warnings = errors = comments = 0;
-			foreach (Task task in tasks) {
-				switch (task.TaskType) {
-					case TaskType.Warning:
-						++warnings;
-						break;
-					case TaskType.Error:
-						++errors;
-						break;
-					default:
-						++comments;
-						break;
-				}
-			}
 			OnTasksChanged(null);
 		}
 		
+		public event TaskEventHandler TaskAdded;
 		public event EventHandler TasksChanged;
 		public event EventHandler CompilerOutputChanged;
 	}
 
+	public delegate void TaskEventHandler (object sender, TaskEventArgs e);
+	
+	public class TaskEventArgs : EventArgs
+	{
+		Task task;
+		
+		public TaskEventArgs (Task task)
+		{
+			this.task = task;
+		}
+		
+		public Task Task 
+		{
+			get { return task; }
+		}
+	}
 }

@@ -39,13 +39,13 @@ namespace MonoDevelop.TextEditor.Document
 			}
 		}
 		
-		public ProvidedDocumentInformation Current {
+		public IDocumentInformation Current {
 			get {
 				if (!SearchReplaceUtilities.IsTextAreaSelected) {
 					return null;
 				}
 				SourceEditor document = (SourceEditor) (((SourceEditorDisplayBindingWrapper)WorkbenchSingleton.Workbench.ActiveWorkbenchWindow.ViewContent).Control);
-				return new ProvidedDocumentInformation(document,
+				return new EditorDocumentInformation(document,
 				                                       CurrentFileName);
 			}
 		}

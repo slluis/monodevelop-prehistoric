@@ -28,23 +28,22 @@ namespace MonoDevelop.TextEditor.Document
 		
 		public ISearchResult FindNext(ITextIterator textIterator, SearchOptions options)
 		{
-			string document = textIterator.TextBuffer.GetText(0, textIterator.TextBuffer.Length);
+			if (!textIterator.MoveAhead(1)) return null;
 			
-			while (textIterator.MoveAhead(1)) {
-				Match m = regex.Match(document, textIterator.Position);
-				if (m == null || m.Index <= 0 || m.Length <= 0) {
-					
+			int pos = textIterator.Position;
+			string document = textIterator.ReadToEnd ();
+			textIterator.Position = pos;
+			
+			Match m = regex.Match (document, 0);
+			if (m == null || m.Index <= 0 || m.Length <= 0) {
+				return null;
+			} else {
+				if (textIterator.MoveAhead (m.Index)) {
+					return new DefaultSearchResult (textIterator.Position, m.Length);
 				} else {
-					int delta = m.Index - textIterator.Position;
-					if (delta <= 0 || textIterator.MoveAhead(delta)) {
-						return new DefaultSearchResult(m.Index, m.Length);
-					} else {
-						return null;
-					}
+					return null;
 				}
 			}
-			
-			return null;
 		}
 	}
 }

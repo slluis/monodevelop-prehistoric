@@ -43,7 +43,7 @@ namespace MonoDevelop.TextEditor.Document
 		}
 		
 		ArrayList patternProgram = null;
-		int       curMatchEndOffset = -1;
+		int curMatchCharCount = 0;
 		
 		void CompilePattern(string pattern, bool ignoreCase)
 		{
@@ -84,62 +84,66 @@ namespace MonoDevelop.TextEditor.Document
 			}
 		}
 		
-		bool Match(SourceEditorBuffer document, 
-		           int  offset, 
-		           bool ignoreCase,
-		           int  programStart)
+		int Match (ITextIterator textIterator, bool ignoreCase, int  programStart)
 		{
-			int curOffset = offset;
-			curMatchEndOffset = -1;
-			
-			for (int pc = programStart; pc < patternProgram.Count; ++pc) {
-				if (curOffset >= document.Length) {
-					return false;
-				}
+			int matchCharCount = 0;
+			bool moreChars = true;
+			for (int pc = programStart; pc < patternProgram.Count; ++pc) 
+			{
+				if (!moreChars) return -1;
 				
-				char    ch  = ignoreCase ? Char.ToUpper(document.GetCharAt(curOffset)) : document.GetCharAt(curOffset);
+				char    ch  = ignoreCase ? Char.ToUpper(textIterator.Current) : textIterator.Current;
 				Command cmd = (Command)patternProgram[pc];
 				
 				switch (cmd.CommandType) {
 					case CommandType.Match:
 						if (ch != cmd.SingleChar) {
-							return false;
+							return -1;
 						}
 						break;
 					case CommandType.AnyZeroOrMore:
-						return Match(document, curOffset, ignoreCase, pc + 1) ||
-						       Match(document, curOffset + 1, ignoreCase, pc);
+						int p = textIterator.Position;
+						int subMatch = Match (textIterator, ignoreCase, pc + 1);
+						if (subMatch != -1) return matchCharCount + subMatch;
+						textIterator.Position = p;
+						if (!textIterator.MoveAhead (1)) return -1;
+						subMatch = Match (textIterator, ignoreCase, pc);
+						if (subMatch != -1) return matchCharCount + subMatch;
+						else return -1;
 					case CommandType.AnySingle:
 						break;
 					case CommandType.AnyDigit:
 						if (!Char.IsDigit(ch)) {
-							return false;
+							return -1;
 						}
 						break;
 					case CommandType.AnyInList:
 						if (cmd.CharList.IndexOf(ch) < 0) {
-							return false;
+							return -1;
 						}
 						break;
 					case CommandType.NoneInList:
 						if (cmd.CharList.IndexOf(ch) >= 0) {
-							return false;
+							return -1;
 						}
 						break;
 				}
-				++curOffset;
+				matchCharCount++;
+				moreChars = textIterator.MoveAhead (1);
 			}
-			curMatchEndOffset = curOffset;
-			return true;
+			return matchCharCount;
 		}
 		
 		int InternalFindNext(ITextIterator textIterator, SearchOptions options)
 		{
-			while (textIterator.MoveAhead(1)) {
-				if (Match(textIterator.TextBuffer, textIterator.Position, options.IgnoreCase, 0)) {
-					if (!options.SearchWholeWordOnly || SearchReplaceUtilities.IsWholeWordAt(textIterator.TextBuffer, textIterator.Position, curMatchEndOffset - textIterator.Position)) {
-						return textIterator.Position;
-					}
+			while (textIterator.MoveAhead(1)) 
+			{
+				int pos = textIterator.Position;
+				int charCount = Match (textIterator, options.IgnoreCase, 0);
+				textIterator.Position = pos;
+				if (charCount != -1) {
+					if (!options.SearchWholeWordOnly || SearchReplaceUtilities.IsWholeWordAt (textIterator, charCount))
+						return charCount;
 				}
 			}
 			return -1;
@@ -152,8 +156,8 @@ namespace MonoDevelop.TextEditor.Document
 		
 		public ISearchResult FindNext(ITextIterator textIterator, SearchOptions options)
 		{
-			int offset = InternalFindNext(textIterator, options);
-			return offset >= 0 ? new DefaultSearchResult(offset, curMatchEndOffset - offset) : null;
+			int charCount = InternalFindNext(textIterator, options);
+			return charCount != -1 ? new DefaultSearchResult (textIterator.Position, charCount) : null;
 		}
 	}
 }

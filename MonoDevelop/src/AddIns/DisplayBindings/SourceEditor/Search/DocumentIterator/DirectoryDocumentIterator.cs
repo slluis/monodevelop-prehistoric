@@ -48,7 +48,7 @@ namespace MonoDevelop.TextEditor.Document
 			}
 		}
 				
-		public ProvidedDocumentInformation Current {
+		public IDocumentInformation Current {
 			get {
 				if (curIndex < 0 || curIndex >= files.Count) {
 					return null;
@@ -59,26 +59,7 @@ namespace MonoDevelop.TextEditor.Document
 				}
 				SourceEditor document;
 				string fileName = files[curIndex].ToString();
-				foreach (IViewContent content in WorkbenchSingleton.Workbench.ViewContentCollection) {
-					// WINDOWS DEPENDENCY : ToUpper
-					if (content.ContentName != null &&
-						content.ContentName.ToUpper() == fileName.ToUpper()) {
-						document = (SourceEditor) ((SourceEditorDisplayBindingWrapper)content).Control;
-						return new ProvidedDocumentInformation(document,
-						                                       fileName);
-					}
-				}
-				SourceEditorBuffer strategy = null;
-				try {
-					strategy = SourceEditorBuffer.CreateTextBufferFromFile(fileName);
-				} catch (Exception) {
-					TaskService taskService = (TaskService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(TaskService));
-					taskService.Tasks.Add(new Task(String.Empty, "can't access " + fileName, -1, -1));
-					return null;
-				}
-				return new ProvidedDocumentInformation(strategy, 
-				                                       fileName, 
-				                                       0);
+				return new FileDocumentInformation(fileName, 0);
 			}
 		}
 		

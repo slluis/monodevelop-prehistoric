@@ -18,13 +18,6 @@ namespace MonoDevelop.TextEditor.Document
 	public interface ITextIterator
 	{
 		/// <value>
-		/// The text buffer strategy
-		/// </value>
-		SourceEditorBuffer TextBuffer {
-			get;
-		}
-		
-		/// <value>
 		/// Gets the current char this is the same as 
 		/// GetCharRelative(0)
 		/// </value>
@@ -51,6 +44,8 @@ namespace MonoDevelop.TextEditor.Document
 		/// <exception cref="System.InvalidOperationException">
 		/// If this method is called before the first MoveAhead or after 
 		/// MoveAhead or after MoveAhead returns false.
+		/// Returns Char.MinValue if the relative position is outside the
+		/// text limits.
 		/// </exception>
 		char GetCharRelative(int offset);
 		
@@ -59,16 +54,15 @@ namespace MonoDevelop.TextEditor.Document
 		/// </remarks>
 		bool MoveAhead(int numChars);
 		
+		string ReadToEnd ();
+		
 		/// <remarks>
 		/// Rests the iterator
 		/// </remarks>
 		void Reset();
 		
-		/// <remarks>
-		/// The find object calls the InformReplace method to inform the text iterator
-		/// about the replace operation on the TextBuffer. The text iterator must update
-		/// all internal offsets to the new offsets (if neccessary)
-		/// </remarks>
-		void InformReplace(int offset, int length, int newLength);
+		void Replace (int length, string pattern);
+		
+		void Close ();
 	}
 }

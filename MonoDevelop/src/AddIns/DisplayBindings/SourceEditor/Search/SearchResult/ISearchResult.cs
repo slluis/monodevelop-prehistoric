@@ -36,7 +36,7 @@ namespace MonoDevelop.TextEditor.Document
 		/// set by the search strategies. All search results that are returned
 		/// by the find object do have a ProvidedDocumentInformation.
 		/// </value>
-		ProvidedDocumentInformation ProvidedDocumentInformation {
+		IDocumentInformation DocumentInformation {
 			set;
 		}
 		
@@ -53,12 +53,6 @@ namespace MonoDevelop.TextEditor.Document
 		int Length {
 			get;
 		}
-		
-		/// <remarks>
-		/// This method creates a document for the file FileName. This method works
-		/// only after the ProvidedDocumentInformation is set.
-		/// </remarks>
-		SourceEditor CreateDocument ();
 		
 		/// <remarks>
 		/// Replace operations must transform the replace pattern with this

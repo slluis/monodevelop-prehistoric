@@ -23,10 +23,10 @@ namespace MonoDevelop.TextEditor.Document
 		
 		TextIteratorState state;
 		
+		EditorDocumentInformation docInfo;
 		SourceEditorBuffer  textBuffer;
-		int                 currentOffset;
-		int                 endOffset;
-		int                 oldOffset = -1;
+		int currentOffset;
+		int endOffset;
 		
 		public SourceEditorBuffer TextBuffer {
 			get {
@@ -51,21 +51,29 @@ namespace MonoDevelop.TextEditor.Document
 		
 		public int Position {
 			get {
-				return currentOffset;
+				if (state == TextIteratorState.Done) return -1;
+				else return currentOffset;
 			}
 			set {
+				if (value == -1) {
+					state = TextIteratorState.Done;
+					currentOffset = endOffset;
+					return;
+				}
+				if (state == TextIteratorState.Done)
+					state = TextIteratorState.Iterating;
 				currentOffset = value;
 			}
 		}
 		
 		
-		public ForwardTextIterator(SourceEditorBuffer textBuffer, int endOffset)
+		public ForwardTextIterator (EditorDocumentInformation docInfo, int endOffset)
 		{
-			Debug.Assert(textBuffer != null);
 			Debug.Assert(endOffset >= 0 && endOffset < textBuffer.Length);
 			
-			this.textBuffer = textBuffer;
-			this.endOffset  = endOffset;
+			this.docInfo = docInfo;
+			this.textBuffer = docInfo.TextBuffer;
+			this.endOffset = endOffset;
 			Reset();
 		}
 		
@@ -75,7 +83,11 @@ namespace MonoDevelop.TextEditor.Document
 				throw new System.InvalidOperationException();
 			}
 			
+			if (currentOffset + offset < 0 || currentOffset + offset >= textBuffer.Length) 
+				return char.MinValue;
+				
 			int realOffset = (currentOffset + (1 + Math.Abs(offset) / textBuffer.Length) * textBuffer.Length + offset) % textBuffer.Length;
+			
 			return textBuffer.GetCharAt(realOffset);
 		}
 		
@@ -91,12 +103,12 @@ namespace MonoDevelop.TextEditor.Document
 				case TextIteratorState.Done:
 					return false;
 				case TextIteratorState.Iterating:
+					int oldOffset = currentOffset;
 					currentOffset = (currentOffset + numChars) % textBuffer.Length;
-					bool finish = oldOffset != -1 && (oldOffset > currentOffset || oldOffset < endOffset) && currentOffset >= endOffset;
-					
-					oldOffset = currentOffset;
+					bool finish = (oldOffset > currentOffset || oldOffset < endOffset) && currentOffset >= endOffset;
 					if (finish) {
 						state = TextIteratorState.Done;
+						currentOffset = endOffset;
 						return false;
 					}
 					return true;
@@ -105,26 +117,40 @@ namespace MonoDevelop.TextEditor.Document
 			}
 		}
 		
-		public void InformReplace(int offset, int length, int newLength)
+		public string ReadToEnd ()
 		{
-			if (offset <= endOffset) {
-				endOffset = endOffset - length + newLength;
+			if (state == TextIteratorState.Done) return "";
+			
+			string doc = "";
+			if (currentOffset >= endOffset) {
+				doc = textBuffer.GetText (currentOffset, textBuffer.Length - currentOffset);
+				currentOffset = 0;
+			}
+				
+			doc += textBuffer.GetText (currentOffset, endOffset - currentOffset);
+			currentOffset = endOffset;
+			return doc;
+		}
+
+		public void Replace (int length, string pattern)
+		{
+			docInfo.Replace (currentOffset, length, pattern);
+			
+			if (currentOffset <= endOffset) {
+				endOffset = endOffset - length + pattern.Length;
 			}
 			
-			if (offset <= currentOffset) {
-				currentOffset = currentOffset - length + newLength;
-			}
-			
-			if (offset <= oldOffset) {
-				oldOffset = oldOffset - length + newLength;
-			}
+			currentOffset = currentOffset - length + pattern.Length;
 		}
 
 		public void Reset()
 		{
 			state         = TextIteratorState.Resetted;
 			currentOffset = endOffset;
-			oldOffset     = -1;
+		}
+		
+		public void Close ()
+		{
 		}
 		
 		public override string ToString()

@@ -162,10 +162,8 @@ namespace MonoDevelop.Internal.Project
 				isDirty = false;
 				foreach (CompilerError err in res.CompilerResults.Errors) {
 					isDirty = true;
-					taskService.Tasks.Add(new Task(project, err));
+					taskService.AddTask(new Task(project, err));
 				}
-				
-				taskService.NotifyTaskChange();
 				
 				if (taskService.Errors > 0) {
 					++BuildErrors;

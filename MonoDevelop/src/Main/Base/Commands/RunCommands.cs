@@ -76,9 +76,9 @@ namespace MonoDevelop.Commands
 								} else {
 									new SaveFile().Run();
 									ICompilerResult res = binding.CompileFile(WorkbenchSingleton.Workbench.ActiveWorkbenchWindow.ViewContent.ContentName);
-									taskService.Tasks.Clear();
+									taskService.ClearTasks ();
 									foreach (CompilerError err in res.CompilerResults.Errors) {
-										taskService.Tasks.Add(new Task(null, err));
+										taskService.AddTask(new Task(null, err));
 									}
 									taskService.CompilerOutput = res.CompilerOutput;
 									taskService.NotifyTaskChange();
@@ -151,9 +151,9 @@ namespace MonoDevelop.Commands
 								} else {
 									new SaveFile().Run();
 									ICompilerResult res = binding.CompileFile(WorkbenchSingleton.Workbench.ActiveWorkbenchWindow.ViewContent.ContentName);
-									taskService.Tasks.Clear();
+									taskService.ClearTasks();
 									foreach (CompilerError err in res.CompilerResults.Errors) {
-										taskService.Tasks.Add(new Task(null, err));
+										taskService.AddTask(new Task(null, err));
 									}
 									taskService.CompilerOutput = res.CompilerOutput;
 									taskService.NotifyTaskChange();
@@ -274,8 +274,7 @@ namespace MonoDevelop.Commands
 						CombineEntry.BuildProjects = 0;
 						CombineEntry.BuildErrors   = 0;
 						taskService.CompilerOutput = String.Empty;
-						taskService.Tasks.Clear();
-						taskService.NotifyTaskChange();
+						taskService.ClearTasks();
 			
 						projectService.OnStartBuild();
 						projectService.CompileProject(projectService.CurrentSelectedProject);
@@ -308,8 +307,7 @@ namespace MonoDevelop.Commands
 						CombineEntry.BuildProjects = 0;
 						CombineEntry.BuildErrors   = 0;
 						taskService.CompilerOutput = String.Empty;
-						taskService.Tasks.Clear();
-						taskService.NotifyTaskChange();
+						taskService.ClearTasks();
 				
 						projectService.OnStartBuild();
 						projectService.RecompileProject(projectService.CurrentSelectedProject);
