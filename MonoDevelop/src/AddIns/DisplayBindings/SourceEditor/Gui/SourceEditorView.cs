@@ -69,9 +69,10 @@ namespace MonoDevelop.SourceEditor.Gui {
 				//FIXME: ' ' needs to do extra parsing
 				case ' ':
 				case '.':
+					bool retVal = base.OnKeyPressEvent (ref evnt);
 					completionWindow = new CompletionWindow (this, ParentEditor.DisplayBinding.ContentName, new CodeCompletionDataProvider ());
 					completionWindow.ShowCompletionWindow ((char)key);
-					break;
+					return retVal;
 				case '(':
 					/*try {
 						InsightWindow insightWindow = new InsightWindow(this, ParentEditor.DisplayBinding.ContentName);
@@ -83,6 +84,7 @@ namespace MonoDevelop.SourceEditor.Gui {
 					}
 					break;*/
 				case '[':
+					break;
 					/*try {
 						InsightWindow insightWindow = new InsightWindow(this, ParentEditor.DisplayBinding.ContentName);
 						
