@@ -89,11 +89,6 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs.OptionPanels.CompletionDatabaseWi
 		{
 			try {
 				druidHost.Destroy();
-				PropertyService propertyService = (PropertyService)ServiceManager.Services.GetService(typeof(PropertyService));
-				string path = propertyService.GetProperty("SharpDevelop.CodeCompletion.DataDirectory", String.Empty);
-
-				if (gen is CreatingGenerator)
-					((CreatingGenerator)gen).path = path;
 
 				GeneratorProgress gp = new GeneratorProgress(gen);
 			} catch (Exception e) {

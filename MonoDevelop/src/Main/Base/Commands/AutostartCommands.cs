@@ -50,23 +50,14 @@ namespace ICSharpCode.SharpDevelop.Commands
 	
 	public class StartCodeCompletionWizard : AbstractCommand
 	{
-		private string CreateCodeCompletionDir()
-		{
-			FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.Services.GetService(typeof(FileUtilityService));
-			PropertyService propertyService = (PropertyService)ServiceManager.Services.GetService(typeof(PropertyService));
-			string path = propertyService.ConfigDirectory + System.IO.Path.DirectorySeparatorChar + "CodeCompletionData";
-			if (!Directory.Exists(path))
-				Directory.CreateDirectory(path);
-			propertyService.SetProperty ("SharpDevelop.CodeCompletion.DataDirectory", path);
-			propertyService.SaveProperties ();
-			return fileUtilityService.GetDirectoryNameWithSeparator(path);
-		}
 		public override void Run()
 		{
-			string path = CreateCodeCompletionDir();
-			string codeCompletionProxyFile = path + "CodeCompletionProxyDataV02.bin";
+			PropertyService propertyService = (PropertyService)ServiceManager.Services.GetService(typeof(PropertyService));
+			string path = propertyService.GetProperty ("SharpDevelop.CodeCompletion.DataDirectory", null);
+			string codeCompletionProxyFile = path + Path.DirectorySeparatorChar + "CodeCompletionProxyDataV02.bin";
+			Console.WriteLine("checking for existence of {0}", codeCompletionProxyFile);
 
-			if (!File.Exists(codeCompletionProxyFile)) {
+			if (!File.Exists (codeCompletionProxyFile)) {
 				RunWizard();
 				DefaultParserService parserService = (DefaultParserService)ServiceManager.Services.GetService(typeof(IParserService));
 				parserService.LoadProxyDataFile();

@@ -27,11 +27,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs.OptionPanels.CompletionDatabaseWi
 			if (!File.Exists(fileUtilityService.GetDirectoryNameWithSeparator(Path) + "CodeCompletionProxyDataV02.bin"))
 				throw new PathNotCodeCompletionDatabaseException(Path + " does not contain valid code completion data");
 
-
-			PropertyService propertyService = (PropertyService) ServiceManager.Services.GetService (typeof(PropertyService));
-			IProperties properties = (IProperties)propertyService;
-
-			properties.SetProperty("SharpDevelop.CodeCompletion.DataDirectory", Path);
+			PropertyService propertyService = (PropertyService)ServiceManager.Services.GetService(typeof(PropertyService));
 			propertyService.SetProperty ("SharpDevelop.CodeCompletion.DataDirectory", Path);
 			propertyService.SaveProperties ();
 			progress.Worked(2, "Referenced existing database");

@@ -16,6 +16,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs.OptionPanels.CompletionDatabaseWi
 		public bool Fast;
 		public void Generate(IProgressMonitor progress)
 		{
+			string path = this.CreateCodeCompletionDir();
 			DefaultParserService parserService  = (DefaultParserService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(DefaultParserService));
 			Console.WriteLine("using path " + path);
 			if (Fast) {
