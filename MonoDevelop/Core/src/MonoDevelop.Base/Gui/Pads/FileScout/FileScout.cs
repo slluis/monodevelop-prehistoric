@@ -50,6 +50,8 @@ namespace MonoDevelop.Gui.Pads
 		{
 			fb.DirectoryChangedEvent += new DirectoryChangedEventHandler (OnDirChanged);
 			filelister.RowActivated += new Gtk.RowActivatedHandler (FileSelected);
+			Runtime.ProjectService.CombineOpened += new CombineEventHandler(OnCombineOpened);
+			Runtime.ProjectService.CombineClosed += new CombineEventHandler(OnCombineClosed);
 
 			Gtk.Frame treef  = new Gtk.Frame ();
 			treef.Add (fb);
@@ -113,6 +115,21 @@ namespace MonoDevelop.Gui.Pads
 				else
 					Runtime.FileService.OpenFile (item.FullName);
 			}
+		}
+
+		void OnCombineOpened(object sender, CombineEventArgs args)
+		{
+			try {
+				if (args.Combine.StartupEntry != null)
+					fb.CurrentDir = args.Combine.StartupEntry.BaseDirectory;
+			} catch {
+				fb.CurrentDir = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
+			}
+		}
+
+		void OnCombineClosed(object sender, CombineEventArgs args)
+		{
+			fb.CurrentDir = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
 		}
 
 		public event EventHandler TitleChanged;

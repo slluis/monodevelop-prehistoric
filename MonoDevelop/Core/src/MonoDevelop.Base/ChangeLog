@@ -1,3 +1,9 @@
+2005-03-19	Christian Hergert	<christian.hergert@gmail.com>
+
+	* /Gui/Pads/FileScout/FileScout.cs: Change directories in the FileScout
+	to the base directory of a opened combine. Return to home directory
+	upon close of the combine.
+
 2005-03-19  Lluis Sanchez Gual  <lluis@novell.com>
 
 	* Commands/MenuItemBuilders.cs: Fixed Include/Compile and Deploy options.
