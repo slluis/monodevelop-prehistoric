@@ -27,12 +27,13 @@ namespace ICSharpCode.SharpDevelop.BrowserDisplayBinding
 
 		public bool CanCreateContentForMimeType (string mimetype)
 		{
-			switch (mimetype) {
+			/*switch (mimetype) {
 				case "text/html":
 					return true;
 				default:
 					return false;
-			}
+			}*/
+			return false;
 		}
 		
 		public bool CanCreateContentForLanguage(string language)
