@@ -82,6 +82,12 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 				return properties;
 			}
 		}
+
+		protected string Title {
+			set {
+				TreeViewOptionDialog.Title = value;
+			}
+		}
 		
 		protected void AcceptEvent(object sender, EventArgs e)
 		{
@@ -184,6 +190,11 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 			if (node != null) {
 				AddNodes(properties, Gtk.TreeIter.Zero, node.BuildChildItems(this));
 			}
+			SelectFirstNode ();
+		}
+
+		protected void SelectFirstNode ()
+		{
 			TreeView.GrabFocus ();
 			SelectNode (null, null);
 		}

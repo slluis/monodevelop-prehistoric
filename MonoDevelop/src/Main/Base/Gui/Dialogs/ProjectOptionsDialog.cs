@@ -35,7 +35,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs {
 		{
 			this.project = project;
 			this.configurationNode = configurationNode;
-			//this.Title = StringParserService.Parse("${res:Dialog.Options.ProjectOptions.DialogName}");
+			this.Title = StringParserService.Parse("${res:Dialog.Options.ProjectOptions.DialogName}");
 			
 			//((TreeView)ControlDictionary["optionsTreeView"]).MouseUp        += new MouseEventHandler(TreeViewMouseUp);
 			//((TreeView)ControlDictionary["optionsTreeView"]).AfterLabelEdit += new NodeLabelEditEventHandler(AfterLabelEdit);
@@ -65,7 +65,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs {
 				configurationTreeNode.Nodes.Add(newNode);
 			} 
 			((TreeView)ControlDictionary["optionsTreeView"]).Nodes.Add(configurationTreeNode);*/
-			
+			SelectFirstNode ();	
 		}
 		
 		public void AddProjectConfiguration()
