@@ -28,6 +28,8 @@
                      location = "templates/NemerleEmptyProject.xpt.xml"/>
     <ProjectTemplate id = "NemerleGtkSharpProject"
                      location = "templates/NemerleGtkSharpProject.xpt.xml"/>
+    <ProjectTemplate id = "NemerleGnomeSharpProject"
+                     location = "templates/NemerleGnomeSharpProject.xpt.xml"/>
   </Extension>
 
   <Extension path = "/SharpDevelop/Workbench/ProjectOptions/ConfigurationProperties">
