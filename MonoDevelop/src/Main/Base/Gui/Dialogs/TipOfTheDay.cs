@@ -6,11 +6,8 @@
 // </file>
 
 using System;
-using System.Drawing;
-using System.ComponentModel;
-using System.Resources;
-using System.Xml;
 using System.IO;
+using System.Xml;
 
 using Gtk;
 using GtkSharp;

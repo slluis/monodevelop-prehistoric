@@ -21,7 +21,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 {
 	public class WordCountDialog : Dialog
 	{
-		static GLib.GType type;
+		static GLib.GType gtype;
 		TreeView resultListView;
 		TreeStore store;
 		ArrayList items;
@@ -270,12 +270,17 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 			//UpdateList ((TreeViewColumn)e.Column);
 		}
 		
-		static WordCountDialog ()
+		public static new GLib.GType GType
 		{
-			type = RegisterGType (typeof (WordCountDialog));
+			get
+			{
+				if (gtype == GLib.GType.Invalid)
+					gtype = RegisterGType (typeof (WordCountDialog));
+				return gtype;
+			}
 		}
 		
-		public WordCountDialog() : base (type)
+		public WordCountDialog() : base (GType)
 		{
 			this.BorderWidth = 6;
 			this.TransientFor = (Window) WorkbenchSingleton.Workbench;

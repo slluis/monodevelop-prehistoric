@@ -7,11 +7,7 @@
 
 using System;
 using System.IO;
-using System.Drawing;
-using System.Drawing.Drawing2D;
 using System.Collections;
-using System.ComponentModel;
-using System.Xml;
 
 using ICSharpCode.Core.AddIns;
 using ICSharpCode.Core.Services;

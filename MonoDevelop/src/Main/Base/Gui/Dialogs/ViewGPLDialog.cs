@@ -8,7 +8,6 @@
 using System;
 using System.IO;
 using Gtk;
-using System.Resources;
 
 using ICSharpCode.Core.Properties;
 using ICSharpCode.Core.Services;

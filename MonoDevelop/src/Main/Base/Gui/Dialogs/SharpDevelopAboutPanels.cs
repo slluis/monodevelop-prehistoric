@@ -9,17 +9,13 @@ using System;
 using System.Drawing;
 using Gtk;
 
-using System.Resources;
 using System.IO;
 using System.Text;
 using System.Reflection;
-using System.Runtime.CompilerServices;
 
 using ICSharpCode.SharpDevelop.Gui;
 using ICSharpCode.Core.Properties;
-
 using ICSharpCode.Core.Services;
-
 using ICSharpCode.SharpDevelop.Internal.Project.Collections;
 using ICSharpCode.SharpDevelop.Internal.Project;
 using ICSharpCode.SharpDevelop.Services;
@@ -28,19 +24,24 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 {
 	public class AboutMonoDevelopTabPage : VBox
 	{
-		static GLib.GType type;
+		static GLib.GType gtype;
 		Label      buildLabel   = new Label ();
 		Label    buildTextBox = new Label ();
 		Label      versionLabel   = new Label ();
 		Label    versionTextBox = new Label ();
 		Label      sponsorLabel   = new Label ();
 		
-		static AboutMonoDevelopTabPage ()
+		public static new GLib.GType GType
 		{
-			type = RegisterGType (typeof (AboutMonoDevelopTabPage));
+			get
+			{
+				if (gtype == GLib.GType.Invalid)
+					gtype = RegisterGType (typeof (AboutMonoDevelopTabPage));
+				return gtype;
+			}
 		}
 		
-		public AboutMonoDevelopTabPage() : base (type)
+		public AboutMonoDevelopTabPage() : base (GType)
 		{
 			HBox hbox = new HBox (false, 0);
 			Version v = Assembly.GetEntryAssembly().GetName().Version;
@@ -127,7 +128,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 				// feel free to add your name and email here
 				// if you contributed to the port
 				// FIXME: make real port credits
-				base.Html = "<html><body><h3>MonoDevelop port</h3>"
+				/*base.Html = "<html><body><h3>MonoDevelop port</h3>"
 				+ "<p>This is a port of SharpDevelop 0.98 to Gtk#.</p>"
 				+ "<p>by:"
 				+ "<ul><li>Todd Berman</li>"
@@ -137,7 +138,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 				+ "<li>orph</li>"
 				+ "<li>nricciar</li>"
 				+ "<li>jba</li>"
-				+ "</ul></body></html>";
+				+ "</ul></body></html>";*/
 				
 			} catch (Exception e) {
 				IMessageService messageService = (IMessageService)ServiceManager.Services.GetService(typeof(IMessageService));
@@ -149,17 +150,22 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 	
 	public class VersionInformationTabPage : VBox
 	{
-		private static GLib.GType type;
+		private static GLib.GType gtype;
 		private TreeView listView;
 		private Button button;
 		private TreeStore store;
 		
-		static VersionInformationTabPage ()
+		public static new GLib.GType GType
 		{
-			type = RegisterGType (typeof (VersionInformationTabPage));
+			get
+			{
+				if (gtype == GLib.GType.Invalid)
+					gtype = RegisterGType (typeof (VersionInformationTabPage));
+				return gtype;
+			}
 		}
 
-		public VersionInformationTabPage() : base (type)
+		public VersionInformationTabPage() : base (GType)
 		{
 			ResourceService resourceService = (ResourceService)ServiceManager.Services.GetService(typeof(IResourceService));
 			

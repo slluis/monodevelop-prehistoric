@@ -1,9 +1,6 @@
 using System;
 using System.Collections;
-//using System.Windows.Forms;
-using System.Drawing;
 using System.Reflection;
-using System.Resources;
 using Gtk;
 
 namespace ICSharpCode.SharpDevelop.Gui.Dialogs {
@@ -22,13 +19,9 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs {
 		
 		public SplashScreenForm() : base ("Splash")
 		{
-#if !DEBUG
-			//TopMost         = true;
-#endif
 			this.Decorated = false;
 			this.WindowPosition = WindowPosition.Center;
 			this.TypeHint = Gdk.WindowTypeHint.Splashscreen;
-			//ShowInTaskbar   = false;
 			Gdk.Pixbuf bitmap = new Gdk.Pixbuf(Assembly.GetEntryAssembly(), "SplashScreen.png");
 			DefaultWidth = bitmap.Width;
 			DefaultHeight = bitmap.Height;

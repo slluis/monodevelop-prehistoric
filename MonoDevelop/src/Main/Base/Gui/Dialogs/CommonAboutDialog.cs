@@ -14,14 +14,13 @@ using ICSharpCode.Core.Services;
 
 using Gdk;
 using Gtk;
-using GtkSharp;
 using Pango;
 
 namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 {
 	public class ScrollBox : DrawingArea
 	{
-		static GLib.GType type;
+		static GLib.GType gtype;
 		Pixbuf image;
 		string text;
 		int scroll = -220;
@@ -35,12 +34,17 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 			get { return hndlr; }
 		}
 		
-		static ScrollBox ()
+		public static new GLib.GType GType
 		{
-			type = RegisterGType (typeof (ScrollBox));
+			get
+			{
+				if (gtype == GLib.GType.Invalid)
+					gtype = RegisterGType (typeof (ScrollBox));
+				return gtype;
+			}
 		}
 		
-		public ScrollBox() : base (type)
+		public ScrollBox() : base (GType)
 		{
 			this.RequestSize = new System.Drawing.Size (400, 220);
 			this.Realized += new EventHandler (OnRealized);
