@@ -1,5 +1,10 @@
 2004-04-28  Todd Berman  <tberman@sevenl.net>
 
+	* CSharpBindingCompilerManger.cs: add code for assembly references
+	and embeding resources.
+
+2004-04-28  Todd Berman  <tberman@sevenl.net>
+
 	* CSharpLanguageBinding.cs: implemented GetMakefile passthru.
 	* CSharpBindingCompilerManager.cs: dirty dirty dirty first draft run
 	through of GenerateMakefile, I have tested this with exactly *one*

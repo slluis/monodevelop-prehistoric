@@ -302,17 +302,21 @@ namespace CSharpBinding
 			
 			ArrayList compile_files = new ArrayList ();
 			ArrayList gac_references = new ArrayList ();
+			ArrayList assembly_references = new ArrayList ();
+			ArrayList resources = new ArrayList ();
 			
 			foreach (ProjectFile finfo in project.ProjectFiles) {
 				if (finfo.Subtype != Subtype.Directory) {
 					switch (finfo.BuildAction) {
 					case BuildAction.Compile:
 						string rel_path = fileUtilityService.AbsoluteToRelativePath (project.BaseDirectory, Path.GetDirectoryName (finfo.Name));
+						if (CanCompile (finfo.Name));
 						compile_files.Add (Path.Combine (rel_path, Path.GetFileName (finfo.Name)));
 						break;
 						
 					case BuildAction.EmbedAsResource:
-						//writer.WriteLine("--linkres " + finfo.Name);
+						string resource_rel_path = fileUtilityService.AbsoluteToRelativePath (project.BaseDirectory, Path.GetDirectoryName (finfo.Name));
+						resources.Add (Path.Combine (resource_rel_path, Path.GetFileName (finfo.Name)));
 						break;
 					}
 				}
@@ -321,8 +325,13 @@ namespace CSharpBinding
 			foreach (ProjectReference lib in project.ProjectReferences) {
 				switch (lib.ReferenceType) {
 				case ReferenceType.Gac:
-					string fileName = lib.GetReferencedFileName(project);
-					gac_references.Add (Path.GetFileNameWithoutExtension (fileName));
+					string gac_fileName = lib.GetReferencedFileName (project);
+					gac_references.Add (Path.GetFileNameWithoutExtension (gac_fileName));
+					break;
+				case ReferenceType.Assembly:
+					string assembly_fileName = lib.GetReferencedFileName (project);
+					string rel_path_to = fileUtilityService.AbsoluteToRelativePath (project.BaseDirectory, Path.GetDirectoryName (assembly_fileName));
+					assembly_references.Add (Path.Combine (rel_path_to, Path.GetFileName (assembly_fileName)));
 					break;
 				}
 			}
@@ -335,6 +344,17 @@ namespace CSharpBinding
 				else
 					stream.WriteLine ();
 			}
+
+			stream.WriteLine ("RESOURCES = \\");
+			for (int i = 0; i < resources.Count; i++) {
+				stream.Write (resources[i]);
+				if (i != resources.Count - 1)
+					stream.WriteLine (" \\");
+				else
+					stream.WriteLine ();
+			}
+			stream.WriteLine ();
+			stream.WriteLine ("RESOURCES_BUILD = $(foreach res,$(RESOURCES), $(addprefix -resource:,$(res)),$(notdir $(res)))");
 
 			stream.WriteLine ();
 			stream.WriteLine ("GAC_REFERENCES = \\");
@@ -350,11 +370,24 @@ namespace CSharpBinding
 			stream.WriteLine ("GAC_REFERENCES_BUILD = $(addprefix /r:, $(GAC_REFERENCES))");
 			stream.WriteLine ();
 
+			stream.WriteLine ("ASSEMBLY_REFERENCES = \\");
+			for (int i = 0; i < assembly_references.Count; i++) {
+				stream.Write (assembly_references[i]);
+				if (i != assembly_references.Count - 1)
+					stream.WriteLine (" \\");
+				else
+					stream.WriteLine ();
+			}
+
+			stream.WriteLine ();
+			stream.WriteLine ("ASSEMBLY_REFERENCES_BUILD = $(addprefix /r:, $(ASSEMBLY_REFERENCES))");
+			stream.WriteLine ();
+
 			stream.WriteLine ("all: " + outputName);
 			stream.WriteLine ();
 			
-			stream.WriteLine (outputName + ": $(SOURCES)");
-			stream.WriteLine ("\tmcs /target:{0} /out:{1} $(GAC_REFERENCES_BUILD) $(SOURCES)", target, outputName);
+			stream.WriteLine (outputName + ": $(SOURCES) $(RESOURCES)");
+			stream.WriteLine ("\tmcs /target:{0} /out:{1} $(RESOURCES_BUILD) $(GAC_REFERENCES_BUILD) $(ASSEMBLY_REFERENCES_BUILD) $(SOURCES)", target, outputName);
 			
 			stream.Flush ();
 			stream.Close ();
