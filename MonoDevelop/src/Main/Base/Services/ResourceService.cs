@@ -231,7 +231,7 @@ namespace ICSharpCode.Core.Services
 				throw new ResourceNotFoundException("string >" + name + "<");
 			}
 			
-			return s;
+			return s.Replace (@"\&", "||!|").Replace ("&", "_").Replace ("||!|", "&");;
 		}
 		
 		// use P/Invoke to be able to pass some NULL parameters

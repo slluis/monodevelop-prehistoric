@@ -100,17 +100,11 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs.OptionPanels
 			}			
 		void AutoLoadCheckBoxCheckedChangeEvent(object sender, EventArgs e)
 		{
-			autoInsertNewFilesCheckButton.Sensitive = false;
-			autoInsertNewFilesCheckButton.Active = newFilesOnLoadCheckButton.Active;
-			
-			// FIXME: leave this deselected and checked by default for 0.1 release, uncomment again after release
- 			/*
 			autoInsertNewFilesCheckButton.Sensitive = newFilesOnLoadCheckButton.Active;
 			if (newFilesOnLoadCheckButton.Active == false) 
 			{
 				autoInsertNewFilesCheckButton.Active = false;
-			}
-			*/
+			}			
 		}
 
 			
