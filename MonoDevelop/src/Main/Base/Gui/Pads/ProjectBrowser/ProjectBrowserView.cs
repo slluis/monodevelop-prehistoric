@@ -190,7 +190,9 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads.ProjectBrowser
 			((AbstractBrowserNode) node).AfterLabelEdit (new_text);
 			
 			if (node.Parent != null)
-				SortUtility.QuickSort (node.Parent.Nodes, TreeNodeComparer.ProjectNode);
+				node.Parent.Sort (TreeNodeComparer.ProjectNode);
+			
+			node.EnsureVisible();
 			
 			// save changes
 			IProjectService projectService = (IProjectService) ServiceManager.Services.GetService (typeof(IProjectService));
@@ -322,7 +324,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads.ProjectBrowser
 				combineNode.Nodes.Add(node);
 			}
 			
-			SortUtility.QuickSort(combineNode.Nodes, TreeNodeComparer.ProjectNode);
+			combineNode.Sort (TreeNodeComparer.ProjectNode);
 			
 			return combineNode;
 		}
