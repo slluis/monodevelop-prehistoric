@@ -616,6 +616,9 @@ namespace ICSharpCode.SharpDevelop.Services
 		
 		public virtual IParser GetParser(string fileName)
 		{
+			if (fileName == null)
+				return null;
+			
 			if (Path.GetExtension(fileName).ToUpper() == ".CS") {
 				return parser[0];
 			}
