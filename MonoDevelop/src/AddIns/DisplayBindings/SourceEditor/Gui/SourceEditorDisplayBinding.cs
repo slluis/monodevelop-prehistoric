@@ -64,7 +64,7 @@ namespace MonoDevelop.SourceEditor.Gui {
 	}
 	
 	public class SourceEditorDisplayBindingWrapper : AbstractViewContent,
-		IEditable, IPositionable
+		IEditable, IPositionable, IBookmarkOperations
 	{
 		internal SourceEditor se;
 		
@@ -228,6 +228,28 @@ namespace MonoDevelop.SourceEditor.Gui {
 		void CaretModeChanged (object sender, EventArgs e)
 		{
 			statusBarService.SetInsertMode (insert_mode = ! insert_mode);
+		}
+#endregion
+
+#region IBookmarkOperations
+		void IBookmarkOperations.ToggleBookmark ()
+		{
+			se.Buffer.ToggleBookmark ();
+		}
+		
+		void IBookmarkOperations.PrevBookmark ()
+		{
+			se.Buffer.PrevBookmark ();
+		}
+		
+		void IBookmarkOperations.NextBookmark ()
+		{
+			se.Buffer.NextBookmark ();
+		}
+		
+		void IBookmarkOperations.ClearBookmarks ()
+		{
+			se.Buffer.ClearBookmarks ();
 		}
 #endregion
 
