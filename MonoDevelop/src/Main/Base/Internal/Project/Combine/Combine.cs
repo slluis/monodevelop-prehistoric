@@ -332,6 +332,8 @@ namespace ICSharpCode.SharpDevelop.Internal.Project
 				
 				if (configurations.Count == 0) {
 					foreach (IConfiguration pconf in project.Configurations) {
+						if (pconf.Name == null)
+							continue;
 						CombineConfiguration cconf = new CombineConfiguration(pconf.Name, this);
 						configurations[pconf.Name] = cconf;
 						if (ActiveConfiguration == null)
