@@ -48,7 +48,7 @@ namespace MonoDevelop.EditorBindings.Gui.Pads
 		
 		public string Icon {
 			get {
-				return "Icons.16x16.OutputIcon";
+				return MonoDevelop.Gui.Stock.OutputIcon;
 			}
 		}
 		

@@ -298,7 +298,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads
 		
 		public string Icon {
 			get {
-				return "Icons.16x16.OpenFolderBitmap";
+				return MonoDevelop.Gui.Stock.OpenFolderBitmap;
 			}
 		}
 		

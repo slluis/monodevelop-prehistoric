@@ -133,7 +133,7 @@ namespace MonoDevelop.Gui.Widgets
 			return Add(widget, title, null);
 		}
 		
-		public Content Add(Gtk.Widget widget, string title, Gdk.Pixbuf image) {
+		public Content Add(Gtk.Widget widget, string title, string image) {
 			Content ret = new Content(widget, title, image);
 			contents.Add(ret);
 			return ret;
@@ -148,14 +148,14 @@ namespace MonoDevelop.Gui.Widgets
 	public class Content: WindowContent {
 		private Gtk.Widget widget;
 		private string title;
-		private Gdk.Pixbuf image;
+		private string image;
 		private string fulltitle;
 		
 		public Content(Gtk.Widget widget, string title): this(widget, title, null) {
 			// Nothing
 		}
 		
-		public Content(Gtk.Widget widget, string title, Gdk.Pixbuf image) {
+		public Content(Gtk.Widget widget, string title, string image) {
 			this.widget = widget;
 			this.title = title;
 			this.image = image;
@@ -186,7 +186,7 @@ namespace MonoDevelop.Gui.Widgets
 			}
 		}
 		
-		public Gdk.Pixbuf Image {
+		public string Image {
 			get {
 				return image;
 			}

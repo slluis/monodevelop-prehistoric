@@ -146,7 +146,7 @@ namespace ICSharpCode.SharpDevelop.Gui
 			foreach (string typeName in leftContents) {
 				Content c = GetContent (typeName);
 				if (c != null) {
-					DockItem item = new DockItem (typeName, c.Title, "gtk-execute",
+					DockItem item = new DockItem (typeName, c.Title, c.Image,
 								      DockItemBehavior.Normal);
 					item.Add (c.Widget);
 					item.ShowAll ();
@@ -157,7 +157,7 @@ namespace ICSharpCode.SharpDevelop.Gui
 			foreach (string typeName in bottomContents) {
 				Content c = GetContent (typeName);
 				if (c != null) {
-					DockItem item = new DockItem (typeName, c.Title, "gtk-execute",
+					DockItem item = new DockItem (typeName, c.Title, c.Image,
 								      DockItemBehavior.Normal);
 					item.Add (c.Widget);
 					item.ShowAll ();
@@ -168,7 +168,7 @@ namespace ICSharpCode.SharpDevelop.Gui
 			foreach (string typeName in rightContents) {
 				Content c = GetContent (typeName);
 				if (c != null) {
-					DockItem item = new DockItem (typeName, c.Title, "gtk-execute",
+					DockItem item = new DockItem (typeName, c.Title, c.Image,
 								      DockItemBehavior.Normal);
 					item.Add (c.Widget);
 					item.ShowAll ();
@@ -223,7 +223,7 @@ namespace ICSharpCode.SharpDevelop.Gui
 				} else {
 					//newContent = dockManager.Contents.Add(content.Control, content.Title);
 				}*/
-				contentHash[content] = new Content (content.Control, content.Title, null);
+				contentHash[content] = new Content (content.Control, content.Title, content.Icon);
 			} else {
 				Content c = (Content)contentHash[content];
 				if (c != null) {

@@ -34,6 +34,7 @@ namespace ICSharpCode.Core.Services
 			this.Add(hbox1);
 		}
 	}
+	
 	public class ResourceService : AbstractService, IResourceService
 	{
 		readonly static string uiLanguageProperty = "CoreProperties.UILanguage";
@@ -72,6 +73,7 @@ namespace ICSharpCode.Core.Services
 				LoadLanguageResources();
 			} 
 		}
+		
 		void LoadLanguageResources()
 		{
 			PropertyService propertyService = (PropertyService)ServiceManager.Services.GetService(typeof(PropertyService));

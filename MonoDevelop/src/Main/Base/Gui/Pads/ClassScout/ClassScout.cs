@@ -85,7 +85,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads
 
 		public string Icon {
 			get {
-				return "Icons.16x16.Class";
+				return MonoDevelop.Gui.Stock.Class;
 			}
 		}
 

@@ -65,7 +65,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads.ProjectBrowser
 
 		public string Icon {
 			get {
-				return "Icons.16x16.CombineIcon";
+				return MonoDevelop.Gui.Stock.CombineIcon;
 			}
 		}
 
