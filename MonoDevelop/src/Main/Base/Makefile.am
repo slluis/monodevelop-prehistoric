@@ -202,6 +202,7 @@ FILES= \
 ./Services/StockIcons.cs \
 ./Services/MessageService.cs \
 ./Services/Toolbar/ToolbarService.cs \
+./Services/MonodocService.cs \
 ./Internal/Undo/IUndoableOperation.cs \
 ./Internal/Undo/UndoStack.cs \
 ./Internal/Undo/UndoQueue.cs \

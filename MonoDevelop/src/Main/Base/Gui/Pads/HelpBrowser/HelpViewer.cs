@@ -1,9 +1,12 @@
 using System;
+using System.IO;
 
 using Gtk;
 using Monodoc;
 
 using MonoDevelop.Gui;
+using MonoDevelop.Core.Services;
+using MonoDevelop.Services;
 
 namespace MonoDevelop.Gui
 {
@@ -16,6 +19,8 @@ namespace MonoDevelop.Gui
 
 		ScrolledWindow scroller = new ScrolledWindow ();
 
+		MonodocService mds;
+
 		public override Gtk.Widget Control {
 			get { return scroller; }
 		}
@@ -26,24 +31,27 @@ namespace MonoDevelop.Gui
 
 		public HelpViewer ()
 		{
-	                //html_viewer.LinkClicked += new LinkClickedHandler (LinkClicked);
-	                //html_viewer.UrlRequested += new UrlRequestedHandler (UrlRequested);
+
+			mds = (MonodocService)ServiceManager.Services.GetService (typeof (MonodocService));
+	
+	                html_viewer.LinkClicked += new LinkClickedHandler (LinkClicked);
+	                html_viewer.UrlRequested += new UrlRequestedHandler (UrlRequested);
 			scroller.Add (html_viewer);
 		}
 
-		/*void UrlRequested (object sender, UrlRequestedArgs args)
+		void UrlRequested (object sender, UrlRequestedArgs args)
 		{
 			Console.WriteLine ("Image requested: " + args.Url);
-			Stream s = help_tree.GetImage (args.Url);
+			Stream s = mds.HelpTree.GetImage (args.Url);
 			
-			if (s == null)
+			/*if (s == null)
 				s = GetResourceImage ("monodoc.png");
 				byte [] buffer = new byte [8192];
 				int n;
 
 				while ((n = s.Read (buffer, 0, 8192)) != 0) {
 				args.Handle.Write (buffer, n);
-			}
+			}*/
 			args.Handle.Close (HTMLStreamStatus.Ok);
 		}
 
@@ -62,11 +70,11 @@ namespace MonoDevelop.Gui
 
 			Node node;
 			
-			string res = help_tree.RenderUrl (url, out node);
+			string res = mds.HelpTree.RenderUrl (url, out node);
 			if (res != null) {
 				Render (res, node, url);
 			}
-                }*/
+                }
 
         	public void Render (string text, Node matched_node, string url)
         	{

@@ -13,38 +13,36 @@ using Monodoc;
 
 using MonoDevelop.Gui;
 
+using MonoDevelop.Core.Services;
+using MonoDevelop.Services;
+
 namespace MonoDevelop.Gui.Pads
 {
 
 	public class HelpTree : AbstractPadContent
 	{
+
+		MonodocService mds;
 	
-		RootTree root_tree;
 		TreeStore store;
 		TreeView  tree_view;
 
 		ScrolledWindow scroller;
 
 		TreeIter root_iter;
-		Hashtable iter_to_node;
-		Hashtable node_to_iter;
-		Hashtable node_parent;
 	
 		public HelpTree () : base ("Help", Gtk.Stock.Help)
 		{
-			root_tree = RootTree.LoadTree ();
-			tree_view = new TreeView ();
 
-			iter_to_node = new Hashtable ();
-			node_to_iter = new Hashtable ();
-			node_parent  = new Hashtable ();
+			mds = (MonodocService)ServiceManager.Services.GetService (typeof (MonodocService));
+			tree_view = new TreeView ();
 
 			tree_view.AppendColumn ("name_col", new CellRendererText (), "text", 0);
 	                tree_view.RowExpanded += new Gtk.RowExpandedHandler (RowExpanded);
         	        tree_view.Selection.Changed += new EventHandler (RowActivated);
 
 			store = new TreeStore (typeof (string), typeof (Node));
-			root_iter = store.AppendValues ("Mono Documentation", root_tree);
+			root_iter = store.AppendValues ("Mono Documentation", mds.HelpTree);
 
 			PopulateNode (root_iter);
 
@@ -95,7 +93,7 @@ namespace MonoDevelop.Gui.Pads
 					}
 				}
 
-				s = root_tree.RenderUrl (url, out match);
+				s = mds.HelpTree.RenderUrl (url, out match);
 				if (s != null) {
 					ShowDocs (s, match, url);
 					return;
