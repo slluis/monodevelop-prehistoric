@@ -1,5 +1,9 @@
 2004-07-05  Todd Berman  <tberman@off.net>
 
+	* Gui/Pads/HelpBrowser/HelpViewer.cs: enable images in monodoc.
+
+2004-07-05  Todd Berman  <tberman@off.net>
+
 	* Internal/Codons/MenuItems/MenuItemCodon.cs: allow menuitems with
 	a submenu to be translated properly.
 

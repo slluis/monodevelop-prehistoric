@@ -57,14 +57,13 @@ namespace MonoDevelop.Gui
 			Console.WriteLine ("Image requested: " + args.Url);
 			Stream s = mds.HelpTree.GetImage (args.Url);
 			
-			/*if (s == null)
-				s = GetResourceImage ("monodoc.png");
+			if (s != null) {
 				byte [] buffer = new byte [8192];
 				int n;
 
-				while ((n = s.Read (buffer, 0, 8192)) != 0) {
-				args.Handle.Write (buffer, n);
-			}*/
+				while ((n = s.Read (buffer, 0, 8192)) != 0)
+					args.Handle.Write (buffer, n);
+			}
 			args.Handle.Close (HTMLStreamStatus.Ok);
 		}
 
