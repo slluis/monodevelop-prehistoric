@@ -4,17 +4,19 @@ ICSharpCodePage.cs \
 Main.cs \
 StartPage.cs
 
+build_sources = $(addprefix $(srcdir)/, $(FILES))
+
 DLL = MonoDevelop.StartPage.dll
 
 all: $(DLL)
 
-$(DLL): $(FILES)
+$(DLL): $(build_sources)
 	@ mcs /debug /out:$(DLL) /target:library /r:System.Drawing \
 		/r:../../../../build/bin/MonoDevelop.Core.dll \
 		/r:../../../../build/bin/MonoDevelop.Base.dll \
 		/r:../../../../build/bin/gtkmozembed-sharp.dll \
 		/r:gtk-sharp \
-		$(FILES) \
+		$(build_sources) \
 	&& cp $(DLL) ../../../../build/AddIns/AddIns/Misc/StartPage/.
 
 startpagelibdir = $(libdir)/monodevelop/AddIns/AddIns/Misc/StartPage

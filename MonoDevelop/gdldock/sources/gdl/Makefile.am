@@ -1,17 +1,20 @@
 INCLUDES = \
-	-DG_LOG_DOMAIN=\"GdlDock\" -I..	-I.	\
-	-DGDL_GLADEDIR=\".\"			\
-	-DGDL_IMAGESDIR=\".\"			\
+	-DG_LOG_DOMAIN=\"GdlDock\" -I$(srcdir)/.. -I$(srcdir)/.	\
+	-DGDL_GLADEDIR=\"$(srcdir)/.\"			\
+	-DGDL_IMAGESDIR=\"$(srcdir)/.\"			\
 	$(GDLDOCK_CFLAGS)
 
 gdldocklibdir = $(prefix)/lib/monodevelop/bin
 
 gdldocklib_LTLIBRARIES = libgdldock.la
 
-dist_gdldocklib_DATA = \
+dist_gdldocklib = \
 	stock-close-12.png \
 	stock-menu-left-12.png \
-	stock-menu-right-12.png
+	stock-menu-right-12.png \
+	layout.glade
+
+dist_gdldocklib_cruft = $(addprefix $(srcdir)/, $(dist_gdldocklib))
 
 libgdldock_headers = \
 	gdl-dock-bar.h \
@@ -26,6 +29,8 @@ libgdldock_headers = \
 	gdl-dock-layout.h \
 	gdl-dock-placeholder.h \
 	gdl-stock.h
+
+build_headers = $(addprefix $(srcdir)/, $(libgdldock_headers))
 
 libgdldock_la_SOURCES = \
 	$(libgdldock_headers) \
@@ -55,7 +60,7 @@ BUILT_SOURCES = \
 	libgdlmarshal.h \
 	libgdlmarshal.c
 
-EXTRA_DIST = libgdlmarshal.list layout.glade
+EXTRA_DIST = libgdlmarshal.list $(dist_gdldocklib)
 
 CLEANFILES = $(BUILT_SOURCES)
 
@@ -68,11 +73,11 @@ CLEANFILES = $(BUILT_SOURCES)
 
 all-local:
 	$(LIBTOOL) --mode=install $(INSTALL) libgdldock.la `pwd`/$(top_builddir)/build/bin
-	$(INSTALL_DATA) $(dist_gdldocklib_DATA) $(top_builddir)/build/bin
+	$(INSTALL_DATA) $(dist_gdldocklib_cruft) $(top_builddir)/build/bin
 
 # enumerations code generation
 
-libgdltypebuiltins.c: $(libgdldock_headers)
+libgdltypebuiltins.c: $(build_headers)
 	$(GLIB_MKENUMS) \
 			--fhead "#include <glib-object.h>\n" \
 			--fhead "#include \"libgdltypebuiltins.h\"\n\n" \
@@ -85,11 +90,11 @@ libgdltypebuiltins.c: $(libgdldock_headers)
 			--vtail "  if (!type)\n" \
 			--vtail "    type = g_@type@_register_static (\"@EnumName@\", _@enum_name@_values);\n\n" \
 			--vtail "  return type;\n}\n\n" \
-		$(libgdldock_headers) > xgen-gtbec \
+		$(build_headers) > xgen-gtbec \
 	&& cp xgen-gtbec $(@F) \
 	&& rm -f xgen-gtbec
 
-libgdltypebuiltins.h: $(libgdldock_headers)
+libgdltypebuiltins.h: $(build_headers)
 	$(GLIB_MKENUMS) \
 			--fhead "#ifndef __LIBGDLTYPEBUILTINS_H__\n" \
 			--fhead "#define __LIBGDLTYPEBUILTINS_H__ 1\n\n" \
@@ -100,7 +105,7 @@ libgdltypebuiltins.h: $(libgdldock_headers)
 			--fprod "\n/* --- @filename@ --- */" \
 			--eprod "#define GDL_TYPE_@ENUMSHORT@ @enum_name@_get_type()\n" \
 			--eprod "GType @enum_name@_get_type (void);\n" \
-		$(libgdldock_headers) > xgen-gth \
+		$(build_headers) > xgen-gth \
 	&& cp xgen-gth $(@F) \
 	&& rm -f xgen-gth
 

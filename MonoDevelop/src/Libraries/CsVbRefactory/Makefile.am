@@ -44,6 +44,8 @@ FILES = ./CsVbRefactory/AssemblyInfo.cs \
 ./CsVbRefactory/Parser/AST/Enums.cs \
 ./CsVbRefactory/Parser/AST/AbstractNode.cs
 
+build_sources = $(addprefix $(srcdir)/, $(FILES))
+
 DLLS = /r:System.Drawing
 
 CLEANFILES = $(ASSEMBLY)
@@ -55,7 +57,7 @@ assembly_DATA = $(ASSEMBLY)
 
 all: $(ASSEMBLY)
 
-$(ASSEMBLY): $(FILES)
-	$(CSC) $(DLLS) $(FILES) /out:$(ASSEMBLY) /target:library \
+$(ASSEMBLY): $(build_sources)
+	$(CSC) $(DLLS) $(build_sources) /out:$(ASSEMBLY) /target:library \
 	&& cp $(ASSEMBLY) ../../../build/bin/.
 

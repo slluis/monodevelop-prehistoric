@@ -1,6 +1,6 @@
 # leave gdldock first
 # (mkdir ../../build/bin/ hack)
-SUBDIRS=gdldock libmonodevelop gtkmozembed-sharp src build data
+SUBDIRS=gdldock gtkmozembed-sharp src build data
 
 bin_SCRIPTS=monodevelop
 

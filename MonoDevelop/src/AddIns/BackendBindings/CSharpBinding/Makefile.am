@@ -25,11 +25,13 @@ FILES= \
 ./FormattingStrategy/CSharpFormattingStrategy.cs \
 ./CSharpBindingCompilerManager.cs
 
+build_sources = $(addprefix $(srcdir)/, $(FILES))
+
 DLL = CSharpBinding.dll
 
 all: $(DLL)
 
-$(DLL): $(FILES)
+$(DLL): $(build_sources)
 	@ mcs /debug /out:$(DLL) /target:library /r:System.Drawing \
 		/r:../../../../build/bin/MonoDevelop.Core.dll \
 		/r:../../../../build/bin/MonoDevelop.SourceEditor.dll \
@@ -38,8 +40,8 @@ $(DLL): $(FILES)
 		/r:../../../../build/bin/MonoDevelop.Gui.Widgets.dll  \
 		/r:gtk-sharp \
 		/r:glade-sharp \
-		/resource:../../../../data/resources/glade/CSharp.glade,CSharp.glade \
-		$(FILES) \
+		/resource:$(srcdir)/../../../../data/resources/glade/CSharp.glade,CSharp.glade \
+		$(build_sources) \
 	&& cp $(DLL) ../../../../build/AddIns/AddIns/BackendBindings/.
 
 csharpbindinglibdir = $(libdir)/monodevelop/AddIns/AddIns/BackendBindings

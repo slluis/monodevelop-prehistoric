@@ -20,10 +20,12 @@ FILES = ./Tree/TreeView.cs \
 ./TabLabel/TabLabel.cs \
 ./GladeWidgetExtract/GladeWidgetExtract.cs
 
+build_sources = $(addprefix $(srcdir)/, $(FILES))
+
 all: $(DLL)
 
-$(DLL): $(FILES)
-	@ $(MCS) /debug /out:$(DLL) /target:library $(REFERENCES) $(FILES) \
+$(DLL): $(build_sources)
+	@ $(MCS) /debug /out:$(DLL) /target:library $(REFERENCES) $(build_sources) \
 	&& cp $(DLL) ../../../build/bin/.
 
 assemblydir = $(libdir)/monodevelop/bin

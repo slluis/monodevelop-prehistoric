@@ -6,10 +6,12 @@ FILES = ./FileIcons/FileIconLoader.cs \
 ./VFS/Vfs.cs \
 ./Glue.cs
 
+build_sources = $(addprefix $(srcdir)/, $(FILES))
+
 all: $(DLL)
 
-$(DLL): $(FILES)
-	@ mcs /debug /out:$(DLL) /target:library $(REFERENCES) $(FILES) \
+$(DLL): $(build_sources)
+	@ mcs /debug /out:$(DLL) /target:library $(REFERENCES) $(build_sources) \
 	&& cp $(DLL) ../../../build/bin/.
 
 assemblydir = $(libdir)/monodevelop/bin

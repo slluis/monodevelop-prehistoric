@@ -9,9 +9,13 @@ INCLUDE_APIS = \
 			
 all: generated-stamp $(ASSEMBLY)
 
+gdl-api.xml:
+	cp $(srcdir)/gdl-api.raw gdl-api.xml
+	chmod u+w gdl-api.xml
+	gapi-fixup --api=gdl-api.xml --metadata=$(srcdir)/Gdl.metadata
+
 generated-stamp: gdl-api.xml
-	gapi-fixup --api=gdl-api.xml --metadata=Gdl.metadata && \
-	gapi-codegen --generate gdl-api.xml --include $(INCLUDE_APIS) --outdir=generated --customdir=. --assembly-name=gdl-sharp && touch generated-stamp
+	gapi-codegen --generate gdl-api.xml --include $(INCLUDE_APIS) --outdir=generated --customdir=$(srcdir) --assembly-name=gdl-sharp && touch generated-stamp
  
 $(ASSEMBLY): generated-stamp ../../build/bin
 	$(MCS) --unsafe --target library \
@@ -30,7 +34,7 @@ clean:
 	rm -f generated-stamp
 	rm -rf generated
 
-CLEANFILES=$(ASSEMBLY) generated-stamp generated
+CLEANFILES=$(ASSEMBLY) generated-stamp generated/* gdl-api.xml
 
-EXTRA_DIST = gdl-api.xml Gdl.metadata DockItemFlags.cs DockParamFlags.cs
+EXTRA_DIST = gdl-api.raw Gdl.metadata DockItemFlags.cs DockParamFlags.cs
 

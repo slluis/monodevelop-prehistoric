@@ -354,18 +354,20 @@ FILES= \
 ./Internal/ExternalTool/ExternalTool.cs \
 ./AssemblyInfo.cs
 
+build_sources = $(addprefix $(srcdir)/, $(FILES))
+
 DLL = MonoDevelop.Base.dll
 
 all: $(DLL)
 
-$(DLL): $(FILES) ../../../data/resources/glade/Base.glade
+$(DLL): $(build_sources) ../../../data/resources/glade/Base.glade
 	@ mcs /debug /out:$(DLL) /target:library /r:System.Drawing /r:ICSharpCode.SharpZipLib.dll \
 		/r:../../../build/bin/ICSharpCode.SharpRefactory.dll /r:../../../build/bin/MonoDevelop.Core.dll \
 		/r:../../../build/bin/ICSharpCode.SharpAssembly.dll \
 		/r:../../../build/bin/MonoDevelop.Gui.Utils.dll \
 		/r:../../../build/bin/MonoDevelop.Gui.Widgets.dll \
 		/r:../../../build/bin/gdl-sharp.dll \
-		/resource:../../../data/resources/glade/Base.glade,Base.glade \
+		/resource:$(srcdir)/../../../data/resources/glade/Base.glade,Base.glade \
 		/r:System.Data /r:System.Web.Services /define:LINUX \
 		/define:GTK /r:gtk-sharp /r:gdk-sharp /r:glib-sharp \
 		/r:pango-sharp \
@@ -375,11 +377,11 @@ $(DLL): $(FILES) ../../../data/resources/glade/Base.glade
 		/r:gtkhtml-sharp \
 		/r:$(debugger_prefix)/lib/Mono.Debugger.dll \
 		$(monodoc_libflags) \
-		$(FILES) \
+		$(build_sources) \
 	&& cp $(DLL) ../../../build/bin/.
 
 Services/StockIcons.cs : ./Services/process-icons.pl
-	perl  -x../../../build/data/resources/icons -w ./Services/process-icons.pl > $@
+	perl  -x$(srcdir)../../../build/data/resources/icons -w $(srcdir)./Services/process-icons.pl > $@
 
 assemblydir = $(libdir)/monodevelop/bin
 assembly_DATA = $(DLL)

@@ -58,13 +58,15 @@ FILES= \
 ./AddIns/AddInCollection.cs \
 ./AddIns/AddInSignatureException.cs
 
+build_sources = $(addprefix $(srcdir)/, $(FILES))
+
 DLL = MonoDevelop.Core.dll
 
 all: $(DLL)
 
-$(DLL): $(FILES)
-	@ mcs /debug /out:$(DLL) /target:library /r:System.Drawing.dll /define:LINUX /resource:../../../data/resources/AddIn.xsd,AddIn.xsd \
-	$(FILES) && cp $(DLL) ../../../build/bin/.
+$(DLL): $(build_sources)
+	@ mcs /debug /out:$(DLL) /target:library /r:System.Drawing.dll /define:LINUX /resource:$(srcdir)/../../../data/resources/AddIn.xsd,AddIn.xsd \
+	$(build_sources) && cp $(DLL) ../../../build/bin/.
 
 assemblydir = $(libdir)/monodevelop/bin
 assembly_DATA = $(DLL)

@@ -95,7 +95,6 @@ AC_SUBST(gnome_prefix)
 
 AC_OUTPUT([
 Makefile
-libmonodevelop/Makefile
 gdldock/Makefile
 gdldock/gdl/Makefile
 gdldock/sources/Makefile

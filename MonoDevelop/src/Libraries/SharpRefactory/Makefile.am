@@ -106,12 +106,14 @@ FILES = \
 ./src/VBConverter/VBNetVisitor.cs \
 ./src/AssemblyInfo.cs
 
+build_sources = $(addprefix $(srcdir)/, $(FILES))
+
 DLL = ICSharpCode.SharpRefactory.dll
 
 all: $(DLL)
 
 $(DLL): $(FILES)
-	@ mcs /debug /out:$(DLL) /target:library /r:System.Drawing.dll $(FILES) \
+	@ mcs /debug /out:$(DLL) /target:library /r:System.Drawing.dll $(build_sources) \
 	&& cp $(DLL) ../../../build/bin/.
 
 test-parser.exe : $(DLL) src/Main.cs

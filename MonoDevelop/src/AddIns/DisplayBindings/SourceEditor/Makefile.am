@@ -72,12 +72,14 @@ FILES = ./AssemblyInfo.cs \
 ./Search/TextIterator/ForwardTextIterator.cs \
 ./Search/ITextBufferStrategy.cs
 
+build_sources = $(addprefix $(srcdir)/, $(FILES))
+
 all : $(DLL)
 
-$(DLL) : $(FILES)
-	mcs $(FILES) /debug /out:$(DLL) /t:library \
-	/resource:../../../../data/resources/glade/EditorBindings.glade,EditorBindings.glade \
-	/resource:../../../../data/resources/glade/texteditoraddin.glade,texteditoraddin.glade \
+$(DLL) : $(build_sources)
+	mcs $(build_sources) /debug /out:$(DLL) /t:library \
+	/resource:$(srcdir)/../../../../data/resources/glade/EditorBindings.glade,EditorBindings.glade \
+	/resource:$(srcdir)/../../../../data/resources/glade/texteditoraddin.glade,texteditoraddin.glade \
 	 /r:gtk-sharp /r:gdk-sharp $(GTKSOURCEVIEW_SHARP) /r:glib-sharp \
 		/r:../../../../build/bin/MonoDevelop.Core.dll \
 		/r:../../../../build/bin/MonoDevelop.Base.dll \
