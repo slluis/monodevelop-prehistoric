@@ -89,8 +89,8 @@ Other binary packages are under development, and will be available soon.
 
 <pre class="code">
 export PKG_CONFIG_PATH="/usr/lib/pkgconfig"
-tar -xjf monodevelop-0.2.tar.gz
-cd monodevelop-0.2
+tar -xjf monodevelop-0.3.tar.gz
+cd monodevelop-0.3
 ./configure --prefix=/usr
 make
 make install
