@@ -1,10 +1,10 @@
 
 ASSEMBLY = ILAsmBinding.dll
 
-DLLS = /r:../../../../build/bin/MonoDevelop.Core.dll \
-	/r:../../../../build/bin/MonoDevelop.Base.dll \
-	/r:../../../../build/bin/MonoDevelop.SourceEditor.dll \
-	/r:../../../../build/bin/MonoDevelop.Gui.Widgets.dll \
+DLLS = /r:../../../../../build/bin/MonoDevelop.Core.dll \
+	/r:../../../../../build/bin/MonoDevelop.Base.dll \
+	/r:../../../../../build/bin/MonoDevelop.SourceEditor.dll \
+	/r:../../../../../build/bin/MonoDevelop.Gui.Widgets.dll \
 	$(BASE_DEPENDENCIES_LIBS)
 
 FILES = \
@@ -26,7 +26,7 @@ all: $(ASSEMBLY)
 
 $(ASSEMBLY): $(build_sources)
 	$(CSC) $(build_sources) $(DLLS) /out:$(ASSEMBLY) /target:library \
-	&& cp $(ASSEMBLY) ../../../../build/AddIns/AddIns/BackendBindings/.
+	&& cp $(ASSEMBLY) ../../../../../build/AddIns/AddIns/BackendBindings/.
 
 CLEANFILES = $(ASSEMBLY) $(ASSEMBLY).mdb
 EXTRA_DIST = $(FILES)

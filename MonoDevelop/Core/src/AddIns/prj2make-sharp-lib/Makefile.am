@@ -4,9 +4,9 @@ ADDIN = $(srcdir)/prj2make-sharp-lib.addin.xml
 
 
 DLLS = $(BASE_DEPENDENCIES_LIBS) \
-	/r:../../../build/bin/MonoDevelop.Base.dll \
-	/r:../../../build/bin/MonoDevelop.Core.dll \
-	/r:../../../build/bin/MonoDevelop.Gui.Widgets.dll
+	/r:../../../../build/bin/MonoDevelop.Base.dll \
+	/r:../../../../build/bin/MonoDevelop.Core.dll \
+	/r:../../../../build/bin/MonoDevelop.Gui.Widgets.dll
 
 
 FILES = \
@@ -28,13 +28,13 @@ all: $(ASSEMBLY)
 
 build_sources = $(addprefix $(srcdir)/, $(FILES))
 
-../../../build/AddIns/$(ADDIN):
-	cp $(ADDIN) ../../../build/AddIns/.
+../../../../build/AddIns/$(ADDIN):
+	cp $(ADDIN) ../../../../build/AddIns/.
 
-$(ASSEMBLY): $(build_sources) ../../../build/AddIns/$(ADDIN)
+$(ASSEMBLY): $(build_sources) ../../../../build/AddIns/$(ADDIN)
 	$(CSC) /out:$(ASSEMBLY) /target:library \
 	$(build_sources) $(DLLS)\
-	&& cp $(ASSEMBLY) ../../../build/AddIns/
+	&& cp $(ASSEMBLY) ../../../../build/AddIns/
 
 assemblydir = $(libdir)/monodevelop/AddIns
 assembly_DATA = $(ASSEMBLY) $(ADDIN)

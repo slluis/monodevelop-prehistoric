@@ -2,10 +2,10 @@
 ASSEMBLY = JavaBinding.dll
 
 DLLS = /r:System.Drawing.dll \
-	/r:../../../../build/bin/MonoDevelop.Core.dll \
-	/r:../../../../build/bin/MonoDevelop.SourceEditor.dll \
-	/r:../../../../build/bin/MonoDevelop.Base.dll \
-	/r:../../../../build/bin/MonoDevelop.Gui.Widgets.dll \
+	/r:../../../../../build/bin/MonoDevelop.Core.dll \
+	/r:../../../../../build/bin/MonoDevelop.SourceEditor.dll \
+	/r:../../../../../build/bin/MonoDevelop.Base.dll \
+	/r:../../../../../build/bin/MonoDevelop.Gui.Widgets.dll \
 	$(BASE_DEPENDENCIES_LIBS)
 
 FILES = \
@@ -25,7 +25,7 @@ all: $(ASSEMBLY)
 
 $(ASSEMBLY): $(FILES)
 	$(CSC) $(DLLS) $(build_sources) /out:$(ASSEMBLY) /target:library \
-	&& cp $(ASSEMBLY) ../../../../build/AddIns/AddIns/BackendBindings/.
+	&& cp $(ASSEMBLY) ../../../../../build/AddIns/AddIns/BackendBindings/.
 
 assemblydir = $(libdir)/monodevelop/AddIns/AddIns/BackendBindings
 assembly_DATA = $(ASSEMBLY)

@@ -1,3 +1,1 @@
-
-SUBDIRS = Libraries Main Tools AddIns
-
+SUBDIRS = ICSharpCode.SharpAssembly ICSharpCode.SharpRefactory MonoDevelop.Core MonoDevelop.Gui.Utils MonoDevelop.Gui.Widgets MonoDevelop.Base MonoDevelop.Startup Tools AddIns

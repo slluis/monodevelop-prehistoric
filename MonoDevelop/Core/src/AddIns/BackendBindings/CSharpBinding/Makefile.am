@@ -1,11 +1,11 @@
 ASSEMBLY = CSharpBinding.dll
 
 DLLS = /r:System.Drawing.dll \
-	/r:../../../../build/bin/MonoDevelop.Core.dll \
-	/r:../../../../build/bin/MonoDevelop.SourceEditor.dll \
-	/r:../../../../build/bin/MonoDevelop.Base.dll \
-	/r:../../../../build/bin/ICSharpCode.SharpRefactory.dll \
-	/r:../../../../build/bin/MonoDevelop.Gui.Widgets.dll  \
+	/r:../../../../../build/bin/MonoDevelop.Core.dll \
+	/r:../../../../../build/bin/MonoDevelop.SourceEditor.dll \
+	/r:../../../../../build/bin/MonoDevelop.Base.dll \
+	/r:../../../../../build/bin/ICSharpCode.SharpRefactory.dll \
+	/r:../../../../../build/bin/MonoDevelop.Gui.Widgets.dll  \
 	$(BASE_DEPENDENCIES_LIBS)
 
 FILES = \
@@ -43,7 +43,7 @@ $(ASSEMBLY): $(build_sources)
 	$(CSC) /out:$(ASSEMBLY) /target:library $(DLLS) \
 		/resource:$(srcdir)/../../../../data/resources/glade/CSharp.glade,CSharp.glade \
 		$(build_sources) \
-	&& cp $(ASSEMBLY) ../../../../build/AddIns/AddIns/BackendBindings/.
+	&& cp $(ASSEMBLY) ../../../../../build/AddIns/AddIns/BackendBindings/.
 
 csharpbindinglibdir = $(libdir)/monodevelop/AddIns/AddIns/BackendBindings
 csharpbindinglib_DATA = $(ASSEMBLY)

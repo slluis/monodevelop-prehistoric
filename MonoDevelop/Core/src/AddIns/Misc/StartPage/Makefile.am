@@ -9,8 +9,8 @@ build_sources = $(addprefix $(srcdir)/, $(FILES))
 DLL = MonoDevelop.StartPage.dll
 
 REFS = /r:System.Drawing \
-	/r:../../../../build/bin/MonoDevelop.Core.dll \
-	/r:../../../../build/bin/MonoDevelop.Base.dll \
+	/r:../../../../../build/bin/MonoDevelop.Core.dll \
+	/r:../../../../../build/bin/MonoDevelop.Base.dll \
 	$(BASE_DEPENDENCIES_LIBS)
 
 all: $(DLL)
@@ -18,7 +18,7 @@ all: $(DLL)
 $(DLL): $(build_sources)
 	$(CSC) /out:$(DLL) /target:library $(REFS) \
 		$(build_sources) \
-	&& cp $(DLL) ../../../../build/AddIns/AddIns/Misc/StartPage/.
+	&& cp $(DLL) ../../../../../build/AddIns/AddIns/Misc/StartPage/.
 
 startpagelibdir = $(libdir)/monodevelop/AddIns/AddIns/Misc/StartPage
 startpagelib_DATA = $(DLL)

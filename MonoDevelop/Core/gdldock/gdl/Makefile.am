@@ -30,12 +30,12 @@ generated-stamp: $(API) $(build_customs)
 	gapi2-codegen --generate $(API) --include $(INCLUDE_APIS) --outdir=generated --customdir=$(srcdir) --assembly-name=gdl-sharp && touch generated-stamp
 
 $(ASSEMBLY): $(build_sources) generated-stamp
-	mkdir -p ../../build/bin
+	mkdir -p ../../../build/bin
 	$(CSC) --unsafe -target:library \
 	@BASE_DEPENDENCIES_LIBS@ \
 	$(build_sources) generated/*.cs /out:$(ASSEMBLY) \
-	&& cp -p $(ASSEMBLY) ../../build/bin/. \
-	&& cp -p $(ASSEMBLY).config ../../build/bin/.
+	&& cp -p $(ASSEMBLY) ../../../build/bin/. \
+	&& cp -p $(ASSEMBLY).config ../../../build/bin/.
 
 gdldocklibdir = $(libdir)/monodevelop/bin
 gdldocklib_DATA = $(ASSEMBLY) $(ASSEMBLY).config
