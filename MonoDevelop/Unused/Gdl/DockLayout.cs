@@ -21,6 +21,8 @@ namespace Gdl
 		DockMaster master = null;
 		ArrayList layouts;
 
+		CheckButton locked_check;
+
 		public DockLayout (Dock dock)
 		{
 			layouts = new ArrayList ();
@@ -313,7 +315,7 @@ namespace Gdl
 			// build layouts list
 			layoutsModel.Clear ();
 			foreach (string s in this.Layouts) {
-				//if (s != "__default__")
+				if (s != "__default__")
 					layoutsModel.AppendValues (s, true);
 			}
 		}
@@ -344,14 +346,14 @@ namespace Gdl
 				return null;
 
 			Gtk.VBox container = gui.GetWidget ("items_vbox") as VBox;
-			Gtk.CheckButton locked_check = gui.GetWidget ("locked_check") as CheckButton;
+			locked_check = gui.GetWidget ("locked_check") as CheckButton;
 			Gtk.TreeView items_list = gui.GetWidget ("items_list") as TreeView;
 
 			locked_check.Toggled += AllLockedToggledCb;
 			if (master != null) {
-				//g_signal_connect (layout->master, "notify::locked", MasterLockedNotifyCb
+				master.NotifyLocked += MasterLockedNotifyCb;
 				// force update now
-				MasterLockedNotifyCb (master, null);
+				MasterLockedNotifyCb (master, EventArgs.Empty);
 			}
 
 			// set models
@@ -554,16 +556,36 @@ namespace Gdl
 
 		void AllLockedToggledCb (object sender, EventArgs a)
 		{
-			if (master == null)
-				return;
+			if (master != null)
+				master.Locked = ((CheckButton) sender).Active ? 1 : 0;
 		}
 
 		void MasterLockedNotifyCb (object sender, EventArgs a)
 		{
+			if (master.Locked == -1) {
+				locked_check.Inconsistent = true;
+			}
+			else {
+				locked_check.Inconsistent = false;
+				locked_check.Active = (master.Locked == 1);
+			}
 		}
 
-		void CellEditedCb (object sender, EventArgs a)
+		void CellEditedCb (object sender, EditedArgs a)
 		{
+			TreeIter iter;
+			layoutsModel.GetIterFromString (out iter, a.Path);
+			string name = (string) layoutsModel.GetValue (iter, 0);
+
+			XmlNode node = FindLayout (name);
+			if (node == null)
+				return;
+			node.Attributes["name"].Value = a.NewText;
+
+			layoutsModel.SetValue (iter, 0, a.NewText);
+			layoutsModel.SetValue (iter, 1, true);
+
+			SaveLayout (a.NewText);
 		}
 	}
 }

@@ -24,6 +24,7 @@ namespace Gdl
 		private Hashtable unlockedItems = new Hashtable ();
 		
 		public event EventHandler LayoutChanged;
+		internal event EventHandler NotifyLocked;
 
 		public DockMaster () 
 		{
@@ -64,6 +65,8 @@ namespace Gdl
 			set {
 				if (value >= 0)
 					LockUnlock (value > 0);
+				if (NotifyLocked != null)
+					NotifyLocked (this, EventArgs.Empty);
 			}
 		}
 		
