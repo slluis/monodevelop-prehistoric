@@ -34,7 +34,6 @@ namespace ICSharpCode.SharpDevelop.Commands.ProjectBrowser
 	{
 		public override void Run()
 		{
-			Console.WriteLine ("A");
 			IProjectService projectService = (IProjectService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
 			ProjectBrowserView browser = (ProjectBrowserView)Owner;
 			CombineBrowserNode node    = browser.SelectedNode as CombineBrowserNode;
@@ -53,7 +52,6 @@ namespace ICSharpCode.SharpDevelop.Commands.ProjectBrowser
 	{
 		public override void Run()
 		{
-			Console.WriteLine ("A");
 			IProjectService projectService = (IProjectService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
 			ProjectBrowserView browser = (ProjectBrowserView)Owner;
 			CombineBrowserNode node    = browser.SelectedNode as CombineBrowserNode;
@@ -72,7 +70,6 @@ namespace ICSharpCode.SharpDevelop.Commands.ProjectBrowser
 	{
 		public override void Run()
 		{
-			Console.WriteLine ("A");
 			IProjectService projectService = (IProjectService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
 			ProjectBrowserView browser = (ProjectBrowserView)Owner;
 			CombineBrowserNode node    = browser.SelectedNode as CombineBrowserNode;
@@ -102,7 +99,6 @@ namespace ICSharpCode.SharpDevelop.Commands.ProjectBrowser
 	{
 		public override void Run()
 		{
-			Console.WriteLine ("A");
 			IProjectService projectService = (IProjectService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
 			ProjectBrowserView browser = (ProjectBrowserView)Owner;
 			CombineBrowserNode node    = browser.SelectedNode as CombineBrowserNode;
@@ -132,7 +128,6 @@ namespace ICSharpCode.SharpDevelop.Commands.ProjectBrowser
 	{
 		public override void Run()
 		{
-			Console.WriteLine ("A");
 			IProjectService projectService = (IProjectService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
 			ProjectBrowserView browser = (ProjectBrowserView)Owner;
 			CombineBrowserNode node    = browser.SelectedNode as CombineBrowserNode;

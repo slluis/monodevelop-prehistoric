@@ -42,7 +42,7 @@ namespace ICSharpCode.SharpDevelop.Commands.ProjectBrowser
 			
 			AbstractBrowserNode node = (AbstractBrowserNode)browser.SelectedNode;
 			
-			using (OpenFileDialog fdiag  = new OpenFileDialog()) {
+			//using (OpenFileDialog fdiag  = new OpenFileDialog()) {
 				fdiag.AddExtension    = true;
 				string[] fileFilters  = (string[])(AddInTreeSingleton.AddInTree.GetTreeNode("/SharpDevelop/Workbench/FileFilter").BuildChildItems(this)).ToArray(typeof(string));
 
@@ -88,7 +88,7 @@ namespace ICSharpCode.SharpDevelop.Commands.ProjectBrowser
 						}
 					}
 				}
-			}
+			//}
 		}
 	}
 	
