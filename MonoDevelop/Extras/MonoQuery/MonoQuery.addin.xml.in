@@ -90,11 +90,7 @@
 	 		node ="MonoQuery.Gui.TreeView.MonoQueryNodeConnection"
 	 		description = "MySQL Database Server"
 			showUnsuported = "False"/>
-	<MonoQueryConnection id ="Sqlite"
-	 		schema="MonoQuery.Connection.SqliteConnectionWrapper"
-	 		node ="MonoQuery.Gui.TreeView.MonoQueryNodeConnection"
-	 		description = "SQLite Database Server"
-			showUnsuported = "False"/>
+	 @SQLITE_XML@
 
 <!--
 	 <MonoQueryConnection id ="OLEDB"
