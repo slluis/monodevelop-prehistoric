@@ -53,29 +53,25 @@ namespace JavaBinding
 			ProcessStartInfo psi;
 			if(((JavaCompilerParameters)project.ActiveConfiguration).MainClass==null) {
 					//FIXME:
-				psi = new ProcessStartInfo("java " + ((JavaCompilerParameters)project.ActiveConfiguration).OutputAssembly);
+				psi = new ProcessStartInfo("xterm -e \"java " + ((JavaCompilerParameters)project.ActiveConfiguration).OutputAssembly + ";read -p 'press any key to continue...' -n1\"");
 			} else {
 				if (parameters.PauseConsoleOutput) {
 					//FIXME:
-					psi = new ProcessStartInfo("java " + ((JavaCompilerParameters)project.ActiveConfiguration).MainClass);
+					psi = new ProcessStartInfo("xterm -e \"java " + ((JavaCompilerParameters)project.ActiveConfiguration).MainClass + ";read -p 'press any key to continue...' -n1\"");
 				} else {
 					//FIXME:
-					psi = new ProcessStartInfo("java " + ((JavaCompilerParameters)project.ActiveConfiguration).MainClass);
+					psi = new ProcessStartInfo("xterm -e \"java " + ((JavaCompilerParameters)project.ActiveConfiguration).MainClass + ";read -p 'press any key to continue...' -n1\"");
 				}
 			}
 			
 			try {
-				Console.WriteLine ("*******************");
-				Console.WriteLine (parameters.OutputDirectory);
-				Console.WriteLine (psi.WorkingDirectory);
 				psi.WorkingDirectory = parameters.OutputDirectory;
 				psi.UseShellExecute = false;
 			
 				Process p = new Process();
 				p.StartInfo = psi;
 				p.Start();
-			} catch (Exception e) {
-				Console.WriteLine (e.ToString ());
+			} catch (Exception) {
 				throw new ApplicationException("Can not execute");
 			}
 			

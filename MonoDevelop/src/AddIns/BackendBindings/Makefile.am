@@ -1,1 +1,1 @@
-SUBDIRS=CSharpBinding
+SUBDIRS = CSharpBinding JavaBinding

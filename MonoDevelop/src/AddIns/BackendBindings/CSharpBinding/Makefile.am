@@ -1,4 +1,16 @@
-FILES= \
+CSC = mcs /debug
+ASSEMBLY = CSharpBinding.dll
+
+DLLS = /r:System.Drawing.dll \
+	/r:../../../../build/bin/MonoDevelop.Core.dll \
+	/r:../../../../build/bin/MonoDevelop.SourceEditor.dll \
+	/r:../../../../build/bin/MonoDevelop.Base.dll \
+	/r:../../../../build/bin/ICSharpCode.SharpRefactory.dll \
+	/r:../../../../build/bin/MonoDevelop.Gui.Widgets.dll  \
+	/r:gtk-sharp \
+	/r:glade-sharp
+
+FILES = \
 ./Gui/ChooseRuntimePanel.cs \
 ./Gui/OutputOptionsPanel.cs \
 ./Gui/CodeGenerationPanel.cs \
@@ -27,27 +39,18 @@ FILES= \
 
 build_sources = $(addprefix $(srcdir)/, $(FILES))
 
-DLL = CSharpBinding.dll
+all: $(ASSEMBLY)
 
-all: $(DLL)
-
-$(DLL): $(build_sources)
-	@ mcs /debug /out:$(DLL) /target:library /r:System.Drawing \
-		/r:../../../../build/bin/MonoDevelop.Core.dll \
-		/r:../../../../build/bin/MonoDevelop.SourceEditor.dll \
-		/r:../../../../build/bin/MonoDevelop.Base.dll \
-		/r:../../../../build/bin/ICSharpCode.SharpRefactory.dll \
-		/r:../../../../build/bin/MonoDevelop.Gui.Widgets.dll  \
-		/r:gtk-sharp \
-		/r:glade-sharp \
+$(ASSEMBLY): $(build_sources)
+	@ $(CSC) /out:$(ASSEMBLY) /target:library \
 		/resource:$(srcdir)/../../../../data/resources/glade/CSharp.glade,CSharp.glade \
 		$(build_sources) \
-	&& cp $(DLL) ../../../../build/AddIns/AddIns/BackendBindings/.
+	&& cp $(ASSEMBLY) ../../../../build/AddIns/AddIns/BackendBindings/.
 
 csharpbindinglibdir = $(libdir)/monodevelop/AddIns/AddIns/BackendBindings
-csharpbindinglib_DATA = $(DLL)
+csharpbindinglib_DATA = $(ASSEMBLY)
 
-CLEANFILES = $(DLL)
+CLEANFILES = $(ASSEMBLY)
 
 EXTRA_DIST = $(FILES)
 

@@ -121,6 +121,7 @@ src/Makefile
 src/AddIns/Makefile
 src/AddIns/BackendBindings/Makefile
 src/AddIns/BackendBindings/CSharpBinding/Makefile
+src/AddIns/BackendBindings/JavaBinding/Makefile
 src/AddIns/DisplayBindings/Makefile
 src/AddIns/DisplayBindings/SourceEditor/Makefile
 src/AddIns/Misc/Makefile

@@ -7,7 +7,7 @@
 	
 	<Runtime>
 		<Import assembly = "CSharpBinding.dll"/>
-<!--		<Import assembly = "JavaBinding.dll"/> -->
+		<Import assembly = "JavaBinding.dll"/> 
 <!-- ORIGINAL #D COMMENT		<Import assembly = "JScriptLanguageModule.dll"/> -->
 <!--		<Import assembly = "VBNetBinding.dll"/> -->
 	</Runtime>
@@ -32,10 +32,10 @@
 		            insertbefore="AllFiles"
 		            name = "${res:SharpDevelop.FileFilter.JScriptFiles}"
 		            extensions = "*.js"/> -->
-<!--		<FileFilter id = "Java"
+		<FileFilter id = "Java"
 		            insertbefore="AllFiles"
 		            name = "${res:SharpDevelop.FileFilter.JavaFiles}"
-		            extensions = "*.java"/>-->
+		            extensions = "*.java"/>
 		<FileFilter id = "Assemblies"
 		            insertbefore="AllFiles"
 		            name = "${res:SharpDevelop.FileFilter.AssemblyFiles}"
@@ -99,13 +99,13 @@
 			             class = "JScriptBinding.ProjectConfigurationPropertyPanel"/>
 	
 		</Conditional> -->
-<!--
+
 		<Conditional activeproject="Java">
 			<DialogPanel id = "JavaProjectPanel"
 			             label = "${res:Dialog.Options.PrjOptions.CodeGenerationPanel.PanelName}"
 			             class = "JavaBinding.ProjectConfigurationPropertyPanel"/>
 	
-		</Conditional>-->
+		</Conditional>
 	</Extension>
 	
 
@@ -190,18 +190,18 @@
 		                 class = "CSharpBinding.CSharpLanguageBinding" />
 <!--		<LanguageBinding id    = "VBNET"
 		                 supportedextensions = ".vb"
-		                 class = "VBBinding.VBLanguageBinding" />
+		                 class = "VBBinding.VBLanguageBinding" />-->
 		<LanguageBinding id    = "Java"
 		                 supportedextensions = ".java"
-		                 class = "JavaBinding.JavaLanguageBinding" />-->
+		                 class = "JavaBinding.JavaLanguageBinding" />
 <!--ORIGINAL #D COMMENT		<LanguageBinding id    = "JScript"
 		                 supportedextensions = ".js"
 		                 class = "JScriptBinding.JScriptLanguageBinding" /> -->
 	</Extension>
 	
-<!--	<Extension path = "/SharpDevelop/Views/ProjectBrowser/NodeBuilders">
+	<Extension path = "/SharpDevelop/Views/ProjectBrowser/NodeBuilders">
 		<Class id = "JavaNodeBuilder"
 		       insertbefore = "DefaultBuilder"
 		       class = "JavaBinding.JavaNodeBuilder"/>
-	</Extension>-->
+	</Extension>
 </AddIn>

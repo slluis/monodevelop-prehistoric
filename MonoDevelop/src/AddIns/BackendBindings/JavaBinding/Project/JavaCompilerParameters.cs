@@ -56,6 +56,12 @@ namespace JavaBinding
 		CodeGeneration codeGeneration = new CodeGeneration();
 		
 		Execution      execution      = new Execution();
+
+		public override string OutputDirectory {
+			get {
+				return base.OutputDirectory.Substring (0, base.OutputDirectory.Length - 4);
+			}
+		}
 		
 		public bool GenWarnings {
 			get {
