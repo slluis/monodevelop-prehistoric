@@ -192,6 +192,7 @@ namespace MonoDevelop.Gui
 			if (newTitle != Title) {
 				Title = newTitle;
 			}
+			WorkbenchSingleton.Workbench.WorkbenchLayout.ActiveMdiChanged (null, null);
 		}
 		
 		public void DetachContent()

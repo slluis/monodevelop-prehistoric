@@ -1,3 +1,10 @@
+2004-04-10  Todd Berman  <tberman@sevenl.net>
+
+	* Gui/Workbench/Layouts/SdiWorkspaceLayout.cs:
+	* Gui/Workbench/Layouts/SdiWorkspaceWindow.cs:
+	* Gui/IWorkbenchLayout.cs:
+	fix bug #56769.
+
 2004-04-09  John Luke  <jluke@cfl.rr.com>
 
 	* Commands/AutostartCommands: remove dead code

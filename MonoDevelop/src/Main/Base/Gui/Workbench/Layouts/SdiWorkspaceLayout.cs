@@ -444,19 +444,23 @@ namespace MonoDevelop.Gui
 				tabControl.ShowTabs = false;
 		}
 		
-		void ActiveMdiChanged(object sender, SwitchPageArgs e)
+		public void ActiveMdiChanged(object sender, SwitchPageArgs e)
 		{
 			try {
 				if (ActiveWorkbenchwindow.ViewContent.IsUntitled) {
 					((Gtk.Window)WorkbenchSingleton.Workbench).Title = "MonoDevelop";
 				} else {
+					string post = String.Empty;
+					if (ActiveWorkbenchwindow.ViewContent.IsDirty) {
+						post = "*";
+					}
 					if (ActiveWorkbenchwindow.ViewContent.HasProject)
 					{
-						((Gtk.Window)WorkbenchSingleton.Workbench).Title = ActiveWorkbenchwindow.ViewContent.ProjectName + " - " + ActiveWorkbenchwindow.ViewContent.PathRelativeToProject + " - MonoDevelop";
+						((Gtk.Window)WorkbenchSingleton.Workbench).Title = ActiveWorkbenchwindow.ViewContent.ProjectName + " - " + ActiveWorkbenchwindow.ViewContent.PathRelativeToProject + post + " - MonoDevelop";
 					}
 					else
 					{
-						((Gtk.Window)WorkbenchSingleton.Workbench).Title = ActiveWorkbenchwindow.ViewContent.ContentName + " - MonoDevelop";
+						((Gtk.Window)WorkbenchSingleton.Workbench).Title = ActiveWorkbenchwindow.ViewContent.ContentName + post + " - MonoDevelop";
 					}
 				}
 			} catch {

@@ -99,5 +99,7 @@ namespace MonoDevelop.Gui
 		PadContentCollection PadContentCollection {
 			get;
 		}
+		
+		void ActiveMdiChanged(object sender, Gtk.SwitchPageArgs e);
 	}
 }
