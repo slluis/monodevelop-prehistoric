@@ -2,7 +2,6 @@
 <!DOCTYPE glade-interface SYSTEM "http://glade.gnome.org/glade-2.0.dtd">
 
 <glade-interface>
-<requires lib="gnome"/>
 
 <widget class="GtkDialog" id="GotoLineDialog">
   <property name="visible">True</property>
@@ -341,6 +340,7 @@
 	    <widget class="GtkButton" id="findButton">
 	      <property name="visible">True</property>
 	      <property name="can_default">True</property>
+	      <property name="has_default">True</property>
 	      <property name="can_focus">True</property>
 	      <property name="label">gtk-find</property>
 	      <property name="use_stock">True</property>
@@ -410,14 +410,14 @@
 		      <property name="text" translatable="yes"></property>
 		      <property name="has_frame">True</property>
 		      <property name="invisible_char" translatable="yes">*</property>
-		      <property name="activates_default">False</property>
+		      <property name="activates_default">True</property>
 		    </widget>
 		  </child>
 
 		  <child internal-child="list">
 		    <widget class="GtkList" id="combo-list1">
 		      <property name="visible">True</property>
-		      <property name="selection_mode">GTK_SELECTION_BROWSE</property>
+		      <property name="selection_mode">GTK_SELECTION_SINGLE</property>
 		    </widget>
 		  </child>
 		</widget>
@@ -496,14 +496,14 @@
 		      <property name="text" translatable="yes"></property>
 		      <property name="has_frame">True</property>
 		      <property name="invisible_char" translatable="yes">*</property>
-		      <property name="activates_default">False</property>
+		      <property name="activates_default">True</property>
 		    </widget>
 		  </child>
 
 		  <child internal-child="list">
 		    <widget class="GtkList" id="combo-list2">
 		      <property name="visible">True</property>
-		      <property name="selection_mode">GTK_SELECTION_BROWSE</property>
+		      <property name="selection_mode">GTK_SELECTION_SINGLE</property>
 		    </widget>
 		  </child>
 		</widget>
@@ -710,6 +710,7 @@
 	    <widget class="GtkButton" id="findButton">
 	      <property name="visible">True</property>
 	      <property name="can_default">True</property>
+	      <property name="has_default">True</property>
 	      <property name="can_focus">True</property>
 	      <property name="label">gtk-find</property>
 	      <property name="use_stock">True</property>
@@ -779,14 +780,14 @@
 		      <property name="text" translatable="yes"></property>
 		      <property name="has_frame">True</property>
 		      <property name="invisible_char" translatable="yes">*</property>
-		      <property name="activates_default">False</property>
+		      <property name="activates_default">True</property>
 		    </widget>
 		  </child>
 
 		  <child internal-child="list">
 		    <widget class="GtkList" id="combo-list1">
 		      <property name="visible">True</property>
-		      <property name="selection_mode">GTK_SELECTION_BROWSE</property>
+		      <property name="selection_mode">GTK_SELECTION_SINGLE</property>
 		    </widget>
 		  </child>
 		</widget>
@@ -1198,6 +1199,7 @@
 	    <widget class="GtkButton" id="findButton">
 	      <property name="visible">True</property>
 	      <property name="can_default">True</property>
+	      <property name="has_default">True</property>
 	      <property name="can_focus">True</property>
 	      <property name="label">gtk-find</property>
 	      <property name="use_stock">True</property>
@@ -1267,14 +1269,14 @@
 		      <property name="text" translatable="yes"></property>
 		      <property name="has_frame">True</property>
 		      <property name="invisible_char" translatable="yes">*</property>
-		      <property name="activates_default">False</property>
+		      <property name="activates_default">True</property>
 		    </widget>
 		  </child>
 
 		  <child internal-child="list">
 		    <widget class="GtkList" id="combo-list1">
 		      <property name="visible">True</property>
-		      <property name="selection_mode">GTK_SELECTION_BROWSE</property>
+		      <property name="selection_mode">GTK_SELECTION_SINGLE</property>
 		    </widget>
 		  </child>
 		</widget>
@@ -1353,14 +1355,14 @@
 		      <property name="text" translatable="yes"></property>
 		      <property name="has_frame">True</property>
 		      <property name="invisible_char" translatable="yes">*</property>
-		      <property name="activates_default">False</property>
+		      <property name="activates_default">True</property>
 		    </widget>
 		  </child>
 
 		  <child internal-child="list">
 		    <widget class="GtkList" id="combo-list2">
 		      <property name="visible">True</property>
-		      <property name="selection_mode">GTK_SELECTION_BROWSE</property>
+		      <property name="selection_mode">GTK_SELECTION_SINGLE</property>
 		    </widget>
 		  </child>
 		</widget>
@@ -1784,6 +1786,7 @@
 	    <widget class="GtkButton" id="findButton">
 	      <property name="visible">True</property>
 	      <property name="can_default">True</property>
+	      <property name="has_default">True</property>
 	      <property name="can_focus">True</property>
 	      <property name="label">gtk-find</property>
 	      <property name="use_stock">True</property>
@@ -1853,14 +1856,14 @@
 		      <property name="text" translatable="yes"></property>
 		      <property name="has_frame">True</property>
 		      <property name="invisible_char" translatable="yes">*</property>
-		      <property name="activates_default">False</property>
+		      <property name="activates_default">True</property>
 		    </widget>
 		  </child>
 
 		  <child internal-child="list">
 		    <widget class="GtkList" id="combo-list1">
 		      <property name="visible">True</property>
-		      <property name="selection_mode">GTK_SELECTION_BROWSE</property>
+		      <property name="selection_mode">GTK_SELECTION_SINGLE</property>
 		    </widget>
 		  </child>
 		</widget>
