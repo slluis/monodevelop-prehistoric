@@ -53,7 +53,7 @@ window.attachEvent("onload", correctPNG);
 	<li><a href="/contribute.aspx">Contribute</a></li>
 	<li><a href="/tutorial.aspx">Tutorials</a></li>
 	<li><a href="/faq.aspx">FAQ</a></li>
-        <li><a href="/wiki/">Wiki</a></li>
+        <li><a href="http://deobald.glcn.com/wiki/">Wiki</a></li>
       </ul>
       <br />
       <a href="http://www.cityhost.ca/">
