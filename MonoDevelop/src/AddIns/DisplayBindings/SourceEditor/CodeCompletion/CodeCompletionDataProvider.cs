@@ -46,10 +46,6 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 
 		public ICompletionData[] GenerateCompletionData(string fileName, SourceEditorView textArea, char charTyped, TextMark triggerMark)
 		{
-			//FIXME: THIS IS A HACK
-			string lang = "C#";
-			//Console.WriteLine ("resolve " + lang);
-			//Console.WriteLine ("nm " + fileName);
 			completionData = new ArrayList();
 			this.fileName = fileName;
 		
@@ -65,7 +61,6 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 			IParserService parserService = (IParserService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IParserService));
 			IExpressionFinder expressionFinder = parserService.GetExpressionFinder(fileName);
 			string expression    = expressionFinder == null ? TextUtilities.GetExpressionBeforeOffset(textArea, insertIter.Offset) : expressionFinder.FindExpression(textArea.Buffer.GetText(textArea.Buffer.StartIter, insertIter, true), insertIter.Offset - 2);
-			Console.WriteLine ("Expression: >{0}<", expression);
 			if (charTyped == ' ') {
 				if (expression == "using" || expression.EndsWith(" using") || expression.EndsWith("\tusing")|| expression.EndsWith("\nusing")|| expression.EndsWith("\rusing")) {
 					string[] namespaces = parserService.GetNamespaceList("");
