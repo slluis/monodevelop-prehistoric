@@ -1,3 +1,7 @@
+2004-11-12  Todd Berman  <tberman@off.net>
+
+	* configure.in: Require 0.6.99 (HEAD SVN) gtksourceview-sharp.
+
 2004-11-11  Todd Berman  <tberman@off.net>
 
 	* configure.in: Check for OEE Mono.Posix
