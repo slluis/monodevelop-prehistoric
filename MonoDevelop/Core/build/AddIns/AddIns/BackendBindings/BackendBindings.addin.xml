@@ -1,24 +1,17 @@
-<AddIn name        = "SharpDevelop Bindings"
-       author      = "Mike Krueger"
+<AddIn name        = "CSharp Language Binding"
+       author      = "Todd Berman"
        copyright   = "GPL"
-       url         = "http://www.icsharpcode.net"
-       description = "NCvs core module"
-       version     = "1.0.0">
+       url         = "http://www.monodevelop.com"
+       description = "CSharp Language Binding"
+       version     = "0.6">
 	
 	<Runtime>
 		<Import assembly = "CSharpBinding.dll"/>
-		<Import assembly = "JavaBinding.dll"/> 
-<!-- ORIGINAL #D COMMENT		<Import assembly = "JScriptLanguageModule.dll"/> -->
-<!--		<Import assembly = "VBNetBinding.dll"/> -->
-		<Import assembly = "NemerleBinding.dll"/> 
-		<Import assembly = "ILAsmBinding.dll"/>
 	</Runtime>
 
 	<Extension path = "/SharpDevelop/Workbench/Ambiences">
 		<Class id    = "CSharp"
 		       class = "MonoDevelop.Services.CSharpAmbience"/>
-<!--		<Class id    = "VB.NET"
-		       class = "MonoDevelop.Services.VBAmbience"/>-->
 	</Extension>
 	
 	<Extension path = "/SharpDevelop/Workbench/FileFilter">
@@ -26,18 +19,6 @@
 		            insertbefore="AllFiles"
 		            name = "${res:SharpDevelop.FileFilter.CSharpFiles}"
 			    extensions = "*.cs"/>
-<!--		<FileFilter id = "VBNET"
-		            insertbefore="AllFiles"
-		            name = "${res:SharpDevelop.FileFilter.VBNetFiles}"
-		            extensions = "*.vb"/>-->
-<!--ORIGINAL #D COMMENT		<FileFilter id = "JScript"
-		            insertbefore="AllFiles"
-		            name = "${res:SharpDevelop.FileFilter.JScriptFiles}"
-		            extensions = "*.js"/> -->
-		<FileFilter id = "Java"
-		            insertbefore="AllFiles"
-		            name = "${res:SharpDevelop.FileFilter.JavaFiles}"
-		            extensions = "*.java"/>
 		<FileFilter id = "Assemblies"
 		            insertbefore="AllFiles"
 		            name = "${res:SharpDevelop.FileFilter.AssemblyFiles}"
@@ -56,18 +37,6 @@
 		            insertbefore="AllFiles"
 		            name = "${res:SharpDevelop.FileFilter.ResourceFiles}"
 		            extensions = "*.resources,*.resx"/>
-		<FileFilter id = "SharpDevelop templates"
-		            insertbefore="AllFiles"
-		            name = "${res:SharpDevelop.FileFilter.SharpDevelopTemplates}"
-		            extensions = "*.xft,*.xpt"/>
-		<FileFilter id = "SharpDevelop XFrms"
-		            insertbefore="AllFiles"
-		            name = "${res:SharpDevelop.FileFilter.XmlForms}"
-		            extensions = "*.xfrm"/>
-		<FileFilter id = "Nemerle"
-		            insertbefore="AllFiles"
-		            name = "Nemerle files"
-			    extensions = "*.n"/>
 	</Extension>
 
 	<Extension path = "/Workspace/Parser">
@@ -83,57 +52,7 @@
 			<DialogPanel id = "CSharpOutputOptionsPanel"
 			             _label = "Output"
 			             class = "CSharpBinding.OutputOptionsPanel"/>
-<!-- not able to choose runtime in MD (jba 4 march 04)
-			<DialogPanel id = "CSharpRuntimeCompilerPanel"
-			             _label = "Runtime/Compiler"
-			             class = "CSharpBinding.ChooseRuntimePanel"/>	-->
 		</Conditional>
-<!--		<Conditional activeproject="VBNET">
-			<DialogPanel id = "VBCodeGenerationPanel"
-			             _label = "${res:Dialog.Options.PrjOptions.CodeGenerationPanel.PanelName}"
-			             class = "VBBinding.CodeGenerationPanel"/>
-			<DialogPanel id = "VBOutputOptionsPanel"
-			             _label = "${res:Dialog.Options.PrjOptions.OutputOptionsPanel.PanelName}"
-			             class = "VBBinding.OutputOptionsPanel"/>
-			<DialogPanel id = "VBDOCConfigurationPanel"
-			             _label = "VB.DOC"
-			             class = "VBBinding.VBDOCConfigurationPanel"/>
-		</Conditional>-->
-<!--ORIGINAL #D COMMENT		<Conditional activeproject="JScript">
-			<DialogPanel id = "JScriptProjectPanel"
-			             _label = "${res:Dialog.Options.PrjOptions.CodeGenerationPanel.PanelName}"
-			             class = "JScriptBinding.ProjectConfigurationPropertyPanel"/>
-	
-		</Conditional> -->
-
-		<Conditional activeproject="Java">
-			<DialogPanel id = "JavaProjectPanel"
-			             _label = "Code Generation"
-			             class = "JavaBinding.ProjectConfigurationPropertyPanel"/>
-	
-		</Conditional>
-		<Conditional activeproject="Nemerle">
-			<DialogPanel id = "NemerleCodeGenerationPanel"
-			             _label = "Code Generation"
-			             class = "NemerleBinding.CodeGenerationPanel"/>
-			<DialogPanel id = "NemerleOutputPanel"
-			             _label = "Output"
-			             class = "NemerleBinding.OutputPanel"/>
-		</Conditional>		
-		<Conditional activeproject="ILAsm">
-			<DialogPanel id = "ILAsmCompilerParametersPanel"
-						 _label = "Compiler"
-						 class = "ILAsmBinding.CompilerParametersPanel"/> 
-
-		</Conditional>
-	</Extension>
-	
-
-	<Extension path = "/SharpDevelop/Dialogs/OptionsDialog/TextEditorOptions">
-<!--		<DialogPanel id = "VBSpecificOptions"
-		             _label = "${res:Dialog.Options.IDEOptions.TextEditor.VB.PanelName}"
-			     insertafter = "Behavior"
-		             class = "VBBinding.TextEditorOptionsPanel"/>-->
 	</Extension>
 		
 <!--	<Extension path = "/AddIns/DefaultTextEditor/Formater">
@@ -158,38 +77,6 @@
 		      extensions = ".cs"
 		      resource   = "C#.FileIcon"/>
 		
-		<!-- VB.NET -->
-		<Icon id         = "VBPrj"
-		      language   = "VBNET"
-		      resource   = "VB.ProjectIcon"/>
-		<Icon id         = "VBFile"
-		      extensions = ".vb"
-		      resource   = "VB.FileIcon"/>
-
-		<!-- Java -->
-                <Icon id         = "JavaPrj"
-		      language   = "Java"
-		      resource   = "Java.ProjectIcon"/>
-                <Icon id         = "JavaFile"
-		      extensions = ".java"
-		      resource   = "Java.FileIcon"/>
-		      
-		<!-- Java Script -->
-                <Icon id         = "JScriptPrj"
-		      language   = "JScript"
-		      resource   = "JScript.ProjectIcon"/>
-                <Icon id         = "JScriptFile"
-		      extensions = ".js"
-		      resource   = "JScript.FileIcon"/>
-		
-		<!-- C++ -->
-                <Icon id         = "C++Project"
-		      language   = "C++"
-		      resource   = "C++.ProjectIcon"/>
-                <Icon id         = "C++File"
-		      extensions = ".cpp"
-		      resource   = "C++.FileIcon"/>
-		
 		<!-- Resources -->
 		<Icon id         = "ResourceFileIcon"
 		      extensions = ".resources,.resx"
@@ -203,40 +90,11 @@
 		      extensions = ".txt,.doc"
 		      resource   = "Icons.16x16.TextFileIcon"/>
 
-		<!-- Nemerle -->
-		<Icon id         = "NemerlePrj"
-		      language   = "Nemerle"
-		      resource   = "Nemerle.ProjectIcon"/>
-                <Icon id         = "NemerleFile"
-		      extensions = ".n"
-		      resource   = "Nemerle.FileIcon"/>
-
 	</Extension>
 
 	<Extension path = "/SharpDevelop/Workbench/LanguageBindings">
 		<LanguageBinding id    = "CSharp"
 		                 supportedextensions = ".cs"
 		                 class = "CSharpBinding.CSharpLanguageBinding" />
-<!--		<LanguageBinding id    = "VBNET"
-		                 supportedextensions = ".vb"
-		                 class = "VBBinding.VBLanguageBinding" />-->
-		<LanguageBinding id    = "Java"
-		                 supportedextensions = ".java"
-		                 class = "JavaBinding.JavaLanguageBinding" />
-<!--ORIGINAL #D COMMENT		<LanguageBinding id    = "JScript"
-		                 supportedextensions = ".js"
-		                 class = "JScriptBinding.JScriptLanguageBinding" /> -->
-		<LanguageBinding id    = "Nemerle"
-		                 supportedextensions = ".n"
-		                 class = "NemerleBinding.NemerleLanguageBinding" />
-		<LanguageBinding id    = "ILAsm"
-		                 supportedextensions = ".il"
-		                 class = "ILAsmBinding.ILAsmLanguageBinding" />
-	</Extension>
-	
-	<Extension path = "/SharpDevelop/Views/ProjectBrowser/NodeBuilders">
-		<Class id = "JavaNodeBuilder"
-		       insertbefore = "DefaultBuilder"
-		       class = "JavaBinding.JavaNodeBuilder"/>
-	</Extension>
+        </Extension>
 </AddIn>

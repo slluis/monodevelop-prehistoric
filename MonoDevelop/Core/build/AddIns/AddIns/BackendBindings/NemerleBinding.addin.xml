@@ -1,0 +1,45 @@
+<AddIn name        = "Nemerle Language Binding"
+       author      = "Todd Berman"
+       copyright   = "GPL"
+       url         = "http://www.monodevelop.com"
+       description = "Nemerle Language Binding"
+       version     = "0.6">
+
+  <Runtime>
+    <Import assembly = "NemerleBinding.dll"/>
+  </Runtime>
+
+  <Extension path = "/SharpDevelop/Workbench/FileFilter">
+    <FileFilter id = "Nemerle"
+                insertbefore = "AllFiles"
+                name = "Nemerle Files (*.n)"
+                extensions = "*.n"/>
+  </Extension>
+
+  <Extension path = "/SharpDevelop/Workbench/ProjectOptions/ConfigurationProperties">
+    <Conditional activeproject = "Nemerle">
+      <DialogPanel id = "NemerleCodeGenerationPanel"
+                   _label = "Code Generation"
+                   class = "NemerleBinding.CodeGenerationPanel"/>
+      <DialogPanel id = "NemerleOutputPanel"
+                   _label = "Output"
+                   class = "NemerleBinding.OutputPanel"/>
+    </Conditional>
+  </Extension>
+
+  <Extension path = "/Workspace/Icons">
+    <Icon id = "NemerlePrj"
+          language = "Nemerle"
+          resource = "Nemerle.ProjectIcon"/>
+    <Icon id = "NemerleFile"
+          extensions = ".n"
+          resource = "Nemerle.FileIcon"/>
+  </Extension>
+
+  <Extension path = "/SharpDevelop/Workbench/LanguageBindings">
+    <LanguageBinding id = "Nemerle"
+                     supportedextensions = ".n"
+                     class = "NemerleBinding.NemerleLanguageBinding" />
+  </Extension>
+
+</AddIn>
