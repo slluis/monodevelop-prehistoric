@@ -78,34 +78,11 @@ namespace MonoDevelop.Gui.Dialogs.OptionPanels
 				//
 				// load the internationalized strings.
 				//
-				loadLabel.Markup = "<b> " + StringParserService.Parse(
-					"${res:Dialog.Options.IDEOptions.LoadSaveOptions.LoadLabel}") + " </b>";
-				saveLabel.Markup = "<b> " + StringParserService.Parse(
-					"${res:Dialog.Options.IDEOptions.LoadSaveOptions.SaveLabel}")+ "</b>";
-				
-				loadUserDataCheckButton.Label = StringParserService.Parse(
-					"${res:Dialog.Options.IDEOptions.LoadSaveOptions.LoadUserDataCheckBox}");
-				loadPrevProjectCheckButton.Label = StringParserService.Parse(
-					"${res:Dialog.Options.IDEOptions.ProjectAndCombineOptions.LoadPrevProjectCheckBox}");
-				createBackupCopyCheckButton.Label =StringParserService.Parse(
-					"${res:Dialog.Options.IDEOptions.LoadSaveOptions.CreateBackupCopyCheckBox}");
-				
- 				terminatorLabel.TextWithMnemonic  = StringParserService.Parse(
- 					"${res:Dialog.Options.IDEOptions.LoadSaveOptions.LineTerminatorStyleGroupBox}");
- 				windowsRadioButton.Label = StringParserService.Parse(
- 					"${res:Dialog.Options.IDEOptions.LoadSaveOptions.WindowsRadioButton}");
- 				//macintoshRadioButton.Label = StringParserService.Parse(
- 				//	"${res:Dialog.Options.IDEOptions.LoadSaveOptions.MacintoshRadioButton}");
- 				unixRadioButton.Label = StringParserService.Parse(
- 					"${res:Dialog.Options.IDEOptions.LoadSaveOptions.UnixRadioButton}");
-				
 				projectLocationTextBox.GtkEntry.Text = PropertyService.GetProperty(
 					"MonoDevelop.Gui.Dialogs.NewProjectDialog.DefaultPath", 
 					System.IO.Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal),
 							"MonoDevelopProjects")).ToString();
 				projectLocationTextBox.DirectoryEntry = true;
-				locationLabel.TextWithMnemonic = StringParserService.Parse(
-					"${res:Dialog.Options.IDEOptions.ProjectAndCombineOptions.ProjectLocationLabel}");
 				//
 				// setup the properties
 				//
@@ -161,7 +138,7 @@ namespace MonoDevelop.Gui.Dialogs.OptionPanels
 				
 				return true;
 			}
-		}		
+		}
 	}
 }
 

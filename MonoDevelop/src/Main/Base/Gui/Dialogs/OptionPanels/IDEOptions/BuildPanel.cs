@@ -69,17 +69,6 @@ namespace MonoDevelop.Gui.Dialogs.OptionPanels
 			        // getting internationalized strings
 			        //
 				// FIXME i8n the following line
-				buildAndRunOptionsLabel.Text = "Build and run options";
-				saveChangesRadioButton.Label = StringParserService.Parse(
-					"${res:Dialog.Options.IDEOptions.ProjectAndCombineOptions.SaveChangesRadioButton}");
-				promptChangesRadioButton.Label = StringParserService.Parse(
-					"${res:Dialog.Options.IDEOptions.ProjectAndCombineOptions.PromptToSaveRadioButton}");
-				noSaveRadioButton.Label = StringParserService.Parse(
-					"${res:Dialog.Options.IDEOptions.ProjectAndCombineOptions.DontSaveRadioButton}");
-				showOutputCheckBox.Label = StringParserService.Parse(
-					"${res:Dialog.Options.IDEOptions.ProjectAndCombineOptions.ShowOutputPadCheckBox}");
-				showTaskListCheckBox.Label = StringParserService.Parse(
-					"${res:Dialog.Options.IDEOptions.ProjectAndCombineOptions.ShowTaskListPadCheckBox}");
 				//
 				// reading properties
 				//

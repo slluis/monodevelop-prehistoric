@@ -43,17 +43,6 @@ namespace MonoDevelop.Gui.Dialogs.OptionPanels {
 			
 			public CodeGenerationPanelWidget () : base ("Base.glade", "CodeGenerationOptionsPanel")
 			{
-				i18nizeHeader (hdr_code_generation_options, "${res:Dialog.Options.IDEOptions.CodeGenerationOptionsPanel.CodeGenerationOptionsGroupBox}");
-				i18nizeHeader (hdr_comment_generation_options, "${res:Dialog.Options.IDEOptions.CodeGenerationOptionsPanel.CommentGenerationOptionsGroupBox}");
-				
-				i18nize (chk_blk_on_same_line, "${res:Dialog.Options.IDEOptions.CodeGenerationOptionsPanel.StartBlockOnTheSameLineCheckBox}");
-				i18nize (chk_else_on_same_line, "${res:Dialog.Options.IDEOptions.CodeGenerationOptionsPanel.ElseOnClosingCheckBox}");
-				i18nize (chk_blank_lines, "${res:Dialog.Options.IDEOptions.CodeGenerationOptionsPanel.BlankLinesBetweenMembersCheckBox}");
-				i18nize (chk_full_type_names, "${res:Dialog.Options.IDEOptions.CodeGenerationOptionsPanel.UseFullTypeNamesCheckBox}");
-				
-				i18nize (chk_doc_comments, "${res:Dialog.Options.IDEOptions.CodeGenerationOptionsPanel.GenerateDocCommentsCheckBox}");
-				i18nize (chk_other_comments, "${res:Dialog.Options.IDEOptions.CodeGenerationOptionsPanel.GenerateAdditionalCommentsCheckBox}");
-				
 				chk_blk_on_same_line.Active   = p.GetProperty("StartBlockOnSameLine", true);
 				chk_else_on_same_line.Active  = p.GetProperty("ElseOnClosing", true);
 				chk_blank_lines.Active        = p.GetProperty("BlankLinesBetweenMembers", true);
@@ -79,19 +68,6 @@ namespace MonoDevelop.Gui.Dialogs.OptionPanels {
 				
 				p.SetProperty ("GenerateDocumentComments",   chk_doc_comments.Active);
 				p.SetProperty ("GenerateAdditionalComments", chk_other_comments.Active);
-			}
-			
-			void i18nizeHeader (Label l, string key)
-			{
-				// TODO: use the real pango stuff
-				// otherwise, excaping is a problem
-				l.Markup = "<b>" + StringParserService.Parse (key) + "</b>";
-				
-			}
-			
-			void i18nize (CheckButton c, string key)
-			{
-				c.Label = StringParserService.Parse (key);
 			}
 		}
 		

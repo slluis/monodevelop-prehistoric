@@ -4,3 +4,5 @@ src/Main/Base/Gui/Dialogs/CommonAboutDialog.cs
 src/Main/Base/Gui/Dialogs/NewProjectDialog.cs
 src/Main/Base/Gui/Dialogs/NewFileDialog.cs
 src/Main/Base/Gui/Dialogs/OptionPanels/EditTemplateDialog.cs
+src/Main/Base/Gui/Dialogs/OptionPanels/ExternalToolPanel.cs
+src/Main/Base/Gui/Dialogs/OptionPanels/IDEOptions/BuildPanel.cs

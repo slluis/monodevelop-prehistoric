@@ -40,41 +40,41 @@ namespace MonoDevelop.Gui.Dialogs.OptionPanels
 		public class ExternalToolPanelWidget :  GladeWidgetExtract 
 		{
 			static string[,] argumentQuickInsertMenu = new string[,] {
-				{"${res:Dialog.Options.ExternalTool.QuickInsertMenu.FullItemPath}",      "${ItemPath}"},
-				{"${res:Dialog.Options.ExternalTool.QuickInsertMenu.FullItemDirectory}", "${ItemDir}"},
-				{"${res:Dialog.Options.ExternalTool.QuickInsertMenu.ItemFileName}",      "${ItemFileName}"},
-				{"${res:Dialog.Options.ExternalTool.QuickInsertMenu.ItemExtension}",     "${ItemExt}"},
+				{GettextCatalog.GetString ("Item Path"), "${ItemPath}"},
+				{GettextCatalog.GetString ("_Item Directory"), "${ItemDir}"},
+				{GettextCatalog.GetString ("Item file name"), "${ItemFileName}"},
+				{GettextCatalog.GetString ("Item extension"), "${ItemExt}"},
 				{"-", ""},
-				{"${res:Dialog.Options.ExternalTool.QuickInsertMenu.CurrentLine}",   "${CurLine}"},
-				{"${res:Dialog.Options.ExternalTool.QuickInsertMenu.CurrentColumn}", "${CurCol}"},
-				{"${res:Dialog.Options.ExternalTool.QuickInsertMenu.CurrentText}",   "${CurText}"},
+				{GettextCatalog.GetString ("Current line"), "${CurLine}"},
+				{GettextCatalog.GetString ("Current column"), "${CurCol}"},
+				{GettextCatalog.GetString ("Current text"), "${CurText}"},
 				{"-", ""},
-				{"${res:Dialog.Options.ExternalTool.QuickInsertMenu.FullTargetPath}",  "${TargetPath}"},
-				{"${res:Dialog.Options.ExternalTool.QuickInsertMenu.TargetDirectory}", "${TargetDir}"},
-				{"${res:Dialog.Options.ExternalTool.QuickInsertMenu.TargetName}",      "${TargetName}"},
-				{"${res:Dialog.Options.ExternalTool.QuickInsertMenu.TargetExtension}", "${TargetExt}"},
+				{GettextCatalog.GetString ("Target Path"), "${TargetPath}"},
+				{GettextCatalog.GetString ("_Target Directory"), "${TargetDir}"},
+				{GettextCatalog.GetString ("Target Name"), "${TargetName}"},
+				{GettextCatalog.GetString ("Target Extension"), "${TargetExt}"},
 				{"-", ""},
-				{"${res:Dialog.Options.ExternalTool.QuickInsertMenu.ProjectDirectory}", "${ProjectDir}"},
-				{"${res:Dialog.Options.ExternalTool.QuickInsertMenu.ProjectFileName}",  "${ProjectFileName}"},
+				{GettextCatalog.GetString ("_Project Directory"), "${ProjectDir}"},
+				{GettextCatalog.GetString ("Project file name"), "${ProjectFileName}"},
 				{"-", ""},
-				{"${res:Dialog.Options.ExternalTool.QuickInsertMenu.CombineDirectory}", "${CombineDir}"},
-				{"${res:Dialog.Options.ExternalTool.QuickInsertMenu.CombineFileName}",  "${CombineFileName}"},
+				{GettextCatalog.GetString ("_Solution Directory"), "${CombineDir}"},
+				{GettextCatalog.GetString ("Solution File Name"), "${CombineFileName}"},
 				{"-", ""},
-				{"${res:Dialog.Options.ExternalTool.QuickInsertMenu.SharpDevelopStartupPath}",  "${StartupPath}"},
+				{GettextCatalog.GetString ("MonoDevelop Startup Directory"), "${StartupPath}"},
 			};
 
 			static string[,] workingDirInsertMenu = new string[,] {
-				{"${res:Dialog.Options.ExternalTool.QuickInsertMenu.FullItemDirectory}", "${ItemDir}"},
+				{GettextCatalog.GetString ("_Item Directory"), "${ItemDir}"},
 				{"-", ""},
-				{"${res:Dialog.Options.ExternalTool.QuickInsertMenu.TargetDirectory}", "${TargetDir}"},
-				{"${res:Dialog.Options.ExternalTool.QuickInsertMenu.TargetName}",      "${TargetName}"},
+				{GettextCatalog.GetString ("_Target Directory"), "${TargetDir}"},
+				{GettextCatalog.GetString ("Target Name"), "${TargetName}"},
 				{"-", ""},
-				{"${res:Dialog.Options.ExternalTool.QuickInsertMenu.ProjectDirectory}", "${ProjectDir}"},
+				{GettextCatalog.GetString ("_Project Directory"), "${ProjectDir}"},
 				{"-", ""},
-				{"${res:Dialog.Options.ExternalTool.QuickInsertMenu.CombineDirectory}", "${CombineDir}"},
+				{GettextCatalog.GetString ("_Solution Directory"), "${CombineDir}"},
 				{"-", ""},
-				{"${res:Dialog.Options.ExternalTool.QuickInsertMenu.SharpDevelopStartupPath}",  "${StartupPath}"},
-			};			 
+				{GettextCatalog.GetString ("MonoDevelop Startup Directory"), "${StartupPath}"},
+			};
 			 
 			// Services
 			FileUtilityService FileUtilityService = (FileUtilityService) ServiceManager.Services.GetService(
@@ -119,30 +119,6 @@ namespace MonoDevelop.Gui.Dialogs.OptionPanels
 			{
 				// instantiate controls			
 				toolListBoxStore = new ListStore (typeof (string), typeof (ExternalTool));
-				promptArgsCheckBox.Label = StringParserService.Parse(
-					"${res:Dialog.Options.ExternalTool.PromptForArgsCheckBox}"); 
-				useOutputPadCheckBox.Label = StringParserService.Parse(
-					"${res:Dialog.Options.ExternalTool.UseOutputWindow}"); 
-				titleLabel.TextWithMnemonic = StringParserService.Parse(
-					"${res:Dialog.Options.ExternalTool.TitleLabel}"); 
-				argumentLabel.TextWithMnemonic = StringParserService.Parse(
-					"${res:Dialog.Options.ExternalTool.ArgumentLabel}"); 
-				commandLabel.TextWithMnemonic = StringParserService.Parse(
-					"${res:Dialog.Options.ExternalTool.CommandLabel}"); 
-				workingDirLabel.TextWithMnemonic = StringParserService.Parse(
-					"${res:Dialog.Options.ExternalTool.WorkingDirLabel}");
-// 				moveUpButton.Label = StringParserService.Parse(
-// 					 "${res:Dialog.Options.ExternalTool.MoveUpButton}"); 
-// 				 moveUpButton.UseUnderline = true;
-// 				 moveDownButton.Label = StringParserService.Parse(
-// 					 "${res:Dialog.Options.ExternalTool.MoveDownButton}");
-// 				 moveDownButton.UseUnderline = true;
-// 				 removeButton.Label = StringParserService.Parse(
-// 					 "${res:Global.RemoveButtonText}");
-// 				 removeButton.UseUnderline = true;
-// 				 addButton.Label = StringParserService.Parse(
-// 					 "${res:Global.AddButtonText}");
-// 				 addButton.UseUnderline = true;
 
 				dependendControls = new Widget[] {
 					titleTextBox, commandTextBox, argumentTextBox, 
@@ -158,14 +134,10 @@ namespace MonoDevelop.Gui.Dialogs.OptionPanels
 					 
 				toolListBox.Reorderable = false;
 				toolListBox.HeadersVisible = true;
-		       	toolListBox.Selection.Mode = SelectionMode.Multiple;
+				toolListBox.Selection.Mode = SelectionMode.Multiple;
 				toolListBox.Model = toolListBoxStore;
 					 
-				toolListBox.AppendColumn (
-		       		StringParserService.Parse("${res:Dialog.Options.ExternalTool.ToolsLabel}"),
-					new CellRendererText (), 
-					"text", 
-					0);
+				toolListBox.AppendColumn (GettextCatalog.GetString ("_Tools"), new CellRendererText (), "text", 0);
 
 				MenuService.CreateQuickInsertMenu (argumentTextBox,
 						argumentQuickInsertButton,
@@ -187,7 +159,7 @@ namespace MonoDevelop.Gui.Dialogs.OptionPanels
 	         
 			void browseEvent (object sender, EventArgs e)
 			{
-				using (Gtk.FileSelection fs = new Gtk.FileSelection ("File to Open")) {
+				using (Gtk.FileSelection fs = new Gtk.FileSelection (GettextCatalog.GetString ("File to Open"))) {
 					int response = fs.Run ();
 					string name = fs.Filename;
 					fs.Hide ();
@@ -337,7 +309,7 @@ namespace MonoDevelop.Gui.Dialogs.OptionPanels
 			 
 			void addEvent (object sender, EventArgs e)
 			{
-				TreeIter itr = toolListBoxStore.AppendValues ("New Tool", new ExternalTool());
+				TreeIter itr = toolListBoxStore.AppendValues (GettextCatalog.GetString ("New Tool"), new ExternalTool());
 				toolListBoxItemCount ++;
 				toolListBox.Selection.UnselectAll ();
 				toolListBox.Selection.SelectIter (itr);
@@ -376,7 +348,7 @@ namespace MonoDevelop.Gui.Dialogs.OptionPanels
 			{
 				foreach (Widget control in controls) {				
 					if (control == null) {
-						MessageService.ShowError ("Control not found!");
+						MessageService.ShowError (GettextCatalog.GetString ("Control not found!"));
 					} else {
 						control.Sensitive = enabled;
 					}
@@ -397,14 +369,13 @@ namespace MonoDevelop.Gui.Dialogs.OptionPanels
 					ExternalTool tool = toolListBox.Model.GetValue (current, 1) as ExternalTool;
 					
 					if (!FileUtilityService.IsValidFileName (tool.Command)) {
-						MessageService.ShowError (String.Format(
-										 "The command of tool \"{0}\" is invalid.", 
+						MessageService.ShowError (String.Format(GettextCatalog.GetString ("The command of tool \"{0}\" is invalid."), 
 										 tool.MenuCommand));
 						return false;
 					}
 					
 					if ((tool.InitialDirectory != "") && (!FileUtilityService.IsValidFileName(tool.InitialDirectory))) {
-						MessageService.ShowError (String.Format("The working directory of tool \"{0}\" is invalid.",
+						MessageService.ShowError (String.Format(GettextCatalog.GetString ("The working directory of tool \"{0}\" is invalid.") ,
 											 tool.MenuCommand));
 						return false;
 					}

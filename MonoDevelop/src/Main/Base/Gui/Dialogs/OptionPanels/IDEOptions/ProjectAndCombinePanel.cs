@@ -66,19 +66,6 @@ namespace MonoDevelop.Gui.Dialogs.OptionPanels
 
 			public  ProjectAndCombinePanelWidget () : base ("Base.glade", "ProjectAndCombinePanel")
 			{
-			        //
-			        // getting internationalized strings
-			        //
-				saveChangesRadioButton.Label = StringParserService.Parse(
-					"${res:Dialog.Options.IDEOptions.ProjectAndCombineOptions.SaveChangesRadioButton}");
-				promptChangesRadioButton.Label = StringParserService.Parse(
-					"${res:Dialog.Options.IDEOptions.ProjectAndCombineOptions.PromptToSaveRadioButton}");
-				noSaveRadioButton.Label = StringParserService.Parse(
-					"${res:Dialog.Options.IDEOptions.ProjectAndCombineOptions.DontSaveRadioButton}");
-				showOutputCheckBox.Label = StringParserService.Parse(
-					"${res:Dialog.Options.IDEOptions.ProjectAndCombineOptions.ShowOutputPadCheckBox}");
-				showTaskListCheckBox.Label = StringParserService.Parse(
-					"${res:Dialog.Options.IDEOptions.ProjectAndCombineOptions.ShowTaskListPadCheckBox}");
 				//
 				// reading properties
 				//
