@@ -24,7 +24,12 @@ handle SIGXCPU nostop noprint pass
   <li>thread apply all bt</li>
 </ol>
 </p>
-
+<br/>
+<p><a name="orbit_crash">Crashes when quiting MonoDevelop</a></p>
+<p>If you get crashes when you close MonoDevelop, check your ORBit version.</p>
+<p>Version 2.8.2 is known to cause issues. Upgrade to 2.8.3 if at all possible.</p>
+<p>NOTE: This update could be harmful to your gnome system, and should <b>NOT</b> be done lightly.</p>
+<br>
 <p><a name="mimetype_gnome26">How do I add mimetypes in gnome 2.6?</a></p>
 
 <p>First you copy monodevelop.xml to $(gnome_prefix)/share/mime/packages. Then you run update-mime-database $(gnome_prefix)/share/mime. On fedora, and many other distros $gnome_prefix is /usr, so you do:</p>

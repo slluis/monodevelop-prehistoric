@@ -23,11 +23,8 @@ make install
       instructions guide you through installing them.
       </p>
 
-      <b>1. ORBit2 2.8.3</b>
-      <p>Although newer and older versions of ORBit <i>may</i> work, they have been known to produce non-fatal and data-safe crashes when MonoDevelop exits. If in doubt, leave your system as is. Note, if you have a newer/older version installed, it would be best to keep it as other pieces of your system may depend on it, and these crashes will never effect your data. It is just a crash on shutdown, and can be ignored</p>
-
       <br /><br />
-      <b>2. GtkSourceView 0.7+</b>
+      <b>1. GtkSourceView 0.7+</b>
       <p>You may download a binary package for your distribution if it provides version 0.7 or higher. 
 Otherwise, download the 
 <a href="http://ftp.acc.umu.se/pub/gnome/sources/gtksourceview/0.7/gtksourceview-0.7.0.tar.gz">official 
@@ -43,7 +40,7 @@ make install
       </p>
 
       <br /><br />
-      <b>3. gtkmozembed</b>
+      <b>2. gtkmozembed</b>
       <p><a href="http://www.mozilla.org/unix/gtk-embedding.html">gtkmozembed</a> can generally be found in 
 the Mozilla development package for your OS. For example:
       <br />
@@ -56,7 +53,7 @@ the Mozilla development package for your OS. For example:
       </p>
 
       <br /><br />
-      <b>4. Install Mono</b><br />
+      <b>3. Install Mono</b><br />
       <p>MonoDevelop will require the following mono packages to be installed, in this order:
       <ul>
 <li><a href="ftp://www-126.ibm.com/pub/icu/2.6/icu-2.6.tgz">International Components for Unicode 2.6 or greater</a></li>
