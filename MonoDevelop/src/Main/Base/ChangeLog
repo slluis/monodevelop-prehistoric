@@ -1,5 +1,16 @@
 2004-04-02  Todd Berman  <tberman@sevenl.net>
 
+	* Services/File/DefaultFileService.cs:
+	* Services/ResourceNotFoundException.cs:
+	* Services/DisplayBinding/DisplayBindingService.cs:
+	* Services/Project/DefaultProjectService.cs:
+	* Services/StatusBar/DefaultStatusBarService.cs:
+	* Services/MessageService.cs:
+	* Services/ParserService/DefaultParserService.cs:
+	Finished gettextifyin the base dll.
+
+2004-04-02  Todd Berman  <tberman@sevenl.net>
+
 	* Gui/Pads/ProjectBrowser/BrowserNode/NamedFolderNode.cs:
 	* Gui/Pads/ProjectBrowser/NodeBuilder/DefaultDotNetNodeBuilder.cs:
 	phantom commit, no one saw this

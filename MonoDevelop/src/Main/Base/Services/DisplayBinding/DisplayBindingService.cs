@@ -58,7 +58,7 @@ namespace MonoDevelop.Services
 					}
 				}
 			}
-			Console.WriteLine ("Didnt match on mimetype: " + mimetype + ", trying filename");
+			Console.WriteLine (String.Format (GettextCatalog.GetString ("Didnt match on mimetype: {0}, trying filename"), mimetype));
 			foreach (DisplayBindingCodon binding in bindings) {
 				if (binding.DisplayBinding != null && binding.DisplayBinding.CanCreateContentForFile(filename)) {
 					return binding;

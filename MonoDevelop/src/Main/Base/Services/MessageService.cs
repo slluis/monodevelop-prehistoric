@@ -11,6 +11,7 @@ using System.IO;
 using MonoDevelop.Gui;
 using MonoDevelop.Core.AddIns;
 using MonoDevelop.Core.Properties;
+using MonoDevelop.Services;
 
 namespace MonoDevelop.Core.Services
 {
@@ -52,7 +53,7 @@ namespace MonoDevelop.Core.Services
 				msg += "Exception occurred: " + ex.ToString();
 			}
 
-			using (Gtk.MessageDialog md = new Gtk.MessageDialog ((Gtk.Window) WorkbenchSingleton.Workbench, Gtk.DialogFlags.Modal | Gtk.DialogFlags.DestroyWithParent, Gtk.MessageType.Error, Gtk.ButtonsType.Ok, stringParserService.Parse(msg))) {
+			using (Gtk.MessageDialog md = new Gtk.MessageDialog ((Gtk.Window) WorkbenchSingleton.Workbench, Gtk.DialogFlags.Modal | Gtk.DialogFlags.DestroyWithParent, Gtk.MessageType.Error, Gtk.ButtonsType.Ok, message)) {
 				md.Run ();
 				md.Hide ();
 			}
@@ -60,7 +61,7 @@ namespace MonoDevelop.Core.Services
 		
 		public void ShowWarning(string message)
 		{
-			using (Gtk.MessageDialog md = new Gtk.MessageDialog ((Gtk.Window) WorkbenchSingleton.Workbench, Gtk.DialogFlags.Modal | Gtk.DialogFlags.DestroyWithParent, Gtk.MessageType.Warning, Gtk.ButtonsType.Ok, stringParserService.Parse(message))) {
+			using (Gtk.MessageDialog md = new Gtk.MessageDialog ((Gtk.Window) WorkbenchSingleton.Workbench, Gtk.DialogFlags.Modal | Gtk.DialogFlags.DestroyWithParent, Gtk.MessageType.Warning, Gtk.ButtonsType.Ok, message)) {
 				md.Run ();
 				md.Hide ();
 			}
@@ -73,7 +74,7 @@ namespace MonoDevelop.Core.Services
 		
 		public bool AskQuestion(string question, string caption)
 		{
-			using (Gtk.MessageDialog md = new Gtk.MessageDialog ((Gtk.Window) WorkbenchSingleton.Workbench, Gtk.DialogFlags.Modal | Gtk.DialogFlags.DestroyWithParent, Gtk.MessageType.Question, Gtk.ButtonsType.YesNo, stringParserService.Parse(question))) {
+			using (Gtk.MessageDialog md = new Gtk.MessageDialog ((Gtk.Window) WorkbenchSingleton.Workbench, Gtk.DialogFlags.Modal | Gtk.DialogFlags.DestroyWithParent, Gtk.MessageType.Question, Gtk.ButtonsType.YesNo, question)) {
 				int response = md.Run ();
 				md.Hide ();
 				
@@ -96,7 +97,7 @@ namespace MonoDevelop.Core.Services
 		
 		public bool AskQuestion(string question)
 		{
-			return AskQuestion(stringParserService.Parse(question), stringParserService.Parse("${res:Global.QuestionText}"));
+			return AskQuestion(stringParserService.Parse(question), GettextCatalog.GetString ("Question"));
 		}
 		
 		public int ShowCustomDialog(string caption, string dialogText, params string[] buttontexts)
@@ -122,7 +123,7 @@ namespace MonoDevelop.Core.Services
 		
 		public void ShowMessage(string message, string caption)
 		{
-			using (Gtk.MessageDialog md = new Gtk.MessageDialog ((Gtk.Window) WorkbenchSingleton.Workbench, Gtk.DialogFlags.Modal | Gtk.DialogFlags.DestroyWithParent, Gtk.MessageType.Info, Gtk.ButtonsType.Ok, stringParserService.Parse(message))) {
+			using (Gtk.MessageDialog md = new Gtk.MessageDialog ((Gtk.Window) WorkbenchSingleton.Workbench, Gtk.DialogFlags.Modal | Gtk.DialogFlags.DestroyWithParent, Gtk.MessageType.Info, Gtk.ButtonsType.Ok, message)) {
 				md.Run ();
 				md.Hide ();
 			}

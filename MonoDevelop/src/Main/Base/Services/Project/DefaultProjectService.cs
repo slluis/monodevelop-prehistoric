@@ -133,7 +133,7 @@ namespace MonoDevelop.Services
 				return;
 			}
 			IStatusBarService statusBarService = (IStatusBarService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IStatusBarService));
-			statusBarService.SetMessage("${res:MainWindow.StatusBar.OpeningCombineMessage}");
+			statusBarService.SetMessage(GettextCatalog.GetString ("Opening Combine..."));
 				
 			if (Path.GetExtension(filename).ToUpper() == ".PRJX") {
 				string validcombine = Path.ChangeExtension(filename, ".cmbx");
@@ -152,7 +152,7 @@ namespace MonoDevelop.Services
 			} else {
 				LoadCombine(filename);
 			}
-			statusBarService.SetMessage("${res:MainWindow.StatusBar.ReadyMessage}");
+			statusBarService.SetMessage(GettextCatalog.GetString ("Ready"));
 		}
 		
 		void LoadCombine(string filename)
@@ -274,7 +274,7 @@ namespace MonoDevelop.Services
 			// cut&pasted from CombineEntry.cs
 			stringParserService.Properties["Project"] = project.Name;
 			IStatusBarService statusBarService = (IStatusBarService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IStatusBarService));
-			statusBarService.SetMessage("${res:MainWindow.StatusBar.CompilingMessage}");
+			statusBarService.SetMessage(String.Format (GettextCatalog.GetString ("Compiling {0}"), project.Name));
 			
 			string outputDir = ((AbstractProjectConfiguration)project.ActiveConfiguration).OutputDirectory;
 			try {
@@ -332,7 +332,7 @@ namespace MonoDevelop.Services
 						if (content.ContentName != null && content.IsDirty) {
 							if (!save) {
 								IMessageService messageService =(IMessageService)ServiceManager.Services.GetService(typeof(IMessageService));
-								if (messageService.AskQuestion("Save changed files?")) {
+								if (messageService.AskQuestion(GettextCatalog.GetString ("Save changed files?"))) {
 									save = true;
 								} else {
 									break;

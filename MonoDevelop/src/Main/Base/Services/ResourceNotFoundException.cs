@@ -7,6 +7,8 @@
 
 using System;
 
+using MonoDevelop.Services;
+
 namespace MonoDevelop.Core.Services
 {
 	/// <summary>
@@ -15,7 +17,7 @@ namespace MonoDevelop.Core.Services
 	/// </summary>
 	public class ResourceNotFoundException : Exception
 	{
-		public ResourceNotFoundException(string resource) : base("Resource not found : " + resource)
+		public ResourceNotFoundException(string resource) : base(String.Format (GettextCatalog.GetString("Resource not found: {0}"), resource))
 		{
 		}
 	}

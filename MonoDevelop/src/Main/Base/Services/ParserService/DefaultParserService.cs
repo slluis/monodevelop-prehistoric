@@ -161,7 +161,7 @@ namespace MonoDevelop.Services
 			BinaryWriter classWriter = new BinaryWriter(new BufferedStream(new FileStream(codeCompletionMainFile, FileMode.Create, FileAccess.Write, FileShare.None)));
 			BinaryWriter proxyWriter = new BinaryWriter(new BufferedStream(new FileStream(codeCompletionProxyFile, FileMode.Create, FileAccess.Write, FileShare.None)));
 			if (progressMonitor != null) {
-				progressMonitor.BeginTask("generate code completion database", assemblyList.Length);
+				progressMonitor.BeginTask(GettextCatalog.GetString ("Generate code completion database"), assemblyList.Length);
 			}
 			
 			// convert all assemblies
@@ -185,7 +185,7 @@ namespace MonoDevelop.Services
 					}
 					
 					if (progressMonitor != null) {
-						progressMonitor.Worked(i, "Writing class");
+						progressMonitor.Worked(i, GettextCatalog.GetString ("Writing class"));
 					}
 					if (!ContinueWithProcess(progressMonitor))
 						return;

@@ -243,7 +243,7 @@ namespace MonoDevelop.Services
 					Directory.Delete(fileName);
 				} catch (Exception e) {
 					IMessageService messageService = (IMessageService)ServiceManager.Services.GetService(typeof(IMessageService));
-					messageService.ShowError(e, "Can't remove directory " + fileName);
+					messageService.ShowError(e, String.Format (GettextCatalog.GetString ("Can't remove directory {0}"), fileName));
 					return;
 				}
 				OnFileRemoved(new FileEventArgs(fileName, true));
@@ -252,7 +252,7 @@ namespace MonoDevelop.Services
 					File.Delete(fileName);
 				} catch (Exception e) {
 					IMessageService messageService = (IMessageService)ServiceManager.Services.GetService(typeof(IMessageService));
-					messageService.ShowError(e, "Can't remove file " + fileName);
+					messageService.ShowError(e, String.Format (GettextCatalog.GetString ("Can't remove file {0}"), fileName));
 					return;
 				}
 				OnFileRemoved(new FileEventArgs(fileName, false));
@@ -267,7 +267,7 @@ namespace MonoDevelop.Services
 						Directory.Move(oldName, newName);
 					} catch (Exception e) {
 						IMessageService messageService = (IMessageService)ServiceManager.Services.GetService(typeof(IMessageService));
-						messageService.ShowError(e, "Can't rename directory " + oldName);
+						messageService.ShowError(e, String.Format (GettextCatalog.GetString ("Can't rename directory {0}"), oldName));
 						return;
 					}
 					OnFileRenamed(new FileEventArgs(oldName, newName, true));
@@ -276,7 +276,7 @@ namespace MonoDevelop.Services
 						File.Move(oldName, newName);
 					} catch (Exception e) {
 						IMessageService messageService = (IMessageService)ServiceManager.Services.GetService(typeof(IMessageService));
-						messageService.ShowError(e, "Can't rename file " + oldName);
+						messageService.ShowError(e, String.Format (GettextCatalog.GetString ("Can't rename file {0}"), oldName));
 						return;
 					}
 					OnFileRenamed(new FileEventArgs(oldName, newName, false));

@@ -1,5 +1,20 @@
 [encoding: UTF-8]
 data/resources/glade/Base.glade
+data/resources/glade/CSharp.glade
+data/resources/glade/EditorBindings.glade
+data/resources/glade/texteditoraddin.glade
+gdldock/sources/gdl/gdl-dock-bar.c
+gdldock/sources/gdl/gdl-dock-item-grip.c
+gdldock/sources/gdl/gdl-dock-item.c
+gdldock/sources/gdl/gdl-dock-layout.c
+gdldock/sources/gdl/gdl-dock-master.c
+gdldock/sources/gdl/gdl-dock-notebook.c
+gdldock/sources/gdl/gdl-dock-object.c
+gdldock/sources/gdl/gdl-dock-paned.c
+gdldock/sources/gdl/gdl-dock-placeholder.c
+gdldock/sources/gdl/gdl-dock-tablabel.c
+gdldock/sources/gdl/gdl-dock.c
+gdldock/sources/gdl/layout.glade
 src/Main/Base/Gui/Dialogs/CommonAboutDialog.cs
 src/Main/Base/Gui/Dialogs/NewProjectDialog.cs
 src/Main/Base/Gui/Dialogs/NewFileDialog.cs
@@ -59,3 +74,10 @@ src/Main/Base/Internal/Templates/CodeTemplateLoader.cs
 src/Main/Base/Internal/Templates/FileTemplate.cs
 src/Main/Base/Internal/Templates/ProjectTemplates/CombineDescriptor.cs
 src/Main/Base/Internal/Templates/ProjectTemplates/ProjectDescriptor.cs
+src/Main/Base/Services/DisplayBinding/DisplayBindingService.cs
+src/Main/Base/Services/File/DefaultFileService.cs
+src/Main/Base/Services/MessageService.cs
+src/Main/Base/Services/ParserService/DefaultParserService.cs
+src/Main/Base/Services/Project/DefaultProjectService.cs
+src/Main/Base/Services/StatusBar/DefaultStatusBarService.cs
+src/Main/Base/Services/ResourceNotFoundException.cs

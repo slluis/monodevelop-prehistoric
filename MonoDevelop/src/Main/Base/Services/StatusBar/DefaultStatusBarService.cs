@@ -11,6 +11,7 @@ using Gtk;
 using MonoDevelop.Core.Services;
 using MonoDevelop.Gui.Components;
 using MonoDevelop.Gui;
+using MonoDevelop.Services;
 
 namespace MonoDevelop.Services
 {
@@ -64,7 +65,7 @@ namespace MonoDevelop.Services
 		public void SetInsertMode (bool insertMode)
 		{
 			StringParserService stringParserService = (StringParserService)ServiceManager.Services.GetService(typeof(StringParserService));
-			statusBar.ModeStatusBarPanel.Push (1, insertMode ? stringParserService.Parse("${res:StatusBarService.CaretModes.Insert}") : stringParserService.Parse("${res:StatusBarService.CaretModes.Overwrite}"));
+			statusBar.ModeStatusBarPanel.Push (1, insertMode ? GettextCatalog.GetString ("INS") : GettextCatalog.GetString ("OVR"));
 		}
 		
 		public void ShowErrorMessage (string message)
