@@ -1,0 +1,116 @@
+<html>
+  <head>
+    <title>Writing an addin for MonoDevelop</title>
+  <head>
+  <body>
+    <h3>Introduction</h3>
+	<p>MonoDevelop (and SharpDevelop) have been written so that they
+    can be easily extended by others.  This is accomplished by doing
+	two simple things. First by creating an assembly (dll) containing
+	the code of your addin.  Second providing an .addin XML file that
+    maps your code into MonoDevelop.  There is a detailed pdf available
+    at SharpDevelop's website <a href="http://www.icsharpcode.net/TechNotes/ProgramArchitecture.pdf">here</a> that you will want to read for a 
+    full understanding of the entire system and possiblities.  This is
+    intended as a simple and quick overview.</p>
+    <h3>AddIn Assembly</h3>
+	<p>In your code you can extend the IDE at pretty much any point.
+	Some common things would be to extend the menus, pads, views,
+    services, etc.  I recommend looking at src/AddIns/ for a few
+    examples.  In most cases you will simply inherit from an abstract
+    class or implement an interface for the various parts you are
+    extending. For example a new service could be defined as:</p>
+    <code>
+public class ExampleService : AbstractService
+{
+}
+    </code>
+<p>Here is a list of some possibilities:
+<pre>
+./src/Main/Base/Gui/Dialogs/AbstractOptionPanel.cs
+./src/Main/Base/Gui/Dialogs/Wizard/AbstractWizardPanel.cs
+./src/Main/Base/Gui/Pads/ClassScout/BrowserNode/AbstractClassScoutNode.cs
+./src/Main/Base/Gui/Pads/ProjectBrowser/BrowserNode/AbstractBrowserNode.cs
+./src/Main/Base/Gui/AbstractBaseViewContent.cs
+./src/Main/Base/Gui/AbstractPadContent.cs
+./src/Main/Base/Gui/AbstractViewContent.cs
+./src/Main/Base/Gui/AbstractSecondaryViewContent.cs
+</pre>
+</p>
+    <h3>.addin file</h3>
+    <p>The addin file basically maps the "entry" points of your code
+	into the various parts of the IDE.  You can tell it to load services,
+    append the menus in a certain place, and other various things.
+    It supports conditional directives and other advanced constructs.
+    See the sample MonoDevelopNunit.addin file. You can see it
+	specifies the name of the assembly to load, specifies a service
+    to load in the /Workspace/Services node, two views and some menus.
+    Last, it is important to note the class attribute that is used to
+    specify the type to instantiate for that part of the AddIn.</p>
+	<xmp>
+<AddIn name      = "MonoDevelop Nunit"
+       author    = "John Luke"
+       copyright = "GPL"
+       url       = "http://monodevelop.com"
+       description = "NUnit testing tool"
+       version   = "0.2">
+ 
+        <Runtime>
+                <Import assembly="MonoDevelop.Nunit.dll"/>
+        </Runtime>
+ 
+        <Extension path="/Workspace/Services">
+                <Class id = "NunitService"
+                    class = "MonoDevelop.Services.NunitService"/>
+        </Extension>
+ 
+        <Extension path="/SharpDevelop/Workbench/Views">
+                <Class id    = "NunitTestTree"
+                       class = "MonoDevelop.Nunit.Gui.TestTree"/>
+                <Class id    = "NunitResultTree"
+                       class = "MonoDevelop.Nunit.Gui.ResultTree"/>
+        </Extension>
+ 
+        <Extension path="/SharpDevelop/Workbench/MainMenu/Tools">
+                <MenuItem id = "NunitMenu" label = "NUnit" insertafter = "ExternalTools" insertbefore = "Options">
+                        <MenuItem id = "LoadTestAssembly"
+                          label = "Load Assembly"
+                                  shortcut = ""
+                              class = "MonoDevelop.Commands.NunitLoadAssembly" />
+                        <MenuItem id = "NunitRunTests"
+                          label = "Run Tests"
+                                  shortcut = ""
+                              class = "MonoDevelop.Commands.NunitRunTests" />
+                </MenuItem>
+        </Extension>
+</AddIn>
+	</xmp>
+    <h3>Building and installing</h3>
+    <p>We currently support both running in a self-contained build/
+    directly as well as installing to $(prefix)/lib/monodevelop so you
+    will want to make sure both your .addin file and .dll are placed
+    into the AddIn directory in both places.  Note this this may change
+    at some point in the future.</p>
+    <h3>Caveats</h3>
+    <p>Although SharpDevelop and MonoDevelop currently use the same
+    format this may not always be the case.  Also, while non-gui addins
+    could possibly be reused MonoDevelop and SharpDevelop use different
+    GUI toolkits that will likely prevent sharing many things.</p>
+    <h3>AddIn ideas</h3>
+    <p>There are various things that would be nice to have implemented
+    as addins.  Here is a brief list of the top of my head.
+<ul>
+  <li>A viewer for the mono profiler (mono --profile) and mono coverage tools.</li>
+  <li>Extra languages/compilers support.</li>
+  <li>NUnit and NAnt integration tools.</li>
+  <li>Glade (although a new GUI designer is planned).</li>
+  <li>Subversion, CVS, and other version control tools.</li>
+  <li>UML/CASE tools.</li>
+  <li>SQL/Database support.</li>
+  <li>An advanced XML editor.</li>
+  <li>Also, there are some additional things that SharpDevelop already has that could be ported to MonoDevelop.</li>
+</ul></p>
+	<h3>Credits and Errata</h3>
+	<p>Send comments to <a href="mailto:jluke@cfl.rr.com">jluke@cfl.rr.com</a> or the monodevelop mailing list.</p>
+    <p>Last updated March 21, 2004</p>
+  </body>
+</html>

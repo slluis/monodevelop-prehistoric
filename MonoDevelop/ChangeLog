@@ -1,3 +1,7 @@
+2004-03-21  John Luke  <jluke@cfl.rr.com>
+
+	* docs/WritingAddins.html: initial addin quick guide
+
 2004-03-21	John BouAntoun  <jba-mono@optusnet.com.au>
 
 	* src/AddIns/DisplayBindings/SourceEditor/Search/SearchReplaceInFilesManager.cs:
