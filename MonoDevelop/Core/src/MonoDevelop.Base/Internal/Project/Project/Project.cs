@@ -146,14 +146,9 @@ namespace MonoDevelop.Internal.Project
 		
 		public ProjectFile GetProjectFile (string fileName)
 		{
-			if (fileName == null) return null;
-			foreach (ProjectFile file in ProjectFiles) {
-				if (file.Name == fileName)
-					return file;
-			}
-			return null;
+			return ProjectFiles.GetFile (fileName);
 		}
-
+		
 		public virtual bool IsCompileable (string fileName)
 		{
 			return false;
@@ -507,6 +502,11 @@ namespace MonoDevelop.Internal.Project
 			OnFileAddedToProject (new ProjectFileEventArgs (this, file));
 		}
 		
+		internal void NotifyFileRenamedInProject (ProjectFileRenamedEventArgs args)
+		{
+			OnFileRenamedInProject (args);
+		}
+		
 		internal void NotifyReferenceRemovedFromProject (ProjectReference reference)
 		{
 			OnReferenceRemovedFromProject (new ProjectReferenceEventArgs (this, reference));
@@ -552,10 +552,17 @@ namespace MonoDevelop.Internal.Project
 			}
 		}
 		
+ 		protected virtual void OnFileRenamedInProject (ProjectFileRenamedEventArgs e)
+		{
+			if (FileRenamedInProject != null) {
+				FileRenamedInProject (this, e);
+			}
+		}
 				
 		public event ProjectFileEventHandler FileRemovedFromProject;
 		public event ProjectFileEventHandler FileAddedToProject;
 		public event ProjectFileEventHandler FileChangedInProject;
+		public event ProjectFileRenamedEventHandler FileRenamedInProject;
 		public event ProjectReferenceEventHandler ReferenceRemovedFromProject;
 		public event ProjectReferenceEventHandler ReferenceAddedToProject;
 	}

@@ -1,3 +1,44 @@
+2005-03-07  Lluis Sanchez Gual  <lluis@novell.com>
+
+	* Commands/MenuItemBuilders.cs: Added null check.
+	
+	* Services/MenuService/MenuService.cs: Added new ShowContextMenu
+	method.
+	* Services/Tasks/OutputProgressMonitor.cs: Fixed namespace.
+	* Services/Tasks/TaskService.cs: The id of output pads are now
+	like "OutputPad1".
+	
+	* Services/Project/IProjectService.cs,
+	* Services/Project/ProjectService.cs: Added FileRenamedInProject event.
+	  
+	* Services/ParserService/ClassInformationEventHandler.cs: Added a
+	Project property to ClassInformationEventArgs.
+	
+	* Services/ParserService/ProjectCodeCompletionDatabase.cs: Handle the
+	new FileRenamedInProject event.
+	
+	* Services/ParserService/DefaultParserService.cs,
+	* Services/ParserService/CodeCompletionDatabase.cs,
+	* Services/ParserService/IParserService.cs: Added GetClassList method
+	and added a new includeReferences parameter to GetNamespaceList.
+	
+	* Gui/Workbench/Layouts/SdiWorkspaceWindow.cs: Avoid memory leaks.
+	* Gui/Pads/DefaultMonitorPad.cs: Set the correct namespace.
+	* Internal/Project/Project/ProjectFileEventArgs.cs: Added new
+	handler for file rename events.
+	* Internal/Project/Project/ProjectFile.cs: Use the new file renamed
+	event. Fixed RelativePath property.
+	* Internal/Project/Project/Project.cs: Use the new file renamed event.
+	Moved find code to ProjectFileCollection.
+	* Internal/Project/Project/Collections/ProjectReferenceCollection.cs:
+	improved handling of events.
+	* Internal/Project/Project/Collections/ProjectFileCollection.cs:
+	Added file find method.
+	* Internal/Project/Combine/Combine.cs: Use the new file renamed event.
+	Other minor fixes.
+	* Internal/Project/Combine/CombineEntry.cs: Notify the combine when
+	an entry is removed.
+
 2005-03-04	Christian Hergert	<christian.hergert@gmail.com>
 
 	* Gui/Pads/FileScout/FileScout.cs: Fix race condition when adding files

@@ -251,8 +251,10 @@ namespace MonoDevelop.Gui
 				WorkbenchSingleton.Workbench.WorkbenchLayout.RemoveTab (pageNum);
 			}
 			OnWindowDeselected(EventArgs.Empty);
+			mainItem.Remove (content.Control);
 			content.Dispose ();
 			OnCloseEvent(null);
+			content = null;
 		}
 		
 		public void AttachSecondaryViewContent(ISecondaryViewContent subViewContent)

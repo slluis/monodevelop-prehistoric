@@ -56,6 +56,7 @@ namespace MonoDevelop.Services
 			project.FileChangedInProject += new ProjectFileEventHandler (OnFileChanged);
 			project.FileAddedToProject += new ProjectFileEventHandler (OnFileAdded);
 			project.FileRemovedFromProject += new ProjectFileEventHandler (OnFileRemoved);
+			project.FileRenamedInProject += new ProjectFileRenamedEventHandler (OnFileRenamed);
 		}
 		
 		public override void Dispose ()
@@ -63,6 +64,7 @@ namespace MonoDevelop.Services
 			project.FileChangedInProject -= new ProjectFileEventHandler (OnFileChanged);
 			project.FileAddedToProject -= new ProjectFileEventHandler (OnFileAdded);
 			project.FileRemovedFromProject -= new ProjectFileEventHandler (OnFileRemoved);
+			project.FileRenamedInProject -= new ProjectFileRenamedEventHandler (OnFileRenamed);
 		}
 		
 		public override void CheckModifiedFiles ()
@@ -91,6 +93,14 @@ namespace MonoDevelop.Services
 		void OnFileRemoved (object sender, ProjectFileEventArgs args)
 		{
 			RemoveFile (args.ProjectFile.Name);
+		}
+
+		void OnFileRenamed (object sender, ProjectFileRenamedEventArgs args)
+		{
+			if (args.ProjectFile.BuildAction == BuildAction.Compile) {
+				RemoveFile (args.OldName);
+				AddFile (args.NewName);
+			}
 		}
 
 		public void UpdateFromProject ()
@@ -147,7 +157,7 @@ namespace MonoDevelop.Services
 				IParseInformation parserInfo = parserService.DoParseFile ((string)fileName, null);
 				if (parserInfo != null) {
 					ClassUpdateInformation res = UpdateFromParseInfo (parserInfo, fileName);
-					if (res != null) parserService.NotifyParseInfoChange (fileName, res);
+					if (res != null) parserService.NotifyParseInfoChange (fileName, res, project);
 				}
 			} finally {
 				if (monitor != null) monitor.EndTask ();

@@ -256,6 +256,10 @@ namespace MonoDevelop.Internal.Project
 		public void Remove (CombineEntry entry)
 		{
 			list.Remove (entry);
+			if (parentCombine != null) {
+				entry.SetParentCombine (null);
+				parentCombine.NotifyEntryRemoved (entry);
+			}
 		}
 		
 		public int IndexOf (CombineEntry entry)

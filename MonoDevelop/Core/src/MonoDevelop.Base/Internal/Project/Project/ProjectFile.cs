@@ -88,9 +88,10 @@ namespace MonoDevelop.Internal.Project
 			}
 			set {
 				Debug.Assert (value != null && value.Length > 0, "name == null || name.Length == 0");
-				if (project != null) project.NotifyFileRemovedFromProject (this);
+				string oldName = filename;
 				filename = value;
-				if (project != null) project.NotifyFileAddedToProject (this);
+				if (project != null)
+					project.NotifyFileRenamedInProject (new ProjectFileRenamedEventArgs (project, this, oldName));
 			}
 		}
 		
@@ -101,7 +102,16 @@ namespace MonoDevelop.Internal.Project
 		}
 		
 		public string RelativePath {
-			get { return filename; }
+			get {
+				if (project != null)
+					return project.GetRelativeChildPath (filename);
+				else
+					return filename;
+			}
+		}
+		
+		public Project Project {
+			get { return project; }
 		}
 		
 		[Browsable(false)]

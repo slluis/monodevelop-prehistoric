@@ -16,11 +16,12 @@ using MonoDevelop.Services;
 using MonoDevelop.Core.Properties;
 using MonoDevelop.Core.Services;
 using MonoDevelop.Gui;
+using MonoDevelop.Gui.Pads;
 
 using Gtk;
 using Pango;
 
-namespace MonoDevelop.EditorBindings.Gui.Pads
+namespace MonoDevelop.Services
 {	
 	public class OutputProgressMonitor : BaseProgressMonitor
 	{

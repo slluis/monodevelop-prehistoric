@@ -46,9 +46,7 @@ namespace MonoDevelop.Internal.Project
 				return ((ProjectReference)(List[index]));
 			}
 			set {
-				if (project != null) project.NotifyReferenceRemovedFromProject ((ProjectReference)List[index]);
 				List[index] = value;
-				if (project != null) project.NotifyReferenceAddedToProject (value);
 			}
 		}
 		
@@ -62,9 +60,7 @@ namespace MonoDevelop.Internal.Project
 		/// </returns>
 		/// <seealso cref='.ProjectReferenceCollection.AddRange'/>
 		public int Add(ProjectReference value) {
-			int i = List.Add(value);
-			if (project != null) project.NotifyReferenceAddedToProject (value);
-			return i;
+			return List.Add(value);
 		}
 		
 		/// <summary>
@@ -155,7 +151,6 @@ namespace MonoDevelop.Internal.Project
 		/// <seealso cref='.ProjectReferenceCollection.Add'/>
 		public void Insert(int index, ProjectReference value) {
 			List.Insert(index, value);
-			if (project != null) project.NotifyReferenceAddedToProject (value);
 		}
 		
 		/// <summary>
@@ -175,9 +170,39 @@ namespace MonoDevelop.Internal.Project
 		/// <param name='value'>The <see cref='.ProjectReference'/> to remove from the <see cref='.ProjectReferenceCollection'/> .</param>
 		/// <returns><para>None.</para></returns>
 		/// <exception cref='System.ArgumentException'><paramref name='value'/> is not found in the Collection. </exception>
-		public void Remove(ProjectReference value) {
+		public void Remove (ProjectReference value) {
 			List.Remove(value);
-			if (project != null) project.NotifyReferenceRemovedFromProject (value);
+		}
+		
+		
+		protected override void OnClear()
+		{
+			if (project != null) {
+				ArrayList list = (ArrayList) InnerList.Clone ();
+				InnerList.Clear ();
+				foreach (ProjectReference pref in list)
+					project.NotifyReferenceRemovedFromProject (pref);
+			}
+		}
+		
+		protected override void OnInsertComplete(int index, object value)
+		{
+			if (project != null) project.NotifyReferenceAddedToProject ((ProjectReference)value);
+		}
+		
+		protected override void OnRemoveComplete(int index, object value)
+		{
+			if (project != null) project.NotifyReferenceRemovedFromProject ((ProjectReference) value);
+		}
+		
+		protected override void OnSet (int index, object oldValue, object newValue)
+		{
+			if (project != null) project.NotifyReferenceRemovedFromProject ((ProjectReference) oldValue);
+		}
+		
+		protected override void OnSetComplete (int index, object oldValue, object newValue)
+		{
+			if (project != null) project.NotifyReferenceAddedToProject ((ProjectReference) newValue);
 		}
 		
 		public class ProjectReferenceEnumerator : object, IEnumerator {

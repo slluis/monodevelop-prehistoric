@@ -34,6 +34,16 @@ namespace MonoDevelop.Internal.Project
 			this.project = project;
 		}
 		
+		public ProjectFile GetFile (string fileName)
+		{
+			if (fileName == null) return null;
+			foreach (ProjectFile file in this) {
+				if (file.Name == fileName)
+					return file;
+			}
+			return null;
+		}
+		
 		/// <summary>
 		/// <para>Represents the entry at the specified index of the <see cref='.ProjectFile'/>.</para>
 		/// </summary>

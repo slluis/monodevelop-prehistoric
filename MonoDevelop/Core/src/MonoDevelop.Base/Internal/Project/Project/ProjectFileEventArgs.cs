@@ -35,4 +35,25 @@ namespace MonoDevelop.Internal.Project
 			this.file = file;
 		}
 	}
+	
+	public delegate void ProjectFileRenamedEventHandler(object sender, ProjectFileRenamedEventArgs e);
+	
+	public class ProjectFileRenamedEventArgs : ProjectFileEventArgs
+	{
+		string oldName;
+	
+		public string OldName {
+			get { return oldName; }
+		}
+		
+		public string NewName {
+			get { return ProjectFile.Name; }
+		}
+		
+		public ProjectFileRenamedEventArgs (Project project, ProjectFile file, string oldName)
+		: base (project, file)
+		{
+			this.oldName = oldName;
+		}
+	}
 }

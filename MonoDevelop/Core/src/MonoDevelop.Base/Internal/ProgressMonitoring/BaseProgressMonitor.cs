@@ -112,6 +112,7 @@ namespace MonoDevelop.Services
 			else if (message != null && ex != null)
 				message += ". " + ex.Message;
 			errorsMessages.Add (message);
+			Console.WriteLine (ex);
 		}
 		
 		[FreeDispatch]

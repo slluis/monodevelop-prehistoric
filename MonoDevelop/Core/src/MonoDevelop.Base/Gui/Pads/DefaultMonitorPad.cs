@@ -20,7 +20,7 @@ using MonoDevelop.Gui;
 using Gtk;
 using Pango;
 
-namespace MonoDevelop.EditorBindings.Gui.Pads
+namespace MonoDevelop.Gui.Pads
 {	
 	public class DefaultMonitorPad : IPadContent
 	{

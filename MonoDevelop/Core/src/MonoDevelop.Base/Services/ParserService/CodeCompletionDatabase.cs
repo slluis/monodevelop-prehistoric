@@ -579,6 +579,21 @@ namespace MonoDevelop.Services
 			}
 		}
 		
+		public void GetClassList (ArrayList list, string subNameSpace, bool caseSensitive)
+		{
+			lock (rwlock)
+			{
+				string[] path = subNameSpace.Split ('.');
+				NamespaceEntry tns = GetNamespaceEntry (path, path.Length, false, caseSensitive);
+				if (tns == null) return;
+				
+				foreach (DictionaryEntry en in tns.Contents) {
+					if (en.Value is ClassEntry && !list.Contains (en.Key))
+						list.Add (en.Key);
+				}
+			}
+		}
+		
 		public void GetNamespaceList (ArrayList list, string subNameSpace, bool caseSensitive)
 		{
 			lock (rwlock)

@@ -227,7 +227,7 @@ namespace MonoDevelop.Commands
 		public Gtk.MenuItem[] BuildSubmenu(ConditionCollection conditionCollection, object owner)
 		{
 			int contentCount = WorkbenchSingleton.Workbench.ViewContentCollection.Count;
-			if (contentCount == 0) {
+			if (contentCount == 0 || contentCount != 0) {
 				return new Gtk.MenuItem[] {};
 			}
 			Gtk.MenuItem[] items = new Gtk.MenuItem[contentCount];

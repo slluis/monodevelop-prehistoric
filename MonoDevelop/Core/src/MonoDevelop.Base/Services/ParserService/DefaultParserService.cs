@@ -671,7 +671,7 @@ namespace MonoDevelop.Services
 					if (viewContent.Project != null) {
 						ProjectCodeCompletionDatabase db = GetProjectDatabase (viewContent.Project);
 						ClassUpdateInformation res = db.UpdateFromParseInfo (parseInformation, fileName);
-						if (res != null) NotifyParseInfoChange (fileName, res);
+						if (res != null) NotifyParseInfoChange (fileName, res, viewContent.Project);
 					}
 					else {
 						SimpleCodeCompletionDatabase db = GetSingleFileDatabase (fileName);
@@ -780,28 +780,60 @@ namespace MonoDevelop.Services
 			return null;
 		}
 		
-		public string[] GetNamespaceList (Project project, string subNameSpace)
+		public string[] GetClassList (Project project, string subNameSpace, bool includeReferences)
 		{
-			return GetNamespaceList (project, subNameSpace, true);
+			return GetClassList (project, subNameSpace, includeReferences, true);
 		}
 		
-		public string[] GetNamespaceList (Project project, string subNameSpace, bool caseSensitive)
+		public string[] GetClassList (Project project, string subNameSpace, bool includeReferences, bool caseSensitive)
+		{
+			ArrayList contents = new ArrayList ();
+			
+			CodeCompletionDatabase db = (project != null) ? GetProjectDatabase (project) : GetActiveFileDatabase ();
+			if (db != null) {
+				db.GetClassList (contents, subNameSpace, caseSensitive);
+				if (includeReferences) {
+					foreach (ReferenceEntry re in db.References) {
+						CodeCompletionDatabase cdb = GetDatabase (re.Uri);
+						if (cdb == null) continue;
+						cdb.GetClassList (contents, subNameSpace, caseSensitive);
+					}
+				}
+			}
+			
+			if (includeReferences) {
+				db = GetDatabase (CoreDB);
+				db.GetClassList (contents, subNameSpace, caseSensitive);
+			}
+			
+			return (string[]) contents.ToArray (typeof(string));
+		}
+
+		public string[] GetNamespaceList (Project project, string subNameSpace)
+		{
+			return GetNamespaceList (project, subNameSpace, true, true);
+		}
+		
+		public string[] GetNamespaceList (Project project, string subNameSpace, bool includeReferences, bool caseSensitive)
 		{
 			ArrayList contents = new ArrayList ();
 			
 			CodeCompletionDatabase db = (project != null) ? GetProjectDatabase (project) : GetActiveFileDatabase ();
 			if (db != null) {
 				db.GetNamespaceList (contents, subNameSpace, caseSensitive);
-				foreach (ReferenceEntry re in db.References)
-				{
-					CodeCompletionDatabase cdb = GetDatabase (re.Uri);
-					if (cdb == null) continue;
-					cdb.GetNamespaceList (contents, subNameSpace, caseSensitive);
+				if (includeReferences) {
+					foreach (ReferenceEntry re in db.References) {
+						CodeCompletionDatabase cdb = GetDatabase (re.Uri);
+						if (cdb == null) continue;
+						cdb.GetNamespaceList (contents, subNameSpace, caseSensitive);
+					}
 				}
 			}
 			
-			db = GetDatabase (CoreDB);
-			db.GetNamespaceList (contents, subNameSpace, caseSensitive);
+			if (includeReferences) {
+				db = GetDatabase (CoreDB);
+				db.GetNamespaceList (contents, subNameSpace, caseSensitive);
+			}
 			
 			return (string[]) contents.ToArray (typeof(string));
 		}
@@ -1233,9 +1265,9 @@ namespace MonoDevelop.Services
 			}
 		}
 		
-		public void NotifyParseInfoChange (string file, ClassUpdateInformation res)
+		public void NotifyParseInfoChange (string file, ClassUpdateInformation res, Project project)
 		{
-			ClassInformationEventArgs args = new ClassInformationEventArgs (file, res);
+			ClassInformationEventArgs args = new ClassInformationEventArgs (file, res, project);
 			OnClassInformationChanged (args);
 		}
 

@@ -262,14 +262,16 @@ namespace MonoDevelop.Services
 				
 				openCombine.FileAddedToProject += new ProjectFileEventHandler (NotifyFileAddedToProject);
 				openCombine.FileRemovedFromProject += new ProjectFileEventHandler (NotifyFileRemovedFromProject);
+				openCombine.FileRenamedInProject += new ProjectFileRenamedEventHandler (NotifyFileRenamedInProject);
 				openCombine.FileChangedInProject += new ProjectFileEventHandler (NotifyFileChangedInProject);
 				openCombine.ReferenceAddedToProject += new ProjectReferenceEventHandler (NotifyReferenceAddedToProject);
 				openCombine.ReferenceRemovedFromProject += new ProjectReferenceEventHandler (NotifyReferenceRemovedFromProject);
 		
+				OnCombineOpened(new CombineEventArgs(openCombine));
+				
 				RestoreCombinePreferences (CurrentOpenCombine);
 				SaveCombine ();
 				monitor.ReportSuccess (GettextCatalog.GetString ("Combine loaded."));
-				OnCombineOpened(new CombineEventArgs(openCombine));
 			} catch (Exception ex) {
 				monitor.ReportError ("Load operation failed.", ex);
 			} finally {
@@ -860,19 +862,24 @@ namespace MonoDevelop.Services
 			OnFileAddedToProject (e);
 		}
 
+		internal void NotifyFileRenamedInProject (object sender, ProjectFileRenamedEventArgs e)
+		{
+			OnFileRenamedInProject (e);
+		}		
+		
 		internal void NotifyFileChangedInProject (object sender, ProjectFileEventArgs e)
 		{
-				OnFileChangedInProject (e);
+			OnFileChangedInProject (e);
 		}		
 		
 		internal void NotifyReferenceAddedToProject (object sender, ProjectReferenceEventArgs e)
 		{
-			OnReferenceRemovedFromProject (e);
+			OnReferenceAddedToProject (e);
 		}
 		
 		internal void NotifyReferenceRemovedFromProject (object sender, ProjectReferenceEventArgs e)
 		{
-			OnReferenceAddedToProject (e);
+			OnReferenceRemovedFromProject (e);
 		}
 		
 		protected virtual void OnFileRemovedFromProject (ProjectFileEventArgs e)
@@ -889,6 +896,13 @@ namespace MonoDevelop.Services
 			}
 		}
 
+		protected virtual void OnFileRenamedInProject (ProjectFileRenamedEventArgs e)
+		{
+			if (FileRenamedInProject != null) {
+				FileRenamedInProject (this, e);
+			}
+		}
+		
 		protected virtual void OnFileChangedInProject (ProjectFileEventArgs e)
 		{
 			if (FileChangedInProject != null) {
@@ -913,6 +927,7 @@ namespace MonoDevelop.Services
 		public event ProjectFileEventHandler FileRemovedFromProject;
 		public event ProjectFileEventHandler FileAddedToProject;
 		public event ProjectFileEventHandler FileChangedInProject;
+		public event ProjectFileRenamedEventHandler FileRenamedInProject;
 		
 		public event EventHandler     StartBuild;
 		public event ProjectCompileEventHandler EndBuild;

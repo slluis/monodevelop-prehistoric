@@ -12,7 +12,6 @@ using MonoDevelop.Core.Services;
 using MonoDevelop.Gui;
 using MonoDevelop.Gui.Pads;
 using MonoDevelop.Internal.Project;
-using MonoDevelop.EditorBindings.Gui.Pads;
 
 namespace MonoDevelop.Services
 {
@@ -86,13 +85,14 @@ namespace MonoDevelop.Services
 				}
 			}
 			
-			DefaultMonitorPad defMonitor = new DefaultMonitorPad (title, icon);
-			defMonitor.Id = (monitorId++).ToString ();
-			Runtime.Gui.Workbench.ShowPad (defMonitor);
-			if (bringToFront) defMonitor.BringToFront ();
-			return new OutputProgressMonitor (defMonitor, title, icon);
+			DefaultMonitorPad monitorPad = new DefaultMonitorPad (title, icon);
+			monitorPad.Id = "OutputPad" + (monitorId++);
+			Runtime.Gui.Workbench.ShowPad (monitorPad);
+			if (bringToFront) monitorPad.BringToFront ();
+
+			return new OutputProgressMonitor (monitorPad, title, icon);
 		}
-		
+
 		internal void ReleasePad (DefaultMonitorPad pad)
 		{
 			lock (outputMonitors) {

@@ -49,6 +49,7 @@ namespace MonoDevelop.Services
 		
 		// Default Parser Layer dependent functions
 		IClass    GetClass(Project project, string typeName);
+		string[]  GetClassList (Project project, string subNameSpace, bool includeReferences);
 		string[]  GetNamespaceList(Project project, string subNameSpace);
 		ArrayList GetNamespaceContents(Project project, string subNameSpace, bool includeReferences);
 		bool      NamespaceExists(Project project, string name);
@@ -56,7 +57,8 @@ namespace MonoDevelop.Services
 		IClass    SearchType(Project project, IUsing iusing, string partitialTypeName);
 		
 		IClass    GetClass(Project project, string typeName, bool deepSearchReferences, bool caseSensitive);
-		string[]  GetNamespaceList(Project project, string subNameSpace, bool caseSensitive);
+		string[]  GetClassList (Project project, string subNameSpace, bool includeReferences, bool caseSensitive);
+		string[]  GetNamespaceList(Project project, string subNameSpace, bool includeReferences, bool caseSensitive);
 		ArrayList GetNamespaceContents(Project project, string subNameSpace, bool includeReferences, bool caseSensitive);
 		bool      NamespaceExists(Project project, string name, bool caseSensitive);
 		string    SearchNamespace(Project project, IUsing iusing, string partitialNamespaceName, bool caseSensitive);

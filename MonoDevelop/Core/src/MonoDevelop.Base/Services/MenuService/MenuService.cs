@@ -62,6 +62,11 @@ namespace MonoDevelop.Services
 			CreateContextMenu(owner, addInTreePath).Popup(null, null, null, IntPtr.Zero, 0, Gtk.Global.CurrentEventTime);
 		}
 		
+		public void ShowContextMenu (Gtk.Menu menu)
+		{
+			menu.Popup (null, null, null, IntPtr.Zero, 0, Gtk.Global.CurrentEventTime);
+		}
+		
 		class QuickInsertMenuHandler
 		{
 			Gtk.Editable targetControl;

@@ -24,6 +24,7 @@ namespace MonoDevelop.Services
 	public class ClassInformationEventArgs : EventArgs
 	{
 		string fileName;
+		Project project;
 		ClassUpdateInformation classInformation;
 				
 		public string FileName {
@@ -38,9 +39,14 @@ namespace MonoDevelop.Services
 			}
 		}
 		
-		public ClassInformationEventArgs(string fileName, ClassUpdateInformation classInformation)
+		public Project Project {
+			get { return project; }
+		}
+		
+		public ClassInformationEventArgs(string fileName, ClassUpdateInformation classInformation, Project project)
 		{
-			this.fileName         = fileName;
+			this.project = project;
+			this.fileName = fileName;
 			this.classInformation = classInformation;
 		}
 	}
