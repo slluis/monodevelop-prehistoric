@@ -6,6 +6,8 @@
 	Fix wrapping of completion documentation.
 	Remove redundant overload count.
 	Add arrow UI hint for selecting an overloaded method.
+	* CodeCompletion/ListWindow.cs:
+	Make list rendering more like Gtk+ and don't override user's font size
 
 2004-11-23  Alp Toker  <alp@atoker.com>
 

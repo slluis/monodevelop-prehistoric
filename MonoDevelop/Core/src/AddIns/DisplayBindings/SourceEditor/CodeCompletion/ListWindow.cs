@@ -201,9 +201,8 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 
 	public class ListWidget: Gtk.DrawingArea
 	{
-		int margin = 2;
-		int leftPadding = 2;
-		int lineSep = 2;
+		int margin = 0;
+		int padding = 4;
 		int listWidth = 300;
 		
 		Pango.Layout layout;
@@ -336,7 +335,7 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 			int lineWidth = winWidth - margin*2;
 			int count = win.DataProvider.ItemCount;
 			
-			int xpos = margin + leftPadding;
+			int xpos = margin + padding;
 				
 			int n = 0;
 			while (ypos < winHeight - margin && (page + n) < win.DataProvider.ItemCount)
@@ -351,11 +350,11 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 				
 				if (page + n == selection) {
 					if (!disableSelection) {
-						this.GdkWindow.DrawRectangle (this.Style.BaseGC (StateType.Selected), true, margin, ypos, lineWidth, he);
+						this.GdkWindow.DrawRectangle (this.Style.BaseGC (StateType.Selected), true, margin, ypos, lineWidth, he + padding);
 						this.GdkWindow.DrawLayout (this.Style.TextGC (StateType.Selected), xpos + icon.Width + 2, typos, layout);
 					}
 					else {
-						this.GdkWindow.DrawRectangle (this.Style.BaseGC (StateType.Selected), false, margin, ypos, lineWidth, he);
+						this.GdkWindow.DrawRectangle (this.Style.BaseGC (StateType.Selected), false, margin, ypos, lineWidth, he + padding);
 						this.GdkWindow.DrawLayout (this.Style.TextGC (StateType.Normal), xpos + icon.Width + 2, typos, layout);
 					}
 				}
@@ -399,10 +398,10 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 			this.GdkWindow.GetSize (out lvWidth, out lvHeight);
 
 			layout.GetPixelSize (out rowWidth, out rowHeight);
-			rowHeight += lineSep;
-			visibleRows = (winHeight + lineSep - margin * 2) / rowHeight;
+			rowHeight += padding;
+			visibleRows = (winHeight + padding - margin * 2) / rowHeight;
 			
-			int newHeight = (rowHeight * visibleRows) + margin * 2 - lineSep;
+			int newHeight = (rowHeight * visibleRows) + margin * 2;
 			
 			if (lvWidth != listWidth || lvHeight != newHeight)
 				this.SetSizeRequest (listWidth, newHeight);
@@ -421,7 +420,6 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 			layout.Wrap = Pango.WrapMode.Char;
 			
 			FontDescription des = this.Style.FontDescription.Copy();
-			des.Size = win.Style.FontDescription.Size;
 			layout.FontDescription = des;
 			CalcVisibleRows ();
 		}
