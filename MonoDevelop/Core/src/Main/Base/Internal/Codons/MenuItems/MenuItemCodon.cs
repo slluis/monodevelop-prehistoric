@@ -124,6 +124,7 @@ namespace MonoDevelop.Core.AddIns.Codons
 				}
 			}
 			if (newItem == null) {
+				Label = GettextCatalog.GetString (Label);
 				SdMenu newMenu = new SdMenu(conditions, owner, Label);
 				if (subItems != null && subItems.Count > 0) {
 					foreach (object item in subItems) {

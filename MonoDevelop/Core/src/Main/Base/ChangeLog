@@ -1,3 +1,8 @@
+2004-07-05  Todd Berman  <tberman@off.net>
+
+	* Internal/Codons/MenuItems/MenuItemCodon.cs: allow menuitems with
+	a submenu to be translated properly.
+
 2004-07-04  John Luke  <jluke@cfl.rr.com>
 
 	* Gui/Dialogs/OptionPanels/ProjectOptions/DeployFileOptions.cs:
