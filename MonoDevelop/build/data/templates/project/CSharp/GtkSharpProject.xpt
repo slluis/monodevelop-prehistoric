@@ -5,11 +5,11 @@
 	
 	<!-- Template Header -->
 	<TemplateConfiguration>
-		<Name>GtkSharp Project</Name>
+		<Name>Gtk# Project</Name>
 		<Category>C#</Category>
 		<Icon>C#.Project.Form</Icon>
 		<LanguageName>C#</LanguageName>
-		<Description>Gtk# project description</Description>
+		<Description>Gtk# project</Description>
 	</TemplateConfiguration>
 	
 	<!-- Actions -->
