@@ -227,7 +227,7 @@ namespace MonoDevelop.Debugger
 						store.SetValue (iter, NAME_COL, "Raw View");
 						store.SetValue (iter, RAW_VIEW_COL, true);
 
-						Gdk.Pixbuf icon = Runtime.ResourceService.GetIcon (Stock.Class, Gtk.IconSize.Menu);
+						Gdk.Pixbuf icon = Runtime.Gui.Resources.GetIcon (Stock.Class, Gtk.IconSize.Menu);
 						if (icon != null)
 							store.SetValue (iter, PIXBUF_COL, icon);
 
@@ -425,7 +425,7 @@ namespace MonoDevelop.Debugger
 			store.SetValue (iter, VALUE_COL, GetObjectValueString (obj));
 			store.SetValue (iter, TYPE_COL,
 					obj == null ? "" : Runtime.Ambience.CurrentAmbience.GetIntrinsicTypeName (obj.TypeInfo.Type.Name));
-			Gdk.Pixbuf icon = Runtime.ResourceService.GetIcon (icon_name, Gtk.IconSize.Menu);
+			Gdk.Pixbuf icon = Runtime.Gui.Resources.GetIcon (icon_name, Gtk.IconSize.Menu);
 			if (icon != null)
 				store.SetValue (iter, PIXBUF_COL, icon);
 			if (obj != null)
@@ -437,7 +437,7 @@ namespace MonoDevelop.Debugger
 			string icon = "";
 
 			if (obj.TypeInfo.Type.TypeHandle is Type)
-				icon = Runtime.IconService.GetIcon ((Type)obj.TypeInfo.Type.TypeHandle);
+				icon = Runtime.Gui.Icons.GetIcon ((Type)obj.TypeInfo.Type.TypeHandle);
 
 			return icon;
 		}
@@ -447,9 +447,9 @@ namespace MonoDevelop.Debugger
 			string icon = "";
 
 			if (member.Handle is PropertyInfo)
-				icon = Runtime.IconService.GetIcon ((PropertyInfo)member.Handle);
+				icon = Runtime.Gui.Icons.GetIcon ((PropertyInfo)member.Handle);
 			else if (member.Handle is FieldInfo)
-				icon = Runtime.IconService.GetIcon ((FieldInfo)member.Handle);
+				icon = Runtime.Gui.Icons.GetIcon ((FieldInfo)member.Handle);
 
 			return icon;
 		}

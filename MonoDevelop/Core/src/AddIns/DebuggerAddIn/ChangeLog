@@ -1,5 +1,10 @@
 2005-03-31  Chris Toshok  <toshok@ximian.com>
 
+	* Gui/DebuggerVariablePad.cs: use Runtime.Gui.Icons and
+	Runtime.Gui.Resources.
+
+2005-03-31  Chris Toshok  <toshok@ximian.com>
+
 	* DebuggingService.cs: track BreakpointHandle api change, and use
 	Runtime.DispatchService instead of Gtk.ThreadNotify.
 
