@@ -1,3 +1,7 @@
+2004-12-07  Alexandre Gomes <alexmipego@hotmail.com>
+	
+	* SharpDevelopCore.Addin.xml: Added Comment Code and UncommentCode
+
 2004-11-20  Pawel Rozanski  <tokugawa@nemerle.org>
 
 	* AddIns/BackendBindings/NemerleBinding.addin.xml:

@@ -112,5 +112,9 @@ namespace VBBinding
 			compilerServices.GenerateMakefile (project, parentCombine);
 		}
 
+		public string CommentTag
+		{
+			get { return "'"; }
+		}
 	}
 }

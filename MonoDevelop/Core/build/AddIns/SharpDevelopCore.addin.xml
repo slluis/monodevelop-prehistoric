@@ -702,8 +702,18 @@
 						  description = "${res:XML.MainMenu.EditMenu.SelectAll.Description}" 
 						  shortcut = "Control|A"
 						  class = "MonoDevelop.Commands.SelectAll"/>
+			                <MenuItem id = "Separator4" _label = "-" />
+					<MenuItem id = "CommentCode"
+						shortcut = "Control|Alt|C"
+						_label = "C_omment Code"
+						class = "MonoDevelop.Commands.CommentCode"/>
+					<MenuItem id = "UncommentCode"
+						shortcut = "Control|Alt|U"
+						_label = "_Uncomment Code"
+						class = "MonoDevelop.Commands.UncommentCode"/>
+
 		        </Conditional>
-	                <MenuItem id = "Separator4" _label = "-" />
+	                <MenuItem id = "Separator5" _label = "-" />
 	                <Conditional action="Disable">
 		                <Or>
 		                	<Condition activewindow="*"/>

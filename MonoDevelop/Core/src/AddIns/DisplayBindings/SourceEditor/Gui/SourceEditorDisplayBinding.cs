@@ -93,7 +93,7 @@ namespace MonoDevelop.SourceEditor.Gui
 	}
 	
 	public class SourceEditorDisplayBindingWrapper : AbstractViewContent,
-		IEditable, IPositionable, IBookmarkOperations, IDebuggableEditor
+		IEditable, IPositionable, IBookmarkOperations, IDebuggableEditor, ICodeStyleOperations
 	{
 
 		//internal FileSystemWatcher fsw;
@@ -371,7 +371,16 @@ namespace MonoDevelop.SourceEditor.Gui
 			statusBarService.SetInsertMode (insert_mode = ! insert_mode);
 		}
 #endregion
-
+#region ICodeStyleOperations
+		void ICodeStyleOperations.CommentCode ()
+		{
+			se.Buffer.CommentCode ();
+		}
+		void ICodeStyleOperations.UncommentCode ()
+		{
+			se.Buffer.UncommentCode ();
+		}
+#endregion 
 #region IBookmarkOperations
 		void IBookmarkOperations.ToggleBookmark ()
 		{

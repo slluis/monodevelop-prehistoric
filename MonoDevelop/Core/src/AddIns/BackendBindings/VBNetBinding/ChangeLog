@@ -1,3 +1,7 @@
+2004-12-07  Alexandre Gomes <alexmipego@hotmail.com>
+
+	* VBLanguageBinding.cs: Added CommentTag to be used by (Un)CommentCode
+
 2004-11-05  Levi Bard  <taktaktaktaktaktaktaktaktaktak@gmail.com>
 
 	* Imported from #D and made to work with MD tools and namespaces

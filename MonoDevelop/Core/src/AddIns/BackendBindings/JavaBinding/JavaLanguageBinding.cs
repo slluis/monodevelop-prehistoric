@@ -97,5 +97,10 @@ namespace JavaBinding
 			throw new NotImplementedException ();
 		}
 		
+		// http://www.nbirn.net/Resources/Developers/Conventions/Commenting/Java_Comments.htm#CommentBlock
+		public string CommentTag
+		{
+			get { return "//"; }
+		}
 	}
 }

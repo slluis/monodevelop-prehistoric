@@ -179,4 +179,51 @@ namespace MonoDevelop.Commands
 			wcd.Hide ();
 		}
 	}
+	
+	public class CommentCode : AbstractMenuCommand
+	{
+		public override bool IsEnabled {
+			get {
+				IWorkbenchWindow window   = WorkbenchSingleton.Workbench.ActiveWorkbenchWindow;
+				IEditable        editable = window != null ? window.ActiveViewContent as IEditable : null;
+				if (editable != null) {
+					return true;
+				}
+				return false;
+			}
+		}
+		
+		public override void Run()
+		{
+				IWorkbenchWindow window   = WorkbenchSingleton.Workbench.ActiveWorkbenchWindow;
+				ICodeStyleOperations  styling = window != null ? window.ActiveViewContent as ICodeStyleOperations : null;
+				if (styling != null) {
+					styling.CommentCode ();
+				}
+		}
+	}
+	
+	public class UncommentCode : AbstractMenuCommand
+	{
+		public override bool IsEnabled {
+			get {
+				IWorkbenchWindow window   = WorkbenchSingleton.Workbench.ActiveWorkbenchWindow;
+				IEditable        editable = window != null ? window.ActiveViewContent as IEditable : null;
+				if (editable != null) {
+					return true;
+				}
+				return false;
+			}
+		}
+		
+		public override void Run()
+		{
+				IWorkbenchWindow window   = WorkbenchSingleton.Workbench.ActiveWorkbenchWindow;
+				ICodeStyleOperations  styling = window != null ? window.ActiveViewContent as ICodeStyleOperations : null;
+				if (styling != null) {
+					styling.UncommentCode ();
+				}
+		}
+	}
+		
 }

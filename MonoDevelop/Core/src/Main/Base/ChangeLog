@@ -1,3 +1,10 @@
+2004-12-07  Alexandre Gomes <alexmipego@hotmail.com>
+
+	*  Gui/ContentInterfaces/ICodeStyleOperations.cs: Added to rule style changes in code like (Un)Comment Code
+	* Commands/EditCommands.cs: Changed to handle (Un)CommentCode menu options
+	* Internal/Codons/LanguageBinding/ILanguageBinding.cs: Added CommentTag to all language bindings
+	* MakeFile.am: Added reference to Gui/ContentInterfaces/ICodeStyleOperations.cs
+
 2004-12-07  Todd Berman  <tberman@off.net>
 
 	* Gui/Pads/HelpBrowser/HelpViewer.cs: Update to new gtk# api.

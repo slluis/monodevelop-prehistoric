@@ -106,6 +106,7 @@ Gui/Dialogs/InputBox.cs \
 Gui/Dialogs/NewFileDialog.cs \
 Gui/Dialogs/ProjectOptionsDialog.cs \
 Gui/Dialogs/NewLayoutDialog.cs \
+Gui/ContentInterfaces/ICodeStyleOperations.cs \
 Gui/ContentInterfaces/IBookmarkOperations.cs \
 Gui/ContentInterfaces/IClipboardHandler.cs \
 Gui/ContentInterfaces/IPrintable.cs \

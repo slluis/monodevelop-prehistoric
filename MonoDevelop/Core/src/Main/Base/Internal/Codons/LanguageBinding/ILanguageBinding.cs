@@ -64,5 +64,10 @@ namespace MonoDevelop.Internal.Project
 		/// it 'controls'.
 		/// </summary>
 		IProject CreateProject(ProjectCreateInformation info, XmlElement projectOptions);
+
+		/// <summary>
+		/// Used by Comment and Uncomment operations and by Centaurus Addin.
+		/// </summary>		
+		string CommentTag { get; }
 	}
 }

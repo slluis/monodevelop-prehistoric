@@ -80,5 +80,11 @@ namespace NemerleBinding
 		{
 			compilerServices.GenerateMakefile(project, parentCombine);
 		}
+		
+		// http://nemerle.org/csharp-diff.html
+		public string CommentTag
+		{
+			get { return "//"; }
+		}
 	}
 }

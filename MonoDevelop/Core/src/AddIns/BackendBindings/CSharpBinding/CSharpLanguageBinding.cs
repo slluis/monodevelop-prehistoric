@@ -97,5 +97,10 @@ namespace CSharpBinding
 		{
 			compilerManager.GenerateMakefile (project, parentCombine);
 		}
+		
+		public string CommentTag
+		{
+			get { return "//"; }
+		}
 	}
 }

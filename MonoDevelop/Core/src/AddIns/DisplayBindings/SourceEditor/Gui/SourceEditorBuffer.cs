@@ -688,5 +688,90 @@ namespace MonoDevelop.SourceEditor.Gui
 		}
 
 #endregion
+
+#region ICodeStyleOperations
+		public void CommentCode ()
+		{
+			string commentTag = "//"; // as default
+			commentTag = Runtime.Languages.GetBindingPerFileName (WorkbenchSingleton.Workbench.ActiveWorkbenchWindow.ViewContent.ContentName).CommentTag;
+			
+			TextIter textStart;
+			TextIter textEnd;
+			GetSelectionBounds (out textStart, out textEnd);
+			if (textStart.Line == textEnd.Line)
+			{ // all the code is in one line, just comment the select text
+				Insert (ref textStart, commentTag);
+			}
+			else
+			{ // comment the entire lines
+				int numberOfLines = textEnd.Line - textStart.Line + 1;
+				TextMark mTextStart = CreateMark (null, textStart, true);
+				TextMark mTextTmp = mTextStart;
+				
+				for (int i=0; i<numberOfLines; i++)
+				{
+					TextIter textTmp = GetIterAtMark (mTextTmp);
+					// add the comment tag
+					textTmp.LineOffset = 0;
+					Insert (ref textTmp, commentTag);
+					// setup a mark on next line
+					textTmp = GetIterAtMark (mTextTmp);
+					textTmp.ForwardLine ();
+					mTextTmp = CreateMark (null, textTmp, true);
+				}			
+			}
+		}
+		
+		public void UncommentCode ()
+		{
+			string commentTag = "//"; // as default
+			commentTag = Runtime.Languages.GetBindingPerFileName (WorkbenchSingleton.Workbench.ActiveWorkbenchWindow.ViewContent.ContentName).CommentTag;
+			
+			TextIter textStart;
+			TextIter textEnd;
+			GetSelectionBounds (out textStart, out textEnd);
+			if (textStart.Line == textEnd.Line)
+			{ // all the code is in one line, just umcomment is text starts with comment tag
+				textEnd = textStart;
+				textEnd.ForwardChars (commentTag.Length);
+				if (textStart.GetText (textEnd) == commentTag)
+					Delete (ref textStart, ref textEnd);
+			}
+			else
+			{ // uncomment the entire lines
+				int numberOfLines = textEnd.Line - textStart.Line + 1;
+				TextMark mTextStart = CreateMark (null, textStart, true);
+				TextMark mTextTmp = mTextStart;
+				
+				for (int i=0; i<numberOfLines; i++)
+				{
+					TextIter textTmp = GetIterAtMark (mTextTmp);
+					// delete the comment tag
+					textTmp.LineOffset = 0;
+										
+					// the user can have spaces at start of line, handling that
+					TextIter textLineEnd = textTmp;
+					textLineEnd.ForwardToLineEnd ();
+					string trimmedText, fullText;
+					int spaces;
+					fullText = textTmp.GetText (textLineEnd);
+					trimmedText = fullText.TrimStart ();
+					spaces = fullText.Length - trimmedText.Length;
+					if (trimmedText.StartsWith (commentTag))
+					{
+						textTmp.ForwardChars (spaces);
+						textEnd = textTmp;
+						textEnd.ForwardChars (commentTag.Length);
+						Delete (ref textTmp, ref textEnd);
+					}
+					
+					// setup a mark on next line
+					textTmp = GetIterAtMark (mTextTmp);
+					textTmp.ForwardLine ();
+					mTextTmp = CreateMark (null, textTmp, true);
+				}			
+			}			
+		}
+#endregion
 	}
 }

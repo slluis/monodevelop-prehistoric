@@ -109,5 +109,10 @@ namespace ILAsmBinding
 			throw new NotImplementedException ();
 		}
 		
+		// source: irc
+		public string CommentTag
+		{
+			get { return "//"; }
+		}
 	}
 }
