@@ -1,3 +1,8 @@
+2004-06-12  Martin Baulig  <martin@ximian.com>
+
+	* Makefile.am: enable the debugger again.
+	* DebuggingService.cs: Make it work wit the latest debugger from CVS.
+
 2004-04-29  Todd Berman  <tberman@sevenl.net>
 
 	* Makefile.am: dont build debugger for now. will add info in configure

@@ -67,7 +67,7 @@ namespace MonoDevelop.Services
 
 		private Breakpoint CreateBreakpoint (string name)
 		{
-			SimpleBreakpoint point = new SimpleBreakpoint (name, null);
+			SimpleBreakpoint point = new SimpleBreakpoint (name);
 			point.BreakpointHitEvent += new BreakpointEventHandler (OnBreakpointHit);
 			return point;
 		}
@@ -157,10 +157,10 @@ namespace MonoDevelop.Services
 		{
 			insert_breakpoints ();
 
-			proc.Continue (false);
-
 			if (StartedEvent != null)
 				StartedEvent (this, new EventArgs ());
+
+			ChangeState ();
 
 			return false;
 		}
