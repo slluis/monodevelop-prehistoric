@@ -1,3 +1,8 @@
+2004-12-07  Lluis Sanchez Gual  <lluis@novell.com>
+
+	* StartPage.cs: Subscribe to service events using gui-thread aware
+	delegates. Use Runtime class to access services.
+	
 2004-10-20  John Luke  <john.luke@gmail.com>
 
 	* ICSharpCodePage.cs: update to new RecentFiles API
