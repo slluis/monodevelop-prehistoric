@@ -138,7 +138,7 @@ namespace MonoDevelop.Internal.Project
 		protected override DataNode ReadChild (XmlReader reader, DataItem parent)
 		{
 			if (reader.LocalName == "Entries") {
-				if (reader.IsEmptyElement) return null;
+				if (reader.IsEmptyElement) { reader.Skip(); return null; }
 				string basePath = Path.GetDirectoryName (file);
 				reader.ReadStartElement ();
 				while (MoveToNextElement (reader)) {
@@ -184,7 +184,7 @@ namespace MonoDevelop.Internal.Project
 		protected override DataNode ReadChild (XmlReader reader, DataItem parent)
 		{
 			if (reader.LocalName == "Entries") {
-				if (reader.IsEmptyElement) return null;
+				if (reader.IsEmptyElement) { reader.Skip(); return null; }
 				string basePath = Path.GetDirectoryName (combine.FileName);
 				reader.ReadStartElement ();
 				while (MoveToNextElement (reader)) {
