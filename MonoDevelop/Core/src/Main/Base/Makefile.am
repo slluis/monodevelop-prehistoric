@@ -388,7 +388,7 @@ Services/StockIcons.cs : ./Services/process-icons.pl ../../../build/data/resourc
 	perl  -x$(srcdir)/../../../build/data/resources/icons -w $(srcdir)/./Services/process-icons.pl > $(srcdir)/Services/StockIcons.cs
 
 assemblydir = $(libdir)/monodevelop/bin
-assembly_DATA = $(ASSEMBLY)
+assembly_DATA = $(ASSEMBLY) $(ASSEMBLY).config
 
 CLEANFILES = $(ASSEMBLY) $(ASSEMBLY).config
 
