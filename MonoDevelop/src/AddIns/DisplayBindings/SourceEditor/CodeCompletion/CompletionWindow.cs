@@ -65,6 +65,17 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 				}
 			}
 		}
+
+		protected override bool OnKeyPressEvent (ref Gdk.EventKey e)
+		{
+			if ((char)e.Key == '.') {
+				control.SimulateKeyPress (ref e);
+				LostFocusListView (null, null);
+				return true;
+			}
+			return base.OnKeyPressEvent (ref e);
+		}
+		
 		void ListKeypressEvent(object sender, KeyPressEventArgs ex)
 		{
 			Gdk.Key key = ex.Event.Key;

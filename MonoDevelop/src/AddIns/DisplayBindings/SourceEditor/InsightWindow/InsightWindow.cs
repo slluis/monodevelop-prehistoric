@@ -171,17 +171,17 @@ namespace MonoDevelop.SourceEditor.InsightWindow
 		
 		protected override bool OnKeyPressEvent (ref Gdk.EventKey e)
 		{
-			//if (DataProvider != null && DataProvider.CharTyped()) {
-			//	CloseCurrentDataProvider();
-			//}
-			char val = (char)e.Key;
+			bool rval;
 			if (ProcessTextAreaKey (e.Key) == false) {
-				//control.Buffer.InsertAtCursor (val.ToString ());
 				control.SimulateKeyPress (ref e);
-				return true;
+				rval = true;
 			} else {
-				return base.OnKeyPressEvent (ref e);
+				rval = base.OnKeyPressEvent (ref e);
 			}
+			if (DataProvider != null && DataProvider.CharTyped ()) {
+				CloseCurrentDataProvider ();
+			}
+			return rval;
 		}
 		
 		void CaretOffsetChanged(object sender, EventArgs e)
