@@ -295,7 +295,7 @@ namespace ICSharpCode.TextEditor.Gui.CompletionWindow
 				
 				Gtk.TreePath path = store.GetPath (iter);
 				Gdk.Rectangle rect;
-				listView.GetCellArea (path, (Gtk.TreeViewColumn)listView.Columns[0], out rect);
+				rect = listView.GetCellArea (path, (Gtk.TreeViewColumn)listView.Columns[0]);
 				int listpos_x, listpos_y;
 				listView.GdkWindow.GetOrigin (out listpos_x, out listpos_y);
 				int vert = listpos_y + rect.y;
