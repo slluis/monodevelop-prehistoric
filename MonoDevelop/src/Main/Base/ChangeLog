@@ -1,3 +1,10 @@
+2004-03-29  Todd Berman  <tberman@sevenl.net>
+
+	* Commands/RunCommands.cs: When you run, you need to make sure the
+	compile completed properly.
+	* Gui/Workbench/Layouts/SdiWorkspaceWindow.cs: Mark file/project dirty
+	if it becomes dirty, relying on unsaved files is not acceptable.
+
 2004-03-28  Todd Berman  <tberman@sevenl.net>
 
 	* Services/ParserService/DefaultParserService.cs: re-add try catch to

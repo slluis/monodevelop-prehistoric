@@ -212,8 +212,10 @@ namespace MonoDevelop.Commands
 							if (projectService.NeedsCompiling) {
 								projectService.CompileCombine();
 							}
-							projectService.OnBeforeStartProject();
-							projectService.CurrentOpenCombine.Execute();
+							if (taskService.Tasks.Count == 0) {
+								projectService.OnBeforeStartProject();
+								projectService.CurrentOpenCombine.Execute();
+							}
 							
 						} catch (NoStartupCombineDefinedException) {
 							IMessageService messageService =(IMessageService)ServiceManager.Services.GetService(typeof(IMessageService));

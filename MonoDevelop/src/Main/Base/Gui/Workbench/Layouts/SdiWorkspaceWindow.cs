@@ -183,6 +183,8 @@ namespace MonoDevelop.Gui
 			
 			if (content.IsDirty) {
 				newTitle += "*";
+				IProjectService prj = (IProjectService)ServiceManager.Services.GetService (typeof (IProjectService));
+				prj.MarkFileDirty (content.ContentName);
 			} else if (content.IsReadOnly) {
 				newTitle += "+";
 			}
