@@ -53,7 +53,7 @@ make install
 	  <li>FreeBSD: `mozilla-gtkmozembed'</li></ul>
       I have yet to find an official tarball for gtkmozembed, but I haven't looked very hard. If you know of one, please <a href="mailto:steve@citygroup.ca">let me know</a>.
       </p>
-
+      <br />
 
       <b>4. <a href="http://gtksourceview.sourceforge.net/">GtkSourceView 0.7</a></b>
       <p>GtkSourceView is a widget for displaying sourcecode (imagine that). Since MonoDevelop uses gtksourcevew-sharp, and this is only a wrapper, we must first install GtkSourceView. You may download a binary package for your distribution if it provides version 0.7 or higher. Otherwise, download the <a href="http://ftp.acc.umu.se/pub/gnome/sources/gtksourceview/0.7/gtksourceview-0.7.0.tar.gz">official tarball (0.7)</a>. Then install:</p>
@@ -67,7 +67,7 @@ make install
 </pre>
 
 
-      <b>5. <a href="http://www.go-mono.com/download.html">Mono 0.30.1</a>, gtk-sharp, gtksourceview-sharp</b>
+      <b>5. <a href="http://www.go-mono.com/download.html">Mono 0.30.1</a>, gtk-sharp, monodoc, gtksourceview-sharp, gtkmozembed-sharp, debugger</b>
 
       <p>Though you may use a pre-packaged copy of the runtime, we recommend compiling one yourself from CVS. gtk-sharp and gtksourceview-sharp <b>must</b> be compiled from CVS.</p>
 
@@ -77,7 +77,7 @@ make install
 <pre class="code">
 export CVSROOT=:pserver:anonymous@anoncvs.go-mono.com:/mono
 cvs login
-cvs -z3 co mcs mono gtk-sharp gtksourceview-sharp
+cvs -z3 co mcs mono gtk-sharp monodoc gtksourceview-sharp gtkmozembed-sharp debugger
 </pre>
          </li>
 	
@@ -96,7 +96,7 @@ export PKG_CONFIG_PATH=/usr/local/lib/pkgconfig/
 </pre>
 	 </li>
 
-         <li>You can then compile mono and gtk-sharp using the following:
+         <li>You can then compile all the modules using the following:
 
 <pre class="code">
 cd mono
@@ -108,7 +108,22 @@ cd ../gtk-sharp
 make
 make install
 
+cd ../monodoc
+./autogen.sh --prefix=/usr/local
+make
+make install
+
 cd ../gtksourceview-sharp
+./autogen.sh --prefix=/usr/local
+make
+make install
+
+cd ../gtkmozembed-sharp
+./autogen.sh --prefix=/usr/local
+make
+make install
+
+cd ../debugger
 ./autogen.sh --prefix=/usr/local
 make
 make install
@@ -134,9 +149,9 @@ make
 make run &amp;
 </pre>
 
-      <p>At this point, you have the choice of either `<tt>make install</tt>' or (preferrably) '<tt>make run</tt>'. Since there is a good chance you'll download a new copy of MonoDevelop tomorrow, we recommend using `<tt>make run</tt>' for now. :)</p>
+      <p>At this point, you have the choice of either `<tt>make install</tt>' or (preferrably) '<tt>make run</tt>'. Since there is a good chance you'll download a new copy of MonoDevelop tomorrow, we recommend using `<tt>make run</tt>' for now. </p>
 
-      
+      <p>This document was written by Steve Deobald (steve [at] citygroup.ca) and is licensed under the GNU Free Documentation License, Version 1.1 or any later version published by the Free Software Foundation. If this document contains errors or could be improved, please let me know.</p>
       <br /><br />
-      
+
 <ccms:PageFooter runat="server"/>
