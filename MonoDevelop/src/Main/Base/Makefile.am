@@ -224,6 +224,7 @@ FILES= \
 ./Internal/Conditions/WindowOpenCondition.cs \
 ./Internal/Conditions/CombineOpenCondition.cs \
 ./Internal/Conditions/ProjectOpenCondition.cs \
+./Internal/Conditions/WorkbenchContextCondition.cs \
 ./Internal/Codons/DisplayBinding/IDisplayBinding.cs \
 ./Internal/Codons/DisplayBinding/ISubDisplayBinding.cs \
 ./Internal/Codons/DisplayBinding/DisplayBindingCodon.cs \

@@ -19,34 +19,39 @@
 		       class = "MonoDevelop.SourceEditor.Gui.DebuggerLocalsPad"/>
 	</Extension>
 
-	<Extension path="/SharpDevelop/Workbench/MainMenu">
-		<MenuItem id = "DebugMenuThing" _label = "Debug" insertafter = "View" insertbefore = "Tools">
-			<MenuItem id = "DebugProject"
-	                          _label = "Debug Project"
-			          shortcut = "Control|F5"
-		                  class = "MonoDevelop.Commands.DebugProject"/>
-
-			<MenuItem id = "ToggleRunning"
-				  _label = "Pause/Resume"
-			          shortcut = "Control|F8"
-				  class = "MonoDevelop.Commands.ToggleRunning"/>
-
-			<MenuItem id = "DebugKillApplication"
-				  _label = "Kill Application"
-				  class = "MonoDevelop.Commands.KillApplication"/>
-
-			<MenuItem id = "DebugSep1" _label = "-" />
-
-			<MenuItem id = "DebugStepOver"
-				  _label = "Step Over"
-			          shortcut = "F11"
-				  class = "MonoDevelop.Commands.StepOver"/>
-
-			<MenuItem id = "DebugStepInto"
-			          _label = "Step Into"
-			          shortcut = "Control|F11"
-			          class = "MonoDevelop.Commands.StepInto"/>
-		</MenuItem>
+	<Extension path="/SharpDevelop/Workbench/MainMenu/Run">
+		<MenuItem id = "DebugProject"
+		          _label = "Debug Project"
+		          insertafter = "Run"
+		          shortcut = "Control|F5"
+		          class = "MonoDevelop.Commands.DebugProject"/>
 	</Extension>
-</AddIn>
+
+	<Extension path="/SharpDevelop/Workbench/MainMenu">
+		<Conditional action = "Exclude" context = "Debug">
+			<MenuItem id = "DebugMenuThing" _label = "Debug" insertafter = "View" insertbefore = "Tools">
+					<MenuItem id = "ToggleRunning"
+						  _label = "Pause/Resume"
+						  shortcut = "Control|F8"
+						  class = "MonoDevelop.Commands.ToggleRunning"/>
+	
+					<MenuItem id = "DebugKillApplication"
+						  _label = "Kill Application"
+						  class = "MonoDevelop.Commands.KillApplication"/>
+		
+					<MenuItem id = "DebugSep1" _label = "-" />
+		
+					<MenuItem id = "DebugStepOver"
+						  _label = "Step Over"
+					          shortcut = "F11"
+						  class = "MonoDevelop.Commands.StepOver"/>
+		
+					<MenuItem id = "DebugStepInto"
+					          _label = "Step Into"
+					          shortcut = "Control|F11"
+					          class = "MonoDevelop.Commands.StepInto"/>
+			</MenuItem>
+		</Conditional>
+	</Extension>
+</AddIn	>
 

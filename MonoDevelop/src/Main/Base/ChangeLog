@@ -1,5 +1,14 @@
 2004-04-06  Todd Berman  <tberman@sevenl.net>
 
+	* Gui/Workbench/Layouts/SdiWorkspaceLayout.cs: update the menu
+	after a context switch.
+	* Gui/Components/SdMenu.cs: remove some junk.
+	* Internal/Conditions/WorkbenchContextCondition.cs: new condition
+	to allow conditionals on current context state.
+	* Makefile.am: add above file to build
+
+2004-04-06  Todd Berman  <tberman@sevenl.net>
+
 	* Commands/ProjectBrowserCommands/CombineNodeCommands.cs: fix bug
 	#56429.
 

@@ -49,6 +49,7 @@
 		<xs:attribute name="openproject" type="xs:string" use="optional"/>
 		<xs:attribute name="textcontent" type="xs:string" use="optional"/>
 		<xs:attribute name="ownerstate" type="xs:string" use="optional"/>
+		<xs:attribute name="context" type="xs:string" use="optional"/>
 		<xs:attribute name="string" type="xs:string" use="optional"/>
 		<xs:attribute name="equals" type="xs:string" use="optional"/>
 		<xs:attribute name="action" use="optional">

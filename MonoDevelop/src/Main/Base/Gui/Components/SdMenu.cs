@@ -29,7 +29,7 @@ namespace MonoDevelop.Gui.Components
 		
 		ConditionCollection conditionCollection;
 		object caller;
-		string localizedText = String.Empty;
+		public string localizedText = String.Empty;
 		public ArrayList SubItems = new ArrayList();
 		private Gtk.Menu subMenu = null;
 		
@@ -66,12 +66,12 @@ namespace MonoDevelop.Gui.Components
 		
 		public void OnDropDown(object ob, System.EventArgs e)
 		{
-			foreach (object o in ((Gtk.Menu)Submenu).Children) {
-			
-				if (o is IStatusUpdate) {
-					((IStatusUpdate)o).UpdateStatus();
-				}
-			}
+			//foreach (object o in ((Gtk.Menu)Submenu).Children) {
+			//
+			//	if (o is IStatusUpdate) {
+			//		((IStatusUpdate)o).UpdateStatus();
+			//	}
+			//}
 			UpdateStatus ();
 		}
 		
@@ -105,7 +105,7 @@ namespace MonoDevelop.Gui.Components
 				ShowAll ();
 			}
 		}
-
+		
 		public void Append (Gtk.Widget item)
 		{
 			if (item.Parent == null) {
