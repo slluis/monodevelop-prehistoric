@@ -6,14 +6,13 @@
 // </file>
 
 using System;
-using System.Windows.Forms;
 using System.Drawing;
 
 using ICSharpCode.Core.Properties;
 
 namespace ICSharpCode.SharpDevelop.Gui.Components
 {
-	public class SharpMessageBox : Form
+/*	public class SharpMessageBox : Form
 	{
 		Button[] buttons;
 		int      retvalue = -1;
@@ -95,5 +94,5 @@ namespace ICSharpCode.SharpDevelop.Gui.Components
 			ShowDialog();
 			return retvalue;
 		}
-	}
+	}*/
 }

@@ -13,7 +13,6 @@ using System.Collections;
 using System.Collections.Specialized;
 using System.Diagnostics;
 using System.Reflection;
-using System.Windows.Forms;
 
 using ICSharpCode.Core.Properties;
 using ICSharpCode.Core.Services;

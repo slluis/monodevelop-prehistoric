@@ -12,7 +12,6 @@ using System.Drawing;
 using System.Drawing.Printing;
 using System.Collections;
 using System.ComponentModel;
-using System.Windows.Forms;
 using System.Diagnostics;
 
 using ICSharpCode.Core.AddIns;
@@ -75,7 +74,7 @@ namespace ICSharpCode.SharpDevelop.Commands.ProjectBrowser
 			CombineBrowserNode node    = browser.SelectedNode as CombineBrowserNode;
 			
 			if (node != null) {
-				using (OpenFileDialog fdiag = new OpenFileDialog()) {
+				/*using (OpenFileDialog fdiag = new OpenFileDialog()) {
 					fdiag.AddExtension    = true;
 					StringParserService stringParserService = (StringParserService)ServiceManager.Services.GetService(typeof(StringParserService));
 					fdiag.Filter = stringParserService.Parse("${res:SharpDevelop.FileFilter.ProjectFiles}|*.prjx|${res:SharpDevelop.FileFilter.AllFiles}|*.*");
@@ -90,7 +89,8 @@ namespace ICSharpCode.SharpDevelop.Commands.ProjectBrowser
 						}
 						projectService.SaveCombine();
 					}
-				}
+				}*/
+				Console.WriteLine ("Unported dialog in CombineNodeCommands.cs");
 			}
 		}
 	}
@@ -104,7 +104,7 @@ namespace ICSharpCode.SharpDevelop.Commands.ProjectBrowser
 			CombineBrowserNode node    = browser.SelectedNode as CombineBrowserNode;
 			
 			if (node != null) {
-				using (OpenFileDialog fdiag = new OpenFileDialog()) {
+				/*using (OpenFileDialog fdiag = new OpenFileDialog()) {
 					fdiag.AddExtension    = true;
 					StringParserService stringParserService = (StringParserService)ServiceManager.Services.GetService(typeof(StringParserService));
 					fdiag.Filter = stringParserService.Parse("${res:SharpDevelop.FileFilter.CombineFiles}|*.cmbx|${res:SharpDevelop.FileFilter.AllFiles}|*.*");
@@ -119,7 +119,8 @@ namespace ICSharpCode.SharpDevelop.Commands.ProjectBrowser
 						}
 						projectService.SaveCombine();
 					}
-				}
+				}*/
+				Console.WriteLine ("unported dialog in CombineNodeCommands.cs");
 			}
 		}
 	}

@@ -10,7 +10,6 @@ using System.IO;
 using System.Drawing;
 using System.Diagnostics;
 using System.CodeDom.Compiler;
-using System.Windows.Forms;
 
 //using Crownwood.Magic.Controls;
 

@@ -8,7 +8,6 @@ using System;
 using System.Drawing;
 using System.Collections;
 using System.ComponentModel;
-using System.Windows.Forms;
 using ICSharpCode.SharpDevelop.Internal.Project;
 
 using ICSharpCode.Core.Services;
@@ -16,7 +15,7 @@ using ICSharpCode.SharpDevelop.Services;
 
 namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 {
-	public class ProjectReferencePanel : ListView//, IReferencePanel
+/*	public class ProjectReferencePanel : ListView//, IReferencePanel
 	{
 		SelectReferenceDialog selectDialog;
 		
@@ -73,5 +72,5 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 				Items.Add(newItem);
 			}
 		}
-	}
+	}*/
 }

@@ -8,7 +8,6 @@
 using System;
 using System.IO;
 using System.Collections;
-using System.Windows.Forms;
 
 using ICSharpCode.SharpDevelop.Internal.ExternalTool;
 using ICSharpCode.Core.Properties;

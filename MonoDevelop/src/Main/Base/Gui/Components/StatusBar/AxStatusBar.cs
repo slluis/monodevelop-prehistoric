@@ -8,11 +8,10 @@
 using System;
 using System.Collections;
 using System.Drawing;
-using System.Windows.Forms;
 
 namespace ICSharpCode.SharpDevelop.Gui.Components
 {
-	public class AxStatusBar : System.Windows.Forms.StatusBar
+/*	public class AxStatusBar : System.Windows.Forms.StatusBar
 	{
 		public AxStatusBar()
 		{
@@ -25,6 +24,6 @@ namespace ICSharpCode.SharpDevelop.Gui.Components
 				base.OnDrawItem(sbdievent);
 			}
 		}
-	}
+	}*/
 	
 }

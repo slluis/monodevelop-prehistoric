@@ -12,11 +12,6 @@ using System.Drawing;
 using System.Drawing.Printing;
 using System.Collections;
 using System.ComponentModel;
-//#if GTK
-//using Gtk;
-//#else
-using System.Windows.Forms;
-//#endif
 using System.Diagnostics;
 
 using ICSharpCode.Core.AddIns;
@@ -184,7 +179,7 @@ namespace ICSharpCode.SharpDevelop.Commands
 				}
 				
 				if (content.ContentName == null) {
-					using (SaveFileDialog fdiag = new SaveFileDialog()) {
+					/*using (SaveFileDialog fdiag = new SaveFileDialog()) {
 						fdiag.OverwritePrompt = true;
 						fdiag.AddExtension    = true;
 						
@@ -202,7 +197,8 @@ namespace ICSharpCode.SharpDevelop.Commands
 								messageService.ShowMessage(fileName, "File saved");
 							}
 						}
-					}
+					}*/
+					Console.WriteLine ("unported dialog in FileCommands.cs");
 				} else {
 					fileUtilityService.ObservedSave(new FileOperationDelegate(content.Save), content.ContentName);
 				}
@@ -350,7 +346,7 @@ namespace ICSharpCode.SharpDevelop.Commands
 	public class Print : AbstractMenuCommand
 	{
 		public override void Run()
-		{
+		{/*
 			IWorkbenchWindow window = WorkbenchSingleton.Workbench.ActiveWorkbenchWindow;
 			
 			if (window != null) {
@@ -372,7 +368,7 @@ namespace ICSharpCode.SharpDevelop.Commands
 					IMessageService messageService =(IMessageService)ServiceManager.Services.GetService(typeof(IMessageService));
 					messageService.ShowError("Can't print this window content");
 				}
-			}
+			}*/
 		}
 	}
 	

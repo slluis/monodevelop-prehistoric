@@ -9,7 +9,6 @@ using System.Drawing;
 using System.Collections;
 using System.ComponentModel;
 using System.IO;
-using System.Windows.Forms;
 using System.Reflection;
 using System.Reflection.Emit;
 using System.Runtime.InteropServices;
@@ -19,7 +18,7 @@ using ICSharpCode.SharpDevelop.Internal.Project;
 using ICSharpCode.Core.Services;
 
 namespace ICSharpCode.SharpDevelop.Gui.Dialogs
-{
+{/*
 	public class COMReferencePanel : ListView//, IReferencePanel
 	{
 		private enum RegKind
@@ -148,6 +147,6 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
       			return null; 
    			}   
 		}		
-	}
+	}*/
 }
 

@@ -22,8 +22,6 @@ using ICSharpCode.Core.Properties;
 using ICSharpCode.SharpDevelop.Gui;
 using ICSharpCode.SharpDevelop.Gui.Components;
 
-using System.Windows.Forms;
-
 namespace ICSharpCode.SharpDevelop.Internal.Project
 {
 	public class Combine : LocalizedObject, IDisposable
@@ -306,7 +304,7 @@ namespace ICSharpCode.SharpDevelop.Internal.Project
 		
 		public void SaveCombineAs()
 		{
-			SaveFileDialog fdiag = new SaveFileDialog();
+			/*SaveFileDialog fdiag = new SaveFileDialog();
 			fdiag.OverwritePrompt = true;
 			fdiag.AddExtension    = true;
 			
@@ -318,7 +316,8 @@ namespace ICSharpCode.SharpDevelop.Internal.Project
 				SaveCombine(filename);
 				IMessageService messageService =(IMessageService)ServiceManager.Services.GetService(typeof(IMessageService));
 				messageService.ShowMessage(filename, resourceService.GetString("Internal.Project.Combine.CombineSavedMessage"));
-			}
+			}*/
+			Console.WriteLine ("Unported dialog in Combine.cs");
 		}
 
 		public object AddEntry(string filename)

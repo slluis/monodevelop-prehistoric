@@ -7,7 +7,6 @@
 
 using System;
 using System.IO;
-using System.Windows.Forms;
 using System.Collections;
 using System.Threading;
 using System.Resources;
@@ -130,7 +129,8 @@ namespace ICSharpCode.Core.Services
 			try {
 				return new Font(fontName, size, style);
 			} catch (Exception) {
-				return SystemInformation.MenuFont;
+				//return SystemInformation.MenuFont;
+				return null;
 			}
 		}
 		

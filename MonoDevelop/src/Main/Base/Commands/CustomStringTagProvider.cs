@@ -12,7 +12,6 @@ using System.Drawing;
 using System.Drawing.Printing;
 using System.Collections;
 using System.ComponentModel;
-using System.Windows.Forms;
 using System.Diagnostics;
 
 using ICSharpCode.Core.AddIns;
@@ -136,7 +135,8 @@ namespace ICSharpCode.SharpDevelop.Commands
 					} catch (Exception) {}
 					break;
 				case "STARTUPPATH":
-					return Application.StartupPath;
+					//return Application.StartupPath;
+					return "";
 			}
 			return String.Empty;
 		}

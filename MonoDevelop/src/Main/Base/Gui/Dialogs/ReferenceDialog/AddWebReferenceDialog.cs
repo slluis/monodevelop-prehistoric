@@ -5,7 +5,6 @@ using System.IO;
 using System.Drawing;
 using System.Collections;
 using System.ComponentModel;
-using System.Windows.Forms;
 using System.Data;
 using System.Xml;
 using System.Xml.Xsl;
@@ -22,7 +21,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 	/// <summary>
 	/// Summary description for Form1.
 	/// </summary>
-	public class AddWebReferenceDialog : System.Windows.Forms.Form
+	public class AddWebReferenceDialog //: System.Windows.Forms.Form
 	{/*
 		private System.Windows.Forms.Panel panel1;
 		private System.Windows.Forms.Panel panel2;		

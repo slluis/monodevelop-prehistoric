@@ -7,7 +7,6 @@
 
 using System;
 using System.Drawing;
-using System.Windows.Forms;
 using System.Collections;
 
 using ICSharpCode.Core.Properties;
@@ -92,7 +91,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Components
 					g.DrawString(name, f, SystemBrushes.ControlText, new PointF(rectangle.X + Icon.Width + 1, rectangle.Y + 1));
 					break;
 				case SideTabItemStatus.Drag:
-					ControlPaint.DrawBorder3D(g, rectangle, Border3DStyle.RaisedInner);
+					//ControlPaint.DrawBorder3D(g, rectangle, Border3DStyle.RaisedInner);
 					rectangle.X += 1;
 					rectangle.Y += 1;
 					rectangle.Width  -= 2;
@@ -103,18 +102,18 @@ namespace ICSharpCode.SharpDevelop.Gui.Components
 					g.DrawString(name, f, SystemBrushes.HighlightText, new PointF(rectangle.X + Icon.Width + 1, rectangle.Y + 1));
 					break;
 				case SideTabItemStatus.Selected:
-					ControlPaint.DrawBorder3D(g, rectangle, Border3DStyle.RaisedInner);
+					//ControlPaint.DrawBorder3D(g, rectangle, Border3DStyle.RaisedInner);
 					g.DrawImage(Icon, 0, rectangle.Y);
 					g.DrawString(name, f, SystemBrushes.ControlText, new PointF(rectangle.X + Icon.Width + 1, rectangle.Y + 1));
 					break;
 				case SideTabItemStatus.Choosed:
-					ControlPaint.DrawBorder3D(g, rectangle, Border3DStyle.Sunken);
+					//ControlPaint.DrawBorder3D(g, rectangle, Border3DStyle.Sunken);
 					rectangle.X += 1;
 					rectangle.Y += 1;
 					rectangle.Width  -= 2;
 					rectangle.Height -= 2;
 					
-					g.FillRectangle(new SolidBrush(ControlPaint.Light(SystemColors.Control)) , rectangle);
+					//g.FillRectangle(new SolidBrush(ControlPaint.Light(SystemColors.Control)) , rectangle);
 					
 					g.DrawImage(Icon, 1, rectangle.Y + 1);
 					g.DrawString(name, f, SystemBrushes.ControlText, new PointF(rectangle.X + Icon.Width + 2, rectangle.Y + 2));

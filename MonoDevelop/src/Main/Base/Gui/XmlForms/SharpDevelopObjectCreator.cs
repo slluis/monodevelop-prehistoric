@@ -11,7 +11,6 @@ using System.Collections;
 using System.Drawing;
 using System.Drawing.Text;
 using System.Reflection;
-using System.Windows.Forms;
 using ICSharpCode.Core.Services;
 using ICSharpCode.SharpDevelop.Services;
 

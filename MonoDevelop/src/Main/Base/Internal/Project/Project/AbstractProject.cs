@@ -14,7 +14,6 @@ using System.Diagnostics;
 using System.Reflection;
 using System.ComponentModel;
 using System.Xml;
-using System.Windows.Forms;
 
 using ICSharpCode.Core.Properties;
 
@@ -512,7 +511,7 @@ namespace ICSharpCode.SharpDevelop.Internal.Project
 		
 		public void SaveProjectAs()
 		{
-			SaveFileDialog fdiag = new SaveFileDialog();
+			/*SaveFileDialog fdiag = new SaveFileDialog();
 			fdiag.OverwritePrompt = true;
 			fdiag.AddExtension    = true;
 
@@ -524,7 +523,8 @@ namespace ICSharpCode.SharpDevelop.Internal.Project
 				IResourceService resourceService = (IResourceService)ServiceManager.Services.GetService(typeof(IResourceService));
 				IMessageService messageService =(IMessageService)ServiceManager.Services.GetService(typeof(IMessageService));
 				messageService.ShowMessage(filename, resourceService.GetString("Internal.Project.DefaultProject.ProjectSavedMessage"));
-			}
+			}*/
+			Console.WriteLine ("AbstractProject.cs unported Dialog");
 		}
 		
 		public void CopyReferencesToOutputPath(bool force)

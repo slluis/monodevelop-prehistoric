@@ -7,7 +7,6 @@
 
 using System;
 using System.IO;
-using System.Windows.Forms;
 using System.Diagnostics;
 using System.Drawing;
 using System.Collections.Specialized;
@@ -112,10 +111,12 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads.ProjectBrowser
 					break;
 			}
 			
-			int ret = new SharpMessageBox(resourceService.GetString("ProjectComponent.RemoveReference.Title"),
+			/*int ret = new SharpMessageBox(resourceService.GetString("ProjectComponent.RemoveReference.Title"),
 			                              stringParserService.Parse(question, new string[,] { {"REFERENCE", Text}}),
 								          resourceService.GetString("Global.RemoveButtonText"), 
-									      resourceService.GetString("Global.CancelButtonText")).ShowMessageBox();
+									      resourceService.GetString("Global.CancelButtonText")).ShowMessageBox();*/
+			Console.WriteLine ("Unported Dialog in ReferenceNode.cs");
+			int ret = -1;
 			
 			if (ret == 1 || ret == -1) {
 				return false;

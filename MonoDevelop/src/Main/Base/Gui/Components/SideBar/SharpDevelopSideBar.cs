@@ -9,7 +9,6 @@ using System;
 using System.Diagnostics;
 using System.Collections;
 using System.Drawing;
-using System.Windows.Forms;
 using System.Xml;
 
 //using Reflector.UserInterface;
@@ -22,7 +21,7 @@ using ICSharpCode.SharpDevelop.Services;
 
 namespace ICSharpCode.SharpDevelop.Gui.Components
 {
-	public class SharpDevelopSideTabItemFactory : ISideTabItemFactory
+/*	public class SharpDevelopSideTabItemFactory : ISideTabItemFactory
 	{
 		public AxSideTabItem CreateSideTabItem(string name)
 		{
@@ -96,7 +95,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Components
 			MouseUp                  += new MouseEventHandler(SetContextMenu);
 			sideTabContent.MouseUp   += new MouseEventHandler(SetItemContextMenu);
 			
-			/*
+			
 			deleteMenuHeaderItem = new IconMenuItem(mainwindow, resourceService.GetString("SideBarComponent.ContextMenu.DeleteTab"), new EventHandler(DeleteTabHeader));
 			moveUpMenuHeaderItem = new IconMenuItem(mainwindow, resourceService.GetString("SideBarComponent.ContextMenu.MoveTabUp"), new EventHandler(MoveTabUp));
 			moveDownMenuHeaderItem = new IconMenuItem(mainwindow, resourceService.GetString("SideBarComponent.ContextMenu.MoveTabDown"), new EventHandler(MoveTabDown));
@@ -125,7 +124,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Components
 					moveItemTabUpMenuHeaderItem,
 					moveItemTabDownMenuHeaderItem
 			});
-			*/
+			
 			
 			foreach (TextTemplate template in TextTemplate.TextTemplates) {
 				AxSideTab tab = new AxSideTab(this, template.Name);
@@ -336,5 +335,5 @@ namespace ICSharpCode.SharpDevelop.Gui.Components
 			return el;
 		}
 		
-	}
+	}*/
 }

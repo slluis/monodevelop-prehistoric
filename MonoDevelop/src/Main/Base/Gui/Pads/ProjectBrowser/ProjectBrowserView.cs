@@ -336,7 +336,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads.ProjectBrowser
 
 			projectService.CurrentSelectedProject = node.Project;
 			projectService.CurrentSelectedCombine = node.Combine;
-			PropertyPad.SetDesignableObject(node.UserData);
+			//PropertyPad.SetDesignableObject(node.UserData);
 			
 			MenuService menuService = (MenuService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(MenuService));
 			menuService.ShowContextMenu(this, node.ContextmenuAddinTreePath, this);

@@ -7,7 +7,6 @@
 
 using System;
 using System.IO;
-using System.Windows.Forms;
 using System.Diagnostics;
 using System.Drawing;
 using System.Collections.Specialized;
@@ -128,11 +127,13 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads.ProjectBrowser
 			ResourceService resourceService = (ResourceService)ServiceManager.Services.GetService(typeof(IResourceService));
 			StringParserService stringParserService = (StringParserService)ServiceManager.Services.GetService(typeof(StringParserService));
 			
-			int ret = new SharpMessageBox(resourceService.GetString("ProjectComponent.RemoveFolder.Title"),
+			/*int ret = new SharpMessageBox(resourceService.GetString("ProjectComponent.RemoveFolder.Title"),
 			                              stringParserService.Parse(resourceService.GetString("ProjectComponent.RemoveFolder.Question"), new string[,] { {"FOLDER", Text}, {"PROJECT", Project.Name}}), 
 			                              resourceService.GetString("Global.RemoveButtonText"),
 			                              resourceService.GetString("Global.DeleteButtonText"),
-			                              resourceService.GetString("Global.CancelButtonText")).ShowMessageBox();
+			                              resourceService.GetString("Global.CancelButtonText")).ShowMessageBox();*/
+			Console.WriteLine ("unported dialog at DirectoryNode.cs");
+			int ret = -1;
 			IFileService fileService = (IFileService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(IFileService));
 			IProjectService projectService = (IProjectService)ICSharpCode.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
 			switch (ret) {

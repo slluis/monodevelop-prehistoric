@@ -8,11 +8,10 @@
 using System;
 using System.Collections;
 using System.Drawing;
-using System.Windows.Forms;
 
 namespace ICSharpCode.SharpDevelop.Gui.Components
 {
-	public class AxStatusBarPanel : StatusBarPanel
+/*	public class AxStatusBarPanel : StatusBarPanel
 	{
 		StringFormat sFormat = new StringFormat();
 		
@@ -61,5 +60,5 @@ namespace ICSharpCode.SharpDevelop.Gui.Components
 				sFormat.Dispose();
 			}
 		}
-	}
+	}*/
 }

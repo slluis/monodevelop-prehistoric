@@ -7,7 +7,6 @@
 
 using System;
 using System.IO;
-using System.Windows.Forms;
 
 using ICSharpCode.SharpDevelop.Internal.Templates;
 using ICSharpCode.SharpDevelop.Gui.XmlForms;

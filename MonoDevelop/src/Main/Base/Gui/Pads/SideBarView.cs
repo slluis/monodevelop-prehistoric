@@ -7,9 +7,7 @@
 
 using System;
 using System.IO;
-using System.Windows.Forms;
 using System.Xml;
-using System.Drawing;
 
 using ICSharpCode.SharpDevelop.Gui;
 using ICSharpCode.SharpDevelop.Gui.Components;
@@ -45,16 +43,16 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads
 		{
 			OnTitleChanged(null);
 			OnIconChanged(null);
-			sideBar.Refresh();
+			//sideBar.Refresh();
 		}
 		
 		public void Dispose()
 		{
 			SaveSideBarViewConfig();
-			sideBar.Dispose();
+			//sideBar.Dispose();
 		}
 		
-		public static SharpDevelopSideBar sideBar = null;
+		//public static SharpDevelopSideBar sideBar = null;
 		public SideBarView()
 		{
 			try {
@@ -64,17 +62,17 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads
 				if (doc.DocumentElement.Attributes["version"] == null || doc.DocumentElement.Attributes["version"].InnerText != "1.0") {
 					GenerateStandardSideBar();
 				} else {
-					sideBar = new SharpDevelopSideBar(doc.DocumentElement["SideBar"]);
+					//sideBar = new SharpDevelopSideBar(doc.DocumentElement["SideBar"]);
 				}
 			} catch (Exception) {
 				GenerateStandardSideBar();
 			}
 			
-			sideBar.Dock = DockStyle.Fill;
+			//sideBar.Dock = DockStyle.Fill;
 		}
 		
 		void GenerateStandardSideBar()
-		{
+		{/*
 			sideBar = new SharpDevelopSideBar();
 			AxSideTab tab = new AxSideTab(sideBar, "${res:SharpDevelop.SideBar.GeneralCategory}");
 			
@@ -85,19 +83,19 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads
 			tab.IsClipboardRing = true;
 			tab.CanBeDeleted = false;
 			tab.CanDragDrop  = false;
-			sideBar.Tabs.Add(tab);
+			sideBar.Tabs.Add(tab);*/
 		}
 		
 		public static void PutInClipboardRing(string text)
-		{
+		{/*
 			if (sideBar != null) {
 				sideBar.PutInClipboardRing(text);
 				sideBar.Refresh();
-			}
+			}*/
 		}
 		
 		public void SaveSideBarViewConfig()
-		{
+		{/*
 			XmlDocument doc = new XmlDocument();
 			doc.LoadXml("<SideBarConfig version=\"1.0\"/>");
 			doc.DocumentElement.AppendChild(sideBar.ToXmlElement(doc));
@@ -106,7 +104,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads
 			FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.Services.GetService(typeof(FileUtilityService));
 			fileUtilityService.ObservedSave(new NamedFileOperationDelegate(doc.Save), 
 			                                propertyService.ConfigDirectory + "SideBarConfig.xml",
-			                                FileErrorPolicy.ProvideAlternative);
+			                                FileErrorPolicy.ProvideAlternative);*/
 		}
 		
 		protected virtual void OnTitleChanged(EventArgs e)

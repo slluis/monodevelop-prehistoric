@@ -11,13 +11,12 @@ using System.Text;
 using System.Drawing;
 using System.Collections;
 using System.ComponentModel;
-using System.Windows.Forms;
 using MSjogren.GacTool.FusionNative;
 using ICSharpCode.SharpDevelop.Internal.Project;
 using ICSharpCode.Core.Services;
 
 namespace ICSharpCode.SharpDevelop.Gui.Dialogs
-{
+{/*
 	public class AssemblyReferencePanel : Panel//, IReferencePanel
 	{
 		SelectReferenceDialog selectDialog;
@@ -57,5 +56,5 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 		{
 			MessageBox.Show("This panel will contain a file browser, but so long use the browse button :)");
 		}
-	}
+	}*/
 }

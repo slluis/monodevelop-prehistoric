@@ -11,8 +11,6 @@ using System.ComponentModel;
 using System.ComponentModel.Design;
 using System.Drawing;
 using System.Drawing.Design;
-using System.Windows.Forms;
-using System.Windows.Forms.Design;
 //using Reflector.UserInterface;
 
 using ICSharpCode.Core.AddIns;
@@ -22,7 +20,7 @@ using ICSharpCode.Core.Services;
 using ICSharpCode.SharpDevelop.Services;
 
 namespace ICSharpCode.SharpDevelop.Gui.Pads
-{
+{/*
 	class IDEContainer : Container
 	{
 		class IDESite : ISite
@@ -362,5 +360,5 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads
 				PropertyValueChanged(sender, e);
 			}
 		}
-	}
+	}*/
 }

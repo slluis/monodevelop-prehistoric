@@ -8,10 +8,9 @@
 using System;
 using System.Collections;
 using System.Drawing;
-using System.Windows.Forms;
 
 namespace ICSharpCode.SharpDevelop.Gui.Components
-{
+{/*
 	public interface ISideTabItemFactory
 	{
 		AxSideTabItem CreateSideTabItem(string name);
@@ -1093,5 +1092,5 @@ namespace ICSharpCode.SharpDevelop.Gui.Components
 		{
 			
 		}
-	}
+	}*/
 }

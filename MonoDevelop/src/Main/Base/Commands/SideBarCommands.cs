@@ -9,7 +9,6 @@ using System;
 using System.Diagnostics;
 using System.IO;
 using System.Collections;
-using System.Windows.Forms;
 
 using ICSharpCode.Core.AddIns;
 using ICSharpCode.Core.AddIns.Codons;
@@ -23,7 +22,7 @@ using ICSharpCode.SharpDevelop.Internal.Project;
 using ICSharpCode.SharpDevelop.Gui.Components;
 
 namespace ICSharpCode.SharpDevelop.Commands
-{
+{/*
 	public class SideBarRenameTabItem : AbstractMenuCommand
 	{
 		public override void Run()
@@ -186,5 +185,5 @@ namespace ICSharpCode.SharpDevelop.Commands
 				sideBar.Refresh();
 			}
 		} 
-	}
+	}*/
 }

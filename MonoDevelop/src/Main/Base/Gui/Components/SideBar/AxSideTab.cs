@@ -8,7 +8,6 @@
 using System;
 using System.Drawing;
 using System.Drawing.Drawing2D;
-using System.Windows.Forms;
 using System.Collections;
 using ICSharpCode.Core.Services;
 
@@ -21,7 +20,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Components
 	}
 	
 	public class AxSideTab
-	{
+	{/*
 		string    name;
 		bool      canDragDrop  = true;
 		bool      canBeDeleted = true;
@@ -404,6 +403,6 @@ namespace ICSharpCode.SharpDevelop.Gui.Components
 			{
 				list.RemoveAt(index);
 			}
-		}
+		}*/
 	}
 }

@@ -1,6 +1,5 @@
 // created on 08.09.2003 at 22:11
 using System;
-using System.Windows.Forms;
 
 using ICSharpCode.SharpDevelop.Gui.XmlForms;
 

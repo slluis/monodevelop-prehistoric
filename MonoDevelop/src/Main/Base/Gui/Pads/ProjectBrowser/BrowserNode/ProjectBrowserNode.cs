@@ -7,7 +7,6 @@
 
 using System;
 using System.IO;
-using System.Windows.Forms;
 using System.Collections;
 using System.Diagnostics;
 using System.Drawing;
@@ -108,11 +107,13 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads.ProjectBrowser
 			CombineEntry removeEntry = null;
 			StringParserService stringParserService = (StringParserService)ServiceManager.Services.GetService(typeof(StringParserService));
 			
-			int ret = new SharpMessageBox(resourceService.GetString("ProjectComponent.RemoveProject.Title"),
+			/*int ret = new SharpMessageBox(resourceService.GetString("ProjectComponent.RemoveProject.Title"),
 										  stringParserService.Parse(resourceService.GetString("ProjectComponent.RemoveProject.Question"), new string[,] { {"COMBINE", cmb.Name}, {"PROJECT", project.Name}}),  
 										  resourceService.GetString("Global.RemoveButtonText"), 
 										  resourceService.GetString("Global.CancelButtonText")
-										  ).ShowMessageBox();
+										  ).ShowMessageBox();*/
+										  			Console.WriteLine ("Unported Dialog in ProjectBrowserNode.cs");
+													int ret = 1;
 			if (ret == 1 || ret == -1) {
 				return false;
 			}

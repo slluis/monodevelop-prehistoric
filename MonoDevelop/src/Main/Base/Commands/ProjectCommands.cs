@@ -9,7 +9,6 @@ using System;
 using System.Diagnostics;
 using System.IO;
 using System.Collections;
-using System.Windows.Forms;
 
 using ICSharpCode.Core.AddIns;
 
@@ -189,7 +188,7 @@ namespace ICSharpCode.SharpDevelop.Commands
 					p.Start();
 				}
 			} catch (Exception) {
-				MessageBox.Show("You need to compile the project first.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Hand, MessageBoxDefaultButton.Button1);
+				//MessageBox.Show("You need to compile the project first.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Hand, MessageBoxDefaultButton.Button1);
 			}
 		}
 	}

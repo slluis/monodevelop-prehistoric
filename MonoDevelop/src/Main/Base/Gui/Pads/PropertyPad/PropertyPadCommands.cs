@@ -11,8 +11,6 @@ using System.ComponentModel;
 using System.ComponentModel.Design;
 using System.Drawing;
 using System.Drawing.Design;
-using System.Windows.Forms;
-using System.Windows.Forms.Design;
 
 using ICSharpCode.Core.Properties;
 using ICSharpCode.SharpDevelop.Gui;
@@ -25,7 +23,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads
 	{
 		public override void Run()
 		{
-			PropertyPad.Grid.ResetSelectedProperty();
+			//PropertyPad.Grid.ResetSelectedProperty();
 		}
 	}
 	
@@ -33,16 +31,17 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads
 	{
 		public override bool IsChecked {
 			get {
-				return PropertyPad.Grid.HelpVisible;
+				//return PropertyPad.Grid.HelpVisible;
+				return true;
 			}
 			set {
-				PropertyPad.Grid.HelpVisible = value;
+				//PropertyPad.Grid.HelpVisible = value;
 			}
 		}
 		
 		public override void Run()
 		{
-			PropertyPad.Grid.HelpVisible = !PropertyPad.Grid.HelpVisible;
+			//PropertyPad.Grid.HelpVisible = !PropertyPad.Grid.HelpVisible;
 		}
 	}
 	

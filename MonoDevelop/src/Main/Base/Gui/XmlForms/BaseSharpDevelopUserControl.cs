@@ -6,7 +6,6 @@
 // </file>
 
 using System;
-using System.Windows.Forms;
 
 using ICSharpCode.Core.AddIns.Codons;
 using ICSharpCode.SharpDevelop.Gui.XmlForms;

@@ -7,7 +7,6 @@
 
 using System;
 using System.IO;
-using System.Windows.Forms;
 using System.Diagnostics;
 using System.Drawing;
 using System.Collections.Specialized;
@@ -141,7 +140,9 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads.ProjectBrowser
 			DateTime old = DateTime.Now;
 			ResourceService resourceService = (ResourceService)ServiceManager.Services.GetService(typeof(IResourceService));
 			StringParserService stringParserService = (StringParserService)ServiceManager.Services.GetService(typeof(StringParserService));
-			using (SharpMessageBox sharpMessageBox = new SharpMessageBox(resourceService.GetString("ProjectComponent.RemoveFile.Title"),
+			Console.WriteLine ("Unported dialog in FileNode.cs");
+			
+			/*using (SharpMessageBox sharpMessageBox = new SharpMessageBox(resourceService.GetString("ProjectComponent.RemoveFile.Title"),
 			                                                             stringParserService.Parse(resourceService.GetString("ProjectComponent.RemoveFile.Question"), new string[,] { {"FILE", Path.GetFileName(((ProjectFile)userData).Name)}, {"PROJECT", Project.Name}}),
 			                                                             resourceService.GetString("Global.RemoveButtonText"),
 			                                                             resourceService.GetString("Global.DeleteButtonText"),
@@ -160,7 +161,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads.ProjectBrowser
 						fileService.RemoveFile(((ProjectFile)userData).Name);
 						break;
 				}
-			}
+			}*/
 			return true;
 		}
 	}

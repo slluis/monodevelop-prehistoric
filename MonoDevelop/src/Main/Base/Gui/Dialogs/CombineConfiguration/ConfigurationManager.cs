@@ -8,7 +8,6 @@ using System;
 using System.Drawing;
 using System.Collections;
 using System.ComponentModel;
-using System.Windows.Forms;
 
 using ICSharpCode.Core.Services;
 using ICSharpCode.Core.Properties;
@@ -18,7 +17,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs.OptionPanels
 	/// <summary>
 	/// Summary description for Form2.
 	/// </summary>
-	public class ConfigurationManager : System.Windows.Forms.Form
+	public class ConfigurationManager //: System.Windows.Forms.Form
 	{/*
 		private System.Windows.Forms.TreeView treeView1;
 		private System.Windows.Forms.Label label1;

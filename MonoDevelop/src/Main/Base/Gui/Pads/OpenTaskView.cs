@@ -6,7 +6,6 @@
 // </file>
 
 using System;
-using System.Windows.Forms;
 using System.Drawing;
 using System.CodeDom.Compiler;
 using System.Collections;
@@ -19,7 +18,7 @@ using ICSharpCode.Core.Properties;
 
 namespace ICSharpCode.SharpDevelop.Gui.Pads
 {
-	public class OpenTaskView : ListView, IPadContent
+/*	public class OpenTaskView : ListView, IPadContent
 	{
 		Panel     myPanel  = new Panel();
 		ResourceService resourceService = (ResourceService)ServiceManager.Services.GetService(typeof(IResourceService));
@@ -96,10 +95,10 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads
 			
 			ImageList imglist = new ImageList();
 			imglist.ColorDepth = ColorDepth.Depth32Bit;
-			/*imglist.Images.Add(resourceService.GetBitmap("Icons.16x16.Error"));
+			imglist.Images.Add(resourceService.GetBitmap("Icons.16x16.Error"));
 			imglist.Images.Add(resourceService.GetBitmap("Icons.16x16.Warning"));
 			imglist.Images.Add(resourceService.GetBitmap("Icons.16x16.Information"));
-			imglist.Images.Add(resourceService.GetBitmap("Icons.16x16.Question"));*/
+			imglist.Images.Add(resourceService.GetBitmap("Icons.16x16.Question"));
 			this.SmallImageList = this.LargeImageList = imglist;
 			
 //			type.Width = 24;
@@ -285,5 +284,5 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads
 			WorkbenchSingleton.Workbench.WorkbenchLayout.ActivatePad(this);
 		}
 
-	}
+	}*/
 }

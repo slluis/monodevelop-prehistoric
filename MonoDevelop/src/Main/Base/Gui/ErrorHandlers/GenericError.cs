@@ -5,7 +5,6 @@
 //     <version value="$version"/>
 // </file>
 
-using System.Windows.Forms;
 using ICSharpCode.Core.Services;
 
 namespace ICSharpCode.SharpDevelop.Gui.ErrorHandlers

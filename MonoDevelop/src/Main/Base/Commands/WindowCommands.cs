@@ -8,7 +8,6 @@
 using System;
 using System.Collections;
 using System.CodeDom.Compiler;
-using System.Windows.Forms;
 using ICSharpCode.Core.Properties;
 using ICSharpCode.Core.AddIns.Codons;
 using ICSharpCode.SharpDevelop.Gui;

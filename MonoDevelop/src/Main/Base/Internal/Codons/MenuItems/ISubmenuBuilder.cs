@@ -8,7 +8,6 @@
 using System;
 using System.Collections;
 using System.Reflection;
-using System.Windows.Forms;
 
 using ICSharpCode.Core.AddIns.Conditions;
 using ICSharpCode.Core.Properties;
