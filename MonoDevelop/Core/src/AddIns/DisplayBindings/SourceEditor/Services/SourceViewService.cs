@@ -57,7 +57,8 @@ namespace MonoDevelop.Services
 							sts.Italic = bool.Parse (reader.GetAttribute ("italic"));
 							sts.Underline = bool.Parse (reader.GetAttribute ("underline"));
 							sts.Strikethrough = bool.Parse (reader.GetAttribute ("strikethrough"));
-							sts.IsDefault = bool.Parse (reader.GetAttribute ("is_default"));
+							// we can remove the "==null ? "false" : "true"" later, just to make sure transaction is smooth for svn users we let it for now.
+							sts.IsDefault = bool.Parse (reader.GetAttribute ("is_default")==null ? "false" : "true");
 							ParseColor (reader.GetAttribute ("foreground"), ref sts.Foreground);
 							ParseColor (reader.GetAttribute ("background"), ref sts.Background);
 							lang.SetTagStyle (name, sts);

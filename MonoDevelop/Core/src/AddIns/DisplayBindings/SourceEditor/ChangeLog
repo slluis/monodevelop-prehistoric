@@ -1,3 +1,8 @@
+2005-04-06  Alexandre Gomes  <alexmipego@gmail.com>
+	
+	* Services/SourceViewService.cs: Fix a small problem that can occur
+	to svn users since some users that can be missing isDefault at all.
+
 2005-04-05  John Luke  <john.luke@gmail.com>
 
 	* Gui/OptionPanels/SyntaxHighlightingPanel.cs:
