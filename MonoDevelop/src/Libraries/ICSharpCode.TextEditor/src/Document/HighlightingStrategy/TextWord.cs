@@ -25,12 +25,17 @@ namespace ICSharpCode.TextEditor.Document
 	public class TextWord
 	{
 		HighlightColor  color;
+		LineSegment     word;
+		IDocument       document;
 		
 		int          offset;
 		int          length;
+		TextWordType type;
 		
-		static TextWord spaceWord = new TextWord (TextWordType.Space);
-		static TextWord tabWord   = new TextWord (TextWordType.Tab);
+		static TextWord spaceWord = new TextWord(TextWordType.Space);
+		static TextWord tabWord   = new TextWord(TextWordType.Tab);
+		
+		public bool hasDefaultColor;
 		
 		static public TextWord Space {
 			get {
@@ -46,33 +51,34 @@ namespace ICSharpCode.TextEditor.Document
 		
 		public int  Length {
 			get {
-				return length;
+				if (type == TextWordType.Word) {
+					return length;
+				} 
+				return 1;
 			}
 		}
 		
 		public bool HasDefaultColor {
 			get {
-				return (offset & ~(1 << 31)) != 0;
+				return hasDefaultColor;
 			}
 		}
 		
 		public TextWordType Type {
 			get {
-				return 
-					this == spaceWord ? TextWordType.Space :
-					this == tabWord   ? TextWordType.Tab   :
-					                    TextWordType.Word  ;
+				return type;
 			}
 		}
 		
 //		string       myword = null;
-		public string GetWord (IDocument d, LineSegment l)
-		{
-			return d.GetText (l.Offset + offset, length);
+		public string Word {
+			get {
+				return document.GetText(word.Offset + offset, length);
 //				if (myword == null) {
 //					myword = document.GetText(word.Offset + offset, length);
 //				}
 //				return myword;
+			}
 		}
 		
 		public Pango.FontDescription Font {
@@ -98,25 +104,29 @@ namespace ICSharpCode.TextEditor.Document
 		
 		public bool IsWhiteSpace {
 			get {
-				return this == spaceWord || this == tabWord;
+				return type == TextWordType.Space || type == TextWordType.Tab;
 			}
 		}
 		
 		// TAB
 		private TextWord(TextWordType type)
 		{
-			length = 1;
+			this.type = type;
 		}
 		
-		public TextWord(int offset, int length, HighlightColor color, bool hasDefaultColor)
+		public TextWord(IDocument document, LineSegment word, int offset, int length, HighlightColor color, bool hasDefaultColor)
 		{
+			Debug.Assert(document != null);
+			Debug.Assert(word != null);
 			Debug.Assert(color != null);
 			
+			this.document = document;
+			this.word  = word;
 			this.offset = offset;
 			this.length = length;
 			this.color = color;
-			if (hasDefaultColor)
-				this.offset |= (1 << 31);
+			this.hasDefaultColor = hasDefaultColor;
+			this.type  = TextWordType.Word;
 		}
 		
 		/// <summary>
@@ -124,7 +134,7 @@ namespace ICSharpCode.TextEditor.Document
 		/// </summary>
 		public override string ToString()
 		{
-			return "[TextWord: , Font = " + Font.Family + ", Color = " + Color + "]";
+			return "[TextWord: Word = " + Word + ", Font = " + Font.Family + ", Color = " + Color + "]";
 		}
 	}
 }
