@@ -7,3 +7,4 @@ upon release.
 * The toolbar sometimes exhibit interesting behaviour including but not
   limited to looking disabled and working, looking enabled and not working
   and others.
+* Lingering code completion issues
