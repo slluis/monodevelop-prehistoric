@@ -185,9 +185,10 @@ namespace MonoDevelop.Services
 		void GenerateMakefiles ();
 		
 		/// <remarks>
-		/// Is called, when a file is removed from a project.
+		/// Is called, when a file is removed from and added to a project.
 		/// </remarks>
 		event FileEventHandler FileRemovedFromProject;
+		event FileEventHandler FileAddedToProject;
 				
 		/// <remarks>
 		/// Called before a build run

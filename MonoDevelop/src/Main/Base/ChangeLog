@@ -1,5 +1,13 @@
 2004-05-02  Todd Berman  <tberman@sevenl.net>
 
+	* Services/Project/IProjectService.cs
+	* Services/Project/DefaultProjectService.cs: Add events for Files being
+	added and removed.
+	* Gui/Pads/ClassScout/ClassScout.cs: Properly update on files added
+	and removed.
+
+2004-05-02  Todd Berman  <tberman@sevenl.net>
+
 	* Services/ParserService/DefaultParserService.cs: expose gac lib
 	location finder
 	* Services/ParserService/AssemblyInformation.cs: remove previous fix

@@ -32,7 +32,9 @@ src/Main/Base/Gui/CompletionDatabaseWizard/druid.cs
 src/Main/Base/Gui/CompletionDatabaseWizard/GenerateDatabase.cs
 src/Main/Base/Gui/CompletionDatabaseWizard/UseExistingGenerator.cs
 src/Main/Base/Gui/Components/StatusBar/SdStatusBar.cs
-src/Main/Base/Gui/Pads/FileScout.cs
+src/Main/Base/Gui/Pads/FileScout/FileList.cs
+src/Main/Base/Gui/Pads/FileScout/FileListItem.cs
+src/Main/Base/Gui/Pads/FileScout/FileScout.cs
 src/Main/Base/Gui/Pads/HelpBrowser/HelpViewer.cs
 src/Main/Base/Gui/ErrorHandlers/CombineLoadError.cs
 src/Main/Base/Gui/Pads/ClassScout/ClassScout.cs

@@ -202,12 +202,13 @@ namespace MonoDevelop.Services
 			}
 			ProjectFile newFileInformation = new ProjectFile(filename, action);
 			prj.ProjectFiles.Add(newFileInformation);
+			OnFileAddedToProject (new FileEventArgs (filename, false));
 			return newFileInformation;
 		}
 		
 		public void AddFileToProject(IProject prj, ProjectFile projectFile) {
 			prj.ProjectFiles.Add(projectFile);
-			
+			OnFileAddedToProject (new FileEventArgs (projectFile.Name, false));
 		}
 
 		
@@ -683,10 +684,17 @@ namespace MonoDevelop.Services
 			}
 		}
 		
-		protected virtual void OnFileRemovedFromProject(FileEventArgs e)
+		public virtual void OnFileRemovedFromProject (FileEventArgs e)
 		{
 			if (FileRemovedFromProject != null) {
 				FileRemovedFromProject(this, e);
+			}
+		}
+
+		public virtual void OnFileAddedToProject (FileEventArgs e)
+		{
+			if (FileAddedToProject != null) {
+				FileAddedToProject (this, e);
 			}
 		}
 		
@@ -732,6 +740,7 @@ namespace MonoDevelop.Services
 		}
 		
 		public event FileEventHandler FileRemovedFromProject;
+		public event FileEventHandler FileAddedToProject;
 		public event EventHandler     StartBuild;
 		public event EventHandler     EndBuild;
 		public event EventHandler     BeforeStartProject;

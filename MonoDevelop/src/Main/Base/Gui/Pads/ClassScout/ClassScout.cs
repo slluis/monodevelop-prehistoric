@@ -110,6 +110,8 @@ namespace MonoDevelop.Gui.Pads
 
 			projectService.CombineOpened += new CombineEventHandler(OnCombineOpen);
 			projectService.CombineClosed += new CombineEventHandler(OnCombineClosed);
+			projectService.FileAddedToProject += new FileEventHandler (OnProjectFilesChanged);
+			projectService.FileRemovedFromProject += new FileEventHandler (OnProjectFilesChanged);
 
 			Gtk.ScrolledWindow sw = new Gtk.ScrolledWindow ();
 			sw.Add(this);
@@ -131,9 +133,14 @@ namespace MonoDevelop.Gui.Pads
 			}
 		}
 
+		void OnProjectFilesChanged (object sender, FileEventArgs e)
+		{
+			IProjectService projectService = (IProjectService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(IProjectService));
+			OnCombineOpen (sender, new CombineEventArgs (projectService.CurrentOpenCombine));
+		}
+
 		public void RedrawContent()
 		{
-			Console.WriteLine ("redraw");
 		}
 
 		void OnCombineOpen(object sender, CombineEventArgs e)

@@ -9,5 +9,5 @@ EXTRA_DIST = $(addin_DATA)
 
 # for conditionally built addins
 CLEANFILES = MonoDevelopDebugger.addin.xml MonoDevelop.Debugger.dll \
-MonoDevelopNunit.addin.xml MonoDevelop.Nunit.dll
+MonoDevelopNunit.addin.xml MonoDevelop.Nunit.dll prj2make-sharp-lib.dll
 

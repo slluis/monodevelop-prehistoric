@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: MonoDevelop 0.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-04-20 15:52-0400\n"
+"POT-Creation-Date: 2004-05-02 01:19-0400\n"
 "PO-Revision-Date: 2004-04-02 03:31-0500\n"
 "Last-Translator: Todd Berman <tberman@sevenl.net>\n"
 "Language-Team: Todd Berman <tberman@sevenl.net>\n"
@@ -337,8 +337,8 @@ msgstr ""
 
 #: build/AddIns/SharpDevelopCore.addin.xml.h:77
 #: src/Main/Base/Gui/Dialogs/WordCountDialog.cs:253
-#: src/Main/Base/Gui/Dialogs/WordCountDialog.cs:308
-#: src/Main/Base/Gui/Pads/OpenTaskView.cs:109
+#: src/Main/Base/Gui/Dialogs/WordCountDialog.cs:309
+#: src/Main/Base/Gui/Pads/OpenTaskView.cs:108
 msgid "File"
 msgstr ""
 
@@ -360,113 +360,112 @@ msgid "General"
 msgstr ""
 
 #: build/AddIns/SharpDevelopCore.addin.xml.h:82
-msgid "GotDotNet"
+msgid "Generate Makefiles"
 msgstr ""
 
 #: build/AddIns/SharpDevelopCore.addin.xml.h:83
+msgid "GotDotNet"
+msgstr ""
+
+#: build/AddIns/SharpDevelopCore.addin.xml.h:84
 #: src/Main/Base/Gui/Pads/HelpBrowser/MonodocTreePad.cs:30
 msgid "Help"
 msgstr ""
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:84
+#: build/AddIns/SharpDevelopCore.addin.xml.h:85
 msgid "Help..."
 msgstr ""
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:85
+#: build/AddIns/SharpDevelopCore.addin.xml.h:86
 msgid "Integrated Projects"
 msgstr ""
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:86
+#: build/AddIns/SharpDevelopCore.addin.xml.h:87
 msgid "Layouts"
 msgstr ""
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:87
+#: build/AddIns/SharpDevelopCore.addin.xml.h:88
 msgid "Load/Save"
 msgstr ""
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:88
+#: build/AddIns/SharpDevelopCore.addin.xml.h:89
 msgid "Magic Library"
 msgstr ""
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:89
+#: build/AddIns/SharpDevelopCore.addin.xml.h:90
 msgid "Mono Project"
 msgstr "The Mono Project"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:90
+#: build/AddIns/SharpDevelopCore.addin.xml.h:91
 #, fuzzy
 msgid "MonoDevelop"
 msgstr "Aboot MonoDevelop"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:91
+#: build/AddIns/SharpDevelopCore.addin.xml.h:92
 #, fuzzy
 msgid "MonoDevelop Options"
 msgstr "Aboot MonoDevelop"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:92
+#: build/AddIns/SharpDevelopCore.addin.xml.h:93
 msgid "Move Item Down"
 msgstr ""
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:93
+#: build/AddIns/SharpDevelopCore.addin.xml.h:94
 msgid "Move Item up"
 msgstr ""
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:94
+#: build/AddIns/SharpDevelopCore.addin.xml.h:95
 msgid "Move Tab Down"
 msgstr ""
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:95
+#: build/AddIns/SharpDevelopCore.addin.xml.h:96
 msgid "Move Tab Up"
 msgstr ""
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:96
+#: build/AddIns/SharpDevelopCore.addin.xml.h:97
 msgid "NAnt"
 msgstr ""
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:97
+#: build/AddIns/SharpDevelopCore.addin.xml.h:98
 msgid "NDoc"
 msgstr ""
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:98
+#: build/AddIns/SharpDevelopCore.addin.xml.h:99
 msgid "New"
 msgstr ""
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:99
+#: build/AddIns/SharpDevelopCore.addin.xml.h:100
 msgid "New File..."
 msgstr ""
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:100
+#: build/AddIns/SharpDevelopCore.addin.xml.h:101
 #: src/Main/Base/Commands/ProjectBrowserCommands/FolderNodeCommands.cs:190
 msgid "New Folder"
 msgstr ""
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:101
+#: build/AddIns/SharpDevelopCore.addin.xml.h:102
 #, fuzzy
 msgid "New Solution/Project..."
 msgstr "New Combine, eh?"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:102
+#: build/AddIns/SharpDevelopCore.addin.xml.h:103
 msgid "New _File"
 msgstr ""
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:103
+#: build/AddIns/SharpDevelopCore.addin.xml.h:104
 msgid "Next Window"
 msgstr ""
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:104
+#: build/AddIns/SharpDevelopCore.addin.xml.h:105
 msgid "O_pen"
 msgstr ""
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:105
+#: build/AddIns/SharpDevelopCore.addin.xml.h:106
 msgid "Open"
 msgstr ""
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:106
-msgid "Open..."
-msgstr ""
-
 #: build/AddIns/SharpDevelopCore.addin.xml.h:107
-#: data/resources/glade/Base.glade.h:47
-msgid "Options"
+msgid "Open..."
 msgstr ""
 
 #: build/AddIns/SharpDevelopCore.addin.xml.h:108
@@ -475,175 +474,181 @@ msgid "Paste"
 msgstr ""
 
 #: build/AddIns/SharpDevelopCore.addin.xml.h:109
-msgid "Previous Window"
+msgid "Preferences"
 msgstr ""
 
 #: build/AddIns/SharpDevelopCore.addin.xml.h:110
-msgid "Project _Options"
+msgid "Previous Window"
 msgstr ""
 
 #: build/AddIns/SharpDevelopCore.addin.xml.h:111
-msgid "Project options"
+msgid "Project _Options"
 msgstr ""
 
 #: build/AddIns/SharpDevelopCore.addin.xml.h:112
-msgid "Quit"
+msgid "Project options"
 msgstr ""
 
 #: build/AddIns/SharpDevelopCore.addin.xml.h:113
-msgid "Re_name"
+msgid "Quit"
 msgstr ""
 
 #: build/AddIns/SharpDevelopCore.addin.xml.h:114
-msgid "Rebuild Project"
+msgid "Re_name"
 msgstr ""
 
 #: build/AddIns/SharpDevelopCore.addin.xml.h:115
+msgid "Rebuild Project"
+msgstr ""
+
+#: build/AddIns/SharpDevelopCore.addin.xml.h:116
 #, fuzzy
 msgid "Rebuild _Solution"
 msgstr "New Combine, eh?"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:116
+#: build/AddIns/SharpDevelopCore.addin.xml.h:117
 msgid "Recent Files"
 msgstr ""
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:117
+#: build/AddIns/SharpDevelopCore.addin.xml.h:118
 #, fuzzy
 msgid "Recent Solutions"
 msgstr "New Combine, eh?"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:118
+#: build/AddIns/SharpDevelopCore.addin.xml.h:119
 msgid "Redo"
 msgstr ""
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:119
+#: build/AddIns/SharpDevelopCore.addin.xml.h:120
 msgid "Refresh"
 msgstr ""
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:120
+#: build/AddIns/SharpDevelopCore.addin.xml.h:121
 msgid "Reload File"
 msgstr ""
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:121
+#: build/AddIns/SharpDevelopCore.addin.xml.h:122
 msgid "Remove"
 msgstr ""
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:122
+#: build/AddIns/SharpDevelopCore.addin.xml.h:123
 #: src/Libraries/MonoDevelop.Gui.Widgets/FileBrowser/FileBrowser.cs:259
 msgid "Rename"
 msgstr ""
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:123
+#: build/AddIns/SharpDevelopCore.addin.xml.h:124
 msgid "Rename Tab"
 msgstr ""
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:124
+#: build/AddIns/SharpDevelopCore.addin.xml.h:125
 msgid "Reset Property"
 msgstr ""
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:125
+#: build/AddIns/SharpDevelopCore.addin.xml.h:126
 msgid "Run"
 msgstr ""
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:126
+#: build/AddIns/SharpDevelopCore.addin.xml.h:127
 msgid "Save All"
 msgstr ""
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:127
+#: build/AddIns/SharpDevelopCore.addin.xml.h:128
 #, fuzzy
 msgid "Save As..."
 msgstr "New Combine, eh?"
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:128
+#: build/AddIns/SharpDevelopCore.addin.xml.h:129
+#: data/resources/glade/Base.glade.h:55
 msgid "Select All"
 msgstr ""
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:129
+#: build/AddIns/SharpDevelopCore.addin.xml.h:130
 msgid "Send Us a Mail"
 msgstr ""
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:130
+#: build/AddIns/SharpDevelopCore.addin.xml.h:131
 msgid "Set As Startup Project"
 msgstr ""
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:131
+#: build/AddIns/SharpDevelopCore.addin.xml.h:132
 msgid "Set as active"
 msgstr ""
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:132
+#: build/AddIns/SharpDevelopCore.addin.xml.h:133
 msgid "Setup"
 msgstr ""
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:133
+#: build/AddIns/SharpDevelopCore.addin.xml.h:134
 msgid "SharpDevelop"
 msgstr ""
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:134
+#: build/AddIns/SharpDevelopCore.addin.xml.h:135
 msgid "Show Description"
 msgstr ""
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:135
+#: build/AddIns/SharpDevelopCore.addin.xml.h:136
 msgid "Solution Options"
 msgstr ""
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:136
+#: build/AddIns/SharpDevelopCore.addin.xml.h:137
 msgid "Solution/Project..."
 msgstr ""
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:137
+#: build/AddIns/SharpDevelopCore.addin.xml.h:138
 msgid "Startup Properties"
 msgstr ""
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:138
+#: build/AddIns/SharpDevelopCore.addin.xml.h:139
 msgid "Tip of the Day..."
 msgstr ""
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:139
+#: build/AddIns/SharpDevelopCore.addin.xml.h:140
 msgid "Tools"
 msgstr ""
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:140
+#: build/AddIns/SharpDevelopCore.addin.xml.h:141
 msgid "Undo"
 msgstr ""
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:141
+#: build/AddIns/SharpDevelopCore.addin.xml.h:142
 msgid "Use Existing File"
 msgstr ""
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:142
+#: build/AddIns/SharpDevelopCore.addin.xml.h:143
+#: data/resources/glade/Base.glade.h:63
 msgid "View"
 msgstr ""
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:143
+#: build/AddIns/SharpDevelopCore.addin.xml.h:144
 msgid "Visual style"
 msgstr ""
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:144
+#: build/AddIns/SharpDevelopCore.addin.xml.h:145
 msgid "Web"
 msgstr ""
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:145
+#: build/AddIns/SharpDevelopCore.addin.xml.h:146
 msgid "Window"
 msgstr ""
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:146
+#: build/AddIns/SharpDevelopCore.addin.xml.h:147
 msgid "Word Count..."
 msgstr ""
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:147
+#: build/AddIns/SharpDevelopCore.addin.xml.h:148
 msgid "_Remove"
 msgstr ""
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:148
+#: build/AddIns/SharpDevelopCore.addin.xml.h:149
 msgid "_Save"
 msgstr ""
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:149
+#: build/AddIns/SharpDevelopCore.addin.xml.h:150
 #: build/AddIns/MonoDevelopNewEditor.addin.xml.h:58
 msgid "bogus_label"
 msgstr ""
 
-#: build/AddIns/SharpDevelopCore.addin.xml.h:150
+#: build/AddIns/SharpDevelopCore.addin.xml.h:151
 msgid "cshrp.net"
 msgstr ""
 
@@ -864,15 +869,19 @@ msgid "${res:Dialog.Options.PrjOptions.OutputOptionsPanel.PanelName}"
 msgstr ""
 
 #: build/AddIns/AddIns/BackendBindings/BackendBindings.addin.xml.h:5
+msgid "Compiler"
+msgstr ""
+
+#: build/AddIns/AddIns/BackendBindings/BackendBindings.addin.xml.h:6
 #: src/AddIns/DisplayBindings/SourceEditor/Gui/Pads/CompilerMessageView.cs:45
 msgid "Output"
 msgstr ""
 
-#: build/AddIns/AddIns/BackendBindings/BackendBindings.addin.xml.h:6
+#: build/AddIns/AddIns/BackendBindings/BackendBindings.addin.xml.h:7
 msgid "Runtime/Compiler"
 msgstr ""
 
-#: build/AddIns/AddIns/BackendBindings/BackendBindings.addin.xml.h:7
+#: build/AddIns/AddIns/BackendBindings/BackendBindings.addin.xml.h:8
 msgid "VB.DOC"
 msgstr ""
 
@@ -976,284 +985,289 @@ msgid "Add References"
 msgstr ""
 
 #: data/resources/glade/Base.glade.h:18
-msgid "Always create backup copy"
+msgid "All Files"
 msgstr ""
 
 #: data/resources/glade/Base.glade.h:19
+msgid "Always create backup copy"
+msgstr ""
+
+#: data/resources/glade/Base.glade.h:20
 msgid "Automaticly _include found files"
 msgstr ""
 
 #. FIXME: il8n this
-#: data/resources/glade/Base.glade.h:20
+#: data/resources/glade/Base.glade.h:21
 #: src/Main/Base/Gui/Dialogs/ReferenceDialog/AssemblyReferencePanel.cs:27
 msgid "Browse"
 msgstr ""
 
-#: data/resources/glade/Base.glade.h:21
+#: data/resources/glade/Base.glade.h:22
 msgid "Build and run options"
 msgstr ""
 
-#: data/resources/glade/Base.glade.h:22
+#: data/resources/glade/Base.glade.h:23
 msgid "BuildPanel"
 msgstr ""
 
-#: data/resources/glade/Base.glade.h:23
+#: data/resources/glade/Base.glade.h:24
 msgid "Cat_egories:"
 msgstr ""
 
-#: data/resources/glade/Base.glade.h:24
+#: data/resources/glade/Base.glade.h:25
+#, fuzzy
+msgid "Clear Selection"
+msgstr "New Combine, eh?"
+
+#: data/resources/glade/Base.glade.h:26
 msgid "CombineStartupPanel"
 msgstr ""
 
-#: data/resources/glade/Base.glade.h:25
+#: data/resources/glade/Base.glade.h:27
 msgid "Compilation _target"
 msgstr ""
 
-#: data/resources/glade/Base.glade.h:26
+#: data/resources/glade/Base.glade.h:28
 msgid "CompileFileOptionsPanel"
 msgstr ""
 
-#: data/resources/glade/Base.glade.h:27
+#: data/resources/glade/Base.glade.h:29
 msgid "Create seperate c_ombine subdirectory"
 msgstr ""
 
-#: data/resources/glade/Base.glade.h:28
+#: data/resources/glade/Base.glade.h:30
 msgid "Creates a new C# Project"
 msgstr ""
 
-#: data/resources/glade/Base.glade.h:29
-msgid "Default _combine location"
-msgstr ""
-
-#: data/resources/glade/Base.glade.h:30
-msgid "DeployFileOptionsPanel"
-msgstr ""
-
 #: data/resources/glade/Base.glade.h:31
-msgid "Did you know that you can design lots of cool things with glade?"
+msgid "Default _solution location"
 msgstr ""
 
 #: data/resources/glade/Base.glade.h:32
-msgid "Did you know?"
+msgid "DeployFileOptionsPanel"
 msgstr ""
 
 #: data/resources/glade/Base.glade.h:33
-msgid "Enable _viewstate"
+msgid "Did you know that you can design lots of cool things with glade?"
 msgstr ""
 
 #: data/resources/glade/Base.glade.h:34
-msgid "ExternalToolPanel"
+msgid "Did you know?"
 msgstr ""
 
 #: data/resources/glade/Base.glade.h:35
-msgid "GNU GENERAL PUBLIC LICENSE"
+msgid "Enable _viewstate"
 msgstr ""
 
 #: data/resources/glade/Base.glade.h:36
-msgid "GeneralProjectOptionsPanel"
+msgid "ExternalToolPanel"
 msgstr ""
 
 #: data/resources/glade/Base.glade.h:37
-msgid "Generate _additional comments"
+msgid "GNU GENERAL PUBLIC LICENSE"
 msgstr ""
 
 #: data/resources/glade/Base.glade.h:38
-msgid "Generate _documentation comments"
+msgid "GeneralProjectOptionsPanel"
 msgstr ""
 
 #: data/resources/glade/Base.glade.h:39
-msgid "Include Found Files"
+msgid "Generate _additional comments"
 msgstr ""
 
 #: data/resources/glade/Base.glade.h:40
-msgid "Layout name:"
+msgid "Generate _documentation comments"
 msgstr ""
 
 #: data/resources/glade/Base.glade.h:41
-msgid "Line Terminator Style"
+msgid "Include Found Files"
 msgstr ""
 
 #: data/resources/glade/Base.glade.h:42
-msgid "Load user-specific settings with the document"
+msgid "Layout name:"
 msgstr ""
 
 #: data/resources/glade/Base.glade.h:43
-msgid "LoadSavePanel"
+msgid "Line Terminator Style"
 msgstr ""
 
 #: data/resources/glade/Base.glade.h:44
+msgid "Load user-specific settings with the document"
+msgstr ""
+
+#: data/resources/glade/Base.glade.h:45
+msgid "LoadSavePanel"
+msgstr ""
+
+#: data/resources/glade/Base.glade.h:46
 #, fuzzy
 msgid "Macintosh"
 msgstr "Mac, eh?"
 
-#: data/resources/glade/Base.glade.h:45
+#: data/resources/glade/Base.glade.h:47
+msgid "New Files"
+msgstr ""
+
+#: data/resources/glade/Base.glade.h:48
+msgid "New Files Only"
+msgstr ""
+
+#: data/resources/glade/Base.glade.h:49
 #, fuzzy
 msgid "New Solution"
 msgstr "New Combine, eh?"
 
-#: data/resources/glade/Base.glade.h:46
+#: data/resources/glade/Base.glade.h:50
 msgid "New layout"
 msgstr ""
 
-#: data/resources/glade/Base.glade.h:48
-msgid "Project _Subdirectory:"
-msgstr ""
-
-#: data/resources/glade/Base.glade.h:49
-msgid "Project will be saved in: /dev/null"
-msgstr ""
-
-#: data/resources/glade/Base.glade.h:50
-msgid "Search for new _files on load"
-msgstr ""
-
 #: data/resources/glade/Base.glade.h:51
-msgid "Show Extensions in project scout"
+msgid "Options"
 msgstr ""
 
 #: data/resources/glade/Base.glade.h:52
-msgid "Show _output pad when build starts"
+msgid "Project _Subdirectory:"
 msgstr ""
 
 #: data/resources/glade/Base.glade.h:53
-msgid "Show _task list pad if build finished with errors"
+msgid "Project will be saved in: /dev/null"
 msgstr ""
 
 #: data/resources/glade/Base.glade.h:54
-msgid "Show hidden files and directories"
-msgstr ""
-
-#: data/resources/glade/Base.glade.h:55
-msgid "Tip of the day"
+msgid "Search for new _files on load"
 msgstr ""
 
 #: data/resources/glade/Base.glade.h:56
-msgid "Unix"
+msgid "Show Extensions in project scout"
 msgstr ""
 
 #: data/resources/glade/Base.glade.h:57
-msgid "Use _Output Window"
+msgid "Show _output pad when build starts"
 msgstr ""
 
 #: data/resources/glade/Base.glade.h:58
-msgid "Windows"
+msgid "Show _task list pad if build finished with errors"
 msgstr ""
 
 #: data/resources/glade/Base.glade.h:59
-msgid "With _scriptfile"
+msgid "Show hidden files and directories"
 msgstr ""
 
 #: data/resources/glade/Base.glade.h:60
-msgid "_Arguments"
+msgid "Tip of the day"
 msgstr ""
 
 #: data/resources/glade/Base.glade.h:61
-msgid "_Command"
+msgid "Unix"
 msgstr ""
 
 #: data/resources/glade/Base.glade.h:62
+msgid "Use _Output Window"
+msgstr ""
+
+#: data/resources/glade/Base.glade.h:64
+msgid "Windows"
+msgstr ""
+
+#: data/resources/glade/Base.glade.h:65
+msgid "With _scriptfile"
+msgstr ""
+
+#: data/resources/glade/Base.glade.h:66
+msgid "_Arguments"
+msgstr ""
+
+#: data/resources/glade/Base.glade.h:67
+msgid "_Command"
+msgstr ""
+
+#: data/resources/glade/Base.glade.h:68
 msgid "_Deploy target:"
 msgstr ""
 
-#: data/resources/glade/Base.glade.h:63
+#: data/resources/glade/Base.glade.h:69
 #: src/Main/Base/Gui/Dialogs/OptionPanels/EditTemplateDialog.cs:64
 msgid "_Description"
 msgstr ""
 
-#: data/resources/glade/Base.glade.h:64
+#: data/resources/glade/Base.glade.h:70
 msgid "_Don't save changes to open documents "
 msgstr ""
 
-#: data/resources/glade/Base.glade.h:65
+#: data/resources/glade/Base.glade.h:71
 msgid "_Else on same line as closing bracket"
 msgstr ""
 
-#: data/resources/glade/Base.glade.h:66
+#: data/resources/glade/Base.glade.h:72
 msgid "_Include files in compile run"
 msgstr ""
 
-#: data/resources/glade/Base.glade.h:67
+#: data/resources/glade/Base.glade.h:73
 msgid "_Insert blank lines between members"
 msgstr ""
 
-#: data/resources/glade/Base.glade.h:68
+#: data/resources/glade/Base.glade.h:74
 msgid "_Load previous solution on startup"
 msgstr ""
 
-#: data/resources/glade/Base.glade.h:69
+#: data/resources/glade/Base.glade.h:75
 msgid "_Location:"
 msgstr ""
 
-#: data/resources/glade/Base.glade.h:70
+#: data/resources/glade/Base.glade.h:76
 msgid "_Multiple Startup Project"
 msgstr ""
 
-#: data/resources/glade/Base.glade.h:71
+#: data/resources/glade/Base.glade.h:77
 msgid "_Name"
 msgstr ""
 
-#: data/resources/glade/Base.glade.h:72
+#: data/resources/glade/Base.glade.h:78
 msgid "_Name:"
 msgstr ""
 
-#: data/resources/glade/Base.glade.h:73
+#: data/resources/glade/Base.glade.h:79
 msgid "_Next Tip"
 msgstr ""
 
-#: data/resources/glade/Base.glade.h:74
+#: data/resources/glade/Base.glade.h:80
 msgid "_Project Files"
 msgstr ""
 
-#: data/resources/glade/Base.glade.h:75
+#: data/resources/glade/Base.glade.h:81
 msgid "_Prompt for Arguments"
 msgstr ""
 
-#: data/resources/glade/Base.glade.h:76
+#: data/resources/glade/Base.glade.h:82
 msgid "_Prompt to save changes to open documents"
 msgstr ""
 
-#: data/resources/glade/Base.glade.h:77
+#: data/resources/glade/Base.glade.h:83
 msgid "_Save Changes to open documents"
 msgstr ""
 
-#: data/resources/glade/Base.glade.h:78
+#: data/resources/glade/Base.glade.h:84
 msgid "_Show at startup"
 msgstr ""
 
-#: data/resources/glade/Base.glade.h:79
+#: data/resources/glade/Base.glade.h:85
 msgid "_Single Startup Project"
 msgstr ""
 
-#: data/resources/glade/Base.glade.h:80
+#: data/resources/glade/Base.glade.h:86
 msgid "_Start code block on the same line"
 msgstr ""
 
-#: data/resources/glade/Base.glade.h:81
+#: data/resources/glade/Base.glade.h:87
 msgid "_Title"
 msgstr ""
 
-#: data/resources/glade/Base.glade.h:82
+#: data/resources/glade/Base.glade.h:88
 msgid "_Use full type names"
 msgstr ""
 
-#: data/resources/glade/Base.glade.h:83
+#: data/resources/glade/Base.glade.h:89
 msgid "_Working Dir."
-msgstr ""
-
-#: data/resources/glade/Base.glade.h:84
-msgid "button1"
-msgstr ""
-
-#: data/resources/glade/Base.glade.h:85
-msgid "button3"
-msgstr ""
-
-#: data/resources/glade/Base.glade.h:86
-msgid "radiobutton1"
-msgstr ""
-
-#: data/resources/glade/Base.glade.h:87
-msgid "radiobutton2"
 msgstr ""
 
 #: data/resources/glade/CSharp.glade.h:4
@@ -1823,24 +1837,24 @@ msgstr ""
 msgid "File {0} is not a valid .Net Assembly"
 msgstr ""
 
-#: src/Main/Base/Gui/Dialogs/ReferenceDialog/GacReferencePanel.cs:39
+#: src/Main/Base/Gui/Dialogs/ReferenceDialog/GacReferencePanel.cs:41
 #: src/Main/Base/Gui/Dialogs/ReferenceDialog/SelectReferenceDialog.cs:76
 msgid "Reference Name"
 msgstr ""
 
-#: src/Main/Base/Gui/Dialogs/ReferenceDialog/GacReferencePanel.cs:50
+#: src/Main/Base/Gui/Dialogs/ReferenceDialog/GacReferencePanel.cs:52
 #: src/Main/Base/Gui/Dialogs/SharpDevelopAboutPanels.cs:44
 #: src/Main/Base/Gui/Dialogs/SharpDevelopAboutPanels.cs:169
 msgid "Version"
 msgstr ""
 
-#: src/Main/Base/Gui/Dialogs/ReferenceDialog/GacReferencePanel.cs:51
+#: src/Main/Base/Gui/Dialogs/ReferenceDialog/GacReferencePanel.cs:53
 #: src/Main/Base/Gui/Dialogs/SharpDevelopAboutPanels.cs:170
-#: src/Main/Base/Gui/Pads/OpenTaskView.cs:108
+#: src/Main/Base/Gui/Pads/OpenTaskView.cs:107
 msgid "Path"
 msgstr ""
 
-#: src/Main/Base/Gui/Dialogs/ReferenceDialog/GacReferencePanel.cs:126
+#: src/Main/Base/Gui/Dialogs/ReferenceDialog/GacReferencePanel.cs:122
 msgid ""
 "ERROR: non-mono runtime detected, please use the mono runtime for this piece "
 "of MonoDevelop for the time being"
@@ -1863,15 +1877,14 @@ msgid "Location"
 msgstr ""
 
 #: src/Main/Base/Gui/Dialogs/ReferenceDialog/SelectReferenceDialog.cs:94
-msgid "System Assemblies"
+msgid "Global Assembly Cache"
 msgstr ""
 
 #: src/Main/Base/Gui/Dialogs/ReferenceDialog/SelectReferenceDialog.cs:95
 msgid "Projects"
 msgstr ""
 
-#. FIXME il8n the assembly tab name
-#: src/Main/Base/Gui/Dialogs/ReferenceDialog/SelectReferenceDialog.cs:97
+#: src/Main/Base/Gui/Dialogs/ReferenceDialog/SelectReferenceDialog.cs:96
 msgid ".Net Assembly"
 msgstr ""
 
@@ -1888,7 +1901,7 @@ msgstr ""
 msgid "dynamic"
 msgstr ""
 
-#: src/Main/Base/Gui/Dialogs/TreeViewOptions.cs:153
+#: src/Main/Base/Gui/Dialogs/TreeViewOptions.cs:154
 #, fuzzy
 msgid "MonoDevelop options"
 msgstr "Aboot MonoDevelop"
@@ -1913,17 +1926,17 @@ msgid "You must be in project mode"
 msgstr ""
 
 #: src/Main/Base/Gui/Dialogs/WordCountDialog.cs:254
-#: src/Main/Base/Gui/Dialogs/WordCountDialog.cs:312
+#: src/Main/Base/Gui/Dialogs/WordCountDialog.cs:313
 msgid "Chars"
 msgstr ""
 
 #: src/Main/Base/Gui/Dialogs/WordCountDialog.cs:255
-#: src/Main/Base/Gui/Dialogs/WordCountDialog.cs:316
+#: src/Main/Base/Gui/Dialogs/WordCountDialog.cs:317
 msgid "Words"
 msgstr ""
 
 #: src/Main/Base/Gui/Dialogs/WordCountDialog.cs:256
-#: src/Main/Base/Gui/Dialogs/WordCountDialog.cs:320
+#: src/Main/Base/Gui/Dialogs/WordCountDialog.cs:321
 msgid "Lines"
 msgstr ""
 
@@ -1931,20 +1944,20 @@ msgstr ""
 msgid "Word Count"
 msgstr ""
 
-#: src/Main/Base/Gui/Dialogs/WordCountDialog.cs:333
+#: src/Main/Base/Gui/Dialogs/WordCountDialog.cs:334
 msgid "_Count where"
 msgstr ""
 
-#: src/Main/Base/Gui/Dialogs/WordCountDialog.cs:339
+#: src/Main/Base/Gui/Dialogs/WordCountDialog.cs:340
 msgid "Current file"
 msgstr ""
 
-#: src/Main/Base/Gui/Dialogs/WordCountDialog.cs:340
+#: src/Main/Base/Gui/Dialogs/WordCountDialog.cs:341
 #: src/AddIns/DisplayBindings/SourceEditor/Gui/Dialogs/ReplaceInFilesDialog.cs:196
 msgid "All open files"
 msgstr ""
 
-#: src/Main/Base/Gui/Dialogs/WordCountDialog.cs:341
+#: src/Main/Base/Gui/Dialogs/WordCountDialog.cs:342
 msgid "Whole solution"
 msgstr ""
 
@@ -2120,37 +2133,37 @@ msgstr ""
 msgid "ln {0} col {1} ch {2}"
 msgstr ""
 
-#: src/Main/Base/Gui/Pads/FileScout.cs:54
-#: src/Main/Base/Gui/Pads/FileScout.cs:331
+#: src/Main/Base/Gui/Pads/FileScout/FileList.cs:54
+#: src/Main/Base/Gui/Pads/FileScout/FileScout.cs:23
 msgid "Files"
 msgstr ""
 
-#: src/Main/Base/Gui/Pads/FileScout.cs:57
+#: src/Main/Base/Gui/Pads/FileScout/FileList.cs:57
 msgid "Size"
 msgstr ""
 
-#: src/Main/Base/Gui/Pads/FileScout.cs:60
+#: src/Main/Base/Gui/Pads/FileScout/FileList.cs:60
 msgid "Last modified"
 msgstr ""
 
-#: src/Main/Base/Gui/Pads/FileScout.cs:172
+#: src/Main/Base/Gui/Pads/FileScout/FileList.cs:171
 msgid "Are you sure you want to delete this file?"
 msgstr ""
 
-#: src/Main/Base/Gui/Pads/FileScout.cs:172
+#: src/Main/Base/Gui/Pads/FileScout/FileList.cs:171
 msgid "Delete files"
 msgstr ""
 
-#: src/Main/Base/Gui/Pads/FileScout.cs:200
+#: src/Main/Base/Gui/Pads/FileScout/FileList.cs:200
 msgid "Delete file"
 msgstr ""
 
-#: src/Main/Base/Gui/Pads/FileScout.cs:204
+#: src/Main/Base/Gui/Pads/FileScout/FileList.cs:203
 msgid "Rename file"
 msgstr ""
 
 #: src/Main/Base/Gui/Pads/HelpBrowser/HelpViewer.cs:30
-#: src/Main/Base/Gui/Pads/HelpBrowser/MonodocTreePad.cs:108
+#: src/Main/Base/Gui/Pads/HelpBrowser/MonodocTreePad.cs:118
 msgid "Documentation"
 msgstr ""
 
@@ -2162,11 +2175,11 @@ msgid ""
 "{2}"
 msgstr ""
 
-#: src/Main/Base/Gui/Pads/ClassScout/ClassScout.cs:82
+#: src/Main/Base/Gui/Pads/ClassScout/ClassScout.cs:80
 msgid "Classes"
 msgstr ""
 
-#: src/Main/Base/Gui/Pads/ClassScout/ClassScout.cs:344
+#: src/Main/Base/Gui/Pads/ClassScout/ClassScout.cs:353
 msgid "No class builder found"
 msgstr ""
 
@@ -2178,11 +2191,11 @@ msgstr ""
 msgid "Task List"
 msgstr ""
 
-#: src/Main/Base/Gui/Pads/OpenTaskView.cs:106
+#: src/Main/Base/Gui/Pads/OpenTaskView.cs:105
 msgid "Line"
 msgstr ""
 
-#: src/Main/Base/Gui/Pads/OpenTaskView.cs:107
+#: src/Main/Base/Gui/Pads/OpenTaskView.cs:106
 #: src/AddIns/DisplayBindings/SourceEditor/Gui/OptionPanels/CodeTemplatePanel.cs:117
 msgid "Description"
 msgstr ""
@@ -2250,7 +2263,7 @@ msgstr ""
 msgid "Solution"
 msgstr ""
 
-#: src/Main/Base/Gui/Workbench/DefaultWorkbench.cs:565
+#: src/Main/Base/Gui/Workbench/DefaultWorkbench.cs:562
 #: src/Main/Base/Commands/RunCommands.cs:242
 #: src/Main/Base/Services/Project/DefaultProjectService.cs:155
 msgid "Ready"
@@ -2493,7 +2506,7 @@ msgid "Can't find language binding for {0}"
 msgstr ""
 
 #: src/Main/Base/Internal/Project/Combine/Combine.cs:301
-#: src/Main/Base/Internal/Project/Project/AbstractProject.cs:498
+#: src/Main/Base/Internal/Project/Project/AbstractProject.cs:500
 msgid ""
 "Can't save solution\n"
 "Please check your file and directory permissions."
@@ -2510,16 +2523,16 @@ msgstr ""
 
 #: src/Main/Base/Internal/Project/Combine/Combine.cs:516
 msgid ""
-"Cyclic dependencies can not be build with this version.\n"
+"Cyclic dependencies can not be built with this version.\n"
 "But we are working on it."
 msgstr ""
 
-#: src/Main/Base/Internal/Project/Combine/CombineEntry.cs:114
+#: src/Main/Base/Internal/Project/Combine/CombineEntry.cs:115
 #, csharp-format
 msgid "Compiling: {0}"
 msgstr ""
 
-#: src/Main/Base/Internal/Project/Combine/CombineEntry.cs:132
+#: src/Main/Base/Internal/Project/Combine/CombineEntry.cs:133
 #, csharp-format
 msgid ""
 "------ Build started: Project: {0} Configuration: {1} ------\n"
@@ -2527,27 +2540,27 @@ msgid ""
 "Performing main compilation...\n"
 msgstr ""
 
-#: src/Main/Base/Internal/Project/Combine/CombineEntry.cs:135
-#: src/Main/Base/Internal/Project/Combine/CombineEntry.cs:149
+#: src/Main/Base/Internal/Project/Combine/CombineEntry.cs:136
+#: src/Main/Base/Internal/Project/Combine/CombineEntry.cs:150
 #, csharp-format
 msgid "Execute : {0}"
 msgstr ""
 
-#: src/Main/Base/Internal/Project/Combine/CombineEntry.cs:174
+#: src/Main/Base/Internal/Project/Combine/CombineEntry.cs:175
 #, csharp-format
 msgid ""
 "Build complete -- {0} errors, {1} warnings\n"
 "\n"
 msgstr ""
 
-#: src/Main/Base/Internal/Project/Project/AbstractProject.cs:259
+#: src/Main/Base/Internal/Project/Project/AbstractProject.cs:261
 #, csharp-format
 msgid ""
 "Old project file format found.\n"
 " It will be automatically converted to {0} information"
 msgstr ""
 
-#: src/Main/Base/Internal/Project/Project/AbstractProject.cs:274
+#: src/Main/Base/Internal/Project/Project/AbstractProject.cs:276
 msgid ""
 "Error writing the old project file.\n"
 "Check if you have write permission on the project file (.prjx).\n"
@@ -2556,11 +2569,11 @@ msgid ""
 "It is better if you close SharpDevelop and correct the problem."
 msgstr ""
 
-#: src/Main/Base/Internal/Project/Project/AbstractProject.cs:513
+#: src/Main/Base/Internal/Project/Project/AbstractProject.cs:515
 msgid "Save Project As..."
 msgstr ""
 
-#: src/Main/Base/Internal/Project/Project/AbstractProject.cs:521
+#: src/Main/Base/Internal/Project/Project/AbstractProject.cs:523
 msgid "Project saved"
 msgstr ""
 
@@ -2656,11 +2669,11 @@ msgstr ""
 msgid "Question"
 msgstr ""
 
-#: src/Main/Base/Services/ParserService/DefaultParserService.cs:164
+#: src/Main/Base/Services/ParserService/DefaultParserService.cs:202
 msgid "Generate code completion database"
 msgstr ""
 
-#: src/Main/Base/Services/ParserService/DefaultParserService.cs:188
+#: src/Main/Base/Services/ParserService/DefaultParserService.cs:226
 msgid "Writing class"
 msgstr ""
 
@@ -2845,7 +2858,7 @@ msgstr ""
 msgid "Edit "
 msgstr ""
 
-#: src/AddIns/DisplayBindings/SourceEditor/Gui/SourceEditorDisplayBinding.cs:108
+#: src/AddIns/DisplayBindings/SourceEditor/Gui/SourceEditorDisplayBinding.cs:114
 msgid "Source Editor"
 msgstr ""
 
