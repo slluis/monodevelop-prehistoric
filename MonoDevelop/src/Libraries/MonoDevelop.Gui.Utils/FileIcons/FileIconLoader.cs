@@ -28,7 +28,10 @@ namespace MonoDevelop.Gui.Utils
 		{
 			Gnome.IconLookupResultFlags result;
 			string icon = Gnome.Icon.LookupSync (iconTheme, thumbnailFactory, filename, "", Gnome.IconLookupFlags.None, out result);
-			return GetPixbufForType (icon).ScaleSimple (height, width, Gdk.InterpType.Bilinear);
+			Gdk.Pixbuf pix = GetPixbufForType (icon);
+			if (pix == null)
+				return null;
+			return pix.ScaleSimple (height, width, Gdk.InterpType.Bilinear);
 		}
 
 		public static Gdk.Pixbuf GetPixbufForType (string type)
