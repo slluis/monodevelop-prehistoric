@@ -1,3 +1,7 @@
+2004-04-12  John Luke  <jluke@cfl.rr.com>
+
+	import ILAsmBinding from SD svn	
+
 2004-04-12  Todd Berman  <tberman@sevenl.net>
 
 	* configure.in: bump to 0.18.99 gtk-sharp

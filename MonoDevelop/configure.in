@@ -133,6 +133,7 @@ src/AddIns/Makefile
 src/AddIns/BackendBindings/Makefile
 src/AddIns/BackendBindings/CSharpBinding/Makefile
 src/AddIns/BackendBindings/JavaBinding/Makefile
+src/AddIns/BackendBindings/ILAsmBinding/Makefile
 src/AddIns/BackendBindings/NemerleBinding/Makefile
 src/AddIns/DisplayBindings/Makefile
 src/AddIns/DisplayBindings/SourceEditor/Makefile

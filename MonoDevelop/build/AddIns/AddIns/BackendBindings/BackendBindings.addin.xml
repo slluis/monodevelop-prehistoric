@@ -11,6 +11,7 @@
 <!-- ORIGINAL #D COMMENT		<Import assembly = "JScriptLanguageModule.dll"/> -->
 <!--		<Import assembly = "VBNetBinding.dll"/> -->
 		<Import assembly = "NemerleBinding.dll"/> 
+<!--		<Import assembly = "ILAsmBinding.dll"/> -->
 	</Runtime>
 
 	<Extension path = "/SharpDevelop/Workbench/Ambiences">
@@ -119,6 +120,12 @@
 			             _label = "Output"
 			             class = "NemerleBinding.OutputPanel"/>
 		</Conditional>		
+	<!--	<Conditional activeproject="ILAsm">
+			<DialogPanel id = "ILAsmCompilerParametersPanel"
+						 label = "Compiler"
+						 class = "ICSharpCode.ILAsmBinding.CompilerParametersPanel"/> 
+
+		</Conditional> -->
 	</Extension>
 	
 
@@ -222,6 +229,11 @@
 		<LanguageBinding id    = "Nemerle"
 		                 supportedextensions = ".n"
 		                 class = "NemerleBinding.NemerleLanguageBinding" />
+		<!--
+		<LanguageBinding id    = "ILAsm"
+		                 supportedextensions = ".il"
+		                 class = "MonoDevelop.ILAsmLanguageBinding" />
+		-->
 	</Extension>
 	
 	<Extension path = "/SharpDevelop/Views/ProjectBrowser/NodeBuilders">
