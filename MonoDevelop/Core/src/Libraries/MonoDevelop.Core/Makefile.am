@@ -79,7 +79,7 @@ Services/GettextCatalog.cs: $(srcdir)/Services/GettextCatalog.cs.in
 	mv $@.tmp $@
 
 $(DLL): $(build_sources) $(build_resources)
-	mcs /debug /out:$(DLL) /target:library $(REFS) /define:LINUX $(COMPILE_RESOURCES) \
+	$(CSC) /out:$(DLL) /target:library $(REFS) /define:LINUX $(COMPILE_RESOURCES) \
 	$(build_sources) && cp $(DLL) ../../../build/bin/.
 
 assemblydir = $(libdir)/monodevelop/bin

@@ -11,14 +11,14 @@ REFS = 	/r:../../../../build/bin/MonoDevelop.Core.dll \
 all:
 
 $(DLL): $(build_sources)
-#	mcs /debug /out:$(DLL) /target:library $(REFS) \
+#	$(CSC) /out:$(DLL) /target:library $(REFS) \
 #		$(build_sources) \
 #	&& cp $(DLL) ../../../../build/AddIns/AddIns/Misc/Sonata/.
 
 #startpagelibdir = $(libdir)/monodevelop/AddIns/AddIns/Misc/Sonata
 #startpagelib_DATA = $(DLL)
 
-#CLEANFILES = $(DLL)
+#CLEANFILES = $(DLL) $(DLL).mdb
 
 #EXTRA_DIST = $(FILES)
 

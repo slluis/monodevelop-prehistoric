@@ -86,7 +86,7 @@ REFS = /r:System.Drawing.dll \
 all : $(DLL)
 
 $(DLL) : $(build_sources)
-	mcs $(build_sources) /debug /out:$(DLL) /t:library $(REFS) \
+	$(CSC) $(build_sources) /debug /out:$(DLL) /t:library $(REFS) \
 	/resource:$(srcdir)/../../../../data/resources/glade/EditorBindings.glade,EditorBindings.glade \
 	/resource:$(srcdir)/../../../../data/resources/glade/texteditoraddin.glade,texteditoraddin.glade \
 	&& cp $(DLL) ../../../../build/bin/. && cp $(DLL).config ../../../../build/bin/.

@@ -21,7 +21,7 @@ REFS = /r:System.Drawing \
 	$(BASE_DEPENDENCIES_LIBS)
 
 $(DLL): $(build_sources)
-	mcs /debug /out:$(DLL) \
+	$(CSC) /out:$(DLL) \
 		/define:GTK $(REFS) \
 		$(build_sources) \
 		/resource:$(BASEDIR)/data/resources/SplashScreen.png,SplashScreen.png \

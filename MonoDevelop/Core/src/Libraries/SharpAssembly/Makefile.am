@@ -73,7 +73,7 @@ DLL = ICSharpCode.SharpAssembly.dll
 all: $(DLL)
 
 $(DLL): $(build_sources)
-	@ mcs /debug /out:$(DLL) /target:library $(build_sources) \
+	$(CSC) /out:$(DLL) /target:library $(build_sources) \
 	&& cp $(DLL) ../../../build/bin/.
 
 assemblydir = $(libdir)/monodevelop/bin

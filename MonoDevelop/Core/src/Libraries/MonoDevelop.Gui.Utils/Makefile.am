@@ -20,7 +20,7 @@ build_sources = $(addprefix $(srcdir)/, $(FILES))
 all: $(DLL)
 
 $(DLL): $(build_sources)
-	mcs /debug /out:$(DLL) /target:library $(REFERENCES) $(build_sources) \
+	$(CSC) /out:$(DLL) /target:library $(REFERENCES) $(build_sources) \
 	&& cp $(DLL) ../../../build/bin/. && cp $(DLL).config ../../../build/bin
 
 assemblydir = $(libdir)/monodevelop/bin

@@ -43,7 +43,7 @@ DLL=../../../../build/bin/MonoDevelop.DefaultTexteditor.dll
 all: $(DLL)
 
 $(DLL): $(FILES) ../../../../data/resources/glade/texteditoraddin.glade
-	@ mcs /debug /out:$(DLL) /target:library /r:System.Drawing \
+	$(CSC) /out:$(DLL) /target:library /r:System.Drawing \
 		/r:../../../../build/bin/MonoDevelop.Core.dll \
 		/r:../../../../build/bin/MonoDevelop.Base.dll \
 		/r:../../../../build/bin/MonoDevelop.SourceEditor.dll \

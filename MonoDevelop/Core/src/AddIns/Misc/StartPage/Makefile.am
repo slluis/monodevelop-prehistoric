@@ -16,7 +16,7 @@ REFS = /r:System.Drawing \
 all: $(DLL)
 
 $(DLL): $(build_sources)
-	mcs /debug /out:$(DLL) /target:library $(REFS) \
+	$(CSC) /out:$(DLL) /target:library $(REFS) \
 		$(build_sources) \
 	&& cp $(DLL) ../../../../build/AddIns/AddIns/Misc/StartPage/.
 
