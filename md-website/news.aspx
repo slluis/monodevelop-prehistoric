@@ -5,6 +5,13 @@
 
   <div class="title">News</div>
 
+  <div class="news_header">March 20, 2005: MonoDevelop 0.6 Released</div>
+  <p>MonoDevelop 0.6 released. Release notes are available
+  <a href="/release_notes/0.6.html">here</a>. Packages will (hopefully) become
+  available as time goes on. This is mostly a brown bag release, designed to
+  show a lot of the progress made in the last couple months, and to provide a
+  somewhat stable recent release.</p>
+
   <div class="news_header">Sept 23, 2004: MonoDevelop 0.5.1 Released</div>
   <p>This is a ~month old snapshot that fixes some serious bugs and the
   compile issue with mono 1.0.1. 0.6 development has been under way for a
