@@ -1,5 +1,10 @@
 2004-06-20  Todd Berman  <tberman@off.net>
 
+	* Services/ParserService/CodeCompletionDatabase.cs: fix nullref in
+	file types that dont have a parser.
+
+2004-06-20  Todd Berman  <tberman@off.net>
+
 	* Gui/Workbench/Layouts/SdiWorkspaceLayout.cs: fix bug #60352.
 
 2004-06-18  Todd Berman  <tberman@off.net>

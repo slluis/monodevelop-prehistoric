@@ -686,10 +686,12 @@ namespace MonoDevelop.Services
 		protected override void ParseFile (string fileName)
 		{
 			IParseInformation parserInfo = parserService.DoParseFile ((string)fileName, null);
-			ICompilationUnit cu = (ICompilationUnit)parserInfo.BestCompilationUnit;
-			
-			ClassUpdateInformation res = UpdateFromParseInfo (parserInfo, fileName);
-			if (res != null) parserService.NotifyParseInfoChange (fileName, res);
+			if (parserInfo != null) {
+				ICompilationUnit cu = (ICompilationUnit)parserInfo.BestCompilationUnit;
+				
+				ClassUpdateInformation res = UpdateFromParseInfo (parserInfo, fileName);
+				if (res != null) parserService.NotifyParseInfoChange (fileName, res);
+			}
 		}
 		
 		public ClassUpdateInformation UpdateFromParseInfo (IParseInformation parserInfo, string fileName)
