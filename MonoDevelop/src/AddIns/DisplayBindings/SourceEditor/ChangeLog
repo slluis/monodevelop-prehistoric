@@ -1,3 +1,9 @@
+2004-05-25  Todd Berman  <tberman@sevenl.net>
+
+	* Gui/SourceEditorView.cs: Update MonodocResolver for new changes.
+	* CodeCompletion/CodeCompletionDataProvider.cs: Update IsAsResolver
+	stuff for new ParserService.
+
 2004-05-24  Lluis Sanchez Gual  <lluis@ximian.com>
 
 	* Gui/SourceEditorBuffer.cs: Close the files used to read the text.

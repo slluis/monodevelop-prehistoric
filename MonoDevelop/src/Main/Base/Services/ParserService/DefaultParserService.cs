@@ -987,12 +987,12 @@ namespace MonoDevelop.Services
 			return null;
 		}
 
-		public ArrayList IsAsResolve (string expression, int caretLineNumber, int caretColumn, string fileName, string fileContent)
+		public ArrayList IsAsResolve (IProject project, string expression, int caretLineNumber, int caretColumn, string fileName, string fileContent)
 		{
 			try {
 				IParser parser = GetParser (fileName);
 				if (parser != null) {
-					return parser.IsAsResolve (this, expression, caretLineNumber, caretColumn, fileName, fileContent);
+					return parser.IsAsResolve (this, project, expression, caretLineNumber, caretColumn, fileName, fileContent);
 				}
 				return null;
 			} catch {
@@ -1029,12 +1029,12 @@ namespace MonoDevelop.Services
 			get { return nameTable; }
 		}
 		
-		public string MonodocResolver (string expression, int caretLineNumber, int caretColumn, string fileName, string fileContent)
+		public string MonodocResolver (IProject project, string expression, int caretLineNumber, int caretColumn, string fileName, string fileContent)
 		{
 			try {
 				IParser parser = GetParser (fileName);
 				if (parser != null) {
-					return parser.MonodocResolver (this, expression, caretLineNumber, caretColumn, fileName, fileContent);
+					return parser.MonodocResolver (this, project, expression, caretLineNumber, caretColumn, fileName, fileContent);
 				}
 				return null;
 			} catch {

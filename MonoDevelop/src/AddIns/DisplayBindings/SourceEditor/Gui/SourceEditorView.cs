@@ -216,7 +216,7 @@ namespace MonoDevelop.SourceEditor.Gui
 			string expression    = expressionFinder == null ? TextUtilities.GetExpressionBeforeOffset(this, insertIter.Offset) : expressionFinder.FindExpression(buf.GetText(buf.StartIter, insertIter, true), insertIter.Offset - 2);
 			if (expression == null) return false;
 			Console.WriteLine ("Expression: {" + expression + "}");
-			string type = parser.MonodocResolver (expression, insertIter.Line + 1, insertIter.LineOffset + 1, fileName, buf.Text);
+			string type = parser.MonodocResolver (ParentEditor.DisplayBinding.Project, expression, insertIter.Line + 1, insertIter.LineOffset + 1, fileName, buf.Text);
 			if (type == null || type.Length == 0)
 				return false;
 

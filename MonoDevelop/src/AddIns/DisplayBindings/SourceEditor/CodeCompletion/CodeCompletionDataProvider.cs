@@ -78,7 +78,7 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 			//FIXME: This chartyped check is a fucking *HACK*
 			if (expression == "is" || expression == "as") {
 				string expr = expressionFinder == null ? TextUtilities.GetExpressionBeforeOffset (textArea, insertIter.Offset - 3) : expressionFinder.FindExpression (textArea.Buffer.GetText (textArea.Buffer.StartIter, insertIter, true), insertIter.Offset - 5);
-				AddResolveResults (parserService.IsAsResolve (expr, caretLineNumber, caretColumn, fileName, textArea.Buffer.Text));
+				AddResolveResults (parserService.IsAsResolve (project, expr, caretLineNumber, caretColumn, fileName, textArea.Buffer.Text));
 				return (ICompletionData[])completionData.ToArray (typeof (ICompletionData));
 			}
 			if (ctrlspace && charTyped != '.') {

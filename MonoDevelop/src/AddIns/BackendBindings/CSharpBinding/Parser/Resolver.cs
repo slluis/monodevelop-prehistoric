@@ -167,9 +167,11 @@ namespace CSharpBinding.Parser
 				return null;
 			}
 			IReturnType retType = internalResolve (parserService, expression, caretLineNumber, caretColumn, fileName, fileContent);
-			IClass retClass = SearchType (retType.FullyQualifiedName, cu);
-			if (retClass == null)
+			IClass retClass = parserService.SearchType (project, retType.FullyQualifiedName, null, cu);
+			if (retClass == null) {
+				Console.WriteLine ("Retclass was null");
 				return null;
+			}
 			
 			Console.WriteLine (retClass.FullyQualifiedName);
 			return "T:" + retClass.FullyQualifiedName;
@@ -705,26 +707,26 @@ namespace CSharpBinding.Parser
 		/// </remarks>
 		public IClass SearchType(string name, ICompilationUnit unit)
 		{
-//			Console.WriteLine("Searching Type " + name);
+			Console.WriteLine("Searching Type " + name);
 			if (name == null || name == String.Empty) {
-//				Console.WriteLine("No Name!");
+				Console.WriteLine("No Name!");
 				return null;
 			}
 			IClass c;
 			c = parserService.GetClass(project, name);
 			if (c != null) {
-//				Console.WriteLine("Found!");
+				Console.WriteLine("Found!");
 				return c;
 			}
-//			Console.WriteLine("No FullName");
+			Console.WriteLine("No FullName");
 			if (unit != null) {
-//				Console.WriteLine(unit.Usings.Count + " Usings");
+				Console.WriteLine(unit.Usings.Count + " Usings");
 				foreach (IUsing u in unit.Usings) {
 					if (u != null && (u.Region == null || u.Region.IsInside(caretLine, caretColumn))) {
-//						Console.WriteLine("In UsingRegion");
+						Console.WriteLine("In UsingRegion");
 						c = parserService.SearchType(project, u, name);
 						if (c != null) {
-//							Console.WriteLine("SearchType Successfull!!!");
+							Console.WriteLine("SearchType Successfull!!!");
 							return c;
 						}
 					}
@@ -880,7 +882,7 @@ namespace CSharpBinding.Parser
 			if (type.ArrayDimensions != null && type.ArrayDimensions.Length > 0)
 				type = new ReturnType ("System.Array");
 
-			IClass returnClass = SearchType (type.FullyQualifiedName, cu);
+			IClass returnClass = parserService.SearchType (project, type.FullyQualifiedName, null, cu);
 			if (returnClass == null)
 				return null;
 

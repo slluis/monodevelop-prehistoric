@@ -139,9 +139,9 @@ namespace MonoDevelop.Internal.Parser
 		                      string fileName,
 		                      string fileContent);
 
-		string MonodocResolver (IParserService parserService, string expression, int caretLineNumber, int caretColumn, string fileName, string fileContent);
+		string MonodocResolver (IParserService parserService, IProject project, string expression, int caretLineNumber, int caretColumn, string fileName, string fileContent);
 
-		ArrayList IsAsResolve (IParserService parserService, string expression, int caretLineNumber, int caretColumn, string fileName, string fileContent);
+		ArrayList IsAsResolve (IParserService parserService, IProject project, string expression, int caretLineNumber, int caretColumn, string fileName, string fileContent);
 		
 		ArrayList CtrlSpace(IParserService parserService, IProject project, int caretLine, int caretColumn, string fileName);
 	}

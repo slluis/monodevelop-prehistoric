@@ -1,3 +1,8 @@
+2004-05-25  Todd Berman  <tberman@sevenl.net>
+
+	* Parser/Parser.cs: Update MonodocResolver and IsAsResolver.
+	* Parser/Resolver.cs: Update MonodocResolver and IsAsResolver
+
 2004-05-25  Lluis Sanchez Gual  <lluis@ximian.com>
 
 	* Parser/Parser.cs: Set the file name to the region of each parsed class.

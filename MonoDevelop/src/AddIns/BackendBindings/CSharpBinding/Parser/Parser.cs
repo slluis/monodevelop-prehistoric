@@ -99,9 +99,9 @@ namespace CSharpBinding.Parser
 			return new Resolver(project).CtrlSpace(parserService, caretLine, caretColumn, fileName);
 		}
 
-		public ArrayList IsAsResolve (IParserService parserService, string expression, int caretLineNumber, int caretColumn, string fileName, string fileContent)
+		public ArrayList IsAsResolve (IParserService parserService, IProject project, string expression, int caretLineNumber, int caretColumn, string fileName, string fileContent)
 		{
-			return new Resolver (null).IsAsResolve (parserService, expression, caretLineNumber, caretColumn, fileName, fileContent);
+			return new Resolver (project).IsAsResolve (parserService, expression, caretLineNumber, caretColumn, fileName, fileContent);
 		}
 		
 		public ResolveResult Resolve(IParserService parserService, IProject project, string expression, int caretLineNumber, int caretColumn, string fileName, string fileContent)
@@ -109,9 +109,9 @@ namespace CSharpBinding.Parser
 			return new Resolver(project).Resolve(parserService, expression, caretLineNumber, caretColumn, fileName, fileContent);
 		}
 
-		public string MonodocResolver (IParserService parserService, string expression, int caretLineNumber, int caretColumn, string fileName, string fileContent)
+		public string MonodocResolver (IParserService parserService, IProject project, string expression, int caretLineNumber, int caretColumn, string fileName, string fileContent)
 		{
-			return new Resolver (null).MonodocResolver (parserService, expression, caretLineNumber, caretColumn, fileName, fileContent);
+			return new Resolver (project).MonodocResolver (parserService, expression, caretLineNumber, caretColumn, fileName, fileContent);
 		}
 		
 		///////// IParser Interface END

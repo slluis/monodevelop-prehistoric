@@ -61,6 +61,7 @@ namespace MonoDevelop.Services
 		bool      NamespaceExists(IProject project, string name, bool caseSensitive);
 		string    SearchNamespace(IProject project, IUsing iusing, string partitialNamespaceName, bool caseSensitive);
 		IClass    SearchType(IProject project, IUsing iusing, string partitialTypeName, bool caseSensitive);
+		IClass    SearchType (IProject project, string name, IClass callingClass, ICompilationUnit unit);
 		
 		IEnumerable GetClassInheritanceTree (IProject project, IClass cls);
 		
@@ -76,8 +77,8 @@ namespace MonoDevelop.Services
 		                      int caretColumn,
 		                      string fileName,
 		                      string fileContent);
-		string MonodocResolver (string expression, int caretLineNumber, int caretColumn, string fileName, string fileContent);
-		ArrayList IsAsResolve (string expression, int caretLineNumber, int caretColumn, string fileName, string fileContent);
+		string MonodocResolver (IProject project, string expression, int caretLineNumber, int caretColumn, string fileName, string fileContent);
+		ArrayList IsAsResolve (IProject project, string expression, int caretLineNumber, int caretColumn, string fileName, string fileContent);
 		ArrayList CtrlSpace(IParserService parserService, IProject project, int caretLine, int caretColumn, string fileName);
 		string LoadAssemblyFromGac (string name);
 

@@ -396,6 +396,10 @@ namespace MonoDevelop.Gui.Pads
 		
 		public bool Run ()
 		{
+			if (_cb == null) {
+				Console.WriteLine ("We would have crashed here");
+				return false;
+			}
 			return _cb (_data);
 		}
 	}
