@@ -90,7 +90,7 @@ namespace MonoDevelop.SourceEditor.Gui {
 					}
 					break;
 					
-				default:
+				/*default:
 					if (fmtr != null) {
 						TextIter itr = Buffer.GetIterAtMark (Buffer.InsertMark);
 						int offset = itr.Offset;
@@ -100,7 +100,7 @@ namespace MonoDevelop.SourceEditor.Gui {
 							return true;
 						}
 					}
-					break;
+					break;*/
 			}
 		
 			return base.OnKeyPressEvent (ref evnt);
