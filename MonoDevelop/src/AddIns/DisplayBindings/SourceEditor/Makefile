@@ -1,4 +1,4 @@
-DLL=../../../../build/bin/MonoDevelop.Gui.Buffer.dll
+DLL=../../../../build/bin/MonoDevelop.SourceEditor.dll
 
 all : $(DLL)
 
