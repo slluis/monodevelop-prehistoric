@@ -355,11 +355,10 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs.OptionPanels
 				// first copy the selected item paths into a temp array
 				TreeIter[] selectedIters = new TreeIter[selectedItemCount];
 				TreeModel lv;
-				GLib.List pathList = toolListBox.Selection.GetSelectedRows(out lv);								
+				TreePath[] pathList = toolListBox.Selection.GetSelectedRows(out lv);								
 				for(int i = 0; i < selectedItemCount; i++) {
-					TreePath path = (TreePath) pathList[i];
-					((ListStore)lv).GetIter(out selectedIters[i], path);
-					maxIndex = path.Indices[0];
+					((ListStore)lv).GetIter(out selectedIters[i], pathList[i]);
+					maxIndex = pathList[i].Indices[0];
 				}
 				
 				// now delete each item in that list

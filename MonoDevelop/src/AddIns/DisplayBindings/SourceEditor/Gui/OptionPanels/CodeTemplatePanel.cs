@@ -238,11 +238,10 @@ namespace MonoDevelop.EditorBindings.Gui.OptionPanels
 				int selectedItemCount = templateListView.Selection.CountSelectedRows();
 				TreeIter[] selectedIters = new TreeIter[selectedItemCount];
 				TreeModel lv;
-				GLib.List pathList = templateListView.Selection.GetSelectedRows(out lv);								
+				TreePath[] pathList = templateListView.Selection.GetSelectedRows(out lv);								
 				for(int i = 0; i < selectedItemCount; i++) {
-					TreePath path = (TreePath) pathList[i];
-					((ListStore)lv).GetIter(out selectedIters[i], path);
-					maxIndex = path.Indices[0];
+					((ListStore)lv).GetIter(out selectedIters[i], pathList[i]);
+					maxIndex = pathList[i].Indices[0];
 				}
 				
 				// now delete each item in that list

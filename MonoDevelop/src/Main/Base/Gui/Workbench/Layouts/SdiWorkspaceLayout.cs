@@ -398,7 +398,7 @@ namespace ICSharpCode.SharpDevelop.Gui
 			SdiWorkspaceWindow sdiWorkspaceWindow = new SdiWorkspaceWindow(content, tabControl, label);
 
 			sdiWorkspaceWindow.CloseEvent += new EventHandler(CloseWindowEvent);
-			sdiWorkspaceWindow.SwitchView(tabControl.Children.Count - 1);
+			sdiWorkspaceWindow.SwitchView(tabControl.Children.Length - 1);
 			_windows.Add (sdiWorkspaceWindow);
 			
 			tabControl.ShowAll();
