@@ -1,3 +1,7 @@
+2005-02-18  John Luke  <john.luke@gmail.com>
+
+	* CSharpCompilerManager.cs: pass /optimize if enabled
+
 2005-02-05  John Luke  <john.luke@gmail.com>
 
 	* Gui/CodeGenerationPanel.cs: enable doc generation
