@@ -90,18 +90,31 @@ namespace MonoDevelop.Gui.Pads
 				if (n.tree.HelpSource != null) {
 					s = n.tree.HelpSource.GetText (url, out match);
 					if (s != null) {
-						//Console.WriteLine (s);
+						ShowDocs (s, match, url);
 						return;
 					}
 				}
 
 				s = root_tree.RenderUrl (url, out match);
 				if (s != null) {
-					//Console.WriteLine (s);
+					ShowDocs (s, match, url);
 					return;
 				}
 				Console.WriteLine ("Couldnt find match");
 			}
+		}
+
+		void ShowDocs (string text, Node matched_node, string url)
+		{
+			foreach (IViewContent content in WorkbenchSingleton.Workbench.ViewContentCollection) {
+				if (content.ContentName == "Documentation") {
+					((HelpViewer)content).Render (text, matched_node, url);
+					return;
+				}
+			}
+			HelpViewer new_content = new HelpViewer ();
+			new_content.Render (text, matched_node, url);
+			WorkbenchSingleton.Workbench.ShowView (new_content);
 		}
 
 		void PopulateNode (TreeIter parent)
