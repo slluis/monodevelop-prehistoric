@@ -226,6 +226,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 			}
 			
 			ReplaceDialogPointer.Close += new EventHandler (CloseDialogEvent);
+			closeButton.Clicked += new EventHandler (CloseDialogEvent);
 			ReplaceDialogPointer.DeleteEvent += new DeleteEventHandler (OnDeleted);
 			
 			SearchLocationCheckBoxChangedEvent(null, null);
