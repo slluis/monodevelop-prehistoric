@@ -104,7 +104,14 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 			
 			
 			foreach (ProjectReference refInfo in configureProject.ProjectReferences) {
-				refTreeStore.AppendValues (System.IO.Path.GetFileName (refInfo.Reference), refInfo.ReferenceType.ToString (), System.IO.Path.GetFullPath (refInfo.GetReferencedFileName (configureProject)), refInfo);
+				switch (refInfo.ReferenceType) {
+					case ReferenceType.Assembly:
+						refTreeStore.AppendValues (System.IO.Path.GetFileName (refInfo.Reference), refInfo.ReferenceType.ToString (), System.IO.Path.GetFullPath (refInfo.GetReferencedFileName (configureProject)), refInfo);
+						break;
+					case ReferenceType.Gac:
+						refTreeStore.AppendValues (System.IO.Path.GetFileName (refInfo.Reference), refInfo.ReferenceType.ToString (), System.IO.Path.GetFullPath (refInfo.GetReferencedFileName (configureProject)), refInfo);
+						break;
+				}
 			}
 			//InitializeComponent();
 		
