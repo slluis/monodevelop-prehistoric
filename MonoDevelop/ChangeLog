@@ -1,3 +1,7 @@
+2004-06-12  Martin Baulig  <martin@ximian.com>
+
+	* configure.in: Reenable the debugger.
+
 2004-06-11  Todd Berman  <tberman@sevenl.net>
 
 	* monodevelop.in: dont ask me how that worked. as i dont know. this

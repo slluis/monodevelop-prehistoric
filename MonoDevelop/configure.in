@@ -73,7 +73,7 @@ GLIB_MKENUMS="`$PKG_CONFIG --variable=glib_mkenums glib-2.0`"
 AC_SUBST(GLIB_MKENUMS)
 
 dnl find mono debugger
-MONO_DEBUGGER_REQUIRED_VERSION=0.6
+MONO_DEBUGGER_REQUIRED_VERSION=0.9
 PKG_CHECK_MODULES(MONO_DEBUGGER, mono-debugger >= $MONO_DEBUGGER_REQUIRED_VERSION, enable_debugger=yes, enable_debugger=no)
 debugger_prefix=`pkg-config --variable=prefix mono-debugger`
 AC_SUBST(debugger_prefix)
@@ -92,8 +92,7 @@ else
 enable_xdgmime="yes"
 fi
 
-dnl AM_CONDITIONAL(ENABLE_DEBUGGER, test "x$enable_debugger" = "xyes")
-AM_CONDITIONAL(ENABLE_DEBUGGER, test "yes" = "no")
+AM_CONDITIONAL(ENABLE_DEBUGGER, test "x$enable_debugger" = "xyes")
 AM_CONDITIONAL(ENABLE_XDGMIME, test "x$enable_xdgmime" = "xyes")
 
 dnl Intl
@@ -181,9 +180,7 @@ echo ""
 echo "   * Installation prefix = $prefix"
 echo "   * GNOME prefix = $gnome_prefix"
 echo ""
-dnl echo "   * mono-debugger $MONO_DEBUGGER_REQUIRED_VERSION: $enable_debugger"
-echo "   * mono-debugger 0.6: Has been disabled in this release, will be fixed"
-echo "     as soon as possible."
+echo "   * mono-debugger $MONO_DEBUGGER_REQUIRED_VERSION: $enable_debugger"
 echo ""
 echo "   NOTE: if any of the above say 'no' you may install the"
 echo "         corresponding development packages for them, and"
