@@ -1,1 +1,1 @@
-SUBDIRS=SharpAssembly SharpRefactory MonoDevelop.Core MonoDevelop.Gui.Utils MonoDevelop.Gui.Widgets
+SUBDIRS=SharpAssembly CsVbRefactory SharpRefactory MonoDevelop.Core MonoDevelop.Gui.Utils MonoDevelop.Gui.Widgets
