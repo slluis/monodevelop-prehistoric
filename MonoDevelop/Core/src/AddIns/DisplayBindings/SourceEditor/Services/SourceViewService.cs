@@ -57,11 +57,11 @@ namespace MonoDevelop.Services
 							sts.Italic = bool.Parse (reader.GetAttribute ("italic"));
 							sts.Underline = bool.Parse (reader.GetAttribute ("underline"));
 							sts.Strikethrough = bool.Parse (reader.GetAttribute ("strikethrough"));
-							// we can remove the "==null ? "false" : "true"" later, just to make sure transaction is smooth for svn users we let it for now.
-							sts.IsDefault = bool.Parse (reader.GetAttribute ("is_default")==null ? "false" : "true");
+							sts.IsDefault = false;
 							ParseColor (reader.GetAttribute ("foreground"), ref sts.Foreground);
 							ParseColor (reader.GetAttribute ("background"), ref sts.Background);
 							lang.SetTagStyle (name, sts);
+							Runtime.LoggingService.InfoFormat ("Overrode style {0} {1}", lang.Name, name);
 							break;
 						case "SourceLanguage":
 							lang = FindLanguage (reader.GetAttribute ("name"));
@@ -113,10 +113,12 @@ namespace MonoDevelop.Services
 
 				foreach (SourceTag tag in sl.Tags)
 				{
+					if (tag.TagStyle.IsDefault)
+						continue;
 					writer.WriteStartElement (null, "SourceTag", null);
 
 					writer.WriteStartAttribute (null, "name", null);
-						writer.WriteString (tag.Name);
+						writer.WriteString (tag.Id);
 					writer.WriteEndAttribute ();
 
 					writer.WriteStartAttribute (null, "bold", null);
@@ -143,11 +145,8 @@ namespace MonoDevelop.Services
 						writer.WriteString (tag.TagStyle.Background.ToString ());
 					writer.WriteEndAttribute ();
 
-					writer.WriteStartAttribute (null, "is_default", null);
-						writer.WriteString (tag.TagStyle.IsDefault.ToString ());
-					writer.WriteEndAttribute ();
-
 					writer.WriteEndElement ();
+					Runtime.LoggingService.InfoFormat ("Preserved style {0} {1}", sl.Name, tag.Id);
 				}
 
 				writer.WriteEndElement ();

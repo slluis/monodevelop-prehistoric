@@ -1,3 +1,9 @@
+2005-04-06  John Luke  <john.luke@gmail.com>
+
+	* Services/SourceViewService.cs: dont serialize
+	the defaults, add some logging, and use SourceTag.Id
+	not the .Name
+
 2005-04-06  Alexandre Gomes  <alexmipego@gmail.com>
 	
 	* Services/SourceViewService.cs: Fix a small problem that can occur
