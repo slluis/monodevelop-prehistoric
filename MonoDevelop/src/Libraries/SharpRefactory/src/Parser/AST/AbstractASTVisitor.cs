@@ -583,7 +583,7 @@ namespace ICSharpCode.SharpRefactory.Parser
 		public virtual object Visit(ArrayCreateExpression arrayCreateExpression, object data)
 		{
 			if (arrayCreateExpression.Parameters != null) {
-				foreach (ParameterDeclarationExpression p in arrayCreateExpression.Parameters) {
+				foreach (Expression p in arrayCreateExpression.Parameters) {
 					p.AcceptVisitor(this, data);
 				}
 			}
