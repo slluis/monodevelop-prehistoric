@@ -73,6 +73,8 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 			IExpressionFinder expressionFinder = parserService.GetExpressionFinder(fileName);
 			string expression    = expressionFinder == null ? TextUtilities.GetExpressionBeforeOffset(textArea, insertIter.Offset) : expressionFinder.FindExpression(textArea.Buffer.GetText(textArea.Buffer.StartIter, insertIter, true), insertIter.Offset - 2);
 			if (expression == null) return null;
+
+			//FIXME: This chartyped check is a fucking *HACK*
 			if (ctrlspace && charTyped != '.') {
 				AddResolveResults (parserService.CtrlSpace (parserService, caretLineNumber, caretColumn, fileName));
 				return (ICompletionData[])completionData.ToArray (typeof (ICompletionData));
@@ -135,6 +137,8 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 						completionData.Add(new CodeCompletionData(e));
 						insertedEventElements[e.Name] = e;
 					}
+				} else if (o is IParameter) {
+					completionData.Add (new CodeCompletionData((IParameter)o));
 				}
 			}
 		}

@@ -173,7 +173,7 @@ namespace MonoDevelop.SourceEditor.Gui
 
 			if (triggerIter.Equals (TextIter.Zero)) return;
 			triggerIter.ForwardChar ();
-			completionWindow = new CompletionWindow (this, ParentEditor.DisplayBinding.ContentName, new CodeCompletionDataProvider (false));
+			completionWindow = new CompletionWindow (this, ParentEditor.DisplayBinding.ContentName, new CodeCompletionDataProvider (true));
 			
 			completionWindow.ShowCompletionWindow (triggerChar, triggerIter, true);
 		}

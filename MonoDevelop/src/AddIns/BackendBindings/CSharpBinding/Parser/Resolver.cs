@@ -798,6 +798,7 @@ namespace CSharpBinding.Parser
 		
 		public ArrayList CtrlSpace(IParserService parserService, int caretLine, int caretColumn, string fileName)
 		{
+			Console.WriteLine ("Inside CtrlSpace");
 			ArrayList result = new ArrayList();
 			this.parserService = parserService;
 			IParseInformation parseInfo = parserService.GetParseInformation(fileName);
@@ -819,7 +820,7 @@ namespace CSharpBinding.Parser
 				if (variables != null && variables.Count > 0) {
 					foreach (LocalLookupVariable v in variables) {
 						if (IsInside(new Point(caretColumn, caretLine), v.StartPos, v.EndPos)) {
-							result.Add(v);
+							result.Add(new Parameter (name, new ReturnType (v.TypeRef.SystemType)));
 							break;
 						}
 					}

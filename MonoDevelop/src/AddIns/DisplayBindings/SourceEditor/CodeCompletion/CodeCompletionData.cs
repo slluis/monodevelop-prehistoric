@@ -219,6 +219,16 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 			completionString = e.Name;
 			documentation = e.Documentation;
 		}
+
+		public CodeCompletionData (IParameter o)
+		{
+			image = MonoDevelop.Gui.Stock.Field;
+			text  = o.Name;
+			description = "";
+			pango_description = "";
+			completionString = o.Name;
+			documentation = "";
+		}
 		
 		public void InsertAction (SourceEditorView control)
 		{
