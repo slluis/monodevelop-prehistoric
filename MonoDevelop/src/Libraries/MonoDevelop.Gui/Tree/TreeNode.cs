@@ -54,7 +54,7 @@ namespace MonoDevelop.Gui {
 		public bool IsExpanded {
 			get {
 				if (TreeView != null) {
-					return TreeView.RowExpand(new Gtk.TreePath(TreePath));
+					return TreeView.GetRowExpanded(new Gtk.TreePath(TreePath));
 				} else {
 					return false;
 				}

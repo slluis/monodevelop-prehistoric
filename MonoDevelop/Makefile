@@ -1,11 +1,14 @@
 PROGRAM=build/bin/SharpDevelop.exe
 MONOPAD=build/bin/MonoPad.exe
 
-$(PROGRAM): SharpDevelop.Base SharpDevelop.DefaultTexteditor CSharpBinding
+$(PROGRAM): SharpDevelop.Base SharpDevelop.DefaultTexteditor CSharpBinding StartPage
 	cd src/Main/StartUp && make
 
 $(MONOPAD): ICSharpCode.TextEditor
 	cd samples/MonoPad && make
+
+StartPage:
+	cd src/AddIns/Misc/StartPage && make
 
 MonoDevelop.Gui:
 	cd src/Libraries/MonoDevelop.Gui && make

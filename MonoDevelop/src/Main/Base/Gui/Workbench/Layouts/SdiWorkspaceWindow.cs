@@ -113,7 +113,7 @@ namespace ICSharpCode.SharpDevelop.Gui
 		
 		public void SelectWindow()	
 		{
-			int toSelect = NotebookPage.Num (tabControl, tabPage);
+			int toSelect = tabControl.PageNum (tabPage);
 			tabControl.CurrentPage = toSelect;
 		}
 		
