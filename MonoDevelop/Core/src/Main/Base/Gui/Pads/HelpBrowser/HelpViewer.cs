@@ -75,10 +75,10 @@ namespace MonoDevelop.Gui
 		public void LoadUrl (string url)
 		{
 			if (url.StartsWith("#"))
-				{
-					html_viewer.JumpToAnchor(url.Substring(1));
-					return;
-				}
+			{
+				html_viewer.JumpToAnchor(url.Substring(1));
+				return;
+			}
 			
 			Node node;
 			

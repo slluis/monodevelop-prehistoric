@@ -57,6 +57,7 @@ namespace MonoDevelop.Gui.Widgets {
 			nodes.NodeRemoved += new NodeRemovedHandler (OnNodeRemoved);
 			
 			TestExpandRow += new Gtk.TestExpandRowHandler (OnTestExpandRow);
+			RowActivated += new Gtk.RowActivatedHandler (OnRowClicked);
 		}
 		
 		public TreeView (bool edit, Gtk.TreeIterCompareFunc cb_compare) : this (edit)
@@ -255,6 +256,17 @@ namespace MonoDevelop.Gui.Widgets {
 			OnBeforeExpand (e);
 			
 			args.RetVal = (e.Cancel == true || node.Nodes.Count == 0);
+		}
+
+		private void OnRowClicked (object sender, Gtk.RowActivatedArgs args)
+		{
+			Gtk.TreePath path = args.Path;
+
+			if (!this.GetRowExpanded (path)) {
+				this.ExpandRow (path, false);
+			} else {
+				this.CollapseRow (path);
+			}
 		}
 		
 		protected virtual void OnBeforeExpand (TreeViewCancelEventArgs e)

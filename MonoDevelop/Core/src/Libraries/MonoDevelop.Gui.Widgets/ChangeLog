@@ -1,3 +1,7 @@
+2004-09-19  Fernando Herrera  <fherrera@onirica.com>
+
+	* Tree/TreeView.cs: Double click expands node.
+
 2004-08-07  Todd Berman  <tberman@off.net>
 
 	* AssemblyInfo.cs.in: Use new ASSEMBLY_VERSION variable.
