@@ -183,7 +183,6 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 					TemplateView.AddIcon(new Gtk.Image(iconService.GetBitmap (item.Template.Icon)), item.Name, item.Template);
 				}
 				okButton.Sensitive = false;
-				TemplateView.PopulateTable();
 			}
 		}
 		
@@ -365,11 +364,11 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 			templateView.AppendColumn (templateColumn);
 
 			//okButton = new Gtk.Button ("Create");
-			okButton = new ImageButton(Gtk.Stock.Apply, "Create");
+			okButton = new Button (Stock.New);
 			okButton.Clicked += new EventHandler (OpenEvent);
 
 			//cancelButton = new Gtk.Button ("Cancel");
-			cancelButton = new ImageButton(Gtk.Stock.Cancel, "Cancel");
+			cancelButton = new Button (Stock.Close);
 			cancelButton.Clicked += new EventHandler (cancelClicked);
 
 			infoLabel = new Label ("");
@@ -384,7 +383,6 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 			swindow1.Add(catView);
 			viewbox.PackStart (swindow1,false,true,0);
 			//viewbox.PackStart (templateView);
-			TemplateView.PopulateTable();
 			viewbox.PackStart(TemplateView, true, true,0);
 
 			this.AddActionWidget (cancelButton, (int)Gtk.ResponseType.Cancel);
@@ -400,6 +398,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 			catView.Selection.Changed += new EventHandler (CategoryChange);
 			//templateView.Selection.Changed += new EventHandler (SelectedIndexChange);
 			TemplateView.IconSelected += new EventHandler(SelectedIndexChange);
+			TemplateView.IconDoubleClicked += new EventHandler(OpenEvent);
 
 			//ControlDictionary["openButton"].Click += new EventHandler(OpenEvent);
 			
