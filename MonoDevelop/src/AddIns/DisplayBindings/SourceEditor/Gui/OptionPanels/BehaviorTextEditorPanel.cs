@@ -113,7 +113,7 @@ namespace MonoDevelop.EditorBindings.Gui.OptionPanels
 
 				//FIXME: Only one of these should be selected to hold the value
 				indentAndTabSizeSpinButton.Value = ((IProperties)CustomizationObject).GetProperty(
-					"IndentationSize", 4);
+					"TabIndent", 4);
 
 				if (IndentStyle.None.Equals(
 					    (IndentStyle) ((IProperties)CustomizationObject).GetProperty(
@@ -164,7 +164,7 @@ namespace MonoDevelop.EditorBindings.Gui.OptionPanels
 				//	((IProperties)CustomizationObject).SetProperty("IndentStyle", IndentStyle.Smart);
 				
 				//FIXME: Only one of these should be selected to save the value
-				((IProperties)CustomizationObject).SetProperty("IndentationSize", indentAndTabSizeSpinButton.Value);
+				((IProperties)CustomizationObject).SetProperty("TabIndent", indentAndTabSizeSpinButton.Value);
 			}
 		}
 	}
