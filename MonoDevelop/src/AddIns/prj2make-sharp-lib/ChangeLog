@@ -1,0 +1,7 @@
+2004-04-25  Francisco "Paco" Martinez <paco@mfcon.com>
+	Added new support in the console version of prj2make-sharp for generation of 
+	cmbx and prjx files from sln and csproj files
+	Files changed:
+	* MsPrjHelper.cs -- Added new support to create cmbx form slns
+	* PrjHelper.cs -- Moved all of the prjx creation into MsPrjHelper
+

@@ -1,0 +1,21 @@
+<AddIn name	 = "Solution Importer"
+       author	 = "Francisco 'Paco' Martinez"
+       copyright = "GPL"
+       url       = ""
+       description = "Generates combines from solutions files"
+       version   = "0.01">
+
+	<Runtime>
+		<Import assembly="prj2make-sharp-lib.dll"/>
+	</Runtime>
+	<Extension path="/SharpDevelop/Workbench/MainMenu/File">
+		<MenuItem id = "ImportSeparator" insertafter="SaveAll" _label = "-" />
+		<MenuItem id = "ImportSolution"
+			 insertafter="ImportSeparator"
+			 insertbefore="RecentSeparator"
+		          _label = "Import VS Project"
+			  description = "Imports solutions created with MS Visual Studio"
+		          class = "MonoDevelop.Commands.ImportPrj"/>
+	</Extension>
+</AddIn	>
+
