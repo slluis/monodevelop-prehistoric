@@ -104,6 +104,8 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs.OptionPanels.CompletionDatabaseWi
 			RadioButton appDirRadioButton = new RadioButton ("Use current user's application directory");
 			appDirRadioButton.Active = true;
 			appDirRadioButton.Toggled += new EventHandler (SetEnableStatus);
+
+			//FIXME: only should be sensitive if you can write to it
 			sharpDevelopDirRadioButton = new RadioButton (appDirRadioButton, "Use SharpDevelop application directory");
 			sharpDevelopDirRadioButton.Toggled += new EventHandler (SetEnableStatus);
 			specifyLocationRadioButton = new RadioButton (appDirRadioButton, "Specify code completion database location");
