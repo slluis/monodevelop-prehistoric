@@ -469,7 +469,7 @@
 		                             class = "ICSharpCode.SharpDevelop.Commands.SaveAllFiles"/>
 			</Conditional>
 			<ToolbarItem id = "Separator1" tooltip = "-"/>
-	                <Conditional activewindow="*" action="Disable">
+	                <!-- <Conditional activewindow="*" action="Disable"> -->
 				<ToolbarItem id = "Cut" 
 				             icon = "Icons.16x16.CutIcon" 
 				             tooltip = "${res:XML.MainMenu.EditMenu.Cut.Description}"
@@ -486,7 +486,7 @@
 				             icon = "Icons.16x16.DeleteIcon" 
 				             tooltip = "${res:XML.MainMenu.EditMenu.Delete.Description}"
 				             class = "ICSharpCode.SharpDevelop.Commands.Delete"/>
-			</Conditional>
+			<!-- </Conditional> -->
 			<ToolbarItem id = "CutSeparator" insertafter ="Delete" insertbefore ="Find" tooltip = "-"/>
 	                <Conditional action="Disable">
 	                	<Or>
