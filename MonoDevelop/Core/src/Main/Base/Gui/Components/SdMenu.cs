@@ -13,6 +13,7 @@ using System.Drawing.Text;
 using System.Drawing.Imaging;
 
 using MonoDevelop.Core.Services;
+using MonoDevelop.Services;
 using MonoDevelop.Core.AddIns.Conditions;
 using MonoDevelop.Core.AddIns.Codons;
 
@@ -42,9 +43,7 @@ namespace MonoDevelop.Gui.Components
 			this.subMenu             = new Gtk.Menu ();
 			this.Submenu             = subMenu;
 
-			
-			
-			localizedText = text;
+			localizedText = GettextCatalog.GetString (text);
 
 			Gtk.AccelLabel label = new Gtk.AccelLabel (localizedText);
 			label.Xalign = 0;
