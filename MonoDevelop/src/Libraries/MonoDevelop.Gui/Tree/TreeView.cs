@@ -8,7 +8,11 @@ namespace MonoDevelop.Gui {
 		private TreeNodeCollection nodes;
 		private bool updating = false;
 		
-		public TreeView() {
+		public TreeView () : this (false)
+		{
+		}
+		
+		public TreeView(bool canEdit) {
 			store = new Gtk.TreeStore(typeof(string), typeof(Gdk.Pixbuf), typeof(TreeNode));
 			this.Model = store;
 
@@ -21,6 +25,10 @@ namespace MonoDevelop.Gui {
 			complete_column.AddAttribute (pix_render, "pixbuf", 1);
 			
 			Gtk.CellRendererText text_render = new Gtk.CellRendererText ();
+			text_render.Editable = canEdit;
+			if (canEdit) {
+				text_render.Edited += new GtkSharp.EditedHandler (OnEdit);
+			}
 			complete_column.PackStart (text_render, true);
 			complete_column.AddAttribute (text_render, "text", 0);
 	
@@ -32,6 +40,11 @@ namespace MonoDevelop.Gui {
 			nodes.NodeRemoved += new NodeRemovedHandler(OnNodeRemoved);
 			
 			TestExpandRow += new GtkSharp.TestExpandRowHandler(OnTestExpandRow);
+		}
+
+		public virtual void OnEdit (object o, GtkSharp.EditedArgs e)
+		{
+			
 		}
 
 		public TreeNodeCollection Nodes {

@@ -86,7 +86,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads.ProjectBrowser
 			//projectBrowserImageList = new ImageList();
 			//projectBrowserImageList.ColorDepth = ColorDepth.Depth32Bit;
 		}
-		public ProjectBrowserView()
+		public ProjectBrowserView() : base (true)
 		{
 			//LabelEdit     = true;
 			//AllowDrop     = true;
@@ -173,6 +173,13 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads.ProjectBrowser
 				highlightedNode   = (AbstractBrowserNode)Nodes[0];
 				//highlightedNode.NodeFont = boldFont; // FIXME PEDRO
 			}
+		}
+
+		public override void OnEdit (object o, GtkSharp.EditedArgs e)
+		{
+			//FIXME: We need to change the filename and refresh the view here
+			//FIXME: We should also be checking to make sure the filename *actually* changed
+			Console.WriteLine ("Filename needs to be changed here");
 		}
 
 		void DisposeProjectNodes()
