@@ -36,7 +36,7 @@ $(ADDIN_BUILD)/$(ADDIN): $(srcdir)/$(ADDIN)
 
 $(ASSEMBLY): $(build_sources)
 	mkdir -p $(ADDIN_BUILD)
-	$(CSC) -define:NET_2_0 -out:$@ -target:library \
+	$(CSC) -out:$@ -target:library \
 	$(build_sources) $(DLLS)
 
 assemblydir = $(libdir)/monodevelop/AddIns/DebuggerAddIn
