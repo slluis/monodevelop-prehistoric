@@ -31,12 +31,16 @@ namespace MonoDevelop.Services
 
 		public DebuggingService()
 		{
+			DebuggerBackend.Initialize ();
 		}
 		
 		public override void UnloadService ()
 		{
-			if (Debugging)
-				proc.Kill ();
+			if (Debugging) {
+				backend.Dispose ();
+				backend = null;
+				proc = null;
+			}
 
 			base.UnloadService ();
 		}
@@ -127,7 +131,27 @@ namespace MonoDevelop.Services
 					Console.WriteLine ("Couldn't insert breakpoint " + key);
 			}
 
+			proc.TargetEvent += new TargetEventHandler (target_event);
+
 			proc.Continue (false);
+		}
+
+		private void target_event (object sender, TargetEventArgs args)
+		{
+			Console.WriteLine ("TARGET EVENT: {0}", args);
+
+			switch (args.Type) {
+			case TargetEventType.TargetExited:
+			case TargetEventType.TargetSignaled:
+				Gtk.Timeout.Add (1, new Gtk.Function (KillApplication));
+				break;
+			}
+		}
+
+		bool KillApplication ()
+		{
+			UnloadService ();
+			return false;
 		}
 
 		public void Run (string[] argv)
