@@ -1,5 +1,12 @@
 2004-03-25  Todd Berman  <tberman@sevenl.net>
 
+	* Gui/SourceEditorView.cs: setup completionWindow to be reused properly
+	* CodeCompletion/CompletionWindow.cs: delay a bit before movement to
+	attempt to fix correct placement issues. this goes from working
+	properly 90% of the time to 99% of the time.
+
+2004-03-25  Todd Berman  <tberman@sevenl.net>
+
 	* Gui/SourceEditorView.cs:
 	* CodeCompletion/TextUtilities.cs:
 	* CodeCompletion/CompletionWindow.cs:

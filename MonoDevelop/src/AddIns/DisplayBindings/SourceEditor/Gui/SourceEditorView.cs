@@ -25,9 +25,20 @@ namespace MonoDevelop.SourceEditor.Gui
 		internal IFormattingStrategy fmtr;
 		SourceEditorBuffer buf;
 		int lineToMark = -1;
-		CompletionWindow completionWindow;
+		CompletionWindow completionWnd;
 		bool codeCompleteEnabled;
-		
+
+		CompletionWindow completionWindow {
+			set {
+				if (completionWnd != null) {
+					completionWnd.Destroy ();
+					completionWnd = null;
+				}
+				completionWnd = value;
+			}
+			get { return completionWnd; }
+		}
+
 		public static new GLib.GType GType
 		{
 			get

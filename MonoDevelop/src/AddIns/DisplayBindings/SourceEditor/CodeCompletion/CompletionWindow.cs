@@ -236,9 +236,12 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 			
 			int tx, ty;
 			control.GdkWindow.GetOrigin (out tx, out ty);
+			//Console.WriteLine ("Moving to: " + (tx + wx) + " . " + (ty + wy));
+			System.Threading.Thread.Sleep (100);
 			Move (tx + wx, ty + wy);
 			listView.Selection.Changed += new EventHandler (RowActivated);
 			ShowAll ();
+			//GdkWindow.Move (tx + wx, ty + wy);
 		}
 		
 		string fileName;
