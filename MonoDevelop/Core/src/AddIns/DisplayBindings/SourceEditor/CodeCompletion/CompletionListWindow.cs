@@ -122,6 +122,8 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 		{
 			ICompletionData data = completionData[List.Selection];
 			
+			declarationviewwindow.Hide ();
+			
 			// FIXME: This code is buggy, and generates a bad placement sometimes when you jump a lot.
 			// but it is better than 0,0
 			// This code is for sizing the treeview properly.
@@ -165,13 +167,14 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 			if (declarationviewwindow.DescriptionMarkup.Length == 0)
 				return;
 
+			declarationviewwindow.Multiple = (ccdata.Overloads != 0);
 			int dvwWidth, dvwHeight;
 			declarationviewwindow.Move (this.Screen.Width+1, vert);
 
+			declarationviewwindow.ReshowWithInitialSize ();
 			declarationviewwindow.ShowAll ();
 			declarationviewwindow.Multiple = (ccdata.Overloads != 0);
 
-			//FIXME: GetSize returns the size /before/ the window was automatically shrunk
 			declarationviewwindow.GdkWindow.GetSize (out dvwWidth, out dvwHeight);
 
 			if (this.Screen.Width <= horiz + dvwWidth) {

@@ -1,3 +1,7 @@
+2004-12-03  Alp Toker  <alp@atoker.com>
+
+	* CodeCompletion/CompletionListWindow.cs: Fix tooltip positioning.
+
 2004-12-03  Todd Berman  <tberman@off.net>
 
 	* Gui/SourceEditorBuffer.cs:
