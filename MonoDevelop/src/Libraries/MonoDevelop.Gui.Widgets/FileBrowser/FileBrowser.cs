@@ -4,6 +4,7 @@
 //
 
 using System;
+using System.Collections;
 using System.Diagnostics;
 using System.IO;
 using Gtk;
@@ -16,17 +17,29 @@ namespace MonoDevelop.Gui.Widgets
 {
 	public delegate void DirectoryChangedEventHandler (string path);
 
+	private enum PerformingTask
+	{
+		None,
+		Renaming,
+		CreatingNew
+	}
+
 	public class FileBrowser : VBox
 	{
 		public DirectoryChangedEventHandler DirectoryChangedEvent;
 		private static GLib.GType gtype;
 		private Gtk.TreeView tv;
-		private Button upbutton;
-		private Entry entry;
+		private Gtk.ScrolledWindow scrolledwindow;
+		private Gtk.Button upbutton, homebutton;
+		private Gtk.Entry entry;
+		private IMessageService messageService;
+		private Gtk.CellRendererText text_render;
 		private ListStore store;
+		private PerformingTask performingtask = PerformingTask.None;
+		private Hashtable hiddenfolders = new Hashtable();
 		private string currentDir;
 		private bool ignoreHidden = true;
-		private string[] files;
+		private ArrayList files = new ArrayList();
 		private bool init = false;
 		PropertyService PropertyService = (PropertyService) ServiceManager.Services.GetService (typeof (PropertyService));
 
@@ -36,11 +49,13 @@ namespace MonoDevelop.Gui.Widgets
 				Vfs.Init();
 			}
 
-			ScrolledWindow scrolledwindow = new ScrolledWindow ();
+			messageService = (IMessageService)ServiceManager.Services.GetService(typeof(IMessageService));
+
+			scrolledwindow = new ScrolledWindow();
 			scrolledwindow.VscrollbarPolicy = PolicyType.Automatic;
 			scrolledwindow.HscrollbarPolicy = PolicyType.Automatic;
 
-			Button homebutton = new Button ();
+			homebutton = new Button ();
 			homebutton.Add (new Image (Stock.Home, IconSize.SmallToolbar));
 			homebutton.Relief = ReliefStyle.None;
 			homebutton.Clicked += new EventHandler (OnHomeClicked);
@@ -71,7 +86,8 @@ namespace MonoDevelop.Gui.Widgets
 			directorycolumn.PackStart (pix_render, false);
 			directorycolumn.AddAttribute (pix_render, "pixbuf", 0);
 
-			CellRendererText text_render = new CellRendererText ();
+			text_render = new CellRendererText ();
+			text_render.Edited += new EditedHandler (OnDirEdited);
 			directorycolumn.PackStart (text_render, false);
 			directorycolumn.AddAttribute (text_render, "text", 1);
 			
@@ -109,14 +125,16 @@ namespace MonoDevelop.Gui.Widgets
 				*/
 				
 				ignoreHidden = value;
+				Populate();
 			}
 		}
 
 		public string CurrentDir
 		{
-			get { return System.IO.Path.GetFullPath (currentDir); }
+			get { return currentDir; }
 			set { 
 					currentDir = System.IO.Path.GetFullPath (value);
+					GetListOfHiddenFolders();
 					Populate ();
 
 					if (DirectoryChangedEvent != null) {
@@ -127,11 +145,8 @@ namespace MonoDevelop.Gui.Widgets
 
 		public string[] Files
 		{
-			get
-			{
-				if (files == null)
-					return new string [0];
-				return files; 
+			get {
+				return (string[]) files.ToArray(typeof(string)); 
 			}
 		}
 
@@ -167,7 +182,7 @@ namespace MonoDevelop.Gui.Widgets
 			{
 				if (ignoreHidden)
 				{
-					if (!d.Name.StartsWith ("."))
+					if (!d.Name.StartsWith (".") && NotHidden(d.Name))
 						store.AppendValues (FileIconLoader.GetPixbufForFile (System.IO.Path.Combine (CurrentDir, d.Name), 24, 24), d.Name);
 				}
 				else
@@ -180,17 +195,20 @@ namespace MonoDevelop.Gui.Widgets
 				tv.Selection.SelectPath (new Gtk.TreePath ("0"));
 
 			entry.Text = CurrentDir;
-			files = Directory.GetFiles (CurrentDir);
-		}
+			string[] filesaux = Directory.GetFiles (CurrentDir);
 
-		private void OnSelectionChanged (object o, EventArgs args)
-		{
-			TreeIter iter;
-			TreeModel model;
-			if (tv.Selection.GetSelected (out model, out iter))
+			files.Clear();
+			for (int cont = 0; cont < filesaux.Length; cont++)
 			{
-				string selection = (string) store.GetValue (iter, 1);
-				files = Directory.GetFiles (System.IO.Path.Combine (currentDir, selection));
+				if (ignoreHidden)
+				{
+					if (NotHidden (System.IO.Path.GetFileName(filesaux[cont])))
+					{
+						files.Add (filesaux[cont]);
+					}
+				}
+				else
+					files.Add (filesaux[cont]);
 			}
 		}
 
@@ -222,17 +240,31 @@ namespace MonoDevelop.Gui.Widgets
 
 		private void ShowPopup ()
 		{
-			 Menu menu = new Menu ();
-			 MenuItem openfilebrowser = new MenuItem ("Open with file browser");
-			 openfilebrowser.Activated += new EventHandler (OpenFileBrowser);
+			Menu menu = new Menu ();
+			MenuItem openfilebrowser = new MenuItem ("Open with file browser");
+			openfilebrowser.Activated += new EventHandler (OpenFileBrowser);
 
-			 MenuItem openterminal = new MenuItem ("Open with terminal");
-			 openterminal.Activated += new EventHandler (OpenTerminal);
+			MenuItem openterminal = new MenuItem ("Open with terminal");
+			openterminal.Activated += new EventHandler (OpenTerminal);
 
-			 menu.Append (openterminal);
-			 menu.Append (openfilebrowser);
-			 menu.Popup (null, null, null, IntPtr.Zero, 3, Global.CurrentEventTime);
-			 menu.ShowAll ();
+			Gtk.MenuItem rename = new MenuItem("Rename");
+			rename.Activated += new EventHandler(OnDirRename);
+
+			Gtk.MenuItem delete = new MenuItem("Delete");
+			delete.Activated += new EventHandler(OnDirDelete);
+
+			Gtk.MenuItem newfolder = new MenuItem("Create new folder");
+			newfolder.Activated += new EventHandler(OnNewDir);
+
+			menu.Append(newfolder);
+			menu.Append(new MenuItem());
+			menu.Append(delete);
+			menu.Append(rename);
+			menu.Append(new MenuItem());
+			menu.Append (openterminal);
+			menu.Append (openfilebrowser);
+			menu.Popup (null, null, null, IntPtr.Zero, 3, Global.CurrentEventTime);
+			menu.ShowAll ();
 		}
 		
 		private void OpenFileBrowser (object o, EventArgs args)
@@ -282,7 +314,149 @@ namespace MonoDevelop.Gui.Widgets
 		{
 			if (Directory.Exists (entry.Text.Trim ()))
 				CurrentDir = entry.Text;
+			else
+			{
+    			messageService.ShowError (null, "Cannot enter '" + entry.Text + "' folder");
+			}
 		}
+
+		private void OnDirRename (object o, EventArgs args)
+		{
+			TreePath treepath;
+			TreeViewColumn column;
+
+			performingtask = PerformingTask.Renaming;
+			text_render.Editable = true;
+
+			tv.GetCursor (out treepath, out column);
+
+			tv.SetCursor (treepath, column, true);
+		}
+
+		private void OnDirEdited (object o, EditedArgs args)
+		{
+			text_render.Editable = false;
+
+			switch (performingtask)
+			{
+				case PerformingTask.Renaming:
+											TreeIter iter;
+
+											tv.Model.IterNthChild (out iter, Int32.Parse (args.Path));
+
+											string oldpath = (string) store.GetValue (iter, 1);
+
+											if (oldpath != args.NewText)
+											{
+    											try
+    											{
+    												System.IO.Directory.Move (System.IO.Path.Combine(CurrentDir, oldpath), System.IO.Path.Combine(CurrentDir, args.NewText));
+    											}
+    											catch (Exception ex)
+    											{
+    												messageService.ShowError (ex, "Could not rename folder '" + oldpath + "' to '" + args.NewText + "'");
+    											}
+    											finally
+    											{
+    												Populate();
+    											}
+											}
+
+											break;
+
+				case PerformingTask.CreatingNew:
+											System.IO.DirectoryInfo dirinfo = new DirectoryInfo(CurrentDir);
+											try
+											{
+												dirinfo.CreateSubdirectory(args.NewText);
+											}
+											catch(Exception ex)
+											{
+    												messageService.ShowError (ex, "Could not create new folder '" + args.NewText + "'");
+											}
+											finally
+											{
+												Populate();
+											}
+
+											break;
+											
+				default:
+											Console.WriteLine("This should not be happening");
+											break;
+			}
+			performingtask = PerformingTask.None;
+		}
+
+		private void OnDirDelete (object o, EventArgs args)
+		{
+			TreeIter iter;
+			TreeModel model;
+
+			if (messageService.AskQuestion("Are you sure you want to delete this folder?", "Delete folder"))
+			{
+				if (tv.Selection.GetSelected (out model, out iter))
+				{
+					try
+					{
+						Directory.Delete (System.IO.Path.Combine(CurrentDir, (string) store.GetValue (iter, 1)), true);
+					}
+					catch (Exception ex)
+					{
+						messageService.ShowError (ex, "Could not delete folder '" + System.IO.Path.Combine(CurrentDir, (string) store.GetValue (iter, 1)) + "'");
+					}
+					finally
+					{
+						Populate();
+					}
+				}
+			}
+		}
+
+		// FIXME: When the scrollbars of the directory list
+		// are shown, and we perform a new dir action
+		// the column is never edited, but Populate is called
+		private void OnNewDir (object o, EventArgs args)
+		{
+			TreeIter iter;
+			TreePath treepath;
+			TreeViewColumn column;
+
+			performingtask = PerformingTask.CreatingNew;
+			text_render.Editable = true;
+
+			tv.Reorderable = false;
+			iter = store.AppendValues (FileIconLoader.GetPixbufForFile (CurrentDir, 24, 24), "folder name");
+			treepath = tv.Model.GetPath(iter);
+
+			column = tv.GetColumn (0);
+
+			tv.SetCursor (treepath, column, true);
+		}
+
+		private void GetListOfHiddenFolders()
+		{
+			hiddenfolders.Clear();
+
+			if(System.IO.File.Exists(CurrentDir + System.IO.Path.DirectorySeparatorChar + ".hidden"))
+			{
+				StreamReader stream =  new StreamReader (CurrentDir + System.IO.Path.DirectorySeparatorChar + ".hidden");
+				string foldertohide = stream.ReadLine();
+
+				while (foldertohide != null)
+				{
+					hiddenfolders.Add (foldertohide, foldertohide);
+					foldertohide = stream.ReadLine();
+				}
+
+				stream.Close();
+			}			
+		}
+
+		private Boolean NotHidden(string folder)
+		{
+			return !hiddenfolders.Contains(folder);
+		} 
 	}
 }
 
