@@ -8,7 +8,6 @@
 using System;
 using System.IO;
 using Gtk;
-using MonoDevelop.Gui;
 
 using ICSharpCode.SharpDevelop.Internal.Project;
 using ICSharpCode.Core.Properties;
@@ -26,7 +25,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs.OptionPanels.CompletionDatabaseWi
 		Button browseButton;
 		RadioButton specifyLocationRadioButton;
 		RadioButton sharpDevelopDirRadioButton;
-		Entry locationTextBox = new Entry ();
+		Gnome.FileEntry locationTextBox = new Gnome.FileEntry ("locationTextBox", "Choose the location in which you want the code completion files to be generated");
 		
 		public override bool ReceiveDialogMessage(DialogMessage message)
 		{
@@ -36,7 +35,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs.OptionPanels.CompletionDatabaseWi
 			} else if (message == DialogMessage.Next || message == DialogMessage.OK) {
 				string path = null;				
 				if (specifyLocationRadioButton.Active) {
-					path = locationTextBox.Text.TrimEnd (System.IO.Path.DirectorySeparatorChar);
+					path = locationTextBox.GtkEntry.Text.TrimEnd (System.IO.Path.DirectorySeparatorChar);
 				} else if (sharpDevelopDirRadioButton.Active) {
 					FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.Services.GetService(typeof(FileUtilityService));
 					PropertyService propertyService = (PropertyService)ServiceManager.Services.GetService(typeof(PropertyService));
@@ -73,24 +72,14 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs.OptionPanels.CompletionDatabaseWi
 			SetFinishedState(sender, e);
 		}
 		
-		void BrowseLocationEvent(object sender, EventArgs e)
-		{
-			FolderDialog fd = new FolderDialog ("choose the location in which you want the code completion files to be generated");
-			int response = fd.Run ();
-			fd.Hide ();
-			if (response == (int) ResponseType.Ok) {
-				locationTextBox.Text = fd.Filename;
-			}
-		}
-		
 		void SetFinishedState(object sender, EventArgs e)
 		{
 			FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.Services.GetService(typeof(FileUtilityService));
 			try
 			{
 				EnableFinish = EnableNext = !specifyLocationRadioButton.Active ||
-  			                            (fileUtilityService.IsValidFileName(locationTextBox.Text) && 
-  			                            Directory.Exists(locationTextBox.Text));
+  			                            (fileUtilityService.IsValidFileName(locationTextBox.GtkEntry.Text) && 
+  			                            Directory.Exists(locationTextBox.GtkEntry.Text));
 			}
 			catch
 			{
@@ -109,9 +98,9 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs.OptionPanels.CompletionDatabaseWi
 			VBox mainVBox = new VBox (false, 0);
 			NextWizardPanelID = "CreateDatabasePanel";
 			
-			browseButton = new Button ("...");
-			browseButton.Clicked += new EventHandler (BrowseLocationEvent);
-			
+			locationTextBox.DirectoryEntry = true;
+			locationTextBox.Modal = true;
+			locationTextBox.GtkEntry.WidthChars = 50;
 			locationTextBox.Changed += new EventHandler (SetFinishedState);
 			
 			ResourceService resourceService = (ResourceService)ServiceManager.Services.GetService(typeof(IResourceService));
@@ -132,7 +121,6 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs.OptionPanels.CompletionDatabaseWi
 			
 			HBox hbox = new HBox (false, 0);
 			hbox.PackStart (locationTextBox);
-			hbox.PackStart (browseButton, false, false, 3);
 		
 			mainVBox.PackStart (t, true, true, 0);
 			mainVBox.PackStart (specifyLocationRadioButton, false, true, 6);
