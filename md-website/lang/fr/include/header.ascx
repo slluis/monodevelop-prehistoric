@@ -26,6 +26,9 @@
 				<LI>
 					<A href="/lang/fr/faq.aspx">FAQ</A>
 				</LI>
+				<li>
+					<a href="http://deobald.glcn.com/">Wiki</a>
+				</li>
 			</UL>
 		</DIV>
     <div id="flags">
