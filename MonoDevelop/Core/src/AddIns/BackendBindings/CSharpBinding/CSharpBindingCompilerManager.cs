@@ -127,7 +127,7 @@ namespace CSharpBinding
 									writer.WriteLine('"' + finfo.Name + '"');
 								break;
 							case BuildAction.EmbedAsResource:
-								// Workaround 50752
+								// FIXME: workaround 60990
 								writer.WriteLine(@"""/res:{0},{1}""", finfo.Name, Path.GetFileName (finfo.Name));
 								break;
 						}
