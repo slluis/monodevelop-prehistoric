@@ -52,6 +52,7 @@ gtkhtml-sharp >= $GTKSHARP_REQUIRED_VERSION
 gtksourceview-sharp >= $GTKSOURCEVIEWSHARP_REQUIRED_VERSION
 gecko-sharp >= $GECKOSHARP_REQUIRED_VERSION
 monodoc >= $MONODOC_REQUIRED_VERSION)
+AC_SUBST(BASE_DEPENDENCIES_LIBS)
 
 gtksharp_prefix=`pkg-config --variable=prefix gtk-sharp`
 AC_SUBST(gtksharp_prefix)
