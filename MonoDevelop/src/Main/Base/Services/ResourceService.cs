@@ -253,7 +253,13 @@ namespace ICSharpCode.Core.Services
 		/// <exception cref="ResourceNotFoundException">
 		/// Is thrown when the GlobalResource manager can't find a requested resource.
 		/// </exception>
-		public Gdk.Pixbuf GetIcon(string name)
+
+		public Gdk.Pixbuf GetIcon (string name)
+		{
+			return GetIcon (name, Gtk.IconSize.Button);
+		}
+		
+		public Gdk.Pixbuf GetIcon (string name, Gtk.IconSize size)
 		{
 			string stockid = GetStockId (name);
 			if (stockid != null) {
@@ -265,7 +271,7 @@ namespace ICSharpCode.Core.Services
 						 Gtk.Widget.DefaultStyle.Handle,
 						 (int) Gtk.TextDirection.None,
 						 (int) Gtk.StateType.Normal,
-						 (int) Gtk.IconSize.Button,
+						 (int) size,
 						 IntPtr.Zero, null);
 					return (Gdk.Pixbuf) GLib.Object.GetObject(raw_ret);
 				}
@@ -288,10 +294,16 @@ namespace ICSharpCode.Core.Services
 		/// <exception cref="ResourceNotFoundException">
 		/// Is thrown when the GlobalResource manager can't find a requested resource.
 		/// </exception>
-		public Gdk.Pixbuf GetBitmap(string name)
+
+		public Gdk.Pixbuf GetBitmap (string name)
+		{
+			return GetBitmap (name, Gtk.IconSize.Button);
+		}
+
+		public Gdk.Pixbuf GetBitmap(string name, Gtk.IconSize size)
 		{
 			// Try stock icons first
-			Gdk.Pixbuf pix = GetIcon (name);
+			Gdk.Pixbuf pix = GetIcon (name, size);
 			if (pix == null) {
 				// Try loading directly from disk then
 				pix = new Gdk.Pixbuf("../data/resources/icons/" + name);

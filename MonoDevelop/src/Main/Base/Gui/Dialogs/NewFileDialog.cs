@@ -76,7 +76,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 			int i = 0;
 			Hashtable tmp = new Hashtable(icons);
 			foreach (DictionaryEntry entry in icons) {
-				Gdk.Pixbuf bitmap = iconService.GetBitmap(entry.Key.ToString());
+				Gdk.Pixbuf bitmap = iconService.GetBitmap(entry.Key.ToString(), Gtk.IconSize.LargeToolbar);
 				if (bitmap != null) {
 					smalllist.Add(bitmap);
 					imglist.Add(bitmap);
@@ -171,7 +171,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 				foreach (TemplateItem item in (ArrayList)((Gtk.TreeStore)mdl).GetValue (iter, 2)) {
 					//templateStore.AppendValues (item.Name, item.Template);
 					
-					TemplateView.AddIcon(new Gtk.Image(iconService.GetBitmap (item.Template.Icon)), item.Name, item.Template);
+					TemplateView.AddIcon(new Gtk.Image(iconService.GetBitmap (item.Template.Icon, Gtk.IconSize.Dnd)), item.Name, item.Template);
 				}
 				okButton.Sensitive = false;
 			}
