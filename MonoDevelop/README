@@ -1,13 +1,20 @@
-This is a port of SharpDevelop to Gtk# and Mono.
+This is MonoDevelop which is intended to be a full-featured
+integrated development environment (IDE) for mono and Gtk#.
+It was originally a port of SharpDevelop 0.98.
+See http://monodevelop.com/ for more info.
 
-Compiling and running
----------------------
+Compiling for users
+-------------------
+./configure
+make
+make install
+
+Compiling for developers
+------------------------
 To compile run the following command:
 
-./autogen.sh --prefix=/usr/local
+./autogen.sh
 make
-
-(you need to pass the prefix where gtk# is located)
 
 To run MonoDevelop:
 make run
@@ -17,6 +24,9 @@ make clean && make && make run
 
 Installing
 ----------
+Installing is currently optional.
+(Use make run to use MonoDevelop without installing.)
+
 make install
 
 Dependencies
@@ -32,17 +42,19 @@ on many of the OpenCarpet channels.)
 
 See http://lists.ximian.com/archives/public/monodevelop-list/2004-January/000129.html.
 
-The .cs extension must be mapped to the mime type text/x-csharp for the new editor to work.
-You can use gnome-file-types-properties to do this.
-
 References
 ----------
 SharpDevelop Tech Notes
 http://www.icsharpcode.net/TechNotes/
 
-We are attempting to follow the HIG in certain areas especially, particularly dialogs.
+Gnome Human Interface Guidelines (HIG)
+http://developer.gnome.org/projects/gup/hig/1.0/
 
-You can find a copy of the HIG at http://developer.gnome.org/projects/gup/hig/1.0/
+freedesktop.org standards
+http://freedesktop.org/Standards/
+
+Integrating with GNOME (a little out of date)
+http://developers.sun.com/solaris/articles/integrating_gnome.html
 
 Discussion, Bugs, Patches
 -------------------------
@@ -50,3 +62,4 @@ monodevelop-list@lists.ximian.com (questions and discussion)
 monodevelop-patches-list@lists.ximian.com (track commits to MonoDevelop)
 monodevelop-bugs@lists.ximian.com (track MonoDevelop bugzilla component)
 http://bugzilla.ximian.com (submit bugs and patches here)
+

@@ -1,0 +1,20 @@
+- Why aren't my C# files syntax highlighted?
+
+GNOME doesn't recognize *.cs files as the text/x-csharp
+mimetype.  gtksourceview-sharp tries to set this up automatically,
+but it may not work in all cases. You can use 
+gnome-file-types-properties to do this.
+
+- What if the configuration summary says 'no' for one of the
+  requirements?
+
+The configure script uses pkg-config to see if you have the 
+required packages to build.  If it can't detect a package that
+you have installed:
+	
+add the path to the <package>.pc file to PKG_CONFIG_PATH
+ex. export PKG_CONFIG_PATH=/usr/local/lib/pkgconfig:$PKG_CONFIG_PATH	
+
+install a newer version or the development counterpart
+of that package and rerun ./configure
+ex. gnome-vfs2-devel-2.4.1-1.rpm
