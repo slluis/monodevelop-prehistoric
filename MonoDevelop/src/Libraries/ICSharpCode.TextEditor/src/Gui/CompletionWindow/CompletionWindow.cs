@@ -322,6 +322,9 @@ namespace ICSharpCode.TextEditor.Gui.CompletionWindow
 				}
 				
 				declarationviewwindow.ShowAll ();
+				if (listView.Screen.Width <= horiz + declarationviewwindow.GdkWindow.FrameExtents.Width) {
+					horiz = listpos_x - declarationviewwindow.GdkWindow.FrameExtents.Width - 10;
+				}
 				declarationviewwindow.Move (horiz, vert);
 			}
 		}
