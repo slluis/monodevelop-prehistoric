@@ -231,9 +231,8 @@ namespace ICSharpCode.SharpDevelop.Internal.Project
 						projectFiles.Add(newFile);
 					}
 				} else {
-#if !LINUX
-					new IncludeFilesDialog(this, newFiles).ShowDialog();
-#endif
+				//	new IncludeFilesDialog(this, newFiles).ShowDialog();
+					Console.WriteLine ("UnportedDialog in Internal/Project/Project/AbstractProject"); 
 				}
 			}
 		}
