@@ -28,11 +28,12 @@ namespace ICSharpCode.SharpDevelop.Gui.Components
 			set { key = value; }
 		}
 		
-		public SdMenuSeparator()
+		public SdMenuSeparator(string id)
 		{
+			key = id;
 		}
 		
-		public SdMenuSeparator(ConditionCollection conditionCollection, object caller)
+		public SdMenuSeparator(string id, ConditionCollection conditionCollection, object caller) : this (id)
 		{
 			this.caller              = caller;
 			this.conditionCollection = conditionCollection;

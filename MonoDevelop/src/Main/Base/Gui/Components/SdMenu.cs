@@ -120,16 +120,16 @@ namespace ICSharpCode.SharpDevelop.Gui.Components
 
 		public void Append (Gtk.Widget item)
 		{
-			if (item.Parent == null) {
-				foreach (IStatusUpdate obj in subMenu.Children)
-				{
-					if (obj is SdMenuSeparator)
-						continue;
-					if (obj.Key == ((IStatusUpdate)item).Key)
-						return;
+			try {
+				if (item.Parent == null || (item as IStatusUpdate == null)) {
+					foreach (IStatusUpdate obj in subMenu.Children)
+					{
+						if (obj.Key == ((IStatusUpdate)item).Key)
+							return;
+					}
+					subMenu.Append (item);
 				}
-				subMenu.Append (item);
-			}
+			} catch { }
 		}
 	}
 }

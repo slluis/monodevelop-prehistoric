@@ -105,7 +105,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Components
 			this.Activated += handler;
 			UpdateStatus();
 		}
-		
+
 		public SdMenuCommand(object caller, string label, EventHandler handler) : this(stringParserService.Parse(label))
 		{
 			this.caller = caller;

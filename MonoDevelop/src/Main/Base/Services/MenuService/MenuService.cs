@@ -118,7 +118,7 @@ namespace ICSharpCode.SharpDevelop.Services
 			Gtk.Menu contextMenu = new Gtk.Menu();
 			for (int i = 0; i < quickInsertMenuItems.GetLength(0); ++i) {
 				if (quickInsertMenuItems[i, 0] == "-") {
-					contextMenu.Append(new SdMenuSeparator());
+					contextMenu.Append(new SdMenuSeparator("-"));
 				} else {
 					SdMenuCommand cmd = new SdMenuCommand(this,
 					                                      stringParserService.Parse(quickInsertMenuItems[i, 0]),
