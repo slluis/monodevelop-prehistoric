@@ -95,7 +95,7 @@ namespace MonoDevelop.Gui.Widgets {
 				return;
 			
 			TreeView.Model.SetValue (TreeIter, 0, text);
-			if (image != null)        TreeView.Model.SetValue (TreeIter, 1, image);
+			if (image != null)        TreeView.Model.SetValue (TreeIter, 1, TreeView.RenderIcon (image));
 			if (opened_image != null) TreeView.Model.SetValue (TreeIter, 3, TreeView.RenderIcon (opened_image));
 			if (closed_image != null) TreeView.Model.SetValue (TreeIter, 4, TreeView.RenderIcon (closed_image));
 		}

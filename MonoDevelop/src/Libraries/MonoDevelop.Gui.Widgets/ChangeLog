@@ -1,3 +1,9 @@
+2004-03-31  Todd Berman  <tberman@sevenl.net>
+
+	* Tree/TreeNode.cs:
+	* Tree/TreeView.cs: Fixing gtk+ 2.4 regression with the change from enum to
+	integer. Using RenderIcon to workaround.
+
 2004-03-27  Todd Berman  <tberman@sevenl.net>
 
 	* Tree/TreeNodeCollection.cs: fix indentation
