@@ -348,15 +348,20 @@ namespace Gdl
 		
 		private void EllipsizeLayout (int width)
 		{
-			if (width <= 0) {
+			// no room to draw anything
+			if (width < 1) {
 				layout.SetText ("");
 				return;
 			}
 			
-			int w, h, ell_w, ell_h, x, empty;
-			layout.GetPixelSize (out w, out h);
-			if (w <= width) return;
+			// plenty of room
+			int lw, lh;
+			layout.GetPixelSize (out lw, out lh);
+			if (width > lw)
+				return;
 			
+			// not enough room for ...
+			int ell_w, ell_h;
 			Pango.Layout ell = layout.Copy ();
 			ell.SetText ("...");
 			ell.GetPixelSize (out ell_w, out ell_h);
@@ -365,11 +370,16 @@ namespace Gdl
 				return;
 			}
 			
+			// subtract ellipses width
 			width -= ell_w;
+
+			int index, trailing;
 			Pango.LayoutLine line = layout.GetLine (0);
-			string text = layout.Text;
-			if (line.XToIndex (width * 1024, out x, out empty)) {
-				layout.SetText (text.Substring (0, x) + "...");
+			if (line.XToIndex (width * 1024, out index, out trailing)) {
+				// Console.WriteLine ("length: {0} index: {1} trailing: {2}", layout.Text.Length, index, trailing);
+				// FIXME: breaks on accented chars
+				if (index < layout.Text.Length)
+					layout.SetText (layout.Text.Substring (0, index) + "...");
 			}
 		}
 		
