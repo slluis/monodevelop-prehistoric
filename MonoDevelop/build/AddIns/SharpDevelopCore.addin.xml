@@ -77,105 +77,105 @@
 	
 	<Extension path = "/SharpDevelop/Views/ProjectBrowser/ContextMenu/CombineBrowserNode">
                 <MenuItem id = "Compile"
-                          _label = "${res:XML.MainMenu.RunMenu.Compile}" 
+                          _label = "Compile" 
                           class = "MonoDevelop.Commands.Compile"/>
                 <MenuItem id = "CompileAll"
-                          _label = "${res:XML.MainMenu.RunMenu.CompileAll}" 
+                          _label = "Rebuild _Solution" 
                           class = "MonoDevelop.Commands.CompileAll"/>
                 <MenuItem id = "CombineBuildGroupSeparator" _label = "-" />
                 
                 <MenuItem id = "CombineAddMenu" _label = "${res:ProjectComponent.ContextMenu.AddMenu}" >
 	                <MenuItem id = "AddNewProject"
-		                  _label = "${res:ProjectComponent.ContextMenu.AddNewProject}" 
+		                  _label = "Add New Project..."
 		                  icon  = "Icons.16x16.NewProjectIcon"
 		                  class = "MonoDevelop.Commands.ProjectBrowser.AddNewProjectToCombine"/>
 	                <MenuItem id = "AddNewCombine"
-		                  _label = "${res:ProjectComponent.ContextMenu.AddNewCombine}" 
+		                  _label = "Add New Solution..." 
 		                  icon  = "Icons.16x16.NewProjectIcon"
 		                  class = "MonoDevelop.Commands.ProjectBrowser.AddNewCombineToCombine"/>
 		        <MenuItem id = "Separator1" _label = "-" />          
 	                <MenuItem id = "AddProject"
-		                  _label = "${res:ProjectComponent.ContextMenu.AddProject}" 
+		                  _label = "Add existing _Project" 
 		                  class = "MonoDevelop.Commands.ProjectBrowser.AddProjectToCombine"/>
 	                <MenuItem id = "AddCombine"
-		                  _label = "${res:ProjectComponent.ContextMenu.AddCombine}" 
+		                  _label = "Add existing Solution" 
 		                  class = "MonoDevelop.Commands.ProjectBrowser.AddCombineToCombine"/>
                 </MenuItem>
 		<MenuItem id = "RemoveCombine"
-	                  _label = "${res:ProjectComponent.ContextMenu.Remove}" 
+	                  _label = "_Remove" 
 	                  icon  = "Icons.16x16.DeleteIcon"
 	                  class = "MonoDevelop.Commands.ProjectBrowser.RemoveEntryEvent"/>
 
                 <MenuItem id = "RenameCombine"
-	                  _label    = "${res:ProjectComponent.ContextMenu.Rename}" 
+	                  _label    = "Re_name" 
 	                  shortcut = "F2"
 	                  class    = "MonoDevelop.Commands.ProjectBrowser.RenameEntryEvent"/>
 	                  
 	        <MenuItem id = "CombineOptionsSeparator" _label = "-" />          
 	        
                 <MenuItem id = "CombineOptions"
-	                  _label = "${res:ProjectComponent.ContextMenu.CombineOptions}" 
+	                  _label = "Solution Options" 
 	                  icon  = "Icons.16x16.PropertiesIcon"
 	                  class    = "MonoDevelop.Commands.ProjectBrowser.CombineOptions"/>
 	</Extension>
 	
 	<Extension path = "/SharpDevelop/Views/ProjectBrowser/ContextMenu/ResourceFolderNode">
                 <MenuItem id = "AddResource"
-	                  _label = "${res:ProjectComponent.ContextMenu.AddResourceFile}" 
+	                  _label = "Add Resource" 
 	                  class = "MonoDevelop.Commands.ProjectBrowser.AddResourceToProject"/>
 	</Extension>
 	
 	<Extension path = "/SharpDevelop/Views/ProjectBrowser/ContextMenu/ReferenceFolderNode">
                 <MenuItem id = "AddReference"
-	                  _label = "${res:ProjectComponent.ContextMenu.AddReference}" 
+	                  _label = "Add Reference" 
 	                  class = "MonoDevelop.Commands.ProjectBrowser.AddReferenceToProject"/>
 	</Extension>
 	
 	<Extension path = "/SharpDevelop/Views/ProjectBrowser/ContextMenu/ReferenceNode">
 		<MenuItem id = "OpenFile"
-		          _label = "${res:ProjectComponent.ContextMenu.Open}" 
+		          _label = "O_pen" 
 		          icon  = "Icons.16x16.OpenFileIcon"
 		          class = "MonoDevelop.Commands.ProjectBrowser.OpenFileEvent"/>
 		<MenuItem id = "OpenSeparator" _label = "-" />
 		<MenuItem id = "Remove"
-	                  _label = "${res:ProjectComponent.ContextMenu.Remove}" 
+	                  _label = "_Remove" 
 	                  icon  = "Icons.16x16.DeleteIcon"
 	                  class = "MonoDevelop.Commands.ProjectBrowser.RemoveEntryEvent"/>
 	</Extension>
         
         <Extension path = "/SharpDevelop/Views/ProjectBrowser/ContextMenu/DefaultFileNode">
 		<MenuItem id = "OpenFile"
-		          _label = "${res:ProjectComponent.ContextMenu.Open}" 
+		          _label = "O_pen" 
 		          icon  = "Icons.16x16.OpenFileIcon"
 		          class = "MonoDevelop.Commands.ProjectBrowser.OpenFileEvent"/>
 		<MenuItem id = "OpenSeparator" _label = "-" />
 		<MenuItem id = "Remove"
-	                  _label = "${res:ProjectComponent.ContextMenu.Remove}" 
+	                  _label = "_Remove" 
 	                  icon  = "Icons.16x16.DeleteIcon"
 	                  class = "MonoDevelop.Commands.ProjectBrowser.RemoveEntryEvent"/>
                 <MenuItem id = "Rename"
-	                  _label    = "${res:ProjectComponent.ContextMenu.Rename}" 
+	                  _label    = "Re_name" 
 	                  shortcut = "F2"
 	                  class    = "MonoDevelop.Commands.ProjectBrowser.RenameEntryEvent"/>
         </Extension>
 
         <Extension path = "/SharpDevelop/Views/ProjectBrowser/ContextMenu/ProjectFileNode">
 		<MenuItem id = "OpenFile"
-		          _label = "${res:ProjectComponent.ContextMenu.Open}" 
+		          _label = "O_pen" 
 		          icon  = "Icons.16x16.OpenFileIcon"
 		          class = "MonoDevelop.Commands.ProjectBrowser.OpenFileEvent"/>
 		<MenuItem id = "OpenSeparator" _label = "-" />
                 <MenuItem id = "Add" _label = "${res:ProjectComponent.ContextMenu.AddMenu}">
         		<MenuItem id = "NewFiles"
-		                  _label = "${res:ProjectComponent.ContextMenu.NewFiles}" 
+		                  _label = "New _File" 
 		                  icon  = "Icons.16x16.NewDocumentIcon"
 		                  class = "MonoDevelop.Commands.ProjectBrowser.AddNewFileEvent"/>
         		<MenuItem id = "AddFiles"
-		                  _label = "${res:ProjectComponent.ContextMenu.AddFiles}" 
+		                  _label = "Add Files" 
 		                  class = "MonoDevelop.Commands.ProjectBrowser.AddFilesToProject"/>
 			<MenuItem id = "Separator1" _label = "-" />
         		<MenuItem id = "NewFolder"
-		                  _label = "${res:ProjectComponent.ContextMenu.NewFolder}" 
+		                  _label = "New Folder" 
 		                  icon  = "Icons.16x16.NewFolderIcon"
 		                  class = "MonoDevelop.Commands.ProjectBrowser.NewFolderEvent"/>
         	</MenuItem>
@@ -185,70 +185,70 @@
 			</MenuItem>
 		<MenuItem id = "IncludeSeparator" _label = "-" />
 		<MenuItem id = "Remove"
-	                  _label = "${res:ProjectComponent.ContextMenu.Remove}" 
+	                  _label = "Remove" 
 	                  icon  = "Icons.16x16.DeleteIcon"
 	                  class = "MonoDevelop.Commands.ProjectBrowser.RemoveEntryEvent"/>
                 <MenuItem id = "Rename"
-	                  _label    = "${res:ProjectComponent.ContextMenu.Rename}" 
+	                  _label    = "Rename" 
 	                  shortcut = "F2"
 	                  class    = "MonoDevelop.Commands.ProjectBrowser.RenameEntryEvent"/>
         </Extension>
         
         <Extension path = "/SharpDevelop/Views/ProjectBrowser/ContextMenu/DefaultDirectoryNode">
-                <MenuItem id = "Add" _label = "${res:ProjectComponent.ContextMenu.AddMenu}">
+                <MenuItem id = "Add" _label = "Add">
         		<MenuItem id = "NewFiles"
-		                  _label = "${res:ProjectComponent.ContextMenu.NewFiles}" 
+		                  _label = "Add New Files" 
 		                  icon  = "Icons.16x16.NewDocumentIcon"
 		                  class = "MonoDevelop.Commands.ProjectBrowser.AddNewFileEvent"/>
         		<MenuItem id = "AddFiles"
-		                  _label = "${res:ProjectComponent.ContextMenu.AddFiles}" 
+		                  _label = "Add Files" 
 		                  class = "MonoDevelop.Commands.ProjectBrowser.AddFilesToProject"/>
 			<MenuItem id = "Separator1" _label = "-" />
         		<MenuItem id = "NewFolder"
-		                  _label = "${res:ProjectComponent.ContextMenu.NewFolder}" 
+		                  _label = "Add New Folder" 
 		                  icon  = "Icons.16x16.NewFolderIcon"
 		                  class = "MonoDevelop.Commands.ProjectBrowser.NewFolderEvent"/>
         	</MenuItem>
 		<MenuItem id = "AddSeparator" _label = "-" />
 		<MenuItem id = "Remove"
-	                  _label = "${res:ProjectComponent.ContextMenu.Remove}" 
+	                  _label = "_Remove" 
 	                  icon  = "Icons.16x16.DeleteIcon"
 	                  class = "MonoDevelop.Commands.ProjectBrowser.RemoveEntryEvent"/>
                 <MenuItem id = "Rename"
-	                  _label    = "${res:ProjectComponent.ContextMenu.Rename}" 
+	                  _label    = "Re_name" 
 	                  shortcut = "F2"
 	                  class    = "MonoDevelop.Commands.ProjectBrowser.RenameEntryEvent"/>
         </Extension>
         
         <Extension path = "/SharpDevelop/Views/ProjectBrowser/ContextMenu/ProjectBrowserNode">
                 <MenuItem id = "BuildProject"
-                          _label = "${res:XML.MainMenu.RunMenu.BuildProject}" 
+                          _label = "Buil&d Project" 
 		          icon  = "Icons.16x16.BuildCurrentSelectedProject"
                           class = "MonoDevelop.Commands.BuildCurrentProject"/>
                 <MenuItem id = "RebuildProject"
-                          _label = "${res:XML.MainMenu.RunMenu.RebuildProject}" 
+                          _label = "Rebuild Project" 
                           class = "MonoDevelop.Commands.RebuildCurrentProject"/>
                 <MenuItem id = "BuildGroupSeparator" _label = "-" />
-                <MenuItem id = "Add" _label = "${res:ProjectComponent.ContextMenu.AddMenu}">
+                <MenuItem id = "Add" _label = "Add">
         		<MenuItem id = "NewFiles"
-		                  _label = "${res:ProjectComponent.ContextMenu.NewFiles}" 
+		                  _label = "Add New Files" 
 		                  icon  = "Icons.16x16.NewDocumentIcon"
 		                  class = "MonoDevelop.Commands.ProjectBrowser.AddNewFileEvent"/>
         		<MenuItem id = "AddFiles"
-		                  _label = "${res:ProjectComponent.ContextMenu.AddFiles}" 
+		                  _label = "Add Files" 
 		                  class = "MonoDevelop.Commands.ProjectBrowser.AddFilesToProject"/>
 			<MenuItem id = "Separator1" _label = "-" />
         		<MenuItem id = "NewFolder"
-		                  _label = "${res:ProjectComponent.ContextMenu.NewFolder}" 
+		                  _label = "Add New Folder" 
 		                  icon  = "Icons.16x16.NewFolderIcon"
 		                  class = "MonoDevelop.Commands.ProjectBrowser.NewFolderEvent"/>
         	</MenuItem>
 		<MenuItem id = "AddSeparator" _label = "-" />
 		<MenuItem id = "Remove"
-	                  _label = "${res:ProjectComponent.ContextMenu.Remove}" 
+	                  _label = "_Remove" 
 	                  icon  = "Icons.16x16.DeleteIcon"
 	                  class = "MonoDevelop.Commands.ProjectBrowser.RemoveEntryEvent"/>
-                <MenuItem id = "Rename"
+                <MenuItem id = "Re_name"
 	                  _label    = "${res:ProjectComponent.ContextMenu.Rename}" 
 	                  shortcut = "F2"
 	                  class    = "MonoDevelop.Commands.ProjectBrowser.RenameEntryEvent"/>
@@ -270,19 +270,19 @@
 		
 		<MenuItem id = "SetAsStartupProjectSeparator" _label = "-" />
 		<MenuItem id = "SetAsStartupProject"
-	                  _label = "${res:ProjectComponent.ContextMenu.SetAsStartupProject}" 
+	                  _label = "Set As Startup Project" 
 	                  class = "MonoDevelop.Commands.ProjectBrowser.SetAsStartupProject"/>
 		
 		<MenuItem id = "OptionsSeparator" _label = "-" />
 		<MenuItem id = "ProjectOptions"
-	                  _label = "${res:ProjectComponent.ContextMenu.Options}" 
+	                  _label = "Project _Options" 
 	                  icon  = "Icons.16x16.PropertiesIcon"
 	                  class = "MonoDevelop.Commands.ViewProjectOptions"/>
         </Extension>
 	
 	<Extension path = "/SharpDevelop/Workbench/ProjectOptions/ConfigNodeMenu">
                 <MenuItem id = "Add" 
-                          _label = "${res:ProjectComponent.ContextMenu.AddMenu}"
+                          _label = "Add"
                           class = "MonoDevelop.Commands.AddProjectConfiguration"/>
 	</Extension>
 	
@@ -304,10 +304,10 @@
 		<DialogPanel id    = "Common"
 		             _label = "General">
 			<DialogPanel id = "GeneralProjectPanel"
-			             _label = "${res:Dialog.Options.ProjectOptionsText}"
+			             _label = "Project options"
 			             class = "MonoDevelop.Gui.Dialogs.OptionPanels.GeneralProjectOptions"/>
 			<DialogPanel id = "Compile"
-			             _label = "${res:Dialog.Options.PrjOptions.CompileFile.PanelName}"
+			             _label = "Compile"
 			             class = "MonoDevelop.Gui.Dialogs.OptionPanels.CompileFileProjectOptions"/>
 <!--			<DialogPanel id = "Deploy"
 			             _label = "${res:Dialog.Options.PrjOptions.DeployFile.PanelName}"
@@ -319,9 +319,9 @@
 
 	<Extension path = "/SharpDevelop/Workbench/CombineOptions">
 		<DialogPanel id    = "Common"
-		             _label = "${res:Dialog.Options.CombineOptions.CommonOptions}">
+		             _label = "Common">
 			<DialogPanel id = "Startup"
-			             _label = "${res:Dialog.Options.CombineOptions.Startup.PanelName}"
+			             _label = "Startup Properties"
 			             class = "MonoDevelop.Gui.Dialogs.OptionPanels.CombineStartupPanel"/>
 
 <!-- 		<DialogPanel id = "Dependency"
@@ -409,15 +409,15 @@
 	
 	<Extension path = "/SharpDevelop/Dialogs/OptionsDialog">
 		<DialogPanel id    = "UIOptions"
-		             _label = "${res:Dialog.Options.TreeViewOptions.SharpDevelopOptionsText}">
+		             _label = "MonoDevelop Options">
 <!--			<DialogPanel id = "SelectCulture"
 			             _label = "${res:Dialog.Options.IDEOptions.SelectCulture.PanelName}"
 			             class = "MonoDevelop.Gui.Dialogs.OptionPanels.IDEOptionPanel"/>-->
 			<DialogPanel id = "SelectStyle"
-				         _label = "${res:Dialog.Options.IDEOptions.SelectVisualStyle.PanelName}"
+				         _label = "Visual style"
 				         class = "MonoDevelop.Gui.Dialogs.OptionPanels.SelectStylePanel"/>
 			<DialogPanel id = "LoadSave"
-			             _label = "${res:Dialog.Options.IDEOptions.LoadSaveOptions.PanelName}"
+			             _label = "Load/Save"
 			             class = "MonoDevelop.Gui.Dialogs.OptionPanels.LoadSavePanel"/>
 			<!--  i8n the file -->
 			<DialogPanel id = "Build"
@@ -425,16 +425,16 @@
 			             class = "MonoDevelop.Gui.Dialogs.OptionPanels.BuildPanel"/>
 		</DialogPanel>
 		<DialogPanel id    = "CodingOptions"
-		             _label = "${res:Dialog.Options.IDEOptions.CodingOptionsText}">
+		             _label = "Coding">
 			<DialogPanel id = "CodeGeneration"
-			             _label = "${res:Dialog.Options.IDEOptions.CodeGenerationOptionsPanel.Title}"
+			             _label = "Code Generation"
 			             class = "MonoDevelop.Gui.Dialogs.OptionPanels.CodeGenerationPanel"/>
 		</DialogPanel>
 		
 		<DialogPanel id    = "ToolsOptions"
-		             _label = "${res:Dialog.Options.IDEOptions.ToolsOptionsText}">
+		             _label = "Tools">
 		<DialogPanel id = "ExternalTools"
-		             _label = "${res:Dialog.Options.ExternalToolsText}"
+		             _label = "External Tools"
 		             class = "MonoDevelop.Gui.Dialogs.OptionPanels.ExternalToolPane"/>
 		     <!-- ORIGINAL #D COMMENT			<DialogPanel id = "HtmlHelp"
 			             _label = "${res:Dialog.Options.IDEOptions.HelpGeneratingPanelText}"
