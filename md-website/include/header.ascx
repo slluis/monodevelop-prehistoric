@@ -15,7 +15,7 @@
         <li><a href="/news.aspx">News</a></li>
 	<li><a href="/about.aspx">About</a></li>
 	<li><a href="/screenshots.aspx">Screenshots</a></li>
-	<li><a href="/download.aspx">Download</a></li>
+	<li><a href="/tutorials/package_install.aspx">Download</a></li>
 	<li><a href="/contribute.aspx">Contribute</a></li>
 	<li><a href="/tutorial.aspx">Tutorials</a></li>
 	<li><a href="/faq.aspx">FAQ</a></li>
