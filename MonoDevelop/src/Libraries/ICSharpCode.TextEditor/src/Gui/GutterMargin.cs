@@ -65,29 +65,28 @@ namespace ICSharpCode.TextEditor
 				ly.FontDescription = FontContainer.DefaultFont;
 				
 				HighlightColor lineNumberPainterColor = textArea.Document.HighlightingStrategy.GetColorFor("LineNumbers");
-				Gdk.Color bg = new Gdk.Color (lineNumberPainterColor.BackgroundColor);
-				Gdk.Color fg_text = new Gdk.Color (lineNumberPainterColor.Color);
-				Gdk.Color fg_rect = TextArea.Style.White;
 				
+				gc.RgbBgColor = new Gdk.Color (lineNumberPainterColor.BackgroundColor);
+				gc.RgbFgColor = TextArea.Style.White;
+				wnd.DrawRectangle (gc, true, drawingPosition);
+				
+				gc.RgbFgColor = new Gdk.Color (lineNumberPainterColor.Color);
+				gc.SetLineAttributes (1, LineStyle.OnOffDash, CapStyle.NotLast, JoinStyle.Miter);
+				wnd.DrawLine (gc, drawingPosition.X + drawingPosition.Width, drawingPosition.Y, drawingPosition.X + drawingPosition.Width, drawingPosition.Height);
+					
 				
 				//FIXME: This doesnt allow different fonts and what not
 				int fontHeight = TextArea.TextView.FontHeight;
 		
 				for (int y = 0; y < (DrawingPosition.Height + textArea.TextView.VisibleLineDrawingRemainder) / fontHeight + 1; ++y) {
 					int ypos = drawingPosition.Y + fontHeight * y  - textArea.TextView.VisibleLineDrawingRemainder;
-					System.Drawing.Rectangle backgroundRectangle = new System.Drawing.Rectangle(drawingPosition.X, ypos, drawingPosition.Width, fontHeight);
-					//if (rect.IntersectsWith(backgroundRectangle)) {
-						
-						gc.RgbBgColor = bg;
-						gc.RgbFgColor = fg_rect;
-						wnd.DrawRectangle (gc, true, backgroundRectangle);
-						int curLine = y + textArea.TextView.FirstVisibleLine;
-						if (curLine < textArea.Document.TotalNumberOfLines) {
-							gc.RgbFgColor = fg_text;
-							ly.SetText ((curLine + 1).ToString ());
-							wnd.DrawLayout (gc, drawingPosition.X, ypos, ly);
-						}
-					//}
+				
+
+					int curLine = y + textArea.TextView.FirstVisibleLine;
+					if (curLine < textArea.Document.TotalNumberOfLines) {
+						ly.SetText ((curLine + 1).ToString ());
+						wnd.DrawLayout (gc, drawingPosition.X, ypos, ly);
+					}
 				}
 			}}
 		}

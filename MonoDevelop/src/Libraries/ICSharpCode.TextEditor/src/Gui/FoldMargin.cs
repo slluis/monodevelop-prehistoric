@@ -57,21 +57,10 @@ namespace ICSharpCode.TextEditor
 				System.Drawing.Rectangle markerRectangle = new System.Drawing.Rectangle(DrawingPosition.X, DrawingPosition.Top + y * textArea.TextView.FontHeight - textArea.TextView.VisibleLineDrawingRemainder, DrawingPosition.Width, textArea.TextView.FontHeight);
 				
 				if (rect.IntersectsWith(markerRectangle)) {
-					// draw dotted separator line
-					if (textArea.Document.TextEditorProperties.ShowLineNumbers) {
-						wnd.DrawRectangle (gc, true, new System.Drawing.Rectangle (markerRectangle.X + 1, markerRectangle.Y, markerRectangle.Width - 1, markerRectangle.Height));
-					
-						gc.RgbFgColor = text_fg;
-						gc.RgbBgColor = text_bg;
-						gc.SetLineAttributes (1, LineStyle.OnOffDash, CapStyle.NotLast, JoinStyle.Miter);
-						wnd.DrawLine (gc, base.drawingPosition.X, markerRectangle.Y, base.drawingPosition.X, markerRectangle.Bottom);
-					} else {
-						wnd.DrawRectangle (gc, true, new System.Drawing.Rectangle (markerRectangle.X + 1, markerRectangle.Y, markerRectangle.Width - 1, markerRectangle.Height));
-					}
+					wnd.DrawRectangle (gc, true, new System.Drawing.Rectangle (markerRectangle.X + 1, markerRectangle.Y, markerRectangle.Width - 1, markerRectangle.Height));
 					
 					int currentLine = textArea.TextView.FirstVisibleLine + y;
 					PaintFoldMarker(wnd, currentLine, markerRectangle);
-				
 				} //Using
 			}
 			}
