@@ -14,34 +14,15 @@ desktop_DATA = monodevelop.desktop
 pixmapdir = $(gnome_data)/pixmaps
 pixmap_DATA = monodevelop.png
 
-if ENABLE_XDGMIME
-
 # need to respect $XDG_DATA_DIR probably
 xdgmimedir = $(gnome_data)/mime/packages
 xdgmime_DATA = monodevelop.xml
 
 install-data-hook:
-if ENABLE_UPDATE_MIMEDB
-	update-mime-database $(gnome_data)/mime
-endif
+	$(UPDATE_MIME_DB) $(gnome_data)/mime
 
 uninstall-hook:
-if ENABLE_UPDATE_MIMEDB
-	update-mime-database $(gnome_data)/mime
-endif
-else
-
-install-data-hook:
-
-uninstall-hook:
-
-mimeinfodir = $(gnome_data)/mime-info
-mimeinfo_DATA = monodevelop.mime monodevelop.keys
-
-applicationdir = $(gnome_data)/application-registry
-application_DATA = monodevelop.applications
-
-endif
+	$(UPDATE_MIME_DB) $(gnome_data)/mime
 
 run: runmd
 
@@ -61,7 +42,6 @@ profile-pad: $(MONOPAD)
 
 # we can't use the variables that are conditionally defined
 EXTRA_DIST = $(bin_SCRIPTS) $(desktop_DATA) $(pixmap_DATA) \
-	monodevelop.mime monodevelop.keys monodevelop.applications \
 	monodevelop.xml mkinstalldirs intltool-extract.in \
 	intltool-merge.in intltool-update.in
 

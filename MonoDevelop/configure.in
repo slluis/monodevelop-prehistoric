@@ -14,7 +14,6 @@ ASSEMBLY_VERSION=0.5.1.0
 
 AC_PATH_PROG(MONO, mono)
 AC_PATH_PROG(MCS, mcs)
-AC_PATH_PROG(XDGMIME, update-mime-database, no)
 
 if test "x$MONO" = "x" ; then
   AC_PATH_PROG(MINT, mint)
@@ -28,6 +27,10 @@ if test "x$MCS" = "x" ; then
 fi
 AC_SUBST(PATH)
 AC_SUBST(LD_LIBRARY_PATH)
+
+dnl to add MD's mimetypes
+AC_PATH_PROG(UPDATE_MIME_DB, update-mime-database, no)
+AC_SUBST(UPDATE_MIME_DB)
 
 dnl Find pkg-config
 AC_PATH_PROG(PKG_CONFIG, pkg-config, no)

@@ -1,0 +1,11 @@
+2005-01-11  John Luke  <john.luke@gmail.com>
+
+	* monodevelop.applications:
+	* monodevelop.keys:
+	* monodevelop.mime: kill old style mime stuff, since we depend
+	on a newer gnome via gtk#2
+	* configure.in: AC_SUBST the path of update_mime_database and
+	rename the variable to UPDATE_MIME_DB
+	* Makefile.am: remove old mime stuff, use UPDATE_MIME_DB
+	variable from configure
+
