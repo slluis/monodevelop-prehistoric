@@ -5,7 +5,7 @@
 DIE=0
 
 PKG_NAME=MonoDevelop
-
+WANT_AUTOCONF="2.5"
 srcdir=`dirname $0`
 test -z "$srcdir" && srcdir=.
 

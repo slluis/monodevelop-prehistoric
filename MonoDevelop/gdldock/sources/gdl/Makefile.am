@@ -28,7 +28,7 @@ libgdldock_headers = \
 	gdl-dock-placeholder.h \
 	gdl-stock.h
 
-libgdldock_SOURCES = \
+libgdldock_SOURCE = \
 	$(libgdldock_headers) \
 	gdl-i18n.h \
 	gdl-dock-bar.c \
@@ -46,9 +46,9 @@ libgdldock_SOURCES = \
 	libgdltypebuiltins.c \
 	libgdlmarshal.c
 
-libgdldock_OBJECTS = $(filter-out %.h,$(patsubst %.c,%.o,$(libgdldock_SOURCES)))
+libgdldock_OBJECTS = $(filter-out %.h,$(patsubst %.c,%.o,$(libgdldock_SOURCE)))
 
-GENERATED_SOURCES = \
+GENERATED_SOURCE = \
 	libgdltypebuiltins.h \
 	libgdltypebuiltins.c \
 	libgdlmarshal.h \
@@ -123,7 +123,7 @@ install-data-local: libgdldock.so
 	$(INSTALL_DATA) stock-menu-right-12.png $(DESTDIR)$(gdldocklibdir)/bin/stock-menu-right-12.png
 
 clean:
-	rm -f libgdldock.so $(libgdldock_OBJECTS) $(GENERATED_SOURCES)
+	rm -f libgdldock.so $(libgdldock_OBJECTS) $(GENERATED_SOURCE)
 
 CLEANFILES= ../../../build/bin/libgdldock.so ../../../build/bin/*.png
 
