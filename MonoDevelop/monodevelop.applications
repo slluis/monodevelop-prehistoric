@@ -1,0 +1,8 @@
+monodevelop
+	command=monodevelop
+	name=MonoDevelop
+	can_open_multiple_files=true
+	expects_uris=false
+	requires_terminal=false
+	mime_types=text/x-csharp,application/x-monodevelop-combine,application/x-monodevelop-project
+	uses_gnomevfs=false

@@ -4,6 +4,7 @@ application/x-monodevelop-combine
 	description=MonoDevelop Combine
 	ext: cmbx
 	icon_filename=monodevelop.png
+	short_list_application_ids_for_novice_user_level=monodevelop,anjuta,gedit
 
 application/x-monodevelop-project
 	category=Software Development
@@ -11,3 +12,4 @@ application/x-monodevelop-project
 	description=MonoDevelop Project
 	ext: prjx
 	icon_filename=monodevelop.png
+	short_list_application_ids_for_novice_user_level=monodevelop,anjuta,gedit
