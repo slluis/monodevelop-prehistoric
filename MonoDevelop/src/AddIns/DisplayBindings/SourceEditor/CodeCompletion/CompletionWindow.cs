@@ -126,16 +126,17 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 					break;
 			}
 
-			ShuffleSelection ();
+			ShuffleSelection (false);
 	
 			ex.RetVal = true;
 		}
 
-		public void ShuffleSelection ()
+		public bool ShuffleSelection (bool magic)
 		{
 			// select the current typed word
 			int lastSelected = -1;
 			int capitalizationIndex = -1;
+			int numOfHits = 0;
 			
 			string typedString = GetTypedString ();
 			TreeIter iter;
@@ -150,6 +151,9 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 						if (typedString[j] == text[j]) {
 							++currentCapitalizationIndex;
 						}
+					}
+					if (currentCapitalizationIndex >= capitalizationIndex) {
+						numOfHits++;
 					}
 					
 					if (currentCapitalizationIndex > capitalizationIndex) {
@@ -166,8 +170,13 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 				listView.Selection.SelectPath (path);
 				listView.SetCursor (path, complete_column, false);
 				listView.ScrollToCell (path, null, false, 0, 0);
+				if (magic && numOfHits == 1) {
+					ActivateItem (null, null);
+					Destroy ();
+					return true;
+				}
 			}
-			
+			return false;
 		}
 		
 		void InitializeControls ()
@@ -213,7 +222,7 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 		/// <remarks>
 		/// Shows the filled completion window, if it has no items it isn't shown.
 		/// </remarks>
-		public void ShowCompletionWindow (char firstChar, TextIter trigIter)
+		public void ShowCompletionWindow (char firstChar, TextIter trigIter, bool magic)
 		{
 			triggeringMark = control.Buffer.CreateMark (null, trigIter, true);
 			origOffset = trigIter.Offset;
@@ -225,9 +234,10 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 				return;
 			}
 
-			//Point caretPos  = control.ActiveTextAreaControl.Caret.Position;
-			//Point visualPos = new Point(control.ActiveTextAreaControl.TextArea.TextView.GetDrawingXPos(caretPos.Y, caretPos.X) + control.ActiveTextAreaControl.TextArea.TextView.DrawingPosition.X,
-			//          (int)((1 + caretPos.Y) * control.ActiveTextAreaControl.TextArea.TextView.FontHeight) - control.ActiveTextAreaControl.TextArea.VirtualTop.Y - 1 + control.ActiveTextAreaControl.TextArea.TextView.DrawingPosition.Y);
+			if (magic) {
+				if (ShuffleSelection (true))
+					return;
+			}
 
 			Gdk.Rectangle rect = control.GetIterLocation (control.Buffer.GetIterAtMark (triggeringMark));
 
@@ -241,6 +251,7 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 			Move (tx + wx, ty + wy);
 			listView.Selection.Changed += new EventHandler (RowActivated);
 			ShowAll ();
+			RowActivated (null, null);
 			//GdkWindow.Move (tx + wx, ty + wy);
 		}
 		
@@ -325,14 +336,13 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 				// This code is for sizing the treeview properly.
 				Gtk.TreePath path = store.GetPath (iter);
 				Gdk.Rectangle backRect = listView.GetBackgroundArea (path, (Gtk.TreeViewColumn)listView.Columns[0]);
-
-				listView.HeightRequest = (backRect.Height * 5) + 2;
 				
+				listView.HeightRequest = (backRect.Height * 5) + 2;
+
 				// FIXME: This code is buggy, and generates a bad placement sometimes when you jump a lot.
 				// but it is better than 0,0
-				
+                                // This code is for sizing the treeview properly.
 				Gdk.Rectangle rect = listView.GetCellArea (path, (Gtk.TreeViewColumn)listView.Columns[0]);
-
 				int listpos_x, listpos_y;
 				GetPosition (out listpos_x, out listpos_y);
 				int vert = listpos_y + rect.Y;
@@ -344,7 +354,6 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 				} else if (vert < listpos_y) {
 					vert = listpos_y;
 				}
-
 				// FIXME: This is a bad calc, its always on the right,
 				// it needs to test if thats too big, and if so, place on the left;
 				int horiz = listpos_x + lvWidth + 30;
@@ -361,17 +370,16 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 			
 				if (declarationviewwindow.DescriptionMarkup.Length == 0)
 					return;
-			
+	
 				declarationviewwindow.ShowAll ();
 
 				int dvwWidth, dvwHeight;
 	
 				declarationviewwindow.GdkWindow.GetSize (out dvwWidth, out dvwHeight);
-	
 				if (listView.Screen.Width <= horiz + dvwWidth) {
 					horiz = listpos_x - dvwWidth - 10;
 				}
-				
+			
 				declarationviewwindow.Move (horiz, vert);
 			}
 		}

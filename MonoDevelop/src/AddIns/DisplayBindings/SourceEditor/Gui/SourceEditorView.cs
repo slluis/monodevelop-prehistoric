@@ -166,8 +166,7 @@ namespace MonoDevelop.SourceEditor.Gui
 			triggerIter.ForwardChar ();
 			completionWindow = new CompletionWindow (this, ParentEditor.DisplayBinding.ContentName, new CodeCompletionDataProvider ());
 
-			completionWindow.ShowCompletionWindow (triggerChar, triggerIter);
-			completionWindow.ShuffleSelection ();
+			completionWindow.ShowCompletionWindow (triggerChar, triggerIter, true);
 		}
 		
 		protected override bool OnKeyPressEvent (Gdk.EventKey evnt)
@@ -226,7 +225,7 @@ namespace MonoDevelop.SourceEditor.Gui
 					bool retval = base.OnKeyPressEvent (evnt);
 					if (EnableCodeCompletion) {
 						completionWindow = new CompletionWindow (this, ParentEditor.DisplayBinding.ContentName, new CodeCompletionDataProvider ());
-						completionWindow.ShowCompletionWindow ((char)key, buf.GetIterAtMark (buf.InsertMark));
+						completionWindow.ShowCompletionWindow ((char)key, buf.GetIterAtMark (buf.InsertMark), false);
 					}
 					return retval;
 				/*case '(':
