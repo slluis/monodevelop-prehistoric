@@ -244,7 +244,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Dialogs.OptionPanels
 			{
 				//Menu singleMenu = (Menu) singleOptionMenu.Menu;
 				//MenuItem singleMenuItem = (MenuItem) singleMenu.Active;
-				//combine.SingleStartProjectName = singleMenuItem.Label;
+				combine.SingleStartProjectName = ((CombineEntry)combine.Entries[singleOptionMenu.History]).Name;
 				combine.SingleStartupProject   = singleRadioButton.Active;
 				
 				// write back new combine execute definitions
