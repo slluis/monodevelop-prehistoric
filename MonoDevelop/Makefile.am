@@ -59,7 +59,8 @@ profile-pad: $(MONOPAD)
 # we can't use the variables that are conditionally defined
 EXTRA_DIST = $(bin_SCRIPTS) $(desktop_DATA) $(pixmap_DATA) \
 	monodevelop.mime monodevelop.keys monodevelop.applications \
-	monodevelop.xml
+	monodevelop.xml mkinstalldirs intltool-extract.in \
+	intltool-merge.in intltool-update.in
 
-DISTCLEANFILES = monodevelop
+DISTCLEANFILES = monodevelop intltool-extract intltool-merge intltool-update
 

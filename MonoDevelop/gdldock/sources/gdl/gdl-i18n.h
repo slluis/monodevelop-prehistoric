@@ -33,8 +33,10 @@
 
 #include <glib.h>
 
+#ifndef GETTEXT_PACKAGE
 #define GETTEXT_PACKAGE ""
-#undef ENABLE_NLS
+#endif
+//#undef ENABLE_NLS
 
 G_BEGIN_DECLS
 
