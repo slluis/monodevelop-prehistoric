@@ -1,5 +1,12 @@
 2004-06-23  Todd Berman  <tberman@off.net>
 
+	* Services/Project/DefaultProjectService.cs: make solution loading take
+	place without any gui locks.
+	* Service/File/DefaultFileService.cs: proxy OpenFile to a real method
+	that gets called in the idle handler.
+
+2004-06-23  Todd Berman  <tberman@off.net>
+
 	* Services/DispatchService/DispatchService.cs: change up a bit
 	to allow a void blah () delegate and a void blah (object) delegate.
 	Added overloads to hit those.

@@ -83,6 +83,13 @@ namespace MonoDevelop.Services
 		
 		public void OpenFile (string fileName)
 		{
+			DispatchService dispatcher = (DispatchService)ServiceManager.Services.GetService (typeof (DispatchService));
+			dispatcher.GuiDispatch (new StatefulMessageHandler (realOpenFile), fileName);
+		}
+
+		void realOpenFile (object file)
+		{
+			string fileName = file as string;
 			if (fileName == null)
 				return;
 

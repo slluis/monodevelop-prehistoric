@@ -157,6 +157,13 @@ namespace MonoDevelop.Services
 		
 		void LoadCombine(string filename)
 		{
+			DispatchService dispatcher = (DispatchService)ServiceManager.Services.GetService (typeof (DispatchService));
+			dispatcher.BackgroundDispatch (new StatefulMessageHandler (backgroundLoadCombine), filename);
+		}
+
+		void backgroundLoadCombine (object arg)
+		{
+			string filename = arg as string;
 			if (!fileUtilityService.TestFileExists(filename)) {
 				return;
 			}
@@ -479,6 +486,7 @@ namespace MonoDevelop.Services
 		
 		void RestoreCombinePreferences(Combine combine, string combinefilename)
 		{
+			DispatchService dispatcher = (DispatchService)ServiceManager.Services.GetService (typeof (DispatchService));
 			PropertyService propertyService = (PropertyService)ServiceManager.Services.GetService(typeof(PropertyService));
 			string directory = propertyService.ConfigDirectory + "CombinePreferences";
 			if (!Directory.Exists(directory)) {
@@ -517,10 +525,9 @@ namespace MonoDevelop.Services
 					IProperties properties = (IProperties)new DefaultProperties().FromXmlElement((XmlElement)root["Properties"].ChildNodes[0]);
 					string name = properties.GetProperty("ActiveWindow", "");
 					foreach (IViewContent content in WorkbenchSingleton.Workbench.ViewContentCollection) {
-						// WINDOWS DEPENDENCY : ToUpper
 						if (content.ContentName != null &&
-							content.ContentName.ToUpper() == name.ToUpper()) {
-							content.WorkbenchWindow.SelectWindow();
+							content.ContentName == name) {
+							dispatcher.GuiDispatch (new MessageHandler (content.WorkbenchWindow.SelectWindow));
 							break;
 						}
 					}
@@ -590,10 +597,17 @@ namespace MonoDevelop.Services
 		//********* own events
 		protected virtual void OnCombineOpened(CombineEventArgs e)
 		{
+			DispatchService dispatcher = (DispatchService)ServiceManager.Services.GetService (typeof (DispatchService));
 			GenerateMakefiles ();
 			if (CombineOpened != null) {
-				CombineOpened(this, e);
+				dispatcher.GuiDispatch (new StatefulMessageHandler (dispatchOpened), e);
+				//CombineOpened(this, e);
 			}
+		}
+
+		void dispatchOpened (object args)
+		{
+			CombineOpened (this, (CombineEventArgs)args);
 		}
 		
 		protected virtual void OnCombineClosed(CombineEventArgs e)
