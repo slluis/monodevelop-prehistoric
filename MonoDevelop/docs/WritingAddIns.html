@@ -45,14 +45,14 @@ namespace MonoDevelop.Services;
     </code>
 <p>Here is a list of some of the common classes to extend for an AddIn:
 <pre>
-./src/Main/Base/Gui/Dialogs/AbstractOptionPanel.cs
-./src/Main/Base/Gui/Dialogs/Wizard/AbstractWizardPanel.cs
-./src/Main/Base/Gui/Pads/ClassScout/BrowserNode/AbstractClassScoutNode.cs
-./src/Main/Base/Gui/Pads/ProjectBrowser/BrowserNode/AbstractBrowserNode.cs
-./src/Main/Base/Gui/AbstractBaseViewContent.cs
-./src/Main/Base/Gui/AbstractPadContent.cs
-./src/Main/Base/Gui/AbstractViewContent.cs
-./src/Main/Base/Gui/AbstractSecondaryViewContent.cs
+./Core/src/MonoDevelop.Base/Gui/Dialogs/AbstractOptionPanel.cs
+./Core/src/MonoDevelop.Base/Gui/Dialogs/Wizard/AbstractWizardPanel.cs
+./Core/src/MonoDevelop.Base/Gui/Pads/ClassScout/BrowserNode/AbstractClassScoutNode.cs
+./Core/src/MonoDevelop.Base/Gui/Pads/ProjectBrowser/BrowserNode/AbstractBrowserNode.cs
+./Core/src/MonoDevelop.Base/Gui/AbstractBaseViewContent.cs
+./Core/src/MonoDevelop.Base/Gui/AbstractPadContent.cs
+./Core/src/MonoDevelop.Base/Gui/AbstractViewContent.cs
+./Core/src/MonoDevelop.Base/Gui/AbstractSecondaryViewContent.cs
 </pre>
 </p>
 
@@ -96,11 +96,11 @@ namespace MonoDevelop.Services;
         <Extension path="/SharpDevelop/Workbench/MainMenu/Tools">
                 <MenuItem id = "NunitMenu" label = "NUnit" insertafter = "ExternalTools" insertbefore = "Options">
                         <MenuItem id = "LoadTestAssembly"
-                          label = "Load Assembly"
+                          _label = "Load Assembly"
                                   shortcut = ""
                               class = "MonoDevelop.Commands.NunitLoadAssembly" />
                         <MenuItem id = "NunitRunTests"
-                          label = "Run Tests"
+                          _label = "Run Tests"
                                   shortcut = ""
                               class = "MonoDevelop.Commands.NunitRunTests" />
                 </MenuItem>
@@ -114,11 +114,6 @@ namespace MonoDevelop.Services;
 	<code>build/AddIns/SharpDevelopCore.addin.xml</code> to see the
 	various places to attach your addin, such as the menu items.
 	</p>
-
-    <h3>AddIn xml format</h3>
-	<p>There is an AddIn.xsd file that specifies the required/optional
-	xml format. Perhaps someone would like to make a RelaxNG one also.
-	See <code>data/resources/AddIn.xsd</code></p>
 
     <h3>Building and installing</h3>
     <p>We currently support both running in a self-contained <code>build/</code>
@@ -144,11 +139,11 @@ namespace MonoDevelop.Services;
 <ul>
   <li>SourceEditor</li>
   <li>CSharpBinding</li>
+  <li>VBNetBinding</li>
   <li>JavaBinding</li>
   <li>NemerleBinding</li>
   <li>DebuggerAddin</li>
   <li>Monodoc</li>
-  <li>StartPage (not fully ported)</li>
   <li>NUnit (incomplete)</li>
 </ul>
 
@@ -176,15 +171,14 @@ namespace MonoDevelop.Services;
   <li>Glade (although a new GUI designer is planned).</li>
   <li>Integration with Subversion, CVS, and other version control tools.</li>
   <li>UML/CASE tools.</li>
-  <li>SQL/Database support.</li>
   <li>An advanced XML editor.</li>
   <li>Also, there are some additional things that SharpDevelop already has that could be ported to MonoDevelop.</li>
 </ul></p>
 
 	<h3>Credits, License, Errata</h3>
-	<p>Send comments to <a href="mailto:jluke@cfl.rr.com">jluke@cfl.rr.com</a> or the <a href="mailto:monodevelop-list@lists.ximian.com">monodevelop mailing list</a>.</p>
+	<p>Send comments to <a href="mailto:john.luke@gmail.com">john.luke@gmail.com</a> or the <a href="mailto:monodevelop-list@lists.ximian.com">monodevelop mailing list</a>.</p>
 	<p>Licensed under the <a href="http://opensource.org/licenses/mit-license.php">MIT License</a></p>
-    <p>Last updated April 14, 2004</p>
+    <p>Last updated March 18, 2005</p>
   </body>
 </html>
 

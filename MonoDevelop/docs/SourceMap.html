@@ -14,79 +14,81 @@
     <h3>Assemblies</h3>
 	<p>
 	Name: MonoDevelop.Core<br />
-	Location: <code>src/Libraries/MonoDevelop.Core/</code><br />
+	Location: <code>Core/src/MonoDevelop.Core/</code><br />
 	Description: contains the bare necessities for the IDE.<br />
 	Depends: none
 	</p>
 	<p>
 	Name: MonoDevelop.Base<br />
-	Location: <code>src/Main/Base/</code><br />
+	Location: <code>Core/src/MonoDevelop.Base/</code><br />
 	Description: contains the base of the IDE.<br />
 	Depends: MonoDevelop.Core Gtk#/GNOME
+	</p>
 	<p>
-	Name: gdl-sharp<br />
-	Location: gdldock/<br />
-	Description: Binding of the gdl dock C library.<br />
-	Depends: Gtk#
+	Name: MonoDevelop.Dock<br />
+	Location: <code>Core/src/MonoDevelop.Dock/</code><br />
+	Description: Gtk# docking widgets ported from gdl C library.<br />
+	Depends: none
 	</p>
 	<p>
 	Name: ICSharpCode.SharpAssembly<br />
-	Location: <code>src/Libraries/SharpAssembly</code><br />
+	Location: <code>Core/src/ICSharpCode.SharpAssembly</code><br />
 	Description: Assembly reading library.<br />
 	Depends: none
 	</p>
 	<p>
 	Name: ICSharpCode.SharpRefactory<br />
-	Location: <code>src/Libraries/SharpRefactory</code<br />
+	Location: <code>Core/src/ICSharpCode.SharpRefactory</code<br />
 	Description: C# parser library.<br />
 	Depends: none
 	</p>
 	<p>
 	Name: MonoDevelop.SourceEditor<br />
-	Location: <code>src/AddIns/DisplayBindings/SourceEditor</code><br />
+	Location: <code>Core/src/AddIns/DisplayBindings/SourceEditor</code><br />
 	Description: Default editor for MonoDevelop.<br />
 	Depends: Gtk# gtksourceview-sharp MonoDevelop.Core MonoDevelop.Base MonoDevelop.Gui.Widgets MonoDevelop.Gui.Utils
 	</p>
 	<p>
 	Name: MonoDevelop.Gui.Utils<br />
-	Location: <code>src/Libraries/MonoDevelop.Gui.Utils</code><br />
+	Location: <code>Core/src/MonoDevelop.Gui.Utils</code><br />
 	Description: extra miscellaneous functions.<br />
 	Depends: Gtk#/GNOME
 	</p>
 	<p>
 	Name: MonoDevelop.Gui.Widgets<br />
-	Location: <code>src/Libraries/MonoDevelop.Gui.Widgets/</code><br />
+	Location: <code>Core/src/MonoDevelop.Gui.Widgets/</code><br />
 	Description: extra Gtk# specific widgets.<br />
 	Depends: Gtk#/GNOME MonoDevelop.Core MonoDevelop.Gui.Utils
 	</p>
 	<p>
 	Name: MonoDevelop.Debugger<br />
-	Location: <code>src/AddIns/DebuggerAddIn/</code><br />
+	Location: <code>Core/src/AddIns/DebuggerAddIn/</code><br />
 	Description: debugging support library<br />
 	Depends: Gtk# Mono.Debugger MonoDevelop.Base MonoDevelop.Core
-	<p>
-	<p>
-	Name: MonoDevelop.StartPage<br />
-	Location: <code>src/AddIns/Misc/StartPage</code><br />
-	Description: IDE start page<br />
-	Depends: gecko-sharp Gtk# MonoDevelop.Core MonoDevelop.Base
-	<p>
+	</p>
 	<p>
 	Name: CSharpBinding<br />
-	Location: <code>src/AddIns/BackendBindings/CSharpBinding/</code><br />
+	Location: <code>Core/src/AddIns/BackendBindings/CSharpBinding/</code><br />
 	Description: backend for C# langauge support<br />
 	Depends: MonoDevelop.Core MonoDevelop.Base MonoDevelop.SourceEditor ICSharpCode.SharpRefactory MonoDevelop.Gui.Widgets
-	<p>
+	</p>
 	<p>
 	Name: JavaBinding<br />
-	Location: <code>src/AddIns/BackendBindings/JavaBinding/</code><br />
+	Location: <code>Extras/JavaBinding/</code><br />
 	Description: backend for Java Langauge<br />
 	Depends: external java runtime and compiler
+	</p>
 	<p>
 	Name: StartUp<br />
-	Location: <code>src/Main/StartUp/</code><br />
+	Location: <code>Core/src/MonoDevelop.StartUp/</code><br />
 	Description: Parses commandline and invokes the rest.<br />
 	Depends: MonoDevelop.Core MonoDevelop.Base MonoDevelop.SourceEditor ICSharpCode.SharpRefactory MonoDevelop.Gui.Widgets
+	</p>
+	<p>
+	Name: MonoDeveloperExtensions<br />
+	Location: <code>Extras/MonoDeveloperExtensions</code><br />
+	Description: tools for developing mono itself
+	Depends: MonoDevelop.Core MonoDevelop.Base gtk#
 	</p>
 
 	<h3>Others</h3>
@@ -105,9 +107,9 @@
 	</p>
 
     <h3>Credits and Errata</h3>
-    <p>Send comments to <a href="mailto:jluke@cfl.rr.com">jluke@cfl.rr.com</a> or the <a href="mailto:monodevelop-list@lists.ximian.com">monodevelop mailing list</a>.</p>
+    <p>Send comments to <a href="mailto:john.luke@gmail.com">john.luke@gmail.com</a> or the <a href="mailto:monodevelop-list@lists.ximian.com">monodevelop mailing list</a>.</p>
 	<p><a href="http://opensource.org/licenses/mit-license.php">MIT License</a></p>
-	<p>Last updated April 14, 2004</p>
+	<p>Last updated March 18, 2004</p>
   </body>
 </html>
 

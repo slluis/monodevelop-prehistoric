@@ -1,11 +1,18 @@
 
-MonoDevelop supports the Java langauge by using IKVM (http://www.ikvm.net/)
+MonoDevelop supports the Java language by using IKVM (http://www.ikvm.net/)
+Currently this is a bit of a manual process. In the future, I
+hope to do this all automatically. See the TODO file in
+Extras/JavaBinding for more information.
+
 To use it you need to do the following.
 
 Install at least the following
 mono
 mono-ikvm
 ikvm
+
+run ./configure --enable-java=yes
+(until autodetection of ikvm is added)
 
 The following assumes mono and ikvm are installed in
 /usr and you have permission to write to /usr/lib).
@@ -25,7 +32,7 @@ Verify your project classpath is correct by:
   under Configurations, Debug, Code Generation
 ex. usr/lib/mscorlib.jar:.
 
-Add Ikvm.GNU.Classpath.dll and Ikvm.Runtime.dll as project references
+Add IKVM.GNU.Classpath.dll and IKVM.Runtime.dll as references
 
 compile and run
 
