@@ -12,9 +12,7 @@ DLLS = /r:System.Drawing.dll \
 
 FILES = \
 Gui/CodeGenerationPanel.cs \
-Gui/OutputPanel.cs \
 Project/NemerleParameters.cs \
-Project/NemerleProject.cs \
 NemerleBindingCompilerServices.cs \
 NemerleLanguageBinding.cs 
 
@@ -25,7 +23,7 @@ NemerleGtkSharpProject.xpt.xml \
 NemerleGtkSharpWindow.xft.xml \
 EmptyNemerleFile.xft.xml
 
-build_sources = $(addprefix $(srcdir)/, $(FILES)) NemerleBindingExecutionServices.cs
+build_sources = $(addprefix $(srcdir)/, $(FILES))
 
 build_TEMPLATES = $(addprefix $(ADDIN_BUILD)/templates/, $(TEMPLATES))
 
@@ -62,5 +60,4 @@ templatedir = $(assemblydir)/templates
 template_DATA = $(TEMPLATES)
 
 CLEANFILES = $(ASSEMBLY) $(ASSEMBLY).mdb
-DISTCLEANFILES = NemerleBindingExecutionServices.cs
-EXTRA_DIST = $(FILES) NemerleBindingExecutionServices.cs.in Nemerle.glade $(ADDIN) $(TEMPLATES)
+EXTRA_DIST = $(FILES) Nemerle.glade $(ADDIN) $(TEMPLATES)

@@ -28,16 +28,18 @@ namespace NemerleBinding
  			[Glade.Widget] CheckButton oscm;
  			
 			NemerleParameters compilerParameters = null;
+			DotNetProjectConfiguration configuration;
 
  			public  CodeGenerationPanelWidget(IProperties CustomizationObject) : base ("Nemerle.glade", "CodeGenerationPanel")
  			{
-				compilerParameters = (NemerleParameters)((IProperties)CustomizationObject).GetProperty("Config");
+				configuration = (DotNetProjectConfiguration) ((IProperties)CustomizationObject).GetProperty("Config");
+				compilerParameters = (NemerleParameters) configuration.CompilationParameters;
 				
-				target.SetHistory ( (uint) compilerParameters.Target);
+				target.SetHistory ( (uint) configuration.CompileTarget);
 				
 				nostdmacros.Active = compilerParameters.Nostdmacros;
 				nostdlib.Active    = compilerParameters.Nostdlib;
-				ignorewarnings.Active = compilerParameters.RunWithWarnings;
+				ignorewarnings.Active = configuration.RunWithWarnings;
 				ot.Active          = compilerParameters.Ot;
 				obcm.Active        = compilerParameters.Obcm;
 				oocm.Active        = compilerParameters.Oocm;
@@ -46,10 +48,10 @@ namespace NemerleBinding
 
 			public bool Store ()
 			{	
-				compilerParameters.Target = (NemerleBinding.CompileTarget)target.History;
+				configuration.CompileTarget = (CompileTarget)target.History;
 				compilerParameters.Nostdmacros = nostdmacros.Active;
 				compilerParameters.Nostdlib = nostdlib.Active;
-				compilerParameters.RunWithWarnings = ignorewarnings.Active;
+				configuration.RunWithWarnings = ignorewarnings.Active;
 				compilerParameters.Ot = ot.Active;
 				compilerParameters.Obcm = obcm.Active;
 				compilerParameters.Oocm = oocm.Active;

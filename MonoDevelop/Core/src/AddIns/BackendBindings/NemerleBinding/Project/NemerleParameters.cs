@@ -3,89 +3,68 @@ using System.Xml;
 using System.Diagnostics;
 
 using MonoDevelop.Internal.Project;
+using MonoDevelop.Internal.Serialization;
 
 namespace NemerleBinding
 {
-	public enum CompileTarget
+	public class NemerleParameters
 	{
-		Executable,
-		Library
-	};
-	
-	public class NemerleParameters : AbstractProjectConfiguration
-	{
-		[XmlNodeName("CodeGeneration")]
-		class CodeGeneration 
-		{
-			[XmlAttribute("target")]
-			public CompileTarget target  = CompileTarget.Executable;
-			[XmlAttribute("nostdmacros")]
-			public bool nostdmacros         = false;
-			[XmlAttribute("nostdlib")]
-			public bool nostdlib            = false;
-			[XmlAttribute("ot")]
-			public bool ot                  = false;
-			[XmlAttribute("obcm")]
-			public bool obcm                = true;
-			[XmlAttribute("oocm")]
-			public bool oocm                = true;
-			[XmlAttribute("oscm")]
-			public bool oscm                = true;
-			
-			[XmlAttribute("parameters")]
-			public string parameters        = String.Empty;
-		}
+		[ItemProperty("nostdmacros")]
+		public bool nostdmacros = false;
+
+		[ItemProperty("nostdlib")]
+		public bool nostdlib = false;
+
+		[ItemProperty("ot")]
+		public bool ot = false;
+
+		[ItemProperty("obcm")]
+		public bool obcm = true;
+
+		[ItemProperty("oocm")]
+		public bool oocm = true;
+
+		[ItemProperty("oscm")]
+		public bool oscm = true;
+
+		[ItemProperty("parameters")]
+		public string parameters = String.Empty;
 		
-		CodeGeneration codeGeneration = new CodeGeneration();
-		
-		public CompileTarget Target
-		{
-			get { return codeGeneration.target; }
-			set { codeGeneration.target = value; }
-		}
 		public bool Nostdmacros
 		{
-			get { return codeGeneration.nostdmacros; }
-			set { codeGeneration.nostdmacros = value; }
+			get { return nostdmacros; }
+			set { nostdmacros = value; }
 		}
 		public bool Nostdlib
 		{
-			get { return codeGeneration.nostdlib; }
-			set { codeGeneration.nostdlib = value; }
+			get { return nostdlib; }
+			set { nostdlib = value; }
 		}
 		public bool Ot
 		{
-			get { return codeGeneration.ot; }
-			set { codeGeneration.ot = value; }
+			get { return ot; }
+			set { ot = value; }
 		}
 		public bool Obcm
 		{
-			get { return codeGeneration.obcm; }
-			set { codeGeneration.obcm = value; }
+			get { return obcm; }
+			set { obcm = value; }
 		}
 		public bool Oocm
 		{
-			get { return codeGeneration.oocm; }
-			set { codeGeneration.oocm = value; }
+			get { return oocm; }
+			set { oocm = value; }
 		}
 		public bool Oscm
 		{
-			get { return codeGeneration.oscm; }
-			set { codeGeneration.oscm = value; }
+			get { return oscm; }
+			set { oscm = value; }
 		}
 		
 		public string Parameters
 		{
-			get { return codeGeneration.parameters; }
-			set { codeGeneration.parameters = value; }
-		}
-		
-		public NemerleParameters()
-		{
-		}
-		public NemerleParameters(string name)
-		{
-			this.name = name;
+			get { return parameters; }
+			set { parameters = value; }
 		}
 	}
 }

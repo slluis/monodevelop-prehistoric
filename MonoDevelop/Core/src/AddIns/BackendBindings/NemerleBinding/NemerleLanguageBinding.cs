@@ -9,6 +9,7 @@ using System.Xml;
 using MonoDevelop.Internal.Project;
 using MonoDevelop.Internal.Templates;
 using MonoDevelop.Gui;
+using MonoDevelop.Services;
 
 namespace NemerleBinding
 {
@@ -20,30 +21,14 @@ namespace NemerleBinding
 		public const string LanguageName = "Nemerle";
 		
 		NemerleBindingCompilerServices   compilerServices  = new NemerleBindingCompilerServices();
-		NemerleBindingExecutionServices  executionServices = new NemerleBindingExecutionServices();
+		
+		public NemerleLanguageBinding ()
+		{
+			Runtime.ProjectService.DataContext.IncludeType (typeof(NemerleParameters));
+		}
 		
 		public string Language {
 			get { return LanguageName; }
-		}
-		
-		public void Execute (string filename)
-		{
-			executionServices.Execute(filename);
-		}
-		
-		public void Execute (IProject project)
-		{
-			executionServices.Execute (project);
-		}
-		
-		public string GetCompiledOutputName(string fileName)
-		{
-			return compilerServices.GetCompiledOutputName(fileName);
-		}
-		
-		public string GetCompiledOutputName(IProject project)
-		{
-			return compilerServices.GetCompiledOutputName(project);
 		}
 		
 		public bool CanCompile(string fileName)
@@ -51,34 +36,19 @@ namespace NemerleBinding
 			return compilerServices.CanCompile(fileName);
 		}
 		
-		public ICompilerResult CompileFile(string fileName)
+		public ICompilerResult Compile (ProjectFileCollection projectFiles, ProjectReferenceCollection references, DotNetProjectConfiguration configuration)
 		{
-			return compilerServices.CompileFile(fileName);
+			return compilerServices.Compile (projectFiles, references, configuration);
 		}
 		
-		public ICompilerResult CompileProject(IProject project)
-		{
-			return compilerServices.CompileProject(project);
-		}
-		
-		public ICompilerResult RecompileProject(IProject project)
-		{
-			return CompileProject(project);
-		}
-		
-		public IProject CreateProject(ProjectCreateInformation info, XmlElement projectOptions)
-		{
-			return new NemerleProject(info, projectOptions);
-		}
-
-		public void DebugProject (IProject project)
-		{
-			throw new ApplicationException("No Nemele debug");
-		}
-
-		public void GenerateMakefile (IProject project, Combine parentCombine)
+		public void GenerateMakefile (Project project, Combine parentCombine)
 		{
 			compilerServices.GenerateMakefile(project, parentCombine);
+		}
+		
+		public object CreateCompilationParameters (XmlElement projectOptions)
+		{
+			return new NemerleParameters ();
 		}
 		
 		// http://nemerle.org/csharp-diff.html

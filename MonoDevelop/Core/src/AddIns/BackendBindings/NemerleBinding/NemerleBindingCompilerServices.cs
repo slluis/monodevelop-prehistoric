@@ -80,7 +80,7 @@ namespace NemerleBinding
 		FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.GetService(typeof(FileUtilityService));
 		static string ncc = "ncc";
 
-		private string GetOptionsString(NemerleParameters cp)
+		private string GetOptionsString (DotNetProjectConfiguration configuration, NemerleParameters cp)
 		{
 			string options = " ";
 			if (cp.Nostdmacros)
@@ -95,7 +95,7 @@ namespace NemerleBinding
 				options += " -Oocm";
 			if (cp.Oscm)
 				options += " -Oscm";
-			if ((int)cp.Target == 1)
+			if (configuration.CompileTarget == CompileTarget.Library)
 				options += " -tdll";
 				
 			return options;			
@@ -106,35 +106,18 @@ namespace NemerleBinding
 			return Path.GetExtension(fileName) == ".n";
 		} 
 
-		public ICompilerResult CompileFile(string fileName)
+		public ICompilerResult Compile (ProjectFileCollection projectFiles, ProjectReferenceCollection projectReferences, DotNetProjectConfiguration configuration)
 		{
-			throw new ApplicationException("No CompileFile");
-		}
-
-		public string GetCompiledOutputName(string fileName)
-		{
-			throw new ApplicationException("No CompileFile");
-		}
-
-		public string GetCompiledOutputName(IProject project)
-		{
-			NemerleParameters cp = (NemerleParameters)project.ActiveConfiguration;
-			
-			return fileUtilityService.GetDirectoryNameWithSeparator(cp.OutputDirectory)
-					+ cp.OutputAssembly + ((int)cp.Target == 0?".exe":".dll");
-		}
-
-		public ICompilerResult CompileProject(IProject project)
-		{
-			NemerleParameters cp = (NemerleParameters)project.ActiveConfiguration;
+			NemerleParameters cp = (NemerleParameters) configuration.CompilationParameters;
+			if (cp == null) cp = new NemerleParameters ();
 			
 			string references = "";
 			string files   = "";
 			
-			foreach (ProjectReference lib in project.ProjectReferences)
-				references += " -r \"" + lib.GetReferencedFileName(project) + "\"";
+			foreach (ProjectReference lib in projectReferences)
+				references += " -r \"" + lib.GetReferencedFileName() + "\"";
 			
-			foreach (ProjectFile f in project.ProjectFiles)
+			foreach (ProjectFile f in projectFiles)
 				if (f.Subtype != Subtype.Directory)
 					switch (f.BuildAction)
 					{
@@ -143,10 +126,10 @@ namespace NemerleBinding
 						break;
 					}
 
-			if (!Directory.Exists(cp.OutputDirectory))
-				Directory.CreateDirectory(cp.OutputDirectory);
+			if (!Directory.Exists (configuration.OutputDirectory))
+				Directory.CreateDirectory (configuration.OutputDirectory);
 			
-			string args = "-q -no-color " + GetOptionsString(cp) + references + files  + " -o " + GetCompiledOutputName(project);
+			string args = "-q -no-color " + GetOptionsString (configuration, cp) + references + files  + " -o " + configuration.CompiledOutputName;
 			return DoCompilation (args);
 		}
 		
@@ -211,14 +194,14 @@ namespace NemerleBinding
 			return cr.GetResult();
 		}
 
-		public void GenerateMakefile (IProject project, Combine parentCombine)
+		public void GenerateMakefile (Project project, Combine parentCombine)
 		{
 			StreamWriter stream = new StreamWriter (Path.Combine (project.BaseDirectory, "Makefile." + project.Name.Replace (" ", "")));
 
-			NemerleProject p = (NemerleProject)project;
-			NemerleParameters cp =(NemerleParameters)p.ActiveConfiguration;
+			DotNetProjectConfiguration configuration = (DotNetProjectConfiguration) project.ActiveConfiguration;
+			NemerleParameters cp = (NemerleParameters) configuration.CompilationParameters;
 			
-			string outputName = Path.GetFileName(GetCompiledOutputName(project));
+			string outputName = Path.GetFileName (configuration.CompiledOutputName);
 
 			string relativeOutputDir = fileUtilityService.AbsoluteToRelativePath (project.BaseDirectory, parentCombine.OutputDirectory);
 
@@ -246,26 +229,26 @@ namespace NemerleBinding
 				case ReferenceType.Gac:
 					string pkg = sas.GetPackageFromFullName (lib.Reference);
 					if (pkg == "MONO-SYSTEM") {
-						system_references.Add (Path.GetFileName (lib.GetReferencedFileName (project)));
+						system_references.Add (Path.GetFileName (lib.GetReferencedFileName ()));
 					} else if (!pkg_references.Contains (pkg)) {
 						pkg_references.Add (pkg);
 					}
 					break;
 				case ReferenceType.Assembly:
-					string assembly_fileName = lib.GetReferencedFileName (project);
+					string assembly_fileName = lib.GetReferencedFileName ();
 					string rel_path_to = fileUtilityService.AbsoluteToRelativePath (project.BaseDirectory, Path.GetDirectoryName (assembly_fileName));
 					assembly_references.Add (Path.Combine (rel_path_to, Path.GetFileName (assembly_fileName)));
 					break;
 				case ReferenceType.Project:
-					string project_fileName = lib.GetReferencedFileName (project);
+					string project_fileName = lib.GetReferencedFileName ();
 					IProjectService prjService = (IProjectService)ServiceManager.GetService (typeof (IProjectService));
-					ArrayList allProjects = Combine.GetAllProjects(prjService.CurrentOpenCombine);
+					CombineEntryCollection allProjects = prjService.CurrentOpenCombine.GetAllProjects();
 					
-					foreach (ProjectCombineEntry projectEntry in allProjects) {
-						if (projectEntry.Project.Name == lib.Reference) {
-							string project_base_dir = fileUtilityService.AbsoluteToRelativePath (project.BaseDirectory, projectEntry.Project.BaseDirectory);
+					foreach (Project projectEntry in allProjects) {
+						if (projectEntry.Name == lib.Reference) {
+							string project_base_dir = fileUtilityService.AbsoluteToRelativePath (project.BaseDirectory, projectEntry.BaseDirectory);
 							
-							string project_output_fileName = prjService.GetOutputAssemblyName (projectEntry.Project);
+							string project_output_fileName = projectEntry.GetOutputFileName ();
 							project_references.Add (Path.Combine (project_base_dir, Path.GetFileName (project_output_fileName)));
 						}
 					}
@@ -349,7 +332,7 @@ namespace NemerleBinding
 				stream.WriteLine ();
 			}
 
-			stream.Write ("NCC_OPTIONS = " + GetOptionsString(cp));
+			stream.Write ("NCC_OPTIONS = " + GetOptionsString (configuration, cp));
 
 			stream.WriteLine ();
 			stream.WriteLine ();

@@ -33,7 +33,7 @@
   </Extension>
 
   <Extension path = "/SharpDevelop/Workbench/ProjectOptions/ConfigurationProperties">
-    <Conditional activeproject = "Nemerle">
+    <Conditional activelanguage = "Nemerle">
       <DialogPanel id = "NemerleCodeGenerationPanel"
                    _label = "Code Generation"
                    class = "NemerleBinding.CodeGenerationPanel"/>

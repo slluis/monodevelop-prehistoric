@@ -1,3 +1,20 @@
+2005-01-11  Lluis Sanchez Gual  <lluis@novell.com>
+
+	* NemerleBinding.addin.xml:
+	* Gui/CodeGenerationPanel.cs:
+	* NemerleLanguageBinding.cs:
+	* NemerleBindingCompilerServices.cs: Follow architecture changes.
+	
+	* Project/NemerleParameters.cs: Moved some common parameters to
+	DotNetProjectConfiguration.
+	
+	* Gui/OutputPanel.cs:
+	* Nemerle.glade: Removed dialog now implemented in Monodevelop.Base.
+	
+	* Project/NemerleProject.cs:
+	* NemerleBindingExecutionServices.cs.in: Removed.
+	* Makefile.am: Updated.
+
 2004-12-13  Lluis Sanchez Gual  <lluis@novell.com>
 
 	* NemerleBindingCompilerServices.cs: StatusBarService.ProgressMonitor is
