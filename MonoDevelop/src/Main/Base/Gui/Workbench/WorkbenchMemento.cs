@@ -70,25 +70,28 @@ namespace MonoDevelop.Gui
 			fullscreen  = false;
 		}
 		
-		WorkbenchMemento(XmlElement element)
+		WorkbenchMemento(XmlElement element) : base ()
 		{
-			if (element.Attributes["bounds"] != null && element.Attributes["bounds"].InnerText != String.Empty) {
+			try {
 				string[] boundstr = element.Attributes["bounds"].InnerText.Split(new char [] { ',' });
 				
 				bounds = new Rectangle(Int32.Parse(boundstr[0]), Int32.Parse(boundstr[1]), 
 									   Int32.Parse(boundstr[2]), Int32.Parse(boundstr[3]));
+			} catch {
 			}
 			
-			if (element.Attributes["formwindowstate"] != null && element.Attributes["formwindowstate"].InnerText != String.Empty) {
+			try {
 				windowstate = (Gdk.WindowState)Enum.Parse(typeof(Gdk.WindowState), element.Attributes["formwindowstate"].InnerText);
+			} catch {
 			}
 			
 			/*if (element.Attributes["defaultformwindowstate"] != null) {
 				defaultwindowstate = (FormWindowState)Enum.Parse(typeof(FormWindowState), element.Attributes["defaultformwindowstate"].InnerText);
 			}*/
 
-			if (element.Attributes["fullscreen"] != null && element.Attributes["fullscreen"].InnerText != String.Empty) {
+			try {
 				fullscreen  = Boolean.Parse(element.Attributes["fullscreen"].InnerText);
+			} catch {
 			}
 		}
 
