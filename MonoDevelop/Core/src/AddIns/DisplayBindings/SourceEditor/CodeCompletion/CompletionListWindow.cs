@@ -57,7 +57,7 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 				wnd.Hide ();
 			}
 			
-			wnd.updateWord ();
+			wnd.UpdateWord ();
 			
 			wnd.PartialWord = wnd.CompleteWord;		
 		}
@@ -104,7 +104,7 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 				wnd.Hide ();
 				
 			if ((ka & ListWindow.KeyAction.Complete) != 0) {
-				wnd.updateWord ();
+				wnd.UpdateWord ();
 			}
 			
 			if ((ka & ListWindow.KeyAction.Ignore) != 0)
@@ -113,7 +113,7 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 			return false;
 		}
 		
-		void updateWord ()
+		void UpdateWord ()
 		{
 			TextIter offsetIter = wnd.control.Buffer.GetIterAtMark (wnd.triggeringMark);
 			TextIter endIter = wnd.control.Buffer.GetIterAtOffset (offsetIter.Offset + wnd.PartialWord.Length);
