@@ -65,6 +65,8 @@ namespace MonoDevelop.Gui.Dialogs {
 			InitializeComponents();
 			InitializeTemplates();
 			InitializeView();
+
+			catStore.SetSortColumnId (0, SortType.Ascending);
 			
 			TreeIter first;
 			if (catStore.GetIterFirst (out first))
