@@ -1,0 +1,13 @@
+[Desktop Entry]
+Type=Application
+Version=1.0
+Encoding=UTF-8
+Name=MonoDevelop
+GenericName=Integrated Development Environment
+Comment=Integrated Development Environment
+Exec=monodevelop
+Icon=monodevelop.png
+StartupNotify=true
+Terminal=false
+Type=Application
+Categories=Application;Development;
