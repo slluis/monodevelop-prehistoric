@@ -112,6 +112,7 @@ src/AddIns/DisplayBindings/Makefile
 src/AddIns/DisplayBindings/SourceEditor/Makefile
 src/AddIns/Misc/Makefile
 src/AddIns/Misc/StartPage/Makefile
+src/AddIns/Misc/Sonata/Makefile
 src/AddIns/DebuggerAddIn/Makefile
 src/Main/Makefile
 src/Main/Base/Makefile
@@ -149,6 +150,7 @@ build/AddIns/AddIns/Makefile
 build/AddIns/AddIns/BackendBindings/Makefile
 build/AddIns/AddIns/Misc/Makefile
 build/AddIns/AddIns/Misc/StartPage/Makefile
+build/AddIns/AddIns/Misc/Sonata/Makefile
 data/Makefile
 data/resources/Makefile
 data/resources/glade/Makefile
