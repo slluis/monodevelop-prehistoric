@@ -1,3 +1,8 @@
+2005-04-06  John Luke  <john.luke@gmail.com>
+
+	* MonoDevelop.Dock.mdp:
+	* MonoDevelop.Dock.mds: add project files
+
 2005-03-31  John Luke  <john.luke@gmail.com>
 
 	* DockPaned.cs: only emit layout_changed when

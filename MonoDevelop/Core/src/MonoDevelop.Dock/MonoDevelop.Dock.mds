@@ -1,0 +1,16 @@
+<Combine name="MonoDevelop.Dock" fileversion="2.0">
+  <Configurations>
+    <Configuration name="Debug" ctype="CombineConfiguration">
+      <Entry build="True" name="MonoDevelop.Dock" />
+    </Configuration>
+    <Configuration name="Release" ctype="CombineConfiguration">
+      <Entry build="True" name="MonoDevelop.Dock" />
+    </Configuration>
+  </Configurations>
+  <StartMode startupentry="MonoDevelop.Dock" single="True">
+    <Execute type="None" entry="MonoDevelop.Dock" />
+  </StartMode>
+  <Entries>
+    <Entry filename="./MonoDevelop.Dock.mdp" />
+  </Entries>
+</Combine>
