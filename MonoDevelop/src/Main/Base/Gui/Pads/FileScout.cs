@@ -7,8 +7,8 @@
 
 using System;
 using System.IO;
-using System.Text;
-using System.Drawing;
+//using System.Text;
+//using System.Drawing;
 using System.Collections;
 using System.Resources;
 using ICSharpCode.Core.Properties;
@@ -292,7 +292,7 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads
 		
 		public string Title {
 			get {
-				return resourceService.GetString("MainWindow.Windows.FileScoutLabel");
+				return resourceService.GetString ("MainWindow.Windows.FileScoutLabel");
 			}
 		}
 		
@@ -308,52 +308,32 @@ namespace ICSharpCode.SharpDevelop.Gui.Pads
 			//OnIconChanged(null);
 		}
 		
-		FileList   filelister = new FileList();
+		FileList filelister = new FileList ();
 		FileBrowser fb = new FileBrowser ();
-		// Gtk.Entry pathEntry;
 		PropertyService PropertyService = (PropertyService) ServiceManager.Services.GetService (typeof (PropertyService));
 
 		public FileScout()
 		{
-			// fb.TreeView.Selection.Changed += new EventHandler (OnDirChanged);
 			fb.DirectoryChangedEvent += new DirectoryChangedEventHandler (OnDirChanged);
 			filelister.RowActivated += new Gtk.RowActivatedHandler(FileSelected);
 
-			Gtk.Frame treef  = new Gtk.Frame();
-			/*Gtk.VBox utilVBox = new Gtk.VBox (false, 0);
-			Gtk.HBox hbox = new Gtk.HBox (false, 6);
-			pathEntry = new Gtk.Entry (fb.CurrentDir);
-			pathEntry.Activated += new EventHandler (OnPathEntryActivated);
-			hbox.PackStart (pathEntry);
-			Gtk.Button homeButton = new Gtk.Button ();
-			Gdk.Pixbuf pix = FileIconLoader.GetPixbufForType ("gnome-home");
-			homeButton.Add (new Gtk.Image (pix.ScaleSimple (20, 20, Gdk.InterpType.Bilinear)));
-			homeButton.Relief = Gtk.ReliefStyle.None;
-			homeButton.Clicked += new EventHandler (OnHomeClicked);
-			hbox.PackStart (homeButton, false, false, 0);
-			utilVBox.PackStart (hbox, false, true, 0);
-			utilVBox.PackStart (pathEntry, false, true, 0);
-			utilVBox.PackStart (fb);*/
-			treef.Add(fb);
-			
+			Gtk.Frame treef  = new Gtk.Frame ();
+			treef.Add (fb);
+
 			Gtk.ScrolledWindow listsw = new Gtk.ScrolledWindow ();
-			listsw.Add(filelister);
-			/*Gtk.Frame listf  = new Gtk.Frame();
-			listf.Add(listsw);*/
+			listsw.Add (filelister);
 			
-			Pack1(treef, true, true);
-			Pack2(listsw, true, true);
+			this.Pack1 (treef, true, true);
+			this.Pack2 (listsw, true, true);
 
 			fb.TreeView.Selection.SelectPath (new Gtk.TreePath ("0"));
 			
-			OnDirChanged(fb.CurrentDir);
+			OnDirChanged (fb.CurrentDir);
+			this.ShowAll ();
 		}
 
-		
-		// void OnDirChanged(object sender, EventArgs args)
 		void OnDirChanged (string path) 
 		{
-			// pathEntry.Text = fb.CurrentDir;
 			filelister.Clear ();
 
 			PropertyService p = (PropertyService)ServiceManager.Services.GetService(typeof(PropertyService));

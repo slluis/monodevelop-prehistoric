@@ -96,8 +96,8 @@ namespace MonoDevelop.Gui.Widgets
 			init = true;
 		}
 
-		// jba 23 feb 04 - reneabled this property to make the file browser obey the
-		// ignoreHidden property from the visual style option panel
+		// FIXME: we should watch the PropertyChanged event instead
+		// of exposing the set part
 		public bool IgnoreHidden
 		{
 			get { return ignoreHidden; }
@@ -157,10 +157,11 @@ namespace MonoDevelop.Gui.Widgets
 		{
 			store.Clear ();
 
-			if (System.IO.Path.GetPathRoot(CurrentDir) == CurrentDir)
-				upbutton.State = StateType.Insensitive;
-			else if (upbutton.State == StateType.Insensitive)
-				upbutton.State = StateType.Normal;
+			// FIXME: never turns back on
+			if (System.IO.Path.GetPathRoot (CurrentDir) == CurrentDir)
+				upbutton.Sensitive = false;
+			else if (upbutton.Sensitive == false)
+				upbutton.Sensitive = true;
 
 			DirectoryInfo di = new DirectoryInfo (CurrentDir);
 			DirectoryInfo[] dirs = di.GetDirectories ();
@@ -209,6 +210,7 @@ namespace MonoDevelop.Gui.Widgets
 			}
 		}
 		
+		// FIXME: implement .PopupMenu event instead
 		private void OnButtonReleaseEvent (object o, ButtonReleaseEventArgs args)
 		{
  			if (args.Event.Button == 3)
