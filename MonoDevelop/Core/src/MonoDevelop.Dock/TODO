@@ -1,7 +1,3 @@
- - proper license headers
- - resizing issues
-	setting the notebook position from a layout
-	removing one side of a pane, doubles the others size
  - placeholders in layout store/restore
  - docs
  - when we can use pango 1.6, use the built-in ellipsizing

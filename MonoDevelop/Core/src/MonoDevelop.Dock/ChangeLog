@@ -1,3 +1,8 @@
+2005-03-31  John Luke  <john.luke@gmail.com>
+
+	* *.cs: add license headers
+	* TODO: update
+
 2005-03-29  Alp Toker  <alp@atoker.com>
 
 	* DockPaned.cs: make the central pane resize rather than the edge
