@@ -86,7 +86,6 @@ namespace ICSharpCode.SharpDevelop.Services
 			}
 			
 			foreach (IViewContent content in WorkbenchSingleton.Workbench.ViewContentCollection) {
-				// WINDOWS DEPENDENCY : ToUpper()
 				if (content.ContentName != null && 
 				    content.ContentName == fileName) {
 					content.WorkbenchWindow.SelectWindow();
