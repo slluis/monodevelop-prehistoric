@@ -23,7 +23,7 @@ namespace ICSharpCode.Core.Services
 	public class PropertyService : DefaultProperties, IService
 	{
 		
-		readonly static string propertyFileName    = "SharpDevelopProperties.xml";
+		readonly static string propertyFileName    = "MonoDevelopProperties.xml";
 		readonly static string propertyFileVersion = "1.1";
 		
 		readonly static string propertyXmlRootNodeName  = "SharpDevelopProperties";
