@@ -157,6 +157,14 @@ namespace Gdl
 			get { return (this.HasGrip && !this.Locked && this.grip_shown); }
 		}
 		
+		public bool CantClose {
+			get { return ((this.Behavior & DockItemBehavior.CantClose) != 0); }
+		}
+		
+		public bool CantIconify {
+			get { return ((this.Behavior & DockItemBehavior.CantIconify) != 0); }
+		}
+		
 		protected override OnAdded (Gtk.Widget widget)
 		{
 			if (widget is DockObject) {
