@@ -7,8 +7,7 @@ cstemplate_DATA = ConsoleProject.xpt \
 	Library.xpt \
 	EmptyProject.xpt \
 	GtkSharpProject.xpt \
-	GladeSharpProject.xpt \
-	Service.xpt
+	GladeSharpProject.xpt
 
 all:
 	

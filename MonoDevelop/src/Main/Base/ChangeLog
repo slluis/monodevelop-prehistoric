@@ -1,3 +1,8 @@
+2004-05-19  Todd Berman  <tberman@sevenl.net>
+
+	* Services/ParserService/DefaultParserService.cs: potential nullref
+	removed.
+
 2004-05-20  Pawel Rozanski  <tokugawa@afn.no-ip.org>
 
 	* Services/Tasks/Task.cs: add a "COMMENT" ErrorNumber in order to

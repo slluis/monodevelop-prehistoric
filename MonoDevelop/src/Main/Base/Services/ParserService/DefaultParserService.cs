@@ -445,6 +445,11 @@ namespace MonoDevelop.Services
 		
 		Hashtable AddClassToNamespaceList(IClass addClass)
 		{
+			if (addClass.Name == null) {
+				Console.WriteLine (addClass.FullyQualifiedName);
+				return null;
+			}
+
 			string nSpace = addClass.Namespace;
 			if (nSpace == null) {
 				nSpace = String.Empty;

@@ -152,7 +152,6 @@ build/data/templates/project/Java/Makefile
 build/data/templates/project/ILAsm/Makefile
 build/data/templates/project/Misc/Makefile
 build/data/templates/project/Nemerle/Makefile
-build/data/templates/project/VBNet/Makefile
 build/doc/Makefile
 build/AddIns/Makefile
 build/AddIns/AddIns/Makefile
