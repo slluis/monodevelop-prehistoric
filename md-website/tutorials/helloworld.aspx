@@ -17,34 +17,39 @@
 <pre class="code">
 using System;
 using Gtk;
-using GtkSharp;
 
 public class MyWindow : Window {
-	static GLib.GType type;
-	static Gtk.Button button;
-			
-	static MyWindow ()
+	static GLib.GType gtype;
+	Button button;
+	
+	public static new GLib.GType GType
 	{
-		type = RegisterGType (typeof (MyWindow));
-		button = new Button();
-		button.Clicked += new EventHandler(button_Clicked);
+		get
+		{
+			if (gtype == GLib.GType.Invalid)
+				gtype = RegisterGType (typeof (MyWindow));
+			return gtype;
+		}
 	}
-													
-	public MyWindow () : base (type)
+	
+	public MyWindow () : base (GType)
 	{
+		button = new Button("This is a button.");
+		button.Clicked += new EventHandler(button_Clicked);
+	
 		this.Title = "MyWindow";
 		this.SetDefaultSize (400, 300);
-		this.DeleteEvent += new DeleteEventHandler (OnMyWindowDelete);
+		this.DeleteEvent += new DeleteEventHandler (MyWindow_Delete);
 		this.Add(button);
 		this.ShowAll ();
 	}
-
-	void OnMyWindowDelete (object o, DeleteEventArgs args)
+	
+	void MyWindow_Delete (object o, DeleteEventArgs args)
 	{
 		Application.Quit ();
 	}
-
-	static void button_Clicked (object obj, EventArgs args)
+	
+	 void button_Clicked (object obj, EventArgs args)
 	{
 		Console.WriteLine("Hello World");
 		Application.Quit ();
