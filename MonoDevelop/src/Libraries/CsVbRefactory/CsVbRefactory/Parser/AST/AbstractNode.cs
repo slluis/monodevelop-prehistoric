@@ -21,7 +21,7 @@ using System.Drawing;
 
 using System.Collections;
 
-namespace ICSharpCode.CsVbRefactory.Parser.AST
+namespace MonoDevelop.CsVbRefactory.Parser.AST
 {
 	public abstract class AbstractNode : INode
 	{

@@ -1,7 +1,7 @@
 using System;
-using ICSharpCode.CsVbRefactory.Parser.AST;
+using MonoDevelop.CsVbRefactory.Parser.AST;
 
-namespace ICSharpCode.CsVbRefactory.Parser
+namespace MonoDevelop.CsVbRefactory.Parser
 {
 	public interface IASTVisitor
 	{

@@ -1,6 +1,6 @@
 using System;
 
-namespace ICSharpCode.CsVbRefactory.Parser.AST
+namespace MonoDevelop.CsVbRefactory.Parser.AST
 {
 	
 	[Flags]

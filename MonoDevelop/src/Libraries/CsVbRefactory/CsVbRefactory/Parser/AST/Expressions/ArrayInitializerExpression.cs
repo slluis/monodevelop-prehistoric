@@ -1,8 +1,8 @@
 using System;
 using System.Collections;
 
-namespace ICSharpCode.CsVbRefactory.Parser.AST {
-	
+namespace MonoDevelop.CsVbRefactory.Parser.AST
+{	
 	public class ArrayInitializerExpression : Expression
 	{
 		ArrayList     createExpressions = new ArrayList(); // Expressions

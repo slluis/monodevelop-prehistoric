@@ -19,7 +19,7 @@ using System;
 using System.Collections;
 using System.Text;
 
-namespace ICSharpCode.CsVbRefactory.Parser.AST
+namespace MonoDevelop.CsVbRefactory.Parser.AST
 {
 	public class TypeReference
 	{

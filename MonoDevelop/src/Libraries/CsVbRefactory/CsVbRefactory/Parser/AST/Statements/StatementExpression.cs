@@ -18,7 +18,7 @@
 using System;
 using System.Collections;
 
-namespace ICSharpCode.CsVbRefactory.Parser.AST 
+namespace MonoDevelop.CsVbRefactory.Parser.AST 
 {
 	public class StatementExpression : Statement
 	{
