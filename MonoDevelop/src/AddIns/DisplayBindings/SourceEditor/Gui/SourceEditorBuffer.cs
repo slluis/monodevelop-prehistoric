@@ -263,6 +263,10 @@ namespace MonoDevelop.SourceEditor.Gui {
 				if (prevMarker == IntPtr.Zero)
 					prevMarker = gtk_source_buffer_get_last_marker (Handle);
 				
+				// no markers
+				if (prevMarker == IntPtr.Zero)
+					return;
+				
 				IntPtr nm = gtk_source_marker_get_marker_type (prevMarker);
 				string name = GLibSharp.Marshaller.PtrToStringGFree (nm);
 				if (name == "SourceEditorBookmark") {
@@ -301,6 +305,10 @@ namespace MonoDevelop.SourceEditor.Gui {
 				// Thats a wrap!
 				if (nextMarker == IntPtr.Zero)
 					nextMarker = gtk_source_buffer_get_first_marker (Handle);
+				
+				// no markers
+				if (nextMarker == IntPtr.Zero)
+					return;
 				
 				IntPtr nm = gtk_source_marker_get_marker_type (nextMarker);
 				string name = GLibSharp.Marshaller.PtrToStringGFree (nm);
