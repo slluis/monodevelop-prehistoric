@@ -5,10 +5,7 @@
       
       <div class="title">FAQs &amp; General Help</div>
 
-      <p>This page is a copy of the files FAQS, KNOWN_ISSUES, and README with
-      some edits, from the MonoDevelop/ directory in the Subversion
-      repository. Please download a copy from svn if this page is out of
-      date. Last updated: Feb 27, 2004.</p>
+      <p>Last updated: Apr 1, 2004.</p>
 
       <div class="headlinebar">FAQ</div>
 
