@@ -1,3 +1,8 @@
+2005-03-19  Lluis Sanchez Gual <lluis@novell.com>
+
+	* Commands/MenuItemBuilders.cs: Removed wrong check.
+	* Gui/Pads/SolutionPad/NodeBuilder.cs: Removed unused method.
+
 2005-03-15  John Luke  <john.luke@gmail.com>
 
 	* Gui/Workbench/Layout/SdiWorkspaceLayout.cs: add NoGrip flags

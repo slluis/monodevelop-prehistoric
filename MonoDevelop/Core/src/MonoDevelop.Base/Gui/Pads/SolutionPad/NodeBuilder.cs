@@ -90,10 +90,6 @@ namespace MonoDevelop.Gui.Pads
 		{
 		}
 
-		public virtual void OnNodeSelect (object dataObject)
-		{
-		}
-		
 		public virtual void Dispose ()
 		{
 		}
