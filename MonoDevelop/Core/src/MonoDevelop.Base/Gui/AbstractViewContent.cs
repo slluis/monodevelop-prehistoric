@@ -41,8 +41,10 @@ namespace MonoDevelop.Gui
 				return contentName;
 			}
 			set {
-				contentName = value;
-				OnContentNameChanged(EventArgs.Empty);
+				if (contentName != value) {
+					contentName = value;
+					OnContentNameChanged(EventArgs.Empty);
+				}
 			}
 		}
 		

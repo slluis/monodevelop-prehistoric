@@ -1,3 +1,8 @@
+2005-03-08  Todd Berman  <tberman@off.net>
+
+	* Gui/AbstractViewContent.cs: only emit an event when the name
+	actually changes.
+
 2005-03-07  Lluis Sanchez Gual  <lluis@novell.com>
 
 	* Commands/MenuItemBuilders.cs: Added null check.
