@@ -235,7 +235,7 @@ Extras/MonoQuery/MonoQuery.addin.xml
 Extras/MonoDeveloperExtensions/Makefile
 ])
 
-echo "---"
+echo ""
 echo "Configuration summary"
 echo ""
 echo "   * Installation prefix = $prefix"
@@ -243,10 +243,3 @@ echo "   * GNOME prefix = $gnome_prefix"
 echo "   * C# compiler = $CSC"
 echo "   * mono-debugger: $enable_debugger"
 echo ""
-echo "   NOTE: if any of the above say 'no' you may install the"
-echo "         corresponding development packages for them, and"
-echo "         rerun autogen.sh. If you are sure the proper"
-echo "         libraries are installed, use PKG_CONFIG_PATH to"
-echo "         point to their .pc files"
-echo ""
-echo "---"

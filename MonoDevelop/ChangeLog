@@ -1,3 +1,7 @@
+2005-02-09  John Luke  <john.luke@gmail.com>
+
+	* configure.in: remove obsolete NOTE
+
 2005-02-07  Chris Toshok  <toshok@ximian.com>
 
 	* configure.in: re-enable the debugger foo, with
