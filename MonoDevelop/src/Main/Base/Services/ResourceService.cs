@@ -47,9 +47,14 @@ namespace ICSharpCode.Core.Services
 		{
 			PropertyService propertyService = (PropertyService)ServiceManager.Services.GetService(typeof(PropertyService));
 			resourceDirctory = propertyService.DataDirectory + Path.DirectorySeparatorChar + "resources";
-			// CreateStockMapping ();
 
-			MonoDevelop.Gui.Stock.CreateIconFactory ();
+			iconFactory = new Gtk.IconFactory ();
+
+			// FIXME: remove this when all MonoDevelop is using Gtk+
+			// stock icons
+			stockMappings = new Hashtable ();
+			MonoDevelop.Gui.Stock.Init ();
+			iconFactory.AddDefault ();
 		}
 		
 		Hashtable userStrings = null;
@@ -60,42 +65,7 @@ namespace ICSharpCode.Core.Services
 		
 		Hashtable localStrings = null;
 		Hashtable localIcons   = null;
-
-
-/*
-		static Hashtable stockMappings = null;
-
-		static void CreateStockMapping ()
-		{
-			stockMappings = new Hashtable ();
-			stockMappings ["Icons.16x16.AboutIcon"] = Gnome.Stock.About;
-			stockMappings ["Icons.16x16.CloseIcon"] = Gtk.Stock.Close;
-			stockMappings ["Icons.16x16.CopyIcon"] = Gtk.Stock.Copy;
-			stockMappings ["Icons.16x16.CutIcon"] = Gtk.Stock.Cut;
-			stockMappings ["Icons.16x16.DeleteIcon"] = Gtk.Stock.Delete;
-			stockMappings ["Icons.16x16.FindIcon"] = Gtk.Stock.Find;
-			stockMappings ["Icons.16x16.HelpIcon"] = Gtk.Stock.Help;
-			stockMappings ["Icons.16x16.NewDocumentIcon"] = Gtk.Stock.New;
-			stockMappings ["Icons.16x16.NextWindowIcon"] = Gtk.Stock.GoForward;
-			stockMappings ["Icons.16x16.OpenFileIcon"] = Gtk.Stock.Open;
-			stockMappings ["Icons.16x16.Options"] = Gtk.Stock.Preferences;
-			stockMappings ["Icons.16x16.PasteIcon"] = Gtk.Stock.Paste;
-			stockMappings ["Icons.16x16.PreView"] = Gtk.Stock.PrintPreview;
-			stockMappings ["Icons.16x16.PrevWindowIcon"] = Gtk.Stock.GoBack;
-			stockMappings ["Icons.16x16.Print"] = Gtk.Stock.Print;
-			stockMappings ["Icons.16x16.QuitIcon"] = Gtk.Stock.Quit;
-			stockMappings ["Icons.16x16.RedoIcon"] = Gtk.Stock.Redo;
-			stockMappings ["Icons.16x16.ReplaceIcon"] = Gtk.Stock.FindAndReplace;
-			stockMappings ["Icons.16x16.RunProgramIcon"] = Gtk.Stock.Execute;
-			stockMappings ["Icons.16x16.SaveAsIcon"] = Gtk.Stock.SaveAs;
-			stockMappings ["Icons.16x16.SaveIcon"] = Gtk.Stock.Save;
-			stockMappings ["Icons.16x16.UndoIcon"] = Gtk.Stock.Undo;
-			stockMappings ["Icons.16x16.Error"] = Gtk.Stock.DialogError;
-			stockMappings ["Icons.16x16.Warning"] = Gtk.Stock.DialogWarning;
-			stockMappings ["Icons.16x16.Information"] = Gtk.Stock.DialogInfo;
-			stockMappings ["Icons.16x16.Question"] = Gtk.Stock.DialogQuestion;
-		}
-*/		
+		
 		void ChangeProperty(object sender, PropertyEventArgs e)
 		{
 			if (e.Key == uiLanguageProperty && e.OldValue != e.NewValue) {
@@ -285,31 +255,8 @@ namespace ICSharpCode.Core.Services
 		/// </exception>
 		public Gdk.Pixbuf GetIcon(string name)
 		{
-/*
-			object iconobj = null;
-			
-			if (this.userIcons != null && this.userIcons[name] != null) {
-				iconobj = userIcons[name];
-			} else  if (localIcons != null && localIcons[name] != null) {
-				iconobj = localIcons[name];
-			} else {
-				iconobj = icon.GetObject(name);
-			}
-			
-			if (iconobj == null) {
-				return null;
-			}
-			
-			if (iconobj is Icon) {
-				return (Icon)iconobj;
-			} else {
-				return Icon.FromHandle(((Bitmap)iconobj).GetHicon());
-			}
-*/			
-			// Gdk.Pixbuf b = new Gdk.Pixbuf("../data/resources/icons/" + name);
-			string stockid = MonoDevelop.Gui.Stock.GetStockId (name);
-			if (stockid != null)
-			{
+			string stockid = GetStockId (name);
+			if (stockid != null) {
 				Gtk.IconSet iconset = Gtk.IconFactory.LookupDefault (stockid);
 				if (iconset != null) {
 					// use P/Invoke to be able to pass some NULL parameters
@@ -343,19 +290,9 @@ namespace ICSharpCode.Core.Services
 		/// </exception>
 		public Gdk.Pixbuf GetBitmap(string name)
 		{
-			/*if (this.userIcons != null && this.userIcons[name] != null) {
-				return (Gdk.Pixbuf)userIcons[name];
-			}
-			if (localIcons != null && localIcons[name] != null) {
-				return (Gdk.Pixbuf)localIcons[name];
-			}
-			Gdk.Pixbuf b = (Gdk.Pixbuf)icon.GetObject(name);
-			*/
-
 			// Try stock icons first
 			Gdk.Pixbuf pix = GetIcon (name);
-			if (pix == null)
-			{
+			if (pix == null) {
 				// Try loading directly from disk then
 				pix = new Gdk.Pixbuf("../data/resources/icons/" + name);
 			}
@@ -364,10 +301,58 @@ namespace ICSharpCode.Core.Services
 
 		public Gtk.Image GetImage (string name, Gtk.IconSize size)
 		{
-			string stock = (string) MonoDevelop.Gui.Stock.GetStockId (name);
+			string stock = GetStockId (name);
 			if (stock != null)
 				return new Gtk.Image (stock, size);
 			return new Gtk.Image (GetBitmap (name));
+		}
+		
+		static Gtk.IconFactory iconFactory = null;
+		static Hashtable stockMappings = null;
+
+		internal static void AddToIconFactory (string stockId,
+		                                       string filename,
+						       Gtk.IconSize iconSize)
+		{
+			try {
+				Gdk.Pixbuf pixbuf = new Gdk.Pixbuf ("../data/resources/icons/" + filename);
+
+				Gtk.IconSet iconSet = iconFactory.Lookup (stockId);
+				if (iconSet == null) {
+					iconSet = new Gtk.IconSet ();
+					iconFactory.Add (stockId, iconSet);
+				}
+
+				Gtk.IconSource source = new Gtk.IconSource ();
+				source.Pixbuf = pixbuf;
+				source.Size = iconSize;
+				iconSet.AddSource (source);
+
+				// FIXME: temporary hack to retrieve the correct icon
+				// from the filename
+				stockMappings.Add (filename, stockId);
+			}
+			catch (GLib.GException ex) {
+				// just discard the exception, the icon simply can't be
+				// loaded
+				Console.WriteLine ("Warning: can't load " + filename +
+				                   " icon file");
+			}
+		}
+
+		internal static void AddToIconFactory (string stockId, string filename)
+		{
+			AddToIconFactory (stockId, filename, Gtk.IconSize.Invalid);
+		}
+		
+		internal static void AddDefaultStockMapping (string stockFile, string nativeStock)
+		{
+			stockMappings.Add (stockFile, nativeStock);
+		}
+
+		public static string GetStockId (string filename)
+		{
+			return (string) stockMappings [filename];
 		}
 	}
 }

@@ -370,3 +370,6 @@ $(DLL): $(SOURCES) ../../../data/resources/glade/Base.glade
 		/r:glade-sharp.dll \
 		/r:gnome-sharp.dll \
 		$(SOURCES)
+
+Services/StockIcons.cs : ./Services/process-icons.pl
+	perl  -x../../../build/data/resources/icons -w ./Services/process-icons.pl > $@
