@@ -8,7 +8,7 @@ using System;
 using System.IO;
 using MonoDevelop.Services;
 
-namespace SharpDevelop.Internal.Parser
+namespace MonoDevelop.Internal.Parser
 {
 	public sealed class PersistentReturnType : IReturnType
 	{
@@ -64,7 +64,7 @@ namespace SharpDevelop.Internal.Parser
 				this.classProxyCollection = classProxyCollection;
 				this.pointerNestingLevel  = returnType.PointerNestingLevel;
 				this.arrayDimensions      = returnType.ArrayDimensions;
-				classProxyIndex           = classProxyCollection.IndexOf(returnType.FullyQualifiedName);
+				classProxyIndex           = classProxyCollection.IndexOf(returnType.FullyQualifiedName, true);
 				fullyQualifiedName        = returnType.FullyQualifiedName;
 			}
 		}

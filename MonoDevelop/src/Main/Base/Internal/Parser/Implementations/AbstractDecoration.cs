@@ -5,17 +5,20 @@
 //     <version value="$version"/>
 // </file>
 using System;
+using System.Collections;
 using System.Collections.Utility;
 using System.Reflection;
 
-namespace SharpDevelop.Internal.Parser
+namespace MonoDevelop.Internal.Parser
 {
 	[Serializable]
 	public abstract class AbstractDecoration : MarshalByRefObject, IDecoration
 	{
 		protected ModifierEnum               modifiers     = ModifierEnum.None;
-		protected AttributeSectionCollection attributes    = new AttributeSectionCollection();
-		protected string                     documentation = String.Empty;
+		protected AttributeSectionCollection attributes    = null;
+		int    documentationHash = -1;
+		static Hashtable documentationHashtable = new Hashtable();
+		
 		
 		public virtual ModifierEnum Modifiers {
 			get {
@@ -25,13 +28,25 @@ namespace SharpDevelop.Internal.Parser
 
 		public virtual AttributeSectionCollection Attributes {
 			get {
+				if (attributes == null) {
+					attributes = new AttributeSectionCollection();
+				}
 				return attributes;
 			}
 		}
 
 		public string Documentation {
 			get {
-				return documentation;
+				if (documentationHash == -1) {
+					return String.Empty;
+				}
+				return (string)documentationHashtable[documentationHash];
+			}
+			set {
+				documentationHash = value.GetHashCode();
+				if (documentationHashtable[documentationHash] == null) {
+					documentationHashtable[documentationHash] = value;
+				}
 			}
 		}
 		

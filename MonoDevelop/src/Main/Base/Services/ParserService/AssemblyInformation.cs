@@ -10,12 +10,12 @@ using System.IO;
 using System.Collections;
 using System.Threading;
 using System.Xml;
-using SharpDevelop.Internal.Parser;
+using MonoDevelop.Internal.Parser;
 
-//using MonoDevelop.SharpAssembly.Metadata.Rows;
-//using MonoDevelop.SharpAssembly.Metadata;
-//using MonoDevelop.SharpAssembly.PE;
-//using MonoDevelop.SharpAssembly;
+//using ICSharpCode.SharpAssembly.Metadata.Rows;
+//using ICSharpCode.SharpAssembly.Metadata;
+//using ICSharpCode.SharpAssembly.PE;
+//using ICSharpCode.SharpAssembly;
 using System.Reflection;
 
 namespace MonoDevelop.Services {
@@ -90,14 +90,9 @@ namespace MonoDevelop.Services {
 				}
 			}
 			
-			System.Reflection.Assembly asm;
-			try {
-				asm = Assembly.Load(fileName);
-			} catch {
-				asm = Assembly.LoadFrom (fileName);
-			}
+			System.Reflection.Assembly asm = nonLocking ? Assembly.Load(GetBytes(fileName)) : Assembly.LoadFrom(fileName);
 			foreach (Type type in asm.GetTypes()) {
-				if (!type.FullName.StartsWith("<")) {
+				if (!type.FullName.StartsWith("<") && !type.IsSpecialName && type.IsPublic) {
 					classes.Add(new ReflectionClass(type, docuNodes));
 				}
 			}

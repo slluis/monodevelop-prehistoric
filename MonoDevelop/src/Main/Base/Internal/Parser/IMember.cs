@@ -7,11 +7,14 @@
 using System;
 using System.Reflection;
 
-namespace SharpDevelop.Internal.Parser
+namespace MonoDevelop.Internal.Parser
 {
 	public interface IMember : IDecoration
 	{
 		string FullyQualifiedName {
+			get;
+		}
+		IRegion Region {
 			get;
 		}
 

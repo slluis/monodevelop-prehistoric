@@ -14,7 +14,7 @@ using MonoDevelop.SharpAssembly.Metadata.Rows;
 using MonoDevelop.SharpAssembly.Metadata;
 using MonoDevelop.SharpAssembly.PE;
 
-namespace SharpDevelop.Internal.Parser {
+namespace MonoDevelop.Internal.Parser {
 	
 	[Serializable]
 	public class SharpAssemblyIndexer : AbstractIndexer

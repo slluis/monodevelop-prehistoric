@@ -7,7 +7,7 @@
 
 using System;
 using System.Collections;
-using SharpDevelop.Internal.Parser;
+using MonoDevelop.Internal.Parser;
 
 namespace MonoDevelop.Services
 {

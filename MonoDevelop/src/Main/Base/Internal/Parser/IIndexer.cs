@@ -6,14 +6,10 @@
 // </file>
 using System;
 
-namespace SharpDevelop.Internal.Parser
+namespace MonoDevelop.Internal.Parser
 {
 	public interface IIndexer: IMember
 	{
-		IRegion Region {
-			get;
-		}
-		
 		IRegion BodyRegion {
 			get;
 		}

@@ -8,7 +8,7 @@
 using System;
 using System.Collections;
 
-using SharpDevelop.Internal.Parser;
+using MonoDevelop.Internal.Parser;
 using MonoDevelop.Core.Properties;
 using MonoDevelop.Core.Services;
 

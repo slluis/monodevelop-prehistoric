@@ -9,7 +9,7 @@ using System.IO;
 using System.Reflection;
 using MonoDevelop.Services;
 
-namespace SharpDevelop.Internal.Parser
+namespace MonoDevelop.Internal.Parser
 {
 	public sealed class PersistentParameter : AbstractParameter
 	{

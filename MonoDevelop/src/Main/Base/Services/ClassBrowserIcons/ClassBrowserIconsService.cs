@@ -13,7 +13,7 @@ using System.Drawing;
 using System.Reflection;
 using System.Resources;
 using System.Diagnostics;
-using SharpDevelop.Internal.Parser;
+using MonoDevelop.Internal.Parser;
 using MonoDevelop.Gui;
 
 using MonoDevelop.Core.AddIns;

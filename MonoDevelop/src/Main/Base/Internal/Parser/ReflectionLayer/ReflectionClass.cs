@@ -11,7 +11,7 @@ using System.Xml;
 using System.Reflection;
 using System.Collections.Specialized;
 
-namespace SharpDevelop.Internal.Parser
+namespace MonoDevelop.Internal.Parser
 {
 	[Serializable]
 	public class ReflectionClass : AbstractClass
@@ -43,7 +43,7 @@ namespace SharpDevelop.Internal.Parser
 			if (xmlComments != null) {
 				XmlNode node = xmlComments["T:" + FullyQualifiedName] as XmlNode;
 				if (node != null) {
-					documentation = node.InnerXml;
+					Documentation = node.InnerXml;
 				}
 			}
 			

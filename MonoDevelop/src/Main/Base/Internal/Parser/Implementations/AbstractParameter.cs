@@ -8,7 +8,7 @@ using System;
 using System.Reflection;
 using System.Collections.Utility;
 
-namespace SharpDevelop.Internal.Parser
+namespace MonoDevelop.Internal.Parser
 {
 
 	[Serializable]

@@ -14,7 +14,7 @@ using MonoDevelop.Core.Services;
 using MonoDevelop.Core.Properties;
 using MonoDevelop.Internal.Templates;
 using MonoDevelop.Services;
-using SharpDevelop.Internal.Parser;
+using MonoDevelop.Internal.Parser;
 
 using MonoDevelop.SourceEditor.Gui;
 using MonoDevelop.SourceEditor.CodeCompletion;
@@ -69,7 +69,9 @@ namespace MonoDevelop.SourceEditor.InsightWindow
 						methods.Add(indexer);
 					}
 				}
-				foreach (object o in results.ResolveContents) {
+
+				//FIXME: This shouldnt be commented out, but i replaced the parser and cant figure this out
+				/*foreach (object o in results.ResolveContents) {
 					if (o is IClass) {
 						foreach (IClass c in ((IClass)o).ClassInheritanceTree) {
 							foreach (IIndexer indexer in c.Indexer) {
@@ -77,7 +79,7 @@ namespace MonoDevelop.SourceEditor.InsightWindow
 							}
 						}
 					}
-				}
+				}*/
 			}
 		}
 		

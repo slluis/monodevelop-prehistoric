@@ -1,3 +1,19 @@
+2004-03-27  Todd Berman  <tberman@sevenl.net>
+
+	* Internal/Parser/*: update to new parser from upstream.
+	* Gui/ContentInterfaces/IParseInformationListener.cs: update.
+	* Gui/Pads/ClassScout/NodeBuilder/DefaultDotNetClassScoutNodeBuilder.cs:
+		rework to use SortUtilities and a TreeNodeComparer for removal
+		this should fix 99% of those strange class browser bugs.
+	* Gui/CompletionDatabaseWizard/CreateDBGenerator.cs:
+		update to reflect new parser changes.
+	* Services/ParserService/*: update from upstream, add some of our mods
+	* Services/ProjectService/ParseInformationEventHandler.cs:
+	* Services/ClassBrowserIcons/ClassBrowserIconsService.cs:
+	* Services/AmbienceService/*:
+	* Commands/AutostartCommands.cs: update to reflect other changes.
+	* Makefile.am: update with new files.
+
 2004-03-26  John Luke  <jluke@cfl.rr.com>
 
 	* Gui/Dialogs/SharpDevelopAboutPanels.cs:

@@ -9,7 +9,7 @@ using System;
 using System.Collections;
 using System.Collections.Specialized;
 
-namespace SharpDevelop.Internal.Parser
+namespace MonoDevelop.Internal.Parser
 {
 	public interface IUsing
 	{
@@ -27,5 +27,8 @@ namespace SharpDevelop.Internal.Parser
 
 		IClass SearchType(string partitialTypeName);
 		string SearchNamespace(string partitialNamespaceName);
+		
+		IClass SearchType(string partitialTypeName, bool caseSensitive);
+		string SearchNamespace(string partitialNamespaceName, bool caseSensitivecaseSensitivecaseSensitivecaseSensitivecaseSensitivecaseSensitivecaseSensitivecaseSensitivecaseSensitivecaseSensitivecaseSensitivecaseSensitivecaseSensitivecaseSensitivecaseSensitivecaseSensitivecaseSensitivecaseSensitivecaseSensitivecaseSensitive);
 	}
 }

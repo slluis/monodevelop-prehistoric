@@ -6,7 +6,7 @@
 // </file>
 using System;
 
-namespace SharpDevelop.Internal.Parser
+namespace MonoDevelop.Internal.Parser
 {
 	[Flags]
 	public enum ModifierEnum : uint {

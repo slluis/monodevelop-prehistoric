@@ -1,7 +1,7 @@
-﻿// <file>
+// <file>
 //     <copyright see="prj:///doc/copyright.txt"/>
 //     <license see="prj:///doc/license.txt"/>
-//     <owner name="Mike Krüger" email="mike@icsharpcode.net"/>
+//     <owner name="Mike Kr�ger" email="mike@icsharpcode.net"/>
 //     <version value="$version"/>
 // </file>
 
@@ -21,7 +21,7 @@ namespace CSharpBinding
 	/// This class describes a C Sharp project and it compilation options.
 	/// </summary>
 	public class CSharpProject : AbstractProject
-	{		
+	{
 		public override string ProjectType {
 			get {
 				return CSharpLanguageBinding.LanguageName;

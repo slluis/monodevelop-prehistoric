@@ -11,7 +11,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.IO;
 
-using SharpDevelop.Internal.Parser;
+using MonoDevelop.Internal.Parser;
 using MonoDevelop.Services;
 using MonoDevelop.Core.Services;
 using MonoDevelop.SourceEditor.Gui;

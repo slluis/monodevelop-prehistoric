@@ -7,7 +7,7 @@
 
 using System;
 
-namespace SharpDevelop.Internal.Parser
+namespace MonoDevelop.Internal.Parser
 {
 	[Serializable]
 	[Flags]

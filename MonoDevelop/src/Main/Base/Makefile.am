@@ -306,6 +306,7 @@ FILES= \
 ./Internal/Parser/Comment.cs \
 ./Internal/Parser/ModifierEnum.cs \
 ./Internal/Parser/IMember.cs \
+./Internal/Parser/IExpressionFinder.cs \
 ./Internal/Parser/IField.cs \
 ./Internal/Parser/IProperty.cs \
 ./Internal/Parser/PersistenceLayer/PersistentIndexer.cs \

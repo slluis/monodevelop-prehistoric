@@ -7,13 +7,10 @@
 using System;
 using System.Reflection;
 
-namespace SharpDevelop.Internal.Parser
+namespace MonoDevelop.Internal.Parser
 {
 	public interface IField : IMember
 	{
-		IRegion Region {
-			get;
-		}
 
 	}
 }

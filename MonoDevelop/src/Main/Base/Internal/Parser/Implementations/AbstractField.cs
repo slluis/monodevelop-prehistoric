@@ -8,18 +8,10 @@ using System;
 using System.Collections.Utility;
 using System.Reflection;
 
-namespace SharpDevelop.Internal.Parser {
+namespace MonoDevelop.Internal.Parser {
 	[Serializable]
 	public abstract class AbstractField : AbstractMember, IField
 	{
-		protected IRegion      region;
-
-		public virtual IRegion Region {
-			get {
-				return region;
-			}
-		}
-
 		public virtual int CompareTo(IField field) 
 		{
 			int cmp;
@@ -55,7 +47,8 @@ namespace SharpDevelop.Internal.Parser {
 			return 0;
 		}
 		
-		int IComparable.CompareTo(object value) {
+		int IComparable.CompareTo(object value)
+		{
 			return CompareTo((IField)value);
 		}
 	}

@@ -20,9 +20,9 @@ namespace MonoDevelop.Gui.Dialogs.OptionPanels.CompletionDatabaseWizard
 			string path = this.CreateCodeCompletionDir();
 			DefaultParserService parserService  = (DefaultParserService)MonoDevelop.Core.Services.ServiceManager.Services.GetService(typeof(DefaultParserService));
 			if (Fast) {
-				parserService.GenerateCodeCompletionDatabaseFast(path, progress);
+				parserService.GenerateCodeCompletionDatabase (path, progress);
 			} else {
-				parserService.GenerateEfficientCodeCompletionDatabase(path, progress);
+				parserService.GenerateCodeCompletionDatabase (path, progress);
 			}
 		}
 	}

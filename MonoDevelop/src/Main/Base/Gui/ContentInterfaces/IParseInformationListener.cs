@@ -7,7 +7,7 @@
 
 using System;
 using System.Drawing.Printing;
-using SharpDevelop.Internal.Parser;
+using MonoDevelop.Internal.Parser;
 using MonoDevelop.Services;
 
 namespace MonoDevelop.Gui

@@ -22,7 +22,7 @@ using MonoDevelop.Services;
 using MonoDevelop.Core.AddIns;
 using MonoDevelop.Internal.Project;
 using MonoDevelop.Gui;
-using SharpDevelop.Internal.Parser;
+using MonoDevelop.Internal.Parser;
 
 namespace MonoDevelop.Services
 {

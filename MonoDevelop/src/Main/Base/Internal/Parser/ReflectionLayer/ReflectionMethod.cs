@@ -10,7 +10,7 @@ using System.Collections;
 using System.Reflection;
 using System.Xml;
 
-namespace SharpDevelop.Internal.Parser
+namespace MonoDevelop.Internal.Parser
 {
 	[Serializable]
 	public class ReflectionMethod : AbstractMethod 
@@ -46,7 +46,7 @@ namespace SharpDevelop.Internal.Parser
 			if (xmlComments != null) {
 				node = xmlComments["M:" + FullyQualifiedName + GetParamList(methodBase)] as XmlNode;
 				if (node != null) {
-					documentation = node.InnerXml;
+					Documentation = node.InnerXml;
 				}
 			}
 			

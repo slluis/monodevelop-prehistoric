@@ -8,7 +8,7 @@
 using System.Collections;
 using System.Collections.Specialized;
 
-namespace SharpDevelop.Internal.Parser
+namespace MonoDevelop.Internal.Parser
 {
 	public interface ICompilationUnitBase
 	{

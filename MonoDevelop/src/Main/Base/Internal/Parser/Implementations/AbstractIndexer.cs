@@ -7,22 +7,15 @@
 using System;
 using System.Collections.Utility;
 
-namespace SharpDevelop.Internal.Parser
+namespace MonoDevelop.Internal.Parser
 {
 	[Serializable]
 	public abstract class AbstractIndexer : AbstractMember, IIndexer
 	{
-		protected IRegion             region;
 		protected IRegion             bodyRegion;
 		protected IRegion             getterRegion;
 		protected IRegion             setterRegion;
 		protected ParameterCollection parameters = new ParameterCollection();
-
-		public virtual IRegion Region {
-			get {
-				return region;
-			}
-		}
 		
 		public virtual IRegion BodyRegion {
 			get {

@@ -10,7 +10,7 @@ using System.Text;
 using System.Reflection;
 using System.Xml;
 
-namespace SharpDevelop.Internal.Parser
+namespace MonoDevelop.Internal.Parser
 {
 	[Serializable]
 	public class ReflectionIndexer : AbstractIndexer
@@ -51,7 +51,7 @@ namespace SharpDevelop.Internal.Parser
 			if (xmlComments != null) {
 				node = xmlComments["P:" + FullyQualifiedName] as XmlNode;
 				if (node != null) {
-					documentation = node.InnerXml;
+					Documentation = node.InnerXml;
 				}
 			}
 			

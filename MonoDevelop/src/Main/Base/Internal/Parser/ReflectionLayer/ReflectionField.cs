@@ -10,20 +10,20 @@ using System.Diagnostics;
 using System.Reflection;
 using System.Xml;
 
-namespace SharpDevelop.Internal.Parser
+namespace MonoDevelop.Internal.Parser
 {
 	[Serializable]
 	public class ReflectionField : AbstractField
 	{
 		public ReflectionField(FieldInfo fieldInfo, Hashtable xmlComments)
 		{
-			Debug.Assert(fieldInfo != null);
+			System.Diagnostics.Debug.Assert(fieldInfo != null);
 			FullyQualifiedName = String.Concat(fieldInfo.DeclaringType.FullName, ".", fieldInfo.Name);
 			
 			if (xmlComments != null) {
 				XmlNode node = xmlComments["F:" + FullyQualifiedName] as XmlNode;
 				if (node != null) {
-					documentation = node.InnerXml;
+					Documentation = node.InnerXml;
 				}
 			}
 			if (fieldInfo.IsInitOnly) {

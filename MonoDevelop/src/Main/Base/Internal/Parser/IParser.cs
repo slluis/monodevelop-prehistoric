@@ -11,15 +11,15 @@ using System.Collections.Specialized;
 
 using MonoDevelop.Services;
 
-namespace SharpDevelop.Internal.Parser
+namespace MonoDevelop.Internal.Parser
 {
-	[Flags]
-	public enum ShowMembers {
-		Public     = 1,
-		Protected  = 2,
-		Private    = 4,
-		Static     = 8
-	}
+//	[Flags]
+//	public enum ShowMembers {
+//		Public     = 1,
+//		Protected  = 2,
+//		Private    = 4,
+//		Static     = 8
+//	}
 	
 	public class ResolveResult
 	{
@@ -67,56 +67,60 @@ namespace SharpDevelop.Internal.Parser
 			this.members = members;
 			namespaces = new StringCollection();
 		}
-		object[]    resolveContents;
-		ShowMembers showMembers;
-		
-		public bool ShowPublic {
-			get {
-				return (showMembers & ShowMembers.Public) == ShowMembers.Public;
-			}
-		}
-
-		public bool ShowProtected {
-			get {
-				return (showMembers & ShowMembers.Protected) == ShowMembers.Protected;
-			}
-		}
-		
-		public bool ShowPrivate {
-			get {
-				return (showMembers & ShowMembers.Private) == ShowMembers.Private;
-			}
-		}
-
-		public bool ShowStatic {
-			get {
-				return (showMembers & ShowMembers.Static) == ShowMembers.Static;
-			}
-		}
-		
-		public object[] ResolveContents {
-			get {
-				return resolveContents;
-			}
-		}
-		
-		public ShowMembers ShowMembers {
-			get {
-				return showMembers;
-			}
-		}
-		
-		public ResolveResult(object[] resolveContents, ShowMembers showMembers)
-		{
-			this.resolveContents = resolveContents;
-			this.showMembers     = showMembers;
-		}
+//		object[]    resolveContents;
+//		ShowMembers showMembers;
+//		
+//		public bool ShowPublic {
+//			get {
+//				return (showMembers & ShowMembers.Public) == ShowMembers.Public;
+//			}
+//		}
+//
+//		public bool ShowProtected {
+//			get {
+//				return (showMembers & ShowMembers.Protected) == ShowMembers.Protected;
+//			}
+//		}
+//		
+//		public bool ShowPrivate {
+//			get {
+//				return (showMembers & ShowMembers.Private) == ShowMembers.Private;
+//			}
+//		}
+//
+//		public bool ShowStatic {
+//			get {
+//				return (showMembers & ShowMembers.Static) == ShowMembers.Static;
+//			}
+//		}
+//		
+//		public object[] ResolveContents {
+//			get {
+//				return resolveContents;
+//			}
+//		}
+//		
+//		public ShowMembers ShowMembers {
+//			get {
+//				return showMembers;
+//			}
+//		}
+//		
+//		public ResolveResult(object[] resolveContents, ShowMembers showMembers)
+//		{
+//			this.resolveContents = resolveContents;
+//			this.showMembers     = showMembers;
+//		}
 	}
 	
 	public interface IParser {
 		
 		string[] LexerTags {
 			set;
+		}
+		
+		IExpressionFinder ExpressionFinder {
+			get;
 		}
 		
 		ICompilationUnitBase Parse(string fileName);
@@ -132,5 +136,8 @@ namespace SharpDevelop.Internal.Parser
 		                      int caretColumn, 
 		                      string fileName,
 		                      string fileContent);
+		
+		
+		ArrayList CtrlSpace(IParserService parserService, int caretLine, int caretColumn, string fileName);
 	}
 }

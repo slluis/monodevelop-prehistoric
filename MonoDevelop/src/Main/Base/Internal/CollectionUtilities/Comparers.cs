@@ -67,10 +67,25 @@ namespace System {
 
 namespace System.Collections.Specialized
 {
-	public class TreeNodeComparer {
+	[Serializable]
+	public class TreeNodeComparer : IComparer {
 		
 		public static Gtk.TreeIterCompareFunc GtkProjectNode = new Gtk.TreeIterCompareFunc (GtkProjectNodeComparer);
 		public static Gtk.TreeIterCompareFunc GtkDefault = new Gtk.TreeIterCompareFunc (GtkDefaultComparer);
+		public static IComparer Default = new TreeNodeComparer ();
+
+		public int Compare(object x, object y) {
+			int cmp = ((TreeNode)x).Image.CompareTo (((TreeNode)y).Image);
+			if(cmp == 0) {
+//				cmp = x.SelectedImageIndex - y.SelectedImageIndex;
+//				if(cmp == 0) {
+					cmp = ((TreeNode)x).Text.CompareTo(((TreeNode)y).Text);
+//				}
+			}
+
+			return cmp;
+		}
+
 			
 		static int GtkProjectNodeComparer (Gtk.TreeModel model, Gtk.TreeIter a, Gtk.TreeIter b)
 		{

@@ -5,9 +5,9 @@ namespace MonoDevelop.Gui.Widgets {
     public class TreeNodeCollection: IList {
 		private ArrayList list;
                                                                                                                              
-        public TreeNodeCollection() {
+		public TreeNodeCollection() {
 			list = new ArrayList();
-        }
+		}
 
 		public int Count {
 			get { return list.Count; }

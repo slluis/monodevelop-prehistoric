@@ -15,7 +15,7 @@ using MonoDevelop.SharpAssembly.Metadata;
 using MonoDevelop.SharpAssembly.PE;
 using MonoDevelop.SharpAssembly.Assembly;
 
-namespace SharpDevelop.Internal.Parser {
+namespace MonoDevelop.Internal.Parser {
 	
 	[Serializable]
 	public class SharpAssemblyClass : AbstractClass

@@ -17,7 +17,7 @@ using System.Collections.Utility;
 using MonoDevelop.Core.Properties;
 
 using MonoDevelop.Internal.Project;
-using SharpDevelop.Internal.Parser;
+using MonoDevelop.Internal.Parser;
 using MonoDevelop.Core.Services;
 using MonoDevelop.Services;
 using MonoDevelop.Gui.Widgets;
@@ -60,16 +60,16 @@ namespace MonoDevelop.Gui.Pads
 			
 			ICompilationUnit unit = (ICompilationUnit)e.ParseInformation.MostRecentCompilationUnit;
 			foreach (IClass c in unit.Classes) {
+				classNode.Text = c.Name;
+				classNode.Image = classBrowserIconService.GetIcon (c);
 				// TODO: Perf check
 				TreeNode node = GetNodeByPath(c.Namespace, parentNode.Nodes, false);
 				if (node != null) {
-					foreach (TreeNode nd in node.Nodes) {
-						if (nd.Text == c.Name) {
-							nd.Remove ();
-							DropPhantomNamespaces (c.Namespace, parentNode.Nodes);
-							return;
-						}
+					int oldIndex = SortUtility.BinarySearch (classNode, node.Nodes, TreeNodeComparer.Default);
+					if (oldIndex >= 0) {
+						node.Nodes[oldIndex].Remove ();
 					}
+					DropPhantomNamespaces (c.Namespace, parentNode.Nodes);
 				}
 			}
 		}
@@ -87,6 +87,7 @@ namespace MonoDevelop.Gui.Pads
 			Type fus = typeof (FileUtilityService);
 			FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.Services.GetService(fus);
 			Type iconserv = typeof (IconService);
+			
 			IconService iconService = (IconService)ServiceManager.Services.GetService(iconserv);
 			GetCurrentAmbience();
 
@@ -229,6 +230,11 @@ namespace MonoDevelop.Gui.Pads
 			string[] treepath   = directory.Split(new char[] { '.' });
 			TreeNodeCollection curcollection = root;
 			TreeNode           curnode       = null;
+			if (treepath.Length == 1 && treepath[0].Length == 0) {
+				if (root.Count == 0)
+					return null;
+				return root[0].Parent;
+			}
 			foreach (string path in treepath) {
 				if (path.Length == 0 || path[0] == '.') {
 					continue;

@@ -7,7 +7,7 @@
 using System;
 using System.Collections.Specialized;
 
-namespace SharpDevelop.Internal.Parser {
+namespace MonoDevelop.Internal.Parser {
 
 	[Serializable]
 	public abstract class AbstractComment : System.MarshalByRefObject, IComment

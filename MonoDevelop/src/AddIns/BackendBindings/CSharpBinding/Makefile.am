@@ -29,6 +29,7 @@ FILES = \
 ./Parser/CSharpVisitor.cs \
 ./Parser/Resolver.cs \
 ./Parser/Parser.cs \
+./Parser/ExpressionFinder.cs \
 ./CSharpBindingExecutionManager.cs \
 ./CSharpAmbience.cs \
 ./Project/CSharpProject.cs \

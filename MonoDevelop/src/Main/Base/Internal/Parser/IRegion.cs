@@ -5,7 +5,8 @@
 //     <version value="$version"/>
 // </file>
 using System;
-namespace SharpDevelop.Internal.Parser
+
+namespace MonoDevelop.Internal.Parser
 {
 	public interface IRegion: IComparable
 	{

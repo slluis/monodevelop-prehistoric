@@ -14,7 +14,7 @@ using MonoDevelop.Core.Services;
 using MonoDevelop.Core.Properties;
 using MonoDevelop.Internal.Templates;
 using MonoDevelop.Services;
-using SharpDevelop.Internal.Parser;
+using MonoDevelop.Internal.Parser;
 
 using MonoDevelop.SourceEditor.Gui;
 using MonoDevelop.SourceEditor.CodeCompletion;

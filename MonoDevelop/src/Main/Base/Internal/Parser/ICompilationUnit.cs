@@ -8,7 +8,7 @@
 using System.Collections;
 using System.Collections.Specialized;
 
-namespace SharpDevelop.Internal.Parser
+namespace MonoDevelop.Internal.Parser
 {
 	public interface ICompilationUnit : ICompilationUnitBase
 	{
@@ -33,6 +33,10 @@ namespace SharpDevelop.Internal.Parser
 		}
 		
 		TagCollection TagComments {
+			get;
+		}
+		
+		ArrayList FoldingRegions {
 			get;
 		}
 	}

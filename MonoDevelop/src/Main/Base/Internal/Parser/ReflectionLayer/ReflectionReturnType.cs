@@ -7,14 +7,14 @@
 using System;
 using System.Collections;
 
-namespace SharpDevelop.Internal.Parser
+namespace MonoDevelop.Internal.Parser
 {
 	[Serializable]
 	public class ReflectionReturnType : AbstractReturnType
 	{
 		public ReflectionReturnType(Type type)
 		{
-			fullyQualifiedName = type.FullName.Replace("+", ".").Trim('&');
+			string fullyQualifiedName = type.FullName.Replace("+", ".").Trim('&');
 			
 			while (fullyQualifiedName.EndsWith("[") ||
 			       fullyQualifiedName.EndsWith("]") ||
@@ -22,6 +22,7 @@ namespace SharpDevelop.Internal.Parser
 			       fullyQualifiedName.EndsWith("*")) {
 				fullyQualifiedName = fullyQualifiedName.Substring(0, fullyQualifiedName.Length - 1);
 			}
+			base.FullyQualifiedName = fullyQualifiedName;
 			
 			SetPointerNestingLevel(type);
 			SetArrayDimensions(type);

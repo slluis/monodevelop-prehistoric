@@ -8,7 +8,7 @@ using System;
 using System.Reflection;
 using System.Xml;
 
-namespace SharpDevelop.Internal.Parser
+namespace MonoDevelop.Internal.Parser
 {
 	[Serializable]
 	public class ReflectionParameter : AbstractParameter

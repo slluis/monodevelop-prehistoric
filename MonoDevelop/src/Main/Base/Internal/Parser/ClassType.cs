@@ -5,7 +5,7 @@
 //     <version value="$version"/>
 // </file>
 
-namespace SharpDevelop.Internal.Parser
+namespace MonoDevelop.Internal.Parser
 {
 	public enum ClassType {
 		Class,

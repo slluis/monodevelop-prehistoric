@@ -8,22 +8,15 @@ using System;
 using System.Reflection;
 using System.Collections.Utility;
 
-namespace SharpDevelop.Internal.Parser
+namespace MonoDevelop.Internal.Parser
 {
 	[Serializable]
 	public abstract class AbstractMethod : AbstractMember, IMethod
 	{
-		protected IRegion region;
 		protected IRegion bodyRegion;
 		
 		protected ParameterCollection parameters = new ParameterCollection();
 
-		public virtual IRegion Region {
-			get {
-				return region;
-			}
-		}
-		
 		public virtual IRegion BodyRegion {
 			get {
 				return bodyRegion;

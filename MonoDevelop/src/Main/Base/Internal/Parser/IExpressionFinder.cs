@@ -4,27 +4,16 @@
 //     <owner name="Mike Krüger" email="mike@icsharpcode.net"/>
 //     <version value="$version"/>
 // </file>
+
 using System;
-using System.Reflection;
 
 namespace MonoDevelop.Internal.Parser
 {
-	public interface IEvent : IMember
+	public interface IExpressionFinder
 	{
-		IRegion BodyRegion {
-			get;
-		}
-		
-		IMethod AddMethod {
-			get;
-		}
-		
-		IMethod RemoveMethod {
-			get;
-		}
-		
-		IMethod RaiseMethod {
-			get;
-		}
+		/// <summary>
+		/// Finds an expression before the current offset.
+		/// </summary>
+		string FindExpression(string text, int offset);
 	}
 }

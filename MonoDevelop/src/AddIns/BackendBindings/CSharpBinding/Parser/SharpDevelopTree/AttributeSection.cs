@@ -1,6 +1,6 @@
 // created on 08.09.2003 at 16:17
 
-using SharpDevelop.Internal.Parser;
+using MonoDevelop.Internal.Parser;
 using System.Collections;
 
 namespace CSharpBinding.Parser.SharpDevelopTree

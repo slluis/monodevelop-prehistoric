@@ -7,14 +7,10 @@
 using System;
 using System.Reflection;
 
-namespace SharpDevelop.Internal.Parser
+namespace MonoDevelop.Internal.Parser
 {
 	public interface IProperty : IMember
 	{
-		IRegion Region {
-			get;
-		}
-		
 		IRegion BodyRegion {
 			get;
 		}

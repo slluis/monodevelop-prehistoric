@@ -12,7 +12,7 @@ using System.IO;
 
 using MonoDevelop.Core.AddIns;
 
-using SharpDevelop.Internal.Parser;
+using MonoDevelop.Internal.Parser;
 using MonoDevelop.Internal.Project;
 
 using MonoDevelop.Gui;
@@ -41,17 +41,22 @@ namespace MonoDevelop.Services
 	{
 		IParseInformation ParseFile(string fileName);
 		IParseInformation ParseFile(string fileName, string fileContent);
-
+		
 		IParseInformation GetParseInformation(string fileName);
-		IParseInformation GetParseInformation(string fileName, string fileContent);
-
+		
 		IParser GetParser(string fileName);
-
+		IExpressionFinder GetExpressionFinder(string fileName);
+		
 		// Default Parser Layer dependent functions
 		IClass    GetClass(string typeName);
 		string[]  GetNamespaceList(string subNameSpace);
 		ArrayList GetNamespaceContents(string subNameSpace);
 		bool      NamespaceExists(string name);
+		
+		IClass    GetClass(string typeName, bool caseSensitive);
+		string[]  GetNamespaceList(string subNameSpace, bool caseSensitive);
+		ArrayList GetNamespaceContents(string subNameSpace, bool caseSensitive);
+		bool      NamespaceExists(string name, bool caseSensitive);
 		////////////////////////////////////////////
 
 		/// <summary>
@@ -63,14 +68,7 @@ namespace MonoDevelop.Services
 		                      int caretColumn,
 		                      string fileName,
 		                      string fileContent);
-				      
-		ResolveResult Resolve(string expression,
-		                      int caretLineNumber,
-		                      int caretColumn,
-		                      string fileName,
-		                      string fileContent,
-				      string language);
-
+		ArrayList CtrlSpace(IParserService parserService, int caretLine, int caretColumn, string fileName);
 		void AddReferenceToCompletionLookup(IProject project, ProjectReference reference);
 
 		event ParseInformationEventHandler ParseInformationAdded;

@@ -9,7 +9,7 @@ using System.Collections;
 using System.Reflection;
 using System.Xml;
 
-namespace SharpDevelop.Internal.Parser
+namespace MonoDevelop.Internal.Parser
 {
 	[Serializable]
 	public class ReflectionEvent : AbstractEvent
@@ -21,7 +21,7 @@ namespace SharpDevelop.Internal.Parser
 			if (xmlComments != null) {
 				XmlNode node = xmlComments["E:" + FullyQualifiedName] as XmlNode;
 				if (node != null) {
-					documentation = node.InnerXml;
+					Documentation = node.InnerXml;
 				}
 			}
 			

@@ -2,7 +2,7 @@
 
 using System.Diagnostics;
 
-using SharpDevelop.Internal.Parser;
+using MonoDevelop.Internal.Parser;
 using ICSharpCode.SharpRefactory.Parser;
 
 namespace CSharpBinding.Parser.SharpDevelopTree

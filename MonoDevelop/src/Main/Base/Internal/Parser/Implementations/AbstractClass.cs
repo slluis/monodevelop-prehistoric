@@ -11,10 +11,10 @@ using System.Collections.Specialized;
 using System.Collections.Utility;
 using MonoDevelop.Services;
 
-namespace SharpDevelop.Internal.Parser {
-	
+namespace MonoDevelop.Internal.Parser
+{
 	[Serializable]
-	public abstract class AbstractClass : AbstractNamedEntity, IClass
+	public abstract class AbstractClass : AbstractNamedEntity, IClass, IComparable
 	{
 		protected ClassType        classType;
 		protected IRegion          region;
@@ -101,11 +101,13 @@ namespace SharpDevelop.Internal.Parser {
 		}
 
 
-		public virtual int CompareTo(IClass value) {
+		public virtual int CompareTo(IClass value)
+		{
 			int cmp;
 			
-			if(0 != (cmp = base.CompareTo((IDecoration)value)))
+			if(0 != (cmp = base.CompareTo((IDecoration)value))) {
 				return cmp;
+			}
 			
 			if (FullyQualifiedName != null) {
 				cmp = FullyQualifiedName.CompareTo(value.FullyQualifiedName);

@@ -18,7 +18,7 @@ using MonoDevelop.Core.Services;
 using MonoDevelop.Gui;
 using MonoDevelop.Internal.Templates;
 using MonoDevelop.Services;
-using SharpDevelop.Internal.Parser;
+using MonoDevelop.Internal.Parser;
 
 using MonoDevelop.SourceEditor.Gui;
 using Stock = MonoDevelop.Gui.Stock;
@@ -97,8 +97,7 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 				                                caretLineNumber,
 				                                caretColumn,
 				                                fileName,
-				                                textArea.Buffer.Text,
-								lang);
+				                                textArea.Buffer.Text);
 					AddResolveResults(results);
 				}
 			}

@@ -7,13 +7,20 @@
 
 using System;
 
-namespace SharpDevelop.Internal.Parser
+namespace MonoDevelop.Internal.Parser
 {
 	[Serializable]
 	public abstract class AbstractMember : AbstractNamedEntity, IMember
 	{
 		protected IClass declaringType;
 		protected IReturnType returnType;
+		protected IRegion          region;
+		
+		public virtual IRegion Region {
+			get {
+				return region;
+			}
+		}
 		
 		public IClass DeclaringType {
 			get {

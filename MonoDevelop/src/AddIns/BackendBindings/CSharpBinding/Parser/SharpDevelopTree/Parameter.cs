@@ -1,6 +1,6 @@
 // created on 07.08.2003 at 20:12
 
-using SharpDevelop.Internal.Parser;
+using MonoDevelop.Internal.Parser;
 
 namespace CSharpBinding.Parser.SharpDevelopTree
 {

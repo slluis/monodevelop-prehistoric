@@ -7,7 +7,7 @@
 using System;
 using System.Reflection;
 
-namespace SharpDevelop.Internal.Parser
+namespace MonoDevelop.Internal.Parser
 {
 
 	public interface IParameter: IComparable

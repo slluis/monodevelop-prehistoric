@@ -26,7 +26,7 @@ using MonoDevelop.Gui.ErrorHandlers;
 
 using SA = MonoDevelop.SharpAssembly.Assembly;
 
-using SharpDevelop.Internal.Parser;
+using MonoDevelop.Internal.Parser;
 
 namespace MonoDevelop.Commands
 {

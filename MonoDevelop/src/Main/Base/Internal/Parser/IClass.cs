@@ -10,18 +10,14 @@ using System.Collections;
 using System.Collections.Specialized;
 using System.Reflection;
 
-namespace SharpDevelop.Internal.Parser
+namespace MonoDevelop.Internal.Parser
 {
 	public interface IClass : IDecoration
 	{
-		ICompilationUnit CompilationUnit {
-			get;
-		}
-
 		string FullyQualifiedName {
 			get;
 		}
-
+		
 		string Name {
 			get;
 		}
@@ -32,8 +28,12 @@ namespace SharpDevelop.Internal.Parser
 		
 		ClassType ClassType {
 			get;
+		}		
+		
+		ICompilationUnit CompilationUnit {
+			get;
 		}
-
+		
 		IRegion Region {
 			get;
 		}

@@ -8,7 +8,7 @@
 using System;
 using System.Collections;
 
-namespace SharpDevelop.Internal.Parser
+namespace MonoDevelop.Internal.Parser
 {
 	
 	/// <summary>

@@ -8,22 +8,16 @@ using System;
 using System.Reflection;
 using System.Collections.Utility;
 
-namespace SharpDevelop.Internal.Parser {
+namespace MonoDevelop.Internal.Parser {
 	[Serializable]
 	public abstract class AbstractEvent : AbstractMember, IEvent
 	{
-		protected IRegion          region;
 		protected IRegion          bodyRegion;
 		protected EventAttributes  eventAttributes;
 		protected IMethod          addMethod;
 		protected IMethod          removeMethod;
 		protected IMethod          raiseMethod;
 		
-		public virtual IRegion Region {
-			get {
-				return region;
-			}
-		}
 		public virtual IRegion BodyRegion {
 			get {
 				return bodyRegion;

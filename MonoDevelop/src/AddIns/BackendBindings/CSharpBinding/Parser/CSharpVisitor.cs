@@ -6,7 +6,7 @@ using System.Collections;
 
 using RefParser = ICSharpCode.SharpRefactory.Parser;
 using AST = ICSharpCode.SharpRefactory.Parser.AST;
-using SharpDevelop.Internal.Parser;
+using MonoDevelop.Internal.Parser;
 using CSharpBinding.Parser.SharpDevelopTree;
 
 namespace CSharpBinding.Parser
@@ -67,7 +67,7 @@ namespace CSharpBinding.Parser
 			return null;
 		}
 		
-//		ModifierEnum VisitModifier(MonoDevelop.SharpRefactory.Parser.Modifier m)
+//		ModifierEnum VisitModifier(ICSharpCode.SharpRefactory.Parser.Modifier m)
 //		{
 //			return (ModifierEnum)m;
 //		}
@@ -138,7 +138,7 @@ namespace CSharpBinding.Parser
 		{
 			DefaultRegion region     = GetRegion(methodDeclaration.StartLocation, methodDeclaration.EndLocation);
 			DefaultRegion bodyRegion = GetRegion(methodDeclaration.EndLocation, methodDeclaration.Body != null ? methodDeclaration.Body.EndLocation : new Point(-1, -1));
-			
+//			Console.WriteLine(region + " --- " + bodyRegion);
 			ReturnType type = new ReturnType(methodDeclaration.TypeReference);
 			Class c       = (Class)currentClass.Peek();
 			
@@ -215,11 +215,19 @@ namespace CSharpBinding.Parser
 		{
 			DefaultRegion region     = GetRegion(eventDeclaration.StartLocation, eventDeclaration.EndLocation);
 			DefaultRegion bodyRegion = GetRegion(eventDeclaration.BodyStart,     eventDeclaration.BodyEnd);
-			
 			ReturnType type = new ReturnType(eventDeclaration.TypeReference);
 			Class c = (Class)currentClass.Peek();
-			Event e = new Event(eventDeclaration.Name, type, eventDeclaration.Modifier, region, bodyRegion);
-			c.Events.Add(e);
+			Event e = null;
+			
+			if (eventDeclaration.VariableDeclarators != null) {
+				foreach (ICSharpCode.SharpRefactory.Parser.AST.VariableDeclaration varDecl in eventDeclaration.VariableDeclarators) {
+					e = new Event(varDecl.Name, type, eventDeclaration.Modifier, region, bodyRegion);
+					c.Events.Add(e);
+				}
+			} else {
+				e = new Event(eventDeclaration.Name, type, eventDeclaration.Modifier, region, bodyRegion);
+				c.Events.Add(e);
+			}
 			return null;
 		}
 		
