@@ -5,11 +5,11 @@
 	
 	<!-- Template Header -->
 	<TemplateConfiguration>
-		<Name>GnomeSharp Project</Name>
+		<Name>Gnome# Project</Name>
 		<Category>C#</Category>
 		<Icon>C#.Project.Form</Icon>
 		<LanguageName>C#</LanguageName>
-		<Description>Gnome# project description</Description>
+		<Description>Gnome# project</Description>
 	</TemplateConfiguration>
 	
 	<!-- Actions -->
