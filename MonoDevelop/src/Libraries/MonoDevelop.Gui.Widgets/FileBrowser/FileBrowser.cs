@@ -45,7 +45,6 @@ namespace MonoDevelop.Gui.Widgets
 
 			homebutton = new Gtk.Button ();
 			homebutton.Add (new Gtk.Image (Stock.Home, Gtk.IconSize.SmallToolbar));
-			// homebuttonpix.ScaleSimple (20, 20, Gdk.InterpType.Bilinear)));
 			homebutton.Relief = Gtk.ReliefStyle.None;
 			homebutton.Clicked += new EventHandler (OnHomeClicked);
 
@@ -86,6 +85,7 @@ namespace MonoDevelop.Gui.Widgets
 			tv.Model = store;
 
 			tv.RowActivated += new RowActivatedHandler (OnRowActivated);
+			tv.ButtonReleaseEvent += new ButtonReleaseEventHandler (OnButtonRelease);			
 			tv.PopupMenu += new PopupMenuHandler (OnPopupMenu);			
 
 			scrolledwindow.Add (tv);
@@ -210,7 +210,20 @@ namespace MonoDevelop.Gui.Widgets
 			}
 		}
 		
+		private void OnButtonRelease (object o, ButtonReleaseEventArgs args)
+		{
+			if (args.Event.Button == 3)
+			{
+				ShowPopup ();
+			}	
+		}
+
 		private void OnPopupMenu (object o, PopupMenuArgs args)
+		{
+			ShowPopup ();
+		}
+
+		private void ShowPopup ()
 		{
 			 Menu menu = new Menu ();
 			 MenuItem openfilebrowser = new MenuItem ("Open with file browser");
