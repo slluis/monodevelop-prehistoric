@@ -86,11 +86,11 @@ namespace MonoDeveloper
 			
 			sr.Close ();
 			
-			ArrayList files = new ArrayList ();
+/*			ArrayList files = new ArrayList ();
 			FindFiles (basePath, "ChangeLog", files);
 			foreach (string file in files)
 				ProjectFiles.Add (new ProjectFile (file, BuildAction.Exclude));
-			
+*/			
 			// Project references
 			string refs = mkfile.GetVariable ("LIB_MCS_FLAGS");
 			if (refs == null || refs == "") refs = mkfile.GetVariable ("LOCAL_MCS_FLAGS");
@@ -216,7 +216,35 @@ namespace MonoDeveloper
 			
 			if (e.ProjectFile.BuildAction != BuildAction.Compile)
 				return;
+			
+			AddSourceFile (e.ProjectFile.Name);
+		}
+		
+		protected override void OnFileRemovedFromProject (ProjectFileEventArgs e)
+		{
+			base.OnFileRemovedFromProject (e);
+			if (loading) return;
+			
+			if (e.ProjectFile.BuildAction != BuildAction.Compile)
+				return;
 
+			RemoveSourceFile (e.ProjectFile.Name);
+		}
+		
+ 		protected override void OnFileRenamedInProject (ProjectFileRenamedEventArgs e)
+		{
+			base.OnFileRenamedInProject (e);
+			
+			if (loading) return;
+			if (e.ProjectFile.BuildAction != BuildAction.Compile)
+				return;
+				
+			if (RemoveSourceFile (e.OldName))
+				AddSourceFile (e.NewName);
+		}
+
+		void AddSourceFile (string sourceFile)
+		{
 			StreamReader sr = null;
 			StreamWriter sw = null;
 			
@@ -224,7 +252,7 @@ namespace MonoDeveloper
 				sr = new StreamReader (outFile + ".sources");
 				sw = new StreamWriter (outFile + ".sources.new");
 
-				string newFile = GetRelativeChildPath (e.ProjectFile.Name);
+				string newFile = GetRelativeChildPath (sourceFile);
 				if (newFile.StartsWith ("./")) newFile = newFile.Substring (2);
 				
 				string line;
@@ -246,22 +274,17 @@ namespace MonoDeveloper
 			File.Move (outFile + ".sources.new", outFile + ".sources");
 		}
 		
-		protected override void OnFileRemovedFromProject (ProjectFileEventArgs e)
+		bool RemoveSourceFile (string sourceFile)
 		{
-			base.OnFileRemovedFromProject (e);
-			if (loading) return;
-			
-			if (e.ProjectFile.BuildAction != BuildAction.Compile)
-				return;
-
 			StreamReader sr = null;
 			StreamWriter sw = null;
-			
+			bool found = false;
+
 			try {
 				sr = new StreamReader (outFile + ".sources");
 				sw = new StreamWriter (outFile + ".sources.new");
 
-				string oldFile = GetRelativeChildPath (e.ProjectFile.Name);
+				string oldFile = GetRelativeChildPath (sourceFile);
 				if (oldFile.StartsWith ("./")) oldFile = oldFile.Substring (2);
 				
 				string line;
@@ -269,13 +292,18 @@ namespace MonoDeveloper
 					string file = line.Trim (' ','\t');
 					if (oldFile != file)
 						sw.WriteLine (line);
+					else
+						found = true;
 				}
 			} finally {
 				if (sr != null) sr.Close ();
 				if (sw != null) sw.Close ();
 			}
-			File.Delete (outFile + ".sources");
-			File.Move (outFile + ".sources.new", outFile + ".sources");
+			if (found) {
+				File.Delete (outFile + ".sources");
+				File.Move (outFile + ".sources.new", outFile + ".sources");
+			}
+			return found;
 		}
 		
 		public override void GenerateMakefiles (Combine parentCombine)

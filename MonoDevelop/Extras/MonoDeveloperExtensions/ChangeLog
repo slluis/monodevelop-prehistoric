@@ -1,3 +1,9 @@
+2005-05-07  Lluis Sanchez Gual  <lluis@novell.com>
+
+	* MonoProject.cs: Update the sources file when files are renamed.
+	Don't add the ChangeLog file to the project for now, it's too slow
+	to look for it.
+
 2005-02-12  Lluis Sanchez Gual  <lluis@novell.com>
 
 	* MonoProject.cs: Don't try to parse errors from the stdout, only
