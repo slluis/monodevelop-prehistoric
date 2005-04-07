@@ -1,5 +1,13 @@
 2005-04-06  Chris Toshok  <toshok@ximian.com>
 
+	* Gui/StackTracePad.cs (StackTracePad.OnStoppedEvent): set
+	current_frame to null before calling UpdateDisplay.
+	(StackTracePad.OnResumedEvent): just don't update here - should we
+	clear the display?  or leave it as it is until the next time the
+	debugger stops?
+	
+2005-04-06  Chris Toshok  <toshok@ximian.com>
+
 	* Gui/LocalsPad.cs: wrap the using MonoDevelop.DebuggerVisualizers
 	with #if NET_2_0.
 	(LocalsPad.VisualizerActivate): comment out an unworking line for

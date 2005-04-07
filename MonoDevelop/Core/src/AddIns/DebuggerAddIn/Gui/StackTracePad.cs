@@ -52,12 +52,17 @@ namespace MonoDevelop.Debugger
 
 		public void UpdateDisplay ()
 		{
-			if ((current_frame == null) || (current_frame.Method == null))
+			TreeIter it;
+
+			if ((current_frame == null) || (current_frame.Method == null)) {
+				if (store.GetIterFirst (out it))
+					do { } while (store.Remove (ref it));
+
 				return;
+			}
 
 			string[] trace = Runtime.DebuggingService.Backtrace;
 
-			TreeIter it;
 			if (!store.GetIterFirst (out it)) {
 				foreach (string frame in trace) {
 					store.Append (out it);
@@ -78,12 +83,12 @@ namespace MonoDevelop.Debugger
 
 		protected void OnStoppedEvent (object o, EventArgs args)
 		{
+			current_frame = null;
 			UpdateDisplay ();
 		}
 
 		protected void OnResumedEvent (object o, EventArgs args)
 		{
-			UpdateDisplay ();
 		}
 
 		protected void OnPausedEvent (object o, EventArgs args)
