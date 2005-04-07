@@ -44,7 +44,7 @@ namespace MonoDevelop.Gui.Pads.ProjectPad
 		}
 		
 		public abstract string GetFolderPath (object dataObject);
-
+		
 		public override void BuildChildNodes (ITreeBuilder builder, object dataObject)
 		{
 			string path = GetFolderPath (dataObject);
@@ -59,43 +59,8 @@ namespace MonoDevelop.Gui.Pads.ProjectPad
 			
 			foreach (string folder in folders)
 				builder.AddChild (new ProjectFolder (folder, project));
-			
-			if (builder.Options ["ShowAllFiles"])
-			{
-				foreach (string file in Directory.GetFiles (path)) {
-					if (files.GetFile (file) == null)
-						builder.AddChild (new ProjectFile (file));
-				}
-					
-				foreach (string folder in Directory.GetDirectories (path))
-					if (!folders.Contains (folder))
-						builder.AddChild (new ProjectFolder (folder, null));
-			}
 		}
-		
-		protected void AddFile (ITreeBuilder builder, Project project, ProjectFile file)
-		{
-			if (file.BuildAction == BuildAction.EmbedAsResource)
-				return;
 				
-			string[] path = file.RelativePath.Split (Path.DirectorySeparatorChar);
-			StringBuilder sb = new StringBuilder (project.BaseDirectory);
-			for (int n=0; n<path.Length - 1; n++) {
-				string dir = path [n];
-				if (dir == ".") continue;
-				if (sb.Length > 0) sb.Append (Path.DirectorySeparatorChar);
-				sb.Append (dir);
-				if (!builder.MoveToChild (dir, typeof(ProjectFolder)))
-					builder.AddChild (new ProjectFolder (sb.ToString (), project), true);
-			}
-			if (file.Subtype == Subtype.Directory)
-				builder.AddChild (new ProjectFolder (file.FilePath, project));
-			else if (builder.Options ["ShowAllFiles"])
-				builder.UpdateChildren ();
-			else
-				builder.AddChild (file);
-		}
-
 		void GetFolderContent (Project project, string folder, out ProjectFileCollection files, out ArrayList folders)
 		{
 			files = new ProjectFileCollection ();
@@ -145,10 +110,69 @@ namespace MonoDevelop.Gui.Pads.ProjectPad
 
 			if (files.Count > 0 || folders.Count > 0) return true;
 			
-			if (builder.Options ["ShowAllFiles"])
-				return Directory.GetFiles (path).Length > 0 || Directory.GetDirectories (path).Length > 0;
-
 			return false;
 		}
 	}
+	
+	public abstract class FolderCommandHandler: NodeCommandHandler
+	{
+		public abstract string GetFolderPath (object dataObject);
+
+		public override bool CanDropNode (object dataObject, DragOperation operation)
+		{
+			string targetPath = GetFolderPath (CurrentNode.DataItem);
+			
+			if (dataObject is ProjectFile)
+				return Path.GetDirectoryName (((ProjectFile)dataObject).Name) != targetPath;
+			if (dataObject is ProjectFolder)
+				return ((ProjectFolder)dataObject).Path != targetPath;
+			return false;
+		}
+		
+		public override void OnNodeDrop (object dataObject, DragOperation operation)
+		{
+			string targetPath = GetFolderPath (CurrentNode.DataItem);
+			string what, source, where, how;
+			Project targetProject = (Project) CurrentNode.GetParentDataItem (typeof(Project), true);
+			Project sourceProject;
+			
+			bool ask;
+			if (operation == DragOperation.Move)
+				how = GettextCatalog.GetString ("move");
+			else
+				how = GettextCatalog.GetString ("copy");
+			
+			if (dataObject is ProjectFolder) {
+				source = ((ProjectFolder) dataObject).Path;
+				sourceProject = ((ProjectFolder) dataObject).Project;
+				what = string.Format (GettextCatalog.GetString ("the folder '{0}'"), Path.GetFileName(source));
+				ask = true;
+			}
+			else if (dataObject is ProjectFile) {
+				source = ((ProjectFile)dataObject).Name;
+				sourceProject = ((ProjectFile) dataObject).Project;
+				what = string.Format (GettextCatalog.GetString ("the file '{0}'"), Path.GetFileName(source));
+				ask = false;
+			} else {
+				return;
+			}
+			
+			if (targetPath == targetProject.BaseDirectory)
+				where = string.Format (GettextCatalog.GetString ("root folder of project '{0}'"), targetProject.Name);
+			else
+				where = string.Format (GettextCatalog.GetString ("folder '{0}'"), Path.GetFileName (targetPath));
+			
+			if (ask) {
+				if (!Runtime.MessageService.AskQuestion (String.Format (GettextCatalog.GetString ("Do you really want to {0} {1} to {2}?"), how, what, where)))
+					return;
+			}
+			
+			using (IProgressMonitor monitor = Runtime.TaskService.GetStatusProgressMonitor (GettextCatalog.GetString("Copying files ..."), Stock.CopyIcon, true))
+			{
+				bool move = operation == DragOperation.Move;
+				Runtime.ProjectService.TransferFiles (monitor, sourceProject, source, targetProject, targetPath, move, false);
+			}
+			Runtime.ProjectService.SaveCombine();
+		}
+	}	
 }

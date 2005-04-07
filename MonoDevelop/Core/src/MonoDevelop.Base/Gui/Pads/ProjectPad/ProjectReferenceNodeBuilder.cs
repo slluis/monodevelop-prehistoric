@@ -45,7 +45,7 @@ namespace MonoDevelop.Gui.Pads.ProjectPad
 			get { return typeof(ProjectReferenceNodeCommandHandler); }
 		}
 		
-		public override string GetNodeName (object dataObject)
+		public override string GetNodeName (ITreeNavigator thisNode, object dataObject)
 		{
 			return ((ProjectReference)dataObject).Reference;
 		}

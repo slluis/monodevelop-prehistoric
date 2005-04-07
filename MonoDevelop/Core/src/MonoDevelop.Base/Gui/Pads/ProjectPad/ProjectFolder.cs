@@ -45,7 +45,6 @@ namespace MonoDevelop.Gui.Pads.ProjectPad
 			this.project = project;
 			this.absolutePath = absolutePath;
 			Runtime.FileService.FileRenamed += new FileEventHandler (OnFileRenamed);
-			Runtime.FileService.FileRemoved += new FileEventHandler (OnFileRemoved);
 		}
 		
 		public string Path {
@@ -60,18 +59,29 @@ namespace MonoDevelop.Gui.Pads.ProjectPad
 			get { return project; }
 		}
 		
+		public override bool Equals (object other)
+		{
+			ProjectFolder f = other as ProjectFolder;
+			return f != null && absolutePath == f.absolutePath && project == f.project;
+		}
+		
+		public override int GetHashCode ()
+		{
+			if (project != null)
+				return (absolutePath + project.Name).GetHashCode ();
+			else
+				return absolutePath.GetHashCode ();
+		}
+		
 		public void Dispose ()
 		{
 			Runtime.FileService.FileRenamed -= new FileEventHandler (OnFileRenamed);
-			Runtime.FileService.FileRemoved -= new FileEventHandler (OnFileRemoved);
 		}
 		
-		void OnFileRemoved (object sender, FileEventArgs e)
+		public void Remove ()
 		{
-			if (!e.IsDirectory || e.TargetFile != absolutePath) return;
-			
 			if (FolderRemoved != null) {
-				FolderRemoved(this, e);
+				FolderRemoved (this, new FileEventArgs (absolutePath, true));
 			}
 		}
 

@@ -53,5 +53,32 @@ namespace MonoDevelop.Commands.ProjectBrowser
 			browser.ActivateCurrentItem ();
 		}
 	}
+	
+	public class CopyNodeCommand: AbstractMenuCommand
+	{
+		public override void Run()
+		{
+			TreeViewPad browser = (TreeViewPad)Owner;
+			browser.CopyCurrentItem ();
+		}
+	}
+	
+	public class CutNodeCommand: AbstractMenuCommand
+	{
+		public override void Run()
+		{
+			TreeViewPad browser = (TreeViewPad)Owner;
+			browser.CutCurrentItem ();
+		}
+	}
+	
+	public class PasteNodeCommand: AbstractMenuCommand
+	{
+		public override void Run()
+		{
+			TreeViewPad browser = (TreeViewPad)Owner;
+			browser.PasteToCurrentItem ();
+		}
+	}
 }
 

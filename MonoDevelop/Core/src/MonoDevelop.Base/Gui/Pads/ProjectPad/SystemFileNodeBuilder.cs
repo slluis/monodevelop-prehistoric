@@ -1,5 +1,5 @@
 //
-// ProjectFileNodeBuilder.cs
+// SystemFileNodeBuilder.cs
 //
 // Author:
 //   Lluis Sanchez Gual
@@ -35,23 +35,23 @@ using MonoDevelop.Services;
 
 namespace MonoDevelop.Gui.Pads.ProjectPad
 {
-	public class ProjectFileNodeBuilder: TypeNodeBuilder
+	public class SystemFileNodeBuilder: TypeNodeBuilder
 	{
 		public override Type NodeDataType {
-			get { return typeof(ProjectFile); }
+			get { return typeof(SystemFile); }
 		}
 		
 		public override Type CommandHandlerType {
-			get { return typeof(ProjectFileNodeCommandHandler); }
+			get { return typeof(SystemFileNodeCommandHandler); }
 		}
 		
 		public override string GetNodeName (ITreeNavigator thisNode, object dataObject)
 		{
-			return Path.GetFileName (((ProjectFile)dataObject).Name);
+			return Path.GetFileName (((SystemFile)dataObject).Name);
 		}
 		
 		public override string ContextMenuAddinPath {
-			get { return "/SharpDevelop/Views/ProjectBrowser/ContextMenu/ProjectFileNode"; }
+			get { return "/SharpDevelop/Views/ProjectBrowser/ContextMenu/SystemFileNode"; }
 		}
 		
 		public override void GetNodeAttributes (ITreeNavigator treeNavigator, object dataObject, ref NodeAttributes attributes)
@@ -61,9 +61,15 @@ namespace MonoDevelop.Gui.Pads.ProjectPad
 		
 		public override void BuildNode (ITreeBuilder treeBuilder, object dataObject, ref string label, ref Gdk.Pixbuf icon, ref Gdk.Pixbuf closedIcon)
 		{
-			ProjectFile file = (ProjectFile) dataObject;
-			label = Path.GetFileName (file.FilePath);
-			icon = Context.GetIcon (Runtime.Gui.Icons.GetImageForFile (file.FilePath));
+			SystemFile file = (SystemFile) dataObject;
+			label = file.Name;
+			icon = Context.GetIcon (Runtime.Gui.Icons.GetImageForFile (file.Path));
+			Gdk.Pixbuf gicon = Context.GetComposedIcon (icon, "fade");
+			if (gicon == null) {
+				gicon = Runtime.Gui.Icons.MakeTransparent (icon, 0.5);
+				Context.CacheComposedIcon (icon, "fade", gicon);
+			}
+			icon = gicon;
 		}
 		
 		public override int CompareObjects (ITreeNavigator thisNode, ITreeNavigator otherNode)
@@ -75,19 +81,18 @@ namespace MonoDevelop.Gui.Pads.ProjectPad
 		}
 	}
 	
-	public class ProjectFileNodeCommandHandler: NodeCommandHandler
+	public class SystemFileNodeCommandHandler: NodeCommandHandler
 	{
 		public override void RenameItem (string newName)
 		{
-			ProjectFile file = CurrentNode.DataItem as ProjectFile;
-			string oldname = file.Name;
+			SystemFile file = CurrentNode.DataItem as SystemFile;
+			string oldname = file.Path;
 
 			string newname = Path.Combine (Path.GetDirectoryName (oldname), newName);
 			if (oldname != newname) {
 				try {
 					if (Runtime.FileUtilityService.IsValidFileName (newname)) {
 						Runtime.FileService.RenameFile (oldname, newname);
-						Runtime.ProjectService.SaveCombine();
 					}
 				} catch (System.IO.IOException) {   // assume duplicate file
 					Runtime.MessageService.ShowError (GettextCatalog.GetString ("File or directory name is already in use, choose a different one."));
@@ -99,42 +104,27 @@ namespace MonoDevelop.Gui.Pads.ProjectPad
 		
 		public override void ActivateItem ()
 		{
-			ProjectFile file = CurrentNode.DataItem as ProjectFile;
-			Runtime.FileService.OpenFile (file.FilePath);
+			SystemFile file = CurrentNode.DataItem as SystemFile;
+			Runtime.FileService.OpenFile (file.Path);
 		}
 		
 		public override void RemoveItem ()
 		{
-			ProjectFile file = CurrentNode.DataItem as ProjectFile;
-			Project project = CurrentNode.GetParentDataItem (typeof(Project), false) as Project;
+			SystemFile file = CurrentNode.DataItem as SystemFile;
 			
-			bool yes = Runtime.MessageService.AskQuestion (String.Format (GettextCatalog.GetString ("Are you sure you want to remove file {0} from project {1}?"), Path.GetFileName (file.Name), project.Name));
+			bool yes = Runtime.MessageService.AskQuestion (String.Format (GettextCatalog.GetString ("Are you sure you want to permanently delete the file {0}?"), file.Path));
 			if (!yes) return;
 
-			ProjectFile[] inFolder = project.ProjectFiles.GetFilesInPath (Path.GetDirectoryName (file.Name));
-			if (inFolder.Length == 1 && inFolder [0] == file) {
-				// This is the last project file in the folder. Make sure we keep
-				// a reference to the folder, so it is not deleted from the tree.
-				ProjectFile folderFile = new ProjectFile (Path.GetDirectoryName (file.Name));
-				folderFile.Subtype = Subtype.Directory;
-				project.ProjectFiles.Add (folderFile);
+			try {
+				Runtime.FileService.RemoveFile (file.Path);
+			} catch (Exception ex) {
+				Runtime.MessageService.ShowError (string.Format (GettextCatalog.GetString ("The file {0} could not be deleted"), file.Path));
 			}
-			project.ProjectFiles.Remove (file);
-			Runtime.ProjectService.SaveCombine();
 		}
 		
 		public override DragOperation CanDragNode ()
 		{
 			return DragOperation.Copy | DragOperation.Move;
-		}
-		
-		public override bool CanDropNode (object dataObject, DragOperation operation)
-		{
-			return dataObject is CombineEntry;
-		}
-		
-		public override void OnNodeDrop (object dataObject, DragOperation operation)
-		{
 		}
 	}
 }

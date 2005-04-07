@@ -37,7 +37,7 @@ namespace MonoDevelop.Gui.Pads.ClassPad
 {
 	public abstract class MemberNodeBuilder: TypeNodeBuilder
 	{
-		public override string GetNodeName (object dataObject)
+		public override string GetNodeName (ITreeNavigator thisNode, object dataObject)
 		{
 			return ((IMember)dataObject).Name;
 		}
@@ -46,20 +46,19 @@ namespace MonoDevelop.Gui.Pads.ClassPad
 			get { return typeof(MemberNodeCommandHandler); }
 		}
 		
-		public override int CompareObjects (object thisDataObject, object otherDataObject)
+		public override int CompareObjects (ITreeNavigator thisNode, ITreeNavigator otherNode)
 		{
-			if (!(otherDataObject is IMember)) return 1;
+			if (!(otherNode.DataItem is IMember)) return 1;
 
-			ITreeOptions options = Context.GetOptions (thisDataObject);
-			if (options ["GroupByType"]) {
-				int v1 = GetTypeSortValue (thisDataObject);
-				int v2 = GetTypeSortValue (otherDataObject);
+			if (thisNode.Options ["GroupByType"]) {
+				int v1 = GetTypeSortValue (thisNode.DataItem);
+				int v2 = GetTypeSortValue (otherNode.DataItem);
 				if (v1 < v2) return -1;
 				else if (v1 > v2) return 1;
 			}
-			if (options ["GroupByAccess"]) {
-				int v1 = GetAccessSortValue (((IMember)thisDataObject).Modifiers);
-				int v2 = GetAccessSortValue (((IMember)otherDataObject).Modifiers);
+			if (thisNode.Options ["GroupByAccess"]) {
+				int v1 = GetAccessSortValue (((IMember)thisNode.DataItem).Modifiers);
+				int v2 = GetAccessSortValue (((IMember)otherNode.DataItem).Modifiers);
 				if (v1 < v2) return -1;
 				else if (v1 > v2) return 1;
 			}

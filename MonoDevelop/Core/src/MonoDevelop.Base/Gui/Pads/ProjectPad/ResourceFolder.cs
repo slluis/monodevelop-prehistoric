@@ -43,5 +43,16 @@ namespace MonoDevelop.Gui.Pads.ProjectPad
 		public Project Project {
 			get { return project; }
 		}
+		
+		public override bool Equals (object other)
+		{
+			ResourceFolder f = other as ResourceFolder;
+			return f != null && project == f.project;
+		}
+		
+		public override int GetHashCode ()
+		{
+			return project.GetHashCode () + 1;
+		}
 	}
 }

@@ -42,10 +42,12 @@ namespace MonoDevelop.Gui.Pads
 		void ExpandToNode ();
 		ITreeOptions Options { get; }
 		
+		NodeState SaveState ();
+		void RestoreState (NodeState state);
+
 		NodePosition CurrentPosition { get; }
 		bool MoveToPosition (NodePosition position);
 		
-		bool MoveToObject (object dataObject);
 		bool MoveToParent ();
 		bool MoveToParent (Type type);
 		bool MoveToRoot ();
@@ -54,6 +56,15 @@ namespace MonoDevelop.Gui.Pads
 		bool HasChild (string name, Type dataType);
 		bool HasChildren ();
 		bool MoveNext ();
+		
+		// The following methods only look through nodes already created
+		// (the tree is lazily created)
+		bool MoveToObject (object dataObject);
+		bool FindChild (object dataObject);
+		bool FindChild (object dataObject, bool recursive);
+		
+		// True if the node has been filled with child data.
+		bool Filled { get; }
 		
 		ITreeNavigator Clone ();
 	}

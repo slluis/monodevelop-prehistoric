@@ -493,26 +493,31 @@ namespace MonoDevelop.Internal.Project
 		
 		internal void NotifyFileRemovedFromProject (ProjectFile file)
 		{
+			isDirty = true;
 			OnFileRemovedFromProject (new ProjectFileEventArgs (this, file));
 		}
 		
 		internal void NotifyFileAddedToProject (ProjectFile file)
 		{
+			isDirty = true;
 			OnFileAddedToProject (new ProjectFileEventArgs (this, file));
 		}
 		
 		internal void NotifyFileRenamedInProject (ProjectFileRenamedEventArgs args)
 		{
+			isDirty = true;
 			OnFileRenamedInProject (args);
 		}
 		
 		internal void NotifyReferenceRemovedFromProject (ProjectReference reference)
 		{
+			isDirty = true;
 			OnReferenceRemovedFromProject (new ProjectReferenceEventArgs (this, reference));
 		}
 		
 		internal void NotifyReferenceAddedToProject (ProjectReference reference)
 		{
+			isDirty = true;
 			OnReferenceAddedToProject (new ProjectReferenceEventArgs (this, reference));
 		}
 		

@@ -49,6 +49,9 @@ Gui/Pads/ProjectPad/ProjectReferenceFolderNodeBuilder.cs \
 Gui/Pads/ProjectPad/ProjectReferenceNodeBuilder.cs \
 Gui/Pads/ProjectPad/ResourceFolder.cs \
 Gui/Pads/ProjectPad/ResourceFolderNodeBuilder.cs \
+Gui/Pads/ProjectPad/ShowAllFilesBuilderExtension.cs \
+Gui/Pads/ProjectPad/SystemFile.cs \
+Gui/Pads/ProjectPad/SystemFileNodeBuilder.cs \
 Gui/Pads/SolutionPad/DragOperation.cs \
 Gui/Pads/SolutionPad/ITreeBuilder.cs \
 Gui/Pads/SolutionPad/ITreeBuilderContext.cs \
@@ -58,6 +61,7 @@ Gui/Pads/SolutionPad/NodeAttributes.cs \
 Gui/Pads/SolutionPad/NodeBuilder.cs \
 Gui/Pads/SolutionPad/NodeBuilderExtension.cs \
 Gui/Pads/SolutionPad/NodeCommandHandler.cs \
+Gui/Pads/SolutionPad/NodeState.cs \
 Gui/Pads/SolutionPad/SolutionPad.cs \
 Gui/Pads/SolutionPad/TreePadOption.cs \
 Gui/Pads/SolutionPad/TreeViewPad.cs \

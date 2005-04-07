@@ -41,6 +41,7 @@ namespace MonoDevelop.Gui.Pads.ProjectPad
 		ProjectFileEventHandler fileRemovedHandler;
 		ProjectFileRenamedEventHandler fileRenamedHandler;
 		CombineEntryRenamedEventHandler projectNameChanged;
+		Hashtable projectsByPath = new Hashtable ();
 		
 		public override Type NodeDataType {
 			get { return typeof(Project); }
@@ -71,17 +72,21 @@ namespace MonoDevelop.Gui.Pads.ProjectPad
 
 		public override void OnNodeAdded (object dataObject)
 		{
+			base.OnNodeAdded (dataObject);
 			Project project = (Project) dataObject;
 			project.NameChanged += projectNameChanged;
+			projectsByPath.Remove (project.BaseDirectory);
 		}
 		
 		public override void OnNodeRemoved (object dataObject)
 		{
+			base.OnNodeRemoved (dataObject);
 			Project project = (Project) dataObject;
 			project.NameChanged -= projectNameChanged;
+			projectsByPath [project.BaseDirectory] = project;
 		}
 		
-		public override string GetNodeName (object dataObject)
+		public override string GetNodeName (ITreeNavigator thisNode, object dataObject)
 		{
 			return ((Project)dataObject).Name;
 		}
@@ -97,6 +102,8 @@ namespace MonoDevelop.Gui.Pads.ProjectPad
 		
 		public override void BuildNode (ITreeBuilder treeBuilder, object dataObject, ref string label, ref Gdk.Pixbuf icon, ref Gdk.Pixbuf closedIcon)
 		{
+			base.BuildNode (treeBuilder, dataObject, ref label, ref icon, ref closedIcon);
+
 			Project p = dataObject as Project;
 			label = p.Name;
 			string iconName = Runtime.Gui.Icons.GetImageForProjectType (p.ProjectType);
@@ -119,25 +126,95 @@ namespace MonoDevelop.Gui.Pads.ProjectPad
 		
 		void OnAddFile (object sender, ProjectFileEventArgs e)
 		{
-			ITreeBuilder tb = Context.GetTreeBuilder (e.Project);
-			if (tb != null) {
-				if (e.ProjectFile.BuildAction != BuildAction.EmbedAsResource)
-					AddFile (tb, e.Project, e.ProjectFile);
-				else {
-					tb.MoveToChild ("Resources", typeof(ResourceFolder));
-					tb.AddChild (e.ProjectFile);
-				}
-			}
+			AddFile (e.ProjectFile, e.Project);
 		}
 		
 		void OnRemoveFile (object sender, ProjectFileEventArgs e)
 		{
-			ITreeBuilder tb = Context.GetTreeBuilder (e.ProjectFile);
-			if (tb != null) {
-				if (tb.Options ["ShowAllFiles"] && File.Exists (e.ProjectFile.Name))
-					tb.UpdateAll ();
+			RemoveFile (e.ProjectFile, e.Project);
+		}
+		
+		void AddFile (ProjectFile file, Project project)
+		{
+			ITreeBuilder tb = Context.GetTreeBuilder ();
+			if (file.BuildAction != BuildAction.EmbedAsResource)
+			{
+				string filePath = Path.GetDirectoryName (file.Name);
+				
+				object data;
+				if (file.Subtype == Subtype.Directory)
+					data = new ProjectFolder (file.Name, project);
 				else
-					tb.Remove ();
+					data = file;
+					
+				// Already there?
+				if (tb.MoveToObject (data))
+					return;
+				
+				if (filePath != project.BaseDirectory) {
+					if (tb.MoveToObject (new ProjectFolder (filePath, project)))
+						tb.AddChild (data);
+					else {
+						// Make sure there is a path to that folder
+						tb = FindParentFolderNode (filePath, project);
+						if (tb != null)
+							tb.UpdateChildren ();
+					}
+				} else {
+					if (tb.MoveToObject (project))
+						tb.AddChild (data);
+				}
+			}
+			else {
+				if (tb.MoveToObject (new ResourceFolder (project)))
+					tb.AddChild (file);
+			}
+		}
+		
+		ITreeBuilder FindParentFolderNode (string path, Project project)
+		{
+			int i = path.LastIndexOf (Path.DirectorySeparatorChar);
+			if (i == -1) return null;
+			
+			string basePath = path.Substring (0, i);
+			
+			if (basePath == project.BaseDirectory)
+				return Context.GetTreeBuilder (project);
+				
+			ITreeBuilder tb = Context.GetTreeBuilder (new ProjectFolder (basePath, project));
+			if (tb != null) return tb;
+			
+			return FindParentFolderNode (basePath, project);
+		}
+		
+		void RemoveFile (ProjectFile file, Project project)
+		{
+			ITreeBuilder tb = Context.GetTreeBuilder ();
+			
+			if (file.Subtype == Subtype.Directory) {
+				if (!tb.MoveToObject (new ProjectFolder (file.Name, project)))
+					return;
+				tb.MoveToParent ();
+				tb.UpdateAll ();
+				return;
+			} else {
+				if (tb.MoveToObject (file)) {
+					tb.Remove (true);
+					if (file.BuildAction == BuildAction.EmbedAsResource)
+						return;
+				} else {
+					string parentPath = Path.GetDirectoryName (file.Name);
+					if (!tb.MoveToObject (new ProjectFolder (parentPath, project)))
+						return;
+				}
+			}
+			
+			while (tb.DataItem is ProjectFolder) {
+				ProjectFolder f = (ProjectFolder) tb.DataItem;
+				if (!Directory.Exists (f.Path) || project.ProjectFiles.GetFilesInPath (f.Path).Length == 0)
+					tb.Remove (true);
+				else
+					break;
 			}
 		}
 		
@@ -154,8 +231,13 @@ namespace MonoDevelop.Gui.Pads.ProjectPad
 		}
 	}
 	
-	public class ProjectNodeCommandHandler: NodeCommandHandler
+	public class ProjectNodeCommandHandler: FolderCommandHandler
 	{
+		public override string GetFolderPath (object dataObject)
+		{
+			return ((Project)dataObject).BaseDirectory;
+		}
+		
 		public override void RenameItem (string newName)
 		{
 			if (newName.IndexOfAny (new char [] { '\'', '(', ')', '"', '{', '}', '|' } ) != -1) {
@@ -191,11 +273,12 @@ namespace MonoDevelop.Gui.Pads.ProjectPad
 		
 		public override bool CanDropNode (object dataObject, DragOperation operation)
 		{
-			return (dataObject is ProjectFile) || (dataObject is ProjectFolder);
+			return base.CanDropNode (dataObject, operation);
 		}
 		
 		public override void OnNodeDrop (object dataObject, DragOperation operation)
 		{
+			base.OnNodeDrop (dataObject, operation);
 		}
 	}
 }

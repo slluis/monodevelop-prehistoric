@@ -147,6 +147,11 @@
                 <MenuItem id = "AddReference"
 	                  _label = "Edit References"
 	                  class = "MonoDevelop.Commands.ProjectBrowser.AddReferenceToProject"/>
+				<MenuItem id = "Paste"
+							  _label = "_Paste" 
+							  icon = "Icons.16x16.PasteIcon" 
+							  shortcut = "Control|V"
+							  class = "MonoDevelop.Commands.ProjectBrowser.PasteNodeCommand"/>
 	</Extension>
 	
 	<Extension path = "/SharpDevelop/Views/ProjectBrowser/ContextMenu/ReferenceNode">
@@ -155,6 +160,11 @@
 		          icon  = "Icons.16x16.OpenFileIcon"
 		          class = "MonoDevelop.Commands.ProjectBrowser.OpenFileEvent"/>
 		<MenuItem id = "OpenSeparator" _label = "-" />
+		<MenuItem id = "Copy"
+	                  _label = "_Copy" 
+					  icon = "Icons.16x16.CopyIcon" 
+					  shortcut = "Control|C"
+	                  class = "MonoDevelop.Commands.ProjectBrowser.CopyNodeCommand"/>
 		<MenuItem id = "Remove"
 	                  _label = "_Remove" 
 	                  icon  = "Icons.16x16.DeleteIcon"
@@ -167,6 +177,17 @@
 		          icon  = "Icons.16x16.OpenFileIcon"
 		          class = "MonoDevelop.Commands.ProjectBrowser.OpenFileEvent"/>
 		<MenuItem id = "OpenSeparator" _label = "-" />
+		<MenuItem id = "Copy"
+	                  _label = "_Copy" 
+					  icon = "Icons.16x16.CopyIcon" 
+					  shortcut = "Control|C"
+	                  class = "MonoDevelop.Commands.ProjectBrowser.CopyNodeCommand"/>
+		<MenuItem id = "Cut"
+				  _label = "_Cut" 
+				  icon = "Icons.16x16.CutIcon" 
+				  shortcut = "Control|X"
+				  class = "MonoDevelop.Commands.ProjectBrowser.CutNodeCommand"/>
+		<MenuItem id = "CutSeparator" _label = "-" />
 		<MenuItem id = "Remove"
 	                  _label = "_Remove" 
 	                  icon  = "Icons.16x16.DeleteIcon"
@@ -202,6 +223,17 @@
 			          class = "MonoDevelop.Commands.IncludeFilesBuilder" />
 			</MenuItem>
 		<MenuItem id = "IncludeSeparator" _label = "-" />
+		<MenuItem id = "Copy"
+	                  _label = "_Copy" 
+					  icon = "Icons.16x16.CopyIcon" 
+					  shortcut = "Control|C"
+	                  class = "MonoDevelop.Commands.ProjectBrowser.CopyNodeCommand"/>
+		<MenuItem id = "Cut"
+				  _label = "_Cut" 
+				  icon = "Icons.16x16.CutIcon" 
+				  shortcut = "Control|X"
+				  class = "MonoDevelop.Commands.ProjectBrowser.CutNodeCommand"/>
+		<MenuItem id = "CutSeparator" _label = "-" />
 		<MenuItem id = "Remove"
 	                  _label = "Remove" 
 	                  icon  = "Icons.16x16.DeleteIcon"
@@ -210,6 +242,36 @@
 	                  _label    = "Rename" 
 	                  shortcut = "F2"
 	                  class    = "MonoDevelop.Commands.ProjectBrowser.RenameEntryEvent"/>
+        </Extension>
+		
+        <Extension path = "/SharpDevelop/Views/ProjectBrowser/ContextMenu/SystemFileNode">
+			<MenuItem id = "OpenFile"
+					_label = "O_pen" 
+					icon  = "Icons.16x16.OpenFileIcon"
+					class = "MonoDevelop.Commands.ProjectBrowser.OpenFileEvent"/>
+			<MenuItem id = "IncludeToProject"
+					_label = "Include To Project" 
+					class = "MonoDevelop.Commands.ProjectBrowser.IncludeFileToProject"/>
+			<MenuItem id = "IncludeToProjectSeparator" _label = "-" />
+			<MenuItem id = "Copy"
+						  _label = "_Copy" 
+						  icon = "Icons.16x16.CopyIcon" 
+						  shortcut = "Control|C"
+						  class = "MonoDevelop.Commands.ProjectBrowser.CopyNodeCommand"/>
+			<MenuItem id = "Cut"
+					  _label = "_Cut" 
+					  icon = "Icons.16x16.CutIcon" 
+					  shortcut = "Control|X"
+					  class = "MonoDevelop.Commands.ProjectBrowser.CutNodeCommand"/>
+			<MenuItem id = "CutSeparator" _label = "-" />
+			<MenuItem id = "Remove"
+					_label = "Remove" 
+					icon  = "Icons.16x16.DeleteIcon"
+					class = "MonoDevelop.Commands.ProjectBrowser.RemoveEntryEvent"/>
+			<MenuItem id = "Rename"
+					_label    = "Rename" 
+					shortcut = "F2"
+					class    = "MonoDevelop.Commands.ProjectBrowser.RenameEntryEvent"/>
         </Extension>
         
         <Extension path = "/SharpDevelop/Views/ProjectBrowser/ContextMenu/DefaultDirectoryNode">
@@ -228,6 +290,22 @@
 		                  class = "MonoDevelop.Commands.ProjectBrowser.NewFolderEvent"/>
         	</MenuItem>
 		<MenuItem id = "AddSeparator" _label = "-" />
+			<MenuItem id = "Copy"
+						  _label = "_Copy" 
+						  icon = "Icons.16x16.CopyIcon" 
+						  shortcut = "Control|C"
+						  class = "MonoDevelop.Commands.ProjectBrowser.CopyNodeCommand"/>
+			<MenuItem id = "Cut"
+					  _label = "_Cut" 
+					  icon = "Icons.16x16.CutIcon" 
+					  shortcut = "Control|X"
+					  class = "MonoDevelop.Commands.ProjectBrowser.CutNodeCommand"/>
+			<MenuItem id = "Paste"
+					  _label = "_Paste" 
+					  icon = "Icons.16x16.PasteIcon" 
+					  shortcut = "Control|V"
+					  class = "MonoDevelop.Commands.ProjectBrowser.PasteNodeCommand"/>
+			<MenuItem id = "CutSeparator" _label = "-" />
 		<MenuItem id = "Remove"
 	                  _label = "_Remove" 
 	                  icon  = "Icons.16x16.DeleteIcon"
@@ -262,6 +340,22 @@
 		                  class = "MonoDevelop.Commands.ProjectBrowser.NewFolderEvent"/>
         	</MenuItem>
 		<MenuItem id = "AddSeparator" _label = "-" />
+			<MenuItem id = "Copy"
+						  _label = "_Copy" 
+						  icon = "Icons.16x16.CopyIcon" 
+						  shortcut = "Control|C"
+						  class = "MonoDevelop.Commands.ProjectBrowser.CopyNodeCommand"/>
+			<MenuItem id = "Cut"
+					  _label = "_Cut" 
+					  icon = "Icons.16x16.CutIcon" 
+					  shortcut = "Control|X"
+					  class = "MonoDevelop.Commands.ProjectBrowser.CutNodeCommand"/>
+			<MenuItem id = "Paste"
+					  _label = "_Paste" 
+					  icon = "Icons.16x16.PasteIcon" 
+					  shortcut = "Control|V"
+					  class = "MonoDevelop.Commands.ProjectBrowser.PasteNodeCommand"/>
+			<MenuItem id = "CutSeparator" _label = "-" />
 		<MenuItem id = "Remove"
 	                  _label = "_Remove" 
 	                  icon  = "Icons.16x16.DeleteIcon"
@@ -417,6 +511,8 @@
 			<NodeBuilder id = "ProjectFile" class = "MonoDevelop.Gui.Pads.ProjectPad.ProjectFileNodeBuilder"/>
 			<NodeBuilder id = "Folder" class = "MonoDevelop.Gui.Pads.ProjectPad.ProjectFolderNodeBuilder"/>
 			<NodeBuilder id = "ResourceFolder" class = "MonoDevelop.Gui.Pads.ProjectPad.ResourceFolderNodeBuilder"/>
+			<NodeBuilder id = "SystemFile" class = "MonoDevelop.Gui.Pads.ProjectPad.SystemFileNodeBuilder"/>
+			<NodeBuilder id = "ShowAllFilesExtension" class = "MonoDevelop.Gui.Pads.ProjectPad.ShowAllFilesBuilderExtension"/>
 		</SolutionPad>
 
 		<SolutionPad id = "MonoDevelop.Gui.Pads.ClassPad" defaultPlacement = "Left" _label = "Classes" icon = "md-class">

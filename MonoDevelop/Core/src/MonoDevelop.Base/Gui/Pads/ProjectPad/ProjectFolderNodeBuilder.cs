@@ -51,7 +51,7 @@ namespace MonoDevelop.Gui.Pads.ProjectPad
 			get { return typeof(ProjectFolderCommandHandler); }
 		}
 		
-		public override string GetNodeName (object dataObject)
+		public override string GetNodeName (ITreeNavigator thisNode, object dataObject)
 		{
 			return ((ProjectFolder)dataObject).Name;
 		}
@@ -78,6 +78,7 @@ namespace MonoDevelop.Gui.Pads.ProjectPad
 		
 		public override void OnNodeAdded (object dataObject)
 		{
+			base.OnNodeAdded (dataObject);
 			ProjectFolder folder = (ProjectFolder) dataObject;
 			folder.FolderRenamed += fileRenamedHandler;
 			folder.FolderRemoved += fileRemovedHandler;
@@ -85,6 +86,7 @@ namespace MonoDevelop.Gui.Pads.ProjectPad
 		
 		public override void OnNodeRemoved (object dataObject)
 		{
+			base.OnNodeRemoved (dataObject);
 			ProjectFolder folder = (ProjectFolder) dataObject;
 			folder.FolderRenamed -= fileRenamedHandler;
 			folder.FolderRemoved -= fileRemovedHandler;
@@ -93,54 +95,40 @@ namespace MonoDevelop.Gui.Pads.ProjectPad
 		
 		void OnFolderRenamed (object sender, FileEventArgs e)
 		{
-			ITreeBuilder tb = Context.GetTreeBuilder (sender);
+			ProjectFolder f = (ProjectFolder) sender;
+			ITreeBuilder tb = Context.GetTreeBuilder (new ProjectFolder (e.SourceFile, f.Project));
 			if (tb != null) tb.Update ();
 		}
 		
 		void OnFolderRemoved (object sender, FileEventArgs e)
 		{
 			ITreeBuilder tb = Context.GetTreeBuilder (sender);
-			if (tb != null) tb.Remove ();
+			if (tb != null) {
+				if (!tb.HasChildren())
+					tb.Remove ();
+				else
+					tb.UpdateAll ();
+			}
 		}
 	
 		public override void BuildNode (ITreeBuilder treeBuilder, object dataObject, ref string label, ref Gdk.Pixbuf icon, ref Gdk.Pixbuf closedIcon)
 		{
+			base.BuildNode (treeBuilder, dataObject, ref label, ref icon, ref closedIcon);
+
 			ProjectFolder folder = (ProjectFolder) dataObject;
 			label = folder.Name;
 			icon = folderOpenIcon;
 			closedIcon = folderClosedIcon;
-			
-			if (folder.Project == null)
-			{
-				Gdk.Pixbuf gicon = Context.GetComposedIcon (icon, "fade");
-				if (gicon == null) {
-					gicon = Runtime.Gui.Icons.MakeTransparent (icon, 0.5);
-					Context.CacheComposedIcon (icon, "fade", gicon);
-				}
-				icon = gicon;
-				
-				gicon = Context.GetComposedIcon (closedIcon, "fade");
-				if (gicon == null) {
-					gicon = Runtime.Gui.Icons.MakeTransparent (closedIcon, 0.5);
-					Context.CacheComposedIcon (closedIcon, "fade", gicon);
-				}
-				closedIcon = gicon;
-			}
-		}
-		
-		public override int CompareObjects (object thisDataObject, object otherDataObject)
-		{
-			if (otherDataObject is ProjectFolder)
-				return DefaultSort;
-			else if (otherDataObject is ProjectFile)
-				return -1;
-			else
-				return 1;
 		}
 	}
 	
-	public class ProjectFolderCommandHandler: NodeCommandHandler
+	public class ProjectFolderCommandHandler: FolderCommandHandler
 	{
+		public override string GetFolderPath (object dataObject)
+		{
+			return ((ProjectFolder)dataObject).Path;
+		}
+		
 		public override void RenameItem (string newName)
 		{
 			ProjectFolder folder = (ProjectFolder) CurrentNode.DataItem as ProjectFolder;
@@ -169,7 +157,23 @@ namespace MonoDevelop.Gui.Pads.ProjectPad
 			bool yes = Runtime.MessageService.AskQuestion (String.Format (GettextCatalog.GetString ("Do you want to remove folder {0}?"), folder.Name));
 			if (!yes) return;
 			
-			Runtime.ProjectService.RemoveFileFromProject (folder.Path);
+			Project project = folder.Project;
+			ProjectFile[] files = folder.Project.ProjectFiles.GetFilesInPath (folder.Path);
+			ProjectFile[] inParentFolder = project.ProjectFiles.GetFilesInPath (Path.GetDirectoryName (folder.Path));
+			
+			if (inParentFolder.Length == files.Length) {
+				// This is the last folder in the parent folder. Make sure we keep
+				// a reference to the folder, so it is not deleted from the tree.
+				ProjectFile folderFile = new ProjectFile (Path.GetDirectoryName (folder.Path));
+				folderFile.Subtype = Subtype.Directory;
+				project.ProjectFiles.Add (folderFile);
+			}
+			
+			foreach (ProjectFile file in files)
+				folder.Project.ProjectFiles.Remove (file);
+
+//			folder.Remove ();
+			Runtime.ProjectService.SaveCombine();
 		}
 		
 		public override DragOperation CanDragNode ()
@@ -179,11 +183,12 @@ namespace MonoDevelop.Gui.Pads.ProjectPad
 		
 		public override bool CanDropNode (object dataObject, DragOperation operation)
 		{
-			return (dataObject is ProjectFile) || (dataObject is ProjectFolder);
+			return base.CanDropNode (dataObject, operation);
 		}
 		
 		public override void OnNodeDrop (object dataObject, DragOperation operation)
 		{
+			base.OnNodeDrop (dataObject, operation);
 		}
 	}
 }

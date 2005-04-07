@@ -208,4 +208,24 @@ namespace MonoDevelop.Commands.ProjectBrowser
 			browser.StartLabelEdit();
 		}
 	}
+	
+	public class IncludeFileToProject : AbstractMenuCommand
+	{
+		public override void Run ()
+		{
+			SolutionPad browser = (SolutionPad) Owner;
+			ITreeNavigator nav = browser.GetSelectedNode ();
+			if (nav == null) return;
+			
+			Project project = nav.GetParentDataItem (typeof(Project), true) as Project;
+			
+			if (nav.DataItem is SystemFile) {
+				SystemFile file = (SystemFile) nav.DataItem;
+				if (project.IsCompileable (file.Path))
+					project.AddFile (file.Path, BuildAction.Compile);
+				else
+					project.AddFile (file.Path, BuildAction.Nothing);
+			}
+		}
+	}
 }

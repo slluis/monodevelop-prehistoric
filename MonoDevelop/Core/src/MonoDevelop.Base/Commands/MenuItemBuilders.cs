@@ -278,7 +278,6 @@ namespace MonoDevelop.Commands
 		
 		public Gtk.MenuItem[] BuildSubmenu(ConditionCollection conditionCollection, object owner)
 		{
-			Runtime.LoggingService.Info (Environment.StackTrace);
 			browser = (SolutionPad) owner;
 			ITreeNavigator nav = browser.GetSelectedNode ();
 			if (nav == null) return new Gtk.MenuItem[0];

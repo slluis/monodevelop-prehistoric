@@ -62,7 +62,7 @@ namespace MonoDevelop.Gui.Pads.ClassPad
 			project.NameChanged -= projectNameChanged;
 		}
 		
-		public override string GetNodeName (object dataObject)
+		public override string GetNodeName (ITreeNavigator thisNode, object dataObject)
 		{
 			return ((Project)dataObject).Name;
 		}

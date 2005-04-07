@@ -734,7 +734,7 @@ namespace MonoDevelop.Services
 			string directory = Runtime.Properties.ConfigDirectory + "CombinePreferences";
 
 			if (!Directory.Exists(directory)) {
-				Directory.CreateDirectory(directory);
+				Runtime.FileService.CreateDirectory(directory);
 			}
 			string combinepath = Path.GetDirectoryName(combinefilename);
 			XmlDocument doc = new XmlDocument();
@@ -837,7 +837,130 @@ namespace MonoDevelop.Services
 			}
 		}
 		
+		public void TransferFiles (IProgressMonitor monitor, Project sourceProject, string sourcePath, Project targetProject, string targetPath, bool removeFromSource, bool copyOnlyProjectFiles)
+		{
+			if (targetProject == null)
+				throw new ArgumentNullException ("targetProject");
+
+			if (!targetPath.StartsWith (targetProject.BaseDirectory))
+				throw new ArgumentException ("Invalid project folder: " + targetPath);
+
+			if (sourceProject != null && !sourcePath.StartsWith (sourceProject.BaseDirectory))
+				throw new ArgumentException ("Invalid project folder: " + sourcePath);
+				
+			if (copyOnlyProjectFiles && sourceProject == null)
+				throw new ArgumentException ("A source project must be specified if copyOnlyProjectFiles is True");
+
+			// Get the list of files to copy
+
+			ICollection filesToMove;
+			try {
+				if (copyOnlyProjectFiles) {
+					filesToMove = sourceProject.ProjectFiles.GetFilesInPath (sourcePath);
+				} else {
+					ProjectFileCollection col = new ProjectFileCollection ();
+					GetAllFilesRecursive (sourcePath, col);
+					filesToMove = col;
+				}
+			} catch (Exception ex) {
+				monitor.ReportError (string.Format (GettextCatalog.GetString ("Could not get any file from '{0}'."), sourcePath), ex);
+				return;
+			}
+			
+			// Ensure that the destination folder is created, even if no files
+			// are copied
+			
+			try {
+				string newFolder = Path.Combine (targetPath, Path.GetFileName (sourcePath));
+				if (Directory.Exists (sourcePath) && !Directory.Exists (newFolder))
+					Runtime.FileService.CreateDirectory (newFolder);
+			} catch (Exception ex) {
+				monitor.ReportError (string.Format (GettextCatalog.GetString ("Could not create directory '{0}'."), targetPath), ex);
+				return;
+			}
+
+			// Transfer files
+			
+			string basePath = Path.GetDirectoryName (sourcePath);
+			monitor.BeginTask (GettextCatalog.GetString ("Copying files..."), filesToMove.Count);
+			
+			foreach (ProjectFile file in filesToMove) {
+				string sourceFile = file.Name;
+				string newFile = targetPath + sourceFile.Substring (basePath.Length);
+				
+				try {
+					string fileDir = Path.GetDirectoryName (newFile);
+					if (!Directory.Exists (fileDir))
+						Runtime.FileService.CreateDirectory (fileDir);
+					Runtime.FileService.CopyFile (sourceFile, newFile);
+				} catch (Exception ex) {
+					monitor.ReportError (string.Format (GettextCatalog.GetString ("File '{0}' could not be created."), newFile), ex);
+					monitor.Step (1);
+					continue;
+				}
+				
+				if (sourceProject != null) {
+					ProjectFile projectFile = sourceProject.ProjectFiles.GetFile (sourceFile);
+					if (projectFile != null) {
+						if (removeFromSource)
+							sourceProject.ProjectFiles.Remove (projectFile);
+						if (targetProject.ProjectFiles.GetFile (newFile) == null) {
+							projectFile = (ProjectFile) projectFile.Clone ();
+							projectFile.SetProject (null);
+							projectFile.Name = newFile;
+							targetProject.ProjectFiles.Add (projectFile);
+						}
+					}
+				}
+				
+				if (removeFromSource) {
+					try {
+						Runtime.FileService.RemoveFile (sourceFile);
+					} catch (Exception ex) {
+						monitor.ReportError (string.Format (GettextCatalog.GetString ("File '{0}' could not be deleted."), sourceFile), ex);
+					}
+				}
+				monitor.Step (1);
+			}
+			
+			// If moving a folder, remove to source folder
+			
+			if (removeFromSource && Directory.Exists (sourcePath) && (
+					!copyOnlyProjectFiles ||
+					IsDirectoryHierarchyEmpty (sourcePath)))
+			{
+				try {
+					Runtime.FileService.RemoveFile (sourcePath);
+				} catch (Exception ex) {
+					monitor.ReportError (string.Format (GettextCatalog.GetString ("Directory '{0}' could not be deleted."), sourcePath), ex);
+				}
+			}
+			
+			monitor.EndTask ();
+		}
 		
+		void GetAllFilesRecursive (string path, ProjectFileCollection files)
+		{
+			if (File.Exists (path)) {
+				files.Add (new ProjectFile (path));
+				return;
+			}
+			
+			foreach (string file in Directory.GetFiles (path))
+				files.Add (new ProjectFile (file));
+			
+			foreach (string dir in Directory.GetDirectories (path))
+				GetAllFilesRecursive (dir, files);
+		}
+		
+		bool IsDirectoryHierarchyEmpty (string path)
+		{
+			if (Directory.GetFiles(path).Length > 0) return false;
+			foreach (string dir in Directory.GetDirectories (path))
+				if (!IsDirectoryHierarchyEmpty (dir)) return false;
+			return true;
+		}
+
 		void OnStartBuild()
 		{
 			if (StartBuild != null) {

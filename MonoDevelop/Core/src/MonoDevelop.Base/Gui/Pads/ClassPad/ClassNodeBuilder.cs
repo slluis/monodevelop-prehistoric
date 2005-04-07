@@ -44,8 +44,8 @@ namespace MonoDevelop.Gui.Pads.ClassPad
 		public override Type CommandHandlerType {
 			get { return typeof(ClassNodeCommandHandler); }
 		}
-		
-		public override string GetNodeName (object dataObject)
+
+		public override string GetNodeName (ITreeNavigator thisNode, object dataObject)
 		{
 			return ((ClassData)dataObject).Class.Name;
 		}
@@ -87,9 +87,9 @@ namespace MonoDevelop.Gui.Pads.ClassPad
 					classData.Class.Events.Count > 0;
 		}
 		
-		public override int CompareObjects (object thisDataObject, object otherDataObject)
+		public override int CompareObjects (ITreeNavigator thisNode, ITreeNavigator otherNode)
 		{
-			if (otherDataObject is ClassData)
+			if (thisNode.DataItem is ClassData)
 				return DefaultSort;
 			else
 				return 1;
@@ -101,11 +101,14 @@ namespace MonoDevelop.Gui.Pads.ClassPad
 		public override void ActivateItem ()
 		{
 			string file = GetFileName ();
-			Runtime.FileService.OpenFile (file, new FileOpeningFinished (OnFileOpened));
+			IAsyncOperation op = Runtime.FileService.OpenFile (file);
+			op.Completed += new OperationHandler (OnFileOpened);
 		}
 		
-		private void OnFileOpened()
+		private void OnFileOpened (IAsyncOperation op)
 		{
+			if (!op.Success) return;
+
 			ClassData cls = CurrentNode.DataItem as ClassData;
 			int line = cls.Class.Region.BeginLine;
 			string file = GetFileName ();

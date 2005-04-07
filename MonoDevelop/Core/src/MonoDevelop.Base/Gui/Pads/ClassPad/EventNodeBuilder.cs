@@ -48,10 +48,9 @@ namespace MonoDevelop.Gui.Pads.ClassPad
 			icon = Context.GetIcon (Runtime.Gui.Icons.GetIcon (data));
 		}
 
-		public override int CompareObjects (object thisDataObject, object otherDataObject)
+		public override int CompareObjects (ITreeNavigator thisNode, ITreeNavigator otherNode)
 		{
-			ITreeOptions options = Context.GetOptions (thisDataObject);
-			if (options ["GroupByType"]) {
+			if (thisNode.Options ["GroupByType"]) {
 			
 			}
 			return DefaultSort;

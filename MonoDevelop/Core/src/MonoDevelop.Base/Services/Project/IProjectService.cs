@@ -145,6 +145,8 @@ namespace MonoDevelop.Services
 		/// </remarks>
 		void RemoveFileFromProject(string fileName);
 
+		void TransferFiles (IProgressMonitor monitor, Project sourceProject, string sourcePath, Project targetProject, string targetPath, bool removeFromSource, bool copyOnlyProjectFiles);
+		
 		Project CreateSingleFileProject (string file);
 		
 		Project CreateProject (string type, ProjectCreateInformation info, XmlElement projectOptions);

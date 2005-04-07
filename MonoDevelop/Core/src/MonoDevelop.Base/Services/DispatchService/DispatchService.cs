@@ -123,23 +123,25 @@ namespace MonoDevelop.Services
 
 		private bool guiDispatcher ()
 		{
-			GenericMessageContainer msg;
+			ArrayList msgList;
 			
 			lock (arrGuiQueue) {
 				if (arrGuiQueue.Count == 0) {
 					iIdle = 0;
 					return false;
 				}
-				msg = (GenericMessageContainer)arrGuiQueue[0];
-				arrGuiQueue.RemoveAt (0);
+				msgList = (ArrayList) arrGuiQueue.Clone ();
+				arrGuiQueue.Clear ();
 			}
-			if (msg != null) {
+
+			foreach (GenericMessageContainer msg in msgList) {
 				msg.Run ();
 				if (msg.IsSynchronous)
 					lock (msg) Monitor.PulseAll (msg);
 				else if (msg.Exception != null)
 					HandlerError (msg);
 			}
+			
 			lock (arrGuiQueue) {
 				if (arrGuiQueue.Count == 0) {
 					iIdle = 0;

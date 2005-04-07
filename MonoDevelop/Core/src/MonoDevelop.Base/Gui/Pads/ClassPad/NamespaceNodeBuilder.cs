@@ -54,9 +54,9 @@ namespace MonoDevelop.Gui.Pads.ClassPad
 			Runtime.ParserService.ClassInformationChanged -= changeClassInformationHandler;
 		}
 		
-		public override string GetNodeName (object dataObject)
+		public override string GetNodeName (ITreeNavigator thisNode, object dataObject)
 		{
-			return Context.GetOptions (dataObject) ["NestedNamespaces"] ? ((NamespaceData)dataObject).Name : ((NamespaceData)dataObject).FullName;
+			return thisNode.Options ["NestedNamespaces"] ? ((NamespaceData)dataObject).Name : ((NamespaceData)dataObject).FullName;
 		}
 		
 		public override void BuildNode (ITreeBuilder treeBuilder, object dataObject, ref string label, ref Gdk.Pixbuf icon, ref Gdk.Pixbuf closedIcon)

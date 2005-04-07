@@ -51,7 +51,7 @@ namespace MonoDevelop.Gui.Pads.ClassPad
 			get { return typeof(Combine); }
 		}
 		
-		public override string GetNodeName (object dataObject)
+		public override string GetNodeName (ITreeNavigator thisNode, object dataObject)
 		{
 			return ((Combine)dataObject).Name;
 		}
@@ -89,9 +89,9 @@ namespace MonoDevelop.Gui.Pads.ClassPad
 			return ((Combine) dataObject).Entries.Count > 0;
 		}
 		
-		public override int CompareObjects (object thisDataObject, object otherDataObject)
+		public override int CompareObjects (ITreeNavigator thisNode, ITreeNavigator otherNode)
 		{
-			if (otherDataObject is Combine)
+			if (otherNode.DataItem is Combine)
 				return DefaultSort;
 			else
 				return -1;

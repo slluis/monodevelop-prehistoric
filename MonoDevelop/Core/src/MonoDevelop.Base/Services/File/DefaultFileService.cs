@@ -10,7 +10,6 @@ using System.Collections;
 using System.Diagnostics;
 using System.IO;
 using System.Xml;
-using Vfs = Gnome.Vfs.Vfs;
 
 using MonoDevelop.Core.AddIns;
 using MonoDevelop.Core.Services;
@@ -28,7 +27,7 @@ namespace MonoDevelop.Services
 	
 		private class FileInformation
 		{
-			public FileOpeningFinished OnFileOpened;
+			public IProgressMonitor ProgressMonitor;
 			public string FileName;
 			public bool BringToFront;
 		}
@@ -82,120 +81,110 @@ namespace MonoDevelop.Services
 			}
 		}
 		
-		public void OpenFile (string fileName)
+		public IAsyncOperation OpenFile (string fileName)
 		{
-			OpenFile (fileName, true);
+			return OpenFile (fileName, true);
 		}
 		
-		public void OpenFile (string fileName, bool bringToFront)
+		public IAsyncOperation OpenFile (string fileName, bool bringToFront)
 		{
-			FileInformation openFileInfo=new FileInformation();
-			openFileInfo.OnFileOpened=null;
-			openFileInfo.FileName=fileName;
+			IProgressMonitor pm = Runtime.TaskService.GetStatusProgressMonitor (string.Format (GettextCatalog.GetString ("Opening {0}"), fileName), Stock.OpenFileIcon, false);
+			FileInformation openFileInfo = new FileInformation();
+			openFileInfo.ProgressMonitor = pm;
+			openFileInfo.FileName = fileName;
 			openFileInfo.BringToFront = bringToFront;
 			Runtime.DispatchService.GuiDispatch (new StatefulMessageHandler (realOpenFile), openFileInfo);
-		}
-
-		public void OpenFile (string fileName, FileOpeningFinished OnFileOpened) {
-			OpenFile (fileName, true, OnFileOpened);
-		}
-		
-		public void OpenFile (string fileName, bool bringToFront, FileOpeningFinished OnFileOpened){
-			FileInformation openFileInfo=new FileInformation();
-			openFileInfo.OnFileOpened=OnFileOpened;
-			openFileInfo.FileName=fileName;
-			openFileInfo.BringToFront = bringToFront;
-			Runtime.DispatchService.GuiDispatch (new StatefulMessageHandler (realOpenFile), openFileInfo);
+			return pm.AsyncOperation;
 		}
 		
 		void realOpenFile (object openFileInfo)
 		{
 			string fileName;
-			FileInformation oFileInfo;
-			if(openFileInfo is FileInformation){
-				oFileInfo=openFileInfo as FileInformation;
-				fileName=oFileInfo.FileName;
-			}else{
-				return;
-			}
-			
-			if (fileName == null)
-				return;
+			FileInformation oFileInfo = openFileInfo as FileInformation;
+			IProgressMonitor monitor = oFileInfo.ProgressMonitor;
 
-			string origName = fileName;
-
-			if (fileName.StartsWith ("file://"))
-				fileName = fileName.Substring (7);
-
-			if (!fileName.StartsWith ("http://"))
-				fileName = System.IO.Path.GetFullPath (fileName);
-			
-			//Debug.Assert(Runtime.FileUtilityService.IsValidFileName(fileName));
-			if (Runtime.FileUtilityService.IsDirectory (fileName)) {
-				return;
-			}
-			// test, if file fileName exists
-			if (!fileName.StartsWith("http://")) {
-				// test, if an untitled file should be opened
-				if (!Path.IsPathRooted(origName)) { 
-					foreach (IViewContent content in WorkbenchSingleton.Workbench.ViewContentCollection) {
-						if (content.IsUntitled && content.UntitledName == origName) {
-							content.WorkbenchWindow.SelectWindow();
-							if(oFileInfo.OnFileOpened!=null) oFileInfo.OnFileOpened();
-							return;
+			using (monitor)
+			{
+				fileName = oFileInfo.FileName;
+				
+				if (fileName == null) {
+					monitor.ReportError (GettextCatalog.GetString ("Invalid file name"), null);
+					return;
+				}
+	
+				string origName = fileName;
+	
+				if (fileName.StartsWith ("file://"))
+					fileName = fileName.Substring (7);
+	
+				if (!fileName.StartsWith ("http://"))
+					fileName = System.IO.Path.GetFullPath (fileName);
+				
+				//Debug.Assert(Runtime.FileUtilityService.IsValidFileName(fileName));
+				if (Runtime.FileUtilityService.IsDirectory (fileName)) {
+					monitor.ReportError (string.Format (GettextCatalog.GetString ("{0} is a directory"), fileName), null);
+					return;
+				}
+				// test, if file fileName exists
+				if (!fileName.StartsWith("http://")) {
+					// test, if an untitled file should be opened
+					if (!Path.IsPathRooted(origName)) { 
+						foreach (IViewContent content in WorkbenchSingleton.Workbench.ViewContentCollection) {
+							if (content.IsUntitled && content.UntitledName == origName) {
+								content.WorkbenchWindow.SelectWindow();
+								return;
+							}
+						}
+					} else 
+					if (!Runtime.FileUtilityService.TestFileExists(fileName)) {
+						monitor.ReportError (string.Format (GettextCatalog.GetString ("File not found: {0}"), fileName), null);
+						return;
+					}
+				}
+				
+				foreach (IViewContent content in WorkbenchSingleton.Workbench.ViewContentCollection) {
+					if (content.ContentName != null && 
+						content.ContentName == fileName) {
+						content.WorkbenchWindow.SelectWindow();
+						return;
+					}
+				}
+				
+				IDisplayBinding binding = Runtime.Gui.DisplayBindings.GetBindingPerFileName(fileName);
+				
+				if (binding != null) {
+					Project project = null;
+					Combine combine = null;
+					GetProjectAndCombineFromFile (fileName, out project, out combine);
+					
+					if (combine != null && project != null)
+					{
+						if (Runtime.FileUtilityService.ObservedLoad(new NamedFileOperationDelegate(new LoadFileWrapper(binding, project, oFileInfo.BringToFront).Invoke), fileName) == FileOperationResult.OK) {
+							Runtime.FileService.RecentOpen.AddLastFile (fileName, project.Name);
 						}
 					}
-				} else 
-				if (!Runtime.FileUtilityService.TestFileExists(fileName)) {
-					if(oFileInfo.OnFileOpened!=null) oFileInfo.OnFileOpened();
-					return;
-				}
-			}
-			
-			foreach (IViewContent content in WorkbenchSingleton.Workbench.ViewContentCollection) {
-				if (content.ContentName != null && 
-				    content.ContentName == fileName) {
-					content.WorkbenchWindow.SelectWindow();
-					if(oFileInfo.OnFileOpened!=null) oFileInfo.OnFileOpened();
-					return;
-				}
-			}
-			
-			IDisplayBinding binding = Runtime.Gui.DisplayBindings.GetBindingPerFileName(fileName);
-			
-			if (binding != null) {
-				Project project = null;
-				Combine combine = null;
-				GetProjectAndCombineFromFile (fileName, out project, out combine);
-				
-				if (combine != null && project != null)
-				{
-					if (Runtime.FileUtilityService.ObservedLoad(new NamedFileOperationDelegate(new LoadFileWrapper(binding, project, oFileInfo.BringToFront).Invoke), fileName) == FileOperationResult.OK) {
-						Runtime.FileService.RecentOpen.AddLastFile (fileName, project.Name);
+					else
+					{
+						if (Runtime.FileUtilityService.ObservedLoad(new NamedFileOperationDelegate(new LoadFileWrapper(binding, null, oFileInfo.BringToFront).Invoke), fileName) == FileOperationResult.OK) {
+							Runtime.FileService.RecentOpen.AddLastFile (fileName, null);
+						}
 					}
-				}
-				else
-				{
-					if (Runtime.FileUtilityService.ObservedLoad(new NamedFileOperationDelegate(new LoadFileWrapper(binding, null, oFileInfo.BringToFront).Invoke), fileName) == FileOperationResult.OK) {
-						Runtime.FileService.RecentOpen.AddLastFile (fileName, null);
-					}
-				}
-			} else {
-				try {
-					// FIXME: this doesn't seem finished yet in Gtk#
-					//MimeType mimetype = new MimeType (new Uri ("file://" + fileName));
-					//if (mimetype != null) {
-					//	mimetype.DefaultAction.Launch ();
-					//} else {
-						Gnome.Url.Show ("file://" + fileName);
-					//}
-				} catch {
-					if (Runtime.FileUtilityService.ObservedLoad(new NamedFileOperationDelegate (new LoadFileWrapper (Runtime.Gui.DisplayBindings.LastBinding, null, oFileInfo.BringToFront).Invoke), fileName) == FileOperationResult.OK) {
-						Runtime.FileService.RecentOpen.AddLastFile (fileName, null);
+				} else {
+					try {
+						// FIXME: this doesn't seem finished yet in Gtk#
+						//MimeType mimetype = new MimeType (new Uri ("file://" + fileName));
+						//if (mimetype != null) {
+						//	mimetype.DefaultAction.Launch ();
+						//} else {
+							Gnome.Url.Show ("file://" + fileName);
+						//}
+					} catch {
+						if (Runtime.FileUtilityService.ObservedLoad(new NamedFileOperationDelegate (new LoadFileWrapper (Runtime.Gui.DisplayBindings.LastBinding, null, oFileInfo.BringToFront).Invoke), fileName) == FileOperationResult.OK) {
+							Runtime.FileService.RecentOpen.AddLastFile (fileName, null);
+						}
 					}
 				}
 			}
-			if(oFileInfo.OnFileOpened!=null) oFileInfo.OnFileOpened();
 		}
 		
 		protected void GetProjectAndCombineFromFile (string fileName, out Project project, out Combine combine)
@@ -245,20 +234,11 @@ namespace MonoDevelop.Services
 			return null;
 		}
 		
-		public void RemoveFileFromProject(string fileName)
-		{
-			if (Directory.Exists(fileName)) {
-				OnFileRemovedFromProject(new FileEventArgs(fileName, true));
-			} else {
-				OnFileRemovedFromProject(new FileEventArgs(fileName, false));
-			}
-		}
-		
 		public void RemoveFile(string fileName)
 		{
 			if (Directory.Exists(fileName)) {
 				try {
-					Directory.Delete(fileName);
+					Directory.Delete (fileName, true);
 				} catch (Exception e) {
 					Runtime.MessageService.ShowError(e, String.Format (GettextCatalog.GetString ("Can't remove directory {0}"), fileName));
 					return;
@@ -298,28 +278,48 @@ namespace MonoDevelop.Services
 			}
 		}
 		
-		protected virtual void OnFileRemoved(FileEventArgs e)
+		public void CopyFile (string sourcePath, string destPath)
+		{
+			File.Copy (sourcePath, destPath, true);
+			OnFileCreated (new FileEventArgs (destPath, false));
+		}
+
+		public void MoveFile (string sourcePath, string destPath)
+		{
+			File.Copy (sourcePath, destPath, true);
+			OnFileCreated (new FileEventArgs (destPath, false));
+			File.Delete (sourcePath);
+			OnFileRemoved (new FileEventArgs (destPath, false));
+		}
+		
+		public void CreateDirectory (string path)
+		{
+			Directory.CreateDirectory (path);
+			OnFileCreated (new FileEventArgs (path, true));
+		}
+
+		protected virtual void OnFileCreated (FileEventArgs e)
+		{
+			if (FileCreated != null) {
+				FileCreated (this, e);
+			}
+		}
+		
+		protected virtual void OnFileRemoved (FileEventArgs e)
 		{
 			if (FileRemoved != null) {
 				FileRemoved(this, e);
 			}
 		}
 
-		protected virtual void OnFileRenamed(FileEventArgs e)
+		protected virtual void OnFileRenamed (FileEventArgs e)
 		{
 			if (FileRenamed != null) {
 				FileRenamed(this, e);
 			}
 		}
 
-		protected virtual void OnFileRemovedFromProject(FileEventArgs e)
-		{
-			if (FileRemovedFromProject != null) {
-				FileRemovedFromProject(this, e);
-			}
-		}
-		
-		public event FileEventHandler FileRemovedFromProject;
+		public event FileEventHandler FileCreated;
 		public event FileEventHandler FileRenamed;
 		public event FileEventHandler FileRemoved;
 	}

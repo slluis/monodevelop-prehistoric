@@ -47,7 +47,7 @@ namespace MonoDevelop.Gui.Pads.ProjectPad
 			get { return typeof(ProjectReferenceFolderNodeCommandHandler); }
 		}
 		
-		public override string GetNodeName (object dataObject)
+		public override string GetNodeName (ITreeNavigator thisNode, object dataObject)
 		{
 			return "References";
 		}
@@ -90,15 +90,18 @@ namespace MonoDevelop.Gui.Pads.ProjectPad
 			return ((ProjectReferenceCollection) dataObject).Count > 0;
 		}
 		
-		public override int CompareObjects (object thisDataObject, object otherDataObject)
+		public override int CompareObjects (ITreeNavigator thisNode, ITreeNavigator otherNode)
 		{
 			return -1;
 		}
 
 		void OnRemoveReference (object sender, ProjectReferenceEventArgs e)
 		{
-			ITreeBuilder tb = Context.GetTreeBuilder (e.ProjectReference);
-			if (tb != null) tb.Remove ();
+			ITreeBuilder tb = Context.GetTreeBuilder (e.Project);
+			if (tb != null) {
+				if (tb.FindChild (e.ProjectReference, true))
+					tb.Remove ();
+			}
 		}
 		
 		void OnAddReference (object sender, ProjectReferenceEventArgs e)

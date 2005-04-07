@@ -39,11 +39,14 @@ namespace MonoDevelop.Gui.Pads.ClassPad
 		public override void ActivateItem ()
 		{
 			string file = GetFileName ();
-			Runtime.FileService.OpenFile (file, new FileOpeningFinished (OnFileOpened));
+			IAsyncOperation op = Runtime.FileService.OpenFile (file);
+			op.Completed += new OperationHandler (OnFileOpened);
 		}
 		
-		private void OnFileOpened()
+		private void OnFileOpened (IAsyncOperation op)
 		{
+			if (!op.Success) return;
+			
 			IMember member = CurrentNode.DataItem as IMember;
 			int line = member.Region.BeginLine;
 			string file = GetFileName ();

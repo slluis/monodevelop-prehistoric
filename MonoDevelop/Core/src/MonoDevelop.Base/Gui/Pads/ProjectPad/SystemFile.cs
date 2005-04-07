@@ -1,5 +1,5 @@
 //
-// ITreeBuilderContext.cs
+// SystemFile.cs
 //
 // Author:
 //   Lluis Sanchez Gual
@@ -27,20 +27,47 @@
 //
 
 using System;
+using System.IO;
 
-namespace MonoDevelop.Gui.Pads
+using MonoDevelop.Internal.Project;
+
+namespace MonoDevelop.Gui.Pads.ProjectPad
 {
-	public interface ITreeBuilderContext
+	public class SystemFile
 	{
-		ITreeBuilder GetTreeBuilder ();
-		ITreeBuilder GetTreeBuilder (object dataObject);
-		ITreeBuilder GetTreeBuilder (ITreeNavigator navigator);
-		ITreeNavigator GetTreeNavigator (object dataObject);
+		string absolutePath;
+		Project project;
 		
-		Gdk.Pixbuf GetIcon (string iconId);
-		Gdk.Pixbuf GetComposedIcon (Gdk.Pixbuf baseIcon, string compositionId);
-		void CacheComposedIcon (Gdk.Pixbuf baseIcon, string compositionId, Gdk.Pixbuf composedIcon);
+		public SystemFile (string absolutePath, Project project)
+		{
+			this.project = project;
+			this.absolutePath = absolutePath;
+		}
 		
-		TreeViewPad Tree { get; }
+		public string Path {
+			get { return absolutePath; }
+		}
+		
+		public string Name {
+			get { return System.IO.Path.GetFileName (absolutePath); }
+		}
+		
+		public Project Project {
+			get { return project; }
+		}
+		
+		public override bool Equals (object other)
+		{
+			SystemFile f = other as SystemFile;
+			return f != null && absolutePath == f.absolutePath && project == f.project;
+		}
+		
+		public override int GetHashCode ()
+		{
+			if (project != null)
+				return (absolutePath + project.Name).GetHashCode ();
+			else
+				return absolutePath.GetHashCode ();
+		}
 	}
 }

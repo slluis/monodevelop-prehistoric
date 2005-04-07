@@ -38,14 +38,14 @@ namespace MonoDevelop.Gui.Pads
 		
 		public abstract Type NodeDataType { get; }
 		
-		public abstract string GetNodeName (object dataObject);
+		public abstract string GetNodeName (ITreeNavigator thisNode, object dataObject);
 		
 		// Return -1 if thisDataObject is less than otherDataObject, 0 if equal, 1 if greater
 		// Return DefaultSort is sort is undefined or you want to use default sorting rules
 		// (by default, it compares the node name).
 		// The thisDataObject parameter is an instance valid for this node builder.
 		// otherDataObject may not be an instance valid for this builder.
-		public virtual int CompareObjects (object thisDataObject, object otherDataObject)
+		public virtual int CompareObjects (ITreeNavigator thisNode, ITreeNavigator otherNode)
 		{
 			return DefaultSort;
 		}

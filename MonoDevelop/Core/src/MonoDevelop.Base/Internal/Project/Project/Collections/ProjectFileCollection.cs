@@ -6,6 +6,7 @@
 // </file>
 using System;
 using System.Collections;
+using System.IO;
 
 namespace MonoDevelop.Internal.Project
 {
@@ -42,6 +43,18 @@ namespace MonoDevelop.Internal.Project
 					return file;
 			}
 			return null;
+		}
+		
+		public ProjectFile[] GetFilesInPath (string path)
+		{
+			path = path + Path.DirectorySeparatorChar;
+			ArrayList files = new ArrayList ();
+			
+			foreach (ProjectFile file in List) {
+				if ((file.Name + Path.DirectorySeparatorChar).StartsWith (path))
+					files.Add (file);
+			}
+			return (ProjectFile[]) files.ToArray (typeof(ProjectFile));
 		}
 		
 		/// <summary>
