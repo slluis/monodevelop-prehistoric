@@ -4,6 +4,7 @@ using System;
 using MonoDevelop.Core.Services;
 
 using log4net;
+using log4net.Config;
 
 namespace MonoDevelop.Services
 {
@@ -13,7 +14,7 @@ namespace MonoDevelop.Services
 
 		public DefaultLoggingService()
 		{
-			log4net.Config.XmlConfigurator.Configure();
+			XmlConfigurator.Configure();
 		}
 		
 		public override void InitializeService()
@@ -77,6 +78,7 @@ namespace MonoDevelop.Services
 		public void Error (object message)
 		{
 			GetLogger().Error (message);
+			OnLogAppended ("Error", message.ToString());
 		}
 
 		public void Fatal (object message)

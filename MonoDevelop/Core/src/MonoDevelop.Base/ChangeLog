@@ -1,3 +1,8 @@
+2005-04-08	Christian Hergert	<christian.hergert@gmail.com>
+
+	* Services/DefaultLoggingService.cs: Add missing event firing for Error
+	method. Attempt to fix the constructor to be more like  log4net examples.
+
 2005-04-07  Lluis Sanchez Gual  <lluis@novell.com>
 
 	* Commands/ProjectBrowserCommands/FolderNodeCommands.cs: Implemented
