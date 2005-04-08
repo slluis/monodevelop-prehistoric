@@ -5,7 +5,9 @@
 	(StackTracePad.OnResumedEvent): just don't update here - should we
 	clear the display?  or leave it as it is until the next time the
 	debugger stops?
-	
+	(StackTracePad.UpdateDisplay): if the current_frame (or its
+	method) is null, clear the display.
+
 2005-04-06  Chris Toshok  <toshok@ximian.com>
 
 	* Gui/LocalsPad.cs: wrap the using MonoDevelop.DebuggerVisualizers
