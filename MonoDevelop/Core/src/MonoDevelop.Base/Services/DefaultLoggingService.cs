@@ -1,5 +1,7 @@
 
 using System;
+using System.IO;
+using System.Reflection;
 
 using MonoDevelop.Core.Services;
 
@@ -14,7 +16,8 @@ namespace MonoDevelop.Services
 
 		public DefaultLoggingService()
 		{
-			XmlConfigurator.Configure();
+			if (File.Exists (Assembly.GetEntryAssembly().Location + ".config"))
+				XmlConfigurator.Configure();
 		}
 		
 		public override void InitializeService()

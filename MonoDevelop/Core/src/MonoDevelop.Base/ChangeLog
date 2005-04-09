@@ -1,3 +1,8 @@
+2005-04-09	Christian Hergert	<christian.hergert@gmail.com>
+
+	* Services/DefaultLoggingService.cs: Fix the log4net error by
+	checking for the .config before configuring.
+
 2005-04-08	Christian Hergert	<christian.hergert@gmail.com>
 
 	* Services/DefaultLoggingService.cs: Add missing event firing for Error
