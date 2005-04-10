@@ -42,12 +42,6 @@ namespace CSharpBinding
  			[Glade.Widget] CheckButton generateXmlOutputCheckButton;
  			[Glade.Widget] SpinButton warningLevelSpinButton;
 
-			//
-			// services needed
-			//
-			StringParserService StringParserService = (StringParserService)ServiceManager.GetService (
-				typeof (StringParserService));
-
 			DotNetProjectConfiguration configuration;
 			CSharpCompilerParameters compilerParameters = null;
 

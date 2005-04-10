@@ -1,3 +1,11 @@
+2005-04-09  John Luke  <john.luke@gmail.com>
+
+	* PrettyPrinter: kill (it was empty)
+	* Parser/ExpressionFinder.cs: remove redundent assignment
+	to fix warning
+	* Gui/CodeGenerationPanel.cs: remove unused StringParserService
+	section
+
 2005-03-20  John Luke  <john.luke@gmail.com>
 
 	* CSharpBindingCompilerManager.cs: display warning on invalid
