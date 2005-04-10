@@ -40,7 +40,7 @@ namespace MonoDevelop.Internal.Project
 		string executeScript = String.Empty;
 		
 		[ItemProperty ("Execution/runwithwarnings")]
-		protected bool runWithWarnings = false;
+		protected bool runWithWarnings = true;
 		
 		[ItemProperty ("Execution/commandlineparameters", DefaultValue = "")]
 		public string commandLineParameters = String.Empty;

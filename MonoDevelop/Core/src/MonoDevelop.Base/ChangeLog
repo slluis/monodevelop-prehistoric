@@ -1,3 +1,11 @@
+2005-05-10	John Luke	<john.luke@gmail.com>
+
+	* Internal/Project/Project/AbstractProjectConfiguration.cs:
+	set RunWithWarnings = true by default, because newer compiler
+	versions may add warnings, etc.
+	* options/MonoDevelopProperties.xml: remove a bunch of old SharpDevelop
+	prefs and add some defaults for what we use
+
 2005-04-09	Christian Hergert	<christian.hergert@gmail.com>
 
 	* Services/DefaultLoggingService.cs: Fix the log4net error by
