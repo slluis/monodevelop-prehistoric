@@ -47,30 +47,35 @@ namespace MonoDevelop.Services
 			XmlTextReader reader = new XmlTextReader (file);
 			SourceLanguage lang = null;
 
-			while (reader.Read ()) {
-				if (reader.IsStartElement ()) {
-					switch (reader.Name) {
-						case "SourceTag":
-							string name = reader.GetAttribute ("name");
-							SourceTagStyle sts = lang.GetTagStyle (name);
-							sts.Bold = bool.Parse (reader.GetAttribute ("bold"));
-							sts.Italic = bool.Parse (reader.GetAttribute ("italic"));
-							sts.Underline = bool.Parse (reader.GetAttribute ("underline"));
-							sts.Strikethrough = bool.Parse (reader.GetAttribute ("strikethrough"));
-							sts.IsDefault = false;
-							ParseColor (reader.GetAttribute ("foreground"), ref sts.Foreground);
-							ParseColor (reader.GetAttribute ("background"), ref sts.Background);
-							lang.SetTagStyle (name, sts);
-							Runtime.LoggingService.InfoFormat ("Overrode style {0} {1}", lang.Name, name);
-							break;
-						case "SourceLanguage":
-							lang = FindLanguage (reader.GetAttribute ("name"));
-							break;
-						case "SyntaxHighlighting":
-						default:
-							break;
+			try {
+				while (reader.Read ()) {
+					if (reader.IsStartElement ()) {
+						switch (reader.Name) {
+							case "SourceTag":
+								string name = reader.GetAttribute ("name");
+								SourceTagStyle sts = lang.GetTagStyle (name);
+								sts.Bold = bool.Parse (reader.GetAttribute ("bold"));
+								sts.Italic = bool.Parse (reader.GetAttribute ("italic"));
+								sts.Underline = bool.Parse (reader.GetAttribute ("underline"));
+								sts.Strikethrough = bool.Parse (reader.GetAttribute ("strikethrough"));
+								sts.IsDefault = false;
+								ParseColor (reader.GetAttribute ("foreground"), ref sts.Foreground);
+								ParseColor (reader.GetAttribute ("background"), ref sts.Background);
+								lang.SetTagStyle (name, sts);
+								Runtime.LoggingService.InfoFormat ("Overrode style {0} {1}", lang.Name, name);
+								break;
+							case "SourceLanguage":
+								lang = FindLanguage (reader.GetAttribute ("name"));
+								break;
+							case "SyntaxHighlighting":
+							default:
+								break;
+						}
 					}
 				}
+			}
+			catch (XmlException e) {
+				Runtime.LoggingService.Warn (e.ToString ());
 			}
 			reader.Close ();
 		}

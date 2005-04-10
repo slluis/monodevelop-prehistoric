@@ -1,3 +1,8 @@
+2005-04-09  John Luke  <john.luke@gmail.com>
+
+	* Services/SourceViewService.cs: catch XmlException
+	while restoring style/color prefs
+
 2005-04-06  John Luke  <john.luke@gmail.com>
 
 	* Services/SourceViewService.cs: dont serialize
