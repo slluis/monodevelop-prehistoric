@@ -1,5 +1,10 @@
 2005-04-09  John Luke  <john.luke@gmail.com>
 
+	* CodeCompletion/ListWindow.cs: dont crash
+	if the provider is null, fixes bug #74492
+
+2005-04-09  John Luke  <john.luke@gmail.com>
+
 	* Services/SourceViewService.cs: catch XmlException
 	while restoring style/color prefs
 

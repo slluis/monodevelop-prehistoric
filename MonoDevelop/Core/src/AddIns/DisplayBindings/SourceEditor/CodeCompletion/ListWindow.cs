@@ -82,8 +82,7 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 		{
 			get
 			{
-				int pos = list.Selection;
-				pos ++;
+				int pos = list.Selection + 1;
 				if (provider.ItemCount > pos && provider.GetText (pos).ToLower ().StartsWith (PartialWord.ToLower ()) || !(provider.GetText (list.Selection).ToLower ().StartsWith (PartialWord.ToLower ())))
 					return false;
 				
@@ -174,7 +173,7 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 		void UpdateWordSelection ()
 		{
 			string s = word.ToString ();
-			int max = provider.ItemCount;
+			int max = (provider == null ? 0 : provider.ItemCount);
 			
 			int bestMatch = -1;
 			for (int n=0; n<max; n++) 
