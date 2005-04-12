@@ -155,7 +155,7 @@ SQLITE_XML=
 fi
 
 dnl Intl
-ALL_LINGUAS="da es fr ja_JP pt_BR tr"
+ALL_LINGUAS="da de es fr ja_JP pt_BR tr pl"
 GETTEXT_PACKAGE=monodevelop
 AC_SUBST(GETTEXT_PACKAGE)
 AC_DEFINE_UNQUOTED(GETTEXT_PACKAGE,"$GETTEXT_PACKAGE", [Gettext package])
