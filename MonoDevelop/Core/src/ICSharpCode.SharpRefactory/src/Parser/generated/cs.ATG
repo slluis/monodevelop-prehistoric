@@ -328,6 +328,11 @@ bool IdentIsYield () {
 	return la.kind == Tokens.Identifier && la.val == "yield";
 }
 
+/* True, if lookahead ident is "partial" */
+bool IdentIsPartial () {
+	return la.kind == Tokens.Identifier && la.val == "partial";
+}
+
 /* True, if lookahead ident is "get" */
 bool IdentIsGet () {
 	return la.kind == Tokens.Identifier && la.val == "get";
@@ -678,17 +683,19 @@ NamespaceMemberDecl
 	/*--- type declaration: */
 	| { AttributeSection<out section> (. attributes.Add(section); .) }
 	{ TypeModifier<m> }
-	TypeDecl<m, attributes>
+										(. bool partial = false; .)
+	[ IF (IdentIsPartial ()) ident 		(. partial = true; .) ]
+	TypeDecl<m, attributes, partial>
 .
 
-TypeDecl<Modifiers m, ArrayList attributes>
+TypeDecl<Modifiers m, ArrayList attributes, bool partial>
 (.
 	TypeReference type;
 	StringCollection names;
 	ArrayList p; string name;
 .)
 = /*--- class declaration: */      (. m.Check(Modifier.Classes); .)
-	"class"                        (. TypeDeclaration newType = new TypeDeclaration();
+	"class"                        (. TypeDeclaration newType = new TypeDeclaration (partial);
 	                                  compilationUnit.AddChild(newType);
 	                                  compilationUnit.BlockStart(newType);
 	                                  
@@ -703,7 +710,7 @@ TypeDecl<Modifiers m, ArrayList attributes>
 	                                   compilationUnit.BlockEnd();
 	                                .)
 	| /*--- struct declaration: */  (. m.Check(Modifier.StructsInterfacesEnumsDelegates); .)
-	( "struct"                      (. TypeDeclaration newType = new TypeDeclaration();
+	( "struct"                      (. TypeDeclaration newType = new TypeDeclaration(partial);
 	                                   compilationUnit.AddChild(newType);
 	                                   compilationUnit.BlockStart(newType);
 	                                   newType.Type = Types.Struct; 
@@ -717,7 +724,7 @@ TypeDecl<Modifiers m, ArrayList attributes>
 	                                    compilationUnit.BlockEnd();
 	                                 .)
 	| /*--- interface declaration: */ 
-	"interface"                      (. TypeDeclaration newType = new TypeDeclaration();
+	"interface"                      (. TypeDeclaration newType = new TypeDeclaration(partial);
 	                                    compilationUnit.AddChild(newType);
 	                                    compilationUnit.BlockStart(newType);
 	                                    newType.Type = Types.Interface;
@@ -730,7 +737,8 @@ TypeDecl<Modifiers m, ArrayList attributes>
 	                                    compilationUnit.BlockEnd();
 	                                 .)
 	| /*--- enumeration declaration: */
-	"enum"                           (. TypeDeclaration newType = new TypeDeclaration();
+	"enum"                           (. if (partial) Error ("partial is not allowed for enum types");
+										TypeDeclaration newType = new TypeDeclaration();
 	                                    compilationUnit.AddChild(newType);
 	                                    compilationUnit.BlockStart(newType);
 	                                    newType.Type = Types.Enum;
@@ -746,7 +754,8 @@ TypeDecl<Modifiers m, ArrayList attributes>
 	                                    compilationUnit.BlockEnd();
 	                                 .)
 	| /*--- delegate declaration: */
-	"delegate"                       (. DelegateDeclaration delegateDeclr = new DelegateDeclaration();
+	"delegate"                       (. if (partial) Error ("partial is not allowed for delegate types");
+										DelegateDeclaration delegateDeclr = new DelegateDeclaration();
 	                                    delegateDeclr.StartLocation = t.Location;
 	                                    delegateDeclr.Modifier = m.Modifier;
 	                                    delegateDeclr.Attributes = attributes;
@@ -1092,7 +1101,9 @@ StructMemberDecl<Modifiers m, ArrayList attributes>
 	.)
 	
 	/*--- inner type declaration: */
-	| TypeDecl<m, attributes>
+	| (. bool partial = false; .)
+	  [ IF (IdentIsPartial ()) ident			(. partial = true; .) ]
+	  TypeDecl<m, attributes, partial>
 	| Type<out type>                       (. Point startPos = t.Location; .)
 	(
 		/*--- operator declaration: */     (. Token op;

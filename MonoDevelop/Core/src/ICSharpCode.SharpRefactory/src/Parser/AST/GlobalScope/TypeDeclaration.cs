@@ -29,6 +29,7 @@ namespace ICSharpCode.SharpRefactory.Parser.AST
 		Types type; // Class | Interface | Struct | Enum
 		StringCollection bases;
 		ArrayList attributes;
+		bool partial;
 		
 		public string Name {
 			get {
@@ -70,15 +71,25 @@ namespace ICSharpCode.SharpRefactory.Parser.AST
 				attributes = value;
 			}
 		}
-		
-//		public TypeDeclaration(string name, Modifier modifier, Types type, StringCollection bases, ArrayList attributes)
-//		{
-//			this.name = name;
-//			this.modifier = modifier;
-//			this.type = type;
-//			this.bases = bases;
-//			this.attributes = attributes;
-//		}
+
+		// only valid for class, struct, and interface
+		public bool IsPartial {
+			get { return partial; }
+		}
+
+		// only valid for classes
+		public bool IsStatic {
+			get { return type == Types.Class && (modifier & Modifier.Static) != 0; }
+		}
+
+		public TypeDeclaration () : this (false)
+		{
+		}
+
+		public TypeDeclaration (bool partial)
+		{
+			this.partial = partial;
+		}
 		
 		public override object AcceptVisitor(IASTVisitor visitor, object data)
 		{

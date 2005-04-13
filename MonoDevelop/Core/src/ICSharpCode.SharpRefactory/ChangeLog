@@ -1,5 +1,13 @@
 2005-04-13  John Luke  <john.luke@gmail.com>
 
+	* src/Parser/AST/GlobalScope/TypeDeclaration.cs: add IsStaticClass
+	and IsPartial for later use, add new ctors for handling partial types
+	* src/Parser/generated/cs.ATG:
+	* src/Parser/generated/Parser.cs: allow partial before TypeDeclaration
+	of class, interface and struct
+
+2005-04-13  John Luke  <john.luke@gmail.com>
+
 	* Makefile.am:
 	* src/Parser/AST/GlobalScope/ExternAliasDeclaration.cs: add this
 	* src/Parser/AST/IASTVisitor.cs:
