@@ -14,6 +14,7 @@ namespace ICSharpCode.SharpRefactory.Parser
 		object Visit(INode node, object data);
 		
 		object Visit(CompilationUnit compilationUnit, object data);
+		object Visit(ExternAliasDeclaration externAliasDeclaration, object data);
 		object Visit(NamespaceDeclaration namespaceDeclaration, object data);
 		object Visit(UsingDeclaration usingDeclaration, object data);
 		object Visit(UsingAliasDeclaration usingAliasDeclaration, object data);
@@ -66,6 +67,7 @@ namespace ICSharpCode.SharpRefactory.Parser
 		object Visit(CheckedStatement checkedStatement, object data);
 		object Visit(UncheckedStatement uncheckedStatement, object data);
 		object Visit(UnsafeStatement unsafeStatement, object data);
+		object Visit(YieldStatement returnStatement, object data);
 		
 		// Expressions
 		object Visit(PrimitiveExpression      primitiveExpression, object data);

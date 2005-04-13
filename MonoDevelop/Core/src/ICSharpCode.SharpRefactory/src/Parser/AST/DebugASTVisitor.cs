@@ -11,6 +11,12 @@ namespace ICSharpCode.SharpRefactory.Parser
 			Console.WriteLine(compilationUnit.ToString());
 			return compilationUnit.AcceptChildren(this, data);
 		}
+
+		public override object Visit(ExternAliasDeclaration externAliasDeclaration, object data)
+		{
+			Console.WriteLine (externAliasDeclaration.ToString ());
+			return externAliasDeclaration.AcceptChildren (this, data);
+		}
 		
 		public override object Visit(FieldDeclaration fieldDeclaration, object data)
 		{
@@ -171,6 +177,12 @@ namespace ICSharpCode.SharpRefactory.Parser
 			return emptyStatement.AcceptChildren(this, data);
 		}
 		
+		public override object Visit(YieldStatement yieldStatement, object data)
+		{
+			Console.WriteLine (yieldStatement.ToString ());
+			return yieldStatement.AcceptChildren (this, data);
+		}
+
 		public override object Visit(ReturnStatement returnStatement, object data)
 		{
 			Console.WriteLine(returnStatement.ToString());

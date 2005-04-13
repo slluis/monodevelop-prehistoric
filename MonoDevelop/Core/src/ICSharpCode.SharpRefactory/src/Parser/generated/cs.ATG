@@ -30,6 +30,7 @@ Token la {
 
 Hashtable typeStrings     = null;
 ArrayList usingNamespaces = null;
+ArrayList externAliases = null;
 
 public void Error(string s)
 {
@@ -520,10 +521,21 @@ PRODUCTIONS
 CS
 (. compilationUnit = new CompilationUnit(); .)
 =
+	{ ExternAlias }
 	{ UsingDirective }
 	{ IF (IsGlobalAttrTarget()) GlobalAttributeSection }
 	{ NamespaceMemberDecl }
 	EOF
+.
+
+ExternAlias
+(.
+	externAliases = new ArrayList ();
+.)
+=
+	"extern" ident		(. if (t.val != "alias") Error ("alias expected"); .)
+	ident				(. externAliases.Add (new ExternAliasDeclaration (t.val)); .)
+	";"
 .
 
 UsingDirective

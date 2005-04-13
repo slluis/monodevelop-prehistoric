@@ -41,6 +41,11 @@ namespace ICSharpCode.SharpRefactory.Parser
 		}
 		
 #region Global Scope
+		public virtual object Visit(ExternAliasDeclaration externAliasDeclaration, object data)
+		{
+			return data;
+		}
+
 		public virtual object Visit(UsingDeclaration usingDeclaration, object data)
 		{
 			return data;
@@ -398,6 +403,11 @@ namespace ICSharpCode.SharpRefactory.Parser
 			if (returnStatement.ReturnExpression != null) {
 				return returnStatement.ReturnExpression.AcceptVisitor(this, data);
 			}
+			return data;
+		}
+
+		public virtual object Visit(YieldStatement yieldStatement, object data)
+		{
 			return data;
 		}
 		

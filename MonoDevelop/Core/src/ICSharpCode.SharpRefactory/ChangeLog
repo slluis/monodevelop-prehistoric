@@ -1,5 +1,16 @@
 2005-04-13  John Luke  <john.luke@gmail.com>
 
+	* Makefile.am:
+	* src/Parser/AST/GlobalScope/ExternAliasDeclaration.cs: add this
+	* src/Parser/AST/IASTVisitor.cs:
+	* src/Parser/AST/AbstractASTVisitor.cs:
+	* src/Parser/AST/DebugASTVisitor.cs: add ExternAliasDeclaration and
+	YieldStatement to the visitors
+	* src/Parser/generated/cs.ATG:
+	* src/Parser/generated/Parser.cs: add part of C# 2 extern alias support
+
+2005-04-13  John Luke  <john.luke@gmail.com>
+
 	* src/Lexer/Tokens.cs: kill, we use a generated one
 	* tests/extern-alias-1.cs:
 	* tests/namespace-alias-1.cs: add a couple tests

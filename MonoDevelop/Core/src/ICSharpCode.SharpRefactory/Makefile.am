@@ -73,6 +73,7 @@ src/Parser/AST/Statements/WhileStatement.cs \
 src/Parser/AST/Statements/UsingStatement.cs \
 src/Parser/AST/Statements/DoWhileStatement.cs \
 src/Parser/AST/Statements/YieldStatement.cs \
+src/Parser/AST/GlobalScope/ExternAliasDeclaration.cs \
 src/Parser/AST/GlobalScope/UsingAliasDeclaration.cs \
 src/Parser/AST/GlobalScope/UsingDeclaration.cs \
 src/Parser/AST/GlobalScope/NamespaceDeclaration.cs \
