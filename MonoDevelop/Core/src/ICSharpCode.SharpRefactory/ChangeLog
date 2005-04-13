@@ -1,3 +1,9 @@
+2005-04-13  John Luke  <john.luke@gmail.com>
+
+	* src/Lexer/Tokens.cs: kill, we use a generated one
+	* tests/extern-alias-1.cs:
+	* tests/namespace-alias-1.cs: add a couple tests
+
 2005-03-30  John Luke  <john.luke@gmail.com>
 
 	* src/Parser/AST/Statements/YieldStatement.cs:
