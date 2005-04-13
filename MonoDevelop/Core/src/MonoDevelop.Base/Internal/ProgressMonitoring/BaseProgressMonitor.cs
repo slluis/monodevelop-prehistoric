@@ -112,7 +112,8 @@ namespace MonoDevelop.Services
 			else if (message != null && ex != null)
 				message += ". " + ex.Message;
 			errorsMessages.Add (message);
-			Runtime.LoggingService.Info (ex);
+			if (ex != null)
+				Runtime.LoggingService.Info (ex);
 		}
 		
 		[FreeDispatch]

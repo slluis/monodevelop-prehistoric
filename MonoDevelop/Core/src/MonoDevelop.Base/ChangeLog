@@ -1,4 +1,9 @@
-2005-05-10	John Luke	<john.luke@gmail.com>
+2005-04-14  Lluis Sanchez Gual  <lluis@novell.com>
+
+	* Internal/ProgressMonitoring/BaseProgressMonitor.cs: Don't crash
+	when reporting an error with a null exception.
+
+2005-04-10	John Luke	<john.luke@gmail.com>
 
 	* Internal/Project/Project/AbstractProjectConfiguration.cs:
 	set RunWithWarnings = true by default, because newer compiler
