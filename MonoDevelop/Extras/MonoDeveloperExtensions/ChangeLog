@@ -1,3 +1,8 @@
+2005-04-07  Lluis Sanchez Gual  <lluis@novell.com>
+
+	* MonoProject.cs: Look for ChangeLog files in a more rational 
+	(and faster) way.
+
 2005-05-07  Lluis Sanchez Gual  <lluis@novell.com>
 
 	* MonoProject.cs: Update the sources file when files are renamed.

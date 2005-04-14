@@ -75,22 +75,30 @@ namespace MonoDeveloper
 			outFile = Path.Combine (basePath, aname);
 			FileName = mkfile.FileName;
 			
+			ArrayList checkedFolders = new ArrayList ();
+			
 			// Parse projects
 			string sources = outFile + ".sources";
 			StreamReader sr = new StreamReader (sources);
 			string line;
 			while ((line = sr.ReadLine ()) != null) {
 				line = line.Trim (' ','\t');
-				if (line != "") ProjectFiles.Add (new ProjectFile (Path.Combine (basePath, line)));
+				if (line != "") {
+					string fname = Path.Combine (basePath, line);
+					ProjectFiles.Add (new ProjectFile (fname));
+					
+					string dir = Path.GetDirectoryName (fname);
+					if (!checkedFolders.Contains (dir)) {
+						checkedFolders.Add (dir);
+						fname = Path.Combine (dir, "ChangeLog");
+						if (File.Exists (fname))
+							ProjectFiles.Add (new ProjectFile (fname, BuildAction.Exclude));
+					}
+				}
 			}
 			
 			sr.Close ();
 			
-/*			ArrayList files = new ArrayList ();
-			FindFiles (basePath, "ChangeLog", files);
-			foreach (string file in files)
-				ProjectFiles.Add (new ProjectFile (file, BuildAction.Exclude));
-*/			
 			// Project references
 			string refs = mkfile.GetVariable ("LIB_MCS_FLAGS");
 			if (refs == null || refs == "") refs = mkfile.GetVariable ("LOCAL_MCS_FLAGS");
@@ -121,13 +129,6 @@ namespace MonoDeveloper
 			Console.WriteLine ("{0} {1}", aname, GetOutputFileName ());
 			loading = false;
 			Runtime.ProjectService.CombineOpened += new CombineEventHandler (CombineOpened);
-		}
-		
-		void FindFiles (string path, string name, ArrayList files)
-		{
-			files.AddRange (Directory.GetFiles (path, name));
-			foreach (string sd in Directory.GetDirectories (path))
-				FindFiles (sd, name, files);
 		}
 		
 		static Regex regexError = new Regex (@"^(\s*(?<file>.*)\((?<line>\d*)(,(?<column>\d*))?\)\s+)*(?<level>\w+)\s*(?<number>.*):\s(?<message>.*)",
