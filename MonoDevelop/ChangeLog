@@ -1,3 +1,7 @@
+2005-04-14  Raja R Harinath  <rharinath@novell.com>
+
+	* contrib/Makefile.am (log4net.dll): Copy from $(srcdir).
+
 2005-04-03  John Luke  <john.luke@gmail.com>
 
 	* autogen.sh: add back aclocal

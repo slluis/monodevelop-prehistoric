@@ -6,7 +6,7 @@ BINDIR=$(top_builddir)/build/bin
 
 $(BINDIR)/$(LOG4NET_DLL):
 	mkdir -p $(BINDIR)
-	cp $(LOG4NET_DLL) $(BINDIR)
+	cp $(srcdir)/$(LOG4NET_DLL) $(BINDIR)
 
 assemblydir = $(libdir)/monodevelop/bin
 assembly_DATA = $(LOG4NET_DLL)
