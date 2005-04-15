@@ -29,13 +29,14 @@ namespace ICSharpCode.SharpRefactory.Parser
 		// Modifier scopes
 		None      = 0x0000,
 		
-		Classes                         = New | Public | Protected | Internal | Private | Abstract | Sealed | Static,
-		Fields                          = New | Public | Protected | Internal | Private | Static   | Readonly | Volatile,
+		Classes                         = New | Public | Protected | Internal | Private | Abstract | Sealed | Static | Unsafe,
+		Fields                          = New | Public | Protected | Internal | Private | Static   | Readonly | Volatile | Unsafe,
 		PropertysEventsMethods          = New | Public | Protected | Internal | Private | Static   | Virtual  | Sealed   | Override | Abstract | Extern | Unsafe,
 		Indexers                        = New | Public | Protected | Internal | Private | Virtual  | Sealed   | Override | Abstract | Extern,
 		Operators                       = Public | Static | Extern,
 		Constants                       = New | Public | Protected | Internal | Private,
-		StructsInterfacesEnumsDelegates = New | Public | Protected | Internal | Private,
+		// FIXME: unsafe is not valid for enums
+		StructsInterfacesEnumsDelegates = New | Public | Protected | Internal | Private | Unsafe,
 		StaticConstructors              = Extern | Static | Unsafe,
 		Destructors                     = Extern | Unsafe,
 		Constructors                    = Public | Protected | Internal | Private | Extern,

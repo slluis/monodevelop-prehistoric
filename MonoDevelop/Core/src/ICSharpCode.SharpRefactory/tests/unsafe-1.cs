@@ -1,7 +1,13 @@
 using System;
 
-class T
+unsafe interface IFoo
 {
+}
+
+unsafe class T
+{
+	unsafe int* counter;
+
 	unsafe private void Foo ()
 	{
 	}
@@ -12,3 +18,10 @@ class T
 
 	unsafe public event EventHandler Notify;
 }
+
+unsafe struct Foo
+{
+}
+
+unsafe delegate void FooBar ();
+

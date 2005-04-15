@@ -20,6 +20,8 @@ class MainClass
 	static void PrintFile (FileInfo file)
 	{
 		string fileName = file.FullName;
+		//Console.WriteLine ("parsing {0}", fileName);
+		Parser p = new Parser();
 		p.Parse (new Lexer (new FileReader (fileName)));
 
 		if (p.Errors.count == 0) {
@@ -48,7 +50,6 @@ class MainClass
 			PrintDir (di);
 	}
 
-	static Parser p;
 	static bool errorMode = false;
 
 	public static void Main (string[] args)
@@ -59,7 +60,6 @@ class MainClass
 		if (args.Length == 2 && args[1] == "-e")
 			errorMode = true;
 
-		p = new Parser();
 		PrintDir (new DirectoryInfo (args[0]));
 	}
 }
