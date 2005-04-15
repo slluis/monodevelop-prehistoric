@@ -3,12 +3,14 @@
 # This file is distributed under the same license as the MonoDevelop package.
 # Martin Willemoes Hansen <mwh@sysrq.dk>, 2004 - 2005
 #
+# Husk at tilføje dig i credit-listen (besked id "translator-credits")
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: MonoDevelop\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-04-15 13:40+0200\n"
-"PO-Revision-Date: 2005-04-15 13:44+0200\n"
+"POT-Creation-Date: 2005-04-15 14:00+0200\n"
+"PO-Revision-Date: 2005-04-15 15:12+0200\n"
 "Last-Translator: Martin Willemoes Hansen <mwh@sysrq.dk>\n"
 "Language-Team: Martin Willemoes Hansen <mwh@sysrq.dk>\n"
 "MIME-Version: 1.0\n"
@@ -18,134 +20,134 @@ msgstr ""
 
 #: ../Core/src/MonoDevelop.Base/MonoDevelopCore.addin.xml.h:1
 msgid "#CvsLib"
-msgstr ""
+msgstr "#CvsLib"
 
 #: ../Core/src/MonoDevelop.Base/MonoDevelopCore.addin.xml.h:2
 msgid "#ZipLib"
-msgstr ""
+msgstr "#ZipLib"
 
 #: ../Core/src/MonoDevelop.Base/MonoDevelopCore.addin.xml.h:3
 msgid "${res:Dialog.Options.CombineOptions.ConfigurationOptions}"
-msgstr ""
+msgstr "${res:Dialog.Options.CombineOptions.ConfigurationOptions}"
 
 #: ../Core/src/MonoDevelop.Base/MonoDevelopCore.addin.xml.h:4
 msgid "${res:Dialog.Options.CombineOptions.Configurations.PanelName}"
-msgstr ""
+msgstr "${res:Dialog.Options.CombineOptions.Configurations.PanelName}"
 
 #: ../Core/src/MonoDevelop.Base/MonoDevelopCore.addin.xml.h:5
 msgid "${res:Dialog.Options.CombineOptions.Dependencies.PanelName}"
-msgstr ""
+msgstr "${res:Dialog.Options.CombineOptions.Dependencies.PanelName}"
 
 #: ../Core/src/MonoDevelop.Base/MonoDevelopCore.addin.xml.h:6
 msgid "${res:Dialog.Options.IDEOptions.HelpGeneratingPanelText}"
-msgstr ""
+msgstr "${res:Dialog.Options.IDEOptions.HelpGeneratingPanelText}"
 
 #: ../Core/src/MonoDevelop.Base/MonoDevelopCore.addin.xml.h:7
 msgid "${res:Dialog.Options.IDEOptions.SelectCulture.PanelName}"
-msgstr ""
+msgstr "${res:Dialog.Options.IDEOptions.SelectCulture.PanelName}"
 
 #: ../Core/src/MonoDevelop.Base/MonoDevelopCore.addin.xml.h:8
 msgid "${res:Dialog.Options.PrjOptions.DeployFile.PanelName}"
-msgstr ""
+msgstr "${res:Dialog.Options.PrjOptions.DeployFile.PanelName}"
 
 #: ../Core/src/MonoDevelop.Base/MonoDevelopCore.addin.xml.h:9
 msgid "${res:OpenFileTabEventHandler.ContextMenu.Close}"
-msgstr ""
+msgstr "${res:OpenFileTabEventHandler.ContextMenu.Close}"
 
 #: ../Core/src/MonoDevelop.Base/MonoDevelopCore.addin.xml.h:10
 msgid "${res:OpenFileTabEventHandler.ContextMenu.SaveAs}"
-msgstr ""
+msgstr "${res:OpenFileTabEventHandler.ContextMenu.SaveAs}"
 
 #: ../Core/src/MonoDevelop.Base/MonoDevelopCore.addin.xml.h:11
 msgid "${res:OpenFileTabEventHandler.ContextMenu.Save}"
-msgstr ""
+msgstr "${res:OpenFileTabEventHandler.ContextMenu.Save}"
 
 #: ../Core/src/MonoDevelop.Base/MonoDevelopCore.addin.xml.h:12
 msgid "${res:OpenFileTabEventHandler.CopyPathName}"
-msgstr ""
+msgstr "${res:OpenFileTabEventHandler.CopyPathName}"
 
 #: ../Core/src/MonoDevelop.Base/MonoDevelopCore.addin.xml.h:13
 msgid "${res:ProjectComponent.ContextMenu.Deploy}"
-msgstr ""
+msgstr "${res:ProjectComponent.ContextMenu.Deploy}"
 
 #: ../Core/src/MonoDevelop.Base/MonoDevelopCore.addin.xml.h:14
 msgid "${res:ProjectComponent.ContextMenu.GenerateDocumentation}"
-msgstr ""
+msgstr "${res:ProjectComponent.ContextMenu.GenerateDocumentation}"
 
 #: ../Core/src/MonoDevelop.Base/MonoDevelopCore.addin.xml.h:15
 msgid "${res:ProjectComponent.ContextMenu.RunTests}"
-msgstr ""
+msgstr "${res:ProjectComponent.ContextMenu.RunTests}"
 
 #: ../Core/src/MonoDevelop.Base/MonoDevelopCore.addin.xml.h:16
 msgid "${res:ProjectComponent.ContextMenu.ViewDocumentation}"
-msgstr ""
+msgstr "${res:ProjectComponent.ContextMenu.ViewDocumentation}"
 
 #: ../Core/src/MonoDevelop.Base/MonoDevelopCore.addin.xml.h:17
 msgid "${res:XML.MainMenu.FileMenu.PrintPreview}"
-msgstr ""
+msgstr "${res:XML.MainMenu.FileMenu.PrintPreview}"
 
 #: ../Core/src/MonoDevelop.Base/MonoDevelopCore.addin.xml.h:18
 msgid "${res:XML.MainMenu.FileMenu.Print}"
-msgstr ""
+msgstr "${res:XML.MainMenu.FileMenu.Print}"
 
 #: ../Core/src/MonoDevelop.Base/MonoDevelopCore.addin.xml.h:19
 msgid "${res:XML.MainMenu.HelpMenu.GPL}"
-msgstr ""
+msgstr "${res:XML.MainMenu.HelpMenu.GPL}"
 
 #: ../Core/src/MonoDevelop.Base/MonoDevelopCore.addin.xml.h:20
 msgid "${res:XML.MainMenu.HelpMenu.ReadMe}"
-msgstr ""
+msgstr "${res:XML.MainMenu.HelpMenu.ReadMe}"
 
 #: ../Core/src/MonoDevelop.Base/MonoDevelopCore.addin.xml.h:21
 msgid "${res:XML.MainMenu.HelpMenu.StyleGuide}"
-msgstr ""
+msgstr "${res:XML.MainMenu.HelpMenu.StyleGuide}"
 
 #: ../Core/src/MonoDevelop.Base/MonoDevelopCore.addin.xml.h:22
 msgid "${res:XML.MainMenu.PluginMenu.Manager}"
-msgstr ""
+msgstr "${res:XML.MainMenu.PluginMenu.Manager}"
 
 #: ../Core/src/MonoDevelop.Base/MonoDevelopCore.addin.xml.h:23
 msgid "${res:XML.MainMenu.PluginMenu}"
-msgstr ""
+msgstr "${res:XML.MainMenu.PluginMenu}"
 
 #: ../Core/src/MonoDevelop.Base/MonoDevelopCore.addin.xml.h:24
 msgid "${res:XML.MainMenu.ProjectMenu.Deploy}"
-msgstr ""
+msgstr "${res:XML.MainMenu.ProjectMenu.Deploy}"
 
 #: ../Core/src/MonoDevelop.Base/MonoDevelopCore.addin.xml.h:25
 msgid "${res:XML.MainMenu.ProjectMenu.Options}"
-msgstr ""
+msgstr "${res:XML.MainMenu.ProjectMenu.Options}"
 
 #: ../Core/src/MonoDevelop.Base/MonoDevelopCore.addin.xml.h:26
 msgid "${res:XML.MainMenu.ProjectMenu.RunTests}"
-msgstr ""
+msgstr "${res:XML.MainMenu.ProjectMenu.RunTests}"
 
 #: ../Core/src/MonoDevelop.Base/MonoDevelopCore.addin.xml.h:27
 msgid "${res:XML.MainMenu.ProjectMenu}"
-msgstr ""
+msgstr "${res:XML.MainMenu.ProjectMenu}"
 
 #: ../Core/src/MonoDevelop.Base/MonoDevelopCore.addin.xml.h:28
 msgid "${res:XML.MainMenu.RunMenu.BuildProject}"
-msgstr ""
+msgstr "${res:XML.MainMenu.RunMenu.BuildProject}"
 
 #: ../Core/src/MonoDevelop.Base/MonoDevelopCore.addin.xml.h:29
 msgid "${res:XML.MainMenu.RunMenu.RebuildProject}"
-msgstr ""
+msgstr "${res:XML.MainMenu.RunMenu.RebuildProject}"
 
 #: ../Core/src/MonoDevelop.Base/MonoDevelopCore.addin.xml.h:30
 msgid "${res:XML.MainMenu.ToolMenu.ConvertBufferToVBNET}"
-msgstr ""
+msgstr "${res:XML.MainMenu.ToolMenu.ConvertBufferToVBNET}"
 
 #: ../Core/src/MonoDevelop.Base/MonoDevelopCore.addin.xml.h:31
 msgid "&AlphaSierraPapa"
-msgstr ""
+msgstr "&AlphaSierraPapa"
 
 #: ../Core/src/MonoDevelop.Base/MonoDevelopCore.addin.xml.h:32
 #: ../Core/src/AddIns/DisplayBindings/SourceEditor/MonoDevelopEditor.addin.xml.h:25
 #: ../Core/src/AddIns/DebuggerAddIn/MonoDevelopDebugger.addin.xml.h:1
 #: ../Core/src/AddIns/prj2make-sharp-lib/prj2make-sharp-lib.addin.xml.h:1
 msgid "-"
-msgstr ""
+msgstr "-"
 
 #: ../Core/src/MonoDevelop.Base/MonoDevelopCore.addin.xml.h:33
 msgid "Add"
@@ -156,9 +158,8 @@ msgid "Add Files"
 msgstr "Tilføj filer"
 
 #: ../Core/src/MonoDevelop.Base/MonoDevelopCore.addin.xml.h:35
-#, fuzzy
 msgid "Add New File"
-msgstr "Tilføj nye filer"
+msgstr "Tilføj ny fil"
 
 #: ../Core/src/MonoDevelop.Base/MonoDevelopCore.addin.xml.h:36
 msgid "Add New Folder"
@@ -205,18 +206,16 @@ msgid "Build"
 msgstr "Byg"
 
 #: ../Core/src/MonoDevelop.Base/MonoDevelopCore.addin.xml.h:47
-#, fuzzy
 msgid "Build Project"
-msgstr "By_g projekt"
+msgstr "Byg projekt"
 
 #: ../Core/src/MonoDevelop.Base/MonoDevelopCore.addin.xml.h:48
-#, fuzzy
 msgid "Build Properties"
-msgstr "By_g projekt"
+msgstr "Byg egenskaber"
 
 #: ../Core/src/MonoDevelop.Base/MonoDevelopCore.addin.xml.h:49
 msgid "C#"
-msgstr ""
+msgstr "C#"
 
 #: ../Core/src/MonoDevelop.Base/MonoDevelopCore.addin.xml.h:50
 msgid "C# Corner"
@@ -228,7 +227,7 @@ msgstr "C# hjælp"
 
 #: ../Core/src/MonoDevelop.Base/MonoDevelopCore.addin.xml.h:52
 msgid "C_omment Line(s)"
-msgstr ""
+msgstr "K_ommentarlinje(r)"
 
 #: ../Core/src/MonoDevelop.Base/MonoDevelopCore.addin.xml.h:53
 msgid "Choose Location"
@@ -239,14 +238,12 @@ msgid "Classes"
 msgstr "Klasser"
 
 #: ../Core/src/MonoDevelop.Base/MonoDevelopCore.addin.xml.h:55
-#, fuzzy
 msgid "Close All"
 msgstr "Luk alle"
 
 #: ../Core/src/MonoDevelop.Base/MonoDevelopCore.addin.xml.h:56
-#, fuzzy
 msgid "Close Sol_ution"
-msgstr "Luk løsning"
+msgstr "Luk _løsning"
 
 #: ../Core/src/MonoDevelop.Base/MonoDevelopCore.addin.xml.h:57
 #: ../Core/src/AddIns/BackendBindings/CSharpBinding/CSharpBinding.addin.xml.h:1
@@ -271,9 +268,8 @@ msgid "Compile"
 msgstr "Kompilér"
 
 #: ../Core/src/MonoDevelop.Base/MonoDevelopCore.addin.xml.h:62
-#, fuzzy
 msgid "Compile _All"
-msgstr "Kompilér alle"
+msgstr "Kompilér _alle"
 
 #: ../Core/src/MonoDevelop.Base/MonoDevelopCore.addin.xml.h:63
 msgid "Convert C# Project to VB.NET"
@@ -289,9 +285,8 @@ msgid "Create Database"
 msgstr "Lav database"
 
 #: ../Core/src/MonoDevelop.Base/MonoDevelopCore.addin.xml.h:66
-#, fuzzy
 msgid "Cu_t"
-msgstr "Klip"
+msgstr "_Klip"
 
 #: ../Core/src/MonoDevelop.Base/MonoDevelopCore.addin.xml.h:67
 #: ../Core/src/AddIns/DisplayBindings/SourceEditor/MonoDevelopEditor.addin.xml.h:33
@@ -313,9 +308,8 @@ msgid "Downloads"
 msgstr "Overføringer"
 
 #: ../Core/src/MonoDevelop.Base/MonoDevelopCore.addin.xml.h:71
-#, fuzzy
 msgid "Edit References"
-msgstr "Tilføj referencer"
+msgstr "Redigér referencer"
 
 #: ../Core/src/MonoDevelop.Base/MonoDevelopCore.addin.xml.h:72
 msgid "ExportSignature"
@@ -344,7 +338,7 @@ msgstr "Genererede makefiler"
 
 #: ../Core/src/MonoDevelop.Base/MonoDevelopCore.addin.xml.h:78
 msgid "GotDotNet"
-msgstr ""
+msgstr "GotDotNet"
 
 #: ../Core/src/MonoDevelop.Base/MonoDevelopCore.addin.xml.h:79
 msgid "Group members by access"
@@ -355,14 +349,12 @@ msgid "Group members by member type"
 msgstr ""
 
 #: ../Core/src/MonoDevelop.Base/MonoDevelopCore.addin.xml.h:81
-#, fuzzy
 msgid "Include"
-msgstr "<b>Inkluder</b>"
+msgstr "Inkludér"
 
 #: ../Core/src/MonoDevelop.Base/MonoDevelopCore.addin.xml.h:82
-#, fuzzy
 msgid "Include To Project"
-msgstr "By_g projekt"
+msgstr "Inkludér i projekt"
 
 #: ../Core/src/MonoDevelop.Base/MonoDevelopCore.addin.xml.h:83
 msgid "Integrated Projects"
@@ -382,7 +374,7 @@ msgstr "Mono projekt"
 
 #: ../Core/src/MonoDevelop.Base/MonoDevelopCore.addin.xml.h:87
 msgid "MonoDevelop"
-msgstr ""
+msgstr "MonoDevelop"
 
 #: ../Core/src/MonoDevelop.Base/MonoDevelopCore.addin.xml.h:88
 msgid "MonoDevelop Options"
@@ -406,25 +398,23 @@ msgstr "Flyt side op"
 
 #: ../Core/src/MonoDevelop.Base/MonoDevelopCore.addin.xml.h:93
 msgid "NAnt"
-msgstr ""
+msgstr "NAnt"
 
 #: ../Core/src/MonoDevelop.Base/MonoDevelopCore.addin.xml.h:94
 msgid "NDoc"
-msgstr ""
+msgstr "NDoc"
 
 #: ../Core/src/MonoDevelop.Base/MonoDevelopCore.addin.xml.h:95
-#, fuzzy
 msgid "N_ew Solution/Project..."
-msgstr "Ny løsning/projekt..."
+msgstr "_Ny løsning/projekt..."
 
 #: ../Core/src/MonoDevelop.Base/MonoDevelopCore.addin.xml.h:96
 msgid "Nested namespaces"
 msgstr ""
 
 #: ../Core/src/MonoDevelop.Base/MonoDevelopCore.addin.xml.h:97
-#, fuzzy
 msgid "New File"
-msgstr "Nye filer"
+msgstr "Ny fil"
 
 #: ../Core/src/MonoDevelop.Base/MonoDevelopCore.addin.xml.h:98
 #: ../Core/src/MonoDevelop.Base/Commands/ProjectBrowserCommands/FolderNodeCommands.cs:184
@@ -440,9 +430,8 @@ msgid "O_pen"
 msgstr "_Åbn"
 
 #: ../Core/src/MonoDevelop.Base/MonoDevelopCore.addin.xml.h:101
-#, fuzzy
 msgid "Open File"
-msgstr "Alle åbne filer"
+msgstr "Åbn fil"
 
 #: ../Core/src/MonoDevelop.Base/MonoDevelopCore.addin.xml.h:102
 #: ../Core/src/AddIns/DisplayBindings/SourceEditor/MonoDevelopEditor.addin.xml.h:46
@@ -470,14 +459,12 @@ msgid "Rebuild _Solution"
 msgstr "Genbyg lø_sning"
 
 #: ../Core/src/MonoDevelop.Base/MonoDevelopCore.addin.xml.h:108
-#, fuzzy
 msgid "Recent Solu_tions"
-msgstr "Seneste løsninger"
+msgstr "_Seneste løsninger"
 
 #: ../Core/src/MonoDevelop.Base/MonoDevelopCore.addin.xml.h:109
-#, fuzzy
 msgid "Recent _Files"
-msgstr "Seneste filer"
+msgstr "Seneste _filer"
 
 #: ../Core/src/MonoDevelop.Base/MonoDevelopCore.addin.xml.h:110
 msgid "Refresh"
@@ -510,24 +497,21 @@ msgid "Save"
 msgstr "Gem"
 
 #: ../Core/src/MonoDevelop.Base/MonoDevelopCore.addin.xml.h:117
-#, fuzzy
 msgid "Save A_ll"
-msgstr "Gem alle"
+msgstr "Gem _alle"
 
 #: ../Core/src/MonoDevelop.Base/MonoDevelopCore.addin.xml.h:118
 msgid "Save All"
 msgstr "Gem alle"
 
 #: ../Core/src/MonoDevelop.Base/MonoDevelopCore.addin.xml.h:119
-#, fuzzy
 msgid "Save _As..."
-msgstr "Gem som..."
+msgstr "Gem _som..."
 
 #: ../Core/src/MonoDevelop.Base/MonoDevelopCore.addin.xml.h:120
 #: ../Core/src/MonoDevelop.Base/Base.glade.h:58
-#, fuzzy
 msgid "Select _All"
-msgstr "Vælg alle"
+msgstr "Vælg _alle"
 
 #: ../Core/src/MonoDevelop.Base/MonoDevelopCore.addin.xml.h:121
 msgid "Send Us a Mail"
@@ -547,21 +531,19 @@ msgstr "Opsætning"
 
 #: ../Core/src/MonoDevelop.Base/MonoDevelopCore.addin.xml.h:125
 msgid "SharpDevelop"
-msgstr ""
+msgstr "SharpDevelop"
 
 #: ../Core/src/MonoDevelop.Base/MonoDevelopCore.addin.xml.h:126
-#, fuzzy
 msgid "Show All Files"
-msgstr "Alle filer"
+msgstr "Vis alle filer"
 
 #: ../Core/src/MonoDevelop.Base/MonoDevelopCore.addin.xml.h:127
 msgid "Show Description"
 msgstr "Vis beskrivelse"
 
 #: ../Core/src/MonoDevelop.Base/MonoDevelopCore.addin.xml.h:128
-#, fuzzy
 msgid "Show project structure"
-msgstr "_Vis under opstart"
+msgstr "Vis projektstruktur"
 
 #: ../Core/src/MonoDevelop.Base/MonoDevelopCore.addin.xml.h:129
 msgid "Solution"
@@ -592,190 +574,156 @@ msgid "Visual style"
 msgstr "Visuel stil"
 
 #: ../Core/src/MonoDevelop.Base/MonoDevelopCore.addin.xml.h:136
-#, fuzzy
 msgid "_About"
-msgstr "Om"
+msgstr "_Om"
 
 #: ../Core/src/MonoDevelop.Base/MonoDevelopCore.addin.xml.h:137
-#, fuzzy
 msgid "_Clear Recent Files"
-msgstr "Fjern seneste filer"
+msgstr "_Fjern seneste filer"
 
 #: ../Core/src/MonoDevelop.Base/MonoDevelopCore.addin.xml.h:138
-#, fuzzy
 msgid "_Clear Recent Solutions"
-msgstr "Fjern seneste løsninger"
+msgstr "_Fjern seneste løsninger"
 
 #: ../Core/src/MonoDevelop.Base/MonoDevelopCore.addin.xml.h:139
-#, fuzzy
 msgid "_Close All"
-msgstr "Luk alle"
+msgstr "_Luk alle"
 
 #: ../Core/src/MonoDevelop.Base/MonoDevelopCore.addin.xml.h:140
-#, fuzzy
 msgid "_Close File"
-msgstr "Luk fil"
+msgstr "_Luk fil"
 
 #: ../Core/src/MonoDevelop.Base/MonoDevelopCore.addin.xml.h:141
-#, fuzzy
 msgid "_Compile"
-msgstr "Kompilér"
+msgstr "_Oversæt"
 
 #: ../Core/src/MonoDevelop.Base/MonoDevelopCore.addin.xml.h:142
-#, fuzzy
 msgid "_Copy"
-msgstr "Kopier"
+msgstr "_Kopiér"
 
 #: ../Core/src/MonoDevelop.Base/MonoDevelopCore.addin.xml.h:143
-#, fuzzy
 msgid "_Cut"
-msgstr "Klip"
+msgstr "_Klip"
 
 #: ../Core/src/MonoDevelop.Base/MonoDevelopCore.addin.xml.h:144
-#, fuzzy
 msgid "_Delete"
-msgstr "Slet"
+msgstr "_Slet"
 
 #: ../Core/src/MonoDevelop.Base/MonoDevelopCore.addin.xml.h:145
-#, fuzzy
 msgid "_Edit"
-msgstr "Editer"
+msgstr "_Redigér"
 
 #: ../Core/src/MonoDevelop.Base/MonoDevelopCore.addin.xml.h:146
-#, fuzzy
 msgid "_File"
-msgstr "Fil"
+msgstr "_Fil"
 
 #: ../Core/src/MonoDevelop.Base/MonoDevelopCore.addin.xml.h:147
-#, fuzzy
 msgid "_Full Screen"
-msgstr "Fuldskærmstilstand"
+msgstr "_Fuldskærmstilstand"
 
 #: ../Core/src/MonoDevelop.Base/MonoDevelopCore.addin.xml.h:148
-#, fuzzy
 msgid "_Help"
-msgstr "Hjælp"
+msgstr "_Hjælp"
 
 #: ../Core/src/MonoDevelop.Base/MonoDevelopCore.addin.xml.h:149
-#, fuzzy
 msgid "_Help..."
-msgstr "Hjælp..."
+msgstr "_Hjælp..."
 
 #: ../Core/src/MonoDevelop.Base/MonoDevelopCore.addin.xml.h:150
-#, fuzzy
 msgid "_Indent Selection"
-msgstr "Indryk markering"
+msgstr "_Indryk markering"
 
 #: ../Core/src/MonoDevelop.Base/MonoDevelopCore.addin.xml.h:151
-#, fuzzy
 msgid "_Layouts"
-msgstr "Opstillinger"
+msgstr "_Layouts"
 
 #: ../Core/src/MonoDevelop.Base/MonoDevelopCore.addin.xml.h:152
-#, fuzzy
 msgid "_New"
-msgstr "Ny"
+msgstr "_Ny"
 
 #: ../Core/src/MonoDevelop.Base/MonoDevelopCore.addin.xml.h:153
-#, fuzzy
 msgid "_New File..."
-msgstr "Ny fil..."
+msgstr "_Ny fil..."
 
 #: ../Core/src/MonoDevelop.Base/MonoDevelopCore.addin.xml.h:154
-#, fuzzy
 msgid "_Next Window"
-msgstr "Næste vindue"
+msgstr "_Næste vindue"
 
 #: ../Core/src/MonoDevelop.Base/MonoDevelopCore.addin.xml.h:155
-#, fuzzy
 msgid "_Open"
-msgstr "Åbn"
+msgstr "_Åbn"
 
 #: ../Core/src/MonoDevelop.Base/MonoDevelopCore.addin.xml.h:156
-#, fuzzy
 msgid "_Open..."
-msgstr "Åbn..."
+msgstr "_Åbn..."
 
 #: ../Core/src/MonoDevelop.Base/MonoDevelopCore.addin.xml.h:157
-#, fuzzy
 msgid "_Paste"
-msgstr "Indsæt"
+msgstr "_Indsæt"
 
 #: ../Core/src/MonoDevelop.Base/MonoDevelopCore.addin.xml.h:158
-#, fuzzy
 msgid "_Preferences"
-msgstr "Præferencer"
+msgstr "_Indstillinger"
 
 #: ../Core/src/MonoDevelop.Base/MonoDevelopCore.addin.xml.h:159
-#, fuzzy
 msgid "_Previous Window"
-msgstr "Forige vindue"
+msgstr "_Forrige vindue"
 
 #: ../Core/src/MonoDevelop.Base/MonoDevelopCore.addin.xml.h:160
-#, fuzzy
 msgid "_Quit"
-msgstr "Luk"
+msgstr "_Afslut"
 
 #: ../Core/src/MonoDevelop.Base/MonoDevelopCore.addin.xml.h:161
-#, fuzzy
 msgid "_Redo"
-msgstr "Fortryd"
+msgstr "_Omgør"
 
 #: ../Core/src/MonoDevelop.Base/MonoDevelopCore.addin.xml.h:162
-#, fuzzy
 msgid "_Reload File"
-msgstr "Genindlæs fil"
+msgstr "_Genindlæs fil"
 
 #: ../Core/src/MonoDevelop.Base/MonoDevelopCore.addin.xml.h:163
 msgid "_Remove"
 msgstr "_Fjern"
 
 #: ../Core/src/MonoDevelop.Base/MonoDevelopCore.addin.xml.h:164
-#, fuzzy
 msgid "_Run"
-msgstr "Kør"
+msgstr "_Kør"
 
 #: ../Core/src/MonoDevelop.Base/MonoDevelopCore.addin.xml.h:165
 msgid "_Save"
 msgstr "_Gem"
 
 #: ../Core/src/MonoDevelop.Base/MonoDevelopCore.addin.xml.h:166
-#, fuzzy
 msgid "_Tip of the Day..."
-msgstr "Dagens tip..."
+msgstr "_Dagens tip..."
 
 #: ../Core/src/MonoDevelop.Base/MonoDevelopCore.addin.xml.h:167
 msgid "_Uncomment Line(s)"
 msgstr ""
 
 #: ../Core/src/MonoDevelop.Base/MonoDevelopCore.addin.xml.h:168
-#, fuzzy
 msgid "_Undo"
-msgstr "Fortryd"
+msgstr "_Fortryd"
 
 #: ../Core/src/MonoDevelop.Base/MonoDevelopCore.addin.xml.h:169
-#, fuzzy
 msgid "_Unindent Selection"
-msgstr "Indryk markering"
+msgstr "_Fortryd indryk af markering"
 
 #: ../Core/src/MonoDevelop.Base/MonoDevelopCore.addin.xml.h:170
-#, fuzzy
 msgid "_View"
-msgstr "Vis"
+msgstr "_Vis"
 
 #: ../Core/src/MonoDevelop.Base/MonoDevelopCore.addin.xml.h:171
 msgid "_Web"
 msgstr ""
 
 #: ../Core/src/MonoDevelop.Base/MonoDevelopCore.addin.xml.h:172
-#, fuzzy
 msgid "_Window"
-msgstr "Vindue"
+msgstr "_Vindue"
 
 #: ../Core/src/MonoDevelop.Base/MonoDevelopCore.addin.xml.h:173
-#, fuzzy
 msgid "_Word Count..."
-msgstr "Ordoptælling..."
+msgstr "_Ordoptælling..."
 
 #: ../Core/src/MonoDevelop.Base/MonoDevelopCore.addin.xml.h:174
 #: ../Core/src/AddIns/DisplayBindings/SourceEditor/MonoDevelopEditor.addin.xml.h:66
@@ -784,7 +732,7 @@ msgstr ""
 
 #: ../Core/src/MonoDevelop.Base/MonoDevelopCore.addin.xml.h:175
 msgid "cshrp.net"
-msgstr ""
+msgstr "cshrp.net"
 
 #: ../Core/src/AddIns/DisplayBindings/SourceEditor/MonoDevelopEditor.addin.xml.h:1
 msgid "# Any single digit"
@@ -792,91 +740,91 @@ msgstr "# Ethvert enkelt ciffer"
 
 #: ../Core/src/AddIns/DisplayBindings/SourceEditor/MonoDevelopEditor.addin.xml.h:2
 msgid "${res:ProjectComponent.ContextMenu.HtmlExport}"
-msgstr ""
+msgstr "${res:ProjectComponent.ContextMenu.HtmlExport}"
 
 #: ../Core/src/AddIns/DisplayBindings/SourceEditor/MonoDevelopEditor.addin.xml.h:3
 msgid "${res:XML.MainMenu.EditMenu.FoldingMenu.ShowDefinitions}"
-msgstr ""
+msgstr "${res:XML.MainMenu.EditMenu.FoldingMenu.ShowDefinitions}"
 
 #: ../Core/src/AddIns/DisplayBindings/SourceEditor/MonoDevelopEditor.addin.xml.h:4
 msgid "${res:XML.MainMenu.EditMenu.FoldingMenu.ToggleAllFoldings}"
-msgstr ""
+msgstr "${res:XML.MainMenu.EditMenu.FoldingMenu.ToggleAllFoldings}"
 
 #: ../Core/src/AddIns/DisplayBindings/SourceEditor/MonoDevelopEditor.addin.xml.h:5
 msgid "${res:XML.MainMenu.EditMenu.FoldingMenu.ToggleFolding}"
-msgstr ""
+msgstr "${res:XML.MainMenu.EditMenu.FoldingMenu.ToggleFolding}"
 
 #: ../Core/src/AddIns/DisplayBindings/SourceEditor/MonoDevelopEditor.addin.xml.h:6
 msgid "${res:XML.MainMenu.EditMenu.FoldingMenu}"
-msgstr ""
+msgstr "${res:XML.MainMenu.EditMenu.FoldingMenu}"
 
 #: ../Core/src/AddIns/DisplayBindings/SourceEditor/MonoDevelopEditor.addin.xml.h:7
 msgid "${res:XML.MainMenu.EditMenu.FormatMenu.Capitalize}"
-msgstr ""
+msgstr "${res:XML.MainMenu.EditMenu.FormatMenu.Capitalize}"
 
 #: ../Core/src/AddIns/DisplayBindings/SourceEditor/MonoDevelopEditor.addin.xml.h:8
 msgid "${res:XML.MainMenu.EditMenu.FormatMenu.InvertCase}"
-msgstr ""
+msgstr "${res:XML.MainMenu.EditMenu.FormatMenu.InvertCase}"
 
 #: ../Core/src/AddIns/DisplayBindings/SourceEditor/MonoDevelopEditor.addin.xml.h:9
 msgid "${res:XML.MainMenu.EditMenu.FormatMenu.LdSpace2Tab}"
-msgstr ""
+msgstr "${res:XML.MainMenu.EditMenu.FormatMenu.LdSpace2Tab}"
 
 #: ../Core/src/AddIns/DisplayBindings/SourceEditor/MonoDevelopEditor.addin.xml.h:10
 msgid "${res:XML.MainMenu.EditMenu.FormatMenu.LdTab2Space}"
-msgstr ""
+msgstr "${res:XML.MainMenu.EditMenu.FormatMenu.LdTab2Space}"
 
 #: ../Core/src/AddIns/DisplayBindings/SourceEditor/MonoDevelopEditor.addin.xml.h:11
 msgid "${res:XML.MainMenu.EditMenu.FormatMenu.LowerCase}"
-msgstr ""
+msgstr "${res:XML.MainMenu.EditMenu.FormatMenu.LowerCase}"
 
 #: ../Core/src/AddIns/DisplayBindings/SourceEditor/MonoDevelopEditor.addin.xml.h:12
 msgid "${res:XML.MainMenu.EditMenu.FormatMenu.RlWs}"
-msgstr ""
+msgstr "${res:XML.MainMenu.EditMenu.FormatMenu.RlWs}"
 
 #: ../Core/src/AddIns/DisplayBindings/SourceEditor/MonoDevelopEditor.addin.xml.h:13
 msgid "${res:XML.MainMenu.EditMenu.FormatMenu.RtWs}"
-msgstr ""
+msgstr "${res:XML.MainMenu.EditMenu.FormatMenu.RtWs}"
 
 #: ../Core/src/AddIns/DisplayBindings/SourceEditor/MonoDevelopEditor.addin.xml.h:14
 msgid "${res:XML.MainMenu.EditMenu.FormatMenu.SortLines}"
-msgstr ""
+msgstr "${res:XML.MainMenu.EditMenu.FormatMenu.SortLines}"
 
 #: ../Core/src/AddIns/DisplayBindings/SourceEditor/MonoDevelopEditor.addin.xml.h:15
 msgid "${res:XML.MainMenu.EditMenu.FormatMenu.Space2Tab}"
-msgstr ""
+msgstr "${res:XML.MainMenu.EditMenu.FormatMenu.Space2Tab}"
 
 #: ../Core/src/AddIns/DisplayBindings/SourceEditor/MonoDevelopEditor.addin.xml.h:16
 msgid "${res:XML.MainMenu.EditMenu.FormatMenu.Tab2Space}"
-msgstr ""
+msgstr "${res:XML.MainMenu.EditMenu.FormatMenu.Tab2Space}"
 
 #: ../Core/src/AddIns/DisplayBindings/SourceEditor/MonoDevelopEditor.addin.xml.h:17
 msgid "${res:XML.MainMenu.EditMenu.FormatMenu.UpperCase}"
-msgstr ""
+msgstr "${res:XML.MainMenu.EditMenu.FormatMenu.UpperCase}"
 
 #: ../Core/src/AddIns/DisplayBindings/SourceEditor/MonoDevelopEditor.addin.xml.h:18
 msgid "${res:XML.MainMenu.EditMenu.FormatMenu}"
-msgstr ""
+msgstr "${res:XML.MainMenu.EditMenu.FormatMenu}"
 
 #: ../Core/src/AddIns/DisplayBindings/SourceEditor/MonoDevelopEditor.addin.xml.h:19
 msgid "${res:XML.MainMenu.ToolMenu.GenerateCode}"
-msgstr ""
+msgstr "${res:XML.MainMenu.ToolMenu.GenerateCode}"
 
 #: ../Core/src/AddIns/DisplayBindings/SourceEditor/MonoDevelopEditor.addin.xml.h:20
 msgid "${res:XML.MainMenu.ToolMenu.InsColor}"
-msgstr ""
+msgstr "${res:XML.MainMenu.ToolMenu.InsColor}"
 
 #: ../Core/src/AddIns/DisplayBindings/SourceEditor/MonoDevelopEditor.addin.xml.h:21
 msgid "${res:XML.MainMenu.ToolMenu.QuickXmlDoc}"
-msgstr ""
+msgstr "${res:XML.MainMenu.ToolMenu.QuickXmlDoc}"
 
 #: ../Core/src/AddIns/DisplayBindings/SourceEditor/MonoDevelopEditor.addin.xml.h:22
 msgid "${res:XML.MainMenu.WindowMenu.Split}"
-msgstr ""
+msgstr "${res:XML.MainMenu.WindowMenu.Split}"
 
 #: ../Core/src/AddIns/DisplayBindings/SourceEditor/MonoDevelopEditor.addin.xml.h:23
 msgid "${res:XML.TextAreaContextMenu.UncommentSelection}"
-msgstr ""
+msgstr "${res:XML.TextAreaContextMenu.UncommentSelection}"
 
 #: ../Core/src/AddIns/DisplayBindings/SourceEditor/MonoDevelopEditor.addin.xml.h:24
 msgid "* Zero or more of any character"
@@ -907,28 +855,25 @@ msgid "Code Templates"
 msgstr "Kodeskabeloner"
 
 #: ../Core/src/AddIns/DisplayBindings/SourceEditor/MonoDevelopEditor.addin.xml.h:35
-#, fuzzy
 msgid "F_ind In Files..."
-msgstr "Find i filer..."
+msgstr "_Søg i filer..."
 
 #: ../Core/src/AddIns/DisplayBindings/SourceEditor/MonoDevelopEditor.addin.xml.h:36
 #: ../Core/src/AddIns/DisplayBindings/SourceEditor/Gui/Dialogs/ReplaceDialog.cs:190
 msgid "Find"
-msgstr ""
+msgstr "Søg"
 
 #: ../Core/src/AddIns/DisplayBindings/SourceEditor/MonoDevelopEditor.addin.xml.h:37
 msgid "Find Next"
 msgstr "Find næste"
 
 #: ../Core/src/AddIns/DisplayBindings/SourceEditor/MonoDevelopEditor.addin.xml.h:38
-#, fuzzy
 msgid "Find _Next"
-msgstr "Find næste"
+msgstr "Find _næste"
 
 #: ../Core/src/AddIns/DisplayBindings/SourceEditor/MonoDevelopEditor.addin.xml.h:40
-#, fuzzy
 msgid "Goto Matching _Brace"
-msgstr "Gå til matchende parentes"
+msgstr "Gå til matchende _parentes"
 
 #: ../Core/src/AddIns/DisplayBindings/SourceEditor/MonoDevelopEditor.addin.xml.h:41
 msgid "Highlighting Mode"
@@ -955,9 +900,8 @@ msgid "Previous Bookmark"
 msgstr "Forige bogmærke"
 
 #: ../Core/src/AddIns/DisplayBindings/SourceEditor/MonoDevelopEditor.addin.xml.h:48
-#, fuzzy
 msgid "R_eplace In Files..."
-msgstr "Erstat i filer..."
+msgstr "_Erstat i filer..."
 
 #: ../Core/src/AddIns/DisplayBindings/SourceEditor/MonoDevelopEditor.addin.xml.h:49
 #: ../Core/src/AddIns/DisplayBindings/SourceEditor/Gui/Dialogs/ReplaceDialog.cs:185
@@ -969,9 +913,8 @@ msgid "Save As"
 msgstr "Gem som"
 
 #: ../Core/src/AddIns/DisplayBindings/SourceEditor/MonoDevelopEditor.addin.xml.h:52
-#, fuzzy
 msgid "Syntax highlighting"
-msgstr "Fokustilstand"
+msgstr "Syntaksfremhævning"
 
 #: ../Core/src/AddIns/DisplayBindings/SourceEditor/MonoDevelopEditor.addin.xml.h:53
 msgid "Text Editor"
@@ -994,44 +937,36 @@ msgid "[] Any one character in the set"
 msgstr "[] Tegn der er i sættet"
 
 #: ../Core/src/AddIns/DisplayBindings/SourceEditor/MonoDevelopEditor.addin.xml.h:58
-#, fuzzy
 msgid "_Clear Bookmarks"
-msgstr "Ryd bogmærker"
+msgstr "_Ryd bogmærker"
 
 #: ../Core/src/AddIns/DisplayBindings/SourceEditor/MonoDevelopEditor.addin.xml.h:59
-#, fuzzy
 msgid "_Find..."
-msgstr "Fil..."
+msgstr "_Søg..."
 
 #: ../Core/src/AddIns/DisplayBindings/SourceEditor/MonoDevelopEditor.addin.xml.h:60
-#, fuzzy
 msgid "_Goto Line..."
-msgstr "Gå til linje..."
+msgstr "_Gå til linje..."
 
 #: ../Core/src/AddIns/DisplayBindings/SourceEditor/MonoDevelopEditor.addin.xml.h:61
-#, fuzzy
 msgid "_Next Bookmark"
-msgstr "Næste bogmærke"
+msgstr "_Næste bogmærke"
 
 #: ../Core/src/AddIns/DisplayBindings/SourceEditor/MonoDevelopEditor.addin.xml.h:62
-#, fuzzy
 msgid "_Previous Bookmark"
-msgstr "Forige bogmærke"
+msgstr "_Forrige bogmærke"
 
 #: ../Core/src/AddIns/DisplayBindings/SourceEditor/MonoDevelopEditor.addin.xml.h:63
-#, fuzzy
 msgid "_Replace..."
-msgstr "Erstat..."
+msgstr "_Erstat..."
 
 #: ../Core/src/AddIns/DisplayBindings/SourceEditor/MonoDevelopEditor.addin.xml.h:64
-#, fuzzy
 msgid "_Search"
-msgstr "Søg"
+msgstr "_Søg"
 
 #: ../Core/src/AddIns/DisplayBindings/SourceEditor/MonoDevelopEditor.addin.xml.h:65
-#, fuzzy
 msgid "_Toggle Bookmark"
-msgstr "Vælg/Fravælg bogmærke"
+msgstr "_Vælg/Fravælg bogmærke"
 
 #: ../Core/src/AddIns/BackendBindings/CSharpBinding/CSharpBinding.addin.xml.h:2
 msgid "Output"
@@ -1063,7 +998,7 @@ msgstr "Gå over"
 
 #: ../Core/src/MonoDevelop.Base/Base.glade.h:1
 msgid "   "
-msgstr ""
+msgstr "   "
 
 #: ../Core/src/MonoDevelop.Base/Base.glade.h:2
 #: ../Core/src/AddIns/DisplayBindings/SourceEditor/EditorBindings.glade.h:1
@@ -1071,11 +1006,11 @@ msgstr ""
 #: ../Core/src/AddIns/BackendBindings/NemerleBinding/Nemerle.glade.h:1
 #: ../Core/src/AddIns/BackendBindings/VBNetBinding/VB.glade.h:1
 msgid "    "
-msgstr ""
+msgstr "    "
 
 #: ../Core/src/MonoDevelop.Base/Base.glade.h:3
 msgid " > "
-msgstr ""
+msgstr " > "
 
 #: ../Core/src/MonoDevelop.Base/Base.glade.h:4
 msgid "<b>Code generation options</b>"
@@ -1106,9 +1041,8 @@ msgid "<b>On Project Load</b>"
 msgstr "<b>Under projektindlæsning</b>"
 
 #: ../Core/src/MonoDevelop.Base/Base.glade.h:11
-#, fuzzy
 msgid "<b>Output Directory</b>"
-msgstr "<b>Uddata</b>"
+msgstr "<b>Uddata-katalog</b>"
 
 #: ../Core/src/MonoDevelop.Base/Base.glade.h:12
 msgid "<b>Output</b>"
@@ -1151,9 +1085,8 @@ msgid "Assembly _name"
 msgstr "Assembly _navn"
 
 #: ../Core/src/MonoDevelop.Base/Base.glade.h:22
-#, fuzzy
 msgid "Automatically _include found files"
-msgstr "Inkluder automatisk fundne filer"
+msgstr "_Inkludér automatisk fundne filer"
 
 #: ../Core/src/MonoDevelop.Base/Base.glade.h:23
 msgid "Build and run options"
@@ -1169,7 +1102,7 @@ msgstr "Kat_egorier"
 
 #: ../Core/src/MonoDevelop.Base/Base.glade.h:26
 msgid "CombineStartupPanel"
-msgstr ""
+msgstr "CombineStartupPanel"
 
 #: ../Core/src/MonoDevelop.Base/Base.glade.h:27
 msgid "Compilation _target"
@@ -1177,25 +1110,23 @@ msgstr "Kompilerings_mål"
 
 #: ../Core/src/MonoDevelop.Base/Base.glade.h:28
 msgid "CompileFileOptionsPanel"
-msgstr ""
+msgstr "CompileFileOptionsPanel"
 
 #: ../Core/src/MonoDevelop.Base/Base.glade.h:29
-#, fuzzy
 msgid "Create seperate _Solution subdirectory"
-msgstr "Opret seperat c_ombine underfolder"
+msgstr "Opret seperat _løsningsunderkatalog"
 
 #: ../Core/src/MonoDevelop.Base/Base.glade.h:30
 msgid "Creates a new C# Project"
 msgstr "Opret et nyt C# projekt"
 
 #: ../Core/src/MonoDevelop.Base/Base.glade.h:31
-#, fuzzy
 msgid "Default _Solution location"
-msgstr "Standard lø_snings lokalitet"
+msgstr "Forvalgt _løsningssted"
 
 #: ../Core/src/MonoDevelop.Base/Base.glade.h:32
 msgid "DeployFileOptionsPanel"
-msgstr ""
+msgstr "DeployFileOptionsPanel"
 
 #: ../Core/src/MonoDevelop.Base/Base.glade.h:33
 msgid "Did you know that you can design lots of cool things with glade?"
@@ -1210,17 +1141,16 @@ msgid "Enable _viewstate"
 msgstr "Brug _viewstate"
 
 #: ../Core/src/MonoDevelop.Base/Base.glade.h:36
-#, fuzzy
 msgid "Execute co_mmand"
-msgstr "Udfør Kommando"
+msgstr "Udfør _kommando"
 
 #: ../Core/src/MonoDevelop.Base/Base.glade.h:37
 msgid "ExternalToolPanel"
-msgstr ""
+msgstr "ExternalToolPanel"
 
 #: ../Core/src/MonoDevelop.Base/Base.glade.h:38
 msgid "GeneralProjectOptionsPanel"
-msgstr ""
+msgstr "GeneralProjectOptionsPanel"
 
 #: ../Core/src/MonoDevelop.Base/Base.glade.h:39
 msgid "Generate _additional comments"
@@ -1244,7 +1174,7 @@ msgstr "Indlæs bruger-specifikke-indstillinger med dokumentet"
 
 #: ../Core/src/MonoDevelop.Base/Base.glade.h:44
 msgid "LoadSavePanel"
-msgstr ""
+msgstr "LoadSavePanel"
 
 #: ../Core/src/MonoDevelop.Base/Base.glade.h:45
 msgid "New Files"
@@ -1272,7 +1202,7 @@ msgstr "Uddata_sti"
 
 #: ../Core/src/MonoDevelop.Base/Base.glade.h:51
 msgid "OutputOptionsPanel"
-msgstr ""
+msgstr "OutputOptionsPanel"
 
 #: ../Core/src/MonoDevelop.Base/Base.glade.h:52
 msgid "Paramet_ers"
@@ -1480,7 +1410,7 @@ msgstr "Indstillinger"
 
 #: ../Core/src/AddIns/DisplayBindings/SourceEditor/EditorBindings.glade.h:2
 msgid "&"
-msgstr ""
+msgstr "&"
 
 #: ../Core/src/AddIns/DisplayBindings/SourceEditor/EditorBindings.glade.h:3
 msgid "<b>Behavior</b>"
@@ -1529,7 +1459,7 @@ msgstr "Automatik"
 
 #: ../Core/src/AddIns/DisplayBindings/SourceEditor/EditorBindings.glade.h:14
 msgid "BehaviorTextEditorPanel"
-msgstr ""
+msgstr "BehaviorTextEditorPanel"
 
 #: ../Core/src/AddIns/DisplayBindings/SourceEditor/EditorBindings.glade.h:15
 msgid "C_onvert Tabs to Spaces"
@@ -1541,7 +1471,7 @@ msgstr "Vælg t_egnenkodning"
 
 #: ../Core/src/AddIns/DisplayBindings/SourceEditor/EditorBindings.glade.h:17
 msgid "CodeTemplatePane"
-msgstr ""
+msgstr "CodeTemplatePane"
 
 #: ../Core/src/AddIns/DisplayBindings/SourceEditor/EditorBindings.glade.h:18
 msgid "Edit Group"
@@ -1565,7 +1495,7 @@ msgstr "Udvidelse"
 
 #: ../Core/src/AddIns/DisplayBindings/SourceEditor/EditorBindings.glade.h:23
 msgid "GeneralTextEditorPanel"
-msgstr ""
+msgstr "GeneralTextEditorPanel"
 
 #: ../Core/src/AddIns/DisplayBindings/SourceEditor/EditorBindings.glade.h:24
 msgid "Highlight _matching bracket"
@@ -1577,7 +1507,7 @@ msgstr "I_ndrykning"
 
 #: ../Core/src/AddIns/DisplayBindings/SourceEditor/EditorBindings.glade.h:26
 msgid "MarkersTextEditorPanel"
-msgstr ""
+msgstr "MarkersTextEditorPanel"
 
 #: ../Core/src/AddIns/DisplayBindings/SourceEditor/EditorBindings.glade.h:27
 #: ../Core/src/MonoDevelop.Base/Gui/Dialogs/CombineConfiguration/CombineStartupPanel.cs:72
@@ -1638,11 +1568,11 @@ msgstr "ved kolonne"
 
 #: ../Core/src/AddIns/DisplayBindings/SourceEditor/texteditoraddin.glade.h:1
 msgid "..."
-msgstr ""
+msgstr "..."
 
 #: ../Core/src/AddIns/DisplayBindings/SourceEditor/texteditoraddin.glade.h:2
 msgid ">"
-msgstr ""
+msgstr ">"
 
 #: ../Core/src/AddIns/DisplayBindings/SourceEditor/texteditoraddin.glade.h:3
 msgid "Case sensitive"
@@ -1931,7 +1861,7 @@ msgstr "Referencenavn"
 #: ../Core/src/MonoDevelop.Base/Gui/Dialogs/SharpDevelopAboutPanels.cs:27
 #: ../Core/src/MonoDevelop.Base/Gui/Dialogs/SharpDevelopAboutPanels.cs:53
 msgid "Version"
-msgstr ""
+msgstr "Version"
 
 #: ../Core/src/MonoDevelop.Base/Gui/Dialogs/ReferenceDialog/GacReferencePanel.cs:51
 #: ../Core/src/MonoDevelop.Base/Gui/Dialogs/SharpDevelopAboutPanels.cs:54
@@ -1957,7 +1887,7 @@ msgstr "Projektfolder"
 
 #: ../Core/src/MonoDevelop.Base/Gui/Dialogs/ReferenceDialog/SelectReferenceDialog.cs:76
 msgid "Type"
-msgstr ""
+msgstr "Type"
 
 #: ../Core/src/MonoDevelop.Base/Gui/Dialogs/ReferenceDialog/SelectReferenceDialog.cs:77
 #: ../Core/src/MonoDevelop.Gui.Widgets/FileBrowser/FileBrowser.cs:82
@@ -1996,7 +1926,7 @@ msgstr "Indstillinger for MonoDevelop"
 #: ../Core/src/MonoDevelop.Base/Gui/Dialogs/WordCountDialog.cs:109
 #: ../Core/src/MonoDevelop.Base/Gui/Dialogs/WordCountDialog.cs:141
 msgid "total"
-msgstr ""
+msgstr "total"
 
 #: ../Core/src/MonoDevelop.Base/Gui/Dialogs/WordCountDialog.cs:95
 #: ../Core/src/MonoDevelop.Base/Gui/Dialogs/WordCountDialog.cs:112
