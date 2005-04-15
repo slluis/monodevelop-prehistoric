@@ -2,7 +2,6 @@ using System;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 
-using MonoDevelop.Debugger;
 using MonoDevelop.Services;
 
 using Mono.Debugger;
@@ -13,21 +12,19 @@ namespace MonoDevelop.DebuggerVisualizers
 
 	public class TargetObjectProvider : IVisualizerObjectProvider
 	{
-		public TargetObjectProvider (ITargetObject target, string sourceType)
+		public TargetObjectProvider (ITargetObject target, Process thread, string sourceType)
 		{
 			this.target = target;
-
+			this.thread = thread;
 			CreateVisualizerObjectSource (sourceType);
 		}
-
 
 		// Create the debuggee-side object that we'll communicate with
 		void CreateVisualizerObjectSource (string sourceType)
 		{
 			Console.WriteLine ("Creating Debuggee-side object (of type {0})", sourceType);
 
-			DebuggingService dbgr = (DebuggingService)Runtime.DebuggingService;
-			Mono.Debugger.StackFrame frame = dbgr.MainThread.CurrentFrame;
+			Mono.Debugger.StackFrame frame = thread.CurrentFrame;
 
 			// shouldn't be hardcoded - it comes from the attribute 
 			objectSourceType = frame.Language.LookupType (frame, sourceType) as ITargetStructType;
@@ -51,6 +48,8 @@ namespace MonoDevelop.DebuggerVisualizers
 			objectSource = ctor.Type.InvokeStatic (frame, args, false) as ITargetStructObject;
 			if (objectSource == null)
 				throw new Exception ("unable to create instance of object source");
+
+			Console.WriteLine ("succeeded in creating debuggee-side object source");
 		}
 
 #region IVisualizerObjectProvider implementation
@@ -65,7 +64,28 @@ namespace MonoDevelop.DebuggerVisualizers
 
 		public Stream GetData()
 		{
-			throw new NotImplementedException ();
+			TargetMemoryStream tms = new TargetMemoryStream (thread);
+
+			ITargetMethodInfo method = null;
+			foreach (ITargetMethodInfo m in objectSourceType.Methods) {
+				if (m.FullName == "GetData(System.Object,System.IO.Stream)") {
+					method = m;
+					break;
+				}
+			}
+
+			if (method == null)
+				throw new Exception ("couldn't find VisualizerObjectSource.GetData implementation in object source");
+
+			ITargetFunctionObject GetData = objectSource.GetMethod (method.Index);
+
+			ITargetObject[] args = new ITargetObject[2];
+			args[0] = target;
+			args[1] = tms.TargetStream;
+
+			GetData.Invoke (args, false);
+
+			return new MemoryStream (tms.ToArray());
 		}
 
 		public object GetObject ()
@@ -108,9 +128,10 @@ namespace MonoDevelop.DebuggerVisualizers
 		}
 #endregion
 
+		Process thread;
 		ITargetObject target;
 		ITargetStructType objectSourceType;
-		ITargetObject objectSource;
+		ITargetStructObject objectSource;
 	}
 
 }

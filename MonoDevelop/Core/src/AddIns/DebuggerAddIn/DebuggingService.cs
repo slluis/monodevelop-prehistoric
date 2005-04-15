@@ -99,6 +99,11 @@ namespace MonoDevelop.Debugger
 			}
 		}
 
+		public void LoadLibrary (Process thread, string assembly)
+		{
+			backend.LoadLibrary (thread, assembly);
+		}
+
 		private Breakpoint CreateBreakpoint (string name)
 		{
 			SimpleBreakpoint point = new SimpleBreakpoint (name);

@@ -17,26 +17,27 @@ using RefParse = ICSharpCode.SharpRefactory.Parser;
 using AST = ICSharpCode.SharpRefactory.Parser.AST;
 
 namespace MonoDevelop.Debugger {
+
 	public class DebugAttributeHandler
 	{
-
 		public void Rescan () {
 
 		  display_by_type_name = new Hashtable ();
 		  proxy_by_type_name = new Hashtable ();
+		  visualizers_by_type_name = new Hashtable ();
 
-			DirectoryInfo info = new DirectoryInfo ("/usr/lib/monodevelop/Debugger/");
+			DirectoryInfo info = new DirectoryInfo ("/opt/mono/lib/monodevelop/Debugger/");
 			FileInfo[] dlls = info.GetFiles ("*.dll");
 
 			foreach (FileInfo dll_info in dlls) {
 				Assembly a = Assembly.LoadFile (dll_info.FullName);
 		
-				DebuggerDisplayAttribute[] display_attrs = (DebuggerDisplayAttribute[])a.GetCustomAttributes (typeof (DebuggerDisplayAttribute),
-															      false);
-				DebuggerTypeProxyAttribute[] proxy_attrs = (DebuggerTypeProxyAttribute[])a.GetCustomAttributes (typeof (DebuggerTypeProxyAttribute),
-																false);
-				if (display_attrs == null && proxy_attrs == null)
-					continue;
+				DebuggerDisplayAttribute[] display_attrs = (DebuggerDisplayAttribute[])a.GetCustomAttributes(typeof (DebuggerDisplayAttribute),
+															     false);
+				DebuggerTypeProxyAttribute[] proxy_attrs = (DebuggerTypeProxyAttribute[])a.GetCustomAttributes(typeof (DebuggerTypeProxyAttribute),
+															       false);
+				DebuggerVisualizerAttribute[] viz_attrs = (DebuggerVisualizerAttribute[])a.GetCustomAttributes(typeof (DebuggerVisualizerAttribute),
+															       false);
 
 				foreach (DebuggerDisplayAttribute da in display_attrs) {
 					if (display_by_type_name.ContainsKey (da.TargetTypeName))
@@ -50,6 +51,18 @@ namespace MonoDevelop.Debugger {
 						continue;
 
 					proxy_by_type_name.Add (pa.TargetTypeName, pa);
+				}
+
+				foreach (DebuggerVisualizerAttribute va in viz_attrs) {
+					ArrayList vas = (ArrayList)visualizers_by_type_name[va.TargetTypeName];
+					if (vas == null) {
+						vas = new ArrayList ();
+						visualizers_by_type_name.Add (va.TargetTypeName, vas);
+					}
+
+					vas.Add (va);
+
+					Console.WriteLine ("VISUALIZER ATTIRBUTE for type {0}", va.TargetTypeName);
 				}
 			}
 		}
@@ -136,6 +149,28 @@ namespace MonoDevelop.Debugger {
 			return sb.ToString ();
 		}
 
+		public DebuggerVisualizerAttribute[] GetDebuggerVisualizerAttributes (Type t)
+		{
+			DebuggerVisualizerAttribute[] vas;
+
+	  		object[] attrs = t.GetCustomAttributes (typeof (DebuggerVisualizerAttribute), false);
+
+			if (attrs != null && attrs.Length > 0) {
+				vas = new DebuggerVisualizerAttribute[attrs.Length];
+				attrs.CopyTo (vas, 0);
+				return vas;
+			}
+
+			ArrayList varray = (ArrayList)visualizers_by_type_name[t.AssemblyQualifiedName];
+			if (varray == null)
+				return null;
+
+			vas = new DebuggerVisualizerAttribute[varray.Count];
+			varray.CopyTo (vas);
+
+			return vas;
+		}
+
 		public DebuggerTypeProxyAttribute GetDebuggerTypeProxyAttribute (Type t)
 		{
 	  		object[] attrs = t.GetCustomAttributes (typeof (DebuggerTypeProxyAttribute), false);
@@ -143,7 +178,7 @@ namespace MonoDevelop.Debugger {
 			if (attrs != null && attrs.Length > 0)
 				return (DebuggerTypeProxyAttribute)attrs[0];
 
-			return proxy_by_type_name[t.Name] as DebuggerTypeProxyAttribute;
+			return proxy_by_type_name[t.AssemblyQualifiedName] as DebuggerTypeProxyAttribute;
 		}
 
 		public DebuggerDisplayAttribute GetDebuggerDisplayAttribute (Type t)
@@ -153,12 +188,13 @@ namespace MonoDevelop.Debugger {
 			if (attrs != null && attrs.Length > 0)
 				return (DebuggerDisplayAttribute)attrs[0];
 
-			return display_by_type_name[t.Name] as DebuggerDisplayAttribute;
+			return display_by_type_name[t.AssemblyQualifiedName] as DebuggerDisplayAttribute;
 		
 		}
 
 		Hashtable display_by_type_name;
 		Hashtable proxy_by_type_name;
+		Hashtable visualizers_by_type_name;
 	}
 }
 #endif

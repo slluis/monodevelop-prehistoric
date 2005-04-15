@@ -1,3 +1,33 @@
+2005-04-14  Chris Toshok  <toshok@ximian.com>
+
+	* Visualizers/TargetObjectProvider.cs
+	(TargetObjectProvider.GetData): implement, using
+	TargetMemoryStream.
+
+	* Visualizers/Makefile.am (DLLS): remove the -pkg:gtk-sharp-2.0
+	(FILES): add TargetMemoryStream.cs
+	(install-data-local): add the beginnings of an install target.  we
+	still need a strong name.
+
+	* Visualizers/TargetMemoryStream.cs: new file.  a proxy to manage
+	a debugee-side MemoryStream for use in serializing objects.
+
+	* Gui/LocalsPad.cs (LocalsPad.InsertStrucChildren): if we're
+	inserting a proxy's attribute, return afterward instead of falling
+	through to the default behavior.
+	(LocalsPad.VisualizerActivate): force the debugee to load the
+	assembly containing the source type.
+	(LocalsPad.TreePopup): populate the Visualizers submenu with all
+	applicable visualizers.
+	(LocalsPad.GetDebuggerVisualizerAttributes): return an array of
+	attributes.
+
+	* DebugAttributeHandler.cs: change things around so multiple
+	Visualizer attributes can be associated with a given type.
+
+	* DebuggingService.cs (DebuggingService.LoadLibrary): new
+	function.
+
 2005-04-06  Chris Toshok  <toshok@ximian.com>
 
 	* Gui/StackTracePad.cs (StackTracePad.OnStoppedEvent): set

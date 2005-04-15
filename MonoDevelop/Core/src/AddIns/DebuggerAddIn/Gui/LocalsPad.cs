@@ -7,12 +7,12 @@ using Gtk;
 using MonoDevelop.Gui;
 using MonoDevelop.Services;
 using Stock = MonoDevelop.Gui.Stock;
-#if NET_2_0
-using MonoDevelop.DebuggerVisualizers;
-#endif
 
 using Mono.Debugger;
 using Mono.Debugger.Languages;
+#if NET_2_0
+using MonoDevelop.DebuggerVisualizers;
+#endif
 
 namespace MonoDevelop.Debugger
 {
@@ -86,7 +86,6 @@ namespace MonoDevelop.Debugger
 
 #if NET_2_0
 			tree.PopupMenu += new PopupMenuHandler (TreePopup);
-                        tree.ButtonReleaseEvent += new Gtk.ButtonReleaseEventHandler(OnButtonRelease);
 #endif
 
 			Add (tree);
@@ -131,7 +130,7 @@ namespace MonoDevelop.Debugger
 					// don't display it at all
 					continue;
 				case DebuggerBrowsableState.Collapsed:
-					// the default behavior for the debugger (c&p from above)
+					// the default behavior for the debugger (c&p from the battr == null branch at the bottom of this function)
 					iter = store.Append (parent);
 					AddObject (member.Name, icon_name, is_field ? sobj.GetField (member.Index) : sobj.GetProperty (member.Index),
 						   iter);
@@ -258,6 +257,8 @@ namespace MonoDevelop.Debugger
 					if (InsertProxyChildren (dbgr, pattr, parent, sobj))
 						inserted = true;
 				}
+
+				return inserted;
 			}
 #endif
 
@@ -303,12 +304,6 @@ namespace MonoDevelop.Debugger
 		}
 
 #if NET_2_0
-		void OnButtonRelease(object sender, Gtk.ButtonReleaseEventArgs args)
-		{
-	  		if (args.Event.Button == 3)
-				TreePopup (null, new PopupMenuArgs ());
-		}
-
 		void VisualizerActivate (object sender, EventArgs args)
 		{
 			DebuggingService dbgr = (DebuggingService)Runtime.DebuggingService;
@@ -336,32 +331,30 @@ namespace MonoDevelop.Debugger
 			// visualizer is loaded into the debuggee.
 			Type sourceType = Type.GetType (va_attr.VisualizerObjectSourceTypeName);
 
-			//			dbgr.LoadLibrary (dbgr.MainThread, sourceType.Assembly.Location);
+			dbgr.LoadLibrary (dbgr.MainThread, sourceType.Assembly.Location);
 
 			ITargetObject tobj = (ITargetObject)iters [selected_iter];
-			visualizer.Show (null, new TargetObjectProvider (tobj, sourceType.FullName));
+			visualizer.Show (null, new TargetObjectProvider (tobj, dbgr.MainThread, sourceType.FullName));
 		}
 
-		void TreePopup (object o, PopupMenuArgs args)
+		Gtk.Menu CreatePopup ()
 		{
 			DebuggingService dbgr = (DebuggingService)Runtime.DebuggingService;
 			TreeModel model;
 			TreeIter selected_iter;
 			ITargetObject obj;
-			DebuggerVisualizerAttribute va;
+			DebuggerVisualizerAttribute[] vas;
 			Gtk.Menu popup_menu;
 
-			Console.WriteLine ("TreePopup");
-
 			if (!tree.Selection.GetSelected (out model, out selected_iter))
-				return;
+				return null;
 
 			popup_menu = new Gtk.Menu ();
 
 			obj = (ITargetObject)iters [selected_iter];
-			va = GetDebuggerVisualizerAttribute (dbgr, obj);
+			vas = GetDebuggerVisualizerAttributes (dbgr, obj);
 	    
-			if (va == null) {
+			if (vas == null) {
 				Gtk.MenuItem item = new Gtk.MenuItem ("No Visualizers Defined");
 				item.Show();
 				popup_menu.Append (item);
@@ -371,24 +364,35 @@ namespace MonoDevelop.Debugger
 
 				Gtk.MenuItem item = new Gtk.MenuItem ("Visualizers");
 				Gtk.Menu visualizer_submenu = new Gtk.Menu ();
-				Gtk.MenuItem va_item;
-
 				item.Submenu = visualizer_submenu;
 
-				va_item = new Gtk.MenuItem (va.Description != null ? va.Description : va.VisualizerTypeName);
-
-				va_item.Activated += new EventHandler (VisualizerActivate);
-
 				item.Show();
-				va_item.Show();
 
-				popup_menu.Append(item);
-				visualizer_submenu.Append (va_item);
+				foreach (DebuggerVisualizerAttribute va in vas) {
+					Gtk.MenuItem va_item;
 
-				visualizers_by_item.Add (va_item, va);
+					va_item = new Gtk.MenuItem (va.Description != null ? va.Description : va.VisualizerTypeName);
+
+					va_item.Activated += new EventHandler (VisualizerActivate);
+
+					va_item.Show();
+
+					popup_menu.Append(item);
+					visualizer_submenu.Append (va_item);
+
+					visualizers_by_item.Add (va_item, va);
+				}
 			}
 
-			popup_menu.Popup ();
+			return popup_menu;
+		}
+
+		void TreePopup (object o, PopupMenuArgs args)
+		{
+			Gtk.Menu popup_menu = CreatePopup();
+
+			if (popup_menu != null)
+				popup_menu.Popup ();
 		}
 #endif
 
@@ -751,10 +755,10 @@ namespace MonoDevelop.Debugger
 			return null;
 		}
 
-		DebuggerVisualizerAttribute GetDebuggerVisualizerAttribute (DebuggingService dbgr, ITargetObject obj)
+		DebuggerVisualizerAttribute[] GetDebuggerVisualizerAttributes (DebuggingService dbgr, ITargetObject obj)
 		{
 			if (obj.TypeInfo.Type.TypeHandle != null && obj.TypeInfo.Type.TypeHandle is Type)
-			  return dbgr.AttributeHandler.GetDebuggerVisualizerAttribute ((Type)obj.TypeInfo.Type.TypeHandle);
+			  return dbgr.AttributeHandler.GetDebuggerVisualizerAttributes ((Type)obj.TypeInfo.Type.TypeHandle);
 
 			return null;
 		}
