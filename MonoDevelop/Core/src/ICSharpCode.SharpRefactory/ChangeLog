@@ -1,3 +1,8 @@
+2005-04-15  John Luke  <john.luke@gmail.com>
+
+	* src/Parser/AST/Modifier.cs: add Unsafe to PropertysEventsMethods
+	* tests/unsafe-1.cs: new test
+
 2005-04-13  John Luke  <john.luke@gmail.com>
 
 	* src/Parser/AST/GlobalScope/TypeDeclaration.cs: add IsStaticClass

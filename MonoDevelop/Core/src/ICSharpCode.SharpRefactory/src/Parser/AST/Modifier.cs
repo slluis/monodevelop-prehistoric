@@ -31,7 +31,7 @@ namespace ICSharpCode.SharpRefactory.Parser
 		
 		Classes                         = New | Public | Protected | Internal | Private | Abstract | Sealed | Static,
 		Fields                          = New | Public | Protected | Internal | Private | Static   | Readonly | Volatile,
-		PropertysEventsMethods          = New | Public | Protected | Internal | Private | Static   | Virtual  | Sealed   | Override | Abstract | Extern,
+		PropertysEventsMethods          = New | Public | Protected | Internal | Private | Static   | Virtual  | Sealed   | Override | Abstract | Extern | Unsafe,
 		Indexers                        = New | Public | Protected | Internal | Private | Virtual  | Sealed   | Override | Abstract | Extern,
 		Operators                       = Public | Static | Extern,
 		Constants                       = New | Public | Protected | Internal | Private,
