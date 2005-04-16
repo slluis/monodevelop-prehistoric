@@ -1,3 +1,12 @@
+2005-04-16  John Luke  <john.luke@gmail.com>
+
+	* DockItem.cs:
+	* Dock.cs:
+	* DockItemGrip.cs:
+	* DockNotebook.cs:
+	* DockPaned.cs: use ForAll overload that takes a Callback
+	* DockMaster.cs: remove unused field
+
 2005-04-06  John Luke  <john.luke@gmail.com>
 
 	* MonoDevelop.Dock.mdp:

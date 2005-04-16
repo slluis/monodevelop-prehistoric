@@ -43,7 +43,6 @@ namespace Gdl
 		}
 		
 		private DockInfo dockInfo;
-		private CallbackInvoker storedInvoker;
 
 		protected DockNotebook (IntPtr raw) : base (raw) { }
 
@@ -96,23 +95,17 @@ namespace Gdl
 			Dock ((DockObject)widget, DockPlacement.Center, null);
 		}
 		
-		protected override void ForAll (bool includeInternals, CallbackInvoker invoker)
+		protected override void ForAll (bool includeInternals, Callback cb)
 		{
 			if (includeInternals) {
-				base.ForAll (includeInternals, invoker);
+				base.ForAll (includeInternals, cb);
 			} else {
 				if (Child != null) {
-					storedInvoker = invoker;
-					((Notebook)Child).Foreach (new Callback (ChildForAll));
+					((Notebook)Child).Foreach (cb);
 				}
 			}
 		}
-		
-		private void ChildForAll (Widget widget)
-		{
-			storedInvoker.Invoke (widget);
-		}
-		
+
 		private void DockChild (Widget w)
 		{
 			if (w is DockObject)

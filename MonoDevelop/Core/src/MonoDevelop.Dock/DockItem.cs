@@ -44,7 +44,6 @@ namespace Gdl
 		private DockItemGrip grip;
 		private DockBar dockBar;
 		private DockBarButton dockButton;
-		private uint gripSize;
 		private Widget tabLabel = null;
 		private int preferredWidth = -1;
 		private int preferredHeight = -1;
@@ -285,12 +284,12 @@ namespace Gdl
 				QueueResize ();
 		}
 		
-		protected override void ForAll (bool include_internals, CallbackInvoker invoker)
+		protected override void ForAll (bool include_internals, Callback cb)
 		{
 			if (include_internals && grip != null)
-				invoker.Invoke (grip);
+				cb (grip);
 			if (Child != null)
-				invoker.Invoke (Child);
+				cb (Child);
 		}
 
 		protected override void OnSizeRequested (ref Requisition requisition)

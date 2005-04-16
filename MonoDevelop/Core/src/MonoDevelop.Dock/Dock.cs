@@ -311,10 +311,10 @@ namespace Gdl
 			}
 		}
 		
-		protected override void ForAll (bool include_internals, CallbackInvoker invoker)
+		protected override void ForAll (bool include_internals, Callback cb)
 		{
 			if (root != null)
-				invoker.Invoke (root);
+				cb (root);
 		}
 		
 		public override void OnDetached (bool recursive)

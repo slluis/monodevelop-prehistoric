@@ -490,11 +490,11 @@ namespace Gdl
 			Console.WriteLine ("You can't remove a widget from DockItemGrip directly");
 		}
 		
-		protected override void ForAll (bool include_internals, CallbackInvoker invoker)
+		protected override void ForAll (bool include_internals, Callback cb)
 		{
 			if (include_internals) {
-				invoker.Invoke (closeButton);
-				invoker.Invoke (iconifyButton);
+				cb (closeButton);
+				cb (iconifyButton);
 			}
 		}
 	}

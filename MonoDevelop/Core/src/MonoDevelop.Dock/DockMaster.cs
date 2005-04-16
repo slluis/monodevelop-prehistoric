@@ -29,7 +29,6 @@ namespace Gdl
 {
 	public class DockMaster
 	{
-		private object obj;
 		private Hashtable dockObjects = new Hashtable ();
 		private ArrayList toplevelDocks = new ArrayList ();
 		private DockObject controller = null;

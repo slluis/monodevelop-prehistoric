@@ -112,11 +112,6 @@ namespace Gdl
 				Dock (item, pos, null);
 		}
 
-		private void childForAll (Widget widget)
-		{
-			stored_invoker.Invoke (widget);
-		}
-
 		public override bool OnChildPlacement (DockObject child, ref DockPlacement placement)
 		{
 			DockPlacement pos = DockPlacement.None;
@@ -149,15 +144,13 @@ namespace Gdl
 			}
 		}	
 	
-		private CallbackInvoker stored_invoker;
-		protected override void ForAll (bool include_internals, CallbackInvoker invoker)
+		protected override void ForAll (bool include_internals, Callback cb)
 		{
 			if (include_internals) {
-				base.ForAll (include_internals, invoker);
+				base.ForAll (include_internals, cb);
 			} else {
 				if (Child != null) {
-					stored_invoker = invoker;
-					((Paned)Child).Foreach (new Callback (childForAll));
+					((Paned)Child).Foreach (cb);
 				}
 			}
 		}
