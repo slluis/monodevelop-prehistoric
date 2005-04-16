@@ -1,3 +1,10 @@
+2005-04-16  John Luke  <john.luke@gmail.com>
+
+	* README: remove
+	* MonoDevelop.Gui.Utils.dll.config.in:
+	* Glue.cs: kill
+	* Makefile.am: update
+
 2005-01-26  John Luke  <john.luke@gmail.com>
 
 	* Vfs/Vfs.cs: kill

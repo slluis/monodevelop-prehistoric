@@ -188,7 +188,6 @@ Core/src/MonoDevelop.Startup/Makefile
 Core/src/MonoDevelop.Core/Makefile
 Core/src/MonoDevelop.Dock/Makefile
 Core/src/MonoDevelop.Gui.Utils/Makefile
-Core/src/MonoDevelop.Gui.Utils/MonoDevelop.Gui.Utils.dll.config
 Core/src/MonoDevelop.Gui.Widgets/Makefile
 Core/src/ICSharpCode.SharpAssembly/Makefile
 Core/src/ICSharpCode.SharpRefactory/Makefile

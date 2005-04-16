@@ -1,6 +1,7 @@
 2005-04-16  John Luke  <john.luke@gmail.com>
 
 	* configure.in: bump gtk# dep to 1.9.3 for latest dock changes
+	remove MonoDevelop.Gui.Utils config file
 
 2005-04-14  Raja R Harinath  <rharinath@novell.com>
 

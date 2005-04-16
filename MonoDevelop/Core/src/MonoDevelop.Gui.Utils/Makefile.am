@@ -1,5 +1,4 @@
 DLLNAME = MonoDevelop.Gui.Utils.dll
-CONFIG = $(DLLNAME).config
 DLL = $(top_builddir)/build/bin/$(DLLNAME)
 
 REFERENCES = /r:System.Drawing \
@@ -15,22 +14,19 @@ DirectoryArchive/Decompressor.cs \
 DirectoryArchive/TarDecompressor.cs \
 DirectoryArchive/ZipDecompressor.cs \
 DirectoryArchive/Bz2Support.cs \
-DirectoryArchive/GzSupport.cs \
-Glue.cs
+DirectoryArchive/GzSupport.cs
 
 build_sources = $(addprefix $(srcdir)/, $(FILES))
 
 all: $(DLL)
 
 $(DLL): $(build_sources)
-	$(CSC) -out:$@ /target:library $(REFERENCES) $(build_sources) \
-	&& cp $(CONFIG) $(top_builddir)/build/bin/.
+	$(CSC) -out:$@ /target:library $(REFERENCES) $(build_sources)
 
 assemblydir = $(libdir)/monodevelop/bin
-assembly_DATA = $(DLL) $(CONFIG)
+assembly_DATA = $(DLL)
 
 CLEANFILES = $(DLL) $(DLL).mdb
-DISTCLEANFILES = $(CONFIG)
 
-EXTRA_DIST = $(FILES) $(CONFIG).in
+EXTRA_DIST = $(FILES)
 
