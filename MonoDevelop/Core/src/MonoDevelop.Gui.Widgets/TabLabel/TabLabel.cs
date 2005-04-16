@@ -12,7 +12,6 @@ namespace MonoDevelop.Gui.Widgets
 {
 	public class TabLabel : HBox
 	{
-		private static GLib.GType gtype;
 		private Label title;
 		private Gtk.Image icon;
 		private Button btn;

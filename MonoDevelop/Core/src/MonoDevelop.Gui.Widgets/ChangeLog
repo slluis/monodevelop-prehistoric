@@ -1,3 +1,10 @@
+2005-04-16  John Luke  <john.luke@gmail.com>
+
+	* Tree/TreeView.cs:
+	* FileBrowser/FileBrowser.cs:
+	* TabLabel/TabLabel.cs: fix warnings mostly about obselete
+	Gtk# API
+
 2005-03-15  John Luke  <john.luke@gmail.com>
 
 	* FileBrowser/FileBrowser.cs: make enum internal

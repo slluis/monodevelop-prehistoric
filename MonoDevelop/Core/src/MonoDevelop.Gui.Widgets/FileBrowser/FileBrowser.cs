@@ -442,10 +442,6 @@ namespace MonoDevelop.Gui.Widgets
 		{
 			return !hiddenfolders.Contains (folder);
 		} 
-
-		void AddLocationEntry (Toolbar tb)
-		{
-		}
 	}
 
 	public class ToolbarEntry : ToolItem

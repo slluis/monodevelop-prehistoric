@@ -3,7 +3,6 @@ using System.Collections;
 
 namespace MonoDevelop.Gui.Widgets {
 	public class TreeView: Gtk.TreeView {
-		Gtk.TreeView view;
 		Gtk.TreeStore store;
 		TreeNodeCollection nodes;
 		bool updating = false;
@@ -62,7 +61,7 @@ namespace MonoDevelop.Gui.Widgets {
 		
 		public TreeView (bool edit, Gtk.TreeIterCompareFunc cb_compare) : this (edit)
 		{
-			store.SetDefaultSortFunc (cb_compare, IntPtr.Zero, null);
+			store.SetDefaultSortFunc (cb_compare);
 			store.SetSortColumnId (/* GTK_TREE_SORTABLE_DEFAULT_SORT_COLUMN_ID */ -1, Gtk.SortType.Ascending);
 		}
 
@@ -153,7 +152,7 @@ namespace MonoDevelop.Gui.Widgets {
 				new_child.row = null;
 			}
 			
-			Gtk.TreeIter it = store.Append (parent);
+			Gtk.TreeIter it = store.AppendNode (parent);
 			
 			// It is *critical* that we set this first. We will
 			// sort after this call, so we must give as much info
@@ -177,8 +176,7 @@ namespace MonoDevelop.Gui.Widgets {
 				new_child.row = null;
 			}
 			
-			Gtk.TreeIter it;
-			store.Append (out it);
+			Gtk.TreeIter it = store.AppendNode ();
 			
 			// It is *critical* that we set this first. We will
 			// sort after this call, so we must give as much info
