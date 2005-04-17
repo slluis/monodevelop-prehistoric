@@ -1,3 +1,8 @@
+2005-04-17	John Luke	<john.luke@gmail.com>
+
+	* Gui/Pads/SolutionPad/TreeViewPad.cs: use new AppendNode
+	and SetDefaultSortFunc API
+
 2005-04-14  Lluis Sanchez Gual  <lluis@novell.com>
 
 	* Internal/ProgressMonitoring/BaseProgressMonitor.cs: Don't crash

@@ -180,7 +180,7 @@ namespace MonoDevelop.Gui.Pads
 			tree.EnableModelDragDest (target_table, Gdk.DragAction.Copy | Gdk.DragAction.Move);
 			Gtk.Drag.SourceSet (tree, Gdk.ModifierType.Button1Mask, target_table, Gdk.DragAction.Copy | Gdk.DragAction.Move);
 
-			store.SetDefaultSortFunc (new Gtk.TreeIterCompareFunc (CompareNodes), IntPtr.Zero, null);
+			store.SetDefaultSortFunc (new Gtk.TreeIterCompareFunc (CompareNodes));
 			store.SetSortColumnId (/* GTK_TREE_SORTABLE_DEFAULT_SORT_COLUMN_ID */ -1, Gtk.SortType.Ascending);
 			
 			tree.HeadersVisible = false;
@@ -1391,7 +1391,7 @@ namespace MonoDevelop.Gui.Pads
 					FillNode ();
 				else {
 					RemoveChildren (currentIter);
-					store.Append (currentIter);	// Dummy node
+					store.AppendNode (currentIter);	// Dummy node
 					store.SetValue (currentIter, TreeViewPad.FilledColumn, false);
 				}
 				
@@ -1469,10 +1469,10 @@ namespace MonoDevelop.Gui.Pads
 				Gtk.TreeIter it;
 				if (!currentIter.Equals (Gtk.TreeIter.Zero)) {
 					if (!Filled) return;
-					it = store.Append (currentIter);
+					it = store.AppendNode (currentIter);
 				}
 				else
-					store.Append (out it);
+					it = store.AppendNode ();
 				
 				pad.RegisterNode (it, dataObject, chain);
 				
@@ -1502,7 +1502,7 @@ namespace MonoDevelop.Gui.Pads
 				store.SetValue (currentIter, TreeViewPad.FilledColumn, !hasChildren);
 
 				if (hasChildren)
-					store.Append (currentIter);	// Dummy node
+					store.AppendNode (currentIter);	// Dummy node
 
 				currentIter = oldIter;
 			}
