@@ -60,10 +60,7 @@ templates/GtkSharp2Project.xpt.xml \
 templates/GtkSharpWindow.xft.xml \
 templates/Library.xpt.xml
 
-build_sources = $(addprefix $(srcdir)/, $(FILES))
-
 ADDIN = CSharpBinding.addin.xml
-
 
 TEMPLATES_DIR = $(ADDIN_BUILD)/templates
 
@@ -106,4 +103,6 @@ templates_DATA = $(TEMPLATES)
 CLEANFILES = $(ASSEMBLY) $(ASSEMBLY).mdb $(PARSE) $(PARSE).mdb
 
 EXTRA_DIST = $(FILES) CSharp.glade $(ADDIN) $(TEMPLATES)
+
+include $(top_srcdir)/Makefile.include
 

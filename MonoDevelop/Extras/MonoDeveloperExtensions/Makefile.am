@@ -7,8 +7,6 @@ MonoProject.cs \
 Commands.cs \
 MonoProjectConfiguration.cs
 
-build_sources = $(addprefix $(srcdir)/, $(FILES))
-
 REFS = /r:$(top_builddir)/build/bin/MonoDevelop.Core.dll \
        /r:$(top_builddir)/build/bin/MonoDevelop.Base.dll \
        $(GTK_SHARP_LIBS) \
@@ -35,6 +33,8 @@ $(DLL): $(build_sources) $(srcdir)/$(GLADEFILE)
 CLEANFILES = $(DLL) $(DLL).mdb $(ADDIN_BUILD)/$(ADDIN)
 
 EXTRA_DIST = $(FILES) $(ADDIN)
+
+include $(top_srcdir)/Makefile.include
 
 MonoDeveloperExtensionsdir = $(libdir)/monodevelop/AddIns/MonoDeveloperExtensions
 MonoDeveloperExtensions_DATA = $(DLL) $(ADDIN_BUILD)/$(ADDIN)

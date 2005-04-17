@@ -18,8 +18,6 @@ ILAsmLanguageBinding.cs
 TEMPLATES = \
 ILAsmConsoleProject.xpt.xml
 
-build_sources = $(addprefix $(srcdir)/, $(FILES))
-
 ADDIN = ILAsmBinding.addin.xml
 
 
@@ -49,4 +47,5 @@ $(ASSEMBLY): $(build_sources)
 
 CLEANFILES = $(ASSEMBLY) $(ASSEMBLY).mdb
 EXTRA_DIST = $(FILES) $(ADDIN) $(TEMPLATES)
+include $(top_srcdir)/Makefile.include
 

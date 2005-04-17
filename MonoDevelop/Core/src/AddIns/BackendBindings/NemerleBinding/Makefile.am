@@ -24,8 +24,6 @@ NemerleGtkSharpProject.xpt.xml \
 NemerleGtkSharpWindow.xft.xml \
 EmptyNemerleFile.xft.xml
 
-build_sources = $(addprefix $(srcdir)/, $(FILES))
-
 build_TEMPLATES = $(addprefix $(ADDIN_BUILD)/templates/, $(TEMPLATES))
 
 ADDIN = NemerleBinding.addin.xml
@@ -59,3 +57,5 @@ template_DATA = $(TEMPLATES)
 
 CLEANFILES = $(ASSEMBLY) $(ASSEMBLY).mdb
 EXTRA_DIST = $(FILES) Nemerle.glade $(ADDIN) $(TEMPLATES)
+include $(top_srcdir)/Makefile.include
+

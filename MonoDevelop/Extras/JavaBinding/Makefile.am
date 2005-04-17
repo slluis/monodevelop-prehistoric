@@ -32,10 +32,7 @@ templates/JavaFrame.xft.xml \
 templates/JavaOKDialog.xft.xml \
 templates/JavaPanel.xft.xml
 
-build_sources = $(addprefix $(srcdir)/, $(FILES))
-
 ADDIN = JavaBinding.addin.xml
-
 
 TEMPLATES_DIR = $(ADDIN_BUILD)/templates
 
@@ -84,3 +81,4 @@ endif
 CLEANFILES = $(ASSEMBLY) $(ASSEMBLY).mdb
 EXTRA_DIST = $(FILES) $(ADDIN) $(TEMPLATES)
 
+include $(top_srcdir)/Makefile.include

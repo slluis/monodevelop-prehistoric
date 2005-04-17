@@ -1,3 +1,7 @@
+2005-04-17  John Luke  <john.luke@gmail.com>
+
+	* Makefile.am: fix distcheck
+
 2005-04-01	Christian Hergert	<christian.hergert@gmail.com>
 
 	* Makefile.am: fix call to app.config

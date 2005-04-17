@@ -77,8 +77,6 @@ Search/TextIterator/ExtendedStreamReader.cs \
 Search/ITextBufferStrategy.cs \
 Services/SourceViewService.cs
 
-build_sources = $(addprefix $(srcdir)/, $(FILES))
-
 REFS = /r:System.Drawing.dll \
 	/r:$(top_builddir)/build/bin/MonoDevelop.Core.dll \
 	/r:$(top_builddir)/build/bin/MonoDevelop.Base.dll \
@@ -118,3 +116,6 @@ CLEANFILES = $(DLL) $(DLL).mdb
 DISTCLEANFILES = $(CONFIG)
 
 EXTRA_DIST = $(FILES) $(CONFIG).in EditorBindings.glade texteditoraddin.glade $(ADDIN)
+
+include $(top_srcdir)/Makefile.include
+

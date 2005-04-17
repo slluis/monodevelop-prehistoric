@@ -8,7 +8,7 @@ DLLS = /r:System.Drawing /r:ICSharpCode.SharpZipLib.dll \
 	/r:System.Data.dll /r:System.Web.Services.dll \
 	/r:$(top_builddir)/build/bin/MonoDevelop.Dock.dll \
 	/r:Mono.Posix.dll \
-	/r:$(top_builddir)/contrib/log4net.dll \
+	/r:$(top_builddir)/build/bin/log4net.dll \
 	$(GTK_SHARP_LIBS) \
 	$(GNOME_SHARP_LIBS) \
 	$(GNOME_VFS_SHARP_LIBS) \
@@ -462,8 +462,6 @@ options/TipsOfTheDay.xml
 
 build_OPTIONS = $(addprefix $(top_builddir)/build/data/options/, $(notdir $(OPTIONS)))
 
-build_sources = $(addprefix $(srcdir)/, $(FILES))
-
 DLLNAME = MonoDevelop.Base.dll
 CONFIG = $(DLLNAME).config
 ASSEMBLY = $(top_builddir)/build/bin/$(DLLNAME)
@@ -505,3 +503,4 @@ DISTCLEANFILES = $(CONFIG)
 
 EXTRA_DIST = $(FILES) ./Services/process-icons.pl $(CONFIG).in Base.glade $(ADDIN) $(OPTIONS)
 
+include $(top_srcdir)/Makefile.include

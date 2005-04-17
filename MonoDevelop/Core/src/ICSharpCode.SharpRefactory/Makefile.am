@@ -116,8 +116,6 @@ src/VBConverter/VBNetRefactory.cs \
 src/VBConverter/VBNetVisitor.cs \
 src/AssemblyInfo.cs
 
-build_sources = $(addprefix $(srcdir)/, $(FILES))
-
 all: $(DLL) $(TEST)
 
 $(DLL): $(FILES)
@@ -145,4 +143,6 @@ assembly_DATA = $(DLL)
 CLEANFILES = $(DLL) $(DLL).mdb $(TEST)
 
 EXTRA_DIST = $(FILES) src/Main.cs
+
+include $(top_srcdir)/Makefile.include
 

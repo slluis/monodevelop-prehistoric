@@ -1,3 +1,7 @@
+2005-04-17  John Luke  <john.luke@gmail.com>
+
+	* Makefile.am: fix distcheck
+
 2005-03-18  Francisco "Paco" Martinez <paco@mfcon.com>
 	* MsPrjHelpe.cs: 
 	Mono 2.0 has been commented out until further notice.

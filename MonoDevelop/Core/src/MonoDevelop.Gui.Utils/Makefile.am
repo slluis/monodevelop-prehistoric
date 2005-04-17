@@ -16,8 +16,6 @@ DirectoryArchive/ZipDecompressor.cs \
 DirectoryArchive/Bz2Support.cs \
 DirectoryArchive/GzSupport.cs
 
-build_sources = $(addprefix $(srcdir)/, $(FILES))
-
 all: $(DLL)
 
 $(DLL): $(build_sources)
@@ -29,4 +27,6 @@ assembly_DATA = $(DLL)
 CLEANFILES = $(DLL) $(DLL).mdb
 
 EXTRA_DIST = $(FILES)
+
+include $(top_srcdir)/Makefile.include
 

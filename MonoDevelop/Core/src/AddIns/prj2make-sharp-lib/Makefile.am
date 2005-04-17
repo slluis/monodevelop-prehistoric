@@ -26,8 +26,6 @@ EXTRA_DIST = $(FILES) $(ADDIN)
 
 all: $(ASSEMBLY) $(ADDIN_BUILD)/$(ADDIN)
 
-build_sources = $(addprefix $(srcdir)/, $(FILES))
-
 $(ADDIN_BUILD)/$(ADDIN):
 	mkdir -p $(ADDIN_BUILD)
 	cp $(srcdir)/$(ADDIN) $(ADDIN_BUILD)/.
@@ -40,4 +38,6 @@ assemblydir = $(libdir)/monodevelop/AddIns
 assembly_DATA = $(ASSEMBLY) $(ADDIN)
 
 CLEANFILES = $(ASSEMBLY) $(ASSEMBLY).mdb
+
+include $(top_srcdir)/Makefile.include
 

@@ -1,16 +1,17 @@
+
+ASSEMBLY = $(top_builddir)/build/bin/MonoDevelop.exe
+SPLASH = -resource:$(srcdir)/SplashScreen.png,SplashScreen.png
+
 FILES= \
 MonoDevelopMain.cs \
 MonoDevelopOptions.cs \
 Dialogs/AddInTreeSettingsHandler.cs \
 AssemblyInfo.cs
 
-build_sources = $(addprefix $(srcdir)/, $(FILES))
+all: $(ASSEMBLY $(ASSEMBLY).config
 
-DLL = $(top_builddir)/build/bin/MonoDevelop.exe
-
-all: $(DLL) $(DLL).config
-
-REFS = /r:System.Drawing \
+REFS = \
+	/r:System.Drawing \
 	/r:$(top_builddir)/build/bin/MonoDevelop.Core.dll \
 	/r:$(top_builddir)/build/bin/MonoDevelop.Base.dll \
 	/r:Mono.Posix.dll \
@@ -18,16 +19,18 @@ REFS = /r:System.Drawing \
 	$(GTK_SHARP_LIBS) \
 	$(GNOME_SHARP_LIBS)
 
-$(DLL): $(build_sources)
-	$(CSC) -out:$@ -define:GTK $(REFS) $(build_sources) \
-		-resource:$(srcdir)/SplashScreen.png,SplashScreen.png
+$(ASSEMBLY): $(build_sources)
+	$(CSC) -out:$@ $(REFS) $(build_sources) $(SPLASH)
 
-$(DLL).config: $(DLL)
-	cp app.config $(DLL).config
+$(ASSEMBLY).config: $(ASSEMBLY) $(srcdir)/app.config
+	cp $(srcdir)/app.config $(ASSEMBLY).config
 
 assemblydir = $(libdir)/monodevelop/bin
-assembly_DATA = $(DLL) $(DLL).config
+assembly_DATA = $(ASSEMBLY) $(ASSEMBLY).config
 
-CLEANFILES=$(DLL) $(DLL).mdb
+CLEANFILES = $(ASSEMBLY) $(ASSEMBLY).mdb
 
-EXTRA_DIST = $(FILES) SplashScreen.png
+EXTRA_DIST = $(FILES) SplashScreen.png app.config
+
+include $(top_srcdir)/Makefile.include
+

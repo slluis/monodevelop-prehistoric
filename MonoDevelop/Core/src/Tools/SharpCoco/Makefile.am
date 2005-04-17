@@ -11,8 +11,6 @@ src/ParserGen.cs \
 src/Scanner.cs \
 src/DFA.cs
 
-build_sources = $(addprefix $(srcdir)/, $(FILES))
-
 all: $(ASSEMBLY)
 
 $(ASSEMBLY): $(build_sources)
@@ -20,4 +18,5 @@ $(ASSEMBLY): $(build_sources)
 
 CLEANFILES = $(ASSEMBLY) $(ASSEMBLY).mdb
 EXTRA_DIST = $(FILES)
+include $(top_srcdir)/Makefile.include
 

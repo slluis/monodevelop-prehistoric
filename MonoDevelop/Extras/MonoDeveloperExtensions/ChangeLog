@@ -1,3 +1,7 @@
+2005-04-17  John Luke  <john.luke@gmail.com>
+
+	* Makefile.am: fix distcheck
+
 2005-04-07  Lluis Sanchez Gual  <lluis@novell.com>
 
 	* MonoProject.cs: Look for ChangeLog files in a more rational 

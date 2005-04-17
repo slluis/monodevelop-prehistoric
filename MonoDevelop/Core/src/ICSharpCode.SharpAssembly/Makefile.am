@@ -66,8 +66,6 @@ src/SharpAssembly/Metadata/MethodBody.cs \
 src/SharpAssembly/AssemblyInfo.cs \
 src/SharpAssembly/AssemblyNameNotFoundException.cs 
 
-build_sources = $(addprefix $(srcdir)/, $(FILES))
-
 DLL = $(top_builddir)/build/bin/ICSharpCode.SharpAssembly.dll
 
 all: $(DLL)
@@ -81,4 +79,6 @@ assembly_DATA = $(DLL)
 CLEANFILES = $(DLL) $(DLL).mdb
 
 EXTRA_DIST = $(FILES)
+
+include $(top_srcdir)/Makefile.include
 

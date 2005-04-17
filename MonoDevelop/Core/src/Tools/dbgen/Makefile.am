@@ -4,8 +4,6 @@ ASSEMBLY = $(top_builddir)/build/bin/dbgen.exe
 FILES = src/AssemblyInfo.cs \
 src/dbgen.cs
 
-build_sources = $(addprefix $(srcdir)/, $(FILES))
-
 all: $(ASSEMBLY)
 
 REFS = /r:$(top_builddir)/build/bin/MonoDevelop.Base.dll /r:$(top_builddir)/build/bin/MonoDevelop.Core.dll
@@ -18,4 +16,5 @@ assembly_DATA = $(ASSEMBLY)
 
 CLEANFILES = $(ASSEMBLY) $(ASSEMBLY).mdb
 EXTRA_DIST = $(FILES)
+include $(top_srcdir)/Makefile.include
 

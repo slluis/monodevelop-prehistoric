@@ -46,8 +46,6 @@ templates/VBConsoleApplicationProject.xpt.xml \
 templates/VBGtkSharpProject.xpt.xml \
 templates/VBGtkSharp2Project.xpt.xml
 
-build_sources = $(addprefix $(srcdir)/, $(FILES))
-
 ADDIN = VBNetBinding.addin.xml
 
 TEMPLATES_DIR = $(ADDIN_BUILD)/templates
@@ -86,4 +84,5 @@ CLEANFILES = $(ASSEMBLY) $(ASSEMBLY).mdb
 DISTCLEANFILES =
 
 EXTRA_DIST = $(FILES) VB.glade $(ADDIN) $(TEMPLATES)
+include $(top_srcdir)/Makefile.include
 
