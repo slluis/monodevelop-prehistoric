@@ -207,6 +207,7 @@ Core/src/MonoDevelop.Gui.Widgets/AssemblyInfo.cs
 Core/src/MonoDevelop.Gui.Utils/AssemblyInfo.cs
 Core/src/MonoDevelop.Core/AssemblyInfo.cs
 monodevelop
+monodevelop.pc
 po/Makefile.in
 Core/src/AddIns/prj2make-sharp-lib/Makefile
 Core/src/AddIns/prj2make-sharp-lib/AssemblyInfo.cs

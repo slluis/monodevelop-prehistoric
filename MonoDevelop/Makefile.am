@@ -16,6 +16,10 @@ pixmap_DATA = monodevelop.png
 xdgmimedir = $(gnome_data)/mime/packages
 xdgmime_DATA = monodevelop.xml
 
+pkgconfig_in_files = monodevelop.pc.in
+pkgconfigdir= $(libdir)/pkgconfig
+pkgconfig_DATA = $(pkgconfig_in_files:.pc.in=.pc)
+
 install-data-hook:
 	$(UPDATE_MIME_DB) $(gnome_data)/mime
 
@@ -41,7 +45,8 @@ profile-pad: $(MONOPAD)
 # we can't use the variables that are conditionally defined
 EXTRA_DIST = $(bin_SCRIPTS) $(desktop_DATA) $(pixmap_DATA) \
 	monodevelop.xml mkinstalldirs intltool-extract.in \
-	intltool-merge.in intltool-update.in
+	intltool-merge.in intltool-update.in monodevelop.pc.in
 
-DISTCLEANFILES = monodevelop intltool-extract intltool-merge intltool-update
+DISTCLEANFILES = monodevelop intltool-extract intltool-merge intltool-update \
+	monodevelop.pc
 
