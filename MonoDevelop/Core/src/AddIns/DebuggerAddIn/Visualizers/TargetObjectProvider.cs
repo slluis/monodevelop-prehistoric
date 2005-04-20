@@ -2,8 +2,6 @@ using System;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 
-using MonoDevelop.Services;
-
 using Mono.Debugger;
 using Mono.Debugger.Languages;
 
@@ -57,7 +55,7 @@ namespace MonoDevelop.DebuggerVisualizers
 		public bool IsObjectReplaceable
 		{
 			get {
-				return true;
+				return false;
 			}
 		}
 	  

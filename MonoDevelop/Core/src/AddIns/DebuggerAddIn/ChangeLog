@@ -1,3 +1,16 @@
+2005-04-19  Chris Toshok  <toshok@ximian.com>
+
+	* Visualizers/TargetObjectProvider.cs: remove unnecessary using
+	lines.
+	(TargetObjectProvider.IsObjectReplaceable): always return false,
+	as the Transfer/Replace methods are not implemented.
+	
+	* Visualizers/visualizer.snk: new file, our assembly strong name.
+
+	* Visualizers/Makefile.am (DEFINES): put the -define's here.
+	($(ASSEMBLY)): use $DEFINES and put our keyfile in.
+	(DLLS): prune these to just gtk-sharp and mono-debugger libs.
+
 2005-04-14  Chris Toshok  <toshok@ximian.com>
 
 	* Visualizers/TargetObjectProvider.cs

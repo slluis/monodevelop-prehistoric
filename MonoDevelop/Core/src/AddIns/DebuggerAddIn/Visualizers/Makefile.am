@@ -4,10 +4,7 @@ ADDIN_BUILD = $(top_builddir)/build/AddIns/DebuggerAddIn
 ASSEMBLY = $(ADDIN_BUILD)/$(ASSEMBLY_NAME).dll
 
 DLLS = $(GTK_SHARP_LIBS) \
-	$(MONO_DEBUGGER_LIBS) \
-	/r:$(top_builddir)/build/bin/MonoDevelop.Base.dll \
-	/r:$(top_builddir)/build/bin/MonoDevelop.Core.dll \
-	/r:$(top_builddir)/build/bin/ICSharpCode.SharpRefactory.dll
+	$(MONO_DEBUGGER_LIBS)
 
 
 FILES = \
@@ -21,6 +18,8 @@ FILES = \
 
 EXTRA_DIST = $(FILES)
 
+DEFINES= -define:NET_2_0 -define:WITH_GTK
+
 if ENABLE_DEBUGGER
 
 noinst_DATA= $(ASSEMBLY)
@@ -29,7 +28,7 @@ build_sources = $(addprefix $(srcdir)/, $(FILES))
 
 $(ASSEMBLY): $(build_sources)
 	mkdir -p $(ADDIN_BUILD)
-	$(CSC) -g -define:NET_2_0 -define:WITH_GTK -out:$@ -target:library \
+	$(CSC) -g $(DEFINES) -keyfile:$(srcdir)/visualizer.snk -out:$@ -target:library \
 	$(build_sources) $(DLLS)
 
 CLEANFILES = $(ASSEMBLY) $(ASSEMBLY).mdb
