@@ -62,6 +62,8 @@
 		       class = "MonoDevelop.Services.MenuService"/>
 		<Class id    = "ProcessService"
 		       class = "MonoDevelop.Services.ProcessService"/>
+		<Class id    = "CommandService"
+		       class = "MonoDevelop.Services.CommandService"/>
 	</Extension>
 	
 	<Extension path = "/SharpDevelop/Workbench/ProjectBindings">
@@ -92,306 +94,406 @@
                           _label = "ExportSignature" 
                           class = "MonoDevelop.Commands.ClassScoutCommands.ExportClassSignature"/>
 	</Extension>
-	
-	<Extension path = "/SharpDevelop/Views/ProjectBrowser/ContextMenu/CombineBrowserNode">
-                <MenuItem id = "Compile"
-                          _label = "Compile" 
-                          class = "MonoDevelop.Commands.Compile"/>
-                <MenuItem id = "CompileAll"
-                          _label = "Rebuild _Solution" 
-                          class = "MonoDevelop.Commands.CompileAll"/>
-                <MenuItem id = "CombineBuildGroupSeparator" _label = "-" />
-                
-                <MenuItem id = "CombineAddMenu" _label = "Add" >
-	                <MenuItem id = "AddNewProject"
-		                  _label = "Add New Project..."
-		                  icon  = "Icons.16x16.NewProjectIcon"
-		                  class = "MonoDevelop.Commands.ProjectBrowser.AddNewProjectToCombine"/>
-	                <MenuItem id = "AddNewCombine"
-		                  _label = "Add New Solution..." 
-		                  icon  = "Icons.16x16.NewProjectIcon"
-		                  class = "MonoDevelop.Commands.ProjectBrowser.AddNewCombineToCombine"/>
-		        <MenuItem id = "Separator1" _label = "-" />          
-	                <MenuItem id = "AddProject"
-		                  _label = "Add existing _Project" 
-		                  class = "MonoDevelop.Commands.ProjectBrowser.AddProjectToCombine"/>
-	                <MenuItem id = "AddCombine"
-		                  _label = "Add existing Solution" 
-		                  class = "MonoDevelop.Commands.ProjectBrowser.AddCombineToCombine"/>
-                </MenuItem>
-		<MenuItem id = "RemoveCombine"
-	                  _label = "_Remove" 
-	                  icon  = "Icons.16x16.DeleteIcon"
-	                  class = "MonoDevelop.Commands.ProjectBrowser.RemoveEntryEvent"/>
 
-                <MenuItem id = "RenameCombine"
-	                  _label    = "Re_name" 
-	                  shortcut = "F2"
-	                  class    = "MonoDevelop.Commands.ProjectBrowser.RenameEntryEvent"/>
-	                  
-	        <MenuItem id = "CombineOptionsSeparator" _label = "-" />          
-	        
-                <MenuItem id = "CombineOptions"
-	                  _label = "Solution Options" 
-	                  icon  = "Icons.16x16.PropertiesIcon"
-	                  class    = "MonoDevelop.Commands.ProjectBrowser.CombineOptions"/>
+
+	<Extension path = "/SharpDevelop/Commands">
+	
+		<!-- EditCommands -->
+				
+		<Command id = "MonoDevelop.Commands.EditCommands.Copy"
+				_label = "_Copy"
+				icon = "Icons.16x16.CopyIcon" 
+				description = "${res:XML.MainMenu.EditMenu.Copy.Description}" 
+				shortcut = "Control|C"/>
+		<Command id = "MonoDevelop.Commands.EditCommands.Cut"
+				_label = "Cu_t"
+				icon = "Icons.16x16.CutIcon" 
+				description = "${res:XML.MainMenu.EditMenu.Cut.Description}" 
+				shortcut = "Control|X"/>
+		<Command id = "MonoDevelop.Commands.EditCommands.Paste"
+				_label = "_Paste" 
+				icon = "Icons.16x16.PasteIcon"
+				shortcut = "Control|V"/>
+		<Command id = "MonoDevelop.Commands.EditCommands.Delete"
+				_label = "_Delete" 
+				description = "${res:XML.MainMenu.EditMenu.Delete.Description}"
+				icon  = "Icons.16x16.DeleteIcon" />
+		<Command id = "MonoDevelop.Commands.EditCommands.Rename"
+				_label    = "Re_name" />
+		<Command id = "MonoDevelop.Commands.EditCommands.Undo"
+				_label = "_Undo" 
+				icon = "Icons.16x16.UndoIcon" 
+				description = "${res:XML.MainMenu.EditMenu.Undo.Description}" 
+				shortcut = "Control|Z" />
+		<Command id = "MonoDevelop.Commands.EditCommands.Redo" 
+				_label = "_Redo" 
+				icon = "Icons.16x16.RedoIcon" 
+				description = "${res:XML.MainMenu.EditMenu.Redo.Description}" 
+				shortcut = "Control|Y" />
+		<Command id = "MonoDevelop.Commands.EditCommands.SelectAll" 
+				_label = "Select _All" 
+				description = "${res:XML.MainMenu.EditMenu.SelectAll.Description}" 
+				shortcut = "Control|A" />
+		<Command id = "MonoDevelop.Commands.EditCommands.CommentCode"
+				shortcut = "Control|Alt|C"
+				_label = "C_omment Line(s)" />
+		<Command id = "MonoDevelop.Commands.EditCommands.UncommentCode"
+				shortcut = "Control|Alt|U"
+				_label = "_Uncomment Line(s)" />
+		<Command id = "MonoDevelop.Commands.EditCommands.IndentSelection"
+				shortcut = "Control|Alt|Home"
+				_label = "_Indent Selection" />
+		<Command id = "MonoDevelop.Commands.EditCommands.UnIndentSelection"
+				shortcut = "Control|Alt|End"
+				_label = "_Unindent Selection" />
+		<Command id = "MonoDevelop.Commands.EditCommands.WordCount"
+				_label = "_Word Count..." 
+				description = "${res:XML.MainMenu.EditMenu.WordCount.Description}"/>
+		<Command id = "MonoDevelop.Commands.EditCommands.MonodevelopPreferences"
+				defaultHandler = "MonoDevelop.Commands.MonodevelopPreferencesHandler"
+				_label = "_Preferences"
+				icon = "Icons.16x16.Options"
+				description = "${res:XML.MainMenu.ToolMenu.Options.Description}" />
+				
+		<!-- ProjectCommands -->
+				
+		<Command id = "MonoDevelop.Commands.ProjectCommands.Compile"
+				defaultHandler = "MonoDevelop.Commands.CompileHandler"
+				description = "Compile"
+				_label = "_Compile" />
+		<Command id = "MonoDevelop.Commands.ProjectCommands.AddNewProject"
+				_label = "Add New Project..."
+				description = "Add a new project to the selected solution"
+				icon  = "Icons.16x16.NewProjectIcon" />
+		<Command id = "MonoDevelop.Commands.ProjectCommands.AddNewCombine"
+				_label = "Add New Solution..." 
+				description = "Add a new solution to the selected solution"
+				icon  = "Icons.16x16.NewProjectIcon" />
+		<Command id = "MonoDevelop.Commands.ProjectCommands.AddProject"
+				description = "Add a project to the selected solution"
+				_label = "Add existing _Project" />
+		<Command id = "MonoDevelop.Commands.ProjectCommands.AddCombine"
+				description = "Add a solution to the selected solution"
+				_label = "Add existing Solution" />
+		<Command id = "MonoDevelop.Commands.ProjectCommands.RemoveFromProject"
+				_label = "_Remove From Project" 
+				icon  = "Icons.16x16.DeleteIcon" />
+		<Command id = "MonoDevelop.Commands.ProjectCommands.Options"
+				_label = "Options" 
+				description = "Show options window"
+				icon  = "Icons.16x16.PropertiesIcon" />
+		<Command id = "MonoDevelop.Commands.ProjectCommands.AddResource"
+				_label = "Add Resource" />
+		<Command id = "MonoDevelop.Commands.ProjectCommands.AddReference"
+				_label = "Edit References" />
+		<Command id = "MonoDevelop.Commands.ProjectCommands.AddNewFiles"
+				_label = "New _File" 
+				icon  = "Icons.16x16.NewDocumentIcon" />
+		<Command id = "MonoDevelop.Commands.ProjectCommands.AddFiles"
+				_label = "Add Files" />
+		<Command id = "MonoDevelop.Commands.ProjectCommands.NewFolder"
+				_label = "New Folder" 
+				icon  = "Icons.16x16.NewFolderIcon" />
+		<Command id = "MonoDevelop.Commands.ProjectCommands.IncludeToProject"
+				_label = "Include To Project" />
+		<Command id = "MonoDevelop.Commands.ProjectCommands.Build"
+				defaultHandler = "MonoDevelop.Commands.BuildHandler"
+				_label = "Buil_d" 
+				shortcut = "F8"
+				icon  = "Icons.16x16.BuildCurrentSelectedProject" />
+		<Command id = "MonoDevelop.Commands.ProjectCommands.Rebuild"
+				defaultHandler = "MonoDevelop.Commands.RebuildHandler"
+				_label = "Rebuild" />
+		<Command id = "MonoDevelop.Commands.ProjectCommands.SetAsStartupProject"
+				_label = "Set As Startup Project" />
+		<Command id = "MonoDevelop.Commands.ProjectCommands.Run"
+				defaultHandler = "MonoDevelop.Commands.RunHandler"
+				icon = "Icons.16x16.RunProgramIcon"
+				shortcut = "F5"
+				_label = "Run" />
+		<Command id = "MonoDevelop.Commands.ProjectCommands.Debug"
+				defaultHandler = "MonoDevelop.Commands.DebugHandler"
+				icon = "Icons.16x16.RunProgramIcon"
+				shortcut = "Control|F5"
+				_label = "Debug" />
+		<Command id = "MonoDevelop.Commands.ProjectCommands.IncludeInBuild"
+				type="check"
+				_label = "Build" />
+		<Command id = "MonoDevelop.Commands.ProjectCommands.IncludeInDeploy"
+				type="check"
+				_label = "Deploy" />
+		<Command id = "MonoDevelop.Commands.ProjectCommands.Stop"
+				defaultHandler = "MonoDevelop.Commands.StopHandler"
+				icon = "gtk-stop"
+				shortcut = "Shift|F5"
+				description = "Stop current build or application execution"
+				_label = "Stop" />
+<!--		<Command id = "MonoDevelop.Commands.ProjectCommands.ConfigurationSelector"
+				type = "custom"
+				widget = "MonoDevelop.Gui.ConfigurationComboBox"
+				_label = "Configuration Box" />
+-->
+
+		<!-- FileCommands -->
+		
+		<Command id = "MonoDevelop.Commands.FileCommands.OpenFile"
+				defaultHandler = "MonoDevelop.Commands.OpenFileHandler"
+				_label = "O_pen" 
+				shortcut = "Control|O"
+				icon  = "Icons.16x16.OpenFileIcon" />
+		<Command id = "MonoDevelop.Commands.FileCommands.NewFile" 
+				defaultHandler = "MonoDevelop.Commands.NewFileHandler"
+				_label = "New File"
+				shortcut = "Control|N"
+				description = "${res:XML.MainMenu.FileMenu.New.File.Description}" 
+				icon = "Icons.16x16.NewDocumentIcon" />
+		<Command id = "MonoDevelop.Commands.FileCommands.Save" 
+				icon = "Icons.16x16.SaveIcon" 
+				shortcut = "Control|S"
+				_label = "Save" />
+		<Command id = "MonoDevelop.Commands.FileCommands.SaveAll"
+				defaultHandler = "MonoDevelop.Commands.SaveAllHandler"
+				icon = "Icons.16x16.SaveAllIcon" 
+				_label = "Save All" />
+		<Command id = "MonoDevelop.Commands.FileCommands.NewProject" 
+				defaultHandler = "MonoDevelop.Commands.NewProjectHandler"
+				_label = "N_ew Solution/Project..." 
+				icon = "Icons.16x16.NewProjectIcon" 
+				description = "${res:XML.MainMenu.FileMenu.New.Project.Description}" 
+				shortcut = "Control|Shift|N"  />
+		<Command id = "MonoDevelop.Commands.FileCommands.CloseFile"
+				_label = "_Close File" 
+				description = "${res:XML.MainMenu.FileMenu.Close.File.Desription}"
+				icon = "Icons.16x16.CloseIcon"
+				shortcut = "Control|W"/>
+		<Command id = "MonoDevelop.Commands.FileCommands.CloseAllFiles"
+				defaultHandler = "MonoDevelop.Commands.CloseAllFilesHandler"
+				_label = "Close All"
+				description = "Close All Files"
+				icon = "Icons.16x16.CloseIcon"
+				shortcut = "Control|Shift|W" />
+		<Command id = "MonoDevelop.Commands.FileCommands.CloseCombine"
+				defaultHandler = "MonoDevelop.Commands.CloseCombineHandler"
+				_label = "Close Sol_ution" 
+				description = "${res:XML.MainMenu.FileMenu.Close.Project.Desription}"
+				icon = "Icons.16x16.CloseCombineIcon" />
+		<Command id = "MonoDevelop.Commands.FileCommands.ReloadFile"
+				_label = "_Reload File" 
+				shortcut = "Control|U"
+				description = "${res:XML.MainMenu.FileMenu.Reload.Description}" />
+		<Command id = "MonoDevelop.Commands.FileCommands.SaveAs"
+				_label = "Save _As..."
+				icon = "Icons.16x16.SaveAsIcon"
+				shortcut = "Control|Shift|S" 
+				description = "${res:XML.MainMenu.FileMenu.SaveAs.Description}" />
+		<Command id = "MonoDevelop.Commands.FileCommands.RecentFileList"
+				defaultHandler = "MonoDevelop.Commands.RecentFileListHandler"
+				type="array"
+				_label = "Recent Files" />
+		<Command id = "MonoDevelop.Commands.FileCommands.ClearRecentFiles" 
+				defaultHandler = "MonoDevelop.Commands.ClearRecentFilesHandler"
+				_label = "_Clear Recent Files" 
+				description = "${res:XML.MainMenu.FileMenu.ClearRecentFiles.Description}" />
+		<Command id = "MonoDevelop.Commands.FileCommands.RecentProjectList"
+				defaultHandler = "MonoDevelop.Commands.RecentProjectListHandler"
+				type="array"
+				_label = "Recent Projects" />
+		<Command id = "MonoDevelop.Commands.FileCommands.ClearRecentProjects"
+				defaultHandler = "MonoDevelop.Commands.ClearRecentProjectsHandler"
+				_label = "_Clear Recent Solutions" 
+				description = "${res:XML.MainMenu.FileMenu.ClearRecentProjects.Description}" />
+		<Command id = "MonoDevelop.Commands.FileCommands.Exit"
+				defaultHandler = "MonoDevelop.Commands.ExitHandler"
+				_label = "_Quit" 
+				icon = "Icons.16x16.QuitIcon" 
+				description = "${res:XML.MainMenu.FileMenu.Exit.Description}"
+				shortcut = "Control|Q" />
+				
+		<!-- ViewCommands -->
+		
+		<Command id = "MonoDevelop.Commands.ViewCommands.ViewList"
+				defaultHandler = "MonoDevelop.Commands.ViewListHandler"
+				type="check|array"
+				_label = "View List" />
+		<Command id = "MonoDevelop.Commands.ViewCommands.LayoutList"
+				defaultHandler = "MonoDevelop.Commands.LayoutListHandler"
+				type="radio|array"
+				_label = "Layout List" />
+		<Command id = "MonoDevelop.Commands.ViewCommands.NewLayout"
+				defaultHandler = "MonoDevelop.Commands.NewLayoutHandler"
+				_label = "_New Layout" />
+		<Command id = "MonoDevelop.Commands.ViewCommands.FullScreen"
+				defaultHandler = "MonoDevelop.Commands.FullScreenHandler"
+				_label = "_Full Screen" 
+				icon = "Icons.16x16.FullScreen" 
+				shortcut = "F11"
+				description = "${res:XML.MainMenu.ViewMenu.FullScreen.Description}" />
+		<Command id = "MonoDevelop.Commands.ViewCommands.Open"
+				_label = "Open" />
+		<Command id = "MonoDevelop.Commands.ViewCommands.TreeDisplayOptionList"
+				type = "array|check"
+				_label = "Display Options List" />
+		<Command id = "MonoDevelop.Commands.ViewCommands.ResetTreeDisplayOptions"
+				_label = "Reset Options" />
+
+		<!-- ToolCommands -->
+		
+		<Command id = "MonoDevelop.Commands.ToolCommands.ToolList"
+				defaultHandler = "MonoDevelop.Commands.ToolListHandler"
+				type="array"
+				_label = "Tool List" />
+				
+		<!-- WindowCommands -->
+		
+		<Command id  = "MonoDevelop.Commands.WindowCommands.NextWindow"
+				defaultHandler = "MonoDevelop.Commands.NextWindowHandler"
+				_label = "_Next Window"
+				icon = "Icons.16x16.NextWindowIcon"
+				description = "${res:XML.MainMenu.WindowMenu.NxtWindow.Description}" 
+				shortcut = "Control|Page_Down" />
+		<Command id = "MonoDevelop.Commands.WindowCommands.PrevWindow"
+				defaultHandler = "MonoDevelop.Commands.PrevWindowHandler"
+				_label = "_Previous Window"
+				icon = "Icons.16x16.PrevWindowIcon"
+				description = "${res:XML.MainMenu.WindowMenu.PrvWindow.Description}"
+				shortcut = "Control|Page_Up" />
+		<Command id = "MonoDevelop.Commands.WindowCommands.OpenWindowList"
+				defaultHandler = "MonoDevelop.Commands.OpenWindowListHandler"
+				type="radio|array"
+				_label = "Window List" />
+				
+		<!-- HelpCommands -->
+		
+		<Command id = "MonoDevelop.Commands.HelpCommands.TipOfTheDay"
+				defaultHandler = "MonoDevelop.Commands.TipOfTheDayHandler"
+				_label = "_Tip of the Day..." 
+				icon = "Icons.16x16.TipOfTheDay" 
+				description = "${res:XML.MainMenu.HelpMenu.Tips.Description}" />
+		<Command id = "MonoDevelop.Commands.HelpCommands.About"
+				defaultHandler = "MonoDevelop.Commands.AboutHandler"
+				_label = "_About" 
+				icon = "Icons.16x16.AboutIcon" 
+				description = "${res:XML.MainMenu.HelpMenu.About.Description}" />
+	</Extension>
+
+	<Extension path = "/SharpDevelop/Views/ProjectBrowser/ContextMenu/CombineBrowserNode">
+		<CommandItem id = "MonoDevelop.Commands.ProjectCommands.Build" />
+		<CommandItem id = "MonoDevelop.Commands.ProjectCommands.Rebuild" />
+		<SeparatorItem id = "CombineBuildGroupSeparator" />
+		<ItemSet id = "CombineAddMenu" _label = "Add" >
+			<CommandItem id = "MonoDevelop.Commands.ProjectCommands.AddNewProject" />
+			<CommandItem id = "MonoDevelop.Commands.ProjectCommands.AddNewCombine" />
+			<SeparatorItem id = "Separator1" />
+			<CommandItem id = "MonoDevelop.Commands.ProjectCommands.AddProject" />
+			<CommandItem id = "MonoDevelop.Commands.ProjectCommands.AddCombine" />
+		</ItemSet>
+		<CommandItem id = "MonoDevelop.Commands.EditCommands.Delete" />
+		<CommandItem id = "MonoDevelop.Commands.EditCommands.Rename" />
+		<SeparatorItem id = "CombineOptionsSeparator" />
+		<CommandItem id = "MonoDevelop.Commands.ProjectCommands.Options" />
 	</Extension>
 	
 	<Extension path = "/SharpDevelop/Views/ProjectBrowser/ContextMenu/ResourceFolderNode">
-                <MenuItem id = "AddResource"
-	                  _label = "Add Resource" 
-	                  class = "MonoDevelop.Commands.ProjectBrowser.AddResourceToProject"/>
+		<CommandItem id = "MonoDevelop.Commands.ProjectCommands.AddResource" />
 	</Extension>
-	
+
 	<Extension path = "/SharpDevelop/Views/ProjectBrowser/ContextMenu/ReferenceFolderNode">
-                <MenuItem id = "AddReference"
-	                  _label = "Edit References"
-	                  class = "MonoDevelop.Commands.ProjectBrowser.AddReferenceToProject"/>
-				<MenuItem id = "Paste"
-							  _label = "_Paste" 
-							  icon = "Icons.16x16.PasteIcon" 
-							  shortcut = "Control|V"
-							  class = "MonoDevelop.Commands.ProjectBrowser.PasteNodeCommand"/>
+		<CommandItem id = "MonoDevelop.Commands.ProjectCommands.AddReference" />
+		<CommandItem id = "MonoDevelop.Commands.EditCommands.Paste" />
 	</Extension>
 	
 	<Extension path = "/SharpDevelop/Views/ProjectBrowser/ContextMenu/ReferenceNode">
-		<MenuItem id = "OpenFile"
-		          _label = "O_pen" 
-		          icon  = "Icons.16x16.OpenFileIcon"
-		          class = "MonoDevelop.Commands.ProjectBrowser.OpenFileEvent"/>
-		<MenuItem id = "OpenSeparator" _label = "-" />
-		<MenuItem id = "Copy"
-	                  _label = "_Copy" 
-					  icon = "Icons.16x16.CopyIcon" 
-					  shortcut = "Control|C"
-	                  class = "MonoDevelop.Commands.ProjectBrowser.CopyNodeCommand"/>
-		<MenuItem id = "Remove"
-	                  _label = "_Remove" 
-	                  icon  = "Icons.16x16.DeleteIcon"
-	                  class = "MonoDevelop.Commands.ProjectBrowser.RemoveEntryEvent"/>
+		<CommandItem id = "MonoDevelop.Commands.ViewCommands.Open" />
+		<SeparatorItem id = "OpenSeparator" />
+		<CommandItem id = "MonoDevelop.Commands.EditCommands.Copy" />
+		<CommandItem id = "MonoDevelop.Commands.EditCommands.Delete" />
 	</Extension>
         
-        <Extension path = "/SharpDevelop/Views/ProjectBrowser/ContextMenu/DefaultFileNode">
-		<MenuItem id = "OpenFile"
-		          _label = "O_pen" 
-		          icon  = "Icons.16x16.OpenFileIcon"
-		          class = "MonoDevelop.Commands.ProjectBrowser.OpenFileEvent"/>
-		<MenuItem id = "OpenSeparator" _label = "-" />
-		<MenuItem id = "Copy"
-	                  _label = "_Copy" 
-					  icon = "Icons.16x16.CopyIcon" 
-					  shortcut = "Control|C"
-	                  class = "MonoDevelop.Commands.ProjectBrowser.CopyNodeCommand"/>
-		<MenuItem id = "Cut"
-				  _label = "_Cut" 
-				  icon = "Icons.16x16.CutIcon" 
-				  shortcut = "Control|X"
-				  class = "MonoDevelop.Commands.ProjectBrowser.CutNodeCommand"/>
-		<MenuItem id = "CutSeparator" _label = "-" />
-		<MenuItem id = "Remove"
-	                  _label = "_Remove" 
-	                  icon  = "Icons.16x16.DeleteIcon"
-	                  class = "MonoDevelop.Commands.ProjectBrowser.RemoveEntryEvent"/>
-                <MenuItem id = "Rename"
-	                  _label    = "Re_name" 
-	                  shortcut = "F2"
-	                  class    = "MonoDevelop.Commands.ProjectBrowser.RenameEntryEvent"/>
-        </Extension>
+	<Extension path = "/SharpDevelop/Views/ProjectBrowser/ContextMenu/DefaultFileNode">
+		<CommandItem id = "MonoDevelop.Commands.ViewCommands.Open" />
+		<SeparatorItem id = "OpenSeparator" />
+		<CommandItem id = "MonoDevelop.Commands.EditCommands.Copy" />
+		<CommandItem id = "MonoDevelop.Commands.EditCommands.Cut" />
+		<SeparatorItem id = "CutSeparator" />
+		<CommandItem id = "MonoDevelop.Commands.EditCommands.Delete" />
+		<CommandItem id = "MonoDevelop.Commands.EditCommands.Rename" />
+	</Extension>
 
-        <Extension path = "/SharpDevelop/Views/ProjectBrowser/ContextMenu/ProjectFileNode">
-		<MenuItem id = "OpenFile"
-		          _label = "O_pen" 
-		          icon  = "Icons.16x16.OpenFileIcon"
-		          class = "MonoDevelop.Commands.ProjectBrowser.OpenFileEvent"/>
-		<MenuItem id = "OpenSeparator" _label = "-" />
-                <MenuItem id = "Add" _label = "Add">
-        		<MenuItem id = "NewFiles"
-		                  _label = "New _File" 
-		                  icon  = "Icons.16x16.NewDocumentIcon"
-		                  class = "MonoDevelop.Commands.ProjectBrowser.AddNewFileEvent"/>
-        		<MenuItem id = "AddFiles"
-		                  _label = "Add Files" 
-		                  class = "MonoDevelop.Commands.ProjectBrowser.AddFilesToProject"/>
-			<MenuItem id = "Separator1" _label = "-" />
-        		<MenuItem id = "NewFolder"
-		                  _label = "New Folder" 
-		                  icon  = "Icons.16x16.NewFolderIcon"
-		                  class = "MonoDevelop.Commands.ProjectBrowser.NewFolderEvent"/>
-        	</MenuItem>
-		<MenuItem id = "Include" _label = "Include">
-			<MenuItem id = "IncludeFileIn" _label = "bogus_label"
-			          class = "MonoDevelop.Commands.IncludeFilesBuilder" />
-			</MenuItem>
-		<MenuItem id = "IncludeSeparator" _label = "-" />
-		<MenuItem id = "Copy"
-	                  _label = "_Copy" 
-					  icon = "Icons.16x16.CopyIcon" 
-					  shortcut = "Control|C"
-	                  class = "MonoDevelop.Commands.ProjectBrowser.CopyNodeCommand"/>
-		<MenuItem id = "Cut"
-				  _label = "_Cut" 
-				  icon = "Icons.16x16.CutIcon" 
-				  shortcut = "Control|X"
-				  class = "MonoDevelop.Commands.ProjectBrowser.CutNodeCommand"/>
-		<MenuItem id = "CutSeparator" _label = "-" />
-		<MenuItem id = "Remove"
-	                  _label = "Remove" 
-	                  icon  = "Icons.16x16.DeleteIcon"
-	                  class = "MonoDevelop.Commands.ProjectBrowser.RemoveEntryEvent"/>
-                <MenuItem id = "Rename"
-	                  _label    = "Rename" 
-	                  shortcut = "F2"
-	                  class    = "MonoDevelop.Commands.ProjectBrowser.RenameEntryEvent"/>
-        </Extension>
+	<Extension path = "/SharpDevelop/Views/ProjectBrowser/ContextMenu/ProjectFileNode">
+		<CommandItem id = "MonoDevelop.Commands.ViewCommands.Open" />
+		<SeparatorItem id = "OpenSeparator" />
+		<ItemSet id = "Add" _label = "Add">
+			<CommandItem id = "MonoDevelop.Commands.ProjectCommands.AddNewFiles" />
+			<CommandItem id = "MonoDevelop.Commands.ProjectCommands.AddFiles" />
+			<SeparatorItem id = "Separator1" />
+			<CommandItem id = "MonoDevelop.Commands.ProjectCommands.NewFolder" />
+		</ItemSet>
+		<ItemSet id = "Include" _label = "Include">
+			<CommandItem id = "MonoDevelop.Commands.ProjectCommands.IncludeInBuild" />
+			<CommandItem id = "MonoDevelop.Commands.ProjectCommands.IncludeInDeploy" />
+		</ItemSet>
+		<SeparatorItem id = "IncludeSeparator" />
+		<CommandItem id = "MonoDevelop.Commands.EditCommands.Copy" />
+		<CommandItem id = "MonoDevelop.Commands.EditCommands.Cut" />
+		<SeparatorItem id = "CutSeparator" />
+		<CommandItem id = "MonoDevelop.Commands.EditCommands.Delete" />
+		<CommandItem id = "MonoDevelop.Commands.EditCommands.Rename" />
+	</Extension>
 		
-        <Extension path = "/SharpDevelop/Views/ProjectBrowser/ContextMenu/SystemFileNode">
-			<MenuItem id = "OpenFile"
-					_label = "O_pen" 
-					icon  = "Icons.16x16.OpenFileIcon"
-					class = "MonoDevelop.Commands.ProjectBrowser.OpenFileEvent"/>
-			<MenuItem id = "IncludeToProject"
-					_label = "Include To Project" 
-					class = "MonoDevelop.Commands.ProjectBrowser.IncludeFileToProject"/>
-			<MenuItem id = "IncludeToProjectSeparator" _label = "-" />
-			<MenuItem id = "Copy"
-						  _label = "_Copy" 
-						  icon = "Icons.16x16.CopyIcon" 
-						  shortcut = "Control|C"
-						  class = "MonoDevelop.Commands.ProjectBrowser.CopyNodeCommand"/>
-			<MenuItem id = "Cut"
-					  _label = "_Cut" 
-					  icon = "Icons.16x16.CutIcon" 
-					  shortcut = "Control|X"
-					  class = "MonoDevelop.Commands.ProjectBrowser.CutNodeCommand"/>
-			<MenuItem id = "CutSeparator" _label = "-" />
-			<MenuItem id = "Remove"
-					_label = "Remove" 
-					icon  = "Icons.16x16.DeleteIcon"
-					class = "MonoDevelop.Commands.ProjectBrowser.RemoveEntryEvent"/>
-			<MenuItem id = "Rename"
-					_label    = "Rename" 
-					shortcut = "F2"
-					class    = "MonoDevelop.Commands.ProjectBrowser.RenameEntryEvent"/>
-        </Extension>
-        
-        <Extension path = "/SharpDevelop/Views/ProjectBrowser/ContextMenu/DefaultDirectoryNode">
-                <MenuItem id = "Add" _label = "Add">
-        		<MenuItem id = "NewFiles"
-		                  _label = "Add New File" 
-		                  icon  = "Icons.16x16.NewDocumentIcon"
-		                  class = "MonoDevelop.Commands.ProjectBrowser.AddNewFileEvent"/>
-        		<MenuItem id = "AddFiles"
-		                  _label = "Add Files" 
-		                  class = "MonoDevelop.Commands.ProjectBrowser.AddFilesToProject"/>
-			<MenuItem id = "Separator1" _label = "-" />
-        		<MenuItem id = "NewFolder"
-		                  _label = "Add New Folder" 
-		                  icon  = "Icons.16x16.NewFolderIcon"
-		                  class = "MonoDevelop.Commands.ProjectBrowser.NewFolderEvent"/>
-        	</MenuItem>
-		<MenuItem id = "AddSeparator" _label = "-" />
-			<MenuItem id = "Copy"
-						  _label = "_Copy" 
-						  icon = "Icons.16x16.CopyIcon" 
-						  shortcut = "Control|C"
-						  class = "MonoDevelop.Commands.ProjectBrowser.CopyNodeCommand"/>
-			<MenuItem id = "Cut"
-					  _label = "_Cut" 
-					  icon = "Icons.16x16.CutIcon" 
-					  shortcut = "Control|X"
-					  class = "MonoDevelop.Commands.ProjectBrowser.CutNodeCommand"/>
-			<MenuItem id = "Paste"
-					  _label = "_Paste" 
-					  icon = "Icons.16x16.PasteIcon" 
-					  shortcut = "Control|V"
-					  class = "MonoDevelop.Commands.ProjectBrowser.PasteNodeCommand"/>
-			<MenuItem id = "CutSeparator" _label = "-" />
-		<MenuItem id = "Remove"
-	                  _label = "_Remove" 
-	                  icon  = "Icons.16x16.DeleteIcon"
-	                  class = "MonoDevelop.Commands.ProjectBrowser.RemoveEntryEvent"/>
-                <MenuItem id = "Rename"
-	                  _label    = "Re_name" 
-	                  shortcut = "F2"
-	                  class    = "MonoDevelop.Commands.ProjectBrowser.RenameEntryEvent"/>
-        </Extension>
-        
-        <Extension path = "/SharpDevelop/Views/ProjectBrowser/ContextMenu/ProjectBrowserNode">
-                <MenuItem id = "BuildProject"
-                          _label = "Buil_d Project" 
-		          icon  = "Icons.16x16.BuildCurrentSelectedProject"
-                          class = "MonoDevelop.Commands.BuildCurrentProject"/>
-                <MenuItem id = "RebuildProject"
-                          _label = "Rebuild Project" 
-                          class = "MonoDevelop.Commands.RebuildCurrentProject"/>
-                <MenuItem id = "BuildGroupSeparator" _label = "-" />
-                <MenuItem id = "Add" _label = "Add">
-        		<MenuItem id = "NewFiles"
-		                  _label = "Add New File" 
-		                  icon  = "Icons.16x16.NewDocumentIcon"
-		                  class = "MonoDevelop.Commands.ProjectBrowser.AddNewFileEvent"/>
-        		<MenuItem id = "AddFiles"
-		                  _label = "Add Files" 
-		                  class = "MonoDevelop.Commands.ProjectBrowser.AddFilesToProject"/>
-			<MenuItem id = "Separator1" _label = "-" />
-        		<MenuItem id = "NewFolder"
-		                  _label = "Add New Folder" 
-		                  icon  = "Icons.16x16.NewFolderIcon"
-		                  class = "MonoDevelop.Commands.ProjectBrowser.NewFolderEvent"/>
-        	</MenuItem>
-		<MenuItem id = "AddSeparator" _label = "-" />
-			<MenuItem id = "Copy"
-						  _label = "_Copy" 
-						  icon = "Icons.16x16.CopyIcon" 
-						  shortcut = "Control|C"
-						  class = "MonoDevelop.Commands.ProjectBrowser.CopyNodeCommand"/>
-			<MenuItem id = "Cut"
-					  _label = "_Cut" 
-					  icon = "Icons.16x16.CutIcon" 
-					  shortcut = "Control|X"
-					  class = "MonoDevelop.Commands.ProjectBrowser.CutNodeCommand"/>
-			<MenuItem id = "Paste"
-					  _label = "_Paste" 
-					  icon = "Icons.16x16.PasteIcon" 
-					  shortcut = "Control|V"
-					  class = "MonoDevelop.Commands.ProjectBrowser.PasteNodeCommand"/>
-			<MenuItem id = "CutSeparator" _label = "-" />
-		<MenuItem id = "Remove"
-	                  _label = "_Remove" 
-	                  icon  = "Icons.16x16.DeleteIcon"
-	                  class = "MonoDevelop.Commands.ProjectBrowser.RemoveEntryEvent"/>
-                <MenuItem id = "Rename"
-	                  _label    = "Re_name" 
-	                  shortcut = "F2"
-	                  class    = "MonoDevelop.Commands.ProjectBrowser.RenameEntryEvent"/>
-		<!-- <MenuItem id = "RemoveRenameSeparator" _label = "-" /> -->
-		<!-- <MenuItem id = "RunTests"
-	                  _label = "${res:ProjectComponent.ContextMenu.RunTests}" 
-	                  class = "MonoDevelop.Commands.RunTestsInProject"/>
-		<MenuItem id = "Deploy"
-	                  _label = "${res:ProjectComponent.ContextMenu.Deploy}" />
-		<MenuItem id = "TestsDeploySeparator" _label = "-" /> -->
+	<Extension path = "/SharpDevelop/Views/ProjectBrowser/ContextMenu/SystemFileNode">
+		<CommandItem id = "MonoDevelop.Commands.ViewCommands.Open" />
+		<CommandItem id = "MonoDevelop.Commands.ProjectCommands.IncludeToProject" />
+		<SeparatorItem id = "IncludeToProjectSeparator" />
+		<CommandItem id = "MonoDevelop.Commands.EditCommands.Copy" />
+		<CommandItem id = "MonoDevelop.Commands.EditCommands.Cut" />
+		<SeparatorItem id = "CutSeparator" />
+		<CommandItem id = "MonoDevelop.Commands.EditCommands.Delete" />
+		<CommandItem id = "MonoDevelop.Commands.EditCommands.Rename" />
+	</Extension>
 
-<!-- 	      	<MenuItem id = "ViewDocumentation"
-	                  _label = "${res:ProjectComponent.ContextMenu.ViewDocumentation}" 
-	                  class = "MonoDevelop.Commands.ViewProjectDocumentation"/> -->
+	<Extension path = "/SharpDevelop/Views/ProjectBrowser/ContextMenu/DefaultDirectoryNode">
+		<ItemSet id = "Add" _label = "Add">
+			<CommandItem id = "MonoDevelop.Commands.ProjectCommands.AddNewFiles" />
+			<CommandItem id = "MonoDevelop.Commands.ProjectCommands.AddFiles" />
+			<SeparatorItem id = "Separator1" />
+			<CommandItem id = "MonoDevelop.Commands.ProjectCommands.NewFolder" />
+		</ItemSet>
+		<SeparatorItem id = "AddSeparator" />
+		<CommandItem id = "MonoDevelop.Commands.EditCommands.Copy" />
+		<CommandItem id = "MonoDevelop.Commands.EditCommands.Cut" />
+		<CommandItem id = "MonoDevelop.Commands.EditCommands.Paste" />
+		<SeparatorItem id = "CutSeparator" />
+		<CommandItem id = "MonoDevelop.Commands.EditCommands.Delete" />
+		<CommandItem id = "MonoDevelop.Commands.EditCommands.Rename" />
+	</Extension>
+
+	<Extension path = "/SharpDevelop/Views/ProjectBrowser/ContextMenu/ProjectBrowserNode">
+		<CommandItem id = "MonoDevelop.Commands.ProjectCommands.Build" />
+		<CommandItem id = "MonoDevelop.Commands.ProjectCommands.Rebuild"/>
+		<SeparatorItem id = "BuildGroupSeparator" />
+		<ItemSet id = "Add" _label = "Add">
+			<CommandItem id = "MonoDevelop.Commands.ProjectCommands.AddNewFiles" />
+			<CommandItem id = "MonoDevelop.Commands.ProjectCommands.AddFiles" />
+			<SeparatorItem id = "Separator1" />
+			<CommandItem id = "MonoDevelop.Commands.ProjectCommands.NewFolder" />
+		</ItemSet>
+
+		<SeparatorItem id = "AddSeparator" />
+		<CommandItem id = "MonoDevelop.Commands.EditCommands.Copy" />
+		<CommandItem id = "MonoDevelop.Commands.EditCommands.Cut" />
+		<CommandItem id = "MonoDevelop.Commands.EditCommands.Paste" />
+		<SeparatorItem id = "CutSeparator" />
+		<CommandItem id = "MonoDevelop.Commands.EditCommands.Delete" />
+		<CommandItem id = "MonoDevelop.Commands.EditCommands.Rename" />
 		
-		<!-- <MenuItem id = "GenerateDocumentation"
-	                  _label = "${res:ProjectComponent.ContextMenu.GenerateDocumentation}" 
-	                  class = "MonoDevelop.Commands.GenerateProjectDocumentation"/> -->
+		<SeparatorItem id = "SetAsStartupProjectSeparator" />
+		<CommandItem id = "MonoDevelop.Commands.ProjectCommands.SetAsStartupProject" />
 		
-		<MenuItem id = "SetAsStartupProjectSeparator" _label = "-" />
-		<MenuItem id = "SetAsStartupProject"
-	                  _label = "Set As Startup Project" 
-	                  class = "MonoDevelop.Commands.ProjectBrowser.SetAsStartupProject"/>
-		
-		<MenuItem id = "OptionsSeparator" _label = "-" />
-		<MenuItem id = "ProjectOptions"
-	                  _label = "Project _Options" 
-	                  icon  = "Icons.16x16.PropertiesIcon"
-	                  class = "MonoDevelop.Commands.ViewProjectOptions"/>
-        </Extension>
+		<SeparatorItem id = "OptionsSeparator" />
+		<CommandItem id = "MonoDevelop.Commands.ProjectCommands.Options" />
+	</Extension>
 	
+
 	<Extension path = "/SharpDevelop/Workbench/ProjectOptions/ConfigNodeMenu">
                 <MenuItem id = "Add" 
                           _label = "Add"
@@ -502,7 +604,7 @@
 		<Pad id = "MonoDevelop.Gui.Pads.OpenTaskView" class = "MonoDevelop.Gui.Pads.OpenTaskView"/>
 		<Pad id = "MonoDevelop.Gui.Pads.HelpTree" class = "MonoDevelop.Gui.Pads.HelpTree"/>
 
-		<SolutionPad id = "MonoDevelop.Gui.Pads.ProjectPad" defaultPlacement = "Left" _label = "Solution" icon = "md-combine-icon">
+		<SolutionPad id = "MonoDevelop.Gui.Pads.ProjectPad" defaultPlacement = "Left" _label = "Solution" icon = "md-combine-icon" class = "MonoDevelop.Gui.Pads.ProjectPad.ProjectSolutionPad">
 			<PadOption id = "ShowAllFiles" _label = "Show All Files" defaultValue = "False" />
 			<NodeBuilder id = "Combine" class = "MonoDevelop.Gui.Pads.ProjectPad.CombineNodeBuilder"/>
 			<NodeBuilder id = "Project" class = "MonoDevelop.Gui.Pads.ProjectPad.ProjectNodeBuilder"/>
@@ -601,504 +703,141 @@
 		            extensions = "*.*"/>
 	</Extension>
 	
+	<!-- Main Toolbar -->
+	
 	<Extension path = "/SharpDevelop/Workbench/ToolBar">
-		<ToolbarItem id = "Standard">
-			<ToolbarItem id = "New" 
-			             icon = "Icons.16x16.NewDocumentIcon" 
-			             _tooltip = "New File"
-			             class = "MonoDevelop.Commands.CreateNewFile"/>
-			<ToolbarItem id = "Open" 
-			             icon = "Icons.16x16.OpenFileIcon" 
-			             _tooltip = "Open File"
-			             class = "MonoDevelop.Commands.OpenFile"/>
-			<Conditional activewindow="*" action="Disable">
-				<ToolbarItem id = "Save" 
-				             icon = "Icons.16x16.SaveIcon" 
-				             _tooltip = "Save"
-				             class = "MonoDevelop.Commands.SaveFile"/>
-				             
-		                <ToolbarItem id = "SaveAll"
-			                     icon = "Icons.16x16.SaveAllIcon" 
-		                             _tooltip = "Save All"
-		                             class = "MonoDevelop.Commands.SaveAllFiles"/>
-			</Conditional>
-			<ToolbarItem id = "Separator1" _tooltip = "-"/>
-	                <!-- <Conditional activewindow="*" action="Disable">-->
-				<ToolbarItem id = "Cut" 
-				             icon = "Icons.16x16.CutIcon" 
-				             _tooltip = "Cut"
-				             class = "MonoDevelop.Commands.Cut"/>
-				<ToolbarItem id = "Copy" 
-				             icon = "Icons.16x16.CopyIcon" 
-				             _tooltip = "Copy"
-				             class = "MonoDevelop.Commands.Copy"/>
-				<ToolbarItem id = "Paste" 
-				             icon = "Icons.16x16.PasteIcon" 
-				             _tooltip = "Paste"
-				             class = "MonoDevelop.Commands.Paste"/>
-				<ToolbarItem id = "Delete"
-				             icon = "Icons.16x16.DeleteIcon" 
-				             _tooltip = "Delete"
-				             class = "MonoDevelop.Commands.Delete"/>
-			<!-- </Conditional>-->
-			<ToolbarItem id = "CutSeparator" insertafter ="Delete" insertbefore ="Find" _tooltip = "-"/>
-	                <!-- <Conditional action="Disable">
-	                	<Or>
-	                		<Condition activewindow="MonoDevelop.DefaultEditor.Gui.Editor.ITextAreaControlProvider"/>
-	                		<Condition iscombineopen="True"/>
-	                	</Or>
-			</Conditional> -->
-			
-			<ToolbarItem id = "CompileSeparator" insertafter = "ClearBookmarks" _tooltip = "-"/>
-	                <Conditional action="Disable">
-	                	<Or>
-	                		<Condition activewindow="MonoDevelop.DefaultEditor.Gui.Editor.ITextAreaControlProvider"/>
-	                		<Condition iscombineopen="True"/>
-	                	</Or>
-		                <ToolbarItem id = "Compile"
-				             icon  = "Icons.16x16.BuildCombine"
-				             _tooltip = "Compile"
-				             class = "MonoDevelop.Commands.Compile"/>
-			
-				<ToolbarItem id = "BuildProject"
-				             icon  = "Icons.16x16.BuildCurrentSelectedProject"
-				             _tooltip = "Build Project"
-				             class = "MonoDevelop.Commands.BuildCurrentProject"/>
-				<ToolbarItem id = "Run"
-				             icon = "Icons.16x16.RunProgramIcon"
-				             _tooltip = "Run"
-				             class = "MonoDevelop.Commands.RunCommand"/>
-			</Conditional>
-		</ToolbarItem>
+		<ItemSet id = "Standard">
+			<CommandItem id = "MonoDevelop.Commands.FileCommands.NewFile" />
+			<CommandItem id = "MonoDevelop.Commands.FileCommands.OpenFile" />
+			<CommandItem id = "MonoDevelop.Commands.FileCommands.Save" />
+			<CommandItem id = "MonoDevelop.Commands.FileCommands.SaveAll" />
+			<SeparatorItem id = "Separator1" />
+			<CommandItem id = "MonoDevelop.Commands.EditCommands.Cut" />
+			<CommandItem id = "MonoDevelop.Commands.EditCommands.Copy" />
+			<CommandItem id = "MonoDevelop.Commands.EditCommands.Paste" />
+			<CommandItem id = "MonoDevelop.Commands.EditCommands.Delete" />
+			<SeparatorItem id = "CutSeparator" />
+			<SeparatorItem id = "CompileSeparator" />
+<!--			<CommandItem id = "MonoDevelop.Commands.ProjectCommands.ConfigurationSelector" />-->
+			<CommandItem id = "MonoDevelop.Commands.ProjectCommands.Build" />
+			<CommandItem id = "MonoDevelop.Commands.ProjectCommands.Run" />
+			<CommandItem id = "MonoDevelop.Commands.ProjectCommands.Stop" />
+		</ItemSet>
 	</Extension>
 
+	<!-- Main Menu -->
+
 	<Extension path = "/SharpDevelop/Workbench/MainMenu">
-	        <MenuItem id = "File" _label = "_File">
-	                        <MenuItem id          = "File" 
-	                                  _label       = "_New File..." 
-	                                  icon        = "Icons.16x16.NewDocumentIcon" 
-	                                  description = "${res:XML.MainMenu.FileMenu.New.File.Description}" 
-	                                  shortcut    = "Control|N" 
-	                                  class = "MonoDevelop.Commands.CreateNewFile"/>
-	                                  
-	                        <MenuItem id = "Project" 
-	                                  _label = "N_ew Solution/Project..." 
-	                                  icon = "Icons.16x16.NewProjectIcon" 
-	                                  description = "${res:XML.MainMenu.FileMenu.New.Project.Description}" 
-	                                  shortcut = "Control|Shift|N" 
-	                                  class = "MonoDevelop.Commands.CreateNewProject"/>
-	                
-	                <!-- <MenuItem id = "Open" _label = "_Open">
-	                        <MenuItem id = "File" 
-	                                  _label = "File..." 
-	                                  icon = "Icons.16x16.OpenFileIcon"  
-	                                  description = "${res:XML.MainMenu.FileMenu.Open.File.Description}" 
-	                                  shortcut = "Control|O" 
-	                                  class = "MonoDevelop.Commands.OpenFile"/>
-	                                  
-	                        <MenuItem id = "Project" 
-	                                  _label = "Solution/Project..." 
-	                                  icon = "Icons.16x16.OpenProjectIcon" 
-	                                  description = "${res:XML.MainMenu.FileMenu.Open.Project.Description}" 
-	                                  shortcut = "Control|Shift|O" 
-	                                  class = "MonoDevelop.Commands.OpenCombine"/>
-	                </MenuItem> -->
-
-			<MenuItem id = "Open" _label = "_Open..."
-			          icon = "Icons.16x16.OpenFileIcon"
-			          shortcut = "Control|O"
-			          class = "MonoDevelop.Commands.OpenFile"/>
-
-			<MenuItem id = "OpenSep" _label = "-"/>
-	                
-	                        <Conditional activewindow="*" action="Disable">
-		                        <MenuItem id = "CloseFile"
-		                                  _label = "_Close File" 
-		                                  description = "${res:XML.MainMenu.FileMenu.Close.File.Desription}"
-		                                  icon = "Icons.16x16.CloseIcon"
-		                                  shortcut = "Control|W"
-		                                  class ="MonoDevelop.Commands.CloseFile"/>
-		                        <MenuItem id = "CloseAllFiles"
-		                                  _label = "Close All"
-		                                  description = "Close All Files"
-		                                  icon = "Icons.16x16.CloseIcon"
-		                                  shortcut = "Control|Shift|W"
-		                                  class = "MonoDevelop.Commands.CloseAllFiles"/>
-	                        </Conditional>
-	                        <Conditional iscombineopen="True" action="Disable">
-		                        <MenuItem id = "CloseCombine"
-		                                  _label = "Close Sol_ution" 
-		                                  description = "${res:XML.MainMenu.FileMenu.Close.Project.Desription}"
-		                                  icon = "Icons.16x16.CloseCombineIcon"
-		                                  class = "MonoDevelop.Commands.ClearCombine"/>
-		                </Conditional>
-	                
-			<MenuItem id = "ReloadSeparator" _label = "-" />
-			<MenuItem id = "Reloadfile"
-				  _label = "_Reload File" 
-				  shortcut = "Control|U"
-				  description = "${res:XML.MainMenu.FileMenu.Reload.Description}"
-	                          class = "MonoDevelop.Commands.ReloadFile" />
+		<ItemSet id = "File" _label = "_File">
+			<CommandItem id = "MonoDevelop.Commands.FileCommands.NewFile" />
+			<CommandItem id = "MonoDevelop.Commands.FileCommands.NewProject" />
+			<CommandItem id = "MonoDevelop.Commands.FileCommands.OpenFile" />
+			<SeparatorItem id = "OpenSep" />
+			<CommandItem id = "MonoDevelop.Commands.FileCommands.Save" />
+			<CommandItem id = "MonoDevelop.Commands.FileCommands.SaveAs" />
+			<CommandItem id = "MonoDevelop.Commands.FileCommands.SaveAll" />
+			<SeparatorItem id = "SaveSeparator" />
+			<CommandItem id = "MonoDevelop.Commands.FileCommands.CloseFile" />
+			<CommandItem id = "MonoDevelop.Commands.FileCommands.CloseAllFiles" />
+			<CommandItem id = "MonoDevelop.Commands.FileCommands.CloseCombine" />
+			<SeparatorItem id = "ReloadSeparator" />
+			<CommandItem id = "MonoDevelop.Commands.FileCommands.ReloadFile" />
 			
-			<MenuItem id = "SaveSeparator" _label = "-" />
+			<SeparatorItem id = "RecentSeparator" />
+			<ItemSet id = "RecentFiles" _label = "Recent _Files">
+				<CommandItem id = "MonoDevelop.Commands.FileCommands.RecentFileList" />
+				<SeparatorItem id = "RecentFilesSeparator" />
+				<CommandItem id = "MonoDevelop.Commands.FileCommands.ClearRecentFiles" />
+			</ItemSet>
 	                
-			<Conditional activewindow="*" action="Disable">
-		                <MenuItem id = "_Save"
-		                          _label = "_Save" 
-		                          icon = "Icons.16x16.SaveIcon" 
-		                          description = "${res:XML.MainMenu.FileMenu.Save.Description}" 
-		                          shortcut = "Control|S"
-		                          class = "MonoDevelop.Commands.SaveFile"/>
-		                <MenuItem id = "SaveAs"
-		                          _label = "Save _As..."
-		                          icon = "Icons.16x16.SaveAsIcon"
-		                          description = "${res:XML.MainMenu.FileMenu.SaveAs.Description}"
-		                          class = "MonoDevelop.Commands.SaveFileAs"/>
-		                <MenuItem id = "SaveAll"
-		                          _label = "Save A_ll" 
-		                          icon = "Icons.16x16.SaveAllIcon" 
-		                          shortcut = "Control|Shift|S" 
-		                          description = "${res:XML.MainMenu.FileMenu.SaveAll.Description}"
-		                          class = "MonoDevelop.Commands.SaveAllFiles"/>
-			</Conditional>
-			<!--
-			<MenuItem id = "PrintSeparator" _label = "-" />
-	                <Conditional activewindow="*" action="Disable">
-		                <MenuItem id = "Print"
-		                          _label = "${res:XML.MainMenu.FileMenu.Print}" 
-		                          icon = "Icons.16x16.Print" 
-		                          description = "${res:XML.MainMenu.FileMenu.Print.Description}" 
-		                          shortcut = "Control|P"
-		                          class = "MonoDevelop.Commands.Print"/>
-		                <MenuItem id = "PrintPreview"
-		                          _label = "${res:XML.MainMenu.FileMenu.PrintPreview}" 
-		                          icon = "Icons.16x16.PreView" 
-		                          description = "${res:XML.MainMenu.FileMenu.PrintPreview.Description}"
-		                          class = "MonoDevelop.Commands.PrintPreview"/>
-	                </Conditional>
-			-->
-	                <MenuItem id = "RecentSeparator"  _label = "-" />
-	                <MenuItem id = "RecentFiles"    attribute = "RecentFiles" _label = "Recent _Files">
-	                	<MenuItem id = "RecentFilesBuilder" _label = "bogus_label" class = "MonoDevelop.Commands.RecentFilesMenuBuilder" />
-	                	<MenuItem id = "RecentFilesSeparator" _label = "-" />
-	                	<MenuItem id = "ClearRecentFiles" 
-	                	          _label = "_Clear Recent Files" 
-	                	          description = "${res:XML.MainMenu.FileMenu.ClearRecentFiles.Description}"
-	                	          class = "MonoDevelop.Commands.ClearRecentFiles" />
-	                </MenuItem>
-	                
-	                <MenuItem id = "RecentProjects" attribute = "RecentProjects" _label = "Recent Solu_tions">
-	                	<MenuItem id = "RecentProjectsBuilder" _label = "bogus_label" class = "MonoDevelop.Commands.RecentProjectsMenuBuilder" />
-	                	<MenuItem id = "RecentProjectsSeparator" _label = "-" />
-	                	<MenuItem id = "ClearRecentFiles" 
-	                	          _label = "_Clear Recent Solutions" 
-	                	          description = "${res:XML.MainMenu.FileMenu.ClearRecentProjects.Description}"
-	                	          class = "MonoDevelop.Commands.ClearRecentProjects" />
-	                </MenuItem>
-	                
-	                <MenuItem id = "ExitSeparator" _label = "-" />
-	                <MenuItem id = "Exit"
-	                          _label = "_Quit" 
-	                          icon = "Icons.16x16.QuitIcon" 
-	                          description = "${res:XML.MainMenu.FileMenu.Exit.Description}"
-				  shortcut = "Control|Q"
-	                          class = "MonoDevelop.Commands.ExitWorkbenchCommand" />
-	        </MenuItem>
+			<ItemSet id = "RecentProjects" _label = "Recent Solu_tions">
+				<CommandItem id = "MonoDevelop.Commands.FileCommands.RecentProjectList" />
+				<SeparatorItem id = "RecentProjectsSeparator" />
+				<CommandItem id = "MonoDevelop.Commands.FileCommands.ClearRecentProjects" />
+			</ItemSet>
+			
+			<SeparatorItem id = "ExitSeparator" />
+			<CommandItem id = "MonoDevelop.Commands.FileCommands.Exit" />
+		</ItemSet>
 	        
-	        <MenuItem id = "Edit" _label = "_Edit">
-	                <Conditional activewindow="*" action="Disable">
-		                <MenuItem id = "Undo"
-		                          _label = "_Undo" 
-		                          icon = "Icons.16x16.UndoIcon" 
-		                          description = "${res:XML.MainMenu.EditMenu.Undo.Description}" 
-		                          shortcut = "Control|Z"
-		                          class = "MonoDevelop.Commands.Undo"/>
-		                <MenuItem id = "Redo" 
-		                          _label = "_Redo" 
-		                          icon = "Icons.16x16.RedoIcon" 
-		                          description = "${res:XML.MainMenu.EditMenu.Redo.Description}" 
-		                          shortcut = "Control|Y"
-		                          class = "MonoDevelop.Commands.Redo"/>
-		        </Conditional>
-	                <MenuItem id = "Separator1" _label = "-" />
-	                <Conditional activewindow="*" action="Disable">
-					<MenuItem id = "Cut" 
-						  _label = "Cu_t" 
-						  icon = "Icons.16x16.CutIcon" 
-						  description = "${res:XML.MainMenu.EditMenu.Cut.Description}" 
-						  shortcut = "Control|X"
-						  class = "MonoDevelop.Commands.Cut"/>
-					<MenuItem id = "Copy" 
-						  _label = "_Copy" 
-						  icon = "Icons.16x16.CopyIcon" 
-						  description = "${res:XML.MainMenu.EditMenu.Copy.Description}" 
-						  shortcut = "Control|C"
-						  class = "MonoDevelop.Commands.Copy"/>
-					<MenuItem id = "Paste" 
-						  _label = "_Paste" 
-						  icon = "Icons.16x16.PasteIcon"  
-						  description = "${res:XML.MainMenu.EditMenu.Paste.Description}" 
-						  shortcut = "Control|V" 
-						  class = "MonoDevelop.Commands.Paste"/>
-					<MenuItem id = "Delete"
-						  _label = "_Delete" 
-						  icon = "Icons.16x16.DeleteIcon" 
-						  description = "${res:XML.MainMenu.EditMenu.Delete.Description}"
-						  class = "MonoDevelop.Commands.Delete"/>
-					<MenuItem id = "SelectAll" 
-						  _label = "Select _All" 
-						  description = "${res:XML.MainMenu.EditMenu.SelectAll.Description}" 
-						  shortcut = "Control|A"
-						  class = "MonoDevelop.Commands.SelectAll"/>
-			                <MenuItem id = "Separator4" _label = "-" />
-					<MenuItem id = "CommentCode"
-						shortcut = "Control|Alt|C"
-						_label = "C_omment Line(s)"
-						class = "MonoDevelop.Commands.CommentCode"/>
-					<MenuItem id = "UncommentCode"
-						shortcut = "Control|Alt|U"
-						_label = "_Uncomment Line(s)"
-						class = "MonoDevelop.Commands.UncommentCode"/>
-					<MenuItem id = "IndentSelection"
-						shortcut = "Control|Alt|Home"
-						_label = "_Indent Selection"
-						class = "MonoDevelop.Commands.IndentSelection"/>
-					<MenuItem id = "UnIndentSelection"
-						shortcut = "Control|Alt|End"
-						_label = "_Unindent Selection"
-						class = "MonoDevelop.Commands.UnIndentSelection"/>
-		        </Conditional>
-	                <MenuItem id = "Separator5" _label = "-" />
-	                <Conditional action="Disable">
-		                <Or>
-		                	<Condition activewindow="*"/>
-		                	<Condition iscombineopen="True"/>
-		                </Or>
-		                <MenuItem id = "WordCount"
-		                          _label = "_Word Count..." 
-		                          description = "${res:XML.MainMenu.EditMenu.WordCount.Description}"
-		                          class = "MonoDevelop.Commands.WordCount"/>
-		        </Conditional>
-			<MenuItem id = "optionssep5" _label = "-" />
-                        <MenuItem id = "Options"
-                                  _label = "_Preferences"
-                                  icon = "Icons.16x16.Options"
-                                  description = "${res:XML.MainMenu.ToolMenu.Options.Description}"
-                                  class = "MonoDevelop.Commands.OptionsCommand"/>
+		<ItemSet id = "Edit" _label = "_Edit">
+			<CommandItem id = "MonoDevelop.Commands.EditCommands.Undo" />
+			<CommandItem id = "MonoDevelop.Commands.EditCommands.Redo" />
+			
+			<SeparatorItem id = "Separator1" />
+			<CommandItem id = "MonoDevelop.Commands.EditCommands.Cut" />
+			<CommandItem id = "MonoDevelop.Commands.EditCommands.Copy" />
+			<CommandItem id = "MonoDevelop.Commands.EditCommands.Paste" />
+			<CommandItem id = "MonoDevelop.Commands.EditCommands.Delete" />
 
-	        </MenuItem>
-	        
-	        <MenuItem id = "View" _label = "_View">
-	                <MenuItem id = "ViewBuilder" _label = "" class = "MonoDevelop.Commands.ViewMenuBuilder" />
-	                <MenuItem id = "ViewItemsSeparator" _label = "-" />
-			<MenuItem id = "ViewLayouts" _label = "_Layouts">
-				  <MenuItem id = "ViewLayoutsBuilder" _label = "" class = "MonoDevelop.Commands.LayoutsMenuBuilder" />
-				  <MenuItem id = "ViewLayoutsSeparator" _label = "-" />
-				  <MenuItem id = "ViewLayoutsNew" _label = "_New" class = "MonoDevelop.Commands.NewLayoutCommand" />
-			</MenuItem>
-	                <MenuItem id = "ViewItemsSeparator2" _label = "-" />
-			<MenuItem id = "FullScreen"
-	                          _label = "_Full Screen" 
-	                          icon = "Icons.16x16.FullScreen" 
-				  shortcut = "F11"
-	                          description = "${res:XML.MainMenu.ViewMenu.FullScreen.Description}" 
-	                          class = "MonoDevelop.Commands.ToggleFullscreenCommand" />
-	        </MenuItem>
+			<SeparatorItem id = "Separator2" />
+			<CommandItem id = "MonoDevelop.Commands.EditCommands.SelectAll" />
+			
+			<SeparatorItem id = "Separator4" />
+			<CommandItem id = "MonoDevelop.Commands.EditCommands.CommentCode" />
+			<CommandItem id = "MonoDevelop.Commands.EditCommands.UncommentCode" />
+			<CommandItem id = "MonoDevelop.Commands.EditCommands.IndentSelection" />
+			<CommandItem id = "MonoDevelop.Commands.EditCommands.UnIndentSelection" />
+			
+			<SeparatorItem id = "Separator5" />
+			<CommandItem id = "MonoDevelop.Commands.EditCommands.WordCount" />
+			
+			<SeparatorItem id = "optionssep5" />
+			<CommandItem id = "MonoDevelop.Commands.EditCommands.MonodevelopPreferences" />
+		</ItemSet>
 		
-		<!-- <Conditional iscombineopen="True">
-			<MenuItem id = "Project" _label = "${res:XML.MainMenu.ProjectMenu}">
-				<Conditional activeproject="*" action="Disable">
-					<MenuItem id = "RunTests"
-					          _label = "${res:XML.MainMenu.ProjectMenu.RunTests}" 
-					          description = "${res:XML.MainMenu.ProjectMenu.RunTests.Description}"
-					          class = "MonoDevelop.Commands.RunTestsInProject"/>
-			                          
-					<MenuItem id = "Deploy" 
-			                   _label = "${res:XML.MainMenu.ProjectMenu.Deploy}" 
-			                          description = "${res:XML.MainMenu.ProjectMenu.Deploy.Description}" 
-			                          class = "MonoDevelop.Commands.DeployProject"/>
-				        <MenuItem id = "Separator1" _label = "-" />
-					<MenuItem id = "ViewDocumentation"
-				                  _label = "${res:ProjectComponent.ContextMenu.ViewDocumentation}"
-				                  class = "MonoDevelop.Commands.ViewProjectDocumentation"/> 
-
-			                <MenuItem id = "GenerateDocumentation"
-			                          _label = "${res:ProjectComponent.ContextMenu.GenerateDocumentation}"
-			                          class = "MonoDevelop.Commands.GenerateProjectDocumentation"/>
-					
-					<MenuItem id = "Separator2" _label = "-" />
-			                <MenuItem id = "Options"
-			                          _label = "${res:XML.MainMenu.ProjectMenu.Options}" 
-			                          description = "${res:XML.MainMenu.ProjectMenu.Options.Description}" 
-			                          class = "MonoDevelop.Commands.ViewProjectOptions"/>
-				</Conditional>
-			</MenuItem>
-		</Conditional> -->
+		<ItemSet id = "View" _label = "_View">
+			<CommandItem id = "MonoDevelop.Commands.ViewCommands.ViewList" />
+			<SeparatorItem id = "ViewItemsSeparator" />
+			<ItemSet id = "ViewLayouts" _label = "_Layouts">
+				<CommandItem id = "MonoDevelop.Commands.ViewCommands.LayoutList" />
+				<SeparatorItem id = "ViewItemsSeparator" />
+				<CommandItem id = "MonoDevelop.Commands.ViewCommands.NewLayout" />
+			</ItemSet>
+			<SeparatorItem id = "ViewItemsSeparator2" />
+			<CommandItem id = "MonoDevelop.Commands.ViewCommands.FullScreen" />
+		</ItemSet>
 		
-	        <MenuItem id = "Run" _label = "_Run">
-	                <Conditional action="Disable">
-	                	<Or>
-	                		<Condition activewindow="MonoDevelop.SourceEditor.Gui.SourceEditorDisplayBindingWrapper"/>
-	                		<Condition iscombineopen="True"/>
-	                	</Or>
-	                	
-		                <MenuItem id = "Compile"
-		                          _label = "_Compile" 
-		                          description = "${res:XML.MainMenu.RunMenu.Compile.Description}" 
-		                          shortcut = "F8"
-		                          icon  = "Icons.16x16.BuildCombine"
-		                          class = "MonoDevelop.Commands.Compile"/>
-		                <MenuItem id = "CompileAll"
-		                          _label = "Compile _All" 
-		                          description = "${res:XML.MainMenu.RunMenu.CompileAll.Description}" 
-		                          shortcut = "Control|F8"
-		                          class = "MonoDevelop.Commands.CompileAll"/>
-		                <MenuItem id = "Separator1" _label = "-" />
-			                <!-- <Conditional activeproject="*">
-				                <MenuItem id = "BuildProject"
-				                          _label = "${res:XML.MainMenu.RunMenu.BuildProject}" 
-				                          description = "${res:XML.MainMenu.RunMenu.BuildProject.Description}" 
-				                          shortcut = "F9"
-				                          icon  = "Icons.16x16.BuildCurrentSelectedProject"
-				                          class = "MonoDevelop.Commands.BuildCurrentProject"/>
-				                <MenuItem id = "RebuildProject"
-				                          _label = "${res:XML.MainMenu.RunMenu.RebuildProject}" 
-				                          description = "${res:XML.MainMenu.RunMenu.RebuildProject.Description}" 
-				                          shortcut = "Alt|F9"
-				                          class = "MonoDevelop.Commands.RebuildCurrentProject"/>
-				                <MenuItem id = "Separator2" _label = "-" />
-			                </Conditional> -->
-		                <MenuItem id = "Run"
-		                          _label = "_Run" 
-		                          icon = "Icons.16x16.RunProgramIcon" 
-		                          description = "${res:XML.MainMenu.RunMenu.Run.Description}" 
-		                          shortcut = "F5"
-		                          class = "MonoDevelop.Commands.RunCommand"/>
-				<!-- <MenuItem id = "GenerateMakefiles"
-				          _label = "Generate Makefiles"
-				          class = "MonoDevelop.Commands.GenerateMakefiles"/>-->
-
-			</Conditional> 
-	        </MenuItem>
+		<ItemSet id = "Run" _label = "_Run">
+			<CommandItem id = "MonoDevelop.Commands.ProjectCommands.Compile" />
+			<CommandItem id = "MonoDevelop.Commands.ProjectCommands.Build" />
+			<CommandItem id = "MonoDevelop.Commands.ProjectCommands.Rebuild" />
+			<SeparatorItem id = "Separator1" />
+			<CommandItem id = "MonoDevelop.Commands.ProjectCommands.Run" />
+			<CommandItem id = "MonoDevelop.Commands.ProjectCommands.Debug" />
+			<SeparatorItem id = "Separator2" />
+			<CommandItem id = "MonoDevelop.Commands.ProjectCommands.Stop" />
+		</ItemSet>
         
-	        <MenuItem id = "Tools" 
-	                  _label = "Tools">
-	                <MenuItem id = "ToolBuilder" _label = "bogus_label" class = "MonoDevelop.Commands.ToolMenuBuilder" />
-	                <!-- <MenuItem id = "Separator1" _label = "-" /> -->
-	                
-	                <!-- <MenuItem id = "Separator4" _label = "-" /> -->
-			<!-- <Conditional action = "Disable">
-				<Or>
-					<Condition activewindow="MonoDevelop.FormDesigner.FormDesignerDisplayBindingWrapper"/>
-					<Condition activewindow="MonoDevelop.FormDesigner.CSharpDesignerDisplayBindingWrapper"/>
-	                		<Condition activewindow="MonoDevelop.DefaultEditor.Gui.Editor.TextEditorDisplayBindingWrapper"/>
-				</Or>
-				<MenuItem id = "ConvertBuffer"
-		                          _label = "${res:XML.MainMenu.ToolMenu.ConvertBufferToVBNET}" 
-		                          description = "${res:XML.MainMenu.ToolMenu.ConvertBufferToVBNET.Description}"
-		                          class = "MonoDevelop.Commands.VBConvertBuffer"/>
-			</Conditional> -->
-
-	<!-- ORIGINAL #D COMMENT <MenuItem id = "ConvertProject"
-	                          _label = "Convert C# Project to VB.NET" 
-	                          description = "Converts the current selected C# project to VB.NET"
-	                          class = "MonoDevelop.Commands.VBConvertProject"/>-->
-
-	                <!-- <MenuItem id = "Separator5" _label = "-" /> -->
-	               
-	        </MenuItem>
+		<ItemSet id = "Tools" _label = "Tools">
+			<CommandItem id = "MonoDevelop.Commands.ToolCommands.ToolList" />
+        </ItemSet>
 	        
-<!-- ORIGINAL #D COMMENT	        <MenuItem id = "AddIns" _label = "${res:XML.MainMenu.PluginMenu}">
-	                <MenuItem _label = "-" />
-	                <MenuItem _label = "${res:XML.MainMenu.PluginMenu.Manager}" description = "${res:XML.MainMenu.PluginMenu.Manager.Description}" class = "SharpDevelop.Actions.Edit.ShowPlugInManager"/> 
-	        </MenuItem>-->
+		<ItemSet id = "Window" _label = "_Window">
+			<CommandItem id = "MonoDevelop.Commands.WindowCommands.NextWindow" />
+			<CommandItem id = "MonoDevelop.Commands.WindowCommands.PrevWindow" />
+			<SeparatorItem id ="NxtPrvSeparator" /> 
+			<CommandItem id = "MonoDevelop.Commands.FileCommands.CloseAllFiles" />
+			<SeparatorItem id = "contentSep" />
+			<CommandItem id = "MonoDevelop.Commands.WindowCommands.OpenWindowList" />
+		</ItemSet> 
 
-	        <MenuItem id = "Window" _label = "_Window">
-	                <Conditional action="Disable">
-				<Condition activewindow="*" />
-	                <MenuItem id  = "NextWindow"
-			          _label = "_Next Window"
-			          icon = "Icons.16x16.NextWindowIcon"
-				  description = "${res:XML.MainMenu.WindowMenu.NxtWindow.Description}" 
-				  shortcut = "Control|Page_Down"
-				  class = "MonoDevelop.Commands.SelectNextWindow" />
-	                <MenuItem id = "PrevWindow"
-			          _label = "_Previous Window"
-			          icon = "Icons.16x16.PrevWindowIcon"
-				  description = "${res:XML.MainMenu.WindowMenu.PrvWindow.Description}"
-				  shortcut = "Control|Page_Up"
-				  class = "MonoDevelop.Commands.SelectPrevWindow" />
-	                <MenuItem id ="NxtPrvSeparator" _label = "-" /> 
-		                <MenuItem id    = "CloseAll"
-		                          _label = "_Close All" 
-		                          icon  = "Icons.16x16.CloseAllDocuments" 
-		                          description = "${res:XML.MainMenu.FileMenu.CloseAll.Description}"
-		                          class = "MonoDevelop.Commands.CloseAllWindows" />
-					</Conditional>
-<MenuItem id = "contentSep" _label = "-" />
-	                <MenuItem id = "ContentBuilder" _label = "bogus_label" class="MonoDevelop.Commands.OpenContentsMenuBuilder"/>
-	        </MenuItem> 
-	        
-	        <MenuItem id = "Help" _label = "_Help">
-	                <!--<MenuItem id = "Help"
-	                          _label = "_Help..." 
-	                          icon = "Icons.16x16.HelpIcon" 
-	                          description = "${res:XML.MainMenu.HelpMenu.Topics.Description}" 
-	                          shortcut = "Alt|F1" 
-	                          class = "MonoDevelop.Commands.ShowHelp"/>-->
-	                <MenuItem id = "TipOfTheDay"
-	                          _label = "_Tip of the Day..." 
-	                          icon = "Icons.16x16.TipOfTheDay" 
-	                          description = "${res:XML.MainMenu.HelpMenu.Tips.Description}" 
-	                          class = "MonoDevelop.Commands.ViewTipOfTheDay" />
-	                
-<!--	                <MenuItem id = "Separator1" _label = "-" />
-	                <MenuItem id = "ViewGPL"
-	                          _label = "${res:XML.MainMenu.HelpMenu.GPL}" 
-	                          icon = "Icons.16x16.CopyLeftIcon" 
-	                          description = "${res:XML.MainMenu.HelpMenu.GPL.Description}" 
-	                          class = "MonoDevelop.Commands.ViewGPL" /> -->
-	                          
-	              <!--  <MenuItem id = "ViewReadme"
-	                          _label       = "${res:XML.MainMenu.HelpMenu.ReadMe}" 
-	                          description = "${res:XML.MainMenu.HelpMenu.ReadMe.Description}" 
-	                          link        = "home://../doc/ReadMe.html" />
-	                <MenuItem id = "ViewStyleguide"
-	                          _label = "${res:XML.MainMenu.HelpMenu.StyleGuide}" 
-	                          description = "${res:XML.MainMenu.HelpMenu.StyleGuide.Description}" 
-	                          link = "home://../doc/CodingStyleGuide.pdf" /> -->
-	                <MenuItem id = "Separator2" _label = "-" />
-	                <MenuItem id = "Web" _label = "_Web">
-	                        <!-- <MenuItem id = "ASP" _label = "&amp;AlphaSierraPapa" icon = "Icons.16x16.WebSearchIcon" description = "Visit my sponsors" link = "http://www.alphasierrapapa.com/" /> -->
-	                        <MenuItem id = "MonoDevelop" _label = "MonoDevelop" icon = "Icons.16x16.WebSearchIcon" link = "http://www.monodevelop.com" />
-				<!-- <MenuItem id = "SharpDevelop" _label = "SharpDevelop">
-	                        	<MenuItem id = "Downloads" _label = "Downloads" icon = "Icons.16x16.WebSearchIcon" link = "http://www.icsharpcode.net/opensource/sd/download/" />
-	                        	<MenuItem id = "Forum" _label = "Community Forums" icon = "Icons.16x16.WebSearchIcon" link = "http://www.icsharpcode.net/opensource/sd/forum/" />
-	                        	<MenuItem id = "Announcement" _label = "Announcement List" icon = "Icons.16x16.WebSearchIcon" link = "http://www.icsharpcode.net/opensource/sd/announcementlist.asp" />
-	                        	<MenuItem id = "Mail" _label = "Send Us a Mail" icon = "Icons.16x16.WebSearchIcon" link = "http://www.icsharpcode.net/opensource/sd/ContactUs.asp" />
-	                        </MenuItem> -->
-	                        <MenuItem id = "C#" _label = "C#">
-	                        	<MenuItem id = "cshrp.net" _label = "cshrp.net" icon = "Icons.16x16.WebSearchIcon" link = "http://www.cshrp.net/" />
-	                        	<MenuItem id = "C# Help" _label = "C# Help" icon = "Icons.16x16.WebSearchIcon" link = "http://www.csharphelp.com" />
-	                        	<MenuItem id = "C# Corner" _label = "C# Corner" icon = "Icons.16x16.WebSearchIcon" link = "http://www.c-sharpcorner.com" />
-		                        <MenuItem id = "GotDotNet" _label = "GotDotNet" icon = "Icons.16x16.WebSearchIcon" description = "Visit one of the best NET sites on the web" link = "http://www.gotdotnet.com/" />
-	                        </MenuItem>
-	                        <!-- <MenuItem id = "IntegratedProjects" _label = "Integrated Projects">
-	                        	<MenuItem id = "Magic Library" _label = "Magic Library" icon = "Icons.16x16.WebSearchIcon" description = "One of the best .NET control libraries around." link = "http://www.dotnetmagic.com" />
-	                        	<MenuItem id = "NAnt" _label = "NAnt" icon = "Icons.16x16.WebSearchIcon" description = "THE .NET building tool." link = "http://nant.sourceforge.net/" />
-	                        	<MenuItem id = "NDoc" _label = "NDoc" icon = "Icons.16x16.WebSearchIcon" description = "I used the NDoc as the SharpDevelop documentation generator. Look out it is cool." link = "http://ndoc.sourceforge.net/" />
-	                        	<MenuItem id = "#ZipLib" _label = "#ZipLib" icon = "Icons.16x16.WebSearchIcon" description = "I used the NDoc as the SharpDevelop documentation generator. Look out it is cool." link = "http://www.icsharpcode.net/OpenSource/NZipLib" />
-	                        	<MenuItem id = "#CvsLib" _label = "#CvsLib" icon = "Icons.16x16.WebSearchIcon" description = "I used the NDoc as the SharpDevelop documentation generator. Look out it is cool." link = "http://www.icsharpcode.net/OpenSource/NetCvsLib" />
-	                        </MenuItem> -->
-		                <MenuItem id = "Mono"    _label = "Mono Project" icon = "Icons.16x16.WebSearchIcon" description = "A free .NET implementation effort, worth visiting" link = "http://www.go-mono.com" />
-	                </MenuItem>
-	                <MenuItem id = "Separator3" _label = "-" />
-	                <MenuItem id = "About"
-	                          _label = "_About" 
-	                          icon = "Icons.16x16.AboutIcon" 
-	                          description = "${res:XML.MainMenu.HelpMenu.About.Description}" 
-	                          class = "MonoDevelop.Commands.AboutSharpDevelop" />
-	        </MenuItem>
+		<ItemSet id = "Help" _label = "_Help">
+			<CommandItem id = "MonoDevelop.Commands.HelpCommands.TipOfTheDay" />
+			<SeparatorItem id = "Separator2" />
+			<ItemSet id = "Web" _label = "_Web">
+				<LinkItem id = "MonoDevelop" _label = "MonoDevelop" link = "http://www.monodevelop.com" />
+				<ItemSet id = "C#" _label = "C#">
+					<LinkItem id = "cshrp.net" _label = "cshrp.net" link = "http://www.cshrp.net/" />
+					<LinkItem id = "C# Help" _label = "C# Help" link = "http://www.csharphelp.com" />
+					<LinkItem id = "C# Corner" _label = "C# Corner" link = "http://www.c-sharpcorner.com" />
+					<LinkItem id = "GotDotNet" _label = "GotDotNet" description = "Visit one of the best NET sites on the web" link = "http://www.gotdotnet.com/" />
+				</ItemSet>
+				<LinkItem id = "Mono" _label = "Mono Project" description = "A free .NET implementation effort, worth visiting" link = "http://www.mono-project.com" />
+			</ItemSet>
+			<SeparatorItem id = "Separator3" />
+			<CommandItem id = "MonoDevelop.Commands.HelpCommands.About" />
+		</ItemSet>
 	</Extension>	
 
 

@@ -47,8 +47,10 @@ namespace MonoDevelop.Gui.Pads
 		
 		internal NodeCommandHandler CommandHandler {
 			get {
-				if (commandHandler == null)
+//				if (commandHandler == null) {
 					commandHandler = (NodeCommandHandler) Activator.CreateInstance (CommandHandlerType);
+					commandHandler.Initialize (context.Tree);
+//				}
 				return commandHandler;
 			}
 		}

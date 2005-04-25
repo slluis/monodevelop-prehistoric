@@ -41,11 +41,22 @@ namespace MonoDevelop.Services
 		}
 		
 		/// <remarks>
+		/// Gets the current selected combine or project.
+		/// </remarks>
+		CombineEntry CurrentSelectedCombineEntry {
+			get;
+		}
+		
+		/// <remarks>
 		/// Gets the root combine, if no combine is open it returns null. 
 		/// </remarks>
 		Combine CurrentOpenCombine {
 			get;
 		}
+		
+		IAsyncOperation CurrentBuildOperation { get; }
+		
+		IAsyncOperation CurrentRunOperation { get; }
 		
 		bool IsCombineEntryFile (string filename);
 		
@@ -81,42 +92,33 @@ namespace MonoDevelop.Services
 		void CloseCombine(bool saveCombinePreferencies);
 		
 		/// <remarks>
-		/// Compile the root combine.
+		/// Builds the provided project or combine
 		/// </remarks>
-		IAsyncOperation BuildActiveCombine();
+		IAsyncOperation Build (CombineEntry entry);
 		
 		/// <remarks>
-		/// Compile the root combine. Forces Recompile for all projects.
+		/// Rebuilds the provided project or combine
 		/// </remarks>
-		IAsyncOperation RebuildActiveCombine();
-		
-		/// <remarks>
-		/// Compiles the active project, if the project isn't dirty this
-		/// method does nothing
-		/// </remarks>
-		IAsyncOperation BuildActiveProject ();
-		
-		/// <remarks>
-		/// Compiles the active project (forced!)
-		/// </remarks>
-		IAsyncOperation RebuildActiveProject ();
-		
-		/// <remarks>
-		/// Compiles a specific project, if the project isn't dirty this
-		/// method does nothing
-		/// </remarks>
-		IAsyncOperation BuildProject (Project project);
-		
-		/// <remarks>
-		/// Compiles a specific project (forced!)
-		/// </remarks>
-		IAsyncOperation RebuildProject (Project project);
+		IAsyncOperation Rebuild (CombineEntry entry);
 		
 		IAsyncOperation BuildFile (string file);
 		
-		IAsyncOperation ExecuteActiveCombine ();
-		IAsyncOperation ExecuteProject (Project project);
+		IAsyncOperation Execute (CombineEntry entry);
 		IAsyncOperation ExecuteFile (string sourceFile);
+		
+		IAsyncOperation Debug (CombineEntry entry);
+		IAsyncOperation DebugFile (string sourceFile);
+		
+		void Deploy (Project project);
+		
+		void ShowOptions (CombineEntry entry);
+		
+		CombineEntry CreateProject (Combine parentCombine);
+		CombineEntry CreateCombine (Combine parentCombine);
+		CombineEntry AddCombineEntry (Combine parentCombine);
+		
+		ProjectFile CreateProjectFile (Project parentProject, string basePath);
+		bool AddReferenceToProject (Project project);
 		
 		/// <remarks>
 		/// Opens a new root combine, closes the old root combine automatically.

@@ -59,7 +59,12 @@ namespace MonoDevelop.Gui.Dialogs {
 			new Glade.XML (null, "Base.glade", "NewProjectDialog", null).Autoconnect (this);
 			dialog.TransientFor = (Window) WorkbenchSingleton.Workbench;			
 
-			Runtime.DispatchService.BackgroundDispatch (new MessageHandler (InitializeTemplates));
+			InitializeTemplates ();
+		}
+		
+		public int Run ()
+		{
+			return dialog.Run ();
 		}
 		
 		void InitializeView()
@@ -113,7 +118,7 @@ namespace MonoDevelop.Gui.Dialogs {
 				//	titem.Selected = true;
 				alltemplates.Add(titem);
 			}
-			Runtime.DispatchService.GuiDispatch (new MessageHandler (InitializeComponents));
+			InitializeComponents ();
 		}
 		
 		void CategoryChange(object sender, EventArgs e)

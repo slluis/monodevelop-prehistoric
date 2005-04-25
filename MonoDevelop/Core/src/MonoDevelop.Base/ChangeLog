@@ -1,3 +1,92 @@
+2005-04-25  Lluis Sanchez Gual  <lluis@novell.com>
+
+	* Commands/MenuItemBuilders.cs: Removed. Menu builders are now
+	implemented as command arrays and handled in the following files.
+	* Commands/RunCommands.cs: Removed. Moved to ProjectCommands.
+	* Commands/EditCommands.cs: Most of code moved to 
+	MonoDevelop.Gui.ViewCommandHandlers.
+	
+	* Commands/ClassBrowserCommands/ClassBrowserCommands.cs
+	* ProjectBrowserCommands/*:
+	Removed. Handlers for tree commands are handled by NodeCommandHandler
+	objects.
+	
+	* Commands/FileCommands.cs:
+	* ProjectCommands.cs:
+	* WindowCommands.cs:
+	* HelpCommands.cs:
+	* ViewCommands.cs:
+	Added enums with IDs for the commands.
+	Use the new CommandHandler base class for global commands.
+	Removed commands that are not global.
+	
+	* Gui/ViewCommandHandlers.cs: Implements edit commands for workspace
+	windows.
+	
+	* Services/File/IFileService.cs:
+	* Services/File/DefaultFileService.cs: Moved here the code that shows
+	the UI for saving files.
+	
+	* Services/IDebuggerService.cs: The Run method now takes a progress
+	monitor, and will (should) stop if the monitor notifies a cancel request.
+	
+	* Services/Project/IProjectService.cs:
+	* Services/Project/ProjectService.cs:
+	Factorized the Build* methods into a single Build method which takes
+	as parameter what you want to build. The same for Execute* methods.
+	Moved here several operations previously implemeted in commands, to
+	make it easier to reuse code. This includes: Debug(), Deploy(),
+	ShowOptions(), CreateProject(), CreateCombine(),
+	AddCombineEntry(), CreateProjectFile(), AddReferenceToProject().
+	
+	* Gui/Dialogs/NewFileDialog.cs:
+	* Gui/Dialogs/NewProjectDialog.cs: Added Run method to show the window
+	as a modal dialog.
+	
+	* Gui/Workbench/Layouts/SdiWorkspaceLayout.cs:
+	* Gui/IWorkbench.cs:
+	* Gui/Dialogs/TreeViewOptions.cs: Removed old menu code.
+	
+	* Gui/Workbench/Layouts/SdiWorkspaceWindow.cs: Removed obsolete code.
+	Plug the handler class for generic Edit commands into the window.
+	
+	* Gui/Workbench/DefaultWorkbench.cs: Use the new command service.
+	
+	* Gui/Components/SdMenu.cs: Moved here the ISubmenuItem interface, 
+	which was implemented in MenuItemBuilders.cs.
+	
+	* Gui/Pads/SolutionPad/NodeCommandHandler.cs:
+	* Gui/Pads/SolutionPad/TreeViewPad.cs: Plug node command handlers into
+	the new command system.
+
+	* Gui/Pads/SolutionPad/NodeBuilder.cs: Don't reuse command handlers
+	since they may store command state information.
+	* Gui/Pads/SolutionPad/SolutionPad.cs: Made OnOpenCombine and
+	OnCloseCombine virtual.
+	* Gui/Pads/ProjectPad/ProjectSolutionPad.cs: Subclass of SolutionPad
+	which keeps track of the current selected project.
+	
+	* Gui/Pads/ProjectPad/*:
+	Moved here the handlers for commands previously implemented in
+	MonoDevelop.Commands.
+	
+	* Gui/CommandService.cs:
+	* Gui/GuiService.cs: Added the new command service.
+	
+	* Internal/Codons/Pads/SolutionPadCodon.cs: Subclasses of SolutionPad
+	can now be specified in the "class" attribute.
+	
+	* Internal/Project/Project/DotNetProject.cs: Made the Debug method
+	synchronous.
+	
+	* Internal/Conditions/WorkbenchContextCondition.cs: Set the correct
+	class name.
+	
+	* Internal/Codons/Commands/*: Codons for the new command infrastructure.
+	
+	* MonoDevelopCore.addin.xml: Defined the new menu and toolbar
+	structure.
+
 2005-04-25	John Luke	<john.luke@gmail.com>
 
 	* Gui/Dialogs/NewProjectDialog.cs

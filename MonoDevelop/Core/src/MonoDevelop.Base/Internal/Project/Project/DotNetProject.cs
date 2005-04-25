@@ -9,6 +9,7 @@ using System;
 using System.IO;
 using System.Diagnostics;
 using System.Xml;
+using System.Threading;
 using MonoDevelop.Internal.Serialization;
 using MonoDevelop.Internal.Templates;
 using MonoDevelop.Services;
@@ -20,6 +21,8 @@ namespace MonoDevelop.Internal.Project
 	{
 		[ItemProperty]
 		string language;
+		
+		object debugStopEvent = new object ();
 		
 		ILanguageBinding languageBinding;
 		
@@ -124,11 +127,26 @@ namespace MonoDevelop.Internal.Project
 		
 		public override void Debug (IProgressMonitor monitor)
 		{
-			if (Runtime.TaskService.Errors != 0) return;
-
 			DotNetProjectConfiguration configuration = (DotNetProjectConfiguration) ActiveConfiguration;
-			if (Runtime.DebuggingService != null)
-				Runtime.DebuggingService.Run (new string[] { configuration.CompiledOutputName } );
+			if (Runtime.DebuggingService != null) {
+				Runtime.DebuggingService.StoppedEvent += new EventHandler (OnStopDebug);
+				lock (debugStopEvent) {
+					try {
+						Runtime.DebuggingService.Run (monitor, new string[] { configuration.CompiledOutputName } );
+						Monitor.Wait (debugStopEvent);
+					} catch (Exception ex) {
+						monitor.ReportError (null, ex);
+					}
+				}
+				Runtime.DebuggingService.StoppedEvent -= new EventHandler (OnStopDebug);
+			}
+		}
+		
+		void OnStopDebug (object sender, EventArgs e)
+		{
+			lock (debugStopEvent) {
+				Monitor.PulseAll (debugStopEvent);
+			}
 		}
 
 		protected override void DoExecute (IProgressMonitor monitor)
@@ -168,12 +186,17 @@ namespace MonoDevelop.Internal.Project
 							string.Format ("-c \"{0} {1}\"", runtimeStarter, args),
 							Path.GetDirectoryName (configuration.CompiledOutputName), 
 							false, false, null);
-						
+				
+				monitor.CancelRequested += new MonitorHandler (new ProcessStopper (p).OnStopExecution);
 				p.WaitForOutput ();
 				monitor.Log.WriteLine ("The application exited with code: {0}", p.ExitCode);
 			} catch (Exception ex) {
 				monitor.ReportError ("Can not execute " + "\"" + configuration.CompiledOutputName + "\"", ex);
 			}
+		}
+		
+		void OnStopExecution (IProgressMonitor monitor)
+		{
 		}
 
 		public override void GenerateMakefiles (Combine parentCombine)
@@ -185,6 +208,21 @@ namespace MonoDevelop.Internal.Project
 		public override bool IsCompileable(string fileName)
 		{
 			return languageBinding.CanCompile(fileName);
+		}
+		
+		class ProcessStopper
+		{
+			Process p;
+			
+			public ProcessStopper (Process p)
+			{
+				this.p = p;
+			}
+			
+			public void OnStopExecution (IProgressMonitor monitor)
+			{
+				p.Kill ();
+			}
 		}
 	}
 }

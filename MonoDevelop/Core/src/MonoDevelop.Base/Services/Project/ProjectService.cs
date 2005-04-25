@@ -14,6 +14,8 @@ using System.CodeDom.Compiler;
 using System.Threading;
 
 using MonoDevelop.Gui;
+using MonoDevelop.Gui.Dialogs;
+using MonoDevelop.Gui.Widgets;
 using MonoDevelop.Internal.Project;
 using MonoDevelop.Internal.Serialization;
 
@@ -40,8 +42,8 @@ namespace MonoDevelop.Services
 		DataContext dataContext = new DataContext ();
 		ProjectBindingCodon[] projectBindings;
 		
-		IAsyncOperation currentBuildOperation;
-		IAsyncOperation currentRunOperation;
+		IAsyncOperation currentBuildOperation = NullAsyncOperation.Success;
+		IAsyncOperation currentRunOperation = NullAsyncOperation.Success;
 		
 		FileFormatManager formatManager = new FileFormatManager ();
 		IFileFormat defaultProjectFormat = new MdpFileFormat ();
@@ -54,7 +56,7 @@ namespace MonoDevelop.Services
 				return currentProject;
 			}
 			set {
-				Debug.Assert(openCombine != null);
+				System.Diagnostics.Debug.Assert(openCombine != null);
 				currentProject = value;
 				OnCurrentProjectChanged(new ProjectEventArgs(currentProject));
 			}
@@ -65,10 +67,27 @@ namespace MonoDevelop.Services
 				return currentCombine;
 			}
 			set {
-				Debug.Assert(openCombine != null);
+				System.Diagnostics.Debug.Assert(openCombine != null);
 				currentCombine = value;
 				OnCurrentSelectedCombineChanged(new CombineEventArgs(currentCombine));
 			}
+		}
+		
+		public CombineEntry CurrentSelectedCombineEntry {
+			get {
+				if (currentProject != null)
+					return currentProject;
+				else
+					return currentCombine;
+			}
+		}
+		
+		public IAsyncOperation CurrentBuildOperation {
+			get { return currentBuildOperation; }
+		}
+		
+		public IAsyncOperation CurrentRunOperation {
+			get { return currentRunOperation; }
 		}
 		
 		public Combine CurrentOpenCombine {
@@ -313,49 +332,77 @@ namespace MonoDevelop.Services
 			}
 		}
 
-		public IAsyncOperation ExecuteActiveCombine ()
+		public IAsyncOperation Execute (CombineEntry entry)
 		{
 			if (openCombine == null) return NullAsyncOperation.Success;
 			if (currentRunOperation != null && !currentRunOperation.IsCompleted) return currentRunOperation;
+
 			IProgressMonitor monitor = new NullProgressMonitor ();
-			Runtime.DispatchService.ThreadDispatch (new StatefulMessageHandler (ExecuteActiveCombineAsync), monitor);
+			Runtime.DispatchService.ThreadDispatch (new StatefulMessageHandler (ExecuteCombineEntryAsync), new object[] {entry, monitor});
 			currentRunOperation = monitor.AsyncOperation;
 			return currentRunOperation;
 		}
 		
-		void ExecuteActiveCombineAsync (object ob)
+		void ExecuteCombineEntryAsync (object ob)
 		{
-			IProgressMonitor monitor = (IProgressMonitor) ob;
-
+			object[] data = (object[]) ob;
+			CombineEntry entry = (CombineEntry) data[0];
+			IProgressMonitor monitor = (IProgressMonitor) data[1];
 			OnBeforeStartProject ();
 			try {
-				openCombine.Execute (monitor);
+				entry.Execute (monitor);
 			} catch (Exception ex) {
 				monitor.ReportError (GettextCatalog.GetString ("Execution failed."), ex);
 			} finally {
 				monitor.Dispose ();
 			}
 		}
-
-		public IAsyncOperation ExecuteProject (Project project)
+		
+		public IAsyncOperation Debug (CombineEntry entry)
 		{
+			if (openCombine == null) return NullAsyncOperation.Success;
+			if (currentRunOperation != null && !currentRunOperation.IsCompleted) return currentRunOperation;
+			
+			WorkbenchSingleton.Workbench.Context = WorkbenchContext.Debug;
+
 			IProgressMonitor monitor = new NullProgressMonitor ();
-			Runtime.DispatchService.ThreadDispatch (new StatefulMessageHandler (ExecuteProjectAsync), new object[] {project, monitor});
-			return monitor.AsyncOperation;
+			Runtime.DispatchService.ThreadDispatch (new StatefulMessageHandler (DebugCombineEntryAsync), new object[] {entry, monitor});
+			currentRunOperation = monitor.AsyncOperation;
+			return currentRunOperation;
 		}
 		
-		void ExecuteProjectAsync (object ob)
+		void DebugCombineEntryAsync (object ob)
 		{
 			object[] data = (object[]) ob;
-			Project project = (Project) data[0];
+			CombineEntry entry = (CombineEntry) data[0];
 			IProgressMonitor monitor = (IProgressMonitor) data[1];
-			OnBeforeStartProject ();
 			try {
-				project.Execute (monitor);
+				entry.Debug (monitor);
 			} catch (Exception ex) {
 				monitor.ReportError (GettextCatalog.GetString ("Execution failed."), ex);
 			} finally {
 				monitor.Dispose ();
+			}
+			Runtime.DispatchService.GuiDispatch (new MessageHandler (RestoreWorkbenchContext));
+		}
+		
+		void RestoreWorkbenchContext ()
+		{
+			WorkbenchSingleton.Workbench.Context = WorkbenchContext.Edit;
+		}
+		
+		public IAsyncOperation DebugFile (string file)
+		{
+			Project tempProject = CreateSingleFileProject (file);
+			if (tempProject != null) {
+				IAsyncOperation aop = Debug (tempProject);
+				ProjectOperationHandler h = new ProjectOperationHandler ();
+				h.Project = tempProject;
+				aop.Completed += new OperationHandler (h.Run);
+				return aop;
+			} else {
+				Runtime.MessageService.ShowError(GettextCatalog.GetString ("No runnable executable found."));
+				return NullAsyncOperation.Failure;
 			}
 		}
 		
@@ -368,7 +415,7 @@ namespace MonoDevelop.Services
 		{
 			Project tempProject = CreateSingleFileProject (file);
 			if (tempProject != null) {
-				IAsyncOperation aop = BuildProject (tempProject);
+				IAsyncOperation aop = Build (tempProject);
 				ProjectOperationHandler h = new ProjectOperationHandler ();
 				h.Project = tempProject;
 				aop.Completed += new OperationHandler (h.Run);
@@ -383,7 +430,7 @@ namespace MonoDevelop.Services
 		{
 			Project tempProject = CreateSingleFileProject (file);
 			if (tempProject != null) {
-				IAsyncOperation aop = ExecuteProject (tempProject);
+				IAsyncOperation aop = Execute (tempProject);
 				ProjectOperationHandler h = new ProjectOperationHandler ();
 				h.Project = tempProject;
 				aop.Completed += new OperationHandler (h.Run);
@@ -394,84 +441,43 @@ namespace MonoDevelop.Services
 			}
 		}
 	
-		public IAsyncOperation BuildActiveCombine ()
+		public IAsyncOperation Rebuild (CombineEntry entry)
+		{
+			if (openCombine == null) return NullAsyncOperation.Success;
+			if (currentBuildOperation != null && !currentBuildOperation.IsCompleted) return currentBuildOperation;
+
+			entry.Clean ();
+			return Build (entry);
+		}
+		
+		public IAsyncOperation Build (CombineEntry entry)
 		{
 			if (openCombine == null) return NullAsyncOperation.Success;
 			if (currentBuildOperation != null && !currentBuildOperation.IsCompleted) return currentBuildOperation;
 			
-			DoBeforeCompileAction();
-			
-			IProgressMonitor monitor = Runtime.TaskService.GetBuildProgressMonitor ();			
-			Runtime.DispatchService.ThreadDispatch (new StatefulMessageHandler (BuildActiveCombineAsync), monitor);
+			BeforeCompile (entry);
+				
+			IProgressMonitor monitor = Runtime.TaskService.GetBuildProgressMonitor ();
+			Runtime.DispatchService.ThreadDispatch (new StatefulMessageHandler (BuildCombineEntryAsync), new object[] {entry, monitor});
 			currentBuildOperation = monitor.AsyncOperation;
 			return currentBuildOperation;
 		}
 		
-		void BuildActiveCombineAsync (object ob)
-		{
-			IProgressMonitor monitor = (IProgressMonitor) ob;
-			try {
-				BeginBuild ();
-				ICompilerResult result = openCombine.Build (monitor);
-				BuildDone (monitor, result);
-			} catch (Exception ex) {
-				monitor.ReportError (GettextCatalog.GetString ("Build failed."), ex);
-			} finally {
-				monitor.Dispose ();
-			}
-		}
-		
-		public IAsyncOperation RebuildActiveCombine()
-		{
-			if (openCombine == null) return NullAsyncOperation.Success;
-			openCombine.Clean ();
-			return BuildActiveCombine ();
-		}
-		
-		public IAsyncOperation BuildActiveProject ()
-		{
-			if (CurrentSelectedProject == null) {
-				Runtime.MessageService.ShowError (GettextCatalog.GetString ("Active project not set."));
-				return NullAsyncOperation.Failure;
-			}
-				
-			return BuildProject (CurrentSelectedProject);
-		}
-		
-		public IAsyncOperation RebuildActiveProject ()
-		{
-			return RebuildProject (CurrentSelectedProject);
-		}
-		
-		public IAsyncOperation BuildProject (Project project)
-		{
-			BeforeCompile (project);
-			IProgressMonitor monitor = Runtime.TaskService.GetBuildProgressMonitor ();
-			Runtime.DispatchService.ThreadDispatch (new StatefulMessageHandler (BuildProjectAsync), new object[] {project, monitor});
-			return monitor.AsyncOperation;
-		}
-		
-		public void BuildProjectAsync (object ob)
+		public void BuildCombineEntryAsync (object ob)
 		{
 			object[] data = (object[]) ob;
-			Project project = (Project) data [0];
+			CombineEntry entry = (CombineEntry) data [0];
 			IProgressMonitor monitor = (IProgressMonitor) data [1];
 			ICompilerResult result = null;
 			try {
 				BeginBuild ();
-				result = project.Build (monitor);
+				result = entry.Build (monitor);
 				BuildDone (monitor, result);
 			} catch (Exception ex) {
 				monitor.ReportError (GettextCatalog.GetString ("Build failed."), ex);
 			} finally {
 				monitor.Dispose ();
 			}
-		}
-		
-		public IAsyncOperation RebuildProject (Project project)
-		{
-			project.Clean ();
-			return BuildProject (project);
 		}
 		
 		void BeginBuild ()
@@ -503,21 +509,24 @@ namespace MonoDevelop.Services
 			OnEndBuild (lastResult.FailedBuildCount == 0);
 		}
 		
-		void BeforeCompile (Project project)
+		void BeforeCompile (CombineEntry entry)
 		{
 			DoBeforeCompileAction();
 			
-			// cut&pasted from CombineEntry.cs
-			Runtime.StringParserService.Properties["Project"] = project.Name;
-			
-			string outputDir = ((AbstractProjectConfiguration)project.ActiveConfiguration).OutputDirectory;
-			try {
-				DirectoryInfo directoryInfo = new DirectoryInfo(outputDir);
-				if (!directoryInfo.Exists) {
-					directoryInfo.Create();
+			if (entry is Project) {
+				Project project = (Project) entry;
+				
+				Runtime.StringParserService.Properties["Project"] = project.Name;
+				
+				string outputDir = ((AbstractProjectConfiguration)project.ActiveConfiguration).OutputDirectory;
+				try {
+					DirectoryInfo directoryInfo = new DirectoryInfo(outputDir);
+					if (!directoryInfo.Exists) {
+						directoryInfo.Create();
+					}
+				} catch (Exception e) {
+					throw new ApplicationException("Can't create project output directory " + outputDir + " original exception:\n" + e.ToString());
 				}
-			} catch (Exception e) {
-				throw new ApplicationException("Can't create project output directory " + outputDir + " original exception:\n" + e.ToString());
 			}
 		}
 		
@@ -553,7 +562,7 @@ namespace MonoDevelop.Services
 					}
 					break;
 				default:
-					Debug.Assert(false);
+					System.Diagnostics.Debug.Assert(false);
 					break;
 			}
 		}
@@ -633,7 +642,7 @@ namespace MonoDevelop.Services
 
 		void CheckFileRename(object sender, FileEventArgs e)
 		{
-			Debug.Assert(e.SourceFile != e.TargetFile);
+			System.Diagnostics.Debug.Assert(e.SourceFile != e.TargetFile);
 			if (openCombine != null) {
 				if (e.IsDirectory) {
 					RenameDirectoryInAllProjects(e.SourceFile, e.TargetFile);
@@ -641,6 +650,165 @@ namespace MonoDevelop.Services
 					RenameFileInAllProjects(e.SourceFile, e.TargetFile);
 				}
 			}
+		}
+		
+		public void Deploy (Project project)
+		{
+			foreach (IViewContent viewContent in WorkbenchSingleton.Workbench.ViewContentCollection) {
+				if (viewContent.IsDirty) {
+					viewContent.Save();
+				}
+			}
+			DeployInformation.Deploy (project);
+		}
+
+		public void ShowOptions (CombineEntry entry)
+		{
+			if (entry is Project) {
+				Project selectedProject = (Project) entry;
+				
+				IAddInTreeNode generalOptionsNode          = AddInTreeSingleton.AddInTree.GetTreeNode("/SharpDevelop/Workbench/ProjectOptions/GeneralOptions");
+				IAddInTreeNode configurationPropertiesNode = AddInTreeSingleton.AddInTree.GetTreeNode("/SharpDevelop/Workbench/ProjectOptions/ConfigurationProperties");
+				
+				ProjectOptionsDialog optionsDialog = new ProjectOptionsDialog(selectedProject, generalOptionsNode, configurationPropertiesNode);
+				if (optionsDialog.Run() == (int)Gtk.ResponseType.Ok) {
+					selectedProject.NeedsBuilding = true;
+				}
+			} else if (entry is Combine) {
+				Combine combine = (Combine) entry;
+				
+				DefaultProperties defaultProperties = new DefaultProperties();
+				defaultProperties.SetProperty ("Combine", combine);
+				TreeViewOptions optionsDialog = new TreeViewOptions (defaultProperties,
+																		   AddInTreeSingleton.AddInTree.GetTreeNode("/SharpDevelop/Workbench/CombineOptions"));
+			//		optionsDialog.SetDefaultSize = new Size(700, 450);
+			//		optionsDialog.FormBorderStyle = FormBorderStyle.FixedDialog;
+			//				
+			//		optionsDialog.TransientFor = (Gtk.Window)WorkbenchSingleton.Workbench;
+					optionsDialog.Run ();
+			//		optionsDialog.Hide ();
+			}
+			
+			SaveCombine ();
+		}
+		
+		public CombineEntry CreateProject (Combine parentCombine)
+		{
+			return CreateCombineEntry (parentCombine, false);
+		}
+		
+		public CombineEntry CreateCombine (Combine parentCombine)
+		{
+			return CreateCombineEntry (parentCombine, true);
+		}
+		
+		CombineEntry CreateCombineEntry (Combine parentCombine, bool createCombine)
+		{
+			CombineEntry res = null;
+			NewProjectDialog npdlg = new NewProjectDialog (createCombine);
+			if (npdlg.Run () == (int) Gtk.ResponseType.Ok) {
+				IProgressMonitor monitor = Runtime.TaskService.GetLoadProgressMonitor ();
+				try {
+					if (createCombine)
+						res = parentCombine.AddEntry (npdlg.NewCombineLocation, monitor);
+					else
+						res = parentCombine.AddEntry (npdlg.NewProjectLocation, monitor);
+				}
+				catch {
+					Runtime.MessageService.ShowError (string.Format (GettextCatalog.GetString ("The file '{0}' could not be loaded."), npdlg.NewProjectLocation));
+					res = null;
+				}
+				monitor.Dispose ();
+			}
+			
+			npdlg = null;
+
+			if (res != null)
+				SaveCombine ();
+
+			return res;
+		}
+
+		public CombineEntry AddCombineEntry (Combine parentCombine)
+		{
+			CombineEntry res = null;
+			
+			using (FileSelector fdiag = new FileSelector (GettextCatalog.GetString ("Add to Solution"))) {
+				fdiag.SelectMultiple = false;
+				if (fdiag.Run () == (int) Gtk.ResponseType.Ok) {
+					try {
+						using (IProgressMonitor monitor = Runtime.TaskService.GetLoadProgressMonitor ()) {
+							res = parentCombine.AddEntry (fdiag.Filename, monitor);
+						}
+					}
+					catch {
+						Runtime.MessageService.ShowError (string.Format (GettextCatalog.GetString ("The file '{0}' could not be loaded."), fdiag.Filename));
+					}
+				}
+
+				fdiag.Hide ();
+			}
+			if (res != null)
+				SaveCombine ();
+
+			return res;
+		}
+		
+		public ProjectFile CreateProjectFile (Project parentProject, string basePath)
+		{
+			NewFileDialog nfd = new NewFileDialog ();
+			int res = nfd.Run ();
+			nfd.Dispose ();
+			if (res != (int) Gtk.ResponseType.Ok) return null;
+			
+			IWorkbenchWindow window = WorkbenchSingleton.Workbench.ActiveWorkbenchWindow;
+			int count = 1;
+				
+			string baseName  = Path.GetFileNameWithoutExtension(window.ViewContent.UntitledName);
+			string extension = Path.GetExtension(window.ViewContent.UntitledName);
+				
+			// first try the default untitled name of the viewcontent filename
+			string fileName = Path.Combine (basePath, baseName +  extension);
+				
+			// if it is already in the project, or it does exists we try to get a name that is
+			// untitledName + Numer + extension
+			while (parentProject.IsFileInProject (fileName) || System.IO.File.Exists (fileName)) {
+				fileName = Path.Combine (basePath, baseName + count.ToString() + extension);
+				++count;
+			}
+
+			// now we have a valid filename which we could use
+			window.ViewContent.Save (fileName);
+				
+			ProjectFile newFileInformation = new ProjectFile(fileName, BuildAction.Compile);
+			parentProject.ProjectFiles.Add (newFileInformation);
+			return newFileInformation;
+		}
+
+		public bool AddReferenceToProject (Project project)
+		{
+			bool res = false;
+			
+			SelectReferenceDialog selDialog = new SelectReferenceDialog(project);
+			if (selDialog.Run() == (int)Gtk.ResponseType.Ok) {
+				ProjectReferenceCollection newRefs = selDialog.ReferenceInformations;
+				
+				ArrayList toDelete = new ArrayList ();
+				foreach (ProjectReference refInfo in project.ProjectReferences)
+					if (!newRefs.Contains (refInfo))
+						toDelete.Add (refInfo);
+				
+				foreach (ProjectReference refInfo in toDelete)
+						project.ProjectReferences.Remove (refInfo);
+
+				foreach (ProjectReference refInfo in selDialog.ReferenceInformations)
+					if (!project.ProjectReferences.Contains (refInfo))
+						project.ProjectReferences.Add(refInfo);
+				
+				res = true;
+			}
+			selDialog.Hide ();
+			return res;
 		}
 		
 		public override void InitializeService()

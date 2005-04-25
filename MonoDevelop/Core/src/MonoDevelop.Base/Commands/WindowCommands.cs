@@ -11,12 +11,20 @@ using System.CodeDom.Compiler;
 using MonoDevelop.Core.Properties;
 using MonoDevelop.Core.AddIns.Codons;
 using MonoDevelop.Gui;
+using MonoDevelop.Services;
 
 namespace MonoDevelop.Commands
 {
-	public class SelectNextWindow : AbstractMenuCommand
+	public enum WindowCommands
 	{
-		public override void Run()
+		NextWindow,
+		PrevWindow,
+		OpenWindowList
+	}
+	
+	public class NextWindowHandler: CommandHandler
+	{
+		protected override void Run ()
 		{
 			if (WorkbenchSingleton.Workbench.ActiveWorkbenchWindow == null) {
 				return;
@@ -26,9 +34,9 @@ namespace MonoDevelop.Commands
 		}
 	}
 	
-	public class SelectPrevWindow : AbstractMenuCommand
+	public class PrevWindowHandler: CommandHandler
 	{
-		public override void Run()
+		protected override void Run ()
 		{
 			if (WorkbenchSingleton.Workbench.ActiveWorkbenchWindow == null) {
 				return;
@@ -38,12 +46,37 @@ namespace MonoDevelop.Commands
 		}
 	}
 	
-	public class CloseAllWindows : AbstractMenuCommand
+	public class OpenWindowListHandler: CommandHandler
 	{
-		public override void Run()
+		protected override void Update (CommandArrayInfo info)
 		{
-			WorkbenchSingleton.Workbench.CloseAllViews();
+			int contentCount = WorkbenchSingleton.Workbench.ViewContentCollection.Count;
+			if (contentCount == 0) return;
+			
+			for (int i = 0; i < contentCount; ++i) {
+				IViewContent content = (IViewContent)WorkbenchSingleton.Workbench.ViewContentCollection[i];
+				
+				CommandInfo item = null;
+				if (content.WorkbenchWindow.ShowNotification) {
+					item = new CommandInfo ("<span foreground=\"blue\">" + content.WorkbenchWindow.Title + "</span>");
+					item.UseMarkup = true;
+				} else {
+					item = new CommandInfo (content.WorkbenchWindow.Title);
+				}
+				
+				item.Checked = (WorkbenchSingleton.Workbench.ActiveWorkbenchWindow == content.WorkbenchWindow);
+				item.Description = GettextCatalog.GetString ("Activate this window");
+				
+				if (i + 1 <= 9)
+					item.AccelKey = "Alt|" + (i+1);
+				
+				info.Add (item, content.WorkbenchWindow);
+			}
+		}
+		
+		protected override void Run (object window)
+		{
+			((IWorkbenchWindow)window).SelectWindow();
 		}
 	}
-	
 }

@@ -47,6 +47,7 @@ Gui/Pads/ProjectPad/ProjectFolderNodeBuilder.cs \
 Gui/Pads/ProjectPad/ProjectNodeBuilder.cs \
 Gui/Pads/ProjectPad/ProjectReferenceFolderNodeBuilder.cs \
 Gui/Pads/ProjectPad/ProjectReferenceNodeBuilder.cs \
+Gui/Pads/ProjectPad/ProjectSolutionPad.cs \
 Gui/Pads/ProjectPad/ResourceFolder.cs \
 Gui/Pads/ProjectPad/ResourceFolderNodeBuilder.cs \
 Gui/Pads/ProjectPad/ShowAllFilesBuilderExtension.cs \
@@ -72,6 +73,7 @@ Gui/ISecondaryViewContent.cs \
 Gui/IViewContent.cs \
 Gui/AbstractViewContent.cs \
 Gui/GuiService.cs \
+Gui/CommandService.cs \
 Gui/Components/SdMenuSeparator.cs \
 Gui/Components/StatusBar/SdStatusBar.cs \
 Gui/Components/StatusBar/IStatusIcon.cs \
@@ -150,6 +152,7 @@ Gui/PadContentCollection.cs \
 Gui/PixbufList.cs \
 Gui/AbstractSecondaryViewContent.cs \
 Gui/ViewContentCollection.cs \
+Gui/ViewCommandHandlers.cs \
 Gui/IWorkbenchWindow.cs \
 Gui/HtmlControl/IHTMLDocument2.cs \
 Gui/HtmlControl/IHTMLElement.cs \
@@ -159,17 +162,9 @@ Gui/Workbench/Layouts/SdiWorkspaceWindow.cs \
 Gui/Workbench/Layouts/SdiWorkspaceLayout.cs \
 Gui/Workbench/WorkbenchMemento.cs \
 Gui/Workbench/DefaultWorkbench.cs \
-Commands/ClassBrowserCommands/ClassBrowserCommands.cs \
 Commands/FileCommands.cs \
 Commands/HelpCommands.cs \
 Commands/CustomStringTagProvider.cs \
-Commands/RunCommands.cs \
-Commands/ProjectBrowserCommands/FolderNodeCommands.cs \
-Commands/ProjectBrowserCommands/ReferenceFolderNodeCommands.cs \
-Commands/ProjectBrowserCommands/GeneralNodeCommands.cs \
-Commands/ProjectBrowserCommands/CombineNodeCommands.cs \
-Commands/ProjectBrowserCommands/ResourceFolderNodeCommands.cs \
-Commands/ProjectBrowserCommands/ProjectNodeCommands.cs \
 Commands/ProjectCommands.cs \
 Commands/VBConverter/ConvertProject.cs \
 Commands/VBConverter/ConvertBuffer.cs \
@@ -178,7 +173,7 @@ Commands/EditCommands.cs \
 Commands/WindowCommands.cs \
 Commands/AutostartCommands.cs \
 Commands/ToolsCommands.cs \
-Commands/MenuItemBuilders.cs \
+Commands/ViewCommands.cs \
 Services/File/IFileService.cs \
 Services/File/DefaultFileService.cs \
 Services/File/FileEventArgs.cs \
@@ -258,6 +253,11 @@ Internal/Conditions/WindowOpenCondition.cs \
 Internal/Conditions/CombineOpenCondition.cs \
 Internal/Conditions/ProjectOpenCondition.cs \
 Internal/Conditions/WorkbenchContextCondition.cs \
+Internal/Codons/Commands/CommandCodon.cs \
+Internal/Codons/Commands/CommandItemCodon.cs \
+Internal/Codons/Commands/ItemSetCodon.cs \
+Internal/Codons/Commands/LinkItemCodon.cs \
+Internal/Codons/Commands/SeparatorItemCodon.cs \
 Internal/Codons/DisplayBinding/IDisplayBinding.cs \
 Internal/Codons/DisplayBinding/ISubDisplayBinding.cs \
 Internal/Codons/DisplayBinding/DisplayBindingCodon.cs \

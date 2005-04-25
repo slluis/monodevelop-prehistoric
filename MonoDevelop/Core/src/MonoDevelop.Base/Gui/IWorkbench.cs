@@ -114,9 +114,6 @@ namespace MonoDevelop.Gui
 		/// </summary>
 		void RedrawAllComponents();
 
-		void UpdateMenu (object o, EventArgs e);
-		
-		
 		/// <summary>
 		/// Is called, when the workbench window which the user has into
 		/// the foreground (e.g. editable) changed to a new one.
@@ -128,6 +125,7 @@ namespace MonoDevelop.Gui
 		/// </summary>
 		WorkbenchContext Context {
 			get;
+			set;
 		}
 		
 		/// <summary>

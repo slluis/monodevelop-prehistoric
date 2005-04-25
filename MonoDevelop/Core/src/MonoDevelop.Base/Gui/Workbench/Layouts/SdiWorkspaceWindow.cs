@@ -17,10 +17,11 @@ using MonoDevelop.Services;
 
 using MonoDevelop.Gui.Utils;
 using MonoDevelop.Gui.Widgets;
+using MonoDevelop.Commands;
 
 namespace MonoDevelop.Gui
 {
-	public class SdiWorkspaceWindow : Frame, IWorkbenchWindow
+	public class SdiWorkspaceWindow : Frame, IWorkbenchWindow, ICommandRouter
 	{
 		Notebook   viewTabControl = null;
 		IViewContent content;
@@ -36,6 +37,8 @@ namespace MonoDevelop.Gui
 		string _titleHolder = "";
 
 		bool show_notification = false;
+		
+		ViewCommandHandlers commandHandler;
 		
 		public Widget TabPage {
 			get {
@@ -90,16 +93,6 @@ namespace MonoDevelop.Gui
 			}
 		}
 		
-		void ThreadSafeSelectWindow()
-		{
-			foreach (IViewContent viewContent in WorkbenchSingleton.Workbench.ViewContentCollection) {
-				if (viewContent != this.content) {
-					viewContent.WorkbenchWindow.OnWindowDeselected(EventArgs.Empty);
-				}
-			}
-			OnWindowSelected(EventArgs.Empty);
-		}
-		
 		public void SwitchView(int viewNumber)
 		{
 			if (viewTabControl != null) {
@@ -131,6 +124,8 @@ namespace MonoDevelop.Gui
 			content.Control.ShowAll ();
 			ShowAll ();
 			SetTitleEvent(null, null);
+
+			commandHandler = new ViewCommandHandlers (this);
 		}
 		
 		void BeforeSave(object sender, EventArgs e)
@@ -139,11 +134,6 @@ namespace MonoDevelop.Gui
 			if (secondaryViewContent != null) {
 				secondaryViewContent.NotifyBeforeSave();
 			}
-		}
-		
-		void LeaveTabPage(object sender, EventArgs e)
-		{
-			OnWindowDeselected(EventArgs.Empty);
 		}
 		
 		public IViewContent ViewContent {
@@ -220,7 +210,7 @@ namespace MonoDevelop.Gui
 				if (save) {
 					if (content.ContentName == null) {
 						while (true) {
-							new MonoDevelop.Commands.SaveFileAs().Run();
+							Runtime.FileService.SaveFileAs (this);
 							if (ViewContent.IsDirty) {
 								if (Runtime.MessageService.AskQuestion(GettextCatalog.GetString ("Do you really want to discard your changes ?"))) {
 									break;
@@ -277,6 +267,7 @@ namespace MonoDevelop.Gui
 			OnContentChanged (null, null);*/
 		}
 		
+		
 		int oldIndex = -1;
 		void viewTabControlIndexChanged(object sender, EventArgs e)
 		{
@@ -294,6 +285,12 @@ namespace MonoDevelop.Gui
 				}
 			}
 			oldIndex = viewTabControl.CurrentPage;
+		}
+		
+		object ICommandRouter.GetNextCommandTarget ()
+		{
+			commandHandler.SetNextCommandTarget (Parent); 
+			return commandHandler;
 		}
 		
 		protected virtual void OnTitleChanged(EventArgs e)

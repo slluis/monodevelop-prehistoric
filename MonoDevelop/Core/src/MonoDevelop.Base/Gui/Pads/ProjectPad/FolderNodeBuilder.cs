@@ -30,9 +30,12 @@ using System;
 using System.IO;
 using System.Collections;
 using System.Text;
+using Gtk;
 
 using MonoDevelop.Internal.Project;
 using MonoDevelop.Services;
+using MonoDevelop.Commands;
+using MonoDevelop.Gui.Widgets;
 
 namespace MonoDevelop.Gui.Pads.ProjectPad
 {
@@ -173,6 +176,124 @@ namespace MonoDevelop.Gui.Pads.ProjectPad
 				Runtime.ProjectService.TransferFiles (monitor, sourceProject, source, targetProject, targetPath, move, false);
 			}
 			Runtime.ProjectService.SaveCombine();
+		}
+		
+		[CommandHandler (ProjectCommands.AddFiles)]
+		public void AddFilesToProject()
+		{
+			Project project = CurrentNode.GetParentDataItem (typeof(Project), true) as Project;
+			
+			using (FileSelector fdiag  = new FileSelector (GettextCatalog.GetString ("Add files"))) {
+				fdiag.SelectMultiple = true;
+				
+				int result = fdiag.Run ();
+				try {
+					if (result != (int) ResponseType.Ok)
+						return;
+					
+					foreach (string file in fdiag.Filenames) {
+						if (file.StartsWith (project.BaseDirectory)) {
+							MoveCopyFile (project, CurrentNode, file, true, true);
+						} else {
+							using (MessageDialog md = new MessageDialog (
+																		 (Window) WorkbenchSingleton.Workbench,
+																		 DialogFlags.Modal | DialogFlags.DestroyWithParent,
+																		 MessageType.Question, ButtonsType.None,
+																		 String.Format (GettextCatalog.GetString ("{0} is outside the project directory, what should I do?"), file))) {
+								md.AddButton (Gtk.Stock.Copy, 1);
+								md.AddButton (GettextCatalog.GetString ("_Move"), 2);
+								md.AddButton (Gtk.Stock.Cancel, ResponseType.Cancel);
+								
+								int ret = md.Run ();
+								md.Hide ();
+								
+								if (ret < 0)
+									return;
+
+								try {
+									MoveCopyFile (project, CurrentNode, file, ret == 2, false);
+								}
+								catch {
+									Runtime.MessageService.ShowError (GettextCatalog.GetString ("An error occurred while attempt to move/copy that file. Please check your permissions."));
+								}
+							}
+						}
+					}
+				} finally {
+					fdiag.Hide ();
+				}
+			}
+		}
+		
+		public static void MoveCopyFile (Project project, ITreeNavigator nav, string filename, bool move, bool alreadyInPlace)
+		{
+			if (Runtime.FileUtilityService.IsDirectory (filename))
+			    return;
+
+			ProjectFolder folder = nav.GetParentDataItem (typeof(ProjectFolder), true) as ProjectFolder;
+			
+			string name = System.IO.Path.GetFileName (filename);
+			string baseDirectory = folder != null ? folder.Path : project.BaseDirectory;
+			string newfilename = alreadyInPlace ? filename : Path.Combine (baseDirectory, name);
+
+			if (filename != newfilename) {
+				File.Copy (filename, newfilename);
+				if (move)
+					Runtime.FileService.RemoveFile (filename);
+			}
+			
+			if (project.IsCompileable (newfilename)) {
+				project.AddFile (newfilename, BuildAction.Compile);
+			} else {
+				project.AddFile (newfilename, BuildAction.Nothing);
+			}
+
+			Runtime.ProjectService.SaveCombine();
+		}		
+
+		[CommandHandler (ProjectCommands.AddNewFiles)]
+		public void AddNewFileToProject()
+		{
+			Project project = CurrentNode.GetParentDataItem (typeof(Project), true) as Project;
+			ProjectFile file = Runtime.ProjectService.CreateProjectFile (project, GetFolderPath (CurrentNode.DataItem));
+			if (file != null) {
+				Runtime.ProjectService.SaveCombine();
+				CurrentNode.Expanded = true;
+				Tree.AddNodeInsertCallback (file, new TreeNodeCallback (OnFileInserted));
+			}
+		}
+		
+		void OnFileInserted (ITreeNavigator nav)
+		{
+			Tree.StealFocus ();
+			nav.Selected = true;
+			Tree.StartLabelEdit ();
+		}
+		
+		[CommandHandler (ProjectCommands.NewFolder)]
+		public void AddNewFolder ()
+		{
+			Project project = CurrentNode.GetParentDataItem (typeof(Project), true) as Project;
+			
+			string baseFolderPath = GetFolderPath (CurrentNode.DataItem);
+			string directoryName = Path.Combine (baseFolderPath, GettextCatalog.GetString("New Folder"));
+			int index = -1;
+
+			if (Directory.Exists(directoryName)) {
+				while (Directory.Exists(directoryName + (++index + 1))) ;
+			}
+			
+			if (index >= 0) {
+				directoryName += index + 1;
+			}
+			
+			Directory.CreateDirectory (directoryName);
+			
+			ProjectFile newFolder = new ProjectFile (directoryName);
+			newFolder.Subtype = Subtype.Directory;
+			project.ProjectFiles.Add (newFolder);
+
+			Tree.AddNodeInsertCallback (newFolder, new TreeNodeCallback (OnFileInserted));
 		}
 	}	
 }

@@ -32,6 +32,7 @@ using System.Collections;
 
 using MonoDevelop.Internal.Project;
 using MonoDevelop.Services;
+using MonoDevelop.Commands;
 
 namespace MonoDevelop.Gui.Pads.ProjectPad
 {
@@ -150,7 +151,8 @@ namespace MonoDevelop.Gui.Pads.ProjectPad
 			}
 		}
 		
-		public override void RemoveItem ()
+		[CommandHandler (EditCommands.Delete)]
+		public void RemoveItem ()
 		{
 			ProjectFolder folder = (ProjectFolder) CurrentNode.DataItem as ProjectFolder;
 			

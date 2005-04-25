@@ -26,6 +26,10 @@ namespace MonoDevelop.Gui.Components
 		void UpdateStatus();
 	}
 	
+	public interface ISubmenuItem
+	{
+	}
+	
 	public class SdMenu : Gtk.ImageMenuItem, IStatusUpdate
 	{
 		ConditionCollection conditionCollection;

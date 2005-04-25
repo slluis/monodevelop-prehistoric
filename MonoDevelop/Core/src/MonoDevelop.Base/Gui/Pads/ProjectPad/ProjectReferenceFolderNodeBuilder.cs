@@ -31,6 +31,7 @@ using System.Collections;
 
 using MonoDevelop.Internal.Project;
 using MonoDevelop.Services;
+using MonoDevelop.Commands;
 
 namespace MonoDevelop.Gui.Pads.ProjectPad
 {
@@ -145,6 +146,16 @@ namespace MonoDevelop.Gui.Pads.ProjectPad
 				p.ProjectReferences.Add ((ProjectReference) pref.Clone ());
 			}
 			Runtime.ProjectService.SaveCombine();
+		}
+		
+		[CommandHandler (ProjectCommands.AddReference)]
+		public void AddReferenceToProject ()
+		{
+			Project p = (Project) CurrentNode.GetParentDataItem (typeof(Project), false);
+			if (Runtime.ProjectService.AddReferenceToProject (p)) {
+				Runtime.ProjectService.SaveCombine();
+				CurrentNode.Expanded = true;
+			}
 		}
 	}
 }

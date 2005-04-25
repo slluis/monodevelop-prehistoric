@@ -46,13 +46,14 @@ using MonoDevelop.Internal.Project;
 using MonoDevelop.Gui.Dialogs;
 using MonoDevelop.Services;
 using MonoDevelop.Gui.Widgets;
+using MonoDevelop.Commands;
 
 namespace MonoDevelop.Gui.Pads
 {
 	/// <summary>
 	/// This class implements a project browser.
 	/// </summary>
-	public class TreeViewPad : IPadContent, IMementoCapable
+	public class TreeViewPad : IPadContent, IMementoCapable, ICommandRouter
 	{
 		string title;
 		string icon;
@@ -89,7 +90,7 @@ namespace MonoDevelop.Gui.Pads
 		object copyObject;
 		DragOperation currentTransferOperation;
 
-		Gtk.Frame contentPanel = new Gtk.Frame();
+		Gtk.Frame contentPanel;
 
 		private static Gtk.TargetEntry [] target_table = new Gtk.TargetEntry [] {
 			new Gtk.TargetEntry ("text/uri-list", 0, 11 ),
@@ -131,7 +132,16 @@ namespace MonoDevelop.Gui.Pads
 		{
 		}
 		
+		public TreeViewPad ()
+		{
+		}
+		
 		public TreeViewPad (string label, string icon, NodeBuilder[] builders, TreePadOption[] options)
+		{
+			Initialize (label, icon, builders, options);
+		}
+		
+		public virtual void Initialize (string label, string icon, NodeBuilder[] builders, TreePadOption[] options)
 		{
 			// Create default options
 			
@@ -206,7 +216,7 @@ namespace MonoDevelop.Gui.Pads
 			
 			Gtk.ScrolledWindow sw = new Gtk.ScrolledWindow ();
 			sw.Add(tree);
-			contentPanel = new Gtk.Frame();
+			contentPanel = new TreeFrame (this);
 			contentPanel.Add(sw);
 			
 			tree.TestExpandRow += new Gtk.TestExpandRowHandler (OnTestExpandRow);
@@ -227,8 +237,9 @@ namespace MonoDevelop.Gui.Pads
 			tree.DragDrop += new Gtk.DragDropHandler (OnDragDrop);
 			tree.DragEnd += new Gtk.DragEndHandler (OnDragEnd);
 			tree.DragMotion += new Gtk.DragMotionHandler (OnDragMotion);
+			
+			tree.CursorChanged += new EventHandler (OnSelectionChanged);
 		}
-
 
 		void OnDragBegin (object o, Gtk.DragBeginArgs arg)
 		{
@@ -291,11 +302,12 @@ namespace MonoDevelop.Gui.Pads
 			DragOperation oper = ctx.Action == Gdk.DragAction.Copy ? DragOperation.Copy : DragOperation.Move;
 			
 			foreach (NodeBuilder nb in chain) {
-				nb.CommandHandler.SetCurrentNode (nav);
-				if (nb.CommandHandler.CanDropNode (obj, oper)) {
+				NodeCommandHandler handler = nb.CommandHandler;
+				handler.SetCurrentNode (nav);
+				if (handler.CanDropNode (obj, oper)) {
 					foundHandler = true;
 					if (drop)
-						nb.CommandHandler.OnNodeDrop (obj, oper);
+						handler.OnNodeDrop (obj, oper);
 				}
 			}
 			return foundHandler;
@@ -389,6 +401,30 @@ namespace MonoDevelop.Gui.Pads
 			}
 		}
 		
+		object ICommandRouter.GetNextCommandTarget ()
+		{
+			TreeNodeNavigator node = (TreeNodeNavigator) GetSelectedNode ();
+			if (node != null) {
+				NodeBuilder[] chain = node.NodeBuilderChain;
+				if (chain.Length > 0) {
+					NodeCommandHandler[] handlers = new NodeCommandHandler [chain.Length];
+					for (int n=0; n<chain.Length; n++)
+						handlers [n] = chain [n].CommandHandler;
+					
+					for (int n=0; n<handlers.Length; n++) {
+						handlers [n].SetCurrentNode (node);
+						if (n < chain.Length - 1)
+							handlers [n].SetNextTarget (handlers [n+1]);
+						else
+							handlers [n].SetNextTarget (contentPanel.Parent);
+					}
+					return handlers [0];
+				}
+			}
+			return contentPanel.Parent;
+		}
+
+		[CommandHandler (ViewCommands.Open)]
 		public void ActivateCurrentItem ()
 		{
 			TreeNodeNavigator node = (TreeNodeNavigator) GetSelectedNode ();
@@ -396,33 +432,22 @@ namespace MonoDevelop.Gui.Pads
 				NodeBuilder[] chain = node.NodeBuilderChain;
 				NodePosition pos = node.CurrentPosition;
 				foreach (NodeBuilder b in chain) {
-					b.CommandHandler.SetCurrentNode (node);
-					b.CommandHandler.ActivateItem ();
+					NodeCommandHandler handler = b.CommandHandler;
+					handler.SetCurrentNode (node);
+					handler.ActivateItem ();
 					node.MoveToPosition (pos);
 				}
 			}
 		}
 
-		public void RemoveCurrentItem ()
-		{
-			TreeNodeNavigator node = (TreeNodeNavigator) GetSelectedNode ();
-			if (node != null) {
-				NodeBuilder[] chain = node.NodeBuilderChain;
-				NodePosition pos = node.CurrentPosition;
-				foreach (NodeBuilder b in chain) {
-					b.CommandHandler.SetCurrentNode (node);
-					b.CommandHandler.RemoveItem ();
-					node.MoveToPosition (pos);
-				}
-			}
-		}
-
+		[CommandHandler (EditCommands.Copy)]
 		public void CopyCurrentItem ()
 		{
 			CancelTransfer ();
 			TransferCurrentItem (DragOperation.Copy);
 		}
 
+		[CommandHandler (EditCommands.Cut)]
 		public void CutCurrentItem ()
 		{
 			CancelTransfer ();
@@ -435,14 +460,16 @@ namespace MonoDevelop.Gui.Pads
 			}
 		}
 		
-		public bool CanCopyCurrentItem ()
+		[CommandUpdateHandler (EditCommands.Copy)]
+		protected void UpdateCopyCurrentItem (CommandInfo info)
 		{
-			return CanTransferCurrentItem (DragOperation.Copy);
+			info.Enabled = CanTransferCurrentItem (DragOperation.Copy);
 		}
 
-		public bool CanCutCurrentItem ()
+		[CommandUpdateHandler (EditCommands.Cut)]
+		protected void UpdateCutCurrentItem (CommandInfo info)
 		{
-			return CanTransferCurrentItem (DragOperation.Move);
+			info.Enabled = CanTransferCurrentItem (DragOperation.Move);
 		}
 		
 		void TransferCurrentItem (DragOperation oper)
@@ -452,8 +479,9 @@ namespace MonoDevelop.Gui.Pads
 				NodeBuilder[] chain = node.NodeBuilderChain;
 				NodePosition pos = node.CurrentPosition;
 				foreach (NodeBuilder b in chain) {
-					b.CommandHandler.SetCurrentNode (node);
-					if ((b.CommandHandler.CanDragNode () & oper) != 0) {
+					NodeCommandHandler handler = b.CommandHandler;
+					handler.SetCurrentNode (node);
+					if ((handler.CanDragNode () & oper) != 0) {
 						node.MoveToPosition (pos);
 						copyObject = node.DataItem;
 						currentTransferOperation = oper;
@@ -471,8 +499,9 @@ namespace MonoDevelop.Gui.Pads
 				NodeBuilder[] chain = node.NodeBuilderChain;
 				NodePosition pos = node.CurrentPosition;
 				foreach (NodeBuilder b in chain) {
-					b.CommandHandler.SetCurrentNode (node);
-					if ((b.CommandHandler.CanDragNode () & oper) != 0)
+					NodeCommandHandler handler = b.CommandHandler;
+					handler.SetCurrentNode (node);
+					if ((handler.CanDragNode () & oper) != 0)
 						return true;
 					node.MoveToPosition (pos);
 				}
@@ -480,6 +509,7 @@ namespace MonoDevelop.Gui.Pads
 			return false;
 		}
 		
+		[CommandHandler (EditCommands.Paste)]
 		public void PasteToCurrentItem ()
 		{
 			if (copyObject == null) return;
@@ -489,10 +519,11 @@ namespace MonoDevelop.Gui.Pads
 				NodeBuilder[] chain = node.NodeBuilderChain;
 				NodePosition pos = node.CurrentPosition;
 				foreach (NodeBuilder b in chain) {
-					b.CommandHandler.SetCurrentNode (node);
-					if (b.CommandHandler.CanDropNode (copyObject, currentTransferOperation)) {
+					NodeCommandHandler handler = b.CommandHandler;
+					handler.SetCurrentNode (node);
+					if (handler.CanDropNode (copyObject, currentTransferOperation)) {
 						node.MoveToPosition (pos);
-						b.CommandHandler.OnNodeDrop (copyObject, currentTransferOperation);
+						handler.OnNodeDrop (copyObject, currentTransferOperation);
 					}
 					node.MoveToPosition (pos);
 				}
@@ -500,22 +531,26 @@ namespace MonoDevelop.Gui.Pads
 			CancelTransfer ();
 		}
 
-		public bool CanPasteToCurrentItem ()
+		[CommandUpdateHandler (EditCommands.Paste)]
+		protected void UpdatePasteToCurrentItem (CommandInfo info)
 		{
-			if (copyObject == null) return false;
-			
-			TreeNodeNavigator node = (TreeNodeNavigator) GetSelectedNode ();
-			if (node != null) {
-				NodeBuilder[] chain = node.NodeBuilderChain;
-				NodePosition pos = node.CurrentPosition;
-				foreach (NodeBuilder b in chain) {
-					b.CommandHandler.SetCurrentNode (node);
-					if (b.CommandHandler.CanDropNode (copyObject, currentTransferOperation))
-						return true;
-					node.MoveToPosition (pos);
+			if (copyObject != null) {
+				TreeNodeNavigator node = (TreeNodeNavigator) GetSelectedNode ();
+				if (node != null) {
+					NodeBuilder[] chain = node.NodeBuilderChain;
+					NodePosition pos = node.CurrentPosition;
+					foreach (NodeBuilder b in chain) {
+						NodeCommandHandler handler = b.CommandHandler;
+						handler.SetCurrentNode (node);
+						if (handler.CanDropNode (copyObject, currentTransferOperation)) {
+							info.Enabled = true;
+							return;
+						}
+						node.MoveToPosition (pos);
+					}
 				}
 			}
-			return false;
+			info.Enabled = false;
 		}
 
 		void CancelTransfer ()
@@ -536,6 +571,7 @@ namespace MonoDevelop.Gui.Pads
 		/// call this method, instead of using the LabelEdit Property and the BeginEdit
 		/// Method directly.
 		/// </summary>
+		[CommandHandler (EditCommands.Rename)]
 		public void StartLabelEdit()
 		{
 			Gtk.TreeModel foo;
@@ -566,8 +602,9 @@ namespace MonoDevelop.Gui.Pads
 
 			NodeBuilder[] chain = (NodeBuilder[]) store.GetValue (iter, BuilderChainColumn);
 			foreach (NodeBuilder b in chain) {
-				b.CommandHandler.SetCurrentNode (nav);
-				b.CommandHandler.RenameItem (e.NewText);
+				NodeCommandHandler handler = b.CommandHandler;
+				handler.SetCurrentNode (nav);
+				handler.RenameItem (e.NewText);
 				nav.MoveToPosition (pos);
 			}
 		}
@@ -869,63 +906,54 @@ namespace MonoDevelop.Gui.Pads
 		void ShowPopup ()
 		{
 			ITreeNavigator tnav = GetSelectedNode ();
-			Runtime.ProjectService.CurrentSelectedProject = tnav.GetParentDataItem (typeof(Project), true) as Project;
-			Runtime.ProjectService.CurrentSelectedCombine = tnav.GetParentDataItem (typeof(Combine), true) as Combine;
-			
 			TypeNodeBuilder nb = GetTypeNodeBuilder (tnav.CurrentPosition._iter);
 			if (nb == null || nb.ContextMenuAddinPath == null) {
-				if (options.Length > 0)
-					Runtime.Gui.Menus.ShowContextMenu (BuildTreeOptionsMenu (tnav));
-			} else {
-				Gtk.Menu menu = Runtime.Gui.Menus.CreateContextMenu (this, nb.ContextMenuAddinPath);
 				if (options.Length > 0) {
-					Gtk.MenuItem mi = new Gtk.SeparatorMenuItem ();
-					mi.Show ();
-					menu.Append (mi);
-					
-					mi = new Gtk.MenuItem (GettextCatalog.GetString ("Display Options"));
-					menu.Append (mi);
-					mi.Submenu = BuildTreeOptionsMenu (tnav);
-					mi.Show ();
+					CommandEntrySet opset = new CommandEntrySet ();
+					opset.AddItem (ViewCommands.TreeDisplayOptionList);
+					opset.AddItem (Command.Separator);
+					opset.AddItem (ViewCommands.ResetTreeDisplayOptions);
+					Gtk.Menu menu = Runtime.Gui.CommandService.CreateMenu (opset);
+					Runtime.Gui.Menus.ShowContextMenu (menu);
 				}
+			} else {
+				CommandEntrySet eset = Runtime.Gui.CommandService.CreateCommandEntrySet (nb.ContextMenuAddinPath);
+				eset.AddItem (Command.Separator);
+				CommandEntrySet opset = eset.AddItemSet (GettextCatalog.GetString ("Display Options"));
+				opset.AddItem (ViewCommands.TreeDisplayOptionList);
+				opset.AddItem (Command.Separator);
+				opset.AddItem (ViewCommands.ResetTreeDisplayOptions);
+				Gtk.Menu menu = Runtime.Gui.CommandService.CreateMenu (eset);
 				Runtime.Gui.Menus.ShowContextMenu (menu);
 			}
 		}
 		
-		Gtk.Menu BuildTreeOptionsMenu (ITreeNavigator tnav)
+		[CommandUpdateHandler (ViewCommands.TreeDisplayOptionList)]
+		void BuildTreeOptionsMenu (CommandArrayInfo info)
 		{
+			ITreeNavigator tnav = GetSelectedNode ();
 			ITreeOptions currentOptions = tnav.Options;
-			Gtk.Menu omenu = new Gtk.Menu ();
-
 			foreach (TreePadOption op in options) {
-				PadCheckMenuItem cmi = new PadCheckMenuItem (op.Label, op.Id);
-				cmi.Active = currentOptions [op.Id];
-				omenu.Append (cmi);
-				cmi.Toggled += new EventHandler (OptionToggled);
+				CommandInfo ci = new CommandInfo (op.Label);
+				ci.Checked = currentOptions [op.Id];
+				info.Add (ci, op.Id);
 			}
-			
-			omenu.Append (new Gtk.SeparatorMenuItem ());
-			
-			Gtk.MenuItem mi = new Gtk.MenuItem (GettextCatalog.GetString ("Reset Options"));
-			mi.Activated += new EventHandler (ResetOptions);
-			omenu.Append (mi);
-			omenu.ShowAll ();
-			
-			return omenu;
 		}
 		
-		void OptionToggled (object sender, EventArgs args)
+		[CommandHandler (ViewCommands.TreeDisplayOptionList)]
+		void OptionToggled (string optionId)
 		{
 			Gtk.TreeModel foo;
 			Gtk.TreeIter iter;
 			if (!tree.Selection.GetSelected (out foo, out iter))
 				return;
 
-			PadCheckMenuItem mi = (PadCheckMenuItem) sender;
-			GetOptions (iter, true) [mi.Id] = mi.Active;
+			TreeOptions ops = GetOptions (iter, true);
+			ops [optionId] = !ops [optionId];
 		}
 		
-		void ResetOptions (object sender, EventArgs args)
+		[CommandHandler (ViewCommands.ResetTreeDisplayOptions)]
+		void ResetOptions ()
 		{
 			Gtk.TreeModel foo;
 			Gtk.TreeIter iter;
@@ -950,9 +978,13 @@ namespace MonoDevelop.Gui.Pads
 			}
 		}
 
-		private void OnNodeActivated (object sender, Gtk.RowActivatedArgs args)
+		protected virtual void OnNodeActivated (object sender, Gtk.RowActivatedArgs args)
 		{
 			ActivateCurrentItem ();
+		}
+		
+		protected virtual void OnSelectionChanged (object sender, EventArgs args)
+		{
 		}
 		
 		public IXmlConvertable CreateMemento ()
@@ -1647,6 +1679,21 @@ namespace MonoDevelop.Gui.Pads
 			XmlElement treenode  = doc.CreateElement ("TreeView");
 			treeView.SaveTreeState (treenode);
 			return treenode;
+		}
+	}
+	
+	class TreeFrame: Gtk.Frame, ICommandRouter
+	{
+		object nextTarget;
+		
+		public TreeFrame (object nextTarget)
+		{
+			this.nextTarget = nextTarget;
+		}
+		
+		object ICommandRouter.GetNextCommandTarget ()
+		{
+			return nextTarget;
 		}
 	}
 	

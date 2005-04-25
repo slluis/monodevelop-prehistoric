@@ -19,177 +19,61 @@ using MonoDevelop.Gui;
 using MonoDevelop.Gui.Widgets;
 using MonoDevelop.Gui.Dialogs;
 using MonoDevelop.Gui.ErrorHandlers;
+using Freedesktop.RecentFiles;
 
 namespace MonoDevelop.Commands
 {
-	public class CreateNewProject : AbstractMenuCommand
+	public enum FileCommands
 	{
-		public override void Run ()
+		OpenFile,
+		NewFile,
+		NewProject,
+		CloseFile,
+		CloseAllFiles,
+		CloseCombine,
+		ReloadFile,
+		Save,
+		SaveAll,
+		SaveAs,
+		RecentFileList,
+		ClearRecentFiles,
+		RecentProjectList,
+		ClearRecentProjects,
+		Exit,
+		ClearCombine
+	}
+	
+	public class NewProjectHandler : CommandHandler
+	{
+		protected override void Run ()
 		{
-			new NewProjectDialog (true);
+			NewProjectDialog pd = new NewProjectDialog (true);
+			pd.Run ();
 		}
 	}
 	
-	public class CreateNewFile : AbstractMenuCommand
+	public class NewFileHandler : CommandHandler
 	{
-		public override void Run ()
+		protected override void Run ()
 		{
-			new NewFileDialog ();
+			NewFileDialog fd = new NewFileDialog ();
+			fd.Run ();
 		}
 	}
 	
-	public class CloseFile : AbstractMenuCommand
+	public class CloseAllFilesHandler : CommandHandler
 	{
-		public override void Run()
-		{
-			if (WorkbenchSingleton.Workbench.ActiveWorkbenchWindow != null) {
-				WorkbenchSingleton.Workbench.ActiveWorkbenchWindow.CloseWindow(false, true, 0);
-			}
-		}
-	}
-	
-	public class CloseAllFiles : AbstractMenuCommand
-	{
-		public override void Run()
+		protected override void Run()
 		{
 			if ( WorkbenchSingleton.Workbench != null ) {
 				WorkbenchSingleton.Workbench.CloseAllViews();
 			}
 		}
 	}
-
-	public class SaveFile : AbstractMenuCommand
-	{
-		public override void Run()
-		{
-			IWorkbenchWindow window = WorkbenchSingleton.Workbench.ActiveWorkbenchWindow;
-			if (window != null) {
-				if (window.ViewContent.IsViewOnly) {
-					return;
-				}
-				
-				if (window.ViewContent.ContentName == null) {
-					SaveFileAs sfa = new SaveFileAs();
-					sfa.Run();
-				} else {
-					FileAttributes attr = FileAttributes.ReadOnly | FileAttributes.Directory | FileAttributes.Offline | FileAttributes.System;
-					// FIXME
-					// bug #59731 is if the file is moved out from under us, we were crashing
-					// I changed it to make it ask for a new
-					// filename instead, but maybe we should
-					// detect the move and update the reference
-					// to the name instead
-					if (!File.Exists (window.ViewContent.ContentName) || (File.GetAttributes(window.ViewContent.ContentName) & attr) != 0) {
-						SaveFileAs sfa = new SaveFileAs();
-						sfa.Run();
-					} else {						
-						Runtime.ProjectService.MarkFileDirty(window.ViewContent.ContentName);
-						string fileName = window.ViewContent.ContentName;
-						// save backup first						
-						if((bool) Runtime.Properties.GetProperty ("SharpDevelop.CreateBackupCopy", false)) {
-							Runtime.FileUtilityService.ObservedSave (new NamedFileOperationDelegate(window.ViewContent.Save), fileName + "~");
-						}
-						Runtime.FileUtilityService.ObservedSave (new NamedFileOperationDelegate(window.ViewContent.Save), fileName);
-					}
-				}
-			}
-		}
-		
-		public override bool IsEnabled {
-			get {
-				IWorkbenchWindow window   = WorkbenchSingleton.Workbench.ActiveWorkbenchWindow;
-				IViewContent content = window != null ? window.ActiveViewContent as IViewContent : null;
-				if (content != null) {
-					return content.IsDirty;
-				}
-				return false;
-			}
-		}
-	} 
-
-	public class ReloadFile : AbstractMenuCommand
-	{
-		public override void Run()
-		{
-			IWorkbenchWindow window = WorkbenchSingleton.Workbench.ActiveWorkbenchWindow;
-			
-			if (window != null && window.ViewContent.ContentName != null && !window.ViewContent.IsViewOnly) {
-				if (Runtime.MessageService.AskQuestion(GettextCatalog.GetString ("Are you sure that you want to reload the file?"))) {
-					IXmlConvertable memento = null;
-					if (window.ViewContent is IMementoCapable) {
-						memento = ((IMementoCapable)window.ViewContent).CreateMemento();
-					}
-					window.ViewContent.Load(window.ViewContent.ContentName);
-					if (memento != null) {
-						((IMementoCapable)window.ViewContent).SetMemento(memento);
-					}
-				}
-			}
-		}
-	}
 	
-	public class SaveFileAs : AbstractMenuCommand
+	public class SaveAllHandler : CommandHandler
 	{
-		public override void Run()
-		{
-			IWorkbenchWindow window = WorkbenchSingleton.Workbench.ActiveWorkbenchWindow;
-			
-			if (window != null) {
-				if (window.ViewContent.IsViewOnly) {
-					return;
-				}
-				if (window.ViewContent is ICustomizedCommands) {
-					if (((ICustomizedCommands)window.ViewContent).SaveAsCommand()) {
-						return;
-					}
-				}
-				/*
-				using (SaveFileDialog fdiag = new SaveFileDialog()) {
-					fdiag.OverwritePrompt = true;
-					fdiag.AddExtension    = true;
-					
-					string[] fileFilters  = (string[])(AddInTreeSingleton.AddInTree.GetTreeNode("/SharpDevelop/Workbench/FileFilter").BuildChildItems(this)).ToArray(typeof(string));
-					fdiag.Filter          = String.Join("|", fileFilters);
-					for (int i = 0; i < fileFilters.Length; ++i) {
-						if (fileFilters[i].IndexOf(Path.GetExtension(window.ViewContent.ContentName == null ? window.ViewContent.UntitledName : window.ViewContent.ContentName)) >= 0) {
-							fdiag.FilterIndex = i + 1;
-							break;
-						}
-					}*/
-					FileSelector fdiag = new FileSelector (GettextCatalog.GetString ("Save as..."), Gtk.FileChooserAction.Save);
-					fdiag.SetFilename (window.ViewContent.ContentName);
-					int response = fdiag.Run ();
-					string filename = fdiag.Filename;
-					fdiag.Hide ();
-				
-					if (response == (int)Gtk.ResponseType.Ok) {
-						if (!Runtime.FileUtilityService.IsValidFileName (filename)) {
-							Runtime.MessageService.ShowMessage(String.Format (GettextCatalog.GetString ("File name {0} is invalid"), filename));
-							return;
-						}
-						// detect preexisting file
-						if(File.Exists(filename)){
-							if(!Runtime.MessageService.AskQuestion(String.Format (GettextCatalog.GetString ("File {0} already exists.  Overwrite?"), filename))){
-								return;
-							}
-						}
-					// save backup first
-					if((bool) Runtime.Properties.GetProperty ("SharpDevelop.CreateBackupCopy", false)) {
-						Runtime.FileUtilityService.ObservedSave (new NamedFileOperationDelegate(window.ViewContent.Save), filename + "~");
-					}
-					
-					// do actual save
-					if (Runtime.FileUtilityService.ObservedSave (new NamedFileOperationDelegate(window.ViewContent.Save), filename) == FileOperationResult.OK) {
-						Runtime.FileService.RecentOpen.AddLastFile (filename, null);
-					}
-				}
-			}
-		}
-	}
-	
-	public class SaveAllFiles : AbstractMenuCommand
-	{
-		public override void Run()
+		protected override void Run()
 		{
 			foreach (IViewContent content in WorkbenchSingleton.Workbench.ViewContentCollection) {
 				if (content.IsViewOnly) {
@@ -226,42 +110,12 @@ namespace MonoDevelop.Commands
 				}
 			}
 		}
-	}
+	}	
 	
-	public class OpenCombine : AbstractMenuCommand
-	{
-		public override void Run()
-		{
-			using (FileSelector fs = new FileSelector (GettextCatalog.GetString ("File to Open"))) {
-				int response = fs.Run ();
-				string name = fs.Filename;
-				fs.Hide ();
 
-				if (response == (int)Gtk.ResponseType.Ok) {
-					switch (Path.GetExtension(name).ToUpper()) {
-						case ".CMBX": // Don't forget the 'recent' projects if you chance something here
-						case ".PRJX":
-						case ".MDP":
-						case ".MDS":
-							try {
-								//Runtime.ProjectService.OpenCombine(name);
-								Runtime.FileService.OpenFile(name);
-							} catch (Exception ex) {
-								CombineLoadError.HandleError(ex, name);
-							}
-							break;
-						default:
-							Runtime.MessageService.ShowError(String.Format (GettextCatalog.GetString ("Can't open file {0} as project"), name));
-							break;
-					}
-				}
-			}
-		}
-	}
-	
-	public class OpenFile : AbstractMenuCommand
+	public class OpenFileHandler : CommandHandler
 	{
-		public override void Run()
+		protected override void Run()
 		{
 			//string[] fileFilters  = (string[])(AddInTreeSingleton.AddInTree.GetTreeNode("/SharpDevelop/Workbench/FileFilter").BuildChildItems(this)).ToArray(typeof(string));
 			//bool foundFilter      = false;
@@ -307,17 +161,22 @@ namespace MonoDevelop.Commands
 		}
 	}
 	
-	public class ClearCombine : AbstractMenuCommand
+	public class CloseCombineHandler : CommandHandler
 	{
-		public override void Run()
+		protected override void Run()
 		{
 			Runtime.ProjectService.CloseCombine();
 		}
+		
+		protected override void Update (CommandInfo info)
+		{
+			info.Enabled = (Runtime.ProjectService.CurrentOpenCombine != null);
+		}
 	}
 		
-	public class ExitWorkbenchCommand : AbstractMenuCommand
+	public class ExitHandler : CommandHandler
 	{
-		public override void Run()
+		protected override void Run()
 		{			
 			if (((DefaultWorkbench)WorkbenchSingleton.Workbench).Close()) {
 				Gtk.Application.Quit();
@@ -325,9 +184,10 @@ namespace MonoDevelop.Commands
 		}
 	}
 	
-	public class Print : AbstractMenuCommand
+	
+	public class PrintHandler : CommandHandler
 	{
-		public override void Run()
+		protected override void Run()
 		{/*
 			IWorkbenchWindow window = WorkbenchSingleton.Workbench.ActiveWorkbenchWindow;
 			
@@ -354,9 +214,9 @@ namespace MonoDevelop.Commands
 		}
 	}
 	
-	public class PrintPreview : AbstractMenuCommand
+	public class PrintPreviewHandler : CommandHandler
 	{
-		public override void Run()
+		protected override void Run()
 		{
 		/*	try {
 				IWorkbenchWindow window = WorkbenchSingleton.Workbench.ActiveWorkbenchWindow;
@@ -382,9 +242,9 @@ namespace MonoDevelop.Commands
 		}
 	}
 	
-	public class ClearRecentFiles : AbstractMenuCommand
+	public class ClearRecentFilesHandler : CommandHandler
 	{
-		public override void Run()
+		protected override void Run()
 		{			
 			try {
 				if (Runtime.FileService.RecentOpen.RecentFile != null && Runtime.FileService.RecentOpen.RecentFile.Length > 0 && Runtime.MessageService.AskQuestion(GettextCatalog.GetString ("Are you sure you want to clear recent files list?"), GettextCatalog.GetString ("Clear recent files")))
@@ -393,11 +253,17 @@ namespace MonoDevelop.Commands
 				}
 			} catch {}
 		}
+	
+		protected override void Update (CommandInfo info)
+		{
+			RecentOpen recentOpen = Runtime.FileService.RecentOpen;
+			info.Enabled = (recentOpen.RecentFile != null && recentOpen.RecentFile.Length > 0);
+		}
 	}
 	
-	public class ClearRecentProjects : AbstractMenuCommand
+	public class ClearRecentProjectsHandler : CommandHandler
 	{
-		public override void Run()
+		protected override void Run()
 		{			
 			try {
 				if (Runtime.FileService.RecentOpen.RecentProject != null && Runtime.FileService.RecentOpen.RecentProject.Length > 0 && Runtime.MessageService.AskQuestion(GettextCatalog.GetString ("Are you sure you want to clear recent projects list?"), GettextCatalog.GetString ("Clear recent projects")))
@@ -405,6 +271,65 @@ namespace MonoDevelop.Commands
 					Runtime.FileService.RecentOpen.ClearRecentProjects();
 				}
 			} catch {}
+		}
+	
+		protected override void Update (CommandInfo info)
+		{
+			RecentOpen recentOpen = Runtime.FileService.RecentOpen;
+			info.Enabled = (recentOpen.RecentProject != null && recentOpen.RecentProject.Length > 0);
+		}
+	}
+
+	public class RecentFileListHandler : CommandHandler
+	{
+		protected override void Update (CommandArrayInfo info)
+		{
+			RecentOpen recentOpen = Runtime.FileService.RecentOpen;
+			if (recentOpen.RecentFile != null && recentOpen.RecentFile.Length > 0) {
+				for (int i = 0; i < recentOpen.RecentFile.Length; ++i) {
+					string accelaratorKeyPrefix = i < 10 ? "_" + ((i + 1) % 10).ToString() + " " : "";
+					RecentItem ri = recentOpen.RecentFile[i];
+					string label = ((ri.Private == null || ri.Private.Length < 1) ? Path.GetFileName (ri.ToString ()) : ri.Private);
+					CommandInfo cmd = new CommandInfo (accelaratorKeyPrefix + label.Replace ("_", "__"));
+					info.Add (cmd, ri);
+				}
+			}
+		}
+		
+		protected override void Run (object dataItem)
+		{
+			Runtime.FileService.OpenFile (dataItem.ToString());
+		}
+	}
+
+	public class RecentProjectListHandler : CommandHandler
+	{
+		protected override void Update (CommandArrayInfo info)
+		{
+			RecentOpen recentOpen = Runtime.FileService.RecentOpen;
+			if (recentOpen.RecentProject != null && recentOpen.RecentProject.Length > 0) {
+				for (int i = 0; i < recentOpen.RecentProject.Length; ++i) {
+					string accelaratorKeyPrefix = i < 10 ? "_" + ((i + 1) % 10).ToString() + " " : "";
+					RecentItem ri = recentOpen.RecentProject[i];
+					string label = ((ri.Private == null || ri.Private.Length < 1) ? Path.GetFileNameWithoutExtension (ri.ToString ()) : ri.Private);
+					CommandInfo cmd = new CommandInfo (accelaratorKeyPrefix + label.Replace ("_", "__"));
+					cmd.Description = String.Format (GettextCatalog.GetString ("load solution {0}"), ri.ToString ());
+					info.Add (cmd, ri);
+				}
+			}
+		}
+		
+		protected override void Run (object dataItem)
+		{
+			//FIXME:THIS IS BROKEN!!
+			
+			string filename = dataItem.ToString();
+			
+			try {
+				Runtime.ProjectService.OpenCombine(filename);
+			} catch (Exception ex) {
+				CombineLoadError.HandleError(ex, filename);
+			}
 		}
 	}
 }

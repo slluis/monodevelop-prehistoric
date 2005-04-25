@@ -20,18 +20,29 @@ using MonoDevelop.Gui.Dialogs;
 
 namespace MonoDevelop.Commands
 {
-	public class ShowHelp : AbstractMenuCommand
+	public enum HelpCommands
 	{
-		public override void Run()
+		TipOfTheDay,
+		About
+	}
+	
+	public class TipOfTheDayHandler: CommandHandler
+	{
+		protected override void Run ()
 		{
-/*			string fileName = Runtime.FileUtilityService.SharpDevelopRootPath + 
-			              Path.DirectorySeparatorChar + "doc" +
-			              Path.DirectorySeparatorChar + "help" +
-			              Path.DirectorySeparatorChar + "sharpdevelop.chm";
-			//if (fileUtilityService.TestFileExists(fileName)) {
-			//	Help.ShowHelp((Gtk.Window)WorkbenchSingleton.Workbench, fileName);
-			//}
-*/
+			TipOfTheDayWindow totdw = new TipOfTheDayWindow ();
+			totdw.Show ();
+		}
+	}
+		
+	public class AboutHandler: CommandHandler
+	{
+		protected override void Run ()
+		{
+			using (CommonAboutDialog ad = new CommonAboutDialog ()) {
+				ad.Run ();
+				ad.Hide ();
+			}
 		}
 	}
 	
@@ -67,26 +78,6 @@ namespace MonoDevelop.Commands
 				Process.Start(file);
 			} catch (Exception) {
 				Runtime.MessageService.ShowError(String.Format (GettextCatalog.GetString ("Can not execute or view {0}\n Please check that the file exists and that you can open this file."), file));
-			}
-		}
-	}
-	
-	public class ViewTipOfTheDay : AbstractMenuCommand
-	{
-		public override void Run()
-		{
-			TipOfTheDayWindow totdw = new TipOfTheDayWindow ();
-			totdw.Show ();
-		}
-	}
-	
-	public class AboutSharpDevelop : AbstractMenuCommand
-	{
-		public override void Run()
-		{
-			using (CommonAboutDialog ad = new CommonAboutDialog ()) {
-				ad.Run ();
-				ad.Hide ();
 			}
 		}
 	}

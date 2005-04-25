@@ -90,7 +90,16 @@ namespace MonoDevelop.Core.AddIns.Codons
 		
 		protected override IPadContent CreatePad ()
 		{
-			SolutionPad pad = new SolutionPad (label, icon, builders, options);
+			TreeViewPad pad;
+			if (Class != null) {
+				object ob = AddIn.CreateObject (Class);
+				if (!(ob is TreeViewPad))
+					throw new InvalidOperationException ("'" + Class + "' is not a subclass of TreeViewPad.");
+				pad = (TreeViewPad) ob;
+			} else
+				pad = new SolutionPad ();
+
+			pad.Initialize (label, icon, builders, options);
 			pad.DefaultPlacement = placement;
 			pad.Id = ID;
 			return pad;

@@ -32,6 +32,8 @@ using System.Collections;
 
 using MonoDevelop.Internal.Project;
 using MonoDevelop.Services;
+using MonoDevelop.Commands;
+using MonoDevelop.Gui.Widgets;
 
 namespace MonoDevelop.Gui.Pads.ProjectPad
 {
@@ -45,6 +47,10 @@ namespace MonoDevelop.Gui.Pads.ProjectPad
 		{
 			// Don't localize this string.
 			return "Resources";
+		}
+		
+		public override Type CommandHandlerType {
+			get { return typeof(ResourceFolderNodeCommandHandler); }
 		}
 		
 		public override string ContextMenuAddinPath {
@@ -81,6 +87,56 @@ namespace MonoDevelop.Gui.Pads.ProjectPad
 			foreach (ProjectFile file in project.ProjectFiles)
 				if (file.BuildAction == BuildAction.EmbedAsResource)
 					builder.AddChild (file);
+		}
+	}
+	
+	public class ResourceFolderNodeCommandHandler: NodeCommandHandler
+	{
+		[CommandHandler (ProjectCommands.AddResource)]
+		public void AddResourceToProject ()
+		{
+			Project project = CurrentNode.GetParentDataItem (typeof(Project), true) as Project;
+			if (project == null) return;
+			
+			string [] files;
+			do {
+				files = AskFiles (project);
+				if (files == null) return;
+			}
+			while (!CheckFiles (files));
+			
+			CurrentNode.Expanded = true;
+		
+			foreach (string fileName in files)
+				project.AddFile (fileName, BuildAction.EmbedAsResource);
+			Runtime.ProjectService.SaveCombine ();
+		}
+		
+		string[] AskFiles (Project project)
+		{
+			using (FileSelector fs = new FileSelector (GettextCatalog.GetString ("File to Open"))) {
+				fs.SelectMultiple = true;
+				fs.SetFilename (project.BaseDirectory);
+				int response = fs.Run ();
+				string [] files = fs.Filenames;
+				fs.Hide ();
+
+				if (response != (int)Gtk.ResponseType.Ok)
+					return null;
+				else
+					return files;
+			}
+		}
+		
+		bool CheckFiles (string[] files)
+		{
+			foreach (string file in files) {
+				if (!System.IO.File.Exists (file)) {
+					Runtime.MessageService.ShowError (String.Format (GettextCatalog.GetString ("Resource file '{0}' does not exist"), file));
+					return false;
+				}
+			}
+			return true;
 		}
 	}
 }

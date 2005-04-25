@@ -205,20 +205,6 @@ namespace MonoDevelop.Gui.Pads.ProjectPad
 			}
 		}
 		
-		bool RemoveFile (string file, Project project)
-		{
-			ITreeBuilder tb = Context.GetTreeBuilder (new SystemFile (file, project));
-			if (tb != null) {
-				tb.Remove (true);
-				while (tb.DataItem is ProjectFolder) {
-					tb.Update ();
-					tb.MoveToParent ();
-				}
-				return true;
-			}
-			return false;
-		}
-		
 		ITreeBuilder FindParentFolderNode (string path, Project project, out string lastChildPath)
 		{
 			lastChildPath = path;

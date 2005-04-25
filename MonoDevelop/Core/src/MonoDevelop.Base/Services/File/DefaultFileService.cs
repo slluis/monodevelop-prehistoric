@@ -15,6 +15,7 @@ using MonoDevelop.Core.AddIns;
 using MonoDevelop.Core.Services;
 using MonoDevelop.Internal.Project;
 using MonoDevelop.Gui;
+using MonoDevelop.Gui.Widgets;
 using MonoDevelop.Core.AddIns.Codons;
 using MonoDevelop.Gui.Utils;
 
@@ -297,7 +298,70 @@ namespace MonoDevelop.Services
 			Directory.CreateDirectory (path);
 			OnFileCreated (new FileEventArgs (path, true));
 		}
-
+		
+		public void SaveFile (IWorkbenchWindow window)
+		{
+			if (window.ViewContent.ContentName == null) {
+				SaveFileAs (window);
+			} else {
+				FileAttributes attr = FileAttributes.ReadOnly | FileAttributes.Directory | FileAttributes.Offline | FileAttributes.System;
+				// FIXME
+				// bug #59731 is if the file is moved out from under us, we were crashing
+				// I changed it to make it ask for a new
+				// filename instead, but maybe we should
+				// detect the move and update the reference
+				// to the name instead
+				if (!File.Exists (window.ViewContent.ContentName) || (File.GetAttributes(window.ViewContent.ContentName) & attr) != 0) {
+					SaveFileAs (window);
+				} else {						
+					Runtime.ProjectService.MarkFileDirty (window.ViewContent.ContentName);
+					string fileName = window.ViewContent.ContentName;
+					// save backup first						
+					if((bool) Runtime.Properties.GetProperty ("SharpDevelop.CreateBackupCopy", false)) {
+						Runtime.FileUtilityService.ObservedSave (new NamedFileOperationDelegate(window.ViewContent.Save), fileName + "~");
+					}
+					Runtime.FileUtilityService.ObservedSave (new NamedFileOperationDelegate(window.ViewContent.Save), fileName);
+				}
+			}
+		}
+		
+		public void SaveFileAs (IWorkbenchWindow window)
+		{
+			if (window.ViewContent is ICustomizedCommands) {
+				if (((ICustomizedCommands)window.ViewContent).SaveAsCommand()) {
+					return;
+				}
+			}
+			
+			FileSelector fdiag = new FileSelector (GettextCatalog.GetString ("Save as..."), Gtk.FileChooserAction.Save);
+			fdiag.SetFilename (window.ViewContent.ContentName);
+			int response = fdiag.Run ();
+			string filename = fdiag.Filename;
+			fdiag.Hide ();
+		
+			if (response == (int)Gtk.ResponseType.Ok) {
+				if (!Runtime.FileUtilityService.IsValidFileName (filename)) {
+					Runtime.MessageService.ShowMessage(String.Format (GettextCatalog.GetString ("File name {0} is invalid"), filename));
+					return;
+				}
+				// detect preexisting file
+				if(File.Exists(filename)){
+					if(!Runtime.MessageService.AskQuestion(String.Format (GettextCatalog.GetString ("File {0} already exists.  Overwrite?"), filename))){
+						return;
+					}
+				}
+				// save backup first
+				if((bool) Runtime.Properties.GetProperty ("SharpDevelop.CreateBackupCopy", false)) {
+					Runtime.FileUtilityService.ObservedSave (new NamedFileOperationDelegate(window.ViewContent.Save), filename + "~");
+				}
+				
+				// do actual save
+				if (Runtime.FileUtilityService.ObservedSave (new NamedFileOperationDelegate(window.ViewContent.Save), filename) == FileOperationResult.OK) {
+					Runtime.FileService.RecentOpen.AddLastFile (filename, null);
+				}
+			}
+		}
+		
 		protected virtual void OnFileCreated (FileEventArgs e)
 		{
 			if (FileCreated != null) {

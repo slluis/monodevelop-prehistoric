@@ -32,6 +32,7 @@ using System.Collections;
 
 using MonoDevelop.Internal.Project;
 using MonoDevelop.Services;
+using MonoDevelop.Commands;
 
 namespace MonoDevelop.Gui.Pads.ProjectPad
 {
@@ -108,7 +109,8 @@ namespace MonoDevelop.Gui.Pads.ProjectPad
 			Runtime.FileService.OpenFile (file.Path);
 		}
 		
-		public override void RemoveItem ()
+		[CommandHandler (EditCommands.Delete)]
+		public void RemoveItem ()
 		{
 			SystemFile file = CurrentNode.DataItem as SystemFile;
 			
@@ -125,6 +127,18 @@ namespace MonoDevelop.Gui.Pads.ProjectPad
 		public override DragOperation CanDragNode ()
 		{
 			return DragOperation.Copy | DragOperation.Move;
+		}
+		
+		[CommandHandler (ProjectCommands.IncludeToProject)]
+		public void IncludeFileToProject ()
+		{
+			Project project = CurrentNode.GetParentDataItem (typeof(Project), true) as Project;
+			SystemFile file = (SystemFile) CurrentNode.DataItem;
+			
+			if (project.IsCompileable (file.Path))
+				project.AddFile (file.Path, BuildAction.Compile);
+			else
+				project.AddFile (file.Path, BuildAction.Nothing);
 		}
 	}
 }

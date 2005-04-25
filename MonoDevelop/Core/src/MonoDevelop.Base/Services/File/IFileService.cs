@@ -47,6 +47,9 @@ namespace MonoDevelop.Services
 		/// </remarks>
 		IWorkbenchWindow GetOpenFile(string fileName);
 		
+		void SaveFile (IWorkbenchWindow window);
+		void SaveFileAs (IWorkbenchWindow window);
+	
 		/// <remarks>
 		/// Removes a file physically
 		/// CAUTION : Use only this file for a remove operation, because it is important

@@ -1,8 +1,10 @@
 //
-// NodeCommandHandler.cs
+// LinkItemCodon.cs
 //
 // Author:
 //   Lluis Sanchez Gual
+//
+
 //
 // Copyright (C) 2005 Novell, Inc (http://www.novell.com)
 //
@@ -26,65 +28,31 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-using System;
-using MonoDevelop.Commands;
 
-namespace MonoDevelop.Gui.Pads
+using System;
+using System.Collections;
+using MonoDevelop.Core.AddIns.Conditions;
+using MonoDevelop.Commands;
+using MonoDevelop.Services;
+using MonoDevelop.Core.Services;
+
+namespace MonoDevelop.Core.AddIns.Codons
 {
-	public class NodeCommandHandler: ICommandRouter
+	[CodonNameAttribute ("LinkItem")]
+	public class LinkItemCodon : AbstractCodon
 	{
-		ITreeNavigator currentNode;
-		TreeViewPad tree;
-		object nextTarget;
+		[XmlMemberAttribute ("_label")]
+		string label;
 		
-		internal void Initialize (TreeViewPad tree)
+		[XmlMemberAttribute("link")]
+		string link;
+		
+		[XmlMemberAttribute("description")]
+		string description;
+		
+		public override object BuildItem (object owner, ArrayList subItems, ConditionCollection conditions)
 		{
-			this.tree = tree;
-		}
-		
-		internal void SetCurrentNode (ITreeNavigator currentNode)
-		{
-			this.currentNode = currentNode;
-		}
-		
-		internal void SetNextTarget (object nextTarget)
-		{
-			this.nextTarget = nextTarget;
-		}
-		
-		object ICommandRouter.GetNextCommandTarget ()
-		{
-			return nextTarget;
-		}
-		
-		protected ITreeNavigator CurrentNode {
-			get { return currentNode; }
-		}
-		
-		protected TreeViewPad Tree {
-			get { return tree; }
-		}
-		
-		public virtual void RenameItem (string newName)
-		{
-		}
-		
-		public virtual void ActivateItem ()
-		{
-		}
-		
-		public virtual DragOperation CanDragNode ()
-		{
-			return DragOperation.None;
-		}
-		
-		public virtual bool CanDropNode (object dataObject, DragOperation operation)
-		{
-			return false;
-		}
-		
-		public virtual void OnNodeDrop (object dataObject, DragOperation operation)
-		{
+			return new LinkCommandEntry (label, link, ResourceService.GetStockId ("Icons.16x16.WebSearchIcon"));
 		}
 	}
 }

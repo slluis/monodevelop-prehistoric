@@ -31,6 +31,7 @@ using System.Collections;
 
 using MonoDevelop.Internal.Project;
 using MonoDevelop.Services;
+using MonoDevelop.Commands;
 
 namespace MonoDevelop.Gui.Pads.ProjectPad
 {
@@ -160,19 +161,6 @@ namespace MonoDevelop.Gui.Pads.ProjectPad
 			Runtime.ProjectService.SaveCombine();
 		}
 		
-		public override void RemoveItem ()
-		{
-			Combine combine = CurrentNode.DataItem as Combine;
-			Combine parent = CurrentNode.GetParentDataItem (typeof(Combine), false) as Combine;
-			if (parent == null) return;
-			
-			bool yes = Runtime.MessageService.AskQuestion (String.Format (GettextCatalog.GetString ("Do you really want to remove solution {0} from solution {1}?"), combine.Name, parent.Name));
-			if (yes) {
-				parent.Entries.Remove (combine);
-				Runtime.ProjectService.SaveCombine();
-			}
-		}
-		
 		public override DragOperation CanDragNode ()
 		{
 			return DragOperation.Move;
@@ -185,6 +173,72 @@ namespace MonoDevelop.Gui.Pads.ProjectPad
 		
 		public override void OnNodeDrop (object dataObject, DragOperation operation)
 		{
+		}
+		
+		[CommandHandler (EditCommands.Delete)]
+		public void RemoveItem ()
+		{
+			Combine combine = CurrentNode.DataItem as Combine;
+			Combine parent = CurrentNode.GetParentDataItem (typeof(Combine), false) as Combine;
+			if (parent == null) return;
+			
+			bool yes = Runtime.MessageService.AskQuestion (String.Format (GettextCatalog.GetString ("Do you really want to remove solution {0} from solution {1}?"), combine.Name, parent.Name));
+			if (yes) {
+				parent.Entries.Remove (combine);
+				Runtime.ProjectService.SaveCombine();
+			}
+		}
+		
+		[CommandHandler (ProjectCommands.AddNewProject)]
+		public void AddNewProjectToCombine()
+		{
+			Combine combine = (Combine) CurrentNode.DataItem;
+			CombineEntry ce = Runtime.ProjectService.CreateProject (combine);
+			if (ce == null) return;
+			Tree.AddNodeInsertCallback (ce, new TreeNodeCallback (OnEntryInserted));
+			CurrentNode.Expanded = true;
+		}
+		
+		[CommandHandler (ProjectCommands.AddProject)]
+		public void AddProjectToCombine()
+		{
+			Combine combine = (Combine) CurrentNode.DataItem;
+			CombineEntry ce = Runtime.ProjectService.AddCombineEntry (combine);
+			if (ce == null) return;
+			Tree.AddNodeInsertCallback (ce, new TreeNodeCallback (OnEntryInserted));
+			CurrentNode.Expanded = true;
+		}
+		
+		[CommandHandler (ProjectCommands.AddNewCombine)]
+		public void AddNewCombineToCombine()
+		{
+			Combine combine = (Combine) CurrentNode.DataItem;
+			CombineEntry ce = Runtime.ProjectService.CreateCombine (combine);
+			if (ce == null) return;
+			Tree.AddNodeInsertCallback (ce, new TreeNodeCallback (OnEntryInserted));
+			CurrentNode.Expanded = true;
+		}
+		
+		[CommandHandler (ProjectCommands.AddCombine)]
+		public void AddCombineToCombine()
+		{
+			Combine combine = (Combine) CurrentNode.DataItem;
+			CombineEntry ce = Runtime.ProjectService.AddCombineEntry (combine);
+			if (ce == null) return;
+			Tree.AddNodeInsertCallback (ce, new TreeNodeCallback (OnEntryInserted));
+			CurrentNode.Expanded = true;
+		}
+		
+		void OnEntryInserted (ITreeNavigator nav)
+		{
+			nav.Selected = true;
+			nav.Expanded = true;
+		}
+		
+		[CommandHandler (ProjectCommands.Options)]
+		public void OnCombineOptions ()
+		{
+			Runtime.ProjectService.ShowOptions ((Combine) CurrentNode.DataItem);
 		}
 	}
 }

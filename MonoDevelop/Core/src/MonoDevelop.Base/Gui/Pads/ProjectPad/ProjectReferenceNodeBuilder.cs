@@ -32,6 +32,7 @@ using System.Collections;
 
 using MonoDevelop.Internal.Project;
 using MonoDevelop.Services;
+using MonoDevelop.Commands;
 
 namespace MonoDevelop.Gui.Pads.ProjectPad
 {
@@ -86,7 +87,8 @@ namespace MonoDevelop.Gui.Pads.ProjectPad
 	
 	public class ProjectReferenceNodeCommandHandler: NodeCommandHandler
 	{
-		public override void RemoveItem ()
+		[CommandHandler (EditCommands.Delete)]
+		public void RemoveItem ()
 		{
 			ProjectReference pref = (ProjectReference) CurrentNode.DataItem;
 			Project project = CurrentNode.GetParentDataItem (typeof(Project), false) as Project;

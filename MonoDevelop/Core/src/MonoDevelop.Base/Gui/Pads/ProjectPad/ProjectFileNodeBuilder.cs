@@ -32,6 +32,7 @@ using System.Collections;
 
 using MonoDevelop.Internal.Project;
 using MonoDevelop.Services;
+using MonoDevelop.Commands;
 
 namespace MonoDevelop.Gui.Pads.ProjectPad
 {
@@ -103,7 +104,22 @@ namespace MonoDevelop.Gui.Pads.ProjectPad
 			Runtime.FileService.OpenFile (file.FilePath);
 		}
 		
-		public override void RemoveItem ()
+		public override DragOperation CanDragNode ()
+		{
+			return DragOperation.Copy | DragOperation.Move;
+		}
+		
+		public override bool CanDropNode (object dataObject, DragOperation operation)
+		{
+			return dataObject is CombineEntry;
+		}
+		
+		public override void OnNodeDrop (object dataObject, DragOperation operation)
+		{
+		}
+		
+		[CommandHandler (EditCommands.Delete)]
+		public void RemoveItem ()
 		{
 			ProjectFile file = CurrentNode.DataItem as ProjectFile;
 			Project project = CurrentNode.GetParentDataItem (typeof(Project), false) as Project;
@@ -123,18 +139,45 @@ namespace MonoDevelop.Gui.Pads.ProjectPad
 			Runtime.ProjectService.SaveCombine();
 		}
 		
-		public override DragOperation CanDragNode ()
+		[CommandUpdateHandler (ProjectCommands.IncludeInBuild)]
+		public void OnUpdateIncludeInBuild (CommandInfo info)
 		{
-			return DragOperation.Copy | DragOperation.Move;
+			ProjectFile file = CurrentNode.DataItem as ProjectFile;
+			info.Checked = (file.BuildAction == BuildAction.Compile);
 		}
 		
-		public override bool CanDropNode (object dataObject, DragOperation operation)
+		[CommandHandler (ProjectCommands.IncludeInBuild)]
+		public void OnIncludeInBuild ()
 		{
-			return dataObject is CombineEntry;
+			ProjectFile finfo = CurrentNode.DataItem as ProjectFile;
+			if (finfo.BuildAction == BuildAction.Compile) {
+				finfo.BuildAction = BuildAction.Nothing;
+			} else {
+				finfo.BuildAction = BuildAction.Compile;
+			}
+			Runtime.ProjectService.SaveCombine();
 		}
 		
-		public override void OnNodeDrop (object dataObject, DragOperation operation)
+		[CommandUpdateHandler (ProjectCommands.IncludeInDeploy)]
+		public void OnUpdateIncludeInDeploy (CommandInfo info)
 		{
+			Project project = (Project) CurrentNode.GetParentDataItem (typeof(Project), false);
+			ProjectFile finfo = CurrentNode.DataItem as ProjectFile;
+			info.Checked = !project.DeployInformation.IsFileExcluded (finfo.Name);
+		}
+		
+		[CommandHandler (ProjectCommands.IncludeInDeploy)]
+		public void OnIncludeInDeploy ()
+		{
+			ProjectFile finfo = CurrentNode.DataItem as ProjectFile;
+			Project project = (Project) CurrentNode.GetParentDataItem (typeof(Project), false);
+
+			if (project.DeployInformation.IsFileExcluded (finfo.Name)) {
+				project.DeployInformation.RemoveExcludedFile (finfo.Name);
+			} else {
+				project.DeployInformation.AddExcludedFile (finfo.Name);
+			}
+			Runtime.ProjectService.SaveCombine();
 		}
 	}
 }

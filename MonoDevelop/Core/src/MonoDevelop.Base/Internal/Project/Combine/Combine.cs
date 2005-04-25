@@ -328,6 +328,40 @@ namespace MonoDevelop.Internal.Project
 			public CombineEntry Entry;
 		}
 		
+		public string[] GetAllConfigurations ()
+		{
+			ArrayList names = new ArrayList ();
+			GetAllConfigurations (this, names);
+			return (string[]) names.ToArray (typeof(string));
+		}
+		
+		void GetAllConfigurations (CombineEntry entry, ArrayList names)
+		{
+			foreach (IConfiguration conf in Configurations)
+				if (!names.Contains (conf.Name))
+					names.Add (conf.Name);
+
+			if (entry is Combine) {
+				foreach (CombineEntry ce in ((Combine)entry).Entries)
+					GetAllConfigurations (ce, names);
+			}
+		}
+			
+		public void SetAllConfigurations (string configName)
+		{
+			IConfiguration conf = GetConfiguration (configName);
+			if (conf != null) ActiveConfiguration = conf;
+				
+			foreach (CombineEntry ce in Entries) {
+				if (ce is Combine)
+					((Combine)ce).SetAllConfigurations (configName);
+				else {
+					conf = ce.GetConfiguration (configName);
+					if (conf != null) ce.ActiveConfiguration = conf;
+				}
+			}
+		}
+		
 		/// <remarks>
 		/// Returns an ArrayList containing all ProjectEntries in this combine and 
 		/// undercombines
@@ -424,6 +458,9 @@ namespace MonoDevelop.Internal.Project
 				int failedBuilds = 0;
 				
 				foreach (Project entry in allProjects) {
+					if (monitor.IsCancelRequested)
+						break;
+
 					ICompilerResult res = entry.Build (monitor);
 					builds++;
 					cres.Errors.AddRange (res.CompilerResults.Errors);

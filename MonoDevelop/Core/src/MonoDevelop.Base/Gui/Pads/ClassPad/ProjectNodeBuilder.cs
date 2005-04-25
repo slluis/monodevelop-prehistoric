@@ -118,12 +118,6 @@ namespace MonoDevelop.Gui.Pads.ClassPad
 			return true;
 		}
 		
-		void OnRenameFile (object sender, ProjectFileRenamedEventArgs e)
-		{
-			ITreeBuilder tb = Context.GetTreeBuilder (e.ProjectFile);
-			if (tb != null) tb.Update ();
-		}
-		
 		void OnProjectRenamed (object sender, CombineEntryRenamedEventArgs e)
 		{
 			ITreeBuilder tb = Context.GetTreeBuilder (e.CombineEntry);

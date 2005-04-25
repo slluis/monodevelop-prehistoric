@@ -144,7 +144,6 @@ namespace MonoDevelop.Gui
 		void OnContextChanged (object o, EventArgs e)
 		{
 			SwitchContext (workbench.Context);
-			workbench.UpdateMenu (null, null);
 		}
 
 		void SwitchContext (WorkbenchContext ctxt)

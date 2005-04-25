@@ -37,10 +37,10 @@ namespace MonoDevelop.Gui.Pads
 {
 	public class SolutionPad : TreeViewPad
 	{
-		public SolutionPad (string label, string icon, NodeBuilder[] builders, TreePadOption[] options): base (label, icon, builders, options)
+		public SolutionPad ()
 		{
-			Runtime.ProjectService.CombineOpened += (CombineEventHandler) Runtime.DispatchService.GuiDispatch (new CombineEventHandler (OpenCombine));
-			Runtime.ProjectService.CombineClosed += (CombineEventHandler) Runtime.DispatchService.GuiDispatch (new CombineEventHandler (CloseCombine));
+			Runtime.ProjectService.CombineOpened += (CombineEventHandler) Runtime.DispatchService.GuiDispatch (new CombineEventHandler (OnOpenCombine));
+			Runtime.ProjectService.CombineClosed += (CombineEventHandler) Runtime.DispatchService.GuiDispatch (new CombineEventHandler (OnCloseCombine));
 			WorkbenchSingleton.Workbench.ActiveWorkbenchWindowChanged += new EventHandler(ActiveWindowChanged);
 			Runtime.Properties.PropertyChanged += (PropertyEventHandler) Runtime.DispatchService.GuiDispatch (new PropertyEventHandler (TrackPropertyChange));
 		}
@@ -60,12 +60,12 @@ namespace MonoDevelop.Gui.Pads
 			}
 		}
 
-		void OpenCombine(object sender, CombineEventArgs e)
+		protected virtual void OnOpenCombine (object sender, CombineEventArgs e)
 		{
 			LoadTree (e.Combine);
 		}
 
-		void CloseCombine(object sender, CombineEventArgs e)
+		protected virtual void OnCloseCombine (object sender, CombineEventArgs e)
 		{
 			Clear ();
 		}

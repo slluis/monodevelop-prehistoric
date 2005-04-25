@@ -13,6 +13,7 @@ namespace MonoDevelop.Gui
 		IconService icons;
 		ResourceService resourceService;
 		IStatusBarService statusBarService;
+		CommandService commandService;
 		
 		public IWorkbench Workbench {
 			get { return MonoDevelop.Gui.WorkbenchSingleton.Workbench; }
@@ -63,6 +64,14 @@ namespace MonoDevelop.Gui
 				if (icons == null)
 					icons = (IconService) ServiceManager.GetService (typeof(IconService));
 				return icons;
+			}
+		}
+	
+		public CommandService CommandService {
+			get {
+				if (commandService == null)
+					commandService = (CommandService) ServiceManager.GetService (typeof(CommandService));
+				return commandService;
 			}
 		}
 	}

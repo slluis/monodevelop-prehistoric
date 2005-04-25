@@ -6,81 +6,209 @@
 // </file>
 
 using System;
-using System.Diagnostics;
 using System.IO;
-using System.Collections;
-
-using MonoDevelop.Core.AddIns;
-using MonoDevelop.Core.Properties;
-using MonoDevelop.Core.AddIns.Codons;
-using MonoDevelop.Core.Services;
+using System.Diagnostics;
 using MonoDevelop.Services;
 using MonoDevelop.Gui;
-using MonoDevelop.Gui.Dialogs;
 using MonoDevelop.Internal.Project;
 
 namespace MonoDevelop.Commands
 {
-	public class RunTestsInProject : AbstractMenuCommand
+	public enum ProjectCommands
 	{
-		public override void Run()
+		Compile,
+		AddNewProject,
+		AddNewCombine,
+		AddProject,
+		AddCombine,
+		RemoveFromProject,
+		Options,
+		AddResource,
+		AddReference,
+		AddNewFiles,
+		AddFiles,
+		NewFolder,
+		IncludeToProject,
+		Build,
+		Rebuild,
+		SetAsStartupProject,
+		GenerateMakefiles,
+		Run,
+		IncludeInBuild,
+		IncludeInDeploy,
+		Deploy,
+		ConfigurationSelector,
+		Debug,
+		Stop
+	}
+	
+	public class CompileHandler: CommandHandler
+	{
+		protected override void Run ()
 		{
-			if (Runtime.ProjectService.CurrentSelectedProject != null) {
-				string assembly = Runtime.ProjectService.CurrentSelectedProject.GetOutputFileName ();
-				
-				if (!File.Exists(assembly)) {
-					Runtime.MessageService.ShowError (GettextCatalog.GetString ("Assembly not Found (Compile the project first)"));
-				} else {
-					string command = Runtime.FileUtilityService.SharpDevelopRootPath + 
-					                 Path.DirectorySeparatorChar + "bin" + 
-					                 Path.DirectorySeparatorChar + "nunit" + 
-					                 Path.DirectorySeparatorChar + "nunit-gui.exe";
-					string args = '"'  + assembly + '"';
-					Process.Start(command, args);
+			IProjectService projectService = Runtime.ProjectService;
+			if (WorkbenchSingleton.Workbench.ActiveWorkbenchWindow != null) {
+				Runtime.FileService.SaveFile (WorkbenchSingleton.Workbench.ActiveWorkbenchWindow);
+				projectService.BuildFile (WorkbenchSingleton.Workbench.ActiveWorkbenchWindow.ViewContent.ContentName);
+			}
+		}
+		
+		protected override void Update (CommandInfo info)
+		{
+			info.Enabled = WorkbenchSingleton.Workbench.ActiveWorkbenchWindow != null;
+		}
+	}
+	
+	public class RunHandler: CommandHandler
+	{
+		CombineEntry entry;
+		string file;
+		
+		protected override void Run ()
+		{
+			if (Runtime.ProjectService.CurrentOpenCombine != null) {
+				entry = Runtime.ProjectService.CurrentSelectedCombineEntry;
+				if (entry != null) {
+					IAsyncOperation op = Runtime.ProjectService.Build (entry);
+					op.Completed += new OperationHandler (ExecuteCombine);
+				}
+			} else {
+				if (WorkbenchSingleton.Workbench.ActiveWorkbenchWindow != null) {
+					file = WorkbenchSingleton.Workbench.ActiveWorkbenchWindow.ViewContent.ContentName;
+					IAsyncOperation op = Runtime.ProjectService.ExecuteFile (file);
+					op.Completed += new OperationHandler (ExecuteFile);
 				}
 			}
 		}
-	}
-	
-	public class ViewProjectOptions : AbstractMenuCommand
-	{
-		public override void Run()
+		
+		protected override void Update (CommandInfo info)
 		{
-			Project selectedProject = Runtime.ProjectService.CurrentSelectedProject;
-			if (selectedProject == null) {
-				return;
+			if (Runtime.ProjectService.CurrentOpenCombine != null) {
+				info.Enabled = Runtime.ProjectService.CurrentSelectedCombineEntry != null && 
+								Runtime.ProjectService.CurrentRunOperation.IsCompleted;
+			} else {
+				info.Enabled = (WorkbenchSingleton.Workbench.ActiveWorkbenchWindow != null);
 			}
-			
-			IAddInTreeNode generalOptionsNode          = AddInTreeSingleton.AddInTree.GetTreeNode("/SharpDevelop/Workbench/ProjectOptions/GeneralOptions");
-			IAddInTreeNode configurationPropertiesNode = AddInTreeSingleton.AddInTree.GetTreeNode("/SharpDevelop/Workbench/ProjectOptions/ConfigurationProperties");
-			
-			ProjectOptionsDialog optionsDialog = new ProjectOptionsDialog(selectedProject, generalOptionsNode, configurationPropertiesNode);
-			if (optionsDialog.Run() == (int)Gtk.ResponseType.Ok) {
-					Runtime.ProjectService.CurrentSelectedProject.NeedsBuilding = true;
-			}
-			
-			Runtime.ProjectService.SaveCombine();
+		}
+		
+		void ExecuteCombine (IAsyncOperation op)
+		{
+			if (op.Success)
+				Runtime.ProjectService.Execute (entry);
+		}
+		
+		void ExecuteFile (IAsyncOperation op)
+		{
+			if (op.Success)
+				Runtime.ProjectService.ExecuteFile (file);
 		}
 	}
 	
-	public class DeployProject : AbstractMenuCommand
+	public class DebugHandler: CommandHandler
 	{
-		public override void Run()
+		CombineEntry entry;
+		string file;
+		
+		protected override void Run ()
 		{
-			foreach (IViewContent viewContent in WorkbenchSingleton.Workbench.ViewContentCollection) {
-				if (viewContent.IsDirty) {
-					viewContent.Save();
+			if (Runtime.ProjectService.CurrentOpenCombine != null) {
+				entry = Runtime.ProjectService.CurrentSelectedCombineEntry;
+				if (entry != null) {
+					IAsyncOperation op = Runtime.ProjectService.Build (entry);
+					op.Completed += new OperationHandler (ExecuteCombine);
+				}
+			} else {
+				if (WorkbenchSingleton.Workbench.ActiveWorkbenchWindow != null) {
+					file = WorkbenchSingleton.Workbench.ActiveWorkbenchWindow.ViewContent.ContentName;
+					IAsyncOperation op = Runtime.ProjectService.ExecuteFile (file);
+					op.Completed += new OperationHandler (ExecuteFile);
 				}
 			}
-			if (Runtime.ProjectService.CurrentSelectedProject != null) {
-				DeployInformation.Deploy (Runtime.ProjectService.CurrentSelectedProject);
+		}
+		
+		protected override void Update (CommandInfo info)
+		{
+			if (Runtime.ProjectService.CurrentOpenCombine != null) {
+				info.Enabled = Runtime.ProjectService.CurrentSelectedCombineEntry != null && 
+								Runtime.ProjectService.CurrentRunOperation.IsCompleted;
+			} else {
+				info.Enabled = (WorkbenchSingleton.Workbench.ActiveWorkbenchWindow != null);
 			}
+		}
+		
+		void ExecuteCombine (IAsyncOperation op)
+		{
+			if (op.Success)
+				Runtime.ProjectService.Debug (entry);
+		}
+		
+		void ExecuteFile (IAsyncOperation op)
+		{
+			if (op.Success)
+				Runtime.ProjectService.DebugFile (file);
 		}
 	}
 	
-	public class GenerateProjectDocumentation : AbstractMenuCommand
+	public class BuildHandler: CommandHandler
 	{
-		public override void Run()
+		protected override void Run ()
+		{
+			if (Runtime.ProjectService.CurrentSelectedCombineEntry != null)
+				Runtime.ProjectService.Build (Runtime.ProjectService.CurrentSelectedCombineEntry);
+		}
+		
+		protected override void Update (CommandInfo info)
+		{
+			info.Enabled = Runtime.ProjectService.CurrentBuildOperation.IsCompleted &&
+							(Runtime.ProjectService.CurrentSelectedCombineEntry != null);
+		}
+	}
+	
+	public class RebuildHandler: CommandHandler
+	{
+		protected override void Run ()
+		{
+			if (Runtime.ProjectService.CurrentSelectedCombineEntry != null)
+				Runtime.ProjectService.Rebuild (Runtime.ProjectService.CurrentSelectedCombineEntry);
+		}
+		
+		protected override void Update (CommandInfo info)
+		{
+			info.Enabled = Runtime.ProjectService.CurrentBuildOperation.IsCompleted &&
+							(Runtime.ProjectService.CurrentSelectedCombineEntry != null);
+		}
+	}
+	
+	public class StopHandler: CommandHandler
+	{
+		protected override void Run ()
+		{
+			if (!Runtime.ProjectService.CurrentBuildOperation.IsCompleted)
+				Runtime.ProjectService.CurrentBuildOperation.Cancel ();
+			if (!Runtime.ProjectService.CurrentRunOperation.IsCompleted)
+				Runtime.ProjectService.CurrentRunOperation.Cancel ();
+		}
+		
+		protected override void Update (CommandInfo info)
+		{
+			info.Enabled = !Runtime.ProjectService.CurrentBuildOperation.IsCompleted ||
+							!Runtime.ProjectService.CurrentRunOperation.IsCompleted;
+		}
+	}
+	
+	public class GenerateMakefilesHandler: CommandHandler
+	{
+		protected override void Run ()
+		{
+			if (Runtime.ProjectService.CurrentOpenCombine != null) {
+				Runtime.ProjectService.CurrentOpenCombine.GenerateMakefiles ();
+			}
+		}
+	}
+
+	public class GenerateProjectDocumentation : CommandHandler
+	{
+		protected override void Run ()
 		{
 			try {
 				if (Runtime.ProjectService.CurrentSelectedProject != null) {

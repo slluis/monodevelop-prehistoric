@@ -1,5 +1,5 @@
 //
-// NodeCommandHandler.cs
+// ProjectSolutionPad.cs
 //
 // Author:
 //   Lluis Sanchez Gual
@@ -27,64 +27,34 @@
 //
 
 using System;
-using MonoDevelop.Commands;
+using System.Resources;
 
-namespace MonoDevelop.Gui.Pads
+using MonoDevelop.Internal.Project;
+using MonoDevelop.Services;
+using MonoDevelop.Core.Properties;
+
+namespace MonoDevelop.Gui.Pads.ProjectPad
 {
-	public class NodeCommandHandler: ICommandRouter
+	public class ProjectSolutionPad: SolutionPad
 	{
-		ITreeNavigator currentNode;
-		TreeViewPad tree;
-		object nextTarget;
-		
-		internal void Initialize (TreeViewPad tree)
+		protected override void OnSelectionChanged (object sender, EventArgs args)
 		{
-			this.tree = tree;
+			base.OnSelectionChanged (sender, args);
+			ITreeNavigator nav = GetSelectedNode ();
+			if (nav != null) {
+				Project p = (Project) nav.GetParentDataItem (typeof(Project), true);
+				Runtime.ProjectService.CurrentSelectedProject = p;
+				Combine c = (Combine) nav.GetParentDataItem (typeof(Combine), true);
+				Runtime.ProjectService.CurrentSelectedCombine = c;
+			}
 		}
 		
-		internal void SetCurrentNode (ITreeNavigator currentNode)
+		protected override void OnCloseCombine (object sender, CombineEventArgs e)
 		{
-			this.currentNode = currentNode;
-		}
-		
-		internal void SetNextTarget (object nextTarget)
-		{
-			this.nextTarget = nextTarget;
-		}
-		
-		object ICommandRouter.GetNextCommandTarget ()
-		{
-			return nextTarget;
-		}
-		
-		protected ITreeNavigator CurrentNode {
-			get { return currentNode; }
-		}
-		
-		protected TreeViewPad Tree {
-			get { return tree; }
-		}
-		
-		public virtual void RenameItem (string newName)
-		{
-		}
-		
-		public virtual void ActivateItem ()
-		{
-		}
-		
-		public virtual DragOperation CanDragNode ()
-		{
-			return DragOperation.None;
-		}
-		
-		public virtual bool CanDropNode (object dataObject, DragOperation operation)
-		{
-			return false;
-		}
-		
-		public virtual void OnNodeDrop (object dataObject, DragOperation operation)
-		{
+			base.OnCloseCombine (sender, e);
+			Runtime.ProjectService.CurrentSelectedProject = null;
+			Runtime.ProjectService.CurrentSelectedCombine = null;
 		}
 	}
 }
+

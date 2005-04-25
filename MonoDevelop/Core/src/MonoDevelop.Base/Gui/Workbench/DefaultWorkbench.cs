@@ -36,6 +36,7 @@ namespace MonoDevelop.Gui
 	{
 		readonly static string mainMenuPath    = "/SharpDevelop/Workbench/MainMenu";
 		readonly static string viewContentPath = "/SharpDevelop/Workbench/Pads";
+		readonly static string toolbarsPath = "/SharpDevelop/Workbench/ToolBar";
 		
 		PadContentCollection viewContentCollection       = new PadContentCollection();
 		ViewContentCollection workbenchContentCollection = new ViewContentCollection();
@@ -53,6 +54,7 @@ namespace MonoDevelop.Gui
 		static GType gtype;
 		
 		public Gtk.MenuBar TopMenu = null;
+		private Gtk.Toolbar[] toolbars = null;
 		
 		enum TargetList {
 			UriList = 100
@@ -147,7 +149,6 @@ namespace MonoDevelop.Gui
 
 			IDebuggingService dbgr = Runtime.DebuggingService;
 			if (dbgr != null) {
-				dbgr.StartedEvent += new EventHandler (onDebuggerStarted);
 				dbgr.PausedEvent += new EventHandler (onDebuggerPaused);
 				dbgr.ResumedEvent += new EventHandler (onDebuggerResumed);		
 				dbgr.StoppedEvent += new EventHandler (onDebuggerStopped);
@@ -155,12 +156,13 @@ namespace MonoDevelop.Gui
 
 			Gtk.Drag.DestSet (this, Gtk.DestDefaults.Motion | Gtk.DestDefaults.Highlight | Gtk.DestDefaults.Drop, targetEntryTypes, Gdk.DragAction.Copy);
 			DragDataReceived += new Gtk.DragDataReceivedHandler (onDragDataRec);
+			
+			Runtime.Gui.CommandService.SetRootWindow (this);
 		}
 
 		void onDebuggerStarted (object o, EventArgs e)
 		{
-			context = WorkbenchContext.Debug;
-			ContextChanged (this, new EventArgs());
+			Context = WorkbenchContext.Debug;
 		}
 
 		void onDragDataRec (object o, Gtk.DragDataReceivedArgs args)
@@ -218,17 +220,12 @@ namespace MonoDevelop.Gui
 					break;
 				}
 			}
-			context = WorkbenchContext.Edit;
-			ContextChanged (this, new EventArgs());
 		}
 		
 		public void InitializeWorkspace()
 		{
 			// FIXME: GTKize
-			ActiveWorkbenchWindowChanged += new EventHandler(UpdateMenu);
-			
 			Runtime.ProjectService.CurrentProjectChanged += (ProjectEventHandler) Runtime.DispatchService.GuiDispatch (new ProjectEventHandler(SetProjectTitle));
-			Runtime.ProjectService.CombineOpened         += (CombineEventHandler) Runtime.DispatchService.GuiDispatch (new CombineEventHandler(CombineOpened));
 
 			Runtime.FileService.FileRemoved += new FileEventHandler(CheckRemovedFile);
 			Runtime.FileService.FileRenamed += new FileEventHandler(CheckRenamedFile);
@@ -239,8 +236,8 @@ namespace MonoDevelop.Gui
 //			TopMenu.Selected   += new CommandHandler(OnTopMenuSelected);
 //			TopMenu.Deselected += new CommandHandler(OnTopMenuDeselected);
 
-			CreateToolBars();
-			CreateMainMenu();
+			TopMenu = Runtime.Gui.CommandService.CreateMenuBar (mainMenuPath);
+			toolbars = Runtime.Gui.CommandService.CreateToolbarSet (toolbarsPath);
 		}
 				
 		public void CloseContent(IViewContent content)
@@ -302,8 +299,6 @@ namespace MonoDevelop.Gui
 		
 		public void RedrawAllComponents()
 		{
-			UpdateMenu(null, null);
-			
 			foreach (IViewContent content in workbenchContentCollection) {
 				content.RedrawContent();
 			}
@@ -494,14 +489,8 @@ namespace MonoDevelop.Gui
 			return true;
 		}
 		
-		void CombineOpened(object sender, CombineEventArgs e)
-		{
-			UpdateMenu(null, null);			
-		}
-		
 		void SetProjectTitle(object sender, ProjectEventArgs e)
 		{
-			UpdateMenu(null, null);
 			if (e.Project != null) {
 				Title = String.Concat(e.Project.Name, " - ", "MonoDevelop");
 			} else {
@@ -521,14 +510,8 @@ namespace MonoDevelop.Gui
 			}
 		}
 
-		private Gtk.Toolbar[] toolbars = null;
 		public Gtk.Toolbar[] ToolBars {
-			get {
-				return toolbars;
-			}
-			set {
-				toolbars = value;
-			}
+			get { return toolbars; }
 		}
 		
 		public IPadContent GetPad(Type type)
@@ -539,46 +522,6 @@ namespace MonoDevelop.Gui
 				}
 			}
 			return null;
-		}
-		void CreateMainMenu()
-		{
-			TopMenu = new Gtk.MenuBar ();
-			object[] items = (object[])(AddInTreeSingleton.AddInTree.GetTreeNode(mainMenuPath).BuildChildItems(this)).ToArray(typeof(object));
-			foreach (object item in items) {
-				TopMenu.Append ((Gtk.Widget)item);
-			}
-			UpdateMenu (null, null);
-		}
-		
-		public void UpdateMenu(object sender, EventArgs e)
-		{
-			// update menu
-			foreach (object o in TopMenu.Children) {
-				if (o is SdMenu) {
-					((SdMenu)o).OnDropDown(null, null);
-				}
-			}
-			
-			UpdateToolbars();
-		}
-		
-		public void UpdateToolbars()
-		{
-			foreach (Gtk.Toolbar toolbar in ToolBars) {
-				foreach (object item in toolbar.Children) {
-					if (item is IStatusUpdate) {
-						((IStatusUpdate)item).UpdateStatus();
-					}
-				}
-			}
-		}
-		
-		void CreateToolBars()
-		{
-			if (ToolBars == null) {
-				Gtk.Toolbar[] toolBars = Runtime.Gui.Toolbars.CreateToolbars();
-				ToolBars = toolBars;
-			}
 		}
 		
 		public void UpdateViews(object sender, EventArgs e)
@@ -597,8 +540,11 @@ namespace MonoDevelop.Gui
 		WorkbenchContext context = WorkbenchContext.Edit;
 		
 		public WorkbenchContext Context {
-			get {
-				return context;
+			get { return context; }
+			set {
+				context = value;
+				if (ContextChanged != null)
+					ContextChanged (this, new EventArgs());
 			}
 		}
 

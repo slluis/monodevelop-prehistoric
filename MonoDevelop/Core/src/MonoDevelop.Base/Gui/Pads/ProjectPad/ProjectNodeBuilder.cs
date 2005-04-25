@@ -32,6 +32,7 @@ using System.Collections;
 
 using MonoDevelop.Internal.Project;
 using MonoDevelop.Services;
+using MonoDevelop.Commands;
 
 namespace MonoDevelop.Gui.Pads.ProjectPad
 {
@@ -254,7 +255,33 @@ namespace MonoDevelop.Gui.Pads.ProjectPad
 		{
 		}
 		
-		public override void RemoveItem ()
+		[CommandHandler (ProjectCommands.Options)]
+		public void OnProjectOptions ()
+		{
+			Project selectedProject = CurrentNode.DataItem as Project;
+			Runtime.ProjectService.ShowOptions (selectedProject);
+		}
+		
+		[CommandHandler (ProjectCommands.Deploy)]
+		public void OnProjectDeploy ()
+		{
+			Project selectedProject = CurrentNode.DataItem as Project;
+			Runtime.ProjectService.Deploy (selectedProject);
+		}
+		
+		[CommandHandler (ProjectCommands.SetAsStartupProject)]
+		public void SetAsStartupProject ()
+		{
+			Project project = CurrentNode.DataItem as Project;
+			Combine combine = CurrentNode.GetParentDataItem (typeof(Combine), false) as Combine;
+			
+			combine.StartupEntry = project;
+			combine.SingleStartupProject = true;
+			Runtime.ProjectService.SaveCombine ();
+		}
+		
+		[CommandHandler (EditCommands.Delete)]
+		public void RemoveItem ()
 		{
 			Combine cmb = CurrentNode.GetParentDataItem (typeof(Combine), false) as Combine;;
 			Project prj = CurrentNode.DataItem as Project;
@@ -264,6 +291,14 @@ namespace MonoDevelop.Gui.Pads.ProjectPad
 				cmb.RemoveEntry (prj);
 				Runtime.ProjectService.SaveCombine();
 			}
+		}
+		
+		[CommandHandler (ProjectCommands.AddReference)]
+		public void AddReferenceToProject ()
+		{
+			Project p = (Project) CurrentNode.DataItem;
+			if (Runtime.ProjectService.AddReferenceToProject (p))
+				Runtime.ProjectService.SaveCombine();
 		}
 		
 		public override DragOperation CanDragNode ()

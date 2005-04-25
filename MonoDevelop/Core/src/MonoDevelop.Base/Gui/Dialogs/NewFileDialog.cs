@@ -49,7 +49,7 @@ namespace MonoDevelop.Gui.Dialogs
 			this.BorderWidth = 6;
 			this.HasSeparator = false;
 			
-			Runtime.DispatchService.BackgroundDispatch (new MessageHandler (InitializeTemplates));
+			InitializeTemplates ();
 		}
 		
 		void InitializeView()
@@ -132,7 +132,7 @@ namespace MonoDevelop.Gui.Dialogs
 				}
 				alltemplates.Add(titem);
 			}
-			Runtime.DispatchService.GuiDispatch (new MessageHandler (InitializeComponents));
+			InitializeComponents ();
 		}
 		
 		// tree view event handlers
@@ -208,12 +208,13 @@ namespace MonoDevelop.Gui.Dialogs
 					}
 				}
 				
-				Destroy ();
 				if (WorkbenchSingleton.Workbench.ActiveWorkbenchWindow != null) {
 					WorkbenchSingleton.Workbench.ActiveWorkbenchWindow.SelectWindow();
 				}
 				if (OnOked != null)
 					OnOked (null, null);
+				Respond (Gtk.ResponseType.Ok);
+				Destroy ();
 			}
 		}
 
