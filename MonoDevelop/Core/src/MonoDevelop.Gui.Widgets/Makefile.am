@@ -27,7 +27,31 @@ Navbar/Navbar.cs \
 TabLabel/TabLabel.cs \
 GladeWidgetExtract/GladeWidgetExtract.cs \
 DragNotebook/DragNotebook.cs \
-DataGrid/DataGrid.cs
+DataGrid/DataGrid.cs \
+Commands/ActionCommand.cs \
+Commands/ActionType.cs \
+Commands/CommandArrayInfo.cs \
+Commands/CommandCheckMenuItem.cs \
+Commands/Command.cs \
+Commands/CommandEntry.cs \
+Commands/CommandEntrySet.cs \
+Commands/CommandHandlerAttribute.cs \
+Commands/CommandHandler.cs \
+Commands/CommandInfo.cs \
+Commands/CommandManager.cs \
+Commands/CommandMenuBar.cs \
+Commands/CommandMenu.cs \
+Commands/CommandMenuItem.cs \
+Commands/CommandToggleToolButton.cs \
+Commands/CommandToolbar.cs \
+Commands/CommandToolButton.cs \
+Commands/CustomCommand.cs \
+Commands/CustomMenuItem.cs \
+Commands/ICommandMenuItem.cs \
+Commands/ICommandRouter.cs \
+Commands/ICommandUserItem.cs \
+Commands/LinkCommandEntry.cs \
+Commands/MenuToolButton.cs
 
 all: $(DLL)
 

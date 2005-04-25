@@ -1,3 +1,8 @@
+2005-04-25  Lluis Sanchez Gual  <lluis@novell.com>
+
+	* Command/*: New command infrastructure.
+	* Makefile.am: Added new command files.
+
 2005-04-17  John Luke  <john.luke@gmail.com>
 
 	* Makefile.am: fix distcheck
