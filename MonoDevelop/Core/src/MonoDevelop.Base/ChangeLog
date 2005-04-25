@@ -1,3 +1,9 @@
+2005-04-25	John Luke	<john.luke@gmail.com>
+
+	* Gui/Dialogs/NewProjectDialog.cs
+	* Gui/Dialogs/NewFileDialog.cs: disambiguate IconView
+	in gtk# head, based on patch by Fredrik Nilsson <jymdman@home.se>
+
 2005-04-19  Ben Motmans <ben.motmans@gmail.com>
 
 	* Gui/Pads/DefaultMonitorPad.cs

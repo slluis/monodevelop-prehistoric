@@ -19,6 +19,7 @@ using MonoDevelop.Internal.Project;
 using MonoDevelop.Internal.Templates;
 
 using MonoDevelop.Gui.Widgets;
+using IconView = MonoDevelop.Gui.Widgets.IconView;
 using Gtk;
 using Glade;
 
@@ -294,8 +295,6 @@ namespace MonoDevelop.Gui.Dialogs {
 			
 			lst_template_types.Selection.Changed += new EventHandler (CategoryChange);
 			
-			TemplateView = new IconView();
-
 			TreeViewColumn catColumn = new TreeViewColumn ();
 			catColumn.Title = "categories";
 			

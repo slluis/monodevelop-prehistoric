@@ -19,6 +19,7 @@ using MonoDevelop.Internal.Templates;
 
 using Gtk;
 using MonoDevelop.Gui.Widgets;
+using IconView = MonoDevelop.Gui.Widgets.IconView;
 
 namespace MonoDevelop.Gui.Dialogs
 {
