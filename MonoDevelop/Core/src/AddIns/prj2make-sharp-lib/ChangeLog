@@ -1,3 +1,9 @@
+2005-04-25  Lluis Sanchez Gual  <lluis@novell.com>
+
+	* prj2make-sharp-lib.addin.xml:
+	* prj2make-sharp-lib-Commands.cs: Use the new syntax for defining
+	commands and implementing commands.
+
 2005-04-17  John Luke  <john.luke@gmail.com>
 
 	* Makefile.am: fix distcheck

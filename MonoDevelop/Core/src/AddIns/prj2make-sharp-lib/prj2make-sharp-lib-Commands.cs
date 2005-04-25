@@ -8,14 +8,20 @@ using MonoDevelop.Gui.Widgets;
 using MonoDevelop.Prj2Make;
 using MonoDevelop.Prj2Make.Schema.Prjx;
 using MonoDevelop.Prj2Make.Schema.Csproj;
+using MonoDevelop.Commands;
 
-namespace MonoDevelop.Commands
+namespace MonoDevelop.Prj2Make
 {
-	public class ImportPrj : AbstractMenuCommand
+	public enum Commands
+	{
+		ImportSolution
+	}
+
+	public class ImportPrj : CommandHandler
 	{
 		static PropertyService PropertyService = (PropertyService)ServiceManager.GetService (typeof (PropertyService));
 		
-		public override void Run()
+		protected override void Run()
 		{
 			using (FileSelector fs = new FileSelector (GettextCatalog.GetString ("File to Open"))) {
 				bool conversionSuccessfull = false;
