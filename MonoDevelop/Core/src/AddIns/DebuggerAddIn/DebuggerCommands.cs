@@ -3,65 +3,60 @@ using System;
 using MonoDevelop.Core.AddIns.Codons;
 using MonoDevelop.Services;
 using MonoDevelop.Core.Services;
+using MonoDevelop.Commands;
+
+
+namespace MonoDevelop.Debugger
+{
+	public enum DebugCommands
+	{
+		ToggleRunning,
+		StepOver,
+		StepInto
+	}
+}
 
 namespace MonoDevelop.Debugger.Commands
 {
-
-	public class ToggleRunning : AbstractMenuCommand
+	public class ToggleRunning : CommandHandler
 	{
-		public override void Run ()
+		protected override void Run ()
 		{
 			if (Runtime.DebuggingService.IsRunning)
 				Runtime.DebuggingService.Pause ();
 			else
 				Runtime.DebuggingService.Resume ();
 		}
-	}
-
-	public class KillApplication : AbstractMenuCommand
-	{
-		public override void Run ()
+		
+		protected override void Update (CommandInfo info)
 		{
-			Runtime.DebuggingService.Stop();
+			info.Enabled = ((DebuggingService)Runtime.DebuggingService).Debugging;
 		}
 	}
 
-	public class StepOver : AbstractMenuCommand
+	public class StepOver : CommandHandler
 	{
-		public override void Run ()
+		protected override void Run ()
 		{
 			Runtime.DebuggingService.StepOver();
 		}
+		
+		protected override void Update (CommandInfo info)
+		{
+			info.Enabled = ((DebuggingService)Runtime.DebuggingService).Debugging;
+		}
 	}
 
-	public class StepInto : AbstractMenuCommand
+	public class StepInto : CommandHandler
 	{
-		public override void Run ()
+		protected override void Run ()
 		{
 			Runtime.DebuggingService.StepInto();
 		}
-	}
-
-	public class DebugProject : AbstractMenuCommand
-	{
-
-		public override void Run ()
+		
+		protected override void Update (CommandInfo info)
 		{
-			DebuggingService dbgr = (DebuggingService)Runtime.DebuggingService;
-			
-			if (Runtime.ProjectService.CurrentOpenCombine != null) {
-				if (Runtime.ProjectService.NeedsCompiling) {
-					Runtime.ProjectService.BuildActiveCombine ().WaitForCompleted ();
-				}
-#if NET_2_0
-				dbgr.AttributeHandler.Rescan();
-#endif
-
-				Runtime.ProjectService.CurrentOpenCombine.Debug (dbgr.DebugProgressMonitor);
-			}
-
+			info.Enabled = ((DebuggingService)Runtime.DebuggingService).Debugging;
 		}
-
 	}
-
 }

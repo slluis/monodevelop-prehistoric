@@ -54,6 +54,7 @@ namespace MonoDevelop.Debugger
 				StoppedEvent (this, new EventArgs ());
 			backend.Dispose ();
 			backend = null;
+			current_monitor.Dispose ();
 			current_monitor = null;
 #if NET_2_0
 			attr_handler = null;
@@ -75,19 +76,17 @@ namespace MonoDevelop.Debugger
 		}
 #endif
 
-		public IProgressMonitor DebugProgressMonitor {
-			get {
-				if (current_monitor != null)
-					return current_monitor;
+		public void CreateDebugConsole ()
+		{
+			if (current_monitor != null)
+				return;
 
-				current_monitor = Runtime.TaskService.GetOutputProgressMonitor ("Debug Output",
-									MonoDevelop.Gui.Stock.OutputIcon,
-									true, true);
-				return current_monitor;
-			}
-                }
+			current_monitor = Runtime.TaskService.GetOutputProgressMonitor ("Debug Output",
+								MonoDevelop.Gui.Stock.OutputIcon,
+								true, true);
+		}
 
-		private bool Debugging {
+		public bool Debugging {
 			get {
 				return backend != null && proc != null && proc.HasTarget;
 			}
@@ -299,16 +298,28 @@ namespace MonoDevelop.Debugger
 			proc.Continue (false);
 		}
 
-		public void Run (string[] argv)
+		public void Run (IProgressMonitor monitor, string[] argv)
 		{
 			if (Debugging)
 				return;
+
+#if NET_2_0
+			AttributeHandler.Rescan();
+#endif
+			CreateDebugConsole ();
 
 			backend = new DebuggerBackend ();
 			backend.ThreadManager.InitializedEvent += new ThreadEventHandler (initialized_event);
 			backend.ThreadManager.ThreadCreatedEvent += new ThreadEventHandler (thread_created);
 			backend.ThreadManager.ThreadExitedEvent += new ThreadEventHandler (thread_exited);
 			backend.Run (new ProcessStart (null, argv));
+			
+			monitor.CancelRequested += new MonitorHandler (OnCancelRequested);
+		}
+		
+		void OnCancelRequested (IProgressMonitor monitor)
+		{
+			Stop ();
 		}
 
 		public void Stop ()

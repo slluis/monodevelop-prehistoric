@@ -26,39 +26,30 @@
 		<ContextPad id = "MonoDevelop.Debugger.ThreadPad" />
 	</Extension>
 
-	<Extension path="/SharpDevelop/Workbench/MainMenu/Run">
-		<MenuItem id = "DebugProject"
-		          _label = "Debug Project"
-		          insertafter = "Run"
-		          shortcut = "Control|F5"
-		          class = "MonoDevelop.Debugger.Commands.DebugProject"/>
+	<Extension path = "/SharpDevelop/Commands">
+		<Command id = "MonoDevelop.Debugger.DebugCommands.ToggleRunning"
+				defaultHandler = "MonoDevelop.Debugger.Commands.ToggleRunning"
+				_label = "Pause/Resume"
+				shortcut = "Control|F8" />
+		
+		<Command id = "MonoDevelop.Debugger.DebugCommands.StepOver"
+				defaultHandler = "MonoDevelop.Debugger.Commands.StepOver"
+				_label = "Step Over"
+				shortcut = "F11" />
+		
+		<Command id = "MonoDevelop.Debugger.DebugCommands.StepInto"
+				defaultHandler = "MonoDevelop.Debugger.Commands.StepInto"
+				_label = "Step Into"
+				shortcut = "Control|F11" />
 	</Extension>
-
-	<Extension path="/SharpDevelop/Workbench/MainMenu">
-		<Conditional action = "Exclude" context = "Debug">
-			<MenuItem id = "DebugMenuThing" _label = "Debug" insertafter = "View" insertbefore = "Tools">
-					<MenuItem id = "ToggleRunning"
-						  _label = "Pause/Resume"
-						  shortcut = "Control|F8"
-						  class = "MonoDevelop.Debugger.Commands.ToggleRunning"/>
 	
-					<MenuItem id = "DebugKillApplication"
-						  _label = "Kill Application"
-						  class = "MonoDevelop.Debugger.Commands.KillApplication"/>
-		
-					<MenuItem id = "DebugSep1" _label = "-" />
-		
-					<MenuItem id = "DebugStepOver"
-						  _label = "Step Over"
-					          shortcut = "F11"
-						  class = "MonoDevelop.Debugger.Commands.StepOver"/>
-		
-					<MenuItem id = "DebugStepInto"
-					          _label = "Step Into"
-					          shortcut = "Control|F11"
-					          class = "MonoDevelop.Debugger.Commands.StepInto"/>
-			</MenuItem>
-		</Conditional>
+
+
+	<Extension path="/SharpDevelop/Workbench/MainMenu/Run">
+		<CommandItem id = "MonoDevelop.Debugger.DebugCommands.ToggleRunning" insertafter="MonoDevelop.Commands.ProjectCommands.Stop"/>
+		<SeparatorItem id = "DebugSep1" />
+		<CommandItem id = "MonoDevelop.Debugger.DebugCommands.StepOver" />
+		<CommandItem id = "MonoDevelop.Debugger.DebugCommands.StepInto" />
 	</Extension>
 </AddIn>
 

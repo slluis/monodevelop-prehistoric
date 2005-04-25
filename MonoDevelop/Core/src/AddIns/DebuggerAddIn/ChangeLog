@@ -1,3 +1,15 @@
+2005-04-25  Lluis Sanchez Gual  <lluis@novell.com>
+
+	* DebuggingService.cs: Dispose the output pad when the debug session
+	ends. The Run method now takes a progress monitor and will stop if
+	the monitor notifies a cancel request. The Run method is now also
+	responsible of creating the output pad.
+	
+	* DebuggerCommands.cs:
+	* MonoDevelopDebugger.addin.xml: Use the new syntax for defining
+	commands. The DebugProject and DebugKillApplication commands have
+	been moved to MonoDevelop.Base since may they be reused by other addins.
+
 2005-04-19  Chris Toshok  <toshok@ximian.com>
 
 	* Visualizers/TargetObjectProvider.cs: remove unnecessary using
