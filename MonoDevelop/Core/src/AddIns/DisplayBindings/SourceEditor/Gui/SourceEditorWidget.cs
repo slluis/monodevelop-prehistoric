@@ -11,6 +11,17 @@ namespace MonoDevelop.SourceEditor.Gui
 		public SourceEditorView View;
 		public SourceEditorDisplayBindingWrapper DisplayBinding;
 		
+		static Gdk.Pixbuf dragIconPixbuf;
+		static Gdk.Pixbuf executionMarkerPixbuf;
+		static Gdk.Pixbuf breakPointPixbuf;
+		
+		static SourceEditor ()
+		{
+			dragIconPixbuf = new Gdk.Pixbuf (drag_icon_xpm);
+			executionMarkerPixbuf = new Gdk.Pixbuf ("../data/resources/icons/ExecutionMarker.png");
+			breakPointPixbuf = new Gdk.Pixbuf ("../data/resources/icons/BreakPoint.png");
+		}
+		
 		protected SourceEditor (IntPtr ptr): base (ptr)
 		{
 		}
@@ -25,15 +36,16 @@ namespace MonoDevelop.SourceEditor.Gui
 			this.VscrollbarPolicy = PolicyType.Automatic;
 			this.HscrollbarPolicy = PolicyType.Automatic;
 			
-			View.SetMarkerPixbuf ("SourceEditorBookmark", new Gdk.Pixbuf (drag_icon_xpm));
-			View.SetMarkerPixbuf ("ExecutionMark", new Gdk.Pixbuf ("../data/resources/icons/ExecutionMarker.png"));
-			View.SetMarkerPixbuf ("BreakpointMark", new Gdk.Pixbuf ("../data/resources/icons/BreakPoint.png"));
+			View.SetMarkerPixbuf ("SourceEditorBookmark", dragIconPixbuf);
+			View.SetMarkerPixbuf ("ExecutionMark", executionMarkerPixbuf);
+			View.SetMarkerPixbuf ("BreakpointMark", breakPointPixbuf);
 			
 			Add (View);
 		}
 		
 		public new void Dispose ()
 		{
+			Buffer.Dispose ();
 			Buffer = null;
 			Remove (View);
 			View.Dispose ();

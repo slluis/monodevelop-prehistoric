@@ -1,3 +1,9 @@
+2005-04-25  Lluis Sanchez Gual  <lluis@novell.com>
+
+	* Gui/SourceEditorWidget.cs:
+	* Gui/SourceEditorBuffer.cs:
+	* SourceEditorDisplayBinding.cs: Improve memory usage.
+
 2005-04-17  John Luke  <john.luke@gmail.com>
 
 	* Makefile.am: fix distcheck

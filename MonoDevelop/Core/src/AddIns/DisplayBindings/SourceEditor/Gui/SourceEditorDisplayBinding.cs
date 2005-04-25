@@ -240,6 +240,7 @@ namespace MonoDevelop.SourceEditor.Gui
 		
 		public override void Dispose()
 		{
+			mainBox.Remove (se);
 			properties.PropertyChanged -= new PropertyEventHandler (PropertiesChanged);
 			se.Buffer.ModifiedChanged -= new EventHandler (OnModifiedChanged);
 			se.Buffer.MarkSet -= new MarkSetHandler (OnMarkSet);

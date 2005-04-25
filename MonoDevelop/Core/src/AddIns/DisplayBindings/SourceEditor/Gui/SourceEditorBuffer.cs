@@ -123,6 +123,11 @@ namespace MonoDevelop.SourceEditor.Gui
 			highlightLineTag.Background = "lightgrey";
 			TagTable.Add (highlightLineTag);
 		}
+		
+		public void Dispose ()
+		{
+			Language = null;
+		}
 
 		void ParseChanged (object o, ParseInformationEventArgs e)
 		{
