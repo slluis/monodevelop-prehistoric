@@ -7,6 +7,7 @@ using GtkSourceView;
 
 using MonoDevelop.Core.Services;
 using MonoDevelop.Services;
+using MonoDevelop.DefaultEditor;
 
 namespace MonoDevelop.Services
 {
@@ -39,7 +40,7 @@ namespace MonoDevelop.Services
 		public override void InitializeService ()
 		{
 			base.InitializeService ();
-
+			
 			if (!File.Exists (file))
 				return;
 

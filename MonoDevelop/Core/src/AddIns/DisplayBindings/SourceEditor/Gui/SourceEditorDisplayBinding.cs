@@ -224,16 +224,6 @@ namespace MonoDevelop.SourceEditor.Gui
 			return false;
 		}
 		
-		public void GotoMatchingBrace ()
-		{
-			TextIter iter = se.Buffer.GetIterAtMark (se.Buffer.InsertMark);
-			if (Source.IterFindMatchingBracket (ref iter)) {
-				iter.ForwardChar ();
-				se.Buffer.PlaceCursor (iter);
-				se.View.ScrollMarkOnscreen (se.Buffer.InsertMark);
-			}
-		}
-		
 		public override void RedrawContent()
 		{
 		}
@@ -484,24 +474,22 @@ namespace MonoDevelop.SourceEditor.Gui
 #region IBookmarkOperations
 		void IBookmarkOperations.ToggleBookmark ()
 		{
-			se.Buffer.ToggleBookmark ();
+			se.ToggleBookmark ();
 		}
 		
 		void IBookmarkOperations.PrevBookmark ()
 		{
-			se.Buffer.PrevBookmark ();
-			se.View.ScrollMarkOnscreen (se.Buffer.InsertMark);
+			se.PrevBookmark ();
 		}
 		
 		void IBookmarkOperations.NextBookmark ()
 		{
-			se.Buffer.NextBookmark ();
-			se.View.ScrollMarkOnscreen (se.Buffer.InsertMark);
+			se.NextBookmark ();
 		}
 		
 		void IBookmarkOperations.ClearBookmarks ()
 		{
-			se.Buffer.ClearBookmarks ();
+			se.ClearBookmarks ();
 		}
 #endregion
 

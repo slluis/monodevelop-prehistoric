@@ -1,3 +1,13 @@
+2005-04-25  Lluis Sanchez Gual  <lluis@novell.com> 
+
+	* Gui/SourceEditorWidget.cs: Moved here editor-specific commands.
+	* Gui/SourceEditorDisplayBinding.cs: The methods for managing
+	bookmarks are now in the editor widget, not the buffer.
+	* Commands/EditorCommands.cs: New enum with IDs for edit commands.
+	* Commands/SearchCommands.cs: Moved editor-specific commands to
+	SourceEditorWidget.cs.
+	* MonoDevelopEditor.addin.xml: Created the new command structure.
+
 2005-04-25  Lluis Sanchez Gual  <lluis@novell.com>
 
 	* Gui/SourceEditorWidget.cs:

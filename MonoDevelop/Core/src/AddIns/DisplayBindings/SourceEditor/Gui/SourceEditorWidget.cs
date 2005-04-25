@@ -2,7 +2,13 @@ using Gtk;
 
 using System;
 using System.Runtime.InteropServices;
-	
+
+using MonoDevelop.TextEditor.Document;
+using MonoDevelop.Commands;
+using MonoDevelop.Gui.Dialogs;
+using GtkSourceView;
+using MonoDevelop.DefaultEditor;
+
 namespace MonoDevelop.SourceEditor.Gui
 {
 	public class SourceEditor : ScrolledWindow
@@ -75,6 +81,112 @@ namespace MonoDevelop.SourceEditor.Gui
 			Buffer.Replace (offset, length, pattern);
 		}
 		
+		
+		public void SetSearchPattern ()
+		{
+			string selectedText = Buffer.GetSelectedText ();
+			if (selectedText != null && selectedText.Length > 0)
+				SearchReplaceManager.SearchOptions.SearchPattern = selectedText.Split ('\n')[0];
+		}
+		
+		[CommandHandler (SearchCommands.Find)]
+		public void Find()
+		{
+			SetSearchPattern();
+			if (SearchReplaceManager.ReplaceDialog != null) {
+				if (SearchReplaceManager.ReplaceDialog.replaceMode == false) {
+					SearchReplaceManager.ReplaceDialog.SetSearchPattern(SearchReplaceManager.SearchOptions.SearchPattern);
+					SearchReplaceManager.ReplaceDialog.Present ();
+				} else {
+					SearchReplaceManager.ReplaceDialog.Destroy ();
+					ReplaceDialog rd = new ReplaceDialog (false);
+					rd.ShowAll ();
+				}
+			} else {
+				ReplaceDialog rd = new ReplaceDialog (false);
+				rd.ShowAll();
+			}
+		}
+		
+		[CommandHandler (SearchCommands.FindNext)]
+		public void FindNext ()
+		{
+			SearchReplaceManager.FindNext ();
+		}
+	
+		[CommandHandler (SearchCommands.FindSelection)]
+		public void FindSelection ()
+		{
+			SetSearchPattern();
+			SearchReplaceManager.FindNext ();
+		}
+	
+		[CommandHandler (SearchCommands.Replace)]
+		public void Replace ()
+		{ 
+			SetSearchPattern ();
+			
+			if (SearchReplaceManager.ReplaceDialog != null) {
+				if (SearchReplaceManager.ReplaceDialog.replaceMode == true) {
+					SearchReplaceManager.ReplaceDialog.SetSearchPattern(SearchReplaceManager.SearchOptions.SearchPattern);
+					SearchReplaceManager.ReplaceDialog.Present ();
+				} else {
+					SearchReplaceManager.ReplaceDialog.Destroy ();
+					ReplaceDialog rd = new ReplaceDialog (true);
+					rd.ShowAll ();
+				}
+			} else {
+				ReplaceDialog rd = new ReplaceDialog(true);
+				rd.ShowAll();
+			}
+		}
+		
+		
+		[CommandHandler (EditorCommands.GotoLineNumber)]
+		public void GotoLineNumber ()
+		{
+			if (!GotoLineNumberDialog.IsVisible)
+				using (GotoLineNumberDialog gnd = new GotoLineNumberDialog ())
+					gnd.Run ();
+		}
+		
+		[CommandHandler (EditorCommands.GotoMatchingBrace)]
+		public void GotoMatchingBrace ()
+		{
+			TextIter iter = Buffer.GetIterAtMark (Buffer.InsertMark);
+			if (Source.IterFindMatchingBracket (ref iter)) {
+				iter.ForwardChar ();
+				Buffer.PlaceCursor (iter);
+				View.ScrollMarkOnscreen (Buffer.InsertMark);
+			}
+		}
+
+		[CommandHandler (EditorCommands.ToggleBookmark)]
+		public void ToggleBookmark ()
+		{
+			Buffer.ToggleBookmark ();
+		}
+		
+		[CommandHandler (EditorCommands.PrevBookmark)]
+		public void PrevBookmark ()
+		{
+			Buffer.PrevBookmark ();
+			View.ScrollMarkOnscreen (Buffer.InsertMark);
+		}
+		
+		[CommandHandler (EditorCommands.NextBookmark)]
+		public void NextBookmark ()
+		{
+			Buffer.NextBookmark ();
+			View.ScrollMarkOnscreen (Buffer.InsertMark);
+		}
+		
+		[CommandHandler (EditorCommands.ClearBookmarks)]
+		public void ClearBookmarks ()
+		{
+			Buffer.ClearBookmarks ();
+		}
+
 		private static readonly string [] drag_icon_xpm = new string [] {
 			"36 48 9 1",
 			" 	c None",
