@@ -81,6 +81,9 @@ namespace MonoDevelop.Gui.Pads
 			buffer.TagTable.Add (tag);
 			tags.Add (tag);
 
+			Runtime.ProjectService.CombineOpened += (CombineEventHandler) Runtime.DispatchService.GuiDispatch (new CombineEventHandler (OnCombineOpen));
+			Runtime.ProjectService.CombineClosed += (CombineEventHandler) Runtime.DispatchService.GuiDispatch (new CombineEventHandler (OnCombineClosed));
+
 			this.title = title;
 			this.icon = icon;
 			this.markupTitle = title;
@@ -95,12 +98,24 @@ namespace MonoDevelop.Gui.Pads
 			}
 		}
 
-		void OnButtonClearClick (object sender, EventArgs e) {
+		void OnButtonClearClick (object sender, EventArgs e)
+		{
 			buffer.Clear();
 		}
 
-		void OnButtonStopClick (object sender, EventArgs e) {
+		void OnButtonStopClick (object sender, EventArgs e)
+		{
 			asyncOperation.Cancel ();
+		}
+
+		void OnCombineOpen (object sender, CombineEventArgs e)
+		{
+			buffer.Clear ();
+		}
+
+		void OnCombineClosed (object sender, CombineEventArgs e)
+		{
+			buffer.Clear ();
 		}
 
 		public void BeginProgress (string title)

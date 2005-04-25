@@ -25,6 +25,12 @@ namespace MonoDevelop.Services
 			statusBar = new SdStatusBar(this);
 		}
 		
+		protected override void OnInitialize (EventArgs e)
+		{
+			base.OnInitialize (e);
+			Runtime.ProjectService.CombineClosed += OnCombineClosed;
+		}
+
 		public void Dispose()
 		{
 			if (statusBar != null) {
@@ -114,6 +120,11 @@ namespace MonoDevelop.Services
 			Debug.Assert(statusBar != null);
 			lastMessage = message;
 			statusBar.SetMessage(image, stringParserService.Parse(message));
+		}
+
+		void OnCombineClosed (object sender, CombineEventArgs e)
+		{
+			SetMessage ("");
 		}
 		
 		bool   wasError    = false;

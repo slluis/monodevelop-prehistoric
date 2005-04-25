@@ -1,3 +1,11 @@
+2005-04-19  Ben Motmans <ben.motmans@gmail.com>
+
+	* Gui/Pads/DefaultMonitorPad.cs
+	* Services/StatusBar/DefaultStatusBarService.cs:
+	Clear the output when a combine closes.
+	* GUI/Pads/OpenTaskView.cs
+	Reorder of some columns for better view on small resolutions.
+
 2005-04-17	John Luke	<john.luke@gmail.com>
 
 	* Makefile.am: fix distcheck

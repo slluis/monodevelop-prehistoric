@@ -75,7 +75,10 @@ namespace MonoDevelop.Services
 				ProcessStartInfo psi = new ProcessStartInfo("xterm",
 					String.Format (@"-e ""cd {3} ; '{0}' {1} ; {2}""", command, arguments, additionalCommands, workingDirectory));
 				psi.UseShellExecute = false;
-				psi.WorkingDirectory = workingDirectory;
+				
+				if (workingDirectory != null)
+					psi.WorkingDirectory = workingDirectory;
+
 				psi.UseShellExecute  =  false;
 				
 				ProcessWrapper p = new ProcessWrapper();

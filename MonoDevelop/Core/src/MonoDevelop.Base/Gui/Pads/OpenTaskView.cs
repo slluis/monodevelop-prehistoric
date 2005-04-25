@@ -60,7 +60,7 @@ namespace MonoDevelop.Gui.Pads
 			// FIXME
 		}
 
-		const int COL_TYPE = 0, COL_LINE = 1, COL_DESC = 2, COL_PATH = 3, COL_FILE = 4, COL_TASK = 5, COL_READ = 6, COL_MARKED = 7, COL_READ_WEIGHT = 8;
+		const int COL_TYPE = 0, COL_LINE = 1, COL_DESC = 2, COL_FILE = 3, COL_PATH = 4, COL_TASK = 5, COL_READ = 6, COL_MARKED = 7, COL_READ_WEIGHT = 8;
 		
 		public OpenTaskView()
 		{
@@ -68,8 +68,8 @@ namespace MonoDevelop.Gui.Pads
 				typeof (Gdk.Pixbuf), // image
 				typeof (int),        // line
 				typeof (string),     // desc
-				typeof (string),     // path
 				typeof (string),     // file
+				typeof (string),     // path
 				typeof (Task),       // task
 				typeof (bool),       // read?
 				typeof (bool),       // marked?
@@ -158,9 +158,9 @@ namespace MonoDevelop.Gui.Pads
 			view.AppendColumn (GettextCatalog.GetString ("Line")        , line         , "text"    , COL_LINE, "weight", COL_READ_WEIGHT);
 			col = view.AppendColumn (GettextCatalog.GetString ("Description") , desc         , "text"    , COL_DESC, "weight", COL_READ_WEIGHT, "strikethrough", COL_MARKED);
 			col.Resizable = true;
-			col = view.AppendColumn (GettextCatalog.GetString ("Path")        , path         , "text"    , COL_PATH, "weight", COL_READ_WEIGHT);
-			col.Resizable = true;
 			col = view.AppendColumn (GettextCatalog.GetString ("File")        , file         , "text"    , COL_FILE, "weight", COL_READ_WEIGHT);
+			col.Resizable = true;
+			col = view.AppendColumn (GettextCatalog.GetString ("Path")        , path         , "text"    , COL_PATH, "weight", COL_READ_WEIGHT);
 			col.Resizable = true;
 		}
 		
@@ -264,8 +264,8 @@ namespace MonoDevelop.Gui.Pads
 				stock,
 				t.Line + 1,
 				t.Description,
-				path,
 				fileName,
+				path,
 				t, false, false, (int) Pango.Weight.Bold);
 		}
 		
