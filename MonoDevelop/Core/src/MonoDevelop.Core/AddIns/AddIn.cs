@@ -453,6 +453,29 @@ namespace MonoDevelop.Core.AddIns
 		}
 		
 		/// <summary>
+		/// Returns a type which is related to this Add-In.
+		/// </summary>
+		/// <exception cref="TypeNotFoundException">
+		/// If className could not be found
+		/// </exception>
+		public Type GetType (string className)
+		{
+			object newInstance;
+			foreach (DictionaryEntry library in runtimeLibraries) {
+				Type t = ((Assembly)library.Value).GetType (className);
+				if (t != null)
+					return t;
+			}
+			
+			Type ct = Assembly.GetExecutingAssembly().GetType (className);
+			
+			if (ct == null) {
+				//MessageBox.Show("Type not found: " + className + ". Please check : " + fileName, "Error", MessageBoxButtons.OK, MessageBoxIcon.Hand, MessageBoxDefaultButton.Button1);
+			}
+			
+			return ct;
+		}		
+		/// <summary>
 		/// Definies an extension point (path in the tree) with its codons.
 		/// </summary>
 		public class Extension
