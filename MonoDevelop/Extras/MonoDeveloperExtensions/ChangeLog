@@ -1,3 +1,9 @@
+2005-04-25  Lluis Sanchez Gual  <lluis@novell.com>
+
+	* MonoDeveloperExtensions.addin.xml:
+	* Commands.cs: Use the new command service. Added hacky support for
+	basic svn operations.
+
 2005-04-17  John Luke  <john.luke@gmail.com>
 
 	* Makefile.am: fix distcheck

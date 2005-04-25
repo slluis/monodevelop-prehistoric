@@ -8,6 +8,7 @@ Commands.cs \
 MonoProjectConfiguration.cs
 
 REFS = /r:$(top_builddir)/build/bin/MonoDevelop.Core.dll \
+       /r:$(top_builddir)/build/bin/MonoDevelop.Gui.Widgets.dll \
        /r:$(top_builddir)/build/bin/MonoDevelop.Base.dll \
        $(GTK_SHARP_LIBS) \
        $(GLADE_SHARP_LIBS) \
