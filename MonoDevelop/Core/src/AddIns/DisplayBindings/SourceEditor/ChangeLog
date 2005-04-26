@@ -1,3 +1,8 @@
+2005-04-26  Lluis Sanchez Gual  <lluis@novell.com>
+
+	* texteditoraddin.glade: Added missing stop button in the replace
+	in files dialog.
+
 2005-04-25  Lluis Sanchez Gual  <lluis@novell.com> 
 
 	* Gui/SourceEditorWidget.cs: Moved here editor-specific commands.
