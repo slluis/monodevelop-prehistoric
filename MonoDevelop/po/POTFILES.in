@@ -35,15 +35,9 @@ Core/src/MonoDevelop.Base/Gui/Pads/HelpBrowser/MonodocTreePad.cs
 Core/src/MonoDevelop.Base/Gui/Pads/OpenTaskView.cs
 Core/src/MonoDevelop.Base/Gui/Workbench/DefaultWorkbench.cs
 Core/src/MonoDevelop.Base/Gui/Workbench/Layouts/SdiWorkspaceWindow.cs
-Core/src/MonoDevelop.Base/Commands/ClassBrowserCommands/ClassBrowserCommands.cs
 Core/src/MonoDevelop.Base/Commands/FileCommands.cs
 Core/src/MonoDevelop.Base/Commands/HelpCommands.cs
-Core/src/MonoDevelop.Base/Commands/MenuItemBuilders.cs
-Core/src/MonoDevelop.Base/Commands/ProjectBrowserCommands/CombineNodeCommands.cs
-Core/src/MonoDevelop.Base/Commands/ProjectBrowserCommands/FolderNodeCommands.cs
-Core/src/MonoDevelop.Base/Commands/ProjectBrowserCommands/ResourceFolderNodeCommands.cs
 Core/src/MonoDevelop.Base/Commands/ProjectCommands.cs
-Core/src/MonoDevelop.Base/Commands/RunCommands.cs
 Core/src/MonoDevelop.Base/Internal/ExternalTool/ToolLoader.cs
 Core/src/MonoDevelop.Base/Internal/Project/Combine/Combine.cs
 Core/src/MonoDevelop.Base/Internal/Project/Combine/CombineEntry.cs
