@@ -2,7 +2,14 @@
 monodevelopdir = $(libdir)/monodevelop
 iconsdir = $(monodevelopdir)/data/resources/icons
 
-icons_DATA = C\#.File.EmptyFile \
+icons_DATA = BooBinding.Base \
+Boo.File.EmptyFile \
+Boo.File.Form \
+Boo.FileIcon \
+Boo.Project.EmptyProject \
+Boo.Project.Form \
+Boo.ProjectIcon \
+C\#.File.EmptyFile \
 C++.File.EmptyFile \
 C\#.File.Form \
 C++.File.Form \

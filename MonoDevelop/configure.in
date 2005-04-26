@@ -113,6 +113,20 @@ AC_ARG_ENABLE(java,
 		enable_java=no)
 AM_CONDITIONAL(ENABLE_JAVA, test x$enable_java = xyes)
 
+BOO_REQUIRED_VERSION=0.5.2.99
+AC_ARG_ENABLE(boo,
+	AC_HELP_STRING([--enable-boo],
+		[enable support for boo [default=no]]),
+		[PKG_CHECK_MODULES(BOO, boo >= $BOO_REQUIRED_VERSION, enable_boo=yes, enable_boo=no)],
+		enable_boo=no)
+
+AM_CONDITIONAL(ENABLE_BOO, test x$enable_boo = xyes)
+AC_SUBST(BOO_LIBS)
+
+if test "x$enable_boo" = "xyes" ; then
+	AC_PATH_PROG(BOOC, booc)
+fi
+
 MOZILLA_HOME="`$PKG_CONFIG --variable=libdir mozilla-gtkmozembed`"
 AC_SUBST(MOZILLA_HOME)
 
@@ -216,6 +230,7 @@ Extras/MonoQuery/Makefile
 Extras/MonoQuery/MonoQuery.addin.xml
 Extras/MonoDeveloperExtensions/Makefile
 Extras/JavaBinding/Makefile
+Extras/BooBinding/Makefile
 contrib/Makefile
 ])
 
@@ -231,4 +246,5 @@ echo "   *   PostgreSQL:   yes"
 echo "   *   MySQL:        yes"
 echo "   *   SQLite:       $enable_monoquery_sqlite"
 echo "   * java support: $enable_java"
+echo "   * boo support: $enable_boo"
 echo ""
