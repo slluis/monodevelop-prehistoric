@@ -139,13 +139,23 @@ namespace MonoDevelop.SourceEditor.Gui
 			if (lineToMark == -1) return;
 			IDebuggingService dbgr = (IDebuggingService)ServiceManager.GetService (typeof (IDebuggingService));
 			if (dbgr != null) {
-				bool canToggle = dbgr.ToggleBreakpoint (ParentEditor.DisplayBinding.ContentName, lineToMark + 1);
-				if (canToggle)
-					buf.ToggleMark (lineToMark, SourceMarkerType.BreakpointMark);
+				dbgr.ToggleBreakpoint (ParentEditor.DisplayBinding.ContentName, lineToMark + 1);
 				lineToMark = -1;
 			}
 		}
 
+		public void ShowBreakpointAt (int linenumber)
+		{
+			if (!buf.IsMarked (linenumber, SourceMarkerType.BreakpointMark))
+				buf.ToggleMark (linenumber, SourceMarkerType.BreakpointMark);
+		}
+		
+		public void ClearBreakpointAt (int linenumber)
+		{
+			if (buf.IsMarked (linenumber, SourceMarkerType.BreakpointMark))
+				buf.ToggleMark (linenumber, SourceMarkerType.BreakpointMark);
+		}
+		
 		public void ExecutingAt (int linenumber)
 		{
 			buf.ToggleMark (linenumber, SourceMarkerType.ExecutionMark);

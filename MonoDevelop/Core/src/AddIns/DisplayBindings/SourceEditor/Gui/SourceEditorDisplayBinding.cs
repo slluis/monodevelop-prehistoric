@@ -100,6 +100,11 @@ namespace MonoDevelop.SourceEditor.Gui
 		HBox reloadBar;
 		internal FileSystemWatcher fsw;
 		IProperties properties;
+		
+		BreakpointEventHandler breakpointAddedHandler;
+		BreakpointEventHandler breakpointRemovedHandler;
+		EventHandler executionChangedHandler;
+		int currentExecutionLine = -1;
 	
 		internal SourceEditor se;
 
@@ -198,6 +203,16 @@ namespace MonoDevelop.SourceEditor.Gui
 			fsw.Changed += new FileSystemEventHandler (OnFileChanged);
 			UpdateFSW (null, null);
 			mainBox.PackStart (se, true, true, 0);
+			
+			if (Runtime.DebuggingService != null) {
+				breakpointAddedHandler = (BreakpointEventHandler) Runtime.DispatchService.GuiDispatch (new BreakpointEventHandler (OnBreakpointAdded));
+				breakpointRemovedHandler = (BreakpointEventHandler) Runtime.DispatchService.GuiDispatch (new BreakpointEventHandler (OnBreakpointRemoved));
+				executionChangedHandler = (EventHandler) Runtime.DispatchService.GuiDispatch (new EventHandler (OnExecutionLocationChanged));
+				
+				Runtime.DebuggingService.BreakpointAdded += breakpointAddedHandler;
+				Runtime.DebuggingService.BreakpointRemoved += breakpointRemovedHandler;
+				Runtime.DebuggingService.ExecutionLocationChanged += executionChangedHandler;
+			}
 		}
 
 		public void JumpTo (int line, int column)
@@ -230,6 +245,10 @@ namespace MonoDevelop.SourceEditor.Gui
 		
 		public override void Dispose()
 		{
+			Runtime.DebuggingService.BreakpointAdded -= breakpointAddedHandler;
+			Runtime.DebuggingService.BreakpointRemoved -= breakpointRemovedHandler;
+			Runtime.DebuggingService.ExecutionLocationChanged -= executionChangedHandler;
+
 			mainBox.Remove (se);
 			properties.PropertyChanged -= new PropertyEventHandler (PropertiesChanged);
 			se.Buffer.ModifiedChanged -= new EventHandler (OnModifiedChanged);
@@ -282,6 +301,47 @@ namespace MonoDevelop.SourceEditor.Gui
 			se.Buffer.LoadFile (fileName, Gnome.Vfs.MimeType.GetMimeTypeForUri (fileName));
 			ContentName = fileName;
 			InitializeFormatter ();
+			
+			if (Runtime.DebuggingService != null) {
+				foreach (IBreakpoint b in Runtime.DebuggingService.GetBreakpointsAtFile (fileName))
+					se.View.ShowBreakpointAt (b.Line - 1);
+					
+				UpdateExecutionLocation ();
+			}
+		}
+		
+		void OnBreakpointAdded (object sender, BreakpointEventArgs args)
+		{
+			se.View.ShowBreakpointAt (args.Breakpoint.Line - 1);
+		}
+		
+		void OnBreakpointRemoved (object sender, BreakpointEventArgs args)
+		{
+			se.View.ClearBreakpointAt (args.Breakpoint.Line - 1);
+		}
+		
+		void OnExecutionLocationChanged (object sender, EventArgs args)
+		{
+			UpdateExecutionLocation ();
+		}
+		
+		void UpdateExecutionLocation ()
+		{
+			if (currentExecutionLine != -1)
+				se.View.ClearExecutingAt (currentExecutionLine - 1);
+
+			if (Runtime.DebuggingService.CurrentFilename == ContentName) {
+				currentExecutionLine = Runtime.DebuggingService.CurrentLineNumber;
+				se.View.ExecutingAt (currentExecutionLine - 1);
+				
+				TextIter itr = se.Buffer.GetIterAtLine (currentExecutionLine - 1);
+				itr.LineOffset = 0;
+				se.Buffer.PlaceCursor (itr);		
+				se.View.ScrollToMark (se.Buffer.InsertMark, 0.3, false, 0, 0);
+				GLib.Timeout.Add (200, new GLib.TimeoutHandler (changeFocus));
+			}
+			else
+				currentExecutionLine = -1;
 		}
 		
 		void ShowFileChangedWarning ()

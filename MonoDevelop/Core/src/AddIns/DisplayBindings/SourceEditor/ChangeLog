@@ -1,3 +1,9 @@
+2005-04-27  Lluis Sanchez Gual  <lluis@novell.com>
+
+	* Gui/SourceEditorView.cs:
+	* Gui/SourceEditorDisplayBinding.cs: Track changes in breakpoints, and
+	debug execution location.
+
 2005-04-26  Lluis Sanchez Gual  <lluis@novell.com>
 
 	* texteditoraddin.glade: Added missing stop button in the replace
