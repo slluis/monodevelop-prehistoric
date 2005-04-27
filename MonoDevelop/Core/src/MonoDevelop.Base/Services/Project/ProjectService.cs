@@ -50,6 +50,8 @@ namespace MonoDevelop.Services
 		IFileFormat defaultCombineFormat = new MdsFileFormat ();
 		
 		ICompilerResult lastResult = new DefaultCompilerResult ();
+		
+		GuiHelper guiHelper = new GuiHelper ();
 			
 		public Project CurrentSelectedProject {
 			get {
@@ -363,7 +365,7 @@ namespace MonoDevelop.Services
 			if (openCombine == null) return NullAsyncOperation.Success;
 			if (currentRunOperation != null && !currentRunOperation.IsCompleted) return currentRunOperation;
 			
-			WorkbenchSingleton.Workbench.Context = WorkbenchContext.Debug;
+			guiHelper.SetWorkbenchContext (WorkbenchContext.Debug);
 
 			IProgressMonitor monitor = new NullProgressMonitor ();
 			Runtime.DispatchService.ThreadDispatch (new StatefulMessageHandler (DebugCombineEntryAsync), new object[] {entry, monitor});
@@ -383,12 +385,7 @@ namespace MonoDevelop.Services
 			} finally {
 				monitor.Dispose ();
 			}
-			Runtime.DispatchService.GuiDispatch (new MessageHandler (RestoreWorkbenchContext));
-		}
-		
-		void RestoreWorkbenchContext ()
-		{
-			WorkbenchSingleton.Workbench.Context = WorkbenchContext.Edit;
+			guiHelper.SetWorkbenchContext (WorkbenchContext.Edit);
 		}
 		
 		public IAsyncOperation DebugFile (string file)
@@ -404,6 +401,30 @@ namespace MonoDevelop.Services
 				Runtime.MessageService.ShowError(GettextCatalog.GetString ("No runnable executable found."));
 				return NullAsyncOperation.Failure;
 			}
+		}
+		
+		public IAsyncOperation DebugApplication (string executableFile)
+		{
+			if (currentRunOperation != null && !currentRunOperation.IsCompleted) return currentRunOperation;
+			if (Runtime.DebuggingService == null) return NullAsyncOperation.Failure;
+			
+			guiHelper.SetWorkbenchContext (WorkbenchContext.Debug);
+
+			IProgressMonitor monitor = new NullProgressMonitor ();
+
+			Runtime.DebuggingService.Run (monitor, new string[] { executableFile });
+			
+			DebugApplicationStopper disposer = new DebugApplicationStopper ();
+			disposer.Monitor = monitor;
+			Runtime.DebuggingService.StoppedEvent += new EventHandler (disposer.Run);
+			
+			currentRunOperation = monitor.AsyncOperation;
+			return currentRunOperation;
+		}
+		
+		class DebugApplicationStopper {
+			public IProgressMonitor Monitor;
+			public void Run (object sender, EventArgs e) { Monitor.Dispose (); }
 		}
 		
 		class ProjectOperationHandler {
@@ -1127,6 +1148,16 @@ namespace MonoDevelop.Services
 			foreach (string dir in Directory.GetDirectories (path))
 				if (!IsDirectoryHierarchyEmpty (dir)) return false;
 			return true;
+		}
+		
+		// All methods inside this class are gui thread safe
+		
+		class GuiHelper: GuiSyncObject
+		{
+			public void SetWorkbenchContext (WorkbenchContext ctx)
+			{
+				WorkbenchSingleton.Workbench.Context = ctx;
+			}
 		}
 
 		void OnStartBuild()

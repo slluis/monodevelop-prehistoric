@@ -57,6 +57,7 @@ namespace MonoDevelop.Commands
 				PadContentCollection pads = wb.WorkbenchLayout.PadContentCollection;
 				foreach (IPadContent padContent in pads) {
 					CommandInfo cmd = new CommandInfo (padContent.Title);
+					cmd.UseMarkup = true;
 					cmd.Checked = WorkbenchSingleton.Workbench.WorkbenchLayout.IsVisible (padContent);
 					info.Add (cmd, padContent);
 				}

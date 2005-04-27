@@ -25,6 +25,11 @@ namespace MonoDevelop.Services
 		event EventHandler ResumedEvent;
 		event EventHandler StartedEvent;
 		event EventHandler StoppedEvent;
+		
+		event BreakpointEventHandler BreakpointAdded;
+		event BreakpointEventHandler BreakpointRemoved;
+		event BreakpointEventHandler BreakpointChanged;
+		event EventHandler ExecutionLocationChanged;
 
 		void Pause ();
 		void Resume ();
@@ -40,5 +45,8 @@ namespace MonoDevelop.Services
 		int CurrentLineNumber { get; }
 
 		string LookupValue (string expr);
+		
+		IBreakpoint[] Breakpoints { get; }
+		IBreakpoint[] GetBreakpointsAtFile (string sourceFile);
 	}
 }

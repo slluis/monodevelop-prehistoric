@@ -200,6 +200,7 @@
 				defaultHandler = "MonoDevelop.Commands.BuildHandler"
 				_label = "Buil_d" 
 				shortcut = "F8"
+				description = "Build the selected project"
 				icon  = "Icons.16x16.BuildCurrentSelectedProject" />
 		<Command id = "MonoDevelop.Commands.ProjectCommands.Rebuild"
 				defaultHandler = "MonoDevelop.Commands.RebuildHandler"
@@ -216,6 +217,9 @@
 				icon = "Icons.16x16.RunProgramIcon"
 				shortcut = "Control|F5"
 				_label = "Debug" />
+		<Command id = "MonoDevelop.Commands.ProjectCommands.DebugApplication"
+				defaultHandler = "MonoDevelop.Commands.DebugApplicationHandler"
+				_label = "Debug Application..." />
 		<Command id = "MonoDevelop.Commands.ProjectCommands.IncludeInBuild"
 				type="check"
 				_label = "Build" />
@@ -326,7 +330,6 @@
 				defaultHandler = "MonoDevelop.Commands.FullScreenHandler"
 				_label = "_Full Screen" 
 				icon = "Icons.16x16.FullScreen" 
-				shortcut = "F11"
 				description = "${res:XML.MainMenu.ViewMenu.FullScreen.Description}" />
 		<Command id = "MonoDevelop.Commands.ViewCommands.Open"
 				_label = "Open" />
@@ -805,6 +808,7 @@
 			<SeparatorItem id = "Separator1" />
 			<CommandItem id = "MonoDevelop.Commands.ProjectCommands.Run" />
 			<CommandItem id = "MonoDevelop.Commands.ProjectCommands.Debug" />
+			<CommandItem id = "MonoDevelop.Commands.ProjectCommands.DebugApplication" />
 			<SeparatorItem id = "Separator2" />
 			<CommandItem id = "MonoDevelop.Commands.ProjectCommands.Stop" />
 		</ItemSet>

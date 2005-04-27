@@ -175,6 +175,8 @@ Commands/AutostartCommands.cs \
 Commands/ToolsCommands.cs \
 Commands/ViewCommands.cs \
 Services/DebuggerService/IDebuggerService.cs \
+Services/DebuggerService/IBreakpoint.cs \
+Services/DebuggerService/BreakpointEventHandler.cs \
 Services/File/IFileService.cs \
 Services/File/DefaultFileService.cs \
 Services/File/FileEventArgs.cs \

@@ -11,6 +11,7 @@ using System.Diagnostics;
 using MonoDevelop.Services;
 using MonoDevelop.Gui;
 using MonoDevelop.Internal.Project;
+using MonoDevelop.Gui.Widgets;
 
 namespace MonoDevelop.Commands
 {
@@ -39,6 +40,7 @@ namespace MonoDevelop.Commands
 		Deploy,
 		ConfigurationSelector,
 		Debug,
+		DebugApplication,
 		Stop
 	}
 	
@@ -128,6 +130,10 @@ namespace MonoDevelop.Commands
 		
 		protected override void Update (CommandInfo info)
 		{
+			if (Runtime.DebuggingService == null) {
+				info.Enabled = false;
+				return;
+			}
 			if (Runtime.ProjectService.CurrentOpenCombine != null) {
 				info.Enabled = Runtime.ProjectService.CurrentSelectedCombineEntry != null && 
 								Runtime.ProjectService.CurrentRunOperation.IsCompleted;
@@ -149,6 +155,26 @@ namespace MonoDevelop.Commands
 		}
 	}
 	
+	public class DebugApplicationHandler: CommandHandler
+	{
+		protected override void Run ()
+		{
+			using (FileSelector fs = new FileSelector (GettextCatalog.GetString ("Application to Debug"))) {
+				int response = fs.Run ();
+				string name = fs.Filename;
+				fs.Hide ();
+				if (response == (int)Gtk.ResponseType.Ok)
+					Runtime.ProjectService.DebugApplication (name);
+			}
+		}
+		
+		protected override void Update (CommandInfo info)
+		{
+			info.Enabled = Runtime.DebuggingService != null &&
+							Runtime.ProjectService.CurrentRunOperation.IsCompleted;
+		}
+	}
+
 	public class BuildHandler: CommandHandler
 	{
 		protected override void Run ()

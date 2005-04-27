@@ -199,7 +199,7 @@ namespace MonoDevelop.Gui
 				if (currentLayout != "")
 					dockLayout.SaveLayout (currentLayout);
 				
-				string newLayout = workbench.Context.ToString () + "." + value;
+				string newLayout = workbench.Context.Id + "." + value;
 
 				if (layouts.Contains (value))
 				{
@@ -403,10 +403,13 @@ namespace MonoDevelop.Gui
 		{
 			DockItem item = GetDockItem (content);
 			if (item != null) {
-				if (item.DefaultPosition != null)
+			
+				// TODO: ShowItem is not working properly in the
+				// managed Gdl.
+/*				if (item.DefaultPosition != null)
 					item.ShowItem();
 				else
-					DockPad (item, content.DefaultPlacement);
+*/					DockPad (item, content.DefaultPlacement);
 			}
 			else
 				AddPad (content, content.DefaultPlacement);

@@ -108,7 +108,8 @@ namespace MonoDevelop.Services
 		
 		IAsyncOperation Debug (CombineEntry entry);
 		IAsyncOperation DebugFile (string sourceFile);
-		
+		IAsyncOperation DebugApplication (string executableFile);
+
 		void Deploy (Project project);
 		
 		void ShowOptions (CombineEntry entry);

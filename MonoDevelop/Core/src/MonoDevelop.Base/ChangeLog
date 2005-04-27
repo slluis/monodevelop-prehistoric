@@ -1,3 +1,27 @@
+2005-04-27  Lluis Sanchez Gual  <lluis@novell.com> 
+
+	* Commands/ViewCommands.cs: Use markup for the view list menu.
+	* Commands/ProjectCommands.cs: Implemented Debug Application command.
+	* Services/File/DefaultFileService.cs: In OpenFile, don't create a
+	progress monitor if the file is already open.
+	* Services/DebuggerService/IDebuggerService.cs: Added events that notify
+	when breakpoints are added/removed. Added methods for getting the
+	active breakpoints.
+	
+	* MonoDevelopCore.addin.xml:
+	* Services/Project/IProjectService.cs:
+	* Services/Project/ProjectService.cs:
+	Added DebugApplication method. In the Debug methods, make sure the
+	context switch is done in the gui thread.
+	
+	* Gui/Workbench/Layouts/SdiWorkspaceLayout.cs: Don't use ShowItem() to
+	show a hidden pad, since it is not working properly.
+	
+	* Gui/Workbench/DefaultWorkbench.cs: Removed most of code related to
+	debugging, since it is handled by the editor itself.
+	
+	* Makefile.am: Added some new files.
+
 2005-04-27  Lluis Sanchez Gual  <lluis@novell.com>
 
 	* Makefile.am

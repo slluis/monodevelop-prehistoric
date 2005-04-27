@@ -89,6 +89,14 @@ namespace MonoDevelop.Services
 		
 		public IAsyncOperation OpenFile (string fileName, bool bringToFront)
 		{
+			foreach (IViewContent content in WorkbenchSingleton.Workbench.ViewContentCollection) {
+				if (content.ContentName == fileName) {
+					if (bringToFront)
+						content.WorkbenchWindow.SelectWindow();
+					return NullAsyncOperation.Success;
+				}
+			}
+
 			IProgressMonitor pm = Runtime.TaskService.GetStatusProgressMonitor (string.Format (GettextCatalog.GetString ("Opening {0}"), fileName), Stock.OpenFileIcon, false);
 			FileInformation openFileInfo = new FileInformation();
 			openFileInfo.ProgressMonitor = pm;
@@ -144,9 +152,9 @@ namespace MonoDevelop.Services
 				}
 				
 				foreach (IViewContent content in WorkbenchSingleton.Workbench.ViewContentCollection) {
-					if (content.ContentName != null && 
-						content.ContentName == fileName) {
-						content.WorkbenchWindow.SelectWindow();
+					if (content.ContentName == fileName) {
+						if (oFileInfo.BringToFront)
+							content.WorkbenchWindow.SelectWindow();
 						return;
 					}
 				}

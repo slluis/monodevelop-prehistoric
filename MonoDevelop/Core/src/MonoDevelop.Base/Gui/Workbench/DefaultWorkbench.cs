@@ -43,9 +43,6 @@ namespace MonoDevelop.Gui
 		
 		bool closeAll = false;
 
-		string cur_dbgFilename;
-		int    cur_dbgLineNumber;
-		
 		bool            fullscreen;
 		Rectangle       normalBounds       = new Rectangle(0, 0, 640, 480);
 		
@@ -150,8 +147,6 @@ namespace MonoDevelop.Gui
 			IDebuggingService dbgr = Runtime.DebuggingService;
 			if (dbgr != null) {
 				dbgr.PausedEvent += new EventHandler (onDebuggerPaused);
-				dbgr.ResumedEvent += new EventHandler (onDebuggerResumed);		
-				dbgr.StoppedEvent += new EventHandler (onDebuggerStopped);
 			}
 
 			Gtk.Drag.DestSet (this, Gtk.DestDefaults.Motion | Gtk.DestDefaults.Highlight | Gtk.DestDefaults.Drop, targetEntryTypes, Gdk.DragAction.Copy);
@@ -191,37 +186,11 @@ namespace MonoDevelop.Gui
 		{
 			IDebuggingService dbgr = Runtime.DebuggingService;
 			if (dbgr != null) {
-				cur_dbgFilename = dbgr.CurrentFilename;
-				cur_dbgLineNumber = dbgr.CurrentLineNumber - 1;
-
-				if (cur_dbgFilename != String.Empty) {
-					Runtime.FileService.OpenFile (cur_dbgFilename);
-					if (ActiveWorkbenchWindow.ViewContent is IDebuggableEditor) 
-						((IDebuggableEditor)ActiveWorkbenchWindow.ViewContent).ExecutingAt (cur_dbgLineNumber);
-				}
+				if (dbgr.CurrentFilename != String.Empty)
+					Runtime.FileService.OpenFile (dbgr.CurrentFilename);
 			}
 		}
 
-		void onDebuggerResumed (object o, EventArgs e)
-		{
-			foreach (IViewContent content in ViewContentCollection) {
-				if (content.ContentName != null && content.ContentName == cur_dbgFilename) {
-					((IDebuggableEditor)content).ClearExecutingAt (cur_dbgLineNumber);
-					break;
-				}
-			}	
-		}
-
-		void onDebuggerStopped (object o, EventArgs e)
-		{
-			foreach (IViewContent content in ViewContentCollection) {
-				if (content.ContentName != null && content.ContentName == cur_dbgFilename) {
-					((IDebuggableEditor)content).ClearExecutingAt (cur_dbgLineNumber);
-					break;
-				}
-			}
-		}
-		
 		public void InitializeWorkspace()
 		{
 			// FIXME: GTKize
