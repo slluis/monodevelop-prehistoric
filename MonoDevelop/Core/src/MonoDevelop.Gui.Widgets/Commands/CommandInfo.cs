@@ -48,6 +48,7 @@ namespace MonoDevelop.Commands
 			text = cmd.Text;
 			icon = cmd.Icon;
 			accelKey = cmd.AccelKey;
+			description = cmd.Description;
 		}
 		
 		public CommandInfo (string text)
