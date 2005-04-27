@@ -245,9 +245,11 @@ namespace MonoDevelop.SourceEditor.Gui
 		
 		public override void Dispose()
 		{
-			Runtime.DebuggingService.BreakpointAdded -= breakpointAddedHandler;
-			Runtime.DebuggingService.BreakpointRemoved -= breakpointRemovedHandler;
-			Runtime.DebuggingService.ExecutionLocationChanged -= executionChangedHandler;
+			if (Runtime.DebuggingService != null) {
+				Runtime.DebuggingService.BreakpointAdded -= breakpointAddedHandler;
+				Runtime.DebuggingService.BreakpointRemoved -= breakpointRemovedHandler;
+				Runtime.DebuggingService.ExecutionLocationChanged -= executionChangedHandler;
+			}
 
 			mainBox.Remove (se);
 			properties.PropertyChanged -= new PropertyEventHandler (PropertiesChanged);
