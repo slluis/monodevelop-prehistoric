@@ -1,3 +1,9 @@
+2005-04-27  Lluis Sanchez Gual  <lluis@novell.com>
+
+	* Makefile.am
+	* Services/DebuggerService/IDebuggerService.cs:
+	Moved IDebuggerService.cs to its own directory.
+
 2005-04-25  Lluis Sanchez Gual  <lluis@novell.com>
 
 	* Commands/MenuItemBuilders.cs: Removed. Menu builders are now

@@ -174,6 +174,7 @@ Commands/WindowCommands.cs \
 Commands/AutostartCommands.cs \
 Commands/ToolsCommands.cs \
 Commands/ViewCommands.cs \
+Services/DebuggerService/IDebuggerService.cs \
 Services/File/IFileService.cs \
 Services/File/DefaultFileService.cs \
 Services/File/FileEventArgs.cs \
@@ -228,7 +229,6 @@ Services/StockIcons.cs \
 Services/MessageService.cs \
 Services/Toolbar/ToolbarService.cs \
 Services/MonodocService.cs \
-Services/IDebuggerService.cs \
 Services/SystemAssemblyService.cs \
 Services/DispatchService/AsyncDispatchAttribute.cs \
 Services/DispatchService/DispatchService.cs \
