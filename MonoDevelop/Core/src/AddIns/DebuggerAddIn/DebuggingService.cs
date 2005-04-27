@@ -52,6 +52,7 @@ namespace MonoDevelop.Debugger
 
 			if (StoppedEvent != null)
 				StoppedEvent (this, new EventArgs ());
+
 			backend.Dispose ();
 			backend = null;
 			current_monitor.Dispose ();
@@ -60,6 +61,9 @@ namespace MonoDevelop.Debugger
 			attr_handler = null;
 #endif
 			proc = null;
+			
+			if (ExecutionLocationChanged != null)
+				ExecutionLocationChanged (this, EventArgs.Empty);
 		}
 
 		public override void UnloadService ()
@@ -106,13 +110,15 @@ namespace MonoDevelop.Debugger
 		private Breakpoint CreateBreakpoint (string name)
 		{
 			SimpleBreakpoint point = new SimpleBreakpoint (name);
-			point.BreakpointHitEvent += new BreakpointEventHandler (OnBreakpointHit);
+			point.BreakpointHitEvent += new Mono.Debugger.BreakpointEventHandler (OnBreakpointHit);
 			return point;
 		}
 
 		public bool AddBreakpoint (string filename, int linenum)
 		{
 			string key = filename + ":" + linenum;
+			if (breakpoints.Contains (key)) return true;
+			
 			BreakpointHandle brkptnum = null;
 			if (Debugging) {
 				Breakpoint point = CreateBreakpoint (key);
@@ -121,18 +127,32 @@ namespace MonoDevelop.Debugger
 					return false;
 				brkptnum = loc.InsertBreakpoint (proc, point);
 			}
+			
+			BreakpointEntry entry = new BreakpointEntry (this, filename, linenum);
+			entry.Handle = brkptnum;
 
-			breakpoints.Add (key, brkptnum);
+			breakpoints.Add (key, entry);
+			
+			if (BreakpointAdded != null)
+				BreakpointAdded (this, new BreakpointEventArgs (entry));
+
 			return true;
 		}
 
 		public void RemoveBreakpoint (string filename, int linenum)
 		{
 			string key = filename + ":" + linenum;
-			if (Debugging)
-				((BreakpointHandle)breakpoints [key]).Remove (proc);
-
-			breakpoints.Remove (key);
+			BreakpointEntry entry = (BreakpointEntry) breakpoints [key];
+			
+			if (entry != null) {
+				if (Debugging)
+					entry.Handle.Remove (proc);
+	
+				breakpoints.Remove (key);
+			
+				if (BreakpointRemoved != null)
+					BreakpointRemoved (this, new BreakpointEventArgs (entry));
+			}
 		}
 
 		public bool ToggleBreakpoint (string filename, int linenum)
@@ -143,7 +163,35 @@ namespace MonoDevelop.Debugger
 				RemoveBreakpoint (filename, linenum);
 			return true;
 		}
+		
+		internal void EnableBreakpoint (BreakpointEntry entry, bool enable)
+		{
+			if (enable)
+				entry.Handle.Enable (proc);
+			else
+				entry.Handle.Disable (proc);
+			
+			if (BreakpointChanged != null)
+				BreakpointChanged (this, new BreakpointEventArgs (entry));
+		}
 
+		public IBreakpoint[] Breakpoints {
+			get {
+				IBreakpoint[] list = new IBreakpoint[breakpoints.Count];
+				breakpoints.Values.CopyTo (list, 0);
+				return list;
+			}
+		}
+		
+		public IBreakpoint[] GetBreakpointsAtFile (string sourceFile)
+		{
+			ArrayList list = new ArrayList ();
+			foreach (IBreakpoint b in breakpoints.Values)
+				if (b.FileName == sourceFile)
+					list.Add (b);
+			return (IBreakpoint[]) list.ToArray (typeof(IBreakpoint));
+		}
+		
 		private void thread_created (ThreadManager manager, Process process)
 		{
 			lock (procs) {
@@ -227,17 +275,16 @@ namespace MonoDevelop.Debugger
 					Console.WriteLine ("Couldn't find breakpoint location " + key + " " + backend.Modules.Length);
 					return;
 				}
-				breakpoints [key] = loc.InsertBreakpoint (proc, point);
-				if (breakpoints [key] == null)
-					//throw new Exception ("Couldn't insert breakpoint " + key);
-					return;
+				
+				BreakpointHandle handle = loc.InsertBreakpoint (proc, point);
+				((BreakpointEntry)breakpoints [key]).Handle = handle;
 			}
 		}
 
 		void EmitThreadStateEvent (object obj)
 		{
 			if (ThreadStateEvent != null)
-				ThreadStateEvent (this, new EventArgs ());
+				ThreadStateEvent (this, EventArgs.Empty);
 		}
 
 		void EmitStarted (object obj)
@@ -245,7 +292,7 @@ namespace MonoDevelop.Debugger
 			insert_breakpoints ();
 
 			if (StartedEvent != null)
-				StartedEvent (this, new EventArgs ());
+				StartedEvent (this, EventArgs.Empty);
 
 			ChangeState (obj);
 		}
@@ -253,14 +300,17 @@ namespace MonoDevelop.Debugger
 		void ChangeState (object obj)
 		{
 			if (ThreadStateEvent != null)
-				ThreadStateEvent (this, new EventArgs ());
+				ThreadStateEvent (this, EventArgs.Empty);
 			if (IsRunning) {
 				if (ResumedEvent != null) {
-					ResumedEvent (this, new EventArgs ());
+					ResumedEvent (this, EventArgs.Empty);
 				}
-			} else if (PausedEvent != null) {
-				PausedEvent (this, new EventArgs ());
+			} else {
+				if (PausedEvent != null)
+					PausedEvent (this, EventArgs.Empty);
 			}
+			if (ExecutionLocationChanged != null)
+				ExecutionLocationChanged (this, EventArgs.Empty);
 		}
 
 		public event EventHandler PausedEvent;
@@ -268,6 +318,11 @@ namespace MonoDevelop.Debugger
 		public event EventHandler StartedEvent;
 		public event EventHandler StoppedEvent;
 		public event EventHandler ThreadStateEvent;
+		
+		public event MonoDevelop.Services.BreakpointEventHandler BreakpointAdded;
+		public event MonoDevelop.Services.BreakpointEventHandler BreakpointRemoved;
+		public event MonoDevelop.Services.BreakpointEventHandler BreakpointChanged;
+		public event EventHandler ExecutionLocationChanged;
 
 		void KillApplication (object obj)
 		{
@@ -391,10 +446,10 @@ namespace MonoDevelop.Debugger
 
 		public string CurrentFilename {
 			get {
-				if (IsRunning)
+				if (IsRunning || proc == null)
 					return String.Empty;
 
-				  if (proc.CurrentFrame.SourceAddress == null /* there's no source for this frame */
+				if (proc.CurrentFrame.SourceAddress == null /* there's no source for this frame */
 				      || proc.CurrentFrame.SourceAddress.MethodSource.IsDynamic)
 					return String.Empty;
 
@@ -404,7 +459,7 @@ namespace MonoDevelop.Debugger
 
 		public int CurrentLineNumber {
 			get {
-				if (IsRunning)
+				if (IsRunning || proc == null)
 					return -1;
 
 				if (proc.CurrentFrame.SourceAddress == null /* there's no source for this frame */)
@@ -467,4 +522,43 @@ namespace MonoDevelop.Debugger
 		}
 	}
 
+	class BreakpointEntry: IBreakpoint
+	{
+		DebuggingService service;
+		BreakpointHandle handle;
+
+		string file;
+		int line;
+		
+		public BreakpointEntry (DebuggingService service, string file, int line)
+		{
+			this.service = service;
+			this.file = file;
+			this.line = line;
+		}
+		
+		public string FileName {
+			get { return file; }
+		}
+		
+		public int Line {
+			get { return line; }
+		}
+		
+		public BreakpointHandle Handle {
+			get { return handle; }
+			set { handle = value; }
+		}
+		
+		public bool Enabled {
+			get {
+				return handle != null && handle.IsEnabled;
+			}
+			set {
+				if (handle == null) return;
+				if (value == handle.IsEnabled) return;
+				service.EnableBreakpoint (this, value);
+			}
+		}
+	}
 }

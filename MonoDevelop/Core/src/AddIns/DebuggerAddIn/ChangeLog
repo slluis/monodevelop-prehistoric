@@ -1,3 +1,9 @@
+2005-04-27  Lluis Sanchez Gual  <lluis@novell.com>
+
+	* DebuggingService.cs: Track api changes in IDebuggingServices.
+	* Gui/Pads/ThreadPad.cs: Don't crash if an update is requested when
+	the debugger service is in an invalid state.
+
 2005-04-25  Lluis Sanchez Gual  <lluis@novell.com>
 
 	* DebuggingService.cs: Dispose the output pad when the debug session
