@@ -1,3 +1,19 @@
+2005-04-28  Chris Toshok  <toshok@ximian.com>
+
+	* DebugAttributeHandler.cs
+	(DebugAttributeHandler.ScanDirectory): split out the bulk of
+	Rescan and put it here so we can support multiple assembly drop
+	points.
+	(DebugAttributeHandler.Rescan): call ScanDirectory with
+	DebuggerPaths.VisualizerPath.
+
+	* DebuggerPaths.cs.in: new file so we can insert configure'd
+	paths.
+	
+	* Makefile.am (build_sources): add DebuggerPaths.cs
+	(DebuggerPaths.cs): add rule to build this file.
+	(DISTCLEANFILES): add DebuggerPaths.cs
+
 2005-04-27  Lluis Sanchez Gual  <lluis@novell.com>
 
 	* DebuggingService.cs: Track api changes in IDebuggingServices.

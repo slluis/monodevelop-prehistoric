@@ -20,13 +20,9 @@ namespace MonoDevelop.Debugger {
 
 	public class DebugAttributeHandler
 	{
-		public void Rescan () {
-
-		  display_by_type_name = new Hashtable ();
-		  proxy_by_type_name = new Hashtable ();
-		  visualizers_by_type_name = new Hashtable ();
-
-			DirectoryInfo info = new DirectoryInfo ("/opt/mono/lib/monodevelop/Debugger/");
+		public void ScanDirectory (string dir)
+		{
+			DirectoryInfo info = new DirectoryInfo (dir);
 			FileInfo[] dlls = info.GetFiles ("*.dll");
 
 			foreach (FileInfo dll_info in dlls) {
@@ -62,9 +58,18 @@ namespace MonoDevelop.Debugger {
 
 					vas.Add (va);
 
-					Console.WriteLine ("VISUALIZER ATTIRBUTE for type {0}", va.TargetTypeName);
+					Console.WriteLine ("VISUALIZER ATTRIBUTE for type {0}", va.TargetTypeName);
 				}
 			}
+		}
+
+		public void Rescan () {
+
+			display_by_type_name = new Hashtable ();
+			proxy_by_type_name = new Hashtable ();
+			visualizers_by_type_name = new Hashtable ();
+
+			ScanDirectory (DebuggerPaths.VisualizerPath);
 		}
 
 		public string EvaluateDebuggerDisplay (ITargetObject obj, string display)

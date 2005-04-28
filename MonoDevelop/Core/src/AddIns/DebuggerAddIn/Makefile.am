@@ -29,7 +29,11 @@ if ENABLE_DEBUGGER
 
 all: $(ASSEMBLY) $(ADDIN_BUILD)/$(ADDIN)
 
-build_sources = $(addprefix $(srcdir)/, $(FILES))
+build_sources = $(addprefix $(srcdir)/, $(FILES)) DebuggerPaths.cs
+
+DebuggerPaths.cs: $(srcdir)/DebuggerPaths.cs.in
+	sed -e 's,@''pkglibdir@,$(pkglibdir),g' $(srcdir)/$< > $@.tmp
+	mv $@.tmp $@
 
 $(ADDIN_BUILD)/$(ADDIN): $(srcdir)/$(ADDIN)
 	mkdir -p $(ADDIN_BUILD)
@@ -37,13 +41,14 @@ $(ADDIN_BUILD)/$(ADDIN): $(srcdir)/$(ADDIN)
 
 $(ASSEMBLY): $(build_sources)
 	mkdir -p $(ADDIN_BUILD)
-	$(CSC) -out:$@ -target:library \
+	$(CSC) -debug -define:NET_2_0 -out:$@ -target:library \
 	$(build_sources) $(DLLS)
 
 assemblydir = $(libdir)/monodevelop/AddIns/DebuggerAddIn
-assembly_DATA = $(ASSEMBLY) $(ADDIN)
+assembly_DATA = $(ASSEMBLY) $(ASSEMBLY).mdb $(ADDIN)
 
 CLEANFILES = $(ASSEMBLY) $(ASSEMBLY).mdb
+DISTCLEANFILES = DebuggerPaths.cs
 
 else
 all:
