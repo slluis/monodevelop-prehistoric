@@ -1,3 +1,6 @@
+2005-04-28  Rafael Monoman Teixeira <rafaelteixeirabr@hotmail.com>
+    * Makefile.am: added missing dependency for target $(ASSEMBLY)
+    
 2005-04-25  Peter Johanson <latexer@gentoo.org>
 
 	* BooShellServer/BooShellServer.boo:

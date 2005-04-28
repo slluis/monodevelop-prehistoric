@@ -108,7 +108,7 @@ $(ADDIN_BUILD)/$(ADDIN): $(srcdir)/$(ADDIN)
 	mkdir -p $(ADDIN_BUILD)
 	cp $(srcdir)/$(ADDIN) $(ADDIN_BUILD)/.
 
-$(ASSEMBLY): $(FILES) $(REMOTING_LIB)
+$(ASSEMBLY): $(FILES) $(REMOTING_LIB) $(BOOSHELL_LIB)
 	mkdir -p $(ADDIN_BUILD)
 	$(BOOC) $(DLLS) $(build_sources) -o:$@ -t:library
 
