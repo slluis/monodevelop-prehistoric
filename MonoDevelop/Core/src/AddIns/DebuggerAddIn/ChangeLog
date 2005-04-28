@@ -1,3 +1,7 @@
+2005-04-28  Lluis Sanchez Gual  <lluis@novell.com>
+
+	* Gui/Pads/ThreadPad.cs: Actually remove threads with no target.
+
 2005-04-28  Chris Toshok  <toshok@ximian.com>
 
 	* DebugAttributeHandler.cs

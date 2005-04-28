@@ -139,9 +139,7 @@ namespace MonoDevelop.Debugger
 			}
 
 			foreach (Process t in ((DebuggingService)Runtime.DebuggingService).Threads) {
-				if (t.State == TargetState.NO_TARGET)
-					threads_to_remove.Remove (t);
-				else if (!t.IsDaemon) {
+				if (t.State != TargetState.NO_TARGET && !t.IsDaemon) {
 					UpdateThread (t);
 					threads_to_remove.Remove (t);
 				}
