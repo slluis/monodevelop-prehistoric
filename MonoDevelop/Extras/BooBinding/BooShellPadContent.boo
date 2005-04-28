@@ -43,7 +43,9 @@ public class BooShellPadContent (AbstractPadContent):
 	
 	def CreateBooShell():
 		_scroller = Gtk.ScrolledWindow()
-		_shellView = ShellTextView (BooShellModel())
+		_user = System.Environment.GetEnvironmentVariable("USER")
+		_model = BooShellModel ("../AddIns/BackendBindings/BooShellServer.exe", "/tmp/md-booshell-${_user}")
+		_shellView = ShellTextView (_model)
 		_scroller.Add(_shellView)
 
 	override def RedrawContent():
@@ -52,4 +54,5 @@ public class BooShellPadContent (AbstractPadContent):
 
 	override def Dispose():
 		_shellView.Dispose()
+		_scroller.Dispose()
 		

@@ -17,37 +17,31 @@
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #endregion
 
-namespace BooBinding.Gui
+namespace BooBinding.BooShellServer
 
 import System
-import BooBinding.Properties
+import System.IO
+import System.Collections
 
-interface IShellModel:
-	def Reset() as bool:
-		pass
+import System.Net.Sockets
+import System.Runtime.Remoting
+import System.Runtime.Remoting.Channels
 
-	def LoadAssembly (assemblyPath as string) as bool:
-		pass
+import BooBinding.Remoting
+import BooBinding.BooShell
+import Mono.Posix
 
-	def RegisterOutputHandler (handler as callable):
-		pass
+if argv.Length != 1:
+	print "ERROR: BooShellServer called with an invalid number of arguments"
+	System.Environment.Exit(1)
 
-	def Run():
-		pass
+print "Starting server listening on ${argv[0]}"
+File.Delete (argv[0])
+props = Hashtable()
+props["path"] = argv[0]
+chan = UnixChannel (props, BinaryClientFormatterSinkProvider (), BinaryServerFormatterSinkProvider ())
+ChannelServices.RegisterChannel(chan);
+RemotingConfiguration.RegisterWellKnownServiceType(
+                typeof(BooShell), "BooShell", WellKnownObjectMode.Singleton);
 	
-	def GetOutput() as (string):
-		pass
-	
-	def QueueInput (line as string):
-		pass
-	
-	def Dispose():
-		pass
-
-	Properties as ShellProperties:
-		get:
-			pass
-
-	MimeType as string:
-		get:
-			pass
+Console.ReadLine()

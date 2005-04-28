@@ -25,6 +25,7 @@ import System.Runtime.InteropServices
 
 import Gtk
 import Gdk
+import GLib
 import Pango
 import GtkSourceView
 
@@ -32,6 +33,7 @@ import MonoDevelop.Gui.Widgets
 import MonoDevelop.Core.Services
 import MonoDevelop.Services
 import MonoDevelop.Core.Properties
+import MonoDevelop.Internal.Project
 import Boo.IO
 
 
@@ -60,6 +62,12 @@ class ShellTextView (SourceView):
 	private _reset_clears_history as bool
 	private _reset_clears_scrollback as bool
 	private _auto_indent as bool
+	private _load_assembly_after_build as bool
+
+	private _projService as ProjectService
+	private _proj as Project
+
+	private _assembliesLoaded as bool
 	
 	def constructor(model as IShellModel):
 		service = cast(SourceViewService,ServiceManager.GetService(typeof(SourceViewService)))
@@ -75,10 +83,12 @@ class ShellTextView (SourceView):
 		self.ModifyFont(Model.Properties.Font)
 
 		Model.Properties.InternalProperties.PropertyChanged += OnPropertyChanged
+		Model.RegisterOutputHandler (HandleOutput)
 
 		_auto_indent = Model.Properties.AutoIndentBlocks
 		_reset_clears_scrollback = Model.Properties.ResetClearsScrollback
 		_reset_clears_history = Model.Properties.ResetClearsHistory
+		_load_assembly_after_build = Model.Properties.LoadAssemblyAfterBuild
 
 
 		// The 'Freezer' tag is used to keep everything except
@@ -87,7 +97,69 @@ class ShellTextView (SourceView):
 		tag.Editable = false
 		Buffer.TagTable.Add (tag)
 		prompt(false)
+
+		_projService = ServiceManager.GetService(typeof(ProjectService))
+		_projService.EndBuild += ProjectCompiled
+		_projService.CurrentProjectChanged += ProjectChanged
+
+		// Run our model. Needs to happen for models which may spawn threads,
+		// processes, etc
+		Model.Run()
 	
+	def ProjectChanged (sender, e as ProjectEventArgs):
+		_proj = e.Project
+
+	def ProjectCompiled (compiled as bool):
+		if _load_assembly_after_build and compiled:
+			Model.Reset()
+			resetGui()
+			loadProjectAssemblies ()
+
+	def loadProjectAssemblies():
+		for assembly in getProjectAssemblies ():
+			if (System.IO.File.Exists(assembly)):
+				Model.Reset()
+				Model.LoadAssembly (assembly)
+		_assembliesLoaded = true
+					
+
+	def getProjectAssemblies():
+		_assemblies = []
+		if (_proj is not null):
+			assembly = _proj.GetOutputFileName()
+			if assembly is not null:
+				_assemblies.Add(assembly)
+		else:
+			_combine = _projService.CurrentOpenCombine
+			if _combine is null:
+				return
+
+			projects = _combine.GetAllProjects()
+			if projects is null:
+				return
+			for entry as Project in projects:
+				if entry is null:
+					continue
+				assembly = entry.GetOutputFileName()
+				if assembly is not null:
+					_assemblies.Add(assembly)
+
+		return _assemblies
+
+	def HandleOutput():
+		GLib.Idle.Add (outputIdleProcessor)
+	
+	def outputIdleProcessor() as bool:
+		output = Model.GetOutput()
+		if output is not null:
+			for line as string in output:
+				processOutput (line )
+		prompt (true)
+		return false
+			
+	override def Dispose():
+		Model.Dispose()
+
 	#region Overrides of the standard methods for event handling
 	override def OnPopulatePopup (menu as Gtk.Menu):
 		_copyScriptInput = ImageMenuItem (GettextCatalog.GetString ("Copy Script"))
@@ -98,26 +170,41 @@ class ShellTextView (SourceView):
 		_saveScriptToFile.Image = Gtk.Image (Stock.SaveAs, Gtk.IconSize.Menu)
 		_saveScriptToFile.Activated += OnSaveScript
 		
+		_loadAssemblies = ImageMenuItem (GettextCatalog.GetString ("Load Project Assemblies (forces shell reset)"))
+		_loadAssemblies.Image = Gtk.Image (Stock.Add, Gtk.IconSize.Menu)
+		_loadAssemblies.Activated += def():
+			if Model.Reset ():
+				resetGui ()
+				loadProjectAssemblies ()
+		
 		_reset = ImageMenuItem (GettextCatalog.GetString ("Reset Shell"))
 		_reset.Image = Gtk.Image (Stock.Clear, Gtk.IconSize.Menu)
 		_reset.Activated += def():
 			if Model.Reset():
 				resetGui()
-		
+				_assembliesLoaded = false
+
 		if _scriptLines.Length <= 0:
 			_copyScriptInput.Sensitive = false
 			_saveScriptToFile.Sensitive = false
 			_reset.Sensitive = false
 
+		if (_assembliesLoaded == false) and (len (getProjectAssemblies ()) > 0):
+			_loadAssemblies.Sensitive = true
+		else:
+			_loadAssemblies.Sensitive = false
+
 		_sep = Gtk.SeparatorMenuItem()
 		menu.Prepend(_sep)
 		menu.Prepend(_copyScriptInput)
 		menu.Prepend(_saveScriptToFile)
+		menu.Prepend(_loadAssemblies)
 		menu.Prepend(_reset)
 		
 		_sep.Show()
 		_copyScriptInput.Show()
 		_saveScriptToFile.Show()
+		_loadAssemblies.Show()
 		_reset.Show()
 	
 	override def OnKeyPressEvent (ev as Gdk.EventKey):
@@ -250,13 +337,7 @@ class ShellTextView (SourceView):
 	
 	#region local private methods
 	private def processInput (line as string):
-		// Send our input out to be processed by the model
-		// and handle any output received in return
-		_results = self.Model.ProcessInput (line)
-		if _results:
-			for line as string in _results:
-				processOutput (line)
-		prompt(true)
+		Model.QueueInput (line)
 	
 	private def processOutput (line as string):
 		end = Buffer.EndIter
@@ -309,6 +390,8 @@ class ShellTextView (SourceView):
 			_reset_clears_scrollback = Model.Properties.ResetClearsScrollback
 		elif e.Key == "ResetClearsHistory":
 			_reset_clears_history = Model.Properties.ResetClearsHistory
+		elif e.Key == "LoadAssemblyAfterBuild":
+			_load_assembly_after_build = Model.Properties.LoadAssemblyAfterBuild
 
 		return
 

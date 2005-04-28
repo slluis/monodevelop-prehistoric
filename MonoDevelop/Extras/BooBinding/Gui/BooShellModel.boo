@@ -20,70 +20,115 @@
 namespace BooBinding.Gui
 
 import System
+import System.Diagnostics
 import System.Collections
 import System.IO
-import Boo.Lang.Interpreter
-import Boo.Lang.Compiler
 import BooBinding.Properties
 
+import BooBinding.BooShell
+import BooBinding.Remoting
+import System.Runtime.Remoting
+import System.Runtime.Remoting.Channels
+
 class BooShellModel(IShellModel):
+	private _props = BooShellProperties()
+
+	private _commandQueue = Queue()
+	private _outputQueue = Queue()
+
+	private _outputHandler as callable
 	
-	private _interpreter = InteractiveInterpreter(RememberLastValue: true, Print: print)
+	private _thread as System.Threading.Thread
 
-	private _outSink as StreamWriter
-	private _outSource as StreamReader
+	private _process as Process
 
-	private props = BooShellProperties()
+	private _booShell as BooShell
 
 	MimeType as string:
 		get:
 			return "text/x-boo"
 
-	def constructor():
-		_stream = MemoryStream()
-		_outSink = StreamWriter(_stream)
-		_outSource = StreamReader (_stream)
-	
 	Properties as ShellProperties:
 		get:
-			return props
+			return _props
 	
+	def constructor ():
+		pass
+
+	def constructor (program_path as string, socket_path as string):
+		StartShellServer (program_path, socket_path)
+		GetRemoteShellObject (socket_path)
+		_booShell.Run()
+
+	def StartShellServer(program_path as string, socket_path as string):
+		psi = ProcessStartInfo()
+		psi.FileName = "mono"
+		psi.Arguments = "${program_path} ${socket_path}"
+		_process = Process.Start(psi)
+	
+	def GetRemoteShellObject (socket_path as string):
+		chan = UnixChannel (Hashtable(), BinaryClientFormatterSinkProvider (), BinaryServerFormatterSinkProvider ())
+		ChannelServices.RegisterChannel(chan)
+		_booShell = Activator.GetObject (typeof(BooShell), "unix://${socket_path}?BooShell")
+
+			
 	def Reset() as bool:
-		_interpreter.Reset()
+		_booShell.Reset()
 		return true
-		
-	def ProcessInput (line as String) as (string):
-		// Make sure our fake stdout is at the beginning
-		_outSink.BaseStream.SetLength(0)
-		_outSink.BaseStream.Seek(0, SeekOrigin.Begin)
-
-		// Save tradition stdout, and redirect Console
-		// to local StreamWriter. Catches any print, etc calls
-		// to be output to the local shell
-		_stdout = Console.Out
-		Console.SetOut(_outSink)
-
-		_interpreter.LoopEval(line)
-
-		// Restore stdout, and prep our fake stdout for reading
-		Console.SetOut(_stdout)
-		_outSink.Flush()
-		_outSink.BaseStream.Seek(0, SeekOrigin.Begin)
-
-		retList = ArrayList()
-		_outputLine as string = _outSource.ReadLine()
-
-		while _outputLine is not null:
-			retList.Add(_outputLine)
-			_outputLine = _outSource.ReadLine()
-
-		ret = cast ((string), retList.ToArray(typeof(string)))
-
-		_ = _interpreter.LastValue
-		if _ is not null:
-			_interpreter.SetValue("_", _)
+	
+	def LoadAssembly (assemblyPath as string) as bool:
+		_booShell.LoadAssembly (assemblyPath)
+		return true
+	
+	def GetOutput() as (string):
+		ret as (string)
+		lock _outputQueue:
+			if _outputQueue.Count > 0:
+				ret = array (string, _outputQueue.Count)
+				_outputQueue.CopyTo (ret, 0)
+				_outputQueue.Clear()
 
 		return ret
+
+		
+	def QueueInput (line as string):
+		lock _commandQueue:
+			_commandQueue.Enqueue (line)
+
+	def ThreadRun():
+		while true:
+			com as string
+			lock _commandQueue:
+				if _commandQueue.Count > 0:
+					com = _commandQueue.Dequeue()
+			if com is not null:
+				_booShell.QueueInput (com)
+				lines = _booShell.GetOutput()
+				if lines is not null:
+					EnqueueOutput(lines)
+				com = null
+				lock _outputQueue:
+					if _outputHandler is not null:
+						_outputHandler()
+
 	
+	def Run():
+		_thread = System.Threading.Thread(ThreadRun)
+		_thread.Start()
+	
+	def RegisterOutputHandler (handler as callable):
+		_outputHandler = handler
+	
+	def EnqueueOutput (lines as (string)):
+		lock _outputQueue:
+			for line in lines:
+				_outputQueue.Enqueue(line)
+	
+	def Dispose():
+		_thread.Abort()
+		_process.Kill()
+		_booShell = null
+		
 	def print(obj):
-		print "${obj}"
+		lock _outputQueue:
+			_outputQueue.Enqueue(obj)

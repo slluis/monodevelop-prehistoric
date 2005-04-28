@@ -56,3 +56,9 @@ class ShellProperties:
 			return properties.GetProperty ("ResetClearsHistory", true)
 		set:
 			properties.SetProperty ("ResetClearsHistory", value)
+
+	LoadAssemblyAfterBuild as bool:
+		get:
+			return properties.GetProperty ("LoadAssemblyAfterBuild", true)
+		set:
+			properties.SetProperty ("LoadAssemblyAfterBuild", value)

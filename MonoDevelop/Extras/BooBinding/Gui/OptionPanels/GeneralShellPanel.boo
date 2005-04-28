@@ -39,6 +39,7 @@ public class GeneralShellPanel(AbstractOptionPanel):
 	private autoIndentCheckButton = Gtk.CheckButton ()
 	private resetClearsScrollbackCheckButton = Gtk.CheckButton ()
 	private resetClearsHistoryCheckButton = Gtk.CheckButton ()
+	private loadAssemblyCheckButton = Gtk.CheckButton ()
 
 	private fontOptionsLabel = Gtk.Label ()
 	private fontButton = FontButton ()
@@ -55,6 +56,7 @@ public class GeneralShellPanel(AbstractOptionPanel):
 		autoIndentCheckButton.Label = GettextCatalog.GetString ("Automatically indent new lines in code blocks")
 		resetClearsScrollbackCheckButton.Label = GettextCatalog.GetString ("Shell reset clears scollback")
 		resetClearsHistoryCheckButton.Label = GettextCatalog.GetString ("Shell reset clears command history")
+		loadAssemblyCheckButton.Label = GettextCatalog.GetString ("Load project assemblies after building them (Causes shell reset)")
 		fontOptionsLabel.Markup = String.Format ("<b>{0}</b>", GettextCatalog.GetString ("Font"))
 		defaultMonoRadio = RadioButton (GettextCatalog.GetString ("Use default monospace font"))
 		customFontRadio = RadioButton (defaultMonoRadio, GettextCatalog.GetString ("Use custom font:"))
@@ -80,6 +82,9 @@ public class GeneralShellPanel(AbstractOptionPanel):
 		hboxTmp.PackStart (resetClearsHistoryCheckButton, false, false, 6)
 		vbox.PackStart (hboxTmp, false, false, 0)
 		hboxTmp = HBox()
+		hboxTmp.PackStart (loadAssemblyCheckButton, false, false, 6)
+		vbox.PackStart (hboxTmp, false, false, 0)
+		hboxTmp = HBox()
 		hboxTmp.PackStart (fontOptionsLabel, false, false, 0)
 		vbox.PackStart (hboxTmp, false, false, 12)
 		hboxTmp = HBox()
@@ -103,6 +108,7 @@ public class GeneralShellPanel(AbstractOptionPanel):
 		autoIndentCheckButton.Active = Properties.AutoIndentBlocks
 		resetClearsScrollbackCheckButton.Active = Properties.ResetClearsScrollback
 		resetClearsHistoryCheckButton.Active = Properties.ResetClearsHistory
+		loadAssemblyCheckButton.Active =  Properties.LoadAssemblyAfterBuild
 
 
 	public override def StorePanelContents() as bool:
@@ -118,6 +124,8 @@ public class GeneralShellPanel(AbstractOptionPanel):
 			Properties.ResetClearsScrollback = resetClearsScrollbackCheckButton.Active
 		if Properties.ResetClearsHistory != resetClearsHistoryCheckButton.Active:
 			Properties.ResetClearsHistory = resetClearsHistoryCheckButton.Active
+		if Properties.LoadAssemblyAfterBuild != loadAssemblyCheckButton.Active:
+			Properties.LoadAssemblyAfterBuild = loadAssemblyCheckButton.Active
 		return true
 	
 	private def ItemToggled (o, args as EventArgs):

@@ -53,7 +53,7 @@ public class CodeGenerationPanel(AbstractOptionPanel):
 
 	private outputAssembly = Entry ()
 	private outputDirectory = Entry()
-	// Waiting on resolution of a boo bug before we can use this
+	// Waiting on easy method for setting entry text before using
 	//private outputDirectory as FolderEntry = FolderEntry ("Output Directory")
 	private compilerPath = Entry ()
 	private culture = Entry ()
