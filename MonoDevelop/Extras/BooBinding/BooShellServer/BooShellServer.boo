@@ -44,4 +44,5 @@ ChannelServices.RegisterChannel(chan);
 RemotingConfiguration.RegisterWellKnownServiceType(
                 typeof(BooShell), "BooShell", WellKnownObjectMode.Singleton);
 	
-Console.ReadLine()
+while true:
+	System.Threading.Thread.Sleep (10)

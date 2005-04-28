@@ -1,5 +1,11 @@
 2005-04-25  Peter Johanson <latexer@gentoo.org>
 
+	* BooShellServer/BooShellServer.boo:
+	Small fix to make sure the shell server
+	doesn't exit unexpectedly.
+
+2005-04-25  Peter Johanson <latexer@gentoo.org>
+
 	* Properties/GeneralShellProperties.boo:
 	* Gui/*: Lots of changes to handle new shell
 	handling, as well as adding the ability to
