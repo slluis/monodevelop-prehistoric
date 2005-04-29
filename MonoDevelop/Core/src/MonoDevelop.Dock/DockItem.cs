@@ -920,7 +920,6 @@ namespace Gdl
 		{
 			DockObjectFlags |= DockObjectFlags.Iconified;
 			HideItem ();
-			Master.EmitLayoutChangedEvent ();
 		}
 
 		public void ShowItem ()

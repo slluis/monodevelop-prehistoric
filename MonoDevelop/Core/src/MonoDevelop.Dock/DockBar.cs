@@ -132,7 +132,6 @@ namespace Gdl
 			DockItem item = ((DockBarButton) o).DockItem;
 			item.DockBar = null;
 			item.ShowItem ();
-			this.RemoveItem (item);
 			item.Master.Controller.QueueResize ();
 		}
 	}

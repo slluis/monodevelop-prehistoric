@@ -1,3 +1,8 @@
+2005-04-28  John Luke  <john.luke@gmail.com>
+
+	* DockBar.cs: remove redundent RemoveItem call
+	* DockItem.cs: remove redundent LayoutChanged event
+	
 2005-04-17  John Luke  <john.luke@gmail.com>
 
 	* Makefile.am: fix distcheck
