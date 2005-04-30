@@ -18,6 +18,8 @@ using MonoDevelop.EditorBindings.FormattingStrategy;
 using MonoDevelop.Gui.Utils;
 using MonoDevelop.Gui;
 using MonoDevelop.Services;
+using MonoDevelop.Commands;
+using MonoDevelop.DefaultEditor;
 
 using GtkSourceView;
 
@@ -100,50 +102,25 @@ namespace MonoDevelop.SourceEditor.Gui
 				int top;
 
 				GetLineAtY (out line, y, out top);
+				buf.PlaceCursor (line);		
 				
 				if (e.Button == 1) {
 					buf.ToggleBookmark (line.Line);
 				} else if (e.Button == 3) {
-					Gtk.Menu popup = new Gtk.Menu ();
-					Gtk.CheckMenuItem bookmarkItem = new Gtk.CheckMenuItem (GettextCatalog.GetString ("Bookmark"));
-					bookmarkItem.Active = buf.IsBookmarked (line.Line);
-					bookmarkItem.Toggled += new EventHandler (bookmarkToggled);
-					popup.Append (bookmarkItem);
-
-					if (ServiceManager.GetService (typeof (IDebuggingService)) != null) {
-						Gtk.CheckMenuItem breakpointItem = new Gtk.CheckMenuItem (GettextCatalog.GetString ("Breakpoint"));
-	
-						breakpointItem.Active = buf.IsBreakpoint (line.Line);
-	
-						breakpointItem.Toggled += new EventHandler (breakpointToggled);
-						popup.Append (breakpointItem);
-					}
-
-					popup.ShowAll ();
-					lineToMark = line.Line;
-					popup.Popup (null, null, null, IntPtr.Zero, 3, e.Time);
+					CommandEntrySet cset = new CommandEntrySet ();
+					cset.AddItem (EditorCommands.ToggleBookmark);
+					cset.AddItem (EditorCommands.ClearBookmarks);
+					cset.AddItem (Command.Separator);
+					cset.AddItem (DebugCommands.ToggleBreakpoint);
+					cset.AddItem (DebugCommands.ClearAllBreakpoints);
+					Gtk.Menu menu = Runtime.Gui.CommandService.CreateMenu (cset);
+					
+					menu.Popup (null, null, null, IntPtr.Zero, 3, e.Time);
 				}
 			}
 			return base.OnButtonPressEvent (e);
 		}
 		
-		public void bookmarkToggled (object o, EventArgs e)
-		{
-			if (lineToMark == -1) return;
-			buf.ToggleMark (lineToMark, SourceMarkerType.SourceEditorBookmark);
-			lineToMark = -1;
-		}
-
-		public void breakpointToggled (object o, EventArgs e)
-		{
-			if (lineToMark == -1) return;
-			IDebuggingService dbgr = (IDebuggingService)ServiceManager.GetService (typeof (IDebuggingService));
-			if (dbgr != null) {
-				dbgr.ToggleBreakpoint (ParentEditor.DisplayBinding.ContentName, lineToMark + 1);
-				lineToMark = -1;
-			}
-		}
-
 		public void ShowBreakpointAt (int linenumber)
 		{
 			if (!buf.IsMarked (linenumber, SourceMarkerType.BreakpointMark))

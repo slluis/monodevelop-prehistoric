@@ -8,6 +8,7 @@ using MonoDevelop.Commands;
 using MonoDevelop.Gui.Dialogs;
 using GtkSourceView;
 using MonoDevelop.DefaultEditor;
+using MonoDevelop.Services;
 
 namespace MonoDevelop.SourceEditor.Gui
 {
@@ -185,6 +186,24 @@ namespace MonoDevelop.SourceEditor.Gui
 		public void ClearBookmarks ()
 		{
 			Buffer.ClearBookmarks ();
+		}
+		
+		[CommandHandler (DebugCommands.ToggleBreakpoint)]
+		public void ToggleBreakpoint ()
+		{
+			if (Runtime.DebuggingService != null && DisplayBinding.ContentName != null) {
+				int line = Buffer.GetIterAtMark (Buffer.InsertMark).Line + 1;
+				Runtime.DebuggingService.ToggleBreakpoint (DisplayBinding.ContentName, line);
+			}
+		}
+		
+		[CommandUpdateHandler (DebugCommands.ToggleBreakpoint)]
+		public void UpdateToggleBreakpoint (CommandInfo info)
+		{
+			if (Runtime.DebuggingService == null)
+				info.Visible = false;
+			else
+				info.Enabled = DisplayBinding.ContentName != null;
 		}
 
 		private static readonly string [] drag_icon_xpm = new string [] {

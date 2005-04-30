@@ -1,3 +1,12 @@
+2005-04-30  Lluis Sanchez Gual  <lluis@novell.com> 
+
+	* Gui/SourceEditorWidget.cs: Handler toggle breakpoint command.
+	* Gui/SourceEditorView.cs: Use the new command system to show
+	the contextual menu.
+	* Gui/SourceEditorDisplayBinding.cs: Show only breakpoints for the
+	file being edited. Catch exceptions when reloading the file.
+	* MonoDevelopEditor.addin.xml: Added some command descriptions.
+
 2005-04-27  Lluis Sanchez Gual  <lluis@novell.com> 
 
 	* Gui/SourceEditorDisplayBinding.cs: Don't crash if the debugger

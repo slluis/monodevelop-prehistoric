@@ -314,12 +314,14 @@ namespace MonoDevelop.SourceEditor.Gui
 		
 		void OnBreakpointAdded (object sender, BreakpointEventArgs args)
 		{
-			se.View.ShowBreakpointAt (args.Breakpoint.Line - 1);
+			if (args.Breakpoint.FileName == ContentName)
+				se.View.ShowBreakpointAt (args.Breakpoint.Line - 1);
 		}
 		
 		void OnBreakpointRemoved (object sender, BreakpointEventArgs args)
 		{
-			se.View.ClearBreakpointAt (args.Breakpoint.Line - 1);
+			if (args.Breakpoint.FileName == ContentName)
+				se.View.ClearBreakpointAt (args.Breakpoint.Line - 1);
 		}
 		
 		void OnExecutionLocationChanged (object sender, EventArgs args)
@@ -375,9 +377,13 @@ namespace MonoDevelop.SourceEditor.Gui
 		
 		void ClickedReload (object sender, EventArgs args)
 		{
-			editorBar.Remove (reloadBar);
-			Load (ContentName);
-			WorkbenchWindow.ShowNotification = false;
+			try {
+				Load (ContentName);
+				editorBar.Remove (reloadBar);
+				WorkbenchWindow.ShowNotification = false;
+			} catch (Exception ex) {
+				Runtime.MessageService.ShowError (ex, "Could not reload the file.");
+			}
 		}
 		
 		void ClickedIgnore (object sender, EventArgs args)
