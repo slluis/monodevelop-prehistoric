@@ -336,7 +336,6 @@ namespace MonoDevelop.Services
 
 		public IAsyncOperation Execute (CombineEntry entry)
 		{
-			if (openCombine == null) return NullAsyncOperation.Success;
 			if (currentRunOperation != null && !currentRunOperation.IsCompleted) return currentRunOperation;
 
 			IProgressMonitor monitor = new NullProgressMonitor ();
@@ -362,7 +361,6 @@ namespace MonoDevelop.Services
 		
 		public IAsyncOperation Debug (CombineEntry entry)
 		{
-			if (openCombine == null) return NullAsyncOperation.Success;
 			if (currentRunOperation != null && !currentRunOperation.IsCompleted) return currentRunOperation;
 			
 			guiHelper.SetWorkbenchContext (WorkbenchContext.Debug);
@@ -442,7 +440,7 @@ namespace MonoDevelop.Services
 				aop.Completed += new OperationHandler (h.Run);
 				return aop;
 			} else {
-				Runtime.MessageService.ShowError (string.Format (GettextCatalog.GetString ("The current file {0} can't be compiled."), file));
+				Runtime.MessageService.ShowError (string.Format (GettextCatalog.GetString ("The file {0} can't be compiled."), file));
 				return NullAsyncOperation.Failure;
 			}
 		}
@@ -464,7 +462,6 @@ namespace MonoDevelop.Services
 	
 		public IAsyncOperation Rebuild (CombineEntry entry)
 		{
-			if (openCombine == null) return NullAsyncOperation.Success;
 			if (currentBuildOperation != null && !currentBuildOperation.IsCompleted) return currentBuildOperation;
 
 			entry.Clean ();
@@ -473,7 +470,6 @@ namespace MonoDevelop.Services
 		
 		public IAsyncOperation Build (CombineEntry entry)
 		{
-			if (openCombine == null) return NullAsyncOperation.Success;
 			if (currentBuildOperation != null && !currentBuildOperation.IsCompleted) return currentBuildOperation;
 			
 			BeforeCompile (entry);

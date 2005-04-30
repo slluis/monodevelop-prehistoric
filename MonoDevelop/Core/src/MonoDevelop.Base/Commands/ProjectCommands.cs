@@ -17,7 +17,6 @@ namespace MonoDevelop.Commands
 {
 	public enum ProjectCommands
 	{
-		Compile,
 		AddNewProject,
 		AddNewCombine,
 		AddProject,
@@ -31,49 +30,34 @@ namespace MonoDevelop.Commands
 		NewFolder,
 		IncludeToProject,
 		Build,
+		BuildSolution,
 		Rebuild,
+		RebuildSolution,
 		SetAsStartupProject,
 		GenerateMakefiles,
+		RunEntry,
 		Run,
 		IncludeInBuild,
 		IncludeInDeploy,
 		Deploy,
 		ConfigurationSelector,
 		Debug,
+		DebugEntry,
 		DebugApplication,
-		Stop
-	}
-	
-	public class CompileHandler: CommandHandler
-	{
-		protected override void Run ()
-		{
-			IProjectService projectService = Runtime.ProjectService;
-			if (WorkbenchSingleton.Workbench.ActiveWorkbenchWindow != null) {
-				Runtime.FileService.SaveFile (WorkbenchSingleton.Workbench.ActiveWorkbenchWindow);
-				projectService.BuildFile (WorkbenchSingleton.Workbench.ActiveWorkbenchWindow.ViewContent.ContentName);
-			}
-		}
-		
-		protected override void Update (CommandInfo info)
-		{
-			info.Enabled = WorkbenchSingleton.Workbench.ActiveWorkbenchWindow != null;
-		}
+		Stop,
+		Clean,
+		CleanSolution
 	}
 	
 	public class RunHandler: CommandHandler
 	{
-		CombineEntry entry;
 		string file;
 		
 		protected override void Run ()
 		{
 			if (Runtime.ProjectService.CurrentOpenCombine != null) {
-				entry = Runtime.ProjectService.CurrentSelectedCombineEntry;
-				if (entry != null) {
-					IAsyncOperation op = Runtime.ProjectService.Build (entry);
-					op.Completed += new OperationHandler (ExecuteCombine);
-				}
+				IAsyncOperation op = Runtime.ProjectService.Build (Runtime.ProjectService.CurrentOpenCombine);
+				op.Completed += new OperationHandler (ExecuteCombine);
 			} else {
 				if (WorkbenchSingleton.Workbench.ActiveWorkbenchWindow != null) {
 					file = WorkbenchSingleton.Workbench.ActiveWorkbenchWindow.ViewContent.ContentName;
@@ -86,8 +70,7 @@ namespace MonoDevelop.Commands
 		protected override void Update (CommandInfo info)
 		{
 			if (Runtime.ProjectService.CurrentOpenCombine != null) {
-				info.Enabled = Runtime.ProjectService.CurrentSelectedCombineEntry != null && 
-								Runtime.ProjectService.CurrentRunOperation.IsCompleted;
+				info.Enabled = Runtime.ProjectService.CurrentRunOperation.IsCompleted;
 			} else {
 				info.Enabled = (WorkbenchSingleton.Workbench.ActiveWorkbenchWindow != null);
 			}
@@ -96,7 +79,7 @@ namespace MonoDevelop.Commands
 		void ExecuteCombine (IAsyncOperation op)
 		{
 			if (op.Success)
-				Runtime.ProjectService.Execute (entry);
+				Runtime.ProjectService.Execute (Runtime.ProjectService.CurrentOpenCombine);
 		}
 		
 		void ExecuteFile (IAsyncOperation op)
@@ -106,19 +89,46 @@ namespace MonoDevelop.Commands
 		}
 	}
 	
-	public class DebugHandler: CommandHandler
+	
+	public class RunEntryHandler: CommandHandler
 	{
 		CombineEntry entry;
+		
+		protected override void Run ()
+		{
+			entry = Runtime.ProjectService.CurrentSelectedCombineEntry;
+			IAsyncOperation op = Runtime.ProjectService.Build (entry);
+			op.Completed += new OperationHandler (ExecuteCombine);
+		}
+		
+		protected override void Update (CommandInfo info)
+		{
+			info.Enabled = Runtime.ProjectService.CurrentSelectedCombineEntry != null && 
+							Runtime.ProjectService.CurrentRunOperation.IsCompleted;
+		}
+		
+		void ExecuteCombine (IAsyncOperation op)
+		{
+			if (op.Success)
+				Runtime.ProjectService.Execute (entry);
+		}
+	}
+	
+	
+	public class DebugHandler: CommandHandler
+	{
 		string file;
 		
 		protected override void Run ()
 		{
+			if (Runtime.DebuggingService != null && Runtime.DebuggingService.IsDebugging && !Runtime.DebuggingService.IsRunning) {
+				Runtime.DebuggingService.Resume ();
+				return;
+			}
+			
 			if (Runtime.ProjectService.CurrentOpenCombine != null) {
-				entry = Runtime.ProjectService.CurrentSelectedCombineEntry;
-				if (entry != null) {
-					IAsyncOperation op = Runtime.ProjectService.Build (entry);
-					op.Completed += new OperationHandler (ExecuteCombine);
-				}
+				IAsyncOperation op = Runtime.ProjectService.Build (Runtime.ProjectService.CurrentOpenCombine);
+				op.Completed += new OperationHandler (ExecuteCombine);
 			} else {
 				if (WorkbenchSingleton.Workbench.ActiveWorkbenchWindow != null) {
 					file = WorkbenchSingleton.Workbench.ActiveWorkbenchWindow.ViewContent.ContentName;
@@ -130,13 +140,18 @@ namespace MonoDevelop.Commands
 		
 		protected override void Update (CommandInfo info)
 		{
+			if (Runtime.DebuggingService != null && Runtime.DebuggingService.IsDebugging && !Runtime.DebuggingService.IsRunning) {
+				info.Enabled = true;
+				info.Text = GettextCatalog.GetString ("Resume");
+				return;
+			}
+
 			if (Runtime.DebuggingService == null) {
 				info.Enabled = false;
 				return;
 			}
 			if (Runtime.ProjectService.CurrentOpenCombine != null) {
-				info.Enabled = Runtime.ProjectService.CurrentSelectedCombineEntry != null && 
-								Runtime.ProjectService.CurrentRunOperation.IsCompleted;
+				info.Enabled = Runtime.ProjectService.CurrentRunOperation.IsCompleted;
 			} else {
 				info.Enabled = (WorkbenchSingleton.Workbench.ActiveWorkbenchWindow != null);
 			}
@@ -145,7 +160,7 @@ namespace MonoDevelop.Commands
 		void ExecuteCombine (IAsyncOperation op)
 		{
 			if (op.Success)
-				Runtime.ProjectService.Debug (entry);
+				Runtime.ProjectService.Debug (Runtime.ProjectService.CurrentOpenCombine);
 		}
 		
 		void ExecuteFile (IAsyncOperation op)
@@ -155,53 +170,171 @@ namespace MonoDevelop.Commands
 		}
 	}
 	
-	public class DebugApplicationHandler: CommandHandler
+	public class DebugEntryHandler: CommandHandler
+	{
+		CombineEntry entry;
+		string file;
+		
+		protected override void Run ()
+		{
+			entry = Runtime.ProjectService.CurrentSelectedCombineEntry;
+			IAsyncOperation op = Runtime.ProjectService.Build (entry);
+			op.Completed += new OperationHandler (ExecuteCombine);
+		}
+		
+		protected override void Update (CommandInfo info)
+		{
+			if (Runtime.DebuggingService == null) {
+				info.Enabled = false;
+				return;
+			}
+
+			info.Enabled = Runtime.ProjectService.CurrentSelectedCombineEntry != null && 
+							Runtime.ProjectService.CurrentRunOperation.IsCompleted;
+		}
+		
+		void ExecuteCombine (IAsyncOperation op)
+		{
+			if (op.Success)
+				Runtime.ProjectService.Debug (entry);
+		}
+	}
+	
+	public class BuildHandler: CommandHandler
 	{
 		protected override void Run ()
 		{
-			using (FileSelector fs = new FileSelector (GettextCatalog.GetString ("Application to Debug"))) {
-				int response = fs.Run ();
-				string name = fs.Filename;
-				fs.Hide ();
-				if (response == (int)Gtk.ResponseType.Ok)
-					Runtime.ProjectService.DebugApplication (name);
+			if (Runtime.ProjectService.CurrentOpenCombine != null) {
+				if (Runtime.ProjectService.CurrentSelectedCombineEntry != null)
+					Runtime.ProjectService.Build (Runtime.ProjectService.CurrentSelectedCombineEntry);
+			}
+			else if (WorkbenchSingleton.Workbench.ActiveWorkbenchWindow != null) {
+				Runtime.FileService.SaveFile (WorkbenchSingleton.Workbench.ActiveWorkbenchWindow);
+				Runtime.ProjectService.BuildFile (WorkbenchSingleton.Workbench.ActiveWorkbenchWindow.ViewContent.ContentName);
 			}
 		}
 		
 		protected override void Update (CommandInfo info)
 		{
-			info.Enabled = Runtime.DebuggingService != null &&
-							Runtime.ProjectService.CurrentRunOperation.IsCompleted;
+			if (Runtime.ProjectService.CurrentOpenCombine != null) {
+				CombineEntry entry = Runtime.ProjectService.CurrentSelectedCombineEntry;
+				if (entry != null) {
+					info.Enabled = Runtime.ProjectService.CurrentBuildOperation.IsCompleted;
+					info.Text = string.Format (GettextCatalog.GetString ("Build {0}"), entry.Name);
+					if (entry is Combine)
+						info.Description = string.Format (GettextCatalog.GetString ("Build Solution {0}"), entry.Name);
+					else if (entry is Project)
+						info.Description = string.Format (GettextCatalog.GetString ("Build Project {0}"), entry.Name);
+					else
+						info.Description = info.Text;
+				} else {
+					info.Enabled = false;
+				}
+			} else {
+				if (WorkbenchSingleton.Workbench.ActiveWorkbenchWindow != null) {
+					info.Enabled = Runtime.ProjectService.CurrentBuildOperation.IsCompleted;
+					string file = Path.GetFileName (WorkbenchSingleton.Workbench.ActiveWorkbenchWindow.ViewContent.ContentName);
+					info.Text = string.Format (GettextCatalog.GetString ("Build {0}"), file);
+				} else {
+					info.Enabled = false;
+				}
+			}
 		}
 	}
-
-	public class BuildHandler: CommandHandler
-	{
-		protected override void Run ()
-		{
-			if (Runtime.ProjectService.CurrentSelectedCombineEntry != null)
-				Runtime.ProjectService.Build (Runtime.ProjectService.CurrentSelectedCombineEntry);
-		}
-		
-		protected override void Update (CommandInfo info)
-		{
-			info.Enabled = Runtime.ProjectService.CurrentBuildOperation.IsCompleted &&
-							(Runtime.ProjectService.CurrentSelectedCombineEntry != null);
-		}
-	}
+	
 	
 	public class RebuildHandler: CommandHandler
 	{
 		protected override void Run ()
 		{
-			if (Runtime.ProjectService.CurrentSelectedCombineEntry != null)
-				Runtime.ProjectService.Rebuild (Runtime.ProjectService.CurrentSelectedCombineEntry);
+			if (Runtime.ProjectService.CurrentOpenCombine != null) {
+				if (Runtime.ProjectService.CurrentSelectedCombineEntry != null)
+					Runtime.ProjectService.Rebuild (Runtime.ProjectService.CurrentSelectedCombineEntry);
+			}
+			else if (WorkbenchSingleton.Workbench.ActiveWorkbenchWindow != null) {
+				Runtime.FileService.SaveFile (WorkbenchSingleton.Workbench.ActiveWorkbenchWindow);
+				Runtime.ProjectService.BuildFile (WorkbenchSingleton.Workbench.ActiveWorkbenchWindow.ViewContent.ContentName);
+			}
+		}
+		
+		protected override void Update (CommandInfo info)
+		{
+			if (Runtime.ProjectService.CurrentOpenCombine != null) {
+				CombineEntry entry = Runtime.ProjectService.CurrentSelectedCombineEntry;
+				if (entry != null) {
+					info.Enabled = Runtime.ProjectService.CurrentBuildOperation.IsCompleted;
+					info.Text = info.Description = string.Format (GettextCatalog.GetString ("Rebuild {0}"), entry.Name);
+				} else {
+					info.Enabled = false;
+				}
+			} else {
+				if (WorkbenchSingleton.Workbench.ActiveWorkbenchWindow != null) {
+					info.Enabled = Runtime.ProjectService.CurrentBuildOperation.IsCompleted;
+					string file = Path.GetFileName (WorkbenchSingleton.Workbench.ActiveWorkbenchWindow.ViewContent.ContentName);
+					info.Text = info.Description = string.Format (GettextCatalog.GetString ("Rebuild {0}"), file);
+				} else {
+					info.Enabled = false;
+				}
+			}
+		}
+	}
+	
+	public class BuildSolutionHandler: CommandHandler
+	{
+		protected override void Run ()
+		{
+			Runtime.ProjectService.Build (Runtime.ProjectService.CurrentOpenCombine);
 		}
 		
 		protected override void Update (CommandInfo info)
 		{
 			info.Enabled = Runtime.ProjectService.CurrentBuildOperation.IsCompleted &&
-							(Runtime.ProjectService.CurrentSelectedCombineEntry != null);
+							(Runtime.ProjectService.CurrentOpenCombine != null);
+		}
+	}
+	
+	public class RebuildSolutionHandler: CommandHandler
+	{
+		protected override void Run ()
+		{
+			Runtime.ProjectService.Rebuild (Runtime.ProjectService.CurrentOpenCombine);
+		}
+		
+		protected override void Update (CommandInfo info)
+		{
+			info.Enabled = Runtime.ProjectService.CurrentBuildOperation.IsCompleted &&
+							(Runtime.ProjectService.CurrentOpenCombine != null);
+		}
+	}
+	
+	public class CleanSolutionHandler: CommandHandler
+	{
+		protected override void Run ()
+		{
+			Runtime.ProjectService.CurrentOpenCombine.Clean ();
+		}
+		
+		protected override void Update (CommandInfo info)
+		{
+			info.Enabled = Runtime.ProjectService.CurrentOpenCombine != null;
+		}
+	}
+	
+	public class CleanHandler: CommandHandler
+	{
+		protected override void Run ()
+		{
+			Runtime.ProjectService.CurrentSelectedCombineEntry.Clean ();
+		}
+		
+		protected override void Update (CommandInfo info)
+		{
+			if (Runtime.ProjectService.CurrentSelectedCombineEntry != null) {
+				info.Enabled = Runtime.ProjectService.CurrentSelectedCombineEntry != null;
+				info.Text = info.Description = string.Format (GettextCatalog.GetString ("Clean {0}"), Runtime.ProjectService.CurrentSelectedCombineEntry.Name);
+			} else {
+				info.Enabled = false;
+			}
 		}
 	}
 	

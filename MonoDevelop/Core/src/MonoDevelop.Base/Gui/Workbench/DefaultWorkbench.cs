@@ -146,7 +146,7 @@ namespace MonoDevelop.Gui
 
 			IDebuggingService dbgr = Runtime.DebuggingService;
 			if (dbgr != null) {
-				dbgr.PausedEvent += new EventHandler (onDebuggerPaused);
+				dbgr.PausedEvent += (EventHandler) Runtime.DispatchService.GuiDispatch (new EventHandler (onDebuggerPaused));
 			}
 
 			Gtk.Drag.DestSet (this, Gtk.DestDefaults.Motion | Gtk.DestDefaults.Highlight | Gtk.DestDefaults.Drop, targetEntryTypes, Gdk.DragAction.Copy);

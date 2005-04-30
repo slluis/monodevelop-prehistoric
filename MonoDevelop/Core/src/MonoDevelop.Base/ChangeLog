@@ -1,3 +1,15 @@
+2005-04-30  Lluis Sanchez Gual  <lluis@novell.com> 
+
+	* Commands/ProjectCommands.cs: Added new build and run commands.
+	* Services/DebuggerService/IDebuggerService.cs: Added some methods.
+	* Services/Project/ProjectService.cs: Allow building a project even
+	if there isn't an open combine.
+	* Gui/Workbench/DefaultWorkbench.cs: Gui safe subscription to debugger
+	events.
+	* Makefile.am: added DebugCommands.
+	* MonoDevelopCore.addin.xml: Added some missing descriptions. Registered
+	new project and debug commands.
+
 2005-04-27  Lluis Sanchez Gual  <lluis@novell.com> 
 
 	* Commands/ViewCommands.cs: Use markup for the view list menu.

@@ -17,6 +17,7 @@ namespace MonoDevelop.Services
 
 	public interface IDebuggingService {
 		bool IsRunning { get; }
+		bool IsDebugging { get; }
 		bool AddBreakpoint (string filename, int linenum);
 		void RemoveBreakpoint (string filename, int linenum);
 		bool ToggleBreakpoint (string filename, int linenum);
@@ -38,6 +39,7 @@ namespace MonoDevelop.Services
 
 		void StepInto ();
 		void StepOver ();
+		void StepOut ();
 
 		string[] Backtrace { get; }
 
@@ -48,5 +50,7 @@ namespace MonoDevelop.Services
 		
 		IBreakpoint[] Breakpoints { get; }
 		IBreakpoint[] GetBreakpointsAtFile (string sourceFile);
+		
+		void ClearAllBreakpoints ();
 	}
 }

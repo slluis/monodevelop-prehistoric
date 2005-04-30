@@ -165,6 +165,7 @@ Gui/Workbench/DefaultWorkbench.cs \
 Commands/FileCommands.cs \
 Commands/HelpCommands.cs \
 Commands/CustomStringTagProvider.cs \
+Commands/DebugCommands.cs \
 Commands/ProjectCommands.cs \
 Commands/VBConverter/ConvertProject.cs \
 Commands/VBConverter/ConvertBuffer.cs \
