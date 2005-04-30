@@ -25,31 +25,5 @@
 		<ContextPad id = "MonoDevelop.Debugger.StackTracePad" />
 		<ContextPad id = "MonoDevelop.Debugger.ThreadPad" />
 	</Extension>
-
-	<Extension path = "/SharpDevelop/Commands">
-		<Command id = "MonoDevelop.Debugger.DebugCommands.ToggleRunning"
-				defaultHandler = "MonoDevelop.Debugger.Commands.ToggleRunning"
-				_label = "Pause/Resume"
-				shortcut = "Control|F8" />
-		
-		<Command id = "MonoDevelop.Debugger.DebugCommands.StepOver"
-				defaultHandler = "MonoDevelop.Debugger.Commands.StepOver"
-				_label = "Step Over"
-				shortcut = "F11" />
-		
-		<Command id = "MonoDevelop.Debugger.DebugCommands.StepInto"
-				defaultHandler = "MonoDevelop.Debugger.Commands.StepInto"
-				_label = "Step Into"
-				shortcut = "Control|F11" />
-	</Extension>
-	
-
-
-	<Extension path="/SharpDevelop/Workbench/MainMenu/Run">
-		<CommandItem id = "MonoDevelop.Debugger.DebugCommands.ToggleRunning" insertafter="MonoDevelop.Commands.ProjectCommands.Stop"/>
-		<SeparatorItem id = "DebugSep1" />
-		<CommandItem id = "MonoDevelop.Debugger.DebugCommands.StepOver" />
-		<CommandItem id = "MonoDevelop.Debugger.DebugCommands.StepInto" />
-	</Extension>
 </AddIn>
 

@@ -1,3 +1,21 @@
+2005-04-30  Lluis Sanchez Gual  <lluis@novell.com>
+
+	* DebuggingService.cs: Made Debugging property public and changed the
+	name to IsDebugging for consistency with IsRunning. Implemented
+	ClearAllBreakpoints method. Don't dispatch events through the
+	GUI thread here. It is the responsibility of the subscriber to handle
+	the event in the GUI thread, if it needs to.
+	When returning the file and line of the execution location, if the
+	current stack frame doesn't have debug info return the first one in
+	the stack with info.
+	* Gui/Pads/StackTracePad.cs: Make sure debugger events run in the GUI
+	thread. Show the complete stack trace, something like what mdb does.
+	* Makefile.am:
+	* MonoDevelopDebugger.addin.xml:
+	* DebuggerCommands.cs: Moved debug commands to MonoDevelop.Base.
+	* ThreadPad.cs:
+	* LocalsPad.cs:Make sure debugger events run in the GUI thread.
+
 2005-04-28  Lluis Sanchez Gual  <lluis@novell.com>
 
 	* Gui/Pads/ThreadPad.cs: Actually remove threads with no target.

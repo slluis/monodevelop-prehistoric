@@ -30,7 +30,6 @@ namespace MonoDevelop.Debugger
 		Hashtable procs = new Hashtable ();
 		Hashtable breakpoints = new Hashtable ();
 		DebuggerBackend backend;
-		Breakpoint point;
 
 		IProgressMonitor current_monitor;
 
@@ -47,7 +46,7 @@ namespace MonoDevelop.Debugger
 
 		void Cleanup ()
 		{
-			if (!Debugging)
+			if (!IsDebugging)
 				return;
 
 			if (StoppedEvent != null)
@@ -90,7 +89,7 @@ namespace MonoDevelop.Debugger
 								true, true);
 		}
 
-		public bool Debugging {
+		public bool IsDebugging {
 			get {
 				return backend != null && proc != null && proc.HasTarget;
 			}
@@ -98,7 +97,7 @@ namespace MonoDevelop.Debugger
 
 		public bool IsRunning {
 			get {
-				return Debugging && !proc.IsStopped;
+				return IsDebugging && !proc.IsStopped;
 			}
 		}
 
@@ -120,7 +119,7 @@ namespace MonoDevelop.Debugger
 			if (breakpoints.Contains (key)) return true;
 			
 			BreakpointHandle brkptnum = null;
-			if (Debugging) {
+			if (IsDebugging) {
 				Breakpoint point = CreateBreakpoint (key);
 				SourceLocation loc = backend.FindLocation(filename, linenum);
 				if (loc == null)
@@ -144,15 +143,19 @@ namespace MonoDevelop.Debugger
 			string key = filename + ":" + linenum;
 			BreakpointEntry entry = (BreakpointEntry) breakpoints [key];
 			
-			if (entry != null) {
-				if (Debugging)
-					entry.Handle.Remove (proc);
-	
-				breakpoints.Remove (key);
-			
-				if (BreakpointRemoved != null)
-					BreakpointRemoved (this, new BreakpointEventArgs (entry));
-			}
+			if (entry != null)
+				RemoveBreakpoint (entry);
+		}
+
+		void RemoveBreakpoint (BreakpointEntry entry)
+		{
+			if (IsDebugging)
+				entry.Handle.Remove (proc);
+
+			breakpoints.Remove (entry.FileName + ":" + entry.Line);
+		
+			if (BreakpointRemoved != null)
+				BreakpointRemoved (this, new BreakpointEventArgs (entry));
 		}
 
 		public bool ToggleBreakpoint (string filename, int linenum)
@@ -192,6 +195,14 @@ namespace MonoDevelop.Debugger
 			return (IBreakpoint[]) list.ToArray (typeof(IBreakpoint));
 		}
 		
+		public void ClearAllBreakpoints ()
+		{
+			object[] list = new object [breakpoints.Count];
+			breakpoints.Values.CopyTo (list, 0);
+			foreach (BreakpointEntry b in list)
+				RemoveBreakpoint (b);
+		}
+
 		private void thread_created (ThreadManager manager, Process process)
 		{
 			lock (procs) {
@@ -202,7 +213,7 @@ namespace MonoDevelop.Debugger
 				process.DebuggerError += new DebuggerErrorHandler (debugger_error);
 			}
 
-			Runtime.DispatchService.GuiDispatch (new StatefulMessageHandler (EmitThreadStateEvent), null);
+			EmitThreadStateEvent (null);
 		}
 
 		private void thread_exited (ThreadManager manager, Process process)
@@ -211,7 +222,7 @@ namespace MonoDevelop.Debugger
 				procs.Remove (process.ID);
 			}
 
-			Runtime.DispatchService.GuiDispatch (new StatefulMessageHandler (EmitThreadStateEvent), null);
+			EmitThreadStateEvent (null);
 		}
 
 		private void initialized_event (ThreadManager manager, Process process)
@@ -223,7 +234,15 @@ namespace MonoDevelop.Debugger
 			proc.DebuggerError += new DebuggerErrorHandler (debugger_error);
 			proc.TargetEvent += new TargetEventHandler (target_event);
 
-			Runtime.DispatchService.GuiDispatch (new StatefulMessageHandler (EmitStarted), null);
+			insert_breakpoints ();
+
+			if (StartedEvent != null)
+				StartedEvent (this, EventArgs.Empty);
+
+			// This should not be needed, but it hangs if not dispatched in this way
+			// It's prolly a synchronization issue that does not show when the call
+			// is delayed by the dispatcher
+			Runtime.DispatchService.GuiDispatch (new StatefulMessageHandler (ChangeState), null);
 		}
 
 		void target_output (bool is_stderr, string line)
@@ -249,11 +268,11 @@ namespace MonoDevelop.Debugger
 			switch (args.Type) {
 			case TargetEventType.TargetExited:
 			case TargetEventType.TargetSignaled:
-				Runtime.DispatchService.GuiDispatch (new StatefulMessageHandler (KillApplication), null);
+				KillApplication (null);
 				break;
 			case TargetEventType.TargetStopped:
 			case TargetEventType.TargetRunning:
-				Runtime.DispatchService.GuiDispatch (new StatefulMessageHandler (ChangeState), null);
+				ChangeState (null);
 				break;
 			case TargetEventType.TargetHitBreakpoint:
 			default:
@@ -287,20 +306,11 @@ namespace MonoDevelop.Debugger
 				ThreadStateEvent (this, EventArgs.Empty);
 		}
 
-		void EmitStarted (object obj)
-		{
-			insert_breakpoints ();
-
-			if (StartedEvent != null)
-				StartedEvent (this, EventArgs.Empty);
-
-			ChangeState (obj);
-		}
-
 		void ChangeState (object obj)
 		{
 			if (ThreadStateEvent != null)
 				ThreadStateEvent (this, EventArgs.Empty);
+
 			if (IsRunning) {
 				if (ResumedEvent != null) {
 					ResumedEvent (this, EventArgs.Empty);
@@ -331,7 +341,7 @@ namespace MonoDevelop.Debugger
 
 		public void Pause ()
 		{
-			if (!Debugging)
+			if (!IsDebugging)
 				//throw new Exception ("Debugger not running.");
 				return;
 
@@ -343,7 +353,7 @@ namespace MonoDevelop.Debugger
 
 		public void Resume ()
 		{
-			if (!Debugging)
+			if (!IsDebugging)
 				//throw new Exception ("Debugger not running.");
 				return;
 
@@ -355,7 +365,7 @@ namespace MonoDevelop.Debugger
 
 		public void Run (IProgressMonitor monitor, string[] argv)
 		{
-			if (Debugging)
+			if (IsDebugging)
 				return;
 
 #if NET_2_0
@@ -384,7 +394,7 @@ namespace MonoDevelop.Debugger
 
 		public void StepInto ()
 		{
-			if (!Debugging)
+			if (!IsDebugging)
 				//throw new Exception ("Can't step without running debugger.");
 				return;
 
@@ -397,7 +407,7 @@ namespace MonoDevelop.Debugger
 
 		public void StepOver ()
 		{
-			if (!Debugging)
+			if (!IsDebugging)
 				//throw new Exception ("Can't step without running debugger.");
 				return;
 
@@ -406,6 +416,17 @@ namespace MonoDevelop.Debugger
 				return;
 
 			proc.NextLine (false);
+		}
+
+		public void StepOut ()
+		{
+			if (!IsDebugging)
+				return;
+
+			if (IsRunning)
+				return;
+
+			proc.Finish (false);
 		}
 
 		public string[] Backtrace {
@@ -418,6 +439,11 @@ namespace MonoDevelop.Debugger
 
 				return result;
 			}
+		}
+		
+		public StackFrame[] GetStack ()
+		{
+			return proc.GetBacktrace ().Frames;
 		}
 
 #if NET_2_0
@@ -449,11 +475,12 @@ namespace MonoDevelop.Debugger
 				if (IsRunning || proc == null)
 					return String.Empty;
 
-				if (proc.CurrentFrame.SourceAddress == null /* there's no source for this frame */
-				      || proc.CurrentFrame.SourceAddress.MethodSource.IsDynamic)
+				StackFrame frame = GetCurrentSourceFrame ();
+				
+				if (frame == null)
 					return String.Empty;
 
-				return proc.CurrentFrame.SourceAddress.MethodSource.SourceFile.FileName;
+				return frame.SourceAddress.MethodSource.SourceFile.FileName;
 			}
 		}
 
@@ -462,11 +489,25 @@ namespace MonoDevelop.Debugger
 				if (IsRunning || proc == null)
 					return -1;
 
-				if (proc.CurrentFrame.SourceAddress == null /* there's no source for this frame */)
+				StackFrame frame = GetCurrentSourceFrame ();
+				if (frame == null)
 					return -1;
 
-				return proc.CurrentFrame.SourceAddress.Row;
+				return frame.SourceAddress.Row;
 			}
+		}
+		
+		StackFrame GetCurrentSourceFrame ()
+		{
+			if (proc.CurrentFrame.SourceAddress != null /* there's no source for this frame */
+				  && !proc.CurrentFrame.SourceAddress.MethodSource.IsDynamic)
+				return proc.CurrentFrame;
+			
+			foreach (StackFrame frame in GetStack ()) {
+				if (frame.SourceAddress != null && !frame.SourceAddress.MethodSource.IsDynamic)
+					return frame;
+			}
+			return null;
 		}
 
 		public string LookupValue (string expr)
@@ -476,13 +517,7 @@ namespace MonoDevelop.Debugger
 
 		private void OnBreakpointHit (Breakpoint pointFromDbg, StackFrame frame)
 		{
-			point = pointFromDbg;
-			Runtime.DispatchService.GuiDispatch (new StatefulMessageHandler (MainThreadNotify), null);
-		}
-
-		void MainThreadNotify (object obj)
-		{
-			string[] toks = point.Name.Split (':');
+			string[] toks = pointFromDbg.Name.Split (':');
 			string filename = toks [0];
 			int linenumber = Int32.Parse (toks [1]);
 
@@ -490,7 +525,8 @@ namespace MonoDevelop.Debugger
 				return;
 			
 			BreakpointHitArgs args = new BreakpointHitArgs (filename, linenumber);
-			BreakpointHit (this, args);
+			if (BreakpointHit != null)
+				BreakpointHit (this, args);
 		}
 
 		public event DebuggingService.BreakpointHitHandler BreakpointHit;

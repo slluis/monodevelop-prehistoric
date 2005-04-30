@@ -45,23 +45,28 @@ namespace MonoDevelop.Debugger
 			Add (tree);
 			ShowAll ();
 
-			Runtime.DebuggingService.PausedEvent += new EventHandler (OnPausedEvent);
-			Runtime.DebuggingService.ResumedEvent += new EventHandler (OnResumedEvent);
-			Runtime.DebuggingService.StoppedEvent += new EventHandler (OnStoppedEvent);
+			Runtime.DebuggingService.PausedEvent += (EventHandler) Runtime.DispatchService.GuiDispatch (new EventHandler (OnPausedEvent));
+			Runtime.DebuggingService.ResumedEvent += (EventHandler) Runtime.DispatchService.GuiDispatch (new EventHandler (OnResumedEvent));
+			Runtime.DebuggingService.StoppedEvent += (EventHandler) Runtime.DispatchService.GuiDispatch (new EventHandler (OnStoppedEvent));
 		}
 
 		public void UpdateDisplay ()
 		{
 			TreeIter it;
 
-			if ((current_frame == null) || (current_frame.Method == null)) {
+			if ((current_frame == null) /*|| (current_frame.Method == null)*/) {
 				if (store.GetIterFirst (out it))
 					do { } while (store.Remove (ref it));
 
 				return;
 			}
 
-			string[] trace = Runtime.DebuggingService.Backtrace;
+//			string[] trace = Runtime.DebuggingService.Backtrace;
+
+			StackFrame[] stack = ((DebuggingService)Runtime.DebuggingService).GetStack ();
+			string[] trace = new string [stack.Length];
+			for (int n=0; n<stack.Length; n++)
+				trace [n] = stack [n].ToString ();
 
 			if (!store.GetIterFirst (out it)) {
 				foreach (string frame in trace) {

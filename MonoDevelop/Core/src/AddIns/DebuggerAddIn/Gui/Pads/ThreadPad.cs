@@ -79,7 +79,7 @@ namespace MonoDevelop.Debugger
 			Add (tree);
 			ShowAll ();
 
-			((DebuggingService)Runtime.DebuggingService).ThreadStateEvent += new EventHandler (OnThreadEvent);
+			((DebuggingService)Runtime.DebuggingService).ThreadStateEvent += (EventHandler) Runtime.DispatchService.GuiDispatch (new EventHandler (OnThreadEvent));
 		}
 
 		void AddThread (Process thread)

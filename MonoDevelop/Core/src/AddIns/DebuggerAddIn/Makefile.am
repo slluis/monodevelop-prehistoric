@@ -12,7 +12,6 @@ DLLS = $(GTK_SHARP_LIBS) \
 
 
 FILES = \
-DebuggerCommands.cs \
 DebuggingService.cs \
 EvaluationContext.cs \
 Expression.cs \

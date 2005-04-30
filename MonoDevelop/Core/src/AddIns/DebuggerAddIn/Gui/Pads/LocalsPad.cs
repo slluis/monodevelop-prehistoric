@@ -91,8 +91,8 @@ namespace MonoDevelop.Debugger
 			Add (tree);
 			ShowAll ();
 
-			Runtime.DebuggingService.PausedEvent += new EventHandler (OnPausedEvent);
-			Runtime.DebuggingService.StoppedEvent += new EventHandler (OnStoppedEvent);
+			Runtime.DebuggingService.PausedEvent += (EventHandler) Runtime.DispatchService.GuiDispatch (new EventHandler (OnPausedEvent));
+			Runtime.DebuggingService.StoppedEvent += (EventHandler) Runtime.DispatchService.GuiDispatch (new EventHandler (OnStoppedEvent));
 		}
 
 		bool InsertArrayChildren (TreeIter parent, ITargetArrayObject array)
