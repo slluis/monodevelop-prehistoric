@@ -1,4 +1,10 @@
 2005-05-02  Peter Johanson <latexer@gentoo.org>
+
+	* Gui/BooShellModel.boo: Fix from lluis to make
+	MD not crash when right clicking the shell with
+	no projects open.
+
+2005-05-02  Peter Johanson <latexer@gentoo.org>
 	
 	* BooShell/BooShell.boo: Convert to using Monitor instead
 	of just lock(), prevents the 100% utilization by mono

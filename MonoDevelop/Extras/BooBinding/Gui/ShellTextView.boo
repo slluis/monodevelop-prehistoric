@@ -96,7 +96,7 @@ class ShellTextView (SourceView):
 		tag = TextTag ("Freezer")
 		tag.Editable = false
 		Buffer.TagTable.Add (tag)
-		prompt(false)
+		prompt (false)
 
 		_projService = ServiceManager.GetService(typeof(ProjectService))
 		_projService.EndBuild += ProjectCompiled
@@ -132,11 +132,11 @@ class ShellTextView (SourceView):
 		else:
 			_combine = _projService.CurrentOpenCombine
 			if _combine is null:
-				return
+				return _assemblies
 
 			projects = _combine.GetAllProjects()
 			if projects is null:
-				return
+				return _assemblies
 			for entry as Project in projects:
 				if entry is null:
 					continue
@@ -306,14 +306,14 @@ class ShellTextView (SourceView):
 	
 	#endregion
 
+	// Mark to find the beginning of our next input line
+	private _endOfLastProcessing as TextMark
+
 	#region Public getters for useful values
 	public InputLineBegin as TextIter:
 		get:
-			iter = Buffer.GetIterAtLine(Buffer.LineCount)
-			// Really should be either _promptRegular or Multiline, but
-			// those are the same length
-			iter.ForwardChars(_promptRegular.Length)
-			return iter
+			endIter = Buffer.GetIterAtMark (_endOfLastProcessing)
+			return endIter
 	
 	public InputLineEnd as TextIter:
 		get:
@@ -357,6 +357,12 @@ class ShellTextView (SourceView):
 
 		Buffer.PlaceCursor (Buffer.EndIter)
 		ScrollMarkOnscreen(Buffer.InsertMark)
+		
+
+		// Record the end of where we processed, used to calculate start
+		// of next input line
+		_endOfLastProcessing = Buffer.CreateMark (null, Buffer.EndIter, true)
+
 		// Freeze all the text except our input line
 		Buffer.ApplyTag(Buffer.TagTable.Lookup("Freezer"), Buffer.StartIter, InputLineBegin)
 		
