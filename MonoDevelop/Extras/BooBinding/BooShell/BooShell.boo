@@ -22,6 +22,7 @@ namespace BooBinding.BooShell
 import System
 import System.Collections
 import System.IO
+import System.Threading
 import Boo.Lang.Interpreter
 import Boo.Lang.Compiler
 
@@ -47,22 +48,20 @@ class BooShell(MarshalByRefObject):
 		return true
 	
 	def GetOutput() as (string):
-		_tmp as string
-		lock _processing:
-			_tmp = _processing
-
-		while _tmp == "true":
-			lock _processing:
-				_tmp = _processing
-			// Sleep to let other thread process (and grab lock)
-			System.Threading.Thread.Sleep (10)
-
 		ret as (string)
-		lock _outputQueue:
+		try:
+			Monitor.Enter (_outputQueue)
+
+			if _processing == "true":
+				Monitor.Wait (_outputQueue)
+
 			if _outputQueue.Count > 0:
 				ret = array (string, _outputQueue.Count)
 				_outputQueue.CopyTo (ret, 0)
 				_outputQueue.Clear()
+		ensure:
+			Monitor.Pulse (_outputQueue)
+			Monitor.Exit (_outputQueue)
 
 		return ret
 		
@@ -76,40 +75,65 @@ class BooShell(MarshalByRefObject):
 
 	def ProcessCommands() as bool:
 		com as ShellCommand
-		lock _commandQueue:
-			if _commandQueue.Count > 0:
-				com = _commandQueue.Dequeue()
-		if com.Type == ShellCommandType.Eval:
-			if com.Data is not null:
-				lock _outputQueue:
-					_interpreter.LoopEval(com.Data)
-		elif com.Type == ShellCommandType.Reset:
-			_interpreter.Reset()
-		elif com.Type == ShellCommandType.Load:
-			if com.Data is not null:
-				_interpreter.load(com.Data)
-
-		com.Type = ShellCommandType.NoOp
-
-		lock _commandQueue:
+		try:
+			Monitor.Enter (_commandQueue)
 			if _commandQueue.Count == 0:
-				lock _processing:
-					_processing = "false"
+				Monitor.Exit (_commandQueue)
+				System.Threading.Thread.Sleep (100)
+				return  true
+
+			com = _commandQueue.Dequeue()
+
+			if com.Type == ShellCommandType.Eval:
+				if com.Data is not null:
+					_interpreter.LoopEval(com.Data)
+			elif com.Type == ShellCommandType.Reset:
+				_interpreter.Reset()
+			elif com.Type == ShellCommandType.Load:
+				if com.Data is not null:
+					_interpreter.load(com.Data)
+	
+			com.Type = ShellCommandType.NoOp
+	
+			if _commandQueue.Count == 0:
+				Monitor.Enter (_outputQueue)
+				_processing = "false"
+				Monitor.Pulse (_outputQueue)
+				Monitor.Exit (_outputQueue)
+		ensure:
+			Monitor.Exit (_commandQueue)
 
 		return true
 	
 	def Run():
+		kickOffGuiThread()
+
+	
+	private def kickOffGuiThread():
 		_thread = System.Threading.Thread(ThreadRun)
 		_thread.Start()
 	
 	def print(obj):
+		Monitor.Enter (_outputQueue)
 		_outputQueue.Enqueue(obj)
+		Monitor.Exit (_outputQueue)
 	
 	def EnqueueCommand (command as ShellCommand):
-		lock _commandQueue:
+		if not _thread.IsAlive:
+			kickOffGuiThread()
+
+		try:
+			Monitor.Enter (_commandQueue)
+
 			_commandQueue.Enqueue (command)
-			lock _processing:
-				_processing = "true"
+
+			Monitor.Enter (_outputQueue)
+			_processing = "true"
+			Monitor.Pulse (_outputQueue)
+			Monitor.Exit (_outputQueue)
+		ensure:
+			Monitor.Pulse (_commandQueue)
+			Monitor.Exit (_commandQueue)
 	
 
 public enum ShellCommandType:

@@ -1,6 +1,16 @@
+2005-05-02  Peter Johanson <latexer@gentoo.org>
+	
+	* BooShell/BooShell.boo: Convert to using Monitor instead
+	of just lock(), prevents the 100% utilization by mono
+	as reported by several folks.
+	* Gui/BooShellModel.boo: Some Monitor fixes, and a small
+	fix to make pasted input with multiple lines get processed
+	properly.
+
 2005-04-28  Rafael Monoman Teixeira <rafaelteixeirabr@hotmail.com>
-    * Makefile.am: added missing dependency for target $(ASSEMBLY)
-    
+
+	* Makefile.am: added missing dependency for target $(ASSEMBLY)
+
 2005-04-25  Peter Johanson <latexer@gentoo.org>
 
 	* BooShellServer/BooShellServer.boo:

@@ -23,6 +23,7 @@ import System
 import System.Diagnostics
 import System.Collections
 import System.IO
+import System.Threading
 import BooBinding.Properties
 
 import BooBinding.BooShell
@@ -92,24 +93,39 @@ class BooShellModel(IShellModel):
 
 		
 	def QueueInput (line as string):
-		lock _commandQueue:
+		try:
+			Monitor.Enter (_commandQueue)
 			_commandQueue.Enqueue (line)
+			Monitor.Pulse (_commandQueue)
+		ensure:
+			Monitor.Exit (_commandQueue)
 
 	def ThreadRun():
 		while true:
 			com as string
-			lock _commandQueue:
-				if _commandQueue.Count > 0:
-					com = _commandQueue.Dequeue()
-			if com is not null:
-				_booShell.QueueInput (com)
-				lines = _booShell.GetOutput()
-				if lines is not null:
-					EnqueueOutput(lines)
-				com = null
-				lock _outputQueue:
-					if _outputHandler is not null:
-						_outputHandler()
+			try:
+				Monitor.Enter (_commandQueue)
+				if _commandQueue.Count == 0:
+					Monitor.Wait (_commandQueue)
+
+				com = _commandQueue.Dequeue()
+
+
+				if com is not null:
+					print "Sending out command '${com}'"
+					_booShell.QueueInput (com)
+					print "trying to get the output!"
+					lines = _booShell.GetOutput()
+					print "got the output!"
+					if lines is not null:
+						EnqueueOutput(lines)
+					com = null
+					lock _outputQueue:
+						if _outputHandler is not null:
+							_outputHandler()
+
+			ensure:
+				Monitor.Exit (_commandQueue)
 
 	
 	def Run():
