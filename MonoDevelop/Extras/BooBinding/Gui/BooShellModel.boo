@@ -112,11 +112,8 @@ class BooShellModel(IShellModel):
 
 
 				if com is not null:
-					print "Sending out command '${com}'"
 					_booShell.QueueInput (com)
-					print "trying to get the output!"
 					lines = _booShell.GetOutput()
-					print "got the output!"
 					if lines is not null:
 						EnqueueOutput(lines)
 					com = null
