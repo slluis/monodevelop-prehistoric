@@ -8,6 +8,7 @@ DLLS = /r:System.Drawing /r:ICSharpCode.SharpZipLib.dll \
 	/r:System.Data.dll /r:System.Web.Services.dll \
 	/r:$(top_builddir)/build/bin/MonoDevelop.Dock.dll \
 	/r:Mono.Posix.dll \
+	/r:System.Runtime.Remoting \
 	/r:$(top_builddir)/build/bin/log4net.dll \
 	$(GTK_SHARP_LIBS) \
 	$(GNOME_SHARP_LIBS) \
@@ -199,6 +200,10 @@ Services/AmbienceService/NetAmbience.cs \
 Services/AmbienceService/IAmbience.cs \
 Services/ProcessService/ProcessService.cs \
 Services/ProcessService/ProcessWrapper.cs \
+Services/ProcessService/IProcessHost.cs \
+Services/ProcessService/IProcessHostController.cs \
+Services/ProcessService/ProcessHostController.cs \
+Services/ProcessService/RemoteProcessObject.cs \
 Services/Project/ProjectEventArgs.cs \
 Services/Project/IProjectService.cs \
 Services/Project/ProjectRenameEventArgs.cs \

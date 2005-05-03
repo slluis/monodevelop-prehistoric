@@ -10,16 +10,23 @@ namespace MonoDevelop.Services {
 	{
 		Hashtable assemblyPathToPackage = new Hashtable ();
 		Hashtable assemblyFullNameToPath = new Hashtable ();
+		bool initialized;
 
 		public ICollection AssemblyPaths
 		{
 			get {
+				if (!initialized)
+					Initialize ();
+					
 				return assemblyPathToPackage.Keys;
 			}
 		}
 
 		public string GetPackageFromFullName (string fullname)
 		{
+			if (!initialized)
+				Initialize ();
+					
 			if (!assemblyFullNameToPath.Contains (fullname))
 				return String.Empty;
 			
@@ -30,9 +37,10 @@ namespace MonoDevelop.Services {
 			return (string)assemblyPathToPackage[path];
 		}
 	
-		public override void InitializeService ()
+		new void Initialize ()
 		{
-			base.InitializeService ();
+			initialized = true;
+
 			//Pull up assemblies from the installed mono system.
 			string prefix = Path.GetDirectoryName (typeof (int).Assembly.Location);
 			if (prefix.IndexOf ("mono/1.0") == -1) {

@@ -266,6 +266,14 @@ namespace MonoDevelop.Gui
 				layout.ShowPad (content);
 		}
 		
+		public virtual void BringToFront (IPadContent content)
+		{
+			if (!layout.IsVisible (content))
+				layout.ShowPad (content);
+
+			layout.ActivatePad (content);
+		}
+		
 		public void RedrawAllComponents()
 		{
 			foreach (IViewContent content in workbenchContentCollection) {

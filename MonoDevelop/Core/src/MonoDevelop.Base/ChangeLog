@@ -1,3 +1,36 @@
+2005-05-03  Lluis Sanchez Gual  <lluis@novell.com> 
+
+	* Commands/ProjectCommands.cs: The Build command should compile the
+	current file before running.
+	
+	* Services/Tasks/TaskService.cs:
+	* Gui/Workbench/DefaultWorkbench.cs:
+	* Gui/Pads/SolutionPad/TreeViewPad.cs:
+	* Gui/Pads/OpenTaskView.cs:
+	* Gui/Pads/TerminalPad.cs:
+	* Gui/Pads/DefaultMonitorPad.cs:
+	* Gui/Pads/FileScout/FileScout.cs:
+	* Gui/AbstractPadContent.cs:
+	* Gui/IWorkbench.cs:
+	* Gui/IPadContent.cs:
+	Removed BringToFront from IPadContent, and moved to IWorkbench.
+	
+	* Services/SystemAssemblyService.cs: Lazy load system assembly
+	information. This speeds up MD startup time.
+	
+	* Services/ProcessService/ProcessService.cs:
+	* Services/ProcessService/IProcessHost.cs:
+	* Services/ProcessService/IProcessHostController.cs:
+	* Services/ProcessService/ProcessHostController.cs:
+	* Services/ProcessService/RemoteProcessObject.cs:
+	* Makefile.am:
+	Added new api for creating out-of-process objects.
+	
+	* Gui/Pads/FileScout/FileList.cs: Fix warnings.
+	
+	* Internal/Project/Project/DotNetProjectBinding.cs: Set the correct
+	paths for single file projects.
+
 2005-04-30  Lluis Sanchez Gual  <lluis@novell.com> 
 
 	* Commands/ProjectCommands.cs: Added new build and run commands.

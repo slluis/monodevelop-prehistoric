@@ -22,7 +22,6 @@ namespace MonoDevelop.Gui.Pads
 		private FileSystemWatcher watcher;
 		private ArrayList Items;
 		private Gtk.ListStore store;
-		private Gtk.Menu popmenu = null;
 		FileListItem selectedItem = null;
 		Gtk.TreeIter selectedIter;
 		

@@ -80,7 +80,7 @@ namespace MonoDevelop.Services
 					}
 				}
 				if (pad != null) {
-					if (bringToFront) pad.BringToFront ();
+					if (bringToFront) Runtime.Gui.Workbench.BringToFront (pad);
 					return new OutputProgressMonitor (pad, title, icon);
 				}
 			}
@@ -88,7 +88,7 @@ namespace MonoDevelop.Services
 			DefaultMonitorPad monitorPad = new DefaultMonitorPad (title, icon);
 			monitorPad.Id = "OutputPad" + (monitorId++);
 			Runtime.Gui.Workbench.ShowPad (monitorPad);
-			if (bringToFront) monitorPad.BringToFront ();
+			if (bringToFront) Runtime.Gui.Workbench.BringToFront (monitorPad);
 
 			return new OutputProgressMonitor (monitorPad, title, icon);
 		}
@@ -179,7 +179,7 @@ namespace MonoDevelop.Services
 		void ShowTasksCallback ()
 		{
 			OpenTaskView taskView = Runtime.Gui.Workbench.GetPad(typeof(OpenTaskView)) as OpenTaskView;
-			if (taskView != null) taskView.BringToFront();
+			if (taskView != null) Runtime.Gui.Workbench.BringToFront (taskView);
 		}
 		
 		protected virtual void OnCompilerOutputChanged(EventArgs e)

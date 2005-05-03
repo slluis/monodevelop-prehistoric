@@ -22,10 +22,6 @@ namespace MonoDevelop.Gui.Pads
 			}
 		}
 		
-		public void BringToFront() {
-			// TODO
-		}
-		
 		public string Title {
 			get {
 				return GettextCatalog.GetString ("Files");

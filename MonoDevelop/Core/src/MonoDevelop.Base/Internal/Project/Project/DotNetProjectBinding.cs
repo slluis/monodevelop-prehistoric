@@ -27,6 +27,7 @@
 //
 
 using System;
+using System.IO;
 using System.Xml;
 using MonoDevelop.Internal.Serialization;
 using MonoDevelop.Internal.Templates;
@@ -57,7 +58,10 @@ namespace MonoDevelop.Internal.Project
 		{
 			ILanguageBinding binding = Runtime.Languages.GetBindingPerFileName (file);
 			if (binding != null) {
-				Project project = CreateProject (binding.Language, null, null);
+				ProjectCreateInformation info = new ProjectCreateInformation ();
+				info.ProjectName = Path.GetFileNameWithoutExtension (file);
+				info.CombinePath = Path.GetDirectoryName (file);
+				Project project = CreateProject (binding.Language, info, null);
 				project.ProjectFiles.Add (new ProjectFile (file));
 				return project;
 			}

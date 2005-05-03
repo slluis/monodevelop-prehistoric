@@ -11,6 +11,8 @@ namespace MonoDevelop.Services
 {
 	public class ProcessService : AbstractService
 	{
+		ProcessHostController externalProcess;
+		
 		public ProcessWrapper StartProcess (string command, string arguments, string workingDirectory, EventHandler exited) 
 		{
 			return StartProcess (command, arguments, workingDirectory, (ProcessEventHandler)null, (ProcessEventHandler)null, exited);	
@@ -105,6 +107,34 @@ namespace MonoDevelop.Services
 
 				return pw;
 			}
+		}
+		
+		ProcessHostController GetHost (bool shared)
+		{
+			if (!shared)
+				return new ProcessHostController (0);
+			
+			lock (this) {
+				if (externalProcess == null)
+					externalProcess = new ProcessHostController (10000);
+	
+				return externalProcess;
+			}
+		}
+		
+		public RemoteProcessObject CreateExternalProcessObject (Type type)
+		{
+			return CreateExternalProcessObject (type, true);
+		}
+		
+		public RemoteProcessObject CreateExternalProcessObject (Type type, bool shared)
+		{
+			return GetHost (shared).CreateInstance (type);
+		}
+		
+		public RemoteProcessObject CreateExternalProcessObject (string assemblyPath, string typeName, bool shared)
+		{
+			return GetHost (shared).CreateInstance (assemblyPath, typeName);
 		}
 	}
 	

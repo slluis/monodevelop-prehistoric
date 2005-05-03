@@ -114,10 +114,6 @@ namespace MonoDevelop.Gui.Pads
 			}
 		}
 
-		public void BringToFront() {
-			// TODO FIXME
-		}
-		
 		public string Title {
 			get { return title; }
 			set { title = value; }

@@ -73,10 +73,5 @@ namespace MonoDevelop.Gui
 		/// Is called when the icon of this pad has changed.
 		/// </summary>
 		event EventHandler IconChanged;
-		
-		/// <summary>
-		/// Tries to make the pad visible to the user.
-		/// </summary>
-		void BringToFront();
 	}
 }

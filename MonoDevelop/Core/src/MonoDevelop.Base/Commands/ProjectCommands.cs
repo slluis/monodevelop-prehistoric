@@ -61,7 +61,7 @@ namespace MonoDevelop.Commands
 			} else {
 				if (WorkbenchSingleton.Workbench.ActiveWorkbenchWindow != null) {
 					file = WorkbenchSingleton.Workbench.ActiveWorkbenchWindow.ViewContent.ContentName;
-					IAsyncOperation op = Runtime.ProjectService.ExecuteFile (file);
+					IAsyncOperation op = Runtime.ProjectService.BuildFile (file);
 					op.Completed += new OperationHandler (ExecuteFile);
 				}
 			}
@@ -132,7 +132,7 @@ namespace MonoDevelop.Commands
 			} else {
 				if (WorkbenchSingleton.Workbench.ActiveWorkbenchWindow != null) {
 					file = WorkbenchSingleton.Workbench.ActiveWorkbenchWindow.ViewContent.ContentName;
-					IAsyncOperation op = Runtime.ProjectService.ExecuteFile (file);
+					IAsyncOperation op = Runtime.ProjectService.BuildFile (file);
 					op.Completed += new OperationHandler (ExecuteFile);
 				}
 			}
@@ -234,7 +234,7 @@ namespace MonoDevelop.Commands
 				if (WorkbenchSingleton.Workbench.ActiveWorkbenchWindow != null) {
 					info.Enabled = Runtime.ProjectService.CurrentBuildOperation.IsCompleted;
 					string file = Path.GetFileName (WorkbenchSingleton.Workbench.ActiveWorkbenchWindow.ViewContent.ContentName);
-					info.Text = string.Format (GettextCatalog.GetString ("Build {0}"), file);
+					info.Text = info.Description = string.Format (GettextCatalog.GetString ("Build {0}"), file);
 				} else {
 					info.Enabled = false;
 				}

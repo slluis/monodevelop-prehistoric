@@ -98,6 +98,11 @@ namespace MonoDevelop.Gui
 		IPadContent GetPad(Type type);
 		
 		/// <summary>
+		/// Tries to make the pad visible to the user.
+		/// </summary>
+		void BringToFront (IPadContent content);
+		
+		/// <summary>
 		/// Closes the IViewContent content when content is open.
 		/// </summary>
 		void CloseContent(IViewContent content);

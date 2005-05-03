@@ -138,10 +138,6 @@ namespace MonoDevelop.Gui.Pads
 			clipboard.SetText (task.ToString ());
 		}
 		
-		void MarkupCol (Gtk.TreeViewColumn col)
-		{
-		}
-		
 		void AddColumns ()
 		{
 			Gtk.CellRendererPixbuf iconRender = new Gtk.CellRendererPixbuf ();
@@ -282,14 +278,6 @@ namespace MonoDevelop.Gui.Pads
 		}
 		
 		public event EventHandler TitleChanged, IconChanged;
-		
-		public void BringToFront ()
-		{
-			if (!WorkbenchSingleton.Workbench.WorkbenchLayout.IsVisible (this))
-				WorkbenchSingleton.Workbench.WorkbenchLayout.ShowPad (this);
-			
-			WorkbenchSingleton.Workbench.WorkbenchLayout.ActivatePad (this);
-		}
 		
 		private void ItemToggled (object o, ToggledArgs args)
 		{

@@ -176,15 +176,6 @@ namespace MonoDevelop.Gui.Pads
 
 		public event EventHandler IconChanged;
 		public event EventHandler TitleChanged;
-
-		public void BringToFront()
-		{
-			if (!WorkbenchSingleton.Workbench.WorkbenchLayout.IsVisible (this)) {
-				WorkbenchSingleton.Workbench.WorkbenchLayout.ShowPad (this);
-			}
-
-			WorkbenchSingleton.Workbench.WorkbenchLayout.ActivatePad (this);
-		}
 	}
 }
 
