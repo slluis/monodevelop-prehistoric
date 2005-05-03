@@ -1,3 +1,3 @@
 
-SUBDIRS = SharpCoco dbgen
+SUBDIRS = SharpCoco dbgen mdhost
 
