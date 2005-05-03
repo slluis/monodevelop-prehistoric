@@ -208,6 +208,7 @@ Core/src/ICSharpCode.SharpRefactory/Makefile
 Core/src/Tools/Makefile
 Core/src/Tools/SharpCoco/Makefile
 Core/src/Tools/dbgen/Makefile
+Core/src/Tools/mdhost/Makefile
 build/Makefile
 build/data/Makefile
 build/data/resources/Makefile
