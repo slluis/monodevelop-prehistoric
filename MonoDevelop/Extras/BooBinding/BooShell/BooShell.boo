@@ -41,6 +41,9 @@ class BooShell (RemoteProcessObject):
 
 	private _processing as string = "true"
 
+	override def InitializeLifetimeService ():
+		return null
+
 	def Reset() as bool:
 		EnqueueCommand (ShellCommand (ShellCommandType.Reset, null))
 		return true

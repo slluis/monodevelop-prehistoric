@@ -1,3 +1,8 @@
+2005-05-03  Peter Johanson <latexer@gentoo.org>
+
+	* BooShell/BooShell.boo: Make sure we don't get
+	disposed prematurely.
+
 2005-05-02  Peter Johanson <latexer@gentoo.org>
 
 	* Remoting/*:
