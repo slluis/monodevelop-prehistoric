@@ -160,10 +160,6 @@ namespace MonoDevelop.Debugger
 			UpdateDisplay ();
 		}
 
-		public void BringToFront ()
-		{
-		}
-
 		protected void OnThreadEvent (object o, EventArgs args)
 		{
 			UpdateDisplay ();

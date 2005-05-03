@@ -134,24 +134,20 @@ namespace MonoDevelop.Debugger
 			UpdateDisplay ();
 		}
 
-		public void BringToFront ()
+		protected virtual void OnTitleChanged(EventArgs e)
 		{
+				if (TitleChanged != null) {
+						TitleChanged(this, e);
+				}
 		}
-
-                protected virtual void OnTitleChanged(EventArgs e)
-                {
-                        if (TitleChanged != null) {
-                                TitleChanged(this, e);
-                        }
-                }
-                protected virtual void OnIconChanged(EventArgs e)
-                {
-                        if (IconChanged != null) {
-                                IconChanged(this, e);
-                        }
-                }
-                public event EventHandler TitleChanged;
-                public event EventHandler IconChanged;
+		protected virtual void OnIconChanged(EventArgs e)
+		{
+				if (IconChanged != null) {
+						IconChanged(this, e);
+				}
+		}
+		public event EventHandler TitleChanged;
+		public event EventHandler IconChanged;
 	  
 	}
 }

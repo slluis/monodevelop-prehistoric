@@ -1,3 +1,9 @@
+2005-05-03  Lluis Sanchez Gual  <lluis@novell.com> 
+
+	* Gui/Pads/LocalsPad.cs:
+	* Gui/Pads/StackTracePad.cs:
+	* Gui/Pads/ThreadPad.cs: Removed BringToFront from IPadContent.
+
 2005-04-30  Lluis Sanchez Gual  <lluis@novell.com>
 
 	* DebuggingService.cs: Made Debugging property public and changed the
