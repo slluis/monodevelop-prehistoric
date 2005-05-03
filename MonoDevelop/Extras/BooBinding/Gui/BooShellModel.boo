@@ -24,12 +24,14 @@ import System.Diagnostics
 import System.Collections
 import System.IO
 import System.Threading
-import BooBinding.Properties
-
-import BooBinding.BooShell
-import BooBinding.Remoting
 import System.Runtime.Remoting
 import System.Runtime.Remoting.Channels
+
+import BooBinding.Properties
+import BooBinding.BooShell
+
+import MonoDevelop.Services
+import MonoDevelop.Core.Services
 
 class BooShellModel(IShellModel):
 	private _props = BooShellProperties()
@@ -40,8 +42,6 @@ class BooShellModel(IShellModel):
 	private _outputHandler as callable
 	
 	private _thread as System.Threading.Thread
-
-	private _process as Process
 
 	private _booShell as BooShell
 
@@ -57,23 +57,17 @@ class BooShellModel(IShellModel):
 		pass
 
 	def constructor (program_path as string, socket_path as string):
-		StartShellServer (program_path, socket_path)
-		GetRemoteShellObject (socket_path)
-		_booShell.Run()
+		GetRemoteShellObject ()
+		_booShell.Run ()
 
-	def StartShellServer(program_path as string, socket_path as string):
-		psi = ProcessStartInfo()
-		psi.FileName = "mono"
-		psi.Arguments = "${program_path} ${socket_path}"
-		_process = Process.Start(psi)
-	
-	def GetRemoteShellObject (socket_path as string):
-		chan = UnixChannel (Hashtable(), BinaryClientFormatterSinkProvider (), BinaryServerFormatterSinkProvider ())
-		ChannelServices.RegisterChannel(chan)
-		_booShell = Activator.GetObject (typeof(BooShell), "unix://${socket_path}?BooShell")
+	def GetRemoteShellObject ():
+		_procService as ProcessService = ServiceManager.GetService (typeof (ProcessService))
+		_booShell = _procService.CreateExternalProcessObject ("../AddIns/BackendBindings/BooShell.dll", "BooBinding.BooShell.BooShell", false)
+		if _booShell is null:
+			raise Exception ("Unable to instantiate remote BooShell object")
 
 			
-	def Reset() as bool:
+	def Reset () as bool:
 		_booShell.Reset()
 		return true
 	
@@ -81,13 +75,13 @@ class BooShellModel(IShellModel):
 		_booShell.LoadAssembly (assemblyPath)
 		return true
 	
-	def GetOutput() as (string):
+	def GetOutput () as (string):
 		ret as (string)
 		lock _outputQueue:
 			if _outputQueue.Count > 0:
 				ret = array (string, _outputQueue.Count)
 				_outputQueue.CopyTo (ret, 0)
-				_outputQueue.Clear()
+				_outputQueue.Clear ()
 
 		return ret
 
@@ -100,7 +94,7 @@ class BooShellModel(IShellModel):
 		ensure:
 			Monitor.Exit (_commandQueue)
 
-	def ThreadRun():
+	def ThreadRun ():
 		while true:
 			com as string
 			try:
@@ -108,26 +102,26 @@ class BooShellModel(IShellModel):
 				if _commandQueue.Count == 0:
 					Monitor.Wait (_commandQueue)
 
-				com = _commandQueue.Dequeue()
+				com = _commandQueue.Dequeue ()
 
 
 				if com is not null:
 					_booShell.QueueInput (com)
-					lines = _booShell.GetOutput()
+					lines = _booShell.GetOutput ()
 					if lines is not null:
-						EnqueueOutput(lines)
+						EnqueueOutput (lines)
 					com = null
 					lock _outputQueue:
 						if _outputHandler is not null:
-							_outputHandler()
+							_outputHandler ()
 
 			ensure:
 				Monitor.Exit (_commandQueue)
 
 	
-	def Run():
-		_thread = System.Threading.Thread(ThreadRun)
-		_thread.Start()
+	def Run ():
+		_thread = System.Threading.Thread (ThreadRun)
+		_thread.Start ()
 	
 	def RegisterOutputHandler (handler as callable):
 		_outputHandler = handler
@@ -135,13 +129,13 @@ class BooShellModel(IShellModel):
 	def EnqueueOutput (lines as (string)):
 		lock _outputQueue:
 			for line in lines:
-				_outputQueue.Enqueue(line)
+				_outputQueue.Enqueue (line)
 	
-	def Dispose():
-		_thread.Abort()
-		_process.Kill()
-		_booShell = null
+	def Dispose ():
+		_thread.Abort ()
+		_thread.Join()
+		_booShell.Dispose ()
 		
-	def print(obj):
+	def print (obj):
 		lock _outputQueue:
-			_outputQueue.Enqueue(obj)
+			_outputQueue.Enqueue (obj)

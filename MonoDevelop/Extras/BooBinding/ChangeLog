@@ -1,5 +1,15 @@
 2005-05-02  Peter Johanson <latexer@gentoo.org>
 
+	* Remoting/*:
+	* Gui/BooShellModel.boo:
+	* BooShell/BooShell.boo:
+	* Makefile.am: Switch over to using the new
+	RemoteProcessObject API. Removes the need for
+	all of BooShell.Remoting, and simplifies things
+	elsewhere.
+
+2005-05-02  Peter Johanson <latexer@gentoo.org>
+
 	* Gui/BooShellModel.boo: Fix from lluis to make
 	MD not crash when right clicking the shell with
 	no projects open.

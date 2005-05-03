@@ -29,7 +29,9 @@ import Boo.Lang.Compiler
 import Gtk
 import GLib
 
-class BooShell(MarshalByRefObject):
+import MonoDevelop.Services
+
+class BooShell (RemoteProcessObject):
 	private _interpreter = InteractiveInterpreter(RememberLastValue: true, Print: print)
 
 	private _commandQueue = Queue()
