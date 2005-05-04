@@ -133,7 +133,6 @@ class BooShellModel(IShellModel):
 	
 	def Dispose ():
 		_thread.Abort ()
-		_thread.Join()
 		_booShell.Dispose ()
 		
 	def print (obj):
