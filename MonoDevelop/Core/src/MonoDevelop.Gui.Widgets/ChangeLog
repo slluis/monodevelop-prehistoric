@@ -1,3 +1,9 @@
+2005-05-04  Alp Toker  <alp@atoker.com>
+
+	* Commands/CommandToolButton.cs: enable UseUnderline. The Gtk+ docs
+	say "Labels shown on tool buttons never have mnemonics on them" so
+	this effectively just hides the underscore.
+
 2005-04-27  Lluis Sanchez Gual  <lluis@novell.com>
 
 	* Commands/CommandInfo.cs: Forgot to copy the description from the

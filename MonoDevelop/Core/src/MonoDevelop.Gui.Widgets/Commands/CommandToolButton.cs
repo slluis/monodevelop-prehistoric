@@ -75,6 +75,7 @@ namespace MonoDevelop.Commands
 				SetTooltip (tips, cmdInfo.Description, cmdInfo.Description);
 				lastDesc = cmdInfo.Description;
 			}
+			UseUnderline = true;
 			Label = cmdInfo.Text;
 			StockId = cmdInfo.Icon;
 			Sensitive = cmdInfo.Enabled;
