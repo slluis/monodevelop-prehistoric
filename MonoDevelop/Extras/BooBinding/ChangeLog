@@ -1,5 +1,10 @@
 2005-05-04  Peter Johanson <latexer@gentoo.org>
 
+	* BooShell/BooShell.boo: Make sure we 
+	dispose of the worker thread.
+
+2005-05-04  Peter Johanson <latexer@gentoo.org>
+
 	* Gui/BooShellModel.boo: Don't join the aborted
 	thread. This isn't needed, and hangs mono-1.1.7 and
 	newer.

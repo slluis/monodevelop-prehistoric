@@ -140,6 +140,9 @@ class BooShell (RemoteProcessObject):
 			Monitor.Pulse (_commandQueue)
 			Monitor.Exit (_commandQueue)
 	
+	def Dispose ():
+		_thread.Abort ()
+		super ()
 
 public enum ShellCommandType:
 	NoOp
