@@ -41,6 +41,7 @@ namespace MonoDevelop.Commands
 		Hashtable handlerInfo = new Hashtable ();
 		ArrayList toolbars = new ArrayList ();
 		ArrayList globalHandlers = new ArrayList ();
+		ArrayList commandUpdateErrors = new ArrayList ();
 		
 		Gtk.AccelGroup accelGroup;
 		
@@ -126,50 +127,56 @@ namespace MonoDevelop.Commands
 		
 		public bool DispatchCommand (object commandId, object dataItem)
 		{
-			ActionCommand cmd = GetActionCommand (commandId);
-			
-			int globalPos;
-			object cmdTarget = GetFirstCommandTarget (out globalPos);
-			CommandInfo info = new CommandInfo (cmd);
-			
-			while (cmdTarget != null)
-			{
-				HandlerTypeInfo typeInfo = GetTypeHandlerInfo (cmdTarget);
+			try {
+				ActionCommand cmd = GetActionCommand (commandId);
 				
-				CommandUpdaterInfo cui = typeInfo.GetCommandUpdater (commandId);
-				if (cui != null) {
-					if (cmd.CommandArray) {
-						// Make sure that the option is still active
-						CommandArrayInfo ainfo = new CommandArrayInfo (info);
-						cui.Run (cmdTarget, ainfo);
-						bool found = false;
-						foreach (CommandInfo ci in ainfo) {
-							if (Object.Equals (dataItem, ci.DataItem)) {
-								found = true;
-								break;
+				int globalPos;
+				object cmdTarget = GetFirstCommandTarget (out globalPos);
+				CommandInfo info = new CommandInfo (cmd);
+				
+				while (cmdTarget != null)
+				{
+					HandlerTypeInfo typeInfo = GetTypeHandlerInfo (cmdTarget);
+					
+					CommandUpdaterInfo cui = typeInfo.GetCommandUpdater (commandId);
+					if (cui != null) {
+						if (cmd.CommandArray) {
+							// Make sure that the option is still active
+							CommandArrayInfo ainfo = new CommandArrayInfo (info);
+							cui.Run (cmdTarget, ainfo);
+							bool found = false;
+							foreach (CommandInfo ci in ainfo) {
+								if (Object.Equals (dataItem, ci.DataItem)) {
+									found = true;
+									break;
+								}
 							}
+							if (!found) return false;
+						} else {
+							cui.Run (cmdTarget, info);
+							if (!info.Enabled || !info.Visible) return false;
 						}
-						if (!found) return false;
-					} else {
-						cui.Run (cmdTarget, info);
-						if (!info.Enabled || !info.Visible) return false;
 					}
+					
+					CommandHandlerInfo chi = typeInfo.GetCommandHandler (commandId);
+					if (chi != null) {
+						if (cmd.CommandArray)
+							chi.Run (cmdTarget, dataItem);
+						else
+							chi.Run (cmdTarget);
+						UpdateToolbars ();
+						return true;
+					}
+					
+					cmdTarget = GetNextCommandTarget (cmdTarget, ref globalPos);
 				}
-				
-				CommandHandlerInfo chi = typeInfo.GetCommandHandler (commandId);
-				if (chi != null) {
-					if (cmd.CommandArray)
-						chi.Run (cmdTarget, dataItem);
-					else
-						chi.Run (cmdTarget);
-					UpdateToolbars ();
-					return true;
-				}
-				
-				cmdTarget = GetNextCommandTarget (cmdTarget, ref globalPos);
+	
+				return cmd.DispatchCommand (dataItem);
 			}
-
-			return cmd.DispatchCommand (dataItem);
+			catch (Exception ex) {
+				ReportError ("Error while executing command: " + commandId, ex);
+				return false;
+			}
 		}
 		
 		internal CommandInfo GetCommandInfo (object commandId)
@@ -177,36 +184,46 @@ namespace MonoDevelop.Commands
 			ActionCommand cmd = GetActionCommand (commandId);
 			CommandInfo info = new CommandInfo (cmd);
 			
-			int globalPos;
-			object cmdTarget = GetFirstCommandTarget (out globalPos);
-			
-			while (cmdTarget != null)
-			{
-				HandlerTypeInfo typeInfo = GetTypeHandlerInfo (cmdTarget);
-				CommandUpdaterInfo cui = typeInfo.GetCommandUpdater (commandId);
+			try {
+				int globalPos;
+				object cmdTarget = GetFirstCommandTarget (out globalPos);
 				
-				if (cui != null) {
-					if (cmd.CommandArray) {
-						info.ArrayInfo = new CommandArrayInfo (info);
-						cui.Run (cmdTarget, info.ArrayInfo);
+				while (cmdTarget != null)
+				{
+					HandlerTypeInfo typeInfo = GetTypeHandlerInfo (cmdTarget);
+					CommandUpdaterInfo cui = typeInfo.GetCommandUpdater (commandId);
+					
+					if (cui != null) {
+						if (cmd.CommandArray) {
+							info.ArrayInfo = new CommandArrayInfo (info);
+							cui.Run (cmdTarget, info.ArrayInfo);
+							return info;
+						}
+						else {
+							cui.Run (cmdTarget, info);
+							return info;
+						}
+					}
+					
+					if (typeInfo.GetCommandHandler (commandId) != null) {
+						info.Enabled = true;
+						info.Visible = true;
 						return info;
 					}
-					else {
-						cui.Run (cmdTarget, info);
-						return info;
-					}
+					
+					cmdTarget = GetNextCommandTarget (cmdTarget, ref globalPos);
 				}
 				
-				if (typeInfo.GetCommandHandler (commandId) != null) {
-					info.Enabled = true;
-					info.Visible = true;
-					return info;
-				}
-				
-				cmdTarget = GetNextCommandTarget (cmdTarget, ref globalPos);
+				cmd.UpdateCommandInfo (info);
 			}
-			
-			cmd.UpdateCommandInfo (info);
+			catch (Exception ex) {
+				if (!commandUpdateErrors.Contains (commandId)) {
+					commandUpdateErrors.Add (commandId);
+					ReportError ("Error while updating status of command: " + commandId, ex);
+				}
+				info.Enabled = false;
+				info.Visible = true;
+			}
 			return info;
 		}
 		
@@ -342,6 +359,19 @@ namespace MonoDevelop.Commands
 				if (toolbar.Visible)
 					toolbar.Update ();
 			}
+		}
+		
+		public void ReportError (string message, Exception ex)
+		{
+			string msg = ex.ToString();
+			msg = msg.Replace ("<","");
+			msg = msg.Replace (">","");
+			msg = "<b>" + message + "</b>\n\nException ocurred: " + msg;
+			
+			Gtk.MessageDialog md = new Gtk.MessageDialog (null, Gtk.DialogFlags.Modal, Gtk.MessageType.Error, Gtk.ButtonsType.Ok, msg);
+			md.Run ();
+			md.Destroy ();
+			md.Dispose ();
 		}
 	}
 	
