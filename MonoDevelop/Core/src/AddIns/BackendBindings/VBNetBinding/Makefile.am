@@ -68,7 +68,7 @@ $(ADDIN_BUILD)/$(ADDIN): $(srcdir)/$(ADDIN)
 
 $(ASSEMBLY): $(build_sources) $(srcdir)/VB.glade
 	mkdir -p $(ADDIN_BUILD)
-	cd SharpRefactoryVB && make
+	cd SharpRefactoryVB && $(MAKE)
 	$(CSC) -out:$@ -target:library $(DLLS) \
 		-resource:$(srcdir)/VB.glade,VB.glade \
 		$(build_sources)

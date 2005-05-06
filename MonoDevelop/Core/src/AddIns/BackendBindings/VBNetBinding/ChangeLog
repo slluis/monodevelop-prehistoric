@@ -1,3 +1,9 @@
+2005-05-06  John Luke  <john.luke@gmail.com>
+
+	* Makefile.am: replace 'make' with $(MAKE)
+	This fixes it on FreeBSD, should work everywhere.
+	by cnehren@gmail.com (Christopher Nehren)
+	
 2005-04-17  John Luke  <john.luke@gmail.com>
 
 	* Makefile.am: fix distcheck
