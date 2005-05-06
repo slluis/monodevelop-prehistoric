@@ -37,12 +37,11 @@ make install
 Dependencies
 ------------
 Mono >= 1.0
-Gtk# >= 1.0
-gnome-vfs >= 2.0
+Gtk# >= 1.9.3
 monodoc >= 1.0
 gtksourceview >= 1.0
-gecko-sharp >= 0.5
-gtksourceview-sharp >= 0.5
+gecko-sharp >= 0.7
+gtksourceview-sharp >= 0.7
 
 References
 ----------
