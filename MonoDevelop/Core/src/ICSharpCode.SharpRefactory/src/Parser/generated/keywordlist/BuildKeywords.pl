@@ -1,4 +1,4 @@
-#!/bin/perl
+#!/usr/bin/env perl
 
 # File names
 $keyword_file     = "CSharpKeywordList.txt";
