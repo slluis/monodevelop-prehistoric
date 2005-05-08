@@ -1,3 +1,7 @@
+2005-05-09 Jacob Ilsø Christensen  <jacobilsoe@gmail.com>
+ 
+ 	* Gui/Pads/OpenTaskView.cs: Fixed Gtk warnings by using Clipboard.Text
+
 2005-05-08  John Luke  <john.luke@gmail.com>
 
 	* /Gui/Pads/SolutionPad/TreeViewPad.cs: use DefaultSortFunc property

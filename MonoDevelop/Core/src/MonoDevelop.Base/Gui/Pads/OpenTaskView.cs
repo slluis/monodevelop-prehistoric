@@ -133,9 +133,9 @@ namespace MonoDevelop.Gui.Pads
 			}
 
 			clipboard = Clipboard.Get (Gdk.Atom.Intern ("CLIPBOARD", false));
-			clipboard.SetText (task.ToString ());
+			clipboard.Text = task.ToString();
 			clipboard = Clipboard.Get (Gdk.Atom.Intern ("PRIMARY", false));
-			clipboard.SetText (task.ToString ());
+			clipboard.Text = task.ToString();
 		}
 		
 		void AddColumns ()
