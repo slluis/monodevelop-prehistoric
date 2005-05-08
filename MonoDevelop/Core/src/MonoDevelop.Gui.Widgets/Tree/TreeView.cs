@@ -61,7 +61,7 @@ namespace MonoDevelop.Gui.Widgets {
 		
 		public TreeView (bool edit, Gtk.TreeIterCompareFunc cb_compare) : this (edit)
 		{
-			store.SetDefaultSortFunc (cb_compare);
+			store.DefaultSortFunc = cb_compare;
 			store.SetSortColumnId (/* GTK_TREE_SORTABLE_DEFAULT_SORT_COLUMN_ID */ -1, Gtk.SortType.Ascending);
 		}
 

@@ -186,7 +186,7 @@ namespace MonoDevelop.Gui.Pads
 			tree.EnableModelDragDest (target_table, Gdk.DragAction.Copy | Gdk.DragAction.Move);
 			Gtk.Drag.SourceSet (tree, Gdk.ModifierType.Button1Mask, target_table, Gdk.DragAction.Copy | Gdk.DragAction.Move);
 
-			store.SetDefaultSortFunc (new Gtk.TreeIterCompareFunc (CompareNodes));
+			store.DefaultSortFunc = new Gtk.TreeIterCompareFunc (CompareNodes);
 			store.SetSortColumnId (/* GTK_TREE_SORTABLE_DEFAULT_SORT_COLUMN_ID */ -1, Gtk.SortType.Ascending);
 			
 			tree.HeadersVisible = false;

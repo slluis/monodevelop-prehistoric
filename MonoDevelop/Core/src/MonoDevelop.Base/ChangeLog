@@ -1,3 +1,7 @@
+2005-05-08  John Luke  <john.luke@gmail.com>
+
+	* /Gui/Pads/SolutionPad/TreeViewPad.cs: use DefaultSortFunc property
+	
 2005-05-03  Lluis Sanchez Gual  <lluis@novell.com> 
 
 	* Commands/ProjectCommands.cs: The Build command should compile the
