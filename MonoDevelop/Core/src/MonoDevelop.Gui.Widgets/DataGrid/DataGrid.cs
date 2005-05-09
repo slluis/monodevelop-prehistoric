@@ -135,7 +135,7 @@ namespace MonoDevelop.Gui.Widgets
 			for ( int col=0; col<pdc.Count; col++ ) {
 				theTypes[col] = (GType)GType.String;
 			}
-			store.SetColumnTypes (theTypes);
+			store.ColumnTypes = theTypes;
 
 			// FIXME: does not belong in this base method
 			int colndx = -1;

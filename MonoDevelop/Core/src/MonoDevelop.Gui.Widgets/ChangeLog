@@ -1,6 +1,7 @@
 2005-05-08  John Luke  <john.luke@gmail.com>
 
 	* Tree/TreeView.cs: use DefaultSortFunc property instead
+	* DataGrid/DataGrid.cs: use ColumnTypes property instead
 	
 2005-05-06  Lluis Sanchez Gual  <lluis@novell.com>
 
