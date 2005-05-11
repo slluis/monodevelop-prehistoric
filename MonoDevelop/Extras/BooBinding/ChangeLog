@@ -1,3 +1,9 @@
+2005-05-10  Peter Johanson <latexer@gentoo.org>
+
+	* Gui/ShellTextView.boo: Use a normal StreamWriter
+	instead of the Boo.IO stuff, since Boo.IO has moved
+	in current Boo SVN to Boo.Lang.IO
+
 2005-05-04  Peter Johanson <latexer@gentoo.org>
 
 	* BooShell/BooShell.boo: Make sure we 

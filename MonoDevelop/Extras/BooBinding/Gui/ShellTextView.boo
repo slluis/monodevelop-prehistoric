@@ -21,6 +21,7 @@ namespace BooBinding.Gui
 
 import System
 import System.Collections
+import System.IO
 import System.Runtime.InteropServices
 
 import Gtk
@@ -34,7 +35,6 @@ import MonoDevelop.Core.Services
 import MonoDevelop.Services
 import MonoDevelop.Core.Properties
 import MonoDevelop.Internal.Project
-import Boo.IO
 
 
 /*
@@ -383,7 +383,8 @@ class ShellTextView (SourceView):
 		if _sel.Filename:
 			_sel.Hide()
 			_path = _sel.Filename
-			TextFile.WriteFile (_path, _scriptLines)
+			using writer = StreamWriter (_path):
+				writer.Write (_scriptLines)
 		else:
 			_sel.Hide()
 	
