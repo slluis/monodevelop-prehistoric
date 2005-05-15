@@ -73,7 +73,7 @@ $(ASSEMBLY): $(build_sources) $(srcdir)/VB.glade
 		-resource:$(srcdir)/VB.glade,VB.glade \
 		$(build_sources)
 
-vbnetbindinglibdir = $(libdir)/monodevelop/AddIns/BackendBindings
+vbnetbindinglibdir = $(MD_ADDIN_DIR)/BackendBindings
 vbnetbindinglib_DATA = $(ASSEMBLY) $(ADDIN)
 
 templatesdir = $(vbnetbindinglibdir)/templates/

@@ -99,10 +99,10 @@ $(DLL) : $(build_sources) $(srcdir)/EditorBindings.glade $(srcdir)/texteditoradd
 	-resource:$(srcdir)/texteditoraddin.glade,texteditoraddin.glade \
 	&& cp $(CONFIG) $(top_builddir)/build/bin/.
 
-assemblydir = $(libdir)/monodevelop/bin
+assemblydir = $(MD_ASSEMBLY_DIR)
 assembly_DATA = $(DLL) $(CONFIG)
 
-addindir = $(libdir)/monodevelop/AddIns
+addindir = $(MD_ADDIN_DIR)
 addin_DATA = $(ADDIN)
 
 CLEANFILES = $(DLL) $(DLL).mdb

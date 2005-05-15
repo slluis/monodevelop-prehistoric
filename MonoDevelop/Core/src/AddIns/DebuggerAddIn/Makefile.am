@@ -43,7 +43,7 @@ $(ASSEMBLY): $(build_sources)
 	$(CSC) -debug -out:$@ -target:library \
 	$(build_sources) $(DLLS)
 
-assemblydir = $(libdir)/monodevelop/AddIns/DebuggerAddIn
+assemblydir = $(MD_ADDIN_DIR)/DebuggerAddIn
 assembly_DATA = $(ASSEMBLY) $(ASSEMBLY).mdb $(ADDIN)
 
 CLEANFILES = $(ASSEMBLY) $(ASSEMBLY).mdb

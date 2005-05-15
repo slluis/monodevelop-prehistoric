@@ -1,3 +1,15 @@
+2005-05-15  Ben Maurer  <bmaurer@ximian.com>
+
+	* configure.in, */Makefile.am:
+	    - Use prefix/lib ratehr than libdir to clean up amd64
+	    packaging
+	    - Don't use gnome_prefix for installing stuff, just put it in
+	    the normal install prefix. If you install MD to a prefix, you
+	    will have to add your prefix to XDG_DATA_DIRS, just like you
+	    need to modify your PATH.
+	    - Allow people to disable update-mime-database (for packagers)
+	    - Misc. Makefile cleanups
+
 2005-05-06  John Luke  <john.luke@gmail.com>
 
 	* AUTHORS: mv here from Core/AUTHORS

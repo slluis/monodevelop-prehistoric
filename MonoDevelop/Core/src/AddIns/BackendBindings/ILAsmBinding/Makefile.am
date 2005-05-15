@@ -25,7 +25,7 @@ TEMPLATES_DIR = $(ADDIN_BUILD)/templates
 
 build_TEMPLATES = $(addprefix $(TEMPLATES_DIR)/,$(TEMPLATES))
 
-assemblydir = $(libdir)/monodevelop/AddIns/BackendBindings
+assemblydir = $(MD_ADDIN_DIR)/BackendBindings
 assembly_DATA = $(ASSEMBLY) $(ADDIN)
 
 templatesdir = $(assemblydir)/templates

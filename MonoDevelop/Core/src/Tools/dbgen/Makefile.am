@@ -11,7 +11,7 @@ REFS = /r:$(top_builddir)/build/bin/MonoDevelop.Base.dll /r:$(top_builddir)/buil
 $(ASSEMBLY): $(build_sources)
 	$(CSC) $(build_sources) $(REFS) -out:$@
 
-assemblydir = $(libdir)/monodevelop/bin
+assemblydir = $(MD_ASSEMBLY_DIR)
 assembly_DATA = $(ASSEMBLY)           
 
 CLEANFILES = $(ASSEMBLY) $(ASSEMBLY).mdb

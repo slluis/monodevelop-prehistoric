@@ -37,6 +37,6 @@ EXTRA_DIST = $(FILES) $(ADDIN)
 
 include $(top_srcdir)/Makefile.include
 
-MonoDeveloperExtensionsdir = $(libdir)/monodevelop/AddIns/MonoDeveloperExtensions
+MonoDeveloperExtensionsdir = $(MD_ADDIN_DIR)/MonoDeveloperExtensions
 MonoDeveloperExtensions_DATA = $(DLL) $(ADDIN_BUILD)/$(ADDIN)
 

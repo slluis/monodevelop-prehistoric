@@ -94,7 +94,7 @@ $(PARSE): parse.cs $(ASSEMBLY)
 run-parse-test: $(PARSE)
 	MONO_PATH=../../../../../build/AddIns/BackendBindings/:../../../../../build/bin/ mono $(PARSE) .
 
-csharpbindinglibdir = $(libdir)/monodevelop/AddIns/BackendBindings
+csharpbindinglibdir = $(MD_ADDIN_DIR)/BackendBindings
 csharpbindinglib_DATA = $(ASSEMBLY) $(ADDIN)
 
 templatesdir = $(csharpbindinglibdir)/templates

@@ -12,7 +12,7 @@ AssemblyInfo.cs \
 Commands/ShowDialog.cs \
 Gui/AddInManagerDialog.cs
 
-addindir = $(libdir)/monodevelop/AddIns
+addindir = $(MD_ADDIN_DIR)
 addin_DATA = $(ADDIN) $(ASSEMBLY)
 
 all: $(ASSEMBLY)

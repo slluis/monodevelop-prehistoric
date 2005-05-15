@@ -73,7 +73,7 @@ all: $(DLL)
 $(DLL): $(build_sources)
 	$(CSC) -out:$@ -target:library $(build_sources)
 
-assemblydir = $(libdir)/monodevelop/bin
+assemblydir = $(MD_ASSEMBLY_DIR)
 assembly_DATA = $(DLL)
   
 CLEANFILES = $(DLL) $(DLL).mdb

@@ -93,7 +93,7 @@ $(BOOSHELL_LIB): $(BOOSHELL_FILES)
 	$(BOOC) $(BOOSHELL_DLLS) $(booshell_build_sources) -o:$@ -t:library
 
 if ENABLE_BOO
-assemblydir = $(libdir)/monodevelop/AddIns/BackendBindings
+assemblydir = $(MD_ADDIN_DIR)/BackendBindings
 assembly_DATA = $(ASSEMBLY) $(ADDIN) $(BOOSHELL_LIB)
 
 templatedir = $(assemblydir)/templates

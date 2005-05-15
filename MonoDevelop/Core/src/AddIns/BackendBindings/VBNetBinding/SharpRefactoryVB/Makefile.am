@@ -121,7 +121,7 @@ test-parser.exe : $(DLL) src/Main.cs
 run : test-parser.exe
 	@ MONO_PATH=`dirname $(DLL)` $(RUNTIME) test-parser.exe $(TEST_SOURCE)
 
-assemblydir = $(libdir)/monodevelop/bin
+assemblydir = $(MD_ASSEMBLY_DIR)
 assembly_DATA = $(DLL)
 
 CLEANFILES = $(DLL) $(DLL).mdb

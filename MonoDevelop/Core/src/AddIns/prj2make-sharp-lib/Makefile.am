@@ -34,7 +34,7 @@ $(ASSEMBLY): $(build_sources)
 	mkdir -p $(ADDIN_BUILD)
 	$(CSC) -out:$@ -target:library $(build_sources) $(DLLS)
 
-assemblydir = $(libdir)/monodevelop/AddIns
+assemblydir = $(MD_ADDIN_DIR)
 assembly_DATA = $(ASSEMBLY) $(ADDIN)
 
 CLEANFILES = $(ASSEMBLY) $(ASSEMBLY).mdb

@@ -1,6 +1,5 @@
 
-monodevelopdir = $(libdir)/monodevelop
-iconsdir = $(monodevelopdir)/data/resources/icons
+iconsdir = $(MD_DIR)/data/resources/icons
 
 icons_DATA = BooBinding.Base \
 Boo.File.EmptyFile \

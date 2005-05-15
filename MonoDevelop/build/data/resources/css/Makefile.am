@@ -1,6 +1,5 @@
 
-monodevelopdir = $(libdir)/monodevelop
-cssdir = $(monodevelopdir)/data/resources/css
+cssdir = $(MD_DIR)/data/resources/css
 
 css_DATA = MsdnHelp.css SharpDevelopStandard.css
 

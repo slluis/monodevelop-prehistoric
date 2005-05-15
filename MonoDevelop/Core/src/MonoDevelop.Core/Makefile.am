@@ -70,7 +70,7 @@ Services/GettextCatalog.cs: $(srcdir)/Services/GettextCatalog.cs.in
 $(DLL): $(build_sources) $(build_resources)
 	$(CSC) -out:$@ -target:library $(REFS) $(build_sources)
 
-assemblydir = $(libdir)/monodevelop/bin
+assemblydir = $(MD_ASSEMBLY_DIR)
 assembly_DATA = $(DLL)
 
 CLEANFILES = $(DLL) $(DLL).mdb

@@ -12,7 +12,7 @@ RESOURCES = \
 	-resource:$(srcdir)/stock-menu-left-12.png,stock-menu-left-12.png \
 	-resource:$(srcdir)/stock-menu-right-12.png,stock-menu-right-12.png
 
-assemblydir = $(libdir)/monodevelop/bin
+assemblydir = $(MD_ASSEMBLY_DIR)
 assembly_DATA = $(DOCK)
 
 REFS = $(GTK_SHARP_LIBS) $(GLADE_SHARP_LIBS)

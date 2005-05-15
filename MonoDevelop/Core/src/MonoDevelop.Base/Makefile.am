@@ -497,13 +497,13 @@ $(ASSEMBLY): $(build_sources) $(srcdir)/Base.glade
 Services/StockIcons.cs : ./Services/process-icons.pl ../../../build/data/resources/icons
 	perl  -x$(srcdir)/../../../build/data/resources/icons -w $(srcdir)/./Services/process-icons.pl > $(srcdir)/Services/StockIcons.cs
 
-assemblydir = $(libdir)/monodevelop/bin
+assemblydir = $(MD_ASSEMBLY_DIR)
 assembly_DATA = $(ASSEMBLY) $(CONFIG)
 
-addindir = $(libdir)/monodevelop/AddIns
+addindir = $(MD_ADDIN_DIR)
 addin_DATA = $(ADDIN)
 
-optionsdir = $(libdir)/monodevelop/data/options
+optionsdir = $(MD_DIR)/data/options
 options_DATA = $(OPTIONS)
 
 CLEANFILES = $(ASSEMBLY) $(ASSEMBLY).mdb $(build_OPTIONS)

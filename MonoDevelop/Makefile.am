@@ -4,27 +4,29 @@ bin_SCRIPTS = monodevelop
 
 all:
 
-gnome_data = @gnome_prefix@/share
-
-desktopdir = $(gnome_data)/applications
+desktopdir = $(datadir)/applications
 desktop_DATA = monodevelop.desktop
 
-pixmapdir = $(gnome_data)/pixmaps
+pixmapdir = $(datadir)/pixmaps
 pixmap_DATA = monodevelop.png
 
-# need to respect $XDG_DATA_DIR probably
-xdgmimedir = $(gnome_data)/mime/packages
+xdgmimedir = $(datadir)/mime/packages
 xdgmime_DATA = monodevelop.xml
 
 pkgconfig_in_files = monodevelop.pc.in
-pkgconfigdir= $(libdir)/pkgconfig
+
+pkgconfigdir= $(prefix)/lib/pkgconfig
 pkgconfig_DATA = $(pkgconfig_in_files:.pc.in=.pc)
 
+if ENABLE_UPDATE_MIMEDB
+
 install-data-hook:
-	$(UPDATE_MIME_DB) $(gnome_data)/mime
+	$(UPDATE_MIME_DB) $(DESTDIR)$(datadir)/mime
 
 uninstall-hook:
-	$(UPDATE_MIME_DB) $(gnome_data)/mime
+	$(UPDATE_MIME_DB) $(DESTDIR)$(datadir)/mime
+
+endif # ENABLE_UPDATE_MIMEDB
 
 run: runmd
 

@@ -49,7 +49,7 @@ $(ASSEMBLY): $(FILES) $(srcdir)/Nemerle.glade
 	$(CSC) $(DLLS) $(build_sources) -out:$@ -target:library \
 	-resource:$(srcdir)/Nemerle.glade,Nemerle.glade
 
-assemblydir = $(libdir)/monodevelop/AddIns/BackendBindings/
+assemblydir = $(MD_ADDIN_DIR)/BackendBindings/
 assembly_DATA = $(ASSEMBLY) $(ADDIN)
 
 templatedir = $(assemblydir)/templates

@@ -137,7 +137,7 @@ run-tests: $(TEST)
 run-mcs-tests: $(TEST)
 	MONO_PATH=../../../build/bin mono $(TEST) ../../../../mcs/tests
 
-assemblydir = $(libdir)/monodevelop/bin
+assemblydir = $(MD_ASSEMBLY_DIR)
 assembly_DATA = $(DLL)
 
 CLEANFILES = $(DLL) $(DLL).mdb $(TEST)
