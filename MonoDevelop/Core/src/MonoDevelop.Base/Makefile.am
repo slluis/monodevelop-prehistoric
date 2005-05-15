@@ -233,7 +233,6 @@ Services/ParserService/ProjectCodeCompletionDatabase.cs \
 Services/ParserService/SimpleCodeCompletionDatabase.cs \
 Services/ParserService/ReferenceEntry.cs \
 Services/ResourceService.cs \
-Services/StockIcons.cs \
 Services/MessageService.cs \
 Services/Toolbar/ToolbarService.cs \
 Services/MonodocService.cs \
@@ -489,13 +488,12 @@ $(ADDIN_BUILD)/$(ADDIN): $(srcdir)/$(ADDIN)
 	cp $(srcdir)/$(ADDIN) $(ADDIN_BUILD)/.
 
 $(ASSEMBLY): $(build_sources) $(srcdir)/Base.glade
+	mkdir -p $(top_builddir)/Core/src/MonoDevelop.Base/Services 
+	perl  -x$(srcdir)/../../../build/data/resources/icons -w $(srcdir)/./Services/process-icons.pl > $(top_builddir)/Core/src/MonoDevelop.Base/Services/StockIcons.cs
 	$(CSC) $(MONO_POSIX_OEE) -codepage:utf8 -out:$@ -target:library $(DLLS) \
 		-resource:$(srcdir)/Base.glade,Base.glade \
-		$(monodoc_libflags) $(build_sources) \
+		$(monodoc_libflags) $(build_sources) $(top_builddir)/Core/src/MonoDevelop.Base/Services/StockIcons.cs \
 	&& cp $(CONFIG) $(top_builddir)/build/bin/.
-
-Services/StockIcons.cs : ./Services/process-icons.pl ../../../build/data/resources/icons
-	perl  -x$(srcdir)/../../../build/data/resources/icons -w $(srcdir)/./Services/process-icons.pl > $(srcdir)/Services/StockIcons.cs
 
 assemblydir = $(MD_ASSEMBLY_DIR)
 assembly_DATA = $(ASSEMBLY) $(CONFIG)
@@ -506,7 +504,7 @@ addin_DATA = $(ADDIN)
 optionsdir = $(MD_DIR)/data/options
 options_DATA = $(OPTIONS)
 
-CLEANFILES = $(ASSEMBLY) $(ASSEMBLY).mdb $(build_OPTIONS)
+CLEANFILES = $(ASSEMBLY) $(ASSEMBLY).mdb $(build_OPTIONS) $(top_builddir)/Core/src/MonoDevelop.Base/Services/StockIcons.cs
 DISTCLEANFILES = $(CONFIG)
 
 EXTRA_DIST = $(FILES) ./Services/process-icons.pl $(CONFIG).in Base.glade $(ADDIN) $(OPTIONS)

@@ -61,7 +61,6 @@ Core/src/MonoDevelop.Gui.Widgets/FileBrowser/FileBrowser.cs
 Core/src/MonoDevelop.Gui.Widgets/FolderDialog/BaseFileEntry.cs
 Core/src/MonoDevelop.Gui.Widgets/Navbar/Navbar.cs
 Core/src/MonoDevelop.Gui.Widgets/Tree/TreeNodeCollection.cs
-Core/src/AddIns/DisplayBindings/SourceEditor/Commands/ToolCommands.cs
 Core/src/AddIns/DisplayBindings/SourceEditor/Gui/Dialogs/ReplaceDialog.cs
 Core/src/AddIns/DisplayBindings/SourceEditor/Gui/Dialogs/EditTemplateGroupDialog.cs
 Core/src/AddIns/DisplayBindings/SourceEditor/Gui/Dialogs/ReplaceInFilesDialog.cs

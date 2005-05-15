@@ -51,4 +51,3 @@ EXTRA_DIST = $(bin_SCRIPTS) $(desktop_DATA) $(pixmap_DATA) \
 
 DISTCLEANFILES = monodevelop intltool-extract intltool-merge intltool-update \
 	monodevelop.pc
-
