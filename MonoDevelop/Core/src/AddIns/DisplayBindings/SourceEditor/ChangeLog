@@ -1,3 +1,7 @@
+2005-05-15  Todd Berman  <tberman@off.net>
+
+	* texteditoraddin.glade: Add some missing 'Activates Default' props.
+
 2005-05-15  Lluis Sanchez Gual  <lluis@novell.com> 
 
 	* EditorBindings.glade: Many fixes to make the dialogs more conforming
