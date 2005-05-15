@@ -1,3 +1,8 @@
+2005-05-15  Lluis Sanchez Gual  <lluis@novell.com> 
+
+	* CSharp.glade: Several fixes to make the dialogs more conforming
+	to the HIG.
+
 2005-04-17  John Luke  <john.luke@gmail.com>
 
 	* Makefile.am: fix distcheck

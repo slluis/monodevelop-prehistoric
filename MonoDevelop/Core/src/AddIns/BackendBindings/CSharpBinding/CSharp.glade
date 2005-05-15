@@ -49,12 +49,13 @@
 	<widget class="GtkHBox" id="hbox56">
 	  <property name="visible">True</property>
 	  <property name="homogeneous">False</property>
-	  <property name="spacing">6</property>
+	  <property name="spacing">0</property>
 
 	  <child>
 	    <widget class="GtkLabel" id="label81">
+	      <property name="width_request">18</property>
 	      <property name="visible">True</property>
-	      <property name="label" translatable="yes">    </property>
+	      <property name="label" translatable="yes"></property>
 	      <property name="use_underline">False</property>
 	      <property name="use_markup">False</property>
 	      <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -90,13 +91,13 @@
 		  <child>
 		    <widget class="GtkLabel" id="label86">
 		      <property name="visible">True</property>
-		      <property name="label" translatable="yes">Compile _Target</property>
+		      <property name="label" translatable="yes">Compile _Target:</property>
 		      <property name="use_underline">True</property>
 		      <property name="use_markup">False</property>
 		      <property name="justify">GTK_JUSTIFY_LEFT</property>
 		      <property name="wrap">False</property>
 		      <property name="selectable">False</property>
-		      <property name="xalign">0.5</property>
+		      <property name="xalign">0</property>
 		      <property name="yalign">0.5</property>
 		      <property name="xpad">0</property>
 		      <property name="ypad">0</property>
@@ -114,13 +115,13 @@
 		  <child>
 		    <widget class="GtkLabel" id="label87">
 		      <property name="visible">True</property>
-		      <property name="label" translatable="yes">Define S_ymbols</property>
+		      <property name="label" translatable="yes">Define S_ymbols:</property>
 		      <property name="use_underline">True</property>
 		      <property name="use_markup">False</property>
 		      <property name="justify">GTK_JUSTIFY_LEFT</property>
 		      <property name="wrap">False</property>
 		      <property name="selectable">False</property>
-		      <property name="xalign">0.5</property>
+		      <property name="xalign">0</property>
 		      <property name="yalign">0.5</property>
 		      <property name="xpad">0</property>
 		      <property name="ypad">0</property>
@@ -139,13 +140,13 @@
 		  <child>
 		    <widget class="GtkLabel" id="label88">
 		      <property name="visible">True</property>
-		      <property name="label" translatable="yes">_Main Class</property>
+		      <property name="label" translatable="yes">_Main Class:</property>
 		      <property name="use_underline">True</property>
 		      <property name="use_markup">False</property>
 		      <property name="justify">GTK_JUSTIFY_LEFT</property>
 		      <property name="wrap">False</property>
 		      <property name="selectable">False</property>
-		      <property name="xalign">0.5</property>
+		      <property name="xalign">0</property>
 		      <property name="yalign">0.5</property>
 		      <property name="xpad">0</property>
 		      <property name="ypad">0</property>
@@ -170,7 +171,7 @@
 		      <property name="max_length">0</property>
 		      <property name="text" translatable="yes"></property>
 		      <property name="has_frame">True</property>
-		      <property name="invisible_char">*</property>
+		      <property name="invisible_char" translatable="yes">*</property>
 		      <property name="activates_default">False</property>
 		    </widget>
 		    <packing>
@@ -191,7 +192,7 @@
 		      <property name="max_length">0</property>
 		      <property name="text" translatable="yes"></property>
 		      <property name="has_frame">True</property>
-		      <property name="invisible_char">*</property>
+		      <property name="invisible_char" translatable="yes">*</property>
 		      <property name="activates_default">False</property>
 		    </widget>
 		    <packing>
@@ -204,8 +205,21 @@
 		  </child>
 
 		  <child>
-		    <widget class="GtkComboBox" id="compileTargetCombo">
+		    <widget class="GtkHBox" id="hbox57">
 		      <property name="visible">True</property>
+		      <property name="homogeneous">False</property>
+		      <property name="spacing">0</property>
+
+		      <child>
+			<widget class="GtkComboBox" id="compileTargetCombo">
+			  <property name="visible">True</property>
+			</widget>
+			<packing>
+			  <property name="padding">0</property>
+			  <property name="expand">False</property>
+			  <property name="fill">False</property>
+			</packing>
+		      </child>
 		    </widget>
 		    <packing>
 		      <property name="left_attach">1</property>
@@ -233,8 +247,8 @@
 	</widget>
 	<packing>
 	  <property name="padding">0</property>
-	  <property name="expand">True</property>
-	  <property name="fill">True</property>
+	  <property name="expand">False</property>
+	  <property name="fill">False</property>
 	</packing>
       </child>
 
@@ -267,8 +281,9 @@
 
 	  <child>
 	    <widget class="GtkLabel" id="label72">
+	      <property name="width_request">18</property>
 	      <property name="visible">True</property>
-	      <property name="label" translatable="yes">    </property>
+	      <property name="label" translatable="yes"></property>
 	      <property name="use_underline">False</property>
 	      <property name="use_markup">False</property>
 	      <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -301,7 +316,7 @@
 		  <child>
 		    <widget class="GtkLabel" id="label80">
 		      <property name="visible">True</property>
-		      <property name="label" translatable="yes">_Warning Level</property>
+		      <property name="label" translatable="yes">_Warning Level:</property>
 		      <property name="use_underline">True</property>
 		      <property name="use_markup">False</property>
 		      <property name="justify">GTK_JUSTIFY_LEFT</property>
