@@ -36,6 +36,7 @@ namespace MonoDevelop.Gui.Dialogs
 		GacReferencePanel gacRefPanel;
 
 		Project configureProject;
+		ProjectReferencePanel projectRefPanel;
 		
 		public ProjectReferenceCollection ReferenceInformations {
 			get {
@@ -77,6 +78,7 @@ namespace MonoDevelop.Gui.Dialogs
 			ReferencesTreeView.AppendColumn (GettextCatalog.GetString ("Location"), new CellRendererText (), "text", 2);
 			
 			gacRefPanel = new GacReferencePanel (this);
+			projectRefPanel = new ProjectReferencePanel (this);
 			
 			foreach (ProjectReference refInfo in configureProject.ProjectReferences) {
 				switch (refInfo.ReferenceType) {
@@ -91,7 +93,7 @@ namespace MonoDevelop.Gui.Dialogs
 			}
 			mainBook.RemovePage (mainBook.CurrentPage);
 			mainBook.AppendPage (gacRefPanel, new Gtk.Label (GettextCatalog.GetString ("Global Assembly Cache")));
-			mainBook.AppendPage (new ProjectReferencePanel (this), new Gtk.Label (GettextCatalog.GetString ("Projects")));
+			mainBook.AppendPage (projectRefPanel, new Gtk.Label (GettextCatalog.GetString ("Projects")));
 			mainBook.AppendPage (new AssemblyReferencePanel (this), new Gtk.Label (GettextCatalog.GetString (".Net Assembly")));
 			//comTabPage.Controls.Add(new COMReferencePanel(this));
 			ReferencesTreeView.Selection.Changed += new EventHandler (onChanged);
@@ -115,6 +117,7 @@ namespace MonoDevelop.Gui.Dialogs
 		void AddGacReference (ProjectReference refInfo, Project referencedProject)
 		{
 			gacRefPanel.SignalRefChange (refInfo.Reference, true);
+			projectRefPanel.SignalRefChange (refInfo.Reference, true);
 			refTreeStore.AppendValues (System.IO.Path.GetFileNameWithoutExtension (refInfo.GetReferencedFileName ()), refInfo.ReferenceType.ToString (), refInfo.Reference, refInfo);
 		}
 
@@ -156,7 +159,8 @@ namespace MonoDevelop.Gui.Dialogs
 					break;
 					
 			}
-			refTreeStore.AppendValues (referenceName, referenceType.ToString (), referenceLocation, tag);
+			Gtk.TreeIter ni = refTreeStore.AppendValues (referenceName, referenceType.ToString (), referenceLocation, tag);
+			ReferencesTreeView.ScrollToCell (refTreeStore.GetPath (ni), null, false, 0, 0);
 		}
 		
 		void SelectReference(object sender, EventArgs e)
@@ -173,6 +177,9 @@ namespace MonoDevelop.Gui.Dialogs
 				switch (((ProjectReference)refTreeStore.GetValue (iter, 3)).ReferenceType) {
 					case ReferenceType.Gac:
 						gacRefPanel.SignalRefChange ((string)refTreeStore.GetValue (iter, 2), false);
+						break;
+					case ReferenceType.Project:
+						projectRefPanel.SignalRefChange ((string)refTreeStore.GetValue (iter, 0), false);
 						break;
 				}
 				Gtk.TreeIter newIter = iter;

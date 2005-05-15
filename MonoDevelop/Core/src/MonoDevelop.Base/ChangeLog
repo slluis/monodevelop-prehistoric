@@ -1,3 +1,19 @@
+2005-05-15  Lluis Sanchez Gual  <lluis@novell.com> 
+
+	* Services/File/DefaultFileService.cs: Make the service GUI thread safe.
+	* Gui/Dialogs/ReferenceDialog: Cleaned up the dialog.
+	* Gui/Workbench/Layouts/SdiWorkspaceWindow.cs: Added IntPtr constructor
+	to make gtk# happy.
+	* Gui/Pads/DefaultMonitorPad.cs: Don't indent when a task has a null name.
+	* Base.glade: Many fixes to make the dialogs more conforming to the HIG.
+	* Internal/Project/Project/DotNetProjectConfiguration.cs: Added
+	SourceDirectory property.
+	* Internal/Project/Project/DotNetProject.cs: Set the sources path before
+	building.
+	* Internal/Project/Project/Project.cs: In CopyReferencesToOutputPath, copy
+	refereces of referenced projects. They are not needed for compiling, but
+	they are for running. The Build method now also builds required references.
+
 2005-05-09 Jacob Ilsø Christensen  <jacobilsoe@gmail.com>
  
  	* Gui/Pads/OpenTaskView.cs: Fixed Gtk warnings by using Clipboard.Text

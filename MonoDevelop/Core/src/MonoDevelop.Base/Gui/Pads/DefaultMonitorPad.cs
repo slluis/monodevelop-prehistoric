@@ -36,6 +36,7 @@ namespace MonoDevelop.Gui.Pads
 		TextTag bold;
 		int ident = 0;
 		ArrayList tags = new ArrayList ();
+		Stack indents = new Stack ();
 
 		string markupTitle;
 		string title;
@@ -130,15 +131,23 @@ namespace MonoDevelop.Gui.Pads
 		
 		public void BeginTask (string name, int totalWork)
 		{
-			Indent ();
-			TextIter it = buffer.EndIter;
-			string txt = "\n" + name + "\n";
-			buffer.InsertWithTags (ref it, txt, tag, bold);
+			if (name != null && name.Length > 0) {
+				Indent ();
+				indents.Push (name);
+			} else
+				indents.Push (null);
+
+			if (name != null) {
+				TextIter it = buffer.EndIter;
+				string txt = "\n" + name + "\n";
+				buffer.InsertWithTags (ref it, txt, tag, bold);
+			}
 		}
 		
 		public void EndTask ()
 		{
-			Unindent ();
+			if (indents.Count > 0 && indents.Pop () != null)
+				Unindent ();
 		}
 		
 		public void WriteText (string text)

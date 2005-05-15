@@ -243,16 +243,21 @@ namespace MonoDevelop.Internal.Project
 			}
 		}
 
-		public void CopyReferencesToOutputPath(bool force)
+		public void CopyReferencesToOutputPath (bool force)
 		{
 			AbstractProjectConfiguration config = ActiveConfiguration as AbstractProjectConfiguration;
 			if (config == null) {
 				return;
 			}
+			CopyReferencesToOutputPath (config.OutputDirectory, force);
+		}
+		
+		void CopyReferencesToOutputPath (string destPath, bool force)
+		{
 			foreach (ProjectReference projectReference in ProjectReferences) {
 				if ((projectReference.LocalCopy || force) && projectReference.ReferenceType != ReferenceType.Gac) {
 					string referenceFileName   = projectReference.GetReferencedFileName();
-					string destinationFileName = Runtime.FileUtilityService.GetDirectoryNameWithSeparator(config.OutputDirectory) + Path.GetFileName(referenceFileName);
+					string destinationFileName = Path.Combine (destPath, Path.GetFileName (referenceFileName));
 					try {
 						if (destinationFileName != referenceFileName) {
 							File.Copy(referenceFileName, destinationFileName, true);
@@ -262,6 +267,10 @@ namespace MonoDevelop.Internal.Project
 					} catch (Exception e) {
 						Runtime.LoggingService.InfoFormat("Can't copy reference file from {0} to {1} reason {2}", referenceFileName, destinationFileName, e);
 					}
+				}
+				if (projectReference.ReferenceType == ReferenceType.Project) {
+					Project p = Runtime.ProjectService.GetProject (projectReference.Reference);
+					p.CopyReferencesToOutputPath (destPath, force);
 				}
 			}
 		}
@@ -313,7 +322,38 @@ namespace MonoDevelop.Internal.Project
 		
 		public override ICompilerResult Build (IProgressMonitor monitor)
 		{
-			if (!NeedsBuilding) return new DefaultCompilerResult (new CompilerResults (null), "");
+			return Build (monitor, true);
+		}
+		
+		public virtual ICompilerResult Build (IProgressMonitor monitor, bool buildReferences)
+		{
+			if (buildReferences)
+			{
+				ArrayList referenced = new ArrayList ();
+				GetReferencedProjects (referenced, this);
+				
+				CompilerResults cres = new CompilerResults (null);
+				
+				int builds = 0;
+				int failedBuilds = 0;
+					
+				monitor.BeginTask (null, referenced.Count);
+				foreach (Project p in referenced) {
+					ICompilerResult res = p.Build (monitor, false);
+					cres.Errors.AddRange (res.CompilerResults.Errors);
+					monitor.Step (1);
+					builds++;
+					if (res.ErrorCount > 0) {
+						failedBuilds = 1;
+						break;
+					}
+				}
+				monitor.EndTask ();
+				return new DefaultCompilerResult (cres, "", builds, failedBuilds);
+			}
+			
+			if (!NeedsBuilding)
+				return new DefaultCompilerResult (new CompilerResults (null), "");
 			
 			try {
 				monitor.BeginTask (String.Format (GettextCatalog.GetString ("Building Project: {0} Configuration: {1}"), Name, ActiveConfiguration.Name), 3);
@@ -339,6 +379,21 @@ namespace MonoDevelop.Internal.Project
 				return res;
 			} finally {
 				monitor.EndTask ();
+			}
+		}
+		
+		void GetReferencedProjects (ArrayList referenced, Project project)
+		{
+			if (referenced.Contains (project)) return;
+			
+			if (NeedsBuilding)
+				referenced.Insert (0, project);
+
+			foreach (ProjectReference pref in project.ProjectReferences) {
+				if (pref.ReferenceType == ReferenceType.Project) {
+					Project rp = Runtime.ProjectService.GetProject (pref.Reference);
+					GetReferencedProjects (referenced, rp);
+				}
 			}
 		}
 		
@@ -448,17 +503,29 @@ namespace MonoDevelop.Internal.Project
 				return;
 			}
 			
-			if (filesChecked) return;
-			
-			foreach (ProjectFile file in ProjectFiles) {
-				if (file.BuildAction == BuildAction.Exclude) continue;
-				FileInfo finfo = new FileInfo (file.FilePath);
-				if (finfo.Exists && finfo.LastWriteTime > tim) {
-					isDirty = true;
-					return;
+			if (!filesChecked) {
+				foreach (ProjectFile file in ProjectFiles) {
+					if (file.BuildAction == BuildAction.Exclude) continue;
+					FileInfo finfo = new FileInfo (file.FilePath);
+					if (finfo.Exists && finfo.LastWriteTime > tim) {
+						isDirty = true;
+						return;
+					}
+				}
+				
+				filesChecked = true;
+			}
+
+			foreach (ProjectReference pref in ProjectReferences) {
+				if (pref.ReferenceType == ReferenceType.Project) {
+					Project rp = Runtime.ProjectService.GetProject (pref.Reference);
+					if (rp != null && rp.NeedsBuilding) {
+						isDirty = true;
+						return;
+					}
 				}
 			}
-			filesChecked = true;
+			
 		}
 		
 		protected virtual DateTime GetLastBuildTime ()

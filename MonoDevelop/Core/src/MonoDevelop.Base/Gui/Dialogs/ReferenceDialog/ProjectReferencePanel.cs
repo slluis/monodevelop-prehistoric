@@ -27,36 +27,70 @@ namespace MonoDevelop.Gui.Dialogs {
 		{
 			this.selectDialog = selectDialog;
 			
-			store = new TreeStore (typeof (string), typeof (string), typeof(Project));
+			store = new TreeStore (typeof (string), typeof (string), typeof(Project), typeof(bool), typeof(Gdk.Pixbuf));
 			treeView = new TreeView (store);
-			treeView.AppendColumn (GettextCatalog.GetString ("Project Name"), new CellRendererText (), "text", 0);
-			treeView.AppendColumn (GettextCatalog.GetString ("Project Directory"), new CellRendererText (), "text", 1);
 			
+			TreeViewColumn firstColumn = new TreeViewColumn ();
+			
+			firstColumn.Title = GettextCatalog.GetString ("Project");
+			CellRendererToggle tog_render = new CellRendererToggle ();
+			tog_render.Xalign = 0;
+			tog_render.Toggled += new Gtk.ToggledHandler (AddReference);
+			firstColumn.PackStart (tog_render, false);
+			firstColumn.AddAttribute (tog_render, "active", 3);
+
+			Gtk.CellRendererPixbuf pix_render = new Gtk.CellRendererPixbuf ();
+			firstColumn.PackStart (pix_render, false);
+			firstColumn.AddAttribute (pix_render, "pixbuf", 4);
+			
+			CellRendererText text_render = new CellRendererText ();
+			firstColumn.PackStart (text_render, true);
+			firstColumn.AddAttribute (text_render, "text", 0);
+			
+			treeView.AppendColumn (firstColumn);
+			treeView.AppendColumn (GettextCatalog.GetString ("Directory"), new CellRendererText (), "text", 1);
 			
 			PopulateListView ();
 			ScrolledWindow sc = new ScrolledWindow ();
-			sc.AddWithViewport (treeView);
+			sc.ShadowType = Gtk.ShadowType.In;
+			sc.Add (treeView);
 			PackStart (sc, true, true, 0);
-			
-			Button b = new Button (Gtk.Stock.Add);
-			b.Clicked += new EventHandler (AddReference);
-			
-			PackEnd (b, false, false, 0);
 			ShowAll ();
+			BorderWidth = 6;
 		}
 		
-		void AddReference (TreeModel model, TreePath path, TreeIter iter)
+		public void AddReference(object sender, Gtk.ToggledArgs e)
 		{
-			Project project = (Project) model.GetValue (iter, 2);
-			selectDialog.AddReference(ReferenceType.Project,
-						  project.Name,
-						  project.GetOutputFileName());
+			Gtk.TreeIter iter;
+			store.GetIterFromString (out iter, e.Path);
+			Project project = (Project) store.GetValue (iter, 2);
+			
+			if ((bool)store.GetValue (iter, 3) == false) {
+				store.SetValue (iter, 3, true);
+				selectDialog.AddReference(ReferenceType.Project,
+							  project.Name,
+							  project.GetOutputFileName());
+				
+			} else {
+				store.SetValue (iter, 3, false);
+				selectDialog.RemoveReference(ReferenceType.Project,
+							  project.Name,
+							  project.GetOutputFileName());
+			}
 		}
 		
-		public void AddReference(object sender, EventArgs e)
+		public void SignalRefChange (string refLoc, bool newstate)
 		{
-			treeView.Selection.SelectedForeach (new TreeSelectionForeachFunc (AddReference));
-		}	
+			Gtk.TreeIter looping_iter;
+			store.GetIterFirst (out looping_iter);
+			do {
+				Project project = (Project) store.GetValue (looping_iter, 2);
+				if (project.Name == refLoc) {
+					store.SetValue (looping_iter, 3, newstate);
+					return;
+				}
+			} while (store.IterNext (ref looping_iter));
+		}
 		
 		void PopulateListView ()
 		{
@@ -67,7 +101,9 @@ namespace MonoDevelop.Gui.Dialogs {
 			}
 			
 			foreach (Project projectEntry in openCombine.GetAllProjects()) {
-				store.AppendValues (projectEntry.Name, projectEntry.BaseDirectory, projectEntry);
+				string iconName = Runtime.Gui.Icons.GetImageForProjectType (projectEntry.ProjectType);
+				Gdk.Pixbuf icon = treeView.RenderIcon (iconName, Gtk.IconSize.Menu, "");
+				store.AppendValues (projectEntry.Name, projectEntry.BaseDirectory, projectEntry, false, icon);
 			}
 		}
 	}

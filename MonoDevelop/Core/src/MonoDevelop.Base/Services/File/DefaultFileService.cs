@@ -21,7 +21,7 @@ using MonoDevelop.Gui.Utils;
 
 namespace MonoDevelop.Services
 {
-	public class DefaultFileService : AbstractService, IFileService
+	public class DefaultFileService : GuiSyncAbstractService, IFileService
 	{
 		string currentFile;
 		RecentOpen       recentOpen = null;
@@ -287,12 +287,14 @@ namespace MonoDevelop.Services
 			}
 		}
 		
+		[FreeDispatch]
 		public void CopyFile (string sourcePath, string destPath)
 		{
 			File.Copy (sourcePath, destPath, true);
 			OnFileCreated (new FileEventArgs (destPath, false));
 		}
 
+		[FreeDispatch]
 		public void MoveFile (string sourcePath, string destPath)
 		{
 			File.Copy (sourcePath, destPath, true);
@@ -301,6 +303,7 @@ namespace MonoDevelop.Services
 			OnFileRemoved (new FileEventArgs (destPath, false));
 		}
 		
+		[FreeDispatch]
 		public void CreateDirectory (string path)
 		{
 			Directory.CreateDirectory (path);

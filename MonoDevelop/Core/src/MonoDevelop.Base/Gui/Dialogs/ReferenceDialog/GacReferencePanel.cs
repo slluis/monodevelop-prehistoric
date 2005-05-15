@@ -21,7 +21,7 @@ using Gtk;
 
 namespace MonoDevelop.Gui.Dialogs
 {
-	public class GacReferencePanel : Frame, IReferencePanel
+	public class GacReferencePanel : VBox, IReferencePanel
 	{
 		SelectReferenceDialog selectDialog;
 
@@ -54,10 +54,11 @@ namespace MonoDevelop.Gui.Dialogs
 			
 			PrintCache();
 			ScrolledWindow sc = new ScrolledWindow ();
-			sc.AddWithViewport (treeView);
-			this.Add (sc);
-			Shadow = ShadowType.In;
+			sc.ShadowType = Gtk.ShadowType.In;
+			sc.Add (treeView);
+			this.PackStart (sc, true, true, 0);
 			ShowAll ();
+			BorderWidth = 6;
 		}
 		
 		public void AddReference(object sender, Gtk.ToggledArgs e)

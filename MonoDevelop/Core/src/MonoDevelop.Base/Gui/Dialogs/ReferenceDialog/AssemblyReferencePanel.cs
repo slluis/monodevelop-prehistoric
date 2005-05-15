@@ -17,49 +17,55 @@ using Gtk;
 
 namespace MonoDevelop.Gui.Dialogs
 {
-	public class AssemblyReferencePanel : VButtonBox, IReferencePanel
+	public class AssemblyReferencePanel : HBox, IReferencePanel
 	{
 		SelectReferenceDialog selectDialog;
+		FileChooserWidget chooser;
 		
 		public AssemblyReferencePanel(SelectReferenceDialog selectDialog)
 		{
 			this.selectDialog = selectDialog;
-			// FIXME: il8n this
-			Gtk.Button browseButton = new Gtk.Button(GettextCatalog.GetString ("Browse"));
-			browseButton.Clicked += new EventHandler(SelectReferenceDialog);
-			PackStart(browseButton, false, false, 6);
+			
+			chooser = new FileChooserWidget (FileChooserAction.Open, "");
+			chooser.SelectMultiple = true;
+			PackStart (chooser, true, true, 0);
+			
+			PackStart (new Gtk.VSeparator(), false, false, 0);
+			
+			VBox box = new VBox ();
+			Gtk.Button addButton = new Gtk.Button (Gtk.Stock.Add);
+			addButton.Clicked += new EventHandler(SelectReferenceDialog);
+			box.PackStart (addButton, false, false, 0);
+			PackStart (box, false, false, 0);
+			
+			BorderWidth = 6;
+			Spacing = 6;
 			ShowAll();
 		}
 		
 		void SelectReferenceDialog(object sender, EventArgs e)
 		{
-			using (FileSelector fdiag = new FileSelector (GettextCatalog.GetString ("Find .Net Assembly"))) {
 			// FIXME: this should only allow dll's and exe's
 			// fdiag.Complete("*");
-				fdiag.SelectMultiple = true;
-				int response = fdiag.Run();
-				string[] selectedFiles = new string[fdiag.Filenames.Length];
-				fdiag.Filenames.CopyTo(selectedFiles, 0);
-				fdiag.Hide ();
 			
-				if (response == (int) ResponseType.Ok) {
-					foreach (string file in selectedFiles) {
-						bool isAssembly = true;
-						try	{
-							System.Reflection.AssemblyName.GetAssemblyName(System.IO.Path.GetFullPath (file));
-						} catch (Exception assemblyExcep) {
-							isAssembly = false;
-						}
-					
-						if (isAssembly) {
-						selectDialog.AddReference(ReferenceType.Assembly,
-							System.IO.Path.GetFileName(file),
-							file);
-						} else {
-							// FIXME: il8n this
-							Runtime.MessageService.ShowError(String.Format (GettextCatalog.GetString ("File {0} is not a valid .Net Assembly"), file));
-						}
-					}
+			string[] selectedFiles = new string[chooser.Filenames.Length];
+			chooser.Filenames.CopyTo(selectedFiles, 0);
+		
+			foreach (string file in selectedFiles) {
+				bool isAssembly = true;
+				try	{
+					System.Reflection.AssemblyName.GetAssemblyName(System.IO.Path.GetFullPath (file));
+				} catch (Exception assemblyExcep) {
+					isAssembly = false;
+				}
+			
+				if (isAssembly) {
+				selectDialog.AddReference(ReferenceType.Assembly,
+					System.IO.Path.GetFileName(file),
+					file);
+				} else {
+					// FIXME: il8n this
+					Runtime.MessageService.ShowError(String.Format (GettextCatalog.GetString ("File {0} is not a valid .Net Assembly"), file));
 				}
 			}
 		}

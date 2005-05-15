@@ -105,6 +105,8 @@ namespace MonoDevelop.Internal.Project
 		protected override ICompilerResult DoBuild (IProgressMonitor monitor)
 		{
 			DotNetProjectConfiguration conf = (DotNetProjectConfiguration) ActiveConfiguration;
+			conf.SourceDirectory = BaseDirectory;
+			
 			foreach (ProjectFile finfo in ProjectFiles) {
 				// Treat app.config in the project root directory as the application config
 				if (Path.GetFileName (finfo.Name).ToUpper () == "app.config".ToUpper() &&

@@ -461,7 +461,7 @@ namespace MonoDevelop.Internal.Project
 					if (monitor.IsCancelRequested)
 						break;
 
-					ICompilerResult res = entry.Build (monitor);
+					ICompilerResult res = entry.Build (monitor, false);
 					builds++;
 					cres.Errors.AddRange (res.CompilerResults.Errors);
 					monitor.Step (1);

@@ -40,6 +40,10 @@ namespace MonoDevelop.Gui
 		
 		ViewCommandHandlers commandHandler;
 		
+		protected SdiWorkspaceWindow (IntPtr p): base (p)
+		{
+		}
+		
 		public Widget TabPage {
 			get {
 				return tabPage;

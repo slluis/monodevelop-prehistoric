@@ -58,6 +58,8 @@ namespace MonoDevelop.Internal.Project
 		
 		[ItemProperty ("CodeGeneration")]
 		object compilationParameters;
+		
+		string sourcePath;
 
 		public virtual string OutputAssembly {
 			get { return assembly; }
@@ -81,6 +83,11 @@ namespace MonoDevelop.Internal.Project
 		
 		public string CompiledOutputName {
 			get { return Path.Combine (OutputDirectory, OutputAssembly) + (CompileTarget == CompileTarget.Library ? ".dll" : ".exe"); }
+		}
+		
+		public string SourceDirectory {
+			get { return sourcePath; }
+			set { sourcePath = value; }
 		}
 	}
 }
