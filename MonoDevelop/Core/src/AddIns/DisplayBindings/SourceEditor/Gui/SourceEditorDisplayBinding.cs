@@ -130,27 +130,10 @@ namespace MonoDevelop.SourceEditor.Gui
 				if (lastSaveTime == File.GetLastWriteTime (ContentName))
 					return;
 			}
-			DispatchService dispatcher = (DispatchService)ServiceManager.GetService (typeof (DispatchService));
-			dispatcher.GuiDispatch (new StatefulMessageHandler (realFileChanged), e);
-		}
-
-		MessageDialog ReloadFileDialog;
-		void realFileChanged (object evnt)
-		{
-			FileSystemEventArgs e = (FileSystemEventArgs)evnt;
+			
 			if (e.ChangeType == WatcherChangeTypes.Changed) {
 				ShowFileChangedWarning ();
 			}
-		}
-
-		void Responded (object o, ResponseArgs e)
-		{
-			if (e.ResponseId == ResponseType.Yes)
-				Load (ContentName);
-			ReloadFileDialog.Hide ();
-			ReloadFileDialog.Response -= new Gtk.ResponseHandler (Responded);
-			ReloadFileDialog.Destroy ();
-			ReloadFileDialog = null;
 		}
 
 		public void ExecutingAt (int line)
@@ -200,7 +183,7 @@ namespace MonoDevelop.SourceEditor.Gui
 			properties = ((IProperties) propertyService.GetProperty("MonoDevelop.TextEditor.Document.Document.DefaultDocumentAggregatorProperties", new DefaultProperties()));
 			properties.PropertyChanged += new PropertyEventHandler (PropertiesChanged);
 			fsw = new FileSystemWatcher ();
-			fsw.Changed += new FileSystemEventHandler (OnFileChanged);
+			fsw.Changed += (FileSystemEventHandler) Runtime.DispatchService.GuiDispatch (new FileSystemEventHandler (OnFileChanged));
 			UpdateFSW (null, null);
 			mainBox.PackStart (se, true, true, 0);
 			
@@ -284,6 +267,7 @@ namespace MonoDevelop.SourceEditor.Gui
 				}
 				warnOverwrite = false;
 				editorBar.Remove (reloadBar);
+				WorkbenchWindow.ShowNotification = false;
 			}
 
 			lock (fileSaveLock) {
@@ -299,6 +283,7 @@ namespace MonoDevelop.SourceEditor.Gui
 			if (warnOverwrite) {
 				warnOverwrite = false;
 				editorBar.Remove (reloadBar);
+				WorkbenchWindow.ShowNotification = false;
 			}
 			se.Buffer.LoadFile (fileName, Gnome.Vfs.MimeType.GetMimeTypeForUri (fileName));
 			ContentName = fileName;

@@ -1,3 +1,10 @@
+2005-05-15  Lluis Sanchez Gual  <lluis@novell.com> 
+
+	* EditorBindings.glade: Many fixes to make the dialogs more conforming
+	to the HIG.
+	* Gui/SourceEditorView.cs: Added IntPtr constructor to make gtk# happy.
+	* Gui/SourceEditorDisplayBinding.cs: Removed unused code. Minor fixes.
+
 2005-04-30  Lluis Sanchez Gual  <lluis@novell.com> 
 
 	* Gui/SourceEditorWidget.cs: Handler toggle breakpoint command.

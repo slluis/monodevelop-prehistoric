@@ -44,6 +44,10 @@ namespace MonoDevelop.SourceEditor.Gui
 			get { return autoInsertTemplates; }
 			set { autoInsertTemplates = value; }
 		}
+		
+		protected SourceEditorView (IntPtr p): base (p)
+		{
+		}
 
 		public SourceEditorView (SourceEditorBuffer buf, SourceEditor parent)
 		{
