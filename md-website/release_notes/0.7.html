@@ -1,0 +1,197 @@
+<html>
+  <head>
+    <title>MonoDevelop 0.6 Release Notes</title>
+    <style type="text/css">
+      h1 {
+        color: #efefef;
+        font-size: 14pt;
+        font-family: "Trebuchet MS";
+        border: 0;
+        margin: 0;
+        padding: 1em;
+        background: #666666;
+      }
+      
+      h2, h4, h5, h6 {
+        font-family: Verdana,sans-serif;
+        font-weight: bold;
+      }
+      
+      h3, h4, h5, h5 {
+        margin-left: 1em;
+      }
+      
+      h2, h3 {
+        font-size: 18px;
+      }
+      
+      h2 {
+        padding: 3px;
+        color: #000000;
+      }
+      
+      h3 {
+        font-size: 13px;
+        border-bottom: 2px solid #dddddd;
+      }
+      
+      body, table {
+        background-color: #ffffff;
+        font-family: Verdana, sans-serif; font-size: 12px;
+        color: black;
+        margin: 0;
+        padding: 0;
+        border: 0;
+        margin-left: 20%;
+        margin-right: 20%;
+      }
+      
+      p,lu,li {
+        margin-left: 2em;
+        margin-right: 2em;
+      }
+      
+      img {
+        border: 0;
+        vertical-align: top;
+      }
+      
+      .code-xml, .code-csharp
+      {
+        margin:15px;
+        padding:15px;
+        font-size: small;
+        font-family: "Courier New", Courier;
+        background:whitesmoke;
+        border: solid 1px silver;
+        line-height:110%;
+      }
+      
+      .shell {
+        border-style: solid;
+        background: #000000;
+        color: #bbbbbb;
+        border-width: 1px #777777;
+        padding: 2pt; 
+        margin-left: 4em;
+        margin-right: 4em;
+      }
+    </style>
+    <script src="prettyprint.js" type="text/javascript" />
+  </head>
+  <body onload="paintColors();">
+    <h1>MonoDevelop 0.7</h1>
+    
+    <p><a href="http://www.monodevelop.com">MonoDevelop</a> 0.7 has been
+      released. MonoDevelop is a GNOME IDE primarily designed for C# and
+      other .NET languages. You can always find current info 
+      <a href="http://www.monodevelop.com/">here</a>. There is also a nice 
+      tutorial <a href="http://www.monodevelop.com/tutorial.aspx">here</a>.</p>
+
+    <p>This release contains lots of fun stuff, read below.</p>
+
+    <h2>Installing MonoDevelop</h2>
+
+    <h3>MonoDevelop Dependencies</h3>
+
+    <p>Compiling the following order will yield the most favorable response.</p>
+    <ul>
+    <li><a href="http://sourceforge.net/project/showfiles.php?group_id=40240&package_id=135197">Gtk# 2.0</a></li>
+    <li><a href="http://go-mono.com/sources/gtksourceview-sharp-2.0/gtksourceview-sharp-2.0-0.10.tar.gz">Gtksourceview#-2.0 0.10</a></li>
+    <li><a href="http://www.go-mono.com/archive/1.0.6/monodoc-1.0.6.tar.gz">Monodoc 1.0</a> (requires gtk-sharp 1.0)</li>
+    <li><a href="http://go-mono.com/sources/gecko-sharp-2.0/gecko-sharp-2.0-0.10.tar.gz">Gecko#-2.0 0.10</a></li>
+    <li>Mono Debugger from <a href="http://svn.myrealbox.com">svn</a>
+    (for <b>optional</b>debugger integration)</li>
+    <li><a href="http://go-mono.com/sources/monodevelop/monodevelop-0.7.tar.gz">MonoDevelop 0.7 Source</a></li>
+    </ul>
+    
+    <p>You can download MonoDevelop 0.6 source from <a
+    href="http://www.go-mono.com/archive/1.1.5/monodevelop-0.6.tar.gz">here</a>.
+    The <a href="http://www.go-mono.com/archives/1.1.5/">go-mono</a> site 
+    contains packages for everything for many popular distros. You can also
+    check the mono redcarpet channel.</p>
+    
+    <!-- New features and bug fixes -->
+    <h2>New Features/Major Bugs Fixed.</h2>
+    
+    <h3>Code Completion Fixes</h3>
+    <p>Code completion has been greatly improoved since the last release. If you
+    continue to have code completion problems, please post to the mailing list
+    or <a href="irc://irc.gnome.org/#monodevelop">irc channel</a> and we will do
+    our best to fix them.
+    
+    <h3>Debugger Work</h3>
+    <p>Chris Toshok has done major work on the debugger and the monodevelop
+    debugger integration. Note that both mono and the debugger from svn are
+    required to use this feature. This includes lots of new features like
+    .NET 2.0 visualizations among others.</p>
+    
+    <h3>Continued Gtk# 2.0 Updates</h3>
+    <p>MonoDevelop now takes advantage of many of the great changes in Gtk#
+    2.0. You will notice the new Open File dialog as well as many other
+    minor gui cleanups.</p>
+    
+    <h3>New solution/class pads</h3>
+    <p>The solution and class pads are all new, and are fun to work with.
+    They are more extensible than the old class/solution pads, and allow for
+    much better future support for web references, asp.net, vcs integration,
+    and other interesting projects.</p>
+
+    <h3>New command system</h3>
+    <p>An all-new command system makes its debut in this release. Now there
+    is a facility to make it easy to override the copy/paste/delete command
+    depending on where your focus is, to make it so the operations actually
+    do what you think. Also, it is now easier to share code between different
+    actions.</p>
+
+    <h3>All managed dock</h3>
+    <p>John Luke finished and polished off the managed GDLDock port. Now
+    MonoDevelop is 100% C#. Going forward this will allow us to extend the dock
+    easier.</p>
+    <!-- End of New features and bug fixes -->
+    
+    
+    <!-- Upcoming Features -->
+    <h2>Credits</h2>
+    
+    <h3>Contributors</h3>
+    
+    <p>Alex Graveley, Antonio Ognio, Ben Maurer, Daniel Kornhauser, 
+      Erik Dasque, Franciso Martinez, Gustavo Giraldez, Iain McCoy, 
+      Inigo Illan, Jeroen Zwartepoorte, John BouAnton, John Luke, 
+      Lluis Sanchez Gual, Miguel de Icaza, Nick Drochak, Pawel Rozanski, 
+      Pedro Abelleira Seco, Richard Torkar, Todd Berman, Vincent Daron and
+      Christian Hergert.</p>
+    
+    <p>This list is not complete, it is missing some contributions sent
+      in to the list and via our bugzilla. Your work is still greatly
+      appreciated. If your name was left off the list, it was not
+      intentional, please send an email to the
+      <a href="mailto:monodevelop-list@lists.ximian.com">list</a>
+      and it will be corrected as soon as possible.</p>
+    
+    <h3>Translators</h3>
+    
+    <p>ja_JP - Atsushi Eno<br />
+      fr - Vincent Daron<br/>
+      es - Antonio Ognio<br/>
+      da - Martin Willemoes Hansen<br/>
+      pt_BR - Mauricio de Lemos Rodrigues Collares Neto, Andre Filipe de Assuncao e Brito<br/>
+    </p>
+    
+    <h3>Thanks</h3>
+    
+    <p>Steve Deobald and Kevin Breit for developing, maintaining, and
+      hosting the wonderful <a href="http://www.monodevelop.com">website</a>.
+    </p>
+    
+    <p>All of our wonderful testers who put up with the insane
+      dependencies, the constant breakage and still managed to post
+      nice bug reports.</p>
+    
+    <p>Mike Krueger and the rest of the AlphaSierraPapa team for giving
+      us a great codebase to start from, and continuing improvements.</p>
+    
+    <p>All of the active MonoDevelop developers.</p>
+  </body>
+</html>
