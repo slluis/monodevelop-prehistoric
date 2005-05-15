@@ -25,6 +25,7 @@ namespace MonoDevelop.Gui.Widgets {
 			this.Add (iconList);
 			this.WidthRequest = 350;
 			this.HeightRequest = 200;
+			this.ShadowType = Gtk.ShadowType.In;
 		}
 
 		public void AddIcon (Image icon, string name, object obj)

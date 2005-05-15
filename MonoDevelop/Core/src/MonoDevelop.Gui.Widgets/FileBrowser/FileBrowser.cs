@@ -426,16 +426,22 @@ namespace MonoDevelop.Gui.Widgets
 		{
 			hiddenfolders.Clear ();
 
-			if (System.IO.File.Exists (CurrentDir + System.IO.Path.DirectorySeparatorChar + ".hidden"))
-			{
-				using (StreamReader stream =  new StreamReader (System.IO.Path.Combine (CurrentDir, ".hidden"))) {
-					string foldertohide;
-					while ((foldertohide = stream.ReadLine ()) != null) {
-						hiddenfolders.Add (foldertohide);
-						foldertohide = stream.ReadLine ();
+			try {
+				if (System.IO.File.Exists (CurrentDir + System.IO.Path.DirectorySeparatorChar + ".hidden"))
+				{
+					using (StreamReader stream =  new StreamReader (System.IO.Path.Combine (CurrentDir, ".hidden"))) {
+						string foldertohide;
+						while ((foldertohide = stream.ReadLine ()) != null) {
+							hiddenfolders.Add (foldertohide);
+							foldertohide = stream.ReadLine ();
+						}
 					}
 				}
-			}			
+			} catch (UnauthorizedAccessException){
+				// Ignore
+			} catch (Exception ex) {
+				Console.WriteLine (ex);
+			}
 		}
 
 		private bool NotHidden (string folder)

@@ -16,6 +16,10 @@ namespace MonoDevelop.Gui.Widgets
 		private Gtk.Image icon;
 		private Button btn;
 		
+		protected TabLabel (IntPtr p): base (p)
+		{
+		}
+
 		public TabLabel (Label label, Gtk.Image icon) : base (false, 2)
 		{
 			this.icon = icon;
