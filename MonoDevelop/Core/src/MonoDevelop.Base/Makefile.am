@@ -1,3 +1,4 @@
+PERL = perl
 
 DLLS = /r:System.Drawing /r:ICSharpCode.SharpZipLib.dll \
 	/r:$(top_builddir)/build/bin/ICSharpCode.SharpRefactory.dll \
@@ -487,12 +488,14 @@ $(ADDIN_BUILD)/$(ADDIN): $(srcdir)/$(ADDIN)
 	mkdir -p $(ADDIN_BUILD)
 	cp $(srcdir)/$(ADDIN) $(ADDIN_BUILD)/.
 
-$(ASSEMBLY): $(build_sources) $(srcdir)/Base.glade
-	mkdir -p $(top_builddir)/Core/src/MonoDevelop.Base/Services 
-	perl  -x$(srcdir)/../../../build/data/resources/icons -w $(srcdir)/./Services/process-icons.pl > $(top_builddir)/Core/src/MonoDevelop.Base/Services/StockIcons.cs
+Services/StockIcons.cs: $(srcdir)/Services/process-icons.pl $(srcdir)/../../../build/data/resources/icons
+	mkdir -p Services
+	$(PERL) -x$(srcdir)/../../../build/data/resources/icons -w $(srcdir)/Services/process-icons.pl > Services/StockIcons.cs
+
+$(ASSEMBLY): $(build_sources) $(srcdir)/Base.glade Services/StockIcons.cs
 	$(CSC) $(MONO_POSIX_OEE) -codepage:utf8 -out:$@ -target:library $(DLLS) \
 		-resource:$(srcdir)/Base.glade,Base.glade \
-		$(monodoc_libflags) $(build_sources) $(top_builddir)/Core/src/MonoDevelop.Base/Services/StockIcons.cs \
+		$(monodoc_libflags) $(build_sources) Services/StockIcons.cs \
 	&& cp $(CONFIG) $(top_builddir)/build/bin/.
 
 assemblydir = $(MD_ASSEMBLY_DIR)
@@ -504,8 +507,8 @@ addin_DATA = $(ADDIN)
 optionsdir = $(MD_DIR)/data/options
 options_DATA = $(OPTIONS)
 
-CLEANFILES = $(ASSEMBLY) $(ASSEMBLY).mdb $(build_OPTIONS) $(top_builddir)/Core/src/MonoDevelop.Base/Services/StockIcons.cs
-DISTCLEANFILES = $(CONFIG)
+CLEANFILES = $(ASSEMBLY) $(ASSEMBLY).mdb $(build_OPTIONS)
+DISTCLEANFILES = $(CONFIG) Services/StockIcons.cs
 
 EXTRA_DIST = $(FILES) ./Services/process-icons.pl $(CONFIG).in Base.glade $(ADDIN) $(OPTIONS)
 
