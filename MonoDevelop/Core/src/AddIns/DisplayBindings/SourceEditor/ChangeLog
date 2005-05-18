@@ -1,3 +1,7 @@
+2005-05-16  Jacob Ilsø Christensen  <jacobilsoe@gmail.com>
+
+	* Gui/SourceEditorView.cs: Added support to ctrl+tab/shift+ctrl+tab through open files.
+
 2005-05-15  Todd Berman  <tberman@off.net>
 
 	* texteditoraddin.glade: Add some missing 'Activates Default' props.

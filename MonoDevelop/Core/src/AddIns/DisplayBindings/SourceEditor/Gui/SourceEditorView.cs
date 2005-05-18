@@ -281,7 +281,7 @@ namespace MonoDevelop.SourceEditor.Gui
 			Gdk.Key key = evnt.Key;
 			uint state = (uint)evnt.State;
 			state &= 1101u;
-			const uint Normal = 0, Shift = 1, Control = 4; /*ShiftControl = 5, Alt = 8*/
+			const uint Normal = 0, Shift = 1, Control = 4, ShiftControl = 5; /*, Alt = 8*/
 			
 			switch (state) {
 			case Normal:
@@ -316,6 +316,14 @@ namespace MonoDevelop.SourceEditor.Gui
 					return true;
 				}
 				break;
+			case ShiftControl:
+				switch (key)
+				{
+				case Gdk.Key.ISO_Left_Tab:
+					WorkbenchSingleton.Workbench.WorkbenchLayout.PreviousTab();
+					return true;
+				}
+				break;
 			case Control:
 				switch (key) {
 				case Gdk.Key.space:
@@ -329,6 +337,9 @@ namespace MonoDevelop.SourceEditor.Gui
 					return true;
 				case Gdk.Key.Down:
 					ScrollDown ();
+					return true;
+				case Gdk.Key.Tab:
+					WorkbenchSingleton.Workbench.WorkbenchLayout.NextTab();
 					return true;
 				}
 				break;

@@ -88,6 +88,16 @@ namespace MonoDevelop.Gui
 		void RemoveTab (int pageNum);	
 
 		/// <summary>
+		/// Moves to the next tab.
+		/// </summary>          
+		void NextTab();
+		
+		/// <summary>
+		/// Moves to the previous tab.
+		/// </summary>          
+		void PreviousTab();
+		
+		/// <summary>
 		/// Is called, when the workbench window which the user has into
 		/// the foreground (e.g. editable) changed to a new one.
 		/// </summary>

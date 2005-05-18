@@ -504,6 +504,22 @@ namespace MonoDevelop.Gui
 		public void RemoveTab (int pageNum) {
 			tabControl.RemovePage (pageNum);
 		}
+
+		/// <summary>
+		/// Moves to the next tab.
+		/// </summary>          
+		public void NextTab()
+		{
+			this.tabControl.NextPage();
+		}
+		
+		/// <summary>
+		/// Moves to the previous tab.
+		/// </summary>          
+		public void PreviousTab()
+		{
+			this.tabControl.PrevPage();
+		}
 		
 		public void ActiveMdiChanged(object sender, SwitchPageArgs e)
 		{
