@@ -88,21 +88,19 @@ namespace MonoDevelop.Gui.Dialogs
 			total = null;
 			
 			switch (locationComboBox.Active) {
-				case 0: {// current file
-					IWorkbenchWindow window = WorkbenchSingleton.Workbench.ActiveWorkbenchWindow;
-					if (window != null) {
-						if (window.ViewContent.ContentName == null) {
-							Runtime.MessageService.ShowWarning (GettextCatalog.GetString ("You must save the file"));
-						} else {
-							Report r = GetReport(window.ViewContent.ContentName);
-							if (r != null) items.Add(r);
-							string[] tmp = r.ToListItem ();
-							store.AppendValues (tmp[0], tmp[1], tmp[2], tmp[3]);
-						}
+			case 0: {// current file
+				IWorkbenchWindow window = WorkbenchSingleton.Workbench.ActiveWorkbenchWindow;
+				if (window != null) {
+					if (window.ViewContent.ContentName == null) {
+						Runtime.MessageService.ShowWarning (GettextCatalog.GetString ("You must save the file"));
+					} else {
+						Report r = GetReport(window.ViewContent.ContentName);
+						if (r != null) items.Add(r);
 					}
-					break;
 				}
-				case 1: {// all open files
+				break;
+			}
+			case 1: {// all open files
 				if (WorkbenchSingleton.Workbench.ViewContentCollection.Count > 0) {
 					bool dirty = false;
 					
@@ -117,8 +115,6 @@ namespace MonoDevelop.Gui.Dialogs
 								if (content.IsDirty) dirty = true;
 								total += r;
 								items.Add(r);
-								string[] tmp = r.ToListItem ();
-								store.AppendValues (tmp[0], tmp[1], tmp[2], tmp[3]);
 							}
 						}
 					}
@@ -126,25 +122,18 @@ namespace MonoDevelop.Gui.Dialogs
 					if (dirty) {
 						Runtime.MessageService.ShowWarning (GettextCatalog.GetString ("Unsaved changed to open files were not included in counting"));
 					}
-					
-					store.AppendValues ("", "", "", "");
-					//string[] allItems = all.ToListItem ();
-					//store.AppendValues (allItems[0], allItems[1], allItems[2], allItems[3]);
 				}
 				break;
-				}
-				case 2: {// whole project
-					if (Runtime.ProjectService.CurrentOpenCombine == null) {
-						Runtime.MessageService.ShowError (GettextCatalog.GetString ("You must be in project mode"));
-						break;
-					}
-					total = new Report (GettextCatalog.GetString ("total"), 0, 0, 0);
-					CountCombine (Runtime.ProjectService.CurrentOpenCombine, ref total);
-					store.AppendValues ("", "", "", "");
-					//string[] allItems = all.ToListItem ();
-					//store.AppendValues (allItems[0], allItems[1], allItems[2], allItems[3]);
+			}
+			case 2: {// whole project
+				if (Runtime.ProjectService.CurrentOpenCombine == null) {
+					Runtime.MessageService.ShowError (GettextCatalog.GetString ("You must be in project mode"));
 					break;
 				}
+				total = new Report (GettextCatalog.GetString ("total"), 0, 0, 0);
+				CountCombine (Runtime.ProjectService.CurrentOpenCombine, ref total);
+				break;
+			}
 			}
 			
 			UpdateList(0);
@@ -154,15 +143,12 @@ namespace MonoDevelop.Gui.Dialogs
 		{
 			foreach (CombineEntry entry in combine.Entries) {
 				if (entry is Project) {
-					// string tmp = "";
 					foreach (ProjectFile finfo in ((Project)entry).ProjectFiles) {
 						if (finfo.Subtype != Subtype.Directory && 
 						    finfo.BuildAction == BuildAction.Compile) {
 							Report r = GetReport(finfo.Name);
 							all += r;
 							items.Add(r);
-							string[] tmp = r.ToListItem();
-							store.AppendValues (tmp[0], tmp[1], tmp[2], tmp[3]);
 						}
 					}
 				} else
@@ -217,16 +203,16 @@ namespace MonoDevelop.Gui.Dialogs
 				if (x == null || y == null) return 1;
 				
 				switch (sortKey) {
-					case 0:  // files
-						return String.Compare(xr.name, yr.name);
-					case 1:  // chars
-						return xr.chars.CompareTo(yr.chars);
-					case 2:  // words
-						return xr.words.CompareTo(yr.words);
-					case 3:  // lines
-						return xr.lines.CompareTo(yr.lines);
-					default:
-						return 1;
+				case 0:  // files
+					return String.Compare(xr.name, yr.name);
+				case 1:  // chars
+					return xr.chars.CompareTo(yr.chars);
+				case 2:  // words
+					return xr.words.CompareTo(yr.words);
+				case 3:  // lines
+					return xr.lines.CompareTo(yr.lines);
+				default:
+					return 1;
 				}
 			}
 		}
@@ -249,13 +235,13 @@ namespace MonoDevelop.Gui.Dialogs
 			string lines = GettextCatalog.GetString ("Lines");
 			
 			if (file == col.Title)
-					store.SetSortColumnId (0, ReverseSort (col.SortOrder));
+				store.SetSortColumnId (0, ReverseSort (col.SortOrder));
 			else if (chars == col.Title)
-					store.SetSortColumnId (1, ReverseSort (col.SortOrder));
+				store.SetSortColumnId (1, ReverseSort (col.SortOrder));
 			else if (words == col.Title)
-					store.SetSortColumnId (2, ReverseSort (col.SortOrder));
+				store.SetSortColumnId (2, ReverseSort (col.SortOrder));
 			else if (lines == col.Title)
-					store.SetSortColumnId (3, ReverseSort (col.SortOrder));
+				store.SetSortColumnId (3, ReverseSort (col.SortOrder));
 			
 			//UpdateList ((TreeViewColumn)e.Column);
 		}
@@ -305,10 +291,6 @@ namespace MonoDevelop.Gui.Dialogs
 			linesColumn.Clicked += new EventHandler (SortEvt);
 			resultListView.AppendColumn (linesColumn);
 			
-			store = new TreeStore (typeof (string), typeof (string), typeof (string), typeof (string));
-			store.AppendValues ("", "", "", "");
-			resultListView.Model = store;
-			
 			this.Icon = Runtime.Gui.Resources.GetIcon ("Icons.16x16.FindIcon");
 			this.TransientFor = (Window) WorkbenchSingleton.Workbench;
 			
@@ -320,6 +302,7 @@ namespace MonoDevelop.Gui.Dialogs
 			locationComboBox.AppendText (GettextCatalog.GetString ("Current file"));
 			locationComboBox.AppendText (GettextCatalog.GetString ("All open files"));
 			locationComboBox.AppendText (GettextCatalog.GetString ("Whole solution"));
+			locationComboBox.Active = 0;
 			hbox.PackStart (locationComboBox);
 			
 			scrolledwindow.Add(resultListView);
