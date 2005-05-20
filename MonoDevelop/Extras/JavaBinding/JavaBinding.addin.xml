@@ -48,6 +48,8 @@
                      location = "templates/JavaApplicationProject.xpt.xml"/>
     <ProjectTemplate id = "JavaConsoleApplicationProject"
                      location = "templates/JavaConsoleApplicationProject.xpt.xml"/>
+    <ProjectTemplate id = "IkvmLibraryProject"
+                     location = "templates/IkvmLibraryProject.xpt.xml"/>
   </Extension>
 
   <Extension path = "/SharpDevelop/Workbench/ProjectOptions/ConfigurationProperties">
@@ -55,7 +57,20 @@
       <DialogPanel id = "JavaProjectPanel"
                    _label = "Code Generation"
                    class = "JavaBinding.ProjectConfigurationPropertyPanel"/>
+	  <DialogPanel id = "JavaOutputOptionsPanel"
+				 _label = "Output"
+				 class = "MonoDevelop.Gui.Dialogs.OptionPanels.OutputOptionsPanel"/>
     </Conditional>
+  </Extension>
+
+  <Extension path = "/SharpDevelop/Dialogs/OptionsDialog">
+	<DialogPanel id    = "JavaOptions"
+		     insertafter = "ToolsOptions"
+		     _label = "Java">
+		<DialogPanel    id = "General"
+				_label = "General"
+				class = "JavaBinding.GlobalOptionsPanelPanel" />
+	</DialogPanel>
   </Extension>
 
   <Extension path = "/Workspace/Icons">

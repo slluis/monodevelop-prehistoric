@@ -105,5 +105,14 @@ namespace JavaBinding
 				mainclass = value;
 			}
 		}
+		
+		public string DefineSymbols {
+			get {
+				return definesymbols;
+			}
+			set {
+				definesymbols = value;
+			}
+		}
 	}
 }

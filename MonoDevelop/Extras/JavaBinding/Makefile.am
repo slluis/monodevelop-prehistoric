@@ -7,10 +7,13 @@ DLLS = /r:System.Drawing.dll \
 	/r:$(top_builddir)/build/bin/MonoDevelop.SourceEditor.dll \
 	/r:$(top_builddir)/build/bin/MonoDevelop.Base.dll \
 	/r:$(top_builddir)/build/bin/MonoDevelop.Gui.Widgets.dll \
-	$(GTK_SHARP_LIBS)
+	$(GTK_SHARP_LIBS) \
+	$(GNOME_SHARP_LIBS) \
+	$(GLADE_SHARP_LIBS)
 
 FILES = \
 Gui/ProjectConfigurationPropertyPanel.cs \
+Gui/GlobalOptionsPanel.cs \
 Project/JavaCompilerParameters.cs \
 JavaBindingCompilerServices.cs \
 JavaCompiler.cs \
@@ -23,6 +26,7 @@ templates/IkvmConsoleApplicationProject.xpt.xml \
 templates/IkvmGladeApplicationProject.xpt.xml \
 templates/IkvmGnomeApplicationProject.xpt.xml \
 templates/IkvmGtkApplicationProject.xpt.xml \
+templates/IkvmLibraryProject.xpt.xml \
 templates/JavaApplet.xft.xml \
 templates/JavaApplicationProject.xpt.xml \
 templates/JavaApplication.xft.xml \
@@ -66,9 +70,9 @@ $(ADDIN_BUILD)/$(ADDIN): $(srcdir)/$(ADDIN)
 	mkdir -p $(ADDIN_BUILD)
 	cp $(srcdir)/$(ADDIN) $(ADDIN_BUILD)/.
 
-$(ASSEMBLY): $(FILES)
+$(ASSEMBLY): $(FILES) $(srcdir)/Java.glade
 	mkdir -p $(ADDIN_BUILD)
-	$(CSC) $(DLLS) $(build_sources) -out:$@ -target:library
+	$(CSC) $(DLLS) -resource:$(srcdir)/Java.glade,Java.glade $(build_sources) -out:$@ -target:library
 
 if ENABLE_JAVA
 assemblydir = $(MD_ADDIN_DIR)/BackendBindings
@@ -79,6 +83,6 @@ template_DATA = $(TEMPLATES)
 endif
 
 CLEANFILES = $(ASSEMBLY) $(ASSEMBLY).mdb
-EXTRA_DIST = $(FILES) $(ADDIN) $(TEMPLATES)
+EXTRA_DIST = $(FILES) Java.glade $(ADDIN) $(TEMPLATES)
 
 include $(top_srcdir)/Makefile.include

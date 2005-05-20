@@ -21,159 +21,108 @@ namespace JavaBinding
 {
 	public class ProjectConfigurationPropertyPanel : AbstractOptionPanel
 	{
-		private Label runtimeLabel = new Label ();
-		private Label labelWarnings = new Label ();
-		private Label labelOutput = new Label ();
-		private Label titleLabel = new Label ();
-		private Label labelCompiler = new Label ();
-		private Label labelClasspath = new Label ();
-		private Label labelMainClass = new Label ();
-
-		private Button browseButton;
-		
-		private CheckButton checkDebug = new CheckButton (GettextCatalog.GetString ("Enable debug"));
-		private CheckButton checkDeprecation = new CheckButton (GettextCatalog.GetString ("Deprecated"));
-		private CheckButton checkOptimize = new CheckButton (GettextCatalog.GetString ("Enable optimizations"));
-		private CheckButton checkWarnings = new CheckButton (GettextCatalog.GetString ("Generate Warnings"));
-
-		// compiler chooser
-		private RadioButton javac = new RadioButton ("javac");
-		private RadioButton gcj;
-
-		private Entry outputAssembly = new Entry ();
-		private Entry outputDirectory = new Entry ();
-		private Entry compilerPath = new Entry ();
-		private Entry classPath = new Entry ();
-		private Entry mainClass = new Entry ();
-		
-		JavaCompilerParameters compilerParameters = null;
-		DotNetProjectConfiguration configuration;
-		
-		public override bool ReceiveDialogMessage(DialogMessage message)
+		class CodeGenerationPanelWidget : GladeWidgetExtract 
 		{
-			if (message == DialogMessage.OK) {
+			//
+			// Gtk Controls	
+			//
+			[Glade.Widget] Entry symbolsEntry;
+			[Glade.Widget] Entry mainClassEntry;
+			[Glade.Widget] Entry compilerEntry;
+			[Glade.Widget] Entry classPathEntry;
+			[Glade.Widget] ComboBox compileTargetCombo;
+			[Glade.Widget] CheckButton generateWarningsCheckButton;
+			[Glade.Widget] CheckButton deprecationCheckButton;
+			[Glade.Widget] CheckButton enableOptimizationCheckButton;
+			[Glade.Widget] CheckButton warningsAsErrorsCheckButton;
+			[Glade.Widget] CheckButton generateDebugInformationCheckButton;
+			[Glade.Widget] RadioButton compilerGcjButton;
+			[Glade.Widget] RadioButton compilerJavacButton;
+			
+			// compiler chooser
+			
+			JavaCompilerParameters compilerParameters = null;
+			DotNetProjectConfiguration configuration;
+			
+ 			public CodeGenerationPanelWidget (IProperties CustomizationObject) : base ("Java.glade", "CodeGenerationPanel")
+ 			{	
+				configuration = (DotNetProjectConfiguration)((IProperties)CustomizationObject).GetProperty("Config");
+				compilerParameters = (JavaCompilerParameters) configuration.CompilationParameters;
+				
+				ListStore store = new ListStore (typeof (string));
+				store.AppendValues (GettextCatalog.GetString ("Executable"));
+				store.AppendValues (GettextCatalog.GetString ("Library"));
+				compileTargetCombo.Model = store;
+				CellRendererText cr = new CellRendererText ();
+				compileTargetCombo.PackStart (cr, true);
+				compileTargetCombo.AddAttribute (cr, "text", 0);
+				compileTargetCombo.Active = (int) configuration.CompileTarget;
+
+				if (compilerParameters.Compiler == JavaCompiler.Javac)
+					compilerJavacButton.Active = true;
+				else
+					compilerGcjButton.Active = true;
+					
+				compilerJavacButton.Toggled += OnCompilerToggled;
+				compilerGcjButton.Toggled += OnCompilerToggled;
+	
+				enableOptimizationCheckButton.Active = compilerParameters.Optimize;
+				generateDebugInformationCheckButton.Active = configuration.DebugMode;
+				deprecationCheckButton.Active = compilerParameters.Deprecation;
+				generateWarningsCheckButton.Active = compilerParameters.GenWarnings;
+				warningsAsErrorsCheckButton.Active = !configuration.RunWithWarnings;
+				
+				compilerEntry.Text = compilerParameters.CompilerPath;
+				classPathEntry.Text = compilerParameters.ClassPath;				
+				mainClassEntry.Text = compilerParameters.MainClass;				
+				symbolsEntry.Text = compilerParameters.DefineSymbols;				
+			}
+			
+			void OnCompilerToggled (object o, EventArgs args)
+			{
+				if (compilerJavacButton.Active)
+					compilerEntry.Text = "javac";
+				else
+					compilerEntry.Text = "gcj";
+			}
+			
+			public bool Store ()
+			{
 				if (compilerParameters == null)
 					return true;
 
-				if (javac.Active)
+				if (compilerJavacButton.Active)
 					compilerParameters.Compiler = JavaCompiler.Javac;
 				else
 					compilerParameters.Compiler = JavaCompiler.Gcj;
 
-				compilerParameters.GenWarnings = checkWarnings.Active;			
-				compilerParameters.Deprecation = checkDeprecation.Active;			
-				configuration.DebugMode = checkDebug.Active;			
-				compilerParameters.Optimize = checkOptimize.Active;						
-				configuration.OutputAssembly = outputAssembly.Text;
-				configuration.OutputDirectory = outputDirectory.Text;
+				configuration.CompileTarget = (CompileTarget) compileTargetCombo.Active;
+				compilerParameters.GenWarnings = generateWarningsCheckButton.Active;			
+				compilerParameters.Deprecation = deprecationCheckButton.Active;			
+				configuration.DebugMode = generateDebugInformationCheckButton.Active;			
+				compilerParameters.Optimize = enableOptimizationCheckButton.Active;
+				configuration.RunWithWarnings = !warningsAsErrorsCheckButton.Active;
 				
-				compilerParameters.CompilerPath = compilerPath.Text;
-				compilerParameters.ClassPath = classPath.Text;
-				compilerParameters.MainClass = mainClass.Text;
-			}
-			return true;
-		}
-		
-		void SetValues(object sender, EventArgs e)
-		{
-			configuration = (DotNetProjectConfiguration)((IProperties)CustomizationObject).GetProperty("Config");
-			compilerParameters = (JavaCompilerParameters) configuration.CompilationParameters;
-			
-			if (compilerParameters.Compiler == JavaCompiler.Javac)
-				javac.Active = true;
-			else
-				gcj.Active = true;
-
-			checkOptimize.Active = compilerParameters.Optimize;
-			checkDebug.Active = configuration.DebugMode;
-			checkDeprecation.Active = compilerParameters.Deprecation;
-			checkWarnings.Active = compilerParameters.GenWarnings;
-			outputAssembly.Text = configuration.OutputAssembly;
-			outputDirectory.Text = configuration.OutputDirectory;
-			
-			compilerPath.Text = compilerParameters.CompilerPath;
-			classPath.Text = compilerParameters.ClassPath;				
-			mainClass.Text = compilerParameters.MainClass;				
-		}
-		
-		void SelectFolder(object sender, EventArgs e)
-		{
-			using (FolderDialog fdiag = new FolderDialog (GettextCatalog.GetString ("Browse"))) {
-			
-				if (fdiag.Run () == (int) ResponseType.Ok) {
-					//textBox3.Text = fdiag.Path;
-				}
-				fdiag.Hide ();
+				compilerParameters.CompilerPath = compilerEntry.Text;
+				compilerParameters.ClassPath = classPathEntry.Text;
+				compilerParameters.MainClass = mainClassEntry.Text;
+				compilerParameters.DefineSymbols = symbolsEntry.Text;
+				return true;
 			}
 		}
-		
-		public ProjectConfigurationPropertyPanel ()
-		{
-			InitializeComponent ();						
-			VBox vbox = new VBox ();
-			HBox hboxTitle = new HBox ();
-			hboxTitle.PackStart (titleLabel, false, false, 0);
-			vbox.PackStart (hboxTitle);
-			vbox.PackStart (outputAssembly);
-			HBox hboxCompiler = new HBox ();
-			hboxCompiler.PackStart (labelCompiler, false, false, 0);
-			vbox.PackStart (hboxCompiler);
-			HBox comps = new HBox ();
-			comps.PackStart (gcj);
-			comps.PackStart (javac);
-			vbox.PackStart (comps);
-			vbox.PackStart (compilerPath);
-			HBox hboxRuntime = new HBox ();
-			hboxRuntime.PackStart (runtimeLabel, false, false, 0);
-			vbox.PackStart (hboxRuntime);
-			HBox hboxClasspath = new HBox ();
-			hboxClasspath.PackStart (labelClasspath, false, false, 0);
-			vbox.PackStart (hboxClasspath);
-			vbox.PackStart (classPath);
-			HBox hboxMainClass = new HBox ();
-			hboxMainClass.PackStart (labelMainClass, false, false, 0);
-			vbox.PackStart (hboxMainClass);
-			vbox.PackStart (mainClass);
-			HBox hboxWarnings = new HBox ();
-			hboxWarnings.PackStart (labelWarnings, false, false, 0);
-			vbox.PackStart (hboxWarnings);
-			HBox hbox = new HBox ();
-			hbox.PackStart (checkDeprecation);
-			hbox.PackStart (checkDebug);
-			hbox.PackStart (checkOptimize);
-			vbox.PackStart (hbox);
-			HBox hboxOutput = new HBox ();
-			hboxOutput.PackStart (labelOutput, false, false, 0);
-			vbox.PackStart (hboxOutput);
-			vbox.PackStart (outputDirectory);
-			this.Add (vbox);
-			CustomizationObjectChanged += new EventHandler (SetValues);
-		}
 
-		void OnCompilerToggled (object o, EventArgs args)
+		CodeGenerationPanelWidget widget;
+		
+		public override void LoadPanelContents()
 		{
-			if (javac.Active)
-				compilerPath.Text = "javac";
-			else
-				compilerPath.Text = "gcj";
+			Add (widget = new  CodeGenerationPanelWidget ((IProperties) CustomizationObject));
 		}
 		
-		private void InitializeComponent()
+		public override bool StorePanelContents()
 		{
-			gcj = new RadioButton (javac, "gcj");
-			gcj.Toggled += OnCompilerToggled;
-			javac.Toggled += OnCompilerToggled;
-
-			this.browseButton = new Button ("_Browse");
-			this.browseButton.Clicked += new EventHandler (SelectFolder);
-			labelOutput.Markup = String.Format ("<b>{0}</b>", GettextCatalog.GetString ("Output path"));
-			this.outputAssembly = new Entry ();
-			titleLabel.Markup = String.Format ("<b>{0}</b>", GettextCatalog.GetString ("Output Assembly"));
-			labelWarnings.Markup = String.Format ("<b>{0}</b>", GettextCatalog.GetString ("Warnings and Errors"));
-			
-			labelCompiler.Markup = String.Format ("<b>{0}</b>", GettextCatalog.GetString ("Compiler"));
-			labelClasspath.Markup = String.Format ("<b>{0}</b>", GettextCatalog.GetString ("Classpath"));
-			labelMainClass.Markup = String.Format ("<b>{0}</b>", GettextCatalog.GetString ("Main Class"));
+			bool result = true;
+			result = widget.Store ();
+ 			return result;
 		}
 	}
 }

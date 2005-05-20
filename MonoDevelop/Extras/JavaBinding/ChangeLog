@@ -1,3 +1,23 @@
+2005-05-20  Lluis Sanchez Gual  <lluis@novell.com>
+
+	* JavaBindingCompilerServices.cs: Automatically generate wrappers
+	for referenced assemblies. Improved error parsing. Many fixes.
+	* ProjectConfigurationPropertyPanel.cs: Moved to Glade.
+	* JavaLanguageBinding.cs: Added some global configuration properties.
+	* JavaCompilerParameters.cs: Added missing DefineSymbols property.
+	* JavaBinding.addin.xml: Added new configuration dialogs and a new
+	template.
+	* Makefile.am: Added a new template and a glade file.
+	* templates/IkvmGtkApplicationProject.xpt.xml:
+	* templates/IkvmGladeApplicationProject.xpt.xml:
+	* templates/IkvmGnomeApplicationProject.xpt.xml: Added GTK references
+	in the GTK# projects.
+	* templates/IkvmConsoleApplicationProject.xpt.xml: Removed hard-coded
+	classpath.
+	* Java.glade: New glade file for java options.
+	* Gui/GlobalOptionsPanel.cs: New java options panel.
+	* templates/IkvmLibraryProject.xpt.xml: New project template.
+
 2005-04-17  John Luke  <john.luke@gmail.com>
 
 	* Makefile.am: fix distcheck
