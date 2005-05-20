@@ -1,3 +1,9 @@
+2005-05-19  Peter Johanson <latexer@gentoo.org>
+
+	* BooBinding.mp{p,s}:
+	* BooShell/BooShell.mp{p,s}:
+	Add project files for compiling the BooBinding using MD.
+
 2005-05-10  Peter Johanson <latexer@gentoo.org>
 
 	* Gui/ShellTextView.boo: Use a normal StreamWriter
