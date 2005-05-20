@@ -206,6 +206,8 @@ namespace MonoDevelop.SourceEditor.Gui
 					switch (insertIter.Char[0]) {
 					case ' ':
 					case '\t':
+					case '\r':
+					case '\n':
 					case '.':
 					case '(':
 					case '[':

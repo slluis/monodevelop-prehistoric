@@ -1,3 +1,7 @@
+2005-05-20  Jacob Ilsø Christensen  <jacobilsoe@gmail.com>
+
+	* Gui/SourceEditorView.cs: Fixed problem with monodoc on words followed by a newline.
+
 2005-05-16  Jacob Ilsø Christensen  <jacobilsoe@gmail.com>
 
 	* Gui/SourceEditorView.cs: Added support to ctrl+tab/shift+ctrl+tab through open files.
