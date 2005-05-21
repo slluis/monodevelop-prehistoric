@@ -105,8 +105,6 @@ class BooParser(IParser):
 		// What did we break by doing this extra Step?
 		//num = compilePipe.Find(typeof(ProcessMethodBodiesWithDuckTyping))
 		visitor = Visitor(LineLength:lineLength)
-		for c as IClass in visitor.Cu.Classes:
-			c.Region.FileName = fileName
 		compilePipe[num] = visitor
 		// Remove unneccessary compiler steps
 		while compilePipe.Count > num + 1:
@@ -127,6 +125,11 @@ class BooParser(IParser):
 		except e:
 			//ShowException(e)
 			print "ShowException ${e}"
+
+		for c as IClass in visitor.Cu.Classes:
+			if c.Region is not null:
+				c.Region.FileName = fileName
+
 		return visitor.Cu
 	
 	def CtrlSpace(parserService as IParserService, project as Project, caretLine as int, caretColumn as int, fileName as string) as ArrayList:

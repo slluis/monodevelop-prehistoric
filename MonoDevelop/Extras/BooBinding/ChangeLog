@@ -1,3 +1,9 @@
+2005-05-21  Peter Johanson <latexer@gentoo.org>
+
+	* Parser/BooParser.boo: Move filename assignment to
+	after parsing is complete. Makes the class browser (mostly)
+	work now.
+
 2005-05-19  Peter Johanson <latexer@gentoo.org>
 
 	* BooBinding.mp{p,s}:
