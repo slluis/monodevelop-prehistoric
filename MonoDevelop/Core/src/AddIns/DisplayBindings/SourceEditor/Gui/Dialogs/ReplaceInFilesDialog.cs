@@ -174,10 +174,12 @@ namespace MonoDevelop.Gui.Dialogs
 				case SearchStrategyType.Wildcard:
 					break;
 				case SearchStrategyType.RegEx:
+					searchWholeWordOnlyCheckBox.Sensitive = false;
 					index = 1;
 					break;
 			}
 	 		specialSearchStrategyComboBox.Active = index;
+			specialSearchStrategyComboBox.Changed += new EventHandler (OnSpecialSearchStrategyChanged);
 			
 			store = new ListStore (typeof (string));
 			store.AppendValues (GettextCatalog.GetString ("Directories"));
@@ -235,6 +237,15 @@ namespace MonoDevelop.Gui.Dialogs
 		{
 			if (SetupSearchReplaceInFilesManager ())
 				SearchReplaceInFilesManager.CancelSearch();
+		}
+
+		void OnSpecialSearchStrategyChanged (object o, EventArgs e)
+		{
+			if (specialSearchStrategyComboBox.Active != 1) {
+				searchWholeWordOnlyCheckBox.Sensitive = true;
+			} else {
+				searchWholeWordOnlyCheckBox.Sensitive = false;
+			}
 		}
 		
 						

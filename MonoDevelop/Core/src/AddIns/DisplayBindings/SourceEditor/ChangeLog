@@ -1,5 +1,11 @@
 2005-05-21  Todd Berman  <tberman@off.net>
 
+	* Gui/Dialogs/ReplaceDialog.cs:
+	* Gui/Dialogs/ReplaceInFilesDialog.cs:
+	Fix #74965.
+
+2005-05-21  Todd Berman  <tberman@off.net>
+
 	* Search/SearchReplaceManager.cs:
 	* Search/SearchStrategy/RegExSearchStrategy.cs:
 	* Search/SearchReplaceInFilesManager.cs:

@@ -146,12 +146,15 @@ namespace MonoDevelop.Gui.Dialogs
 			switch (SearchReplaceManager.SearchOptions.SearchStrategyType) {
 				case SearchStrategyType.Normal:
 				case SearchStrategyType.Wildcard:
+					searchWholeWordOnlyCheckBox.Sensitive = true;
 					break;
 				case SearchStrategyType.RegEx:
+					searchWholeWordOnlyCheckBox.Sensitive = false;
 					index = 1;
 					break;
 			}
 			specialSearchStrategyComboBox.Active = index;
+			specialSearchStrategyComboBox.Changed += new EventHandler (OnSpecialSearchStrategyChanged);
 			
 			store = new ListStore (typeof (string));
 			store.AppendValues (GettextCatalog.GetString ("Current File"));
@@ -212,6 +215,15 @@ namespace MonoDevelop.Gui.Dialogs
 		public void SetSearchPattern(string pattern)
 		{
 			searchPatternEntry.Text  = pattern;
+		}
+
+		void OnSpecialSearchStrategyChanged (object o, EventArgs e)
+		{
+			if (specialSearchStrategyComboBox.Active != 1) {
+				searchWholeWordOnlyCheckBox.Sensitive = true;
+			} else {
+				searchWholeWordOnlyCheckBox.Sensitive = false;
+			}
 		}
 		
 		void SetupSearchReplaceManager()
