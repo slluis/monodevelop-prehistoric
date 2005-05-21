@@ -100,7 +100,12 @@ namespace MonoDevelop.TextEditor.Document
 			InitializeDocumentIterator(null, null);
 			InitializeSearchStrategy(null, null);
 			find.Reset();
-			find.SearchStrategy.CompilePattern(searchOptions);
+			try {
+				find.SearchStrategy.CompilePattern(searchOptions);
+			} catch {
+				Runtime.MessageService.ShowMessage (GettextCatalog.GetString ("Search pattern is invalid"), DialogPointer);
+				return false;
+			}
 			
 			currentFileName = String.Empty;
 			currentDocument = null;

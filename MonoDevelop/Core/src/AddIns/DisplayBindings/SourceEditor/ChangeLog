@@ -1,3 +1,10 @@
+2005-05-21  Todd Berman  <tberman@off.net>
+
+	* Search/SearchReplaceManager.cs:
+	* Search/SearchStrategy/RegExSearchStrategy.cs:
+	* Search/SearchReplaceInFilesManager.cs:
+	Fix #74966 and display a meaningful error message.
+
 2005-05-20  Jacob Ilsø Christensen  <jacobilsoe@gmail.com>
 
 	* Gui/SourceEditorView.cs: Fixed problem with monodoc on words followed by a newline.

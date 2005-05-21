@@ -29,7 +29,8 @@ namespace MonoDevelop.TextEditor.Document
 		public ISearchResult FindNext(ITextIterator textIterator, SearchOptions options)
 		{
 			if (!textIterator.MoveAhead(1)) return null;
-			
+			if (regex == null) return null;
+
 			int pos = textIterator.Position;
 			string document = textIterator.ReadToEnd ();
 			textIterator.Position = pos;

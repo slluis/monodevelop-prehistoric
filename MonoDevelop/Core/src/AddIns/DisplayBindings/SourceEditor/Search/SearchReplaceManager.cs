@@ -96,7 +96,12 @@ namespace MonoDevelop.TextEditor.Document
 				textArea.Buffer.PlaceCursor (textArea.Buffer.GetIterAtMark (textArea.Buffer.InsertMark));
 			}
 			find.Reset();
-			find.SearchStrategy.CompilePattern(searchOptions);
+			try {
+				find.SearchStrategy.CompilePattern(searchOptions);
+			} catch {
+				Runtime.MessageService.ShowMessage (GettextCatalog.GetString ("Search pattern is invalid"), DialogPointer);
+				return;
+			}
 			while (true) {
 				ISearchResult result = SearchReplaceManager.find.FindNext(searchOptions);
 				
@@ -127,7 +132,12 @@ namespace MonoDevelop.TextEditor.Document
 				textArea.Buffer.PlaceCursor (textArea.Buffer.GetIterAtMark (textArea.Buffer.InsertMark));
 			}
 			find.Reset();
-			find.SearchStrategy.CompilePattern(searchOptions);
+			try {
+				find.SearchStrategy.CompilePattern(searchOptions);
+			} catch {
+				Runtime.MessageService.ShowMessage (GettextCatalog.GetString ("Search pattern is invalid"), DialogPointer);
+				return;
+			}
 			
 			while (true) {
 				ISearchResult result = SearchReplaceManager.find.FindNext(SearchReplaceManager.searchOptions);
@@ -168,7 +178,13 @@ namespace MonoDevelop.TextEditor.Document
 			else
 				find.Reset ();
 				
-			find.SearchStrategy.CompilePattern(searchOptions);
+			try {
+				find.SearchStrategy.CompilePattern(searchOptions);
+			} catch {
+				Runtime.MessageService.ShowMessage (GettextCatalog.GetString ("Search pattern is invalid"), DialogPointer);
+				return;
+			}
+
 			ISearchResult result = find.FindNext(searchOptions);
 			
 			if (result == null) {
