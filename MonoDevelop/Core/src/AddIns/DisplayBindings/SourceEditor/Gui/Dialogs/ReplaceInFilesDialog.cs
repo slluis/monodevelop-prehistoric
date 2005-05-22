@@ -290,6 +290,13 @@ namespace MonoDevelop.Gui.Dialogs
 		void SpecialSearchStrategyCheckBoxChangedEvent (object sender, EventArgs e)
 		{
 			specialSearchStrategyComboBox.Sensitive = useSpecialSearchStrategyCheckBox.Active;
+			if (useSpecialSearchStrategyCheckBox.Active) {
+				if (specialSearchStrategyComboBox.Active == 1) {
+					searchWholeWordOnlyCheckBox.Sensitive = false;
+				}
+			} else {
+				searchWholeWordOnlyCheckBox.Sensitive = true;
+			}
 		}
 		
 		public void SetSearchPattern(string pattern)

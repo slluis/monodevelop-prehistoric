@@ -316,6 +316,13 @@ namespace MonoDevelop.Gui.Dialogs
 		{
 			if (useSpecialSearchStrategyCheckBox != null) {
 				specialSearchStrategyComboBox.Sensitive = useSpecialSearchStrategyCheckBox.Active;
+				if (useSpecialSearchStrategyCheckBox.Active) {
+					if (specialSearchStrategyComboBox.Active == 1) {
+						searchWholeWordOnlyCheckBox.Sensitive = false;
+					}
+				} else {
+					searchWholeWordOnlyCheckBox.Sensitive = true;
+				}
 			}
 		}
 		

@@ -1,3 +1,9 @@
+2005-05-22  Todd Berman  <tberman@off.net>
+
+	* Gui/Dialogs/ReplaceDialog.cs:
+	* Gui/Dialogs/ReplaceInFilesDialog.cs:
+	Duh. Actually fix #74965 totally. stupid miss on my end.
+
 2005-05-21  Todd Berman  <tberman@off.net>
 
 	* Gui/Dialogs/ReplaceDialog.cs:
