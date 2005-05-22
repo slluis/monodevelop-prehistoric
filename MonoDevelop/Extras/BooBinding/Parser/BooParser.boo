@@ -57,11 +57,6 @@ class BooParser(IParser):
 		return project.ProjectType == BooBinding.BooLanguageBinding.LanguageName
 	
 	def Parse(fileName as string) as ICompilationUnitBase:
-		/*
-		compiler = BooCompiler()
-		compiler.Parameters.Input.Add(FileInput(fileName))
-		return Parse(fileName, compiler)
-		*/
 		content as string
 		using r = StreamReader(fileName):
 			content = r.ReadToEnd()

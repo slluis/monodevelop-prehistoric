@@ -1,3 +1,10 @@
+2005-05-22  Peter Johanson <latexer@gentoo.org>
+
+	* Parser/BooParser.boo:
+	* Parser/Resolver.boo: Various small cleanups
+	* Parser/Visitor.boo: Some small cleanups, and parse
+	events now as well.
+
 2005-05-21  Peter Johanson <latexer@gentoo.org>
 
 	* BooShellPadContent.cs: Make the pad placement

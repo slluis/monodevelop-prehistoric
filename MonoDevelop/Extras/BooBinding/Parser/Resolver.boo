@@ -128,11 +128,7 @@ class Resolver:
 		elif member isa Property:
 			print "name: ${name}"
 			property as Property = member
-			/*
-			if property.ReturnType isa BooBinding.Parser.InferredReturnType:
-				print "Return type is an inferred, zapping it!"
-				return ReturnType("System.Object")
-				*/
+
 			return property.ReturnType if name == "value"
 			for para as IParameter in property.Parameters:
 				return para.ReturnType if para.Name == name

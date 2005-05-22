@@ -78,7 +78,7 @@ class Visitor(AbstractVisitorCompilerStep):
 	private def GetRegion(m as AST.Node):
 		l = m.LexicalInfo
 		return null if (l.Line < 0)
-		return DefaultRegion(l.Line, 0 /*l.Column*/, l.Line, GetLineEnd(l.Line))
+		return DefaultRegion(l.Line - 1, 0 /*l.Column*/, l.Line, GetLineEnd(l.Line))
 	
 	private def GetClientRegion(m as AST.Node) as DefaultRegion:
 		l = m.LexicalInfo
@@ -99,7 +99,7 @@ class Visitor(AbstractVisitorCompilerStep):
 			l2 = m.EndSourceLocation
 		return null if l2 == null or l2.Line < 0 or l.Line == l2.Line
 		// TODO: use l.Column / l2.Column when the tab-bug has been fixed
-		return DefaultRegion(l.Line, GetLineEnd(l.Line), l2.Line, GetLineEnd(l2.Line))
+		return DefaultRegion(l.Line - 1, GetLineEnd(l.Line), l2.Line, GetLineEnd(l2.Line))
 	
 	override def OnImport(p as AST.Import):
 		u = Using()
@@ -189,7 +189,6 @@ class Visitor(AbstractVisitorCompilerStep):
 			if node.Name.StartsWith("___"):
 				return
 
-			print "Method: ${node.FullName}"
 			method = Method(node.Name, ReturnType.CreateReturnType(node), GetModifier(node), GetRegion(node), GetClientRegion(node))
 			method.Parameters = GetParameters(node.Parameters)
 			method.Node = node
@@ -246,25 +245,16 @@ class Visitor(AbstractVisitorCompilerStep):
 			print ex.ToString()
 			raise
 	
-	/*
-	// TODO: Event Declaration
-	override def Visit(eventDeclaration as AST.EventDeclaration, data as object) as object:
-		region as DefaultRegion = GetRegion(eventDeclaration.StartLocation, eventDeclaration.EndLocation)
-		bodyRegion as DefaultRegion = GetRegion(eventDeclaration.BodyStart, eventDeclaration.BodyEnd)
-		type as ReturnType = ReturnType(eventDeclaration.TypeReference)
-		c as Class = _currentClass.Peek()
-		e as Event = null
-		if eventDeclaration.VariableDeclarators != null:
-			for varDecl as ICSharpCode.SharpRefactory.Parser.AST.VariableDeclaration in eventDeclaration.VariableDeclarators:
-				e = Event(varDecl.Name, type, eventDeclaration.Modifier, region, bodyRegion)
-				c.Events.Add(e)
-			
-		else:
-			e = Event(eventDeclaration.Name, type, eventDeclaration.Modifier, region, bodyRegion)
-			c.Events.Add(e)
-		
-		return null
+	override def OnEvent (node as AST.Event):
+		try:
+			ev = Event (node.Name, ReturnType(node.Type), GetModifier(node), GetRegion(node), GetClientRegion(node))
+			ev.Documentation = node.Documentation
+			cast(Class, _currentClass.Peek()).Events.Add(ev)
+		except ex:
+			print ex
+			raise
 	
+	/*
 	// TODO: Detect indexer method and add it as Indexer
 	override def Visit(indexerDeclaration as AST.IndexerDeclaration, data as object) as object:
 		region as DefaultRegion = GetRegion(indexerDeclaration.StartLocation, indexerDeclaration.EndLocation)
