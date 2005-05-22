@@ -114,7 +114,7 @@ class Resolver:
 	
 	def InnerGetTypeFromLocal(name as string) as IReturnType:
 		member = self.CurrentMember
-		Print("member", member)
+		//Print("member", member)
 		if member isa BooAbstractMethod:
 			method as BooAbstractMethod = member
 			for para as IParameter in method.Parameters:
@@ -195,7 +195,7 @@ class Resolver:
 					for alias as string in u.Aliases.Keys:
 						result.Add(alias)
 			member = self.CurrentMember
-			Print("member", member)
+			//Print("member", member)
 			if member != null:
 				varList as Hashtable = null
 				if member isa BooAbstractMethod:
@@ -204,19 +204,15 @@ class Resolver:
 						result.Add(Field(para.ReturnType, para.Name, ModifierEnum.Private, null))
 					if method.Node != null:
 						varLookup = VariableListLookupVisitor(Resolver: self)
-						print "Visiting method body..."
 						varLookup.Visit(cast(BooAbstractMethod, member).Node.Body)
-						print "Finished visiting method body!"
 						varList = varLookup.Results
 				elif member isa Property:
 					property as Property = member
 					if property.Node != null:
 						varLookup = VariableListLookupVisitor(Resolver: self)
 						// TODO: visit only the correct body
-						print "Visiting property body..."
 						varLookup.Visit(property.Node.Getter) unless property.Node.Getter == null
 						varLookup.Visit(property.Node.Setter) unless property.Node.Setter == null
-						print "Finished visiting property body!"
 						varList = varLookup.Results
 				if varList != null:
 					for e as DictionaryEntry in varList:
@@ -294,8 +290,7 @@ class Resolver:
 			// try looking if the expression is the name of a class
 			expressionClass = self.SearchType(expression)
 			if expressionClass != null:
-				//return ResolveResult(expressionClass, ListMembers(ArrayList(), expressionClass, callingClass, true))
-				return ResolveResult(expressionClass, ListMembers(ArrayList(), expressionClass))
+				return ResolveResult(expressionClass, ListMembers(ArrayList(), expressionClass, true))
 			
 			// try if it is the name of a namespace
 			if parserService.NamespaceExists(_project, expression):
@@ -306,7 +301,7 @@ class Resolver:
 			visitor = ExpressionTypeVisitor(Resolver : self)
 			visitor.Visit(expr)
 			retType = visitor.ReturnType
-			Print ("result", retType)
+			//Print ("result", retType)
 			if visitor.ReturnClass != null:
 				returnClass = visitor.ReturnClass
 			elif retType != null:
@@ -330,12 +325,8 @@ class Resolver:
 
 	#region Code converted from CSharpBinding/Parser/Resolver.cs
 	def MustBeShowen(c as IClass, member as IDecoration) as bool:
-		// FIXME: _showStatic should be coming from elsewhere... but where? (See CSharpBinding)
-		_showStatic = false
-//		print("member:" + member.Modifiers);
 		if (((not _showStatic) and  ((member.Modifiers & ModifierEnum.Static) == ModifierEnum.Static)) or
-		    ( _showStatic and not ((member.Modifiers & ModifierEnum.Static) == ModifierEnum.Static))):
-			//// enum type fields are not shown here - there is no info in member about enum field
+		   (_showStatic and not ((member.Modifiers & ModifierEnum.Static) == ModifierEnum.Static))):
 			return false
 		
 //		print("Testing Accessibility");
@@ -381,8 +372,10 @@ class Resolver:
 		return null
 	
 	def ListMembers(members as ArrayList, curType as IClass) as ArrayList:
-		// FIXME: _showStatic should be coming from elsewhere... but where? (See CSharpBinding)
-		_showStatic = false
+		return ListMembers (members, curType, false)
+	
+	def ListMembers(members as ArrayList, curType as IClass, showStatic as bool) as ArrayList:
+		_showStatic = showStatic
 //		print("LIST MEMBERS!!!");
 //		print("_showStatic = " + _showStatic);
 //		print(curType.InnerClasses.Count + " classes");
@@ -433,7 +426,7 @@ class Resolver:
 			baseClass = BaseClass(curType)
 			if (baseClass != null):
 //				print("Base Class = " + baseClass.FullyQualifiedName)
-				ListMembers(members, baseClass)
+				ListMembers(members, baseClass, _showStatic)
 
 //		print("listing finished");
 		return members;

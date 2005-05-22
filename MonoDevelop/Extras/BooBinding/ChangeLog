@@ -1,5 +1,11 @@
 2005-05-22  Peter Johanson <latexer@gentoo.org>
 
+	* Parser/Resolver.boo: More cleanups,
+	and make static/non-static member showing work
+	properly.
+
+2005-05-22  Peter Johanson <latexer@gentoo.org>
+
 	* Parser/BooParser.boo:
 	* Parser/Resolver.boo: Various small cleanups
 	* Parser/Visitor.boo: Some small cleanups, and parse
