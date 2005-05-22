@@ -56,3 +56,6 @@ public class BooShellPadContent (AbstractPadContent):
 		_shellView.Dispose()
 		_scroller.Dispose()
 		
+	override DefaultPlacement:
+		get:
+			return "Bottom"

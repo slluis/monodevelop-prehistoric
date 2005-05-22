@@ -1,5 +1,10 @@
 2005-05-21  Peter Johanson <latexer@gentoo.org>
 
+	* BooShellPadContent.cs: Make the pad placement
+	easier to find when first viewing the shell.
+
+2005-05-21  Peter Johanson <latexer@gentoo.org>
+
 	* Parser/BooParser.boo: Move filename assignment to
 	after parsing is complete. Makes the class browser (mostly)
 	work now.
