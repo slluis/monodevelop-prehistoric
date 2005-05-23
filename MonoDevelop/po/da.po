@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: MonoDevelop\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-05-20 16:49+0200\n"
+"POT-Creation-Date: 2005-05-23 18:22+0200\n"
 "PO-Revision-Date: 2005-05-20 17:07+0200\n"
 "Last-Translator: Martin Willemoes Hansen <mwh@sysrq.dk>\n"
 "Language-Team: Martin Willemoes Hansen <mwh@sysrq.dk>\n"
@@ -1291,7 +1291,7 @@ msgstr "Redigér gruppe"
 
 #: ../Core/src/AddIns/DisplayBindings/SourceEditor/EditorBindings.glade.h:23
 msgid "Enable code _completion"
-msgstr "Aktivér _kodefærdiggørelse"
+msgstr "Aktivér _kodefuldførelse"
 
 #: ../Core/src/AddIns/DisplayBindings/SourceEditor/EditorBindings.glade.h:24
 msgid "Enable code _folding"
@@ -1856,7 +1856,7 @@ msgstr "Omdøb fil"
 
 #: ../Core/src/MonoDevelop.Base/Gui/Pads/HelpBrowser/HelpViewer.cs:31
 #: ../Core/src/MonoDevelop.Base/Gui/Pads/HelpBrowser/MonodocTreePad.cs:114
-#: ../Core/src/AddIns/DisplayBindings/SourceEditor/Gui/SourceEditorView.cs:235
+#: ../Core/src/AddIns/DisplayBindings/SourceEditor/Gui/SourceEditorView.cs:237
 msgid "Documentation"
 msgstr "Dokumentation"
 
@@ -2516,12 +2516,14 @@ msgstr "Søgestreng ikke fundet:"
 
 #: ../Core/src/AddIns/BackendBindings/CSharpBinding/Gui/CodeGenerationPanel.cs:54
 #: ../Core/src/AddIns/BackendBindings/VBNetBinding/Gui/CodeGenerationPanel.cs:150
+#: ../Extras/JavaBinding/Gui/ProjectConfigurationPropertyPanel.cs:53
 msgid "Executable"
 msgstr "Kørbar"
 
 #: ../Core/src/AddIns/BackendBindings/CSharpBinding/Gui/CodeGenerationPanel.cs:55
 #: ../Core/src/AddIns/BackendBindings/CSharpBinding/templates/Library.xpt.xml.h:2
 #: ../Core/src/AddIns/BackendBindings/VBNetBinding/Gui/CodeGenerationPanel.cs:152
+#: ../Extras/JavaBinding/Gui/ProjectConfigurationPropertyPanel.cs:54
 msgid "Library"
 msgstr "Bibliotek"
 
@@ -2755,7 +2757,6 @@ msgid "Include debug information"
 msgstr "Inkludér aflusningsinformation"
 
 #: ../Core/src/AddIns/BackendBindings/ILAsmBinding/Gui/CompilerParametersPanel.cs:61
-#: ../Extras/JavaBinding/Gui/ProjectConfigurationPropertyPanel.cs:169
 msgid "Output path"
 msgstr "Uddata-sti"
 
@@ -3185,45 +3186,35 @@ msgstr "AWT-panel"
 msgid "Creates a Java AWT panel."
 msgstr "Opretter et Java/AWT-panel."
 
-#: ../Extras/JavaBinding/Gui/ProjectConfigurationPropertyPanel.cs:34
-msgid "Enable debug"
-msgstr "Aktivér aflusning"
+#~ msgid "Enable debug"
+#~ msgstr "Aktivér aflusning"
 
-#: ../Extras/JavaBinding/Gui/ProjectConfigurationPropertyPanel.cs:35
-msgid "Deprecated"
-msgstr "Forældet"
+#~ msgid "Deprecated"
+#~ msgstr "Forældet"
 
-#: ../Extras/JavaBinding/Gui/ProjectConfigurationPropertyPanel.cs:36
-msgid "Enable optimizations"
-msgstr "Aktivér optimeringer"
+#~ msgid "Enable optimizations"
+#~ msgstr "Aktivér optimeringer"
 
-#: ../Extras/JavaBinding/Gui/ProjectConfigurationPropertyPanel.cs:37
-msgid "Generate Warnings"
-msgstr "Generér advarsler"
+#~ msgid "Generate Warnings"
+#~ msgstr "Generér advarsler"
 
-#: ../Extras/JavaBinding/Gui/ProjectConfigurationPropertyPanel.cs:101
-msgid "Browse"
-msgstr "Gennemse"
+#~ msgid "Browse"
+#~ msgstr "Gennemse"
 
-#: ../Extras/JavaBinding/Gui/ProjectConfigurationPropertyPanel.cs:171
-msgid "Output Assembly"
-msgstr "Uddata-assembly"
+#~ msgid "Output Assembly"
+#~ msgstr "Uddata-assembly"
 
-#: ../Extras/JavaBinding/Gui/ProjectConfigurationPropertyPanel.cs:172
-msgid "Warnings and Errors"
-msgstr "Advarsler og fejl"
+#~ msgid "Warnings and Errors"
+#~ msgstr "Advarsler og fejl"
 
-#: ../Extras/JavaBinding/Gui/ProjectConfigurationPropertyPanel.cs:174
-msgid "Compiler"
-msgstr "Kompiler"
+#~ msgid "Compiler"
+#~ msgstr "Kompiler"
 
-#: ../Extras/JavaBinding/Gui/ProjectConfigurationPropertyPanel.cs:175
-msgid "Classpath"
-msgstr "Klasse-sti"
+#~ msgid "Classpath"
+#~ msgstr "Klasse-sti"
 
-#: ../Extras/JavaBinding/Gui/ProjectConfigurationPropertyPanel.cs:176
-msgid "Main Class"
-msgstr "Hovedklasse"
+#~ msgid "Main Class"
+#~ msgstr "Hovedklasse"
 
 #~ msgid "#CvsLib"
 #~ msgstr "#CvsLib"
@@ -3648,7 +3639,7 @@ msgstr "Hovedklasse"
 #~ "Det er bedst at du afslutter MonoDevelop og løser problemet."
 
 #~ msgid "Generate code completion database"
-#~ msgstr "Generer kodefærdiggørelsesdatabase"
+#~ msgstr "Generer kodefuldførelsesdatabase"
 
 #~ msgid "Opening Combine..."
 #~ msgstr "Åbner kombinering..."
@@ -3691,13 +3682,13 @@ msgstr "Hovedklasse"
 #~ msgstr "Genereringsmetode"
 
 #~ msgid "Generate a code completion database"
-#~ msgstr "Generer en kodefærdiggørelsesdatabase"
+#~ msgstr "Generer en kodefuldførelsesdatabase"
 
 #~ msgid "Use a code completion database already on this computer"
-#~ msgstr "Brug en kodefærdiggørelsesdatabase der allerede er på computeren"
+#~ msgstr "Brug en kodefuldførelsesdatabase der allerede er på computeren"
 
 #~ msgid "Download a code completion database"
-#~ msgstr "Hent en kodefærdiggørelsesdatabase"
+#~ msgstr "Hent en kodefuldførelsesdatabase"
 
 #~ msgid "Select Generation Style"
 #~ msgstr "Vælg en genereringsstil"
@@ -3713,26 +3704,26 @@ msgstr "Hovedklasse"
 #~ "but will enable faster code completion"
 #~ msgstr ""
 #~ "Denne proces er langsommere og mere hukommelsesintensiv end den lette "
-#~ "proces, men kodefærdiggørelsen vil blive hurtigere"
+#~ "proces, men kodefuldførelsen vil blive hurtigere"
 
 #~ msgid ""
 #~ "This process will take less time and memory to produce the code "
 #~ "completion database, but code completion will be slower"
 #~ msgstr ""
 #~ "Denne proces vil tage mindre tid og hukommelse for at producere "
-#~ "kodefærdiggørelses-databasen, men kodefærdiggørelsen vil blive langsommere"
+#~ "kodefuldførelses-databasen, men kodefuldførelsen vil blive langsommere"
 
 #~ msgid "Select code completion database"
-#~ msgstr "Vælg kodefærdiggørelsesdatabase"
+#~ msgstr "Vælg kodefuldførelsesdatabase"
 
 #~ msgid "Where is the code completion database you would like to copy"
-#~ msgstr "Hvor er kodefærdiggørelsesdatabasen som du gerne vil kopiere"
+#~ msgstr "Hvor er kodefuldførelsesdatabasen som du gerne vil kopiere"
 
 #~ msgid "Download Database"
 #~ msgstr "Hent databasen"
 
 #~ msgid "Where would you like to download the code completion database from?"
-#~ msgstr "Hvor vil du gerne hente kodefærdiggørelsesdatabasen fra?"
+#~ msgstr "Hvor vil du gerne hente kodefuldførelsesdatabasen fra?"
 
 #~ msgid "That Uri is invalid: {0}"
 #~ msgstr "Den Uri er invalid: {0}"
@@ -3746,7 +3737,7 @@ msgstr "Hovedklasse"
 #~ "completion database"
 #~ msgstr ""
 #~ "Denne druide leder dig igennem procesen med at generere en "
-#~ "kodefærdiggørelsesdatabase"
+#~ "kodefuldførelsesdatabase"
 
 #~ msgid "Click Apply to start the database creation process"
 #~ msgstr "Klik anvend for at starte database genereringen"
@@ -3756,13 +3747,13 @@ msgstr "Hovedklasse"
 #~ "completion functionality."
 #~ msgstr ""
 #~ "Er du sikker på at du ikke vil generere databasen? Du vil ikke have "
-#~ "kodefærdiggørelses funktionalitet."
+#~ "kodefuldførelses funktionalitet."
 
 #~ msgid "Are you sure?"
 #~ msgstr "Er du sikker?"
 
 #~ msgid "Code completion database generator"
-#~ msgstr "Kodefærdiggørelsesdatabase-generator"
+#~ msgstr "Kodefuldførelsesdatabase-generator"
 
 #~ msgid "Cancel"
 #~ msgstr "Annullér"
@@ -3772,11 +3763,11 @@ msgstr "Hovedklasse"
 
 #~ msgid "This type of code completion database generator can not be canceled"
 #~ msgstr ""
-#~ "Denne type af kodefærdiggørelsesdatabase-generator kan ikke blive "
+#~ "Denne type af kodefuldførelsesdatabase-generator kan ikke blive "
 #~ "annulléret"
 
 #~ msgid "Code completion database druid"
-#~ msgstr "Kodefærdiggørelsesdatabase-druide"
+#~ msgstr "Kodefuldførelsesdatabase-druide"
 
 #~ msgid ""
 #~ "Attempting to restart MonoDevelop, if you get any exceptions, restart "
