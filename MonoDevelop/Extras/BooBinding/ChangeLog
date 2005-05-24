@@ -1,3 +1,12 @@
+2005-05-24  Peter Johanson <latexer@gentoo.org>
+
+	* Parser/Visitor.boo: Cull out compiler
+	generated fields, and note if errors occured
+	before this visitor and return immediate if so.
+	* Parser/BooParser.boo: Keep a cache of successful
+	parser results, and return those for any files that
+	error out due to syntax errors, etc.
+
 2005-05-22  Peter Johanson <latexer@gentoo.org>
 
 	* Parser/Resolver.boo: More cleanups,

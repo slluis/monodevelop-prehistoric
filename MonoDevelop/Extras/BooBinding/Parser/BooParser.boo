@@ -39,6 +39,8 @@ import Boo.Lang.Compiler.Steps
 
 class BooParser(IParser):
 	private _lexerTags as (string)
+
+	private cuCache = Hashtable()
 	
 	LexerTags as (string):
 		get:
@@ -125,6 +127,13 @@ class BooParser(IParser):
 			if c.Region is not null:
 				c.Region.FileName = fileName
 
+		// The following returns the "last known good" parse results
+		// for a given file. Keeps our parse info from disappearing
+		// when there is a parsing error in a file.
+		if visitor.HadErrors:
+			return cuCache[fileName] as ICompilationUnitBase
+		
+		cuCache[fileName] = visitor.Cu
 		return visitor.Cu
 	
 	def CtrlSpace(parserService as IParserService, project as Project, caretLine as int, caretColumn as int, fileName as string) as ArrayList:

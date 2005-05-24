@@ -43,9 +43,17 @@ class Visitor(AbstractVisitorCompilerStep):
 	
 	_currentClass as Stack = Stack()
 	_firstModule = true
+
+	[Getter(HadErrors)]
+	_hadErrors = false
 	
 	override def Run():
-		//print "RUN"
+		// If we've had errors up to this point, note it and return
+		// immediately.
+		if Errors is not null and Errors.Count > 0:
+			_hadErrors = true
+			return
+
 		try:
 			Visit(CompileUnit)
 		except e:
@@ -227,6 +235,9 @@ class Visitor(AbstractVisitorCompilerStep):
 	override def OnField(node as AST.Field):
 		try:
 			//print "Field ${node.Name}"
+			if node.Name.StartsWith("___"):
+				return
+
 			c as Class = _currentClass.Peek()
 			field = Field(ReturnType.CreateReturnType(node), node.Name, GetModifier(node), GetRegion(node))
 			field.Documentation = node.Documentation
