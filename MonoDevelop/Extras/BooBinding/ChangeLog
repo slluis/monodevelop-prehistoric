@@ -1,5 +1,11 @@
 2005-05-24  Peter Johanson <latexer@gentoo.org>
 
+	* Parser/BooParser.boo: One small fix to return
+	a new CompilationUnit instead of null in case
+	of a failed parse attempt.
+
+2005-05-24  Peter Johanson <latexer@gentoo.org>
+
 	* Parser/Visitor.boo: Cull out compiler
 	generated fields, and note if errors occured
 	before this visitor and return immediate if so.

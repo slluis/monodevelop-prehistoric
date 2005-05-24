@@ -131,6 +131,9 @@ class BooParser(IParser):
 		// for a given file. Keeps our parse info from disappearing
 		// when there is a parsing error in a file.
 		if visitor.HadErrors:
+			if cuCache[fileName] is null:
+				return CompilationUnit()
+
 			return cuCache[fileName] as ICompilationUnitBase
 		
 		cuCache[fileName] = visitor.Cu
