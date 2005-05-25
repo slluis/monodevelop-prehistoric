@@ -1,3 +1,11 @@
+2005-05-25  Wade Berrier <wberrier@novell.com>
+
+	* monodevelop.in:
+	    - Also search the firefox shell script for MOZILLA_FIVE_HOME.
+	    This was done for installations that have firefox installed, 
+	    but no mozilla shell script
+
+
 2005-05-15  Ben Maurer  <bmaurer@ximian.com>
 
 	* configure.in, */Makefile.am:
