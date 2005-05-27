@@ -105,7 +105,6 @@ class Resolver:
 	
 	def GetTypeFromLocal(name as string) as IReturnType:
 		// gets the type of a local variable or method parameter
-		print "Trying to get local variable ${name}..."
 		return _localTypes[name] if _localTypes.ContainsKey(name)
 		_localTypes[name] = null // prevent stack overflow by caching null first
 		rt = InnerGetTypeFromLocal(name)
@@ -126,7 +125,6 @@ class Resolver:
 				print "Finished visiting method body!"
 				return varLookup.ReturnType
 		elif member isa Property:
-			print "name: ${name}"
 			property as Property = member
 
 			return property.ReturnType if name == "value"
@@ -152,7 +150,7 @@ class Resolver:
 		expandedName = BooAmbience.ReverseTypeConversionTable[name]
 		return _parserService.GetClass(_project, expandedName) if expandedName != null
 		//return _parserService.SearchType(_project, name, _callingClass, _caretLine, _caretColumn)
-		return _parserService.SearchType(_project, name, _callingClass, null)
+		return _parserService.SearchType(_project, name, _callingClass, _compilationUnit)
 	
 	builtinClass as IClass
 	
@@ -262,6 +260,12 @@ class Resolver:
 			_callingClass = cu.Classes[cu.Classes.Count - 1]
 			if _callingClass.Region != null:
 				return false if _callingClass.Region.BeginLine > caretLine
+
+		if _project == null:
+			for project as Project in MonoDevelop.Services.Runtime.ProjectService.CurrentOpenCombine.GetAllProjects():
+				if project.IsFileInProject(fileName):
+					_project = project
+					break
 		return true
 	
 	def Resolve(parserService as IParserService, expression as string, caretLine as int, caretColumn as int, fileName as string, fileContent as string) as ResolveResult:
@@ -279,10 +283,6 @@ class Resolver:
 		callingClass = _callingClass
 		returnClass as IClass = null
 		if expression == "self":
-			returnClass = callingClass
-		elif expression == "this":
-			// SharpDevelop uses "this" as expression when requesting method insight information
-			// for a method on the current class
 			returnClass = callingClass
 		elif expression == "super":
 			returnClass = self.ParentClass
@@ -311,7 +311,6 @@ class Resolver:
 					returnClass = self.SearchType(retType.FullyQualifiedName)
 		
 		return null if returnClass == null
-		//return ResolveResult(returnClass, ListMembers(ArrayList(), returnClass, callingClass, false))
 		return ResolveResult(returnClass, ListMembers(ArrayList(), returnClass))
 	
 	private def Print(name as string, obj):

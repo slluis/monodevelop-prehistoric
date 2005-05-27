@@ -1,3 +1,9 @@
+2005-05-27  Peter Johanson <latexer@gentoo.org>
+
+	* Parser/*: Various cleanups of print statements,
+	as well as various fixes to improve resolution of
+	fields and local variables.
+
 2005-05-24  Peter Johanson <latexer@gentoo.org>
 
 	* Parser/BooParser.boo: One small fix to return

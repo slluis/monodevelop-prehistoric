@@ -51,6 +51,8 @@ class Visitor(AbstractVisitorCompilerStep):
 		// If we've had errors up to this point, note it and return
 		// immediately.
 		if Errors is not null and Errors.Count > 0:
+			//for error in Errors:
+			//	print "Error ${error}"
 			_hadErrors = true
 			return
 

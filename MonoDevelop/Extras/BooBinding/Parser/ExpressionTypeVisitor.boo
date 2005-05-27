@@ -49,7 +49,6 @@ class ExpressionTypeVisitor(DepthFirstVisitor):
 		if fullClassName == null:
 			_returnType = null
 		else:
-			print "CreateReturnType: type set to ${fullClassName}"
 			_returnType = BooBinding.Parser.ReturnType(fullClassName)
 	
 	private def CreateReturnType(reference as TypeReference):
@@ -107,7 +106,7 @@ class ExpressionTypeVisitor(DepthFirstVisitor):
 	private def ProcessMethod(node as MethodInvocationExpression, name as string, c as IClass) as bool:
 		return false if c == null
 		possibleOverloads = FindMethods(c, name, node.Arguments.Count)
-		print "found ${possibleOverloads.Count} overloads (multiple overloads not supported yet)"
+		//print "found ${possibleOverloads.Count} overloads (multiple overloads not supported yet)"
 		if possibleOverloads.Count >= 1:
 			SetReturnType(cast(IMethod, possibleOverloads[0]).ReturnType)
 			return true
@@ -173,6 +172,7 @@ class ExpressionTypeVisitor(DepthFirstVisitor):
 		rt = _resolver.GetTypeFromLocal(node.Name)
 		if rt != null:
 			SetReturnType(rt)
+			return
 
 		return if ProcessMember(node.Name, _resolver.CallingClass)
 		if _resolver.IsNamespace(node.Name):
@@ -213,7 +213,6 @@ class ExpressionTypeVisitor(DepthFirstVisitor):
 					return true
 			for p as IProperty in cl.Properties:
 				if p.Name == name:
-					print "ProcessMember: Set property return type to ${p.ReturnType}"
 					SetReturnType(p.ReturnType)
 					return true
 			for m as IMethod in cl.Methods:

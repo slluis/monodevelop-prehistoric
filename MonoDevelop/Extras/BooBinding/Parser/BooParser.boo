@@ -86,21 +86,24 @@ class BooParser(IParser):
 		
 		compiler = BooCompiler()
 		compiler.Parameters.Input.Add(StringInput(fileName, fileContent))
-		return Parse(fileName, lineLength, compiler)
+		project as Project
+		for entry as Project in MonoDevelop.Services.Runtime.ProjectService.CurrentOpenCombine.GetAllProjects():
+			if entry.IsFileInProject(fileName):
+				project = entry
+				
+		return Parse(fileName, lineLength, compiler, project)
 	
-	private def Parse(fileName as string, lineLength as (int), compiler as BooCompiler):
+	private def Parse(fileName as string, lineLength as (int), compiler as BooCompiler, project as Project):
 		compiler.Parameters.OutputWriter = StringWriter()
 		compiler.Parameters.TraceSwitch.Level = TraceLevel.Warning;
 		
 		compilePipe = Compile()
 		parsingStep as Boo.Lang.Parser.BooParsingStep = compilePipe[0]
 		parsingStep.TabSize = 1
-		num = compilePipe.Find(typeof(StricterErrorChecking))
-		// Original cut out from this place onward, but this caused
-		// problems with [Property(A)]\na\n type properties
-		// and trying to figure out the types.
-		// What did we break by doing this extra Step?
-		//num = compilePipe.Find(typeof(ProcessMethodBodiesWithDuckTyping))
+		num = compilePipe.Find(typeof(ProcessMethodBodiesWithDuckTyping))
+		// The following resolved issues with '[Property(foo] foo', but breaks other things
+		// reverting for now, as [Property] bug is less common than others cause by this.
+		//num = compilePipe.Find(typeof(StricterErrorChecking))
 		visitor = Visitor(LineLength:lineLength)
 		compilePipe[num] = visitor
 		// Remove unneccessary compiler steps
@@ -114,6 +117,8 @@ class BooParser(IParser):
 		
 		compilePipe.BreakOnErrors = false
 		compiler.Parameters.Pipeline = compilePipe
+		for projectRef as ProjectReference in project.ProjectReferences:
+			compiler.Parameters.References.Add(System.Reflection.Assembly.LoadFile(projectRef.GetReferencedFileName()))
 		
 		try:
 			compiler.Run()
