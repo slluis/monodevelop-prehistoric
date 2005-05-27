@@ -6,10 +6,6 @@
 // </file>
 
 using System;
-using System.IO;
-using System.Drawing;
-using System.Collections;
-using System.ComponentModel;
 
 using MonoDevelop.Core.AddIns.Codons;
 using MonoDevelop.Internal.Project;
@@ -64,8 +60,7 @@ namespace MonoDevelop.Gui.Dialogs.OptionPanels
  				const int column = 0;
  				Gtk.TreeIter iter;
 				
-				if (store.GetIterFromString(out iter, args.Path))
- 				{
+				if (store.GetIterFromString (out iter, args.Path)) {
  					bool val = (bool) store.GetValue(iter, column);
  					store.SetValue(iter, column, !val);
  				}
@@ -74,11 +69,10 @@ namespace MonoDevelop.Gui.Dialogs.OptionPanels
 			public bool Store ()
 			{	
 				bool success = true;
-				TreeIter first;	
-				store.GetIterFirst(out first);
-				TreeIter current = first;
+				TreeIter current;	
+				store.GetIterFirst (out current);
 
-				for (int i = 0; i < store.IterNChildren() - 1 ; ++i) {
+				for (int i = 0; i < store.IterNChildren (); i++) {
 					if (i != 0)
 						store.IterNext(ref current);
 					string name = Runtime.FileUtilityService.RelativeToAbsolutePath(
@@ -107,8 +101,7 @@ namespace MonoDevelop.Gui.Dialogs.OptionPanels
 		
 		public override bool StorePanelContents()
 		{
-			bool success = widget.Store();
- 			return success;
+ 			return widget.Store ();
  		}
 	}
 }

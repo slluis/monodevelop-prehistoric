@@ -1,3 +1,9 @@
+2005-05-26  John Luke  <john.luke@gmail.com>
+
+	* Gui/Dialogs/OptionPanels/ProjectOptions/CompileFileProjectOptions.cs:
+	don't forget to save the list file in the files to compile list,
+	remove some unneccessary code, fixes bug 75043
+	
 2005-05-19  Jacob Ilsø Christensen  <jacobilsoe@gmail.com>
 
 	* Gui/Dialogs/WordCountDialog.cs: Fixed problem that numbers were not shown till moused over.
