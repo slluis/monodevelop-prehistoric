@@ -1,5 +1,12 @@
 2005-05-27  Peter Johanson <latexer@gentoo.org>
 
+	* BooBindingCompilerServices.boo: Redo most of the
+	compiler stuff to use the Boo API instead of calling
+	out to booc in a seperate process. Is faster, and removes
+	the gross regexes previously used to parse errors.
+
+2005-05-27  Peter Johanson <latexer@gentoo.org>
+
 	* Parser/*: Various cleanups of print statements,
 	as well as various fixes to improve resolution of
 	fields and local variables.

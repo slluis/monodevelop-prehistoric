@@ -24,156 +24,91 @@ import System.Diagnostics
 import System.IO
 import System.CodeDom.Compiler
 import System.Text
+import System.Reflection
 
 import MonoDevelop.Gui.Components
 import MonoDevelop.Services
 import MonoDevelop.Core.Services
 import MonoDevelop.Internal.Project
 
+import Boo.Lang.Compiler
+
 public class BooBindingCompilerServices:
 	public def CanCompile (fileName as string):
 		return Path.GetExtension(fileName) == ".boo"
-	
-	public def GetCompilerName (cp as BooCompilerParameters):
-		if (cp.Compiler == BooCompiler.Boo):
-			return "boo"
-
-		return "booc"
 	
 	def Compile (projectFiles as ProjectFileCollection, references as ProjectReferenceCollection, configuration as DotNetProjectConfiguration, monitor as IProgressMonitor) as ICompilerResult:
 		compilerparameters = cast(BooCompilerParameters, configuration.CompilationParameters)
 		if compilerparameters is null:
 			compilerparameters = BooCompilerParameters()
 		
-		// FIXME: Use outdir
-		//outdir = configuration.OutputDirectory
-		options = ""
+		// FIXME: Use outdir 'configuration.OutputDirectory'
+		compiler = Boo.Lang.Compiler.BooCompiler()
+		compiler.Parameters.Pipeline = Pipelines.CompileToFile()
 
-		compiler = GetCompilerName (compilerparameters)
-		
-		if configuration.DebugMode:
-			options += " -debug "
+		compiler.Parameters.Debug = configuration.DebugMode
+		compiler.Parameters.OutputAssembly = configuration.CompiledOutputName
+		compiler.Parameters.Ducky = compilerparameters.Ducky
 
-		options += " -o:" + configuration.CompiledOutputName
 
 		if references is not null:
 			for lib as ProjectReference in references:
 				fileName = lib.GetReferencedFileName()
-				// FIXME: DO we need all these tests?
-				if lib.ReferenceType == ReferenceType.Gac:
-					options += " -r:" + fileName + " "
-				elif lib.ReferenceType == ReferenceType.Assembly:
-					options += " -r:" + fileName + " "
-				elif lib.ReferenceType == ReferenceType.Project:
-					options += " -r:" + fileName + " "
+				compiler.Parameters.References.Add(Assembly.LoadFile(fileName))
 
-		files  = ""
-		
 		for finfo as ProjectFile in projectFiles:
 			if finfo.Subtype != Subtype.Directory:
 				if finfo.BuildAction == BuildAction.Compile:
-					files = files + " \"" + finfo.Name + "\""
+					compiler.Parameters.Input.Add(Boo.Lang.Compiler.IO.FileInput(finfo.Name))
 
 		
-		// FIXME: Add selection of output assembly types (library, exe, etc)
 		if configuration.CompileTarget == CompileTarget.Exe:
-			options += " -t:exe "
+			compiler.Parameters.OutputType = CompilerOutputType.ConsoleApplication
 		elif configuration.CompileTarget == CompileTarget.Library:
-			options += " -t:library "
+			compiler.Parameters.OutputType = CompilerOutputType.Library
 		elif configuration.CompileTarget == CompileTarget.WinExe:
-			options += " -t:winexe "
-
-		if compilerparameters.Culture != String.Empty:
-			options += " -c:${compilerparameters.Culture} "
-
-		if compilerparameters.Ducky:
-			options += " -ducky "
-
-		options += files
+			compiler.Parameters.OutputType = CompilerOutputType.WindowsApplication
 
 		tf = TempFileCollection ()
-		output, error = DoCompilation (monitor, compiler, options, tf, configuration, compilerparameters)
-		cr = ParseOutput (tf, output, error)
-		File.Delete (output)
-		File.Delete (error)
+		context = DoCompilation (monitor, compiler)
+		cr = ParseOutput (tf, context)
 		return cr
 
-	private def DoCompilation (monitor as IProgressMonitor , compiler as string , args as string , tf as TempFileCollection , configuration as DotNetProjectConfiguration , compilerparameters as BooCompilerParameters):
-		output = Path.GetTempFileName ()
-		error = Path.GetTempFileName ()
-
+	private def DoCompilation (monitor as IProgressMonitor, compiler as Boo.Lang.Compiler.BooCompiler):
 		try:
 			monitor.BeginTask (null, 2)
 			monitor.Log.WriteLine ("Compiling Boo source code ...")
-			arguments = String.Format ("-c \"{0} {1} > {2} 2> {3}\"", (compiler, args, output, error))
-			si = ProcessStartInfo ("/bin/sh", arguments)
-			// print "${si.FileName}, ${si.Arguments}"
-			si.RedirectStandardOutput = true
-			si.RedirectStandardError = true
-			si.UseShellExecute = false
-			p = Process ()
-			p.StartInfo = si
-			p.Start ()
-			p.WaitForExit ()
-
+			context = compiler.Run()
 			monitor.Step (1)
-
-			return output, error;
+			return context
 		ensure:
-			monitor.EndTask ()
-
-	
-	def ParseOutput (tf as TempFileCollection , stdout as string, stderr as string) as ICompilerResult:
-		compilerOutput = StringBuilder ()
+			monitor.EndTask()
+		
+	def ParseOutput (tf as TempFileCollection , context as CompilerContext) as ICompilerResult:
 		cr = CompilerResults (tf)
 		
-		for s as string in ( stdout, stderr ):
-			sr = File.OpenText (s);
-			while true:
-				next = sr.ReadLine ()
-				if next is null:
-					break
+		for err as Boo.Lang.Compiler.CompilerError in context.Errors:
+			cerror = System.CodeDom.Compiler.CompilerError ()
+			cerror.ErrorText = err.Code + ": " + err.Message
 
-				error = CreateErrorFromString (next)
+			if err.LexicalInfo is not null:
+				SetErrorLexicalInfo (cerror, err.LexicalInfo)
 
-				if error is not null:
-					cr.Errors.Add (error)
+			cr.Errors.Add(cerror)
 
-			sr.Close ()
+		for warning as CompilerWarning in context.Warnings:
+			cerror = System.CodeDom.Compiler.CompilerError ()
+			cerror.ErrorText = warning.Code + ": " + warning.Message
 
-		return DefaultCompilerResult (cr, compilerOutput.ToString ())
+			if warning.LexicalInfo is not null:
+				SetErrorLexicalInfo (cerror, warning.LexicalInfo)
 
-	private static def CreateErrorFromString (error as string) as CompilerError:
-		//print "${error}"
-		// FIXME: Better checking to make sure we have an error we can parse
-
-		err_pieces = /:/.Split(error)
-
-		// FIXME: i18n of "Fatal Error" check
-		if err_pieces.Length == 2 and err_pieces[0] == "Fatal error":
-			cerror = CompilerError()
-			cerror.ErrorText = error
-			return cerror
-
-		if (err_pieces.Length < 3):
-			return null
-
-		// Uses extensive LastIndexOf to avoid problems with filenames
-		// and directories with "(" or ")" in their names
-		last_open_bracket = err_pieces[0].LastIndexOf("(")
-		last_close_bracket = err_pieces[0].LastIndexOf(")")
-
-		file = err_pieces[0].Substring(0,last_open_bracket)
-		line, column = /,/.Split (err_pieces[0].Substring (last_open_bracket + 1, last_close_bracket - last_open_bracket - 1))
-
-		cerror = CompilerError ()
-
-		// Rejoin the split error back the way it originally was
-		cerror.ErrorText = join(err_pieces[1:], ":")
-		cerror.FileName = file
-		cerror.Column = Int32.Parse(column)
-		cerror.Line = Int32.Parse(line)
-		if (err_pieces[2].Trim() == "WARNING"):
 			cerror.IsWarning = true
+			cr.Errors.Add(cerror)
 
-		return cerror
+		return DefaultCompilerResult (cr, null)
+	
+	def SetErrorLexicalInfo (error as System.CodeDom.Compiler.CompilerError, lexicalInfo as Boo.Lang.Compiler.Ast.LexicalInfo):
+		error.FileName = lexicalInfo.FileName 
+		error.Column = lexicalInfo.Column
+		error.Line = lexicalInfo.Line
