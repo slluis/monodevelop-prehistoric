@@ -981,6 +981,17 @@ namespace MonoDevelop.Gui.Pads
 		
 		protected virtual void OnSelectionChanged (object sender, EventArgs args)
 		{
+			TreeNodeNavigator node = (TreeNodeNavigator) GetSelectedNode ();
+			if (node != null) {
+				NodeBuilder[] chain = node.NodeBuilderChain;
+				NodePosition pos = node.CurrentPosition;
+				foreach (NodeBuilder b in chain) {
+					NodeCommandHandler handler = b.CommandHandler;
+					handler.SetCurrentNode (node);
+					handler.OnItemSelected ();
+					node.MoveToPosition (pos);
+				}
+			}
 		}
 		
 		public IXmlConvertable CreateMemento ()

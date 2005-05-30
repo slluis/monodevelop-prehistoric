@@ -90,6 +90,7 @@ Gui/WorkbenchWindowCollection.cs \
 Gui/WorkbenchSingleton.cs \
 Gui/IMementoCapable.cs \
 Gui/Dialogs/CommonAboutDialog.cs \
+Gui/Dialogs/ErrorDialog.cs \
 Gui/Dialogs/OptionPanels/ProjectOptions/CompileFileProjectOptions.cs \
 Gui/Dialogs/OptionPanels/ProjectOptions/DeployFileOptions.cs \
 Gui/Dialogs/OptionPanels/ProjectOptions/GeneralProjectOptions.cs \

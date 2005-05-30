@@ -1,5 +1,5 @@
 //
-// NodeCommandHandler.cs
+// ErrorDialog.cs
 //
 // Author:
 //   Lluis Sanchez Gual
@@ -27,68 +27,36 @@
 //
 
 using System;
-using MonoDevelop.Commands;
+using Gtk;
+using Glade;
 
-namespace MonoDevelop.Gui.Pads
+namespace MonoDevelop.Gui.Dialogs
 {
-	public class NodeCommandHandler: ICommandRouter
+	public class ErrorDialog
 	{
-		ITreeNavigator currentNode;
-		TreeViewPad tree;
-		object nextTarget;
+		[Glade.Widget ("ErrorDialog")] Dialog dialog;
+		[Glade.Widget] Button okButton;
+		[Glade.Widget] Label descriptionLabel;
+		[Glade.Widget] Gtk.TextView detailsTextView;
 		
-		internal void Initialize (TreeViewPad tree)
+		public ErrorDialog (string message, string details)
 		{
-			this.tree = tree;
+			new Glade.XML (null, "Base.glade", "ErrorDialog", null).Autoconnect (this);
+			dialog.TransientFor = (Window) WorkbenchSingleton.Workbench;
+			descriptionLabel.Text = message;
+			detailsTextView.Buffer.Text = details;
+			okButton.Clicked += new EventHandler (OnClose);
 		}
 		
-		internal void SetCurrentNode (ITreeNavigator currentNode)
+		public int Run ()
 		{
-			this.currentNode = currentNode;
+			dialog.ShowAll ();
+			return dialog.Run ();
 		}
 		
-		internal void SetNextTarget (object nextTarget)
+		void OnClose (object sender, EventArgs args)
 		{
-			this.nextTarget = nextTarget;
-		}
-		
-		object ICommandRouter.GetNextCommandTarget ()
-		{
-			return nextTarget;
-		}
-		
-		protected ITreeNavigator CurrentNode {
-			get { return currentNode; }
-		}
-		
-		protected TreeViewPad Tree {
-			get { return tree; }
-		}
-		
-		public virtual void RenameItem (string newName)
-		{
-		}
-		
-		public virtual void ActivateItem ()
-		{
-		}
-		
-		public virtual void OnItemSelected ()
-		{
-		}
-		
-		public virtual DragOperation CanDragNode ()
-		{
-			return DragOperation.None;
-		}
-		
-		public virtual bool CanDropNode (object dataObject, DragOperation operation)
-		{
-			return false;
-		}
-		
-		public virtual void OnNodeDrop (object dataObject, DragOperation operation)
-		{
+			dialog.Destroy ();
 		}
 	}
 }

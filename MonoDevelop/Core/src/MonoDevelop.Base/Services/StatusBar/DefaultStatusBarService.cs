@@ -103,6 +103,7 @@ namespace MonoDevelop.Services
 		public void ShowErrorMessage (string message)
 		{
 			Debug.Assert(statusBar != null);
+			if (message == null) message = "";
 			statusBar.ShowErrorMessage(stringParserService.Parse(message));
 		}
 		
@@ -110,6 +111,7 @@ namespace MonoDevelop.Services
 		public void SetMessage (string message)
 		{
 			Debug.Assert(statusBar != null);
+			if (message == null) message = "";
 			lastMessage = message;
 			statusBar.SetMessage(stringParserService.Parse(message));
 		}
@@ -118,6 +120,7 @@ namespace MonoDevelop.Services
 		public void SetMessage(Gtk.Image image, string message)
 		{
 			Debug.Assert(statusBar != null);
+			if (message == null) message = "";
 			lastMessage = message;
 			statusBar.SetMessage(image, stringParserService.Parse(message));
 		}

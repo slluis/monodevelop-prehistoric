@@ -524,21 +524,25 @@ namespace MonoDevelop.Gui
 		public void ActiveMdiChanged(object sender, SwitchPageArgs e)
 		{
 			try {
-				if (ActiveWorkbenchwindow.ViewContent.IsUntitled) {
-					((Gtk.Window)WorkbenchSingleton.Workbench).Title = "MonoDevelop";
+				if (ActiveWorkbenchwindow != null) {
+					if (ActiveWorkbenchwindow.ViewContent.IsUntitled) {
+						((Gtk.Window)WorkbenchSingleton.Workbench).Title = "MonoDevelop";
+					} else {
+						string post = String.Empty;
+						if (ActiveWorkbenchwindow.ViewContent.IsDirty) {
+							post = "*";
+						}
+						if (ActiveWorkbenchwindow.ViewContent.HasProject)
+						{
+							((Gtk.Window)WorkbenchSingleton.Workbench).Title = ActiveWorkbenchwindow.ViewContent.Project.Name + " - " + ActiveWorkbenchwindow.ViewContent.PathRelativeToProject + post + " - MonoDevelop";
+						}
+						else
+						{
+							((Gtk.Window)WorkbenchSingleton.Workbench).Title = ActiveWorkbenchwindow.ViewContent.ContentName + post + " - MonoDevelop";
+						}
+					}
 				} else {
-					string post = String.Empty;
-					if (ActiveWorkbenchwindow.ViewContent.IsDirty) {
-						post = "*";
-					}
-					if (ActiveWorkbenchwindow.ViewContent.HasProject)
-					{
-						((Gtk.Window)WorkbenchSingleton.Workbench).Title = ActiveWorkbenchwindow.ViewContent.Project.Name + " - " + ActiveWorkbenchwindow.ViewContent.PathRelativeToProject + post + " - MonoDevelop";
-					}
-					else
-					{
-						((Gtk.Window)WorkbenchSingleton.Workbench).Title = ActiveWorkbenchwindow.ViewContent.ContentName + post + " - MonoDevelop";
-					}
+					((Gtk.Window)WorkbenchSingleton.Workbench).Title = "MonoDevelop";
 				}
 			} catch {
 				((Gtk.Window)WorkbenchSingleton.Workbench).Title = "MonoDevelop";

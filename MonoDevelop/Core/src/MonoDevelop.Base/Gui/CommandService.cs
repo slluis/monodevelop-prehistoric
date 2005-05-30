@@ -48,6 +48,8 @@ namespace MonoDevelop.Services
 			ArrayList commandCodons = AddInTreeSingleton.AddInTree.GetTreeNode("/SharpDevelop/Commands").BuildChildItems (null);
 			foreach (Command cmd in commandCodons)
 				manager.RegisterCommand (cmd, null);
+				
+			manager.CommandError += new CommandErrorHandler (OnCommandError);
 		}
 		
 		public void SetRootWindow (Gtk.Window root)
@@ -108,6 +110,11 @@ namespace MonoDevelop.Services
 			foreach (CommandEntry e in items)
 				cset.Add (e);
 			return cset;
+		}
+		
+		void OnCommandError (object sender, CommandErrorArgs args)
+		{
+			Runtime.MessageService.ShowError (args.Exception, args.ErrorMessage);
 		}
 	}
 }

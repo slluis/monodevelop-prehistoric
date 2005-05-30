@@ -9,6 +9,7 @@ using System;
 using System.IO;
 
 using MonoDevelop.Gui;
+using MonoDevelop.Gui.Dialogs;
 using MonoDevelop.Core.AddIns;
 using MonoDevelop.Core.Properties;
 using MonoDevelop.Services;
@@ -52,29 +53,25 @@ namespace MonoDevelop.Core.Services
 
 		public void ShowError (Exception ex, string message)
 		{
-			string msg = String.Empty;
+			string msg = string.Empty;
+			string details;
 			
 			if (message != null) {
-				msg += message;
-			}
-			
-			if (message != null && ex != null) {
-				msg += "\n\n";
+				msg = message;
 			}
 			
 			if (ex != null) {
-				msg += "Exception occurred: " + ex.ToString();
+				if (msg.Length == 0)
+					msg = ex.Message;
+				details = "Exception occurred: \n\n" + ex.ToString ();
+			} else {
+				details = "No more details available.";
 			}
-			Gtk.MessageDialog md = new Gtk.MessageDialog ((Gtk.Window) WorkbenchSingleton.Workbench, Gtk.DialogFlags.Modal | Gtk.DialogFlags.DestroyWithParent, Gtk.MessageType.Error, Gtk.ButtonsType.Ok, message);
-			md.Response += new Gtk.ResponseHandler (OnErrorResponse);
-			md.ShowAll ();
+			
+			ErrorDialog dlg = new ErrorDialog (message, details);
+			dlg.Run ();
 		}
 
-		void OnErrorResponse (object o, Gtk.ResponseArgs args)
-		{
-			((Gtk.Dialog)o).Hide ();
-		}
-		
 		public void ShowWarning(string message)
 		{
 			Gtk.MessageDialog md = new Gtk.MessageDialog ((Gtk.Window) WorkbenchSingleton.Workbench, Gtk.DialogFlags.Modal | Gtk.DialogFlags.DestroyWithParent, Gtk.MessageType.Warning, Gtk.ButtonsType.Ok, message);

@@ -1,3 +1,20 @@
+2005-05-30  Lluis Sanchez Gual  <lluis@novell.com> 
+
+	* Services/StatusBar/DefaultStatusBarService.cs: Added null checks.
+	* Services/MessageService.cs: Use a more convenient dialog for
+	displaying errors.
+	* Gui/Dialogs/ErrorDialog.cs: New error dialog.
+	* Gui/Workbench/Layouts/SdiWorkspaceLayout.cs: Added null checks.
+	
+	* Base.glade:
+	* Gui/Pads/SolutionPad/NodeCommandHandler.cs:
+	* Gui/Pads/SolutionPad/TreeViewPad.cs: Notify node command handlers
+	when a node is selected.
+	
+	* Gui/CommandService.cs: Use the Runtime.MessageService api to show
+	errors in command execution.
+	* Makefile.am: Added ErrorDialog.cs.
+
 2005-05-26  John Luke  <john.luke@gmail.com>
 
 	* Gui/Dialogs/OptionPanels/ProjectOptions/CompileFileProjectOptions.cs:
