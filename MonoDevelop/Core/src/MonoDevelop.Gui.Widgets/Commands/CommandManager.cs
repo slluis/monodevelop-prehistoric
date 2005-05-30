@@ -174,7 +174,7 @@ namespace MonoDevelop.Commands
 				return cmd.DispatchCommand (dataItem);
 			}
 			catch (Exception ex) {
-				ReportError ("Error while executing command: " + commandId, ex);
+				ReportError (commandId, "Error while executing command: " + commandId, ex);
 				return false;
 			}
 		}
@@ -219,7 +219,7 @@ namespace MonoDevelop.Commands
 			catch (Exception ex) {
 				if (!commandUpdateErrors.Contains (commandId)) {
 					commandUpdateErrors.Add (commandId);
-					ReportError ("Error while updating status of command: " + commandId, ex);
+					ReportError (commandId, "Error while updating status of command: " + commandId, ex);
 				}
 				info.Enabled = false;
 				info.Visible = true;
@@ -361,18 +361,15 @@ namespace MonoDevelop.Commands
 			}
 		}
 		
-		public void ReportError (string message, Exception ex)
+		public void ReportError (object commandId, string message, Exception ex)
 		{
-			string msg = ex.ToString();
-			msg = msg.Replace ("<","");
-			msg = msg.Replace (">","");
-			msg = "<b>" + message + "</b>\n\nException ocurred: " + msg;
-			
-			Gtk.MessageDialog md = new Gtk.MessageDialog (null, Gtk.DialogFlags.Modal, Gtk.MessageType.Error, Gtk.ButtonsType.Ok, msg);
-			md.Run ();
-			md.Destroy ();
-			md.Dispose ();
+			if (CommandError != null) {
+				CommandErrorArgs args = new CommandErrorArgs (commandId, message, ex);
+				CommandError (this, args);
+			}
 		}
+		
+		public event CommandErrorHandler CommandError;
 	}
 	
 	internal class HandlerTypeInfo

@@ -35,6 +35,7 @@ Commands/CommandCheckMenuItem.cs \
 Commands/Command.cs \
 Commands/CommandEntry.cs \
 Commands/CommandEntrySet.cs \
+Commands/CommandErrorHandler.cs \
 Commands/CommandHandlerAttribute.cs \
 Commands/CommandHandler.cs \
 Commands/CommandInfo.cs \

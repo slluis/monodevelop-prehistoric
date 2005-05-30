@@ -1,5 +1,5 @@
 //
-// CommandToolButton.cs
+// CommandErrorHandler.cs
 //
 // Author:
 //   Lluis Sanchez Gual
@@ -30,60 +30,31 @@ using System;
 
 namespace MonoDevelop.Commands
 {
-	public class CommandToolButton: Gtk.ToolButton, ICommandUserItem
+	public delegate void CommandErrorHandler (object sender, CommandErrorArgs args);
+	
+	public class CommandErrorArgs
 	{
-		CommandManager commandManager;
 		object commandId;
-		static Gtk.Tooltips tips = new Gtk.Tooltips ();
-		string lastDesc;
+		string errorMessage;
+		Exception ex;
 		
-		public CommandToolButton (object commandId, CommandManager commandManager): base ("")
+		public CommandErrorArgs (object commandId, string errorMessage, Exception ex)
 		{
+			this.errorMessage = errorMessage;
 			this.commandId = commandId;
-			this.commandManager = commandManager;
-			UseUnderline = true;
+			this.ex = ex;
 		}
 		
-		protected override void OnParentSet (Gtk.Widget parent)
-		{
-			base.OnParentSet (parent);
-			if (Parent == null) return;
-
-			((ICommandUserItem)this).Update ();
+		public object CommandId {
+			get { return commandId; }
 		}
 		
-		void ICommandUserItem.Update ()
-		{
-			if (commandManager != null) {
-				CommandInfo cinfo = commandManager.GetCommandInfo (commandId);
-				Update (cinfo);
-			}
+		public string ErrorMessage {
+			get { return errorMessage; }
 		}
 		
-		protected override void OnClicked ()
-		{
-			base.OnClicked ();
-
-			if (commandManager == null)
-				throw new InvalidOperationException ();
-				
-			commandManager.DispatchCommand (commandId);
-		}
-		
-		void Update (CommandInfo cmdInfo)
-		{
-			if (lastDesc != cmdInfo.Description) {
-				SetTooltip (tips, cmdInfo.Description, cmdInfo.Description);
-				lastDesc = cmdInfo.Description;
-			}
-			if (Label != cmdInfo.Text)
-				Label = cmdInfo.Text;
-			if (cmdInfo.Icon != StockId)
-				StockId = cmdInfo.Icon;
-			if (cmdInfo.Enabled != Sensitive)
-				Sensitive = cmdInfo.Enabled;
-			if (cmdInfo.Visible != Visible)
-				Visible = cmdInfo.Visible;
+		public Exception Exception {
+			get { return ex; }
 		}
 	}
 }
