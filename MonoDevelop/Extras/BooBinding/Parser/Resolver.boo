@@ -285,7 +285,8 @@ class Resolver:
 		if expression == "self":
 			returnClass = callingClass
 		elif expression == "super":
-			returnClass = self.ParentClass
+			returnClass = BaseClass(callingClass)
+			//returnClass = self.ParentClass
 		else:
 			// try looking if the expression is the name of a class
 			expressionClass = self.SearchType(expression)

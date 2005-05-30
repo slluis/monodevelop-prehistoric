@@ -1,4 +1,14 @@
-2005-05-27  Peter Johanson <latexer@gentoo.org>
+2005-05-30  Peter Johanson <latexer@gentoo.org>
+
+	* Parser/Visitor.boo: Only abort parsing on parser
+	errors. We may have type binding errors that should be
+	ignored, since we do the resolving of those ourselves.
+	* Parser/TypeMembers.boo: Constructors should have a fully
+	qualified name of 'ctor', not '#ctor'.
+	* Parser/Resolver.boo: Fix problem with 'super' not always
+	finding the super class.
+	
+2005-05-29  Peter Johanson <latexer@gentoo.org>
 
 	* BooBindingCompilerServices.boo: Redo most of the
 	compiler stuff to use the Boo API instead of calling

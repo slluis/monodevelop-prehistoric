@@ -46,15 +46,17 @@ class Visitor(AbstractVisitorCompilerStep):
 
 	[Getter(HadErrors)]
 	_hadErrors = false
+
+	_parseErrorCodes = ("BCE0043", "BCE0044")
 	
 	override def Run():
-		// If we've had errors up to this point, note it and return
-		// immediately.
+		// If we've had an parser errors, we should ignore this
+		// parese attempt. Set _hadErrors and return immediately.
 		if Errors is not null and Errors.Count > 0:
-			//for error in Errors:
-			//	print "Error ${error}"
-			_hadErrors = true
-			return
+			for error in Errors:
+				if error.Code in _parseErrorCodes:
+					_hadErrors = true
+					return
 
 		try:
 			Visit(CompileUnit)

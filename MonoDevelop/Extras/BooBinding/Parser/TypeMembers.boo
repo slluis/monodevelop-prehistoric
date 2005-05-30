@@ -34,7 +34,7 @@ import Boo.Lang.Compiler.Ast as AST
 /////////////////////////////////////
 class Constructor(BooAbstractMethod):
 	def constructor(m as ModifierEnum, region as IRegion, bodyRegion as IRegion):
-		FullyQualifiedName = '#ctor'
+		FullyQualifiedName = 'ctor'
 		self.region = region
 		self.bodyRegion = bodyRegion
 		modifiers = m
