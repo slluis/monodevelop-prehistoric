@@ -1,3 +1,9 @@
+2005-05-31  Peter Johanson <latexer@gentoo.org>
+
+	* BooBindingCompilerServices.boo: Make sure we
+	only generate the assembly in the file, not
+	loaded into memory.
+
 2005-05-30  Peter Johanson <latexer@gentoo.org>
 
 	* Parser/TypeMembers.boo: Cleanup, and add handling

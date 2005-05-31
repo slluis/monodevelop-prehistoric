@@ -35,7 +35,7 @@ import Boo.Lang.Compiler
 
 public class BooBindingCompilerServices:
 	public def CanCompile (fileName as string):
-		return Path.GetExtension(fileName) == ".boo"
+		return Path.GetExtension(fileName).ToUpper() == ".BOO"
 	
 	def Compile (projectFiles as ProjectFileCollection, references as ProjectReferenceCollection, configuration as DotNetProjectConfiguration, monitor as IProgressMonitor) as ICompilerResult:
 		compilerparameters = cast(BooCompilerParameters, configuration.CompilationParameters)
@@ -50,6 +50,8 @@ public class BooBindingCompilerServices:
 		compiler.Parameters.OutputAssembly = configuration.CompiledOutputName
 		compiler.Parameters.Ducky = compilerparameters.Ducky
 
+		# Make sure we don't load the generated assembly at all
+		compiler.Parameters.GenerateInMemory = false
 
 		if references is not null:
 			for lib as ProjectReference in references:
