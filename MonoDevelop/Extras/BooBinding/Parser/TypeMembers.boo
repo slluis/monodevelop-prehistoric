@@ -29,9 +29,6 @@ import System
 import MonoDevelop.Internal.Parser
 import Boo.Lang.Compiler.Ast as AST
 
-/////////////////////////////////////
-///          Constructor          ///
-/////////////////////////////////////
 class Constructor(BooAbstractMethod):
 	def constructor(m as ModifierEnum, region as IRegion, bodyRegion as IRegion):
 		FullyQualifiedName = 'ctor'
@@ -39,10 +36,6 @@ class Constructor(BooAbstractMethod):
 		self.bodyRegion = bodyRegion
 		modifiers = m
 
-
-/////////////////////////////////////
-///           Destructor          ///
-/////////////////////////////////////
 class Destructor(BooAbstractMethod):
 	def constructor(className as string, m as ModifierEnum, region as IRegion, bodyRegion as IRegion):
 		FullyQualifiedName = '~' + className
@@ -57,9 +50,6 @@ class BooAbstractMethod(AbstractMethod):
 	def AddModifier(m as ModifierEnum):
 		modifiers = modifiers | m
 
-/////////////////////////////////////
-///             Event             ///
-/////////////////////////////////////
 class Event(AbstractEvent):
 	def AddModifier(m as ModifierEnum):
 		modifiers = modifiers | m
@@ -71,10 +61,6 @@ class Event(AbstractEvent):
 		self.bodyRegion = bodyRegion
 		modifiers = m
 
-
-/////////////////////////////////////
-///             Field             ///
-/////////////////////////////////////
 class Field(AbstractField):
 	def AddModifier(m as ModifierEnum):
 		modifiers = modifiers | m
@@ -88,10 +74,6 @@ class Field(AbstractField):
 	def SetModifiers(m as ModifierEnum):
 		modifiers = m
 
-
-/////////////////////////////////////
-///            Indexer            ///
-/////////////////////////////////////
 class Indexer(AbstractIndexer):
 	def AddModifier(m as ModifierEnum):
 		modifiers = modifiers | m
@@ -103,10 +85,6 @@ class Indexer(AbstractIndexer):
 		self.bodyRegion = bodyRegion
 		modifiers = m
 
-
-/////////////////////////////////////
-///            Method             ///
-/////////////////////////////////////
 class Method(BooAbstractMethod):
 	def constructor(name as string, rtype as IReturnType, m as ModifierEnum, region as IRegion, bodyRegion as IRegion):
 		FullyQualifiedName = name
@@ -115,10 +93,6 @@ class Method(BooAbstractMethod):
 		self.bodyRegion = bodyRegion
 		modifiers = m
 
-
-/////////////////////////////////////
-///           Property            ///
-/////////////////////////////////////
 class Property(AbstractProperty):
 	[Property(Node)]
 	_node as AST.Property
@@ -126,9 +100,13 @@ class Property(AbstractProperty):
 	def AddModifier(m as ModifierEnum):
 		modifiers = modifiers | m
 	
-	def constructor(fullyQualifiedName as string, rtype as IReturnType, m as ModifierEnum, region as IRegion, bodyRegion as IRegion):
+	def constructor(fullyQualifiedName as string, rtype as IReturnType, getter as IMethod, setter as IMethod, getRegion as IRegion, setRegion as IRegion, m as ModifierEnum, region as IRegion, bodyRegion as IRegion):
 		self.FullyQualifiedName = fullyQualifiedName
 		self.returnType = rtype
+		self.getterMethod = getter
+		self.setterMethod = setter
+		self.getterRegion = getRegion
+		self.setterRegion = setRegion
 		self.region = region
 		self.bodyRegion = bodyRegion
 		modifiers = m

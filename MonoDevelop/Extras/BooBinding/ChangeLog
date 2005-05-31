@@ -1,5 +1,13 @@
 2005-05-30  Peter Johanson <latexer@gentoo.org>
 
+	* Parser/TypeMembers.boo: Cleanup, and add handling
+	of get/set for properties properly.
+	* Parser/Visitor.boo: Handling of get/set for properties,
+	move to using FullName where appropriate for class members,
+	and set enum return types to null.
+
+2005-05-30  Peter Johanson <latexer@gentoo.org>
+
 	* Parser/Visitor.boo: Only abort parsing on parser
 	errors. We may have type binding errors that should be
 	ignored, since we do the resolving of those ourselves.

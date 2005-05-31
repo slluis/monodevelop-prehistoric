@@ -196,19 +196,21 @@ class Visitor(AbstractVisitorCompilerStep):
 	
 	override def OnMethod(node as AST.Method):
 		try:
-			// Since we visit after ProcessMethodBodies, we may have
-			// some compiler generated methods (prefixed with ___)
 			if node.Name.StartsWith("___"):
 				return
 
-			method = Method(node.Name, ReturnType.CreateReturnType(node), GetModifier(node), GetRegion(node), GetClientRegion(node))
-			method.Parameters = GetParameters(node.Parameters)
-			method.Node = node
-			method.Documentation = node.Documentation
+			method = GetMethod(node)
 			cast(Class, _currentClass.Peek()).Methods.Add(method)
 		except ex:
 			print ex.ToString()
 			raise
+	
+	private def GetMethod(node as AST.Method):
+		method = Method(node.FullName, ReturnType.CreateReturnType(node), GetModifier(node), GetRegion(node), GetClientRegion(node))
+		method.Parameters = GetParameters(node.Parameters)
+		method.Node = node
+		method.Documentation = node.Documentation
+		return method
 	
 	private def GetParameters(params as AST.ParameterDeclarationCollection):
 		parameters = ParameterCollection()
@@ -224,11 +226,11 @@ class Visitor(AbstractVisitorCompilerStep):
 		ctor.Node = node
 		ctor.Documentation = node.Documentation
 		cast(Class, _currentClass.Peek()).Methods.Add(ctor)
-		
+	
 	override def OnEnumMember(node as AST.EnumMember):
 		try:
 			c as Class = _currentClass.Peek()
-			field = Field(ReturnType(c), node.Name, GetModifier(node), GetRegion(node))
+			field = Field(null, node.Name, GetModifier(node), GetRegion(node))
 			field.Documentation = node.Documentation
 			field.SetModifiers(ModifierEnum.Const | ModifierEnum.SpecialName)
 			c.Fields.Add(field)
@@ -243,7 +245,7 @@ class Visitor(AbstractVisitorCompilerStep):
 				return
 
 			c as Class = _currentClass.Peek()
-			field = Field(ReturnType.CreateReturnType(node), node.Name, GetModifier(node), GetRegion(node))
+			field = Field(ReturnType.CreateReturnType(node), node.FullName, GetModifier(node), GetRegion(node))
 			field.Documentation = node.Documentation
 			c.Fields.Add(field)
 		except ex:
@@ -252,7 +254,18 @@ class Visitor(AbstractVisitorCompilerStep):
 	
 	override def OnProperty(node as AST.Property):
 		try:
-			property = Property(node.Name, ReturnType.CreateReturnType(node), GetModifier(node), GetRegion(node), GetClientRegion(node))
+			getter as Method
+			setter as Method
+			getRegion as IRegion
+			setRegion as IRegion
+			if node.Getter is not null:
+				getter = GetMethod(node.Getter)
+				getRegion = GetRegion(node.Getter)
+			if node.Setter is not null:
+				setter = GetMethod(node.Setter)
+				setRegion = GetRegion(node.Setter)
+				
+			property = Property(node.FullName, ReturnType.CreateReturnType(node), getter, setter, getRegion, setRegion, GetModifier(node), GetRegion(node), GetClientRegion(node))
 			property.Documentation = node.Documentation
 			property.Node = node
 			cast(Class, _currentClass.Peek()).Properties.Add(property)
@@ -262,7 +275,7 @@ class Visitor(AbstractVisitorCompilerStep):
 	
 	override def OnEvent (node as AST.Event):
 		try:
-			ev = Event (node.Name, ReturnType(node.Type), GetModifier(node), GetRegion(node), GetClientRegion(node))
+			ev = Event (node.FullName, ReturnType(node.Type), GetModifier(node), GetRegion(node), GetClientRegion(node))
 			ev.Documentation = node.Documentation
 			cast(Class, _currentClass.Peek()).Events.Add(ev)
 		except ex:
