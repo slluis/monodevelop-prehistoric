@@ -462,7 +462,7 @@ namespace MonoDevelop.Gui
 		{	
 			Gtk.Image mimeimage = null;
 			if (content.IsUntitled) {
-				mimeimage = new Gtk.Image (FileIconLoader.GetPixbufForType ("gnome-fs-regular").ScaleSimple (16, 16, Gdk.InterpType.Bilinear));
+				mimeimage = new Gtk.Image (FileIconLoader.GetPixbufForType ("gnome-fs-regular", 16));
 			} else {
 				mimeimage = new Gtk.Image (FileIconLoader.GetPixbufForFile (content.ContentName, 16));
 			}

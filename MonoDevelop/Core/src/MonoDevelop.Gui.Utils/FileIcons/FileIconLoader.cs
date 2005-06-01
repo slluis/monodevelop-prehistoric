@@ -1,22 +1,19 @@
 using System;
 using System.Collections;
 
-using Gnome;
+using Gtk;
 
 namespace MonoDevelop.Gui.Utils
 {
-
-	public class FileIconLoader
+	public sealed class FileIconLoader
 	{
-
-		static Gnome.IconTheme iconTheme;
+		static Gdk.Pixbuf defaultIcon;
 		static Gnome.ThumbnailFactory thumbnailFactory;
 		static Hashtable iconHash;
 
 		static FileIconLoader ()
 		{
-			iconTheme = new Gnome.IconTheme ();
-			thumbnailFactory = new Gnome.ThumbnailFactory (ThumbnailSize.Normal);
+			thumbnailFactory = new Gnome.ThumbnailFactory (Gnome.ThumbnailSize.Normal);
 			iconHash = new Hashtable ();
 		}
 
@@ -24,6 +21,15 @@ namespace MonoDevelop.Gui.Utils
 		{
 		}
 
+		public static Gdk.Pixbuf DefaultIcon {
+			get {
+				if (defaultIcon == null)
+					defaultIcon = new Gdk.Pixbuf ("../data/resources/icons/gnome-fs-regular.png");
+				return defaultIcon;
+			}
+		}
+
+		// FIXME: is there a GTK replacement for Gnome.Icon.LookupSync?
 		public static Gdk.Pixbuf GetPixbufForFile (string filename, int size)
 		{
 			Gnome.IconLookupResultFlags result;
@@ -32,35 +38,26 @@ namespace MonoDevelop.Gui.Utils
 				if (filename == "Documentation")
 					icon = "gnome-fs-regular";
 				else
-					icon = Gnome.Icon.LookupSync (iconTheme, thumbnailFactory, filename, "", Gnome.IconLookupFlags.None, out result);
+					icon = Gnome.Icon.LookupSync (IconTheme.Default, thumbnailFactory, filename, "", Gnome.IconLookupFlags.None, out result);
 			} catch {
 				icon = "gnome-fs-regular";
 			}
-			Gdk.Pixbuf pix = GetPixbufForType (icon);
-			return pix.ScaleSimple (size, size, Gdk.InterpType.Bilinear);
+			return GetPixbufForType (icon, size);
 		}
 
-		public static Gdk.Pixbuf GetPixbufForType (string type)
+		public static Gdk.Pixbuf GetPixbufForType (string type, int size)
 		{
-			Gdk.Pixbuf bf = (Gdk.Pixbuf) iconHash [type];
+			// FIXME: is caching these really worth it?
+			// we have to cache them in both type and size
+			Gdk.Pixbuf bf = (Gdk.Pixbuf) iconHash [type+size];
 			if (bf == null) {
-				const string default_icon_location = "../data/resources/icons/gnome-fs-regular.png";
-				string p_filename = "";
-				try {
-					int i;
-					p_filename = iconTheme.LookupIcon (type, 24, new Gnome.IconData (), out i);
-					if (p_filename.Equals ("")) {
-						p_filename = default_icon_location;
-					}
-				} catch {
-					p_filename = default_icon_location;
+				bf = IconTheme.Default.LoadIcon (type, size, (IconLookupFlags) 0);
+				if (bf == null) {
+					bf = DefaultIcon;
+					if (bf.Height > size)
+						bf = bf.ScaleSimple (size, size, Gdk.InterpType.Bilinear);
 				}
-				try {
-					bf = new Gdk.Pixbuf (p_filename);
-				} catch {
-					bf = new Gdk.Pixbuf (default_icon_location);
-				}
-				iconHash [type] = bf;
+				iconHash [type+size] = bf;
 			}
 			return bf;
 		}

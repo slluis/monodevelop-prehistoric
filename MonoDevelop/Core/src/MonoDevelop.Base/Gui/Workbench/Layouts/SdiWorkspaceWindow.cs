@@ -316,7 +316,7 @@ namespace MonoDevelop.Gui
 					tabLabel.Icon.Pixbuf = FileIconLoader.GetPixbufForFile (content.ContentName, 16);
 				}
 			} catch {
-				tabLabel.Icon.Pixbuf = FileIconLoader.GetPixbufForType ("gnome-fs-regular").ScaleSimple (16, 16, Gdk.InterpType.Bilinear);
+				tabLabel.Icon.Pixbuf = FileIconLoader.GetPixbufForType ("gnome-fs-regular", 16);
 			}
 			if (TitleChanged != null) {
 				TitleChanged(this, e);

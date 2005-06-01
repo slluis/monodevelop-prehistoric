@@ -2,6 +2,9 @@
 
 	* FileIcons/FileIconLoader.cs (GetPixbufForFile):
 	just use size instead of height, width
+
+	* FileIcons/FileIconLoader.cs: use Gtk.IconTheme to load
+	icons, simplify and size appropriately
 	
 2005-04-17  John Luke  <john.luke@gmail.com>
 

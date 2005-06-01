@@ -3,7 +3,7 @@
 	* Gui/Workbench/Layouts/SdiWorkspaceLayout.cs:
 	* Gui/Workbench/Layouts/SdiWorkspaceWindow.cs:
 	* Gui/Pads/FileScout/FileListItem.cs: adjust to
-	FileIconLoader.GetPixbufForFile change
+	FileIconLoader changes
 	
 2005-06-01  Jacob Ilsø Christensen  <jacobilsoe@gmail.com>
 
