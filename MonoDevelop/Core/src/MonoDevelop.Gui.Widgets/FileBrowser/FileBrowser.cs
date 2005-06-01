@@ -176,11 +176,11 @@ namespace MonoDevelop.Gui.Widgets
 				if (ignoreHidden)
 				{
 					if (!d.Name.StartsWith (".") && NotHidden (d.Name))
-						store.AppendValues (FileIconLoader.GetPixbufForFile (System.IO.Path.Combine (CurrentDir, d.Name), 24, 24), d.Name);
+						store.AppendValues (FileIconLoader.GetPixbufForFile (System.IO.Path.Combine (CurrentDir, d.Name), 24), d.Name);
 				}
 				else
 				{
-					store.AppendValues (FileIconLoader.GetPixbufForFile (System.IO.Path.Combine (CurrentDir, d.Name), 24, 24), d.Name);
+					store.AppendValues (FileIconLoader.GetPixbufForFile (System.IO.Path.Combine (CurrentDir, d.Name), 24), d.Name);
 				}
 			}
 
@@ -415,7 +415,7 @@ namespace MonoDevelop.Gui.Widgets
 			text_render.Editable = true;
 
 			tv.Reorderable = false;
-			iter = store.AppendValues (FileIconLoader.GetPixbufForFile (CurrentDir, 24, 24), "folder name");
+			iter = store.AppendValues (FileIconLoader.GetPixbufForFile (CurrentDir, 24), "folder name");
 			treepath = tv.Model.GetPath(iter);
 
 			column = tv.GetColumn (0);

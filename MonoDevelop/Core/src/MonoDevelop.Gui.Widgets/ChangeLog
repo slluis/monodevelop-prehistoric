@@ -1,3 +1,8 @@
+2005-06-01  John Luke  <john.luke@gmail.com>
+
+	* FileBrowser/FileBrowser.cs: adjust to FileIconLoader
+	change
+
 2005-05-30  Lluis Sanchez Gual  <lluis@novell.com>
 
 	* Commands/CommandToolButton.cs: Only update button properties if

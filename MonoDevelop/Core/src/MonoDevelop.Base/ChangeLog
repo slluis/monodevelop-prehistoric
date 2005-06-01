@@ -1,3 +1,10 @@
+2005-06-01  John Luke  <john.luke@gmail.com>
+
+	* Gui/Workbench/Layouts/SdiWorkspaceLayout.cs:
+	* Gui/Workbench/Layouts/SdiWorkspaceWindow.cs:
+	* Gui/Pads/FileScout/FileListItem.cs: adjust to
+	FileIconLoader.GetPixbufForFile change
+	
 2005-06-01  Jacob Ilsø Christensen  <jacobilsoe@gmail.com>
 
 	* Services/MessageService.cs: Added methods to ask a question

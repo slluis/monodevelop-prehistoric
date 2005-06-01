@@ -1,3 +1,8 @@
+2005-06-01  John Luke  <john.luke@gmail.com>
+
+	* FileIcons/FileIconLoader.cs (GetPixbufForFile):
+	just use size instead of height, width
+	
 2005-04-17  John Luke  <john.luke@gmail.com>
 
 	* Makefile.am: fix distcheck
