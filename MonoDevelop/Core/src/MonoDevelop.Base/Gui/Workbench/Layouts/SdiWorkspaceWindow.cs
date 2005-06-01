@@ -209,9 +209,13 @@ namespace MonoDevelop.Gui
 		{
 			if (!force && ViewContent != null && ViewContent.IsDirty) {
 				
-				bool save = Runtime.MessageService.AskQuestion (GettextCatalog.GetString ("Do you want to save the current changes"));
+				QuestionResponse response = Runtime.MessageService.AskQuestionWithCancel (GettextCatalog.GetString ("Do you want to save the current changes"));
 				
-				if (save) {
+				if (response == QuestionResponse.Cancel) {
+					return;
+				}
+
+				if (response == QuestionResponse.Yes) {
 					if (content.ContentName == null) {
 						while (true) {
 							Runtime.FileService.SaveFileAs (this);

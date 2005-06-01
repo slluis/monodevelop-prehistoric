@@ -1,5 +1,12 @@
 2005-06-01  Jacob Ilsø Christensen  <jacobilsoe@gmail.com>
 
+	* Services/MessageService.cs: Added methods to ask a question
+	with a cancel option.
+	* Gui/Workbench/Layouts/SdiWorkspaceWindow.cs: Added a cancel
+	option when trying to close a modified file.
+
+2005-06-01  Jacob Ilsø Christensen  <jacobilsoe@gmail.com>
+
 	* Gui/Dialogs/ReferenceDialog/SelectReferenceDialog.cs:
 	* Gui/Dialogs/ReferenceDialog/ProjectReferencePanel.cs:
 	* Gui/Dialogs/ReferenceDialog/GacReferencePanel.cs:

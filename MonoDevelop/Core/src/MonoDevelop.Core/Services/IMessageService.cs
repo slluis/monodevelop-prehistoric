@@ -12,6 +12,13 @@ using MonoDevelop.Core.Properties;
 
 namespace MonoDevelop.Core.Services
 {
+	public enum QuestionResponse
+	{
+		Yes,
+		No,
+		Cancel
+	}
+	
 	/// <summary>
 	/// This interface must be implemented by all services.
 	/// </summary>
@@ -41,6 +48,11 @@ namespace MonoDevelop.Core.Services
 		bool AskQuestionFormatted(string formatstring, params string[] formatitems);
 		bool AskQuestion(string question, string caption);
 		bool AskQuestionFormatted(string caption, string formatstring, params string[] formatitems);
+
+		QuestionResponse AskQuestionWithCancel(string question);
+		QuestionResponse AskQuestionFormattedWithCancel(string formatstring, params string[] formatitems);
+		QuestionResponse AskQuestionWithCancel(string question, string caption);
+		QuestionResponse AskQuestionFormattedWithCancel(string caption, string formatstring, params string[] formatitems);
 		
 		// used to return text input from a user in response to a question
 		string GetTextResponse(string question, string caption, string initialValue);

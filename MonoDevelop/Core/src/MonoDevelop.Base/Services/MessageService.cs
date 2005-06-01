@@ -116,6 +116,49 @@ namespace MonoDevelop.Core.Services
 		{
 			return AskQuestion(stringParserService.Parse(question), GettextCatalog.GetString ("Question"));
 		}
+
+		public QuestionResponse AskQuestionWithCancel(string question, string caption)
+		{
+			using (Gtk.MessageDialog md = new Gtk.MessageDialog ((Gtk.Window) WorkbenchSingleton.Workbench, Gtk.DialogFlags.Modal | Gtk.DialogFlags.DestroyWithParent, Gtk.MessageType.Question, Gtk.ButtonsType.None, question)) {
+				
+				md.AddActionWidget (new Button (Gtk.Stock.No), ResponseType.No);
+				md.AddActionWidget (new Button (Gtk.Stock.Cancel), ResponseType.Cancel);
+				md.AddActionWidget (new Button (Gtk.Stock.Yes), ResponseType.Yes);
+				md.ActionArea.ShowAll ();
+				
+				Gtk.ResponseType response = (Gtk.ResponseType)md.Run ();
+				md.Hide ();
+
+				if (response == Gtk.ResponseType.Yes) {
+					return QuestionResponse.Yes;
+				}
+
+				if (response == Gtk.ResponseType.No) {
+					return QuestionResponse.No;
+				}
+
+				if (response == Gtk.ResponseType.Cancel) {
+					return QuestionResponse.Cancel;
+				}
+
+				return QuestionResponse.Cancel;
+			}
+		}
+		
+		public QuestionResponse AskQuestionFormattedWithCancel(string caption, string formatstring, params string[] formatitems)
+		{
+			return AskQuestionWithCancel(String.Format(stringParserService.Parse(formatstring), formatitems), caption);
+		}
+		
+		public QuestionResponse AskQuestionFormattedWithCancel(string formatstring, params string[] formatitems)
+		{
+			return AskQuestionWithCancel(String.Format(stringParserService.Parse(formatstring), formatitems));
+		}
+		
+		public QuestionResponse AskQuestionWithCancel(string question)
+		{
+			return AskQuestionWithCancel(stringParserService.Parse(question), GettextCatalog.GetString ("Question"));
+		}
 		
 		public int ShowCustomDialog(string caption, string dialogText, params string[] buttontexts)
 		{

@@ -1,3 +1,8 @@
+2005-06-01  Jacob Ilsø Christensen  <jacobilsoe@gmail.com>
+
+	* Services/IMessageService.cs: Added methods to ask a question
+	with a cancel option.
+
 2005-04-25  Lluis Sanchez Gual  <lluis@novell.com>
 
 	* AddIns/AddIn.cs: Added GetType method.
