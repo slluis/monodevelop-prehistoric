@@ -78,7 +78,7 @@ namespace MonoDevelop.Gui.Dialogs
 			ReferencesTreeView.AppendColumn (GettextCatalog.GetString ("Location"), new CellRendererText (), "text", 2);
 			
 			gacRefPanel = new GacReferencePanel (this);
-			projectRefPanel = new ProjectReferencePanel (this);
+			projectRefPanel = new ProjectReferencePanel (this, configureProject);
 			
 			foreach (ProjectReference refInfo in configureProject.ProjectReferences) {
 				switch (refInfo.ReferenceType) {

@@ -82,7 +82,11 @@ namespace MonoDevelop.Gui.Dialogs
 		public void SignalRefChange (string refLoc, bool newstate)
 		{
 			Gtk.TreeIter looping_iter;
-			store.GetIterFirst (out looping_iter);
+			
+			if (!store.GetIterFirst (out looping_iter)) {
+				return;
+			}
+
 			do {
 				if ((string)store.GetValue (looping_iter, 4) == refLoc) {
 					store.SetValue (looping_iter, 3, newstate);

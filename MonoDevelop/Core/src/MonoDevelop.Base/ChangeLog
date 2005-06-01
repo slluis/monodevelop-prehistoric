@@ -1,3 +1,10 @@
+2005-06-01  Jacob Ilsø Christensen  <jacobilsoe@gmail.com>
+
+	* Gui/Dialogs/ReferenceDialog/SelectReferenceDialog.cs:
+	* Gui/Dialogs/ReferenceDialog/ProjectReferencePanel.cs:
+	* Gui/Dialogs/ReferenceDialog/GacReferencePanel.cs:
+	Prevent a project from referencing itself.
+
 2005-05-30  Lluis Sanchez Gual  <lluis@novell.com> 
 
 	* Services/StatusBar/DefaultStatusBarService.cs: Added null checks.

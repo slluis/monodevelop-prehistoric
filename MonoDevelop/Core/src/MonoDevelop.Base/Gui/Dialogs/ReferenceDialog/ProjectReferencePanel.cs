@@ -23,7 +23,7 @@ namespace MonoDevelop.Gui.Dialogs {
 		TreeStore store;
 		TreeView  treeView;
 		
-		public ProjectReferencePanel (SelectReferenceDialog selectDialog) : base (false, 6)
+		public ProjectReferencePanel (SelectReferenceDialog selectDialog, Project configureProject) : base (false, 6)
 		{
 			this.selectDialog = selectDialog;
 			
@@ -50,7 +50,7 @@ namespace MonoDevelop.Gui.Dialogs {
 			treeView.AppendColumn (firstColumn);
 			treeView.AppendColumn (GettextCatalog.GetString ("Directory"), new CellRendererText (), "text", 1);
 			
-			PopulateListView ();
+			PopulateListView (configureProject);
 			ScrolledWindow sc = new ScrolledWindow ();
 			sc.ShadowType = Gtk.ShadowType.In;
 			sc.Add (treeView);
@@ -82,7 +82,10 @@ namespace MonoDevelop.Gui.Dialogs {
 		public void SignalRefChange (string refLoc, bool newstate)
 		{
 			Gtk.TreeIter looping_iter;
-			store.GetIterFirst (out looping_iter);
+			if (!store.GetIterFirst (out looping_iter)) {
+				return;
+			}
+
 			do {
 				Project project = (Project) store.GetValue (looping_iter, 2);
 				if (project.Name == refLoc) {
@@ -92,7 +95,7 @@ namespace MonoDevelop.Gui.Dialogs {
 			} while (store.IterNext (ref looping_iter));
 		}
 		
-		void PopulateListView ()
+		void PopulateListView (Project configureProject)
 		{
 			Combine openCombine = Runtime.ProjectService.CurrentOpenCombine;
 			
@@ -101,6 +104,11 @@ namespace MonoDevelop.Gui.Dialogs {
 			}
 			
 			foreach (Project projectEntry in openCombine.GetAllProjects()) {
+
+				if (projectEntry == configureProject) {
+					continue;
+				}
+
 				string iconName = Runtime.Gui.Icons.GetImageForProjectType (projectEntry.ProjectType);
 				Gdk.Pixbuf icon = treeView.RenderIcon (iconName, Gtk.IconSize.Menu, "");
 				store.AppendValues (projectEntry.Name, projectEntry.BaseDirectory, projectEntry, false, icon);
