@@ -764,7 +764,7 @@ namespace Gdl
 				// Lock menuitem
 				CheckMenuItem citem = new CheckMenuItem ("Lock");
 				citem.Active = this.Locked;
-				citem.Toggled += ItemLockCb;
+				citem.Toggled += new EventHandler (ItemLockCb);
 				menu.Append (citem);
 			}
 

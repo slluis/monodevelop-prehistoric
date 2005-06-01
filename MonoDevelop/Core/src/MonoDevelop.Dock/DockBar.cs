@@ -60,7 +60,7 @@ namespace Gdl
 			tooltips.SetTip (button, item.Name, item.Name);
 			item.DockBar = this;
 			item.DockBarButton = button;
-			button.Clicked += OnDockButtonClicked;
+			button.Clicked += new EventHandler (OnDockButtonClicked);
 			this.ShowAll ();
 		}
 		
@@ -69,16 +69,16 @@ namespace Gdl
 			if (master == null)
 				return;
 
-			master.LayoutChanged -= OnLayoutChanged;
+			master.LayoutChanged -= new EventHandler (OnLayoutChanged);
 
 			this.master = master;
-			master.LayoutChanged += OnLayoutChanged;
+			master.LayoutChanged += new EventHandler (OnLayoutChanged);
 		}
 
 		public override void Destroy ()
 		{
 			if (master != null) {
-				master.LayoutChanged -= OnLayoutChanged;
+				master.LayoutChanged -= new EventHandler (OnLayoutChanged);
 				master = null;
 			}
 

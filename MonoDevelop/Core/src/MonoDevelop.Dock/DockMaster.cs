@@ -160,20 +160,20 @@ namespace Gdl
 				
 				/* we are interested in the dock request this toplevel
 				 * receives to update the layout */
-				obj.Docked += OnItemDocked;
+				obj.Docked += new DockedHandler (OnItemDocked);
 			} else if (obj is DockItem) {
 				DockItem item = obj as DockItem;
 				
 				/* we need to connect the item's events */
-				item.Detached += OnItemDetached;
-				item.Docked += OnItemDocked;
-				item.DockItemDragBegin += OnDragBegin;
-				item.DockItemMotion += OnDragMotion;
-				item.DockItemDragEnd += OnDragEnd;
+				item.Detached += new DetachedHandler (OnItemDetached);
+				item.Docked += new DockedHandler (OnItemDocked);
+				item.DockItemDragBegin += new DockItemDragBeginHandler (OnDragBegin);
+				item.DockItemMotion += new DockItemMotionHandler (OnDragMotion);
+				item.DockItemDragEnd += new DockItemDragEndHandler (OnDragEnd);
 
 				/* register to "locked" notification if the item has a grip,
 				 * and add the item to the corresponding hash */
-				item.PropertyChanged += OnItemPropertyChanged;
+				item.PropertyChanged += new PropertyChangedHandler (OnItemPropertyChanged);
 
 				/* post a layout_changed emission if the item is not automatic
 				 * (since it should be added to the items model) */
@@ -205,7 +205,7 @@ namespace Gdl
 			
 			if (obj is Dock) {
 				toplevelDocks.Remove (obj);
-				obj.Docked -= OnItemDocked;
+				obj.Docked -= new DockedHandler (OnItemDocked);
 
 				if (obj == controller) {
 					DockObject newController = null;
@@ -235,12 +235,12 @@ namespace Gdl
 			// disconnect the signals
 			if (obj is DockItem) {
 				DockItem item = obj as DockItem;
-				item.Detached -= OnItemDetached;
-				item.Docked -= OnItemDocked;
-				item.DockItemDragBegin -= OnDragBegin;
-				item.DockItemMotion -= OnDragMotion;
-				item.DockItemDragEnd -= OnDragEnd;
-				item.PropertyChanged -= OnItemPropertyChanged;
+				item.Detached -= new DetachedHandler (OnItemDetached);
+				item.Docked -= new DockedHandler (OnItemDocked);
+				item.DockItemDragBegin -= new DockItemDragBeginHandler (OnDragBegin);
+				item.DockItemMotion -= new DockItemMotionHandler (OnDragMotion);
+				item.DockItemDragEnd -= new DockItemDragEndHandler (OnDragEnd);
+				item.PropertyChanged -= new PropertyChangedHandler (OnItemPropertyChanged);
 			}
 			
 			// remove the object from the hash if it is there

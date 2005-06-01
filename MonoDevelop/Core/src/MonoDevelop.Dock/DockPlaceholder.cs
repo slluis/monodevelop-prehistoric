@@ -193,8 +193,8 @@ namespace Gdl
 			if (host == null)
 				return;
 
-			host.Detached -= OnHostDetached;
-			host.Docked -= OnHostDocked;
+			host.Detached -= new DetachedHandler (OnHostDetached);
+			host.Docked -= new DockedHandler (OnHostDocked);
 
 			host = null;
 		}
@@ -206,8 +206,8 @@ namespace Gdl
 
 			host = newHost;
 
-			host.Detached += OnHostDetached;
-			host.Docked += OnHostDocked;
+			host.Detached += new DetachedHandler (OnHostDetached);
+			host.Docked += new DockedHandler (OnHostDocked);
 		}
 		
 		public void Attach (DockObject objekt)

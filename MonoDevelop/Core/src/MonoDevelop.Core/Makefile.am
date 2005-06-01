@@ -68,7 +68,7 @@ Services/GettextCatalog.cs: $(srcdir)/Services/GettextCatalog.cs.in
 	mv $@.tmp $@
 
 $(DLL): $(build_sources) $(build_resources)
-	$(CSC) -out:$@ -target:library $(REFS) $(build_sources)
+	$(CSC) $(CSC_FLAGS) -out:$@ -target:library $(REFS) $(build_sources)
 
 assemblydir = $(MD_ASSEMBLY_DIR)
 assembly_DATA = $(DLL)

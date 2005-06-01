@@ -71,7 +71,7 @@ DLL = $(top_builddir)/build/bin/ICSharpCode.SharpAssembly.dll
 all: $(DLL)
 
 $(DLL): $(build_sources)
-	$(CSC) -out:$@ -target:library $(build_sources)
+	$(CSC) $(CSC_FLAGS) -out:$@ -target:library $(build_sources)
 
 assemblydir = $(MD_ASSEMBLY_DIR)
 assembly_DATA = $(DLL)

@@ -219,7 +219,7 @@ namespace MonoDevelop.Gui.Pads
 			tree.RowActivated += new Gtk.RowActivatedHandler(OnNodeActivated);
 			
 			contentPanel.ButtonReleaseEvent += new Gtk.ButtonReleaseEventHandler(OnButtonRelease);
-			contentPanel.PopupMenu += OnPopupMenu;
+			contentPanel.PopupMenu += new Gtk.PopupMenuHandler (OnPopupMenu);
 			
 			foreach (NodeBuilder nb in builders)
 				nb.SetContext (builderContext);

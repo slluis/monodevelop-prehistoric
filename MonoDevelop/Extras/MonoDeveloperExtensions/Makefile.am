@@ -29,7 +29,7 @@ $(ADDIN_BUILD)/$(ADDIN): $(srcdir)/$(ADDIN)
 
 $(DLL): $(build_sources) $(srcdir)/$(GLADEFILE)
 	mkdir -p $(ADDIN_BUILD)
-	$(CSC) -target:library -out:$@ $(build_sources) $(REFS)
+	$(CSC) $(CSC_FLAGS) -target:library -out:$@ $(build_sources) $(REFS)
 
 CLEANFILES = $(DLL) $(DLL).mdb $(ADDIN_BUILD)/$(ADDIN)
 

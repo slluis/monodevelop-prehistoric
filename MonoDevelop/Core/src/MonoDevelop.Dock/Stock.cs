@@ -27,7 +27,7 @@ using Gtk;
 
 namespace Gdl
 {
-	public static class Stock
+	public class Stock
 	{
 		static Gtk.IconFactory stock = new Gtk.IconFactory ();
 

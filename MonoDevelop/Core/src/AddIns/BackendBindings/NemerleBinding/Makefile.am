@@ -46,7 +46,7 @@ $(ADDIN_BUILD)/$(ADDIN): $(srcdir)/$(ADDIN)
 
 $(ASSEMBLY): $(FILES) $(srcdir)/Nemerle.glade
 	mkdir -p $(ADDIN_BUILD)
-	$(CSC) $(DLLS) $(build_sources) -out:$@ -target:library \
+	$(CSC) $(CSC_FLAGS) $(DLLS) $(build_sources) -out:$@ -target:library \
 	-resource:$(srcdir)/Nemerle.glade,Nemerle.glade
 
 assemblydir = $(MD_ADDIN_DIR)/BackendBindings/

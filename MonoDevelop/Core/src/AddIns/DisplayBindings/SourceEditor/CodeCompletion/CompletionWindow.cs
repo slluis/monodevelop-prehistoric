@@ -273,7 +273,7 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 
 			TreeIter iter;
 			if (store.GetIterFirst (out iter) == false) {
-				listView.FocusOutEvent -= LostFocusListView;
+				listView.FocusOutEvent -= new FocusOutEventHandler (LostFocusListView);
 				control.buf.EndAtomicUndo ();
 				control.GrabFocus ();
 				return;
@@ -326,7 +326,7 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 		{
 			control.buf.DropCompleteAhead ();
 			control.buf.EndAtomicUndo ();
-			listView.FocusOutEvent -= LostFocusListView;
+			listView.FocusOutEvent -= new FocusOutEventHandler (LostFocusListView);
 			control.HasFocus = true;
 			declarationviewwindow.HideAll ();
 			this.Hide ();

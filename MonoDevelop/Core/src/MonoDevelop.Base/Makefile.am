@@ -494,7 +494,7 @@ Services/StockIcons.cs: $(srcdir)/Services/process-icons.pl $(srcdir)/../../../b
 	$(PERL) -x$(srcdir)/../../../build/data/resources/icons -w $(srcdir)/Services/process-icons.pl > Services/StockIcons.cs
 
 $(ASSEMBLY): $(build_sources) $(srcdir)/Base.glade Services/StockIcons.cs
-	$(CSC) $(MONO_POSIX_OEE) -codepage:utf8 -out:$@ -target:library $(DLLS) \
+	$(CSC) $(CSC_FLAGS) $(MONO_POSIX_OEE) -codepage:utf8 -out:$@ -target:library $(DLLS) \
 		-resource:$(srcdir)/Base.glade,Base.glade \
 		$(monodoc_libflags) $(build_sources) Services/StockIcons.cs \
 	&& cp $(CONFIG) $(top_builddir)/build/bin/.

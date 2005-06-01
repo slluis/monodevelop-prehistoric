@@ -48,10 +48,10 @@ EXTRA_DIST = $(FILES) $(GLADE) $(IMAGES) $(TEST_FILES)
 
 $(DOCK): $(build_sources) $(GLADE) $(IMAGES)
 	mkdir -p $(top_builddir)/build/bin/
-	$(CSC) -out:$@ -target:library $(build_sources) $(RESOURCES) $(REFS)
+	$(CSC) $(CSC_FLAGS) -out:$@ -target:library $(build_sources) $(RESOURCES) $(REFS)
 
 $(TEST) : $(TEST_FILES) $(DOCK)
-	$(CSC) -out:$@ -r:$(DOCK) -pkg:gtk-sharp-2.0 $(TEST_FILES) -codepage:utf8
+	$(CSC) $(CSC_FLAGS) -out:$@ -r:$(DOCK) -pkg:gtk-sharp-2.0 $(TEST_FILES) -codepage:utf8
 
 run-test: $(TEST)
 	$(RUNTIME) $(TEST)

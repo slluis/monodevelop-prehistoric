@@ -115,13 +115,13 @@ namespace Gdl
 			if (master == null)
 				return;
 
-			master.LayoutChanged -= OnLayoutChanged;
+			master.LayoutChanged -= new EventHandler (OnLayoutChanged);
 
 			if (itemsModel != null)
 				itemsModel.Clear ();
 
 			this.master = master;
-			master.LayoutChanged += OnLayoutChanged;
+			master.LayoutChanged += new EventHandler (OnLayoutChanged);
 			UpdateItemsModel ();
 		}
 
@@ -396,9 +396,9 @@ namespace Gdl
 			locked_check = gui.GetWidget ("locked_check") as CheckButton;
 			Gtk.TreeView items_list = gui.GetWidget ("items_list") as TreeView;
 
-			locked_check.Toggled += AllLockedToggledCb;
+			locked_check.Toggled += new EventHandler (AllLockedToggledCb);
 			if (master != null) {
-				master.NotifyLocked += MasterLockedNotifyCb;
+				master.NotifyLocked += new EventHandler (MasterLockedNotifyCb);
 				// force update now
 				MasterLockedNotifyCb (master, EventArgs.Empty);
 			}
@@ -408,7 +408,7 @@ namespace Gdl
 
 			// construct list views
 			CellRendererToggle renderer = new CellRendererToggle ();
-			renderer.Toggled += ShowToggledCb;
+			renderer.Toggled += new ToggledHandler (ShowToggledCb);
 			TreeViewColumn column = new TreeViewColumn ("Visible", renderer, "active", 1);
 			items_list.AppendColumn (column);
 
@@ -428,7 +428,7 @@ namespace Gdl
 			Gtk.TreeView layouts_list = gui.GetWidget ("layouts_list") as TreeView;
 			layouts_list.Model = layoutsModel;
 			CellRendererText renderer = new CellRendererText ();
-			renderer.Edited += CellEditedCb;
+			renderer.Edited += new EditedHandler (CellEditedCb);
 			TreeViewColumn column = new TreeViewColumn ("Name", renderer, "text", 0, "editable", 1);
 			layouts_list.AppendColumn (column);
 

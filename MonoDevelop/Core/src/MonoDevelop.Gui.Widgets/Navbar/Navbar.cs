@@ -27,7 +27,7 @@ namespace MonoDevelop.Gui.Widgets
 			// FIXME: this doesnt't seem to work yet
 			// address.Completion = new EntryCompletion ();
 			address.WidthChars = 50;
-			address.Activated += OnGoUrl;
+			address.Activated += new EventHandler (OnGoUrl);
 
 			ActionEntry[] actions = new ActionEntry[]
 			{
@@ -43,7 +43,7 @@ namespace MonoDevelop.Gui.Widgets
 
 			UIManager uim = new UIManager ();
 			uim.InsertActionGroup (ag, 0);
-			uim.AddWidget += OnAddWidget;
+			uim.AddWidget += new AddWidgetHandler (OnAddWidget);
 			uim.AddUiFromString (uiInfo);
 
 			ToolItem item = new ToolItem ();

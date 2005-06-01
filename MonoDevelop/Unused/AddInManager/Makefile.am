@@ -18,7 +18,7 @@ addin_DATA = $(ADDIN) $(ASSEMBLY)
 all: $(ASSEMBLY)
 
 $(ASSEMBLY): $(FILES)
-	$(CSC) /out:$(ASSEMBLY) /target:library $(FILES) $(REFS) \
+	$(CSC) $(CSC_FLAGS) /out:$(ASSEMBLY) /target:library $(FILES) $(REFS) \
 	&& cp $(ASSEMBLY) ../../build/AddIns/. \
 	&& cp $(ADDIN) ../../build/AddIns/.
 

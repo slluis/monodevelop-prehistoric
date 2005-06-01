@@ -43,7 +43,7 @@ $(ADDIN_BUILD)/$(ADDIN): $(srcdir)/$(ADDIN)
 
 $(ASSEMBLY): $(build_sources)
 	mkdir -p $(ADDIN_BUILD)
-	$(CSC) $(build_sources) $(DLLS) -out:$@ -target:library
+	$(CSC) $(CSC_FLAGS) $(build_sources) $(DLLS) -out:$@ -target:library
 
 CLEANFILES = $(ASSEMBLY) $(ASSEMBLY).mdb
 EXTRA_DIST = $(FILES) $(ADDIN) $(TEMPLATES)

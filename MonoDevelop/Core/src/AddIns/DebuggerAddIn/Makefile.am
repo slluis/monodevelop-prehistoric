@@ -40,7 +40,7 @@ $(ADDIN_BUILD)/$(ADDIN): $(srcdir)/$(ADDIN)
 
 $(ASSEMBLY): $(build_sources)
 	mkdir -p $(ADDIN_BUILD)
-	$(CSC) -debug -out:$@ -target:library \
+	$(CSC) $(CSC_FLAGS) -debug -out:$@ -target:library \
 	$(build_sources) $(DLLS)
 
 assemblydir = $(MD_ADDIN_DIR)/DebuggerAddIn

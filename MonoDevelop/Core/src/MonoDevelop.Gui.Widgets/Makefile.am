@@ -57,7 +57,7 @@ Commands/MenuToolButton.cs
 all: $(DLL)
 
 $(DLL): $(build_sources)
-	$(CSC) -out:$@ -target:library $(REFERENCES) $(build_sources)
+	$(CSC) $(CSC_FLAGS) -out:$@ -target:library $(REFERENCES) $(build_sources)
 
 assemblydir = $(MD_ASSEMBLY_DIR)
 assembly_DATA = $(DLL)

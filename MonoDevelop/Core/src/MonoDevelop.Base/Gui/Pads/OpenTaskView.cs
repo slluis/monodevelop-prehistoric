@@ -77,8 +77,8 @@ namespace MonoDevelop.Gui.Pads
 				
 			view = new Gtk.TreeView (store);
 			view.RulesHint = true;
-			view.PopupMenu += OnPopupMenu;
-			view.ButtonPressEvent += OnButtonPressed;
+			view.PopupMenu += new PopupMenuHandler (OnPopupMenu);
+			view.ButtonPressEvent += new ButtonPressEventHandler (OnButtonPressed);
 			AddColumns ();
 			
 			sw = new Gtk.ScrolledWindow ();
@@ -110,7 +110,7 @@ namespace MonoDevelop.Gui.Pads
 			Menu menu = new Menu ();
 			menu.AccelGroup = new AccelGroup ();
                         ImageMenuItem copy = new ImageMenuItem (Gtk.Stock.Copy, menu.AccelGroup);
-                        copy.Activated += OnTaskCopied;
+                        copy.Activated += new EventHandler (OnTaskCopied);
 			menu.Append (copy);
 			menu.Popup (null, null, null, IntPtr.Zero, 3, Global.CurrentEventTime);
 			menu.ShowAll ();

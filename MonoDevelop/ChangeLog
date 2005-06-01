@@ -1,3 +1,8 @@
+2005-06-01  Todd Berman  <tberman@off.net>
+
+	* */*: Make MD -langversion:ISO-1 compliant, and add checking to the
+	makefiles
+
 2005-05-31  Peter Johanson <latexer@gentoo.org>
 
 	* configure.in: Bump boo version requirement.

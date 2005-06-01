@@ -156,20 +156,20 @@ namespace MonoDevelop.BrowserDisplayBinding
 			
 			if (showNavigation) {
 				
-				nav.Back += OnBackClicked;
-				nav.Forward += OnForwardClicked;
-				nav.Stop += OnStopClicked;
-				nav.Reload += OnRefreshClicked;
-				nav.Go += OnEntryActivated;
+				nav.Back += new EventHandler (OnBackClicked);
+				nav.Forward += new EventHandler (OnForwardClicked);
+				nav.Stop += new EventHandler (OnStopClicked);
+				nav.Reload += new EventHandler (OnRefreshClicked);
+				nav.Go += new EventHandler (OnEntryActivated);
 				
 				topPanel.PackStart (nav);
 				mainbox.PackStart (topPanel, false, false, 2);
 			} 
 			
 			htmlControl = new MozillaControl ();
-			htmlControl.NetStart += OnNetStart;
-			htmlControl.NetStop += OnNetStop;
-			htmlControl.LocChange += OnLocationChanged;
+			htmlControl.NetStart += new EventHandler (OnNetStart);
+			htmlControl.NetStop += new EventHandler (OnNetStop);
+			htmlControl.LocChange += new EventHandler (OnLocationChanged);
 			htmlControl.ShowAll ();
 			
 			mainbox.PackStart (htmlControl);

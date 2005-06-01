@@ -61,7 +61,7 @@ namespace MonoDevelop.Gui.Widgets
 
 			// FIXME: only set this once per-dialog
 			// perhaps in Dispose ()? or only when a file or dir is selected
-			this.CurrentFolderChanged += OnCurrentFolderChanged;
+			this.CurrentFolderChanged += new EventHandler (OnCurrentFolderChanged);
 		}
 
 		void OnCurrentFolderChanged (object o, EventArgs args)

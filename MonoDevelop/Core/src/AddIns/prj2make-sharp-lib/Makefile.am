@@ -32,7 +32,7 @@ $(ADDIN_BUILD)/$(ADDIN):
 
 $(ASSEMBLY): $(build_sources)
 	mkdir -p $(ADDIN_BUILD)
-	$(CSC) -out:$@ -target:library $(build_sources) $(DLLS)
+	$(CSC) $(CSC_FLAGS) -out:$@ -target:library $(build_sources) $(DLLS)
 
 assemblydir = $(MD_ADDIN_DIR)
 assembly_DATA = $(ASSEMBLY) $(ADDIN)

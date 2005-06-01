@@ -20,7 +20,7 @@ REFS = \
 	$(GNOME_SHARP_LIBS)
 
 $(ASSEMBLY): $(build_sources)
-	$(CSC) -out:$@ $(REFS) $(build_sources) $(SPLASH)
+	$(CSC) $(CSC_FLAGS) -out:$@ $(REFS) $(build_sources) $(SPLASH)
 
 $(ASSEMBLY).config: $(ASSEMBLY) $(srcdir)/app.config
 	cp $(srcdir)/app.config $(ASSEMBLY).config

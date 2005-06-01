@@ -82,7 +82,7 @@ $(ADDIN_BUILD)/$(ADDIN): $(srcdir)/$(ADDIN)
 
 $(ASSEMBLY): $(build_sources) $(srcdir)/CSharp.glade
 	mkdir -p $(ADDIN_BUILD)
-	$(CSC) -out:$@ -target:library $(DLLS) \
+	$(CSC) $(CSC_FLAGS) -out:$@ -target:library $(DLLS) \
 		-resource:$(srcdir)/CSharp.glade,CSharp.glade \
 		$(build_sources)
 

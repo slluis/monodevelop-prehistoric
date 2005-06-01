@@ -28,7 +28,7 @@ namespace MonoDevelop.Services
 		protected override void OnInitialize (EventArgs e)
 		{
 			base.OnInitialize (e);
-			Runtime.ProjectService.CombineClosed += OnCombineClosed;
+			Runtime.ProjectService.CombineClosed += new CombineEventHandler (OnCombineClosed);
 		}
 
 		public void Dispose()

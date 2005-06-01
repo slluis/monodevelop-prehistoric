@@ -119,7 +119,7 @@ src/AssemblyInfo.cs
 all: $(DLL) $(TEST)
 
 $(DLL): $(FILES)
-	$(CSC) -out:$@ /target:library $(REFS) $(build_sources)
+	$(CSC) $(CSC_FLAGS) -out:$@ /target:library $(REFS) $(build_sources)
 
 test: $(TEST)
 

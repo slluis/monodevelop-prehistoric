@@ -94,7 +94,7 @@ $(ADDIN_BUILD)/$(ADDIN): $(srcdir)/$(ADDIN)
 
 $(DLL) : $(build_sources) $(srcdir)/EditorBindings.glade $(srcdir)/texteditoraddin.glade
 	mkdir -p $(top_builddir)/build/bin
-	$(CSC) $(build_sources) -out:$@ -t:library $(REFS) \
+	$(CSC) $(CSC_FLAGS) $(build_sources) -out:$@ -t:library $(REFS) \
 	-resource:$(srcdir)/EditorBindings.glade,EditorBindings.glade \
 	-resource:$(srcdir)/texteditoraddin.glade,texteditoraddin.glade \
 	&& cp $(CONFIG) $(top_builddir)/build/bin/.

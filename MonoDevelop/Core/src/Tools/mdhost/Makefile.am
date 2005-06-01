@@ -11,7 +11,7 @@ all: $(ASSEMBLY)
 REFS = /r:$(top_builddir)/build/bin/MonoDevelop.Base.dll /r:System.Runtime.Remoting
 	
 $(ASSEMBLY): $(build_sources)
-	$(CSC) $(build_sources) $(REFS) /out:$(ASSEMBLY) \
+	$(CSC) $(CSC_FLAGS) $(build_sources) $(REFS) /out:$(ASSEMBLY) \
 	&& cp $(ASSEMBLY) $(top_builddir)/build/bin/.
 
 assemblydir = $(MD_ASSEMBLY_DIR)

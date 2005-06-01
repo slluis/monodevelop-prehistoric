@@ -14,7 +14,7 @@ src/DFA.cs
 all: $(ASSEMBLY)
 
 $(ASSEMBLY): $(build_sources)
-	$(CSC) $(build_sources) /out:$(ASSEMBLY)
+	$(CSC) $(CSC_FLAGS) $(build_sources) /out:$(ASSEMBLY)
 
 CLEANFILES = $(ASSEMBLY) $(ASSEMBLY).mdb
 EXTRA_DIST = $(FILES)

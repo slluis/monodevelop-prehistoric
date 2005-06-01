@@ -84,7 +84,7 @@ namespace Gdl
 				Child = new VPaned ();
 			
 			Child.AddNotification ("position", new GLib.NotifyHandler (OnNotifyPosition));
-			Child.ButtonReleaseEvent += OnButtonReleased;
+			Child.ButtonReleaseEvent += new ButtonReleaseEventHandler (OnButtonReleased);
 												
 			Child.Parent = this;
 			Child.Show ();
@@ -138,7 +138,7 @@ namespace Gdl
 
 			// after that we can remove the Paned child
 			if (Child != null) {
-				Child.ButtonReleaseEvent -= OnButtonReleased;
+				Child.ButtonReleaseEvent -= new ButtonReleaseEventHandler (OnButtonReleased);
 				Child.Unparent ();
 				Child = null;
 			}
@@ -320,7 +320,7 @@ namespace Gdl
 		{
 			if (name == "orientation") {
 				CreateChild ();
-				this.PropertyChanged -= OnPropertyChanged;
+				this.PropertyChanged -= new PropertyChangedHandler (OnPropertyChanged);
 			}
 		}
 	}

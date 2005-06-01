@@ -72,7 +72,7 @@ $(ADDIN_BUILD)/$(ADDIN): $(srcdir)/$(ADDIN)
 
 $(ASSEMBLY): $(FILES) $(srcdir)/Java.glade
 	mkdir -p $(ADDIN_BUILD)
-	$(CSC) $(DLLS) -resource:$(srcdir)/Java.glade,Java.glade $(build_sources) -out:$@ -target:library
+	$(CSC) $(CSC_FLAGS) $(DLLS) -resource:$(srcdir)/Java.glade,Java.glade $(build_sources) -out:$@ -target:library
 
 if ENABLE_JAVA
 assemblydir = $(MD_ADDIN_DIR)/BackendBindings

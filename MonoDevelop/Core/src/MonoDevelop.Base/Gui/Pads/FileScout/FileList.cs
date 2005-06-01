@@ -67,7 +67,7 @@ namespace MonoDevelop.Gui.Pads
 
 			this.PopupMenu += new Gtk.PopupMenuHandler (OnPopupMenu);
 			this.ButtonReleaseEvent += new Gtk.ButtonReleaseEventHandler (OnButtonReleased);
-			this.Selection.Changed += OnSelectionChanged;
+			this.Selection.Changed += new EventHandler (OnSelectionChanged);
 			
 			watcher = new FileSystemWatcher ();
 			

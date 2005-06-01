@@ -28,7 +28,7 @@ build_sources = $(addprefix $(srcdir)/, $(FILES))
 
 $(ASSEMBLY): $(build_sources)
 	mkdir -p $(ADDIN_BUILD)
-	$(CSC) -g $(DEFINES) -keyfile:$(srcdir)/visualizer.snk -out:$@ -target:library \
+	$(CSC) $(CSC_FLAGS) -g $(DEFINES) -keyfile:$(srcdir)/visualizer.snk -out:$@ -target:library \
 	$(build_sources) $(DLLS)
 
 CLEANFILES = $(ASSEMBLY) $(ASSEMBLY).mdb

@@ -112,7 +112,7 @@ REFS = /r:System.Drawing.dll
 all: $(DLL)
 
 $(DLL): $(FILES)
-	@ $(CSC) /out:$(DLL) /target:library $(REFS) $(build_sources) \
+	@ $(CSC) $(CSC_FLAGS) /out:$(DLL) /target:library $(REFS) $(build_sources) \
 	&& cp $(DLL) $(top_builddir)/build/bin/.
 
 test-parser.exe : $(DLL) src/Main.cs

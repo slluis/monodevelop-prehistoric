@@ -68,7 +68,7 @@ namespace MonoDevelop.EditorBindings.Gui.OptionPanels
 				sourceLanguages.Active = 0;
 
 				stylesTreeView.AppendColumn ("styles", new CellRendererText (), "text", 0);
-				stylesTreeView.Selection.Changed += OnStyleChanged;
+				stylesTreeView.Selection.Changed += new EventHandler (OnStyleChanged);
 			}
 
 			public void Store (IProperties CustomizationObject)

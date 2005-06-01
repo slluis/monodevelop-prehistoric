@@ -104,10 +104,10 @@ namespace Gdl
 			}
 			set {
 				if (item != null)
-					item.PropertyChanged -= OnPropertyChanged;
+					item.PropertyChanged -= new PropertyChangedHandler (OnPropertyChanged);
 				
 				item = value;
-				item.PropertyChanged += OnPropertyChanged;
+				item.PropertyChanged += new PropertyChangedHandler (OnPropertyChanged);
 				
 				if (!item.CantClose)
 					closeButton.Show ();

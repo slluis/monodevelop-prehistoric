@@ -9,7 +9,7 @@ all: $(ASSEMBLY)
 REFS = /r:$(top_builddir)/build/bin/MonoDevelop.Base.dll /r:$(top_builddir)/build/bin/MonoDevelop.Core.dll
 	
 $(ASSEMBLY): $(build_sources)
-	$(CSC) $(build_sources) $(REFS) -out:$@
+	$(CSC) $(CSC_FLAGS) $(build_sources) $(REFS) -out:$@
 
 assemblydir = $(MD_ASSEMBLY_DIR)
 assembly_DATA = $(ASSEMBLY)           
