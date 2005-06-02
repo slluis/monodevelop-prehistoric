@@ -137,16 +137,16 @@ namespace MonoDevelop.Gui.Dialogs
 		public void AddReference(ReferenceType referenceType, string referenceName, string referenceLocation)
 		{
 			Gtk.TreeIter looping_iter;
-			if (!refTreeStore.GetIterFirst (out looping_iter))
-				return;
-			do {
-				try {
-					if (referenceLocation == (string)refTreeStore.GetValue (looping_iter, 2) && referenceName == (string)refTreeStore.GetValue (looping_iter, 0)) {
-						return;
+			if (refTreeStore.GetIterFirst (out looping_iter)) {
+				do {
+					try {
+						if (referenceLocation == (string)refTreeStore.GetValue (looping_iter, 2) && referenceName == (string)refTreeStore.GetValue (looping_iter, 0)) {
+							return;
+						}
+					} catch {
 					}
-				} catch {
-				}
-			} while (refTreeStore.IterNext (ref looping_iter));
+				} while (refTreeStore.IterNext (ref looping_iter));
+			}
 			
 			ProjectReference tag;
 			switch (referenceType) {
