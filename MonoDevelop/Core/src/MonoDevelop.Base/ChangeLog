@@ -1,5 +1,13 @@
 2005-06-01  John Luke  <john.luke@gmail.com>
 
+	* Core/src/MonoDevelop.Base/Services/ResourceService.cs: remove
+	DllImport workaround for rendering an icon
+	* Core/src/MonoDevelop.Base/MonoDevelop.Base.dll.config.in: remove
+	as we no longer p/invoke
+	* Core/src/MonoDevelop.Base/Makefile.am: updated for above
+	
+2005-06-01  John Luke  <john.luke@gmail.com>
+
 	* Gui/Workbench/Layouts/SdiWorkspaceLayout.cs:
 	* Gui/Workbench/Layouts/SdiWorkspaceWindow.cs:
 	* Gui/Pads/FileScout/FileListItem.cs: adjust to

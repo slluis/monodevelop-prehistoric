@@ -193,7 +193,6 @@ Core/src/AddIns/DisplayBindings/SourceEditor/Makefile
 Core/src/AddIns/DisplayBindings/SourceEditor/MonoDevelop.SourceEditor.dll.config
 Core/src/AddIns/DebuggerAddIn/Makefile
 Core/src/MonoDevelop.Base/Makefile
-Core/src/MonoDevelop.Base/MonoDevelop.Base.dll.config
 Core/src/MonoDevelop.Startup/Makefile
 Core/src/MonoDevelop.Core/Makefile
 Core/src/MonoDevelop.Dock/Makefile

@@ -472,7 +472,6 @@ options/TipsOfTheDay.xml
 build_OPTIONS = $(addprefix $(top_builddir)/build/data/options/, $(notdir $(OPTIONS)))
 
 DLLNAME = MonoDevelop.Base.dll
-CONFIG = $(DLLNAME).config
 ASSEMBLY = $(top_builddir)/build/bin/$(DLLNAME)
 
 ADDIN = MonoDevelopCore.addin.xml
@@ -496,11 +495,10 @@ Services/StockIcons.cs: $(srcdir)/Services/process-icons.pl $(srcdir)/../../../b
 $(ASSEMBLY): $(build_sources) $(srcdir)/Base.glade Services/StockIcons.cs
 	$(CSC) $(CSC_FLAGS) $(MONO_POSIX_OEE) -codepage:utf8 -out:$@ -target:library $(DLLS) \
 		-resource:$(srcdir)/Base.glade,Base.glade \
-		$(monodoc_libflags) $(build_sources) Services/StockIcons.cs \
-	&& cp $(CONFIG) $(top_builddir)/build/bin/.
+		$(monodoc_libflags) $(build_sources) Services/StockIcons.cs
 
 assemblydir = $(MD_ASSEMBLY_DIR)
-assembly_DATA = $(ASSEMBLY) $(CONFIG)
+assembly_DATA = $(ASSEMBLY)
 
 addindir = $(MD_ADDIN_DIR)
 addin_DATA = $(ADDIN)
@@ -509,8 +507,8 @@ optionsdir = $(MD_DIR)/data/options
 options_DATA = $(OPTIONS)
 
 CLEANFILES = $(ASSEMBLY) $(ASSEMBLY).mdb $(build_OPTIONS)
-DISTCLEANFILES = $(CONFIG) Services/StockIcons.cs
+DISTCLEANFILES = Services/StockIcons.cs
 
-EXTRA_DIST = $(FILES) ./Services/process-icons.pl $(CONFIG).in Base.glade $(ADDIN) $(OPTIONS)
+EXTRA_DIST = $(FILES) ./Services/process-icons.pl Base.glade $(ADDIN) $(OPTIONS)
 
 include $(top_srcdir)/Makefile.include

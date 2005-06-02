@@ -121,13 +121,6 @@ namespace MonoDevelop.Core.Services
 			//}
 		}
 		
-		// use P/Invoke to be able to pass some NULL parameters
-		[DllImport("libgtk-win32-2.0-0.dll")]
-		static extern IntPtr
-		gtk_icon_set_render_icon (IntPtr raw, IntPtr style, int direction,
-		                          int state, int size, IntPtr widget,
-		                          string detail);
-
 		/// <summary>
 		/// Returns a icon from the resource database, it handles localization
 		/// transparent for the user. In the resource database can be a bitmap
@@ -154,19 +147,10 @@ namespace MonoDevelop.Core.Services
 			if (stockid != null) {
 				Gtk.IconSet iconset = Gtk.IconFactory.LookupDefault (stockid);
 				if (iconset != null) {
-					// use P/Invoke to be able to pass some NULL parameters
-					IntPtr raw_ret = gtk_icon_set_render_icon
-						(iconset.Handle,
-						 Gtk.Widget.DefaultStyle.Handle,
-						 (int) Gtk.TextDirection.None,
-						 (int) Gtk.StateType.Normal,
-						 (int) size,
-						 IntPtr.Zero, null);
-					return (Gdk.Pixbuf) GLib.Object.GetObject(raw_ret);
+					return iconset.RenderIcon (Gtk.Widget.DefaultStyle, Gtk.TextDirection.None, Gtk.StateType.Normal, size, null, null);
 				}
 			}
 			
-			// throw GLib.GException as the old code?
 			return null;
 		}
 		
