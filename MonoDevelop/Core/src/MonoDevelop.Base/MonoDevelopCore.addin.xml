@@ -405,7 +405,8 @@
 				defaultHandler = "MonoDevelop.Commands.TipOfTheDayHandler"
 				_label = "_Tip of the Day..." 
 				icon = "Icons.16x16.TipOfTheDay" 
-				description = "Show tip of the day" />
+				description = "Show tip of the day"
+				shortcut = "Shift|F8" />
 		<Command id = "MonoDevelop.Commands.HelpCommands.About"
 				defaultHandler = "MonoDevelop.Commands.AboutHandler"
 				_label = "_About" 
