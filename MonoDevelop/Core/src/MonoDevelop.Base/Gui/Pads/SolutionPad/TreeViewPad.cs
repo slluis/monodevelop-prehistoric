@@ -1341,7 +1341,7 @@ namespace MonoDevelop.Gui.Pads
 					object data = DataItem;
 					NodeBuilder[] chain = BuilderChain;
 					if (chain != null && chain.Length > 0) return ((TypeNodeBuilder)chain[0]).GetNodeName (this, data);
-					else return store.GetValue (currentIter, TreeViewPad.TextColumn) as string;;
+					else return store.GetValue (currentIter, TreeViewPad.TextColumn) as string;
 				}
 			}
 			

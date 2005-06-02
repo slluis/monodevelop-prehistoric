@@ -96,6 +96,10 @@ namespace MonoDevelop.Internal.Project
 			set {}
 		}
 		
+		public Combine ParentCombine {
+			get { return parentCombine; }
+		}
+		
 		public virtual void Save (string fileName, IProgressMonitor monitor)
 		{
 			FileName = fileName;
