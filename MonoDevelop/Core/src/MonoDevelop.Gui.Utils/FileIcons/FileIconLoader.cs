@@ -51,8 +51,10 @@ namespace MonoDevelop.Gui.Utils
 			// we have to cache them in both type and size
 			Gdk.Pixbuf bf = (Gdk.Pixbuf) iconHash [type+size];
 			if (bf == null) {
-				bf = IconTheme.Default.LoadIcon (type, size, (IconLookupFlags) 0);
-				if (bf == null) {
+				try {
+					bf = IconTheme.Default.LoadIcon (type, size, (IconLookupFlags) 0);
+				}
+				catch {
 					bf = DefaultIcon;
 					if (bf.Height > size)
 						bf = bf.ScaleSimple (size, size, Gdk.InterpType.Bilinear);

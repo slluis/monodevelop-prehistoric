@@ -1,5 +1,10 @@
 2005-06-01  John Luke  <john.luke@gmail.com>
 
+	* FileIcons/FileIconLoader.cs: add back one try/catch
+	from adrian@dreamsoftware.ro (Adrian Dinu), bug 75118
+
+2005-06-01  John Luke  <john.luke@gmail.com>
+
 	* FileIcons/FileIconLoader.cs (GetPixbufForFile):
 	just use size instead of height, width
 
