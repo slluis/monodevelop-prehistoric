@@ -1,6 +1,5 @@
 using Gdk;
 using Gtk;
-using GtkSharp;
 using System;
 
 namespace MonoDevelop.Gui.Widgets

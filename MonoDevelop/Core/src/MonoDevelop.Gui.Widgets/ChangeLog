@@ -1,5 +1,11 @@
 2005-06-01  John Luke  <john.luke@gmail.com>
 
+	* Makefile.am: remove Dock/*
+	* Dock: removed
+	* */*.cs: remove GtkSharp and similar references
+
+2005-06-01  John Luke  <john.luke@gmail.com>
+
 	* Makefile.am: no longer using gnome-vfs in here
 	* FileBrowser/FileBrowser.cs: remove vfs remnents
 

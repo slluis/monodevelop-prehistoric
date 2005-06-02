@@ -22,7 +22,6 @@ using System.Reflection;
 using System.Text;
 using GLib;
 using Gtk;
-using GtkSharp;
 using System.Runtime.InteropServices;
 
 namespace MonoDevelop.Gui.Widgets

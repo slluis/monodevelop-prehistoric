@@ -2,9 +2,7 @@ using System;
 using System.Collections;
 
 using Gtk;
-using GtkSharp;
 using Gnome;
-using GnomeSharp;
 
 namespace MonoDevelop.Gui.Widgets {
 	public class IconView : ScrolledWindow {

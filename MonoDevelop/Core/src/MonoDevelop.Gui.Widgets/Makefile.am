@@ -12,8 +12,6 @@ FILES = \
 Tree/TreeView.cs \
 Tree/TreeNodeCollection.cs \
 Tree/TreeNode.cs \
-Dock/Docker.cs \
-Dock/DockingManager.cs \
 IconView/IconView.cs \
 AssemblyInfo.cs \
 FileBrowser/FileBrowser.cs \

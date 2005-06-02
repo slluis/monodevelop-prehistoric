@@ -7,9 +7,7 @@
 
 using System;
 using Gtk;
-using GtkSharp;
 using Glade;
-using GladeSharp;
 
 using Assembly = System.Reflection.Assembly;
 
