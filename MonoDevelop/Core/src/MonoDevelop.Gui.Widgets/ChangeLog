@@ -1,5 +1,10 @@
 2005-06-01  John Luke  <john.luke@gmail.com>
 
+	* Makefile.am: no longer using gnome-vfs in here
+	* FileBrowser/FileBrowser.cs: remove vfs remnents
+
+2005-06-01  John Luke  <john.luke@gmail.com>
+
 	* FileBrowser/FileBrowser.cs: adjust to FileIconLoader
 	change
 

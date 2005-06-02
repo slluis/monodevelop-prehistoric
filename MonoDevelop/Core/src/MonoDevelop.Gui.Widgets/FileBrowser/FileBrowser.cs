@@ -11,7 +11,6 @@ using System.Collections;
 using System.Diagnostics;
 using System.IO;
 using Gtk;
-using Vfs = Gnome.Vfs.Vfs;
 
 using MonoDevelop.Core.Properties;
 using MonoDevelop.Core.Services;
@@ -53,10 +52,6 @@ namespace MonoDevelop.Gui.Widgets
 
 		public FileBrowser ()
 		{
-			if (!Vfs.Initialized) {
-				Vfs.Initialize ();
-			}
-
 			messageService = (IMessageService) ServiceManager.GetService (typeof (IMessageService));
 
 			scrolledwindow = new ScrolledWindow ();
