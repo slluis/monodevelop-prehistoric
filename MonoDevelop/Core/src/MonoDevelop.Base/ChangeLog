@@ -1,3 +1,9 @@
+2005-06-01  John Luke  <john.luke@gmail.com>
+
+	* Gui/Dialogs/ReferenceDialog/SelectReferenceDialog.cs:
+	check GetIterFirst return value to avoid gtk+ assertions
+	might fix bug 74445
+
 2005-06-02  Lluis Sanchez Gual  <lluis@novell.com> 
 
 	* Gui/Pads/SolutionPad/TreeViewPad.cs: Fix warning.

@@ -42,7 +42,7 @@ namespace MonoDevelop.Gui.Dialogs
 			get {
 				ProjectReferenceCollection referenceInformations = new ProjectReferenceCollection();
 				Gtk.TreeIter looping_iter;
-				if (refTreeStore.GetIterFirst (out looping_iter) == false) {
+				if (!refTreeStore.GetIterFirst (out looping_iter)) {
 					return referenceInformations;
 				}
 				do {
@@ -124,7 +124,8 @@ namespace MonoDevelop.Gui.Dialogs
 		public void RemoveReference (ReferenceType referenceType, string referenceName, string referenceLocation)
 		{
 			Gtk.TreeIter looping_iter;
-			refTreeStore.GetIterFirst (out looping_iter);
+			if (!refTreeStore.GetIterFirst (out looping_iter))
+				return;
 			do {
 				if (referenceLocation == (string)refTreeStore.GetValue (looping_iter, 2)) {
 					refTreeStore.Remove (ref looping_iter);
@@ -136,7 +137,8 @@ namespace MonoDevelop.Gui.Dialogs
 		public void AddReference(ReferenceType referenceType, string referenceName, string referenceLocation)
 		{
 			Gtk.TreeIter looping_iter;
-			refTreeStore.GetIterFirst (out looping_iter);
+			if (!refTreeStore.GetIterFirst (out looping_iter))
+				return;
 			do {
 				try {
 					if (referenceLocation == (string)refTreeStore.GetValue (looping_iter, 2) && referenceName == (string)refTreeStore.GetValue (looping_iter, 0)) {
