@@ -261,9 +261,11 @@ class Visitor(AbstractVisitorCompilerStep):
 			if node.Getter is not null:
 				getter = GetMethod(node.Getter)
 				getRegion = GetRegion(node.Getter)
+				getRegion = GetRegion(node) if getRegion is null
 			if node.Setter is not null:
 				setter = GetMethod(node.Setter)
 				setRegion = GetRegion(node.Setter)
+				setRegion = GetRegion(node) if setRegion is null
 				
 			property = Property(node.FullName, ReturnType.CreateReturnType(node), getter, setter, getRegion, setRegion, GetModifier(node), GetRegion(node), GetClientRegion(node))
 			property.Documentation = node.Documentation

@@ -100,10 +100,10 @@ class BooParser(IParser):
 		compilePipe = Compile()
 		parsingStep as Boo.Lang.Parser.BooParsingStep = compilePipe[0]
 		parsingStep.TabSize = 1
-		num = compilePipe.Find(typeof(ProcessMethodBodiesWithDuckTyping))
-		// The following resolved issues with '[Property(foo] foo', but breaks other things
-		// reverting for now, as [Property] bug is less common than others cause by this.
-		//num = compilePipe.Find(typeof(StricterErrorChecking))
+		//num = compilePipe.Find(typeof(ProcessMethodBodiesWithDuckTyping))
+		// Include ProcessMethodBodies step now, as it solves issue
+		// with [Propert(foo)] with an untyped 'foo'
+		num = compilePipe.Find(typeof(StricterErrorChecking))
 		visitor = Visitor(LineLength:lineLength)
 		compilePipe[num] = visitor
 		// Remove unneccessary compiler steps
