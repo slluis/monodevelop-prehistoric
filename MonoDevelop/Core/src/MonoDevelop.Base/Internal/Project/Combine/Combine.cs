@@ -280,8 +280,48 @@ namespace MonoDevelop.Internal.Project
 			OnEntryRemoved (new CombineEntryEventArgs (entry));
 		}
 		
+		private void RemoveReferencesToProject(Project projectToRemove)
+		{			
+			if (projectToRemove == null) {
+				return;
+			}
+
+			if (this.ParentCombine != null)
+			{
+				this.ParentCombine.RemoveReferencesToProject(projectToRemove);
+				return;
+			}
+
+			foreach (Project project in this.GetAllProjects()) {
+
+				if (project == projectToRemove) {
+					continue;
+				}
+				
+				ArrayList toBeDeleted = new ArrayList();
+				
+				foreach (ProjectReference refInfo in project.ProjectReferences) {
+					switch (refInfo.ReferenceType) {
+					case ReferenceType.Project:
+						if (refInfo.Reference == projectToRemove.Name) {
+							toBeDeleted.Add(refInfo);
+						}
+						break;
+					case ReferenceType.Assembly:
+					case ReferenceType.Gac:
+						break;
+					}
+				}
+				
+				foreach (ProjectReference refInfo in toBeDeleted) {
+					project.ProjectReferences.Remove(refInfo);
+				}				
+			}
+		}
+			
 		public void RemoveEntry (CombineEntry entry)
 		{
+			RemoveReferencesToProject (entry as Project);
 			Entries.Remove (entry);
 		}
 		

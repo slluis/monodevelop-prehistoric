@@ -1,3 +1,8 @@
+2005-06-03  Jacob Ilsø Christensen  <jacobilsoe@gmail.com>
+
+	* Internal/Project/Combine/Combine.cs: Remove references
+	to a project when it is removed from a combine (57782)
+
 2005-06-02  John Luke  <john.luke@gmail.com>
 
 	* MonoDevelopCore.addin.xml: add Shift|F8 shortcut
