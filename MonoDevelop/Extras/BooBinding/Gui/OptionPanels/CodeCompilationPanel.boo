@@ -47,10 +47,6 @@ public class CodeGenerationPanel(AbstractOptionPanel):
 	private checkDebug = CheckButton (GettextCatalog.GetString ("Enable debug"))
 	private checkDucky = CheckButton (GettextCatalog.GetString ("Enable ducky mode"))
 
-	// compiler chooser
-	private booc = RadioButton ("booc")
-	private boo as RadioButton
-
 	private outputAssembly = Entry ()
 	private outputDirectory = Entry()
 	// Waiting on easy method for setting entry text before using
@@ -93,17 +89,7 @@ public class CodeGenerationPanel(AbstractOptionPanel):
 		vbox.PackStart (hboxTmp, false, false, 0)
 		Add (vbox)
 
-	def OnCompilerToggled (o as object, args as EventArgs) as void:
-		if booc.Active:
-			compilerPath.Text = "booc"
-		else:
-			compilerPath.Text = "boo"
-	
 	private def InitializeComponent() as void:
-		boo = RadioButton (booc, "boo")
-		boo.Toggled += OnCompilerToggled
-		booc.Toggled += OnCompilerToggled
-
 		codeGenerationLabel.Markup = String.Format ("<b>{0}</b>", GettextCatalog.GetString ("Code Generation"))
 		labelOutputDir.Markup = String.Format ("{0} :", GettextCatalog.GetString ("Output Path"))
 		labelOutputDir.Layout.Alignment = Pango.Alignment.Right
@@ -147,18 +133,12 @@ public class CodeGenerationPanel(AbstractOptionPanel):
 		configuration = cast(DotNetProjectConfiguration,(cast(IProperties,CustomizationObject)).GetProperty("Config"))
 		compilerParameters = cast (BooCompilerParameters, configuration.CompilationParameters)
 
-		if (compilerParameters.Compiler == BooCompiler.Booc):
-			booc.Active = true
-		else:
-			boo.Active = true
-
 		checkDebug.Active = configuration.DebugMode
 		checkDucky.Active = compilerParameters.Ducky
 		outputAssembly.Text = configuration.OutputAssembly
 		//outputDirectory.DefaultPath = configuration.OutputDirectory
 		outputDirectory.Text = configuration.OutputDirectory
 		
-		compilerPath.Text = compilerParameters.CompilerPath
 		culture.Text = compilerParameters.Culture
 		compileTargetCombo.Active = cast (int, configuration.CompileTarget)
 
@@ -174,7 +154,6 @@ public class CodeGenerationPanel(AbstractOptionPanel):
 		//configuration.OutputDirectory = outputDirectory.Path
 
 		compilerParameters.Ducky = checkDucky.Active
-		compilerParameters.CompilerPath = compilerPath.Text
 		compilerParameters.Culture = culture.Text
 
 		return true

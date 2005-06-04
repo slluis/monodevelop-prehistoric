@@ -1,3 +1,9 @@
+2005-06-04  Peter Johanson <latexer@gentoo.org>
+
+	* Gui/OptionPanels/CodeCompilationPanel.boo:
+	* Project/BooCompilerParameters.boo: Remove compiler selection items,
+	as they are unneeded now that we use Boo's API for compilation
+
 2005-06-02  Peter Johanson <latexer@gentoo.org>
 
 	* Parser/BooParser.boo: Re-apply change to include

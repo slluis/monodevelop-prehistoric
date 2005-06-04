@@ -27,12 +27,6 @@ import MonoDevelop.Internal.Project
 import MonoDevelop.Internal.Serialization
 
 public class BooCompilerParameters:
-	[ItemProperty ("compiler")]
-	compiler = BooCompiler.Booc
-
-	[ItemProperty("compilerpath")]
-	compilerpath = "booc"
-	
 	[ItemProperty("genwarnings")]
 	genwarnings = false
 	
@@ -48,18 +42,6 @@ public class BooCompilerParameters:
 		set:
 			genwarnings = value
 
-	public Compiler as BooCompiler:
-		get:
-			return compiler
-		set:
-			compiler = value
-	
-	public CompilerPath as string:
-		get:
-			return compilerpath
-		set:
-			compilerpath = value
-	
 	public Ducky as bool:
 		get:
 			return ducky
