@@ -1,3 +1,8 @@
+2005-06-04  John Luke  <john.luke@gmail.com>
+
+	* MonoDevelopCore.addin.xml: remove workaround
+	for Shift|F8 as the dock handles it now
+
 2005-06-03  Jacob Ilsø Christensen  <jacobilsoe@gmail.com>
 
 	* Internal/Project/Combine/Combine.cs: Remove references

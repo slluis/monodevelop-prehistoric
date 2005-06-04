@@ -72,15 +72,15 @@ class T
 		table.PackEnd (box, false, false, 0);
 		
 		Button button = new Button (Gtk.Stock.Save);
-		button.Clicked += OnSaveLayout;
+		button.Clicked += new EventHandler (OnSaveLayout);
 		box.PackEnd (button, false, true, 0);
 		
 		button = new Button ("Layout Manager");
-		button.Clicked += OnRunLayoutManager;
+		button.Clicked += new EventHandler (OnRunLayoutManager);
 		box.PackEnd (button, false, true, 0);
 
 		button = new Button ("Dump XML");
-		button.Clicked += OnDumpXML;
+		button.Clicked += new EventHandler (OnDumpXML);
 		box.PackEnd (button, false, true, 0);
 
 		app.ShowAll ();
