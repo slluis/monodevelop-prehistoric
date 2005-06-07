@@ -243,6 +243,26 @@ namespace MonoDevelop.Internal.Project
 			}
 		}
 
+		internal void RenameReferences(string oldName, string newName)
+		{
+			ArrayList toBeRemoved = new ArrayList();
+
+			foreach (ProjectReference refInfo in this.ProjectReferences) {
+				if (refInfo.ReferenceType == ReferenceType.Project) {
+					if (refInfo.Reference == oldName) {
+						toBeRemoved.Add(refInfo);
+					}
+				}
+			}
+			
+			foreach (ProjectReference pr in toBeRemoved) {
+				this.ProjectReferences.Remove(pr);
+				ProjectReference prNew = (ProjectReference)pr.Clone();
+				prNew.Reference = newName;
+				this.ProjectReferences.Add(prNew);
+			}			
+		}
+
 		public void CopyReferencesToOutputPath (bool force)
 		{
 			AbstractProjectConfiguration config = ActiveConfiguration as AbstractProjectConfiguration;

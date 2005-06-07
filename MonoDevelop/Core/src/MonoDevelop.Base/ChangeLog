@@ -1,3 +1,9 @@
+2005-06-07  Jacob Ilsø Christensen  <jacobilsoe@gmail.com>
+
+	* Core/src/MonoDevelop.Base/Internal/Project/Project/Project.cs:
+	* Core/src/MonoDevelop.Base/Internal/Project/Combine/CombineEntry.cs:
+	When a project is renamed make sure that references to it are updated.
+
 2005-06-04  John Luke  <john.luke@gmail.com>
 
 	* MonoDevelopCore.addin.xml: remove workaround

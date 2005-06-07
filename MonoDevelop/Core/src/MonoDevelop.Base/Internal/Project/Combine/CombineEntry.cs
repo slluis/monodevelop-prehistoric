@@ -186,6 +186,22 @@ namespace MonoDevelop.Internal.Project
 		
 		protected virtual void OnNameChanged (CombineEntryRenamedEventArgs e)
 		{
+			Combine topMostParentCombine = this.parentCombine;
+
+			if (topMostParentCombine != null) {
+				while (topMostParentCombine.ParentCombine != null) {
+					topMostParentCombine = topMostParentCombine.ParentCombine;
+				}
+				
+				foreach (Project project in topMostParentCombine.GetAllProjects()) {
+					if (project == this) {
+						continue;
+					}
+					
+					project.RenameReferences(e.OldName, e.NewName);
+				}
+			}
+			
 			if (NameChanged != null) {
 				NameChanged (this, e);
 			}
