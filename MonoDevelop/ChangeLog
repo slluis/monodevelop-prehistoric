@@ -1,3 +1,7 @@
+2005-06-08  Todd Berman  <tberman@off.net>
+
+	* monodevelop.in: Remove bashism, patch from meebey (mail@meebey.net)
+
 2005-06-01  Todd Berman  <tberman@off.net>
 
 	* */*: Make MD -langversion:ISO-1 compliant, and add checking to the
