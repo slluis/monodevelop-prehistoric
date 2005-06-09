@@ -47,6 +47,9 @@ namespace MonoDevelop.Commands
 		
 		public CommandManager ()
 		{
+			ActionCommand c = new ActionCommand (CommandSystemCommands.ToolbarList, "Toolbar List", null, null, ActionType.Check);
+			c.CommandArray = true;
+			RegisterCommand (c, "");
 			GLib.Timeout.Add (500, new GLib.TimeoutHandler (UpdateStatus));
 		}
 		
@@ -99,12 +102,12 @@ namespace MonoDevelop.Commands
 			return topMenu;
 		}
 		
-		public Gtk.Toolbar CreateToolbar (string name, CommandEntrySet entrySet)
+/*		public Gtk.Toolbar CreateToolbar (CommandEntrySet entrySet)
 		{
-			return CreateToolbar (entrySet);
+			return CreateToolbar ("", entrySet);
 		}
 		
-		public Gtk.Menu CreateMenu (CommandEntrySet entrySet)
+*/		public Gtk.Menu CreateMenu (CommandEntrySet entrySet)
 		{
 			CommandMenu menu = new CommandMenu (this);
 			foreach (CommandEntry entry in entrySet)
@@ -112,9 +115,9 @@ namespace MonoDevelop.Commands
 			return menu;
 		}
 		
-		public Gtk.Toolbar CreateToolbar (CommandEntrySet entrySet)
+		public Gtk.Toolbar CreateToolbar (string id, CommandEntrySet entrySet)
 		{
-			CommandToolbar toolbar = new CommandToolbar (this);
+			CommandToolbar toolbar = new CommandToolbar (this, id, entrySet.Name);
 			foreach (CommandEntry entry in entrySet)
 				toolbar.Add (entry.CreateToolItem (this));
 			return toolbar;

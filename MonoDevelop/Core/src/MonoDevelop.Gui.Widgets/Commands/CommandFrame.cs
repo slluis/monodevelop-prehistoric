@@ -1,5 +1,5 @@
 //
-// CommandToolbar.cs
+// CommandFrame.cs
 //
 // Author:
 //   Lluis Sanchez Gual
@@ -31,27 +31,42 @@ using MonoDevelop.Gui.Widgets;
 
 namespace MonoDevelop.Commands
 {
-	public class CommandToolbar: DockToolbar
+	public class CommandFrame: DockToolbarFrame
 	{
-		public CommandToolbar (CommandManager manager, string id, string title): base (id, title)
+		CommandManager manager;
+		
+		public CommandFrame (CommandManager manager)
 		{
-			manager.RegisterToolbar (this);
+			this.manager = manager;
+			manager.RegisterGlobalHandler (this);
 		}
 		
-		protected override void OnShown ()
+		[CommandHandler (CommandSystemCommands.ToolbarList)]
+		protected void OnViewToolbar (object ob)
 		{
-			base.OnShown ();
-			Update ();
+			IDockToolbar bar = (IDockToolbar) ob;
+			bar.Visible = !bar.Visible;
 		}
 		
-		internal void Update ()
+		[CommandUpdateHandler (CommandSystemCommands.ToolbarList)]
+		protected void OnUpdateViewToolbar (CommandArrayInfo info)
 		{
-			foreach (Gtk.Widget item in Children) {
-				if (item is ICommandUserItem)
-					((ICommandUserItem)item).Update ();
-				else
-					item.Show ();
+			foreach (IDockToolbar bar in Toolbars) {
+				CommandInfo cmd = new CommandInfo (bar.Title);
+				cmd.Checked = bar.Visible;
+				info.Add (cmd, bar);
 			}
+		}
+		
+		protected override void OnPanelClick (Gdk.EventButton e, Placement placement)
+		{
+			if (e.Button == 3) {
+				CommandEntrySet opset = new CommandEntrySet ();
+				opset.AddItem (CommandSystemCommands.ToolbarList);
+				Gtk.Menu menu = manager.CreateMenu (opset);
+				menu.Popup (null, null, null, IntPtr.Zero, 0, e.Time);
+			}
+			base.OnPanelClick (e, placement);
 		}
 	}
 }

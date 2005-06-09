@@ -1,5 +1,5 @@
 //
-// CommandToolbar.cs
+// FloatingPosition.cs
 //
 // Author:
 //   Lluis Sanchez Gual
@@ -27,31 +27,49 @@
 //
 
 using System;
-using MonoDevelop.Gui.Widgets;
+using Gtk;
+using System.Xml.Serialization;
 
-namespace MonoDevelop.Commands
+namespace MonoDevelop.Gui.Widgets
 {
-	public class CommandToolbar: DockToolbar
+	[XmlType ("floatingPosition")]
+	public class FloatingPosition: DockToolbarPosition
 	{
-		public CommandToolbar (CommandManager manager, string id, string title): base (id, title)
+		Orientation orientation;
+		int x;
+		int y;
+		
+		public FloatingPosition ()
 		{
-			manager.RegisterToolbar (this);
 		}
 		
-		protected override void OnShown ()
+		internal FloatingPosition (DockToolbar bar)
 		{
-			base.OnShown ();
-			Update ();
+			orientation = bar.Orientation;
+			bar.FloatingDock.GetPosition (out x, out y);
 		}
 		
-		internal void Update ()
+		[XmlAttribute ("x")]
+		public int X {
+			get { return x; }
+			set { x = value; }
+		}
+		
+		[XmlAttribute ("y")]
+		public int Y {
+			get { return y; }
+			set { y = value; }
+		}
+		
+		[XmlAttribute ("orientation")]
+		public Orientation Orientation {
+			get { return orientation; }
+			set { orientation = value; }
+		}
+		
+		internal override void RestorePosition (DockToolbarFrame frame, DockToolbar bar)
 		{
-			foreach (Gtk.Widget item in Children) {
-				if (item is ICommandUserItem)
-					((ICommandUserItem)item).Update ();
-				else
-					item.Show ();
-			}
+			frame.FloatBar (bar, orientation, x, y);
 		}
 	}
 }

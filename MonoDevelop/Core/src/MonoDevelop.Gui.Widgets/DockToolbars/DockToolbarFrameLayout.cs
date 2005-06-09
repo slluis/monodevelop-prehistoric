@@ -1,5 +1,5 @@
 //
-// CommandToolbar.cs
+// DockToolbarFrameLayout.cs
 //
 // Author:
 //   Lluis Sanchez Gual
@@ -27,31 +27,16 @@
 //
 
 using System;
-using MonoDevelop.Gui.Widgets;
+using System.Xml.Serialization;
 
-namespace MonoDevelop.Commands
+namespace MonoDevelop.Gui.Widgets
 {
-	public class CommandToolbar: DockToolbar
+	public class DockToolbarFrameLayout
 	{
-		public CommandToolbar (CommandManager manager, string id, string title): base (id, title)
-		{
-			manager.RegisterToolbar (this);
-		}
+		[XmlAttribute ("id")]
+		public string Id;
 		
-		protected override void OnShown ()
-		{
-			base.OnShown ();
-			Update ();
-		}
-		
-		internal void Update ()
-		{
-			foreach (Gtk.Widget item in Children) {
-				if (item is ICommandUserItem)
-					((ICommandUserItem)item).Update ();
-				else
-					item.Show ();
-			}
-		}
+		[XmlElement ("dockbar")]
+		public DockToolbarStatus[] Bars;
 	}
 }

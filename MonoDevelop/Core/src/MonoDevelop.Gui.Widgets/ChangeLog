@@ -1,3 +1,14 @@
+2005-06-09  Lluis Sanchez Gual  <lluis@novell.com>
+
+	* DockToolbars/*: Docking toolbars!
+	
+	* Commands/Command.cs: Command should be abstract.
+	* Commands/CommandToolbar.cs: This now is a dockable toolbar.
+	* Commands/CommandManager.cs: Register commands from CommandSystemCommands.
+	* Commands/CommandFrame.cs: A frame to use as main container for windows
+	that use commands in dockable toolbars.
+	* Commands/CommandSystemCommands.cs: Some configuration commands.
+
 2005-06-01  John Luke  <john.luke@gmail.com>
 
 	* Makefile.am: remove Dock/*

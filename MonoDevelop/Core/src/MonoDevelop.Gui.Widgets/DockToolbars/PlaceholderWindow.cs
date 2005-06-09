@@ -1,5 +1,5 @@
 //
-// CommandToolbar.cs
+// PlaceholderWindow.cs
 //
 // Author:
 //   Lluis Sanchez Gual
@@ -26,32 +26,30 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-using System;
-using MonoDevelop.Gui.Widgets;
 
-namespace MonoDevelop.Commands
+namespace MonoDevelop.Gui.Widgets
 {
-	public class CommandToolbar: DockToolbar
+	internal class PlaceholderWindow: Gtk.Window
 	{
-		public CommandToolbar (CommandManager manager, string id, string title): base (id, title)
+		Gdk.GC redgc;
+		
+		public PlaceholderWindow (DockToolbarFrame frame): base (Gtk.WindowType.Toplevel)
 		{
-			manager.RegisterToolbar (this);
+			SkipTaskbarHint = true;
+			Decorated = false;
+			TransientFor = frame.TopWindow;
+			Realize ();
+			redgc = new Gdk.GC (GdkWindow);
+	   		redgc.RgbFgColor = new Gdk.Color (255, 0, 0);
 		}
 		
-		protected override void OnShown ()
+		protected override bool OnExposeEvent (Gdk.EventExpose args)
 		{
-			base.OnShown ();
-			Update ();
-		}
-		
-		internal void Update ()
-		{
-			foreach (Gtk.Widget item in Children) {
-				if (item is ICommandUserItem)
-					((ICommandUserItem)item).Update ();
-				else
-					item.Show ();
-			}
+			base.OnExposeEvent (args);
+			int w, h;
+			this.GetSize (out w, out h);
+			this.GdkWindow.DrawRectangle (redgc, false, 0, 0, w-1, h-1);
+	  		return true;
 		}
 	}
 }

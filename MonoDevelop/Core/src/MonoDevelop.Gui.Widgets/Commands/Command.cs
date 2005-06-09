@@ -30,7 +30,7 @@ using System;
 
 namespace MonoDevelop.Commands
 {
-	public class Command
+	public abstract class Command
 	{
 		public static readonly object Separator = new Object ();
 		

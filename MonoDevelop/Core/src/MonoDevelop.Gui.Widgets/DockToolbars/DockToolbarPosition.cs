@@ -1,5 +1,5 @@
 //
-// CommandToolbar.cs
+// DockToolbarPosition.cs
 //
 // Author:
 //   Lluis Sanchez Gual
@@ -27,31 +27,26 @@
 //
 
 using System;
-using MonoDevelop.Gui.Widgets;
+using Gtk;
+using Gdk;
+using System.Collections;
+using System.Xml;
+using System.Xml.Serialization;
 
-namespace MonoDevelop.Commands
+namespace MonoDevelop.Gui.Widgets
 {
-	public class CommandToolbar: DockToolbar
+	[XmlInclude (typeof(DockedPosition))]
+	[XmlInclude (typeof(FloatingPosition))]
+	public class DockToolbarPosition
 	{
-		public CommandToolbar (CommandManager manager, string id, string title): base (id, title)
-		{
-			manager.RegisterToolbar (this);
-		}
+		internal virtual void RestorePosition (DockToolbarFrame frame, DockToolbar bar) {}
 		
-		protected override void OnShown ()
+		internal static DockToolbarPosition Create (DockToolbar bar)
 		{
-			base.OnShown ();
-			Update ();
-		}
-		
-		internal void Update ()
-		{
-			foreach (Gtk.Widget item in Children) {
-				if (item is ICommandUserItem)
-					((ICommandUserItem)item).Update ();
-				else
-					item.Show ();
-			}
-		}
+			if (bar.Floating)
+				return new FloatingPosition (bar);
+			else
+				return new DockedPosition (bar);
+		} 
 	}
 }

@@ -1,5 +1,5 @@
 //
-// CommandToolbar.cs
+// DockedPosition.cs
 //
 // Author:
 //   Lluis Sanchez Gual
@@ -27,31 +27,55 @@
 //
 
 using System;
-using MonoDevelop.Gui.Widgets;
+using System.Xml.Serialization;
 
-namespace MonoDevelop.Commands
+namespace MonoDevelop.Gui.Widgets
 {
-	public class CommandToolbar: DockToolbar
+	[XmlType ("dockedPosition")]
+	public class DockedPosition: DockToolbarPosition
 	{
-		public CommandToolbar (CommandManager manager, string id, string title): base (id, title)
+		Placement placement;
+		int dockOffset;
+		int dockRow;
+		
+		public DockedPosition ()
 		{
-			manager.RegisterToolbar (this);
 		}
 		
-		protected override void OnShown ()
+		internal DockedPosition (DockToolbar bar)
 		{
-			base.OnShown ();
-			Update ();
+			dockOffset = bar.AnchorOffset;
+			dockRow = bar.DockRow;
+			placement = ((DockToolbarPanel)bar.Parent).Placement;
 		}
 		
-		internal void Update ()
+		internal DockedPosition (Placement placement)
 		{
-			foreach (Gtk.Widget item in Children) {
-				if (item is ICommandUserItem)
-					((ICommandUserItem)item).Update ();
-				else
-					item.Show ();
-			}
+			this.placement = placement;
+			dockRow = -1;
+		}
+		
+		[XmlAttribute ("offset")]
+		public int DockOffset {
+			get { return dockOffset; }
+			set { dockOffset = value; }
+		}
+		
+		[XmlAttribute ("row")]
+		public int DockRow {
+			get { return dockRow; }
+			set { dockRow = value; }
+		}
+		
+		[XmlAttribute ("placement")]
+		public Placement Placement {
+			get { return placement; }
+			set { placement = value; }
+		}
+		
+		internal override void RestorePosition (DockToolbarFrame frame, DockToolbar bar)
+		{
+			frame.DockToolbar (bar, placement, dockOffset, dockRow);
 		}
 	}
 }

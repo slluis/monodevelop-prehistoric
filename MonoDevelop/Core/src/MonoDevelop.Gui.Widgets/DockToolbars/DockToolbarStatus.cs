@@ -1,5 +1,5 @@
 //
-// CommandToolbar.cs
+// DockToolbarStatus.cs
 //
 // Author:
 //   Lluis Sanchez Gual
@@ -27,31 +27,45 @@
 //
 
 using System;
-using MonoDevelop.Gui.Widgets;
+using System.Xml.Serialization;
 
-namespace MonoDevelop.Commands
+namespace MonoDevelop.Gui.Widgets
 {
-	public class CommandToolbar: DockToolbar
+	[XmlType ("dockBar")]
+	public class DockToolbarStatus
 	{
-		public CommandToolbar (CommandManager manager, string id, string title): base (id, title)
+		bool visible;
+		DockToolbarPosition position;
+		string id;
+		
+		public DockToolbarStatus ()
 		{
-			manager.RegisterToolbar (this);
 		}
 		
-		protected override void OnShown ()
+		public DockToolbarStatus (string id, bool visible, DockToolbarPosition position)
 		{
-			base.OnShown ();
-			Update ();
+			this.visible = visible;
+			this.position = position;
+			this.id = id;
 		}
 		
-		internal void Update ()
-		{
-			foreach (Gtk.Widget item in Children) {
-				if (item is ICommandUserItem)
-					((ICommandUserItem)item).Update ();
-				else
-					item.Show ();
-			}
+		[XmlAttribute ("id")]
+		public string BarId {
+			get { return id; }
+			set { id = value; }
+		}
+
+		[XmlElement ("visible")]
+		public bool Visible {
+			get { return visible; }
+			set { visible = value; }
+		}
+		
+		[XmlElement ("dockedPosition", typeof(DockedPosition))]
+		[XmlElement ("floatingPosition", typeof(FloatingPosition))]
+		public DockToolbarPosition Position {
+			get { return position; }
+			set { position = value; }
 		}
 	}
 }

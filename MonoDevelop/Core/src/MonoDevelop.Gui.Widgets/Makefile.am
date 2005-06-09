@@ -32,6 +32,7 @@ Commands/CommandCheckMenuItem.cs \
 Commands/Command.cs \
 Commands/CommandEntry.cs \
 Commands/CommandEntrySet.cs \
+Commands/CommandFrame.cs \
 Commands/CommandErrorHandler.cs \
 Commands/CommandHandlerAttribute.cs \
 Commands/CommandHandler.cs \
@@ -40,6 +41,7 @@ Commands/CommandManager.cs \
 Commands/CommandMenuBar.cs \
 Commands/CommandMenu.cs \
 Commands/CommandMenuItem.cs \
+Commands/CommandSystemCommands.cs \
 Commands/CommandToggleToolButton.cs \
 Commands/CommandToolbar.cs \
 Commands/CommandToolButton.cs \
@@ -49,7 +51,23 @@ Commands/ICommandMenuItem.cs \
 Commands/ICommandRouter.cs \
 Commands/ICommandUserItem.cs \
 Commands/LinkCommandEntry.cs \
-Commands/MenuToolButton.cs
+Commands/MenuToolButton.cs \
+DockToolbars/ArrowWindow.cs \
+DockToolbars/DockGrip.cs \
+DockToolbars/DockToolbar.cs \
+DockToolbars/DockToolbarFrame.cs \
+DockToolbars/DockToolbarFrameLayout.cs \
+DockToolbars/DockToolbarFrameStatus.cs \
+DockToolbars/DockToolbarPanel.cs \
+DockToolbars/DockToolbarPosition.cs \
+DockToolbars/DockToolbarStatus.cs \
+DockToolbars/DockedPosition.cs \
+DockToolbars/FixedPanel.cs \
+DockToolbars/FloatingDock.cs \
+DockToolbars/FloatingPosition.cs \
+DockToolbars/IDockBar.cs \
+DockToolbars/PlaceholderWindow.cs
+
 
 all: $(DLL)
 

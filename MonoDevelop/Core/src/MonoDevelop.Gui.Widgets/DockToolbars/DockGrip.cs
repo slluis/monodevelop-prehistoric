@@ -1,5 +1,5 @@
 //
-// CommandToolbar.cs
+// DockGrip.cs
 //
 // Author:
 //   Lluis Sanchez Gual
@@ -27,31 +27,45 @@
 //
 
 using System;
-using MonoDevelop.Gui.Widgets;
+using Gtk;
+using Gdk;
 
-namespace MonoDevelop.Commands
+namespace MonoDevelop.Gui.Widgets
 {
-	public class CommandToolbar: DockToolbar
+	internal class DockGrip: ToolItem
 	{
-		public CommandToolbar (CommandManager manager, string id, string title): base (id, title)
+		const int GripSize = 6;
+		const int MarginLeft = 1;
+		const int MarginRight = 3;
+		
+		public DockGrip ()
 		{
-			manager.RegisterToolbar (this);
 		}
 		
-		protected override void OnShown ()
+		protected override void OnSizeRequested (ref Requisition req)
 		{
-			base.OnShown ();
-			Update ();
-		}
-		
-		internal void Update ()
-		{
-			foreach (Gtk.Widget item in Children) {
-				if (item is ICommandUserItem)
-					((ICommandUserItem)item).Update ();
-				else
-					item.Show ();
+			if (Orientation == Orientation.Horizontal) {
+				req.Width = GripSize + MarginLeft + MarginRight;
+				req.Height = 0;
+			} else {
+				req.Width = 0;
+				req.Height = GripSize + MarginLeft + MarginRight;
 			}
+		}
+		
+		protected override bool OnExposeEvent (Gdk.EventExpose args)
+		{
+			Rectangle rect = Allocation;
+			if (Orientation == Orientation.Horizontal) {
+				rect.Width = GripSize;
+				rect.X += MarginLeft;
+			} else {
+				rect.Height = GripSize;
+				rect.Y += MarginLeft;
+			}
+			
+			Gtk.Style.PaintHandle (this.Style, this.ParentWindow, this.State, Gtk.ShadowType.None, args.Area, this, "grip", rect.X, rect.Y, rect.Width, rect.Height, Orientation);
+			return true;
 		}
 	}
 }

@@ -1,5 +1,5 @@
 //
-// CommandToolbar.cs
+// CommandSystemCommands.cs
 //
 // Author:
 //   Lluis Sanchez Gual
@@ -27,31 +27,12 @@
 //
 
 using System;
-using MonoDevelop.Gui.Widgets;
 
 namespace MonoDevelop.Commands
 {
-	public class CommandToolbar: DockToolbar
+	public enum CommandSystemCommands
 	{
-		public CommandToolbar (CommandManager manager, string id, string title): base (id, title)
-		{
-			manager.RegisterToolbar (this);
-		}
-		
-		protected override void OnShown ()
-		{
-			base.OnShown ();
-			Update ();
-		}
-		
-		internal void Update ()
-		{
-			foreach (Gtk.Widget item in Children) {
-				if (item is ICommandUserItem)
-					((ICommandUserItem)item).Update ();
-				else
-					item.Show ();
-			}
-		}
+		ToolbarList
 	}
 }
+

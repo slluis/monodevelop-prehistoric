@@ -1,5 +1,5 @@
 //
-// CommandToolbar.cs
+// FloatingDock.cs
 //
 // Author:
 //   Lluis Sanchez Gual
@@ -27,31 +27,39 @@
 //
 
 using System;
-using MonoDevelop.Gui.Widgets;
+using Gtk;
+using Gdk;
 
-namespace MonoDevelop.Commands
+namespace MonoDevelop.Gui.Widgets
 {
-	public class CommandToolbar: DockToolbar
+	internal class FloatingDock: Gtk.Window
 	{
-		public CommandToolbar (CommandManager manager, string id, string title): base (id, title)
+		DockToolbar bar;
+		
+		public FloatingDock (DockToolbarFrame frame): base (Gtk.WindowType.Toplevel)
 		{
-			manager.RegisterToolbar (this);
+			SkipTaskbarHint = true;
+			Decorated = false;
+			TransientFor = frame.TopWindow;
 		}
 		
-		protected override void OnShown ()
+		public void Attach (DockToolbar bar)
 		{
-			base.OnShown ();
-			Update ();
+			this.bar = bar;
+			bar.FloatingDock = this;
+			Frame f = new Frame ();
+			f.Shadow = ShadowType.Out;
+			f.Add (bar);
+			Add (f);
+			f.Show ();
+			bar.Show ();
+			Show ();
 		}
 		
-		internal void Update ()
+		public void Detach ()
 		{
-			foreach (Gtk.Widget item in Children) {
-				if (item is ICommandUserItem)
-					((ICommandUserItem)item).Update ();
-				else
-					item.Show ();
-			}
+			bar.FloatingDock = null;
+			((Frame)bar.Parent).Remove (bar);
 		}
 	}
 }
