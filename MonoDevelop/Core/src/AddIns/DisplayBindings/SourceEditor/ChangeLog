@@ -1,3 +1,10 @@
+2005-06-09  Lluis Sanchez Gual  <lluis@novell.com> 
+
+	* Services/SourceViewService.cs: Added null check.
+	* CodeCompletion/CompletionListWindow.cs: Added some error checking to
+	avoid crashes.
+	* MonoDevelopEditor.addin.xml: Create a toolbar specific for the editor.
+
 2005-05-22  Todd Berman  <tberman@off.net>
 
 	* Gui/Dialogs/ReplaceDialog.cs:

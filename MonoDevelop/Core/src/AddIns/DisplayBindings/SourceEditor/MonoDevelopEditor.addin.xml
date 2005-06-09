@@ -147,15 +147,17 @@
 		<CommandItem id = "MonoDevelop.DefaultEditor.EditorCommands.ShowBufferOptions" />
 	</Extension>
 
-	<Extension path = "/SharpDevelop/Workbench/ToolBar/Standard">
-		<CommandItem id = "MonoDevelop.Commands.SearchCommands.Find"  insertafter = "CutSeparator" insertbefore = "CompileSeparator" />
-		<CommandItem id = "MonoDevelop.Commands.SearchCommands.FindNext" />
-		<CommandItem id = "MonoDevelop.Commands.SearchCommands.Replace" />
-		<SeparatorItem id = "SearchSeparator" />
-		<CommandItem id = "MonoDevelop.DefaultEditor.EditorCommands.ToggleBookmark" />
-		<CommandItem id = "MonoDevelop.DefaultEditor.EditorCommands.PrevBookmark" />
-		<CommandItem id = "MonoDevelop.DefaultEditor.EditorCommands.NextBookmark" />
-		<CommandItem id = "MonoDevelop.DefaultEditor.EditorCommands.ClearBookmarks" />
+	<Extension path = "/SharpDevelop/Workbench/ToolBar">
+		<ItemSet id = "Search" insertafter = "Standard" insertbefore = "Build">
+			<CommandItem id = "MonoDevelop.Commands.SearchCommands.Find" />
+			<CommandItem id = "MonoDevelop.Commands.SearchCommands.FindNext" />
+			<CommandItem id = "MonoDevelop.Commands.SearchCommands.Replace" />
+			<SeparatorItem id = "SearchSeparator" />
+			<CommandItem id = "MonoDevelop.DefaultEditor.EditorCommands.ToggleBookmark" />
+			<CommandItem id = "MonoDevelop.DefaultEditor.EditorCommands.PrevBookmark" />
+			<CommandItem id = "MonoDevelop.DefaultEditor.EditorCommands.NextBookmark" />
+			<CommandItem id = "MonoDevelop.DefaultEditor.EditorCommands.ClearBookmarks" />
+		</ItemSet>
 	</Extension>
 	
 	

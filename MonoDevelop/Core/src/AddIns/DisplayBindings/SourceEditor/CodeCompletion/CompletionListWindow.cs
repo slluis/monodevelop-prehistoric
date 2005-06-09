@@ -42,7 +42,8 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 		
 		public static void ShowWindow (char firstChar, TextIter trigIter, ICompletionDataProvider provider, SourceEditorView ctrl)
 		{
-			wnd.ShowListWindow (firstChar, trigIter, provider,  ctrl);
+			if (!wnd.ShowListWindow (firstChar, trigIter, provider,  ctrl))
+				return;
 			
 			// makes control-space in midle of words to work
 			TextBuffer buf = wnd.control.Buffer; 
@@ -62,7 +63,7 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 			wnd.PartialWord = wnd.CompleteWord;		
 		}
 		
-		void ShowListWindow (char firstChar, TextIter trigIter, ICompletionDataProvider provider, SourceEditorView ctrl)
+		bool ShowListWindow (char firstChar, TextIter trigIter, ICompletionDataProvider provider, SourceEditorView ctrl)
 		{
 			this.control = ctrl;
 			this.fileName = ctrl.ParentEditor.DisplayBinding.ContentName;
@@ -70,7 +71,7 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 			triggeringMark = control.Buffer.CreateMark (null, trigIter, true);
 			
 			completionData = provider.GenerateCompletionData (project, fileName, ctrl, firstChar, triggeringMark);
-			if (completionData == null || completionData.Length == 0) return;
+			if (completionData == null || completionData.Length == 0) return false;
 			
 			this.Style = ctrl.Style.Copy();
 			
@@ -100,6 +101,7 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 			Move (x, y);
 			
 			Show ();
+			return true;
 		}
 		
 		public static void HideWindow ()

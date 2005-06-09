@@ -53,6 +53,7 @@ namespace MonoDevelop.Services
 					if (reader.IsStartElement ()) {
 						switch (reader.Name) {
 							case "SourceTag":
+								if (lang == null) continue;
 								string name = reader.GetAttribute ("name");
 								SourceTagStyle sts = lang.GetTagStyle (name);
 								sts.Bold = bool.Parse (reader.GetAttribute ("bold"));
