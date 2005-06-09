@@ -1,3 +1,22 @@
+2005-06-09  Lluis Sanchez Gual  <lluis@novell.com> 
+
+	* Commands/AutostartCommands.cs: Use IWorkbench.CreateMemento to create
+	the default memento.
+	* Gui/Workbench/WorkbenchMemento.cs:
+	* Gui/Workbench/DefaultWorkbench.cs:
+	* Gui/IWorkbenchLayout.cs:
+	* Gui/Workbench/Layouts/SdiWorkspaceLayout.cs: Use dockable toolbars.
+	Load/Save the toolbar layout when starting/exiting. Added support for
+	IMementoCapable to IWorkbenchLayout.
+	
+	* Gui/CommandService.cs: Added CommandManager property.
+	
+	* Internal/Codons/Commands/CommandCodon.cs: Make sure that configuration
+	commands defined by the command system can be found.
+	
+	* MonoDevelopCore.addin.xml: Added names to the toolbars. Added the
+	ToolbarList command.
+
 2005-06-07  Jacob Ilsø Christensen  <jacobilsoe@gmail.com>
 
 	* Core/src/MonoDevelop.Base/Internal/Project/Project/Project.cs:

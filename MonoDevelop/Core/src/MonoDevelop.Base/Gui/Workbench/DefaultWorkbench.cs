@@ -43,8 +43,8 @@ namespace MonoDevelop.Gui
 		
 		bool closeAll = false;
 
-		bool            fullscreen;
-		Rectangle       normalBounds       = new Rectangle(0, 0, 640, 480);
+		bool fullscreen;
+		Rectangle normalBounds = new Rectangle(0, 0, 640, 480);
 		
 		private IWorkbenchLayout layout = null;
 
@@ -344,13 +344,15 @@ namespace MonoDevelop.Gui
 			GetPosition (out x, out y);
 			GetSize (out width, out height);
 			if (GdkWindow.State == 0) {
-				memento.Bounds             = new Rectangle (x, y, width, height);
+				memento.Bounds = new Rectangle (x, y, width, height);
 			} else {
 				memento.Bounds = normalBounds;
 			}
 			memento.WindowState = GdkWindow.State;
 
-			memento.FullScreen         = fullscreen;
+			memento.FullScreen  = fullscreen;
+			if (layout != null)
+				memento.LayoutMemento = layout.CreateMemento ();
 			return memento;
 		}
 		
@@ -369,6 +371,9 @@ namespace MonoDevelop.Gui
 				}
 				//GdkWindow.State = memento.WindowState;
 				FullScreen = memento.FullScreen;
+
+				if (layout != null && memento.LayoutMemento != null)
+					layout.SetMemento (memento.LayoutMemento);
 			}
 			Decorated = true;
 		}

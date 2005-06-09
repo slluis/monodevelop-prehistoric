@@ -52,6 +52,10 @@ namespace MonoDevelop.Services
 			manager.CommandError += new CommandErrorHandler (OnCommandError);
 		}
 		
+		public CommandManager CommandManager {
+			get { return manager; }
+		}
+		
 		public void SetRootWindow (Gtk.Window root)
 		{
 			manager.SetRootWindow (root);

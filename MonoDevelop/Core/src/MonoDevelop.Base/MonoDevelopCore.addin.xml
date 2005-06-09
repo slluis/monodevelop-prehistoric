@@ -779,7 +779,7 @@
 	<!-- Main Toolbar -->
 	
 	<Extension path = "/SharpDevelop/Workbench/ToolBar">
-		<ItemSet id = "Standard">
+		<ItemSet id = "Standard" _label = "Standard">
 			<CommandItem id = "MonoDevelop.Commands.FileCommands.NewFile" />
 			<CommandItem id = "MonoDevelop.Commands.FileCommands.OpenFile" />
 			<CommandItem id = "MonoDevelop.Commands.FileCommands.Save" />
@@ -789,9 +789,9 @@
 			<CommandItem id = "MonoDevelop.Commands.EditCommands.Copy" />
 			<CommandItem id = "MonoDevelop.Commands.EditCommands.Paste" />
 			<CommandItem id = "MonoDevelop.Commands.EditCommands.Delete" />
-			<SeparatorItem id = "CutSeparator" />
-			<SeparatorItem id = "CompileSeparator" />
 <!--			<CommandItem id = "MonoDevelop.Commands.ProjectCommands.ConfigurationSelector" />-->
+		</ItemSet>
+		<ItemSet id = "Build" _label = "Build">
 			<CommandItem id = "MonoDevelop.Commands.ProjectCommands.Build" />
 			<CommandItem id = "MonoDevelop.Commands.ProjectCommands.BuildSolution" />
 			<CommandItem id = "MonoDevelop.Commands.ProjectCommands.Run" />
@@ -861,6 +861,10 @@
 		</ItemSet>
 		
 		<ItemSet id = "View" _label = "_View">
+			<ItemSet id = "ViewToolbars" _label = "Toolbars">
+				<CommandItem id = "MonoDevelop.Commands.CommandSystemCommands.ToolbarList" />
+			</ItemSet>
+			<SeparatorItem id = "ViewItemsSeparator0" />
 			<CommandItem id = "MonoDevelop.Commands.ViewCommands.ViewList" />
 			<SeparatorItem id = "ViewItemsSeparator" />
 			<ItemSet id = "ViewLayouts" _label = "_Layouts">

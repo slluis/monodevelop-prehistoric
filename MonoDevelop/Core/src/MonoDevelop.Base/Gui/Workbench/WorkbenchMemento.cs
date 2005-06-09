@@ -21,8 +21,9 @@ namespace MonoDevelop.Gui
 	{
 		Gdk.WindowState windowstate        = 0;
 		//FormWindowState defaultwindowstate = FormWindowState.Normal;
-		Rectangle       bounds             = new Rectangle(0, 0, 640, 480);
-		bool            fullscreen         = false;
+		Rectangle bounds = new Rectangle(0, 0, 640, 480);
+		bool fullscreen = false;
+		IXmlConvertable layoutMemento;
 		
 		/*public FormWindowState DefaultWindowState {
 			get {
@@ -60,6 +61,15 @@ namespace MonoDevelop.Gui
 			}
 		}
 		
+		public IXmlConvertable LayoutMemento {
+			get {
+				return layoutMemento;
+			}
+			set {
+				layoutMemento = value;
+			}
+		}
+		
 		/// <summary>
 		/// Creates a new instance of the <code>MdiWorkspaceMemento</code>.
 		/// </summary>
@@ -70,7 +80,7 @@ namespace MonoDevelop.Gui
 			fullscreen  = false;
 		}
 		
-		WorkbenchMemento(XmlElement element) : base ()
+		WorkbenchMemento(XmlElement element, IXmlConvertable defaultLayoutMemento) : base ()
 		{
 			try {
 				string[] boundstr = element.Attributes["bounds"].InnerText.Split(new char [] { ',' });
@@ -93,11 +103,18 @@ namespace MonoDevelop.Gui
 				fullscreen  = Boolean.Parse(element.Attributes["fullscreen"].InnerText);
 			} catch {
 			}
+			
+			if (element.FirstChild is XmlElement && defaultLayoutMemento != null) {
+				XmlElement e = (XmlElement) element.FirstChild;
+				this.layoutMemento = (IXmlConvertable) defaultLayoutMemento.FromXmlElement (e);
+			} else {
+				this.layoutMemento = defaultLayoutMemento;
+			}
 		}
 
 		public object FromXmlElement(XmlElement element)
 		{
-			return new WorkbenchMemento(element);
+			return new WorkbenchMemento(element, layoutMemento);
 		}
 		
 		public XmlElement ToXmlElement(XmlDocument doc)
@@ -120,6 +137,11 @@ namespace MonoDevelop.Gui
 			attr = doc.CreateAttribute("fullscreen");
 			attr.InnerText = fullscreen.ToString();
 			element.Attributes.Append(attr);
+			
+			if (LayoutMemento != null) {
+				XmlElement elayout = LayoutMemento.ToXmlElement (doc);
+				element.AppendChild (elayout);
+			}
 			
 			return element;
 		}

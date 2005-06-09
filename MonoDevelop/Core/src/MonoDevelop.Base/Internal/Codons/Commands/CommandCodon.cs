@@ -156,12 +156,19 @@ namespace MonoDevelop.Core.AddIns.Codons
 		{
 			string id = codon.ID;
 			Type enumType = null;
+			string typeName = id;
+			
 			int i = id.LastIndexOf (".");
 			if (i != -1)
-				enumType = codon.AddIn.GetType (id.Substring (0,i));
+				typeName = id.Substring (0,i);
+				
+			enumType = codon.AddIn.GetType (typeName);
 				
 			if (enumType == null)
-				enumType = Type.GetType (id.Substring (0,i));
+				enumType = Type.GetType (typeName);
+
+			if (enumType == null)
+				enumType = typeof(Command).Assembly.GetType (typeName);
 
 			if (enumType == null || !enumType.IsEnum)
 				throw new InvalidOperationException ("Could not find an enum type for the command '" + id + "'.");

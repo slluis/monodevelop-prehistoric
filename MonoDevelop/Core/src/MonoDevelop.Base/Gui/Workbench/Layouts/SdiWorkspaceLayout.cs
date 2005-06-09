@@ -9,6 +9,8 @@ using System;
 using System.IO;
 using System.Collections;
 using System.Drawing;
+using System.Xml;
+using System.Xml.Serialization;
 
 using MonoDevelop.Core.Properties;
 using MonoDevelop.Core.Services;
@@ -20,6 +22,7 @@ using MonoDevelop.Gui.Widgets;
 using MonoDevelop.Gui.Utils;
 using MonoDevelop.Core.AddIns.Codons;
 using MonoDevelop.Core.AddIns;
+using MonoDevelop.Commands;
 
 namespace MonoDevelop.Gui
 {	
@@ -42,12 +45,14 @@ namespace MonoDevelop.Gui
 		
 		Window wbWindow;
 		Container rootWidget;
+		DockToolbarFrame toolbarFrame;
 		Dock dock;
 		DockLayout dockLayout;
 		DragNotebook tabControl;
 		EventHandler contextChangedHandler;
 		
 		WorkbenchContextCodon[] contextCodons;
+		bool initialized;
 
 		public SdiWorkbenchLayout () {
 			contextChangedHandler = new EventHandler (OnContextChanged);
@@ -73,12 +78,13 @@ namespace MonoDevelop.Gui
 			rootWidget = vbox;
 
 			vbox.PackStart (workbench.TopMenu, false, false, 0);
+			
+			toolbarFrame = new CommandFrame (Runtime.Gui.CommandService.CommandManager);
+			vbox.PackStart (toolbarFrame, true, true, 0);
+			
 			if (workbench.ToolBars != null) {
 				for (int i = 0; i < workbench.ToolBars.Length; i++) {
-					Gtk.HandleBox toolHandleBox = new Gtk.HandleBox ();
-					toolHandleBox.Shadow = Gtk.ShadowType.None;
-					toolHandleBox.Add (workbench.ToolBars[i]);
-					vbox.PackStart (toolHandleBox, false, false, 0);
+					toolbarFrame.AddBar ((DockToolbar)workbench.ToolBars[i]);
 				}
 			}
 			
@@ -88,7 +94,7 @@ namespace MonoDevelop.Gui
 			Gtk.HBox dockBox = new HBox (false, 5);
 			dockBox.PackStart (dockBar, false, true, 0);
 			dockBox.PackStart (dock, true, true, 0);
-			vbox.PackStart (dockBox, true, true, 0);
+			toolbarFrame.AddContent (dockBox);
 
 			// Create the notebook for the various documents.
 			tabControl = new DragNotebook ();
@@ -131,6 +137,21 @@ namespace MonoDevelop.Gui
 			workbench.ContextChanged += contextChangedHandler;
 		}
 
+		public IXmlConvertable CreateMemento()
+		{
+			if (initialized)
+				return new SdiWorkbenchLayoutMemento (toolbarFrame.GetStatus ());
+			else
+				return new SdiWorkbenchLayoutMemento (new DockToolbarFrameStatus ());
+		}
+		
+		public void SetMemento(IXmlConvertable memento)
+		{
+			initialized = true;
+			SdiWorkbenchLayoutMemento m = (SdiWorkbenchLayoutMemento) memento;
+			toolbarFrame.SetStatus (m.Status);
+		}
+		
 		void OnTabsReordered (Widget widget, int oldPlacement, int newPlacement)
 		{
 			lock (workbench.ViewContentCollection) {
@@ -219,6 +240,7 @@ namespace MonoDevelop.Gui
 					layouts.Add (value);
 				}
 				currentLayout = newLayout;
+				toolbarFrame.CurrentLayout = newLayout;
 
 				// persist the selected layout for the current context
 				Runtime.Properties.SetProperty ("MonoDevelop.Gui.SdiWorkbenchLayout." +
@@ -553,5 +575,41 @@ namespace MonoDevelop.Gui
 		}
 		
 		public event EventHandler ActiveWorkbenchWindowChanged;
+		
+		
+		internal class SdiWorkbenchLayoutMemento: IXmlConvertable
+		{
+			public DockToolbarFrameStatus Status;
+			
+			public SdiWorkbenchLayoutMemento (DockToolbarFrameStatus status)
+			{
+				Status = status;
+			}
+			
+			public object FromXmlElement (XmlElement element)
+			{
+				try {
+					StringReader r = new StringReader (element.OuterXml);
+					XmlSerializer s = new XmlSerializer (typeof(DockToolbarFrameStatus));
+					Status = (DockToolbarFrameStatus) s.Deserialize (r);
+				} catch {
+					Status = new DockToolbarFrameStatus ();
+				}
+				return this;
+			}
+			
+			public XmlElement ToXmlElement (XmlDocument doc)
+			{
+				StringWriter w = new StringWriter ();
+				XmlSerializer s = new XmlSerializer (typeof(DockToolbarFrameStatus));
+				s.Serialize (w, Status);
+				w.Close ();
+				
+				XmlDocumentFragment docFrag = doc.CreateDocumentFragment();
+				docFrag.InnerXml = w.ToString ();
+				return docFrag ["DockToolbarFrameStatus"];
+			}
+		}
 	}
+	
 }

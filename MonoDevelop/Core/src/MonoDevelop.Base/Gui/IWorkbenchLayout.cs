@@ -15,7 +15,7 @@ namespace MonoDevelop.Gui
 	/// implementation etc. it could be attached/detached at the runtime
 	/// to a workbench.
 	/// </summary>
-	public interface IWorkbenchLayout
+	public interface IWorkbenchLayout: IMementoCapable
 	{
 		/// <summary>
 		/// The active workbench window.
