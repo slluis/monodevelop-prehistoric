@@ -38,7 +38,6 @@ namespace MonoDevelop.Debugger
 #endif
 		public DebuggingService()
 		{
-			DebuggerBackend.Initialize ();
 #if NET_2_0
 			attr_handler = new DebugAttributeHandler();
 #endif

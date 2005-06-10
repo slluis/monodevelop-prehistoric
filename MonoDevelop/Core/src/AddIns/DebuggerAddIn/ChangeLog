@@ -1,3 +1,8 @@
+2005-06-09  Chris Toshok  <toshok@ximian.com>
+
+	* DebuggingService.cs (DebuggingService..ctor): remove the call to
+	DebuggerBackend.Initialize().
+
 2005-05-03  Lluis Sanchez Gual  <lluis@novell.com> 
 
 	* Gui/Pads/LocalsPad.cs:
@@ -25,6 +30,16 @@
 2005-04-28  Lluis Sanchez Gual  <lluis@novell.com>
 
 	* Gui/Pads/ThreadPad.cs: Actually remove threads with no target.
+
+2005-04-28  Chris Toshok  <toshok@ximian.com>
+
+	* Gui/Pads/StackTracePad.cs: fix gtk-sharp obsolete warnings.
+
+	* Gui/Pads/LocalsPad.cs: fix gtk-sharp obsolete warnings.
+	
+	* Gui/Pads/ThreadPad.cs (ThreadPad.AddThread): fix gtk-sharp
+	obsolete warnings, and remove the unecessary "new Glib.Value()"
+	stuff.
 
 2005-04-28  Chris Toshok  <toshok@ximian.com>
 
