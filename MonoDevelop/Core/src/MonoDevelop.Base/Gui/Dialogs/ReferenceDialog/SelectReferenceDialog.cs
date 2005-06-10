@@ -111,6 +111,8 @@ namespace MonoDevelop.Gui.Dialogs
 
 		void AddNonGacReference (ProjectReference refInfo)
 		{
+			gacRefPanel.SignalRefChange (refInfo.Reference, true);
+			projectRefPanel.SignalRefChange (refInfo.Reference, true);
 			refTreeStore.AppendValues (System.IO.Path.GetFileName (refInfo.Reference), refInfo.ReferenceType.ToString (), System.IO.Path.GetFullPath (refInfo.GetReferencedFileName ()), refInfo);
 		}
 
