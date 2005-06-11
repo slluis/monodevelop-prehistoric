@@ -63,8 +63,8 @@ namespace JavaBinding
 				else
 					compilerGcjButton.Active = true;
 					
-				compilerJavacButton.Toggled += OnCompilerToggled;
-				compilerGcjButton.Toggled += OnCompilerToggled;
+				compilerJavacButton.Toggled += new EventHandler (OnCompilerToggled);
+				compilerGcjButton.Toggled += new EventHandler (OnCompilerToggled);
 	
 				enableOptimizationCheckButton.Active = compilerParameters.Optimize;
 				generateDebugInformationCheckButton.Active = configuration.DebugMode;

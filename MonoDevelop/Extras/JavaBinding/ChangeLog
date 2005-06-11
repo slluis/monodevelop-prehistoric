@@ -1,3 +1,7 @@
+2005-06-11  Lluis Sanchez Gual  <lluis@novell.com>
+
+	* Gui/ProjectConfigurationPropertyPanel.cs: Fix build.
+
 2005-05-20  Lluis Sanchez Gual  <lluis@novell.com>
 
 	* JavaBindingCompilerServices.cs: Automatically generate wrappers
