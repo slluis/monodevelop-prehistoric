@@ -1,3 +1,9 @@
+2005-06-13  Jacob Ilsø Christensen  <jacobilsoe@gmail.com>
+
+	* src/Parser/generated/cs.ATG:
+	* src/Parser/generated/Parser.cs: Make sure that properties
+	have the location of their get/set regions set correctly.
+
 2005-04-17  John Luke  <john.luke@gmail.com>
 
 	* Makefile.am: fix distcheck
