@@ -27,7 +27,16 @@ namespace MonoDevelop.Gui.Dialogs
 			this.selectDialog = selectDialog;
 			
 			chooser = new FileChooserWidget (FileChooserAction.Open, "");
+			chooser.SetCurrentFolder (Environment.GetFolderPath (Environment.SpecialFolder.Personal));
 			chooser.SelectMultiple = true;
+
+			// this should only allow dll's and exe's
+			FileFilter filter = new FileFilter ();
+			filter.Name = GettextCatalog.GetString ("Assemblies");
+			filter.AddPattern ("*.dll");
+			filter.AddPattern ("*.exe");
+			chooser.AddFilter (filter);
+
 			PackStart (chooser, true, true, 0);
 			
 			PackStart (new Gtk.VSeparator(), false, false, 0);
@@ -45,9 +54,6 @@ namespace MonoDevelop.Gui.Dialogs
 		
 		void SelectReferenceDialog(object sender, EventArgs e)
 		{
-			// FIXME: this should only allow dll's and exe's
-			// fdiag.Complete("*");
-			
 			string[] selectedFiles = new string[chooser.Filenames.Length];
 			chooser.Filenames.CopyTo(selectedFiles, 0);
 		

@@ -1,5 +1,11 @@
 2005-06-15  John Luke  <john.luke@gmail.com>
 
+	* Gui/Dialogs/ReferenceDialog/AssemblyReferencePanel.cs:
+	start at $HOME dir
+	filter on *.exe and *.dll
+
+2005-06-15  John Luke  <john.luke@gmail.com>
+
 	* Base.glade (AddReferenceDialog):
 	change title to Edit References to match menu
 	put the selected references section in an expander
