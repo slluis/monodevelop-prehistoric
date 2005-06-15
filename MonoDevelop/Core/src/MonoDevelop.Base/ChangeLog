@@ -1,3 +1,14 @@
+2005-06-15  John Luke  <john.luke@gmail.com>
+
+	* Services/Project/ProjectService.cs: don't recreate SelectReferenceDialog
+	every time, just set the project instead
+	* Gui/Dialogs/ReferenceDialog/SelectReferenceDialog.cs: allow it to be
+	reused and just change the project to show the correct info
+	* Gui/Dialogs/ReferenceDialog/ProjectReferencePanel.cs: add a SetProject
+	that updates the info appropriately, remove old code
+	* Gui/Dialogs/ReferenceDialog/GacReferencePanel.cs: add Reset method
+	to update the info for a new project
+	
 2005-06-10  Jacob Ilsø Christensen  <jacobilsoe@gmail.com>
 
 	* Gui/Dialogs/ReferenceDialog/SelectReferenceDialog.cs: Make sure

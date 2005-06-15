@@ -5,11 +5,8 @@
 //     <version value="$version"/>
 // </file>
 using System;
-using System.Drawing;
-using System.Collections;
-using System.ComponentModel;
-using MonoDevelop.Internal.Project;
 
+using MonoDevelop.Internal.Project;
 using MonoDevelop.Core.Services;
 using MonoDevelop.Services;
 
@@ -23,7 +20,7 @@ namespace MonoDevelop.Gui.Dialogs {
 		TreeStore store;
 		TreeView  treeView;
 		
-		public ProjectReferencePanel (SelectReferenceDialog selectDialog, Project configureProject) : base (false, 6)
+		public ProjectReferencePanel (SelectReferenceDialog selectDialog) : base (false, 6)
 		{
 			this.selectDialog = selectDialog;
 			
@@ -50,13 +47,18 @@ namespace MonoDevelop.Gui.Dialogs {
 			treeView.AppendColumn (firstColumn);
 			treeView.AppendColumn (GettextCatalog.GetString ("Directory"), new CellRendererText (), "text", 1);
 			
-			PopulateListView (configureProject);
 			ScrolledWindow sc = new ScrolledWindow ();
 			sc.ShadowType = Gtk.ShadowType.In;
 			sc.Add (treeView);
 			PackStart (sc, true, true, 0);
 			ShowAll ();
 			BorderWidth = 6;
+		}
+
+		public void SetProject (Project configureProject)
+		{
+			store.Clear ();
+			PopulateListView (configureProject);
 		}
 		
 		public void AddReference(object sender, Gtk.ToggledArgs e)
@@ -115,43 +117,5 @@ namespace MonoDevelop.Gui.Dialogs {
 			}
 		}
 	}
-	
-/*	public class ProjectReferencePanel : ListView//, IReferencePanel
-	{
-		SelectReferenceDialog selectDialog;
-		
-		public ProjectReferencePanel(SelectReferenceDialog selectDialog)
-		{
-			this.selectDialog = selectDialog;
-			ResourceService resourceService = (ResourceService)ServiceManager.Services.GetService(typeof(IResourceService));
-			ColumnHeader nameHeader = new ColumnHeader();
-			nameHeader.Text  = resourceService.GetString("Dialog.SelectReferenceDialog.ProjectReferencePanel.NameHeader");
-			nameHeader.Width = 160;
-			Columns.Add(nameHeader);
-			
-			ColumnHeader directoryHeader = new ColumnHeader();
-			directoryHeader.Text  = resourceService.GetString("Dialog.SelectReferenceDialog.ProjectReferencePanel.DirectoryHeader");
-			directoryHeader.Width = 70;
-			Columns.Add(directoryHeader);
-			
-			View = View.Details;
-			Dock = DockStyle.Fill;
-			FullRowSelect = true;
-			
-			ItemActivate += new EventHandler(AddReference);
-			PopulateListView();
-		}
-		
-		public void AddReference(object sender, EventArgs e)
-		{
-			foreach (ListViewItem item in SelectedItems) {
-				Project project = (Project)item.Tag;
-				selectDialog.AddReference(ReferenceType.Project,
-				                          project.Name,
-				                          project.GetOutputFileName());
-			}
-		}
-		
-
-	}*/
 }
+

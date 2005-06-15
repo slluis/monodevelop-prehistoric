@@ -6,16 +6,13 @@
 // </file>
 
 using System;
-using System.Drawing;
-using System.Collections;
-using System.Diagnostics;
-using System.ComponentModel;
 
 using MonoDevelop.Internal.Project;
 using MonoDevelop.Core.Services;
 using MonoDevelop.Services;
 
 using Gtk;
+using Glade;
 
 namespace MonoDevelop.Gui.Dialogs
 {
@@ -25,17 +22,15 @@ namespace MonoDevelop.Gui.Dialogs
 	
 	public class SelectReferenceDialog
 	{
-
-		               Gtk.TreeStore refTreeStore;
-		[Glade.Widget] Gtk.Dialog    AddReferenceDialog;
-		[Glade.Widget] Gtk.TreeView  ReferencesTreeView;
-		[Glade.Widget] Gtk.Button    okbutton;
-		[Glade.Widget] Gtk.Button    cancelbutton;
-		[Glade.Widget] Gtk.Button    RemoveReferenceButton;
-		[Glade.Widget] Gtk.Notebook  mainBook;
+		TreeStore refTreeStore;
+		[Widget] Dialog    AddReferenceDialog;
+		[Widget] TreeView  ReferencesTreeView;
+		[Widget] Button    okbutton;
+		[Widget] Button    cancelbutton;
+		[Widget] Button    RemoveReferenceButton;
+		[Widget] Notebook  mainBook;
 		GacReferencePanel gacRefPanel;
 
-		Project configureProject;
 		ProjectReferencePanel projectRefPanel;
 		
 		public ProjectReferenceCollection ReferenceInformations {
@@ -46,7 +41,6 @@ namespace MonoDevelop.Gui.Dialogs
 					return referenceInformations;
 				}
 				do {
-					//Debug.Assert(item.Tag != null);
 					referenceInformations.Add ((ProjectReference) refTreeStore.GetValue(looping_iter, 3));
 				} while (refTreeStore.IterNext (ref looping_iter));
 				return referenceInformations;
@@ -62,24 +56,14 @@ namespace MonoDevelop.Gui.Dialogs
 		{
 			AddReferenceDialog.Hide ();
 		}
-		
-		public SelectReferenceDialog(Project configureProject)
-		{
-			this.configureProject = configureProject;
-			
-			Glade.XML refXML = new Glade.XML (null, "Base.glade", "AddReferenceDialog", null);
-			refXML.Autoconnect (this);
-			
-			refTreeStore = new Gtk.TreeStore (typeof (string), typeof(string), typeof(string), typeof(ProjectReference));
-			ReferencesTreeView.Model = refTreeStore;
 
-			ReferencesTreeView.AppendColumn (GettextCatalog.GetString("Reference Name"), new CellRendererText (), "text", 0);
-			ReferencesTreeView.AppendColumn (GettextCatalog.GetString ("Type"), new CellRendererText (), "text", 1);
-			ReferencesTreeView.AppendColumn (GettextCatalog.GetString ("Location"), new CellRendererText (), "text", 2);
-			
-			gacRefPanel = new GacReferencePanel (this);
-			projectRefPanel = new ProjectReferencePanel (this, configureProject);
-			
+		public void SetProject (Project configureProject)
+		{
+			((TreeStore) ReferencesTreeView.Model).Clear ();
+
+			projectRefPanel.SetProject (configureProject);
+			gacRefPanel.Reset ();
+
 			foreach (ProjectReference refInfo in configureProject.ProjectReferences) {
 				switch (refInfo.ReferenceType) {
 					case ReferenceType.Assembly:
@@ -91,17 +75,36 @@ namespace MonoDevelop.Gui.Dialogs
 						break;
 				}
 			}
+
+			OnChanged (null, null);
+		}
+		
+		public SelectReferenceDialog(Project configureProject)
+		{
+			Glade.XML refXML = new Glade.XML (null, "Base.glade", "AddReferenceDialog", null);
+			refXML.Autoconnect (this);
+			
+			refTreeStore = new TreeStore (typeof (string), typeof(string), typeof(string), typeof(ProjectReference));
+			ReferencesTreeView.Model = refTreeStore;
+
+			ReferencesTreeView.AppendColumn (GettextCatalog.GetString("Reference Name"), new CellRendererText (), "text", 0);
+			ReferencesTreeView.AppendColumn (GettextCatalog.GetString ("Type"), new CellRendererText (), "text", 1);
+			ReferencesTreeView.AppendColumn (GettextCatalog.GetString ("Location"), new CellRendererText (), "text", 2);
+			
+			projectRefPanel = new ProjectReferencePanel (this);
+			gacRefPanel = new GacReferencePanel (this);
+			SetProject (configureProject);
+			
 			mainBook.RemovePage (mainBook.CurrentPage);
-			mainBook.AppendPage (gacRefPanel, new Gtk.Label (GettextCatalog.GetString ("Global Assembly Cache")));
-			mainBook.AppendPage (projectRefPanel, new Gtk.Label (GettextCatalog.GetString ("Projects")));
-			mainBook.AppendPage (new AssemblyReferencePanel (this), new Gtk.Label (GettextCatalog.GetString (".Net Assembly")));
-			//comTabPage.Controls.Add(new COMReferencePanel(this));
-			ReferencesTreeView.Selection.Changed += new EventHandler (onChanged);
+			mainBook.AppendPage (gacRefPanel, new Label (GettextCatalog.GetString ("Global Assembly Cache")));
+			mainBook.AppendPage (projectRefPanel, new Label (GettextCatalog.GetString ("Projects")));
+			mainBook.AppendPage (new AssemblyReferencePanel (this), new Label (GettextCatalog.GetString (".Net Assembly")));
+			ReferencesTreeView.Selection.Changed += new EventHandler (OnChanged);
 			AddReferenceDialog.ShowAll ();
-			onChanged (null, null);
+			OnChanged (null, null);
 		}
 
-		void onChanged (object o, EventArgs e)
+		void OnChanged (object o, EventArgs e)
 		{
 			if (ReferencesTreeView.Selection.CountSelectedRows () > 0)
 				RemoveReferenceButton.Sensitive = true;
@@ -125,7 +128,7 @@ namespace MonoDevelop.Gui.Dialogs
 
 		public void RemoveReference (ReferenceType referenceType, string referenceName, string referenceLocation)
 		{
-			Gtk.TreeIter looping_iter;
+			TreeIter looping_iter;
 			if (!refTreeStore.GetIterFirst (out looping_iter))
 				return;
 			do {
@@ -138,7 +141,7 @@ namespace MonoDevelop.Gui.Dialogs
 		
 		public void AddReference(ReferenceType referenceType, string referenceName, string referenceLocation)
 		{
-			Gtk.TreeIter looping_iter;
+			TreeIter looping_iter;
 			if (refTreeStore.GetIterFirst (out looping_iter)) {
 				do {
 					try {
@@ -163,20 +166,14 @@ namespace MonoDevelop.Gui.Dialogs
 					break;
 					
 			}
-			Gtk.TreeIter ni = refTreeStore.AppendValues (referenceName, referenceType.ToString (), referenceLocation, tag);
+			TreeIter ni = refTreeStore.AppendValues (referenceName, referenceType.ToString (), referenceLocation, tag);
 			ReferencesTreeView.ScrollToCell (refTreeStore.GetPath (ni), null, false, 0, 0);
-		}
-		
-		void SelectReference(object sender, EventArgs e)
-		{
-			//IReferencePanel refPanel = (IReferencePanel)referenceTabControl.SelectedTab.Controls[0];
-			//refPanel.AddReference(null, null);
 		}
 		
 		void RemoveReference(object sender, EventArgs e)
 		{
-			Gtk.TreeIter iter;
-			Gtk.TreeModel mdl;
+			TreeIter iter;
+			TreeModel mdl;
 			if (ReferencesTreeView.Selection.GetSelected (out mdl, out iter)) {
 				switch (((ProjectReference)refTreeStore.GetValue (iter, 3)).ReferenceType) {
 					case ReferenceType.Gac:
@@ -186,12 +183,12 @@ namespace MonoDevelop.Gui.Dialogs
 						projectRefPanel.SignalRefChange ((string)refTreeStore.GetValue (iter, 0), false);
 						break;
 				}
-				Gtk.TreeIter newIter = iter;
+				TreeIter newIter = iter;
 				if (refTreeStore.IterNext (ref newIter)) {
 					ReferencesTreeView.Selection.SelectIter (newIter);
 					refTreeStore.Remove (ref iter);
 				} else {
-					Gtk.TreePath path = refTreeStore.GetPath (iter);
+					TreePath path = refTreeStore.GetPath (iter);
 					if (path.Prev ()) {
 						ReferencesTreeView.Selection.SelectPath (path);
 						refTreeStore.Remove (ref iter);
@@ -203,3 +200,4 @@ namespace MonoDevelop.Gui.Dialogs
 		}
 	}
 }
+

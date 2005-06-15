@@ -52,6 +52,7 @@ namespace MonoDevelop.Services
 		ICompilerResult lastResult = new DefaultCompilerResult ();
 		
 		GuiHelper guiHelper = new GuiHelper ();
+		SelectReferenceDialog selDialog = null;
 			
 		public Project CurrentSelectedProject {
 			get {
@@ -806,7 +807,11 @@ namespace MonoDevelop.Services
 		{
 			bool res = false;
 			
-			SelectReferenceDialog selDialog = new SelectReferenceDialog(project);
+			if (selDialog == null)
+				selDialog = new SelectReferenceDialog(project);
+			else
+				selDialog.SetProject (project);
+
 			if (selDialog.Run() == (int)Gtk.ResponseType.Ok) {
 				ProjectReferenceCollection newRefs = selDialog.ReferenceInformations;
 				
@@ -848,7 +853,7 @@ namespace MonoDevelop.Services
 			
 			projectBindings = (ProjectBindingCodon[])(AddInTreeSingleton.AddInTree.GetTreeNode("/SharpDevelop/Workbench/ProjectBindings").BuildChildItems(null)).ToArray(typeof(ProjectBindingCodon));
 		}
-		
+
 		string MakeValidName(string str)
 		{
 			string tmp = "";
