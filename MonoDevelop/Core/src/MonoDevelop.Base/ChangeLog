@@ -1,5 +1,11 @@
 2005-06-15  John Luke  <john.luke@gmail.com>
 
+	* Base.glade (AddReferenceDialog):
+	change title to Edit References to match menu
+	put the selected references section in an expander
+	
+2005-06-15  John Luke  <john.luke@gmail.com>
+
 	* Services/Project/ProjectService.cs: don't recreate SelectReferenceDialog
 	every time, just set the project instead
 	* Gui/Dialogs/ReferenceDialog/SelectReferenceDialog.cs: allow it to be
