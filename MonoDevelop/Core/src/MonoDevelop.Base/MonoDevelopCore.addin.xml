@@ -120,7 +120,8 @@
 				description = "Delete the selection"
 				icon  = "Icons.16x16.DeleteIcon" />
 		<Command id = "MonoDevelop.Commands.EditCommands.Rename"
-				_label    = "Re_name" />
+				_label    = "Re_name"
+				shortcut = "F2" />
 		<Command id = "MonoDevelop.Commands.EditCommands.Undo"
 				_label = "_Undo" 
 				icon = "Icons.16x16.UndoIcon" 
