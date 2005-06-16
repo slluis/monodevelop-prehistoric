@@ -25,9 +25,14 @@ namespace MonoDevelop.Services
 			base.InitializeService();
 		}
 
-		ILog GetLogger()
+		ILog GetLogger ()
 		{
 			return LogManager.GetLogger(typeof(ILoggingService));
+		}
+		
+		ILog GetLogger (System.Type type)
+		{
+			return LogManager.GetLogger(type);
 		}
 
 		public bool IsDebugEnabled {
@@ -58,6 +63,36 @@ namespace MonoDevelop.Services
 			get {
 				return GetLogger().IsFatalEnabled;
 			}
+		}
+
+		public void Debug (System.Type type, object message)
+		{
+			GetLogger(type).Debug (message);
+			OnLogAppended ("Debug", message.ToString());
+		}
+
+		public void Info (System.Type type, object message)
+		{
+			GetLogger(type).Info (message);
+			OnLogAppended ("Info", message.ToString());
+		}
+
+		public void Warn (System.Type type, object message)
+		{
+			GetLogger(type).Warn (message);
+			OnLogAppended ("Warn", message.ToString());
+		}
+
+		public void Error (System.Type type, object message)
+		{
+			GetLogger(type).Error (message);
+			OnLogAppended ("Error", message.ToString());
+		}
+
+		public void Fatal (System.Type type, object message)
+		{
+			GetLogger(type).Fatal (message);
+			OnLogAppended ("Fatal", message.ToString());
 		}
 
 		public void Debug (object message)
@@ -147,6 +182,36 @@ namespace MonoDevelop.Services
 		public void FatalFormat (string format, params object[] args)
 		{
 			GetLogger().FatalFormat (format, args);
+			OnLogAppended ("Fatal", String.Format(format, args));
+		}
+
+		public void DebugFormat (Type type, string format, params object[] args)
+		{
+			GetLogger(type).DebugFormat (format, args);
+			OnLogAppended ("Debug", String.Format(format, args));
+		}
+		
+		public void InfoFormat (Type type, string format, params object[] args)
+		{
+			GetLogger(type).InfoFormat (format, args);
+			OnLogAppended ("Info", String.Format(format, args));
+		}
+		
+		public void WarnFormat (Type type, string format, params object[] args)
+		{
+			GetLogger(type).WarnFormat (format, args);
+			OnLogAppended ("Warn", String.Format(format, args));
+		}
+		
+		public void ErrorFormat (Type type, string format, params object[] args)
+		{
+			GetLogger(type).ErrorFormat (format, args);
+			OnLogAppended ("Error", String.Format(format, args));
+		}
+		
+		public void FatalFormat (Type type, string format, params object[] args)
+		{
+			GetLogger(type).FatalFormat (format, args);
 			OnLogAppended ("Fatal", String.Format(format, args));
 		}
 
