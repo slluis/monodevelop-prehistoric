@@ -1,5 +1,10 @@
 2005-06-15  John Luke  <john.luke@gmail.com>
 
+	* Services/File/RecentFiles.cs: catch exception when writing to
+	~/.recently-used, fixes bug #75305
+
+2005-06-15  John Luke  <john.luke@gmail.com>
+
 	* MonoDevelopCore.addin.xml: add EditCommands.Rename to F2
 	shortcut, fixes bug# 73774
 

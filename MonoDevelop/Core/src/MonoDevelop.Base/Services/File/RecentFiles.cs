@@ -328,10 +328,15 @@ namespace Freedesktop.RecentFiles
 
 			// if we specifically set Encoding UTF 8 here it writes the BOM
 			// which confuses others (egg-recent-files) I guess
-			XmlTextWriter writer = new XmlTextWriter (new StreamWriter (RecentFileStore));
-			writer.Formatting = Formatting.Indented;
-			serializer.Serialize (writer, this);
-			writer.Close ();
+			try {
+				XmlTextWriter writer = new XmlTextWriter (new StreamWriter (RecentFileStore));
+				writer.Formatting = Formatting.Indented;
+				serializer.Serialize (writer, this);
+				writer.Close ();
+			}
+			catch {
+				Console.WriteLine ("WARNING: cannot write to ~/.recently-used");
+			}
 			EmitChangedEvent ();
 
 			// back to normal
