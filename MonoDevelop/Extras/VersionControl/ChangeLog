@@ -1,0 +1,4 @@
+2005-06-22  Joshua Tauberer <tauberer@for.net>
+
+	* Added VersionControl into repo (but sadly the addin
+	  cannot add itself into the repo yet!).

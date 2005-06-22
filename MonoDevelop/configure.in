@@ -227,6 +227,11 @@ Extras/MonoQuery/MonoQuery.addin.xml
 Extras/MonoDeveloperExtensions/Makefile
 Extras/JavaBinding/Makefile
 Extras/BooBinding/Makefile
+Extras/VersionControl/Makefile
+Extras/VersionControl/Diff/Makefile
+Extras/VersionControl/DiffWidget/Makefile
+Extras/VersionControl/VersionControl/Makefile
+Extras/VersionControl/AddIn/Makefile
 contrib/Makefile
 ])
 

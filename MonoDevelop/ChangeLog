@@ -1,3 +1,8 @@
+2005-06-22  Joshua Tauberer  <tauberer@for.net>
+	* configure.in: Added Extras/VersionControl automake files to the
+	  build.
+	* Extras/VersionControl: Checked in VersionControl addin files.
+
 2005-06-08  Todd Berman  <tberman@off.net>
 
 	* monodevelop.in: Remove bashism, patch from meebey (mail@meebey.net)
