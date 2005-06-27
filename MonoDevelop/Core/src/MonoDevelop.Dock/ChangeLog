@@ -1,6 +1,9 @@
 2005-06-27  John Luke  <john.luke@gmail.com>
 
 	* DockLayout.cs: catch exception on invalid XML
+	(SetupObject) guard against missing name attribute
+	part of bug #75289, based on patch from
+	Matthew Wright <matthew@willowgreen.f2s.com>
 
 2005-06-04  John Luke  <john.luke@gmail.com>
 

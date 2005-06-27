@@ -462,7 +462,9 @@ namespace Gdl
 				return dp;
 			}
 
-			string name = node.Attributes["name"].Value;
+			string name = null;
+			if (node.Attributes["name"] != null)
+				name = node.Attributes["name"].Value;
 
 			if (name != null && name.Length > 0) {
 				obj = master.GetObject (name);
