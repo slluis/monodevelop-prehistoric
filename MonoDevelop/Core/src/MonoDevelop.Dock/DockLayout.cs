@@ -93,14 +93,6 @@ namespace Gdl
 			}
 		}
 
-		private Hashtable Placeholders {
-			get {
-				if (placeholders == null)
-					placeholders = new Hashtable ();
-				return placeholders;
-			}
-		}
-
 		public Widget UI {
 			get { return ConstructUI ();}
 		}
@@ -567,9 +559,9 @@ namespace Gdl
 
 			// FIXME: save placeholders for the object
 			if (!(obj is DockPlaceholder)) {
-				//object list = this.Placeholders[obj];
+				//ArrayList list = placeholders[obj] as ArrayList;
 				//foreach (DockObject child in list)
-				//	ForeachObjectSave (child);
+				//	ForeachObjectSave (child, element);
 			}
 
 			// recurse the object if appropriate
@@ -584,7 +576,7 @@ namespace Gdl
 			}
 		}
 
-		void AddPlaceholder (DockObject obj, Hashtable placeholders)
+		void AddPlaceholder (DockObject obj)
 		{
 			if (obj is DockPlaceholder) {
 				// FIXME: add the current placeholder to the list of placeholders for that host
@@ -593,11 +585,16 @@ namespace Gdl
 
 		void Save (XmlNode node)
 		{
-			// FIXME: implement this?
+			if (master == null || node == null)
+				return;
+
 			// build the placeholder's hash: the hash keeps lists of
 			// placeholders associated to each object, so that we can save the
 			// placeholders when we are saving the object (since placeholders
 			// don't show up in the normal widget hierarchy)
+			placeholders = new Hashtable ();
+			foreach (DockObject obj in master.DockObjects)
+				AddPlaceholder (obj);
 
 			// save the layout recursively
 			foreach (DockObject o in master.TopLevelDocks)

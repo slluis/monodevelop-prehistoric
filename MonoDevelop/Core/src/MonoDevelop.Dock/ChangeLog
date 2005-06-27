@@ -1,5 +1,9 @@
 2005-06-27  John Luke  <john.luke@gmail.com>
 
+	* DockLayout.cs: Save part of placeholders support
+	
+2005-06-27  John Luke  <john.luke@gmail.com>
+
 	* DockLayout.cs: catch exception on invalid XML
 	(SetupObject) guard against missing name attribute
 	part of bug #75289, based on patch from
