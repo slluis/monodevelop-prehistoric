@@ -163,7 +163,13 @@ namespace Gdl
 			{
 				doc = new XmlDocument ();
 				Stream s = File.OpenRead (file);
-				doc.Load (s);
+				try {
+					doc.Load (s);
+				} catch {
+					Console.WriteLine ("WARNING: could not load dock layout XML");
+					// FIXME: remove corrupt file?
+					doc = null;
+				}
 				s.Close ();
 				// minimum validation: test root element
 				if (this.RootNode != null) {

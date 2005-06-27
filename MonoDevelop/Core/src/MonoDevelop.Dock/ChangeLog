@@ -1,3 +1,7 @@
+2005-06-27  John Luke  <john.luke@gmail.com>
+
+	* DockLayout.cs: catch exception on invalid XML
+
 2005-06-04  John Luke  <john.luke@gmail.com>
 
 	* DockPaned.cs: handle Shift|F8 to avoid crash for now
