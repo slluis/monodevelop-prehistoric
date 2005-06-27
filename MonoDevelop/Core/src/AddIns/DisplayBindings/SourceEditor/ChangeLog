@@ -1,3 +1,21 @@
+2005-06-27  Lluis Sanchez Gual  <lluis@novell.com> 
+
+	* Gui/SourceEditorWidget.cs: Added some imports.
+	
+	* Search/*.cs:
+	* Commands/SearchCommands.cs:
+	* Gui/Dialogs/ReplaceInFilesDialog.cs:
+	* Gui/Dialogs/ReplaceDialog.cs: Moved to MonoDevelop.Base.
+	
+	* Gui/SourceEditorDisplayBinding.cs: Implement some new interfaces.
+	* Commands/BookmarkCommands.cs: Those are implemented with inline
+	command handlers.
+	
+	* texteditoraddin.glade: Moved search/replace dialogs to MonoDevelop.Base.
+	* Makefile.am: Removed moved files.
+	* MonoDevelopEditor.addin.xml: Search/replace commands are now defined in
+	MonoDevelop.Base.
+
 2005-06-09  Lluis Sanchez Gual  <lluis@novell.com> 
 
 	* Services/SourceViewService.cs: Added null check.

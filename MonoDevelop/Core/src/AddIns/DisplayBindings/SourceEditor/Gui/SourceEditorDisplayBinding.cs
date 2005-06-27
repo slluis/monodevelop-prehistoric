@@ -12,6 +12,9 @@ using MonoDevelop.Gui.Utils;
 using MonoDevelop.EditorBindings.Properties;
 using MonoDevelop.EditorBindings.FormattingStrategy;
 using MonoDevelop.Services;
+using MonoDevelop.Gui.Search;
+
+using MonoDevelop.TextEditor.Document;
 
 using Gtk;
 using GtkSourceView;
@@ -93,7 +96,8 @@ namespace MonoDevelop.SourceEditor.Gui
 	}
 	
 	public class SourceEditorDisplayBindingWrapper : AbstractViewContent,
-		IEditable, IPositionable, IBookmarkOperations, IDebuggableEditor, ICodeStyleOperations
+		IEditable, IPositionable, IBookmarkBuffer, IDebuggableEditor, ICodeStyleOperations,
+		IDocumentInformation
 	{
 		VBox mainBox;
 		HBox editorBar;
@@ -416,6 +420,8 @@ namespace MonoDevelop.SourceEditor.Gui
 					bouncingDelegate = new GLib.IdleHandler (BounceAndGrab);
 				if (needsUpdate) {
 					GLib.Idle.Add (bouncingDelegate);
+					if (cachedText == null)
+						return se.Buffer.Text;
 				}
 				return cachedText;
 			}
@@ -440,6 +446,19 @@ namespace MonoDevelop.SourceEditor.Gui
 		public void Redo ()
 		{
 			se.Buffer.Redo ();
+		}
+		
+		public string SelectedText {
+			get {
+				return se.Buffer.GetSelectedText ();
+			}
+			set {
+				int offset = se.Buffer.GetLowerSelectionBounds ();
+				((IClipboardHandler)se.Buffer).Delete (null, null);
+				se.Buffer.Insert (offset, value);
+				se.Buffer.PlaceCursor (se.Buffer.GetIterAtOffset (offset + value.Length));
+				se.View.ScrollMarkOnscreen (se.Buffer.InsertMark);
+			}
 		}
 #endregion
 
@@ -524,27 +543,83 @@ namespace MonoDevelop.SourceEditor.Gui
 			se.View.UnIndentSelection ();
 		}
 #endregion 
-#region IBookmarkOperations
-		void IBookmarkOperations.ToggleBookmark ()
+
+		public object CursorPosition {
+			get { return se.Buffer.GetIterAtMark (se.Buffer.InsertMark); }
+			set { se.Buffer.MoveMark (se.Buffer.InsertMark, (TextIter) value); }
+		}
+
+		public object GetPositionFromOffset (int offset)
 		{
-			se.ToggleBookmark ();
+			return se.Buffer.GetIterAtOffset (offset);
 		}
 		
-		void IBookmarkOperations.PrevBookmark ()
+		public int GetOffsetFromPosition (object position)
+		{
+			return ((TextIter)position).Offset;
+		}
+		
+		public void Select (object startPosition, object endPosition)
+		{
+			se.Buffer.MoveMark (se.Buffer.InsertMark, (TextIter) startPosition);
+			se.Buffer.MoveMark (se.Buffer.SelectionBound, (TextIter) endPosition);
+		}
+		
+		public void ShowPosition (object position)
+		{
+			se.View.ScrollToIter ((TextIter)position, 0.3, false, 0, 0);
+		}
+
+		public void SetBookmarked (object position, bool mark)
+		{
+			int line = ((TextIter)position).Line;
+			if (se.Buffer.IsBookmarked (line) != mark)
+				se.Buffer.ToggleBookmark (line);
+		}
+		
+		public bool IsBookmarked (object position)
+		{
+			int line = ((TextIter)position).Line;
+			return se.Buffer.IsBookmarked (line);
+		}
+		
+		public void PrevBookmark ()
 		{
 			se.PrevBookmark ();
 		}
 		
-		void IBookmarkOperations.NextBookmark ()
+		public void NextBookmark ()
 		{
 			se.NextBookmark ();
 		}
 		
-		void IBookmarkOperations.ClearBookmarks ()
+		public void ClearBookmarks ()
 		{
 			se.ClearBookmarks ();
 		}
+
+#region IDocumentInformation
+		string IDocumentInformation.FileName {
+			get { return ContentName; }
+		}
+		
+		public ITextIterator GetTextIterator ()
+		{
+			int startOffset = Editor.Buffer.GetIterAtMark (Editor.Buffer.InsertMark).Offset;
+			return new ForwardTextIterator (this, se.View, startOffset);
+		}
+		
+		public string GetLineTextAtOffset (int offset)
+		{
+			TextIter resultIter = se.Buffer.GetIterAtOffset (offset);
+			TextIter start_line = resultIter, end_line = resultIter;
+			start_line.LineOffset = 0;
+			end_line.ForwardToLineEnd ();
+			return se.Buffer.GetText (start_line.Offset, end_line.Offset - start_line.Offset);
+		}
+		
 #endregion
+
 
 		void SetInitialValues ()
 		{

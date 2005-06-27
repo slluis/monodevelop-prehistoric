@@ -26,14 +26,11 @@ Gui/OptionPanels/GeneralTextEditorPanel.cs \
 Gui/OptionPanels/SyntaxHighlightingPanel.cs \
 Gui/Dialogs/EditTemplateGroupDialog.cs \
 Gui/Dialogs/GotoLineNumberDialog.cs \
-Gui/Dialogs/ReplaceDialog.cs \
-Gui/Dialogs/ReplaceInFilesDialog.cs \
 InsightWindow/IndexerInsightDataProvider.cs \
 InsightWindow/MethodInsightDataProvider.cs \
 InsightWindow/InsightWindow.cs \
 InsightWindow/IInsightDataProvider.cs \
 Commands/EditorCommands.cs \
-Commands/SearchCommands.cs \
 Commands/IEditAction.cs \
 Properties/TextEditorProperties.cs \
 FormattingStrategy/DefaultFormattingStrategy.cs \
@@ -41,33 +38,6 @@ FormattingStrategy/IndentStyle.cs \
 FormattingStrategy/IFormattingStrategy.cs \
 FormattingStrategy/IFormattableDocument.cs \
 Codons/EditActionCodon.cs \
-Search/DocumentIterator/IDocumentInformation.cs \
-Search/DocumentIterator/EditorDocumentInformation.cs \
-Search/DocumentIterator/FileDocumentInformation.cs \
-Search/DocumentIterator/DirectoryDocumentIterator.cs \
-Search/DocumentIterator/AllOpenDocumentIterator.cs \
-Search/DocumentIterator/IDocumentIterator.cs \
-Search/DocumentIterator/ReverseDocumentIterator.cs \
-Search/DocumentIterator/WholeProjectDocumentIterator.cs \
-Search/DocumentIterator/CurrentDocumentIterator.cs \
-Search/SearchStrategy/KMPSearchStrategy.cs \
-Search/SearchStrategy/ISearchStrategy.cs \
-Search/SearchStrategy/BruteForceSearchStrategy.cs \
-Search/SearchStrategy/RegExSearchStrategy.cs \
-Search/SearchStrategy/WildcardSearchStrategy.cs \
-Search/SearchReplaceManager.cs \
-Search/DefaultFind.cs \
-Search/SearchResult/DefaultSearchResult.cs \
-Search/SearchResult/ISearchResult.cs \
-Search/SearchOptions.cs \
-Search/SearchReplaceInFilesManager.cs \
-Search/SearchReplaceUtilities.cs \
-Search/IFind.cs \
-Search/TextIterator/ITextIterator.cs \
-Search/TextIterator/ForwardTextFileIterator.cs \
-Search/TextIterator/ForwardTextIterator.cs \
-Search/TextIterator/ExtendedStreamReader.cs \
-Search/ITextBufferStrategy.cs \
 Services/SourceViewService.cs
 
 REFS = /r:System.Drawing.dll \

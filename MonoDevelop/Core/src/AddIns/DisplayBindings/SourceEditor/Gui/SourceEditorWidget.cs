@@ -5,10 +5,12 @@ using System.Runtime.InteropServices;
 
 using MonoDevelop.TextEditor.Document;
 using MonoDevelop.Commands;
+using MonoDevelop.Gui;
 using MonoDevelop.Gui.Dialogs;
 using GtkSourceView;
 using MonoDevelop.DefaultEditor;
 using MonoDevelop.Services;
+using MonoDevelop.Gui.Search;
 
 namespace MonoDevelop.SourceEditor.Gui
 {
