@@ -658,6 +658,9 @@ namespace MonoDevelop.Services
 				
 				if (fileName == null || fileName.Length == 0) return;
 				
+				if (GetParser (fileName) == null)
+					return;
+				
 				string text = editable.Text;
 				if (text == null) return;
 					
@@ -1191,6 +1194,7 @@ namespace MonoDevelop.Services
 			}
 			return null;
 		}
+		
 		public virtual IParser GetParser(string fileName)
 		{
 			// HACK: I'm too lazy to do it 'right'

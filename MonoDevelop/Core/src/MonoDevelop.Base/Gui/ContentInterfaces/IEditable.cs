@@ -7,13 +7,13 @@
 
 namespace MonoDevelop.Gui
 {
-	public interface IEditable
+	public interface IEditable: ITextBuffer
 	{
 		IClipboardHandler ClipboardHandler {
 			get;
 		}
 		
-		string Text {
+		new string Text {
 			get;
 			set;
 		}
@@ -21,5 +21,6 @@ namespace MonoDevelop.Gui
 		void Undo();
 		void Redo();
 		
+		new string SelectedText { get; set; }
 	}
 }

@@ -1,3 +1,14 @@
+2005-06-27  Lluis Sanchez Gual  <lluis@novell.com> 
+
+	* Services/ParserService/DefaultParserService.cs: Don't get the current
+	file text if we are not going to be able to parse it.
+	* Gui/Search/*.cs: Moved here search/replace stuff from the editor addin.
+	* Gui/ContentInterfaces.cs: 
+	* Base.glade: Added search/replace dialogs.
+	* Makefile.am: Added new files.
+	* MonoDevelopCore.addin.xml: Registered search/replace commands.
+	
+
 2005-06-15  John Luke  <john.luke@gmail.com>
 
 	* Services/File/RecentFiles.cs: catch exception when writing to
