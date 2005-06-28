@@ -1,3 +1,8 @@
+2005-06-27  John Luke  <john.luke@gmail.com>
+
+	* MonoDevelop.Core.mdp:
+	* MonoDevelop.Core.mds: add project files
+
 2005-06-01  Jacob Ilsø Christensen  <jacobilsoe@gmail.com>
 
 	* Services/IMessageService.cs: Added methods to ask a question
