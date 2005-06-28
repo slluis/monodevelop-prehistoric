@@ -3,7 +3,6 @@ CONFIG = $(DLLNAME).config
 DLL = $(top_builddir)/build/bin/$(DLLNAME)
 
 FILES = \
-AssemblyInfo.cs \
 CodeCompletion/CodeCompletionData.cs \
 CodeCompletion/ICompletionData.cs \
 CodeCompletion/CompletionWindow.cs \
@@ -39,6 +38,9 @@ FormattingStrategy/IFormattingStrategy.cs \
 FormattingStrategy/IFormattableDocument.cs \
 Codons/EditActionCodon.cs \
 Services/SourceViewService.cs
+
+GENERATED_FILES = \
+AssemblyInfo.cs
 
 REFS = /r:System.Drawing.dll \
 	/r:$(top_builddir)/build/bin/MonoDevelop.Core.dll \

@@ -1,3 +1,8 @@
+2005-06-28  Raja R Harinath  <rharinath@novell.com>
+
+	* Makefile.am (FILES): Move AssemblyInfo.cs ...
+	(GENERATED_FILES): ... here.
+
 2005-06-27  Lluis Sanchez Gual  <lluis@novell.com> 
 
 	* Services/ParserService/DefaultParserService.cs: Don't get the current

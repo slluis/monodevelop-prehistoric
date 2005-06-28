@@ -1,3 +1,8 @@
+2005-06-28  Raja R Harinath  <rharinath@novell.com>
+
+	* Makefile.include (build_sources): Allow Makefiles to define
+	GENERATED_FILES that are picked up from builddir.
+
 2005-06-22  Joshua Tauberer  <tauberer@for.net>
 	* configure.in: Added Extras/VersionControl automake files to the
 	  build.

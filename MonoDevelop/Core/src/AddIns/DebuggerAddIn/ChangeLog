@@ -1,3 +1,8 @@
+2005-06-28  Raja R Harinath  <rharinath@novell.com>
+
+	* Makefile.am (DebuggerPaths.cs): Fix for srcdir != builddir.
+	($(ADDIN_BUILD)/$(ADDIN)): Likewise.
+
 2005-06-09  Chris Toshok  <toshok@ximian.com>
 
 	* DebuggingService.cs (DebuggingService..ctor): remove the call to

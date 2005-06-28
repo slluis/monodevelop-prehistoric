@@ -5,7 +5,9 @@ SPLASH = -resource:$(srcdir)/SplashScreen.png,SplashScreen.png
 FILES= \
 MonoDevelopMain.cs \
 MonoDevelopOptions.cs \
-Dialogs/AddInTreeSettingsHandler.cs \
+Dialogs/AddInTreeSettingsHandler.cs
+
+GENERATED_FILES = \
 AssemblyInfo.cs
 
 all: $(ASSEMBLY $(ASSEMBLY).config

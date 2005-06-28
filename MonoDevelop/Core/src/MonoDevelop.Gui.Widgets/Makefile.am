@@ -13,7 +13,6 @@ Tree/TreeView.cs \
 Tree/TreeNodeCollection.cs \
 Tree/TreeNode.cs \
 IconView/IconView.cs \
-AssemblyInfo.cs \
 FileBrowser/FileBrowser.cs \
 FileSelector/FileSelector.cs \
 FolderDialog/FolderDialog.cs \
@@ -68,6 +67,8 @@ DockToolbars/FloatingPosition.cs \
 DockToolbars/IDockBar.cs \
 DockToolbars/PlaceholderWindow.cs
 
+GENERATED_FILES = \
+AssemblyInfo.cs
 
 all: $(DLL)
 
@@ -76,7 +77,7 @@ $(DLL): $(build_sources)
 
 assemblydir = $(MD_ASSEMBLY_DIR)
 assembly_DATA = $(DLL)
-  
+
 CLEANFILES = $(DLL) $(DLL).mdb
 
 EXTRA_DIST = $(FILES)

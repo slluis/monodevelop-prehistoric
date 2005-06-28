@@ -1,3 +1,8 @@
+2005-06-28  Raja R Harinath  <rharinath@novell.com>
+
+	* Makefile.am (FILES): Move AssemblyInfo.cs ...
+	(GENERATED_FILES): ... here.
+
 2005-06-01  John Luke  <john.luke@gmail.com>
 
 	* FileIcons/FileIconLoader.cs: add back one try/catch

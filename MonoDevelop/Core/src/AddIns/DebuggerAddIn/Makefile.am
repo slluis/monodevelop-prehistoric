@@ -31,12 +31,12 @@ all: $(ASSEMBLY) $(ADDIN_BUILD)/$(ADDIN)
 build_sources = $(addprefix $(srcdir)/, $(FILES)) DebuggerPaths.cs
 
 DebuggerPaths.cs: $(srcdir)/DebuggerPaths.cs.in
-	sed -e 's,@''pkglibdir@,$(pkglibdir),g' $(srcdir)/$< > $@.tmp
+	sed -e 's,@''pkglibdir@,$(pkglibdir),g' $(srcdir)/DebuggerPaths.cs.in > $@.tmp
 	mv $@.tmp $@
 
 $(ADDIN_BUILD)/$(ADDIN): $(srcdir)/$(ADDIN)
 	mkdir -p $(ADDIN_BUILD)
-	cp $(ADDIN) $(ADDIN_BUILD)/.
+	cp $(srcdir)/$(ADDIN) $@
 
 $(ASSEMBLY): $(build_sources)
 	mkdir -p $(ADDIN_BUILD)

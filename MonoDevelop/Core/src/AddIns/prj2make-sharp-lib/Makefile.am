@@ -19,9 +19,11 @@ pkgconfiginvoker.cs \
 sharp_d_cmbx.cs \
 sharp_d_prjx.cs \
 csproj_ver2003.cs \
-AssemblyInfo.cs \
 prj2make-sharp-lib-Commands.cs
-	
+
+GENERATED_FILES = \
+AssemblyInfo.cs
+
 EXTRA_DIST = $(FILES) $(ADDIN)
 
 all: $(ASSEMBLY) $(ADDIN_BUILD)/$(ADDIN)
