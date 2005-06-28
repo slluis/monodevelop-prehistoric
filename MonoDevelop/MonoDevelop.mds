@@ -1,0 +1,52 @@
+<Combine name="MonoDevelop" fileversion="2.0" outputpath="./build/bin">
+  <Configurations>
+    <Configuration name="Debug" ctype="CombineConfiguration">
+      <Entry build="True" name="MonoDevelop.Core" />
+      <Entry build="True" name="MonoDevelop.Dock" />
+      <Entry build="True" name="MonoDevelop.Gui.Widgets" />
+      <Entry build="True" name="MonoDevelop.Gui.Utils" />
+      <Entry build="True" name="MonoDevelop.Base" />
+      <Entry build="True" name="ICSharpCode.SharpAssembly" />
+      <Entry build="True" name="ICSharpCode.SharpRefactory" />
+      <Entry build="True" name="MonoDevelop.Startup" />
+      <Entry build="True" name="CSharpBinding" />
+      <Entry build="True" name="SourceEditor" />
+    </Configuration>
+    <Configuration name="Release" ctype="CombineConfiguration">
+      <Entry build="True" name="MonoDevelop.Core" />
+      <Entry build="True" name="MonoDevelop.Dock" />
+      <Entry build="True" name="MonoDevelop.Gui.Widgets" />
+      <Entry build="True" name="MonoDevelop.Gui.Utils" />
+      <Entry build="True" name="MonoDevelop.Base" />
+      <Entry build="True" name="ICSharpCode.SharpAssembly" />
+      <Entry build="True" name="ICSharpCode.SharpRefactory" />
+      <Entry build="True" name="MonoDevelop.Startup" />
+      <Entry build="True" name="CSharpBinding" />
+      <Entry build="True" name="SourceEditor" />
+    </Configuration>
+  </Configurations>
+  <StartMode startupentry="MonoDevelop.Startup" single="True">
+    <Execute type="None" entry="MonoDevelop.Core" />
+    <Execute type="None" entry="MonoDevelop.Dock" />
+    <Execute type="None" entry="MonoDevelop.Gui.Widgets" />
+    <Execute type="None" entry="MonoDevelop.Gui.Utils" />
+    <Execute type="None" entry="MonoDevelop.Base" />
+    <Execute type="None" entry="ICSharpCode.SharpAssembly" />
+    <Execute type="None" entry="ICSharpCode.SharpRefactory" />
+    <Execute type="None" entry="MonoDevelop.Startup" />
+    <Execute type="None" entry="CSharpBinding" />
+    <Execute type="None" entry="SourceEditor" />
+  </StartMode>
+  <Entries>
+    <Entry filename="./Core/src/MonoDevelop.Core/MonoDevelop.Core.mdp" />
+    <Entry filename="./Core/src/MonoDevelop.Dock/MonoDevelop.Dock.mdp" />
+    <Entry filename="./Core/src/MonoDevelop.Gui.Widgets/MonoDevelop.Gui.Widgets.mdp" />
+    <Entry filename="./Core/src/MonoDevelop.Gui.Utils/MonoDevelop.Gui.Utils.mdp" />
+    <Entry filename="./Core/src/MonoDevelop.Base/MonoDevelop.Base.mdp" />
+    <Entry filename="./Core/src/ICSharpCode.SharpAssembly/ICSharpCode.SharpAssembly.mdp" />
+    <Entry filename="./Core/src/ICSharpCode.SharpRefactory/ICSharpCode.SharpRefactory.mdp" />
+    <Entry filename="./Core/src/MonoDevelop.Startup/MonoDevelop.Startup.mdp" />
+    <Entry filename="./Core/src/AddIns/BackendBindings/CSharpBinding/CSharpBinding.mdp" />
+    <Entry filename="./Core/src/AddIns/DisplayBindings/SourceEditor/SourceEditor.mdp" />
+  </Entries>
+</Combine>
