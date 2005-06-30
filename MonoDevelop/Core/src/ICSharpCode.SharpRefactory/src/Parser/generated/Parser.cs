@@ -2494,7 +2494,7 @@ out type);
 		Expect(1);
 
 #line  937 "cs.ATG" 
-		p = new ParameterDeclarationExpression(type, t.val, mod); 
+		p = new ParameterDeclarationExpression(type, t.val, mod); p.StartLocation = t.Location; 
 	}
 
 	void ParameterArray(
@@ -2510,7 +2510,7 @@ out type);
 		Expect(1);
 
 #line  943 "cs.ATG" 
-		p = new ParameterDeclarationExpression(type, t.val, ParamModifiers.Params); 
+		p = new ParameterDeclarationExpression(type, t.val, ParamModifiers.Params); p.StartLocation = t.Location; 
 	}
 
 	void AccessorModifier(

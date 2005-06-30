@@ -934,13 +934,13 @@ FixedParameter<out ParameterDeclarationExpression p>
 		"ref"    (. mod = ParamModifiers.Ref; .)
 		| "out"  (. mod = ParamModifiers.Out; .)
 	]
-	Type<out type> ident (. p = new ParameterDeclarationExpression(type, t.val, mod); .)
+	Type<out type> ident (. p = new ParameterDeclarationExpression(type, t.val, mod); p.StartLocation = t.Location; .)
 .
 
 ParameterArray<out ParameterDeclarationExpression p>
 (. TypeReference type; .)
 =
-	"params" Type<out type> ident (. p = new ParameterDeclarationExpression(type, t.val, ParamModifiers.Params); .)
+	"params" Type<out type> ident (. p = new ParameterDeclarationExpression(type, t.val, ParamModifiers.Params); p.StartLocation = t.Location; .)
 . 
 
 TypeModifier<Modifiers m>
