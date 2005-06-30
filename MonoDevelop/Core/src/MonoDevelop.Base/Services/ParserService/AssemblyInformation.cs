@@ -110,7 +110,7 @@ namespace MonoDevelop.Services {
 			try {
 				asm = Assembly.LoadFrom (fileName);
 				if (asm == null)
-					Assembly.LoadWithPartialName (Path.GetFileNameWithoutExtension (fileName));
+					asm = Assembly.LoadWithPartialName (Path.GetFileNameWithoutExtension (fileName));
 			} catch {
 			}
 			if(asm == null) {

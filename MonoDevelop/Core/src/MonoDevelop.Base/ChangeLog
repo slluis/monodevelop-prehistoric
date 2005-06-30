@@ -1,3 +1,9 @@
+2005-06-30  John Luke  <john.luke@gmail.com>
+
+	* Services/ParserService/AssembyInformation.cs: fix possible nullref
+	patch from shoehn@web.de (Sebastian)
+	fixes bug #75418
+
 2005-06-28  Raja R Harinath  <rharinath@novell.com>
 
 	* Makefile.am (FILES): Move AssemblyInfo.cs ...
