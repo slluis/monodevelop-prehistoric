@@ -1,5 +1,3 @@
-CSC = mcs /debug
-
 FILES = \
 src/AssemblyInfo.cs \
 src/CodeDom/CodeDOMVisitor.cs \
@@ -105,21 +103,20 @@ src/Parser/generated/Parser.cs
 
 build_sources = $(addprefix $(srcdir)/, $(FILES))
 
-DLL = ICSharpCode.SharpRefactory.VB.dll
+DLL = $(top_builddir)/build/bin/ICSharpCode.SharpRefactory.VB.dll
 
 REFS = /r:System.Drawing.dll
 
 all: $(DLL)
 
 $(DLL): $(FILES)
-	@ $(CSC) $(CSC_FLAGS) /out:$(DLL) /target:library $(REFS) $(build_sources) \
-	&& cp $(DLL) $(top_builddir)/build/bin/.
+	$(CSC) $(CSC_FLAGS) /out:$(DLL) /target:library $(REFS) $(build_sources)
 
 test-parser.exe : $(DLL) src/Main.cs
-	@ $(CSC) /out:$@ /r:$(DLL) src/Main.cs
+	$(CSC) /out:$@ /r:$(DLL) src/Main.cs
 
 run : test-parser.exe
-	@ MONO_PATH=`dirname $(DLL)` $(RUNTIME) test-parser.exe $(TEST_SOURCE)
+	MONO_PATH=`dirname $(DLL)` $(RUNTIME) test-parser.exe $(TEST_SOURCE)
 
 assemblydir = $(MD_ASSEMBLY_DIR)
 assembly_DATA = $(DLL)
