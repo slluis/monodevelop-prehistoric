@@ -45,11 +45,19 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 		{
 			word = new StringBuilder ();
 			curPos = 0;
-			scrollbar.Adjustment.Lower = 0;
-			scrollbar.Adjustment.Upper = provider.ItemCount - list.VisibleRows;
-			scrollbar.Adjustment.PageIncrement = list.VisibleRows - 1;
-			scrollbar.Adjustment.StepIncrement = 1;
 			list.Reset ();
+
+			if (list.VisibleRows >= provider.ItemCount) {
+				this.scrollbar.Hide();
+			}
+			else {
+				scrollbar.Adjustment.Lower = 0;
+				scrollbar.Adjustment.Upper = provider.ItemCount - list.VisibleRows;
+				scrollbar.Adjustment.PageIncrement = list.VisibleRows - 1;
+				scrollbar.Adjustment.StepIncrement = 1;
+			}
+
+			this.Resize(this.list.WidthRequest, this.list.HeightRequest);
 		}
 		
 		public IListDataProvider DataProvider
@@ -421,7 +429,12 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 			rowHeight += padding;
 			visibleRows = (winHeight + padding - margin * 2) / rowHeight;
 			
-			int newHeight = (rowHeight * visibleRows) + margin * 2;
+			int newHeight;
+
+			if (this.win.DataProvider.ItemCount > this.visibleRows)
+				newHeight = (rowHeight * visibleRows) + margin * 2;
+			else
+				newHeight = (rowHeight * this.win.DataProvider.ItemCount) + margin * 2;
 			
 			if (lvWidth != listWidth || lvHeight != newHeight)
 				this.SetSizeRequest (listWidth, newHeight);
