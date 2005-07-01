@@ -1,3 +1,14 @@
+2005-07-01  Joshua Tauberer <tauberer@for.net>
+
+	* Added MD solution files for VersionControl.
+	* Project pad overlays now update when files
+	  are modified.
+	* Project pad context menus enabled for
+	  folders and combines.
+	* Subversion: Don't report diffs available
+	  for unchanged files.
+	* This was committed with the addin!
+
 2005-06-22  Joshua Tauberer <tauberer@for.net>
 
 	* Added VersionControl into repo (but sadly the addin

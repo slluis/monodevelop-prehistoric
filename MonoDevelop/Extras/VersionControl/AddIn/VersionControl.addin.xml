@@ -46,5 +46,10 @@
 		<CommandItem id = "VersionControlPlugin.Commands.Status"/>
 		<CommandItem id = "VersionControlPlugin.Commands.Log"/>
 	</Extension>
+	<Extension path = "/SharpDevelop/Views/ProjectBrowser/ContextMenu/CombineBrowserNode">
+		<CommandItem id = "VersionControlPlugin.Commands.Update"/>
+		<CommandItem id = "VersionControlPlugin.Commands.Status"/>
+		<CommandItem id = "VersionControlPlugin.Commands.Log"/>
+	</Extension>
 </AddIn>
 	

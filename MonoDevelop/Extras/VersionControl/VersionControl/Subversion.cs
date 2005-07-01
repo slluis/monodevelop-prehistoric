@@ -31,7 +31,9 @@ namespace VersionControl {
 		}
 		
 		public override bool IsDiffAvailable(string sourcefile) {
-			return File.Exists(GetTextBase(sourcefile));			
+			return File.Exists(GetTextBase(sourcefile))
+				&& IsFileStatusAvailable(sourcefile)
+				&& GetFileStatus(sourcefile, false).Status == NodeStatus.Modified;			
 		}
 		
 		public override bool IsHistoryAvailable(string sourcefile) {
@@ -39,7 +41,7 @@ namespace VersionControl {
 		}
 		
 		public override bool IsFileStatusAvailable(string sourcefile) {
-			return IsDiffAvailable(sourcefile);
+			return File.Exists(GetTextBase(sourcefile));
 		}
 
 		public override bool IsDirectoryStatusAvailable(string sourcepath) {
