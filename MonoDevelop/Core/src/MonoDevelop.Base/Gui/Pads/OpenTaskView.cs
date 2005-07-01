@@ -258,7 +258,7 @@ namespace MonoDevelop.Gui.Pads
 			
 			store.AppendValues (
 				stock,
-				t.Line + 1,
+				t.Line,
 				t.Description,
 				fileName,
 				path,

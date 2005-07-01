@@ -118,7 +118,7 @@ namespace MonoDevelop.Gui.Pads.ClassPad
 			
 			IViewContent content = window.ViewContent;
 			if (content is IPositionable) {
-				((IPositionable)content).JumpTo (Math.Max (0, line), 0);
+				((IPositionable)content).JumpTo (Math.Max (1, line), 1);
 			}
 		}
 		

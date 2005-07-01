@@ -56,9 +56,9 @@ namespace MonoDevelop.Gui.Dialogs
 				
 				
 				if (window != null && window.ViewContent is IPositionable) {			
-					int l = Math.Max (0, Int32.Parse(line_number_entry.Text) - 1);
+					int l = Math.Max (1, Int32.Parse(line_number_entry.Text));
 					
-					((IPositionable) window.ViewContent).JumpTo (l, 0);
+					((IPositionable) window.ViewContent).JumpTo (l, 1);
 				}
 			} catch (Exception) {
 				

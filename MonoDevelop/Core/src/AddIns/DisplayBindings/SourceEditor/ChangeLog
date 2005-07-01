@@ -1,5 +1,11 @@
 2005-07-01  Jacob Ilsø Christensen  <jacobilsoe@gmail.com>
 
+	* Gui/Dialogs/GotoLineNumberDialog.cs:
+	* Gui/SourceEditorDisplayBinding.cs:
+	Make lines and columns 1-based.
+	
+2005-07-01  Jacob Ilsø Christensen  <jacobilsoe@gmail.com>
+
 	* CodeCompletion/ListWindow.cs: Make sure the list
 	window is no larger than necessary.
 

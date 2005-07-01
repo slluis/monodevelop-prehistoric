@@ -204,12 +204,12 @@ namespace MonoDevelop.SourceEditor.Gui
 
 		public void JumpTo (int line, int column)
 		{
-			// NOTE: 0 based!			
-			TextIter itr = se.Buffer.GetIterAtLine (line);
-			itr.LineOffset = column;
+			// NOTE: 1 based!			
+			TextIter itr = se.Buffer.GetIterAtLine (line - 1);
+			itr.LineOffset = column - 1;
 
 			se.Buffer.PlaceCursor (itr);		
-			se.Buffer.HighlightLine (line);	
+			se.Buffer.HighlightLine (line - 1);	
 			se.View.ScrollToMark (se.Buffer.InsertMark, 0.3, false, 0, 0);
 			GLib.Timeout.Add (20, new GLib.TimeoutHandler (changeFocus));
 		}

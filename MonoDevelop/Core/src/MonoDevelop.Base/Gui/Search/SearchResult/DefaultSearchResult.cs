@@ -20,8 +20,8 @@ namespace MonoDevelop.Gui.Search
 		public DefaultSearchResult (ITextIterator iter, int length)
 		{
 			offset = iter.Position;
-			line = iter.Line;
-			column = iter.Column;
+			line = iter.Line + 1;
+			column = iter.Column + 1;
 			this.length = length;
 			documentInformation = iter.DocumentInformation;
 		}

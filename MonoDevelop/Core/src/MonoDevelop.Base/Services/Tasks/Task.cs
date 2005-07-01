@@ -95,8 +95,8 @@ namespace MonoDevelop.Services
 		{
 			this.project = project;
 			type        = error.IsWarning ? error.ErrorNumber == "COMMENT" ? TaskType.Comment : TaskType.Warning : TaskType.Error;
-			column      = error.Column - 1;
-			line        = error.Line - 1;
+			column      = error.Column;
+			line        = error.Line;
 			description = error.ErrorText;
 			if (error.ErrorNumber != String.Empty)
 				description += "(" + error.ErrorNumber + ")";
@@ -137,7 +137,7 @@ namespace MonoDevelop.Services
 			}
 			IViewContent content = window.ViewContent;
 			if (content is IPositionable) {
-				((IPositionable)content).JumpTo(Math.Max(0, line), Math.Max(0, column));
+				((IPositionable)content).JumpTo(Math.Max(1, line), Math.Max(1, column));
 			}
 		}
 	}

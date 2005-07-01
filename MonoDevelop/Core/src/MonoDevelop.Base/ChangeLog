@@ -1,3 +1,12 @@
+2005-07-01  Jacob Ilsø Christensen  <jacobilsoe@gmail.com>
+
+	* Services/Tasks/Task.cs:
+	* Gui/Pads/OpenTaskView.cs:
+	* Gui/Pads/ClassPad/ClassNodeBuilder.cs:
+	* Gui/Pads/ClassPad/MemberNodeCommandHandler.cs:
+	* Gui/Search/SearchResult/DefaultSearchResult.cs:
+	Make lines and columns 1-based.
+
 2005-06-30  John Luke  <john.luke@gmail.com>
 
 	* Services/ParserService/AssembyInformation.cs: fix possible nullref
