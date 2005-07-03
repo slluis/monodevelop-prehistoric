@@ -434,9 +434,7 @@ namespace MonoDevelop.Internal.Project
 			
 			if (conf != null && conf.ExecuteBeforeBuild != "" && File.Exists(conf.ExecuteBeforeBuild)) {
 				monitor.Log.WriteLine (String.Format (GettextCatalog.GetString ("Executing: {0}"), conf.ExecuteBeforeBuild));
-				ProcessStartInfo ps = new ProcessStartInfo(conf.ExecuteBeforeBuild);
-				ps.UseShellExecute = false;
-				ps.RedirectStandardOutput = true;
+				ProcessStartInfo ps = GetBuildTaskStartInfo(conf.ExecuteBeforeBuild);
 				Process process = new Process();
 				process.StartInfo = ps;
 				process.Start();
@@ -457,14 +455,20 @@ namespace MonoDevelop.Internal.Project
 			if (conf != null && conf.ExecuteAfterBuild != "" && File.Exists(conf.ExecuteAfterBuild)) {
 				monitor.Log.WriteLine ();
 				monitor.Log.WriteLine (String.Format (GettextCatalog.GetString ("Executing: {0}"), conf.ExecuteAfterBuild));
-				ProcessStartInfo ps = new ProcessStartInfo(conf.ExecuteAfterBuild);
-				ps.UseShellExecute = false;
-				ps.RedirectStandardOutput = true;
+				ProcessStartInfo ps = GetBuildTaskStartInfo(conf.ExecuteAfterBuild);
 				Process process = new Process();
 				process.StartInfo = ps;
 				process.Start();
 				monitor.Log.Write (process.StandardOutput.ReadToEnd());
 			}
+		}
+		
+		private ProcessStartInfo GetBuildTaskStartInfo(string file) {
+			ProcessStartInfo ps = new ProcessStartInfo(file);
+			ps.UseShellExecute = false;
+			ps.RedirectStandardOutput = true;
+			ps.WorkingDirectory = BaseDirectory;
+			return ps;
 		}
 		
 		public override void Execute (IProgressMonitor monitor)

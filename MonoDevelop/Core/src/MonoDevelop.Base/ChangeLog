@@ -1,3 +1,9 @@
+2005-07-01  Joshua Tauberer  <tauberer@for.net>
+
+	* Internal/Project/Project/Project.cs: Pre/Post build tasks
+	set up the ProcessStartInfo through the same function, set
+	the working directory to the project base path.
+
 2005-07-01  Jacob Ilsø Christensen  <jacobilsoe@gmail.com>
 
 	* Services/Tasks/Task.cs:
@@ -28,7 +34,6 @@
 	* Makefile.am: Added new files.
 	* MonoDevelopCore.addin.xml: Registered search/replace commands.
 	
-
 2005-06-15  John Luke  <john.luke@gmail.com>
 
 	* Services/File/RecentFiles.cs: catch exception when writing to
