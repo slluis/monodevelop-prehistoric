@@ -1,3 +1,8 @@
+2005-07-08  John Luke  <john.luke@gmail.com>
+
+	* Makefile.am: remove MONO_POSIX_OEE defines
+	* Internal/Project/Combine/Combine.cs: just use Mono.Unix now
+	
 2005-07-01  Joshua Tauberer  <tauberer@for.net>
 
 	* Internal/Project/Project/Project.cs: Pre/Post build tasks

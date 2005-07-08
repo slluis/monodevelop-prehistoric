@@ -15,13 +15,8 @@ using System.Diagnostics;
 using System.CodeDom.Compiler;
 using System.ComponentModel;
 
-#if MONO_POSIX_OEE
 using Mono.Unix;
 using FileMode = Mono.Unix.FilePermissions;
-#else
-using Mono.Posix;
-using FileMode = Mono.Posix.FileMode;
-#endif
 
 using MonoDevelop.Core.Services;
 

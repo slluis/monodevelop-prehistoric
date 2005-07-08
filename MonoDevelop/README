@@ -36,12 +36,12 @@ make install
 
 Dependencies
 ------------
-Mono >= 1.0
-Gtk# >= 1.9.3
+Mono >= 1.1.4
+Gtk# >= 1.9.5
 monodoc >= 1.0
 gtksourceview >= 1.0
-gecko-sharp >= 0.7
-gtksourceview-sharp >= 0.7
+gecko-sharp >= 0.10
+gtksourceview-sharp >= 0.10
 
 References
 ----------

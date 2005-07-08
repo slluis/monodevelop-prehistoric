@@ -1,3 +1,10 @@
+2005-07-08  John Luke  <john.luke@gmail.com>
+
+	* configure.in: update mono dep to >= 1.1.4
+	for various reasons and remove the MONO_POSIX_OEE
+	check
+	* README: update deps
+
 2005-06-28  John Luke  <john.luke@gmail.com>
 
 	* *.mdp:
