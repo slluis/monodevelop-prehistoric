@@ -1,3 +1,9 @@
+2005-07-11  Lluis Sanchez Gual  <lluis@novell.com>
+
+	* Project/BooCompilerParameters.boo: Implement ICloneable.
+	* BooLanguageBinding.boo: CreateCompilationParameters now returns an
+	ICloneable.
+
 2005-06-04  Peter Johanson <latexer@gentoo.org>
 
 	* Gui/OptionPanels/CodeCompilationPanel.boo:

@@ -56,7 +56,7 @@ public class BooLanguageBinding(ILanguageBinding):
 		// throw NotImplementedException ()
 		return
 	
-	public def CreateCompilationParameters (projectOptions as XmlElement) as object:
+	public def CreateCompilationParameters (projectOptions as XmlElement) as ICloneable:
 		parameters = BooCompilerParameters ()
 		return parameters
 	
