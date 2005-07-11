@@ -169,7 +169,7 @@ namespace MonoDevelop.Internal.Serialization
 		}
 		
 		internal bool HasSetter {
-			get { return (member is FieldInfo) || ((member is PropertyInfo) && ((PropertyInfo)member).CanWrite); }
+			get { return member == null || (member is FieldInfo) || ((member is PropertyInfo) && ((PropertyInfo)member).CanWrite); }
 		}
 
 		internal DataNode Serialize (SerializationContext serCtx, object value)

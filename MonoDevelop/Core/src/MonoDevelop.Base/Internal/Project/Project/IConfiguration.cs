@@ -22,5 +22,7 @@ namespace MonoDevelop.Internal.Project
 			get;
 			set;
 		}
+		
+		void CopyFrom (IConfiguration configuration);
 	}
 }

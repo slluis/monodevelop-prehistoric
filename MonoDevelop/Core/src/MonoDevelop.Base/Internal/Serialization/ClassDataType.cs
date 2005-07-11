@@ -141,6 +141,11 @@ namespace MonoDevelop.Internal.Serialization
 				throw new InvalidOperationException ("Duplicate property '" + prop.Name + "' in class '" + ValueType);
 			properties.Add (prop.Name, prop);
 			sortedPoperties.Add (prop);
+			
+			if (subtypes != null && subtypes.Count > 0) {
+				foreach (ClassDataType subtype in subtypes)
+					subtype.AddProperty (prop);
+			}
 		}
 		
 		Exception CreateNestedConflictException (ItemProperty p1, ItemProperty p2)
@@ -294,9 +299,9 @@ namespace MonoDevelop.Internal.Serialization
 							object pval = GetPropValue (prop, obj);
 							if (pval == null) {
 								if (prop.HasSetter)
-									throw new InvalidOperationException ("The property is null and a new instance of '" + prop.PropertyType + "' can't be created.");
+									throw new InvalidOperationException ("The property '" + prop.Name + "' is null and a new instance of '" + prop.PropertyType + "' can't be created.");
 								else
-									throw new InvalidOperationException ("The property is null and it does not have a setter.");
+									throw new InvalidOperationException ("The property '" + prop.Name + "' is null and it does not have a setter.");
 							}
 							prop.Deserialize (serCtx, value, pval);
 						} else {

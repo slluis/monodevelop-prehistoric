@@ -5,6 +5,7 @@
 //     <version value="$version"/>
 // </file>
 
+using System;
 using System.Xml;
 using MonoDevelop.Internal.Project;
 using MonoDevelop.Internal.Serialization;
@@ -26,7 +27,26 @@ namespace MonoDevelop.Internal.Project
 
 		public object Clone()
 		{
-			return MemberwiseClone();
+			IConfiguration conf = (IConfiguration) System.Activator.CreateInstance (GetType());
+			conf.Name = Name;
+			conf.CopyFrom (this);
+			return conf;
+		}
+		
+		public virtual void CopyFrom (IConfiguration configuration)
+		{
+			AbstractConfiguration other = (AbstractConfiguration) configuration;
+			if (other.properties != null) {
+				properties = new Hashtable ();
+				foreach (DictionaryEntry e in other.properties) {
+					if (e.Value is ICloneable)
+						properties [e.Key] = ((ICloneable)e.Value).Clone ();
+					else
+						properties [e.Key] = e.Value;
+				}
+			}
+			else
+				properties = null;
 		}
 		
 		public override string ToString()

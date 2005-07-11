@@ -38,7 +38,7 @@ namespace MonoDevelop.Internal.Project
 		
 		void GenerateMakefile (Project project, Combine parentCombine);
 		
-		object CreateCompilationParameters (XmlElement projectOptions);
+		ICloneable CreateCompilationParameters (XmlElement projectOptions);
 
 		/// <summary>
 		/// Used by Comment and Uncomment operations and by Centaurus Addin.

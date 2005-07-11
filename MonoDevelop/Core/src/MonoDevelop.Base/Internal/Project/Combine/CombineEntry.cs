@@ -23,11 +23,12 @@ using MonoDevelop.Internal.Serialization;
 
 namespace MonoDevelop.Internal.Project
 {
-	public abstract class CombineEntry : ICustomDataItem, IDisposable
+	public abstract class CombineEntry : ICustomDataItem, IDisposable, IExtendedDataItem
 	{
 		[ItemProperty ("Configurations")]
 		[ItemProperty ("Configuration", ValueType=typeof(IConfiguration), Scope=1)]
-		ArrayList configurations = new ArrayList();
+		ConfigurationCollection configurations = new ConfigurationCollection ();
+		Hashtable extendedProperties;
 
 		Combine parentCombine;
 		IConfiguration activeConfiguration;
@@ -37,6 +38,15 @@ namespace MonoDevelop.Internal.Project
 		IFileFormat fileFormat;
 		
 		public event CombineEntryRenamedEventHandler NameChanged;
+		public event ConfigurationEventHandler ActiveConfigurationChanged;
+		
+		IDictionary IExtendedDataItem.ExtendedProperties {
+			get {
+				if (extendedProperties == null)
+					extendedProperties = new Hashtable ();
+				return extendedProperties;
+			}
+		}
 		
 		[ItemProperty ("name")]
 		public virtual string Name {
@@ -116,7 +126,7 @@ namespace MonoDevelop.Internal.Project
 			parentCombine = combine;
 		}
 		
-		public ArrayList Configurations {
+		public ConfigurationCollection Configurations {
 			get {
 				return configurations;
 			}
@@ -130,7 +140,10 @@ namespace MonoDevelop.Internal.Project
 				return activeConfiguration;
 			}
 			set {
-				activeConfiguration = value;
+				if (activeConfiguration != value) {
+					activeConfiguration = value;
+					OnActiveConfigurationChanged (new ConfigurationEventArgs (this, value));
+				}
 			}
 		}
 		
@@ -157,6 +170,8 @@ namespace MonoDevelop.Internal.Project
 			if (ac != null)
 				activeConfiguration = GetConfiguration (ac.Value);
 		}
+		
+		public abstract IConfiguration CreateConfiguration (string name);
 		
 		public IConfiguration GetConfiguration (string name)
 		{
@@ -207,6 +222,12 @@ namespace MonoDevelop.Internal.Project
 			}
 		}
 		
+		protected virtual void OnActiveConfigurationChanged (ConfigurationEventArgs args)
+		{
+			if (ActiveConfigurationChanged != null)
+				ActiveConfigurationChanged (this, args);
+		}
+		
 		public abstract void Clean ();
 		public abstract ICompilerResult Build (IProgressMonitor monitor);
 		public abstract void Execute (IProgressMonitor monitor);
@@ -215,89 +236,6 @@ namespace MonoDevelop.Internal.Project
 		
 		public virtual void GenerateMakefiles (Combine parentCombine)
 		{
-		}
-		
-	}
-	
-	public interface ICombineEntryCollection: IEnumerable
-	{
-		int Count { get; }
-		CombineEntry this [int n] { get; }
-	}
-	
-	public class CombineEntryCollection: ICombineEntryCollection
-	{
-		ArrayList list = new ArrayList ();
-		Combine parentCombine;
-		
-		internal CombineEntryCollection ()
-		{
-		}
-		
-		internal CombineEntryCollection (Combine combine)
-		{
-			parentCombine = combine;
-		}
-		
-		public int Count
-		{
-			get { return list.Count; }
-		}
-		
-		public CombineEntry this [int n]
-		{
-			get { return (CombineEntry) list[n]; }
-		}
-		
-		public CombineEntry this [string name]
-		{
-			get {
-			for (int n=0; n<list.Count; n++)
-				if (((CombineEntry)list[n]).Name == name)
-					return (CombineEntry)list[n];
-			return null;
-			}
-		}
-		
-		public IEnumerator GetEnumerator ()
-		{
-			return list.GetEnumerator ();
-		}
-		
-		public void Add (CombineEntry entry)
-		{
-			list.Add (entry);
-			if (parentCombine != null) {
-				entry.SetParentCombine (parentCombine);
-				parentCombine.NotifyEntryAdded (entry);
-			}
-		}
-		
-		public void Remove (CombineEntry entry)
-		{
-			list.Remove (entry);
-			if (parentCombine != null) {
-				entry.SetParentCombine (null);
-				parentCombine.NotifyEntryRemoved (entry);
-			}
-		}
-		
-		public int IndexOf (CombineEntry entry)
-		{
-			return list.IndexOf (entry);
-		}
-		
-		public int IndexOf (string name)
-		{
-			for (int n=0; n<list.Count; n++)
-				if (((CombineEntry)list[n]).Name == name)
-					return n;
-			return -1;
-		}
-		
-		public void Clear ()
-		{
-			list.Clear ();
 		}
 	}
 }

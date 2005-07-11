@@ -1,3 +1,36 @@
+2005-07-11  Lluis Sanchez Gual  <lluis@novell.com>
+
+	* Internal/Codons/Commands/CommandCodon.cs: Set the text and description
+	for custom commands.
+	* Internal/Codons/LanguageBinding/ILanguageBinding.cs:
+	CreateCompilationParameters now returns an ICloneable.
+	
+	* Internal/Project/IConfiguration.cs: Added CopyFrom method.
+	* Internal/Project/AbstractConfiguration.cs:
+	* Internal/Project/AbstractProjectConfiguration.cs
+	* Internal/Project/DotNetProjectConfiguration.cs: Implement CopyFrom.
+	
+	* Internal/Combine/Combine.cs: Added CreateConfiguration method.
+	When the active configuration is changed, propagate the change to all
+	children entries. When building a combine, build the child entries which
+	have the build flag in the active configuration.
+	* Internal/Project/DotNetProject.cs: CreateConfiguration is now defined
+	in CombineEntry.
+	* Internal/Combine/CombineEntry.cs: Make it extensible by implementing
+	IExtendedDataItem. Use the new ConfigurationCollection collection.
+	Added CreateConfiguration abtract method. Added ActiveConfigurationChanged
+	event. Moved CombineEntryCollection to its own file.
+	* Internal/Combine/ConfigurationCollection.cs: New class.
+	* Internal/Combine/CombineConfiguration.cs: Renamed the Config class to
+	CombineConfigurationEntry and made it public. Implemented CopyFrom.
+	* Internal/Combine/ConfigurationEventHandler.cs: New handler.
+	* Internal/Combine/CombineEntryCollection.cs: Moved from CombineEntry.cs.
+	
+	* Internal/Serialization/ClassDataType.cs: Properties dynamically added
+	to a class must also be added to its subclasses.
+	* Internal/Serialization/ItemProperty.cs: Avoid crash in HasSetter for
+	properties not linked to a member (extended properties).
+
 2005-07-11  Lluis Sanchez Gual  <lluis@novell.com> 
 
 	* Services/ParserService/AssemblyCodeCompletionDatabase.cs:

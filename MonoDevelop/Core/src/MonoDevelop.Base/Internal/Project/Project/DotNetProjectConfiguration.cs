@@ -57,7 +57,7 @@ namespace MonoDevelop.Internal.Project
 		CompileTarget compiletarget = CompileTarget.Exe;
 		
 		[ItemProperty ("CodeGeneration")]
-		object compilationParameters;
+		ICloneable compilationParameters;
 		
 		string sourcePath;
 
@@ -76,7 +76,7 @@ namespace MonoDevelop.Internal.Project
 			set { compiletarget = value; }
 		}
 		
-		public object CompilationParameters {
+		public ICloneable CompilationParameters {
 			get { return compilationParameters; }
 			set { compilationParameters = value; }
 		}
@@ -88,6 +88,18 @@ namespace MonoDevelop.Internal.Project
 		public string SourceDirectory {
 			get { return sourcePath; }
 			set { sourcePath = value; }
+		}
+		
+		public override void CopyFrom (IConfiguration configuration)
+		{
+			base.CopyFrom (configuration);
+			DotNetProjectConfiguration conf = (DotNetProjectConfiguration) configuration;
+			
+			assembly = conf.assembly;
+			netRuntime = conf.netRuntime;
+			compiletarget = conf.compiletarget;
+			sourcePath = conf.sourcePath;
+			compilationParameters = conf.compilationParameters != null ? (ICloneable)conf.compilationParameters.Clone () : null;
 		}
 	}
 }

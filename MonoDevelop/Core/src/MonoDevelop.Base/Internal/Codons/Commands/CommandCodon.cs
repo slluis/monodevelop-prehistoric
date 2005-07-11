@@ -120,6 +120,8 @@ namespace MonoDevelop.Core.AddIns.Codons
 					throw new InvalidOperationException ("Array custom commands are not allowed.");
 					
 				CustomCommand ccmd = new CustomCommand ();
+				ccmd.Text = label;
+				ccmd.Description = description;
 				ccmd.WidgetType = AddIn.GetType (widget);
 				if (ccmd.WidgetType == null)
 					throw new InvalidOperationException ("Could not find command type '" + widget + "'.");

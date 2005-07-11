@@ -151,6 +151,22 @@ namespace MonoDevelop.Internal.Project
 			referenceRemovedFromProjectHandler = new ProjectReferenceEventHandler (NotifyReferenceRemovedFromProject);
 		}
 		
+		public override IConfiguration CreateConfiguration (string name)
+		{
+			CombineConfiguration cc = new CombineConfiguration ();
+			cc.Name = name;
+			return cc;
+		}
+		
+		protected override void OnActiveConfigurationChanged (ConfigurationEventArgs args)
+		{
+			foreach (CombineConfigurationEntry cce in ((CombineConfiguration)ActiveConfiguration).Entries) {
+				IConfiguration conf = cce.Entry.GetConfiguration (cce.ConfigurationName);
+				cce.Entry.ActiveConfiguration = conf;
+			}
+			base.OnActiveConfigurationChanged  (args);
+		}
+		
 		internal void NotifyEntryAdded (CombineEntry entry)
 		{
 			if (StartupEntry == null)
@@ -419,6 +435,29 @@ namespace MonoDevelop.Internal.Project
 			}
 		}
 		
+		public CombineEntryCollection GetAllBuildableEntries (string configuration)
+		{
+			CombineEntryCollection list = new CombineEntryCollection();
+			GetAllBuildableEntries (list, configuration);
+			return list;
+		}
+		
+		void GetAllBuildableEntries (CombineEntryCollection list, string configuration)
+		{
+			CombineConfiguration conf = (CombineConfiguration) GetConfiguration (configuration);
+			if (conf == null)
+				return;
+
+			foreach (CombineConfigurationEntry entry in conf.Entries) {
+				if (!entry.Build)
+					continue;
+				if (entry.Entry is Combine)
+					((Combine)entry.Entry).GetAllBuildableEntries (list, configuration);
+				else if (entry.Entry is Project)
+					list.Add (entry.Entry);
+			}
+		}
+		
 		public Project GetProjectEntryContaining (string fileName) 
 		{
 			CombineEntryCollection projects = GetAllProjects ();
@@ -471,19 +510,19 @@ namespace MonoDevelop.Internal.Project
 		
 		public override void Clean ()
 		{
-			foreach (CombineEntry entry in Entries)
-				entry.Clean ();
+			foreach (CombineConfigurationEntry cce in ((CombineConfiguration)ActiveConfiguration).Entries)
+				cce.Entry.Clean ();
 		}
 		
 		public override ICompilerResult Build (IProgressMonitor monitor)
 		{
-			CombineEntryCollection allProjects = GetAllProjects ();
-			monitor.BeginTask ("Building Combine " + Name, allProjects.Count);
+			CombineEntryCollection allProjects = GetAllBuildableEntries (ActiveConfiguration.Name);
+			monitor.BeginTask (string.Format (GettextCatalog.GetString ("Building Solution {0}"), Name), allProjects.Count);
 			try {
 				CompilerResults cres = new CompilerResults (null);
 				
 				try {
-					allProjects = TopologicalSort(allProjects);
+					allProjects = TopologicalSort (allProjects);
 				} catch (CyclicBuildOrderException) {
 					monitor.ReportError (GettextCatalog.GetString ("Cyclic dependencies can not be built with this version.\nBut we are working on it."), null);
 					return new DefaultCompilerResult (cres, "", 1, 1);

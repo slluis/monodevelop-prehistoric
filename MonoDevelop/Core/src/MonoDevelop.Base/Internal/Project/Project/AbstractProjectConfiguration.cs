@@ -99,5 +99,21 @@ namespace MonoDevelop.Internal.Project
 			get { return pauseconsoleoutput; }
 			set { pauseconsoleoutput = value; }
 		}
+		
+		public override void CopyFrom (IConfiguration configuration)
+		{
+			base.CopyFrom (configuration);
+			AbstractProjectConfiguration conf = (AbstractProjectConfiguration) configuration;
+			
+			directory = conf.directory;
+			executeScript = conf.executeScript;
+			executeBeforeBuild = conf.executeBeforeBuild;
+			executeAfterBuild = conf.executeAfterBuild;
+			runWithWarnings = conf.runWithWarnings;
+			debugmode = conf.debugmode;
+			commandLineParameters = conf.commandLineParameters;
+			externalConsole = conf.externalConsole;
+			pauseconsoleoutput = conf.pauseconsoleoutput;
+		}
 	}
 }

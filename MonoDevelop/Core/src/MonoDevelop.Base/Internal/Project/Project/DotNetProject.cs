@@ -57,13 +57,11 @@ namespace MonoDevelop.Internal.Project
 			language = languageName;
 			languageBinding = FindLanguage (language);
 			
-			DotNetProjectConfiguration configuration = CreateConfiguration ();
-			configuration.Name = "Debug";
+			DotNetProjectConfiguration configuration = (DotNetProjectConfiguration) CreateConfiguration ("Debug");
 			configuration.CompilationParameters = languageBinding.CreateCompilationParameters (projectOptions);
 			Configurations.Add (configuration);
 			
-			configuration = CreateConfiguration ();
-			configuration.Name = "Release";
+			configuration = (DotNetProjectConfiguration) CreateConfiguration ("Release");
 			configuration.DebugMode = false;
 			configuration.CompilationParameters = languageBinding.CreateCompilationParameters (projectOptions);
 			Configurations.Add (configuration);
@@ -97,9 +95,12 @@ namespace MonoDevelop.Internal.Project
 			return binding;
 		}
 
-		protected virtual DotNetProjectConfiguration CreateConfiguration ()
+		public override IConfiguration CreateConfiguration (string name)
 		{
-			return new DotNetProjectConfiguration ();
+			DotNetProjectConfiguration conf = new DotNetProjectConfiguration ();
+			conf.Name = name;
+			conf.CompilationParameters = languageBinding.CreateCompilationParameters (null);
+			return conf;
 		}
 		
 		protected override ICompilerResult DoBuild (IProgressMonitor monitor)
