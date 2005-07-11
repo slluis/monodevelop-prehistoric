@@ -64,7 +64,7 @@ namespace JavaBinding
 			// throw new NotImplementedException ();
 		}
 		
-		public object CreateCompilationParameters (XmlElement projectOptions)
+		public ICloneable CreateCompilationParameters (XmlElement projectOptions)
 		{
 			JavaCompilerParameters parameters = new JavaCompilerParameters ();
 			parameters.ClassPath = Path.Combine (Path.Combine (Properties.IkvmPath, "classpath"), "mscorlib.jar");

@@ -1,3 +1,9 @@
+2005-07-11  Lluis Sanchez Gual  <lluis@novell.com>
+
+	* Project/JavaCompilerParameters.cs: Implement ICloneable.
+	* JavaLanguageBinding.cs	: CreateCompilationParameters now returns an
+	ICloneable.
+
 2005-06-11  Lluis Sanchez Gual  <lluis@novell.com>
 
 	* Gui/ProjectConfigurationPropertyPanel.cs: Fix build.

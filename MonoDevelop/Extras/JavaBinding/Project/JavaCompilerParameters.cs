@@ -17,7 +17,7 @@ namespace JavaBinding
 	/// <summary>
 	/// This class handles project specific compiler parameters
 	/// </summary>
-	public class JavaCompilerParameters
+	public class JavaCompilerParameters: ICloneable
 	{
 		[ItemProperty("deprecation")]
 		bool deprecation = true;
@@ -42,6 +42,11 @@ namespace JavaBinding
 		
 		[ItemProperty("genwarnings")]
 		bool genwarnings = false;
+		
+		public object Clone ()
+		{
+			return MemberwiseClone ();
+		}
 		
 		public bool GenWarnings {
 			get {
