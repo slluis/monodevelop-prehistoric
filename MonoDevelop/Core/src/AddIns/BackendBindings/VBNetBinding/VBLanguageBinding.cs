@@ -52,7 +52,7 @@ namespace VBBinding
 			compilerServices.GenerateMakefile (project, parentCombine);
 		}
 		
-		public object CreateCompilationParameters (XmlElement projectOptions)
+		public ICloneable CreateCompilationParameters (XmlElement projectOptions)
 		{
 			return new VBCompilerParameters ();
 		}

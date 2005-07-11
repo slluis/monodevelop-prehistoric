@@ -23,7 +23,7 @@ namespace VBBinding {
 	/// <summary>
 	/// This class handles project specific compiler parameters
 	/// </summary>
-	public class VBCompilerParameters
+	public class VBCompilerParameters: ICloneable
 	{
 		[ItemProperty("compilerversion")]
 		string vbCompilerVersion = String.Empty;
@@ -78,6 +78,11 @@ namespace VBBinding {
 		
 		[ItemProperty("VBDOC-commentprefix")]
 		string commentprefix = "'";
+		
+		public object Clone ()
+		{
+			return MemberwiseClone ();
+		}
 		
 		[Browsable(false)]
 		public string VBCompilerVersion
