@@ -1,3 +1,9 @@
+2005-07-11  Lluis Sanchez Gual  <lluis@novell.com>
+
+	* Project/ILAsmCompilerParameters.cs: Implement ICloneable.
+	* ILAsmLanguageBinding.cs: CreateCompilationParameters now returns an
+	ICloneable.
+
 2005-04-17  John Luke  <john.luke@gmail.com>
 
 	* Makefile.am: fix distcheck

@@ -57,7 +57,7 @@ namespace ILAsmBinding
 			// Not supported
 		}
 		
-		public object CreateCompilationParameters (XmlElement projectOptions)
+		public ICloneable CreateCompilationParameters (XmlElement projectOptions)
 		{
 			return new ILAsmCompilerParameters();
 		}
