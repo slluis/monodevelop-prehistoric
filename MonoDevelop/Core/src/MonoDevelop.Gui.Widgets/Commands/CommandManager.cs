@@ -42,6 +42,7 @@ namespace MonoDevelop.Commands
 		ArrayList toolbars = new ArrayList ();
 		ArrayList globalHandlers = new ArrayList ();
 		ArrayList commandUpdateErrors = new ArrayList ();
+		Stack delegatorStack = new Stack ();
 		
 		Gtk.AccelGroup accelGroup;
 		
@@ -320,7 +321,11 @@ namespace MonoDevelop.Commands
 					return null;
 			}
 			
-			if (cmdTarget is ICommandRouter)
+			if (cmdTarget is ICommandDelegatorRouter) {
+				delegatorStack.Push (cmdTarget);
+				cmdTarget = ((ICommandDelegatorRouter)cmdTarget).GetDelegatedCommandTarget ();
+			}
+			else if (cmdTarget is ICommandRouter)
 				cmdTarget = ((ICommandRouter)cmdTarget).GetNextCommandTarget ();
 			else if (cmdTarget is Gtk.Widget)
 				cmdTarget = ((Gtk.Widget)cmdTarget).Parent;
@@ -328,6 +333,12 @@ namespace MonoDevelop.Commands
 				cmdTarget = null;
 			
 			if (cmdTarget == null) {
+				if (delegatorStack.Count > 0) {
+					ICommandDelegatorRouter del = (ICommandDelegatorRouter) delegatorStack.Pop ();
+					cmdTarget = del.GetNextCommandTarget ();
+					if (cmdTarget != null)
+						return cmdTarget;
+				}
 				if (globalHandlers.Count == 0) return null;
 				globalPos = 0;
 				return globalHandlers [0];

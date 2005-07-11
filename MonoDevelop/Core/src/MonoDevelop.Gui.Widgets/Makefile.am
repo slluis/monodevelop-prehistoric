@@ -40,12 +40,14 @@ Commands/CommandManager.cs \
 Commands/CommandMenuBar.cs \
 Commands/CommandMenu.cs \
 Commands/CommandMenuItem.cs \
+Commands/CommandRouterContainer.cs \
 Commands/CommandSystemCommands.cs \
 Commands/CommandToggleToolButton.cs \
 Commands/CommandToolbar.cs \
 Commands/CommandToolButton.cs \
 Commands/CustomCommand.cs \
 Commands/CustomMenuItem.cs \
+Commands/ICommandDelegatorRouter.cs \
 Commands/ICommandMenuItem.cs \
 Commands/ICommandRouter.cs \
 Commands/ICommandUserItem.cs \
