@@ -38,8 +38,8 @@ namespace MonoDevelop.Gui.Pads
 		ITreeNavigator GetTreeNavigator (object dataObject);
 		
 		Gdk.Pixbuf GetIcon (string iconId);
-		Gdk.Pixbuf GetComposedIcon (Gdk.Pixbuf baseIcon, string compositionId);
-		void CacheComposedIcon (Gdk.Pixbuf baseIcon, string compositionId, Gdk.Pixbuf composedIcon);
+		Gdk.Pixbuf GetComposedIcon (Gdk.Pixbuf baseIcon, object compositionKey);
+		void CacheComposedIcon (Gdk.Pixbuf baseIcon, object compositionKey, Gdk.Pixbuf composedIcon);
 		
 		TreeViewPad Tree { get; }
 	}

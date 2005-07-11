@@ -53,7 +53,7 @@ namespace MonoDevelop.Gui.Pads
 	/// <summary>
 	/// This class implements a project browser.
 	/// </summary>
-	public class TreeViewPad : IPadContent, IMementoCapable, ICommandRouter
+	public class TreeViewPad : IPadContent, IMementoCapable, ICommandDelegatorRouter
 	{
 		string title;
 		string icon;
@@ -108,7 +108,7 @@ namespace MonoDevelop.Gui.Pads
 			set { defaultPosition = value; }
 		}
 
-		public Gtk.Widget Control {
+		public virtual Gtk.Widget Control {
 			get {
 				return contentPanel;
 			}
@@ -212,7 +212,7 @@ namespace MonoDevelop.Gui.Pads
 			
 			Gtk.ScrolledWindow sw = new Gtk.ScrolledWindow ();
 			sw.Add(tree);
-			contentPanel = new TreeFrame (this);
+			contentPanel = new Gtk.Frame ();
 			contentPanel.Add(sw);
 			
 			tree.TestExpandRow += new Gtk.TestExpandRowHandler (OnTestExpandRow);
@@ -397,7 +397,12 @@ namespace MonoDevelop.Gui.Pads
 			}
 		}
 		
-		object ICommandRouter.GetNextCommandTarget ()
+		object ICommandDelegatorRouter.GetNextCommandTarget ()
+		{
+			return null;
+		}
+		
+		object ICommandDelegatorRouter.GetDelegatedCommandTarget ()
 		{
 			TreeNodeNavigator node = (TreeNodeNavigator) GetSelectedNode ();
 			if (node != null) {
@@ -412,16 +417,16 @@ namespace MonoDevelop.Gui.Pads
 						if (n < chain.Length - 1)
 							handlers [n].SetNextTarget (handlers [n+1]);
 						else
-							handlers [n].SetNextTarget (contentPanel.Parent);
+							handlers [n].SetNextTarget (null);
 					}
 					return handlers [0];
 				}
 			}
-			return contentPanel.Parent;
+			return null;
 		}
 
 		[CommandHandler (ViewCommands.Open)]
-		public void ActivateCurrentItem ()
+		public virtual void ActivateCurrentItem ()
 		{
 			TreeNodeNavigator node = (TreeNodeNavigator) GetSelectedNode ();
 			if (node != null) {
@@ -1073,21 +1078,21 @@ namespace MonoDevelop.Gui.Pads
 				return icon;
 			}
 			
-			public Gdk.Pixbuf GetComposedIcon (Gdk.Pixbuf baseIcon, string compositionId)
+			public Gdk.Pixbuf GetComposedIcon (Gdk.Pixbuf baseIcon, object compositionKey)
 			{
 				Hashtable itable = composedIcons [baseIcon] as Hashtable;
 				if (itable == null) return null;
-				return itable [compositionId] as Gdk.Pixbuf;
+				return itable [compositionKey] as Gdk.Pixbuf;
 			}
 			
-			public void CacheComposedIcon (Gdk.Pixbuf baseIcon, string compositionId, Gdk.Pixbuf composedIcon)
+			public void CacheComposedIcon (Gdk.Pixbuf baseIcon, object compositionKey, Gdk.Pixbuf composedIcon)
 			{
 				Hashtable itable = composedIcons [baseIcon] as Hashtable;
 				if (itable == null) {
 					itable = new Hashtable ();
 					composedIcons [baseIcon] = itable;
 				}
-				itable [compositionId] = composedIcon;
+				itable [compositionKey] = composedIcon;
 			}
 			
 			public ITreeNavigator GetTreeNavigator (object dataObject)
@@ -1148,8 +1153,9 @@ namespace MonoDevelop.Gui.Pads
 							tree.ExpandRow (path, false);
 						}
 				
-						tree.Selection.SelectIter (currentIter);
-						tree.ScrollToCell (store.GetPath (currentIter), null, false, 0, 0);
+//						tree.Selection.SelectIter (currentIter);
+						tree.SetCursor (store.GetPath (currentIter), pad.complete_column, false);
+//						tree.ScrollToCell (store.GetPath (currentIter), null, false, 0, 0);
 					}
 				}
 			}
@@ -1415,7 +1421,10 @@ namespace MonoDevelop.Gui.Pads
 			{
 				object data = store.GetValue (currentIter, TreeViewPad.DataItemColumn);
 				NodeBuilder[] chain = (NodeBuilder[]) store.GetValue (currentIter, TreeViewPad.BuilderChainColumn);
-				UpdateNode (chain, data);
+				
+				NodeAttributes ats = GetAttributes (chain, data);
+				UpdateNode (chain, ats, data);
+				
 			}
 			
 			public void ResetState ()
@@ -1487,6 +1496,18 @@ namespace MonoDevelop.Gui.Pads
 				AddChild (dataObject, false);
 			}
 			
+			NodeAttributes GetAttributes (NodeBuilder[] chain, object dataObject)
+			{
+				Gtk.TreeIter oldIter = currentIter;
+				NodeAttributes ats = NodeAttributes.None;
+				
+				foreach (NodeBuilder nb in chain) {
+					nb.GetNodeAttributes (this, dataObject, ref ats);
+					currentIter = oldIter;
+				}
+				return ats;
+			}
+			
 			public void AddChild (object dataObject, bool moveToChild)
 			{
 				if (dataObject == null) throw new ArgumentNullException ("dataObject");
@@ -1495,13 +1516,7 @@ namespace MonoDevelop.Gui.Pads
 				if (chain == null) return;
 				
 				Gtk.TreeIter oldIter = currentIter;
-				NodeAttributes ats = NodeAttributes.None;
-				
-				foreach (NodeBuilder nb in chain) {
-					nb.GetNodeAttributes (this, dataObject, ref ats);
-					currentIter = oldIter;
-				}
-				
+				NodeAttributes ats = GetAttributes (chain, dataObject);
 				if ((ats & NodeAttributes.Hidden) != 0)
 					return;
 				
@@ -1515,7 +1530,7 @@ namespace MonoDevelop.Gui.Pads
 				
 				pad.RegisterNode (it, dataObject, chain);
 				
-				BuildNode (it, chain, dataObject);
+				BuildNode (it, chain, ats, dataObject);
 				if (moveToChild)
 					currentIter = it;
 				else
@@ -1524,7 +1539,7 @@ namespace MonoDevelop.Gui.Pads
 				pad.NotifyInserted (it, dataObject);
 			}
 			
-			void BuildNode (Gtk.TreeIter it, NodeBuilder[] chain, object dataObject)
+			void BuildNode (Gtk.TreeIter it, NodeBuilder[] chain, NodeAttributes ats, object dataObject)
 			{
 				Gtk.TreeIter oldIter = currentIter;
 				currentIter = it;
@@ -1535,7 +1550,7 @@ namespace MonoDevelop.Gui.Pads
 				store.SetValue (it, TreeViewPad.DataItemColumn, dataObject);
 				store.SetValue (it, TreeViewPad.BuilderChainColumn, chain);
 				
-				UpdateNode (chain, dataObject);
+				UpdateNode (chain, ats, dataObject);
 				
 				bool hasChildren = HasChildNodes (chain, dataObject);
 				store.SetValue (currentIter, TreeViewPad.FilledColumn, !hasChildren);
@@ -1557,7 +1572,7 @@ namespace MonoDevelop.Gui.Pads
 				return false;
 			}
 			
-			void UpdateNode (NodeBuilder[] chain, object dataObject)
+			void UpdateNode (NodeBuilder[] chain, NodeAttributes ats, object dataObject)
 			{
 				Gdk.Pixbuf icon = null;
 				Gdk.Pixbuf closedIcon = null;
@@ -1586,14 +1601,15 @@ namespace MonoDevelop.Gui.Pads
 					closedIcon = gicon;
 				}
 				
-				SetNodeInfo (currentIter, text, icon, closedIcon);
+				SetNodeInfo (currentIter, ats, text, icon, closedIcon);
 			}
 			
-			void SetNodeInfo (Gtk.TreeIter it, string text, Gdk.Pixbuf icon, Gdk.Pixbuf closedIcon)
+			void SetNodeInfo (Gtk.TreeIter it, NodeAttributes ats, string text, Gdk.Pixbuf icon, Gdk.Pixbuf closedIcon)
 			{
 				store.SetValue (it, TreeViewPad.TextColumn, text);
 				if (icon != null) store.SetValue (it, TreeViewPad.OpenIconColumn, icon);
 				if (closedIcon != null) store.SetValue (it, TreeViewPad.ClosedIconColumn, closedIcon);
+				tree.QueueDraw ();
 			}
 
 			void CreateChildren (NodeBuilder[] chain, object dataObject)
@@ -1686,21 +1702,6 @@ namespace MonoDevelop.Gui.Pads
 			XmlElement treenode  = doc.CreateElement ("TreeView");
 			treeView.SaveTreeState (treenode);
 			return treenode;
-		}
-	}
-	
-	class TreeFrame: Gtk.Frame, ICommandRouter
-	{
-		object nextTarget;
-		
-		public TreeFrame (object nextTarget)
-		{
-			this.nextTarget = nextTarget;
-		}
-		
-		object ICommandRouter.GetNextCommandTarget ()
-		{
-			return nextTarget;
 		}
 	}
 	

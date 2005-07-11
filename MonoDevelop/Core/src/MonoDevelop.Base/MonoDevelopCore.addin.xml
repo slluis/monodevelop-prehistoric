@@ -264,11 +264,11 @@
 				shortcut = "Shift|F5"
 				description = "Stop current build or application execution"
 				_label = "Stop" />
-<!--		<Command id = "MonoDevelop.Commands.ProjectCommands.ConfigurationSelector"
+		<Command id = "MonoDevelop.Commands.ProjectCommands.ConfigurationSelector"
 				type = "custom"
 				widget = "MonoDevelop.Gui.ConfigurationComboBox"
-				_label = "Configuration Box" />
--->
+				_label = "Active Configuration" />
+
 
 		<!-- FileCommands -->
 		
@@ -640,17 +640,15 @@
 		</DialogPanel>
 	</Extension>
 	
-	<!-- TODO : complete the combine options dialog -->
-
-	<Extension path = "/SharpDevelop/Workbench/CombineOptions">
+	<Extension path = "/SharpDevelop/Workbench/CombineOptions/GeneralOptions">
 		<DialogPanel id    = "Common"
 		             _label = "Common">
 			<DialogPanel id = "Startup"
 			             _label = "Startup Properties"
 			             class = "MonoDevelop.Gui.Dialogs.OptionPanels.CombineStartupPanel"/>
-                       <DialogPanel id = "Build"
-                                     _label = "Build Properties"
-                                     class = "MonoDevelop.Gui.Dialogs.OptionPanels.CombineBuildOptions"/>
+			<DialogPanel id = "Build"
+						_label = "Build Properties"
+						class = "MonoDevelop.Gui.Dialogs.OptionPanels.CombineBuildOptions"/>
 
 <!-- 		<DialogPanel id = "Dependency"
 			             _label = "${res:Dialog.Options.CombineOptions.Dependencies.PanelName}"
@@ -658,16 +656,17 @@
 
 		</DialogPanel>
 
-		<!-- ORIGINAL #D COMMENT
-		<DialogPanel id    = "Configuration"
-		             _label = "${res:Dialog.Options.CombineOptions.ConfigurationOptions}">
-			<DialogPanel id = "Configuration"
-			             _label = "${res:Dialog.Options.CombineOptions.Configurations.PanelName}"
-			             class = "MonoDevelop.Gui.Dialogs.OptionPanels.CombineConfigurationPanel"/>
-		</DialogPanel> -->
-
+		<DialogPanel id = "Configurations"
+			             _label = "Configurations"
+			             class = "MonoDevelop.Gui.Dialogs.OptionPanels.CombineEntryConfigurationsPanel"/>
 	</Extension>
 	
+	<Extension path = "/SharpDevelop/Workbench/CombineOptions/ConfigurationProperties">
+		<DialogPanel id = "EntryConfigurations"
+			             _label = "Configurations"
+			             class = "MonoDevelop.Gui.Dialogs.OptionPanels.CombineConfigurationPanel"/>
+	</Extension>
+
 <!-- not using these, since the OpenFileTab has been removed (replaced with Tab_Label) jba 5 march 2004
 	<Extension path = "/SharpDevelop/Workbench/OpenFileTab/ContextMenu">
                 <MenuItem id = "Close"
@@ -827,9 +826,9 @@
 			<CommandItem id = "MonoDevelop.Commands.EditCommands.Copy" />
 			<CommandItem id = "MonoDevelop.Commands.EditCommands.Paste" />
 			<CommandItem id = "MonoDevelop.Commands.EditCommands.Delete" />
-<!--			<CommandItem id = "MonoDevelop.Commands.ProjectCommands.ConfigurationSelector" />-->
 		</ItemSet>
 		<ItemSet id = "Build" _label = "Build">
+			<CommandItem id = "MonoDevelop.Commands.ProjectCommands.ConfigurationSelector" />
 			<CommandItem id = "MonoDevelop.Commands.ProjectCommands.Build" />
 			<CommandItem id = "MonoDevelop.Commands.ProjectCommands.BuildSolution" />
 			<CommandItem id = "MonoDevelop.Commands.ProjectCommands.Run" />

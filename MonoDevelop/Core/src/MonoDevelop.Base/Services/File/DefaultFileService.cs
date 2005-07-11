@@ -31,6 +31,8 @@ namespace MonoDevelop.Services
 			public IProgressMonitor ProgressMonitor;
 			public string FileName;
 			public bool BringToFront;
+			public int Line;
+			public int Column;
 		}
 		
 		public RecentOpen RecentOpen {
@@ -54,17 +56,17 @@ namespace MonoDevelop.Services
 		{
 			IDisplayBinding binding;
 			Project project;
-			bool select;
+			FileInformation fileInfo;
 			
-			public LoadFileWrapper(IDisplayBinding binding, bool select)
+			public LoadFileWrapper(IDisplayBinding binding, FileInformation fileInfo)
 			{
-				this.select = select;
+				this.fileInfo = fileInfo;
 				this.binding = binding;
 			}
 			
-			public LoadFileWrapper(IDisplayBinding binding, Project project, bool select)
+			public LoadFileWrapper(IDisplayBinding binding, Project project, FileInformation fileInfo)
 			{
-				this.select = select;
+				this.fileInfo = fileInfo;
 				this.binding = binding;
 				this.project = project;
 			}
@@ -77,8 +79,12 @@ namespace MonoDevelop.Services
 					newContent.HasProject = true;
 					newContent.Project = project;
 				}
-				WorkbenchSingleton.Workbench.ShowView (newContent, select);
+				WorkbenchSingleton.Workbench.ShowView (newContent, fileInfo.BringToFront);
 				Runtime.Gui.DisplayBindings.AttachSubWindows(newContent.WorkbenchWindow);
+				
+				if (fileInfo.Line != -1 && newContent is IPositionable) {
+					((IPositionable)newContent).JumpTo (fileInfo.Line, fileInfo.Column != -1 ? fileInfo.Column : 0);
+				}
 			}
 		}
 		
@@ -88,6 +94,11 @@ namespace MonoDevelop.Services
 		}
 		
 		public IAsyncOperation OpenFile (string fileName, bool bringToFront)
+		{
+			return OpenFile (fileName, -1, -1, bringToFront);
+		}
+		
+		public IAsyncOperation OpenFile (string fileName, int line, int column, bool bringToFront)
 		{
 			foreach (IViewContent content in WorkbenchSingleton.Workbench.ViewContentCollection) {
 				if (content.ContentName == fileName) {
@@ -102,6 +113,8 @@ namespace MonoDevelop.Services
 			openFileInfo.ProgressMonitor = pm;
 			openFileInfo.FileName = fileName;
 			openFileInfo.BringToFront = bringToFront;
+			openFileInfo.Line = line;
+			openFileInfo.Column = column;
 			Runtime.DispatchService.GuiDispatch (new StatefulMessageHandler (realOpenFile), openFileInfo);
 			return pm.AsyncOperation;
 		}
@@ -153,8 +166,12 @@ namespace MonoDevelop.Services
 				
 				foreach (IViewContent content in WorkbenchSingleton.Workbench.ViewContentCollection) {
 					if (content.ContentName == fileName) {
-						if (oFileInfo.BringToFront)
+						if (oFileInfo.BringToFront) {
 							content.WorkbenchWindow.SelectWindow();
+							if (oFileInfo.Line != -1 && content is IPositionable) {
+								((IPositionable)content).JumpTo (oFileInfo.Line, oFileInfo.Column != -1 ? oFileInfo.Column : 0);
+							}
+						}
 						return;
 					}
 				}
@@ -168,13 +185,13 @@ namespace MonoDevelop.Services
 					
 					if (combine != null && project != null)
 					{
-						if (Runtime.FileUtilityService.ObservedLoad(new NamedFileOperationDelegate(new LoadFileWrapper(binding, project, oFileInfo.BringToFront).Invoke), fileName) == FileOperationResult.OK) {
+						if (Runtime.FileUtilityService.ObservedLoad(new NamedFileOperationDelegate(new LoadFileWrapper(binding, project, oFileInfo).Invoke), fileName) == FileOperationResult.OK) {
 							Runtime.FileService.RecentOpen.AddLastFile (fileName, project.Name);
 						}
 					}
 					else
 					{
-						if (Runtime.FileUtilityService.ObservedLoad(new NamedFileOperationDelegate(new LoadFileWrapper(binding, null, oFileInfo.BringToFront).Invoke), fileName) == FileOperationResult.OK) {
+						if (Runtime.FileUtilityService.ObservedLoad(new NamedFileOperationDelegate(new LoadFileWrapper(binding, null, oFileInfo).Invoke), fileName) == FileOperationResult.OK) {
 							Runtime.FileService.RecentOpen.AddLastFile (fileName, null);
 						}
 					}
@@ -188,7 +205,7 @@ namespace MonoDevelop.Services
 							Gnome.Url.Show ("file://" + fileName);
 						//}
 					} catch {
-						if (Runtime.FileUtilityService.ObservedLoad(new NamedFileOperationDelegate (new LoadFileWrapper (Runtime.Gui.DisplayBindings.LastBinding, null, oFileInfo.BringToFront).Invoke), fileName) == FileOperationResult.OK) {
+						if (Runtime.FileUtilityService.ObservedLoad(new NamedFileOperationDelegate (new LoadFileWrapper (Runtime.Gui.DisplayBindings.LastBinding, null, oFileInfo).Invoke), fileName) == FileOperationResult.OK) {
 							Runtime.FileService.RecentOpen.AddLastFile (fileName, null);
 						}
 					}

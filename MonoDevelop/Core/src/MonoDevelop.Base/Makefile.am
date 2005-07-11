@@ -70,6 +70,7 @@ Gui/Pads/SolutionPad/TreePadOption.cs \
 Gui/Pads/SolutionPad/TreeViewPad.cs \
 Gui/Pads/SolutionPad/TypeNodeBuilder.cs \
 Gui/Pads/DefaultMonitorPad.cs \
+Gui/ToolWidgets/ConfigurationComboBox.cs \
 Gui/AbstractPadContent.cs \
 Gui/ISecondaryViewContent.cs \
 Gui/IViewContent.cs \
@@ -112,6 +113,7 @@ Gui/Dialogs/Wizard/StatusPanel.cs \
 Gui/Dialogs/Wizard/IWizardPanel.cs \
 Gui/Dialogs/Wizard/AbstractWizardPanel.cs \
 Gui/Dialogs/CombineConfiguration/CombineConfigurationPanel.cs \
+Gui/Dialogs/CombineConfiguration/CombineEntryConfigurationsPanel.cs \
 Gui/Dialogs/CombineConfiguration/CombineDependencyPanel.cs \
 Gui/Dialogs/CombineConfiguration/CombineStartupPanel.cs \
 Gui/Dialogs/CombineConfiguration/CombineBuildOptions.cs \
@@ -129,6 +131,7 @@ Gui/Dialogs/DirtyFilesDialog.cs \
 Gui/Dialogs/TipOfTheDay.cs \
 Gui/Dialogs/NewFileDialog.cs \
 Gui/Dialogs/ProjectOptionsDialog.cs \
+Gui/Dialogs/CombineOptionsDialog.cs \
 Gui/Dialogs/NewLayoutDialog.cs \
 Gui/Dialogs/ReplaceDialog.cs \
 Gui/Dialogs/ReplaceInFilesDialog.cs \
@@ -447,7 +450,10 @@ Internal/Project/Combine/CombineExecuteDefinition.cs \
 Internal/Project/Combine/CyclicBuildOrderException.cs \
 Internal/Project/Combine/CombineConfiguration.cs \
 Internal/Project/Combine/NoStartupCombineDefinedException.cs \
+Internal/Project/Combine/ConfigurationCollection.cs \
+Internal/Project/Combine/ConfigurationEventHandler.cs \
 Internal/Project/Combine/CombineEntry.cs \
+Internal/Project/Combine/CombineEntryCollection.cs \
 Internal/Project/Combine/CombineEntryEventArgs.cs \
 Internal/Project/Combine/CombineEntryRenamedEventArgs.cs \
 Internal/Templates/FileDescriptionTemplate.cs \

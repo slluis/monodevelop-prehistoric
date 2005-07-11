@@ -695,16 +695,11 @@ namespace MonoDevelop.Services
 			} else if (entry is Combine) {
 				Combine combine = (Combine) entry;
 				
-				DefaultProperties defaultProperties = new DefaultProperties();
-				defaultProperties.SetProperty ("Combine", combine);
-				TreeViewOptions optionsDialog = new TreeViewOptions (defaultProperties,
-																		   AddInTreeSingleton.AddInTree.GetTreeNode("/SharpDevelop/Workbench/CombineOptions"));
-			//		optionsDialog.SetDefaultSize = new Size(700, 450);
-			//		optionsDialog.FormBorderStyle = FormBorderStyle.FixedDialog;
-			//				
-			//		optionsDialog.TransientFor = (Gtk.Window)WorkbenchSingleton.Workbench;
-					optionsDialog.Run ();
-			//		optionsDialog.Hide ();
+				IAddInTreeNode generalOptionsNode          = AddInTreeSingleton.AddInTree.GetTreeNode("/SharpDevelop/Workbench/CombineOptions/GeneralOptions");
+				IAddInTreeNode configurationPropertiesNode = AddInTreeSingleton.AddInTree.GetTreeNode("/SharpDevelop/Workbench/CombineOptions/ConfigurationProperties");
+				
+				CombineOptionsDialog optionsDialog = new CombineOptionsDialog (combine, generalOptionsNode, configurationPropertiesNode);
+				optionsDialog.Run ();
 			}
 			
 			SaveCombine ();
@@ -914,6 +909,10 @@ namespace MonoDevelop.Services
 							break;
 						}
 					}
+					name = properties.GetProperty("ActiveConfiguration", "");
+					IConfiguration conf = combine.GetConfiguration (name);
+					if (conf != null)
+						combine.ActiveConfiguration = conf;
 				}
 			} 
 		}
@@ -964,6 +963,7 @@ namespace MonoDevelop.Services
 			IProperties properties = new DefaultProperties();
 			string name = WorkbenchSingleton.Workbench.ActiveWorkbenchWindow == null ? String.Empty : WorkbenchSingleton.Workbench.ActiveWorkbenchWindow.ViewContent.ContentName;
 			properties.SetProperty("ActiveWindow", name == null ? String.Empty : name);
+			properties.SetProperty("ActiveConfiguration", combine.ActiveConfiguration == null ? String.Empty : combine.ActiveConfiguration.Name);
 			
 			XmlElement propertynode = doc.CreateElement("Properties");
 			doc.DocumentElement.AppendChild(propertynode);

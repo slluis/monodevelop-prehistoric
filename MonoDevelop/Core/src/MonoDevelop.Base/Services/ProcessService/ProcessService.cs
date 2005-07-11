@@ -129,7 +129,7 @@ namespace MonoDevelop.Services
 		
 		public RemoteProcessObject CreateExternalProcessObject (Type type, bool shared)
 		{
-			return GetHost (shared).CreateInstance (type);
+			return GetHost (shared).CreateInstance (type.Assembly.Location, type.FullName);
 		}
 		
 		public RemoteProcessObject CreateExternalProcessObject (string assemblyPath, string typeName, bool shared)

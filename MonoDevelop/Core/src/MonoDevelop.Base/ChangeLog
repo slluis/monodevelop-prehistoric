@@ -1,3 +1,40 @@
+2005-07-11  Lluis Sanchez Gual  <lluis@novell.com> 
+
+	* Services/File/IFileService.cs: 
+	* Services/File/DefaultFileService.cs: Added OpenFile overload to open
+	a file at place the cursor at a given line at column.
+	
+	* Services/ProcessService/ProcessService.cs: Provide the assembly location
+	when creating an out of process object.
+	
+	* Services/Project/ProjectService.cs: Use the new combine options dialog.
+	Store and restore the active configuration of the root combine.
+	
+	* Gui/Dialogs/CombineConfiguration/CombineConfigurationPanel.cs:
+	Implemented.
+	* Gui/Dialogs/CombineConfiguration/CombineEntryConfigurationsPanel.cs:
+	new option panel that shows the list of configurations of a combine.
+	
+	* Gui/Dialogs/TreeViewOptions.cs: Added new overridable methods to
+	make costumization easier.
+	* Gui/Dialogs/CombineOptionsDialog.cs: New dialog that shows the options
+	for a combine.
+	* Gui/Workbench/Layouts/SdiWorkspaceLayout.cs: Include the IPadContent
+	in the command route.
+	* Gui/Pads/SolutionPad/TreeViewPad.cs: Use the new ICommandDelegatorRouter
+	interface. Made some methods virtual. The key for GetComposedIcon is now
+	an object, instead of an string.
+	
+	* Gui/Pads/SolutionPad/ITreeBuilderContext.cs:The key for GetComposedIcon
+	is now an object, instead of an string.
+	
+	* Gui/ToolWidgets/ConfigurationComboBox.cs: Toolbar widget that shows
+	the active configuration.
+	
+	* Base.glade: Added new combine configuration dialogs.
+	* MonoDevelopCore.addin.xml: Added the ConfigurationSelector command and
+	the new combine configuration panels.
+
 2005-07-11  Lluis Sanchez Gual  <lluis@novell.com>
 
 	* Internal/Codons/Commands/CommandCodon.cs: Set the text and description

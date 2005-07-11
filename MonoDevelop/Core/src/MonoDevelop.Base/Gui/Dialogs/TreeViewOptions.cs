@@ -84,26 +84,44 @@ namespace MonoDevelop.Gui.Dialogs {
 			}
 		}		
 		
-		protected void AddNodes(object customizer, Gtk.TreeIter iter, ArrayList dialogPanelDescriptors)
+		protected void AddNodes (object customizer, Gtk.TreeIter iter, ArrayList dialogPanelDescriptors)
 		{
 			foreach (IDialogPanelDescriptor descriptor in dialogPanelDescriptors) {
-				if (descriptor.DialogPanel != null) { // may be null, if it is only a "path"
-					descriptor.DialogPanel.CustomizationObject = customizer;
-					((Gtk.Frame)descriptor.DialogPanel.Control).Shadow = Gtk.ShadowType.None;
-					OptionPanels.Add(descriptor.DialogPanel);
-					mainBook.AppendPage (descriptor.DialogPanel.Control, new Gtk.Label ("a"));
-				}
+				AddNode (descriptor.Label, customizer, iter, descriptor);
+			}
+		}
+		
+		protected virtual void AddNode (string label, object customizer, Gtk.TreeIter iter, IDialogPanelDescriptor descriptor)
+		{
+			if (descriptor.DialogPanel != null) { // may be null, if it is only a "path"
+				descriptor.DialogPanel.CustomizationObject = customizer;
+				((Gtk.Frame)descriptor.DialogPanel.Control).Shadow = Gtk.ShadowType.None;
+				OptionPanels.Add (descriptor.DialogPanel);
+				mainBook.AppendPage (descriptor.DialogPanel.Control, new Gtk.Label ("a"));
+			}
 			
-				Gtk.TreeIter i;
-				if (iter.Equals (Gtk.TreeIter.Zero)) {
-					i = treeStore.AppendValues (descriptor.Label, descriptor);
-				} else {
-					i = treeStore.AppendValues (iter, descriptor.Label, descriptor);
-				}
-				
-				if (descriptor.DialogPanelDescriptors != null) {
-					AddNodes (customizer, i, descriptor.DialogPanelDescriptors);
-				}
+			Gtk.TreeIter i;
+			if (iter.Equals (Gtk.TreeIter.Zero)) {
+				i = treeStore.AppendValues (label, descriptor);
+			} else {
+				i = treeStore.AppendValues (iter, label, descriptor);
+			}
+
+			AddChildNodes (customizer, i, descriptor);
+		}
+		
+		protected virtual Gtk.TreeIter AddPath (string label, Gtk.TreeIter iter)
+		{
+			if (iter.Equals (Gtk.TreeIter.Zero))
+				return treeStore.AppendValues (label, null);
+			else
+				return treeStore.AppendValues (iter, label, null);
+		}
+		
+		protected virtual void AddChildNodes (object customizer, Gtk.TreeIter iter, IDialogPanelDescriptor descriptor)
+		{
+			if (descriptor.DialogPanelDescriptors != null) {
+				AddNodes (customizer, iter, descriptor.DialogPanelDescriptors);
 			}
 		}
 		
@@ -112,15 +130,21 @@ namespace MonoDevelop.Gui.Dialogs {
 			Gtk.TreeModel mdl;
 			Gtk.TreeIter  iter;
 			if (TreeView.Selection.GetSelected (out mdl, out iter)) {
-				if (treeStore.IterHasChild (iter)) {
-					Gtk.TreeIter new_iter;
-					treeStore.IterChildren (out new_iter, iter);
-					Gtk.TreePath new_path = treeStore.GetPath (new_iter);
-					TreeView.ExpandToPath (new_path);
-					TreeView.Selection.SelectPath (new_path);
-				} else {
-					SetOptionPanelTo ((IDialogPanelDescriptor)treeStore.GetValue (iter, 1));
-				}
+				IDialogPanelDescriptor descriptor = treeStore.GetValue (iter, 1) as IDialogPanelDescriptor;
+				OnSelectNode (iter, descriptor);
+			}
+		}
+		
+		protected virtual void OnSelectNode (Gtk.TreeIter iter, IDialogPanelDescriptor descriptor)
+		{
+			if (treeStore.IterHasChild (iter) && (descriptor == null || descriptor.DialogPanel == null)) {
+				Gtk.TreeIter new_iter;
+				treeStore.IterChildren (out new_iter, iter);
+				Gtk.TreePath new_path = treeStore.GetPath (new_iter);
+				TreeView.ExpandToPath (new_path);
+				TreeView.Selection.SelectPath (new_path);
+			} else {
+				SetOptionPanelTo (descriptor);
 			}
 		}
 		
@@ -132,9 +156,8 @@ namespace MonoDevelop.Gui.Dialogs {
 			TreeView.ExpandToPath (new_path);
 			TreeView.Selection.SelectPath (new_path);
 			IDialogPanelDescriptor descriptor = treeStore.GetValue (iter, 1) as IDialogPanelDescriptor;  
-			if (descriptor != null) {
+			if (descriptor != null)
 				SetOptionPanelTo (descriptor);
-			}
 		}
 		
 		public TreeViewOptions (IProperties properties, IAddInTreeNode node)

@@ -35,6 +35,7 @@ namespace MonoDevelop.Services
 		/// </remarks>
 		IAsyncOperation OpenFile (string fileName);
 		IAsyncOperation OpenFile (string fileName, bool bringToFront);
+		IAsyncOperation OpenFile (string fileName, int line, int column, bool bringToFront);
 		
 		/// <remarks>
 		/// Opens a new file with a given name, language and file content
