@@ -1,3 +1,9 @@
+2005-07-11  Lluis Sanchez Gual  <lluis@novell.com>
+
+	* MonoProject.cs: Implemented CreateConfiguration method.
+	* MonoDeveloperExtensions.addin.xml: Added install command
+	  to the correct toolbar.
+
 2005-04-25  Lluis Sanchez Gual  <lluis@novell.com>
 
 	* MonoDeveloperExtensions.addin.xml:

@@ -202,6 +202,11 @@ namespace MonoDeveloper
 			return conf.GetAssemblyPath ();
 		}
 		
+		public override IConfiguration CreateConfiguration (string name)
+		{
+			return new MonoProjectConfiguration (name, name);
+		}
+		
 		public void CombineOpened (object sender, CombineEventArgs args)
 		{
 			foreach (string pref in refNames) {

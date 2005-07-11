@@ -43,7 +43,7 @@
 				  _label = "Revert" />
 	</Extension>
 			
-	<Extension path = "/SharpDevelop/Workbench/ToolBar/Standard">
+	<Extension path = "/SharpDevelop/Workbench/ToolBar/Build">
 		<CommandItem id = "MonoDeveloper.Commands.Install" insertafter="MonoDevelop.Commands.ProjectCommands.Run"/>
 	</Extension>
 	
