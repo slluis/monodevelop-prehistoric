@@ -1,3 +1,9 @@
+2005-07-11  Lluis Sanchez Gual  <lluis@novell.com>
+
+	* Project/CSharpCompilerParameters.cs: Implement ICloneable.
+	* CSharpLanguageBinding.cs: CreateCompilationParameters now returns an
+	ICloneable.
+
 2005-05-15  Lluis Sanchez Gual  <lluis@novell.com> 
 
 	* CSharp.glade: Several fixes to make the dialogs more conforming

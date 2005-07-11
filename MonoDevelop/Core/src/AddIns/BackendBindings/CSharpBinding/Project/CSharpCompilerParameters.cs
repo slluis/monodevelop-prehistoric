@@ -23,7 +23,7 @@ namespace CSharpBinding
 	/// <summary>
 	/// This class handles project specific compiler parameters
 	/// </summary>
-	public class CSharpCompilerParameters
+	public class CSharpCompilerParameters: ICloneable
 	{
 		// Configuration parameters
 		
@@ -56,6 +56,11 @@ namespace CSharpBinding
 		
 		[ProjectPathItemProperty ("win32Icon", DefaultValue = "")]
 		string         win32Icon     = String.Empty;
+		
+		public object Clone ()
+		{
+			return MemberwiseClone ();
+		}
 		
 		[Browsable(false)]
 		public CsharpCompiler CsharpCompiler {
