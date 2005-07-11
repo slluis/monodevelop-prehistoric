@@ -34,6 +34,7 @@ using System.IO;
 using MonoDevelop.Internal.Project;
 using MonoDevelop.Internal.Parser;
 using System.Reflection;
+using MonoDevelop.Core.Services;
 
 namespace MonoDevelop.Services
 {	
@@ -47,39 +48,14 @@ namespace MonoDevelop.Services
 		: base (parserService)
 		{
 			string assemblyFile;
+			string[] refUris;
 			string name;
-			Assembly asm = null;
 			
-			if (assemblyName.ToLower().EndsWith (".dll")) 
+			using (AssemblyDatabaseHelper helper = GetExternalHelper (true))
 			{
-				name = assemblyName.Substring (0, assemblyName.Length - 4);
-				name = name.Replace(',','_').Replace(" ","").Replace('/','_');
-				assemblyFile = assemblyName;
-				try {
-					asm = Assembly.LoadFrom (assemblyFile);
-				}
-				catch {}
-				
-				if (asm == null) {
-					Runtime.LoggingService.Info ("Could not load assembly: " + assemblyFile);
-					return;
-				}
-			}
-			else 
-			{
-				asm = FindAssembly (assemblyName);
-				
-				if (asm == null) {
-					Runtime.LoggingService.Info ("Could not load assembly: " + assemblyName);
-					return;
-				}
-				
-				assemblyName = asm.GetName().FullName;
-				name = EncodeGacAssemblyName (assemblyName);
-				assemblyFile = asm.Location;
+				helper.GetAssemblyInfo (assemblyName, out this.assemblyName, out assemblyFile, out name, out refUris);
 			}
 			
-			this.assemblyName = assemblyName;
 			this.baseDir = baseDir;
 			
 			SetLocation (baseDir, name);
@@ -94,8 +70,7 @@ namespace MonoDevelop.Services
 			// Update references to other assemblies
 			
 			Hashtable rs = new Hashtable ();
-			foreach (AssemblyName aname in asm.GetReferencedAssemblies ()) {
-				string uri = "Assembly:" + aname.ToString();
+			foreach (string uri in refUris) {
 				rs[uri] = null;
 				if (!HasReference (uri))
 					AddReference (uri);
@@ -112,51 +87,10 @@ namespace MonoDevelop.Services
 		
 		public static string GetFullAssemblyName (string s)
 		{
-			if (s.ToLower().EndsWith (".dll")) 
-				return s;
-				
-			Assembly asm = FindAssembly (s);
-			
-			if (asm != null)
-				return asm.GetName().FullName;
-			else
-				return s;
-		}
-		
-		public static Assembly FindAssembly (string name)
-		{
-			Assembly asm = null;
-			try {
-				asm = Assembly.Load (name);
+			using (AssemblyDatabaseHelper helper = GetExternalHelper (true))
+			{
+				return helper.GetFullAssemblyName (s);
 			}
-			catch {}
-			
-			if (asm == null) {
-				try {
-					asm = Assembly.LoadWithPartialName (name);
-				}
-				catch {}
-			}
-			return asm;
-		}
-		
-		string EncodeGacAssemblyName (string assemblyName)
-		{
-			string[] assemblyPieces = assemblyName.Split(',');
-			string res = "";
-			foreach (string item in assemblyPieces) {
-				string[] pieces = item.Trim ().Split (new char[] { '=' }, 2);
-				if(pieces.Length == 1)
-					res += pieces[0];
-				else if (!(pieces[0] == "Culture" && pieces[1] != "Neutral"))
-					res += "_" + pieces[1];
-			}
-			return res;
-		}
-		
-		public string AssemblyName
-		{
-			get { return assemblyName; }
 		}
 		
 		protected override void ParseFile (string fileName, IProgressMonitor parentMonitor)
@@ -168,10 +102,11 @@ namespace MonoDevelop.Services
 				monitor.BeginTask ("Parsing assembly: " + Path.GetFileName (fileName), 1);
 				if (useExternalProcess)
 				{
-					string dbgen = Path.Combine (AppDomain.CurrentDomain.BaseDirectory, "dbgen.exe");
-					Process proc = Process.Start ("mono " + dbgen, "\"" + baseDir + "\" \"" + assemblyName + "\"");
-					proc.WaitForExit ();
-					Read ();
+					using (AssemblyDatabaseHelper helper = GetExternalHelper (true))
+					{
+						helper.GenerateDatabase (baseDir, assemblyName);
+						Read ();
+					}
 				}
 				else
 				{
@@ -203,5 +138,122 @@ namespace MonoDevelop.Services
 				Runtime.LoggingService.Info ("Deleted " + dataFile);
 			}
 		}
+		
+		
+		static AssemblyDatabaseHelper GetExternalHelper (bool share)
+		{
+			if (Runtime.ProcessService != null)
+				return (AssemblyDatabaseHelper) Runtime.ProcessService.CreateExternalProcessObject (typeof(AssemblyDatabaseHelper), share);
+			else
+				return new AssemblyDatabaseHelper ();
+		}
 	}
+	
+	public class AssemblyDatabaseHelper: RemoteProcessObject
+	{
+		public bool GetAssemblyInfo (string assemblyName, out string realAssemblyName, out string assemblyFile, out string name, out string[] references)
+		{
+			name = null;
+			assemblyFile = null;
+			realAssemblyName = null;
+			references = null;
+			
+			Assembly asm = null;
+			
+			if (assemblyName.ToLower().EndsWith (".dll")) 
+			{
+				name = assemblyName.Substring (0, assemblyName.Length - 4);
+				name = name.Replace(',','_').Replace(" ","").Replace('/','_');
+				assemblyFile = assemblyName;
+				try {
+					asm = Assembly.LoadFrom (assemblyFile);
+				}
+				catch {}
+				
+				if (asm == null) {
+					Console.WriteLine ("Could not load assembly: " + assemblyFile);
+					return false;
+				}
+			}
+			else 
+			{
+				asm = FindAssembly (assemblyName);
+				
+				if (asm == null) {
+					Console.WriteLine ("Could not load assembly: " + assemblyName);
+					return false;
+				}
+				
+				assemblyName = asm.GetName().FullName;
+				name = EncodeGacAssemblyName (assemblyName);
+				assemblyFile = asm.Location;
+			}
+			
+			realAssemblyName = assemblyName;
+
+			// Update references to other assemblies
+			
+			AssemblyName[] names = asm.GetReferencedAssemblies ();
+			references = new string [names.Length];
+
+			for (int n=0; n<names.Length; n++)
+				references [n] = "Assembly:" + names [n].ToString();
+				
+			return true;
+		}	
+	
+		public string GetFullAssemblyName (string s)
+		{
+			if (s.ToLower().EndsWith (".dll")) 
+				return s;
+				
+			Assembly asm = FindAssembly (s);
+			
+			if (asm != null)
+				return asm.GetName().FullName;
+			else
+				return s;
+		}
+		
+		public void GenerateDatabase (string baseDir, string assemblyName)
+		{
+			if (ServiceManager.GetService (typeof(MonodocService)) == null)
+				ServiceManager.AddService (new MonodocService());
+
+			DefaultParserService parserService = new DefaultParserService ();
+			parserService.GenerateAssemblyDatabase (baseDir, assemblyName);
+		}
+		
+		Assembly FindAssembly (string name)
+		{
+			Assembly asm = null;
+			try {
+				asm = Assembly.Load (name);
+			}
+			catch {}
+			
+			if (asm == null) {
+				try {
+					asm = Assembly.LoadWithPartialName (name);
+				}
+				catch {}
+			}
+			return asm;
+		}
+
+		string EncodeGacAssemblyName (string assemblyName)
+		{
+			string[] assemblyPieces = assemblyName.Split(',');
+			string res = "";
+			foreach (string item in assemblyPieces) {
+				string[] pieces = item.Trim ().Split (new char[] { '=' }, 2);
+				if(pieces.Length == 1)
+					res += pieces[0];
+				else if (!(pieces[0] == "Culture" && pieces[1] != "Neutral"))
+					res += "_" + pieces[1];
+			}
+			return res;
+		}
+	}
+	
 }

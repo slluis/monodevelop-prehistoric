@@ -68,6 +68,7 @@ namespace MonoDevelop.Services
 		IEnumerable GetClassInheritanceTree (Project project, IClass cls);
 		
 		IClass[] GetFileContents (Project project, string fileName);
+		IClass[] GetProjectContents (Project project);
 		
 		////////////////////////////////////////////
 

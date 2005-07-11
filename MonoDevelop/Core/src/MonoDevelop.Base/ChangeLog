@@ -1,3 +1,14 @@
+2005-07-11  Lluis Sanchez Gual  <lluis@novell.com> 
+
+	* Services/ParserService/AssemblyCodeCompletionDatabase.cs:
+	Load referenced assemblies in an external process. gtk# 1.0 projects
+	should work again.
+	* Services/ParserService/IParserService.cs:
+	* Services/ParserService/DefaultParserService.cs: Added GetProjectContents
+	method.
+	* Services/ParserService/CodeCompletionDatabase.cs: Added GetClassList
+	method (to support GetProjectContents).
+
 2005-07-08  John Luke  <john.luke@gmail.com>
 
 	* Makefile.am: remove MONO_POSIX_OEE defines

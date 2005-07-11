@@ -594,6 +594,22 @@ namespace MonoDevelop.Services
 			}
 		}
 		
+		public IClass[] GetClassList ()
+		{
+			lock (rwlock)
+			{
+				ArrayList list = new ArrayList ();
+				foreach (FileEntry fe in files.Values) {
+					ClassEntry ce = fe.FirstClass;
+					while (ce != null) {
+						list.Add (GetClass (ce));
+						ce = ce.NextInFile;
+					}
+				}
+				return (IClass[]) list.ToArray (typeof(IClass));
+			}
+		}
+		
 		public void GetNamespaceList (ArrayList list, string subNameSpace, bool caseSensitive)
 		{
 			lock (rwlock)

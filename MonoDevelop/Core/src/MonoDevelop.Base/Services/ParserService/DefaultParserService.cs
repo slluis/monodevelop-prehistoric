@@ -783,6 +783,15 @@ namespace MonoDevelop.Services
 			return null;
 		}
 		
+		public IClass[] GetProjectContents (Project project)
+		{
+			CodeCompletionDatabase db = GetProjectDatabase (project);
+			if (db != null)
+				return db.GetClassList ();
+			else
+				return new IClass[0];
+		}
+		
 		public string[] GetClassList (Project project, string subNameSpace, bool includeReferences)
 		{
 			return GetClassList (project, subNameSpace, includeReferences, true);
