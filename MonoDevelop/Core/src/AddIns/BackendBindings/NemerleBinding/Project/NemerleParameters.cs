@@ -7,7 +7,7 @@ using MonoDevelop.Internal.Serialization;
 
 namespace NemerleBinding
 {
-	public class NemerleParameters
+	public class NemerleParameters: ICloneable
 	{
 		[ItemProperty("nostdmacros")]
 		public bool nostdmacros = false;
@@ -29,6 +29,11 @@ namespace NemerleBinding
 
 		[ItemProperty("parameters")]
 		public string parameters = String.Empty;
+		
+		public object Clone ()
+		{
+			return MemberwiseClone ();
+		}
 		
 		public bool Nostdmacros
 		{
