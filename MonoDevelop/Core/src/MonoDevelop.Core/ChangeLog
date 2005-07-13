@@ -1,3 +1,11 @@
+2005-07-13  Lluis Sanchez Gual  <lluis@novell.com> 
+
+	* AddIns/AddIn.cs:
+	* AddIns/AddInTreeSingleton.cs:
+	* AddIns/AddInCollection.cs:
+	* AddIns/AddInLoadException.cs: Implemented some basic support for
+	declaring addin dependencies.
+
 2005-06-27  John Luke  <john.luke@gmail.com>
 
 	* MonoDevelop.Core.mdp:

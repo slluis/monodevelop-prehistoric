@@ -181,6 +181,10 @@ namespace MonoDevelop.Core.AddIns
 				throw new AddInLoadException("No or malformed 'AddIn' node");
 			}
 			
+			XmlElement deps = doc.DocumentElement ["Dependencies"];
+			if (deps != null)
+				CheckDependencies (deps);
+			
 			foreach (object o in doc.DocumentElement.ChildNodes) {
 				if (o is XmlElement) {
 					XmlElement curEl = (XmlElement)o;
@@ -225,6 +229,25 @@ namespace MonoDevelop.Core.AddIns
 			Extension e = new Extension(el.Attributes["path"].InnerText);
 			AddCodonsToExtension(e, el, new ConditionCollection());
 			extensions.Add(e);
+		}
+		
+		void CheckDependencies (XmlElement deps)
+		{
+			if (deps != null) {
+				foreach (object o in deps.ChildNodes) {
+					XmlElement dep = o as XmlElement;
+					if (dep == null) continue;
+					switch (dep.LocalName) {
+						case "AddIn": {
+							string aname = dep.GetAttribute ("name");
+							AddIn addin = AddInTreeSingleton.AddInTree.AddIns [aname];
+							if (addin == null)
+								throw new MissingDependencyException ("Addin: " + aname);
+							break;
+						}
+					}
+				}
+			}
 		}
 		
 		/// <summary>

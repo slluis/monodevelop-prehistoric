@@ -46,6 +46,16 @@ namespace MonoDevelop.Core.AddIns
 			}
 		}
 		
+		public AddIn this [string name] 
+		{
+			get {
+				foreach (AddIn addin in List)
+					if (addin.Name == name)
+						return addin;
+				return null;
+			}
+		}
+		
 		/// <summary>
 		///    <para>Adds a <see cref="AddIn"/> with the specified value to the
 		///    <see cref="AddInCollection"/> .</para>

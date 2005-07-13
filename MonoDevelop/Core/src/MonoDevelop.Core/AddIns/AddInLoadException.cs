@@ -21,4 +21,11 @@ namespace MonoDevelop.Core.AddIns
 		{
 		}
 	}
+	
+	public class MissingDependencyException: Exception
+	{
+		public MissingDependencyException (string message): base (message)
+		{
+		}
+	}
 }

@@ -67,6 +67,10 @@ namespace MonoDevelop.Core.AddIns
 					retryList.Add(addInFile);
 				} catch (ConditionNotFoundException) {
 					retryList.Add(addInFile);
+				} catch (MissingDependencyException) {
+					// Try to load the addin later. Maybe it depends on an
+					// addin that has not yet been loaded.
+					retryList.Add(addInFile);
 				} catch (Exception e) {
 					throw new AddInInitializeException(addInFile, e);
 				} 
