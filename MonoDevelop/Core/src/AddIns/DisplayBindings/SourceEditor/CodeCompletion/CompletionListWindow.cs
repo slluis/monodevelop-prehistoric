@@ -159,6 +159,16 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 			// first line array out of bounds
 			//UpdateDeclarationView ();
 		}
+
+		protected override bool OnButtonPressEvent (Gdk.EventButton evnt)
+		{
+			bool ret = base.OnButtonPressEvent (evnt);
+			if (evnt.Button == 1 && evnt.Type == Gdk.EventType.TwoButtonPress) {
+				wnd.Hide ();
+				wnd.UpdateWord ();
+			}
+			return ret;
+		}
 		
 		protected override void OnSelectionChanged ()
 		{
