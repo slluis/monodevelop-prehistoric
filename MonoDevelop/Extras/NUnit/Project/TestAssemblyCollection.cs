@@ -1,5 +1,5 @@
 //
-// CircleImage.cs
+// TestAssemblyCollection.cs
 //
 // Author:
 //   Lluis Sanchez Gual
@@ -26,26 +26,54 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-using System;
-using Gdk;
 
-using MonoDevelop.Gui;
-using MonoDevelop.Services;
-using MonoDevelop.Core.Services;
+using System;
+using System.Collections;
 
 namespace MonoDevelop.NUnit
 {
-	abstract class CircleImage
+	public class TestAssemblyCollection: CollectionBase
 	{
-		CircleImage () {}
-
-		internal static Gdk.Pixbuf Running = Gdk.Pixbuf.LoadFromResource("NUnit.Running.png");
-		internal static Gdk.Pixbuf Failure = Gdk.Pixbuf.LoadFromResource("NUnit.Failed.png");
-		internal static Gdk.Pixbuf None = Gdk.Pixbuf.LoadFromResource("NUnit.None.png");
-		internal static Gdk.Pixbuf NotRun = Gdk.Pixbuf.LoadFromResource("NUnit.NotRun.png");
-		internal static Gdk.Pixbuf Success = Gdk.Pixbuf.LoadFromResource("NUnit.Success.png");
-		internal static Gdk.Pixbuf SuccessAndFailure = Gdk.Pixbuf.LoadFromResource("NUnit.SuccessAndFailed.png");
-		internal static Gdk.Pixbuf Loading = Gdk.Pixbuf.LoadFromResource("NUnit.Loading.png");
+		NUnitAssemblyGroupProjectConfiguration owner;
+		
+		internal TestAssemblyCollection (NUnitAssemblyGroupProjectConfiguration owner)
+		{
+			this.owner = owner;
+		}
+		
+		public new TestAssembly this [int n] {
+			get { return (TestAssembly) List [n]; }
+		}
+		
+		public void Add (TestAssembly asm)
+		{
+			List.Add (asm);
+		}
+		
+		public void Remove (TestAssembly asm)
+		{
+			List.Remove (asm);
+		}
+		
+		protected override void OnInsertComplete (int index, object value)
+		{
+			owner.OnAssembliesChanged ();
+		}
+		
+		protected override void OnRemoveComplete (int index, object value)
+		{
+			owner.OnAssembliesChanged ();
+		}
+		
+		protected override void OnSetComplete (int index, object oldValue, object newValue)
+		{
+			owner.OnAssembliesChanged ();
+		}
+		
+		protected override void OnClearComplete ()
+		{
+			owner.OnAssembliesChanged ();
+		}
 	}
 }
 

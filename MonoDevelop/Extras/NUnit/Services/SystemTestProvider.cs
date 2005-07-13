@@ -1,5 +1,5 @@
 //
-// CircleImage.cs
+// SystemTestProvider.cs
 //
 // Author:
 //   Lluis Sanchez Gual
@@ -27,25 +27,31 @@
 //
 
 using System;
-using Gdk;
-
-using MonoDevelop.Gui;
-using MonoDevelop.Services;
-using MonoDevelop.Core.Services;
+using MonoDevelop.Internal.Project;
+using NUnit.Core;
 
 namespace MonoDevelop.NUnit
 {
-	abstract class CircleImage
+	public class SystemTestProvider: ITestProvider
 	{
-		CircleImage () {}
-
-		internal static Gdk.Pixbuf Running = Gdk.Pixbuf.LoadFromResource("NUnit.Running.png");
-		internal static Gdk.Pixbuf Failure = Gdk.Pixbuf.LoadFromResource("NUnit.Failed.png");
-		internal static Gdk.Pixbuf None = Gdk.Pixbuf.LoadFromResource("NUnit.None.png");
-		internal static Gdk.Pixbuf NotRun = Gdk.Pixbuf.LoadFromResource("NUnit.NotRun.png");
-		internal static Gdk.Pixbuf Success = Gdk.Pixbuf.LoadFromResource("NUnit.Success.png");
-		internal static Gdk.Pixbuf SuccessAndFailure = Gdk.Pixbuf.LoadFromResource("NUnit.SuccessAndFailed.png");
-		internal static Gdk.Pixbuf Loading = Gdk.Pixbuf.LoadFromResource("NUnit.Loading.png");
+		public UnitTest CreateUnitTest (CombineEntry entry)
+		{
+			if (entry is Combine)
+				return new CombineTestGroup ((Combine)entry);
+			if (entry is DotNetProject)
+				return new NUnitProjectTestSuite ((Project)entry);
+			if (entry is NUnitAssemblyGroupProject)
+				return ((NUnitAssemblyGroupProject)entry).RootTest;
+			return null;
+		}
+		
+		public Type[] GetOptionTypes ()
+		{
+			return new Type[] {
+				typeof(GeneralTestOptions),
+				typeof(NUnitCategoryOptions)
+			};
+		}
 	}
 }
 

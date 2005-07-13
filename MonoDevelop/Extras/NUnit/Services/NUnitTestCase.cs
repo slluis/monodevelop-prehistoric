@@ -1,5 +1,5 @@
 //
-// CircleImage.cs
+// NUnitTestCase.cs
 //
 // Author:
 //   Lluis Sanchez Gual
@@ -26,26 +26,49 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-using System;
-using Gdk;
 
-using MonoDevelop.Gui;
+using System;
+using System.Collections;
+
 using MonoDevelop.Services;
-using MonoDevelop.Core.Services;
+using NUnit.Core;
 
 namespace MonoDevelop.NUnit
 {
-	abstract class CircleImage
+	class NUnitTestCase: UnitTest
 	{
-		CircleImage () {}
-
-		internal static Gdk.Pixbuf Running = Gdk.Pixbuf.LoadFromResource("NUnit.Running.png");
-		internal static Gdk.Pixbuf Failure = Gdk.Pixbuf.LoadFromResource("NUnit.Failed.png");
-		internal static Gdk.Pixbuf None = Gdk.Pixbuf.LoadFromResource("NUnit.None.png");
-		internal static Gdk.Pixbuf NotRun = Gdk.Pixbuf.LoadFromResource("NUnit.NotRun.png");
-		internal static Gdk.Pixbuf Success = Gdk.Pixbuf.LoadFromResource("NUnit.Success.png");
-		internal static Gdk.Pixbuf SuccessAndFailure = Gdk.Pixbuf.LoadFromResource("NUnit.SuccessAndFailed.png");
-		internal static Gdk.Pixbuf Loading = Gdk.Pixbuf.LoadFromResource("NUnit.Loading.png");
+		NUnitAssemblyTestSuite rootSuite;
+		string fullName;
+		string className;
+		
+		public NUnitTestCase (NUnitAssemblyTestSuite rootSuite, TestInfo tinfo): base (tinfo.Name)
+		{
+			className = tinfo.PathName;
+			fullName = tinfo.PathName + "." + tinfo.Name;
+			this.rootSuite = rootSuite;
+		}
+		
+		public string ClassName {
+			get { return className; }
+		}
+		
+		protected override UnitTestResult OnRun (TestContext testContext)
+		{
+			return rootSuite.RunUnitTest (this, fullName, testContext);
+		}
+		
+		public override SourceCodeLocation SourceCodeLocation {
+			get {
+				UnitTest p = Parent;
+				while (p != null) {
+					NUnitAssemblyTestSuite root = p as NUnitAssemblyTestSuite;
+					if (root != null)
+						return root.GetSourceCodeLocation (this);
+					p = p.Parent;
+				}
+				return null; 
+			}
+		}
 	}
 }
 

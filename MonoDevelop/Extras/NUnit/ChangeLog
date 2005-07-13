@@ -1,3 +1,7 @@
+2005-07-13  Lluis Sanchez Gual  <lluis@novell.com> 
+
+	* New addin implementation.
+
 2005-03-16  John Luke  <john.luke@gmail.com>
 
 	* Redo the nunit addin based on gnunit

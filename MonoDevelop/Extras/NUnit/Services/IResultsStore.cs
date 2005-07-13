@@ -1,5 +1,5 @@
 //
-// CircleImage.cs
+// IResultsStore.cs
 //
 // Author:
 //   Lluis Sanchez Gual
@@ -27,25 +27,20 @@
 //
 
 using System;
-using Gdk;
-
-using MonoDevelop.Gui;
-using MonoDevelop.Services;
-using MonoDevelop.Core.Services;
 
 namespace MonoDevelop.NUnit
 {
-	abstract class CircleImage
+	public interface IResultsStore
 	{
-		CircleImage () {}
-
-		internal static Gdk.Pixbuf Running = Gdk.Pixbuf.LoadFromResource("NUnit.Running.png");
-		internal static Gdk.Pixbuf Failure = Gdk.Pixbuf.LoadFromResource("NUnit.Failed.png");
-		internal static Gdk.Pixbuf None = Gdk.Pixbuf.LoadFromResource("NUnit.None.png");
-		internal static Gdk.Pixbuf NotRun = Gdk.Pixbuf.LoadFromResource("NUnit.NotRun.png");
-		internal static Gdk.Pixbuf Success = Gdk.Pixbuf.LoadFromResource("NUnit.Success.png");
-		internal static Gdk.Pixbuf SuccessAndFailure = Gdk.Pixbuf.LoadFromResource("NUnit.SuccessAndFailed.png");
-		internal static Gdk.Pixbuf Loading = Gdk.Pixbuf.LoadFromResource("NUnit.Loading.png");
+		void RegisterResult (string configuration, UnitTest test, UnitTestResult result);
+		
+		UnitTestResult GetLastResult (string configuration, UnitTest test, DateTime date);
+		UnitTestResult GetNextResult (string configuration, UnitTest test, DateTime date);
+		UnitTestResult GetPreviousResult (string configuration, UnitTest test, DateTime date);
+		UnitTestResult[] GetResults (string configuration, UnitTest test, DateTime startDate, DateTime endDate);
+		UnitTestResult[] GetResultsToDate (string configuration, UnitTest test, DateTime endDate, int count);
+		
+		void Save ();
 	}
 }
 

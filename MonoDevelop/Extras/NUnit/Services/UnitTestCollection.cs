@@ -1,5 +1,5 @@
 //
-// CircleImage.cs
+// UnitTestCollection.cs
 //
 // Author:
 //   Lluis Sanchez Gual
@@ -26,26 +26,61 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-using System;
-using Gdk;
 
-using MonoDevelop.Gui;
-using MonoDevelop.Services;
-using MonoDevelop.Core.Services;
+using System;
+using System.Collections;
 
 namespace MonoDevelop.NUnit
 {
-	abstract class CircleImage
+	public class UnitTestCollection: CollectionBase
 	{
-		CircleImage () {}
-
-		internal static Gdk.Pixbuf Running = Gdk.Pixbuf.LoadFromResource("NUnit.Running.png");
-		internal static Gdk.Pixbuf Failure = Gdk.Pixbuf.LoadFromResource("NUnit.Failed.png");
-		internal static Gdk.Pixbuf None = Gdk.Pixbuf.LoadFromResource("NUnit.None.png");
-		internal static Gdk.Pixbuf NotRun = Gdk.Pixbuf.LoadFromResource("NUnit.NotRun.png");
-		internal static Gdk.Pixbuf Success = Gdk.Pixbuf.LoadFromResource("NUnit.Success.png");
-		internal static Gdk.Pixbuf SuccessAndFailure = Gdk.Pixbuf.LoadFromResource("NUnit.SuccessAndFailed.png");
-		internal static Gdk.Pixbuf Loading = Gdk.Pixbuf.LoadFromResource("NUnit.Loading.png");
+		UnitTest owner;
+		
+		internal UnitTestCollection (UnitTest owner)
+		{
+			this.owner = owner;
+		}
+		
+		public UnitTestCollection ()
+		{
+		}
+		
+		public new UnitTest this [int n] {
+			get { return (UnitTest) List [n]; }
+		}
+		
+		public new UnitTest this [string name] {
+			get {
+				for (int n=0; n<List.Count; n++)
+					if (((UnitTest)List [n]).Name == name)
+						return (UnitTest) List [n];
+				return null;
+			}
+		}
+		
+		public void Add (UnitTest test)
+		{
+			((IList)this).Add (test);
+		}
+		
+		public void CopyTo (UnitTest[] array, int index)
+		{
+			List.CopyTo (array, index);
+		}
+		
+		protected override void OnInsert (int index, object value)
+		{
+			if (owner != null)
+				((UnitTest)value).SetParent (owner);
+		}
+		
+		protected override void OnSet (int index, object oldValue, object newValue)
+		{
+			if (owner != null) {
+				((UnitTest)oldValue).SetParent (null);
+				((UnitTest)newValue).SetParent (owner);
+			}
+		}
 	}
 }
 

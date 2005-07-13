@@ -1,5 +1,5 @@
 //
-// CircleImage.cs
+// TestAssembly.cs
 //
 // Author:
 //   Lluis Sanchez Gual
@@ -26,26 +26,49 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-using System;
-using Gdk;
 
-using MonoDevelop.Gui;
-using MonoDevelop.Services;
-using MonoDevelop.Core.Services;
+using System;
+using System.IO;
+using MonoDevelop.Internal.Project;
+using MonoDevelop.Internal.Serialization;
 
 namespace MonoDevelop.NUnit
 {
-	abstract class CircleImage
+	public class TestAssembly: NUnitAssemblyTestSuite
 	{
-		CircleImage () {}
-
-		internal static Gdk.Pixbuf Running = Gdk.Pixbuf.LoadFromResource("NUnit.Running.png");
-		internal static Gdk.Pixbuf Failure = Gdk.Pixbuf.LoadFromResource("NUnit.Failed.png");
-		internal static Gdk.Pixbuf None = Gdk.Pixbuf.LoadFromResource("NUnit.None.png");
-		internal static Gdk.Pixbuf NotRun = Gdk.Pixbuf.LoadFromResource("NUnit.NotRun.png");
-		internal static Gdk.Pixbuf Success = Gdk.Pixbuf.LoadFromResource("NUnit.Success.png");
-		internal static Gdk.Pixbuf SuccessAndFailure = Gdk.Pixbuf.LoadFromResource("NUnit.SuccessAndFailed.png");
-		internal static Gdk.Pixbuf Loading = Gdk.Pixbuf.LoadFromResource("NUnit.Loading.png");
+		[ItemProperty ("Path")]
+		string path;
+		
+		public TestAssembly (): base (null)
+		{
+		}
+		
+		public TestAssembly (string path): base (null)
+		{
+			this.path = path;
+		}
+		
+		public override string Name {
+			get { return System.IO.Path.GetFileNameWithoutExtension (path); }
+		}
+		
+		public string Path {
+			get { return path; }
+			set { path = value; }
+		}
+		
+		protected override string AssemblyPath {
+			get { return path; }
+		}
+		
+		protected override string TestInfoCachePath {
+			get {
+				if (Parent != null)
+					return System.IO.Path.Combine (((RootTest)Parent).ResultsPath, System.IO.Path.GetFileName (path) + ".test-cache");
+				else
+					return null;
+			}
+		}
 	}
 }
 

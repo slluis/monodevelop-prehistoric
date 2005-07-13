@@ -1,5 +1,5 @@
 //
-// CircleImage.cs
+// TestContext.cs
 //
 // Author:
 //   Lluis Sanchez Gual
@@ -27,25 +27,35 @@
 //
 
 using System;
-using Gdk;
-
-using MonoDevelop.Gui;
-using MonoDevelop.Services;
 using MonoDevelop.Core.Services;
 
 namespace MonoDevelop.NUnit
 {
-	abstract class CircleImage
+	public class TestContext
 	{
-		CircleImage () {}
-
-		internal static Gdk.Pixbuf Running = Gdk.Pixbuf.LoadFromResource("NUnit.Running.png");
-		internal static Gdk.Pixbuf Failure = Gdk.Pixbuf.LoadFromResource("NUnit.Failed.png");
-		internal static Gdk.Pixbuf None = Gdk.Pixbuf.LoadFromResource("NUnit.None.png");
-		internal static Gdk.Pixbuf NotRun = Gdk.Pixbuf.LoadFromResource("NUnit.NotRun.png");
-		internal static Gdk.Pixbuf Success = Gdk.Pixbuf.LoadFromResource("NUnit.Success.png");
-		internal static Gdk.Pixbuf SuccessAndFailure = Gdk.Pixbuf.LoadFromResource("NUnit.SuccessAndFailed.png");
-		internal static Gdk.Pixbuf Loading = Gdk.Pixbuf.LoadFromResource("NUnit.Loading.png");
+		ITestProgressMonitor monitor;
+		DateTime testDate;
+		object contextData;
+		
+		public TestContext (ITestProgressMonitor monitor, DateTime testDate)
+		{
+			this.monitor = monitor;
+			// Round to seconds
+			this.testDate = new DateTime ((testDate.Ticks / TimeSpan.TicksPerSecond) * TimeSpan.TicksPerSecond);
+		}
+		
+		public ITestProgressMonitor Monitor {
+			get { return monitor; }
+		}
+		
+		public DateTime TestDate {
+			get { return testDate; }
+		}
+		
+		public object ContextData {
+			get { return contextData; }
+			set { contextData = value; }
+		}
 	}
 }
 

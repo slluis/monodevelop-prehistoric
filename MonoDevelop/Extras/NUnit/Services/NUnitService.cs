@@ -1,136 +1,245 @@
+//
+// NUnitService.cs
+//
+// Author:
+//   Lluis Sanchez Gual
+//
+// Copyright (C) 2005 Novell, Inc (http://www.novell.com)
+//
+// Permission is hereby granted, free of charge, to any person obtaining
+// a copy of this software and associated documentation files (the
+// "Software"), to deal in the Software without restriction, including
+// without limitation the rights to use, copy, modify, merge, publish,
+// distribute, sublicense, and/or sell copies of the Software, and to
+// permit persons to whom the Software is furnished to do so, subject to
+// the following conditions:
+// 
+// The above copyright notice and this permission notice shall be
+// included in all copies or substantial portions of the Software.
+// 
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+// EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+// NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+// LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+// OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+// WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+//
+
 using System;
-using System.IO;
-using System.Reflection;
+using System.Collections;
+using System.Threading;
 
-using NUnit.Core;
 using MonoDevelop.Core.Services;
-using MonoDevelop.NUnit;
+using MonoDevelop.Services;
+using MonoDevelop.Gui.Dialogs;
+using MonoDevelop.Core.AddIns;
+using MonoDevelop.Internal.Project;
+using NUnit.Core;
 
-namespace MonoDevelop.Services
+namespace MonoDevelop.NUnit
 {
-	public class NUnitService : AbstractService, EventListener
+	public class NUnitService : AbstractService
 	{
-		Assembly asm;
-		bool running = false;
-		TestSuite rootTestSuite;
-
-		public event EventHandler AssemblyLoaded;
-		public event FixtureLoadedErrorEventHandler FixtureLoadError;
-		public event TestEventHandler SuiteFinishedEvent;
-		public event TestEventHandler SuiteStartedEvent;
-		public event TestEventHandler TestFinishedEvent;
-		public event TestEventHandler TestStartedEvent;
-
+		ArrayList providers = new ArrayList ();
+		UnitTest rootTest;
+		TestResultsPad resultsPad;
+		
 		public NUnitService ()
 		{
 		}
-
-		public bool Running {
-			get { return running; }
-		}
-
-		public Assembly TestAssembly {
-			get { return asm; }
-		}
-
-		public TestSuite GetTestSuite (string assemblyName)
+		
+		public override void InitializeService ()
 		{
-			ResolveEventHandler reh = new ResolveEventHandler (TryLoad);
-			AppDomain.CurrentDomain.AssemblyResolve += reh;
-
-			TestSuite suite = null;
-			try {
-				suite = new TestSuiteBuilder ().Build (assemblyName);
+			RegisterTestProvider (new SystemTestProvider ());
+			Runtime.ProjectService.CombineOpened += new CombineEventHandler (OnOpenCombine);
+			Runtime.ProjectService.CombineClosed += new CombineEventHandler (OnCloseCombine);
+			
+			Runtime.ProjectService.DataContext.IncludeType (typeof(UnitTestOptionsSet));
+			Runtime.ProjectService.DataContext.RegisterProperty (typeof(AbstractConfiguration), "UnitTestInformation", typeof(UnitTestOptionsSet));
+		}
+		
+		public IAsyncOperation RunTest (UnitTest test)
+		{
+			if (resultsPad == null) {
+				resultsPad = new TestResultsPad ();
+				Runtime.Gui.Workbench.ShowPad (resultsPad);
 			}
-			catch (Exception e) {
-				if (FixtureLoadError != null)
-					FixtureLoadError (this, new FixtureLoadedErrorEventArgs (assemblyName, e));
+			
+			Runtime.Gui.Workbench.BringToFront (resultsPad);
+			TestSession session = new TestSession (test, resultsPad);
+			session.Start ();
+			return session;
+		}
+		
+		
+		protected virtual void OnOpenCombine (object sender, CombineEventArgs e)
+		{
+			rootTest = BuildTest (e.Combine);
+			
+			if (TestSuiteChanged != null)
+				TestSuiteChanged (this, EventArgs.Empty);
+		}
+
+		protected virtual void OnCloseCombine (object sender, CombineEventArgs e)
+		{
+			if (rootTest != null) {
+				((IDisposable)rootTest).Dispose ();
+				rootTest = null;
 			}
-			finally {
-				AppDomain.CurrentDomain.AssemblyResolve -= reh;
+			if (TestSuiteChanged != null)
+				TestSuiteChanged (this, EventArgs.Empty);
+		}
+		
+		public UnitTest BuildTest (CombineEntry entry)
+		{
+			foreach (ITestProvider p in providers) {
+				UnitTest t = p.CreateUnitTest (entry);
+				if (t != null) return t;
 			}
-			rootTestSuite = suite;
-			return suite;
-		}
-
-		public void LoadAssembly (string path)
-		{
-			if (path == null)
-				throw new ArgumentNullException ("path");
-			if (!File.Exists (path))
-				throw new Exception ("assembly could not be found: " + path);
-
-			asm = Assembly.LoadFrom (path);
-			if (AssemblyLoaded != null)
-				AssemblyLoaded (this, EventArgs.Empty);
-		}
-
-		public void RunFinished (Exception exception)
-		{
-		}
-
-		public void RunFinished (TestResult[] results)
-		{
-		}
-
-		public void RunStarted (Test[] tests)
-		{
-		}
-
-		public void RunTest (Test test)
-		{
-			if (running) {
-				Console.WriteLine ("already running a test");
-				return;
-			}
-			running = true;
-			test.Run (this);
-			running = false;
-		}
-
-		public void RunTests ()
-		{
-			if (rootTestSuite != null)
-				RunTest (rootTestSuite);
-		}
-
-		public void SuiteFinished (TestSuiteResult result)
-		{
-			if (SuiteFinishedEvent != null)
-				SuiteFinishedEvent (this, new TestEventArgs (TestAction.SuiteFinished, result));
-		}
-
-		public void SuiteStarted (TestSuite suite)
-		{
-			if (SuiteStartedEvent != null)
-				SuiteStartedEvent (this, new TestEventArgs (TestAction.SuiteStarting, suite));
-		}
-
-		public void TestFinished (TestCaseResult result)
-		{
-			if (TestFinishedEvent != null)
-				TestFinishedEvent (this, new TestEventArgs (TestAction.TestFinished, result));
-		}
-
-		public void TestStarted (TestCase test)
-		{
-			if (TestStartedEvent != null)
-				TestStartedEvent (this, new TestEventArgs (TestAction.TestStarting, test));
-		}
-
-		Assembly TryLoad (object sender, ResolveEventArgs a)
-		{
-			try {
-				// NUnit2 uses Assembly.Load on the filename without extension.
-				// This is done just to allow loading from a full path name.
-				return Assembly.LoadFrom (asm.FullName);
-			}
-			catch { }
 			return null;
 		}
-
-		public void UnhandledException (Exception exception)
+		
+		public UnitTest RootTest {
+			get { return rootTest; }
+		}
+		
+		public void RegisterTestProvider (ITestProvider provider)
 		{
+			providers.Add (provider);
+			Type[] types = provider.GetOptionTypes ();
+			if (types != null) {
+				foreach (Type t in types) {
+					if (!typeof(ICloneable).IsAssignableFrom (t))
+						throw new InvalidOperationException ("Option types must implement ICloneable: " + t);
+					Runtime.ProjectService.DataContext.IncludeType (t);
+				}
+			}
+		}
+		
+		public static void ShowOptionsDialog (UnitTest test)
+		{
+			UnitTestOptionsDialog optionsDialog = new UnitTestOptionsDialog (test);
+			optionsDialog.Run ();
+		}
+		
+		public event EventHandler TestSuiteChanged;
+	}
+	
+	
+	class TestSession: IAsyncOperation, ITestProgressMonitor
+	{
+		UnitTest test;
+		ITestProgressMonitor monitor;
+		TestResultsPad resultsPad;
+		Thread runThread;
+		bool success;
+		ManualResetEvent waitEvent;
+		
+		public TestSession (UnitTest test, TestResultsPad resultsPad)
+		{
+			this.test = test;
+			this.monitor = resultsPad;
+			this.resultsPad = resultsPad;
+		}
+		
+		public void Start ()
+		{
+			runThread = new Thread (new ThreadStart (RunTests));
+			runThread.IsBackground = true;
+			runThread.Start ();
+		}
+		
+		void RunTests ()
+		{
+			try {
+				ResetResult (test);
+				resultsPad.InitializeTestRun (test);
+				TestContext ctx = new TestContext (monitor, DateTime.Now);
+				test.Run (ctx);
+				test.SaveResults ();
+				success = true;
+			} catch (Exception ex) {
+				Console.WriteLine (ex);
+				resultsPad.ReportRuntimeError (null, ex);
+				success = false;
+			} finally {
+				resultsPad.FinishTestRun ();
+				runThread = null;
+			}
+			lock (this) {
+				if (waitEvent != null)
+					waitEvent.Set ();
+			}
+			if (Completed != null)
+				Completed (this);
+		}
+		
+		void ResetResult (UnitTest test)
+		{
+			test.ResetLastResult ();
+			UnitTestGroup group = test as UnitTestGroup;
+			if (group == null) return;
+			foreach (UnitTest t in group.Tests)
+				ResetResult (t);
+		}
+		
+		void ITestProgressMonitor.BeginTest (UnitTest test)
+		{
+			monitor.BeginTest (test);
+		}
+		
+		void ITestProgressMonitor.EndTest (UnitTest test, UnitTestResult result)
+		{
+			monitor.EndTest (test, result);
+		}
+		
+		void ITestProgressMonitor.ReportRuntimeError (string message, Exception exception)
+		{
+			monitor.ReportRuntimeError (message, exception);
+		}
+		
+		bool ITestProgressMonitor.IsCancelRequested {
+			get { return monitor.IsCancelRequested; }
+		}
+		
+		void IAsyncOperation.Cancel ()
+		{
+			resultsPad.Cancel ();
+		}
+		
+		public void WaitForCompleted ()
+		{
+			if (IsCompleted) return;
+			
+			if (Runtime.DispatchService.IsGuiThread) {
+				while (!IsCompleted) {
+					while (Gtk.Application.EventsPending ())
+						Gtk.Application.RunIteration ();
+					Thread.Sleep (100);
+				}
+			} else {
+				lock (this) {
+					if (waitEvent == null)
+						waitEvent = new ManualResetEvent (false);
+				}
+				waitEvent.WaitOne ();
+			}
+		}
+		
+		public bool IsCompleted {
+			get { return runThread == null; }
+		}
+		
+		public bool Success {
+			get { return success; }
+		}
+
+		public event OperationHandler Completed;
+		
+		public event TestHandler CancelRequested {
+			add { monitor.CancelRequested += value; }
+			remove { monitor.CancelRequested -= value; }
 		}
 	}
 }

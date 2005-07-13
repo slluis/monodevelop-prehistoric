@@ -1,5 +1,5 @@
 //
-// CircleImage.cs
+// TestNodeBuilder.cs
 //
 // Author:
 //   Lluis Sanchez Gual
@@ -26,26 +26,51 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-using System;
-using Gdk;
 
-using MonoDevelop.Gui;
-using MonoDevelop.Services;
-using MonoDevelop.Core.Services;
+using System;
 
 namespace MonoDevelop.NUnit
 {
-	abstract class CircleImage
+	public class UnitTestResultsStore
 	{
-		CircleImage () {}
-
-		internal static Gdk.Pixbuf Running = Gdk.Pixbuf.LoadFromResource("NUnit.Running.png");
-		internal static Gdk.Pixbuf Failure = Gdk.Pixbuf.LoadFromResource("NUnit.Failed.png");
-		internal static Gdk.Pixbuf None = Gdk.Pixbuf.LoadFromResource("NUnit.None.png");
-		internal static Gdk.Pixbuf NotRun = Gdk.Pixbuf.LoadFromResource("NUnit.NotRun.png");
-		internal static Gdk.Pixbuf Success = Gdk.Pixbuf.LoadFromResource("NUnit.Success.png");
-		internal static Gdk.Pixbuf SuccessAndFailure = Gdk.Pixbuf.LoadFromResource("NUnit.SuccessAndFailed.png");
-		internal static Gdk.Pixbuf Loading = Gdk.Pixbuf.LoadFromResource("NUnit.Loading.png");
+		UnitTest test;
+		IResultsStore store;
+		
+		internal UnitTestResultsStore (UnitTest test, IResultsStore store)
+		{
+			this.test = test;
+			this.store = store;
+		}
+		
+		public UnitTestResult GetLastResult (DateTime date)
+		{
+			if (store == null) return null;
+			return store.GetLastResult (test.ActiveConfiguration, test, date);
+		}
+		
+		public UnitTestResult GetNextResult (DateTime date)
+		{
+			if (store == null) return null;
+			return store.GetNextResult (test.ActiveConfiguration, test, date);
+		}
+		
+		public UnitTestResult GetPreviousResult (DateTime date)
+		{
+			if (store == null) return null;
+			return store.GetPreviousResult (test.ActiveConfiguration, test, date);
+		}
+		
+		public UnitTestResult[] GetResults (DateTime startDate, DateTime endDate)
+		{
+			if (store == null) return new UnitTestResult [0];
+			return store.GetResults (test.ActiveConfiguration, test, startDate, endDate);
+		}
+		
+		public UnitTestResult[] GetResultsToDate (DateTime endDate, int count)
+		{
+			if (store == null) return new UnitTestResult [0];
+			return store.GetResultsToDate (test.ActiveConfiguration, test, endDate, count);
+		}
 	}
 }
 
