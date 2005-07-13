@@ -126,6 +126,28 @@ if test "x$enable_boo" = "xyes" ; then
 	AC_PATH_PROG(BOOC, booc)
 fi
 
+MONO_NUNIT_REQUIRED_VERSION=1.1.8
+AC_ARG_ENABLE(nunit,
+	AC_HELP_STRING([--enable-nunit],
+		[enable support for NUnit [default=no]]),
+		[PKG_CHECK_MODULES(MONO_NUNIT, mono-nunit >= $MONO_NUNIT_REQUIRED_VERSION, enable_nunit=yes, enable_nunit=no)],
+		enable_nunit=no)
+
+AM_CONDITIONAL(ENABLE_NUNIT, test x$enable_nunit = xyes)
+
+AC_ARG_ENABLE(monoextensions,
+	AC_HELP_STRING([--enable-monoextensions],
+		[enable extensions for Mono development [default=no]]),
+		enable_monoextensions=yes, enable_monoextensions=no)
+
+AM_CONDITIONAL(ENABLE_MONOEXTENSIONS, test x$enable_monoextensions = xyes)
+
+if test "x$enable_monoextensions" = "xyes"; then
+	if test "x$enable_nunit" = "xno"; then
+		AC_MSG_ERROR([The NUnit addin is required to enable the extensions for Mono development (use --enable-nunit)])
+	fi
+fi
+
 MOZILLA_HOME="`$PKG_CONFIG --variable=libdir mozilla-gtkmozembed`"
 AC_SUBST(MOZILLA_HOME)
 
@@ -223,6 +245,7 @@ Extras/Makefile
 Extras/MonoQuery/Makefile
 Extras/MonoQuery/MonoQuery.addin.xml
 Extras/MonoDeveloperExtensions/Makefile
+Extras/NUnit/Makefile
 Extras/JavaBinding/Makefile
 Extras/BooBinding/Makefile
 Extras/VersionControl/Makefile
@@ -245,4 +268,6 @@ echo "   *   MySQL:        yes"
 echo "   *   SQLite:       $enable_monoquery_sqlite"
 echo "   * java support: $enable_java"
 echo "   * boo support: $enable_boo"
+echo "   * NUnit support: $enable_nunit"
+echo "   * Mono development extensions: $enable_monoextensions"
 echo ""
