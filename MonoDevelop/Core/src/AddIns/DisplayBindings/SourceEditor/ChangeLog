@@ -1,3 +1,8 @@
+2005-07-13  Lluis Sanchez Gual  <lluis@novell.com> 
+
+	* Gui/SourceEditorDisplayBinding.cs: The editor is now responsible
+	of showing its own widgets.
+	
 2005-07-01  Jacob Ilsø Christensen  <jacobilsoe@gmail.com>
 
 	* Gui/Dialogs/GotoLineNumberDialog.cs:

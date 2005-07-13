@@ -200,6 +200,7 @@ namespace MonoDevelop.SourceEditor.Gui
 				Runtime.DebuggingService.BreakpointRemoved += breakpointRemovedHandler;
 				Runtime.DebuggingService.ExecutionLocationChanged += executionChangedHandler;
 			}
+			mainBox.ShowAll ();
 		}
 
 		public void JumpTo (int line, int column)
