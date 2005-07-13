@@ -1,3 +1,7 @@
+2005-07-13  John Luke  <john.luke@gmail.com>
+
+	* CodeCompletion/ListWindow.cs: scroll with the mousewheel
+
 2005-07-13  Lluis Sanchez Gual  <lluis@novell.com> 
 
 	* Gui/SourceEditorDisplayBinding.cs: The editor is now responsible

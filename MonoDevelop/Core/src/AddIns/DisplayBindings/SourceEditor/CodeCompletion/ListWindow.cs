@@ -24,6 +24,7 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 			
 			list = new ListWidget (this);
 			list.SelectionChanged += new EventHandler (OnSelectionChanged);
+			list.ScrollEvent += new ScrollEventHandler (OnScrolled);
 			box.PackStart (list, true, true, 0);
 			this.BorderWidth = 1;
 			
@@ -207,6 +208,14 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 		{
 			list.Page = (int) scrollbar.Value;
 		}
+
+		void OnScrolled (object o, ScrollEventArgs args)
+		{
+			if (args.Event.Direction == Gdk.ScrollDirection.Up)
+				scrollbar.Value --;
+			else if (args.Event.Direction == Gdk.ScrollDirection.Down)
+				scrollbar.Value ++;
+		}
 		
 		void OnSelectionChanged (object o, EventArgs args)
 		{
@@ -348,14 +357,14 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 			
 			return true;
 		}
-		
+
 		protected override bool OnExposeEvent (Gdk.EventExpose args)
 		{
 			base.OnExposeEvent (args);
 			DrawList ();
 	  		return true;
 		}
-		
+
 		void DrawList ()
 		{
 			int winWidth, winHeight;
