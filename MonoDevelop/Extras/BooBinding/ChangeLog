@@ -1,3 +1,7 @@
+2005-07-13  Lluis Sanchez Gual  <lluis@novell.com>
+
+	* BooShellPadContent.boo: Make sure all shell controls are visible.
+
 2005-07-11  Lluis Sanchez Gual  <lluis@novell.com>
 
 	* Project/BooCompilerParameters.boo: Implement ICloneable.

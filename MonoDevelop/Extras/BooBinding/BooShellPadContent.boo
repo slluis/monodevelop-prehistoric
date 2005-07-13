@@ -47,6 +47,7 @@ public class BooShellPadContent (AbstractPadContent):
 		_model = BooShellModel ("../AddIns/BackendBindings/BooShellServer.exe", "/tmp/md-booshell-${_user}")
 		_shellView = ShellTextView (_model)
 		_scroller.Add(_shellView)
+		_scroller.ShowAll()
 
 	override def RedrawContent():
 		OnTitleChanged(null);
