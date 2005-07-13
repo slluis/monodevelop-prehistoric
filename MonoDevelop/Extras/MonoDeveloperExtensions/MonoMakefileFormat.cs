@@ -94,7 +94,10 @@ namespace MonoDeveloper
 					string[] dirs = subdirs.Split (' ');
 					
 					monitor.BeginTask ("Loading '" + fileName + "'", dirs.Length);
+					Hashtable added = new Hashtable ();
 					foreach (string dir in dirs) {
+						if (added.Contains (dir)) continue;
+						added.Add (dir, dir);
 						monitor.Step (1);
 						if (dir == null) continue;
 						string tdir = dir.Trim ();

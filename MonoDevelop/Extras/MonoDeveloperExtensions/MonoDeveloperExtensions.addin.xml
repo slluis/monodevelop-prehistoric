@@ -8,6 +8,10 @@
     <Runtime>
         <Import assembly="MonoDeveloperExtensions.dll"/>
     </Runtime>
+	
+	<Dependencies>
+		<AddIn name="MonoDevelop NUnit" />
+	</Dependencies>
 
 	<Extension path = "/SharpDevelop/Workbench/ProjectFileFormats">
 		<FileFormat id = "MonoMakefile"

@@ -1,3 +1,12 @@
+2005-07-13  Lluis Sanchez Gual  <lluis@novell.com>
+
+	* MonoMakefileFormat.cs: Avoid adding projects twice.
+	* MonoProject.cs: 
+	* MonoTestProvider.cs: Generate a unit test tree for assemblies that
+	have a Test directory.
+	* Makefile.am: Added conditional build.
+	* MonoDeveloperExtensions.addin.xml: This addin depends on the nunit addin.
+
 2005-07-11  Lluis Sanchez Gual  <lluis@novell.com>
 
 	* MonoProject.cs: Implemented CreateConfiguration method.

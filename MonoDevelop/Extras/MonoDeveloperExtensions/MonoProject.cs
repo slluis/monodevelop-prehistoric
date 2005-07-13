@@ -41,6 +41,7 @@ namespace MonoDeveloper
 		string outFile;
 		ArrayList refNames = new ArrayList ();
 		bool loading;
+		MonoTestSuite testSuite;
 		
 		public override string ProjectType {
 			get { return "MonoMakefile"; }
@@ -116,12 +117,18 @@ namespace MonoDeveloper
 			string topdir = basePath.Substring (0, i + 4);
 			targetAssembly = targetAssembly.Replace ("$(topdir)", topdir);
 			
-			MonoProjectConfiguration conf = new MonoProjectConfiguration (".NET 1.1", "default");
+			if (mkfile.GetVariable ("NO_TEST") != "yes") {
+				string tname = Path.GetFileNameWithoutExtension (aname) + "_test_";
+				string testFileBase = Path.Combine (basePath, tname);
+				testSuite = new MonoTestSuite (this, Name, testFileBase);
+			}
+			
+			MonoProjectConfiguration conf = new MonoProjectConfiguration ("default", "default");
 			conf.OutputDirectory = basePath;
 			conf.AssemblyPathTemplate = targetAssembly;
 			Configurations.Add (conf);
 			
-			conf = new MonoProjectConfiguration (".NET 2.0", "net_2_0");
+			conf = new MonoProjectConfiguration ("net_2_0", "net_2_0");
 			conf.OutputDirectory = basePath;
 			conf.AssemblyPathTemplate = targetAssembly;
 			Configurations.Add (conf);
@@ -320,6 +327,11 @@ namespace MonoDeveloper
 		{
 			base.Dispose ();
 			Runtime.ProjectService.CombineOpened -= new CombineEventHandler (CombineOpened);
+		}
+		
+		internal MonoTestSuite GetTestSuite ()
+		{
+			return testSuite;
 		}
 	}
 }
