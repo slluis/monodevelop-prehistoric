@@ -24,6 +24,15 @@ TabLabel/TabLabel.cs \
 GladeWidgetExtract/GladeWidgetExtract.cs \
 DragNotebook/DragNotebook.cs \
 DataGrid/DataGrid.cs \
+BasicChart/Axis.cs \
+BasicChart/AxisDimension.cs \
+BasicChart/AxisPosition.cs \
+BasicChart/BasicChart.cs \
+BasicChart/ChartCursor.cs \
+BasicChart/DateTimeAxis.cs \
+BasicChart/IntegerAxis.cs \
+BasicChart/Serie.cs \
+BasicChart/TickEnumerator.cs \
 Commands/ActionCommand.cs \
 Commands/ActionType.cs \
 Commands/CommandArrayInfo.cs \

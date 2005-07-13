@@ -1,3 +1,7 @@
+2005-07-13  Lluis Sanchez Gual  <lluis@novell.com>
+
+	* BasicChart/*: A simple chart widget.
+
 2005-07-11  Lluis Sanchez Gual  <lluis@novell.com>
 
 	* Commands/ICommandDelegatorRouter.cs: New command routing interface.
