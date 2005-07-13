@@ -91,6 +91,7 @@ namespace MonoDevelop.Gui.Pads
 			Runtime.ProjectService.CombineOpened += (CombineEventHandler) Runtime.DispatchService.GuiDispatch (new CombineEventHandler (OnCombineOpen));
 			Runtime.ProjectService.CombineClosed += (CombineEventHandler) Runtime.DispatchService.GuiDispatch (new CombineEventHandler (OnCombineClosed));
 			view.RowActivated            += new RowActivatedHandler (OnRowActivated);
+			Control.ShowAll ();
 		}
 
 		[GLib.ConnectBefore]

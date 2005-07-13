@@ -25,9 +25,7 @@ namespace MonoDevelop.Internal.Project
 {
 	public abstract class CombineEntry : ICustomDataItem, IDisposable, IExtendedDataItem
 	{
-		[ItemProperty ("Configurations")]
-		[ItemProperty ("Configuration", ValueType=typeof(IConfiguration), Scope=1)]
-		ConfigurationCollection configurations = new ConfigurationCollection ();
+		ConfigurationCollection configurations;
 		Hashtable extendedProperties;
 
 		Combine parentCombine;
@@ -37,8 +35,16 @@ namespace MonoDevelop.Internal.Project
 		
 		IFileFormat fileFormat;
 		
-		public event CombineEntryRenamedEventHandler NameChanged;
-		public event ConfigurationEventHandler ActiveConfigurationChanged;
+		public CombineEntry ()
+		{
+			configurations = new ConfigurationCollection ();
+			configurations.ConfigurationAdded += new ConfigurationEventHandler (OnConfigurationAddedToCollection);
+			configurations.ConfigurationRemoved += new ConfigurationEventHandler (OnConfigurationRemovedFromCollection);
+		}
+		
+		public virtual void InitializeFromTemplate (XmlElement template)
+		{
+		}
 		
 		IDictionary IExtendedDataItem.ExtendedProperties {
 			get {
@@ -126,6 +132,8 @@ namespace MonoDevelop.Internal.Project
 			parentCombine = combine;
 		}
 		
+		[ItemProperty ("Configurations")]
+		[ItemProperty ("Configuration", ValueType=typeof(IConfiguration), Scope=1)]
 		public ConfigurationCollection Configurations {
 			get {
 				return configurations;
@@ -175,10 +183,8 @@ namespace MonoDevelop.Internal.Project
 		
 		public IConfiguration GetConfiguration (string name)
 		{
-			if (configurations != null) {
-				foreach (IConfiguration conf in configurations)
-					if (conf.Name == name) return conf;
-			}
+			foreach (IConfiguration conf in configurations)
+				if (conf.Name == name) return conf;
 			return null;
 		}
 
@@ -222,10 +228,40 @@ namespace MonoDevelop.Internal.Project
 			}
 		}
 		
+		void OnConfigurationAddedToCollection (object ob, ConfigurationEventArgs args)
+		{
+			OnConfigurationAdded (new ConfigurationEventArgs (this, args.Configuration));
+			if (activeConfiguration == null)
+				ActiveConfiguration = args.Configuration;
+		}
+		
+		void OnConfigurationRemovedFromCollection (object ob, ConfigurationEventArgs args)
+		{
+			if (activeConfiguration == args.Configuration) {
+				if (Configurations.Count > 0)
+					ActiveConfiguration = Configurations [0];
+				else
+					ActiveConfiguration = null;
+			}
+			OnConfigurationRemoved (new ConfigurationEventArgs (this, args.Configuration));
+		}
+		
 		protected virtual void OnActiveConfigurationChanged (ConfigurationEventArgs args)
 		{
 			if (ActiveConfigurationChanged != null)
 				ActiveConfigurationChanged (this, args);
+		}
+		
+		protected virtual void OnConfigurationAdded (ConfigurationEventArgs args)
+		{
+			if (ConfigurationAdded != null)
+				ConfigurationAdded (this, args);
+		}
+		
+		protected virtual void OnConfigurationRemoved (ConfigurationEventArgs args)
+		{
+			if (ConfigurationRemoved != null)
+				ConfigurationRemoved (this, args);
 		}
 		
 		public abstract void Clean ();
@@ -237,5 +273,10 @@ namespace MonoDevelop.Internal.Project
 		public virtual void GenerateMakefiles (Combine parentCombine)
 		{
 		}
+		
+		public event CombineEntryRenamedEventHandler NameChanged;
+		public event ConfigurationEventHandler ActiveConfigurationChanged;
+		public event ConfigurationEventHandler ConfigurationAdded;
+		public event ConfigurationEventHandler ConfigurationRemoved;
 	}
 }

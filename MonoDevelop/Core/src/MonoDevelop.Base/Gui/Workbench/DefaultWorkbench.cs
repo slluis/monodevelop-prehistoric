@@ -254,7 +254,6 @@ namespace MonoDevelop.Gui
 			if (bringToFront)
 				content.WorkbenchWindow.SelectWindow();
 
-			ShowAll ();
 			RedrawAllComponents ();
 		}
 		

@@ -37,6 +37,7 @@ namespace MonoDevelop.Gui
 			html_viewer.UrlRequested += new UrlRequestedHandler (UrlRequested);
 			html_viewer.OnUrl += new OnUrlHandler (OnUrl);
 			scroller.Add (html_viewer);
+			Control.ShowAll ();
 		}
 
 		void OnUrl (object sender, OnUrlArgs args)

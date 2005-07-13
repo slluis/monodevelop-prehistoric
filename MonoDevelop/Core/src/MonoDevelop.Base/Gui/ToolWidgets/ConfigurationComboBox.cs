@@ -36,6 +36,7 @@ namespace MonoDevelop.Gui
 	{
 		Gtk.ComboBox combo;
 		ConfigurationEventHandler onActiveConfigurationChanged;
+		ConfigurationEventHandler onConfigurationsChanged;
 		
 		public ConfigurationComboBox (): base (0.5f, 0.5f, 1.0f, 0f)
 		{
@@ -45,7 +46,10 @@ namespace MonoDevelop.Gui
 			combo.Changed += new EventHandler (OnChanged);
 			Add (combo);
 			ShowAll ();
+			
 			onActiveConfigurationChanged = (ConfigurationEventHandler) Runtime.DispatchService.GuiDispatch (new ConfigurationEventHandler (OnActiveConfigurationChanged));
+			onConfigurationsChanged = (ConfigurationEventHandler) Runtime.DispatchService.GuiDispatch (new ConfigurationEventHandler (OnConfigurationsChanged));
+			
 			Runtime.ProjectService.CombineOpened += (CombineEventHandler) Runtime.DispatchService.GuiDispatch (new CombineEventHandler (OpenCombine));
 			Runtime.ProjectService.CombineClosed += (CombineEventHandler) Runtime.DispatchService.GuiDispatch (new CombineEventHandler (CloseCombine));
 			Reset ();
@@ -59,27 +63,41 @@ namespace MonoDevelop.Gui
 			combo.Sensitive = false;
 		}
 		
-		void OpenCombine (object sender, CombineEventArgs e)
+		void RefreshCombo (Combine combine)
 		{
 			((Gtk.ListStore)combo.Model).Clear ();
 			combo.Sensitive = true;
 			int active = 0;
-			for (int n=0; n < e.Combine.Configurations.Count; n++) {
-				IConfiguration c = e.Combine.Configurations [n];
+			for (int n=0; n < combine.Configurations.Count; n++) {
+				IConfiguration c = combine.Configurations [n];
 				combo.AppendText (c.Name);
-				if (e.Combine.ActiveConfiguration == c)
+				if (combine.ActiveConfiguration == c)
 					active = n;
 			}
 			combo.Active = active;
 			combo.ShowAll ();
-			
+		}
+
+		void OpenCombine (object sender, CombineEventArgs e)
+		{
+			RefreshCombo (e.Combine);
 			e.Combine.ActiveConfigurationChanged += onActiveConfigurationChanged;
+			e.Combine.ConfigurationAdded += onConfigurationsChanged;
+			e.Combine.ConfigurationRemoved += onConfigurationsChanged;
 		}
 
 		void CloseCombine (object sender, CombineEventArgs e)
 		{
 			Reset ();
 			e.Combine.ActiveConfigurationChanged -= onActiveConfigurationChanged;
+			e.Combine.ConfigurationAdded -= onConfigurationsChanged;
+			e.Combine.ConfigurationRemoved -= onConfigurationsChanged;
+		}
+		
+		void OnConfigurationsChanged (object sender, ConfigurationEventArgs e)
+		{
+			Console.WriteLine ("combo OnConfigurationsChanged");
+			RefreshCombo (Runtime.ProjectService.CurrentOpenCombine);
 		}
 		
 		void OnActiveConfigurationChanged (object sender, ConfigurationEventArgs e)

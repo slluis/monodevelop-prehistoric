@@ -51,6 +51,8 @@ namespace MonoDevelop.Internal.Project
 		[ProjectPathItemProperty ("outputpath")]
 		string outputdir     = null;
 		
+		bool deserializing;
+		
 		ProjectFileEventHandler fileAddedToProjectHandler;
 		ProjectFileEventHandler fileRemovedFromProjectHandler;
 		ProjectFileEventHandler fileChangedInProjectHandler;
@@ -160,9 +162,11 @@ namespace MonoDevelop.Internal.Project
 		
 		protected override void OnActiveConfigurationChanged (ConfigurationEventArgs args)
 		{
-			foreach (CombineConfigurationEntry cce in ((CombineConfiguration)ActiveConfiguration).Entries) {
-				IConfiguration conf = cce.Entry.GetConfiguration (cce.ConfigurationName);
-				cce.Entry.ActiveConfiguration = conf;
+			if (ActiveConfiguration != null && !deserializing) {
+				foreach (CombineConfigurationEntry cce in ((CombineConfiguration)ActiveConfiguration).Entries) {
+					IConfiguration conf = cce.Entry.GetConfiguration (cce.ConfigurationName);
+					cce.Entry.ActiveConfiguration = conf;
+				}
 			}
 			base.OnActiveConfigurationChanged  (args);
 		}
@@ -223,13 +227,23 @@ namespace MonoDevelop.Internal.Project
 		
 		public override void Deserialize (ITypeSerializer handler, DataCollection data)
 		{
-			base.Deserialize (handler, data);
-
-			foreach (CombineExecuteDefinition ced in combineExecuteDefinitions)
-				ced.SetCombine (this);
-			
-			foreach (CombineConfiguration conf in Configurations)
-				conf.SetCombine (this);
+			try {
+				deserializing = true;
+				
+				// Clean the configuration list, since entries added while deserializing
+				// could have generated default configurations.
+				Configurations.Clear ();
+				
+				base.Deserialize (handler, data);
+	
+				foreach (CombineExecuteDefinition ced in combineExecuteDefinitions)
+					ced.SetCombine (this);
+				
+				foreach (CombineConfiguration conf in Configurations)
+					conf.SetCombine (this);
+			} finally {
+				deserializing = false;
+			}
 		}
 
 		public override void Save (IProgressMonitor monitor)

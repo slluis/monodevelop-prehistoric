@@ -207,8 +207,14 @@ namespace MonoDevelop.Gui.Dialogs
 		public void RenameConfiguration (string oldName, string newName, bool renameChildConfigurations)
 		{
 			IConfiguration cc = Configurations [oldName];
-			if (cc != null)
-				cc.Name = newName;
+			if (cc != null) {
+				IConfiguration nc = Entry.CreateConfiguration (newName);
+				nc.CopyFrom (cc);
+				Configurations.Remove (oldName);
+				Configurations.Add (nc);
+				if (ConfigurationsChanged != null)
+					ConfigurationsChanged (this, null);
+			}
 			if (renameChildConfigurations) {
 				foreach (ConfigurationData data in Children)
 					data.RenameConfiguration (oldName, newName, true);

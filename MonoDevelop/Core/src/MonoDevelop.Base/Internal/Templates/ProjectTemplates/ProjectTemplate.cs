@@ -186,7 +186,7 @@ namespace MonoDevelop.Internal.Templates
 				//	return null;
 				//}
 			} else {
-				lastCombine = combineDescriptor.CreateCombine(projectCreateInformation, this.languagename);
+				lastCombine = combineDescriptor.CreateEntry (projectCreateInformation, this.languagename);
 			}
 			
 			return lastCombine;

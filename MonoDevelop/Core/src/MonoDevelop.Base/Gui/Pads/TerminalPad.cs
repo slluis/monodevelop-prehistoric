@@ -105,6 +105,8 @@ namespace MonoDevelop.Gui.Pads
 			sw.Add (hbox);
 			frame.Add (sw);
 			
+			Control.ShowAll ();
+			
 /*			Runtime.TaskService.CompilerOutputChanged += (EventHandler) Runtime.DispatchService.GuiDispatch (new EventHandler (SetOutput));
 			projectService.StartBuild += (EventHandler) Runtime.DispatchService.GuiDispatch (new EventHandler (SelectMessageView));
 			projectService.CombineClosed += (CombineEventHandler) Runtime.DispatchService.GuiDispatch (new CombineEventHandler (OnCombineClosed));

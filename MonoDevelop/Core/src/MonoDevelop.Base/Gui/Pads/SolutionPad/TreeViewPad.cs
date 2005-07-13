@@ -235,6 +235,8 @@ namespace MonoDevelop.Gui.Pads
 			tree.DragMotion += new Gtk.DragMotionHandler (OnDragMotion);
 			
 			tree.CursorChanged += new EventHandler (OnSelectionChanged);
+			
+			contentPanel.ShowAll ();
 		}
 
 		void OnDragBegin (object o, Gtk.DragBeginArgs arg)
@@ -1153,7 +1155,7 @@ namespace MonoDevelop.Gui.Pads
 							tree.ExpandRow (path, false);
 						}
 				
-//						tree.Selection.SelectIter (currentIter);
+						tree.Selection.SelectIter (currentIter);
 						tree.SetCursor (store.GetPath (currentIter), pad.complete_column, false);
 //						tree.ScrollToCell (store.GetPath (currentIter), null, false, 0, 0);
 					}
@@ -1338,8 +1340,11 @@ namespace MonoDevelop.Gui.Pads
 			
 			public void ExpandToNode ()
 			{
-				Gtk.TreePath path = store.GetPath (currentIter);
-				tree.ExpandToPath (path);
+				Gtk.TreeIter it;
+				if (store.IterParent (out it, currentIter)) {
+					Gtk.TreePath path = store.GetPath (it);
+					tree.ExpandToPath (path);
+				}
 			}
 			
 			public string NodeName {

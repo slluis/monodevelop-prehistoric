@@ -1,3 +1,54 @@
+2005-07-13  Lluis Sanchez Gual  <lluis@novell.com> 
+
+	* Gui/Workbench/Layouts/SdiWorkspaceLayout.cs:
+	* Gui/Workbench/Layouts/SdiWorkspaceWindow.cs:
+	* Gui/Workbench/DefaultWorkbench.cs:
+	* Commands/AutostartCommands.cs: Don't abuse ShowAll().
+	
+	* Gui/Dialogs/NewProjectDialog.cs: Use a default icon for the template
+	if none is provided.
+	
+	* Gui/Dialogs/CombineOptionsDialog.cs:
+	* Gui/Dialogs/ProjectOptionsDialog.cs: IConfiguration can't be renamed
+	anymore, so to change the name, a copy has to be made.
+	
+	* Gui/Pads/SolutionPad/TreeViewPad.cs: ExpandToNode should not expand
+	the current node, only the parents.
+	
+	* Gui/Pads/SolutionPad/NodeState.cs: Save/restore the selected node in the
+	node state tree.
+	
+	* Gui/Pads/HelpBrowser/HelpViewer.cs:
+	* Gui/Pads/HelpBrowser/MonodocTreePad.cs:
+	* Gui/Pads/DefaultMonitorPad.cs:
+	* Gui/Pads/TerminalPad.cs:
+	* Gui/Pads/OpenTaskView.cs: The responsibility of showing the widgets of
+	a pad is for the pad. The workbench won't ShowAll any more.
+	
+	* Gui/ToolWidgets/ConfigurationComboBox.cs: Update the combo when
+	configurations are added or removed.
+	
+	* Internal/Project/Project/IConfiguration.cs: Don't allow renaming of
+	configurations.
+	
+	* Internal/Project/Project/AbstractConfiguration.cs: Make Clone work
+	for classes with no default constructor.
+	
+	* Internal/Project/Combine/Combine.cs: Ignore the
+	ActiveConfigurationChanged event while deserializing.
+	
+	* Internal/Project/Combine/ConfigurationCollection.cs:
+	* Internal/Project/Combine/CombineEntry.cs: Added ConfigurationAdded
+	and ConfigurationRemoved events.
+	
+	* Internal/Templates/ProjectTemplates/ICombineEntryDescriptor.cs:
+	* Internal/Templates/ProjectTemplates/CombineEntryDescriptor.cs:
+	* Internal/Templates/ProjectTemplates/CombineDescriptor.cs: 
+	* Internal/Templates/ProjectTemplates/ProjectTemplate.cs:
+	* Internal/Templates/ProjectTemplates/ProjectDescriptor.cs:
+	Added template support for generic CombineEntry subclasses, which don't
+	need to be Projects.
+
 2005-07-11  Lluis Sanchez Gual  <lluis@novell.com> 
 
 	* Services/File/IFileService.cs: 

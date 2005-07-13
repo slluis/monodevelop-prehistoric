@@ -106,12 +106,13 @@ namespace MonoDevelop.Gui
 			item.PreferredWidth = -2;
 			item.PreferredHeight = -2;
 			item.Add (tabControl);
-			item.ShowAll ();
+			item.Show ();
 			dock.AddItem (item, DockPlacement.Center);
 
 			workbench.Add (vbox);
 			
 			vbox.PackEnd (Runtime.Gui.StatusBar.Control, false, true, 0);
+			workbench.ShowAll ();
 			
 			foreach (IViewContent content in workbench.ViewContentCollection)
 				ShowView (content);
@@ -132,7 +133,7 @@ namespace MonoDevelop.Gui
 			
 			CreateDefaultLayout();
 			//RedrawAllComponents();
-			wbWindow.ShowAll ();
+			wbWindow.Show ();
 
 			workbench.ContextChanged += contextChangedHandler;
 		}
@@ -371,16 +372,19 @@ namespace MonoDevelop.Gui
 								 content.Title,
 								 content.Icon,
 								 DockItemBehavior.Normal);
-								 
+
 			Gtk.Label label = item.TabLabel as Gtk.Label;
 			label.UseMarkup = true;
 
 			if (content is Widget)
 				item.Add (content.Control);
-			else
-				item.Add (new CommandRouterContainer (content.Control, content, true));
+			else {
+				CommandRouterContainer crc = new CommandRouterContainer (content.Control, content, true);
+				crc.Show ();
+				item.Add (crc);
+			}
 				
-			item.ShowAll ();
+			item.Show ();
 			item.HideItem ();
 
 			content.TitleChanged += new EventHandler (UpdatePad);
@@ -411,6 +415,7 @@ namespace MonoDevelop.Gui
 			}
 			else
 				dock.AddItem (item, dockPlacement);
+			item.Show ();
 		}
 		
 		void UpdatePad (object source, EventArgs args)
@@ -502,7 +507,7 @@ namespace MonoDevelop.Gui
 			sdiWorkspaceWindow.CloseEvent += new EventHandler(CloseWindowEvent);
 			tabControl.InsertPage (sdiWorkspaceWindow, tabLabel, -1);
 		
-			tabControl.ShowAll();
+			tabLabel.Show();
 			return sdiWorkspaceWindow;
 		}
 

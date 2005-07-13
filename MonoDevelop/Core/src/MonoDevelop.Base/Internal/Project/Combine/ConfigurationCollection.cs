@@ -39,6 +39,8 @@ namespace MonoDevelop.Internal.Project
 {
 	public class ConfigurationCollection : CollectionBase
 	{
+		ArrayList tmpClear;
+		
 		public int Add (IConfiguration config)
 		{
 			return List.Add (config);
@@ -73,5 +75,48 @@ namespace MonoDevelop.Internal.Project
 				}
 			}
 		}
+		
+		protected override void OnInsertComplete (int index, object value)
+		{
+			OnConfigurationAdded ((IConfiguration) value);
+		}
+		
+		protected override void OnRemoveComplete (int index, object value)
+		{
+			OnConfigurationRemoved ((IConfiguration) value);
+		}
+		
+		protected override void OnSetComplete (int index, object oldValue, object newValue)
+		{
+			OnConfigurationRemoved ((IConfiguration) oldValue);
+			OnConfigurationAdded ((IConfiguration) newValue);
+		}
+		
+		protected override void OnClear ()
+		{
+			tmpClear = (ArrayList) InnerList.Clone ();
+		}
+		
+		protected override void OnClearComplete ()
+		{
+			foreach (object value in tmpClear)
+				OnConfigurationRemoved ((IConfiguration) value);
+			tmpClear = null;
+		}
+		
+		protected virtual void OnConfigurationAdded (IConfiguration conf)
+		{
+			if (ConfigurationAdded != null)
+				ConfigurationAdded (this, new ConfigurationEventArgs (null, conf));
+		}
+		
+		protected virtual void OnConfigurationRemoved (IConfiguration conf)
+		{
+			if (ConfigurationRemoved != null)
+				ConfigurationRemoved (this, new ConfigurationEventArgs (null, conf));
+		}
+		
+		public event ConfigurationEventHandler ConfigurationAdded;
+		public event ConfigurationEventHandler ConfigurationRemoved;
 	}
 }

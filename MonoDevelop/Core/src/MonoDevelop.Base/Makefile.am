@@ -466,6 +466,8 @@ Internal/Templates/INewFileCreator.cs \
 Internal/Templates/ProjectTemplates/ProjectTemplate.cs \
 Internal/Templates/ProjectTemplates/ProjectDescriptor.cs \
 Internal/Templates/ProjectTemplates/CombineDescriptor.cs \
+Internal/Templates/ProjectTemplates/CombineEntryDescriptor.cs \
+Internal/Templates/ProjectTemplates/ICombineEntryDescriptor.cs \
 Internal/Templates/ProjectTemplates/ProjectCreateInformation.cs \
 Internal/CollectionUtilities/DiffUtility.cs \
 Internal/CollectionUtilities/SortUtilityBase.cs \

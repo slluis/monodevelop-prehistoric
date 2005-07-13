@@ -78,7 +78,7 @@ namespace MonoDevelop.Commands
 				}
 			}
 			
-			((Gtk.Window)WorkbenchSingleton.Workbench).ShowAll ();
+			((Gtk.Window)WorkbenchSingleton.Workbench).Show ();
 			WorkbenchSingleton.Workbench.SetMemento ((IXmlConvertable)Runtime.Properties.GetProperty (workbenchMemento, WorkbenchSingleton.Workbench.CreateMemento()));
 			((Gtk.Window)WorkbenchSingleton.Workbench).Visible = true;
 			WorkbenchSingleton.Workbench.RedrawAllComponents ();

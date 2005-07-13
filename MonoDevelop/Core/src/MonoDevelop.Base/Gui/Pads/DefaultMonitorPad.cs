@@ -88,6 +88,8 @@ namespace MonoDevelop.Gui.Pads
 			this.title = title;
 			this.icon = icon;
 			this.markupTitle = title;
+			
+			Control.ShowAll ();
 		}
 
 		public IAsyncOperation AsyncOperation {

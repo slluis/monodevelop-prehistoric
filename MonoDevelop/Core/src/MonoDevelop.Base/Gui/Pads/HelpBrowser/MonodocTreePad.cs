@@ -55,6 +55,8 @@ namespace MonoDevelop.Gui.Pads
 					goto start;
 				}
 			} while (store.IterNext (ref child_iter));
+			
+			Control.ShowAll ();
 		}
 
 		Hashtable populated = new Hashtable ();

@@ -56,9 +56,10 @@ namespace MonoDevelop.Internal.Serialization
 			if (ValueType.BaseType != null) {
 				ClassDataType baseType = (ClassDataType) Context.GetConfigurationDataType (ValueType.BaseType);
 				baseType.AddSubtype (this); 
+				int n=0;
 				foreach (ItemProperty prop in baseType.Properties) {
 					properties.Add (prop.Name, prop);
-					sortedPoperties.Add (prop);
+					sortedPoperties.Insert (n++, prop);
 				}
 			}
 

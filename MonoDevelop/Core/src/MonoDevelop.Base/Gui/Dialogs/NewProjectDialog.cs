@@ -128,7 +128,9 @@ namespace MonoDevelop.Gui.Dialogs {
 			if (lst_template_types.Selection.GetSelected (out mdl, out iter)) {
 				TemplateView.Clear ();
 				foreach (TemplateItem item in ((Category)catStore.GetValue (iter, 1)).Templates) {
-					TemplateView.AddIcon (ResourceService.GetStockId (item.Template.Icon), Gtk.IconSize.Dnd, item.Name, item.Template);
+					string icon = item.Template.Icon;
+					if (icon == null) icon = "Icons.32x32.EmptyProjectIcon";
+					TemplateView.AddIcon (ResourceService.GetStockId (icon), Gtk.IconSize.Dnd, item.Name, item.Template);
 				}
 				
 				btn_new.Sensitive = false;

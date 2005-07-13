@@ -20,7 +20,6 @@ namespace MonoDevelop.Internal.Project
 		/// </summary>
 		string Name {
 			get;
-			set;
 		}
 		
 		void CopyFrom (IConfiguration configuration);

@@ -20,41 +20,26 @@ using MonoDevelop.Services;
 
 namespace MonoDevelop.Internal.Templates
 {
-	public class CombineDescriptor
+	public class CombineDescriptor: ICombineEntryDescriptor
 	{
-		ArrayList projectDescriptors = new ArrayList();
-		ArrayList combineDescriptors = new ArrayList();
+		ArrayList entryDescriptors = new ArrayList();
 		
 		string name;
 		string startupProject    = null;
 		string relativeDirectory = null;
 	
-		#region public properties
 		public string StartupProject {
 			get {
 				return startupProject;
 			}
 		}
 
-		public ArrayList ProjectDescriptors {
-			get {
-				return projectDescriptors;
-			}
-		}
-
-		public ArrayList CombineDescriptors {
-			get {
-				return projectDescriptors;
-			}
-		}
-		#endregion
-
 		protected CombineDescriptor(string name)
 		{
 			this.name = name;
 		}
 		
-		public string CreateCombine(ProjectCreateInformation projectCreateInformation, string defaultLanguage)
+		public string CreateEntry (ProjectCreateInformation projectCreateInformation, string defaultLanguage)
 		{
 			Combine newCombine     = new Combine();
 			string  newCombineName = Runtime.StringParserService.Parse(name, new string[,] { 
@@ -77,13 +62,8 @@ namespace MonoDevelop.Internal.Templates
 			}
 
 			// Create sub projects
-			foreach (ProjectDescriptor projectDescriptor in projectDescriptors) {
-				newCombine.AddEntry(projectDescriptor.CreateProject(projectCreateInformation, defaultLanguage), null);
-			}
-			
-			// Create sub combines
-			foreach (CombineDescriptor combineDescriptor in combineDescriptors) {
-				newCombine.AddEntry(combineDescriptor.CreateCombine(projectCreateInformation, defaultLanguage), null);
+			foreach (ICombineEntryDescriptor entryDescriptor in entryDescriptors) {
+				newCombine.AddEntry (entryDescriptor.CreateEntry (projectCreateInformation, defaultLanguage), null);
 			}
 			
 			projectCreateInformation.CombinePath = oldCombinePath;
@@ -122,10 +102,13 @@ namespace MonoDevelop.Internal.Templates
 				if (node != null) {
 					switch (node.Name) {
 						case "Project":
-							combineDescriptor.projectDescriptors.Add(ProjectDescriptor.CreateProjectDescriptor((XmlElement)node));
+							combineDescriptor.entryDescriptors.Add (ProjectDescriptor.CreateProjectDescriptor((XmlElement)node));
 							break;
 						case "Combine":
-							combineDescriptor.combineDescriptors.Add(CreateCombineDescriptor((XmlElement)node));
+							combineDescriptor.entryDescriptors.Add (CreateCombineDescriptor((XmlElement)node));
+							break;
+						case "CombineEntry":
+							combineDescriptor.entryDescriptors.Add (CombineEntryDescriptor.CreateDescriptor((XmlElement)node));
 							break;
 					}
 				}

@@ -27,8 +27,7 @@ namespace MonoDevelop.Internal.Project
 
 		public object Clone()
 		{
-			IConfiguration conf = (IConfiguration) System.Activator.CreateInstance (GetType());
-			conf.Name = Name;
+			IConfiguration conf = (IConfiguration) MemberwiseClone ();
 			conf.CopyFrom (this);
 			return conf;
 		}

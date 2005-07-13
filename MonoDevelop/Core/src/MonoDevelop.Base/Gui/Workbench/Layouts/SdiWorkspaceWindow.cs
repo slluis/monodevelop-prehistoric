@@ -125,8 +125,8 @@ namespace MonoDevelop.Gui
 			content.ContentChanged     += new EventHandler (OnContentChanged);
 			ShadowType = ShadowType.None;
 			Add (content.Control);
-			content.Control.ShowAll ();
-			ShowAll ();
+			content.Control.Show ();
+			Show ();
 			SetTitleEvent(null, null);
 
 			commandHandler = new ViewCommandHandlers (this);

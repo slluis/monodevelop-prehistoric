@@ -124,8 +124,10 @@ namespace MonoDevelop.Gui.Dialogs {
 			} while (duplicateNumber);
 			
 			// append new configuration node to the configurationTreeNode
-			IConfiguration newConfig = (IConfiguration) project.ActiveConfiguration.Clone();
-			newConfig.Name = newName;			
+			
+			IConfiguration newConfig = project.CreateConfiguration (newName);
+			newConfig.CopyFrom (project.ActiveConfiguration);
+
 			Gtk.TreeIter newNode = treeStore.AppendValues (configurationTreeNode, newConfig.Name , newConfig);
 			
 			// add the config to the project
@@ -234,8 +236,13 @@ namespace MonoDevelop.Gui.Dialogs {
 			// set the new label
 			if (!duplicateLabel) {
 				IConfiguration config = (IConfiguration) treeStore.GetValue(iter, 1);
-				config.Name = newLabel;
-				treeStore.SetValue(iter, 1, config);
+				IConfiguration newc = project.CreateConfiguration (newLabel);
+				newc.CopyFrom (config);
+				
+				project.Configurations.Remove (config);
+				project.Configurations.Add (newc);
+				
+				treeStore.SetValue(iter, 1, newc);
 				treeStore.SetValue(iter, 0, newLabel);
 			}
 			

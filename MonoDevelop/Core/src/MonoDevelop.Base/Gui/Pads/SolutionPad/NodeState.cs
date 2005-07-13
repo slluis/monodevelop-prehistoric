@@ -36,6 +36,7 @@ namespace MonoDevelop.Gui.Pads
 	{
 		string NodeName;
 		bool Expanded;
+		bool Selected;
 		TreeViewPad.TreeOptions Options;
 		ArrayList ChildrenState;
 		
@@ -55,6 +56,8 @@ namespace MonoDevelop.Gui.Pads
 			if (NodeName != null)
 				el.SetAttribute ("name", NodeName);
 			el.SetAttribute ("expanded", Expanded.ToString ());
+			if (Selected)
+				el.SetAttribute ("selected", "True");
 			
 			TreeViewPad.TreeOptions ops = Options;
 			if (ops != null) {
@@ -84,6 +87,7 @@ namespace MonoDevelop.Gui.Pads
 			ns.NodeName = elem.GetAttribute ("name");
 			string expanded = elem.GetAttribute ("expanded");
 			ns.Expanded = (expanded == "" || bool.Parse (expanded));
+			ns.Selected = elem.GetAttribute ("selected") == "True";
 			
 			XmlNodeList nodelist = elem.ChildNodes;
 			foreach (XmlNode nod in nodelist) {
@@ -130,9 +134,11 @@ namespace MonoDevelop.Gui.Pads
 			}
 			
 			TreeViewPad.TreeOptions ops = pad.GetIterOptions (it);
-			if (ops != null || nav.Expanded || childrenState != null) {
+			
+			if (ops != null || nav.Expanded || childrenState != null || nav.Selected) {
 				NodeState es = new NodeState ();
 				es.Expanded = nav.Expanded;
+				es.Selected = nav.Selected;
 				es.Options = ops;
 				es.ChildrenState = childrenState;
 				return es;
@@ -151,14 +157,17 @@ namespace MonoDevelop.Gui.Pads
 			pad.ResetState (it);
 			nav.Expanded = es.Expanded;
 			
-			if (es.ChildrenState == null) return;
-			
-			foreach (NodeState ces in es.ChildrenState) {
-				if (nav.MoveToChild (ces.NodeName, null)) {
-					RestoreState (pad, nav, ces);
-					nav.MoveToParent ();
+			if (es.ChildrenState != null) {
+				foreach (NodeState ces in es.ChildrenState) {
+					if (nav.MoveToChild (ces.NodeName, null)) {
+						RestoreState (pad, nav, ces);
+						nav.MoveToParent ();
+					}
 				}
 			}
+			
+			if (es.Selected)
+				nav.Selected = true;
 		}
 	}
 }
