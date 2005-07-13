@@ -1,3 +1,9 @@
+2005-07-13  Lluis Sanchez Gual  <lluis@novell.com> 
+
+	* MonoQueryView.cs:
+	* Gui/DataView/MonoQueryDataView.cs: Pads are now responsible
+	of showing its own widgets.
+	
 2005-03-31  Christian Hergert <chris@mosaix.net>
 
 	* MonoQueryView.cs: Fix the momento icon.

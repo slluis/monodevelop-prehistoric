@@ -56,6 +56,7 @@ namespace MonoQuery.Gui.DataView
 //			{
 //				WorkbenchSingleton.Workbench.ViewContentCollection.Remove( this );			
 //			}
+			Control.ShowAll ();
 		}	
 		
 		/// <summary>

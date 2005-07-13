@@ -54,6 +54,7 @@ namespace MonoQuery.Pads
 			MonoQueryService service = (MonoQueryService)ServiceManager.GetService(
 				typeof(MonoQueryService));
 			service.Tree = monoQueryTree;
+			Control.ShowAll ();
 		}		
 		
 		public void SaveMonoQueryView()
