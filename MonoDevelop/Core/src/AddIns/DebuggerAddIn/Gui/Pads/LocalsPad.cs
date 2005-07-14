@@ -542,10 +542,12 @@ namespace MonoDevelop.Debugger
 		{
 			string icon = "";
 
+#if mdb_api_brokenness
 			if (member.Handle is PropertyInfo)
 				icon = Runtime.Gui.Icons.GetIcon ((PropertyInfo)member.Handle);
 			else if (member.Handle is FieldInfo)
 				icon = Runtime.Gui.Icons.GetIcon ((FieldInfo)member.Handle);
+#endif
 
 			return icon;
 		}
