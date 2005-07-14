@@ -1,5 +1,10 @@
 2005-07-13  John Luke  <john.luke@gmail.com>
 
+	* Gui/SourceEditorView.cs: make DeleteLine () use AtomicUndo
+	part of bug #75425, based on patch by Paul.Betts@Gmail.com (Paul Betts)
+
+2005-07-13  John Luke  <john.luke@gmail.com>
+
 	* CodeCompletion/ListWindow.cs: scroll with the mousewheel
 	* CodeCompletion/CompletionListWindow.cs: complete on double-click
 

@@ -161,7 +161,8 @@ namespace MonoDevelop.SourceEditor.Gui
 			iter.LineOffset = 0;
 			TextIter end_iter = buf.GetIterAtLine (iter.Line);
 			end_iter.LineOffset = end_iter.CharsInLine;
-			buf.Delete (ref iter, ref end_iter);
+			using (AtomicUndo a = new AtomicUndo (buf)) 
+				buf.Delete (ref iter, ref end_iter);
 		}
 
 		void TriggerCodeComplete ()
