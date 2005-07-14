@@ -314,9 +314,6 @@ namespace MonoDevelop.SourceEditor.Gui
 					if (UnIndentSelection ())
 						return true;
 					break;
-				case Gdk.Key.Delete:
-					DeleteLine ();
-					return true;
 				}
 				break;
 			case ShiftControl:
@@ -332,6 +329,7 @@ namespace MonoDevelop.SourceEditor.Gui
 				case Gdk.Key.space:
 					TriggerCodeComplete ();
 					return true;
+				case Gdk.Key.k:
 				case Gdk.Key.l:
 					DeleteLine ();
 					return true;
