@@ -1,6 +1,9 @@
-2005-07-08  John Luke  <john.luke@gmail.com>
+2005-07-15  John Luke  <john.luke@gmail.com>
 
 	* configure.in: sort AC_OUTPUT section
+	* help/: mv from Core/help
+	* xmldocs.make: move from Core/xmldocs.make
+	* omf.make: move from Core/omf.make
 
 2005-07-13  Lluis Sanchez Gual  <lluis@novell.com> 
 
