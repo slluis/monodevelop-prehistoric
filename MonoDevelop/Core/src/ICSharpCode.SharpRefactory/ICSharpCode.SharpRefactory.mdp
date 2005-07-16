@@ -1,5 +1,5 @@
 <Project name="ICSharpCode.SharpRefactory" fileversion="2.0" language="C#" ctype="DotNetProject">
-  <Configurations>
+  <Configurations active="Debug">
     <Configuration name="Debug" ctype="DotNetProjectConfiguration">
       <Output directory="../../../build/bin" assembly="ICSharpCode.SharpRefactory" />
       <Build debugmode="True" target="Library" />

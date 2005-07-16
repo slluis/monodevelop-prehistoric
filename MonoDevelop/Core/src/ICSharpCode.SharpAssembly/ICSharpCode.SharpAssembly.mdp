@@ -1,5 +1,5 @@
 <Project name="ICSharpCode.SharpAssembly" fileversion="2.0" language="C#" ctype="DotNetProject">
-  <Configurations>
+  <Configurations active="Debug">
     <Configuration name="Debug" ctype="DotNetProjectConfiguration">
       <Output directory="../../../build/bin" assembly="ICSharpCode.SharpAssembly" />
       <Build debugmode="True" target="Library" />

@@ -1,5 +1,5 @@
 <Project name="MonoDevelop.Base" fileversion="2.0" language="C#" ctype="DotNetProject">
-  <Configurations>
+  <Configurations active="Debug">
     <Configuration name="Debug" ctype="DotNetProjectConfiguration">
       <Output directory="../../../build/bin" assembly="MonoDevelop.Base" />
       <Build debugmode="True" target="Library" />
@@ -19,7 +19,6 @@
     <ProjectReference type="Project" localcopy="True" refto="MonoDevelop.Gui.Widgets" />
     <ProjectReference type="Project" localcopy="True" refto="MonoDevelop.Gui.Utils" />
     <ProjectReference type="Gac" localcopy="True" refto="System.Drawing, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-    <ProjectReference type="Gac" localcopy="True" refto="gtk-sharp, Version=2.0.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
     <ProjectReference type="Gac" localcopy="True" refto="System.Runtime.Remoting, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
     <ProjectReference type="Gac" localcopy="True" refto="Mono.Posix, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=0738eb9f132ed756" />
     <ProjectReference type="Gac" localcopy="True" refto="gecko-sharp, Version=2.0.0.0, Culture=neutral, PublicKeyToken=ccf7d78a55e9f021" />
@@ -27,11 +26,13 @@
     <ProjectReference type="Project" localcopy="True" refto="ICSharpCode.SharpRefactory" />
     <ProjectReference type="Assembly" localcopy="True" refto="../../../contrib/log4net.dll" />
     <ProjectReference type="Gac" localcopy="True" refto="monodoc, Version=1.0.0.0, Culture=neutral, PublicKeyToken=0738eb9f132ed756" />
-    <ProjectReference type="Gac" localcopy="True" refto="gnome-sharp, Version=2.0.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
     <ProjectReference type="Gac" localcopy="True" refto="System.Web.Services, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-    <ProjectReference type="Gac" localcopy="True" refto="gtkhtml-sharp, Version=2.0.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
-    <ProjectReference type="Gac" localcopy="True" refto="glade-sharp, Version=2.0.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
     <ProjectReference type="Gac" localcopy="True" refto="System.Data, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+    <ProjectReference type="Gac" localcopy="True" refto="gtk-sharp, Version=2.6.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
+    <ProjectReference type="Gac" localcopy="True" refto="glade-sharp, Version=2.6.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
+    <ProjectReference type="Gac" localcopy="True" refto="gnome-sharp, Version=2.6.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
+    <ProjectReference type="Gac" localcopy="True" refto="gnome-vfs-sharp, Version=2.6.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
+    <ProjectReference type="Gac" localcopy="True" refto="gtkhtml-sharp, Version=2.6.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
   </References>
   <DeploymentInformation strategy="File">
     <excludeFiles />
@@ -519,5 +520,12 @@
     <File name="./Internal/Codons/Pads/PadOptionCodon.cs" subtype="Code" buildaction="Compile" />
     <File name="./Internal/Codons/Pads/SolutionPadCodon.cs" subtype="Code" buildaction="Compile" />
     <File name="./Internal/Codons/Toolbars/ToolbarItemCodon.cs" subtype="Code" buildaction="Compile" />
+    <File name="./Internal/Templates/ProjectTemplates/ICombineEntryDescriptor.cs" subtype="Code" buildaction="Compile" />
+    <File name="./Internal/Project/Combine/CombineEntryCollection.cs" subtype="Code" buildaction="Compile" />
+    <File name="./Internal/Project/Combine/ConfigurationCollection.cs" subtype="Code" buildaction="Compile" />
+    <File name="./Internal/Project/Combine/ConfigurationEventHandler.cs" subtype="Code" buildaction="Compile" />
+    <File name="./Gui/Dialogs/CombineOptionsDialog.cs" subtype="Code" buildaction="Compile" />
+    <File name="./Internal/Templates/ProjectTemplates/CombineEntryDescriptor.cs" subtype="Code" buildaction="Compile" />
+    <File name="./Gui/ToolWidgets/ConfigurationComboBox.cs" subtype="Code" buildaction="Compile" />
   </Contents>
 </Project>

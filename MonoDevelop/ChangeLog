@@ -1,5 +1,11 @@
 2005-07-15  John Luke  <john.luke@gmail.com>
 
+	* .mdp:
+	* MonoDevelop.mds: update gtk-sharp versions and
+	add some new files
+	
+2005-07-15  John Luke  <john.luke@gmail.com>
+
 	* configure.in: sort AC_OUTPUT section
 	* help/: mv from Core/help
 	* xmldocs.make: move from Core/xmldocs.make
