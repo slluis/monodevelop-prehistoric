@@ -14,7 +14,7 @@
     </Configuration>
   </Configurations>
   <References>
-    <ProjectReference type="Gac" localcopy="True" refto="Mono.Posix, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=0738eb9f132ed756" />
+    <ProjectReference type="Gac" localcopy="False" refto="Mono.Posix, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=0738eb9f132ed756" />
   </References>
   <DeploymentInformation strategy="File">
     <excludeFiles />

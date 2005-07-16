@@ -14,10 +14,10 @@
     </Configuration>
   </Configurations>
   <References>
-    <ProjectReference type="Project" localcopy="True" refto="MonoDevelop.Base" />
-    <ProjectReference type="Project" localcopy="True" refto="MonoDevelop.Gui.Widgets" />
-    <ProjectReference type="Project" localcopy="True" refto="MonoDevelop.Core" />
-    <ProjectReference type="Project" localcopy="True" refto="MonoDevelop.NUnit" />
+    <ProjectReference type="Project" localcopy="False" refto="MonoDevelop.Base" />
+    <ProjectReference type="Project" localcopy="False" refto="MonoDevelop.Gui.Widgets" />
+    <ProjectReference type="Project" localcopy="False" refto="MonoDevelop.Core" />
+    <ProjectReference type="Project" localcopy="False" refto="MonoDevelop.NUnit" />
   </References>
   <DeploymentInformation strategy="File">
     <excludeFiles />

@@ -14,8 +14,8 @@
     </Configuration>
   </Configurations>
   <References>
-    <ProjectReference type="Project" localcopy="True" refto="MonoDevelop.Core" />
-    <ProjectReference type="Project" localcopy="True" refto="MonoDevelop.Base" />
+    <ProjectReference type="Project" localcopy="False" refto="MonoDevelop.Core" />
+    <ProjectReference type="Project" localcopy="False" refto="MonoDevelop.Base" />
   </References>
   <DeploymentInformation strategy="File">
     <excludeFiles />

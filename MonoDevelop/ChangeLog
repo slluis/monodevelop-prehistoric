@@ -1,5 +1,9 @@
 2005-07-15  John Luke  <john.luke@gmail.com>
 
+	* .mdp: set localcopy="False"
+
+2005-07-15  John Luke  <john.luke@gmail.com>
+
 	* .mdp: update
 	* MonoDevelop.mds: update gtk-sharp versions and
 	add some new files
