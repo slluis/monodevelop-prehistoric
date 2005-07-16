@@ -17,7 +17,9 @@ namespace MonoDevelop.Services
 		public DefaultLoggingService()
 		{
 			if (File.Exists (Assembly.GetEntryAssembly().Location + ".config"))
-				XmlConfigurator.Configure();
+				XmlConfigurator.Configure ();
+			else
+				BasicConfigurator.Configure ();
 		}
 		
 		public override void InitializeService()

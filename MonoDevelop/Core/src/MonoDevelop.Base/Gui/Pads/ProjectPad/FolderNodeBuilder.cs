@@ -191,24 +191,36 @@ namespace MonoDevelop.Gui.Pads.ProjectPad
 					if (result != (int) ResponseType.Ok)
 						return;
 					
+					int action = -1;
 					foreach (string file in fdiag.Filenames) {
 						if (file.StartsWith (project.BaseDirectory)) {
 							MoveCopyFile (project, CurrentNode, file, true, true);
 						} else {
 							using (MessageDialog md = new MessageDialog (
-																		 (Window) WorkbenchSingleton.Workbench,
-																		 DialogFlags.Modal | DialogFlags.DestroyWithParent,
-																		 MessageType.Question, ButtonsType.None,
-																		 String.Format (GettextCatalog.GetString ("{0} is outside the project directory, what should I do?"), file))) {
+								 (Window) WorkbenchSingleton.Workbench,
+								 DialogFlags.Modal | DialogFlags.DestroyWithParent,
+								 MessageType.Question, ButtonsType.None,
+								 String.Format (GettextCatalog.GetString ("{0} is outside the project directory, what should I do?"), file)))
+							{
+								CheckButton remember = null;
+								if (fdiag.Filenames.Length > 1) {
+									remember = new CheckButton (GettextCatalog.GetString ("Use the same action for all selected files."));
+									md.VBox.PackStart (remember, false, false, 0);
+								}
 								md.AddButton (Gtk.Stock.Copy, 1);
 								md.AddButton (GettextCatalog.GetString ("_Move"), 2);
 								md.AddButton (Gtk.Stock.Cancel, ResponseType.Cancel);
+								md.VBox.ShowAll ();
 								
-								int ret = md.Run ();
-								md.Hide ();
-								
-								if (ret < 0)
-									return;
+								int ret = -1;
+								if (action < 0) {
+									ret = md.Run ();
+									md.Hide ();
+									if (ret < 0) return;
+									if (remember != null && remember.Active) action = ret;
+								} else {
+									ret = action;
+								}
 
 								try {
 									MoveCopyFile (project, CurrentNode, file, ret == 2, false);

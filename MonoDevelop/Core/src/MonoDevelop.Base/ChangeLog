@@ -1,3 +1,19 @@
+2005-07-14  Ben Motmans  <ben.motmans@gmail.com>
+
+	* Gui/Pads/ProjectPad/FolderNodeBuilder.cs:
+	#73772, 'remember action' in add files dialog
+
+	* Gui/Pads/OpenTaskView.cs:
+	show warnings after errors + sortable column based on task type
+
+	* Services/File/RecentOpen.cs: emit correct event
+
+	* Gui/Pads/SolutionPad/TreeViewPad.cs:
+	make sure the parent node of the currently edited node is expanded
+
+	* Services/DefaultLoggingService.cs: make sure log4net is always 
+	configured, even if the .config file doesn't exist
+
 2005-07-13  Lluis Sanchez Gual  <lluis@novell.com> 
 
 	* Gui/Workbench/Layouts/SdiWorkspaceLayout.cs:

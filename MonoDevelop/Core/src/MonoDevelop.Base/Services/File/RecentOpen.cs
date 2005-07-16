@@ -137,7 +137,7 @@ namespace MonoDevelop.Services
 		void UpdateLastProject ()
 		{
 			lastproject = recentFiles.GetItemsInGroup ("MonoDevelop Projects");
-			OnRecentFileChange();
+			OnRecentProjectChange();
 		}
 	}
 }

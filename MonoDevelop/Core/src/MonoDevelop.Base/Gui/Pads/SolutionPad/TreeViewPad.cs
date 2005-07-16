@@ -583,6 +583,7 @@ namespace MonoDevelop.Gui.Pads
 				return;
 			
 			workNode.MoveToIter (iter);
+			workNode.ExpandToNode (); //make sure the parent of the node that is being edited is expanded
 			store.SetValue (iter, TreeViewPad.TextColumn, workNode.NodeName);
 			
 			text_render.Editable = true;
