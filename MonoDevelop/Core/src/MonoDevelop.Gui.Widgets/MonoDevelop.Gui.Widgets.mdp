@@ -85,5 +85,14 @@
     <File name="./Tree/TreeView.cs" subtype="Code" buildaction="Compile" />
     <File name="./Commands/ICommandDelegatorRouter.cs" subtype="Code" buildaction="Compile" />
     <File name="./Commands/CommandRouterContainer.cs" subtype="Code" buildaction="Compile" />
+    <File name="./BasicChart/Axis.cs" subtype="Code" buildaction="Compile" />
+    <File name="./BasicChart/AxisDimension.cs" subtype="Code" buildaction="Compile" />
+    <File name="./BasicChart/AxisPosition.cs" subtype="Code" buildaction="Compile" />
+    <File name="./BasicChart/BasicChart.cs" subtype="Code" buildaction="Compile" />
+    <File name="./BasicChart/ChartCursor.cs" subtype="Code" buildaction="Compile" />
+    <File name="./BasicChart/DateTimeAxis.cs" subtype="Code" buildaction="Compile" />
+    <File name="./BasicChart/IntegerAxis.cs" subtype="Code" buildaction="Compile" />
+    <File name="./BasicChart/Serie.cs" subtype="Code" buildaction="Compile" />
+    <File name="./BasicChart/TickEnumerator.cs" subtype="Code" buildaction="Compile" />
   </Contents>
 </Project>

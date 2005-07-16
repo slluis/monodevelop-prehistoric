@@ -11,6 +11,11 @@
       <Entry configuration="Debug" build="True" name="MonoDevelop.Startup" />
       <Entry configuration="Debug" build="True" name="CSharpBinding" />
       <Entry configuration="Debug" build="True" name="SourceEditor" />
+      <Entry configuration="Debug" build="True" name="ILAsmBinding" />
+      <Entry configuration="Debug" build="True" name="MonoDevelop.NUnit" />
+      <Entry configuration="Debug" build="True" name="MonoDeveloperExtensions" />
+      <Entry configuration="Debug" build="True" name="mdhost" />
+      <Entry configuration="Debug" build="True" name="dbgen" />
     </Configuration>
     <Configuration name="Release" ctype="CombineConfiguration">
       <Entry configuration="Release" build="True" name="MonoDevelop.Core" />
@@ -23,6 +28,11 @@
       <Entry configuration="Release" build="True" name="MonoDevelop.Startup" />
       <Entry configuration="Release" build="True" name="CSharpBinding" />
       <Entry configuration="Release" build="True" name="SourceEditor" />
+      <Entry configuration="Debug" build="True" name="ILAsmBinding" />
+      <Entry configuration="Debug" build="True" name="MonoDevelop.NUnit" />
+      <Entry configuration="Debug" build="True" name="MonoDeveloperExtensions" />
+      <Entry configuration="Debug" build="True" name="mdhost" />
+      <Entry configuration="Debug" build="True" name="dbgen" />
     </Configuration>
   </Configurations>
   <StartMode startupentry="MonoDevelop.Startup" single="True">
@@ -36,6 +46,11 @@
     <Execute type="None" entry="MonoDevelop.Startup" />
     <Execute type="None" entry="CSharpBinding" />
     <Execute type="None" entry="SourceEditor" />
+    <Execute type="None" entry="ILAsmBinding" />
+    <Execute type="None" entry="MonoDevelop.NUnit" />
+    <Execute type="None" entry="MonoDeveloperExtensions" />
+    <Execute type="None" entry="mdhost" />
+    <Execute type="None" entry="dbgen" />
   </StartMode>
   <Entries>
     <Entry filename="./Core/src/MonoDevelop.Core/MonoDevelop.Core.mdp" />
@@ -48,5 +63,10 @@
     <Entry filename="./Core/src/MonoDevelop.Startup/MonoDevelop.Startup.mdp" />
     <Entry filename="./Core/src/AddIns/BackendBindings/CSharpBinding/CSharpBinding.mdp" />
     <Entry filename="./Core/src/AddIns/DisplayBindings/SourceEditor/SourceEditor.mdp" />
+    <Entry filename="./Core/src/AddIns/BackendBindings/ILAsmBinding/ILAsmBinding.mdp" />
+    <Entry filename="./Extras/NUnit/NUnit.mdp" />
+    <Entry filename="./Extras/MonoDeveloperExtensions/MonoDeveloperExtensions.mdp" />
+    <Entry filename="./Core/src/Tools/mdhost/mdhost.mdp" />
+    <Entry filename="./Core/src/Tools/dbgen/dbgen.mdp" />
   </Entries>
 </Combine>
