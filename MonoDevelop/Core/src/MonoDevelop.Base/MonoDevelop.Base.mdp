@@ -527,5 +527,6 @@
     <File name="./Gui/Dialogs/CombineOptionsDialog.cs" subtype="Code" buildaction="Compile" />
     <File name="./Internal/Templates/ProjectTemplates/CombineEntryDescriptor.cs" subtype="Code" buildaction="Compile" />
     <File name="./Gui/ToolWidgets/ConfigurationComboBox.cs" subtype="Code" buildaction="Compile" />
+    <File name="./Base.glade" subtype="Code" buildaction="EmbedAsResource" />
   </Contents>
 </Project>

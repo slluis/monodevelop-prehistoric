@@ -1,3 +1,8 @@
+2005-07-16  John Luke  <john.luke@gmail.com>
+
+	* Gui/Dialogs/ReferenceDialog/ProjectReferencePanel.cs:
+	sort by Projet name
+
 2005-07-14  Ben Motmans  <ben.motmans@gmail.com>
 
 	* Gui/Pads/ProjectPad/FolderNodeBuilder.cs:

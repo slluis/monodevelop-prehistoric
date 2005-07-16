@@ -25,6 +25,7 @@ namespace MonoDevelop.Gui.Dialogs {
 			this.selectDialog = selectDialog;
 			
 			store = new TreeStore (typeof (string), typeof (string), typeof(Project), typeof(bool), typeof(Gdk.Pixbuf));
+			store.SetSortColumnId (0, SortType.Ascending);
 			treeView = new TreeView (store);
 			
 			TreeViewColumn firstColumn = new TreeViewColumn ();
