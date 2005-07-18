@@ -56,6 +56,7 @@ case x$1 in
 		exit 0
 		;;
 	x--debug)
+		export MONODEVELOP_DISPATCH_DEBUG=yes
 		exec @RUNTIME@ --debug ./MonoDevelop.exe $@
 		exit 0
 		;;
