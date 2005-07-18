@@ -1,3 +1,9 @@
+2005-07-18  Lluis Sanchez Gual  <lluis@novell.com>
+
+	* CSharp.glade:
+	* Gui/CodeGenerationPanel.cs: Use a combo entry for the main class
+	field. Disable that entry when building a library.
+
 2005-07-14  Ben Motmans  <ben.motmans@gmail.com>
 
 	* templates/GladeSharp2Project.xpt.xml:
