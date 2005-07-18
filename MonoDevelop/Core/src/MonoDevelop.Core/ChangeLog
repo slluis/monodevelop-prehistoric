@@ -1,3 +1,9 @@
+2005-07-18  Lluis Sanchez Gual  <lluis@novell.com> 
+
+	* AddIns/AddInTreeSingleton.cs: Added a method that explicitely
+	initializes the tree of addins, and which returns a list of load errors
+	instead of throwing an exception if something fails.
+
 2005-07-13  Lluis Sanchez Gual  <lluis@novell.com> 
 
 	* AddIns/AddIn.cs:

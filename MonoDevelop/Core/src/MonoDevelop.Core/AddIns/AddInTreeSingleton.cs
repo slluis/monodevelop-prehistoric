@@ -6,6 +6,7 @@
 // </file>
 
 using System;
+using System.Collections;
 using System.Reflection;
 using System.Collections.Specialized;
 using System.IO;
@@ -35,9 +36,6 @@ namespace MonoDevelop.Core.AddIns
 		
 		public static IAddInTree AddInTree {
 			get {
-				if (addInTree == null) {
-					CreateAddInTree();
-				}
 				return addInTree;
 			}
 		}
@@ -53,34 +51,41 @@ namespace MonoDevelop.Core.AddIns
 			return true;
 		}
 		
-		static StringCollection InsertAddIns(StringCollection addInFiles)
+		static StringCollection InsertAddIns (StringCollection addInFiles, out AddinError[] errors)
 		{
 			StringCollection retryList  = new StringCollection();
+			ArrayList list = new ArrayList ();
 			
 			foreach (string addInFile in addInFiles) {
 				
 				AddIn addIn = new AddIn();
 				try {
-					addIn.Initialize(addInFile);
-					addInTree.InsertAddIn(addIn);
-				} catch (CodonNotFoundException) {
-					retryList.Add(addInFile);
-				} catch (ConditionNotFoundException) {
-					retryList.Add(addInFile);
-				} catch (MissingDependencyException) {
+					addIn.Initialize (addInFile);
+					addInTree.InsertAddIn (addIn);
+				} catch (CodonNotFoundException ex) {
+					retryList.Add (addInFile);
+					list.Add (new AddinError (addInFile, ex));
+				} catch (ConditionNotFoundException ex) {
+					retryList.Add (addInFile);
+					list.Add (new AddinError (addInFile, ex));
+				} catch (MissingDependencyException ex) {
 					// Try to load the addin later. Maybe it depends on an
 					// addin that has not yet been loaded.
 					retryList.Add(addInFile);
-				} catch (Exception e) {
-					throw new AddInInitializeException(addInFile, e);
+					list.Add (new AddinError (addInFile, ex));
+				} catch (Exception ex) {
+					retryList.Add (addInFile);
+					list.Add (new AddinError (addInFile, ex));
 				} 
 			}
 			
+			errors = (AddinError[]) list.ToArray (typeof(AddinError));
 			return retryList;
 		}
 		
-		static void CreateAddInTree()
+		public static AddinError[] InitializeAddins ()
 		{
+			AddinError[] errors = null;
 			addInTree = new DefaultAddInTree();
 			
 			FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.GetService(typeof(FileUtilityService));
@@ -90,7 +95,7 @@ namespace MonoDevelop.Core.AddIns
 			
 			if (ignoreDefaultCoreDirectory == false) {
 				addInFiles = fileUtilityService.SearchDirectory(defaultCoreDirectory, "*.addin.xml");
-				retryList  = InsertAddIns(addInFiles);
+				retryList  = InsertAddIns (addInFiles, out errors);
 			}
 			else
 				retryList = new StringCollection();
@@ -98,7 +103,7 @@ namespace MonoDevelop.Core.AddIns
 			if (addInDirectories != null) {
 				foreach(string path in addInDirectories) {
 					addInFiles = fileUtilityService.SearchDirectory(path, "*.addin.xml");
-					StringCollection partialRetryList  = InsertAddIns(addInFiles);
+					StringCollection partialRetryList  = InsertAddIns (addInFiles, out errors);
 					if (partialRetryList.Count != 0) {
 						string [] retryListArray = new string[partialRetryList.Count];
 						partialRetryList.CopyTo(retryListArray, 0);
@@ -108,7 +113,7 @@ namespace MonoDevelop.Core.AddIns
 			}
 			
 			while (retryList.Count > 0) {
-				StringCollection newRetryList = InsertAddIns(retryList);
+				StringCollection newRetryList = InsertAddIns (retryList, out errors);
 				
 				// break if no add-in could be inserted.
 				if (newRetryList.Count == retryList.Count) {
@@ -118,10 +123,27 @@ namespace MonoDevelop.Core.AddIns
 				retryList = newRetryList;
 			}
 			
-			if (retryList.Count > 0) {
-				throw new ApplicationException("At least one AddIn uses an undefined codon or condition: " + retryList[0]);
-			}
-			//			tree.ShowCodonTree();
+			return errors;
+		}
+	}
+	
+	public class AddinError
+	{
+		string addinFile;
+		Exception exception;
+		
+		public AddinError (string addin, Exception exception)
+		{
+			this.addinFile = addin;
+			this.exception = exception;
+		}
+		
+		public string AddinFile {
+			get { return addinFile; }
+		}
+		
+		public Exception Exception {
+			get { return exception; }
 		}
 	}
 }
