@@ -225,8 +225,8 @@ namespace MonoDevelop.Gui.Pads.ProjectPad
 								try {
 									MoveCopyFile (project, CurrentNode, file, ret == 2, false);
 								}
-								catch {
-									Runtime.MessageService.ShowError (GettextCatalog.GetString ("An error occurred while attempt to move/copy that file. Please check your permissions."));
+								catch (Exception ex) {
+									Runtime.MessageService.ShowError (ex, GettextCatalog.GetString ("An error occurred while attempt to move/copy that file. Please check your permissions."));
 								}
 							}
 						}
@@ -249,7 +249,11 @@ namespace MonoDevelop.Gui.Pads.ProjectPad
 			string newfilename = alreadyInPlace ? filename : Path.Combine (baseDirectory, name);
 
 			if (filename != newfilename) {
-				File.Copy (filename, newfilename);
+				if (File.Exists (newfilename)) {
+					if (!Runtime.MessageService.AskQuestion (string.Format (GettextCatalog.GetString ("The file '{0}' already exists. Do you want to replace it?"), newfilename), "MonoDevelop"))
+						return;
+				}
+				File.Copy (filename, newfilename, true);
 				if (move)
 					Runtime.FileService.RemoveFile (filename);
 			}
