@@ -123,6 +123,7 @@ namespace MonoDevelop.Gui
 			content.DirtyChanged       += new EventHandler(SetTitleEvent);
 			content.BeforeSave         += new EventHandler(BeforeSave);
 			content.ContentChanged     += new EventHandler (OnContentChanged);
+			
 			ShadowType = ShadowType.None;
 			Add (content.Control);
 			content.Control.Show ();
@@ -192,7 +193,6 @@ namespace MonoDevelop.Gui
 			if (newTitle != Title) {
 				Title = newTitle;
 			}
-			WorkbenchSingleton.Workbench.WorkbenchLayout.ActiveMdiChanged (null, null);
 		}
 		
 		public void OnContentChanged (object o, EventArgs e)

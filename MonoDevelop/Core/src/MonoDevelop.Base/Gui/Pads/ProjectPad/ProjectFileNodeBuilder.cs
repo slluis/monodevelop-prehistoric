@@ -67,6 +67,16 @@ namespace MonoDevelop.Gui.Pads.ProjectPad
 			icon = Context.GetIcon (Runtime.Gui.Icons.GetImageForFile (file.FilePath));
 		}
 		
+		public override object GetParentObject (object dataObject)
+		{
+			ProjectFile file = (ProjectFile) dataObject;
+			string dir = Path.GetDirectoryName (file.FilePath);
+			if (dir == file.Project.BaseDirectory)
+				return file.Project;
+			else
+				return new ProjectFolder (dir, file.Project, null);
+		}
+		
 		public override int CompareObjects (ITreeNavigator thisNode, ITreeNavigator otherNode)
 		{
 			if (otherNode.DataItem is ProjectFolder)

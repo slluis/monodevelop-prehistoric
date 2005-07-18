@@ -40,6 +40,13 @@ namespace MonoDevelop.Gui.Pads
 		
 		public abstract string GetNodeName (ITreeNavigator thisNode, object dataObject);
 		
+		// Optional override that should return the parent object of the given
+		// object.
+		public virtual object GetParentObject (object dataObject)
+		{
+			return null;
+		}
+		
 		// Return -1 if thisDataObject is less than otherDataObject, 0 if equal, 1 if greater
 		// Return DefaultSort is sort is undefined or you want to use default sorting rules
 		// (by default, it compares the node name).

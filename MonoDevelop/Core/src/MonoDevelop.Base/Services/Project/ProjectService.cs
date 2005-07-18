@@ -59,9 +59,11 @@ namespace MonoDevelop.Services
 				return currentProject;
 			}
 			set {
-				System.Diagnostics.Debug.Assert(openCombine != null);
-				currentProject = value;
-				OnCurrentProjectChanged(new ProjectEventArgs(currentProject));
+				if (value != currentProject) {
+					System.Diagnostics.Debug.Assert(openCombine != null);
+					currentProject = value;
+					OnCurrentProjectChanged(new ProjectEventArgs(currentProject));
+				}
 			}
 		}
 		
@@ -70,9 +72,11 @@ namespace MonoDevelop.Services
 				return currentCombine;
 			}
 			set {
-				System.Diagnostics.Debug.Assert(openCombine != null);
-				currentCombine = value;
-				OnCurrentSelectedCombineChanged(new CombineEventArgs(currentCombine));
+				if (value != currentCombine) {
+					System.Diagnostics.Debug.Assert(openCombine != null);
+					currentCombine = value;
+					OnCurrentSelectedCombineChanged(new CombineEventArgs(currentCombine));
+				}
 			}
 		}
 		

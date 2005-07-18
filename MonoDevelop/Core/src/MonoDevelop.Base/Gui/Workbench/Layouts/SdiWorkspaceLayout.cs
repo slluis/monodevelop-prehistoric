@@ -127,10 +127,6 @@ namespace MonoDevelop.Gui
 				AddPad (content, content.DefaultPlacement);
 			}
 			
-			// FIXME: GTKize
-			tabControl.SwitchPage += new SwitchPageHandler(ActiveMdiChanged);
-			//tabControl.SelectionChanged += new EventHandler(ActiveMdiChanged);
-			
 			CreateDefaultLayout();
 			//RedrawAllComponents();
 			wbWindow.Show ();

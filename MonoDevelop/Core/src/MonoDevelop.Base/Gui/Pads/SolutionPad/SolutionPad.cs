@@ -41,7 +41,6 @@ namespace MonoDevelop.Gui.Pads
 		{
 			Runtime.ProjectService.CombineOpened += (CombineEventHandler) Runtime.DispatchService.GuiDispatch (new CombineEventHandler (OnOpenCombine));
 			Runtime.ProjectService.CombineClosed += (CombineEventHandler) Runtime.DispatchService.GuiDispatch (new CombineEventHandler (OnCloseCombine));
-			WorkbenchSingleton.Workbench.ActiveWorkbenchWindowChanged += new EventHandler(ActiveWindowChanged);
 			Runtime.Properties.PropertyChanged += (PropertyEventHandler) Runtime.DispatchService.GuiDispatch (new PropertyEventHandler (TrackPropertyChange));
 		}
 		
@@ -52,14 +51,6 @@ namespace MonoDevelop.Gui.Pads
 			}
 		}
 		
-		void ActiveWindowChanged(object sender, EventArgs e)
-		{
-			if (WorkbenchSingleton.Workbench.ActiveWorkbenchWindow != null) {
-//				string fileName = WorkbenchSingleton.Workbench.ActiveWorkbenchWindow.ViewContent.ContentName;
-				// TODO
-			}
-		}
-
 		protected virtual void OnOpenCombine (object sender, CombineEventArgs e)
 		{
 			LoadTree (e.Combine);

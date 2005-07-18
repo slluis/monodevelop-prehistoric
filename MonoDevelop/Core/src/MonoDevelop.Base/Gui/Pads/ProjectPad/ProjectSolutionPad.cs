@@ -37,6 +37,11 @@ namespace MonoDevelop.Gui.Pads.ProjectPad
 {
 	public class ProjectSolutionPad: SolutionPad
 	{
+		public ProjectSolutionPad ()
+		{
+			Runtime.Gui.Workbench.ActiveWorkbenchWindowChanged += new EventHandler (OnWindowChanged);
+		}
+		
 		protected override void OnSelectionChanged (object sender, EventArgs args)
 		{
 			base.OnSelectionChanged (sender, args);
@@ -54,6 +59,24 @@ namespace MonoDevelop.Gui.Pads.ProjectPad
 			base.OnCloseCombine (sender, e);
 			Runtime.ProjectService.CurrentSelectedProject = null;
 			Runtime.ProjectService.CurrentSelectedCombine = null;
+		}
+		
+		void OnWindowChanged (object ob, EventArgs args)
+		{
+			IWorkbenchWindow win = Runtime.Gui.Workbench.ActiveWorkbenchWindow;
+			if (win != null && win.ViewContent != null && win.ViewContent.Project != null) {
+				string file = win.ViewContent.ContentName;
+				if (file != null) {
+					ProjectFile pf = win.ViewContent.Project.ProjectFiles.GetFile (win.ViewContent.ContentName);
+					if (pf != null) {
+						ITreeNavigator nav = GetNodeAtObject (pf, true);
+						if (nav != null) {
+							nav.ExpandToNode ();
+							nav.Selected = true;
+						}
+					}
+				}
+			}
 		}
 	}
 }

@@ -1,3 +1,32 @@
+2005-07-18  Lluis Sanchez Gual  <lluis@novell.com> 
+
+	* Services/Project/ProjectService.cs: Don't fire CurrentProjectChanged
+	when setting CurrentProject to the same current project. The same
+	for CurrentSelectedCombineChanged.
+	* Gui/Workbench/Layouts/SdiWorkspaceLayout.cs: Removed duplicate
+	event subscription to tabControl.SwitchPage.
+	* Gui/Workbench/Layouts/SdiWorkspaceWindow.cs: There is no need to
+	fire the ActiveMdiChanged event in SetTitleEvent, since the active
+	window is not changing.
+	
+	* Gui/Pads/SolutionPad/TypeNodeBuilder.cs: New optional override:
+	GetParentObject().
+	* Gui/Pads/SolutionPad/TreeViewPad.cs: Added an GetNodeAtObject which
+	provides a way of locating a node in the tree, even if the parent nodes
+	have not been expanded and filled.
+	* Gui/Pads/SolutionPad/SolutionPad.cs: Removed old code.
+	
+	* Gui/Pads/ProjectPad/CombineNodeBuilder.cs:
+	* Gui/Pads/ProjectPad/FolderNodeBuilder.cs:
+	* Gui/Pads/ProjectPad/ProjectFileNodeBuilder.cs:
+	* Gui/Pads/ProjectPad/ProjectNodeBuilder.cs:
+	* Gui/Pads/ProjectPad/ProjectFolder.cs:
+	* Gui/Pads/ProjectPad/ProjectFolderNodeBuilder.cs:
+	Implement GetParentObject().
+	
+	* Gui/Pads/ProjectPad/ProjectSolutionPad.cs: Select the active file in
+	the tree.
+
 2005-07-18  Lluis Sanchez Gual  <lluis@novell.com>
 
 	* Internal/Project/Combine/Combine.cs: Make sure StartupEntry returns

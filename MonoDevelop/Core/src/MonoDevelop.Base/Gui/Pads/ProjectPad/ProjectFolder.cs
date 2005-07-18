@@ -39,9 +39,15 @@ namespace MonoDevelop.Gui.Pads.ProjectPad
 	{
 		string absolutePath;
 		Project project;
+		object parent;
 		
-		public ProjectFolder (string absolutePath, Project project)
+		public ProjectFolder (string absolutePath, Project project): this (absolutePath, project, null)
 		{
+		}
+		
+		public ProjectFolder (string absolutePath, Project project, object parent)
+		{
+			this.parent = parent;
 			this.project = project;
 			this.absolutePath = absolutePath;
 			Runtime.FileService.FileRenamed += new FileEventHandler (OnFileRenamed);
@@ -57,6 +63,21 @@ namespace MonoDevelop.Gui.Pads.ProjectPad
 		
 		public Project Project {
 			get { return project; }
+		}
+		
+		public object Parent {
+			get {
+				if (parent != null)
+					return parent; 
+				if (project == null)
+					return null;
+
+				string dir = System.IO.Path.GetDirectoryName (absolutePath);
+				if (dir == project.BaseDirectory)
+					return project;
+				else
+					return new ProjectFolder (dir, project, null);
+			}
 		}
 		
 		public override bool Equals (object other)

@@ -97,7 +97,7 @@ namespace MonoDevelop.Gui.Pads.ProjectPad
 		void OnFolderRenamed (object sender, FileEventArgs e)
 		{
 			ProjectFolder f = (ProjectFolder) sender;
-			ITreeBuilder tb = Context.GetTreeBuilder (new ProjectFolder (e.SourceFile, f.Project));
+			ITreeBuilder tb = Context.GetTreeBuilder (new ProjectFolder (e.SourceFile, f.Project, null));
 			if (tb != null) tb.Update ();
 		}
 		
@@ -120,6 +120,12 @@ namespace MonoDevelop.Gui.Pads.ProjectPad
 			label = folder.Name;
 			icon = folderOpenIcon;
 			closedIcon = folderClosedIcon;
+		}
+		
+		public override object GetParentObject (object dataObject)
+		{
+			ProjectFolder folder = (ProjectFolder) dataObject;
+			return folder.Parent;
 		}
 	}
 	

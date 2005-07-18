@@ -125,6 +125,11 @@ namespace MonoDevelop.Gui.Pads.ProjectPad
 			return true;
 		}
 		
+		public override object GetParentObject (object dataObject)
+		{
+			return ((CombineEntry) dataObject).ParentCombine;
+		}
+		
 		void OnAddFile (object sender, ProjectFileEventArgs e)
 		{
 			AddFile (e.ProjectFile, e.Project);

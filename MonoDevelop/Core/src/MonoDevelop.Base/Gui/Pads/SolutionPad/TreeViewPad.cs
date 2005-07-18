@@ -367,8 +367,33 @@ namespace MonoDevelop.Gui.Pads
 		
 		public ITreeNavigator GetNodeAtObject (object dataObject)
 		{
+			return GetNodeAtObject (dataObject, false);
+		}
+		
+		public ITreeNavigator GetNodeAtObject (object dataObject, bool createTreeBranch)
+		{
 			object it = nodeHash [dataObject];
-			if (it == null) return null;
+			if (it == null) {
+				if (createTreeBranch) {
+					TypeNodeBuilder tnb = GetTypeNodeBuilder (dataObject.GetType());
+					if (tnb == null) return null;
+					
+					object parent = tnb.GetParentObject (dataObject);
+					if (parent == null) return null;
+					
+					ITreeNavigator pnav = GetNodeAtObject (parent, true);
+					if (pnav == null) return null;
+					
+					pnav.MoveToFirstChild ();
+					
+					// The child should be now in the tree. Try again.
+					it = nodeHash [dataObject];
+					if (it == null)
+						return null;
+				} else
+					return null;
+			}
+			
 			if (it is Gtk.TreeIter[])
 				return new TreeNodeNavigator (this, ((Gtk.TreeIter[])it)[0]);
 			else
@@ -629,6 +654,13 @@ namespace MonoDevelop.Gui.Pads
 			XmlElement rootNode = parent ["Node"];
 			NodeState state = NodeState.FromXml (rootNode);
 			nav.RestoreState (state);
+		}
+		
+		TypeNodeBuilder GetTypeNodeBuilder (Type type)
+		{
+			NodeBuilder[] chain = GetBuilderChain (type);
+			if (chain == null) return null;
+			return (TypeNodeBuilder) chain [0];
 		}
 		
 		NodeBuilder[] GetBuilderChain (Type type)
@@ -1149,7 +1181,7 @@ namespace MonoDevelop.Gui.Pads
 					return tree.Selection.IterIsSelected (currentIter);
 				}
 				set {
-					if (value) {
+					if (value != Selected) {
 						Gtk.TreeIter parent = currentIter;
 						while (store.IterParent (out parent, parent)) {
 							Gtk.TreePath path = store.GetPath (parent);

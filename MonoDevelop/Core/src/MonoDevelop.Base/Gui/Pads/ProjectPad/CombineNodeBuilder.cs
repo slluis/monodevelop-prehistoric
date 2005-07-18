@@ -101,6 +101,11 @@ namespace MonoDevelop.Gui.Pads.ProjectPad
 			return ((Combine) dataObject).Entries.Count > 0;
 		}
 		
+		public override object GetParentObject (object dataObject)
+		{
+			return ((CombineEntry) dataObject).ParentCombine;
+		}
+		
 		public override int CompareObjects (ITreeNavigator thisNode, ITreeNavigator otherNode)
 		{
 			if (otherNode.DataItem is Combine)
