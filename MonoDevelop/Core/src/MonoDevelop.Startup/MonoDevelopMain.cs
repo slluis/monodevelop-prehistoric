@@ -120,6 +120,16 @@ namespace MonoDevelop
 				SetSplashInfo(0.4, "Initializing Resource Service ...");
 				ServiceManager.AddService(new ResourceService());
 				SetSplashInfo(0.6, "Initializing Addin Services ...");
+				
+				AddinError[] errors = AddInTreeSingleton.InitializeAddins ();
+				if (errors != null && errors.Length > 0) {
+					SplashScreenForm.SplashScreen.Hide ();
+					AddinLoadErrorDialog dlg = new AddinLoadErrorDialog (errors);
+					if (!dlg.Run ())
+						return 1;
+					SplashScreenForm.SplashScreen.Show ();
+					RunMainLoop ();
+				}
 				ServiceManager.InitializeServicesSubsystem("/Workspace/Services");
 
 				SetSplashInfo(0.8, "Initializing Autostart Addins ...");

@@ -5,6 +5,7 @@ SPLASH = -resource:$(srcdir)/SplashScreen.png,SplashScreen.png
 FILES= \
 MonoDevelopMain.cs \
 MonoDevelopOptions.cs \
+Dialogs/AddinLoadErrorDialog.cs \
 Dialogs/AddInTreeSettingsHandler.cs
 
 GENERATED_FILES = \
@@ -19,10 +20,13 @@ REFS = \
 	/r:Mono.Posix.dll \
 	/r:Mono.GetOptions.dll \
 	$(GTK_SHARP_LIBS) \
+	$(GLADE_SHARP_LIBS) \
 	$(GNOME_SHARP_LIBS)
 
+RES = -resource:$(srcdir)/MonoDevelop.Startup.glade
+
 $(ASSEMBLY): $(build_sources)
-	$(CSC) $(CSC_FLAGS) -out:$@ $(REFS) $(build_sources) $(SPLASH)
+	$(CSC) $(CSC_FLAGS) $(RES) -out:$@ $(REFS) $(build_sources) $(SPLASH)
 
 $(ASSEMBLY).config: $(ASSEMBLY) $(srcdir)/app.config
 	cp $(srcdir)/app.config $(ASSEMBLY).config
