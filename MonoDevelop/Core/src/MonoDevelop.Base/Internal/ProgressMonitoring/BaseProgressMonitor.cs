@@ -59,6 +59,7 @@ namespace MonoDevelop.Services
 		StringCollection errorsMessages = new StringCollection ();
 		StringCollection successMessages = new StringCollection ();
 		StringCollection warningMessages = new StringCollection ();
+		Exception errorException;
 		
 		public BaseProgressMonitor ()
 		{
@@ -109,11 +110,16 @@ namespace MonoDevelop.Services
 		{
 			if (message == null && ex != null)
 				message = ex.Message;
-			else if (message != null && ex != null)
-				message += ". " + ex.Message;
+			else if (message != null && ex != null) {
+				if (!message.EndsWith (".")) message += ".";
+				message += " " + ex.Message;
+			}
+			
 			errorsMessages.Add (message);
-			if (ex != null)
+			if (ex != null) {
 				Runtime.LoggingService.Info (ex);
+				errorException = ex;
+			}
 		}
 		
 		[FreeDispatch]
@@ -207,6 +213,10 @@ namespace MonoDevelop.Services
 				}
 			}
 		}		
+		
+		protected Exception ErrorException {
+			get { return errorException; }
+		}
 		
 		protected StringCollection Errors {
 			get { return errorsMessages; }

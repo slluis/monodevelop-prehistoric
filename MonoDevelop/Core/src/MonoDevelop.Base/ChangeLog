@@ -1,3 +1,12 @@
+2005-07-18  Lluis Sanchez Gual  <lluis@novell.com> 
+
+	* Internal/ProgressMonitoring/BaseProgressMonitor.cs: Store the
+	last reported exception object. Added ErrorException property.
+	* Services/Tasks/StatusProgressMonitor.cs: Include the exception when
+	showing the error dialog.
+	* Gui/Dialogs/ErrorDialog.cs: Don't make it modal. There are some
+	issues with that.
+
 2005-07-16  John Luke  <john.luke@gmail.com>
 
 	* Gui/Dialogs/ReferenceDialog/ProjectReferencePanel.cs:

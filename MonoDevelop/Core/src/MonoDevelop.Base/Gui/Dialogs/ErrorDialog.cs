@@ -48,10 +48,10 @@ namespace MonoDevelop.Gui.Dialogs
 			okButton.Clicked += new EventHandler (OnClose);
 		}
 		
-		public int Run ()
+		public void Run ()
 		{
 			dialog.ShowAll ();
-			return dialog.Run ();
+//			dialog.Run ();
 		}
 		
 		void OnClose (object sender, EventArgs args)

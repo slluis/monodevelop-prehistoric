@@ -64,7 +64,7 @@ namespace MonoDevelop.Services
 					string s = "";
 					foreach (string m in Errors)
 						s += m + "\n";
-					Runtime.MessageService.ShowError (s);
+					Runtime.MessageService.ShowError (ErrorException, s);
 				}
 				Gtk.Image img = Runtime.Gui.Resources.GetImage (Stock.Error, Gtk.IconSize.Menu);
 				Runtime.Gui.StatusBar.SetMessage (img, Errors [Errors.Count - 1]);
