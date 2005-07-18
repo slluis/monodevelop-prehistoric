@@ -234,7 +234,8 @@ namespace MonoDevelop.Gui.Dialogs {
 				}
 				catch (IOException ioException)
 				{
-					Runtime.MessageService.ShowError (String.Format (GettextCatalog.GetString ("Could not create file {0}. File already exists."), ProjectSolution));
+					Runtime.MessageService.ShowError (String.Format (GettextCatalog.GetString ("Could not create directory {0}. File already exists."), ProjectSolution));
+					return;
 				}
 				catch (UnauthorizedAccessException accessException)
 				{

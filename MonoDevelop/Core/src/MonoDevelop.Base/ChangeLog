@@ -1,3 +1,8 @@
+2005-07-18  Lluis Sanchez Gual  <lluis@novell.com> 
+
+	* Gui/Dialogs/NewProjectDialog.cs: Don't continue with project creation
+	if the project directory can't be created.
+
 2005-07-18  Lluis Sanchez Gual  <lluis@novell.com>
 
 	* Gui/Pads/ProjectPad/FolderNodeBuilder.cs: When adding an existing
