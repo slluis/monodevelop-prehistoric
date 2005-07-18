@@ -229,6 +229,7 @@ namespace MonoDevelop.Internal.Project
 		{
 			try {
 				deserializing = true;
+				startupEntry = null;
 				
 				// Clean the configuration list, since entries added while deserializing
 				// could have generated default configurations.

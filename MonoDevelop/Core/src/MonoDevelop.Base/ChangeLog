@@ -1,3 +1,8 @@
+2005-07-18  Lluis Sanchez Gual  <lluis@novell.com>
+
+	* Internal/Project/Combine/Combine.cs: Make sure StartupEntry returns
+	the correct value after the deserialization of startEntryName.
+
 2005-07-18  Lluis Sanchez Gual  <lluis@novell.com> 
 
 	* Gui/Dialogs/NewProjectDialog.cs: Don't continue with project creation
