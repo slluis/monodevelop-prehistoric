@@ -64,7 +64,7 @@
     <Entry filename="./Core/src/AddIns/BackendBindings/CSharpBinding/CSharpBinding.mdp" />
     <Entry filename="./Core/src/AddIns/DisplayBindings/SourceEditor/SourceEditor.mdp" />
     <Entry filename="./Core/src/AddIns/BackendBindings/ILAsmBinding/ILAsmBinding.mdp" />
-    <Entry filename="./Extras/NUnit/NUnit.mdp" />
+    <Entry filename="./Extras/NUnit/MonoDevelop.NUnit.mdp" />
     <Entry filename="./Extras/MonoDeveloperExtensions/MonoDeveloperExtensions.mdp" />
     <Entry filename="./Core/src/Tools/mdhost/mdhost.mdp" />
     <Entry filename="./Core/src/Tools/dbgen/dbgen.mdp" />
