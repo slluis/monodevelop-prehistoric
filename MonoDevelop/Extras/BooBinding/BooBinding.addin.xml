@@ -70,7 +70,7 @@
   </Extension>
 
   <Extension path = "/SharpDevelop/Workbench/Pads">
-	<Pad id = "BooBinding.Pads.BooShellPadContent" class = "BooBinding.Pads.BooShellPadContent"/>
+	<Pad id = "BooBinding.Pads.BooShellPadContent" class = "BooBinding.Pads.BooShellPadContent" defaultPlacement = "Bottom"/>
   </Extension>
 
   <Extension path = "/SharpDevelop/Workbench/Contexts/Edit">

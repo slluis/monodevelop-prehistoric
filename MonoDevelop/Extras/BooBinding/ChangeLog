@@ -1,4 +1,8 @@
-2005-07-18  Lluis Sanchez Gual  <lluis@novell.com>
+2005-07-18  Peter Johanson  <latexer@gentoo.org>
+
+	* BooBinding.addin.xml: Put the boo shell on the bottom by default.
+
+2005-07-18  Peter Johanson  <latexer@gentoo.org>
 
 	* Parser/Resolver.boo:
 	* BooLanguageBinding.boo: Remove some extraneous ';' characters, and
