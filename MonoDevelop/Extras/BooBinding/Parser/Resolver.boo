@@ -140,7 +140,7 @@ class Resolver:
 				/*
 				if varLookup.ReturnType is null:
 					print "null return type!"
-					return ReturnType("System.Object");
+					return ReturnType("System.Object")
 					*/
 				print "ReturnType: ${varLookup.ReturnType}"
 				return varLookup.ReturnType
@@ -329,11 +329,11 @@ class Resolver:
 		   (_showStatic and not ((member.Modifiers & ModifierEnum.Static) == ModifierEnum.Static))):
 			return false
 		
-//		print("Testing Accessibility");
+//		print("Testing Accessibility")
 		return IsAccessible(c, member)
 	
 	def IsAccessible(c as IClass, member as IDecoration) as bool:
-//		print("member.Modifiers = " + member.Modifiers);
+//		print("member.Modifiers = " + member.Modifiers)
 		if ((member.Modifiers & ModifierEnum.Internal) == ModifierEnum.Internal):
 			return true
 
@@ -376,13 +376,13 @@ class Resolver:
 	
 	def ListMembers(members as ArrayList, curType as IClass, showStatic as bool) as ArrayList:
 		_showStatic = showStatic
-//		print("LIST MEMBERS!!!");
-//		print("_showStatic = " + _showStatic);
-//		print(curType.InnerClasses.Count + " classes");
-//		print(curType.Properties.Count + " properties");
-//		print(curType.Methods.Count + " methods");
-//		print(curType.Events.Count + " events");
-//		print(curType.Fields.Count + " fields");
+//		print("LIST MEMBERS!!!")
+//		print("_showStatic = " + _showStatic)
+//		print(curType.InnerClasses.Count + " classes")
+//		print(curType.Properties.Count + " properties")
+//		print(curType.Methods.Count + " methods")
+//		print(curType.Events.Count + " events")
+//		print(curType.Fields.Count + " fields")
 		if _showStatic:
 			for c as IClass in curType.InnerClasses:
 				if IsAccessible(curType, c):
@@ -394,17 +394,17 @@ class Resolver:
 				members.Add(p)
 //				print("Member added")
 
-//		print("ADDING METHODS!!!");
+//		print("ADDING METHODS!!!")
 		for m as IMethod in curType.Methods:
 //			print("Method : " + m)
 			if (MustBeShowen(curType, m)):
 				members.Add(m)
-//				print("Member added");
+//				print("Member added")
 
 		for e as IEvent in curType.Events:
 			if (MustBeShowen(curType, e)):
 				members.Add(e)
-//				print("Member added");
+//				print("Member added")
 
 		for f as IField in curType.Fields:
 			if (MustBeShowen(curType, f)):
@@ -414,9 +414,9 @@ class Resolver:
 				//// enum fields must be shown here if present
 				if (curType.ClassType == ClassType.Enum):
 					members.Add(f) if (IsAccessible(curType,f))
-//					print("Member {0} added", f.FullyQualifiedName);
+//					print("Member {0} added", f.FullyQualifiedName)
 
-//		print("ClassType = " + curType.ClassType);
+//		print("ClassType = " + curType.ClassType)
 		if (curType.ClassType == ClassType.Interface and not _showStatic):
 			for s as string in curType.BaseTypes:
 				baseClass = _parserService.GetClass (_project, s, true, true)
@@ -428,19 +428,19 @@ class Resolver:
 //				print("Base Class = " + baseClass.FullyQualifiedName)
 				ListMembers(members, baseClass, _showStatic)
 
-//		print("listing finished");
-		return members;
+//		print("listing finished")
+		return members
 
 	def GetResolvedClass (cls as IClass) as IClass:
 		// Returns an IClass in which all type names have been properly resolved
-		return _parserService.GetClass (_project, cls.FullyQualifiedName);
+		return _parserService.GetClass (_project, cls.FullyQualifiedName)
 
 	def GetInnermostClass(cu as ICompilationUnit) as IClass:
 		if (cu != null):
 			for c as IClass in cu.Classes:
 				if (c != null and c.Region != null and c.Region.IsInside(_caretLine, _caretColumn)):
 					return GetInnermostClass(c)
-		return null;
+		return null
 	
 	def GetInnermostClass(curClass as IClass) as IClass:
 		if (curClass == null):

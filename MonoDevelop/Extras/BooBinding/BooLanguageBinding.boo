@@ -37,7 +37,7 @@ public class BooLanguageBinding(ILanguageBinding):
 	compilerServices = BooBindingCompilerServices ()
 	
 	public def constructor():
-		MonoDevelop.Services.Runtime.ProjectService.DataContext.IncludeType (typeof(BooCompilerParameters));
+		MonoDevelop.Services.Runtime.ProjectService.DataContext.IncludeType (typeof(BooCompilerParameters))
 	
 	public Language as string:
 		get:
@@ -62,4 +62,4 @@ public class BooLanguageBinding(ILanguageBinding):
 	
 	public CommentTag as string:
 		get:
-			return "//";
+			return "//"

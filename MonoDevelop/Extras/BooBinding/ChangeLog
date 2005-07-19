@@ -1,3 +1,10 @@
+2005-07-18  Lluis Sanchez Gual  <lluis@novell.com>
+
+	* Parser/Resolver.boo:
+	* BooLanguageBinding.boo: Remove some extraneous ';' characters, and
+	use the new 'char()' literal instead of the previous hack for getting
+	a char.
+
 2005-07-13  Lluis Sanchez Gual  <lluis@novell.com>
 
 	* BooShellPadContent.boo: Make sure all shell controls are visible.
