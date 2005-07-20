@@ -52,6 +52,19 @@ class BooShell (RemoteProcessObject):
 		EnqueueCommand (ShellCommand (ShellCommandType.Load, assemblyPath))
 		return true
 	
+	References as IList:
+		get:
+			list = []
+			Monitor.Enter (_interpreter)
+			for assembly as System.Reflection.Assembly in _interpreter.References.List:
+				try:
+					loc = assembly.Location
+					list.Add (loc)
+				except x:
+					continue
+			Monitor.Exit (_interpreter)
+			return list
+	
 	def GetOutput() as (string):
 		ret as (string)
 		try:
@@ -78,7 +91,7 @@ class BooShell (RemoteProcessObject):
 		GLib.Idle.Add(ProcessCommands)
 		Application.Run()
 
-	def ProcessCommands() as bool:
+	private def ProcessCommands() as bool:
 		com as ShellCommand
 		try:
 			Monitor.Enter (_commandQueue)
@@ -89,6 +102,7 @@ class BooShell (RemoteProcessObject):
 
 			com = _commandQueue.Dequeue()
 
+			Monitor.Enter(_interpreter)
 			if com.Type == ShellCommandType.Eval:
 				if com.Data is not null:
 					_interpreter.LoopEval(com.Data)
@@ -97,7 +111,9 @@ class BooShell (RemoteProcessObject):
 			elif com.Type == ShellCommandType.Load:
 				if com.Data is not null:
 					_interpreter.load(com.Data)
-	
+
+			Monitor.Exit(_interpreter)
+
 			com.Type = ShellCommandType.NoOp
 	
 			if _commandQueue.Count == 0:
@@ -115,15 +131,16 @@ class BooShell (RemoteProcessObject):
 
 	
 	private def kickOffGuiThread():
-		_thread = System.Threading.Thread(ThreadRun)
-		_thread.Start()
+		_start as ThreadStart = ThreadRun
+		_thread = System.Threading.Thread (_start)
+		_thread.Start ()
 	
-	def print(obj):
+	private def print(obj):
 		Monitor.Enter (_outputQueue)
 		_outputQueue.Enqueue(obj)
 		Monitor.Exit (_outputQueue)
 	
-	def EnqueueCommand (command as ShellCommand):
+	private def EnqueueCommand (command as ShellCommand):
 		if not _thread.IsAlive:
 			kickOffGuiThread()
 

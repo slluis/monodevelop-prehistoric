@@ -1,3 +1,17 @@
+2005-07-20  Peter Johanson  <latexer@gentoo.org>
+
+	* Gui/IShellModel.boo:
+	* Gui/ShellTextView.boo:
+	* Gui/BooShellModel.boo:
+	* Gui/OptionPanels/CodeCompilationPanel.boo:
+	* Properties/ShellProperties.boo:
+	* Parser/Resolver.boo:
+	* Parser/BooParser.boo:
+	* BooShellPadContent.boo:
+	* BooShell/BooShell.boo: Lots of cleanup, and add initial support for
+	code completion in the shell.
+	* Makefile.am: Revert makefile change that snuck in.
+
 2005-07-19  Peter Johanson  <latexer@gentoo.org>
 
 	* templates/BooGtkSharpWindow.xft.xml: Fix small typo.

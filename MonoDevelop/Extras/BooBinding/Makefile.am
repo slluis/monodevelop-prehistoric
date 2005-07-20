@@ -7,7 +7,6 @@ DLLS = -r:System.Drawing \
 	-r:System.Xml \
 	-r:System.Runtime.Remoting \
 	-r:$(top_builddir)/build/bin/MonoDevelop.Core.dll \
-	-r:$(top_builddir)/build/bin/MonoDevelop.SourceEditor.dll \
 	-r:$(top_builddir)/build/bin/MonoDevelop.Base.dll \
 	-r:$(top_builddir)/build/bin/ICSharpCode.SharpRefactory.dll \
 	-r:$(top_builddir)/build/bin/MonoDevelop.Gui.Widgets.dll \

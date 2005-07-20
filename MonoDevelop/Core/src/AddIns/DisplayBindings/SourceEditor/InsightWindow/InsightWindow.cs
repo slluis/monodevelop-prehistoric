@@ -14,7 +14,6 @@ using Gtk;
 using GtkSharp;
 
 using MonoDevelop.SourceEditor.Gui;
-using MonoDevelop.SourceEditor.CodeCompletion;
 using MonoDevelop.Internal.Project;
 
 namespace MonoDevelop.SourceEditor.InsightWindow

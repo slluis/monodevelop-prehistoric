@@ -21,12 +21,11 @@ using MonoDevelop.Services;
 using MonoDevelop.Internal.Parser;
 using MonoDevelop.Internal.Project;
 
-using MonoDevelop.SourceEditor.Gui;
 using Stock = MonoDevelop.Gui.Stock;
 
 using Gtk;
 
-namespace MonoDevelop.SourceEditor.CodeCompletion
+namespace MonoDevelop.Gui.Completion
 {
 	/// <summary>
 	/// Data provider for code completion.
@@ -55,29 +54,26 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 		
 		ArrayList completionData = null;
 		
-		public ICompletionData[] GenerateCompletionData(Project project, string fileName, SourceEditorView textArea, char charTyped, TextMark triggerMark)
+		public ICompletionData[] GenerateCompletionData(Project project, string fileName, ICompletionWidget widget, char charTyped)
 		{
 			completionData = new ArrayList();
 			this.fileName = fileName;
 			
-			Gtk.TextIter insertIter = textArea.Buffer.GetIterAtMark (triggerMark);
-			
 			// the parser works with 1 based coordinates
-			
-			caretLineNumber      = insertIter.Line + 1;
-			caretColumn          = insertIter.LineOffset + 1;
+			caretLineNumber      = widget.TriggerLine + 1;
+			caretColumn          = widget.TriggerLineOffset + 1;
 			//string expression    = TextUtilities.GetExpressionBeforeOffset (textArea, insertIter.Offset);
 			ResolveResult results;
 			
 			IParserService parserService = (IParserService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IParserService));
 			IExpressionFinder expressionFinder = parserService.GetExpressionFinder(fileName);
-			string expression    = expressionFinder == null ? TextUtilities.GetExpressionBeforeOffset(textArea, insertIter.Offset) : expressionFinder.FindExpression(textArea.Buffer.GetText(textArea.Buffer.StartIter, insertIter, true), insertIter.Offset - 2);
+			string expression    = expressionFinder == null ? TextUtilities.GetExpressionBeforeOffset(widget, widget.TriggerOffset) : expressionFinder.FindExpression(widget.GetText (0, widget.TriggerOffset), widget.TriggerOffset - 2);
 			if (expression == null) return null;
 			Console.WriteLine ("Expr: |{0}|", expression);
 			//FIXME: This chartyped check is a fucking *HACK*
 			if (expression == "is" || expression == "as") {
-				string expr = expressionFinder == null ? TextUtilities.GetExpressionBeforeOffset (textArea, insertIter.Offset - 3) : expressionFinder.FindExpression (textArea.Buffer.GetText (textArea.Buffer.StartIter, insertIter, true), insertIter.Offset - 5);
-				AddResolveResults (parserService.IsAsResolve (project, expr, caretLineNumber, caretColumn, fileName, textArea.Buffer.Text));
+				string expr = expressionFinder == null ? TextUtilities.GetExpressionBeforeOffset (widget, widget.TriggerOffset - 3) : expressionFinder.FindExpression (widget.GetText (0, widget.TriggerOffset), widget.TriggerOffset - 5);
+				AddResolveResults (parserService.IsAsResolve (project, expr, caretLineNumber, caretColumn, fileName, widget.GetText (0, widget.TextLength)));
 				return (ICompletionData[])completionData.ToArray (typeof (ICompletionData));
 			}
 			if (ctrlspace && charTyped != '.') {
@@ -92,7 +88,7 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 			} else {
 				//FIXME: I added the null check, #D doesnt need it, why do we?
 				if (fileName != null) {
-					results = parserService.Resolve(project, expression, caretLineNumber, caretColumn, fileName, textArea.Buffer.Text);
+					results = parserService.Resolve(project, expression, caretLineNumber, caretColumn, fileName, widget.GetText (0, widget.TextLength));
 					AddResolveResults(results);
 				}
 			}

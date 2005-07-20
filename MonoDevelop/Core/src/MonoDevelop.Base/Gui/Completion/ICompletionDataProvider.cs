@@ -13,10 +13,8 @@ using MonoDevelop.Internal.Project;
 
 using Gdk;
 
-using MonoDevelop.SourceEditor.Gui;
-
-namespace MonoDevelop.SourceEditor.CodeCompletion {
+namespace MonoDevelop.Gui.Completion {
 	public interface ICompletionDataProvider {
-		ICompletionData[] GenerateCompletionData(Project project, string fileName, SourceEditorView textArea, char charTyped, Gtk.TextMark mark);
+		ICompletionData[] GenerateCompletionData(Project project, string fileName, ICompletionWidget widget, char charTyped);
 	}
 }

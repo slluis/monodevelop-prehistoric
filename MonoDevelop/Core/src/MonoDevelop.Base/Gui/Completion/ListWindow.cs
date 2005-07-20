@@ -4,7 +4,7 @@ using Pango;
 using System;
 using System.Text;
 
-namespace MonoDevelop.SourceEditor.CodeCompletion
+namespace MonoDevelop.Gui.Completion
 {
 	public class ListWindow: Gtk.Window
 	{

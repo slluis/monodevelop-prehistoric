@@ -17,7 +17,7 @@ class ShellProperties:
 	private propertyService = cast (PropertyService, ServiceManager.GetService (typeof(PropertyService)))
 	private properties = cast (IProperties, propertyService.GetProperty (PropertyName, DefaultProperties()))
 
-	public virtual PropertyName as string:
+	public abstract PropertyName as string:
 		get:
 			pass
 

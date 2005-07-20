@@ -2,18 +2,16 @@ using System;
 using System.Collections;
 
 using Gtk;
-using MonoDevelop.SourceEditor.Gui;
 using MonoDevelop.Internal.Project;
 using MonoDevelop.Gui;
 
-namespace MonoDevelop.SourceEditor.CodeCompletion
+namespace MonoDevelop.Gui.Completion
 {
 	public class CompletionListWindow : ListWindow, IListDataProvider
 	{
 		string fileName;
 		Project project;
-		SourceEditorView control;
-		TextMark triggeringMark;
+		ICompletionWidget completionWidget;
 		ICompletionData[] completionData;
 		DeclarationViewWindow declarationviewwindow = new DeclarationViewWindow ();
 		static DataComparer dataComparer = new DataComparer ();
@@ -40,14 +38,13 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 			SizeAllocated += new SizeAllocatedHandler (ListSizeChanged);
 		}
 		
-		public static void ShowWindow (char firstChar, TextIter trigIter, ICompletionDataProvider provider, SourceEditorView ctrl)
+		public static void ShowWindow (char firstChar, ICompletionDataProvider provider, ICompletionWidget completionWidget, Project project, string fileName)
 		{
-			if (!wnd.ShowListWindow (firstChar, trigIter, provider,  ctrl))
+			if (!wnd.ShowListWindow (firstChar, provider,  completionWidget, project, fileName))
 				return;
 			
 			// makes control-space in midle of words to work
-			TextBuffer buf = wnd.control.Buffer; 
-			string text = buf.GetText (trigIter, buf.GetIterAtMark (buf.InsertMark), false);
+			string text = wnd.completionWidget.CompletionText;
 			if (text.Length == 0)
 				return;
 			
@@ -63,31 +60,24 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 			wnd.PartialWord = wnd.CompleteWord;		
 		}
 		
-		bool ShowListWindow (char firstChar, TextIter trigIter, ICompletionDataProvider provider, SourceEditorView ctrl)
+		bool ShowListWindow (char firstChar, ICompletionDataProvider provider, ICompletionWidget completionWidget, Project project, string fileName)
 		{
-			this.control = ctrl;
-			this.fileName = ctrl.ParentEditor.DisplayBinding.ContentName;
-			this.project = ctrl.ParentEditor.DisplayBinding.Project;
-			triggeringMark = control.Buffer.CreateMark (null, trigIter, true);
+			this.completionWidget = completionWidget;
+			this.fileName = fileName;
+			this.project = project;
 			
-			completionData = provider.GenerateCompletionData (project, fileName, ctrl, firstChar, triggeringMark);
+			completionData = provider.GenerateCompletionData (project, fileName, completionWidget, firstChar);
+
 			if (completionData == null || completionData.Length == 0) return false;
 			
-			this.Style = ctrl.Style.Copy();
+			this.Style = completionWidget.GtkStyle;
 			
 			Array.Sort (completionData, dataComparer);
 			
 			DataProvider = this;
-			Gdk.Rectangle rect = control.GetIterLocation (control.Buffer.GetIterAtMark (triggeringMark));
 
-			int wx, wy;
-			control.BufferToWindowCoords (Gtk.TextWindowType.Widget, rect.X /*+ rect.Width*/, rect.Y + rect.Height, out wx, out wy);
-			
-			int tx, ty;
-			control.GdkWindow.GetOrigin (out tx, out ty);
-			
-			int x = tx + wx;
-			int y = ty + wy;
+			int x = completionWidget.TriggerXCoord;
+			int y = completionWidget.TriggerYCoord;
 			
 			int w, h;
 			GetSize (out w, out h);
@@ -96,8 +86,10 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 				x = Screen.Width - w;
 			
 			if ((y + h) > Screen.Height)
-				y = y - rect.Height - h;
-							
+			{
+				y = y - completionWidget.TriggerTextHeight - h;
+			}
+
 			Move (x, y);
 			
 			Show ();
@@ -140,11 +132,7 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 		
 		void UpdateWord ()
 		{
-			TextIter offsetIter = wnd.control.Buffer.GetIterAtMark (wnd.triggeringMark);
-			TextIter endIter = wnd.control.Buffer.GetIterAtOffset (offsetIter.Offset + wnd.PartialWord.Length);
-			wnd.control.Buffer.MoveMark (wnd.control.Buffer.InsertMark, offsetIter);
-			wnd.control.Buffer.Delete (ref offsetIter, ref endIter);
-			wnd.control.Buffer.InsertAtCursor (wnd.CompleteWord);
+			completionWidget.SetCompletionText(wnd.PartialWord, wnd.CompleteWord);
 		}
 		
 		public new void Hide ()

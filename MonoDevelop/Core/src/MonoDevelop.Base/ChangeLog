@@ -1,3 +1,11 @@
+2005-07-20  Peter Johanson  <latexer@gentoo.org>
+
+	* Gui/Completion/*.cs: Migrated here from MonoDevelop.SourceEditor.
+	Includes new ICompletionWidget API for completing arbitrary widgets.
+	* Makefile.am: Changes for imported completion files.
+	* Services/ParserService/DefaultParserService.cs: Connect to events
+	for individual Projects, rather than using the project service events.
+
 2005-07-20  Lluis Sanchez Gual  <lluis@novell.com>
 
 	* Gui/Pads/ProjectPad/ProjectFolderNodeBuilder.cs: When a folder is

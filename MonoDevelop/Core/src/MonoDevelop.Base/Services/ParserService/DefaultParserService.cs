@@ -255,8 +255,6 @@ namespace MonoDevelop.Services
 			IProjectService projectService = Runtime.ProjectService;
 			projectService.CombineOpened += new CombineEventHandler(OnCombineOpened);
 			projectService.CombineClosed += new CombineEventHandler(OnCombineClosed);
-			projectService.ReferenceAddedToProject += new ProjectReferenceEventHandler (OnProjectReferencesChanged);
-			projectService.ReferenceRemovedFromProject += new ProjectReferenceEventHandler (OnProjectReferencesChanged);
 		}
 		
 		internal IProgressMonitor GetParseProgressMonitor ()
@@ -367,6 +365,8 @@ namespace MonoDevelop.Services
 					GetDatabase (re.Uri);
 
 				project.NameChanged += new CombineEntryRenamedEventHandler (OnProjectRenamed);
+				project.ReferenceAddedToProject += new ProjectReferenceEventHandler (OnProjectReferencesChanged);
+				project.ReferenceRemovedFromProject += new ProjectReferenceEventHandler (OnProjectReferencesChanged);
 			}
 		}
 		
@@ -389,6 +389,8 @@ namespace MonoDevelop.Services
 			string uri = "Project:" + project.Name;
 			UnloadDatabase (uri);
 			project.NameChanged -= new CombineEntryRenamedEventHandler (OnProjectRenamed);
+			project.ReferenceAddedToProject -= new ProjectReferenceEventHandler (OnProjectReferencesChanged);
+			project.ReferenceRemovedFromProject -= new ProjectReferenceEventHandler (OnProjectReferencesChanged);
 		}
 		
 		void CleanUnusedDatabases ()

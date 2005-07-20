@@ -20,6 +20,7 @@
 namespace BooBinding.Gui
 
 import System
+import System.Collections
 import BooBinding.Properties
 
 interface IShellModel:
@@ -45,9 +46,16 @@ interface IShellModel:
 		pass
 
 	Properties as ShellProperties:
-		get:
-			pass
+		get
+
+	LanguageName as string:
+		get
 
 	MimeType as string:
-		get:
-			pass
+		get
+	
+	MimeTypeExtension as string:
+		get
+	
+	References as IList:
+		get

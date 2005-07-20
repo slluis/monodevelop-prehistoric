@@ -87,6 +87,17 @@ Gui/Components/SdMenu.cs \
 Gui/Components/SdMenuCheckBox.cs \
 Gui/Components/SdMenuCommand.cs \
 Gui/Components/SdToolbarCommand.cs \
+Gui/Completion/CodeCompletionData.cs \
+Gui/Completion/CodeCompletionDataProvider.cs \
+Gui/Completion/CommentCompletionDataProvider.cs \
+Gui/Completion/CompletionListWindow.cs \
+Gui/Completion/DeclarationViewWindow.cs \
+Gui/Completion/ICompletionData.cs \
+Gui/Completion/ICompletionDataProvider.cs \
+Gui/Completion/ICompletionWidget.cs \
+Gui/Completion/ListWindow.cs \
+Gui/Completion/TemplateCompletionDataProvider.cs \
+Gui/Completion/TextUtilities.cs \
 Gui/WorkbenchWindowCollection.cs \
 Gui/WorkbenchSingleton.cs \
 Gui/IMementoCapable.cs \

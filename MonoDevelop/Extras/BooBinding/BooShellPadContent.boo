@@ -35,23 +35,23 @@ public class BooShellPadContent (AbstractPadContent):
 
 	override Control:
 		get:
+			if _scroller is null:
+				CreateBooShell()
 			return _scroller
 	
 	def constructor():
 		super( "Boo Shell", "md-boo-binding-base" )
-		CreateBooShell()
 	
 	def CreateBooShell():
 		_scroller = Gtk.ScrolledWindow()
-		_user = System.Environment.GetEnvironmentVariable("USER")
-		_model = BooShellModel ("../AddIns/BackendBindings/BooShellServer.exe", "/tmp/md-booshell-${_user}")
+		_model = BooShellModel ()
 		_shellView = ShellTextView (_model)
 		_scroller.Add(_shellView)
 		_scroller.ShowAll()
 
 	override def RedrawContent():
-		OnTitleChanged(null);
-		OnIconChanged(null);
+		OnTitleChanged(null)
+		OnIconChanged(null)
 
 	override def Dispose():
 		_shellView.Dispose()

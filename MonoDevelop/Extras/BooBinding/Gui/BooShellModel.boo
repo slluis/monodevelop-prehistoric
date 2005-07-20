@@ -49,24 +49,32 @@ class BooShellModel(IShellModel):
 		get:
 			return "text/x-boo"
 
+	LanguageName as string:
+		get:
+			return "Boo"
+
+	MimeTypeExtension as string:
+		get:
+			return "boo"
+	
 	Properties as ShellProperties:
 		get:
 			return _props
 	
-	def constructor ():
-		pass
-
-	def constructor (program_path as string, socket_path as string):
-		GetRemoteShellObject ()
+	References as IList:
+		get:	
+			return _booShell.References
+	
+	def constructor():
+		getRemoteShellObject()
 		_booShell.Run ()
 
-	def GetRemoteShellObject ():
+	private def getRemoteShellObject ():
 		_procService as ProcessService = ServiceManager.GetService (typeof (ProcessService))
 		_booShell = _procService.CreateExternalProcessObject ("../AddIns/BackendBindings/BooShell.dll", "BooBinding.BooShell.BooShell", false)
 		if _booShell is null:
 			raise Exception ("Unable to instantiate remote BooShell object")
-
-			
+	
 	def Reset () as bool:
 		_booShell.Reset()
 		return true

@@ -17,8 +17,9 @@ using MonoDevelop.Services;
 using MonoDevelop.Internal.Parser;
 using MonoDevelop.Internal.Project;
 
+using MonoDevelop.Gui.Completion;
+
 using MonoDevelop.SourceEditor.Gui;
-using MonoDevelop.SourceEditor.CodeCompletion;
 
 namespace MonoDevelop.SourceEditor.InsightWindow
 {

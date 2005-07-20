@@ -10,9 +10,7 @@ using System.Drawing;
 using System.Reflection;
 using System.Collections;
 
-using MonoDevelop.SourceEditor.Gui;
-
-namespace MonoDevelop.SourceEditor.CodeCompletion
+namespace MonoDevelop.Gui.Completion
 {
 	public interface ICompletionData
 	{
@@ -33,7 +31,7 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 			get;
 		}
 		
-		void InsertAction(SourceEditorView control);
+		void InsertAction(ICompletionWidget widget);
 	}
 	
 	public interface ICompletionDataWithMarkup : ICompletionData

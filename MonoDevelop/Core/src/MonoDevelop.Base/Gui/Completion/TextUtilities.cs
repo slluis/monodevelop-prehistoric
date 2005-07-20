@@ -8,9 +8,8 @@
 using System;
 using System.Text;
 using System.Diagnostics;
-using MonoDevelop.SourceEditor.Gui;
 
-namespace MonoDevelop.SourceEditor.CodeCompletion
+namespace MonoDevelop.Gui.Completion
 {
 	public sealed class TextUtilities
 	{
@@ -74,23 +73,21 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 		/// That method is used in code completion to determine the expression given
 		/// to the parser for type resolve.
 		/// </remarks>
-		public static string GetExpressionBeforeOffset(SourceEditorView textArea, int offset)
+		//public static string GetExpressionBeforeOffset(string text, int offset)
+		public static string GetExpressionBeforeOffset(ICompletionWidget widget, int offset)
 		{
-			// FIXME: we should actually use GtkTextIter's
-			string text = textArea.Buffer.Text;
 			int origOffset = offset;
 			
 			while (offset - 1 > 0) {
-				switch (text [offset - 1]) {
+				switch (widget.GetChar (offset - 1)) {
 					case '}':
 						goto done;
-//						offset = SearchBracketBackward(document, offset - 2, '{','}');
 //						break;
 					case ']':
-						offset = SearchBracketBackward(textArea, offset - 2, '[',']');
+						offset = SearchBracketBackward(widget, offset - 2, '[',']');
 						break;
 					case ')':
-						offset = SearchBracketBackward(textArea, offset - 2, '(',')');
+						offset = SearchBracketBackward(widget, offset - 2, '(',')');
 						break;
 					case '.':
 						--offset;
@@ -100,30 +97,28 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 					case '\'':
 						return "'a'";
 					case '>':
-						if (text [offset - 2] == '-') {
+						if (widget.GetChar (offset - 2) == '-') {
 							offset -= 2;
 							break;
 						}
 						goto done;
 					default:
-						if (Char.IsWhiteSpace (text [offset - 1])) {
+						if (Char.IsWhiteSpace (widget.GetChar (offset - 1))) {
 							--offset;
 							break;
 						}
 						int start = offset - 1;
-						if (!IsLetterDigitOrUnderscore (text [start])) {
+						if (!IsLetterDigitOrUnderscore (widget.GetChar (start))) {
 							goto done;
 						}
 						
-						while (start > 0 && IsLetterDigitOrUnderscore (text[start - 1])) {
+						while (start > 0 && IsLetterDigitOrUnderscore (widget.GetChar(start - 1))) {
 							--start;
 						}
 						
-						//Console.WriteLine("{0} -- {1}", offset, start);
-						Gtk.TextIter startIter = textArea.Buffer.GetIterAtOffset (start);
-						Gtk.TextIter endIter = textArea.Buffer.GetIterAtOffset (offset);
-						string word = textArea.Buffer.GetText (startIter, endIter, false).Trim();
-						//Console.WriteLine("word >{0}<", word);
+						Console.WriteLine("{0} -- {1}", offset, start);
+						string word = widget.GetText (start, offset);
+						Console.WriteLine("word >{0}<", word);
 						switch (word) {
 							case "ref":
 							case "out":
@@ -142,11 +137,8 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 				}
 			}
 			done:
-//			Console.WriteLine("ofs : {0} cart:{1}", offset, document.Caret.Offset);
-//			Console.WriteLine("return:" + document.GetText(offset, document.Caret.Offset - offset).Trim());
-			Gtk.TextIter start_Iter = textArea.Buffer.GetIterAtOffset (origOffset);
-			Gtk.TextIter offset_Iter = textArea.Buffer.GetIterAtOffset (offset);
-			return textArea.Buffer.GetText (start_Iter, offset_Iter, false ).Trim();
+//			Console.WriteLine("offset : {0} origOffset: {1}", offset, origOffset);
+			return offset - origOffset > 0 ? widget.GetText(origOffset, offset).Trim() : "";
 		}
 		
 /*		
@@ -244,18 +236,16 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 			return document.GetText(line.Offset, line.Length);
 		}
 */
-		static bool ScanLineComment(SourceEditorView document, int offset)
+		static bool ScanLineComment(ICompletionWidget widget, int offset)
 		{
-			// FIXME: use iters
-			string text = document.Buffer.Text;
-			while (offset > 0 && offset < text.Length) {
-				char ch = text [offset];
+			while (offset > 0 && offset < widget.TextLength) {
+				char ch = widget.GetChar (offset);
 				switch (ch) {
 					case '\r':
 					case '\n':
 						return false;
 					case '/':
-						if (text[offset + 1] == '/') {
+						if (widget.GetChar (offset + 1) == '/') {
 							return true;
 						}
 						break;
@@ -265,47 +255,46 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 			return false;
 		}
 		
-		public static int SearchBracketBackward(SourceEditorView document, int offset, char openBracket, char closingBracket)
+		public static int SearchBracketBackward(ICompletionWidget widget, int offset, char openBracket, char closingBracket)
 		{
 			// FIXME: use iters
-			string text = document.Buffer.Text;			
 			int brackets = -1;		
 			bool inString = false;
 			bool inChar   = false;	
 			bool blockComment = false;
 			
-			while (offset >= 0 && offset < text.Length) {
-				char ch = text [offset];
+			while (offset >= 0 && offset < widget.TextLength) {
+				char ch = widget.GetChar(offset);
 				switch (ch) {
 					case '/':
 						if (blockComment) {
-							if (text [offset + 1]== '*') {
+							if (widget.GetChar(offset + 1)== '*') {
 								blockComment = false;
 							}
 						}
-						if (!inString && !inChar && offset + 1 < text.Length) {
-							if (offset > 0 && text [offset - 1] == '*') {
+						if (!inString && !inChar && offset + 1 < widget.TextLength) {
+							if (offset > 0 && widget.GetChar(offset - 1) == '*') {
 								blockComment = true;
 							}
 						}
 						break;
 					case '"':
-						if (!inChar && !blockComment && !ScanLineComment(document, offset)) {
+						if (!inChar && !blockComment && !ScanLineComment(widget, offset)) {
 							inString = !inString;
 						}
 						break;
 					case '\'':
-						if (!inString && !blockComment && !ScanLineComment(document, offset)) {
+						if (!inString && !blockComment && !ScanLineComment(widget, offset)) {
 							inChar = !inChar;
 						}
 						break;
 					default :
 						if (ch == closingBracket) {
-							if (!(inString || inChar || blockComment) && !ScanLineComment(document, offset)) {
+							if (!(inString || inChar || blockComment) && !ScanLineComment(widget, offset)) {
 								--brackets;
 							}
 						} else if (ch == openBracket) {
-							if (!(inString || inChar || blockComment) && !ScanLineComment(document, offset)) {
+							if (!(inString || inChar || blockComment) && !ScanLineComment(widget, offset)) {
 								++brackets;
 								if (brackets == 0) {
 									return offset;

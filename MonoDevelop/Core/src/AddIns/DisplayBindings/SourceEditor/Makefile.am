@@ -3,17 +3,6 @@ CONFIG = $(DLLNAME).config
 DLL = $(top_builddir)/build/bin/$(DLLNAME)
 
 FILES = \
-CodeCompletion/CodeCompletionData.cs \
-CodeCompletion/ICompletionData.cs \
-CodeCompletion/CompletionWindow.cs \
-CodeCompletion/CompletionListWindow.cs \
-CodeCompletion/ListWindow.cs \
-CodeCompletion/TextUtilities.cs \
-CodeCompletion/TemplateCompletionDataProvider.cs \
-CodeCompletion/CommentCompletionDataProvider.cs \
-CodeCompletion/ICompletionDataProvider.cs \
-CodeCompletion/DeclarationViewWindow.cs \
-CodeCompletion/CodeCompletionDataProvider.cs \
 Gui/SourceEditorWidget.cs \
 Gui/SourceEditorBuffer.cs \
 Gui/SourceEditorView.cs \

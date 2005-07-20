@@ -31,20 +31,19 @@ import Pango
 import GtkSourceView
 
 import MonoDevelop.Gui.Widgets
+import MonoDevelop.Gui.Completion
 import MonoDevelop.Core.Services
 import MonoDevelop.Services
 import MonoDevelop.Core.Properties
 import MonoDevelop.Internal.Project
 
-
 /*
  * TODO
  * 
- * 1) Code Completion - Nice way to handle code competion for arbitrary shell?
- * 2) Don't record lines with errors in the _scriptLines buffer
+ * 1) Don't record lines with errors in the _scriptLines buffer
  */
 
-class ShellTextView (SourceView):
+class ShellTextView (SourceView, ICompletionWidget):
 	private static _promptRegular = ">>> "
 	private static _promptMultiline = "... "
 	
@@ -68,10 +67,17 @@ class ShellTextView (SourceView):
 	private _proj as Project
 
 	private _assembliesLoaded as bool
+
+	private _fakeProject as DotNetProject
+	private _parserService as DefaultParserService
+	private _fakeFileName as string
+	private _fileInfo as FileStream
 	
 	def constructor(model as IShellModel):
-		service = cast(SourceViewService,ServiceManager.GetService(typeof(SourceViewService)))
-		buf = SourceBuffer(service.GetLanguageFromMimeType(model.MimeType))
+		_parserService = cast(IParserService, ServiceManager.GetService (typeof (DefaultParserService)))
+
+		manager = SourceLanguagesManager()
+		buf = SourceBuffer(manager.GetLanguageFromMimeType(model.MimeType))
 
 		// This freaks out booc for some reason.
 		//super(buf, Highlight: true)
@@ -81,6 +87,15 @@ class ShellTextView (SourceView):
 		self.model = model
 		self.WrapMode = Gtk.WrapMode.Word
 		self.ModifyFont(Model.Properties.Font)
+
+		# FIXME: Put the project file somewhere other than /tmp
+		monodevelopConfigDir = System.IO.Path.Combine (Environment.GetFolderPath (Environment.SpecialFolder.Personal), ".config/MonoDevelop/")
+		shellProjectFile = System.IO.Path.Combine (monodevelopConfigDir, "${Model.LanguageName}-shell-project.mdp")
+		_fakeFileName = System.IO.Path.Combine (monodevelopConfigDir, "shell-dummy-file.${Model.MimeTypeExtension}")
+		_fileInfo  = System.IO.File.Create (_fakeFileName)
+		_fakeProject = DotNetProject(Model.LanguageName, Name: "___ShellProject", FileName: shellProjectFile)
+
+		_parserService.LoadProjectDatabase(_fakeProject)
 
 		Model.Properties.InternalProperties.PropertyChanged += OnPropertyChanged
 		Model.RegisterOutputHandler (HandleOutput)
@@ -155,6 +170,10 @@ class ShellTextView (SourceView):
 			for line as string in output:
 				processOutput (line )
 		prompt (true)
+		for assembly in Model.References:
+			_fakeProject.AddReference(assembly)
+
+		GLib.Idle.Add( { _parserService.ParseFile (_fakeFileName, _scriptLines) } )
 		return false
 			
 	override def Dispose():
@@ -208,6 +227,9 @@ class ShellTextView (SourceView):
 		_reset.Show()
 	
 	override def OnKeyPressEvent (ev as Gdk.EventKey):
+		if CompletionListWindow.ProcessKeyEvent (ev):
+			return true
+		
 		// Short circuit to avoid getting moved back to the input line
 		// when paging up and down in the shell output
 		if ev.Key in Gdk.Key.Page_Up, Gdk.Key.Page_Down:
@@ -219,6 +241,9 @@ class ShellTextView (SourceView):
 			Buffer.MoveMark (Buffer.SelectionBound, InputLineEnd)
 			Buffer.MoveMark (Buffer.InsertMark, InputLineEnd)
 		
+		if (ev.State == Gdk.ModifierType.ControlMask) and ev.Key == Gdk.Key.space:
+			TriggerCodeCompletion ()
+
 		if ev.Key == Gdk.Key.Return:
 			if _inBlock:
 				if InputLine == "":
@@ -237,7 +262,7 @@ class ShellTextView (SourceView):
 			else:
 				// Special case for start of new code block
 				if InputLine.Trim()[-1:] == ":":
-					_inBlock = true;
+					_inBlock = true
 					_blockText = InputLine
 					prompt (true, true)
 					if _auto_indent:
@@ -268,7 +293,7 @@ class ShellTextView (SourceView):
 		elif ev.Key == Gdk.Key.Up:
 			if (not _inBlock) and _commandHistoryPast.Count > 0:
 				if _commandHistoryFuture.Count == 0:
-					_commandHistoryFuture.Push(InputLine);
+					_commandHistoryFuture.Push(InputLine)
 				else:
 					if _commandHistoryPast.Count == 1:
 						return true
@@ -297,6 +322,12 @@ class ShellTextView (SourceView):
 				Buffer.MoveMark (Buffer.SelectionBound, InputLineBegin)
 			return true
 
+		elif ev.Key == Gdk.Key.period:
+			ret = super.OnKeyPressEvent(ev)
+			prepareCompletionDetails (Buffer.GetIterAtMark (Buffer.InsertMark))
+			CompletionListWindow.ShowWindow(char('.'), CodeCompletionDataProvider (true), self, _fakeProject, _fakeFileName)
+			return ret
+
 		// Short circuit to avoid getting moved back to the input line
 		// when paging up and down in the shell output
 		elif ev.Key in Gdk.Key.Page_Up, Gdk.Key.Page_Down:
@@ -304,7 +335,40 @@ class ShellTextView (SourceView):
 		
 		return super (ev)
 	
+	protected override def OnFocusOutEvent (e as EventFocus):
+		CompletionListWindow.HideWindow ()
+		return super.OnFocusOutEvent(e)
+	
 	#endregion
+
+	private def TriggerCodeCompletion():
+		iter = Cursor
+		triggerChar = char('\0')
+		triggerIter = TextIter.Zero
+		if (iter.Char != null and  iter.Char.Length > 0):
+			if iter.Char[0] in (char(' '), char('\t'), char('.'), char('('), char('[')):
+				triggerIter = iter
+				triggerChar = iter.Char[0]
+
+		while iter.LineOffset > 0 and triggerIter.Equals (TextIter.Zero):
+			if (iter.Char == null or iter.Char.Length == 0):
+				iter.BackwardChar ()
+				continue
+
+			if iter.Char[0] in (char(' '), char('\t'), char('.'), char('('), char('[')):
+				triggerIter = iter
+				triggerChar = iter.Char[0]
+				break
+
+			iter.BackwardChar ()
+		
+		if (triggerIter.Equals (TextIter.Zero)):
+			return
+
+		triggerIter.ForwardChar ()
+		
+		prepareCompletionDetails (triggerIter)
+		CompletionListWindow.ShowWindow (triggerChar, CodeCompletionDataProvider (true), self, _fakeProject, _fakeFileName)
 
 	// Mark to find the beginning of our next input line
 	private _endOfLastProcessing as TextMark
@@ -402,4 +466,77 @@ class ShellTextView (SourceView):
 
 		return
 
+	#endregion
+
+	private def prepareCompletionDetails (triggerIter as TextIter):
+		rect = GetIterLocation (Buffer.GetIterAtMark (Buffer.InsertMark))
+
+		wx as int
+		wy as int
+		BufferToWindowCoords (Gtk.TextWindowType.Widget, rect.X, rect.Y + rect.Height, wx, wy)
+
+		tx as int
+		ty as int
+		GdkWindow.GetOrigin (tx, ty)
+
+		self.completionX = tx + wx
+		self.completionY = ty + wy
+		self.textHeight = rect.Height
+		self.triggerMark = Buffer.CreateMark (null, triggerIter, true)
+
+	#region ICompletionWidget
+
+	[Getter(ICompletionWidget.TriggerXCoord)]
+	private completionX
+
+	[Getter(ICompletionWidget.TriggerYCoord)]
+	private completionY
+	
+	[Getter(ICompletionWidget.TriggerTextHeight)]
+	private textHeight as int
+	
+	ICompletionWidget.Text:
+		get:
+			return Buffer.Text
+	
+	ICompletionWidget.TextLength:
+		get:
+			return Buffer.EndIter.Offset
+	
+	def ICompletionWidget.GetChar (offset as int) as System.Char:
+		return Buffer.GetIterAtLine (offset).Char[0]
+	
+	def ICompletionWidget.GetText (startOffset as int, endOffset as int) as string:
+		return Buffer.GetText(Buffer.GetIterAtOffset (startOffset), Buffer.GetIterAtOffset(endOffset), true)
+	
+	ICompletionWidget.CompletionText:
+		get:
+			return Buffer.GetText (Buffer.GetIterAtMark (triggerMark), Buffer.GetIterAtMark (Buffer.InsertMark), false)
+	
+	def ICompletionWidget.SetCompletionText (partial_word as string, complete_word as string):
+		offsetIter = Buffer.GetIterAtMark(triggerMark)
+		endIter = Buffer.GetIterAtOffset (offsetIter.Offset + partial_word.Length)
+		Buffer.MoveMark (Buffer.InsertMark, offsetIter)
+		Buffer.Delete (offsetIter, endIter)
+		Buffer.InsertAtCursor (complete_word)
+	
+	def ICompletionWidget.InsertAtCursor (text as string):
+		Buffer.InsertAtCursor (text)
+	
+	private triggerMark as TextMark
+	ICompletionWidget.TriggerOffset:
+		get:
+			return Buffer.GetIterAtMark (triggerMark).Offset
+
+	ICompletionWidget.TriggerLine:
+		get:
+			return Buffer.GetIterAtMark (triggerMark).Line
+
+	ICompletionWidget.TriggerLineOffset:
+		get:
+			return Buffer.GetIterAtMark (triggerMark).LineOffset
+	
+	ICompletionWidget.GtkStyle:
+		get:
+			return self.Style.Copy();
 	#endregion

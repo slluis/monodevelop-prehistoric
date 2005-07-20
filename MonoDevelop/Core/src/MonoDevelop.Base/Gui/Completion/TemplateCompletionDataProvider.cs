@@ -13,10 +13,9 @@ using System.Collections;
 using MonoDevelop.Core.Properties;
 using MonoDevelop.Internal.Templates;
 using MonoDevelop.Internal.Project;
-using MonoDevelop.SourceEditor.Gui;
 using Stock = MonoDevelop.Gui.Stock;
 
-namespace MonoDevelop.SourceEditor.CodeCompletion
+namespace MonoDevelop.Gui.Completion
 {
 	public class TemplateCompletionDataProvider : ICompletionDataProvider
 	{
@@ -27,7 +26,7 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 			}
 		}
 		
-		public ICompletionData[] GenerateCompletionData(Project project, string fileName, SourceEditorView textArea, char charTyped, Gtk.TextMark triggerMark)
+		public ICompletionData[] GenerateCompletionData(Project project, string fileName, ICompletionWidget widget, char charTyped)
 		{
 			CodeTemplateGroup templateGroup = CodeTemplateLoader.GetTemplateGroupPerFilename(fileName);
 			if (templateGroup == null) {
@@ -74,7 +73,7 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 				}
 			}
 			
-			public void InsertAction(SourceEditorView control)
+			public void InsertAction(ICompletionWidget widget)
 			{
 				//((SharpDevelopTextAreaControl)control).InsertTemplate(template);
 			}

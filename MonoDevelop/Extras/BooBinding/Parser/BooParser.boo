@@ -67,8 +67,8 @@ class BooParser(IParser):
 	def Parse(fileName as string, fileContent as string) as ICompilationUnitBase:
 		//print "Parse ${fileName} with content"
 		
-		cr = '\r'[0]
-		ln = '\n'[0]
+		cr = char('\r')
+		ln = char('\n')
 		linecount = 1
 		for c as Char in fileContent:
 			linecount += 1 if c == ln
@@ -87,15 +87,20 @@ class BooParser(IParser):
 		compiler = BooCompiler()
 		compiler.Parameters.Input.Add(StringInput(fileName, fileContent))
 		project as Project
-		for entry as Project in MonoDevelop.Services.Runtime.ProjectService.CurrentOpenCombine.GetAllProjects():
-			if entry.IsFileInProject(fileName):
-				project = entry
-				
-		return Parse(fileName, lineLength, compiler, project)
+		if MonoDevelop.Services.Runtime.ProjectService.CurrentOpenCombine is not null:
+			for entry as Project in MonoDevelop.Services.Runtime.ProjectService.CurrentOpenCombine.GetAllProjects():
+				if entry.IsFileInProject(fileName):
+					project = entry
+		
+		if project is not null and project.ProjectReferences is not null:
+			for projectRef as ProjectReference in project.ProjectReferences:
+				compiler.Parameters.References.Add(System.Reflection.Assembly.LoadFile(projectRef.GetReferencedFileName()))
+		
+		return Parse(fileName, lineLength, compiler)
 	
-	private def Parse(fileName as string, lineLength as (int), compiler as BooCompiler, project as Project):
+	private def Parse(fileName as string, lineLength as (int), compiler as BooCompiler):
 		compiler.Parameters.OutputWriter = StringWriter()
-		compiler.Parameters.TraceSwitch.Level = TraceLevel.Warning;
+		compiler.Parameters.TraceSwitch.Level = TraceLevel.Warning
 		
 		compilePipe = Compile()
 		parsingStep as Boo.Lang.Parser.BooParsingStep = compilePipe[0]
@@ -117,8 +122,6 @@ class BooParser(IParser):
 		
 		compilePipe.BreakOnErrors = false
 		compiler.Parameters.Pipeline = compilePipe
-		for projectRef as ProjectReference in project.ProjectReferences:
-			compiler.Parameters.References.Add(System.Reflection.Assembly.LoadFile(projectRef.GetReferencedFileName()))
 		
 		try:
 			compiler.Run()

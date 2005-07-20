@@ -10,13 +10,14 @@ using MonoDevelop.Core.AddIns.Conditions;
 using MonoDevelop.Core.AddIns;
 using MonoDevelop.Internal.Templates;
 using MonoDevelop.Internal.Parser;
+using MonoDevelop.Internal.Project;
 using MonoDevelop.Core.Services;
-using MonoDevelop.SourceEditor.CodeCompletion;
 using MonoDevelop.SourceEditor.InsightWindow;
 using MonoDevelop.EditorBindings.Properties;
 using MonoDevelop.EditorBindings.FormattingStrategy;
 using MonoDevelop.Gui.Utils;
 using MonoDevelop.Gui;
+using MonoDevelop.Gui.Completion;
 using MonoDevelop.Services;
 using MonoDevelop.Commands;
 using MonoDevelop.DefaultEditor;
@@ -25,7 +26,7 @@ using GtkSourceView;
 
 namespace MonoDevelop.SourceEditor.Gui
 {
-	public class SourceEditorView : SourceView, IFormattableDocument
+	public class SourceEditorView : SourceView, IFormattableDocument, ICompletionWidget
 	{	
 		public readonly SourceEditor ParentEditor;
 		internal IFormattingStrategy fmtr;
@@ -194,8 +195,8 @@ namespace MonoDevelop.SourceEditor.Gui
 				return;
 			triggerIter.ForwardChar ();
 			
-//			CompletionWindow.ShowWindow (triggerChar, triggerIter, true, new CodeCompletionDataProvider (true), this);
-			CompletionListWindow.ShowWindow (triggerChar, triggerIter, new CodeCompletionDataProvider (true), this);
+			PrepareCompletionDetails(triggerIter);
+			CompletionListWindow.ShowWindow (triggerChar, new CodeCompletionDataProvider (true), this, this.ParentEditor.DisplayBinding.Project, this.ParentEditor.DisplayBinding.ContentName);
 		}
 
 		bool MonodocResolver ()
@@ -375,8 +376,8 @@ namespace MonoDevelop.SourceEditor.Gui
 			case '.':
 				bool retval = base.OnKeyPressEvent (evnt);
 				if (EnableCodeCompletion && PeekCharIsWhitespace ()) {
-//					CompletionWindow.ShowWindow ((char)key, buf.GetIterAtMark (buf.InsertMark), false, new CodeCompletionDataProvider (), this);
-					CompletionListWindow.ShowWindow ((char)key, buf.GetIterAtMark (buf.InsertMark), new CodeCompletionDataProvider (), this);
+					PrepareCompletionDetails(buf.GetIterAtMark (buf.InsertMark));
+					CompletionListWindow.ShowWindow ((char)key, new CodeCompletionDataProvider (), this, this.ParentEditor.DisplayBinding.Project, this.ParentEditor.DisplayBinding.ContentName);
 				}
 				return retval;
 				/*case '(':
@@ -582,6 +583,20 @@ namespace MonoDevelop.SourceEditor.Gui
 			end.ForwardToLineEnd ();
 			Buffer.MoveMark ("selection_bound", end);
 		}
+
+		void PrepareCompletionDetails(TextIter iter)
+		{
+			Gdk.Rectangle rect = GetIterLocation (Buffer.GetIterAtMark (Buffer.InsertMark));
+			int wx, wy;
+			BufferToWindowCoords (Gtk.TextWindowType.Widget, rect.X, rect.Y + rect.Height, out wx, out wy);
+			int tx, ty;
+			GdkWindow.GetOrigin (out tx, out ty);
+
+			this.completionX = tx + wx;
+			this.completionY = ty + wy;
+			this.textHeight = rect.Height;
+			this.triggerMark = buf.CreateMark (null, iter, true);
+		}
 #endregion
 
 #region IFormattableDocument
@@ -648,7 +663,7 @@ namespace MonoDevelop.SourceEditor.Gui
 		
 		int IFormattableDocument.GetClosingBraceForLine (int ln, out int openingLine)
 		{
-			int offset = MonoDevelop.SourceEditor.CodeCompletion.TextUtilities.SearchBracketBackward
+			int offset = MonoDevelop.Gui.Completion.TextUtilities.SearchBracketBackward
 				(this, Buffer.GetIterAtLine (ln).Offset - 1, '{', '}');
 			
 			openingLine = offset == -1 ? -1 : Buffer.GetIterAtOffset (offset).Line;
@@ -660,6 +675,117 @@ namespace MonoDevelop.SourceEditor.Gui
 			TextIter begin = Buffer.GetIterAtLine (ln);
 			offset = begin.Offset;
 			len = begin.CharsInLine;
+		}
+#endregion
+
+#region ICompletionWidget
+
+		private int completionX;
+		int ICompletionWidget.TriggerXCoord
+		{
+			get
+			{
+				return completionX;
+			}
+		}
+
+		private int completionY;
+		int ICompletionWidget.TriggerYCoord
+		{
+			get
+			{
+				return completionY;
+			}
+		}
+
+		private int textHeight;
+		int ICompletionWidget.TriggerTextHeight
+		{
+			get
+			{
+				return textHeight;
+			}
+		}
+
+		string ICompletionWidget.CompletionText
+		{
+			get
+			{
+				return Buffer.GetText (Buffer.GetIterAtMark (triggerMark), Buffer.GetIterAtMark (Buffer.InsertMark), false);
+			}
+		}
+
+		void ICompletionWidget.SetCompletionText (string partial_word, string complete_word)
+		{
+			TextIter offsetIter = buf.GetIterAtMark(triggerMark);
+                        TextIter endIter = buf.GetIterAtOffset (offsetIter.Offset + partial_word.Length);
+                        buf.MoveMark (buf.InsertMark, offsetIter);
+                        buf.Delete (ref offsetIter, ref endIter);
+                        buf.InsertAtCursor (complete_word);
+		}
+
+		void ICompletionWidget.InsertAtCursor (string text)
+		{
+			buf.InsertAtCursor (text);
+		}
+		
+		string ICompletionWidget.Text
+		{
+			get
+			{
+				return buf.Text;
+			}
+		}
+
+		int ICompletionWidget.TextLength
+		{
+			get
+			{
+				return buf.EndIter.Offset + 1;
+			}
+		}
+
+		char ICompletionWidget.GetChar (int offset)
+		{
+			return buf.GetIterAtOffset (offset).Char[0];
+		}
+
+		string ICompletionWidget.GetText (int startOffset, int endOffset)
+		{
+			return buf.GetText(buf.GetIterAtOffset (startOffset), buf.GetIterAtOffset(endOffset), true);
+		}
+
+		private TextMark triggerMark;
+		int ICompletionWidget.TriggerOffset
+		{
+			get
+			{
+				return buf.GetIterAtMark (triggerMark).Offset;
+			}
+		}
+
+		int ICompletionWidget.TriggerLine
+		{
+			get
+			{
+				return buf.GetIterAtMark (triggerMark).Line;
+			}
+		}
+
+		int ICompletionWidget.TriggerLineOffset
+		{
+			get
+			{
+				return buf.GetIterAtMark (triggerMark).LineOffset;
+			}
+		}
+
+		Gtk.Style ICompletionWidget.GtkStyle
+		{
+			get
+			{
+				return Style.Copy();
+			}
 		}
 
 		bool PeekCharIsWhitespace ()

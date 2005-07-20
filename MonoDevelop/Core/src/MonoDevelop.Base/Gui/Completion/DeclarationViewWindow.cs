@@ -12,7 +12,7 @@ using System.Collections;
 
 using Gtk;
 
-namespace MonoDevelop.SourceEditor.CodeCompletion
+namespace MonoDevelop.Gui.Completion
 {
 	public class DeclarationViewWindow : Window
 	{

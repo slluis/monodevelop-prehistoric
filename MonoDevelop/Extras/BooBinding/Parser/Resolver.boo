@@ -256,9 +256,8 @@ class Resolver:
 			return false
 		_callingClass = GetInnermostClass(cu)
 		if _callingClass == null:
-			return false if cu.Classes.Count == 0
-			_callingClass = cu.Classes[cu.Classes.Count - 1]
-			if _callingClass.Region != null:
+			_callingClass = cu.Classes[cu.Classes.Count - 1] if cu.Classes.Count > 0
+			if _callingClass != null and _callingClass.Region != null:
 				return false if _callingClass.Region.BeginLine > caretLine
 
 		if _project == null:
@@ -341,10 +340,13 @@ class Resolver:
 //			print("IsAccessible")
 			return true
 
-		if ((member.Modifiers & ModifierEnum.Protected) == ModifierEnum.Protected and IsClassInInheritanceTree(c, _callingClass)):
-//			print("IsAccessible")
-			return true
+		if (member.Modifiers & ModifierEnum.Protected) == ModifierEnum.Protected:
+			if _callingClass is not null and  IsClassInInheritanceTree(c, _callingClass):
+				return true
+			else:
+				return false
 
+		return false if _callingClass is null
 		return c.FullyQualifiedName == _callingClass.FullyQualifiedName
 
 	/// <remarks>

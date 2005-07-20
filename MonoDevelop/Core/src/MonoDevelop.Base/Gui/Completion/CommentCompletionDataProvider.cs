@@ -18,10 +18,9 @@ using MonoDevelop.Services;
 
 using MonoDevelop.Internal.Parser;
 using MonoDevelop.Internal.Project;
-using MonoDevelop.SourceEditor.Gui;
 using Stock = MonoDevelop.Gui.Stock;
 
-namespace MonoDevelop.SourceEditor.CodeCompletion
+namespace MonoDevelop.Gui.Completion
 {
 	/// <summary>
 	/// Data provider for code completion.
@@ -63,7 +62,7 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 			return row >= region.BeginLine && (row <= region.EndLine || region.EndLine == -1);
 		}
 		
-		public ICompletionData[] GenerateCompletionData (Project project, string fileName, SourceEditorView textArea, char charTyped, Gtk.TextMark triggerMark)
+		public ICompletionData[] GenerateCompletionData (Project project, string fileName, ICompletionWidget widget, char charTyped)
 		{
 			/*caretLineNumber = textArea.Caret.Line;
 			caretColumn     = textArea.Caret.Column;
@@ -114,7 +113,7 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 				}
 			}
 			
-			public void InsertAction (SourceEditorView control)
+			public void InsertAction (ICompletionWidget widget)
 			{
 				//((SharpDevelopTextAreaControl)control).ActiveTextAreaControl.TextArea.InsertString(text);
 			}

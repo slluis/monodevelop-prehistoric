@@ -1,3 +1,13 @@
+2005-07-20  Peter Johanson  <latexer@gentoo.org>
+
+	* CodeCompletion/*: Migrated to MonoDevelop.Base assembly.
+	* Makefile.am: Remove CodeCompletion file entries.
+	* Gui/SourceEditorView.cs:
+	* InsightWindow/InsightWindow.cs:
+	* InsightWindow/IndexerInsightDataProvider.cs:
+	* InsightWindow/MethodInsightDataProvider.cs: Changed to reflect
+	completion API/location changes.
+
 2005-07-20  Lluis Sanchez Gual  <lluis@novell.com> 
 
 	* Gui/SourceEditorWidget.cs: Implemented FindPrevious command.

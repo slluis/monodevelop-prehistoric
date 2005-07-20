@@ -15,9 +15,8 @@ using System.Collections;
 using MonoDevelop.Internal.Parser;
 using MonoDevelop.Services;
 using MonoDevelop.Core.Services;
-using MonoDevelop.SourceEditor.Gui;
 
-namespace MonoDevelop.SourceEditor.CodeCompletion
+namespace MonoDevelop.Gui.Completion
 {
 	class CodeCompletionData : ICompletionDataWithMarkup
 	{
@@ -219,9 +218,9 @@ namespace MonoDevelop.SourceEditor.CodeCompletion
 			documentation = "";
 		}
 		
-		public void InsertAction (SourceEditorView control)
+		public void InsertAction (ICompletionWidget widget)
 		{
-			control.Buffer.InsertAtCursor (completionString);
+			widget.InsertAtCursor (completionString);
 		}
 
 		public static string GetDocumentation (string doc)
