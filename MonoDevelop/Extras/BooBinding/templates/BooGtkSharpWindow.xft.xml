@@ -2,7 +2,7 @@
 <Template Originator   = "Peter Johanson"
 	  Language     = "Boo"
 	  Created      = "04/04/2005"
-	  LastModified = "04/04/2005">
+	  LastModified = "07/19/2005">
 	  
 	<TemplateConfiguration>
 		<_Name>Gtk# Window</_Name>
@@ -19,7 +19,7 @@ import System
 import Gtk
 
 class CreatedWindow(Window):
-	constructor():
+	def constructor():
 		super("CreatedWindow")
 ]]></File>
 	</TemplateFiles>

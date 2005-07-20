@@ -1,5 +1,9 @@
 2005-07-19  Peter Johanson  <latexer@gentoo.org>
 
+	* templates/BooGtkSharpWindow.xft.xml: Fix small typo.
+
+2005-07-19  Peter Johanson  <latexer@gentoo.org>
+
 	* BooAmbience: Changes to consolidate code, and actually markup the
 	items if IncludePangoMarkup is set.
 
