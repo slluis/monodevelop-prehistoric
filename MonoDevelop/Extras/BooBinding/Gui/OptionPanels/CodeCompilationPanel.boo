@@ -25,7 +25,6 @@ import System
 import Gtk
 
 import MonoDevelop.Internal.Project
-import MonoDevelop.Internal.ExternalTool
 import MonoDevelop.Gui.Dialogs
 import MonoDevelop.Gui.Widgets
 import MonoDevelop.Services

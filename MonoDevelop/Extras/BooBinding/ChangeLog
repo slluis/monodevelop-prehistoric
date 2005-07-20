@@ -1,3 +1,10 @@
+2005-07-20  Lluis Sanchez Gual  <lluis@novell.com>
+
+	* Gui/OptionPanels/GeneralShellPanel.boo:
+	* Gui/OptionPanels/GeneralBooShellPanel.boo:
+	* Gui/OptionPanels/CodeCompilationPanel.boo:
+	Removed unused namespace import.
+
 2005-07-20  Peter Johanson  <latexer@gentoo.org>
 
 	* Gui/IShellModel.boo:

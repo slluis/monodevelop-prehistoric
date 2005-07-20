@@ -24,7 +24,6 @@ import Gtk
 import Pango
 
 import MonoDevelop.Internal.Project
-import MonoDevelop.Internal.ExternalTool
 import MonoDevelop.Gui.Dialogs
 import MonoDevelop.Gui.Widgets
 import MonoDevelop.Services
