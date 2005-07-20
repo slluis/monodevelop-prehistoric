@@ -110,7 +110,10 @@ namespace MonoDevelop.Gui.Pads.ProjectPad
 		{
 			if (!e.IsDirectory || e.SourceFile != absolutePath) return;
 
-			absolutePath = e.TargetFile;
+			// The folder path can't be updated because we would be changing
+			// the identity of the object. Another folder object will need
+			// to be created by updating the tree.
+			
 			if (FolderRenamed != null) {
 				FolderRenamed(this, e);
 			}

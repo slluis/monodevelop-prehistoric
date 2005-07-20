@@ -1,3 +1,14 @@
+2005-07-20  Lluis Sanchez Gual  <lluis@novell.com>
+
+	* Gui/Pads/ProjectPad/ProjectFolderNodeBuilder.cs: When a folder is
+	renamed, update the whole tree branch starting from the parent node.
+	* Gui/Pads/ProjectPad/ProjectFolder.cs: Don't update the path of the
+	folder when receiving the Renamed event. Just signal that the name
+	has changed.
+	* Gui/Pads/ProjectPad/FolderNodeBuilder.cs: ProjectFile objects that
+	represent a folder generate ProjectFolder nodes, so the renaming callback
+	must be attached to a ProjectFolder object.
+
 2005-07-20  Lluis Sanchez Gual  <lluis@novell.com> 
 
 	* Commands/SearchCommands.cs:

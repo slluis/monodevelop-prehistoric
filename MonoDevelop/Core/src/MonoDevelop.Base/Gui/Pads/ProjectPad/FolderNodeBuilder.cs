@@ -309,7 +309,7 @@ namespace MonoDevelop.Gui.Pads.ProjectPad
 			newFolder.Subtype = Subtype.Directory;
 			project.ProjectFiles.Add (newFolder);
 
-			Tree.AddNodeInsertCallback (newFolder, new TreeNodeCallback (OnFileInserted));
+			Tree.AddNodeInsertCallback (new ProjectFolder (directoryName, project), new TreeNodeCallback (OnFileInserted));
 		}
 	}	
 }

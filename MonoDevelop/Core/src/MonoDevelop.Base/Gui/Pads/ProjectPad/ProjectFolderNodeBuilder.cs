@@ -97,8 +97,8 @@ namespace MonoDevelop.Gui.Pads.ProjectPad
 		void OnFolderRenamed (object sender, FileEventArgs e)
 		{
 			ProjectFolder f = (ProjectFolder) sender;
-			ITreeBuilder tb = Context.GetTreeBuilder (new ProjectFolder (e.SourceFile, f.Project, null));
-			if (tb != null) tb.Update ();
+			ITreeBuilder tb = Context.GetTreeBuilder (f.Parent);
+			if (tb != null) tb.UpdateAll ();
 		}
 		
 		void OnFolderRemoved (object sender, FileEventArgs e)
