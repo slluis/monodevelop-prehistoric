@@ -16,10 +16,12 @@ namespace MonoDevelop.Gui.Search
 		int length;
 		int line;
 		int column;
+		int position;
 		
 		public DefaultSearchResult (ITextIterator iter, int length)
 		{
-			offset = iter.Position;
+			position = iter.Position;
+			offset = iter.DocumentOffset;
 			line = iter.Line + 1;
 			column = iter.Column + 1;
 			this.length = length;
@@ -38,9 +40,15 @@ namespace MonoDevelop.Gui.Search
 			}
 		}
 		
-		public int Offset {
+		public int DocumentOffset {
 			get {
 				return offset;
+			}
+		}
+		
+		public int Position {
+			get {
+				return position;
 			}
 		}
 		
@@ -67,7 +75,7 @@ namespace MonoDevelop.Gui.Search
 		{
 			return String.Format("[DefaultLocation: FileName={0}, Offset={1}, Length={2}]",
 			                     FileName,
-			                     Offset,
+			                     DocumentOffset,
 			                     Length);
 		}
 	}

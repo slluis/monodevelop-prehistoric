@@ -84,16 +84,16 @@ namespace MonoDevelop.Gui.Search
 				return true;
 			}
 			
-			if (curIndex == 0) {
+			if (curIndex == 0)
 				curIndex = WorkbenchSingleton.Workbench.ViewContentCollection.Count - 1;
-			}
+			else
+				curIndex--;
 			
-			if (curIndex > 0) {
-				--curIndex;
-				WorkbenchSingleton.Workbench.ViewContentCollection[curIndex].WorkbenchWindow.SelectWindow();
-				return true;
-			}
-			return false;
+			if (curIndex == startIndex)
+				return false;
+
+			WorkbenchSingleton.Workbench.ViewContentCollection[curIndex].WorkbenchWindow.SelectWindow();
+			return true;
 		}
 		
 		public void Reset() 

@@ -28,11 +28,21 @@ namespace MonoDevelop.Gui.Search
 		int endOffset;
 		IDocumentInformation docInfo;
 		
+		public ForwardTextIterator (IDocumentInformation docInfo, Gtk.TextView document, int endOffset)
+		{
+			Debug.Assert(endOffset >= 0 && endOffset < BufferLength);
+			
+			this.docInfo = docInfo;
+			this.textBuffer = document.Buffer;
+			this.endOffset = endOffset;
+			Reset();
+		}
+		
 		public IDocumentInformation DocumentInformation {
 			get { return docInfo; }
 		}
 		
-		public char Current {
+		public virtual char Current {
 			get {
 				switch (state) {
 					case TextIteratorState.Resetted:
@@ -47,7 +57,12 @@ namespace MonoDevelop.Gui.Search
 			}
 		}
 		
-		public int Position {
+		public virtual int Position {
+			get { return BufferToIterPos (DocumentOffset); }
+			set { DocumentOffset = IterToBufferPos (value); }
+		}
+		
+		public virtual int DocumentOffset {
 			get {
 				if (state == TextIteratorState.Done) return -1;
 				else return currentOffset;
@@ -64,32 +79,22 @@ namespace MonoDevelop.Gui.Search
 			}
 		}
 		
-		public int Line {
+		public virtual int Line {
 			get {
-				int pos = Position;
+				int pos = DocumentOffset;
 				if (pos == -1) return -1;
 				return textBuffer.GetIterAtOffset (pos).Line;
 			}
 		}
-		public int Column {
+		public virtual int Column {
 			get {
-				int pos = Position;
+				int pos = DocumentOffset;
 				if (pos == -1) return -1;
 				return textBuffer.GetIterAtOffset (pos).LineOffset;
 			}
 		}
 		
-		public ForwardTextIterator (IDocumentInformation docInfo, Gtk.TextView document, int endOffset)
-		{
-			Debug.Assert(endOffset >= 0 && endOffset < BufferLength);
-			
-			this.docInfo = docInfo;
-			this.textBuffer = document.Buffer;
-			this.endOffset = endOffset;
-			Reset();
-		}
-		
-		public char GetCharRelative(int offset)
+		public virtual char GetCharRelative (int offset)
 		{
 			if (state != TextIteratorState.Iterating) {
 				throw new System.InvalidOperationException();
@@ -103,7 +108,7 @@ namespace MonoDevelop.Gui.Search
 			return GetCharAt(realOffset);
 		}
 		
-		public bool MoveAhead(int numChars)
+		public virtual bool MoveAhead(int numChars)
 		{
 			Debug.Assert(numChars > 0);
 			
@@ -129,7 +134,17 @@ namespace MonoDevelop.Gui.Search
 			}
 		}
 		
-		public string ReadToEnd ()
+		public virtual void MoveToEnd ()
+		{
+			if (endOffset > 0)
+				currentOffset = endOffset - 1;
+			else
+				currentOffset = BufferLength - 1;
+
+			state = TextIteratorState.Iterating;
+		}
+		
+		public virtual string ReadToEnd ()
 		{
 			if (state == TextIteratorState.Done) return "";
 			
@@ -144,7 +159,7 @@ namespace MonoDevelop.Gui.Search
 			return doc;
 		}
 
-		public void Replace (int length, string pattern)
+		public virtual void Replace (int length, string pattern)
 		{
 			Gtk.TextIter start = textBuffer.GetIterAtOffset (currentOffset);
 			Gtk.TextIter end = textBuffer.GetIterAtOffset (currentOffset + length);
@@ -158,6 +173,16 @@ namespace MonoDevelop.Gui.Search
 			}
 			
 			currentOffset = currentOffset - length + pattern.Length;
+		}
+		
+		public virtual bool SupportsSearch (SearchOptions options, bool reverse)
+		{
+			return false;
+		}
+		
+		public virtual bool SearchNext (string text, SearchOptions options, bool reverse)
+		{
+			throw new NotSupportedException ();
 		}
 		
 		char GetCharAt (int offset)
@@ -179,24 +204,52 @@ namespace MonoDevelop.Gui.Search
 			return textBuffer.GetText (begin_iter, end_iter, true);
 		}
 		
+		int IterToBufferPos (int pos)
+		{
+			if (pos == -1)
+				return -1;
+			else if (pos >= (BufferLength - endOffset))
+				return pos - (BufferLength - endOffset);
+			else
+				return endOffset + pos;
+		}
+		
+		int BufferToIterPos (int pos)
+		{
+			if (pos == -1)
+				return pos;
+			else if (pos >= endOffset) 
+				return pos - endOffset;
+			else
+				return (BufferLength - endOffset) + pos;
+		}
+		
 		public int BufferLength
 		{
 			get { return textBuffer.EndIter.Offset + 1; }
 		}
 
-		public void Reset()
+		public virtual void Reset()
 		{
-			state         = TextIteratorState.Resetted;
+			state = TextIteratorState.Resetted;
 			currentOffset = endOffset;
 		}
 		
-		public void Close ()
+		public virtual void Close ()
 		{
 		}
 		
 		public override string ToString()
 		{
 			return String.Format("[ForwardTextIterator: currentOffset={0}, endOffset={1}, state={2}]", currentOffset, endOffset, state);
+		}
+		
+		protected Gtk.TextBuffer Buffer {
+			get { return textBuffer; }
+		}
+		
+		protected int EndOffset {
+			get { return endOffset; }
 		}
 	}
 }

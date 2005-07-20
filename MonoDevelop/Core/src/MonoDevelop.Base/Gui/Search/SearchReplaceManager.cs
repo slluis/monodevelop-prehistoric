@@ -36,8 +36,9 @@ namespace MonoDevelop.Gui.Search
 	{
 		public static ReplaceDialog ReplaceDialog     = null;
 
-		static IFind find                  = new DefaultFind();
+		static IFind find = new DefaultFind();
 		static SearchOptions searchOptions = new SearchOptions("SharpDevelop.SearchAndReplace.SearchAndReplaceProperties");
+		static ISearchResult lastResult = null;
 
 		public static SearchOptions SearchOptions {
 			get {
@@ -94,7 +95,7 @@ namespace MonoDevelop.Gui.Search
 				} else {
 					IBookmarkBuffer textArea = OpenView (result.FileName) as IBookmarkBuffer; 
 					if (textArea != null) {
-						object pos = textArea.GetPositionFromOffset (result.Offset);
+						object pos = textArea.GetPositionFromOffset (result.DocumentOffset);
 						textArea.SetBookmarked (pos, true);
 					}
 				}
@@ -125,8 +126,17 @@ namespace MonoDevelop.Gui.Search
 			}
 		}
 		
-		static ISearchResult lastResult = null;
-		public static void FindNext()
+		public static void FindNext ()
+		{
+			Find (false);
+		}
+		
+		public static void FindPrevious ()
+		{
+			Find (true);
+		}
+		
+		public static void Find (bool reverse)
 		{
 			if (find == null || 
 			    searchOptions.SearchPattern == null || 
@@ -142,7 +152,7 @@ namespace MonoDevelop.Gui.Search
 					find.Reset ();
 				else {
 					ITextBuffer textArea = OpenView (lastResult.FileName) as ITextBuffer;
-					if (textArea == null || (lastResult != null && textArea.GetOffsetFromPosition (textArea.CursorPosition) != lastResult.Offset + lastResult.Length)) {
+					if (textArea == null || (lastResult != null && textArea.GetOffsetFromPosition (textArea.CursorPosition) != lastResult.DocumentOffset + lastResult.Length)) {
 						find.Reset();
 					}
 				}
@@ -157,7 +167,13 @@ namespace MonoDevelop.Gui.Search
 				return;
 			}
 
-			ISearchResult result = find.FindNext(searchOptions);
+			ISearchResult result;
+			if (!reverse)
+				result = find.FindNext (searchOptions);
+			else
+				result = find.FindPrevious (searchOptions);
+			
+			lastResult = result;
 			
 			if (result == null) {
 				Runtime.MessageService.ShowMessage(GettextCatalog.GetString ("Search string not Found:") + "\n" + SearchOptions.SearchPattern, DialogPointer ); 
@@ -165,16 +181,20 @@ namespace MonoDevelop.Gui.Search
 			} else {
 				ITextBuffer textArea = OpenView (result.FileName) as ITextBuffer;
 				if (textArea != null) {
-					Console.WriteLine ("textArea.Text:" + (textArea.Text==null));
-					int startPos = Math.Min (textArea.Text.Length, Math.Max(0, result.Offset));
+					int startPos = Math.Min (textArea.Text.Length, Math.Max(0, result.DocumentOffset));
 					int endPos   = Math.Min (textArea.Text.Length, startPos + result.Length);
+					
+					if (startPos == textArea.GetOffsetFromPosition (textArea.SelectionStartPosition) &&
+						endPos == textArea.GetOffsetFromPosition (textArea.SelectionEndPosition)) {
+						// If the result is the same of what we have selected, search again.
+						Find (reverse);
+						return;
+					}
 					
 					textArea.ShowPosition (textArea.GetPositionFromOffset (endPos));
 					textArea.Select (textArea.GetPositionFromOffset (endPos), textArea.GetPositionFromOffset (startPos));
 				}
 			}
-			
-			lastResult = result;
 		}
 		
 		static object OpenView (string fileName) 

@@ -56,6 +56,8 @@ namespace MonoDevelop.Gui.Search
 		/// </returns>
 		ISearchResult FindNext(SearchOptions options);
 		
+		ISearchResult FindPrevious(SearchOptions options);
+		
 		/// <remarks>
 		/// Resets the find object to the original state.
 		/// </remarks>

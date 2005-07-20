@@ -28,16 +28,28 @@ namespace MonoDevelop.Gui.Search
 		}
 		
 		/// <value>
-		/// The current position=offset of the text iterator cursor
+		/// The current position of the text iterator cursor. It always begins
+		/// at 0. It may be different from the real offset in the document.
 		/// </value>
 		int Position {
 			get;
 			set;
 		}
 		
+		/// <value>
+		/// The current line in the document
+		/// </value>
 		int Line { get; }
 		
+		/// <value>
+		/// The current column in the document
+		/// </value>
 		int Column {get; }
+		
+		/// <value>
+		/// The current offset in the document
+		/// </value>
+		int DocumentOffset { get; }
 		
 		/// <remarks>
 		/// Gets a char relative to the current position (negative values
@@ -56,6 +68,11 @@ namespace MonoDevelop.Gui.Search
 		/// </remarks>
 		bool MoveAhead(int numChars);
 		
+		/// <remarks>
+		/// Moves the iterator to the last valid position
+		/// </remarks>
+		void MoveToEnd ();
+		
 		string ReadToEnd ();
 		
 		/// <remarks>
@@ -68,5 +85,9 @@ namespace MonoDevelop.Gui.Search
 		void Close ();
 		
 		IDocumentInformation DocumentInformation { get; }
+		
+		bool SupportsSearch (SearchOptions options, bool reverse);
+		
+		bool SearchNext (string text, SearchOptions options, bool reverse);
 	}
 }

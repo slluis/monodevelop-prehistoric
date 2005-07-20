@@ -151,10 +151,18 @@ namespace MonoDevelop.Gui.Search
 			CompilePattern(options.SearchPattern, options.IgnoreCase);
 		}
 		
-		public ISearchResult FindNext(ITextIterator textIterator, SearchOptions options)
+		public ISearchResult FindNext(ITextIterator textIterator, SearchOptions options, bool reverseSearch)
 		{
+			if (reverseSearch)
+				throw new NotSupportedException ();
+				
 			int charCount = InternalFindNext(textIterator, options);
 			return charCount != -1 ? new DefaultSearchResult (textIterator, charCount) : null;
+		}
+		
+		public bool SupportsReverseSearch (ITextIterator textIterator, SearchOptions options)
+		{
+			return false;
 		}
 	}
 }

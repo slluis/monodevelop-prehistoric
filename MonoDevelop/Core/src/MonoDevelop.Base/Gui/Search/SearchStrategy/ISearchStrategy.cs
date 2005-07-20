@@ -26,6 +26,9 @@ namespace MonoDevelop.Gui.Search
 		/// The find next method should search the next occurrence of the 
 		/// compiled pattern in the text using the textIterator and options.
 		/// </remarks>
-		ISearchResult FindNext(ITextIterator textIterator, SearchOptions options);
+		ISearchResult FindNext (ITextIterator textIterator, SearchOptions options, bool reverseSearch);
+		
+		// Returns true if this strategy can do reverse searchs with the given parameters
+		bool SupportsReverseSearch (ITextIterator textIterator, SearchOptions options);
 	}
 }

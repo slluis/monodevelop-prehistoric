@@ -1,3 +1,29 @@
+2005-07-20  Lluis Sanchez Gual  <lluis@novell.com> 
+
+	* Commands/SearchCommands.cs:
+	* Gui/Search/DocumentIterator/AllOpenDocumentIterator.cs:
+	* Gui/Search/SearchStrategy/KMPSearchStrategy.cs:
+	* Gui/Search/SearchStrategy/ISearchStrategy.cs: 
+	* Gui/Search/SearchStrategy/WildcardSearchStrategy.cs:
+	* Gui/Search/SearchStrategy/RegExSearchStrategy.cs:
+	* Gui/Search/DefaultFind.cs:
+	* Gui/Search/IFind.cs:
+	* Gui/ContentInterfaces/ITextBuffer.cs:
+	* Gui/Search/SearchReplaceManager.cs: Added support for backward search.
+	
+	* Gui/Search/TextIterator/ForwardTextFileIterator.cs:
+	* Gui/Search/SearchStrategy/BruteForceSearchStrategy.cs: Added support
+	for backward search and for native search method when available.
+	
+	* Gui/Search/TextIterator/ITextIterator.cs:
+	* Gui/Search/TextIterator/ForwardTextIterator.cs:
+	* Gui/Search/SearchReplaceInFilesManager.cs:
+	* Gui/Search/SearchResult/DefaultSearchResult.cs:
+	* Gui/Search/SearchResult/ISearchResult.cs: Added DocumentOffset
+	property to ISearchResult and ITextIterator.
+	
+	* MonoDevelopCore.addin.xml: Added FindPreviousSelection command.
+
 2005-07-18  Lluis Sanchez Gual  <lluis@novell.com> 
 
 	* Services/Project/ProjectService.cs: Don't fire CurrentProjectChanged

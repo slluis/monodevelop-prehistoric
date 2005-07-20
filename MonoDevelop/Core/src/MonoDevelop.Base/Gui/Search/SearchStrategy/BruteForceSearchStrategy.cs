@@ -92,8 +92,21 @@ namespace MonoDevelop.Gui.Search
 			searchPattern = options.IgnoreCase ? options.SearchPattern.ToUpper() : options.SearchPattern;
 		}
 		
-		public ISearchResult FindNext(ITextIterator textIterator, SearchOptions options)
+		public ISearchResult FindNext(ITextIterator textIterator, SearchOptions options, bool reverseSearch)
 		{
+			if (textIterator.SupportsSearch (options, reverseSearch)) {
+				if (textIterator.SearchNext (searchPattern, options, reverseSearch)) {
+					DefaultSearchResult sr = new DefaultSearchResult (textIterator, searchPattern.Length);
+					if (!reverseSearch)
+						textIterator.MoveAhead (searchPattern.Length);
+					return sr;
+				} else
+					return null;
+			}
+			
+			if (reverseSearch)
+				throw new NotSupportedException ();
+				
 			int offset = InternalFindNext(textIterator, options);
 			if (offset >= 0) {
 				int pos = textIterator.Position;
@@ -103,6 +116,11 @@ namespace MonoDevelop.Gui.Search
 				return sr;
 			} else
 				return null;
+		}
+		
+		public bool SupportsReverseSearch (ITextIterator textIterator, SearchOptions options)
+		{
+			return textIterator.SupportsSearch (options, true);
 		}
 	}
 }

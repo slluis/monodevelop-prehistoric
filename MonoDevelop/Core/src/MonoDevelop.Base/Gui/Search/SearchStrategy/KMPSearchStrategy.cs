@@ -64,8 +64,11 @@ namespace MonoDevelop.Gui.Search
 			}			
 		}
 		
-		public ISearchResult FindNext(ITextIterator textIterator, SearchOptions options)
+		public ISearchResult FindNext(ITextIterator textIterator, SearchOptions options, bool reverseSearch)
 		{
+			if (reverseSearch)
+				throw new NotSupportedException ();
+				
 			int pos = textIterator.Position;
 			
 			int offset = InternalFindNext(textIterator, options);
@@ -73,12 +76,17 @@ namespace MonoDevelop.Gui.Search
 			
 			if (textIterator.GetCharRelative (searchPattern.Length) == char.MinValue) {
 				if (pos != offset)
-					return FindNext(textIterator, options);
+					return FindNext(textIterator, options, false);
 				else
 					return null;
 			}
 			
 			return new DefaultSearchResult (textIterator, searchPattern.Length);
+		}
+		
+		public bool SupportsReverseSearch (ITextIterator textIterator, SearchOptions options)
+		{
+			return false;
 		}
 	}
 }

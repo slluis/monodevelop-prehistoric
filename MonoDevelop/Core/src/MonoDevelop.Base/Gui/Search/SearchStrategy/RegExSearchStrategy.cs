@@ -23,8 +23,11 @@ namespace MonoDevelop.Gui.Search
 			regex = new Regex(options.SearchPattern, regexOptions);
 		}
 		
-		public ISearchResult FindNext(ITextIterator textIterator, SearchOptions options)
+		public ISearchResult FindNext(ITextIterator textIterator, SearchOptions options, bool reverseSearch)
 		{
+			if (reverseSearch)
+				throw new NotSupportedException ();
+				
 			if (!textIterator.MoveAhead(1)) return null;
 			if (regex == null) return null;
 
@@ -42,6 +45,11 @@ namespace MonoDevelop.Gui.Search
 					return null;
 				}
 			}
+		}
+		
+		public bool SupportsReverseSearch (ITextIterator textIterator, SearchOptions options)
+		{
+			return false;
 		}
 	}
 }

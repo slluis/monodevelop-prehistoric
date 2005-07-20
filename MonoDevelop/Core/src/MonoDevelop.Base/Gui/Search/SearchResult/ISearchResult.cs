@@ -29,9 +29,16 @@ namespace MonoDevelop.Gui.Search
 		}
 		
 		/// <value>
-		/// The offset of the pattern match
+		/// The position of the pattern match in the text iterator
 		/// </value>
-		int Offset {
+		int Position {
+			get;
+		}
+		
+		/// <value>
+		/// The offset of the pattern match in the document
+		/// </value>
+		int DocumentOffset {
 			get;
 		}
 		

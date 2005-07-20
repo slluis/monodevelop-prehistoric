@@ -61,10 +61,10 @@ namespace MonoDevelop.Gui.Search
 		static void DisplaySearchResult(ISearchResult result)
 		{
 			if (result.Line != -1) {
-				string text = result.DocumentInformation.GetLineTextAtOffset (result.Offset);
+				string text = result.DocumentInformation.GetLineTextAtOffset (result.DocumentOffset);
 				Runtime.TaskService.AddTask (new Task (result.FileName, text, result.Column, result.Line));
 			} else {
-				string msg = string.Format (GettextCatalog.GetString ("Match at offset {0}"), result.Offset);
+				string msg = string.Format (GettextCatalog.GetString ("Match at offset {0}"), result.DocumentOffset);
 				Runtime.TaskService.AddTask (new Task(result.FileName, msg, -1, -1));
 			}
 		}

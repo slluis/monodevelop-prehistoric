@@ -20,7 +20,8 @@ namespace MonoDevelop.Commands
 		FindPrevious,
 		Replace,
 		FindInFiles,
-		FindSelection,
+		FindNextSelection,
+		FindPreviousSelection,
 		FindBox,
 		ReplaceInFiles
 	}

@@ -65,6 +65,10 @@ namespace MonoDevelop.Gui.Search
 			}
 		}
 		
+		public int DocumentOffset {
+			get { return Position; }
+		}
+		
 		public int Line {
 			get {
 				if (!lineInSync)
@@ -138,6 +142,15 @@ namespace MonoDevelop.Gui.Search
 			return reader.Peek() != -1;
 		}
 		
+		public void MoveToEnd ()
+		{
+			int pos = Position;
+			while (MoveAhead (1)) {
+				pos = Position;
+			}
+			Position = pos;
+		}
+		
 		public string ReadToEnd ()
 		{
 			return reader.ReadToEnd ();
@@ -178,6 +191,16 @@ namespace MonoDevelop.Gui.Search
 			}
 			else
 				reader.Close ();
+		}
+		
+		public bool SupportsSearch (SearchOptions options, bool reverse)
+		{
+			return false;
+		}
+		
+		public bool SearchNext (string text, SearchOptions options, bool reverse)
+		{
+			throw new NotSupportedException ();
 		}
 	}
 }

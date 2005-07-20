@@ -36,6 +36,9 @@ namespace MonoDevelop.Gui
 		object CursorPosition { get; set; }
 		object GetPositionFromOffset (int offset);
 		int GetOffsetFromPosition (object position);
+
+		object SelectionStartPosition { get; }
+		object SelectionEndPosition { get; }
 		
 		void Select (object startPosition, object endPosition);
 		void ShowPosition (object position);
