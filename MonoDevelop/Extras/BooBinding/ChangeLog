@@ -1,3 +1,8 @@
+2005-07-19  Peter Johanson  <latexer@gentoo.org>
+
+	* BooAmbience: Changes to consolidate code, and actually markup the
+	items if IncludePangoMarkup is set.
+
 2005-07-18  Peter Johanson  <latexer@gentoo.org>
 
 	* BooBinding.addin.xml: Put the boo shell on the bottom by default.

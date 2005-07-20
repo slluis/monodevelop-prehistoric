@@ -85,7 +85,7 @@ class BooAmbience(AbstractAmbience):
 	
 	private def GetModifier(decoration as IDecoration) as string:
 		ret as string = ''
-		if IncludeHTMLMarkup:
+		if IncludeHTMLMarkup or IncludePangoMarkup:
 			ret += '<i>'
 		
 		if decoration.IsStatic:
@@ -99,7 +99,7 @@ class BooAmbience(AbstractAmbience):
 		elif decoration.IsNew:
 			ret += 'new '
 		
-		if IncludeHTMLMarkup:
+		if IncludeHTMLMarkup or IncludePangoMarkup:
 			ret += '</i>'
 		
 		return ret
@@ -107,9 +107,7 @@ class BooAmbience(AbstractAmbience):
 	override def Convert(c as IClass) as string:
 		builder as StringBuilder = StringBuilder()
 		builder.Append(Convert(c.Modifiers))
-		if IncludeHTMLMarkup:
-			builder.Append('<i>')
-		
+
 		cType = c.ClassType
 		
 		if ShowModifiers:
@@ -117,12 +115,11 @@ class BooAmbience(AbstractAmbience):
 				if cType == ClassType.Delegate or cType == ClassType.Enum:
 					pass
 				else:
-					builder.Append('final ')
+					//builder.Append('final ')
+					AppendPangoHtmlTag (builder, 'final ', 'i')
 			elif c.IsAbstract and cType != ClassType.Interface:
-				builder.Append('abstract ')
-		
-		if IncludeHTMLMarkup:
-			builder.Append('</i>')
+				//builder.Append('abstract ')
+				AppendPangoHtmlTag (builder, 'abstract ', 'i')
 		
 		if ShowModifiers:
 			if cType == ClassType.Delegate:
@@ -142,16 +139,10 @@ class BooAmbience(AbstractAmbience):
 					builder.Append(Convert(m.ReturnType))
 					builder.Append(' ')
 		
-		if IncludeHTMLMarkup:
-			builder.Append('<b>')
-		
 		if UseFullyQualifiedMemberNames:
-			builder.Append(c.FullyQualifiedName)
+			AppendPangoHtmlTag (builder, c.FullyQualifiedName, 'b')
 		else:
-			builder.Append(c.Name)
-		
-		if IncludeHTMLMarkup:
-			builder.Append('</b>')
+			AppendPangoHtmlTag (builder, c.Name, 'b')
 		
 		if c.ClassType == ClassType.Delegate:
 			builder.Append(' (')
@@ -192,36 +183,23 @@ class BooAmbience(AbstractAmbience):
 	override def Convert(field as IField) as string:
 		builder as StringBuilder = StringBuilder()
 		builder.Append(Convert(field.Modifiers))
-		if IncludeHTMLMarkup:
-			builder.Append('<i>')
 		
 		if ShowModifiers:
 			if field.IsStatic and field.IsLiteral:
-				builder.Append('const ')
+				AppendPangoHtmlTag (builder, 'const ', 'i')
 			elif field.IsStatic:
-				builder.Append('static ')
+				AppendPangoHtmlTag (builder, 'static ', 'i')
 			
 			if field.IsReadonly:
-				builder.Append('readonly ')
-			
-		
-		if IncludeHTMLMarkup:
-			builder.Append('</i>')
-		
-		if IncludeHTMLMarkup:
-			builder.Append('<b>')
+				AppendPangoHtmlTag (builder, 'readonly ', 'i')
 		
 		if UseFullyQualifiedMemberNames:
-			builder.Append(field.FullyQualifiedName)
+			AppendPangoHtmlTag (builder, field.FullyQualifiedName, 'b')
 		else:
-			builder.Append(field.Name)
+			AppendPangoHtmlTag (builder, field.Name, 'b')
 		
 		if field.ReturnType != null:
-			builder.Append(' as ')
-			builder.Append(Convert(field.ReturnType))
-		
-		if IncludeHTMLMarkup:
-			builder.Append('</b>')
+			AppendPangoHtmlTag (builder, ' as ' + Convert (field.ReturnType), 'b')
 		
 		return builder.ToString()
 	
@@ -231,16 +209,10 @@ class BooAmbience(AbstractAmbience):
 		if ShowModifiers:
 			builder.Append(GetModifier(property))
 		
-		if IncludeHTMLMarkup:
-			builder.Append('<b>')
-		
 		if UseFullyQualifiedMemberNames:
-			builder.Append(property.FullyQualifiedName)
+			AppendPangoHtmlTag (builder, property.FullyQualifiedName, 'b')
 		else:
-			builder.Append(property.Name)
-		
-		if IncludeHTMLMarkup:
-			builder.Append('</b>')
+			AppendPangoHtmlTag (builder, property.Name, 'b')
 		
 		if property.Parameters.Count > 0:
 			builder.Append('(')
@@ -280,16 +252,10 @@ class BooAmbience(AbstractAmbience):
 		if ShowModifiers:
 			builder.Append(GetModifier(e))
 		
-		if IncludeHTMLMarkup:
-			builder.Append('<b>')
-		
 		if UseFullyQualifiedMemberNames:
-			builder.Append(e.FullyQualifiedName)
+			AppendPangoHtmlTag (builder, e.FullyQualifiedName, 'b')
 		else:
-			builder.Append(e.Name)
-		
-		if IncludeHTMLMarkup:
-			builder.Append('</b>')
+			AppendPangoHtmlTag (builder, e.Name, 'b')
 		
 		if e.ReturnType != null:
 			builder.Append(' as ')
@@ -300,30 +266,19 @@ class BooAmbience(AbstractAmbience):
 	override def Convert(m as IIndexer) as string:
 		builder as StringBuilder = StringBuilder()
 		builder.Append(Convert(m.Modifiers))
-		if IncludeHTMLMarkup:
-			builder.Append('<i>')
 		
 		if ShowModifiers and m.IsStatic:
-			builder.Append('static ')
-		
-		if IncludeHTMLMarkup:
-			builder.Append('</i>')
+			AppendPangoHtmlTag (builder, 'static ', 'i')
 		
 		if m.ReturnType != null:
 			builder.Append(Convert(m.ReturnType))
 			builder.Append(' ')
 		
-		if IncludeHTMLMarkup:
-			builder.Append('<b>')
-		
 		if UseFullyQualifiedMemberNames:
-			builder.Append(m.FullyQualifiedName)
+			AppendPangoHtmlTag (builder, m.FullyQualifiedName, 'b')
 		else:
-			builder.Append(m.Name)
-		
-		if IncludeHTMLMarkup:
-			builder.Append('</b>')
-		
+			AppendPangoHtmlTag (builder, m.Name, 'b')
+
 		builder.Append('Indexer(')
 		if IncludeHTMLMarkup:
 			builder.Append('<br>')
@@ -351,19 +306,13 @@ class BooAmbience(AbstractAmbience):
 		
 		//builder.Append('def ') if ShowReturnType
 		
-		if IncludeHTMLMarkup:
-			builder.Append('<b>')
-		
 		if m.IsConstructor:
-			builder.Append('constructor')
+			AppendPangoHtmlTag (builder, 'constructor', 'b')
 		else:
 			if UseFullyQualifiedMemberNames:
-				builder.Append(m.FullyQualifiedName)
+				AppendPangoHtmlTag (builder, m.FullyQualifiedName, 'b')
 			else:
-				builder.Append(m.Name)
-		
-		if IncludeHTMLMarkup:
-			builder.Append('</b>')
+				AppendPangoHtmlTag (builder, m.Name, 'b')
 		
 		builder.Append('(')
 		if IncludeHTMLMarkup:
@@ -446,18 +395,13 @@ class BooAmbience(AbstractAmbience):
 	
 	override def Convert(param as IParameter) as string:
 		builder as StringBuilder = StringBuilder()
-		if IncludeHTMLMarkup:
-			builder.Append('<i>')
 		
 		if param.IsRef:
-			builder.Append('ref ')
+			AppendPangoHtmlTag (builder, 'ref ', 'i')
 		elif param.IsOut:
-			builder.Append('out ')
+			AppendPangoHtmlTag (builder, 'out ', 'i')
 		elif param.IsParams:
-			builder.Append('params ')
-		
-		if IncludeHTMLMarkup:
-			builder.Append('</i>')
+			AppendPangoHtmlTag (builder, 'params ', 'i')
 		
 		if ShowParameterNames:
 			builder.Append(param.Name)
@@ -465,6 +409,11 @@ class BooAmbience(AbstractAmbience):
 		builder.Append(Convert(param.ReturnType))
 		
 		return builder.ToString()
+	
+	private def AppendPangoHtmlTag (sb as StringBuilder, text as string, tag as string):
+		sb.Append ('<').Append (tag).Append ('>') if IncludeHTMLMarkup or IncludePangoMarkup
+		sb.Append (text)
+		sb.Append ('</').Append (tag).Append ('>') if IncludeHTMLMarkup or IncludePangoMarkup
 	
 	override def WrapAttribute(attribute as string) as string:
 		return '[' + attribute + ']'
