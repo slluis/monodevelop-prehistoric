@@ -96,19 +96,7 @@ namespace MonoDevelop.SourceEditor.Gui
 		public void Find()
 		{
 			SetSearchPattern();
-			if (SearchReplaceManager.ReplaceDialog != null) {
-				if (SearchReplaceManager.ReplaceDialog.replaceMode == false) {
-					SearchReplaceManager.ReplaceDialog.SetSearchPattern(SearchReplaceManager.SearchOptions.SearchPattern);
-					SearchReplaceManager.ReplaceDialog.Present ();
-				} else {
-					SearchReplaceManager.ReplaceDialog.Destroy ();
-					ReplaceDialog rd = new ReplaceDialog (false);
-					rd.ShowAll ();
-				}
-			} else {
-				ReplaceDialog rd = new ReplaceDialog (false);
-				rd.ShowAll();
-			}
+			SearchReplaceManager.ShowFindWindow ();
 		}
 		
 		[CommandHandler (SearchCommands.FindNext)]
@@ -141,22 +129,9 @@ namespace MonoDevelop.SourceEditor.Gui
 		public void Replace ()
 		{ 
 			SetSearchPattern ();
+			SearchReplaceManager.ShowFindReplaceWindow ();
 			
-			if (SearchReplaceManager.ReplaceDialog != null) {
-				if (SearchReplaceManager.ReplaceDialog.replaceMode == true) {
-					SearchReplaceManager.ReplaceDialog.SetSearchPattern(SearchReplaceManager.SearchOptions.SearchPattern);
-					SearchReplaceManager.ReplaceDialog.Present ();
-				} else {
-					SearchReplaceManager.ReplaceDialog.Destroy ();
-					ReplaceDialog rd = new ReplaceDialog (true);
-					rd.ShowAll ();
-				}
-			} else {
-				ReplaceDialog rd = new ReplaceDialog(true);
-				rd.ShowAll();
-			}
 		}
-		
 		
 		[CommandHandler (EditorCommands.GotoLineNumber)]
 		public void GotoLineNumber ()
