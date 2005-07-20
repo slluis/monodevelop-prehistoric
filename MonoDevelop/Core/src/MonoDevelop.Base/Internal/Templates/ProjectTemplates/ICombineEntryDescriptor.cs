@@ -31,7 +31,7 @@ using System;
 
 namespace MonoDevelop.Internal.Templates
 {
-	public interface ICombineEntryDescriptor
+	internal interface ICombineEntryDescriptor
 	{
 		string CreateEntry (ProjectCreateInformation projectCreateInformation, string defaultLanguage);
 	}

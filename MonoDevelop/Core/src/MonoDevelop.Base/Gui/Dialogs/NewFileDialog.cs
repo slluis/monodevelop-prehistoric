@@ -26,7 +26,7 @@ namespace MonoDevelop.Gui.Dialogs
 	/// <summary>
 	///  This class is for creating a new "empty" file
 	/// </summary>
-	public class NewFileDialog : Dialog, INewFileCreator
+	internal class NewFileDialog : Dialog, INewFileCreator
 	{
 		ArrayList alltemplates = new ArrayList ();
 		ArrayList categories   = new ArrayList ();

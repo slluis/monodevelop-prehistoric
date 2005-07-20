@@ -21,7 +21,7 @@ using MonoDevelop.Commands;
 
 namespace MonoDevelop.Gui
 {
-	public class SdiWorkspaceWindow : Frame, IWorkbenchWindow, ICommandRouter
+	internal class SdiWorkspaceWindow : Frame, IWorkbenchWindow, ICommandRouter
 	{
 		Notebook   viewTabControl = null;
 		IViewContent content;

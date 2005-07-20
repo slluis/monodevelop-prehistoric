@@ -1311,7 +1311,7 @@ namespace MonoDevelop.Services
 	}
 	
 	[Serializable]
-	public class DummyCompilationUnit : AbstractCompilationUnit
+	internal class DummyCompilationUnit : AbstractCompilationUnit
 	{
 		CommentCollection miscComments = new CommentCollection();
 		CommentCollection dokuComments = new CommentCollection();
@@ -1336,7 +1336,7 @@ namespace MonoDevelop.Services
 		}
 	}
 	
-	public class ClassInheritanceEnumerator : IEnumerator, IEnumerable
+	internal class ClassInheritanceEnumerator : IEnumerator, IEnumerable
 	{
 		DefaultParserService parserService;
 		IClass topLevelClass;

@@ -12,7 +12,7 @@ using MonoDevelop.Services;
 
 namespace MonoDevelop.Gui.ErrorHandlers
 {
-	public class CombineLoadError
+	internal class CombineLoadError
 	{
 		CombineLoadError()
 		{

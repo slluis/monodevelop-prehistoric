@@ -30,7 +30,7 @@ namespace MonoDevelop.Commands
 		ResetTreeDisplayOptions
 	}
 	
-	public class FullScreenHandler: CommandHandler
+	internal class FullScreenHandler: CommandHandler
 	{
 		protected override void Run ()
 		{
@@ -38,7 +38,7 @@ namespace MonoDevelop.Commands
 		}
 	}
 	
-	public class NewLayoutHandler: CommandHandler
+	internal class NewLayoutHandler: CommandHandler
 	{
 		protected override void Run ()
 		{
@@ -48,7 +48,7 @@ namespace MonoDevelop.Commands
 		}
 	}
 	
-	public class ViewListHandler: CommandHandler
+	internal class ViewListHandler: CommandHandler
 	{
 		protected override void Update (CommandArrayInfo info)
 		{
@@ -75,7 +75,7 @@ namespace MonoDevelop.Commands
 		}
 	}
 	
-	public class LayoutListHandler: CommandHandler
+	internal class LayoutListHandler: CommandHandler
 	{
 		protected override void Update (CommandArrayInfo info)
 		{

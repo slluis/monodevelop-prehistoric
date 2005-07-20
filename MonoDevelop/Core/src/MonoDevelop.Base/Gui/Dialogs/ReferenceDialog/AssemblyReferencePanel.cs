@@ -17,7 +17,7 @@ using Gtk;
 
 namespace MonoDevelop.Gui.Dialogs
 {
-	public class AssemblyReferencePanel : HBox, IReferencePanel
+	internal class AssemblyReferencePanel : HBox, IReferencePanel
 	{
 		SelectReferenceDialog selectDialog;
 		FileChooserWidget chooser;

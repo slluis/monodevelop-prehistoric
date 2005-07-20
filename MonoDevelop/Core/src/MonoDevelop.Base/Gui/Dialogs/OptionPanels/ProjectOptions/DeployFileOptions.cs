@@ -23,7 +23,7 @@ using Gtk;
 
 namespace MonoDevelop.Gui.Dialogs.OptionPanels
 {
-	public class DeployFileProjectOptions : AbstractOptionPanel
+	internal class DeployFileProjectOptions : AbstractOptionPanel
 	{
 
 		class DeployFileOptionsWidget : GladeWidgetExtract 

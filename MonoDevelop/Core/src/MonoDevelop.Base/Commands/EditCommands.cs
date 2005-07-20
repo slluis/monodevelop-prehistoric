@@ -25,7 +25,7 @@ namespace MonoDevelop.Commands
 		MonodevelopPreferences
 	}
 	
-	public class MonodevelopPreferencesHandler: CommandHandler
+	internal class MonodevelopPreferencesHandler: CommandHandler
 	{
 		protected override void Run ()
 		{

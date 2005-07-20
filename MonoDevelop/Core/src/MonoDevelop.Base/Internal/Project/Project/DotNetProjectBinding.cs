@@ -37,8 +37,6 @@ namespace MonoDevelop.Internal.Project
 {
 	public class DotNetProjectBinding : IProjectBinding
 	{
-		ProjectTemplate[] defaultTemplates = new ProjectTemplate [0];
-		
 		public virtual string Name {
 			get { return "DotNet"; }
 		}
@@ -66,11 +64,6 @@ namespace MonoDevelop.Internal.Project
 				return project;
 			}
 			return null;
-		}
-		
-		public ProjectTemplate[] GetDefaultTemplates ()
-		{
-			return defaultTemplates;
 		}
 	}
 }

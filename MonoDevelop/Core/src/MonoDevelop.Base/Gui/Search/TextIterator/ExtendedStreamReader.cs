@@ -14,7 +14,7 @@ namespace MonoDevelop.Gui.Search
 	/// <summary>
 	///   This is a wrapper around StreamReader which is seekable.
 	/// </summary>
-	public class ExtendedStreamReader
+	internal class ExtendedStreamReader
 	{
 		StreamReader reader;
 

@@ -18,13 +18,12 @@ using MonoDevelop.Core.Services;
 using MonoDevelop.Core.AddIns;
 using MonoDevelop.Services;
 
-//using System.Windows.Forms;
 using Gtk;
 using MonoDevelop.Gui.Widgets;
 
 namespace MonoDevelop.Gui.Dialogs.OptionPanels
 {
-	public class ProjectAndCombinePanel : AbstractOptionPanel
+	internal class ProjectAndCombinePanel : AbstractOptionPanel
 	{
 
 		ProjectAndCombinePanelWidget widget;

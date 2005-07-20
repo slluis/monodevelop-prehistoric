@@ -20,7 +20,7 @@ using MonoDevelop.Internal.Project;
 namespace MonoDevelop.Core.AddIns
 {
 	[ConditionAttribute()]
-	public class LanguageActiveCondition : AbstractCondition
+	internal class LanguageActiveCondition : AbstractCondition
 	{
 		[XmlMemberAttribute("activelanguage", IsRequired = true)]
 		string activelanguage;

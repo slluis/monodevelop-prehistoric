@@ -20,7 +20,7 @@ using MonoDevelop.Internal.Project;
 namespace MonoDevelop.Core.AddIns
 {
 	[ConditionAttribute()]
-	public class ProjectOpenCondition : AbstractCondition
+	internal class ProjectOpenCondition : AbstractCondition
 	{
 		[XmlMemberAttribute("openproject", IsRequired = true)]
 		string openproject;

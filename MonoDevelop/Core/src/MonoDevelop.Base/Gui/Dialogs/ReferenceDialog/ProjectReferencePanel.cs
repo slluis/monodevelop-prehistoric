@@ -14,7 +14,8 @@ using Gtk;
 
 namespace MonoDevelop.Gui.Dialogs {
 	
-	public class ProjectReferencePanel : VBox, IReferencePanel {
+	internal class ProjectReferencePanel : VBox, IReferencePanel
+	{
 		SelectReferenceDialog selectDialog;
 
 		TreeStore store;

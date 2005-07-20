@@ -43,7 +43,7 @@ namespace MonoDevelop.Internal.Templates
 	/// <summary>
 	/// This class is used inside the combine templates for projects.
 	/// </summary>
-	public class CombineEntryDescriptor: ICombineEntryDescriptor
+	internal class CombineEntryDescriptor: ICombineEntryDescriptor
 	{
 		string name;
 		string relativePath;

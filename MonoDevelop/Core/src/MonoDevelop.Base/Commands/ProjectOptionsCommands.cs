@@ -26,7 +26,7 @@ using MonoDevelop.Internal.ExternalTool;
 
 namespace MonoDevelop.Commands
 {
-	public class AddProjectConfiguration : AbstractMenuCommand
+	internal class AddProjectConfiguration : AbstractMenuCommand
 	{
 		public override void Run()
 		{
@@ -38,7 +38,7 @@ namespace MonoDevelop.Commands
 		}
 	}
 	
-	public class RenameProjectConfiguration : AbstractMenuCommand
+	internal class RenameProjectConfiguration : AbstractMenuCommand
 	{
 		public override void Run()
 		{
@@ -50,7 +50,7 @@ namespace MonoDevelop.Commands
 		}
 	}
 	
-	public class RemoveProjectConfiguration : AbstractMenuCommand
+	internal class RemoveProjectConfiguration : AbstractMenuCommand
 	{
 		public override void Run()
 		{
@@ -62,7 +62,7 @@ namespace MonoDevelop.Commands
 		}
 	}
 	
-	public class SetActiveProjectConfiguration : AbstractMenuCommand
+	internal class SetActiveProjectConfiguration : AbstractMenuCommand
 	{
 		public override void Run()
 		{

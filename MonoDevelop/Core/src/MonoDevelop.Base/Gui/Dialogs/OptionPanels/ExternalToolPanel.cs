@@ -20,7 +20,7 @@ using MonoDevelop.Core.AddIns.Codons;
 
 namespace MonoDevelop.Gui.Dialogs.OptionPanels
 {
-	public class ExternalToolPane: AbstractOptionPanel
+	internal class ExternalToolPane: AbstractOptionPanel
 	{
 		ExternalToolPanelWidget widget;
 

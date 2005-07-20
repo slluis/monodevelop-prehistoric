@@ -17,7 +17,7 @@ using MonoDevelop.Gui;
 namespace MonoDevelop.Core.AddIns
 {
 	[ConditionAttribute()]
-	public class CombineOpenCondition : AbstractCondition
+	internal class CombineOpenCondition : AbstractCondition
 	{
 		[XmlMemberAttribute("iscombineopen", IsRequired = true)]
 		bool isCombineOpen;

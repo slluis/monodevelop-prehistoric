@@ -21,7 +21,7 @@ namespace MonoDevelop.Internal.Templates
 	/// they're a bit similar than code templates, but they're
 	/// not inserted automaticaly
 	/// </summary>
-	public class TextTemplate
+	internal class TextTemplate
 	{
 		public static ArrayList TextTemplates = new ArrayList();
 		

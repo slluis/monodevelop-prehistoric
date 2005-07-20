@@ -10,7 +10,7 @@ using System.Diagnostics;
 
 namespace MonoDevelop.Gui.Search
 {
-	public class DefaultFind : IFind
+	internal class DefaultFind : IFind
 	{
 		ISearchStrategy searchStrategy;
 		IDocumentIterator documentIterator;

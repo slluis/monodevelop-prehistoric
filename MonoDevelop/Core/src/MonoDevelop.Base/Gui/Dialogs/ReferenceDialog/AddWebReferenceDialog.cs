@@ -14,14 +14,14 @@ using System.Web.Services.Description;
 using MonoDevelop.Gui;
 using MonoDevelop.Core.Services;
 using MonoDevelop.Internal.Project;
-using MonoDevelop.BrowserDisplayBinding;
+using MonoDevelop.Gui.BrowserDisplayBinding;
 
 namespace MonoDevelop.Gui.Dialogs
 {
 	/// <summary>
 	/// Summary description for Form1.
 	/// </summary>
-	public class AddWebReferenceDialog //: System.Windows.Forms.Form
+	internal class AddWebReferenceDialog //: System.Windows.Forms.Form
 	{/*
 		private System.Windows.Forms.Panel panel1;
 		private System.Windows.Forms.Panel panel2;		

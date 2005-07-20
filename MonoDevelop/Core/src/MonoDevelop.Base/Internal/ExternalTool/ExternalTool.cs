@@ -17,7 +17,7 @@ namespace MonoDevelop.Internal.ExternalTool
 	/// This class describes an external tool, which is a external program
 	/// that can be launched from the toolmenu inside Sharp Develop.
 	/// </summary>
-	public class ExternalTool
+	internal class ExternalTool
 	{
 		string menuCommand       = GettextCatalog.GetString ("New Tool");
 		string command           = "";

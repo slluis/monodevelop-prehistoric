@@ -20,7 +20,7 @@ using Pango;
 
 namespace MonoDevelop.Gui.Dialogs
 {
-	public class ScrollBox : DrawingArea
+	internal class ScrollBox : DrawingArea
 	{
 		Pixbuf image;
 		int scroll = -220;
@@ -133,7 +133,7 @@ namespace MonoDevelop.Gui.Dialogs
 		}
 	}
 	
-	public class CommonAboutDialog : Dialog
+	internal class CommonAboutDialog : Dialog
 	{
 		
 		ScrollBox aboutPictureScrollBox;

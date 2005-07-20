@@ -21,7 +21,7 @@ using MonoDevelop.Gui;
 
 namespace MonoDevelop.Services
 {
-	public class ClassProxy : AbstractNamedEntity, IComparable, IClass
+	internal class ClassProxy : AbstractNamedEntity, IComparable, IClass
 	{
 		uint offset = 0;
 		ClassType classType;

@@ -13,7 +13,7 @@ using System.Diagnostics;
 
 namespace MonoDevelop.Internal.Templates
 {
-	public class FileDescriptionTemplate
+	internal class FileDescriptionTemplate
 	{
 		string name;
 		string content;

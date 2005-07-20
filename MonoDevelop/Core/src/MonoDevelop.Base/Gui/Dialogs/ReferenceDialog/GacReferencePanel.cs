@@ -16,7 +16,7 @@ using Gtk;
 
 namespace MonoDevelop.Gui.Dialogs
 {
-	public class GacReferencePanel : VBox, IReferencePanel
+	internal class GacReferencePanel : VBox, IReferencePanel
 	{
 		SelectReferenceDialog selectDialog;
 

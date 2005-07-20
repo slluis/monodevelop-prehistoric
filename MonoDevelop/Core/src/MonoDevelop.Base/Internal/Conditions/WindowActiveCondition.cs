@@ -15,7 +15,7 @@ using MonoDevelop.Gui;
 namespace MonoDevelop.Core.AddIns
 {
 	[ConditionAttribute()]
-	public class WindowActiveCondition : AbstractCondition
+	internal class WindowActiveCondition : AbstractCondition
 	{
 		[XmlMemberAttribute("activewindow", IsRequired = true)]
 		string activewindow;

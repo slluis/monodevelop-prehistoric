@@ -12,7 +12,7 @@ namespace MonoDevelop.Gui.Search
 	/// <summary>
 	/// Implements the Knuth, Morris, Pratt searching algorithm.
 	/// </summary>
-	public class KMPSearchStrategy : ISearchStrategy
+	internal class KMPSearchStrategy : ISearchStrategy
 	{
 		string searchPattern;
 		int[]  overlap;

@@ -17,7 +17,7 @@ namespace MonoDevelop.Gui.Search
 	/// backward is called but they're not mixed. After a reset the move operation
 	/// can be switched.
 	/// </summary>
-	public interface IDocumentIterator 
+	internal interface IDocumentIterator 
 	{
 		/// <value>
 		/// Returns the current ProvidedDocumentInformation. This method

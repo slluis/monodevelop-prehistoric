@@ -15,7 +15,7 @@ using MonoDevelop.Services;
 
 namespace MonoDevelop.Gui.Search
 {
-	public class WholeProjectDocumentIterator : IDocumentIterator
+	internal class WholeProjectDocumentIterator : IDocumentIterator
 	{
 		ArrayList files    = new ArrayList();
 		int       curIndex = -1;

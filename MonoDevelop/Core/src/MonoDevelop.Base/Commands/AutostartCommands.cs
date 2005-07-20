@@ -21,7 +21,7 @@ using SA = MonoDevelop.SharpAssembly.Assembly;
 
 namespace MonoDevelop.Commands
 {
-	public class InitializeWorkbenchCommand : AbstractCommand
+	internal class InitializeWorkbenchCommand : AbstractCommand
 	{
 		public override void Run()
 		{
@@ -34,7 +34,7 @@ namespace MonoDevelop.Commands
 		}
 	}
 	
-	public class StartParserServiceThread : AbstractCommand
+	internal class StartParserServiceThread : AbstractCommand
 	{
 		public override void Run()
 		{
@@ -42,7 +42,7 @@ namespace MonoDevelop.Commands
 		}
 	}
 
-	public class StartWorkbenchCommand : AbstractCommand
+	internal class StartWorkbenchCommand : AbstractCommand
 	{
 		const string workbenchMemento = "SharpDevelop.Workbench.WorkbenchMemento";
 		

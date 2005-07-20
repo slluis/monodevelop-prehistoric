@@ -10,7 +10,7 @@ using System.Collections;
 
 namespace MonoDevelop.Gui.Search
 {
-	public sealed class SearchReplaceUtilities
+	internal sealed class SearchReplaceUtilities
 	{
 		public static bool IsTextAreaSelected {
 			get {

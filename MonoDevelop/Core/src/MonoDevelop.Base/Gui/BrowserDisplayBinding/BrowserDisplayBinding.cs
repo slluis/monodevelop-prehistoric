@@ -1,4 +1,4 @@
-﻿// <file>
+// <file>
 //     <copyright see="prj:///doc/copyright.txt"/>
 //     <license see="prj:///doc/license.txt"/>
 //     <owner name="Mike Krüger" email="mike@icsharpcode.net"/>
@@ -14,7 +14,7 @@ using MonoDevelop.Core.Properties;
 using MonoDevelop.Core.AddIns.Codons;
 using MonoDevelop.Gui;
 
-namespace MonoDevelop.BrowserDisplayBinding
+namespace MonoDevelop.Gui.BrowserDisplayBinding
 {
 	public class BrowserDisplayBinding : IDisplayBinding, ISecondaryDisplayBinding
 	{

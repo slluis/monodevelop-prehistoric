@@ -31,7 +31,7 @@ using ICSharpCode.SharpRefactory.Parser;
 
 namespace MonoDevelop.Commands
 {
-	public class VBConvertProject : AbstractMenuCommand
+	internal class VBConvertProject : AbstractMenuCommand
 	{
 		void ConvertFile(string fileName, string outFile)
 		{

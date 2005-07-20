@@ -32,7 +32,7 @@ using Glade;
 
 namespace MonoDevelop.Gui.Dialogs
 {
-	public class ErrorDialog
+	internal class ErrorDialog
 	{
 		[Glade.Widget ("ErrorDialog")] Dialog dialog;
 		[Glade.Widget] Button okButton;

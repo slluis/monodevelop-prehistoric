@@ -21,7 +21,7 @@ namespace MonoDevelop.Gui.Dialogs
 	/// <summary>
 	/// Summary description for WebReference.
 	/// </summary>
-	public class WebReference
+	internal class WebReference
 	{	
 		///
 		/// <summary>Creates a ServiceDescription object from a valid URI</summary>

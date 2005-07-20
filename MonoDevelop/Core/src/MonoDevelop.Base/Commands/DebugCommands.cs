@@ -19,7 +19,7 @@ namespace MonoDevelop.Commands
 		ClearAllBreakpoints
 	}
 	
-	public class DebugApplicationHandler: CommandHandler
+	internal class DebugApplicationHandler: CommandHandler
 	{
 		protected override void Run ()
 		{
@@ -39,7 +39,7 @@ namespace MonoDevelop.Commands
 		}
 	}
 	
-	public class StepOverHandler : CommandHandler
+	internal class StepOverHandler : CommandHandler
 	{
 		protected override void Run ()
 		{
@@ -55,7 +55,7 @@ namespace MonoDevelop.Commands
 		}
 	}
 
-	public class StepIntoHandler : CommandHandler
+	internal class StepIntoHandler : CommandHandler
 	{
 		protected override void Run ()
 		{
@@ -71,7 +71,7 @@ namespace MonoDevelop.Commands
 		}
 	}
 	
-	public class StepOutHandler : CommandHandler
+	internal class StepOutHandler : CommandHandler
 	{
 		protected override void Run ()
 		{
@@ -87,7 +87,7 @@ namespace MonoDevelop.Commands
 		}
 	}
 	
-	public class PauseDebugHandler : CommandHandler
+	internal class PauseDebugHandler : CommandHandler
 	{
 		protected override void Run ()
 		{
@@ -103,7 +103,7 @@ namespace MonoDevelop.Commands
 		}
 	}
 	
-	public class ClearAllBreakpointsHandler: CommandHandler
+	internal class ClearAllBreakpointsHandler: CommandHandler
 	{
 		protected override void Run ()
 		{

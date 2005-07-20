@@ -43,7 +43,7 @@ namespace MonoDevelop.Commands
 		ClearCombine
 	}
 	
-	public class NewProjectHandler : CommandHandler
+	internal class NewProjectHandler : CommandHandler
 	{
 		protected override void Run ()
 		{
@@ -52,7 +52,7 @@ namespace MonoDevelop.Commands
 		}
 	}
 	
-	public class NewFileHandler : CommandHandler
+	internal class NewFileHandler : CommandHandler
 	{
 		protected override void Run ()
 		{
@@ -61,7 +61,7 @@ namespace MonoDevelop.Commands
 		}
 	}
 	
-	public class CloseAllFilesHandler : CommandHandler
+	internal class CloseAllFilesHandler : CommandHandler
 	{
 		protected override void Run()
 		{
@@ -71,7 +71,7 @@ namespace MonoDevelop.Commands
 		}
 	}
 	
-	public class SaveAllHandler : CommandHandler
+	internal class SaveAllHandler : CommandHandler
 	{
 		protected override void Run()
 		{
@@ -113,7 +113,7 @@ namespace MonoDevelop.Commands
 	}	
 	
 
-	public class OpenFileHandler : CommandHandler
+	internal class OpenFileHandler : CommandHandler
 	{
 		protected override void Run()
 		{
@@ -161,7 +161,7 @@ namespace MonoDevelop.Commands
 		}
 	}
 	
-	public class CloseCombineHandler : CommandHandler
+	internal class CloseCombineHandler : CommandHandler
 	{
 		protected override void Run()
 		{
@@ -174,7 +174,7 @@ namespace MonoDevelop.Commands
 		}
 	}
 		
-	public class ExitHandler : CommandHandler
+	internal class ExitHandler : CommandHandler
 	{
 		protected override void Run()
 		{			
@@ -185,7 +185,7 @@ namespace MonoDevelop.Commands
 	}
 	
 	
-	public class PrintHandler : CommandHandler
+	internal class PrintHandler : CommandHandler
 	{
 		protected override void Run()
 		{/*
@@ -214,7 +214,7 @@ namespace MonoDevelop.Commands
 		}
 	}
 	
-	public class PrintPreviewHandler : CommandHandler
+	internal class PrintPreviewHandler : CommandHandler
 	{
 		protected override void Run()
 		{
@@ -242,7 +242,7 @@ namespace MonoDevelop.Commands
 		}
 	}
 	
-	public class ClearRecentFilesHandler : CommandHandler
+	internal class ClearRecentFilesHandler : CommandHandler
 	{
 		protected override void Run()
 		{			
@@ -261,7 +261,7 @@ namespace MonoDevelop.Commands
 		}
 	}
 	
-	public class ClearRecentProjectsHandler : CommandHandler
+	internal class ClearRecentProjectsHandler : CommandHandler
 	{
 		protected override void Run()
 		{			
@@ -280,7 +280,7 @@ namespace MonoDevelop.Commands
 		}
 	}
 
-	public class RecentFileListHandler : CommandHandler
+	internal class RecentFileListHandler : CommandHandler
 	{
 		protected override void Update (CommandArrayInfo info)
 		{
@@ -302,7 +302,7 @@ namespace MonoDevelop.Commands
 		}
 	}
 
-	public class RecentProjectListHandler : CommandHandler
+	internal class RecentProjectListHandler : CommandHandler
 	{
 		protected override void Update (CommandArrayInfo info)
 		{

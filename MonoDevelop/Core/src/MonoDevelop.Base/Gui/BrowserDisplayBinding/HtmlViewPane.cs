@@ -19,7 +19,7 @@ using MonoDevelop.Gui.Widgets;
 using MonoDevelop.Gui.HtmlControl;
 using MonoDevelop.Services;
 
-namespace MonoDevelop.BrowserDisplayBinding
+namespace MonoDevelop.Gui.BrowserDisplayBinding
 {
 	public class BrowserPane : AbstractViewContent, ISecondaryViewContent
 	{	

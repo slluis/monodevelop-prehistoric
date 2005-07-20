@@ -15,7 +15,7 @@ using MonoDevelop.Services;
 
 namespace MonoDevelop.Gui.Search
 {
-	public class DirectoryDocumentIterator : IDocumentIterator
+	internal class DirectoryDocumentIterator : IDocumentIterator
 	{
 		string searchDirectory;
 		string fileMask;

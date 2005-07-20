@@ -10,7 +10,7 @@ using System.Text.RegularExpressions;
 
 namespace MonoDevelop.Gui.Search
 {
-	public class RegExSearchStrategy : ISearchStrategy
+	internal class RegExSearchStrategy : ISearchStrategy
 	{
 		Regex regex = null;
 		

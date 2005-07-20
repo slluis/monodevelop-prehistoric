@@ -32,7 +32,7 @@ namespace MonoDevelop.Gui
 	/// <summary>
 	/// This is the a Workspace with a multiple document interface.
 	/// </summary>
-	public class DefaultWorkbench : Gtk.Window, IWorkbench
+	internal class DefaultWorkbench : Gtk.Window, IWorkbench
 	{
 		readonly static string mainMenuPath    = "/SharpDevelop/Workbench/MainMenu";
 		readonly static string viewContentPath = "/SharpDevelop/Workbench/Pads";

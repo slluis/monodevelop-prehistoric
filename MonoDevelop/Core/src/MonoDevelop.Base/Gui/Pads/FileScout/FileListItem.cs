@@ -8,7 +8,7 @@ using MonoDevelop.Core.Properties;
 
 namespace MonoDevelop.Gui.Pads
 {
-	public class FileListItem
+	internal class FileListItem
 	{
 		string fullname;
 		string text;

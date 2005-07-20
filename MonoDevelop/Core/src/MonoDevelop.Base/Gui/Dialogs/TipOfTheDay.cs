@@ -16,7 +16,7 @@ using MonoDevelop.Services;
 
 namespace MonoDevelop.Gui.Dialogs
 {
-	public class TipOfTheDayWindow
+	internal class TipOfTheDayWindow
 	{
 		[Glade.Widget] Label categoryLabel;
 		[Glade.Widget] TextView tipTextview;

@@ -31,7 +31,7 @@ using ICSharpCode.SharpRefactory.Parser;
 
 namespace MonoDevelop.Commands
 {
-	public class VBConvertBuffer : AbstractMenuCommand
+	internal class VBConvertBuffer : AbstractMenuCommand
 	{
 		public override void Run()
 		{

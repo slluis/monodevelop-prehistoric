@@ -23,7 +23,7 @@ using MonoDevelop.Gui.Widgets;
 
 namespace MonoDevelop.Gui.Dialogs.OptionPanels
 {
-	public class BuildPanel : AbstractOptionPanel
+	internal class BuildPanel : AbstractOptionPanel
 	{
 
 		BuildPanelWidget widget;

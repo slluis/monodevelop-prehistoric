@@ -49,7 +49,7 @@ namespace MonoDevelop.Commands
 		CleanSolution
 	}
 	
-	public class RunHandler: CommandHandler
+	internal class RunHandler: CommandHandler
 	{
 		string file;
 		
@@ -90,7 +90,7 @@ namespace MonoDevelop.Commands
 	}
 	
 	
-	public class RunEntryHandler: CommandHandler
+	internal class RunEntryHandler: CommandHandler
 	{
 		CombineEntry entry;
 		
@@ -115,7 +115,7 @@ namespace MonoDevelop.Commands
 	}
 	
 	
-	public class DebugHandler: CommandHandler
+	internal class DebugHandler: CommandHandler
 	{
 		string file;
 		
@@ -170,7 +170,7 @@ namespace MonoDevelop.Commands
 		}
 	}
 	
-	public class DebugEntryHandler: CommandHandler
+	internal class DebugEntryHandler: CommandHandler
 	{
 		CombineEntry entry;
 		string file;
@@ -200,7 +200,7 @@ namespace MonoDevelop.Commands
 		}
 	}
 	
-	public class BuildHandler: CommandHandler
+	internal class BuildHandler: CommandHandler
 	{
 		protected override void Run ()
 		{
@@ -243,7 +243,7 @@ namespace MonoDevelop.Commands
 	}
 	
 	
-	public class RebuildHandler: CommandHandler
+	internal class RebuildHandler: CommandHandler
 	{
 		protected override void Run ()
 		{
@@ -279,7 +279,7 @@ namespace MonoDevelop.Commands
 		}
 	}
 	
-	public class BuildSolutionHandler: CommandHandler
+	internal class BuildSolutionHandler: CommandHandler
 	{
 		protected override void Run ()
 		{
@@ -293,7 +293,7 @@ namespace MonoDevelop.Commands
 		}
 	}
 	
-	public class RebuildSolutionHandler: CommandHandler
+	internal class RebuildSolutionHandler: CommandHandler
 	{
 		protected override void Run ()
 		{
@@ -307,7 +307,7 @@ namespace MonoDevelop.Commands
 		}
 	}
 	
-	public class CleanSolutionHandler: CommandHandler
+	internal class CleanSolutionHandler: CommandHandler
 	{
 		protected override void Run ()
 		{
@@ -320,7 +320,7 @@ namespace MonoDevelop.Commands
 		}
 	}
 	
-	public class CleanHandler: CommandHandler
+	internal class CleanHandler: CommandHandler
 	{
 		protected override void Run ()
 		{
@@ -338,7 +338,7 @@ namespace MonoDevelop.Commands
 		}
 	}
 	
-	public class StopHandler: CommandHandler
+	internal class StopHandler: CommandHandler
 	{
 		protected override void Run ()
 		{
@@ -355,7 +355,7 @@ namespace MonoDevelop.Commands
 		}
 	}
 	
-	public class GenerateMakefilesHandler: CommandHandler
+	internal class GenerateMakefilesHandler: CommandHandler
 	{
 		protected override void Run ()
 		{
@@ -365,7 +365,7 @@ namespace MonoDevelop.Commands
 		}
 	}
 
-	public class GenerateProjectDocumentation : CommandHandler
+	internal class GenerateProjectDocumentation : CommandHandler
 	{
 		protected override void Run ()
 		{

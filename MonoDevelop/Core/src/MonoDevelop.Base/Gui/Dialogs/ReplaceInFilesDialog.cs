@@ -22,7 +22,7 @@ using Gtk;
 
 namespace MonoDevelop.Gui.Dialogs
 {
-	public class ReplaceInFilesDialog
+	internal class ReplaceInFilesDialog
 	{
 		IMessageService messageService  = (IMessageService)ServiceManager.GetService(typeof(IMessageService));
 		public bool replaceMode;

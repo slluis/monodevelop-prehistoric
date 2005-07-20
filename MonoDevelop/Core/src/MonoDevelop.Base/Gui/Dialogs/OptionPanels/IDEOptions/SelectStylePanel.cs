@@ -20,7 +20,7 @@ using MonoDevelop.Gui.Widgets;
 
 namespace MonoDevelop.Gui.Dialogs.OptionPanels
 {
-	public class SelectStylePanel : AbstractOptionPanel
+	internal class SelectStylePanel : AbstractOptionPanel
 	{
 		SelectStylePanelWidget widget;
 		const string selectStyleProperty = "SharpDevelop.UI.SelectStyleOptions";

@@ -19,7 +19,7 @@ namespace MonoDevelop.Core.AddIns
 	}
 	
 	[ConditionAttribute()]
-	public class OwnerStateCondition : AbstractCondition
+	internal class OwnerStateCondition : AbstractCondition
 	{
 		[XmlMemberAttribute("ownerstate", IsRequired = true)]
 		string ownerstate;

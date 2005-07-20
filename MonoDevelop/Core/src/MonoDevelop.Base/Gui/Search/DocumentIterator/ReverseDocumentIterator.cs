@@ -14,7 +14,7 @@ namespace MonoDevelop.Gui.Search
 	/// Represents a bi-directional iterator which could move froward/backward
 	/// in a document queue. 
 	/// </summary>
-	public class ReverseDocumentIterator : IDocumentIterator 
+	internal class ReverseDocumentIterator : IDocumentIterator 
 	{
 		IDocumentIterator documentIterator;
 		

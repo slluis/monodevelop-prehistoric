@@ -13,7 +13,7 @@ using MonoDevelop.Internal.Project;
 
 namespace MonoDevelop.Internal.Templates
 {
-	public interface INewFileCreator
+	internal interface INewFileCreator
 	{
 		bool IsFilenameAvailable(string fileName);
 		

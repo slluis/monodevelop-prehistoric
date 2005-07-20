@@ -22,7 +22,7 @@ namespace MonoDevelop.Commands
 		OpenWindowList
 	}
 	
-	public class NextWindowHandler: CommandHandler
+	internal class NextWindowHandler: CommandHandler
 	{
 		protected override void Run ()
 		{
@@ -34,7 +34,7 @@ namespace MonoDevelop.Commands
 		}
 	}
 	
-	public class PrevWindowHandler: CommandHandler
+	internal class PrevWindowHandler: CommandHandler
 	{
 		protected override void Run ()
 		{
@@ -46,7 +46,7 @@ namespace MonoDevelop.Commands
 		}
 	}
 	
-	public class OpenWindowListHandler: CommandHandler
+	internal class OpenWindowListHandler: CommandHandler
 	{
 		protected override void Update (CommandArrayInfo info)
 		{

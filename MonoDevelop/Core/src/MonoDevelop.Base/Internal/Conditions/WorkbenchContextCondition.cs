@@ -7,7 +7,7 @@ using MonoDevelop.Gui;
 namespace MonoDevelop.Core.AddIns
 {
 	[ConditionAttribute()]
-		public class WorkbenchContextCondition : AbstractCondition
+	internal class WorkbenchContextCondition : AbstractCondition
 	{
 		[XmlMemberAttribute("context", IsRequired = true)]
 			string context;

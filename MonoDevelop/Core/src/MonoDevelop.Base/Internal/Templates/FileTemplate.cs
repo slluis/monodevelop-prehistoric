@@ -1,7 +1,7 @@
 // <file>
 //     <copyright see="prj:///doc/copyright.txt"/>
 //     <license see="prj:///doc/license.txt"/>
-//     <owner name="Mike Krüger" email="mike@icsharpcode.net"/>
+//     <owner name="Mike Krger" email="mike@icsharpcode.net"/>
 //     <version value="$version"/>
 // </file>
 
@@ -24,7 +24,7 @@ namespace MonoDevelop.Internal.Templates
 	/// <summary>
 	/// This class defines and holds the new file templates.
 	/// </summary>
-	public class FileTemplate
+	internal class FileTemplate
 	{
 		public static ArrayList FileTemplates = new ArrayList();
 		

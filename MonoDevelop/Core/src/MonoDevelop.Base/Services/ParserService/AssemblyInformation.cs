@@ -28,7 +28,7 @@ namespace MonoDevelop.Services {
 	/// to a parser layer Class Collection.
 	/// </summary>
 	[Serializable]
-	public class AssemblyInformation : MarshalByRefObject
+	internal class AssemblyInformation : MarshalByRefObject
 	{
 		ClassCollection classes = new ClassCollection();
 		string fileName;

@@ -19,7 +19,7 @@ using MonoDevelop.Services;
 
 namespace MonoDevelop.Gui.Dialogs
 {
-	public class WordCountDialog : Dialog
+	internal class WordCountDialog : Dialog
 	{
 		ScrolledWindow scrolledwindow;
 		TreeView resultListView;

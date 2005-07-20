@@ -12,7 +12,7 @@ using System.Collections;
 
 namespace MonoDevelop.Gui.Search
 {
-	public class FileDocumentInformation: IDocumentInformation
+	internal class FileDocumentInformation: IDocumentInformation
 	{
 		string fileName;
 		int currentOffset;

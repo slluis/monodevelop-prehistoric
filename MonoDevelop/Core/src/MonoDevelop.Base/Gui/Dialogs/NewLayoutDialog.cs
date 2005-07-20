@@ -10,7 +10,7 @@ using MonoDevelop.Gui;
 
 namespace MonoDevelop.Gui.Dialogs
 {
-	public class NewLayoutDialog : IDisposable
+	internal class NewLayoutDialog : IDisposable
 	{
 		IWorkbenchLayout wbLayout = WorkbenchSingleton.Workbench.WorkbenchLayout;
 		string[] existentLayouts;

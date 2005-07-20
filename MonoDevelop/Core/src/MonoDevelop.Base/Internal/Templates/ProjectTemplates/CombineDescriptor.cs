@@ -20,7 +20,7 @@ using MonoDevelop.Services;
 
 namespace MonoDevelop.Internal.Templates
 {
-	public class CombineDescriptor: ICombineEntryDescriptor
+	internal class CombineDescriptor: ICombineEntryDescriptor
 	{
 		ArrayList entryDescriptors = new ArrayList();
 		

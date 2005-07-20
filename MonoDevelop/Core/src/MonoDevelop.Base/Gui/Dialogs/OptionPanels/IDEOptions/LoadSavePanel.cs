@@ -22,7 +22,7 @@ namespace MonoDevelop.Gui.Dialogs.OptionPanels
 	/// Summary description for Form1.
 	/// </summary>
 	
-	public class LoadSavePanel : AbstractOptionPanel
+	internal class LoadSavePanel : AbstractOptionPanel
 	{
 		//FIXME: Add mneumonics for Window, Macintosh and Unix Radio Buttons. 
 		//       Remove mneumonic from terminator label.

@@ -24,7 +24,7 @@ using MonoDevelop.Core.AddIns.Codons;
 
 namespace MonoDevelop.Internal.Templates
 {
-	public class OpenFileAction
+	internal class OpenFileAction
 	{
 		string fileName;
 		
@@ -42,7 +42,7 @@ namespace MonoDevelop.Internal.Templates
 	/// <summary>
 	/// This class defines and holds the new project templates.
 	/// </summary>
-	public class ProjectTemplate
+	internal class ProjectTemplate
 	{
 		public static ArrayList ProjectTemplates = new ArrayList();
 		

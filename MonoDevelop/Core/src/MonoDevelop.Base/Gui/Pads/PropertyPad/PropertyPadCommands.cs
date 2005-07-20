@@ -19,7 +19,7 @@ using MonoDevelop.Core.AddIns.Codons;
 
 namespace MonoDevelop.Gui.Pads
 {
-	public class PropertyPadResetCommand : AbstractMenuCommand
+	internal class PropertyPadResetCommand : AbstractMenuCommand
 	{
 		public override void Run()
 		{
@@ -27,7 +27,7 @@ namespace MonoDevelop.Gui.Pads
 		}
 	}
 	
-	public class PropertyPadShowDescriptionCommand : AbstractCheckableMenuCommand
+	internal class PropertyPadShowDescriptionCommand : AbstractCheckableMenuCommand
 	{
 		public override bool IsChecked {
 			get {

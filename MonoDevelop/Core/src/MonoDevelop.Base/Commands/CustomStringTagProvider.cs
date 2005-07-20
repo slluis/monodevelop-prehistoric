@@ -27,7 +27,7 @@ using MonoDevelop.Internal.Project;
 
 namespace MonoDevelop.Commands
 {
-	public class SharpDevelopStringTagProvider :  IStringTagProvider 
+	internal class SharpDevelopStringTagProvider :  IStringTagProvider 
 	{
 		IProjectService projectService = Runtime.ProjectService;
 		

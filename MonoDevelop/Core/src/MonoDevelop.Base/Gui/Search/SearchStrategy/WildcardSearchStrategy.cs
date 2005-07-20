@@ -23,7 +23,7 @@ namespace MonoDevelop.Gui.Search
 	///  [...] = Any one character in the set
 	/// [!...] = Any one character not in the set
 	/// </summary>
-	public class WildcardSearchStrategy : ISearchStrategy
+	internal class WildcardSearchStrategy : ISearchStrategy
 	{
 		enum CommandType {
 			Match,

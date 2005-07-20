@@ -15,7 +15,7 @@ using MonoDevelop.Services;
 
 namespace MonoDevelop.Gui.Dialogs
 {
-	public class AboutMonoDevelopTabPage : VBox
+	internal class AboutMonoDevelopTabPage : VBox
 	{
 		public AboutMonoDevelopTabPage ()
 		{
@@ -43,7 +43,7 @@ namespace MonoDevelop.Gui.Dialogs
 		}
 	}
 	
-	public class VersionInformationTabPage : VBox
+	internal class VersionInformationTabPage : VBox
 	{
 		public VersionInformationTabPage ()
 		{

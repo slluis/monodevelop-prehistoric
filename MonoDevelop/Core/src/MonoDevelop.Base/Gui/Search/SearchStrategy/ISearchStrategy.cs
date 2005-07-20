@@ -13,7 +13,7 @@ namespace MonoDevelop.Gui.Search
 	/// This interface is the basic interface which all 
 	/// search algorithms must implement.
 	/// </summary>
-	public interface ISearchStrategy
+	internal interface ISearchStrategy
 	{
 		/// <remarks>
 		/// Only with a call to this method the search strategy must

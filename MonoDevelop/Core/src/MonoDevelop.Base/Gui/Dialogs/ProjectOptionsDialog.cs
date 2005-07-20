@@ -22,7 +22,7 @@ namespace MonoDevelop.Gui.Dialogs {
 	/// <summary>
 	/// Dialog for viewing the project options (plain treeview isn't good enough :/)
 	/// </summary>
-	public class ProjectOptionsDialog : TreeViewOptions
+	internal class ProjectOptionsDialog : TreeViewOptions
 	{
 		Project  project;
 		

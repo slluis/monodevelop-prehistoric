@@ -21,7 +21,7 @@ using MonoDevelop.Gui.Utils;
 
 namespace MonoDevelop.Services
 {
-	public class DefaultFileService : GuiSyncAbstractService, IFileService
+	internal class DefaultFileService : GuiSyncAbstractService, IFileService
 	{
 		string currentFile;
 		RecentOpen       recentOpen = null;

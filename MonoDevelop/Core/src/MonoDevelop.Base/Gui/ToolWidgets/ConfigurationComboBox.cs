@@ -32,7 +32,7 @@ using MonoDevelop.Internal.Project;
 
 namespace MonoDevelop.Gui
 {
-	public class ConfigurationComboBox: Gtk.Alignment
+	internal class ConfigurationComboBox: Gtk.Alignment
 	{
 		Gtk.ComboBox combo;
 		ConfigurationEventHandler onActiveConfigurationChanged;

@@ -34,7 +34,7 @@ namespace MonoDevelop.Gui.Search
 	
 	public class SearchReplaceManager
 	{
-		public static ReplaceDialog ReplaceDialog     = null;
+		internal static ReplaceDialog ReplaceDialog = null;
 
 		static IFind find = new DefaultFind();
 		static SearchOptions searchOptions = new SearchOptions("SharpDevelop.SearchAndReplace.SearchAndReplaceProperties");
@@ -62,6 +62,33 @@ namespace MonoDevelop.Gui.Search
 		static void InitializeDocumentIterator(object sender, EventArgs e)
 		{
 			find.DocumentIterator = SearchReplaceUtilities.CreateDocumentIterator(SearchOptions.DocumentIteratorType);
+		}
+		
+		public static void ShowFindReplaceWindow ()
+		{
+			ShowWindow (true);
+		}
+		
+		public static void ShowFindWindow ()
+		{
+			ShowWindow (false);
+		}
+		
+		static void ShowWindow (bool mode)
+		{
+			if (ReplaceDialog != null) {
+				if (ReplaceDialog.replaceMode == mode) {
+					ReplaceDialog.SetSearchPattern (SearchOptions.SearchPattern);
+					ReplaceDialog.Present ();
+				} else {
+					ReplaceDialog.Destroy ();
+					ReplaceDialog rd = new ReplaceDialog (mode);
+					rd.ShowAll ();
+				}
+			} else {
+				ReplaceDialog rd = new ReplaceDialog (mode);
+				rd.ShowAll();
+			}
 		}
 		
 		// TODO: Transform Replace Pattern
@@ -203,7 +230,7 @@ namespace MonoDevelop.Gui.Search
 			return WorkbenchSingleton.Workbench.ActiveWorkbenchWindow.ViewContent;
 		}
 		
-		public static Gtk.Dialog DialogPointer 
+		internal static Gtk.Dialog DialogPointer 
 		{
 			get {
 				if ( ReplaceDialog != null ) { 

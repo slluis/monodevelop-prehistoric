@@ -22,7 +22,7 @@ using Glade;
 
 namespace MonoDevelop.Gui.Dialogs
 {
-	public class ReplaceDialog
+	internal class ReplaceDialog
 	{
 		private const int historyLimit = 20;
 		private const char historySeparator = (char) 10;

@@ -10,7 +10,7 @@ using System.Collections;
 
 namespace MonoDevelop.Gui.Search
 {
-	public class AllOpenDocumentIterator : IDocumentIterator
+	internal class AllOpenDocumentIterator : IDocumentIterator
 	{
 		int  startIndex = -1;
 		bool resetted    = true;

@@ -329,11 +329,8 @@
     <File name="./Gui/ViewContentCollection.cs" subtype="Code" buildaction="Compile" />
     <File name="./Gui/WorkbenchSingleton.cs" subtype="Code" buildaction="Compile" />
     <File name="./Gui/WorkbenchWindowCollection.cs" subtype="Code" buildaction="Compile" />
-    <File name="./Gui/BrowserDisplayBinding/AxSHDocVw.cs" subtype="Code" buildaction="Compile" />
     <File name="./Gui/BrowserDisplayBinding/BrowserDisplayBinding.cs" subtype="Code" buildaction="Compile" />
-    <File name="./Gui/BrowserDisplayBinding/HTMLInterfaces.cs" subtype="Code" buildaction="Compile" />
     <File name="./Gui/BrowserDisplayBinding/HtmlViewPane.cs" subtype="Code" buildaction="Compile" />
-    <File name="./Gui/BrowserDisplayBinding/SHDocVw.cs" subtype="Code" buildaction="Compile" />
     <File name="./Gui/Components/SdMenu.cs" subtype="Code" buildaction="Compile" />
     <File name="./Gui/Components/SdMenuCheckBox.cs" subtype="Code" buildaction="Compile" />
     <File name="./Gui/Components/SdMenuCommand.cs" subtype="Code" buildaction="Compile" />
@@ -373,7 +370,6 @@
     <File name="./Gui/Dialogs/CombineConfiguration/CombineConfigurationPanel.cs" subtype="Code" buildaction="Compile" />
     <File name="./Gui/Dialogs/CombineConfiguration/CombineDependencyPanel.cs" subtype="Code" buildaction="Compile" />
     <File name="./Gui/Dialogs/CombineConfiguration/CombineStartupPanel.cs" subtype="Code" buildaction="Compile" />
-    <File name="./Gui/Dialogs/CombineConfiguration/ConfigurationManager.cs" subtype="Code" buildaction="Compile" />
     <File name="./Gui/Dialogs/OptionPanels/EditTemplateDialog.cs" subtype="Code" buildaction="Compile" />
     <File name="./Gui/Dialogs/OptionPanels/ExternalToolPanel.cs" subtype="Code" buildaction="Compile" />
     <File name="./Gui/Dialogs/OptionPanels/PropertyGridPanel.cs" subtype="Code" buildaction="Compile" />

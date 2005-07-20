@@ -28,7 +28,8 @@ namespace MonoDevelop.Gui.Dialogs {
 	/// This class displays a new project dialog and sets up and creates a a new project,
 	/// the project types are described in an XML options file
 	/// </summary>
-	public class NewProjectDialog {
+	internal class NewProjectDialog
+	{
 		ArrayList alltemplates = new ArrayList();
 		ArrayList categories   = new ArrayList();
 		

@@ -15,7 +15,7 @@ using MonoDevelop.Services;
 
 namespace MonoDevelop.Services
 {
-	public class DefaultStatusBarService : GuiSyncAbstractService, IStatusBarService
+	internal class DefaultStatusBarService : GuiSyncAbstractService, IStatusBarService
 	{
 		SdStatusBar statusBar = null;
 		StringParserService stringParserService = Runtime.StringParserService;

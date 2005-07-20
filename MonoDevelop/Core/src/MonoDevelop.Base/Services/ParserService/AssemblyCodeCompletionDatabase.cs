@@ -149,7 +149,7 @@ namespace MonoDevelop.Services
 		}
 	}
 	
-	public class AssemblyDatabaseHelper: RemoteProcessObject
+	internal class AssemblyDatabaseHelper: RemoteProcessObject
 	{
 		public bool GetAssemblyInfo (string assemblyName, out string realAssemblyName, out string assemblyFile, out string name, out string[] references)
 		{

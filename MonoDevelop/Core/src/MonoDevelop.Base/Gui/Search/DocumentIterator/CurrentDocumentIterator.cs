@@ -10,7 +10,7 @@ using System.Collections;
 
 namespace MonoDevelop.Gui.Search
 {
-	public class CurrentDocumentIterator : IDocumentIterator
+	internal class CurrentDocumentIterator : IDocumentIterator
 	{
 		bool didRead = false;
 		

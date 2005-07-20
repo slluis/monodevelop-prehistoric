@@ -10,7 +10,7 @@ using MonoDevelop.Gui;
 
 namespace MonoDevelop.Gui.Dialogs
 {
-	public class DirtyFilesDialog : Gtk.Dialog
+	internal class DirtyFilesDialog : Gtk.Dialog
 	{
 
 		Button btnSaveAndQuit;

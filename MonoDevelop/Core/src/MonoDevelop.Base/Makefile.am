@@ -128,7 +128,6 @@ Gui/Dialogs/CombineConfiguration/CombineEntryConfigurationsPanel.cs \
 Gui/Dialogs/CombineConfiguration/CombineDependencyPanel.cs \
 Gui/Dialogs/CombineConfiguration/CombineStartupPanel.cs \
 Gui/Dialogs/CombineConfiguration/CombineBuildOptions.cs \
-Gui/Dialogs/CombineConfiguration/ConfigurationManager.cs \
 Gui/Dialogs/NewProjectDialog.cs \
 Gui/Dialogs/AbstractOptionPanel.cs \
 Gui/Dialogs/ReferenceDialog/COMReferencePanel.cs \
@@ -161,11 +160,8 @@ Gui/IWorkbenchLayout.cs \
 Gui/ErrorHandlers/GenericError.cs \
 Gui/ErrorHandlers/CombineLoadError.cs \
 Gui/IWorkbench.cs \
-Gui/BrowserDisplayBinding/AxSHDocVw.cs \
 Gui/BrowserDisplayBinding/HtmlViewPane.cs \
 Gui/BrowserDisplayBinding/BrowserDisplayBinding.cs \
-Gui/BrowserDisplayBinding/HTMLInterfaces.cs \
-Gui/BrowserDisplayBinding/SHDocVw.cs \
 Gui/IPadContent.cs \
 Gui/AbstractBaseViewContent.cs \
 Gui/PadContentCollection.cs \

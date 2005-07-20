@@ -25,7 +25,7 @@ namespace MonoDevelop.Commands
 		ToolList
 	}
 	
-	public class ToolListHandler: CommandHandler
+	internal class ToolListHandler: CommandHandler
 	{
 		protected override void Update (CommandArrayInfo info)
 		{

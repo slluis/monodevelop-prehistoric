@@ -26,7 +26,7 @@ namespace MonoDevelop.Commands
 		ReplaceInFiles
 	}
 
-	public class FindInFilesHandler : CommandHandler
+	internal class FindInFilesHandler : CommandHandler
 	{
 		public static void SetSearchPattern ()
 		{
@@ -58,7 +58,7 @@ namespace MonoDevelop.Commands
 		}
 	}
 	
-	public class ReplaceInFilesHandler : CommandHandler
+	internal class ReplaceInFilesHandler : CommandHandler
 	{
 		protected override void Run()
 		{

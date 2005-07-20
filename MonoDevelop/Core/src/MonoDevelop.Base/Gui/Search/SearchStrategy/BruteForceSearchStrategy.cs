@@ -15,7 +15,7 @@ namespace MonoDevelop.Gui.Search
 	/// <summary>
 	///  Only for fallback purposes.
 	/// </summary>
-	public class BruteForceSearchStrategy : ISearchStrategy
+	internal class BruteForceSearchStrategy : ISearchStrategy
 	{
 		string searchPattern;
 		

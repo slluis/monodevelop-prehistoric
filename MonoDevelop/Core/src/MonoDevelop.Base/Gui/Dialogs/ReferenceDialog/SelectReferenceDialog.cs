@@ -16,11 +16,11 @@ using Glade;
 
 namespace MonoDevelop.Gui.Dialogs
 {
-	public interface IReferencePanel
+	internal interface IReferencePanel
 	{
 	}
 	
-	public class SelectReferenceDialog
+	internal class SelectReferenceDialog
 	{
 		TreeStore refTreeStore;
 		[Widget] Dialog    AddReferenceDialog;

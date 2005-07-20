@@ -17,7 +17,7 @@ namespace MonoDevelop.Services
 	/// </summary>
 	/// <seealso cref='.ClassProxyCollection'/>
 	[Serializable()]
-	public class ClassProxyCollection : CollectionBase 
+	internal class ClassProxyCollection : CollectionBase 
 	{
 		Hashtable nameHashtable                = new Hashtable();
 		Hashtable caseInsensitiveNameHashtable = new Hashtable();

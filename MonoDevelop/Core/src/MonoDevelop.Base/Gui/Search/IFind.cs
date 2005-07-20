@@ -14,7 +14,7 @@ namespace MonoDevelop.Gui.Search
 	/// <summary>
 	/// The basic interface for search operations in a document.
 	/// </summary>
-	public interface IFind
+	internal interface IFind
 	{
 		/// <value>
 		/// An object that implements a search algorithm.

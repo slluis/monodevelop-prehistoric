@@ -21,7 +21,7 @@ namespace MonoDevelop.Gui.Search
 {
 	public class SearchReplaceInFilesManager
 	{
-		public static ReplaceInFilesDialog ReplaceDialog;
+		internal static ReplaceInFilesDialog ReplaceDialog;
 
 		static IFind find                  = new DefaultFind();
 		static SearchOptions searchOptions = new SearchOptions("SharpDevelop.SearchAndReplace.SearchAndReplaceInFilesProperties");
@@ -128,7 +128,7 @@ namespace MonoDevelop.Gui.Search
 			Runtime.DispatchService.BackgroundDispatch (new MessageHandler(ReplaceAllThread));
 		}
 		
-		public static void ReplaceAllThread()
+		static void ReplaceAllThread()
 		{
 			searching = true;
 			searchError = null;
@@ -174,7 +174,7 @@ namespace MonoDevelop.Gui.Search
 			Runtime.DispatchService.BackgroundDispatch (new MessageHandler(FindAllThread));
 		}
 		
-		public static void FindAllThread()
+		static void FindAllThread()
 		{
 			searching = true;
 			searchError = null;
@@ -216,7 +216,7 @@ namespace MonoDevelop.Gui.Search
 			cancelled = false;
 		}
 
-		public static Gtk.Dialog DialogPointer
+		internal static Gtk.Dialog DialogPointer
 		{
 			get {
 				if ( ReplaceDialog != null ){ 

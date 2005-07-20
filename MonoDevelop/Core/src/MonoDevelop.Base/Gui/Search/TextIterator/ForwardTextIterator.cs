@@ -224,7 +224,7 @@ namespace MonoDevelop.Gui.Search
 				return (BufferLength - endOffset) + pos;
 		}
 		
-		public int BufferLength
+		protected int BufferLength
 		{
 			get { return textBuffer.EndIter.Offset + 1; }
 		}

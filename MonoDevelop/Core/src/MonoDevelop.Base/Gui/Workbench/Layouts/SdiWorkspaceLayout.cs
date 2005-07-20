@@ -29,7 +29,7 @@ namespace MonoDevelop.Gui
 	/// <summary>
 	/// This is the a Workspace with a single document interface.
 	/// </summary>
-	public class SdiWorkbenchLayout : IWorkbenchLayout
+	internal class SdiWorkbenchLayout : IWorkbenchLayout
 	{
 		static string configFile = Runtime.Properties.ConfigDirectory + "DefaultEditingLayout.xml";
 

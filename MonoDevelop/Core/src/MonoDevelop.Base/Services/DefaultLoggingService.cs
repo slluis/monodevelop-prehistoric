@@ -10,7 +10,7 @@ using log4net.Config;
 
 namespace MonoDevelop.Services
 {
-	public class DefaultLoggingService : AbstractService, ILoggingService
+	internal class DefaultLoggingService : AbstractService, ILoggingService
 	{
 		public event LogAppendedHandler LogAppended;
 

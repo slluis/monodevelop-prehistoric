@@ -26,7 +26,7 @@ namespace MonoDevelop.Commands
 		About
 	}
 	
-	public class TipOfTheDayHandler: CommandHandler
+	internal class TipOfTheDayHandler: CommandHandler
 	{
 		protected override void Run ()
 		{
@@ -35,7 +35,7 @@ namespace MonoDevelop.Commands
 		}
 	}
 		
-	public class AboutHandler: CommandHandler
+	internal class AboutHandler: CommandHandler
 	{
 		protected override void Run ()
 		{
@@ -46,7 +46,7 @@ namespace MonoDevelop.Commands
 		}
 	}
 	
-	public class GotoWebSite : AbstractMenuCommand
+	internal class GotoWebSite : AbstractMenuCommand
 	{
 		string site;
 		
@@ -62,7 +62,7 @@ namespace MonoDevelop.Commands
 	}
 	
 	// FIXME: dont use Process Start for HTML files
-	public class GotoLink : AbstractMenuCommand
+	internal class GotoLink : AbstractMenuCommand
 	{
 		string site;
 		

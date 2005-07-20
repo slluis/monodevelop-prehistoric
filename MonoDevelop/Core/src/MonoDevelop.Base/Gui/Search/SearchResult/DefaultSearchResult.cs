@@ -9,7 +9,7 @@ using System;
 
 namespace MonoDevelop.Gui.Search
 {
-	public class DefaultSearchResult : ISearchResult
+	internal class DefaultSearchResult : ISearchResult
 	{
 		IDocumentInformation documentInformation;
 		int offset;

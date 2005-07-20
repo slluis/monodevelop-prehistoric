@@ -1,4 +1,4 @@
-﻿// <file>
+// <file>
 //     <copyright see="prj:///doc/copyright.txt"/>
 //     <license see="prj:///doc/license.txt"/>
 //     <owner name="Mike Krüger" email="mike@icsharpcode.net"/>
@@ -21,7 +21,7 @@ namespace MonoDevelop.Internal.ExternalTool
 	/// <summary>
 	/// This class handles the external tools 
 	/// </summary>
-	public class ToolLoader
+	internal class ToolLoader
 	{
 		static string TOOLFILE        = "MonoDevelop-tools.xml";
 		static string TOOLFILEVERSION = "1";
