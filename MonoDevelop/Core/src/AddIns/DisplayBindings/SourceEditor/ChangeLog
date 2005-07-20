@@ -1,3 +1,11 @@
+2005-07-20  Lluis Sanchez Gual  <lluis@novell.com> 
+
+	* Gui/SourceEditorWidget.cs: Implemented FindPrevious command.
+	* Gui/SourceEditorDisplayBinding.cs: Implemented SelectionStartPosition
+	and SelectionEndPosition properties. Implemented an ITextIterator
+	that supports SourceView's native search methods.
+	* MonoDevelopEditor.addin.xml: Added FindPrevious command to the menu.
+
 2005-07-13  John Luke  <john.luke@gmail.com>
 
 	* Gui/SourceEditorView.cs: make DeleteLine () use AtomicUndo

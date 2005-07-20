@@ -127,9 +127,10 @@
 	<Extension path = "/SharpDevelop/Workbench/MainMenu">
 		<ItemSet id = "Search" insertafter ="View" insertbefore ="Tools" _label = "_Search">
 			<CommandItem id = "MonoDevelop.Commands.SearchCommands.Find" />
+			<CommandItem id = "MonoDevelop.Commands.SearchCommands.FindPrevious" />
 			<CommandItem id = "MonoDevelop.Commands.SearchCommands.FindNext" />
+			<CommandItem id = "MonoDevelop.Commands.SearchCommands.FindNextSelection" />
 			<CommandItem id = "MonoDevelop.Commands.SearchCommands.Replace" />
-			<CommandItem id = "MonoDevelop.Commands.SearchCommands.FindSelection" />
 			
 			<SeparatorItem id = "SearchSeparator" />
 			<CommandItem id = "MonoDevelop.Commands.SearchCommands.FindInFiles" />

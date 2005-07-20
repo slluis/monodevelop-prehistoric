@@ -566,6 +566,24 @@ namespace MonoDevelop.SourceEditor.Gui
 			se.Buffer.MoveMark (se.Buffer.SelectionBound, (TextIter) endPosition);
 		}
 		
+		public object SelectionStartPosition {
+			get {
+				TextIter p1 = se.Buffer.GetIterAtMark (se.Buffer.InsertMark);
+				TextIter p2 = se.Buffer.GetIterAtMark (se.Buffer.SelectionBound);
+				if (p1.Offset < p2.Offset) return p1;
+				else return p2;
+			}
+		}
+		
+		public object SelectionEndPosition {
+			get {
+				TextIter p1 = se.Buffer.GetIterAtMark (se.Buffer.InsertMark);
+				TextIter p2 = se.Buffer.GetIterAtMark (se.Buffer.SelectionBound);
+				if (p1.Offset > p2.Offset) return p1;
+				else return p2;
+			}
+		}
+		
 		public void ShowPosition (object position)
 		{
 			se.View.ScrollToIter ((TextIter)position, 0.3, false, 0, 0);
@@ -607,7 +625,7 @@ namespace MonoDevelop.SourceEditor.Gui
 		public ITextIterator GetTextIterator ()
 		{
 			int startOffset = Editor.Buffer.GetIterAtMark (Editor.Buffer.InsertMark).Offset;
-			return new ForwardTextIterator (this, se.View, startOffset);
+			return new SourceViewTextIterator (this, se.View, startOffset);
 		}
 		
 		public string GetLineTextAtOffset (int offset)
@@ -700,5 +718,98 @@ namespace MonoDevelop.SourceEditor.Gui
 			}
  		}
 	}
+	
+	class SourceViewTextIterator: ForwardTextIterator
+	{
+		bool initialBackwardsPosition;
+		
+		public SourceViewTextIterator (IDocumentInformation docInfo, Gtk.TextView document, int endOffset)
+		: base (docInfo, document, endOffset)
+		{
+		}
+		
+		public override bool SupportsSearch (SearchOptions options, bool reverse)
+		{
+			return !options.SearchWholeWordOnly;
+		}
+		
+		public override void MoveToEnd ()
+		{
+			initialBackwardsPosition = true;
+			base.MoveToEnd ();
+		}
+		
+		public override bool SearchNext (string text, SearchOptions options, bool reverse)
+		{
+			// Make sure the backward search finds the first match when that match is just
+			// at the left of the cursor. Position needs to be incremented in this case because it will be
+			// at the last char of the match, and BackwardSearch don't return results that include
+			// the initial search position.
+			if (reverse && Position < BufferLength && initialBackwardsPosition) {
+				Position++;
+				initialBackwardsPosition = false;
+			}
+			
+			TextIter it = Buffer.GetIterAtOffset (DocumentOffset);
+			
+			int limitOffset = EndOffset;
+			if (reverse)
+				limitOffset = (limitOffset + text.Length - 1) % BufferLength;
+			else
+				limitOffset = (limitOffset + 1) % BufferLength;
+
+			SourceSearchFlags flags = options.IgnoreCase ? SourceSearchFlags.CaseInsensitive : SourceSearchFlags.VisibleOnly;
+			Gtk.TextIter matchStart, matchEnd;
+			bool res;
+			
+			Gtk.TextIter limit;
+			
+			if (reverse) {
+				if (DocumentOffset <= EndOffset)
+					limit = Buffer.StartIter;
+				else
+					limit = Buffer.GetIterAtOffset (limitOffset);
+			} else {
+				if (DocumentOffset >= EndOffset)
+					limit = Buffer.EndIter;
+				else
+					limit = Buffer.GetIterAtOffset (limitOffset);
+			}
+			
+			// machEnd is the position of the last matched char + 1
+			// When searching forward, the limit check is: matchEnd < limit
+			// When searching backwards, the limit check is: matchEnd > limit
+			
+			res = Find (reverse, it, text, flags, out matchStart, out matchEnd, limit);
+			
+			if (!res) {
+				// Not found in the first half of the document, try not the other half
+				if (reverse && DocumentOffset <= EndOffset) {
+					it = Buffer.EndIter;
+					limit = Buffer.GetIterAtOffset (limitOffset);
+					res = Find (true, it, text, flags, out matchStart, out matchEnd, limit);
+				} else if (!reverse && DocumentOffset >= EndOffset) {
+					it = Buffer.StartIter;
+					limit = Buffer.GetIterAtOffset (limitOffset);
+					res = Find (false, it, text, flags, out matchStart, out matchEnd, limit);
+				}
+			}
+			
+			if (!res) return false;
+			
+			DocumentOffset = matchStart.Offset;
+			return true;
+		}
+		
+		
+		bool Find (bool reverse, Gtk.TextIter iter, string str, GtkSourceView.SourceSearchFlags flags, out Gtk.TextIter match_start, out Gtk.TextIter match_end, Gtk.TextIter limit)
+		{
+			if (reverse)
+				return ((SourceBuffer)Buffer).BackwardSearch (iter, str, flags, out match_start, out match_end, limit);
+			else
+				return ((SourceBuffer)Buffer).ForwardSearch (iter, str, flags, out match_start, out match_end, limit);
+		}
+	}
 }
+
 

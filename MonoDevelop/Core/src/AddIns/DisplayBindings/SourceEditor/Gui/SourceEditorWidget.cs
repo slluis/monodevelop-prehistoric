@@ -117,11 +117,24 @@ namespace MonoDevelop.SourceEditor.Gui
 			SearchReplaceManager.FindNext ();
 		}
 	
-		[CommandHandler (SearchCommands.FindSelection)]
-		public void FindSelection ()
+		[CommandHandler (SearchCommands.FindPrevious)]
+		public void FindPrevious ()
+		{
+			SearchReplaceManager.FindPrevious ();
+		}
+	
+		[CommandHandler (SearchCommands.FindNextSelection)]
+		public void FindNextSelection ()
 		{
 			SetSearchPattern();
 			SearchReplaceManager.FindNext ();
+		}
+	
+		[CommandHandler (SearchCommands.FindPreviousSelection)]
+		public void FindPreviousSelection ()
+		{
+			SetSearchPattern();
+			SearchReplaceManager.FindPrevious ();
 		}
 	
 		[CommandHandler (SearchCommands.Replace)]
