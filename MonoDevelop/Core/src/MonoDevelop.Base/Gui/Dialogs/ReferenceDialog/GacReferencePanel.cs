@@ -43,9 +43,11 @@ namespace MonoDevelop.Gui.Dialogs
 			
 			treeView.AppendColumn (firstColumn);
 			treeView.AppendColumn (GettextCatalog.GetString ("Version"), new CellRendererText (), "text", 1);
-			treeView.AppendColumn (GettextCatalog.GetString ("Path"), new CellRendererText (), "text", 2);
+			// FIXME: this seems useless
+			//treeView.AppendColumn (GettextCatalog.GetString ("Path"), new CellRendererText (), "text", 2);
 
 			store.SetSortColumnId (0, SortType.Ascending);
+			store.SetSortFunc (0, new TreeIterCompareFunc (SortTree));
 			
 			PrintCache();
 			ScrolledWindow sc = new ScrolledWindow ();
@@ -54,6 +56,23 @@ namespace MonoDevelop.Gui.Dialogs
 			this.PackStart (sc, true, true, 0);
 			ShowAll ();
 			BorderWidth = 6;
+		}
+		
+		int SortTree (TreeModel model, TreeIter first, TreeIter second)
+		{
+			// first compare by name
+			string fname = (string) model.GetValue (first, 0);
+			string sname = (string) model.GetValue (second, 0);
+			int compare = String.Compare (fname, sname, true);
+
+			// they had the same name, so compare the version
+			if (compare == 0) {
+				string fversion = (string) model.GetValue (first, 1);
+				string sversion = (string) model.GetValue (second, 1);
+				compare = String.Compare (fversion, sversion, true);
+			}
+
+			return compare;
 		}
 
 		public void Reset ()
