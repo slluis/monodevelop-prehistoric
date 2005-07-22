@@ -61,16 +61,5 @@
     <File name="./Commands/ProjectCommands.cs" subtype="Code" buildaction="Compile" />
     <File name="./Commands/TextAreaContextmenuCommands.cs" subtype="Code" buildaction="Compile" />
     <File name="./Codons/EditActionCodon.cs" subtype="Code" buildaction="Compile" />
-    <File name="./CodeCompletion/CodeCompletionData.cs" subtype="Code" buildaction="Compile" />
-    <File name="./CodeCompletion/CodeCompletionDataProvider.cs" subtype="Code" buildaction="Compile" />
-    <File name="./CodeCompletion/CommentCompletionDataProvider.cs" subtype="Code" buildaction="Compile" />
-    <File name="./CodeCompletion/CompletionListWindow.cs" subtype="Code" buildaction="Compile" />
-    <File name="./CodeCompletion/CompletionWindow.cs" subtype="Code" buildaction="Nothing" />
-    <File name="./CodeCompletion/DeclarationViewWindow.cs" subtype="Code" buildaction="Compile" />
-    <File name="./CodeCompletion/ICompletionData.cs" subtype="Code" buildaction="Compile" />
-    <File name="./CodeCompletion/ICompletionDataProvider.cs" subtype="Code" buildaction="Compile" />
-    <File name="./CodeCompletion/ListWindow.cs" subtype="Code" buildaction="Compile" />
-    <File name="./CodeCompletion/TemplateCompletionDataProvider.cs" subtype="Code" buildaction="Compile" />
-    <File name="./CodeCompletion/TextUtilities.cs" subtype="Code" buildaction="Compile" />
   </Contents>
 </Project>

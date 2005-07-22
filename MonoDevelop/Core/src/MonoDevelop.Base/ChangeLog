@@ -1,3 +1,7 @@
+2005-07-22  John Luke  <john.luke@gmail.com>
+
+	* MonoDevelop.Base.mdp: add Gui/Completion/* to the project
+	
 2005-07-20  John Luke  <john.luke@gmail.com>
 
 	* Gui/Dialogs/ReferenceDialog/GacReferencePanel.cs:

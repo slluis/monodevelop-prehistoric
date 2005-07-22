@@ -1,3 +1,7 @@
+2005-07-22  John Luke  <john.luke@gmail.com>
+
+	* SourceEditor.mdp: remove completion files moved into Base assembly
+
 2005-07-20  Lluis Sanchez Gual  <lluis@novell.com> 
 
 	* Gui/SourceEditorWidget.cs: Factorized some code into
