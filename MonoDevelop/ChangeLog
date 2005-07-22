@@ -1,3 +1,7 @@
+2005-07-21  Peter Johanson  <latexer@gentoo.org> 
+
+	* configure.in: Bump boo dep as needed by recent completion changes.
+
 2005-07-18  Lluis Sanchez Gual  <lluis@novell.com> 
 
 	* monodevelop.in: Set MONODEVELOP_DISPATCH_DEBUG when running with
