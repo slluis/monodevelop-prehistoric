@@ -483,7 +483,6 @@ namespace MonoDevelop.Core.AddIns
 		/// </exception>
 		public Type GetType (string className)
 		{
-			object newInstance;
 			foreach (DictionaryEntry library in runtimeLibraries) {
 				Type t = ((Assembly)library.Value).GetType (className);
 				if (t != null)
