@@ -166,7 +166,7 @@ namespace MonoDevelop.Gui.Dialogs
 		
 		// button events
 		
-		void CheckedChange(object sender, EventArgs e)
+		protected void CheckedChange(object sender, EventArgs e)
 		{
 			//((ListView)ControlDictionary["templateListView"]).View = ((RadioButton)ControlDictionary["smallIconsRadioButton"]).Checked ? View.List : View.LargeIcon;
 		}

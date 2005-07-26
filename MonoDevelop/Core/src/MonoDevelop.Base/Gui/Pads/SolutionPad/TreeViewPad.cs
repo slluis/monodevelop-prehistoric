@@ -965,7 +965,7 @@ namespace MonoDevelop.Gui.Pads
 		}
 		
 		[CommandUpdateHandler (ViewCommands.TreeDisplayOptionList)]
-		void BuildTreeOptionsMenu (CommandArrayInfo info)
+		protected void BuildTreeOptionsMenu (CommandArrayInfo info)
 		{
 			ITreeNavigator tnav = GetSelectedNode ();
 			ITreeOptions currentOptions = tnav.Options;
@@ -977,7 +977,7 @@ namespace MonoDevelop.Gui.Pads
 		}
 		
 		[CommandHandler (ViewCommands.TreeDisplayOptionList)]
-		void OptionToggled (string optionId)
+		protected void OptionToggled (string optionId)
 		{
 			Gtk.TreeModel foo;
 			Gtk.TreeIter iter;
@@ -989,7 +989,7 @@ namespace MonoDevelop.Gui.Pads
 		}
 		
 		[CommandHandler (ViewCommands.ResetTreeDisplayOptions)]
-		void ResetOptions ()
+		protected void ResetOptions ()
 		{
 			Gtk.TreeModel foo;
 			Gtk.TreeIter iter;
@@ -1407,7 +1407,7 @@ namespace MonoDevelop.Gui.Pads
 				return null;
 			}
 		
-			void EnsureFilled ()
+			protected virtual void EnsureFilled ()
 			{
 				if (!(bool) store.GetValue (currentIter, TreeViewPad.FilledColumn))
 					new TreeBuilder (pad, currentIter).FillNode ();
@@ -1429,7 +1429,7 @@ namespace MonoDevelop.Gui.Pads
 			{
 			}
 			
-			void EnsureFilled ()
+			protected override void EnsureFilled ()
 			{
 				if (!(bool) store.GetValue (currentIter, TreeViewPad.FilledColumn))
 					FillNode ();

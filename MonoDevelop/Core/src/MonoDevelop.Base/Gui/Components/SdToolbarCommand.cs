@@ -19,7 +19,6 @@ namespace MonoDevelop.Gui.Components
 		static Tooltips tips = new Tooltips ();
 		object caller;
 		ConditionCollection conditionCollection;
-		string description   = String.Empty;
 		string localizedText = String.Empty;
 		ICommand menuCommand = null;
 		

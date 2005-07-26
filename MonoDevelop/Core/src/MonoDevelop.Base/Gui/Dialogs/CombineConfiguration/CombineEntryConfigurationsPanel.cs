@@ -53,12 +53,11 @@ namespace MonoDevelop.Gui.Dialogs.OptionPanels
  			[Glade.Widget] Gtk.TreeView configsList;
 			
 			TreeStore store;
-			Combine combine;
 			ConfigurationData configData;
 			
 			public CombineEntryConfigurationsPanelWidget (IProperties CustomizationObject): base ("Base.glade", "CombineEntryConfigurationsPanel")
 			{
-				combine = (Combine)((IProperties)CustomizationObject).GetProperty("Combine");
+//				combine = (Combine)((IProperties)CustomizationObject).GetProperty("Combine");
 				configData = (ConfigurationData)((IProperties)CustomizationObject).GetProperty("CombineConfigData");
 				
 				store = new TreeStore (typeof(object), typeof(string));

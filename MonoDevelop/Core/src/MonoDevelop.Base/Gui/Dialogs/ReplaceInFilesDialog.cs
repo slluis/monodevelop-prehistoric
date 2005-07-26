@@ -31,9 +31,9 @@ namespace MonoDevelop.Gui.Dialogs
 		[Glade.Widget] Gtk.Entry replacePatternEntry;
 		[Glade.Widget] Gtk.Button findHelpButton;
 		[Glade.Widget] Gtk.Button findButton;
-		[Glade.Widget] Gtk.Button markAllButton;
+//		[Glade.Widget] Gtk.Button markAllButton;
 		[Glade.Widget] Gtk.Button closeButton;
-		[Glade.Widget] Gtk.Button replaceButton;
+//		[Glade.Widget] Gtk.Button replaceButton;
 		[Glade.Widget] Gtk.Button replaceAllButton;
 		[Glade.Widget] Gtk.Button replaceHelpButton;
 		[Glade.Widget] Gtk.CheckButton ignoreCaseCheckBox;

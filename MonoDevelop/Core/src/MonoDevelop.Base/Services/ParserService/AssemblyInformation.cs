@@ -51,7 +51,7 @@ namespace MonoDevelop.Services {
 		{
 		}
 		
-		byte[] GetBytes(string fileName)
+/*		byte[] GetBytes (string fileName)
 		{
 			Runtime.LoggingService.Info (fileName);
 			FileStream fs = System.IO.File.OpenRead(fileName);
@@ -61,7 +61,8 @@ namespace MonoDevelop.Services {
 			fs.Close();
 			return outArray;
 		}
-		
+*/
+
 		public void Load(string fileName, bool nonLocking)
 		{
 //			AssemblyReader assembly = new AssemblyReader();

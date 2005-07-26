@@ -55,12 +55,6 @@ namespace MonoDevelop.Internal.Project
 			reference = referencedProject.Name;
 		}
 		
-		bool IsAssembly {
-			get {
-				return referenceType == ReferenceType.Assembly;
-			}
-		}
-		
 		[ReadOnly(true)]
 		[LocalizedProperty("${res:MonoDevelop.Internal.Project.ProjectReference.ReferenceType}",
 		                   Description ="${res:MonoDevelop.Internal.Project.ProjectReference.ReferenceType.Description})")]

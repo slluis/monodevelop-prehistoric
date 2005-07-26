@@ -38,8 +38,6 @@ namespace MonoDevelop.Core.Services
 	
 	public class ResourceService : AbstractService
 	{
-		Hashtable userStrings = null;
-		Hashtable userIcons   = null;
 		static Gtk.IconFactory iconFactory = null;
 		static Hashtable stockMappings = null;
 		

@@ -38,8 +38,8 @@ namespace MonoDevelop.Core.AddIns.Codons
 	[CodonNameAttribute ("ContextPad")]
 	public class ContextPadCodon : AbstractCodon
 	{
-		[XmlMemberAttribute ("defaultVisible")]
-		bool visible = true;
+//		[XmlMemberAttribute ("defaultVisible")]
+//		bool visible = true;
 		
 		public override object BuildItem (object owner, ArrayList subItems, ConditionCollection conditions)
 		{

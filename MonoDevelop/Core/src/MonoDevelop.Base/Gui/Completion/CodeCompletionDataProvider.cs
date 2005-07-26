@@ -40,7 +40,6 @@ namespace MonoDevelop.Gui.Completion
 		
 		int caretLineNumber;
 		int caretColumn;
-		string fileName;
 		bool ctrlspace;
 
 		public CodeCompletionDataProvider() : this (false)
@@ -57,7 +56,6 @@ namespace MonoDevelop.Gui.Completion
 		public ICompletionData[] GenerateCompletionData(Project project, string fileName, ICompletionWidget widget, char charTyped)
 		{
 			completionData = new ArrayList();
-			this.fileName = fileName;
 			
 			// the parser works with 1 based coordinates
 			caretLineNumber      = widget.TriggerLine + 1;
@@ -126,7 +124,7 @@ namespace MonoDevelop.Gui.Completion
 							insertedElements[method.Name] = ccd;
 						} else {
 							CodeCompletionData firstMethod = (CodeCompletionData)insertedElements[method.Name];
-							++firstMethod.Overloads;
+//							++firstMethod.Overloads;
 							firstMethod.AddOverload (ccd);
 						}
 					}

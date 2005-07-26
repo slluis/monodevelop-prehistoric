@@ -169,15 +169,6 @@ namespace MonoDevelop.Services
 			return asm.Location;
 		}
 		
-		string sys_version;
-		string GetSysVersion () {
-			if (sys_version != null)
-				return sys_version;
-			sys_version = typeof (object).Assembly.GetName ().Version.ToString ();
-			return sys_version;
-		}
-		
-
 		private bool ContinueWithProcess(IProgressMonitor progressMonitor)
 		{
 			while (Gtk.Application.EventsPending ())

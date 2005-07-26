@@ -15,7 +15,7 @@ namespace MonoDevelop.Internal.Parser
 	[Serializable]
 	public class ReflectionMethod : AbstractMethod 
 	{
-		string GetParamList(MethodBase methodBase)
+/*		string GetParamList(MethodBase methodBase)
 		{
 			StringBuilder propertyName = new StringBuilder("(");
 			ParameterInfo[] p = methodBase.GetParameters();
@@ -31,7 +31,7 @@ namespace MonoDevelop.Internal.Parser
 			propertyName.Append(')');
 			return propertyName.ToString();
 		}
-
+*/
 		XmlNode FindMatch (XmlNodeList nodes, MethodBase methodBase)
 		{
 			ParameterInfo[] p = methodBase.GetParameters ();

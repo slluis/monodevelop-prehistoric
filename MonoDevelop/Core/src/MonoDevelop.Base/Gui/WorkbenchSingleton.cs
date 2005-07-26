@@ -18,10 +18,6 @@ namespace MonoDevelop.Gui
 {
 	public class WorkbenchSingleton
 	{
-		const string workbenchMemento        = "SharpDevelop.Workbench.WorkbenchMemento";
-		const string uiIconStyle             = "IconMenuItem.IconMenuStyle";
-		const string uiLanguageProperty      = "CoreProperties.UILanguage";
-		
 		static IWorkbench workbench    = null;
 		
 		public static IWorkbench Workbench {
@@ -35,7 +31,7 @@ namespace MonoDevelop.Gui
 		
 		static WorkbenchSingleton()
 		{
-			Runtime.Properties.PropertyChanged += new PropertyEventHandler(TrackPropertyChanges);
+			Runtime.Properties.PropertyChanged += (PropertyEventHandler) Runtime.DispatchService.GuiDispatch (new PropertyEventHandler(TrackPropertyChanges));
 		}
 		
 		static void SetWbLayout()

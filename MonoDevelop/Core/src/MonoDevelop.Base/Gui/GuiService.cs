@@ -8,7 +8,6 @@ namespace MonoDevelop.Gui
 	{
 		DisplayBindingService displayBindingService;
 		MenuService menuService;
-		IWorkbench workbench;
 		ToolbarService toolbarService;
 		IconService icons;
 		ResourceService resourceService;

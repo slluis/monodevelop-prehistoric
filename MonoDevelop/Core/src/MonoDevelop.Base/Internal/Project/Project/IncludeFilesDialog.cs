@@ -29,8 +29,8 @@ namespace MonoDevelop.Internal.Project
 		[Glade.Widget] Button deselectAllButton;
 		[Glade.Widget] RadioButton newFilesOnlyRadioButton;
 		[Glade.Widget] RadioButton allFilesRadioButton;
-		[Glade.Widget] Label newFilesInProjectLabel;
-		[Glade.Widget] Label viewLabel;
+//		[Glade.Widget] Label newFilesInProjectLabel;
+//		[Glade.Widget] Label viewLabel;
 		[Glade.Widget] TreeView IncludeFileListView;
 		[Glade.Widget] Dialog IncludeFilesDialogWidget;
 		public ListStore store;

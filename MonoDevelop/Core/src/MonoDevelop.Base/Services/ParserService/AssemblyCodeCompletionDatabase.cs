@@ -53,7 +53,8 @@ namespace MonoDevelop.Services
 			
 			using (AssemblyDatabaseHelper helper = GetExternalHelper (true))
 			{
-				helper.GetAssemblyInfo (assemblyName, out this.assemblyName, out assemblyFile, out name, out refUris);
+				if (!helper.GetAssemblyInfo (assemblyName, out this.assemblyName, out assemblyFile, out name, out refUris))
+					return;
 			}
 			
 			this.baseDir = baseDir;

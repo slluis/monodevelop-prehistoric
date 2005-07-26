@@ -35,13 +35,11 @@ namespace MonoDevelop.Services
 {
 	internal class StatusProgressMonitor: BaseProgressMonitor
 	{
-		string title;
 		Gtk.Image icon;
 		bool showErrorDialogs;
 		
 		public StatusProgressMonitor (string title, string iconName, bool showErrorDialogs)
 		{
-			this.title = title;
 			this.showErrorDialogs = showErrorDialogs;
 			icon = Runtime.Gui.Resources.GetImage (iconName, Gtk.IconSize.Menu);
 			Runtime.Gui.StatusBar.BeginProgress (title);

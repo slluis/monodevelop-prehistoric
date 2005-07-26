@@ -196,11 +196,11 @@ namespace MonoDevelop.Gui.Dialogs {
 			TreeView.Selection.Changed += new EventHandler (SelectNode);
 		}
 		
-		private void CancelEvent (object o, EventArgs args)
+		internal void CancelEvent (object o, EventArgs args)
 		{
 			TreeViewOptionDialog.Hide ();
 		}
-		
+
 		// Glade tries to find this event (glade signal is wired to it)
 		protected virtual void OnButtonRelease(object sender, Gtk.ButtonReleaseEventArgs e)
 		{

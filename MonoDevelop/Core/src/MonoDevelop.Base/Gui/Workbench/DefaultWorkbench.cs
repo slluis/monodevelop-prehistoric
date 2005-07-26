@@ -48,7 +48,7 @@ namespace MonoDevelop.Gui
 		
 		private IWorkbenchLayout layout = null;
 
-		static GType gtype;
+		internal static GType gtype;
 		
 		public Gtk.MenuBar TopMenu = null;
 		private Gtk.Toolbar[] toolbars = null;
@@ -155,11 +155,6 @@ namespace MonoDevelop.Gui
 			Runtime.Gui.CommandService.SetRootWindow (this);
 		}
 
-		void onDebuggerStarted (object o, EventArgs e)
-		{
-			Context = WorkbenchContext.Debug;
-		}
-
 		void onDragDataRec (object o, Gtk.DragDataReceivedArgs args)
 		{
 			if (args.Info != (uint) TargetList.UriList)
@@ -196,11 +191,11 @@ namespace MonoDevelop.Gui
 			// FIXME: GTKize
 			Runtime.ProjectService.CurrentProjectChanged += (ProjectEventHandler) Runtime.DispatchService.GuiDispatch (new ProjectEventHandler(SetProjectTitle));
 
-			Runtime.FileService.FileRemoved += new FileEventHandler(CheckRemovedFile);
-			Runtime.FileService.FileRenamed += new FileEventHandler(CheckRenamedFile);
+			Runtime.FileService.FileRemoved += (FileEventHandler) Runtime.DispatchService.GuiDispatch (new FileEventHandler(CheckRemovedFile));
+			Runtime.FileService.FileRenamed += (FileEventHandler) Runtime.DispatchService.GuiDispatch (new FileEventHandler(CheckRenamedFile));
 			
-			Runtime.FileService.FileRemoved += new FileEventHandler (Runtime.FileService.RecentOpen.FileRemoved);
-			Runtime.FileService.FileRenamed += new FileEventHandler (Runtime.FileService.RecentOpen.FileRenamed);
+			Runtime.FileService.FileRemoved += (FileEventHandler) Runtime.DispatchService.GuiDispatch (new FileEventHandler (Runtime.FileService.RecentOpen.FileRemoved));
+			Runtime.FileService.FileRenamed += (FileEventHandler) Runtime.DispatchService.GuiDispatch (new FileEventHandler (Runtime.FileService.RecentOpen.FileRenamed));
 			
 //			TopMenu.Selected   += new CommandHandler(OnTopMenuSelected);
 //			TopMenu.Deselected += new CommandHandler(OnTopMenuDeselected);
@@ -477,11 +472,6 @@ namespace MonoDevelop.Gui
 			} else {
 				Title = "MonoDevelop";
 			}
-		}
-		
-		void SetStandardStatusBar(object sender, EventArgs e)
-		{
-			Runtime.Gui.StatusBar.SetMessage(GettextCatalog.GetString ("Ready"));
 		}
 		
 		void OnActiveWindowChanged(object sender, EventArgs e)

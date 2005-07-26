@@ -249,7 +249,7 @@ namespace MonoDevelop.Gui.Completion
 		int selection = 0;
 		int page = 0;
 		int visibleRows = -1;
-		int rowWidth, rowHeight;
+		int rowHeight;
 		bool buttonPressed;
 		bool disableSelection;
 
@@ -432,6 +432,8 @@ namespace MonoDevelop.Gui.Completion
 		{
 			int winHeight = 200;
 			int lvWidth, lvHeight;
+			int rowWidth;
+			
 			this.GdkWindow.GetSize (out lvWidth, out lvHeight);
 
 			layout.GetPixelSize (out rowWidth, out rowHeight);

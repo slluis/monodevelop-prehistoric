@@ -16,7 +16,7 @@ namespace MonoDevelop.Gui.Dialogs
 		string[] existentLayouts;
 
 		[Glade.Widget] Entry layoutName;
-		[Glade.Widget] Button cancelButton;
+//		[Glade.Widget] Button cancelButton;
 		[Glade.Widget] Button newButton;
 		[Glade.Widget] Dialog newLayoutDialog;
 

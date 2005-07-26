@@ -27,7 +27,7 @@ namespace MonoDevelop.Gui
 		IViewContent content;
 		ArrayList    subViewContents = null;
 
-		ArrayList    subDockItems = null;
+//		ArrayList    subDockItems = null;
 		
 		TabLabel tabLabel;
 		Widget    tabPage;
@@ -276,8 +276,8 @@ namespace MonoDevelop.Gui
 		}
 		
 		
-		int oldIndex = -1;
-		void viewTabControlIndexChanged(object sender, EventArgs e)
+/*		int oldIndex = -1;
+		protected void viewTabControlIndexChanged(object sender, EventArgs e)
 		{
 			if (oldIndex > 0) {
 				ISecondaryViewContent secondaryViewContent = subViewContents[oldIndex - 1] as ISecondaryViewContent;
@@ -294,7 +294,7 @@ namespace MonoDevelop.Gui
 			}
 			oldIndex = viewTabControl.CurrentPage;
 		}
-		
+*/
 		object ICommandRouter.GetNextCommandTarget ()
 		{
 			commandHandler.SetNextCommandTarget (Parent); 

@@ -21,17 +21,15 @@ namespace MonoDevelop.Gui.Completion
 	class CodeCompletionData : ICompletionDataWithMarkup
 	{
 		IconService classBrowserIconService = (IconService) ServiceManager.GetService (typeof (IconService));
-		IParserService parserService = (IParserService) MonoDevelop.Core.Services.ServiceManager.GetService (typeof (IParserService));
 		static AmbienceService ambienceService = (AmbienceService) ServiceManager.GetService (typeof (AmbienceService));
 		
 		string image;
-		int overloads;
 		string text;
 		string description;
 		string pango_description;
 		string documentation;
 		string completionString;
-		IClass c;
+
 		bool convertedDocumentation = false;
 		
 		static IAmbience PangoAmbience
@@ -57,9 +55,6 @@ namespace MonoDevelop.Gui.Completion
 			get {
 				//return overloads;
 				return overload_data.Count;
-			}
-			set {
-				overloads = value;
 			}
 		}
 		
@@ -158,8 +153,6 @@ namespace MonoDevelop.Gui.Completion
 		
 		public CodeCompletionData (IClass c)
 		{
-			// save class (for the delegate description shortcut
-			this.c = c;
 			image = classBrowserIconService.GetIcon(c);
 			text = c.Name;
 			completionString = c.Name;

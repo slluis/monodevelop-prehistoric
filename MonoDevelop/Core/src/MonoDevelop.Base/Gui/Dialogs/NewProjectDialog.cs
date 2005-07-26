@@ -38,10 +38,11 @@ namespace MonoDevelop.Gui.Dialogs {
 		TreeStore catStore;
 		
 		[Glade.Widget ("NewProjectDialog")] Dialog dialog;
-		[Glade.Widget] Button btn_close, btn_new;
+//		[Glade.Widget] Button btn_close;
+		[Glade.Widget] Button btn_new;
 		
-		[Glade.Widget] Label lbl_hdr_template, lbl_hdr_location;
-		[Glade.Widget] Label lbl_name, lbl_location, lbl_subdirectory;
+//		[Glade.Widget] Label lbl_hdr_template, lbl_hdr_location;
+//		[Glade.Widget] Label lbl_name, lbl_location, lbl_subdirectory;
 		[Glade.Widget] Label lbl_will_save_in;
 		[Glade.Widget] Label lbl_template_descr;
 		
@@ -283,7 +284,7 @@ namespace MonoDevelop.Gui.Dialogs {
 			ActivateIfReady ();
 		}
 		
-		void cancelClicked (object o, EventArgs e)
+		protected void cancelClicked (object o, EventArgs e)
 		{
 			dialog.Destroy ();
 		}

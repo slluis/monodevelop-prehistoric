@@ -35,7 +35,6 @@ namespace MonoDevelop.Internal.Serialization
 	public class DataContext
 	{
 		Hashtable configurationTypes = new Hashtable ();
-		object[] emptyAttributes = new object[0];
 		
 		public virtual SerializationContext CreateSerializationContext ()
 		{

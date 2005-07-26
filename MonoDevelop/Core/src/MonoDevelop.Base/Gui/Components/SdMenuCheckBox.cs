@@ -24,7 +24,6 @@ namespace MonoDevelop.Gui.Components
 		object caller;
 		ConditionCollection conditionCollection;
 		string description   = String.Empty;
-		string localizedText = String.Empty;
 		ICheckableMenuCommand menuCommand;
 
 		object _tag;
@@ -58,7 +57,6 @@ namespace MonoDevelop.Gui.Components
 		{
 			this.caller              = caller;
 			this.conditionCollection = conditionCollection;
-			this.localizedText       = label;
 			UpdateStatus();
 		}
 		
@@ -67,7 +65,6 @@ namespace MonoDevelop.Gui.Components
 			this.menuCommand         = menuCommand;
 			this.caller              = caller;
 			this.conditionCollection = conditionCollection;
-			this.localizedText       = label;
 			UpdateStatus();
 		}
 		

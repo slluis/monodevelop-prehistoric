@@ -24,8 +24,6 @@ namespace MonoDevelop.Gui.Dialogs
 	{
 		Pixbuf image;
 		int scroll = -220;
-		Pango.Font font;
-		bool initial = true;
 		Pango.Layout layout;
 
 		internal uint TimerHandle;

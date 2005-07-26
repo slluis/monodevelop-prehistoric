@@ -25,8 +25,8 @@ namespace MonoDevelop.Gui.Dialogs
 		TreeStore refTreeStore;
 		[Widget] Dialog    AddReferenceDialog;
 		[Widget] TreeView  ReferencesTreeView;
-		[Widget] Button    okbutton;
-		[Widget] Button    cancelbutton;
+//		[Widget] Button    okbutton;
+//		[Widget] Button    cancelbutton;
 		[Widget] Button    RemoveReferenceButton;
 		[Widget] Notebook  mainBook;
 		GacReferencePanel gacRefPanel;
@@ -170,7 +170,7 @@ namespace MonoDevelop.Gui.Dialogs
 			ReferencesTreeView.ScrollToCell (refTreeStore.GetPath (ni), null, false, 0, 0);
 		}
 		
-		void RemoveReference(object sender, EventArgs e)
+		protected void RemoveReference(object sender, EventArgs e)
 		{
 			TreeIter iter;
 			TreeModel mdl;

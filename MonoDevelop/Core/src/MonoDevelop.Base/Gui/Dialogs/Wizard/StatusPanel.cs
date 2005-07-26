@@ -32,14 +32,14 @@ namespace MonoDevelop.Gui.Dialogs
 		Pango.Layout ly;
 		
 		Pango.FontDescription smallFont;
-		Pango.FontDescription normalFont;
+//		Pango.FontDescription normalFont;
 		Pango.FontDescription boldFont;
 		
 		public StatusPanel(WizardDialog wizard)
 		{
 			smallFont  = Style.FontDescription;
 			smallFont.Size = (int) (smallFont.Size * 0.75);
-			normalFont = Style.FontDescription;
+//			normalFont = Style.FontDescription;
 			boldFont   = Style.FontDescription;
 			boldFont.Weight = Pango.Weight.Bold;
 			

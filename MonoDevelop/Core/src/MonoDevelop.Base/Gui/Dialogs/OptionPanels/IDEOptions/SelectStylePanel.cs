@@ -23,7 +23,6 @@ namespace MonoDevelop.Gui.Dialogs.OptionPanels
 	internal class SelectStylePanel : AbstractOptionPanel
 	{
 		SelectStylePanelWidget widget;
-		const string selectStyleProperty = "SharpDevelop.UI.SelectStyleOptions";
 
 		public override void LoadPanelContents()
 		{
@@ -38,11 +37,6 @@ namespace MonoDevelop.Gui.Dialogs.OptionPanels
 
 		class SelectStylePanelWidget : GladeWidgetExtract 
 		{
-			//FIXME: Hashtables are wrong here.
-			//FIXME: Yes, this is a dirty hack.
-			//FIXME: Lets use something else.
-			Hashtable MenuToValue = new Hashtable ();
-			Hashtable ValueToMenu = new Hashtable ();
 			[Glade.Widget] public Gtk.CheckButton extensionButton;
 			[Glade.Widget] public Gtk.CheckButton hiddenButton;
 			

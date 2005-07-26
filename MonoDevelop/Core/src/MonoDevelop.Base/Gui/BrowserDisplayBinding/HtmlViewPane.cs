@@ -25,7 +25,6 @@ namespace MonoDevelop.Gui.BrowserDisplayBinding
 	{	
 		protected HtmlViewPane htmlViewPane;
 		protected IViewContent parent;
-		string title;
 
 		public void Selected ()
 		{
@@ -97,7 +96,7 @@ namespace MonoDevelop.Gui.BrowserDisplayBinding
 			this.parent = parent;
 		}
 
-		void onFocused (object o, EventArgs e)
+		protected void onFocused (object o, EventArgs e)
 		{
 		}
 

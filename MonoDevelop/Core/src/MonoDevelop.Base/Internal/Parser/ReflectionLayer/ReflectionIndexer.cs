@@ -15,7 +15,7 @@ namespace MonoDevelop.Internal.Parser
 	[Serializable]
 	public class ReflectionIndexer : AbstractIndexer
 	{
-		string GetIndexerName(PropertyInfo propertyInfo)
+/*		string GetIndexerName(PropertyInfo propertyInfo)
 		{
 			StringBuilder propertyName = new StringBuilder("Item(");
 			ParameterInfo[] p = propertyInfo.GetIndexParameters();
@@ -28,7 +28,7 @@ namespace MonoDevelop.Internal.Parser
 			propertyName.Append(')');
 			return propertyName.ToString();
 		}
-		
+*/
 		public ReflectionIndexer(PropertyInfo propertyInfo, XmlDocument docs)
 		{
 			// indexers does have the same name as the object that declare the indexers

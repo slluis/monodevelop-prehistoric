@@ -33,10 +33,8 @@ namespace MonoDevelop.Gui.Dialogs.OptionPanels
 		class GeneralProjectOptionsWidget : GladeWidgetExtract {
 
 			// Gtk Controls
-			[Glade.Widget] Label informationHeaderLabel;
 			[Glade.Widget] Label nameLabel;
 			[Glade.Widget] Label descriptionLabel;
-			[Glade.Widget] Label onProjectLoadHeaderLabel;
 			[Glade.Widget] Entry projectNameEntry;
 			[Glade.Widget] TextView projectDescriptionTextView;
 			[Glade.Widget] CheckButton newFilesOnLoadCheckButton;

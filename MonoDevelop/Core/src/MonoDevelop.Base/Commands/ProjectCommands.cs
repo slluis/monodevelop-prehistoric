@@ -173,7 +173,6 @@ namespace MonoDevelop.Commands
 	internal class DebugEntryHandler: CommandHandler
 	{
 		CombineEntry entry;
-		string file;
 		
 		protected override void Run ()
 		{

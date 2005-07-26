@@ -47,8 +47,8 @@ namespace MonoDevelop.Core.AddIns.Codons
 		[XmlMemberAttribute("link")]
 		string link;
 		
-		[XmlMemberAttribute("description")]
-		string description;
+//		[XmlMemberAttribute("description")]
+//		string description;
 		
 		public override object BuildItem (object owner, ArrayList subItems, ConditionCollection conditions)
 		{

@@ -13,7 +13,7 @@ namespace MonoDevelop.Gui.HtmlControl
 {
 	public class MozillaControl : WebControl, IWebBrowser
 	{
-		private static GLib.GType gtype;
+		internal static GLib.GType gtype;
 		private string html;
 		private string css;
 		

@@ -13,9 +13,7 @@ namespace MonoDevelop.Gui
 
 	public class HelpViewer : AbstractViewContent
 	{
-
 		HTML html_viewer = new HTML ();
-		string CurrentUrl;
 
 		ScrolledWindow scroller = new ScrolledWindow ();
 
@@ -86,8 +84,6 @@ namespace MonoDevelop.Gui
 		
 		public void Render (string text, Node matched_node, string url)
 		{
-			CurrentUrl = url;
-        	
 			Gtk.HTMLStream stream = html_viewer.Begin ("text/html");
 			
 			stream.Write ("<html><body>");

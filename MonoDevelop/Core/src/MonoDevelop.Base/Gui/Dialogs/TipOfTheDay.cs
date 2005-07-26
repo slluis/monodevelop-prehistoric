@@ -18,7 +18,7 @@ namespace MonoDevelop.Gui.Dialogs
 {
 	internal class TipOfTheDayWindow
 	{
-		[Glade.Widget] Label categoryLabel;
+//		[Glade.Widget] Label categoryLabel;
 		[Glade.Widget] TextView tipTextview;
 		[Glade.Widget] CheckButton noshowCheckbutton;
 		[Glade.Widget] Button nextButton;

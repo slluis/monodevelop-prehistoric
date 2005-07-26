@@ -27,7 +27,6 @@ namespace MonoDevelop.Internal.Templates
 	internal class ProjectDescriptor: ICombineEntryDescriptor
 	{
 		string name;
-		string relativePath;
 		string projectType;
 		
 		ArrayList files      = new ArrayList(); // contains FileTemplate classes
@@ -65,7 +64,6 @@ namespace MonoDevelop.Internal.Templates
 		protected ProjectDescriptor(string name, string relativePath)
 		{
 			this.name = name;
-			this.relativePath = relativePath;
 		}
 		
 		public string CreateEntry (ProjectCreateInformation projectCreateInformation, string defaultLanguage)

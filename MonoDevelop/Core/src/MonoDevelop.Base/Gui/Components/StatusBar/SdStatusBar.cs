@@ -28,7 +28,6 @@ namespace MonoDevelop.Gui.Components
 		Image currentStatusImage;
 		
 		bool cancelEnabled;
-		const int ctx = 1;
 		private static GLib.GType gtype;
 		
 		/*

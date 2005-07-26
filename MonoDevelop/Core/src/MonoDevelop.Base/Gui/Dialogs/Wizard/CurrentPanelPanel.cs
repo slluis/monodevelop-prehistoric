@@ -25,16 +25,16 @@ namespace MonoDevelop.Gui.Dialogs
 {
 	public class CurrentPanelPanel : DrawingArea
 	{
-		WizardDialog wizard;
-		Pixbuf backGround = null;
+//		WizardDialog wizard;
+//		Pixbuf backGround = null;
 		
-		FontDescription normalFont;
+//		FontDescription normalFont;
 		
 		public CurrentPanelPanel(WizardDialog wizard)
 		{
-			normalFont = Style.FontDescription;
+//			normalFont = Style.FontDescription;
 
-			this.wizard = wizard;
+//			this.wizard = wizard;
 			//backGround = resourceService.GetBitmap("GeneralWizardBackground");
 			//RequestSize = new Size (wizard.Width - 220, 30);
 		}

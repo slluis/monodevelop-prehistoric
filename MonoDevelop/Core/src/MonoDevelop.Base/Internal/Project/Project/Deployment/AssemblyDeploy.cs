@@ -15,12 +15,12 @@ namespace MonoDevelop.Internal.Project
 {
 	public class AssemblyDeploy  : IDeploymentStrategy
 	{
-		static string[] extensions = {
+/*		static string[] extensions = {
 			"",
 			".exe",
 			".dll"
 		};
-		
+*/		
 		public void DeployProject(Project project)
 		{
 			if (project.DeployInformation.DeployTarget.Length == 0) {

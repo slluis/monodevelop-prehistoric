@@ -27,7 +27,7 @@ namespace MonoDevelop.Gui.Dialogs.OptionPanels
 		class CombineStartupPanelWidget : GladeWidgetExtract 
 		{
 			// Gtk Controls
-			[Glade.Widget] Label ActionLabel;
+//			[Glade.Widget] Label ActionLabel;
  			[Glade.Widget] RadioButton singleRadioButton;
  			[Glade.Widget] RadioButton multipleRadioButton;
  			[Glade.Widget] ComboBox singleCombo;

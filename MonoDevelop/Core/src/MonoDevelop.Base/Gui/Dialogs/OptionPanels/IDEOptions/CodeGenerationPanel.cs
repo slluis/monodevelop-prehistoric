@@ -27,7 +27,7 @@ namespace MonoDevelop.Gui.Dialogs.OptionPanels {
 		class CodeGenerationPanelWidget : GladeWidgetExtract {
 			PropertyService p = Runtime.Properties;
 			
-			[Glade.Widget] Label hdr_code_generation_options;
+//			[Glade.Widget] Label hdr_code_generation_options;
 			
 			[Glade.Widget] CheckButton
 				chk_blk_on_same_line,
@@ -35,7 +35,7 @@ namespace MonoDevelop.Gui.Dialogs.OptionPanels {
 				chk_blank_lines,
 				chk_full_type_names;
 			
-			[Glade.Widget] Label hdr_comment_generation_options;
+//			[Glade.Widget] Label hdr_comment_generation_options;
 			
 			[Glade.Widget] CheckButton
 				chk_doc_comments,
@@ -72,8 +72,6 @@ namespace MonoDevelop.Gui.Dialogs.OptionPanels {
 		}
 		
 		CodeGenerationPanelWidget widget;
-		
-		const string codeGenerationProperty = "SharpDevelop.UI.CodeGenerationOptions";
 		
 		public override void LoadPanelContents ()
 		{

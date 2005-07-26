@@ -27,12 +27,9 @@ namespace MonoDevelop.Gui.Dialogs
 	public class WizardDialog : Dialog
 	{
 		StatusPanel       statusPanel  = null;
-		CurrentPanelPanel curPanel     = null;
 		
 		Gtk.Frame             dialogPanel  = new Gtk.Frame();
 
-		DialogMessage DialogMessage;
-		
 		/// <remarks>
 		/// On this stack the indices of the previous active wizard panels. This
 		/// is used to restore the path the user gone. (for the back button)
@@ -106,13 +103,11 @@ namespace MonoDevelop.Gui.Dialogs
 			}
 		}
 		
-		Gtk.Label label1;
-		
 		Gtk.Button backButton;
 		Gtk.Button nextButton;
 		Gtk.Button finishButton;
 		Gtk.Button cancelButton;
-		Gtk.Button helpButton;
+//		Gtk.Button helpButton;
 		
 		void CheckFinishedState(object sender, EventArgs e)
 		{
@@ -257,7 +252,6 @@ namespace MonoDevelop.Gui.Dialogs
 					return;
 				}
 			}
-			DialogMessage = DialogMessage.OK;
 			this.Respond ((int) ResponseType.Close);
 		}
 		
@@ -268,15 +262,14 @@ namespace MonoDevelop.Gui.Dialogs
 					return;
 				}
 			}
-			DialogMessage = DialogMessage.Cancel;
 			this.Respond ((int) ResponseType.Cancel);
 		}
 		
-		void HelpEvent(object sender, EventArgs e)
+		protected void HelpEvent(object sender, EventArgs e)
 		{
 			CurrentWizardPane.ReceiveDialogMessage(DialogMessage.Help);
 		}
-		
+
 		
 		void InitializeComponents()
 		{

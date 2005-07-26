@@ -94,13 +94,11 @@ namespace MonoDevelop.Services
 		
 		class QuickInsertHandler
 		{
-			Gtk.Button               popupControl;
 			Gtk.Menu quickInsertMenu;
 			
 			//public QuickInsertHandler(Control popupControl, CommandBarContextMenu quickInsertMenu)
 			public QuickInsertHandler(Gtk.Button popupControl, Gtk.Menu quickInsertMenu)
 			{
-				this.popupControl    = popupControl;
 				this.quickInsertMenu = quickInsertMenu;
 				
 				popupControl.Clicked += new EventHandler(showQuickInsertMenu);

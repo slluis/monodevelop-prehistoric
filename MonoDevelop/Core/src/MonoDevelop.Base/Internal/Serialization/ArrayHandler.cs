@@ -33,12 +33,10 @@ namespace MonoDevelop.Internal.Serialization
 {
 	internal class ArrayHandler: ICollectionHandler
 	{
-		Type _type;
 		Type _elementType;
 		
 		public ArrayHandler (Type type)
 		{
-			_type = type;
 			_elementType = type.GetElementType (); 
 		}
 		

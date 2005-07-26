@@ -33,9 +33,7 @@ namespace MonoDevelop.Gui.Dialogs
 		
 		// services
 		static PropertyService propertyService = (PropertyService)ServiceManager.GetService(typeof(PropertyService));
-		static FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.GetService(typeof(FileUtilityService));
-		StringParserService stringParserService = (StringParserService)ServiceManager.GetService (typeof (StringParserService));
-		
+
 		// gtk widgets
 		[Glade.Widget] Gtk.Entry searchPatternEntry;
 		[Glade.Widget] Gtk.Entry replacePatternEntry;

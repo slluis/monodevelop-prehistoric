@@ -112,7 +112,6 @@ namespace MonoDevelop.Services
 		{
 			Debug.Assert(statusBar != null);
 			if (message == null) message = "";
-			lastMessage = message;
 			statusBar.SetMessage(stringParserService.Parse(message));
 		}
 		
@@ -121,7 +120,6 @@ namespace MonoDevelop.Services
 		{
 			Debug.Assert(statusBar != null);
 			if (message == null) message = "";
-			lastMessage = message;
 			statusBar.SetMessage(image, stringParserService.Parse(message));
 		}
 
@@ -129,8 +127,5 @@ namespace MonoDevelop.Services
 		{
 			SetMessage ("");
 		}
-		
-		bool   wasError    = false;
-		string lastMessage = "";
 	}
 }

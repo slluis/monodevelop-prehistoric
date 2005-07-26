@@ -105,7 +105,7 @@ namespace MonoDevelop.Internal.Project
 		string entryName;
 		
 		[ItemProperty ("name")]
-		string EntryName {
+		internal string EntryName {
 			get { return Entry != null ? Entry.Name : entryName; }
 			set { entryName = value; }
 		}

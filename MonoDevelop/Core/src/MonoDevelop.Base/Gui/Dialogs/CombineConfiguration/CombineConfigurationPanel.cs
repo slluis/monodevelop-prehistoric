@@ -18,12 +18,10 @@ namespace MonoDevelop.Gui.Dialogs.OptionPanels
 		{
  			[Glade.Widget] Gtk.TreeView configsList;
 			TreeStore store;
-			Combine combine;
 			CombineConfiguration configuration;
 			
 			public CombineConfigurationPanelWidget (IProperties CustomizationObject): base ("Base.glade", "CombineConfigurationsPanel")
 			{
-				combine = (Combine)((IProperties)CustomizationObject).GetProperty("Combine");
 				configuration = (CombineConfiguration)((IProperties)CustomizationObject).GetProperty("Config");
 				
 				store = new TreeStore (typeof(object), typeof(string), typeof(bool), typeof(string));

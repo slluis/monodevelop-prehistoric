@@ -46,14 +46,14 @@ namespace MonoDevelop.Internal.Templates
 	internal class CombineEntryDescriptor: ICombineEntryDescriptor
 	{
 		string name;
-		string relativePath;
+//		string relativePath;
 		string typeName;
 		XmlElement template;
 		
 		protected CombineEntryDescriptor (XmlElement element)
 		{
 			name = element.GetAttribute ("name");
-			relativePath = element.GetAttribute ("directory");
+//			relativePath = element.GetAttribute ("directory");
 			typeName = element.GetAttribute ("type");
 			template = element;
 		}
@@ -61,7 +61,6 @@ namespace MonoDevelop.Internal.Templates
 		public string CreateEntry (ProjectCreateInformation projectCreateInformation, string defaultLanguage)
 		{
 			StringParserService stringParserService = Runtime.StringParserService;
-			FileUtilityService fileUtilityService = Runtime.FileUtilityService;
 			
 			Type type = Type.GetType (typeName);
 			

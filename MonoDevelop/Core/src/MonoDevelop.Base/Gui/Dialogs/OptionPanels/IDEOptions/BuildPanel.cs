@@ -27,7 +27,6 @@ namespace MonoDevelop.Gui.Dialogs.OptionPanels
 	{
 
 		BuildPanelWidget widget;
-		const string projectAndCombineProperty = "SharpDevelop.UI.ProjectAndCombineOptions";
 
 		public override void LoadPanelContents()
 		{

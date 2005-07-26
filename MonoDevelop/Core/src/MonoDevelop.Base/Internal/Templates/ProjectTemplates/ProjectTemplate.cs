@@ -202,15 +202,6 @@ namespace MonoDevelop.Internal.Templates
 			}
 		}
 
-		static void LoadProjectTemplate(string fileName)
-		{
-			try {
-				
-			} catch (Exception e) {
-				throw new ApplicationException("error while loading " + fileName + " original exception was : " + e.ToString());
-			}
-		}
-		
 		static ProjectTemplate()
 		{
 			LoadTemplates ((ProjectTemplateCodon[])(AddInTreeSingleton.AddInTree.GetTreeNode ("/MonoDevelop/ProjectTemplates").BuildChildItems (new object ()).ToArray (typeof (ProjectTemplateCodon))));

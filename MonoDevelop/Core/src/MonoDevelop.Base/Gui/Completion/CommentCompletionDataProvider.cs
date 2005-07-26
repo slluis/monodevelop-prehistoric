@@ -27,9 +27,7 @@ namespace MonoDevelop.Gui.Completion
 	/// </summary>
 	public class CommentCompletionDataProvider : ICompletionDataProvider
 	{
-		static IParserService           parserService           = (IParserService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IParserService));
-		
-		int caretLineNumber;
+/*		int caretLineNumber;
 		int caretColumn;
 		
 		string[][] commentTags = new string[][] {
@@ -53,15 +51,7 @@ namespace MonoDevelop.Gui.Completion
 			new string[] {"summary", "A summary of the object"},
 			new string[] {"value", "A description of a property"}
 		};
-		
-		/// <remarks>
-		/// Returns true, if the given coordinates (row, column) are in the region.
-		/// </remarks>
-		bool IsBetween (int row, int column, IRegion region)
-		{
-			return row >= region.BeginLine && (row <= region.EndLine || region.EndLine == -1);
-		}
-		
+*/
 		public ICompletionData[] GenerateCompletionData (Project project, string fileName, ICompletionWidget widget, char charTyped)
 		{
 			/*caretLineNumber = textArea.Caret.Line;

@@ -9,8 +9,6 @@ namespace MonoDevelop.Gui.Completion
 {
 	public class CompletionListWindow : ListWindow, IListDataProvider
 	{
-		string fileName;
-		Project project;
 		ICompletionWidget completionWidget;
 		ICompletionData[] completionData;
 		DeclarationViewWindow declarationviewwindow = new DeclarationViewWindow ();
@@ -63,8 +61,6 @@ namespace MonoDevelop.Gui.Completion
 		bool ShowListWindow (char firstChar, ICompletionDataProvider provider, ICompletionWidget completionWidget, Project project, string fileName)
 		{
 			this.completionWidget = completionWidget;
-			this.fileName = fileName;
-			this.project = project;
 			
 			completionData = provider.GenerateCompletionData (project, fileName, completionWidget, firstChar);
 
