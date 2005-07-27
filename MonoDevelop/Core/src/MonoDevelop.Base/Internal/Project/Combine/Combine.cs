@@ -351,32 +351,34 @@ namespace MonoDevelop.Internal.Project
 			Entries.Remove (entry);
 		}
 		
-		public override void Debug (IProgressMonitor monitor)
-		{
-			if (StartupEntry != null)
-				StartupEntry.Debug (monitor);
-		}
-
-		public override void Execute (IProgressMonitor monitor)
+		public override void Execute (IProgressMonitor monitor, ExecutionContext context)
 		{
 			if (singleStartup) {
 				if (StartupEntry != null)
-					StartupEntry.Execute (monitor);
+					StartupEntry.Execute (monitor, context);
 			} else {
 				ArrayList list = new ArrayList ();
 				monitor.BeginTask ("Executing projects", 1);
+				
+				SynchronizedProgressMonitor syncMonitor = new SynchronizedProgressMonitor (monitor);
+				
 				foreach (CombineExecuteDefinition ced in combineExecuteDefinitions) {
 					if (ced.Type != EntryExecuteType.Execute) continue;
 					
-					IProgressMonitor mm = new NullProgressMonitor ();
+					AggregatedProgressMonitor mon = new AggregatedProgressMonitor ();
+					mon.AddSlaveMonitor (syncMonitor, MonitorAction.ReportError | MonitorAction.ReportWarning | MonitorAction.SlaveCancel);
+					
 					EntryStartData sd = new EntryStartData ();
-					sd.Monitor = mm;
+					sd.Monitor = mon;
+					sd.Context = context;
 					sd.Entry = ced.Entry;
+					
 					Runtime.DispatchService.ThreadDispatch (new StatefulMessageHandler (ExecuteEntryAsync), sd);
-					list.Add (mm.AsyncOperation);
+					list.Add (sd.Monitor.AsyncOperation);
 				}
 				foreach (IAsyncOperation op in list)
 					op.WaitForCompleted ();
+				
 				monitor.EndTask ();
 			}
 		}
@@ -385,12 +387,13 @@ namespace MonoDevelop.Internal.Project
 		{
 			EntryStartData sd = (EntryStartData) ob;
 			using (sd.Monitor) {
-				sd.Entry.Execute (sd.Monitor);
+				sd.Entry.Execute (sd.Monitor, sd.Context);
 			}
 		}
 		
 		class EntryStartData {
 			public IProgressMonitor Monitor;
+			public ExecutionContext Context;
 			public CombineEntry Entry;
 		}
 		

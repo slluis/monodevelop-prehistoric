@@ -1,8 +1,10 @@
 //
-// IProgressMonitor.cs
+// ExecutionHandlerCodon.cs
 //
 // Author:
 //   Lluis Sanchez Gual
+//
+
 //
 // Copyright (C) 2005 Novell, Inc (http://www.novell.com)
 //
@@ -28,31 +30,33 @@
 
 
 using System;
-using System.IO;
+using System.Collections;
 
-namespace MonoDevelop.Services
+using MonoDevelop.Core.AddIns.Conditions;
+using MonoDevelop.Services;
+
+namespace MonoDevelop.Core.AddIns.Codons
 {
-	public delegate void MonitorHandler (IProgressMonitor monitor);
-	
-	public interface IProgressMonitor: IDisposable
+	[CodonNameAttribute ("ExecutionHandler")]
+	public class ExecutionHandlerCodon : AbstractCodon
 	{
-		void BeginTask (string name, int totalWork);
-		void EndTask ();
-		void Step (int work);
+		IExecutionHandler handler;
 		
-		TextWriter Log { get; }
+		[XmlMemberAttribute ("platform", IsRequired = true)]
+		string platform = null;
 		
-		void ReportWarning (string message);
+		public IExecutionHandler ExecutionHandler {
+			get { return handler; }
+		}
 		
-		void ReportSuccess (string message);
-		void ReportError (string message, Exception exception);
+		public string Platform {
+			get { return platform; }
+		}
 		
-		bool IsCancelRequested { get; }
-		event MonitorHandler CancelRequested;
-		
-		// The returned IAsyncOperation object must be thread safe
-		IAsyncOperation AsyncOperation { get; }
-		
-		object SyncRoot { get; }
+		public override object BuildItem (object owner, ArrayList subItems, ConditionCollection conditions)
+		{
+			handler = (IExecutionHandler) AddIn.CreateObject (Class);
+			return this;
+		}
 	}
 }

@@ -1,5 +1,5 @@
 //
-// IProgressMonitor.cs
+// MintPlatformExecutionHandler.cs
 //
 // Author:
 //   Lluis Sanchez Gual
@@ -26,33 +26,16 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-
 using System;
-using System.IO;
 
 namespace MonoDevelop.Services
 {
-	public delegate void MonitorHandler (IProgressMonitor monitor);
-	
-	public interface IProgressMonitor: IDisposable
+	public class MintPlatformExecutionHandler: NativePlatformExecutionHandler
 	{
-		void BeginTask (string name, int totalWork);
-		void EndTask ();
-		void Step (int work);
-		
-		TextWriter Log { get; }
-		
-		void ReportWarning (string message);
-		
-		void ReportSuccess (string message);
-		void ReportError (string message, Exception exception);
-		
-		bool IsCancelRequested { get; }
-		event MonitorHandler CancelRequested;
-		
-		// The returned IAsyncOperation object must be thread safe
-		IAsyncOperation AsyncOperation { get; }
-		
-		object SyncRoot { get; }
+		public override IProcessAsyncOperation Execute (string command, string arguments, string workingDirectory, IConsole console)
+		{
+			string args = string.Format (@"--debug {0} {1}", command, arguments);
+			return base.Execute ("mint", args, workingDirectory, console);
+		}
 	}
 }

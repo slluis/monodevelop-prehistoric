@@ -34,7 +34,7 @@ namespace MonoDevelop.Services
 
 		void Pause ();
 		void Resume ();
-		void Run (IProgressMonitor monitor, string[] args);
+		void Run (IConsole console, string[] args);
 		void Stop ();
 
 		void StepInto ();

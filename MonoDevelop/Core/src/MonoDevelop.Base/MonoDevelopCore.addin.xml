@@ -78,6 +78,18 @@
 		            class="MonoDevelop.Internal.Project.CmbxFileFormat"/>
 	</Extension>
 	  
+	<Extension path = "/SharpDevelop/Workbench/ExecutionHandlers">
+		<ExecutionHandler id="Mono"
+					platform = "Mono"
+		            class = "MonoDevelop.Services.MonoPlatformExecutionHandler"/>
+		<ExecutionHandler id="Mint"
+					platform = "Mint"
+		            class = "MonoDevelop.Services.MintPlatformExecutionHandler"/>
+		<ExecutionHandler id="Native"
+					platform = "Native"
+		            class = "MonoDevelop.Services.NativePlatformExecutionHandler"/>
+	</Extension>
+	  
 	<Extension path = "/SharpDevelop/Workbench/DisplayBindings">
 		<DisplayBinding id    = "Browser"
 		                supportedformats = "Web Pages"
@@ -735,6 +747,7 @@
 			<PadOption id = "ShowProjects" _label = "Show project structure" defaultValue = "True" />
 			<PadOption id = "GroupByAccess" _label = "Group members by access" defaultValue = "False" />
 			<PadOption id = "GroupByType" _label = "Group members by member type" defaultValue = "True" />
+			<PadOption id = "PublicApiOnly" _label = "Show public members only" defaultValue = "False" />
 			<NodeBuilder id = "Combine" class = "MonoDevelop.Gui.Pads.ClassPad.CombineNodeBuilder"/>
 			<NodeBuilder id = "Project" class = "MonoDevelop.Gui.Pads.ClassPad.ProjectNodeBuilder"/>
 			<NodeBuilder id = "Namespace" class = "MonoDevelop.Gui.Pads.ClassPad.NamespaceNodeBuilder"/>

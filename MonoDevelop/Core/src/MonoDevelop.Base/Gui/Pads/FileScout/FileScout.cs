@@ -128,7 +128,14 @@ namespace MonoDevelop.Gui.Pads
 			fb.CurrentDir = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
 		}
 
-		public event EventHandler TitleChanged;
-		public event EventHandler IconChanged;
+		public event EventHandler TitleChanged {
+			add {}
+			remove {}
+		}
+		
+		public event EventHandler IconChanged {
+			add {}
+			remove {}
+		}
 	}
 }

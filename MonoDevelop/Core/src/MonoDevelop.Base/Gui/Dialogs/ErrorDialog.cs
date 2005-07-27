@@ -38,14 +38,46 @@ namespace MonoDevelop.Gui.Dialogs
 		[Glade.Widget] Button okButton;
 		[Glade.Widget] Label descriptionLabel;
 		[Glade.Widget] Gtk.TextView detailsTextView;
+		[Glade.Widget] Gtk.Expander expander;
 		
-		public ErrorDialog (string message, string details)
+		TextTag tagNoWrap;
+		TextTag tagWrap;
+		
+		public ErrorDialog ()
 		{
 			new Glade.XML (null, "Base.glade", "ErrorDialog", null).Autoconnect (this);
 			dialog.TransientFor = (Window) WorkbenchSingleton.Workbench;
-			descriptionLabel.Text = message;
-			detailsTextView.Buffer.Text = details;
 			okButton.Clicked += new EventHandler (OnClose);
+			expander.Activated += new EventHandler (OnExpanded);
+			descriptionLabel.SizeAllocated += new SizeAllocatedHandler (OnResized);
+			descriptionLabel.ModifyBg (StateType.Normal, new Gdk.Color (255,0,0));
+			
+			tagNoWrap = new TextTag ("nowrap");
+			tagNoWrap.WrapMode = WrapMode.None;
+			detailsTextView.Buffer.TagTable.Add (tagNoWrap);
+			
+			tagWrap = new TextTag ("wrap");
+			tagWrap.WrapMode = WrapMode.Word;
+			detailsTextView.Buffer.TagTable.Add (tagWrap);
+		}
+		
+		public string Message {
+			get { return descriptionLabel.Text; }
+			set {
+				string message = value;
+				while (message.EndsWith ("\r") || message.EndsWith ("\n"))
+					message = message.Substring (0, message.Length - 1);
+				descriptionLabel.Text = message;
+			}
+		}
+		
+		public void AddDetails (string text, bool wrapped)
+		{
+			TextIter it = detailsTextView.Buffer.EndIter;
+			if (wrapped)
+				detailsTextView.Buffer.InsertWithTags (ref it, text, tagWrap);
+			else
+				detailsTextView.Buffer.InsertWithTags (ref it, text, tagNoWrap);
 		}
 		
 		public void Run ()
@@ -57,6 +89,27 @@ namespace MonoDevelop.Gui.Dialogs
 		void OnClose (object sender, EventArgs args)
 		{
 			dialog.Destroy ();
+		}
+		
+		void OnExpanded (object sender, EventArgs args)
+		{
+			GLib.Timeout.Add (100, new GLib.TimeoutHandler (UpdateSize));
+		}
+		
+		bool UpdateSize ()
+		{
+			int w, h;
+			dialog.GetSize (out w, out h);
+			dialog.Resize (w, 1);
+			return false;
+		}
+		
+		void OnResized (object sender, SizeAllocatedArgs args)
+		{
+			int w, h;
+			descriptionLabel.GetSizeRequest (out w, out h);
+			Console.WriteLine ("AW:" + descriptionLabel.Allocation.Width);
+			Console.WriteLine ("RW:" + w);
 		}
 	}
 }

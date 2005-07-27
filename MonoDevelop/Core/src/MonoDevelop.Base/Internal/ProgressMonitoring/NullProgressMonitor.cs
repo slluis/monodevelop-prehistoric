@@ -38,6 +38,10 @@ namespace MonoDevelop.Services
 		bool done, canceled, error;
 		ManualResetEvent waitEvent;
 		
+		public object SyncRoot {
+			get { return this; }
+		}
+		
 		public virtual void BeginTask (string name, int totalWork)
 		{
 		}
@@ -79,8 +83,7 @@ namespace MonoDevelop.Services
 				if (waitEvent != null)
 					waitEvent.Set ();
 			}
-			if (completedEvent != null)
-				completedEvent (this);
+			OnCompleted ();
 		}
 		
 		public IAsyncOperation AsyncOperation
@@ -149,6 +152,12 @@ namespace MonoDevelop.Services
 			}
 		}		
 		
+		protected virtual void OnCompleted ()
+		{
+			if (completedEvent != null)
+				completedEvent (AsyncOperation);
+		}
+
 		event MonitorHandler cancelRequestedEvent;
 		event OperationHandler completedEvent;
 	}

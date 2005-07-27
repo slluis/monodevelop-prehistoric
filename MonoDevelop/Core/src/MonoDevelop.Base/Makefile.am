@@ -246,6 +246,18 @@ Services/ProcessService/IProcessHost.cs \
 Services/ProcessService/IProcessHostController.cs \
 Services/ProcessService/ProcessHostController.cs \
 Services/ProcessService/RemoteProcessObject.cs \
+Services/ProcessService/DebugExecutionHandlerFactory.cs \
+Services/ProcessService/DefaultExecutionHandlerFactory.cs \
+Services/ProcessService/ExecutionContext.cs \
+Services/ProcessService/ExternalConsoleFactory.cs \
+Services/ProcessService/IConsole.cs \
+Services/ProcessService/IConsoleFactory.cs \
+Services/ProcessService/IExecutionHandlerFactory.cs \
+Services/ProcessService/IExecutionHandler.cs \
+Services/ProcessService/IProcessAsyncOperation.cs \
+Services/ProcessService/MonoPlatformExecutionHandler.cs \
+Services/ProcessService/MintPlatformExecutionHandler.cs \
+Services/ProcessService/NativePlatformExecutionHandler.cs \
 Services/Project/ProjectEventArgs.cs \
 Services/Project/IProjectService.cs \
 Services/Project/ProjectRenameEventArgs.cs \
@@ -322,6 +334,7 @@ Internal/Codons/Toolbars/ToolbarItemCodon.cs \
 Internal/Codons/IDialogPanel.cs \
 Internal/Codons/DialogPanelCodon.cs \
 Internal/Codons/IDialogPanelDescriptor.cs \
+Internal/Codons/ExecutionHandlerCodon.cs \
 Internal/Codons/FileFormatCodon.cs \
 Internal/Codons/MenuItems/AbstractCheckableMenuCommand.cs \
 Internal/Codons/MenuItems/ISubmenuBuilder.cs \
@@ -415,7 +428,9 @@ Internal/Parser/IMethod.cs \
 Internal/Parser/IComment.cs \
 Internal/Parser/ICompilationUnit.cs \
 Internal/ProgressMonitoring/AggregatedProgressMonitor.cs \
+Internal/ProgressMonitoring/AggregatedOperationMonitor.cs \
 Internal/ProgressMonitoring/BaseProgressMonitor.cs \
+Internal/ProgressMonitoring/MessageDialogProgressMonitor.cs \
 Internal/ProgressMonitoring/ConsoleProgressMonitor.cs \
 Internal/ProgressMonitoring/IAsyncOperation.cs \
 Internal/ProgressMonitoring/IProgressMonitor.cs \
@@ -423,6 +438,7 @@ Internal/ProgressMonitoring/LogTextWriter.cs \
 Internal/ProgressMonitoring/NullProgressMonitor.cs \
 Internal/ProgressMonitoring/NullAsyncOperation.cs \
 Internal/ProgressMonitoring/ProgressTracker.cs \
+Internal/ProgressMonitoring/SynchronizedProgressMonitor.cs \
 Internal/Project/PrjxFileFormat.cs \
 Internal/Project/CmbxFileFormat.cs \
 Internal/Project/MdsFileFormat.cs \

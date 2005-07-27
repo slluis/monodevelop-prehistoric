@@ -68,6 +68,14 @@ namespace MonoDevelop.Services
 			logger.TextWritten += new LogTextEventHandler (WriteLogInternal);
 		}
 		
+		[FreeDispatch]
+		public object SyncRoot {
+			get {
+				// Dont return 'this'. Locking on proxies doesn't look like a good idea.
+				return progressTracker;
+			}
+		}
+		
 		[AsyncDispatch]
 		public virtual void BeginTask (string name, int totalWork)
 		{

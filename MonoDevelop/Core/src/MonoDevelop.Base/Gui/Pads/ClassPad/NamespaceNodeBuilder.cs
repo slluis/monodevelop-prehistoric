@@ -86,6 +86,7 @@ namespace MonoDevelop.Gui.Pads.ClassPad
 		void AddProjectContent (ITreeBuilder builder, Project project, NamespaceData nsData, ArrayList list)
 		{
 			bool nestedNs = builder.Options ["NestedNamespaces"];
+			bool publicOnly = builder.Options ["PublicApiOnly"];
 
 			foreach (object ob in list) {
 				if (ob is string && nestedNs) {
@@ -93,8 +94,10 @@ namespace MonoDevelop.Gui.Pads.ClassPad
 					if (!builder.HasChild (ob as string, typeof(NamespaceData)))
 						builder.AddChild (new NamespaceData (project, ns));
 				}
-				else if (ob is IClass)
-					builder.AddChild (new ClassData (project, ob as IClass));
+				else if (ob is IClass) {
+					if (!publicOnly || ((IClass)ob).IsPublic)
+						builder.AddChild (new ClassData (project, ob as IClass));
+				}
 			}
 		}
 		

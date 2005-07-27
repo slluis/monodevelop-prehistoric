@@ -1,5 +1,5 @@
 //
-// IProgressMonitor.cs
+// ExternalConsoleFactory.cs
 //
 // Author:
 //   Lluis Sanchez Gual
@@ -26,33 +26,53 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-
 using System;
 using System.IO;
 
 namespace MonoDevelop.Services
 {
-	public delegate void MonitorHandler (IProgressMonitor monitor);
-	
-	public interface IProgressMonitor: IDisposable
+	public sealed class ExternalConsoleFactory: IConsoleFactory
 	{
-		void BeginTask (string name, int totalWork);
-		void EndTask ();
-		void Step (int work);
+		public static ExternalConsoleFactory Instance = new ExternalConsoleFactory ();
 		
-		TextWriter Log { get; }
+		public IConsole CreateConsole (bool closeOnDispose)
+		{
+			return new ExternalConsole (closeOnDispose);
+		}
+	}
+	
+	public sealed class ExternalConsole: IConsole
+	{
+		bool closeOnDispose;
 		
-		void ReportWarning (string message);
+		internal ExternalConsole (bool closeOnDispose)
+		{
+			this.closeOnDispose = closeOnDispose;
+		}
 		
-		void ReportSuccess (string message);
-		void ReportError (string message, Exception exception);
+		public TextReader In {
+			get { return Console.In; }
+		}
 		
-		bool IsCancelRequested { get; }
-		event MonitorHandler CancelRequested;
+		public TextWriter Out {
+			get { return Console.Out; }
+		}
 		
-		// The returned IAsyncOperation object must be thread safe
-		IAsyncOperation AsyncOperation { get; }
+		public TextWriter Error {
+			get { return Console.Error; }
+		}
 		
-		object SyncRoot { get; }
+		public bool CloseOnDispose {
+			get { return closeOnDispose; }
+		}
+		
+		public void Dispose ()
+		{
+		}
+		
+		public event EventHandler CancelRequested {
+			add {}
+			remove {}
+		}
 	}
 }

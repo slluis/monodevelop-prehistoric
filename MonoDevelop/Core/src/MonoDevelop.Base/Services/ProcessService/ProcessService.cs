@@ -6,12 +6,20 @@ using System.Threading;
 using System.Diagnostics;
 
 using MonoDevelop.Core.Services;
+using MonoDevelop.Core.AddIns.Codons;
+using MonoDevelop.Core.AddIns;
 
 namespace MonoDevelop.Services
 {
 	public class ProcessService : AbstractService
 	{
 		ProcessHostController externalProcess;
+		ExecutionHandlerCodon[] executionHandlers;
+		
+		public override void InitializeService ()
+		{
+			executionHandlers = (ExecutionHandlerCodon[])(AddInTreeSingleton.AddInTree.GetTreeNode("/SharpDevelop/Workbench/ExecutionHandlers").BuildChildItems(null)).ToArray(typeof(ExecutionHandlerCodon));
+		}
 		
 		public ProcessWrapper StartProcess (string command, string arguments, string workingDirectory, EventHandler exited) 
 		{
@@ -68,11 +76,11 @@ namespace MonoDevelop.Services
 			return p;
 		}
 		
-		public ProcessWrapper StartConsoleProcess (string command, string arguments, string workingDirectory, bool externalConsole, bool pauseBeforeExit, EventHandler exited) 
+		public ProcessWrapper StartConsoleProcess (string command, string arguments, string workingDirectory, IConsole console, EventHandler exited)
 		{
-			if (externalConsole) {
+			if (console == null || (console is ExternalConsole)) {
 				string additionalCommands = "";
-				if (pauseBeforeExit)
+				if (!console.CloseOnDispose)
 					additionalCommands = @"echo; read -p 'Press any key to continue...' -n1;";
 				ProcessStartInfo psi = new ProcessStartInfo("xterm",
 					String.Format (@"-e ""cd {3} ; '{0}' {1} ; {2}""", command, arguments, additionalCommands, workingDirectory));
@@ -87,26 +95,22 @@ namespace MonoDevelop.Services
 				
 				if (exited != null)
 					p.Exited += exited;
-					
+				
 				p.StartInfo = psi;
 				p.Start();
 				return p;
 			} else {
-				// This should create an vte pad instead, but an output panel will be enough until we can do it
-				IProgressMonitor monitor = Runtime.TaskService.GetOutputProgressMonitor ("Application Output", MonoDevelop.Gui.Stock.RunProgramIcon, true, true);
-
-				ProcessMonitor pm = new ProcessMonitor ();
-				pm.Exited = exited;
-				pm.Monitor = monitor;
-				pm.CancelHandler = new MonitorHandler(pm.OnCancelRequest);
-
-				monitor.CancelRequested += pm.CancelHandler;
-
-				ProcessWrapper pw = StartProcess (command, arguments, workingDirectory, monitor.Log, monitor.Log, new EventHandler (pm.OnExited));
-				pm.ProcessWrapper = pw;
-
+				ProcessWrapper pw = StartProcess (command, arguments, workingDirectory, console.Out, console.Error, null);
+				new ProcessMonitor (console, pw, exited);
 				return pw;
 			}
+		}
+		
+		public IExecutionHandler GetDefaultExecutionHandler (string platformId)
+		{
+			foreach (ExecutionHandlerCodon codon in executionHandlers)
+				if (codon.Platform == platformId) return codon.ExecutionHandler;
+			return null;
 		}
 		
 		ProcessHostController GetHost (bool shared)
@@ -140,33 +144,35 @@ namespace MonoDevelop.Services
 	
 	class ProcessMonitor
 	{
-		public IProgressMonitor Monitor;
-		public EventHandler Exited;
+		public IConsole console;
+		EventHandler exited;
+		IAsyncOperation operation;
 
-		public ProcessWrapper ProcessWrapper;
-		public MonitorHandler CancelHandler;
-		
-		public void OnExited (object sender, EventArgs args)
+		public ProcessMonitor (IConsole console, IAsyncOperation operation, EventHandler exited)
 		{
-			ProcessWrapper p = (ProcessWrapper) sender;
+			this.exited = exited;
+			this.operation = operation;
+			this.console = console;
+			operation.Completed += new OperationHandler (OnOperationCompleted);
+			console.CancelRequested += new EventHandler (OnCancelRequest);
+		}
+		
+		public void OnOperationCompleted (IAsyncOperation op)
+		{
 			try {
-				if (Exited != null)
-					Exited (sender, args);
-				p.WaitForOutput ();
+				if (exited != null)
+					exited (op, null);
 			} finally {
-				Monitor.Dispose ();
+				console.Dispose ();
 			}
 		}
 
-		public void OnCancelRequest (IProgressMonitor monitor) {
-			if (ProcessWrapper != null) {
-				if (!ProcessWrapper.HasExited) {
-					ProcessWrapper.Kill();
-					monitor.Log.WriteLine("Application stopped by user.");
-				}
-			}
+		void OnCancelRequest (object sender, EventArgs args)
+		{
+			operation.Cancel ();
+
 			//remove the cancel handler, it will be attached again when StartConsoleProcess is called
-			monitor.CancelRequested -= CancelHandler;
+			console.CancelRequested -= new EventHandler (OnCancelRequest);
 		}
 	}
 	

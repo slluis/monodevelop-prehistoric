@@ -1,5 +1,5 @@
 //
-// IProgressMonitor.cs
+// IConsole.cs
 //
 // Author:
 //   Lluis Sanchez Gual
@@ -26,33 +26,18 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-
 using System;
 using System.IO;
 
 namespace MonoDevelop.Services
 {
-	public delegate void MonitorHandler (IProgressMonitor monitor);
-	
-	public interface IProgressMonitor: IDisposable
+	public interface IConsole: IDisposable
 	{
-		void BeginTask (string name, int totalWork);
-		void EndTask ();
-		void Step (int work);
+		TextReader In { get; }
+		TextWriter Out { get; }
+		TextWriter Error { get; }
+		bool CloseOnDispose { get; }
 		
-		TextWriter Log { get; }
-		
-		void ReportWarning (string message);
-		
-		void ReportSuccess (string message);
-		void ReportError (string message, Exception exception);
-		
-		bool IsCancelRequested { get; }
-		event MonitorHandler CancelRequested;
-		
-		// The returned IAsyncOperation object must be thread safe
-		IAsyncOperation AsyncOperation { get; }
-		
-		object SyncRoot { get; }
+		event EventHandler CancelRequested;
 	}
 }

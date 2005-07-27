@@ -343,8 +343,10 @@ namespace MonoDevelop.Services
 		{
 			if (currentRunOperation != null && !currentRunOperation.IsCompleted) return currentRunOperation;
 
-			IProgressMonitor monitor = new NullProgressMonitor ();
-			Runtime.DispatchService.ThreadDispatch (new StatefulMessageHandler (ExecuteCombineEntryAsync), new object[] {entry, monitor});
+			IProgressMonitor monitor = new MessageDialogProgressMonitor ();
+			ExecutionContext context = new ExecutionContext (new DefaultExecutionHandlerFactory (), Runtime.TaskService);
+
+			Runtime.DispatchService.ThreadDispatch (new StatefulMessageHandler (ExecuteCombineEntryAsync), new object[] {entry, monitor, context});
 			currentRunOperation = monitor.AsyncOperation;
 			return currentRunOperation;
 		}
@@ -354,9 +356,10 @@ namespace MonoDevelop.Services
 			object[] data = (object[]) ob;
 			CombineEntry entry = (CombineEntry) data[0];
 			IProgressMonitor monitor = (IProgressMonitor) data[1];
+			ExecutionContext context = (ExecutionContext) data[2];
 			OnBeforeStartProject ();
 			try {
-				entry.Execute (monitor);
+				entry.Execute (monitor, context);
 			} catch (Exception ex) {
 				monitor.ReportError (GettextCatalog.GetString ("Execution failed."), ex);
 			} finally {
@@ -370,8 +373,10 @@ namespace MonoDevelop.Services
 			
 			guiHelper.SetWorkbenchContext (WorkbenchContext.Debug);
 
-			IProgressMonitor monitor = new NullProgressMonitor ();
-			Runtime.DispatchService.ThreadDispatch (new StatefulMessageHandler (DebugCombineEntryAsync), new object[] {entry, monitor});
+			IProgressMonitor monitor = new MessageDialogProgressMonitor ();
+			ExecutionContext context = new ExecutionContext (new DebugExecutionHandlerFactory (), Runtime.TaskService);
+			
+			Runtime.DispatchService.ThreadDispatch (new StatefulMessageHandler (DebugCombineEntryAsync), new object[] {entry, monitor, context});
 			currentRunOperation = monitor.AsyncOperation;
 			return currentRunOperation;
 		}
@@ -381,8 +386,9 @@ namespace MonoDevelop.Services
 			object[] data = (object[]) ob;
 			CombineEntry entry = (CombineEntry) data[0];
 			IProgressMonitor monitor = (IProgressMonitor) data[1];
+			ExecutionContext context = (ExecutionContext) data[2];
 			try {
-				entry.Debug (monitor);
+				entry.Execute (monitor, context);
 			} catch (Exception ex) {
 				monitor.ReportError (GettextCatalog.GetString ("Execution failed."), ex);
 			} finally {
@@ -413,9 +419,9 @@ namespace MonoDevelop.Services
 			
 			guiHelper.SetWorkbenchContext (WorkbenchContext.Debug);
 
-			IProgressMonitor monitor = new NullProgressMonitor ();
+			IProgressMonitor monitor = Runtime.TaskService.GetRunProgressMonitor ();
 
-			Runtime.DebuggingService.Run (monitor, new string[] { executableFile });
+			Runtime.DebuggingService.Run ((IConsole) monitor, new string[] { executableFile });
 			
 			DebugApplicationStopper disposer = new DebugApplicationStopper ();
 			disposer.Monitor = monitor;
@@ -853,15 +859,6 @@ namespace MonoDevelop.Services
 			projectBindings = (ProjectBindingCodon[])(AddInTreeSingleton.AddInTree.GetTreeNode("/SharpDevelop/Workbench/ProjectBindings").BuildChildItems(null)).ToArray(typeof(ProjectBindingCodon));
 		}
 
-		string MakeValidName(string str)
-		{
-			string tmp = "";
-			foreach (char ch in str) {
-				tmp += ((byte)ch).ToString();
-			}
-			return tmp;
-		}
-		
 		void RestoreCombinePreferences (object data)
 		{
 			Combine combine = (Combine) data;

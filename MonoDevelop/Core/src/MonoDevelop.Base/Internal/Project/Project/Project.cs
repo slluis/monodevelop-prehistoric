@@ -40,9 +40,6 @@ namespace MonoDevelop.Internal.Project
 	[DataInclude (typeof(ProjectFile))]
 	public abstract class Project : CombineEntry
 	{
-		readonly static string currentProjectFileVersion = "1.1";
-		readonly static string configurationNodeName     = "Configuration";
-		
 		[ItemProperty ("Description", DefaultValue="")]
 		protected string description     = "";
 
@@ -471,7 +468,7 @@ namespace MonoDevelop.Internal.Project
 			return ps;
 		}
 		
-		public override void Execute (IProgressMonitor monitor)
+		public override void Execute (IProgressMonitor monitor, ExecutionContext context)
 		{
 			if (Runtime.TaskService.Errors != 0) return;
 			
@@ -482,14 +479,20 @@ namespace MonoDevelop.Internal.Project
 			string args = configuration.CommandLineParameters;
 			
 			if (configuration.ExecuteScript != null && configuration.ExecuteScript.Length > 0) {
-				ProcessWrapper p = Runtime.ProcessService.StartConsoleProcess (configuration.ExecuteScript, args, BaseDirectory, configuration.ExternalConsole, configuration.PauseConsoleOutput, null);
+				IConsole console;
+				if (configuration.ExternalConsole)
+					console = context.ExternalConsoleFactory.CreateConsole (!configuration.PauseConsoleOutput);
+				else
+					console = context.ConsoleFactory.CreateConsole (!configuration.PauseConsoleOutput);
+
+				ProcessWrapper p = Runtime.ProcessService.StartConsoleProcess (configuration.ExecuteScript, args, BaseDirectory, console, null);
 				p.WaitForOutput ();
 			} else {
-				DoExecute (monitor);
+				DoExecute (monitor, context);
 			}
 		}
 		
-		protected virtual void DoExecute (IProgressMonitor monitor)
+		protected virtual void DoExecute (IProgressMonitor monitor, ExecutionContext context)
 		{
 		}
 		

@@ -23,9 +23,10 @@ using Pango;
 
 namespace MonoDevelop.Services
 {	
-	public class OutputProgressMonitor : BaseProgressMonitor
+	public class OutputProgressMonitor : BaseProgressMonitor, IConsole
 	{
 		DefaultMonitorPad outputPad;
+		event EventHandler stopRequested;
 		
 		public OutputProgressMonitor (DefaultMonitorPad pad, string title, string icon)
 		{
@@ -80,6 +81,34 @@ namespace MonoDevelop.Services
 		Exception GetDisposedException ()
 		{
 			return new InvalidOperationException ("Output progress monitor already disposed.");
+		}
+		
+		protected override void OnCancelRequested ()
+		{
+			base.OnCancelRequested ();
+			if (stopRequested != null)
+				stopRequested (this, null);
+		}
+		
+		TextReader IConsole.In {
+			get { return new StringReader (""); }
+		}
+		
+		TextWriter IConsole.Out {
+			get { return Log; }
+		}
+		
+		TextWriter IConsole.Error {
+			get { return Log; }
+		}
+		
+		bool IConsole.CloseOnDispose {
+			get { return false; }
+		}
+		
+		event EventHandler IConsole.CancelRequested {
+			add { stopRequested += value; }
+			remove { stopRequested -= value; }
 		}
 	}
 }

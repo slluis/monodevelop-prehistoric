@@ -60,21 +60,27 @@ namespace MonoDevelop.Gui.Pads.ClassPad
 		public override void BuildChildNodes (ITreeBuilder builder, object dataObject)
 		{
 			ClassData classData = dataObject as ClassData;
+			bool publicOnly = builder.Options ["PublicApiOnly"];
 
 			foreach (IClass innerClass in classData.Class.InnerClasses)
-				builder.AddChild (innerClass);
+				if (innerClass.IsPublic || !publicOnly)
+					builder.AddChild (innerClass);
 
 			foreach (IMethod method in classData.Class.Methods)
-				builder.AddChild (method);
+				if (method.IsPublic || !publicOnly)
+					builder.AddChild (method);
 			
 			foreach (IProperty property in classData.Class.Properties)
-				builder.AddChild (property);
+				if (property.IsPublic || !publicOnly)
+					builder.AddChild (property);
 			
 			foreach (IField field in classData.Class.Fields)
-				builder.AddChild (field);
+				if (field.IsPublic || !publicOnly)
+					builder.AddChild (field);
 			
 			foreach (IEvent e in classData.Class.Events)
-				builder.AddChild (e);
+				if (e.IsPublic || !publicOnly)
+					builder.AddChild (e);
 		}
 
 		public override bool HasChildNodes (ITreeBuilder builder, object dataObject)

@@ -1,5 +1,5 @@
 //
-// IProgressMonitor.cs
+// ExecutionContext.cs
 //
 // Author:
 //   Lluis Sanchez Gual
@@ -26,33 +26,32 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-
 using System;
-using System.IO;
 
 namespace MonoDevelop.Services
 {
-	public delegate void MonitorHandler (IProgressMonitor monitor);
-	
-	public interface IProgressMonitor: IDisposable
+	[Serializable]
+	public class ExecutionContext
 	{
-		void BeginTask (string name, int totalWork);
-		void EndTask ();
-		void Step (int work);
+		IExecutionHandlerFactory executionHandlerFactory;
+		IConsoleFactory consoleFactory;
 		
-		TextWriter Log { get; }
+		public ExecutionContext (IExecutionHandlerFactory executionHandlerFactory, IConsoleFactory consoleFactory)
+		{
+			this.executionHandlerFactory = executionHandlerFactory;
+			this.consoleFactory = consoleFactory;
+		}
 		
-		void ReportWarning (string message);
+		public IExecutionHandlerFactory ExecutionHandlerFactory {
+			get { return executionHandlerFactory; }
+		}
 		
-		void ReportSuccess (string message);
-		void ReportError (string message, Exception exception);
+		public IConsoleFactory ConsoleFactory {
+			get { return consoleFactory; }
+		}
 		
-		bool IsCancelRequested { get; }
-		event MonitorHandler CancelRequested;
-		
-		// The returned IAsyncOperation object must be thread safe
-		IAsyncOperation AsyncOperation { get; }
-		
-		object SyncRoot { get; }
+		public IConsoleFactory ExternalConsoleFactory {
+			get { return MonoDevelop.Services.ExternalConsoleFactory.Instance; }
+		}
 	}
 }

@@ -1,3 +1,72 @@
+2005-07-27  Lluis Sanchez Gual  <lluis@novell.com> 
+
+	* Services/Tasks/OutputProgressMonitor.cs: Implement the IConsole
+	interface.
+	* Services/Tasks/TaskService.cs: Implement IConsoleFactory interface.
+	
+	* Services/ProcessService/IConsole.cs: New interface.
+	* Services/ProcessService/NativePlatformExecutionHandler.cs: Execution
+	handler for native applications.
+	* Services/ProcessService/ProcessWrapper.cs: make the class implement
+	the IProcessAsyncOperation interface.
+	* Services/ProcessService/ExternalConsoleFactory.cs: Factory for
+	xterm consoles.
+	* Services/ProcessService/MintPlatformExecutionHandler.cs: Execution
+	handler for running managed applications on the mono interpreter.
+	* Services/ProcessService/DefaultExecutionHandlerFactory.cs: The
+	execution handler factory for normal non-debug executions.
+	* Services/ProcessService/MonoPlatformExecutionHandler.cs: Execution
+	handler for running managed applications on the mono jit.
+	* Services/ProcessService/ProcessService.cs: Modified StartConsoleProcess
+	which now takes a generic IConsole as parameter.
+	* Services/ProcessService/DebugExecutionHandlerFactory.cs: The
+	execution handler factory for debug executions.
+	* Services/ProcessService/ExecutionContext.cs: New class.
+	* Internal/Codons/ExecutionHandlerCodon.cs: New codon for registering
+	execution handlers.
+	
+	* Services/ProcessService/IExecutionHandlerFactory.cs:
+	* Services/ProcessService/IConsoleFactory.cs:
+	* Services/ProcessService/IExecutionHandler.cs:
+	* Services/ProcessService/IProcessAsyncOperation.cs: New interfaces.
+	
+	* Services/DebuggerService/IDebuggerService.cs: It now takes an
+	IConsole as parameter.
+	
+	* Internal/Project/Project/DotNetProject.cs:
+	* Internal/Project/Project/Project.cs:
+	* Internal/Project/Combine/Combine.cs:
+	* Internal/Project/Combine/CombineEntry.cs:
+	* Services/Project/ProjectService.cs: Removed the Debug method.
+	The Execute method now has a ExecutionContext parameter that can be
+	used to specify a debugging context or any other kind of execution
+	context.
+	
+	* MonoDevelop.Base/Base.glade:
+	* Gui/Dialogs/ErrorDialog.cs:
+	* Services/MessageService.cs: GUI improvements.
+	
+	* Gui/Pads/ClassPad/NamespaceNodeBuilder.cs:
+	* Gui/Pads/ClassPad/ProjectNodeBuilder.cs:
+	* Gui/Pads/ClassPad/ClassNodeBuilder.cs: Added "Show public members only"
+	options.
+	
+	* Gui/Pads/FileScout/FileScout.cs: Fix warning.
+	
+	* Internal/ProgressMonitoring/SynchronizedProgressMonitor.cs: New class.
+	* Internal/ProgressMonitoring/MessageDialogProgressMonitor.cs: New class.
+	* Internal/ProgressMonitoring/AggregatedOperationMonitor.cs: New class.
+	
+	* Internal/ProgressMonitoring/BaseProgressMonitor.cs:
+	* Internal/ProgressMonitoring/NullProgressMonitor.cs:
+	* Internal/ProgressMonitoring/IProgressMonitor.cs: Added SyncRoot
+	property, to support synchronized progress monitors.
+	
+	* Internal/ProgressMonitoring/AggregatedProgressMonitor.cs: Support
+	filtering of monitor actions to propagate.
+	
+	* MonoDevelopCore.addin.xml: Registered new execution handlers.
+
 2005-07-27  Lluis Sanchez Gual  <lluis@novell.com>
 
 	* Fix warnings.

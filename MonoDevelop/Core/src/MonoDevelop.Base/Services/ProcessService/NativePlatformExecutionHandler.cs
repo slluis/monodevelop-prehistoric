@@ -1,5 +1,5 @@
 //
-// IProgressMonitor.cs
+// NativePlatformExecutionHandler.cs
 //
 // Author:
 //   Lluis Sanchez Gual
@@ -26,33 +26,16 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-
 using System;
-using System.IO;
+using System.Diagnostics;
 
 namespace MonoDevelop.Services
 {
-	public delegate void MonitorHandler (IProgressMonitor monitor);
-	
-	public interface IProgressMonitor: IDisposable
+	public class NativePlatformExecutionHandler: IExecutionHandler
 	{
-		void BeginTask (string name, int totalWork);
-		void EndTask ();
-		void Step (int work);
-		
-		TextWriter Log { get; }
-		
-		void ReportWarning (string message);
-		
-		void ReportSuccess (string message);
-		void ReportError (string message, Exception exception);
-		
-		bool IsCancelRequested { get; }
-		event MonitorHandler CancelRequested;
-		
-		// The returned IAsyncOperation object must be thread safe
-		IAsyncOperation AsyncOperation { get; }
-		
-		object SyncRoot { get; }
+		public virtual IProcessAsyncOperation Execute (string command, string arguments, string workingDirectory, IConsole console)
+		{
+			return Runtime.ProcessService.StartConsoleProcess (command, arguments, workingDirectory, console, null);
+		}
 	}
 }

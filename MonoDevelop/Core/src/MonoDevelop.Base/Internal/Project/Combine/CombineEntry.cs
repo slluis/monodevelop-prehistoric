@@ -266,8 +266,7 @@ namespace MonoDevelop.Internal.Project
 		
 		public abstract void Clean ();
 		public abstract ICompilerResult Build (IProgressMonitor monitor);
-		public abstract void Execute (IProgressMonitor monitor);
-		public abstract void Debug (IProgressMonitor monitor);
+		public abstract void Execute (IProgressMonitor monitor, ExecutionContext context);
 		public abstract bool NeedsBuilding { get; set; }
 		
 		public virtual void GenerateMakefiles (Combine parentCombine)

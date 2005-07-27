@@ -83,6 +83,8 @@ namespace MonoDevelop.Gui.Pads.ClassPad
 		
 		public static void BuildChildNodes (ITreeBuilder builder, Project project)
 		{
+			bool publicOnly = builder.Options ["PublicApiOnly"];
+			
 			ArrayList list = Runtime.ParserService.GetNamespaceContents (project, "", false);
 			foreach (object ob in list) {
 				if (ob is string) {
@@ -92,7 +94,7 @@ namespace MonoDevelop.Gui.Pads.ClassPad
 						FillNamespaces (builder, project, ob as string);
 					}
 				}
-				else
+				else if (!publicOnly || ((IClass)ob).IsPublic)
 					builder.AddChild (new ClassData (project, ob as IClass));
 			}
 		}

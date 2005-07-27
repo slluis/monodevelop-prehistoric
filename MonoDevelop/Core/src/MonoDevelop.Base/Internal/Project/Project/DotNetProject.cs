@@ -22,8 +22,6 @@ namespace MonoDevelop.Internal.Project
 		[ItemProperty]
 		string language;
 		
-		object debugStopEvent = new object ();
-		
 		ILanguageBinding languageBinding;
 		
 		public override string ProjectType {
@@ -128,80 +126,52 @@ namespace MonoDevelop.Internal.Project
 			return conf.CompiledOutputName;
 		}
 		
-		public override void Debug (IProgressMonitor monitor)
-		{
-			DotNetProjectConfiguration configuration = (DotNetProjectConfiguration) ActiveConfiguration;
-			if (Runtime.DebuggingService != null) {
-				Runtime.DebuggingService.StoppedEvent += new EventHandler (OnStopDebug);
-				lock (debugStopEvent) {
-					try {
-						Runtime.DebuggingService.Run (monitor, new string[] { configuration.CompiledOutputName } );
-						Monitor.Wait (debugStopEvent);
-					} catch (Exception ex) {
-						monitor.ReportError (null, ex);
-					}
-				}
-				Runtime.DebuggingService.StoppedEvent -= new EventHandler (OnStopDebug);
-			}
-		}
-		
-		void OnStopDebug (object sender, EventArgs e)
-		{
-			lock (debugStopEvent) {
-				Monitor.PulseAll (debugStopEvent);
-			}
-		}
-
-		protected override void DoExecute (IProgressMonitor monitor)
+		protected override void DoExecute (IProgressMonitor monitor, ExecutionContext context)
 		{
 			CopyReferencesToOutputPath (true);
 			
 			DotNetProjectConfiguration configuration = (DotNetProjectConfiguration) ActiveConfiguration;
 			monitor.Log.WriteLine ("Running " + configuration.CompiledOutputName + " ...");
 			
-			string runtimeStarter = "mono";
+			string platform = "Mono";
 			
 			switch (configuration.NetRuntime) {
 				case NetRuntime.Mono:
-					runtimeStarter = "mono";
+					platform = "Mono";
 					break;
 				case NetRuntime.MonoInterpreter:
-					runtimeStarter = "mint";
+					platform = "Mint";
 					break;
 			}
+
+			IConsole console;
+			if (configuration.ExternalConsole)
+				console = context.ExternalConsoleFactory.CreateConsole (!configuration.PauseConsoleOutput);
+			else
+				console = context.ConsoleFactory.CreateConsole (!configuration.PauseConsoleOutput);
 			
-			string args = string.Format (@"--debug {0} {1}", configuration.CompiledOutputName, configuration.CommandLineParameters);
+			AggregatedOperationMonitor operationMonitor = new AggregatedOperationMonitor (monitor);
 			
 			try {
-				ProcessWrapper p;
+				IExecutionHandler handler = context.ExecutionHandlerFactory.CreateExecutionHandler (platform);
+				if (handler == null) {
+					monitor.ReportError ("Can not execute \"" + configuration.CompiledOutputName + "\". The selected execution mode is not supported in the " + platform + " platform.", null);
+					return;
+				}
+			
+				IProcessAsyncOperation op = handler.Execute (configuration.CompiledOutputName, configuration.CommandLineParameters, Path.GetDirectoryName (configuration.CompiledOutputName), console);
 				
-				if (configuration.ExternalConsole)
-					p = Runtime.ProcessService.StartConsoleProcess (
-							runtimeStarter, 
-							args, 
-							Path.GetDirectoryName (configuration.CompiledOutputName), 
-							true, configuration.PauseConsoleOutput, null);
-				else
-					// The use of 'sh' is a workaround. Looks like there is a bug
-					// in mono, Process can't start a "mono" process.
-					p = Runtime.ProcessService.StartConsoleProcess (
-							"sh", 
-							string.Format ("-c \"{0} {1}\"", runtimeStarter, args),
-							Path.GetDirectoryName (configuration.CompiledOutputName), 
-							false, false, null);
-				
-				monitor.CancelRequested += new MonitorHandler (new ProcessStopper (p).OnStopExecution);
-				p.WaitForOutput ();
-				monitor.Log.WriteLine ("The application exited with code: {0}", p.ExitCode);
+				operationMonitor.AddOperation (op);
+				op.WaitForCompleted ();
+				monitor.Log.WriteLine ("The application exited with code: {0}", op.ExitCode);
 			} catch (Exception ex) {
 				monitor.ReportError ("Can not execute " + "\"" + configuration.CompiledOutputName + "\"", ex);
+			} finally {
+				operationMonitor.Dispose ();
+				console.Dispose ();
 			}
 		}
 		
-		void OnStopExecution (IProgressMonitor monitor)
-		{
-		}
-
 		public override void GenerateMakefiles (Combine parentCombine)
 		{
 			Runtime.LoggingService.Info ("Generating makefiles for " + Name);
@@ -211,21 +181,6 @@ namespace MonoDevelop.Internal.Project
 		public override bool IsCompileable(string fileName)
 		{
 			return languageBinding.CanCompile(fileName);
-		}
-		
-		class ProcessStopper
-		{
-			Process p;
-			
-			public ProcessStopper (Process p)
-			{
-				this.p = p;
-			}
-			
-			public void OnStopExecution (IProgressMonitor monitor)
-			{
-				p.Kill ();
-			}
 		}
 	}
 }

@@ -56,19 +56,21 @@ namespace MonoDevelop.Core.Services
 			string msg = string.Empty;
 			string details;
 			
+			ErrorDialog dlg = new ErrorDialog ();
+			
 			if (message != null) {
-				msg = message;
+				dlg.Message = message;
 			}
 			
 			if (ex != null) {
-				if (msg.Length == 0)
-					msg = ex.Message;
-				details = "Exception occurred: \n\n" + ex.ToString ();
+				if (dlg.Message.Length == 0)
+					dlg.Message = ex.Message;
+				dlg.AddDetails ("Exception occurred: " + ex.Message + "\n\n", true);
+				dlg.AddDetails (ex.ToString (), false);
 			} else {
-				details = "No more details available.";
+				dlg.AddDetails ("No more details available.", true);
 			}
 			
-			ErrorDialog dlg = new ErrorDialog (message, details);
 			dlg.Run ();
 		}
 

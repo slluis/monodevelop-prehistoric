@@ -15,7 +15,7 @@ using MonoDevelop.Internal.Project;
 
 namespace MonoDevelop.Services
 {
-	public class TaskService : GuiSyncAbstractService
+	public class TaskService : GuiSyncAbstractService, IConsoleFactory
 	{
 		ArrayList tasks  = new ArrayList();
 		string    compilerOutput = String.Empty;
@@ -29,10 +29,9 @@ namespace MonoDevelop.Services
 		public IProgressMonitor GetBuildProgressMonitor ()
 		{
 			bool front = (bool) Runtime.Properties.GetProperty ("SharpDevelop.ShowOutputWindowAtBuild", true);
-			return new AggregatedProgressMonitor (
-				GetOutputProgressMonitor ("Build Output", MonoDevelop.Gui.Stock.BuildCombine, front, true),
-				GetStatusProgressMonitor ("Building...", MonoDevelop.Gui.Stock.BuildCombine, false)
-			);
+			AggregatedProgressMonitor mon = new AggregatedProgressMonitor (GetOutputProgressMonitor ("Build Output", MonoDevelop.Gui.Stock.BuildCombine, front, true));
+			mon.AddSlaveMonitor (GetStatusProgressMonitor ("Building...", MonoDevelop.Gui.Stock.BuildCombine, false));
+			return mon;
 		}
 		
 		public IProgressMonitor GetRunProgressMonitor ()
@@ -48,6 +47,11 @@ namespace MonoDevelop.Services
 		public IProgressMonitor GetSaveProgressMonitor ()
 		{
 			return GetStatusProgressMonitor ("Saving...", Stock.SaveIcon, true);
+		}
+		
+		public IConsole CreateConsole (bool closeOnDispose)
+		{
+			return (IConsole) GetOutputProgressMonitor ("Application Output", MonoDevelop.Gui.Stock.RunProgramIcon, true, true);
 		}
 		
 		

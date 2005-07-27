@@ -28,38 +28,83 @@
 
 
 using System;
+using System.Collections;
 using System.IO;
 
 namespace MonoDevelop.Services
 {
+	[Flags]
+	public enum MonitorAction
+	{
+		None = 0x00,
+		WriteLog = 0x01,
+		ReportError = 0x02,
+		ReportWarning = 0x04,
+		ReportSuccess = 0x08,
+		Dispose = 0x10,
+		Tasks = 0x20,
+		Cancel = 0x40,
+		SlaveCancel = 0x80,	// when the slave is cancelled, the whole aggregated monitor is cancelled.
+		All =  0xff
+	}
+	
 	public class AggregatedProgressMonitor: IProgressMonitor, IAsyncOperation
 	{
-		IProgressMonitor[] monitors;
+		IProgressMonitor masterMonitor;
+		ArrayList monitors = new ArrayList ();
 		LogTextWriter logger;
 		
-		public AggregatedProgressMonitor (params IProgressMonitor[] monitors)
+		class MonitorInfo {
+			public MonitorAction ActionMask;
+			public IProgressMonitor Monitor;
+		}
+		
+		public AggregatedProgressMonitor (): this (new NullProgressMonitor ())
 		{
-			this.monitors = monitors;
+		}
+		
+		public AggregatedProgressMonitor (IProgressMonitor masterMonitor)
+		{
+			this.masterMonitor = masterMonitor;
+			AddSlaveMonitor (masterMonitor, MonitorAction.All);
 			logger = new LogTextWriter ();
 			logger.TextWritten += new LogTextEventHandler (OnWriteLog);
 		}
 		
+		public void AddSlaveMonitor (IProgressMonitor slaveMonitor)
+		{
+			AddSlaveMonitor (slaveMonitor, MonitorAction.All);
+		}
+		
+		public void AddSlaveMonitor (IProgressMonitor slaveMonitor, MonitorAction actionMask)
+		{
+			MonitorInfo smon = new MonitorInfo ();
+			smon.ActionMask = actionMask;
+			smon.Monitor = slaveMonitor;
+			monitors.Add (smon);
+			if ((actionMask & MonitorAction.SlaveCancel) != 0)
+				slaveMonitor.CancelRequested += new MonitorHandler (OnSlaveCancelRequested);
+		}
+		
 		public void BeginTask (string name, int totalWork)
 		{
-			foreach (IProgressMonitor monitor in monitors)
-				monitor.BeginTask (name, totalWork);
+			foreach (MonitorInfo info in monitors)
+				if ((info.ActionMask & MonitorAction.Tasks) != 0)
+					info.Monitor.BeginTask (name, totalWork);
 		}
 		
 		public void EndTask ()
 		{
-			foreach (IProgressMonitor monitor in monitors)
-				monitor.EndTask ();
+			foreach (MonitorInfo info in monitors)
+				if ((info.ActionMask & MonitorAction.Tasks) != 0)
+					info.Monitor.EndTask ();
 		}
 		
 		public void Step (int work)
 		{
-			foreach (IProgressMonitor monitor in monitors)
-				monitor.Step (work);
+			foreach (MonitorInfo info in monitors)
+				if ((info.ActionMask & MonitorAction.Tasks) != 0)
+					info.Monitor.Step (work);
 		}
 		
 		public TextWriter Log
@@ -69,41 +114,60 @@ namespace MonoDevelop.Services
 		
 		void OnWriteLog (string text)
 		{
-			foreach (IProgressMonitor monitor in monitors)
-				monitor.Log.Write (text);
+			foreach (MonitorInfo info in monitors)
+				if ((info.ActionMask & MonitorAction.WriteLog) != 0)
+					info.Monitor.Log.Write (text);
 		}
 		
 		public void ReportSuccess (string message)
 		{
-			foreach (IProgressMonitor monitor in monitors)
-				monitor.ReportSuccess (message);
+			foreach (MonitorInfo info in monitors)
+				if ((info.ActionMask & MonitorAction.ReportSuccess) != 0)
+					info.Monitor.ReportSuccess (message);
 		}
 		
 		public void ReportWarning (string message)
 		{
-			foreach (IProgressMonitor monitor in monitors)
-				monitor.ReportWarning (message);
+			foreach (MonitorInfo info in monitors)
+				if ((info.ActionMask & MonitorAction.ReportWarning) != 0)
+					info.Monitor.ReportWarning (message);
 		}
 		
 		public void ReportError (string message, Exception ex)
 		{
-			foreach (IProgressMonitor monitor in monitors)
-				monitor.ReportError (message, ex);
+			foreach (MonitorInfo info in monitors)
+				if ((info.ActionMask & MonitorAction.ReportError) != 0)
+					info.Monitor.ReportError (message, ex);
 		}
 		
 		public void Dispose ()
 		{
-			foreach (IProgressMonitor monitor in monitors)
-				monitor.Dispose ();
+			foreach (MonitorInfo info in monitors) {
+				if ((info.ActionMask & MonitorAction.Dispose) != 0)
+					info.Monitor.Dispose ();
+				if ((info.ActionMask & MonitorAction.SlaveCancel) != 0)
+					info.Monitor.CancelRequested -= new MonitorHandler (OnSlaveCancelRequested);
+			}
 		}
 		
 		public bool IsCancelRequested
 		{
 			get {
-				foreach (IProgressMonitor monitor in monitors)
-					if (monitor.IsCancelRequested) return true;
+				foreach (MonitorInfo info in monitors)
+					if ((info.ActionMask & MonitorAction.SlaveCancel) != 0) {
+						if (info.Monitor.IsCancelRequested) return true;
+					}
 				return false;
 			}
+		}
+		
+		public object SyncRoot {
+			get { return this; }
+		}
+		
+		void OnSlaveCancelRequested (IProgressMonitor sender)
+		{
+			AsyncOperation.Cancel ();
 		}
 		
 		public IAsyncOperation AsyncOperation
@@ -113,41 +177,32 @@ namespace MonoDevelop.Services
 		
 		void IAsyncOperation.Cancel ()
 		{
-			foreach (IProgressMonitor monitor in monitors)
-				monitor.AsyncOperation.Cancel ();
+			foreach (MonitorInfo info in monitors)
+				if ((info.ActionMask & MonitorAction.Cancel) != 0)
+					info.Monitor.AsyncOperation.Cancel ();
 		}
 		
 		void IAsyncOperation.WaitForCompleted ()
 		{
-			if (IsCompleted) return;
-			
-			if (Runtime.DispatchService.IsGuiThread) {
-				while (!IsCompleted) {
-					while (Gtk.Application.EventsPending ())
-						Gtk.Application.RunIteration ();
-					System.Threading.Thread.Sleep (100);
-				}
-			} else {
-				monitors [0].AsyncOperation.WaitForCompleted ();
-			}
+			masterMonitor.AsyncOperation.WaitForCompleted ();
 		}
 		
 		public bool IsCompleted {
-			get { return monitors [0].AsyncOperation.IsCompleted; }
+			get { return masterMonitor.AsyncOperation.IsCompleted; }
 		}
 		
 		bool IAsyncOperation.Success { 
-			get { return monitors [0].AsyncOperation.Success; }
+			get { return masterMonitor.AsyncOperation.Success; }
 		}
 		
 		public event MonitorHandler CancelRequested {
-			add { monitors [0].CancelRequested += value; }
-			remove { monitors [0].CancelRequested -= value; }
+			add { masterMonitor.CancelRequested += value; }
+			remove { masterMonitor.CancelRequested -= value; }
 		}
 			
 		public event OperationHandler Completed {
-			add { monitors [0].AsyncOperation.Completed += value; }
-			remove { monitors [0].AsyncOperation.Completed -= value; }
+			add { masterMonitor.AsyncOperation.Completed += value; }
+			remove { masterMonitor.AsyncOperation.Completed -= value; }
 		}
 	}
 }

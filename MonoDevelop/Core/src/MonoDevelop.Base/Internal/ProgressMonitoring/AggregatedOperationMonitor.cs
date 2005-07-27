@@ -1,5 +1,5 @@
 //
-// IProgressMonitor.cs
+// AggregatedOperationMonitor.cs
 //
 // Author:
 //   Lluis Sanchez Gual
@@ -28,31 +28,50 @@
 
 
 using System;
-using System.IO;
+using System.Collections;
 
 namespace MonoDevelop.Services
 {
-	public delegate void MonitorHandler (IProgressMonitor monitor);
-	
-	public interface IProgressMonitor: IDisposable
+	public class AggregatedOperationMonitor: IDisposable
 	{
-		void BeginTask (string name, int totalWork);
-		void EndTask ();
-		void Step (int work);
+		ArrayList list = new ArrayList ();
+		IProgressMonitor monitor;
 		
-		TextWriter Log { get; }
+		public AggregatedOperationMonitor (IProgressMonitor monitor, params IAsyncOperation[] operations)
+		{
+			this.monitor = monitor;
+			
+			if (operations != null) {
+				lock (list) {
+					foreach (IAsyncOperation operation in operations)
+						AddOperation (operation);
+				}
+			}
+			
+			monitor.CancelRequested += new MonitorHandler (OnCancel);
+		}
 		
-		void ReportWarning (string message);
+		public void AddOperation (IAsyncOperation operation)
+		{
+			lock (list) {
+				if (monitor.IsCancelRequested)
+					operation.Cancel ();
+				else
+					list.Add (operation);
+			}
+		}
 		
-		void ReportSuccess (string message);
-		void ReportError (string message, Exception exception);
+		void OnCancel (IProgressMonitor m)
+		{
+			lock (list) {
+				foreach (IAsyncOperation operation in list)
+					operation.Cancel ();
+			}
+		}
 		
-		bool IsCancelRequested { get; }
-		event MonitorHandler CancelRequested;
-		
-		// The returned IAsyncOperation object must be thread safe
-		IAsyncOperation AsyncOperation { get; }
-		
-		object SyncRoot { get; }
+		public void Dispose ()
+		{
+			monitor.CancelRequested -= new MonitorHandler (OnCancel);
+		}
 	}
 }
