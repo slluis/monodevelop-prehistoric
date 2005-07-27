@@ -1,3 +1,8 @@
+2005-07-27  Lluis Sanchez Gual  <lluis@novell.com>
+
+	* Commands/CommandManager.cs: Improve error message when an exception is
+	thrown while executing a command.
+
 2005-07-13  Lluis Sanchez Gual  <lluis@novell.com>
 
 	* BasicChart/*: A simple chart widget.

@@ -131,8 +131,9 @@ namespace MonoDevelop.Commands
 		
 		public bool DispatchCommand (object commandId, object dataItem)
 		{
+			ActionCommand cmd = null;
 			try {
-				ActionCommand cmd = GetActionCommand (commandId);
+				cmd = GetActionCommand (commandId);
 				
 				int globalPos;
 				object cmdTarget = GetFirstCommandTarget (out globalPos);
@@ -178,7 +179,8 @@ namespace MonoDevelop.Commands
 				return cmd.DispatchCommand (dataItem);
 			}
 			catch (Exception ex) {
-				ReportError (commandId, "Error while executing command: " + commandId, ex);
+				string name = (cmd != null && cmd.Text != null && cmd.Text.Length > 0) ? cmd.Text : commandId.ToString ();
+				ReportError (commandId, "Error while executing command: " + name, ex);
 				return false;
 			}
 		}
