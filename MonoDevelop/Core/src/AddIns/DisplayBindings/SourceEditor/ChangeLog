@@ -1,3 +1,8 @@
+2005-07-27  Lluis Sanchez Gual  <lluis@novell.com> 
+
+	* Gui/SourceEditorDisplayBinding.cs: Make sure the PropertyChanged
+	handler runs in the gui thread.
+
 2005-07-22  John Luke  <john.luke@gmail.com>
 
 	* SourceEditor.mdp: remove completion files moved into Base assembly

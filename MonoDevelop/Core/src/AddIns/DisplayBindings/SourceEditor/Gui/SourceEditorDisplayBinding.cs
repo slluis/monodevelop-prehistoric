@@ -116,6 +116,8 @@ namespace MonoDevelop.SourceEditor.Gui
 		DateTime lastSaveTime;
 		bool warnOverwrite = false;
 		
+		PropertyEventHandler propertyHanlder;
+		
 		void UpdateFSW (object o, EventArgs e)
 		{
 			if (ContentName == null || ContentName.Length == 0 || !File.Exists (ContentName))
@@ -183,9 +185,10 @@ namespace MonoDevelop.SourceEditor.Gui
 			CaretModeChanged (null, null);
 			SetInitialValues ();
 			
+			propertyHanlder = (PropertyEventHandler) Runtime.DispatchService.GuiDispatch (new PropertyEventHandler (PropertiesChanged));
 			PropertyService propertyService = (PropertyService) ServiceManager.GetService (typeof (PropertyService));
 			properties = ((IProperties) propertyService.GetProperty("MonoDevelop.TextEditor.Document.Document.DefaultDocumentAggregatorProperties", new DefaultProperties()));
-			properties.PropertyChanged += new PropertyEventHandler (PropertiesChanged);
+			properties.PropertyChanged += propertyHanlder;
 			fsw = new FileSystemWatcher ();
 			fsw.Changed += (FileSystemEventHandler) Runtime.DispatchService.GuiDispatch (new FileSystemEventHandler (OnFileChanged));
 			UpdateFSW (null, null);
@@ -240,7 +243,7 @@ namespace MonoDevelop.SourceEditor.Gui
 			}
 
 			mainBox.Remove (se);
-			properties.PropertyChanged -= new PropertyEventHandler (PropertiesChanged);
+			properties.PropertyChanged -= propertyHanlder;
 			se.Buffer.ModifiedChanged -= new EventHandler (OnModifiedChanged);
 			se.Buffer.MarkSet -= new MarkSetHandler (OnMarkSet);
 			se.Buffer.Changed -= new EventHandler (OnChanged);
