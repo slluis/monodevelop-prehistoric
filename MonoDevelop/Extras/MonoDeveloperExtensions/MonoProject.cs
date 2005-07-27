@@ -199,10 +199,6 @@ namespace MonoDeveloper
 			monitor.EndTask ();
 		}
 		
-		public override void Debug (IProgressMonitor monitor)
-		{
-		}
-		
 		public override string GetOutputFileName ()
 		{
 			MonoProjectConfiguration conf = (MonoProjectConfiguration) ActiveConfiguration;
