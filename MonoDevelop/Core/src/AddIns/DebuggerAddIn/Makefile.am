@@ -10,7 +10,6 @@ DLLS = $(GTK_SHARP_LIBS) \
 	/r:$(top_builddir)/build/bin/MonoDevelop.Core.dll \
         /r:$(top_builddir)/build/bin/ICSharpCode.SharpRefactory.dll
 
-
 FILES = \
 DebuggingService.cs \
 EvaluationContext.cs \

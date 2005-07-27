@@ -1,3 +1,8 @@
+2005-07-27  Lluis Sanchez Gual  <lluis@novell.com> 
+
+	* DebuggingService.cs: Use the new IConsole parameter to write the
+	output.
+
 2005-06-28  Raja R Harinath  <rharinath@novell.com>
 
 	* Makefile.am (DebuggerPaths.cs): Fix for srcdir != builddir.

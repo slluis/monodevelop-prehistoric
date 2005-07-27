@@ -30,6 +30,7 @@ namespace MonoDevelop.Debugger
 		Hashtable procs = new Hashtable ();
 		Hashtable breakpoints = new Hashtable ();
 		DebuggerBackend backend;
+		IConsole console;
 
 		IProgressMonitor current_monitor;
 
@@ -53,8 +54,8 @@ namespace MonoDevelop.Debugger
 
 			backend.Dispose ();
 			backend = null;
-			current_monitor.Dispose ();
-			current_monitor = null;
+			console.Dispose ();
+			console = null;
 #if NET_2_0
 			attr_handler = null;
 #endif
@@ -77,16 +78,6 @@ namespace MonoDevelop.Debugger
 			}
 		}
 #endif
-
-		public void CreateDebugConsole ()
-		{
-			if (current_monitor != null)
-				return;
-
-			current_monitor = Runtime.TaskService.GetOutputProgressMonitor ("Debug Output",
-								MonoDevelop.Gui.Stock.OutputIcon,
-								true, true);
-		}
 
 		public bool IsDebugging {
 			get {
@@ -247,19 +238,20 @@ namespace MonoDevelop.Debugger
 		void target_output (bool is_stderr, string line)
 		{
 			Console.WriteLine (line);
-			current_monitor.Log.Write (line);
+			console.Out.Write (line);
 		}
 
 		void debugger_output (string line)
 		{
 			Console.WriteLine (line);
-			current_monitor.ReportWarning (line);
+			console.Out.Write (line);
 		}
 
 		void debugger_error (object sender, string message, Exception e)
 		{
-		  Console.WriteLine (message);
-			current_monitor.ReportError (message, e);
+			Console.WriteLine (message);
+			console.Error.Write (message);
+			console.Error.Write (e.ToString ());
 		}
 
 		private void target_event (object sender, TargetEventArgs args)
@@ -362,7 +354,7 @@ namespace MonoDevelop.Debugger
 			proc.Continue (false);
 		}
 
-		public void Run (IProgressMonitor monitor, string[] argv)
+		public void Run (IConsole console, string[] argv)
 		{
 			if (IsDebugging)
 				return;
@@ -370,7 +362,7 @@ namespace MonoDevelop.Debugger
 #if NET_2_0
 			AttributeHandler.Rescan();
 #endif
-			CreateDebugConsole ();
+			this.console = console;
 
 			backend = new DebuggerBackend ();
 			backend.ThreadManager.InitializedEvent += new ThreadEventHandler (initialized_event);
@@ -378,10 +370,10 @@ namespace MonoDevelop.Debugger
 			backend.ThreadManager.ThreadExitedEvent += new ThreadEventHandler (thread_exited);
 			backend.Run (new ProcessStart (null, argv));
 			
-			monitor.CancelRequested += new MonitorHandler (OnCancelRequested);
+			console.CancelRequested += new EventHandler (OnCancelRequested);
 		}
 		
-		void OnCancelRequested (IProgressMonitor monitor)
+		void OnCancelRequested (object sender, EventArgs args)
 		{
 			Stop ();
 		}
