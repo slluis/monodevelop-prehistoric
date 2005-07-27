@@ -75,11 +75,7 @@ namespace MonoDevelop.NUnit
 			return null;
 		}
 		
-		public override void Execute (IProgressMonitor monitor)
-		{
-		}
-		
-		public override void Debug (IProgressMonitor monitor)
+		public override void Execute (IProgressMonitor monitor, ExecutionContext context)
 		{
 		}
 		

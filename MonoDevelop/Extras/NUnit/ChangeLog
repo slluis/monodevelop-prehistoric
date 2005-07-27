@@ -1,3 +1,7 @@
+2005-07-27  Lluis Sanchez Gual  <lluis@novell.com> 
+
+	* Project/NUnitAssemblyGroupProject.cs: Track api changes.
+
 2005-07-13  Lluis Sanchez Gual  <lluis@novell.com> 
 
 	* New addin implementation.
