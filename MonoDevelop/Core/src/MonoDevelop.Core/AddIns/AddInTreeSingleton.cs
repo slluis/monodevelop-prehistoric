@@ -20,7 +20,7 @@ namespace MonoDevelop.Core.AddIns
 	/// <summary>
 	/// Here is the ONLY point to get an <see cref="IAddInTree"/> object.
 	/// </summary>
-	public class AddInTreeSingleton : DefaultAddInTree
+	public class AddInTreeSingleton
 	{
 		static IAddInTree addInTree = null;
 		readonly static string defaultCoreDirectory = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) + // DON'T REPLACE
@@ -64,18 +64,21 @@ namespace MonoDevelop.Core.AddIns
 					addInTree.InsertAddIn (addIn);
 				} catch (CodonNotFoundException ex) {
 					retryList.Add (addInFile);
-					list.Add (new AddinError (addInFile, ex));
+					list.Add (new AddinError (addInFile, ex, false));
 				} catch (ConditionNotFoundException ex) {
 					retryList.Add (addInFile);
-					list.Add (new AddinError (addInFile, ex));
+					list.Add (new AddinError (addInFile, ex, false));
 				} catch (MissingDependencyException ex) {
 					// Try to load the addin later. Maybe it depends on an
 					// addin that has not yet been loaded.
 					retryList.Add(addInFile);
-					list.Add (new AddinError (addInFile, ex));
+					list.Add (new AddinError (addInFile, ex, false));
+				} catch (InvalidAssemblyVersionException ex) {
+					retryList.Add (addInFile);
+					list.Add (new AddinError (addInFile, ex, false));
 				} catch (Exception ex) {
 					retryList.Add (addInFile);
-					list.Add (new AddinError (addInFile, ex));
+					list.Add (new AddinError (addInFile, ex, false));
 				} 
 			}
 			
@@ -85,8 +88,17 @@ namespace MonoDevelop.Core.AddIns
 		
 		public static AddinError[] InitializeAddins ()
 		{
+			AssemblyLoader loader = new AssemblyLoader();
+			
+			try {
+				loader.CheckAssembly (Assembly.GetEntryAssembly ());
+			} catch (Exception ex) {
+				AddinError err = new AddinError (Assembly.GetEntryAssembly ().Location, ex, true);
+				return new AddinError[] { err };
+			}
+			
 			AddinError[] errors = null;
-			addInTree = new DefaultAddInTree();
+			addInTree = new DefaultAddInTree (loader);
 			
 			FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.GetService(typeof(FileUtilityService));
 			
@@ -131,11 +143,13 @@ namespace MonoDevelop.Core.AddIns
 	{
 		string addinFile;
 		Exception exception;
+		bool fatal;
 		
-		public AddinError (string addin, Exception exception)
+		public AddinError (string addin, Exception exception, bool fatal)
 		{
 			this.addinFile = addin;
 			this.exception = exception;
+			this.fatal = fatal;
 		}
 		
 		public string AddinFile {
@@ -144,6 +158,10 @@ namespace MonoDevelop.Core.AddIns
 		
 		public Exception Exception {
 			get { return exception; }
+		}
+		
+		public bool Fatal {
+			get { return fatal; }
 		}
 	}
 }

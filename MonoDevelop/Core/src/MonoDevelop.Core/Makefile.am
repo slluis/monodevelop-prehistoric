@@ -52,13 +52,15 @@ AddIns/AddInTreeFormatException.cs \
 AddIns/TypeNotFoundException.cs \
 AddIns/AddInInitializeException.cs \
 AddIns/AddInCollection.cs \
+AddIns/AssemblyLoader.cs \
 AddIns/AddInSignatureException.cs
 
 build_sources = $(addprefix $(srcdir)/, $(FILES)) Services/GettextCatalog.cs AssemblyInfo.cs
 
 DLL = $(top_builddir)/build/bin/MonoDevelop.Core.dll
 
-REFS = -r:Mono.Posix.dll
+REFS = -r:Mono.Posix.dll \
+	-r:$(top_builddir)/build/bin/Mono.Cecil.dll
 
 all: $(DLL)
 

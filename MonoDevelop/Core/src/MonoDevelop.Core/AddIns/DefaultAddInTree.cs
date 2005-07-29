@@ -23,6 +23,7 @@ namespace MonoDevelop.Core.AddIns
 	/// </summary>
 	public class DefaultAddInTree : IAddInTree
 	{
+		AssemblyLoader loader;
 		AddInCollection addIns = new AddInCollection();
 		
 		DefaultAddInTreeNode  root = new DefaultAddInTreeNode();
@@ -65,8 +66,9 @@ namespace MonoDevelop.Core.AddIns
 		/// <summary>
 		/// Constructs a new instance of the <code>DefaultAddInTree</code> object.
 		/// </summary>
-		internal DefaultAddInTree()
+		internal DefaultAddInTree (AssemblyLoader loader)
 		{
+			this.loader = loader;
 			// load codons and conditions from the current assembly.
 			LoadCodonsAndConditions(Assembly.GetExecutingAssembly());
 		}
@@ -180,21 +182,12 @@ namespace MonoDevelop.Core.AddIns
 		/// This method loads an assembly and gets all 
 		/// it's defined codons and conditions
 		/// </summary>
-		public Assembly LoadAssembly(string fileName)
+		public Assembly LoadAssembly (string fileName)
 		{
 			Assembly assembly = (Assembly)registeredAssemblies[fileName];
 			
 			if (assembly == null) {
-				Assembly asm = null;
-				if (File.Exists(fileName)) {
-					asm = Assembly.LoadFrom(fileName);
-				}
-				if (asm == null) {
-					asm = Assembly.Load(fileName);
-				}
-				if (asm == null) {
-					asm = Assembly.LoadWithPartialName(fileName);
-				}
+				Assembly asm = loader.LoadAssembly (fileName);
 				registeredAssemblies[fileName] = assembly = asm;
 				LoadCodonsAndConditions(assembly);
 			}
