@@ -380,7 +380,7 @@ namespace MonoDevelop.Internal.Project
 				DoPreBuild (monitor);
 				
 				monitor.Step (1);
-				monitor.Log.WriteLine (String.Format ("Performing main compilation..."));
+				monitor.Log.WriteLine (String.Format (GettextCatalog.GetString ("Performing main compilation...")));
 				
 				ICompilerResult res = DoBuild (monitor);
 				
