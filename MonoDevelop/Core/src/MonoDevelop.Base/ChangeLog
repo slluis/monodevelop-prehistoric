@@ -1,3 +1,7 @@
+2005-07-29  John Luke  <john.luke@gmail.com>
+
+	* MonoDevelop.Base.mdp: add new files to the project
+
 2005-07-27  Lluis Sanchez Gual  <lluis@novell.com> 
 
 	* Services/Tasks/OutputProgressMonitor.cs: Implement the IConsole

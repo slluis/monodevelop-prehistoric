@@ -535,5 +535,21 @@
     <File name="./Gui/Completion/ListWindow.cs" subtype="Code" buildaction="Compile" />
     <File name="./Gui/Completion/TemplateCompletionDataProvider.cs" subtype="Code" buildaction="Compile" />
     <File name="./Gui/Completion/TextUtilities.cs" subtype="Code" buildaction="Compile" />
+    <File name="./Services/ProcessService/IProcessAsyncOperation.cs" subtype="Code" buildaction="Compile" />
+    <File name="./Services/ProcessService/MintPlatformExecutionHandler.cs" subtype="Code" buildaction="Compile" />
+    <File name="./Services/ProcessService/MonoPlatformExecutionHandler.cs" subtype="Code" buildaction="Compile" />
+    <File name="./Services/ProcessService/NativePlatformExecutionHandler.cs" subtype="Code" buildaction="Compile" />
+    <File name="./Services/ProcessService/DebugExecutionHandlerFactory.cs" subtype="Code" buildaction="Compile" />
+    <File name="./Services/ProcessService/DefaultExecutionHandlerFactory.cs" subtype="Code" buildaction="Compile" />
+    <File name="./Services/ProcessService/ExecutionContext.cs" subtype="Code" buildaction="Compile" />
+    <File name="./Services/ProcessService/ExternalConsoleFactory.cs" subtype="Code" buildaction="Compile" />
+    <File name="./Services/ProcessService/IConsole.cs" subtype="Code" buildaction="Compile" />
+    <File name="./Services/ProcessService/IConsoleFactory.cs" subtype="Code" buildaction="Compile" />
+    <File name="./Services/ProcessService/IExecutionHandler.cs" subtype="Code" buildaction="Compile" />
+    <File name="./Services/ProcessService/IExecutionHandlerFactory.cs" subtype="Code" buildaction="Compile" />
+    <File name="./Internal/Codons/ExecutionHandlerCodon.cs" subtype="Code" buildaction="Compile" />
+    <File name="./Internal/ProgressMonitoring/MessageDialogProgressMonitor.cs" subtype="Code" buildaction="Compile" />
+    <File name="./Internal/ProgressMonitoring/SynchronizedProgressMonitor.cs" subtype="Code" buildaction="Compile" />
+    <File name="./Internal/ProgressMonitoring/AggregatedOperationMonitor.cs" subtype="Code" buildaction="Compile" />
   </Contents>
 </Project>

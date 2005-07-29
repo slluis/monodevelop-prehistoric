@@ -1,3 +1,7 @@
+2005-07-29  John Luke  <john.luke@gmail.com>
+
+	* MonoDevelop.Core.mdp: add new files and references
+	
 2005-07-29  Lluis Sanchez Gual  <lluis@novell.com>
 
 	* AddIns/AssemblyLoader.cs:
