@@ -1,3 +1,8 @@
+2005-07-29  Lluis Sanchez Gual  <lluis@novell.com>
+
+	* MonoDevelop.Startup.glade:
+	* Dialogs/AddinLoadErrorDialog.cs: Improved the error dialog.
+
 2005-07-18  Lluis Sanchez Gual  <lluis@novell.com>
 
 	* MonoDevelopMain.cs: Show an error dialog if there is some error

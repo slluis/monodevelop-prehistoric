@@ -39,6 +39,11 @@ namespace MonoDevelop
 {
 	public class AddinLoadErrorDialog
 	{
+		[Glade.Widget] Button noButton;
+		[Glade.Widget] Button yesButton;
+		[Glade.Widget] Button closeButton;
+		[Glade.Widget] Label labelContinue;
+		[Glade.Widget] Label labelFatal;
 		[Glade.Widget] Dialog addinLoadErrorDialog;
 		[Glade.Widget] Gtk.TreeView errorTree;
 		
@@ -51,16 +56,33 @@ namespace MonoDevelop
 			errorTree.AppendColumn ("Addin", new CellRendererText (), "text", 0);
 			errorTree.Model = store;
 			
+			bool fatal = false;
+			
 			foreach (AddinError err in errors) {
-				TreeIter it = store.AppendValues (Path.GetFileNameWithoutExtension (err.AddinFile));
-				store.AppendValues (it, "Full path: " + err.AddinFile);
-				store.AppendValues (it, err.Exception.ToString ());
+				string name = Path.GetFileNameWithoutExtension (err.AddinFile);
+				if (err.Fatal) name += " (Fatal error)";
+				TreeIter it = store.AppendValues (name);
+				store.AppendValues (it, "Full Path: " + err.AddinFile);
+				store.AppendValues (it, "Error: " + err.Exception.Message);
+				it = store.AppendValues (it, "Exception: " + err.Exception.GetType ());
+				store.AppendValues (it, err.Exception.StackTrace.ToString ());
+				if (err.Fatal) fatal = true;
+			}
+			
+//			addinLoadErrorDialog.ShowAll ();
+
+			if (fatal) {
+				noButton.Hide ();
+				yesButton.Hide ();
+				labelContinue.Hide ();
+				closeButton.Show ();
+				labelFatal.Show ();
 			}
 		}
 		
 		public bool Run ()
 		{
-			addinLoadErrorDialog.ShowAll ();
+			addinLoadErrorDialog.Show ();
 			bool res = (((ResponseType)addinLoadErrorDialog.Run ()) == ResponseType.Yes);
 			addinLoadErrorDialog.Destroy ();
 			return res;
