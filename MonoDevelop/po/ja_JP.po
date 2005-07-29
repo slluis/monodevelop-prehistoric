@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: MonoDevelop 0.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-07-30 02:10+0900\n"
+"POT-Creation-Date: 2005-07-30 02:37+0900\n"
 "PO-Revision-Date: 2004-07-12 10:51+0900\n"
 "Last-Translator: Atsushi Eno <atsushi@ximian.com>\n"
 "Language-Team: Atsushi Enomoto <atsushi@ximian.com>\n"
@@ -122,7 +122,7 @@ msgstr "C# Help"
 
 #: ../Core/src/MonoDevelop.Base/MonoDevelopCore.addin.xml.h:27
 msgid "C_omment Line(s)"
-msgstr ""
+msgstr "行をコメントアウト (_C)"
 
 #: ../Core/src/MonoDevelop.Base/MonoDevelopCore.addin.xml.h:28
 msgid "Choose Location"
@@ -142,7 +142,7 @@ msgstr "ソリューションを空にする"
 
 #: ../Core/src/MonoDevelop.Base/MonoDevelopCore.addin.xml.h:32
 msgid "Clear All Breakpoints"
-msgstr ""
+msgstr "全てのブレークポイントをクリア"
 
 #: ../Core/src/MonoDevelop.Base/MonoDevelopCore.addin.xml.h:33
 msgid "Close All"
@@ -201,7 +201,7 @@ msgstr "配置"
 
 #: ../Core/src/MonoDevelop.Base/MonoDevelopCore.addin.xml.h:46
 msgid "Display Options List"
-msgstr ""
+msgstr "オプション リストを表示"
 
 #: ../Core/src/MonoDevelop.Base/MonoDevelopCore.addin.xml.h:47
 #: ../Core/src/MonoDevelop.Base/Base.glade.h:46
@@ -251,15 +251,15 @@ msgstr "GotDotNet"
 
 #: ../Core/src/MonoDevelop.Base/MonoDevelopCore.addin.xml.h:58
 msgid "Group members by access"
-msgstr ""
+msgstr "アクセス修飾子でグループ化"
 
 #: ../Core/src/MonoDevelop.Base/MonoDevelopCore.addin.xml.h:59
 msgid "Group members by member type"
-msgstr ""
+msgstr "メンバー種別でグループ化"
 
 #: ../Core/src/MonoDevelop.Base/MonoDevelopCore.addin.xml.h:60
 msgid "Include"
-msgstr "取り込み"
+msgstr "取り込む"
 
 #: ../Core/src/MonoDevelop.Base/MonoDevelopCore.addin.xml.h:61
 msgid "Include To Project"
@@ -308,7 +308,7 @@ msgstr "新しいソリューション/プロジェクト... (_E)"
 
 #: ../Core/src/MonoDevelop.Base/MonoDevelopCore.addin.xml.h:72
 msgid "Nested namespaces"
-msgstr ""
+msgstr "ネストしたネームスペース"
 
 #: ../Core/src/MonoDevelop.Base/MonoDevelopCore.addin.xml.h:73
 msgid "New File"
@@ -457,7 +457,7 @@ msgstr "ソリューション"
 
 #: ../Core/src/MonoDevelop.Base/MonoDevelopCore.addin.xml.h:108
 msgid "Standard"
-msgstr ""
+msgstr "標準"
 
 #: ../Core/src/MonoDevelop.Base/MonoDevelopCore.addin.xml.h:109
 msgid "Startup Properties"
@@ -613,7 +613,7 @@ msgstr "今日のTip... (_T)"
 
 #: ../Core/src/MonoDevelop.Base/MonoDevelopCore.addin.xml.h:147
 msgid "_Uncomment Line(s)"
-msgstr ""
+msgstr "行をコメント解除する (_U)"
 
 #: ../Core/src/MonoDevelop.Base/MonoDevelopCore.addin.xml.h:148
 msgid "_Undo"
@@ -909,7 +909,7 @@ msgstr "常にバックアップコピーを作成"
 
 #: ../Core/src/MonoDevelop.Base/Base.glade.h:23
 msgid "An exception has been thrown 1 2 3 4 5 6 7 8 9 10 11 12 13 14"
-msgstr ""
+msgstr "例外が投げられました 1 2 3 4 5 6 7 8 9 10 11 12 13 14"
 
 #: ../Core/src/MonoDevelop.Base/Base.glade.h:24
 msgid "Are you sure you want to delete this configuration?"
@@ -953,7 +953,7 @@ msgstr "CompileFileOptionsPanel"
 
 #: ../Core/src/MonoDevelop.Base/Base.glade.h:35
 msgid "Create configurations for all solution items"
-msgstr ""
+msgstr "全てのソリューション項目についてコンフィグレーションを作成する"
 
 #: ../Core/src/MonoDevelop.Base/Base.glade.h:36
 msgid "Create seperate _Solution subdirectory"
@@ -973,7 +973,7 @@ msgstr "コンフィグレーションの削除"
 
 #: ../Core/src/MonoDevelop.Base/Base.glade.h:40
 msgid "Delete also configurations in solution items"
-msgstr ""
+msgstr "ソリューション項目中のコンフィグレーションも削除する"
 
 #: ../Core/src/MonoDevelop.Base/Base.glade.h:41
 msgid "DeployFileOptionsPanel"
@@ -1109,7 +1109,7 @@ msgstr "コンフィグレーションの名前を変更"
 
 #: ../Core/src/MonoDevelop.Base/Base.glade.h:79
 msgid "Rename configurations in all solution items"
-msgstr ""
+msgstr "全てのソリューション項目のコンフィグレーションの名前も変更する"
 
 #: ../Core/src/MonoDevelop.Base/Base.glade.h:80
 msgid "Replace Dialog"
@@ -1121,7 +1121,7 @@ msgstr "置換:"
 
 #: ../Core/src/MonoDevelop.Base/Base.glade.h:82
 msgid "Run on e_xternal console"
-msgstr ""
+msgstr "外部コンソールで実行 (_x)"
 
 #: ../Core/src/MonoDevelop.Base/Base.glade.h:83
 msgid "Search for new _files on load"
@@ -1133,7 +1133,7 @@ msgstr "検索対象:"
 
 #: ../Core/src/MonoDevelop.Base/Base.glade.h:86
 msgid "Select a target configuration for each solution item:"
-msgstr ""
+msgstr "各ソリューション項目についてターゲット コンフィグレーションを選択する:"
 
 #: ../Core/src/MonoDevelop.Base/Base.glade.h:87
 msgid "Select command"
@@ -1377,7 +1377,7 @@ msgstr "自動"
 
 #: ../Core/src/AddIns/DisplayBindings/SourceEditor/EditorBindings.glade.h:16
 msgid "Background:"
-msgstr ""
+msgstr "背景:"
 
 #: ../Core/src/AddIns/DisplayBindings/SourceEditor/EditorBindings.glade.h:17
 msgid "BehaviorTextEditorPanel"
@@ -1413,7 +1413,7 @@ msgstr "コードの折りたたみを有効にする (_F)"
 
 #: ../Core/src/AddIns/DisplayBindings/SourceEditor/EditorBindings.glade.h:25
 msgid "Enable syntax highlighting"
-msgstr ""
+msgstr "文法 強調表示を有効にする"
 
 #: ../Core/src/AddIns/DisplayBindings/SourceEditor/EditorBindings.glade.h:26
 msgid "Extension"
@@ -1450,7 +1450,7 @@ msgstr "グループの削除"
 
 #: ../Core/src/AddIns/DisplayBindings/SourceEditor/EditorBindings.glade.h:33
 msgid "Restore default"
-msgstr ""
+msgstr "デフォルトに復元"
 
 #: ../Core/src/AddIns/DisplayBindings/SourceEditor/EditorBindings.glade.h:34
 msgid "Show _column ruler,"
@@ -2069,7 +2069,7 @@ msgstr "プロジェクトを保存しました"
 #: ../Core/src/MonoDevelop.Base/Internal/Project/Project/Project.cs:376
 #, csharp-format
 msgid "Building Project: {0} Configuration: {1}"
-msgstr ""
+msgstr "プロジェクトをビルド中: {0}  コンフィグレーション: {1}"
 
 #: ../Core/src/MonoDevelop.Base/Internal/Project/Project/Project.cs:394
 #, csharp-format
@@ -2179,7 +2179,7 @@ msgstr "無効なファイル名です"
 #: ../Core/src/MonoDevelop.Base/Services/File/DefaultFileService.cs:147
 #, csharp-format
 msgid "{0} is a directory"
-msgstr ""
+msgstr "{0}はディレクトリです"
 
 #: ../Core/src/MonoDevelop.Base/Services/File/DefaultFileService.cs:162
 #: ../Core/src/MonoDevelop.Base/Services/Project/ProjectService.cs:262
@@ -2477,10 +2477,12 @@ msgid ""
 "The file {0} has been changed outside of MonoDevelop. Are you sure you want "
 "to overwrite the file?"
 msgstr ""
+"ファイル {0} はMonoDevelopの外部で変更されています。"
+"上書きしますか?"
 
 #: ../Core/src/AddIns/DisplayBindings/SourceEditor/Gui/SourceEditorDisplayBinding.cs:351
 msgid "This file has been changed outside of MonoDevelop"
-msgstr ""
+msgstr "このファイルはMonoDevelopの外部で変更されています"
 
 #: ../Core/src/AddIns/BackendBindings/CSharpBinding/Gui/CodeGenerationPanel.cs:59
 #: ../Core/src/AddIns/BackendBindings/VBNetBinding/Gui/CodeGenerationPanel.cs:150
@@ -2742,7 +2744,7 @@ msgstr "<b>最適化</b>"
 
 #: ../Core/src/AddIns/BackendBindings/NemerleBinding/Nemerle.glade.h:4
 msgid "Boolean constant matching optimization"
-msgstr ""
+msgstr "Boolean定数マッチングの最適化"
 
 #: ../Core/src/AddIns/BackendBindings/NemerleBinding/Nemerle.glade.h:6
 #: ../Core/src/AddIns/BackendBindings/VBNetBinding/VB.glade.h:6
@@ -2751,11 +2753,11 @@ msgstr "コンパイルのターゲット(_T)"
 
 #: ../Core/src/AddIns/BackendBindings/NemerleBinding/Nemerle.glade.h:7
 msgid "Do not load standard library"
-msgstr ""
+msgstr "標準ライブラリをロードしない"
 
 #: ../Core/src/AddIns/BackendBindings/NemerleBinding/Nemerle.glade.h:8
 msgid "Do not load standard macros"
-msgstr ""
+msgstr "標準マクロをロードしない"
 
 #: ../Core/src/AddIns/BackendBindings/NemerleBinding/Nemerle.glade.h:9
 msgid ""
@@ -2771,15 +2773,15 @@ msgstr "末尾呼び出し最適化を有効にする"
 
 #: ../Core/src/AddIns/BackendBindings/NemerleBinding/Nemerle.glade.h:12
 msgid "Ignore warnings"
-msgstr ""
+msgstr "警告を無視"
 
 #: ../Core/src/AddIns/BackendBindings/NemerleBinding/Nemerle.glade.h:13
 msgid "Ordinal constant matching optimization"
-msgstr ""
+msgstr "順方向定数マッチング最適化"
 
 #: ../Core/src/AddIns/BackendBindings/NemerleBinding/Nemerle.glade.h:14
 msgid "String constant matching optimization"
-msgstr ""
+msgstr "文字列定数マッチング最適化"
 
 #: ../Core/src/AddIns/BackendBindings/NemerleBinding/NemerleGnomeSharpProject.xpt.xml.h:1
 msgid "Creates a Nemerle/Gnome# project"
@@ -2799,15 +2801,15 @@ msgstr "コンパイラ:"
 
 #: ../Core/src/AddIns/BackendBindings/VBNetBinding/Gui/ChooseRuntimePanel.cs:38
 msgid "Runtime:"
-msgstr ""
+msgstr "ランタイム:"
 
 #: ../Core/src/AddIns/BackendBindings/VBNetBinding/Gui/CodeGenerationPanel.cs:151
 msgid "WinEXE"
-msgstr ""
+msgstr "WinEXE"
 
 #: ../Core/src/AddIns/BackendBindings/VBNetBinding/Gui/CodeGenerationPanel.cs:153
 msgid "Module"
-msgstr ""
+msgstr "モジュール"
 
 #: ../Core/src/AddIns/BackendBindings/VBNetBinding/VB.glade.h:7
 msgid "Define S_ymbols"
@@ -2851,6 +2853,8 @@ msgid ""
 "The Combine Execute Definitions for this Combine were invalid. A new empty "
 "set of Execute Definitions has been created."
 msgstr ""
+"このコンバインの実行定義が無効です。"
+"新しい空の実行定義のセットが作成されました。"
 
 #: ../Core/src/MonoDevelop.Base/Gui/Dialogs/DirtyFilesDialog.cs:22
 msgid "Save Files"
@@ -2877,7 +2881,7 @@ msgstr "ステップ"
 
 #: ../Core/src/MonoDevelop.Base/Gui/Dialogs/Wizard/WizardDialog.cs:283
 msgid "Back"
-msgstr ""
+msgstr "戻る"
 
 #: ../Core/src/MonoDevelop.Base/Gui/Dialogs/Wizard/WizardDialog.cs:286
 msgid "Next"
@@ -2890,7 +2894,7 @@ msgstr "完了"
 #. FIXME: check the string
 #: ../Core/src/MonoDevelop.Base/Gui/Pads/TerminalPad.cs:39
 msgid "Terminal"
-msgstr ""
+msgstr "ターミナル"
 
 #: ../Core/src/MonoDevelop.Core/Services/FileUtilityService.cs:192
 #, csharp-format
@@ -2900,12 +2904,12 @@ msgstr "ファイル {0} が見つかりません"
 #: ../Core/src/MonoDevelop.Core/Services/FileUtilityService.cs:266
 #: ../Core/src/MonoDevelop.Core/Services/FileUtilityService.cs:332
 msgid "Unable to save file."
-msgstr ""
+msgstr "ファイルを保存できません"
 
 #: ../Core/src/MonoDevelop.Core/Services/FileUtilityService.cs:385
 #: ../Core/src/MonoDevelop.Core/Services/FileUtilityService.cs:420
 msgid "Unable to load file."
-msgstr ""
+msgstr "ファイルを読み込めません"
 
 #: ../Core/src/MonoDevelop.Gui.Widgets/FileSelector/FileSelector.cs:15
 msgid "Open file ..."
@@ -2923,18 +2927,20 @@ msgid ""
 "MonoDevelop. You will need your connection string as well as a supported "
 "database."
 msgstr ""
+"このウィザードは、MonoDevelopで使用される新しいデータベース接続の作成を補助します。"
+"サポートしているデータベースの接続文字列が必要になります。"
 
 #: ../Extras/MonoQuery/Gui/Forms/CreateConnectionDruid.cs:72
 msgid "Connection Settings"
-msgstr ""
+msgstr "接続設定"
 
 #: ../Extras/MonoQuery/Gui/Forms/CreateConnectionDruid.cs:79
 msgid "Provider"
-msgstr ""
+msgstr "プロバイダ"
 
 #: ../Extras/MonoQuery/Gui/Forms/CreateConnectionDruid.cs:83
 msgid "Connection String"
-msgstr ""
+msgstr "接続文字列"
 
 #: ../Extras/MonoQuery/Gui/Forms/CreateConnectionDruid.cs:87
 msgid "Server"
@@ -2947,75 +2953,76 @@ msgstr "データベース"
 
 #: ../Extras/MonoQuery/Gui/Forms/CreateConnectionDruid.cs:95
 msgid "User ID"
-msgstr ""
+msgstr "ユーザーID"
 
 #: ../Extras/MonoQuery/Gui/Forms/CreateConnectionDruid.cs:99
 msgid "Password"
-msgstr ""
+msgstr "パスワード"
 
 #: ../Extras/MonoQuery/Gui/Forms/CreateConnectionDruid.cs:103
 msgid "Other"
-msgstr ""
+msgstr "その他"
 
 #: ../Extras/MonoQuery/Gui/Forms/CreateConnectionDruid.cs:127
 msgid "Test Connection"
-msgstr ""
+msgstr "接続のテスト"
 
 #: ../Extras/MonoQuery/Gui/Forms/CreateConnectionDruid.cs:138
 msgid ""
 "We are now ready to create your new connection. Press Finish to create the "
 "connection."
 msgstr ""
+"これで新しい接続の準備ができました。完了を押して接続を作成してください。"
 
 #: ../Extras/MonoQuery/Gui/Forms/CreateConnectionDruid.cs:186
 msgid "Connection was successful."
-msgstr ""
+msgstr "接続に成功しました。"
 
 #: ../Extras/MonoQuery/Gui/Forms/CreateConnectionDruid.cs:189
 msgid "Error connecting to server."
-msgstr ""
+msgstr "サーバへの接続でエラーが発生しました"
 
 #: ../Extras/MonoQuery/Gui/Forms/CreateConnectionDruid.cs:237
 msgid "Your connection string or provider was invalid"
-msgstr ""
+msgstr "接続文字列あるいはプロバイダが無効です"
 
 #. StringParserService stringParserService = (StringParserService)ServiceManager.GetService(typeof(StringParserService));
 #: ../Extras/MonoQuery/Gui/MonoQueryTree/MonoQueryNodesRoot.cs:36
 msgid "Database Connections"
-msgstr ""
+msgstr "データベース接続"
 
 #: ../Extras/MonoQuery/Exceptions/ConnectionStringException.cs:12
 #: ../Extras/MonoQuery/Exceptions/ConnectionStringException.cs:16
 #: ../Extras/MonoQuery/Exceptions/ConnectionStringException.cs:27
 msgid "Wrong Connection String"
-msgstr ""
+msgstr "正しくない接続文字列です"
 
 #: ../Extras/MonoQuery/Exceptions/ExecuteSQLException.cs:13
 #: ../Extras/MonoQuery/Exceptions/ExecuteSQLException.cs:17
 #: ../Extras/MonoQuery/Exceptions/ExecuteSQLException.cs:28
 msgid "SQL Exception"
-msgstr ""
+msgstr "SQL例外"
 
 #: ../Extras/MonoQuery/Exceptions/ExecuteProcedureException.cs:12
 #: ../Extras/MonoQuery/Exceptions/ExecuteProcedureException.cs:16
 #: ../Extras/MonoQuery/Exceptions/ExecuteProcedureException.cs:27
 msgid "Procedure Exception"
-msgstr ""
+msgstr "プロシージャ例外"
 
 #: ../Extras/MonoQuery/Exceptions/OpenConnectionException.cs:13
 #: ../Extras/MonoQuery/Exceptions/OpenConnectionException.cs:17
 #: ../Extras/MonoQuery/Exceptions/OpenConnectionException.cs:28
 msgid "Open Error"
-msgstr ""
+msgstr "オープン エラー"
 
 #. StringParserService stringParserService = (StringParserService)ServiceManager.GetService(typeof(StringParserService));
 #: ../Extras/MonoQuery/SchemaClass/MonoQuerySchemaClass.cs:545
 msgid "Not Supported"
-msgstr ""
+msgstr "サポートされていません"
 
 #: ../Extras/MonoQuery/SchemaClass/MonoQuerySchemaClass.cs:582
 msgid "Tables"
-msgstr ""
+msgstr "テーブル"
 
 #. StringParserService stringParserService = (StringParserService)ServiceManager.GetService(typeof(StringParserService));
 #: ../Extras/MonoQuery/SchemaClass/MonoQuerySchemaClass.cs:619
@@ -3025,7 +3032,7 @@ msgstr "ビュー"
 #. StringParserService stringParserService = (StringParserService)ServiceManager.GetService(typeof(StringParserService));
 #: ../Extras/MonoQuery/SchemaClass/MonoQuerySchemaClass.cs:655
 msgid "Procedures"
-msgstr ""
+msgstr "プロシージャ"
 
 #: ../Extras/MonoQuery/Collection/MonoQueryListDictionary.cs:54
 #: ../Extras/MonoQuery/Collection/MonoQueryListDictionary.cs:63
@@ -3036,7 +3043,7 @@ msgstr ""
 #: ../Extras/MonoQuery/Collection/MonoQueryStringDictionary.cs:67
 #: ../Extras/MonoQuery/Collection/MonoQueryStringDictionary.cs:76
 msgid "Wrong Key Type"
-msgstr ""
+msgstr "正しくないキー種別です"
 
 #: ../Extras/MonoQuery/Collection/MonoQueryListDictionary.cs:57
 #: ../Extras/MonoQuery/Collection/MonoQueryListDictionary.cs:72
@@ -3045,7 +3052,7 @@ msgstr ""
 #: ../Extras/MonoQuery/Collection/MonoQueryStringDictionary.cs:70
 #: ../Extras/MonoQuery/Collection/MonoQueryStringDictionary.cs:79
 msgid "Wrong Value Type"
-msgstr ""
+msgstr "正しくない型です"
 
 #: ../Extras/JavaBinding/templates/EmptyJavaFile.xft.xml.h:1
 msgid "Creates an empty Java file."
