@@ -61,13 +61,9 @@ Core/src/MonoDevelop.Gui.Widgets/FileBrowser/FileBrowser.cs
 Core/src/MonoDevelop.Gui.Widgets/FolderDialog/BaseFileEntry.cs
 Core/src/MonoDevelop.Gui.Widgets/Navbar/Navbar.cs
 Core/src/MonoDevelop.Gui.Widgets/Tree/TreeNodeCollection.cs
-Core/src/AddIns/DisplayBindings/SourceEditor/Gui/Dialogs/ReplaceDialog.cs
 Core/src/AddIns/DisplayBindings/SourceEditor/Gui/Dialogs/EditTemplateGroupDialog.cs
-Core/src/AddIns/DisplayBindings/SourceEditor/Gui/Dialogs/ReplaceInFilesDialog.cs
 Core/src/AddIns/DisplayBindings/SourceEditor/Gui/OptionPanels/CodeTemplatePanel.cs
 Core/src/AddIns/DisplayBindings/SourceEditor/Gui/SourceEditorDisplayBinding.cs
-Core/src/AddIns/DisplayBindings/SourceEditor/Search/SearchReplaceInFilesManager.cs
-Core/src/AddIns/DisplayBindings/SourceEditor/Search/SearchReplaceManager.cs
 Core/src/AddIns/BackendBindings/CSharpBinding/Gui/CodeGenerationPanel.cs
 Core/src/AddIns/prj2make-sharp-lib/prj2make-sharp-lib.addin.xml
 Core/src/AddIns/BackendBindings/CSharpBinding/templates/BlankCombine.xpt.xml
