@@ -53,9 +53,6 @@ namespace MonoDevelop.Core.Services
 
 		public void ShowError (Exception ex, string message)
 		{
-			string msg = string.Empty;
-			string details;
-			
 			ErrorDialog dlg = new ErrorDialog ();
 			
 			if (message != null) {

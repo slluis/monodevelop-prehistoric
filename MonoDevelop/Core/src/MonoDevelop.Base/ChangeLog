@@ -1,3 +1,7 @@
+2005-07-30  John Luke  <john.luke@gmail.com>
+
+	* Services/MessageService.cs: remove two unused variables
+	
 2005-07-29  John Luke  <john.luke@gmail.com>
 
 	* MonoDevelop.Base.mdp: add new files to the project
