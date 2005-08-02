@@ -1,0 +1,89 @@
+<AddIn
+		name        = "MonoQuery Database Management"
+		author      = "Christian Hergert"
+		copyright   = "MIT X11"
+		url         = "http://www.dronestudios.com"
+		description = "Database Management Module"
+		version     = "0.2.0">
+
+	<Runtime>
+		<Import assembly="MonoQuery.dll"/>
+	</Runtime>
+
+	<Extension path = "/Workspace/Services">
+		<Class id    = "MonoQueryService"
+		       class = "MonoQuery.MonoQueryService"/>
+	</Extension>
+
+	<Extension path = "/SharpDevelop/Workbench/Pads">
+		<SolutionPad id = "MonoQuery.DatabasePad" class = "MonoQuery.DatabasePad" defaultPlacement = "Left" _label = "Database Browser" icon = "md-mono-query-view">
+			<PadOption id = "ShowSystemObjects" _label = "Show System Objects" defaultValue = "False"/>
+			<NodeBuilder id = "ProviderCollectionNodeBuilder" class = "MonoQuery.ProviderCollectionNodeBuilder"/>
+			<NodeBuilder id = "DatabaseNodeBuilder" class = "MonoQuery.DatabaseNodeBuilder"/>
+			<NodeBuilder id = "TablesNodeBuilder" class = "MonoQuery.TablesNodeBuilder"/>
+			<NodeBuilder id = "ViewsNodeBuilder" class = "MonoQuery.ViewsNodeBuilder"/>
+			<NodeBuilder id = "ProceduresNodeBuilder" class = "MonoQuery.ProceduresNodeBuilder"/>
+			<NodeBuilder id = "AggregatesNodeBuilder" class = "MonoQuery.AggregatesNodeBuilder"/>
+			<NodeBuilder id = "GroupsNodeBuilder" class = "MonoQuery.GroupsNodeBuilder"/>
+			<NodeBuilder id = "LanguagesNodeBuilder" class = "MonoQuery.LanguagesNodeBuilder"/>
+			<NodeBuilder id = "OperatorsNodeBuilder" class = "MonoQuery.OperatorsNodeBuilder"/>
+			<NodeBuilder id = "RolesNodeBuilder" class = "MonoQuery.RolesNodeBuilder"/>
+			<NodeBuilder id = "SequencesNodeBuilder" class = "MonoQuery.SequencesNodeBuilder"/>
+			<NodeBuilder id = "UsersNodeBuilder" class = "MonoQuery.UsersNodeBuilder"/>
+			<NodeBuilder id = "TypesNodeBuilder" class = "MonoQuery.TypesNodeBuilder"/>
+			<NodeBuilder id = "ColumnsNodeBuilder" class = "MonoQuery.ColumnsNodeBuilder"/>
+			<NodeBuilder id = "RulesNodeBuilder" class = "MonoQuery.RulesNodeBuilder"/>
+			<NodeBuilder id = "TriggersNodeBuilder" class = "MonoQuery.TriggersNodeBuilder"/>
+			<NodeBuilder id = "ConstraintsNodeBuilder" class = "MonoQuery.ConstraintsNodeBuilder"/>
+			<NodeBuilder id = "TableNodeBuilder" class = "MonoQuery.TableNodeBuilder"/>
+			<NodeBuilder id = "ViewNodeBuilder" class = "MonoQuery.ViewNodeBuilder"/>
+			<NodeBuilder id = "ColumnNodeBuilder" class = "MonoQuery.ColumnNodeBuilder"/>
+			<NodeBuilder id = "ConstraintNodeBuilder" class = "MonoQuery.ConstraintNodeBuilder"/>
+			<NodeBuilder id = "ProcedureNodeBuilder" class = "MonoQuery.ProcedureNodeBuilder"/>
+			<NodeBuilder id = "ParametersNodeBuilder" class = "MonoQuery.ParametersNodeBuilder"/>
+		</SolutionPad>
+		
+		<Pad id = "MonoQuery.SqlDefinitionPad" class = "MonoQuery.SqlDefinitionPad" defaultPlacement = "Bottom"/>
+	</Extension>
+
+	<Extension path = "/SharpDevelop/Workbench/Contexts/Edit">
+		<ContextPad id = "MonoQuery.DatabasePad"/>
+		<ContextPad id = "MonoQuery.SqlDefinitionPad"/>
+	</Extension>
+	
+	<Extension path = "/SharpDevelop/Commands">
+		<Command id = "MonoQuery.Commands.MonoQueryCommands.AddConnection"
+			defaultHandler = "MonoQuery.Commands.AddConnection"
+			_label = "Add connection"
+			icon = "md-mono-query-addconnection"/>
+		<Command id = "MonoQuery.Commands.MonoQueryCommands.RemoveConnection"
+			defaultHandler = "MonoQuery.Commands.RemoveConnection"
+			_label = "Remove"/>
+		<Command id = "MonoQuery.Commands.MonoQueryCommands.RefreshProviderList"
+			defaultHandler = "MonoQuery.Commands.RefreshProviderList"
+			_label = "Refresh"
+			icon = "md-browser-refresh"/>
+		<Command id = "MonoQuery.Commands.MonoQueryCommands.RefreshConnection"
+			defaultHandler = "MonoQuery.Commands.RefreshConnection"
+			_label = "Refresh"
+			icon = "md-browser-refresh"/>
+		<Command id = "MonoQuery.Commands.MonoQueryCommands.DisconnectConnection"
+			defaultHandler = "MonoQuery.Commands.DisconnectConnection"
+			_label = "Disconnect"
+			icon = "md-mono-query-disconnect"/>
+	</Extension>
+	
+	<Extension path = "/SharpDevelop/Views/DatabasePad/ContextMenu/ConnectionsBrowserNode">
+		<CommandItem id = "MonoQuery.Commands.MonoQueryCommands.AddConnection"/>
+		<SeparatorItem id = "ConnectionSeparator"/>
+		<CommandItem id = "MonoQuery.Commands.MonoQueryCommands.RefreshProviderList"/>
+	</Extension>
+	
+	<Extension path = "/SharpDevelop/Views/DatabasePad/ContextMenu/ConnectionBrowserNode">
+		<CommandItem id = "MonoQuery.Commands.MonoQueryCommands.RemoveConnection"/>
+		<CommandItem id = "MonoQuery.Commands.MonoQueryCommands.DisconnectConnection"/>
+		<SeparatorItem id = "ConnectionSeparator"/>
+		<CommandItem id = "MonoQuery.Commands.MonoQueryCommands.RefreshConnection"/>
+	</Extension>
+
+</AddIn>

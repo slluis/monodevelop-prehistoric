@@ -1,3 +1,102 @@
+2005-08-02	Christian Hergert	<christian.hergert@gmail.com>
+
+	* MonoQuery.prjx: deleted
+	* MonoQuery.addin.xml.in: removed
+	* Exceptions: removed
+	* Services: removed
+	* Gui: removed
+	* Codons: removed
+	* SchemaClass: removed
+	* MonoQuery.cmbx: removed
+	* Collection: removed
+	* MonoQueryView.cs: removed
+	* MonoQuery/AssemblyInfo.cs: part of monoquery2
+	* MonoQuery/MonoQuery.mds:
+	* MonoQuery/Commands:
+	* MonoQuery/Commands/Commands.cs:
+	* MonoQuery/Makefile.in:
+	* MonoQuery/MonoQueryService.cs:
+	* MonoQuery/Gui/NodeBuilders/UsersNodeBuilder.cs:
+	* MonoQuery/Gui/NodeBuilders/ParametersNodeBuilder.cs:
+	* MonoQuery/Gui/NodeBuilders/DatabaseNodeBuilder.cs:
+	* MonoQuery/Gui/NodeBuilders/TypesNodeBuilder.cs:
+	* MonoQuery/Gui/NodeBuilders/LanguagesNodeBuilder.cs:
+	* MonoQuery/Gui/NodeBuilders/ProviderCollectionNodeBuilder.cs:
+	* MonoQuery/Gui/NodeBuilders/ConstraintsNodeBuilder.cs:
+	* MonoQuery/Gui/NodeBuilders/AggregatesNodeBuilder.cs:
+	* MonoQuery/Gui/NodeBuilders/TablesNodeBuilder.cs:
+	* MonoQuery/Gui/NodeBuilders/ViewNodeBuilder.cs:
+	* MonoQuery/Gui/NodeBuilders/ProceduresNodeBuilder.cs:
+	* MonoQuery/Gui/NodeBuilders/OperatorsNodeBuilder.cs:
+	* MonoQuery/Gui/NodeBuilders/GroupsNodeBuilder.cs:
+	* MonoQuery/Gui/NodeBuilders/ColumnsNodeBuilder.cs:
+	* MonoQuery/Gui/NodeBuilders/RolesNodeBuilder.cs:
+	* MonoQuery/Gui/NodeBuilders/ConstraintNodeBuilder.cs:
+	* MonoQuery/Gui/NodeBuilders/TriggersNodeBuilder.cs:
+	* MonoQuery/Gui/NodeBuilders/TableNodeBuilder.cs:
+	* MonoQuery/Gui/NodeBuilders/ProcedureNodeBuilder.cs:
+	* MonoQuery/Gui/NodeBuilders/RulesNodeBuilder.cs:
+	* MonoQuery/Gui/NodeBuilders/SequencesNodeBuilder.cs:
+	* MonoQuery/Gui/NodeBuilders/ColumnNodeBuilder.cs:
+	* MonoQuery/Gui/NodeBuilders/ViewsNodeBuilder.cs:
+	* MonoQuery/Gui/DbProviderCollection.cs:
+	* MonoQuery/Gui/SqlDefinitionPad.cs:
+	* MonoQuery/Gui/ConnectionDialog.cs:
+	* MonoQuery/Gui/FakeNodes.cs:
+	* MonoQuery/Gui/DatabasePad.cs:
+	* MonoQuery/Gui/DataGridView.cs:
+	* MonoQuery/monoquery.glade:
+	* MonoQuery/Makefile.am:
+	* MonoQuery/MonoQuery.addin.xml:
+	* MonoQuery/Makefile:
+	* MonoQuery/MonoQuery.mdp:
+	* AssemblyInfo.cs: removed
+	* Mono.Data.Sql.mds: removed
+	* Commands: removed
+	* tests/NpgsqlTablesTest.cs: start of tests for monoquery2. these dont
+	really do anything at the moment
+	* tests/pgsql.sql
+	* tests/CreateProviderTests.cs
+	* tests/Mono.Data.Sql.Tests.mdp
+	* MonoQuery.mdsx: removed
+	* Makefile.am: updated
+	* Mono.Data.Sql/AssemblyInfo.cs: core to monoquery2
+	* Mono.Data.Sql/Schema:
+	* Mono.Data.Sql/Schema/OperatorSchema.cs:
+	* Mono.Data.Sql/Schema/GroupSchema.cs:
+	* Mono.Data.Sql/Schema/ColumnSchema.cs:
+	* Mono.Data.Sql/Schema/SchemaSchema.cs:
+	* Mono.Data.Sql/Schema/RoleSchema.cs:
+	* Mono.Data.Sql/Schema/PrimaryKeyConstraintSchema.cs:
+	* Mono.Data.Sql/Schema/AbstractSchema.cs:
+	* Mono.Data.Sql/Schema/TriggerSchema.cs:
+	* Mono.Data.Sql/Schema/RuleSchema.cs:
+	* Mono.Data.Sql/Schema/ForeignKeyConstraintSchema.cs:
+	* Mono.Data.Sql/Schema/SequenceSchema.cs:
+	* Mono.Data.Sql/Schema/ViewSchema.cs:
+	* Mono.Data.Sql/Schema/UniqueConstraintSchema.cs:
+	* Mono.Data.Sql/Schema/DataTypeSchema.cs:
+	* Mono.Data.Sql/Schema/IndexConstraintSchema.cs:
+	* Mono.Data.Sql/Schema/UserSchema.cs:
+	* Mono.Data.Sql/Schema/ParameterSchema.cs:
+	* Mono.Data.Sql/Schema/CheckConstraintSchema.cs:
+	* Mono.Data.Sql/Schema/LanguageSchema.cs:
+	* Mono.Data.Sql/Schema/ConstraintSchema.cs:
+	* Mono.Data.Sql/Schema/PrivilegeSchema.cs:
+	* Mono.Data.Sql/Schema/AggregateSchema.cs:
+	* Mono.Data.Sql/Schema/TableSchema.cs:
+	* Mono.Data.Sql/Schema/ISchema.cs:
+	* Mono.Data.Sql/Schema/ProcedureSchema.cs:
+	* Mono.Data.Sql/Makefile.am:
+	* Mono.Data.Sql/Providers:
+	* Mono.Data.Sql/Providers/DbProviderBase.cs:
+	* Mono.Data.Sql/Providers/SqlDbProvider.cs:
+	* Mono.Data.Sql/Providers/SqliteDbProvider.cs:
+	* Mono.Data.Sql/Providers/NpgsqlDbProvider.cs:
+	* Mono.Data.Sql/Providers/MySqlDbProvider.cs:
+	* Mono.Data.Sql/Providers/OracleDbProvider.cs:
+	* Mono.Data.Sql/Mono.Data.Sql.mdp:
+
 2005-07-13  Lluis Sanchez Gual  <lluis@novell.com> 
 
 	* MonoQueryView.cs:

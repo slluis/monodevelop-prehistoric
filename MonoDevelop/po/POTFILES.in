@@ -109,16 +109,6 @@ Core/src/MonoDevelop.Base/Internal/ExternalTool/ExternalTool.cs
 Core/src/MonoDevelop.Base/Internal/Templates/ProjectTemplates/ProjectTemplate.cs
 Core/src/MonoDevelop.Core/Services/FileUtilityService.cs
 Core/src/MonoDevelop.Gui.Widgets/FileSelector/FileSelector.cs
-Extras/MonoQuery/Gui/Forms/CreateConnectionDruid.cs
-Extras/MonoQuery/Gui/MonoQueryTree/MonoQueryNodesRoot.cs
-Extras/MonoQuery/MonoQueryView.cs
-Extras/MonoQuery/Exceptions/ConnectionStringException.cs
-Extras/MonoQuery/Exceptions/ExecuteSQLException.cs
-Extras/MonoQuery/Exceptions/ExecuteProcedureException.cs
-Extras/MonoQuery/Exceptions/OpenConnectionException.cs
-Extras/MonoQuery/SchemaClass/MonoQuerySchemaClass.cs
-Extras/MonoQuery/Collection/MonoQueryListDictionary.cs
-Extras/MonoQuery/Collection/MonoQueryStringDictionary.cs
 Extras/JavaBinding/templates/EmptyJavaFile.xft.xml
 Extras/JavaBinding/templates/EmptyJavaProject.xpt.xml
 Extras/JavaBinding/templates/IkvmConsoleApplicationProject.xpt.xml

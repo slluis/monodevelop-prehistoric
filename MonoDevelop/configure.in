@@ -163,16 +163,6 @@ AC_ARG_ENABLE(update-desktopdb,
                   enable_update_desktopdb=yes)
    AM_CONDITIONAL(ENABLE_UPDATE_DESKTOPDB, test x$enable_update_desktopdb = xyes)
 
-dnl MonoQuery
-PKG_CHECK_MODULES(MONOQUERY_DEPENDENCIES_SQLITE,mono >= 1.1.2.99, enable_monoquery_sqlite=yes, enable_monoquery_sqlite=no)
-AM_CONDITIONAL(ENABLE_MONOQUERY_SQLITE, test x$enable_monoquery_sqlite = xyes)
-
-if test "x$enable_monoquery_sqlite" = "xyes" ; then
-SQLITE_XML='<MonoQueryConnection id="Sqlite" schema="MonoQuery.Connection.SqliteConnectionWrapper" node="MonoQuery.Gui.TreeView.MonoQueryNodeConnection" description="SQLite Database Server" showUnsuported="False"/>'
-else
-SQLITE_XML=
-fi
-
 dnl Intl
 ALL_LINGUAS="cs da de es fr ja_JP pt_BR tr pl"
 GETTEXT_PACKAGE=monodevelop
@@ -243,7 +233,8 @@ Extras/JavaBinding/Makefile
 Extras/Makefile
 Extras/MonoDeveloperExtensions/Makefile
 Extras/MonoQuery/Makefile
-Extras/MonoQuery/MonoQuery.addin.xml
+Extras/MonoQuery/Mono.Data.Sql/Makefile
+Extras/MonoQuery/MonoQuery/Makefile
 Extras/NUnit/Makefile
 Extras/VersionControl/AddIn/Makefile
 Extras/VersionControl/Diff/Makefile
@@ -265,7 +256,9 @@ echo "   * mono-debugger: $enable_debugger"
 echo "   * MonoQuery Providers:"
 echo "   *   PostgreSQL:   yes"
 echo "   *   MySQL:        yes"
-echo "   *   SQLite:       $enable_monoquery_sqlite"
+echo "   *   SQLite:       yes"
+echo "   *   Oracle:       yes"
+echo "   *   SQL Server:   yes"
 echo "   * java support: $enable_java"
 echo "   * boo support: $enable_boo"
 echo "   * NUnit support: $enable_nunit"

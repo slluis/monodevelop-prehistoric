@@ -324,6 +324,10 @@ MonoQuery.Database \
 MonoQuery.Disconnect \
 MonoQuery.Procedure \
 MonoQuery.Table \
+MonoQuery.User \
+MonoQuery.DateTime \
+MonoQuery.ColumnFK \
+MonoQuery.ColumnPK \
 MonoQuery.Tables \
 MonoQuery.View
 

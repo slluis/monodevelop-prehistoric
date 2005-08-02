@@ -1,3 +1,8 @@
+2005-08-02	Chrstian Hergert	<christian.hergert@gmail.com>
+
+	* configure.in: Remove monoquery autoconf options. We no longer need them.
+	* build/data/resources/icons: Added some icons donated from MySQL.
+
 2005-07-21  Peter Johanson  <latexer@gentoo.org> 
 
 	* configure.in: Bump boo dep as needed by recent completion changes.
