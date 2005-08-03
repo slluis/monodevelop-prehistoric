@@ -32,7 +32,7 @@ using System.Collections;
 
 namespace MonoDevelop.Commands
 {
-	public class CommandManager
+	public class CommandManager: IDisposable
 	{
 		public static CommandManager Main = new CommandManager ();
 		Gtk.Window rootWidget;
@@ -43,15 +43,21 @@ namespace MonoDevelop.Commands
 		ArrayList globalHandlers = new ArrayList ();
 		ArrayList commandUpdateErrors = new ArrayList ();
 		Stack delegatorStack = new Stack ();
+		bool disposed;
+		bool toolbarUpdaterRunning;
 		
 		Gtk.AccelGroup accelGroup;
 		
-		public CommandManager ()
+		public CommandManager (): this (null)
 		{
+		}
+		
+		public CommandManager (Gtk.Window root)
+		{
+			rootWidget = root;
 			ActionCommand c = new ActionCommand (CommandSystemCommands.ToolbarList, "Toolbar List", null, null, ActionType.Check);
 			c.CommandArray = true;
 			RegisterCommand (c, "");
-			GLib.Timeout.Add (500, new GLib.TimeoutHandler (UpdateStatus));
 		}
 		
 		public void SetRootWindow (Gtk.Window root)
@@ -61,6 +67,16 @@ namespace MonoDevelop.Commands
 				rootWidget.AddAccelGroup (AccelGroup);
 			else
 				rootWidget.Realized += new EventHandler (RootRealized);
+		}
+		
+		public void Dispose ()
+		{
+			disposed = true;
+		}
+		
+		public void RegisterCommand (Command cmd)
+		{
+			RegisterCommand (cmd, "");
 		}
 		
 		public void RegisterCommand (Command cmd, string category)
@@ -85,6 +101,11 @@ namespace MonoDevelop.Commands
 			if (cmd == null)
 				throw new InvalidOperationException ("Invalid command id: " + cmdId);
 			return cmd;
+		}
+		
+		internal Command FindCommand (object cmdId)
+		{
+			return cmds [cmdId] as Command;
 		}
 		
 		public ActionCommand GetActionCommand (object cmdId)
@@ -114,6 +135,16 @@ namespace MonoDevelop.Commands
 			foreach (CommandEntry entry in entrySet)
 				menu.Append (entry.CreateMenuItem (this));
 			return menu;
+		}
+		
+		public void ShowContextMenu (CommandEntrySet entrySet)
+		{
+			ShowContextMenu (CreateMenu (entrySet));
+		}
+		
+		public void ShowContextMenu (Gtk.Menu menu)
+		{
+			menu.Popup (null, null, null, IntPtr.Zero, 0, Gtk.Global.CurrentEventTime);
 		}
 		
 		public Gtk.Toolbar CreateToolbar (string id, CommandEntrySet entrySet)
@@ -360,13 +391,22 @@ namespace MonoDevelop.Commands
 		
 		bool UpdateStatus ()
 		{
-			UpdateToolbars ();
-			return true;
+			if (!disposed) {
+				UpdateToolbars ();
+				return true;
+			} else {
+				toolbarUpdaterRunning = false;
+				return false;
+			}
 		}
 		
 		internal void RegisterToolbar (CommandToolbar toolbar)
 		{
 			toolbars.Add (toolbar);
+			if (!toolbarUpdaterRunning) {
+				GLib.Timeout.Add (500, new GLib.TimeoutHandler (UpdateStatus));
+				toolbarUpdaterRunning = true;
+			}
 		}
 		
 		void UpdateToolbars ()

@@ -1,5 +1,5 @@
 //
-// CommandArrayInfo.cs
+// LocalCommandEntry.cs
 //
 // Author:
 //   Lluis Sanchez Gual
@@ -27,48 +27,40 @@
 //
 
 using System;
-using System.Collections;
 
 namespace MonoDevelop.Commands
 {
-	public class CommandArrayInfo: IEnumerable
+	public class LocalCommandEntry: CommandEntry
 	{
-		ArrayList list = new ArrayList ();
-		CommandInfo defaultInfo;
+		Command cmd;
 		
-		internal CommandArrayInfo (CommandInfo defaultInfo)
+		public LocalCommandEntry (Command cmd): base (cmd.Id)
 		{
-			this.defaultInfo = defaultInfo;
+			this.cmd = cmd;
 		}
 		
-		public void Add (CommandInfo info, object dataItem)
+		public LocalCommandEntry (object id, string text): base (id)
 		{
-			info.DataItem = dataItem;
-			if (info.Text == null) info.Text = defaultInfo.Text;
-			if (info.Icon == null) info.Icon = defaultInfo.Icon;
-			list.Add (info);
+			cmd = new ActionCommand ();
+			cmd.Id = id;
+			cmd.Text = text;
 		}
+		
+		internal protected override Gtk.MenuItem CreateMenuItem (CommandManager manager)
+		{
+			if (manager.FindCommand (CommandId) == null)
+				manager.RegisterCommand (cmd, "");
 
-		public void Add (string text, object dataItem)
-		{
-			CommandInfo info = new CommandInfo (text);
-			Add (info, dataItem);
+			return base.CreateMenuItem (manager);
 		}
 		
-		public void AddSeparator ()
+		internal protected override Gtk.ToolItem CreateToolItem (CommandManager manager)
 		{
-			CommandInfo info = new CommandInfo ("-");
-			info.IsArraySeparator = true;
-			Add (info, null);
-		}
+			if (manager.FindCommand (CommandId) == null)
+				manager.RegisterCommand (cmd, "");
 
-		public CommandInfo DefaultCommandInfo {
-			get { return defaultInfo; }
-		}
-		
-		public IEnumerator GetEnumerator ()
-		{
-			return list.GetEnumerator ();
+			return base.CreateToolItem (manager);
 		}
 	}
 }
+

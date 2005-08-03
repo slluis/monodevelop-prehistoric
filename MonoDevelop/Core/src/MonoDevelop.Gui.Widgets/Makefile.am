@@ -9,9 +9,6 @@ REFERENCES = -r:System.Drawing.dll \
 	$(GNOME_SHARP_LIBS)
 
 FILES = \
-Tree/TreeView.cs \
-Tree/TreeNodeCollection.cs \
-Tree/TreeNode.cs \
 IconView/IconView.cs \
 FileBrowser/FileBrowser.cs \
 FileSelector/FileSelector.cs \
@@ -61,6 +58,7 @@ Commands/ICommandMenuItem.cs \
 Commands/ICommandRouter.cs \
 Commands/ICommandUserItem.cs \
 Commands/LinkCommandEntry.cs \
+Commands/LocalCommandEntry.cs \
 Commands/MenuToolButton.cs \
 DockToolbars/ArrowWindow.cs \
 DockToolbars/DockGrip.cs \

@@ -105,9 +105,15 @@ namespace MonoDevelop.Commands
 				
 				if (cmdInfo.ArrayInfo != null) {
 					foreach (CommandInfo info in cmdInfo.ArrayInfo) {
-						Gtk.MenuItem item = CommandEntry.CreateMenuItem (commandManager, commandId, false);
-						ICommandMenuItem mi = (ICommandMenuItem) item; 
-						mi.SetUpdateInfo (info);
+						Gtk.MenuItem item;
+						if (info.IsArraySeparator) {
+							item = new Gtk.SeparatorMenuItem ();
+							item.Show ();
+						} else {
+							item = CommandEntry.CreateMenuItem (commandManager, commandId, false);
+							ICommandMenuItem mi = (ICommandMenuItem) item; 
+							mi.SetUpdateInfo (info);
+						}
 						menu.Insert (item, ++i);
 						itemArray.Add (item);
 					}

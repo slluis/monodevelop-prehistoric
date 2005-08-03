@@ -42,6 +42,11 @@ namespace MonoDevelop.Commands
 		{
 		}
 		
+		public ActionCommand (object id, string text, string icon): base (id, text)
+		{
+			Icon = icon;
+		}
+		
 		public ActionCommand (object id, string text, string icon, string accelKey, ActionType type): base (id, text)
 		{
 			Icon = icon;

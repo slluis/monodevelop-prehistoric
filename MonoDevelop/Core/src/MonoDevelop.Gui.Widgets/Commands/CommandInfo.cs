@@ -42,6 +42,7 @@ namespace MonoDevelop.Commands
 		bool useMarkup;
 		internal object DataItem; 
 		internal CommandArrayInfo ArrayInfo;
+		internal bool IsArraySeparator;
 		
 		internal CommandInfo (Command cmd)
 		{
