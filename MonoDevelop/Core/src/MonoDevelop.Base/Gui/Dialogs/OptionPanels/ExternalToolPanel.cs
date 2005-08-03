@@ -16,7 +16,7 @@ using MonoDevelop.Internal.ExternalTool;
 using MonoDevelop.Core.Properties;
 using MonoDevelop.Core.Services;
 using MonoDevelop.Services;
-using MonoDevelop.Core.AddIns.Codons;
+using MonoDevelop.Gui.Components;
 
 namespace MonoDevelop.Gui.Dialogs.OptionPanels
 {
@@ -95,6 +95,9 @@ namespace MonoDevelop.Gui.Dialogs.OptionPanels
  			[Glade.Widget] Button moveDownButton;
  			[Glade.Widget] Button addButton; 
 			[Glade.Widget] Button removeButton;
+			
+			MenuButtonEntry argumentMbe;
+			MenuButtonEntry workingDirMbe;
 			 
 			// these are the control names which are enabled/disabled depending if tool is selected
 			Widget[] dependendControls;
@@ -118,7 +121,7 @@ namespace MonoDevelop.Gui.Dialogs.OptionPanels
 					toolListBoxStore.AppendValues (((ExternalTool) o).MenuCommand, (ExternalTool) o);
 					toolListBoxItemCount ++;
 				}
-					 
+
 				toolListBox.Reorderable = false;
 				toolListBox.HeadersVisible = true;
 				toolListBox.Selection.Mode = SelectionMode.Multiple;
@@ -126,23 +129,18 @@ namespace MonoDevelop.Gui.Dialogs.OptionPanels
 					 
 				toolListBox.AppendColumn (GettextCatalog.GetString ("_Tools"), new CellRendererText (), "text", 0);
 
-				Runtime.Gui.Menus.CreateQuickInsertMenu (argumentTextBox,
-						argumentQuickInsertButton,
-						argumentQuickInsertMenu);
+				argumentMbe = new MenuButtonEntry (argumentTextBox, argumentQuickInsertButton, argumentQuickInsertMenu);
+				workingDirMbe = new MenuButtonEntry (workingDirTextBox, workingDirQuickInsertButton, workingDirInsertMenu);
 
-				Runtime.Gui.Menus.CreateQuickInsertMenu (workingDirTextBox,
-						workingDirQuickInsertButton,
-						workingDirInsertMenu);
-					 
 				toolListBox.Selection.Changed += new EventHandler (selectEvent);
 				removeButton.Clicked += new EventHandler (removeEvent);
 				addButton.Clicked += new EventHandler (addEvent);
 				moveUpButton.Clicked += new EventHandler (moveUpEvent);
 				moveDownButton.Clicked += new EventHandler (moveDownEvent);
-
+				
 				selectEvent (this, EventArgs.Empty);
 			}
-	         
+			
 			void moveUpEvent (object sender, EventArgs e)
 			{
 				if(toolListBox.Selection.CountSelectedRows () == 1)

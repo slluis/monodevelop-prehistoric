@@ -31,7 +31,7 @@ using ICSharpCode.SharpRefactory.Parser;
 
 namespace MonoDevelop.Commands
 {
-	internal class VBConvertProject : AbstractMenuCommand
+	internal class VBConvertProject : CommandHandler
 	{
 		void ConvertFile(string fileName, string outFile)
 		{
@@ -50,7 +50,7 @@ namespace MonoDevelop.Commands
 //			sw.Close();
 		}
 		
-		public override void Run()
+		protected override void Run()
 		{
 			if (Runtime.ProjectService.CurrentSelectedProject != null) {
 				foreach (ProjectFile file in Runtime.ProjectService.CurrentSelectedProject.ProjectFiles) {

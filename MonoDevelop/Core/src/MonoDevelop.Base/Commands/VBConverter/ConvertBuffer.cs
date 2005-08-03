@@ -31,9 +31,9 @@ using ICSharpCode.SharpRefactory.Parser;
 
 namespace MonoDevelop.Commands
 {
-	internal class VBConvertBuffer : AbstractMenuCommand
+	internal class VBConvertBuffer : CommandHandler
 	{
-		public override void Run()
+		protected override void Run()
 		{
 			IWorkbenchWindow window = WorkbenchSingleton.Workbench.ActiveWorkbenchWindow;
 			

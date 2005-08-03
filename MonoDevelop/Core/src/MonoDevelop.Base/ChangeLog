@@ -1,3 +1,42 @@
+2005-08-03  Lluis Sanchez Gual  <lluis@novell.com>
+
+	* Gui/Search/SearchOptions.cs: Store options at the correct property set.
+	
+	* Gui/Pads/SolutionPad/TreeViewPad.cs:
+	* Gui/Dialogs/OptionPanels/ExternalToolPanel.cs:
+	* Gui/Dialogs/ProjectOptionsDialog.cs:
+	* Commands/HelpCommands.cs:
+	* Commands/VBConverter/ConvertBuffer.cs:
+	* Commands/VBConverter/ConvertProject.cs: Use the new command system.
+	
+	* Gui/CommandService.cs: Added method for showing context menus.
+	* Gui/GuiService.cs: Removed Old menu and toolbar services.
+	
+	* Gui/Dialogs/TreeViewOptions.cs: Provide a CommandManager that can
+	be used to show a context menu.
+	* Internal/Codons/Commands/CommandCodon.cs: Allow commands that use
+	a string as ID (prefixed with @).
+	
+	* Internal/CollectionUtilities/Comparers.cs:
+	* Gui/Components/SdMenu.cs:
+	* Gui/Components/SdMenuCheckBox.cs:
+	* Gui/Components/SdMenuCommand.cs:
+	* Gui/Components/SdToolbarCommand.cs:
+	* Gui/Components/SdMenuSeparator.cs:
+	* Gui/Pads/PropertyPad/PropertyPadCommands.cs:
+	* Gui/Pads/TreeViewMemento.cs:
+	* Services/Toolbar/ToolbarService.cs:
+	* Services/MenuService/MenuService.cs:
+	* Commands/ProjectOptionsCommands.cs:
+	* Internal/Codons/MenuItems/AbstractCheckableMenuCommand.cs:
+	* Internal/Codons/MenuItems/ISubmenuBuilder.cs:
+	* Internal/Codons/MenuItems/IMenuCommand.cs:
+	* Internal/Codons/MenuItems/AbstractMenuCommand.cs:
+	* Internal/Codons/MenuItems/ICheckableMenuCommand.cs:
+	* Internal/Codons/MenuItems/MenuItemCodon.cs: Removed old code.
+	
+	* MonoDevelopCore.addin.xml: Removed old elements.
+
 2005-07-30  John Luke  <john.luke@gmail.com>
 
 	* Services/MessageService.cs: remove two unused variables

@@ -17,6 +17,8 @@ using MonoDevelop.Core.Properties;
 using MonoDevelop.Core.AddIns.Codons;
 using MonoDevelop.Internal.Project;
 using MonoDevelop.Services;
+using MonoDevelop.Commands;
+
 namespace MonoDevelop.Gui.Dialogs {
 
 	/// <summary>
@@ -103,6 +105,7 @@ namespace MonoDevelop.Gui.Dialogs {
 		
 		#region context menu commands
 		
+		[CommandHandler ("AddConfiguration")]
 		public void AddProjectConfiguration()
 		{
 			int    number  = -1;
@@ -144,6 +147,7 @@ namespace MonoDevelop.Gui.Dialogs {
 			RenameProjectConfiguration();
 		}
 		
+		[CommandHandler ("RemoveConfiguration")]
 		public void RemoveProjectConfiguration()
 		{	
 			Gtk.TreeModel mdl;
@@ -181,6 +185,7 @@ namespace MonoDevelop.Gui.Dialogs {
 			}
 		}
 		
+		[CommandHandler ("SetActiveConfiguration")]
 		public void SetSelectedConfigurationAsStartup()
 		{
 			Gtk.TreeModel mdl;
@@ -194,6 +199,7 @@ namespace MonoDevelop.Gui.Dialogs {
 			}
 		}
 		
+		[CommandHandler ("RenameConfiguration")]
 		public void RenameProjectConfiguration()
 		{
 			Gtk.TreeModel mdl;
@@ -295,13 +301,14 @@ namespace MonoDevelop.Gui.Dialogs {
 					Gtk.TreePath path = TreeView.Model.GetPath(iter);
 	
 					// now see if the iter is the configuration root node iter
-					if (iter.Equals(configurationTreeNode)) {							
-						Runtime.Gui.Menus.ShowContextMenu(this, configNodeMenu, TreeView);
+					if (iter.Equals(configurationTreeNode)) {
+						CommandEntrySet cset = Runtime.Gui.CommandService.CreateCommandEntrySet (configNodeMenu);
+						CommandManager.ShowContextMenu (cset);
 					} else if (path.Indices[0] == configPath.Indices[0] && (path.Depth - configPath.Depth) == 1) {
 						// now see if it's a specific configuration node (i.e. the configuration root node is it's parent
-						Runtime.Gui.Menus.ShowContextMenu(this, selectConfigNodeMenu, TreeView);
+						CommandEntrySet cset = Runtime.Gui.CommandService.CreateCommandEntrySet (selectConfigNodeMenu);
+						CommandManager.ShowContextMenu (cset);
 					}
-					
 				}
 			}
 		}

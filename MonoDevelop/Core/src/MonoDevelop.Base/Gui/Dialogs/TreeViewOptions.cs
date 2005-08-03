@@ -15,6 +15,7 @@ using MonoDevelop.Core.Properties;
 using MonoDevelop.Core.AddIns.Codons;
 
 using MonoDevelop.Services;
+using MonoDevelop.Commands;
 
 namespace MonoDevelop.Gui.Dialogs {
 	
@@ -26,6 +27,7 @@ namespace MonoDevelop.Gui.Dialogs {
 		
 		protected ArrayList OptionPanels = new ArrayList ();
 		protected IProperties properties = null;
+		CommandManager cmdManager;
 
 		protected Gtk.TreeStore treeStore;
 		
@@ -57,10 +59,16 @@ namespace MonoDevelop.Gui.Dialogs {
 			}
 			TreeViewOptionDialog.Hide ();
 		}
+		
+		protected CommandManager CommandManager {
+			get { return cmdManager; }
+		}
 	
 		public int Run ()
 		{
-			return TreeViewOptionDialog.Run ();
+			int r = TreeViewOptionDialog.Run ();
+			cmdManager.Dispose ();
+			return r;
 		}
 	
 		protected bool b = true;
@@ -172,6 +180,9 @@ namespace MonoDevelop.Gui.Dialogs {
 		
 			TreeViewOptionDialog.Title = GettextCatalog.GetString ("MonoDevelop options");
 
+			cmdManager = new CommandManager (TreeViewOptionDialog);
+			cmdManager.RegisterGlobalHandler (this); 
+			
 			this.InitializeComponent();
 			
 			if (node != null)

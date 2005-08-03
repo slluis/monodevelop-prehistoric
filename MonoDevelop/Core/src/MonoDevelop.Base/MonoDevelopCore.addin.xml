@@ -101,13 +101,6 @@
 		       class = "MonoDevelop.Gui.Pads.ProjectBrowser.DefaultDotNetNodeBuilder"/>
 	</Extension>
 
-	<Extension path = "/SharpDevelop/Views/ClassScout/ContextMenu/ClassNode">
-                <MenuItem id = "Export"
-                          _label = "ExportSignature" 
-                          class = "MonoDevelop.Commands.ClassScoutCommands.ExportClassSignature"/>
-	</Extension>
-
-
 	<Extension path = "/SharpDevelop/Commands">
 	
 		<!-- EditCommands -->
@@ -621,23 +614,14 @@
 	
 
 	<Extension path = "/SharpDevelop/Workbench/ProjectOptions/ConfigNodeMenu">
-                <MenuItem id = "Add" 
-                          _label = "Add"
-                          class = "MonoDevelop.Commands.AddProjectConfiguration"/>
+		<LocalCommandItem id = "@AddConfiguration" _label = "Add"/>
 	</Extension>
 	
 	<Extension path = "/SharpDevelop/Workbench/ProjectOptions/SelectedConfigMenu">
-                <MenuItem id = "Rename" 
-                          _label = "Rename"
-                          class = "MonoDevelop.Commands.RenameProjectConfiguration"/>
-                <MenuItem id = "Remove" 
-                          _label = "Remove"
-                          class = "MonoDevelop.Commands.RemoveProjectConfiguration"/>
-                <MenuItem id = "RenameRemoveSeparator" 
-                          _label = "-"/>
-                <MenuItem id = "SetActive" 
-                          _label = "Set as active"
-                          class = "MonoDevelop.Commands.SetActiveProjectConfiguration"/>
+		<LocalCommandItem id = "@RenameConfiguration" _label = "Rename" />
+		<LocalCommandItem id = "@RemoveConfiguration" _label = "Remove" />
+		<SeparatorItem id = "s1" />
+		<LocalCommandItem id = "@SetActiveConfiguration" _label = "Set as active"/>
 	</Extension>
 	
 	<Extension path = "/SharpDevelop/Workbench/ProjectOptions/GeneralOptions">
@@ -682,41 +666,6 @@
 			             class = "MonoDevelop.Gui.Dialogs.OptionPanels.CombineConfigurationPanel"/>
 	</Extension>
 
-<!-- not using these, since the OpenFileTab has been removed (replaced with Tab_Label) jba 5 march 2004
-	<Extension path = "/SharpDevelop/Workbench/OpenFileTab/ContextMenu">
-                <MenuItem id = "Close"
-	                  _label = "${res:OpenFileTabEventHandler.ContextMenu.Close}" 
-	                  class = "MonoDevelop.Commands.TabStrip.CloseFileTab"/>
-		<MenuItem id = "CloseSeparator" _label = "-" />
-                <Conditional action="Disable">
-	                <And>
-	                	<Condition ownerstate="FileDirty"/>
-	                	<Not>
-	                		<Condition ownerstate="FileUntitled"/>
-	                	</Not>
-	                </And>
-	                
-	                <MenuItem id = "Save"
-		                  _label = "${res:OpenFileTabEventHandler.ContextMenu.Save}" 
-		                  icon  = "Icons.16x16.SaveIcon"
-		                  class = "MonoDevelop.Commands.TabStrip.SaveFileTab"/>
-		</Conditional>
-                <MenuItem id = "SaveAs"
-	                  _label = "${res:OpenFileTabEventHandler.ContextMenu.SaveAs}" 
-	                  icon  = "Icons.16x16.SaveAsIcon"
-			  class = "MonoDevelop.Commands.TabStrip.SaveFileAsTab"/>
-
-		<MenuItem id = "SaveSeparator" _label = "-" />
-                <Conditional action="Disable">
-	                <Not>
-	                	<Condition ownerstate="FileUntitled" />
-	                </Not>
-	                <MenuItem id = "CopyPathName"
-		                  _label = "${res:OpenFileTabEventHandler.CopyPathName}" 
-		                  class = "MonoDevelop.Commands.TabStrip.CopyPathName"/>
-		</Conditional>
-	</Extension>
--->
 
 	<Extension path = "/SharpDevelop/Workbench/FileFilter">
 		<FileFilter id = "AllFiles"
@@ -982,60 +931,14 @@
 			<SeparatorItem id = "Separator3" />
 			<CommandItem id = "MonoDevelop.Commands.HelpCommands.About" />
 		</ItemSet>
-	</Extension>	
-
-
-	<Extension path = "/SharpDevelop/Workbench/SharpDevelopSideBar/ContextMenu">
-		<Conditional ownerstate="TabCanBeDeleted" action="Disable">
-			<MenuItem id = "DeleteTab" 
-			          _label = "Delete Tab" 
-			          class = "MonoDevelop.Commands.SideBarDeleteTabHeader"/>
-		</Conditional>
-	
-		<MenuItem id    = "RenameTab" 
-		          _label = "Rename Tab" 
-		          class = "MonoDevelop.Commands.SideBarRenameTabHeader"/>
-                          
-		<MenuItem id = "Separator1" _label = "-" />
-		<MenuItem id    = "AddTab" 
-		          _label = "Add Tab" 
-		          class = "MonoDevelop.Commands.SideBarAddTabHeader"/>
-                          
-		<MenuItem id = "Separator2" _label = "-" />
-		<Conditional ownerstate="CanMoveUp" action="Disable">
-			<MenuItem id    = "MoveTabUp" 
-			          _label = "Move Tab Up" 
-			          class = "MonoDevelop.Commands.SideBarMoveTabUp"/>
-		</Conditional>
-                
-		<Conditional ownerstate="CanMoveDown" action="Disable">
-			<MenuItem id    = "MoveTabDown" 
-			          _label = "Move Tab Down" 
-			          class = "MonoDevelop.Commands.SideBarMoveTabDown"/>
-		</Conditional>
 	</Extension>
-	
-	<Extension path = "/SharpDevelop/Workbench/SharpDevelopSideBar/SideTab/ContextMenu">
-		<MenuItem id = "RenameTabItem" 
-		          _label = "Rename Tab" 
-		          class = "MonoDevelop.Commands.SideBarRenameTabItem" />
-		<MenuItem id = "DeleteTabItem" 
-		          _label = "Delete Tab" 
-		          class = "MonoDevelop.Commands.SideBarDeleteTabItem"/>
-		<Conditional ownerstate="TabCanBeDeleted">
-			<MenuItem id = "Separator1" _label = "-" />
-			<Conditional ownerstate="CanMoveItemUp" action="Disable">
-				<MenuItem id = "MoveItemUp" 
-				          _label = "Move Item up" 
-				          class = "MonoDevelop.Commands.SideBarMoveActiveItemUp"/>
-			</Conditional>
-				                      
-			<Conditional ownerstate="CanMoveItemDown" action="Disable">
-				<MenuItem id = "MoveItemDown" 
-				          _label = "Move Item Down" 
-				          class = "MonoDevelop.Commands.SideBarMoveActiveItemDown"/>
-			</Conditional>
-		</Conditional>
+
+	<Extension path = "/SharpDevelop/DefaultEditor/SearchAndReplace/WildcardHelpPath">
+		<LocalCommandItem id = "@*Char" _label = "* Zero or more of any character" />
+		<LocalCommandItem id = "@?Char" _label = "? Any single character" />
+		<LocalCommandItem id = "@#Char" _label = "# Any single digit" />
+		<LocalCommandItem id = "@[]Char" _label = "[] Any one character in the set" />
+		<LocalCommandItem id = "@[!]Char" _label = "[!] Any one character not in the set" />
 	</Extension>
 
 	<Extension path = "/SharpDevelop/CompletionDatabaseWizard">
@@ -1054,32 +957,6 @@
 		<DialogPanel id = "CreationSuccessful"
 		             _label = "Finished"
 		             class = "MonoDevelop.Gui.Dialogs.OptionPanels.CompletionDatabaseWizard.CreationFinishedPanel"/>
-	</Extension>
-	
-	<!-- web references -->
-
-<!-- ORIGINAL #D COMMENT
-	<Extension path = "/SharpDevelop/Views/ProjectBrowser/ContextMenu/ReferenceFolderNode">
-		<MenuItem id = "AddWebReference"
-	                  _label = "Add Web Reference" 
-	                  class = "MonoDevelop.Commands.ProjectBrowser.AddWebReferenceToProject"/>
-	</Extension>
--->
-	<!-- ORIGINAL #D COMMENT
-	<Extension path = "/SharpDevelop/Views/ProjectBrowser/ContextMenu/ReferenceNode">
-		<MenuItem id = "Refresh"
-			  _label = "Refresh" 
-			  class = "MonoDevelop.Commands.ProjectBrowser.RefreshWebReference"/>
-	</Extension> -->
-
-	<Extension path = "/SharpDevelop/Views/PropertyPad/ContextMenu">
-		<MenuItem id    = "ResetProperty"
-		          _label = "Reset Property" 
-		          class = "MonoDevelop.Gui.Pads.PropertyPadResetCommand"/>
-		<MenuItem id = "Separator" _label = "-" />
-		<MenuItem id    = "ShowDescription"
-		          _label = "Show Description" 
-		          class = "MonoDevelop.Gui.Pads.PropertyPadShowDescriptionCommand"/>
 	</Extension>
 	
 </AddIn>

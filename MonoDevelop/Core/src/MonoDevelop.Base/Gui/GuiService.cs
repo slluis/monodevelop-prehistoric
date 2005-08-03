@@ -7,8 +7,6 @@ namespace MonoDevelop.Gui
 	public class GuiService
 	{
 		DisplayBindingService displayBindingService;
-		MenuService menuService;
-		ToolbarService toolbarService;
 		IconService icons;
 		ResourceService resourceService;
 		IStatusBarService statusBarService;
@@ -26,14 +24,6 @@ namespace MonoDevelop.Gui
 			}
 		}
 	
-		public MenuService Menus {
-			get {
-				if (menuService == null)
-					menuService = (MenuService) ServiceManager.GetService (typeof(MenuService));
-				return menuService;
-			}
-		}
-	
 		public IStatusBarService StatusBar {
 			get {
 				if (statusBarService == null)
@@ -42,14 +32,6 @@ namespace MonoDevelop.Gui
 			}
 		}
 	
-		public ToolbarService Toolbars {
-			get {
-				if (toolbarService == null)
-					toolbarService = (ToolbarService) ServiceManager.GetService (typeof(ToolbarService));
-				return toolbarService;
-			}
-		}
-
 		public ResourceService Resources {
 			get {
 				if (resourceService == null)

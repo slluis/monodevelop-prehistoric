@@ -64,33 +64,4 @@ namespace System {
 	}
 }
 
-namespace System.Collections.Specialized
-{
-	[Serializable]
-	public class TreeNodeComparer : IComparer {
-		
-		public static Gtk.TreeIterCompareFunc GtkDefault = new Gtk.TreeIterCompareFunc (GtkDefaultComparer);
-		public static IComparer Default = new TreeNodeComparer ();
 
-		public int Compare(object x, object y) {
-			int cmp = ((TreeNode)x).Image.CompareTo (((TreeNode)y).Image);
-			if(cmp == 0) {
-//				cmp = x.SelectedImageIndex - y.SelectedImageIndex;
-//				if(cmp == 0) {
-					cmp = ((TreeNode)x).Text.CompareTo(((TreeNode)y).Text);
-//				}
-			}
-
-			return cmp;
-		}
-
-		static int GtkDefaultComparer (Gtk.TreeModel model, Gtk.TreeIter a, Gtk.TreeIter b)
-		{
-			Gtk.TreeStore ts = (Gtk.TreeStore) model;
-			TreeNode x = (TreeNode) ts.GetValue (a, 2);
-			TreeNode y = (TreeNode) ts.GetValue (b, 2);
-			
-			return x.Text.CompareTo (y.Text);
-		}
-	}
-}

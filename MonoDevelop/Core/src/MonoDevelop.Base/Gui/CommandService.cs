@@ -107,6 +107,16 @@ namespace MonoDevelop.Services
 			return manager.CreateMenu (cset);
 		}
 		
+		public void ShowContextMenu (CommandEntrySet cset)
+		{
+			manager.ShowContextMenu (cset);
+		}
+		
+		public void ShowContextMenu (string addinPath)
+		{
+			ShowContextMenu (CreateCommandEntrySet (addinPath));
+		}
+		
 		public CommandEntrySet CreateCommandEntrySet (string addinPath)
 		{
 			CommandEntrySet cset = new CommandEntrySet ();

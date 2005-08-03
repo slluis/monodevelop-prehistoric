@@ -21,11 +21,9 @@ DLLS = /r:System.Drawing /r:ICSharpCode.SharpZipLib.dll \
 
 FILES= \
 Gui/Pads/OpenTaskView.cs \
-Gui/Pads/TreeViewMemento.cs \
 Gui/Pads/FileScout/FileList.cs \
 Gui/Pads/FileScout/FileListItem.cs \
 Gui/Pads/FileScout/FileScout.cs \
-Gui/Pads/PropertyPad/PropertyPadCommands.cs \
 Gui/Pads/PropertyPad/PropertyPad.cs \
 Gui/Pads/ClassPad/ClassData.cs \
 Gui/Pads/ClassPad/ClassNodeBuilder.cs \
@@ -77,16 +75,12 @@ Gui/IViewContent.cs \
 Gui/AbstractViewContent.cs \
 Gui/GuiService.cs \
 Gui/CommandService.cs \
-Gui/Components/SdMenuSeparator.cs \
+Gui/Components/MenuButtonEntry.cs \
 Gui/Components/StatusBar/SdStatusBar.cs \
 Gui/Components/StatusBar/IStatusIcon.cs \
 Gui/Components/LocalizedPropertyGrid/LocalizedPropertyDescriptor.cs \
 Gui/Components/LocalizedPropertyGrid/LocalizedObject.cs \
 Gui/Components/LocalizedPropertyGrid/LocalizedPropertyAttribute.cs \
-Gui/Components/SdMenu.cs \
-Gui/Components/SdMenuCheckBox.cs \
-Gui/Components/SdMenuCommand.cs \
-Gui/Components/SdToolbarCommand.cs \
 Gui/Completion/CodeCompletionData.cs \
 Gui/Completion/CodeCompletionDataProvider.cs \
 Gui/Completion/CommentCompletionDataProvider.cs \
@@ -211,7 +205,6 @@ Commands/DebugCommands.cs \
 Commands/ProjectCommands.cs \
 Commands/VBConverter/ConvertProject.cs \
 Commands/VBConverter/ConvertBuffer.cs \
-Commands/ProjectOptionsCommands.cs \
 Commands/EditCommands.cs \
 Commands/WindowCommands.cs \
 Commands/AutostartCommands.cs \
@@ -226,7 +219,6 @@ Services/File/DefaultFileService.cs \
 Services/File/FileEventArgs.cs \
 Services/File/RecentFiles.cs \
 Services/File/RecentOpen.cs \
-Services/MenuService/MenuService.cs \
 Services/DisplayBinding/DisplayBindingService.cs \
 Services/LanguageBinding/LanguageBindingService.cs \
 Services/Tasks/TaskService.cs \
@@ -288,7 +280,6 @@ Services/ParserService/SimpleCodeCompletionDatabase.cs \
 Services/ParserService/ReferenceEntry.cs \
 Services/ResourceService.cs \
 Services/MessageService.cs \
-Services/Toolbar/ToolbarService.cs \
 Services/MonodocService.cs \
 Services/SystemAssemblyService.cs \
 Services/DispatchService/AsyncDispatchAttribute.cs \
@@ -318,6 +309,7 @@ Internal/Codons/Commands/CommandCodon.cs \
 Internal/Codons/Commands/CommandItemCodon.cs \
 Internal/Codons/Commands/ItemSetCodon.cs \
 Internal/Codons/Commands/LinkItemCodon.cs \
+Internal/Codons/Commands/LocalCommandItemCodon.cs \
 Internal/Codons/Commands/SeparatorItemCodon.cs \
 Internal/Codons/DisplayBinding/IDisplayBinding.cs \
 Internal/Codons/DisplayBinding/ISubDisplayBinding.cs \
@@ -336,12 +328,6 @@ Internal/Codons/DialogPanelCodon.cs \
 Internal/Codons/IDialogPanelDescriptor.cs \
 Internal/Codons/ExecutionHandlerCodon.cs \
 Internal/Codons/FileFormatCodon.cs \
-Internal/Codons/MenuItems/AbstractCheckableMenuCommand.cs \
-Internal/Codons/MenuItems/ISubmenuBuilder.cs \
-Internal/Codons/MenuItems/IMenuCommand.cs \
-Internal/Codons/MenuItems/AbstractMenuCommand.cs \
-Internal/Codons/MenuItems/ICheckableMenuCommand.cs \
-Internal/Codons/MenuItems/MenuItemCodon.cs \
 Internal/Codons/Pads/NodeBuilderCodon.cs \
 Internal/Codons/Pads/PadCodon.cs \
 Internal/Codons/Pads/PadOptionCodon.cs \

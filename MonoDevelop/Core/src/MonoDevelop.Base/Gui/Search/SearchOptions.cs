@@ -59,11 +59,11 @@ namespace MonoDevelop.Gui.Search
 		
 		public DocumentIteratorType DocumentIteratorType {
 			get {
-				return (DocumentIteratorType)propertyService.GetProperty("DocumentIteratorType", DocumentIteratorType.CurrentDocument);
+				return (DocumentIteratorType)properties.GetProperty("DocumentIteratorType", DocumentIteratorType.CurrentDocument);
 			}
 			set {
 				if (DocumentIteratorType != value) {
-					propertyService.SetProperty("DocumentIteratorType", value);
+					properties.SetProperty("DocumentIteratorType", value);
 					OnDocumentIteratorTypeChanged(EventArgs.Empty);
 				}
 			}
@@ -71,11 +71,11 @@ namespace MonoDevelop.Gui.Search
 		
 		public SearchStrategyType SearchStrategyType {
 			get {
-				return (SearchStrategyType)propertyService.GetProperty("SearchStrategyType", SearchStrategyType.Normal);
+				return (SearchStrategyType)properties.GetProperty("SearchStrategyType", SearchStrategyType.Normal);
 			}
 			set {
 				if (SearchStrategyType != value) {
-					propertyService.SetProperty("SearchStrategyType", value);
+					properties.SetProperty("SearchStrategyType", value);
 					OnSearchStrategyTypeChanged(EventArgs.Empty);
 				}
 			}
@@ -83,28 +83,28 @@ namespace MonoDevelop.Gui.Search
 		
 		public string FileMask {
 			get {
-				return propertyService.GetProperty("FileMask", String.Empty);
+				return properties.GetProperty("FileMask", String.Empty);
 			}
 			set {
-				propertyService.SetProperty("FileMask", value);
+				properties.SetProperty("FileMask", value);
 			}
 		}
 
 		public string SearchDirectory {
 			get {
-				return propertyService.GetProperty("SearchDirectory", String.Empty);
+				return properties.GetProperty("SearchDirectory", String.Empty);
 			}
 			set {
-				propertyService.SetProperty("SearchDirectory", value);
+				properties.SetProperty("SearchDirectory", value);
 			}
 		}
 		
 		public bool SearchSubdirectories {
 			get {
-				return propertyService.GetProperty("SearchSubdirectories", true);
+				return properties.GetProperty("SearchSubdirectories", true);
 			}
 			set {
-				propertyService.SetProperty("SearchSubdirectories", value);
+				properties.SetProperty("SearchSubdirectories", value);
 			}
 		}
 		

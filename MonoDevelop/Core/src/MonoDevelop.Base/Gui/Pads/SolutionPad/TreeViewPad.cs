@@ -949,8 +949,7 @@ namespace MonoDevelop.Gui.Pads
 					opset.AddItem (ViewCommands.TreeDisplayOptionList);
 					opset.AddItem (Command.Separator);
 					opset.AddItem (ViewCommands.ResetTreeDisplayOptions);
-					Gtk.Menu menu = Runtime.Gui.CommandService.CreateMenu (opset);
-					Runtime.Gui.Menus.ShowContextMenu (menu);
+					Runtime.Gui.CommandService.ShowContextMenu (opset);
 				}
 			} else {
 				CommandEntrySet eset = Runtime.Gui.CommandService.CreateCommandEntrySet (nb.ContextMenuAddinPath);
@@ -959,8 +958,7 @@ namespace MonoDevelop.Gui.Pads
 				opset.AddItem (ViewCommands.TreeDisplayOptionList);
 				opset.AddItem (Command.Separator);
 				opset.AddItem (ViewCommands.ResetTreeDisplayOptions);
-				Gtk.Menu menu = Runtime.Gui.CommandService.CreateMenu (eset);
-				Runtime.Gui.Menus.ShowContextMenu (menu);
+				Runtime.Gui.CommandService.ShowContextMenu (eset);
 			}
 		}
 		

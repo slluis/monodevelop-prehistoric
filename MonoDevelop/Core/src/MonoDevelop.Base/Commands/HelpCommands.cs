@@ -45,40 +45,4 @@ namespace MonoDevelop.Commands
 			}
 		}
 	}
-	
-	internal class GotoWebSite : AbstractMenuCommand
-	{
-		string site;
-		
-		public GotoWebSite(string site)
-		{
-			this.site = site;
-		}
-		
-		public override void Run()
-		{
-			Runtime.FileService.OpenFile (site);
-		}
-	}
-	
-	// FIXME: dont use Process Start for HTML files
-	internal class GotoLink : AbstractMenuCommand
-	{
-		string site;
-		
-		public GotoLink(string site)
-		{
-			this.site = site;
-		}
-		
-		public override void Run()
-		{
-			string file = site.StartsWith("home://") ? Runtime.FileUtilityService.GetDirectoryNameWithSeparator (Runtime.FileUtilityService.SharpDevelopRootPath) + "bin" + Path.DirectorySeparatorChar + site.Substring(7).Replace('/', Path.DirectorySeparatorChar) : site;
-			try {
-				Process.Start(file);
-			} catch (Exception) {
-				Runtime.MessageService.ShowError(String.Format (GettextCatalog.GetString ("Can not execute or view {0}\n Please check that the file exists and that you can open this file."), file));
-			}
-		}
-	}
 }

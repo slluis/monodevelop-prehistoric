@@ -157,6 +157,9 @@ namespace MonoDevelop.Core.AddIns.Codons
 		internal static object ParseCommandId (ICodon codon)
 		{
 			string id = codon.ID;
+			if (id.StartsWith ("@"))
+				return id.Substring (1);
+
 			Type enumType = null;
 			string typeName = id;
 			
