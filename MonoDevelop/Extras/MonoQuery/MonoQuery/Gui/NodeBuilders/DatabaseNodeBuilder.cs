@@ -31,8 +31,12 @@ using System.Threading;
 using System.Runtime.Remoting.Messaging;
 
 using Mono.Data.Sql;
+using MonoDevelop.Core.Services;
 using MonoDevelop.Services;
 using MonoDevelop.Gui.Pads;
+using MonoDevelop.Commands;
+using MonoQuery.Commands;
+
 
 namespace MonoQuery
 {
@@ -70,6 +74,12 @@ namespace MonoQuery
 		public override string ContextMenuAddinPath {
 			get {
 				return "/SharpDevelop/Views/DatabasePad/ContextMenu/ConnectionBrowserNode";
+			}
+		}
+		
+		public override Type CommandHandlerType {
+			get {
+				return typeof (DatabaseNodeCommandHandler);
 			}
 		}
 		
@@ -196,6 +206,31 @@ namespace MonoQuery
 		protected void OnAddChild (ITreeBuilder builder, object child)
 		{
 			builder.AddChild (child);
+		}
+	}
+	
+	public class DatabaseNodeCommandHandler: NodeCommandHandler
+	{
+		[CommandHandler (MonoQueryCommands.RemoveConnection)]
+		protected void OnRemoveConnection ()
+		{
+			MonoQueryService service = (MonoQueryService) ServiceManager.GetService (typeof (MonoQueryService));
+			DbProviderBase provider = (DbProviderBase) CurrentNode.DataItem;
+			service.Providers.Remove (provider);
+		}
+		
+		[CommandHandler (MonoQueryCommands.RefreshConnection)]
+		protected void OnRefreshConnection ()
+		{
+			DbProviderBase provider = (DbProviderBase) CurrentNode.DataItem;
+			provider.Refresh ();
+		}
+		
+		[CommandHandler (MonoQueryCommands.DisconnectConnection)]
+		protected void OnDisconnectConnection ()
+		{
+			DbProviderBase provider = (DbProviderBase) CurrentNode.DataItem;
+			provider.Close ();
 		}
 	}
 }

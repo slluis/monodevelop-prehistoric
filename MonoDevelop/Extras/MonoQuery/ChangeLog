@@ -1,3 +1,9 @@
+2005-08-03  Lluis Sanchez Gual  <lluis@novell.com> 
+
+	* MonoQuery/Commands/Commands.cs:
+	* MonoQuery/Gui/NodeBuilders/DatabaseNodeBuilder.cs:
+	* MonoQuery/Gui/DatabasePad.cs: Moved command handlers to node builders.
+
 2005-08-02	Christian Hergert	<christian.hergert@gmail.com>
 
 	* MonoQuery.prjx: deleted

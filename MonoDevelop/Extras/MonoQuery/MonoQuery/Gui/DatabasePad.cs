@@ -33,6 +33,8 @@ using MonoDevelop.Services;
 using MonoDevelop.Core.Services;
 using MonoDevelop.Core.Properties;
 using MonoDevelop.Gui.Pads;
+using MonoDevelop.Commands;
+using MonoQuery.Commands;
 
 using Mono.Data.Sql;
 
@@ -52,6 +54,7 @@ namespace MonoQuery
 			OnProvidersChanged (this, null);
 		}
 		
+		[CommandHandler (MonoQueryCommands.RefreshProviderList)]
 		public void Refresh ()
 		{
 			OnProvidersChanged (this, null);

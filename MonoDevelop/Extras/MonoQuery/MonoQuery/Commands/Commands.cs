@@ -70,48 +70,4 @@ namespace MonoQuery.Commands
 			dialog.Destroy ();
 		}
 	}
-	
-	public class RemoveConnection : CommandHandler
-	{
-		protected override void Run ()
-		{
-			DatabasePad pad = (DatabasePad) MonoDevelop.Gui.WorkbenchSingleton.Workbench.GetPad (typeof (DatabasePad));
-			MonoQueryService service = (MonoQueryService) ServiceManager.GetService (typeof (MonoQueryService));
-			
-			object obj = pad.GetSelectedNode ().DataItem;
-			if (obj as DbProviderBase != null)
-				service.Providers.Remove ((DbProviderBase) obj);
-		}
-	}
-	
-	public class RefreshProviderList : CommandHandler
-	{
-		protected override void Run ()
-		{
-			DatabasePad pad = (DatabasePad) MonoDevelop.Gui.WorkbenchSingleton.Workbench.GetPad (typeof (DatabasePad));
-			pad.Refresh ();
-		}
-	}
-	
-	public class RefreshConnection : CommandHandler
-	{
-		protected override void Run ()
-		{
-			DatabasePad pad = (DatabasePad) MonoDevelop.Gui.WorkbenchSingleton.Workbench.GetPad (typeof (DatabasePad));
-			object obj = pad.GetSelectedNode ().DataItem;
-			if (obj as DbProviderBase != null)
-				(obj as DbProviderBase).Refresh ();
-		}
-	}
-	
-	public class DisconnectConnection : CommandHandler
-	{
-		protected override void Run ()
-		{
-			DatabasePad pad = (DatabasePad) MonoDevelop.Gui.WorkbenchSingleton.Workbench.GetPad (typeof (DatabasePad));
-			DbProviderBase provider = (pad.GetSelectedNode ().DataItem as DbProviderBase);
-			if (provider != null)
-				provider.Close ();
-		}
-	}
 }

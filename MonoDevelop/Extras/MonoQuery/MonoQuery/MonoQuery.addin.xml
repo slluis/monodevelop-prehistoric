@@ -57,18 +57,14 @@
 			_label = "Add connection"
 			icon = "md-mono-query-addconnection"/>
 		<Command id = "MonoQuery.Commands.MonoQueryCommands.RemoveConnection"
-			defaultHandler = "MonoQuery.Commands.RemoveConnection"
 			_label = "Remove"/>
 		<Command id = "MonoQuery.Commands.MonoQueryCommands.RefreshProviderList"
-			defaultHandler = "MonoQuery.Commands.RefreshProviderList"
 			_label = "Refresh"
 			icon = "md-browser-refresh"/>
 		<Command id = "MonoQuery.Commands.MonoQueryCommands.RefreshConnection"
-			defaultHandler = "MonoQuery.Commands.RefreshConnection"
 			_label = "Refresh"
 			icon = "md-browser-refresh"/>
 		<Command id = "MonoQuery.Commands.MonoQueryCommands.DisconnectConnection"
-			defaultHandler = "MonoQuery.Commands.DisconnectConnection"
 			_label = "Disconnect"
 			icon = "md-mono-query-disconnect"/>
 	</Extension>
