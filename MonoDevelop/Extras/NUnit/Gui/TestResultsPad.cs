@@ -357,9 +357,7 @@ namespace MonoDevelop.NUnit
 		void OnPopupMenu (object o, Gtk.ButtonReleaseEventArgs args)
 		{
 			if (args.Event.Button == 3) {
-				CommandEntrySet eset = Runtime.Gui.CommandService.CreateCommandEntrySet ("/SharpDevelop/Views/TestResultsPad/ContextMenu");
-				Gtk.Menu menu = Runtime.Gui.CommandService.CreateMenu (eset);
-				Runtime.Gui.Menus.ShowContextMenu (menu);
+				Runtime.Gui.CommandService.ShowContextMenu ("/SharpDevelop/Views/TestChart/ContextMenu");
 			}
 		}
 		
