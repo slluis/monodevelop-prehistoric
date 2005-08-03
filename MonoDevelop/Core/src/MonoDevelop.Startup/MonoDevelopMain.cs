@@ -97,6 +97,17 @@ namespace MonoDevelop
 			new Gnome.Program (name, version, Gnome.Modules.UI, remainingArgs);
 			Gdk.Threads.Init();
 			commandLineArgs = remainingArgs;
+
+			//remoting check
+			try {
+				Dns.GetHostByName (Dns.GetHostName ());
+			} catch {
+				ErrorDialog dialog = new ErrorDialog (null);
+				dialog.Message = "MonoDevelop failed to start. Local hostname cannot be resolved.";
+				dialog.AddDetails ("Your network may be misconfigured. Make sure the hostname of your system is added to the /etc/hosts file.", true);
+				dialog.Run ();
+				return 1;
+			} 
 		
 			SplashScreenForm.SetCommandLineArgs(remainingArgs);
 			
@@ -112,6 +123,8 @@ namespace MonoDevelop
 			RunMainLoop ();
 
 			ArrayList commands = null;
+			Exception error = null;
+			
 			try {
 				SetSplashInfo(0.1, "Initializing Icon Service ...");
 				ServiceManager.AddService(new IconService());
@@ -144,16 +157,20 @@ namespace MonoDevelop
 				// no alternative for Application.ThreadException?
 				// Application.ThreadException += new ThreadExceptionEventHandler(ShowErrorBox);
 
-			} catch (XmlException e) {
-				Console.WriteLine("Could not load XML :\n" + e.Message);
-				return 1;
 			} catch (Exception e) {
-				Console.WriteLine("Loading error, please reinstall :\n" + e.ToString());
-				return 1;
+				error = e;
 			} finally {
 				if (SplashScreenForm.SplashScreen != null) {
 					SplashScreenForm.SplashScreen.Hide();
 				}
+			}
+			
+			if (error != null) {
+				ErrorDialog dialog = new ErrorDialog (null);
+				dialog.Message = "MonoDevelop failed to start. The following error has been reported: " + error.Message;
+				dialog.AddDetails (error.ToString (), false);
+				dialog.Run ();
+				return 1;
 			}
 
 			// FIXME: we should probably track the last 'selected' one

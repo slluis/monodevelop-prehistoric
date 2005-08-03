@@ -1,3 +1,13 @@
+2005-08-03  Lluis Sanchez Gual  <lluis@novell.com>
+
+	* MonoDevelopMain.cs: Show an error dialog if something goes wrong
+	while initializing.
+
+2005-08-03  Ben Motmans  <ben.motmans@gmail.com>
+
+	* MonoDevelopMain.cs: Show a meaningfull error when the local
+	hostname cannot be resolved
+
 2005-07-29  Lluis Sanchez Gual  <lluis@novell.com>
 
 	* MonoDevelop.Startup.glade:
