@@ -53,7 +53,7 @@ namespace MonoDevelop.Core.Services
 
 		public void ShowError (Exception ex, string message)
 		{
-			ErrorDialog dlg = new ErrorDialog ();
+			ErrorDialog dlg = new ErrorDialog ((Window) WorkbenchSingleton.Workbench);
 			
 			if (message != null) {
 				dlg.Message = message;
@@ -68,7 +68,7 @@ namespace MonoDevelop.Core.Services
 				dlg.AddDetails ("No more details available.", true);
 			}
 			
-			dlg.Run ();
+			dlg.Show ();
 		}
 
 		public void ShowWarning(string message)

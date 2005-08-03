@@ -1,3 +1,9 @@
+2005-08-03  Lluis Sanchez Gual  <lluis@novell.com> 
+
+	* MonoDevelop.Base.mdp: Removed unused file.
+	* Services/MessageService.cs:
+	* Gui/Dialogs/ErrorDialog.cs: Added Show method. Removed debug code.
+
 2005-08-03  Lluis Sanchez Gual  <lluis@novell.com>
 
 	* Gui/Search/SearchOptions.cs: Store options at the correct property set.

@@ -459,7 +459,6 @@
     <File name="./Gui/Pads/SolutionPad/TypeNodeBuilder.cs" subtype="Code" buildaction="Compile" />
     <File name="./Gui/Search/DefaultFind.cs" subtype="Code" buildaction="Compile" />
     <File name="./Gui/Search/IFind.cs" subtype="Code" buildaction="Compile" />
-    <File name="./Gui/Search/ISearchableDocument.cs" subtype="Code" buildaction="Compile" />
     <File name="./Gui/Search/ITextBufferStrategy.cs" subtype="Code" buildaction="Compile" />
     <File name="./Gui/Search/SearchOptions.cs" subtype="Code" buildaction="Compile" />
     <File name="./Gui/Search/SearchReplaceInFilesManager.cs" subtype="Code" buildaction="Compile" />

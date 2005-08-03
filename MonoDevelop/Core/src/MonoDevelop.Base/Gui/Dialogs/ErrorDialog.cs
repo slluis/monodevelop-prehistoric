@@ -32,7 +32,7 @@ using Glade;
 
 namespace MonoDevelop.Gui.Dialogs
 {
-	internal class ErrorDialog
+	public class ErrorDialog
 	{
 		[Glade.Widget ("ErrorDialog")] Dialog dialog;
 		[Glade.Widget] Button okButton;
@@ -43,13 +43,12 @@ namespace MonoDevelop.Gui.Dialogs
 		TextTag tagNoWrap;
 		TextTag tagWrap;
 		
-		public ErrorDialog ()
+		public ErrorDialog (Window parent)
 		{
 			new Glade.XML (null, "Base.glade", "ErrorDialog", null).Autoconnect (this);
-			dialog.TransientFor = (Window) WorkbenchSingleton.Workbench;
+			dialog.TransientFor = parent;
 			okButton.Clicked += new EventHandler (OnClose);
 			expander.Activated += new EventHandler (OnExpanded);
-			descriptionLabel.SizeAllocated += new SizeAllocatedHandler (OnResized);
 			descriptionLabel.ModifyBg (StateType.Normal, new Gdk.Color (255,0,0));
 			
 			tagNoWrap = new TextTag ("nowrap");
@@ -67,6 +66,7 @@ namespace MonoDevelop.Gui.Dialogs
 				string message = value;
 				while (message.EndsWith ("\r") || message.EndsWith ("\n"))
 					message = message.Substring (0, message.Length - 1);
+				if (!message.EndsWith (".")) message += ".";
 				descriptionLabel.Text = message;
 			}
 		}
@@ -80,10 +80,15 @@ namespace MonoDevelop.Gui.Dialogs
 				detailsTextView.Buffer.InsertWithTags (ref it, text, tagNoWrap);
 		}
 		
+		public void Show ()
+		{
+			dialog.ShowAll ();
+		}
+		
 		public void Run ()
 		{
 			dialog.ShowAll ();
-//			dialog.Run ();
+			dialog.Run ();
 		}
 		
 		void OnClose (object sender, EventArgs args)
@@ -102,14 +107,6 @@ namespace MonoDevelop.Gui.Dialogs
 			dialog.GetSize (out w, out h);
 			dialog.Resize (w, 1);
 			return false;
-		}
-		
-		void OnResized (object sender, SizeAllocatedArgs args)
-		{
-			int w, h;
-			descriptionLabel.GetSizeRequest (out w, out h);
-			Console.WriteLine ("AW:" + descriptionLabel.Allocation.Width);
-			Console.WriteLine ("RW:" + w);
 		}
 	}
 }
