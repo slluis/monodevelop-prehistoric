@@ -1,6 +1,6 @@
 #!/bin/sh
 
-function reWrite() {
+reWrite() {
     ret=""
     WD=`pwd`
     for arg in $*

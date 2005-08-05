@@ -1,3 +1,8 @@
+2005-08-05  Alp Toker  <alp@atoker.com>
+
+	* monodevelop.in: Remove 'function' bash-ism to make the launcher script
+	POSIX sh compatible.
+
 2005-08-02	Chrstian Hergert	<christian.hergert@gmail.com>
 
 	* configure.in: Remove monoquery autoconf options. We no longer need them.
