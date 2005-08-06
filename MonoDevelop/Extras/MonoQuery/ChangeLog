@@ -1,3 +1,8 @@
+2005-08-06	Christian Hergert	<christian.hergert@gmail.com>
+
+	* MonoQuery/Makefile.in: should not have been imported.
+	* MonoQuery/Makefile: should not have been imported.
+
 2005-08-03  Lluis Sanchez Gual  <lluis@novell.com> 
 
 	* MonoQuery/Commands/Commands.cs:
