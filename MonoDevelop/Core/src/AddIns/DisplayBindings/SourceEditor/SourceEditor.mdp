@@ -51,15 +51,8 @@
     <File name="./FormattingStrategy/IndentStyle.cs" subtype="Code" buildaction="Compile" />
     <File name="./Gui/Dialogs/EditTemplateGroupDialog.cs" subtype="Code" buildaction="Compile" />
     <File name="./Gui/Dialogs/GotoLineNumberDialog.cs" subtype="Code" buildaction="Compile" />
-    <File name="./Commands/CodeActions.cs" subtype="Code" buildaction="Compile" />
-    <File name="./Commands/CommentRegionCommand.cs" subtype="Code" buildaction="Compile" />
     <File name="./Commands/EditorCommands.cs" subtype="Code" buildaction="Compile" />
-    <File name="./Commands/FoldingCommands.cs" subtype="Code" buildaction="Nothing" />
-    <File name="./Commands/FormatCommands.cs" subtype="Code" buildaction="Nothing" />
-    <File name="./Commands/ICSharpCode.SharpDevelop.DefaultEditor.Commands.GenerateCodeAction.resources" subtype="Code" buildaction="Nothing" />
     <File name="./Commands/IEditAction.cs" subtype="Code" buildaction="Compile" />
-    <File name="./Commands/ProjectCommands.cs" subtype="Code" buildaction="Compile" />
-    <File name="./Commands/TextAreaContextmenuCommands.cs" subtype="Code" buildaction="Compile" />
     <File name="./Codons/EditActionCodon.cs" subtype="Code" buildaction="Compile" />
   </Contents>
 </Project>

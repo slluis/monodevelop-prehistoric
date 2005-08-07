@@ -131,5 +131,9 @@
     <File name="./src/PrettyPrinter/SpecialVisitor.cs" subtype="Code" buildaction="Compile" />
     <File name="./src/VBConverter/VBNetRefactory.cs" subtype="Code" buildaction="Compile" />
     <File name="./src/VBConverter/VBNetVisitor.cs" subtype="Code" buildaction="Compile" />
+    <File name="./src/Parser/generated/cs.ATG" subtype="Code" buildaction="Nothing" />
+    <File name="./src/Parser/generated/Makefile" subtype="Code" buildaction="Nothing" />
+    <File name="./src/Parser/generated/Parser.frame" subtype="Code" buildaction="Nothing" />
+    <File name="./src/Parser/generated/Scanner.frame" subtype="Code" buildaction="Nothing" />
   </Contents>
 </Project>

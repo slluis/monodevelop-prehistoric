@@ -46,7 +46,6 @@
     <File name="./Commands/FileCommands.cs" subtype="Code" buildaction="Compile" />
     <File name="./Commands/HelpCommands.cs" subtype="Code" buildaction="Compile" />
     <File name="./Commands/ProjectCommands.cs" subtype="Code" buildaction="Compile" />
-    <File name="./Commands/ProjectOptionsCommands.cs" subtype="Code" buildaction="Compile" />
     <File name="./Commands/SearchCommands.cs" subtype="Code" buildaction="Compile" />
     <File name="./Commands/ToolsCommands.cs" subtype="Code" buildaction="Compile" />
     <File name="./Commands/ViewCommands.cs" subtype="Code" buildaction="Compile" />
@@ -91,7 +90,6 @@
     <File name="./Services/Language/Language.cs" subtype="Code" buildaction="Compile" />
     <File name="./Services/Language/LanguageService.cs" subtype="Code" buildaction="Compile" />
     <File name="./Services/LanguageBinding/LanguageBindingService.cs" subtype="Code" buildaction="Compile" />
-    <File name="./Services/MenuService/MenuService.cs" subtype="Code" buildaction="Compile" />
     <File name="./Services/ParserService/AssemblyCodeCompletionDatabase.cs" subtype="Code" buildaction="Compile" />
     <File name="./Services/ParserService/AssemblyInformation.cs" subtype="Code" buildaction="Compile" />
     <File name="./Services/ParserService/ClassEntry.cs" subtype="Code" buildaction="Compile" />
@@ -127,7 +125,6 @@
     <File name="./Services/Tasks/StatusProgressMonitor.cs" subtype="Code" buildaction="Compile" />
     <File name="./Services/Tasks/Task.cs" subtype="Code" buildaction="Compile" />
     <File name="./Services/Tasks/TaskService.cs" subtype="Code" buildaction="Compile" />
-    <File name="./Services/Toolbar/ToolbarService.cs" subtype="Code" buildaction="Compile" />
     <File name="./Internal/Codons/ContextPadCodon.cs" subtype="Code" buildaction="Compile" />
     <File name="./Internal/Codons/DefaultDialogPanelDescriptor.cs" subtype="Code" buildaction="Compile" />
     <File name="./Internal/Codons/DialogPanelCodon.cs" subtype="Code" buildaction="Compile" />
@@ -331,11 +328,6 @@
     <File name="./Gui/WorkbenchWindowCollection.cs" subtype="Code" buildaction="Compile" />
     <File name="./Gui/BrowserDisplayBinding/BrowserDisplayBinding.cs" subtype="Code" buildaction="Compile" />
     <File name="./Gui/BrowserDisplayBinding/HtmlViewPane.cs" subtype="Code" buildaction="Compile" />
-    <File name="./Gui/Components/SdMenu.cs" subtype="Code" buildaction="Compile" />
-    <File name="./Gui/Components/SdMenuCheckBox.cs" subtype="Code" buildaction="Compile" />
-    <File name="./Gui/Components/SdMenuCommand.cs" subtype="Code" buildaction="Compile" />
-    <File name="./Gui/Components/SdMenuSeparator.cs" subtype="Code" buildaction="Compile" />
-    <File name="./Gui/Components/SdToolbarCommand.cs" subtype="Code" buildaction="Compile" />
     <File name="./Gui/Components/LocalizedPropertyGrid/LocalizedObject.cs" subtype="Code" buildaction="Compile" />
     <File name="./Gui/Components/LocalizedPropertyGrid/LocalizedPropertyAttribute.cs" subtype="Code" buildaction="Compile" />
     <File name="./Gui/Components/LocalizedPropertyGrid/LocalizedPropertyDescriptor.cs" subtype="Code" buildaction="Compile" />
@@ -409,7 +401,6 @@
     <File name="./Gui/Pads/DefaultMonitorPad.cs" subtype="Code" buildaction="Compile" />
     <File name="./Gui/Pads/OpenTaskView.cs" subtype="Code" buildaction="Compile" />
     <File name="./Gui/Pads/TerminalPad.cs" subtype="Code" buildaction="Nothing" />
-    <File name="./Gui/Pads/TreeViewMemento.cs" subtype="Code" buildaction="Compile" />
     <File name="./Gui/Pads/ClassPad/ClassData.cs" subtype="Code" buildaction="Compile" />
     <File name="./Gui/Pads/ClassPad/ClassNodeBuilder.cs" subtype="Code" buildaction="Compile" />
     <File name="./Gui/Pads/ClassPad/CombineNodeBuilder.cs" subtype="Code" buildaction="Compile" />
@@ -442,7 +433,6 @@
     <File name="./Gui/Pads/ProjectPad/SystemFile.cs" subtype="Code" buildaction="Compile" />
     <File name="./Gui/Pads/ProjectPad/SystemFileNodeBuilder.cs" subtype="Code" buildaction="Compile" />
     <File name="./Gui/Pads/PropertyPad/PropertyPad.cs" subtype="Code" buildaction="Compile" />
-    <File name="./Gui/Pads/PropertyPad/PropertyPadCommands.cs" subtype="Code" buildaction="Compile" />
     <File name="./Gui/Pads/SolutionPad/DragOperation.cs" subtype="Code" buildaction="Compile" />
     <File name="./Gui/Pads/SolutionPad/ITreeBuilder.cs" subtype="Code" buildaction="Compile" />
     <File name="./Gui/Pads/SolutionPad/ITreeBuilderContext.cs" subtype="Code" buildaction="Compile" />
@@ -487,12 +477,6 @@
     <File name="./Gui/Workbench/WorkbenchMemento.cs" subtype="Code" buildaction="Compile" />
     <File name="./Gui/Workbench/Layouts/SdiWorkspaceLayout.cs" subtype="Code" buildaction="Compile" />
     <File name="./Gui/Workbench/Layouts/SdiWorkspaceWindow.cs" subtype="Code" buildaction="Compile" />
-    <File name="./Internal/Codons/MenuItems/AbstractCheckableMenuCommand.cs" subtype="Code" buildaction="Compile" />
-    <File name="./Internal/Codons/MenuItems/AbstractMenuCommand.cs" subtype="Code" buildaction="Compile" />
-    <File name="./Internal/Codons/MenuItems/ICheckableMenuCommand.cs" subtype="Code" buildaction="Compile" />
-    <File name="./Internal/Codons/MenuItems/IMenuCommand.cs" subtype="Code" buildaction="Compile" />
-    <File name="./Internal/Codons/MenuItems/ISubmenuBuilder.cs" subtype="Code" buildaction="Compile" />
-    <File name="./Internal/Codons/MenuItems/MenuItemCodon.cs" subtype="Code" buildaction="Compile" />
     <File name="./Internal/Codons/ProjectBinding/IProjectBinding.cs" subtype="Code" buildaction="Compile" />
     <File name="./Internal/Codons/ProjectBinding/ProjectBindingCodon.cs" subtype="Code" buildaction="Compile" />
     <File name="./Internal/Codons/DisplayBinding/DisplayBindingCodon.cs" subtype="Code" buildaction="Compile" />
@@ -550,5 +534,6 @@
     <File name="./Internal/ProgressMonitoring/MessageDialogProgressMonitor.cs" subtype="Code" buildaction="Compile" />
     <File name="./Internal/ProgressMonitoring/SynchronizedProgressMonitor.cs" subtype="Code" buildaction="Compile" />
     <File name="./Internal/ProgressMonitoring/AggregatedOperationMonitor.cs" subtype="Code" buildaction="Compile" />
+    <File name="./Gui/Components/MenuButtonEntry.cs" subtype="Code" buildaction="Compile" />
   </Contents>
 </Project>
