@@ -21,7 +21,7 @@ Gui/Pads/StackTracePad.cs \
 Gui/Pads/ThreadPad.cs
 
 
-EXTRA_DIST = $(FILES) $(ADDIN)
+EXTRA_DIST = $(FILES) $(ADDIN) DebuggerPaths.cs.in
 
 if ENABLE_DEBUGGER
 
