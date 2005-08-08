@@ -36,19 +36,20 @@ using System.Runtime.Remoting.Channels.Tcp;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Runtime.Remoting.Lifetime;
 using System.Reflection;
+using System.Collections;
 
 public class MonoDevelopProcessHost
 {
 	public static int Main (string[] args)
 	{
-		if (args.Length == 0) {
-			Console.WriteLine ("This application is for MonoDevelop internal use only.");
-			return 0;
-		}
 		try {
-			ChannelServices.RegisterChannel (new TcpChannel (0));
+			Hashtable props = new Hashtable ();
+			props ["port"] = 0;
+			props ["name"] = "__internal_tcp";
+			ChannelServices.RegisterChannel (new TcpChannel (props, null, null));
 			
-			byte[] data = Convert.FromBase64String (args [0]);
+			string sref = Console.In.ReadLine ();
+			byte[] data = Convert.FromBase64String (sref);
 			MemoryStream ms = new MemoryStream (data);
 			BinaryFormatter bf = new BinaryFormatter ();
 			IProcessHostController pc = (IProcessHostController) bf.Deserialize (ms);
@@ -89,9 +90,13 @@ public class ProcessHost: MarshalByRefObject, IProcessHost, ISponsor
 	
 	public RemoteProcessObject CreateInstance (string fullTypeName)
 	{
-		Type t = Type.GetType (fullTypeName);
-		if (t == null) throw new InvalidOperationException ("Type not found: " + fullTypeName);
-		return CreateInstance (t);
+		try {
+			Type t = Type.GetType (fullTypeName);
+			if (t == null) throw new InvalidOperationException ("Type not found: " + fullTypeName);
+			return CreateInstance (t);
+		} catch (Exception ex) {
+			throw new InvalidOperationException ("Type not found: " + fullTypeName);
+		}
 	}
 	
 	public RemoteProcessObject CreateInstance (string assemblyPath, string typeName)
@@ -102,7 +107,7 @@ public class ProcessHost: MarshalByRefObject, IProcessHost, ISponsor
 		return CreateInstance (t);
 	}
 		
-	TimeSpan ISponsor.Renewal (ILease lease)
+	public TimeSpan Renewal (ILease lease)
 	{
 		return TimeSpan.FromSeconds (7);
 	}
@@ -112,5 +117,10 @@ public class ProcessHost: MarshalByRefObject, IProcessHost, ISponsor
 		MarshalByRefObject mbr = (MarshalByRefObject) controller;
 		ILease lease = mbr.GetLifetimeService () as ILease;
 		lease.Unregister (this);
+	}
+	
+	public override object InitializeLifetimeService ()
+	{
+		return null;
 	}
 }
