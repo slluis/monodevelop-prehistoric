@@ -17,19 +17,18 @@ namespace MonoDevelop.Gui.Search
 {
 	internal class DirectoryDocumentIterator : IDocumentIterator
 	{
-		string searchDirectory;
 		string fileMask;
-		bool   searchSubdirectories;
+		bool searchSubdirectories;
 		
-		StringCollection files    = null;
-		int              curIndex = -1;
+		StringCollection files = new StringCollection ();
+		Queue directories = new Queue ();
+		int curIndex = -1;
 		
 		public DirectoryDocumentIterator(string searchDirectory, string fileMask, bool searchSubdirectories)
 		{
-			this.searchDirectory      = searchDirectory;
 			this.fileMask             = fileMask;
 			this.searchSubdirectories = searchSubdirectories;
-			
+			directories.Enqueue (searchDirectory);
 			Reset();
 		}
 		
@@ -59,16 +58,41 @@ namespace MonoDevelop.Gui.Search
 		
 		public bool MoveForward() 
 		{
-			if (curIndex == -1) {
-				FileUtilityService fileUtilityService = (FileUtilityService)ServiceManager.GetService(typeof(FileUtilityService));
-				files = fileUtilityService.SearchDirectory(this.searchDirectory, this.fileMask, this.searchSubdirectories);
+			curIndex++;
+			if (curIndex >= files.Count)
+				return FetchDirectories ();
+			else
+				return true;
+		}
+		
+		bool FetchDirectories ()
+		{
+			if (directories.Count == 0)
+				return false;
+
+			string dir = (string) directories.Dequeue ();
+			
+			string[] dirFiles = Directory.GetFiles (dir, fileMask);
+			for (int n = 0; n < dirFiles.Length; n++) {
+				files.Add (dirFiles [n]);
 			}
-			return ++curIndex < files.Count;
+			
+			if (searchSubdirectories) {
+				string[] dirDirs = Directory.GetDirectories (dir);
+				for (int n = 0; n < dirDirs.Length; n++)
+					directories.Enqueue (dirDirs [n]);
+			}
+			
+			if (dirFiles.Length == 0)
+				return FetchDirectories ();
+			else
+				return true;
 		}
 		
 		public bool MoveBackward()
 		{
 			if (curIndex == -1) {
+				while (FetchDirectories ());	// Fetch all
 				curIndex = files.Count - 1;
 				return true;
 			}

@@ -96,9 +96,11 @@ namespace MonoDevelop.Services
 			OnProgressChanged ();
 		}
 		
-		[FreeDispatch]
 		public TextWriter Log {
-			get { return logger; }
+			[FreeDispatch]
+			get {
+				return logger;
+			}
 		}
 		
 		[FreeDispatch]

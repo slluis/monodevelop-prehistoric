@@ -30,6 +30,7 @@ namespace MonoDevelop.Gui.Search
 		static bool searching;
 		static bool cancelled;
 		static string searchError;
+		static ISearchProgressMonitor searchMonitor;
 		
 		public static SearchOptions SearchOptions {
 			get {
@@ -56,24 +57,26 @@ namespace MonoDevelop.Gui.Search
 		}
 		
 		/// <remarks>
-		/// This method displays the search result in the task view
+		/// This method displays the search result in the search results pad
 		/// </remarks>
 		static void DisplaySearchResult(ISearchResult result)
 		{
 			if (result.Line != -1) {
 				string text = result.DocumentInformation.GetLineTextAtOffset (result.DocumentOffset);
-				Runtime.TaskService.AddTask (new Task (result.FileName, text, result.Column, result.Line));
+				searchMonitor.ReportResult (result.FileName, result.Line, result.Column, text);
 			} else {
 				string msg = string.Format (GettextCatalog.GetString ("Match at offset {0}"), result.DocumentOffset);
-				Runtime.TaskService.AddTask (new Task(result.FileName, msg, -1, -1));
+				searchMonitor.ReportResult (result.FileName, 0, 0, msg);
 			}
 		}
 		
 		static bool InitializeSearchInFiles()
 		{
 			Debug.Assert(searchOptions != null);
+			cancelled = false;
 			
-			Runtime.TaskService.ClearTasks();
+			searchMonitor = Runtime.TaskService.GetSearchProgressMonitor (true);
+			searchMonitor.CancelRequested += (MonitorHandler) Runtime.DispatchService.GuiDispatch (new MonitorHandler (OnCancelRequested));
 			
 			InitializeDocumentIterator(null, null);
 			InitializeSearchStrategy(null, null);
@@ -88,6 +91,11 @@ namespace MonoDevelop.Gui.Search
 			return true;
 		}
 		
+		static void OnCancelRequested (IProgressMonitor monitor)
+		{
+			CancelSearch ();
+		}
+		
 		static void FinishSearchInFiles ()
 		{
 			string msg;
@@ -98,16 +106,14 @@ namespace MonoDevelop.Gui.Search
 			else
 				msg = string.Format (GettextCatalog.GetString ("Search completed. {0} matches found in {1} files."), find.MatchCount, find.SearchedFileCount);
 				
-			Runtime.TaskService.AddTask (new Task(null, msg, -1, -1));
-			Runtime.TaskService.ShowTasks ();
-
-			Console.WriteLine ("Search time: " + (DateTime.Now - timer).TotalSeconds);
-			searching = false;
+			searchMonitor.ReportResult (null, 0, 0, msg);
 			
-			// tell the user search is done.
-/*			Runtime.MessageService.ShowMessage (GettextCatalog.GetString ("Search completed"));
-			Console.WriteLine ("Done");
-*/		}
+			searchMonitor.Log.WriteLine (msg);
+			searchMonitor.Log.WriteLine (GettextCatalog.GetString ("Search time: {0} seconds."), (DateTime.Now - timer).TotalSeconds);
+
+			searchMonitor.Dispose ();
+			searching = false;
+		}
 		
 		public static void ReplaceAll()
 		{
@@ -122,7 +128,7 @@ namespace MonoDevelop.Gui.Search
 			}
 			
 			string msg = string.Format (GettextCatalog.GetString ("Replacing '{0}' in {1}."), searchOptions.SearchPattern, searchOptions.SearchDirectory);
-			Runtime.TaskService.AddTask (new Task(null, msg, -1, -1));
+			searchMonitor.ReportResult (null, 0, 0, msg);
 			
 			timer = DateTime.Now;
 			Runtime.DispatchService.BackgroundDispatch (new MessageHandler(ReplaceAllThread));
@@ -168,7 +174,7 @@ namespace MonoDevelop.Gui.Search
 			}
 			
 			string msg = string.Format (GettextCatalog.GetString ("Looking for '{0}' in {1}."), searchOptions.SearchPattern, searchOptions.SearchDirectory);
-			Runtime.TaskService.AddTask (new Task(null, msg, -1, -1));
+			searchMonitor.ReportResult (null, 0, 0, msg);
 			
 			timer = DateTime.Now;
 			Runtime.DispatchService.BackgroundDispatch (new MessageHandler(FindAllThread));
@@ -192,7 +198,7 @@ namespace MonoDevelop.Gui.Search
 				}
 				catch (Exception ex)
 				{
-					Console.WriteLine (ex);
+					searchMonitor.Log.WriteLine (ex);
 					searchError = ex.Message;
 					break;
 				}
@@ -206,14 +212,6 @@ namespace MonoDevelop.Gui.Search
 			if (!searching) return;
 			cancelled = true;
 			find.Cancel ();
-			
-			while (searching) {
-				if (Gtk.Application.EventsPending ())
-					Gtk.Application.RunIteration ();
-				Thread.Sleep (10);
-			}
-				
-			cancelled = false;
 		}
 
 		internal static Gtk.Dialog DialogPointer

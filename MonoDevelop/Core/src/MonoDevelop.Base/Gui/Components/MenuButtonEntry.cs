@@ -35,7 +35,6 @@ namespace MonoDevelop.Gui.Components
 	public class MenuButtonEntry : Gtk.HBox
 	{
 		Gtk.Entry entry;
-		Gtk.Button button;
 		ArrayList options = new ArrayList ();
 		
 		CommandManager manager;
@@ -61,7 +60,6 @@ namespace MonoDevelop.Gui.Components
 			if (button == null) button = new Gtk.Button (">");
 			
 			this.entry = entry;
-			this.button = button;
 			
 			manager = new CommandManager ();
 			manager.RegisterGlobalHandler (this);
@@ -94,7 +92,7 @@ namespace MonoDevelop.Gui.Components
 		}
 		
 		[CommandHandler ("InsertOption")]
-		void OnUpdateInsertOption (object selection)
+		protected void OnUpdateInsertOption (object selection)
 		{
 			int tempInt = entry.Position;
 			entry.DeleteSelection();
@@ -102,7 +100,7 @@ namespace MonoDevelop.Gui.Components
 		}
 		
 		[CommandUpdateHandler ("InsertOption")]
-		void OnUpdateInsertOption (CommandArrayInfo info)
+		protected void OnUpdateInsertOption (CommandArrayInfo info)
 		{
 			foreach (string[] op in options) {
 				if (op [0] == "-")

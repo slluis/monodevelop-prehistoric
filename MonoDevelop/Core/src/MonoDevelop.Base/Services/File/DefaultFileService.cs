@@ -57,6 +57,7 @@ namespace MonoDevelop.Services
 			IDisplayBinding binding;
 			Project project;
 			FileInformation fileInfo;
+			IViewContent newContent;
 			
 			public LoadFileWrapper(IDisplayBinding binding, FileInformation fileInfo)
 			{
@@ -73,7 +74,7 @@ namespace MonoDevelop.Services
 			
 			public void Invoke(string fileName)
 			{
-				IViewContent newContent = binding.CreateContentForFile(fileName);
+				newContent = binding.CreateContentForFile(fileName);
 				if (project != null)
 				{
 					newContent.HasProject = true;
@@ -83,8 +84,14 @@ namespace MonoDevelop.Services
 				Runtime.Gui.DisplayBindings.AttachSubWindows(newContent.WorkbenchWindow);
 				
 				if (fileInfo.Line != -1 && newContent is IPositionable) {
-					((IPositionable)newContent).JumpTo (fileInfo.Line, fileInfo.Column != -1 ? fileInfo.Column : 0);
+					GLib.Timeout.Add (10, new GLib.TimeoutHandler (JumpToLine));
 				}
+			}
+			
+			public bool JumpToLine ()
+			{
+				((IPositionable)newContent).JumpTo (Math.Max(1, fileInfo.Line), Math.Max(1, fileInfo.Column));
+				return false;
 			}
 		}
 		
@@ -104,6 +111,9 @@ namespace MonoDevelop.Services
 				if (content.ContentName == fileName) {
 					if (bringToFront)
 						content.WorkbenchWindow.SelectWindow();
+					if (line != -1 && content is IPositionable) {
+						((IPositionable)content).JumpTo (line, column != -1 ? column : 0);
+					}
 					return NullAsyncOperation.Success;
 				}
 			}

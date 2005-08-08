@@ -77,11 +77,14 @@ namespace MonoDevelop.Services
 				try {
 					process = new Process ();
 					process.Exited += new EventHandler (ProcessExited);
-					process.StartInfo = new ProcessStartInfo ("sh", "-c \"mono mdhost.exe " + sref + "\"");
+					process.StartInfo = new ProcessStartInfo ("sh", "-c \"mono mdhost.exe\"");
 					process.StartInfo.WorkingDirectory = AppDomain.CurrentDomain.BaseDirectory;
 					process.StartInfo.UseShellExecute = false;
+					process.StartInfo.RedirectStandardInput = true;
 					process.EnableRaisingEvents = true;
 					process.Start ();
+					process.StandardInput.WriteLine (sref);
+					process.StandardInput.Flush ();
 				} catch (Exception ex) {
 					Console.WriteLine (ex);
 					throw;
@@ -100,9 +103,7 @@ namespace MonoDevelop.Services
 				runningEvent.Reset ();
 				processHost = null;
 				process = null;
-				
-				if (references > 0)
-					Start ();
+				references = 0;
 			}
 		}
 		
@@ -119,7 +120,12 @@ namespace MonoDevelop.Services
 				throw new ApplicationException ("Couldn't create a remote process.");
 			}
 			
-			return processHost.CreateInstance (type);
+			try {
+				return processHost.CreateInstance (type);
+			} catch {
+				ReleaseInstance (null);
+				throw;
+			}
 		}
 		
 		public RemoteProcessObject CreateInstance (string assemblyPath, string typeName)
@@ -135,7 +141,12 @@ namespace MonoDevelop.Services
 				throw new ApplicationException ("Couldn't create a remote process.");
 			}
 			
-			return processHost.CreateInstance (assemblyPath, typeName);
+			try {
+				return processHost.CreateInstance (assemblyPath, typeName);
+			} catch {
+				ReleaseInstance (null);
+				throw;
+			}
 		}
 		
 		public void ReleaseInstance (RemoteProcessObject proc)

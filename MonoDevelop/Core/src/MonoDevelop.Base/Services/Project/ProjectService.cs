@@ -369,12 +369,16 @@ namespace MonoDevelop.Services
 		
 		public IAsyncOperation Debug (CombineEntry entry)
 		{
+			if (Runtime.DebuggingService == null) {
+				return NullAsyncOperation.Failure;
+			}
+
 			if (currentRunOperation != null && !currentRunOperation.IsCompleted) return currentRunOperation;
 			
 			guiHelper.SetWorkbenchContext (WorkbenchContext.Debug);
 
 			IProgressMonitor monitor = new MessageDialogProgressMonitor ();
-			ExecutionContext context = new ExecutionContext (new DebugExecutionHandlerFactory (), Runtime.TaskService);
+			ExecutionContext context = new ExecutionContext (Runtime.DebuggingService.GetExecutionHandlerFactory (), Runtime.TaskService);
 			
 			Runtime.DispatchService.ThreadDispatch (new StatefulMessageHandler (DebugCombineEntryAsync), new object[] {entry, monitor, context});
 			currentRunOperation = monitor.AsyncOperation;

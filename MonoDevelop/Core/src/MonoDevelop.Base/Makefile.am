@@ -68,6 +68,7 @@ Gui/Pads/SolutionPad/TreePadOption.cs \
 Gui/Pads/SolutionPad/TreeViewPad.cs \
 Gui/Pads/SolutionPad/TypeNodeBuilder.cs \
 Gui/Pads/DefaultMonitorPad.cs \
+Gui/Pads/SearchResultPad.cs \
 Gui/ToolWidgets/ConfigurationComboBox.cs \
 Gui/AbstractPadContent.cs \
 Gui/ISecondaryViewContent.cs \
@@ -225,6 +226,8 @@ Services/Tasks/TaskService.cs \
 Services/Tasks/Task.cs \
 Services/Tasks/BackgroundProgressMonitor.cs \
 Services/Tasks/OutputProgressMonitor.cs \
+Services/Tasks/ISearchProgressMonitor.cs \
+Services/Tasks/SearchProgressMonitor.cs \
 Services/Tasks/StatusProgressMonitor.cs \
 Services/AmbienceService/AmbienceService.cs \
 Services/AmbienceService/AmbienceReflectionDecorator.cs \
@@ -238,7 +241,6 @@ Services/ProcessService/IProcessHost.cs \
 Services/ProcessService/IProcessHostController.cs \
 Services/ProcessService/ProcessHostController.cs \
 Services/ProcessService/RemoteProcessObject.cs \
-Services/ProcessService/DebugExecutionHandlerFactory.cs \
 Services/ProcessService/DefaultExecutionHandlerFactory.cs \
 Services/ProcessService/ExecutionContext.cs \
 Services/ProcessService/ExternalConsoleFactory.cs \

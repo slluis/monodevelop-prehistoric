@@ -52,5 +52,7 @@ namespace MonoDevelop.Services
 		IBreakpoint[] GetBreakpointsAtFile (string sourceFile);
 		
 		void ClearAllBreakpoints ();
+		
+		IExecutionHandlerFactory GetExecutionHandlerFactory ();
 	}
 }

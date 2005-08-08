@@ -73,8 +73,14 @@ namespace MonoDevelop.Services
 			if (syncContext == null) return nextSink.SyncProcessMessage (msg);
 			
 			IMethodMessage mm = (IMethodMessage)msg;
-			if (mm.MethodBase.IsDefined (typeof(FreeDispatchAttribute), true))
+			
+			if ((mm.MethodBase.Name == "FieldGetter" || mm.MethodBase.Name == "FieldSetter") && mm.MethodBase.DeclaringType == typeof(object)) {
 				return nextSink.SyncProcessMessage (msg);
+			}
+			
+			if (mm.MethodBase.IsDefined (typeof(FreeDispatchAttribute), true)) {
+				return nextSink.SyncProcessMessage (msg);
+			}
 
 			if (mm.MethodBase.IsDefined (typeof(AsyncDispatchAttribute), true)) {
 				AsyncProcessMessage (msg, DummySink.Instance);

@@ -21,6 +21,7 @@ namespace MonoDevelop.Services
 		string    compilerOutput = String.Empty;
 		
 		ArrayList outputMonitors = new ArrayList ();
+		ArrayList searchMonitors = new ArrayList ();
 		int monitorId = 0;
 		
 		
@@ -101,6 +102,42 @@ namespace MonoDevelop.Services
 		{
 			lock (outputMonitors) {
 				outputMonitors.Add (pad);
+			}
+		}
+		
+		public ISearchProgressMonitor GetSearchProgressMonitor (bool bringToFront)
+		{
+			SearchResultPad pad = null;
+			string title = GettextCatalog.GetString ("Search Results");
+			
+			lock (searchMonitors) {
+				// Look for an available pad
+				for (int n=0; n<searchMonitors.Count; n++) {
+					SearchResultPad mpad = (SearchResultPad) searchMonitors [n];
+					if (mpad.AllowReuse) {
+						pad = mpad;
+						searchMonitors.RemoveAt (n);
+						break;
+					}
+				}
+			}
+			if (pad != null) {
+				if (bringToFront) Runtime.Gui.Workbench.BringToFront (pad);
+				return new SearchProgressMonitor (pad, title);
+			}
+			
+			SearchResultPad monitorPad = new SearchResultPad ();
+			monitorPad.Id = "SearchPad" + (monitorId++);
+			Runtime.Gui.Workbench.ShowPad (monitorPad);
+			if (bringToFront) Runtime.Gui.Workbench.BringToFront (monitorPad);
+
+			return new SearchProgressMonitor (monitorPad, title);
+		}
+
+		internal void ReleasePad (SearchResultPad pad)
+		{
+			lock (searchMonitors) {
+				searchMonitors.Add (pad);
 			}
 		}
 		

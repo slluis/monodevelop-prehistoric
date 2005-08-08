@@ -1,3 +1,30 @@
+2005-08-08  Lluis Sanchez Gual  <lluis@novell.com> 
+
+	* Services/File/DefaultFileService.cs: Properly jump to the requested
+	line after opening a file.
+	* Services/DispatchService/SyncContextAttribute.cs: Some optimizations.
+	* Internal/ProgressMonitoring/BaseProgressMonitor.cs: Apply the
+	FreeDispatch attribute to the Log getter.
+	
+	* Services/ProcessService/ProcessHostController.cs: Send the object
+	reference using the process pipe. No more huge base64 strings in
+	the process command line.
+	
+	* Services/Project/ProjectService.cs:
+	* Services/DebuggerService/IDebuggerService.cs: Moved implementation of
+	DebugExecutionHandlerFactory to the debugger addin. 
+	
+	* Gui/Components/MenuButtonEntry.cs: Fix warnings.
+	* Search/DocumentIterator/DirectoryDocumentIterator.cs: Don't get the
+	whole directory structure at the beginning. Do it incrementally.
+	
+	* Services/Tasks/ISearchProgressMonitor.cs:
+	* Services/Tasks/SearchProgressMonitor.cs:
+	* Gui/Pads/SearchResultPad.cs:
+	* Gui/Search/SearchReplaceInFilesManager.cs:
+	* Services/Tasks/TaskService.cs: Added progress monitor and Pad specific
+	for search results.
+
 2005-08-06  John Luke  <john.luke@gmail.com>
 
     * MonoDevelop.Base.mdp: update
