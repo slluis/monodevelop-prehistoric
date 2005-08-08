@@ -31,19 +31,25 @@ namespace MonoDevelop.Debugger
 		Hashtable breakpoints = new Hashtable ();
 		DebuggerBackend backend;
 		IConsole console;
-
 		IProgressMonitor current_monitor;
+		DebugExecutionHandlerFactory executionHandlerFactory;
 
 #if NET_2_0
 		DebugAttributeHandler attr_handler;
 #endif
 		public DebuggingService()
 		{
+			executionHandlerFactory = new DebugExecutionHandlerFactory (this);
 #if NET_2_0
 			attr_handler = new DebugAttributeHandler();
 #endif
 		}
 
+		public IExecutionHandlerFactory GetExecutionHandlerFactory ()
+		{
+			return executionHandlerFactory;
+		}
+		
 		void Cleanup ()
 		{
 			if (!IsDebugging)

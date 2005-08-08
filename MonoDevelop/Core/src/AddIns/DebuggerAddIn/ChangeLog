@@ -1,3 +1,8 @@
+2005-08-08  Lluis Sanchez Gual  <lluis@novell.com> 
+
+	* DebuggingService.cs: Implement GetExecutionHandlerFactory method.
+	* DebugExecutionHandlerFactory: Moved from MonoDevelop.Base.
+
 2005-08-06  John Luke  <john.luke@gmail.com>
 
 	* Makefile.am: add DebuggerPaths.cs.in to EXTRA_DIST
