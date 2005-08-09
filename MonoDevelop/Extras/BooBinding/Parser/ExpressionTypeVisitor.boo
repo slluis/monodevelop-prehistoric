@@ -122,7 +122,7 @@ class ExpressionTypeVisitor(DepthFirstVisitor):
 	private def FindMethods(c as IClass, name as string, arguments as int):
 		possibleOverloads = ArrayList()
 		//for cl as IClass in c.ClassInheritanceTree:
-		for cl as IClass in _resolver.ParserService.GetClassInheritanceTree(_resolver.Project, c):
+		for cl as IClass in _resolver.ParserContext.GetClassInheritanceTree(c):
 			for m as IMethod in cl.Methods:
 				if m.Parameters.Count == arguments and name == m.Name:
 					possibleOverloads.Add(m)
@@ -150,7 +150,7 @@ class ExpressionTypeVisitor(DepthFirstVisitor):
 	private def FindIndexer(c as IClass, arguments as int):
 		possibleOverloads = ArrayList()
 		//for cl as IClass in c.ClassInheritanceTree:
-		for cl as IClass in _resolver.ParserService.GetClassInheritanceTree(_resolver.Project, c):
+		for cl as IClass in _resolver.ParserContext.GetClassInheritanceTree(c):
 			for m as IIndexer in cl.Indexer:
 				if m.Parameters.Count == arguments:
 					possibleOverloads.Add(m)
@@ -202,7 +202,7 @@ class ExpressionTypeVisitor(DepthFirstVisitor):
 	
 	private def ProcessMember(name as string, parentClass as IClass):
 		return false if parentClass == null
-		for cl as IClass in _resolver.ParserService.GetClassInheritanceTree(_resolver.Project, parentClass):
+		for cl as IClass in _resolver.ParserContext.GetClassInheritanceTree(parentClass):
 			for c as IClass in cl.InnerClasses:
 				if c.Name == name:
 					CreateReturnType(c)

@@ -32,22 +32,18 @@ import System.Diagnostics
 import System.IO
 import MonoDevelop.Services
 import MonoDevelop.Internal.Parser
-import MonoDevelop.Internal.Project
 import Boo.Lang.Compiler
 import Boo.Lang.Compiler.Ast as AST
 import Boo.Lang.Compiler.IO
 import Boo.Lang.Compiler.Steps
 
 class Resolver:
-	[Getter(ParserService)]
-	_parserService as IParserService
+	[Getter(ParserContext)]
+	_parserContext as IParserContext
 
 	_caretLine as int
 	_caretColumn as int
 
-	[Getter(Project)]
-	_project as Project
-	
 	[Getter(CallingClass)]
 	_callingClass as IClass
 	_compilationUnit as ICompilationUnit
@@ -75,8 +71,8 @@ class Resolver:
 	def constructor ():
 		pass
 
-	def constructor (project as Project):
-		_project = project
+	def constructor (parserContext as IParserContext):
+		_parserContext = parserContext
 
 	#region Helper methods
 	private def ResolveCurrentMember() as IMember:
@@ -148,25 +144,24 @@ class Resolver:
 	
 	def SearchType(name as string) as IClass:
 		expandedName = BooAmbience.ReverseTypeConversionTable[name]
-		return _parserService.GetClass(_project, expandedName) if expandedName != null
-		//return _parserService.SearchType(_project, name, _callingClass, _caretLine, _caretColumn)
-		return _parserService.SearchType(_project, name, _callingClass, _compilationUnit)
+		return _parserContext.GetClass(expandedName) if expandedName != null
+		//return _parserContext.SearchType(name, _callingClass, _caretLine, _caretColumn)
+		return _parserContext.SearchType(name, _callingClass, _compilationUnit)
 	
 	builtinClass as IClass
 	
 	BuiltinClass as IClass:
 		get:
-			builtinClass = _parserService.GetClass(_project, "Boo.Lang.Builtins") if builtinClass == null
+			builtinClass = _parserContext.GetClass("Boo.Lang.Builtins") if builtinClass == null
 			return builtinClass
 	
 	def IsNamespace(name as string) as bool:
-		return _parserService.NamespaceExists(_project, name)
+		return _parserContext.NamespaceExists(name)
 	
 	#endregion
 	
 	#region CtrlSpace-Completion
-	def CtrlSpace(parserService as IParserService, caretLine as int, caretColumn as int, fileName as string) as ArrayList:
-		_parserService = parserService
+	def CtrlSpace(caretLine as int, caretColumn as int, fileName as string) as ArrayList:
 		_caretLine = caretLine
 		_caretColumn = caretColumn
 		result = ArrayList(BooAmbience.TypeConversionTable.Values)
@@ -177,7 +172,7 @@ class Resolver:
 			for method as IMethod in builtinClass.Methods:
 				result.Add(method)
 		
-		parseInfo = parserService.GetParseInformation(fileName)
+		parseInfo = _parserContext.GetParseInformation(fileName)
 		cu = parseInfo.MostRecentCompilationUnit as CompilationUnit
 		_compilationUnit = cu
 		if cu != null:
@@ -185,11 +180,11 @@ class Resolver:
 			_callingClass = curClass
 			if curClass != null:
 				result = AddCurrentClassMembers(result, curClass)
-				result.AddRange(parserService.GetNamespaceContents(_project, curClass.Namespace, true, true))
+				result.AddRange(_parserContext.GetNamespaceContents(curClass.Namespace, true, true))
 			for u as IUsing in cu.Usings:
 				if u != null and (u.Region == null or u.Region.IsInside(caretLine, caretColumn)):
 					for name as string in u.Usings:
-						result.AddRange(parserService.GetNamespaceContents(_project, name, true, true))
+						result.AddRange(_parserContext.GetNamespaceContents(name, true, true))
 					for alias as string in u.Aliases.Keys:
 						result.Add(alias)
 			member = self.CurrentMember
@@ -215,7 +210,7 @@ class Resolver:
 				if varList != null:
 					for e as DictionaryEntry in varList:
 						result.Add(Field(e.Value, e.Key, ModifierEnum.Private, null))
-		result.AddRange(parserService.GetNamespaceContents(_project, "", true, true))
+		result.AddRange(_parserContext.GetNamespaceContents("", true, true))
 		return result
 	
 	def AddCurrentClassMembers(result as ArrayList, curClass as IClass) as ArrayList:
@@ -236,19 +231,19 @@ class Resolver:
 	
 	#region IsAsResolve
 
-	def IsAsResolve(parserService as IParserService, expression as string, caretLine as int, caretColumn as int, fileName as string, fileContent as string) as ArrayList: 
+	def IsAsResolve(expression as string, caretLine as int, caretColumn as int, fileName as string, fileContent as string) as ArrayList: 
 		return null
 
-	def MonodocResolver(parserService as IParserService, expression as string, caretLine as int, caretColumn as int, fileName as string, fileContent as string) as string: 
+	def MonodocResolver(expression as string, caretLine as int, caretColumn as int, fileName as string, fileContent as string) as string: 
 		return null
 
 	#region Resolve CC
-	def Initialize(parserService as IParserService, caretLine as int, caretColumn as int, fileName as string):
-		_parserService = parserService
+	def Initialize(parserService as IParserContext, caretLine as int, caretColumn as int, fileName as string):
+		_parserContext = parserService
 		_caretLine = caretLine
 		_caretColumn = caretColumn
 		
-		parseInfo = parserService.GetParseInformation(fileName)
+		parseInfo = _parserContext.GetParseInformation(fileName)
 		cu = parseInfo.MostRecentCompilationUnit as CompilationUnit
 		_compilationUnit = cu
 		if _compilationUnit == null:
@@ -260,24 +255,25 @@ class Resolver:
 			if _callingClass != null and _callingClass.Region != null:
 				return false if _callingClass.Region.BeginLine > caretLine
 
-		if _project == null:
+/*		if _project == null:
 			for project as Project in MonoDevelop.Services.Runtime.ProjectService.CurrentOpenCombine.GetAllProjects():
 				if project.IsFileInProject(fileName):
 					_project = project
 					break
+*/
 		return true
 	
-	def Resolve(parserService as IParserService, expression as string, caretLine as int, caretColumn as int, fileName as string, fileContent as string) as ResolveResult:
+	def Resolve(expression as string, caretLine as int, caretColumn as int, fileName as string, fileContent as string) as ResolveResult:
 		if expression == null or expression == '':
 			return null
 		
 		if expression.StartsWith("import "):
 			expression = expression.Substring(7).Trim()
-			if parserService.NamespaceExists(_project, expression):
-				return ResolveResult(parserService.GetNamespaceList(_project, expression, true, true))
+			if _parserContext.NamespaceExists(expression):
+				return ResolveResult(_parserContext.GetNamespaceList(expression, true, true))
 			return null
 		
-		if not Initialize(parserService, caretLine, caretColumn, fileName):
+		if not Initialize(_parserContext, caretLine, caretColumn, fileName):
 			return null
 		callingClass = _callingClass
 		returnClass as IClass = null
@@ -293,8 +289,8 @@ class Resolver:
 				return ResolveResult(expressionClass, ListMembers(ArrayList(), expressionClass, true))
 			
 			// try if it is the name of a namespace
-			if parserService.NamespaceExists(_project, expression):
-				return ResolveResult(array(string, 0), parserService.GetNamespaceContents(_project, expression, true, true))
+			if _parserContext.NamespaceExists(expression):
+				return ResolveResult(array(string, 0), _parserContext.GetNamespaceContents(expression, true, true))
 			
 			expr = Boo.Lang.Parser.BooParser.ParseExpression("expression", expression)
 			return null if expr isa AST.IntegerLiteralExpression
@@ -360,7 +356,7 @@ class Resolver:
 			return true
 
 		for baseClass as string in c.BaseTypes:
-			bc = _parserService.GetClass (_project, baseClass, true, true)
+			bc = _parserContext.GetClass (baseClass, true, true)
 			if (IsClassInInheritanceTree(possibleBaseClass, bc)):
 				return true
 
@@ -368,7 +364,7 @@ class Resolver:
 
 	def BaseClass(curClass as IClass) as IClass:
 		for s as string in curClass.BaseTypes:
-			baseClass = _parserService.GetClass (_project, s, true, true)
+			baseClass = _parserContext.GetClass (s, true, true)
 			if ((baseClass != null) and (baseClass.ClassType != ClassType.Interface)):
 				return baseClass
 		return null
@@ -421,7 +417,7 @@ class Resolver:
 //		print("ClassType = " + curType.ClassType)
 		if (curType.ClassType == ClassType.Interface and not _showStatic):
 			for s as string in curType.BaseTypes:
-				baseClass = _parserService.GetClass (_project, s, true, true)
+				baseClass = _parserContext.GetClass (s, true, true)
 				if (baseClass != null and baseClass.ClassType == ClassType.Interface):
 					ListMembers(members, baseClass)
 		else:
@@ -435,7 +431,7 @@ class Resolver:
 
 	def GetResolvedClass (cls as IClass) as IClass:
 		// Returns an IClass in which all type names have been properly resolved
-		return _parserService.GetClass (_project, cls.FullyQualifiedName)
+		return _parserContext.GetClass (cls.FullyQualifiedName)
 
 	def GetInnermostClass(cu as ICompilationUnit) as IClass:
 		if (cu != null):

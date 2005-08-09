@@ -147,29 +147,29 @@ class BooParser(IParser):
 		cuCache[fileName] = visitor.Cu
 		return visitor.Cu
 	
-	def CtrlSpace(parserService as IParserService, project as Project, caretLine as int, caretColumn as int, fileName as string) as ArrayList:
+	def CtrlSpace(parserContext as IParserContext, caretLine as int, caretColumn as int, fileName as string) as ArrayList:
 		//print "Ctrl-Space (${caretLine}/${caretColumn})"
 		try:
-			return Resolver(project).CtrlSpace(parserService, caretLine, caretColumn, fileName)
+			return Resolver(parserContext).CtrlSpace(caretLine, caretColumn, fileName)
 		except e:
 			//ShowException(e)
 			return null
 	
-	def IsAsResolve (parserService as IParserService , project as Project , expression as string , caretLineNumber as int , caretColumn as int , fileName as string , fileContent as string ) as ArrayList:
-		return Resolver (project).IsAsResolve (parserService, expression, caretLineNumber, caretColumn, fileName, fileContent)
+	def IsAsResolve (parserContext as IParserContext, expression as string , caretLineNumber as int , caretColumn as int , fileName as string , fileContent as string ) as ArrayList:
+		return Resolver (parserContext).IsAsResolve (expression, caretLineNumber, caretColumn, fileName, fileContent)
 
-	def Resolve(parserService as IParserService, project as Project, expression as string, caretLineNumber as int, caretColumn as int, fileName as string, fileContent as string) as ResolveResult:
+	def Resolve(parserContext as IParserContext, expression as string, caretLineNumber as int, caretColumn as int, fileName as string, fileContent as string) as ResolveResult:
 		//print "Resolve ${expression} (${caretLineNumber}/${caretColumn})"
 		try:
-			return Resolver(project).Resolve(parserService, expression, caretLineNumber, caretColumn, fileName, fileContent)
+			return Resolver(parserContext).Resolve(expression, caretLineNumber, caretColumn, fileName, fileContent)
 		except e:
 			//ShowException(e)
 			return null
 
-	def MonodocResolver(parserService as IParserService, project as Project, expression as string, caretLineNumber as int, caretColumn as int, fileName as string, fileContent as string) as string:
+	def MonodocResolver(parserContext as IParserContext, expression as string, caretLineNumber as int, caretColumn as int, fileName as string, fileContent as string) as string:
 		//print "MonodocResolver ${expression} (${caretLineNumber}/${caretColumn})"
 		try:
-			return Resolver(project).MonodocResolver(parserService, expression, caretLineNumber, caretColumn, fileName, fileContent)
+			return Resolver(parserContext).MonodocResolver(expression, caretLineNumber, caretColumn, fileName, fileContent)
 		except e:
 			//ShowException(e)
 			return null

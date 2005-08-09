@@ -29,6 +29,7 @@ import System
 import System.Collections
 import System.Diagnostics
 import MonoDevelop.Internal.Parser
+import MonoDevelop.Core.Services
 import MonoDevelop.Services
 import Boo.Lang.Compiler.Ast as AST
 
@@ -189,8 +190,8 @@ class InferredReturnType(AbstractReturnType):
 	
 	def Resolve() as IReturnType:
 		resolver = Resolver()
-		parserService = MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IParserService))
-		if resolver.Initialize(parserService, _caretLine, _caretColumn, _filename):
+		projService = ServiceManager.GetService(typeof(ProjectService)) as ProjectService
+		if resolver.Initialize(projService.ParserDatabase.GetFileParserContext (_filename), _caretLine, _caretColumn, _filename):
 			visitor = ExpressionTypeVisitor(Resolver : resolver)
 			visitor.Visit(_expression)
 			return visitor.ReturnType

@@ -1,3 +1,11 @@
+2005-08-09  Lluis Sanchez Gual  <lluis@novell.com>
+
+	* Parser/ReturnType.boo:
+	* Parser/ExpressionTypeVisitor.boo:
+	* Parser/Resolver.boo:
+	* Parser/BooParser.boo:
+	* Gui/ShellTextView.boo: Use the new IParserContext API.
+
 2005-07-20  Lluis Sanchez Gual  <lluis@novell.com>
 
 	* Gui/OptionPanels/GeneralShellPanel.boo:

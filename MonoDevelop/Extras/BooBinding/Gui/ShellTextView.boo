@@ -69,12 +69,14 @@ class ShellTextView (SourceView, ICompletionWidget):
 	private _assembliesLoaded as bool
 
 	private _fakeProject as DotNetProject
-	private _parserService as DefaultParserService
+	private _parserService as IParserDatabase
 	private _fakeFileName as string
 	private _fileInfo as FileStream
+	private _parserContext as IParserContext;
 	
 	def constructor(model as IShellModel):
-		_parserService = cast(IParserService, ServiceManager.GetService (typeof (DefaultParserService)))
+		_projService = ServiceManager.GetService(typeof(ProjectService))
+		_parserService = _projService.ParserDatabase
 
 		manager = SourceLanguagesManager()
 		buf = SourceBuffer(manager.GetLanguageFromMimeType(model.MimeType))
@@ -95,7 +97,8 @@ class ShellTextView (SourceView, ICompletionWidget):
 		_fileInfo  = System.IO.File.Create (_fakeFileName)
 		_fakeProject = DotNetProject(Model.LanguageName, Name: "___ShellProject", FileName: shellProjectFile)
 
-		_parserService.LoadProjectDatabase(_fakeProject)
+		_parserService.Load(_fakeProject)
+		_parserContext = _parserService.GetProjectParserContext (_fakeProject)
 
 		Model.Properties.InternalProperties.PropertyChanged += OnPropertyChanged
 		Model.RegisterOutputHandler (HandleOutput)
@@ -113,7 +116,6 @@ class ShellTextView (SourceView, ICompletionWidget):
 		Buffer.TagTable.Add (tag)
 		prompt (false)
 
-		_projService = ServiceManager.GetService(typeof(ProjectService))
 		_projService.EndBuild += ProjectCompiled
 		_projService.CurrentProjectChanged += ProjectChanged
 
@@ -173,7 +175,7 @@ class ShellTextView (SourceView, ICompletionWidget):
 		for assembly in Model.References:
 			_fakeProject.AddReference(assembly)
 
-		GLib.Idle.Add( { _parserService.ParseFile (_fakeFileName, _scriptLines) } )
+		GLib.Idle.Add( { _parserContext.ParseFile (_fakeFileName, _scriptLines) } )
 		return false
 			
 	override def Dispose():
@@ -325,7 +327,7 @@ class ShellTextView (SourceView, ICompletionWidget):
 		elif ev.Key == Gdk.Key.period:
 			ret = super.OnKeyPressEvent(ev)
 			prepareCompletionDetails (Buffer.GetIterAtMark (Buffer.InsertMark))
-			CompletionListWindow.ShowWindow(char('.'), CodeCompletionDataProvider (true), self, _fakeProject, _fakeFileName)
+			CompletionListWindow.ShowWindow(char('.'), CodeCompletionDataProvider (_parserContext, _fakeFileName, true), self)
 			return ret
 
 		// Short circuit to avoid getting moved back to the input line
@@ -368,7 +370,7 @@ class ShellTextView (SourceView, ICompletionWidget):
 		triggerIter.ForwardChar ()
 		
 		prepareCompletionDetails (triggerIter)
-		CompletionListWindow.ShowWindow (triggerChar, CodeCompletionDataProvider (true), self, _fakeProject, _fakeFileName)
+		CompletionListWindow.ShowWindow (triggerChar, CodeCompletionDataProvider (_parserContext, _fakeFileName, true), self)
 
 	// Mark to find the beginning of our next input line
 	private _endOfLastProcessing as TextMark
