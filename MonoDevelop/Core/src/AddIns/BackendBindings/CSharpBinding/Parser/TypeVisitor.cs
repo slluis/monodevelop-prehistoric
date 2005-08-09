@@ -11,12 +11,11 @@ using MonoDevelop.Internal.Parser;
 
 namespace CSharpBinding.Parser
 {
-	
-	public class TypeVisitor : AbstractASTVisitor
+	internal class TypeVisitor : AbstractASTVisitor
 	{
 		Resolver resolver;
 		
-		public TypeVisitor(Resolver resolver)
+		internal TypeVisitor(Resolver resolver)
 		{
 			this.resolver = resolver;
 		}

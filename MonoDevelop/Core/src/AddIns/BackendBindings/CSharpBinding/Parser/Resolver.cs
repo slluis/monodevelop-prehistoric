@@ -11,29 +11,27 @@ using System.Drawing;
 
 using MonoDevelop.Services;
 using MonoDevelop.Internal.Parser;
-using MonoDevelop.Internal.Project;
 using CSharpBinding.Parser.SharpDevelopTree;
 using ICSharpCode.SharpRefactory.Parser.AST;
 using ICSharpCode.SharpRefactory.Parser;
 
 namespace CSharpBinding.Parser
 {
-	public class Resolver
+	class Resolver
 	{
-		IParserService parserService;
+		IParserContext parserContext;
 		ICompilationUnit cu;
 		IClass callingClass;
 		LookupTableVisitor lookupTableVisitor;
-		Project project;
 		
-		public Resolver (Project project)
+		public Resolver (IParserContext parserContext)
 		{
-			this.project = project;
+			this.parserContext = parserContext;
 		}
 		
-		public IParserService ParserService {
+		public IParserContext ParserContext {
 			get {
-				return parserService;
+				return parserContext;
 			}
 		}
 		
@@ -66,7 +64,7 @@ namespace CSharpBinding.Parser
 		int caretLine;
 		int caretColumn;
 		
-		public IReturnType internalResolve(IParserService parserService, string expression, int caretLineNumber, int caretColumn, string fileName, string fileContent)
+		public IReturnType internalResolve (string expression, int caretLineNumber, int caretColumn, string fileName, string fileContent)
 		{
 			//Console.WriteLine("Start Resolving");
 			if (expression == null) {
@@ -79,8 +77,7 @@ namespace CSharpBinding.Parser
 			this.caretLine     = caretLineNumber;
 			this.caretColumn   = caretColumn;
 			
-			this.parserService = parserService;
-			IParseInformation parseInfo = parserService.GetParseInformation(fileName);
+			IParseInformation parseInfo = parserContext.GetParseInformation(fileName);
 			ICSharpCode.SharpRefactory.Parser.AST.CompilationUnit fileCompilationUnit = parseInfo.MostRecentCompilationUnit.Tag as ICSharpCode.SharpRefactory.Parser.AST.CompilationUnit;
 			if (fileCompilationUnit == null) {
 //				ICSharpCode.SharpRefactory.Parser.Parser fileParser = new ICSharpCode.SharpRefactory.Parser.Parser();
@@ -142,7 +139,7 @@ namespace CSharpBinding.Parser
 					//Console.WriteLine("Type == null");
 				}
 				//// when type is null might be file needs to be reparsed - some vars were lost
-				fileCompilationUnit=parserService.ParseFile(fileName, fileContent).MostRecentCompilationUnit.Tag 
+				fileCompilationUnit = parserContext.ParseFile (fileName, fileContent).MostRecentCompilationUnit.Tag 
 					as ICSharpCode.SharpRefactory.Parser.AST.CompilationUnit;
 				lookupTableVisitor.Visit(fileCompilationUnit,null);
 				cu = (ICompilationUnit)cSharpVisitor.Visit(fileCompilationUnit, null);
@@ -159,7 +156,7 @@ namespace CSharpBinding.Parser
 			return type;
 		}
 
-		public string MonodocResolver (IParserService parserService, string expression, int caretLineNumber, int caretColumn, string fileName, string fileContent) 
+		public string MonodocResolver (string expression, int caretLineNumber, int caretColumn, string fileName, string fileContent) 
 		{
 			if (expression == null) {
 				return null;
@@ -168,8 +165,8 @@ namespace CSharpBinding.Parser
 			if (expression == "") {
 				return null;
 			}
-			IReturnType retType = internalResolve (parserService, expression, caretLineNumber, caretColumn, fileName, fileContent);
-			IClass retClass = parserService.SearchType (project, retType.FullyQualifiedName, null, cu);
+			IReturnType retType = internalResolve (expression, caretLineNumber, caretColumn, fileName, fileContent);
+			IClass retClass = parserContext.SearchType (retType.FullyQualifiedName, null, cu);
 			if (retClass == null) {
 				Console.WriteLine ("Retclass was null");
 				return null;
@@ -179,7 +176,7 @@ namespace CSharpBinding.Parser
 			return "T:" + retClass.FullyQualifiedName;
 		}
 		
-		public ResolveResult Resolve(IParserService parserService, string expression, int caretLineNumber, int caretColumn, string fileName, string fileContent) 
+		public ResolveResult Resolve (string expression, int caretLineNumber, int caretColumn, string fileName, string fileContent) 
 		{
 			if (expression == null) {
 				return null;
@@ -219,7 +216,7 @@ namespace CSharpBinding.Parser
 				}
 				string t = expression.Substring(i + 1);
 //				Console.WriteLine("in Using Statement");
-				string[] namespaces = parserService.GetNamespaceList(project, t);
+				string[] namespaces = parserContext.GetNamespaceList (t);
 				if (namespaces == null || namespaces.Length <= 0) {
 					return null;
 				}
@@ -227,7 +224,7 @@ namespace CSharpBinding.Parser
 			}
 			
 			//Console.WriteLine("Not in Using");
-			IReturnType type = internalResolve (parserService, expression, caretLineNumber, caretColumn, fileName, fileContent);
+			IReturnType type = internalResolve (expression, caretLineNumber, caretColumn, fileName, fileContent);
 			IClass returnClass = SearchType (type.FullyQualifiedName, cu);
 			if (returnClass == null) {
 				// Try if type is Namespace:
@@ -235,14 +232,14 @@ namespace CSharpBinding.Parser
 				if (n == null) {
 					return null;
 				}
-				ArrayList content = parserService.GetNamespaceContents(project,n,true);
+				ArrayList content = parserContext.GetNamespaceContents (n,true);
 				ArrayList classes = new ArrayList();
 				for (int i = 0; i < content.Count; ++i) {
 					if (content[i] is IClass) {
 						classes.Add((IClass)content[i]);
 					}
 				}
-				string[] namespaces = parserService.GetNamespaceList(project, n, true, true);
+				string[] namespaces = parserContext.GetNamespaceList (n, true, true);
 				return new ResolveResult(namespaces, classes);
 			}
 			//Console.WriteLine("Returning Result!");
@@ -303,7 +300,7 @@ namespace CSharpBinding.Parser
 //			Console.WriteLine("ClassType = " + curType.ClassType);
 			if (curType.ClassType == ClassType.Interface && !showStatic) {
 				foreach (string s in curType.BaseTypes) {
-					IClass baseClass = parserService.GetClass (project, s, true, true);
+					IClass baseClass = parserContext.GetClass (s, true, true);
 					if (baseClass != null && baseClass.ClassType == ClassType.Interface) {
 						ListMembers(members, baseClass);
 					}
@@ -322,7 +319,7 @@ namespace CSharpBinding.Parser
 		public IClass BaseClass(IClass curClass)
 		{
 			foreach (string s in curClass.BaseTypes) {
-				IClass baseClass = parserService.GetClass (project, s, true, true);
+				IClass baseClass = parserContext.GetClass (s, true, true);
 				if (baseClass != null && baseClass.ClassType != ClassType.Interface) {
 					return baseClass;
 				}
@@ -490,7 +487,7 @@ namespace CSharpBinding.Parser
 				}
 			}
 			foreach (string baseType in curType.BaseTypes) {
-				IClass c = parserService.GetClass (project, baseType, true, true);
+				IClass c = parserContext.GetClass (baseType, true, true);
 				if (c != null) {
 					IReturnType erg = SearchMember(new ReturnType(c.FullyQualifiedName), memberName);
 					if (erg != null) {
@@ -688,7 +685,7 @@ namespace CSharpBinding.Parser
 		/// </remarks>
 		public string SearchNamespace(string name, ICompilationUnit unit)
 		{
-			if (parserService.NamespaceExists(project, name)) {
+			if (parserContext.NamespaceExists (name)) {
 				return name;
 			}
 			if (unit == null) {
@@ -696,7 +693,7 @@ namespace CSharpBinding.Parser
 			}
 			foreach (IUsing u in unit.Usings) {
 				if (u != null && (u.Region == null || u.Region.IsInside(caretLine, caretColumn))) {
-					string nameSpace = parserService.SearchNamespace (project, u, name);
+					string nameSpace = parserContext.SearchNamespace (u, name);
 					if (nameSpace != null) {
 						return nameSpace;
 					}
@@ -716,7 +713,7 @@ namespace CSharpBinding.Parser
 				return null;
 			}
 			IClass c;
-			c = parserService.GetClass(project, name);
+			c = parserContext.GetClass (name);
 			if (c != null) {
 //				Console.WriteLine("Found!");
 				return c;
@@ -727,7 +724,7 @@ namespace CSharpBinding.Parser
 				foreach (IUsing u in unit.Usings) {
 					if (u != null && (u.Region == null || u.Region.IsInside(caretLine, caretColumn))) {
 //						Console.WriteLine("In UsingRegion");
-						c = parserService.SearchType(project, u, name);
+						c = parserContext.SearchType (u, name);
 						if (c != null) {
 //							Console.WriteLine("SearchType Successfull!!!");
 							return c;
@@ -745,7 +742,7 @@ namespace CSharpBinding.Parser
 			
 			do {
 				curnamespace += namespaces[i] + '.';
-				c = parserService.GetClass(project, curnamespace + name);
+				c = parserContext.GetClass (curnamespace + name);
 				if (c != null) {
 					return c;
 				}
@@ -768,7 +765,7 @@ namespace CSharpBinding.Parser
 				return true;
 			}
 			foreach (string baseClass in c.BaseTypes) {
-				IClass bc = parserService.GetClass (project, baseClass, true, true);
+				IClass bc = parserContext.GetClass (baseClass, true, true);
 				if (IsClassInInheritanceTree(possibleBaseClass, bc)) {
 					return true;
 				}
@@ -850,17 +847,16 @@ namespace CSharpBinding.Parser
 		public IClass GetResolvedClass (IClass cls)
 		{
 			// Returns an IClass in which all type names have been properly resolved
-			return parserService.GetClass (project, cls.FullyQualifiedName);
+			return parserContext.GetClass (cls.FullyQualifiedName);
 		}
 
-		public ArrayList IsAsResolve (IParserService parserService, string expression, int caretLine, int caretColumn, string fileName, string fileContent)
+		public ArrayList IsAsResolve (string expression, int caretLine, int caretColumn, string fileName, string fileContent)
 		{
 			ArrayList result = new ArrayList ();
-			this.parserService = parserService;
 			this.caretLine = caretLine;
 			this.caretColumn = caretColumn;
 			
-			IParseInformation parseInfo = parserService.GetParseInformation (fileName);
+			IParseInformation parseInfo = parserContext.GetParseInformation (fileName);
 			ICSharpCode.SharpRefactory.Parser.AST.CompilationUnit fcu = parseInfo.MostRecentCompilationUnit.Tag as ICSharpCode.SharpRefactory.Parser.AST.CompilationUnit;
 			if (fcu == null)
 				return null;
@@ -883,7 +879,7 @@ namespace CSharpBinding.Parser
 
 			IReturnType type = expr.AcceptVisitor (typeVisitor, null) as IReturnType;
 			if (type == null || type.PointerNestingLevel != 0) {
-				fcu = parserService.ParseFile (fileName, fileContent).MostRecentCompilationUnit.Tag as ICSharpCode.SharpRefactory.Parser.AST.CompilationUnit;
+				fcu = parserContext.ParseFile (fileName, fileContent).MostRecentCompilationUnit.Tag as ICSharpCode.SharpRefactory.Parser.AST.CompilationUnit;
 				lookupTableVisitor.Visit (fcu, null);
 				cu = (ICompilationUnit)csharpVisitor.Visit (fcu, null);
 
@@ -898,24 +894,23 @@ namespace CSharpBinding.Parser
 				type = new ReturnType ("System.Array");
 
 			IClass returnClass = SearchType (type.FullyQualifiedName, cu);
-//			IClass returnClass = parserService.SearchType (project, type.FullyQualifiedName, null, cu);
+//			IClass returnClass = parserContext.SearchType (type.FullyQualifiedName, null, cu);
 			if (returnClass == null)
 				return null;
 
-			foreach (IClass iclass in parserService.GetClassInheritanceTree (project, returnClass)) {
+			foreach (IClass iclass in parserContext.GetClassInheritanceTree (returnClass)) {
 				if (!result.Contains (iclass))
 					result.Add (iclass);
 			}
 			return result;
 		}
 		
-		public ArrayList CtrlSpace(IParserService parserService, int caretLine, int caretColumn, string fileName)
+		public ArrayList CtrlSpace (int caretLine, int caretColumn, string fileName)
 		{
 			ArrayList result = new ArrayList(TypeReference.PrimitiveTypes);
-			this.parserService = parserService;
 			this.caretLine = caretLine;
 			this.caretColumn = caretColumn;
-			IParseInformation parseInfo = parserService.GetParseInformation(fileName);
+			IParseInformation parseInfo = parserContext.GetParseInformation (fileName);
 			ICSharpCode.SharpRefactory.Parser.AST.CompilationUnit fileCompilationUnit = parseInfo.MostRecentCompilationUnit.Tag as ICSharpCode.SharpRefactory.Parser.AST.CompilationUnit;
 			if (fileCompilationUnit == null) {
 				Console.WriteLine("!Warning: no parseinformation!");
@@ -944,11 +939,11 @@ namespace CSharpBinding.Parser
 				ListMembers(result, callingClass);
 			}
 			string n = "";
-			result.AddRange(parserService.GetNamespaceContents(project, n, true));
+			result.AddRange(parserContext.GetNamespaceContents (n, true));
 			foreach (IUsing u in cu.Usings) {
 				if (u != null && (u.Region == null || u.Region.IsInside(caretLine, caretColumn))) {
 					foreach (string name in u.Usings) {
-						result.AddRange(parserService.GetNamespaceContents(project, name, true));
+						result.AddRange(parserContext.GetNamespaceContents (name, true));
 					}
 					foreach (string alias in u.Aliases.Keys) {
 						result.Add(alias);

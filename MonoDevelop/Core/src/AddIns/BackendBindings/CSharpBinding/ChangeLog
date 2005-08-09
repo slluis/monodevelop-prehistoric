@@ -1,3 +1,11 @@
+2005-08-09  Lluis Sanchez Gual  <lluis@novell.com> 
+
+	* Parser/Parser.cs:
+	* Parser/Resolver.cs:
+	* Gui/CodeGenerationPanel.cs: Use the new IParserContext API.
+	
+	* Parser/TypeVisitor.cs: Made the class internal.
+
 2005-07-18  Lluis Sanchez Gual  <lluis@novell.com>
 
 	* CSharp.glade:

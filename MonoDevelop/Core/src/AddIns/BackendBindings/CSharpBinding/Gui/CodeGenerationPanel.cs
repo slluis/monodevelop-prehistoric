@@ -85,7 +85,8 @@ namespace CSharpBinding
 			
 			void FillClasses ()
 			{
-				foreach (IClass c in Runtime.ParserService.GetProjectContents (project)) {
+				IParserContext ctx = Runtime.ProjectService.ParserDatabase.GetProjectParserContext (project);
+				foreach (IClass c in ctx.GetProjectContents ()) {
 					if (c.Methods != null) {
 						foreach (IMethod m in c.Methods) {
 							if (m.IsStatic && m.Name == "Main")
