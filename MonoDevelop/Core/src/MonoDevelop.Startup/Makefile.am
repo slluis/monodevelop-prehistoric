@@ -36,7 +36,7 @@ assembly_DATA = $(ASSEMBLY) $(ASSEMBLY).config
 
 CLEANFILES = $(ASSEMBLY) $(ASSEMBLY).mdb
 
-EXTRA_DIST = $(FILES) SplashScreen.png app.config
+EXTRA_DIST = $(FILES) SplashScreen.png app.config MonoDevelop.Startup.glade
 
 include $(top_srcdir)/Makefile.include
 

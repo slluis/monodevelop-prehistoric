@@ -1,3 +1,7 @@
+2005-08-08  John Luke  <john.luke@gmail.com>
+
+	* Makefile.am: add glade file to EXTRA_DIST to pass distcheck
+	
 2005-08-03  Lluis Sanchez Gual  <lluis@novell.com>
 
 	* MonoDevelopMain.cs: Show an error dialog if something goes wrong

@@ -1,3 +1,8 @@
+2005-08-08  John Luke  <john.luke@gmail.com>
+
+	* MonoQuery/Makefile.am: add glade file to EXTRA_DIST to
+	fix distcheck
+
 2005-08-06	Christian Hergert	<christian.hergert@gmail.com>
 
 	* MonoQuery/Makefile.in: should not have been imported.

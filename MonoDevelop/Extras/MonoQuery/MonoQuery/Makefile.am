@@ -61,7 +61,7 @@ $(DLL): $(build_sources) $(srcdir)/$(GLADEFILE)
 
 CLEANFILES = $(DLL) $(DLL).mdb $(ADDIN_BUILD)/$(ADDIN)
 
-EXTRA_DIST = $(FILES) $(ADDIN)
+EXTRA_DIST = $(FILES) $(ADDIN) $(GLADE)
 
 monoquerydir = $(MD_ADDIN_DIR)/MonoQuery
 monoquery_DATA = $(DLL) $(ADDIN_BUILD)/$(ADDIN)
