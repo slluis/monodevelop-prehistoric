@@ -54,7 +54,7 @@ namespace MonoDevelop.Services
 		NamespaceEntry rootNamespace;
 		protected ArrayList references;
 		protected Hashtable files;
-		protected DefaultParserService parserService;
+		protected ParserDatabase parserDatabase;
 		protected Hashtable headers;
 		
 		BinaryReader datareader;
@@ -67,9 +67,9 @@ namespace MonoDevelop.Services
 		
 		protected Object rwlock = new Object ();
 		
-		public CodeCompletionDatabase (DefaultParserService parserService)
+		public CodeCompletionDatabase (ParserDatabase parserDatabase)
 		{
-			this.parserService = parserService;
+			this.parserDatabase = parserDatabase;
 			rootNamespace = new NamespaceEntry ();
 			files = new Hashtable ();
 			references = new ArrayList ();
@@ -219,7 +219,7 @@ namespace MonoDevelop.Services
 						}
 						else {
 							buffer.Position = 0;
-							PersistentClass.WriteTo (c, bufWriter, parserService.DefaultNameEncoder);
+							PersistentClass.WriteTo (c, bufWriter, parserDatabase.DefaultNameEncoder);
 							data = buffer.GetBuffer ();
 							len = (int)buffer.Position;
 						}
@@ -303,7 +303,7 @@ namespace MonoDevelop.Services
 			}
 			datafile.Position = ce.Position;
 			datareader.ReadInt32 ();	// Length of data
-			return PersistentClass.Read (datareader, parserService.DefaultNameDecoder);
+			return PersistentClass.Read (datareader, parserDatabase.DefaultNameDecoder);
 		}
 		
 		void CloseReader ()
@@ -396,7 +396,7 @@ namespace MonoDevelop.Services
 			
 			FileInfo fi = new FileInfo (file.FileName);
 			file.LastParseTime = fi.LastWriteTime;
-			parserService.QueueParseJob (new JobCallback (ParseCallback), file.FileName);
+			parserDatabase.QueueParseJob (new JobCallback (ParseCallback), file.FileName);
 		}
 		
 		void ParseCallback (object ob, IProgressMonitor monitor)
@@ -658,11 +658,11 @@ namespace MonoDevelop.Services
 		{
 			MemoryStream ms = new MemoryStream ();
 			BinaryWriter bw = new BinaryWriter (ms);
-			PersistentClass.WriteTo (cls, bw, parserService.DefaultNameEncoder);
+			PersistentClass.WriteTo (cls, bw, parserDatabase.DefaultNameEncoder);
 			bw.Flush ();
 			ms.Position = 0;
 			BinaryReader br = new BinaryReader (ms);
-			return PersistentClass.Read (br, parserService.DefaultNameDecoder);
+			return PersistentClass.Read (br, parserDatabase.DefaultNameDecoder);
 		}
 		
 		bool GetBestNamespaceEntry (string[] path, int length, bool createPath, bool caseSensitive, out NamespaceEntry lastEntry, out int numMatched)

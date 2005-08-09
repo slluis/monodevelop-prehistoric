@@ -20,8 +20,6 @@
 		       class = "MonoDevelop.Commands.InitializeWorkbenchCommand"/>
 		<!--<Class id = "StartCodeCompletionWizard" 
 		       class = "MonoDevelop.Commands.StartCodeCompletionWizard"/>-->
-		<Class id = "StartParserServiceThread" 
-		       class = "MonoDevelop.Commands.StartParserServiceThread"/>
 		<!-- #assembly preload -->
 <!--		<Class id = "StartSharpAssemblyPreloadThread"
 		       class = "MonoDevelop.Commands.StartSharpAssemblyPreloadThread"/>-->

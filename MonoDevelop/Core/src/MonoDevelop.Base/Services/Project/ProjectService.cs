@@ -41,6 +41,7 @@ namespace MonoDevelop.Services
 		Combine  openCombine    = null;
 		DataContext dataContext = new DataContext ();
 		ProjectBindingCodon[] projectBindings;
+		IParserDatabase parserDatabase;
 		
 		IAsyncOperation currentBuildOperation = NullAsyncOperation.Success;
 		IAsyncOperation currentRunOperation = NullAsyncOperation.Success;
@@ -140,6 +141,11 @@ namespace MonoDevelop.Services
 			get { return dataContext; }
 		}
 		
+		public IParserDatabase ParserDatabase {
+			get { return parserDatabase; }
+		}
+
+		
 		public FileFormatManager FileFormats {
 			get { return formatManager; }
 		}
@@ -218,6 +224,9 @@ namespace MonoDevelop.Services
 				CurrentSelectedProject = null;
 				CurrentOpenCombine = CurrentSelectedCombine = null;
 				WorkbenchSingleton.Workbench.CloseAllViews();
+				
+				parserDatabase.Unload (closedCombine);
+				
 				OnCombineClosed(new CombineEventArgs(closedCombine));
 				closedCombine.Dispose();
 			}
@@ -294,8 +303,9 @@ namespace MonoDevelop.Services
 				openCombine.ReferenceRemovedFromProject += new ProjectReferenceEventHandler (NotifyReferenceRemovedFromProject);
 				
 				SearchForNewFiles ();
-		
-				OnCombineOpened(new CombineEventArgs(openCombine));
+
+				parserDatabase.Load (openCombine);
+				OnCombineOpened (new CombineEventArgs(openCombine));
 
 				Runtime.DispatchService.GuiDispatch (new StatefulMessageHandler (RestoreCombinePreferences), CurrentOpenCombine);
 				
@@ -861,6 +871,10 @@ namespace MonoDevelop.Services
 			Runtime.FileService.FileRenamed += new FileEventHandler(CheckFileRename);
 			
 			projectBindings = (ProjectBindingCodon[])(AddInTreeSingleton.AddInTree.GetTreeNode("/SharpDevelop/Workbench/ProjectBindings").BuildChildItems(null)).ToArray(typeof(ProjectBindingCodon));
+			
+			parserDatabase = Runtime.ParserService.CreateParserDatabase ();
+			parserDatabase.TrackFileChanges = true;
+			parserDatabase.ParseProgressMonitorFactory = new ParseProgressMonitorFactory (); 
 		}
 
 		void RestoreCombinePreferences (object data)
@@ -1277,5 +1291,13 @@ namespace MonoDevelop.Services
 		
 		public event ProjectReferenceEventHandler ReferenceAddedToProject;
 		public event ProjectReferenceEventHandler ReferenceRemovedFromProject;
+	}
+	
+	class ParseProgressMonitorFactory: IProgressMonitorFactory
+	{
+		public IProgressMonitor CreateProgressMonitor ()
+		{
+			return Runtime.TaskService.GetBackgroundProgressMonitor ("Code Completion Database Generation", "Icons.16x16.RunProgramIcon");
+		}
 	}
 }

@@ -41,8 +41,8 @@ namespace MonoDevelop.Services
 		Project project;
 		bool initialFileCheck;
 		
-		public ProjectCodeCompletionDatabase (Project project, DefaultParserService parserService)
-		: base (parserService)
+		public ProjectCodeCompletionDatabase (Project project, ParserDatabase parserDatabase)
+		: base (parserDatabase)
 		{
 			initialFileCheck = true;
 			
@@ -57,6 +57,10 @@ namespace MonoDevelop.Services
 			project.FileAddedToProject += new ProjectFileEventHandler (OnFileAdded);
 			project.FileRemovedFromProject += new ProjectFileEventHandler (OnFileRemoved);
 			project.FileRenamedInProject += new ProjectFileRenamedEventHandler (OnFileRenamed);
+		}
+		
+		public Project Project {
+			get { return project; }
 		}
 		
 		public override void Dispose ()
@@ -154,10 +158,10 @@ namespace MonoDevelop.Services
 			if (monitor != null) monitor.BeginTask ("Parsing file: " + Path.GetFileName (fileName), 1);
 			
 			try {
-				IParseInformation parserInfo = parserService.DoParseFile ((string)fileName, null);
+				IParseInformation parserInfo = parserDatabase.DoParseFile ((string)fileName, null);
 				if (parserInfo != null) {
 					ClassUpdateInformation res = UpdateFromParseInfo (parserInfo, fileName);
-					if (res != null) parserService.NotifyParseInfoChange (fileName, res, project);
+					if (res != null) parserDatabase.NotifyParseInfoChange (fileName, res, project);
 				}
 			} finally {
 				if (monitor != null) monitor.EndTask ();
@@ -169,7 +173,7 @@ namespace MonoDevelop.Services
 			ICompilationUnit cu = (ICompilationUnit)parserInfo.BestCompilationUnit;
 
 			ClassCollection resolved;
-			bool allResolved = parserService.ResolveTypes (project, cu, cu.Classes, out resolved);
+			bool allResolved = parserDatabase.ResolveTypes (project, cu, cu.Classes, out resolved);
 			ClassUpdateInformation res = UpdateClassInformation (resolved, fileName);
 			
 			FileEntry file = files [fileName] as FileEntry;

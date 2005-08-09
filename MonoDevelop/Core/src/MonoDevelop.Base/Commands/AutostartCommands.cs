@@ -34,14 +34,6 @@ namespace MonoDevelop.Commands
 		}
 	}
 	
-	internal class StartParserServiceThread : AbstractCommand
-	{
-		public override void Run()
-		{
-			((DefaultParserService)Runtime.ParserService).StartParserThread();
-		}
-	}
-
 	internal class StartWorkbenchCommand : AbstractCommand
 	{
 		const string workbenchMemento = "SharpDevelop.Workbench.WorkbenchMemento";

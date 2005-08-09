@@ -13,8 +13,10 @@ using MonoDevelop.Internal.Project;
 
 using Gdk;
 
-namespace MonoDevelop.Gui.Completion {
-	public interface ICompletionDataProvider {
-		ICompletionData[] GenerateCompletionData(Project project, string fileName, ICompletionWidget widget, char charTyped);
+namespace MonoDevelop.Gui.Completion
+{
+	public interface ICompletionDataProvider
+	{
+		ICompletionData[] GenerateCompletionData (ICompletionWidget widget, char charTyped);
 	}
 }

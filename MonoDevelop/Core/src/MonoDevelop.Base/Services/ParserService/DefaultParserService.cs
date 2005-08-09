@@ -25,14 +25,241 @@ using MonoDevelop.Core.Services;
 using MonoDevelop.Services;
 using MonoDevelop.Core.AddIns;
 using MonoDevelop.Internal.Project;
-using MonoDevelop.Gui;
 using MonoDevelop.Internal.Parser;
 
 namespace MonoDevelop.Services
 {
 	public class DefaultParserService : AbstractService, IParserService
 	{
+		IParser[] parsers;
+		
+		public override void InitializeService()
+		{
+			parsers = (IParser[])(AddInTreeSingleton.AddInTree.GetTreeNode("/Workspace/Parser").BuildChildItems(this)).ToArray(typeof(IParser));
+		}
+		
+		public IParserDatabase CreateParserDatabase ()
+		{
+			ParserDatabase c = new ParserDatabase (this);
+			c.Initialize ();
+			return c;
+		}
+		
+		public IExpressionFinder GetExpressionFinder(string fileName)
+		{
+			IParser parser = GetParser (fileName);
+			if (parser != null) {
+				return parser.ExpressionFinder;
+			}
+			return null;
+		}
+		
+		public virtual IParser GetParser (string fileName)
+		{
+			// HACK: I'm too lazy to do it 'right'
+			// HACK: Still a hack, but extensible
+			if (fileName != null) {
+				foreach(IParser p in parsers) {
+					if (p.CanParse(fileName)) {
+						return p;
+					}
+				}
+			}
+			return null;
+		}
+		
+		public void GenerateAssemblyDatabase (string baseDir, string name)
+		{
+			AssemblyCodeCompletionDatabase db = new AssemblyCodeCompletionDatabase (baseDir, name, (ParserDatabase) CreateParserDatabase());
+			db.ParseInExternalProcess = false;
+			db.ParseAll ();
+			db.Write ();
+		}
+	}
+	
+	internal class ParserContext: IParserContext
+	{
+		DefaultParserService parserService;
+		CodeCompletionDatabase db;
+		ParserDatabase pdb;
+		
+		internal ParserContext (DefaultParserService parserService, ParserDatabase pdb, CodeCompletionDatabase db)
+		{
+			this.parserService = parserService;
+			this.pdb = pdb;
+			this.db = db;
+		}
+		
+		public IExpressionFinder GetExpressionFinder (string fileName)
+		{
+			return pdb.GetExpressionFinder (fileName);
+		}
+		
+		public IParseInformation ParseFile (string fileName)
+		{
+			return pdb.ParseFile (fileName);
+		}
+		
+		public IParseInformation ParseFile (string fileName, string fileContent)
+		{
+			return pdb.ParseFile (fileName, fileContent);
+		}
+		
+		public IParseInformation GetParseInformation (string fileName)
+		{
+			return pdb.GetParseInformation (fileName);
+		}
+		
+		public IClass GetClass (string typeName)
+		{
+			return pdb.GetClass (db, typeName);
+		}
+		
+		public string[] GetClassList (string subNameSpace, bool includeReferences)
+		{
+			return pdb.GetClassList (db, subNameSpace, includeReferences);
+		}
+		
+		public string[] GetNamespaceList (string subNameSpace)
+		{
+			return pdb.GetNamespaceList (db, subNameSpace);
+		}
+		
+		public ArrayList GetNamespaceContents (string subNameSpace, bool includeReferences)
+		{
+			return pdb.GetNamespaceContents (db, subNameSpace, includeReferences);
+		}
+		
+		public bool NamespaceExists (string name)
+		{
+			return pdb.NamespaceExists (db, name);
+		}
+		
+		public string SearchNamespace (IUsing iusing, string partitialNamespaceName)
+		{
+			return pdb.SearchNamespace (db, iusing, partitialNamespaceName);
+		}
+		
+		public IClass SearchType (IUsing iusing, string partitialTypeName)
+		{
+			return pdb.SearchType (db, iusing, partitialTypeName);
+		}
+		
+		
+		public IClass GetClass (string typeName, bool deepSearchReferences, bool caseSensitive)
+		{
+			return pdb.GetClass (db, typeName, deepSearchReferences, caseSensitive);
+		}
+		
+		public string[] GetClassList (string subNameSpace, bool includeReferences, bool caseSensitive)
+		{
+			return pdb.GetClassList (db, subNameSpace, includeReferences, caseSensitive);
+		}
+		
+		public string[] GetNamespaceList (string subNameSpace, bool includeReferences, bool caseSensitive)
+		{
+			return pdb.GetNamespaceList (db, subNameSpace, includeReferences, caseSensitive);
+		}
+		
+		public ArrayList GetNamespaceContents (string subNameSpace, bool includeReferences, bool caseSensitive)
+		{
+			return pdb.GetNamespaceContents (db, subNameSpace, includeReferences, caseSensitive);
+		}
+		
+		public bool NamespaceExists (string name, bool caseSensitive)
+		{
+			return pdb.NamespaceExists (db, name, caseSensitive);
+		}
+		
+		public string SearchNamespace (IUsing iusing, string partitialNamespaceName, bool caseSensitive)
+		{
+			return pdb.SearchNamespace (db, iusing, partitialNamespaceName, caseSensitive);
+		}
+		
+		public IClass SearchType (IUsing iusing, string partitialTypeName, bool caseSensitive)
+		{
+			return pdb.SearchType (db, iusing, partitialTypeName, caseSensitive);
+		}
+		
+		public IClass SearchType (string name, IClass callingClass, ICompilationUnit unit)
+		{
+			return pdb.SearchType (db, name, callingClass, unit);
+		}
+		
+		public IEnumerable GetClassInheritanceTree (IClass cls)
+		{
+			return pdb.GetClassInheritanceTree (db, cls);
+		}
+		
+		public IClass[] GetFileContents (string fileName)
+		{
+			return pdb.GetFileContents (db, fileName);
+		}
+		
+		public IClass[] GetProjectContents ()
+		{
+			return pdb.GetProjectContents (db);
+		}
+		
+		public ResolveResult Resolve (string expression, int caretLineNumber, int caretColumn, string fileName, string fileContent)
+		{
+			// added exception handling here to prevent silly parser exceptions from
+			// being thrown and corrupting the textarea control
+			try {
+				IParser parser = parserService.GetParser (fileName);
+				//Runtime.LoggingService.Info("Parse info : " + GetParseInformation(fileName).MostRecentCompilationUnit.Tag);
+				if (parser != null) {
+					return parser.Resolve (this, expression, caretLineNumber, caretColumn, fileName, fileContent);
+				}
+				return null;
+			} catch {
+				return null;
+			}
+		}
+		
+		public string MonodocResolver (string expression, int caretLineNumber, int caretColumn, string fileName, string fileContent)
+		{
+			try {
+				IParser parser = parserService.GetParser (fileName);
+				if (parser != null) {
+					return parser.MonodocResolver (this, expression, caretLineNumber, caretColumn, fileName, fileContent);
+				}
+				return null;
+			} catch {
+				return null;
+			}
+		}
+		
+		public ArrayList IsAsResolve (string expression, int caretLineNumber, int caretColumn, string fileName, string fileContent)
+		{
+			try {
+				IParser parser = parserService.GetParser (fileName);
+				if (parser != null) {
+					return parser.IsAsResolve (this, expression, caretLineNumber, caretColumn, fileName, fileContent);
+				}
+				return null;
+			} catch {
+				return null;
+			}
+		}
+		
+		public ArrayList CtrlSpace (int caretLine, int caretColumn, string fileName)
+		{
+			IParser parser = parserService.GetParser (fileName);
+			if (parser != null) {
+				return parser.CtrlSpace (this, caretLine, caretColumn, fileName);
+			}
+			return null;
+		}
+	}
+	
+	internal class ParserDatabase : IParserDatabase
+	{
+		DefaultParserService parserService;
 		CodeCompletionDatabase coreDatabase;
+		bool threadRunning;
+		bool trackingFileChanges;
+		IProgressMonitorFactory parseProgressMonitorFactory;
 		
 		const int MAX_PARSING_CACHE_SIZE = 10;
 		const int MAX_SINGLEDB_CACHE_SIZE = 10;
@@ -60,21 +287,21 @@ namespace MonoDevelop.Services
 		class CompilationUnitTypeResolver: ITypeResolver
 		{
 			public IClass CallingClass;
-			Project project;
+			CodeCompletionDatabase db;
 			ICompilationUnit unit;
-			DefaultParserService parserService;
+			ParserDatabase parserDatabase;
 			bool allResolved;
 			
-			public CompilationUnitTypeResolver (Project project, ICompilationUnit unit, DefaultParserService parserService)
+			public CompilationUnitTypeResolver (CodeCompletionDatabase db, ICompilationUnit unit, ParserDatabase parserDatabase)
 			{
-				this.project = project;
+				this.db = db;
 				this.unit = unit;
-				this.parserService = parserService;
+				this.parserDatabase = parserDatabase;
 			}
 			
 			public string Resolve (string typeName)
 			{
-				IClass c = parserService.SearchType (project, typeName, CallingClass, unit);
+				IClass c = parserDatabase.SearchType (db, typeName, CallingClass, unit);
 				if (c != null)
 					return c.FullyQualifiedName;
 				else {
@@ -96,14 +323,13 @@ namespace MonoDevelop.Services
 		CombineEntryEventHandler combineEntryAddedHandler;
 		CombineEntryEventHandler combineEntryRemovedHandler;
 
-		public static Queue parseQueue = new Queue();
+		Queue parseQueue = new Queue();
+		AutoResetEvent parseEvent = new AutoResetEvent (false);
 		
 		string codeCompletionPath;
 
 		Hashtable databases = new Hashtable();
 		Hashtable singleDatabases = new Hashtable ();
-		
-		IParser[] parser;
 		
 		readonly static string[] assemblyList = {
 			"Microsoft.VisualBasic",
@@ -143,30 +369,50 @@ namespace MonoDevelop.Services
 			"System.UInt16", "System.UInt32", "System.UInt64", "System.Void"
 		};
 		
-		public DefaultParserService()
+		public ParserDatabase (DefaultParserService parserService)
 		{
+			this.parserService = parserService;
 			combineEntryAddedHandler = new CombineEntryEventHandler (OnCombineEntryAdded);
 			combineEntryRemovedHandler = new CombineEntryEventHandler (OnCombineEntryRemoved);
 			nameTable = new StringNameTable (sharedNameTable);
 		}
 		
-		public string LoadAssemblyFromGac (string name) {
-			if (name == "mscorlib")
-				return typeof(object).Assembly.Location;
+		public IParserContext GetProjectParserContext (Project project)
+		{
+			return new ParserContext (parserService, this, GetProjectDatabase (project));
+		}
+		
+		public IParserContext GetFileParserContext (string file)
+		{
+			return new ParserContext (parserService, this, GetSingleFileDatabase (file));
+		}
+		
+		public IProgressMonitorFactory ParseProgressMonitorFactory {
+			get { return parseProgressMonitorFactory; }
+			set { parseProgressMonitorFactory = value; }
+		}
+		
+		
+		public bool TrackFileChanges {
+			get {
+				return trackingFileChanges;
+			}
+			set {
+				if (value == trackingFileChanges)
+					return;
 				
-			Assembly asm;
-			try {
-				asm = Assembly.Load (name);
+				lock (this) {
+					trackingFileChanges = value;
+	
+					if (value)
+						StartParserThread ();
+				}
 			}
-			catch {
-				asm = Assembly.LoadWithPartialName (name);
-			}
-			if (asm == null) {
-				Runtime.LoggingService.Info ("Could not find: " + name);
-				return string.Empty;
-			}
-			
-			return asm.Location;
+		}
+		
+		public IExpressionFinder GetExpressionFinder(string fileName)
+		{
+			return parserService.GetExpressionFinder (fileName);
 		}
 		
 		private bool ContinueWithProcess(IProgressMonitor progressMonitor)
@@ -208,14 +454,6 @@ namespace MonoDevelop.Services
 			}
 		}
 		
-		public void GenerateAssemblyDatabase (string baseDir, string name)
-		{
-			AssemblyCodeCompletionDatabase db = new AssemblyCodeCompletionDatabase (baseDir, name, this);
-			db.ParseInExternalProcess = false;
-			db.ParseAll ();
-			db.Write ();
-		}
-		
 		void SetDefaultCompletionFileLocation()
 		{
 			PropertyService propertyService = Runtime.Properties;
@@ -231,10 +469,8 @@ namespace MonoDevelop.Services
 			codeCompletionPath = Runtime.FileUtilityService.GetDirectoryNameWithSeparator(path);
 		}
 
-		public override void InitializeService()
+		public void Initialize ()
 		{
-			parser = (IParser[])(AddInTreeSingleton.AddInTree.GetTreeNode("/Workspace/Parser").BuildChildItems(this)).ToArray(typeof(IParser));
-			
 			SetDefaultCompletionFileLocation();
 			DeleteObsoleteDatabases ();
 
@@ -242,18 +478,14 @@ namespace MonoDevelop.Services
 			CoreDB = "Assembly:" + coreName;
 			coreDatabase = new AssemblyCodeCompletionDatabase (codeCompletionPath, coreName, this);
 			databases [CoreDB] = coreDatabase;
-			
-			IProjectService projectService = Runtime.ProjectService;
-			projectService.CombineOpened += new CombineEventHandler(OnCombineOpened);
-			projectService.CombineClosed += new CombineEventHandler(OnCombineClosed);
 		}
 		
 		internal IProgressMonitor GetParseProgressMonitor ()
 		{
-			if (Runtime.TaskService == null) {
-				return new ConsoleProgressMonitor ();
-			}
-			return Runtime.TaskService.GetBackgroundProgressMonitor ("Code Completion Database Generation", "Icons.16x16.RunProgramIcon");
+			if (parseProgressMonitorFactory != null)
+				return parseProgressMonitorFactory.CreateProgressMonitor ();
+			else
+				return new NullProgressMonitor ();
 		}
 			
 		internal CodeCompletionDatabase GetDatabase (string uri)
@@ -342,6 +574,22 @@ namespace MonoDevelop.Services
 			}
 		}
 		
+		public void Load (CombineEntry entry)
+		{
+			if (entry is Project)
+				LoadProjectDatabase ((Project)entry);
+			else if (entry is Combine)
+				LoadCombineDatabases ((Combine)entry);
+		}
+		
+		public void Unload (CombineEntry entry)
+		{
+			if (entry is Project)
+				UnloadProjectDatabase ((Project)entry);
+			else if (entry is Combine)
+				UnloadCombineDatabases ((Combine)entry);
+		}
+		
 		void LoadProjectDatabase (Project project)
 		{
 			lock (databases)
@@ -409,47 +657,40 @@ namespace MonoDevelop.Services
 			}
 		}
 		
-		public void LoadCombineDatabases (Combine combine)
+		void LoadCombineDatabases (Combine combine)
 		{
 			CombineEntryCollection projects = combine.GetAllProjects();
 			foreach (Project entry in projects) {
 				LoadProjectDatabase (entry);
 			}
+			combine.EntryAdded += combineEntryAddedHandler;
+			combine.EntryRemoved += combineEntryRemovedHandler;
 		}
 		
-		public void UnloadCombineDatabases (Combine combine)
+		void UnloadCombineDatabases (Combine combine)
 		{
 			CombineEntryCollection projects = combine.GetAllProjects();
 			foreach (Project entry in projects) {
 				UnloadProjectDatabase (entry);
 			}
-		}
-		
-		public void OnCombineOpened(object sender, CombineEventArgs e)
-		{
-			LoadCombineDatabases (e.Combine);
-			e.Combine.EntryAdded += combineEntryAddedHandler;
-			e.Combine.EntryRemoved += combineEntryRemovedHandler;
-		}
-		
-		public void OnCombineClosed (object sender, CombineEventArgs e)
-		{
-			UnloadCombineDatabases (e.Combine);
 			CleanUnusedDatabases ();
-			e.Combine.EntryAdded -= combineEntryAddedHandler;
-			e.Combine.EntryRemoved -= combineEntryRemovedHandler;
+			combine.EntryAdded -= combineEntryAddedHandler;
+			combine.EntryRemoved -= combineEntryRemovedHandler;
 		}
 		
 		void OnProjectRenamed (object sender, CombineEntryRenamedEventArgs args)
 		{
-			ProjectCodeCompletionDatabase db = GetProjectDatabase ((Project) args.CombineEntry);
-			if (db == null) return;
-			
-			db.Rename (args.NewName);
-			databases.Remove ("Project:" + args.OldName);
-			databases ["Project:" + args.NewName] = db;
-			RefreshProjectDatabases ();
-			CleanUnusedDatabases ();
+			lock (databases)
+			{
+				ProjectCodeCompletionDatabase db = GetProjectDatabase ((Project) args.CombineEntry);
+				if (db == null) return;
+				
+				db.Rename (args.NewName);
+				databases.Remove ("Project:" + args.OldName);
+				databases ["Project:" + args.NewName] = db;
+				RefreshProjectDatabases ();
+				CleanUnusedDatabases ();
+			}
 		}
 		
 		void OnCombineEntryAdded (object sender, CombineEntryEventArgs args)
@@ -484,11 +725,14 @@ namespace MonoDevelop.Services
 		
 		void RefreshProjectDatabases ()
 		{
-			foreach (CodeCompletionDatabase db in databases.Values)
+			lock (databases)
 			{
-				ProjectCodeCompletionDatabase pdb = db as ProjectCodeCompletionDatabase;
-				if (pdb != null)
-					pdb.UpdateFromProject ();
+				foreach (CodeCompletionDatabase db in databases.Values)
+				{
+					ProjectCodeCompletionDatabase pdb = db as ProjectCodeCompletionDatabase;
+					if (pdb != null)
+						pdb.UpdateFromProject ();
+				}
 			}
 		}
 		
@@ -500,6 +744,7 @@ namespace MonoDevelop.Services
 			lock (parseQueue)
 			{
 				parseQueue.Enqueue (job);
+				parseEvent.Set ();
 			}
 		}
 		
@@ -514,29 +759,32 @@ namespace MonoDevelop.Services
 			}
 		}
 		
-		public void StartParserThread()
+		void StartParserThread()
 		{
-			Thread t = new Thread(new ThreadStart(ParserUpdateThread));
-			t.IsBackground  = true;
-			t.Start();
+			lock (this) {
+				if (!threadRunning) {
+					threadRunning = true;
+					Thread t = new Thread(new ThreadStart(ParserUpdateThread));
+					t.IsBackground  = true;
+					t.Start();
+				}
+			}
 		}
 		
 		
 		void ParserUpdateThread()
 		{
-			int loop = 0;
-			while (true)
+			while (trackingFileChanges)
 			{
-				Thread.Sleep(500);
-				
-				ParseCurrentFile ();
-				
-				ConsumeParsingQueue ();
-				
-				if (loop % 10 == 0)
+				if (!parseEvent.WaitOne (5000, true))
 					CheckModifiedFiles ();
-				
-				loop++;
+				else if (trackingFileChanges)
+					ConsumeParsingQueue ();
+			}
+			lock (this) {
+				threadRunning = false;
+				if (trackingFileChanges)
+					StartParserThread ();
 			}
 		}
 		
@@ -628,57 +876,30 @@ namespace MonoDevelop.Services
 			}
 		}
 		
-		
-		void ParseCurrentFile()
+		public void UpdateFile (Project project, string fileName, string fileContent)
 		{
 			try {
-				IWorkbenchWindow win = WorkbenchSingleton.Workbench.ActiveWorkbenchWindow;
-				if (win == null || win.ActiveViewContent == null) return;
-				
-				IEditable editable = win.ActiveViewContent as IEditable;
-				if (editable == null) return;
-				
-				string fileName = null;
-				
-				IViewContent viewContent = win.ViewContent;
-				IParseableContent parseableContent = win.ActiveViewContent as IParseableContent;
-				
-				if (parseableContent != null) {
-					fileName = parseableContent.ParseableContentName;
-				} else {
-					fileName = viewContent.IsUntitled ? viewContent.UntitledName : viewContent.ContentName;
-				}
-				
-				if (fileName == null || fileName.Length == 0) return;
-				
-				if (GetParser (fileName) == null)
+				if (parserService.GetParser (fileName) == null)
 					return;
 				
-				string text = editable.Text;
-				if (text == null) return;
-					
 				IParseInformation parseInformation = null;
-				bool updated = false;
+				int contentHash = fileContent.GetHashCode ();
 			
-				if (lastUpdateSize[fileName] == null || (int)lastUpdateSize[fileName] != text.GetHashCode()) {
-					parseInformation = DoParseFile(fileName, text);
+				if (lastUpdateSize[fileName] == null || (int)lastUpdateSize[fileName] != contentHash) {
+					parseInformation = DoParseFile (fileName, fileContent);
 					if (parseInformation == null) return;
 					
-					if (viewContent.Project != null) {
-						ProjectCodeCompletionDatabase db = GetProjectDatabase (viewContent.Project);
+					if (project != null) {
+						ProjectCodeCompletionDatabase db = GetProjectDatabase (project);
 						ClassUpdateInformation res = db.UpdateFromParseInfo (parseInformation, fileName);
-						if (res != null) NotifyParseInfoChange (fileName, res, viewContent.Project);
+						if (res != null) NotifyParseInfoChange (fileName, res, project);
 					}
 					else {
 						SimpleCodeCompletionDatabase db = GetSingleFileDatabase (fileName);
 						db.UpdateFromParseInfo (parseInformation);
 					}
 
-					lastUpdateSize[fileName] = text.GetHashCode();
-					updated = true;
-				}
-				if (updated && parseInformation != null && editable is IParseInformationListener) {
-					((IParseInformationListener)editable).ParseInformationUpdated(parseInformation);
+					lastUpdateSize[fileName] = contentHash;
 				}
 			} catch (Exception e) {
 				try {
@@ -687,47 +908,23 @@ namespace MonoDevelop.Services
 			}
 		}
 		
-		CodeCompletionDatabase GetActiveFileDatabase()
-		{
-			IWorkbenchWindow win = WorkbenchSingleton.Workbench.ActiveWorkbenchWindow;
-			if (win == null || win.ActiveViewContent == null) return null;
-			
-			IEditable editable = win.ActiveViewContent as IEditable;
-			if (editable == null) return null;
-			
-			string fileName = null;
-			
-			IViewContent viewContent = win.ViewContent;
-			IParseableContent parseableContent = win.ActiveViewContent as IParseableContent;
-			
-			if (parseableContent != null) {
-				fileName = parseableContent.ParseableContentName;
-			} else {
-				fileName = viewContent.IsUntitled ? viewContent.UntitledName : viewContent.ContentName;
-			}
-			
-			if (fileName == null || fileName.Length == 0) return null;
-			return GetSingleFileDatabase (fileName);
-		}
-		
 #region Default Parser Layer dependent functions
 
-		public IClass GetClass (Project project, string typeName)
+		public IClass GetClass (CodeCompletionDatabase db, string typeName)
 		{
-			return GetClass(project, typeName, false, true);
+			return GetClass (db, typeName, false, true);
 		}
 		
-		public IClass GetClass (Project project, string typeName, bool deepSearchReferences, bool caseSensitive)
+		public IClass GetClass (CodeCompletionDatabase db, string typeName, bool deepSearchReferences, bool caseSensitive)
 		{
 			if (deepSearchReferences)
-				return DeepGetClass (project, typeName, caseSensitive);
+				return DeepGetClass (db, typeName, caseSensitive);
 			else
-				return GetClass (project, typeName, caseSensitive);
+				return GetClass (db, typeName, caseSensitive);
 		}
 		
-		public IClass GetClass (Project project, string typeName, bool caseSensitive)
+		public IClass GetClass (CodeCompletionDatabase db, string typeName, bool caseSensitive)
 		{
-			CodeCompletionDatabase db = project != null ? GetProjectDatabase (project) : GetActiveFileDatabase ();
 			if (db != null) {
 				IClass c = db.GetClass (typeName, caseSensitive);
 				if (c != null) return c;
@@ -744,10 +941,8 @@ namespace MonoDevelop.Services
 			return db.GetClass (typeName, caseSensitive);
 		}
 		
-		public IClass DeepGetClass (Project project, string typeName, bool caseSensitive)
+		public IClass DeepGetClass (CodeCompletionDatabase db, string typeName, bool caseSensitive)
 		{
-			CodeCompletionDatabase db = (project != null) ? GetProjectDatabase (project) : GetActiveFileDatabase ();
-			
 			ArrayList visited = new ArrayList ();
 			IClass c = DeepGetClassRec (visited, db, typeName, caseSensitive);
 			if (c != null) return c;
@@ -776,25 +971,23 @@ namespace MonoDevelop.Services
 			return null;
 		}
 		
-		public IClass[] GetProjectContents (Project project)
+		public IClass[] GetProjectContents (CodeCompletionDatabase db)
 		{
-			CodeCompletionDatabase db = GetProjectDatabase (project);
 			if (db != null)
 				return db.GetClassList ();
 			else
 				return new IClass[0];
 		}
 		
-		public string[] GetClassList (Project project, string subNameSpace, bool includeReferences)
+		public string[] GetClassList (CodeCompletionDatabase db, string subNameSpace, bool includeReferences)
 		{
-			return GetClassList (project, subNameSpace, includeReferences, true);
+			return GetClassList (db, subNameSpace, includeReferences, true);
 		}
 		
-		public string[] GetClassList (Project project, string subNameSpace, bool includeReferences, bool caseSensitive)
+		public string[] GetClassList (CodeCompletionDatabase db, string subNameSpace, bool includeReferences, bool caseSensitive)
 		{
 			ArrayList contents = new ArrayList ();
 			
-			CodeCompletionDatabase db = (project != null) ? GetProjectDatabase (project) : GetActiveFileDatabase ();
 			if (db != null) {
 				db.GetClassList (contents, subNameSpace, caseSensitive);
 				if (includeReferences) {
@@ -814,16 +1007,15 @@ namespace MonoDevelop.Services
 			return (string[]) contents.ToArray (typeof(string));
 		}
 
-		public string[] GetNamespaceList (Project project, string subNameSpace)
+		public string[] GetNamespaceList (CodeCompletionDatabase db, string subNameSpace)
 		{
-			return GetNamespaceList (project, subNameSpace, true, true);
+			return GetNamespaceList (db, subNameSpace, true, true);
 		}
 		
-		public string[] GetNamespaceList (Project project, string subNameSpace, bool includeReferences, bool caseSensitive)
+		public string[] GetNamespaceList (CodeCompletionDatabase db, string subNameSpace, bool includeReferences, bool caseSensitive)
 		{
 			ArrayList contents = new ArrayList ();
 			
-			CodeCompletionDatabase db = (project != null) ? GetProjectDatabase (project) : GetActiveFileDatabase ();
 			if (db != null) {
 				db.GetNamespaceList (contents, subNameSpace, caseSensitive);
 				if (includeReferences) {
@@ -843,16 +1035,15 @@ namespace MonoDevelop.Services
 			return (string[]) contents.ToArray (typeof(string));
 		}
 		
-		public ArrayList GetNamespaceContents (Project project, string namspace, bool includeReferences)
+		public ArrayList GetNamespaceContents (CodeCompletionDatabase db, string namspace, bool includeReferences)
 		{
-			return GetNamespaceContents (project, namspace, includeReferences, true);
+			return GetNamespaceContents (db, namspace, includeReferences, true);
 		}
 		
-		public ArrayList GetNamespaceContents (Project project, string namspace, bool includeReferences, bool caseSensitive)
+		public ArrayList GetNamespaceContents (CodeCompletionDatabase db, string namspace, bool includeReferences, bool caseSensitive)
 		{
 			ArrayList contents = new ArrayList ();
 			
-			CodeCompletionDatabase db = (project != null) ? GetProjectDatabase (project) : GetActiveFileDatabase ();
 			if (db != null) {
 				db.GetNamespaceContents (contents, namspace, caseSensitive);
 				if (includeReferences) {
@@ -873,14 +1064,13 @@ namespace MonoDevelop.Services
 			return contents;
 		}
 		
-		public bool NamespaceExists(Project project, string name)
+		public bool NamespaceExists (CodeCompletionDatabase db, string name)
 		{
-			return NamespaceExists(project, name, true);
+			return NamespaceExists (db, name, true);
 		}
 		
-		public bool NamespaceExists(Project project, string name, bool caseSensitive)
+		public bool NamespaceExists (CodeCompletionDatabase db, string name, bool caseSensitive)
 		{
-			CodeCompletionDatabase db = (project != null) ? GetProjectDatabase (project) : GetActiveFileDatabase ();
 			if (db != null) {
 				if (db.NamespaceExists (name, caseSensitive)) return true;
 				foreach (ReferenceEntry re in db.References)
@@ -895,15 +1085,15 @@ namespace MonoDevelop.Services
 			return db.NamespaceExists (name, caseSensitive);
 			}
 
-		public string SearchNamespace(Project project, IUsing usin, string partitialNamespaceName)
+		public string SearchNamespace (CodeCompletionDatabase db, IUsing usin, string partitialNamespaceName)
 		{
-			return SearchNamespace(project, usin, partitialNamespaceName, true);
+			return SearchNamespace (db, usin, partitialNamespaceName, true);
 		}
 		
-		public string SearchNamespace(Project project, IUsing usin, string partitialNamespaceName, bool caseSensitive)
+		public string SearchNamespace (CodeCompletionDatabase db, IUsing usin, string partitialNamespaceName, bool caseSensitive)
 		{
 //			Runtime.LoggingService.Info("SearchNamespace : >{0}<", partitialNamespaceName);
-			if (NamespaceExists(project, partitialNamespaceName, caseSensitive)) {
+			if (NamespaceExists (db, partitialNamespaceName, caseSensitive)) {
 				return partitialNamespaceName;
 			}
 			
@@ -911,7 +1101,7 @@ namespace MonoDevelop.Services
 			string declaringNamespace = (string)usin.Aliases[""];
 			if (declaringNamespace != null) {
 				while (declaringNamespace.Length > 0) {
-					if ((caseSensitive ? declaringNamespace.EndsWith(partitialNamespaceName) : declaringNamespace.ToLower().EndsWith(partitialNamespaceName.ToLower()) ) && NamespaceExists(project, declaringNamespace, caseSensitive)) {
+					if ((caseSensitive ? declaringNamespace.EndsWith(partitialNamespaceName) : declaringNamespace.ToLower().EndsWith(partitialNamespaceName.ToLower()) ) && NamespaceExists (db, declaringNamespace, caseSensitive)) {
 						return declaringNamespace;
 					}
 					int index = declaringNamespace.IndexOf('.');
@@ -931,7 +1121,7 @@ namespace MonoDevelop.Services
 				if (caseSensitive ? partitialNamespaceName.StartsWith(aliasString) : partitialNamespaceName.ToLower().StartsWith(aliasString.ToLower())) {
 					if (aliasString.Length >= 0) {
 						string nsName = nsName = String.Concat(entry.Value.ToString(), partitialNamespaceName.Remove(0, aliasString.Length));
-						if (NamespaceExists (project, nsName, caseSensitive)) {
+						if (NamespaceExists (db, nsName, caseSensitive)) {
 							return nsName;
 						}
 					}
@@ -943,20 +1133,20 @@ namespace MonoDevelop.Services
 		/// <remarks>
 		/// use the usings and the name of the namespace to find a class
 		/// </remarks>
-		public IClass SearchType (Project project, string name, IClass callingClass, ICompilationUnit unit)
+		public IClass SearchType (CodeCompletionDatabase db, string name, IClass callingClass, ICompilationUnit unit)
 		{
 			if (name == null || name == String.Empty)
 				return null;
 				
 			IClass c;
-			c = GetClass(project, name);
+			c = GetClass (db, name);
 			if (c != null)
 				return c;
 
 			if (unit != null) {
 				foreach (IUsing u in unit.Usings) {
 					if (u != null) {
-						c = SearchType(project, u, name);
+						c = SearchType (db, u, name);
 						if (c != null) {
 							return c;
 						}
@@ -973,7 +1163,7 @@ namespace MonoDevelop.Services
 			
 			do {
 				curnamespace += namespaces[i] + '.';
-				c = GetClass(project, curnamespace + name);
+				c = GetClass (db, curnamespace + name);
 				if (c != null) {
 					return c;
 				}
@@ -984,15 +1174,15 @@ namespace MonoDevelop.Services
 			return null;
 		}
 		
-		public IClass SearchType(Project project, IUsing iusing, string partitialTypeName)
+		public IClass SearchType (CodeCompletionDatabase db, IUsing iusing, string partitialTypeName)
 		{
-			return SearchType(project, iusing, partitialTypeName, true);
+			return SearchType (db, iusing, partitialTypeName, true);
 		}
 		
-		public IClass SearchType(Project project, IUsing iusing, string partitialTypeName, bool caseSensitive)
+		public IClass SearchType (CodeCompletionDatabase db, IUsing iusing, string partitialTypeName, bool caseSensitive)
 		{
 //			Runtime.LoggingService.Info("Search type : >{0}<", partitialTypeName);
-			IClass c = GetClass(project, partitialTypeName, caseSensitive);
+			IClass c = GetClass (db, partitialTypeName, caseSensitive);
 			if (c != null) {
 				return c;
 			}
@@ -1000,7 +1190,7 @@ namespace MonoDevelop.Services
 			foreach (string str in iusing.Usings) {
 				string possibleType = String.Concat(str, ".", partitialTypeName);
 //				Runtime.LoggingService.Info("looking for " + possibleType);
-				c = GetClass(project, possibleType, caseSensitive);
+				c = GetClass (db, possibleType, caseSensitive);
 				if (c != null) {
 //					Runtime.LoggingService.Info("Found!");
 					return c;
@@ -1013,7 +1203,7 @@ namespace MonoDevelop.Services
 				while (declaringNamespace.Length > 0) {
 					string className = String.Concat(declaringNamespace, ".", partitialTypeName);
 //					Runtime.LoggingService.Info("looking for " + className);
-					c = GetClass(project, className, caseSensitive);
+					c = GetClass (db, className, caseSensitive);
 					if (c != null) {
 //						Runtime.LoggingService.Info("Found!");
 						return c;
@@ -1034,7 +1224,7 @@ namespace MonoDevelop.Services
 					if (aliasString.Length > 0) {
 						className = String.Concat(entry.Value.ToString(), partitialTypeName.Remove(0, aliasString.Length));
 //						Runtime.LoggingService.Info("looking for " + className);
-						c = GetClass(project, className, caseSensitive);
+						c = GetClass (db, className, caseSensitive);
 						if (c != null) {
 //							Runtime.LoggingService.Info("Found!");
 							return c;
@@ -1048,7 +1238,7 @@ namespace MonoDevelop.Services
 		
 		public bool ResolveTypes (Project project, ICompilationUnit unit, ClassCollection types, out ClassCollection result)
 		{
-			CompilationUnitTypeResolver tr = new CompilationUnitTypeResolver (project, unit, this);
+			CompilationUnitTypeResolver tr = new CompilationUnitTypeResolver (GetProjectDatabase (project), unit, this);
 			
 			bool allResolved = true;
 			result = new ClassCollection ();
@@ -1062,14 +1252,13 @@ namespace MonoDevelop.Services
 			return allResolved;
 		}
 		
-		public IEnumerable GetClassInheritanceTree (Project project, IClass cls)
+		public IEnumerable GetClassInheritanceTree (CodeCompletionDatabase db, IClass cls)
 		{
-			return new ClassInheritanceEnumerator (this, project, cls);
+			return new ClassInheritanceEnumerator (this, db, cls);
 		}
 		
-		public IClass[] GetFileContents (Project project, string fileName)
+		public IClass[] GetFileContents (CodeCompletionDatabase db, string fileName)
 		{
-			CodeCompletionDatabase db = (project != null) ? GetProjectDatabase (project) : GetActiveFileDatabase ();
 			return db.GetFileContents (fileName);
 		}
 		
@@ -1087,7 +1276,7 @@ namespace MonoDevelop.Services
 		
 		public IParseInformation DoParseFile (string fileName, string fileContent)
 		{
-			IParser parser = GetParser(fileName);
+			IParser parser = parserService.GetParser (fileName);
 			
 			if (parser == null) {
 				return null;
@@ -1098,11 +1287,12 @@ namespace MonoDevelop.Services
 			ICompilationUnitBase parserOutput = null;
 			
 			if (fileContent == null) {
-				if (Runtime.ProjectService.CurrentOpenCombine != null) {
-					CombineEntryCollection projects = Runtime.ProjectService.CurrentOpenCombine.GetAllProjects ();
-					foreach (Project entry in projects) {
-						if (entry.IsFileInProject(fileName)) {
-							fileContent = entry.GetParseableFileContent(fileName);
+				lock (databases) {
+					foreach (object ob in databases.Values) {
+						ProjectCodeCompletionDatabase db = ob as ProjectCodeCompletionDatabase;
+						if (db != null) {
+							if (db.Project.IsFileInProject (fileName))
+								fileContent = db.Project.GetParseableFileContent(fileName);
 						}
 					}
 				}
@@ -1188,73 +1378,7 @@ namespace MonoDevelop.Services
 			else return ParseFile(fileName);
 		}
 		
-		public IExpressionFinder GetExpressionFinder(string fileName)
-		{
-			IParser parser = GetParser(fileName);
-			if (parser != null) {
-				return parser.ExpressionFinder;
-			}
-			return null;
-		}
-		
-		public virtual IParser GetParser(string fileName)
-		{
-			// HACK: I'm too lazy to do it 'right'
-			// HACK: Still a hack, but extensible
-			if (fileName != null) {
-				foreach(IParser p in parser){
-					if(p.CanParse(fileName)){
-						return p;
-					}
-				}
-			}
-			return null;
-		}
-		
 		////////////////////////////////////
-		
-		public ArrayList CtrlSpace(IParserService parserService, Project project, int caretLine, int caretColumn, string fileName)
-		{
-			IParser parser = GetParser(fileName);
-			if (parser != null) {
-				return parser.CtrlSpace(parserService, project, caretLine, caretColumn, fileName);
-			}
-			return null;
-		}
-
-		public ArrayList IsAsResolve (Project project, string expression, int caretLineNumber, int caretColumn, string fileName, string fileContent)
-		{
-			try {
-				IParser parser = GetParser (fileName);
-				if (parser != null) {
-					return parser.IsAsResolve (this, project, expression, caretLineNumber, caretColumn, fileName, fileContent);
-				}
-				return null;
-			} catch {
-				return null;
-			}
-		}
-		
-		public ResolveResult Resolve(Project project,
-									 string expression, 
-		                             int caretLineNumber,
-		                             int caretColumn,
-		                             string fileName,
-		                             string fileContent)
-		{
-			// added exception handling here to prevent silly parser exceptions from
-			// being thrown and corrupting the textarea control
-			try {
-				IParser parser = GetParser(fileName);
-				//Runtime.LoggingService.Info("Parse info : " + GetParseInformation(fileName).MostRecentCompilationUnit.Tag);
-				if (parser != null) {
-					return parser.Resolve(this, project, expression, caretLineNumber, caretColumn, fileName, fileContent);
-				}
-				return null;
-			} catch {
-				return null;
-			}
-		}
 		
 		internal INameEncoder DefaultNameEncoder {
 			get { return nameTable; }
@@ -1262,19 +1386,6 @@ namespace MonoDevelop.Services
 
 		internal INameDecoder DefaultNameDecoder {
 			get { return nameTable; }
-		}
-		
-		public string MonodocResolver (Project project, string expression, int caretLineNumber, int caretColumn, string fileName, string fileContent)
-		{
-			try {
-				IParser parser = GetParser (fileName);
-				if (parser != null) {
-					return parser.MonodocResolver (this, project, expression, caretLineNumber, caretColumn, fileName, fileContent);
-				}
-				return null;
-			} catch {
-				return null;
-			}
 		}
 		
 		public void NotifyParseInfoChange (string file, ClassUpdateInformation res, Project project)
@@ -1329,16 +1440,16 @@ namespace MonoDevelop.Services
 	
 	internal class ClassInheritanceEnumerator : IEnumerator, IEnumerable
 	{
-		DefaultParserService parserService;
+		ParserDatabase parserDatabase;
 		IClass topLevelClass;
 		IClass currentClass  = null;
 		Queue  baseTypeQueue = new Queue();
-		Project project;
+		CodeCompletionDatabase db;
 
-		internal ClassInheritanceEnumerator(DefaultParserService parserService, Project project, IClass topLevelClass)
+		internal ClassInheritanceEnumerator (ParserDatabase parserDatabase, CodeCompletionDatabase db, IClass topLevelClass)
 		{
-			this.parserService = parserService;
-			this.project = project;
+			this.parserDatabase = parserDatabase;
+			this.db = db;
 			this.topLevelClass = topLevelClass;
 			baseTypeQueue.Enqueue(topLevelClass.FullyQualifiedName);
 			PutBaseClassesOnStack(topLevelClass);
@@ -1374,12 +1485,12 @@ namespace MonoDevelop.Services
 			}
 			string baseTypeName = baseTypeQueue.Dequeue().ToString();
 
-			IClass baseType = parserService.DeepGetClass (project, baseTypeName, true);
+			IClass baseType = parserDatabase.DeepGetClass (db, baseTypeName, true);
 			if (baseType == null) {
 				ICompilationUnit unit = currentClass == null ? null : currentClass.CompilationUnit;
 				if (unit != null) {
 					foreach (IUsing u in unit.Usings) {
-						baseType = parserService.SearchType(project, u, baseTypeName);
+						baseType = parserDatabase.SearchType (db, u, baseTypeName);
 						if (baseType != null) {
 							break;
 						}

@@ -250,6 +250,10 @@ namespace MonoDevelop.Gui
 				content.WorkbenchWindow.SelectWindow();
 
 			RedrawAllComponents ();
+			
+			if (content is IEditable) {
+				((IEditable)content).TextChanged += new EventHandler (OnViewTextChanged);
+			}
 		}
 		
 		public virtual void ShowPad (IPadContent content)
@@ -479,6 +483,59 @@ namespace MonoDevelop.Gui
 			if (!closeAll && ActiveWorkbenchWindowChanged != null) {
 				ActiveWorkbenchWindowChanged(this, e);
 			}
+		}
+		
+		bool parsingFile;
+		
+		void OnViewTextChanged (object sender, EventArgs e)
+		{
+			if (!parsingFile) {
+				parsingFile = true;
+				GLib.Timeout.Add (500, new TimeoutHandler (ParseCurrentFile));
+			}
+		}
+		
+		bool ParseCurrentFile ()
+		{
+			parsingFile = false;
+			
+			if (ActiveWorkbenchWindow == null || ActiveWorkbenchWindow.ActiveViewContent == null)
+				return false;
+
+			IEditable editable = ActiveWorkbenchWindow.ActiveViewContent as IEditable;
+			if (editable == null)
+				return false;
+			
+			string fileName = null;
+			
+			IViewContent viewContent = ActiveWorkbenchWindow.ViewContent;
+			IParseableContent parseableContent = ActiveWorkbenchWindow.ActiveViewContent as IParseableContent;
+			
+			if (parseableContent != null) {
+				fileName = parseableContent.ParseableContentName;
+			} else {
+				fileName = viewContent.IsUntitled ? viewContent.UntitledName : viewContent.ContentName;
+			}
+			
+			if (fileName == null || fileName.Length == 0)
+				return false;
+			
+			if (Runtime.ParserService.GetParser (fileName) == null)
+				return false;
+			
+			string text = editable.Text;
+			if (text == null)
+				return false;
+		
+			System.Threading.ThreadPool.QueueUserWorkItem (new System.Threading.WaitCallback (AsyncParseCurrentFile), new object[] { viewContent.Project, fileName, text });
+			
+			return false;
+		}
+		
+		void AsyncParseCurrentFile (object ob)
+		{
+			object[] data = (object[]) ob;
+			Runtime.ProjectService.ParserDatabase.UpdateFile ((Project) data[0], (string) data[1], (string) data[2]);
 		}
 
 		public Gtk.Toolbar[] ToolBars {

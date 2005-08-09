@@ -36,39 +36,64 @@ namespace MonoDevelop.Services
 			get;
 		}
 	}
-
+	
 	public interface IParserService
 	{
-		IParseInformation ParseFile(string fileName);
-		IParseInformation ParseFile(string fileName, string fileContent);
-		
-		IParseInformation GetParseInformation(string fileName);
+		IParserDatabase CreateParserDatabase ();
 		
 		IParser GetParser(string fileName);
 		IExpressionFinder GetExpressionFinder(string fileName);
+	}
+	
+	public interface IParserDatabase
+	{
+		void Load (CombineEntry entry);
+		void Unload (CombineEntry entry);
+		
+		IParserContext GetProjectParserContext (Project project);
+		IParserContext GetFileParserContext (string file);
+
+		void UpdateFile (Project project, string fileName, string fileContent);
+		
+		bool TrackFileChanges { get; set; }
+		
+		IProgressMonitorFactory ParseProgressMonitorFactory { get; set; }
+
+		event ParseInformationEventHandler ParseInformationChanged;
+		event ClassInformationEventHandler ClassInformationChanged;
+	}
+
+	public interface IParserContext
+	{
+		IExpressionFinder GetExpressionFinder(string fileName);
+		
+		IParseInformation ParseFile (string fileName);
+		IParseInformation ParseFile (string fileName, string fileContent);
+		
+		IParseInformation GetParseInformation (string fileName);
 		
 		// Default Parser Layer dependent functions
-		IClass    GetClass(Project project, string typeName);
-		string[]  GetClassList (Project project, string subNameSpace, bool includeReferences);
-		string[]  GetNamespaceList(Project project, string subNameSpace);
-		ArrayList GetNamespaceContents(Project project, string subNameSpace, bool includeReferences);
-		bool      NamespaceExists(Project project, string name);
-		string    SearchNamespace(Project project, IUsing iusing, string partitialNamespaceName);
-		IClass    SearchType(Project project, IUsing iusing, string partitialTypeName);
+		IClass    GetClass (string typeName);
+		string[]  GetClassList (string subNameSpace, bool includeReferences);
+		string[]  GetNamespaceList (string subNameSpace);
+		ArrayList GetNamespaceContents (string subNameSpace, bool includeReferences);
+		bool      NamespaceExists (string name);
+		string    SearchNamespace (IUsing iusing, string partitialNamespaceName);
+		IClass    SearchType (IUsing iusing, string partitialTypeName);
 		
-		IClass    GetClass(Project project, string typeName, bool deepSearchReferences, bool caseSensitive);
-		string[]  GetClassList (Project project, string subNameSpace, bool includeReferences, bool caseSensitive);
-		string[]  GetNamespaceList(Project project, string subNameSpace, bool includeReferences, bool caseSensitive);
-		ArrayList GetNamespaceContents(Project project, string subNameSpace, bool includeReferences, bool caseSensitive);
-		bool      NamespaceExists(Project project, string name, bool caseSensitive);
-		string    SearchNamespace(Project project, IUsing iusing, string partitialNamespaceName, bool caseSensitive);
-		IClass    SearchType(Project project, IUsing iusing, string partitialTypeName, bool caseSensitive);
-		IClass    SearchType (Project project, string name, IClass callingClass, ICompilationUnit unit);
+		IClass    GetClass (string typeName, bool deepSearchReferences, bool caseSensitive);
+		string[]  GetClassList (string subNameSpace, bool includeReferences, bool caseSensitive);
+		string[]  GetNamespaceList (string subNameSpace, bool includeReferences, bool caseSensitive);
+		ArrayList GetNamespaceContents (string subNameSpace, bool includeReferences, bool caseSensitive);
+		bool      NamespaceExists (string name, bool caseSensitive);
+		string    SearchNamespace (IUsing iusing, string partitialNamespaceName, bool caseSensitive);
+		IClass    SearchType (IUsing iusing, string partitialTypeName, bool caseSensitive);
+		IClass    SearchType (string name, IClass callingClass, ICompilationUnit unit);
 		
-		IEnumerable GetClassInheritanceTree (Project project, IClass cls);
+		IEnumerable GetClassInheritanceTree (IClass cls);
 		
-		IClass[] GetFileContents (Project project, string fileName);
-		IClass[] GetProjectContents (Project project);
+		IClass[] GetFileContents (string fileName);
+		IClass[] GetProjectContents ();
 		
 		////////////////////////////////////////////
 
@@ -76,18 +101,15 @@ namespace MonoDevelop.Services
 		/// Resolves an expression.
 		/// The caretLineNumber and caretColumn is 1 based.
 		/// </summary>
-		ResolveResult Resolve(Project project,
-							  string expression,
-		                      int caretLineNumber,
-		                      int caretColumn,
-		                      string fileName,
-		                      string fileContent);
-		string MonodocResolver (Project project, string expression, int caretLineNumber, int caretColumn, string fileName, string fileContent);
-		ArrayList IsAsResolve (Project project, string expression, int caretLineNumber, int caretColumn, string fileName, string fileContent);
-		ArrayList CtrlSpace(IParserService parserService, Project project, int caretLine, int caretColumn, string fileName);
-		string LoadAssemblyFromGac (string name);
-
-		event ParseInformationEventHandler ParseInformationChanged;
-		event ClassInformationEventHandler ClassInformationChanged;
+		ResolveResult Resolve (string expression, int caretLineNumber, int caretColumn, string fileName, string fileContent);
+		
+		string MonodocResolver (string expression, int caretLineNumber, int caretColumn, string fileName, string fileContent);
+		ArrayList IsAsResolve (string expression, int caretLineNumber, int caretColumn, string fileName, string fileContent);
+		ArrayList CtrlSpace (int caretLine, int caretColumn, string fileName);
+	}
+	
+	public interface IProgressMonitorFactory
+	{
+		IProgressMonitor CreateProgressMonitor ();
 	}
 }

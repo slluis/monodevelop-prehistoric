@@ -46,12 +46,12 @@ namespace MonoDevelop.Gui.Pads.ClassPad
 		protected override void Initialize ()
 		{
 			changeClassInformationHandler = (ClassInformationEventHandler) Runtime.DispatchService.GuiDispatch (new ClassInformationEventHandler (OnClassInformationChanged));
-			Runtime.ParserService.ClassInformationChanged += changeClassInformationHandler;
+			Runtime.ProjectService.ParserDatabase.ClassInformationChanged += changeClassInformationHandler;
 		}
 		
 		public override void Dispose ()
 		{
-			Runtime.ParserService.ClassInformationChanged -= changeClassInformationHandler;
+			Runtime.ProjectService.ParserDatabase.ClassInformationChanged -= changeClassInformationHandler;
 		}
 		
 		public override string GetNodeName (ITreeNavigator thisNode, object dataObject)
@@ -71,12 +71,14 @@ namespace MonoDevelop.Gui.Pads.ClassPad
 			NamespaceData nsData = dataObject as NamespaceData;
 			
 			if (nsData.Project != null) {
-				ArrayList list = Runtime.ParserService.GetNamespaceContents (nsData.Project, nsData.FullName, false);
+				IParserContext ctx = Runtime.ProjectService.ParserDatabase.GetProjectParserContext (nsData.Project);
+				ArrayList list = ctx.GetNamespaceContents (nsData.FullName, false);
 				AddProjectContent (builder, nsData.Project, nsData, list);
 			}
 			else {
 				foreach (Project p in Runtime.ProjectService.CurrentOpenCombine.GetAllProjects ()) {
-					ArrayList list = Runtime.ParserService.GetNamespaceContents (p, nsData.FullName, false);
+					IParserContext ctx = Runtime.ProjectService.ParserDatabase.GetProjectParserContext (p);
+					ArrayList list = ctx.GetNamespaceContents (nsData.FullName, false);
 					AddProjectContent (builder, p, nsData, list);
 				}
 			}

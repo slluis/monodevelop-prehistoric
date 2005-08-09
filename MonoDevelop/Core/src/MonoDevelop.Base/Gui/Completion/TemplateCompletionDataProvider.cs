@@ -19,6 +19,13 @@ namespace MonoDevelop.Gui.Completion
 {
 	public class TemplateCompletionDataProvider : ICompletionDataProvider
 	{
+		string fileName;
+		
+		public TemplateCompletionDataProvider (string fileName)
+		{
+			this.fileName = fileName;
+		}
+		
 		public Gdk.Pixbuf[] ImageList
 		{
 			get {
@@ -26,9 +33,9 @@ namespace MonoDevelop.Gui.Completion
 			}
 		}
 		
-		public ICompletionData[] GenerateCompletionData(Project project, string fileName, ICompletionWidget widget, char charTyped)
+		public ICompletionData[] GenerateCompletionData (ICompletionWidget widget, char charTyped)
 		{
-			CodeTemplateGroup templateGroup = CodeTemplateLoader.GetTemplateGroupPerFilename(fileName);
+			CodeTemplateGroup templateGroup = CodeTemplateLoader.GetTemplateGroupPerFilename (fileName);
 			if (templateGroup == null) {
 				return null;
 			}

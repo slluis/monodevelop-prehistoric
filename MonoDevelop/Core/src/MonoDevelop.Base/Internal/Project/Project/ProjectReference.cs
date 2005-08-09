@@ -106,8 +106,8 @@ namespace MonoDevelop.Internal.Project
 					return reference;
 				
 				case ReferenceType.Gac:
-					string file = Runtime.ParserService.LoadAssemblyFromGac (GetPathToGACAssembly (this));
-					return file == String.Empty ? reference : file;
+					string file = Runtime.SystemAssemblyService.GetAssemblyLocation (GetPathToGACAssembly (this));
+					return file == null ? reference : file;
 				case ReferenceType.Project:
 					Project p = Runtime.ProjectService.GetProject (reference);
 					return p != null ? p.GetOutputFileName () : null;

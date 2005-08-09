@@ -136,18 +136,17 @@ namespace MonoDevelop.Internal.Parser
 		/// Resolves an expression.
 		/// The caretLineNumber and caretColumn is 1 based.
 		/// </summary>
-		ResolveResult Resolve(IParserService parserService, 
-							  Project_ project,
+		ResolveResult Resolve(IParserContext parserContext, 
 		                      string expression, 
 		                      int caretLineNumber, 
 		                      int caretColumn, 
 		                      string fileName,
 		                      string fileContent);
 
-		string MonodocResolver (IParserService parserService, Project_ project, string expression, int caretLineNumber, int caretColumn, string fileName, string fileContent);
+		string MonodocResolver (IParserContext parserContext, string expression, int caretLineNumber, int caretColumn, string fileName, string fileContent);
 
-		ArrayList IsAsResolve (IParserService parserService, Project_ project, string expression, int caretLineNumber, int caretColumn, string fileName, string fileContent);
+		ArrayList IsAsResolve (IParserContext parserContext, string expression, int caretLineNumber, int caretColumn, string fileName, string fileContent);
 		
-		ArrayList CtrlSpace(IParserService parserService, Project_ project, int caretLine, int caretColumn, string fileName);
+		ArrayList CtrlSpace(IParserContext parserContext, int caretLine, int caretColumn, string fileName);
 	}
 }

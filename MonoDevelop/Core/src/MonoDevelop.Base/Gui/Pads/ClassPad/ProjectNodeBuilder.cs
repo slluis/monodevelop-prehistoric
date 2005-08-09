@@ -85,7 +85,8 @@ namespace MonoDevelop.Gui.Pads.ClassPad
 		{
 			bool publicOnly = builder.Options ["PublicApiOnly"];
 			
-			ArrayList list = Runtime.ParserService.GetNamespaceContents (project, "", false);
+			IParserContext ctx = Runtime.ProjectService.ParserDatabase.GetProjectParserContext (project);
+			ArrayList list = ctx.GetNamespaceContents ("", false);
 			foreach (object ob in list) {
 				if (ob is string) {
 					if (builder.Options ["NestedNamespaces"])
@@ -101,7 +102,8 @@ namespace MonoDevelop.Gui.Pads.ClassPad
 		
 		public static void FillNamespaces (ITreeBuilder builder, Project project, string ns)
 		{
-			if (Runtime.ParserService.GetClassList (project, ns, false, true).Length > 0) {
+			IParserContext ctx = Runtime.ProjectService.ParserDatabase.GetProjectParserContext (project);
+			if (ctx.GetClassList (ns, false, true).Length > 0) {
 				if (builder.Options ["ShowProjects"])
 					builder.AddChild (new NamespaceData (project, ns));
 				else {
@@ -110,7 +112,7 @@ namespace MonoDevelop.Gui.Pads.ClassPad
 				}
 			}
 				
-			string[] list = Runtime.ParserService.GetNamespaceList (project, ns, false, true);
+			string[] list = ctx.GetNamespaceList (ns, false, true);
 			foreach (string subns in list)
 				FillNamespaces (builder, project, ns + "." + subns);
 		}

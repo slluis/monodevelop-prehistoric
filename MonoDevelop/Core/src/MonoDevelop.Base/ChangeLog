@@ -1,3 +1,39 @@
+2005-08-09  Lluis Sanchez Gual  <lluis@novell.com> 
+
+	* MonoDevelopCore.addin.xml:
+	* Commands/AutostartCommands.cs: Remove useless autostart command.
+	
+	* Services/Project/IProjectService.cs:
+	* Services/Project/ProjectService.cs: Added a parser database to store
+	information about the opened combine.
+	
+	* Internal/Project/Project/ProjectReference.cs:
+	* Services/SystemAssemblyService.cs: Added GetAssemblyLocation method,
+	which returns the path to an assembly by loading it out-of-process.
+	
+	* Internal/Parser/IParser.cs:
+	* Services/ParserService/IParserService.cs:
+	* Services/ParserService/CodeCompletionDatabase.cs:
+	* Services/ParserService/AssemblyCodeCompletionDatabase.cs:
+	* Services/ParserService/SimpleCodeCompletionDatabase.cs:
+	* Gui/Pads/ClassPad/ProjectNodeBuilder.cs:
+	* Gui/Pads/ClassPad/NamespaceNodeBuilder.cs:
+	* Services/ParserService/DefaultParserService.cs:
+	* Services/ParserService/ProjectCodeCompletionDatabase.cs:
+	Use the new IParserContext API.
+	
+	* Gui/ContentInterfaces/IEditable.cs: Added TextChanged event.
+	* Gui/Workbench/DefaultWorkbench.cs: Reparse the active file when
+	the text changes.
+	
+	* Gui/Completion/CommentCompletionDataProvider.cs:
+	* Gui/Completion/ICompletionDataProvider.cs:
+	* Gui/Completion/CodeCompletionDataProvider.cs:
+	* Gui/Completion/TemplateCompletionDataProvider.cs:
+	* Gui/Completion/CompletionListWindow.cs: Project and FileName have
+	now been moved into ICompletionDataProvider, so there is no need
+	to pass them to all methods.
+
 2005-08-08  Lluis Sanchez Gual  <lluis@novell.com> 
 
 	* Services/File/DefaultFileService.cs: Properly jump to the requested

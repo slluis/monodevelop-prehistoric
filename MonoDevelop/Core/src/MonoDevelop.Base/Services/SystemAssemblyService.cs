@@ -2,10 +2,12 @@ using System;
 using System.IO;
 using System.Collections;
 using System.Diagnostics;
+using System.Reflection;
 
 using MonoDevelop.Core.Services;
 
-namespace MonoDevelop.Services {
+namespace MonoDevelop.Services
+{
 	public class SystemAssemblyService : AbstractService
 	{
 		Hashtable assemblyPathToPackage = new Hashtable ();
@@ -37,6 +39,17 @@ namespace MonoDevelop.Services {
 			return (string)assemblyPathToPackage[path];
 		}
 	
+		public string GetAssemblyLocation (string assemblyName)
+		{
+			if (assemblyName == "mscorlib")
+				return typeof(object).Assembly.Location;
+
+			AssemblyLocator locator = (AssemblyLocator) Runtime.ProcessService.CreateExternalProcessObject (typeof(AssemblyLocator), true);
+			using (locator) {
+				return locator.Locate (assemblyName);
+			}
+		}
+		
 		new void Initialize ()
 		{
 			initialized = true;
@@ -189,6 +202,24 @@ namespace MonoDevelop.Services {
 			if (ret == null || ret.Length == 0)
 				return String.Empty;
 			return ret;
+		}
+	}
+	
+	internal class AssemblyLocator: RemoteProcessObject
+	{
+		public string Locate (string assemblyName)
+		{
+			Assembly asm;
+			try {
+				asm = Assembly.Load (assemblyName);
+			}
+			catch {
+				asm = Assembly.LoadWithPartialName (assemblyName);
+			}
+			if (asm == null)
+				return null;
+			
+			return asm.Location;
 		}
 	}
 }

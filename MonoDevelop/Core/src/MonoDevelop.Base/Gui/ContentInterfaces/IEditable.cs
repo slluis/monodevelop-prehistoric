@@ -5,6 +5,8 @@
 //     <version value="$version"/>
 // </file>
 
+using System;
+
 namespace MonoDevelop.Gui
 {
 	public interface IEditable: ITextBuffer
@@ -22,5 +24,7 @@ namespace MonoDevelop.Gui
 		void Redo();
 		
 		new string SelectedText { get; set; }
+		
+		event EventHandler TextChanged;
 	}
 }

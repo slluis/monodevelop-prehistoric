@@ -36,9 +36,9 @@ namespace MonoDevelop.Gui.Completion
 			SizeAllocated += new SizeAllocatedHandler (ListSizeChanged);
 		}
 		
-		public static void ShowWindow (char firstChar, ICompletionDataProvider provider, ICompletionWidget completionWidget, Project project, string fileName)
+		public static void ShowWindow (char firstChar, ICompletionDataProvider provider, ICompletionWidget completionWidget)
 		{
-			if (!wnd.ShowListWindow (firstChar, provider,  completionWidget, project, fileName))
+			if (!wnd.ShowListWindow (firstChar, provider,  completionWidget))
 				return;
 			
 			// makes control-space in midle of words to work
@@ -58,11 +58,11 @@ namespace MonoDevelop.Gui.Completion
 			wnd.PartialWord = wnd.CompleteWord;		
 		}
 		
-		bool ShowListWindow (char firstChar, ICompletionDataProvider provider, ICompletionWidget completionWidget, Project project, string fileName)
+		bool ShowListWindow (char firstChar, ICompletionDataProvider provider, ICompletionWidget completionWidget)
 		{
 			this.completionWidget = completionWidget;
 			
-			completionData = provider.GenerateCompletionData (project, fileName, completionWidget, firstChar);
+			completionData = provider.GenerateCompletionData (completionWidget, firstChar);
 
 			if (completionData == null || completionData.Length == 0) return false;
 			

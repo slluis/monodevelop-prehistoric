@@ -44,8 +44,8 @@ namespace MonoDevelop.Services
 		string baseDir;
 		string assemblyName;
 		
-		public AssemblyCodeCompletionDatabase (string baseDir, string assemblyName, DefaultParserService parserService)
-		: base (parserService)
+		public AssemblyCodeCompletionDatabase (string baseDir, string assemblyName, ParserDatabase parserDatabase)
+		: base (parserDatabase)
 		{
 			string assemblyFile;
 			string[] refUris;
@@ -97,7 +97,7 @@ namespace MonoDevelop.Services
 		protected override void ParseFile (string fileName, IProgressMonitor parentMonitor)
 		{
 			IProgressMonitor monitor = parentMonitor;
-			if (parentMonitor == null) monitor = parserService.GetParseProgressMonitor ();
+			if (parentMonitor == null) monitor = parserDatabase.GetParseProgressMonitor ();
 			
 			try {
 				monitor.BeginTask ("Parsing assembly: " + Path.GetFileName (fileName), 1);

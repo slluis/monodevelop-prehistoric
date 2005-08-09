@@ -41,19 +41,23 @@ namespace MonoDevelop.Gui.Completion
 		int caretLineNumber;
 		int caretColumn;
 		bool ctrlspace;
+		IParserContext parserContext;
+		string fileName;
 
-		public CodeCompletionDataProvider() : this (false)
+		public CodeCompletionDataProvider (IParserContext parserContext, string fileName) : this (parserContext, fileName, false)
 		{
 		}
 			
-		public CodeCompletionDataProvider (bool ctrl) 
+		public CodeCompletionDataProvider (IParserContext parserContext, string fileName, bool ctrl) 
 		{
+			this.fileName = fileName;
+			this.parserContext = parserContext;
 			this.ctrlspace = ctrl;
 		}
 		
 		ArrayList completionData = null;
 		
-		public ICompletionData[] GenerateCompletionData(Project project, string fileName, ICompletionWidget widget, char charTyped)
+		public ICompletionData[] GenerateCompletionData (ICompletionWidget widget, char charTyped)
 		{
 			completionData = new ArrayList();
 			
@@ -63,30 +67,29 @@ namespace MonoDevelop.Gui.Completion
 			//string expression    = TextUtilities.GetExpressionBeforeOffset (textArea, insertIter.Offset);
 			ResolveResult results;
 			
-			IParserService parserService = (IParserService)MonoDevelop.Core.Services.ServiceManager.GetService(typeof(IParserService));
-			IExpressionFinder expressionFinder = parserService.GetExpressionFinder(fileName);
+			IExpressionFinder expressionFinder = parserContext.GetExpressionFinder(fileName);
 			string expression    = expressionFinder == null ? TextUtilities.GetExpressionBeforeOffset(widget, widget.TriggerOffset) : expressionFinder.FindExpression(widget.GetText (0, widget.TriggerOffset), widget.TriggerOffset - 2);
 			if (expression == null) return null;
 			Console.WriteLine ("Expr: |{0}|", expression);
 			//FIXME: This chartyped check is a fucking *HACK*
 			if (expression == "is" || expression == "as") {
 				string expr = expressionFinder == null ? TextUtilities.GetExpressionBeforeOffset (widget, widget.TriggerOffset - 3) : expressionFinder.FindExpression (widget.GetText (0, widget.TriggerOffset), widget.TriggerOffset - 5);
-				AddResolveResults (parserService.IsAsResolve (project, expr, caretLineNumber, caretColumn, fileName, widget.GetText (0, widget.TextLength)));
+				AddResolveResults (parserContext.IsAsResolve (expr, caretLineNumber, caretColumn, fileName, widget.GetText (0, widget.TextLength)));
 				return (ICompletionData[])completionData.ToArray (typeof (ICompletionData));
 			}
 			if (ctrlspace && charTyped != '.') {
-				AddResolveResults (parserService.CtrlSpace (parserService, project, caretLineNumber, caretColumn, fileName));
+				AddResolveResults (parserContext.CtrlSpace (caretLineNumber, caretColumn, fileName));
 				return (ICompletionData[])completionData.ToArray (typeof (ICompletionData));
 			}
 			if (charTyped == ' ') {
 				if (expression == "using" || expression.EndsWith(" using") || expression.EndsWith("\tusing")|| expression.EndsWith("\nusing")|| expression.EndsWith("\rusing")) {
-					string[] namespaces = parserService.GetNamespaceList(project, "", true, true);
+					string[] namespaces = parserContext.GetNamespaceList ("", true, true);
 					AddResolveResults(new ResolveResult(namespaces));
 				}
 			} else {
 				//FIXME: I added the null check, #D doesnt need it, why do we?
 				if (fileName != null) {
-					results = parserService.Resolve(project, expression, caretLineNumber, caretColumn, fileName, widget.GetText (0, widget.TextLength));
+					results = parserContext.Resolve (expression, caretLineNumber, caretColumn, fileName, widget.GetText (0, widget.TextLength));
 					AddResolveResults(results);
 				}
 			}

@@ -52,7 +52,7 @@ namespace MonoDevelop.Gui.Completion
 			new string[] {"value", "A description of a property"}
 		};
 */
-		public ICompletionData[] GenerateCompletionData (Project project, string fileName, ICompletionWidget widget, char charTyped)
+		public ICompletionData[] GenerateCompletionData (ICompletionWidget widget, char charTyped)
 		{
 			/*caretLineNumber = textArea.Caret.Line;
 			caretColumn     = textArea.Caret.Column;

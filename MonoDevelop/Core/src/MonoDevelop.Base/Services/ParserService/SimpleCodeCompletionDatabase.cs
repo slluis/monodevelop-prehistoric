@@ -36,8 +36,8 @@ namespace MonoDevelop.Services
 	{
 		string file = "_currentFile";
 		
-		public SimpleCodeCompletionDatabase (string file, DefaultParserService parserService)
-		: base (parserService)
+		public SimpleCodeCompletionDatabase (string file, ParserDatabase parserDatabase)
+		: base (parserDatabase)
 		{
 			AddFile (file);
 			this.file = file;
@@ -47,7 +47,7 @@ namespace MonoDevelop.Services
 		{
 			ICompilationUnit cu = (ICompilationUnit)parserInfo.BestCompilationUnit;
 			ClassCollection resolved;
-			parserService.ResolveTypes (null, cu, cu.Classes, out resolved);
+			parserDatabase.ResolveTypes (null, cu, cu.Classes, out resolved);
 			return UpdateClassInformation (resolved, file);
 		}
 		

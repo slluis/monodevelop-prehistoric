@@ -73,6 +73,10 @@ namespace MonoDevelop.Services
 			get;
 		}
 		
+		IParserDatabase ParserDatabase {
+			get;
+		}
+		
 		FileFormatManager FileFormats {
 			get;
 		}
