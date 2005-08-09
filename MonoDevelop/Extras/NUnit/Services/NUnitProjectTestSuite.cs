@@ -60,7 +60,8 @@ namespace MonoDevelop.NUnit
 
 		protected override SourceCodeLocation GetSourceCodeLocation (string fullClassName, string methodName)
 		{
-			IClass cls = Runtime.ParserService.GetClass (project, fullClassName);
+			IParserContext ctx = Runtime.ProjectService.ParserDatabase.GetProjectParserContext (project);
+			IClass cls = ctx.GetClass (fullClassName);
 			if (cls == null)
 				return null;
 			
