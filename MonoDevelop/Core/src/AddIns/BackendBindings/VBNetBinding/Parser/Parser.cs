@@ -130,24 +130,24 @@ namespace VBBinding.Parser
 		
 		
 		
-		public ArrayList CtrlSpace(IParserService parserService,Project proj, int caretLine, int caretColumn, string fileName)
+		public ArrayList CtrlSpace (IParserContext parserContext, int caretLine, int caretColumn, string fileName)
 		{
-			return new Resolver(proj).CtrlSpace(parserService, caretLine, caretColumn, fileName);
+			return new Resolver(parserContext).CtrlSpace (caretLine, caretColumn, fileName);
 		}
 		
-		public ResolveResult Resolve(IParserService parserService,Project proj, string expression, int caretLineNumber, int caretColumn, string fileName, string fileContent)
+		public ResolveResult Resolve (IParserContext parserContext, string expression, int caretLineNumber, int caretColumn, string fileName, string fileContent)
 		{
-			return new Resolver(proj).Resolve(parserService,expression, caretLineNumber, caretColumn, fileName, fileContent);
+			return new Resolver(parserContext).Resolve (expression, caretLineNumber, caretColumn, fileName, fileContent);
 		}
 		
-		public ArrayList IsAsResolve (IParserService parserService, Project project, string expression, int caretLineNumber, int caretColumn, string fileName, string fileContent)
+		public ArrayList IsAsResolve (IParserContext parserContext, string expression, int caretLineNumber, int caretColumn, string fileName, string fileContent)
 		{
-			return new Resolver (project).IsAsResolve (parserService, expression, caretLineNumber, caretColumn, fileName, fileContent);
+			return new Resolver (parserContext).IsAsResolve (expression, caretLineNumber, caretColumn, fileName, fileContent);
 		}
 		
-		public string MonodocResolver (IParserService parserService, Project project, string expression, int caretLineNumber, int caretColumn, string fileName, string fileContent)
+		public string MonodocResolver (IParserContext parserContext, string expression, int caretLineNumber, int caretColumn, string fileName, string fileContent)
 		{
-			return new Resolver (project).MonodocResolver (parserService, expression, caretLineNumber, caretColumn, fileName, fileContent);
+			return new Resolver (parserContext).MonodocResolver (expression, caretLineNumber, caretColumn, fileName, fileContent);
 		}
 		
 

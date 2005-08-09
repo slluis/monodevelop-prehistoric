@@ -11,7 +11,6 @@ using System.Drawing;
 
 using MonoDevelop.Services;
 using MonoDevelop.Internal.Parser;
-using MonoDevelop.Internal.Project;
 using VBBinding.Parser.SharpDevelopTree;
 using ICSharpCode.SharpRefactory.Parser.AST.VB;
 using ICSharpCode.SharpRefactory.Parser.VB;
@@ -20,20 +19,19 @@ namespace VBBinding.Parser
 {
 	public class Resolver
 	{
-		IParserService parserService;
+		IParserContext parserContext;
 		ICompilationUnit cu;
 		IClass callingClass;
 		LookupTableVisitor lookupTableVisitor;
-		Project project;
 		
-		public Resolver (Project project)
+		public Resolver (IParserContext parserContext)
 		{
-			this.project = project;
+			this.parserContext = parserContext;
 		}
 		
-		public IParserService ParserService {
+		public IParserContext ParserContext {
 			get {
-				return parserService;
+				return parserContext;
 			}
 		}
 		
@@ -66,7 +64,7 @@ namespace VBBinding.Parser
 		int caretLine;
 		int caretColumn;
 		
-		public IReturnType internalResolve(IParserService parserService, string expression, int caretLineNumber, int caretColumn, string fileName, string fileContent)
+		public IReturnType internalResolve (string expression, int caretLineNumber, int caretColumn, string fileName, string fileContent)
 		{
 			try{
 			//Console.WriteLine("Start Resolving " + expression);
@@ -80,8 +78,7 @@ namespace VBBinding.Parser
 			this.caretLine     = caretLineNumber;
 			this.caretColumn   = caretColumn;
 			
-			this.parserService = parserService;
-			IParseInformation parseInfo = parserService.GetParseInformation(fileName);
+			IParseInformation parseInfo = parserContext.GetParseInformation(fileName);
 			ICSharpCode.SharpRefactory.Parser.AST.VB.CompilationUnit fileCompilationUnit = parseInfo.MostRecentCompilationUnit.Tag as ICSharpCode.SharpRefactory.Parser.AST.VB.CompilationUnit;
 			if (fileCompilationUnit == null) {
 				ICSharpCode.SharpRefactory.Parser.VB.Parser fileParser = new ICSharpCode.SharpRefactory.Parser.VB.Parser();
@@ -149,7 +146,7 @@ namespace VBBinding.Parser
 				//}
 				
 				//// when type is null might be file needs to be reparsed - some vars were lost
-				fileCompilationUnit=parserService.ParseFile(fileName, fileContent).MostRecentCompilationUnit.Tag 
+				fileCompilationUnit=parserContext.ParseFile(fileName, fileContent).MostRecentCompilationUnit.Tag 
 					as ICSharpCode.SharpRefactory.Parser.AST.VB.CompilationUnit;
 				lookupTableVisitor.Visit(fileCompilationUnit,null);
 				//Console.WriteLine("Lookup table visited again");
@@ -211,12 +208,12 @@ namespace VBBinding.Parser
 		public IClass GetResolvedClass (IClass cls)
 		{
 			// Returns an IClass in which all type names have been properly resolved
-			return parserService.GetClass (project, cls.FullyQualifiedName,true,false);
+			return parserContext.GetClass (cls.FullyQualifiedName,true,false);
 		}
 
 
 		
-		public string MonodocResolver (IParserService parserService, string expression, int caretLineNumber, int caretColumn, string fileName, string fileContent) 
+		public string MonodocResolver (string expression, int caretLineNumber, int caretColumn, string fileName, string fileContent) 
 		{
 			//Console.WriteLine("Entering MonodocResolver for " + expression);
 			if (expression == null) {
@@ -226,8 +223,8 @@ namespace VBBinding.Parser
 			if (expression == "") {
 				return null;
 			}
-			IReturnType retType = internalResolve (parserService, expression, caretLineNumber, caretColumn, fileName, fileContent);
-			IClass retClass = parserService.SearchType (project, retType.FullyQualifiedName, null, cu);
+			IReturnType retType = internalResolve (expression, caretLineNumber, caretColumn, fileName, fileContent);
+			IClass retClass = parserContext.SearchType (retType.FullyQualifiedName, null, cu);
 			if (retClass == null) {
 				//Console.WriteLine ("Retclass was null");
 				return null;
@@ -237,15 +234,14 @@ namespace VBBinding.Parser
 			return "T:" + retClass.FullyQualifiedName;
 		}
 		
-		public ArrayList IsAsResolve (IParserService parserService, string expression, int caretLine, int caretColumn, string fileName, string fileContent)
+		public ArrayList IsAsResolve (string expression, int caretLine, int caretColumn, string fileName, string fileContent)
 		{
 			//Console.WriteLine("Entering IsAsResolve for " + expression);
 			ArrayList result = new ArrayList ();
-			this.parserService = parserService;
 			this.caretLine = caretLine;
 			this.caretColumn = caretColumn;
 			
-			IParseInformation parseInfo = parserService.GetParseInformation (fileName);
+			IParseInformation parseInfo = parserContext.GetParseInformation (fileName);
 			ICSharpCode.SharpRefactory.Parser.AST.VB.CompilationUnit fcu = parseInfo.MostRecentCompilationUnit.Tag as ICSharpCode.SharpRefactory.Parser.AST.VB.CompilationUnit;
 			if (fcu == null)
 				return null;
@@ -268,7 +264,7 @@ namespace VBBinding.Parser
 
 			IReturnType type = expr.AcceptVisitor (typeVisitor, null) as IReturnType;
 			if (type == null || type.PointerNestingLevel != 0) {
-				fcu = parserService.ParseFile (fileName, fileContent).MostRecentCompilationUnit.Tag as ICSharpCode.SharpRefactory.Parser.AST.VB.CompilationUnit;
+				fcu = parserContext.ParseFile (fileName, fileContent).MostRecentCompilationUnit.Tag as ICSharpCode.SharpRefactory.Parser.AST.VB.CompilationUnit;
 				lookupTableVisitor.Visit (fcu, null);
 				cu = (ICompilationUnit)vbVisitor.Visit (fcu, null);
 
@@ -283,11 +279,11 @@ namespace VBBinding.Parser
 				type = new ReturnType ("System.Array");
 
 //			IClass returnClass = SearchType (type.FullyQualifiedName, null, cu);
-			IClass returnClass = parserService.SearchType (project, type.FullyQualifiedName, null, cu);
+			IClass returnClass = parserContext.SearchType (type.FullyQualifiedName, null, cu);
 			if (returnClass == null)
 				return null;
 
-			foreach (IClass iclass in parserService.GetClassInheritanceTree (project, returnClass)) {
+			foreach (IClass iclass in parserContext.GetClassInheritanceTree (returnClass)) {
 				if (!result.Contains (iclass))
 					result.Add (iclass);
 			}
@@ -296,7 +292,7 @@ namespace VBBinding.Parser
 		
 /***** #D Legacy Code - remove once replacement code is verified *****
 
-		public ResolveResult Resolve(IParserService parserService, string expression, int caretLineNumber, int caretColumn, string fileName, string fileContent)
+		public ResolveResult Resolve(IParserContext parserContext, string expression, int caretLineNumber, int caretColumn, string fileName, string fileContent)
 		{
 			Console.WriteLine("Entering Resolve for " + expression);
 			expression = expression.TrimStart(null);
@@ -312,8 +308,8 @@ namespace VBBinding.Parser
 			Expression expr = null;
 			this.caretLine     = caretLineNumber;
 			this.caretColumn   = caretColumn;
-			this.parserService = parserService;
-			IParseInformation parseInfo = parserService.GetParseInformation(fileName);
+			this.parserContext = parserContext;
+			IParseInformation parseInfo = parserContext.GetParseInformation(fileName);
 			ICSharpCode.SharpRefactory.Parser.AST.VB.CompilationUnit fileCompilationUnit = parseInfo.MostRecentCompilationUnit.Tag as ICSharpCode.SharpRefactory.Parser.AST.VB.CompilationUnit;
 			if (fileCompilationUnit == null) {
 				ICSharpCode.SharpRefactory.Parser.VB.Parser fileParser = new ICSharpCode.SharpRefactory.Parser.VB.Parser();
@@ -371,7 +367,7 @@ namespace VBBinding.Parser
 			//IReturnType type = expr.AcceptVisitor(typeVisitor, null) as IReturnType;
 			//Console.WriteLine("type visited");
 			
-			IReturnType type = internalResolve (parserService, expression, caretLineNumber, caretColumn, fileName, fileContent);
+			IReturnType type = internalResolve (parserContext, expression, caretLineNumber, caretColumn, fileName, fileContent);
 			//IClass returnClass = SearchType (type.FullyQualifiedName, cu);
 			
 			if (type == null || type.PointerNestingLevel != 0) {
@@ -388,7 +384,7 @@ namespace VBBinding.Parser
 			}
 			Console.WriteLine("Here: Type is " + type.FullyQualifiedName);
 			//IClass returnClass = SearchType(type.FullyQualifiedName, callingClass, cu);
-			IClass returnClass = parserService.GetClass(project,type.FullyQualifiedName);
+			IClass returnClass = parserContext.GetClass(type.FullyQualifiedName);
 			if (returnClass == null) {
 				Console.WriteLine("IClass is null! Trying namespace!");
 				// Try if type is Namespace:
@@ -396,7 +392,7 @@ namespace VBBinding.Parser
 				if (n == null) {
 					return null;
 				}
-				ArrayList content = parserService.GetNamespaceContents(project,n, true,false);
+				ArrayList content = parserContext.GetNamespaceContents(n, true,false);
 				ArrayList classes = new ArrayList();
 				for (int i = 0; i < content.Count; ++i) {
 					if (content[i] is IClass) {
@@ -414,7 +410,7 @@ namespace VBBinding.Parser
 				}
 				
 				Console.WriteLine("Checking subnamespace " + n);
-				string[] namespaces = parserService.GetNamespaceList(project,n, false);
+				string[] namespaces = parserContext.GetNamespaceList(n, false);
 				Console.WriteLine("Got " + namespaces);
 				return new ResolveResult(namespaces, classes);
 			}
@@ -432,7 +428,7 @@ namespace VBBinding.Parser
 		
 		
 		
-		public ResolveResult Resolve(IParserService parserService, string expression, int caretLineNumber, int caretColumn, string fileName, string fileContent) 
+		public ResolveResult Resolve (string expression, int caretLineNumber, int caretColumn, string fileName, string fileContent) 
 		{
 			if (expression == null) {
 				return null;
@@ -459,7 +455,7 @@ namespace VBBinding.Parser
 				}
 				string t = expression.Substring(i + 1);
 //				Console.WriteLine("in Imports Statement");
-				string[] namespaces = parserService.GetNamespaceList(project, t);
+				string[] namespaces = parserContext.GetNamespaceList (t);
 				if (namespaces == null || namespaces.Length <= 0) {
 					return null;
 				}
@@ -467,7 +463,7 @@ namespace VBBinding.Parser
 			}
 			
 			//Console.WriteLine("Not in Imports");
-			IReturnType type = internalResolve (parserService, expression, caretLineNumber, caretColumn, fileName, fileContent);
+			IReturnType type = internalResolve (expression, caretLineNumber, caretColumn, fileName, fileContent);
 			IClass returnClass = SearchType (type.FullyQualifiedName, cu);
 			if (returnClass == null) {
 				// Try if type is Namespace:
@@ -475,14 +471,14 @@ namespace VBBinding.Parser
 				if (n == null) {
 					return null;
 				}
-				ArrayList content = parserService.GetNamespaceContents(project,n,true,false);
+				ArrayList content = parserContext.GetNamespaceContents(n,true,false);
 				ArrayList classes = new ArrayList();
 				for (int i = 0; i < content.Count; ++i) {
 					if (content[i] is IClass) {
 						classes.Add((IClass)content[i]);
 					}
 				}
-				string[] namespaces = parserService.GetNamespaceList(project, n, true, false);
+				string[] namespaces = parserContext.GetNamespaceList(n, true, false);
 				return new ResolveResult(namespaces, classes);
 			}
 			//Console.WriteLine("Returning Result!");
@@ -559,7 +555,7 @@ namespace VBBinding.Parser
 //			Console.WriteLine("ClassType = " + curType.ClassType);
 			if (curType.ClassType == ClassType.Interface && !showStatic) {
 				foreach (string s in curType.BaseTypes) {
-					IClass baseClass = parserService.GetClass (project, s, true, false);
+					IClass baseClass = parserContext.GetClass (s, true, false);
 					if (baseClass != null && baseClass.ClassType == ClassType.Interface) {
 						ListMembers(members, baseClass);
 					}
@@ -593,7 +589,7 @@ namespace VBBinding.Parser
 //			Console.WriteLine("ClassType = " + curType.ClassType);
 			if (curType.ClassType == ClassType.Interface && !showStatic) {
 				foreach (string s in curType.BaseTypes) {
-					IClass baseClass = parserService.GetClass (project, s, true, false);
+					IClass baseClass = parserContext.GetClass (s, true, false);
 					if (baseClass != null && baseClass.ClassType == ClassType.Interface) {
 						ListTypes(members, baseClass);
 					}
@@ -654,7 +650,7 @@ namespace VBBinding.Parser
 			}
 			string t = expression.Substring(i + 1);
 //			Console.WriteLine("in imports Statement");
-			string[] namespaces = parserService.GetNamespaceList(project,t, true, false);
+			string[] namespaces = parserContext.GetNamespaceList(t, true, false);
 			if (namespaces == null || namespaces.Length <= 0) {
 				return null;
 			}
@@ -1006,18 +1002,18 @@ namespace VBBinding.Parser
 		public string SearchNamespace(string name, ICompilationUnit unit)
 		{
 			try{
-			//return parserService.SearchNamespace(project,null,name,false); //, unit, caretLine, caretColumn, false);
-			if (parserService.NamespaceExists(project, name)) {
+			//return parserContext.SearchNamespace(null,name,false); //, unit, caretLine, caretColumn, false);
+			if (parserContext.NamespaceExists(name)) {
 				return name;
 			}
 			if (unit == null) {
 				//Console.WriteLine("done, resultless");
 				//return null;
-				return parserService.SearchNamespace(project,null,name,false); //, unit, caretLine, caretColumn, false);
+				return parserContext.SearchNamespace(null,name,false); //, unit, caretLine, caretColumn, false);
 			}
 			foreach (IUsing u in unit.Usings) {
 				if (u != null && (u.Region == null || u.Region.IsInside(caretLine, caretColumn))) {
-					string nameSpace = parserService.SearchNamespace (project, u, name);
+					string nameSpace = parserContext.SearchNamespace (u, name);
 					if (nameSpace != null) {
 						return nameSpace;
 					}
@@ -1025,7 +1021,7 @@ namespace VBBinding.Parser
 			}
  			//Console.WriteLine("done, resultless");
 			//return null;
-			return parserService.SearchNamespace(project,null,name,false); //, unit, caretLine, caretColumn, false);
+			return parserContext.SearchNamespace(null,name,false); //, unit, caretLine, caretColumn, false);
 			}catch(Exception ex){
 				//Console.WriteLine("done, resultless");
 				return null;
@@ -1044,7 +1040,7 @@ namespace VBBinding.Parser
 				return null;
 			}
 			IClass c;
-			c = parserService.GetClass(project, name,true,false);
+			c = parserContext.GetClass(name,true,false);
 			if (c != null) {
 //				Console.WriteLine("Found!");
 				return c;
@@ -1055,7 +1051,7 @@ namespace VBBinding.Parser
 				foreach (IUsing u in unit.Usings) {
 					if (u != null && (u.Region == null || u.Region.IsInside(caretLine, caretColumn))) {
 //						Console.WriteLine("In UsingRegion");
-						c = parserService.SearchType(project, u, name);
+						c = parserContext.SearchType(u, name);
 						if (c != null) {
 //							Console.WriteLine("SearchType Successfull!!!");
 							return c;
@@ -1074,7 +1070,7 @@ namespace VBBinding.Parser
 			
 			do {
 				curnamespace += namespaces[i] + '.';
-				c = parserService.GetClass(project, curnamespace + name,true,false);
+				c = parserContext.GetClass(curnamespace + name,true,false);
 				if (c != null) {
 					return c;
 				}
@@ -1090,7 +1086,7 @@ namespace VBBinding.Parser
 		/// </remarks>
 		public IClass SearchType(string name, IClass curType)
 		{
-			return parserService.SearchType(project,name, curType,null); //, caretLine, caretColumn, false);
+			return parserContext.SearchType(name, curType,null); //, caretLine, caretColumn, false);
 		}
 		
 		/// <remarks>
@@ -1098,15 +1094,15 @@ namespace VBBinding.Parser
 		/// </remarks>
 		public IClass SearchType(string name, IClass curType, ICompilationUnit unit)
 		{
-			return parserService.SearchType(project,name, curType,unit); //, unit, caretLine, caretColumn, false);
+			return parserContext.SearchType(name, curType,unit); //, unit, caretLine, caretColumn, false);
 		}
 		
-		public ArrayList CtrlSpace(IParserService parserService, int caretLine, int caretColumn, string fileName)
+		public ArrayList CtrlSpace (int caretLine, int caretColumn, string fileName)
 		{
 			//Console.WriteLine("Entering CtrlSpace for " + caretLine + ":" + caretColumn + " in " + fileName);
 			ArrayList result = new ArrayList(TypeReference.PrimitiveTypes);
-			this.parserService = parserService;
-			IParseInformation parseInfo = parserService.GetParseInformation(fileName);
+			this.parserContext = parserContext;
+			IParseInformation parseInfo = parserContext.GetParseInformation(fileName);
 			ICSharpCode.SharpRefactory.Parser.AST.VB.CompilationUnit fileCompilationUnit = parseInfo.MostRecentCompilationUnit.Tag as ICSharpCode.SharpRefactory.Parser.AST.VB.CompilationUnit;
 			if (fileCompilationUnit == null) {
 				//Console.WriteLine("!Warning: no parseinformation!");
@@ -1132,15 +1128,15 @@ namespace VBBinding.Parser
 				}
 			}
 			if (callingClass != null) {
-				//result = parserService.ListMembers(result, callingClass, callingClass, InStatic());
+				//result = parserContext.ListMembers(result, callingClass, callingClass, InStatic());
 				result=ListMembers(result,callingClass);
 			}
 			string n = "";
-			result.AddRange(parserService.GetNamespaceContents(project,n, true,false));
+			result.AddRange(parserContext.GetNamespaceContents(n, true,false));
 			foreach (IUsing u in cu.Usings) {
 				if (u != null && (u.Region == null || u.Region.IsInside(caretLine, caretColumn))) {
 					foreach (string name in u.Usings) {
-						result.AddRange(parserService.GetNamespaceContents(project,name,true, false));
+						result.AddRange(parserContext.GetNamespaceContents(name,true, false));
 					}
 					foreach (string alias in u.Aliases.Keys) {
 						result.Add(alias);
@@ -1154,7 +1150,7 @@ namespace VBBinding.Parser
 		public IClass BaseClass(IClass curClass)
 		{
 			foreach (string s in curClass.BaseTypes) {
-				IClass baseClass = parserService.GetClass (project, s, true, false);
+				IClass baseClass = parserContext.GetClass (s, true, false);
 				if (baseClass != null && baseClass.ClassType != ClassType.Interface) {
 					return baseClass;
 				}
@@ -1203,7 +1199,7 @@ namespace VBBinding.Parser
 				return true;
 			}
 			foreach (string baseClass in c.BaseTypes) {
-				IClass bc = parserService.GetClass (project, baseClass, true, false);
+				IClass bc = parserContext.GetClass (baseClass, true, false);
 				if (IsClassInInheritanceTree(possibleBaseClass, bc)) {
 					return true;
 				}
