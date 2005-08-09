@@ -1,5 +1,5 @@
 <Project name="Diff" fileversion="2.0" language="C#" ctype="DotNetProject">
-  <Configurations>
+  <Configurations active="Debug">
     <Configuration name="Debug" ctype="DotNetProjectConfiguration">
       <Output directory="../../../build/AddIns/VersionControl" assembly="Diff" />
       <Build debugmode="True" target="Library" />

@@ -16,6 +16,7 @@
       <Entry configuration="Debug" build="True" name="MonoDeveloperExtensions" />
       <Entry configuration="Debug" build="True" name="mdhost" />
       <Entry configuration="Debug" build="True" name="dbgen" />
+      <Entry configuration="Debug" build="True" name="VersionControl" />
     </Configuration>
     <Configuration name="Release" ctype="CombineConfiguration">
       <Entry configuration="Release" build="True" name="MonoDevelop.Core" />
@@ -33,6 +34,7 @@
       <Entry configuration="Debug" build="True" name="MonoDeveloperExtensions" />
       <Entry configuration="Debug" build="True" name="mdhost" />
       <Entry configuration="Debug" build="True" name="dbgen" />
+      <Entry configuration="Debug" build="True" name="VersionControl" />
     </Configuration>
   </Configurations>
   <StartMode startupentry="MonoDevelop.Startup" single="True">
@@ -51,6 +53,7 @@
     <Execute type="None" entry="MonoDeveloperExtensions" />
     <Execute type="None" entry="mdhost" />
     <Execute type="None" entry="dbgen" />
+    <Execute type="None" entry="VersionControl" />
   </StartMode>
   <Entries>
     <Entry filename="./Core/src/MonoDevelop.Core/MonoDevelop.Core.mdp" />
@@ -68,5 +71,6 @@
     <Entry filename="./Extras/MonoDeveloperExtensions/MonoDeveloperExtensions.mdp" />
     <Entry filename="./Core/src/Tools/mdhost/mdhost.mdp" />
     <Entry filename="./Core/src/Tools/dbgen/dbgen.mdp" />
+    <Entry filename="./Extras/VersionControl/VersionControl.mds" />
   </Entries>
 </Combine>
