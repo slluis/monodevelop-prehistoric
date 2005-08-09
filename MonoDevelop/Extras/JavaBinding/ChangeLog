@@ -1,3 +1,8 @@
+2005-08-09  Lluis Sanchez Gual  <lluis@novell.com>
+
+	* Parser/Resolver.cs:
+	* Parser/Parser.cs: Use the new IParserContext API.
+
 2005-07-11  Lluis Sanchez Gual  <lluis@novell.com>
 
 	* Project/JavaCompilerParameters.cs: Implement ICloneable.

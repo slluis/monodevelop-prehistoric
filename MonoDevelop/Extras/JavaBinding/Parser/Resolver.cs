@@ -19,12 +19,12 @@ namespace JavaBinding.Parser
 {
 	public class Resolver
 	{
-		IParserService parserService;
+		IParserContext parserService;
 		ICompilationUnit cu;
 		IClass callingClass;
 		LookupTableVisitor lookupTableVisitor;
 		
-		public IParserService ParserService {
+		public IParserContext ParserService {
 			get {
 				return parserService;
 			}
@@ -57,7 +57,7 @@ namespace JavaBinding.Parser
 		int caretLine;
 		int caretColumn;
 		
-		public ResolveResult Resolve(IParserService parserService, string expression, int caretLineNumber, int caretColumn, string fileName, string fileContent)
+		public ResolveResult Resolve(IParserContext parserService, string expression, int caretLineNumber, int caretColumn, string fileName, string fileContent)
 		{
 			Console.WriteLine("Start Resolving");
 			if (expression == null) {
@@ -796,7 +796,7 @@ namespace JavaBinding.Parser
 			}
 		}
 		
-		public ArrayList CtrlSpace(IParserService parserService, int caretLine, int caretColumn, string fileName)
+		public ArrayList CtrlSpace(IParserContext parserService, int caretLine, int caretColumn, string fileName)
 		{
 			ArrayList result = new ArrayList();
 			this.parserService = parserService;

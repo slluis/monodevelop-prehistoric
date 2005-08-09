@@ -89,12 +89,12 @@ namespace JavaBinding.Parser
 			return visitor.Cu;
 		}
 		
-		public ArrayList CtrlSpace(IParserService parserService, int caretLine, int caretColumn, string fileName)
+		public ArrayList CtrlSpace(IParserContext parserService, int caretLine, int caretColumn, string fileName)
 		{
 			return new Resolver().CtrlSpace(parserService, caretLine, caretColumn, fileName);
 		}
 		
-		public ResolveResult Resolve(IParserService parserService, string expression, int caretLineNumber, int caretColumn, string fileName, string fileContent)
+		public ResolveResult Resolve(IParserContext parserService, string expression, int caretLineNumber, int caretColumn, string fileName, string fileContent)
 		{
 			return new Resolver().Resolve(parserService, expression, caretLineNumber, caretColumn, fileName, fileContent);
 		}
