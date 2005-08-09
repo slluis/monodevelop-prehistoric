@@ -86,14 +86,20 @@ namespace MonoDevelop.SourceEditor.InsightWindow
 					methodObject = words[words.Length - 1];
 				}
 			}
-			IParserService parserService = (IParserService)ServiceManager.GetService(typeof(IParserService));
-			ResolveResult results = parserService.Resolve(project, methodObject, caretLineNumber, caretColumn, fileName, text);
+			
+			IParserContext parserContext;
+			if (project != null)
+				parserContext = Runtime.ProjectService.ParserDatabase.GetProjectParserContext (project);
+			else
+				parserContext = Runtime.ProjectService.ParserDatabase.GetFileParserContext (fileName);
+			
+			ResolveResult results = parserContext.Resolve (methodObject, caretLineNumber, caretColumn, fileName, text);
 			
 			if (results != null && results.Type != null) {
 				if (contructorInsight) {
 					AddConstructors(results.Type);
 				} else {
-					foreach (IClass c in parserService.GetClassInheritanceTree (project, results.Type)) {
+					foreach (IClass c in parserContext.GetClassInheritanceTree (results.Type)) {
  						AddMethods(c, methodName, false);
 					}
 				}

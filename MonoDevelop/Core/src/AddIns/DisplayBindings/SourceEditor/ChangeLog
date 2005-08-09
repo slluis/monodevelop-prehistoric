@@ -1,3 +1,11 @@
+2005-08-09  Lluis Sanchez Gual  <lluis@novell.com> 
+
+	* InsightWindow/IndexerInsightDataProvider.cs:
+	* InsightWindow/MethodInsightDataProvider.cs:
+	* Gui/SourceEditorView.cs: Use the new IParserContext API.
+	
+	* Gui/SourceEditorDisplayBinding.cs: Implement IEditable.TextChanged.
+
 2005-08-06  John Luke  <john.luke@gmail.com>
 
 	* SourceEditor.mdp: update

@@ -196,9 +196,28 @@ namespace MonoDevelop.SourceEditor.Gui
 			triggerIter.ForwardChar ();
 			
 			PrepareCompletionDetails(triggerIter);
-			CompletionListWindow.ShowWindow (triggerChar, new CodeCompletionDataProvider (true), this, this.ParentEditor.DisplayBinding.Project, this.ParentEditor.DisplayBinding.ContentName);
+			CompletionListWindow.ShowWindow (triggerChar, GetCodeCompletionDataProvider (true), this);
 		}
 
+		IParserContext GetParserContext ()
+		{
+			string file = ParentEditor.DisplayBinding.IsUntitled ? ParentEditor.DisplayBinding.UntitledName : ParentEditor.DisplayBinding.ContentName;
+			Project project = ParentEditor.DisplayBinding.Project;
+			IParserDatabase pdb = Runtime.ProjectService.ParserDatabase;
+			
+			if (project != null)
+				return pdb.GetProjectParserContext (project);
+			else
+				return pdb.GetFileParserContext (file);
+		}
+
+		CodeCompletionDataProvider GetCodeCompletionDataProvider (bool ctrl)
+		{
+			IParserContext ctx = GetParserContext ();
+			string file = ParentEditor.DisplayBinding.IsUntitled ? ParentEditor.DisplayBinding.UntitledName : ParentEditor.DisplayBinding.ContentName;
+			return new CodeCompletionDataProvider (ctx, file, ctrl);
+		}
+			
 		bool MonodocResolver ()
 		{
 			TextIter insertIter = buf.GetIterAtMark (buf.InsertMark);
@@ -225,13 +244,12 @@ namespace MonoDevelop.SourceEditor.Gui
 				return false;
 			}
 			insertIter = triggerIter;
-			IParserService parser = (IParserService)ServiceManager.GetService (typeof (IParserService));
 			string fileName = ParentEditor.DisplayBinding.ContentName;
-			IExpressionFinder expressionFinder = parser.GetExpressionFinder(fileName);
+			IExpressionFinder expressionFinder = GetParserContext ().GetExpressionFinder(fileName);
 			string expression    = expressionFinder == null ? TextUtilities.GetExpressionBeforeOffset(this, insertIter.Offset) : expressionFinder.FindExpression(buf.GetText(buf.StartIter, insertIter, true), insertIter.Offset - 2);
 			if (expression == null) return false;
 			Console.WriteLine ("Expression: {" + expression + "}");
-			string type = parser.MonodocResolver (ParentEditor.DisplayBinding.Project, expression, insertIter.Line + 1, insertIter.LineOffset + 1, fileName, buf.Text);
+			string type = GetParserContext ().MonodocResolver (expression, insertIter.Line + 1, insertIter.LineOffset + 1, fileName, buf.Text);
 			if (type == null || type.Length == 0)
 				return false;
 
@@ -377,7 +395,7 @@ namespace MonoDevelop.SourceEditor.Gui
 				bool retval = base.OnKeyPressEvent (evnt);
 				if (EnableCodeCompletion && PeekCharIsWhitespace ()) {
 					PrepareCompletionDetails(buf.GetIterAtMark (buf.InsertMark));
-					CompletionListWindow.ShowWindow ((char)key, new CodeCompletionDataProvider (), this, this.ParentEditor.DisplayBinding.Project, this.ParentEditor.DisplayBinding.ContentName);
+					CompletionListWindow.ShowWindow ((char)key, GetCodeCompletionDataProvider (false), this);
 				}
 				return retval;
 				/*case '(':

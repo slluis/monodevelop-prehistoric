@@ -61,11 +61,17 @@ namespace MonoDevelop.SourceEditor.InsightWindow
 			// the parser works with 1 based coordinates
 			int caretLineNumber      = initialIter.Line + 1;
 			int caretColumn          = initialIter.LineOffset + 1;
-			IParserService parserService = (IParserService)ServiceManager.GetService(typeof(IParserService));
-			ResolveResult results = parserService.Resolve(project, methodObject, caretLineNumber, caretColumn, fileName, textArea.Buffer.Text);
+			
+			IParserContext parserContext;
+			if (project != null)
+				parserContext = Runtime.ProjectService.ParserDatabase.GetProjectParserContext (project);
+			else
+				parserContext = Runtime.ProjectService.ParserDatabase.GetFileParserContext (fileName);
+			
+			ResolveResult results = parserContext.Resolve (methodObject, caretLineNumber, caretColumn, fileName, textArea.Buffer.Text);
 			
 			if (results != null && results.Type != null) {
-				foreach (IClass c in parserService.GetClassInheritanceTree (project, results.Type)) {
+				foreach (IClass c in parserContext.GetClassInheritanceTree (results.Type)) {
 					foreach (IIndexer indexer in c.Indexer) {
 						methods.Add(indexer);
 					}

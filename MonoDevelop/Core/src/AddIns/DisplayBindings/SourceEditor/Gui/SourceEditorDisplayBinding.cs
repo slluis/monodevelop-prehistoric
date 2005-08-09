@@ -464,6 +464,12 @@ namespace MonoDevelop.SourceEditor.Gui
 				se.View.ScrollMarkOnscreen (se.Buffer.InsertMark);
 			}
 		}
+		
+		public event EventHandler TextChanged {
+			add { se.Buffer.Changed += value; }
+			remove { se.Buffer.Changed -= value; }
+		}
+		
 #endregion
 
 #region Status Bar Handling
