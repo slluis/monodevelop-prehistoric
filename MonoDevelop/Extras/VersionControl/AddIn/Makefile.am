@@ -1,4 +1,4 @@
-FILES = *.cs
+FILES = Addin.cs Diffs.cs Logs.cs Statuses.cs Task.cs Update.cs
 
 REFS = /r:$(ADDIN_BUILD)/Diff.dll \
 	   /r:$(ADDIN_BUILD)/DiffWidget.dll \
@@ -13,11 +13,11 @@ REFS = /r:$(ADDIN_BUILD)/Diff.dll \
        $(GCONF_SHARP_LIBS) \
        $(GTKSOURCEVIEW_SHARP_LIBS)
 
-RES = -resource:overlay_added.png \
-	  -resource:overlay_modified.png \
-	  -resource:overlay_conflicted.png \
-	  -resource:overlay_normal.png \
-	  -resource:overlay_locked.png
+RES = -resource:$(srcdir)/overlay_added.png,overlay_added.png \
+	  -resource:$(srcdir)/overlay_modified.png,overlay_modified.png \
+	  -resource:$(srcdir)/overlay_conflicted.png,overlay_conflicted.png \
+	  -resource:$(srcdir)/overlay_normal.png,overlay_normal.png \
+	  -resource:$(srcdir)/overlay_locked.png,overlay_locked.png
 
 ADDIN = VersionControl.addin.xml
 
@@ -25,18 +25,27 @@ ADDIN_BUILD = $(top_builddir)/build/AddIns/VersionControl
 
 DLL = $(ADDIN_BUILD)/VersionControlAddIn.dll
 
+if ENABLE_VERSIONCONTROL
 all: $(ADDIN_BUILD)/$(ADDIN) $(DLL)
+else
+all:
+endif
+
+if ENABLE_VERSIONCONTROL
+addindir = $(MD_ADDIN_DIR)/VersionControl
+addin_DATA = $(srcdir)/$(ADDIN) $(DLL)
+endif
 
 $(ADDIN_BUILD)/$(ADDIN): $(srcdir)/$(ADDIN)
 	mkdir -p $(ADDIN_BUILD)
 	cp $(srcdir)/$(ADDIN) $(ADDIN_BUILD)/$(ADDIN)
 
-$(DLL): $(FILES)
+$(DLL): $(build_sources)
 	mkdir -p $(ADDIN_BUILD)
-	$(CSC) $(CSC_FLAGS) -target:library -out:$@ $(FILES) $(REFS) $(RES)
+	$(CSC) $(CSC_FLAGS) -target:library -out:$@ $(build_sources) $(REFS) $(RES)
 
 CLEANFILES = $(DLL) $(DLL).mdb $(ADDIN_BUILD)/$(ADDIN)
 
-EXTRA_DIST = $(FILES) $(ADDIN)
+EXTRA_DIST = $(FILES) $(ADDIN) overlay_added.png overlay_modified.png overlay_conflicted.png overlay_normal.png overlay_locked.png
 
 

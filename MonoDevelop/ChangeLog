@@ -1,3 +1,7 @@
+2005-08-08  John Luke  <john.luke@gmail.com>
+
+	* configure.in: add conditional for version control addin
+
 2005-08-05  Alp Toker  <alp@atoker.com>
 
 	* monodevelop.in: Remove 'function' bash-ism to make the launcher script

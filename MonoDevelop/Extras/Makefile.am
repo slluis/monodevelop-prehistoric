@@ -1,3 +1,3 @@
 
-#SUBDIRS = PythonBinding MonoQuery 
-SUBDIRS = MonoQuery JavaBinding BooBinding NUnit MonoDeveloperExtensions
+SUBDIRS = MonoQuery JavaBinding BooBinding NUnit MonoDeveloperExtensions VersionControl
+
