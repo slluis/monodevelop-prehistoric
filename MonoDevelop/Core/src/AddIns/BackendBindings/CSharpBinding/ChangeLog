@@ -1,3 +1,7 @@
+2005-08-06  Ben Motmans  <ben.motmans@gmail.com>
+
+	* CSharpBindingCompilerManager.cs: correctly parse mcs errors.
+
 2005-08-09  Lluis Sanchez Gual  <lluis@novell.com> 
 
 	* Parser/Parser.cs:

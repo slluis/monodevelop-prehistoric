@@ -530,7 +530,7 @@ namespace CSharpBinding
 		}
 
 		// Snatched from our codedom code :-).
-		static Regex regexError = new Regex (@"^(\s*(?<file>.*)\((?<line>\d*)(,(?<column>\d*))?\)\s+)*(?<level>\w+)\s*(?<number>.*):\s(?<message>.*)",
+		static Regex regexError = new Regex (@"^(\s*(?<file>.*)\((?<line>\d*)(,(?<column>\d*[\+]*))?\)(:|)\s+)*(?<level>\w+)\s*(?<number>.*):\s(?<message>.*)",
 			RegexOptions.Compiled | RegexOptions.ExplicitCapture);
 		
 		private static CompilerError CreateErrorFromString(string error_string)
@@ -550,8 +550,12 @@ namespace CSharpBinding
 				error.FileName=match.Result("${file}");
 			if (String.Empty != match.Result("${line}"))
 				error.Line=Int32.Parse(match.Result("${line}"));
-			if (String.Empty != match.Result("${column}"))
-				error.Column=Int32.Parse(match.Result("${column}"));
+			if (String.Empty != match.Result("${column}")) {
+				if (match.Result("${column}") == "255+")
+					error.Column = -1;
+				else
+					error.Column=Int32.Parse(match.Result("${column}"));
+			}
 			if (match.Result("${level}")=="warning")
 				error.IsWarning=true;
 			error.ErrorNumber=match.Result("${number}");
