@@ -62,6 +62,7 @@ class VariableLookupVisitor(DepthFirstVisitor):
 		Finish(node.Initializer)
 	
 	override def OnBinaryExpression(node as BinaryExpression):
+		BooParser.Log (self.GetType (), "Binary expression: '${node}'")
 		if node.Operator == BinaryOperatorType.Assign and node.Left isa ReferenceExpression:
 			reference as ReferenceExpression = node.Left
 			if reference.Name == _lookFor:

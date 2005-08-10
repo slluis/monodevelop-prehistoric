@@ -76,7 +76,7 @@ class Resolver:
 
 	#region Helper methods
 	private def ResolveCurrentMember() as IMember:
-		print "Getting current method... caretLine = ${_caretLine}, caretColumn = ${_caretColumn}"
+		Log ("Getting current method... caretLine = ${_caretLine}, caretColumn = ${_caretColumn}")
 		return null if _callingClass == null
 		best as IMember = null
 		line = 0
@@ -116,9 +116,9 @@ class Resolver:
 				return para.ReturnType if para.Name == name
 			if method.Node != null and method.Node.Body != null:
 				varLookup = VariableLookupVisitor(Resolver: self, LookFor: name)
-				print "Visiting method body..."
+				Log ("Visiting method body of '${method.Name}'")
 				varLookup.Visit(method.Node.Body)
-				print "Finished visiting method body!"
+				Log ("Finished visiting method body!")
 				return varLookup.ReturnType
 		elif member isa Property:
 			property as Property = member
@@ -129,16 +129,16 @@ class Resolver:
 			if property.Node != null:
 				varLookup = VariableLookupVisitor(Resolver: self, LookFor: name)
 				// TODO: visit only the correct body
-				print "Visiting property body..."
+				Log ("Visiting property body...")
 				varLookup.Visit(property.Node.Getter) unless property.Node.Getter == null
 				varLookup.Visit(property.Node.Setter) unless property.Node.Setter == null
-				print "Finished visiting property body!"
+				Log ("Finished visiting property body!")
 				/*
 				if varLookup.ReturnType is null:
-					print "null return type!"
+					Log ("null return type!")
 					return ReturnType("System.Object")
 					*/
-				print "ReturnType: ${varLookup.ReturnType}"
+				Log ("ReturnType: ${varLookup.ReturnType}")
 				return varLookup.ReturnType
 		return null
 	
@@ -247,7 +247,7 @@ class Resolver:
 		cu = parseInfo.MostRecentCompilationUnit as CompilationUnit
 		_compilationUnit = cu
 		if _compilationUnit == null:
-			print "BooResolver: No parse information!"
+			Log ("BooResolver: No parse information!")
 			return false
 		_callingClass = GetInnermostClass(cu)
 		if _callingClass == null:
@@ -294,10 +294,11 @@ class Resolver:
 			
 			expr = Boo.Lang.Parser.BooParser.ParseExpression("expression", expression)
 			return null if expr isa AST.IntegerLiteralExpression
+			Log ("Using an expression type visitor!")
 			visitor = ExpressionTypeVisitor(Resolver : self)
 			visitor.Visit(expr)
 			retType = visitor.ReturnType
-			//Print ("result", retType)
+			Log ("result: ${retType}")
 			if visitor.ReturnClass != null:
 				returnClass = visitor.ReturnClass
 			elif retType != null:
@@ -324,16 +325,16 @@ class Resolver:
 		   (_showStatic and not ((member.Modifiers & ModifierEnum.Static) == ModifierEnum.Static))):
 			return false
 		
-//		print("Testing Accessibility")
+		Log ("Testing Accessibility")
 		return IsAccessible(c, member)
 	
 	def IsAccessible(c as IClass, member as IDecoration) as bool:
-//		print("member.Modifiers = " + member.Modifiers)
+		Log ("member.Modifiers = " + member.Modifiers)
 		if ((member.Modifiers & ModifierEnum.Internal) == ModifierEnum.Internal):
 			return true
 
 		if ((member.Modifiers & ModifierEnum.Public) == ModifierEnum.Public):
-//			print("IsAccessible")
+			Log ("IsAccessible")
 			return true
 
 		if (member.Modifiers & ModifierEnum.Protected) == ModifierEnum.Protected:
@@ -374,47 +375,47 @@ class Resolver:
 	
 	def ListMembers(members as ArrayList, curType as IClass, showStatic as bool) as ArrayList:
 		_showStatic = showStatic
-//		print("LIST MEMBERS!!!")
-//		print("_showStatic = " + _showStatic)
-//		print(curType.InnerClasses.Count + " classes")
-//		print(curType.Properties.Count + " properties")
-//		print(curType.Methods.Count + " methods")
-//		print(curType.Events.Count + " events")
-//		print(curType.Fields.Count + " fields")
+		Log ("LIST MEMBERS!!!")
+		Log ("_showStatic = " + _showStatic)
+		Log (curType.InnerClasses.Count + " classes")
+		Log (curType.Properties.Count + " properties")
+		Log (curType.Methods.Count + " methods")
+		Log (curType.Events.Count + " events")
+		Log (curType.Fields.Count + " fields")
 		if _showStatic:
 			for c as IClass in curType.InnerClasses:
 				if IsAccessible(curType, c):
 					members.Add(c)
-//					print("Member added")
+					Log ("Member added")
 
 		for p as IProperty in curType.Properties:
 			if (MustBeShowen(curType, p)):
 				members.Add(p)
-//				print("Member added")
+				Log ("Member added")
 
-//		print("ADDING METHODS!!!")
+		Log ("ADDING METHODS!!!")
 		for m as IMethod in curType.Methods:
-//			print("Method : " + m)
+			Log ("Method : " + m)
 			if (MustBeShowen(curType, m)):
 				members.Add(m)
-//				print("Member added")
+				Log ("Member added")
 
 		for e as IEvent in curType.Events:
 			if (MustBeShowen(curType, e)):
 				members.Add(e)
-//				print("Member added")
+				Log ("Member added")
 
 		for f as IField in curType.Fields:
 			if (MustBeShowen(curType, f)):
 				members.Add(f)
-//				print("Member added")
+				Log ("Member added")
 			else:
 				//// enum fields must be shown here if present
 				if (curType.ClassType == ClassType.Enum):
 					members.Add(f) if (IsAccessible(curType,f))
-//					print("Member {0} added", f.FullyQualifiedName)
+					Log ("Member ${f.FullyQualifiedName} added")
 
-//		print("ClassType = " + curType.ClassType)
+		Log ("ClassType = " + curType.ClassType)
 		if (curType.ClassType == ClassType.Interface and not _showStatic):
 			for s as string in curType.BaseTypes:
 				baseClass = _parserContext.GetClass (s, true, true)
@@ -423,10 +424,10 @@ class Resolver:
 		else:
 			baseClass = BaseClass(curType)
 			if (baseClass != null):
-//				print("Base Class = " + baseClass.FullyQualifiedName)
+				Log ("Base Class = " + baseClass.FullyQualifiedName)
 				ListMembers(members, baseClass, _showStatic)
 
-//		print("listing finished")
+		Log ("listing finished")
 		return members
 
 	def GetResolvedClass (cls as IClass) as IClass:
@@ -452,3 +453,10 @@ class Resolver:
 				return GetInnermostClass(c)
 
 		return GetResolvedClass (curClass)
+
+	private def Log (message):
+		BooParser.Log (self.GetType(), message)
+	
+	private def Error (message):
+		BooParser.Error (self.GetType(), message)
+	

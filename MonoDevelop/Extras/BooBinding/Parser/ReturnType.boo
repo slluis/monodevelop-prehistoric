@@ -66,12 +66,12 @@ class ReturnType(AbstractReturnType):
 			if ar.ElementType isa AST.SimpleTypeReference:
 				super.FullyQualifiedName = cast(AST.SimpleTypeReference, ar.ElementType).Name
 			else:
-				print ("Got unknown TypeReference in Array: ${t}")
+				Error ("Got unknown TypeReference in Array: ${t}")
 				super.FullyQualifiedName = "<Error>"
 		else:
 			super.arrayDimensions = array(int, 0)
 			super.FullyQualifiedName = "<Error>"
-			print ("Got unknown TypeReference ${t}")
+			Error ("Got unknown TypeReference ${t}")
 	
 	static def CreateReturnType(node as AST.Node) as IReturnType:
 		if node isa AST.Field:
@@ -120,6 +120,9 @@ class ReturnType(AbstractReturnType):
 	
 	override def ToString():
 		return "[${GetType().Name} Name=${FullyQualifiedName}]"
+	
+	private def Error (message):
+		BooParser.Error (self.GetType (), message)
 
 /////////////////////////////////////
 ///     Namespace Return Type     ///

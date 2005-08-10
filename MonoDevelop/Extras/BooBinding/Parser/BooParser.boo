@@ -65,7 +65,7 @@ class BooParser(IParser):
 		return Parse(fileName, content)
 	
 	def Parse(fileName as string, fileContent as string) as ICompilationUnitBase:
-		//print "Parse ${fileName} with content"
+		Log ("Parse ${fileName} with content")
 		
 		cr = char('\r')
 		ln = char('\n')
@@ -128,8 +128,7 @@ class BooParser(IParser):
 			// somehow the SD parser thread goes into an endless loop if this flag is not set
 			visitor.Cu.ErrorsDuringCompile = true //context.Errors.Count > 0
 		except e:
-			//ShowException(e)
-			print "ShowException ${e}"
+			Error (e.ToString ())
 
 		for c as IClass in visitor.Cu.Classes:
 			if c.Region is not null:
@@ -148,7 +147,7 @@ class BooParser(IParser):
 		return visitor.Cu
 	
 	def CtrlSpace(parserContext as IParserContext, caretLine as int, caretColumn as int, fileName as string) as ArrayList:
-		//print "Ctrl-Space (${caretLine}/${caretColumn})"
+		Log ("Ctrl-Space (${caretLine}/${caretColumn})")
 		try:
 			return Resolver(parserContext).CtrlSpace(caretLine, caretColumn, fileName)
 		except e:
@@ -159,26 +158,29 @@ class BooParser(IParser):
 		return Resolver (parserContext).IsAsResolve (expression, caretLineNumber, caretColumn, fileName, fileContent)
 
 	def Resolve(parserContext as IParserContext, expression as string, caretLineNumber as int, caretColumn as int, fileName as string, fileContent as string) as ResolveResult:
-		//print "Resolve ${expression} (${caretLineNumber}/${caretColumn})"
+		Log ("Resolve ${expression} (${caretLineNumber}/${caretColumn})")
 		try:
 			return Resolver(parserContext).Resolve(expression, caretLineNumber, caretColumn, fileName, fileContent)
 		except e:
-			//ShowException(e)
+			Error (e.ToString ())
 			return null
 
 	def MonodocResolver(parserContext as IParserContext, expression as string, caretLineNumber as int, caretColumn as int, fileName as string, fileContent as string) as string:
-		//print "MonodocResolver ${expression} (${caretLineNumber}/${caretColumn})"
+		Log ("MonodocResolver ${expression} (${caretLineNumber}/${caretColumn})")
 		try:
 			return Resolver(parserContext).MonodocResolver(expression, caretLineNumber, caretColumn, fileName, fileContent)
 		except e:
 			//ShowException(e)
 			return null
 	
-	/*
-	static def ShowException(e as Exception):
-		//messageService as IMessageService = ServiceManager.Services.GetService(typeof(IMessageService))
-		//messageService.ShowError(e.ToString())
-		retur
-	*/
+	private def Log (message):
+		Log (self.GetType(), message)
 
+	private def Error (message):
+		Error (self.GetType(), message)
 
+	static def Log (type, message):
+		MonoDevelop.Services.Runtime.LoggingService.Debug (type.ToString (), message)
+	
+	static def Error (type, message):
+		MonoDevelop.Services.Runtime.LoggingService.Error (type.ToString (), message)

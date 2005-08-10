@@ -49,7 +49,7 @@ class ExpressionFinder(IExpressionFinder):
 	
 	def FindExpression(inText as string, offset as int) as string:
 		return null if inText == null
-		print "Trying quickfind for ${offset}"
+		Log ("Trying quickfind for ${offset}")
 		// OK, first try a kind of "quick find"
 		i = offset + 1
 		forbidden = '"\'/#)]}'
@@ -62,7 +62,7 @@ class ExpressionFinder(IExpressionFinder):
 				start = i + 1
 				break
 			if forbidden.IndexOf(c) >= 0:
-				print "Quickfind failed: got ${c}"
+				Log ("Quickfind failed: got ${c}")
 				break
 			if Char.IsWhiteSpace(c):
 				if i > 6 and inText.Substring(i - 6, 6) == "import":
@@ -75,7 +75,7 @@ class ExpressionFinder(IExpressionFinder):
 		
 		inText = SimplifyCode(inText, offset)
 		if inText == null:
-			print 'SimplifyCode returned null (cursor is in comment/string???)'
+			Log ('SimplifyCode returned null (cursor is in comment/string???)')
 			return null
 		// inText now has no comments or string literals, but the same meaning in
 		// terms of the type system
@@ -124,7 +124,7 @@ class ExpressionFinder(IExpressionFinder):
 				wasSpace = false
 				b.Append(c)
 			i += 1
-		print "Expression is '${b}'"
+		Log ("Expression is '${b}'")
 		return b.ToString().Trim()
 	
 	// this method makes boo source code "simpler" by removing all comments
@@ -212,3 +212,6 @@ class ExpressionFinder(IExpressionFinder):
 			return inStringResult.ToString()
 		else:
 			return null
+	
+	private def Log (message):
+		BooParser.Log (self.GetType(), message)

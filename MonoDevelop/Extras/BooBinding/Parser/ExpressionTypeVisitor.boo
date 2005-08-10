@@ -32,9 +32,15 @@ import Boo.Lang.Compiler.Ast
 
 class ExpressionTypeVisitor(DepthFirstVisitor):
 	protected override def OnError(node as Node, error as Exception):
-		//BooParser.ShowException(error)
+		Error (error.ToString ())
 		super(node, error)
 	
+	private def Log (message):
+		BooParser.Log (self.GetType (), message)
+	
+	private def Error (message):
+		BooParser.Error (self.GetType (), message)
+
 	[Property(ReturnType)]
 	_returnType as IReturnType
 	
@@ -71,9 +77,9 @@ class ExpressionTypeVisitor(DepthFirstVisitor):
 	
 	private def Debug(node):
 		if node == null:
-			print "-- null --"
+			Log ("-- null --")
 		else:
-			print "${node.ToString()} - ${node.GetType().FullName}"
+			Log ("${node.ToString()} - ${node.GetType().FullName}")
 	
 	override def OnCallableBlockExpression(node as CallableBlockExpression):
 		Debug(node)
@@ -106,7 +112,7 @@ class ExpressionTypeVisitor(DepthFirstVisitor):
 	private def ProcessMethod(node as MethodInvocationExpression, name as string, c as IClass) as bool:
 		return false if c == null
 		possibleOverloads = FindMethods(c, name, node.Arguments.Count)
-		//print "found ${possibleOverloads.Count} overloads (multiple overloads not supported yet)"
+		Log ("found ${possibleOverloads.Count} overloads (multiple overloads not supported yet)")
 		if possibleOverloads.Count >= 1:
 			SetReturnType(cast(IMethod, possibleOverloads[0]).ReturnType)
 			return true

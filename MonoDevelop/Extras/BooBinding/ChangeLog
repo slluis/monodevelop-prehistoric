@@ -1,3 +1,13 @@
+2005-08-10  Peter Johanson  <latexer@gentoo.org>
+
+	* Parser/ExpressionTypeVisitor.boo:
+	* Parser/Resolver.boo:
+	* Parser/ReturnType.boo:
+	* Parser/ExpressionFinder.boo:
+	* Parser/BooParser.boo:
+	* Parser/VariableLookupVisitor.boo:
+	* Parser/Visitor.boo: Add better error reporting via logging by type.
+
 2005-08-09  Lluis Sanchez Gual  <lluis@novell.com>
 
 	* Parser/ReturnType.boo:

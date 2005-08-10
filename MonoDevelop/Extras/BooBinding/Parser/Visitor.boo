@@ -61,9 +61,7 @@ class Visitor(AbstractVisitorCompilerStep):
 		try:
 			Visit(CompileUnit)
 		except e:
-			print e.ToString()
-			//msg as IMessageService = ServiceManager.Services.GetService(typeof(IMessageService))
-			//msg.ShowError(e)
+			Error (e.ToString ())
 	
 	private def GetModifier(m as AST.TypeMember) as ModifierEnum:
 		r = ModifierEnum.None
@@ -122,7 +120,7 @@ class Visitor(AbstractVisitorCompilerStep):
 		_cu.Usings.Add(u)
 	
 	override def OnCallableDefinition(node as AST.CallableDefinition):
-		//print "OnCallableDefinition: ${node.FullName}"
+		Log ("OnCallableDefinition: ${node.FullName}")
 		region = GetRegion(node)
 		modifier = GetModifier(node)
 		c = Class(_cu, ClassType.Delegate, modifier, region)
@@ -148,29 +146,31 @@ class Visitor(AbstractVisitorCompilerStep):
 		EnterTypeDefinition(node, ClassType.Enum)
 		return super(node)
 	
+	/*
 	override def EnterModule(node as AST.Module):
 		EnterTypeDefinition(node, ClassType.Class) unless _firstModule
 		_firstModule = false
 		return super(node)
+		*/
 	
 	private def EnterTypeDefinition(node as AST.TypeDefinition, classType as ClassType):
 		try:
-			//print "Enter ${node.GetType().Name} (${node.FullName})"
+			Log ("Enter ${node.GetType().Name} (${node.FullName})")
 			region = GetClientRegion(node)
 			modifier = GetModifier(node)
 			c = Class(_cu, classType, modifier, region)
 			c.FullyQualifiedName = node.FullName
 			c.Documentation = node.Documentation
 			if _currentClass.Count > 0:
-				cast(Class, _currentClass.Peek()).InnerClasses.Add(c)
+				cast(Class, _currentClass.Peek()).InnerClasses.Add(c) unless c.Name.StartsWith ("___")
 			else:
-				_cu.Classes.Add(c)
+				_cu.Classes.Add(c) unless c.Name.StartsWith ("___")
 			if node.BaseTypes != null:
 				for r as AST.SimpleTypeReference in node.BaseTypes:
 					c.BaseTypes.Add(r.Name)
 			_currentClass.Push(c)
 		except ex:
-			print ex.ToString()
+			Error (ex.ToString ())
 			raise
 	
 	override def LeaveClassDefinition(node as AST.ClassDefinition):
@@ -185,13 +185,15 @@ class Visitor(AbstractVisitorCompilerStep):
 		LeaveTypeDefinition(node)
 		super(node)
 	
+	/*
 	override def LeaveModule(node as AST.Module):
 		LeaveTypeDefinition(node) unless _currentClass.Count == 0
 		super(node)
+		*/
 	
 	private def LeaveTypeDefinition(node as AST.TypeDefinition):
 		c as Class = _currentClass.Pop()
-		//print "Leave ${node.GetType().Name} ${node.FullName} (Class = ${c.FullyQualifiedName})"
+		Log ("Leave ${node.GetType().Name} ${node.FullName} (Class = ${c.FullyQualifiedName})")
 		c.UpdateModifier()
 	
 	override def OnMethod(node as AST.Method):
@@ -202,7 +204,7 @@ class Visitor(AbstractVisitorCompilerStep):
 			method = GetMethod(node)
 			cast(Class, _currentClass.Peek()).Methods.Add(method)
 		except ex:
-			print ex.ToString()
+			Error (ex.ToString ())
 			raise
 	
 	private def GetMethod(node as AST.Method):
@@ -235,12 +237,12 @@ class Visitor(AbstractVisitorCompilerStep):
 			field.SetModifiers(ModifierEnum.Const | ModifierEnum.SpecialName)
 			c.Fields.Add(field)
 		except x:
-			print x
+			Error (x.ToString ())
 			raise
 	
 	override def OnField(node as AST.Field):
 		try:
-			//print "Field ${node.Name}"
+			Log ("Field ${node.Name}")
 			if node.Name.StartsWith("___"):
 				return
 
@@ -249,7 +251,7 @@ class Visitor(AbstractVisitorCompilerStep):
 			field.Documentation = node.Documentation
 			c.Fields.Add(field)
 		except ex:
-			print ex.ToString()
+			Error (ex.ToString ())
 			raise
 	
 	override def OnProperty(node as AST.Property):
@@ -272,7 +274,7 @@ class Visitor(AbstractVisitorCompilerStep):
 			property.Node = node
 			cast(Class, _currentClass.Peek()).Properties.Add(property)
 		except ex:
-			print ex.ToString()
+			Error (ex.ToString ())
 			raise
 	
 	override def OnEvent (node as AST.Event):
@@ -281,8 +283,14 @@ class Visitor(AbstractVisitorCompilerStep):
 			ev.Documentation = node.Documentation
 			cast(Class, _currentClass.Peek()).Events.Add(ev)
 		except ex:
-			print ex
+			Error (ex.ToString ())
 			raise
+	
+	private def Log (message):
+		BooParser.Log (self.GetType(), message)
+	
+	private def Error (message):
+		BooParser.Error (self.GetType(), message)
 	
 	/*
 	// TODO: Detect indexer method and add it as Indexer
