@@ -1,3 +1,20 @@
+2005-08-10  Lluis Sanchez Gual  <lluis@novell.com> 
+
+	* Internal/Project/Project/ProjectReference.cs: Find referenced projects
+	looking at the root combine that contain this reference.
+	* Internal/Project/Project/Collections/ProjectReferenceCollection.cs:
+	Set the owner project of the references being added.
+	* Internal/Project/Combine/Combine.cs: Added method for finding projects
+	in the combine hierarchy.
+	* Internal/Project/Combine/CombineEntry.cs: Added property for getting
+	the root combine of a project.
+	* Internal/Project/Project/Project.cs: Make sure to always set the
+	owner project to the references collection.
+	Use RootCombine to find referenced projects, instead of the project
+	service. Perform a topological sort of the referenced projects to build.
+	* Internal/Project/Combine/CombineEntryCollection.cs: Added Contains
+	method.
+
 2005-08-10  Lluis Sanchez Gual  <lluis@novell.com>
 
 	* Commands/EditCommands.cs:

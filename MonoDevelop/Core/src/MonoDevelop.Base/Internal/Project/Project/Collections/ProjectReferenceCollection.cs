@@ -180,29 +180,43 @@ namespace MonoDevelop.Internal.Project
 			if (project != null) {
 				ArrayList list = (ArrayList) InnerList.Clone ();
 				InnerList.Clear ();
-				foreach (ProjectReference pref in list)
+				foreach (ProjectReference pref in list) {
+					pref.SetOwnerProject (null);
 					project.NotifyReferenceRemovedFromProject (pref);
+				}
 			}
 		}
 		
 		protected override void OnInsertComplete(int index, object value)
 		{
-			if (project != null) project.NotifyReferenceAddedToProject ((ProjectReference)value);
+			if (project != null) {
+				((ProjectReference) value).SetOwnerProject (project);
+				project.NotifyReferenceAddedToProject ((ProjectReference)value);
+			}
 		}
 		
 		protected override void OnRemoveComplete(int index, object value)
 		{
-			if (project != null) project.NotifyReferenceRemovedFromProject ((ProjectReference) value);
+			if (project != null) {
+				((ProjectReference) value).SetOwnerProject (null);
+				project.NotifyReferenceRemovedFromProject ((ProjectReference) value);
+			}
 		}
 		
 		protected override void OnSet (int index, object oldValue, object newValue)
 		{
-			if (project != null) project.NotifyReferenceRemovedFromProject ((ProjectReference) oldValue);
+			if (project != null) {
+				((ProjectReference) oldValue).SetOwnerProject (null);
+				project.NotifyReferenceRemovedFromProject ((ProjectReference) oldValue);
+			}
 		}
 		
 		protected override void OnSetComplete (int index, object oldValue, object newValue)
 		{
-			if (project != null) project.NotifyReferenceAddedToProject ((ProjectReference) newValue);
+			if (project != null) {
+				((ProjectReference) newValue).SetOwnerProject (project);
+				project.NotifyReferenceAddedToProject ((ProjectReference) newValue);
+			}
 		}
 		
 		public class ProjectReferenceEnumerator : object, IEnumerator {

@@ -79,6 +79,11 @@ namespace MonoDevelop.Internal.Project
 			return list.IndexOf (entry);
 		}
 		
+		public bool Contains (CombineEntry entry)
+		{
+			return IndexOf (entry) != -1;
+		}
+		
 		public int IndexOf (string name)
 		{
 			for (int n=0; n<list.Count; n++)

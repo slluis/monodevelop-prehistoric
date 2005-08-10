@@ -487,7 +487,17 @@ namespace MonoDevelop.Internal.Project
 			return null;
 		}
 		
-		CombineEntryCollection TopologicalSort (CombineEntryCollection allProjects)
+		public Project FindProject (string projectName)
+		{
+			CombineEntryCollection allProjects = GetAllProjects();
+			foreach (Project project in allProjects) {
+				if (project.Name == projectName)
+					return project;
+			}
+			return null;
+		}
+		
+		internal static CombineEntryCollection TopologicalSort (CombineEntryCollection allProjects)
 		{
 			CombineEntryCollection sortedEntries = new CombineEntryCollection ();
 			bool[]    inserted      = new bool[allProjects.Count];
@@ -503,7 +513,7 @@ namespace MonoDevelop.Internal.Project
 			return sortedEntries;
 		}
 		
-		void Insert(int index, CombineEntryCollection allProjects, CombineEntryCollection sortedEntries, bool[] inserted, bool[] triedToInsert)
+		static void Insert(int index, CombineEntryCollection allProjects, CombineEntryCollection sortedEntries, bool[] inserted, bool[] triedToInsert)
 		{
 			if (triedToInsert[index]) {
 				throw new CyclicBuildOrderException();

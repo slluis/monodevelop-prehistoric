@@ -51,8 +51,7 @@ namespace MonoDevelop.Internal.Project
 		
 		ProjectFileCollection projectFiles;
 
-		[ItemProperty ("References")]
-		protected ProjectReferenceCollection projectReferences = new ProjectReferenceCollection();
+		protected ProjectReferenceCollection projectReferences;
 		
 		[ItemProperty ("DeploymentInformation")]
 		protected DeployInformation deployInformation = new DeployInformation();
@@ -65,6 +64,7 @@ namespace MonoDevelop.Internal.Project
 		public Project ()
 		{
 			Name = "New Project";
+			projectReferences = new ProjectReferenceCollection ();
 			projectReferences.SetProject (this);
 			
 			projectFileWatcher = new FileSystemWatcher();
@@ -94,6 +94,7 @@ namespace MonoDevelop.Internal.Project
 		}
 		
 		[Browsable(false)]
+		[ItemProperty ("References")]
 		public ProjectReferenceCollection ProjectReferences {
 			get {
 				return projectReferences;
@@ -285,8 +286,8 @@ namespace MonoDevelop.Internal.Project
 						Runtime.LoggingService.InfoFormat("Can't copy reference file from {0} to {1} reason {2}", referenceFileName, destinationFileName, e);
 					}
 				}
-				if (projectReference.ReferenceType == ReferenceType.Project) {
-					Project p = Runtime.ProjectService.GetProject (projectReference.Reference);
+				if (projectReference.ReferenceType == ReferenceType.Project && RootCombine != null) {
+					Project p = RootCombine.FindProject (projectReference.Reference);
 					p.CopyReferencesToOutputPath (destPath, force);
 				}
 			}
@@ -346,8 +347,10 @@ namespace MonoDevelop.Internal.Project
 		{
 			if (buildReferences)
 			{
-				ArrayList referenced = new ArrayList ();
+				CombineEntryCollection referenced = new CombineEntryCollection ();
 				GetReferencedProjects (referenced, this);
+				
+				referenced = Combine.TopologicalSort (referenced);
 				
 				CompilerResults cres = new CompilerResults (null);
 				
@@ -399,17 +402,21 @@ namespace MonoDevelop.Internal.Project
 			}
 		}
 		
-		void GetReferencedProjects (ArrayList referenced, Project project)
+		void GetReferencedProjects (CombineEntryCollection referenced, Project project)
 		{
 			if (referenced.Contains (project)) return;
 			
 			if (NeedsBuilding)
-				referenced.Insert (0, project);
+				referenced.Add (project);
 
 			foreach (ProjectReference pref in project.ProjectReferences) {
 				if (pref.ReferenceType == ReferenceType.Project) {
-					Project rp = Runtime.ProjectService.GetProject (pref.Reference);
-					GetReferencedProjects (referenced, rp);
+					Combine c = project.RootCombine;
+					if (c != null) {
+						Project rp = c.FindProject (pref.Reference);
+						if (rp != null)
+							GetReferencedProjects (referenced, rp);
+					}
 				}
 			}
 		}
@@ -544,8 +551,8 @@ namespace MonoDevelop.Internal.Project
 			}
 
 			foreach (ProjectReference pref in ProjectReferences) {
-				if (pref.ReferenceType == ReferenceType.Project) {
-					Project rp = Runtime.ProjectService.GetProject (pref.Reference);
+				if (pref.ReferenceType == ReferenceType.Project && RootCombine != null) {
+					Project rp = RootCombine.FindProject (pref.Reference);
 					if (rp != null && rp.NeedsBuilding) {
 						isDirty = true;
 						return;

@@ -34,6 +34,8 @@ namespace MonoDevelop.Internal.Project
 		[ItemProperty ("type")]
 		ReferenceType referenceType;
 		
+		Project ownerProject;
+		
 		string reference = String.Empty;
 		
 		[ItemProperty ("localcopy")]
@@ -41,6 +43,11 @@ namespace MonoDevelop.Internal.Project
 		
 		public ProjectReference ()
 		{
+		}
+		
+		internal void SetOwnerProject (Project project)
+		{
+			ownerProject = project;
 		}
 		
 		public ProjectReference(ReferenceType referenceType, string reference)
@@ -109,8 +116,15 @@ namespace MonoDevelop.Internal.Project
 					string file = Runtime.SystemAssemblyService.GetAssemblyLocation (GetPathToGACAssembly (this));
 					return file == null ? reference : file;
 				case ReferenceType.Project:
-					Project p = Runtime.ProjectService.GetProject (reference);
-					return p != null ? p.GetOutputFileName () : null;
+					if (ownerProject != null) {
+						Combine c = ownerProject.RootCombine;
+						if (c != null) {
+							Project p = c.FindProject (reference);
+							if (p != null) return p.GetOutputFileName ();
+						}
+					}
+					Console.WriteLine ("Reference not found for project " + reference);
+					return null;
 				
 				default:
 					throw new NotImplementedException("unknown reference type : " + ReferenceType);

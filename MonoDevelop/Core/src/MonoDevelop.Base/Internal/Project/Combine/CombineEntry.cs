@@ -122,6 +122,10 @@ namespace MonoDevelop.Internal.Project
 			Save (monitor);
 		}
 		
+		public Combine RootCombine {
+			get { return parentCombine != null ? parentCombine.RootCombine : this as Combine; }
+		}
+		
 		public virtual void Save (IProgressMonitor monitor)
 		{
 			Runtime.ProjectService.WriteFile (FileName, this, monitor);
