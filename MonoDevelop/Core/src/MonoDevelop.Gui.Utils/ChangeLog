@@ -1,3 +1,7 @@
+2005-08-10  Ben Motmans  <ben.motmans@gmail.com>
+
+	* MonoDevelop.Gui.Utils.mdp: references update
+
 2005-06-28  Raja R Harinath  <rharinath@novell.com>
 
 	* Makefile.am (FILES): Move AssemblyInfo.cs ...

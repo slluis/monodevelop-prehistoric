@@ -1,3 +1,7 @@
+2005-08-10  Ben Motmans  <ben.motmans@gmail.com>
+
+	* MonoDevelop.Dock.mdp: references update
+
 2005-06-27  John Luke  <john.luke@gmail.com>
 
 	* DockLayout.cs: Save part of placeholders support

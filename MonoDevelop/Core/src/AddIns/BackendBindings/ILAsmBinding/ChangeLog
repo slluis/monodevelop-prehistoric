@@ -1,3 +1,7 @@
+2005-08-10  Ben Motmans  <ben.motmans@gmail.com>
+
+	* ILAsmBinding.mdp: references update
+
 2005-07-11  Lluis Sanchez Gual  <lluis@novell.com>
 
 	* Project/ILAsmCompilerParameters.cs: Implement ICloneable.
