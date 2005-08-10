@@ -213,7 +213,7 @@ namespace MonoDevelop.Core.Services
 			catch (GLib.GException ex) {
 				// just discard the exception, the icon simply can't be
 				// loaded
-				Runtime.LoggingService.InfoFormat("Warning: can't load " + filename +
+				Runtime.LoggingService.Info(typeof(ResourceService).ToString(), "Warning: can't load " + filename +
 				                   " icon file");
 			}
 		}
@@ -235,7 +235,7 @@ namespace MonoDevelop.Core.Services
 			if (s != null)
 				return s;
 			
-			Runtime.LoggingService.InfoFormat("WARNING Could not find stock {0}", filename);
+			Runtime.LoggingService.InfoFormat(typeof(ResourceService).ToString(), "WARNING Could not find stock {0}", filename);
 			
 			return filename;
 		}

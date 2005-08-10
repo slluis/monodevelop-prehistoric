@@ -32,9 +32,9 @@ namespace MonoDevelop.Services
 			return LogManager.GetLogger(typeof(ILoggingService));
 		}
 		
-		ILog GetLogger (System.Type type)
+		ILog GetLogger (string name)
 		{
-			return LogManager.GetLogger(type);
+			return LogManager.GetLogger(name);
 		}
 
 		public bool IsDebugEnabled {
@@ -67,33 +67,33 @@ namespace MonoDevelop.Services
 			}
 		}
 
-		public void Debug (System.Type type, object message)
+		public void Debug (string logger, object message)
 		{
-			GetLogger(type).Debug (message);
+			GetLogger(logger).Debug (message);
 			OnLogAppended ("Debug", message.ToString());
 		}
 
-		public void Info (System.Type type, object message)
+		public void Info (string logger, object message)
 		{
-			GetLogger(type).Info (message);
+			GetLogger(logger).Info (message);
 			OnLogAppended ("Info", message.ToString());
 		}
 
-		public void Warn (System.Type type, object message)
+		public void Warn (string logger, object message)
 		{
-			GetLogger(type).Warn (message);
+			GetLogger(logger).Warn (message);
 			OnLogAppended ("Warn", message.ToString());
 		}
 
-		public void Error (System.Type type, object message)
+		public void Error (string logger, object message)
 		{
-			GetLogger(type).Error (message);
+			GetLogger(logger).Error (message);
 			OnLogAppended ("Error", message.ToString());
 		}
 
-		public void Fatal (System.Type type, object message)
+		public void Fatal (string logger, object message)
 		{
-			GetLogger(type).Fatal (message);
+			GetLogger(logger).Fatal (message);
 			OnLogAppended ("Fatal", message.ToString());
 		}
 
@@ -132,10 +132,22 @@ namespace MonoDevelop.Services
 			GetLogger().Debug (message, t);
 			OnLogAppended ("Debug", message + t.ToString());
 		}
+
+		public void Debug (string logger, object message, Exception t)
+		{
+			GetLogger(logger).Debug (message, t);
+			OnLogAppended ("Debug", message + t.ToString());
+		}
 		
 		public void Info (object message, Exception t)
 		{
 			GetLogger().Info (message, t);
+			OnLogAppended ("Info", message + t.ToString());
+		}
+		
+		public void Info (string logger, object message, Exception t)
+		{
+			GetLogger(logger).Info (message, t);
 			OnLogAppended ("Info", message + t.ToString());
 		}
 		
@@ -145,15 +157,33 @@ namespace MonoDevelop.Services
 			OnLogAppended ("Warn", message + t.ToString());
 		}
 
+		public void Warn (string logger, object message, Exception t)
+		{
+			GetLogger(logger).Warn (message, t);
+			OnLogAppended ("Warn", message + t.ToString());
+		}
+
 		public void Error (object message, Exception t)
 		{
 			GetLogger().Error (message, t);
+			OnLogAppended ("Error", message + t.ToString());
+		}
+
+		public void Error (string logger, object message, Exception t)
+		{
+			GetLogger(logger).Error (message, t);
 			OnLogAppended ("Error", message + t.ToString());
 		}
 		
 		public void Fatal (object message, Exception t)
 		{
 			GetLogger().Fatal (message, t);
+			OnLogAppended ("Fatal", message + t.ToString());
+		}
+
+		public void Fatal (string logger, object message, Exception t)
+		{
+			GetLogger(logger).Fatal (message, t);
 			OnLogAppended ("Fatal", message + t.ToString());
 		}
 
@@ -187,33 +217,33 @@ namespace MonoDevelop.Services
 			OnLogAppended ("Fatal", String.Format(format, args));
 		}
 
-		public void DebugFormat (Type type, string format, params object[] args)
+		public void DebugFormat (string logger, string format, params object[] args)
 		{
-			GetLogger(type).DebugFormat (format, args);
+			GetLogger(logger).DebugFormat (format, args);
 			OnLogAppended ("Debug", String.Format(format, args));
 		}
 		
-		public void InfoFormat (Type type, string format, params object[] args)
+		public void InfoFormat (string logger, string format, params object[] args)
 		{
-			GetLogger(type).InfoFormat (format, args);
+			GetLogger(logger).InfoFormat (format, args);
 			OnLogAppended ("Info", String.Format(format, args));
 		}
 		
-		public void WarnFormat (Type type, string format, params object[] args)
+		public void WarnFormat (string logger, string format, params object[] args)
 		{
-			GetLogger(type).WarnFormat (format, args);
+			GetLogger(logger).WarnFormat (format, args);
 			OnLogAppended ("Warn", String.Format(format, args));
 		}
 		
-		public void ErrorFormat (Type type, string format, params object[] args)
+		public void ErrorFormat (string logger, string format, params object[] args)
 		{
-			GetLogger(type).ErrorFormat (format, args);
+			GetLogger(logger).ErrorFormat (format, args);
 			OnLogAppended ("Error", String.Format(format, args));
 		}
 		
-		public void FatalFormat (Type type, string format, params object[] args)
+		public void FatalFormat (string logger, string format, params object[] args)
 		{
-			GetLogger(type).FatalFormat (format, args);
+			GetLogger(logger).FatalFormat (format, args);
 			OnLogAppended ("Fatal", String.Format(format, args));
 		}
 
@@ -223,15 +253,33 @@ namespace MonoDevelop.Services
 			OnLogAppended ("Debug", String.Format(provider, format, args));
 		}
 		
+		public void DebugFormat(string logger, IFormatProvider provider, string format, params object[] args)
+		{
+			GetLogger(logger).DebugFormat (provider, format, args);
+			OnLogAppended ("Debug", String.Format(provider, format, args));
+		}
+		
 		public void InfoFormat(IFormatProvider provider, string format, params object[] args)
 		{
 			GetLogger().InfoFormat (provider, format, args);
 			OnLogAppended ("Info", String.Format(provider, format, args));
 		}
 
+		public void InfoFormat(string logger, IFormatProvider provider, string format, params object[] args)
+		{
+			GetLogger(logger).InfoFormat (provider, format, args);
+			OnLogAppended ("Info", String.Format(provider, format, args));
+		}
+
 		public void WarnFormat(IFormatProvider provider, string format, params object[] args)
 		{
 			GetLogger().WarnFormat (provider, format, args);
+			OnLogAppended ("Warn", String.Format(provider, format, args));
+		}
+		
+		public void WarnFormat(string logger, IFormatProvider provider, string format, params object[] args)
+		{
+			GetLogger(logger).WarnFormat (provider, format, args);
 			OnLogAppended ("Warn", String.Format(provider, format, args));
 		}
 
@@ -241,9 +289,21 @@ namespace MonoDevelop.Services
 			OnLogAppended ("Error", String.Format(provider, format, args));
 		}
 
+		public void ErrorFormat(string logger, IFormatProvider provider, string format, params object[] args)
+		{
+			GetLogger(logger).ErrorFormat (provider, format, args);
+			OnLogAppended ("Error", String.Format(provider, format, args));
+		}
+
 		public void FatalFormat(IFormatProvider provider, string format, params object[] args)
 		{
 			GetLogger().FatalFormat (provider, format, args);
+			OnLogAppended ("Fatal", String.Format(provider, format, args));
+		}
+
+		public void FatalFormat(string logger, IFormatProvider provider, string format, params object[] args)
+		{
+			GetLogger(logger).FatalFormat (provider, format, args);
 			OnLogAppended ("Fatal", String.Format(provider, format, args));
 		}
 

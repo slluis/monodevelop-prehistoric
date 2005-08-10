@@ -1,3 +1,11 @@
+2005-08-10  Peter Johanson  <latexer@gentoo.org>
+
+	* Services/ILoggingService.cs:
+	* Services/DefaultLoggingService.cs: Add support for for logging to
+	arbitrarily named loggers. Allows for easy filtering/control of
+	logging.
+	* Services/ResourceService.cs: Report to logger named by service type.
+
 2005-08-10  Ben Motmans  <ben.motmans@gmail.com>
 
     * MonoDevelop.Base.mdp: references update + missing/added files
