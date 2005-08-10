@@ -1,3 +1,8 @@
+2005-08-10  Lluis Sanchez Gual  <lluis@novell.com> 
+
+	* CSharpBindingCompilerManager.cs: Disable implicit references to
+	system assemblies. All references must now be explicitely specified.
+
 2005-08-06  Ben Motmans  <ben.motmans@gmail.com>
 
 	* CSharpBindingCompilerManager.cs: correctly parse mcs errors.

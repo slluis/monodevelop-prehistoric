@@ -74,6 +74,7 @@ namespace CSharpBinding
 					}
 				}
 				
+				writer.WriteLine("/noconfig");
 				writer.WriteLine("/nologo");
 				writer.WriteLine("/codepage:utf8");
 //				writer.WriteLine("/utf8output");
