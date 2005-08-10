@@ -1,3 +1,8 @@
+2005-08-10  Lluis Sanchez Gual  <lluis@novell.com>
+
+	* Services/NUnitService.cs:
+	* Gui/UnitTestOptionsDialog.cs: Track changes in TreeViewOptions.
+
 2005-08-10  Ben Motmans  <ben.motmans@gmail.com>
 
 	* MonoDevelop.NUnit.mdp: references update

@@ -32,6 +32,7 @@ using System.Threading;
 
 using MonoDevelop.Core.Services;
 using MonoDevelop.Services;
+using MonoDevelop.Gui;
 using MonoDevelop.Gui.Dialogs;
 using MonoDevelop.Core.AddIns;
 using MonoDevelop.Internal.Project;
@@ -119,7 +120,7 @@ namespace MonoDevelop.NUnit
 		
 		public static void ShowOptionsDialog (UnitTest test)
 		{
-			UnitTestOptionsDialog optionsDialog = new UnitTestOptionsDialog (test);
+			UnitTestOptionsDialog optionsDialog = new UnitTestOptionsDialog ((Gtk.Window)WorkbenchSingleton.Workbench, test);
 			optionsDialog.Run ();
 		}
 		
