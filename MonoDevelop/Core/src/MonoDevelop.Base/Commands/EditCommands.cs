@@ -1,5 +1,6 @@
 
 using System;
+using MonoDevelop.Gui;
 using MonoDevelop.Gui.Dialogs;
 using MonoDevelop.Services;
 using MonoDevelop.Core.Properties;
@@ -29,8 +30,9 @@ namespace MonoDevelop.Commands
 	{
 		protected override void Run ()
 		{
-			new TreeViewOptions((IProperties)Runtime.Properties.GetProperty("MonoDevelop.TextEditor.Document.Document.DefaultDocumentAggregatorProperties", new DefaultProperties()),
-			                                                           AddInTreeSingleton.AddInTree.GetTreeNode("/SharpDevelop/Dialogs/OptionsDialog"));
+			new TreeViewOptions ((Gtk.Window)WorkbenchSingleton.Workbench,
+				(IProperties)Runtime.Properties.GetProperty("MonoDevelop.TextEditor.Document.Document.DefaultDocumentAggregatorProperties", new DefaultProperties()),
+				AddInTreeSingleton.AddInTree.GetTreeNode("/SharpDevelop/Dialogs/OptionsDialog"));
 		}
 	}
 }

@@ -712,7 +712,7 @@ namespace MonoDevelop.Services
 				IAddInTreeNode generalOptionsNode          = AddInTreeSingleton.AddInTree.GetTreeNode("/SharpDevelop/Workbench/ProjectOptions/GeneralOptions");
 				IAddInTreeNode configurationPropertiesNode = AddInTreeSingleton.AddInTree.GetTreeNode("/SharpDevelop/Workbench/ProjectOptions/ConfigurationProperties");
 				
-				ProjectOptionsDialog optionsDialog = new ProjectOptionsDialog(selectedProject, generalOptionsNode, configurationPropertiesNode);
+				ProjectOptionsDialog optionsDialog = new ProjectOptionsDialog ((Gtk.Window)WorkbenchSingleton.Workbench, selectedProject, generalOptionsNode, configurationPropertiesNode);
 				if (optionsDialog.Run() == (int)Gtk.ResponseType.Ok) {
 					selectedProject.NeedsBuilding = true;
 				}
@@ -722,7 +722,7 @@ namespace MonoDevelop.Services
 				IAddInTreeNode generalOptionsNode          = AddInTreeSingleton.AddInTree.GetTreeNode("/SharpDevelop/Workbench/CombineOptions/GeneralOptions");
 				IAddInTreeNode configurationPropertiesNode = AddInTreeSingleton.AddInTree.GetTreeNode("/SharpDevelop/Workbench/CombineOptions/ConfigurationProperties");
 				
-				CombineOptionsDialog optionsDialog = new CombineOptionsDialog (combine, generalOptionsNode, configurationPropertiesNode);
+				CombineOptionsDialog optionsDialog = new CombineOptionsDialog ((Gtk.Window)WorkbenchSingleton.Workbench, combine, generalOptionsNode, configurationPropertiesNode);
 				optionsDialog.Run ();
 			}
 			

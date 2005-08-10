@@ -168,14 +168,14 @@ namespace MonoDevelop.Gui.Dialogs {
 				SetOptionPanelTo (descriptor);
 		}
 		
-		public TreeViewOptions (IProperties properties, IAddInTreeNode node)
+		public TreeViewOptions (Gtk.Window parentWindow, IProperties properties, IAddInTreeNode node)
 		{
 			this.properties = properties;
 			
 			Glade.XML treeViewXml = new Glade.XML (null, "Base.glade", "TreeViewOptionDialog", null);
 			treeViewXml.Autoconnect (this);
 		
-			TreeViewOptionDialog.TransientFor = (Gtk.Window)WorkbenchSingleton.Workbench;
+			TreeViewOptionDialog.TransientFor = parentWindow;
 			TreeViewOptionDialog.WindowPosition = Gtk.WindowPosition.CenterOnParent;
 		
 			TreeViewOptionDialog.Title = GettextCatalog.GetString ("MonoDevelop options");

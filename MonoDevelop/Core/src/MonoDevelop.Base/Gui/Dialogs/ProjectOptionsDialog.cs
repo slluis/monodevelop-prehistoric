@@ -33,7 +33,7 @@ namespace MonoDevelop.Gui.Dialogs {
 		Gtk.CellRendererText textRenderer;		// used to set an editable node
 		Gtk.TreeViewColumn textColumn;			// used to set an editable node
 	
-		public ProjectOptionsDialog(Project project, IAddInTreeNode node, IAddInTreeNode configurationNode) : base(null, null)
+		public ProjectOptionsDialog (Gtk.Window parentWindow, Project project, IAddInTreeNode node, IAddInTreeNode configurationNode) : base (parentWindow, null, null)
 		{
 			this.project = project;
 			this.configurationNode = configurationNode;

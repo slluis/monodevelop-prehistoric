@@ -1,3 +1,14 @@
+2005-08-10  Lluis Sanchez Gual  <lluis@novell.com>
+
+	* Commands/EditCommands.cs:
+	* Services/Project/ProjectService.cs:
+	* Gui/Dialogs/ProjectOptionsDialog.cs:
+	* Gui/Dialogs/TreeViewOptions.cs:
+	* Gui/Dialogs/CombineOptionsDialog.cs: TreeViewOptions now takes the
+	parent window as first parameter of the constructor.
+
+	* Services/Language/LanguageService.cs: Commented out some unused stuff.
+
 2005-08-10  Lluis Sanchez Gual  <lluis@novell.com> 
 
 	* Services/ProcessService/ProcessHostController.cs: Avoid unneeded

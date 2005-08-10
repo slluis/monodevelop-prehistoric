@@ -47,7 +47,7 @@ namespace MonoDevelop.Gui.Dialogs
 		ConfigurationData configData;
 		Gtk.TreeIter configIter;
 	
-		public CombineOptionsDialog (Combine combine, IAddInTreeNode node, IAddInTreeNode configurationNode) : base(null, null)
+		public CombineOptionsDialog (Gtk.Window parentWindow, Combine combine, IAddInTreeNode node, IAddInTreeNode configurationNode) : base (parentWindow, null, null)
 		{
 			this.combine = combine;
 			this.configurationNode = configurationNode;

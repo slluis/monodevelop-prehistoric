@@ -23,10 +23,10 @@ namespace MonoDevelop.Services
 	{
 		string languagePath;
 		
-		PixbufList languageImageList = null;
+//		PixbufList languageImageList = null;
 		ArrayList languages         = null;
 		
-		public PixbufList LanguageImageList {
+/*		public PixbufList LanguageImageList {
 			get {
 				if (languageImageList == null) {
 					LoadLanguageDefinitions();
@@ -34,7 +34,7 @@ namespace MonoDevelop.Services
 				return languageImageList;
 			}
 		}
-		
+*/
 		public ArrayList Languages {
 			get {
 				if (languages == null) {
@@ -45,7 +45,7 @@ namespace MonoDevelop.Services
 		}
 		void LoadLanguageDefinitions()
 		{
-			languageImageList = new PixbufList();
+//			languageImageList = new PixbufList();
 			languages         = new ArrayList();
 			
 			XmlDocument doc = new XmlDocument();
@@ -58,8 +58,9 @@ namespace MonoDevelop.Services
 				if (el != null) {
 					languages.Add(new Language(el.Attributes["name"].InnerText,
 					                           el.Attributes["code"].InnerText,
-					                           LanguageImageList.Count));
-					LanguageImageList.Add(new Gdk.Pixbuf(languagePath + el.Attributes["icon"].InnerText));
+//					                           LanguageImageList.Count));
+					                           0));
+//					LanguageImageList.Add(new Gdk.Pixbuf(languagePath + el.Attributes["icon"].InnerText));
 				}
 			}
 		}
