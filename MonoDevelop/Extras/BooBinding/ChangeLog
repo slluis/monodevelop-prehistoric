@@ -1,5 +1,10 @@
 2005-08-10  Peter Johanson  <latexer@gentoo.org>
 
+	* Gui/ShellTextView.boo: Fix small problem with
+	blank lines being accept, and causing errors in the interpreter.
+
+2005-08-10  Peter Johanson  <latexer@gentoo.org>
+
 	* Parser/ExpressionTypeVisitor.boo:
 	* Parser/Resolver.boo:
 	* Parser/ReturnType.boo:

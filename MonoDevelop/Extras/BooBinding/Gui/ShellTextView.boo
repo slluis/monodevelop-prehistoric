@@ -288,7 +288,7 @@ class ShellTextView (SourceView, ICompletionWidget):
 					else:
 						_scriptLines += "\n${InputLine}"
 				
-				processInput (InputLine)
+					processInput (InputLine)
 			return true
 
 		// The next two cases handle command history	
