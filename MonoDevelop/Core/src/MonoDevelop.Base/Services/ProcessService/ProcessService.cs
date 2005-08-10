@@ -113,14 +113,14 @@ namespace MonoDevelop.Services
 			return null;
 		}
 		
-		ProcessHostController GetHost (bool shared)
+		ProcessHostController GetHost (string id, bool shared)
 		{
 			if (!shared)
-				return new ProcessHostController (0);
+				return new ProcessHostController (id, 0);
 			
 			lock (this) {
 				if (externalProcess == null)
-					externalProcess = new ProcessHostController (10000);
+					externalProcess = new ProcessHostController ("SharedHostProcess", 10000);
 	
 				return externalProcess;
 			}
@@ -133,12 +133,12 @@ namespace MonoDevelop.Services
 		
 		public RemoteProcessObject CreateExternalProcessObject (Type type, bool shared)
 		{
-			return GetHost (shared).CreateInstance (type.Assembly.Location, type.FullName);
+			return GetHost (type.ToString(), shared).CreateInstance (type.Assembly.Location, type.FullName);
 		}
 		
 		public RemoteProcessObject CreateExternalProcessObject (string assemblyPath, string typeName, bool shared)
 		{
-			return GetHost (shared).CreateInstance (assemblyPath, typeName);
+			return GetHost (typeName, shared).CreateInstance (assemblyPath, typeName);
 		}
 	}
 	

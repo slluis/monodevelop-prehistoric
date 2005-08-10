@@ -1,3 +1,12 @@
+2005-08-10  Lluis Sanchez Gual  <lluis@novell.com> 
+
+	* Services/ProcessService/ProcessHostController.cs: Avoid unneeded
+	reference to GLib. Added id parameter that is added as argument
+	to the process. This helps identifying the process in the
+	process list.
+	* Services/ProcessService/ProcessService.cs: Provide a meaningful
+	id to the ProcessHostController instances.
+
 2005-08-10  Peter Johanson  <latexer@gentoo.org>
 
 	* Services/ILoggingService.cs:

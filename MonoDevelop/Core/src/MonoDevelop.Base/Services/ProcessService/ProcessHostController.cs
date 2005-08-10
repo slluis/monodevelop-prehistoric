@@ -34,6 +34,7 @@ using System.Runtime.Remoting.Channels.Tcp;
 using System.Runtime.Remoting.Channels;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Threading;
+using Timer = System.Timers.Timer;
 
 namespace MonoDevelop.Services
 {
@@ -45,15 +46,21 @@ namespace MonoDevelop.Services
 		bool starting;
 		bool stopping;
 		Process process;
+		Timer timer;
+		string id;
 
 		IProcessHost processHost;
 		ManualResetEvent runningEvent = new ManualResetEvent (false);
 		ManualResetEvent exitRequestEvent = new ManualResetEvent (false);
 		ManualResetEvent exitedEvent = new ManualResetEvent (false);
 		
-		public ProcessHostController (uint stopDelay)
+		public ProcessHostController (string id, uint stopDelay)
 		{
+			this.id = id;
 			this.stopDelay = stopDelay;
+			timer = new Timer ();
+			timer.AutoReset = false;
+			timer.Elapsed += new System.Timers.ElapsedEventHandler (WaitTimeout);
 		}
 		
 		public void Start ()
@@ -77,7 +84,7 @@ namespace MonoDevelop.Services
 				try {
 					process = new Process ();
 					process.Exited += new EventHandler (ProcessExited);
-					process.StartInfo = new ProcessStartInfo ("sh", "-c \"mono mdhost.exe\"");
+					process.StartInfo = new ProcessStartInfo ("sh", "-c \"mono mdhost.exe " + id + "\"");
 					process.StartInfo.WorkingDirectory = AppDomain.CurrentDomain.BaseDirectory;
 					process.StartInfo.UseShellExecute = false;
 					process.StartInfo.RedirectStandardInput = true;
@@ -159,13 +166,18 @@ namespace MonoDevelop.Services
 					lastReleaseTime = DateTime.Now;
 					if (!stopping) {
 						stopping = true;
-						GLib.Timeout.Add (stopDelay, new GLib.TimeoutHandler (WaitTimeout));
+						if (stopDelay == 0)
+							WaitTimeout (null, null);
+						else {
+							timer.Interval = stopDelay;
+							timer.Enabled = true;
+						}
 					}
 				}
 			}
 		}
 		
-		bool WaitTimeout ()
+		void WaitTimeout (object sender, System.Timers.ElapsedEventArgs args)
 		{
 			try {
 				Process oldProcess;
@@ -173,13 +185,14 @@ namespace MonoDevelop.Services
 				lock (this) {
 					if (references > 0) {
 						stopping = false;
-						return false;
+						return;
 					}
 	
 					uint waited = (uint) (DateTime.Now - lastReleaseTime).TotalMilliseconds;
 					if (waited < stopDelay) {
-						GLib.Timeout.Add (stopDelay - waited, new GLib.TimeoutHandler (WaitTimeout));
-						return false;
+						timer.Interval = stopDelay - waited;
+						timer.Enabled = true;
+						return;
 					}
 				
 					runningEvent.Reset ();
@@ -200,7 +213,6 @@ namespace MonoDevelop.Services
 			} catch (Exception ex) {
 				Console.WriteLine (ex);
 			}
-			return false;
 		}
 		
 		public void RegisterHost (IProcessHost processHost)
