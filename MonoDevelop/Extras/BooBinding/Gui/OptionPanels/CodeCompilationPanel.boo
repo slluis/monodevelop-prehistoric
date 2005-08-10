@@ -104,7 +104,7 @@ public class CodeGenerationPanel(AbstractOptionPanel):
 		labelCompileTarget.Markup = String.Format ("{0} :", GettextCatalog.GetString ("Output Assembly"))
 		
 
-		store = ListStore (string)
+		store = ListStore ((typeof(string),))
 
 		stringArray = array(System.String, 1)
 		stringArray[0] = GettextCatalog.GetString ("Executable")
