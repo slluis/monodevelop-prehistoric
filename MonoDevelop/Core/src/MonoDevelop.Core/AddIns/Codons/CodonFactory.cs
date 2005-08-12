@@ -29,7 +29,7 @@ namespace MonoDevelop.Core.AddIns.Codons
 		public void AddCodonBuilder(CodonBuilder builder)
 		{
 			if (codonHashtable[builder.CodonName] != null) {
-				throw new DuplicateCodonException(builder.CodonName);
+				throw new DuplicateCodonException(builder.ClassName, builder.CodonName);
 			}
 			codonHashtable[builder.CodonName] = builder;
 		}

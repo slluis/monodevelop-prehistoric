@@ -131,6 +131,15 @@ namespace MonoDevelop.Core.AddIns
 			}
 		}
 		
+		public Stream GetResourceStream (string id)
+		{
+			foreach (Assembly asm in runtimeLibraries.Values) {
+				Stream s = asm.GetManifestResourceStream (id);
+				if (s != null) return s;
+			}
+			return null;
+		}
+		
 		ArrayList errors = null;
 		void ValidationHandler(object sender, ValidationEventArgs args)
 		{

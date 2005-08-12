@@ -18,7 +18,7 @@ namespace MonoDevelop.Core.AddIns.Codons
 	/// </summary>
 	public abstract class AbstractCodon : ICodon
 	{
-		[XmlMemberAttribute("id", IsRequired=true)]
+		[XmlMemberAttribute("id")]
 		string id = null;
 		
 		[XmlMemberAttributeAttribute("class")]
@@ -30,6 +30,7 @@ namespace MonoDevelop.Core.AddIns.Codons
 		[XmlMemberArrayAttribute("insertbefore")]
 		string[] insertbefore = null;
 		
+		static int internalIdCount;
 		
 		AddIn  addIn = null;
 		
@@ -64,6 +65,8 @@ namespace MonoDevelop.Core.AddIns.Codons
 		/// </summary>
 		public string ID {
 			get {
+				if (id == null)
+					id = "___" + (internalIdCount++);
 				return id;
 			}
 			set {

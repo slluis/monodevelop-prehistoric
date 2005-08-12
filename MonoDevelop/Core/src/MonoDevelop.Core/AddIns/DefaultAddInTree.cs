@@ -96,7 +96,7 @@ namespace MonoDevelop.Core.AddIns
 			foreach (ICodon codon in extension.CodonCollection) {
 				DefaultAddInTreeNode localPath = CreatePath(localRoot, codon.ID);
 				if (localPath.Codon != null) {
-					throw new DuplicateCodonException(codon.ID);
+					throw new DuplicateCodonException(codon.GetType().Name, codon.ID);
 				}
 				localPath.Codon              = codon;
 				localPath.ConditionCollection = (ConditionCollection)extension.Conditions[codon.ID];

@@ -1,3 +1,17 @@
+2005-08-12  Lluis Sanchez Gual  <lluis@novell.com>
+
+	* AddIns/Codons/AbstractCodon.cs: Make the ID attribute optional.
+	In general, IDs are only needed when codons can be extended, or when
+	the entity they represent requires an ID. There are some kind of codons
+	which don't have any of those requirements, and the ID is not needed.
+	
+	* AddIns/AddIn.cs: Added method for getting a resource from an addin's
+	asseblies.
+	
+	* AddIns/Codons/CodonFactory.cs:
+	* AddIns/DefaultAddInTree.cs:
+	* AddIns/Codons/DuplicateCodonException.cs: Improve error message.
+
 2005-08-10  Ben Motmans  <ben.motmans@gmail.com>
 
 	* MonoDevelop.Core.mdp: references update

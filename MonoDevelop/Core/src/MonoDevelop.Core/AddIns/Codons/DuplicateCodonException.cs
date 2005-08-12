@@ -17,7 +17,7 @@ namespace MonoDevelop.Core.AddIns
 		/// <summary>
 		/// Constructs a new <see cref="DuplicateCodonException"/> instance.
 		/// </summary>
-		public DuplicateCodonException(string codon) : base("there already exists a codon with name : " + codon)
+		public DuplicateCodonException (string type, string codon) : base("there already exists a codon of type " + type + " with id: " + codon)
 		{
 		}
 	}
