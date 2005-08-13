@@ -326,6 +326,7 @@ MonoQuery.Procedure \
 MonoQuery.Table \
 MonoQuery.User \
 MonoQuery.DateTime \
+MonoQuery.Column \
 MonoQuery.ColumnFK \
 MonoQuery.ColumnPK \
 MonoQuery.Tables \
