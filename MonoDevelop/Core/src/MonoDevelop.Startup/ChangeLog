@@ -1,3 +1,8 @@
+2005-08-13  Todd Berman  <tberman@off.net>
+
+	* MonoDevelopMain.cs: Fix the socket ObjectDisposed. Only to uncover
+	another ObjectDisposed, that I do not understand how to debug.
+
 2005-08-10  Ben Motmans  <ben.motmans@gmail.com>
 
 	* MonoDevelop.Startup.mdp: references update

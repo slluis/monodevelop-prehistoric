@@ -217,8 +217,14 @@ namespace MonoDevelop
 
 		static void ListenCallback (IAsyncResult state)
 		{
-			Socket client = ((Socket)state.AsyncState).EndAccept (state);
-			((Socket)state.AsyncState).BeginAccept (new AsyncCallback (ListenCallback), state.AsyncState);
+			Socket sock = (Socket)state.AsyncState;
+
+			if (!sock.Connected) {
+				return;
+			}
+
+			Socket client = sock.EndAccept (state);
+			((Socket)state.AsyncState).BeginAccept (new AsyncCallback (ListenCallback), sock);
 			byte[] buf = new byte[1024];
 			client.Receive (buf);
 			foreach (string filename in Encoding.UTF8.GetString (buf).Split ('\n')) {
