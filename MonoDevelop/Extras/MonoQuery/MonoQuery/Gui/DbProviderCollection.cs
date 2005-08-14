@@ -38,6 +38,8 @@ namespace MonoQuery
 	[XmlInclude (typeof (MySqlDbProvider))]
 	[XmlInclude (typeof (NpgsqlDbProvider))]
 	[XmlInclude (typeof (SqliteDbProvider))]
+	[XmlInclude (typeof (OracleDbProvider))]
+	[XmlInclude (typeof (SqlDbProvider))]
 	public class DbProviderCollection : CollectionBase
 	{
 		public DbProviderCollection () : base ()

@@ -1,3 +1,22 @@
+2005-08-06	Christian Hergert	<christian.hergert@gmail.com>
+
+	* tests/Mono.Data.Sql.Tests.mdp: Updated
+	* Mono.Data.Sql/Schema/AbstractSchema.cs: Add Options hashtable for
+	generic extra options above and beyond the hardcoded properties.
+	* Mono.Data.Sql/Schema/UserSchema.cs: Add a few new descriptor objects.
+	* Mono.Data.Sql/Providers/NpgsqlDbProvider.cs: Add GetUser () :
+	UserSchema[] support.
+	* Mono.Data.Sql/Mono.Data.Sql.mdp: Updated
+	* MonoQuery/Gui/NodeBuilders/UsersNodeBuilder.cs: Build the underlying
+	users.
+	* MonoQuery/Gui/NodeBuilders/UserNodeBuilder.cs: New builder to build a
+	user object in the tree.
+	* MonoQuery/Gui/DbProviderCollection.cs: Add some more xml includes for
+	the database persistence file.
+	* MonoQuery/Makefile.am: Updated
+	* MonoQuery/MonoQuery.addin.xml: Updated
+	* MonoQuery/MonoQuery.mdp: Updated
+
 2005-08-08  John Luke  <john.luke@gmail.com>
 
 	* MonoQuery/Makefile.am: add glade file to EXTRA_DIST to

@@ -2,6 +2,7 @@ FILES = \
 Commands/Commands.cs \
 Gui/NodeBuilders/DatabaseNodeBuilder.cs \
 Gui/NodeBuilders/UsersNodeBuilder.cs \
+Gui/NodeBuilders/UserNodeBuilder.cs \
 Gui/NodeBuilders/LanguagesNodeBuilder.cs \
 Gui/NodeBuilders/TypesNodeBuilder.cs \
 Gui/NodeBuilders/ProviderCollectionNodeBuilder.cs \

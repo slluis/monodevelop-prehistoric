@@ -27,6 +27,7 @@
 //
 
 using System;
+using System.Collections;
 
 namespace Mono.Data.Sql
 {
@@ -40,6 +41,8 @@ namespace Mono.Data.Sql
 		protected string definition = String.Empty;
 		protected string schema = String.Empty;
 		protected DbProviderBase provider = null;
+		
+		protected Hashtable options;
 		
 		public virtual string Name {
 			get {
@@ -131,6 +134,15 @@ namespace Mono.Data.Sql
 		public virtual PrivilegeSchema [] Privileges {
 			get {
 				throw new NotImplementedException();
+			}
+		}
+		
+		public virtual Hashtable Options {
+			get {
+				if (options == null)
+					options = new Hashtable ();
+				
+				return options;
 			}
 		}
 		

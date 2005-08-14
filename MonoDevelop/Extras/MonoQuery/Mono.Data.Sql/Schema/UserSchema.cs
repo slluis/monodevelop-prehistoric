@@ -32,9 +32,40 @@ namespace Mono.Data.Sql
 {
 	public class UserSchema : AbstractSchema
 	{
-		public RoleSchema [] Roles {
+		protected string userId = String.Empty;
+		protected string password = String.Empty;
+		protected DateTime expires = DateTime.MinValue;
+		
+		public virtual RoleSchema [] Roles {
 			get {
 				throw new NotImplementedException();
+			}
+		}
+		
+		public virtual string UserId {
+			get {
+				return userId;
+			}
+			set {
+				userId = value;
+			}
+		}
+		
+		public virtual string Password {
+			get {
+				return password;
+			}
+			set {
+				password = value;
+			}
+		}
+		
+		public virtual DateTime Expires {
+			get {
+				return expires;
+			}
+			set {
+				expires = value;
 			}
 		}
 	}

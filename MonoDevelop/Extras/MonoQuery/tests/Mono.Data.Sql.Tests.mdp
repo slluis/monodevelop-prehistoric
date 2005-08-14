@@ -13,10 +13,6 @@
       <CodeGeneration compiler="Csc" warninglevel="4" optimize="True" unsafecodeallowed="False" generateoverflowchecks="True" mainclass="" generatexmldocumentation="False" ctype="CSharpCompilerParameters" />
     </Configuration>
   </Configurations>
-  <References>
-    <ProjectReference type="Project" localcopy="True" refto="Mono.Data.Sql" />
-    <ProjectReference type="Gac" localcopy="True" refto="nunit.framework, Version=2.2.0.0, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77" />
-  </References>
   <DeploymentInformation strategy="File">
     <excludeFiles />
   </DeploymentInformation>
@@ -24,4 +20,8 @@
     <File name="./CreateProviderTests.cs" subtype="Code" buildaction="Compile" />
     <File name="./NpgsqlTablesTest.cs" subtype="Code" buildaction="Compile" />
   </Contents>
+  <References>
+    <ProjectReference type="Project" localcopy="True" refto="Mono.Data.Sql" />
+    <ProjectReference type="Gac" localcopy="True" refto="nunit.framework, Version=2.2.0.0, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77" />
+  </References>
 </Project>

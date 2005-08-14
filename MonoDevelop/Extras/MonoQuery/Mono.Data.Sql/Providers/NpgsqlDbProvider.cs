@@ -506,7 +506,42 @@ namespace Mono.Data.Sql
 			
 			ArrayList collection = new ArrayList ();
 			
-			// TODO: Implement
+			NpgsqlCommand command = new NpgsqlCommand ();
+			command.Connection = connection;
+			command.CommandText = "SELECT * FROM pg_user;";
+			NpgsqlDataReader r = command.ExecuteReader ();
+			
+			while (r.Read ()) {
+				UserSchema user = new UserSchema ();
+				
+				user.Name = r.GetString (0);
+				user.UserId = String.Format ("{0}", r.GetInt32(1));
+				
+				if (!r.IsDBNull (6))
+					user.Expires = r.GetDateTime (6);
+				
+				user.Options["createdb"] = r.GetBoolean (2);
+				user.Options["createuser"] = r.GetBoolean (3);
+				user.Password = r.GetString (5);
+				
+				StringBuilder sb = new StringBuilder ();
+				sb.AppendFormat ("-- User: \"{0}\"\n\n", user.Name);
+				sb.AppendFormat ("-- DROP USER {0};\n\n", user.Name);
+				sb.AppendFormat ("CREATE USER {0}", user.Name);
+				sb.AppendFormat ("  WITH SYSID {0}", user.UserId);
+				if (user.Password != "********")
+					sb.AppendFormat (" ENCRYPTED PASSWORD {0}", user.Password);
+				sb.AppendFormat (((bool) user.Options["createdb"]) ?
+					" CREATEDB" : " NOCREATEDB");
+				sb.AppendFormat (((bool) user.Options["createuser"]) ?
+					" CREATEUSER" : " NOCREATEUSER");
+				if (user.Expires != DateTime.MinValue)
+					sb.AppendFormat (" VALID UNTIL {0}", user.Expires);
+				sb.Append (";");
+				user.Definition = sb.ToString ();
+				
+				collection.Add (user);
+			}
 			
 			return (UserSchema[]) collection.ToArray (typeof (UserSchema));
 		}

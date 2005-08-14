@@ -30,6 +30,7 @@
 			<NodeBuilder id = "RolesNodeBuilder" class = "MonoQuery.RolesNodeBuilder"/>
 			<NodeBuilder id = "SequencesNodeBuilder" class = "MonoQuery.SequencesNodeBuilder"/>
 			<NodeBuilder id = "UsersNodeBuilder" class = "MonoQuery.UsersNodeBuilder"/>
+			<NodeBuilder id = "UserNodeBuilder" class = "MonoQuery.UserNodeBuilder"/>
 			<NodeBuilder id = "TypesNodeBuilder" class = "MonoQuery.TypesNodeBuilder"/>
 			<NodeBuilder id = "ColumnsNodeBuilder" class = "MonoQuery.ColumnsNodeBuilder"/>
 			<NodeBuilder id = "RulesNodeBuilder" class = "MonoQuery.RulesNodeBuilder"/>

@@ -1,5 +1,5 @@
 //
-// UsersNodeBuilder.cs
+// UserNodeBuilder.cs
 //
 // Authors:
 //   Christian Hergert <chris@mosaix.net>
@@ -29,50 +29,63 @@
 using System;
 
 using Mono.Data.Sql;
+using MonoDevelop.Core.Services;
 using MonoDevelop.Services;
 using MonoDevelop.Gui.Pads;
 
 namespace MonoQuery
 {
-	public class UsersNodeBuilder : TypeNodeBuilder
+	public class UserNodeBuilder : TypeNodeBuilder
 	{
-		public UsersNodeBuilder()
+		public UserNodeBuilder ()
 		{
 		}
 		
 		public override Type NodeDataType {
 			get {
-				return typeof(UsersNode);
+				return typeof (UserSchema);
+			}
+		}
+		
+		public override Type CommandHandlerType {
+			get {
+				return typeof (UserNodeCommandHandler);
 			}
 		}
 		
 		public override string GetNodeName (ITreeNavigator thisNode, object dataObject)
 		{
-			return GettextCatalog.GetString ("Users");
+			return GettextCatalog.GetString ("User");
 		}
 		
 		public override void BuildNode (ITreeBuilder treeBuilder, object dataObject, ref string label, ref Gdk.Pixbuf icon, ref Gdk.Pixbuf closedIcon)
 		{
-			label = GettextCatalog.GetString ("Users");
+			UserSchema user = (UserSchema) dataObject;
+			label = user.Name;
 			string iconName = "md-mono-query-user";
 			icon = Context.GetIcon (iconName);
 		}
 		
-		public override void BuildChildNodes (ITreeBuilder builder, object dataObject)
-		{
-			UsersNode node = (UsersNode) dataObject;
-			BuildChildNodes (builder, node);
-		}
-		
-		public static void BuildChildNodes (ITreeBuilder builder, UsersNode node)
-		{
-			foreach (UserSchema user in node.Provider.GetUsers ())
-				builder.AddChild (user);
-		}
-		
 		public override bool HasChildNodes (ITreeBuilder builder, object dataObject)
 		{
-			return true;
+			return false;
+		}
+	}
+	
+	public class UserNodeCommandHandler : NodeCommandHandler
+	{
+		public override DragOperation CanDragNode ()
+		{
+			return DragOperation.None;
+		}
+		
+		public override void OnItemSelected ()
+		{
+			UserSchema user = CurrentNode.DataItem as UserSchema;
+			MonoQueryService service = (MonoQueryService) ServiceManager.GetService (typeof (MonoQueryService));
+			
+			if (service.SqlDefinitionPad != null)
+				service.SqlDefinitionPad.SetText(user.Definition);
 		}
 	}
 }
