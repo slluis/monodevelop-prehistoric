@@ -189,6 +189,10 @@ namespace Mono.Data.Sql
 				return true;
 			else if (type == typeof(TriggerSchema))
 				return true;
+			else if (type == typeof(ColumnSchema))
+				return true;
+			else if (type == typeof(ConstraintSchema))
+				return true;
 			else if (type == typeof(RuleSchema))
 				return true;
 			else
@@ -281,6 +285,8 @@ namespace Mono.Data.Sql
 				collection.Add (table);
 			}
 			
+			r.Close ();
+			
 			return (TableSchema[]) collection.ToArray (typeof (TableSchema));
 		}
 		
@@ -339,6 +345,8 @@ namespace Mono.Data.Sql
 				collection.Add(column);
 			}
 			
+			r.Close ();
+			
 			return (ColumnSchema[]) collection.ToArray(typeof(ColumnSchema));
 		}
 
@@ -383,11 +391,11 @@ namespace Mono.Data.Sql
 					view.Comment = r.GetString(5);
 				} catch (Exception e) {
 				}
-				
-				
-				
+
 				collection.Add(view);
 			}
+			
+			r.Close ();
 			
 			return (ViewSchema[]) collection.ToArray (typeof (ViewSchema));
 		}
@@ -435,6 +443,8 @@ namespace Mono.Data.Sql
 					collection.Add(column);
 				}
 			}
+			
+			r.Close ();
 			
 			return (ColumnSchema[]) collection.ToArray (typeof(ColumnSchema));
 		}
@@ -508,6 +518,8 @@ namespace Mono.Data.Sql
 				collection.Add (constraint);
 			}
 			
+			r.Close ();
+			
 			return (ConstraintSchema[]) collection.ToArray (typeof(ConstraintSchema));
 		}
 		
@@ -554,6 +566,8 @@ namespace Mono.Data.Sql
 				
 				collection.Add (user);
 			}
+			
+			r.Close ();
 			
 			return (UserSchema[]) collection.ToArray (typeof (UserSchema));
 		}
@@ -605,6 +619,7 @@ namespace Mono.Data.Sql
 				collection.Add (procedure);
 			}
 			
+			r.Close ();
 			
 			return (ProcedureSchema[]) collection.ToArray (typeof (ProcedureSchema)); 
 		}
@@ -637,6 +652,8 @@ namespace Mono.Data.Sql
 				
 				collection.Add (column);
 			}
+			
+			r.Close ();
 			
 			return (ColumnSchema[]) collection.ToArray (typeof (ColumnSchema));
 		}

@@ -43,7 +43,7 @@ namespace Mono.Data.Sql
 		
 		public override string ProviderName {
 			get {
-				return "MySQL Database (Incomplete)";
+				return "MySQL Database";
 			}
 		}
 		
@@ -89,6 +89,7 @@ namespace Mono.Data.Sql
 			} catch (Exception e) {
 				isConnectionStringWrong = true;
 			}
+
 			
 			return IsOpen;
 		}
@@ -101,32 +102,11 @@ namespace Mono.Data.Sql
 		
 		public override bool SupportsSchemaType(Type type)
 		{
-			// FIXME: Need to check what mysql actually supports.
 			if (type == typeof(TableSchema))
 				return true;
-			else if (type == typeof(ViewSchema))
-				return true;
-			else if (type == typeof(ProcedureSchema))
-				return true;
-			else if (type == typeof(AggregateSchema))
-				return true;
-			else if (type == typeof(GroupSchema))
+			if (type == typeof(ColumnSchema))
 				return true;
 			else if (type == typeof(UserSchema))
-				return true;
-			else if (type == typeof(LanguageSchema))
-				return true;
-			else if (type == typeof(OperatorSchema))
-				return true;
-			else if (type == typeof(RoleSchema))
-				return true;
-			else if (type == typeof(SequenceSchema))
-				return true;
-			else if (type == typeof(DataTypeSchema))
-				return true;
-			else if (type == typeof(TriggerSchema))
-				return true;
-			else if (type == typeof(RuleSchema))
 				return true;
 			else
 				return false;
@@ -155,47 +135,25 @@ namespace Mono.Data.Sql
 			
 			ArrayList collection = new ArrayList ();
 			
-			MySqlCommand command = new MySqlCommand ();
-			command.Connection = Connection;
-			command.CommandText =
-				"";
-			MySqlDataReader r = command.ExecuteReader ();
-			
-			while (r.Read ()) {
-				TableSchema table = new TableSchema ();
-				table.Provider = this;
+			using (MySqlCommand command = new MySqlCommand ()) {
+				command.Connection = Connection;
+				command.CommandText =
+					"SHOW TABLES;";
+				MySqlDataReader r = command.ExecuteReader ();
 				
-				// TODO: Implement
+				while (r.Read ()) {
+					TableSchema table = new TableSchema ();
+					table.Provider = this;
+					
+					table.Name = r.GetString (0);
+					
+					collection.Add (table);
+				}
 				
-				collection.Add (table);
+				r.Close ();
 			}
 			
 			return (TableSchema[]) collection.ToArray (typeof (TableSchema));
-		}
-		
-		public override ViewSchema[] GetViews ()
-		{
-			if (IsOpen == false && Open () == false)
-				throw new InvalidOperationException ("Invalid connection");
-			
-			ArrayList collection = new ArrayList ();
-			
-			MySqlCommand command = new MySqlCommand ();
-			command.Connection = Connection;
-			command.CommandText =
-				"";
-			MySqlDataReader r = command.ExecuteReader ();
-			
-			while (r.Read ()) {
-				ViewSchema view = new ViewSchema ();
-				view.Provider = this;
-				
-				// TODO: Implement
-				
-				collection.Add (view);
-			}
-			
-			return (ViewSchema[]) collection.ToArray (typeof (ViewSchema));
 		}
 		
 		public override ColumnSchema[] GetTableColumns (TableSchema table)
@@ -205,44 +163,28 @@ namespace Mono.Data.Sql
 			
 			ArrayList collection = new ArrayList ();
 			
-			MySqlCommand command = new MySqlCommand ();
-			command.Connection = Connection;
-			command.CommandText =
-				"";
-			MySqlDataReader r = command.ExecuteReader ();
-			
-			while (r.Read ()) {
-				ColumnSchema column = new ColumnSchema ();
-				column.Provider = this;
+			using (MySqlCommand command = new MySqlCommand ()) {
+				command.Connection = Connection;
+
+				// XXX: Use String.Format cause mysql parameters suck assmar.
+				command.CommandText =
+					String.Format ("DESCRIBE {0}", table.Name);
+				MySqlDataReader r = command.ExecuteReader ();
 				
-				// TODO: Implement
+				while (r.Read ()) {
+					ColumnSchema column = new ColumnSchema ();
+					column.Provider = this;
+					
+					column.Name = r.GetString (0);
+					column.DataTypeName = r.GetString (1);
+					column.NotNull = r.IsDBNull (2);
+					column.Default = r.GetString (4);
+					column.Options["extra"] = r.GetString (5);
+					
+					collection.Add (column);
+				}
 				
-				collection.Add (column);
-			}
-			
-			return (ColumnSchema[]) collection.ToArray (typeof (ColumnSchema));
-		}
-		
-		public override ColumnSchema[] GetViewColumns (ViewSchema table)
-		{
-			if (IsOpen == false && Open () == false)
-				throw new InvalidOperationException ("Invalid connection");
-			
-			ArrayList collection = new ArrayList ();
-			
-			MySqlCommand command = new MySqlCommand ();
-			command.Connection = Connection;
-			command.CommandText =
-				"";
-			MySqlDataReader r = command.ExecuteReader ();
-			
-			while (r.Read ()) {
-				ColumnSchema column = new ColumnSchema ();
-				column.Provider = this;
-				
-				// TODO: Implement
-				
-				collection.Add (column);
+				r.Close ();
 			}
 			
 			return (ColumnSchema[]) collection.ToArray (typeof (ColumnSchema));
@@ -255,23 +197,53 @@ namespace Mono.Data.Sql
 			
 			ArrayList collection = new ArrayList ();
 			
-			MySqlCommand command = new MySqlCommand ();
-			command.Connection = Connection;
-			command.CommandText =
-				"";
-			MySqlDataReader r = command.ExecuteReader ();
-			
-			while (r.Read ()) {
-				ConstraintSchema constraint = new ConstraintSchema ();
-				constraint.Provider = this;
+			using (MySqlCommand command = new MySqlCommand ()) {
+				command.Connection = Connection;
+				command.CommandText =
+					"";
+				MySqlDataReader r = command.ExecuteReader ();
 				
-				// TODO: Implement
+				while (r.Read ()) {
+					ConstraintSchema constraint = new ConstraintSchema ();
+					constraint.Provider = this;
+					
+					// TODO: Implement
+					
+					collection.Add (constraint);
+				}
 				
-				collection.Add (constraint);
+				r.Close ();
 			}
 			
 			return (ConstraintSchema[]) collection.ToArray (
 				typeof (ConstraintSchema));
+		}
+
+		public override UserSchema[] GetUsers ()
+		{
+			if (IsOpen == false && Open () == false)
+				throw new InvalidOperationException ("Invalid connection");
+
+			ArrayList collection = new ArrayList ();
+
+			using (MySqlCommand command = new MySqlCommand ()) {
+				command.Connection = connection;
+				command.CommandText =
+					"SELECT DISTINCT user from mysql.user where user != '';";
+				MySqlDataReader r = command.ExecuteReader ();
+
+				while (r.Read ()) {
+					UserSchema user = new UserSchema ();
+					user.Provider = this;
+					user.Name = r.GetString (0);
+
+					collection.Add (user);
+				}
+
+				r.Close ();
+			}
+
+			return (UserSchema[]) collection.ToArray (typeof (UserSchema));
 		}
 	}
 }

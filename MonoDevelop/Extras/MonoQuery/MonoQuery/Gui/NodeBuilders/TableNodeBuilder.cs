@@ -77,10 +77,17 @@ namespace MonoQuery
 		
 		public static void BuildChildNodes (ITreeBuilder builder, TableSchema node)
 		{
-			builder.AddChild (new ColumnsNode (node.Provider, node));
-			builder.AddChild (new RulesNode (node.Provider));
-			builder.AddChild (new ConstraintsNode (node.Provider, node));
-			builder.AddChild (new TriggersNode (node.Provider));
+			if (node.Provider.SupportsSchemaType (typeof (ColumnSchema)))
+				builder.AddChild (new ColumnsNode (node.Provider, node));
+
+			if (node.Provider.SupportsSchemaType (typeof (RuleSchema)))
+				builder.AddChild (new RulesNode (node.Provider));
+
+			if (node.Provider.SupportsSchemaType (typeof (ConstraintSchema)))
+				builder.AddChild (new ConstraintsNode (node.Provider, node));
+
+			if (node.Provider.SupportsSchemaType (typeof (TriggerSchema)))
+				builder.AddChild (new TriggersNode (node.Provider));
 		}
 		
 		public override bool HasChildNodes (ITreeBuilder builder, object dataObject)

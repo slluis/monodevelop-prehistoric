@@ -1,5 +1,18 @@
 2005-08-06	Christian Hergert	<christian.hergert@gmail.com>
 
+	* Mono.Data.Sql/AssemblyInfo.cs: Fix versioning stuff
+	* Mono.Data.Sql/Providers/NpgsqlDbProvider.cs: Update supported types.
+	properly close data readers. 
+	* Mono.Data.Sql/Providers/MySqlDbProvider.cs: Add basic support for
+	tables, their columns, and users. This should be somewhat useful now. Need
+	to still determine which versions of mysql ByteFX driver works with.
+	* MonoQuery/AssemblyInfo.cs: Fix versioning stuff
+	* MonoQuery/Gui/NodeBuilders/TableNodeBuilder.cs: Update to check that the
+	type is supported before showing a dummy node.
+	* MonoQuery/Gui/ConnectionDialog.cs: Change Secret to Password.
+
+2005-08-06	Christian Hergert	<christian.hergert@gmail.com>
+
 	* Mono.Data.Sql.mds: Updated
 	* Mono.Data.Sql/Schema/ForeignKeyConstraintSchema.cs: Add setter for
 	reference table name.

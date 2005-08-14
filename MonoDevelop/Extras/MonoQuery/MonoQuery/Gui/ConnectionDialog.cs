@@ -125,7 +125,7 @@ namespace MonoQuery
 			if (useridEntry.Text != String.Empty)
 				connString += String.Format ("User ID={0};", useridEntry.Text);
 			if (passwordEntry.Text != String.Empty)
-				connString += String.Format ("Secret={0};", passwordEntry.Text);
+				connString += String.Format ("Password={0};", passwordEntry.Text);
 			if (otherEntry.Text != String.Empty)
 				connString += otherEntry.Text;
 			
