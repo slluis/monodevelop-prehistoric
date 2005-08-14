@@ -483,10 +483,22 @@ namespace Mono.Data.Sql
 			
 			while (r.Read ()) {
 				ConstraintSchema constraint = null;
+
+				// XXX: Add support for Check constraints.
 				switch (r.GetString(2)) {
+					case "f":
+						string match = @".*REFERENCES (.+)\(.*\).*";
+						constraint = new ForeignKeyConstraintSchema ();
+						if (Regex.IsMatch (r.GetString (1), match))
+							(constraint as ForeignKeyConstraintSchema).ReferenceTableName
+								= Regex.Match (r.GetString (1), match).Groups[0].Captures[0].Value;
+						break;
+					case "u":
+						constraint = new UniqueConstraintSchema ();
+						break;
 					case "p":
 					default:
-						constraint = new PrimaryKeyConstraintSchema();
+						constraint = new PrimaryKeyConstraintSchema ();
 						break;
 				}
 				
@@ -605,6 +617,8 @@ namespace Mono.Data.Sql
 			ArrayList collection = new ArrayList ();
 			
 			// FIXME: Won't work properly with overload functions.
+			// Maybe check the number of columns in the parameters for
+			// proper match.
 			NpgsqlCommand command = new NpgsqlCommand ();
 			command.Connection = connection;
 			command.CommandText = String.Format (

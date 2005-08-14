@@ -1,5 +1,17 @@
 2005-08-06	Christian Hergert	<christian.hergert@gmail.com>
 
+	* Mono.Data.Sql.mds: Updated
+	* Mono.Data.Sql/Schema/ForeignKeyConstraintSchema.cs: Add setter for
+	reference table name.
+	* Mono.Data.Sql/Schema/UniqueConstraintSchema.cs: Add default Constructor.
+	* Mono.Data.Sql/Makefile.am: Updated to build when files change.
+	* Mono.Data.Sql/Providers/NpgsqlDbProvider.cs: Add some more guts to the
+	Constraint builders for tables.
+	* MonoQuery/Gui/NodeBuilders/ConstraintNodeBuilder.cs: Add a handler
+	* MonoQuery/MonoQuery.addin.xml: Load mono.data.sql.
+
+2005-08-06	Christian Hergert	<christian.hergert@gmail.com>
+
 	* tests/Mono.Data.Sql.Tests.mdp: Updated
 	* Mono.Data.Sql/Schema/AbstractSchema.cs: Add Options hashtable for
 	generic extra options above and beyond the hardcoded properties.

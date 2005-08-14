@@ -29,6 +29,8 @@
 using System;
 
 using Mono.Data.Sql;
+
+using MonoDevelop.Core.Services;
 using MonoDevelop.Services;
 using MonoDevelop.Gui.Pads;
 
@@ -43,6 +45,12 @@ namespace MonoQuery
 		public override Type NodeDataType {
 			get {
 				return typeof (ConstraintSchema);
+			}
+		}
+		
+		public override Type CommandHandlerType {
+			get {
+				return typeof (ConstraintNodeCommandHandler);
 			}
 		}
 		
@@ -76,6 +84,23 @@ namespace MonoQuery
 		public override bool HasChildNodes (ITreeBuilder builder, object dataObject)
 		{
 			return false;
+		}
+	}
+	
+	public class ConstraintNodeCommandHandler : NodeCommandHandler
+	{
+		public override DragOperation CanDragNode ()
+		{
+			return DragOperation.None;
+		}
+		
+		public override void OnItemSelected ()
+		{
+			ConstraintSchema schema = CurrentNode.DataItem as ConstraintSchema;
+			MonoQueryService service = (MonoQueryService) ServiceManager.GetService (typeof (MonoQueryService));
+			
+			if (service.SqlDefinitionPad != null)
+				service.SqlDefinitionPad.SetText(schema.Definition);
 		}
 	}
 }

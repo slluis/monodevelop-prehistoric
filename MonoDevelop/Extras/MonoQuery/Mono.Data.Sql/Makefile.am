@@ -47,7 +47,7 @@ DLL = $(ADDIN_BUILD)/Mono.Data.Sql.dll
 
 all: $(DLL)
 
-$(DLL):
+$(DLL): $(FILES)
 	mkdir -p $(ADDIN_BUILD)
 	$(CSC) $(SCS_FLAGS) -target:library -out:$@ $(build_sources) $(REFS)
 

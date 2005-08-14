@@ -44,6 +44,12 @@ namespace Mono.Data.Sql
 			}
 		}
 		
+		public string ReferenceTableName {
+			set {
+				referenceTable = value;
+			}
+		}
+		
 		public ColumnSchema[] ReferenceColumns {
 			get {
 				return (ColumnSchema[]) null;

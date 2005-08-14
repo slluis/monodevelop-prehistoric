@@ -7,6 +7,7 @@
 		version     = "0.2.0">
 
 	<Runtime>
+		<Import assembly="Mono.Data.Sql.dll"/>
 		<Import assembly="MonoQuery.dll"/>
 	</Runtime>
 
