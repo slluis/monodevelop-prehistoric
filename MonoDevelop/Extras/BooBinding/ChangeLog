@@ -1,3 +1,8 @@
+2005-08-15  Peter Johanson  <latexer@gentoo.org>
+
+	* Gui/ShellTextvView: Fix file sharing violation that killed multiple
+	MD instances when the boo shell was enabled.
+
 2005-08-10  Peter Johanson  <latexer@gentoo.org>
 
 	* Gui/ShellTextView.boo: Fix small problem with

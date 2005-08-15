@@ -93,8 +93,12 @@ class ShellTextView (SourceView, ICompletionWidget):
 		# FIXME: Put the project file somewhere other than /tmp
 		monodevelopConfigDir = System.IO.Path.Combine (Environment.GetFolderPath (Environment.SpecialFolder.Personal), ".config/MonoDevelop/")
 		shellProjectFile = System.IO.Path.Combine (monodevelopConfigDir, "${Model.LanguageName}-shell-project.mdp")
+
+		// 'touch' the file so the MD parsing foo sees it as existing.
 		_fakeFileName = System.IO.Path.Combine (monodevelopConfigDir, "shell-dummy-file.${Model.MimeTypeExtension}")
-		_fileInfo  = System.IO.File.Create (_fakeFileName)
+		if not System.IO.File.Exists (_fakeFileName):
+			_fileInfo  = System.IO.File.Create (_fakeFileName)
+			_fileInfo.Close ()
 		_fakeProject = DotNetProject(Model.LanguageName, Name: "___ShellProject", FileName: shellProjectFile)
 
 		_parserService.Load(_fakeProject)
