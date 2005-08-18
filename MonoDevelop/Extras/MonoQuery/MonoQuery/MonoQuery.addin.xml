@@ -62,10 +62,10 @@
 			_label = "Remove"/>
 		<Command id = "MonoQuery.Commands.MonoQueryCommands.RefreshProviderList"
 			_label = "Refresh"
-			icon = "md-browser-refresh"/>
+			icon = "gtk-refresh"/>
 		<Command id = "MonoQuery.Commands.MonoQueryCommands.RefreshConnection"
 			_label = "Refresh"
-			icon = "md-browser-refresh"/>
+			icon = "gtk-refresh"/>
 		<Command id = "MonoQuery.Commands.MonoQueryCommands.DisconnectConnection"
 			_label = "Disconnect"
 			icon = "md-mono-query-disconnect"/>
@@ -82,6 +82,22 @@
 		<CommandItem id = "MonoQuery.Commands.MonoQueryCommands.DisconnectConnection"/>
 		<SeparatorItem id = "ConnectionSeparator"/>
 		<CommandItem id = "MonoQuery.Commands.MonoQueryCommands.RefreshConnection"/>
+	</Extension>
+
+	<Extension path = "/SharpDevelop/Workbench/StockIcons">
+		<StockIcon stockid = "md-mono-query-addconnection" resource = "MonoQuery.Addconnection" />
+		<StockIcon stockid = "md-mono-query-column" resource = "MonoQuery.Column" />
+		<StockIcon stockid = "md-mono-query-column-f-k" resource = "MonoQuery.ColumnFK" />
+		<StockIcon stockid = "md-mono-query-column-p-k" resource = "MonoQuery.ColumnPK" />
+		<StockIcon stockid = "md-mono-query-connect" resource = "MonoQuery.Connect" />
+		<StockIcon stockid = "md-mono-query-database" resource = "MonoQuery.Database" />
+		<StockIcon stockid = "md-mono-query-date-time" resource = "MonoQuery.DateTime" />
+		<StockIcon stockid = "md-mono-query-disconnect" resource = "MonoQuery.Disconnect" />
+		<StockIcon stockid = "md-mono-query-procedure" resource = "MonoQuery.Procedure" />
+		<StockIcon stockid = "md-mono-query-table" resource = "MonoQuery.Table" />
+		<StockIcon stockid = "md-mono-query-tables" resource = "MonoQuery.Tables" />
+		<StockIcon stockid = "md-mono-query-user" resource = "MonoQuery.User" />
+		<StockIcon stockid = "md-mono-query-view" resource = "MonoQuery.View" />
 	</Extension>
 
 </AddIn>

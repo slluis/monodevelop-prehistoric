@@ -33,11 +33,26 @@ Gui/DbProviderCollection.cs \
 MonoQueryService.cs \
 AssemblyInfo.cs
 
+RES = \
+monoquery.glade \
+icons/MonoQuery.Addconnection \
+icons/MonoQuery.Column \
+icons/MonoQuery.ColumnFK \
+icons/MonoQuery.ColumnPK \
+icons/MonoQuery.Connect \
+icons/MonoQuery.Database \
+icons/MonoQuery.DateTime \
+icons/MonoQuery.Disconnect \
+icons/MonoQuery.Procedure \
+icons/MonoQuery.Table \
+icons/MonoQuery.Tables \
+icons/MonoQuery.User \
+icons/MonoQuery.View
+
 build_sources = $(addprefix $(srcdir)/, $(FILES))
 
 DLL = $(ADDIN_BUILD)/MonoQuery.dll
 ADDIN = MonoQuery.addin.xml
-GLADE = monoquery.glade
 ADDIN_BUILD = $(top_builddir)/build/AddIns/MonoQuery
 
 REFS = /r:$(top_builddir)/build/bin/MonoDevelop.Core.dll \
@@ -55,14 +70,14 @@ $(ADDIN_BUILD)/$(ADDIN): $(srcdir)/$(ADDIN)
 	mkdir -p $(ADDIN_BUILD)
 	cp $(srcdir)/$(ADDIN) $(ADDIN_BUILD)/$(ADDIN)
 
-$(DLL): $(build_sources) $(srcdir)/$(GLADEFILE)
+$(DLL): $(build_sources) $(RES)
 	mkdir -p $(ADDIN_BUILD)
 	$(CSC) $(CSC_FLAGS) -target:library -out:$@ $(build_sources) $(REFS) \
-	-resource:$(srcdir)/$(GLADE)
+	$(RES:%=/resource:%)
 
 CLEANFILES = $(DLL) $(DLL).mdb $(ADDIN_BUILD)/$(ADDIN)
 
-EXTRA_DIST = $(FILES) $(ADDIN) $(GLADE)
+EXTRA_DIST = $(FILES) $(ADDIN) $(RES)
 
 monoquerydir = $(MD_ADDIN_DIR)/MonoQuery
 monoquery_DATA = $(DLL) $(ADDIN_BUILD)/$(ADDIN)
