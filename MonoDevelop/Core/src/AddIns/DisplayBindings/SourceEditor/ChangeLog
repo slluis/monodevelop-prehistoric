@@ -1,3 +1,9 @@
+2005-08-12  Lluis Sanchez Gual  <lluis@novell.com> 
+
+	* MonoDevelopEditor.addin.xml:
+	* Gui/SourceEditorDisplayBinding.cs: Use stock icon id instead of
+	file name.
+
 2005-08-10  Ben Motmans  <ben.motmans@gmail.com>
 
 	* SourceEditor.mdp: references update

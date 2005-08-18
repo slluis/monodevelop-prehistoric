@@ -11,6 +11,7 @@ using GtkSourceView;
 using MonoDevelop.DefaultEditor;
 using MonoDevelop.Services;
 using MonoDevelop.Gui.Search;
+using Stock = MonoDevelop.Gui.Stock;
 
 namespace MonoDevelop.SourceEditor.Gui
 {
@@ -27,8 +28,8 @@ namespace MonoDevelop.SourceEditor.Gui
 		static SourceEditor ()
 		{
 			dragIconPixbuf = new Gdk.Pixbuf (drag_icon_xpm);
-			executionMarkerPixbuf = new Gdk.Pixbuf ("../data/resources/icons/ExecutionMarker.png");
-			breakPointPixbuf = new Gdk.Pixbuf ("../data/resources/icons/BreakPoint.png");
+			executionMarkerPixbuf = Runtime.Gui.Resources.GetIcon (Stock.ExecutionMarker);
+			breakPointPixbuf = Runtime.Gui.Resources.GetIcon (Stock.BreakPoint);
 		}
 		
 		protected SourceEditor (IntPtr ptr): base (ptr)

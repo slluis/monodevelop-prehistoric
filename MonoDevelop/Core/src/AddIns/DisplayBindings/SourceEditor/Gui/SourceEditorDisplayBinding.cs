@@ -346,7 +346,7 @@ namespace MonoDevelop.SourceEditor.Gui
 			if (reloadBar == null) {
 				reloadBar = new HBox ();
 				reloadBar.BorderWidth = 3;
-				Gtk.Image img = Runtime.Gui.Resources.GetImage ("Icons.32x32.Warning", IconSize.Menu);
+				Gtk.Image img = Runtime.Gui.Resources.GetImage ("gtk-dialog-warning", IconSize.Menu);
 				reloadBar.PackStart (img, false, false, 2);
 				reloadBar.PackStart (new Gtk.Label (GettextCatalog.GetString ("This file has been changed outside of MonoDevelop")), false, false, 5);
 				HBox box = new HBox ();
@@ -423,10 +423,11 @@ namespace MonoDevelop.SourceEditor.Gui
 				if (bouncingDelegate == null)
 					bouncingDelegate = new GLib.IdleHandler (BounceAndGrab);
 				if (needsUpdate) {
-					GLib.Idle.Add (bouncingDelegate);
+					cachedText = se.Buffer.Text;
+/*					GLib.Idle.Add (bouncingDelegate);
 					if (cachedText == null)
 						return se.Buffer.Text;
-				}
+*/				}
 				return cachedText;
 			}
 			set { se.Buffer.Text = value; }
