@@ -47,45 +47,38 @@ Parser/Visitor.boo
 
 BOOSHELL_FILES = BooShell/BooShell.boo
 
-TEMPLATES = \
+RES = \
 templates/BooGtkSharpProject.xpt.xml \
 templates/BooGtkSharpWindow.xft.xml \
 templates/EmptyBooFile.xft.xml \
-templates/EmptyBooProject.xpt.xml
+templates/EmptyBooProject.xpt.xml \
+icons/BooBinding.Base \
+icons/Boo.File.EmptyFile \
+icons/Boo.File.Form \
+icons/Boo.FileIcon \
+icons/Boo.Project.EmptyProject \
+icons/Boo.Project.Form \
+icons/Boo.ProjectIcon
 
 build_sources = $(addprefix $(srcdir)/, $(FILES))
 booshell_build_sources = $(addprefix $(srcdir)/, $(BOOSHELL_FILES))
 
 ADDIN = BooBinding.addin.xml
 
-TEMPLATES_DIR = $(ADDIN_BUILD)/templates
-
-build_TEMPLATES = $(addprefix $(TEMPLATES_DIR)/, $(notdir $(TEMPLATES)))
-
-src_TEMPLATES = $(addprefix $(srcdir)/, $(TEMPLATES))
-
 if ENABLE_BOO
-all: $(ASSEMBLY) $(ADDIN_BUILD)/$(ADDIN) $(build_TEMPLATES) \
+all: $(ASSEMBLY) $(ADDIN_BUILD)/$(ADDIN) \
 	$(BOOSHELL_LIB)
 else
 all:
 endif
 
-$(filter %.xft.xml, $(build_TEMPLATES)): $(TEMPLATES_DIR)/%.xft.xml: $(srcdir)/templates/%.xft.xml
-	mkdir -p $(TEMPLATES_DIR)
-	cp $(srcdir)/templates/$(notdir $@) $@
-
-$(filter %.xpt.xml, $(build_TEMPLATES)): $(TEMPLATES_DIR)/%.xpt.xml: $(srcdir)/templates/%.xpt.xml
-	mkdir -p $(TEMPLATES_DIR)
-	cp $(srcdir)/templates/$(notdir $@) $@
-
 $(ADDIN_BUILD)/$(ADDIN): $(srcdir)/$(ADDIN)
 	mkdir -p $(ADDIN_BUILD)
 	cp $(srcdir)/$(ADDIN) $(ADDIN_BUILD)/.
 
-$(ASSEMBLY): $(FILES) $(BOOSHELL_LIB)
+$(ASSEMBLY): $(FILES) $(BOOSHELL_LIB) $(RES)
 	mkdir -p $(ADDIN_BUILD)
-	$(BOOC) $(DLLS) $(build_sources) -o:$@ -t:library
+	$(BOOC) $(DLLS) $(RES:%=/resource:%) $(build_sources) -o:$@ -t:library
 
 $(BOOSHELL_LIB): $(BOOSHELL_FILES)
 	mkdir -p $(ADDIN_BUILD)
@@ -95,10 +88,8 @@ if ENABLE_BOO
 assemblydir = $(MD_ADDIN_DIR)/BackendBindings
 assembly_DATA = $(ASSEMBLY) $(ADDIN) $(BOOSHELL_LIB)
 
-templatedir = $(assemblydir)/templates
-template_DATA = $(TEMPLATES)
 endif
 
 CLEANFILES = $(ASSEMBLY) $(BOOSHELL_LIB)
-EXTRA_DIST = $(FILES) $(ADDIN) $(TEMPLATES) $(BOOSHELL_FILES)
+EXTRA_DIST = $(FILES) $(ADDIN) $(RES) $(BOOSHELL_FILES)
 

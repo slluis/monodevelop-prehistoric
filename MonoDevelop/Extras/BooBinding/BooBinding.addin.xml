@@ -17,17 +17,13 @@
   </Extension>
 
   <Extension path = "/MonoDevelop/FileTemplates">
-    <FileTemplate id = "EmptyBooFile"
-                  location = "templates/EmptyBooFile.xft.xml"/>
-    <FileTemplate id = "BooGtkSharpWindow"
-                  location = "templates/BooGtkSharpWindow.xft.xml"/>
+    <FileTemplate id = "EmptyBooFile" resource = "EmptyBooFile.xft.xml"/>
+    <FileTemplate id = "BooGtkSharpWindow" resource = "BooGtkSharpWindow.xft.xml"/>
   </Extension>
 
   <Extension path = "/MonoDevelop/ProjectTemplates">
-    <ProjectTemplate id = "EmptyBooProject"
-                     location = "templates/EmptyBooProject.xpt.xml"/>
-    <ProjectTemplate id = "BooGtkSharpProject"
-                     location = "templates/BooGtkSharpProject.xpt.xml"/>
+    <ProjectTemplate id = "EmptyBooProject" resource = "EmptyBooProject.xpt.xml"/>
+    <ProjectTemplate id = "BooGtkSharpProject" resource = "BooGtkSharpProject.xpt.xml"/>
   </Extension>
 
   <Extension path = "/SharpDevelop/Workbench/ProjectOptions/ConfigurationProperties">
@@ -41,10 +37,10 @@
   <Extension path = "/Workspace/Icons">
     <Icon id = "BooPrj"
           language = "Boo"
-          resource = "Boo.ProjectIcon"/>
+          resource = "res:Boo.ProjectIcon"/>
     <Icon id = "BooFile"
           extensions = ".boo"
-          resource = "Boo.FileIcon"/>
+          resource = "res:Boo.FileIcon"/>
   </Extension>
 
   <Extension path = "/SharpDevelop/Workbench/LanguageBindings">
