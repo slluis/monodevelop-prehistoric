@@ -1,3 +1,7 @@
+2005-08-18  Lluis Sanchez Gual  <lluis@novell.com> 
+
+	* configure.in: Remove the icons directory.
+
 2005-08-13	Chrstian Hergert	<christian.hergert@gmail.com>
 
 	* build/data/resources/icons/Makefile.am: Add missing MonoQuery.Column

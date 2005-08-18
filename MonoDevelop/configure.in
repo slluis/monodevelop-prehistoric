@@ -197,7 +197,6 @@ AC_SUBST(MD_DIR)
 AC_OUTPUT([
 build/data/Makefile
 build/data/resources/css/Makefile
-build/data/resources/icons/Makefile
 build/data/resources/Makefile
 build/Makefile
 contrib/Makefile
