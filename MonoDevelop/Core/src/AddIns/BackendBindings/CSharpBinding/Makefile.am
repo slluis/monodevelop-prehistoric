@@ -38,7 +38,8 @@ CSharpLanguageBinding.cs \
 FormattingStrategy/CSharpFormattingStrategy.cs \
 CSharpBindingCompilerManager.cs
 
-TEMPLATES = \
+RES = \
+CSharp.glade \
 templates/AppConfigFile.xft.xml \
 templates/BlankCombine.xpt.xml \
 templates/ConsoleProject.xpt.xml \
@@ -58,33 +59,35 @@ templates/GnomeSharp2Project.xpt.xml \
 templates/GtkSharpProject.xpt.xml \
 templates/GtkSharp2Project.xpt.xml \
 templates/GtkSharpWindow.xft.xml \
-templates/Library.xpt.xml
+templates/Library.xpt.xml \
+icons/C\#.File.EmptyFile \
+icons/C\#.File.Form \
+icons/C\#.File.FullFile \
+icons/C\#.FileIcon \
+icons/C\#.File.NewClass \
+icons/C\#.File.WebFile \
+icons/C\#.Project.DOSProject \
+icons/C\#.Project.EmptyProject \
+icons/C\#.Project.Form \
+icons/C\#.Project.FullProject \
+icons/C\#.ProjectIcon \
+icons/C\#.Project.Library \
+icons/C\#.Project.ServiceProject \
+icons/C\#.Project.UserControl \
+icons/C\#.Project.WebProject
 
 ADDIN = CSharpBinding.addin.xml
 
-TEMPLATES_DIR = $(ADDIN_BUILD)/templates
-
-build_TEMPLATES = $(addprefix $(TEMPLATES_DIR)/,$(notdir $(TEMPLATES)))
-
-all: $(ASSEMBLY) $(ADDIN_BUILD)/$(ADDIN) $(build_TEMPLATES)
-
-$(filter %.xpt.xml, $(build_TEMPLATES)): $(TEMPLATES_DIR)/%.xpt.xml: $(srcdir)/templates/%.xpt.xml
-	mkdir -p $(TEMPLATES_DIR)
-	cp $(srcdir)/templates/$(notdir $@) $@
-
-$(filter %.xft.xml, $(build_TEMPLATES)): $(TEMPLATES_DIR)/%.xft.xml: $(srcdir)/templates/%.xft.xml
-	mkdir -p $(TEMPLATES_DIR)
-	cp $(srcdir)/templates/$(notdir $@) $@
+all: $(ASSEMBLY) $(ADDIN_BUILD)/$(ADDIN)
 
 $(ADDIN_BUILD)/$(ADDIN): $(srcdir)/$(ADDIN)
 	mkdir -p $(ADDIN_BUILD)
 	cp $(srcdir)/$(ADDIN) $(ADDIN_BUILD)/$(ADDIN)
 
-$(ASSEMBLY): $(build_sources) $(srcdir)/CSharp.glade
+$(ASSEMBLY): $(build_sources)
 	mkdir -p $(ADDIN_BUILD)
 	$(CSC) $(CSC_FLAGS) -out:$@ -target:library $(DLLS) \
-		-resource:$(srcdir)/CSharp.glade,CSharp.glade \
-		$(build_sources)
+		$(RES:%=/resource:%) $(build_sources)
 
 parse: $(PARSE)
 
@@ -97,12 +100,9 @@ run-parse-test: $(PARSE)
 csharpbindinglibdir = $(MD_ADDIN_DIR)/BackendBindings
 csharpbindinglib_DATA = $(ASSEMBLY) $(ADDIN)
 
-templatesdir = $(csharpbindinglibdir)/templates
-templates_DATA = $(TEMPLATES)
-
 CLEANFILES = $(ASSEMBLY) $(ASSEMBLY).mdb $(PARSE) $(PARSE).mdb
 
-EXTRA_DIST = $(FILES) CSharp.glade $(ADDIN) $(TEMPLATES)
+EXTRA_DIST = $(FILES) $(ADDIN) $(RES)
 
 include $(top_srcdir)/Makefile.include
 

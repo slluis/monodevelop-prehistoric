@@ -3,7 +3,7 @@
 	
 	<TemplateConfiguration>
 		<_Name>Empty Text File</_Name>
-		<Icon>Icons.32x32.TextFileIcon</Icon>
+		<Icon>md-text-file-icon</Icon>
 		<Category>Misc</Category>
 		<LanguageName>Default</LanguageName>
 		<_Description>Creates an empty text file.</_Description>

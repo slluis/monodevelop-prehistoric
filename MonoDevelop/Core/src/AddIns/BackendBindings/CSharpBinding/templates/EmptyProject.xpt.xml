@@ -7,7 +7,7 @@
 	<TemplateConfiguration>
 		<_Name>Empty Project</_Name>
 		<Category>C#</Category>
-		<Icon>C#.Project.EmptyProject</Icon>
+		<Icon>res:C#.Project.EmptyProject</Icon>
 		<LanguageName>C#</LanguageName>
 		<_Description>Creates an empty C# project.</_Description>
 	</TemplateConfiguration>

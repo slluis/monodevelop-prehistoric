@@ -3,7 +3,7 @@
 	
 	<TemplateConfiguration>
 		<_Name>Application Configuration File</_Name>
-		<Icon>Icons.32x32.TextFileIcon</Icon>
+		<Icon>md-text-file-icon</Icon>
 		<Category>Misc</Category>
 		<LanguageName>XML</LanguageName>
 		<_Description>Creates a .NET application configuration file.</_Description>

@@ -7,7 +7,7 @@
 	<TemplateConfiguration>
 		<_Name>Console Project</_Name>
 		<Category>C#</Category>
-		<Icon>C#.Project.DOSProject</Icon>
+		<Icon>res:C#.Project.DOSProject</Icon>
 		<LanguageName>C#</LanguageName>
 		<_Description>Creates a new C# console project.</_Description>
 	</TemplateConfiguration>

@@ -7,7 +7,7 @@
 	<TemplateConfiguration>
 		<_Name>Gtk# 2.0 Project</_Name>
 		<Category>C#</Category>
-		<Icon>C#.Project.Form</Icon>
+		<Icon>res:C#.Project.Form</Icon>
 		<LanguageName>C#</LanguageName>
 		<_Description>Creates a Gtk# 2.0 project.</_Description>
 	</TemplateConfiguration>

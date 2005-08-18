@@ -3,7 +3,7 @@
 	
 	<TemplateConfiguration>
 		<_Name>Empty XML File</_Name>
-		<Icon>Icons.32x32.XMLFileIcon</Icon>
+		<Icon>md-xml-file-icon</Icon>
 		<Category>Misc</Category>
 		<LanguageName>XML</LanguageName>
 		<_Description>Creates an empty XML file.</_Description>

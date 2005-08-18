@@ -7,7 +7,7 @@
 	<TemplateConfiguration>
 		<_Name>Library</_Name>
 		<Category>C#</Category>
-		<Icon>C#.Project.Library</Icon>
+		<Icon>res:C#.Project.Library</Icon>
 		<LanguageName>C#</LanguageName>
 		<_Description>Creates an empty C# class library</_Description>
 	</TemplateConfiguration>

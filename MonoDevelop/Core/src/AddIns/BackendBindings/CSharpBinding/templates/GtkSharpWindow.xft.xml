@@ -4,7 +4,7 @@
 	
 	<TemplateConfiguration>
 		<_Name>Gtk# Window</_Name>
-		<Icon>C#.File.Form</Icon>
+		<Icon>res:C#.File.Form</Icon>
 		<Category>C#</Category>
 		<LanguageName>C#</LanguageName>
 		<_Description>Creates a top-level Gtk# window.</_Description>

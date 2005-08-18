@@ -3,7 +3,7 @@
 	
 	<TemplateConfiguration>
 		<_Name>Web Service</_Name>
-		<Icon>C#.File.WebFile</Icon>
+		<Icon>res:C#.File.WebFile</Icon>
 		<Category>C#</Category>
 		<LanguageName>C#</LanguageName>
 		<_Description>Creates a C# Web Service.</_Description>

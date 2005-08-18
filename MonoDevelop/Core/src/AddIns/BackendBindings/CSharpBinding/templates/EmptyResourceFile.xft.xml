@@ -3,7 +3,7 @@
 	
 	<TemplateConfiguration>
 		<_Name>Empty Resource File</_Name>
-		<Icon>Icons.32x32.ResourceFileIcon</Icon>
+		<Icon>md-resource-file-icon</Icon>
 		<Category>Misc</Category>
 		<LanguageName>ResourceFiles</LanguageName>
 		<_Description>Creates an empty resource file.</_Description>

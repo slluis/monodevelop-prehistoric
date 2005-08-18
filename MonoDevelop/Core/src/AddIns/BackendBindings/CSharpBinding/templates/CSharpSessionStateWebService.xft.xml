@@ -3,7 +3,7 @@
 	
 	<TemplateConfiguration>
 		<_Name>Secure Web Service</_Name>
-		<Icon>C#.File.WebFile</Icon>
+		<Icon>res:C#.File.WebFile</Icon>
 		<Category>C#</Category>
 		<LanguageName>C#</LanguageName>
 		<_Description>Creates a secure C# Web Service, using SessionState</_Description>
