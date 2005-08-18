@@ -6,7 +6,7 @@
 	  
 	<TemplateConfiguration>
 		<_Name>Empty file</_Name>
-		<Icon>Nemerle.File.EmptyFile</Icon>
+		<Icon>res:Nemerle.File.EmptyFile</Icon>
 		<Category>Nemerle</Category>
 		<LanguageName>Nemerle</LanguageName>
 		<_Description>Creates an empty Nemerle file</_Description>

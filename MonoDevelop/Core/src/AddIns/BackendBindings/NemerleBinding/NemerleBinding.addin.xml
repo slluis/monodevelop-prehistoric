@@ -17,19 +17,14 @@
   </Extension>
 
   <Extension path = "/MonoDevelop/FileTemplates">
-    <FileTemplate id = "EmptyNemerleFile"
-                  location = "templates/EmptyNemerleFile.xft.xml"/>
-    <FileTemplate id = "NemerleGtkSharpWindow"
-                  location = "templates/NemerleGtkSharpWindow.xft.xml"/>
+    <FileTemplate id = "EmptyNemerleFile" resource = "EmptyNemerleFile.xft.xml"/>
+    <FileTemplate id = "NemerleGtkSharpWindow" resource = "NemerleGtkSharpWindow.xft.xml"/>
   </Extension>
 
   <Extension path = "/MonoDevelop/ProjectTemplates">
-    <ProjectTemplate id = "EmptyNemerleProject"
-                     location = "templates/NemerleEmptyProject.xpt.xml"/>
-    <ProjectTemplate id = "NemerleGtkSharpProject"
-                     location = "templates/NemerleGtkSharpProject.xpt.xml"/>
-    <ProjectTemplate id = "NemerleGnomeSharpProject"
-                     location = "templates/NemerleGnomeSharpProject.xpt.xml"/>
+    <ProjectTemplate id = "EmptyNemerleProject" resource = "NemerleEmptyProject.xpt.xml"/>
+    <ProjectTemplate id = "NemerleGtkSharpProject" resource = "NemerleGtkSharpProject.xpt.xml"/>
+    <ProjectTemplate id = "NemerleGnomeSharpProject" resource = "NemerleGnomeSharpProject.xpt.xml"/>
   </Extension>
 
   <Extension path = "/SharpDevelop/Workbench/ProjectOptions/ConfigurationProperties">
@@ -46,10 +41,10 @@
   <Extension path = "/Workspace/Icons">
     <Icon id = "NemerlePrj"
           language = "Nemerle"
-          resource = "Nemerle.ProjectIcon"/>
+          resource = "res:Nemerle.ProjectIcon"/>
     <Icon id = "NemerleFile"
           extensions = ".n"
-          resource = "Nemerle.FileIcon"/>
+          resource = "res:Nemerle.FileIcon"/>
   </Extension>
 
   <Extension path = "/SharpDevelop/Workbench/LanguageBindings">
@@ -57,5 +52,4 @@
                      supportedextensions = ".n"
                      class = "NemerleBinding.NemerleLanguageBinding" />
   </Extension>
-
 </AddIn>

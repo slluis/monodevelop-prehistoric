@@ -7,7 +7,7 @@
 	<TemplateConfiguration>
 		<_Name>Empty Project</_Name>
 		<Category>Nemerle</Category>
-		<Icon>Nemerle.Project.EmptyProject</Icon>
+		<Icon>res:Nemerle.Project.EmptyProject</Icon>
 		<LanguageName>Nemerle</LanguageName>
 		<_Description>Creates an empty Nemerle project</_Description>
 	</TemplateConfiguration>

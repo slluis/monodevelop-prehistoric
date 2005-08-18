@@ -1,3 +1,14 @@
+2005-08-12  Lluis Sanchez Gual  <lluis@novell.com> 
+
+	* NemerleGnomeSharpProject.xpt.xml:
+	* NemerleGtkSharpProject.xpt.xml:
+	* NemerleEmptyProject.xpt.xml:
+	* EmptyNemerleFile.xft.xml:
+	* NemerleGtkSharpWindow.xft.xml:
+	* NemerleBinding.addin.xml: Properly reference resource icons and
+	templates.
+	* Makefile.am: Embed icon and templates as resources.
+
 2005-07-11  Lluis Sanchez Gual  <lluis@novell.com>
 
 	* Project/NemerleParameters.cs: Implement ICloneable.

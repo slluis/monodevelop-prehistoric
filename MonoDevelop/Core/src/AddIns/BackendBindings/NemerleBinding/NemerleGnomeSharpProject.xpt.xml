@@ -7,7 +7,7 @@
 	<TemplateConfiguration>
 		<_Name>Gnome# Project</_Name>
 		<Category>Nemerle</Category>
-		<Icon>Nemerle.Project.Form</Icon>
+		<Icon>res:Nemerle.Project.Form</Icon>
 		<LanguageName>Nemerle</LanguageName>
 		<_Description>Creates a Nemerle/Gnome# project</_Description>
 	</TemplateConfiguration>
