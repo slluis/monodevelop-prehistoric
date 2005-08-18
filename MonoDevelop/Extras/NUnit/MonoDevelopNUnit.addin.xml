@@ -100,7 +100,7 @@
 	</Extension>
 
 	<Extension path = "/MonoDevelop/ProjectTemplates">
-		<ProjectTemplate id = "NUnitAssemblyGroup" location = "templates/NUnitAssemblyGroup.xpt.xml"/>
+		<ProjectTemplate id = "NUnitAssemblyGroup" resource = "NUnitAssemblyGroup.xpt.xml"/>
 	</Extension>
   
 	<Extension path = "/SharpDevelop/Workbench/ProjectFileFormats">

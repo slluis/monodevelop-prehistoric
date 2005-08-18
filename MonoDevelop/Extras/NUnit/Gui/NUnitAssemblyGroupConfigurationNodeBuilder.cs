@@ -68,7 +68,7 @@ namespace MonoDevelop.NUnit
 		{
 			IConfiguration conf = dataObject as IConfiguration;
 			label = conf.Name;
-			icon = Context.GetIcon (Stock.ClosedFolderBitmap);
+			icon = Context.GetIcon (Stock.ClosedFolder);
 		}
 
 		public override void BuildChildNodes (ITreeBuilder builder, object dataObject)
