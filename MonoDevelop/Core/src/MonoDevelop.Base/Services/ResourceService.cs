@@ -18,6 +18,8 @@ using System.Runtime.InteropServices;
 
 using MonoDevelop.Core.Properties;
 using MonoDevelop.Services;
+using MonoDevelop.Core.AddIns.Codons;
+using MonoDevelop.Core.AddIns;
 
 namespace MonoDevelop.Core.Services
 {
@@ -41,6 +43,9 @@ namespace MonoDevelop.Core.Services
 		static Gtk.IconFactory iconFactory = null;
 		static Hashtable stockMappings = null;
 		
+		static ArrayList addinIcons = new ArrayList ();
+		static ArrayList addins = new ArrayList ();
+		
 		static ResourceService()
 		{
 			iconFactory = new Gtk.IconFactory ();
@@ -48,8 +53,23 @@ namespace MonoDevelop.Core.Services
 			// FIXME: remove this when all MonoDevelop is using Gtk+
 			// stock icons
 			stockMappings = new Hashtable ();
-			MonoDevelop.Gui.Stock.Init ();
 			iconFactory.AddDefault ();
+		}
+		
+		public override void InitializeService ()
+		{
+			base.InitializeService();
+
+			StockIconCodon[] icons = (StockIconCodon[])(AddInTreeSingleton.AddInTree.GetTreeNode("/SharpDevelop/Workbench/StockIcons").BuildChildItems(null)).ToArray(typeof(StockIconCodon));
+			foreach (StockIconCodon icon in icons) {
+				foreach (Assembly a in icon.AddIn.RuntimeLibraries.Values) {
+					try {
+						Gdk.Pixbuf px = new Gdk.Pixbuf (a, icon.Resource);
+						AddToIconFactory (icon.StockId, px, icon.IconSize);
+						break;
+					} catch {}
+				}
+			}
 		}
 		
 		/// <summary>
@@ -217,6 +237,51 @@ namespace MonoDevelop.Core.Services
 				                   " icon file");
 			}
 		}
+		
+		internal static void AddToIconFactory (string stockId,
+		                                       Gdk.Pixbuf pixbuf,
+						       Gtk.IconSize iconSize)
+		{
+			Gtk.IconSet iconSet = iconFactory.Lookup (stockId);
+			if (iconSet == null) {
+				iconSet = new Gtk.IconSet ();
+				iconFactory.Add (stockId, iconSet);
+			}
+
+			Gtk.IconSource source = new Gtk.IconSource ();
+			source.Pixbuf = pixbuf;
+			source.Size = iconSize;
+			iconSet.AddSource (source);
+		}
+		
+		static public string GetStockIdFromResource (AddIn addin, string id)
+		{
+			if (!id.StartsWith ("res:"))
+				return id;
+			
+			id = id.Substring (4);
+			int aid = addins.IndexOf (addin);
+			Hashtable hash;
+			if (aid == -1) {
+				aid = addins.Add (addin);
+				hash = new Hashtable ();
+				addinIcons.Add (hash);
+			} else {
+				hash = (Hashtable) addinIcons [aid];
+			}
+			string sid = "__asm" + aid + "__" + id;
+			if (!hash.Contains (sid)) {
+				foreach (Assembly asm in addin.RuntimeLibraries.Values) {
+					try {
+						Gdk.Pixbuf pix = new Gdk.Pixbuf (asm, id);
+						AddToIconFactory (sid, pix, Gtk.IconSize.Invalid);
+						break;
+					} catch {}
+				}
+				hash [sid] = sid;
+			}
+			return sid;
+		}
 
 		internal static void AddToIconFactory (string stockId, string filename)
 		{
@@ -230,12 +295,18 @@ namespace MonoDevelop.Core.Services
 
 		public static string GetStockId (string filename)
 		{
+			return GetStockId (null, filename);
+		}
+		
+		public static string GetStockId (AddIn addin, string filename)
+		{
+			if (addin != null && filename.StartsWith ("res:"))
+				return GetStockIdFromResource (addin, filename);
+				
 			string s = (string) stockMappings [filename];
 			
 			if (s != null)
 				return s;
-			
-			Runtime.LoggingService.InfoFormat(typeof(ResourceService).ToString(), "WARNING Could not find stock {0}", filename);
 			
 			return filename;
 		}

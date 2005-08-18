@@ -296,6 +296,7 @@ Services/DispatchService/SyncObject.cs \
 Services/Runtime.cs \
 Services/ILoggingService.cs \
 Services/DefaultLoggingService.cs \
+Services/StockIcons.cs \
 Internal/Undo/IUndoableOperation.cs \
 Internal/Undo/UndoStack.cs \
 Internal/Undo/UndoQueue.cs \
@@ -338,6 +339,7 @@ Internal/Codons/Templates/FileTemplateCodon.cs \
 Internal/Codons/Templates/ProjectTemplateCodon.cs \
 Internal/Codons/ContextPadCodon.cs \
 Internal/Codons/WorkbenchContextCodon.cs \
+Internal/Codons/StockIconCodon.cs \
 Internal/DataStructures/PriorityQueue.cs \
 Internal/Parser/IRegion.cs \
 Internal/Parser/ICompilationUnitBase.cs \
@@ -510,6 +512,113 @@ Internal/Serialization/PrimitiveDataType.cs \
 Internal/Serialization/XmlDataSerializer.cs \
 Internal/Serialization/DataSerializer.cs
 
+RES = \
+Base.glade \
+icons/BreakPoint.png \
+icons/ExecutionMarker.png \
+icons/FileIcons.XmlIcon \
+icons/GeneralWizardBackground \
+icons/gnome-fs-regular.png \
+icons/Icons.16x16.AboutIcon \
+icons/Icons.16x16.BuildCombine \
+icons/Icons.16x16.BuildCurrentSelectedProject \
+icons/Icons.16x16.Class \
+icons/Icons.16x16.ClearAllBookmarks \
+icons/Icons.16x16.CloseAllDocuments \
+icons/Icons.16x16.CloseCombineIcon \
+icons/Icons.16x16.ClosedFolderBitmap \
+icons/Icons.16x16.ClosedReferenceFolder \
+icons/Icons.16x16.ClosedResourceFolder \
+icons/Icons.16x16.CombineIcon \
+icons/Icons.16x16.CopyLeftIcon \
+icons/Icons.16x16.Delegate \
+icons/Icons.16x16.Desktop \
+icons/Icons.16x16.DRIVE \
+icons/Icons.16x16.Empty \
+icons/Icons.16x16.Enum \
+icons/Icons.16x16.Event \
+icons/Icons.16x16.Field \
+icons/Icons.16x16.FindIcon \
+icons/Icons.16x16.FindInFiles \
+icons/Icons.16x16.FindNextIcon \
+icons/Icons.16x16.FullScreen \
+icons/Icons.16x16.GotoNextbookmark \
+icons/Icons.16x16.GotoPrevbookmark \
+icons/Icons.16x16.Information \
+icons/Icons.16x16.Interface \
+icons/Icons.16x16.InternalClass \
+icons/Icons.16x16.InternalDelegate \
+icons/Icons.16x16.InternalEnum \
+icons/Icons.16x16.InternalEvent \
+icons/Icons.16x16.InternalField \
+icons/Icons.16x16.InternalInterface \
+icons/Icons.16x16.InternalMethod \
+icons/Icons.16x16.InternalProperty \
+icons/Icons.16x16.InternalStruct \
+icons/Icons.16x16.Library \
+icons/Icons.16x16.Literal \
+icons/Icons.16x16.Method \
+icons/Icons.16x16.MiscFiles \
+icons/Icons.16x16.MyComputer \
+icons/Icons.16x16.NameSpace \
+icons/Icons.16x16.NETWORK \
+icons/Icons.16x16.NewFolderIcon \
+icons/Icons.16x16.NewProjectIcon \
+icons/Icons.16x16.NextWindowIcon \
+icons/Icons.16x16.OpenFileIcon \
+icons/Icons.16x16.OpenFolderBitmap \
+icons/Icons.16x16.OpenProjectIcon \
+icons/Icons.16x16.OpenReferenceFolder \
+icons/Icons.16x16.OpenResourceFolder \
+icons/Icons.16x16.OutputIcon \
+icons/Icons.16x16.PersonalFiles \
+icons/Icons.16x16.PrivateClass \
+icons/Icons.16x16.PrivateDelegate \
+icons/Icons.16x16.PrivateEnum \
+icons/Icons.16x16.PrivateEvent \
+icons/Icons.16x16.PrivateField \
+icons/Icons.16x16.PrivateInterface \
+icons/Icons.16x16.PrivateMethod \
+icons/Icons.16x16.PrivateProperty \
+icons/Icons.16x16.PrivateStruct \
+icons/Icons.16x16.PropertiesIcon \
+icons/Icons.16x16.Property \
+icons/Icons.16x16.ProtectedClass \
+icons/Icons.16x16.ProtectedDelegate \
+icons/Icons.16x16.ProtectedEnum \
+icons/Icons.16x16.ProtectedEvent \
+icons/Icons.16x16.ProtectedField \
+icons/Icons.16x16.ProtectedInterface \
+icons/Icons.16x16.ProtectedMethod \
+icons/Icons.16x16.ProtectedProperty \
+icons/Icons.16x16.ProtectedStruct \
+icons/Icons.16x16.Reference \
+icons/Icons.16x16.ReplaceInFiles \
+icons/Icons.16x16.ResourceFileIcon \
+icons/Icons.16x16.SaveAllIcon \
+icons/Icons.16x16.SelectionArrow \
+icons/Icons.16x16.SolutionIcon \
+icons/Icons.16x16.SplitWindow \
+icons/Icons.16x16.Struct \
+icons/Icons.16x16.SubTypes \
+icons/Icons.16x16.SuperTypes \
+icons/Icons.16x16.TaskListIcon \
+icons/Icons.16x16.TextFileIcon \
+icons/Icons.16x16.TipOfTheDay \
+icons/Icons.16x16.ToggleBookmark \
+icons/Icons.16x16.WebSearchIcon \
+icons/Icons.16x16.XMLFileIcon \
+icons/Icons.32x32.ASPFileIcon \
+icons/Icons.32x32.CombineIcon \
+icons/Icons.32x32.EmptyFileIcon \
+icons/Icons.32x32.EmptyProjectIcon \
+icons/Icons.32x32.HTMLFileIcon \
+icons/Icons.32x32.ResourceFileIcon \
+icons/Icons.32x32.TextFileIcon \
+icons/Icons.32x32.XMLFileIcon \
+icons/Icons.SharpDevelopIcon \
+icons/Icons.TipOfTheDayIcon
+
 GENERATED_FILES = \
 AssemblyInfo.cs
 
@@ -539,14 +648,9 @@ $(ADDIN_BUILD)/$(ADDIN): $(srcdir)/$(ADDIN)
 	mkdir -p $(ADDIN_BUILD)
 	cp $(srcdir)/$(ADDIN) $(ADDIN_BUILD)/.
 
-Services/StockIcons.cs: $(srcdir)/Services/process-icons.pl $(srcdir)/../../../build/data/resources/icons
-	mkdir -p Services
-	$(PERL) -x$(srcdir)/../../../build/data/resources/icons -w $(srcdir)/Services/process-icons.pl > Services/StockIcons.cs
-
-$(ASSEMBLY): $(build_sources) $(srcdir)/Base.glade Services/StockIcons.cs
+$(ASSEMBLY): $(build_sources) $(RES)
 	$(CSC) $(CSC_FLAGS) -codepage:utf8 -out:$@ -target:library $(DLLS) \
-		-resource:$(srcdir)/Base.glade,Base.glade \
-		$(monodoc_libflags) $(build_sources) Services/StockIcons.cs
+		$(monodoc_libflags) $(RES:%=/resource:%) $(build_sources)
 
 assemblydir = $(MD_ASSEMBLY_DIR)
 assembly_DATA = $(ASSEMBLY)
@@ -558,8 +662,7 @@ optionsdir = $(MD_DIR)/data/options
 options_DATA = $(OPTIONS)
 
 CLEANFILES = $(ASSEMBLY) $(ASSEMBLY).mdb $(build_OPTIONS)
-DISTCLEANFILES = Services/StockIcons.cs
 
-EXTRA_DIST = $(FILES) ./Services/process-icons.pl Base.glade $(ADDIN) $(OPTIONS)
+EXTRA_DIST = $(FILES) $(RES) $(ADDIN) $(OPTIONS)
 
 include $(top_srcdir)/Makefile.include

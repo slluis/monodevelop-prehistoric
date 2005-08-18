@@ -52,7 +52,7 @@ namespace MonoDevelop.Core.AddIns.Codons
 			if (label == null) label = ID;
 
 			label = Runtime.StringParserService.Parse (GettextCatalog.GetString (label));
-			if (icon != null) icon = ResourceService.GetStockId (icon);
+			if (icon != null) icon = ResourceService.GetStockId (AddIn, icon);
 			CommandEntrySet cset = new CommandEntrySet (label, icon);
 			foreach (object e in subItems) {
 				CommandEntry ce = e as CommandEntry;

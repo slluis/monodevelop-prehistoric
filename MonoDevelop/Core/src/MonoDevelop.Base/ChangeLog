@@ -1,3 +1,37 @@
+2005-08-12  Lluis Sanchez Gual  <lluis@novell.com> 
+
+	* Internal/Codons/Commands/LinkItemCodon.cs:
+	* Gui/Dialogs/WordCountDialog.cs:
+	* Gui/Dialogs/NewProjectDialog.cs:
+	* Gui/Dialogs/NewFileDialog.cs:
+	* Services/Project/ProjectService.cs: Use stock icon id instead of
+	file name.
+	
+	* Gui/Pads/ProjectPad/ProjectFolderNodeBuilder.cs: Track changes
+	in Stock.cs.
+	
+	* Services/ResourceService.cs: Add stock icons registered in the addin
+	extension file.
+
+	* Internal/Codons/Commands/CommandCodon.cs:
+	* Internal/Codons/Commands/ItemSetCodon.cs:
+	* Services/IconService.cs: Provide the AddIn when calling GetStockId,
+	so resource icons are properly loaded.
+	
+	* Makefile.am: Embed icon and templates as resources.
+	
+	* Internal/Templates/FileTemplate.cs:
+	* Internal/Templates/ProjectTemplates/ProjectTemplate.cs:
+	* Internal/Codons/Templates/FileTemplateCodon.cs:
+	* Internal/Codons/Templates/ProjectTemplateCodon.cs: templates are now
+	loaded from resources.
+	
+	* MonoDevelopCore.addin.xml: Register base stock icons. Always use stock
+	icon id instead of file name.
+	
+	* Services/ParserService/DefaultParserService.cs: Fix potential deadlock
+	in UnloadDatabase.
+
 2005-08-10  Lluis Sanchez Gual  <lluis@novell.com> 
 
 	* Internal/Project/Project/ProjectReference.cs: Find referenced projects

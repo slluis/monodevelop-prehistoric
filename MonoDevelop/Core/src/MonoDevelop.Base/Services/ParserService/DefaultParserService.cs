@@ -612,14 +612,17 @@ namespace MonoDevelop.Services
 		void UnloadDatabase (string uri)
 		{
 			if (uri == CoreDB) return;
+
+			CodeCompletionDatabase db;
 			lock (databases)
 			{
-				CodeCompletionDatabase db = databases [uri] as CodeCompletionDatabase;
-				if (db != null) {
-					db.Write ();
+				db = databases [uri] as CodeCompletionDatabase;
+				if (db != null)
 					databases.Remove (uri);
-					db.Dispose ();
-				}
+			}
+			if (db != null) {
+				db.Write ();
+				db.Dispose ();
 			}
 		}
 		
@@ -863,8 +866,15 @@ namespace MonoDevelop.Services
 							job = (ParsingJob) parseQueue.Dequeue ();
 					}
 					
-					if (job != null)
-						job.ParseCallback (job.Data, monitor);
+					if (job != null) {
+						try {
+							job.ParseCallback (job.Data, monitor);
+						} catch (Exception ex) {
+							if (monitor == null)
+								monitor = GetParseProgressMonitor ();
+							monitor.ReportError (null, ex);
+						}
+					}
 					
 					lock (parseQueue)
 						pending = parseQueue.Count;

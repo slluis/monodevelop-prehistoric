@@ -147,7 +147,7 @@ namespace MonoDevelop.Core.AddIns.Codons
 			cmd.Text = Runtime.StringParserService.Parse (GettextCatalog.GetString (label));
 			cmd.Description = GettextCatalog.GetString (description);
 			if (icon != null)
-				cmd.Icon = ResourceService.GetStockId (icon);
+				cmd.Icon = ResourceService.GetStockId (AddIn, icon);
 			cmd.AccelKey = shortcut;
 			cmd.DisabledVisible = disabledVisible;
 			

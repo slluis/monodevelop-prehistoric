@@ -291,7 +291,7 @@ namespace MonoDevelop.Gui.Dialogs
 			linesColumn.Clicked += new EventHandler (SortEvt);
 			resultListView.AppendColumn (linesColumn);
 			
-			this.Icon = Runtime.Gui.Resources.GetIcon ("Icons.16x16.FindIcon");
+			this.Icon = Runtime.Gui.Resources.GetIcon ("gtk-find");
 			this.TransientFor = (Window) WorkbenchSingleton.Workbench;
 			
 			HBox hbox = new HBox (false, 0);

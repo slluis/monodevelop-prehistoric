@@ -125,10 +125,18 @@ namespace MonoDevelop.Internal.Templates
 		}
 #endregion
 		
-		protected ProjectTemplate(string fileName)
+		protected ProjectTemplate (AddIn addin, string fileName)
 		{
+			Stream stream = addin.GetResourceStream (fileName);
+			if (stream == null)
+				throw new ApplicationException ("Template " + fileName + " not found");
+
 			XmlDocument doc = new XmlDocument();
-			doc.Load(fileName);
+			try {
+				doc.Load(stream);
+			} finally {
+				stream.Close ();
+			}
 			
 			originator   = doc.DocumentElement.Attributes["originator"].InnerText;
 			created      = doc.DocumentElement.Attributes["created"].InnerText;
@@ -151,7 +159,7 @@ namespace MonoDevelop.Internal.Templates
 			}
 			
 			if (config["Icon"] != null) {
-				icon = config["Icon"].InnerText;
+				icon = ResourceService.GetStockId (addin, config["Icon"].InnerText);
 			}
 			
 			if (doc.DocumentElement["Combine"] != null) {
@@ -211,9 +219,9 @@ namespace MonoDevelop.Internal.Templates
 		{
 			foreach (ProjectTemplateCodon codon in codons) {
 				try {
-					ProjectTemplates.Add (new ProjectTemplate (codon.Location));
+					ProjectTemplates.Add (new ProjectTemplate (codon.AddIn, codon.Resource));
 				} catch (Exception e) {
-					Runtime.MessageService.ShowError (e, String.Format (GettextCatalog.GetString ("Error loading template file {0}"), codon.Location));
+					Runtime.MessageService.ShowError (e, String.Format (GettextCatalog.GetString ("Error loading template from resource {0}"), codon.Resource));
 				}
 			}
 		}

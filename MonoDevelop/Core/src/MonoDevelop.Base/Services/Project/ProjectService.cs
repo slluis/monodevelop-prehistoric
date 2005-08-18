@@ -1297,7 +1297,7 @@ namespace MonoDevelop.Services
 	{
 		public IProgressMonitor CreateProgressMonitor ()
 		{
-			return Runtime.TaskService.GetBackgroundProgressMonitor ("Code Completion Database Generation", "Icons.16x16.RunProgramIcon");
+			return Runtime.TaskService.GetBackgroundProgressMonitor ("Code Completion Database Generation", "gtk-execute");
 		}
 	}
 }

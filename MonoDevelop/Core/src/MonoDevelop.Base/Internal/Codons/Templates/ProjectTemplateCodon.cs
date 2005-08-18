@@ -16,15 +16,15 @@ namespace MonoDevelop.Core.AddIns.Codons
 	[CodonNameAttribute("ProjectTemplate")]
 	public class ProjectTemplateCodon : AbstractCodon
 	{
-		[XmlMemberAttribute("location", IsRequired = true)]
-		string location;
+		[XmlMemberAttribute("resource", IsRequired = true)]
+		string resource;
 		
-		public string Location {
+		public string Resource {
 			get {
-				return location;
+				return resource;
 			}
 			set {
-				location = value;
+				resource = value;
 			}
 		}
 		
@@ -34,7 +34,6 @@ namespace MonoDevelop.Core.AddIns.Codons
 		/// </summary>
 		public override object BuildItem(object owner, ArrayList subItems, ConditionCollection conditions)
 		{
-			this.location = System.IO.Path.GetDirectoryName (this.AddIn.FileName) + System.IO.Path.DirectorySeparatorChar + this.location;
 			return this;
 		}
 	}

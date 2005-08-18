@@ -109,10 +109,18 @@ namespace MonoDevelop.Internal.Templates
 			}
 		}
 		
-		public FileTemplate(string filename)
+		public FileTemplate (AddIn addin, string filename)
 		{
+			Stream stream = addin.GetResourceStream (filename);
+			if (stream == null)
+				throw new ApplicationException ("Template " + filename + " not found");
+
 			XmlDocument doc = new XmlDocument();
-			doc.Load(filename);
+			try {
+				doc.Load(stream);
+			} finally {
+				stream.Close ();
+			}
 			
 			XmlElement config = doc.DocumentElement["TemplateConfiguration"];
 			
@@ -129,7 +137,7 @@ namespace MonoDevelop.Internal.Templates
 			}
 			
 			if (config["Icon"] != null) {
-				icon         = config["Icon"].InnerText;
+				icon         = ResourceService.GetStockId (addin, config["Icon"].InnerText);
 			}
 			
 			if (config["Wizard"] != null) {
@@ -147,9 +155,9 @@ namespace MonoDevelop.Internal.Templates
 			}
 		}
 		
-		static void LoadFileTemplate(string filename)
+		static void LoadFileTemplate (AddIn addin, string filename)
 		{
-			FileTemplates.Add(new FileTemplate(filename));
+			FileTemplates.Add(new FileTemplate (addin, filename));
 		}
 		
 		static FileTemplate()
@@ -161,9 +169,9 @@ namespace MonoDevelop.Internal.Templates
 		{
 			foreach (FileTemplateCodon codon in codons) {
 				try {
-					LoadFileTemplate (codon.Location);
+					LoadFileTemplate (codon.AddIn, codon.Resource);
 				} catch (Exception e) {
-					Runtime.MessageService.ShowError (e, String.Format (GettextCatalog.GetString ("Error loading template file {0}"), codon.Location));
+					Runtime.MessageService.ShowError (e, String.Format (GettextCatalog.GetString ("Error loading template from resource {0}"), codon.Resource));
 				}
 			}
 		}

@@ -52,7 +52,7 @@ namespace MonoDevelop.Core.AddIns.Codons
 		
 		public override object BuildItem (object owner, ArrayList subItems, ConditionCollection conditions)
 		{
-			return new LinkCommandEntry (label, link, ResourceService.GetStockId ("Icons.16x16.WebSearchIcon"));
+			return new LinkCommandEntry (label, link, ResourceService.GetStockId ("md-web-search-icon"));
 		}
 	}
 }

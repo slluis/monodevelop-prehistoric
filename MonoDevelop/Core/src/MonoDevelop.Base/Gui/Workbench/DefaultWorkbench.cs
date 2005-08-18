@@ -141,7 +141,7 @@ namespace MonoDevelop.Gui
 			HeightRequest = normalBounds.Height;
 
 			DeleteEvent += new Gtk.DeleteEventHandler (OnClosing);
-			this.Icon = Runtime.Gui.Resources.GetBitmap ("Icons.SharpDevelopIcon");
+			this.Icon = Runtime.Gui.Resources.GetBitmap ("md-sharp-develop-icon");
 			//this.WindowPosition = Gtk.WindowPosition.None;
 
 			IDebuggingService dbgr = Runtime.DebuggingService;

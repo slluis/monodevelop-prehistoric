@@ -70,8 +70,8 @@ namespace MonoDevelop.Gui.Pads.ProjectPad
 		{
 			base.Initialize ();
 
-			folderOpenIcon = Context.GetIcon (Stock.OpenFolderBitmap);
-			folderClosedIcon = Context.GetIcon (Stock.ClosedFolderBitmap);
+			folderOpenIcon = Context.GetIcon (Stock.OpenFolder);
+			folderClosedIcon = Context.GetIcon (Stock.ClosedFolder);
 			
 			fileRenamedHandler = (FileEventHandler) Runtime.DispatchService.GuiDispatch (new FileEventHandler (OnFolderRenamed));
 			fileRemovedHandler = (FileEventHandler) Runtime.DispatchService.GuiDispatch (new FileEventHandler (OnFolderRemoved));

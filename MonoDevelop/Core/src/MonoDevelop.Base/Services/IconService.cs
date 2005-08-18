@@ -72,7 +72,7 @@ namespace MonoDevelop.Core.Services {
 				else
 					image = iconCodon.ID;
 				
-				image = ResourceService.GetStockId (image);
+				image = ResourceService.GetStockId (iconCodon.AddIn, image);
 				
 				if (iconCodon.Extensions != null) {
 					foreach (string ext in iconCodon.Extensions)

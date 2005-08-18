@@ -57,8 +57,8 @@ namespace MonoDevelop.Gui.Dialogs
 			PixbufList smalllist  = new PixbufList();
 			PixbufList imglist    = new PixbufList();
 			
-			smalllist.Add(Runtime.Gui.Resources.GetBitmap("Icons.32x32.EmptyFileIcon"));
-			imglist.Add(Runtime.Gui.Resources.GetBitmap("Icons.32x32.EmptyFileIcon"));
+			smalllist.Add(Runtime.Gui.Resources.GetBitmap("md-empty-file-icon"));
+			imglist.Add(Runtime.Gui.Resources.GetBitmap("md-empty-file-icon"));
 			
 			int i = 0;
 			Hashtable tmp = new Hashtable(icons);
@@ -338,8 +338,8 @@ namespace MonoDevelop.Gui.Dialogs
 			this.VBox.PackStart (infoLabelFrame, false, false, 6);
 
 			cat_imglist = new PixbufList();
-			cat_imglist.Add(Runtime.Gui.Resources.GetBitmap("Icons.16x16.OpenFolderBitmap"));
-			cat_imglist.Add(Runtime.Gui.Resources.GetBitmap("Icons.16x16.ClosedFolderBitmap"));
+			cat_imglist.Add(Runtime.Gui.Resources.GetBitmap("md-open-folder"));
+			cat_imglist.Add(Runtime.Gui.Resources.GetBitmap("md-closed-folder"));
 			catView.Selection.Changed += new EventHandler (CategoryChange);
 			TemplateView.IconSelected += new EventHandler(SelectedIndexChange);
 			TemplateView.IconDoubleClicked += new EventHandler(OpenEvent);
