@@ -19,7 +19,8 @@ JavaBindingCompilerServices.cs \
 JavaCompiler.cs \
 JavaLanguageBinding.cs
 
-TEMPLATES = \
+RES = \
+Java.glade \
 templates/EmptyJavaFile.xft.xml \
 templates/EmptyJavaProject.xpt.xml \
 templates/IkvmConsoleApplicationProject.xpt.xml \
@@ -34,55 +35,46 @@ templates/JavaConsoleApplicationProject.xpt.xml \
 templates/JavaDialog.xft.xml \
 templates/JavaFrame.xft.xml \
 templates/JavaOKDialog.xft.xml \
-templates/JavaPanel.xft.xml
+templates/JavaPanel.xft.xml \
+icons/Java.File.EmptyFile \
+icons/Java.File.Form \
+icons/Java.File.FullFile \
+icons/Java.FileIcon \
+icons/Java.File.NewClass \
+icons/Java.File.WebFile \
+icons/Java.Project.DOSProject \
+icons/Java.Project.EmptyProject \
+icons/Java.Project.Form \
+icons/Java.Project.FullProject \
+icons/Java.ProjectIcon \
+icons/Java.Project.Library \
+icons/Java.Project.ServiceProject \
+icons/Java.Project.UserControl \
+icons/Java.Project.WebProject
 
 ADDIN = JavaBinding.addin.xml
 
-TEMPLATES_DIR = $(ADDIN_BUILD)/templates
-
-build_TEMPLATES = $(addprefix $(TEMPLATES_DIR)/, $(notdir $(TEMPLATES)))
-
-src_TEMPLATES = $(addprefix $(srcdir)/, $(TEMPLATES))
-
 if ENABLE_JAVA
-all: $(ASSEMBLY) $(ADDIN_BUILD)/$(ADDIN) $(build_TEMPLATES)
+all: $(ASSEMBLY) $(ADDIN_BUILD)/$(ADDIN)
 else
 all:
 endif
-
-#%.xft.xml: $(srcdir)/templates/%.xft.xml
-#	mkdir -p $(TEMPLATES_DIR)
-#	cp $(srcdir)/templates/$(notdir $@) $@
-#
-#%.xpt.xml: $(srcdir)/templates/%.xpt.xml
-#	mkdir -p $(TEMPLATES_DIR)
-#	cp $(srcdir)/templates/$(notdir $@) $@
-
-$(filter %.xft.xml, $(build_TEMPLATES)): $(TEMPLATES_DIR)/%.xft.xml: $(srcdir)/templates/%.xft.xml
-	mkdir -p $(TEMPLATES_DIR)
-	cp $(srcdir)/templates/$(notdir $@) $@
-
-$(filter %.xpt.xml, $(build_TEMPLATES)): $(TEMPLATES_DIR)/%.xpt.xml: $(srcdir)/templates/%.xpt.xml
-	mkdir -p $(TEMPLATES_DIR)
-	cp $(srcdir)/templates/$(notdir $@) $@
 
 $(ADDIN_BUILD)/$(ADDIN): $(srcdir)/$(ADDIN)
 	mkdir -p $(ADDIN_BUILD)
 	cp $(srcdir)/$(ADDIN) $(ADDIN_BUILD)/.
 
-$(ASSEMBLY): $(FILES) $(srcdir)/Java.glade
+$(ASSEMBLY): $(FILES) $(RES)
 	mkdir -p $(ADDIN_BUILD)
-	$(CSC) $(CSC_FLAGS) $(DLLS) -resource:$(srcdir)/Java.glade,Java.glade $(build_sources) -out:$@ -target:library
+	$(CSC) $(CSC_FLAGS) $(DLLS) $(RES:%=/resource:%) $(build_sources) -out:$@ -target:library
 
 if ENABLE_JAVA
 assemblydir = $(MD_ADDIN_DIR)/BackendBindings
 assembly_DATA = $(ASSEMBLY) $(ADDIN)
 
-templatedir = $(assemblydir)/templates
-template_DATA = $(TEMPLATES)
 endif
 
 CLEANFILES = $(ASSEMBLY) $(ASSEMBLY).mdb
-EXTRA_DIST = $(FILES) Java.glade $(ADDIN) $(TEMPLATES)
+EXTRA_DIST = $(FILES) $(ADDIN) $(RES)
 
 include $(top_srcdir)/Makefile.include

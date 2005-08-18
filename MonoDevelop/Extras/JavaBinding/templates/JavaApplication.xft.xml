@@ -3,7 +3,7 @@
 	
 	<TemplateConfiguration>
            <_Name>AWT Application</_Name>
-           <Icon>Java.File.FullFile</Icon>
+           <Icon>res:Java.File.FullFile</Icon>
            <Category>Java</Category>
            <LanguageName>Java</LanguageName>
            <_Description>Creates a Java AWT application.</_Description>

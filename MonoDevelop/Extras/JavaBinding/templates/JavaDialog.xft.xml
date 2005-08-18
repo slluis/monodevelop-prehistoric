@@ -3,7 +3,7 @@
 	
 	<TemplateConfiguration>
            <_Name>Java AWT Dialog</_Name>
-           <Icon>Java.File.Form</Icon>
+           <Icon>res:Java.File.Form</Icon>
            <Category>Java</Category>
            <LanguageName>JAVA</LanguageName>
            <_Description>Creates an AWT dialog.</_Description>
