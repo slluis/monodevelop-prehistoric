@@ -1,3 +1,10 @@
+2005-08-12  Lluis Sanchez Gual  <lluis@novell.com> 
+
+	* templates/*:
+	* VBNetBinding.addin.xml: Properly reference resource icons and
+	templates.
+	* Makefile.am: Embed icon and templates as resources.
+
 2005-08-09  Lluis Sanchez Gual  <lluis@novell.com> 
 
 	* Parser/Resolver.cs:

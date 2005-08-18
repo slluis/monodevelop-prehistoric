@@ -7,7 +7,7 @@
 	<TemplateConfiguration>
 		<_Name>Gtk# Project</_Name>
 		<Category>VBNet</Category>
-		<Icon>VB.Project.Form</Icon>
+		<Icon>res:VB.Project.Form</Icon>
 		<LanguageName>VBNet</LanguageName>
 		<_Description>Creates a VB.NET Gtk# project.</_Description>
 	</TemplateConfiguration>

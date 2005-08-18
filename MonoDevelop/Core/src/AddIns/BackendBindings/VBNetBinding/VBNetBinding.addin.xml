@@ -17,19 +17,14 @@
   </Extension>
 
   <Extension path = "/MonoDevelop/FileTemplates">
-    <FileTemplate id = "EmptyVBFile"
-                  location = "templates/EmptyVBFile.xft.xml"/>
+    <FileTemplate id = "EmptyVBFile" resource = "EmptyVBFile.xft.xml"/>
   </Extension>
 
   <Extension path = "/MonoDevelop/ProjectTemplates">
-    <ProjectTemplate id = "EmptyVBProject"
-                     location = "templates/EmptyVBProject.xpt.xml"/>
-    <ProjectTemplate id = "VBConsoleApplicationProject"
-                     location = "templates/VBConsoleApplicationProject.xpt.xml"/>
-    <ProjectTemplate id = "VBGtkSharpProject"
-                     location = "templates/VBGtkSharpProject.xpt.xml"/>
-    <ProjectTemplate id = "VBGtkSharp2Project"
-                     location = "templates/VBGtkSharp2Project.xpt.xml"/>
+    <ProjectTemplate id = "EmptyVBProject" resource = "EmptyVBProject.xpt.xml"/>
+    <ProjectTemplate id = "VBConsoleApplicationProject" resource = "VBConsoleApplicationProject.xpt.xml"/>
+    <ProjectTemplate id = "VBGtkSharpProject" resource = "VBGtkSharpProject.xpt.xml"/>
+    <ProjectTemplate id = "VBGtkSharp2Project" resource = "VBGtkSharp2Project.xpt.xml"/>
   </Extension>
   
 	<Extension path = "/Workspace/Parser">
@@ -65,10 +60,10 @@
   <Extension path = "/Workspace/Icons">
     <Icon id = "VBPrj"
           language = "VBNet"
-          resource = "VB.ProjectIcon"/>
+          resource = "res:VB.ProjectIcon"/>
     <Icon id = "VBFile"
           extensions = ".vb"
-          resource = "VB.FileIcon"/>
+          resource = "res:VB.FileIcon"/>
   </Extension>
 	
 	<!-- <Extension path = "/AddIns/DefaultTextEditor/Formatter">  
@@ -82,4 +77,5 @@
                      supportedextensions = ".vb"
                      class = "VBBinding.VBLanguageBinding" />
   </Extension>
+  
 </AddIn>

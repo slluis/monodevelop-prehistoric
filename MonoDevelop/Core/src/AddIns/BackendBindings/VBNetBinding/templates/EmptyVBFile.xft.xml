@@ -3,7 +3,7 @@
 	
 	<TemplateConfiguration>
                 <_Name>Empty File</_Name>
-                <Icon>VB.File.EmptyFile</Icon>
+                <Icon>res:VB.File.EmptyFile</Icon>
                 <Category>VBNet</Category>
                 <LanguageName>VBNet</LanguageName>
                 <_Description>Creates an empty VB.Net file.</_Description>

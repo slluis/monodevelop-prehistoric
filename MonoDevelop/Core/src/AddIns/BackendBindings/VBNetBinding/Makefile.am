@@ -39,50 +39,51 @@ Parser/SharpDevelopTree/Property.cs \
 Parser/SharpDevelopTree/ReturnType.cs \
 Project/VBCompilerParameters.cs
 
-TEMPLATES = \
+RES = \
+VB.glade \
 templates/EmptyVBFile.xft.xml \
 templates/EmptyVBProject.xpt.xml \
 templates/VBConsoleApplicationProject.xpt.xml \
 templates/VBGtkSharpProject.xpt.xml \
-templates/VBGtkSharp2Project.xpt.xml
+templates/VBGtkSharp2Project.xpt.xml \
+icons/VB.File.EmptyFile \
+icons/VB.File.Form \
+icons/VB.File.FullFile \
+icons/VB.FileIcon \
+icons/VB.File.NewClass \
+icons/VB.File.WebFile \
+icons/VB.Project.DOSProject \
+icons/VB.Project.EmptyProject \
+icons/VB.Project.Form \
+icons/VB.Project.FullProject \
+icons/VB.ProjectIcon \
+icons/VB.Project.Library \
+icons/VB.Project.ServiceProject \
+icons/VB.Project.UserControl \
+icons/VB.Project.WebProject
 
 ADDIN = VBNetBinding.addin.xml
 
-TEMPLATES_DIR = $(ADDIN_BUILD)/templates
-
-build_TEMPLATES = $(addprefix $(TEMPLATES_DIR)/, $(notdir $(TEMPLATES)))
-
-all: $(ASSEMBLY) $(ADDIN_BUILD)/$(ADDIN) $(build_TEMPLATES)
-
-$(filter %.xpt.xml, $(build_TEMPLATES)): $(TEMPLATES_DIR)/%.xpt.xml: $(srcdir)/templates/%.xpt.xml
-	mkdir -p $(TEMPLATES_DIR)
-	cp $(srcdir)/templates/$(notdir $@) $@
-
-$(filter %.xft.xml, $(build_TEMPLATES)): $(TEMPLATES_DIR)/%.xft.xml: $(srcdir)/templates/%.xft.xml
-	mkdir -p $(TEMPLATES_DIR)
-	cp $(srcdir)/templates/$(notdir $@) $@
+all: $(ASSEMBLY) $(ADDIN_BUILD)/$(ADDIN)
 
 $(ADDIN_BUILD)/$(ADDIN): $(srcdir)/$(ADDIN)
 	mkdir -p $(ADDIN_BUILD)
 	cp $(srcdir)/$(ADDIN) $(ADDIN_BUILD)/.
 
-$(ASSEMBLY): $(build_sources) $(srcdir)/VB.glade
+$(ASSEMBLY): $(build_sources) $(RES)
 	mkdir -p $(ADDIN_BUILD)
 	cd SharpRefactoryVB && $(MAKE)
 	$(CSC) $(CSC_FLAGS) -out:$@ -target:library $(DLLS) \
-		-resource:$(srcdir)/VB.glade,VB.glade \
+		$(RES:%=/resource:%) \
 		$(build_sources)
 
 vbnetbindinglibdir = $(MD_ADDIN_DIR)/BackendBindings
 vbnetbindinglib_DATA = $(ASSEMBLY) $(ADDIN)
 
-templatesdir = $(vbnetbindinglibdir)/templates/
-templates_DATA = $(TEMPLATES)
-
 CLEANFILES = $(ASSEMBLY) $(ASSEMBLY).mdb
 
 DISTCLEANFILES =
 
-EXTRA_DIST = $(FILES) VB.glade $(ADDIN) $(TEMPLATES)
+EXTRA_DIST = $(FILES) $(ADDIN) $(RES)
 include $(top_srcdir)/Makefile.include
 
