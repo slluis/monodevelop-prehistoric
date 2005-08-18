@@ -15,27 +15,16 @@ ILAsmCompilerManager.cs \
 AssemblyInfo.cs \
 ILAsmLanguageBinding.cs
 
-TEMPLATES = \
-ILAsmConsoleProject.xpt.xml
+RES = \
+ILAsmConsoleProject.xpt.xml \
+icons/ILAsm.Project.DOSProject
 
 ADDIN = ILAsmBinding.addin.xml
-
-
-TEMPLATES_DIR = $(ADDIN_BUILD)/templates
-
-build_TEMPLATES = $(addprefix $(TEMPLATES_DIR)/,$(TEMPLATES))
 
 assemblydir = $(MD_ADDIN_DIR)/BackendBindings
 assembly_DATA = $(ASSEMBLY) $(ADDIN)
 
-templatesdir = $(assemblydir)/templates
-templates_DATA = $(TEMPLATES)
-
-all: $(ASSEMBLY) $(ADDIN_BUILD)/$(ADDIN) $(build_TEMPLATES)
-
-$(filter %.xpt.xml, $(build_TEMPLATES)): $(TEMPLATES_DIR)/%.xpt.xml: $(srcdir)/%.xpt.xml
-	mkdir -p $(TEMPLATES_DIR)
-	cp $(srcdir)/$(notdir $@) $@
+all: $(ASSEMBLY) $(ADDIN_BUILD)/$(ADDIN)
 
 $(ADDIN_BUILD)/$(ADDIN): $(srcdir)/$(ADDIN)
 	mkdir -p $(ADDIN_BUILD)
@@ -43,9 +32,9 @@ $(ADDIN_BUILD)/$(ADDIN): $(srcdir)/$(ADDIN)
 
 $(ASSEMBLY): $(build_sources)
 	mkdir -p $(ADDIN_BUILD)
-	$(CSC) $(CSC_FLAGS) $(build_sources) $(DLLS) -out:$@ -target:library
+	$(CSC) $(CSC_FLAGS) $(RES:%=/resource:%) $(build_sources) $(DLLS) -out:$@ -target:library
 
 CLEANFILES = $(ASSEMBLY) $(ASSEMBLY).mdb
-EXTRA_DIST = $(FILES) $(ADDIN) $(TEMPLATES)
+EXTRA_DIST = $(FILES) $(ADDIN) $(RES)
 include $(top_srcdir)/Makefile.include
 
