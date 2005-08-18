@@ -24,7 +24,7 @@ namespace MonoDevelop.Gui.Utils
 		public static Gdk.Pixbuf DefaultIcon {
 			get {
 				if (defaultIcon == null)
-					defaultIcon = new Gdk.Pixbuf ("../data/resources/icons/gnome-fs-regular.png");
+					defaultIcon = new Gdk.Pixbuf (typeof(FileIconLoader).Assembly, "gnome-fs-regular.png");
 				return defaultIcon;
 			}
 		}

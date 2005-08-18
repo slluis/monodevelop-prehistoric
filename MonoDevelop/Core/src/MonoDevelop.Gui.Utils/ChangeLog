@@ -1,3 +1,8 @@
+2005-08-18  Lluis Sanchez Gual  <lluis@novell.com>
+
+	* FileIcons/FileIconLoader.cs:
+	* Makefile.am: Added gnome-fs-regular.png as a resource.
+
 2005-08-10  Ben Motmans  <ben.motmans@gmail.com>
 
 	* MonoDevelop.Gui.Utils.mdp: references update
