@@ -76,20 +76,23 @@ DockToolbars/FloatingPosition.cs \
 DockToolbars/IDockBar.cs \
 DockToolbars/PlaceholderWindow.cs
 
+RES = \
+icons/MonoDevelop.Close.png
+
 GENERATED_FILES = \
 AssemblyInfo.cs
 
 all: $(DLL)
 
-$(DLL): $(build_sources)
-	$(CSC) $(CSC_FLAGS) -out:$@ -target:library $(REFERENCES) $(build_sources)
+$(DLL): $(build_sources) $(RES)
+	$(CSC) $(CSC_FLAGS) -out:$@ -target:library $(REFERENCES) $(RES:%=/resource:%) $(build_sources)
 
 assemblydir = $(MD_ASSEMBLY_DIR)
 assembly_DATA = $(DLL)
 
 CLEANFILES = $(DLL) $(DLL).mdb
 
-EXTRA_DIST = $(FILES)
+EXTRA_DIST = $(FILES) $(RES)
 
 include $(top_srcdir)/Makefile.include
 

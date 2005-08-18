@@ -29,7 +29,7 @@ namespace MonoDevelop.Gui.Widgets
 			this.PackStart (title, true, true, 0);
 			
 			btn = new Button ();
-			btn.Add (new Gtk.Image ("../data/resources/icons/MonoDevelop.Close.png"));
+			btn.Add (new Gtk.Image (GetType().Assembly, "MonoDevelop.Close.png"));
 			btn.Relief = ReliefStyle.None;
 			btn.SetSizeRequest (18, 18);
 			this.PackStart (btn, false, false, 2);
