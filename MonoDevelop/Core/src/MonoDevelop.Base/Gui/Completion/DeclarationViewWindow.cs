@@ -22,7 +22,8 @@ namespace MonoDevelop.Gui.Completion
 		ArrayList overloads;
 		int current_overload;
 
-		Label headlabel, bodylabel, helplabel;
+		HeaderWidget headlabel;
+		Label bodylabel, helplabel;
 		Arrow left, right;
 		VBox helpbox;
 		
@@ -44,7 +45,7 @@ namespace MonoDevelop.Gui.Completion
 
 				string[] parts = value.Split (newline, 2);
 				headlabel.Markup = parts[0].Trim (whitespace);
-				bodylabel.Markup = (parts.Length == 2 ? parts[1].Trim (whitespace) : String.Empty);
+				bodylabel.Markup = "<span size=\"smaller\">" + (parts.Length == 2 ? parts[1].Trim (whitespace) : String.Empty) + "</span>";
 
 				headlabel.Visible = headlabel.Text != "";
 				bodylabel.Visible = bodylabel.Text != "";
@@ -109,6 +110,18 @@ namespace MonoDevelop.Gui.Completion
 			DescriptionMarkup = String.Empty;
 			current_overload = 0;
 		}
+		
+		public void SetFixedWidth (int w)
+		{
+			if (w != -1) {
+				int boxMargin = SizeRequest().Width - headlabel.SizeRequest().Width;
+				w -= boxMargin;
+				headlabel.Width = w > 0 ? w : 1;
+			} else {
+				headlabel.Width = -1;
+			}
+			bodylabel.WidthRequest = headlabel.SizeRequest().Width;
+		}
 
 		public DeclarationViewWindow () : base (WindowType.Popup)
 		{
@@ -116,17 +129,17 @@ namespace MonoDevelop.Gui.Completion
 			this.AllowShrink = false;
 			this.AllowGrow = false;
 
-			headlabel = new Label ("");
-			headlabel.LineWrap = false;
-			headlabel.Xalign = 0;
+			headlabel = new HeaderWidget ();
+//			headlabel.LineWrap = true;
+//			headlabel.Xalign = 0;
 			
 			bodylabel = new Label ("");
 			bodylabel.LineWrap = true;
 			bodylabel.Xalign = 0;
 
 			VBox vb = new VBox (false, 0);
-			vb.PackStart (headlabel, false, true, 0);
-			vb.PackStart (bodylabel, false, true, 0);
+			vb.PackStart (headlabel, true, true, 0);
+			vb.PackStart (bodylabel, true, true, 3);
 
 			left = new Arrow (ArrowType.Left, ShadowType.None);
 			right = new Arrow (ArrowType.Right, ShadowType.None);
@@ -150,13 +163,71 @@ namespace MonoDevelop.Gui.Completion
 			
 			VBox vb2 = new VBox (false, 0);
 			vb2.Spacing = 4;
-			vb2.PackStart (hb, false, true, 0);
+			vb2.PackStart (hb, true, true, 0);
 			vb2.PackStart (helpbox, false, true, 0);
 
 			Frame frame = new Frame ();
 			frame.Add (vb2);
 			
 			this.Add (frame);
+		}
+	}
+	
+	class HeaderWidget: Gtk.DrawingArea
+	{
+		string text;
+		Pango.Layout layout;
+		int width;
+		
+		public HeaderWidget ()
+		{
+			layout = new Pango.Layout (this.PangoContext);
+			layout.Indent = (int) (-20 * Pango.Scale.PangoScale);
+			layout.Wrap = Pango.WrapMode.WordChar;
+		}
+		
+		public string Markup {
+			get { return text; }
+			set {
+				layout.SetMarkup (value);
+				text = value;
+				QueueResize ();
+				QueueDraw ();
+			}
+		}
+		
+		public string Text {
+			get { return Markup; }
+			set { Markup = value; }
+		}
+		
+		public int Width {
+			get { return width; }
+			set {
+				width = value;
+				if (width == -1)
+					layout.Width = int.MaxValue;
+				else
+					layout.Width = (int)(width * Pango.Scale.PangoScale);
+				QueueResize ();
+			}
+		}
+		
+		protected override bool OnExposeEvent (Gdk.EventExpose args)
+		{
+			base.OnExposeEvent (args);
+			
+			this.GdkWindow.DrawLayout (Style.TextGC (StateType.Normal), 0, 0, layout);
+	  		return true;
+		}
+		
+		protected override void OnSizeRequested (ref Requisition req)
+		{
+			int w, h;
+			layout.GetPixelSize (out w, out h);
+			
+			req.Width = w;
+			req.Height = h;
 		}
 	}
 }

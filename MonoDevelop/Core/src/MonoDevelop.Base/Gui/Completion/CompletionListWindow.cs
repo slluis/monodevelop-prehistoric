@@ -12,6 +12,8 @@ namespace MonoDevelop.Gui.Completion
 		ICompletionWidget completionWidget;
 		ICompletionData[] completionData;
 		DeclarationViewWindow declarationviewwindow = new DeclarationViewWindow ();
+		ICompletionData currentData;
+		const int declarationWindowMargin = 3;
 		static DataComparer dataComparer = new DataComparer ();
 		
 		class DataComparer: IComparer
@@ -119,10 +121,16 @@ namespace MonoDevelop.Gui.Completion
 
 			if ((ka & ListWindow.KeyAction.Process) != 0) {
 				if (e.Key == Gdk.Key.Left) {
-					wnd.declarationviewwindow.OverloadLeft ();
+					if (wnd.declarationviewwindow.Multiple) {
+						wnd.declarationviewwindow.OverloadLeft ();
+						wnd.UpdateDeclarationView ();
+					}
 					return true;
 				} else if (e.Key == Gdk.Key.Right) {
-					wnd.declarationviewwindow.OverloadRight ();
+					if (wnd.declarationviewwindow.Multiple) {
+						wnd.declarationviewwindow.OverloadRight ();
+						wnd.UpdateDeclarationView ();
+					}
 					return true;
 				}
 			}
@@ -143,9 +151,7 @@ namespace MonoDevelop.Gui.Completion
 		
 		void ListSizeChanged (object obj, SizeAllocatedArgs args)
 		{
-			// FIXME: crashes on System.Runtime.
-			// first line array out of bounds
-			//UpdateDeclarationView ();
+			UpdateDeclarationView ();
 		}
 
 		protected override bool OnButtonPressEvent (Gdk.EventButton evnt)
@@ -166,11 +172,9 @@ namespace MonoDevelop.Gui.Completion
 		
 		void UpdateDeclarationView ()
 		{
-			ICompletionData data = completionData[List.Selection];
-			
-			declarationviewwindow.Hide ();
-			declarationviewwindow.Clear ();
-			
+			if (completionData == null || List.Selection >= completionData.Length)
+				return;
+
 			if (List.GdkWindow == null) return;
 			Gdk.Rectangle rect = List.GetRowArea (List.Selection);
 			int listpos_x = 0, listpos_y = 0;
@@ -186,23 +190,29 @@ namespace MonoDevelop.Gui.Completion
 			} else if (vert < listpos_y) {
 				vert = listpos_y;
 			}
-			int horiz = listpos_x + lvWidth + 2;
 
+			ICompletionData data = completionData[List.Selection];
 			ICompletionDataWithMarkup datawMarkup = data as ICompletionDataWithMarkup;
+			CodeCompletionData ccdata = (CodeCompletionData) data;
 
 			string descMarkup = datawMarkup != null ? datawMarkup.DescriptionPango : data.Description;
 
-			declarationviewwindow.Realize ();
+			declarationviewwindow.Hide ();
+			
+			if (data != currentData) {
+				declarationviewwindow.Clear ();
+				declarationviewwindow.Realize ();
+	
+				declarationviewwindow.AddOverload (descMarkup);
 
-			declarationviewwindow.AddOverload (descMarkup);
-
-			CodeCompletionData ccdata = (CodeCompletionData) data;
-
-			foreach (CodeCompletionData odata in ccdata.GetOverloads ()) {
-				ICompletionDataWithMarkup odatawMarkup = odata as ICompletionDataWithMarkup;
-				declarationviewwindow.AddOverload (odatawMarkup == null ? odata.Description : odatawMarkup.DescriptionPango);
+				foreach (CodeCompletionData odata in ccdata.GetOverloads ()) {
+					ICompletionDataWithMarkup odatawMarkup = odata as ICompletionDataWithMarkup;
+					declarationviewwindow.AddOverload (odatawMarkup == null ? odata.Description : odatawMarkup.DescriptionPango);
+				}
 			}
-
+			
+			currentData = data;
+			
 			if (declarationviewwindow.DescriptionMarkup.Length == 0)
 				return;
 
@@ -210,16 +220,25 @@ namespace MonoDevelop.Gui.Completion
 
 			declarationviewwindow.Move (this.Screen.Width+1, vert);
 			
+			declarationviewwindow.SetFixedWidth (-1);
 			declarationviewwindow.ReshowWithInitialSize ();
 			declarationviewwindow.ShowAll ();
 			declarationviewwindow.Multiple = (ccdata.Overloads != 0);
 
 			declarationviewwindow.GdkWindow.GetSize (out dvwWidth, out dvwHeight);
 
-			if (this.Screen.Width <= horiz + dvwWidth) {
-				horiz = listpos_x - dvwWidth - 10;
+			int horiz = listpos_x + lvWidth + declarationWindowMargin;
+			if (this.Screen.Width - horiz >= lvWidth) {
+				if (this.Screen.Width - horiz < dvwWidth)
+					declarationviewwindow.SetFixedWidth (this.Screen.Width - horiz);
+			} else {
+				if (listpos_x - dvwWidth - declarationWindowMargin < 0) {
+					declarationviewwindow.SetFixedWidth (listpos_x - declarationWindowMargin);
+					dvwWidth = declarationviewwindow.SizeRequest ().Width;
+				}
+				horiz = listpos_x - dvwWidth - declarationWindowMargin;
 			}
-			
+
 			declarationviewwindow.Move (horiz, vert);
 		}
 		

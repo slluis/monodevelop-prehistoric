@@ -1,3 +1,12 @@
+2005-08-19  Lluis Sanchez Gual  <lluis@novell.com>
+
+	* Gui/Completion/CompletionListWindow.cs: Improved the declaration
+	window. Now it will wrap the member declaration if it doesn't fit in
+	the screen.
+	* Gui/Completion/DeclarationViewWindow.cs: Indent the member declaration
+	if it doesn't fit one line. Reduced the size of the the documentation
+	text.
+
 2005-08-19  Lluis Sanchez Gual  <lluis@novell.com> 
 
 	* Gui/Completion/CompletionListWindow.cs: Avoid crash is something
