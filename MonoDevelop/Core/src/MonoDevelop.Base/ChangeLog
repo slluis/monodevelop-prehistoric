@@ -1,3 +1,8 @@
+2005-08-19  Lluis Sanchez Gual  <lluis@novell.com> 
+
+	* Gui/Completion/CompletionListWindow.cs: Avoid crash is something
+	goes wrong while showing the completion window.
+
 2005-08-12  Lluis Sanchez Gual  <lluis@novell.com> 
 
 	* Internal/Codons/Commands/LinkItemCodon.cs:

@@ -38,24 +38,28 @@ namespace MonoDevelop.Gui.Completion
 		
 		public static void ShowWindow (char firstChar, ICompletionDataProvider provider, ICompletionWidget completionWidget)
 		{
-			if (!wnd.ShowListWindow (firstChar, provider,  completionWidget))
-				return;
-			
-			// makes control-space in midle of words to work
-			string text = wnd.completionWidget.CompletionText;
-			if (text.Length == 0)
-				return;
-			
-			wnd.PartialWord = text; 
-			//if there is only one matching result we take it by default
-			if (wnd.IsUniqueMatch)
-			{	
-				wnd.Hide ();
+			try {
+				if (!wnd.ShowListWindow (firstChar, provider,  completionWidget))
+					return;
+				
+				// makes control-space in midle of words to work
+				string text = wnd.completionWidget.CompletionText;
+				if (text.Length == 0)
+					return;
+				
+				wnd.PartialWord = text; 
+				//if there is only one matching result we take it by default
+				if (wnd.IsUniqueMatch)
+				{	
+					wnd.Hide ();
+				}
+				
+				wnd.UpdateWord ();
+				
+				wnd.PartialWord = wnd.CompleteWord;
+			} catch (Exception ex) {
+				Console.WriteLine (ex);
 			}
-			
-			wnd.UpdateWord ();
-			
-			wnd.PartialWord = wnd.CompleteWord;		
 		}
 		
 		bool ShowListWindow (char firstChar, ICompletionDataProvider provider, ICompletionWidget completionWidget)
