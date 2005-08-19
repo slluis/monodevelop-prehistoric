@@ -1,3 +1,8 @@
+2005-08-19  Lluis Sanchez Gual  <lluis@novell.com>
+
+	* CSharpAmbience.cs: Don't include the inheritance tree when converting
+	an enum.
+
 2005-08-12  Lluis Sanchez Gual  <lluis@novell.com> 
 
 	* templates/*:

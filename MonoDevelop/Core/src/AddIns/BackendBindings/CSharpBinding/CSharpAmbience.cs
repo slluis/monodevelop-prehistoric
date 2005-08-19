@@ -173,7 +173,7 @@ namespace MonoDevelop.Services
 				}
 				builder.Append(')');
 				
-			} else if (ShowInheritanceList) {
+			} else if (ShowInheritanceList && c.ClassType != ClassType.Enum) {
 				if (c.BaseTypes.Count > 0) {
 					builder.Append(" : ");
 					for (int i = 0; i < c.BaseTypes.Count; ++i) {
