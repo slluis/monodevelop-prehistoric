@@ -815,8 +815,14 @@ namespace MonoDevelop.SourceEditor.Gui
 			// if it is not whitespace or the start of a comment
 			// we disable completion except for by ctl+space
 			if (text.Length == 1)
-				return System.Char.IsWhiteSpace (text[0]) || text[0] == '/';
+				return IsSeparator (text[0]);
 			return true;
+		}
+		
+		bool IsSeparator (char c)
+		{
+			// FIXME: this is language specific.
+			return !System.Char.IsLetterOrDigit (c) && c != '_';
 		}
 #endregion
 	}
