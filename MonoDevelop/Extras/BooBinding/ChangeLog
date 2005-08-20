@@ -1,3 +1,8 @@
+2005-08-20  Peter Johanson  <latexer@gentoo.org> 
+
+	* templates/BooGtkSharpProject.xpt.xml: Fix gtk-sharp references to
+	match new assembly versions.
+
 2005-08-12  Lluis Sanchez Gual  <lluis@novell.com> 
 
 	* templates/*:
