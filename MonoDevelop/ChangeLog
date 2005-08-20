@@ -1,3 +1,8 @@
+2005-08-20  Peter Johanson  <latexer@gentoo.org> 
+
+	* configure.in: Bump required gtk-sharp version, needed for new
+	assembly versions in template files.
+
 2005-08-18  Lluis Sanchez Gual  <lluis@novell.com> 
 
 	* configure.in: Remove the icons directory.
