@@ -1101,7 +1101,6 @@ namespace VBBinding.Parser
 		{
 			//Console.WriteLine("Entering CtrlSpace for " + caretLine + ":" + caretColumn + " in " + fileName);
 			ArrayList result = new ArrayList(TypeReference.PrimitiveTypes);
-			this.parserContext = parserContext;
 			IParseInformation parseInfo = parserContext.GetParseInformation(fileName);
 			ICSharpCode.SharpRefactory.Parser.AST.VB.CompilationUnit fileCompilationUnit = parseInfo.MostRecentCompilationUnit.Tag as ICSharpCode.SharpRefactory.Parser.AST.VB.CompilationUnit;
 			if (fileCompilationUnit == null) {

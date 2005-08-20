@@ -409,8 +409,8 @@ namespace Gdl
 			attributes.Width = Allocation.Width;
 			attributes.WindowType = Gdk.WindowType.Child;
 			attributes.Wclass = Gdk.WindowClass.InputOutput;
-			attributes.visual = Visual;
-			attributes.colormap = Colormap;
+			attributes.Visual = Visual;
+			attributes.Colormap = Colormap;
 			attributes.EventMask = (int)(Events |
 				Gdk.EventMask.ExposureMask |
 				Gdk.EventMask.Button1MotionMask |
@@ -769,7 +769,7 @@ namespace Gdl
 			}
 
 			menu.ShowAll ();
-			menu.Popup (null, null, null, IntPtr.Zero, button, time);
+			menu.Popup (null, null, null, button, time);
 		}
 		
 		private void ItemHideCb (object o, EventArgs e)

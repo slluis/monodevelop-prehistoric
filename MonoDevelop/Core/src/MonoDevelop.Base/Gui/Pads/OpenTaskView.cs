@@ -119,7 +119,7 @@ namespace MonoDevelop.Gui.Pads
                         ImageMenuItem copy = new ImageMenuItem (Gtk.Stock.Copy, menu.AccelGroup);
                         copy.Activated += new EventHandler (OnTaskCopied);
 			menu.Append (copy);
-			menu.Popup (null, null, null, IntPtr.Zero, 3, Global.CurrentEventTime);
+			menu.Popup (null, null, null, 3, Global.CurrentEventTime);
 			menu.ShowAll ();
 		}
 

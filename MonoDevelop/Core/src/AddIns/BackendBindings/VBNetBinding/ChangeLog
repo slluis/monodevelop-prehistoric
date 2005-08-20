@@ -1,3 +1,9 @@
+2005-08-20  John Luke  <john.luke@gmail.com>
+
+	* Parser/Resolver.cs:
+	* Parser/ExpressionFinder.cs: fix 2 warnings of assigning
+	a variable to itself
+	
 2005-08-20  Peter Johanson  <latexer@gentoo.org> 
 
 	* templates/VBGtkSharp2Project.xpt.xml: Fix gtk-sharp references to

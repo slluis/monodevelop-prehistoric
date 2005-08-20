@@ -191,7 +191,7 @@ namespace MonoDevelop.Gui.Pads
 			menu.Append (deleteFile);
 			menu.Append (renameFile);
 
-			menu.Popup (null, null, null, IntPtr.Zero, 3, Gtk.Global.CurrentEventTime);
+			menu.Popup (null, null, null, 3, Gtk.Global.CurrentEventTime);
 			menu.ShowAll ();
 		}
 

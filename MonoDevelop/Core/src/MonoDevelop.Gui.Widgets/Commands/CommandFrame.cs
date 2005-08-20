@@ -64,7 +64,7 @@ namespace MonoDevelop.Commands
 				CommandEntrySet opset = new CommandEntrySet ();
 				opset.AddItem (CommandSystemCommands.ToolbarList);
 				Gtk.Menu menu = manager.CreateMenu (opset);
-				menu.Popup (null, null, null, IntPtr.Zero, 0, e.Time);
+				menu.Popup (null, null, null, 0, e.Time);
 			}
 			base.OnPanelClick (e, placement);
 		}

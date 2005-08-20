@@ -12,7 +12,6 @@ namespace VBBinding.Parser
 		public string FindExpression(string inText, int offset)
 		{
 			this.text = FilterComments(inText, ref offset);
-			this.text   = text;
 			this.offset = this.lastAccept = offset;
 			this.state  = START;
 			if (this.text == null) {

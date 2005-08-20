@@ -124,9 +124,10 @@ namespace MonoDevelop.SourceEditor.Gui
 			TagTable.Add (highlightLineTag);
 		}
 		
-		public void Dispose ()
+		public override void Dispose ()
 		{
 			Language = null;
+			base.Dispose ();
 		}
 
 		void ParseChanged (object o, ParseInformationEventArgs e)

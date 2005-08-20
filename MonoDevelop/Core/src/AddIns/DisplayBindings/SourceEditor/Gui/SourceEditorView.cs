@@ -120,7 +120,7 @@ namespace MonoDevelop.SourceEditor.Gui
 					cset.AddItem (DebugCommands.ClearAllBreakpoints);
 					Gtk.Menu menu = Runtime.Gui.CommandService.CreateMenu (cset);
 					
-					menu.Popup (null, null, null, IntPtr.Zero, 3, e.Time);
+					menu.Popup (null, null, null, 3, e.Time);
 				}
 			}
 			return base.OnButtonPressEvent (e);

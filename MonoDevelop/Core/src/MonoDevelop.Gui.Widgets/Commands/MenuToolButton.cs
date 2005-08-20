@@ -50,7 +50,7 @@ namespace MonoDevelop.Commands
 		void OnButtonPress (object sender, Gtk.ButtonPressEventArgs e)
 		{
 			Console.WriteLine ("aaa");
-			menu.Popup (null, null, new Gtk.MenuPositionFunc (OnPosition), IntPtr.Zero, 3, Gtk.Global.CurrentEventTime);
+			menu.Popup (null, null, new Gtk.MenuPositionFunc (OnPosition), 3, Gtk.Global.CurrentEventTime);
 			e.RetVal = true;
 		}
 		

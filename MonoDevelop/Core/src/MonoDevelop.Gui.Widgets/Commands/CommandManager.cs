@@ -144,7 +144,7 @@ namespace MonoDevelop.Commands
 		
 		public void ShowContextMenu (Gtk.Menu menu)
 		{
-			menu.Popup (null, null, null, IntPtr.Zero, 0, Gtk.Global.CurrentEventTime);
+			menu.Popup (null, null, null, 0, Gtk.Global.CurrentEventTime);
 		}
 		
 		public Gtk.Toolbar CreateToolbar (string id, CommandEntrySet entrySet)
