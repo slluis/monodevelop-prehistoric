@@ -56,7 +56,7 @@ class BooShell (RemoteProcessObject):
 		get:
 			list = []
 			Monitor.Enter (_interpreter)
-			for assembly as System.Reflection.Assembly in _interpreter.References.List:
+			for assembly as System.Reflection.Assembly in _interpreter.References:
 				try:
 					loc = assembly.Location
 					list.Add (loc)

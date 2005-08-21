@@ -1,3 +1,4 @@
+#SUBDIRS = PythonShell
 
 ADDIN_BUILD = $(top_builddir)/build/AddIns/BackendBindings
 ASSEMBLY = $(ADDIN_BUILD)/BooBinding.dll
@@ -78,7 +79,7 @@ $(ADDIN_BUILD)/$(ADDIN): $(srcdir)/$(ADDIN)
 
 $(ASSEMBLY): $(FILES) $(BOOSHELL_LIB) $(RES)
 	mkdir -p $(ADDIN_BUILD)
-	$(BOOC) $(DLLS) $(RES:%=/resource:%) $(build_sources) -o:$@ -t:library
+	$(BOOC) $(DLLS) $(RES:%=-embedres:%) $(build_sources) -o:$@ -t:library
 
 $(BOOSHELL_LIB): $(BOOSHELL_FILES)
 	mkdir -p $(ADDIN_BUILD)
