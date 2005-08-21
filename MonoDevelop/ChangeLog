@@ -1,3 +1,8 @@
+2005-08-21  Peter Johanson  <latexer@gentoo.org>
+
+	* configure.in: Bump required boo version. Needed for new -embedres
+	option.
+
 2005-08-21  Christian Hergert   <christian.hergert@gmail.com>
 
 	* contrib/FirebirdSql.Data.Firebird.license.txt: License for firebord
