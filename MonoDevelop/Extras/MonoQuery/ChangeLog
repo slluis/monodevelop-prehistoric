@@ -1,3 +1,22 @@
+2005-08-06	Christian Hergert	<christian.hergert@gmail.com>
+
+	* tests/test-oracle-1.cs: Test. Will be converted to nunit later.
+	* tests/test-firebird-1.cs:
+	* tests/test-sybase-1.cs:
+	* MonoQuery/Gui/NodeBuilders/TableNodeBuilder.cs: Do not append the
+	sql statement with `;' as this breaks oracle.
+	* MonoQuery/monoquery.glade: Make password hidden by default.
+	Passwords can be still seen in advanced textview. this is ok and done
+	on purpose.
+	* MonoQuery/MonoQuery.mdp: Updated
+	* Mono.Data.Sql/Makefile.am:
+	* Mono.Data.Sql/Providers/FirebirdDbProvider.cs: New firebird
+	provider.
+	* Mono.Data.Sql/Providers/SybaseDbProvider.cs: New sybase provider
+	* Mono.Data.Sql/Providers/OdbcDbProvider.cs: New generic odbc
+	connector.
+	* Mono.Data.Sql/Mono.Data.Sql.mdp: Updated
+
 2005-08-12  Lluis Sanchez Gual  <lluis@novell.com> 
 
 	* MonoQuery/Makefile.am: embed icons as resources.

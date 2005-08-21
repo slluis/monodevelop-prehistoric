@@ -29,6 +29,9 @@ Providers/DbProviderBase.cs \
 Providers/NpgsqlDbProvider.cs \
 Providers/SqliteDbProvider.cs \
 Providers/OracleDbProvider.cs \
+Providers/FirebirdDbProvider.cs \
+Providers/OdbcDbProvider.cs \
+Providers/SybaseDbProvider.cs \
 Providers/SqlDbProvider.cs \
 AssemblyInfo.cs
 
@@ -39,7 +42,9 @@ REFS = \
 -r:Npgsql \
 -r:ByteFX.Data \
 -r:Mono.Data.SqliteClient \
--r:System.Data.OracleClient
+-r:System.Data.OracleClient \
+-r:Mono.Data.SybaseClient \
+-r:$(top_srcdir)/contrib/FirebirdSql.Data.Firebird.dll
 
 ADDIN_BUILD = $(top_builddir)/build/AddIns/MonoQuery
 

@@ -115,7 +115,7 @@ namespace MonoQuery
 		public override void ActivateItem ()
 		{
 			TableSchema table = CurrentNode.DataItem as TableSchema;
-			string query = String.Format ("SELECT * FROM {0};", table.Name);
+			string query = String.Format ("SELECT * FROM {0}", table.Name);
 			table.Provider.ExecuteSQL (query, (SQLCallback) Runtime.DispatchService.GuiDispatch (new SQLCallback (ActivateSQLCallback)));
 		}
 		
