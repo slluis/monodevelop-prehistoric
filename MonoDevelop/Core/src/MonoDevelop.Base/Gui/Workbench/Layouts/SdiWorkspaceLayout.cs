@@ -178,7 +178,7 @@ namespace MonoDevelop.Gui
 			workbenchContext = ctxt;
 			
 			// get the list of layouts
-			string ctxtPrefix = ctxt.ToString () + ".";
+			string ctxtPrefix = ctxt.Id + ".";
 			string[] list = dockLayout.GetLayouts (false);
 
 			layouts.Clear ();
@@ -252,6 +252,14 @@ namespace MonoDevelop.Gui
 				return result;
 			}
 		}
+		
+		public void DeleteLayout (string name)
+		{
+			string layout = workbench.Context.Id + "." + name;
+			layouts.Remove (name);
+			dockLayout.DeleteLayout (layout);
+		}
+
 
 		// pad collection for the current workbench context
 		PadContentCollection activePadCollection;

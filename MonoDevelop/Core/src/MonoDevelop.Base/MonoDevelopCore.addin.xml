@@ -364,6 +364,9 @@
 		<Command id = "MonoDevelop.Commands.ViewCommands.NewLayout"
 				defaultHandler = "MonoDevelop.Commands.NewLayoutHandler"
 				_label = "_New Layout" />
+		<Command id = "MonoDevelop.Commands.ViewCommands.DeleteCurrentLayout"
+				defaultHandler = "MonoDevelop.Commands.DeleteCurrentLayoutHandler"
+				_label = "_Delete Current Layout" />
 		<Command id = "MonoDevelop.Commands.ViewCommands.FullScreen"
 				defaultHandler = "MonoDevelop.Commands.FullScreenHandler"
 				_label = "_Full Screen" 
@@ -871,6 +874,7 @@
 				<CommandItem id = "MonoDevelop.Commands.ViewCommands.LayoutList" />
 				<SeparatorItem id = "ViewItemsSeparator" />
 				<CommandItem id = "MonoDevelop.Commands.ViewCommands.NewLayout" />
+				<CommandItem id = "MonoDevelop.Commands.ViewCommands.DeleteCurrentLayout" />
 			</ItemSet>
 			<SeparatorItem id = "ViewItemsSeparator2" />
 			<CommandItem id = "MonoDevelop.Commands.ViewCommands.FullScreen" />

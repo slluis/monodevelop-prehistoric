@@ -24,6 +24,7 @@ namespace MonoDevelop.Commands
 		ViewList,
 		LayoutList,
 		NewLayout,
+		DeleteCurrentLayout,
 		FullScreen,
 		Open,
 		TreeDisplayOptionList,
@@ -45,6 +46,23 @@ namespace MonoDevelop.Commands
 			using (NewLayoutDialog dlg = new NewLayoutDialog ()) {
 				dlg.Run ();
 			}
+		}
+	}
+	
+	internal class DeleteCurrentLayoutHandler: CommandHandler
+	{
+		protected override void Run ()
+		{
+			if (Runtime.MessageService.AskQuestion (GettextCatalog.GetString ("Are you sure you want to delete the active layout?"), "MonoDevelop")) {
+				string clayout = WorkbenchSingleton.Workbench.WorkbenchLayout.CurrentLayout;
+				WorkbenchSingleton.Workbench.WorkbenchLayout.CurrentLayout = "Default";
+				WorkbenchSingleton.Workbench.WorkbenchLayout.DeleteLayout (clayout);
+			}
+		}
+		
+		protected override void Update (CommandInfo info)
+		{
+			info.Enabled = WorkbenchSingleton.Workbench.WorkbenchLayout != null && WorkbenchSingleton.Workbench.WorkbenchLayout.CurrentLayout != "Default";
 		}
 	}
 	

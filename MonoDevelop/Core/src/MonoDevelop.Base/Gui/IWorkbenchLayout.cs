@@ -43,6 +43,8 @@ namespace MonoDevelop.Gui
 		string[] Layouts {
 			get;
 		}
+		
+		void DeleteLayout (string name);
 
 		/// <summary>
 		/// Attaches this layout manager to a workbench object.
