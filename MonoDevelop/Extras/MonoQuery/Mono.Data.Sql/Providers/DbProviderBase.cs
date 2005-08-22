@@ -112,6 +112,12 @@ namespace Mono.Data.Sql
 			}
 		}
 		
+		public virtual bool CanExplain {
+			get {
+				return true;
+			}
+		}
+		
 		public virtual bool Open ()
 		{
 			return IsOpen;
@@ -146,6 +152,27 @@ namespace Mono.Data.Sql
 		public virtual DataTable ExecuteSQL (string SQLText)
 		{
 			throw new NotImplementedException ();
+		}
+		
+		public virtual void ExplainSQL (string SQLText, SQLCallback Callback)
+		{
+			if (CanExplain != true)
+				return;
+			
+			lock (ThreadSync) {
+				ThreadedSQLCallback = Callback;
+				ThreadedSQLText = SQLText;
+				Thread eThread = new Thread (new ThreadStart (ExplainSQLThreadStart));
+				eThread.Start ();
+			}
+		}
+		
+		public virtual DataTable ExplainSQL (string SQLText)
+		{
+			if (CanExplain == false)
+				return null;
+			
+			return ExecuteSQL (String.Format ("EXPLAIN {0}", SQLText));
 		}
 		
 		public virtual void GetTables (SQLCallback Callback)
@@ -290,6 +317,13 @@ namespace Mono.Data.Sql
 			string SQLText = ThreadedSQLText;
 			SQLCallback Callback = ThreadedSQLCallback;
 			Callback (this, ExecuteSQL (SQLText));
+		}
+		
+		protected virtual void ExplainSQLThreadStart ()
+		{
+			string SQLText = ThreadedSQLText;
+			SQLCallback Callback = ThreadedSQLCallback;
+			Callback (this, ExplainSQL (SQLText));
 		}
 		
 		protected virtual void GetTablesThreadStart ()

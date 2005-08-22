@@ -36,6 +36,9 @@ using MonoDevelop.Gui;
 using MonoDevelop.Gui.Pads;
 using MonoDevelop.Gui.Widgets;
 using MonoDevelop.Services;
+using MonoDevelop.Commands;
+
+using MonoQuery.Commands;
 
 namespace MonoQuery
 {
@@ -54,6 +57,12 @@ namespace MonoQuery
 		public override Type CommandHandlerType {
 			get {
 				return typeof (TableNodeCommandHandler);
+			}
+		}
+		
+		public override string ContextMenuAddinPath {
+			get {
+				return "/SharpDevelop/Views/DatabasePad/ContextMenu/TableBrowserNode";
 			}
 		}
 		
@@ -125,6 +134,48 @@ namespace MonoQuery
 			
 			DataGridView dataView = new DataGridView (results);
 			Runtime.Gui.Workbench.ShowView (dataView, true);
+		}
+		
+		[CommandHandler (MonoQueryCommands.QueryCommand)]
+		protected void OnQueryCommand ()
+		{
+			SqlQueryView sql = new SqlQueryView ();
+			TableSchema table = (TableSchema) CurrentNode.DataItem;
+			sql.Connection = table.Provider;
+			sql.Text = String.Format ("SELECT * FROM {0}", table.Name);
+			Runtime.Gui.Workbench.ShowView (sql, true);
+		}
+		
+		[CommandHandler (MonoQueryCommands.EmptyTable)]
+		protected void OnEmptyTable ()
+		{
+			TableSchema table = (TableSchema) CurrentNode.DataItem;
+			table.Provider.ExecuteSQL (String.Format (
+				"DELETE FROM {0}", table.Name));
+			Runtime.Gui.StatusBar.SetMessage (
+				GettextCatalog.GetString ("Table emptied"));
+		}
+		
+		[CommandHandler (MonoQueryCommands.DropTable)]
+		protected void OnDropTable ()
+		{
+			TableSchema table = (TableSchema) CurrentNode.DataItem;
+			table.Provider.ExecuteSQL (String.Format (
+				"DROP TABLE {0}", table.Name));
+			Runtime.Gui.StatusBar.SetMessage (
+				GettextCatalog.GetString ("Table dropped"));
+			
+			OnRefresh ();
+		}
+		
+		[CommandHandler (MonoQueryCommands.Refresh)]
+		protected void OnRefresh ()
+		{
+			CurrentNode.MoveToParent ();
+			if (CurrentNode.DataItem as TablesNode != null)
+				(CurrentNode.DataItem as TablesNode).Refresh ();
+			
+			CurrentNode.ExpandToNode ();
 		}
 	}
 }

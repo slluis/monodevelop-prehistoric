@@ -27,6 +27,7 @@
 //
 
 using System;
+using System.Text.RegularExpressions;
 
 using Mono.Data.Sql;
 using MonoDevelop.Services;
@@ -56,6 +57,18 @@ namespace MonoQuery
 			ColumnSchema schema = (ColumnSchema) dataObject;
 			label = schema.Name;
 			string iconName = "md-mono-query-column";
+			
+			string typeName = schema.DataTypeName.ToLower ();
+			
+			if (Regex.IsMatch (typeName, "(timestamp|datetime)"))
+				iconName = "md-mono-query-date-time";
+			else if (Regex.IsMatch (typeName, "(bytea|blob)"))
+				iconName = "md-mono-query-blob";
+			else if (Regex.IsMatch (typeName, "numeric"))
+				iconName = "md-mono-query-numeric";
+			else if (Regex.IsMatch (typeName, "(varchar|character var|char)"))
+				iconName = "md-mono-query-string";
+			
 			icon = Context.GetIcon (iconName);
 		}
 		

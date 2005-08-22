@@ -37,7 +37,6 @@ using MonoDevelop.Gui.Pads;
 using MonoDevelop.Commands;
 using MonoQuery.Commands;
 
-
 namespace MonoQuery
 {
 	public class DatabaseNodeBuilder : TypeNodeBuilder
@@ -107,8 +106,14 @@ namespace MonoQuery
 		{
 			DbProviderBase p = dataObject as DbProviderBase;
 			label = p.Name;
-			string iconName = p.IsOpen ? "md-mono-query-connect" : "md-mono-query-disconnect";
-			if (p.IsConnectionStringWrong) iconName = "md-warning";
+			
+			string iconName = "md-mono-query-database";
+			
+			if (p.IsConnectionStringWrong && p.IsOpen == false)
+				iconName = "md-mono-query-disconnected";
+			else if (p.IsOpen)
+				iconName = "md-mono-query-connected";
+			
 			icon = Context.GetIcon (iconName);
 		}
 
@@ -231,6 +236,21 @@ namespace MonoQuery
 		{
 			DbProviderBase provider = (DbProviderBase) CurrentNode.DataItem;
 			provider.Close ();
+		}
+		
+		public override void ActivateItem ()
+		{
+			OnQueryCommand ();
+		}
+		
+		[CommandHandler (MonoQueryCommands.QueryCommand)]
+		protected void OnQueryCommand ()
+		{
+			SqlQueryView sql = new SqlQueryView ();
+			sql.Connection = (DbProviderBase) CurrentNode.DataItem;
+			Runtime.Gui.Workbench.ShowView (sql, true);
+			
+			CurrentNode.MoveToParent ();
 		}
 	}
 }

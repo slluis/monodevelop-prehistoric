@@ -34,11 +34,19 @@ namespace MonoQuery
 {
 	public class TablesNode
 	{
+		public event EventHandler RefreshEvent;
+		
 		public DbProviderBase Provider = null;
 		
 		public TablesNode (DbProviderBase provider)
 		{
 			Provider = provider;
+		}
+		
+		public void Refresh ()
+		{
+			if (RefreshEvent != null)
+				RefreshEvent (this, null);
 		}
 	}
 	

@@ -54,6 +54,32 @@
     <File name="./Gui/DbProviderCollection.cs" subtype="Code" buildaction="Compile" />
     <File name="./Gui/NodeBuilders/ParametersNodeBuilder.cs" subtype="Code" buildaction="Compile" />
     <File name="./Gui/NodeBuilders/UserNodeBuilder.cs" subtype="Code" buildaction="Compile" />
+    <File name="./Gui/SqlQueryView.cs" subtype="Code" buildaction="Compile" />
+    <File name="./icons/MonoQuery.Addconnection" subtype="Code" buildaction="EmbedAsResource" />
+    <File name="./icons/MonoQuery.Blob" subtype="Code" buildaction="EmbedAsResource" />
+    <File name="./icons/MonoQuery.Column" subtype="Code" buildaction="EmbedAsResource" />
+    <File name="./icons/MonoQuery.ColumnFK" subtype="Code" buildaction="EmbedAsResource" />
+    <File name="./icons/MonoQuery.ColumnPK" subtype="Code" buildaction="EmbedAsResource" />
+    <File name="./icons/MonoQuery.Connect" subtype="Code" buildaction="EmbedAsResource" />
+    <File name="./icons/MonoQuery.Database" subtype="Code" buildaction="EmbedAsResource" />
+    <File name="./icons/MonoQuery.Database.Connected" subtype="Code" buildaction="EmbedAsResource" />
+    <File name="./icons/MonoQuery.Database.Disconnected" subtype="Code" buildaction="EmbedAsResource" />
+    <File name="./icons/MonoQuery.DateTime" subtype="Code" buildaction="EmbedAsResource" />
+    <File name="./icons/MonoQuery.Disconnect" subtype="Code" buildaction="EmbedAsResource" />
+    <File name="./icons/MonoQuery.Execute" subtype="Code" buildaction="EmbedAsResource" />
+    <File name="./icons/MonoQuery.Explain" subtype="Code" buildaction="EmbedAsResource" />
+    <File name="./icons/MonoQuery.Numeric" subtype="Code" buildaction="EmbedAsResource" />
+    <File name="./icons/MonoQuery.Param" subtype="Code" buildaction="EmbedAsResource" />
+    <File name="./icons/MonoQuery.Procedure" subtype="Code" buildaction="EmbedAsResource" />
+    <File name="./icons/MonoQuery.Providers" subtype="Code" buildaction="EmbedAsResource" />
+    <File name="./icons/MonoQuery.RunFromCursor" subtype="Code" buildaction="EmbedAsResource" />
+    <File name="./icons/MonoQuery.SqlQueryView" subtype="Code" buildaction="EmbedAsResource" />
+    <File name="./icons/MonoQuery.Stop" subtype="Code" buildaction="EmbedAsResource" />
+    <File name="./icons/MonoQuery.String" subtype="Code" buildaction="EmbedAsResource" />
+    <File name="./icons/MonoQuery.Table" subtype="Code" buildaction="EmbedAsResource" />
+    <File name="./icons/MonoQuery.Tables" subtype="Code" buildaction="EmbedAsResource" />
+    <File name="./icons/MonoQuery.User" subtype="Code" buildaction="EmbedAsResource" />
+    <File name="./icons/MonoQuery.View" subtype="Code" buildaction="EmbedAsResource" />
   </Contents>
   <References>
     <ProjectReference type="Project" localcopy="True" refto="Mono.Data.Sql" />
@@ -66,5 +92,6 @@
     <ProjectReference type="Assembly" localcopy="True" refto="../../../build/bin/MonoDevelop.Base.dll" />
     <ProjectReference type="Assembly" localcopy="True" refto="../../../build/bin/MonoDevelop.Core.dll" />
     <ProjectReference type="Assembly" localcopy="True" refto="../../../build/bin/MonoDevelop.Gui.Widgets.dll" />
+    <ProjectReference type="Gac" localcopy="True" refto="System, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   </References>
 </Project>

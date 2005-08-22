@@ -114,18 +114,22 @@ namespace Mono.Data.Sql
 		
 		public override DataTable ExecuteSQL (string SQLText)
 		{
-			MySqlCommand command = new MySqlCommand ();
-			command.Connection = Connection;
-			command.CommandText = SQLText;
-			
-			DataSet resultSet = null;
-			
-			lock (adapter) {
-				adapter.SelectCommand = command;
-				adapter.Fill (resultSet);
+			try {
+				MySqlCommand command = new MySqlCommand ();
+				command.Connection = Connection;
+				command.CommandText = SQLText;
+				
+				DataSet resultSet = null;
+				
+				lock (adapter) {
+					adapter.SelectCommand = command;
+					adapter.Fill (resultSet);
+				}
+				
+				return resultSet.Tables[0];
+			} catch {
+				return null;
 			}
-			
-			return resultSet.Tables[0];
 		}
 		
 		public override TableSchema[] GetTables ()

@@ -29,6 +29,7 @@ Gui/FakeNodes.cs \
 Gui/DatabasePad.cs \
 Gui/ConnectionDialog.cs \
 Gui/DataGridView.cs \
+Gui/SqlQueryView.cs \
 Gui/DbProviderCollection.cs \
 MonoQueryService.cs \
 AssemblyInfo.cs
@@ -47,7 +48,20 @@ icons/MonoQuery.Procedure \
 icons/MonoQuery.Table \
 icons/MonoQuery.Tables \
 icons/MonoQuery.User \
-icons/MonoQuery.View
+icons/MonoQuery.View \
+icons/MonoQuery.Stop \
+icons/MonoQuery.RunFromCursor \
+icons/MonoQuery.Explain \
+icons/MonoQuery.Param \
+icons/MonoQuery.Numeric \
+icons/MonoQuery.Execute \
+icons/MonoQuery.Database.Connected \
+icons/MonoQuery.Database.Disconnected \
+icons/MonoQuery.String \
+icons/MonoQuery.Providers \
+icons/MonoQuery.Blob \
+icons/MonoQuery.SqlQueryView
+
 
 build_sources = $(addprefix $(srcdir)/, $(FILES))
 

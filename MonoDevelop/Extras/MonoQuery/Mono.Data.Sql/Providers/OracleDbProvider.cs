@@ -131,10 +131,13 @@ namespace Mono.Data.Sql
 		{
 			if (type == typeof(TableSchema))
 				return true;
+			else if (type == typeof(ColumnSchema))
+				return true;
 			else if (type == typeof(ViewSchema))
 				return true;
 			else if (type == typeof(ProcedureSchema))
 				return true;
+			/*
 			else if (type == typeof(AggregateSchema))
 				return true;
 			else if (type == typeof(GroupSchema))
@@ -155,6 +158,7 @@ namespace Mono.Data.Sql
 				return true;
 			else if (type == typeof(RuleSchema))
 				return true;
+			*/
 			else
 				return false;
 		}
@@ -164,18 +168,22 @@ namespace Mono.Data.Sql
 		/// </summary>
 		public override DataTable ExecuteSQL(string SQLText)
 		{
-			OracleCommand command = new OracleCommand();
-			command.Connection = connection;
-			command.CommandText = SQLText;
+			try {
+				OracleCommand command = new OracleCommand();
+				command.Connection = connection;
+				command.CommandText = SQLText;
 
-			DataSet resultSet = null;
+				DataSet resultSet = null;
 
-			lock(adapter) {
-				adapter.SelectCommand = command;
-				adapter.Fill(resultSet);
+				lock(adapter) {
+					adapter.SelectCommand = command;
+					adapter.Fill(resultSet);
+				}
+
+				return resultSet.Tables[0];
+			} catch {
+				return null;
 			}
-
-			return resultSet.Tables[0];
 		}
 
 		private bool IsSystem(string owner) 

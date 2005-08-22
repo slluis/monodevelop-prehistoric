@@ -60,7 +60,7 @@ namespace MonoQuery
 		public override void BuildNode (ITreeBuilder treeBuilder, object dataObject, ref string label, ref Gdk.Pixbuf icon, ref Gdk.Pixbuf closedIcon)
 		{
 			label = GettextCatalog.GetString ("Database Connections");
-			string iconName = "md-mono-query-database";
+			string iconName = "md-mono-query-providers";
 			icon = Context.GetIcon (iconName);
 		}
 		

@@ -46,7 +46,11 @@ namespace MonoQuery.Commands
 		RemoveConnection,
 		DisconnectConnection,
 		RefreshProviderList,
-		RefreshConnection
+		RefreshConnection,
+		QueryCommand,
+		EmptyTable,
+		DropTable,
+		Refresh
 	}
 	
 	public class AddConnection : CommandHandler

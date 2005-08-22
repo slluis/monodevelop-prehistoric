@@ -1,4 +1,48 @@
-2005-08-06	Christian Hergert	<christian.hergert@gmail.com>
+2005-08-21	Christian Hergert	<christian.hergert@gmail.com>
+
+	* MonoQuery/Commands/Commands.cs: Add some new commands to the enum
+	* MonoQuery/Gui/NodeBuilders/DatabaseNodeBuilder.cs: Use new icons
+	* MonoQuery/Gui/NodeBuilders/ProviderCollectionNodeBuilder.cs: Use new
+	icon.
+	* MonoQuery/Gui/NodeBuilders/TablesNodeBuilder.cs: Add new commands
+	for refresh and show query tool.
+	* MonoQuery/Gui/NodeBuilders/TableNodeBuilder.cs: Add new
+	commands for empty, drop, refresh, and show query tool.
+	* MonoQuery/Gui/NodeBuilders/ColumnNodeBuilder.cs: Build icons
+	reflective of the columns datatype.
+	* MonoQuery/Gui/FakeNodes.cs: add refresh to the fake tables node.
+	This way the builder can subscribe and rebuild the tree. Probably can
+	be done in a better way.
+	* MonoQuery/Gui/SqlQueryView.cs: new query tool
+	* MonoQuery/Makefile.am: updated
+	* MonoQuery/icons/MonoQuery.Stop: New icon for query tool
+	* MonoQuery/icons/MonoQuery.RunFromCursor: New icon for query tool
+	* MonoQuery/icons/MonoQuery.Explain: New icon for query tool
+	* MonoQuery/icons/MonoQuery.Param: New icon for procedure parameters.
+	* MonoQuery/icons/MonoQuery.Numeric: new icon for numeric data type.
+	* MonoQuery/icons/MonoQuery.Execute: New icon for query tool
+	* MonoQuery/icons/MonoQuery.Database.Connected: Database connected
+	icon
+	* MonoQuery/icons/MonoQuery.Database.Disconnected: Database error on
+	connection icon.
+	* MonoQuery/icons/MonoQuery.String: String data type icon
+	* MonoQuery/icons/MonoQuery.Providers: New providers icon
+	* MonoQuery/icons/MonoQuery.Blob: Blob|byte[] data type icon
+	* MonoQuery/icons/MonoQuery.SqlQueryView: Query view icon
+	* MonoQuery/MonoQuery.addin.xml: Updated with new context menus and
+	icons.
+	* MonoQuery/MonoQuery.mdp: Updated
+	* Mono.Data.Sql/Providers/DbProviderBase.cs: Add explain support.
+	* Mono.Data.Sql/Providers/SqlDbProvider.cs: Catch errors for async
+	mode and return null.
+	* Mono.Data.Sql/Providers/NpgsqlDbProvider.cs:
+	* Mono.Data.Sql/Providers/OracleDbProvider.cs:
+	* Mono.Data.Sql/Providers/MySqlDbProvider.cs:
+	* Mono.Data.Sql/Providers/FirebirdDbProvider.cs:
+	* Mono.Data.Sql/Providers/SybaseDbProvider.cs:
+	* Mono.Data.Sql/Providers/OdbcDbProvider.cs:
+
+2005-08-20	Christian Hergert	<christian.hergert@gmail.com>
 
 	* tests/test-oracle-1.cs: Test. Will be converted to nunit later.
 	* tests/test-firebird-1.cs:

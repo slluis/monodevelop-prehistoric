@@ -182,18 +182,22 @@ namespace Mono.Data.Sql
 		/// </summary>
 		public override DataTable ExecuteSQL(string SQLText)
 		{
-			FbCommand command = new FbCommand();
-			command.Connection = connection;
-			command.CommandText = SQLText;
+			try {
+				FbCommand command = new FbCommand();
+				command.Connection = connection;
+				command.CommandText = SQLText;
 
-			DataSet resultSet = new DataSet ();
+				DataSet resultSet = new DataSet ();
 
-			lock(adapter) {
-				adapter.SelectCommand = command;
-				adapter.Fill(resultSet);
+				lock(adapter) {
+					adapter.SelectCommand = command;
+					adapter.Fill(resultSet);
+				}
+
+				return resultSet.Tables[0];
+			} catch {
+				return null;
 			}
-
-			return resultSet.Tables[0];
 		}
 		
 		/// <summary>

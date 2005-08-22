@@ -32,6 +32,9 @@ using System.Threading;
 using Mono.Data.Sql;
 using MonoDevelop.Services;
 using MonoDevelop.Gui.Pads;
+using MonoDevelop.Commands;
+
+using MonoQuery.Commands;
 
 namespace MonoQuery
 {
@@ -44,14 +47,29 @@ namespace MonoQuery
 		private ITreeBuilder threadedBuilder;
 		private TablesNode threadedNode;
 		
+		private EventHandler RefreshHandler;
+		
 		public TablesNodeBuilder()
 		{
 			AddTable += (AddTableHandler) Runtime.DispatchService.GuiDispatch (new AddTableHandler (OnTableAdd));
+			RefreshHandler = (EventHandler) Runtime.DispatchService.GuiDispatch (new EventHandler (OnRefreshEvent));
 		}
 		
 		public override Type NodeDataType {
 			get {
 				return typeof(TablesNode);
+			}
+		}
+		
+		public override Type CommandHandlerType {
+			get {
+				return typeof (TablesNodeCommandHandler);
+			}
+		}
+		
+		public override string ContextMenuAddinPath {
+			get {
+				return "/SharpDevelop/Views/DatabasePad/ContextMenu/TablesBrowserNode";
 			}
 		}
 		
@@ -65,6 +83,19 @@ namespace MonoQuery
 			label = GettextCatalog.GetString ("Tables");
 			string iconName = "md-mono-query-tables";
 			icon = Context.GetIcon (iconName);
+			
+			TablesNode node = (TablesNode) dataObject;
+			node.RefreshEvent += RefreshHandler;
+		}
+		
+		void OnRefreshEvent (object sender, EventArgs args)
+		{
+			ITreeBuilder builder = Context.GetTreeBuilder ();
+			
+			if (builder != null)
+				builder.UpdateChildren ();
+			
+			builder.ExpandToNode ();
 		}
 
 		public override void BuildChildNodes (ITreeBuilder builder, object dataObject)
@@ -104,6 +135,30 @@ namespace MonoQuery
 			if (((bool)builder.Options["ShowSystemObjects"]) == true || schema.IsSystemTable == false)
 				builder.AddChild (schema);
 			builder.Expanded = true;
+		}
+	}
+	
+	public class TablesNodeCommandHandler : NodeCommandHandler
+	{
+		public override DragOperation CanDragNode ()
+		{
+			return DragOperation.None;
+		}
+		
+		[CommandHandler (MonoQueryCommands.QueryCommand)]
+		protected void OnQueryCommand ()
+		{
+			SqlQueryView sql = new SqlQueryView ();
+			TablesNode node = (TablesNode) CurrentNode.DataItem;
+			sql.Connection = node.Provider;
+			Runtime.Gui.Workbench.ShowView (sql, true);
+		}
+		
+		[CommandHandler (MonoQueryCommands.Refresh)]
+		protected void OnRefresh ()
+		{
+			TablesNode node = (TablesNode) CurrentNode.DataItem;
+			node.Refresh ();
 		}
 	}
 }
