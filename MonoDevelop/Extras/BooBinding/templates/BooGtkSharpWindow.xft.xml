@@ -6,7 +6,7 @@
 	  
 	<TemplateConfiguration>
 		<_Name>Gtk# Window</_Name>
-		<Icon>Boo.File.Form</Icon>
+		<Icon>res:Boo.File.Form</Icon>
 		<Category>Boo</Category>
 		<LanguageName>Boo</LanguageName>
 		<_Description>Creates a top-level Gtk# window</_Description>

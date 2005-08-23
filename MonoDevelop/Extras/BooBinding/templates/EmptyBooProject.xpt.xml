@@ -7,7 +7,7 @@
 	<TemplateConfiguration>
                 <_Name>Empty Project</_Name>
                 <Category>Boo</Category>
-                <Icon>Boo.Project.EmptyProject</Icon>
+                <Icon>res:Boo.Project.EmptyProject</Icon>
                 <LanguageName>Boo</LanguageName>
                 <_Description>Creates an empty Boo solution.</_Description>
 	</TemplateConfiguration>

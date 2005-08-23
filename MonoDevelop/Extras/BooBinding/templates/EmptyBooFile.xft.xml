@@ -3,7 +3,7 @@
 	
 	<TemplateConfiguration>
                 <_Name>Empty File</_Name>
-                <Icon>Boo.File.EmptyFile</Icon>
+                <Icon>res:Boo.File.EmptyFile</Icon>
                 <Category>Boo</Category>
                 <LanguageName>Boo</LanguageName>
                 <_Description>Creates an empty Boo file.</_Description>
