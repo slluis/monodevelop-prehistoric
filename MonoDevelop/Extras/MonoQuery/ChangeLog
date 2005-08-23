@@ -1,3 +1,7 @@
+2005-08-22  Daniel Morgan <danielmorgan@verizon.net>
+
+	* Mono.Data.Sql/Providers/OracleDbProvider.cs: fix ExecuteSQL
+
 2005-08-21	Christian Hergert	<christian.hergert@gmail.com>
 
 	* MonoQuery/Commands/Commands.cs: Add some new commands to the enum

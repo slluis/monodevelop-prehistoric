@@ -173,7 +173,7 @@ namespace Mono.Data.Sql
 				command.Connection = connection;
 				command.CommandText = SQLText;
 
-				DataSet resultSet = null;
+				DataSet resultSet = new DataSet ();
 
 				lock(adapter) {
 					adapter.SelectCommand = command;
