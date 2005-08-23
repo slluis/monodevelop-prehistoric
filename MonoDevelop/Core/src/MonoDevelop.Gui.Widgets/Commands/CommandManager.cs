@@ -45,6 +45,7 @@ namespace MonoDevelop.Commands
 		Stack delegatorStack = new Stack ();
 		bool disposed;
 		bool toolbarUpdaterRunning;
+		bool enableToolbarUpdate;
 		
 		Gtk.AccelGroup accelGroup;
 		
@@ -73,6 +74,26 @@ namespace MonoDevelop.Commands
 		{
 			disposed = true;
 		}
+		
+		public bool EnableIdleUpdate {
+			get { return enableToolbarUpdate; }
+			set {
+				if (enableToolbarUpdate != value) {
+					if (value) {
+						if (toolbars.Count > 0) {
+							if (!toolbarUpdaterRunning) {
+								GLib.Timeout.Add (500, new GLib.TimeoutHandler (UpdateStatus));
+								toolbarUpdaterRunning = true;
+							}
+						}
+					} else {
+						toolbarUpdaterRunning = false;
+					}
+					enableToolbarUpdate = value;
+				}
+			}
+		}
+
 		
 		public void RegisterCommand (Command cmd)
 		{
@@ -211,6 +232,7 @@ namespace MonoDevelop.Commands
 			}
 			catch (Exception ex) {
 				string name = (cmd != null && cmd.Text != null && cmd.Text.Length > 0) ? cmd.Text : commandId.ToString ();
+				name = name.Replace ("_","");
 				ReportError (commandId, "Error while executing command: " + name, ex);
 				return false;
 			}
@@ -391,19 +413,18 @@ namespace MonoDevelop.Commands
 		
 		bool UpdateStatus ()
 		{
-			if (!disposed) {
+			if (!disposed)
 				UpdateToolbars ();
-				return true;
-			} else {
+			else
 				toolbarUpdaterRunning = false;
-				return false;
-			}
+				
+			return toolbarUpdaterRunning;
 		}
 		
 		internal void RegisterToolbar (CommandToolbar toolbar)
 		{
 			toolbars.Add (toolbar);
-			if (!toolbarUpdaterRunning) {
+			if (enableToolbarUpdate && !toolbarUpdaterRunning) {
 				GLib.Timeout.Add (500, new GLib.TimeoutHandler (UpdateStatus));
 				toolbarUpdaterRunning = true;
 			}
