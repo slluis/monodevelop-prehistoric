@@ -50,6 +50,7 @@ namespace MonoDevelop.Services
 				manager.RegisterCommand (cmd, null);
 				
 			manager.CommandError += new CommandErrorHandler (OnCommandError);
+			manager.EnableIdleUpdate = true;
 		}
 		
 		public CommandManager CommandManager {

@@ -58,7 +58,7 @@ namespace MonoDevelop.Gui.Dialogs
 			this.Realized += new EventHandler (OnRealized);
 			this.ExposeEvent += new ExposeEventHandler (OnExposed);
 			
-			image = Runtime.Gui.Resources.GetBitmap ("Icons.AboutImage");
+			image = new Gdk.Pixbuf (GetType().Assembly, "Icons.AboutImage");
 			
 			TimerHandle = GLib.Timeout.Add (50, new TimeoutHandler (ScrollDown));
 		}

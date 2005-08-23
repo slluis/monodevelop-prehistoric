@@ -616,6 +616,7 @@ icons/Icons.32x32.HTMLFileIcon \
 icons/Icons.32x32.ResourceFileIcon \
 icons/Icons.32x32.TextFileIcon \
 icons/Icons.32x32.XMLFileIcon \
+icons/Icons.AboutImage \
 icons/Icons.SharpDevelopIcon \
 icons/Icons.TipOfTheDayIcon
 

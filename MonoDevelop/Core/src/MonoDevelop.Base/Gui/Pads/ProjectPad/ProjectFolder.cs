@@ -40,6 +40,7 @@ namespace MonoDevelop.Gui.Pads.ProjectPad
 		string absolutePath;
 		Project project;
 		object parent;
+		bool trackChanges;
 		
 		public ProjectFolder (string absolutePath, Project project): this (absolutePath, project, null)
 		{
@@ -50,7 +51,19 @@ namespace MonoDevelop.Gui.Pads.ProjectPad
 			this.parent = parent;
 			this.project = project;
 			this.absolutePath = absolutePath;
-			Runtime.FileService.FileRenamed += new FileEventHandler (OnFileRenamed);
+		}
+		
+		public bool TrackChanges {
+			get { return trackChanges; }
+			set {
+				if (trackChanges != value) {
+					trackChanges = value;
+					if (trackChanges)
+						Runtime.FileService.FileRenamed += new FileEventHandler (OnFileRenamed);
+					else
+						Runtime.FileService.FileRenamed -= new FileEventHandler (OnFileRenamed);
+				}
+			}
 		}
 		
 		public string Path {

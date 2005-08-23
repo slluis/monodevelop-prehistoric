@@ -1,3 +1,16 @@
+2005-08-23  Lluis Sanchez Gual  <lluis@novell.com>
+
+	* Gui/Dialogs/CommonAboutDialog.c: Load the image for the About dialog
+	from resources.
+	* Gui/Pads/ProjectPad/ProjectFolderNodeBuilder.cs:
+	* Gui/Pads/ProjectPad/ProjectFolder.cs: do not subscribe to the
+	file change events by default. Only do it when the new TrackChanges
+	property is set to true. This avoids unneeded subscriptions when using
+	temporary ProjectFolder objects.
+	* Gui/CommandService.cs: Enable idle toolbar update for the main
+	command manager.
+	* Makefile.am: Added about image resource.
+
 2005-08-22  Lluis Sanchez Gual  <lluis@novell.com>
 
 	* Commands/ViewCommands.cs: Implemented delete layout command.

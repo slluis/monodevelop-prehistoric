@@ -83,6 +83,7 @@ namespace MonoDevelop.Gui.Pads.ProjectPad
 			ProjectFolder folder = (ProjectFolder) dataObject;
 			folder.FolderRenamed += fileRenamedHandler;
 			folder.FolderRemoved += fileRemovedHandler;
+			folder.TrackChanges = true;
 		}
 		
 		public override void OnNodeRemoved (object dataObject)
