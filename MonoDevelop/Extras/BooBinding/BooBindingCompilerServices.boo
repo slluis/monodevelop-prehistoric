@@ -32,6 +32,7 @@ import MonoDevelop.Core.Services
 import MonoDevelop.Internal.Project
 
 import Boo.Lang.Compiler
+import Boo.Lang.Compiler.Resources
 
 public class BooBindingCompilerServices:
 	public def CanCompile (fileName as string):
@@ -62,6 +63,8 @@ public class BooBindingCompilerServices:
 			if finfo.Subtype != Subtype.Directory:
 				if finfo.BuildAction == BuildAction.Compile:
 					compiler.Parameters.Input.Add(Boo.Lang.Compiler.IO.FileInput(finfo.Name))
+				elif finfo.BuildAction == BuildAction.EmbedAsResource:
+					compiler.Parameters.Resources.Add (EmbeddedFileResource (finfo.Name))
 
 		
 		if configuration.CompileTarget == CompileTarget.Exe:

@@ -1,3 +1,8 @@
+2005-08-23  Peter Johanson  <latexer@gentoo.org> 
+
+	* BooBindingCompilerServices.boo: Add support for compiling in
+	embedded resources from projects.
+
 2005-08-21  Peter Johanson  <latexer@gentoo.org> 
 
 	* tempaltes/*: Fix icon references to use new resource naming
