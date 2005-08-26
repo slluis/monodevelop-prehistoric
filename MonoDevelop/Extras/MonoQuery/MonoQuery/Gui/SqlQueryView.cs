@@ -1,10 +1,12 @@
 //
 // SqlQueryView.cs
 //
-// Author:
+// Authors:
 //   Christian Hergert <chris@mosaix.net>
+//   Daniel Morgan <danielmorgan@verizon.net>
 //
 // Copyright (C) 2005 Christian Hergert
+// Copyright (C) 2005 Daniel Morgan
 //
 // Permission is hereby granted, free of charge, to any person obtaining
 // a copy of this software and associated documentation files (the
@@ -51,6 +53,9 @@ namespace MonoQuery
 		protected EventHandler changedHandler;
 		
 		protected MonoQueryService service;
+
+		private int executeMode = 0;
+		private int offset = 0;
 		
 		public SqlQueryView () : base ()
 		{
@@ -197,24 +202,80 @@ namespace MonoQuery
 				return (DbProviderBase) model.GetValue (iter, 1);
 			}
 		}
-		
+
 		void OnExecute (object sender, EventArgs args)
 		{
-			Runtime.Gui.StatusBar.BeginProgress (
-				GettextCatalog.GetString("Execuing sql query on")
-				+ String.Format (" {0}", Connection.Name));
-			Runtime.Gui.StatusBar.SetProgressFraction (0.1);
+			TextBuffer buf = (TextBuffer) sourceView.Buffer;
+			TextIter iter = buf.StartIter;
+			TextIter end_iter = buf.EndIter;
+			string query = String.Empty;
+
+			if (buf.GetSelectionBounds (out iter, out end_iter) == true) {
+				query = buf.GetText (iter, end_iter, false);
+				executeMode = 2; // as-is
+			} else {
+				query = GetSqlStatementAtCursor (buf, out iter);
+				executeMode = 0; // one single statement at cursor
+			}
+
+			if (query.Trim ().Length > 0) {
+				Runtime.Gui.StatusBar.BeginProgress (
+					GettextCatalog.GetString("Execuing sql query on")
+					+ String.Format (" {0}", Connection.Name));
+				Runtime.Gui.StatusBar.SetProgressFraction (0.1);
+
+				Runtime.Gui.StatusBar.SetMessage (
+					GettextCatalog.GetString ("Query sent, waiting for response."));
+				Runtime.Gui.StatusBar.SetProgressFraction (0.5);
+
+				SQLCallback callback = (SQLCallback)
+					Runtime.DispatchService.GuiDispatch (
+					new SQLCallback (OnExecuteReturn));
+
+				buf.MoveMark (buf.InsertMark, iter);
+				buf.MoveMark (buf.SelectionBound, iter);
 			
-			string query = sourceView.Buffer.Text;
-			SQLCallback callback = (SQLCallback)
-				Runtime.DispatchService.GuiDispatch (
-				new SQLCallback (OnExecuteReturn));
-			
-			Runtime.Gui.StatusBar.SetMessage (
-				GettextCatalog.GetString ("Query sent, waiting for response."));
-			Runtime.Gui.StatusBar.SetProgressFraction (0.5);
-			
-			Connection.ExecuteSQL (query, callback);
+				offset = 0;
+				Connection.ExecuteSQL (query, callback);
+			}
+		}
+		
+		void OnRunFromCursor (object sender, EventArgs args)
+		{
+			TextBuffer buf = (TextBuffer) sourceView.Buffer;
+			TextIter iter = buf.StartIter;
+			TextIter end_iter = buf.EndIter;
+			string query = String.Empty;
+
+			if (buf.GetSelectionBounds (out iter, out end_iter) == true) {
+				query = buf.GetText (iter, end_iter, false);
+				executeMode = 2; // as-is
+			} else {
+				query = GetSqlStatementAtCursor (buf, out iter);
+				executeMode = 1; // one multiple statements one-at-a-time starting at cursor
+			}
+
+			if (query.Trim ().Length > 0) {
+				Runtime.Gui.StatusBar.BeginProgress (
+					GettextCatalog.GetString("Execuing sql query on")
+					+ String.Format (" {0}", Connection.Name));
+				Runtime.Gui.StatusBar.SetProgressFraction (0.1);
+
+				Runtime.Gui.StatusBar.SetMessage (
+					GettextCatalog.GetString ("Query sent, waiting for response."));
+				Runtime.Gui.StatusBar.SetProgressFraction (0.5);
+
+				SQLCallback callback = (SQLCallback)
+					Runtime.DispatchService.GuiDispatch (
+					new SQLCallback (OnExecuteReturn));
+
+				buf.MoveMark (buf.InsertMark, iter);
+				buf.MoveMark (buf.SelectionBound, iter);
+
+				executeMode = 1; // Execute multiple statements one-at-a-time starting at cursor
+				offset = iter.Offset;
+				Connection.ExecuteSQL (query, callback);
+			}
 		}
 		
 		void OnExecuteReturn (object sender, object results)
@@ -223,36 +284,184 @@ namespace MonoQuery
 				GettextCatalog.GetString ("Query results received"));
 			Runtime.Gui.StatusBar.SetProgressFraction (0.9);
 			
+			TextBuffer buf = (TextBuffer) sourceView.Buffer;
 			if (results == null) {
 				Runtime.Gui.StatusBar.ShowErrorMessage (
 					GettextCatalog.GetString ("Invalid select query"));
+				if (executeMode == 1)
+					sourceView.ScrollToMark (buf.InsertMark, 0.4, true, 0.0, 1.0);
 			} else {
 				DataGridView dataView = new DataGridView (results as DataTable);
 				Runtime.Gui.Workbench.ShowView (dataView, true);
+
+				if (executeMode == 1) { 
+					// execute multiple SQL
+					TextIter iter = buf.StartIter;
+ 					iter.Offset = offset;
+					string query = GetNextSqlStatement (buf, ref iter);
+					if (query.Trim ().Length > 0) {
+						SQLCallback callback = (SQLCallback)
+							Runtime.DispatchService.GuiDispatch (
+							new SQLCallback (OnExecuteReturn));
+
+						// move insert mark to end of SQL statement to be executed
+						buf.MoveMark (buf.InsertMark, iter);
+						buf.MoveMark (buf.SelectionBound, iter);
+
+						Runtime.Gui.StatusBar.SetMessage (
+							GettextCatalog.GetString ("Query sent, waiting for response."));
+						Runtime.Gui.StatusBar.SetProgressFraction (0.5);
+
+						executeMode = 1;
+						offset = iter.Offset;
+						Connection.ExecuteSQL (query, callback);
+					}
+					else {
+						sourceView.ScrollToMark (buf.InsertMark, 0.4, true, 0.0, 1.0);
+						Runtime.Gui.StatusBar.EndProgress ();
+					}
+				}
+				else {
+					sourceView.ScrollToMark (buf.InsertMark, 0.4, true, 0.0, 1.0);
+					Runtime.Gui.StatusBar.EndProgress ();
+				}			
 			}
-			
-			Runtime.Gui.StatusBar.EndProgress ();
 		}
-		
-		void OnRunFromCursor (object sender, EventArgs args)
+
+		// Execute first SQL statement at cursor
+		public string GetSqlStatementAtCursor (TextBuffer sqlTextBuffer, out TextIter iter) 
 		{
-			Runtime.Gui.StatusBar.BeginProgress (
-				GettextCatalog.GetString("Execuing sql query on")
-				+ String.Format (" {0}", Connection.Name));
-			Runtime.Gui.StatusBar.SetProgressFraction (0.1);
+			TextIter start_iter, end_iter, insert_iter;
+			TextIter match_start1, match_end1, match_start2, match_end2;
+			TextIter begin_iter, finish_iter;
+			string text = String.Empty;
+			int char_count = 0;
+			TextMark insert_mark;
+
+			insert_mark = sqlTextBuffer.InsertMark;
+			insert_iter = sqlTextBuffer.GetIterAtMark (insert_mark);
+			start_iter = sqlTextBuffer.GetIterAtOffset (0);
 			
-			string query = sourceView.Buffer.GetSlice (
-				sourceView.Buffer.GetIterAtMark (sourceView.Buffer.InsertMark),
-				sourceView.Buffer.EndIter, false);
-			SQLCallback callback = (SQLCallback)
-				Runtime.DispatchService.GuiDispatch (
-				new SQLCallback (OnExecuteReturn));
-			
-			Runtime.Gui.StatusBar.SetMessage (
-				GettextCatalog.GetString ("Query sent, waiting for response."));
-			Runtime.Gui.StatusBar.SetProgressFraction (0.5);
-			
-			Connection.ExecuteSQL (query, callback);
+			char_count = sqlTextBuffer.CharCount;
+			end_iter = sqlTextBuffer.GetIterAtOffset (char_count);
+			iter = end_iter;
+
+			match_start1 = sqlTextBuffer.GetIterAtOffset (0);
+			match_end1 = sqlTextBuffer.GetIterAtOffset (char_count);
+			match_start2 = sqlTextBuffer.GetIterAtOffset (0);
+			match_end2 = sqlTextBuffer.GetIterAtOffset (char_count);
+
+			begin_iter = sqlTextBuffer.GetIterAtOffset (0);
+			finish_iter = sqlTextBuffer.GetIterAtOffset (char_count);
+
+			if (start_iter.IsEnd == false) 
+			{
+				if (insert_iter.BackwardSearch (";", TextSearchFlags.TextOnly, 
+						out match_start1, out match_end1, start_iter) == true) {
+					begin_iter = match_start1;
+					begin_iter.ForwardChars (1);
+				}
+				
+				if (insert_iter.ForwardSearch (";",	TextSearchFlags.TextOnly,
+						out match_start2, out match_end2, end_iter) == true) {
+					finish_iter = match_end2;
+					finish_iter.BackwardChars (1);
+				}
+				iter = finish_iter;
+				text = sqlTextBuffer.GetText (begin_iter, finish_iter, false);	
+
+				// FIXME: for this to work.  GetSqlStatement has to rewritten to be line-based
+				if (text.Length > 0) {
+					// search does not work if what you are searching for is 
+					// at the end of the buffer,
+					// this compensates for this
+					int j = text.Length;
+					int cont = 1;
+					for(int i = text.Length - 1; cont == 1 && i >= 0; i--) {
+						char ch = text[i];
+						switch(ch) {
+						case ' ':
+						case ';':
+							j--;
+							break;
+						default:
+							cont = 0;
+							break;
+						}
+					}
+					
+					if (j != text.Length) {
+						string t = text.Substring(0, j);
+						text = t;
+					}
+				}
+			}
+
+			return text;
+		}
+
+		// get next SQL statement.  Requires GetSqlStatementAtCursor having been called first
+		public string GetNextSqlStatement (TextBuffer sqlTextBuffer, ref TextIter iter) 
+		{
+			TextIter start_iter, end_iter;
+			TextIter match_start2, match_end2;
+			TextIter finish_iter;
+			string text = String.Empty;
+			int char_count = 0;
+
+			char_count = sqlTextBuffer.CharCount;
+			end_iter = sqlTextBuffer.GetIterAtOffset (char_count);
+			if (iter.IsEnd == false) {
+				iter.ForwardChars (1);
+				if (sqlTextBuffer.GetText (iter, end_iter, false).Equals (";"))
+					iter.ForwardChars (1);
+			}
+
+			if (iter.IsEnd == true) 
+				return "";
+
+			start_iter = iter;
+			match_start2 = iter;
+			match_end2 = sqlTextBuffer.GetIterAtOffset (char_count);
+			finish_iter = sqlTextBuffer.GetIterAtOffset (char_count);
+
+			if (start_iter.IsEnd == false) {
+				if (iter.ForwardSearch (";", TextSearchFlags.TextOnly,
+						out match_start2, out match_end2, end_iter) == true) 	{
+					finish_iter = match_end2;
+					finish_iter.BackwardChars (1);
+				}
+
+				text = sqlTextBuffer.GetText (iter, finish_iter, false);
+				iter = finish_iter;
+
+				if(text.Length > 0) {
+					// search does not work if what you are searching for is 
+					// at the end of the buffer,
+					// this compensates for this
+					int j = text.Length;
+					int cont = 1;
+					for(int i = text.Length - 1; cont == 1 && i >= 0; i--) {
+						char ch = text[i];
+						switch(ch) {
+						case ' ':
+						case ';':
+							j--;
+							break;
+						default:
+							cont = 0;
+							break;
+						}
+					}
+					
+					if(j != text.Length) {
+						string t = text.Substring(0, j);
+						text = t;
+					}
+				}
+			}
+
+			return text;
 		}
 		
 		void OnExplain (object sender, EventArgs args)

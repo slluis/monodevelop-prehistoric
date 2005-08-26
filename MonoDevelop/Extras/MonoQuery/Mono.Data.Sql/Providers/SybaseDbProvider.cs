@@ -144,29 +144,17 @@ namespace Mono.Data.Sql
 		{
 			if (type == typeof(TableSchema))
 				return true;
+			else if (type == typeof(ColumnSchema))
+				return true;
 			else if (type == typeof(ViewSchema))
 				return true;
 			else if (type == typeof(ProcedureSchema))
 				return true;
-			else if (type == typeof(AggregateSchema))
-				return true;
-			else if (type == typeof(GroupSchema))
-				return true;
 			else if (type == typeof(UserSchema))
-				return true;
-			else if (type == typeof(LanguageSchema))
-				return true;
-			else if (type == typeof(OperatorSchema))
-				return true;
-			else if (type == typeof(RoleSchema))
 				return true;
 			else if (type == typeof(SequenceSchema))
 				return true;
-			else if (type == typeof(DataTypeSchema))
-				return true;
 			else if (type == typeof(TriggerSchema))
-				return true;
-			else if (type == typeof(RuleSchema))
 				return true;
 			else
 				return false;

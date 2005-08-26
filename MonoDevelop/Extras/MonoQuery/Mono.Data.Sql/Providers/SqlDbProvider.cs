@@ -144,29 +144,17 @@ namespace Mono.Data.Sql
 		{
 			if (type == typeof(TableSchema))
 				return true;
+			else if (type == typeof(ColumnSchema))
+				return true;
 			else if (type == typeof(ViewSchema))
 				return true;
 			else if (type == typeof(ProcedureSchema))
 				return true;
-			else if (type == typeof(AggregateSchema))
-				return true;
-			else if (type == typeof(GroupSchema))
-				return true;
 			else if (type == typeof(UserSchema))
-				return true;
-			else if (type == typeof(LanguageSchema))
-				return true;
-			else if (type == typeof(OperatorSchema))
-				return true;
-			else if (type == typeof(RoleSchema))
 				return true;
 			else if (type == typeof(SequenceSchema))
 				return true;
-			else if (type == typeof(DataTypeSchema))
-				return true;
 			else if (type == typeof(TriggerSchema))
-				return true;
-			else if (type == typeof(RuleSchema))
 				return true;
 			else
 				return false;
@@ -454,71 +442,6 @@ namespace Mono.Data.Sql
 			
 			ArrayList collection = new ArrayList ();
 			
-			SqlConnection con2 = (SqlConnection) (((ICloneable) connection).Clone ());
-			if (con2.State == ConnectionState.Closed)
-				con2.Open();
-			SqlCommand command = con2.CreateCommand ();
-			command.CommandText = 
-				String.Format (
-					"select sox.name, sox.xtype, " +
-					"   so.name as table_name, sc.name as column_name,  " +
-					"   sx.constid as constid, sx.id, sx.colid " +
-					"from dbo.sysconstraints sx, dbo.sysobjects so, dbo.syscolumns sc, " +
-					"     dbo.sysobjects sox " +
-					"where so.id = sx.id " +
-					"and sc.id = so.id " +
-					"and sc.colid = sx.colid " +
-					"and sox.id = sx.constid " +
-					"union " +
-					"select si.name,  so.xtype,  " +
-					"  sot.name as table_name, sc.name as column_name,  " +
-					"  si.indid as constraintid, si.id as tableid, sc.colid as columnid  " +
-					"from sysindexes si, sysindexkeys sk, syscolumns sc, sysobjects so, " +
-					"  sysobjects sot " +
-					"where si.id = 405576483 " +
-					"and sot.id = so.parent_obj " +
-					"and sk.id = si.id " +
-					"and sc.id = si.id " +
-					"and sk.id = sc.id " +
-					"and sk.indid = si.indid " +
-					"and sk.colid = sc.colid " +
-					"and so.name = si.name " +
-					"order by 3, 1, 7",
-					table.Name, table.OwnerName);
-			SqlDataReader r = command.ExecuteReader ();
-			
-			while (r.Read ()) {
-				ConstraintSchema constraint = null;
-				switch (r.GetString(1)) {
-				case "D": // default constraint
-					break;
-				case "C": // check constraint
-					break;
-				case "PK": // Primary Key
-					constraint = new PrimaryKeyConstraintSchema();
-					constraint.Name = r.GetString (0);
-					break;
-				case "F": // Foreign key
-					break;
-				case "UQ": // Unique constraint
-					break;
-				default:
-					break;
-				}
-				
-				
-				//constraint.Definition = r.GetString (1);
-				
-				if (constraint != null)
-					collection.Add (constraint);
-			}
-			r.Close ();
-			r = null;
-			command.Dispose ();
-			command = null;
-			con2.Close ();
-			con2 = null;
-			
 			return (ConstraintSchema[]) collection.ToArray (typeof(ConstraintSchema));
 		}
 		
@@ -528,8 +451,6 @@ namespace Mono.Data.Sql
 				throw new InvalidOperationException ("Invalid connection");
 			
 			ArrayList collection = new ArrayList ();
-			
-			
 			
 			return (UserSchema[]) collection.ToArray (typeof (UserSchema));
 		}

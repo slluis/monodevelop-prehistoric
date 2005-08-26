@@ -137,28 +137,12 @@ namespace Mono.Data.Sql
 				return true;
 			else if (type == typeof(ProcedureSchema))
 				return true;
-			/*
-			else if (type == typeof(AggregateSchema))
-				return true;
-			else if (type == typeof(GroupSchema))
-				return true;
 			else if (type == typeof(UserSchema))
-				return true;
-			else if (type == typeof(LanguageSchema))
-				return true;
-			else if (type == typeof(OperatorSchema))
-				return true;
-			else if (type == typeof(RoleSchema))
 				return true;
 			else if (type == typeof(SequenceSchema))
 				return true;
-			else if (type == typeof(DataTypeSchema))
-				return true;
 			else if (type == typeof(TriggerSchema))
 				return true;
-			else if (type == typeof(RuleSchema))
-				return true;
-			*/
 			else
 				return false;
 		}
@@ -353,7 +337,7 @@ namespace Mono.Data.Sql
 					view.SchemaName = r.GetString(0);
 					view.OwnerName = r.GetString(0);
 					view.Definition = r.GetString(2);
-					view.IsSystemView = IsSystem(view.OwnerName);
+					view.IsSystemView = IsSystem (view.OwnerName);
 					view.Comment = "";
 				} catch (Exception e) {
 				}
