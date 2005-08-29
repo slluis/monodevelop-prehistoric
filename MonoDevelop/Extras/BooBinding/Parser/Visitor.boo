@@ -88,7 +88,7 @@ class Visitor(AbstractVisitorCompilerStep):
 	private def GetRegion(m as AST.Node):
 		l = m.LexicalInfo
 		return null if (l.Line < 0)
-		return DefaultRegion(l.Line - 1, 0 /*l.Column*/, l.Line, GetLineEnd(l.Line))
+		return DefaultRegion(l.Line, 0 /*l.Column*/, l.Line, GetLineEnd(l.Line))
 	
 	private def GetClientRegion(m as AST.Node) as DefaultRegion:
 		l = m.LexicalInfo
@@ -109,7 +109,7 @@ class Visitor(AbstractVisitorCompilerStep):
 			l2 = m.EndSourceLocation
 		return null if l2 == null or l2.Line < 0 or l.Line == l2.Line
 		// TODO: use l.Column / l2.Column when the tab-bug has been fixed
-		return DefaultRegion(l.Line - 1, GetLineEnd(l.Line), l2.Line, GetLineEnd(l2.Line))
+		return DefaultRegion(l.Line, GetLineEnd(l.Line), l2.Line, GetLineEnd(l2.Line))
 	
 	override def OnImport(p as AST.Import):
 		u = Using()

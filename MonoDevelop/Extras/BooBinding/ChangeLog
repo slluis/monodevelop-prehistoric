@@ -1,3 +1,7 @@
+2005-08-29  Peter Johanson  <latexer@gentoo.org> 
+
+	* Parser/Visitor.boo: Fix line number off-by-one error.
+
 2005-08-23  Peter Johanson  <latexer@gentoo.org> 
 
 	* BooBindingCompilerServices.boo: Add support for compiling in
