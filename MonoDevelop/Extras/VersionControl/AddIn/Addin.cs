@@ -63,6 +63,10 @@ namespace VersionControlPlugin {
 		
 			ProjectFile file = (ProjectFile) dataObject;
 			
+			// TODO: Monitor changes not just to project files
+			// but also to .svn directories to catch commits
+			// and updates.
+			
 			WatchProject(file.Project);
 			
 			// When a file had a status and later has no status,
