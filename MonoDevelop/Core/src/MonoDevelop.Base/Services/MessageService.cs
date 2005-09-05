@@ -26,17 +26,22 @@ namespace MonoDevelop.Core.Services
 		
 		public void ShowError(Exception ex)
 		{
-			ShowError(ex, null);
+			ShowError(ex, null, (Window) WorkbenchSingleton.Workbench);
 		}
 		
 		public void ShowError(string message)
 		{
-			ShowError(null, message);
+			ShowError(null, message, (Window) WorkbenchSingleton.Workbench);
+		}
+
+		public void ShowError (Window parent, string message)
+		{
+			ShowError (null, message, parent);
 		}
 		
 		public void ShowErrorFormatted(string formatstring, params string[] formatitems)
 		{
-			ShowError(null, String.Format(stringParserService.Parse(formatstring), formatitems));
+			ShowError(null, String.Format(stringParserService.Parse(formatstring), formatitems), (Window) WorkbenchSingleton.Workbench);
 		}
 
 		private struct ErrorContainer
@@ -53,7 +58,12 @@ namespace MonoDevelop.Core.Services
 
 		public void ShowError (Exception ex, string message)
 		{
-			ErrorDialog dlg = new ErrorDialog ((Window) WorkbenchSingleton.Workbench);
+			ShowError (ex, message, (Window) WorkbenchSingleton.Workbench);
+		}
+
+		public void ShowError (Exception ex, string message, Window parent)
+		{
+			ErrorDialog dlg = new ErrorDialog (parent);
 			
 			if (message != null) {
 				dlg.Message = message;

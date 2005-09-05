@@ -190,6 +190,10 @@ namespace MonoDevelop.Gui.Dialogs {
 		
 		void OpenEvent(object sender, EventArgs e)
 		{
+			if (!btn_new.Sensitive) {
+				return;
+			}
+			
 			if (TemplateView.CurrentlySelected != null) {
 				Runtime.Properties.SetProperty("Dialogs.NewProjectDialog.LastSelectedCategory", ((ProjectTemplate)TemplateView.CurrentlySelected).Name);
 				//Runtime.Properties.SetProperty("Dialogs.NewProjectDialog.LargeImages", ((RadioButton)ControlDictionary["largeIconsRadioButton"]).Checked);
@@ -203,9 +207,7 @@ namespace MonoDevelop.Gui.Dialogs {
 			
 			//The one below seemed to be failing sometimes.
 			if(solution.IndexOfAny("$#@!%^&*/?\\|'\";:}{".ToCharArray()) > -1) {
-				Runtime.MessageService.ShowError(GettextCatalog.GetString ("Illegal project name. \nOnly use letters, digits, space, '.' or '_'."));
-				dialog.Respond(Gtk.ResponseType.Reject);
-				dialog.Hide();
+				Runtime.MessageService.ShowError(dialog, GettextCatalog.GetString ("Illegal project name. \nOnly use letters, digits, space, '.' or '_'."));
 				return;
 			}
 
@@ -213,14 +215,12 @@ namespace MonoDevelop.Gui.Dialogs {
 				&& (!fileUtilityService.IsValidFileName (solution) || solution.IndexOf(System.IO.Path.DirectorySeparatorChar) >= 0)) ||
 			    !fileUtilityService.IsValidFileName(name)     || name.IndexOf(System.IO.Path.DirectorySeparatorChar) >= 0 ||
 			    !fileUtilityService.IsValidFileName(location)) {
-				Runtime.MessageService.ShowError(GettextCatalog.GetString ("Illegal project name.\nOnly use letters, digits, space, '.' or '_'."));
+				Runtime.MessageService.ShowError(dialog, GettextCatalog.GetString ("Illegal project name.\nOnly use letters, digits, space, '.' or '_'."));
 				return;
 			}
 
 			if (Runtime.ProjectService.GetProject (name) != null) {
-				Runtime.MessageService.ShowError(GettextCatalog.GetString ("A Project with that name is already in your Project Space"));
-				dialog.Respond(Gtk.ResponseType.Reject);
-				dialog.Hide();
+				Runtime.MessageService.ShowError(dialog, GettextCatalog.GetString ("A Project with that name is already in your Project Space"));
 				return;
 			}
 			
@@ -237,12 +237,12 @@ namespace MonoDevelop.Gui.Dialogs {
 				}
 				catch (IOException ioException)
 				{
-					Runtime.MessageService.ShowError (String.Format (GettextCatalog.GetString ("Could not create directory {0}. File already exists."), ProjectSolution));
+					Runtime.MessageService.ShowError (dialog, String.Format (GettextCatalog.GetString ("Could not create directory {0}. File already exists."), ProjectSolution));
 					return;
 				}
 				catch (UnauthorizedAccessException accessException)
 				{
-					Runtime.MessageService.ShowError (String.Format (GettextCatalog.GetString ("You do not have permission to create to {0}"), ProjectSolution));
+					Runtime.MessageService.ShowError (dialog, String.Format (GettextCatalog.GetString ("You do not have permission to create to {0}"), ProjectSolution));
 					return;
 				}
 				

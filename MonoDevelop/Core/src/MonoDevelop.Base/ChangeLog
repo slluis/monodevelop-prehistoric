@@ -1,3 +1,9 @@
+2005-09-05  Todd Berman  <tberman@off.net>
+
+	* Services/MessageService.cs: Add a new overload that allows a parent
+	Window to be passed in.
+	* Gui/Dialogs/NewProjectDialog.cs: Fix bug #75981
+
 2005-08-23  Lluis Sanchez Gual  <lluis@novell.com>
 
 	* Gui/Dialogs/CommonAboutDialog.c: Load the image for the About dialog
