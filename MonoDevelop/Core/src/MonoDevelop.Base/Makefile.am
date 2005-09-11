@@ -1,5 +1,3 @@
-PERL = perl
-
 DLLS = /r:System.Drawing /r:ICSharpCode.SharpZipLib.dll \
 	/r:$(top_builddir)/build/bin/ICSharpCode.SharpRefactory.dll \
 	/r:$(top_builddir)/build/bin/MonoDevelop.Core.dll \
