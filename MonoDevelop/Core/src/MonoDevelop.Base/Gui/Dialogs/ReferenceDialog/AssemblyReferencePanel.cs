@@ -36,6 +36,7 @@ namespace MonoDevelop.Gui.Dialogs
 			filter.AddPattern ("*.dll");
 			filter.AddPattern ("*.exe");
 			chooser.AddFilter (filter);
+			chooser.FileActivated += new EventHandler (SelectReferenceDialog);
 
 			PackStart (chooser, true, true, 0);
 			

@@ -1,3 +1,10 @@
+2005-09-13  Todd Berman  <tberman@off.net>
+
+	* Gui/Dialogs/ReferenceDialog/AssemblyReferencePanel.cs:
+	Patch from Brion Vibber <brion AT pobox DOT com> to fix bug
+	#76080. Automagically adds references from the
+	AssemblyReferencePanel's FileChooser in a sane fashion.
+
 2005-09-10  John Luke  <john.luke@gmail.com>
 
 	* Makefile.am: remove old reference to perl
