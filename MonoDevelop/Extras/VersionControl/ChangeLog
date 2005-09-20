@@ -1,3 +1,11 @@
+2005-09-20  Josh Tauberer <tauberer@for.net>
+
+	* AddIn/Statuses.cs,Logs.cs: Some widgets needed
+	  to be shown since MD is calling Show() less.
+	* VersionControl/Subversion.cs: Not all entries
+	  returned by svn have a URL, e.g. obstructed entries.
+	  So don't rely on that to get the local path.
+
 2005-09-04  Josh Tauberer <tauberer@for.net>
 
 	* AddIn/Makefile.am: Was broken since last time

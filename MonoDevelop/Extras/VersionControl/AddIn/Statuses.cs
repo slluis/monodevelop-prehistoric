@@ -101,7 +101,7 @@ namespace VersionControlPlugin {
 			viewport.Add(box);
 			scroller.Add(viewport);
 			
-			box.Show();
+			main.ShowAll();
 			
 			StartUpdate();
 		}
@@ -178,7 +178,7 @@ namespace VersionControlPlugin {
 				Node n = statuses[i];
 				
 				RevItem item = new RevItem();
-				item.Path = Path.Combine(filepath, n.LocalRelativePath);
+				item.Path = n.LocalPath;
 				item.BaseRev = n.BaseRevision;
 				
 				uint col = 0;
@@ -217,11 +217,15 @@ namespace VersionControlPlugin {
 				status.Show();				
 				table.Attach(status, col, ++col, row, row+1, AttachOptions.Shrink, AttachOptions.Shrink, 2, 2);
 
-				Label name = new Label();
+				Label name = new Label(); // I can't get this to left align!
 				name.Justify = Justification.Left;
 				name.Layout.Alignment = Pango.Alignment.Left;
 				name.Xalign = 0;
-				name.Text = n.LocalRelativePath;
+				
+				string localpath = n.LocalPath.Substring(filepath.Length);
+				if (localpath.Length > 0 && localpath[0] == Path.DirectorySeparatorChar) localpath = localpath.Substring(1);
+				if (localpath == "") { localpath = "."; } // not sure if this happens
+				name.Text = localpath;
 				name.Show();
 				table.Attach(name, col, ++col, row, row+1, AttachOptions.Expand, AttachOptions.Shrink, 2, 2);
 				

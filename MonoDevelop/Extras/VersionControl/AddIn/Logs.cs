@@ -107,6 +107,8 @@ namespace VersionControlPlugin {
 				
 				box.PackStart(item, false, false, 0);
 			}
+			
+			widget.ShowAll();
 		}
 		
 		void DiffButtonClicked(object src, EventArgs args) {
@@ -184,6 +186,7 @@ namespace VersionControlPlugin {
 			widget = new SourceEditor(null);
 			widget.Text = text;
 			widget.View.Editable = false;
+			widget.ShowAll();
 		}
 		
 		public override Gtk.Widget Control { 

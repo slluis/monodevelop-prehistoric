@@ -100,14 +100,13 @@ namespace VersionControl {
 			SvnClient.StatusEnt ent = (SvnClient.StatusEnt)statuses[0];
 			if (ent.IsDirectory)
 				throw new ArgumentException("Path does not refer to a file.");
-			return CreateNode(ent, 0);
+			return CreateNode(ent);
 		}
 		
 		public override Node[] GetDirectoryStatus(string sourcepath, bool getRemoteStatus, bool recursive) {
 			ArrayList ret = new ArrayList();
-			string sourceurl = Client.GetPathUrl(sourcepath);
 			foreach (SvnClient.StatusEnt ent in Client.Status(sourcepath, SvnClient.Rev.Head, recursive, true, getRemoteStatus))
-				ret.Add( CreateNode(ent, sourceurl.Length+1) );
+				ret.Add( CreateNode(ent) );
 			return (Node[])ret.ToArray(typeof(Node));
 		}
 		
@@ -119,11 +118,10 @@ namespace VersionControl {
 			Client.Commit(paths, message, callback);
 		}
 		
-		private Node CreateNode(SvnClient.StatusEnt ent, int pathchop) {
+		private Node CreateNode(SvnClient.StatusEnt ent) {
 			Node ret = new Node();
-			
 			ret.RepositoryPath = ent.Url;
-			ret.LocalRelativePath = ent.Url.Substring(pathchop);
+			ret.LocalPath = ent.LocalFilePath;
 			ret.IsDirectory = ent.IsDirectory;
 			ret.BaseRevision = new SvnRevisionPtr(ent.Revision);
 			ret.Status = ConvertStatus(ent.Schedule, ent.TextStatus);
@@ -478,7 +476,8 @@ namespace VersionControl {
 			public void Func(IntPtr baton, IntPtr path, ref svn_wc_status_t status) {
 				if (status.to__svn_wc_entry_t == IntPtr.Zero)
 					return;				
-				statuses.Add(new StatusEnt(status));
+				string pathstr = Marshal.PtrToStringAnsi(path);
+				statuses.Add(new StatusEnt(status, pathstr));
 			}
   
 		}
@@ -551,6 +550,7 @@ namespace VersionControl {
 		}
 		
 		public class StatusEnt {
+			public readonly string LocalFilePath;
 			public readonly string Name;
 			public readonly int Revision;
   			public readonly string Url;
@@ -584,7 +584,8 @@ namespace VersionControl {
 			
 			static readonly DateTime Epoch = new DateTime(1970,1,1);
 
-			internal StatusEnt(svn_wc_status_t status) {
+			internal StatusEnt(svn_wc_status_t status, string localpath) {
+				LocalFilePath = localpath;
 				TextStatus = (NodeStatus)status.svn_wc_status_kind__text;
 				PropsStatus = (NodeStatus)status.svn_wc_status_kind__props;
 				Locked = status.locked != 0;

@@ -35,7 +35,7 @@ namespace VersionControl {
 	}
 	
 	public class Node {
-		public string LocalRelativePath;
+		public string LocalPath;
 		public object RepositoryPath;
  		public bool IsDirectory;
  		
