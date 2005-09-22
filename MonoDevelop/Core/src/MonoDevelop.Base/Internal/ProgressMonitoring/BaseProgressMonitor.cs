@@ -167,8 +167,7 @@ namespace MonoDevelop.Services
 			
 			if (Runtime.DispatchService.IsGuiThread) {
 				while (!IsCompleted) {
-					while (Gtk.Application.EventsPending ())
-						Gtk.Application.RunIteration ();
+					Runtime.DispatchService.RunPendingEvents ();
 					Thread.Sleep (100);
 				}
 			} else {

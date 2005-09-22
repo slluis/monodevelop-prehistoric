@@ -76,6 +76,13 @@ namespace MonoDevelop.Services
 			if (mc.Exception != null)
 				throw new Exception (errormsg, mc.Exception);
 		}
+		
+		public void RunPendingEvents ()
+		{
+			while (Gtk.Application.EventsPending ())
+				Gtk.Application.RunIteration ();
+			guiDispatcher ();
+		}
 
 		void QueueMessage (object msg)
 		{
