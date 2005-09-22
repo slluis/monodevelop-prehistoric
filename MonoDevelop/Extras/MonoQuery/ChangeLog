@@ -1,3 +1,8 @@
+2005-09-05  Sureshkumar T  <tsureshkumar@novell.com>
+
+	* Mono.Data.Sql/Providers/SqlDbProvider.cs: implemented procedure
+	and their parameters listing.
+
 2005-08-25  Daniel Morgan <danielmorgan@verizon.net>
 
 	* Extras/MonoQuery/MonoQuery/Gui/SqlQueryView.cs: implement

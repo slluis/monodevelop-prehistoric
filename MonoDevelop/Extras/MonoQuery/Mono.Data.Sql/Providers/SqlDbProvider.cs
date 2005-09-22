@@ -4,6 +4,7 @@
 // Authors:
 //   Christian Hergert	<chris@mosaix.net>
 //   Daniel Morgan <danielmorgan@verizon.net>
+//   Sureshkumar T <tsureshkumar@novell.com>
 //
 // Copyright (C) 2005 Mosaix Communications, Inc.
 //
@@ -38,7 +39,7 @@ using System.Data.SqlClient;
 namespace Mono.Data.Sql
 {
 	/// <summary>
-	/// Mono.Data.Sql provider for PostgreSQL databases.
+	/// Mono.Data.Sql provider for SqlServer databases.
 	/// </summary>
 	[Serializable]
 	public class SqlDbProvider : DbProviderBase
@@ -453,6 +454,78 @@ namespace Mono.Data.Sql
 			ArrayList collection = new ArrayList ();
 			
 			return (UserSchema[]) collection.ToArray (typeof (UserSchema));
+		}
+
+		public override ProcedureSchema[] GetProcedures ()
+		{
+			if (IsOpen == false && Open () == false)
+				throw new InvalidOperationException ("Invalid connection");
+
+			ArrayList collection = new ArrayList ();
+			
+			using (SqlCommand cmd = connection.CreateCommand ()) {
+				cmd.CommandText = "SELECT su.name AS owner, so.name as proc_name, so.id as proc_id, " +
+					" so.crdate as created_date, so.xtype as proc_type " +
+					"FROM dbo.sysobjects so, dbo.sysusers su " +
+					"WHERE xtype = 'P' " +
+					"AND su.uid = so.uid " +
+					"ORDER BY 1, 2";
+				using (SqlDataReader reader = cmd.ExecuteReader ()) {
+					while (reader.Read ()) {
+						ProcedureSchema proc = new ProcedureSchema ();
+						proc.Provider = this;
+						proc.Name = (string) reader ["proc_name"];
+						proc.OwnerName = (string) reader ["owner"];
+						proc.LanguageName = "TSQL";
+
+						// FIXME : get sysproc or not
+						collection.Add (proc);
+					}
+				}
+			       
+				// get procedure text
+				cmd.CommandType = CommandType.StoredProcedure;
+				cmd.CommandText = "sp_helptext";
+				SqlParameter param = cmd.Parameters.Add ("@objname", SqlDbType.VarChar);
+				foreach (ProcedureSchema proc in collection) {
+					param.Value = proc.Name;
+					using (SqlDataReader reader = cmd.ExecuteReader ()) {
+						if (reader.Read ())
+							proc.Definition = (string) reader [0];
+					}
+				}
+			}			  
+			
+			return (ProcedureSchema []) collection.ToArray (typeof (ProcedureSchema)); 
+		}
+
+		public override ColumnSchema[] GetProcedureColumns (ProcedureSchema schema)
+		{		     
+			if (IsOpen == false && Open () == false)
+				throw new InvalidOperationException ("Invalid connection");
+			
+			ArrayList collection = new ArrayList ();
+
+			using (SqlCommand cmd = connection.CreateCommand ()) {
+				cmd.CommandType = CommandType.StoredProcedure;
+				cmd.CommandText = "sp_sproc_columns";
+				SqlParameter owner = cmd.Parameters.Add ("@procedure_owner", SqlDbType.VarChar);
+				SqlParameter name = cmd.Parameters.Add ("@procedure_name", SqlDbType.VarChar);
+				owner.Value = schema.OwnerName;
+				name.Value = schema.Name;
+				using (SqlDataReader reader = cmd.ExecuteReader ()) {
+					while (reader.Read ()) {
+						ColumnSchema column = new ColumnSchema ();
+						column.Provider = this;
+						column.Name = (string) reader ["COLUMN_NAME"];
+						column.DataTypeName = (string) reader ["TYPE_NAME"];
+
+						collection.Add (column);
+					}
+				}			      
+			}			
+		      
+			return (ColumnSchema []) collection.ToArray (typeof (ColumnSchema));
 		}
 	}
 }
