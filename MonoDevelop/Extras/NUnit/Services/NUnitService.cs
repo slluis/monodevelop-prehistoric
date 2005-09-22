@@ -77,6 +77,8 @@ namespace MonoDevelop.NUnit
 		protected virtual void OnOpenCombine (object sender, CombineEventArgs e)
 		{
 			rootTest = BuildTest (e.Combine);
+			e.Combine.ReferenceAddedToProject += new ProjectReferenceEventHandler (OnReferenceAddedToProject);
+			e.Combine.ReferenceRemovedFromProject += new ProjectReferenceEventHandler (OnReferenceRemovedFromProject);
 			
 			if (TestSuiteChanged != null)
 				TestSuiteChanged (this, EventArgs.Empty);
@@ -84,10 +86,34 @@ namespace MonoDevelop.NUnit
 
 		protected virtual void OnCloseCombine (object sender, CombineEventArgs e)
 		{
+			e.Combine.ReferenceAddedToProject -= new ProjectReferenceEventHandler (OnReferenceAddedToProject);
+			e.Combine.ReferenceRemovedFromProject -= new ProjectReferenceEventHandler (OnReferenceRemovedFromProject);
+			
 			if (rootTest != null) {
 				((IDisposable)rootTest).Dispose ();
 				rootTest = null;
 			}
+			if (TestSuiteChanged != null)
+				TestSuiteChanged (this, EventArgs.Empty);
+		}
+		
+		void OnReferenceAddedToProject (object sender, ProjectReferenceEventArgs e)
+		{
+			RebuildTests ();
+		}
+		
+		void OnReferenceRemovedFromProject (object sender, ProjectReferenceEventArgs e)
+		{
+			RebuildTests ();
+		}
+		
+		void RebuildTests ()
+		{
+			if (rootTest != null)
+				((IDisposable)rootTest).Dispose ();
+				
+			rootTest = BuildTest (Runtime.ProjectService.CurrentOpenCombine);
+
 			if (TestSuiteChanged != null)
 				TestSuiteChanged (this, EventArgs.Empty);
 		}

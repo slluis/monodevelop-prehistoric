@@ -57,6 +57,14 @@ namespace MonoDevelop.NUnit
 			project.NameChanged += new CombineEntryRenamedEventHandler (OnProjectRenamed);
 			Runtime.ProjectService.EndBuild += new ProjectCompileEventHandler (OnProjectBuilt);
 		}
+		
+		public static NUnitProjectTestSuite CreateTest (Project project)
+		{
+			foreach (ProjectReference p in project.ProjectReferences)
+				if (p.Reference.IndexOf ("nunit.framework") != -1)
+					return new NUnitProjectTestSuite (project);
+			return null;
+		}
 
 		protected override SourceCodeLocation GetSourceCodeLocation (string fullClassName, string methodName)
 		{

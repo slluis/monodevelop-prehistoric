@@ -52,6 +52,11 @@ namespace MonoDevelop.NUnit
 			combine.NameChanged += new CombineEntryRenamedEventHandler (OnCombineRenamed);
 		}
 		
+		public static CombineTestGroup CreateTest (Combine c)
+		{
+			return new CombineTestGroup (c);
+		}
+		
 		public override void Dispose ()
 		{
 			combine.EntryAdded -= new CombineEntryEventHandler (OnEntryChanged);

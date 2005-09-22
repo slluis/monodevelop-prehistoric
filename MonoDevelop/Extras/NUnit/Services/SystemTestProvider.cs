@@ -37,9 +37,9 @@ namespace MonoDevelop.NUnit
 		public UnitTest CreateUnitTest (CombineEntry entry)
 		{
 			if (entry is Combine)
-				return new CombineTestGroup ((Combine)entry);
+				return CombineTestGroup.CreateTest ((Combine)entry);
 			if (entry is DotNetProject)
-				return new NUnitProjectTestSuite ((Project)entry);
+				return NUnitProjectTestSuite.CreateTest ((Project)entry);
 			if (entry is NUnitAssemblyGroupProject)
 				return ((NUnitAssemblyGroupProject)entry).RootTest;
 			return null;
