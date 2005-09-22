@@ -11,9 +11,9 @@
 
   <Extension path = "/MonoDevelop/ProjectTemplates">
     <ProjectTemplate id = "PythonConsoleProject"
-                     location = "templates/PythonConsoleProject.xpt.xml"/>
+                     resource = "templates/PythonConsoleProject.xpt.xml"/>
     <ProjectTemplate id = "PythonGtkProject"
-                     location = "templates/PythonGtkProject.xpt.xml"/>
+                     resource = "templates/PythonGtkProject.xpt.xml"/>
   </Extension>
 
   <Extension path = "/SharpDevelop/Workbench/ProjectOptions/ConfigurationProperties">
