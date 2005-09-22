@@ -44,10 +44,8 @@ namespace MonoDevelop.Commands
 			get {
 				if (manager == null) {
 					Gtk.Widget w = Parent;
-					Console.WriteLine ("P:" + w);
 					while (w != null && !(w is CommandMenu) && !(w is CommandMenuBar)) {
 						w = w.Parent;
-						Console.WriteLine ("P:" + w);
 					}
 					if (w is CommandMenu)
 						manager = ((CommandMenu)w).CommandManager;

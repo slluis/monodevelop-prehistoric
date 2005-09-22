@@ -1,3 +1,7 @@
+2005-09-22  Lluis Sanchez Gual  <lluis@novell.com>
+
+	* CommandMenu.cs: Removed debug code.
+
 2005-08-23  Lluis Sanchez Gual  <lluis@novell.com>
 
 	* Commands/CommandManager.cs: Added EnableIdleUpdate property.
