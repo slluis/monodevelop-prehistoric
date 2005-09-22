@@ -145,7 +145,7 @@ namespace MonoDeveloper
 		[CommandHandler (Commands.SvnCommit)]
 		public void SvnCommit ()
 		{
-			IConsole console = Runtime.TaskService.CreateConsole (false);
+			IConsole console = ExternalConsoleFactory.Instance.CreateConsole (false);
 			Runtime.ProcessService.StartConsoleProcess ("svnci", GetPath(), null, console, null);
 		}
 		

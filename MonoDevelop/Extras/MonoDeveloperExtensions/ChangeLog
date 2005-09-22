@@ -1,3 +1,8 @@
+2005-09-22  Lluis Sanchez Gual  <lluis@novell.com>
+
+	 * MonoProject.cs: Use the new regex for parsing error messages.
+	 * Commands.cs: Use an external console for the ci command.
+
 2005-08-10  Ben Motmans  <ben.motmans@gmail.com>
 
 	* MonoDeveloperExtensions.mdp: references update

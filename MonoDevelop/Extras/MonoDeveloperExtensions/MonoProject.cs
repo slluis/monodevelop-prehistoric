@@ -138,8 +138,8 @@ namespace MonoDeveloper
 			Runtime.ProjectService.CombineOpened += new CombineEventHandler (CombineOpened);
 		}
 		
-		static Regex regexError = new Regex (@"^(\s*(?<file>.*)\((?<line>\d*)(,(?<column>\d*))?\)\s+)*(?<level>\w+)\s*(?<number>.*):\s(?<message>.*)",
-				RegexOptions.Compiled | RegexOptions.ExplicitCapture);
+		static Regex regexError = new Regex (@"^(\s*(?<file>.*)\((?<line>\d*)(,(?<column>\d*[\+]*))?\)(:|)\s+)*(?<level>\w+)\s*(?<number>.*):\s(?<message>.*)",
+			RegexOptions.Compiled | RegexOptions.ExplicitCapture);
 				
 		protected override ICompilerResult DoBuild (IProgressMonitor monitor)
 		{

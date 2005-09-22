@@ -29,7 +29,7 @@
 	<Extension path = "/SharpDevelop/Commands">
 		<Command id = "MonoDeveloper.Commands.Install"
 				defaultHandler = "MonoDeveloper.InstallHandler"
-				icon = "Icons.16x16.RedoIcon"
+				icon = "md-network"
 				_label = "Install" />
 		<Command id = "MonoDeveloper.Commands.SvnUpdate"
 				  _label = "Update" />
