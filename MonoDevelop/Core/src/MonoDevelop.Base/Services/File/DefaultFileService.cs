@@ -108,7 +108,7 @@ namespace MonoDevelop.Services
 		public IAsyncOperation OpenFile (string fileName, int line, int column, bool bringToFront)
 		{
 			foreach (IViewContent content in WorkbenchSingleton.Workbench.ViewContentCollection) {
-				if (content.ContentName == fileName) {
+				if (content.ContentName == fileName || (content.ContentName == null && content.UntitledName == fileName)) {
 					if (bringToFront)
 						content.WorkbenchWindow.SelectWindow();
 					if (line != -1 && content is IPositionable) {
