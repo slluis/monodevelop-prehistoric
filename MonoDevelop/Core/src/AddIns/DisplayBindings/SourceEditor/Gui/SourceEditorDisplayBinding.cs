@@ -629,7 +629,7 @@ namespace MonoDevelop.SourceEditor.Gui
 
 #region IDocumentInformation
 		string IDocumentInformation.FileName {
-			get { return ContentName; }
+			get { return ContentName != null ? ContentName : UntitledName; }
 		}
 		
 		public ITextIterator GetTextIterator ()
@@ -768,7 +768,11 @@ namespace MonoDevelop.SourceEditor.Gui
 			else
 				limitOffset = (limitOffset + 1) % BufferLength;
 
-			SourceSearchFlags flags = options.IgnoreCase ? SourceSearchFlags.CaseInsensitive : SourceSearchFlags.VisibleOnly;
+			// Use special search flags that work for both the old and new API
+			// of gtksourceview (the enum values where changed in the API).
+			// See bug #75770
+			SourceSearchFlags flags = options.IgnoreCase ? (SourceSearchFlags)7 : (SourceSearchFlags)1;
+			
 			Gtk.TextIter matchStart, matchEnd;
 			bool res;
 			

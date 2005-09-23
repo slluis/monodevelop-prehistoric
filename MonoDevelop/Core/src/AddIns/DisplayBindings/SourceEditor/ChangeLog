@@ -1,3 +1,12 @@
+2005-09-23  Lluis Sanchez Gual  <lluis@novell.com>
+
+	* Gui/SourceEditorDisplayBinding.cs: IDocumentInformation.FileName
+	now returns the untitled file name if the file has not been saved.
+	This fixes bug #61771.
+	Use special search flags that work for the old and the new API
+	of gtksourceview (the enum values where changed in the API).
+	Fixes bug #75770.
+
 2005-08-20  John Luke  <john.luke@gmail.com>
 
 	* Gui/SourceEditorBuffer.cs:
