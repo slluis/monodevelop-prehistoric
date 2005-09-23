@@ -545,8 +545,8 @@ namespace Mono.Data.Sql
 				user.Name = r.GetString (0);
 				user.UserId = String.Format ("{0}", r.GetInt32(1));
 				
-				if (!r.IsDBNull (6))
-					user.Expires = r.GetDateTime (6);
+				try   { user.Expires = r.GetDateTime (6); }
+				catch { user.Expires = DateTime.MinValue; }
 				
 				user.Options["createdb"] = r.GetBoolean (2);
 				user.Options["createuser"] = r.GetBoolean (3);

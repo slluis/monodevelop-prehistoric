@@ -1,3 +1,8 @@
+2005-09-22	Christian Hergert	<christian.hergert@gmail.com>
+
+	* Mono.Data.Sql/Providers/NpgsqlDbProvider.cs: Encapsulate GetDateTime
+	method in a try catch.
+
 2005-09-05  Sureshkumar T  <tsureshkumar@novell.com>
 
 	* Mono.Data.Sql/Providers/SqlDbProvider.cs: implemented procedure
