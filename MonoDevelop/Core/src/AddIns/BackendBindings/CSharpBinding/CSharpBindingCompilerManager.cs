@@ -464,20 +464,23 @@ namespace CSharpBinding
 			stream.Close ();
 		}
 		
+		string compilerName = String.Empty;
 		string GetCompilerName()
 		{
-			//return fileUtilityService.GetDirectoryNameWithSeparator(System.Runtime.InteropServices.RuntimeEnvironment.GetRuntimeDirectory()) + 
-			//       "csc.exe";
-			string ret = fileUtilityService.GetDirectoryNameWithSeparator(System.Runtime.InteropServices.RuntimeEnvironment.GetRuntimeDirectory());
-			// Interop between mono 1.0.x and mono 1.1.x
-			if (ret.IndexOf("mono/1.0") == -1) {
-				ret = ret.Substring(0, ret.Length - 4);
-				ret = ret + "bin/mcs";
-			} else {
-				ret = ret.Substring(0, ret.Length - 13);
-				ret = ret + "bin/mcs";
+			if (compilerName == String.Empty)
+			{
+				string runtimeDir = fileUtilityService.GetDirectoryNameWithSeparator(System.Runtime.InteropServices.RuntimeEnvironment.GetRuntimeDirectory());
+				// The following regex foo gets the index of the
+				// last match of lib/lib32/lib64 and uses
+				// the text before that as the 'prefix' in order
+				// to find the right mcs to use.
+				Regex regex = new Regex ("lib[32 64]?");
+				MatchCollection matches = regex.Matches(runtimeDir);
+				Match match = matches[matches.Count - 1];
+				compilerName = runtimeDir.Substring(0, match.Index) + Path.Combine("bin", "mcs");
 			}
-			return ret;
+
+			return compilerName;
 		}
 		
 		ICompilerResult ParseOutput(TempFileCollection tf, string stdout, string stderr)
